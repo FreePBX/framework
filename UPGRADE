@@ -1,1 +1,27 @@
-To upgrade, run 'upgrade.sh' which is located in the same directory as this file.
+
+Upgrading AMP
+
+Upgrading AMP is easy.  You should perform these steps on a running system.  There should be in impact to service.
+
+
+If upgrading from the AMP-version.tar.gz download from sourceforge:
+
+- save the AMP-version.tar.gz to /usr/src/
+- cd /usr/src/ :: change to your /usr/src directory
+- rm -rf AMP :: remove your current AMP directory
+- tar -zxvf AMP-version.tar.gz :: extract the new AMP tar
+- cd AMP :: change to the AMP directory
+- ./upgrade.sh :: run the upgrade script
+
+
+
+If upgrading AMP from CVS:
+
+- cd /usr/src/ :: change to your /usr/src directory
+- rm -rf AMP :: remove your current AMP directory
+- cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/amportal login [null password]
+- cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/amportal co AMP
+- cd AMP :: change to the AMP directory
+- ./upgrade.sh :: run the upgrade script
+
+
