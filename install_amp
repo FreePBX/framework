@@ -108,7 +108,7 @@ function ask_overwrite($file1, $file2) {
 	global $check_md5s;
 	do {
 		out($file2." has been changed from the original version.");
-		outn("Overwrite (y=yes/a=all/n=no/d=diff/s=shell)? ");
+		outn("Overwrite (y=yes/a=all/n=no/d=diff/s=shell/x=exit)? ");
 		$key = fgets(STDIN,1024);
 		switch (strtolower($key[0])) {
 			case "y": return true; 
@@ -116,13 +116,15 @@ function ask_overwrite($file1, $file2) {
 			case "n": return false;
 			case "d": 
 				out("");
-				passthru("diff -u ".$file1." ".$file2);
+				passthru("diff -u ".$file2." ".$file1);
 			break;
 			case "s":
 				if (function_exists("pcntl_fork")) {
 					out("");
 					$shell = (isset($_ENV["SHELL"]) ? $_ENV["SHELL"] : "/bin/bash");
 					out("Dropping to shell. Type 'exit' to return");
+					out("-> Original file:  ".$file2);
+					out("-> New file:       ".$file1);
 					
 					$pid = pcntl_fork();
 					if ($pid == -1) {
@@ -140,6 +142,12 @@ function ask_overwrite($file1, $file2) {
 					out("[ERROR] PHP not built with process control (--enable-pcntl) support: cannot spawn shell");
 				}
 				
+			break;
+			case "x": 
+				out("-> Original file:  ".$file2);
+				out("-> New file:       ".$file1);
+				out("Exiting install program.");
+				exit(1);
 			break;
 		}
 		out("");
