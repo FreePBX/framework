@@ -18,6 +18,12 @@
     $parts = Explode('/', $currentFile);
     $currentFile = $parts[count($parts) - 1];
 
+    if (!extension_loaded('gettext')) {
+           function _($str) {
+                   return $str;
+           }
+    }
+
 ?>
 
 <html>
