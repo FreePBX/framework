@@ -52,6 +52,16 @@ function getversion() {
 	return $results[0][0];
 }
 
+/** Include a .php file
+ * This is a function just to keep a seperate context
+ */
+function run_included($file) {
+	global $db;
+	global $amp_conf;
+	
+	include($file);
+}
+
 /** Install a particular version
  */
 function install_upgrade($version) {
@@ -73,6 +83,12 @@ function install_upgrade($version) {
 					out("   -> TODO: actually run");
 					// run a bunch of queries
 					//$db->query($sql);
+					
+				} else if (strtolower(substr($file,-4)) == ".php") {
+					out("-> Running PHP script ".UPGRADE_DIR."/".$version."/".$file);
+					//TODO
+					out("   -> TODO: actually run");
+					//run_included(UPGRADE_DIR."/".$version."/".$file);
 					
 				} else if (is_executable(UPGRADE_DIR."/".$version."/".$file)) {
 					out("-> Executing ".UPGRADE_DIR."/".$version."/".$file);
