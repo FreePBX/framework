@@ -53,7 +53,7 @@ switch ($amp_conf["AUTHTYPE"]) {
 	break;
 	default: 
 		if (!isset($_SESSION["user"])) {
-			$_SESSION["user"] = $amp_conf["AMPDBUSER"];
+			$_SESSION["user"] = new ampuser($amp_conf["AMPDBUSER"]);
 		}
 		$_SESSION["user"]->setAdmin();
 	break;
