@@ -1,6 +1,63 @@
 Notes on upgrading from an older release
 ========================================
 
+o Upgrading from version .19 to .20:
+
+    You can define the server number of a button in op_buttons.cfg
+	using the 'server' directive. If you leave it empty, it will 
+	default to Server=1
+
+	To monitor more than one asterisk box, just repeat the sequence of
+    connection parameters in op_server.cfg
+
+		 ; Server 1
+		 manager_host=1.2.3.4
+		 manager_user=john
+		 manager_secret=doe
+
+		 ; Server 2
+		 manager_host=1.2.3.5
+		 manager_user=mary
+		 manager_secret=poppins
+
+	To add text legends, the format is:
+
+		[LEGEND]
+		x=535
+		y=50
+		text=Conferences
+		font_size=32
+		font_family=Arial
+		use_embed_fonts=1
+
+	To add park slot buttons, the format is:
+
+		[PARK701]
+		Position=17
+		Icon=3
+		Extension=700
+		Label="Park 701"
+
+	You can specify the mailbox for a button with the mailbox parameter:
+
+		[SIP/100]
+		Position=1
+		Mailbox=100@default
+		...
+
+	The 'old way' still works, by using the combination of Extension and
+	Voicemail_Context. I recommend you to use the new format as it is more
+	flexible (you can monitor a mailbox independant from the extension of
+    that button).
+
+
+	New directives in op_server.cfg
+
+ 	  rename_label_wildcard
+	  barge_muted
+      clid_privacy
+      show_ip
+
 o Upgrading from version .18 to .19:
 
 	In op_style.cfg there is a new paramter to confgure the 
