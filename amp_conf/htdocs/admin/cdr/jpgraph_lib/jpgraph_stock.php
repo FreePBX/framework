@@ -15,10 +15,10 @@
 // CLASS StockPlot
 //===================================================
 class StockPlot extends Plot {
+    var $iTupleSize = 4;
     var $iWidth=9;
     var $iEndLines=1;
     var $iStockColor1='white',$iStockColor2='darkred',$iStockColor3='darkred';
-    var $iTupleSize = 4;
 //---------------
 // CONSTRUCTOR
     function StockPlot(&$datay,$datax=false) {

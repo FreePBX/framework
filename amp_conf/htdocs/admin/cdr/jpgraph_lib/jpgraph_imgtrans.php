@@ -10,12 +10,6 @@
 // Copyright (C) 2003 Johan Persson 
 //========================================================================
 
-// Defines for 3D skew directions
-DEFINE('SKEW3D_UP',0);
-DEFINE('SKEW3D_DOWN',1);
-DEFINE('SKEW3D_LEFT',2);
-DEFINE('SKEW3D_RIGHT',3);
-
 //------------------------------------------------------------------------
 // Class ImgTrans
 // Perform some simple image transformations. 

@@ -330,13 +330,13 @@ a[name] {
 .fedora-corner-tl, .fedora-corner-bl { float: left; left: 0px; }
 .fedora-corner-tr, .fedora-corner-br { float: right; right: 0px; }
 .fedora-corner-tl, .fedora-corner-tr { top: 0px; }
-.fedora-corner-bl, .fedora-corner-br { bottom: 0px; margin-top: -19px; /* Opera fix (part 1) */ top: -18px;}
+//.fedora-corner-bl, .fedora-corner-br { bottom: 0px; margin-top: -19px; /* Opera fix (part 1) */ top: -18px;}
 
 html>body .fedora-corner-tl { background: #d9d9d9 url("images/corner-tl.png") no-repeat left top; }
 html>body .fedora-corner-tr { background: #d9d9d9 url("images/corner-tr.png") no-repeat right top; }
-html>body .fedora-corner-bl { background: #d9d9d9 url("images/corner-bl.png") no-repeat left bottom; }
+/*html>body .fedora-corner-bl { background: #d9d9d9 url("images/corner-bl.png") no-repeat left bottom; }
 html>body .fedora-corner-br { background: #d9d9d9 url("images/corner-br.png") no-repeat right bottom; }
-
+*/
 .fedora-corner-tl { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/corner-tl.png',sizingMethod='scale'); }
 .fedora-corner-tr { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/corner-tr.png',sizingMethod='scale'); }
 .fedora-corner-br { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/corner-br.png',sizingMethod='scale'); }

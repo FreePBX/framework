@@ -36,8 +36,9 @@ class LogScale extends LinearScale {
     // Translate between world and screen
     function Translate($a) {
 	if( !is_numeric($a) ) {
-	    if( $a != '' && $a != '-' ) 
+	    if( $a != '' && $a != '-' && $a != 'x' ) 
 		JpGraphError::Raise('Your data contains non-numeric values.');
+	    return 1;
 	}
 	if( $a < 0 ) {
 	    JpGraphError::Raise("Negative data values can not be used in a log scale.");
@@ -51,6 +52,11 @@ class LogScale extends LinearScale {
     // Relative translate (don't include offset) usefull when we just want
     // to know the relative position (in pixels) on the axis	
     function RelTranslate($a) {
+	if( !is_numeric($a) ) {
+	    if( $a != '' && $a != '-' && $a != 'x' ) 
+		JpGraphError::Raise('Your data contains non-numeric values.');
+	    return 1;
+	}
 	if( $a==0 ) $a=1;
 	$a=log10($a);
 	return round(($a*1.0 - $this->scale[0]) * $this->scale_factor); 
@@ -61,14 +67,14 @@ class LogScale extends LinearScale {
 	if( function_exists("bcpow") )
 	    return round(bcpow(10,$this->scale[0],15),14);
 	else
-	    return round(pow(10,$this->scale[0]));
+	    return round(pow(10,$this->scale[0]),14);
     }
 	
     function GetMaxVal() {
 	if( function_exists("bcpow") )
 	    return round(bcpow(10,$this->scale[1],15),14);
 	else
-	    return round(pow(10,$this->scale[1]));
+	    return round(pow(10,$this->scale[1]),14);
     }
 	
     // Logarithmic autoscaling is much simplier since we just

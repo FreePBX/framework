@@ -5,6 +5,7 @@ class Table {
 	var $fields = "*"; // "id", "name", etc..
 	var $table  = "";
 	var $errstr = "";
+	var $debug_st = 0;
 
 
 
@@ -67,15 +68,15 @@ class Table {
 		}
 
 		if (!is_null ($limite) && (is_numeric($limite)) && !is_null ($current_record) && (is_numeric($current_record)) ){
-			if (DB_TYPE == "postgres"){
-				$sql_limit = " LIMIT $limite,$current_record";			
+			if (DB_TYPE == "postgres"){				
+				$sql_limit = " LIMIT $limite OFFSET $current_record";				
 			}else{
 				$sql_limit = " LIMIT $current_record,$limite";			
 			}
 		}
 
-		$QUERY = $sql.$sql_clause.$sql_orderby.$sql_limit;
-		//echo "<br>$QUERY<br>";
+		$QUERY = $sql.$sql_clause.$sql_orderby.$sql_limit;		
+		if ($this -> debug_st) echo "<br>QUERY:".$QUERY;
 				
 		//$res=DbExec($link, $QUERY);
 		$res = $DBHandle -> query($QUERY);
@@ -118,7 +119,8 @@ class Table {
 		$QUERY = $sql.$sql_clause;
 		//echo $sql;
 		
-		//$res=DbExec($link, $QUERY);
+		if ($this -> debug_st) echo "<br>QUERY:".$QUERY;
+		//$res=DbExec($link, $QUERY);		
 		$res = $DBHandle -> query($QUERY);
 
 		/////$num=DbCount($res);
@@ -150,7 +152,7 @@ class Table {
 
 
 		$QUERY = "INSERT INTO \"".$this -> table."\" (".$this -> fields.") values (".trim ($value).")";
-		echo $QUERY;
+		if ($this -> debug_st) echo "<br>QUERY:".$QUERY;
 
 		if (! $res = $DBHandle -> query($QUERY)){
 		//if (! $res=DbExec($link, $QUERY)) {
@@ -195,8 +197,8 @@ class Table {
 		}
 
 
-		$QUERY = "UPDATE \"".$this -> table."\" SET ".trim ($param_update)." WHERE ".trim ($clause);
-		echo $QUERY;
+		$QUERY = "UPDATE \"".$this -> table."\" SET ".trim ($param_update)." WHERE ".trim ($clause);		
+		if ($this -> debug_st) echo "<br>QUERY:".$QUERY;
 
 		
 		if (! $res = $DBHandle -> query($QUERY)){
@@ -225,6 +227,7 @@ class Table {
 
 		
 		$QUERY = "DELETE FROM \"".$this -> table."\" WHERE (".trim ($clause).")";
+		if ($this -> debug_st) echo "<br>QUERY:".$QUERY;
 		
 		if (! $res = $DBHandle -> query($QUERY)){
 		//if (! $res=DbExec($link, $QUERY)) {

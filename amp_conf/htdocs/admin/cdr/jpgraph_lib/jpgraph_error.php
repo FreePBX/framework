@@ -54,16 +54,18 @@ class ErrorPlot extends Plot {
 	}
 	else 
 	    $exist_x = false;
-
-	if( $exist_x )
-	    $xs=$this->coords[1][0];
-	else
-	    $xs=0;
-
 		
 	for( $i=0; $i<$numpoints; ++$i) {
-	    if( $exist_x ) $x=$this->coords[1][$i];
-	    else $x=$i;
+	    if( $exist_x ) 
+		$x=$this->coords[1][$i];
+	    else 
+		$x=$i;
+
+	    if( !is_numeric($x) ||  
+		!is_numeric($this->coords[0][$i*2]) || !is_numeric($this->coords[0][$i*2+1]) ) {
+		continue;
+	    }
+	    
 	    $xt = $xscale->Translate($x);
 	    $yt1 = $yscale->Translate($this->coords[0][$i*2]);
 	    $yt2 = $yscale->Translate($this->coords[0][$i*2+1]);

@@ -1,1 +1,0 @@
-<?php /* $Id$ */ echo phpinfo();?>

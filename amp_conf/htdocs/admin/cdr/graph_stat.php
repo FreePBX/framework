@@ -1,15 +1,17 @@
 <?php
-include ("./lib/defines.php");
-include ("./lib/Class.Table.php");
-include ("./jpgraph_lib/jpgraph.php");
-include ("./jpgraph_lib/jpgraph_line.php");
+include_once(dirname(__FILE__) . "/lib/defines.php");
+include_once(dirname(__FILE__) . "/lib/Class.Table.php");
+include_once(dirname(__FILE__) . "/jpgraph_lib/jpgraph.php");
+include_once(dirname(__FILE__) . "/jpgraph_lib/jpgraph_line.php");
 
 // this variable specifie the debug type (0 => nothing, 1 => sql result, 2 => boucle checking, 3 other value checking)
 $FG_DEBUG = 0;
 
 
-getpost_ifset(array('min_call', 'fromstatsday_sday', 'days_compare', 'fromstatsmonth_sday'));
+getpost_ifset(array('min_call', 'fromstatsday_sday', 'days_compare', 'fromstatsmonth_sday', 'dsttype', 'sourcetype', 'clidtype', 'channel', 'resulttype', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode'));
 
+
+// http://localhost/Asterisk/asterisk-stat-v1_4/graph_stat.php?min_call=0&fromstatsday_sday=11&days_compare=2&fromstatsmonth_sday=2005-02&dsttype=1&sourcetype=1&clidtype=1&channel=&resulttype=&dst=1649&src=&clid=&userfieldtype=1&userfield=&accountcodetype=1&accountcode=
 
 // The variable FG_TABLE_NAME define the table name to use
 $FG_TABLE_NAME=DB_TABLENAME;
@@ -65,46 +67,49 @@ if ( is_null ($order) || is_null($sens) ){
 	$sens  = $FG_TABLE_DEFAULT_SENS;
 }
 
-if ($_POST['posted']==1){
+
 	
   function do_field($sql,$fld){
-        if ($fld && $_POST[$fld]){
+  		$fldtype = $fld.'type';
+		global $$fld;
+		global $$fldtype;
+        if (isset($$fld) && ($$fld!='')){
                 if (strpos($sql,'WHERE') > 0){
                         $sql = "$sql AND ";
                 }else{
                         $sql = "$sql WHERE ";
                 }
 				$sql = "$sql $fld";
-                if (array_key_exists($fld.'type', $_POST)){
-                        $dType = $_POST[$fld.'type'];
-                        switch ($dType) {
-							case 1:	$sql = "$sql='$_POST[$fld]'";  break;
-							case 2: $sql = "$sql LIKE '$_POST[$fld]%'";  break;
-							case 3: $sql = "$sql LIKE '%$_POST[$fld]%'";  break;
-							case 4: $sql = "$sql LIKE '%$_POST[$fld]'";
+				if (isset ($$fldtype)){                
+                        switch ($$fldtype) {
+							case 1:	$sql = "$sql='".$$fld."'";  break;
+							case 2: $sql = "$sql LIKE '".$$fld."%'";  break;
+							case 3: $sql = "$sql LIKE '%".$$fld."%'";  break;
+							case 4: $sql = "$sql LIKE '%".$$fld."'";
 						}
-                }else{ $sql = "$sql LIKE '%$_POST[$fld]%'"; }
+                }else{ $sql = "$sql LIKE '%".$$fld."%'"; }
 		}
         return $sql;
   }  
   $SQLcmd = '';
 
-  if ($_POST['before']) {
+  if ($_GET['before']) {
     if (strpos($SQLcmd, 'WHERE') > 0) { 	$SQLcmd = "$SQLcmd AND ";
     }else{     								$SQLcmd = "$SQLcmd WHERE "; }
     $SQLcmd = "$SQLcmd calldate<'".$_POST['before']."'";
   }
-  if ($_POST['after']) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
+  if ($_GET['after']) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
   } else {      $SQLcmd = "$SQLcmd WHERE ";    }
-    $SQLcmd = "$SQLcmd calldate>'".$_POST['after']."'";
+    $SQLcmd = "$SQLcmd calldate>'".$_GET['after']."'";
   }
   $SQLcmd = do_field($SQLcmd, 'clid');
   $SQLcmd = do_field($SQLcmd, 'src');
   $SQLcmd = do_field($SQLcmd, 'dst');
   $SQLcmd = do_field($SQLcmd, 'channel');
   
-}
-
+  $SQLcmd = do_field($SQLcmd, 'userfield');
+  $SQLcmd = do_field($SQLcmd, 'accountcode');
+  
 
 $date_clause='';
 
@@ -120,8 +125,11 @@ if (!isset($days_compare) ){
 	$days_compare=2;
 }
 
+ 
+
 if (DB_TYPE == "postgres"){	
-	if (isset($fromstatsday_sday) && isset($fromstatsmonth_sday)) $date_clause.=" AND calldate < date'$fromstatsmonth_sday-$fromstatsday_sday'+ INTERVAL '1 DAY' AND calldate >= date'$fromstatsmonth_sday-$fromstatsday_sday' - INTERVAL '$days_compare DAY'";
+	if (isset($fromstatsday_sday) && isset($fromstatsmonth_sday)) 
+	$date_clause.=" AND calldate < date'$fromstatsmonth_sday-$fromstatsday_sday'+ INTERVAL '1 DAY' AND calldate >= date'$fromstatsmonth_sday-$fromstatsday_sday' - INTERVAL '$days_compare DAY'";
 }else{
 	if (isset($fromstatsday_sday) && isset($fromstatsmonth_sday)) $date_clause.=" AND calldate < ADDDATE('$fromstatsmonth_sday-$fromstatsday_sday',INTERVAL 1 DAY) AND calldate >= SUBDATE('$fromstatsmonth_sday-$fromstatsday_sday',INTERVAL $days_compare DAY)";  
 }
@@ -135,10 +143,11 @@ if (strpos($SQLcmd, 'WHERE') > 0) {
 
 if ($FG_DEBUG == 3) echo $FG_TABLE_CLAUSE;
 
+
 //$list = $instance_table -> Get_list ($FG_TABLE_CLAUSE, $order, $sens, null, null, null, null);
 
 
-$list_total = $instance_table_graph -> Get_list ($FG_TABLE_CLAUSE, null, null, null, null, null, null);
+$list_total = $instance_table_graph -> Get_list ($FG_TABLE_CLAUSE, 'calldate', 'ASC', null, null, null, null);
 
 
 /**************************************/
@@ -171,6 +180,9 @@ foreach ($list_total as $recordset){
 		
 }
 
+//print_r($table_graph_hours);
+//exit();
+
 $mmax=0;
 $totalcall==0;
 $totalminutes=0;
@@ -198,11 +210,11 @@ $table_subtitle[]="Statistic : Number of call by Hours";
 $table_subtitle[]="Statistic : Minutes by Hours";
 
 
-$table_colors[]="green@0.2";
-$table_colors[]="blue@0.2";
-$table_colors[]="red@0.2";
-$table_colors[]="yellow@0.2";
-$table_colors[]="blangel@0.2";
+$table_colors[]="green@0.3";
+$table_colors[]="blue@0.3";
+$table_colors[]="red@0.3";
+$table_colors[]="yellow@0.3";
+$table_colors[]="purple@0.3";
 
 
 
@@ -214,55 +226,50 @@ $table_graph_hours["2004-01-08 15"] = array (100, 15);
 $table_graph_hours["2004-01-08 16"] = array (100, 15);
 $table_graph_hours["2004-01-08 17"] = array (100, 15);
 */
+$jour = substr($datax1[0],8,2); //le jour courant 
+$legend[0] = substr($datax1[0],0,10); //l
 
-
+//print_r ($table_graph_hours);
 // Create the graph to compare the day
 // extract all minutes/nb call for each hours 
-foreach ($table_graph_hours as $key => $value){
-	// old_day help to know if we start a new day
-	if (!isset($old_day) || strcmp($old_day,substr($key,8,2))!=0)
-	{
-		if (isset($old_day)){
-			if (intval($old_hours)!=23){
-				for ($i=intval($old_hours);$i<=23;$i++){
-					$tableau_value[$nbday][]=0;	
-					$tableau_hours[$nbday][]= sprintf("%02d",$i);
-				}
-			}
-			if (!isset($legend)) $legend[] = $old_date;
-			$legend[] = substr($key,0,10);
-			$nbday++;
-		}
-		$old_day = substr($key,8,2);
-		$old_date = substr($key,0,10);		
-		$old_hours="00";	
+foreach ($table_graph_hours as $key => $value) {
+	
+	$jour_suivant = substr($key,8,2);
+	
+	if($jour_suivant != $jour) {
+		  $nbday++; 
+		  $legend[$nbday] = substr($key,0,10);
+		  $jour = $jour_suivant;
 	}
-	// here we fill by blank all the hours that doesn't have any field
-	if (!isset($old_hours))
-		$old_hours="00";
+  
+	
+	$heure = intval(substr($key,11,2));
 
-	if (intval($old_hours)<intval(substr($key,11,2))) {
-		for ($i=intval($old_hours);$i<intval(substr($key,11,2));$i++) {
-			$tableau_value[$nbday][]=0;
-			$tableau_hours[$nbday][]=sprintf("%02d",$i);
-		}
-	}
-	
-	$old_hours = substr($key,11,2);
-	$old_hours++;
-	
-	if ($min_call==1){
-		$tableau_value[$nbday][]=intval($value[$min_call]/60);	
-	}else{
-		$tableau_value[$nbday][]=intval($value[$min_call]);
-	}
-	$tableau_hours[$nbday][]=substr($key,11,2);	
+	if ($min_call == 0) $div = 1; else $div = 60;
+
+	$tableau_value[$nbday][$heure] = $value[$min_call]/$div;
 }
 
-for ($i=intval($old_hours);$i<=23;$i++){
-	$tableau_value[$nbday][]=0;	
-	$tableau_hours[$nbday][]= sprintf("%02d",$i);
+
+
+// je remplie les cases vide par des 0
+for ($i=0; $i<=$nbday; $i++)
+      for ($j=0; $j<24; $j++)
+              if (!isset($tableau_value[$i][$j])) $tableau_value[$i][$j]=0;
+
+//Je remplace les 0 par null pour pour les heures 
+$i = 23;
+while ($tableau_value[$nbday][$i] == 0) {
+      $tableau_value[$nbday][$i] = null;
+      $i--;
 }
+
+
+  
+
+
+//print_r($tableau_value);
+//print_r($tableau_hours);
 
 /*echo "<br>nb tableau_value:".count($tableau_value);
 echo "<br>nb tableau_hours:".count($tableau_hours);
@@ -307,7 +314,7 @@ $graph->title->Set("Graphic");
 //$graph->title->SetFont(FF_VERDANA,FS_BOLD,14);
 
 // Note: requires jpgraph 1.12p or higher
-// $graph->SetBackgroundGradient('blue','navy:0.5',GRAD_HOR,BGRAD_PLOT);
+$graph->SetBackgroundGradient('#FFFFFF','#CDDEFF:0.8',GRAD_HOR,BGRAD_PLOT);
 $graph->tabtitle->Set($table_subtitle[$min_call]);
 $graph->tabtitle->SetWidth(TABTITLE_WIDTHFULL);
 
@@ -316,8 +323,19 @@ $graph->xgrid->Show();
 $graph->xgrid->SetColor('gray@0.5');
 $graph->ygrid->SetColor('gray@0.5');
 
+$graph->yaxis->HideZeroLabel();
+$graph->xaxis->HideZeroLabel();
+$graph->ygrid->SetFill(true,'#EFEFEF@0.5','#CDDEFF@0.5');
+
+
+//$graph->xaxis->SetTickLabels($tableau_hours[0]);
+
+// initialisaton fixe de AXE X
+$tableau_hours[0] = array("","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23");
+$graph->xaxis->SetTickLabels($tableau_hours[0]);  
+
 // Setup X-scale
-$graph->xaxis->SetTickLabels($tableau_hours[0]);
+//$graph->xaxis->SetTickLabels($tableau_hours[0]);
 $graph->xaxis->SetLabelAngle(90);
 
 // Format the legend box
@@ -326,7 +344,7 @@ $graph->legend->SetFillColor('gray@0.8');
 $graph->legend->SetLineWeight(1);
 //$graph->legend->SetFont(FF_ARIAL,FS_BOLD,8);
 $graph->legend->SetShadow('gray@0.4',3);
-$graph->legend->SetAbsPos(15,120,'right','bottom');
+$graph->legend->SetAbsPos(15,130,'right','bottom');
 
 // Create the line plots
 
@@ -338,7 +356,6 @@ $p1->mark->SetType(MARK_IMG_DIAMOND,5,0.6);
 $p1->SetLegend('2006');
 $graph->Add($p1);
 */
-
 for ($indgraph=0;$indgraph<=$nbday;$indgraph++){
 	
 	$p2[$indgraph] = new LinePlot($tableau_value[$indgraph]);
@@ -356,5 +373,7 @@ for ($indgraph=0;$indgraph<=$nbday;$indgraph++){
 
 // Output the graph
 $graph->Stroke();
+
+
 
 ?>

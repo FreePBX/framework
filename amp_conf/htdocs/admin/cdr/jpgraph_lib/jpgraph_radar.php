@@ -11,6 +11,7 @@
 //========================================================================
 */
 
+require_once('jpgraph_plotmark.inc');
 
 class RadarLogTicks extends Ticks {
 //---------------
@@ -230,8 +231,9 @@ class RadarAxis extends Axis {
 	if( $aAxisAngle>=3*M_PI/4 && $aAxisAngle <= 5*M_PI/4 ) $dy=(1-($aAxisAngle-3*M_PI/4)*2/M_PI);
 	if( $aAxisAngle>=5*M_PI/4 && $aAxisAngle <= 7*M_PI/4 ) $dy=0;
 		
-	if( !$this->hide )
-		$this->title->Stroke($this->img,$xt-$dx*$w,$yt-$dy*$h,$title);
+	if( !$this->hide ) {
+	    $this->title->Stroke($this->img,$xt-$dx*$w,$yt-$dy*$h,$title);
+	}
     }
 		
 	
@@ -288,10 +290,13 @@ class RadarPlot {
     var $color=array(0,0,0);
     var $legend="";
     var $weight=1;
+    var $linestyle='solid';
+    var $mark=null;
 //---------------
 // CONSTRUCTOR
     function RadarPlot($data) {
 	$this->data = $data;
+	$this->mark = new PlotMark();
     }
 
 //---------------
@@ -307,16 +312,19 @@ class RadarPlot {
     function SetLegend($legend) {
 	$this->legend=$legend;
     }
-	
+
+    function SetLineStyle($aStyle) {
+	$this->linestyle=$aStyle;
+    }
 	
     function SetLineWeight($w) {
 	$this->weight=$w;
     }
 		
-	function SetFillColor($aColor) {
-		$this->fill_color = $aColor;
-		$this->fill = true;		
-	}
+    function SetFillColor($aColor) {
+	$this->fill_color = $aColor;
+	$this->fill = true;		
+    }
     
     function SetFill($f=true) {
 	$this->fill = $f;
@@ -361,9 +369,18 @@ class RadarPlot {
 	}
 	$img->SetLineWeight($this->weight);
 	$img->SetColor($this->color);
+	$img->SetLineStyle($this->linestyle);
 	$pnts[]=$pnts[0];
 	$pnts[]=$pnts[1];
 	$img->Polygon($pnts);
+	$img->SetLineStyle('solid'); // Reset line style to default
+	// Add plotmarks on top
+	if( $this->mark->show ) {
+	    for($i=0; $i < $nbrpnts; ++$i) {
+		$this->mark->Stroke($img,$pnts[$i*2],$pnts[$i*2+1]); 
+	    }
+	}
+
     }
 	
 //---------------
@@ -375,9 +392,9 @@ class RadarPlot {
     function Legend(&$graph) {
 	if( $this->legend=="" ) return;
 	if( $this->fill )
-	    $graph->legend->Add($this->legend,$this->fill_color);
+	    $graph->legend->Add($this->legend,$this->fill_color,$this->mark);
 	else
-	    $graph->legend->Add($this->legend,$this->color);	
+	    $graph->legend->Add($this->legend,$this->color,$this->mark);	
     }
 	
 } // Class
@@ -519,7 +536,7 @@ class RadarGraph extends Graph {
 		
 	// If we have no titles just number the axis 1,2,3,...
 	if( $this->axis_title==null ) {
-	    for($i=0; $i<$nbrpnts; ++$i ) 
+	    for($i=0; $i < $nbrpnts; ++$i ) 
 		$this->axis_title[$i] = $i+1;
 	}
 	elseif(count($this->axis_title)<$nbrpnts) 

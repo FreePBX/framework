@@ -11,6 +11,19 @@
 //========================================================================
 */
 
+// Styles for gradient color fill
+DEFINE("GRAD_VER",1);
+DEFINE("GRAD_VERT",1);
+DEFINE("GRAD_HOR",2);
+DEFINE("GRAD_MIDHOR",3);
+DEFINE("GRAD_MIDVER",4);
+DEFINE("GRAD_CENTER",5);
+DEFINE("GRAD_WIDE_MIDVER",6);
+DEFINE("GRAD_WIDE_MIDHOR",7);
+DEFINE("GRAD_LEFT_REFLECTION",8);
+DEFINE("GRAD_RIGHT_REFLECTION",9);
+DEFINE("GRAD_RAISED_PANEL",10);
+
   
 //===================================================
 // CLASS Gradient
@@ -42,7 +55,7 @@ class Gradient {
     function FilledRectangle($xl,$yt,$xr,$yb,$from_color,$to_color,$style=1) {
 	switch( $style ) {	
 	    case GRAD_VER:  
-		$steps = abs($xr-$xl);
+		$steps = round(abs($xr-$xl));
 		$delta = $xr>=$xl ? 1 : -1;
 		$this->GetColArray($from_color,$to_color,$steps,$colors,$this->numcolors);
 		for( $i=0, $x=$xl; $i < $steps; ++$i ) {
@@ -53,7 +66,7 @@ class Gradient {
 		break;
 
 	    case GRAD_HOR: 
-		$steps = abs($yb-$yt);
+		$steps = round(abs($yb-$yt));
 		$delta = $yb>=$yt ? 1 : -1;
 		$this->GetColArray($from_color,$to_color,$steps,$colors,$this->numcolors);
 		for($i=0,$y=$yt; $i < $steps; ++$i) {
@@ -64,7 +77,7 @@ class Gradient {
 		break;
 
 	    case GRAD_MIDHOR: 
-		$steps = abs($yb-$yt)/2;
+		$steps = round(abs($yb-$yt)/2);
 		$delta = $yb >= $yt ? 1 : -1;
 		$this->GetColArray($from_color,$to_color,$steps,$colors,$this->numcolors);
 		for($y=$yt, $i=0; $i < $steps;  ++$i) {
@@ -154,8 +167,15 @@ class Gradient {
 		$steps1 = round(0.3*abs($xr-$xl));
 		$delta = $xr>=$xl ? 1 : -1;		
 
-		$this->GetColArray($from_color.':1.3',$to_color,$steps1,$colors,$this->numcolors);
-		for($x=$xl, $i=0; $i < $steps1; ++$i) {
+		$from_color = $this->img->rgb->Color($from_color);
+		$adj = 1.4;
+		$m = ($adj-1.0)*(255-min(255,min($from_color[0],min($from_color[1],$from_color[2]))));
+		$from_color2 = array(min(255,$from_color[0]+$m), 
+				    min(255,$from_color[1]+$m), min(255,$from_color[2]+$m));		
+
+		$this->GetColArray($from_color2,$to_color,$steps1,$colors,$this->numcolors);
+		$n = count($colors);
+		for($x=$xl, $i=0; $i < $steps1 && $i < $n; ++$i) {
 		    $this->img->current_color = $colors[$i];
 		    $this->img->Line($x,$yb,$x,$yt);
 		    $x += $delta;
@@ -168,7 +188,8 @@ class Gradient {
 		}
 		$steps = abs($xr-$xl)-$steps1-$steps2;
 		$this->GetColArray($to_color,$from_color,$steps,$colors,$this->numcolors);   
-		for($i=0; $i < $steps; ++$i) {
+		$n = count($colors);
+		for($i=0; $i < $steps && $i < $n; ++$i) {
 		    $this->img->current_color = $colors[$i];
 		    $this->img->Line($x,$yb,$x,$yt);
 		    $x += $delta;
@@ -177,10 +198,11 @@ class Gradient {
 
 	    case GRAD_RIGHT_REFLECTION: 
 		$steps1 = round(0.7*abs($xr-$xl));
-		$delta = $xr>=$xl ? 1 : -1;		
+		$delta = $xr>=$xl ? 1 : -1;
 
 		$this->GetColArray($from_color,$to_color,$steps1,$colors,$this->numcolors);
-		for($x=$xl, $i=0; $i < $steps1; ++$i) {
+		$n = count($colors);
+		for($x=$xl, $i=0; $i < $steps1 && $i < $n; ++$i) {
 		    $this->img->current_color = $colors[$i];
 		    $this->img->Line($x,$yb,$x,$yt);
 		    $x += $delta;
@@ -191,32 +213,65 @@ class Gradient {
 		    $this->img->Line($x,$yb,$x,$yt);
 		    $x += $delta;
 		}
+
+		$from_color = $this->img->rgb->Color($from_color);
+		$adj = 1.4;
+		$m = ($adj-1.0)*(255-min(255,min($from_color[0],min($from_color[1],$from_color[2]))));
+		$from_color = array(min(255,$from_color[0]+$m), 
+				    min(255,$from_color[1]+$m), min(255,$from_color[2]+$m));		
+
 		$steps = abs($xr-$xl)-$steps1-$steps2;
-		$this->GetColArray($to_color,$from_color.':1.3',$steps,$colors,$this->numcolors);   
-		for($i=0; $i < $steps; ++$i) {
+		$this->GetColArray($to_color,$from_color,$steps,$colors,$this->numcolors);   
+		$n = count($colors);
+		for($i=0; $i < $steps && $i < $n; ++$i) {
 		    $this->img->current_color = $colors[$i];
 		    $this->img->Line($x,$yb,$x,$yt);
 		    $x += $delta;
 		}
 		break;
 
-
 	    case GRAD_CENTER: 
-		$steps = floor(min(($yb-$yt)+1,($xr-$xl)+1)/2);	
+		$steps = ceil(min(($yb-$yt)+1,($xr-$xl)+1)/2);	
 		$this->GetColArray($from_color,$to_color,$steps,$colors,$this->numcolors);
 		$dx = ($xr-$xl)/2;
 		$dy = ($yb-$yt)/2;
 		$x=$xl;$y=$yt;$x2=$xr;$y2=$yb;
-		for($x=$xl, $i=0; $x < $xl+$dx && $y < $yt+$dy ; ++$x, ++$y, --$x2, --$y2, ++$i) {
-		    assert( $i < count($colors));
+		$n = count($colors);
+		for($x=$xl, $i=0; $x < $xl+$dx && $y < $yt+$dy && $i < $n; ++$x, ++$y, --$x2, --$y2, ++$i) {
 		    $this->img->current_color = $colors[$i];			
 		    $this->img->Rectangle($x,$y,$x2,$y2);
 		}
 		$this->img->Line($x,$y,$x2,$y2);
 		break;
+		
+	    case GRAD_RAISED_PANEL:
+		// right to left 
+		$steps1 = $xr-$xl; 
+		$delta = $xr>=$xl ? 1 : -1; 
+		$this->GetColArray($to_color,$from_color,$steps1,$colors,$this->numcolors); 
+		$n = count($colors);
+		for($x=$xl, $i=0; $i < $steps1 && $i < $n; ++$i) { 
+		    $this->img->current_color = $colors[$i]; 
+		    $this->img->Line($x,$yb,$x,$yt); 
+		    $x += $delta; 
+		} 
+		
+		// left to right 
+		$xr -= 3; 
+		$xl += 3; 
+		$yb -= 3; 
+		$yt += 3; 
+		$steps2 = $xr-$xl; 
+		$delta = $xr>=$xl ? 1 : -1; 
+		for($x=$xl, $j=$steps2; $j >= 0; --$j) { 
+		    $this->img->current_color = $colors[$j]; 
+		    $this->img->Line($x,$yb,$x,$yt); 
+		    $x += $delta; 
+		} 
+		break;
 
 	    default:
-		die("JpGraph Error: Unknown gradient style (=$style).");
+		JpGraphError::Raise("Unknown gradient style (=$style).");
 		break;
 	}
     }
@@ -263,7 +318,7 @@ class Gradient {
 	    // Fill the rest using lines (slow...)
 	    $slope = ($p2[0]-$p1[0])/($p1[1]-$p2[1]);
 	    $x1 = $p1[0];
-	    $x2 = $p2[0]-1;
+	    $x2 = $p2[0]; //-1;
 	    $start = $y;
 	    if( $p1[1] > $p2[1] ) {
 		while( $y >= $p2[1] ) {

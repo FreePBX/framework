@@ -356,12 +356,19 @@ class PiePlot {
 	    $numcolors=count($ta);
 	}
    	else {
-	    $this->setslicecolors = array_reverse(array_slice($this->setslicecolors,0,$n));
+	    // We need to create an array of colors as long as the data
+	    // since we need to reverse it to get the colors in the right order
 	    $numcolors=count($this->setslicecolors); 
-	    $tt = array_slice($this->setslicecolors,$n % $numcolors);
-	    $tt2 = array_slice($this->setslicecolors,0,$n % $numcolors);
-	    $tt2 = array_merge($tt, $tt2);
-	    $this->setslicecolors = $tt + $tt2;
+	    if( $n > $numcolors ) {
+		$i = 2*$numcolors;
+		while( $n > $i ) {
+		    $this->setslicecolors = array_merge($this->setslicecolors,$this->setslicecolors);
+		    $i += $n;
+		}
+		$tt = array_slice($this->setslicecolors,0,$n % $numcolors);
+		$this->setslicecolors = array_merge($this->setslicecolors,$tt);
+		$this->setslicecolors = array_reverse($this->setslicecolors);
+	    }
 	}
 
 	// Draw the slices
@@ -531,8 +538,6 @@ class PiePlot {
 
 	    $this->value->halign = "left";
 	    $this->value->valign = "top";
-	    $this->value->margin = 0;
-	    
 	    
 	    // Position the axis title. 
 	    // dx, dy is the offset from the top left corner of the bounding box that sorrounds the text
@@ -556,7 +561,7 @@ class PiePlot {
 		$r *= $this->ilabelposadj;
 	    }
 
-	    $r += $img->GetFontHeight()/1.5;
+	    $r += $img->GetFontHeight()/1.5 + $this->value->margin ;
 	    $xt=round($r*cos($a)+$xc);
 	    $yt=round($yc-$r*sin($a));
 
@@ -573,8 +578,11 @@ class PiePlot {
 	    if( $a>=M_PI/4 && $a <= 3*M_PI/4 ) $dy=1;
 	    if( $a>=3*M_PI/4 && $a <= 5*M_PI/4 ) $dy=(1-($a-3*M_PI/4)*2/M_PI);
 	    if( $a>=5*M_PI/4 && $a <= 7*M_PI/4 ) $dy=0;
-
+	    
+	    $oldmargin = $this->value->margin ;
+	    $this->value->margin = 0;
 	    $this->value->Stroke($img,$label,$xt-$dx*$w,$yt-$dy*$h);
+	    $this->value->margin = $oldmargin ;
 	}
     }	
 } // Class
@@ -771,16 +779,25 @@ class PieGraph extends Graph {
     function Add($aObj) {
 
 	if( is_array($aObj) && count($aObj) > 0 )
-	    $cl = get_class($aObj[0]);
+	    $cl = strtolower(get_class($aObj[0]));
 	else
-	    $cl = get_class($aObj);
+	    $cl = strtolower(get_class($aObj));
 
 	if( $cl == 'text' ) 
 	    $this->AddText($aObj);
 	elseif( $cl == 'iconplot' ) 
 	    $this->AddIcon($aObj);
-	else
-	    $this->plots[] = $aObj;
+	else {
+	    if( is_array($aObj) ) {
+		$n = count($aObj);
+		for($i=0; $i < $n; ++$i ) {
+		    $this->plots[] = &$aObj[$i];
+		}
+	    }
+	    else {
+		$this->plots[] = $aObj;
+	    }
+	}
     }
 
     function SetAntiAliasing($aFlg=true) {
@@ -837,8 +854,6 @@ class PieGraph extends Graph {
 	// CSIM without storing an image to disk GetCSIM must call Stroke.
 	$this->iHasStroked = true;
 
-		
-		
 	$n = count($this->plots);
 
 	if( $this->pieaa ) {
@@ -851,7 +866,6 @@ class PieGraph extends Graph {
 		    $this->StrokeFrame();		
 		}
 	    }
-
 
 	    $w = $this->img->width;
 	    $h = $this->img->height;
@@ -921,17 +935,17 @@ class PieGraph extends Graph {
 
 	$this->legend->Stroke($this->img);
 	$this->footer->Stroke($this->img);
+	$this->StrokeTitles();
+
+	// Stroke texts
+	if( $this->texts != null ) {
+	    $n = count($this->texts);
+	    for($i=0; $i < $n; ++$i ) {
+		$this->texts[$i]->Stroke($this->img);
+	    }
+	}
 
 	if( !$_csim ) {	
-	    $this->StrokeTitles();
-
-	    // Stroke texts
-	    if( $this->texts != null ) {
-		$n = count($this->texts);
-		for($i=0; $i < $n; ++$i ) {
-		    $this->texts[$i]->Stroke($this->img);
-		}
-	    }
 
 	    if( _JPG_DEBUG ) {
 		$this->DisplayCSIMAreas();

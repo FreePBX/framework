@@ -1,0 +1,11 @@
+
+
+
+IMPROVE RESULT WITH INDEX!
+
+CREATE INDEX calldate_ind ON cdr USING btree (calldate)
+
+[OPTIONAL]
+	CREATE INDEX dst_ind ON cdr USING btree (dst)
+
+	CREATE INDEX accountcode_ind ON cdr USING btree (accountcode)

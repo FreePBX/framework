@@ -10,6 +10,10 @@
 // Copyright (C) 2003 Johan Persson
 //========================================================================
 */
+
+require_once ('jpgraph_plotmark.inc');
+
+
 require_once "jpgraph_log.php";
 
 
@@ -499,7 +503,10 @@ class PolarAxis extends Axis {
 				$this->title_adjust.')');
 	}
 
-	$this->StrokeLabels($pos,false);
+	
+	if (!$this->hide_labels) {
+	    $this->StrokeLabels($pos,false);
+	}
 	$this->img->SetColor($this->radius_tick_color);
 	$this->scale->ticks->Stroke($this->img,$this->scale,$pos);
 
@@ -537,11 +544,13 @@ class PolarAxis extends Axis {
 
 
 	// Minor ticks
-	$i=1;
-	while( $i < $n/2 ) {
-	    $x = round($this->scale->ticks->ticks_pos[$i]) ;
-	    $this->img->Line($x,$pos,$x,$yu);
-	    ++$i;
+	if( ! $this->scale->ticks->supress_minor_tickmarks ) {
+	    $i=1;
+	    while( $i < $n/2 ) {
+		$x = round($this->scale->ticks->ticks_pos[$i]) ;
+		$this->img->Line($x,$pos,$x,$yu);
+		++$i;
+	    }
 	}
 
 	$n = count($this->scale->ticks->maj_ticks_pos);
@@ -549,14 +558,17 @@ class PolarAxis extends Axis {
 
 
 	// Major ticks
-	$i=1;
-	while( $i < $n/2 ) {
-	    $x = round($this->scale->ticks->maj_ticks_pos[$i]) ;
-	    $this->img->Line($x,$pos,$x,$yu);
-	    ++$i;
+	if( ! $this->scale->ticks->supress_tickmarks ) {
+	    $i=1;
+	    while( $i < $n/2 ) {
+		$x = round($this->scale->ticks->maj_ticks_pos[$i]) ;
+		$this->img->Line($x,$pos,$x,$yu);
+		++$i;
+	    }
 	}
-
-	$this->StrokeLabels($pos,false);
+	if (!$this->hide_labels) {
+	    $this->StrokeLabels($pos,false);
+	}
 	$this->title->Stroke($this->img);	
     }
 }
@@ -660,7 +672,6 @@ class PolarGraph extends Graph {
 	    JpGraphError::Raise('Unknown scale type for polar graph. Must be "lin" or "log"');
 	}
 
-	$this->scale->Init($this->img);
 	$this->axis = new PolarAxis($this->img,$this->scale);
 	$this->SetMargin(40,40,50,40);
     }

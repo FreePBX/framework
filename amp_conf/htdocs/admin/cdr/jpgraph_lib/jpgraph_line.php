@@ -10,7 +10,9 @@
 // Copyright (C) 2001,2002 Johan Persson
 //========================================================================
 */
- 
+
+require_once ('jpgraph_plotmark.inc');
+
 // constants for the (filled) area
 DEFINE("LP_AREA_FILLED", true);
 DEFINE("LP_AREA_NOT_FILLED", false);
@@ -31,6 +33,7 @@ class LinePlot extends Plot{
     var $barcenter=false;  // When we mix line and bar. Should we center the line in the bar.
     var $fillFromMin = false ;
     var $fillgrad=false,$fillgrad_fromcolor='navy',$fillgrad_tocolor='silver',$fillgrad_numcolors=100;
+    var $iFastStroke=false;
 
 //---------------
 // CONSTRUCTOR
@@ -123,6 +126,47 @@ class LinePlot extends Plot{
 	    //$graph->xaxis->scale->ticks->SupressMinorTickMarks();
 	}
     }
+
+    function SetFastStroke($aFlg=true) {
+	$this->iFastStroke = $aFlg;
+    }
+
+    function FastStroke(&$img,&$xscale,&$yscale,$aStartPoint=0,$exist_x=true) {
+	// An optimized stroke for many data points with no extra 
+	// features but 60% faster. You can't have values or line styles, or null
+	// values in plots.
+	$numpoints=count($this->coords[0]);
+	if( $this->barcenter ) 
+	    $textadj = 0.5-$xscale->text_scale_off;
+	else
+	    $textadj = 0;
+
+	$img->SetColor($this->color);
+	$img->SetLineWeight($this->weight);
+	$pnts=$aStartPoint;
+	while( $pnts < $numpoints ) {	    
+	    if( $exist_x ) $x=$this->coords[1][$pnts];
+	    else $x=$pnts+$textadj;
+	    $xt = $xscale->Translate($x);
+	    $y=$this->coords[0][$pnts];
+	    $yt = $yscale->Translate($y);    
+	    if( is_numeric($y) ) {
+		$cord[] = $xt;
+		$cord[] = $yt;
+	    }
+	    elseif( $y == '-' && $pnts > 0 ) {
+		// Just ignore
+	    }
+	    else {
+		JpGraphError::Raise('Plot too complicated for fast line Stroke. Use standard Stroke()');
+		return;
+	    }
+	    ++$pnts;
+	} // WHILE
+
+	$img->Polygon($cord,false,true);
+
+    }
 	
     function Stroke(&$img,&$xscale,&$yscale) {
 	$numpoints=count($this->coords[0]);
@@ -149,6 +193,11 @@ class LinePlot extends Plot{
 	if( $startpoint == $numpoints ) 
 	    return;
 
+	if( $this->iFastStroke ) {
+	    $this->FastStroke($img,$xscale,$yscale,$startpoint,$exist_x);
+	    return;
+	}
+
 	if( $exist_x )
 	    $xs=$this->coords[1][$startpoint];
 	else
@@ -157,7 +206,6 @@ class LinePlot extends Plot{
 	$img->SetStartPoint($xscale->Translate($xs),
 			    $yscale->Translate($this->coords[0][$startpoint]));
 
-		
 	if( $this->filled ) {
 	    $cord[] = $xscale->Translate($xs);
 	    $min = $yscale->GetMinVal();
@@ -171,13 +219,17 @@ class LinePlot extends Plot{
 	$cord[] = $xt;
 	$cord[] = $yt;
 	$yt_old = $yt;
+	$xt_old = $xt;
+	$y_old = $this->coords[0][$startpoint];
 
 	$this->value->Stroke($img,$this->coords[0][$startpoint],$xt,$yt);
 
 	$img->SetColor($this->color);
 	$img->SetLineWeight($this->weight);
 	$img->SetLineStyle($this->line_style);
-	for( $pnts=$startpoint+1; $pnts<$numpoints; ++$pnts) {
+	$pnts=$startpoint+1;
+	$firstnonumeric = false;
+	while( $pnts < $numpoints ) {
 	    
 	    if( $exist_x ) $x=$this->coords[1][$pnts];
 	    else $x=$pnts+$textadj;
@@ -185,16 +237,34 @@ class LinePlot extends Plot{
 	    $yt = $yscale->Translate($this->coords[0][$pnts]);
 	    
 	    $y=$this->coords[0][$pnts];
-	    if( $this->step_style && is_numeric($y) ) {
-		$img->StyleLineTo($xt,$yt_old);
-		$img->StyleLineTo($xt,$yt);
-
-		$cord[] = $xt;
-		$cord[] = $yt_old;
-	
-		$cord[] = $xt;
-		$cord[] = $yt;
-
+	    if( $this->step_style ) {
+		// To handle null values within step style we need to record the
+		// first non numeric value so we know from where to start if the
+		// non value is '-'. 
+		if( is_numeric($y) ) {
+		    $firstnonumeric = false;
+		    if( is_numeric($y_old) ) {
+			$img->StyleLine($xt_old,$yt_old,$xt,$yt_old);
+			$img->StyleLine($xt,$yt_old,$xt,$yt);
+		    }
+		    elseif( $y_old == '-' ) {
+			$img->StyleLine($xt_first,$yt_first,$xt,$yt_first);
+			$img->StyleLine($xt,$yt_first,$xt,$yt);			
+		    }
+		    else {
+			$yt_old = $yt;
+			$xt_old = $xt;
+		    }
+		    $cord[] = $xt;
+		    $cord[] = $yt_old;
+		    $cord[] = $xt;
+		    $cord[] = $yt;
+		}
+		elseif( $firstnonumeric==false ) {
+		    $firstnonumeric = true;
+		    $yt_first = $yt_old;
+		    $xt_first = $xt_old;
+		}
 	    }
 	    else {
 		if( is_numeric($y) || (is_string($y) && $y != "-") ) {
@@ -214,8 +284,12 @@ class LinePlot extends Plot{
 		}
 	    }
 	    $yt_old = $yt;
+	    $xt_old = $xt;
+	    $y_old = $y;
 
 	    $this->StrokeDataValue($img,$this->coords[0][$pnts],$xt,$yt);
+
+	    ++$pnts;
 	}	
 
 	if( $this->filled  ) {

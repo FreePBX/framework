@@ -1,4 +1,4 @@
-<?php
+<?php /* $Id$ */
 
 define ("WEBROOT", "http://AMPWEBADDRESS/admin/cdr/");
 define ("FSROOT", "AMPWEBROOT/admin/cdr/");
@@ -6,7 +6,6 @@ define ("FSROOT", "AMPWEBROOT/admin/cdr/");
 
 
 define ("LIBDIR", FSROOT."lib/");
-
 
 
 define ("HOST", "localhost");
@@ -18,7 +17,7 @@ define ("DB_TYPE", "mysql"); // mysql or postgres
 
 
 define ("DB_TABLENAME", "cdr");
-
+ 
 // Regarding to the dst you can setup an application name
 // Make more sense to have a text that just a number
 // especially if you have a lot of extension in your dialplan
@@ -28,12 +27,6 @@ $appli_list['*98']=array("Voicemail");
 $appli_list['*72']=array("Call_Forward-enable");
 $appli_list['*73']=array("Call_Forward-disable");
 $appli_list['*69']=array("Call_Trace");
-$appli_list['80']=array("Conf-80");
-$appli_list['81']=array("Conf-81");
-$appli_list['82']=array("Conf-82");
-$appli_list['83']=array("Conf-83");
-$appli_list['84']=array("Conf-84");
-$appli_list['85']=array("Conf-85");
 $appli_list['s']=array("Catch-All");
 
 
@@ -53,7 +46,7 @@ function DbConnect()
 
 
 	return $DBHandle;
-  }
+}
 
 
 function getpost_ifset($test_vars)
@@ -71,5 +64,43 @@ function getpost_ifset($test_vars)
 		}
 	}
 }
+
+
+
+function display_minute($sessiontime){
+		global $resulttype;
+		if ((!isset($resulttype)) || ($resulttype=="min")){  
+				$minutes = sprintf("%02d",intval($sessiontime/60)).":".sprintf("%02d",intval($sessiontime%60));
+		}else{
+				$minutes = $sessiontime;
+		}
+		echo $minutes;
+}
+
+function display_2dec($var){		
+		echo number_format($var,2);
+}
+
+function display_2bill($var){	
+		$var=$var/100;
+		echo '$ '.number_format($var,2);
+}
+
+function remove_prefix($phonenumber){
+		
+		if (substr($phonenumber,0,3) == "011"){
+					echo substr($phonenumber,3);
+					return 1;
+		}
+		echo $phonenumber;
+}
+
+
+function display_acronym($field){		
+		echo '<acronym title="'.$field.'">'.substr($field,0,10).'...</acronym>';		
+}
+
+
+
 
 ?>

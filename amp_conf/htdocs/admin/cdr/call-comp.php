@@ -1,9 +1,10 @@
 <?php /* $Id$ */
-include ("./lib/defines.php");
-include ("./lib/Class.Table.php");
+include_once(dirname(__FILE__) . "/lib/defines.php");
+include_once(dirname(__FILE__) . "/lib/Class.Table.php");
 
 
-getpost_ifset(array('current_page', 'fromstatsday_sday', 'fromstatsmonth_sday', 'days_compare', 'min_call'));
+
+getpost_ifset(array('current_page', 'fromstatsday_sday', 'fromstatsmonth_sday', 'days_compare', 'min_call', 'posted',  'dsttype', 'sourcetype', 'clidtype', 'channel', 'resulttype', 'stitle', 'atmenu', 'current_page', 'order', 'sens', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode'));
 
 
 if (!isset ($current_page) || ($current_page == "")){	
@@ -100,25 +101,28 @@ if ( is_null ($order) || is_null($sens) ){
 }
 
 
-if ($_POST['posted']==1){
+if ($posted==1){
 	
+
   function do_field($sql,$fld){
-        if ($fld && $_POST[$fld]){
+  		$fldtype = $fld.'type';
+		global $$fld;
+		global $$fldtype;
+        if (isset($$fld) && ($$fld!='')){
                 if (strpos($sql,'WHERE') > 0){
                         $sql = "$sql AND ";
                 }else{
                         $sql = "$sql WHERE ";
                 }
 				$sql = "$sql $fld";
-                if (array_key_exists($fld.'type', $_POST)){
-                        $dType = $_POST[$fld.'type'];
-                        switch ($dType) {
-							case 1:	$sql = "$sql='$_POST[$fld]'";  break;
-							case 2: $sql = "$sql LIKE '$_POST[$fld]%'";  break;
-							case 3: $sql = "$sql LIKE '%$_POST[$fld]%'";  break;
-							case 4: $sql = "$sql LIKE '%$_POST[$fld]'";
+				if (isset ($$fldtype)){                
+                        switch ($$fldtype) {
+							case 1:	$sql = "$sql='".$$fld."'";  break;
+							case 2: $sql = "$sql LIKE '".$$fld."%'";  break;
+							case 3: $sql = "$sql LIKE '%".$$fld."%'";  break;
+							case 4: $sql = "$sql LIKE '%".$$fld."'";
 						}
-                }else{ $sql = "$sql LIKE '%$_POST[$fld]%'"; }
+                }else{ $sql = "$sql LIKE '%".$$fld."%'"; }
 		}
         return $sql;
   }  
@@ -136,7 +140,11 @@ if ($_POST['posted']==1){
   $SQLcmd = do_field($SQLcmd, 'clid');
   $SQLcmd = do_field($SQLcmd, 'src');
   $SQLcmd = do_field($SQLcmd, 'dst');
-  $SQLcmd = do_field($SQLcmd, 'channel');
+  $SQLcmd = do_field($SQLcmd, 'channel');  
+    
+  $SQLcmd = do_field($SQLcmd, 'userfield');
+  $SQLcmd = do_field($SQLcmd, 'accountcode');
+  
   
 }
 
@@ -186,11 +194,20 @@ if (strpos($SQLcmd, 'WHERE') > 0) {
 	$FG_TABLE_CLAUSE = substr($date_clause,5); 
 }
 
+if ($_POST['posted']==1){
+	
+	/* --AMP BEGIN-- */
+	//enforce restrictions for this AMP User
+	$FG_TABLE_CLAUSE .= $AMP_CLAUSE;
+	/* --AMP END-- */
+	
+	//> function Get_list ($clause=null, $order=null, $sens=null, $field_order_letter=null, $letters = null, $limite=null, $current_record = NULL)
+	$list = $instance_table -> Get_list ($FG_TABLE_CLAUSE, $order, $sens, null, null, $FG_LIMITE_DISPLAY, $current_page*$FG_LIMITE_DISPLAY);
+	
+	$list_total = $instance_table_graph -> Get_list ($FG_TABLE_CLAUSE, null, null, null, null, null, null);
+}
 
-//> function Get_list ($clause=null, $order=null, $sens=null, $field_order_letter=null, $letters = null, $limite=null, $current_record = NULL)
-$list = $instance_table -> Get_list ($FG_TABLE_CLAUSE, $order, $sens, null, null, $FG_LIMITE_DISPLAY, $current_page*$FG_LIMITE_DISPLAY);
 
-$list_total = $instance_table_graph -> Get_list ($FG_TABLE_CLAUSE, null, null, null, null, null, null);
 if ($FG_DEBUG == 3) echo "<br>Clause : $FG_TABLE_CLAUSE";
 //$nb_record = $instance_table -> Table_count ($FG_TABLE_CLAUSE);
 $nb_record = count($list_total);
@@ -222,9 +239,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 
 <!-- ** ** ** ** ** Part for the research ** ** ** ** ** -->
 	<center>
-	<FORM METHOD=POST ACTION="<?php echo $PHP_SELF?>?s=1&t=1&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php echo $current_page?>">
+	<FORM METHOD=POST ACTION="<?php echo $PHP_SELF?>?s=<?php echo $s?>&t=<?php echo $t?>&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php echo $current_page?>">
 	<INPUT TYPE="hidden" NAME="posted" value=1>
-	<INPUT TYPE="hidden" NAME="display" value="1">
 		<table class="bar-status" width="75%" border="0" cellspacing="1" cellpadding="2" align="center">
 			<tbody>
 			
@@ -272,6 +288,76 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 	  			</td>
     		</tr>	
 			
+			<tr>
+				<td class="bar-search" align="left" bgcolor="#555577">			
+					<font face="verdana" size="1" color="#ffffff"><b>&nbsp;&nbsp;DESTINATION</b></font>
+				</td>				
+				<td class="bar-search" align="left" bgcolor="#cddeff">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="dst" value="<?php echo $dst?>"></td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="dsttype" value="1" <?php if((!isset($dsttype))||($dsttype==1)){?>checked<?php }?>>Exact</td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="dsttype" value="2" <?php if($dsttype==2){?>checked<?php }?>>Begins with</td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="dsttype" value="3" <?php if($dsttype==3){?>checked<?php }?>>Contains</td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="dsttype" value="4" <?php if($dsttype==4){?>checked<?php }?>>Ends with</td>
+				</tr></table></td>
+			</tr>			
+			<tr>
+				<td align="left" bgcolor="#000033">					
+					<font face="verdana" size="1" color="#ffffff"><b>&nbsp;&nbsp;SOURCE</b></font>
+				</td>				
+				<td class="bar-search" align="left" bgcolor="#acbdee">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#acbdee"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="src" value="<?php echo "$src";?>"></td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="1" <?php if((!isset($sourcetype))||($sourcetype==1)){?>checked<?php }?>>Exact</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="2" <?php if($sourcetype==2){?>checked<?php }?>>Begins with</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="3" <?php if($sourcetype==3){?>checked<?php }?>>Contains</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="4" <?php if($sourcetype==4){?>checked<?php }?>>Ends with</td>
+				</tr></table></td>
+			</tr>
+<!-- AMP
+			<tr>
+				<td class="bar-search" align="left" bgcolor="#555577">				
+					<font face="verdana" size="1" color="#ffffff"><b>&nbsp;&nbsp;CLI</b></font>
+				</td>				
+				<td class="bar-search" align="left" bgcolor="#cddeff">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="clid" value="<?php echo $clid?>"></td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="clidtype" value="1" <?php if((!isset($clidtype))||($clidtype==1)){?>checked<?php }?>>Exact</td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="clidtype" value="2" <?php if($clidtype==2){?>checked<?php }?>>Begins with</td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="clidtype" value="3" <?php if($clidtype==3){?>checked<?php }?>>Contains</td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="clidtype" value="4" <?php if($clidtype==4){?>checked<?php }?>>Ends with</td>
+				</tr></table></td>
+			</tr>
+			<tr>
+				<td align="left" bgcolor="#000033">					
+					<font face="verdana" size="1" color="#ffffff"><b>&nbsp;&nbsp;USERFIELD</b></font>
+				</td>				
+				<td class="bar-search" align="left" bgcolor="#acbdee">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#acbdee"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="userfield" value="<?php echo "$userfield";?>"></td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="userfieldtype" value="1" <?php if((!isset($userfieldtype))||($userfieldtype==1)){?>checked<?php }?>>Exact</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="userfieldtype" value="2" <?php if($userfieldtype==2){?>checked<?php }?>>Begins with</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="userfieldtype" value="3" <?php if($userfieldtype==3){?>checked<?php }?>>Contains</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="userfieldtype" value="4" <?php if($userfieldtype==4){?>checked<?php }?>>Ends with</td>
+				</tr></table></td>
+			</tr>
+			<tr>
+				<td class="bar-search" align="left" bgcolor="#555577">				
+					<font face="verdana" size="1" color="#ffffff"><b>&nbsp;&nbsp;ACCOUNTCODE</b></font>
+				</td>				
+				<td class="bar-search" align="left" bgcolor="#cddeff">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="accountcode" value="<?php echo $accountcode?>"></td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="accountcodetype" value="1" <?php if((!isset($accountcodetype))||($accountcodetype==1)){?>checked<?php }?>>Exact</td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="accountcodetype" value="2" <?php if($accountcodetype==2){?>checked<?php }?>>Begins with</td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="accountcodetype" value="3" <?php if($accountcodetype==3){?>checked<?php }?>>Contains</td>
+				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="accountcodetype" value="4" <?php if($accountcodetype==4){?>checked<?php }?>>Ends with</td>
+				</tr></table></td>
+			</tr>			
+-->
+			<tr>
+			<td align="left" bgcolor="#000033">					
+					<font face="verdana" size="1" color="#ffffff"><b>&nbsp;&nbsp;CHANNEL</b></font>
+				</td>				
+				<td class="bar-search" align="left" bgcolor="#acbdee">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="channel" value="<?php echo $channel?>"></td>				
+				</tr></table></td>
+			</tr>
 
 			<tr>
         		<td class="bar-search" align="left" bgcolor="#555577"> </td>
@@ -367,7 +453,7 @@ foreach ($table_graph as $tkey => $data){
         <td align="center"><font face="verdana" size="1" color="#ffffff"><b>DURATION</b></font></td>
 		<td align="center"><font face="verdana" size="1" color="#ffffff"><b>GRAPHIC</b></font></td>
 		<td align="center"><font face="verdana" size="1" color="#ffffff"><b>CALLS</b></font></td>
-		<td align="center"><font face="verdana" size="1" color="#ffffff"><b>TMC</b></font></td>
+		<td align="center"><font face="verdana" size="1" color="#ffffff"><b> <acronym title="Average Connection Time">ACT</acronym> </b></font></td>
                 			
 		<!-- LOOP -->
 	<?php  		
@@ -417,10 +503,11 @@ foreach ($table_graph as $tkey => $data){
 	  <!-- Fin Tableau Global //-->
 
 </td></tr></tbody></table>
+	<br>
+ 	<IMG SRC="graph_stat.php?min_call=<?php echo $min_call?>&fromstatsday_sday=<?php echo $fromstatsday_sday?>&days_compare=<?php echo $days_compare?>&fromstatsmonth_sday=<?php echo $fromstatsmonth_sday?>&dsttype=<?php echo $dsttype?>&sourcetype=<?php echo $sourcetype?>&clidtype=<?php echo $clidtype?>&channel=<?php echo $channel?>&resulttype=<?php echo $resulttype?>&dst=<?php echo $dst?>&src=<?php echo $src?>&clid=<?php echo $clid?>&userfieldtype=<?php echo $userfieldtype?>&userfield=<?php echo $userfield?>&accountcodetype=<?php echo $accountcodetype?>&accountcode=<?php echo $accountcode?>" ALT="Stat Graph">
+
 <?php  }else{ ?>
 	<center><h3>No calls in your selection.</h3></center>
 <?php  } ?>
-	<br>
- 	<IMG SRC="graph_stat.php?min_call=<?php echo $min_call?>&fromstatsday_sday=<?php echo $fromstatsday_sday?>&days_compare=<?php echo $days_compare?>&fromstatsmonth_sday=<?php echo $fromstatsmonth_sday?>" ALT="Stat Graph">
 
 </center>
