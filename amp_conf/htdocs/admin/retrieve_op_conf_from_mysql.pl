@@ -23,35 +23,23 @@ $username = "asteriskuser";
 # password to connect to the database
 $password = "amp109";
 
+# Zap Channels = remove or add to this list as necessary
+$additional = "[Zap/1]\nPosition=1\nLabel=\"External 1\"\nExtension=-1\nIcon=3\n";
+$additional .= "[Zap/2]\nPosition=2\nLabel=\"External 2\"\nExtension=-1\nIcon=3\n";
+$additional .= "[Zap/3]\nPosition=3\nLabel=\"External 3\"\nExtension=-1\nIcon=3\n";
+$additional .= "[Zap/4]\nPosition=4\nLabel=\"External 4\"\nExtension=-1\nIcon=3\n";
+# Button position to start regular extensions at
+$btn=10;
+
 ################### END OF CONFIGURATION #######################
 
-$additional = "Zap/1, 1, \"External 1\", -1, 3\n";
-$additional .= "Zap/2, 2, \"External 2\", -1, 3\n";
-$additional .= "Zap/3, 3, \"External 3\", -1, 3\n";
-$additional .= "Zap/4, 4, \"External 4\", -1, 3\n";
-$btn=10;
 
 open EXTEN, ">$sip_conf" || die "Cannot create/overwrite config file: $sip_conf\n";
 
 print EXTEN "$additional";
 
 $dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
-$statement = "SELECT keyword,data from $table_name where id=0 and keyword <> 'account' and flags <> 1";
-my $result = $dbh->selectall_arrayref($statement);
-unless ($result) {
-  # check for errors after every single database call
-  print "dbh->selectall_arrayref($statement) failed!\n";
-  print "DBI::err=[$DBI::err]\n";
-  print "DBI::errstr=[$DBI::errstr]\n";
-  exit;
-}
-my @resultSet = @{$result};
-if ( $#resultSet > -1 ) {
-	foreach $row (@{ $result }) {
-		my @result = @{ $row };
-		$additional .= $result[0]."=".$result[1]."\n";
-	}
-}
+
 
 $statement = "SELECT data,id from $table_name where keyword='account' and flags <> 1 group by data";
 
@@ -65,16 +53,33 @@ unless ($result) {
 
 @resultSet = @{$result};
 if ( $#resultSet == -1 ) {
-  print "No sip accounts defined in $table_name\n";
-  exit;
+  print "Notice: no sip accounts defined\n";
+  #exit;
 }
 
-foreach my $row ( @{ $result } ) {
+@total_result = @{ $result };
+
+
+
+if (table_exists($dbh,"iax")) {
+	$statement = "SELECT data,id from iax where keyword='account' and flags <> 1 group by data";
+	$result = $dbh->selectall_arrayref($statement);
+	@resultSet = @{$result};
+	if ( $#resultSet == -1 ) {
+  		print "Notice: no iax accounts defined\n";
+	}
+	push(@total_result, @{ $result });
+}
+    
+
+
+foreach my $row ( @total_result ) {
 	$btn++;
 	my $account = @{ $row }[0];
 	my $id = @{ $row }[1];
-#	print EXTEN "[$account]\n";
-	$statement = "SELECT keyword,data from $table_name where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
+	#print EXTEN "[$account]\n";
+	$statement = "SELECT keyword,data from sip where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
+	$tech="SIP";
 	my $result = $dbh->selectall_arrayref($statement);
 	unless ($result) {
 		# check for errors after every single database call
@@ -85,9 +90,12 @@ foreach my $row ( @{ $result } ) {
 	}
 
 	my @resSet = @{$result};
-	if ( $#resSet == -1 ) {          
-		print "no results\n";
-		exit;
+	if ( $#resSet == -1 ) {       	#if a result isn't in sip, look in iax   
+		#print "no results\n";
+			$statement = "SELECT keyword,data from iax where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
+			$tech="IAX2";
+			$result = $dbh->selectall_arrayref($statement);
+
 	}
 	foreach my $row ( @{ $result } ) {
 		my @result = @{ $row };
@@ -96,8 +104,30 @@ foreach my $row ( @{ $result } ) {
 			$callerid =~ tr/\"<>//d;
 		}
 	}
-	print EXTEN "SIP/$account, $btn, \"$callerid\", $account\@from-internal, 4, default\n";
+	print EXTEN "[$tech/$account]\nPosition=$btn\nLabel=\"$callerid\"\nExtension=$account\nContext=from-internal\nIcon=4\nVoicemail_Context=default\n";
 }
 
 exit 0;
+
+#this sub checks for the existance of a table
+sub table_exists {
+    my $db = shift;
+    my $table = shift;
+    my @tables = $db->tables('','','','TABLE');
+    if (@tables) {
+        for (@tables) {
+            next unless $_;
+            return 1 if $_ eq $table
+        }
+    }
+    else {
+        eval {
+            local $db->{PrintError} = 0;
+            local $db->{RaiseError} = 1;
+            $db->do(qq{SELECT * FROM $table WHERE 1 = 0 });
+        };
+        return 1 unless $@;
+    }
+    return 0;
+}
 

@@ -1,57 +1,75 @@
-manager_host   = 127.0.0.1    # host or ip address of asterisk
+[general]
 
-manager_user   = admin           # user for connecting to asterisk manager
+manager_host=127.0.0.1       ; host or ip address of asterisk
 
-manager_secret = amp111         # secret for asterisk manager
+manager_user=admin             ; user for connecting to * manager
 
-listen_port    = 4445           # port to listen for inbound flash
- 				# connections
+manager_secret=amp111          ; secret for * manager
 
-web_hostname   = 192.168.1.102  # must be the same address you use
-                                # to contact the web server 
+listen_port=4445               ; port to listen for inbound
+                               ; flash connections
 
-security_code  = passw0rd     # secret code for performing hangups
-                                # and transfers
-  
-flash_dir = /var/www/html/panel # location of variables.txt needed by
-                                # the flash applet (must be the same
-			        # directory where you put the web page 
-				# and swf file)
+web_hostname=192.168.1.101	   ; must be the same hostname or ip address used
+                               ; to contact the webserver
 
-poll_interval = 10             # Frequency in second the server
-                                # checks for sip status
+security_code=passw0rd         ; secret code for performing hangups and 
+                               ; transfers
 
-kill_zombies = 0                # 1 Enable automatic hangup of zombies
-                                # 0 Disable
+flash_dir=/var/www/html/panel  ; location of the .swf file in your disk
+                               ; (must reside somewhere inside your web root)
 
-debug = 0                          # Debug level to stdout (bitmap)
-				   # 1   Manager Events Received
-				   # 2   Manager Commands Sent
-                                   # 4   Server 1st Debug Level
-                                   # 8   Server 2nd Debug Level
-                                   # 16  Server 3rd Debug Level
-				   #
-                                   # Eg: to display manager events and 
-                                   # commands sent set it to 3 (1+2)
-				   #
-				   # 31 Maximum debug level
+poll_interval=10               ; Frequency in second to poll for sip status
 
-auto_conference_extension = 80    # Extension to dial to enter an Empty
-                                   # meetme conference. Look below for a
-                                   # complete example
+kill_zombies=0                 ; 1 Enable automatic hangup of zombies
+                               ; 0 Disable
 
-conference_context = ext-meetme   # Context where you have the above
- 				   # definition and extensions defined
-                                   # with the same conference numbers
-				   # specified on meetme.conf. Eg:
-                                   #
-                                   # meetme.conf
-                                   # [rooms]
-                                   # conf => 901
-                                   # conf => 902
-                                   #
-                                   # extensions.conf
-                                   # [conferences]
-                                   # exten => 900,1,MeetMe(|E)
-                                   # exten => 901,1,MeetMe(900)
-                                   # exten => 902,1,MeetMe(901)
+debug = 0                      ; Debug level to stdout (bitmap)
+                               ; 1   Manager Events Received
+                               ; 2   Manager Commands Sent
+                               ; 4   Show Flash events Received
+                               ; 8   Show events sent to Flash Clients
+                               ; 16  Server 1st Debug Level
+                               ; 32  Server 2nd Debug Level
+                               ; 64  Server 3rd Debug Level
+                               ;
+                               ; Eg: to display manager events and 
+                               ; commands sent set it to 3 (1+2)
+                               ;
+                               ; Maximum debug level 255
+
+auth_md5 = 1                   ; Enable MD5 auth to Asterisk manager
+
+conference_context=ext-meetme  ; Context in your diaplan where
+                               ; you have the conferences for barge in
+                               ;
+                               ; meetme.conf
+                               ; [rooms]
+                               ; conf => 900
+                               ; conf => 901
+                               ; conf => 902
+                               ;
+                               ; extensions.conf
+                               ; [conferences]
+                               ; exten => 900,1,MeetMe(900)
+                               ; exten => 901,1,MeetMe(901)
+                               ; exten => 902,1,MeetMe(902)
+
+barge_rooms=900-902            ; Meetme room numbers to use for
+                               ; barge in. The room number must match
+                               ; the extension number (see above).
+
+clid_format=(xxx)xxx-xxxx      ; Formatting of the callerid field
+                               ; where 'x' is a number
+
+; You can have panel contexts with their own
+; button layout and configuration. The following entry
+; will create a context called sip with a different
+; security code. In the online documentation you will
+; find how to use contexts
+;
+;[sip]
+;security_code=djdjdi43
+;web_hostname=www.virtualwebserver.com
+;flash_dir=/var/www/virtualwebserver/html/panel
+;barge_rooms=800-802
+;conference_context=otherconferences

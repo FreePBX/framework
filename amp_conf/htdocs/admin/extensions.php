@@ -14,6 +14,9 @@
 //script to write sip conf file from mysql
 $wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_sip_conf_from_mysql.pl';
 
+//script to write iax conf file from mysql
+$wIaxScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_iax_conf_from_mysql.pl';
+
 //script to write extensions_additional.conf file from mysql
 $wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
 
@@ -28,35 +31,26 @@ $action = $_REQUEST['action'];
 $extdisplay=$_REQUEST['extdisplay'];
 $dispnum = 3; //used for switch on config.php
 
-
 //add extension
 if ($action == 'add') {
 
     $account = $_REQUEST['account'];
 	$callerid = '"'.$_REQUEST['name'].'" '.'<'.$account.'>';
 
-    $sipfields = array(array($account,'account',$account),
-                    array($account,'secret',$_REQUEST['secret']),
-                    array($account,'canreinvite',$_REQUEST['canreinvite']),
-                    array($account,'context',$_REQUEST['context']),
-                    array($account,'dtmfmode',$_REQUEST['dtmfmode']),
-                    array($account,'host',$_REQUEST['host']),
-                    array($account,'type',$_REQUEST['type']),
-                    array($account,'mailbox',$_REQUEST['mailbox']),
-                    array($account,'username',$_REQUEST['username']),
-			array($account,'nat',$_REQUEST['nat']),
-			array($account,'port',$_REQUEST['port']),
-			array($account,'callerid',$callerid));
+	// the dtmfmode request variable can now be IAX2.  If IAX2, handle it differently 
+	if ($_REQUEST['dtmfmode'] == 'iax2') {
+		//add to iax table
+		addiax($account,$callerid);	
+	} else {  #ok, it's SIP
+	    //add to sip table
+	    addsip($account,$callerid);
+	}
+	
 
-    $compiled = $db->prepare('INSERT INTO sip (id, keyword, data) values (?,?,?)');
-    $result = $db->executeMultiple($compiled,$sipfields);
-
-    if(DB::IsError($result)) {
-        die($result->getMessage()."<br><br>".$sql);
-    }
-    //write out conf file
+    //write out conf files
     exec($wScript);
-
+	exec($wIaxScript);
+	
 	//write out op_server.cfg
 	exec($wOpScript);
 	
@@ -67,14 +61,12 @@ if ($action == 'add') {
     include 'vm_conf.php';
 	
 	//update ext-local context in extensions.conf
-	$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ('ext-local', '".$account."', '1', 'Macro', 'exten-vm,".$account.",".$account."', NULL , '0')";
-	$result = $db->query($sql);
-	if(DB::IsError($result)) {
-        die($result->getMessage());
-    }
+	addaccount($account);
+    
+    //write out extenstions_additional.conf
 	exec($wScript1);
 	
-	//indicate 'need reload' link in header.php 
+	//indicate 'need reload' link in footer.php 
 	needreload();
 	
 } //end add
@@ -82,13 +74,12 @@ if ($action == 'add') {
 //delete extension from database
 if ($action == 'delete') {
 
-    $sql = "DELETE FROM sip WHERE id = '$extdisplay'";
-    $result = $db->query($sql);
-    if(DB::IsError($result)) {
-        die($result->getMessage());
-    }
-    //write out conf file
+	//delete the extension info
+    delExten($extdisplay);
+    
+    //write out conf files
     exec($wScript);
+    exec($wIaxScript);
 	
 	//write out op_server.cfg
 	exec($wOpScript);
@@ -116,26 +107,18 @@ if ($action == 'bscEdit' || $action == 'advEdit') {
     $account = $_REQUEST['account'];
 	$callerid = '"'.$_REQUEST['name'].'" '.'<'.$account.'>';
 
-    $sipfields = array(array($account,$account,'account'),
-                    array($_REQUEST['secret'],$account,'secret'),
-                    array($_REQUEST['canreinvite'],$account,'canreinvite'),
-                    array($_REQUEST['context'],$account,'context'),
-                    array($_REQUEST['dtmfmode'],$account,'dtmfmode'),
-                    array($_REQUEST['host'],$account,'host'),
-                    array($_REQUEST['type'],$account,'type'),
-                    array($_REQUEST['mailbox'],$account,'mailbox'),
-                    array($_REQUEST['username'],$account,'username'),
-					array($_REQUEST['nat'],$account,'nat'),
-					array($_REQUEST['port'],$account,'port'),
-					array($callerid,$account,'callerid'));
-
-    $compiled = $db->prepare('UPDATE sip SET data = ? WHERE id = ? AND keyword = ? LIMIT 1');
-    $result = $db->executeMultiple($compiled,$sipfields);
-    if(DB::IsError($result)) {
-        die($result->getMessage());
-    }
-    //write out conf file
+	// the dtmfmode request variable can now be IAX2.  If IAX2, handle it differently 
+	if ($_REQUEST['dtmfmode'] == 'iax2') {
+		//edit iax table
+		editIax($account,$callerid);
+	} else {
+		//ok, it's SIP
+		editSip($account,$callerid);
+	}
+	
+    //write out conf files
     exec($wScript);
+    exec($wIaxScript);
 	
 	//write out op_server.cfg
 	exec($wOpScript);
@@ -187,11 +170,7 @@ switch($extdisplay) {
 		include 'vm_read.php'; //read vm config into uservm[][]
 		
 		//get all rows relating to selected account
-		$sql = "SELECT * FROM sip WHERE id = '$extdisplay'";
-		$thisExten = $db->getAll($sql);
-		if(DB::IsError($thisExten)) {
-		   die($thisExten->getMessage());
-		}
+		$thisExten = exteninfo($extdisplay);
 		
 		$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delete';
 	?>
@@ -244,12 +223,13 @@ switch($extdisplay) {
 				<td><input  tabindex="8" type="radio" name="options" value="attach=no" <? echo (ereg('attach=no',$options) ? 'checked=checked' : '')?>/> no</td>
 			</tr>
 			<tr>
-				<td>phone dtmf mode: </td>
+				<td>phone type: </td>
 				<td>&nbsp;
 					<select  name="dtmfmode" style="font-size:x-small">
-						<option value="rfc2833" <? echo (ereg('rfc2833',$dtmfmode) ? 'selected=selected' : '')?>>rfc2833 (ie: UIP200)</option> 
-						<option value="inband" <? echo (ereg('inband',$dtmfmode) ? 'selected=selected' : '')?>>inband (ie: HandyTone</option> 
-						<option value="info" <? echo (ereg('info',$dtmfmode) ? 'selected=selected' : '')?>>info (ie: BudgeTone)</option> 
+						<option value="rfc2833" <? echo (ereg('rfc2833',$dtmfmode) ? 'selected=selected' : '')?>>SIP-rfc2833 (ie: UIP200)</option> 
+						<option value="inband" <? echo (ereg('inband',$dtmfmode) ? 'selected=selected' : '')?>>SIP-inband (ie: HandyTone</option> 
+						<option value="info" <? echo (ereg('info',$dtmfmode) ? 'selected=selected' : '')?>>SIP-info (ie: BudgeTone)</option> 
+						<option value="iax2" <? echo (ereg('iax2',$dtmfmode) ? 'selected=selected' : '')?>>IAX2</option> 
 					</select>
 				</td>
 			</tr>
@@ -261,6 +241,8 @@ switch($extdisplay) {
 			<input type="hidden" name="username" value="<? echo $username; ?>"/>
 			<input type="hidden" name="nat" value="<? echo ($nat==null) ? 'never' : $nat; ?>"/>
 			<input type="hidden" name="port" value="<? echo ($port==null) ? '5060' : $port; ?>"/>
+			<input type="hidden" name="iaxport" value="<? echo ($iaxport==null) ? '4569' : $iaxport; ?>"/>
+			<input type="hidden" name="notransfer" value="<? echo ($notransfer==null) ? 'yes' : $notransfer; ?>"/>
 			<tr>
 				<td>
 					&nbsp;
@@ -378,12 +360,13 @@ switch($extdisplay) {
             <td><input tabindex="8" type="radio" name="options" value="attach=no"/> no</td>
         </tr>
 		<tr>
-			<td>phone dtmfmode: </td>
+			<td>phone type: </td>
 			<td>&nbsp;
 				<select name="dtmfmode" style="font-size:x-small">
-					<option value="rfc2833">rfc2833 (ie: UIP200)</option> 
-					<option value="inband">inband (ie: HandyTone)</option> 
-					<option value="info">info (ie: BudgeTone)</option> 
+					<option value="rfc2833">SIP-rfc2833 (ie: UIP200)</option> 
+					<option value="inband">SIP-inband (ie: HandyTone)</option> 
+					<option value="info">SIP-info (ie: BudgeTone)</option> 
+					<option value="iax2">IAX2</option> 
 				</select>
 			</td>
 		</tr>
@@ -395,6 +378,8 @@ switch($extdisplay) {
 		<input type="hidden" name="port" value="5060"/>
         <input type="hidden" name="mailbox" value=""/>
         <input type="hidden" name="username" value=""/>
+		<input type="hidden" name="iaxport" value="4569"/>
+        <input type="hidden" name="notransfer" value="yes"/>
             <tr>
                 <td>
                     &nbsp;

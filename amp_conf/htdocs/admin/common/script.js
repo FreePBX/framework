@@ -2,7 +2,6 @@ function checkForm(theForm) {
 	$account = theForm.account.value;
 	$secret = theForm.secret.value;
 	$vmpwd = theForm.vmpwd.value;
-	$canreinvite = theForm.canreinvite.value;
 	$context = theForm.context.value;
 	$dtmfmode = theForm.dtmfmode.value;
 	$host = theForm.host.value;
@@ -20,7 +19,7 @@ function checkForm(theForm) {
 		$mailbox = $account;
 	}
 	
-	if ($account == "" || $secret == "" || $vmpwd == "" || $canreinvite == "" || $context == "" || $dtmfmode == "" || $host == "" || $type == "" || $mailbox == "" || $username == "" || $fullname == "") {
+	if ($account == "" || $secret == "" || $vmpwd == "" || $context == "" || $dtmfmode == "" || $host == "" || $type == "" || $mailbox == "" || $username == "" || $fullname == "") {
 		alert('Please fill out all forms.');
 	} else {
 	theForm.submit();

@@ -20,7 +20,10 @@
 	
 	require_once('common/db_connect.php'); //PEAR must be installed
 	require_once('functions.php');
-	
+
+	//make sure our tables are there
+	sipexists();
+	iaxexists();
 ?>
 
 <html>
