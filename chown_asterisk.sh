@@ -33,7 +33,7 @@ chown asterisk /dev/tty9
 chown -R asterisk:asterisk $AMPWEBROOT
 chown -R asterisk:asterisk $AMPCGIBIN
 chmod u+x /var/lib/asterisk/agi-bin/*.agi
-chmod u+x $AMPCGIBIN/*.cgi
+chmod u+x $AMPCGIBIN/vmail.cgi
 chmod u+x $AMPWEBROOT/admin/*.pl
 chmod u+x $AMPWEBROOT/admin/*.sh
 chmod u+x $AMPWEBROOT/panel/*.pl
