@@ -1159,7 +1159,7 @@ function getroutenames() {
 				}
 				
 				// add this as a new route
-				addroute($name, $patterns, $trunks);
+				addroute($name, $patterns, $trunks,"new");
 			}
 			
 			
@@ -1260,7 +1260,7 @@ function gettrunkroutes($trunknum) {
 	return $routes;
 }
 
-function addroute($name, $patterns, $trunks) {
+function addroute($name, $patterns, $trunks, $method) {
 	global $db;
 
 	$trunktech=array();
@@ -1276,10 +1276,12 @@ function addroute($name, $patterns, $trunks) {
 		$trunktech[$tr[0]]=$tech;
 	}
 	
- 	
-	$routepriority = getroutenames();
- 	$order=setroutepriorityvalue(count($routepriority));
- 	$name = sprintf ("%s-%s",$order,$name);
+ 	if ($method=="new")
+	{	
+		$routepriority = getroutenames();
+	 	$order=setroutepriorityvalue(count($routepriority));
+	 	$name = sprintf ("%s-%s",$order,$name);
+	}
 	$trunks = array_values($trunks); // probably already done, but it's important for our dialplan
 
 	
@@ -1419,7 +1421,7 @@ function renameRoute($oldname, $newname) {
 
 function editroute($name, $patterns, $trunks) {
 	deleteroute($name);
-	addroute($name, $patterns, $trunks);
+	addroute($name, $patterns, $trunks,"edit");
 }
 
 function getroute($route) {
