@@ -1,38 +1,6 @@
-Q: What applications are built into the dialplan?
-A:
-	# - access the company directory
-	*411 - access the company directory
-	
-	*69 - Call Trace (last number to call)
-	
-	*78 - DND: enable
-	*79 - DND: disable
-	
-	*70 - Call Waiting: enable
-	*71 - Call Waiting: disable
-	
-	*72XXXX - Call Forward calling extension to number XXXX
-	*72 - Call Forward and prompt for details
-	*73 - Disable Call forward for calling exteions
-	*73XXXX - Disable Call forward for XXXX
-	
-	*98 - Voicemail application
-	*98XXX - Voicemail for extension XXX
+Please visit the Document Manager on the AMP sourceforge page for FAQs.
 
+http://sourceforge.net/docman/?group_id=121515
 
-Q: Can I use conference rooms (meetme)?
-A: A meetme room is created for every single extension.  To access an extension's meetme room, prefix the extension number with an 8.  ie:  extension 200 has meetme room 8200
-
-
-Q: What happens when I add/change/remove an extension?
-A:
-	- voicemail.conf is regenerated to reflect the change
-	- sip extension information is stored in mysql
-	- sip_additional.conf is regenerated
-	- extensions_additional.conf is regenerated
-	- meetme_additional.conf is regenerated
-	- op_server.cfg is regenerated (for Flash Operator Panel)
-
-Q: How do the changed .conf files get loaded into Asterisk?
-A: When you make a change to the extension information, a red bar will appear across the top of the AMP interface.  When you have finished making changes, and wish for them to take effect, just click this red bar.  When you do this, Asterisk will perform a 'reload' (to read in the changed files).  The FOP server, op_server.pl, will also be bounced, to ensure that the FOP also sees the changes.
-
+If you would like to contribute a document (FAQ, How To, or User-Guide), please also use the Document Manager to do so.  Submissions will be reviewed by a registered AMP developer prior to posting.
+ 
