@@ -46,6 +46,8 @@ entered exactly as they would be dialed normally.
   define('AST_TMP_DIR', AST_SPOOL_DIR . '/tmp/');
   define('DEFAULT_PHPAGI_CONFIG', AST_CONFIG_DIR . '/phpagi.conf');
 
+  define("AMP_CONF", "/etc/amportal.conf");
+
   define('AST_DIGIT_ANY', '0123456789#*');
 
   define('AGI_PORT', 4573);
@@ -779,15 +781,26 @@ class AGI_AsteriskManager
 		return (bool)strstr($r["data"], "removed");
 	}
 }
+function parse_amportal_conf($filename) {
+        $file = file($filename);
+        foreach ($file as $line) {
+                if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) {
+                        $conf[ $matches[1] ] = $matches[2];
+                }
+        }
+        return $conf;
+}
 
 
 echo "Fixing call foward settings...\n";
+
+$amp_conf = parse_amportal_conf(AMP_CONF);
 
 $astman = new AGI_AsteriskManager();
 
 $count = 0;
 
-if ($res = $astman->connect()) {
+if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
 
 	foreach ($astman->database_show() as $key => $value) {
 		if (substr($key,0,3) == "/CF") {
