@@ -41,6 +41,36 @@ $dispnum = 3; //used for switch on config.php
 
 $account = $_REQUEST['account'];
 
+//read in the voicemail.conf and set appropriate variables for display
+$uservm = getVoicemail();
+$vmcontexts = array_keys($uservm);
+$vm=false;
+foreach ($vmcontexts as $vmcontext) {
+	if(isset($uservm[$vmcontext][$extdisplay])){
+		//echo $extdisplay.' found in context '.$vmcontext.'<hr>';
+		$incontext = $vmcontext;  //the context for the current extension
+		$vmpwd = $uservm[$vmcontext][$extdisplay]['pwd'];
+		$name = $uservm[$vmcontext][$extdisplay]['name'];
+		$email = $uservm[$vmcontext][$extdisplay]['email'];
+		$pager = $uservm[$vmcontext][$extdisplay]['pager'];
+		//loop through all options
+		$alloptions = array_keys($uservm[$vmcontext][$extdisplay]['options']);
+		if (isset($alloptions)) {
+			foreach ($alloptions as $option) {
+				$options .= $option.'='.$uservm[$vmcontext][$extdisplay]['options'][$option].'|';
+			}
+			$options = rtrim($options,'|');
+		}
+		$vm=true;
+	}
+}
+
+$vmcontext = $_SESSION["user"]->_deptname; //AMP Users can only add to their department's context
+if (empty($vmcontext)) 
+	$vmcontext = ($_REQUEST['vmcontext'] ? $_REQUEST['vmcontext'] : $incontext);
+if (empty($vmcontext))
+	$vmcontext = 'default';
+
 //check if the extension is within range for this user
 if (isset($account) && !checkRange($account)){
 	echo "<script>javascript:alert('Warning! Extension $account is not allowed for your account.');</script>";
@@ -73,8 +103,20 @@ if (isset($account) && !checkRange($account)){
 			
 		//take care of voicemail.conf if using voicemail
 		if ($_REQUEST['vm'] != 'disabled')
-		{
-			include 'vm_conf.php';
+		{ 
+			$options = explode("|",$_REQUEST['options']);
+			foreach($options as $option) {
+				$vmoption = explode("=",$option);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
+			}
+			$uservm[$vmcontext][$account] = array(
+										'mailbox' => $account, 
+										'pwd' => $_REQUEST['vmpwd'],
+										'name' => $_REQUEST['name'],
+										'email' => $_REQUEST['email'],
+										'pager' => $_REQUEST['pager'],
+										'options' => $vmoptions);
+			saveVoicemail($uservm);
 		}
 		
 		//update ext-local context in extensions.conf
@@ -107,7 +149,8 @@ if (isset($account) && !checkRange($account)){
 		exec($wOpScript);
 		
 		//take care of voicemail.conf
-		include 'vm_conf.php';
+		unset($uservm[$incontext][$extdisplay]);
+		saveVoicemail($uservm);
 		
 		//update ext-local context in extensions.conf
 		$result = delextensions('ext-local',$extdisplay);
@@ -153,12 +196,24 @@ if (isset($account) && !checkRange($account)){
 		//take care of voicemail.conf.  If vm has been disabled, then delete from voicemail.conf
 		if ($_REQUEST['vm'] == 'disabled')
 		{
-			$action = 'delete';
-			include 'vm_conf.php';
-			$action = 'advEdit';
+			unset($uservm[$incontext][$account]);
 		} else {
-			include 'vm_conf.php';
+			unset($uservm[$incontext][$account]); // we remove it first because the context may have been changed
+
+			$options = explode("|",$_REQUEST['options']);
+			foreach($options as $option) {
+				$vmoption = explode("=",$option);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
+			}
+			$uservm[$vmcontext][$account] = array(
+										'mailbox' => $account, 
+										'pwd' => $_REQUEST['vmpwd'],
+										'name' => $_REQUEST['name'],
+										'email' => $_REQUEST['email'],
+										'pager' => $_REQUEST['pager'],
+										'options' => $vmoptions);
 		}
+		saveVoicemail($uservm);
 		
 		//update ext-local context in extensions.conf
 		$mailb = ($_REQUEST['mailbox'] == '') ? 'novm' : $_REQUEST['mailbox'];
@@ -202,11 +257,8 @@ switch($extdisplay) {
     default:
 		
 		if ($_REQUEST['action'] == 'delete') {
-			echo '<br><h3>Extension '.$extdisplay.' deleted!</h3><br><br><br><br><br><br><br><br><br><br><br><br>';
+			echo '<br><h3>Extension '.$extdisplay.' deleted!</h3><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>';
 		} else {
-		
-		include 'vm_read.php'; //read vm config into uservm[][]
-		
 		
 		//get all rows relating to selected account
 		$thisExten = exteninfo($extdisplay);
@@ -256,7 +308,7 @@ switch($extdisplay) {
 			<tr><td colspan=2>
 				<h5><br>Voicemail & Directory:&nbsp;&nbsp;&nbsp;&nbsp;
 					<select name="vm" onchange="checkVoicemail(advEdit);">
-						<option value="enabled">Enabled</option> 
+						<option value="enabled" <?php  echo ($vm) ? 'selected' : '' ?>>Enabled</option> 
 						<option value="disabled" <?php  echo ($vm) ? '' : 'selected' ?>>Disabled</option> 
 					</select>
 				<hr></h5>
@@ -284,14 +336,18 @@ switch($extdisplay) {
 					<td><input size="20" type="text" name="pager" value="<?php  echo $pager; ?>"/></td>
 				</tr>
 				<tr>
-					<td>vm options: </td>
+					<td><a href="#" class="info">vm options<span>Separate options with pipe ( | )<br><br>ie: attach=yes|saycid=yes</span></a>: </td>
 					<td><input size="20" type="text" name="options" value="<?php  echo $options; ?>" /></td>
+				</tr>
+				<tr>
+					<td>vm context: </td>
+					<td><input size="20" type="text" name="vmcontext" value="<?php  echo $vmcontext; ?>" /></td>
 				</tr>
 				</table>
 			</td></tr>
 			<tr>
 				<td colspan=2>
-					<br><h6><input name="Submit" type="button" value="Submit Changes" onclick="checkForm(advEdit)"></h6>
+					<br><h6><input name="Submit" type="button" value="Submit Changes" onclick="javascript:if(advEdit.vm.value=='enabled'&&advEdit.mailbox.value=='') advEdit.mailbox.value=advEdit.account.value;checkForm(advEdit)"></h6>
 				</td>
 			</tr>
 			</table>
@@ -406,10 +462,11 @@ switch($extdisplay) {
 			<input type="hidden" name="pickupgroup" value=""/>
 			<input type="hidden" name="disallow" value=""/>
 			<input type="hidden" name="allow" value=""/>
+			<input type="hidden" name="vmcontext" value="<?php echo $vmcontext ?>"/>
 
             <tr>
                 <td colspan=2>
-                    <br><br><h6><input name="Submit" type="button" value="Add Extension" onclick="javascript:addNew.mailbox.value=addNew.account.value;checkForm(addNew)"></h6>
+                    <br><br><h6><input name="Submit" type="button" value="Add Extension" onclick="javascript:if(addNew.vm.value=='enabled') addNew.mailbox.value=addNew.account.value;checkForm(addNew)"></h6>
                 </td>
             </tr>
             </table>

@@ -1931,7 +1931,7 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 									$options[] = $key1."=".$value;
 								}
 								
-								$output[] = $temp["mailbox"]."=>".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
+								$output[] = $temp["mailbox"]." => ".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
 								
 								// remove this one from $vmconf
 								unset($vmconf[$section][ $key ]);
@@ -1998,7 +1998,7 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 							$options[] = $key."=".$value;
 						}
 						
-						$output[] = $temp["mailbox"]."=>".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
+						$output[] = $temp["mailbox"]." => ".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
 						
 						// remove this one from $vmconf
 						unset($vmconf[$section][ $key ]);
