@@ -56,8 +56,8 @@ sed -r -i "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" /etc/asterisk/manager.
 sed -r -i "/\[general\]/!s/\[[a-zA-Z0-9]+\]/[$AMPMGRUSER]/" /etc/asterisk/manager.conf
 
 echo "/var/lib/asterisk/agi-bin/dialparties.agi"
-sed -r -i "s/mgrUSERNAME='[a-zA-Z0-9]*';/mgrUSERNAME='$AMPDBUSER';/" /var/lib/asterisk/agi-bin/dialparties.agi
-sed -r -i "s/mgrSECRET='[a-zA-Z0-9]*';/mgrSECRET='$AMPDBPASS';/" /var/lib/asterisk/agi-bin/dialparties.agi
+sed -r -i "s/mgrUSERNAME='[a-zA-Z0-9]*';/mgrUSERNAME='$AMPMGRUSER';/" /var/lib/asterisk/agi-bin/dialparties.agi
+sed -r -i "s/mgrSECRET='[a-zA-Z0-9]*';/mgrSECRET='$AMPMGRPASS';/" /var/lib/asterisk/agi-bin/dialparties.agi
 
 echo $AMPWEBROOT"/panel/op_server.cfg"
 sed -r -i "s/manager_user=[a-zA-Z0-9]*/manager_user=$AMPMGRUSER/" $AMPWEBROOT/panel/op_server.cfg
