@@ -168,6 +168,7 @@ foreach ($tresults as $tresult) {
 					<a href=# class="info">Admin Access<span>Select the Admin Sections this user should have access to.</span></a>: 
 				</td><td>&nbsp;
 					<select multiple name="sections[]">
+					<option>
 <?php 
 				foreach ($amp_sections as $key=>$value) {
 					echo "<option value=\"".$key."\"";
