@@ -1456,18 +1456,21 @@ function deleteDialRules($trunknum) {
 	writeDialRulesFile($conf);
 }
 
-function addqueue($account,$name,$password,$goto) {
+function addqueue($account,$name,$password,$prefix,$goto) {
 	global $db;
 	
 	//add to extensions table
-	$addarray = array('ext-queues',$account,'1','Queue',$account.'|t|||'.$_REQUEST['maxwait'],$name,'0');
+	$addarray = array('ext-queues',$account,'1','SetCIDName',$prefix.'${CALLERIDNAME}','','0');
+	addextensions($addarray);
+	$addarray = array('ext-queues',$account,'2','Queue',$account.'|t|||'.$_REQUEST['maxwait'],$name,'0');
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account.'*','1','Macro','agent-add,'.$account.','.$password,'','0');
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account.'**','1','Macro','agent-del,'.$account,'','0');
 	addextensions($addarray);
-
-	setGoto($account,'ext-queues','2',$goto,0);
+	
+	//start at priority 3
+	setGoto($account,'ext-queues','3',$goto,0);
 	
 	
 	// now add to queues table
@@ -1521,8 +1524,14 @@ function getqueueinfo($account) {
 	$sql = "SELECT data FROM queues WHERE id = '$account' AND keyword = 'member'";
 	$results['member'] = $db->getCol($sql);
 	
+	//get CID Prefix
+	$sql = "SELECT args FROM extensions WHERE extension = '$account' AND context = 'ext-queues' AND priority = '1'";
+	list($args) = $db->getRow($sql);
+	$prefix = explode('$',$args); //in table like prefix${CALLERIDNAME}
+	$results['prefix'] = $prefix[0];	
+	
 	//get max wait time from Queue command
-	$sql = "SELECT args,descr FROM extensions WHERE extension = '$account' AND context = 'ext-queues'";
+	$sql = "SELECT args,descr FROM extensions WHERE extension = '$account' AND context = 'ext-queues' AND priority = '2'";
 	list($args, $descr) = $db->getRow($sql);
 	$maxwait = explode('|',$args);  //in table like queuenum|t|||maxwait
 	$results['maxwait'] = $maxwait[4];
@@ -1531,11 +1540,11 @@ function getqueueinfo($account) {
 	//get password from AddQueueMember command
 	$sql = "SELECT args FROM extensions WHERE extension = '$account*' AND context = 'ext-queues'";
 	list($args) = $db->getRow($sql);
-	$password = explode(',',$args); //in table like AddQueueMember,account,password
+	$password = explode(',',$args); //in table like agent-add,account,password
 	$results['password'] = $password[2];
 	
-	//get the failover destination
-	$sql = "SELECT args FROM extensions WHERE extension = '".$account."' AND priority = '2'";
+	//get the failover destination (at priority 3)
+	$sql = "SELECT args FROM extensions WHERE extension = '".$account."' AND priority = '3'";
 	list($args) = $db->getRow($sql);
 	$results['goto'] = $args; 
 

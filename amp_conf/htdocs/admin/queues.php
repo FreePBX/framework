@@ -23,12 +23,13 @@ $dispnum = 11; //used for switch on config.php
 $account = $_REQUEST['account'];
 $name = $_REQUEST['name'];
 $password = $_REQUEST['password'];
+$prefix = $_REQUEST['prefix'];
 $goto = $_REQUEST['goto0'];
 
 //if submitting form, update database
 switch ($action) {
 	case "add":
-		addqueue($account,$name,$password,$goto);
+		addqueue($account,$name,$password,$prefix,$goto);
 		exec($wScript1);
 		exec($wScript2);
 		needreload();
@@ -41,7 +42,7 @@ switch ($action) {
 	break;
 	case "edit":  //just delete and re-add
 		delqueue($account);
-		addqueue($account,$name,$password,$goto);
+		addqueue($account,$name,$password,$prefix,$goto);
 		exec($wScript1);
 		exec($wScript2);
 		needreload();
@@ -104,6 +105,10 @@ if ($action == 'delete') {
 	<tr>
 		<td><a href="#" class="info">queue password:<span>You can require agents to enter a password before they can log in to this queue.<br><br>This setting is optional.</span></a></td>
 		<td><input type="text" name="password" value="<?php echo (isset($password) ? $password : ''); ?>"></td>
+	</tr>
+	<tr>
+		<td><a href="#" class="info">CID name prefix:<span>You can optionally prefix the Caller ID name of callers to the queue. ie: If you prefix with "Sales:", a call from John Doe would display as "Sales:John Doe" on the extensions that ring.</span></a></td>
+		<td><input size="4" type="text" name="prefix" value="<?php echo (isset($prefix) ? $prefix : ''); ?>"></td>
 	</tr>
 	<tr  valign="top">
 		<td><a href="#" class="info">static agents:<span>Static agents are extensions that are assumed to always be on the queue.  Static agents do not need to 'log in' to the queue, and cannot 'log out' of the queue.<br><br>Hold <b>CTRL</b> to select multiple extensions</span></a></td>
