@@ -142,7 +142,7 @@ function checkRoute(theForm, action) {
 		alert('Route name cannot start with a number, and can only contain letters and numbers');
 	} else if (!$dialpattern.match('[A-Z0-9a-z]+')) {
 		alert('Dial pattern cannot be blank');
-	} else if ($trunkpriority.value == '') {
+	} else if ($trunkpriority == '') {
 		//TODO this doesn't account for other items besides the first being filled in
 		alert('At least one trunk must be picked');
 	} else {
