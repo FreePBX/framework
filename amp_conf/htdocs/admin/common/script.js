@@ -182,9 +182,12 @@ function checkRoute(theForm, action) {
 	$dialpattern = theForm.dialpattern.value;
 	$trunkpriority = document.getElementById('trunkpri0').value;
 
+	$routeRegex_update = /^\d{3}-[a-zA-Z0-9]+$/;
+	$routeRegex_new = /^[a-zA-Z0-9]+$/;
+
 	if ($routename == "") {
 		alert('Route name must not be blank');
-	} else if (!$routename.match('^[a-zA-Z][a-zA-Z0-9]+$')) {
+	} else if ( (!$routename.match($routeRegex_new)) && (!$routename.match($routeRegex_update)) ) {
 		alert('Route name cannot start with a number, and can only contain letters and numbers');
 	} else if (!$dialpattern.match('[A-Z0-9a-z]+')) {
 		alert('Dial pattern cannot be blank');
