@@ -52,11 +52,14 @@ switch($display) {
 ?>
 
     <p align="right">
+	<?php if (extension_loaded('gettext')) {?>
 	Language:
 	<select onchange="javascript:changeLang(this.value)">
         <option value="en_US" <? echo ($_COOKIE['lang']=="en_US" ? "selected" : "") ?> >English</option>
         <option value="it_IT" <? echo ($_COOKIE['lang']=="it_IT" ? "selected" : "") ?> >Italian</option>
+        <option value="es_ES" <? echo ($_COOKIE['lang']=="es_ES" ? "selected" : "") ?> >Espa&ntilde;ol</option>
     </select>
+	<?php } ?>
     </p>
 
     <h2>AMP</h2>
