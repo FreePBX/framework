@@ -1589,43 +1589,203 @@ function deleteDialRules($trunknum) {
 function addqueue($account,$name,$password,$goto) {
 	global $db;
 	
-	$addarray = array('ext-queues',$account,'1','Queue',$account,$name,'0');
+	//add to extensions table
+	$addarray = array('ext-queues',$account,'1','Queue',$account.'|t|||'.$_REQUEST['maxwait'],$name,'0');
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account.'*','1','Macro','AddQueueMember,'.$account.','.$password,'','0');
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account.'**','1','Macro','RemoveQueueMember,'.$account,'','0');
 	addextensions($addarray);
+
+	setGoto($account,'ext-queues','2',$goto,0);
 	
-	if ($goto == 'extension') {
-		$args = 'ext-local,'.$_REQUEST['extension'].',1';
-		$addarray = array('ext-queues',$account,'5','Goto',$args,'','0'); 
-	}
-	elseif ($goto == 'voicemail') {
-		$args = 'vm,'.$_REQUEST['voicemail'];
-		$addarray = array('ext-queues',$account,'5','Macro',$args,'','0');
-	}
-	elseif ($goto == 'ivr') {
-		$args = 'aa_'.$_REQUEST['ivr'].',s,1';
-		$addarray = array('ext-queues',$account,'5','Goto',$args,'','0');
-	}
-	elseif ($goto == 'group') {
-		$args = 'ext-group,'.$_REQUEST['group'].',1';
-		$addarray = array('ext-queues',$account,'5','Goto',$args,'','0');
-	}
-	elseif ($goto == 'custom') {
-			$args = $_REQUEST['custom_args'];
-			$addarray = array('ext-queues',$account,'5','Goto',$args,'','0');
-	}
 	
-	addextensions($addarray);
+	// now add to queues table
+	$fields = array(
+		array($account,'account',$account),
+		array($account,'maxlen',($_REQUEST['maxlen'])?$_REQUEST['maxlen']:'0'),
+		array($account,'joinempty',($_REQUEST['joinempty'])?$_REQUEST['joinempty']:'yes'),
+		array($account,'leavewhenempty',($_REQUEST['leavewhenempty'])?$_REQUEST['leavewhenempty']:'no'),
+		array($account,'strategy',($_REQUEST['strategy'])?$_REQUEST['strategy']:'ringall'),
+		array($account,'timeout',($_REQUEST['timeout'])?$_REQUEST['timeout']:'15'),
+		array($account,'retry',($_REQUEST['retry'])?$_REQUEST['retry']:'5'),
+		array($account,'wrapuptime',($_REQUEST['wrapuptime'])?$_REQUEST['wrapuptime']:'0'));
+		
+	//there can be multiple members
+	if (isset($_REQUEST['members'])) {
+		foreach ($_REQUEST['members'] as $member) {
+			$fields[] = array($account,'member',$member);
+		}
+	}
+
+    $compiled = $db->prepare('INSERT INTO queues (id, keyword, data) values (?,?,?)');
+	$result = $db->executeMultiple($compiled,$fields);
+    if(DB::IsError($result)) {
+        die($result->getMessage()."<br><br>error adding to queues table");	
+    }
 }
 
 function delqueue($account) {
 	global $db;
 	//delete from extensions table
-	delextensions('ext-queues',ltrim($extdisplay,$account));
-	delextensions('ext-queues',ltrim($extdisplay,$account).'*');
-	delextensions('ext-queues',ltrim($extdisplay,$account).'**');
-}	
+	delextensions('ext-queues',$account);
+	delextensions('ext-queues',$account.'*');
+	delextensions('ext-queues',$account.'**');
+	
+	$sql = "DELETE FROM queues WHERE id = '$account'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+        die($result->getMessage().$sql);
+    }
 
+}
+
+function getqueueinfo($account) {
+	global $db;
+	
+	//get all the variables for the queue
+	$sql = "SELECT keyword,data FROM queues WHERE id = '$account'";
+	$results = $db->getAssoc($sql);
+	
+	//okay, but there can be multiple member variables ... do another select for them
+	$sql = "SELECT data FROM queues WHERE id = '$account' AND keyword = 'member'";
+	$results['member'] = $db->getCol($sql);
+	
+	//get max wait time from Queue command
+	$sql = "SELECT args,descr FROM extensions WHERE extension = '$account' AND context = 'ext-queues'";
+	list($args, $descr) = $db->getRow($sql);
+	$maxwait = explode('|',$args);  //in table like queuenum|t|||maxwait
+	$results['maxwait'] = $maxwait[4];
+	$results['name'] = $descr;
+	
+	//get password from AddQueueMember command
+	$sql = "SELECT args FROM extensions WHERE extension = '$account*' AND context = 'ext-queues'";
+	list($args) = $db->getRow($sql);
+	$password = explode(',',$args); //in table like AddQueueMember,account,password
+	$results['password'] = $password[2];
+	
+	//get the failover destination
+	$sql = "SELECT args FROM extensions WHERE extension = '".$account."' AND priority = '2'";
+	list($args) = $db->getRow($sql);
+	$results['goto'] = $args; 
+
+	return $results;
+}
+
+function drawselects($formName,$goto,$i) {  // $goto is the current setting, $i is the number of times to draw row (ie: digital receptionist)
+
+	//query for exisiting aa_N contexts
+	$unique_aas = getaas();
+	//get unique extensions
+	$extens = getextens();
+	//get unique ring groups
+	$gresults = getgroups();
+	//get unique queues
+	$queues = getqueues();
+
+	$selectHtml = '	<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';				
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="ivr" disabled="true" '.(strpos($goto,'aa_') === false ? '' : 'CHECKED=CHECKED').' /> Digital Receptionist: ';
+	$selectHtml .=	'<select name="ivr'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[0].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'ivr\';"/>';
+
+	foreach ($unique_aas as $unique_aa) {
+		$menu_num = substr($unique_aa[0],3);
+		$menu_name = $unique_aa[1];
+		$selectHtml .= '<option value="'.$menu_num.'" '.(strpos($goto,'aa_'.$menu_num) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : 'Menu #'.$menu_num);
+	}
+
+	$selectHtml .=	'</select><br>';
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="extension" disabled="true" '.(strpos($goto,'ext-local') === false ? '' : 'CHECKED=CHECKED').'/> Extension: ';
+	$selectHtml .=	'<select name="extension'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[1].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'extension\';"/>';
+	
+	foreach ($extens as $exten) {
+		$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1];
+	}
+			
+	$selectHtml .=	'</select><br>';
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="voicemail" disabled="true" '.(strpos($goto,'vm') === false ? '' : 'CHECKED=CHECKED').' /> Voicemail: '; 
+	$selectHtml .=	'<select name="voicemail'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[2].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'voicemail\';"/>';
+	
+	foreach ($extens as $exten) {
+		$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1];
+	}
+			
+	$selectHtml .=	'</select><br>';
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="group" disabled="true" '.(strpos($goto,'ext-group') === false ? '' : 'CHECKED=CHECKED').' /> Ring Group: ';
+	$selectHtml .=	'<select name="group'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[3].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'group\';"/>';
+	
+	foreach ($gresults as $gresult) {
+		$selectHtml .= '<option value="'.$gresult[0].'" '.(strpos($goto,$gresult[0]) === false ? '' : 'SELECTED').'>#'.$gresult[0];
+	}
+				
+	$selectHtml .=	'</select><br>';
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="queue" disabled="true" '.(strpos($goto,'ext-queues') === false ? '' : 'CHECKED=CHECKED').' /> Queue: ';
+	$selectHtml .=	'<select name="queue'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[4].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'queue\';"/>';
+	
+	foreach ($queues as $queue) {
+		$selectHtml .= '<option value="'.$queue[0].'" '.(strpos($goto,$queue[0]) === false ? '' : 'SELECTED').'>'.$queue[0].':'.$queue[1];
+	}
+				
+	$selectHtml .=	'</select><br>';
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="custom" disabled="true" '.(strpos($goto,'custom') === false ? '' : 'CHECKED=CHECKED').' />';
+	$selectHtml .= '<a href="#" class="info"> Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word "custom" and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf<b><b></span></a>:';
+	$selectHtml .=	'<input type="text" size="15" name="custom_args'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[5].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'custom\';" value="'.(strpos($goto,'custom') === false ? '' : $goto).'" />';
+	$selectHtml .=	'<br></td></tr>';
+	
+	return $selectHtml;
+}
+
+function setGoto($account,$context,$priority,$goto,$i) {  //preforms logic for setting goto destinations
+	if ($goto == 'extension') {
+		$args = 'ext-local,'.$_REQUEST['extension'.$i].',1';
+		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
+		addextensions($addarray);
+	}
+	elseif ($goto == 'voicemail') {
+		$args = 'vm,'.$_REQUEST['voicemail'.$i];
+		$addarray = array($context,$account,$priority,'Macro',$args,'','0');
+		addextensions($addarray);
+	}
+	elseif ($goto == 'ivr') {
+		$args = 'aa_'.$_REQUEST['ivr'.$i].',s,1';
+		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
+		addextensions($addarray);
+	}
+	elseif ($goto == 'group') {
+		$args = 'ext-group,'.$_REQUEST['group'.$i].',1';
+		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
+		addextensions($addarray);
+	}
+	elseif ($goto == 'custom') {
+		$args = $_REQUEST['custom_args'.$i];
+		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
+		addextensions($addarray);
+	}
+	elseif ($goto == 'queue') {
+		$args = 'ext-queues,'.$_REQUEST['queue'.$i	].',1';
+		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
+		addextensions($addarray);
+	}
+}
+
+//get args for specified exten and priority - primarily used to grab goto destination
+function getargs($exten,$priority) {
+	global $db;
+	$sql = "SELECT args FROM extensions WHERE extension = '".$exten."' AND priority = '".$priority."'";
+	list($args) = $db->getRow($sql);
+	return $args;
+}
+
+function addgroup($account,$grplist,$grptime,$grppre,$goto) {
+	global $db;
+	$addarray = array('ext-group',$account,'1','Setvar','GROUP='.$grplist,'','0');
+	addextensions($addarray);
+	$addarray = array('ext-group',$account,'2','Setvar','RINGTIMER='.$grptime,'','0');
+	addextensions($addarray);
+	$addarray = array('ext-group',$account,'3','Setvar','PRE='.$grppre,'','0');
+	addextensions($addarray);
+	$addarray = array('ext-group',$account,'4','Macro','rg-group','','0');
+	addextensions($addarray);
+	
+	setGoto($account,'ext-group','5',$goto,0);
+}
 ?>

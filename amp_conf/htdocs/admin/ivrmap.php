@@ -56,8 +56,12 @@ if (count($unique_aas) > 0) {
 			$application = $aaline[3];
 			$args = explode(',',$aaline[4]);
 			$argslen = count($args);
+			//need to be backwards compatible, as we dial extensions by goto ext-local now
 			if ($application == 'Macro' && $args[0] == 'exten-vm') {
 					echo '<li>dialling '.$extension.' <b>dials extension #'.$args[2].'</b>';
+			}
+			elseif ($application == 'Goto' && $args[0] == 'ext-local') {
+				echo '<li>dialling '.$extension.' <b>dials extension #'.$args[1].'</b>';
 			}
 			elseif ($application == 'Macro' && $args[0] == 'vm') {
 					echo '<li>dialling '.$extension.' <b>sends to voicemail box #'.$args[1].'</b>';
@@ -74,6 +78,9 @@ if (count($unique_aas) > 0) {
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'custom') === false)) {
 				echo '<li>dialling '.$extension.' <b>goes to '.$args[0].','.$args[1].','.$args[2].'</b>';
+			}
+			elseif ($application == 'Goto' && !(strpos($args[0],'ext-queues') === false)) {
+				echo '<li>dialling '.$extension.' <b>goes to Queue #'.$args[1].'</b>';
 			}
 		}
 ?>

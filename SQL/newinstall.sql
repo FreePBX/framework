@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `sip` (
 -- Table structure for table `ampusers`
 -- 
 
-CREATE TABLE `ampusers` (
+CREATE TABLE IF NOT EXISTS `ampusers` (
   `username` varchar(20) NOT NULL default '',
   `password` varchar(20) NOT NULL default '',
   `extension_low` varchar(20) NOT NULL default '',
@@ -120,4 +120,41 @@ CREATE TABLE `ampusers` (
   `sections` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`username`)
 ) TYPE=MyISAM;
-	              
+
+
+-- 
+-- Table structure for table `iax`
+-- 
+	         
+CREATE TABLE IF NOT EXISTS `iax` (
+  `id` bigint(11) NOT NULL default '-1',
+  `keyword` varchar(20) NOT NULL default '',
+  `data` varchar(150) NOT NULL default '',
+  `flags` int(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`,`keyword`)
+ ) TYPE=MyISAM;
+
+ 
+-- 
+-- Table structure for table `zap`
+-- 
+
+CREATE TABLE IF NOT EXISTS `zap` (
+  `id` bigint(11) NOT NULL default '-1',
+  `keyword`varchar(20) NOT NULL default '',
+  `data`varchar(150) NOT NULL default '',
+  `flags` int(1) NOT NULL default '0',
+  PRIMARY KEY (`id`,`keyword`)
+  ) TYPE=MyISAM;
+  
+-- 
+-- Table structure for table `queues`
+-- 
+
+CREATE TABLE IF NOT EXISTS `queues` (
+  `id` bigint(11) NOT NULL default '-1',
+  `keyword` varchar(20) NOT NULL default '',
+  `data` varchar(150) NOT NULL default '',
+  `flags` int(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`,`keyword`,`data`)
+) TYPE=MyISAM;;

@@ -19,53 +19,18 @@ $action = $_REQUEST['action'];
 $extdisplay=$_REQUEST['extdisplay'];
 $dispnum = 4; //used for switch on config.php
 
+$goto = $_REQUEST['goto0'];
+$account = $_REQUEST['account'];
+$grplist = $_REQUEST['grplist'];
+$grptime = $_REQUEST['grptime'];
+$grppre = $_REQUEST['grppre'];
+	
 //add group
 if ($action == 'addGRP') {
 	
-	$account = $_REQUEST['account'];
-	$grplist = $_REQUEST['grplist'];
-	$grptime = $_REQUEST['grptime'];
-	$grppre = $_REQUEST['grppre'];
+	addgroup($account,$grplist,$grptime,$grppre,$goto);
 	
-	$addarray = array('ext-group',$account,'1','Setvar','GROUP='.$grplist,'','0');
-	addextensions($addarray);
-	$addarray = array('ext-group',$account,'2','Setvar','RINGTIMER='.$grptime,'','0');
-	addextensions($addarray);
-	$addarray = array('ext-group',$account,'3','Setvar','PRE='.$grppre,'','0');
-	addextensions($addarray);
-	$addarray = array('ext-group',$account,'4','Macro','rg-group','','0');
-	addextensions($addarray);
-	
-	
-			$goto = $_REQUEST['goto0'];
-			if ($goto == 'extension') {
-				$args = 'ext-local,'.$_REQUEST['extension'].',1';
-				$addarray = array('ext-group',$account,'5','Goto',$args,'','0'); 
-			}
-			elseif ($goto == 'voicemail') {
-				$args = 'vm,'.$_REQUEST['voicemail'];
-				$addarray = array('ext-group',$account,'5','Macro',$args,'','0');
-			}
-			elseif ($goto == 'ivr') {
-				$args = 'aa_'.$_REQUEST['ivr'].',s,1';
-				$addarray = array('ext-group',$account,'5','Goto',$args,'','0');
-			}
-			elseif ($goto == 'group') {
-				$args = 'ext-group,'.$_REQUEST['group'].',1';
-				$addarray = array('ext-group',$account,'5','Goto',$args,'','0');
-			}
-			elseif ($goto == 'custom') {
-			        $args = $_REQUEST['custom_args'];
-			        $addarray = array('ext-group',$account,'5','Goto',$args,'','0');
-            }
-	
-	addextensions($addarray);
-	
-	
-	//write out extensions_additional.conf
 	exec($wScript1);
-	
-	//indicate 'need reload' link in header.php 
 	needreload();
 }
 
@@ -73,62 +38,18 @@ if ($action == 'addGRP') {
 if ($action == 'delGRP') {
 	delextensions('ext-group',ltrim($extdisplay,'GRP-'));
 	
-	//write out extensions_additional.conf
 	exec($wScript1);
-	
-	//indicate 'need reload' link in header.php 
 	needreload();
 }
 
 //edit group - just delete and then re-add the extension
 if ($action == 'edtGRP') {
-	
-	$account = $_REQUEST['account'];
-	$grplist = $_REQUEST['grplist'];
-	$grptime = $_REQUEST['grptime'];
-	$grppre = $_REQUEST['grppre'];
 
-		delextensions('ext-group',$account);
-		
-		$addarray = array('ext-group',$account,'1','Setvar','GROUP='.$grplist,'','0');
-		addextensions($addarray);
-		$addarray = array('ext-group',$account,'2','Setvar','RINGTIMER='.$grptime,'','0');
-		addextensions($addarray);
-		$addarray = array('ext-group',$account,'3','Setvar','PRE='.$grppre,'','0');
-		addextensions($addarray);
-		$addarray = array('ext-group',$account,'4','Macro','rg-group','','0');
-		addextensions($addarray);
-		
-		
-				$goto = $_REQUEST['goto0'];
-				if ($goto == 'extension') {
-					$args = 'ext-local,'.$_REQUEST['extension'].',1';
-					$addarray = array('ext-group',$account,'5','Goto',$args,'','0'); 
-				}
-				elseif ($goto == 'voicemail') {
-					$args = 'vm,'.$_REQUEST['voicemail'];
-					$addarray = array('ext-group',$account,'5','Macro',$args,'','0');
-				}
-				elseif ($goto == 'ivr') {
-					$args = 'aa_'.$_REQUEST['ivr'].',s,1';
-					$addarray = array('ext-group',$account,'5','Goto',$args,'','0');
-				}
-				elseif ($goto == 'group') {
-					$args = 'ext-group,'.$_REQUEST['group'].',1';
-					$addarray = array('ext-group',$account,'5','Goto',$args,'','0');
-				}
-				elseif ($goto == 'custom') {
-                	$args = $_REQUEST['custom_args'];
-                    $addarray = array('ext-group',$account,'5','Goto',$args,'','0');
-                }
-		
-		addextensions($addarray);
-		
-		//write out extensions_additional.conf
-		exec($wScript1);
-		
-		//indicate 'need reload' link in header.php 
-		needreload();
+	delextensions('ext-group',$account);	
+	addgroup($account,$grplist,$grptime,$grppre,$goto);
+
+	exec($wScript1); 
+	needreload();
 
 }
 
@@ -155,21 +76,14 @@ foreach ($gresults as $gresult) {
 			echo '<br><h3>Group '.ltrim($extdisplay,'GRP-').' deleted!</h3><br><br><br><br><br><br><br><br>';
 		} else {
 			
-			//query for exisiting aa_N contexts
-			$unique_aas = getaas();
-			//get unique extensions
-			$extens = getextens();
-			//get unique ring groups
-			$gresults = getgroups();
 	
 			//get extensions in this group
 			$thisGRP = getgroupextens(ltrim($extdisplay,'GRP-'));
 			//get ringtime for this group
 			$thisGRPtime = getgrouptime(ltrim($extdisplay,'GRP-'));
-			//get goto for this group
-			$thisGRPgoto = getgroupgoto(ltrim($extdisplay,'GRP-'));
 			//get prefix for this group
 			$thisGRPprefix = getgroupprefix(ltrim($extdisplay,'GRP-'));
+
 
 			$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delGRP';
 	?>
@@ -202,51 +116,15 @@ foreach ($gresults as $gresult) {
 				<td><input size="4" type="text" name="grptime" value="<? echo substr($thisGRPtime[0][0],10) ?>"></td>
 			</tr>
 			<tr><td colspan="2"><br><h5>Destination if no answer:<hr></h5></td></tr>
+
+<?php 
+//get goto for this group - note priority 5
+$goto = getargs(ltrim($extdisplay,'GRP-'),5);
+//draw goto selects
+echo drawselects('editGRP',$goto,0);
+?>
+			
 			<tr>
-				<td colspan=2>
-				<input type="hidden" name="goto0" value="">				
-				<input type="radio" name="goto_indicate" value="ivr" disabled="true" <? echo strpos($thisGRPgoto[0][0],'aa_') === false ? '' : 'CHECKED=CHECKED';?> /> Digital Receptionist: 
-				
-				<select name="ivr" onclick="javascript:document.editGRP.goto_indicate[0].checked=true;"/>
-			<?
-				foreach ($unique_aas as $unique_aa) {
-					$menu_num = substr($unique_aa[0],3);
-					$menu_name = $unique_aa[1];
-					echo '<option value="'.$menu_num.'" '.(strpos($thisGRPgoto[0][0],'aa_'.$menu_num) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : 'Menu #'.$menu_num);
-				}
-			?>
-				</select><br>
-				<input type="radio" name="goto_indicate" value="extension" disabled="true" <? echo strpos($thisGRPgoto[0][0],'ext-local') === false ? '' : 'CHECKED=CHECKED';?>/> Extension: 
-				<select name="extension" onclick="javascript:document.editGRP.goto_indicate[1].checked=true;"/>
-			<?
-				foreach ($extens as $exten) {
-					echo '<option value="'.$exten[0].'" '.(strpos($thisGRPgoto[0][0],$exten[0]) === false ? '' : 'SELECTED').'>#'.$exten[0];
-				}
-			?>		
-				</select><br>
-				<input type="radio" name="goto_indicate" value="voicemail" disabled="true" <? echo strpos($thisGRPgoto[0][0],'vm') === false ? '' : 'CHECKED=CHECKED';?> /> Voicemail: 
-				<select name="voicemail" onclick="javascript:document.editGRP.goto_indicate[2].checked=true;"/>
-			<?
-				foreach ($extens as $exten) {
-					echo '<option value="'.$exten[0].'" '.(strpos($thisGRPgoto[0][0],$exten[0]) === false ? '' : 'SELECTED').'>#'.$exten[0];
-				}
-			?>		
-				</select><br>
-				<input type="radio" name="goto_indicate" value="group" disabled="true" <? echo strpos($thisGRPgoto[0][0],'ext-group') === false ? '' : 'CHECKED=CHECKED';?> /> Ring Group: 
-				<select name="group<? echo $i ?>" onclick="javascript:document.editGRP.goto_indicate[3].checked=true;"/>
-			<?
-				foreach ($gresults as $gresult) {
-					echo '<option value="'.$gresult[0].'" '.(strpos($thisGRPgoto[0][0],$gresult[0]) === false ? '' : 'SELECTED').'>#'.$gresult[0];
-				}
-			?>			
-				</select><br>
-				<input type="radio" name="goto_indicate" value="custom" disabled="true" <? echo strpos($thisGRPgoto[0][0],'custom') === false ? '' : 'CHECKED=CHECKED';?> /><a href="#" class="info"> Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word "custom" and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf<b><b></span></a>:
-                <input type="text" size="15" name="custom_args" onclick="javascript:document.editGRP.goto_indicate[4].checked=true;" value="<? echo strpos($thisGRPgoto[0][0],'custom') === false ? '' : $thisGRPgoto[0][0]; ?>" />
-                <br>
-				
-				</td>
-				
-			</tr><tr>
 			<td colspan="2"><br><h6><input name="Submit" type="button" value="Submit Changes" onclick="checkGRP(editGRP);"></h6></td>		
 			
 			</tr>

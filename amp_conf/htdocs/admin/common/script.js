@@ -66,16 +66,16 @@ function checkGRP(theForm,action) {
 	var bad = "false";
 
 	var whichitem = 0;
-	while (whichitem < theForm.goto_indicate.length) {
-		if (theForm.goto_indicate[whichitem].checked) {
-			theForm.goto0.value=theForm.goto_indicate[whichitem].value;
+	while (whichitem < theForm.goto_indicate0.length) {
+		if (theForm.goto_indicate0[whichitem].checked) {
+			theForm.goto0.value=theForm.goto_indicate0[whichitem].value;
 		}
 		whichitem++;
 	}
 
 	var gotoType = theForm.elements[ "goto0" ].value;
 	if (gotoType == 'custom') {
-		var gotoVal = theForm.elements[ "custom_args"].value;
+		var gotoVal = theForm.elements[ "custom_args0"].value;
 		if (gotoVal.indexOf('custom') == -1) {
 			bad = "true";
 			alert('Custom Goto contexts must contain the string "custom".  ie: custom-app,s,1');
@@ -99,15 +99,55 @@ function checkGRP(theForm,action) {
 	}
 }
 
+function checkQ(theForm) {
+	var bad = "false";
+
+	var whichitem = 0;
+	while (whichitem < theForm.goto_indicate0.length) {
+		if (theForm.goto_indicate0[whichitem].checked) {
+			theForm.goto0.value=theForm.goto_indicate0[whichitem].value;
+		}
+		whichitem++;
+	}
+	
+	var gotoType = theForm.elements[ "goto0" ].value;
+	if (gotoType == 'custom') {
+		var gotoVal = theForm.elements[ "custom_args0"].value;
+		if (gotoVal.indexOf('custom') == -1) {
+			bad = "true";
+			alert('Custom Goto contexts must contain the string "custom".  ie: custom-app,s,1');
+		}
+	}
+	
+	$account = theForm.account.value;
+	if (($account.indexOf('0') == 0) && ($account.length > 1)) {
+		alert('Queue numbers with more than one digit cannot begin with 0');
+		bad="true";
+	}
+	
+	if (bad == "false") {
+		theForm.submit();
+	}
+}
+
 function checkDID(theForm) {
 	$account = theForm.account.value;
 
 	var whichitem = 0;
-	while (whichitem < theForm.goto_indicate.length) {
-		if (theForm.goto_indicate[whichitem].checked) {
-			theForm.goto0.value=theForm.goto_indicate[whichitem].value;
+	while (whichitem < theForm.goto_indicate0.length) {
+		if (theForm.goto_indicate0[whichitem].checked) {
+			theForm.goto0.value=theForm.goto_indicate0[whichitem].value;
 		}
 		whichitem++;
+	}
+	
+	var gotoType = theForm.elements[ "goto0" ].value;
+	if (gotoType == 'custom') {
+		var gotoVal = theForm.elements[ "custom_args0"].value;
+		if (gotoVal.indexOf('custom') == -1) {
+			bad = "true";
+			alert('Custom Goto contexts must contain the string "custom".  ie: custom-app,s,1');
+		}
 	}
 	
 	if ($account == "") {
@@ -158,9 +198,19 @@ function openWindow(url,width,height) {
 function checkIVR(theForm,ivr_num_options) {
 	var bad = "false";
 	for (var formNum = 0; formNum < ivr_num_options; formNum++) {
+		
+		var whichitem = 0;
+		
+		while (whichitem < theForm['goto_indicate'+formNum].length) {
+			if (theForm['goto_indicate'+formNum][whichitem].checked) {
+				theForm['goto'+formNum].value=theForm['goto_indicate'+formNum][whichitem].value;
+			}
+			whichitem++;
+		}
+	
 		var gotoType = theForm.elements[ "goto"+formNum ].value;
 		if (gotoType == 'custom') {
-			var gotoVal = theForm.elements[ "custom"+formNum ].value;
+			var gotoVal = theForm.elements[ "custom_args"+formNum ].value;
 			if (gotoVal.indexOf('custom') == -1) {
 				bad = "true";
 				item = formNum + 1;

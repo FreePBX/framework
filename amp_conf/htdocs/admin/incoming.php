@@ -18,6 +18,7 @@ $wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_
 
 
 $action = $_REQUEST['action'];
+$dispnum = 9; //used for switch on config.php
 
 
 //if submitting form, update database
@@ -62,10 +63,13 @@ $extens = getextens();
 
 //get unique Ring Groups
 $gresults = getgroups();
+
+//get unique queues
+$queues = getqueues();
 ?>
 
 <form name="incoming" action="config.php" method="post">
-<input type="hidden" name="display" value=""/>
+<input type="hidden" name="display" value="<?echo $dispnum?>"/>
 <input type="hidden" name="action" value="editglobals"/>
 <h5>Send <a href="#" class="info">Incoming Calls<span>Dial 7777 from an internal extension to simulate an incoming call.</span></a> from the <a href="#" class="info">PSTN<span>Public Switched Telephone Network (ie: the phone company)</span></a> to:</h5>
 <p>
@@ -95,7 +99,7 @@ $gresults = getgroups();
 	<select name="INCOMING_EXTEN" onclick="javascript:document.incoming.in_indicate[1].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_EXTEN.options[document.incoming.INCOMING_EXTEN.options.selectedIndex].value;"/>
 <?
 	foreach ($extens as $exten) {
-		echo '<option value="EXT-'.$exten[0].'" '.($INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>#'.$exten[0];
+		echo '<option value="EXT-'.$exten[0].'" '.($INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1];
 	}
 ?>		
 	</select><br>
@@ -104,6 +108,14 @@ $gresults = getgroups();
 <?
 	foreach ($gresults as $gresult) {
 		echo '<option value="GRP-'.$gresult[0].'" '.($INCOMING == 'GRP-'.$gresult[0] ? 'SELECTED' : '').'>#'.$gresult[0];
+	}
+?>			
+	</select><br>
+	<input type="radio" name="in_indicate" value="queue" disabled="true" <? echo strpos($INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> Queue: 
+	<select name="INCOMING_QUEUE" onclick="javascript:document.incoming.in_indicate[3].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_QUEUE.options[document.incoming.INCOMING_QUEUE.options.selectedIndex].value;"/>
+<?
+	foreach ($queues as $queue) {
+		echo '<option value="QUE-'.$queue[0].'" '.($INCOMING == 'QUE-'.$queue[0] ? 'SELECTED' : '').'>'.$queue[0].':'.$queue[1];
 	}
 ?>			
 	</select><br>
@@ -128,7 +140,7 @@ $gresults = getgroups();
 	<select name="AFTER_INCOMING_EXTEN" onclick="javascript:document.incoming.after_in_indicate[1].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_EXTEN.options[document.incoming.AFTER_INCOMING_EXTEN.options.selectedIndex].value;"/>
 <?
 	foreach ($extens as $exten) {
-		echo '<option value="EXT-'.$exten[0].'" '.($AFTER_INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>#'.$exten[0];
+		echo '<option value="EXT-'.$exten[0].'" '.($AFTER_INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1];
 	}
 ?>		
 	</select><br>
@@ -137,6 +149,14 @@ $gresults = getgroups();
 <?
 	foreach ($gresults as $gresult) {
 		echo '<option value="GRP-'.$gresult[0].'" '.($AFTER_INCOMING == 'GRP-'.$gresult[0] ? 'SELECTED' : '').'>#'.$gresult[0];
+	}
+?>			
+	</select><br>
+	<input type="radio" name="after_in_indicate" value="queue" disabled="true" <? echo strpos($AFTER_INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> Queue: 
+	<select name="AFTER_INCOMING_QUEUE" onclick="javascript:document.incoming.after_in_indicate[3].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_QUEUE.options[document.incoming.AFTER_INCOMING_QUEUE.options.selectedIndex].value;"/>
+<?
+	foreach ($queues as $queue) {
+		echo '<option value="QUE-'.$queue[0].'" '.($AFTER_INCOMING == 'QUE-'.$queue[0] ? 'SELECTED' : '').'>'.$queue[0].':'.$queue[1];
 	}
 ?>			
 	</select><br>

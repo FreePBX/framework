@@ -1,4 +1,4 @@
-<?
+<?php /* $Id$ */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -12,7 +12,7 @@
 //GNU General Public License for more details.
 ?>
 
-<?
+<?php
 $action = $_REQUEST['action'];
 $promptnum = $_REQUEST['promptnum'];
 if ($promptnum == null) $promptnum = '1';
@@ -27,30 +27,22 @@ if ($promptnum == null) $promptnum = '1';
 			$application = $aaline[3];
 			$args = explode(',',$aaline[4]);
 			$argslen = count($args);
-			if ($application == 'Macro' && $args[0] == 'exten-vm') {
+			if (($application == 'Macro' && $args[0] == 'exten-vm') || ($application == 'Goto' && $args[0] == 'ext-local'))  {
 					$optioncount++;
-					$dropt = array('extension',$extension,$args[2]);
-					$dropts[]= $dropt;
-					//echo '<li>option '.$extension.' <b>dials extension #'.$args[2].'</b>';
+					$dropts[]= $extension;
 			}
 			elseif ($application == 'Macro' && $args[0] == 'vm') {
 					$optioncount++;
-					$dropt = array('voicemail',$extension,$args[1]);
-					$dropts[]= $dropt;
-					//echo '<li>option '.$extension.' <b>sends to voicemail box #'.$args[1].'</b>';
+					$dropts[]= $extension;
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'aa_') === false)) {
 					$optioncount++;
-					$dropt = array('ivr',$extension,substr($args[0],3));
-					$dropts[]= $dropt;
-					//echo '<li>option '.$extension.' <b>goes to Voice Menu #'.substr($args[0],3).'</b>';
-					$menu_request[] = $args[0]; //we'll check to see if the aa_ target exists later
+					$dropts[]= $extension;
+					//$menu_request[] = $args[0]; //we'll check to see if the aa_ target exists later
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'ext-group') === false)) {
 					$optioncount++;
-					$dropt = array('group',$extension,$args[1]);
-					$dropts[]= $dropt;
-					//echo '<li>option '.$extension.' <b>dials group #'.$args[1].'</b>';
+					$dropts[]= $extension;
 			}
 			elseif ($application == 'Background') {
 					$description = $aaline[5];
@@ -60,8 +52,11 @@ if ($promptnum == null) $promptnum = '1';
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'custom') === false)) {
 					$optioncount++;
-					$dropt = array('custom',$extension,$args[0].','.$args[1].','.$args[2]);
-					$dropts[]= $dropt;
+					$dropts[]= $extension;
+			}
+			elseif ($application == 'Goto' && !(strpos($args[0],'ext-queues') === false)) {
+					$optioncount++;
+					$dropts[]= $extension;
 			}
 		}
 		
@@ -74,8 +69,8 @@ switch($action) {
 	default:
 ?>
 
-<h4>Record Menu #<? echo $promptnum ?>: <?echo $mname?></h4>
-<?
+<h4>Record Menu #<?php echo $promptnum ?>: <?echo $mname?></h4>
+<?php
 	//if we are trying to edit - let's be nice and give them the recording back
 	if ($_REQUEST['ivr_action'] == 'edit'){
 		copy('/var/lib/asterisk/sounds/custom/aa_'.$promptnum.'.wav','/var/lib/asterisk/sounds/ivrrecording.wav');
@@ -87,7 +82,7 @@ switch($action) {
 	Using your phone, <a href="#" class="info">dial *77<span>Start speaking at the tone. Hangup when finished.</span></a> and record the message you wish to greet callers with.
 </p>
 <p>
-	<form enctype="multipart/form-data" name="upload" action="<? echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
+	<form enctype="multipart/form-data" name="upload" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
 		Alternatively, upload a recording in <a href="#" class="info">.wav format<span>The .wav file _must_ have a sample rate of 8000Hz</span></a>:<br>
 		<input type="hidden" name="display" value="2">
 		<input type="hidden" name="promptnum" value="<?echo $promptnum?>">
@@ -101,7 +96,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 }
 ?>
 </p>
-<form name="prompt" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
+<form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="ivr_recorded">
 <input type="hidden" name="promptnum" value="<?echo $promptnum?>">
 <input type="hidden" name="display" value="2">
@@ -116,11 +111,11 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 <table style="text-align:right;">
 <tr valign="top">
 	<td valign="top">Name this menu: </td>
-	<td style="text-align:left"><input type="text" name="mname" value="<? echo $mname ?>"></td>
+	<td style="text-align:left"><input type="text" name="mname" value="<?php echo $mname ?>"></td>
 </tr>
 <tr>
 	<td valign="top">Describe the menu: </td>
-	<td>&nbsp;&nbsp;<textarea name="notes" rows="3" cols="50"><? echo $description ?></textarea></td>
+	<td>&nbsp;&nbsp;<textarea name="notes" rows="3" cols="50"><?php echo $description ?></textarea></td>
 </tr>
 </table>
 <h6>Click "Continue" when you are satisfied with your recording<input name="Submit" type="submit" value="Continue"></h6>
@@ -155,14 +150,14 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 	break;
 	case 'ivr_recorded':
 ?>
-<h4>Options for Menu #<? echo $promptnum ?>: <? echo $_REQUEST['mname']; ?></h4>
-<form name="prompt" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
+<h4>Options for Menu #<?php echo $promptnum ?>: <?php echo $_REQUEST['mname']; ?></h4>
+<form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="ivr_options_yes_num"/>
-<input type="hidden" name="notes" value="<? echo $_REQUEST['notes'];?>">
-<input type="hidden" name="mname" value="<? echo $_REQUEST['mname']; ?>">
+<input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
+<input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">
 <p>
-Aside from local extensions and the pound key (#) for the directory, how many other options should callers be able to dial during the playback of Prompt #<? echo $promptnum ?>?<br>
-<br>Number of options for Menu #<? echo $promptnum ?>: <? echo $_REQUEST['mname']; ?><input size="2" type="text" name="ivr_num_options" value="<? echo $optioncount ?>">
+Aside from local extensions and the pound key (#) for the directory, how many other options should callers be able to dial during the playback of Prompt #<?php echo $promptnum ?>?<br>
+<br>Number of options for Menu #<?php echo $promptnum ?>: <?php echo $_REQUEST['mname']; ?><input size="2" type="text" name="ivr_num_options" value="<?php echo $optioncount ?>">
 </p>
 <h6><input name="Submit" type="submit" value="Continue"></h6>
 </form>
@@ -188,10 +183,10 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 	
 	if (( $_REQUEST['ivr_num_options'] == '0' ) || ( $_REQUEST['ivr_num_options'] == '' )) {
 ?>
-	<form name="prompt" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
+	<form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 		<input type="hidden" name="action" value="ivr_options_set">
-		<input type="hidden" name="notes" value="<? echo $_REQUEST['notes'];?>">
-		<input type="hidden" name="mname" value="<? echo $_REQUEST['mname']; ?>">
+		<input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
+		<input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">
 		<input name="Submit" type="submit" value="Finished!  Click to save your changes.">
 	</form><br><br><br><br><br><br>
 <?
@@ -205,23 +200,20 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 		//get unique Ring Groups
 		$gresults = getgroups();
 ?>
-<h4>Options for Menu #<? echo $promptnum ?>: <? echo $_REQUEST['mname']; ?></h4>
+<h4>Options for Menu #<?php echo $promptnum ?>: <?php echo $_REQUEST['mname']; ?></h4>
 <p>
 	Define the various options you expect your callers to dial after/during the playback of this recorded menu.
 </p>
 <p>
 	"<b>Dialed Option #</b>" is the number you expect the caller to dial.<br>
-	"<b>Action</b>" is the result of the caller dialing the option #.  This can send the caller to an internal extension, a voicemail box, or to another recorded menu. 
-</p>
-<p>
-	If choose to send the caller to another menu, enter the number of an existing, or non-existing, menu.  You will be asked to record voice menus for numbers representing non-existing menus. You are currently working on menu #<? echo $promptnum ?>: <? echo $_REQUEST['mname']; ?>
+	"<b>Action</b>" is the result of the caller dialing the option #.  This can send the caller to an internal extension, a voicemail box, ring group, queue, or to another recorded menu. 
 </p>
 <hr>
-<p>	<form name="prompt" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
+<p>	<form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="action" value="ivr_options_set"/>
-	<input type="hidden" name="notes" value="<? echo $_REQUEST['notes'];?>">
-	<input type="hidden" name="mname" value="<? echo $_REQUEST['mname']; ?>">
-	<input type="hidden" name="ivr_num_options" value="<? echo $_REQUEST['ivr_num_options'] ?>">
+	<input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
+	<input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">
+	<input type="hidden" name="ivr_num_options" value="<?php echo $_REQUEST['ivr_num_options'] ?>">
 	<table>
 	<tr>
 		<td><h4>Dialed Option #</h4></td>
@@ -233,64 +225,22 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 ?>
 	<tr>
 		<td style="text-align:right;">
-			<input size="2" type="text" name="ivr_option<? echo $i ?>" value="<? echo ($dropts[$i][1]=='')?$i+1:$dropts[$i][1] ?>">
+			<input size="2" type="text" name="ivr_option<?php echo $i ?>" value="<?php echo ($dropts[$i]=='')?$i+1:$dropts[$i] ?>">
 		</td>
 		<td></td>
 		<td>
 		
-			<input type="radio" name="goto_indicate<? echo $i ?>" value="ivr" disabled="true" <?echo ($dropts[$i][0]=='ivr')?' checked=checked':''; ?>/> Digital Receptionist: 
-			<input type="hidden" name="goto<? echo $i ?>" value="<? echo $dropts[$i][0] ?>">
-			<select name="ivr<? echo $i ?>" onclick="javascript:document.prompt.goto_indicate<? echo $i ?>[0].checked=true;javascript:document.prompt.goto<? echo $i ?>.value='ivr';"/>
-		<?
-			$menu_num=1;
-			foreach ($unique_aas as $unique_aa) {
-				$menu_num = substr($unique_aa[0],3);
-				$menu_name = $unique_aa[1];
-				echo '<option value="'.$menu_num.'"';
-				echo ($dropts[$i][2]==$menu_num)?' selected=selected':'';
-				echo '>'.($menu_name ? $menu_name : 'Menu #'.$menu_num);
-				$menu_num++;
-			}
-			for ($j = 0; $j < $_REQUEST['ivr_num_options']; $j++) { 
-				$menu_num++;
-				echo '<option value="'.$menu_num.'">A NEW Menu #'.$menu_num;
-			}
-		?>
-			</select><br>
-			<input type="radio" name="goto_indicate<? echo $i ?>" value="extension" disabled="true" <?echo ($dropts[$i][0]=='extension')?' checked=checked':''; ?> /> Extension: 
-			<select name="extension<? echo $i ?>" onclick="javascript:document.prompt.goto_indicate<? echo $i ?>[1].checked=true;javascript:document.prompt.goto<? echo $i ?>.value='extension';"/>
-		<?
-			foreach ($extens as $exten) {
-				echo '<option value="'.$exten[0].'"';
-				echo ($dropts[$i][2]==$exten[0])?' selected=selected':'';
-				echo '>Extension #'.$exten[0];
-			}
-		?>		
-			</select><br>
-			<input type="radio" name="goto_indicate<? echo $i ?>" value="voicemail" disabled="true" <?echo ($dropts[$i][0]=='voicemail')?' checked=checked':''; ?>/> Voicemail: 
-			<select name="voicemail<? echo $i ?>" onclick="javascript:document.prompt.goto_indicate<? echo $i ?>[2].checked=true;javascript:document.prompt.goto<? echo $i ?>.value='voicemail';"/>
-		<?
-			foreach ($extens as $exten) {
-				echo '<option value="'.$exten[0].'"';
-				echo ($dropts[$i][2]==$exten[0])?' selected=selected':'';
-				echo '>Voicemail #'.$exten[0];
-			}
-		?>		
-			</select><br>
-			<input type="radio" name="goto_indicate<? echo $i ?>" value="group" disabled="true" <?echo ($dropts[$i][0]=='group')?' checked=checked':''; ?>/> Ring Group: 
-			<select name="group<? echo $i ?>" onclick="javascript:document.prompt.goto_indicate<? echo $i ?>[3].checked=true;javascript:document.prompt.goto<? echo $i ?>.value='group';"/>
-		<?
-			foreach ($gresults as $gresult) {
-				echo '<option value="'.$gresult[0].'"';
-				echo ($dropts[$i][2]==$gresult[0])?' selected=selected':'';
-				echo '>Group #'.$gresult[0];
-			}
-		?>			
-			</select><br>
-			<input type="radio" name="goto_indicate<? echo $i ?>" value="custom" disabled="true" <?echo ($dropts[$i][0]=='custom')?' checked=checked':''; ?>/> <a href="#" class="info">Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word "custom" and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf<b><b></span></a>: 
-			<input type="text" size="20" name="custom<? echo $i ?>" value="<? echo $dropts[$i][2]; ?>" onclick="javascript:document.prompt.goto_indicate<? echo $i ?>[4].checked=true;javascript:document.prompt.goto<? echo $i ?>.value='custom';"/>
-			</input><br>
-	
+			<table>
+			<?php 
+			
+			//get the failover destination at priority 1
+			$goto = getargs($dropts[$i],1);
+			//draw goto selects
+			echo drawselects('prompt',$goto,$i);
+			//echo 'goto='.$goto;
+			?>
+			</table>
+
 		</td>
 	</tr>
 	

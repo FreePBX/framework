@@ -72,7 +72,8 @@ switch($_REQUEST['ivr_action']) {
 			//args will be exten, ivr, or voicemail
 			$extension = $_REQUEST['ivr_option'.$i];
 			$goto = $_REQUEST['goto'.$i];
-			if ($goto == 'extension') {
+			setGoto($extension,$context,'1',$goto,$i);
+/*			if ($goto == 'extension') {
 				$args = 'exten-vm,'.$_REQUEST['extension'.$i].','.$_REQUEST['extension'.$i];
 				$aa[] = array($context,$extension,'1','Macro',$args,'','0');
 				//$describe[$i] = 'option '.$extension.' <b>dials extension #'.$_REQUEST['extension'.$i].'</b>'; 
@@ -95,7 +96,7 @@ switch($_REQUEST['ivr_action']) {
 			elseif ($goto == 'custom') {
 				$args = $_REQUEST['custom'.$i];
 				$aa[] = array($context,$extension,'1','Goto',$args,'','0');
-			}
+			}*/
 		}
 		
 		//plop the stuff into database
