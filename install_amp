@@ -310,25 +310,25 @@ function generate_configs() {
 	
 	out("Generating extensions_additional.conf..");
 	if (!$dryrun)
-		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_extensions_from_mysql.pl");
+		passthru("su - asterisk -c ".$amp_conf["AMPWEBROOT"]."/admin/retrieve_extensions_from_mysql.pl");
 	out("Generating sip_additional.conf..");
 	if (!$dryrun)
-		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_sip_conf_from_mysql.pl");
+		passthru("su - asterisk -c ".$amp_conf["AMPWEBROOT"]."/admin/retrieve_sip_conf_from_mysql.pl");
 	out("Generating zap_additional.conf..");
 	if (!$dryrun)
-		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_zap_conf_from_mysql.pl");
+		passthru("su - asterisk -c ".$amp_conf["AMPWEBROOT"]."/admin/retrieve_zap_conf_from_mysql.pl");
 	out("Generating iax_additional.conf..");
 	if (!$dryrun)
-		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_iax_conf_from_mysql.pl");
+		passthru("su - asterisk -c ".$amp_conf["AMPWEBROOT"]."/admin/retrieve_iax_conf_from_mysql.pl");
 	out("Generating meetme_additional.conf..");
 	if (!$dryrun)
-		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_meetme_conf_from_mysql.pl");
+		passthru("su - asterisk -c ".$amp_conf["AMPWEBROOT"]."/admin/retrieve_meetme_conf_from_mysql.pl");
 	out("Generating queues_additional.conf..");
 	if (!$dryrun)
-		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_queues_from_mysql.pl");
+		passthru("su - asterisk -c ".$amp_conf["AMPWEBROOT"]."/admin/retrieve_queues_from_mysql.pl");
 	out("Generating op_buttons_additional.conf..");
 	if (!$dryrun)
-		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_op_conf_from_mysql.pl");
+		passthru("su - asterisk -c ".$amp_conf["AMPWEBROOT"]."/admin/retrieve_op_conf_from_mysql.pl");
 }
 
 
