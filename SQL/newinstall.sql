@@ -35,8 +35,8 @@ INSERT INTO `admin` VALUES ('version','1.10.007');
 -- 
 
 CREATE TABLE IF NOT EXISTS `extensions` (
-  `context` varchar(20) NOT NULL default 'default',
-  `extension` varchar(20) NOT NULL default '',
+  `context` varchar(45) NOT NULL default 'default',
+  `extension` varchar(45) NOT NULL default '',
   `priority` int(2) NOT NULL default '1',
   `application` varchar(20) NOT NULL default '',
   `args` varchar(50) default NULL,
