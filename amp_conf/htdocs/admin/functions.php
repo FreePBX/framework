@@ -22,13 +22,13 @@ function getaas() {
 	return $unique_aas;
 }
 
-//get the existing extensions
+// get the existing extensions
+// the returned arrays contain [0]:extension [1]:CID [2]:technology
 function getextens() {
 	$sip = getSip();
 	$iax = getIax();
 	$zap= getZap();
-	$results = array_merge($sip, $iax);
-	$results = array_merge($results,$zap);
+	$results = array_merge($sip, $iax, $zap);
 	sort($results);
 	return $results;
 }
@@ -40,7 +40,12 @@ function getSip() {
 	if(DB::IsError($results)) {
 		$results = null;
 	}
-	return $results;
+	//add value 'sip' to each array
+	foreach ($results as $result) {
+		$result[] = 'sip';
+		$sip[] = $result;
+	}
+	return $sip;
 }
 
 function getIax() {
@@ -50,7 +55,12 @@ function getIax() {
 	if(DB::IsError($results)) {
 		$results = null;
 	}
-	return $results;
+	//add value 'iax' to each array
+	foreach ($results as $result) {
+		$result[] = 'iax';
+		$iax[] = $result;
+	}
+	return $iax;
 }
 
 function getZap() {
@@ -60,13 +70,29 @@ function getZap() {
 	if(DB::IsError($results)) {
 		$results = null;
 	}
-	return $results;
+	//add value 'zap' to each array
+	foreach ($results as $result) {
+		$result[] = 'zap';
+		$zap[] = $result;
+	}
+	return $zap;
 }
 
 //get the existing group extensions
 function getgroups() {
 	global $db;
 	$sql = "SELECT extension FROM extensions WHERE args = 'rg-group' ORDER BY extension";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	return $results;
+}
+
+//get the existing queue extensions
+function getqueues() {
+	global $db;
+	$sql = "SELECT extension,descr FROM extensions WHERE application = 'Queue' ORDER BY extension";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 		die($results->getMessage());
@@ -1197,25 +1223,6 @@ function getroutetrunks($route) {
 	return $trunks;
 }
 
-//get outbound routes for a given trunk
-function gettrunkroutes($trunknum) {
-	global $db;
-	
-	$sql = "SELECT DISTINCT SUBSTRING(context,7), priority FROM extensions WHERE context LIKE 'outrt-%' AND args LIKE 'dialout-trunk,".$trunknum.",%' ORDER BY context ";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-	
-	$routes = array();
-	foreach ($results as $row) {
-		$routes[$row[0]] = $row[1];
-	}
-	
-	// array(routename=>priority)
-	return $routes;
-}
-
 function addroute($name, $patterns, $trunks) {
 	global $db;
 
@@ -1325,30 +1332,6 @@ function deleteroute($name) {
 	return $result;
 }
 
-function renameRoute($oldname, $newname) {
-	global $db;
-	$sql = "SELECT context FROM extensions WHERE context = 'outrt-".$newname."'";
-	$results = $db->getAll($sql);
-	if (count($results) > 0) {
-		// there's already a route with this name
-		return false;
-	}
-	
-	$sql = "UPDATE extensions SET context = 'outrt-".$newname."' WHERE context = 'outrt-".$oldname."'";
-	$result = $db->query($sql);
-	if(DB::IsError($result)) {
-		die($result->getMessage());
-	}
-	
-	$sql = "UPDATE extensions SET application = 'outrt-".$newname."'WHERE context = 'outbound-allroutes' AND application = 'outrt-".$oldname."' ";
-	$result = $db->query($sql);
-	if(DB::IsError($result)) {
-		die($result->getMessage());
-	}
-	
-	return true;
-}
-
 function editroute($name, $patterns, $trunks) {
 	deleteroute($name);
 	addroute($name, $patterns, $trunks);
@@ -1443,5 +1426,57 @@ function deleteDialRules($trunknum) {
 	
 	writeDialRulesFile($conf);
 }
+
+function parse_amportal_conf($filename) {
+	$file = file($filename);
+	foreach ($file as $line) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*([a-zA-Z0-9]+)/",$line,$matches)) { 
+			$conf[ $matches[1] ] = $matches[2];
+		}
+	}
+	return $conf;
+}
+
+function addqueue($account,$name,$password,$goto) {
+	global $db;
+	
+	$addarray = array('ext-queues',$account,'1','Queue',$account,$name,'0');
+	addextensions($addarray);
+	$addarray = array('ext-queues',$account.'*','1','Macro','AddQueueMember,'.$account.','.$password,'','0');
+	addextensions($addarray);
+	$addarray = array('ext-queues',$account.'**','1','Macro','RemoveQueueMember,'.$account,'','0');
+	addextensions($addarray);
+	
+	if ($goto == 'extension') {
+		$args = 'ext-local,'.$_REQUEST['extension'].',1';
+		$addarray = array('ext-queues',$account,'5','Goto',$args,'','0'); 
+	}
+	elseif ($goto == 'voicemail') {
+		$args = 'vm,'.$_REQUEST['voicemail'];
+		$addarray = array('ext-queues',$account,'5','Macro',$args,'','0');
+	}
+	elseif ($goto == 'ivr') {
+		$args = 'aa_'.$_REQUEST['ivr'].',s,1';
+		$addarray = array('ext-queues',$account,'5','Goto',$args,'','0');
+	}
+	elseif ($goto == 'group') {
+		$args = 'ext-group,'.$_REQUEST['group'].',1';
+		$addarray = array('ext-queues',$account,'5','Goto',$args,'','0');
+	}
+	elseif ($goto == 'custom') {
+			$args = $_REQUEST['custom_args'];
+			$addarray = array('ext-queues',$account,'5','Goto',$args,'','0');
+	}
+	
+	addextensions($addarray);
+}
+
+function delqueue($account) {
+	global $db;
+	//delete from extensions table
+	delextensions('ext-queues',ltrim($extdisplay,$account));
+	delextensions('ext-queues',ltrim($extdisplay,$account).'*');
+	delextensions('ext-queues',ltrim($extdisplay,$account).'**');
+}	
 
 ?>

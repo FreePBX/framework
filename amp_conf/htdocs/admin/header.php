@@ -18,8 +18,10 @@
     $parts = Explode('/', $currentFile);
     $currentFile = $parts[count($parts) - 1];
 	
-	require_once('common/db_connect.php'); //PEAR must be installed
 	require_once('functions.php');
+	$amp_conf = parse_amportal_conf("/etc/amportal.conf"); //get username and pass for mysql
+	require_once('common/db_connect.php'); //PEAR must be installed
+	
 
 	//make sure our tables are there
 	sipexists();
