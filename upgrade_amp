@@ -31,6 +31,19 @@ function fatal($text) {
 	exit(1);
 }
 
+function debug($text) {
+	global $debug;
+	
+	if ($debug) echo "[DEBUG] ".$text."\n";
+}
+
+function showHelp() {
+	out("Optional parameters:");
+	out("  --help, -h, -?    Show this help");
+	out("  --debug           Enable debug output");
+	out("  --dry-run         Don't actually do anything");
+}
+
 function parse_amportal_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
@@ -56,6 +69,7 @@ function getversion() {
 function setversion($version) {
 	global $db;
 	$sql = "UPDATE admin SET value = '".$version."' WHERE variable = 'version'";
+	debug($sql);
 	$result = $db->query($sql); 
 	if(DB::IsError($result)) {     
 		die($result->getMessage()); 
@@ -76,6 +90,7 @@ function run_included($file) {
  */
 function install_upgrade($version) {
 	global $db;
+	global $dryrun;
 	
 	if (is_dir(UPGRADE_DIR."/".$version)) {
 		$dir = opendir(UPGRADE_DIR."/".$version);
@@ -86,32 +101,33 @@ function install_upgrade($version) {
 					// run sql script
 					$fd = fopen(UPGRADE_DIR."/".$version."/".$file, "r");
 					while (!feof($fd)) {
-						$line = trim(fgets($fd,1024));
-						if ((!preg_match("/^--/", $line)) && (!preg_match("/^$/", $line))){
-							$sqls[] = $line;
-						}
+						$data .= fread($fd, 1024);
 					}
 					fclose($fd);
+
+					preg_match_all("/(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*;\s*\n/Us", $data, $matches);
 					
-					foreach ($sqls as $sql) {
-						$result = $db->query($sql); 
-						if(DB::IsError($result)) {     
-							die("[FATAL] \"".$result->getDebugInfo()."\" while running ".$file."\n"); 
+					foreach ($matches[0] as $sql) {
+						debug($sql);
+						if (!$dryrun) {
+							$result = $db->query($sql); 
+							if(DB::IsError($result)) {     
+								fatal($result->getDebugInfo()."\" while running ".$file."\n"); 
+							}
 						}
 					}
 					
 				} else if (strtolower(substr($file,-4)) == ".php") {
 					out("-> Running PHP script ".UPGRADE_DIR."/".$version."/".$file);
-					//TODO
-					out("   -> TODO: actually run");
-					//run_included(UPGRADE_DIR."/".$version."/".$file);
+					if (!$dryrun) {
+						run_included(UPGRADE_DIR."/".$version."/".$file);
+					}
 					
 				} else if (is_executable(UPGRADE_DIR."/".$version."/".$file)) {
 					out("-> Executing ".UPGRADE_DIR."/".$version."/".$file);
-					out("   -> TODO: actually execute");
-					//TODO
-					
-					//exec(UPGRADE_DIR."/".$version."/".$file);
+					if (!$dryrun) {
+						exec(UPGRADE_DIR."/".$version."/".$file);
+					}
 				} else {
 					error("-> Don't know what to do with ".UPGRADE_DIR."/".$version."/".$file);
 				}
@@ -124,15 +140,72 @@ function install_upgrade($version) {
  * @param $versions array	The version upgrade scripts to run
  */
 function run_upgrade($versions) {
+	global $dryrun;
+	
 	foreach ($versions as $version) {
 		out("Upgrading to ".$version."..");
 		install_upgrade($version);
+		if (!$dryrun) {
+			setversion($version);
+		}
 		out("Upgrading to ".$version."..OK");
-//		setversion($version);  disabled for testing
 	}
 }
 
 /********************************************************************************************************************/
+
+// **** Make sure we have PEAR's DB.php, and include it
+
+outn("Checking for PEAR DB..");
+if (! @ include('DB.php')) {
+	out("FAILED");
+	fatal("PEAR must be installed (requires DB.php). Include path: ".ini_get("include_path"));
+}
+out("OK");
+
+
+// **** Make sure we have PEAR's GetOpts.php, and include it
+
+outn("Checking for PEAR Console::Getopt..");
+if (! @ include("Console/Getopt.php")) {
+	out("FAILED");
+	fatal("PEAR must be installed (requires Console/Getopt.php). Include path: ".ini_get("include_path"));
+}
+out("OK");
+
+
+// **** Parse out command-line options
+
+$shortopts = "h?";
+$longopts = array("help","debug","dry-run");
+
+$args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
+if (is_object($args)) {
+	// assume it's PEAR_ERROR
+	out($args->message);
+	exit(255);
+}
+
+$debug = false;
+$dryrun = false;
+
+foreach ($args[0] as $arg) {
+	switch ($arg[0]) {
+		case "--help": case "h": case "?":
+			showHelp();
+			exit(10);
+		break;
+		case "--dry-run":
+			out("Dry-run only, nothing will be changed");
+			$dryrun = true;
+		break;
+		case "--debug":
+			$debug = true;
+			debug("Debug mode enabled");
+		break;
+	}
+}
+
 
 // **** Look for user = root
 
@@ -144,14 +217,6 @@ if ($_ENV["USER"] != "root") {
 out("OK");
 
 
-// **** Make sure we have PEAR's DB.php, and include it
-
-outn("Checking for PEAR..");
-if (! @ include('DB.php')) {
-	out("FAILED");
-	fatal("PEAR must be installed (requires DB.php). Include path: ".ini_get("include_path"));
-}
-out("OK");
 
 
 // **** Check for amportal.conf, create if necessary
