@@ -223,9 +223,8 @@ foreach ($table_graph_hours as $key => $value){
 	if (!isset($old_day) || strcmp($old_day,substr($key,8,2))!=0)
 	{
 		if (isset($old_day)){
-			
-			if (strcmp("23",$old_hours)!=0){
-				for ($i=intval($old_hours)+1;$i<=23;$i++){
+			if (intval($old_hours)!=23){
+				for ($i=intval($old_hours);$i<=23;$i++){
 					$tableau_value[$nbday][]=0;	
 					$tableau_hours[$nbday][]= sprintf("%02d",$i);
 				}
@@ -236,22 +235,18 @@ foreach ($table_graph_hours as $key => $value){
 		}
 		$old_day = substr($key,8,2);
 		$old_date = substr($key,0,10);		
+		$old_hours="00";	
 	}
 	// here we fill by blank all the hours that doesn't have any field
-	if (!isset($old_hours) && strcmp("00",substr($key,11,2))!=0){
-		$current_hours = intval(substr($key,11,2));
-		for ($i=0;$i<$current_hours;$i++){
-			$tableau_value[$nbday][]=0;	
-			$tableau_hours[$nbday][]= sprintf("%02d",$i);
-		}
-	}elseif ( $old_hours < intval(substr($key,11,2))-1 ){
-		$current_hours = intval(substr($key,11,2));
-		for ($i=intval($old_hours)+1;$i<$current_hours;$i++){
-			$tableau_value[$nbday][]=0;	
-			$tableau_hours[$nbday][]= sprintf("%02d",$i);
+	if (!isset($old_hours))
+		$old_hours="00";
+
+	if (intval($old_hours)<intval(substr($key,11,2))) {
+		for ($i=intval($old_hours);$i<intval(substr($key,11,2));$i++) {
+			$tableau_value[$nbday][]=0;
+			$tableau_hours[$nbday][]=sprintf("%02d",$i);
 		}
 	}
-	
 	
 	$old_hours = substr($key,11,2);
 	$old_hours++;
@@ -264,7 +259,7 @@ foreach ($table_graph_hours as $key => $value){
 	$tableau_hours[$nbday][]=substr($key,11,2);	
 }
 
-for ($i=intval($old_hours)+1;$i<=23;$i++){
+for ($i=intval($old_hours);$i<=23;$i++){
 	$tableau_value[$nbday][]=0;	
 	$tableau_hours[$nbday][]= sprintf("%02d",$i);
 }
@@ -343,6 +338,7 @@ $p1->mark->SetType(MARK_IMG_DIAMOND,5,0.6);
 $p1->SetLegend('2006');
 $graph->Add($p1);
 */
+
 for ($indgraph=0;$indgraph<=$nbday;$indgraph++){
 	
 	$p2[$indgraph] = new LinePlot($tableau_value[$indgraph]);
@@ -360,7 +356,5 @@ for ($indgraph=0;$indgraph<=$nbday;$indgraph++){
 
 // Output the graph
 $graph->Stroke();
-
-
 
 ?>
