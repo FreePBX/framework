@@ -99,9 +99,9 @@ session_register('AMP_SQL');
 $low = $_SESSION["user"]->_extension_low;
 $high = $_SESSION["user"]->_extension_high;
 if ((!empty($low)) && (!empty($high))) {
-	$AMP_SQL = " AND ((src+0 BETWEEN $low AND $high) OR (dst+0 BETWEEN $low AND $high) OR (dst+0 BETWEEN 8$low AND 8$high))";
+	$_SESSION["AMP_SQL"] = " AND ((src+0 BETWEEN $low AND $high) OR (dst+0 BETWEEN $low AND $high) OR (dst+0 BETWEEN 8$low AND 8$high))";
 } else {
-	$AMP_SQL = "";
+	$_SESSION["AMP_SQL"] = "";
 }
 
 // CDR viewer from www.areski.net.  
