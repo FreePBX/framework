@@ -93,6 +93,7 @@ $amp_sections = array(
 		1=>"On Hold Music",
 		12=>"System Recordings",
 		5=>"General Settings",
+		99=>"Apply Changes Bar"
 	);
 	
 // only show AMP Users if they have authtype set approiately
@@ -108,7 +109,9 @@ foreach ($amp_sections as $key=>$value) {
 
 	// check access
 	if ($_SESSION["user"]->checkSection($key)) {
-		echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?display=".$key."\">".$value."</a></li>";
+		if ($key != 99) {
+			echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?display=".$key."\">".$value."</a></li>";
+		}
 	} else {
 		// they don't have access to this, remove it completely
 		unset($amp_sections[$key]);
@@ -186,5 +189,5 @@ switch($display) {
 ?>
 
 </div>
-<?php echo str_repeat("<br />", 5);?>
+<?php echo str_repeat("<br />", 8);?>
 <?php include 'footer.php' ?>
