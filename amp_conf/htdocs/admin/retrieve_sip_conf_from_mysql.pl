@@ -47,6 +47,25 @@ if ( $#resultSet > -1 ) {
 	}
 }
 
+# items with id like 9999999% get put at the top of the file
+$statement = "SELECT keyword,data from $table_name where id LIKE '9999999%' and keyword <> 'account' and flags <> 1";
+$result = $dbh->selectall_arrayref($statement);
+unless ($result) {
+  # check for errors after every single database call
+  print "dbh->selectall_arrayref($statement) failed!\n";
+  print "DBI::err=[$DBI::err]\n";
+  print "DBI::errstr=[$DBI::errstr]\n";
+  exit;
+}
+@resultSet = @{$result};
+if ( $#resultSet > -1 ) {
+	foreach $row (@{ $result }) {
+		my @result = @{ $row };
+		$top .= $result[0]."=".$result[1]."\n";
+	}
+}
+print EXTEN "$top\n";
+
 $statement = "SELECT data,id from $table_name where keyword='account' and flags <> 1 group by data";
 
 $result = $dbh->selectall_arrayref($statement);
@@ -67,7 +86,7 @@ foreach my $row ( @{ $result } ) {
 	my $account = @{ $row }[0];
 	my $id = @{ $row }[1];
 	print EXTEN "[$account]\n";
-	$statement = "SELECT keyword,data from $table_name where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
+	$statement = "SELECT keyword,data from $table_name where id=$id and keyword <> 'account' and flags <> 1 order by keyword DESC";
 	my $result = $dbh->selectall_arrayref($statement);
 	unless ($result) {
 		# check for errors after every single database call

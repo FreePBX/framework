@@ -43,7 +43,7 @@ $password = "amp109";
 open EXTEN, ">$extensions_conf" || die "Cannot create/overwrite extensions file: $extensions_conf\n";
 
 $dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
-$statement = "SELECT * from $global_table_name order by variable";
+$statement = "SELECT * from $global_table_name order by variable DESC";
 my $result = $dbh->selectall_arrayref($statement);
 unless ($result) {
   # check for errors after every single database call

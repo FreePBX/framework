@@ -71,12 +71,10 @@ Mime-contruct is needed to generate emails with fax file attachments:
 	- install it
 
 ###
-Download the latest AMP files from CVS:
-(alternatively, download the tarball and extract to /usr/src)
+Download the latest AMP files:
 
-	- cd /usr/src
-	- cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/amportal login   [null password]
-	- cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/amportal co AMP
+	- download the latest AMP tarball to /usr/src
+	- tar -zxvf AMP<version>.tar.gz
 
 ###
 Getting Asterisk and Zaptel (AMP uses the v1.0 branch)
@@ -284,11 +282,7 @@ Auto Start
 		echo ADDING WCFXS
 		/sbin/modprobe wcfxs
 		echo STARTING ASTERISK
-		su asterisk -c "export PATH=$PATH:/usr/sbin && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
-		/usr/sbin/asterisk -rx 'sip debug'
-		sleep 7
-		echo STARTING op_server.pl
-		cd /var/www/html/panel; su asterisk -c /var/www/html/panel/safe_opserver &
+		/usr/sbin/amportal start
 		
 	 
 ###
@@ -313,11 +307,7 @@ Start everything:
 
 	- As root run:
 
-		su asterisk -c "export PATH=$PATH:/usr/sbin && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
-		
-	- As root run:
-	
-		cd /var/www/html/panel; su asterisk -c /var/www/html/panel/safe_opserver &
+		/usr/sbin/amportal start
 
 	- Point your browser to:
 

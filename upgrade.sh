@@ -1,5 +1,41 @@
 #!/bin/sh
 
+VERSION=1.10.004
+
+
+ROOT_UID=0	 # root uid is 0
+E_NOTROOT=67	 # Non-root exit error
+
+
+echo
+# check to see if we are root
+if [ "$UID" -ne "$ROOT_UID" ]
+then
+	echo "Sorry, you must be root to run this script."
+	echo
+	exit $E_NOTROOT
+fi
+
+###################################
+# UpdateVersion function
+UpdateVersion ()
+{
+	echo "Updating version information in database"
+	echo
+	# Update voxbox version Major.asterisk.vbswver
+	mysql --user=asteriskuser --password=amp109 --execute="UPDATE admin SET value = '$VERSION' WHERE variable = 'version'" asterisk
+}
+
+echo
+echo "Warning!!!"
+echo "This AMP upgrade will overwrite your current Asterisk configuration files."
+echo "You will _not_ lose configurations you made from the AMP web admin."
+echo
+echo "Press enter to continue."
+echo
+
+read anything
+
 # copy in new config
 cp -rf /usr/src/AMP/amp_conf/* /
 /usr/src/AMP/chown_asterisk.sh
@@ -7,11 +43,10 @@ cp -rf /usr/src/AMP/amp_conf/* /
 # reload asterisk
 asterisk -rx reload
 
-# Update FOP config to latest format
-su - asterisk -c "cd /var/www/html/panel && /var/www/html/panel/convert_config_pre_14.pl"
+echo
+echo "New configuration applied ..."
+echo 
 
-# apply the new configuration
-asterisk -rx reload
-su - asterisk -c "/var/www/html/admin/retrieve_op_conf_from_mysql.pl"
-su - asterisk -c "/var/www/html/admin/bounce_op.sh"
+UpdateVersion
 
+echo "AMP upgrade complete.  Please see CHANGES to see what is new."

@@ -26,6 +26,8 @@ $display=$_REQUEST['display'];
 	<li><a id="<? echo ($display=='3' ? 'current':'') ?>" href="config.php?display=3">Extensions</a></li>
 	<li><a id="<? echo ($display=='4' ? 'current':'') ?>" href="config.php?display=4">Call Groups</a></li>
 	<li><a id="<? echo ($display=='2' ? 'current':'') ?>" href="config.php?display=2">Digital Receptionist</a></li>
+	<li><a id="<? echo ($display=='6' ? 'current':'') ?>" href="config.php?display=6">Trunks</a></li>
+	<li><a id="<? echo ($display=='7' ? 'current':'') ?>" href="config.php?display=7">DID Routes</a></li>
 	<li><a id="<? echo ($display=='1' ? 'current':'') ?>" href="config.php?display=1">On Hold Music</a></li>
 	<li><a id="<? echo ($display=='5' ? 'current':'') ?>" href="config.php?display=5">General Settings</a></li>
 	
@@ -69,10 +71,20 @@ switch($display) {
 		include 'callgroups.php';
 		
 	break;
-	   case '5':	
+	case '5':	
 			
 	    echo "<h2>General Settings</h2>";
 		include 'general.php';
+		
+	break;
+	case '6':	
+			
+		include 'trunks.php';
+		
+	break;
+	case '7':	
+			
+		include 'did.php';
 		
 	break;
 }

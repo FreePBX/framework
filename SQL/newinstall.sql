@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 -- 
 
 INSERT INTO `admin` VALUES ('need_reload', 'false');
-INSERT INTO `admin` VALUES ('version','1.10.0002');
+INSERT INTO `admin` VALUES ('version','1.10.004');
 -- --------------------------------------------------------
 
 -- 

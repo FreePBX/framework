@@ -175,7 +175,7 @@ switch($extdisplay) {
 			<input type="hidden" name="account" value="<? echo ltrim($extdisplay,'GRP-'); ?>">
 			<table>
 			<tr>
-				<td><a href="#" class="info">extension list:<span>Separate extensions with a | (pipe) character. Ex: 201|202|203</span></a></td>
+				<td><a href="#" class="info">extension list:<span>Separate extensions with a | (pipe) character. Ex: 201|202|203<br><br>You can include an extension on a remote system, or an external number by including an asterisk (*) after the dial prefix for the appropriate trunk.  ex:  9*2448089 would dial 2448089 on the trunk accessible with dial prefix 9.<br><br></span></a></td>
 				<td><input type="text" name="grplist" value="<? echo substr($thisGRP[0][0],6) ?>"></td>
 			</tr>
 			<tr>
@@ -264,7 +264,7 @@ switch($extdisplay) {
 	<input type="hidden" name="account" value="<? echo $grp ?>">
 	<table>
 	<tr>
-		<td><a href="#" class="info">extension list:<span>Separate extensions with a | (pipe) character. Ex: 201|202|203</span></a></td>
+		<td><a href="#" class="info">extension list:<span>Separate extensions with a | (pipe) character. Ex: 201|202|203<br><br>You can include an extension on a remote system, or an external number by including an asterisk (*) after the dial prefix for the appropriate trunk.  ex:  9*2448089 would dial 2448089 on the trunk accessible with dial prefix 9.<br><br></span></a></td>
 		<td><input type="text" name="grplist" value="<? echo substr($thisGRP[0][0],6) ?>"></td>
 			
 	</tr><tr>

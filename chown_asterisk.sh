@@ -11,3 +11,4 @@ chmod u+x /var/www/cgi-bin/*.cgi
 chmod u+x /var/www/html/admin/*.pl
 chmod u+x /var/www/html/admin/*.sh
 chmod u+x /var/www/html/panel/*.pl
+chmod 755 /usr/sbin/amportal

@@ -62,7 +62,7 @@ if ( $#resultSet == -1 ) {
 
 
 if (table_exists($dbh,"iax")) {
-	$statement = "SELECT data,id from iax where keyword='account' and flags <> 1 group by data";
+	$statement = "SELECT data,id from iax where keyword='account' and flags <> 1 group by data order by id";
 	$result = $dbh->selectall_arrayref($statement);
 	@resultSet = @{$result};
 	if ( $#resultSet == -1 ) {
@@ -97,6 +97,7 @@ foreach my $row ( @total_result ) {
 			$result = $dbh->selectall_arrayref($statement);
 
 	}
+	$callerid = $account;  #default callerid to account
 	foreach my $row ( @{ $result } ) {
 		my @result = @{ $row };
 		if ( $result[0] eq "callerid" ) {
@@ -104,7 +105,11 @@ foreach my $row ( @total_result ) {
 			$callerid =~ tr/\"<>//d;
 		}
 	}
-	print EXTEN "[$tech/$account]\nPosition=$btn\nLabel=\"$callerid\"\nExtension=$account\nContext=from-internal\nIcon=4\nVoicemail_Context=default\n";
+	$icon='4';
+	if ($callerid eq $account) {  #if this happens, we know it's a voip trunk, so change the icon
+		$icon='3';
+	}
+	print EXTEN "[$tech/$account]\nPosition=$btn\nLabel=\"$callerid\"\nExtension=$account\nContext=from-internal\nIcon=$icon\nVoicemail_Context=default\n";
 }
 
 exit 0;

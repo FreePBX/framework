@@ -30,6 +30,8 @@ $additional = "";
 open EXTEN, ">$sip_conf" || die "Cannot create/overwrite extensions file: $sip_conf\n";
 
 $dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
+
+# items with id=0 get added for all users
 $statement = "SELECT keyword,data from $table_name where id=0 and keyword <> 'account' and flags <> 1";
 my $result = $dbh->selectall_arrayref($statement);
 unless ($result) {
@@ -47,8 +49,27 @@ if ( $#resultSet > -1 ) {
 	}
 }
 
-$statement = "SELECT data,id from $table_name where keyword='account' and flags <> 1 group by data";
+# items with id like 9999999% get put at the top of the file
+$statement = "SELECT keyword,data from $table_name where id LIKE '9999999%' and keyword <> 'account' and flags <> 1";
+$result = $dbh->selectall_arrayref($statement);
+unless ($result) {
+  # check for errors after every single database call
+  print "dbh->selectall_arrayref($statement) failed!\n";
+  print "DBI::err=[$DBI::err]\n";
+  print "DBI::errstr=[$DBI::errstr]\n";
+  exit;
+}
+@resultSet = @{$result};
+if ( $#resultSet > -1 ) {
+	foreach $row (@{ $result }) {
+		my @result = @{ $row };
+		$top .= $result[0]."=".$result[1]."\n";
+	}
+}
+print EXTEN "$top\n";
 
+# select for unique accounts
+$statement = "SELECT data,id from $table_name where keyword='account' and flags <> 1 group by data";
 $result = $dbh->selectall_arrayref($statement);
 unless ($result) {
   # check for errors after every single database call
@@ -59,15 +80,16 @@ unless ($result) {
 
 @resultSet = @{$result};
 if ( $#resultSet == -1 ) {
-  print "No sip accounts defined in $table_name\n";
+  print "No iax accounts defined in $table_name\n";
   exit;
 }
 
+#get the details for each account found above
 foreach my $row ( @{ $result } ) {
 	my $account = @{ $row }[0];
 	my $id = @{ $row }[1];
 	print EXTEN "[$account]\n";
-	$statement = "SELECT keyword,data from $table_name where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
+	$statement = "SELECT keyword,data from $table_name where id=$id and keyword <> 'account' and flags <> 1 order by keyword DESC";
 	my $result = $dbh->selectall_arrayref($statement);
 	unless ($result) {
 		# check for errors after every single database call

@@ -62,6 +62,17 @@ function getgroups() {
 	return $results;
 }
 
+//get the existing did extensions
+function getdids() {
+	global $db;
+	$sql = "SELECT extension FROM extensions WHERE context = 'ext-did' ORDER BY extension";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	return $results;
+}
+
 //get extensions in specified group
 function getgroupextens($grpexten) {
 	global $db;
@@ -85,7 +96,7 @@ function getgrouptime($grpexten) {
 //get goto in specified group
 function getgroupgoto($grpexten) {
 	global $db;
-	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND (args LIKE 'ext-local,%,%' OR args LIKE 'vm,%' OR args LIKE 'aa_%,%,%' OR args LIKE 'ext-group,%,%')";
+	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND (args LIKE 'ext-local,%,%' OR args LIKE 'vm,%' OR args LIKE 'aa_%,%,%' OR args LIKE 'ext-group,%,%' OR args LIKE 'from-pstn,s,1')";
 	$thisGRPgoto = $db->getAll($sql);
 	if(DB::IsError($thisGRPgoto)) {
 	   die($thisGRPgoto->getMessage());
@@ -270,7 +281,7 @@ function exteninfo($extdisplay) {
 }
 
 //changes requested for SIP extension (extensions.php)
-function editSip ($account,$callerid){
+function editSip($account,$callerid){
 	global $db;
     $sipfields = array(array($account,$account,'account'),
                     array($_REQUEST['secret'],$account,'secret'),
@@ -294,7 +305,7 @@ function editSip ($account,$callerid){
 }
 
 //changes requested for IAX extension (extensions.php)
-function editIax ($account,$callerid){
+function editIax($account,$callerid){
 	global $db;
     $iaxfields = array(array($account,$account,'account'),
                     array($_REQUEST['secret'],$account,'secret'),
@@ -334,4 +345,274 @@ function delExten($extdisplay) {
         die($result->getMessage());
     }
 }
+
+//change the default trunk
+function setDefaultTrunk($trunknum) {
+	global $db;
+	$glofields = array(array('${OUT_'.$trunknum.'}','OUT'),
+					array('${DIAL_OUT_'.$trunknum.'}','DIAL_OUT'));
+	$compiled = $db->prepare('UPDATE globals SET value = ? WHERE variable = ?');
+	$result = $db->executeMultiple($compiled,$glofields);
+	if(DB::IsError($result)) {
+		die($result->getMessage()."<br><br>".$sql);	
+	}	
+}
+
+//add trunk to outbound-trunks context
+function addOutTrunk($trunknum) {
+	extensionsexists();
+	global $db;
+	$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ('outbound-trunks', '_\${DIAL_OUT_".$trunknum."}.', '1', 'Macro', 'dialout,".$trunknum.",\${EXTEN}', NULL , '0')";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+        die($result->getMessage()."<br><br>".$sql);
+    }
+    return $result;
+}
+
+
+//write the OUTIDS global variable (used in dialparties.agi)
+function writeoutids() {
+	global $db;
+	$sql = "SELECT variable FROM globals WHERE variable LIKE 'OUT_%'";
+	$unique_trunks = $db->getAll($sql);
+	if(DB::IsError($unique_trunks)) {
+	   die('unique: '.$unique_trunks->getMessage());
+	}
+	foreach ($unique_trunks as $unique_trunk) {
+		$outid = strtok($unique_trunk[0],"_");
+		$outid = strtok("_");
+		$outids .= $outid ."/";
+	}
+	$sql = "UPDATE globals SET value = '$outids' WHERE variable = 'DIALOUTIDS'";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+}
+
+//get unique trunks
+function gettrunks() {
+	global $db;
+	$sql = "SELECT * FROM globals WHERE variable LIKE 'OUT_%'";
+	$unique_trunks = $db->getAll($sql);
+	if(DB::IsError($unique_trunks)) {
+	   die('unique: '.$unique_trunks->getMessage());
+	}
+	//if no trunks have ever been defined, then create the proper variables with the default zap trunk
+	if (count($unique_trunks) == 0) {
+		$glofields = array(array('OUT_1','ZAP/g0'),
+							array('DIAL_OUT_1','9'),
+							array('DIALOUTIDS','1'));
+	    $compiled = $db->prepare('INSERT INTO globals (variable, value) values (?,?)');
+		$result = $db->executeMultiple($compiled,$glofields);
+	    if(DB::IsError($result)) {
+	        die($result->getMessage()."<br><br>".$sql);	
+	    }
+		setDefaultTrunk("1");
+		$unique_trunks[] = array('OUT_1','ZAP/g0');
+		addOutTrunk("1");
+	}
+	return $unique_trunks;
+}
+
+function edittrunk() {
+	global $db;
+	$trunknum = ltrim($_REQUEST['extdisplay'],'OUT_');
+	$tech=strtok($_REQUEST['tname'],'/');  // the technology.  ie: ZAP/g0 is ZAP
+	$channelid=$_REQUEST['channelid'];
+	$glofields = array(array($tech.'/'.$_REQUEST['channelid'],'OUT_'.$trunknum),
+					array($_REQUEST['dialprefix'],'DIAL_OUT_'.$trunknum));
+	$compiled = $db->prepare('UPDATE globals SET value = ? WHERE variable = ?');
+	$result = $db->executeMultiple($compiled,$glofields);
+	if(DB::IsError($result)) {
+		die($result->getMessage()."<br><br>".$sql);	
+	}
+	writeoutids();
+	//set the default trunk
+	if ($_REQUEST['defaulttrunk'] == 'yes') {
+		setDefaultTrunk($trunknum);
+	}
+	
+	//remove and re-add to sip or iax table
+	if ($tech == 'SIP') {
+		$sql = "DELETE FROM sip WHERE id = '9999$trunknum' OR id = '99999$trunknum' OR id = '9999999$trunknum'";
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			die($result->getMessage());
+		}
+		//now re-add info
+		addSipOrIaxTrunk($_REQUEST['config'],'sip',$channelid,$trunknum);
+		if ($_REQUEST['usercontext'] != ""){
+			addSipOrIaxTrunk($_REQUEST['userconfig'],'sip',$_REQUEST['usercontext'],'9'.$trunknum);
+		}
+		if ($_REQUEST['register'] != ""){
+			addTrunkRegister($trunknum,'sip',$_REQUEST['register']);
+		}
+	}
+	if ($tech == 'IAX2') {
+		$sql = "DELETE FROM iax WHERE id = '9999$trunknum' OR id = '99999$trunknum' OR id = '9999999$trunknum'";
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			die($result->getMessage());
+		}
+		//now re-add info
+		addSipOrIaxTrunk($_REQUEST['config'],'iax',$channelid,$trunknum);
+		if ($_REQUEST['usercontext'] != ""){
+			addSipOrIaxTrunk($_REQUEST['userconfig'],'iax',$_REQUEST['usercontext'],'9'.$trunknum);
+		}
+		if ($_REQUEST['register'] != ""){
+			addTrunkRegister($trunknum,'iax',$_REQUEST['register']);
+		}
+	}
+}
+
+function deltrunk() {
+	global $db;
+	$trunknum = ltrim($_REQUEST['extdisplay'],'OUT_');
+	$tech=strtok($_REQUEST['tname'],'/');  // the technology.  ie: ZAP/g0 is ZAP
+
+	//delete from globals table
+	$sql = "DELETE FROM globals WHERE variable LIKE '%OUT_$trunknum'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+        die($result->getMessage());
+    }
+	
+	//write outids
+	writeoutids();
+
+	//delete from extensions table
+	delextensions('outbound-trunks','_${DIAL_OUT_'.$trunknum.'}.');
+	
+	//and conditionally, from iax or sip
+	if ($tech == 'SIP') {
+		$sql = "DELETE FROM sip WHERE id = '9999$trunknum' OR id = '99999$trunknum' OR id = '9999999$trunknum'";
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			die($result->getMessage());
+		}
+	}
+	if ($tech == 'IAX2') {
+		$sql = "DELETE FROM iax WHERE id = '9999$trunknum' OR id = '99999$trunknum' OR id = '9999999$trunknum'";
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			die($result->getMessage());
+		}
+	}
+}
+
+
+function addtrunk() {
+	global $db;
+	$trunknum = ltrim($_REQUEST['extdisplay'],'OUT_');
+	$tech=$_REQUEST['tech'];
+	$channelid=$_REQUEST['channelid'];
+	$dialprefix=$_REQUEST['dialprefix'];
+
+	$glofields = array(array('OUT_'.$trunknum,$tech.'/'.$channelid),
+						array('DIAL_OUT_'.$trunknum,$dialprefix));
+	$compiled = $db->prepare('INSERT INTO globals (variable, value) values (?,?)');
+	$result = $db->executeMultiple($compiled,$glofields);
+	if(DB::IsError($result)) {
+		die($result->getMessage()."<br><br>".$sql);	
+	}
+	addOutTrunk($trunknum);
+	writeoutids();
+	
+	if ($_REQUEST['defaulttrunk'] == "yes") {
+		setDefaultTrunk($trunknum);
+	}
+	
+	if ($tech == "IAX2") {
+		addSipOrIaxTrunk($_REQUEST['config'],'iax',$channelid,$trunknum);
+		if ($_REQUEST['usercontext'] != ""){
+			addSipOrIaxTrunk($_REQUEST['userconfig'],'iax',$_REQUEST['usercontext'],'9'.$trunknum);
+		}
+		if ($_REQUEST['register'] != ""){
+			addTrunkRegister($trunknum,'iax',$_REQUEST['register']);
+		}
+	}
+	
+	if ($tech == "SIP") {
+		addSipOrIaxTrunk($_REQUEST['config'],'sip',$channelid,$trunknum);
+		addSipOrIaxTrunk($_REQUEST['userconfig'],'sip',$_REQUEST['usercontext'],'9'.$trunknum);
+		addTrunkRegister($trunknum,'sip',$_REQUEST['register']);
+	}
+}
+
+//get and print trunk details
+function getTrunkDetails($trunknum,$tech) {
+	global $db;
+	$sql = "SELECT keyword,data FROM $tech WHERE id = '9999$trunknum' ORDER BY id";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	foreach ($results as $result) {
+		if ($result[0] != 'account') {
+			$confdetail .= $result[0] .'='. $result[1] . "\n";
+		}
+	}
+	return $confdetail;
+}
+
+//get trunk account name
+function getTrunkAccount($trunknum,$tech) {
+	global $db;
+	$sql = "SELECT keyword,data FROM $tech WHERE id = '9999$trunknum' ORDER BY id";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	foreach ($results as $result) {
+		if ($result[0] == 'account') {
+			$account = $result[1];
+		}
+	}
+	return $account;
+}
+
+//add trunk info to sip or iax table
+function addSipOrIaxTrunk($config,$table,$channelid,$trunknum) {
+		global $db;
+		$confitem[] = array('account',$channelid);
+		$gimmieabreak = nl2br($config);
+		$lines = split('<br />',$gimmieabreak);
+		foreach ($lines as $line) {
+			$line = trim($line);
+			if (count(split('=',$line)) > 1) {
+				$confitem[] = split('=',$line);
+			}
+		}
+		$compiled = $db->prepare("INSERT INTO $table (id, keyword, data) values ('9999$trunknum',?,?)");
+		$result = $db->executeMultiple($compiled,$confitem);
+		if(DB::IsError($result)) {
+			die($result->getMessage()."<br><br>INSERT INTO $table (id, keyword, data) values ('9999$trunknum',?,?)");	
+		}
+}
+
+//get trunk account register string
+function getTrunkRegister($trunknum,$tech) {
+	global $db;
+	$sql = "SELECT keyword,data FROM $tech WHERE id = '9999999$trunknum'";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	foreach ($results as $result) {
+			$register = $result[1];
+	}
+	return $register;
+}
+
+function addTrunkRegister($trunknum,$tech,$reg) {
+	global $db;
+	$sql = "INSERT INTO $tech (id, keyword, data) values ('9999999$trunknum','register','$reg')";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+}
+
 ?>

@@ -34,7 +34,7 @@ chown_asterisk() {
 check_asterisk() {
 # check to see if asterisk is running
 # Note, this isn't fool-proof.  If safe_asterisk is constantly restarting a dying asterisk, then there is a chance pidof will return non zero.  We call this twice to reduce chances of this happening
-pid_length=`/sbin/pidof asterisk|awk '{print length($0)}'`
+pid_length=`pidof asterisk|awk '{print length($0)}'`
 	if [ "$pid_length" == "0" ]
 		then
 				killall -9 safe_asterisk
@@ -52,7 +52,7 @@ run_asterisk() {
 # check to see if asterisk is running
 echo
 echo "STARTING ASTERISK"
-pid_length=`/sbin/pidof asterisk|awk '{print length($0)}'`
+pid_length=`pidof asterisk|awk '{print length($0)}'`
 	if [ "$pid_length" != "0" ]
 		then
 			echo "Asterisk is already running"
@@ -69,7 +69,7 @@ pid_length=`/sbin/pidof asterisk|awk '{print length($0)}'`
 stop_asterisk() {
 echo
 echo "STOPPING ASTERISK"
-pid_length=`/sbin/pidof asterisk|awk '{print length($0)}'`
+pid_length=`pidof asterisk|awk '{print length($0)}'`
 	if [ "$pid_length" != "0" ]
 		then
 			/usr/sbin/asterisk -rx "stop gracefully"
@@ -79,7 +79,7 @@ pid_length=`/sbin/pidof asterisk|awk '{print length($0)}'`
 
 check_fop() {
 #check to see if FOP is running
-	pid_length=`/sbin/pidof -x op_server.pl|awk '{print length($0)}'`
+	pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
 	if [ "$pid_length" == "0" ]
 		then
 				killall -9 safe_opserver
@@ -96,7 +96,7 @@ run_fop() {
 # check to see if FOP is running
 echo
 echo "STARTING FOP SERVER"
-pid_length=`/sbin/pidof -x op_server.pl|awk '{print length($0)}'`
+pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
 	if [ "$pid_length" != "0" ]
 		then
 			echo "FOP server is already running"
@@ -111,7 +111,7 @@ pid_length=`/sbin/pidof -x op_server.pl|awk '{print length($0)}'`
 stop_fop() {
 	echo
 	echo "STOPPING FOP SERVER"
-	pid_length=`/sbin/pidof -x op_server.pl|awk '{print length($0)}'`
+	pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
 		if [ "$pid_length" != "0" ]
 			then
 				killall -9 safe_opserver

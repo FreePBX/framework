@@ -20,8 +20,7 @@ $action = $_REQUEST['action'];
 
 //if submitting form, update database
 if ($action == 'editglobals') {
-	$globalfields = array(array($_REQUEST['DIAL_OUT'],'DIAL_OUT'),
-						array($_REQUEST['RINGTIMER'],'RINGTIMER'),
+	$globalfields = array(array($_REQUEST['RINGTIMER'],'RINGTIMER'),
 						array($_REQUEST['FAX_RX'],'FAX_RX'),
 						array($_REQUEST['FAX_RX_EMAIL'],'FAX_RX_EMAIL'),
 						array($_REQUEST['DIRECTORY'],'DIRECTORY'));
@@ -62,10 +61,6 @@ $extens = getextens();
 <input type="hidden" name="action" value="editglobals"/>
 
 <h5>Dialing Options</h5>
-<p>
-	Dial this number to use an outside line (default is 9): 
-	<input type="text" size="1" name="DIAL_OUT" value="<? echo $DIAL_OUT ?>"/>
-</p>
 <p>
 	Number of seconds to ring phones before sending callers to voicemail: 
 	<input type="text" size="2" name="RINGTIMER" value="<? echo $RINGTIMER?>"/>
