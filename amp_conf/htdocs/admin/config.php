@@ -133,7 +133,7 @@ if (!empty($display) && !isset($amp_sections[$display])) {
 // show the approiate page
 switch($display) {
 	default:
-		echo "<p>Welcome to Asterisk Management Portal</p>";
+		echo "<p>Welcome to AMP</p>";
 		echo str_repeat("<br />", 12);
 	break;
 	case 'noaccess':
