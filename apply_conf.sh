@@ -74,6 +74,8 @@ sed -i -e "s/AMPWEBADDRESS/$AMPWEBADDRESS/g" /etc/asterisk/vm_email.inc
 
 echo "Done"
 echo
-
+echo "Adjusting File Permissions.."
+/usr/sbin/amportal chown
+echo "Done"
 exit
 
