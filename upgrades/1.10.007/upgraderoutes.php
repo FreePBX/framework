@@ -30,6 +30,8 @@ if (count($results) > 0) {
 	}
 	
 	$default_patterns = array(	// default patterns that used to be in extensions.conf
+				".",
+/*
 				"NXXXXXX",
 				"NXXNXXXXXX",
 				"1800NXXXXXX",
@@ -41,6 +43,7 @@ if (count($results) > 0) {
 				"911",
 				"411",
 				"311",
+*/
 				);
 	
 	foreach ($results as $temp) {
