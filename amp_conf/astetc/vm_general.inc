@@ -1,5 +1,5 @@
 ; 1st listed format gets emailed
-format=wav49|wav
+format=wav|wav
 
 attach=yes
 pbxskip=yes              	; Don't put [PBX]: in the subject line
@@ -11,3 +11,4 @@ maxsilence=5            	; Wait for 5 silent seconds and end the voicemail
 silencethreshold=128     	; What do we consider to be silence
 skipms=3000					; How many miliseconds to skip forward/back when rew/ff in message playback
 review=yes					; Allow sender to review/rerecord their message before saving it
+operator=yes				; Allow caller to press 0
