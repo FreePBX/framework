@@ -99,7 +99,7 @@ if (isset($dresults)) {
 		<table>
 		<tr><td colspan="2"><h5><?php echo ($extdisplay ? 'Edit DID' : 'Add DID') ?><hr></h5></td></tr>
 		<tr>
-			<td><a href="#" class="info">DID Number:<span>Define the expected DID digits if your trunk passes DID for incoming calls.</span></a></td>
+			<td><a href="#" class="info">DID Number:<span>Define the expected DID digits if your trunk passes DID for incoming calls. <br><br>Caller Id can be matched as well by appending "/" and the expected digits.<br><br><b>Examples:</b><br>123 - match DID "123"<br>s/100 - match CID "100"<br>1234/_256NXXXXXX - both</span></a></td>
 			<td><input type="text" name="account" <?php echo ($extdisplay ? 'disabled="true"' : '') ?> value="<?php echo ltrim($extdisplay,'DID-') ?>"></td>
 		</tr>
 		<tr>
