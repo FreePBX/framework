@@ -1,9 +1,231 @@
-2005-03-03 10:49  gregmac
+2005-03-11 13:31  rcourtna
+
+	* amp_conf/var/www/html/admin/ampusers.php (1.6): add some tooltips
+
+2005-03-11 12:59  rcourtna
+
+	* amp_conf/var/www/html/admin/: config.php (1.14), footer.php
+	  (1.9): allow admin to restricT Apply Changes bar from AMP Users
+
+2005-03-11 12:05  rcourtna
+
+	* amp_conf/var/www/html/admin/general.php (1.8): [ 1161582 ] Fax
+	  extension hardcoded to SIP
+
+2005-03-10 11:55  rcourtna
+
+	* amp_conf/var/www/html/admin/did.php (1.10): [ 1157328 ] CID
+	  Routing
+
+2005-03-10 10:07  rcourtna
+
+	* amportal.conf (1.3): instruct on default AMP admin if
+	  AUTHTYPE=database
+
+2005-03-10 09:54  rcourtna
+
+	* amp_conf/var/www/html/admin/: config.php (1.13), functions.php
+	  (1.31), moh.php (1.6), music.php (1.1), queues.php (1.5),
+	  recordings.php (1.1): RH's system recordings, music on hold, and
+	  queues revamps
+
+2005-03-09 22:02  gregmac
+
+	* amp_conf/var/www/html/admin/functions.php (1.30): Added
+	  getVoicemail() and saveVoicemail() (warning: saveVoicemail is
+	  untested at this point!)
+
+2005-03-09 21:21  rcourtna
+
+	* amp_conf/var/www/html/admin/footer.php (1.8): [ 1160022 ] Change
+	  how footer.php reload asterisk, use manager interface
+
+2005-03-09 21:11  gregmac
+
+	* amp_conf/var/www/html/admin/routing.php (1.8): Fixed spelling
+	  mistake
+
+2005-03-09 21:01  rcourtna
+
+	* amp_conf/var/: lib/asterisk/agi-bin/dialparties.agi (1.13),
+	  www/html/admin/callgroups.php (1.15): [ 1160168 ] [Patch] Ring
+	  Groups broken in Asterisk HEAD
+
+2005-03-09 20:47  rcourtna
+
+	* amp_conf/: etc/asterisk/extensions.conf (1.22),
+	  var/www/html/admin/callgroups.php (1.14),
+	  var/www/html/admin/config.php (1.12), var/www/html/admin/did.php
+	  (1.9), var/www/html/admin/extensions.php (1.19),
+	  var/www/html/admin/functions.php (1.29),
+	  var/www/html/admin/incoming.php (1.10),
+	  var/www/html/admin/ivr.php (1.14),
+	  var/www/html/admin/ivr_action.php (1.10),
+	  var/www/html/admin/ivrmap.php (1.9),
+	  var/www/html/admin/queues.php (1.4): implement restrictions for
+	  under-privilged AMP Users
+
+2005-03-08 12:49  rcourtna
+
+	* amp_conf/var/www/html/admin/: ampusers.php (1.5), config.php
+	  (1.11), functions.php (1.28), header.php (1.9), index.php (1.7):
+	  allow authenticated user to log off
+
+2005-03-07 17:27  rcourtna
+
+	* amp_conf/etc/asterisk/agents.conf (1.2): agents.conf not needed -
+	  remove
+
+2005-03-07 17:26  rcourtna
+
+	* amp_conf/var/www/html/admin/: functions.php (1.27), queues.php
+	  (1.3): add CID Name prefix
+
+2005-03-07 16:38  gregmac
+
+	* amp_conf/var/www/html/admin/: functions.php (1.26), queues.php
+	  (1.2): Time drop-downs show time in more human-readable format
+
+2005-03-07 16:24  rcourtna
+
+	* amp_conf/etc/asterisk/extensions.conf (1.21): tweak gotoif for
+	  macro-agent-add
+
+2005-03-07 16:17  rcourtna
+
+	* amp_conf/: etc/asterisk/extensions.conf (1.20),
+	  var/www/html/admin/functions.php (1.25): change
+	  macro-Add/RemoveQueueMember to agent-add, agent-del
+
+2005-03-07 16:13  rcourtna
+
+	* amp_conf/etc/asterisk/extensions.conf (1.19):
+	  add/removequeuemember macros
+
+2005-03-07 15:59  rcourtna
+
+	* amp_conf/etc/asterisk/extensions.conf (1.18): include ext-queues
+	  in from-internal
+
+2005-03-07 15:29  gregmac
+
+	* amp_conf/etc/asterisk/extensions.conf (1.17): Changed operator
+	  action from hangup to goto from-pstn for macro-dial
+
+2005-03-07 14:58  rcourtna
+
+	* amp_conf/var/www/html/admin/cdr/about.php (1.4): change <?= to
+	  <php echo
+
+2005-03-07 14:18  rcourtna
+
+	* amp_conf/var/www/html/admin/: ampusers.php (1.4), routing.php
+	  (1.7), trunks.php (1.11), cdr/call-comp.php (1.4),
+	  cdr/call-log.php (1.4): change <?php = to <?php echo
+
+2005-03-07 13:51  rcourtna
+
+	* amp_conf/var/www/html/admin/: ampusers.php (1.3), callgroups.php
+	  (1.13), config.php (1.10), did.php (1.8), extensions.php (1.18),
+	  footer.php (1.7), general.php (1.7), header.php (1.8),
+	  incoming.php (1.9), index.php (1.6), ivr_action.php (1.9),
+	  ivrmap.php (1.8), moh.php (1.5), reports.php (1.4), routing.php
+	  (1.6), vm_conf.php (1.6), vm_read.php (1.5), cdr/about.php (1.3),
+	  cdr/call-comp.php (1.3), cdr/call-log.php (1.3), cdr/cdr.php
+	  (1.3), cdr/test.php (1.3): [ 1155885 ] php files need a $Id$ to
+	  identify versions
+
+2005-03-07 13:44  rcourtna
+
+	* amp_conf/var/www/html/admin/: ampusers.php (1.2), callgroups.php
+	  (1.12), config.php (1.9), did.php (1.7), extensions.php (1.17),
+	  footer.php (1.6), general.php (1.6), header.php (1.7),
+	  incoming.php (1.8), index.php (1.5), ivr.php (1.13),
+	  ivr_action.php (1.8), ivrmap.php (1.7), moh.php (1.4),
+	  reports.php (1.3), routing.php (1.5), trunks.php (1.10),
+	  vm_conf.php (1.5), vm_read.php (1.4), cdr/about.php (1.2),
+	  cdr/call-comp.php (1.2), cdr/call-log.php (1.2), cdr/cdr.php
+	  (1.2), cdr/test.php (1.2): [ 1155885 ] php files need a $Id$ to
+	  identify versions
+
+2005-03-07 10:21  rcourtna
+
+	* apply_conf.sh (1.6): [ 1158397 ] apply_conf.sh using hardcoded
+	  path to webroot
+
+2005-03-06 14:21  rcourtna
+
+	* amp_conf/var/www/cgi-bin/vmail.cgi (1.3): [ 1151046 ] vmail.cgi
+	  does not work in suid mode
+
+2005-03-06 13:23  rcourtna
+
+	* CHANGES (1.10): provide customization points for all AMP
+	  generated extension contexts.
+
+2005-03-06 11:46  rcourtna
+
+	* amp_conf/var/www/html/admin/retrieve_extensions_from_mysql.pl
+	  (1.5): print customization points: include => context-custom for
+	  every context
+
+2005-03-06 11:29  rcourtna
+
+	* amp_conf/var/www/html/admin/functions.php (1.24): delete unused
+	  functions
+
+2005-03-06 11:25  rcourtna
+
+	* amp_conf/var/www/html/admin/functions.php (1.23): update comments
+	  for drawselects function
+
+2005-03-04 15:52  rcourtna
+
+	* CHANGES (1.9), SQL/newinstall.sql (1.8),
+	  amp_conf/etc/asterisk/extensions.conf (1.16),
+	  amp_conf/etc/asterisk/queues.conf (1.2),
+	  amp_conf/var/www/html/admin/callgroups.php (1.11),
+	  amp_conf/var/www/html/admin/did.php (1.6),
+	  amp_conf/var/www/html/admin/functions.php (1.22),
+	  amp_conf/var/www/html/admin/incoming.php (1.7),
+	  amp_conf/var/www/html/admin/ivr.php (1.12),
+	  amp_conf/var/www/html/admin/ivr_action.php (1.7),
+	  amp_conf/var/www/html/admin/ivrmap.php (1.6),
+	  amp_conf/var/www/html/admin/queues.php (1.1),
+	  amp_conf/var/www/html/admin/retrieve_queues_from_mysql.pl (1.1),
+	  amp_conf/var/www/html/admin/common/script.js (1.13): QUEUES
+	  support!
+
+2005-03-03 17:56  gregmac
+
+	* amp_conf/var/www/html/admin/: routing.php (1.4),
+	  images/delete.gif (1.1), images/scrolldown.gif (1.1),
+	  images/scrollup.gif (1.1): Add ability to move up/down and delete
+	  trunks (based on patch by rhartmann)
+
+2005-03-03 11:24  rcourtna
+
+	* amp_conf/var/www/html/admin/config.php (1.8): add queues to menu
+
+2005-03-03 10:08  rcourtna
+
+	* amp_conf/var/www/html/admin/config.php (1.7): correct ampuser
+	  construct
+
+2005-03-03 09:17  gregmac
+
+	* ChangeLog (1.1): Generated with cvs2cl -r
+
+2005-03-03 09:17  gregmac
+
+	* CHANGES (1.8): Added more for 007
+
+2005-03-03 08:49  gregmac
 
 	* amp_conf/var/www/html/admin/trunks.php (1.9): Added cvs Id header
 	  Changed form from GET to POST
 
-2005-03-02 22:50  gregmac
+2005-03-02 20:50  gregmac
 
 	* amp_conf/var/www/html/admin/ampusers.php (1.1),
 	  amp_conf/var/www/html/admin/config.php (1.6),
@@ -14,151 +236,146 @@
 	  amportal.conf (1.2), SQL/newinstall.sql (1.7): Added support for
 	  authentication
 
-2005-03-02 22:12  rcourtna
+2005-03-02 20:12  rcourtna
 
 	* amp_conf/var/www/html/admin/common/db_connect.php (1.5): get
 	  username and pass from parse_amportal_conf
 
-2005-03-02 22:12  rcourtna
+2005-03-02 20:12  rcourtna
 
 	* amp_conf/var/www/html/admin/: functions.php (1.20), header.php
 	  (1.5): add parse_amportal_conf
 
-2005-03-02 21:12  rcourtna
+2005-03-02 19:12  rcourtna
 
 	* change_pass.sh (1.6): now called apply_conf.sh
 
-2005-03-02 21:12  rcourtna
+2005-03-02 19:12  rcourtna
 
 	* install_amp.sh (1.1): copy AMP files from source dir
 
-2005-03-02 21:11  rcourtna
+2005-03-02 19:11  rcourtna
 
 	* apply_conf.sh (1.5): apply amportal.conf settings to installed
 	  files
 
-2005-03-02 18:30  gregmac
+2005-03-02 16:30  gregmac
 
 	* change_pass.sh (1.5): Fixed putting DB user/pass instead of MGR
 	  user/pass in dialparties
 
-2005-03-02 18:29  gregmac
-
-	* docs/README.directory (1.1): README for the agi directory
-	  application
-
-2005-03-02 18:26  gregmac
+2005-03-02 16:26  gregmac
 
 	* amp_conf/var/lib/asterisk/agi-bin/directory (1.2): Remove debug
 	  lines Add support for multiple contexts
 
-2005-03-02 17:16  gregmac
+2005-03-02 15:16  gregmac
 
 	* amp_conf/var/lib/asterisk/sounds/: dir-intro-fn-oper.gsm (1.1),
 	  dir-intro-fnln-oper.gsm (1.1), dir-intro-fnln.gsm (1.1),
 	  dir-intro-oper.gsm (1.1), try-extension.gsm (1.1): Sound files
 	  for enhanced AGI-based directory application
 
-2005-03-02 17:14  gregmac
+2005-03-02 15:14  gregmac
 
 	* amp_conf/etc/asterisk/extensions.conf (1.15): Change to AGI-based
 	  directory application
 
-2005-03-02 17:13  gregmac
+2005-03-02 15:13  gregmac
 
 	* amp_conf/var/www/html/admin/general.php (1.5): Changes for
 	  enhanced AGI directory application
 
-2005-03-02 17:12  gregmac
+2005-03-02 15:12  gregmac
 
 	* amp_conf/var/lib/asterisk/agi-bin/: directory (1.1), phpagi.php
 	  (1.1): Initial commit of directory application
 
-2005-03-02 16:12  rcourtna
+2005-03-02 14:12  rcourtna
 
 	* amp_conf/etc/asterisk/extensions.conf (1.14): *43 echo-test
 
-2005-03-02 11:12  gregmac
+2005-03-02 09:12  gregmac
 
 	* amp_conf/var/www/html/admin/common/script.js (1.11): Fix blanking
 	  of name field with no voicemail (ldardini)
 
-2005-03-02 11:07  gregmac
+2005-03-02 09:07  gregmac
 
 	* amp_conf/var/www/html/admin/header.php (1.4): Add zapexists()
 	  (ldardini)
 
-2005-03-02 11:03  gregmac
+2005-03-02 09:03  gregmac
 
 	* amp_conf/var/www/html/admin/routing.php (1.3): Apply ldardini's
 	  patch for javascript problems
 
-2005-03-01 17:56  rcourtna
+2005-03-01 15:56  rcourtna
 
 	* amp_conf/var/www/html/admin/retrieve_op_conf_from_mysql.pl
 	  (1.10): sip_conf -> op_conf
 
-2005-03-01 17:56  gregmac
+2005-03-01 15:56  gregmac
 
 	* change_pass.sh (1.4): Updated so only $op_conf is changed in
 	  retrieve_op_conf_from_mysql.pl Added a couple missing $AMPWEBROOT
 	  variables
 
-2005-03-01 17:40  gregmac
+2005-03-01 15:40  gregmac
 
 	* amp_conf/var/www/html/admin/: retrieve_iax_conf_from_mysql.pl
 	  (1.5), retrieve_meetme_conf_from_mysql.pl (1.5),
 	  retrieve_op_conf_from_mysql.pl (1.9): Changed $*_conf variables
 	  to be named relevantly
 
-2005-03-01 17:27  gregmac
+2005-03-01 15:27  gregmac
 
 	* amp_conf/var/www/html/admin/routing.php (1.2): Added ability to
 	  rename routes Added local prefix population for routes
 
-2005-03-01 17:26  gregmac
+2005-03-01 15:26  gregmac
 
 	* amp_conf/var/www/html/admin/functions.php (1.19): Added
 	  gettrunkroutes() - find routes based on trunk Added renameRoute()
 	  - rename a route
 
-2005-03-01 17:25  gregmac
+2005-03-01 15:25  gregmac
 
 	* amp_conf/var/www/html/admin/trunks.php (1.8): Added
 	  indicator/warning to show how many routes are using trunk
 
-2005-03-01 14:47  gregmac
+2005-03-01 12:47  gregmac
 
 	* change_pass.sh (1.3): Changed "username" to "user" for
 	  cdr_mysql.conf
 
-2005-03-01 14:33  gregmac
+2005-03-01 12:33  gregmac
 
 	* change_pass.sh (1.2): Now reads /etc/amportal.conf and applies
 	  ALL values
 
-2005-03-01 14:32  gregmac
+2005-03-01 12:32  gregmac
 
 	* amp_conf/usr/sbin/amportal (1.5): Uses variables instead of sed
 	  to replace text
 
-2005-03-01 11:48  gregmac
+2005-03-01 09:48  gregmac
 
 	* change_pass.sh (1.1): Changes passwords (and usernames) in live
 	  files
 
-2005-02-28 23:46  gregmac
+2005-02-28 21:46  gregmac
 
 	* amp_conf/var/www/html/admin/common/script.js (1.10): Fixed bug in
 	  javascript in checkRoute() (checking for blank trunks)
 
-2005-02-28 14:34  gregmac
+2005-02-28 12:34  gregmac
 
 	* amp_conf/var/www/html/admin/trunks.php (1.7): Added a check for
 	  cURL, so a warning is displayed if not installed when user tries
 	  to do prefix lookup
 
-2005-02-28 11:01  rcourtna
+2005-02-28 09:01  rcourtna
 
 	* amp_conf/var/lib/asterisk/sounds/: agent-alreadyon.gsm (1.2),
 	  agent-incorrect.gsm (1.2), agent-loggedoff.gsm (1.2),
@@ -198,63 +415,63 @@
 	  vm-whichbox.gsm (1.2), vm-youhave.gsm (1.2): remove sound files
 	  that conflict with asterisk install
 
-2005-02-27 19:43  rcourtna
+2005-02-27 17:43  rcourtna
 
 	* amp_conf/var/lib/asterisk/sounds/allison7/Archive.zip (1.2):
 	  Remove zip
 
-2005-02-27 19:41  rcourtna
+2005-02-27 17:41  rcourtna
 
 	* amp_conf/var/lib/asterisk/: .asterisk_history (1.2),
 	  .bash_history (1.2), .bash_logout (1.2), .bash_profile (1.2),
 	  .bashrc (1.2), .mysql_history (1.2), .zshrc (1.2): clean out
 	  hidden files
 
-2005-02-25 19:40  gregmac
+2005-02-25 17:40  gregmac
 
 	* amp_conf/var/www/html/admin/functions.php (1.18): Added support
 	  to upgrade routing from 1.10.006 -> does not yet rewrite
 	  extensions.conf
 
-2005-02-25 18:08  gregmac
+2005-02-25 16:08  gregmac
 
 	* amp_conf/etc/asterisk/extensions.conf (1.13): Changed
 	  macro-dialout-trunk to use fixlocalprefix AGI before dialing
 	  (support for trunk dial rules)
 
-2005-02-25 18:01  gregmac
+2005-02-25 16:01  gregmac
 
 	* amp_conf/var/lib/asterisk/agi-bin/fixlocalprefix (1.1): Initial
 	  commit.
 
-2005-02-25 17:42  gregmac
+2005-02-25 15:42  gregmac
 
 	* amp_conf/var/www/html/admin/trunks.php (1.6): Added dial rules
 	  for trunks
 
-2005-02-25 17:37  gregmac
+2005-02-25 15:37  gregmac
 
 	* amp_conf/var/www/html/admin/functions.php (1.17): Added trunk
 	  dial rules functions Removed some debug code Renamed
 	  outboundroute- context to outrt-
 
-2005-02-25 12:20  rcourtna
+2005-02-25 10:20  rcourtna
 
 	* amp_conf/var/www/html/admin/cdr/graph_stat.php (1.2): patch from
 	  Julian
 
-2005-02-25 10:24  rcourtna
+2005-02-25 08:24  rcourtna
 
 	* amp_conf/var/www/html/admin/functions.php (1.16): if creating ZAP
 	  table, use bingint(11) instead of int(11)
 
-2005-02-24 15:18  rcourtna
+2005-02-24 13:18  rcourtna
 
 	* amp_conf/: etc/asterisk/extensions.conf (1.12),
 	  var/www/html/admin/common/script.js (1.9): ext-fax catch-all and
 	  new operator behaviour
 
-2005-02-24 12:30  rcourtna
+2005-02-24 10:30  rcourtna
 
 	* amp_conf/: etc/asterisk/zapata.conf.template (1.2),
 	  var/lib/asterisk/agi-bin/dialparties.agi (1.12),
@@ -264,7 +481,7 @@
 	  var/www/html/admin/retrieve_zap_conf_from_mysql.pl (1.1): add
 	  support for ZAP extensions
 
-2005-02-23 23:36  rcourtna
+2005-02-23 21:36  rcourtna
 
 	* amp_conf/: etc/asterisk/extensions.conf (1.11),
 	  var/lib/asterisk/agi-bin/dialparties.agi (1.11),
@@ -276,13 +493,13 @@
 	  var/www/html/admin/common/script.js (1.8): include OUTBOUND
 	  ROUTES feature
 
-2005-02-22 10:26  rcourtna
+2005-02-22 08:26  rcourtna
 
 	* amp_conf/var/www/html/admin/: callgroups.php (1.9), did.php
 	  (1.5), incoming.php (1.6), ivr.php (1.11), common/script.js
 	  (1.7): uncouple ringgroups from x700+.  Formatting changes.
 
-2005-02-21 13:38  rcourtna
+2005-02-21 11:38  rcourtna
 
 	* amp_conf/: etc/asterisk/extensions_custom.conf.sample (1.2),
 	  var/www/html/admin/callgroups.php (1.8),
@@ -291,7 +508,7 @@
 	  var/www/html/admin/ivr.php (1.10): rename Call Groups to Ring
 	  Groups
 
-2005-02-21 12:48  rcourtna
+2005-02-21 10:48  rcourtna
 
 	* amp_conf/var/www/html/admin/: retrieve_extensions_from_mysql.pl
 	  (1.4), retrieve_iax_conf_from_mysql.pl (1.4),
@@ -300,12 +517,12 @@
 	  retrieve_sip_conf_from_mysql.pl (1.4): change "|| die" to "or
 	  die"
 
-2005-02-21 12:31  rcourtna
+2005-02-21 10:31  rcourtna
 
 	* amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.10): [
 	  1144857 ] dialparties.agi bug in inuse channels
 
-2005-02-15 17:08  rcourtna
+2005-02-15 15:08  rcourtna
 
 	* amp_conf/var/lib/asterisk/sounds/: callwaiting.gsm (1.2),
 	  queue-callswaiting.gsm (1.1), queue-holdtime.gsm (1.1),
@@ -314,33 +531,33 @@
 	  queue-thankyou.gsm (1.1), queue-thereare.gsm (1.1),
 	  queue-youarenext.gsm (1.1): new sounds
 
-2005-02-15 11:46  rcourtna
+2005-02-15 09:46  rcourtna
 
 	* INSTALL (1.9), apply_conf.sh (1.4), chown_asterisk.sh (1.5),
 	  amp_conf/usr/sbin/amportal (1.4): [no log message]
 
-2005-02-15 11:45  rcourtna
+2005-02-15 09:45  rcourtna
 
 	* amp_conf/: etc/asterisk/extensions.conf (1.10),
 	  var/lib/asterisk/agi-bin/dialparties.agi (1.9): move dial out of
 	  dialparties
 
-2005-02-10 16:16  rcourtna
+2005-02-10 14:16  rcourtna
 
 	* amp_conf/var/www/html/admin/functions.php (1.13): limit of 10
 	  trunks removed
 
-2005-02-07 14:18  rcourtna
+2005-02-07 12:18  rcourtna
 
 	* amp_conf/var/www/html/admin/ivr_action.php (1.6): auto
 	  attendant's invalid goto corrected
 
-2005-02-05 17:01  rcourtna
+2005-02-05 15:01  rcourtna
 
 	* CHANGES (1.7), amp_conf/var/www/html/admin/functions.php (1.12):
 	  null user context for SIP trunks breaks conf writing
 
-2005-02-04 00:50  rcourtna
+2005-02-03 22:50  rcourtna
 
 	* INSTALL (1.8), amportal.conf (1.1), apply_conf.sh (1.3),
 	  chown_asterisk.sh (1.4), upgrade.sh (1.7),
@@ -367,32 +584,32 @@
 	  amp_conf/var/www/html/panel/op_server.cfg.template (1.4): keep
 	  passwords and other info in amportal.conf
 
-2005-02-02 18:41  rcourtna
+2005-02-02 16:41  rcourtna
 
 	* amp_conf/var/www/html/admin/: did.php (1.3),
 	  retrieve_op_conf_from_mysql.pl (1.5): fix fop config script to
 	  work with SUSE
 
-2005-01-27 23:49  rcourtna
+2005-01-27 21:49  rcourtna
 
 	* SQL/newinstall.sql (1.6),
 	  amp_conf/var/www/html/admin/functions.php (1.11): use bigint for
 	  sip and iax account id
 
-2005-01-27 20:12  rcourtna
+2005-01-27 18:12  rcourtna
 
 	* amp_conf/var/www/html/admin/: extensions.php (1.15), ivr.php
 	  (1.9): Missing form fields after upload of wav.
 
-2005-01-25 17:30  rcourtna
+2005-01-25 15:30  rcourtna
 
 	* CHANGES (1.6): [no log message]
 
-2005-01-25 17:21  rcourtna
+2005-01-25 15:21  rcourtna
 
 	* CHANGES (1.5): [no log message]
 
-2005-01-25 17:19  rcourtna
+2005-01-25 15:19  rcourtna
 
 	* CHANGES (1.4), upgrade.sh (1.6),
 	  amp_conf/etc/asterisk/extensions.conf (1.9),
@@ -410,159 +627,159 @@
 	  amp_conf/var/www/html/admin/trunks.php (1.4),
 	  amp_conf/var/www/html/admin/vm_read.php (1.3): AMP 1.10.006
 
-2005-01-25 00:59  rcourtna
+2005-01-24 22:59  rcourtna
 
 	* amp_conf/var/www/html/panel/: CHANGES (1.2), FAQ (1.2), README
 	  (1.2), TODO (1.2), UPGRADE (1.2), VERSION (1.2): FOP 0.19
 
-2005-01-25 00:54  rcourtna
+2005-01-24 22:54  rcourtna
 
 	* amp_conf/var/www/html/panel/: op_buttons.cfg (1.1),
 	  op_buttons.cfg.example (1.2): use op_buttons_additional.cfg
 
-2005-01-25 00:46  rcourtna
+2005-01-24 22:46  rcourtna
 
 	* amp_conf/var/www/html/panel/: op_server.pl (1.3),
 	  operator_panel.swf (1.3): FOP .19
 
-2005-01-23 17:07  rcourtna
+2005-01-23 15:07  rcourtna
 
 	* amp_conf/: var/lib/asterisk/agi-bin/dialparties.agi (1.7),
 	  etc/asterisk/extensions.conf (1.8): callfwd on busy (*90<exten>
 	  and *91)
 
-2005-01-23 16:29  rcourtna
+2005-01-23 14:29  rcourtna
 
 	* amp_conf/etc/asterisk/extensions.conf (1.7): include
 	  extensions_custom by default
 
-2005-01-23 16:01  rcourtna
+2005-01-23 14:01  rcourtna
 
 	* amp_conf/var/www/html/admin/trunks.php (1.3): write
 	  op_buttons.cfg on submit
 
-2005-01-23 15:20  rcourtna
+2005-01-23 13:20  rcourtna
 
 	* amp_conf/var/www/html/admin/: callgroups.php (1.6), functions.php
 	  (1.9), common/script.js (1.6): allow for custom goto for call
 	  groups
 
-2005-01-22 12:37  rcourtna
+2005-01-22 10:37  rcourtna
 
 	* amp_conf/var/www/html/admin/extensions.php (1.13): pass customer
 	  callerid in basic edit form
 
-2005-01-22 12:33  rcourtna
+2005-01-22 10:33  rcourtna
 
 	* amp_conf/var/www/html/admin/extensions.php (1.12): change tooltip
 	  for extension number
 
-2005-01-22 12:27  rcourtna
+2005-01-22 10:27  rcourtna
 
 	* amp_conf/var/www/html/admin/extensions.php (1.11): cosmetic
 	  changes to Advanced Edit table
 
-2005-01-22 12:17  rcourtna
+2005-01-22 10:17  rcourtna
 
 	* amp_conf/var/www/html/admin/: extensions.php (1.10), trunks.php
 	  (1.2): Push bottom border down.  Allow modification of callerid.
 
-2005-01-22 11:51  rcourtna
+2005-01-22 09:51  rcourtna
 
 	* amp_conf/var/www/html/panel/op_server.cfg.template (1.3):
 	  increase poll_interval from 10 to 120
 
-2005-01-21 13:21  rcourtna
+2005-01-21 11:21  rcourtna
 
 	* amp_conf/var/www/html/admin/ivr.php (1.7): upload wav did not
 	  return to proper page after submit
 
-2005-01-20 14:44  rcourtna
+2005-01-20 12:44  rcourtna
 
 	* amp_conf/: etc/asterisk/vm_email.inc.template (1.3),
 	  etc/asterisk/vm_general.inc (1.3), var/www/cgi-bin/vmail.cgi
 	  (1.2): vmail.cgi now stores password in cookie.  Change vm_email
 	  so that automatic login can occur.
 
-2005-01-14 11:24  rcourtna
+2005-01-14 09:24  rcourtna
 
 	* amp_conf/var/www/html/admin/common/db_connect.php (1.3): get
 	  debug output from mysql if connect fails
 
-2005-01-12 13:25  rcourtna
+2005-01-12 11:25  rcourtna
 
 	* amp_conf/var/www/html/admin/: ivr.php (1.6), common/script.js
 	  (1.5): add some logic to ensure Custom Goto is used properly
 
-2005-01-12 10:40  rcourtna
+2005-01-12 08:40  rcourtna
 
 	* amp_conf/etc/asterisk/vm_general.inc (1.2): add operator=yes to
 	  allow caller to press 0.  Change emailed wav format from wav48 to
 	  wav
 
-2005-01-11 18:56  rcourtna
+2005-01-11 16:56  rcourtna
 
 	* amp_conf/var/www/html/admin/: extensions.php (1.9), vm_conf.php
 	  (1.3), common/script.js (1.4): allow extensions to be created
 	  without voicemail (just leave 'voicemail password' to blank)
 
-2005-01-05 18:14  rcourtna
+2005-01-05 16:14  rcourtna
 
 	* amp_conf/etc/asterisk/extensions.conf (1.6): commented out unused
 	  prefixed outbound- extensions.  Prefixed dialing is now handled
 	  by outbound-trunks in extensions_additional.conf
 
-2005-01-05 12:49  rcourtna
+2005-01-05 10:49  rcourtna
 
 	* amp_conf/var/www/html/admin/ivrmap.php (1.4): sorting bug caused
 	  limit to number of voice menus
 
-2004-12-28 18:11  rcourtna
+2004-12-28 16:11  rcourtna
 
 	* CHANGES (1.3), upgrade.sh (1.5), SQL/newinstall.sql (1.5):
 	  1.10.005
 
-2004-12-28 16:37  rcourtna
+2004-12-28 14:37  rcourtna
 
 	* amp_conf/var/www/html/admin/: ivr.php (1.5), ivr_action.php
 	  (1.4), ivrmap.php (1.3): custom context gotos for digital
 	  receptionist
 
-2004-12-28 14:24  rcourtna
+2004-12-28 12:24  rcourtna
 
 	* amp_conf/var/www/html/admin/ivr.php (1.4): Fix counter bug for
 	  D.R. voice menus
 
-2004-12-28 13:13  rcourtna
+2004-12-28 11:13  rcourtna
 
 	* amp_conf/var/www/html/admin/: extensions.php (1.8), functions.php
 	  (1.8): add qualify= option in advanced edit form for newly
 	  created extensions.
 
-2004-12-28 12:58  rcourtna
+2004-12-28 10:58  rcourtna
 
 	* amp_conf/var/www/html/admin/extensions.php (1.7): do not allow
 	  extension number to be changed in edit. Force admin to delete and
 	  re-add exten if change is required.
 
-2004-12-28 12:30  rcourtna
+2004-12-28 10:30  rcourtna
 
 	* SQL/newinstall.sql (1.4),
 	  amp_conf/var/www/html/admin/functions.php (1.7): Create SIP and
 	  IAX tables with 'data'=150 width.  Requested for long register
 	  lines in trunk admin
 
-2004-12-28 12:20  rcourtna
+2004-12-28 10:20  rcourtna
 
 	* amp_conf/var/www/html/admin/functions.php (1.6): ensure
 	  DIALOUTIDS global var is not created more than once
 
-2004-12-22 19:30  rcourtna
+2004-12-22 17:30  rcourtna
 
 	* amp_conf/etc/asterisk/extensions.conf (1.5): fix fax not being
 	  detected for GRP
 
-2004-12-22 18:51  rcourtna
+2004-12-22 16:51  rcourtna
 
 	* CHANGES (1.2), INSTALL (1.7), UPGRADE (1.3), chown_asterisk.sh
 	  (1.3), upgrade.sh (1.4), SQL/newinstall.sql (1.3),
@@ -584,94 +801,94 @@
 	  (1.2), amp_conf/var/www/html/admin/trunks.php (1.1),
 	  amp_conf/var/www/html/admin/common/mainstyle.css (1.2): 1.10.004
 
-2004-12-15 21:13  rcourtna
+2004-12-15 19:13  rcourtna
 
 	* amp_conf/var/www/html/admin/common/script.js (1.3): added
 	  extension number checking logic
 
-2004-12-14 15:34  rcourtna
+2004-12-14 13:34  rcourtna
 
 	* amp_conf/var/www/html/admin/footer.php (1.5): include donate
 	  button
 
-2004-12-14 15:14  rcourtna
+2004-12-14 13:14  rcourtna
 
 	* amp_conf/var/www/html/panel/safe_opserver (1.2): add sleep 4
 
-2004-12-14 14:27  rcourtna
+2004-12-14 12:27  rcourtna
 
 	* amp_conf/var/www/html/admin/extensions.php (1.6): write meetme
 	  _after_ extensions table is updated
 
-2004-12-14 14:09  rcourtna
+2004-12-14 12:09  rcourtna
 
 	* amp_conf/var/www/html/admin/retrieve_meetme_conf_from_mysql.pl
 	  (1.2): fixed problem where iax extensions didn't get meetme room
 
-2004-12-13 23:02  rcourtna
+2004-12-13 21:02  rcourtna
 
 	* amp_conf/usr/sbin/amportal (1.1): AMP start-stop script
 
-2004-12-13 10:28  rcourtna
+2004-12-13 08:28  rcourtna
 
 	* amp_conf/var/www/html/admin/images/amp.png (1.2): nice logo
 
-2004-12-10 13:31  rcourtna
+2004-12-10 11:31  rcourtna
 
 	* amp_conf/var/www/html/admin/ivr.php (1.3): Allow uploading of IVR
 	  recordings
 
-2004-11-30 11:49  rcourtna
+2004-11-30 09:49  rcourtna
 
 	* amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.5): added
 	  exit() if agi get_variable returns 'noresponse'
 
-2004-11-29 21:37  rcourtna
+2004-11-29 19:37  rcourtna
 
 	* amp_conf/etc/asterisk/iax.conf (1.3): turn on jitter buffer by
 	  default
 
-2004-11-29 21:36  rcourtna
+2004-11-29 19:36  rcourtna
 
 	* amp_conf/etc/asterisk/features.conf (1.2): disable max time for
 	  call parking, since ringback needs some work
 
-2004-11-26 14:14  rcourtna
+2004-11-26 12:14  rcourtna
 
 	* amp_conf/etc/asterisk/: extensions.conf (1.3), features.conf
 	  (1.1), parking.conf (1.2): Implemented call parking. 70 to park,
 	  71->79 to retrieve.  60 second max call-time.
 
-2004-11-14 16:00  rcourtna
+2004-11-14 14:00  rcourtna
 
 	* amp_conf/: etc/asterisk/extensions.conf (1.2),
 	  var/www/html/admin/callgroups.php (1.4),
 	  var/www/html/admin/functions.php (1.4): Added ability to prefix
 	  caller's CIDName for call-groups
 
-2004-11-03 22:06  rcourtna
+2004-11-03 20:06  rcourtna
 
 	* amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.4): only
 	  assume dialed number is zap if greater than 6 digits (was
 	  previously 4)
 
-2004-10-27 18:18  rcourtna
+2004-10-27 16:18  rcourtna
 
 	* upgrade.sh (1.3): Copy in AMP config then update FOP config.
 
-2004-10-27 15:33  rcourtna
+2004-10-27 13:33  rcourtna
 
 	* UPGRADE (1.2): Upgrade instructions
 
-2004-10-27 14:46  rcourtna
+2004-10-27 12:46  rcourtna
 
 	* upgrade.sh (1.2): upgrade script
 
-2004-10-27 11:27  rcourtna
+2004-10-27 09:27  rcourtna
 
 	* upgrade.sh (1.1): script to assist in upgrades
 
-2004-10-27 11:17  rcourtna
+2004-10-27 09:17  rcourtna
 
 	* CHANGES (1.1), UPGRADE (1.1),
 	  amp_conf/var/www/html/admin/retrieve_iax_conf_from_mysql.pl
@@ -680,7 +897,7 @@
 	  amp_conf/var/www/html/panel/operator_panel_fixed24.swf (1.2):
 	  support for IAX.  FOP upgrade.
 
-2004-10-27 02:01  rcourtna
+2004-10-27 00:01  rcourtna
 
 	* apply_conf.sh (1.2), amp_conf/etc/asterisk/iax.conf (1.2),
 	  amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.3),
@@ -696,7 +913,7 @@
 	  amp_conf/var/www/html/panel/operator_panel.swf (1.2): Add support
 	  for IAX.  Upgrade FOP to 0.17.
 
-2004-10-24 00:54  rcourtna
+2004-10-23 22:54  rcourtna
 
 	* amp_conf/var/www/html/admin/: callgroups.php (1.3),
 	  extensions.php (1.4), footer.php (1.4), general.php (1.3),
@@ -704,19 +921,19 @@
 	  _SERVER['PATH_TRANSLATED'] doesn't work in all environments.
 	  replaced with _SERVER['SCRIPT_FILENAME'].
 
-2004-10-22 13:46  rcourtna
+2004-10-22 11:46  rcourtna
 
 	* INSTALL (1.6): debian systems require changes for cgi-bin
 
-2004-10-21 12:23  rcourtna
+2004-10-21 10:23  rcourtna
 
 	* FAQ (1.3): Direct users to sourceforge for FAQs
 
-2004-10-18 23:25  rcourtna
+2004-10-18 21:25  rcourtna
 
 	* FAQ (1.2): typo
 
-2004-10-18 11:25  rcourtna
+2004-10-18 09:25  rcourtna
 
 	* amp_conf/var/www/html/admin/: callgroups.php (1.2), config.php
 	  (1.2), extensions.php (1.3), footer.php (1.3), functions.php
@@ -725,25 +942,25 @@
 	  (1.2), moh.php (1.3), reports.php (1.2), vm_conf.php (1.2),
 	  vm_read.php (1.2), common/db_connect.php (1.2): added gpl text
 
-2004-10-18 01:37  rcourtna
+2004-10-17 23:37  rcourtna
 
 	* FAQ (1.1): faq
 
-2004-10-18 01:12  rcourtna
+2004-10-17 23:12  rcourtna
 
 	* amp_conf/var/www/html/admin/footer.php (1.2): use path when
 	  calling asterisk
 
-2004-10-18 01:11  rcourtna
+2004-10-17 23:11  rcourtna
 
 	* amp_conf/var/www/html/admin/moh.php (1.2): don't hardcode path to
 	  lame
 
-2004-10-18 01:10  rcourtna
+2004-10-17 23:10  rcourtna
 
 	* INSTALL (1.5): made instructions more Debian friendly
 
-2004-10-15 11:42  rcourtna
+2004-10-15 09:42  rcourtna
 
 	* INSTALL (1.4), SQL/newinstall.sql (1.2),
 	  amp_conf/etc/asterisk/vm_email.inc.template (1.2),
@@ -751,18 +968,18 @@
 	  amp_conf/var/www/html/admin/cdr/lib/defines.php.template (1.2):
 	  [no log message]
 
-2004-10-14 14:06  rcourtna
+2004-10-14 12:06  rcourtna
 
 	* CONTRIB.txt (1.1), INSTALL (1.3), chown_asterisk.sh (1.2),
 	  amp_conf/var/www/html/admin/THIRDPARTYREADME.txt (1.2),
 	  amp_conf/var/www/html/admin/extensions.php (1.2): [no log
 	  message]
 
-2004-10-13 22:10  rcourtna
+2004-10-13 20:10  rcourtna
 
 	* INSTALL (1.2): corrected minor errors
 
-2004-10-13 21:00  rcourtna
+2004-10-13 19:00  rcourtna
 
 	* INSTALL (1.1.1.2), apply_conf.sh (1.1.1.2),
 	  amp_conf/var/lib/asterisk/.bash_logout (1.1.1.1),
@@ -2531,7 +2748,7 @@
 	  amp_conf/etc/asterisk/zapata.conf.template (1.1.1.1): Initial
 	  import.
 
-2004-10-13 21:00  rcourtna
+2004-10-13 19:00  rcourtna
 
 	* amp_conf/: var/lib/asterisk/.bash_logout (1.1),
 	  var/lib/asterisk/.bash_profile (1.1), var/lib/asterisk/.zshrc
@@ -3906,13 +4123,13 @@
 	  etc/asterisk/voicemail.conf.template (1.1),
 	  etc/asterisk/zapata.conf.template (1.1): Initial revision
 
-2004-10-13 18:17  rcourtna
+2004-10-13 16:17  rcourtna
 
 	* INSTALL (1.1.1.1), bounce_all.sh (1.1.1.1), apply_conf.sh
 	  (1.1.1.1), chown_asterisk.sh (1.1.1.1), SQL/cdr_mysql_table.sql
 	  (1.1.1.1), SQL/newinstall.sql (1.1.1.1): Initial import.
 
-2004-10-13 18:17  rcourtna
+2004-10-13 16:17  rcourtna
 
 	* INSTALL (1.1), bounce_all.sh (1.1), apply_conf.sh (1.1),
 	  chown_asterisk.sh (1.1), SQL/cdr_mysql_table.sql (1.1),
