@@ -73,4 +73,4 @@ switch($display) {
 
 
 
-<?php include 'footer.php' ?>
+</div>
