@@ -78,7 +78,8 @@ if (isset($account) && !checkRange($account)){
 		}
 		
 		//update ext-local context in extensions.conf
-		addaccount($account);
+		$mailb = ($_REQUEST['mailbox'] == '') ? 'novm' : $_REQUEST['mailbox'];
+		addaccount($account,$mailb);
 		
 		//write out extenstions_additional.conf
 		exec($wScript1);
@@ -408,7 +409,7 @@ switch($extdisplay) {
 
             <tr>
                 <td colspan=2>
-                    <br><br><h6><input name="Submit" type="button" value="Add Extension" onclick="checkForm(addNew)"></h6>
+                    <br><br><h6><input name="Submit" type="button" value="Add Extension" onclick="javascript:addNew.mailbox.value=addNew.account.value;checkForm(addNew)"></h6>
                 </td>
             </tr>
             </table>

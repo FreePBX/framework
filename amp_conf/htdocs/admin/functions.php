@@ -535,10 +535,10 @@ function addsip($account,$callerid) {
 	}
 }
 
-function addaccount($account) {
+function addaccount($account,$mailb) {
 	extensionsexists();
 	global $db;
-	$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ('ext-local', '".$account."', '1', 'Macro', 'exten-vm,".$account.",".$account."', NULL , '0')";
+	$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ('ext-local', '".$account."', '1', 'Macro', 'exten-vm,".$mailb.",".$account."', NULL , '0')";
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
         die($result->getMessage());
