@@ -1,98 +1,79 @@
-#!/bin/sh
+#!/bin/bash
 
-ROOT_UID=0	 # root uid is 0
-E_NOTROOT=67	 # Non-root exit error
-
-# check to see if we are root
-if [ "$UID" -ne "$ROOT_UID" ]
+if [ "$1" == "-h" ]
 then
-	echo "Sorry, you must be root to run this script."
+	echo "Usage: "
+	echo "   "$0" [config]"
 	echo
-	exit 1
+	echo "If config file is not specified, default is /etc/amportal.conf"
+	echo
+	exit
 fi
 
-# check to see if we are running this from the right place
-if [ ! -e "apply_conf.sh" ] 
-	then
-	echo;
-	echo "You must run this script from AMP's source directory";
-	echo;
-	exit 1
+if [ -n "$1" ]
+then
+	AMPCONFIG=$1
+else
+	AMPCONFIG=/etc/amportal.conf
 fi
 
-# make sure config file exists
-if [ ! -e "/etc/amportal.conf" ]       # Check if file exists.
-  then
-    echo;
-    echo "/etc/amportal.conf does not exist!";
-	echo "Using a default amportal.conf";
-	cp amportal.conf /etc/
-fi
-source /etc/amportal.conf
-
-echo
-echo "Warning!!!"
-echo "This script will overwrite your current Asterisk configuration files."
-echo "You will _not_ lose configurations you made from the AMP web admin."
-echo "Changes at customization points will also be preserved"
-echo "(ie: *_custom.conf files)"
-echo
-echo "Press enter to continue."
-echo
-
-read anything
-
-if [ ! -d $AMPWEBROOT ] 
-	then
-		echo;
-		echo "$AMPWEBROOT does not appear to be Apache's web root.  Please set it in /etc/amportal.conf";
-		echo;
-		exit 1
+if [ ! -e $AMPCONFIG ]
+then
+	echo "Cannot find $AMPCONFIG"
+	exit
 fi
 
-if [ ! -d $AMPCGIBIN ] 
-	then
-		echo;
-		echo "$AMPCGIBIN does not appear to be Apache's cgi-bin directory.  Please set it in /etc/amportal.conf";
-		echo;
-		exit 1
-fi
-
-#copy in the AMP config
-cp -rf amp_conf/etc/* /etc/
-cp -rf amp_conf/usr/* /usr/
-cp -rf amp_conf/var/lib/* /var/lib/
-cp -rf amp_conf/var/spool/* /var/spool/
-cp -rf amp_conf/var/www/cgi-bin/* $AMPCGIBIN/
-cp -rf amp_conf/var/www/html/* $AMPWEBROOT/
+# include config file
+echo "Reading $AMPCONFIG"
+source $AMPCONFIG
 
 
-# Replace tokens in files that require it
-sed -i -e "s/AMPMGRPASS/$AMPMGRPASS/g" -e "s/AMPMGRUSER/$AMPMGRUSER/g" /etc/asterisk/manager.conf
-sed -i -e "s/AMPMGRPASS/$AMPMGRPASS/g" -e "s/AMPMGRUSER/$AMPMGRUSER/g" /var/lib/asterisk/agi-bin/dialparties.agi
-sed -i -e "s/AMPMGRPASS/$AMPMGRPASS/g" -e "s/AMPMGRUSER/$AMPMGRUSER/g" -e "s/AMPWEBADDRESS/$AMPWEBADDRESS/g" -e "s/FOPPASSWORD/$FOPPASSWORD/g" -e "s,AMPWEBROOT,$AMPWEBROOT,g" $AMPWEBROOT/panel/op_server.cfg
-sed -i -e "s/AMPDBPASS/$AMPDBPASS/g" -e "s/AMPDBUSER/$AMPDBUSER/g" /etc/asterisk/cdr_mysql.conf
-sed -i -e "s/AMPDBPASS/$AMPDBPASS/g" -e "s/AMPDBUSER/$AMPDBUSER/g" -e "s/AMPWEBADDRESS/$AMPWEBADDRESS/g" -e "s,AMPWEBROOT,$AMPWEBROOT,g" $AMPWEBROOT/admin/cdr/lib/defines.php
-sed -i -e "s/AMPDBPASS/$AMPDBPASS/g" -e "s/AMPDBUSER/$AMPDBUSER/g" $AMPWEBROOT/admin/retrieve_extensions_from_mysql.pl
-sed -i -e "s/AMPDBPASS/$AMPDBPASS/g" -e "s/AMPDBUSER/$AMPDBUSER/g" $AMPWEBROOT/admin/retrieve_iax_conf_from_mysql.pl
-sed -i -e "s/AMPDBPASS/$AMPDBPASS/g" -e "s/AMPDBUSER/$AMPDBUSER/g" $AMPWEBROOT/admin/retrieve_meetme_conf_from_mysql.pl
-sed -i -e "s/AMPDBPASS/$AMPDBPASS/g" -e "s/AMPDBUSER/$AMPDBUSER/g" -e "s,AMPWEBROOT,$AMPWEBROOT,g" $AMPWEBROOT/admin/retrieve_op_conf_from_mysql.pl
-sed -i -e "s/AMPDBPASS/$AMPDBPASS/g" -e "s/AMPDBUSER/$AMPDBUSER/g" $AMPWEBROOT/admin/retrieve_sip_conf_from_mysql.pl
-sed -i -e "s/AMPDBPASS/$AMPDBPASS/g" -e "s/AMPDBUSER/$AMPDBUSER/g" $AMPWEBROOT/admin/common/db_connect.php
+echo "Updating configuration..."
+
+echo "/etc/asterisk/cdr_mysql.conf"
+sed -r -i "s/user=[a-zA-Z0-9]*/user=$AMPDBUSER/" /etc/asterisk/cdr_mysql.conf
+sed -r -i "s/password=[a-zA-Z0-9]*/password=$AMPDBPASS/" /etc/asterisk/cdr_mysql.conf
+
+echo $AMPWEBROOT"/admin/cdr/lib/defines.php"
+sed -r -i "s/define \(\"USER\", \"[a-zA-Z0-9]*\"\);/define \(\"USER\", \"$AMPDBUSER\"\);/" $AMPWEBROOT/admin/cdr/lib/defines.php
+sed -r -i "s/define \(\"PASS\", \"[a-zA-Z0-9]*\"\);/define \(\"PASS\", \"$AMPDBPASS\"\);/" $AMPWEBROOT/admin/cdr/lib/defines.php
+sed -r -i "s/define \(\"WEBROOT\", \"[a-zA-Z0-9_-\.\/\\]*\"\);/define \(\"WEBROOT\", \"http:\/\/$AMPWEBADDRESS\/admin\/cdr\/\"\);/" $AMPWEBROOT/admin/cdr/lib/defines.php
+sed -r -i "s!define \(\"FSROOT\", \"[a-zA-Z0-9_-\.\/\\]*\"\);!define \(\"FSROOT\", \"$AMPWEBROOT\/admin\/cdr\/\"\);!" $AMPWEBROOT/admin/cdr/lib/defines.php
+
+# do a bunch at once here
+find /var/www/html/admin/ -name retrieve\*.pl
+sed -r -i "s/username = \"[a-zA-Z0-9]*\";/username = \"$AMPDBUSER\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
+sed -r -i "s/password = \"[a-zA-Z0-9]*\";/password = \"$AMPDBPASS\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
+
+sed -r -i "s!op_conf = \"[a-zA-Z0-9_-\.\/\\]*\";!op_conf = \"$AMPWEBROOT\/panel\/op_buttons_additional.cfg\";!" $AMPWEBROOT/admin/retrieve_op_conf_from_mysql.pl
+
+#this is now handled by parse_amportal_conf in config.php
+#echo "/var/www/html/admin/common/db_connect.php"
+#sed -r -i "s/db_user = '[a-zA-Z0-9]*';/db_user = '$AMPDBUSER';/" $AMPWEBROOT/admin/common/db_connect.php
+#sed -r -i "s/db_pass = '[a-zA-Z0-9]*';/db_pass = '$AMPDBPASS';/" $AMPWEBROOT/admin/common/db_connect.php
+
+echo "/etc/asterisk/manager.conf"
+sed -r -i "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" /etc/asterisk/manager.conf
+sed -r -i "/\[general\]/!s/\[[a-zA-Z0-9]+\]/[$AMPMGRUSER]/" /etc/asterisk/manager.conf
+
+echo "/var/lib/asterisk/agi-bin/dialparties.agi"
+sed -r -i "s/mgrUSERNAME='[a-zA-Z0-9]*';/mgrUSERNAME='$AMPMGRUSER';/" /var/lib/asterisk/agi-bin/dialparties.agi
+sed -r -i "s/mgrSECRET='[a-zA-Z0-9]*';/mgrSECRET='$AMPMGRPASS';/" /var/lib/asterisk/agi-bin/dialparties.agi
+
+echo $AMPWEBROOT"/panel/op_server.cfg"
+sed -r -i "s/manager_user=[a-zA-Z0-9]*/manager_user=$AMPMGRUSER/" $AMPWEBROOT/panel/op_server.cfg
+sed -r -i "s/manager_secret=[a-zA-Z0-9]*/manager_secret=$AMPMGRPASS/" $AMPWEBROOT/panel/op_server.cfg
+sed -r -i "s/web_hostname=[a-zA-Z0-9_-\.]*/web_hostname=$AMPWEBADDRESS/" $AMPWEBROOT/panel/op_server.cfg
+sed -r -i "s/security_code=[a-zA-Z0-9]*/security_code=$FOPPASSWORD/" $AMPWEBROOT/panel/op_server.cfg
+sed -r -i "s!flash_dir=[a-zA-Z0-9_-\.\/\\]*!flash_dir=$AMPWEBROOT\/panel!" $AMPWEBROOT/panel/op_server.cfg
+sed -r -i "s!web_hostname=[a-zA-Z0-9\.]*!web_hostname=$AMPWEBADDRESS!" $AMPWEBROOT/panel/op_server.cfg
+sed -r -i "s!web_hostname=[a-zA-Z0-9\.]*!web_hostname=$AMPWEBADDRESS!" $AMPWEBROOT/panel/op_server.cfg
+
+echo "/etc/asterisk/vm_email.inc (may require manual check)"
 sed -i -e "s/AMPWEBADDRESS/$AMPWEBADDRESS/g" /etc/asterisk/vm_email.inc
-sed -i -e "s,AMPWEBROOT,$AMPWEBROOT,g" -e "s,AMPCGIBIN,$AMPCGIBIN,g" /usr/sbin/amportal
 
-
-./chown_asterisk.sh
-asterisk -rx reload
-
-echo
-echo "New configuration applied ..."
-echo 
-echo "Writing FOP config"
+echo "Done"
 echo
 
-su - asterisk -c "$AMPWEBROOT/admin/retrieve_op_conf_from_mysql.pl"
-su - asterisk -c "$AMPWEBROOT/admin/bounce_op.sh"
+exit
 
-exit 0
