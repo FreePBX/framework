@@ -64,7 +64,7 @@ function process_mohfile($mohfile)
 	$origmohfile=$path_to_dir."/orig_".$mohfile;
 	$newmohfile=$path_to_dir."/". ((strpos($mohfile,'.mp3') === false) ? $mohfile.".mp3" : $mohfile);
 	//echo $newmohfile;
-	$lamecmd="/usr/bin/lame --cbr -m m -t -F ".$origmohfile." ".$newmohfile;
+	$lamecmd="lame --cbr -m m -t -F ".$origmohfile." ".$newmohfile;
 	exec($lamecmd);
 	$rmcmd="rm -f ". $origmohfile;
 	exec($rmcmd);
