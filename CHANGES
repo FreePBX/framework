@@ -1,18 +1,20 @@
 1.10.007
 
-- Added cvs2cl generated ChangeLog (see this for minor changes and bug fixes)
+- Added cvs2cl generated ChangeLog (see this for all changes and bug fixes)
 - Added AMP Users (multi-department, multi-tenant)
-- Added incremental upgrade script (upgrade_amp)
+- Added incremental upgrade script (install_amp)
+- Use /etc/amportal.conf to tweak AMP to your environement (MySql credentials, web root, ip address, etc).  Apply changes with apply_conf.sh
+- New Outbound Routes page to control trunks used for outbound calls based on dial patterns
+- LCR using Outbound Routes
+- Trunks page redone to support routing, adds dial rules to modify numbers per-trunk before dialing
+- ENUM Trunks
+- Queues support added
+- Support for ZAP extensions
+- More voicemail options added
+- New AGI-based directory application to support both first and last name lookups and return to operator
+- provide customization points for all AMP generated extension contexts.
 - Upgrade to Flash Operator Panel 0.20
 - Upgrade Asterisk-Stat to v2.0
-- Use /etc/amportal.conf to tweak AMP to your environement (MySql credentials, web root, ip address, etc)
-- New Outbound Routes page to control trunks used for outbound calls based on dial patterns
-- Trunks page redone to support routing, adds dial rules to modify numbers per-trunk before dialing
-- Queues support added
-- dialparties changed to respect outbound routing for call forward settings
-- New AGI-based directory application to support both first and last name lookups and return to operator
-- New AMP installs can have 10 digit extension numbers 
-- provide customization points for all AMP generated extension contexts.
 
 
 1.10.006
