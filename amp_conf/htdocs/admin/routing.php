@@ -101,6 +101,10 @@ switch ($action) {
 		addRoute($routename, $dialpattern, $trunkpriority,"new");
 		exec($extenScript);
 		needreload();
+		$extdisplay = ''; // resets back to main screen
+		$routename = ''; // resets back to main screen
+		$dialpattern=array();
+		$trunkpriority=array();
 	break;
 	case "editroute":
 		editRoute($routename, $dialpattern, $trunkpriority);
