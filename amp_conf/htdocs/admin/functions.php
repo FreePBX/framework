@@ -1436,9 +1436,9 @@ function addqueue($account,$name,$password,$goto) {
 	//add to extensions table
 	$addarray = array('ext-queues',$account,'1','Queue',$account.'|t|||'.$_REQUEST['maxwait'],$name,'0');
 	addextensions($addarray);
-	$addarray = array('ext-queues',$account.'*','1','Macro','AddQueueMember,'.$account.','.$password,'','0');
+	$addarray = array('ext-queues',$account.'*','1','Macro','agent-add,'.$account.','.$password,'','0');
 	addextensions($addarray);
-	$addarray = array('ext-queues',$account.'**','1','Macro','RemoveQueueMember,'.$account,'','0');
+	$addarray = array('ext-queues',$account.'**','1','Macro','agent-del,'.$account,'','0');
 	addextensions($addarray);
 
 	setGoto($account,'ext-queues','2',$goto,0);
