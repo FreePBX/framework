@@ -435,7 +435,7 @@ out("OK");
 // **** Parse out command-line options
 
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
