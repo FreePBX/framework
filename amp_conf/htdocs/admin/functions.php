@@ -1484,13 +1484,18 @@ function deleteDialRules($trunknum) {
 	writeDialRulesFile($conf);
 }
 
-function addqueue($account,$name,$password,$prefix,$goto) {
+function addqueue($account,$name,$password,$prefix,$goto,$agentannounce) {
 	global $db;
 	
 	//add to extensions table
+	if ($agentannounce != 'None')
+		$agentannounce="custom/$agentannounce";
+	else
+		$agentannounce="";
+
 	$addarray = array('ext-queues',$account,'1','SetCIDName',$prefix.'${CALLERIDNAME}','','0');
 	addextensions($addarray);
-	$addarray = array('ext-queues',$account,'2','Queue',$account.'|t|||'.$_REQUEST['maxwait'],$name,'0');
+	$addarray = array('ext-queues',$account,'2','Queue',$account.'|t||'.$agentannounce.'|'.$_REQUEST['maxwait'],$name,'0');
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account.'*','1','Macro','agent-add,'.$account.','.$password,'','0');
 	addextensions($addarray);
@@ -1510,7 +1515,11 @@ function addqueue($account,$name,$password,$prefix,$goto) {
 		array($account,'strategy',($_REQUEST['strategy'])?$_REQUEST['strategy']:'ringall'),
 		array($account,'timeout',($_REQUEST['timeout'])?$_REQUEST['timeout']:'15'),
 		array($account,'retry',($_REQUEST['retry'])?$_REQUEST['retry']:'5'),
-		array($account,'wrapuptime',($_REQUEST['wrapuptime'])?$_REQUEST['wrapuptime']:'0'));
+		array($account,'wrapuptime',($_REQUEST['wrapuptime'])?$_REQUEST['wrapuptime']:'0'),
+		array($account,'agentannounce',($_REQUEST['agentannounce'])?$_REQUEST['agentannounce']:'None'),
+		array($account,'announce-frequency',($_REQUEST['announceposition'])?$_REQUEST['announceposition']:'0'),
+		array($account,'announce-holdtime',($_REQUEST['announceholdtime'])?$_REQUEST['announceholdtime']:'no'),
+		array($account,'music',($_REQUEST['music'])?$_REQUEST['music']:'default'));
 		
 	//there can be multiple members
 	if (isset($_REQUEST['members'])) {
@@ -1547,6 +1556,18 @@ function getqueueinfo($account) {
 	//get all the variables for the queue
 	$sql = "SELECT keyword,data FROM queues WHERE id = '$account'";
 	$results = $db->getAssoc($sql);
+
+	//okay, but the announce-holdtime data has a dash and someone smarter than me needs to figure it out
+	//so we will get it directly
+	$sql = "SELECT data FROM queues WHERE id = '$account' AND keyword = 'announce-holdtime'";
+	$myresults = $db->getCol($sql);
+	$results['announceholdtime'] = $myresults[0];
+
+	//okay, but the announce-holdtime data has a dash and someone smarter than me needs to figure it out
+	//so we will get it directly
+	$sql = "SELECT data FROM queues WHERE id = '$account' AND keyword = 'announce-frequency'";
+	$myresults = $db->getCol($sql);
+	$results['announceposition'] = $myresults[0];
 	
 	//okay, but there can be multiple member variables ... do another select for them
 	$sql = "SELECT data FROM queues WHERE id = '$account' AND keyword = 'member'";
@@ -1562,6 +1583,7 @@ function getqueueinfo($account) {
 	$sql = "SELECT args,descr FROM extensions WHERE extension = '$account' AND context = 'ext-queues' AND priority = '2'";
 	list($args, $descr) = $db->getRow($sql);
 	$maxwait = explode('|',$args);  //in table like queuenum|t|||maxwait
+	$results['agentannounce'] = $maxwait[3];
 	$results['maxwait'] = $maxwait[4];
 	$results['name'] = $descr;
 	
@@ -1592,8 +1614,6 @@ function drawselects($formName,$goto,$i) {
 	$gresults = getgroups();
 	//get unique queues
 	$queues = getqueues();
-	// individual AMP Users department prefix - has no effect if deptartment is empty
-//	$dept = str_replace(' ','_',$_SESSION["user"]->_deptname);
 	
 	$selectHtml = '	<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';				
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="ivr" disabled="true" '.(strpos($goto,'aa_') === false ? '' : 'CHECKED=CHECKED').' /> Digital Receptionist: ';
@@ -1601,10 +1621,8 @@ function drawselects($formName,$goto,$i) {
 
 	if (isset($extens)) {
 		foreach ($unique_aas as $unique_aa) {
-//			$menu_num = substr(strrchr($unique_aa[0],"_"),1);
 			$menu_id = $unique_aa[0];
 			$menu_name = $unique_aa[1];
-//			$selectHtml .= '<option value="'.$menu_id.'" '.(strpos($goto,$dept.'aa_'.$menu_num) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : 'Menu ID'.$menu_id);
 			$selectHtml .= '<option value="'.$menu_id.'" '.(strpos($goto,$menu_id) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : 'Menu ID'.$menu_id);
 		}
 	}
@@ -1670,7 +1688,6 @@ function setGoto($account,$context,$priority,$goto,$i) {  //preforms logic for s
 		addextensions($addarray);
 	}
 	elseif ($goto == 'ivr') {
-		//$args = 'aa_'.$_REQUEST['ivr'.$i].',s,1';
 		$args = $_REQUEST['ivr'.$i].',s,1';
 		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
 		addextensions($addarray);
@@ -1907,6 +1924,76 @@ function write_voicemailconf($filename, &$vmconf, &$section) {
 function saveVoicemail($vmconf) {
 	// yes, this is hardcoded.. is this a bad thing?
 	write_voicemailconf("/etc/asterisk/voicemail.conf", $vmconf, $section);
+}
+
+function getsystemrecordings($path) {
+	$i = 0;
+	$arraycount = 0;
+	
+	if (is_dir($path)){
+		if ($handle = opendir($path)){
+			while (false !== ($file = readdir($handle))){ 
+				if (($file != ".") && ($file != "..") && ($file != "CVS") && (strpos($file, "aa_") === FALSE)    ) 
+				{
+					$file_parts=explode(".",$file);
+					$filearray[($i++)] = $file_parts[0];
+				}
+			}
+		closedir($handle); 
+		}
+		   
+	}
+	if (isset($filearray)) sort($filearray);
+	return ($filearray);
+}
+
+function getmusiccategory($path) {
+	$i = 0;
+	$arraycount = 0;
+	
+	if (is_dir($path)){
+		if ($handle = opendir($path)){
+			while (false !== ($file = readdir($handle))){ 
+				if ( ($file != ".") && ($file != "..") && ($file != "CVS")  ) 
+				{
+					if (is_dir("$path/$file"))
+						$filearray[($i++)] = "$file";
+				}
+			}
+		closedir($handle); 
+		}
+	}
+	if (isset($filearray)) sort($filearray);
+	return ($filearray);
+}
+
+function rmdirr($dirname)
+{
+    // Sanity check
+    if (!file_exists($dirname)) {
+        return false;
+    }
+ 
+    // Simple delete for a file
+    if (is_file($dirname)) {
+        return unlink($dirname);
+    }
+ 
+    // Loop through the folder
+    $dir = dir($dirname);
+    while (false !== $entry = $dir->read()) {
+        // Skip pointers
+        if ($entry == '.' || $entry == '..') {
+            continue;
+        }
+ 
+        // Recurse
+        rmdirr("$dirname/$entry");
+    }
+ 
+    // Clean up
+    $dir->close();
+    return rmdir($dirname);
 }
 
 ?>

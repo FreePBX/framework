@@ -90,7 +90,8 @@ $amp_sections = array(
 		6=>"Trunks",
 		8=>"Outbound Routing",
 		7=>"DID Routes",
-		1=>"Music On Hold",
+		1=>"On Hold Music",
+		12=>"System Recordings",
 		5=>"General Settings",
 	);
 	
@@ -142,8 +143,7 @@ switch($display) {
 		include 'incoming.php';
 	break;
 	case '1':
-		echo "<h2>On Hold Music</h2>";
-		include 'moh.php';
+		include 'music.php';
 	break;
 	case '2':
 		echo "<h2>Digital Receptionist</h2>";
@@ -175,6 +175,9 @@ switch($display) {
 	break;
 	case '8':
 		include 'routing.php';
+	break;
+	case '12':
+		include 'recordings.php';
 	break;
 	case '10':
 		include 'ampusers.php';

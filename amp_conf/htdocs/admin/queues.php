@@ -23,6 +23,7 @@ $dispnum = 11; //used for switch on config.php
 $account = $_REQUEST['account'];
 $name = $_REQUEST['name'];
 $password = $_REQUEST['password'];
+$agentannounce = $_REQUEST['agentannounce'];
 $prefix = $_REQUEST['prefix'];
 $goto = $_REQUEST['goto0'];
 
@@ -141,7 +142,67 @@ if ($action == 'delete') {
 	</tr>
 
 	<tr><td colspan="2"><br><h5>Queue Options<hr></h5></td></tr>
-
+	<tr>
+		<td><a href="#" class="info">Agent Announcement:<span>Announcement played to the Agent prior to bridging in the caller <br><br> Example: "the Following call is from the Sales Queue" or "This call is from the Technical Support Queue".<br><br>To add additional recordings please use the "System Recordings" MENU to the left</span></a></td>
+		<td>
+			<select name="agentannounce"/>
+			<?php
+				$tresults = getsystemrecordings("/var/lib/asterisk/sounds/custom");
+				$default = (isset($agentannounce) ? $agentannounce : None);
+				echo '<option value="None">None';
+				foreach ($tresults as $tresult) {
+				    $searchvalue="custom/$tresult";	
+				    echo '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$tresult;
+				}
+			?>		
+			</select>		
+		</td>
+	</tr>
+	<tr>
+		<td><a href="#" class="info">Hold Music Category:<span>Music (or Commercial) played to the caller while they wait in line for an available agent.<br><br>  This music is defined in the "Music On Hold" Menu to the left.</span></a></td>
+		<td>
+			<select name="music"/>
+			<?php
+				$tresults = getmusiccategory("/var/lib/asterisk/mohmp3");
+				$default = (isset($music) ? $music : 'default');
+				echo '<option value="default">Default';
+				if (isset($tresults)) {
+					foreach ($tresults as $tresult) {
+						$searchvalue="$tresult";	
+						echo '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$tresult;
+					}
+				}
+			?>		
+			</select>		
+		</td>
+	</tr>
+	<tr>
+		<td><a href="#" class="info">Announce Position:<span>How often to announce queue position and/or estimated holdtime to caller the caller (0 to Disable Announcement).</span></a></td>
+		<td>
+			<select name="announceposition"/>
+			<?php
+				$default = (isset($announceposition) ? $announceposition : 0);
+				for ($i=0; $i <= 1200; $i+=15) {
+					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.timeString($i,true).'</option>';
+				}
+			?>		
+			</select>		
+		</td>
+	</tr>
+	<tr>
+		<td><a href="#" class="info">Announce Hold Time:<span> Should we include estimated hold time in position announcements?  Either yes, no, or only once; hold time will not be announced if <1 minute </span></a></td>
+		<td>
+			<select name="announceholdtime">
+			<?php
+			echo "it is ${announceholdtime}";
+				$default = (isset(${announceholdtime}) ? ${announceholdtime} : no);
+				echo '<option value=yes '.($default == "yes" ? 'SELECTED' : '').'>Yes</option>';
+				echo '<option value=no '.($default == "no" ? 'SELECTED' : '').'>No</option>';
+				echo '<option value=once '.($default == "once" ? 'SELECTED' : '').'>Once</option>';
+			?>		
+			</select>		
+		</td>
+	</tr>
 	<tr>
 		<td><a href="#" class="info">max wait time:<span>The maximum number of seconds a caller can wait in a queue before being pulled out.  (0 for unlimited).</span></a></td>
 		<td>
