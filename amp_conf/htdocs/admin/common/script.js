@@ -178,7 +178,6 @@ function checkVoicemail(theForm) {
 	if ($vm == 'disabled') {
 		document.getElementById('voicemail').style.display='none';
 		theForm.vmpwd.value = '';
-		theForm.name.value = '';
 		theForm.email.value = '';
 		theForm.pager.value = '';
 	} else {
