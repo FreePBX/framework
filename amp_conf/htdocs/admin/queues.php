@@ -122,6 +122,7 @@ if ($action == 'delete') {
 		<td><a href="#" class="info">static agents:<span>Static agents are extensions that are assumed to always be on the queue.  Static agents do not need to 'log in' to the queue, and cannot 'log out' of the queue.<br><br>Hold <b>CTRL</b> to select multiple extensions</span></a></td>
 		<td>
 			<select multiple size="10" name="members[]"/>
+			<option>
 			<?php
 			if (isset($extens)) {
 				foreach ($extens as $exten) { // (number,cid,tech)
