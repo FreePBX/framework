@@ -57,10 +57,16 @@ foreach ($vmcontexts as $vmcontext) {
 		$alloptions = array_keys($uservm[$vmcontext][$extdisplay]['options']);
 		if (isset($alloptions)) {
 			foreach ($alloptions as $option) {
-				$options .= $option.'='.$uservm[$vmcontext][$extdisplay]['options'][$option].'|';
+				if ( ($option!="attach") && ($option!="envelope") && ($option!="saycid") && ($option!="delete") && ($option!="nextaftercmd") && ($option!='') )
+					$options .= $option.'='.$uservm[$vmcontext][$extdisplay]['options'][$option].'|';
 			}
 			$options = rtrim($options,'|');
+			// remove the = sign if there are no options set
+			$options = rtrim($options,'=');
+			
 		}
+		extract($uservm[$vmcontext][$extdisplay]['options'], EXTR_PREFIX_ALL, "vmops");
+
 		$vm=true;
 	}
 }
@@ -104,11 +110,16 @@ if (isset($account) && !checkRange($account)){
 		//take care of voicemail.conf if using voicemail
 		if ($_REQUEST['vm'] != 'disabled')
 		{ 
-			$options = explode("|",$_REQUEST['options']);
-			foreach($options as $option) {
-				$vmoption = explode("=",$option);
+			$vmoption = explode("=",$_REQUEST['attach']);
 				$vmoptions[$vmoption[0]] = $vmoption[1];
-			}
+			$vmoption = explode("=",$_REQUEST['saycid']);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
+			$vmoption = explode("=",$_REQUEST['envelope']);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
+			$vmoption = explode("=",$_REQUEST['delete']);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
+			$vmoption = explode("=",$_REQUEST['nextaftercmd']);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
 			$uservm[$vmcontext][$account] = array(
 										'mailbox' => $account, 
 										'pwd' => $_REQUEST['vmpwd'],
@@ -117,6 +128,7 @@ if (isset($account) && !checkRange($account)){
 										'pager' => $_REQUEST['pager'],
 										'options' => $vmoptions);
 			saveVoicemail($uservm);
+
 		}
 		
 		//update ext-local context in extensions.conf
@@ -131,6 +143,11 @@ if (isset($account) && !checkRange($account)){
 		
 		//indicate 'need reload' link in footer.php 
 		needreload();
+		$account='';
+		$email='';
+		$pager='';
+		$name='';
+		
 		
 	} //end add
 	
@@ -200,11 +217,24 @@ if (isset($account) && !checkRange($account)){
 		} else {
 			unset($uservm[$incontext][$account]); // we remove it first because the context may have been changed
 
-			$options = explode("|",$_REQUEST['options']);
-			foreach($options as $option) {
-				$vmoption = explode("=",$option);
-				$vmoptions[$vmoption[0]] = $vmoption[1];
+			// need to make sure that there are any options enetered in the text field
+			if ($_REQUEST['options']!=''){
+				$options = explode("|",$_REQUEST['options']);
+				foreach($options as $option) {
+					$vmoption = explode("=",$option);
+					$vmoptions[$vmoption[0]] = $vmoption[1];
+				}
 			}
+			$vmoption = explode("=",$_REQUEST['attach']);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
+			$vmoption = explode("=",$_REQUEST['saycid']);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
+			$vmoption = explode("=",$_REQUEST['envelope']);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
+			$vmoption = explode("=",$_REQUEST['delete']);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
+			$vmoption = explode("=",$_REQUEST['nextaftercmd']);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
 			$uservm[$vmcontext][$account] = array(
 										'mailbox' => $account, 
 										'pwd' => $_REQUEST['vmpwd'],
@@ -229,6 +259,14 @@ if (isset($account) && !checkRange($account)){
 		
 		//indicate 'need reload' link in header.php 
 		needreload();
+		// make sure that all the settings are accurately displayed based on the values passed in the last submit.
+		$options=$options[0];
+		extract($vmoptions, EXTR_PREFIX_ALL, "vmops");
+		$vmpwd=$_REQUEST['vmpwd'];
+		$email=$_REQUEST['email'];
+		$pager=$_REQUEST['pager'];
+		$name=$_REQUEST['name'];
+
 		
 	} //end edit
 }
@@ -336,7 +374,49 @@ switch($extdisplay) {
 					<td><input size="20" type="text" name="pager" value="<?php  echo $pager; ?>"/></td>
 				</tr>
 				<tr>
-					<td><a href="#" class="info">vm options<span>Separate options with pipe ( | )<br><br>ie: attach=yes|saycid=yes</span></a>: </td>
+ 					<td><a href="#" class="info">email attachment<span>Option to attach voicemails to email.</span></a>: </td>
+ 					<?php if ($vmops_attach == "yes"){?>
+ 					<td><input type="radio" name="attach" value="attach=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="attach" value="attach=no"/> no</td>
+ 					<?php } else{ ?>
+ 					<td><input type="radio" name="attach" value="attach=yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="attach" value="attach=no" checked=checked /> no</td> <?php }?>
+ 				</tr>
+ 
+				<tr>
+ 					<td><a href="#" class="info">Play CID<span>Read back caller's telephone number prior to playing the incoming message, and just after announcing the date and time the message was left.</span></a>: </td>
+ 					<?php if ($vmops_saycid == "yes"){?>
+ 					<td><input type="radio" name="saycid" value="saycid=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="saycid" value="saycid=no"/> no</td>
+ 					<?php } else{ ?>
+ 					<td><input type="radio" name="saycid" value="saycid=yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="saycid" value="saycid=no" checked=checked /> no</td> <?php }?>
+ 				</tr>
+
+				<tr>
+ 					<td><a href="#" class="info">Play Envelope<span>Envelope controls whether or not the voicemail system will play the message envelope (date/time) before playing the voicemail message. This settng does not affect the operation of the envelope option in the advanced voicemail menu.</span></a>: </td>
+ 					<?php if ($vmops_envelope == "yes"){?>
+ 					<td><input type="radio" name="envelope" value="envelope=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="envelope" value="envelope=no"/> no</td>
+ 					<?php } else{ ?>
+ 					<td><input type="radio" name="envelope" value="envelope=yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="envelope" value="envelope=no" checked=checked /> no</td> <?php }?>
+ 				</tr>
+
+				<tr>
+ 					<td><a href="#" class="info">Play Next<span>If set to "yes," after deleting or saving a voicemail message, the system will automatically play the next message, if no the user will have to press "6" to go to the next message</span></a>: </td>
+ 					<?php if ($vmops_nextaftercmd == "yes"){?>
+ 					<td><input type="radio" name="nextaftercmd" value="nextaftercmd=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="nextaftercmd" value="nextaftercmd=no"/> no</td>
+ 					<?php } else{ ?>
+ 					<td><input type="radio" name="nextaftercmd" value="nextaftercmd=yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="nextaftercmd" value="nextaftercmd=no" checked=checked /> no</td> <?php }?>
+ 				</tr>
+
+				<tr>
+ 					<td><a href="#" class="info">Delete Vmail<span>If set to "yes" the message will be deleted from the voicemailbox (after having been emailed). 
+Provides functionality that allows a user to receive their voicemail via email alone, rather than having the voicemail able to be retrieved from the Webinterface or the Extension handset.  CAUTION: MUST HAVE attach voicemail to email SET TO YES OTHERWISE YOUR MESSAGES WILL BE LOST FOREVER. 
+</span></a>: </td>
+ 					<?php if ($vmops_delete == "yes"){?>
+ 					<td><input type="radio" name="delete" value="delete=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="delete" value="delete=no"/> no</td>
+ 					<?php } else{ ?>
+ 					<td><input type="radio" name="delete" value="delete=yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="delete" value="delete=no" checked=checked /> no</td> <?php }?>
+ 				</tr>
+
+				<tr>
+					<td><a href="#" class="info">vm options<span>Separate options with pipe ( | )<br><br>ie: review=yes|maxmessage=60</span></a>: </td>
 					<td><input size="20" type="text" name="options" value="<?php  echo $options; ?>" /></td>
 				</tr>
 				<tr>
@@ -413,7 +493,7 @@ switch($extdisplay) {
 			<table>
             <tr>
                 <td  width="135"><a href="#" class="info">full name<span>User's full name. This is used for the Caller ID Name and for the Company Directory (if enabled below).</span></a>: </td>
-                <td><input tabindex="4" type="text" name="name" value="<?php  echo $name; ?>"/></td>
+                <td><input tabindex="3" type="text" name="name" value="<?php  echo $name; ?>"/></td>
             </tr>
 			<tr><td colspan=2>
 				<h5><br><br>Voicemail & Directory:&nbsp;&nbsp;&nbsp;&nbsp;
@@ -429,7 +509,7 @@ switch($extdisplay) {
 					<td>
 						<a href="#" class="info">voicemail password<span>This is the password used to access the voicemail system.<br><br>This password can only contain numbers.<br><br>A user can change the password you enter here after logging into the voicemail system (*98) with a phone.<br><br></span></a>: 
 					</td><td>
-						<input tabindex="3" size="10" type="text" name="vmpwd" value=""/>
+						<input tabindex="4" size="10" type="text" name="vmpwd" value=""/>
 					</td>
 				</tr>
 				<tr>
@@ -437,13 +517,51 @@ switch($extdisplay) {
 					<td><input tabindex="5" type="text" name="email" value="<?php  echo $email; ?>"/></td>
 				</tr>
 				<tr>
-					<td><a href="#" class="info">email attachment<span>Option to attach voicemails to email.</span></a>: </td>
-					<td><input tabindex="7" type="radio" name="options" value="attach=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input tabindex="8" type="radio" name="options" value="attach=no"/> no</td>
-				</tr>
-				<tr>
 					<td><a href="#" class="info">pager email address<span>Pager/mobile email address that short voicemail notifcations are sent to.</span></a>: </td>
 					<td><input tabindex="6" type="text" name="pager" value="<?php  echo $pager; ?>"/></td>
 				</tr>
+				<tr>
+ 					<td><a href="#" class="info">email attachment<span>Option to attach voicemails to email.</span></a>: </td>
+ 					<?php if ($vmops_attach == "yes"){?>
+ 					<td><input  tabindex="7" type="radio" name="attach" value="attach=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="8" type="radio" name="attach" value="attach=no"/> no</td>
+ 					<?php } else{ ?>
+ 					<td><input  tabindex="7" type="radio" name="attach" value="attach=yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="8" type="radio" name="attach" value="attach=no" checked=checked /> no</td> <?php }?>
+ 				</tr>
+ 
+				<tr>
+ 					<td><a href="#" class="info">Play CID<span>Read back caller's telephone number prior to playing the incoming message, and just after announcing the date and time the message was left.</span></a>: </td>
+ 					<?php if ($vmops_saycid == "yes"){?>
+ 					<td><input  tabindex="9" type="radio" name="saycid" value="saycid=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="10" type="radio" name="saycid" value="saycid=no"/> no</td>
+ 					<?php } else{ ?>
+ 					<td><input  tabindex="9" type="radio" name="saycid" value="saycid=yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="10" type="radio" name="saycid" value="saycid=no" checked=checked /> no</td> <?php }?>
+ 				</tr>
+
+				<tr>
+ 					<td><a href="#" class="info">Play Envelope<span>Envelope controls whether or not the voicemail system will play the message envelope (date/time) before playing the voicemail message. This settng does not affect the operation of the envelope option in the advanced voicemail menu.</span></a>: </td>
+ 					<?php if ($vmops_envelope == "yes"){?>
+ 					<td><input  tabindex="11" type="radio" name="envelope" value="envelope=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="12" type="radio" name="envelope" value="envelope=no"/> no</td>
+ 					<?php } else{ ?>
+ 					<td><input  tabindex="11" type="radio" name="envelope" value="envelope=yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="12" type="radio" name="envelope" value="envelope=no" checked=checked /> no</td> <?php }?>
+ 				</tr>
+
+				<tr>
+ 					<td><a href="#" class="info">Play Next<span>If set to "yes," after deleting or saving a voicemail message, the system will automatically play the next message, if no the user will have to press "6" to go to the next message</span></a>: </td>
+ 					<?php if ($vmops_nextaftercmd == "yes"){?>
+ 					<td><input  tabindex="13" type="radio" name="nextaftercmd" value="nextaftercmd=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="14" type="radio" name="nextaftercmd" value="nextaftercmd=no"/> no</td>
+ 					<?php } else{ ?>
+ 					<td><input  tabindex="13" type="radio" name="nextaftercmd" value="nextaftercmd=yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="14" type="radio" name="nextaftercmd" value="nextaftercmd=no" checked=checked /> no</td> <?php }?>
+ 				</tr>
+
+				<tr>
+ 					<td><a href="#" class="info">Delete Vmail<span>If set to "yes" the message will be deleted from the voicemailbox (after having been emailed). 
+Provides functionality that allows a user to receive their voicemail via email alone, rather than having the voicemail able to be retrieved from the Webinterface or the Extension handset.  CAUTION: MUST HAVE attach voicemail to email SET TO YES OTHERWISE YOUR MESSAGES WILL BE LOST FOREVER. 
+</span></a>: </td>
+ 					<?php if ($vmops_delete == "yes"){?>
+ 					<td><input  tabindex="15" type="radio" name="delete" value="delete=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="16" type="radio" name="delete" value="delete=no"/> no</td>
+ 					<?php } else{ ?>
+ 					<td><input  tabindex="15" type="radio" name="delete" value="delete=yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input tabindex="16" type="radio" name="delete" value="delete=no" checked=checked /> no</td> <?php }?>
+ 				</tr>
+
 				</table>
 			</td></tr>
 
