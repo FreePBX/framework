@@ -353,6 +353,9 @@ if (!$tech && !$extdisplay) {
 			<script language="javascript">
 			
 			function populateLookup() {
+<?
+	if (function_exists("curl_init")) { // curl is installed
+?>				
 				//var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?", document.getElementById('areacode').value);
 				do {
 					var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.");
@@ -362,6 +365,13 @@ if (!$tech && !$extdisplay) {
 				document.getElementById('npanxx').value = npanxx;
 				trunkEdit.action.value = "populatenpanxx";
 				trunkEdit.submit();
+<? 
+	} else { // curl is not installed
+?>
+				alert("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.");
+<?
+	}
+?>
 			}
 			
 			function populateAlwaysAdd() {
