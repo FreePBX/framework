@@ -1,3 +1,24 @@
+<?php
+
+function parse_amportal_conf($filename) {
+	$file = file($filename);
+	foreach ($file as $line) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+			$conf[ $matches[1] ] = $matches[2];
+		}
+	}
+	return $conf;
+}
+
+$amp_conf = parse_amportal_conf("/etc/amportal.conf");
+
+if ($_SERVER["HTTP_HOST"] != $amp_conf["AMPWEBADDRESS"]) {
+	$proto = ((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? "https" : "http");
+	header("Location: ".$proto."://".$amp_conf["AMPWEBADDRESS"].$_SERVER["REQUEST_URI"]);
+	exit;
+}
+
+?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
