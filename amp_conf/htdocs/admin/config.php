@@ -76,6 +76,7 @@ $amp_sections = array(
 		9=>"Incoming Calls",
 		3=>"Extensions",
 		4=>"Ring Groups",
+		11=>"Queues",
 		2=>"Digital Receptionist",
 		6=>"Trunks",
 		8=>"Outbound Routing",
@@ -149,6 +150,9 @@ switch($display) {
 	case '4':
 		include 'callgroups.php';
 	break;
+	case '11':
+		include 'queues.php';
+	break;
 	case '5':
 		echo "<h2>General Settings</h2>";
 		include 'general.php';
@@ -169,5 +173,5 @@ switch($display) {
 ?>
 
 </div>
-<br><br>
+<?php echo str_repeat("<br />", 5);?>
 <?php include 'footer.php' ?>
