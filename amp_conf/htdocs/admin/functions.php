@@ -172,7 +172,7 @@ function getversion() {
 //create iax if it doesn't exist
 function iaxexists() {
 	global $db;
-	$sql = "CREATE TABLE IF NOT EXISTS `iax` (`id` int(11) NOT NULL default '-1',`keyword` varchar(20) NOT NULL default '',`data` varchar(50) NOT NULL default '',`flags` int(1) NOT NULL default '0',PRIMARY KEY  (`id`,`keyword`))";
+	$sql = "CREATE TABLE IF NOT EXISTS `iax` (`id` int(11) NOT NULL default '-1',`keyword` varchar(20) NOT NULL default '',`data` varchar(150) NOT NULL default '',`flags` int(1) NOT NULL default '0',PRIMARY KEY  (`id`,`keyword`))";
 	$results = $db->query($sql);
 }
 
@@ -208,7 +208,7 @@ function addiax($account,$callerid) {
 //create sip if it doesn't exist
 function sipexists() {
 	global $db;
-	$sql = "CREATE TABLE IF NOT EXISTS `sip` (`id` int(11) NOT NULL default '-1',`keyword` varchar(20) NOT NULL default '',`data` varchar(50) NOT NULL default '',`flags` int(1) NOT NULL default '0',PRIMARY KEY  (`id`,`keyword`))";
+	$sql = "CREATE TABLE IF NOT EXISTS `sip` (`id` int(11) NOT NULL default '-1',`keyword` varchar(20) NOT NULL default '',`data` varchar(150) NOT NULL default '',`flags` int(1) NOT NULL default '0',PRIMARY KEY  (`id`,`keyword`))";
 	$results = $db->query($sql);
 }
 
