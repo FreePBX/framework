@@ -54,19 +54,20 @@ foreach ($vmcontexts as $vmcontext) {
 		$email = $uservm[$vmcontext][$extdisplay]['email'];
 		$pager = $uservm[$vmcontext][$extdisplay]['pager'];
 		//loop through all options
-		$alloptions = array_keys($uservm[$vmcontext][$extdisplay]['options']);
-		if (isset($alloptions)) {
-			foreach ($alloptions as $option) {
-				if ( ($option!="attach") && ($option!="envelope") && ($option!="saycid") && ($option!="delete") && ($option!="nextaftercmd") && ($option!='') )
-					$options .= $option.'='.$uservm[$vmcontext][$extdisplay]['options'][$option].'|';
+		if (is_array($uservm[$vmcontext][$extdisplay]['options'])) {
+			$alloptions = array_keys($uservm[$vmcontext][$extdisplay]['options']);
+			if (isset($alloptions)) {
+				foreach ($alloptions as $option) {
+					if ( ($option!="attach") && ($option!="envelope") && ($option!="saycid") && ($option!="delete") && ($option!="nextaftercmd") && ($option!='') )
+						$options .= $option.'='.$uservm[$vmcontext][$extdisplay]['options'][$option].'|';
+				}
+				$options = rtrim($options,'|');
+				// remove the = sign if there are no options set
+				$options = rtrim($options,'=');
+				
 			}
-			$options = rtrim($options,'|');
-			// remove the = sign if there are no options set
-			$options = rtrim($options,'=');
-			
+			extract($uservm[$vmcontext][$extdisplay]['options'], EXTR_PREFIX_ALL, "vmops");
 		}
-		extract($uservm[$vmcontext][$extdisplay]['options'], EXTR_PREFIX_ALL, "vmops");
-
 		$vm=true;
 	}
 }
