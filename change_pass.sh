@@ -42,13 +42,14 @@ sed -r -i "s!define \(\"FSROOT\", \"[a-zA-Z0-9_-\.\/\\]*\"\);!define \(\"FSROOT\
 
 # do a bunch at once here
 find /var/www/html/admin/ -name retrieve\*.pl
-sed -r -i "s/username = \"[a-zA-Z0-9]*\";/username = \"$AMPDBUSER\";/" `find /var/www/html/admin/ -name retrieve\*.pl`
-sed -r -i "s/password = \"[a-zA-Z0-9]*\";/password = \"$AMPDBPASS\";/" `find /var/www/html/admin/ -name retrieve\*.pl`
-sed -r -i "s!sip_conf = \"[a-zA-Z0-9_-\.\/\\]*\";!sip_conf = \"$AMPWEBROOT\/panel\/op_buttons_additional.cfg\";!" `find /var/www/html/admin/ -name retrieve\*.pl`
+sed -r -i "s/username = \"[a-zA-Z0-9]*\";/username = \"$AMPDBUSER\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
+sed -r -i "s/password = \"[a-zA-Z0-9]*\";/password = \"$AMPDBPASS\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
+
+sed -r -i "s!op_conf = \"[a-zA-Z0-9_-\.\/\\]*\";!op_conf = \"$AMPWEBROOT\/panel\/op_buttons_additional.cfg\";!" $AMPWEBROOT/admin/retrieve_op_conf_from_mysql.pl
 
 echo "/var/www/html/admin/common/db_connect.php"
-sed -r -i "s/db_user = '[a-zA-Z0-9]*';/db_user = '$AMPDBUSER';/" /var/www/html/admin/common/db_connect.php
-sed -r -i "s/db_pass = '[a-zA-Z0-9]*';/db_pass = '$AMPDBPASS';/" /var/www/html/admin/common/db_connect.php
+sed -r -i "s/db_user = '[a-zA-Z0-9]*';/db_user = '$AMPDBUSER';/" $AMPWEBROOT/admin/common/db_connect.php
+sed -r -i "s/db_pass = '[a-zA-Z0-9]*';/db_pass = '$AMPDBPASS';/" $AMPWEBROOT/admin/common/db_connect.php
 
 echo "/etc/asterisk/manager.conf"
 sed -r -i "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" /etc/asterisk/manager.conf
