@@ -224,11 +224,13 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 			<input type="hidden" name="goto<? echo $i ?>" value="<? echo $dropts[$i][0] ?>">
 			<select name="ivr<? echo $i ?>" onclick="javascript:document.prompt.goto_indicate<? echo $i ?>[0].checked=true;javascript:document.prompt.goto<? echo $i ?>.value='ivr';"/>
 		<?
+			$menu_num=1;
 			foreach ($unique_aas as $unique_aa) {
 				$menu_num = substr($unique_aa[0],3);
 				echo '<option value="'.$menu_num.'"';
 				echo ($dropts[$i][2]==$menu_num)?' selected=selected':'';
 				echo '>Voice Menu #'.$menu_num;
+				$menu_num++;
 			}
 			for ($j = 0; $j < $_REQUEST['ivr_num_options']; $j++) { 
 				$menu_num++;
