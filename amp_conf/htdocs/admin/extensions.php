@@ -262,7 +262,8 @@ if (isset($account) && !checkRange($account)){
 		needreload();
 		// make sure that all the settings are accurately displayed based on the values passed in the last submit.
 		$options=$options[0];
-		extract($vmoptions, EXTR_PREFIX_ALL, "vmops");
+		if (is_array($vmoptions))
+			extract($vmoptions, EXTR_PREFIX_ALL, "vmops");
 		$vmpwd=$_REQUEST['vmpwd'];
 		$email=$_REQUEST['email'];
 		$pager=$_REQUEST['pager'];
