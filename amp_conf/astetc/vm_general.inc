@@ -1,5 +1,5 @@
 ; 1st listed format gets emailed
-format=wav|wav
+format=wav49|wav
 
 attach=yes
 pbxskip=yes              	; Don't put [PBX]: in the subject line

@@ -36,16 +36,38 @@ use CGI::Carp qw(fatalsToBrowser);
 );
 
 $astpath = "/_asterisk";
-$box = param('box');
+
 
 $stdcontainerstart = "<table align=center width=600><tr><td>\n";
 $footer = "<hr>";
 $stdcontainerend = "</td></tr><tr><td align=right>$footer</td></tr></table>\n";
 
+sub getcookie()
+{
+	my ($var) = @_;
+	return cookie($var);
+}
+
+sub makecookie()
+{
+	my ($format) = @_;
+	cookie(-name => "format", -value =>["$format"], -expires=>"+1y");
+}
+
+sub makepasscookie()
+{
+	my ($vmpass) = @_;
+	cookie(-name => "vmpass", -value =>["$vmpass"], -expires=>"+1y");
+}
+
 sub login_screen() {
-	print header;
-	my ($message) = @_;
-	print <<_EOH;
+		$box = param('mailbox');
+		if($box) {
+			local $vmpass = &getcookie('vmpass');   #check for password in cookie
+		}
+		print header;
+		my ($message) = @_;
+		print <<_EOH;
 
 <HEAD><LINK HREF="$astpath/vmail.css" REL="stylesheet" TYPE="text/css"><TITLE>Asterisk Web-Voicemail</TITLE></HEAD>
 <BODY>
@@ -57,7 +79,8 @@ $stdcontainerstart
 <tr><td align=center colspan=2><span class="headline">Comedian Mail Login</span></td></tr>
 <tr><td align=center colspan=2><span class="notice">$message</span></td></tr>
 <tr><td>Mailbox:</td><td><input type=text name="mailbox" value="$box"></td></tr>
-<tr><td>Password:</td><td><input type=password name="password"></td></tr>
+<tr><td>Password:</td><td><input type=password name="password" value="$vmpass"></td></tr>
+<tr><td>&nbsp;</td><td><input type=checkbox name="remember" value="yes"> Remember password</td></tr>
 <tr><td align=right colspan=2><input value="Login" type=submit></td></tr>
 </table>
 </FORM>
@@ -71,7 +94,12 @@ sub check_login()
 {
 	local ($filename, $startcat) = @_;
 	local ($mbox, $context) = split(/\@/, param('mailbox'));
+	local $vmpass = &getcookie('vmpass');   #check for password in cookie
 	local $pass = param('password');
+	if (!$pass) {							#use cookie password if not in request
+		$pass=$vmpass;
+	}
+
 	local $category = $startcat;
 	local @fields;
 	local $tmp;
@@ -88,6 +116,7 @@ sub check_login()
 	if (!$filename) {
 		$filename = "/etc/asterisk/voicemail.conf";
 	}
+
 #	print header;
 #	print "Including <h2>$filename</h2> while in <h2>$category</h2>...\n";
 	open(VMAIL, "<$filename") || die("Bleh, no $filename");
@@ -252,18 +281,6 @@ sub messages()
 	return ();
 }
 
-sub getcookie()
-{
-	my ($var) = @_;
-	return cookie($var);
-}
-
-sub makecookie()
-{
-	my ($format) = @_;
-	cookie(-name => "format", -value =>["$format"], -expires=>"+1y");
-}
-
 sub getfields()
 {
 	my ($context, $mailbox, $folder, $msg) = @_;
@@ -277,7 +294,7 @@ sub getfields()
 		}
 		close(MSG);
 		$fields->{'msgid'} = $msg;
-	} else { print "<BR>Unable to open '$msg' in '$mailbox', '$folder'\n<B>"; }
+	} else { print "<BR>The message you have requested has been moved or deleted.<br><br><b><a href=vmail.cgi?action=login&mailbox=$mailbox>Click to view voicemail inbox.</a></b>"; }
 	$fields;
 }
 
@@ -328,6 +345,9 @@ sub message_play()
 {
 	my ($message, $msgid) = @_;
 	my $folder = param('folder');
+	if (!$folder) {						#default to INBOX folder if not specified
+		$folder="INBOX";
+	}
 	my ($mbox, $context) = split(/\@/, param('mailbox'));
 	my $passwd = param('password');
 	my $format = param('format');
@@ -351,7 +371,7 @@ sub message_play()
 		print header(-cookie => &makecookie($format));
 		$fields = &getfields($context, $mbox, $folder, $msgid);
 		if (!$fields) {
-			print "<BR>Bah!\n";
+			print "\n";
 			return;
 		}
 		my $duration = $fields->{'duration'};
@@ -412,7 +432,7 @@ sub message_audio()
 {
 	my ($forcedownload) = @_;
 	my $folder = param('folder');
-	my $msgid = param('msgid');
+	my $msgid = param('msgid');				
 	my $mailbox = param('mailbox');
 	my $context = param('context');
 	my $format = param('format');
@@ -507,7 +527,15 @@ sub message_index()
 	my $folders = &folder_list('newfolder', $context, $mbox, $folder);
 	my $cfolders = &folder_list('changefolder', $context, $mbox, $folder);
 	my $mailboxes = &mailbox_list('forwardto', $context, $mbox);
-	print header(-cookie => &makecookie($format));
+
+	#if we selected to store the password, then write a cookie
+	local $remember = param('remember');
+	if ($remember) {
+		local $pass = param('password');
+		print header(-cookie => &makepasscookie($pass));
+	} else {
+		print header(-cookie => &makecookie($format));;
+	}
 	print <<_EOH;
 
 <HEAD><LINK HREF="$astpath/vmail.css" REL="stylesheet" TYPE="text/css"><TITLE>Asterisk Web-Voicemail: $mbox $folder</TITLE></HEAD>
@@ -862,10 +890,7 @@ sub message_delete_or_move()
 	}
 }
 
-if ($box) {
-    &login_screen("\&nbsp;");
-    }
-elsif (param()) {
+if (param()) {
 	my $folder = param('folder');
 	my $changefolder = param('changefolder');
 	$changefolder =~ s/(\w+)\s+.*$/$1/;
@@ -878,6 +903,10 @@ elsif (param()) {
 	}
 	$action = param('action');
 	$msgid = param('msgid');
+	if (length($msgid) != 4) {					#if we are passing msgid via url, it will be less than 4 digits
+		$msgid = 10000 + $msgid - 1;			#the count will also be 1 too high
+		$msgid = substr($msgid,1,4);
+	}
 	if (!$action) {
 		my ($tmp) = grep /^play\d\d\d\d\.x$/, param;
 		if ($tmp =~ /^play(\d\d\d\d)/) {
