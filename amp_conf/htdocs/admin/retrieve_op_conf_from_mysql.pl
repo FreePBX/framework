@@ -78,7 +78,7 @@ foreach my $table ("sip","iax","zap") {
 		$result = $dbh->selectall_arrayref($statement);
 		@resultSet = @{$result};
 		if ( $#resultSet == -1 ) {
-	  		print "Notice: no extensions defined\n";
+	  		print "Notice: no Queues defined\n";
 		}
 		push(@queues, @{ $result });
 	}
