@@ -26,9 +26,9 @@ switch($action) {
 ?>
 </div>
 <div class="rnav">
-    <li><a id="<? echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?echo $display?>">Add Recording</a><br></li>
+    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>">Add Recording</a><br></li>
 
-<?
+<?php
 //get existing trunk info
 $tresults = getsystemrecordings("/var/lib/asterisk/sounds/custom");
 
@@ -47,8 +47,8 @@ if (isset($tresults)){
 	//if we are trying to edit - let's be nice and give them the recording back
 	if ($_REQUEST['recording_action'] == 'edit'){
 ?>
-	<p><a href="config.php?display=<?= $display ?>&recordingdisplay=<?= $prompt ?>&action=delete">Delete Recording <? echo $prompt; ?></a></p>
-<?  
+	<p><a href="config.php?display=<?php echo $display ?>&recordingdisplay=<?php echo $prompt ?>&action=delete">Delete Recording <?php echo $prompt; ?></a></p>
+<?php
 		copy('/var/lib/asterisk/sounds/custom/'.$prompt.'.wav','/var/lib/asterisk/sounds/ivrrecording.wav');
 		echo '<h5>Dial *99 to listen to your current recording - click continue if you wish to re-use it.</h5>';
 	}
@@ -61,7 +61,7 @@ if (isset($tresults)){
 	<form enctype="multipart/form-data" name="upload" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
 		Alternatively, upload a recording in <a href="#" class="info">.wav format<span>The .wav file _must_ have a sample rate of 8000Hz</span></a>:<br>
 		<input type="hidden" name="display" value="<?php echo $display?>">
-		<input type="hidden" name="promptnum" value="<?echo $promptnum?>">
+		<input type="hidden" name="promptnum" value="<?php echo $promptnum?>">
 		<input type="file" name="ivrfile"/>
 		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('Please wait until the page reloads.');"/>
 	</form>
@@ -74,7 +74,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 </p>
 <form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="recorded">
-<input type="hidden" name="promptnum" value="<?echo $promptnum?>">
+<input type="hidden" name="promptnum" value="<?php echo $promptnum?>">
 <input type="hidden" name="display" value="<?php echo $display?>">
 <h5>Step 2: Verify</h5>
 <p>
@@ -94,7 +94,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 
 </form>
 
-<?
+<?php
 	break;
 	case 'recorded':
 		$rname=strtr($rname," ", "_"); /* remove any spaces from the name to ensure a happy playground */
@@ -108,7 +108,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 ?>
 
 
-<?
+<?php
 }
 ?>
 
