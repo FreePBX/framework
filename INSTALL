@@ -25,6 +25,7 @@ AMP has several requirements, including the following packages (names may vary b
 	cvs
 	bison
 	ncurses-devel (or libncurses5-dev)
+	curl
 
 ### Perl module Net::Telnet is required:
 	
@@ -75,11 +76,11 @@ Getting Asterisk and Zaptel (AMP uses the v1.0 branch)
 	- export CVS_RSH=
 	- export CVSROOT=:pserver:anoncvs@cvs.digium.com:/usr/cvsroot
 	- cvs login      (the password is: anoncvs)
-	- cvs checkout -r v1-0 zaptel asterisk asterisk-addons
+	- cvs checkout -r v1-0 zaptel libpri asterisk asterisk-addons
 
 
 ###
-For zap devices (FXO/FXS):
+For TDM zap devices (FXO/FXS):
 
 	- cd /usr/src/zaptel
 	- make && make install
@@ -98,14 +99,14 @@ For zap devices (FXO/FXS):
 ###
 Patching Asterisk with softfax/spandsp.
 
-	- Download the latest spandsp files from http://www.opencall.org
+	- Download the latest spandsp files from http://www.soft-switch.org
 	- cd /usr/src/spandsp-xxx
 	- ./configure
 	- make && make install
 
 	The spandsp libraries are installed to /usr/local/lib.  Therefore /usr/local/lib must be added to the LD_LIBRARY_PATH environment variable of the user that starts the asterisk process. To be safe, also add it to /etc/ld.so.conf and run ldconfig.
 
-	Copy the following files (from opencall.org) to /usr/src/asterisk/apps/ :
+	Copy the following files (from soft-switch.org) to /usr/src/asterisk/apps/ :
 
 		- cp app_rxfax.c /usr/src/asterisk/apps/
 		- cp app_txfax.c /usr/src/asterisk/apps/
@@ -159,7 +160,7 @@ Setting up MySQL for CDR and AMP web interface
 Grant access to these two databases you just created
 
 **Note the default mysql username/password is asteriskuser/amp109.  
-**If you change either of these, you will also need to change amportal.conf below
+**If you change either of these, you will be prompted for them while running ./install below
 
 	- mysql --user root -p
 
@@ -172,37 +173,20 @@ Grant access to these two databases you just created
 		mysql> quit
 
 ###
-Define the default AMP configuration for your server.  
+Run the "install" script to install all the AMP files:  
 
-	- cp /usr/src/AMP/amportal.conf /etc
-
-###
-Edit the default amportal.conf to reflect your environment.
-
-	- vi /etc/amportal.conf
-
-###
-Copy in all necessary Asterisk configuration files
-
-	- cd /usr/src/AMP
-	- ./apply_conf.sh
+	- /usr/src/AMP/install_amp
 	
 ###
-If this is the first time installing (ie: there is no exisiting configuration):
+Configure Flash Operator Panel for your zap channels:
 	
-		- cd /etc/asterisk
-		- cp voicemail.conf.template voicemail.conf
-		- mv zapata.conf.template zapata.conf
-		- cd /usr/src/AMP
-		- ./chown_asterisk.sh
-		
-	Modify lines 28+ of /var/www/html/admin/retrieve_op_conf_from_mysql.pl to reflect the number of zap channels you have
+	- Modify lines 21+ of /var/www/html/admin/retrieve_op_conf_from_mysql.pl to reflect the number of zap channels you have
 		
 
 ###
 Configure zaptel driver:
 
-	- edit /etc/zaptel.conf to reflect installed digium interfaces
+	- edit /etc/zaptel.conf to reflect installed digium interfaces (see /etc/zaptel.conf.template)
 	- ztcfg -v
 
 			Zaptel Configuration
@@ -214,7 +198,7 @@ Configure zaptel driver:
 ###
 Configure zapata module in asterisk config.
 
-	- edit /etc/asterisk/zapata.conf to reflect installed digium interfaces
+	- edit /etc/asterisk/zapata.conf to reflect installed FXO digium interfaces (see zapata.conf.template)
 	- IMPORTANT! - ensure that FXO zap channels have "group=0"
 
 
@@ -226,7 +210,9 @@ httpd (Apache) configuration
 		User asterisk
 		Group asterisk
 		
-		and (change "/var/www/html" to reflect your web root):
+	- If you wish to secure your AMP admin directory:
+	
+		(change "/var/www/html" to reflect your web root):
 		
 		#Password protect AMP admin  
 		<Directory /var/www/html/admin>
@@ -236,7 +222,7 @@ httpd (Apache) configuration
 		Require user wwwadmin
 		</Directory>
 
-	- To create the wwwpasswd file:
+		- and create the wwwpasswd file:
 
 		mkdir /usr/local/apache
 		mkdir /usr/local/apache/passwd
@@ -263,20 +249,10 @@ Auto Start
 
 	- Add to /etc/rc.d/rc.local:
 	
-		echo ADDING WCFXS
+		echo ADDING WCFXS   (use module suitable for your zap interface)
 		/sbin/modprobe wcfxs
 		echo STARTING ASTERISK
 		/usr/sbin/amportal start
-		
-	 
-###
-Checks:
-
-	ensure that httpd is running as user 'asterisk'
-	(NOTE: AMP/chown_asterisk.sh should take care of the following)
-	ensure that asterisk owns /etc/asterisk
-	ensure that asterisk owns your <web root>/admin
-	ensure that the perl scripts under <web root>/admin have the execute bit set
 
 	
 ###
