@@ -55,6 +55,10 @@ if (isset($amp_conf["AMPADMINLOGO"])){?>
         &#8226;
         <li>Reports</li>
     </a>
+    <a id="<?php  echo ($currentFile=='panel.php' ? 'current':'') ?>" href="panel.php?">
+        &#8226;
+        <li>Panel</li>
+    </a>
 </div>
 
 <div class="message">

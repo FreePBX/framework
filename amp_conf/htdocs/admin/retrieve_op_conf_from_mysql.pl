@@ -16,11 +16,13 @@ $confepos="";
 $queuepos="42-50,61-70";
 
 # Remove or add Zap trunks as needed
+# Note: ZAP/* will match any ZAP channel that *is not referenced* in another button (ie: extensions)
 @zaplines=(); # zap channel, description
+#@zaplines=(@zaplines,[ "Zap/*","PSTN" ]);
 #@zaplines=(@zaplines,[ "Zap/1","Zap 1" ]);
 #@zaplines=(@zaplines,[ "Zap/2","Zap 2" ]);
 #@zaplines=(@zaplines,[ "Zap/3","Zap 3" ]);
-#@zaplines=(@zaplines,[ "Zap/4","PSTN" ]);
+#@zaplines=(@zaplines,[ "Zap/4","Zap 4" ]);
 
 # Conference Rooms not yet implemented in AMP config
 @conferences=();   #### ext#, description
@@ -95,124 +97,165 @@ foreach $table ("sip","iax") {
 	}
 }
 
-
-# WRITE EXTENSIONS
-
-$btn=0; 
-foreach my $row ( @extensionlist ) {
-	my $account = @{ $row }[0];
-	my $id = @{ $row }[1];
-	my $table = @{ $row }[2];
-#	next if ($account eq "");
-	$btn=get_next_btn($extenpos,$btn);
-	$statement = "SELECT keyword,data from $table where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
-	my $result = $dbh->selectall_arrayref($statement);
-	unless ($result) {
-		# check for errors after every single database call
-		print "dbh->selectall_arrayref($statement) failed!\n";
-		print "DBI::err=[$DBI::err]\n";
-		print "DBI::errstr=[$DBI::errstr]\n";
-		exit;
+#Determine AMP Users
+@ampusers=(["default","0","0"]);
+if (table_exists($dbh,"ampusers")) {
+	$statement = 'SELECT deptname,extension_low,extension_high from ampusers WHERE NOT extension_low = "" AND NOT extension_high = ""';
+	$result = $dbh->selectall_arrayref($statement);
+	@resultSet = @{$result};
+	if ( $#resultSet == -1 ) {
+		print "Notice: no AMP Users defined\n";
 	}
-	
-	$tech="SIP" if $table eq "sip";
-	$tech="IAX2" if $table eq "iax";
-	$tech="ZAP" if $table eq "zap";
+	push(@ampusers, @{ $result });
+}
 
-	#my @resSet = @{$result};
+#Write a separate panel context from each AMP User's department
+foreach my $pcontext ( @ampusers ) {
+	my $exten_low = @{$pcontext}[1];
+	my $exten_high = @{$pcontext}[2];
+	my $panelcontext = @{$pcontext}[0];
+	if ($panelcontext eq "") { $panelcontext = $exten_low."to".$exten_high; }
 	
-	$callerid = $account;  #default callerid to account
-	$user=$account;
-
-	foreach my $drow ( @{ $result } ) {
-		my @result = @{ $drow };
-		if ( $result[0] eq "callerid" ) {
-			$callerid = $result[1];
-			@fields=split(/</,$callerid);
-			$callerid=$fields[1] ." ". $fields[0];
-			$callerid =~ tr/\"<>//d;
+	
+	# WRITE EXTENSIONS
+	
+	$btn=0; 
+	if ($exten_low != 0 && $exten_high != 0) {  #display only allowed range of extensions for panel_contexts
+		@extensionrange = grep { @{ $_ }[0]+0 >= $exten_low && @{ $_ }[0]+0 <= $exten_high } @extensionlist;
+	} else {
+		@extensionrange = @extensionlist;
+	}
+	foreach my $row ( @extensionrange ) {
+		my $account = @{ $row }[0];
+		my $id = @{ $row }[1];
+		my $table = @{ $row }[2];
+	#	next if ($account eq "");
+		$btn=get_next_btn($extenpos,$btn);
+		$statement = "SELECT keyword,data from $table where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
+		my $result = $dbh->selectall_arrayref($statement);
+		unless ($result) {
+			# check for errors after every single database call
+			print "dbh->selectall_arrayref($statement) failed!\n";
+			print "DBI::err=[$DBI::err]\n";
+			print "DBI::errstr=[$DBI::errstr]\n";
+			exit;
 		}
-		if ( $result[0] eq "channel" ) {
-			if ($tech eq "ZAP") { $user = $result[1]; }
+		
+		$tech="SIP" if $table eq "sip";
+		$tech="IAX2" if $table eq "iax";
+		$tech="ZAP" if $table eq "zap";
+	
+		#my @resSet = @{$result};
+		
+		$callerid = $account;  #default callerid to account
+		$user=$account;
+	
+		foreach my $drow ( @{ $result } ) {
+			my @result = @{ $drow };
+			if ( $result[0] eq "callerid" ) {
+				$callerid = $result[1];
+				@fields=split(/</,$callerid);
+				$callerid=$fields[1] ." ". $fields[0];
+				$callerid =~ tr/\"<>//d;
+			}
+			if ( $result[0] eq "channel" ) {
+				if ($tech eq "ZAP") { $user = $result[1]; }
+			}
+			if ( $result[0] eq "mailbox" ) {
+				$vmcontext = $result[1];
+				if ($vmcontext =~ /@/) { $vmcontext =~ s/^.*@//; }
+				else { $vmcontext="default"; }
+			}
 		}
-	}
-	$icon='4';
-	print EXTEN "[$tech/$user]\nPosition=$btn\nLabel=\"$callerid\"\nExtension=$account\nContext=from-internal\nIcon=$icon\nVoicemail_Context=default\n";
-}
-
-
-### NOW WRITE TRUNKS.. WE START WITH ZAP TRUNKS DEFINED ABOVE
-
-
-
-
-$btn=0; 
-foreach my $row ( @zaplines ) {
-	$btn=get_next_btn($trunkpos,$btn);
-	$zapdef=@{$row}[0];
-	$zapdesc=@{$row}[1];
-	$icon='3';
-	print EXTEN "[$zapdef]\nPosition=$btn\nLabel=\"$zapdesc\"\nExtension=-1\nContext=from-internal\nIcon=$icon\nVoicemail_Context=default\n";
-}
-
-
-foreach my $row ( @trunklist ) {
-	my $account = @{ $row }[0];
-	my $id = @{ $row }[1];
-	my $table = @{ $row }[2];
-	next if ($account eq "");
-	$btn=get_next_btn($trunkpos,$btn);
-	$statement = "SELECT keyword,data from $table where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
-	my $result = $dbh->selectall_arrayref($statement);
-	unless ($result) {
-		# check for errors after every single database call
-		print "dbh->selectall_arrayref($statement) failed!\n";
-		print "DBI::err=[$DBI::err]\n";
-		print "DBI::errstr=[$DBI::errstr]\n";
-		exit;
+		$icon='4';
+		print EXTEN "[$tech/$user]\nPosition=$btn\nLabel=\"$callerid\"\nExtension=$account\nContext=from-internal\nIcon=$icon\nVoicemail_Context=$vmcontext\nPanel_Context=$panelcontext\n";
 	}
 	
-	$tech="SIP" if $table eq "sip";
-	$tech="IAX2" if $table eq "iax";
-	#$tech="ZAP" if $table eq "zap"; #no zap trunks in db
-
-	#my @resSet = @{$result};
 	
-	$callerid = $account;  #default callerid to account
-
-	foreach my $drow ( @{ $result } ) {
-		my @result = @{ $drow };
-		if ( $result[0] eq "callerid" ) {
-			$callerid = $result[1];
-			@fields=split(/</,$callerid);
-			$callerid=$fields[1] ." ". $fields[0];
-			$callerid =~ tr/\"<>//d;
-		}
+	### NOW WRITE TRUNKS.. WE START WITH ZAP TRUNKS DEFINED ABOVE
+	
+	
+	
+	
+	$btn=0; 
+	foreach my $row ( @zaplines ) {
+		$btn=get_next_btn($trunkpos,$btn);
+		$zapdef=@{$row}[0];
+		$zapdesc=@{$row}[1];
+		$icon='3';
+		print EXTEN "[$zapdef]\nPosition=$btn\nLabel=\"$zapdesc\"\nExtension=-1\nIcon=$icon\nPanel_Context=$panelcontext\n";
 	}
-	$icon='3';
-	print EXTEN "[$tech/$account]\nPosition=$btn\nLabel=\"$callerid\"\nExtension=$account\nContext=from-internal\nIcon=$icon\nVoicemail_Context=default\n";
-}
+	
+	
+	foreach my $row ( @trunklist ) {
+		my $account = @{ $row }[0];
+		my $id = @{ $row }[1];
+		my $table = @{ $row }[2];
+		next if ($account eq "");
+		$btn=get_next_btn($trunkpos,$btn);
+		$statement = "SELECT keyword,data from $table where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
+		my $result = $dbh->selectall_arrayref($statement);
+		unless ($result) {
+			# check for errors after every single database call
+			print "dbh->selectall_arrayref($statement) failed!\n";
+			print "DBI::err=[$DBI::err]\n";
+			print "DBI::errstr=[$DBI::errstr]\n";
+			exit;
+		}
+		
+		$tech="SIP" if $table eq "sip";
+		$tech="IAX2" if $table eq "iax";
+		#$tech="ZAP" if $table eq "zap"; #no zap trunks in db
+	
+		#my @resSet = @{$result};
+		
+		$callerid = $account;  #default callerid to account
+	
+		foreach my $drow ( @{ $result } ) {
+			my @result = @{ $drow };
+			if ( $result[0] eq "callerid" ) {
+				$callerid = $result[1];
+				@fields=split(/</,$callerid);
+				$callerid=$fields[1] ." ". $fields[0];
+				$callerid =~ tr/\"<>//d;
+			}
+		}
+		$icon='3';
+		print EXTEN "[$tech/$account]\nPosition=$btn\nLabel=\"$callerid\"\nExtension=-1\nIcon=$icon\nPanel_Context=$panelcontext\n";
+	}
+	
+	
+	### Write conferences (meetme)
 
+	$btn=0; 
+	if ($exten_low != 0 && $exten_high != 0) {  #display only allowed range of extensions for panel_contexts
+		@confrange = grep { @{ $_ }[0]+0 >= $exten_low && @{ $_ }[0]+0 <= $exten_high } @conferences;
+	} else {
+		@confrange = @conferences;
+	}
+	foreach my $row ( @confrange ) {
+		$btn=get_next_btn($confepos,$btn);
+		$confenum=@{$row}[0];
+		$confedesc=@{$row}[1];
+		$icon='6';
+		print EXTEN "[$confenum]\nPosition=$btn\nLabel=\"$confedesc\"\nExtension=$confenum\nContext=from-internal\nIcon=$icon\nPanel_Context=$panelcontext\n";
+	}
 
-### Write conferences (meetme)
-
-
-$btn=0; 
-foreach my $row ( @conferences ) {
-	$btn=get_next_btn($confepos,$btn);
-	$confenum=@{$row}[0];
-	$confedesc=@{$row}[1];
-	$icon='6';
-	print EXTEN "[$confenum]\nPosition=$btn\nLabel=\"$confedesc\"\nExtension=$confenum\nContext=from-internal\nIcon=$icon\nVoicemail_Context=default\n";
-}
-
-$btn=0; 
-foreach my $row ( @queues ) {
-	$btn=get_next_btn($queuepos,$btn);
-	$queuename=@{$row}[0];
-	$queuedesc=@{$row}[1];
-	$icon='5';
-	print EXTEN "[$queuename]\nPosition=$btn\nLabel=\"$queuedesc\"\nExtension=-1\nContext=from-internal\nIcon=$icon\nVoicemail_Context=default\n";
+	### Write Queues
+	
+	$btn=0; 
+	if ($exten_low != 0 && $exten_high != 0) {  #display only allowed range of extensions for panel_contexts
+		@queuerange = grep { @{ $_ }[0]+0 >= $exten_low && @{ $_ }[0]+0 <= $exten_high } @queues;
+	} else {
+		@queuerange = @queues;
+	}
+	foreach my $row ( @queuerange ) {
+		$btn=get_next_btn($queuepos,$btn);
+		$queuename=@{$row}[0];
+		$queuedesc=@{$row}[1];
+		$icon='5';
+		print EXTEN "[$queuename]\nPosition=$btn\nLabel=\"$queuedesc\"\nExtension=-1\nContext=from-internal\nIcon=$icon\nPanel_Context=$panelcontext\n";
+	}
 }
 
 sub get_next_btn {
