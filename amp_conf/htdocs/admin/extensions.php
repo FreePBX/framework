@@ -347,7 +347,7 @@ switch($extdisplay) {
 			</td></tr>
 			<tr>
 				<td colspan=2>
-					<br><h6><input name="Submit" type="button" value="Submit Changes" onclick="javascript:if(advEdit.vm.value=='enabled'&&advEdit.mailbox.value=='') advEdit.mailbox.value=advEdit.account.value;checkForm(advEdit)"></h6>
+					<br><h6><input name="Submit" type="button" value="Submit Changes" onclick="javascript:if(advEdit.vm.value=='enabled'&&advEdit.mailbox.value=='') advEdit.mailbox.value=advEdit.account.value+'@'+advEdit.vmcontext.value;checkForm(advEdit)"></h6>
 				</td>
 			</tr>
 			</table>
@@ -466,7 +466,7 @@ switch($extdisplay) {
 
             <tr>
                 <td colspan=2>
-                    <br><br><h6><input name="Submit" type="button" value="Add Extension" onclick="javascript:if(addNew.vm.value=='enabled') addNew.mailbox.value=addNew.account.value;checkForm(addNew)"></h6>
+                    <br><br><h6><input name="Submit" type="button" value="Add Extension" onclick="javascript:if(addNew.vm.value=='enabled') addNew.mailbox.value=addNew.account.value+'@'+addNew.vmcontext.value;checkForm(addNew)"></h6>
                 </td>
             </tr>
             </table>
