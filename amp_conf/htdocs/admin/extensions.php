@@ -105,7 +105,12 @@ if ($action == 'delete') {
 if ($action == 'bscEdit' || $action == 'advEdit') {
 
     $account = $_REQUEST['account'];
-	$callerid = '"'.$_REQUEST['name'].'" '.'<'.$account.'>';
+	
+	if ($_REQUEST['callerid'] == '') {
+		$callerid = '"'.$_REQUEST['name'].'" '.'<'.$account.'>';
+	} else {
+		$callerid = stripslashes($_REQUEST['callerid']);
+	}
 
 	// the dtmfmode request variable can now be IAX2.  If IAX2, handle it differently 
 	if ($_REQUEST['dtmfmode'] == 'iax2') {
@@ -260,37 +265,39 @@ switch($extdisplay) {
 		<h4>Advanced Edit:<br></h4>
 		<p>
 			<table>
+				<tr><td colspan=2><h5>Account Settings:<hr></h5></td></tr>
 			<? 
 			foreach ($thisExten as $result) {
-				if ($result[1] != 'callerid' && $result[1] != 'account') {
-					echo '<tr><td>'.$result[1].': </td><td><input size="10" type="text" name="'.$result[1].'" value="'.$result[2].'"/></td></tr>';
+				if ($result[1] != 'account') {
+					echo '<tr><td>'.$result[1].': </td><td><input size="20" type="text" name="'.$result[1].'" value="'.htmlentities($result[2]).'"/></td></tr>';
 				}
 			}
 			?>
 			<input type="hidden" name="account" value="<? echo $account ?>">
+			<tr><td colspan=2><h5><br>Voicemail & Directory Settings:<hr></h5></td></tr>
 			<tr>
 				<td>
 					voicemail pwd:
 				</td>
 				<td>
-					<input size="10" type="password" name="vmpwd" value="<? echo $vmpwd; ?>" />
+					<input size="20" type="password" name="vmpwd" value="<? echo $vmpwd; ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td>full name:</td>
-				<td><input type="text" name="name" value="<? echo $name; ?>"/></td>
+				<td><input size="20" type="text" name="name" value="<? echo $name; ?>"/></td>
 			</tr>
 			<tr>
 				<td>email address:</td>
-				<td><input type="text" name="email" value="<? echo $email; ?>"/></td>
+				<td><input size="20" type="text" name="email" value="<? echo $email; ?>"/></td>
 			</tr>
 			<tr>
 				<td>pager email address:</td>
-				<td><input type="text" name="pager" value="<? echo $pager; ?>"/></td>
+				<td><input size="20" type="text" name="pager" value="<? echo $pager; ?>"/></td>
 			</tr>
 			<tr>
-				<td>options: </td>
-				<td><input type="text" name="options" value="<? echo $options; ?>" /></td>
+				<td>vm options: </td>
+				<td><input size="20" type="text" name="options" value="<? echo $options; ?>" /></td>
 			</tr>
 			
 			<tr>
@@ -399,7 +406,7 @@ switch($extdisplay) {
 
 <? //Make sure the bottom border is low enuf
 foreach ($results as $result) {
-    echo "<br>";
+    echo "<br><br>";
 }
 ?>
 
