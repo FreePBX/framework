@@ -634,8 +634,12 @@ function addtrunk() {
 	
 	if ($tech == "SIP") {
 		addSipOrIaxTrunk($_REQUEST['config'],'sip',$channelid,$trunknum);
-		addSipOrIaxTrunk($_REQUEST['userconfig'],'sip',$_REQUEST['usercontext'],'9'.$trunknum);
-		addTrunkRegister($trunknum,'sip',$_REQUEST['register']);
+		if ($_REQUEST['usercontext'] != ""){
+			addSipOrIaxTrunk($_REQUEST['userconfig'],'sip',$_REQUEST['usercontext'],'9'.$trunknum);
+		}
+		if ($_REQUEST['register'] != ""){
+			addTrunkRegister($trunknum,'sip',$_REQUEST['register']);
+		}
 	}
 }
 
