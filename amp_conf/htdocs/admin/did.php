@@ -82,7 +82,7 @@ if (isset($dresults)) {
 <div class="content">
 <?php 
 	
-	if ($action == 'delGRP') {
+	if ($action == 'delDID') {
 		echo '<br><h3>DID # '.ltrim($extdisplay,'DID-').' deleted!</h3><br><br><br><br><br><br><br><br>';
 	} else {
 		
