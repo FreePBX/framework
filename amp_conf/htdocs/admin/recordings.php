@@ -32,8 +32,10 @@ switch($action) {
 //get existing trunk info
 $tresults = getsystemrecordings("/var/lib/asterisk/sounds/custom");
 
-foreach ($tresults as $tresult) {
-    echo "<li><a id=\"".($recordingdisplay==$tresult ? 'current':'')."\" href=\"config.php?display=".$display."&recordingdisplay={$tresult}&recording_action=edit\">{$tresult}</a></li>";
+if (isset($tresults)){
+	foreach ($tresults as $tresult) {
+		echo "<li><a id=\"".($recordingdisplay==$tresult ? 'current':'')."\" href=\"config.php?display=".$display."&recordingdisplay={$tresult}&recording_action=edit\">{$tresult}</a></li>";
+	}
 }
 
 ?>
