@@ -78,7 +78,17 @@ if (isset($_SESSION["user"]) && ($_SESSION["user"]->checkSection(99))) {
 		
     <span class="footer" style="text-align:center;">
 		<!--<a target="_blank" href="http://sourceforge.net/donate/index.php?group_id=121515"><img border="0" style="float:left;" alt="Donate to the Asterisk Management Portal project" src="http://images.sourceforge.net/images/project-support.jpg"></a>-->
-        <a target="_blank" href="http://www.coalescentsystems.ca"><img border="0" src="images/powered_by_amp.png"></a>
+ 	<?php
+ 	if (isset($amp_conf["AMPFOOTERLOGO"])){
+ 		if (isset($amp_conf["AMPADMINHREF"])){?>
+ 	        	<a target="_blank" href="http://<?php echo $amp_conf["AMPADMINHREF"] ?>"><img border="0" src="images/<?php echo $amp_conf["AMPFOOTERLOGO"] ?>"></a>
+ 		<?php } else{ ?>
+ 	        	<a target="_blank" href="http://amp.coalescentsystems.ca"><img border="0" src="images/<?php echo $amp_conf["AMPFOOTERLOGO"] ?>"></a>
+ 		<?php } ?>
+ 	<?php } else{ ?>
+         	<a target="_blank" href="http://amp.coalescentsystems.ca"><img border="0" src="images/powered_by_amp.png"></a>
+ 	<?php }  ?>        
+ 	<a target="_blank" href="http://sourceforge.net/projects/amportal"><img border="0" style="float:left;" src="images/powered_by_amp.png"></a>
         <br>
 		<br>
 		<br>
