@@ -20,6 +20,9 @@ $sipScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_sip_conf_
 //script to write iax conf file from mysql
 $iaxScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_iax_conf_from_mysql.pl';
 
+//script to write op_server.cfg file from mysql 
+$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
+
 $display='6';
 $extdisplay=$_REQUEST['extdisplay'];
 $action = $_REQUEST['action'];
@@ -30,6 +33,7 @@ if ($action == 'edittrunk') {
 	exec($extenScript);
 	exec($sipScript);
 	exec($iaxScript);
+	exec($wOpScript);
 	needreload();
 }
 
@@ -38,6 +42,7 @@ if ($action == 'delTrunk') {
 	exec($extenScript);
 	exec($sipScript);
 	exec($iaxScript);
+	exec($wOpScript);
 	needreload();
 }
 
@@ -46,6 +51,7 @@ if ($action == 'addtrunk') {
 	exec($extenScript);
 	exec($sipScript);
 	exec($iaxScript);
+	exec($wOpScript);
 	needreload();
 }
 
