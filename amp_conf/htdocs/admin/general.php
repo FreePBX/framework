@@ -90,9 +90,11 @@ $extens = getextens();
 		<option value="disabled" <?php  echo ($FAX_RX == 'disabled' ? 'SELECTED' : '')?>>disabled
 		<option value="system" <?php  echo ($FAX_RX == 'system' ? 'SELECTED' : '')?>>system
 <?php 
-	foreach ($extens as $exten) {
-		$tech=strtoupper($exten[2]);
-		echo '<option value="'.$tech.'/'.$exten[0].'" '.($FAX_RX == $tech.'/'.$exten[0] ? 'SELECTED' : '').'>Extension #'.$exten[0];
+	if (isset($extens)) {
+		foreach ($extens as $exten) {
+			$tech=strtoupper($exten[2]);
+			echo '<option value="'.$tech.'/'.$exten[0].'" '.($FAX_RX == $tech.'/'.$exten[0] ? 'SELECTED' : '').'>Extension #'.$exten[0];
+		}
 	}
 ?>			
 	</select>
