@@ -1,0 +1,209 @@
+#!/usr/bin/php
+<?php
+
+// define versions. latest version must be last
+$versions = array(
+		'1.10.005',
+		'1.10.006',
+		'1.10.007',
+	);
+
+define("AMP_CONF", "/etc/amportal.conf");
+
+define("UPGRADE_DIR", dirname(__FILE__)."/upgrades");
+
+/********************************************************************************************************************/
+
+function out($text) {
+	echo $text."\n";
+}
+
+function outn($text) {
+	echo $text;
+}
+
+function error($text) {
+	echo "[ERROR] ".$text."\n";
+}
+
+function fatal($text) {
+	echo "[FATAL] ".$text."\n";
+	exit(1);
+}
+
+function parse_amportal_conf($filename) {
+	$file = file($filename);
+	foreach ($file as $line) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+			$conf[ $matches[1] ] = $matches[2];
+		}
+	}
+	return $conf;
+}
+
+//get the version number
+function getversion() {
+	global $db;
+	$sql = "SELECT value FROM admin WHERE variable = 'version'";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		return false;
+	}
+	return $results[0][0];
+}
+
+/** Install a particular version
+ */
+function install_upgrade($version) {
+	global $db;
+	
+	if (is_dir(UPGRADE_DIR."/".$version)) {
+		$dir = opendir(UPGRADE_DIR."/".$version);
+		while ($file = readdir($dir)) {
+			if (($file[0] != ".") && is_file(UPGRADE_DIR."/".$version."/".$file)) {
+				if (strtolower(substr($file,-4)) == ".sql") {
+					out("-> Running SQL script ".UPGRADE_DIR."/".$version."/".$file);
+					// run sql script
+					$fd = fopen(UPGRADE_DIR."/".$version."/".$file, "r");
+					$sql = "";
+					while (!feof($fd)) $sql .= fread($fd,1024);
+					fclose($fd);
+					
+					//TODO
+					out("   -> TODO: actually run");
+					// run a bunch of queries
+					//$db->query($sql);
+					
+				} else if (is_executable(UPGRADE_DIR."/".$version."/".$file)) {
+					out("-> Executing ".UPGRADE_DIR."/".$version."/".$file);
+					out("   -> TODO: actually execute");
+					//TODO
+					
+					//exec(UPGRADE_DIR."/".$version."/".$file);
+				} else {
+					error("-> Don't know what to do with ".UPGRADE_DIR."/".$version."/".$file);
+				}
+			}
+		}
+	}
+}
+
+/** Invoke upgrades
+ * @param $versions array	The version upgrade scripts to run
+ */
+function run_upgrade($versions) {
+	foreach ($versions as $version) {
+		out("Upgrading to ".$version."..");
+		install_upgrade($version);
+		out("Upgrading to ".$version."..OK");
+		//TODO set amp version = $version
+	}
+}
+
+/********************************************************************************************************************/
+
+// **** Look for user = root
+
+outn("Checking user..");
+if ($_ENV["USER"] != "root") {
+	out("FAILED");
+	fatal($argv[0]." must be run as root");
+}
+out("OK");
+
+
+// **** Make sure we have PEAR's DB.php, and include it
+
+outn("Checking for PEAR..");
+if (! @ include('DB.php')) {
+	out("FAILED");
+	fatal("PEAR must be installed (requires DB.php). Include path: ".ini_get("include_path"));
+}
+out("OK");
+
+
+// **** Check for amportal.conf, create if necessary
+
+outn("Checking for ".AMP_CONF."..");
+if (!file_exists(AMP_CONF)) {
+	out(AMP_CONF." does not exist, copying default");
+	copy("amportal.conf", "/etc/amportal.conf");
+}
+out("OK");
+
+
+// **** read amportal.conf
+
+outn("Reading ".AMP_CONF."..");
+$amp_conf = parse_amportal_conf(AMP_CONF);
+if (count($amp_conf) == 0) {
+	fatal("FAILED");
+}
+out("OK");
+
+
+// **** Connect to database
+
+outn("Connecting to database..");
+
+$db_user = $amp_conf["AMPDBUSER"];
+$db_pass = $amp_conf["AMPDBPASS"];
+$db_host = 'localhost';
+$db_name = 'asterisk';
+$db_engine = 'mysql';
+
+$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
+
+$db = DB::connect($datasource); // attempt connection
+
+if(DB::isError($db)) {
+	out("FAILED");
+	fatal($db->userinfo);
+	
+}
+out("OK");
+
+
+// **** Read DB for version info
+
+outn("Checking current version of AMP..");
+$version = getversion();
+if (!$version) {
+	out("no version information");
+	out("Assuming new installation");
+} else {
+	out($version);
+}
+
+
+// **** Read upgrades/ directory
+
+outn("Checking for upgrades..");
+
+// read it from ugprades/ unless $version has already been defined
+if (!isset($versions)) {
+	$versions = array();
+	$dir = opendir(UPGRADE_DIR);
+	while ($file = readdir($dir)) {
+		if (($file[0] != ".") && is_dir(UPGRADE_DIR."/".$file)) {
+			$versions[] = $file;
+		}
+	}
+	closedir($dir);
+
+	// callback to use php's version_compare() to sort	
+	usort($versions, "version_compare");
+}
+
+if (false !== ($pos = array_search($version, $versions))) {
+	$upgrades = array_slice($versions, $pos+1);
+	out(count($upgrades)." found");
+	
+	run_upgrade($upgrades);
+} else {
+	out("Current version not found");
+}
+
+
+
+?>
