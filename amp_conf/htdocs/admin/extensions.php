@@ -262,9 +262,9 @@ switch($extdisplay) {
 		<form name="advEdit" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
 		<input type="hidden" name="display" value="<?echo $dispnum?>">
 		<input type="hidden" name="action" value="advEdit"/>
-		<h4>Advanced Edit:<br></h4>
 		<p>
-			<table>
+			<table bgcolor=#EEEEEE>
+				<tr><td colspan=2><h4>Advanced Edit:<br><br></h4></td></tr>
 				<tr><td colspan=2><h5>Account Settings:<hr></h5></td></tr>
 			<? 
 			foreach ($thisExten as $result) {
@@ -301,11 +301,8 @@ switch($extdisplay) {
 			</tr>
 			
 			<tr>
-				<td>
-					&nbsp;
-				</td>
-				<td>
-					<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkForm(advEdit)"></h6>
+				<td colspan=2>
+					<br><h6><input name="Submit" type="button" value="Submit Advanced Edit" onclick="checkForm(advEdit)"></h6>
 				</td>
 			</tr>
 			</table>
