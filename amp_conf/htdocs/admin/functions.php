@@ -1899,31 +1899,33 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 					// we need to add any new entries here, before the section changes
 					//DEBUG echo "<blockquote><i>";
 					//DEBUG var_dump($vmconf[$section]);
-					foreach ($vmconf[$section] as $key=>$value) {
-						if (is_array($value)) {
-							// mailbox line
-							
-							$temp = & $vmconf[$section][ $key ];
-							
-							$options = array();
-							foreach ($temp["options"] as $key1=>$value) {
-								$options[] = $key1."=".$value;
+					if (isset($vmconf[$section])){  //need this, or we get an error if we unset the last items in this section - should probably automatically remove the section/context from voicemail.conf
+						foreach ($vmconf[$section] as $key=>$value) {
+							if (is_array($value)) {
+								// mailbox line
+								
+								$temp = & $vmconf[$section][ $key ];
+								
+								$options = array();
+								foreach ($temp["options"] as $key1=>$value) {
+									$options[] = $key1."=".$value;
+								}
+								
+								$output[] = $temp["mailbox"]."=>".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
+								
+								// remove this one from $vmconf
+								unset($vmconf[$section][ $key ]);
+								
+							} else {
+								// option line
+								
+								$output[] = $key."=".$vmconf[$section][ $key ];
+								
+								// remove this one from $vmconf
+								unset($vmconf[$section][ $key ]);
 							}
-							
-							$output[] = $temp["mailbox"]."=>".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
-							
-							// remove this one from $vmconf
-							unset($vmconf[$section][ $key ]);
-							
-						} else {
-							// option line
-							
-							$output[] = $key."=".$vmconf[$section][ $key ];
-							
-							// remove this one from $vmconf
-							unset($vmconf[$section][ $key ]);
 						}
-					}
+					} 
 					//DEBUG echo "</i></blockquote>";
 				}
 				
