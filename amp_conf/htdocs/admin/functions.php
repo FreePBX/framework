@@ -1,4 +1,4 @@
-<?
+<?php /* $id$ */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -541,84 +541,6 @@ function exteninfo($extdisplay) {
 	return $thisExten;
 }
 
-//changes requested for SIP extension (extensions.php)
-/*function editSip($account,$callerid){
-	global $db;
-    $sipfields = array(array($account,$account,'account'),
-                    array($_REQUEST['secret'],$account,'secret'),
-                    array($_REQUEST['canreinvite'],$account,'canreinvite'),
-                    array($_REQUEST['context'],$account,'context'),
-                    array($_REQUEST['dtmfmode'],$account,'dtmfmode'),
-                    array($_REQUEST['host'],$account,'host'),
-                    array($_REQUEST['type'],$account,'type'),
-                    array($_REQUEST['mailbox'],$account,'mailbox'),
-                    array($_REQUEST['username'],$account,'username'),
-					array($_REQUEST['nat'],$account,'nat'),
-					array($_REQUEST['port'],$account,'port'),
-					array($_REQUEST['qualify'],$account,'qualify'),
-					array($callerid,$account,'callerid'));
-
-    $compiled = $db->prepare('UPDATE sip SET data = ? WHERE id = ? AND keyword = ? LIMIT 1');
-    $result = $db->executeMultiple($compiled,$sipfields);
-    if(DB::IsError($result)) {
-        die($result->getMessage());
-    }
-
-	//delete any ECID variable
-	$sql = "DELETE FROM globals WHERE variable = 'ECID$account'";
-    $result = $db->query($sql);
-    if(DB::IsError($result)) {
-        die($result->getMessage());
-    }
-	
-	//add ECID<enten> to global vars if using outbound CID
-	if ($_REQUEST['outcid'] != '') {
-		$outcid = $_REQUEST['outcid'];
-		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
-		$result = $db->query($sql); 
-		if(DB::IsError($result)) {     
-			die($result->getMessage()); 
-		}
-	}
-}*/
-
-//changes requested for IAX extension (extensions.php)
-/*function editIax($account,$callerid){
-	global $db;
-    $iaxfields = array(array($account,$account,'account'),
-                    array($_REQUEST['secret'],$account,'secret'),
-                    array($_REQUEST['notransfer'],$account,'notransfer'),
-                    array($_REQUEST['context'],$account,'context'),
-                    array($_REQUEST['host'],$account,'host'),
-                    array($_REQUEST['type'],$account,'type'),
-                    array($_REQUEST['mailbox'],$account,'mailbox'),
-                    array($_REQUEST['username'],$account,'username'),
-					array($_REQUEST['port'],$account,'port'),
-					array($_REQUEST['qualify'],$account,'qualify'),
-					array($callerid,$account,'callerid'));
-
-    $compiled = $db->prepare('UPDATE iax SET data = ? WHERE id = ? AND keyword = ? LIMIT 1');
-    $result = $db->executeMultiple($compiled,$iaxfields);
-    if(DB::IsError($result)) {
-        die($result->getMessage());
-    }
-	
-	//delete any ECID variable
-	$sql = "DELETE FROM globals WHERE variable = 'ECID$account'";
-    $result = $db->query($sql);
-    if(DB::IsError($result)) {
-        die($result->getMessage());
-    }
-	//add ECID<enten> to global vars if using outbound CID
-	if ($_REQUEST['outcid'] != '') {
-		$outcid = $_REQUEST['outcid'];
-		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
-		$result = $db->query($sql); 
-		if(DB::IsError($result)) {     
-			die($result->getMessage()); 
-		}
-	}
-}*/
 
 //Delete an extension (extensions.php)
 function delExten($extdisplay) {
@@ -720,59 +642,6 @@ function gettrunks() {
 	asort($unique_trunks);
 	return $unique_trunks;
 }
-
-/*function edittrunk() {
-	global $db;
-	$trunknum = ltrim($_REQUEST['extdisplay'],'OUT_');
-	$tech=strtok($_REQUEST['tname'],'/');  // the technology.  ie: ZAP/g0 is ZAP
-	$channelid=$_REQUEST['channelid'];
-	$glofields = array(array($tech.'/'.$_REQUEST['channelid'],'OUT_'.$trunknum),
-					array($_REQUEST['dialprefix'],'DIAL_OUT_'.$trunknum),
-					array($_REQUEST['outcid'],'OUTCID_'.$trunknum));
-	$compiled = $db->prepare('UPDATE globals SET value = ? WHERE variable = ?');
-	$result = $db->executeMultiple($compiled,$glofields);
-	if(DB::IsError($result)) {
-		die($result->getMessage()."<br><br>".$sql);	
-	}
-	writeoutids();
-	//set the default trunk
-	if ($_REQUEST['defaulttrunk'] == 'yes') {
-		setDefaultTrunk($trunknum);
-	}
-	
-	//remove and re-add to sip or iax table
-	if ($tech == 'SIP') {
-		$sql = "DELETE FROM sip WHERE id = '9999$trunknum' OR id = '99999$trunknum' OR id = '9999999$trunknum'";
-		$result = $db->query($sql);
-		if(DB::IsError($result)) {
-			die($result->getMessage());
-		}
-		//now re-add info
-		addSipOrIaxTrunk($_REQUEST['config'],'sip',$channelid,$trunknum);
-		if ($_REQUEST['usercontext'] != ""){
-			addSipOrIaxTrunk($_REQUEST['userconfig'],'sip',$_REQUEST['usercontext'],'9'.$trunknum);
-		}
-		if ($_REQUEST['register'] != ""){
-			addTrunkRegister($trunknum,'sip',$_REQUEST['register']);
-		}
-	}
-	if ($tech == 'IAX2') {
-		$sql = "DELETE FROM iax WHERE id = '9999$trunknum' OR id = '99999$trunknum' OR id = '9999999$trunknum'";
-		$result = $db->query($sql);
-		if(DB::IsError($result)) {
-			die($result->getMessage());
-		}
-		//now re-add info
-		addSipOrIaxTrunk($_REQUEST['config'],'iax',$channelid,$trunknum);
-		if ($_REQUEST['usercontext'] != ""){
-			addSipOrIaxTrunk($_REQUEST['userconfig'],'iax',$_REQUEST['usercontext'],'9'.$trunknum);
-		}
-		if ($_REQUEST['register'] != ""){
-			addTrunkRegister($trunknum,'iax',$_REQUEST['register']);
-		}
-	}
-}*/
-
 
 
 //add trunk info to sip or iax table
@@ -1123,31 +992,6 @@ function getTrunkUserContext($trunknum) {
 	}
 	return $account;
 }
-
-/*
-
-//get trunk user context (prefixed with 4 9's)
-function getTrunkTrunkName($trunknum) {
-	global $db;
-	
-	$tech = getTrunkTech($trunknum);
-	if ($tech == "zap") return ""; // zap has no account
-	
-	$sql = "SELECT keyword,data FROM $tech WHERE id = '9999$trunknum' ORDER BY id";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-	foreach ($results as $result) {
-		if ($result[0] == 'account') {
-			$account = $result[1];
-		}
-	}
-	return $account;
-}
-
-
-*/
 
 function getTrunkTrunkName($trunknum) {
 	global $db;
