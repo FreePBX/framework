@@ -1672,7 +1672,10 @@ function getqueueinfo($account) {
 	return $results;
 }
 
-function drawselects($formName,$goto,$i) {  // $goto is the current setting, $i is the number of times to draw row (ie: digital receptionist)
+// $formName is the name of the form we are drawing in
+// $goto is the current goto destination setting
+// $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
+function drawselects($formName,$goto,$i) {  
 
 	//query for exisiting aa_N contexts
 	$unique_aas = getaas();
