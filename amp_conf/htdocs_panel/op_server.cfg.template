@@ -18,7 +18,7 @@ security_code=passw0rd         ; secret code for performing hangups and
 flash_dir=/var/www/html/panel  ; location of the .swf file in your disk
                                ; (must reside somewhere inside your web root)
 
-poll_interval=10               ; Frequency in second to poll for sip status
+poll_interval=120               ; Frequency in second to poll for sip status
 
 kill_zombies=0                 ; 1 Enable automatic hangup of zombies
                                ; 0 Disable
