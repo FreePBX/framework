@@ -24,6 +24,7 @@
 	//make sure our tables are there
 	sipexists();
 	iaxexists();
+	zapexists();
 ?>
 
 <html>
