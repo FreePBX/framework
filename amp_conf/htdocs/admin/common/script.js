@@ -324,3 +324,9 @@ function checkAmpUser(theForm, action) {
 		theForm.submit();
 	}
 }
+
+function changeLang(lang) {
+	document.cookie='lang='+lang;
+	window.location.reload();
+}
+

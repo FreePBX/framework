@@ -82,18 +82,18 @@ if (isset($_REQUEST['display'])) {
 
 // setup menu 
 $amp_sections = array(
-		9=>"Incoming Calls",
-		3=>"Extensions",
-		4=>"Ring Groups",
-		11=>"Queues",
-		2=>"Digital Receptionist",
-		6=>"Trunks",
-		8=>"Outbound Routing",
-		7=>"DID Routes",
-		1=>"On Hold Music",
-		12=>"System Recordings",
-		5=>"General Settings",
-		99=>"Apply Changes Bar"
+		9=>_("Incoming Calls"),
+		3=>_("Extensions"),
+		4=>_("Ring Groups"),
+		11=>_("Queues"),
+		2=>_("Digital Receptionist"),
+		6=>_("Trunks"),
+		8=>_("Outbound Routing"),
+		7=>_("DID Routes"),
+		1=>_("On Hold Music"),
+		12=>_("System Recordings"),
+		5=>_("General Settings"),
+		99=>_("Apply Changes Bar")
 	);
 	
 // only show AMP Users if they have authtype set approiately
@@ -133,23 +133,23 @@ if (!empty($display) && !isset($amp_sections[$display])) {
 // show the approiate page
 switch($display) {
 	default:
-		echo "<p>Welcome to AMP</p>";
+		echo "<p>"._("Welcome to AMP")."</p>";
 		echo str_repeat("<br />", 12);
 	break;
 	case 'noaccess':
-		echo "<h2>Not found</h2>";
-		echo "<p>The section you requested does not exist or you do not have access to it.</p>";
+		echo "<h2>"._("Not found")."</h2>";
+		echo "<p>"._("The section you requested does not exist or you do not have access to it.")."</p>";
 		echo str_repeat("<br />", 10);
 	break;
 	case '9':
-		echo "<h2>Incoming Calls</h2>";
+		echo "<h2>"._("Incoming Calls")."</h2>";
 		include 'incoming.php';
 	break;
 	case '1':
 		include 'music.php';
 	break;
 	case '2':
-		echo "<h2>Digital Receptionist</h2>";
+		echo "<h2>"._("Digital Receptionist")."</h2>";
 		// The Digital Receptionist code is a rat's nest.  If you are planning on making significant modifications, just re-write from scratch.
 		//if menu_id is being empty, or if we are requesting delete, just use ivr_action.php
 		if ((empty($_REQUEST['menu_id'])) || ($_REQUEST['ivr_action'] == 'delete'))
@@ -167,7 +167,7 @@ switch($display) {
 		include 'queues.php';
 	break;
 	case '5':
-		echo "<h2>General Settings</h2>";
+		echo "<h2>"._("General Settings")."</h2>";
 		include 'general.php';
 	break;
 	case '6':

@@ -22,8 +22,8 @@ if ($_REQUEST["action"] == "logout") {
 ?>
 
 <?php
-$title="Asterisk Management Portal";
-$message="Administration";
+$title=_("Asterisk Management Portal");
+$message=_("Administration");
 
 require_once('functions.php');
 
@@ -51,9 +51,18 @@ switch($display) {
     default:
 ?>
 
+    <p align="right">
+	Language:
+	<select onchange="javascript:changeLang(this.value)">
+        <option value="en_US" <? echo ($_COOKIE['lang']=="en_US" ? "selected" : "") ?> >English</option>
+        <option value="it_IT" <? echo ($_COOKIE['lang']=="it_IT" ? "selected" : "") ?> >Italian</option>
+    </select>
+    </p>
+
     <h2>AMP</h2>
     <p>
         Welcome to the Asterisk Management Portal <?php $ver=getversion(); echo $ver[0][0];?>
+        <?php echo _("Welcome to the Asterisk Management Portal") ?> <?php $ver=getversion(); echo $ver[0][0];?>
         <br><br><br><br><br><br>
     </p>
     

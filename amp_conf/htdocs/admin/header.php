@@ -35,6 +35,12 @@
 	</script> 
 </head>
 
+<?php
+	setlocale(LC_MESSAGES,  $_COOKIE['lang'] ? $_COOKIE['lang']:'en_US');
+	bindtextdomain('amp','./i18n');
+	textdomain('amp');
+?>
+
 <body>
 <div id="page">
 
@@ -49,15 +55,15 @@ if (isset($amp_conf["AMPADMINLOGO"])){?>
 
     <a id="<?php  echo ($currentFile=='config.php' ? 'current':'') ?>" href="config.php?">
         &#8226;
-        <li>Setup</li>
+        <li><?php echo _("Setup") ?></li>
     </a>
     <a id="<?php  echo ($currentFile=='reports.php' ? 'current':'') ?>" href="reports.php?">
         &#8226;
-        <li>Reports</li>
+        <li><?php echo _("Reports") ?></li>
     </a>
     <a id="<?php  echo ($currentFile=='panel.php' ? 'current':'') ?>" href="panel.php?">
         &#8226;
-        <li>Panel</li>
+        <li><?php echo _("Panel") ?></li>
     </a>
 </div>
 
