@@ -104,6 +104,112 @@ function write_amportal_conf($filename, $conf) {
 	fclose($fd);
 }
 
+function ask_overwrite($file1, $file2) {
+	do {
+		out($file2." has been changed from the original version.");
+		outn("Overwrite (y=yes/n=no/d=diff/s=shell)? ");
+		$key = fread(STDIN,1024);
+		switch (strtolower($key[0])) {
+			case "y": return true; 
+			case "n": return false;
+			case "d": 
+				out("");
+				passthru("diff -u ".$file1." ".$file2);
+			break;
+			case "s":
+				if (function_exists("pcntl_fork")) {
+					out("");
+					$shell = (isset($_ENV["SHELL"]) ? $_ENV["SHELL"] : "/bin/bash");
+					out("Dropping to shell. Type 'exit' to return");
+					
+					$pid = pcntl_fork();
+					if ($pid == -1) {
+						out("[ERROR] cannot fork");
+					} else if ($pid) {
+						// parent
+						pcntl_waitpid($pid, $status);
+						// we wait till the child exits/dies/whatever
+					} else {
+						pcntl_exec($shell, array(), $_ENV);
+					}
+					
+					out("Returned from shell");
+				} else {
+					out("[ERROR] PHP not built with process control (--enable-pcntl) support: cannot spawn shell");
+				}
+				
+			break;
+		}
+		out("");
+	} while(1);
+}
+
+/** Recursively copy a directory
+ */
+function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") {
+	global $dryrun;
+	
+	if ($dirsource && ($dirsource[0] != "/")) $dirsource = "/".$dirsource;
+	
+	if (is_dir($dirsourceparent.$dirsource)) $dir_handle = opendir($dirsourceparent.$dirsource);
+	
+	/*
+	echo "dirsourceparent: "; var_dump($dirsourceparent);
+	echo "dirsource: "; var_dump($dirsource);
+	echo "dirdest: "; var_dump($dirdest);
+	*/
+	
+	if (!file_exists($dirdest.$dirsource)) {
+		debug("mkdir ".$dirdest.$dirsource);
+		if (!$dryrun) {
+			mkdir($dirdest.$dirsource, 0750);
+		}
+	}
+	
+	while (isset($dir_handle) && ($file = readdir($dir_handle))) {
+		if (($file!=".") && ($file!="..") && ($file != "CVS")) {
+			$source = $dirsourceparent.$dirsource."/".$file;
+			$destination =  $dirdest.$dirsource."/".$file;
+			
+			if (!is_dir($source)) {
+				if (file_exists($destination) && isset($md5sums[$destination]) && (md5_file($destination) != $md5[$destination])) {
+					$overwrite = ask_overwrite($source, $destination, $md5sums);
+				} else {
+					$overwrite = true;
+				}
+				
+				if ($overwrite) {
+					debug("copy ".$source." -> ".$destination);
+					if (!$dryrun) {
+						copy($source, $destination);
+					}
+				} else {
+					debug("not overwriting ".$destination);
+				}
+			} else {
+				//echo "recursive_copy($dirsourceparent, $dirdest, $md5sums, $dirsource/$file)";
+				recursive_copy($dirsourceparent, $dirdest, $md5sums, $dirsource."/".$file);
+			}
+		}
+	}
+	
+	if (isset($dir_handle)) closedir($dir_handle);
+	
+	return true;
+}
+
+function read_md5_file($filename) {
+	$md5 = array();
+	if (file_exists($filename)) {
+		foreach (file($filename) as $line) {
+			if (preg_match("/^([a-f0-9]{32})\s+(.*)$/", $line, $matches)) {
+				$md5[ "/".$matches[2] ] = $matches[1];
+			}
+		}
+	}
+	return $md5;
+}
+
 /** Include a .php file
  * This is a function just to keep a seperate context
  */
@@ -253,8 +359,6 @@ if ($_ENV["USER"] != "root") {
 out("OK");
 
 
-
-
 // **** Check for amportal.conf, create if necessary
 
 outn("Checking for ".AMP_CONF."..");
@@ -323,6 +427,12 @@ if (!$version) {
 	out($version);
 }
 
+// **** Copy files
+
+$md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
+recursive_copy("amp_conf", "", $md5sums);
+
+exit;
 
 // **** Read upgrades/ directory
 
