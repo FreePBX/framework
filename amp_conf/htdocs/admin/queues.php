@@ -150,9 +150,11 @@ if ($action == 'delete') {
 				$tresults = getsystemrecordings("/var/lib/asterisk/sounds/custom");
 				$default = (isset($agentannounce) ? $agentannounce : None);
 				echo '<option value="None">None';
-				foreach ($tresults as $tresult) {
-				    $searchvalue="custom/$tresult";	
-				    echo '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$tresult;
+				if (isset($tresults)) {
+					foreach ($tresults as $tresult) {
+						$searchvalue="custom/$tresult";	
+						echo '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$tresult;
+					}
 				}
 			?>		
 			</select>		
