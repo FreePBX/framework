@@ -669,7 +669,9 @@ sub message_rename()
 	}
 	
 	my $path = "/var/spool/asterisk/voicemail/$context/$mbox/$newfolder";
-	mkdir $path, 0755;
+	if (! -d $path) { 
+		mkdir $path, 0755;
+	}
 	my $path = "/var/spool/asterisk/voicemail/$context/$mbox/$oldfolder";
 	opendir(DIR, $path) || die("Unable to open directory\n");
 	my @files = grep /^msg${old}\.\w+$/, readdir(DIR);
@@ -693,7 +695,7 @@ sub file_copy()
 	my $res;
 	my $data;
 	open(IN, "<$orig") || die("Unable to open '$orig'\n");
-	open(OUT, ">$new") || DIE("Unable to open '$new'\n");
+	open(OUT, ">$new") || die("Unable to open '$new'\n");
 	while(($res = sysread(IN, $data, 4096)) > 0) {
 		syswrite(OUT, $data, $res);
 	}
@@ -706,7 +708,7 @@ sub message_copy()
 	my ($mbox, $newmbox, $oldfolder, $old, $new) = @_;
 	my $oldfile, $newfile;
 	
-    my $context = param('context');
+	my $context = param('context');
 	
 	return if ($mbox eq $newmbox);
 	
@@ -741,9 +743,13 @@ sub message_copy()
 	}
 	
 	my $path = "/var/spool/asterisk/voicemail/$context/$newmbox";
-	mkdir $path, 0755;
+	if (! -d $path) { 
+	    mkdir $path, 0755;
+	}
 	my $path = "/var/spool/asterisk/voicemail/$context/$newmbox/INBOX";
-	mkdir $path, 0755;
+	if (! -d $path) { 
+	    mkdir $path, 0755;
+	}
 	my $path = "/var/spool/asterisk/voicemail/$context/$mbox/$oldfolder";
 	opendir(DIR, $path) || die("Unable to open directory: $path\n");
 	my @files = grep /^msg${old}\.\w+$/, readdir(DIR);
@@ -754,6 +760,10 @@ sub message_copy()
 			$tmp = $1;
 			$oldfile = $path . "/$tmp";
 			$tmp =~ s/msg${old}/msg${new}/;
+			$context =~ /(\w+)/;
+			$context = $1;
+			$newmbox =~ /(\w+)/;
+			$newmbox = $1;
 			$newfile = "/var/spool/asterisk/voicemail/$context/$newmbox/INBOX/$tmp";
 #			print "Copying $oldfile to $newfile<BR>\n";
 			&file_copy($oldfile, $newfile);
