@@ -1713,4 +1713,200 @@ function addgroup($account,$grplist,$grptime,$grppre,$goto) {
 	
 	setGoto($account,'ext-group','5',$goto,0);
 }
+
+/** Recursively read voicemail.conf (and any included files)
+ * This function is called by getVoicemailConf()
+ */
+function parse_voicemailconf($filename, &$vmconf, &$section) {
+	if (is_null($vmconf)) {
+		$vmconf = array();
+	}
+	if (is_null($section)) {
+		$section = "general";
+	}
+	
+	if (file_exists($filename)) {
+		$fd = fopen($filename, "r");
+		while ($line = fgets($fd, 1024)) {
+			if (preg_match("/^\s*(\d+)\s*=>\s*(\d+),(.*),(.*),(.*),(.*)\s*([;#].*)?/",$line,$matches)) {
+				// "mailbox=>password,name,email,pager,options"
+				// this is a voicemail line	
+				$vmconf[$section][ $matches[1] ] = array("mailbox"=>$matches[1],
+									"pwd"=>$matches[2],
+									"name"=>$matches[3],
+									"email"=>$matches[4],
+									"pager"=>$matches[5],
+									"options"=>array(),
+									);
+								
+				// parse options
+				//output($matches);
+				foreach (explode("|",$matches[6]) as $opt) {
+					$temp = explode("=",$opt);
+					//output($temp);
+					if (isset($temp[1])) {
+						list($key,$value) = $temp;
+						$vmconf[$section][ $matches[1] ]["options"][$key] = $value;
+					}
+				}
+			} else if (preg_match("/^\s*(\d+)\s*=>\s*dup,(.*)\s*([;#].*)?/",$line,$matches)) {
+				// "mailbox=>dup,name"
+				// duplace name line
+				$vmconf[$section][ $matches[1] ]["dups"][] = $matches[2];
+			} else if (preg_match("/^\s*#include\s+(.*)\s*([;#].*)?/",$line,$matches)) {
+				// include another file
+				
+				if ($matches[1][0] == "/") {
+					// absolute path
+					$filename = $matches[1];
+				} else {
+					// relative path
+					$filename =  dirname($filename)."/".$matches[1];
+				}
+				
+				parse_voicemailconf($filename, $vmconf, $section);
+				
+			} else if (preg_match("/^\s*\[(.+)\]/",$line,$matches)) {
+				// section name
+				$section = strtolower($matches[1]);
+			} else if (preg_match("/^\s*([a-zA-Z0-9-_]+)\s*=\s*(.*?)\s*([;#].*)?$/",$line,$matches)) {
+				// name = value
+				// option line
+				$vmconf[$section][ $matches[1] ] = $matches[2];
+			}
+		}
+		fclose($fd);
+	}
+}
+
+function getVoicemail() {
+	$vmconf = null;
+	$section = null;
+	
+	// yes, this is hardcoded.. is this a bad thing?
+	parse_voicemailconf("/etc/asterisk/voicemail.conf", $vmconf, $section);
+	
+	return $vmconf;
+}
+
+/** Write the voicemail.conf file
+ * This is called by saveVoicemail()
+ * It's important to make a copy of $vmconf before passing it. Since this is a recursive function, has to
+ * pass by reference. At the same time, it removes entries as it writes them to the file, so if you don't have
+ * a copy, by the time it's done $vmconf will be empty.
+*/
+function write_voicemailconf($filename, &$vmconf, &$section) {
+	if (is_null($section)) {
+		$section = "general";
+	}
+	
+	$output = array();
+	
+	if (file_exists($filename)) {
+		$fd = fopen($filename, "r");
+		while ($line = fgets($fd, 1024)) {
+			if (preg_match("/^\s*(\d+)\s*=>\s*(\d+),(.*),(.*),(.*),(.*)\s*([;#].*)?/",$line,$matches)) {
+				// "mailbox=>password,name,email,pager,options"
+				// this is a voicemail line
+				
+				if (isset($vmconf[$section][ $matches[1] ])) {	
+					// we have this one loaded
+					// repopulate from our version
+					$temp = & $vmconf[$section][ $matches[1] ];
+					
+					$options = array();
+					foreach ($temp["options"] as $key=>$value) {
+						$options[] = $key."=".$value;
+					}
+					
+					$output[] = $temp["mailbox"]."=>".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
+					
+					// remove this one from $vmconf
+					unset($vmconf[$section][ $matches[1] ]);
+				} else {
+					// we don't know about this mailbox (JUST added?)
+					// leave it alone
+					$output[] = $line;
+				}
+				
+			} else if (preg_match("/^\s*(\d+)\s*=>\s*dup,(.*)\s*([;#].*)?/",$line,$matches)) {
+				// "mailbox=>dup,name"
+				// duplace name line
+				// leave it as-is (for now)
+				$output[] = $line;
+			} else if (preg_match("/^\s*#include\s+(.*)\s*([;#].*)?/",$line,$matches)) {
+				// include another file
+				
+				if ($matches[1][0] == "/") {
+					// absolute path
+					$filename = $matches[1];
+				} else {
+					// relative path
+					$filename =  dirname($filename)."/".$matches[1];
+				}
+				
+				//parse_voicemailconf($filename, $vmconf, $section);
+				
+			} else if (preg_match("/^\s*\[(.+)\]/",$line,$matches)) {
+				// section name
+				
+				// we need to add any new entries here, before the section changes
+				foreach ($vmconf[$section] as $key=>$value) {
+					if (is_array($value)) {
+						// mailbox line
+						
+						$temp = & $vmconf[$section][ $matches[1] ];
+						
+						$options = array();
+						foreach ($temp["options"] as $key=>$value) {
+							$options[] = $key."=".$value;
+						}
+						
+						$output[] = $temp["mailbox"]."=>".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
+						
+						// remove this one from $vmconf
+						unset($vmconf[$section][ $matches[1] ]);
+						
+					} else {
+						// option line
+						
+						$output[] = $matches[1]."=".$vmconf[$section][ $matches[1] ];
+						
+						// remove this one from $vmconf
+						unset($vmconf[$section][ $matches[1] ]);
+					}
+				}
+				
+				$section = strtolower($matches[1]);
+			} else if (preg_match("/^\s*([a-zA-Z0-9-_]+)\s*=\s*(.*?)\s*([;#].*)?$/",$line,$matches)) {
+				// name = value
+				// option line
+				if (isset($vmconf[$section][ $matches[1] ])) {
+					$output[] = $matches[1]."=".$vmconf[$section][ $matches[1] ];
+					
+					// remove this one from $vmconf
+					unset($vmconf[$section][ $matches[1] ]);
+				}
+			} else {
+				// unknown other line
+				$output[] = $line;
+			}
+		}
+		fclose($fd);
+		
+		// write this file back out
+		var_dump($output);
+		/*
+		$fd = fopen($filename, "w");
+		fwrite($fd, implode("\n",$output);
+		fclose($fd);
+		*/
+	}
+}
+
+function saveVoicemail($vmconf) {
+	// yes, this is hardcoded.. is this a bad thing?
+	write_voicemailconf("/etc/asterisk/voicemail.conf", $vmconf, $section);
+}
+
 ?>
