@@ -401,6 +401,12 @@ function gettrunks() {
 	}
 	//if no trunks have ever been defined, then create the proper variables with the default zap trunk
 	if (count($unique_trunks) == 0) {
+		//If all trunks have been deleted from admin, dialoutids might still exist
+		$sql = "DELETE FROM globals WHERE variable = 'DIALOUTIDS'";
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			die($result->getMessage());
+		}
 		$glofields = array(array('OUT_1','ZAP/g0'),
 							array('DIAL_OUT_1','9'),
 							array('DIALOUTIDS','1'));
