@@ -39,9 +39,12 @@ function debug($text) {
 
 function showHelp() {
 	out("Optional parameters:");
-	out("  --help, -h, -?    Show this help");
-	out("  --debug           Enable debug output");
-	out("  --dry-run         Don't actually do anything");
+	out("  --help, -h, -?           Show this help");
+	out("  --username <user>        Use <user> to connect to db and write config");
+	out("  --password <pass>        Use <pass> to connect to db and write config");
+	out("  --debug                  Enable debug output");
+	out("  --dry-run                Don't actually do anything");
+	out("  --force-version <ver>    Force upgrade from version <ver>");
 }
 
 function parse_amportal_conf($filename) {
@@ -466,6 +469,10 @@ foreach ($args[0] as $arg) {
 			out("Using password: ".str_repeat("*",strlen($arg[1])));
 			$new_password = $arg[1];
 		break;
+		case "--force-version":
+			$version = $arg[1];
+			out("Forcing upgrade from version ".$version);
+		break;
 	}
 }
 
@@ -539,13 +546,15 @@ out("OK");
 
 // **** Read DB for version info
 
-outn("Checking current version of AMP..");
-$version = getversion();
-if (!$version) {
-	out("no version information");
-	out("Assuming new installation");
-} else {
-	out($version);
+if (!isset($version)) {
+	outn("Checking current version of AMP..");
+	$version = getversion();
+	if (!$version) {
+		out("no version information");
+		out("Assuming new installation");
+	} else {
+		out($version);
+	}
 }
 
 
