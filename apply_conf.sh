@@ -41,7 +41,7 @@ sed -r -i "s/define \(\"WEBROOT\", \"[a-zA-Z0-9_-\.\/\\]*\"\);/define \(\"WEBROO
 sed -r -i "s!define \(\"FSROOT\", \"[a-zA-Z0-9_-\.\/\\]*\"\);!define \(\"FSROOT\", \"$AMPWEBROOT\/admin\/cdr\/\"\);!" $AMPWEBROOT/admin/cdr/lib/defines.php
 
 # do a bunch at once here
-find /var/www/html/admin/ -name retrieve\*.pl
+find $AMPWEBROOT/admin/ -name retrieve\*.pl
 sed -r -i "s/username = \"[a-zA-Z0-9]*\";/username = \"$AMPDBUSER\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
 sed -r -i "s/password = \"[a-zA-Z0-9]*\";/password = \"$AMPDBPASS\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
 
