@@ -62,38 +62,37 @@ $extens = getextens();
 <input type="hidden" name="display" value="5"/>
 <input type="hidden" name="action" value="editglobals"/>
 
-<h5>Dialing Options</h5>
+<h5><?php echo _("Dialing Options")?></h5>
 <p>
-	Number of seconds to ring phones before sending callers to voicemail: 
+	<?php echo _("Number of seconds to ring phones before sending callers to voicemail:")?>
 	<input type="text" size="2" name="RINGTIMER" value="<?php  echo $RINGTIMER?>"/>
 </p>
 
-<h5>Company Directory</h5>
+<h5><?php echo _("Company Directory")?></h5>
 <p>
-	Find users in the <a href=# class="info">Company Directory<span><br>
-	Callers who are greeted by a Digital Receptionist can dial pound (#) to access the Company Directory.<br><br>
-	Internal extensions can dial *411 to access the Company Directory.</span></a> by: 
+	<?php echo _("Find users in the")?> <a href=# class="info"><?php echo _("Company Directory")?><span><br>
+	<?php echo _("Callers who are greeted by a Digital Receptionist can dial pound (#) to access the Company Directory.<br><br>Internal extensions can dial *411 to access the Company Directory.")?></span></a> <?php echo _("by:")?>
 	<select name="DIRECTORY">
-		<option value="first" <?php  echo ($DIRECTORY == 'first' ? 'SELECTED' : '')?>>first name
-		<option value="last" <?php  echo ($DIRECTORY == 'last' ? 'SELECTED' : '')?>>last name
-		<option value="both" <?php  echo ($DIRECTORY == 'both' ? 'SELECTED' : '')?>>first or last name
+		<option value="first" <?php  echo ($DIRECTORY == 'first' ? 'SELECTED' : '')?>><?php echo _("first name")?>
+		<option value="last" <?php  echo ($DIRECTORY == 'last' ? 'SELECTED' : '')?>><?php echo _("last name")?>
+		<option value="both" <?php  echo ($DIRECTORY == 'both' ? 'SELECTED' : '')?>><?php echo _("first or last name")?>
 	</select> 
 	<br><br>
-	<input type="checkbox" value="e" name="DIRECTORY_OPTS" <?php  echo ($DIRECTORY_OPTS ? 'CHECKED' : '')?>> <a href=# class="info">Play extension number<span>Plays a message "Please hold while I transfer you to extension xxx" that lets the caller know what extension to use in the future.</span></a> to caller before transferring call
+	<input type="checkbox" value="e" name="DIRECTORY_OPTS" <?php  echo ($DIRECTORY_OPTS ? 'CHECKED' : '')?>> <a href=# class="info"><?php echo _("Play extension number")?><span><?php echo _("Plays a message \"Please hold while I transfer you to extension xxx\" that lets the caller know what extension to use in the future.")?></span></a> <?php echo _("to caller before transferring call")?>
 </p>
 
-<h5>Fax Machine</h5>
+<h5><?php echo _("Fax Machine")?></h5>
 <p>
-	Extension of <a class="info" href="#">fax machine<span>Select 'system' to have the system receive and email faxes.<br>Selecting 'disabled' will result in incoming calls being answered more quickly.</span></a> for receiving faxes: 
+	Extension of <a class="info" href="#"><?php echo _("fax machine")?><span><?php echo _("Select 'system' to have the system receive and email faxes.<br>Selecting 'disabled' will result in incoming calls being answered more quickly.")?></span></a> <?php echo _("for receiving faxes:")?>
 	<!--<input type="text" size="8" name="FAX_RX" value="<?php  echo $FAX_RX?>"/>-->
 	<select name="FAX_RX">
-		<option value="disabled" <?php  echo ($FAX_RX == 'disabled' ? 'SELECTED' : '')?>>disabled
-		<option value="system" <?php  echo ($FAX_RX == 'system' ? 'SELECTED' : '')?>>system
+		<option value="disabled" <?php  echo ($FAX_RX == 'disabled' ? 'SELECTED' : '')?>><?php echo _("disabled")?>
+		<option value="system" <?php  echo ($FAX_RX == 'system' ? 'SELECTED' : '')?>><?php echo _("system")?>
 <?php 
 	if (isset($extens)) {
 		foreach ($extens as $exten) {
 			$tech=strtoupper($exten[2]);
-			echo '<option value="'.$tech.'/'.$exten[0].'" '.($FAX_RX == $tech.'/'.$exten[0] ? 'SELECTED' : '').'>Extension #'.$exten[0];
+			echo '<option value="'.$tech.'/'.$exten[0].'" '.($FAX_RX == $tech.'/'.$exten[0] ? 'SELECTED' : '').'>'._("Extension #").$exten[0];
 		}
 	}
 ?>			
@@ -101,11 +100,11 @@ $extens = getextens();
 	
 </p>
 <p>
-	<a class="info" href="#">Email address<span>Email address used if 'system' has been chosen for the fax extension above.</span></a> to have faxes emailed to:  
+	<a class="info" href="#"><?php echo _("Email address")?><span><?php echo _("Email address used if 'system' has been chosen for the fax extension above.")?></span></a> <?php echo _("to have faxes emailed to:")?>
 	<input type="text" size="20" name="FAX_RX_EMAIL" value="<?php  echo $FAX_RX_EMAIL?>"/>
 </p>
 <br>
 <h6>
-	<input name="Submit" type="button" value="Submit Changes" onclick="checkGeneral(general)">
+	<input name="Submit" type="button" value="<?php echo _("Submit Changes")?>" onclick="checkGeneral(general)">
 </h6>
 </form>
