@@ -105,5 +105,23 @@ function checkTrunk(theForm) {
 }
 
 function openWindow(url,width,height) { 
-popupWin = window.open(url, '', 'width='+width + ',height='+height)
+	popupWin = window.open(url, '', 'width='+width + ',height='+height)
+}
+
+function checkIVR(theForm,ivr_num_options) {
+	var bad = "false";
+	for (var formNum = 0; formNum < ivr_num_options; formNum++) {
+		var gotoType = theForm.elements[ "goto"+formNum ].value;
+		if (gotoType == 'custom') {
+			var gotoVal = theForm.elements[ "custom"+formNum ].value;
+			if (gotoVal.indexOf('custom') == -1) {
+				bad = "true";
+				item = formNum + 1;
+				alert('There is a problem with option number '+item+'.\n\nCustom Goto contexts must contain the string "custom".  ie: custom-app,s,1');
+			}
+		}
+	}
+	if (bad == "false") {
+		theForm.submit();
+	}
 }

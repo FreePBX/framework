@@ -285,7 +285,9 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 	}
 ?>
 	</table>
-	<h6><input name="Submit" type="submit" value="Continue"></h6>
+	<h6>
+	<input type="button" value="Continue" onClick="checkIVR(prompt,<?echo $_REQUEST['ivr_num_options']?>)"
+	</h6>
 	</form>
 </p>
 <?
