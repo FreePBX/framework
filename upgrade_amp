@@ -85,14 +85,21 @@ function install_upgrade($version) {
 					out("-> Running SQL script ".UPGRADE_DIR."/".$version."/".$file);
 					// run sql script
 					$fd = fopen(UPGRADE_DIR."/".$version."/".$file, "r");
-					$sql = "";
-					while (!feof($fd)) $sql .= fread($fd,1024);
+					while (!feof($fd)) {
+						$line = trim(fgets($fd,1024));
+						if ((!preg_match("/^--/", $line)) && (!preg_match("/^$/", $line))){
+							$sqls[] = $line;
+						}
+					}
 					fclose($fd);
 					
-					//TODO
-					out("   -> TODO: actually run");
-					// run a bunch of queries
-					//$db->query($sql);
+					foreach ($sqls as $sql) {
+						$db->query($sql);
+						$result = $db->query($sql); 
+						if(DB::IsError($result)) {     
+							die("[FATAL] \"".$result->getDebugInfo()."\" while running ".$file."\n"); 
+						}
+					}
 					
 				} else if (strtolower(substr($file,-4)) == ".php") {
 					out("-> Running PHP script ".UPGRADE_DIR."/".$version."/".$file);
@@ -122,7 +129,7 @@ function run_upgrade($versions) {
 		out("Upgrading to ".$version."..");
 		install_upgrade($version);
 		out("Upgrading to ".$version."..OK");
-		setversion($version);
+//		setversion($version);  disabled for testing
 	}
 }
 
