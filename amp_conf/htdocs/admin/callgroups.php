@@ -1,4 +1,4 @@
-<?php
+<?php /* $Id */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -57,8 +57,8 @@ if ($action == 'edtGRP') {
 </div>
 
 <div class="rnav">
-    <li><a id="<? echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?echo $dispnum?>">Add Ring Group</a><br></li>
-<?
+    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>">Add Ring Group</a><br></li>
+<?php 
 //get unique ring groups
 $gresults = getgroups();
 
@@ -69,7 +69,7 @@ foreach ($gresults as $gresult) {
 </div>
 
 <div class="content">
-<?
+<?php 
 
 		
 		if ($action == 'delGRP') {
@@ -87,33 +87,33 @@ foreach ($gresults as $gresult) {
 
 			$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delGRP';
 	?>
-			<h2>Ring Group: <? echo ltrim($extdisplay,'GRP-'); ?></h2>
-<?		if ($extdisplay){ ?>
-			<p><a href="<? echo $delURL ?>">Delete Group <? echo ltrim($extdisplay,'GRP-'); ?></a></p>
-<?		} ?>
-			<form name="editGRP" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
-			<input type="hidden" name="display" value="<?echo $dispnum?>">
-			<input type="hidden" name="action" value="<? echo ($extdisplay ? 'edtGRP' : 'addGRP') ?>">
+			<h2>Ring Group: <?php  echo ltrim($extdisplay,'GRP-'); ?></h2>
+<?php 		if ($extdisplay){ ?>
+			<p><a href="<?php  echo $delURL ?>">Delete Group <?php  echo ltrim($extdisplay,'GRP-'); ?></a></p>
+<?php 		} ?>
+			<form name="editGRP" action="<?php  $_REQUEST['PHP_SELF'] ?>" method="post">
+			<input type="hidden" name="display" value="<?php echo $dispnum?>">
+			<input type="hidden" name="action" value="<?php  echo ($extdisplay ? 'edtGRP' : 'addGRP') ?>">
 			<table>
-			<tr><td colspan="2"><h5><? echo ($extdisplay ? 'Edit Ring Group' : 'Add Ring Group') ?><hr></h5></td></tr>
+			<tr><td colspan="2"><h5><?php  echo ($extdisplay ? 'Edit Ring Group' : 'Add Ring Group') ?><hr></h5></td></tr>
 			<tr>
-<?		if ($extdisplay){ ?>
-				<input size="5" type="hidden" name="account" value="<? echo ltrim($extdisplay,'GRP-'); ?>">
-<?		} else { ?>
+<?php 		if ($extdisplay){ ?>
+				<input size="5" type="hidden" name="account" value="<?php  echo ltrim($extdisplay,'GRP-'); ?>">
+<?php 		} else { ?>
 				<td><a href="#" class="info">group number:<span>The number users will dial to ring extensions in this ring group</span></a></td>
-				<td><input size="5" type="text" name="account" value="<? echo $gresult[0] + 1; ?>"></td>
-<?		} ?>
+				<td><input size="5" type="text" name="account" value="<?php  echo $gresult[0] + 1; ?>"></td>
+<?php 		} ?>
 			</tr>
 			<tr>
 				<td><a href="#" class="info">extension list:<span>Separate extensions with a | (pipe) character. Ex: 201|202|203<br><br>You can include an extension on a remote system, or an external number by including an asterisk (*) after the dial prefix for the appropriate trunk.  ex:  9*2448089 would dial 2448089 on the trunk accessible with dial prefix 9.<br><br></span></a></td>
-				<td><input type="text" name="grplist" value="<? echo substr($thisGRP[0][0],6) ?>"></td>
+				<td><input type="text" name="grplist" value="<?php  echo substr($thisGRP[0][0],6) ?>"></td>
 			</tr>
 			<tr>
 				<td><a href="#" class="info">CID name prefix:<span>You can optionally prefix the Caller ID name when ringing extensions in this group. ie: If you prefix with "Sales:", a call from John Doe would display as "Sales:John Doe" on the extensions that ring.</span></a></td>
-				<td><input size="4" type="text" name="grppre" value="<? echo substr($thisGRPprefix[0][0],4) ?>"></td>
+				<td><input size="4" type="text" name="grppre" value="<?php  echo substr($thisGRPprefix[0][0],4) ?>"></td>
 			</tr><tr>
 				<td>ring time (max 60 sec):</td>
-				<td><input size="4" type="text" name="grptime" value="<? echo substr($thisGRPtime[0][0],10) ?>"></td>
+				<td><input size="4" type="text" name="grptime" value="<?php  echo substr($thisGRPtime[0][0],10) ?>"></td>
 			</tr>
 			<tr><td colspan="2"><br><h5>Destination if no answer:<hr></h5></td></tr>
 
@@ -130,13 +130,13 @@ echo drawselects('editGRP',$goto,0);
 			</tr>
 			</table>
 			</form>
-<?		
+<?php 		
 		} //end if action == delGRP
 		
 
 ?>
 
-<? //Make sure the bottom border is low enuf
+<?php  //Make sure the bottom border is low enuf
 foreach ($gresults as $gresult) {
     echo "<br>";
 }

@@ -180,9 +180,9 @@ foreach ($globals as $global) {
 </div>
 
 <div class="rnav">
-    <li><a id="<? echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?echo $display?>">Add Route</a><br></li>
+    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>">Add Route</a><br></li>
 
-<?
+<?php 
 //get existing trunk info
 $tresults = getroutenames();
 
@@ -195,7 +195,7 @@ foreach ($tresults as $tresult) {
 
 <div class="content">
 
-<?
+<?php 
 if ($extdisplay) {
 	
 	// load from db
@@ -220,22 +220,22 @@ foreach (gettrunks() as $temp) {
 
 if ($extdisplay) { // editing
 ?>
-	<p><a href="config.php?display=<?= $display ?>&extdisplay=<?= $extdisplay ?>&action=delroute">Delete Route <? echo $extdisplay; ?></a></p>
-<? } ?>
+	<p><a href="config.php?display=<?php = $display ?>&extdisplay=<?php = $extdisplay ?>&action=delroute">Delete Route <?php  echo $extdisplay; ?></a></p>
+<?php  } ?>
 
 	<form id="routeEdit" name="routeEdit" action="config.php" method="POST">
-		<input type="hidden" name="display" value="<?echo $display?>"/>
-		<input type="hidden" name="extdisplay" value="<?= $extdisplay ?>"/>
+		<input type="hidden" name="display" value="<?php echo $display?>"/>
+		<input type="hidden" name="extdisplay" value="<?php = $extdisplay ?>"/>
 		<input type="hidden" name="action" value=""/>
 		<table>
 		<tr>
 			<td>
 				<a href=# class="info">Route Name<span><br>Name of this route. Shuold be used to describe what type of calls this route matches (for example, 'local' or 'longdistance').<br><br></span></a>: 
 			</td>
-<? if ($extdisplay) { // editing?>
+<?php  if ($extdisplay) { // editing?>
 			<td>
-				<?= $extdisplay;?>
-				<input type="hidden" id="routename" name="routename" value="<?= $extdisplay;?>"/>
+				<?php = $extdisplay;?>
+				<input type="hidden" id="routename" name="routename" value="<?php = $extdisplay;?>"/>
 				<input type="button" onClick="renameRoute();" value="Rename" style="font-size:10px;"  />
 				<input type="hidden" id="newroutename" name="newroutename" value=""/>
 				<script language="javascript">
@@ -251,11 +251,11 @@ if ($extdisplay) { // editing
 				}
 				</script>
 			</td>
-<? } else { // new ?>
+<?php  } else { // new ?>
 			<td>
-				<input type="text" size="20" name="routename" value="<?= $routename;?>"/>
+				<input type="text" size="20" name="routename" value="<?php = $routename;?>"/>
 			</td>
-<? } ?>
+<?php  } ?>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -270,25 +270,25 @@ if ($extdisplay) { // editing
 				</span></a><br><br>
 			</td>
 		</tr>
-<? /* old code for using textboxes -- replaced by textarea code
+<?php  /* old code for using textboxes -- replaced by textarea code
 $key = -1;
 foreach ($dialpattern as $key=>$pattern) {
 ?>
 		<tr>
-			<td><?= $key ?>
+			<td><?php = $key ?>
 			</td><td>
-				<input type="text" size="20" name="dialpattern[<?= $key ?>]" value="<?= $dialpattern[$key] ?>"/>
+				<input type="text" size="20" name="dialpattern[<?php = $key ?>]" value="<?php = $dialpattern[$key] ?>"/>
 			</td>
 		</tr>
-<?
+<?php 
 } // foreach
 
 $key += 1; // this will be the next key value
 ?>
 		<tr>
-			<td><?= $key ?>
+			<td><?php = $key ?>
 			</td><td>
-				<input type="text" size="20" name="dialpattern[<?= $key ?>]" value="<?= $dialpattern[$key] ?>"/>
+				<input type="text" size="20" name="dialpattern[<?php = $key ?>]" value="<?php = $dialpattern[$key] ?>"/>
 			</td>
 		</tr>
 		<tr>
@@ -297,11 +297,11 @@ $key += 1; // this will be the next key value
 				<br><input type="submit" value="Add">
 			</td>
 		</tr>
-<? */ ?>
+<?php  */ ?>
 		<tr>
 			<td>
 			</td><td>
-				<textarea cols="20" rows="<? $rows = count($dialpattern)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" id="dialpattern" name="dialpattern"><?=  implode("\n",$dialpattern);?></textarea><br>
+				<textarea cols="20" rows="<?php  $rows = count($dialpattern)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" id="dialpattern" name="dialpattern"><?php =  implode("\n",$dialpattern);?></textarea><br>
 				
 				<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
 			</td>
@@ -312,7 +312,7 @@ $key += 1; // this will be the next key value
 			<script language="javascript">
 			
 			function populateLookup() {
-<?
+<?php 
 	if (function_exists("curl_init")) { // curl is installed
 ?>				
 				//var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?", document.getElementById('areacode').value);
@@ -324,11 +324,11 @@ $key += 1; // this will be the next key value
 				document.getElementById('npanxx').value = npanxx;
 				document.getElementById('routeEdit').action.value = "populatenpanxx";
 				document.getElementById('routeEdit').submit();
-<? 
+<?php  
 	} else { // curl is not installed
 ?>
 				alert("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.");
-<?
+<?php 
 	}
 ?>
 			}
@@ -404,7 +404,7 @@ $key += 1; // this will be the next key value
 		</tr>
 		<input type="hidden" id="repotrunkdirection" name="repotrunkdirection" value="">
 		<input type="hidden" id="repotrunkkey" name="repotrunkkey" value="">
-<?
+<?php 
 $key = -1;
 $positions=count($trunkpriority);
 foreach ($trunkpriority as $key=>$trunk) {
@@ -426,36 +426,36 @@ foreach ($trunkpriority as $key=>$trunk) {
 				document.getElementById('routeEdit').submit();
 			}
 			</script>
-			<td align="right"><?= $key; ?>&nbsp;&nbsp;
+			<td align="right"><?php = $key; ?>&nbsp;&nbsp;
 			</td>
 			<td>
-				<select id='trunkpri<?= $key ?>' name="trunkpriority[<?= $key ?>]">
+				<select id='trunkpri<?php = $key ?>' name="trunkpriority[<?php = $key ?>]">
 				<option value=""></option>
-				<?
+				<?php 
 				foreach ($trunks as $name=>$display) {
 					echo "<option id=\"trunk".$key."\" value=\"".$name."\" ".($name == $trunk ? "selected" : "").">".$display."</option>";
 				}
 				?>
 				</select>
 				
-				<img src="images/delete.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11" onclick="deleteTrunk(<?= $key ?>)">
-			<?  // move up
+				<img src="images/delete.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11" onclick="deleteTrunk(<?php = $key ?>)">
+			<?php   // move up
 			if ($key > 0) {?>
-				<img src="images/scrollup.gif" onclick="repositionTrunk(repotrunkdirection,repotrunkkey, '<?= $key ?>','up')" alt="Move Up" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
-			<? } else { ?>
+				<img src="images/scrollup.gif" onclick="repositionTrunk(repotrunkdirection,repotrunkkey, '<?php = $key ?>','up')" alt="Move Up" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+			<?php  } else { ?>
 				<img src="images/blank.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
-			<? }
+			<?php  }
 			
 			// move down
 			
 			if ($key < ($positions-1)) {?>
-				<img src="images/scrolldown.gif" onclick="repositionTrunk(repotrunkdirection,repotrunkkey, '<?= $key ?>','down')" alt="Move Down"  style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
-			<? } else { ?>
+				<img src="images/scrolldown.gif" onclick="repositionTrunk(repotrunkdirection,repotrunkkey, '<?php = $key ?>','down')" alt="Move Down"  style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+			<?php  } else { ?>
 				<img src="images/blank.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
-			<? } ?>
+			<?php  } ?>
 			</td>
 		</tr>
-<?
+<?php 
 } // foreach
 
 $key += 1; // this will be the next key value
@@ -464,9 +464,9 @@ $name = "";
 		<tr>
 			<td> &nbsp </td>
 			<td>
-				<select id='trunkpri<?= $key ?>' name="trunkpriority[<?= $key ?>]">
+				<select id='trunkpri<?php = $key ?>' name="trunkpriority[<?php = $key ?>]">
 				<option value="" SELECTED></option>
-				<?
+				<?php 
 				foreach ($trunks as $name=>$display) {
 					echo "<option value=\"".$name."\">".$display."</option>";
 				}
@@ -483,13 +483,13 @@ $name = "";
 		<tr>
 			<td colspan="2">
 			<br>
-				<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkRoute(routeEdit, '<?= ($extdisplay ? "editroute" : "addroute") ?>')"></h6>
+				<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkRoute(routeEdit, '<?php = ($extdisplay ? "editroute" : "addroute") ?>')"></h6>
 			</td>
 		</tr>
 		</table>
 	</form>
 	
-<? //Make sure the bottom border is low enuf
+<?php  //Make sure the bottom border is low enuf
 foreach ($tresults as $tresult) {
     echo "<br><br><br>";
 }

@@ -1,4 +1,4 @@
-<?
+<?php /* $Id */
 
 
 function cdrpage_getpost_ifset($test_vars)
@@ -69,7 +69,7 @@ $display=$_REQUEST['display'];
 		<!-- leftside BEGIN -->
 		<!--<div id="fedora-side-left">-->
 		<!--<div id="fedora-side-nav-label">Site Navigation:</div>	<ul id="fedora-side-nav">-->
-		<? /*
+		<?php  /*
 			$nkey=array_keys($array);
     		$i=0;
     		while($i<sizeof($nkey)){
@@ -103,9 +103,9 @@ $display=$_REQUEST['display'];
 			
 		*/ ?>
 <div class="nav">
-	<li><a id="<? echo ($display=='' ? 'current':'') ?>" href="cdr.php?">Call Logs</a></li>
-	<li><a id="<? echo ($display=='1' ? 'current':'') ?>" href="cdr.php?display=1">Call Compare</a></li>
-	<li><a id="<? echo ($display=='2' ? 'current':'') ?>" href="cdr.php?display=2">Download Reports</a></li>
+	<li><a id="<?php  echo ($display=='' ? 'current':'') ?>" href="cdr.php?">Call Logs</a></li>
+	<li><a id="<?php  echo ($display=='1' ? 'current':'') ?>" href="cdr.php?display=1">Call Compare</a></li>
+	<li><a id="<?php  echo ($display=='2' ? 'current':'') ?>" href="cdr.php?display=2">Download Reports</a></li>
 </div>
 
 <div class="content">
@@ -122,22 +122,22 @@ $display=$_REQUEST['display'];
 
 
 
-<?switch($display) {
+<?php switch($display) {
 	default: 
 ?>
 	<br>
 	<h2>Call Logs</h2>
-	<?require("call-log.php");?>
+	<?php require("call-log.php");?>
 
-<?
+<?php 
 	break;
 	case '1';
 ?>
 	<br>
 	<h2>Call Compare</h2>
-	<?require("call-comp.php");?>
+	<?php require("call-comp.php");?>
 
-<?
+<?php 
 	break;
 	case '2';
 	
@@ -157,11 +157,11 @@ $display=$_REQUEST['display'];
 	<li style="font-weight:bold;margin-bottom:10px;"><a href="Master.csv">Download current call detail reports</a><br>
 	<li style="font-weight:bold;margin-bottom:10px;"><a href="cdr.php?display=2&clear=yes">Clear the call detail reports</a> (remove all entries & start over)
 
-<?
+<?php 
 	break;
 ?>
    
-<?}?>
+<?php }?>
 
 </div>
 

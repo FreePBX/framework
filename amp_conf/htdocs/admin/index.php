@@ -1,4 +1,4 @@
-<?
+<?php /* $Id */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -30,7 +30,7 @@ $display=$_REQUEST['display'];
 ?>
 
 <div class="nav">
-    <li><a id="<? echo ($display=='' ? 'current':'') ?>" href="index.php">Welcome</a></li>
+    <li><a id="<?php  echo ($display=='' ? 'current':'') ?>" href="index.php">Welcome</a></li>
 </div>
 
 
@@ -44,7 +44,7 @@ switch($display) {
 
     <h2>AMP</h2>
     <p>
-        Welcome to the Asterisk Management Portal <?$ver=getversion(); echo $ver[0][0];?>
+        Welcome to the Asterisk Management Portal <?php $ver=getversion(); echo $ver[0][0];?>
         <br><br><br><br><br><br>
     </p>
     

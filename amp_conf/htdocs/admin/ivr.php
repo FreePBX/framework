@@ -69,7 +69,7 @@ switch($action) {
 	default:
 ?>
 
-<h4>Record Menu #<?php echo $promptnum ?>: <?echo $mname?></h4>
+<h4>Record Menu #<?php echo $promptnum ?>: <?php echo $mname?></h4>
 <?php
 	//if we are trying to edit - let's be nice and give them the recording back
 	if ($_REQUEST['ivr_action'] == 'edit'){
@@ -85,7 +85,7 @@ switch($action) {
 	<form enctype="multipart/form-data" name="upload" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
 		Alternatively, upload a recording in <a href="#" class="info">.wav format<span>The .wav file _must_ have a sample rate of 8000Hz</span></a>:<br>
 		<input type="hidden" name="display" value="2">
-		<input type="hidden" name="promptnum" value="<?echo $promptnum?>">
+		<input type="hidden" name="promptnum" value="<?php echo $promptnum?>">
 		<input type="file" name="ivrfile"/>
 		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('Please wait until the page reloads.');"/>
 	</form>
@@ -98,7 +98,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 </p>
 <form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="ivr_recorded">
-<input type="hidden" name="promptnum" value="<?echo $promptnum?>">
+<input type="hidden" name="promptnum" value="<?php echo $promptnum?>">
 <input type="hidden" name="display" value="2">
 <h5>Step 2: Verify</h5>
 <p>
@@ -146,7 +146,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 
 
 
-<?
+<?php 
 	break;
 	case 'ivr_recorded':
 ?>
@@ -177,7 +177,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 
 
 
-<?
+<?php 
 	break;
 	case 'ivr_options_yes_num':
 	
@@ -189,7 +189,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 		<input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">
 		<input name="Submit" type="submit" value="Finished!  Click to save your changes.">
 	</form><br><br><br><br><br><br>
-<?
+<?php 
 	} else {
 		//query for exisiting aa_N contexts
 		$unique_aas = getaas();
@@ -220,7 +220,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 		<td width="40px">&nbsp;</td>
 		<td><h4>Action</h4></td>
 	</tr>
-<?
+<?php 
 	for ($i = 0; $i < $_REQUEST['ivr_num_options']; $i++) { 
 ?>
 	<tr>
@@ -245,16 +245,16 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 	</tr>
 	
 	<tr><td><br></td></tr>
-<?
+<?php 
 	}
 ?>
 	</table>
 	<h6>
-	<input type="button" value="Continue" onClick="checkIVR(prompt,<?echo $_REQUEST['ivr_num_options']?>)"
+	<input type="button" value="Continue" onClick="checkIVR(prompt,<?php echo $_REQUEST['ivr_num_options']?>)"
 	</h6>
 	</form>
 </p>
-<?
+<?php 
 
 	} // end else ( $_REQUEST['ivr_num_options'] == '0' )
 ?>
@@ -271,7 +271,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 
 
 
-<?
+<?php 
 	break;
 	case 'ivr_options_set':
 	
@@ -289,6 +289,6 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 ?>
 
 
-<?
+<?php 
 }
 ?>

@@ -1,4 +1,4 @@
-<?php
+<?php /* $Id */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -111,7 +111,7 @@ echo "</div>";
 
 <div class="content">
 
-<?
+<?php 
 // check access
 if (!empty($display) && !isset($amp_sections[$display])) {
 	$display = "noaccess";

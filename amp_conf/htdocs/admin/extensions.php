@@ -1,4 +1,4 @@
-<?php
+<?php /* $Id */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -185,8 +185,8 @@ if ($action == 'advEdit') {
 </div>
 
 <div class="rnav">
-    <li><a id="<? echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?echo $dispnum?>">Add Extension</a><br></li>
-<?
+    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>">Add Extension</a><br></li>
+<?php 
 //get unique account rows for navigation menu
 $results = getextens();
 
@@ -198,7 +198,7 @@ foreach ($results as $result) {
 
 <div class="content">
 
-<?
+<?php 
 switch($extdisplay) {
     default:
 		
@@ -215,8 +215,8 @@ switch($extdisplay) {
 		$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delete';
 	?>
 	
-		<h2>Extension: <? echo $extdisplay; ?> (
-			<? 
+		<h2>Extension: <?php  echo $extdisplay; ?> (
+			<?php  
 			foreach ($thisExten as $result) {
 				if ($result[1] == 'tech') {
 					echo '<span style="text-transform:uppercase;">'.$result[2].'</span>';
@@ -225,20 +225,20 @@ switch($extdisplay) {
 			}
 			?>
 		)</h2>
-		<p><a href="<? echo $delURL ?>">Delete Extension <? echo $extdisplay; ?></a></p>
+		<p><a href="<?php  echo $delURL ?>">Delete Extension <?php  echo $extdisplay; ?></a></p>
 		
 		
 
 		
 		
-		<form name="advEdit" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
-		<input type="hidden" name="display" value="<?echo $dispnum?>">
+		<form name="advEdit" action="<?php  $_REQUEST['PHP_SELF'] ?>" method="post">
+		<input type="hidden" name="display" value="<?php echo $dispnum?>">
 		<input type="hidden" name="action" value="advEdit"/>
-		<input type="hidden" name="tech" value="<?echo $tech?>"/>
+		<input type="hidden" name="tech" value="<?php echo $tech?>"/>
 		<p>
 			<table>
 				<tr><td colspan=2  width=320><h5>Account Settings:<hr></h5></td></tr>
-			<? 
+			<?php  
 			foreach ($thisExten as $result) {
 				if ($result[1] != 'account' && $result[1] != 'tech') {
 					if ($result[1] == '1outcid') {
@@ -253,40 +253,40 @@ switch($extdisplay) {
 				}
 			}
 			?>
-			<input type="hidden" name="account" value="<? echo $extdisplay ?>">
+			<input type="hidden" name="account" value="<?php  echo $extdisplay ?>">
 			<tr><td colspan=2>
 				<h5><br>Voicemail & Directory:&nbsp;&nbsp;&nbsp;&nbsp;
 					<select name="vm" onchange="checkVoicemail(advEdit);">
 						<option value="enabled">Enabled</option> 
-						<option value="disabled" <? echo ($vm) ? '' : 'selected' ?>>Disabled</option> 
+						<option value="disabled" <?php  echo ($vm) ? '' : 'selected' ?>>Disabled</option> 
 					</select>
 				<hr></h5>
 			</td></tr>
 			<tr><td colspan=2>
-				<table id="voicemail" <? echo ($vm) ? '' : 'style="display:none;"' ?>>
+				<table id="voicemail" <?php  echo ($vm) ? '' : 'style="display:none;"' ?>>
 				<tr>
 					<td>
 						voicemail pwd:
 					</td>
 					<td>
-						<input size="20" type="password" name="vmpwd" value="<? echo $vmpwd; ?>" />
+						<input size="20" type="password" name="vmpwd" value="<?php  echo $vmpwd; ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td>full name:</td>
-					<td><input size="20" type="text" name="name" value="<? echo $name; ?>"/></td>
+					<td><input size="20" type="text" name="name" value="<?php  echo $name; ?>"/></td>
 				</tr>
 				<tr>
 					<td>email address:</td>
-					<td><input size="20" type="text" name="email" value="<? echo $email; ?>"/></td>
+					<td><input size="20" type="text" name="email" value="<?php  echo $email; ?>"/></td>
 				</tr>
 				<tr>
 					<td>pager email address:</td>
-					<td><input size="20" type="text" name="pager" value="<? echo $pager; ?>"/></td>
+					<td><input size="20" type="text" name="pager" value="<?php  echo $pager; ?>"/></td>
 				</tr>
 				<tr>
 					<td>vm options: </td>
-					<td><input size="20" type="text" name="options" value="<? echo $options; ?>" /></td>
+					<td><input size="20" type="text" name="options" value="<?php  echo $options; ?>" /></td>
 				</tr>
 				</table>
 			</td></tr>
@@ -305,8 +305,8 @@ switch($extdisplay) {
     case '':
 ?>
 
-    <form name="addNew" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
-		<input type="hidden" name="display" value="<?echo $dispnum?>">
+    <form name="addNew" action="<?php  $_REQUEST['PHP_SELF'] ?>" method="post">
+		<input type="hidden" name="display" value="<?php echo $dispnum?>">
         <input type="hidden" name="action" value="add">
         <h2>Add an Extension</h2>
         <p>
@@ -333,7 +333,7 @@ switch($extdisplay) {
                 <td>
                     <a href="#" class="info">extension number<span>This is the phone number for the new extension.<br><b>It must be unique.</b><br><br>This extension's USERNAME and MAILBOX are also the same as the extension number.<br></span></a>: 
                 </td><td>
-                    <input tabindex="1" size="5" type="text" name="account" value="<? echo ($result[0] == '' ? '200' : ($result[0] + 1))?>"/>
+                    <input tabindex="1" size="5" type="text" name="account" value="<?php  echo ($result[0] == '' ? '200' : ($result[0] + 1))?>"/>
                 </td>
             </tr>
 			</table>
@@ -358,7 +358,7 @@ switch($extdisplay) {
 			<table>
             <tr>
                 <td  width="135"><a href="#" class="info">full name<span>User's full name. This is used for the Caller ID Name and for the Company Directory (if enabled below).</span></a>: </td>
-                <td><input tabindex="4" type="text" name="name" value="<? echo $name; ?>"/></td>
+                <td><input tabindex="4" type="text" name="name" value="<?php  echo $name; ?>"/></td>
             </tr>
 			<tr><td colspan=2>
 				<h5><br><br>Voicemail & Directory:&nbsp;&nbsp;&nbsp;&nbsp;
@@ -379,7 +379,7 @@ switch($extdisplay) {
 				</tr>
 				<tr>
 					<td><a href="#" class="info">email address<span>The email address that voicemails are sent to.</span></a>: </td>
-					<td><input tabindex="5" type="text" name="email" value="<? echo $email; ?>"/></td>
+					<td><input tabindex="5" type="text" name="email" value="<?php  echo $email; ?>"/></td>
 				</tr>
 				<tr>
 					<td><a href="#" class="info">email attachment<span>Option to attach voicemails to email.</span></a>: </td>
@@ -387,7 +387,7 @@ switch($extdisplay) {
 				</tr>
 				<tr>
 					<td><a href="#" class="info">pager email address<span>Pager/mobile email address that short voicemail notifcations are sent to.</span></a>: </td>
-					<td><input tabindex="6" type="text" name="pager" value="<? echo $pager; ?>"/></td>
+					<td><input tabindex="6" type="text" name="pager" value="<?php  echo $pager; ?>"/></td>
 				</tr>
 				</table>
 			</td></tr>
@@ -422,7 +422,7 @@ switch($extdisplay) {
 }
 ?>
 
-<? //Make sure the bottom border is low enuf
+<?php  //Make sure the bottom border is low enuf
 foreach ($results as $result) {
     echo "<br><br>";
 }

@@ -1,4 +1,4 @@
-<?
+<?php /* $Id */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -12,7 +12,7 @@
 //GNU General Public License for more details.
 ?>
 
-<?
+<?php 
 //script to write conf file from mysql
 $wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
 
@@ -69,7 +69,7 @@ $queues = getqueues();
 ?>
 
 <form name="incoming" action="config.php" method="post">
-<input type="hidden" name="display" value="<?echo $dispnum?>"/>
+<input type="hidden" name="display" value="<?php echo $dispnum?>"/>
 <input type="hidden" name="action" value="editglobals"/>
 <h5>Send <a href="#" class="info">Incoming Calls<span>Dial 7777 from an internal extension to simulate an incoming call.</span></a> from the <a href="#" class="info">PSTN<span>Public Switched Telephone Network (ie: the phone company)</span></a> to:</h5>
 <p>
@@ -77,17 +77,17 @@ $queues = getqueues();
 	<a href="#" class="info"><b>times</b>
 		<span>Enter a range, using 24-hour time format. For example, for 8:00am to 5:00pm, type:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<b>8:00-17:00</b><br><br>An asterisk (*) matches all hours.</span>
 	</a>
-	<input type="text" size="10" name="REGTIME" value="<? echo $REGTIME ?>"> 
+	<input type="text" size="10" name="REGTIME" value="<?php  echo $REGTIME ?>"> 
 	<a href="#" class="info"><b>days</b>
 		<span>Enter a range, using 3 letter abbreviations. For example, for Monday to Friday, type:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<b>mon-fri</b><br><br>An asterisk (*) matches all days.</span>
 	</a>
-	<input type="text" size="8" name="REGDAYS" value="<? echo $REGDAYS ?>">:
+	<input type="text" size="8" name="REGDAYS" value="<?php  echo $REGDAYS ?>">:
 </p>
 <p> 
-	<input type="radio" name="in_indicate" value="ivr" disabled="true" <? echo strpos($INCOMING,'aa_') === false ? '' : 'CHECKED=CHECKED';?>/> Digital Receptionist: 
-	<input type="hidden" name="INCOMING" value="<? echo $INCOMING; ?>">
+	<input type="radio" name="in_indicate" value="ivr" disabled="true" <?php  echo strpos($INCOMING,'aa_') === false ? '' : 'CHECKED=CHECKED';?>/> Digital Receptionist: 
+	<input type="hidden" name="INCOMING" value="<?php  echo $INCOMING; ?>">
 	<select name="INCOMING_IVR" onclick="javascript:document.incoming.in_indicate[0].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_IVR.options[document.incoming.INCOMING_IVR.options.selectedIndex].value;"/>
-<?
+<?php 
 	foreach ($unique_aas as $unique_aa) {
 		$menu_num = substr($unique_aa[0],3);
 		$menu_name = $unique_aa[1];
@@ -95,25 +95,25 @@ $queues = getqueues();
 	}
 ?>
 	</select><br>
-	<input type="radio" name="in_indicate" value="extension" disabled="true" <? echo strpos($INCOMING,'EXT') === false ? '' : 'CHECKED=CHECKED';?>/> Extension: 
+	<input type="radio" name="in_indicate" value="extension" disabled="true" <?php  echo strpos($INCOMING,'EXT') === false ? '' : 'CHECKED=CHECKED';?>/> Extension: 
 	<select name="INCOMING_EXTEN" onclick="javascript:document.incoming.in_indicate[1].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_EXTEN.options[document.incoming.INCOMING_EXTEN.options.selectedIndex].value;"/>
-<?
+<?php 
 	foreach ($extens as $exten) {
 		echo '<option value="EXT-'.$exten[0].'" '.($INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1];
 	}
 ?>		
 	</select><br>
-	<input type="radio" name="in_indicate" value="group" disabled="true" <? echo strpos($INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> Ring Group: 
+	<input type="radio" name="in_indicate" value="group" disabled="true" <?php  echo strpos($INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> Ring Group: 
 	<select name="INCOMING_GRP" onclick="javascript:document.incoming.in_indicate[2].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_GRP.options[document.incoming.INCOMING_GRP.options.selectedIndex].value;"/>
-<?
+<?php 
 	foreach ($gresults as $gresult) {
 		echo '<option value="GRP-'.$gresult[0].'" '.($INCOMING == 'GRP-'.$gresult[0] ? 'SELECTED' : '').'>#'.$gresult[0];
 	}
 ?>			
 	</select><br>
-	<input type="radio" name="in_indicate" value="queue" disabled="true" <? echo strpos($INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> Queue: 
+	<input type="radio" name="in_indicate" value="queue" disabled="true" <?php  echo strpos($INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> Queue: 
 	<select name="INCOMING_QUEUE" onclick="javascript:document.incoming.in_indicate[3].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_QUEUE.options[document.incoming.INCOMING_QUEUE.options.selectedIndex].value;"/>
-<?
+<?php 
 	foreach ($queues as $queue) {
 		echo '<option value="QUE-'.$queue[0].'" '.($INCOMING == 'QUE-'.$queue[0] ? 'SELECTED' : '').'>'.$queue[0].':'.$queue[1];
 	}
@@ -125,10 +125,10 @@ $queues = getqueues();
 	after hours: 
 </p>
 <p> 
-	<input type="radio" name="after_in_indicate" value="ivr" disabled="true" <? echo strpos($AFTER_INCOMING,'aa_') === false ? '' : 'CHECKED=CHECKED';?>/> Digital Receptionist: 
-	<input type="hidden" name="AFTER_INCOMING" value="<? echo $AFTER_INCOMING; ?>">
+	<input type="radio" name="after_in_indicate" value="ivr" disabled="true" <?php  echo strpos($AFTER_INCOMING,'aa_') === false ? '' : 'CHECKED=CHECKED';?>/> Digital Receptionist: 
+	<input type="hidden" name="AFTER_INCOMING" value="<?php  echo $AFTER_INCOMING; ?>">
 	<select name="AFTER_INCOMING_IVR" onclick="javascript:document.incoming.after_in_indicate[0].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_IVR.options[document.incoming.AFTER_INCOMING_IVR.options.selectedIndex].value;"/>
-<?
+<?php 
 	foreach ($unique_aas as $unique_aa) {
 		$menu_num = substr($unique_aa[0],3);
 		$menu_name = $unique_aa[1];
@@ -136,25 +136,25 @@ $queues = getqueues();
 	}
 ?>
 	</select><br>
-	<input type="radio" name="after_in_indicate" value="extension" disabled="true" <? echo strpos($AFTER_INCOMING,'EXT') === false ? '' : 'CHECKED=CHECKED';?>/> Extension: 
+	<input type="radio" name="after_in_indicate" value="extension" disabled="true" <?php  echo strpos($AFTER_INCOMING,'EXT') === false ? '' : 'CHECKED=CHECKED';?>/> Extension: 
 	<select name="AFTER_INCOMING_EXTEN" onclick="javascript:document.incoming.after_in_indicate[1].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_EXTEN.options[document.incoming.AFTER_INCOMING_EXTEN.options.selectedIndex].value;"/>
-<?
+<?php 
 	foreach ($extens as $exten) {
 		echo '<option value="EXT-'.$exten[0].'" '.($AFTER_INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1];
 	}
 ?>		
 	</select><br>
-	<input type="radio" name="after_in_indicate" value="group" disabled="true" <? echo strpos($AFTER_INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> Ring Group: 
+	<input type="radio" name="after_in_indicate" value="group" disabled="true" <?php  echo strpos($AFTER_INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> Ring Group: 
 	<select name="AFTER_INCOMING_GRP" onclick="javascript:document.incoming.after_in_indicate[2].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_GRP.options[document.incoming.AFTER_INCOMING_GRP.options.selectedIndex].value;"/>
-<?
+<?php 
 	foreach ($gresults as $gresult) {
 		echo '<option value="GRP-'.$gresult[0].'" '.($AFTER_INCOMING == 'GRP-'.$gresult[0] ? 'SELECTED' : '').'>#'.$gresult[0];
 	}
 ?>			
 	</select><br>
-	<input type="radio" name="after_in_indicate" value="queue" disabled="true" <? echo strpos($AFTER_INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> Queue: 
+	<input type="radio" name="after_in_indicate" value="queue" disabled="true" <?php  echo strpos($AFTER_INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> Queue: 
 	<select name="AFTER_INCOMING_QUEUE" onclick="javascript:document.incoming.after_in_indicate[3].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_QUEUE.options[document.incoming.AFTER_INCOMING_QUEUE.options.selectedIndex].value;"/>
-<?
+<?php 
 	foreach ($queues as $queue) {
 		echo '<option value="QUE-'.$queue[0].'" '.($AFTER_INCOMING == 'QUE-'.$queue[0] ? 'SELECTED' : '').'>'.$queue[0].':'.$queue[1];
 	}
@@ -164,9 +164,9 @@ $queues = getqueues();
 
 <h5>Override Incoming Calls Settings</h5>
 <p>
-	<input type="radio" name="IN_OVERRIDE" value="none" <? echo $IN_OVERRIDE == 'none' ? 'CHECKED=CHECKED' : '' ?>> no override (obey the above settings)<br>
-	<input type="radio" name="IN_OVERRIDE" value="forcereghours"<? echo $IN_OVERRIDE == 'forcereghours' ? 'CHECKED=CHECKED' : '' ?>> <a href="#" class="info">force regular hours<span>Select this box if you would like to force the above regular hours setting to always take effect.<br><br>  This is useful for occasions when your office needs to remain open after-hours. (ie: open late on Thursday, or open all day on Sunday).</span></a><br>
-	<input type="radio" name="IN_OVERRIDE" value="forceafthours"<? echo $IN_OVERRIDE == 'forceafthours' ? 'CHECKED=CHECKED' : '' ?>> <a href="#" class="info">force after hours<span>Select this box if you would like to force the above after hours setting to always take effect.<br><br>  This is useful for holidays that fall in the 'regular hours' range above (ie: a holiday Monday).</span></a>
+	<input type="radio" name="IN_OVERRIDE" value="none" <?php  echo $IN_OVERRIDE == 'none' ? 'CHECKED=CHECKED' : '' ?>> no override (obey the above settings)<br>
+	<input type="radio" name="IN_OVERRIDE" value="forcereghours"<?php  echo $IN_OVERRIDE == 'forcereghours' ? 'CHECKED=CHECKED' : '' ?>> <a href="#" class="info">force regular hours<span>Select this box if you would like to force the above regular hours setting to always take effect.<br><br>  This is useful for occasions when your office needs to remain open after-hours. (ie: open late on Thursday, or open all day on Sunday).</span></a><br>
+	<input type="radio" name="IN_OVERRIDE" value="forceafthours"<?php  echo $IN_OVERRIDE == 'forceafthours' ? 'CHECKED=CHECKED' : '' ?>> <a href="#" class="info">force after hours<span>Select this box if you would like to force the above after hours setting to always take effect.<br><br>  This is useful for holidays that fall in the 'regular hours' range above (ie: a holiday Monday).</span></a>
 </p>
 
 <br>

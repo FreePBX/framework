@@ -1,4 +1,4 @@
-<?
+<?php /* $Id */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -12,7 +12,7 @@
 //GNU General Public License for more details.
 ?>
 
-<?
+<?php 
 //this file checks to see if we need to adjust the extensions table, makes changes, and then calls ivrmap.php to display map
 
 $ivract_target = $_REQUEST['ivract_target'];

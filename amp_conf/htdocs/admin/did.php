@@ -1,4 +1,4 @@
-<?php
+<?php /* $Id */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -67,7 +67,7 @@ switch ($action) {
 
 <div class="rnav">
     <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>">Add DID</a><br></li>
-<?
+<?php 
 //get unique Ring Groups
 $dresults = getdids();
 
@@ -78,7 +78,7 @@ foreach ($dresults as $dresult) {
 </div>
 
 <div class="content">
-<?
+<?php 
 	
 	if ($action == 'delGRP') {
 		echo '<br><h3>DID # '.ltrim($extdisplay,'DID-').' deleted!</h3><br><br><br><br><br><br><br><br>';
@@ -124,7 +124,7 @@ echo drawselects('editGRP',$goto,0);
 		</tr>
 		</table>
 		</form>
-<?		
+<?php 		
 	} //end if action == delGRP
 	
 

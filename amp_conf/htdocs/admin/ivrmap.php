@@ -1,4 +1,4 @@
-<?
+<?php /* $Id */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -12,7 +12,7 @@
 //GNU General Public License for more details.
 ?>
 
-<?
+<?php 
 //query for exisiting aa_N contexts
 $unique_aas = getaas();
 
@@ -22,7 +22,7 @@ if (count($unique_aas) > 0) {
 
 	<h4>Voice Menu Map</h4>
 
-<?
+<?php 
 	//convert the customizable parts of each auto attendant to a user-readable format
 	
 	//create top-level for each voice menu
@@ -39,12 +39,12 @@ if (count($unique_aas) > 0) {
 	<ul>
 		<li>
 			<span style="float:right;text-align:right;">
-				&bull; <a href="config.php?display=2&promptnum=<? echo $menu_num ?>&ivr_action=edit">Edit Menu #<? echo $menu_num ?></a><br>
-				&bull; <a href="config.php?display=2&ivract_target=<? echo $menu_num ?>&ivr_action=delete">Delete</a>
+				&bull; <a href="config.php?display=2&promptnum=<?php  echo $menu_num ?>&ivr_action=edit">Edit Menu #<?php  echo $menu_num ?></a><br>
+				&bull; <a href="config.php?display=2&ivract_target=<?php  echo $menu_num ?>&ivr_action=delete">Delete</a>
 			</span>
-			Menu #<? echo $menu_num ?>: <b><?echo $menu_names[$menu_num]?></b>
+			Menu #<?php  echo $menu_num ?>: <b><?php echo $menu_names[$menu_num]?></b>
 			<ul>
-<?
+<?php 
 		//do another select for all parts in this aa_
 		$aalines = aainfo($menu_num);
 		
@@ -86,10 +86,10 @@ if (count($unique_aas) > 0) {
 ?>
 			</ul>
 			<br>
-			Menu #<? echo $menu_num ?> notes: <b><i><? echo $description; ?></i></b>
+			Menu #<?php  echo $menu_num ?> notes: <b><i><?php  echo $description; ?></i></b>
 	</ul>
 	<hr>		
-<?				
+<?php 				
 	} //end foreach ($unique_aas as $unique_aa) 
 	
 	//search the $menus[] for $menu_request[]

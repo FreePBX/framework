@@ -1,4 +1,4 @@
-<?
+<?php /* $Id */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -20,7 +20,7 @@
 		die($need_reload->getMessage());
 	}
 ?>
-<? 
+<?php  
 
 //check to see if we are requesting an asterisk reload
 if ($_REQUEST['clk_reload'] == 'true') {
@@ -40,8 +40,8 @@ if ($_REQUEST['clk_reload'] == 'true') {
 }
 if ($need_reload[0] == 'true') {
 ?>
-<div class="inyourface"><a href="<? echo $_SERVER["PHP_SELF"]?>?display=<? echo $_REQUEST['display'] ?>&clk_reload=true">You have made changes - when finished, click here to APPLY them</a></div>
-<?
+<div class="inyourface"><a href="<?php  echo $_SERVER["PHP_SELF"]?>?display=<?php  echo $_REQUEST['display'] ?>&clk_reload=true">You have made changes - when finished, click here to APPLY them</a></div>
+<?php 
 }
 
 ?>

@@ -1,4 +1,4 @@
-<?php
+<?php /* $Id */
 include ("./lib/defines.php");
 include ("./lib/Class.Table.php");
 
@@ -222,7 +222,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 
 <!-- ** ** ** ** ** Part for the research ** ** ** ** ** -->
 	<center>
-	<FORM METHOD=POST ACTION="<?=$PHP_SELF?>?s=1&t=1&order=<?=$order?>&sens=<?=$sens?>&current_page=<?=$current_page?>">
+	<FORM METHOD=POST ACTION="<?php =$PHP_SELF?>?s=1&t=1&order=<?php =$order?>&sens=<?php =$sens?>&current_page=<?php =$current_page?>">
 	<INPUT TYPE="hidden" NAME="posted" value=1>
 	<INPUT TYPE="hidden" NAME="display" value="1">
 		<table class="bar-status" width="75%" border="0" cellspacing="1" cellpadding="2" align="center">
@@ -235,7 +235,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
       			<td align="left" bgcolor="#acbdee">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#acbdee"><tr><td>
 	  				<b>From : </b><select name="fromstatsday_sday">
-					<? 
+					<?php  
 						for ($i=1;$i<=31;$i++){
 							if ($fromstatsday_sday==sprintf("%02d",$i)){$selected="selected";}else{$selected="";}
 							echo '<option value="'.sprintf("%02d",$i)."\"$selected>".sprintf("%02d",$i).'</option>';
@@ -243,7 +243,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					?>					
 					</select>
 				 	<select name="fromstatsmonth_sday">
-					<?	$year_actual = date("Y");  	
+					<?php 	$year_actual = date("Y");  	
 						for ($i=$year_actual;$i >= $year_actual-1;$i--)
 						{		   
 							   $monthname = array( "January", "February","March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
@@ -280,8 +280,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#cddeff"><tr><td>				
 						<b>Graph :</b>
 							<select name="min_call">					
-							<option value=1 <? if ($min_call==1){ echo "selected";}?>>Minutes by hours</option>
-							<option value=0 <? if (($min_call==0) || !isset($min_call)){ echo "selected";}?>>Number of calls by hours</option>
+							<option value=1 <?php  if ($min_call==1){ echo "selected";}?>>Minutes by hours</option>
+							<option value=0 <?php  if (($min_call==0) || !isset($min_call)){ echo "selected";}?>>Number of calls by hours</option>
 							</select>
 						</td>
 						<td align="right">							
@@ -301,7 +301,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <!-- ** ** ** ** ** Part to display the GRAPHIC ** ** ** ** ** -->
 <br><br>
 
-<?
+<?php 
 if (is_array($list) && count($list)>0){
 
 $table_graph=array();
@@ -370,7 +370,7 @@ foreach ($table_graph as $tkey => $data){
 		<td align="center"><font face="verdana" size="1" color="#ffffff"><b>TMC</b></font></td>
                 			
 		<!-- LOOP -->
-	<? 		
+	<?php  		
 		$i=0;
 		// #ffffff #cccccc
 		foreach ($table_graph as $tkey => $data){	
@@ -385,15 +385,15 @@ foreach ($table_graph as $tkey => $data){
 		//bgcolor="#336699" 
 	?>
 		</tr><tr>
-		<td align="right" class="sidenav" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><?=$tkey?></font></td>
-		<td bgcolor="<?=$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?=$minutes_60?> </font></td>
-        <td bgcolor="<?=$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="left" nowrap="nowrap" width="<?=$widthbar+60?>">
+		<td align="right" class="sidenav" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><?php =$tkey?></font></td>
+		<td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php =$minutes_60?> </font></td>
+        <td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="left" nowrap="nowrap" width="<?php =$widthbar+60?>">
         <table cellspacing="0" cellpadding="0"><tbody><tr>
-        <td bgcolor="#e22424"><img src="images/spacer.gif" width="<?=$widthbar?>" height="6"></td>
+        <td bgcolor="#e22424"><img src="images/spacer.gif" width="<?php =$widthbar?>" height="6"></td>
         </tr></tbody></table></td>
-        <td bgcolor="<?=$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?=$data[0]?></font></td>
-        <td bgcolor="<?=$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?=$tmc_60?> </font></td>
-     <?	 }	 
+        <td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php =$data[0]?></font></td>
+        <td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php =$tmc_60?> </font></td>
+     <?php 	 }	 
 	 	$total_tmc_60 = sprintf("%02d",intval(($totalminutes/$totalcall)/60)).":".sprintf("%02d",intval(($totalminutes/$totalcall)%60));				
 		$total_minutes_60 = sprintf("%02d",intval($totalminutes/60)).":".sprintf("%02d",intval($totalminutes%60));
 	 
@@ -407,9 +407,9 @@ foreach ($table_graph as $tkey => $data){
 	<!-- TOTAL -->
 	<tr bgcolor="#600101">
 		<td align="right" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b>TOTAL</b></font></td>
-		<td align="center" nowrap="nowrap" colspan="2"><font face="verdana" size="1" color="#ffffff"><b><?=$total_minutes_60?> </b></font></td>
-		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?=$totalcall?></b></font></td>
-		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?=$total_tmc_60?></b></font></td>                        
+		<td align="center" nowrap="nowrap" colspan="2"><font face="verdana" size="1" color="#ffffff"><b><?php =$total_minutes_60?> </b></font></td>
+		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?php =$totalcall?></b></font></td>
+		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?php =$total_tmc_60?></b></font></td>                        
 	</tr>
 	<!-- FIN TOTAL -->
 
@@ -417,10 +417,10 @@ foreach ($table_graph as $tkey => $data){
 	  <!-- Fin Tableau Global //-->
 
 </td></tr></tbody></table>
-<? }else{ ?>
+<?php  }else{ ?>
 	<center><h3>No calls in your selection.</h3></center>
-<? } ?>
+<?php  } ?>
 	<br>
- 	<IMG SRC="graph_stat.php?min_call=<?=$min_call?>&fromstatsday_sday=<?=$fromstatsday_sday?>&days_compare=<?=$days_compare?>&fromstatsmonth_sday=<?=$fromstatsmonth_sday?>" ALT="Stat Graph">
+ 	<IMG SRC="graph_stat.php?min_call=<?php =$min_call?>&fromstatsday_sday=<?php =$fromstatsday_sday?>&days_compare=<?php =$days_compare?>&fromstatsmonth_sday=<?php =$fromstatsmonth_sday?>" ALT="Stat Graph">
 
 </center>

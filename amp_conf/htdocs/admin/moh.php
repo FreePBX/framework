@@ -1,4 +1,4 @@
-<?
+<?php /* $Id */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -86,7 +86,7 @@ function kill_mpg123()
 }
 ?>
 
-<form enctype="multipart/form-data" name="upload" action="<? echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
+<form enctype="multipart/form-data" name="upload" action="<?php  echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
 	Upload a .wav or .mp3 file:<br>
 	<input type="hidden" name="display" value="1">
 	<input type="file" name="mohfile"/>

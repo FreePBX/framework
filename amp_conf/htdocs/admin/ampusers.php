@@ -1,4 +1,4 @@
-<?
+<?php /* $Id */
 // routing.php Copyright (C) 2004 Greg MacLellan (greg@mtechsolutions.ca)
 // Asterisk Management Portal Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
@@ -66,9 +66,9 @@ switch ($action) {
 </div>
 
 <div class="rnav">
-    <li><a id="<? echo ($userdisplay=='' ? 'current':'') ?>" href="config.php?display=<?echo $display?>">Add User</a><br></li>
+    <li><a id="<?php  echo ($userdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>">Add User</a><br></li>
 
-<?
+<?php 
 //get existing trunk info
 $tresults = getAmpUsers();
 
@@ -81,7 +81,7 @@ foreach ($tresults as $tresult) {
 
 <div class="content">
 
-<?
+<?php 
 
 	if ($userdisplay) {
 		echo "<h2>Edit AMP User</h2>";
@@ -96,8 +96,8 @@ foreach ($tresults as $tresult) {
 		$sections = $user["sections"];
 		
 ?>
-		<p><a href="config.php?display=<?= $display ?>&userdisplay=<?= $userdisplay ?>&action=delampuser">Delete User <? echo $userdisplay; ?></a></p>
-<?
+		<p><a href="config.php?display=<?php = $display ?>&userdisplay=<?php = $userdisplay ?>&action=delampuser">Delete User <?php  echo $userdisplay; ?></a></p>
+<?php 
 
 	} else {
 		// set defaults
@@ -116,10 +116,10 @@ foreach ($tresults as $tresult) {
 ?>
 	
 		<form name="ampuserEdit" action="config.php" method="get">
-			<input type="hidden" name="display" value="<?echo $display?>"/>
-			<input type="hidden" name="userdisplay" value="<?= $userdisplay ?>"/>
+			<input type="hidden" name="display" value="<?php echo $display?>"/>
+			<input type="hidden" name="userdisplay" value="<?php = $userdisplay ?>"/>
 			<input type="hidden" name="action" value=""/>
-			<input type="hidden" name="tech" value="<?echo $tech?>"/>
+			<input type="hidden" name="tech" value="<?php echo $tech?>"/>
 			<table>
 			<tr>
 				<td colspan="2">
@@ -130,18 +130,18 @@ foreach ($tresults as $tresult) {
 				<td>
 					<a href=# class="info">Username<span></span></a>: 
 				</td><td>
-					<input type="text" size="20" name="username" value="<?= $username;?>"/>
+					<input type="text" size="20" name="username" value="<?php = $username;?>"/>
 				</td>
 			</tr>
-<? if ($amp_conf["AUTHTYPE"] == "database") { ?>			
+<?php  if ($amp_conf["AUTHTYPE"] == "database") { ?>			
 			<tr>
 				<td>
 					<a href=# class="info">Password<span></span></a>: 
 				</td><td>
-					<input type="password" size="20" name="password" value="<?= $password;?>"/>
+					<input type="password" size="20" name="password" value="<?php = $password;?>"/>
 				</td>
 			</tr>
-<? } ?>
+<?php  } ?>
 			<tr>
 				<td colspan="2">
 					<br>
@@ -152,16 +152,16 @@ foreach ($tresults as $tresult) {
 				<td>
 					<a href=# class="info">Department Name<span></span></a>: 
 				</td><td>
-					<input type="text" size="20" name="deptname" value="<?= $deptname;?>"/>
+					<input type="text" size="20" name="deptname" value="<?php = $deptname;?>"/>
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<a href=# class="info">Extension Range<span></span></a>: 
 				</td><td>
-					<input type="text" size="5" name="extension_low" value="<?= $extension_low;?>"/>
+					<input type="text" size="5" name="extension_low" value="<?php = $extension_low;?>"/>
 					&nbsp;to
-					<input type="text" size="5" name="extension_high" value="<?= $extension_high;?>"/>
+					<input type="text" size="5" name="extension_high" value="<?php = $extension_high;?>"/>
 				</td>
 			</tr>
 			<tr>
@@ -169,7 +169,7 @@ foreach ($tresults as $tresult) {
 					<a href=# class="info">Admin Access<span></span></a>: 
 				</td><td>&nbsp;
 					<select multiple name="sections[]">
-<?
+<?php 
 				foreach ($amp_sections as $key=>$value) {
 					echo "<option value=\"".$key."\"";
 					if (in_array($key, $sections)) echo " SELECTED";
@@ -185,13 +185,13 @@ foreach ($tresults as $tresult) {
 			
 			<tr>
 				<td colspan="2">
-					<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkAmpUser(ampuserEdit, '<?= ($userdisplay ? "editampuser" : "addampuser") ?>')"></h6>
+					<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkAmpUser(ampuserEdit, '<?php = ($userdisplay ? "editampuser" : "addampuser") ?>')"></h6>
 				</td>
 			</tr>
 			</table>
 		</form>
 	
-<? //Make sure the bottom border is low enuf
+<?php  //Make sure the bottom border is low enuf
 foreach ($tresults as $tresult) {
     echo "<br><br><br>";
 }
