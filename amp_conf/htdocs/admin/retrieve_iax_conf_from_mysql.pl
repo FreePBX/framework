@@ -65,8 +65,9 @@ if ( $#resultSet > -1 ) {
 		my @result = @{ $row };
 		$top .= $result[0]."=".$result[1]."\n";
 	}
+	print EXTEN "$top\n";
 }
-print EXTEN "$top\n";
+
 
 # select for unique accounts
 $statement = "SELECT data,id from $table_name where keyword='account' and flags <> 1 group by data";
