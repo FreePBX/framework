@@ -52,6 +52,16 @@ function getversion() {
 	return $results[0][0];
 }
 
+//set the version number
+function setversion($version) {
+	global $db;
+	$sql = "UPDATE admin SET value = '".$version."' WHERE variable = 'version'";
+	$result = $db->query($sql); 
+	if(DB::IsError($result)) {     
+		die($result->getMessage()); 
+	}
+}
+
 /** Include a .php file
  * This is a function just to keep a seperate context
  */
@@ -112,7 +122,7 @@ function run_upgrade($versions) {
 		out("Upgrading to ".$version."..");
 		install_upgrade($version);
 		out("Upgrading to ".$version."..OK");
-		//TODO set amp version = $version
+		setversion($version);
 	}
 }
 
