@@ -13,7 +13,7 @@ use DBI;
 $table_name = "iax";
 # the path to the extensions.conf file
 # WARNING: this file will be substituted by the output of this program
-$sip_conf = "/etc/asterisk/iax_additional.conf";
+$iax_conf = "/etc/asterisk/iax_additional.conf";
 # the name of the box the MySQL database is running on
 $hostname = "localhost";
 # the name of the database our tables are kept
@@ -27,7 +27,7 @@ $password = "AMPDBPASS";
 
 $additional = "";
 
-open EXTEN, ">$sip_conf" or die "Cannot create/overwrite extensions file: $sip_conf\n";
+open EXTEN, ">$iax_conf" or die "Cannot create/overwrite extensions file: $iax_conf\n";
 
 $dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
 

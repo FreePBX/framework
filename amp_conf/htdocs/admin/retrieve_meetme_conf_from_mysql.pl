@@ -13,7 +13,7 @@ use DBI;
 $table_name = "extensions";
 # the path to the extensions.conf file
 # WARNING: this file will be substituted by the output of this program
-$extensions_conf = "/etc/asterisk/meetme_additional.conf";
+$meetme_conf = "/etc/asterisk/meetme_additional.conf";
 # the name of the box the MySQL database is running on
 $hostname = "localhost";
 # the name of the database our tables are kept
@@ -24,7 +24,7 @@ $username = "AMPDBUSER";
 $password = "AMPDBPASS";
 
 ################### END OF CONFIGURATION #######################
-open EXTEN, ">$extensions_conf" or die "Cannot create/overwrite meetme file: $extensions_conf\n";
+open EXTEN, ">$meetme_conf" or die "Cannot create/overwrite meetme file: $meetme_conf\n";
 
 $dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
 
