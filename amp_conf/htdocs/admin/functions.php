@@ -1929,7 +1929,8 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 				
 				$section = strtolower($matches[2]);
 				$output[] = $matches[1]."[".$section."]".$matches[3];
-				
+				$existing_sections[] = $section; //remember that this section exists
+
 			} else if (preg_match("/^(\s*)([a-zA-Z0-9-_]+)(\s*)=(\s*)(.*?)(\s*[;#].*)?$/",$line,$matches)) {
 				// name = value
 				// option line
@@ -1962,6 +1963,8 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 			//DEBUG echo "END OF FILE!! <blockquote><i>";
 			//DEBUG var_dump($vmconf);
 			foreach (array_keys($vmconf) as $section) {
+				if (!in_array($section,$existing_sections))  // If this is a new section, write the context label
+					$output[] = "[".$section."]";
 				foreach ($vmconf[$section] as $key=>$value) {
 					if (is_array($value)) {
 						// mailbox line
