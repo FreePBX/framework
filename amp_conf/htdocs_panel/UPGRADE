@@ -1,0 +1,64 @@
+Notes on upgrading from an older release
+========================================
+ 
+o Upgrading from version .08 to .09:
+
+    The debug level (op_server.cfg) is now a bitmap. Now you have more
+    control of the output produced by debug. The possible values are:
+
+       1   Show Manager Events Received
+       2   Show Commands set to Manager
+       4   1st level debug on op_server.pl
+       8   2nd level debug on op_server.pl
+       16  3rd level debug on op_server.pl
+
+    If you want full debug, set the value to 31 in op_server.cfg
+    If you want to see just the events received and sent, set it to 3 (1+2) 
+
+    The fade matrix for the buttons is slightly different. Its the first
+    step towards a visual button layout configurator.
+
+o Upgrading from version .07 to .08:
+
+    The offset and size of the icons have changed. You will need to adjust
+    your op_style.cfg. Now all the icons are aproximatly the same size and
+    have the same center offset, so the margins and scale parameters will
+    match from icon to icon. New layout configurations should be simpler.
+
+    There are several new parameters in op_style.cfg, related to the  
+    configurability of the toolbar. You have to add them in your current
+    configuration, if you don't do it you will not see any toolbar. The
+    parameters to add are:
+
+        clid_label=Extra Info:
+        security_label=Security Code:
+        btn_help_label=Help
+        btn_log_label=Debug
+        show_security_code=1
+        show_clid_info=2
+        show_status=3
+        show_btn_help=4
+        show_btn_debug=5
+
+    The number in show_xxx represents the order in which it is rendered. If
+    you want to hide an element of the toolbar, set it to 0.
+
+o Upgrading from version .06 to .07:
+
+    There are two new parameters in op_server.cfg:
+
+        auto_conference_extension = 900    
+        conference_context = conferences 
+
+    Add them to your existing configuration file. In op_server.cfg there are
+    also examples of asterisk configuration files to use the 3way auto
+    conferences.
+
+o Upgrading from previous versions:
+
+    There are three new parameters in op_sytle.cfg and a new one in
+    op_buttons.cfg. See CHANGES. Just add those parameters to your current
+    config files, and replace op_server.pl with the new one. The fixed 24
+    buttons flash movie does not support voicemail notifications. There is a
+    new index.html that scales the applet to the size of the browser window.
+    Try it and use the one you like more.

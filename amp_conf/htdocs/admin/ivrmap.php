@@ -1,0 +1,94 @@
+<?
+// Asterisk Management Portal (AMP)
+// Copyright (C) 2004 Coalescent Systems Inc
+?>
+
+<?
+//query for exisiting aa_N contexts
+$unique_aas = getaas();
+
+//check to see if we have any aa_ contexts
+if (count($unique_aas) > 0) {
+?>
+
+	<h4>Voice Menu Map</h4>
+
+<?
+	//convert the customizable parts of each auto attendant to a user-readable format
+	
+	//create top-level for each voice menu
+	foreach ($unique_aas as $unique_aa) {
+		$menu_num = substr($unique_aa[0],3);
+		$menus[] = $unique_aa[0];
+?>
+	<ul>
+		<li>
+			<span style="float:right;text-align:right;">
+				&bull; <a href="config.php?display=2&promptnum=<? echo $menu_num ?>&ivr_action=edit">Edit Voice Menu #<? echo $menu_num ?></a><br>
+				&bull; <a href="config.php?display=2&ivract_target=<? echo $menu_num ?>&ivr_action=delete">Delete</a>
+			</span>
+			Voice Menu #<? echo $menu_num ?>
+			<ul>
+<?
+		//do another select for all parts in this aa_
+		$aalines = aainfo($menu_num);
+		
+		//$description = $aalines[0][5];
+
+		//find relevant info in this context
+		foreach ($aalines as $aaline) {
+			$extension = $aaline[1];
+			$application = $aaline[3];
+			$args = explode(',',$aaline[4]);
+			$argslen = count($args);
+			if ($application == 'Macro' && $args[0] == 'exten-vm') {
+					echo '<li>option '.$extension.' <b>dials extension #'.$args[2].'</b>';
+			}
+			elseif ($application == 'Macro' && $args[0] == 'vm') {
+					echo '<li>option '.$extension.' <b>sends to voicemail box #'.$args[1].'</b>';
+			}
+			elseif ($application == 'Goto' && !(strpos($args[0],'aa_') === false)) {
+					echo '<li>option '.$extension.' <b>goes to Voice Menu #'.substr($args[0],3).'</b>';
+					$menu_request[] = $args[0]; //we'll check to see if the aa_ target exists later
+			}
+			elseif ($application == 'Goto' && !(strpos($args[0],'ext-group') === false)) {
+					echo '<li>option '.$extension.' <b>dials group #'.$args[1].'</b>';
+			}
+			elseif ($application == 'Background') {
+					$description = $aaline[5];
+			}
+		}
+?>
+			</ul>
+			<br>
+			Menu #<? echo $menu_num ?> notes: <b><i><? echo $description; ?></i></b>
+	</ul>
+	<hr>		
+<?				
+	} //end foreach ($unique_aas as $unique_aa) 
+	
+	//search the $menus[] for $menu_request[]
+	//in other words - if a voice menu is requested that doesn't exist, then display a prompt to build the missing menu
+	if (count($menu_request) > 0) {
+		foreach ($menu_request as $mreq) {
+			$found = false;
+			foreach ($menus as $menu) {
+				if ($mreq == $menu)
+						$found = true;
+			}
+			if ($found == false) 
+				echo '<ul><li>Voice Menu #'.substr($mreq,3).' - <span style="color:red;">not yet created!</span><ul><li><a href="config.php?display=2&promptnum='.substr($mreq,3).'">Create Voice Menu #'.substr($mreq,3).'</a></ul></ul><br>';
+		}
+	}
+	
+	//include a link to create an additional voice menu.
+	echo '<ul><li>Would you like to create another Voice Menu?<ul><li><a href="config.php?display=2&promptnum='.++$menu_num.'">Create Voice Menu #'.$menu_num.'</a></ul></ul><br>';
+	
+} //end if (count($unique_aas) > 0)
+else {
+	include 'ivr.php';
+	
+}
+?>
+	</ul>
+

@@ -1,0 +1,159 @@
+CHANGES to Flash Operator Panel
+
+.09 
+ Jun 8th 2004:
+
+  - Added Message Waiting count. When passing the mouse over the envelope
+    icon the status shows the New and Old messages in that mailbox
+
+  - The server sets the CallerID when originating a call.
+  
+  - Changed the debug parameter in op_server.cfg to a bitmap for greater 
+    control off debug output.
+    
+  - Changed the way it handles extension numbers (column number 4) in 
+    op_buttons.cfg. Now you can specify the context where the extension 
+    resides by using the syntax:
+    
+      extension@context  
+    
+    If the extension is not reachable from the default context, you must 
+    specify its context there.
+    
+  - Changed the way it handles IAX2 channels. To specify an IAX channel you 
+    have to specify its name only, without '@context', eg: 
+    
+      IAX2[john]
+     
+
+.08
+ Jun 2nd 2004:
+
+  - Added "Extra Info" Input box
+
+      You can write any text you want in that box. When transferring or 
+      originating a call, that text will be used as the callerid text for
+      that call. This way you can pass usefull information to the person
+      you are transferring the call. In order for this feature to work you
+      need to modify your dialplan ("extensions.conf"). There is an example
+      extensions.conf provided.
+
+  - Configurable layout of the toolbar
+
+      The bar at the top of the flash applet is now configurable. There are
+      new parameters in op_style.cfg to adjust the layout:
+
+        clid_label=Extra Info:
+        security_label=Security Code:
+        btn_help_label=Help
+        btn_log_label=Debug
+        show_security_code=1
+        show_clid_info=2
+        show_status=3
+        show_btn_help=4
+        show_btn_debug=5
+
+      The numbers in the show_xxx varialbes indicates the position in the 
+      toolbar. If you do not want to display an element, set it to 0. 
+
+  - Added HELP button and text to the flash movie
+
+      You can add a help.txt file in the same directory as the flash movie
+      on your webserver. This file will be displayed inside the help window
+      of the flash movie. You can use basic html tags. You *must* start the
+      file with the words "text="
+       
+.07
+  May 19th 2004:
+
+  - Added conference buttons
+
+      The channel column (first one) in op_buttons.cfg must be named with 
+      the number of the meetme conference. Eg: you have a meetme conference
+      number 901, the name of the channel must be '901'. Look at the example
+      config.
+
+  - Added tranfer of an empty channel to an already connected call and 
+    automatically conference the three parties together
+
+      You have two new parameters in op_server.cfg:
+
+        auto_conference_extension
+        conference_context 
+
+      Set them up and look at op_server.cfg for an example configuration for 
+      asterisk in extensions.conf and meetme.conf
+
+  - Added origination of calls
+
+      You can drag an available button to another available button. This
+      will originate a call from the first channel to the extension defined
+      in the desintation button.
+
+  - More readable output log for op_server.pl
+
+.06
+  May 12th 2004
+
+  - Added voicemail notification: 
+
+      There is a new parameter in op_buttons.cfg. The last column has the 
+      voicemail context of the extension. You can leave it blank and it will 
+      not check/show the voicemail status for that button (if its a queue 
+      button or an extension without voicemail on). 
+
+      You also have three new parameters in op_style.cfg:
+
+        mail_margin_left
+        mail_margin_top
+        mail_scale
+
+      to set the placement and size of the voicemail icon in the button.
+
+.05
+  Apr 17th 2004
+
+  - Fixed a typo that prevented the applet from working.
+
+.04
+  Apr 16th 2004
+
+    - Changed configuration files
+
+        The configuration files are different: in version .03 the
+        op_server.cfg had the button configuration and layout. In version
+        .04 that information is stored in op_buttons.cfg. There are 2 new
+        parameters in op_buttons.cfg, extension and icon.
+
+        op_server.cfg is now used for the parameters of the op_server
+        itself, like port to listent to, security code, debug level. You
+        don't have to modify op_server.pl anymore. All configuration is done
+        in the cfg files.
+
+        There is a new configuration file: op_style.cfg with the style and
+        size of the buttons.
+
+     - Added Queues buttons
+
+         You can display call queues on a button. Just put the name
+         of the queue as the channel name.
+
+     - Reconnection to Asterisk Manager port
+
+         The op_server now tries to reconnect to Asterisk Manager
+         port in case of disconnection. So if you restart Asterisk
+         you don't need to restart the op_server.pl, it will reconnect
+         by itself.
+
+     - Totally redone flash movie: operator_panel3.swf
+     
+         The flash applet in version .04 is totally rewriten. IÏt 
+         has no bitmaps. All graphics are vector based, so you can
+         change the style and sizes without loosing detail. There
+         is no timer or status on each button in order to save space.
+         You can see the status of a channel by passing the mouse
+         over the red oval.
+
+         The new op_server.pl is compatible with the flash applet
+         of previous versions (operator_panel.swf), with fixed 24 
+         buttons display, timers, and scrolling info on each channel.

@@ -1,0 +1,57 @@
+manager_host   = 127.0.0.1    # host or ip address of asterisk
+
+manager_user   = admin           # user for connecting to asterisk manager
+
+manager_secret = amp111         # secret for asterisk manager
+
+listen_port    = 4445           # port to listen for inbound flash
+ 				# connections
+
+web_hostname   = 192.168.1.102  # must be the same address you use
+                                # to contact the web server 
+
+security_code  = passw0rd     # secret code for performing hangups
+                                # and transfers
+  
+flash_dir = /var/www/html/panel # location of variables.txt needed by
+                                # the flash applet (must be the same
+			        # directory where you put the web page 
+				# and swf file)
+
+poll_interval = 10             # Frequency in second the server
+                                # checks for sip status
+
+kill_zombies = 0                # 1 Enable automatic hangup of zombies
+                                # 0 Disable
+
+debug = 0                          # Debug level to stdout (bitmap)
+				   # 1   Manager Events Received
+				   # 2   Manager Commands Sent
+                                   # 4   Server 1st Debug Level
+                                   # 8   Server 2nd Debug Level
+                                   # 16  Server 3rd Debug Level
+				   #
+                                   # Eg: to display manager events and 
+                                   # commands sent set it to 3 (1+2)
+				   #
+				   # 31 Maximum debug level
+
+auto_conference_extension = 80    # Extension to dial to enter an Empty
+                                   # meetme conference. Look below for a
+                                   # complete example
+
+conference_context = ext-meetme   # Context where you have the above
+ 				   # definition and extensions defined
+                                   # with the same conference numbers
+				   # specified on meetme.conf. Eg:
+                                   #
+                                   # meetme.conf
+                                   # [rooms]
+                                   # conf => 901
+                                   # conf => 902
+                                   #
+                                   # extensions.conf
+                                   # [conferences]
+                                   # exten => 900,1,MeetMe(|E)
+                                   # exten => 901,1,MeetMe(900)
+                                   # exten => 902,1,MeetMe(901)

@@ -1,0 +1,86 @@
+body {
+	background: white;
+	color: black;
+	font-size: 10pt;
+	font-family: sans-serif;
+	line-height: 1.25em;
+}
+
+div {
+	border: 1px solid white;
+}
+li {
+	border: 1px solid white;
+	margin: 0;
+}
+li p {
+	display: inline;
+}
+
+h1 {
+	font-size: 16pt;
+}
+h2 {
+	font-size: 12pt;
+}
+h3,h4,h5 {
+	font-size: 10pt;
+}
+img {
+	border: 1px solid white;
+	background-color: white;
+}
+hr {
+	border: 1px dotted gray;
+	border-width: 0 0 1 0;
+	margin: 1em;
+}
+table {
+	border-collapse: collapse;
+}
+td,th {
+	border: 1px solid gray;
+	padding: 8pt;
+	font-size: 10pt;
+}
+th {
+	font-weight: bold;
+}
+#fedora-header, #fedora-footer {
+	text-align: center;
+}
+#fedora-header-items, #fedora-side-left, #fedora-side-right {
+	display: none;
+}
+
+#fedora-project-download dt {
+	font-weight: bold;
+	margin-top: 8pt;
+	margin-left: 5pt;
+}
+#fedora-project-download dd {
+	padding: 0;
+	margin: 10px 20px 0;
+}
+
+code.screen, pre.screen {
+	font-family: monospace;
+	font-size: 1em;
+	display: block;
+	padding: 5pt;
+	border: 1px dashed gray;
+	margin: 0.5em 2em;
+}
+#fedora-project code.screen {
+	margin: 0;
+}
+
+/*
+#fedora-content a:link:after, #fedora-content a:visited:after {
+	content: " (" attr(href) ") ";
+	font-size: 80%;
+}
+*/
+.navheader table, .navheader table td {
+	border: 0 !important;
+}
