@@ -230,7 +230,7 @@ if ($extdisplay) { // editing
 		<table>
 		<tr>
 			<td>
-				<a href=# class="info">Route Name<span><br>Name of this route. Shuold be used to describe what type of calls this route matches (for example, 'local' or 'longdistance').<br><br></span></a>: 
+				<a href=# class="info">Route Name<span><br>Name of this route. Should be used to describe what type of calls this route matches (for example, 'local' or 'longdistance').<br><br></span></a>: 
 			</td>
 <?php  if ($extdisplay) { // editing?>
 			<td>
