@@ -111,7 +111,7 @@ if (isset($gresults)) {
 <?php 		} ?>
 			</tr>
 			<tr>
-				<td><a href="#" class="info">extension list:<span>Separate extensions with a | (pipe) character. Ex: 201|202|203<br><br>You can include an extension on a remote system, or an external number by suffixing a number with a pound (#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see Outbound Routes).<br><br></span></a></td>
+				<td><a href="#" class="info">extension list:<span>Separate extensions with a - (hyphen) character. Ex: 201-202-203<br><br>You can include an extension on a remote system, or an external number by suffixing a number with a pound (#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see Outbound Routes).<br><br></span></a></td>
 				<td><input type="text" name="grplist" value="<?php  echo substr($thisGRP[0][0],6) ?>"></td>
 			</tr>
 			<tr>
