@@ -241,7 +241,7 @@ function install_upgrade($version) {
 
 					preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*);\s*\n/Us", $data, $matches);
 					
-					foreach ($matches[0] as $sql) {
+					foreach ($matches[1] as $sql) {
 						debug($sql);
 						if (!$dryrun) {
 							$result = $db->query($sql); 
@@ -427,12 +427,12 @@ if (!$version) {
 	out($version);
 }
 
+
 // **** Copy files
 
 $md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
 recursive_copy("amp_conf", "", $md5sums);
 
-exit;
 
 // **** Read upgrades/ directory
 
