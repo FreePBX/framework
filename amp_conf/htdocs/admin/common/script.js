@@ -94,7 +94,20 @@ function checkGRP(theForm,action) {
 		bad="true";
 	}
 	
+	$grppre = theForm.grppre.value;
+	if (!$grppre.match('^[a-zA-Z0-9:_\-]*$')) {
+		alert('Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -');
+		bad = "true";
+	}
+	
+	$grptime = theForm.grptime.value;
+	if (!$grptime.match('^[1-9][0-9]*$')) {
+		alert('Invalid time specified');
+		bad = "true";
+	}
+	
 	if (bad == "false") {
+		theForm.action.value = action;
 		theForm.submit();
 	}
 }

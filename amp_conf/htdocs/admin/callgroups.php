@@ -21,9 +21,34 @@ $dispnum = 4; //used for switch on config.php
 
 $goto = $_REQUEST['goto0'];
 $account = $_REQUEST['account'];
-$grplist = $_REQUEST['grplist'];
 $grptime = $_REQUEST['grptime'];
 $grppre = $_REQUEST['grppre'];
+
+
+$grplist = array();
+if (isset($_REQUEST["grplist"])) {
+	$grplist = explode("\n",$_REQUEST["grplist"]);
+
+	if (!$grplist) {
+		$grplist = array();
+	}
+	
+	foreach (array_keys($grplist) as $key) {
+		//trim it
+		$grplist[$key] = trim($grplist[$key]);
+		
+		// remove invalid chars
+		$grplist[$key] = preg_replace("/[^0-9#*]/", "", $grplist[$key]);
+		
+		// remove blanks
+		if ($grplist[$key] == "") unset($grplist[$key]);
+	}
+	
+	// check for duplicates, and re-sequence
+	$grplist = array_values(array_unique($grplist));
+}
+
+
 
 //check if the extension is within range for this user
 if (isset($account) && !checkRange($account)){
@@ -32,7 +57,7 @@ if (isset($account) && !checkRange($account)){
 	//add group
 	if ($action == 'addGRP') {
 		
-		addgroup($account,$grplist,$grptime,$grppre,$goto);
+		addgroup($account,implode("-",$grplist),$grptime,$grppre,$goto);
 		
 		exec($wScript1);
 		needreload();
@@ -50,7 +75,7 @@ if (isset($account) && !checkRange($account)){
 	if ($action == 'edtGRP') {
 	
 		delextensions('ext-group',$account);	
-		addgroup($account,$grplist,$grptime,$grppre,$goto);
+		addgroup($account,implode("-",$grplist),$grptime,$grppre,$goto);
 	
 		exec($wScript1); 
 		needreload();
@@ -83,13 +108,12 @@ if (isset($gresults)) {
 		} else {
 			
 	
-			//get extensions in this group
-			$thisGRP = getgroupextens(ltrim($extdisplay,'GRP-'));
-			//get ringtime for this group
-			$thisGRPtime = getgrouptime(ltrim($extdisplay,'GRP-'));
-			//get prefix for this group
-			$thisGRPprefix = getgroupprefix(ltrim($extdisplay,'GRP-'));
-
+			if (!getgroupinfo(ltrim($extdisplay,'GRP-'), $thisGRPtime, $thisGRPprefix, $thisGRP)) {
+				//TODO : handle this error better
+				//die("Invalid ext-group line in database");
+			}
+			
+			$grplist = explode("-",$thisGRP);
 
 			$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delGRP';
 	?>
@@ -99,7 +123,7 @@ if (isset($gresults)) {
 <?php 		} ?>
 			<form name="editGRP" action="<?php  $_REQUEST['PHP_SELF'] ?>" method="post">
 			<input type="hidden" name="display" value="<?php echo $dispnum?>">
-			<input type="hidden" name="action" value="<?php  echo ($extdisplay ? 'edtGRP' : 'addGRP') ?>">
+			<input type="hidden" name="action" value="">
 			<table>
 			<tr><td colspan="2"><h5><?php  echo ($extdisplay ? 'Edit Ring Group' : 'Add Ring Group') ?><hr></h5></td></tr>
 			<tr>
@@ -111,27 +135,31 @@ if (isset($gresults)) {
 <?php 		} ?>
 			</tr>
 			<tr>
-				<td><a href="#" class="info">extension list:<span>Separate extensions with a - (hyphen) character. Ex: 201-202-203<br><br>You can include an extension on a remote system, or an external number by suffixing a number with a pound (#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see Outbound Routing).<br><br></span></a></td>
-				<td><input type="text" name="grplist" value="<?php  echo substr($thisGRP[0][0],6) ?>"></td>
+				<td valign="top"><a href="#" class="info">extension list:<span><br>List extensions to ring, one per line.<br><br>You can include an extension on a remote system, or an external number by suffixing a number with a pound (#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see Outbound Routing).<br><br></span></a></td>
+				<td valign="top">&nbsp;
+					<textarea id="grplist" cols="15" rows="<?php  $rows = count($grplist)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="grplist"><?php echo implode("\n",$grplist);?></textarea><br>
+					
+					<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
+				</td>
 			</tr>
 			<tr>
 				<td><a href="#" class="info">CID name prefix:<span>You can optionally prefix the Caller ID name when ringing extensions in this group. ie: If you prefix with "Sales:", a call from John Doe would display as "Sales:John Doe" on the extensions that ring.</span></a></td>
-				<td><input size="4" type="text" name="grppre" value="<?php  echo substr($thisGRPprefix[0][0],4) ?>"></td>
+				<td><input size="4" type="text" name="grppre" value="<?php  echo $thisGRPprefix ?>"></td>
 			</tr><tr>
 				<td>ring time (max 60 sec):</td>
-				<td><input size="4" type="text" name="grptime" value="<?php  echo substr($thisGRPtime[0][0],10) ?>"></td>
+				<td><input size="4" type="text" name="grptime" value="<?php  echo $thisGRPtime ?>"></td>
 			</tr>
 			<tr><td colspan="2"><br><h5>Destination if no answer:<hr></h5></td></tr>
 
 <?php 
-//get goto for this group - note priority 5
-$goto = getargs(ltrim($extdisplay,'GRP-'),5);
+//get goto for this group - note priority 2
+$goto = getargs(ltrim($extdisplay,'GRP-'),2);
 //draw goto selects
 echo drawselects('editGRP',$goto,0);
 ?>
 			
 			<tr>
-			<td colspan="2"><br><h6><input name="Submit" type="button" value="Submit Changes" onclick="checkGRP(editGRP);"></h6></td>		
+			<td colspan="2"><br><h6><input name="Submit" type="button" value="Submit Changes" onclick="checkGRP(editGRP, <?php  echo ($extdisplay ? "'edtGRP'" : "'addGRP'") ?>);"></h6></td>		
 			
 			</tr>
 			</table>

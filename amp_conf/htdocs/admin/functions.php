@@ -240,7 +240,7 @@ function getZap() {
 //get the existing group extensions
 function getgroups() {
 	global $db;
-	$sql = "SELECT extension FROM extensions WHERE args = 'rg-group' ORDER BY extension";
+	$sql = "SELECT DISTINCT extension FROM extensions WHERE context = 'ext-group' ORDER BY extension";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 		$results = null;
@@ -280,26 +280,6 @@ function getdids() {
 	return $results;
 }
 
-//get extensions in specified group
-function getgroupextens($grpexten) {
-	global $db;
-	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND args LIKE 'GROUP=%'";
-	$thisGRP = $db->getAll($sql);
-	if(DB::IsError($thisGRP)) {
-	   die($thisGRP->getMessage());
-	}
-	return $thisGRP;
-}
-//get ring time in specified group
-function getgrouptime($grpexten) {
-	global $db;
-	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND args LIKE 'RINGTIMER=%'";
-	$thisGRPtime = $db->getAll($sql);
-	if(DB::IsError($thisGRPtime)) {
-	   die($thisGRPtime->getMessage());
-	}
-	return $thisGRPtime;
-}
 //get goto in specified group
 function getgroupgoto($grpexten) {
 	global $db;
@@ -310,15 +290,22 @@ function getgroupgoto($grpexten) {
 	}
 	return $thisGRPgoto;
 }
-//get prefix in specified group
-function getgroupprefix($grpexten) {
+
+
+function getgroupinfo($grpexten, &$time, &$prefix, &$group) {
 	global $db;
-	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND args LIKE 'PRE=%'";
-	$thisGRPprefix = $db->getAll($sql);
-	if(DB::IsError($thisGRPprefix)) {
+	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND priority = '1'";
+	$res = $db->getAll($sql);
+	if(DB::IsError($res)) {
 	   die($thisGRPprefix->getMessage());
 	}
-	return $thisGRPprefix;
+	if (preg_match("/^rg-group,(.*),(.*),(.*)$/", $res[0][0], $matches)) {
+		$time = $matches[1];
+		$prefix = $matches[2];
+		$group = $matches[3];
+		return true;
+	} 
+	return false;
 }
 
 //add to extensions table - used in callgroups.php
@@ -1864,16 +1851,11 @@ function getargs($exten,$priority) {
 
 function addgroup($account,$grplist,$grptime,$grppre,$goto) {
 	global $db;
-	$addarray = array('ext-group',$account,'1','Setvar','GROUP='.$grplist,'','0');
-	addextensions($addarray);
-	$addarray = array('ext-group',$account,'2','Setvar','RINGTIMER='.$grptime,'','0');
-	addextensions($addarray);
-	$addarray = array('ext-group',$account,'3','Setvar','PRE='.$grppre,'','0');
-	addextensions($addarray);
-	$addarray = array('ext-group',$account,'4','Macro','rg-group','','0');
+	
+	$addarray = array('ext-group',$account,'1','Macro','rg-group,'.$grptime.','.$grppre.','.$grplist,'','0');
 	addextensions($addarray);
 	
-	setGoto($account,'ext-group','5',$goto,0);
+	setGoto($account,'ext-group','2',$goto,0);
 }
 
 /** Recursively read voicemail.conf (and any included files)
