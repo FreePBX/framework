@@ -11,24 +11,22 @@ AMP has several requirements, including the following packages:
 	lame
 	httpd (Apache)
 	mysql
+	mysql-devel
 	mysql-server
 	php
 	php-mysql
 	openssl
+	openssl-devel
 	kernel-source
+	perl
+	perl-CPAN
+	cvs
+	bison
 
 ### Perl module Net::Telnet is required:
 	
 	 perl -MCPAN -e "install Net::Telnet"
 
-###
-Download the latest AMP files from CVS:
-
-	- cd /usr/src
-	- cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/amportal login   [null password]
-	- cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/amportal co AMP
-	
-	
 ###		
 Some linux distros have replaced the mpg123 application with another application, mpg321, and created a symbolic link to "mpg123", so it seems to work in the same way. Asterisk MusicOnHold only works with original mpg123.
 
@@ -59,6 +57,13 @@ Mime-contruct is needed to generate emails with fax file attachments:
 	- download mime-construct from http://search.cpan.org/~rosch/mime-construct-1.8
 	- install it
 
+###
+Download the latest AMP files from CVS:
+(alternatively, download the tarball and extract to /usr/src)
+
+	- cd /usr/src
+	- cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/amportal login   [null password]
+	- cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/amportal co AMP
 
 ###
 Getting Asterisk and Zaptel (AMP uses the v1.0 branch)
@@ -101,10 +106,10 @@ Patching Asterisk with softfax/spandsp.
 
 		- cp app_rxfax.c /usr/src/asterisk/apps/
 		- cp app_txfax.c /usr/src/asterisk/apps/
-		- cp Makefile.patch /usr/src/asterisk/apps/
+		- cp apps_makefile.patch /usr/src/asterisk/apps/
 
 	- cd /usr/src/asterisk/apps
-	- patch < Makefile.patch
+	- patch < apps_makefile.patch
 
 		
 ###
@@ -117,7 +122,7 @@ Create a group and non-root user:
 ###
 Building Asterisk and configuring it to run as a non-root user
 
-	- Edit /usr/src/asterisk/Makefile such that:
+	- Edit /usr/src/asterisk/Makefile such that (~ line 122):
 
 		ASTVARRUNDIR=$(INSTALL_PREFIX)/var/run/asterisk
 
@@ -171,6 +176,7 @@ Setup MySQL for AMP web interface
 		
 ###
 Copy in all necessary Asterisk configuration files
+**Note - this script can be used to upgrade your configuration with newer verions of AMP
 
 	- cd /usr/src/AMP
 	- ./apply_conf.sh
@@ -277,18 +283,22 @@ Checks:
 
 	
 ###
-Start httpd and asterisk
+Start everything:
 
 	- As root run:
 
 		service httpd start
 
-	- As asterisk run:
+	- As root run:
 
-		safe_asterisk
+		su asterisk -c "export PATH=$PATH:/usr/sbin && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
+		
+	- As root run:
+	
+		cd /var/www/html/panel; su asterisk -c /var/www/html/panel/safe_opserver &
 
 	- Point your browser to:
 
-		http://[ip address]/admin
+		http://[ip address]
 
 
