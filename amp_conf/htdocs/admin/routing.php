@@ -90,6 +90,57 @@ switch ($action) {
 		
 		$extdisplay = ''; // resets back to main screen
 	break;
+	case 'renameroute':
+		if (renameRoute($routename, $_REQUEST["newroutename"])) {
+			exec($extenScript);
+			needreload();
+		} else {
+			echo "<script language=\"javascript\">alert('Error renaming route: duplicate name');</script>";
+		}
+		
+		$extdisplay = $_REQUEST["newroutename"];
+	break;
+	case 'populatenpanxx':
+		if (preg_match("/^([2-9]\d\d)-?([2-9]\d\d)$/", $_REQUEST["npanxx"], $matches)) {
+			// first thing we do is grab the exch:
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_URL, "http://members.dandy.net/~czg/prefix.php?npa=".$matches[1]."&nxx=".$matches[2]."&ocn=&pastdays=0&nextdays=0");
+			curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Linux; Amportal Local Trunks Configuration)");
+			$str = curl_exec($ch);
+			curl_close($ch);
+			
+			if (preg_match("/exch=(\d+)/",$str, $matches)) {
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_URL, "http://members.dandy.net/~czg/lprefix.php?exch=".$matches[1]);
+				curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Linux; Amportal Local Trunks Configuration)");
+				$str = curl_exec($ch);
+				curl_close($ch);
+				
+				foreach (explode("\n", $str) as $line) {
+					if (preg_match("/^(\d{3});(\d{3})/", $line, $matches)) {
+						$dialpattern[] = "1".$matches[1].$matches[2]."XXXX";
+						//$localprefixes[] = "1".$matches[1].$matches[2];
+					}
+				}
+				
+				// check for duplicates, and re-sequence
+				$dialpattern = array_values(array_unique($dialpattern));
+			} else {
+				$errormsg = "Error fetching prefix list for: ". $_REQUEST["npanxx"];
+			}
+			
+		} else {
+			// what a horrible error message... :p
+			$errormsg = "Invalid format for NPA-NXX code (must be format: NXXNXX)";
+		}
+		
+		if (isset($errormsg)) {
+			echo "<script language=\"javascript\">alert('".addslashes($errormsg)."');</script>";
+			unset($errormsg);
+		}
+	break;
 }
 	
 
@@ -153,7 +204,7 @@ if ($extdisplay) { // editing
 	<p><a href="config.php?display=<?= $display ?>&extdisplay=<?= $extdisplay ?>&action=delroute">Delete Route <? echo $extdisplay; ?></a></p>
 <? } ?>
 
-	<form name="routeEdit" action="config.php" method="get">
+	<form name="routeEdit" action="config.php" method="POST">
 		<input type="hidden" name="display" value="<?echo $display?>"/>
 		<input type="hidden" name="extdisplay" value="<?= $extdisplay ?>"/>
 		<input type="hidden" name="action" value=""/>
@@ -165,7 +216,21 @@ if ($extdisplay) { // editing
 <? if ($extdisplay) { // editing?>
 			<td>
 				<?= $extdisplay;?>
-				<input type="hidden" name="routename" value="<?= $extdisplay;?>"/>
+				<input type="hidden" id="routename" name="routename" value="<?= $extdisplay;?>"/>
+				<input type="button" onClick="renameRoute();" value="Rename" style="font-size:10px;"  />
+				<input type="hidden" id="newroutename" name="newroutename" value=""/>
+				<script language="javascript">
+				function renameRoute() {
+					do {
+						var newname = prompt("Rename route " + document.getElementById('routename').value + " to:");
+						if (newname == null) return;
+					} while (!newname.match('^[a-zA-Z][a-zA-Z0-9]+$') && !alert("Route name cannot start with a number, and can only contain letters and numbers"));
+					
+					document.getElementById('newroutename').value = newname;
+					routeEdit.action.value = 'renameroute';
+					routeEdit.submit();
+				}
+				</script>
 			</td>
 <? } else { // new ?>
 			<td>
@@ -217,13 +282,39 @@ $key += 1; // this will be the next key value
 		<tr>
 			<td>
 			</td><td>
-				<textarea cols="20" rows="<? $rows = count($dialpattern)+1; echo (($rows < 5) ? 5 : $rows); ?>" name="dialpattern"><?=  implode("\n",$dialpattern);?></textarea>
+				<textarea cols="20" rows="<? $rows = count($dialpattern)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="dialpattern"><?=  implode("\n",$dialpattern);?></textarea><br>
+				
+				<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
 			</td>
 		</tr>
 		<tr>
 			<td>Insert:</td>
-			<script language="javascript"><!--
+			<input id="npanxx" name="npanxx" type="hidden" />
+			<script language="javascript">
 			
+			function populateLookup() {
+<?
+	if (function_exists("curl_init")) { // curl is installed
+?>				
+				//var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?", document.getElementById('areacode').value);
+				do {
+					var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.");
+					if (npanxx == null) return;
+				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("Invalid NPA-NXX. Must be of the format 'NXX-NXX'"));
+				
+				document.getElementById('npanxx').value = npanxx;
+				routeEdit.action.value = "populatenpanxx";
+				routeEdit.submit();
+<? 
+	} else { // curl is not installed
+?>
+				alert("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.");
+<?
+	}
+?>
+			}
+			
+						
 			function insertCode() {
 				code = document.getElementById('inscode').value;
 				insert = '';
@@ -254,12 +345,16 @@ $key += 1; // this will be the next key value
 					case 'emerg':
 						insert = '911\n';
 					break;
+					case 'lookup':
+						populateLookup();
+						insert = '';
+					break;
 					
 				}
-				if (document.routeEdit.dialpattern.value[ document.routeEdit.dialpattern.value.length - 1 ] == "\n") {
-					document.routeEdit.dialpattern.value = document.routeEdit.dialpattern.value + insert;
+				if (routeEdit.dialpattern.value[ routeEdit.dialpattern.value.length - 1 ] == "\n") {
+					routeEdit.dialpattern.value = routeEdit.dialpattern.value + insert;
 				} else {
-					document.routeEdit.dialpattern.value = document.routeEdit.dialpattern.value + '\n' + insert;
+					routeEdit.dialpattern.value = routeEdit.dialpattern.value + '\n' + insert;
 				}
 				
 				// reset element
@@ -277,6 +372,7 @@ $key += 1; // this will be the next key value
 					<option value="int">International</option>
 					<option value="info">Information</option>
 					<option value="emerg">Emergency</option>
+					<option value="lookup">Lookup local prefixes</option>
 				</select>
 			</td>
 		</tr>
