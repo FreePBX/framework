@@ -1,4 +1,4 @@
-<?
+<?php /* $Id */
 // routing.php Copyright (C) 2004 Greg MacLellan (greg@mtechsolutions.ca)
 // Asterisk Management Portal Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
@@ -27,6 +27,9 @@ $wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_f
 $display='8'; 
 $extdisplay=$_REQUEST['extdisplay'];
 $action = $_REQUEST['action'];
+
+$repotrunkdirection = $_REQUEST['repotrunkdirection'];
+$repotrunkkey = $_REQUEST['repotrunkkey'];
 
 
 $dialpattern = array();
@@ -62,10 +65,26 @@ if (isset($_REQUEST["trunkpriority"])) {
 		$trunkpriority = array();
 	}
 	
-	// delete blank entries
+	// delete blank entries and reorder
 	foreach (array_keys($trunkpriority) as $key) {
-		if (empty($trunkpriority[$key])) unset($trunkpriority[$key]);
+		if (empty($trunkpriority[$key])) {
+			// delete this empty
+			unset($trunkpriority[$key]);
+			
+		} else if (($key==($repotrunkkey-1)) && ($repotrunkdirection=="up")) {
+			// swap this one with the one before (move up)
+			$temptrunk = $trunkpriority[$key];
+			$trunkpriority[ $key ] = $trunkpriority[ $key+1 ];
+			$trunkpriority[ $key+1 ] = $temptrunk;
+			
+		} else if (($key==($repotrunkkey)) && ($repotrunkdirection=="down")) {
+			// swap this one with the one after (move down)
+			$temptrunk = $trunkpriority[ $key+1 ];
+			$trunkpriority[ $key+1 ] = $trunkpriority[ $key ];
+			$trunkpriority[ $key ] = $temptrunk;
+		}
 	}
+	unset($temptrunk);
 	$trunkpriority = array_values($trunkpriority); // resequence our numbers
 }
 
@@ -383,22 +402,57 @@ $key += 1; // this will be the next key value
 				<a href=# class="info">Trunk Sequence<span>The Trunk Sequence controls the order of trunks that will be used when the above Dial Patterns are matched. <br><br>For Dial Patterns that match long distance numbers, for example, you'd want to pick the cheapest routes for long distance (ie, VoIP trunks first) followed by more expensive routes (POTS lines).<br></span></a><br><br>
 			</td>
 		</tr>
+		<input type="hidden" id="repotrunkdirection" name="repotrunkdirection" value="">
+		<input type="hidden" id="repotrunkkey" name="repotrunkkey" value="">
 <?
 $key = -1;
+$positions=count($trunkpriority);
 foreach ($trunkpriority as $key=>$trunk) {
 ?>
 		<tr>
-			<td><?= $key; ?>
+			<script language=javascript>
+			function repositionTrunk(repositiondirection,repositionkey,key,direction){
+				if(direction == "up"){
+					document.getElementById('repotrunkdirection').value=direction;
+					document.getElementById('repotrunkkey').value=key;
+				}else if(direction == "down" ){
+					document.getElementById('repotrunkdirection').value=direction;
+					document.getElementById('repotrunkkey').value=key;
+				}
+				document.getElementById('routeEdit').submit();
+			}
+			function deleteTrunk(key) {
+				document.getElementById('trunk'+key).value = '';
+				document.getElementById('routeEdit').submit();
+			}
+			</script>
+			<td align="right"><?= $key; ?>&nbsp;&nbsp;
 			</td>
 			<td>
 				<select id='trunkpri<?= $key ?>' name="trunkpriority[<?= $key ?>]">
 				<option value=""></option>
 				<?
 				foreach ($trunks as $name=>$display) {
-					echo "<option value=\"".$name."\" ".($name == $trunk ? "selected" : "").">".$display."</option>";
+					echo "<option id=\"trunk".$key."\" value=\"".$name."\" ".($name == $trunk ? "selected" : "").">".$display."</option>";
 				}
 				?>
 				</select>
+				
+				<img src="images/delete.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11" onclick="deleteTrunk(<?= $key ?>)">
+			<?  // move up
+			if ($key > 0) {?>
+				<img src="images/scrollup.gif" onclick="repositionTrunk(repotrunkdirection,repotrunkkey, '<?= $key ?>','up')" alt="Move Up" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+			<? } else { ?>
+				<img src="images/blank.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+			<? }
+			
+			// move down
+			
+			if ($key < ($positions-1)) {?>
+				<img src="images/scrolldown.gif" onclick="repositionTrunk(repotrunkdirection,repotrunkkey, '<?= $key ?>','down')" alt="Move Down"  style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+			<? } else { ?>
+				<img src="images/blank.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+			<? } ?>
 			</td>
 		</tr>
 <?
@@ -408,8 +462,7 @@ $key += 1; // this will be the next key value
 $name = "";
 ?>
 		<tr>
-			<td><?= $key; ?>
-			</td>
+			<td> &nbsp </td>
 			<td>
 				<select id='trunkpri<?= $key ?>' name="trunkpriority[<?= $key ?>]">
 				<option value="" SELECTED></option>
@@ -422,13 +475,14 @@ $name = "";
 			</td>
 		</tr>
 		<tr>
-			<td>&nbsp;</td>
+			<td></td>
 			<td>
-				<br><input type="submit" value="Add">
+				<input type="submit" value="Add">
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
+			<br>
 				<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkRoute(routeEdit, '<?= ($extdisplay ? "editroute" : "addroute") ?>')"></h6>
 			</td>
 		</tr>
