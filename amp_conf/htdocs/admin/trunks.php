@@ -24,10 +24,13 @@ $iaxScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_iax_conf_
 //script to write op_server.cfg file from mysql 
 $wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
 
+$localPrefixFile = "/etc/asterisk/localprefixes.conf";
+
+
 $display='6'; 
 $extdisplay=$_REQUEST['extdisplay'];
 $action = $_REQUEST['action'];
-$tech = $_REQUEST['tech'];
+$tech = strtolower($_REQUEST['tech']);
 
 $trunknum = ltrim($extdisplay,'OUT_');
 
@@ -40,21 +43,61 @@ foreach ($set_globals as $var) {
 	}
 }
 
+$dialrules = array();
+if (isset($_REQUEST["dialrules"])) {
+	//$dialpattern = $_REQUEST["dialpattern"];
+	$dialrules = explode("\n",$_REQUEST["dialrules"]);
+
+	if (!$dialrules) {
+		$dialrules = array();
+	}
+	
+	foreach (array_keys($dialrules) as $key) {
+		//trim it
+		$dialrules[$key] = trim($dialrules[$key]);
+		
+		// remove blanks
+		if ($dialrules[$key] == "") unset($dialrules[$key]);
+		
+		// remove leading underscores (we do that on backend)
+		if ($dialrules[$key][0] == "_") $dialrules[$key] = substr($dialrules[$key],1);
+	}
+	
+	// check for duplicates, and re-sequence
+	$dialrules = array_values(array_unique($dialrules));
+}
 
 //if submitting form, update database
 switch ($action) {
 	case "addtrunk":
-	echo "<br><br><br>";
-	echo "addTrunk($tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register);";
-		addTrunk($tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register);
+		$trunknum = addTrunk($tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register, $dialrules);
+		
+		/* //DIALRULES
+		// add rules to extensions
+		addTrunkRules($channelid, $dialrules);
+		*/
+		
+		addDialRules($trunknum, $dialrules);
+		
 		exec($extenScript);
 		exec($sipScript);
 		exec($iaxScript);
 		exec($wOpScript);
 		needreload();
+		
+		$extdisplay = "OUT_".$trunknum; // make sure we're now editing the right trunk
 	break;
 	case "edittrunk":
 		editTrunk($trunknum, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register);
+		
+		/* //DIALRULES
+		deleteTrunkRules($channelid);
+		addTrunkRules($channelid, $dialrules);
+		*/
+		
+		// this can rewrite too, so edit is the same
+		addDialRules($trunknum, $dialrules);
+		
 		exec($extenScript);
 		exec($sipScript);
 		exec($iaxScript);
@@ -62,6 +105,14 @@ switch ($action) {
 		needreload();
 	break;
 	case "deltrunk":
+	
+		deleteTrunk($trunknum);
+		
+		/* //DIALRULES
+		deleteTrunkRules($channelid);
+		*/
+		deleteDialRules($trunknum);
+		
 		
 		exec($extenScript);
 		exec($sipScript);
@@ -70,6 +121,47 @@ switch ($action) {
 		needreload();
 		
 		$extdisplay = ''; // resets back to main screen
+	break;
+	case "populatenpanxx": 
+		if (preg_match("/^([2-9]\d\d)-?([2-9]\d\d)$/", $_REQUEST["npanxx"], $matches)) {
+			// first thing we do is grab the exch:
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_URL, "http://members.dandy.net/~czg/prefix.php?npa=".$matches[1]."&nxx=".$matches[2]."&ocn=&pastdays=0&nextdays=0");
+			curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Linux; Amportal Local Trunks Configuration)");
+			$str = curl_exec($ch);
+			curl_close($ch);
+			
+			if (preg_match("/exch=(\d+)/",$str, $matches)) {
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_URL, "http://members.dandy.net/~czg/lprefix.php?exch=".$matches[1]);
+				curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Linux; Amportal Local Trunks Configuration)");
+				$str = curl_exec($ch);
+				curl_close($ch);
+				
+				foreach (explode("\n", $str) as $line) {
+					if (preg_match("/^(\d{3});(\d{3})/", $line, $matches)) {
+						$dialrules[] = "1".$matches[1]."|".$matches[2]."XXXX";
+						//$localprefixes[] = "1".$matches[1].$matches[2];
+					}
+				}
+				
+				// check for duplicates, and re-sequence
+				$dialrules = array_values(array_unique($dialrules));
+			} else {
+				$errormsg = "Error fetching prefix list for: ". $_REQUEST["npanxx"];
+			}
+			
+		} else {
+			// what a horrible error message... :p
+			$errormsg = "Invalid format for NPA-NXX code (must be format: NXXNXX)";
+		}
+		
+		if (isset($errormsg)) {
+			echo "<script language=\"javascript\">alert('".addslashes($errormsg)."');</script>";
+			unset($errormsg);
+		}
 	break;
 }
 	
@@ -119,7 +211,7 @@ if (!$tech && !$extdisplay) {
 	if ($extdisplay) {
 		//list($trunk_tech, $trunk_name) = explode("/",$tname);
 		//if ($trunk_tech == "IAX2") $trunk_tech = "IAX"; // same thing
-		$trunk_tech = getTrunkTech($trunknum);
+		$tech = getTrunkTech($trunknum);
 	
 		$outcid = ${"OUTCID_".$trunknum};
 		$maxchans = ${"OUTMAXCHANS_".$trunknum};
@@ -147,9 +239,27 @@ if (!$tech && !$extdisplay) {
 			$register = getTrunkRegister($trunknum);
 		}
 		
-		echo "<h2>Edit ".strtoupper($trunk_tech)." Trunk</h2>";
+		/* //DIALRULES
+		if (!isset($_REQUEST["dialrules"])) { // we check REQUEST because dialrules() is always an array
+			$dialrules = getTrunkDialRules($trunknum);
+		}
+		*/
+		
+		if (count($dialrules) == 0) {
+			if ($temp = getDialRules($trunknum)) {
+				foreach ($temp as $key=>$val) {
+					// extract all ruleXX keys
+					if (preg_match("/^rule\d+$/",$key)) {
+						$dialrules[] = $val;
+					}
+				}
+			}
+			unset($temp);
+		}
+		
+		echo "<h2>Edit ".strtoupper($tech)." Trunk</h2>";
 ?>
-		<p><a href="config.php?display=<?= $display ?>&extdisplay=<?= $extdisplay ?>&action=delroute">Delete Trunk <? echo strtoupper($trunk_tech)."/".$channelid; ?></a></p>
+		<p><a href="config.php?display=<?= $display ?>&extdisplay=<?= $extdisplay ?>&action=deltrunk">Delete Trunk <? echo strtoupper($tech)."/".$channelid; ?></a></p>
 <?
 	} else {
 		// set defaults
@@ -168,8 +278,12 @@ if (!$tech && !$extdisplay) {
 		$usercontext = "";
 		$userconfig = "secret=***password***\ntype=user\ncontext=from-pstn";
 		$register = "";
+		
+		$localpattern = "NXXXXXX";
+		$lddialprefix = "1";
+		$areacode = "";
 	
-		echo "<h2>Add ".$tech." Trunk</h2>";
+		echo "<h2>Add ".strtoupper($tech)." Trunk</h2>";
 	} 
 ?>
 	
@@ -200,21 +314,217 @@ if (!$tech && !$extdisplay) {
 			</tr>
 			<tr>
 				<td colspan="2">
-					<br><h4>Outgoing Settings</h4>
+					<br><h4>Outgoing Dial Rules</h4>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<a href=# class="info">Dial Rules<span>A Dial Rule controls how calls will be dialed on this trunk. It can be used to add or remove prefixes. Numbers that don't match any patterns defined here will be dialed as-is. Note that a pattern without a + or | (to add or remove a prefix) is usless.<br><br><b>Rules:</b><br>
+	<strong>X</strong>&nbsp;&nbsp;&nbsp; matches any digit from 0-9<br>
+	<strong>Z</strong>&nbsp;&nbsp;&nbsp; matches any digit form 1-9<br>
+	<strong>N</strong>&nbsp;&nbsp;&nbsp; matches any digit from 2-9<br>
+	<strong>[1237-9]</strong>&nbsp;   matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)<br>
+	<strong>.</strong>&nbsp;&nbsp;&nbsp; wildcard, matches one or more characters (not allowed before a | or +)<br>
+	<strong>|</strong>&nbsp;&nbsp;&nbsp; removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed "6135551234" but would only pass "5551234" to the trunk)
+	<strong>+</strong>&nbsp;&nbsp;&nbsp; adds a dialing prefix from the number (for example, 1613+NXXXXXX would match when some dialed "5551234" and would pass "16135551234" to the trunk)
+					</span></a>:
+				</td><td valign="top">&nbsp;
+					<textarea id="dialrules" cols="20" rows="<? $rows = count($dialrules)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="dialrules"><?=  implode("\n",$dialrules);?></textarea><br>
+					
+					<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Outbound Dial Prefix<span>The outbound dialing prefix is used to prefix a dialing string to outbound calls placed on this trunk. For example, if this trunk is behind another PBX or is a Centrex line, then you would put 9 here to access an outbound line.<br><br>Most users should leave this option blank.</span></a>: 
+					<a href=# class="info">Dial rules wizards<span>
+					<strong>Always add prefix to local numbers</strong> is useful for VoIP trunks, where if a number is dialed as "5551234", it can be converted to "16135551234".<br>
+					<strong>Remove prefix from local numbers</strong> is useful for ZAP trunks, where if a local number is dialed as "16135551234", it can be converted to "555-1234".<br>
+					<strong>Lookup and remove local prefixes</strong> is the same as Remove prefix from local numbers, but uses the database at http://members.dandy.net/~czg/search.html to find your local calling area (NA-only)<br>
+					</span></a>:
+				</td><td valign="top">&nbsp;&nbsp;<select id="autopop" name="autopop" onChange="changeAutoPop(); ">
+						<option value="" SELECTED>(pick one)</option>
+						<option value="always">Always add prefix to local numbers</option>
+						<option value="remove">Remove prefix from local numbers</option>
+						<option value="lookup">Lookup and remove local prefixes</option>
+					</select>
+				</td>
+			</tr>
+			<input id="npanxx" name="npanxx" type="hidden" />
+			<script language="javascript">
+			
+			function populateLookup() {
+				//var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?", document.getElementById('areacode').value);
+				do {
+					var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.");
+					if (npanxx == null) return;
+				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("Invalid NPA-NXX. Must be of the format 'NXX-NXX'"));
+				
+				document.getElementById('npanxx').value = npanxx;
+				trunkEdit.action.value = "populatenpanxx";
+				trunkEdit.submit();
+			}
+			
+			function populateAlwaysAdd() {
+				do {
+					var localpattern = prompt("What is the local dialing pattern?\n\n(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)","NXXXXXX");
+					if (localpattern == null) return;
+				} while (!localpattern.match('^[0-9#*ZXN\.]+$') && !alert("Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."));
+				
+				do {
+					var localprefix = prompt("What prefix should be added to the dialing pattern?\n\n(ie. for US/CAN, 1+areacode, ie, '1613')?");
+					if (localprefix == null) return;
+				} while (!localprefix.match('^[0-9#*]+$') && !alert("Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."));
+
+				dialrules = document.getElementById('dialrules');
+				if (dialrules.value[dialrules.value.length-1] != '\n') {
+					dialrules.value = dialrules.value + '\n';
+				}
+				dialrules.value = dialrules.value + localprefix + '+' + localpattern + '\n';
+			}
+			
+			function populateRemove() {
+				do {
+					var localprefix = prompt("What prefix should be removed from the number?\n\n(ie. for US/CAN, 1+areacode, ie, '1613')");
+					if (localprefix == null) return;
+				} while (!localprefix.match('^[0-9#*ZXN\.]+$') && !alert("Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed."));
+				
+				do {
+					var localpattern = prompt("What is the dialing pattern for local numbers after "+localprefix+"? \n\n(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)","NXXXXXX");
+					if (localpattern == null) return;
+				} while (!localpattern.match('^[0-9#*ZXN\.]+$') && !alert("Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."));
+				
+				dialrules = document.getElementById('dialrules');
+				if (dialrules.value[dialrules.value.length-1] != '\n') {
+					dialrules.value = dialrules.value + '\n';
+				}
+				dialrules.value = dialrules.value + localprefix + '|' + localpattern + '\n';
+			}
+			
+			function changeAutoPop() {
+				switch(document.getElementById('autopop').value) {
+					case "always":
+						populateAlwaysAdd();
+					break;
+					case "remove":
+						populateRemove();
+					break;
+					case "lookup":
+						populateLookup();
+					break;
+				}
+				document.getElementById('autopop').value = '';
+			}
+			</script>
+<?/* //DIALRULES
+			<tr>
+				<td>
+					<a href=# class="info">Dial rules<span>The area code this trunk is in.</span></a>: 
+				</td><td>&nbsp;
+					<select id="dialrulestype" name="dialrulestype" onChange="changeRulesType();">
+<?php 
+					$rules = array( "asis" => "Don't change number",
+							"always" => "Always dial prefix+areacode",
+							"local" => "Local 7-digit dialing",
+							"local10" => "Local 10-digit dialing");
+
+					foreach ($rules as $value=>$display) {
+						echo "<option value=\"".$value."\" ".(($value == $dialrulestype) ? "SELECTED" : "").">".$display."</option>";
+					}
+?>
+					</select>
+					
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href=# class="info">Local dialing pattern<span>The dialing pattern to make a 'local' call.</span></a>: 
+				</td><td>
+					<input id="localpattern" type="text" size="10" maxlength="20" name="localpattern" value="<?= $localpattern ?>"/>
+					
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href=# class="info">Long-distance dial prefix<span>The prefix for dialing long-distance numbers. In north america, this should be "1".</span></a>: 
+				</td><td>
+					<input id="lddialprefix" type="text" size="3" maxlength="6" name="lddialprefix" value="<?= $lddialprefix ?>"/>
+					
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href=# class="info">Local LD prefix<span>The area code this trunk is in. Any 7-digit numbers that don't match a number in the below list will have dialprefix+areacode added to them. </span></a>: 
+				</td><td>
+					<input id="areacode" type="text" size="3" maxlength="6" name="areacode" value="<?= $areacode ?>"/>
+					
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<a href=# class="info">Local prefixes<span>This should be a list of local areacodes + prefixes to use for local dialing.</span></a>: 
+				</td><td valign="top">&nbsp;
+					<textarea id="localprefixes" cols="8" rows="<? $rows = count($localprefixes)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="localprefixes"><?=  implode("\n",$localprefixes);?></textarea><br>
+					 
+					<input id="npanxx" name="npanxx" type="hidden" /><br>
+					<a href=# class="info">Populate with local rules<span>Do a lookup from http://members.dandy.net/~czg/search.html to find all local-reachable area codes and phone numbers.</span></a>: <input type="button" value="Go" onClick="checkPopulate();" />
+					<br><br>
+				</td>
+			</tr>
+			<script language="javascript">
+			
+			function checkPopulate() {
+				//var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?", document.getElementById('areacode').value);
+				var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?");
+				
+				if (npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$")) {
+					document.getElementById('npanxx').value = npanxx;
+					trunkEdit.action.value = "populatenpanxx";
+					trunkEdit.submit();
+				} else if (npanxx != null) {
+					alert("Invalid format for NPA-NXX code (must be format: NXXNXX)");
+				}
+			}
+			
+			function changeRulesType() {
+				switch(document.getElementById('dialrulestype').value) {
+					case "always":
+						document.getElementById('lddialprefix').disabled = false;
+						document.getElementById('areacode').disabled = false;
+						document.getElementById('localprefixes').disabled = true;
+					break;
+					case "local":
+					case "local10":
+						document.getElementById('lddialprefix').disabled = false;
+						document.getElementById('areacode').disabled = false;
+						document.getElementById('localprefixes').disabled = false;
+					break;
+					case "asis":
+					default:
+						document.getElementById('lddialprefix').disabled = true;
+						document.getElementById('areacode').disabled = true;
+						document.getElementById('localprefixes').disabled = true;
+					break;
+				}
+			}
+			changeRulesType();
+			</script>
+*/?>
+			<tr>
+				<td>
+					<a href=# class="info">Outbound Dial Prefix<span>The outbound dialing prefix is used to prefix a dialing string to all outbound calls placed on this trunk. For example, if this trunk is behind another PBX or is a Centrex line, then you would put 9 here to access an outbound line.<br><br>Most users should leave this option blank.</span></a>: 
 				</td><td>
 					<input type="text" size="8" name="dialoutprefix" value="<?= $dialoutprefix ?>"/>
 				</td>
 			</tr>
-			
+			<tr>
+				<td colspan="2">
+					<br><h4>Outgoing Settings</h4>
+				</td>
+			</tr>
+	
 	<?
-	switch ($trunk_tech) {
+	switch ($tech) {
 		case "zap":
-		case "ZAP":
 	?>
 				<tr>
 					<td>
