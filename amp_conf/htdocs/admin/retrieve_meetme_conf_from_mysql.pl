@@ -10,10 +10,10 @@ use DBI;
 ################### BEGIN OF CONFIGURATION ####################
 
 # the name of the extensions table
-$table_name = "sip";
+$table_name = "extensions";
 # the path to the extensions.conf file
 # WARNING: this file will be substituted by the output of this program
-$sip_conf = "/etc/asterisk/meetme_additional.conf";
+$extensions_conf = "/etc/asterisk/meetme_additional.conf";
 # the name of the box the MySQL database is running on
 $hostname = "localhost";
 # the name of the database our tables are kept
@@ -24,30 +24,11 @@ $username = "asteriskuser";
 $password = "amp109";
 
 ################### END OF CONFIGURATION #######################
-
-$additional = "";
-
-open EXTEN, ">$sip_conf" || die "Cannot create/overwrite extensions file: $sip_conf\n";
+open EXTEN, ">$extensions_conf" || die "Cannot create/overwrite meetme file: $extensions_conf\n";
 
 $dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
-$statement = "SELECT keyword,data from $table_name where id=0 and keyword <> 'account' and flags <> 1";
-my $result = $dbh->selectall_arrayref($statement);
-unless ($result) {
-  # check for errors after every single database call
-  print "dbh->selectall_arrayref($statement) failed!\n";
-  print "DBI::err=[$DBI::err]\n";
-  print "DBI::errstr=[$DBI::errstr]\n";
-  exit;
-}
-my @resultSet = @{$result};
-if ( $#resultSet > -1 ) {
-	foreach $row (@{ $result }) {
-		my @result = @{ $row };
-		$additional .= $result[0]."=".$result[1]."\n";
-	}
-}
 
-$statement = "SELECT data,id from $table_name where keyword='account' and flags <> 1 group by data";
+$statement = "SELECT extension from $table_name WHERE context = 'ext-local' AND flags = 0";
 
 $result = $dbh->selectall_arrayref($statement);
 unless ($result) {
@@ -59,16 +40,13 @@ unless ($result) {
 
 @resultSet = @{$result};
 if ( $#resultSet == -1 ) {
-  print "No sip accounts defined in $table_name\n";
+  print "No extensions defined in $table_name\n";
   exit;
 }
 
-
 foreach my $row ( @{ $result } ) {
-	my $account = @{ $row }[0];
-	my $id = @{ $row }[1];
-	print EXTEN "conf => 8$account\n";
+	my $meetme = @{ $row }[0];
+	print EXTEN "conf => 8$meetme\n";
 }
 
 exit 0;
-
