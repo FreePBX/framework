@@ -66,6 +66,9 @@ if (count($unique_aas) > 0) {
 			elseif ($application == 'Background') {
 					$description = $aaline[5];
 			}
+			elseif ($application == 'Goto' && !(strpos($args[0],'custom') === false)) {
+				echo '<li>option '.$extension.' <b>goes to '.$args[0].','.$args[1].','.$args[2].'</b>';
+			}
 		}
 ?>
 			</ul>

@@ -92,6 +92,10 @@ switch($_REQUEST['ivr_action']) {
 				$aa[] = array($context,$extension,'1','Goto',$args,'','0');
 				//$describe[$i] = 'option '.$extension.' <b>goes to Voice Menu #'.$_REQUEST['ivr'.$i].'</b>';
 			}
+			elseif ($goto == 'custom') {
+				$args = $_REQUEST['custom'.$i];
+				$aa[] = array($context,$extension,'1','Goto',$args,'','0');
+			}
 		}
 		
 		//plop the stuff into database
