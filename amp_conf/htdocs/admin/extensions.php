@@ -323,14 +323,14 @@ switch($extdisplay) {
             <table>
             <tr>
                 <td>
-                    <a href="#" class="info">extension number<span>This is the phone number for the new extension. <br>The client (phone) also uses this as the username to access the system. <br>It must be unique. </span></a>: 
+                    <a href="#" class="info">extension number<span>This is the phone number for the new extension.<br><b>It must be unique.</b><br><br>This extension's USERNAME and MAILBOX are also the same as the extension number.<br></span></a>: 
                 </td><td>
                     <input tabindex="1" size="5" type="text" name="account" value="<? echo ($result[0] == '' ? '200' : ($result[0] + 1))?>"/>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <a href="#" class="info">extension password<span>The client (phone) uses this password to access the system.<br>This password can contain numbers and letters.<br>The extension's USERNAME and MAILBOX are also the same as the extension.</span></a>:
+                    <a href="#" class="info">extension password<span>The client (phone) uses this password to access the system.<br>This password can contain numbers and letters.<br></span></a>:
                 </td><td>
                     <input tabindex="2" size="10" type="text" name="secret" value=""/>
                 </td>
