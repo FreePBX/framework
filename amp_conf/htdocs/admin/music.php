@@ -142,8 +142,8 @@ function process_mohfile($mohfile)
 {
 	global $path_to_dir;
 	$origmohfile=$path_to_dir."/orig_".$mohfile;
-	$newmohfile=$path_to_dir."/". ((strpos($mohfile,'.mp3') === false) ? $mohfile.".mp3" : $mohfile);
-	//echo $newmohfile;
+	$newname = strtr($mohfile,"&", "_");
+      $newmohfile=$path_to_dir."/". ((strpos($newname,'.mp3') === false) ? $newname.".mp3" : $newname);
 	$lamecmd="lame --cbr -m m -t -F \"".$origmohfile."\" \"".$newmohfile."\"";
 	exec($lamecmd);
 	$rmcmd="rm -f \"". $origmohfile."\"";
