@@ -198,7 +198,7 @@ TAR-GZ : <a href="./asterisk-stat-v1_1.tar.gz">asterisk-stat</a>
           </tr>                    
           
         </table>
-		<br><br><em><strong>Last update:</strong></em> <?php =$update?><br>
+		<br><br><em><strong>Last update:</strong></em> <?php echo $update?><br>
 
 
 <?php }else{?>
