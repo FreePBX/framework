@@ -1,0 +1,3920 @@
+2005-03-03 10:49  gregmac
+
+	* amp_conf/var/www/html/admin/trunks.php (1.9): Added cvs Id header
+	  Changed form from GET to POST
+
+2005-03-02 22:50  gregmac
+
+	* amp_conf/var/www/html/admin/ampusers.php (1.1),
+	  amp_conf/var/www/html/admin/config.php (1.6),
+	  amp_conf/var/www/html/admin/functions.php (1.21),
+	  amp_conf/var/www/html/admin/header.php (1.6),
+	  amp_conf/var/www/html/admin/index.php (1.4),
+	  amp_conf/var/www/html/admin/common/script.js (1.12),
+	  amportal.conf (1.2), SQL/newinstall.sql (1.7): Added support for
+	  authentication
+
+2005-03-02 22:12  rcourtna
+
+	* amp_conf/var/www/html/admin/common/db_connect.php (1.5): get
+	  username and pass from parse_amportal_conf
+
+2005-03-02 22:12  rcourtna
+
+	* amp_conf/var/www/html/admin/: functions.php (1.20), header.php
+	  (1.5): add parse_amportal_conf
+
+2005-03-02 21:12  rcourtna
+
+	* change_pass.sh (1.6): now called apply_conf.sh
+
+2005-03-02 21:12  rcourtna
+
+	* install_amp.sh (1.1): copy AMP files from source dir
+
+2005-03-02 21:11  rcourtna
+
+	* apply_conf.sh (1.5): apply amportal.conf settings to installed
+	  files
+
+2005-03-02 18:30  gregmac
+
+	* change_pass.sh (1.5): Fixed putting DB user/pass instead of MGR
+	  user/pass in dialparties
+
+2005-03-02 18:29  gregmac
+
+	* docs/README.directory (1.1): README for the agi directory
+	  application
+
+2005-03-02 18:26  gregmac
+
+	* amp_conf/var/lib/asterisk/agi-bin/directory (1.2): Remove debug
+	  lines Add support for multiple contexts
+
+2005-03-02 17:16  gregmac
+
+	* amp_conf/var/lib/asterisk/sounds/: dir-intro-fn-oper.gsm (1.1),
+	  dir-intro-fnln-oper.gsm (1.1), dir-intro-fnln.gsm (1.1),
+	  dir-intro-oper.gsm (1.1), try-extension.gsm (1.1): Sound files
+	  for enhanced AGI-based directory application
+
+2005-03-02 17:14  gregmac
+
+	* amp_conf/etc/asterisk/extensions.conf (1.15): Change to AGI-based
+	  directory application
+
+2005-03-02 17:13  gregmac
+
+	* amp_conf/var/www/html/admin/general.php (1.5): Changes for
+	  enhanced AGI directory application
+
+2005-03-02 17:12  gregmac
+
+	* amp_conf/var/lib/asterisk/agi-bin/: directory (1.1), phpagi.php
+	  (1.1): Initial commit of directory application
+
+2005-03-02 16:12  rcourtna
+
+	* amp_conf/etc/asterisk/extensions.conf (1.14): *43 echo-test
+
+2005-03-02 11:12  gregmac
+
+	* amp_conf/var/www/html/admin/common/script.js (1.11): Fix blanking
+	  of name field with no voicemail (ldardini)
+
+2005-03-02 11:07  gregmac
+
+	* amp_conf/var/www/html/admin/header.php (1.4): Add zapexists()
+	  (ldardini)
+
+2005-03-02 11:03  gregmac
+
+	* amp_conf/var/www/html/admin/routing.php (1.3): Apply ldardini's
+	  patch for javascript problems
+
+2005-03-01 17:56  rcourtna
+
+	* amp_conf/var/www/html/admin/retrieve_op_conf_from_mysql.pl
+	  (1.10): sip_conf -> op_conf
+
+2005-03-01 17:56  gregmac
+
+	* change_pass.sh (1.4): Updated so only $op_conf is changed in
+	  retrieve_op_conf_from_mysql.pl Added a couple missing $AMPWEBROOT
+	  variables
+
+2005-03-01 17:40  gregmac
+
+	* amp_conf/var/www/html/admin/: retrieve_iax_conf_from_mysql.pl
+	  (1.5), retrieve_meetme_conf_from_mysql.pl (1.5),
+	  retrieve_op_conf_from_mysql.pl (1.9): Changed $*_conf variables
+	  to be named relevantly
+
+2005-03-01 17:27  gregmac
+
+	* amp_conf/var/www/html/admin/routing.php (1.2): Added ability to
+	  rename routes Added local prefix population for routes
+
+2005-03-01 17:26  gregmac
+
+	* amp_conf/var/www/html/admin/functions.php (1.19): Added
+	  gettrunkroutes() - find routes based on trunk Added renameRoute()
+	  - rename a route
+
+2005-03-01 17:25  gregmac
+
+	* amp_conf/var/www/html/admin/trunks.php (1.8): Added
+	  indicator/warning to show how many routes are using trunk
+
+2005-03-01 14:47  gregmac
+
+	* change_pass.sh (1.3): Changed "username" to "user" for
+	  cdr_mysql.conf
+
+2005-03-01 14:33  gregmac
+
+	* change_pass.sh (1.2): Now reads /etc/amportal.conf and applies
+	  ALL values
+
+2005-03-01 14:32  gregmac
+
+	* amp_conf/usr/sbin/amportal (1.5): Uses variables instead of sed
+	  to replace text
+
+2005-03-01 11:48  gregmac
+
+	* change_pass.sh (1.1): Changes passwords (and usernames) in live
+	  files
+
+2005-02-28 23:46  gregmac
+
+	* amp_conf/var/www/html/admin/common/script.js (1.10): Fixed bug in
+	  javascript in checkRoute() (checking for blank trunks)
+
+2005-02-28 14:34  gregmac
+
+	* amp_conf/var/www/html/admin/trunks.php (1.7): Added a check for
+	  cURL, so a warning is displayed if not installed when user tries
+	  to do prefix lookup
+
+2005-02-28 11:01  rcourtna
+
+	* amp_conf/var/lib/asterisk/sounds/: agent-alreadyon.gsm (1.2),
+	  agent-incorrect.gsm (1.2), agent-loggedoff.gsm (1.2),
+	  agent-loginok.gsm (1.2), agent-newlocation.gsm (1.2),
+	  agent-pass.gsm (1.2), agent-user.gsm (1.2), auth-incorrect.gsm
+	  (1.2), auth-thankyou.gsm (1.2), beep.gsm (1.2),
+	  conf-getchannel.gsm (1.2), conf-getconfno.gsm (1.2),
+	  conf-invalid.gsm (1.2), conf-onlyperson.gsm (1.2), dir-instr.gsm
+	  (1.2), dir-intro.gsm (1.2), dir-nomatch.gsm (1.2), dir-nomore.gsm
+	  (1.2), invalid.gsm (1.2), pbx-invalid.gsm (1.2),
+	  pbx-invalidpark.gsm (1.2), pbx-transfer.gsm (1.2),
+	  privacy-incorrect.gsm (1.2), privacy-prompt.gsm (1.2),
+	  privacy-thankyou.gsm (1.2), privacy-unident.gsm (1.2),
+	  ss-noservice.gsm (1.2), transfer.gsm (1.2), tt-allbusy.gsm (1.2),
+	  tt-monkeys.gsm (1.2), tt-monkeysintro.gsm (1.2),
+	  tt-somethingwrong.gsm (1.2), tt-weasels.gsm (1.2), vm-Family.gsm
+	  (1.2), vm-Friends.gsm (1.2), vm-INBOX.gsm (1.2), vm-Old.gsm
+	  (1.2), vm-Work.gsm (1.2), vm-and.gsm (1.2), vm-changeto.gsm
+	  (1.2), vm-delete.gsm (1.2), vm-deleted.gsm (1.2),
+	  vm-extension.gsm (1.2), vm-first.gsm (1.2), vm-for.gsm (1.2),
+	  vm-goodbye.gsm (1.2), vm-helpexit.gsm (1.2), vm-incorrect.gsm
+	  (1.2), vm-instructions.gsm (1.2), vm-intro.gsm (1.2),
+	  vm-isonphone.gsm (1.2), vm-isunavail.gsm (1.2), vm-last.gsm
+	  (1.2), vm-login.gsm (1.2), vm-message.gsm (1.2), vm-messages.gsm
+	  (1.2), vm-mismatch.gsm (1.2), vm-msginstruct.gsm (1.2),
+	  vm-msgsaved.gsm (1.2), vm-newpassword.gsm (1.2), vm-next.gsm
+	  (1.2), vm-no.gsm (1.2), vm-nobodyavail.gsm (1.2), vm-nomore.gsm
+	  (1.2), vm-onefor.gsm (1.2), vm-options.gsm (1.2), vm-opts.gsm
+	  (1.2), vm-passchanged.gsm (1.2), vm-password.gsm (1.2),
+	  vm-press.gsm (1.2), vm-prev.gsm (1.2), vm-rec-busy.gsm (1.2),
+	  vm-rec-name.gsm (1.2), vm-rec-unv.gsm (1.2), vm-received.gsm
+	  (1.2), vm-reenterpassword.gsm (1.2), vm-repeat.gsm (1.2),
+	  vm-saved.gsm (1.2), vm-savedto.gsm (1.2), vm-savefolder.gsm
+	  (1.2), vm-savemessage.gsm (1.2), vm-sorry.gsm (1.2),
+	  vm-theperson.gsm (1.2), vm-tocancel.gsm (1.2), vm-toforward.gsm
+	  (1.2), vm-undelete.gsm (1.2), vm-undeleted.gsm (1.2),
+	  vm-whichbox.gsm (1.2), vm-youhave.gsm (1.2): remove sound files
+	  that conflict with asterisk install
+
+2005-02-27 19:43  rcourtna
+
+	* amp_conf/var/lib/asterisk/sounds/allison7/Archive.zip (1.2):
+	  Remove zip
+
+2005-02-27 19:41  rcourtna
+
+	* amp_conf/var/lib/asterisk/: .asterisk_history (1.2),
+	  .bash_history (1.2), .bash_logout (1.2), .bash_profile (1.2),
+	  .bashrc (1.2), .mysql_history (1.2), .zshrc (1.2): clean out
+	  hidden files
+
+2005-02-25 19:40  gregmac
+
+	* amp_conf/var/www/html/admin/functions.php (1.18): Added support
+	  to upgrade routing from 1.10.006 -> does not yet rewrite
+	  extensions.conf
+
+2005-02-25 18:08  gregmac
+
+	* amp_conf/etc/asterisk/extensions.conf (1.13): Changed
+	  macro-dialout-trunk to use fixlocalprefix AGI before dialing
+	  (support for trunk dial rules)
+
+2005-02-25 18:01  gregmac
+
+	* amp_conf/var/lib/asterisk/agi-bin/fixlocalprefix (1.1): Initial
+	  commit.
+
+2005-02-25 17:42  gregmac
+
+	* amp_conf/var/www/html/admin/trunks.php (1.6): Added dial rules
+	  for trunks
+
+2005-02-25 17:37  gregmac
+
+	* amp_conf/var/www/html/admin/functions.php (1.17): Added trunk
+	  dial rules functions Removed some debug code Renamed
+	  outboundroute- context to outrt-
+
+2005-02-25 12:20  rcourtna
+
+	* amp_conf/var/www/html/admin/cdr/graph_stat.php (1.2): patch from
+	  Julian
+
+2005-02-25 10:24  rcourtna
+
+	* amp_conf/var/www/html/admin/functions.php (1.16): if creating ZAP
+	  table, use bingint(11) instead of int(11)
+
+2005-02-24 15:18  rcourtna
+
+	* amp_conf/: etc/asterisk/extensions.conf (1.12),
+	  var/www/html/admin/common/script.js (1.9): ext-fax catch-all and
+	  new operator behaviour
+
+2005-02-24 12:30  rcourtna
+
+	* amp_conf/: etc/asterisk/zapata.conf.template (1.2),
+	  var/lib/asterisk/agi-bin/dialparties.agi (1.12),
+	  var/www/html/admin/extensions.php (1.16),
+	  var/www/html/admin/functions.php (1.15),
+	  var/www/html/admin/retrieve_op_conf_from_mysql.pl (1.8),
+	  var/www/html/admin/retrieve_zap_conf_from_mysql.pl (1.1): add
+	  support for ZAP extensions
+
+2005-02-23 23:36  rcourtna
+
+	* amp_conf/: etc/asterisk/extensions.conf (1.11),
+	  var/lib/asterisk/agi-bin/dialparties.agi (1.11),
+	  var/www/html/admin/callgroups.php (1.10),
+	  var/www/html/admin/config.php (1.5),
+	  var/www/html/admin/functions.php (1.14),
+	  var/www/html/admin/routing.php (1.1),
+	  var/www/html/admin/trunks.php (1.5),
+	  var/www/html/admin/common/script.js (1.8): include OUTBOUND
+	  ROUTES feature
+
+2005-02-22 10:26  rcourtna
+
+	* amp_conf/var/www/html/admin/: callgroups.php (1.9), did.php
+	  (1.5), incoming.php (1.6), ivr.php (1.11), common/script.js
+	  (1.7): uncouple ringgroups from x700+.  Formatting changes.
+
+2005-02-21 13:38  rcourtna
+
+	* amp_conf/: etc/asterisk/extensions_custom.conf.sample (1.2),
+	  var/www/html/admin/callgroups.php (1.8),
+	  var/www/html/admin/config.php (1.4), var/www/html/admin/did.php
+	  (1.4), var/www/html/admin/incoming.php (1.5),
+	  var/www/html/admin/ivr.php (1.10): rename Call Groups to Ring
+	  Groups
+
+2005-02-21 12:48  rcourtna
+
+	* amp_conf/var/www/html/admin/: retrieve_extensions_from_mysql.pl
+	  (1.4), retrieve_iax_conf_from_mysql.pl (1.4),
+	  retrieve_meetme_conf_from_mysql.pl (1.4),
+	  retrieve_op_conf_from_mysql.pl (1.7),
+	  retrieve_sip_conf_from_mysql.pl (1.4): change "|| die" to "or
+	  die"
+
+2005-02-21 12:31  rcourtna
+
+	* amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.10): [
+	  1144857 ] dialparties.agi bug in inuse channels
+
+2005-02-15 17:08  rcourtna
+
+	* amp_conf/var/lib/asterisk/sounds/: callwaiting.gsm (1.2),
+	  queue-callswaiting.gsm (1.1), queue-holdtime.gsm (1.1),
+	  queue-less-than.gsm (1.1), queue-minutes.gsm (1.1),
+	  queue-reporthold.gsm (1.1), queue-seconds.gsm (1.1),
+	  queue-thankyou.gsm (1.1), queue-thereare.gsm (1.1),
+	  queue-youarenext.gsm (1.1): new sounds
+
+2005-02-15 11:46  rcourtna
+
+	* INSTALL (1.9), apply_conf.sh (1.4), chown_asterisk.sh (1.5),
+	  amp_conf/usr/sbin/amportal (1.4): [no log message]
+
+2005-02-15 11:45  rcourtna
+
+	* amp_conf/: etc/asterisk/extensions.conf (1.10),
+	  var/lib/asterisk/agi-bin/dialparties.agi (1.9): move dial out of
+	  dialparties
+
+2005-02-10 16:16  rcourtna
+
+	* amp_conf/var/www/html/admin/functions.php (1.13): limit of 10
+	  trunks removed
+
+2005-02-07 14:18  rcourtna
+
+	* amp_conf/var/www/html/admin/ivr_action.php (1.6): auto
+	  attendant's invalid goto corrected
+
+2005-02-05 17:01  rcourtna
+
+	* CHANGES (1.7), amp_conf/var/www/html/admin/functions.php (1.12):
+	  null user context for SIP trunks breaks conf writing
+
+2005-02-04 00:50  rcourtna
+
+	* INSTALL (1.8), amportal.conf (1.1), apply_conf.sh (1.3),
+	  chown_asterisk.sh (1.4), upgrade.sh (1.7),
+	  amp_conf/etc/asterisk/cdr_mysql.conf (1.2),
+	  amp_conf/etc/asterisk/manager.conf (1.2),
+	  amp_conf/etc/asterisk/vm_email.inc (1.1),
+	  amp_conf/etc/asterisk/vm_email.inc.template (1.4),
+	  amp_conf/usr/sbin/amportal (1.3),
+	  amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.8),
+	  amp_conf/var/www/html/admin/bounce_op.sh (1.2),
+	  amp_conf/var/www/html/admin/retrieve_extensions_from_mysql.pl
+	  (1.3),
+	  amp_conf/var/www/html/admin/retrieve_iax_conf_from_mysql.pl
+	  (1.3),
+	  amp_conf/var/www/html/admin/retrieve_meetme_conf_from_mysql.pl
+	  (1.3), amp_conf/var/www/html/admin/retrieve_op_conf_from_mysql.pl
+	  (1.6),
+	  amp_conf/var/www/html/admin/retrieve_sip_conf_from_mysql.pl
+	  (1.3), amp_conf/var/www/html/admin/vm_conf.php (1.4),
+	  amp_conf/var/www/html/admin/cdr/lib/defines.php (1.1),
+	  amp_conf/var/www/html/admin/cdr/lib/defines.php.template (1.3),
+	  amp_conf/var/www/html/admin/common/db_connect.php (1.4),
+	  amp_conf/var/www/html/panel/op_server.cfg (1.1),
+	  amp_conf/var/www/html/panel/op_server.cfg.template (1.4): keep
+	  passwords and other info in amportal.conf
+
+2005-02-02 18:41  rcourtna
+
+	* amp_conf/var/www/html/admin/: did.php (1.3),
+	  retrieve_op_conf_from_mysql.pl (1.5): fix fop config script to
+	  work with SUSE
+
+2005-01-27 23:49  rcourtna
+
+	* SQL/newinstall.sql (1.6),
+	  amp_conf/var/www/html/admin/functions.php (1.11): use bigint for
+	  sip and iax account id
+
+2005-01-27 20:12  rcourtna
+
+	* amp_conf/var/www/html/admin/: extensions.php (1.15), ivr.php
+	  (1.9): Missing form fields after upload of wav.
+
+2005-01-25 17:30  rcourtna
+
+	* CHANGES (1.6): [no log message]
+
+2005-01-25 17:21  rcourtna
+
+	* CHANGES (1.5): [no log message]
+
+2005-01-25 17:19  rcourtna
+
+	* CHANGES (1.4), upgrade.sh (1.6),
+	  amp_conf/etc/asterisk/extensions.conf (1.9),
+	  amp_conf/etc/asterisk/extensions_custom.conf.sample (1.1),
+	  amp_conf/var/www/html/admin/callgroups.php (1.7),
+	  amp_conf/var/www/html/admin/did.php (1.2),
+	  amp_conf/var/www/html/admin/extensions.php (1.14),
+	  amp_conf/var/www/html/admin/functions.php (1.10),
+	  amp_conf/var/www/html/admin/incoming.php (1.4),
+	  amp_conf/var/www/html/admin/index.php (1.3),
+	  amp_conf/var/www/html/admin/ivr.php (1.8),
+	  amp_conf/var/www/html/admin/ivr_action.php (1.5),
+	  amp_conf/var/www/html/admin/ivrmap.php (1.5),
+	  amp_conf/var/www/html/admin/retrieve_op_conf_from_mysql.pl (1.4),
+	  amp_conf/var/www/html/admin/trunks.php (1.4),
+	  amp_conf/var/www/html/admin/vm_read.php (1.3): AMP 1.10.006
+
+2005-01-25 00:59  rcourtna
+
+	* amp_conf/var/www/html/panel/: CHANGES (1.2), FAQ (1.2), README
+	  (1.2), TODO (1.2), UPGRADE (1.2), VERSION (1.2): FOP 0.19
+
+2005-01-25 00:54  rcourtna
+
+	* amp_conf/var/www/html/panel/: op_buttons.cfg (1.1),
+	  op_buttons.cfg.example (1.2): use op_buttons_additional.cfg
+
+2005-01-25 00:46  rcourtna
+
+	* amp_conf/var/www/html/panel/: op_server.pl (1.3),
+	  operator_panel.swf (1.3): FOP .19
+
+2005-01-23 17:07  rcourtna
+
+	* amp_conf/: var/lib/asterisk/agi-bin/dialparties.agi (1.7),
+	  etc/asterisk/extensions.conf (1.8): callfwd on busy (*90<exten>
+	  and *91)
+
+2005-01-23 16:29  rcourtna
+
+	* amp_conf/etc/asterisk/extensions.conf (1.7): include
+	  extensions_custom by default
+
+2005-01-23 16:01  rcourtna
+
+	* amp_conf/var/www/html/admin/trunks.php (1.3): write
+	  op_buttons.cfg on submit
+
+2005-01-23 15:20  rcourtna
+
+	* amp_conf/var/www/html/admin/: callgroups.php (1.6), functions.php
+	  (1.9), common/script.js (1.6): allow for custom goto for call
+	  groups
+
+2005-01-22 12:37  rcourtna
+
+	* amp_conf/var/www/html/admin/extensions.php (1.13): pass customer
+	  callerid in basic edit form
+
+2005-01-22 12:33  rcourtna
+
+	* amp_conf/var/www/html/admin/extensions.php (1.12): change tooltip
+	  for extension number
+
+2005-01-22 12:27  rcourtna
+
+	* amp_conf/var/www/html/admin/extensions.php (1.11): cosmetic
+	  changes to Advanced Edit table
+
+2005-01-22 12:17  rcourtna
+
+	* amp_conf/var/www/html/admin/: extensions.php (1.10), trunks.php
+	  (1.2): Push bottom border down.  Allow modification of callerid.
+
+2005-01-22 11:51  rcourtna
+
+	* amp_conf/var/www/html/panel/op_server.cfg.template (1.3):
+	  increase poll_interval from 10 to 120
+
+2005-01-21 13:21  rcourtna
+
+	* amp_conf/var/www/html/admin/ivr.php (1.7): upload wav did not
+	  return to proper page after submit
+
+2005-01-20 14:44  rcourtna
+
+	* amp_conf/: etc/asterisk/vm_email.inc.template (1.3),
+	  etc/asterisk/vm_general.inc (1.3), var/www/cgi-bin/vmail.cgi
+	  (1.2): vmail.cgi now stores password in cookie.  Change vm_email
+	  so that automatic login can occur.
+
+2005-01-14 11:24  rcourtna
+
+	* amp_conf/var/www/html/admin/common/db_connect.php (1.3): get
+	  debug output from mysql if connect fails
+
+2005-01-12 13:25  rcourtna
+
+	* amp_conf/var/www/html/admin/: ivr.php (1.6), common/script.js
+	  (1.5): add some logic to ensure Custom Goto is used properly
+
+2005-01-12 10:40  rcourtna
+
+	* amp_conf/etc/asterisk/vm_general.inc (1.2): add operator=yes to
+	  allow caller to press 0.  Change emailed wav format from wav48 to
+	  wav
+
+2005-01-11 18:56  rcourtna
+
+	* amp_conf/var/www/html/admin/: extensions.php (1.9), vm_conf.php
+	  (1.3), common/script.js (1.4): allow extensions to be created
+	  without voicemail (just leave 'voicemail password' to blank)
+
+2005-01-05 18:14  rcourtna
+
+	* amp_conf/etc/asterisk/extensions.conf (1.6): commented out unused
+	  prefixed outbound- extensions.  Prefixed dialing is now handled
+	  by outbound-trunks in extensions_additional.conf
+
+2005-01-05 12:49  rcourtna
+
+	* amp_conf/var/www/html/admin/ivrmap.php (1.4): sorting bug caused
+	  limit to number of voice menus
+
+2004-12-28 18:11  rcourtna
+
+	* CHANGES (1.3), upgrade.sh (1.5), SQL/newinstall.sql (1.5):
+	  1.10.005
+
+2004-12-28 16:37  rcourtna
+
+	* amp_conf/var/www/html/admin/: ivr.php (1.5), ivr_action.php
+	  (1.4), ivrmap.php (1.3): custom context gotos for digital
+	  receptionist
+
+2004-12-28 14:24  rcourtna
+
+	* amp_conf/var/www/html/admin/ivr.php (1.4): Fix counter bug for
+	  D.R. voice menus
+
+2004-12-28 13:13  rcourtna
+
+	* amp_conf/var/www/html/admin/: extensions.php (1.8), functions.php
+	  (1.8): add qualify= option in advanced edit form for newly
+	  created extensions.
+
+2004-12-28 12:58  rcourtna
+
+	* amp_conf/var/www/html/admin/extensions.php (1.7): do not allow
+	  extension number to be changed in edit. Force admin to delete and
+	  re-add exten if change is required.
+
+2004-12-28 12:30  rcourtna
+
+	* SQL/newinstall.sql (1.4),
+	  amp_conf/var/www/html/admin/functions.php (1.7): Create SIP and
+	  IAX tables with 'data'=150 width.  Requested for long register
+	  lines in trunk admin
+
+2004-12-28 12:20  rcourtna
+
+	* amp_conf/var/www/html/admin/functions.php (1.6): ensure
+	  DIALOUTIDS global var is not created more than once
+
+2004-12-22 19:30  rcourtna
+
+	* amp_conf/etc/asterisk/extensions.conf (1.5): fix fax not being
+	  detected for GRP
+
+2004-12-22 18:51  rcourtna
+
+	* CHANGES (1.2), INSTALL (1.7), UPGRADE (1.3), chown_asterisk.sh
+	  (1.3), upgrade.sh (1.4), SQL/newinstall.sql (1.3),
+	  amp_conf/etc/asterisk/extensions.conf (1.4),
+	  amp_conf/usr/sbin/amportal (1.2),
+	  amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.6),
+	  amp_conf/var/www/html/amp.png (1.2),
+	  amp_conf/var/www/html/admin/callgroups.php (1.5),
+	  amp_conf/var/www/html/admin/config.php (1.3),
+	  amp_conf/var/www/html/admin/did.php (1.1),
+	  amp_conf/var/www/html/admin/functions.php (1.5),
+	  amp_conf/var/www/html/admin/general.php (1.4),
+	  amp_conf/var/www/html/admin/retrieve_extensions_from_mysql.pl
+	  (1.2),
+	  amp_conf/var/www/html/admin/retrieve_iax_conf_from_mysql.pl
+	  (1.2), amp_conf/var/www/html/admin/retrieve_op_conf_from_mysql.pl
+	  (1.3),
+	  amp_conf/var/www/html/admin/retrieve_sip_conf_from_mysql.pl
+	  (1.2), amp_conf/var/www/html/admin/trunks.php (1.1),
+	  amp_conf/var/www/html/admin/common/mainstyle.css (1.2): 1.10.004
+
+2004-12-15 21:13  rcourtna
+
+	* amp_conf/var/www/html/admin/common/script.js (1.3): added
+	  extension number checking logic
+
+2004-12-14 15:34  rcourtna
+
+	* amp_conf/var/www/html/admin/footer.php (1.5): include donate
+	  button
+
+2004-12-14 15:14  rcourtna
+
+	* amp_conf/var/www/html/panel/safe_opserver (1.2): add sleep 4
+
+2004-12-14 14:27  rcourtna
+
+	* amp_conf/var/www/html/admin/extensions.php (1.6): write meetme
+	  _after_ extensions table is updated
+
+2004-12-14 14:09  rcourtna
+
+	* amp_conf/var/www/html/admin/retrieve_meetme_conf_from_mysql.pl
+	  (1.2): fixed problem where iax extensions didn't get meetme room
+
+2004-12-13 23:02  rcourtna
+
+	* amp_conf/usr/sbin/amportal (1.1): AMP start-stop script
+
+2004-12-13 10:28  rcourtna
+
+	* amp_conf/var/www/html/admin/images/amp.png (1.2): nice logo
+
+2004-12-10 13:31  rcourtna
+
+	* amp_conf/var/www/html/admin/ivr.php (1.3): Allow uploading of IVR
+	  recordings
+
+2004-11-30 11:49  rcourtna
+
+	* amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.5): added
+	  exit() if agi get_variable returns 'noresponse'
+
+2004-11-29 21:37  rcourtna
+
+	* amp_conf/etc/asterisk/iax.conf (1.3): turn on jitter buffer by
+	  default
+
+2004-11-29 21:36  rcourtna
+
+	* amp_conf/etc/asterisk/features.conf (1.2): disable max time for
+	  call parking, since ringback needs some work
+
+2004-11-26 14:14  rcourtna
+
+	* amp_conf/etc/asterisk/: extensions.conf (1.3), features.conf
+	  (1.1), parking.conf (1.2): Implemented call parking. 70 to park,
+	  71->79 to retrieve.  60 second max call-time.
+
+2004-11-14 16:00  rcourtna
+
+	* amp_conf/: etc/asterisk/extensions.conf (1.2),
+	  var/www/html/admin/callgroups.php (1.4),
+	  var/www/html/admin/functions.php (1.4): Added ability to prefix
+	  caller's CIDName for call-groups
+
+2004-11-03 22:06  rcourtna
+
+	* amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.4): only
+	  assume dialed number is zap if greater than 6 digits (was
+	  previously 4)
+
+2004-10-27 18:18  rcourtna
+
+	* upgrade.sh (1.3): Copy in AMP config then update FOP config.
+
+2004-10-27 15:33  rcourtna
+
+	* UPGRADE (1.2): Upgrade instructions
+
+2004-10-27 14:46  rcourtna
+
+	* upgrade.sh (1.2): upgrade script
+
+2004-10-27 11:27  rcourtna
+
+	* upgrade.sh (1.1): script to assist in upgrades
+
+2004-10-27 11:17  rcourtna
+
+	* CHANGES (1.1), UPGRADE (1.1),
+	  amp_conf/var/www/html/admin/retrieve_iax_conf_from_mysql.pl
+	  (1.1), amp_conf/var/www/html/panel/convert_config_pre_14.pl
+	  (1.1), amp_conf/var/www/html/panel/operator_panel3.swf (1.2),
+	  amp_conf/var/www/html/panel/operator_panel_fixed24.swf (1.2):
+	  support for IAX.  FOP upgrade.
+
+2004-10-27 02:01  rcourtna
+
+	* apply_conf.sh (1.2), amp_conf/etc/asterisk/iax.conf (1.2),
+	  amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.3),
+	  amp_conf/var/www/html/admin/extensions.php (1.5),
+	  amp_conf/var/www/html/admin/functions.php (1.3),
+	  amp_conf/var/www/html/admin/header.php (1.3),
+	  amp_conf/var/www/html/admin/retrieve_op_conf_from_mysql.pl (1.2),
+	  amp_conf/var/www/html/admin/common/script.js (1.2),
+	  amp_conf/var/www/html/panel/index.html (1.2),
+	  amp_conf/var/www/html/panel/op_server.cfg.template (1.2),
+	  amp_conf/var/www/html/panel/op_server.pl (1.2),
+	  amp_conf/var/www/html/panel/op_style.cfg (1.2),
+	  amp_conf/var/www/html/panel/operator_panel.swf (1.2): Add support
+	  for IAX.  Upgrade FOP to 0.17.
+
+2004-10-24 00:54  rcourtna
+
+	* amp_conf/var/www/html/admin/: callgroups.php (1.3),
+	  extensions.php (1.4), footer.php (1.4), general.php (1.3),
+	  incoming.php (1.3), ivr_action.php (1.3):
+	  _SERVER['PATH_TRANSLATED'] doesn't work in all environments.
+	  replaced with _SERVER['SCRIPT_FILENAME'].
+
+2004-10-22 13:46  rcourtna
+
+	* INSTALL (1.6): debian systems require changes for cgi-bin
+
+2004-10-21 12:23  rcourtna
+
+	* FAQ (1.3): Direct users to sourceforge for FAQs
+
+2004-10-18 23:25  rcourtna
+
+	* FAQ (1.2): typo
+
+2004-10-18 11:25  rcourtna
+
+	* amp_conf/var/www/html/admin/: callgroups.php (1.2), config.php
+	  (1.2), extensions.php (1.3), footer.php (1.3), functions.php
+	  (1.2), general.php (1.2), header.php (1.2), incoming.php (1.2),
+	  index.php (1.2), ivr.php (1.2), ivr_action.php (1.2), ivrmap.php
+	  (1.2), moh.php (1.3), reports.php (1.2), vm_conf.php (1.2),
+	  vm_read.php (1.2), common/db_connect.php (1.2): added gpl text
+
+2004-10-18 01:37  rcourtna
+
+	* FAQ (1.1): faq
+
+2004-10-18 01:12  rcourtna
+
+	* amp_conf/var/www/html/admin/footer.php (1.2): use path when
+	  calling asterisk
+
+2004-10-18 01:11  rcourtna
+
+	* amp_conf/var/www/html/admin/moh.php (1.2): don't hardcode path to
+	  lame
+
+2004-10-18 01:10  rcourtna
+
+	* INSTALL (1.5): made instructions more Debian friendly
+
+2004-10-15 11:42  rcourtna
+
+	* INSTALL (1.4), SQL/newinstall.sql (1.2),
+	  amp_conf/etc/asterisk/vm_email.inc.template (1.2),
+	  amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.2),
+	  amp_conf/var/www/html/admin/cdr/lib/defines.php.template (1.2):
+	  [no log message]
+
+2004-10-14 14:06  rcourtna
+
+	* CONTRIB.txt (1.1), INSTALL (1.3), chown_asterisk.sh (1.2),
+	  amp_conf/var/www/html/admin/THIRDPARTYREADME.txt (1.2),
+	  amp_conf/var/www/html/admin/extensions.php (1.2): [no log
+	  message]
+
+2004-10-13 22:10  rcourtna
+
+	* INSTALL (1.2): corrected minor errors
+
+2004-10-13 21:00  rcourtna
+
+	* INSTALL (1.1.1.2), apply_conf.sh (1.1.1.2),
+	  amp_conf/var/lib/asterisk/.bash_logout (1.1.1.1),
+	  amp_conf/var/lib/asterisk/.bash_profile (1.1.1.1),
+	  amp_conf/var/lib/asterisk/.zshrc (1.1.1.1),
+	  amp_conf/var/lib/asterisk/.asterisk_history (1.1.1.1),
+	  amp_conf/var/lib/asterisk/.bash_history (1.1.1.1),
+	  amp_conf/var/lib/asterisk/.bashrc (1.1.1.1),
+	  amp_conf/var/lib/asterisk/.mysql_history (1.1.1.1),
+	  amp_conf/var/lib/asterisk/agi-bin/dialparties.agi (1.1.1.1),
+	  amp_conf/var/lib/asterisk/mohmp3/TristeAlegriaPromo.mp3
+	  (1.1.1.1), amp_conf/var/lib/asterisk/mohmp3/QuajiroPromo.mp3
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/agent-pass.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/conf-invalidpin.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/conference-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/for-accounting.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/humidity.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/no-911-1.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/not-auth-pstn.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/snowing.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/time.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-call-num-press.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/enum-lookup-failed.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/hours.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/no-911-2.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pls-ent-num-transfer.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/transfer.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-delete.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/advised-to-seek-shelter.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/beep.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/chris.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/conf-getchannel.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/day.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/demo-nomatch.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/extension.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/first.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/if-grtg-played-indefinately.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/is-set-to.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/message-from.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/nautical-miles.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pls-enter-conf-password.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/plus.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pound.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/rainy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/sixtieth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/star-for-menu-again.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/talking-to-myself.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/tomorrow.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-Family.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-Friends.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-last.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-onefor.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-repeat.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-savefolder.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-savemessage.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/windy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/yesterday.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/all-your-base.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/auth-thankyou.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/demo-thanks.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/is-curntly-busy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/local-authorities.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/negative.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/open-parenthesis.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pbx-transfer.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/perhaps-we-are2.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/persons-in-path-of.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/please-try-again.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/recorded.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-call-prson-w-sent-msg.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-intro.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/believe-its-free.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/call-fwd-cancelled.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/for.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/has-been-set-to.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/late.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/outside-transfer.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pascal2.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/sun.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-record-call.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/wait-offensive-sounds.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/wrong-try-again-smarty.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/you-entered.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/after-the-tone.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/barometric.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/central.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/dir-instr.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/freezing.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/has-expired.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/hundredth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/in-your-city.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/indicated.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/perhaps-we-are.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pls-entr-num-uwish2-call.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pls-rcrd-name-at-tone.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/press-button-again.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/sixth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/sterling.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/the-monkeys-twice.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/these-are-currently.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-INBOX.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-msginstruct.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/at.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/channel-insecure-warn.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/ext-or-zero.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/fifteenth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/ice.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/im-sorry.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pressure.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/snowy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/the-party-you-are-calling.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-change-exp-date.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/to-enter-a-number.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-Cust4.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-isonphone.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-message.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/westerly.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/bar.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/euro.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/gambling-drunk.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/no-112-2.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/num-outside-area.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/speed-dial.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/tt-monkeysintro.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-isunavail.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-press.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/added.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/agent-alreadyon.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/agent-newlocation.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/and-area-code.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/conf-onlyperson.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/discon-or-out-of-service.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/dollars.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/eighth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/icy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/len.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/menu.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/northerly.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/patchy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/period.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/please-contact-tech-supt.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/seconds.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/slash.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/star.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/third.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/this-call-may-be.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-enter-a-diff-number.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/to-listen-to-it.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/to-send-a-reply.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-first.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/you-are-curr-call-num.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/you-wish-to-join.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/brian.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/gale.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/if-correct-press.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/jason.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/lots-o-monkeys.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/miles-per-hour.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/millionth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/misty.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/seventeenth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/slow.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/turn-off-recording.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/weasels-eaten-phonesys.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/at-sign.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/avg-speed-answer.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/clear.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/fiftieth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/flooding.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/lightning.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/nothing-recorded.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/southerly.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/thunderstorm.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-hear-msg-envelope.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-and.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-newpassword.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/abandons.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/and-prs-pound-whn-finished.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/busy-pls-hold.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/changing.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/dial-here-often.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/dir-intro-fn.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/dont-know-who-sent.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/doppler-radar.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/fog.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/ninth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/num-not-in-db.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/partially.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/something-terribly-wrong.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-place-outgoing-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/turning-to.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/twentieth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-login.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-opts.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-received.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/call-fwd-unconditional.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/calls-waiting-for-rep.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/card-balance-is.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/dollar.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/eightieth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/equals.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/good.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/morning.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/one-moment-please.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-use-def-attendant.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/tt-weasels.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/your-msg-is-too-short.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/card-number.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/press-pound-save-changes.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-blklist-last-caller.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-blklist-last-num.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-call-this-number.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-cancel-this-msg.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/visit-asterisk-website.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-mismatch.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-whichbox.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/afternoon.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/agent-loggedoff.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/another-time.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/approximately.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/auth-incorrect.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/channel.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/cloudy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/comma.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/continue-in-english.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/dot.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/european.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/fifth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/hail.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/hash.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/mike.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/national-weather-service.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/privacy-unident.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/speak-louder-into-phone.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/today.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-Old.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-nobodyavail.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-savedto.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/abandon-all-hope.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/callwaiting.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/carried-away-by-monkeys.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/gmt.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/tide.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-rmv-num-blklist.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/tt-monkeys.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/will-not-expire.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/agent-incorrect.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/for-quality-purposes.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/meters.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/quote.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/status.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-hear-menu-again.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-goodbye.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-no.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-prev.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/warning.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/west.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/wtng-to-spk-w-rep.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/agent-loginok.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/ampersand.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/card-is-invalid.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/clearing.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/enum-lookup-successful.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/giggle1.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/i-grow-bored.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/just-kidding-not-upset.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/maximum.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/num-was-successfully.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/pbx-invalidpark.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/severe.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/sleet.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/standard.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/that-is-not-rec-phn-num.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/then-press-pound.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-changeto.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-for.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-passchanged.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/will-expire.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/wind.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/your-msg-has-been-saved.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/your-temp-greeting.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/available-options.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/cents.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/could-lose-a-few-pounds.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/cyclone.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/dash.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/doing-enum-lookup.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/enter-conf-call-number.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/later.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/meter.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/midnight-tomorrow-night.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/minimum.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/octothorpe.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/please-enter-the.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pls-wait-connect-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/sleeting.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/speak-louder.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/staffing.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/thirteenth.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-compose-a-message.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/weather.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/your.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/away-naughty-boy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/before-the-number.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/demo-enterkeywords.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/fast.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/tt-allbusy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-forwardoptions.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/agent-user.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/conditions.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/degrees.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/demo-echodone.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/if-this-is-correct-press.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/pin-invalid.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/target-attendant.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/tomorrow-night.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/unidentified-no-callback.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-Cust2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-incorrect.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-reenterpassword.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-youhave.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/with.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/you-are-caller-num.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/airport.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/conf-invalid.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/demo-instruct.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/eastern.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/foggy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/followed-by.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/fourth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/in-the-line.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/invalid-date.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/is-in-use.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/moving.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pacific.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/received.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/rising.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/scattered.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-hear-weather-status.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/to-reach-operator.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-rerecord-yr-message.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/typhoon.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-Work.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/daylight.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/midnight.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/nineteenth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/that-tickles.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/because-paranoid.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/call-fwd-parallel.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/chance-of.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/chat-room.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/conf-getpin.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/euros.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/fahrenheit.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/falling.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/hang-on-a-second-angry.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/has-issued-a.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/if-grtg-should-expire-at.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/less-than.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/ninetieth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/pbx-invalid.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/privacy-incorrect.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/seventh.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/sorry-mailbox-full.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-hear-net-status.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/tt-somethingwrong.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-extension.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-options.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/year.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/activated.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/calls.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/close-parenthesis.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/dir-nomatch.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/eighteenth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/enter-ext-of-person.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/high.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/in-the-queue.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/mountain.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/no-112-1.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/north.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/or.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/otherwise-press.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pipe.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pounds.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/say-temp-msg-prs-pound.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/says-thats-stupid.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/telephone-in-your-pocket.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/tenth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-next.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-nomore.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-rec-name.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/call-fwd-on-busy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/demo-moreinfo.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/eleventh.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/fortieth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/monitored.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/mostly.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/no-reply-no-mailbox.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/privacy-prompt.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/right-bracket.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-erase-yr-temp-grtg.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/tornado.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-theperson.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-undeleted.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/watch.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/beaufort.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/enter-conf-pin-number.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/enter-num-blacklist.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/just-kidding-not-upset2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/tonight.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/weather-station.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/demo-abouttotry.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/driving-directions.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/evening.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/low.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/midnight-tonight.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/month.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/storm.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/too-low.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-toforward.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/why-no-answer-mystery.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/yeah.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/bad.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/demo-congrats.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/entr-num-rmv-blklist.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/hurricane.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/in-the.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/international-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/invalid.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/ss-noservice.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/early.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/from-unknown-caller.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/left-bracket.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pls-enter-vm-password.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/telephone-in-your-pocket2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-deleted.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/you-sound-cute.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/away-naughty-girl.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/call-fwd-no-ans.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/dir-intro.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/ed.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/est-hold-time-is.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/first-in-line.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/for-tech-support.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/is-not-set.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/knots.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/pin-number-accepted.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/quarter.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/second.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/sixteenth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-rec-yr-temp-grtg.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-Cust1.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-instructions.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-password.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-undelete.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/demo-echotest.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/easterly.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/moo1.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/press-star-cancel.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/south.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/thirtieth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/atlantic.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/conf-getconfno.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/currently.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/freeze.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/goodbye.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/groovy.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/hang-on-a-second.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/in-your-zip-code.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/nobody-but-chickens.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/pls-try-again.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/thnk-u-for-patience.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/thousandth.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-dial-by-name-press.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-rec-busy.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-rec-unv.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-tocancel.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/backslash.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/billionth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/call-quality-menu.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/celsius.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/half.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/is-curntly-unavail.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/minutes.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/moo2.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-msgsaved.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/clouds.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/de-activated.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/deadbeat.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/greater-than.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/has-been-cleared.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/hectopascal.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/is-currently.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/missed.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/percent.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/privacy-thankyou.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/quickly.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/rain.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/removed.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/seventieth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/sighted.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/slowly.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/sunny.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/temperature.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/the-num-i-have-is.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/the-weather-at.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-rerecord-it.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/twelveth.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-mailboxfull.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-sorry.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/what-are-you-wearing.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/channel-secure.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/dir-nomore.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/last-num-to-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/partly.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/vm-messages.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/default-attendant.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/demo-nogo.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/directory.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/east.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/ent-target-attendant.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/exclaimation-point.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/for-billing.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/fourteenth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/john.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/kilometers-per-hour.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/nbdy-avail-to-take-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/office-iguanas.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/pascal.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/snow.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/space.gsm (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/to-accept-recording.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-Cust3.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-Cust5.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-helpexit.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/vm-saved.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/1.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/10.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/11.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/12.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/18.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-19.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-8.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-10.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/oh.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/pound.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/tomorrow.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/yesterday.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/13.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/20.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/3.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/30.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/40.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/5.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/50.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/7.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/70.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/8.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/at.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/day-1.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/day-4.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/day-6.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/dollars.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-11.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-13.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-14.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-15.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-20.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-3.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-6.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-9.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/hundred.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-11.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-3.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-4.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-5.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-6.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-7.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/oclock.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/star.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/today.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/14.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/17.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/4.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/9.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/90.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/a-m.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/day-0.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/day-3.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-10.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-12.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-16.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-18.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-30.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-7.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/million.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-1.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-8.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-9.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/0.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/15.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/16.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/19.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/6.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/60.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/80.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/day-2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/day-5.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-1.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-17.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-4.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/h-5.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/mon-0.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/p-m.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/digits/thousand.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/a.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/b.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/c.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/d.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/e.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/f.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/g.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/h.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/i.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/j.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/k.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/l.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/m.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/n.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/o.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/p.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/q.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/r.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/s.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/t.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/u.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/v.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/w.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/x.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/y.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/z.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/letters/zed.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/conference-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/humidity.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/no-911-1.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/not-auth-pstn.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/q.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/time.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/advised-to-seek-shelter.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/day.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/enum-lookup-failed.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/extension.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/first.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/for-accounting.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/golf.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/hours.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/is-set-to.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/message-from.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/nautical-miles.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/no-911-2.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/pls-ent-num-transfer.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/pls-enter-conf-password.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/plus.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/pound.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/r.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/rainy.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/sixtieth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/tomorrow.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/all-your-base.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/if-grtg-played-indefinately.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/is-curntly-busy.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/local-authorities.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/negative.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/perhaps-we-are2.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/please-try-again.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/recorded.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/star-for-menu-again.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-call-prson-w-sent-msg.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/after-the-tone.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/barometric.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/believe-its-free.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/bravo.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/call-fwd-cancelled.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/central.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/for.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/freezing.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/has-been-set-to.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/has-expired.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/hundredth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/indicated.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/late.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/open-parenthesis.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/outside-transfer.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/pascal2.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/perhaps-we-are.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/persons-in-path-of.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/pls-entr-num-uwish2-call.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/pls-rcrd-name-at-tone.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/press-button-again.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/sixth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/snowy.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/sterling.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/sun.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/the-monkeys-twice.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/these-are-currently.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-record-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/uniform.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/whiskey.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/at.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/bar.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/channel-insecure-warn.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/euro.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/ext-or-zero.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/fifteenth.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/gambling-drunk.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/ice.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/im-sorry.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/pressure.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/romeo.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/speed-dial.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/the-party-you-are-calling.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-change-exp-date.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-enter-a-number.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/westerly.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/Sounds-README.txt
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/d.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/dollars.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/eighth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/foxtrot.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/icy.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/m.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/menu.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/no-112-2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/northerly.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/p.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/patchy.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/period.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/please-contact-tech-supt.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/seconds.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/slash.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/star.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/third.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/this-call-may-be.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-enter-a-diff-number.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-listen-to-it.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-send-a-reply.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/discon-or-out-of-service.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/gale.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/lots-o-monkeys.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/miles-per-hour.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/millionth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/misty.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/natl-weather-svc.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/seventeenth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/slow.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/turn-off-recording.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/weasels-eaten-phonesys.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/abandons.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/at-sign.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/avg-speed-answer.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/busy-pls-hold.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/changing.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/charlie.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/clear.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/doppler-radar.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/fiftieth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/flooding.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/fog.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/h.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/k.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/lightning.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/ninth.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/nothing-recorded.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/sierra.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/something-terribly-wrong.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/southerly.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/thunderstorm.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-hear-msg-envelope.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-place-outgoing-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/turning-to.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/twentieth.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/and-prs-pound-whn-finished.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/call-fwd-unconditional.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/calls-waiting-for-rep.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/card-balance-is.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/dial-here-often.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/dollar.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/dont-know-who-sent.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/eightieth.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/enter-conf-pin.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/equals.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/india.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/morning.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/one-moment-please.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/partially.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-cancel-this-msg.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-use-def-attendant.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/afternoon.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/another-time.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/approximately.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/card-number.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/carried-away-by-monkeys.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/channel.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/cloudy.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/comma.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/dot.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/echo.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/european.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/fifth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/gmt.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/hail.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/hash.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/hotel.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/meters.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/mike.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/national-weather-service.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/niner.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/papa.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/press-pound-save-changes.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/sounds-extra.txt
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/t.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/tide.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-call-this-number.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/today.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/victor.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/warning.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/a.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/ampersand.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/card-is-invalid.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/cents.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/clearing.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/doing-enum-lookup.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/enum-lookup-successful.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/for-quality-purposes.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/giggle1.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/just-kidding-not-upset.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/l.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/maximum.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/minimum.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/n.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/please-enter-the.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/quote.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/severe.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/sleet.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/sleeting.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/standard.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/that-is-not-rec-phn-num.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/then-press-pound.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-hear-menu-again.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/weather.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/west.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/available-options.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/cyclone.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/dash.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/enter-conf-call-number.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/later.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/meter.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/midnight-tomorrow-night.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/octothorpe.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/pls-wait-connect-call.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/speak-louder.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/staffing.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/thirteenth.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-compose-a-message.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/away-naughty-boy.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/b.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/chat-room.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/daylight.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/degrees.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/delta.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/e.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/eastern.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/fahrenheit.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/fast.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/foggy.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/followed-by.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/fourth.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/has-issued-a.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/if-grtg-should-expire-at.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/if-this-is-correct-press.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/in-the-line.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/invalid-date.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/is-in-use.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/midnight.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/moving.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/nineteenth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/november.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/pacific.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/pin-invalid.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/received.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/rising.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/scattered.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/seventh.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/sorry-mailbox-full.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/target-attendant.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/that-tickles.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-reach-operator.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-rerecord-yr-message.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/tomorrow-night.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/typhoon.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/w.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/activated.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/because-paranoid.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/c.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/call-fwd-parallel.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/calls.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/chance-of.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/close-parenthesis.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/enter-ext-of-person.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/euros.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/falling.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/hang-on-a-second-angry.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/in-the-queue.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/juliet.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/less-than.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/mountain.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/ninetieth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/north.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/o.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/otherwise-press.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/pipe.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/pounds.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/telephone-in-your-pocket.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/tenth.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/call-fwd-on-busy.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/eighteenth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/fortieth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/high.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/no-112-1.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/no-reply-no-mailbox.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/right-bracket.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/say-temp-msg-prs-pound.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/tornado.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/watch.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/beaufort.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/driving-directions.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/early.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/eleventh.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/enter-conf-pin-number.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/evening.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/from-unknown-caller.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/hurricane.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/i.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/in-the.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/international-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/j.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/just-kidding-not-upset2.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/left-bracket.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/lima.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/low.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/midnight-tonight.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/monitored.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/month.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/mostly.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/oscar.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/pin-number-accepted.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/pls-enter-vm-password.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/storm.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/telephone-in-your-pocket2.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-erase-yr-temp-grtg.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/tonight.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/too-low.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/why-no-answer-mystery.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/away-naughty-girl.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/call-fwd-no-ans.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/est-hold-time-is.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/first-in-line.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/for-tech-support.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/is-not-set.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/knots.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/press-star-cancel.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/quarter.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/quebec.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/second.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/sixteenth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/south.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/tango.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/thirtieth.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-rec-yr-temp-grtg.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/v.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/alpha.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/atlantic.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/backslash.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/billionth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/celsius.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/easterly.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/freeze.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/goodbye.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/groovy.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/half.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/hang-on-a-second.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/minutes.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/nobody-but-chickens.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/pls-try-again.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/thnk-u-for-patience.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/thousandth.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-dial-by-name-press.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/call-quality-menu.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/clouds.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/de-activated.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/deadbeat.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/g.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/greater-than.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/has-been-cleared.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/hectopascal.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/is-curntly-unavail.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/missed.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/percent.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/quickly.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/rain.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/seventieth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/sighted.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/slowly.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/sunny.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/temperature.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/the-num-i-have-is.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-rerecord-it.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/twelveth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/u.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/what-are-you-wearing.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/channel-secure.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/default-attendant.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/directory.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/east.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/ent-target-attendant.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/exclaimation-point.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/f.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/for-billing.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/fourteenth.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/kilo.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/kilometers-per-hour.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/nbdy-avail-to-take-call.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/office-iguanas.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/partly.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/pascal.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/s.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/snow.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/space.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/to-accept-recording.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/silence/1.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/silence/10.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/silence/2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/silence/3.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/silence/4.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/silence/5.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/silence/6.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/silence/7.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/silence/8.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/loligo/silence/9.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/loligo/silence/README-silence
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/golf.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/whiskey.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/T-to-rtrn-to-main-menu.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/feature-not-avail-line.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/for-english-press.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/jedi-extension-trick.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/lines-complaining-customers.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/pls-try-call-later.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/www-switchboard-com.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/alpha.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/bravo.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/charlie.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/delta.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/echo.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/foxtrot.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/hotel.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/india.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/juliet.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/kilo.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/lima.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/mike.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/niner.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/november.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/oscar.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/papa.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/quebec.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/romeo.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/sierra.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/tango.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/uniform.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/victor.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/xray.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/yankee.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/phonetic/zulu.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/digit.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/entering-conf-number.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/if-u-know-ext-dial.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/on-busy.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/plus.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/system-status-msg.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/to-collect-voicemail.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/allison-7.txt
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/enabled.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/no-empty-conferences.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/please-enter-your.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/uh-oh1.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/unconditional.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/what-time-it-is2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/Archive.zip
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/current-time-is.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/days.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/divided-by.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/error-number.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/flagged-for-lea.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/has-been-changed-to.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/post-entry-pound.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/press-7.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/to-cancel-wakeup.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/to-extension.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/to-rqst-wakeup-call.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/to-snooze-for.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/what-time-it-is.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/within.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/years.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/accessible-through-system.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/calls-taken-by.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/directory-assistance.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/for-louie-louie.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/if-rotary-phone.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/on-monthly-tel-stment.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/that-number.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/to-rerecord-announce.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/welcome.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/T-to-enable-ancmnt.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/call-forwarding.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/continue-english-press.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/do-not-disturb.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/enter-phone-number10.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/equals.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/for-the-weather.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/infuriate-tech-staff.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/months.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/or-press.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/our-business-hours-are.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/pls-hold-while-try.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/press-3.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/speak-to-the-operator.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/thank-you-cooperation.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/that-you-require.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/to-hear-msg-again.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/wakeup-call.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/walks-into-bar-mail.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/weeks.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/T-changed-to.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/company-dir-411.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/enter-a-time.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/if-you-know-the.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/info-about-last-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/it-now.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/on-no-answer.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/press-hash.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/teletubbie-murder.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/will-reflect-charge-of.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/T-is-not-available.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/a-charge-for-this-svc.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/for-yes-press.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/has-been-disconnected.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/not-yet-assigned.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/pls-lv-msg-will-contact.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/press-6.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/rqsted-wakeup-for.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/the-new-number-is.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/the-next.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/this-is-yr-wakeup-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/uh-oh2.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/wish-to-continue.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/you-dialed-wrong-number.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/T-to-hear-cur-ancmnt.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/T-to-leave-msg.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/at-tone-time-exactly.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/by.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/for-wakeup-call.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/minus.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/now.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/please-try.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/pls-stay-on-line.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/press-1.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/reassigned-new-areacode.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/to-be-called-back.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/user.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/T-to-disable-ancmnt.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/T-to-reach-main-office.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/address.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/all-circuits-busy-now.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/digits.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/extensions.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/for-a-list-of.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/hear-toilet-flush.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/international-call.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/lyrics-louie-louie.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/office-code.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/pls-try-area-code.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/press-2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/press-8.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/starting-with-either.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/to-confirm-wakeup.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/T-to-rec-ancmnt.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/added-to.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/all-reps-busy.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/an-error-has-occured.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/busy-hangovers.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/call-forward.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/computer-friend2.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/disabled.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/has-been.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/hear-odd-noise.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/list.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/no-info-about-number.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/no-longer-in-service.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/press-5.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/press-pound.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/the-number-u-dialed.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/to-join-a-meeting.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/wakeup-call-cancelled.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/your-account.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/1-for-am-2-for-pm.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/at-customers-request.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/computer-friend1.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/for-investor-relations.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/hold-or-dial-0.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/lea-may-request-info.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/press-4.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/press-star.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/save-announce-press.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/telephone-number.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/thank-you-for-calling.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/times.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/uk.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/zip-code.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/asterisk-friend.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/for-no-press.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/not-rqsted-wakeup.gsm
+	  (1.1.1.1), amp_conf/var/lib/asterisk/sounds/allison7/press-9.gsm
+	  (1.1.1.1),
+	  amp_conf/var/lib/asterisk/sounds/allison7/temp-disconnected.gsm
+	  (1.1.1.1), amp_conf/var/spool/asterisk/fax/fax.call (1.1.1.1),
+	  amp_conf/var/spool/asterisk/monitor/.wav (1.1.1.1),
+	  amp_conf/var/www/cgi-bin/vmail.cgi (1.1.1.1),
+	  amp_conf/var/www/html/amp.png (1.1.1.1),
+	  amp_conf/var/www/html/index.html (1.1.1.1),
+	  amp_conf/var/www/html/mainstyle.css (1.1.1.1),
+	  amp_conf/var/www/html/admin/callgroups.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/config.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/footer.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/functions.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/general.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/header.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/incoming.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/index.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/moh.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/reports.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/retrieve_extensions_from_mysql.pl
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/retrieve_meetme_conf_from_mysql.pl
+	  (1.1.1.1), amp_conf/var/www/html/admin/vm_read.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/bounce_op.sh (1.1.1.1),
+	  amp_conf/var/www/html/admin/retrieve_sip_conf_from_mysql.pl
+	  (1.1.1.1), amp_conf/var/www/html/admin/THIRDPARTYREADME.txt
+	  (1.1.1.1), amp_conf/var/www/html/admin/extensions.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/ivr.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/ivr_action.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/ivrmap.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/retrieve_op_conf_from_mysql.pl
+	  (1.1.1.1), amp_conf/var/www/html/admin/vm_conf.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/voicemail.conf (1.1.1.1),
+	  amp_conf/var/www/html/admin/common/db_connect.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/common/mainstyle.css (1.1.1.1),
+	  amp_conf/var/www/html/admin/common/script.js (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/.DS_Store (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/call-log.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/graph_stat.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/test.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/about.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/call-comp.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/cdr.php (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/css/content.css (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/css/docbook.css (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/css/layout.css (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/css/images/corner-bl.png
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/css/images/corner-br.png
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/css/images/corner-tl.png
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/css/images/corner-tr.png
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_bar.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_canvtools.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_error.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_plotmark.inc
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_gradient.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_gb2312.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/imgdata_squares.inc
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_line.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/imgdata_diamonds.inc
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/imgdata_pushpins.inc
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/imgdata_stars.inc
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_canvas.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_pie.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_regstat.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_stock.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_polar.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_gantt.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_imgtrans.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_scatter.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/imgdata_balls.inc
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/imgdata_bevels.inc
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_flags.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_radar.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_pie3d.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/jpgraph_lib/jpgraph_log.php
+	  (1.1.1.1), amp_conf/var/www/html/admin/cdr/lib/Class.Table.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/lib/defines.php.template
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/lib/DB-modules/phplib_mssql.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/lib/DB-modules/phplib_mysql.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/lib/DB-modules/phplib_oci8.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/lib/DB-modules/phplib_odbc.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/lib/DB-modules/phplib_oracle.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/lib/DB-modules/phplib_postgres.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/lib/DB-modules/phplib_sybase.php
+	  (1.1.1.1), amp_conf/var/www/html/admin/cdr/images/fleche-g.gif
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/header-projects.png
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/icon_up_12x12.GIF
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/th_call-compare.png
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/lib/DB-modules/ciaosql.php
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/header-download.png
+	  (1.1.1.1), amp_conf/var/www/html/admin/cdr/images/printable.png
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/icon_down_12x12.GIF
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/jukebox_ti60.gif
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/th_call-logs.png
+	  (1.1.1.1), amp_conf/var/www/html/admin/cdr/images/asterisk.gif
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/btn_top_12x12.gif
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/button-search.gif
+	  (1.1.1.1), amp_conf/var/www/html/admin/cdr/images/call-logs.png
+	  (1.1.1.1), amp_conf/var/www/html/admin/cdr/images/fleche-d.gif
+	  (1.1.1.1), amp_conf/var/www/html/admin/cdr/images/header-faq.png
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/icon_up_12x12.1.gif
+	  (1.1.1.1), amp_conf/var/www/html/admin/cdr/images/print.css
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/sidenav-selected.gif
+	  (1.1.1.1), amp_conf/var/www/html/admin/cdr/images/spacer.gif
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/call-compare.png
+	  (1.1.1.1),
+	  amp_conf/var/www/html/admin/cdr/images/header-search.png
+	  (1.1.1.1), amp_conf/var/www/html/admin/images/amp.png (1.1.1.1),
+	  amp_conf/var/www/html/admin/images/amp_footer.png (1.1.1.1),
+	  amp_conf/var/www/html/panel/LICENSE (1.1.1.1),
+	  amp_conf/var/www/html/panel/README (1.1.1.1),
+	  amp_conf/var/www/html/panel/TODO (1.1.1.1),
+	  amp_conf/var/www/html/panel/UPGRADE (1.1.1.1),
+	  amp_conf/var/www/html/panel/help.txt (1.1.1.1),
+	  amp_conf/var/www/html/panel/index.html (1.1.1.1),
+	  amp_conf/var/www/html/panel/op_server.cfg.template (1.1.1.1),
+	  amp_conf/var/www/html/panel/operator_panel.swf (1.1.1.1),
+	  amp_conf/var/www/html/panel/safe_opserver (1.1.1.1),
+	  amp_conf/var/www/html/panel/CHANGES (1.1.1.1),
+	  amp_conf/var/www/html/panel/FAQ (1.1.1.1),
+	  amp_conf/var/www/html/panel/VERSION (1.1.1.1),
+	  amp_conf/var/www/html/panel/extensions.conf.sample (1.1.1.1),
+	  amp_conf/var/www/html/panel/index-resizable.html (1.1.1.1),
+	  amp_conf/var/www/html/panel/op_buttons.cfg.example (1.1.1.1),
+	  amp_conf/var/www/html/panel/op_style.cfg (1.1.1.1),
+	  amp_conf/var/www/html/panel/operator_panel_fixed24.swf (1.1.1.1),
+	  amp_conf/var/www/html/panel/op_server.pl (1.1.1.1),
+	  amp_conf/var/www/html/panel/operator_panel3.swf (1.1.1.1),
+	  amp_conf/etc/zaptel.conf.template (1.1.1.1),
+	  amp_conf/etc/asterisk/logger.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/meetme.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/privacy.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/vm_general.inc (1.1.1.1),
+	  amp_conf/var/www/html/_asterisk/animlogo.gif (1.1.1.1),
+	  amp_conf/var/www/html/_asterisk/play.gif (1.1.1.1),
+	  amp_conf/var/www/html/_asterisk/vmail.css (1.1.1.1),
+	  amp_conf/etc/asterisk/agents.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/asterisk.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/cdr_mysql.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/extensions.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/iax.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/indications.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/manager.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/modem.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/modules.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/musiconhold.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/parking.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/phone.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/phpagi.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/queues.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/rtp.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/sip.conf (1.1.1.1),
+	  amp_conf/etc/asterisk/vm_email.inc.template (1.1.1.1),
+	  amp_conf/etc/asterisk/voicemail.conf.template (1.1.1.1),
+	  amp_conf/etc/asterisk/zapata.conf.template (1.1.1.1): Initial
+	  import.
+
+2004-10-13 21:00  rcourtna
+
+	* amp_conf/: var/lib/asterisk/.bash_logout (1.1),
+	  var/lib/asterisk/.bash_profile (1.1), var/lib/asterisk/.zshrc
+	  (1.1), var/lib/asterisk/.asterisk_history (1.1),
+	  var/lib/asterisk/.bash_history (1.1), var/lib/asterisk/.bashrc
+	  (1.1), var/lib/asterisk/.mysql_history (1.1),
+	  var/lib/asterisk/agi-bin/dialparties.agi (1.1),
+	  var/lib/asterisk/mohmp3/TristeAlegriaPromo.mp3 (1.1),
+	  var/lib/asterisk/mohmp3/QuajiroPromo.mp3 (1.1),
+	  var/lib/asterisk/sounds/agent-pass.gsm (1.1),
+	  var/lib/asterisk/sounds/conf-invalidpin.gsm (1.1),
+	  var/lib/asterisk/sounds/conference-call.gsm (1.1),
+	  var/lib/asterisk/sounds/for-accounting.gsm (1.1),
+	  var/lib/asterisk/sounds/humidity.gsm (1.1),
+	  var/lib/asterisk/sounds/no-911-1.gsm (1.1),
+	  var/lib/asterisk/sounds/not-auth-pstn.gsm (1.1),
+	  var/lib/asterisk/sounds/snowing.gsm (1.1),
+	  var/lib/asterisk/sounds/time.gsm (1.1),
+	  var/lib/asterisk/sounds/to-call-num-press.gsm (1.1),
+	  var/lib/asterisk/sounds/enum-lookup-failed.gsm (1.1),
+	  var/lib/asterisk/sounds/hours.gsm (1.1),
+	  var/lib/asterisk/sounds/no-911-2.gsm (1.1),
+	  var/lib/asterisk/sounds/pls-ent-num-transfer.gsm (1.1),
+	  var/lib/asterisk/sounds/transfer.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-delete.gsm (1.1),
+	  var/lib/asterisk/sounds/advised-to-seek-shelter.gsm (1.1),
+	  var/lib/asterisk/sounds/beep.gsm (1.1),
+	  var/lib/asterisk/sounds/chris.gsm (1.1),
+	  var/lib/asterisk/sounds/conf-getchannel.gsm (1.1),
+	  var/lib/asterisk/sounds/day.gsm (1.1),
+	  var/lib/asterisk/sounds/demo-nomatch.gsm (1.1),
+	  var/lib/asterisk/sounds/extension.gsm (1.1),
+	  var/lib/asterisk/sounds/first.gsm (1.1),
+	  var/lib/asterisk/sounds/if-grtg-played-indefinately.gsm (1.1),
+	  var/lib/asterisk/sounds/is-set-to.gsm (1.1),
+	  var/lib/asterisk/sounds/message-from.gsm (1.1),
+	  var/lib/asterisk/sounds/nautical-miles.gsm (1.1),
+	  var/lib/asterisk/sounds/pls-enter-conf-password.gsm (1.1),
+	  var/lib/asterisk/sounds/plus.gsm (1.1),
+	  var/lib/asterisk/sounds/pound.gsm (1.1),
+	  var/lib/asterisk/sounds/rainy.gsm (1.1),
+	  var/lib/asterisk/sounds/sixtieth.gsm (1.1),
+	  var/lib/asterisk/sounds/star-for-menu-again.gsm (1.1),
+	  var/lib/asterisk/sounds/talking-to-myself.gsm (1.1),
+	  var/lib/asterisk/sounds/tomorrow.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-Family.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-Friends.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-last.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-onefor.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-repeat.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-savefolder.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-savemessage.gsm (1.1),
+	  var/lib/asterisk/sounds/windy.gsm (1.1),
+	  var/lib/asterisk/sounds/yesterday.gsm (1.1),
+	  var/lib/asterisk/sounds/all-your-base.gsm (1.1),
+	  var/lib/asterisk/sounds/auth-thankyou.gsm (1.1),
+	  var/lib/asterisk/sounds/demo-thanks.gsm (1.1),
+	  var/lib/asterisk/sounds/is-curntly-busy.gsm (1.1),
+	  var/lib/asterisk/sounds/local-authorities.gsm (1.1),
+	  var/lib/asterisk/sounds/negative.gsm (1.1),
+	  var/lib/asterisk/sounds/open-parenthesis.gsm (1.1),
+	  var/lib/asterisk/sounds/pbx-transfer.gsm (1.1),
+	  var/lib/asterisk/sounds/perhaps-we-are2.gsm (1.1),
+	  var/lib/asterisk/sounds/persons-in-path-of.gsm (1.1),
+	  var/lib/asterisk/sounds/please-try-again.gsm (1.1),
+	  var/lib/asterisk/sounds/recorded.gsm (1.1),
+	  var/lib/asterisk/sounds/to-call-prson-w-sent-msg.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-intro.gsm (1.1),
+	  var/lib/asterisk/sounds/believe-its-free.gsm (1.1),
+	  var/lib/asterisk/sounds/call-fwd-cancelled.gsm (1.1),
+	  var/lib/asterisk/sounds/for.gsm (1.1),
+	  var/lib/asterisk/sounds/has-been-set-to.gsm (1.1),
+	  var/lib/asterisk/sounds/late.gsm (1.1),
+	  var/lib/asterisk/sounds/outside-transfer.gsm (1.1),
+	  var/lib/asterisk/sounds/pascal2.gsm (1.1),
+	  var/lib/asterisk/sounds/sun.gsm (1.1),
+	  var/lib/asterisk/sounds/to-record-call.gsm (1.1),
+	  var/lib/asterisk/sounds/wait-offensive-sounds.gsm (1.1),
+	  var/lib/asterisk/sounds/wrong-try-again-smarty.gsm (1.1),
+	  var/lib/asterisk/sounds/you-entered.gsm (1.1),
+	  var/lib/asterisk/sounds/after-the-tone.gsm (1.1),
+	  var/lib/asterisk/sounds/barometric.gsm (1.1),
+	  var/lib/asterisk/sounds/central.gsm (1.1),
+	  var/lib/asterisk/sounds/dir-instr.gsm (1.1),
+	  var/lib/asterisk/sounds/freezing.gsm (1.1),
+	  var/lib/asterisk/sounds/has-expired.gsm (1.1),
+	  var/lib/asterisk/sounds/hundredth.gsm (1.1),
+	  var/lib/asterisk/sounds/in-your-city.gsm (1.1),
+	  var/lib/asterisk/sounds/indicated.gsm (1.1),
+	  var/lib/asterisk/sounds/perhaps-we-are.gsm (1.1),
+	  var/lib/asterisk/sounds/pls-entr-num-uwish2-call.gsm (1.1),
+	  var/lib/asterisk/sounds/pls-rcrd-name-at-tone.gsm (1.1),
+	  var/lib/asterisk/sounds/press-button-again.gsm (1.1),
+	  var/lib/asterisk/sounds/sixth.gsm (1.1),
+	  var/lib/asterisk/sounds/sterling.gsm (1.1),
+	  var/lib/asterisk/sounds/the-monkeys-twice.gsm (1.1),
+	  var/lib/asterisk/sounds/these-are-currently.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-INBOX.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-msginstruct.gsm (1.1),
+	  var/lib/asterisk/sounds/at.gsm (1.1),
+	  var/lib/asterisk/sounds/channel-insecure-warn.gsm (1.1),
+	  var/lib/asterisk/sounds/ext-or-zero.gsm (1.1),
+	  var/lib/asterisk/sounds/fifteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/ice.gsm (1.1),
+	  var/lib/asterisk/sounds/im-sorry.gsm (1.1),
+	  var/lib/asterisk/sounds/pressure.gsm (1.1),
+	  var/lib/asterisk/sounds/snowy.gsm (1.1),
+	  var/lib/asterisk/sounds/the-party-you-are-calling.gsm (1.1),
+	  var/lib/asterisk/sounds/to-change-exp-date.gsm (1.1),
+	  var/lib/asterisk/sounds/to-enter-a-number.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-Cust4.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-isonphone.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-message.gsm (1.1),
+	  var/lib/asterisk/sounds/westerly.gsm (1.1),
+	  var/lib/asterisk/sounds/bar.gsm (1.1),
+	  var/lib/asterisk/sounds/euro.gsm (1.1),
+	  var/lib/asterisk/sounds/gambling-drunk.gsm (1.1),
+	  var/lib/asterisk/sounds/no-112-2.gsm (1.1),
+	  var/lib/asterisk/sounds/num-outside-area.gsm (1.1),
+	  var/lib/asterisk/sounds/speed-dial.gsm (1.1),
+	  var/lib/asterisk/sounds/tt-monkeysintro.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-isunavail.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-press.gsm (1.1),
+	  var/lib/asterisk/sounds/added.gsm (1.1),
+	  var/lib/asterisk/sounds/agent-alreadyon.gsm (1.1),
+	  var/lib/asterisk/sounds/agent-newlocation.gsm (1.1),
+	  var/lib/asterisk/sounds/and-area-code.gsm (1.1),
+	  var/lib/asterisk/sounds/conf-onlyperson.gsm (1.1),
+	  var/lib/asterisk/sounds/discon-or-out-of-service.gsm (1.1),
+	  var/lib/asterisk/sounds/dollars.gsm (1.1),
+	  var/lib/asterisk/sounds/eighth.gsm (1.1),
+	  var/lib/asterisk/sounds/icy.gsm (1.1),
+	  var/lib/asterisk/sounds/len.gsm (1.1),
+	  var/lib/asterisk/sounds/menu.gsm (1.1),
+	  var/lib/asterisk/sounds/northerly.gsm (1.1),
+	  var/lib/asterisk/sounds/patchy.gsm (1.1),
+	  var/lib/asterisk/sounds/period.gsm (1.1),
+	  var/lib/asterisk/sounds/please-contact-tech-supt.gsm (1.1),
+	  var/lib/asterisk/sounds/seconds.gsm (1.1),
+	  var/lib/asterisk/sounds/slash.gsm (1.1),
+	  var/lib/asterisk/sounds/star.gsm (1.1),
+	  var/lib/asterisk/sounds/third.gsm (1.1),
+	  var/lib/asterisk/sounds/this-call-may-be.gsm (1.1),
+	  var/lib/asterisk/sounds/to-enter-a-diff-number.gsm (1.1),
+	  var/lib/asterisk/sounds/to-listen-to-it.gsm (1.1),
+	  var/lib/asterisk/sounds/to-send-a-reply.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-first.gsm (1.1),
+	  var/lib/asterisk/sounds/you-are-curr-call-num.gsm (1.1),
+	  var/lib/asterisk/sounds/you-wish-to-join.gsm (1.1),
+	  var/lib/asterisk/sounds/brian.gsm (1.1),
+	  var/lib/asterisk/sounds/gale.gsm (1.1),
+	  var/lib/asterisk/sounds/if-correct-press.gsm (1.1),
+	  var/lib/asterisk/sounds/jason.gsm (1.1),
+	  var/lib/asterisk/sounds/lots-o-monkeys.gsm (1.1),
+	  var/lib/asterisk/sounds/miles-per-hour.gsm (1.1),
+	  var/lib/asterisk/sounds/millionth.gsm (1.1),
+	  var/lib/asterisk/sounds/misty.gsm (1.1),
+	  var/lib/asterisk/sounds/seventeenth.gsm (1.1),
+	  var/lib/asterisk/sounds/slow.gsm (1.1),
+	  var/lib/asterisk/sounds/turn-off-recording.gsm (1.1),
+	  var/lib/asterisk/sounds/weasels-eaten-phonesys.gsm (1.1),
+	  var/lib/asterisk/sounds/at-sign.gsm (1.1),
+	  var/lib/asterisk/sounds/avg-speed-answer.gsm (1.1),
+	  var/lib/asterisk/sounds/clear.gsm (1.1),
+	  var/lib/asterisk/sounds/fiftieth.gsm (1.1),
+	  var/lib/asterisk/sounds/flooding.gsm (1.1),
+	  var/lib/asterisk/sounds/lightning.gsm (1.1),
+	  var/lib/asterisk/sounds/nothing-recorded.gsm (1.1),
+	  var/lib/asterisk/sounds/southerly.gsm (1.1),
+	  var/lib/asterisk/sounds/thunderstorm.gsm (1.1),
+	  var/lib/asterisk/sounds/to-hear-msg-envelope.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-and.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-newpassword.gsm (1.1),
+	  var/lib/asterisk/sounds/abandons.gsm (1.1),
+	  var/lib/asterisk/sounds/and-prs-pound-whn-finished.gsm (1.1),
+	  var/lib/asterisk/sounds/busy-pls-hold.gsm (1.1),
+	  var/lib/asterisk/sounds/changing.gsm (1.1),
+	  var/lib/asterisk/sounds/dial-here-often.gsm (1.1),
+	  var/lib/asterisk/sounds/dir-intro-fn.gsm (1.1),
+	  var/lib/asterisk/sounds/dont-know-who-sent.gsm (1.1),
+	  var/lib/asterisk/sounds/doppler-radar.gsm (1.1),
+	  var/lib/asterisk/sounds/fog.gsm (1.1),
+	  var/lib/asterisk/sounds/ninth.gsm (1.1),
+	  var/lib/asterisk/sounds/num-not-in-db.gsm (1.1),
+	  var/lib/asterisk/sounds/partially.gsm (1.1),
+	  var/lib/asterisk/sounds/something-terribly-wrong.gsm (1.1),
+	  var/lib/asterisk/sounds/to-place-outgoing-call.gsm (1.1),
+	  var/lib/asterisk/sounds/turning-to.gsm (1.1),
+	  var/lib/asterisk/sounds/twentieth.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-login.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-opts.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-received.gsm (1.1),
+	  var/lib/asterisk/sounds/call-fwd-unconditional.gsm (1.1),
+	  var/lib/asterisk/sounds/calls-waiting-for-rep.gsm (1.1),
+	  var/lib/asterisk/sounds/card-balance-is.gsm (1.1),
+	  var/lib/asterisk/sounds/dollar.gsm (1.1),
+	  var/lib/asterisk/sounds/eightieth.gsm (1.1),
+	  var/lib/asterisk/sounds/equals.gsm (1.1),
+	  var/lib/asterisk/sounds/good.gsm (1.1),
+	  var/lib/asterisk/sounds/morning.gsm (1.1),
+	  var/lib/asterisk/sounds/one-moment-please.gsm (1.1),
+	  var/lib/asterisk/sounds/to-use-def-attendant.gsm (1.1),
+	  var/lib/asterisk/sounds/tt-weasels.gsm (1.1),
+	  var/lib/asterisk/sounds/your-msg-is-too-short.gsm (1.1),
+	  var/lib/asterisk/sounds/card-number.gsm (1.1),
+	  var/lib/asterisk/sounds/press-pound-save-changes.gsm (1.1),
+	  var/lib/asterisk/sounds/to-blklist-last-caller.gsm (1.1),
+	  var/lib/asterisk/sounds/to-blklist-last-num.gsm (1.1),
+	  var/lib/asterisk/sounds/to-call-this-number.gsm (1.1),
+	  var/lib/asterisk/sounds/to-cancel-this-msg.gsm (1.1),
+	  var/lib/asterisk/sounds/visit-asterisk-website.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-mismatch.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-whichbox.gsm (1.1),
+	  var/lib/asterisk/sounds/afternoon.gsm (1.1),
+	  var/lib/asterisk/sounds/agent-loggedoff.gsm (1.1),
+	  var/lib/asterisk/sounds/another-time.gsm (1.1),
+	  var/lib/asterisk/sounds/approximately.gsm (1.1),
+	  var/lib/asterisk/sounds/auth-incorrect.gsm (1.1),
+	  var/lib/asterisk/sounds/channel.gsm (1.1),
+	  var/lib/asterisk/sounds/cloudy.gsm (1.1),
+	  var/lib/asterisk/sounds/comma.gsm (1.1),
+	  var/lib/asterisk/sounds/continue-in-english.gsm (1.1),
+	  var/lib/asterisk/sounds/dot.gsm (1.1),
+	  var/lib/asterisk/sounds/european.gsm (1.1),
+	  var/lib/asterisk/sounds/fifth.gsm (1.1),
+	  var/lib/asterisk/sounds/hail.gsm (1.1),
+	  var/lib/asterisk/sounds/hash.gsm (1.1),
+	  var/lib/asterisk/sounds/mike.gsm (1.1),
+	  var/lib/asterisk/sounds/national-weather-service.gsm (1.1),
+	  var/lib/asterisk/sounds/privacy-unident.gsm (1.1),
+	  var/lib/asterisk/sounds/speak-louder-into-phone.gsm (1.1),
+	  var/lib/asterisk/sounds/today.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-Old.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-nobodyavail.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-savedto.gsm (1.1),
+	  var/lib/asterisk/sounds/abandon-all-hope.gsm (1.1),
+	  var/lib/asterisk/sounds/callwaiting.gsm (1.1),
+	  var/lib/asterisk/sounds/carried-away-by-monkeys.gsm (1.1),
+	  var/lib/asterisk/sounds/gmt.gsm (1.1),
+	  var/lib/asterisk/sounds/tide.gsm (1.1),
+	  var/lib/asterisk/sounds/to-rmv-num-blklist.gsm (1.1),
+	  var/lib/asterisk/sounds/tt-monkeys.gsm (1.1),
+	  var/lib/asterisk/sounds/will-not-expire.gsm (1.1),
+	  var/lib/asterisk/sounds/agent-incorrect.gsm (1.1),
+	  var/lib/asterisk/sounds/for-quality-purposes.gsm (1.1),
+	  var/lib/asterisk/sounds/meters.gsm (1.1),
+	  var/lib/asterisk/sounds/quote.gsm (1.1),
+	  var/lib/asterisk/sounds/status.gsm (1.1),
+	  var/lib/asterisk/sounds/to-hear-menu-again.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-goodbye.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-no.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-prev.gsm (1.1),
+	  var/lib/asterisk/sounds/warning.gsm (1.1),
+	  var/lib/asterisk/sounds/west.gsm (1.1),
+	  var/lib/asterisk/sounds/wtng-to-spk-w-rep.gsm (1.1),
+	  var/lib/asterisk/sounds/agent-loginok.gsm (1.1),
+	  var/lib/asterisk/sounds/ampersand.gsm (1.1),
+	  var/lib/asterisk/sounds/card-is-invalid.gsm (1.1),
+	  var/lib/asterisk/sounds/clearing.gsm (1.1),
+	  var/lib/asterisk/sounds/enum-lookup-successful.gsm (1.1),
+	  var/lib/asterisk/sounds/giggle1.gsm (1.1),
+	  var/lib/asterisk/sounds/i-grow-bored.gsm (1.1),
+	  var/lib/asterisk/sounds/just-kidding-not-upset.gsm (1.1),
+	  var/lib/asterisk/sounds/maximum.gsm (1.1),
+	  var/lib/asterisk/sounds/num-was-successfully.gsm (1.1),
+	  var/lib/asterisk/sounds/pbx-invalidpark.gsm (1.1),
+	  var/lib/asterisk/sounds/severe.gsm (1.1),
+	  var/lib/asterisk/sounds/sleet.gsm (1.1),
+	  var/lib/asterisk/sounds/standard.gsm (1.1),
+	  var/lib/asterisk/sounds/that-is-not-rec-phn-num.gsm (1.1),
+	  var/lib/asterisk/sounds/then-press-pound.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-changeto.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-for.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-passchanged.gsm (1.1),
+	  var/lib/asterisk/sounds/will-expire.gsm (1.1),
+	  var/lib/asterisk/sounds/wind.gsm (1.1),
+	  var/lib/asterisk/sounds/your-msg-has-been-saved.gsm (1.1),
+	  var/lib/asterisk/sounds/your-temp-greeting.gsm (1.1),
+	  var/lib/asterisk/sounds/available-options.gsm (1.1),
+	  var/lib/asterisk/sounds/cents.gsm (1.1),
+	  var/lib/asterisk/sounds/could-lose-a-few-pounds.gsm (1.1),
+	  var/lib/asterisk/sounds/cyclone.gsm (1.1),
+	  var/lib/asterisk/sounds/dash.gsm (1.1),
+	  var/lib/asterisk/sounds/doing-enum-lookup.gsm (1.1),
+	  var/lib/asterisk/sounds/enter-conf-call-number.gsm (1.1),
+	  var/lib/asterisk/sounds/later.gsm (1.1),
+	  var/lib/asterisk/sounds/meter.gsm (1.1),
+	  var/lib/asterisk/sounds/midnight-tomorrow-night.gsm (1.1),
+	  var/lib/asterisk/sounds/minimum.gsm (1.1),
+	  var/lib/asterisk/sounds/octothorpe.gsm (1.1),
+	  var/lib/asterisk/sounds/please-enter-the.gsm (1.1),
+	  var/lib/asterisk/sounds/pls-wait-connect-call.gsm (1.1),
+	  var/lib/asterisk/sounds/sleeting.gsm (1.1),
+	  var/lib/asterisk/sounds/speak-louder.gsm (1.1),
+	  var/lib/asterisk/sounds/staffing.gsm (1.1),
+	  var/lib/asterisk/sounds/thirteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/to-compose-a-message.gsm (1.1),
+	  var/lib/asterisk/sounds/weather.gsm (1.1),
+	  var/lib/asterisk/sounds/your.gsm (1.1),
+	  var/lib/asterisk/sounds/away-naughty-boy.gsm (1.1),
+	  var/lib/asterisk/sounds/before-the-number.gsm (1.1),
+	  var/lib/asterisk/sounds/demo-enterkeywords.gsm (1.1),
+	  var/lib/asterisk/sounds/fast.gsm (1.1),
+	  var/lib/asterisk/sounds/tt-allbusy.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-forwardoptions.gsm (1.1),
+	  var/lib/asterisk/sounds/agent-user.gsm (1.1),
+	  var/lib/asterisk/sounds/conditions.gsm (1.1),
+	  var/lib/asterisk/sounds/degrees.gsm (1.1),
+	  var/lib/asterisk/sounds/demo-echodone.gsm (1.1),
+	  var/lib/asterisk/sounds/if-this-is-correct-press.gsm (1.1),
+	  var/lib/asterisk/sounds/pin-invalid.gsm (1.1),
+	  var/lib/asterisk/sounds/target-attendant.gsm (1.1),
+	  var/lib/asterisk/sounds/tomorrow-night.gsm (1.1),
+	  var/lib/asterisk/sounds/unidentified-no-callback.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-Cust2.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-incorrect.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-reenterpassword.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-youhave.gsm (1.1),
+	  var/lib/asterisk/sounds/with.gsm (1.1),
+	  var/lib/asterisk/sounds/you-are-caller-num.gsm (1.1),
+	  var/lib/asterisk/sounds/airport.gsm (1.1),
+	  var/lib/asterisk/sounds/conf-invalid.gsm (1.1),
+	  var/lib/asterisk/sounds/demo-instruct.gsm (1.1),
+	  var/lib/asterisk/sounds/eastern.gsm (1.1),
+	  var/lib/asterisk/sounds/foggy.gsm (1.1),
+	  var/lib/asterisk/sounds/followed-by.gsm (1.1),
+	  var/lib/asterisk/sounds/fourth.gsm (1.1),
+	  var/lib/asterisk/sounds/in-the-line.gsm (1.1),
+	  var/lib/asterisk/sounds/invalid-date.gsm (1.1),
+	  var/lib/asterisk/sounds/is-in-use.gsm (1.1),
+	  var/lib/asterisk/sounds/moving.gsm (1.1),
+	  var/lib/asterisk/sounds/pacific.gsm (1.1),
+	  var/lib/asterisk/sounds/received.gsm (1.1),
+	  var/lib/asterisk/sounds/rising.gsm (1.1),
+	  var/lib/asterisk/sounds/scattered.gsm (1.1),
+	  var/lib/asterisk/sounds/to-hear-weather-status.gsm (1.1),
+	  var/lib/asterisk/sounds/to-reach-operator.gsm (1.1),
+	  var/lib/asterisk/sounds/to-rerecord-yr-message.gsm (1.1),
+	  var/lib/asterisk/sounds/typhoon.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-Work.gsm (1.1),
+	  var/lib/asterisk/sounds/daylight.gsm (1.1),
+	  var/lib/asterisk/sounds/midnight.gsm (1.1),
+	  var/lib/asterisk/sounds/nineteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/that-tickles.gsm (1.1),
+	  var/lib/asterisk/sounds/because-paranoid.gsm (1.1),
+	  var/lib/asterisk/sounds/call-fwd-parallel.gsm (1.1),
+	  var/lib/asterisk/sounds/chance-of.gsm (1.1),
+	  var/lib/asterisk/sounds/chat-room.gsm (1.1),
+	  var/lib/asterisk/sounds/conf-getpin.gsm (1.1),
+	  var/lib/asterisk/sounds/euros.gsm (1.1),
+	  var/lib/asterisk/sounds/fahrenheit.gsm (1.1),
+	  var/lib/asterisk/sounds/falling.gsm (1.1),
+	  var/lib/asterisk/sounds/hang-on-a-second-angry.gsm (1.1),
+	  var/lib/asterisk/sounds/has-issued-a.gsm (1.1),
+	  var/lib/asterisk/sounds/if-grtg-should-expire-at.gsm (1.1),
+	  var/lib/asterisk/sounds/less-than.gsm (1.1),
+	  var/lib/asterisk/sounds/ninetieth.gsm (1.1),
+	  var/lib/asterisk/sounds/pbx-invalid.gsm (1.1),
+	  var/lib/asterisk/sounds/privacy-incorrect.gsm (1.1),
+	  var/lib/asterisk/sounds/seventh.gsm (1.1),
+	  var/lib/asterisk/sounds/sorry-mailbox-full.gsm (1.1),
+	  var/lib/asterisk/sounds/to-hear-net-status.gsm (1.1),
+	  var/lib/asterisk/sounds/tt-somethingwrong.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-extension.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-options.gsm (1.1),
+	  var/lib/asterisk/sounds/year.gsm (1.1),
+	  var/lib/asterisk/sounds/activated.gsm (1.1),
+	  var/lib/asterisk/sounds/calls.gsm (1.1),
+	  var/lib/asterisk/sounds/close-parenthesis.gsm (1.1),
+	  var/lib/asterisk/sounds/dir-nomatch.gsm (1.1),
+	  var/lib/asterisk/sounds/eighteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/enter-ext-of-person.gsm (1.1),
+	  var/lib/asterisk/sounds/high.gsm (1.1),
+	  var/lib/asterisk/sounds/in-the-queue.gsm (1.1),
+	  var/lib/asterisk/sounds/mountain.gsm (1.1),
+	  var/lib/asterisk/sounds/no-112-1.gsm (1.1),
+	  var/lib/asterisk/sounds/north.gsm (1.1),
+	  var/lib/asterisk/sounds/or.gsm (1.1),
+	  var/lib/asterisk/sounds/otherwise-press.gsm (1.1),
+	  var/lib/asterisk/sounds/pipe.gsm (1.1),
+	  var/lib/asterisk/sounds/pounds.gsm (1.1),
+	  var/lib/asterisk/sounds/say-temp-msg-prs-pound.gsm (1.1),
+	  var/lib/asterisk/sounds/says-thats-stupid.gsm (1.1),
+	  var/lib/asterisk/sounds/telephone-in-your-pocket.gsm (1.1),
+	  var/lib/asterisk/sounds/tenth.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-next.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-nomore.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-rec-name.gsm (1.1),
+	  var/lib/asterisk/sounds/call-fwd-on-busy.gsm (1.1),
+	  var/lib/asterisk/sounds/demo-moreinfo.gsm (1.1),
+	  var/lib/asterisk/sounds/eleventh.gsm (1.1),
+	  var/lib/asterisk/sounds/fortieth.gsm (1.1),
+	  var/lib/asterisk/sounds/monitored.gsm (1.1),
+	  var/lib/asterisk/sounds/mostly.gsm (1.1),
+	  var/lib/asterisk/sounds/no-reply-no-mailbox.gsm (1.1),
+	  var/lib/asterisk/sounds/privacy-prompt.gsm (1.1),
+	  var/lib/asterisk/sounds/right-bracket.gsm (1.1),
+	  var/lib/asterisk/sounds/to-erase-yr-temp-grtg.gsm (1.1),
+	  var/lib/asterisk/sounds/tornado.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-theperson.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-undeleted.gsm (1.1),
+	  var/lib/asterisk/sounds/watch.gsm (1.1),
+	  var/lib/asterisk/sounds/beaufort.gsm (1.1),
+	  var/lib/asterisk/sounds/enter-conf-pin-number.gsm (1.1),
+	  var/lib/asterisk/sounds/enter-num-blacklist.gsm (1.1),
+	  var/lib/asterisk/sounds/just-kidding-not-upset2.gsm (1.1),
+	  var/lib/asterisk/sounds/tonight.gsm (1.1),
+	  var/lib/asterisk/sounds/weather-station.gsm (1.1),
+	  var/lib/asterisk/sounds/demo-abouttotry.gsm (1.1),
+	  var/lib/asterisk/sounds/driving-directions.gsm (1.1),
+	  var/lib/asterisk/sounds/evening.gsm (1.1),
+	  var/lib/asterisk/sounds/low.gsm (1.1),
+	  var/lib/asterisk/sounds/midnight-tonight.gsm (1.1),
+	  var/lib/asterisk/sounds/month.gsm (1.1),
+	  var/lib/asterisk/sounds/storm.gsm (1.1),
+	  var/lib/asterisk/sounds/too-low.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-toforward.gsm (1.1),
+	  var/lib/asterisk/sounds/why-no-answer-mystery.gsm (1.1),
+	  var/lib/asterisk/sounds/yeah.gsm (1.1),
+	  var/lib/asterisk/sounds/bad.gsm (1.1),
+	  var/lib/asterisk/sounds/demo-congrats.gsm (1.1),
+	  var/lib/asterisk/sounds/entr-num-rmv-blklist.gsm (1.1),
+	  var/lib/asterisk/sounds/hurricane.gsm (1.1),
+	  var/lib/asterisk/sounds/in-the.gsm (1.1),
+	  var/lib/asterisk/sounds/international-call.gsm (1.1),
+	  var/lib/asterisk/sounds/invalid.gsm (1.1),
+	  var/lib/asterisk/sounds/ss-noservice.gsm (1.1),
+	  var/lib/asterisk/sounds/early.gsm (1.1),
+	  var/lib/asterisk/sounds/from-unknown-caller.gsm (1.1),
+	  var/lib/asterisk/sounds/left-bracket.gsm (1.1),
+	  var/lib/asterisk/sounds/pls-enter-vm-password.gsm (1.1),
+	  var/lib/asterisk/sounds/telephone-in-your-pocket2.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-deleted.gsm (1.1),
+	  var/lib/asterisk/sounds/you-sound-cute.gsm (1.1),
+	  var/lib/asterisk/sounds/away-naughty-girl.gsm (1.1),
+	  var/lib/asterisk/sounds/call-fwd-no-ans.gsm (1.1),
+	  var/lib/asterisk/sounds/dir-intro.gsm (1.1),
+	  var/lib/asterisk/sounds/ed.gsm (1.1),
+	  var/lib/asterisk/sounds/est-hold-time-is.gsm (1.1),
+	  var/lib/asterisk/sounds/first-in-line.gsm (1.1),
+	  var/lib/asterisk/sounds/for-tech-support.gsm (1.1),
+	  var/lib/asterisk/sounds/is-not-set.gsm (1.1),
+	  var/lib/asterisk/sounds/knots.gsm (1.1),
+	  var/lib/asterisk/sounds/pin-number-accepted.gsm (1.1),
+	  var/lib/asterisk/sounds/quarter.gsm (1.1),
+	  var/lib/asterisk/sounds/second.gsm (1.1),
+	  var/lib/asterisk/sounds/sixteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/to-rec-yr-temp-grtg.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-Cust1.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-instructions.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-password.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-undelete.gsm (1.1),
+	  var/lib/asterisk/sounds/demo-echotest.gsm (1.1),
+	  var/lib/asterisk/sounds/easterly.gsm (1.1),
+	  var/lib/asterisk/sounds/moo1.gsm (1.1),
+	  var/lib/asterisk/sounds/press-star-cancel.gsm (1.1),
+	  var/lib/asterisk/sounds/south.gsm (1.1),
+	  var/lib/asterisk/sounds/thirtieth.gsm (1.1),
+	  var/lib/asterisk/sounds/atlantic.gsm (1.1),
+	  var/lib/asterisk/sounds/conf-getconfno.gsm (1.1),
+	  var/lib/asterisk/sounds/currently.gsm (1.1),
+	  var/lib/asterisk/sounds/freeze.gsm (1.1),
+	  var/lib/asterisk/sounds/goodbye.gsm (1.1),
+	  var/lib/asterisk/sounds/groovy.gsm (1.1),
+	  var/lib/asterisk/sounds/hang-on-a-second.gsm (1.1),
+	  var/lib/asterisk/sounds/in-your-zip-code.gsm (1.1),
+	  var/lib/asterisk/sounds/nobody-but-chickens.gsm (1.1),
+	  var/lib/asterisk/sounds/pls-try-again.gsm (1.1),
+	  var/lib/asterisk/sounds/thnk-u-for-patience.gsm (1.1),
+	  var/lib/asterisk/sounds/thousandth.gsm (1.1),
+	  var/lib/asterisk/sounds/to-dial-by-name-press.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-rec-busy.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-rec-unv.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-tocancel.gsm (1.1),
+	  var/lib/asterisk/sounds/backslash.gsm (1.1),
+	  var/lib/asterisk/sounds/billionth.gsm (1.1),
+	  var/lib/asterisk/sounds/call-quality-menu.gsm (1.1),
+	  var/lib/asterisk/sounds/celsius.gsm (1.1),
+	  var/lib/asterisk/sounds/half.gsm (1.1),
+	  var/lib/asterisk/sounds/is-curntly-unavail.gsm (1.1),
+	  var/lib/asterisk/sounds/minutes.gsm (1.1),
+	  var/lib/asterisk/sounds/moo2.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-msgsaved.gsm (1.1),
+	  var/lib/asterisk/sounds/clouds.gsm (1.1),
+	  var/lib/asterisk/sounds/de-activated.gsm (1.1),
+	  var/lib/asterisk/sounds/deadbeat.gsm (1.1),
+	  var/lib/asterisk/sounds/greater-than.gsm (1.1),
+	  var/lib/asterisk/sounds/has-been-cleared.gsm (1.1),
+	  var/lib/asterisk/sounds/hectopascal.gsm (1.1),
+	  var/lib/asterisk/sounds/is-currently.gsm (1.1),
+	  var/lib/asterisk/sounds/missed.gsm (1.1),
+	  var/lib/asterisk/sounds/percent.gsm (1.1),
+	  var/lib/asterisk/sounds/privacy-thankyou.gsm (1.1),
+	  var/lib/asterisk/sounds/quickly.gsm (1.1),
+	  var/lib/asterisk/sounds/rain.gsm (1.1),
+	  var/lib/asterisk/sounds/removed.gsm (1.1),
+	  var/lib/asterisk/sounds/seventieth.gsm (1.1),
+	  var/lib/asterisk/sounds/sighted.gsm (1.1),
+	  var/lib/asterisk/sounds/slowly.gsm (1.1),
+	  var/lib/asterisk/sounds/sunny.gsm (1.1),
+	  var/lib/asterisk/sounds/temperature.gsm (1.1),
+	  var/lib/asterisk/sounds/the-num-i-have-is.gsm (1.1),
+	  var/lib/asterisk/sounds/the-weather-at.gsm (1.1),
+	  var/lib/asterisk/sounds/to-rerecord-it.gsm (1.1),
+	  var/lib/asterisk/sounds/twelveth.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-mailboxfull.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-sorry.gsm (1.1),
+	  var/lib/asterisk/sounds/what-are-you-wearing.gsm (1.1),
+	  var/lib/asterisk/sounds/channel-secure.gsm (1.1),
+	  var/lib/asterisk/sounds/dir-nomore.gsm (1.1),
+	  var/lib/asterisk/sounds/last-num-to-call.gsm (1.1),
+	  var/lib/asterisk/sounds/partly.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-messages.gsm (1.1),
+	  var/lib/asterisk/sounds/default-attendant.gsm (1.1),
+	  var/lib/asterisk/sounds/demo-nogo.gsm (1.1),
+	  var/lib/asterisk/sounds/directory.gsm (1.1),
+	  var/lib/asterisk/sounds/east.gsm (1.1),
+	  var/lib/asterisk/sounds/ent-target-attendant.gsm (1.1),
+	  var/lib/asterisk/sounds/exclaimation-point.gsm (1.1),
+	  var/lib/asterisk/sounds/for-billing.gsm (1.1),
+	  var/lib/asterisk/sounds/fourteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/john.gsm (1.1),
+	  var/lib/asterisk/sounds/kilometers-per-hour.gsm (1.1),
+	  var/lib/asterisk/sounds/nbdy-avail-to-take-call.gsm (1.1),
+	  var/lib/asterisk/sounds/office-iguanas.gsm (1.1),
+	  var/lib/asterisk/sounds/pascal.gsm (1.1),
+	  var/lib/asterisk/sounds/snow.gsm (1.1),
+	  var/lib/asterisk/sounds/space.gsm (1.1),
+	  var/lib/asterisk/sounds/to-accept-recording.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-Cust3.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-Cust5.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-helpexit.gsm (1.1),
+	  var/lib/asterisk/sounds/vm-saved.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/1.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/10.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/11.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/12.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/18.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-19.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-2.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-8.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-10.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-2.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/oh.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/pound.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/tomorrow.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/yesterday.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/13.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/20.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/3.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/30.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/40.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/5.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/50.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/7.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/70.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/8.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/at.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/day-1.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/day-4.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/day-6.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/dollars.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-11.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-13.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-14.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-15.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-20.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-3.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-6.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-9.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/hundred.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-11.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-3.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-4.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-5.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-6.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-7.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/oclock.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/star.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/today.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/14.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/17.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/4.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/9.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/90.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/a-m.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/day-0.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/day-3.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-10.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-12.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-16.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-18.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-30.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-7.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/million.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-1.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-8.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-9.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/0.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/15.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/16.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/19.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/2.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/6.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/60.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/80.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/day-2.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/day-5.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-1.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-17.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-4.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/h-5.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/mon-0.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/p-m.gsm (1.1),
+	  var/lib/asterisk/sounds/digits/thousand.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/a.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/b.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/c.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/d.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/e.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/f.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/g.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/h.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/i.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/j.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/k.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/l.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/m.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/n.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/o.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/p.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/q.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/r.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/s.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/t.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/u.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/v.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/w.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/x.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/y.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/z.gsm (1.1),
+	  var/lib/asterisk/sounds/letters/zed.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/conference-call.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/humidity.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/no-911-1.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/not-auth-pstn.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/q.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/time.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/advised-to-seek-shelter.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/day.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/enum-lookup-failed.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/extension.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/first.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/for-accounting.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/golf.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/hours.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/is-set-to.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/message-from.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/nautical-miles.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/no-911-2.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pls-ent-num-transfer.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pls-enter-conf-password.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/plus.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pound.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/r.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/rainy.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/sixtieth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/tomorrow.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/all-your-base.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/if-grtg-played-indefinately.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/is-curntly-busy.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/local-authorities.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/negative.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/perhaps-we-are2.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/please-try-again.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/recorded.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/star-for-menu-again.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-call-prson-w-sent-msg.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/after-the-tone.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/barometric.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/believe-its-free.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/bravo.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/call-fwd-cancelled.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/central.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/for.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/freezing.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/has-been-set-to.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/has-expired.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/hundredth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/indicated.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/late.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/open-parenthesis.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/outside-transfer.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pascal2.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/perhaps-we-are.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/persons-in-path-of.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pls-entr-num-uwish2-call.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/pls-rcrd-name-at-tone.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/press-button-again.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/sixth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/snowy.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/sterling.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/sun.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/the-monkeys-twice.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/these-are-currently.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-record-call.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/uniform.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/whiskey.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/at.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/bar.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/channel-insecure-warn.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/euro.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/ext-or-zero.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/fifteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/gambling-drunk.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/ice.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/im-sorry.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pressure.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/romeo.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/speed-dial.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/the-party-you-are-calling.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/to-change-exp-date.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/to-enter-a-number.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/westerly.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/Sounds-README.txt (1.1),
+	  var/lib/asterisk/sounds/loligo/d.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/dollars.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/eighth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/foxtrot.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/icy.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/m.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/menu.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/no-112-2.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/northerly.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/p.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/patchy.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/period.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/please-contact-tech-supt.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/seconds.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/slash.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/star.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/third.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/this-call-may-be.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-enter-a-diff-number.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-listen-to-it.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-send-a-reply.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/discon-or-out-of-service.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/gale.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/lots-o-monkeys.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/miles-per-hour.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/millionth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/misty.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/natl-weather-svc.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/seventeenth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/slow.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/turn-off-recording.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/weasels-eaten-phonesys.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/abandons.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/at-sign.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/avg-speed-answer.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/busy-pls-hold.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/changing.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/charlie.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/clear.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/doppler-radar.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/fiftieth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/flooding.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/fog.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/h.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/k.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/lightning.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/ninth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/nothing-recorded.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/sierra.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/something-terribly-wrong.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/southerly.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/thunderstorm.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-hear-msg-envelope.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-place-outgoing-call.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/turning-to.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/twentieth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/and-prs-pound-whn-finished.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/call-fwd-unconditional.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/calls-waiting-for-rep.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/card-balance-is.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/dial-here-often.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/dollar.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/dont-know-who-sent.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/eightieth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/enter-conf-pin.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/equals.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/india.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/morning.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/one-moment-please.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/partially.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-cancel-this-msg.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-use-def-attendant.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/afternoon.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/another-time.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/approximately.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/card-number.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/carried-away-by-monkeys.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/channel.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/cloudy.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/comma.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/dot.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/echo.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/european.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/fifth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/gmt.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/hail.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/hash.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/hotel.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/meters.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/mike.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/national-weather-service.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/niner.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/papa.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/press-pound-save-changes.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/sounds-extra.txt (1.1),
+	  var/lib/asterisk/sounds/loligo/t.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/tide.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-call-this-number.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/today.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/victor.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/warning.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/a.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/ampersand.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/card-is-invalid.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/cents.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/clearing.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/doing-enum-lookup.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/enum-lookup-successful.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/for-quality-purposes.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/giggle1.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/just-kidding-not-upset.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/l.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/maximum.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/minimum.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/n.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/please-enter-the.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/quote.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/severe.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/sleet.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/sleeting.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/standard.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/that-is-not-rec-phn-num.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/then-press-pound.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-hear-menu-again.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/weather.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/west.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/available-options.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/cyclone.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/dash.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/enter-conf-call-number.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/later.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/meter.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/midnight-tomorrow-night.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/octothorpe.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pls-wait-connect-call.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/speak-louder.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/staffing.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/thirteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-compose-a-message.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/away-naughty-boy.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/b.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/chat-room.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/daylight.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/degrees.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/delta.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/e.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/eastern.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/fahrenheit.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/fast.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/foggy.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/followed-by.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/fourth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/has-issued-a.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/if-grtg-should-expire-at.gsm
+	  (1.1),
+	  var/lib/asterisk/sounds/loligo/if-this-is-correct-press.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/in-the-line.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/invalid-date.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/is-in-use.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/midnight.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/moving.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/nineteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/november.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pacific.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pin-invalid.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/received.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/rising.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/scattered.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/seventh.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/sorry-mailbox-full.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/target-attendant.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/that-tickles.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-reach-operator.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-rerecord-yr-message.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/tomorrow-night.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/typhoon.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/w.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/activated.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/because-paranoid.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/c.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/call-fwd-parallel.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/calls.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/chance-of.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/close-parenthesis.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/enter-ext-of-person.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/euros.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/falling.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/hang-on-a-second-angry.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/in-the-queue.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/juliet.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/less-than.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/mountain.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/ninetieth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/north.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/o.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/otherwise-press.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pipe.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pounds.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/telephone-in-your-pocket.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/tenth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/call-fwd-on-busy.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/eighteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/fortieth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/high.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/no-112-1.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/no-reply-no-mailbox.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/right-bracket.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/say-temp-msg-prs-pound.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/tornado.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/watch.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/beaufort.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/driving-directions.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/early.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/eleventh.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/enter-conf-pin-number.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/evening.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/from-unknown-caller.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/hurricane.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/i.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/in-the.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/international-call.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/j.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/just-kidding-not-upset2.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/left-bracket.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/lima.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/low.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/midnight-tonight.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/monitored.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/month.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/mostly.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/oscar.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pin-number-accepted.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pls-enter-vm-password.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/storm.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/telephone-in-your-pocket2.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/to-erase-yr-temp-grtg.gsm
+	  (1.1), var/lib/asterisk/sounds/loligo/tonight.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/too-low.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/why-no-answer-mystery.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/away-naughty-girl.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/call-fwd-no-ans.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/est-hold-time-is.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/first-in-line.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/for-tech-support.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/is-not-set.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/knots.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/press-star-cancel.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/quarter.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/quebec.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/second.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/sixteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/south.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/tango.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/thirtieth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-rec-yr-temp-grtg.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/v.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/alpha.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/atlantic.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/backslash.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/billionth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/celsius.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/easterly.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/freeze.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/goodbye.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/groovy.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/half.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/hang-on-a-second.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/minutes.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/nobody-but-chickens.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pls-try-again.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/thnk-u-for-patience.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/thousandth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-dial-by-name-press.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/call-quality-menu.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/clouds.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/de-activated.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/deadbeat.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/g.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/greater-than.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/has-been-cleared.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/hectopascal.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/is-curntly-unavail.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/missed.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/percent.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/quickly.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/rain.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/seventieth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/sighted.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/slowly.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/sunny.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/temperature.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/the-num-i-have-is.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-rerecord-it.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/twelveth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/u.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/what-are-you-wearing.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/channel-secure.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/default-attendant.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/directory.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/east.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/ent-target-attendant.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/exclaimation-point.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/f.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/for-billing.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/fourteenth.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/kilo.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/kilometers-per-hour.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/nbdy-avail-to-take-call.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/office-iguanas.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/partly.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/pascal.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/s.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/snow.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/space.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/to-accept-recording.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/silence/1.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/silence/10.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/silence/2.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/silence/3.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/silence/4.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/silence/5.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/silence/6.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/silence/7.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/silence/8.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/silence/9.gsm (1.1),
+	  var/lib/asterisk/sounds/loligo/silence/README-silence (1.1),
+	  var/lib/asterisk/sounds/phonetic/golf.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/whiskey.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/T-to-rtrn-to-main-menu.gsm
+	  (1.1),
+	  var/lib/asterisk/sounds/allison7/feature-not-avail-line.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/for-english-press.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/jedi-extension-trick.gsm
+	  (1.1),
+	  var/lib/asterisk/sounds/allison7/lines-complaining-customers.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/pls-try-call-later.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/www-switchboard-com.gsm
+	  (1.1), var/lib/asterisk/sounds/phonetic/alpha.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/bravo.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/charlie.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/delta.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/echo.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/foxtrot.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/hotel.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/india.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/juliet.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/kilo.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/lima.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/mike.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/niner.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/november.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/oscar.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/papa.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/quebec.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/romeo.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/sierra.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/tango.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/uniform.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/victor.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/xray.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/yankee.gsm (1.1),
+	  var/lib/asterisk/sounds/phonetic/zulu.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/digit.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/entering-conf-number.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/if-u-know-ext-dial.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/on-busy.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/plus.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/system-status-msg.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/to-collect-voicemail.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/allison-7.txt (1.1),
+	  var/lib/asterisk/sounds/allison7/enabled.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/no-empty-conferences.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/please-enter-your.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/uh-oh1.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/unconditional.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/what-time-it-is2.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/Archive.zip (1.1),
+	  var/lib/asterisk/sounds/allison7/current-time-is.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/days.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/divided-by.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/error-number.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/flagged-for-lea.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/has-been-changed-to.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/post-entry-pound.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/press-7.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/to-cancel-wakeup.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/to-extension.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/to-rqst-wakeup-call.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/to-snooze-for.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/what-time-it-is.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/within.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/years.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/accessible-through-system.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/calls-taken-by.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/directory-assistance.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/for-louie-louie.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/if-rotary-phone.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/on-monthly-tel-stment.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/that-number.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/to-rerecord-announce.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/welcome.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/T-to-enable-ancmnt.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/call-forwarding.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/continue-english-press.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/do-not-disturb.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/enter-phone-number10.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/equals.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/for-the-weather.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/infuriate-tech-staff.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/months.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/or-press.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/our-business-hours-are.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/pls-hold-while-try.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/press-3.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/speak-to-the-operator.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/thank-you-cooperation.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/that-you-require.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/to-hear-msg-again.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/wakeup-call.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/walks-into-bar-mail.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/weeks.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/T-changed-to.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/company-dir-411.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/enter-a-time.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/if-you-know-the.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/info-about-last-call.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/it-now.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/on-no-answer.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/press-hash.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/teletubbie-murder.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/will-reflect-charge-of.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/T-is-not-available.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/a-charge-for-this-svc.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/for-yes-press.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/has-been-disconnected.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/not-yet-assigned.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/pls-lv-msg-will-contact.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/press-6.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/rqsted-wakeup-for.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/the-new-number-is.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/the-next.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/this-is-yr-wakeup-call.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/uh-oh2.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/wish-to-continue.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/you-dialed-wrong-number.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/T-to-hear-cur-ancmnt.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/T-to-leave-msg.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/at-tone-time-exactly.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/by.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/for-wakeup-call.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/minus.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/now.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/please-try.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/pls-stay-on-line.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/press-1.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/reassigned-new-areacode.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/to-be-called-back.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/user.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/T-to-disable-ancmnt.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/T-to-reach-main-office.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/address.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/all-circuits-busy-now.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/digits.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/extensions.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/for-a-list-of.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/hear-toilet-flush.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/international-call.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/lyrics-louie-louie.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/office-code.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/pls-try-area-code.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/press-2.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/press-8.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/starting-with-either.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/to-confirm-wakeup.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/T-to-rec-ancmnt.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/added-to.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/all-reps-busy.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/an-error-has-occured.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/busy-hangovers.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/call-forward.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/computer-friend2.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/disabled.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/has-been.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/hear-odd-noise.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/list.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/no-info-about-number.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/no-longer-in-service.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/press-5.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/press-pound.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/the-number-u-dialed.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/to-join-a-meeting.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/wakeup-call-cancelled.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/your-account.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/1-for-am-2-for-pm.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/at-customers-request.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/computer-friend1.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/for-investor-relations.gsm
+	  (1.1), var/lib/asterisk/sounds/allison7/hold-or-dial-0.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/lea-may-request-info.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/press-4.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/press-star.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/save-announce-press.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/telephone-number.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/thank-you-for-calling.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/times.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/uk.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/zip-code.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/asterisk-friend.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/for-no-press.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/not-rqsted-wakeup.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/press-9.gsm (1.1),
+	  var/lib/asterisk/sounds/allison7/temp-disconnected.gsm (1.1),
+	  var/spool/asterisk/fax/fax.call (1.1),
+	  var/spool/asterisk/monitor/.wav (1.1), var/www/cgi-bin/vmail.cgi
+	  (1.1), var/www/html/amp.png (1.1), var/www/html/index.html (1.1),
+	  var/www/html/mainstyle.css (1.1),
+	  var/www/html/admin/callgroups.php (1.1),
+	  var/www/html/admin/config.php (1.1),
+	  var/www/html/admin/footer.php (1.1),
+	  var/www/html/admin/functions.php (1.1),
+	  var/www/html/admin/general.php (1.1),
+	  var/www/html/admin/header.php (1.1),
+	  var/www/html/admin/incoming.php (1.1),
+	  var/www/html/admin/index.php (1.1), var/www/html/admin/moh.php
+	  (1.1), var/www/html/admin/reports.php (1.1),
+	  var/www/html/admin/retrieve_extensions_from_mysql.pl (1.1),
+	  var/www/html/admin/retrieve_meetme_conf_from_mysql.pl (1.1),
+	  var/www/html/admin/vm_read.php (1.1),
+	  var/www/html/admin/bounce_op.sh (1.1),
+	  var/www/html/admin/retrieve_sip_conf_from_mysql.pl (1.1),
+	  var/www/html/admin/THIRDPARTYREADME.txt (1.1),
+	  var/www/html/admin/extensions.php (1.1),
+	  var/www/html/admin/ivr.php (1.1),
+	  var/www/html/admin/ivr_action.php (1.1),
+	  var/www/html/admin/ivrmap.php (1.1),
+	  var/www/html/admin/retrieve_op_conf_from_mysql.pl (1.1),
+	  var/www/html/admin/vm_conf.php (1.1),
+	  var/www/html/admin/voicemail.conf (1.1),
+	  var/www/html/admin/common/db_connect.php (1.1),
+	  var/www/html/admin/common/mainstyle.css (1.1),
+	  var/www/html/admin/common/script.js (1.1),
+	  var/www/html/admin/cdr/.DS_Store (1.1),
+	  var/www/html/admin/cdr/call-log.php (1.1),
+	  var/www/html/admin/cdr/graph_stat.php (1.1),
+	  var/www/html/admin/cdr/test.php (1.1),
+	  var/www/html/admin/cdr/about.php (1.1),
+	  var/www/html/admin/cdr/call-comp.php (1.1),
+	  var/www/html/admin/cdr/cdr.php (1.1),
+	  var/www/html/admin/cdr/css/content.css (1.1),
+	  var/www/html/admin/cdr/css/docbook.css (1.1),
+	  var/www/html/admin/cdr/css/layout.css (1.1),
+	  var/www/html/admin/cdr/css/images/corner-bl.png (1.1),
+	  var/www/html/admin/cdr/css/images/corner-br.png (1.1),
+	  var/www/html/admin/cdr/css/images/corner-tl.png (1.1),
+	  var/www/html/admin/cdr/css/images/corner-tr.png (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_bar.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_canvtools.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_error.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_plotmark.inc (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_gradient.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_gb2312.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/imgdata_squares.inc (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_line.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/imgdata_diamonds.inc (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/imgdata_pushpins.inc (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/imgdata_stars.inc (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_canvas.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_pie.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_regstat.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_stock.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_polar.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_gantt.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_imgtrans.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_scatter.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/imgdata_balls.inc (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/imgdata_bevels.inc (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_flags.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_radar.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_pie3d.php (1.1),
+	  var/www/html/admin/cdr/jpgraph_lib/jpgraph_log.php (1.1),
+	  var/www/html/admin/cdr/lib/Class.Table.php (1.1),
+	  var/www/html/admin/cdr/lib/defines.php.template (1.1),
+	  var/www/html/admin/cdr/lib/DB-modules/phplib_mssql.php (1.1),
+	  var/www/html/admin/cdr/lib/DB-modules/phplib_mysql.php (1.1),
+	  var/www/html/admin/cdr/lib/DB-modules/phplib_oci8.php (1.1),
+	  var/www/html/admin/cdr/lib/DB-modules/phplib_odbc.php (1.1),
+	  var/www/html/admin/cdr/lib/DB-modules/phplib_oracle.php (1.1),
+	  var/www/html/admin/cdr/lib/DB-modules/phplib_postgres.php (1.1),
+	  var/www/html/admin/cdr/lib/DB-modules/phplib_sybase.php (1.1),
+	  var/www/html/admin/cdr/images/fleche-g.gif (1.1),
+	  var/www/html/admin/cdr/images/header-projects.png (1.1),
+	  var/www/html/admin/cdr/images/icon_up_12x12.GIF (1.1),
+	  var/www/html/admin/cdr/images/th_call-compare.png (1.1),
+	  var/www/html/admin/cdr/lib/DB-modules/ciaosql.php (1.1),
+	  var/www/html/admin/cdr/images/header-download.png (1.1),
+	  var/www/html/admin/cdr/images/printable.png (1.1),
+	  var/www/html/admin/cdr/images/icon_down_12x12.GIF (1.1),
+	  var/www/html/admin/cdr/images/jukebox_ti60.gif (1.1),
+	  var/www/html/admin/cdr/images/th_call-logs.png (1.1),
+	  var/www/html/admin/cdr/images/asterisk.gif (1.1),
+	  var/www/html/admin/cdr/images/btn_top_12x12.gif (1.1),
+	  var/www/html/admin/cdr/images/button-search.gif (1.1),
+	  var/www/html/admin/cdr/images/call-logs.png (1.1),
+	  var/www/html/admin/cdr/images/fleche-d.gif (1.1),
+	  var/www/html/admin/cdr/images/header-faq.png (1.1),
+	  var/www/html/admin/cdr/images/icon_up_12x12.1.gif (1.1),
+	  var/www/html/admin/cdr/images/print.css (1.1),
+	  var/www/html/admin/cdr/images/sidenav-selected.gif (1.1),
+	  var/www/html/admin/cdr/images/spacer.gif (1.1),
+	  var/www/html/admin/cdr/images/call-compare.png (1.1),
+	  var/www/html/admin/cdr/images/header-search.png (1.1),
+	  var/www/html/admin/images/amp.png (1.1),
+	  var/www/html/admin/images/amp_footer.png (1.1),
+	  var/www/html/panel/LICENSE (1.1), var/www/html/panel/README
+	  (1.1), var/www/html/panel/TODO (1.1), var/www/html/panel/UPGRADE
+	  (1.1), var/www/html/panel/help.txt (1.1),
+	  var/www/html/panel/index.html (1.1),
+	  var/www/html/panel/op_server.cfg.template (1.1),
+	  var/www/html/panel/operator_panel.swf (1.1),
+	  var/www/html/panel/safe_opserver (1.1),
+	  var/www/html/panel/CHANGES (1.1), var/www/html/panel/FAQ (1.1),
+	  var/www/html/panel/VERSION (1.1),
+	  var/www/html/panel/extensions.conf.sample (1.1),
+	  var/www/html/panel/index-resizable.html (1.1),
+	  var/www/html/panel/op_buttons.cfg.example (1.1),
+	  var/www/html/panel/op_style.cfg (1.1),
+	  var/www/html/panel/operator_panel_fixed24.swf (1.1),
+	  var/www/html/panel/op_server.pl (1.1),
+	  var/www/html/panel/operator_panel3.swf (1.1),
+	  etc/zaptel.conf.template (1.1), etc/asterisk/logger.conf (1.1),
+	  etc/asterisk/meetme.conf (1.1), etc/asterisk/privacy.conf (1.1),
+	  etc/asterisk/vm_general.inc (1.1),
+	  var/www/html/_asterisk/animlogo.gif (1.1),
+	  var/www/html/_asterisk/play.gif (1.1),
+	  var/www/html/_asterisk/vmail.css (1.1), etc/asterisk/agents.conf
+	  (1.1), etc/asterisk/asterisk.conf (1.1),
+	  etc/asterisk/cdr_mysql.conf (1.1), etc/asterisk/extensions.conf
+	  (1.1), etc/asterisk/iax.conf (1.1), etc/asterisk/indications.conf
+	  (1.1), etc/asterisk/manager.conf (1.1), etc/asterisk/modem.conf
+	  (1.1), etc/asterisk/modules.conf (1.1),
+	  etc/asterisk/musiconhold.conf (1.1), etc/asterisk/parking.conf
+	  (1.1), etc/asterisk/phone.conf (1.1), etc/asterisk/phpagi.conf
+	  (1.1), etc/asterisk/queues.conf (1.1), etc/asterisk/rtp.conf
+	  (1.1), etc/asterisk/sip.conf (1.1),
+	  etc/asterisk/vm_email.inc.template (1.1),
+	  etc/asterisk/voicemail.conf.template (1.1),
+	  etc/asterisk/zapata.conf.template (1.1): Initial revision
+
+2004-10-13 18:17  rcourtna
+
+	* INSTALL (1.1.1.1), bounce_all.sh (1.1.1.1), apply_conf.sh
+	  (1.1.1.1), chown_asterisk.sh (1.1.1.1), SQL/cdr_mysql_table.sql
+	  (1.1.1.1), SQL/newinstall.sql (1.1.1.1): Initial import.
+
+2004-10-13 18:17  rcourtna
+
+	* INSTALL (1.1), bounce_all.sh (1.1), apply_conf.sh (1.1),
+	  chown_asterisk.sh (1.1), SQL/cdr_mysql_table.sql (1.1),
+	  SQL/newinstall.sql (1.1): Initial revision
+
