@@ -909,7 +909,9 @@ function backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans
 		break;
 		case "sip":
 			addSipOrIaxTrunk($peerdetails,'sip',$channelid,$trunknum);
-			addSipOrIaxTrunk($userconfig,'sip',$usercontext,'9'.$trunknum);
+			if ($usercontext != ""){
+				addSipOrIaxTrunk($userconfig,'sip',$usercontext,'9'.$trunknum);
+			}
 			if ($register != ""){
 				addTrunkRegister($trunknum,'sip',$register);
 			}
