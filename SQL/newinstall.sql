@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 -- 
 
 INSERT INTO `admin` VALUES ('need_reload', 'false');
-INSERT INTO `admin` VALUES ('version','1.10.005');
+INSERT INTO `admin` VALUES ('version','1.10.007');
 -- --------------------------------------------------------
 
 -- 
@@ -85,6 +85,7 @@ INSERT INTO `globals` VALUES ('AFTER_INCOMING', '');
 INSERT INTO `globals` VALUES ('IN_OVERRIDE', 'forcereghours');
 INSERT INTO `globals` VALUES ('REGTIME', '7:55-17:05');
 INSERT INTO `globals` VALUES ('REGDAYS', 'mon-fri');
+INSERT INTO `globals` VALUES ('DIRECTORY_OPTS', '');
 
 -- --------------------------------------------------------
 
