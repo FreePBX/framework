@@ -194,7 +194,7 @@ If this is the first time installing (ie: there is no exisiting configuration):
 		- cd /usr/src/AMP
 		- ./chown_asterisk.sh
 
-	Change the AMP URL (ip address) in:
+	Change the server URL (ip address) in:
 		
 		- /var/www/html/admin/cdr/lib/defines.php
 		- /etc/asterisk/vm_email.inc
@@ -219,6 +219,7 @@ Configure zaptel driver:
 Configure zapata module in asterisk config.
 
 	- edit /etc/asterisk/zapata.conf to reflect installed digium interfaces
+	- IMPORTANT! - ensure that FXO zap channels have "group=0"
 
 
 ###
