@@ -1,0 +1,300 @@
+###
+Installing Asterisk Management Portal (AMP)
+
+
+###
+AMP has several requirements, including the following packages:
+
+	libxml2
+	libtiff
+	libtiff-devel
+	lame
+	httpd (Apache)
+	mysql
+	php
+	php-mysql
+	openssl
+	kernel-source
+
+### Perl module Net::Telnet is required:
+	
+	 perl -MCPAN -e "install Net::Telnet"
+
+###
+Download the latest AMP files from CVS:
+
+	- cd /usr/src
+	- cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/amportal login   [null password]
+	- cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/amportal co AMP
+	
+	
+###		
+Some linux distros have replaced the mpg123 application with another application, mpg321, and created a symbolic link to "mpg123", so it seems to work in the same way. Asterisk MusicOnHold only works with original mpg123.
+
+	- Remove the symbolic links mpg123 located in /usr/bin and /usr/local/bin:
+	- rm /usr/bin/mpg123
+	- rm /usr/local/bin/mpg123 
+	- Then install mpg123 from http://www.mpg123.de
+	
+###
+AMP requires the following changes to php and apache for uploading new MOH files:
+
+	- vi +482 /etc/php.ini
+		upload_max_filesize=20M
+	- vi +14 /etc/httpd/conf.d/php.conf
+		LimitRequestBody 20000000
+	- cd /usr/src/voxbox
+	- rpm -ivh lame-3.96-1.rhel3.dag.i386.rpm
+		
+###
+Download asterisk-perl from http://asterisk.gnuinter.net and install it
+
+	
+###
+Mime-contruct is needed to generate emails with fax file attachments:
+
+	- perl -MCPAN -e "install IPC::Signal"
+	
+	- perl -MCPAN -e "install Proc::WaitStat"
+	
+	- download mime-construct from http://search.cpan.org/~rosch/mime-construct-1.8
+	- install it
+
+
+###
+Getting Asterisk and Zaptel (AMP uses the v1.0 branch)
+
+	- cd /usr/src
+	- export CVS_RSH=
+	- export CVSROOT=:pserver:anoncvs@cvs.digium.com:/usr/cvsroot
+	- cvs login      (the password is: anoncvs)
+	- cvs checkout -r v1-0 zaptel asterisk asterisk-addons
+
+
+###
+For zap devices (FXO/FXS):
+
+	- cd /usr/src/zaptel
+	- make && make install
+
+	This will build the wcfxo.o (and wcfxs.o) module/driver which needs to be loaded (as root) into the kernel:
+
+	- modprobe wcfxs (or wcfxo for x100p)
+
+	Confirm that the module is loaded with lsmod:
+
+		[root@voxbox root]# lsmod | grep wcfxo
+		wcfxs                  9280   0  (unused)
+		zaptel                179584   0  [wcfxs]
+
+	
+###
+Patching Asterisk with softfax/spandsp.
+
+	- Download the latest spandsp files from http://www.opencall.org
+	- cd /usr/src/voxbox/spandsp-xxx
+	- ./configure
+	- make && make install
+
+	The spandsp libraries are installed to /usr/local/lib.  Therefore /usr/local/lib must be added to the LD_LIBRARY_PATH environment variable of the user that starts the asterisk process. To be safe, also ad it to /etc/ld.so.conf and run ldconfig.
+
+	Copy the following files (from opencall.org) to /usr/src/asterisk/apps/ :
+
+		- cp app_rxfax.c /usr/src/asterisk/apps/
+		- cp app_txfax.c /usr/src/asterisk/apps/
+		- cp Makefile.patch /usr/src/asterisk/apps/
+
+	- cd /usr/src/asterisk/apps
+	- patch < Makefile.patch
+
+		
+###
+Create a group and non-root user:
+
+	- groupadd asterisk
+	- useradd -c "asterisk PBX" -d /var/lib/asterisk -u 5060 -g voxbox voxbox
+	
+	
+###
+Building Asterisk and configuring it to run as a non-root user
+
+	- Edit /usr/src/asterisk/Makefile such that:
+
+		ASTVARRUNDIR=$(INSTALL_PREFIX)/var/run/asterisk
+
+	- make clean && make && make install
+
+	The user that will run the asterisk process must own several directories/files:
+	
+	- cd /usr/src/AMP
+	- chown_asterisk.sh
+
+
+###
+Setting up MySQL for CDR
+**Note, it is recommended that you not change the 'amp109' password below.  If you do opt to change it, you will need to do a search/replace in the AMP directory (until someone writes a script to do this for us)
+
+	- /usr/bin/mysql_install_db
+	- service mysqld start
+
+	- mysqladmin -u root password 'db_root_pwd'
+	- mysqladmin -u root -h voxbox password 'db_root_pwd'
+	- mysqladmin create asteriskcdrdb -p
+	- mysql --user root -p
+
+		mysql> GRANT ALL PRIVILEGES
+			-> ON asteriskcdrdb.*
+			-> TO asteriskuser@localhost
+			-> IDENTIFIED BY 'amp109';
+
+		mysql> quit
+
+	- mysql --user=root --password=db_root_pwd asteriskcdrdb < /usr/src/AMP/SQL/cdr_mysql_table.sql
+
+	
+###
+Get and build cdr_mysql module for asterisk
+
+	- cd /usr/src/asterisk-addons
+	- make clean && make && make install
+
+
+###
+Setup MySQL for voxbox admin
+
+	- mysqladmin create asterisk -p
+	- mysql --user root -p asterisk < /usr/src/AMP/SQL/newinstall.sql
+	- mysql --user root -p asterisk
+
+		mysql> GRANT ALL PRIVILEGES
+			-> ON asterisk.*
+			-> TO asteriskuser@localhost
+			-> IDENTIFIED BY 'amp109';
+
+		mysql> quit
+
+		
+###
+Copy in all necessary Asterisk configuration files
+
+	- cd /usr/src/AMP
+	- ./apply_conf.sh
+	
+###
+If this is the first time installing (ie: there is no exisiting configuration):
+	
+		- cd /etc/asterisk
+		- mv vm_email.inc.template vm_email.inc
+		- cp  voicemail.conf.template voicemail.conf
+		- mv zapata.conf.template zapata.conf
+		- cd /var/www/html/admin/cdr/lib
+		- mv defines.php.template defines.php
+		- cd /var/www/html/panel
+		- mv op_server.cfg.template op_server.cfg
+		- cd /usr/src/AMP
+		- ./chown_asterisk.sh
+
+	Change the AMP URL (ip address) in:
+		
+		- /var/www/html/admin/cdr/lib/defines.php
+		- /etc/asterisk/vm_email.inc
+		- /var/www/html/panel/op_server.cfg
+		
+	Modify lines 28+ of /var/www/html/admin/retrieve_op_conf_from_mysql.pl to reflect the number of zap channels you have
+		
+
+###
+Configure zaptel driver:
+
+	- edit /etc/zaptel.conf to reflect installed digium interfaces
+	- ztcfg -v
+
+			Zaptel Configuration
+			======================
+			
+			1 channels configured.
+
+
+###
+Configure zapata module in asterisk config.
+
+	- edit /etc/asterisk/zapata.conf to reflect installed digium interfaces
+
+
+###
+httpd (Apache) configuration
+
+	- Edit /etc/httpd/conf/httpd.conf so that:
+
+		User asterisk
+		Group asterisk
+		
+		and:
+		
+		#Password protect /var/www/html/admin
+		<Directory /var/www/html/admin>
+		AuthType Basic
+		AuthName "Restricted Area"
+		AuthUserFile /usr/local/apache/passwd/wwwpasswd
+		Require user wwwadmin
+		</Directory>
+
+	- To create the wwwpasswd file:
+
+		mkdir /usr/local/apache
+		mkdir /usr/local/apache/passwd
+		htpasswd -c /usr/local/apache/passwd/wwwpasswd wwwadmin
+
+
+###
+Asterisk user environment
+
+	- Edit /var/lib/asterisk/.bash_profile to include /usr/sbin in the PATH and set the LD_LIBRARY_PATH variable:
+
+		PATH=$PATH:/usr/sbin:$HOME/bin
+		export PATH
+		export LD_LIBRARY_PATH=/usr/local/lib
+
+###
+Auto Start
+
+	- Add to /etc/rc.d/rc.local:
+	
+		echo REMOVING WCFXS
+		/sbin/modprobe -r wcfxs
+		echo ADDING WCFXS
+		/sbin/modprobe wcfxs
+		echo STARTING ASTERISK
+		su asterisk -c "export PATH=$PATH:/usr/sbin && export LD_ASSUME_KERNEL=2.4.1 && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
+		/usr/sbin/asterisk -rx 'sip debug'
+		sleep 7
+		echo STARTING op_server.pl
+		cd /var/www/html/panel; su voxbox -c /var/www/html/panel/safe_opserver &
+		
+	 
+###
+Checks:
+
+	ensure that httpd is running as user 'asterisk'
+	(NOTE: voxbox/chown_asterisk.sh should take care of these)
+	ensure that asterisk owns /etc/asterisk
+	ensure that asterisk owns /var/www/html/admin
+	ensure that the perl scripts under /var/www/html/admin have the execute bit set
+
+	
+###
+Start httpd and asterisk
+
+	- As root run:
+
+		service httpd start
+
+	- As asterisk run:
+
+		safe_asterisk
+
+	- Point your browser to:
+
+		http://[ip address]/admin
+
+
