@@ -1906,8 +1906,8 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 							$temp = & $vmconf[$section][ $key ];
 							
 							$options = array();
-							foreach ($temp["options"] as $key=>$value) {
-								$options[] = $key."=".$value;
+							foreach ($temp["options"] as $key1=>$value) {
+								$options[] = $key1."=".$value;
 							}
 							
 							$output[] = $temp["mailbox"]."=>".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
