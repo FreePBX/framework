@@ -637,7 +637,7 @@ function gettrunks() {
 function addSipOrIaxTrunk($config,$table,$channelid,$trunknum) {
 	global $db;
 	
-	echo "addSipOrIaxTrunk($config,$table,$channelid,$trunknum)";
+	//echo "addSipOrIaxTrunk($config,$table,$channelid,$trunknum)";
 	
 	$confitem[] = array('account',$channelid);
 	$gimmieabreak = nl2br($config);
@@ -669,13 +669,146 @@ function getTrunkTech($trunknum) {
 	return $tech;
 }
 
+
+
+function addTrunkDialRules($trunknum, $rules) {
+	global $db;
+	
+	foreach ($rules as $rule) {
+		$values = array();
+		
+		if (false !== ($pos = strpos($rule,"|"))) {
+			// we have a | meaning to not dial the numbers before it
+			// (ie, 1613|NXXXXXX should use the pattern _1613NXXXXXX but only pass NXXXXXX, not the leading 1613)
+			
+			$exten = "EXTEN:".$pos; // chop off leading digit
+			$prefix = "";
+			
+			$rule = str_replace("|","",$rule); // remove all |'s
+			
+		} else if (false !== ($pos = strpos($rule,"+"))) {
+			// we have a + meaning to add the numbers before it
+			// (ie, 1613+NXXXXXX should use the pattern _NXXXXXX but pass it as 1613NXXXXXX)
+			
+			$prefix = substr($rule,0,$pos); // get the prefixed digits
+			$exten = "EXTEN"; // pass as is
+			
+			$rule = substr($rule, $pos+1); // only match pattern after the +
+		} else {
+			// we pass the full dialed number as-is
+			$exten = "EXTEN"; 
+			$prefix = "";
+		}
+		
+		if (!preg_match("/^[0-9*]+$/",$rule)) { 
+			// note # is not here, as asterisk doesn't recoginize it as a normal digit, thus it requires _ pattern matching
+			
+			// it's not strictly digits, so it must have patterns, so prepend a _
+			$rule = "_".$rule;
+		}
+		
+		$values[] = array('1', 'Dial', '${OUT_'.$trunknum.'}/${OUTPREFIX_'.$trunknum.'}'.$prefix.'${'.$exten.'}');
+		$values[] = array('2', 'Congestion', '');
+		$values[] = array('102', 'NoOp', 'outdial-'.$trunknum.' dial failed');
+		
+		$sql = "INSERT INTO extensions (context, extension, priority, application, args) VALUES ";
+		$sql .= "('outdial-".$trunknum."', ";
+		$sql .= "'".$rule."', ";
+		// priority, application, args:
+		$sql .= "?, ?, ?)";
+		
+		$compiled = $db->prepare($sql);
+		$result = $db->executeMultiple($compiled,$values);
+		if(DB::IsError($result)) {
+			//var_dump($result);
+			die($result->getMessage());
+		}
+		
+	}
+	
+	// catch-all extension
+	$sql = "INSERT INTO extensions (context, extension, priority, application, args) VALUES ";
+	$sql .= "('outdial-".$trunknum."-catchall', ";
+	$sql .= "'_.', ";
+	// priority, application, args:
+	$sql .= "'1', ";
+	$sql .= "'Dial', ";
+	$sql .= "'\${OUT_".$trunknum."}/\${OUTPREFIX_".$trunknum."}\${EXTEN}');";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+
+	// include catch-all in main context
+	$sql = "INSERT INTO extensions (context, extension, priority, application, flags) VALUES ";
+	$sql .= "('outdial-".$trunknum."', ";
+	$sql .= "'include', ";
+	$sql .= "'1', ";
+	$sql .= "'outdial-".$trunknum."-catchall', ";
+	$sql .= "'2');";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+}
+
+function deleteTrunkDialRules($trunknum) {
+	global $db;
+	
+	$sql = "DELETE FROM extensions WHERE context = 'outdial-".$trunknum."'";
+
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+
+	// the "catch-all" extension
+	$sql = "DELETE FROM extensions WHERE context = 'outdial-".$trunknum."-catchall'";
+
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+}
+
+function getTrunkDialRules($trunknum) {
+	global $db;
+	$sql = "SELECT extension, args FROM extensions WHERE context = 'outdial-".$trunknum."' AND application = 'Dial' ORDER BY extension ";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	
+	$rules = array();
+	foreach ($results as $row) {
+		if ($row[0][0] == "_") {
+			// remove leading _
+			$rule = substr($row[0],1);
+		} else {
+			$rule = $row[0];
+		}
+		
+		if (preg_match("/(\d*){EXTEN:(\d+)}/", $row[1], $matches)) {
+			// this has a digit offset, we need to insert a |
+			$rule = substr($rule,0,$matches[2])."|".substr($rule,$matches[2]);
+		} else if (preg_match("/(\d){EXTEN}/", $row[1], $matches)) {
+			// this has a prefix, insert a +
+			$rule = substr($rule,0,strlen($matches[1]))."+".substr($rule,strlen($matches[1]));
+		}
+		
+		$rules[] = $rule;
+	}
+	return array_unique($rules);
+	
+}
+
 // just used internally by addTrunk() and editTrunk()
 function backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register) {
 	global $db;
 	
 	if (!$dialoutprefix) $dialoutprefix = ""; // can't be NULL
 	
-	echo  "backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register)";
+	//echo  "backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register)";
 	
 	// change iax to "iax2" (only spot we actually store iax2, since its used by Dial()..)
 	$techtemp = ((strtolower($tech) == "iax") ? "iax2" : $tech);
@@ -690,14 +823,11 @@ function backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans
 	unset($techtemp); 
 	
 	$compiled = $db->prepare('INSERT INTO globals (variable, value) values (?,?)');
-	var_dump($glofields);
 	$result = $db->executeMultiple($compiled,$glofields);
 	if(DB::IsError($result)) {
-	var_dump($result);
 		die($result->getMessage()."<br><br>".$sql);
 	}
 	
-	echo "writeoutdids";
 	writeoutids();
 	
 	//addOutTrunk($trunknum); don't need to add to outbound-routes anymore
@@ -737,9 +867,11 @@ function addTrunk($tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerde
 	}
 	
 	backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register);
+	
+	return $trunknum;
 }
 
-function deltrunk($trunknum, $tech = null) {
+function deleteTrunk($trunknum, $tech = null) {
 	global $db;
 	
 	if ($tech === null) { // in EditTrunk, we get this info anyways
@@ -759,6 +891,7 @@ function deltrunk($trunknum, $tech = null) {
 
 	//delete from extensions table
 	//delextensions('outbound-trunks','_${DIAL_OUT_'.$trunknum.'}.');
+	//DIALRULES deleteTrunkRules($trunknum);
 	
 	//and conditionally, from iax or sip
 	switch (strtolower($tech)) {
@@ -781,9 +914,9 @@ function deltrunk($trunknum, $tech = null) {
 }
 
 function editTrunk($trunknum, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register) {
-echo "editTrunk($trunknum, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register)";
+	//echo "editTrunk($trunknum, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register)";
 	$tech = getTrunkTech($trunknum);
-	deltrunk($trunknum, $tech);
+	deleteTrunk($trunknum, $tech);
 	backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register);
 }
 
@@ -919,8 +1052,8 @@ function addTrunkRegister($trunknum,$tech,$reg) {
 //get unique outbound route names
 function getroutenames() {
 	global $db;
-	$sql = "SELECT DISTINCT SUBSTRING(context,15) FROM extensions WHERE context LIKE 'outboundroute-%' ORDER BY context ";
-	// we SUBSTRING() to remove "outboundroute-"
+	$sql = "SELECT DISTINCT SUBSTRING(context,7) FROM extensions WHERE context LIKE 'outrt-%' ORDER BY context ";
+	// we SUBSTRING() to remove "outrt-"
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 		die($results->getMessage());
@@ -928,11 +1061,14 @@ function getroutenames() {
 	return $results;
 }
 
+// SQL to convert from "outboundroute-"
+//TODO This comment should be removed before release
+//UPDATE extensions SET context = CONCAT('outrt-',SUBSTRING(context,15)) WHERE context LIKE 'outboundroute-%' 
+
 //get unique outbound route patterns for a given context
 function getroutepatterns($route) {
 	global $db;
-	$sql = "SELECT extension, args FROM extensions WHERE context = 'outboundroute-".$route."' AND args LIKE 'dialout-trunk%' ORDER BY extension ";
-	// we SUBSTRING() to remove the _
+	$sql = "SELECT extension, args FROM extensions WHERE context = 'outrt-".$route."' AND args LIKE 'dialout-trunk%' ORDER BY extension ";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 		die($results->getMessage());
@@ -960,7 +1096,7 @@ function getroutepatterns($route) {
 //get unique outbound route trunks for a given context
 function getroutetrunks($route) {
 	global $db;
-	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outboundroute-".$route."' AND args LIKE 'dialout-trunk,%' ORDER BY priority ";
+	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND args LIKE 'dialout-trunk,%' ORDER BY priority ";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 		die($results->getMessage());
@@ -1008,7 +1144,7 @@ function addroute($name, $patterns, $trunks) {
 			$priority += 1; // since arrays are 0-based, but we want priorities to start at 1
 			
 			$sql = "INSERT INTO extensions (context, extension, priority, application, args) VALUES ";
-			$sql .= "('outboundroute-".$name."', ";
+			$sql .= "('outrt-".$name."', ";
 			$sql .= "'".$pattern."', ";
 			$sql .= "'".$priority."', ";
 			$sql .= "'Macro', ";
@@ -1023,7 +1159,7 @@ function addroute($name, $patterns, $trunks) {
 		
 		$priority += 1;
 		$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr) VALUES ";
-		$sql .= "('outboundroute-".$name."', ";
+		$sql .= "('outrt-".$name."', ";
 		$sql .= "'".$pattern."', ";
 		$sql .= "'".$priority."', ";
 		$sql .= "'Macro', ";
@@ -1037,7 +1173,7 @@ function addroute($name, $patterns, $trunks) {
 	}
 
 	
-	// add an include=>outboundroute-$name  to [outbound-allroutes]:
+	// add an include=>outrt-$name  to [outbound-allroutes]:
 	
 	// we have to find the first available priority.. priority doesn't really matter for the include, but
 	// there is a unique index on (context,extension,priority) so if we don't do this we can't put more than
@@ -1059,7 +1195,7 @@ function addroute($name, $patterns, $trunks) {
 	$sql .= "('outbound-allroutes', ";
 	$sql .= "'include', ";
 	$sql .= "'".$priority."', ";
-	$sql .= "'outboundroute-".$name."', ";
+	$sql .= "'outrt-".$name."', ";
 	$sql .= "'', ";
 	$sql .= "'', ";
 	$sql .= "'2')";
@@ -1073,13 +1209,13 @@ function addroute($name, $patterns, $trunks) {
 
 function deleteroute($name) {
 	global $db;
-	$sql = "DELETE FROM extensions WHERE context = 'outboundroute-".$name."'";
+	$sql = "DELETE FROM extensions WHERE context = 'outrt-".$name."'";
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
 		die($result->getMessage());
 	}
 	
-	$sql = "DELETE FROM extensions WHERE context = 'outbound-allroutes' AND application = 'outboundroute-".$name."' ";
+	$sql = "DELETE FROM extensions WHERE context = 'outbound-allroutes' AND application = 'outrt-".$name."' ";
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
 		die($result->getMessage());
@@ -1093,5 +1229,94 @@ function editroute($name, $patterns, $trunks) {
 	addroute($name, $patterns, $trunks);
 }
 
+
+function parse_conf($filename, &$conf, &$section) {
+	if (is_null($conf)) {
+		$conf = array();
+	}
+	if (is_null($section)) {
+		$section = "general";
+	}
+	
+	if (file_exists($filename)) {
+		$fd = fopen($filename, "r");
+		while ($line = fgets($fd, 1024)) {
+			if (preg_match("/^\s*([a-zA-Z0-9-_]+)\s*=\s*(.*?)\s*([;#].*)?$/",$line,$matches)) {
+				// name = value
+				// option line
+				$conf[$section][ $matches[1] ] = $matches[2];
+			} else if (preg_match("/^\s*\[(.+)\]/",$line,$matches)) {
+				// section name
+				$section = strtolower($matches[1]);
+			} else if (preg_match("/^\s*#include\s+(.*)\s*([;#].*)?/",$line,$matches)) {
+				// include another file
+				
+				if ($matches[1][0] == "/") {
+					// absolute path
+					$filename = $matches[1];
+				} else {
+					// relative path
+					$filename =  dirname($filename)."/".$matches[1];
+				}
+				
+				parse_conf($filename, $conf, $section);
+			}
+		}
+	}
+}
+
+function readDialRulesFile() {
+	global $localPrefixFile; // probably not the best way
+	
+	parse_conf($localPrefixFile, &$conf, &$section);
+	
+	return $conf;
+}
+
+function getDialRules($trunknum) {
+	$conf = readDialRulesFile();
+	if (isset($conf["trunk-".$trunknum])) {
+		return $conf["trunk-".$trunknum];
+	}
+	return false;
+}
+
+function writeDialRulesFile($conf) {
+	global $localPrefixFile; // probably not the best way
+	
+	$fd = fopen($localPrefixFile,"w");
+	foreach ($conf as $section=>$values) {
+		fwrite($fd, "[".$section."]\n");
+		foreach ($values as $key=>$value) {
+			fwrite($fd, $key."=".$value."\n");
+		}
+		fwrite($fd, "\n");
+	}
+	fclose($fd);
+}
+
+function addDialRules($trunknum, $dialrules) {
+	$values = array();
+	$i = 1;
+	foreach ($dialrules as $rule) {
+		$values["rule".$i++] = $rule;
+	}
+	
+	$conf = readDialRulesFile();
+	
+	// rewrite for this trunk
+	$conf["trunk-".$trunknum] = $values;
+	
+	writeDialRulesFile($conf);
+}
+
+function deleteDialRules($trunknum) {
+	$conf = readDialRulesFile();
+	
+	// remove rules for this trunk
+	unset($conf["trunk-".$trunknum]);
+	
+	writeDialRulesFile($conf);
+}
 
 ?>
