@@ -189,6 +189,7 @@ function addiax($account,$callerid) {
                     array($account,'mailbox',$_REQUEST['mailbox']),
                     array($account,'username',$_REQUEST['username']),
 					array($account,'port',$_REQUEST['iaxport']),
+					array($account,'qualify',$_REQUEST['qualify']),
 					array($account,'callerid',$callerid));
 
     $compiled = $db->prepare('INSERT INTO iax (id, keyword, data) values (?,?,?)');
@@ -227,6 +228,7 @@ function addsip($account,$callerid) {
 	                    array($account,'username',$_REQUEST['username']),
 						array($account,'nat',$_REQUEST['nat']),
 						array($account,'port',$_REQUEST['port']),
+						array($account,'qualify',$_REQUEST['qualify']),
 						array($account,'callerid',$callerid));
 
 	    $compiled = $db->prepare('INSERT INTO sip (id, keyword, data) values (?,?,?)');
@@ -294,6 +296,7 @@ function editSip($account,$callerid){
                     array($_REQUEST['username'],$account,'username'),
 					array($_REQUEST['nat'],$account,'nat'),
 					array($_REQUEST['port'],$account,'port'),
+					array($_REQUEST['qualify'],$account,'qualify'),
 					array($callerid,$account,'callerid'));
 
     $compiled = $db->prepare('UPDATE sip SET data = ? WHERE id = ? AND keyword = ? LIMIT 1');
@@ -316,6 +319,7 @@ function editIax($account,$callerid){
                     array($_REQUEST['mailbox'],$account,'mailbox'),
                     array($_REQUEST['username'],$account,'username'),
 					array($_REQUEST['port'],$account,'port'),
+					array($_REQUEST['qualify'],$account,'qualify'),
 					array($callerid,$account,'callerid'));
 
     $compiled = $db->prepare('UPDATE iax SET data = ? WHERE id = ? AND keyword = ? LIMIT 1');

@@ -240,6 +240,7 @@ switch($extdisplay) {
 			<input type="hidden" name="port" value="<? echo ($port==null) ? '5060' : $port; ?>"/>
 			<input type="hidden" name="iaxport" value="<? echo ($iaxport==null) ? '4569' : $iaxport; ?>"/>
 			<input type="hidden" name="notransfer" value="<? echo ($notransfer==null) ? 'yes' : $notransfer; ?>"/>
+			<input type="hidden" name="qualify" value="<? echo ($qualify==null) ? 'no' : $qualify; ?>"/>
 			<tr>
 				<td>
 					&nbsp;
@@ -378,6 +379,7 @@ switch($extdisplay) {
         <input type="hidden" name="username" value=""/>
 		<input type="hidden" name="iaxport" value="4569"/>
         <input type="hidden" name="notransfer" value="yes"/>
+		<input type="hidden" name="qualify" value="no"/>
             <tr>
                 <td>
                     &nbsp;
