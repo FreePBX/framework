@@ -27,7 +27,7 @@ if ($_REQUEST['clk_reload'] == 'true') {
 	exec("/usr/sbin/asterisk -r -x reload");
 	
 	//bounce op_server.pl
-	$wOpBounce = rtrim($_SERVER['PATH_TRANSLATED'],$currentFile).'bounce_op.sh';
+	$wOpBounce = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'bounce_op.sh';
 	exec($wOpBounce.'>/dev/null');
 	
 	//store asterisk reloaded status

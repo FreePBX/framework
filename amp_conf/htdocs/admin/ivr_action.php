@@ -16,7 +16,7 @@
 //this file checks to see if we need to adjust the extensions table, makes changes, and then calls ivrmap.php to display map
 
 $ivract_target = $_REQUEST['ivract_target'];
-$wScript = rtrim($_SERVER['PATH_TRANSLATED'],$currentFile).'retrieve_extensions_from_mysql.pl';
+$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
 
 switch($_REQUEST['ivr_action']) {
 	case 'delete':

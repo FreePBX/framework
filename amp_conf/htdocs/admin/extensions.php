@@ -12,16 +12,16 @@
 //GNU General Public License for more details.
 
 //script to write sip conf file from mysql
-$wScript = rtrim($_SERVER['PATH_TRANSLATED'],$currentFile).'retrieve_sip_conf_from_mysql.pl';
+$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_sip_conf_from_mysql.pl';
 
 //script to write extensions_additional.conf file from mysql
-$wScript1 = rtrim($_SERVER['PATH_TRANSLATED'],$currentFile).'retrieve_extensions_from_mysql.pl';
+$wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
 
 //script to write op_server.cfg file from mysql 
-$wOpScript = rtrim($_SERVER['PATH_TRANSLATED'],$currentFile).'retrieve_op_conf_from_mysql.pl';
+$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
 
 //script to write meetme_additional.conf file from mysql 
-$wMeetScript = rtrim($_SERVER['PATH_TRANSLATED'],$currentFile).'retrieve_meetme_conf_from_mysql.pl';
+$wMeetScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_meetme_conf_from_mysql.pl';
 	
 $action = $_REQUEST['action'];
 //$display=$_REQUEST['display'];

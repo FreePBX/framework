@@ -14,7 +14,7 @@
 
 <?
 //script to write conf file from mysql
-$wScript = rtrim($_SERVER['PATH_TRANSLATED'],$currentFile).'retrieve_extensions_from_mysql.pl';
+$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
 
 
 $action = $_REQUEST['action'];
