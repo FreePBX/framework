@@ -10,9 +10,17 @@
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
+// start session
+session_start();
+
+// check for logout in request
+if ($_REQUEST["action"] == "logout") {
+	$_SESSION["logout"] = "yes";
+	unset($_SESSION["user"]);
+}
 ?>
 
-<?php 
+<?php
 $title="Asterisk Management Portal";
 $message="Administration";
 

@@ -24,7 +24,6 @@ $iaxScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_iax_conf_
 //script to write op_server.cfg file from mysql 
 $wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
 
-$localPrefixFile = "/etc/asterisk/localprefixes.conf";
 
 $userdisplay = $_REQUEST['userdisplay'];
 $action = $_REQUEST['action'];

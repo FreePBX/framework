@@ -50,16 +50,16 @@ function timeString($seconds, $full = false) {
 function addAmpUser($username, $password, $extension_low, $extension_high, $deptname, $sections) {
 	global $db;
 	$sql = "INSERT INTO ampusers (username, password, extension_low, extension_high, deptname, sections) VALUES (";
-	$sql .= "'".$username."', ";
-	$sql .= "'".$password."', ";
-	$sql .= "'".$extension_low."', ";
-	$sql .= "'".$extension_high."', ";
-	$sql .= "'".$deptname."', ";
-	$sql .= "'".implode(";",$sections)."'); ";
+	$sql .= "'".$username."',";
+	$sql .= "'".$password."',";
+	$sql .= "'".$extension_low."',";
+	$sql .= "'".$extension_high."',";
+	$sql .= "'".$deptname."',";
+	$sql .= "'".implode(";",$sections)."');";
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
-		die($result->getMessage());
-	}
+		die($result->getMessage().'<hr>'.$sql);
+	} 
 }
 
 function deleteAmpUser($username) {
@@ -96,8 +96,8 @@ function getAmpUser($username) {
 		$user = array();
 		$user["username"] = $results[0][0];
 		$user["password"] = $results[0][1];
-		$user["extension_high"] = $results[0][2];
-		$user["extension_low"] = $results[0][3];
+		$user["extension_low"] = $results[0][2];
+		$user["extension_high"] = $results[0][3];
 		$user["deptname"] = $results[0][4];
 		$user["sections"] = explode(";",$results[0][5]);
 		return $user;

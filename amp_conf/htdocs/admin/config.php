@@ -25,12 +25,20 @@ session_start();
 // connect to database
 require_once('common/db_connect.php'); //PEAR must be installed
 
+//  unset server vars if we are logged out
+if (isset($_SESSION["logout"])) {
+	unset($_SERVER["PHP_AUTH_USER"]);
+	unset($_SERVER["PHP_AUTH_PW"]);
+	unset($_SESSION["logout"]);
+}
+
 switch ($amp_conf["AUTHTYPE"]) {
 	case "database":
 		if (!isset($_SERVER["PHP_AUTH_USER"])) {
 			header("WWW-Authenticate: Basic realm=\"AMPortal\"");
 			header("HTTP/1.0 401 Unauthorized");
-			echo "You are not authorized to use this resource";
+			echo "You are not authorized to use this resource<br>";
+			echo "<a href=index.php?action=logout>Go Back</a>";
 			exit;
 		} else {
 			$_SESSION["user"] = new ampuser($_SERVER["PHP_AUTH_USER"]);
@@ -42,7 +50,8 @@ switch ($amp_conf["AUTHTYPE"]) {
 					$_SESSION["user"]->setAdmin();
 				} else {
 					header("HTTP/1.0 401 Unauthorized");
-					echo "You are not authorized to use this resource";
+					echo "You are not authorized to use this resource<br>";
+					echo "<a href=index.php?action=logout>Go Back</a>";
 					exit;
 				}
 			}

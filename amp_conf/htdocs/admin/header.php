@@ -17,7 +17,7 @@
     $currentFile = $_SERVER["PHP_SELF"];
     $parts = Explode('/', $currentFile);
     $currentFile = $parts[count($parts) - 1];
-	
+
 ?>
 
 <html>
@@ -57,6 +57,7 @@
 	if (isset($_SESSION["user"])) {
 		if ($amp_conf["AUTHTYPE"] != "none") {
 			echo "Logged in: ".$_SESSION["user"]->username;
+			echo " (<a href=index.php?action=logout>logout</a>)";
 			echo "&nbsp;::&nbsp;";
 		}
 	}
