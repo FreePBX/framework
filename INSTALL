@@ -46,12 +46,15 @@ AMP requires the following changes to php and apache for uploading new MOH files
 	- vi +14 /etc/httpd/conf.d/php.conf (if you have it)
 		LimitRequestBody 20000000
 
-** NOTE: AMP assumes Apache's document root is /var/www/html. If you have this directory on your system, then it is probably safe to continue.  Otherwise, please modify the document root. ie:
+** NOTE: AMP assumes Apache's document root is /var/www/html.  cgi-bin is expected to be /var/www/cgi-bin. If you have these directory on your system, then it is probably safe to continue.  Otherwise, please modify the document root. ie:
 
 	- edit /etc/apache2/sites-available/default
 	- change 'DocumentRoot /var/www' to 'DocumentRoot /var/www/html'
 	- change '<Directory /var/www>' to '<Directory /var/www/html>'
 	- comment out '# RedirectMatch ^/$ /apache2-default/'
+	- change 'ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/' to 'ScriptAlias /cgi-bin/ /var/www/cgi-bin/'
+	- change '<Directory "/usr/lib/cgi-bin">' to '<Directory "/var/www/cgi-bin">'
+
 		
 ###
 Download asterisk-perl from http://asterisk.gnuinter.net and install it
