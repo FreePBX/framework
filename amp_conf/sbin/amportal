@@ -32,7 +32,8 @@ chown_asterisk() {
 	chown -R asterisk:asterisk /var/spool/asterisk
 	chown -R asterisk:asterisk /dev/zap
 	chown asterisk /dev/tty9
-	chown -R asterisk:asterisk /var/www
+	chown -R asterisk:asterisk AMPWEBROOT
+	chown -R asterisk:asterisk AMPCGIBIN
 	chmod u+x /var/lib/asterisk/agi-bin/*.agi
 	chmod u+x AMPCGIBIN/*.cgi
 	chmod u+x AMPWEBROOT/admin/*.pl

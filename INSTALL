@@ -13,7 +13,8 @@ AMP has several requirements, including the following packages (names may vary b
 	mysql (or mysql-client)
 	mysql-devel (or libmysqlclient10-dev)
 	mysql-server
-	php (or php4)
+	php (or php4) 
+	(on debian, also install libapache2-mod-php4)
 	php4-pear (if pear is not included with your php)
 	php-mysql
 	openssl
@@ -162,7 +163,7 @@ Grant access to these two databases you just created
 
 	- mysql --user root -p
 
-		mysql> GRANT ALL PRIVILEGES ON asteriskcdrdb.* TO asteriskuser@localhostIDENTIFIED BY 'amp109';
+		mysql> GRANT ALL PRIVILEGES ON asteriskcdrdb.* TO asteriskuser@localhost IDENTIFIED BY 'amp109';
 		Query OK, 0 rows affected (0.00 sec)
 
 		mysql> GRANT ALL PRIVILEGES ON asterisk.* TO asteriskuser@localhost IDENTIFIED BY 'amp109';

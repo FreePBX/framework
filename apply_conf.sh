@@ -61,6 +61,7 @@ fi
 #copy in the AMP config
 cp -rf amp_conf/etc/* /etc/
 cp -rf amp_conf/usr/* /usr/
+cp -rf amp_conf/var/lib/* /var/lib/
 cp -rf amp_conf/var/spool/* /var/spool/
 cp -rf amp_conf/var/www/cgi-bin/* $AMPCGIBIN/
 cp -rf amp_conf/var/www/html/* $AMPWEBROOT/
