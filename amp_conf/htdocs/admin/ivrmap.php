@@ -27,8 +27,12 @@ if (count($unique_aas) > 0) {
 	
 	//create top-level for each voice menu
 	foreach ($unique_aas as $unique_aa) {
-		$menu_num = substr($unique_aa[0],3);
+		$menu_nums[] = (int) substr($unique_aa[0],3);
+		asort($menu_nums);
 		$menus[] = $unique_aa[0];
+	}
+	foreach ($menu_nums as $menu_num)
+	{
 ?>
 	<ul>
 		<li>
