@@ -76,6 +76,34 @@ function setversion($version) {
 	}
 }
 
+function write_amportal_conf($filename, $conf) {
+	$file = file($filename);
+	// parse through the file
+	foreach (array_keys($file) as $key) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$file[$key],$matches)) {
+			// this is an option=value line
+			if (isset($conf[ $matches[1] ])) {
+				// rewrite the line, if we have this in $conf
+				$file[$key] = $matches[1]."=".$conf[ $matches[1] ]."\n";
+				// unset it so we know what's new
+				unset($conf[ $matches[1] ]);
+			}
+		}
+	}
+	
+	// add new entries
+	foreach ($conf as $key=>$val) {
+		$file[] = $key."=".$val."\n";
+	}
+	
+	// write the file
+	if (!$fd = fopen($filename, "w")) {
+		fatal("Could not open ".$filename." for writing");
+	}
+	fwrite($fd, implode("",$file));
+	fclose($fd);
+}
+
 /** Include a .php file
  * This is a function just to keep a seperate context
  */
@@ -105,7 +133,7 @@ function install_upgrade($version) {
 					}
 					fclose($fd);
 
-					preg_match_all("/(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*;\s*\n/Us", $data, $matches);
+					preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*);\s*\n/Us", $data, $matches);
 					
 					foreach ($matches[0] as $sql) {
 						debug($sql);
@@ -176,8 +204,8 @@ out("OK");
 
 // **** Parse out command-line options
 
-$shortopts = "h?";
-$longopts = array("help","debug","dry-run");
+$shortopts = "h?u:p:";
+$longopts = array("help","debug","dry-run","username=","password=");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -202,6 +230,14 @@ foreach ($args[0] as $arg) {
 		case "--debug":
 			$debug = true;
 			debug("Debug mode enabled");
+		break;
+		case "--username": case "u":
+			out("Using username: ".$arg[1]);
+			$new_username = $arg[1];
+		break;
+		case "--password": case "p":
+			out("Using password: ".str_repeat("*",strlen($arg[1])));
+			$new_password = $arg[1];
 		break;
 	}
 }
@@ -238,6 +274,19 @@ if (count($amp_conf) == 0) {
 }
 out("OK");
 
+if (isset($new_username) || isset($new_password)) {
+	// new username/pwd 
+	
+	if (isset($new_username)) {
+		$amp_conf["AMPDBUSER"] = $new_username;
+	}
+	if (isset($new_password)) {
+		$amp_conf["AMPDBPASS"] = $new_password;
+	}
+	
+	// write amportal.conf
+	write_amportal_conf(AMP_CONF, $amp_conf);
+}
 
 // **** Connect to database
 
@@ -255,7 +304,9 @@ $db = DB::connect($datasource); // attempt connection
 
 if(DB::isError($db)) {
 	out("FAILED");
-	fatal($db->userinfo);
+	debug($db->userinfo);
+	out("Try running ".$argv[0]." --username=user --password=pass  (using your own user and pass)");
+	fatal("Cannot connect to database");
 	
 }
 out("OK");
