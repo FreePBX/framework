@@ -105,12 +105,14 @@ function write_amportal_conf($filename, $conf) {
 }
 
 function ask_overwrite($file1, $file2) {
+	global $check_md5s;
 	do {
 		out($file2." has been changed from the original version.");
-		outn("Overwrite (y=yes/n=no/d=diff/s=shell)? ");
-		$key = fread(STDIN,1024);
+		outn("Overwrite (y=yes/a=all/n=no/d=diff/s=shell)? ");
+		$key = fgets(STDIN,1024);
 		switch (strtolower($key[0])) {
 			case "y": return true; 
+			case "a": $check_md5s=false; return true;
 			case "n": return false;
 			case "d": 
 				out("");
@@ -148,6 +150,7 @@ function ask_overwrite($file1, $file2) {
  */
 function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") {
 	global $dryrun;
+	global $check_md5s;
 	
 	if ($dirsource && ($dirsource[0] != "/")) $dirsource = "/".$dirsource;
 	
@@ -161,7 +164,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 	
 	if (!file_exists($dirdest.$dirsource)) {
 		debug("mkdir ".$dirdest.$dirsource);
-		if (!$dryrun) {
+		if ((!$dryrun) && ($dirdest.$dirsource != "")) {
 			mkdir($dirdest.$dirsource, 0750);
 		}
 	}
@@ -172,7 +175,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 			$destination =  $dirdest.$dirsource."/".$file;
 			
 			if (!is_dir($source)) {
-				if (file_exists($destination) && isset($md5sums[$destination]) && (md5_file($destination) != $md5[$destination])) {
+				if ($check_md5s && file_exists($destination) && isset($md5sums[$destination]) && (md5_file($destination) != $md5sums[$destination])) {
 					$overwrite = ask_overwrite($source, $destination, $md5sums);
 				} else {
 					$overwrite = true;
@@ -286,6 +289,106 @@ function run_upgrade($versions) {
 	}
 }
 
+/** Write AMP-generated configuration files
+ */
+function generate_configs() {
+	global $amp_conf;
+	global $dryrun;
+	
+	out("Generating extensions_additional.conf..");
+	if (!$dryrun)
+		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_extensions_from_mysql.pl");
+	out("Generating sip_additional.conf..");
+	if (!$dryrun)
+		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_sip_conf_from_mysql.pl");
+	out("Generating zap_additional.conf..");
+	if (!$dryrun)
+		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_zap_conf_from_mysql.pl");
+	out("Generating iax_additional.conf..");
+	if (!$dryrun)
+		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_iax_conf_from_mysql.pl");
+	out("Generating meetme_additional.conf..");
+	if (!$dryrun)
+		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_meetme_conf_from_mysql.pl");
+	out("Generating queues_additional.conf..");
+	if (!$dryrun)
+		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_queues_from_mysql.pl");
+	out("Generating op_buttons_additional.conf..");
+	if (!$dryrun)
+		passthru($amp_conf["AMPWEBROOT"]."/admin/retrieve_op_conf_from_mysql.pl");
+}
+
+
+/** Set reload flag for AMP admin
+ */
+function needreload() {
+	global $db;
+	$sql = "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'"; 
+	$result = $db->query($sql); 
+	if(DB::IsError($result)) {     
+		die($result->getMessage()); 
+	}
+}
+
+
+/** Collect AMP settings
+ */
+function collect_settings($filename) {
+	out("Creating new /etc/amportal.conf");
+	
+	outn("Enter your USERNAME to connect to the 'asterisk' database:\n [asteriskuser] ");
+	$key = trim(fgets(STDIN,1024));
+	if (preg_match('/^$/',$key)) $amp_conf["AMPDBUSER"] = "asteriskuser";
+	else $amp_conf["AMPDBUSER"] = $key;
+	
+	outn("Enter your PASSWORD to connect to the 'asterisk' database:\n [amp109] ");
+	$key = trim(fgets(STDIN,1024));
+	if (preg_match('/^$/',$key)) $amp_conf["AMPDBPASS"] = "amp109";
+	else $amp_conf["AMPDBPASS"] = $key;
+	
+	outn("Enter a USERNAME to connect to the Asterisk Manager interface:\n [admin] ");
+	$key = trim(fgets(STDIN,1024));
+	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRUSER"] = "admin";
+	else $amp_conf["AMPMGRUSER"] = $key;
+	
+	outn("Enter a PASSWORD to connect to the Asterisk Manager interface:\n [amp111] ");
+	$key = trim(fgets(STDIN,1024));
+	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRPASS"] = "amp111";
+	else $amp_conf["AMPMGRPASS"] = $key;
+	
+	do {
+		outn("Enter the path to your Apache webroot:\n [/var/www/html] ");
+		$key = trim(fgets(STDIN,1024));
+		if (preg_match('/^$/',$key)) $amp_conf["AMPWEBROOT"] = "/var/www/html";
+		else $amp_conf["AMPWEBROOT"] = rtrim($key,'/');
+		if (is_dir($amp_conf["AMPWEBROOT"])) break;
+		else error($amp_conf["AMPWEBROOT"]." is not a directory!");
+	} while(1);
+	
+	do {
+		outn("Enter the path to your Apache cgi-bin:\n [/var/www/cgi-bin] ");
+		$key = trim(fgets(STDIN,1024));
+		if (preg_match('/^$/',$key)) $amp_conf["AMPCGIBIN"] = "/var/www/cgi-bin";
+		else $amp_conf["AMPCGIBIN"] = rtrim($key,'/');
+		if (is_dir($amp_conf["AMPCGIBIN"])) break;
+		else error($amp_conf["AMPCGIBIN"]." is not a directory!");
+	} while(1);
+	
+	outn("Enter the IP ADDRESS or hostname used to access the AMP web-admin:\n [xx.xx.xx.xx] ");
+	$key = trim(fgets(STDIN,1024));
+	if (preg_match('/^$/',$key)) $amp_conf["AMPWEBADDRESS"] = "xx.xx.xx.xx";
+	else $amp_conf["AMPWEBADDRESS"] = $key;
+	
+	outn("Enter a PASSWORD to perform call transfers with the Flash Operator Panel:\n [passw0rd] ");
+	$key = trim(fgets(STDIN,1024));
+	if (preg_match('/^$/',$key)) $amp_conf["FOPPASSWORD"] = "passw0rd";
+	else $amp_conf["FOPPASSWORD"] = $key;
+	
+	// write amportal.conf
+	write_amportal_conf($filename, $amp_conf);
+	outn("/etc/amportal.conf written");
+}
+
 /********************************************************************************************************************/
 
 // **** Make sure we have STDIN etc
@@ -293,9 +396,9 @@ function run_upgrade($versions) {
 // from  ben-php dot net at efros dot com   at  php.net/install.unix.commandline
 if (version_compare(phpversion(),'4.3.0','<') || !defined("STDIN")) {
 	define('STDIN',fopen("php://stdin","r"));
-	define('STDOUT',fopen("php://stout","r"));
-	define('STDERR',fopen("php://sterr","r"));
-	register_shutdown_function( create_function( '' , 'fclose(STDIN); fclose(STOUT); fclose(STERR); return true;' ) );
+	define('STDOUT',fopen("php://stdout","r"));
+	define('STDERR',fopen("php://stderr","r"));
+	register_shutdown_function( create_function( '' , 'fclose(STDIN); fclose(STDOUT); fclose(STDERR); return true;' ) );
 }
    
 // **** Make sure we have PEAR's DB.php, and include it
@@ -375,9 +478,9 @@ outn("Checking for ".AMP_CONF."..");
 if (!file_exists(AMP_CONF)) {
 	out(AMP_CONF." does not exist, copying default");
 	copy("amportal.conf", "/etc/amportal.conf");
+	collect_settings(AMP_CONF);
 }
 out("OK");
-
 
 // **** read amportal.conf
 
@@ -440,8 +543,29 @@ if (!$version) {
 
 // **** Copy files
 
+outn("Installing new AMP files..");
+$check_md5s=true;
 $md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
 recursive_copy("amp_conf", "", $md5sums);
+out("OK");
+
+// **** Apply amportal.conf configuration to files
+
+outn("Configuring install for your environment..");
+if (!$dryrun) {
+	exec(dirname(__FILE__)."/apply_conf.sh");
+}
+out("OK");
+
+
+// **** Set permissions all files
+
+outn("Setting permissions on files..");
+if (!$dryrun) {
+	exec("chmod u+x /usr/sbin/amportal");
+	exec("/usr/sbin/amportal chown");
+}
+out("OK");
 
 
 // **** Read upgrades/ directory
@@ -473,5 +597,14 @@ if (false !== ($pos = array_search($version, $versions))) {
 }
 
 
+// **** Bounce FOP
+outn("Restarting Flash Operator Panel..");
+exec('su - asterisk -c "'.$amp_conf["AMPWEBROOT"].'/admin/bounce_op.sh"');
+out("OK");
+
+
+// **** Set reload flag for AMP admin
+needreload();
+out("Please Reload Asterisk by visiting http://".$amp_conf["AMPWEBADDRESS"]."/admin");
 
 ?>
