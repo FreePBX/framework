@@ -98,7 +98,7 @@ $routename = isset($_REQUEST["routename"]) ? $_REQUEST["routename"] : "";
 //if submitting form, update database
 switch ($action) {
 	case "addroute":
-		addRoute($routename, $dialpattern, $trunkpriority);
+		addRoute($routename, $dialpattern, $trunkpriority,"new");
 		exec($extenScript);
 		needreload();
 	break;
@@ -274,7 +274,7 @@ if ($extdisplay) { // editing
 					do {
 						var newname = prompt("Rename route " + document.getElementById('routename').value + " to:");
 						if (newname == null) return;
-					} while (!newname.match('^[a-zA-Z][a-zA-Z0-9]+$') && !alert("Route name cannot start with a number, and can only contain letters and numbers"));
+					} while (!newname.match('^[a-zA-Z0-9][a-zA-Z0-9]+$') && !alert("Route name cannot start with a number, and can only contain letters and numbers"));
 					
 					document.getElementById('newroutename').value = newname;
 					document.getElementById('routeEdit').action.value = 'renameroute';
