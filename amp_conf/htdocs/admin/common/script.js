@@ -1,24 +1,34 @@
 function checkForm(theForm) {
+	$tech = theForm.tech.value;
 	$account = theForm.account.value;
-	$secret = theForm.secret.value;
 	$vmpwd = theForm.vmpwd.value;
 	$email = theForm.email.value;
 	$pager = theForm.pager.value;
 	$context = theForm.context.value;
-	$host = theForm.host.value;
-	$type = theForm.type.value;
+	
+	if ($tech != "zap") {
+		$secret = theForm.secret.value;
+		$host = theForm.host.value;
+		$type = theForm.type.value;
+		$username = theForm.username.value;
+		if ($username == "") {
+			theForm.username.value = $account;
+			$username = $account;
+		}
+	}
+
 	$mailbox = theForm.mailbox.value;
-	$username = theForm.username.value;
 	$fullname = theForm.name.value;
 	$vm = theForm.vm.value;
 	
-	if ($username == "") {
-		theForm.username.value = $account;
-		$username = $account;
+	if ($tech == "zap") {
+		$channel=theForm.channel.value;
 	}
 
 	
-	if ($account == "" || $secret == "" || $context == "" || $host == "" || $type == ""  || $username == "") {
+	if (($tech != "zap") && ($account == "" || $secret == "" || $context == "" || $host == "" || $type == ""  || $username == "")) {
+		alert('Please fill in all required fields.');
+	} else if (($tech == "zap") && ( $account == "" || $context == "" || $channel=="")) {
 		alert('Please fill in all required fields.');
 	} else if (($account.indexOf('0') == 0) && ($account.length > 1)) {
 		alert('Extensions numbers with more than one digit cannot begin with 0');
@@ -173,5 +183,21 @@ function checkVoicemail(theForm) {
 		theForm.pager.value = '';
 	} else {
 		document.getElementById('voicemail').style.display='block';
+	}
+}
+
+function hideExtenFields(theForm) {
+	if(theForm.tech.value == 'iax2') {
+		document.getElementById('dtmfmode').style.display = 'none';
+		document.getElementById('secret').style.display = 'inline';
+		document.getElementById('channel').style.display = 'none';
+	} else if (theForm.tech.value == 'sip') {
+		document.getElementById('dtmfmode').style.display = 'inline';
+		document.getElementById('secret').style.display = 'inline';
+		document.getElementById('channel').style.display = 'none';
+	} else if (theForm.tech.value == 'zap') {
+		document.getElementById('dtmfmode').style.display = 'none';
+		document.getElementById('secret').style.display = 'none';
+		document.getElementById('channel').style.display = 'block';
 	}
 }
