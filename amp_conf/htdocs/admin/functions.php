@@ -65,7 +65,7 @@ function getgroups() {
 //get extensions in specified group
 function getgroupextens($grpexten) {
 	global $db;
-	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND priority = '1'";
+	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND args LIKE 'GROUP=%'";
 	$thisGRP = $db->getAll($sql);
 	if(DB::IsError($thisGRP)) {
 	   die($thisGRP->getMessage());
@@ -75,7 +75,7 @@ function getgroupextens($grpexten) {
 //get ring time in specified group
 function getgrouptime($grpexten) {
 	global $db;
-	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND priority = '2'";
+	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND args LIKE 'RINGTIMER=%'";
 	$thisGRPtime = $db->getAll($sql);
 	if(DB::IsError($thisGRPtime)) {
 	   die($thisGRPtime->getMessage());
@@ -85,12 +85,22 @@ function getgrouptime($grpexten) {
 //get goto in specified group
 function getgroupgoto($grpexten) {
 	global $db;
-	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND priority = '4'";
+	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND (args LIKE 'ext-local,%,%' OR args LIKE 'vm,%' OR args LIKE 'aa_%,%,%' OR args LIKE 'ext-group,%,%')";
 	$thisGRPgoto = $db->getAll($sql);
 	if(DB::IsError($thisGRPgoto)) {
 	   die($thisGRPgoto->getMessage());
 	}
 	return $thisGRPgoto;
+}
+//get prefix in specified group
+function getgroupprefix($grpexten) {
+	global $db;
+	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND args LIKE 'PRE=%'";
+	$thisGRPprefix = $db->getAll($sql);
+	if(DB::IsError($thisGRPprefix)) {
+	   die($thisGRPprefix->getMessage());
+	}
+	return $thisGRPprefix;
 }
 
 //add to extensions table - used in callgroups.php

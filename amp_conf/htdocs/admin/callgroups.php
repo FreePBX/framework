@@ -25,31 +25,34 @@ if ($action == 'addGRP') {
 	$account = $_REQUEST['account'];
 	$grplist = $_REQUEST['grplist'];
 	$grptime = $_REQUEST['grptime'];
+	$grppre = $_REQUEST['grppre'];
 	
 	$addarray = array('ext-group',$account,'1','Setvar','GROUP='.$grplist,'','0');
 	addextensions($addarray);
 	$addarray = array('ext-group',$account,'2','Setvar','RINGTIMER='.$grptime,'','0');
 	addextensions($addarray);
-	$addarray = array('ext-group',$account,'3','Macro','rg-group','','0');
+	$addarray = array('ext-group',$account,'3','Setvar','PRE='.$grppre,'','0');
+	addextensions($addarray);
+	$addarray = array('ext-group',$account,'4','Macro','rg-group','','0');
 	addextensions($addarray);
 	
 	
 			$goto = $_REQUEST['goto0'];
 			if ($goto == 'extension') {
 				$args = 'ext-local,'.$_REQUEST['extension'].',1';
-				$addarray = array('ext-group',$account,'4','Goto',$args,'','0'); 
+				$addarray = array('ext-group',$account,'5','Goto',$args,'','0'); 
 			}
 			elseif ($goto == 'voicemail') {
 				$args = 'vm,'.$_REQUEST['voicemail'];
-				$addarray = array('ext-group',$account,'4','Macro',$args,'','0');
+				$addarray = array('ext-group',$account,'5','Macro',$args,'','0');
 			}
 			elseif ($goto == 'ivr') {
 				$args = 'aa_'.$_REQUEST['ivr'].',s,1';
-				$addarray = array('ext-group',$account,'4','Goto',$args,'','0');
+				$addarray = array('ext-group',$account,'5','Goto',$args,'','0');
 			}
 			elseif ($goto == 'group') {
 				$args = 'ext-group,'.$_REQUEST['group'].',1';
-				$addarray = array('ext-group',$account,'4','Goto',$args,'','0');
+				$addarray = array('ext-group',$account,'5','Goto',$args,'','0');
 			}
 	
 	addextensions($addarray);
@@ -79,6 +82,7 @@ if ($action == 'edtGRP') {
 	$account = $_REQUEST['account'];
 	$grplist = $_REQUEST['grplist'];
 	$grptime = $_REQUEST['grptime'];
+	$grppre = $_REQUEST['grppre'];
 
 		delextensions('ext-group',$account);
 		
@@ -86,26 +90,28 @@ if ($action == 'edtGRP') {
 		addextensions($addarray);
 		$addarray = array('ext-group',$account,'2','Setvar','RINGTIMER='.$grptime,'','0');
 		addextensions($addarray);
-		$addarray = array('ext-group',$account,'3','Macro','rg-group','','0');
+		$addarray = array('ext-group',$account,'3','Setvar','PRE='.$grppre,'','0');
+		addextensions($addarray);
+		$addarray = array('ext-group',$account,'4','Macro','rg-group','','0');
 		addextensions($addarray);
 		
 		
 				$goto = $_REQUEST['goto0'];
 				if ($goto == 'extension') {
 					$args = 'ext-local,'.$_REQUEST['extension'].',1';
-					$addarray = array('ext-group',$account,'4','Goto',$args,'','0'); 
+					$addarray = array('ext-group',$account,'5','Goto',$args,'','0'); 
 				}
 				elseif ($goto == 'voicemail') {
 					$args = 'vm,'.$_REQUEST['voicemail'];
-					$addarray = array('ext-group',$account,'4','Macro',$args,'','0');
+					$addarray = array('ext-group',$account,'5','Macro',$args,'','0');
 				}
 				elseif ($goto == 'ivr') {
 					$args = 'aa_'.$_REQUEST['ivr'].',s,1';
-					$addarray = array('ext-group',$account,'4','Goto',$args,'','0');
+					$addarray = array('ext-group',$account,'5','Goto',$args,'','0');
 				}
 				elseif ($goto == 'group') {
 					$args = 'ext-group,'.$_REQUEST['group'].',1';
-					$addarray = array('ext-group',$account,'4','Goto',$args,'','0');
+					$addarray = array('ext-group',$account,'5','Goto',$args,'','0');
 				}
 		
 		addextensions($addarray);
@@ -155,6 +161,8 @@ switch($extdisplay) {
 			$thisGRPtime = getgrouptime(ltrim($extdisplay,'GRP-'));
 			//get goto for this group
 			$thisGRPgoto = getgroupgoto(ltrim($extdisplay,'GRP-'));
+			//get prefix for this group
+			$thisGRPprefix = getgroupprefix(ltrim($extdisplay,'GRP-'));
 
 			$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delGRP';
 	?>
@@ -169,6 +177,10 @@ switch($extdisplay) {
 			<tr>
 				<td><a href="#" class="info">extension list:<span>Separate extensions with a | (pipe) character. Ex: 201|202|203</span></a></td>
 				<td><input type="text" name="grplist" value="<? echo substr($thisGRP[0][0],6) ?>"></td>
+			</tr>
+			<tr>
+				<td><a href="#" class="info">CID name prefix:<span>You can optionally prefix the Caller ID name when ringing extensions in this group. ie: If you prefix with "Sales:", a call from John Doe would display as "Sales:John Doe" on the extensions that ring.</span></a></td>
+				<td><input size="4" type="text" name="grppre" value="<? echo substr($thisGRPprefix[0][0],4) ?>"></td>
 			</tr><tr>
 				<td>ring time (max 60 sec):</td>
 				<td><input size="4" type="text" name="grptime" value="<? echo substr($thisGRPtime[0][0],10) ?>"></td>
@@ -256,6 +268,9 @@ switch($extdisplay) {
 		<td><input type="text" name="grplist" value="<? echo substr($thisGRP[0][0],6) ?>"></td>
 			
 	</tr><tr>
+				<td><a href="#" class="info">CID name prefix:<span>You can optionally prefix the Caller ID name when ringing extensions in this group. ie: If you prefix with "Sales:", a call from John Doe would display as "Sales:John Doe" on the extensions that ring.</span></a></td>
+				<td><input size="4" type="text" name="grppre" value=""></td>
+			</tr><tr>
 		<td>ring time (max 60 sec):</td>
 		<td><input size="4" type="text" name="grptime" value="15"></td>
 	</tr><tr>
