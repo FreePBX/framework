@@ -11,6 +11,122 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
+function parse_amportal_conf($filename) {
+	$file = file($filename);
+	foreach ($file as $line) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*([a-zA-Z0-9]+)/",$line,$matches)) { 
+			$conf[ $matches[1] ] = $matches[2];
+		}
+	}
+	return $conf;
+}
+
+function addAmpUser($username, $password, $extension_low, $extension_high, $deptname, $sections) {
+	global $db;
+	$sql = "INSERT INTO ampusers (username, password, extension_low, extension_high, deptname, sections) VALUES (";
+	$sql .= "'".$username."', ";
+	$sql .= "'".$password."', ";
+	$sql .= "'".$extension_low."', ";
+	$sql .= "'".$extension_high."', ";
+	$sql .= "'".$deptname."', ";
+	$sql .= "'".implode(";",$sections)."'); ";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+}
+
+function deleteAmpUser($username) {
+	global $db;
+	
+	$sql = "DELETE FROM ampusers WHERE username = '".$username."'";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+}
+
+function getAmpUsers() {
+	global $db;
+	
+	$sql = "SELECT username FROM ampusers ORDER BY username";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+	   die($results->getMessage());
+	}
+	return $results;
+}
+
+function getAmpUser($username) {
+	global $db;
+	
+	$sql = "SELECT username, password, extension_low, extension_high, deptname, sections FROM ampusers WHERE username = '".$username."'";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+	   die($results->getMessage());
+	}
+	
+	if (count($results) > 0) {
+		$user = array();
+		$user["username"] = $results[0][0];
+		$user["password"] = $results[0][1];
+		$user["extension_high"] = $results[0][2];
+		$user["extension_low"] = $results[0][3];
+		$user["deptname"] = $results[0][4];
+		$user["sections"] = explode(";",$results[0][5]);
+		return $user;
+	} else {
+		return false;
+	}
+}
+
+class ampuser {
+	var $username;
+	var $_password;
+	var $_extension_high;
+	var $_extension_low;
+	var $_deptname;
+	var $_sections;
+	
+	function ampuser($username) {
+		$this->username = $username;
+		if ($user = getAmpUser($username)) {
+			$this->_password = $user["password"];
+			$this->_extension_high = $user["extension_high"];
+			$this->_extension_low = $user["extension_low"];
+			$this->_deptname = $user["deptname"];
+			$this->_sections = $user["sections"];
+		} else {
+			// user doesn't exist
+			$this->_password = false;
+			$this->_extension_high = "";
+			$this->_extension_low = "";
+			$this->_deptname = "";
+			$this->_sections = array();
+		}
+	}
+	
+	/** Give this user full admin access
+	*/
+	function setAdmin() {
+		$this->_extension_high = "";
+		$this->_extension_low = "";
+		$this->_deptname = "";
+		$this->_sections = array("*");
+	}
+	
+	function checkPassword($password) {
+		// strict checking so false will never match
+		return ($this->_password === $password);
+	}
+	
+	function checkSection($section) {
+		// if they have * then it means all sections
+		return in_array("*", $this->_sections) || in_array($section, $this->_sections);
+	}
+}
+
+
 //get unique voice menu numbers - returns 2 dimensional array
 function getaas() {
 	global $db;
@@ -1223,6 +1339,25 @@ function getroutetrunks($route) {
 	return $trunks;
 }
 
+//get outbound routes for a given trunk
+function gettrunkroutes($trunknum) {
+	global $db;
+	
+	$sql = "SELECT DISTINCT SUBSTRING(context,7), priority FROM extensions WHERE context LIKE 'outrt-%' AND args LIKE 'dialout-trunk,".$trunknum.",%' ORDER BY context ";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	
+	$routes = array();
+	foreach ($results as $row) {
+		$routes[$row[0]] = $row[1];
+	}
+	
+	// array(routename=>priority)
+	return $routes;
+}
+
 function addroute($name, $patterns, $trunks) {
 	global $db;
 
@@ -1332,6 +1467,30 @@ function deleteroute($name) {
 	return $result;
 }
 
+function renameRoute($oldname, $newname) {
+	global $db;
+	$sql = "SELECT context FROM extensions WHERE context = 'outrt-".$newname."'";
+	$results = $db->getAll($sql);
+	if (count($results) > 0) {
+		// there's already a route with this name
+		return false;
+	}
+	
+	$sql = "UPDATE extensions SET context = 'outrt-".$newname."' WHERE context = 'outrt-".$oldname."'";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+	
+	$sql = "UPDATE extensions SET application = 'outrt-".$newname."'WHERE context = 'outbound-allroutes' AND application = 'outrt-".$oldname."' ";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+	
+	return true;
+}
+
 function editroute($name, $patterns, $trunks) {
 	deleteroute($name);
 	addroute($name, $patterns, $trunks);
@@ -1425,16 +1584,6 @@ function deleteDialRules($trunknum) {
 	unset($conf["trunk-".$trunknum]);
 	
 	writeDialRulesFile($conf);
-}
-
-function parse_amportal_conf($filename) {
-	$file = file($filename);
-	foreach ($file as $line) {
-		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*([a-zA-Z0-9]+)/",$line,$matches)) { 
-			$conf[ $matches[1] ] = $matches[2];
-		}
-	}
-	return $conf;
 }
 
 function addqueue($account,$name,$password,$goto) {

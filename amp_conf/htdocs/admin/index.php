@@ -15,6 +15,15 @@
 <?php 
 $title="Asterisk Management Portal";
 $message="Administration";
+
+require_once('functions.php');
+
+// get settings
+$amp_conf = parse_amportal_conf("/etc/amportal.conf");
+
+// connect to database
+require_once('common/db_connect.php'); //PEAR must be installed
+
 include 'header.php'; 
 
 $display=$_REQUEST['display'];

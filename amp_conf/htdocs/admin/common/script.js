@@ -200,3 +200,16 @@ function hideExtenFields(theForm) {
 		document.getElementById('channel').style.display = 'block';
 	}
 }
+
+function checkAmpUser(theForm, action) {
+	$username = theForm.username.value;
+
+	if ($username == "") {
+		alert('Username must not be blank');
+	} else if (!$username.match('^[a-zA-Z][a-zA-Z0-9]+$')) {
+		alert('Username cannot start with a number, and can only contain letters and numbers');
+	} else {
+		theForm.action.value = action;
+		theForm.submit();
+	}
+}

@@ -104,4 +104,20 @@ CREATE TABLE IF NOT EXISTS `sip` (
 -- Dumping data for table `sip`
 -- 
 
-;
+-- ----------------------------------------------------------
+
+
+-- 
+-- Table structure for table `ampusers`
+-- 
+
+CREATE TABLE `ampusers` (
+  `username` varchar(20) NOT NULL default '',
+  `password` varchar(20) NOT NULL default '',
+  `extension_low` varchar(20) NOT NULL default '',
+  `extension_high` varchar(20) NOT NULL default '',
+  `deptname` varchar(20) NOT NULL default '',
+  `sections` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`username`)
+) TYPE=MyISAM;
+	              
