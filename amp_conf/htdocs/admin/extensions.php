@@ -53,10 +53,7 @@ if ($action == 'add') {
 	
 	//write out op_server.cfg
 	exec($wOpScript);
-	
-	//write out meetme_additional.conf
-	exec($wMeetScript);
-    
+	    
     //take care of voicemail.conf
     include 'vm_conf.php';
 	
@@ -65,6 +62,9 @@ if ($action == 'add') {
     
     //write out extenstions_additional.conf
 	exec($wScript1);
+	
+	//write out meetme_additional.conf
+	exec($wMeetScript);
 	
 	//indicate 'need reload' link in footer.php 
 	needreload();
@@ -83,9 +83,6 @@ if ($action == 'delete') {
 	
 	//write out op_server.cfg
 	exec($wOpScript);
-
-	//write out meetme_additional.conf
-	exec($wMeetScript);
 	
     //take care of voicemail.conf
     include 'vm_conf.php';
@@ -95,6 +92,9 @@ if ($action == 'delete') {
 
 	//write out new conf file
 	exec($wScript1);
+	
+	//write out meetme_additional.conf
+	exec($wMeetScript);
 
 	//indicate 'need reload' link in header.php 
 	needreload();
@@ -122,9 +122,6 @@ if ($action == 'bscEdit' || $action == 'advEdit') {
 	
 	//write out op_server.cfg
 	exec($wOpScript);
-
-	//write out meetme_additional.conf
-	exec($wMeetScript);
 	
     //take care of voicemail.conf
     include 'vm_conf.php';
@@ -136,6 +133,9 @@ if ($action == 'bscEdit' || $action == 'advEdit') {
         die($result->getMessage());
     }
 	exec($wScript1);
+	
+	//write out meetme_additional.conf
+	exec($wMeetScript);
 	
 	//indicate 'need reload' link in header.php 
 	needreload();
