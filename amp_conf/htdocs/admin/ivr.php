@@ -77,17 +77,34 @@ switch($action) {
 		echo '<h5>Dial *99 to listen to your current recording - click continue if you wish to re-use it.</h5>';
 	}
 ?>
-<form name="prompt" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
-<input type="hidden" name="action" value="ivr_recorded">
+<h5>Step 1: Record</h5>
 <p>
-	Using your phone, dial *77 and record the message you wish to greet callers with.
+	Using your phone, <a href="#" class="info">dial *77<span>Start speaking at the tone. Hangup when finished.</span></a> and record the message you wish to greet callers with.
 </p>
 <p>
-	After recording, dial *99 to listen to your message.
+	<form enctype="multipart/form-data" name="upload" action="<? echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
+		Alternatively, upload a recording in <a href="#" class="info">.wav format<span>The .wav file _must_ have a sample rate of 8000Hz</span></a>:<br>
+		<input type="hidden" name="display" value="2">
+		<input type="file" name="ivrfile"/>
+		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('Please wait until the page reloads.');"/>
+	</form>
+<?php
+if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
+	move_uploaded_file($_FILES['ivrfile']['tmp_name'], "/var/lib/asterisk/sounds/ivrrecording.wav");
+	echo "<h6>Successfully uploaded ".$_FILES['ivrfile']['name']."</h6>";
+}
+?>
+</p>
+<form name="prompt" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
+<input type="hidden" name="action" value="ivr_recorded">
+<h5>Step 2: Verify</h5>
+<p>
+	After recording or uploading, <em>dial *99</em> to listen to your message.
 </p>
 <p>
 	If you wish to re-record your message, dial *77 again.
 </p>
+<h5>Step 3: Describe</h5>
 <p style="text-align:right;">
 	Describe the voice menu: <textarea name="notes" rows="3" cols="50"><? echo $description ?></textarea>
 </p>
