@@ -46,11 +46,13 @@ if ($need_reload[0] == 'true') {
 
 ?>
 		
-    <span class="footer">
-        <img src="images/amp_footer.png"/>
-        
-        <br><br>
-        
+    <span class="footer" style="text-align:right;">
+		<a target="_blank" href="http://sourceforge.net/donate/index.php?group_id=121515"><img style="float:left;" alt="Donate to the Asterisk Management Portal project" src="http://images.sourceforge.net/images/project-support.jpg"></a>
+        Asterisk Management Portal
+        <br>
+        <br>
+		<br>
+		<br>
     </span>
 </div>
 
