@@ -27,8 +27,8 @@ if ($action == 'editglobals') {
 						array(isset($_REQUEST['DIRECTORY_OPTS']) ? $_REQUEST['DIRECTORY_OPTS'] : "",'DIRECTORY_OPTS'),
 						);
 
-	//$compiled = $db->prepare('UPDATE globals SET value = ? WHERE variable = ?');
-	$compiled = $db->prepare('REPLACE INTO globals (value,variable) VALUES (?, ?)');
+	$compiled = $db->prepare('UPDATE globals SET value = ? WHERE variable = ?');
+	//$compiled = $db->prepare('REPLACE INTO globals (value,variable) VALUES (?, ?)');
 	$result = $db->executeMultiple($compiled,$globalfields);
 	if(DB::IsError($result)) {
 		echo $action.'<br>';
