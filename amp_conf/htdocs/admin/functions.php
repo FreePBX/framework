@@ -483,7 +483,7 @@ function writeoutids() {
 //get unique trunks
 function gettrunks() {
 	global $db;
-	$sql = "SELECT * FROM globals WHERE variable LIKE 'OUT_%' AND variable NOT LIKE 'OUTCID%'";
+	$sql = "SELECT * FROM globals WHERE variable LIKE 'OUT_%' AND variable NOT LIKE 'OUTCID%' ORDER BY TRIM(LEADING 'OUT_' FROM variable) + 0";
 	$unique_trunks = $db->getAll($sql);
 	if(DB::IsError($unique_trunks)) {
 	   die('unique: '.$unique_trunks->getMessage());
