@@ -35,7 +35,7 @@ if (isset($account) && !checkRange($account)){
 	//if submitting form, update database
 	switch ($action) {
 		case "add":
-			addqueue($account,$name,$password,$prefix,$goto);
+			addqueue($account,$name,$password,$prefix,$goto,$agentannounce);
 			exec($wScript1);
 			exec($wScript2);
 			needreload();
@@ -48,7 +48,7 @@ if (isset($account) && !checkRange($account)){
 		break;
 		case "edit":  //just delete and re-add
 			delqueue($account);
-			addqueue($account,$name,$password,$prefix,$goto);
+			addqueue($account,$name,$password,$prefix,$goto,$agentannounce);
 			exec($wScript1);
 			exec($wScript2);
 			needreload();
