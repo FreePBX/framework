@@ -3,25 +3,27 @@ Installing Asterisk Management Portal (AMP)
 
 
 ###
-AMP has several requirements, including the following packages:
+AMP has several requirements, including the following packages (names may vary based on distro):
 
 	libxml2
 	libtiff
 	libtiff-devel
 	lame
-	httpd (Apache)
-	mysql
-	mysql-devel
+	httpd (or Apache2)
+	mysql (or mysql-client)
+	mysql-devel (or libmysqlclient10-dev)
 	mysql-server
-	php
+	php (or php4)
+	php4-pear (if pear is not included with your php)
 	php-mysql
 	openssl
-	openssl-devel
-	kernel-source
+	openssl-devel (or libssl-dev)
+	kernel-source (or linux-source)
 	perl
 	perl-CPAN
 	cvs
 	bison
+	ncurses-devel (or libncurses5-dev)
 
 ### Perl module Net::Telnet is required:
 	
@@ -38,10 +40,18 @@ Some linux distros have replaced the mpg123 application with another application
 ###
 AMP requires the following changes to php and apache for uploading new MOH files:
 
-	- vi +482 /etc/php.ini
+
+	- vi +482 /etc/php.ini  (or /etc/php4/apache2/php.ini)
 		upload_max_filesize=20M
-	- vi +14 /etc/httpd/conf.d/php.conf
+	- vi +14 /etc/httpd/conf.d/php.conf (if you have it)
 		LimitRequestBody 20000000
+
+** NOTE: AMP assumes Apache's document root is /var/www/html. If you have this directory on your system, then it is probably safe to continue.  Otherwise, please modify the document root. ie:
+
+	- edit /etc/apache2/sites-available/default
+	- change 'DocumentRoot /var/www' to 'DocumentRoot /var/www/html'
+	- change '<Directory /var/www>' to '<Directory /var/www/html>'
+	- comment out '# RedirectMatch ^/$ /apache2-default/'
 		
 ###
 Download asterisk-perl from http://asterisk.gnuinter.net and install it
@@ -100,7 +110,7 @@ Patching Asterisk with softfax/spandsp.
 	- ./configure
 	- make && make install
 
-	The spandsp libraries are installed to /usr/local/lib.  Therefore /usr/local/lib must be added to the LD_LIBRARY_PATH environment variable of the user that starts the asterisk process. To be safe, also ad it to /etc/ld.so.conf and run ldconfig.
+	The spandsp libraries are installed to /usr/local/lib.  Therefore /usr/local/lib must be added to the LD_LIBRARY_PATH environment variable of the user that starts the asterisk process. To be safe, also add it to /etc/ld.so.conf and run ldconfig.
 
 	Copy the following files (from opencall.org) to /usr/src/asterisk/apps/ :
 
@@ -136,7 +146,7 @@ Setting up MySQL for CDR
 **Note, it is recommended that you not change the 'amp109' password below.  If you do opt to change it, you will need to do a search/replace in the AMP directory (until someone writes a script to do this for us)
 
 	- /usr/bin/mysql_install_db
-	- service mysqld start
+	- /etc/init.d/mysqld start (or /etc/init.d/mysql start) 
 
 	- mysqladmin -u root password 'db_root_pwd'
 	- mysqladmin create asteriskcdrdb -p
@@ -226,7 +236,7 @@ Configure zapata module in asterisk config.
 ###
 httpd (Apache) configuration
 
-	- Edit /etc/httpd/conf/httpd.conf so that:
+	- Edit /etc/httpd/conf/httpd.conf (or /etc/apache2/apache2.conf) so that:
 
 		User asterisk
 		Group asterisk
@@ -257,6 +267,12 @@ Asterisk user environment
 		export PATH
 		export LD_LIBRARY_PATH=/usr/local/lib
 
+	- Edit /etc/ld.so.conf to include spandsp libs:
+		
+		/usr/local/lib
+	
+	- run ldconfig
+
 ###
 Auto Start
 
@@ -285,9 +301,12 @@ Checks:
 ###
 Start everything:
 
+	- ensure your PATH includes /usr/sbin
+
 	- As root run:
 
 		service httpd start
+		(or /etc/init.d/apache2 restart)
 
 	- As root run:
 
