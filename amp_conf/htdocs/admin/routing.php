@@ -204,7 +204,7 @@ if ($extdisplay) { // editing
 	<p><a href="config.php?display=<?= $display ?>&extdisplay=<?= $extdisplay ?>&action=delroute">Delete Route <? echo $extdisplay; ?></a></p>
 <? } ?>
 
-	<form name="routeEdit" action="config.php" method="POST">
+	<form id="routeEdit" name="routeEdit" action="config.php" method="POST">
 		<input type="hidden" name="display" value="<?echo $display?>"/>
 		<input type="hidden" name="extdisplay" value="<?= $extdisplay ?>"/>
 		<input type="hidden" name="action" value=""/>
@@ -227,8 +227,8 @@ if ($extdisplay) { // editing
 					} while (!newname.match('^[a-zA-Z][a-zA-Z0-9]+$') && !alert("Route name cannot start with a number, and can only contain letters and numbers"));
 					
 					document.getElementById('newroutename').value = newname;
-					routeEdit.action.value = 'renameroute';
-					routeEdit.submit();
+					document.getElementById('routeEdit').action.value = 'renameroute';
+					document.getElementById('routeEdit').submit();
 				}
 				</script>
 			</td>
@@ -282,7 +282,7 @@ $key += 1; // this will be the next key value
 		<tr>
 			<td>
 			</td><td>
-				<textarea cols="20" rows="<? $rows = count($dialpattern)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="dialpattern"><?=  implode("\n",$dialpattern);?></textarea><br>
+				<textarea cols="20" rows="<? $rows = count($dialpattern)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" id="dialpattern" name="dialpattern"><?=  implode("\n",$dialpattern);?></textarea><br>
 				
 				<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
 			</td>
@@ -303,8 +303,8 @@ $key += 1; // this will be the next key value
 				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("Invalid NPA-NXX. Must be of the format 'NXX-NXX'"));
 				
 				document.getElementById('npanxx').value = npanxx;
-				routeEdit.action.value = "populatenpanxx";
-				routeEdit.submit();
+				document.getElementById('routeEdit').action.value = "populatenpanxx";
+				document.getElementById('routeEdit').submit();
 <? 
 	} else { // curl is not installed
 ?>
@@ -351,10 +351,11 @@ $key += 1; // this will be the next key value
 					break;
 					
 				}
-				if (routeEdit.dialpattern.value[ routeEdit.dialpattern.value.length - 1 ] == "\n") {
-					routeEdit.dialpattern.value = routeEdit.dialpattern.value + insert;
+				dialPattern=document.getElementById('dialpattern');
+				if (dialPattern.value[ dialPattern.value.length - 1 ] == "\n") {
+					dialPattern.value = dialPattern.value + insert;
 				} else {
-					routeEdit.dialpattern.value = routeEdit.dialpattern.value + '\n' + insert;
+					dialPattern.value = dialPattern.value + '\n' + insert;
 				}
 				
 				// reset element
