@@ -183,7 +183,7 @@ function getversion() {
 
 function zapexists() {
 	global $db;
-	$sql = "CREATE TABLE IF NOT EXISTS `zap` (`id` int(11) NOT NULL default '-1',`keyword`varchar(20) NOT NULL default '',`data`varchar(150) NOT NULL default '',`flags` int(1) NOT NULL default '0',PRIMARY KEY (`id`,`keyword`))";
+	$sql = "CREATE TABLE IF NOT EXISTS `zap` (`id` bigint(11) NOT NULL default '-1',`keyword`varchar(20) NOT NULL default '',`data`varchar(150) NOT NULL default '',`flags` int(1) NOT NULL default '0',PRIMARY KEY (`id`,`keyword`))";
 	$results = $db->query($sql);
 }
 
