@@ -1,0 +1,56 @@
+AGI Directory 0.2
+Greg MacLellan <greg@gregmaclellan.com>
+March 2, 2005
+
+This implements similar functionality to app_directory, but in AGI, and adds a couple new features.
+
+INSTALLATION
+
+Copy everything in sounds/* to your asterisk sounds directory (/var/lib/asterisk/sounds usually)
+
+Copy everything in agi-bin to your agi-bin directory (/var/lib/asterisk/agi-bin)
+
+Edit your extensions.conf, and take your existing directory line like:
+
+	exten => *411,3,Directory(default|ext-local)
+
+and change it to:
+
+	exten => *411,3,AGI(directory|default|ext-local)
+
+To get basic functionality.
+
+
+USAGE
+
+The full parameter list is:
+
+	voicemail context | dialing context | options
+
+Available options:
+
+	F - use first name
+	L - use last name (default)
+	B - use both first and last
+	O - allow dropping to operator (goes to extension o in current context)
+	E - say extension before transfering
+
+Example:
+
+	exten => *411,1,Answer
+	exten => *411,2,Wait(1)
+	exten => *411,3,AGI(directory,default,ext-local,BOE)
+	exten => o,1,Goto(from-pstn,s,1)
+
+If voicemail context is 'general', it searches EVERY context. Note, it will only use one dialing context
+for all numbers, so you must be sure all those extensions are available from that context.
+
+
+There are a few new sound files:
+
+dir-intro-oper.gsm	"... of the party's last name ... press 0 to reach an operator"
+dir-intro-fn-oper.gsm	"... of the party's first name ... press 0 to reach an operator"
+dir-intro-fnln.gsm	"... of the party's first or last name ..."
+dir-intro-fnln-oper.gsm	"... of the party's first or last name ... press 0 to reach an operator"
+try-extension.gsm	"please wait while I try extension"
+
