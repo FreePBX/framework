@@ -93,7 +93,7 @@ INSERT INTO `globals` VALUES ('REGDAYS', 'mon-fri');
 -- 
 
 CREATE TABLE IF NOT EXISTS `sip` (
-  `id` int(11) NOT NULL default '-1',
+  `id` bigint(11) NOT NULL default '-1',
   `keyword` varchar(20) NOT NULL default '',
   `data` varchar(150) NOT NULL default '',
   `flags` int(1) NOT NULL default '0',
