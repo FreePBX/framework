@@ -11,6 +11,7 @@ AMP has several requirements, including the following packages:
 	lame
 	httpd (Apache)
 	mysql
+	mysql-server
 	php
 	php-mysql
 	openssl
@@ -122,10 +123,7 @@ Building Asterisk and configuring it to run as a non-root user
 
 	- make clean && make && make install
 
-	The user that will run the asterisk process must own several directories/files:
-	
-	- cd /usr/src/AMP
-	- chown_asterisk.sh
+	The user that will run the asterisk process (asterisk) must own several directories/files.  We'll take care of that later.
 
 
 ###
@@ -191,11 +189,11 @@ If this is the first time installing (ie: there is no exisiting configuration):
 		- cd /usr/src/AMP
 		- ./chown_asterisk.sh
 
-	Change the server URL (ip address) in:
+	Change the web server URL (ip address) in:
 		
-		- /var/www/html/admin/cdr/lib/defines.php
+		- /var/www/html/admin/cdr/lib/defines.php (WEBROOT)
 		- /etc/asterisk/vm_email.inc
-		- /var/www/html/panel/op_server.cfg
+		- /var/www/html/panel/op_server.cfg  (web_hostname)
 		
 	Modify lines 28+ of /var/www/html/admin/retrieve_op_conf_from_mysql.pl to reflect the number of zap channels you have
 		
@@ -258,12 +256,10 @@ Auto Start
 
 	- Add to /etc/rc.d/rc.local:
 	
-		echo REMOVING WCFXS
-		/sbin/modprobe -r wcfxs
 		echo ADDING WCFXS
 		/sbin/modprobe wcfxs
 		echo STARTING ASTERISK
-		su asterisk -c "export PATH=$PATH:/usr/sbin && export LD_ASSUME_KERNEL=2.4.1 && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
+		su asterisk -c "export PATH=$PATH:/usr/sbin && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
 		/usr/sbin/asterisk -rx 'sip debug'
 		sleep 7
 		echo STARTING op_server.pl

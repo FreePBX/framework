@@ -235,12 +235,12 @@ switch($extdisplay) {
 				<td><input  tabindex="8" type="radio" name="options" value="attach=no" <? echo (ereg('attach=no',$options) ? 'checked=checked' : '')?>/> no</td>
 			</tr>
 			<tr>
-				<td>phone type: </td>
+				<td>phone dtmf mode: </td>
 				<td>&nbsp;
 					<select  name="dtmfmode" style="font-size:x-small">
-						<option value="rfc2833" <? echo (ereg('rfc2833',$dtmfmode) ? 'selected=selected' : '')?>>Uniden UIP200</option> 
-						<option value="inband" <? echo (ereg('inband',$dtmfmode) ? 'selected=selected' : '')?>>Grandstream HandyTone</option> 
-						<option value="info" <? echo (ereg('info',$dtmfmode) ? 'selected=selected' : '')?>>Grandstream BudgeTone</option> 
+						<option value="rfc2833" <? echo (ereg('rfc2833',$dtmfmode) ? 'selected=selected' : '')?>>rfc2833 (ie: UIP200)</option> 
+						<option value="inband" <? echo (ereg('inband',$dtmfmode) ? 'selected=selected' : '')?>>inband (ie: HandyTone</option> 
+						<option value="info" <? echo (ereg('info',$dtmfmode) ? 'selected=selected' : '')?>>info (ie: BudgeTone)</option> 
 					</select>
 				</td>
 			</tr>
@@ -369,12 +369,12 @@ switch($extdisplay) {
             <td><input tabindex="8" type="radio" name="options" value="attach=no"/> no</td>
         </tr>
 		<tr>
-			<td>phone type: </td>
+			<td>phone dtmfmode: </td>
 			<td>&nbsp;
 				<select name="dtmfmode" style="font-size:x-small">
-					<option value="rfc2833">Uniden UIP200</option> 
-					<option value="inband">Grandstream HandyTone</option> 
-					<option value="info">Grandstream BudgeTone</option> 
+					<option value="rfc2833">rfc2833 (ie: UIP200)</option> 
+					<option value="inband">inband (ie: HandyTone)</option> 
+					<option value="info">info (ie: BudgeTone)</option> 
 				</select>
 			</td>
 		</tr>
