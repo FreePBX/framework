@@ -689,7 +689,6 @@ function gettrunks() {
 	    if(DB::IsError($result)) {
 	        die($result->getMessage()."<br><br>".$sql);	
 	    }
-		setDefaultTrunk("1");
 		$unique_trunks[] = array('OUT_1','ZAP/g0');
 		addOutTrunk("1");
 	}
