@@ -113,10 +113,10 @@ if ($action == 'edtGRP') {
     <li><a id="<? echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?echo $dispnum?>">Add DID</a><br></li>
 <?
 //get unique call groups
-$gresults = getdids();
+$dresults = getdids();
 
-foreach ($gresults as $gresult) {
-    echo "<li><a id=\"".($extdisplay=='DID-'.$gresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=DID-{$gresult[0]}\">DID # {$gresult[0]}</a></li>";
+foreach ($dresults as $dresult) {
+    echo "<li><a id=\"".($extdisplay=='DID-'.$dresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=DID-{$dresult[0]}\">DID # {$dresult[0]}</a></li>";
 }
 ?>
 </div>
@@ -298,9 +298,9 @@ switch($extdisplay) {
     break;
 }
 ?>
-
+<br><br><br><br><br><br><br><br><br>
 <? //Make sure the bottom border is low enuf
-foreach ($gresults as $gresult) {
+foreach ($dresults as $dresult) {
     echo "<br>";
 }
 ?>

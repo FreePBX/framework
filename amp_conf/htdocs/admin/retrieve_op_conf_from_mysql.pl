@@ -122,6 +122,7 @@ sub table_exists {
     if (@tables) {
         for (@tables) {
             next unless $_;
+			$_ =~ s/`//g;     #on suse 9.2 we need to get rid of quotes
             return 1 if $_ eq $table
         }
     }
