@@ -20,8 +20,8 @@ function checkForm(theForm) {
 	
 	if ($account == "" || $secret == "" || $context == "" || $host == "" || $type == ""  || $username == "") {
 		alert('Please fill in all required fields.');
-	} else if (($account.indexOf('0') == 0) || ($account.indexOf('8') == 0)) {
-		alert('Extensions cannot begin with 0 or 8');
+	} else if (($account.indexOf('0') == 0) && ($account.length > 1)) {
+		alert('Extensions numbers with more than one digit cannot begin with 0');
 	} else if ($account != parseInt($account)) {
 		alert('There is something wrong with your extension number - it must be in integer');
 	} else if ($vm == "enabled" && $fullname == "" && $vmpwd == "" && $email == "" && $pager == "") {
@@ -52,7 +52,7 @@ function checkIncoming(theForm) {
 	}
 }
 
-function checkGRP(theForm) {
+function checkGRP(theForm,action) {
 	var bad = "false";
 
 	var whichitem = 0;
@@ -77,6 +77,12 @@ function checkGRP(theForm) {
 		alert('Please enter an extension list.');
 		bad="true";
 	} 
+	
+	$account = theForm.account.value;
+	if (($account.indexOf('0') == 0) && ($account.length > 1)) {
+		alert('Group numbers with more than one digit cannot begin with 0');
+		bad="true";
+	}
 	
 	if (bad == "false") {
 		theForm.submit();

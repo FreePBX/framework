@@ -248,7 +248,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 				$menu_name = $unique_aa[1];
 				echo '<option value="'.$menu_num.'"';
 				echo ($dropts[$i][2]==$menu_num)?' selected=selected':'';
-				echo '>Menu #'.$menu_num.': '.$menu_name;
+				echo '>'.($menu_name ? $menu_name : 'Menu #'.$menu_num);
 				$menu_num++;
 			}
 			for ($j = 0; $j < $_REQUEST['ivr_num_options']; $j++) { 
@@ -287,7 +287,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 			}
 		?>			
 			</select><br>
-			<input type="radio" name="goto_indicate<? echo $i ?>" value="custom" disabled="true" <?echo ($dropts[$i][0]=='custom')?' checked=checked':''; ?>/> <a href="#" class="info">Custom Goto<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word "custom" and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf<b><b></span></a>: 
+			<input type="radio" name="goto_indicate<? echo $i ?>" value="custom" disabled="true" <?echo ($dropts[$i][0]=='custom')?' checked=checked':''; ?>/> <a href="#" class="info">Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word "custom" and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf<b><b></span></a>: 
 			<input type="text" size="20" name="custom<? echo $i ?>" value="<? echo $dropts[$i][2]; ?>" onclick="javascript:document.prompt.goto_indicate<? echo $i ?>[4].checked=true;javascript:document.prompt.goto<? echo $i ?>.value='custom';"/>
 			</input><br>
 	
