@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=1.10.004
+VERSION=1.10.005
 
 
 ROOT_UID=0	 # root uid is 0
