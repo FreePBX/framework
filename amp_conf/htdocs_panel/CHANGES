@@ -1,5 +1,232 @@
 CHANGES to Flash Operator Panel
 
+.19
+ Nov 04 2004:
+
+  - Improved call details, now there is a queue/agent information
+    window and last call details window.
+
+  - Bugfixes and visual layout tweaks. You can set the highlight color, etc.
+
+  - You can define a distinct style per panel context. See op_style.cfg
+
+  - You can include files in op_buttons.cfg with the keyword 'include =>'
+
+  - The swf client is compressed and much smaller.
+
+  - When op_server.pl recconects, it close flash clients connections to
+    force a reconnect and update on their status.
+
+.18
+ Oct 29 2004:
+
+  - Ming client is now the default, the new features work with
+    that client only.
+
+  - Led color configurable via op_style.cfg
+
+  - More label renaming options 
+    (rename to agent name, rename queuememebers, etc)
+
+  - Option to change led color for logged in agents
+
+  - New click to dial feature, accesible via javascript
+    (examples in the html subdir)
+
+  - Ability to draw rectangles (see op_buttons.cfg for examples)
+
+  - Added polling for IAX presence 
+
+.17
+ Oct 21 2004:
+
+  - Mostly a bug fix release. Fixed the reload button in the ming client.
+
+  - Added polling of agents status on connect 
+
+  - Initial take on showing detail info on each agent
+
+.16
+ Oct 20 2004:
+
+  - Bug fixes: parked channel feature works again, ringing state too.
+
+  - Encryption is now optional, you can enable or disable it by changing
+    enable_crypto in op_style.cfg (while is this parameter in op_style
+    you may ask? well, the client has the ability to request encryption or
+    not, op_style.cfg sets not only visual parameters, but any client
+    parameter. I might change the configuration file name to op_client.cfg
+    in the future. Without encryption the client uses less CPU.
+
+  - Include the option for polling voicemail status together with sip
+    peers (poll_voicemail in op_server.cfg)
+
+  - New feature: ability to rename button labels when agents log in (
+    rename_label_agentlogin and rename_label_callbacklogin inside
+    op_server.cfg)
+
+  - New Ming client included. Ming is a library for generating .swf files
+    with wrappers in several languages. I used the perl wrapper to produce
+    a complete client. The source is included in the ming-source directory
+    The precompiled .swf file is in the html directory together with the
+    native flash client. Further development might be done exclusively in
+    Ming.
+
+  - The Ming client treats fonts a little diferent. If you enable 
+    use_embed_fonts in op_style.cfg, then all the font_family values will
+    be overriden by the only embedded font in the .swf. The
+    embedded font looks uniform compared to system (or browser) fonts. You 
+    *can* use any font_family available in your platform: just disable the 
+    use of embed fonts and select the family for each legend in a button.. 
+    but you might end up with chopped text depending of the type of font 
+    you use.
+
+
+.15
+ Oct 1st 2004:
+
+  - New configuration file format, there is an utility to convert
+    your old configuration to the new format. See UPGRADE, and don't
+    forget to backup first. Be sure to run the utility only with
+    old configuration files, use it once and then remove it just in
+    case.
+
+  - Fixed MessageWaiting when channel was in another context
+
+  - MD5 Authentication to Asterisk Manager (md5_auth in op_server.cfg)
+  
+  - Improved context handling in general. Now you can have a security
+    code for each context, as well as meetme rooms to use for bargein.
+
+  - There is no more auto_conf_exten for finding an empty meetme for
+    barge-ins. You now have to specify the rooms available for that
+    feature with the parameter barge_rooms in op_server.cfg
+
+  - Timers are now polled from Asterisk on initial connect. (If you open
+    the panel when a conversation was going, you will see the real duration
+    of the call)
+
+  - TEA Encryption for messages sent from server to client. MD5 used for
+    hashing the password.
+
+  - Many cosmetical changes to the flash movie, as well as optimizations
+    and rewrites. There are new icons, animations, etc.
+
+  - More information available when a call is disconnected, including
+    queue status information (completed calls, average holdtime, etc)
+    To get the info double click on the arrow when a call is finished.
+
+  - Added ability to mute/unmute meetme participants by clicking on the
+    arrow.
+
+  - Supports for register/unregister/unreachable/lagged realtime events
+    for SIP and IAX peers
+
+  - You can restrict the drag and drop commands to one button only, see
+    index-restrict.html in the html subdirectory
+
+.14
+ Jul 28th 2004:
+
+  - You can run the op_server.pl dettached from the console by starting it
+    with the parameter '-d'. There are sample init scripts in the init 
+    directory for redhat and debian.
+
+  - You can now drag a parked channel and transfer it to an available 
+    extension just like any other transfer.
+
+  - Changed to work well with Asterisk RC1 (IAX2 channel names have changed
+    from "IAX2[ext@context]" to IAX2/ext@context. Your IAX2 channels in 
+    op_buttons.cfg must be renamed if you use RC1. If you do not user RC1,
+    it might work as before, but I have not tested it.
+
+  - The flash side has a lot of improvements and changes. The fonts _sans
+    and _serif are now embedded, so they will look consistent in different
+    client computers (the tradeoff is a bigger swf file). When a channel is 
+    offline, the label text will also be grayed out. When dragging an icon, 
+    there is now visual feedback for the destination button. Added transparent
+    mask to the icons to make drag easier. If the client looses connection to
+    the op_server.pl, it will try to reconnect by itself (it does not work 
+    on linux, its a flash bug).
+
+  - Also in the flash side, there are new elements. A little arrow showing 
+    the direction of the call. And if you double click that little arrow 
+    after a call is made, you can see the last call status. The new parameters
+    for op_style.cfg are described in UPGRADE
+
+  - There is a new parameter in op_server.cfg: clid_format
+    You can choose the format for the caller id to be presented in the client
+    The letter 'x' will be replaced with a number, any other text will be
+    preserved. 
+
+.13
+ Jul 12th 2004:
+
+  - Fixed an annoying bug that prevented the initial status to be displayed
+    (the context for wich the panel request events was sent after the
+    status events, so they were ignored by the flash client)
+
+  - Fixed another annoying bug, the clid text was of an incorrect height,
+    and the drag and drop was erratic because of this
+
+  - Improved the parking display on the channels. Now you have a flashing
+    led and a text in the button itself
+
+  - Added a timer with the duration of a call to each button
+
+  - Still more bugs to clean on the trunk feature, please report feedback
+    on the mailing list..
+
+.12
+ Jul 5th 2004:
+
+  - Added a caller id display on the button itself
+
+  - The status of meetme and queues is queried on initial connect
+
+  - The event handling was rewriten. Now the flash client receives the
+    events for its own context (in previous versions, the events were
+    broadcasted to all clients)
+
+  - Cleaned the debug output a bit. 
+
+  - You can send a USR1 signal to the server and look at some state 
+    variables.
+
+  
+.11
+ Jun 29th 2004:
+
+  - Added 'trunk' buttons. You can define many buttons for just one user.
+    It is not well tested, as I do not have the means to test it. It might
+    introduce bugs!
+
+  - Added CRM software integration. You can monitor a button, and when it
+    rings, a web page is requested in the url and target you specify, with
+    the clid sent as a GET variable.
+
+  - The debug option in op_server.cfg has changed. See the UPGRADE file or
+    the online documentation, or the comments on op_server.cfg
+  
+.10
+ Jun 22th 2004:
+
+  - Added Contexts for the panel. You can have one server and several 
+    different panels.
+
+  - Added 'Parked calls' as a status for a defined channel/button
+
+  - Fixed important bugs (MWI with contexts not working, transfers not
+    working in particular situations)
+
+  - Totally new webpage, for up to date documentation, go there
+
+  - You can send a HUP signal to op_server.pl and it will rewrite the
+    configuration files for the flash applet.
+
+  - New RELOAD button in flash, it will reread the server configuration 
+    and refresh the display.
+
 .09 
  Jun 8th 2004:
 

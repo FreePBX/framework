@@ -2,6 +2,9 @@ Asterisk Flash Operator Panel
 Copyright (c) 2004 Nicolás Gudiño.  All rights reserved.
 http://www.asternic.org
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+For complete and up to date documentation, please visit the web page
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 What is Flash Operator Panel?
 -----------------------------
@@ -19,6 +22,9 @@ You can see at a glance:
    * SIP registration status and reachability 
    * Meetme room status (number of users) in the room
    * Queue status (number of users waiting)
+   * Parked extensions
+   * Call duration Timers
+   * Logged in Agents
 
 You can perform these actions:
 
@@ -30,6 +36,7 @@ You can perform these actions:
      the three together. 
    * Change the callerid text to something meaningfull when transferring or
      originating a call
+   * Mute/Unmute meetme participants
 
 Requirements
 ------------
@@ -121,9 +128,8 @@ When started, it writes the file 'variables.txt' to the http directory where
 the flash applet is installed with configuration data. It must have
 permissions to write to that directory.
 
-The server does not detach from the console, you can append '&' at the end
-of the command line if you want to do that. You can also redirect its
-output to a file for debugging purposes.
+You can run it daemonized using -d as its command line argument. There are
+some example init scripts in the directory inits
 
 If you want to start the server when the machine starts, you can add a line
 similar to the following to your rc.local file (you have to replace the
@@ -132,19 +138,26 @@ the op_server.pl as root, just su to that user:
 
 (cd */path/*; su *operator-user* -c */path/*op_server.pl & )
 
+Or better yet, use one of the init scripts provided.
+
 
 Security
 --------
 
 Its not meant to be secure. You should take provisions yourself, like
 limiting who can connect by means of .htaccess files, firewall rules, etc.
+There is basic encryption for messages sent from the server to the client,
+and the security code is sent with MD5. It will hide sensitive information
+from the casual observer, but its not strong enough to send credit card
+information. 
 
 
 How to use it
 -------------
 
 Click the HELP button when running the Flash Operator Panel. Experiment.
-Drag icons, move your mouse around.
+Drag icons, move your mouse around. Click and double click when the arrow
+turns into a hand.
 
 
 Support
@@ -158,6 +171,8 @@ Donations
 ---------
 
 If you like the program, or have feature requests, you can contribute to the
-cause by donating via paypal. Click the donate button on the webpage.
+cause by donating via paypal. Click the donate button on the webpage. You can
+also contact me for custom works, or asterisk consultancy.
+
 Thanks!
 

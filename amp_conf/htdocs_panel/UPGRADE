@@ -1,6 +1,220 @@
 Notes on upgrading from an older release
 ========================================
- 
+
+o Upgrading from version .18 to .19:
+
+	In op_style.cfg there is a new paramter to confgure the 
+    highlighting color for the buttons:
+
+      btn_highlight_color=ff0000
+
+o Upgrading from version .17 to .18:
+
+    The default .swf client is now the ming port. The new features
+    are available only in the ming port. The flash .swf is included
+    but it was not tested.
+
+    In op_style.cfg there are new parameters (to configure led colors):
+
+      ledcolor_ready
+      ledcolor_busy
+      ledcolor_agent
+
+    The parameter led_color is not used anymore. (It is used by the 
+    flash client only, not the default ming client)
+
+    In op_server.cfg there are new options too (all commented in 
+    op_server.cfg itsef):
+
+      rename_label_agentlogin
+      rename_label_callbacklogin
+      rename_to_agent_name 
+      rename_queue_member
+      change_led_agent   
+      clicktodial_insecure
+
+    It is possible now to draw rectangles, see op_buttons.cfg for 
+    an example.
+
+    If you use click-to-dial, the button used to originate the call
+    must be specified when invoking the .swf file. The parameter used
+    is 'dial'. See index-clicktodial.html for an example.
+
+o Upgrading from version .16 to .17:
+
+    Just replace op_server.pl and your favorite .swf client. Its
+    mostly a bug fix release. The new features do not require 
+    configuration changes.
+
+o Upgrading from version .15 to .16:
+
+    The help window is now a browser windows that loads help.html 
+	(instead of being a flash window that loads the help.txt file)
+    So you need to put a help.html page in the same location as the
+    .swf file.
+
+    There are a couple of new parameters. In op_server.cfg
+
+       poll_voicemail
+
+         Will check for voicemail status every poll_interval seconds.
+         Remeber that poll_interval will also check for sip peers.
+
+       rename_label_agentlogin
+       rename_label_callbacklogin
+
+         Both parameters acomplish the same goal: to rename a button
+         label when an Agent logs in. One of them works with the regular
+         AgentLogin application. The other one with AgentCallbackLogin.
+         For the later, you need to have a button with the same extension
+         and context for the callback for it to work.
+
+    There is also a new parameter in op_style.cfg
+
+        enable_crypto (1 for enable, 0 for disable)
+
+          If you want to encrypt server to client messages, turn this on.
+
+o Upgrading from version .14 to .15:
+
+    The format of the configuration file is different. You have to
+    run ./convert_config_pre_14.pl in order to convert your old
+    configuration files to the new format. The conversion utility
+    must reside in the same directory as the old configuration files:
+
+       op_server.cfg
+       op_style.cfg
+       op_buttons.cfg
+
+    When you run the conversion routine, it will backup your old 
+    configuration files and do its thing. Just in case, backup the
+    files yourself. The conversion program does not have extensive
+    error checking.
+
+    The barge-in functionality has changed also. You no longer need
+    an auto_conference_extension in your dialplan. The panel will 
+    keep track of the conferences itself. You *do* need to add the
+    conference room numbers that must be used for barge-in. The 
+    conversion routine adds the parameter, you have to modify it to
+    suit your needs. The new parameter (in op_server.cfg) is:
+
+		barge_rooms
+
+	It must have at least two rooms defined, with the format:
+	"minor-major". Those rooms must be defined in your extensions.conf
+    under the context defined by conference_context. The extension
+    number must match the meetme room number. See op_server.cfg for
+    an example.
+
+	To authenticate using MD5 to Asterisk Manager you can add the parameter
+	auth_md5=1 in op_server.cfg. It is enabled by default.
+
+    There are new parameter in op_style.cfg: 
+
+		enable_animation: it will animate the phone icons when ringing.
+
+		use_embed_font: lets you choose between embed fonts or system fonts.
+
+		(1 for enable, 0 for disable)
+    
+
+o Upgrading from version .13 to .14:
+   
+    In Asterisk RC1, the IAX naming convention has changed. There are
+    no more brackets in IAX2 channel names. If you run RC1 (try it!)
+    you will have to name your IAX2 channels like:
+
+      IAX2/user
+
+    You will have to rename your op_buttons.cfg if you use IAX2 channels.
+
+    The code for handling the previous naming convention is still there
+    but I have not tested it. It might or might not work.
+
+    There are new elements in op_style that affects the button style:
+
+       arrow_scale
+       arrow_margin_top
+       arrow_margin_left
+
+       The above parameters indicate the size and position of a little
+       arrow that shows the 'direction' of the call. 
+
+       detail_title=Last call details
+       detail_from=From:
+       detail_to=To:
+       detail_duration=Duration:
+
+       These four parameters are for setting the text displayed in the
+       detail box when you double click on the little arrow after a call
+       is made.
+
+       led_color
+
+       The color scheme for the available/busy led.
+         0 for leds green/red. (default)
+         1 for leds grey/green 
+
+       label_shadow
+
+       You can add a shadow to the text label
+         0 for disabling the shadow (default)
+         1 for enabling the shadow
+
+
+    There is a new parameter in op_server.cfg:
+
+      clid_format
+
+        This mask will apply to the callerid field to format the
+        number as you see fit. Every 'x' will be replaced by a number
+        from right to left. Any other char will be preserved. Ex:
+	(xxx) xxx-xxxx
+
+o Upgrading from version .12 to .13:
+
+    For the timer to work, you need to add four new parameters to
+    op_style.cfg
+
+       timer_font_size
+       timer_font_family
+       timer_margin_top
+       timer_margin_left
+
+o Upgrading from version .11 to .12:
+
+    There are 4 new parameters in op_style.cfg for the caller id
+    display on each button.
+
+        clid_font_size
+        clid_font_family
+        clid_margin_top
+        clid_margin_left
+
+o Upgrading from version .10 to .11:
+
+    There are no new parameters in the configuration files. Your .10
+    configuration should work fine with version .11
+
+    The debug level bitmap is now different:
+
+       1   Show Manager Events Received
+       2   Show Commands set to Manager
+       4   Show Flash events Received
+       8   Show events sent to Flash Clients
+       16  1st level Debug on op_server.pl
+       32  2nd level Debug on op_server.pl
+       64  3rd level Debug on op_server.pl
+
+o Upgrading from version .09 to .10:
+
+    There are 2 new parameters in op_style.cfg for a new element
+    in the toolbar (a reload button)
+
+	btn_reload_label
+	show_btn_reload
+
+
 o Upgrading from version .08 to .09:
 
     The debug level (op_server.cfg) is now a bitmap. Now you have more

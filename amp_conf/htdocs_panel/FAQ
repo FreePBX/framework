@@ -5,7 +5,7 @@ Q0: Do I have to run a webserver?
 
 A0: Yes, its a Flash applet, it works from a web browser. You can use apache
     or any other webserver you like. It was tested with Windows, Linux, and
-    Mac browsers. Its truly multiplataform!
+    Mac browsers. Its truly multiplatform!
 
 
 Q1: Do I need to install additional Perl modules to run op_server.pl?
@@ -49,9 +49,18 @@ A5: The flash movie requests the file variables.txt when it starts. If your
     browser caches that file, you won't see the changes you made unless you
     clear your browser cache, or maybe just requesting the variables.txt
     file and hitting reload a couple of times. I'm working on a fix so you
-    don't have to worry about caching.
+    don't have to worry about caching. 
 
 Q6: I do not like editing a text file to change a visual layout!
 
 A6: Me neither, I dream of a visual layout configuration. But I do not have
     the time to make it happen. Maybe in the future. 
+
+Q7: Where is the .fla file?
+	
+A7: The server is GPL, the client is not. I do not like the .fla
+    format. I have ported the client to MING, under ming-source you will
+    find the perl source for generating a working .swf client. I will give
+    the .fla source to the first person who donates me an ibook or powerbook
+    with OSX 10.3.5 and Macromedia Tools installed <g>.
+
