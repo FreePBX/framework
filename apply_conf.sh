@@ -52,9 +52,9 @@ sed -r -i "s/mgrSECRET='[a-zA-Z0-9]*';/mgrSECRET='$AMPMGRPASS';/" /var/lib/aster
 echo $AMPWEBROOT"/panel/op_server.cfg"
 sed -r -i "s/manager_user=[a-zA-Z0-9]*/manager_user=$AMPMGRUSER/" $AMPWEBROOT/panel/op_server.cfg
 sed -r -i "s/manager_secret=[a-zA-Z0-9]*/manager_secret=$AMPMGRPASS/" $AMPWEBROOT/panel/op_server.cfg
-sed -r -i "s/web_hostname=[a-zA-Z0-9_-\.]*/web_hostname=$AMPWEBADDRESS/" $AMPWEBROOT/panel/op_server.cfg
+sed -r -i "s/web_hostname=[a-zA-Z0-9_\-\.]*/web_hostname=$AMPWEBADDRESS/" $AMPWEBROOT/panel/op_server.cfg
 sed -r -i "s/security_code=[a-zA-Z0-9]*/security_code=$FOPPASSWORD/" $AMPWEBROOT/panel/op_server.cfg
-sed -r -i "s!flash_dir=[a-zA-Z0-9_-\.\/\\]*!flash_dir=$AMPWEBROOT\/panel!" $AMPWEBROOT/panel/op_server.cfg
+sed -r -i "s!flash_dir=[a-zA-Z0-9_\-\.\/\\]*!flash_dir=$AMPWEBROOT\/panel!" $AMPWEBROOT/panel/op_server.cfg
 sed -r -i "s!web_hostname=[a-zA-Z0-9\.]*!web_hostname=$AMPWEBADDRESS!" $AMPWEBROOT/panel/op_server.cfg
 sed -r -i "s!web_hostname=[a-zA-Z0-9\.]*!web_hostname=$AMPWEBADDRESS!" $AMPWEBROOT/panel/op_server.cfg
 
