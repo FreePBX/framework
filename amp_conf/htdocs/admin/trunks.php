@@ -1,4 +1,4 @@
-<?
+<?php /* $Id$ */
 // routing.php Copyright (C) 2004 Greg MacLellan (greg@mtechsolutions.ca)
 // Asterisk Management Portal Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
@@ -304,7 +304,7 @@ if (!$tech && !$extdisplay) {
 	} 
 ?>
 	
-		<form name="trunkEdit" action="config.php" method="get">
+		<form name="trunkEdit" action="config.php" method="post">
 			<input type="hidden" name="display" value="<?echo $display?>"/>
 			<input type="hidden" name="extdisplay" value="<?= $extdisplay ?>"/>
 			<input type="hidden" name="action" value=""/>
