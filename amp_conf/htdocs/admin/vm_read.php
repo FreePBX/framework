@@ -38,8 +38,11 @@ while ($line = fgets ($fh, 512))
 }
 fclose ($fh);
 
+$vm = false;
+
 for ($i = 0; $i < $row; $i++) {
     if ($uservm[$i][0] == $extdisplay) {
+		$vm=true;
         $vmpwd = $uservm[$i][1];
         $name = $uservm[$i][2];
         $email = $uservm[$i][3];

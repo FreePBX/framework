@@ -11,6 +11,11 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
+// Note: if you run into database errors with a particular extension number, 
+// build a url as follows to remove that extension (XXX) from all tables and voicemail.conf:
+//             config.php?display=3&action=delete&extdisplay=XXX
+
+
 //script to write sip conf file from mysql
 $wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_sip_conf_from_mysql.pl';
 
@@ -37,8 +42,8 @@ if ($action == 'add') {
     $account = $_REQUEST['account'];
 	$callerid = '"'.$_REQUEST['name'].'" '.'<'.$account.'>';
 
-	// the dtmfmode request variable can now be IAX2.  If IAX2, handle it differently 
-	if ($_REQUEST['dtmfmode'] == 'iax2') {
+	// If IAX2, handle it differently 
+	if ($_REQUEST['tech'] == 'iax2') {
 		//add to iax table
 		addiax($account,$callerid);	
 	} else {  #ok, it's SIP
@@ -54,8 +59,11 @@ if ($action == 'add') {
 	//write out op_server.cfg
 	exec($wOpScript);
 	    
-    //take care of voicemail.conf
-    include 'vm_conf.php';
+    //take care of voicemail.conf if using voicemail
+	if ($_REQUEST['vm'] != 'disabled')
+	{
+    	include 'vm_conf.php';
+	}
 	
 	//update ext-local context in extensions.conf
 	addaccount($account);
@@ -102,37 +110,53 @@ if ($action == 'delete') {
 } //end delete
 
 //edit database
-if ($action == 'bscEdit' || $action == 'advEdit') {
+if ($action == 'advEdit') {
 
     $account = $_REQUEST['account'];
-	
-	if ($_REQUEST['callerid'] == '') {
-		$callerid = '"'.$_REQUEST['name'].'" '.'<'.$account.'>';
-	} else {
-		$callerid = stripslashes($_REQUEST['callerid']);
-	}
+	$callerid = '"'.$_REQUEST['cidname'].'" '.'<'.$account.'>';
 
-	// the dtmfmode request variable can now be IAX2.  If IAX2, handle it differently 
-	if ($_REQUEST['dtmfmode'] == 'iax2') {
+	//delete and re-add the account
+		delExten($account);
+	
+		// If IAX2, handle it differently 
+		if ($_REQUEST['tech'] == 'iax2') {
+			//add to iax table
+			addiax($account,$callerid);	
+		} else {  #ok, it's SIP
+			//add to sip table
+			addsip($account,$callerid);
+		}
+	
+	
+/*	// If IAX2, handle it differently 
+	if ($_REQUEST['tech'] == 'iax2') {
 		//edit iax table
 		editIax($account,$callerid);
 	} else {
 		//ok, it's SIP
 		editSip($account,$callerid);
 	}
-	
+*/	
     //write out conf files
     exec($wScript);
     exec($wIaxScript);
 	
 	//write out op_server.cfg
 	exec($wOpScript);
-	
-    //take care of voicemail.conf
-    include 'vm_conf.php';
+
+    //take care of voicemail.conf.  If vm has been disabled, then delete from voicemail.conf
+	if ($_REQUEST['vm'] == 'disabled')
+	{
+		$action = 'delete';
+		include 'vm_conf.php';
+		$action = 'advEdit';
+	} else {
+		include 'vm_conf.php';
+	}
 	
 	//update ext-local context in extensions.conf
-	$sql = "UPDATE `extensions` SET `args` = 'exten-vm,".$_REQUEST['mailbox'].",".$account."' WHERE `context` = 'ext-local' AND `extension` = '".$account."' AND `priority` = '1' LIMIT 1 ;";
+	$mailb = ($_REQUEST['mailbox'] == '') ? 'novm' : $_REQUEST['mailbox'];
+	$sql = "UPDATE `extensions` SET `args` = 'exten-vm,".$mailb.",".$account."' WHERE `context` = 'ext-local' AND `extension` = '".$account."' AND `priority` = '1' LIMIT 1 ;";
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
         die($result->getMessage());
@@ -174,136 +198,91 @@ switch($extdisplay) {
 		
 		include 'vm_read.php'; //read vm config into uservm[][]
 		
+		
 		//get all rows relating to selected account
 		$thisExten = exteninfo($extdisplay);
 		
 		$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delete';
 	?>
 	
-		<h2>Extension: <? echo $extdisplay; ?></h2>
+		<h2>Extension: <? echo $extdisplay; ?> (
+			<? 
+			foreach ($thisExten as $result) {
+				if ($result[1] == 'tech') {
+					echo '<span style="text-transform:uppercase;">'.$result[2].'</span>';
+					$tech = $result[2];
+				}
+			}
+			?>
+		)</h2>
 		<p><a href="<? echo $delURL ?>">Delete Extension <? echo $extdisplay; ?></a></p>
 		
 		
-		<form name="bscEdit" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
-		<input type="hidden" name="display" value="<?echo $dispnum?>">
-		<input type="hidden" name="action" value="bscEdit"/>
-		<h4>Basic Edit:</h4>
-		<p>
-				<?
-				foreach ($thisExten as $result) {
-					${$result[1]} = $result[2];
-				}
-				?>
-			<input tabindex="1" type="hidden" name="account" value="<? echo $account; ?>"/>
-			<table>
-			<tr>
-				<td>extension password:</td>
-				<td><input tabindex="2" size="10" type="text" name="secret" value="<? echo $secret; ?>"/></td>
-			</tr>
-			<tr>
-				<td>voicemail password:</td>
-				<td><input tabindex="3" size="10" type="password" name="vmpwd" value="<? echo $vmpwd; ?>"/></td>
-			</tr>
-			<tr>
-				<td>full name:</td>
-				<td><input tabindex="4" type="text" name="name" value="<? echo $name; ?>"/></td>
-			</tr>
-			<tr>
-				<td>email address:</td>
-				<td><input tabindex="5" type="text" name="email" value="<? echo $email; ?>"/></td>
-			</tr>
-			<tr>
-				<td>pager email address:</td>
-				<td><input tabindex="6" type="text" name="pager" value="<? echo $pager; ?>"/></td>
-			</tr>
-			<tr>
-				<td>vm attachment: </td>
-				<td><input tabindex="7" type="radio" name="options" value="attach=yes" <? echo (ereg('attach=yes',$options) ? 'checked=checked' : '')?>/> yes</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td><input  tabindex="8" type="radio" name="options" value="attach=no" <? echo (ereg('attach=no',$options) ? 'checked=checked' : '')?>/> no</td>
-			</tr>
-			<tr>
-				<td>phone type: </td>
-				<td>&nbsp;
-					<select  name="dtmfmode" style="font-size:x-small">
-						<option value="rfc2833" <? echo (ereg('rfc2833',$dtmfmode) ? 'selected=selected' : '')?>>SIP-rfc2833 (ie: UIP200)</option> 
-						<option value="inband" <? echo (ereg('inband',$dtmfmode) ? 'selected=selected' : '')?>>SIP-inband (ie: HandyTone</option> 
-						<option value="info" <? echo (ereg('info',$dtmfmode) ? 'selected=selected' : '')?>>SIP-info (ie: BudgeTone)</option> 
-						<option value="iax2" <? echo (ereg('iax2',$dtmfmode) ? 'selected=selected' : '')?>>IAX2</option> 
-					</select>
-				</td>
-			</tr>
-			<input type="hidden" name="canreinvite" value="<? echo $canreinvite; ?>"/>
-			<input type="hidden" name="context" value="<? echo $context; ?>"/>
-			<input type="hidden" name="host" value="<? echo $host; ?>"/>
-			<input type="hidden" name="type" value="<? echo $type; ?>"/>
-			<input type="hidden" name="mailbox" value="<? echo $mailbox; ?>"/>
-			<input type="hidden" name="username" value="<? echo $username; ?>"/>
-			<input type="hidden" name="nat" value="<? echo ($nat==null) ? 'never' : $nat; ?>"/>
-			<input type="hidden" name="port" value="<? echo ($port==null) ? '5060' : $port; ?>"/>
-			<input type="hidden" name="iaxport" value="<? echo ($iaxport==null) ? '4569' : $iaxport; ?>"/>
-			<input type="hidden" name="notransfer" value="<? echo ($notransfer==null) ? 'yes' : $notransfer; ?>"/>
-			<input type="hidden" name="qualify" value="<? echo ($qualify==null) ? 'no' : $qualify; ?>"/>
-			<input type="hidden" name="callerid" value="<? echo ($callerid==null) ? ' ' : htmlentities($callerid); ?>"/>
-			<tr>
-				<td>
-					&nbsp;
-				</td>
-				<td>
-					<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkForm(bscEdit)"></h6>
-				</td>
-			</tr>
-			</table>
-		</p>
-		</form>
+
 		
 		
 		<form name="advEdit" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
 		<input type="hidden" name="display" value="<?echo $dispnum?>">
 		<input type="hidden" name="action" value="advEdit"/>
+		<input type="hidden" name="tech" value="<?echo $tech?>"/>
 		<p>
-			<table bgcolor=#EEEEEE>
-				<tr><td colspan=2><h4>Advanced Edit:<br><br></h4></td></tr>
-				<tr><td colspan=2><h5>Account Settings:<hr></h5></td></tr>
+			<table>
+				<tr><td colspan=2  width=320><h5>Account Settings:<hr></h5></td></tr>
 			<? 
 			foreach ($thisExten as $result) {
-				if ($result[1] != 'account') {
-					echo '<tr><td>'.$result[1].': </td><td><input size="20" type="text" name="'.$result[1].'" value="'.htmlentities($result[2]).'"/></td></tr>';
+				if ($result[1] != 'account' && $result[1] != 'tech') {
+					if ($result[1] == '1outcid') {
+						echo '<tr><td><a href="#" class="info">outbound callerid: <span><br>Overrides the caller id when dialling out a trunk. Any setting here will override the common outbound caller id set in the Trunks admin.<br><br>Format: <b>"caller name" &lt;#######&gt;</b><br><br>Leave this field blank to disable the outbound callerid feature for this extension.<br><br></span></a></td>';
+						echo '<td><input size="20" type="text" name="outcid" value="'.htmlentities($result[2]).'"/></td></tr>';
+					} else if ($result[1] == 'callerid') {  //We don't allow user to change cid number, since the dialplan depends on it.  
+						$cid = explode('"',$result[2]);
+						echo '<tr><td width="135">'.$result[1].': </td><td><input size="14" type="text" name="cidname" value="'.htmlentities($cid[1]).'"/>'.htmlentities($cid[2]).'</td></tr>';
+					} else {
+						echo '<tr><td width="135">'.$result[1].': </td><td><input size="20" type="text" name="'.$result[1].'" value="'.htmlentities($result[2]).'"/></td></tr>';
+					}
 				}
 			}
 			?>
-			<input type="hidden" name="account" value="<? echo $account ?>">
-			<tr><td colspan=2><h5><br>Voicemail & Directory Settings:<hr></h5></td></tr>
-			<tr>
-				<td>
-					voicemail pwd:
-				</td>
-				<td>
-					<input size="20" type="password" name="vmpwd" value="<? echo $vmpwd; ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td>full name:</td>
-				<td><input size="20" type="text" name="name" value="<? echo $name; ?>"/></td>
-			</tr>
-			<tr>
-				<td>email address:</td>
-				<td><input size="20" type="text" name="email" value="<? echo $email; ?>"/></td>
-			</tr>
-			<tr>
-				<td>pager email address:</td>
-				<td><input size="20" type="text" name="pager" value="<? echo $pager; ?>"/></td>
-			</tr>
-			<tr>
-				<td>vm options: </td>
-				<td><input size="20" type="text" name="options" value="<? echo $options; ?>" /></td>
-			</tr>
-			
+			<input type="hidden" name="account" value="<? echo $extdisplay ?>">
+			<tr><td colspan=2>
+				<h5><br>Voicemail & Directory:&nbsp;&nbsp;&nbsp;&nbsp;
+					<select name="vm" onchange="checkVoicemail(advEdit);">
+						<option value="enabled">Enabled</option> 
+						<option value="disabled" <? echo ($vm) ? '' : 'selected' ?>>Disabled</option> 
+					</select>
+				<hr></h5>
+			</td></tr>
+			<tr><td colspan=2>
+				<table id="voicemail" <? echo ($vm) ? '' : 'style="display:none;"' ?>>
+				<tr>
+					<td>
+						voicemail pwd:
+					</td>
+					<td>
+						<input size="20" type="password" name="vmpwd" value="<? echo $vmpwd; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td>full name:</td>
+					<td><input size="20" type="text" name="name" value="<? echo $name; ?>"/></td>
+				</tr>
+				<tr>
+					<td>email address:</td>
+					<td><input size="20" type="text" name="email" value="<? echo $email; ?>"/></td>
+				</tr>
+				<tr>
+					<td>pager email address:</td>
+					<td><input size="20" type="text" name="pager" value="<? echo $pager; ?>"/></td>
+				</tr>
+				<tr>
+					<td>vm options: </td>
+					<td><input size="20" type="text" name="options" value="<? echo $options; ?>" /></td>
+				</tr>
+				</table>
+			</td></tr>
 			<tr>
 				<td colspan=2>
-					<br><h6><input name="Submit" type="button" value="Submit Advanced Edit" onclick="checkForm(advEdit)"></h6>
+					<br><h6><input name="Submit" type="button" value="Submit Changes" onclick="checkForm(advEdit)"></h6>
 				</td>
 			</tr>
 			</table>
@@ -322,6 +301,23 @@ switch($extdisplay) {
         <h2>Add an Extension</h2>
         <p>
             <table>
+			<tr><td colspan=2><h5><br>Account Settings:<hr></h5></td></tr>
+			<tr>
+				<td>
+					<a href="#" class="info">phone protocol<span>The technology your phone supports</span></a>: 
+				</td>
+				<td>&nbsp;
+					<select name="tech" onchange="javascript:if(addNew.tech.value == 'iax2') document.getElementById('dtmfmode').style.display = 'none;'; else document.getElementById('dtmfmode').style.display = 'inline;';">
+						<option value="sip">SIP</option> 
+						<option value="iax2">IAX2</option> 
+					</select>
+					<select name="dtmfmode" id="dtmfmode">
+						<option value="rfc2833">rfc2833</option> 
+						<option value="inband">inband</option> 
+						<option value="info">info</option>  
+					</select>
+				</td>
+			</tr>
             <tr>
                 <td>
                     <a href="#" class="info">extension number<span>This is the phone number for the new extension.<br><b>It must be unique.</b><br><br>This extension's USERNAME and MAILBOX are also the same as the extension number.<br></span></a>: 
@@ -337,60 +333,60 @@ switch($extdisplay) {
                 </td>
             </td>
             <tr>
-                <td>
-                    <a href="#" class="info">voicemail password<span>This is the password used to access the voicemail system.<br><br>This password can only contain numbers.<br><br>A user can change the password you enter here after logging into the voicemail system (*98) with a phone.<br><br>Note: If you leave this field blank, a voicemail account will NOT be created for this extension.<br></span></a>: 
-                </td><td>
-                    <input tabindex="3" size="10" type="text" name="vmpwd" value=""/>
-                </td>
-            </tr>
-            <tr>
-                <td><a href="#" class="info">full name<span>User's full name. This is used in the Company Directory.</span></a>: </td>
+                <td><a href="#" class="info">full name<span>User's full name. This is used for the Caller ID Name and for the Company Directory (if enabled below).</span></a>: </td>
                 <td><input tabindex="4" type="text" name="name" value="<? echo $name; ?>"/></td>
             </tr>
+			<tr><td colspan=2>
+				<h5><br><br>Voicemail & Directory:&nbsp;&nbsp;&nbsp;&nbsp;
+					<select name="vm" onchange="checkVoicemail(addNew);">
+						<option value="enabled">Enabled</option> 
+						<option value="disabled">Disabled</option> 
+					</select>
+				<hr></h5>
+			</td></tr>
+			<tr><td colspan=2>
+				<table id="voicemail">
+				<tr>
+					<td>
+						<a href="#" class="info">voicemail password<span>This is the password used to access the voicemail system.<br><br>This password can only contain numbers.<br><br>A user can change the password you enter here after logging into the voicemail system (*98) with a phone.<br><br></span></a>: 
+					</td><td>
+						<input tabindex="3" size="10" type="text" name="vmpwd" value=""/>
+					</td>
+				</tr>
+				<tr>
+					<td><a href="#" class="info">email address<span>The email address that voicemails are sent to.</span></a>: </td>
+					<td><input tabindex="5" type="text" name="email" value="<? echo $email; ?>"/></td>
+				</tr>
+				<tr>
+					<td><a href="#" class="info">email attachment<span>Option to attach voicemails to email.</span></a>: </td>
+					<td><input tabindex="7" type="radio" name="options" value="attach=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input tabindex="8" type="radio" name="options" value="attach=no"/> no</td>
+				</tr>
+				<tr>
+					<td><a href="#" class="info">pager email address<span>Pager/mobile email address that short voicemail notications are sent to.</span></a>: </td>
+					<td><input tabindex="6" type="text" name="pager" value="<? echo $pager; ?>"/></td>
+				</tr>
+				</table>
+			</td></tr>
+
+			<input type="hidden" name="canreinvite" value="no"/>
+			<input type="hidden" name="context" value="from-internal"/>
+			<input type="hidden" name="host" value="dynamic"/>
+			<input type="hidden" name="type" value="friend"/>
+			<input type="hidden" name="nat" value="never"/>
+			<input type="hidden" name="port" value="5060"/>
+			<input type="hidden" name="mailbox" value=""/>
+			<input type="hidden" name="username" value=""/>
+			<input type="hidden" name="iaxport" value="4569"/>
+			<input type="hidden" name="notransfer" value="yes"/>
+			<input type="hidden" name="qualify" value="no"/>
+			<input type="hidden" name="callgroup" value=""/>
+			<input type="hidden" name="pickupgroup" value=""/>
+			<input type="hidden" name="disallow" value=""/>
+			<input type="hidden" name="allow" value=""/>
+
             <tr>
-                <td><a href="#" class="info">email address<span>The email address that voicemails are sent to.</span></a>: </td>
-                <td><input tabindex="5" type="text" name="email" value="<? echo $email; ?>"/></td>
-            </tr>
-            <tr>
-                <td><a href="#" class="info">pager email address<span>Pager/mobile email address that short voicemail notications are sent to.</span></a>: </td>
-                <td><input tabindex="6" type="text" name="pager" value="<? echo $pager; ?>"/></td>
-            </tr>
-            <tr>
-                <td><a href="#" class="info">Attachment<span>Option to attach voicemails to email.</span></a>: </td>
-                <td><input tabindex="7" type="radio" name="options" value="attach=yes" checked=checked/> yes</td>
-            </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td><input tabindex="8" type="radio" name="options" value="attach=no"/> no</td>
-        </tr>
-		<tr>
-			<td>phone type: </td>
-			<td>&nbsp;
-				<select name="dtmfmode" style="font-size:x-small">
-					<option value="rfc2833">SIP-rfc2833 (ie: UIP200)</option> 
-					<option value="inband">SIP-inband (ie: HandyTone)</option> 
-					<option value="info">SIP-info (ie: BudgeTone)</option> 
-					<option value="iax2">IAX2</option> 
-				</select>
-			</td>
-		</tr>
-        <input type="hidden" name="canreinvite" value="no"/>
-        <input type="hidden" name="context" value="from-internal"/>
-        <input type="hidden" name="host" value="dynamic"/>
-        <input type="hidden" name="type" value="friend"/>
-		<input type="hidden" name="nat" value="never"/>
-		<input type="hidden" name="port" value="5060"/>
-        <input type="hidden" name="mailbox" value=""/>
-        <input type="hidden" name="username" value=""/>
-		<input type="hidden" name="iaxport" value="4569"/>
-        <input type="hidden" name="notransfer" value="yes"/>
-		<input type="hidden" name="qualify" value="no"/>
-            <tr>
-                <td>
-                    &nbsp;
-                </td>
-                <td>
-                    <h6><input name="Submit" type="button" value="Add Extension" onclick="checkForm(addNew)"></h6>
+                <td colspan=2>
+                    <br><br><h6><input name="Submit" type="button" value="Add Extension" onclick="checkForm(addNew)"></h6>
                 </td>
             </tr>
             </table>

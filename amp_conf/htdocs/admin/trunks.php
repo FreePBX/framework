@@ -29,7 +29,9 @@ $action = $_REQUEST['action'];
 
 //if submitting form, update database
 if ($action == 'edittrunk') {
-	edittrunk();
+	//edittrunk();
+	deltrunk();
+	addtrunk();
 	exec($extenScript);
 	exec($sipScript);
 	exec($iaxScript);
@@ -64,7 +66,7 @@ die($globals->getMessage());
 
 //create a set of variables that match the items in global[0]
 foreach ($globals as $global) {
-	${$global[0]} = $global[1];	
+	${$global[0]} = htmlentities($global[1]);	
 }
 
 ?>
@@ -122,7 +124,7 @@ switch($extdisplay) {
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Dial Prefix<span><br>A Dial Prefix is a unique set of digits that will select this trunk.<br><br>For example, suppose the Dial Prefix is set to <b>123</b>.  To call 403-244-8089 on this trunk would require the caller to dial "<b>123</b> 403 244 8089<br><br></span></a> to access this trunk: 
+					<a href=# class="info">Dial Prefix<span><br>A Dial Prefix is a unique set of digits that will select this trunk.<br><br>For example, suppose the Dial Prefix is set to <b>123</b>.  To call 403-244-8089 on this trunk would require the caller to dial "<b>123</b> 403 244 8089<br><br></span></a>: 
 				</td><td>
 					<input type="text" size="8" name="dialprefix" value="<? echo $$tnumVar ?>"/>
 				</td>
@@ -132,6 +134,13 @@ switch($extdisplay) {
 					<a href=# class="info">Default Trunk<span><br>If chosen as the default, this trunk will be automatically selected for outbound numbers - eliminating the need to dial the <b>Dial Prefix</b><br><br>Note: There must always be a default trunk</span></a>: 
 				</td><td>
 					<input type="radio" name="defaulttrunk" value="yes" <? echo ($OUT == '${OUT_'.ltrim($extdisplay,'OUT_').'}' ? 'CHECKED=CHECKED':'') ?>/>Yes
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href=# class="info">Outbound Caller ID<span><br>Setting this option will override all clients' caller IDs for calls placed out this trunk<br><br>Format: <b>"caller name" &lt;#######&gt;</b><br><br>Leave this field blank to simply pass client caller IDs.<br><br></span></a>: 
+				</td><td>
+					<input type="text" size="20" name="outcid" value="<? $outcid='OUTCID_'.ltrim($extdisplay,'OUT_'); echo $$outcid;?>"/>
 				</td>
 			</tr>
 			<tr>
@@ -254,7 +263,7 @@ if ($tech == "ZAP") {
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Dial Prefix<span><br>A Dial Prefix is a unique set of digits that will select this trunk.<br><br>For example, suppose the Dial Prefix is set to <b>123</b>.  To call 403-244-8089 on this trunk would require the caller to dial "<b>123</b> 403 244 2790"<br><br></span></a> to access this trunk: 
+					<a href=# class="info">Dial Prefix<span><br>A Dial Prefix is a unique set of digits that will select this trunk.<br><br>For example, suppose the Dial Prefix is set to <b>123</b>.  To call 403-244-8089 on this trunk would require the caller to dial "<b>123</b> 403 244 2790"<br><br></span></a>: 
 				</td><td>
 					<input type="text" size="8" name="dialprefix" value=""/>
 				</td>
@@ -264,6 +273,13 @@ if ($tech == "ZAP") {
 					<a href=# class="info">Default Trunk<span><br>If chosen as the default, this trunk will be automatically selected for outbound numbers - eliminating the need to dial the <b>Dial Prefix</b><br><br>Note: There must always be a default trunk</span></a>: 
 				</td><td>
 					<input type="radio" name="defaulttrunk" value="yes"/>Yes
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href=# class="info">Outbound Caller ID<span><br>Setting this option will override all clients' caller IDs for calls placed out this trunk<br><br>Format: <b>"caller name" &lt;#######&gt;</b><br><br>Leave this field blank to simply pass client caller IDs.<br><br></span></a>: 
+				</td><td>
+					<input type="text" size="20" name="outcid" value=""/>
 				</td>
 			</tr>
 			<tr>

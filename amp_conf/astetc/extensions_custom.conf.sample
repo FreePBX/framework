@@ -1,0 +1,30 @@
+; This file contains example extensions_custom.conf entries.
+; extensions_custom.conf should be used to include customizations
+; to AMP's Asterisk dialplan.
+
+; All custom context should contain the string 'custom' in it's name 
+
+; Extensions in AMP have access to the 'from-internal' context.
+; The context 'from-internal-custom' is included in 'from-internal' by default
+
+[from-internal-custom]				
+1234,1,Playback(demo-congrats)		; extensions can dial 1234
+1234,2,Hangup()
+h,1,Hangup()
+include => custom-recordme			; extensions can also dial 5678 
+
+; custom-count2four,s,1 can be used as a custom target for
+; a Digital Receptionist menu or a Call Group
+[custom-count2four]		
+s,1,SayDigits(1234)
+s,2,Hangup
+
+; custom-recordme,5678,1 can be used as a custom target for
+; a Digital Receptionist menu or a Call Group
+[custom-recordme]
+exten => 5678,1,Wait(2)
+exten => 5678,2,Record(/tmp/asterisk-recording:gsm)
+exten => 5678,3,Wait(2)
+exten => 5678,4,Playback(/tmp/asterisk-recording)
+exten => 5678,5,Wait(2)
+exten => 5678,6,Hangup 

@@ -292,7 +292,8 @@ switch($extdisplay) {
 		<?
 			foreach ($unique_aas as $unique_aa) {
 				$menu_num = substr($unique_aa[0],3);
-				echo '<option value="'.$menu_num.'">Voice Menu #'.$menu_num;
+				$menu_name = $unique_aa[1];
+				echo '<option value="'.$menu_num.'">Menu #'.$menu_num.': '.$menu_name;
 			}
 		?>
 			</select><br>

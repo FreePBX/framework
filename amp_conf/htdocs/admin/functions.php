@@ -14,7 +14,7 @@
 //get unique voice menu numbers - returns 2 dimensional array
 function getaas() {
 	global $db;
-	$sql = "SELECT context FROM extensions WHERE extension = 's' AND priority = '1' AND context LIKE 'aa_%'";
+	$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND priority = '1' AND context LIKE 'aa_%' ORDER BY context";
 	$unique_aas = $db->getAll($sql);
 	if(DB::IsError($unique_aas)) {
 	   die('unique: '.$unique_aas->getMessage());
@@ -181,28 +181,40 @@ function addiax($account,$callerid) {
 	iaxexists();
 	global $db;
     $iaxfields = array(array($account,'account',$account),
-                    array($account,'secret',$_REQUEST['secret']),
-                    array($account,'notransfer',$_REQUEST['notransfer']),
-                    array($account,'context',$_REQUEST['context']),
-                    array($account,'host',$_REQUEST['host']),
-                    array($account,'type',$_REQUEST['type']),
-                    array($account,'mailbox',$_REQUEST['mailbox']),
-                    array($account,'username',$_REQUEST['username']),
-					array($account,'port',$_REQUEST['iaxport']),
-					array($account,'qualify',$_REQUEST['qualify']),
+                    array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
+                    array($account,'notransfer',($_REQUEST['notransfer'])?$_REQUEST['notransfer']:''),
+                    array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:''),
+                    array($account,'host',($_REQUEST['host'])?$_REQUEST['host']:''),
+                    array($account,'type',($_REQUEST['type'])?$_REQUEST['type']:''),
+                    array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:''),
+                    array($account,'username',($_REQUEST['username'])?$_REQUEST['username']:''),
+					array($account,'port',($_REQUEST['iaxport'])?$_REQUEST['iaxport']:''),
+					array($account,'qualify',($_REQUEST['qualify'])?$_REQUEST['qualify']:''),
+					array($account,'disallow',($_REQUEST['disallow'])?$_REQUEST['disallow']:''),
+					array($account,'allow',($_REQUEST['allow'])?$_REQUEST['allow']:''),
 					array($account,'callerid',$callerid));
 
     $compiled = $db->prepare('INSERT INTO iax (id, keyword, data) values (?,?,?)');
 	$result = $db->executeMultiple($compiled,$iaxfields);
     if(DB::IsError($result)) {
-        die($result->getMessage()."<br><br>".$sql);	
+        die($result->getMessage()."<br><br>error adding to IAX table");	
     }	
 
 	//add E<enten>=IAX2 to global vars (appears in extensions_additional.conf)
 	$sql = "INSERT INTO globals VALUES ('E$account', 'IAX2')"; 
 	$result = $db->query($sql); 
 	if(DB::IsError($result)) {     
-		die($result->getMessage()); 
+		die($result->getMessage().$sql); 
+	}
+
+//add ECID<enten> to global vars if using outbound CID
+	if ($_REQUEST['outcid'] != '') {
+		$outcid = $_REQUEST['outcid'];
+		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
+		$result = $db->query($sql); 
+		if(DB::IsError($result)) {     
+			die($result->getMessage().$sql); 
+		}
 	}
 }
 
@@ -218,30 +230,44 @@ function addsip($account,$callerid) {
 	sipexists();
 	global $db;
     $sipfields = array(array($account,'account',$account),
-	                    array($account,'secret',$_REQUEST['secret']),
-	                    array($account,'canreinvite',$_REQUEST['canreinvite']),
-	                    array($account,'context',$_REQUEST['context']),
-	                    array($account,'dtmfmode',$_REQUEST['dtmfmode']),
-	                    array($account,'host',$_REQUEST['host']),
-	                    array($account,'type',$_REQUEST['type']),
-	                    array($account,'mailbox',$_REQUEST['mailbox']),
-	                    array($account,'username',$_REQUEST['username']),
-						array($account,'nat',$_REQUEST['nat']),
-						array($account,'port',$_REQUEST['port']),
-						array($account,'qualify',$_REQUEST['qualify']),
+	                    array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
+	                    array($account,'canreinvite',($_REQUEST['canreinvite'])?$_REQUEST['canreinvite']:''),
+	                    array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:''),
+	                    array($account,'dtmfmode',($_REQUEST['dtmfmode'])?$_REQUEST['dtmfmode']:''),
+	                    array($account,'host',($_REQUEST['host'])?$_REQUEST['host']:''),
+	                    array($account,'type',($_REQUEST['type'])?$_REQUEST['type']:''),
+	                    array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:''),
+	                    array($account,'username',($_REQUEST['username'])?$_REQUEST['username']:''),
+						array($account,'nat',($_REQUEST['nat'])?$_REQUEST['nat']:''),
+						array($account,'port',($_REQUEST['port'])?$_REQUEST['port']:''),
+						array($account,'qualify',($_REQUEST['qualify'])?$_REQUEST['qualify']:''),
+						array($account,'callgroup',($_REQUEST['callgroup'])?$_REQUEST['callgroup']:''),
+						array($account,'pickupgroup',($_REQUEST['pickupgroup'])?$_REQUEST['pickupgroup']:''),
+						array($account,'disallow',($_REQUEST['disallow'])?$_REQUEST['disallow']:''),
+						array($account,'allow',($_REQUEST['allow'])?$_REQUEST['allow']:''),
 						array($account,'callerid',$callerid));
 
 	    $compiled = $db->prepare('INSERT INTO sip (id, keyword, data) values (?,?,?)');
 		$result = $db->executeMultiple($compiled,$sipfields);
 	    if(DB::IsError($result)) {
-	        die($result->getMessage()."<br><br>".$sql);	
+	        die($result->getMessage()."<br><br>".'error adding to SIP table');	
 	    }
 	    
 	//add E<enten>=SIP to global vars (appears in extensions_additional.conf)
 	$sql = "INSERT INTO globals VALUES ('E$account', 'SIP')"; 
 	$result = $db->query($sql); 
 	if(DB::IsError($result)) {     
-		die($result->getMessage()); 
+		die($result->getMessage().$sql); 
+	}
+	
+//add ECID<enten> to global vars if using outbound CID
+	if ($_REQUEST['outcid'] != '') {
+		$outcid = $_REQUEST['outcid'];
+		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
+		$result = $db->query($sql); 
+		if(DB::IsError($result)) {     
+			die($result->getMessage().$sql); 
+		}
 	}
 }
 
@@ -281,14 +307,23 @@ function exteninfo($extdisplay) {
 		   die($thisExten->getMessage());
 		}
 		if (count($thisExten) > 0) {
-		$thisExten[] = array('$extdisplay','tech','iax2','info');  //add this to the array - as it doesn't exist in the table
+			$thisExten[] = array('$extdisplay','tech','iax2','info');  //add this to the array - as it doesn't exist in the table
 		}
 	}
+	//get var containing external cid
+	$sql = "SELECT * FROM globals WHERE variable = 'ECID$extdisplay'";
+	$ecid = $db->getAll($sql);
+	if(DB::IsError($ecid)) {
+	   die($ecid->getMessage());
+	}
+	$thisExten[] = array('$extdisplay','1outcid',$ecid[0][1],'info');
+	sort($thisExten);
+	
 	return $thisExten;
 }
 
 //changes requested for SIP extension (extensions.php)
-function editSip($account,$callerid){
+/*function editSip($account,$callerid){
 	global $db;
     $sipfields = array(array($account,$account,'account'),
                     array($_REQUEST['secret'],$account,'secret'),
@@ -309,11 +344,27 @@ function editSip($account,$callerid){
     if(DB::IsError($result)) {
         die($result->getMessage());
     }
-    return $result;
-}
+
+	//delete any ECID variable
+	$sql = "DELETE FROM globals WHERE variable = 'ECID$account'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+        die($result->getMessage());
+    }
+	
+	//add ECID<enten> to global vars if using outbound CID
+	if ($_REQUEST['outcid'] != '') {
+		$outcid = $_REQUEST['outcid'];
+		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
+		$result = $db->query($sql); 
+		if(DB::IsError($result)) {     
+			die($result->getMessage()); 
+		}
+	}
+}*/
 
 //changes requested for IAX extension (extensions.php)
-function editIax($account,$callerid){
+/*function editIax($account,$callerid){
 	global $db;
     $iaxfields = array(array($account,$account,'account'),
                     array($_REQUEST['secret'],$account,'secret'),
@@ -332,8 +383,23 @@ function editIax($account,$callerid){
     if(DB::IsError($result)) {
         die($result->getMessage());
     }
-    return $result;
-}
+	
+	//delete any ECID variable
+	$sql = "DELETE FROM globals WHERE variable = 'ECID$account'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+        die($result->getMessage());
+    }
+	//add ECID<enten> to global vars if using outbound CID
+	if ($_REQUEST['outcid'] != '') {
+		$outcid = $_REQUEST['outcid'];
+		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
+		$result = $db->query($sql); 
+		if(DB::IsError($result)) {     
+			die($result->getMessage()); 
+		}
+	}
+}*/
 
 //Delete an extension (extensions.php)
 function delExten($extdisplay) {
@@ -341,30 +407,44 @@ function delExten($extdisplay) {
     $sql = "DELETE FROM sip WHERE id = '$extdisplay'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
-        die($result->getMessage());
+        die($result->getMessage().$sql);
     }
     $sql = "DELETE FROM iax WHERE id = '$extdisplay'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
-        die($result->getMessage());
+        die($result->getMessage().$sql);
     }
 	$sql = "DELETE FROM globals WHERE variable = 'E$extdisplay'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
-        die($result->getMessage());
+        die($result->getMessage().$sql);
+    }
+	$sql = "DELETE FROM globals WHERE variable = 'ECID$extdisplay'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+        die($result->getMessage().$sql);
     }
 }
 
-//change the default trunk
+//change the default trunk (delete and re-add)
 function setDefaultTrunk($trunknum) {
 	global $db;
-	$glofields = array(array('${OUT_'.$trunknum.'}','OUT'),
-					array('${DIAL_OUT_'.$trunknum.'}','DIAL_OUT'));
-	$compiled = $db->prepare('UPDATE globals SET value = ? WHERE variable = ?');
+	$glofields = array(array('OUT'),
+					array('DIAL_OUT'),
+					array('OUTCID'));
+	$compiled = $db->prepare('DELETE FROM globals WHERE variable = ?');
 	$result = $db->executeMultiple($compiled,$glofields);
 	if(DB::IsError($result)) {
-		die($result->getMessage()."<br><br>".$sql);	
-	}	
+		die($result->getMessage()."<br>deldefault<br>".$result);	
+	}
+	$glofields = array(array('OUT','${OUT_'.$trunknum.'}'),
+					array('DIAL_OUT','${DIAL_OUT_'.$trunknum.'}'),
+					array('OUTCID','${OUTCID_'.$trunknum.'}'));
+	$compiled = $db->prepare('INSERT INTO globals (variable, value) VALUES (?,?)');
+	$result = $db->executeMultiple($compiled,$glofields);
+	if(DB::IsError($result)) {
+		die($result->getMessage()."<br>adddefault<br>".$result);	
+	}
 }
 
 //add trunk to outbound-trunks context
@@ -383,7 +463,7 @@ function addOutTrunk($trunknum) {
 //write the OUTIDS global variable (used in dialparties.agi)
 function writeoutids() {
 	global $db;
-	$sql = "SELECT variable FROM globals WHERE variable LIKE 'OUT_%'";
+	$sql = "SELECT variable FROM globals WHERE variable LIKE 'OUT_%' AND variable NOT LIKE 'OUTCID%'";
 	$unique_trunks = $db->getAll($sql);
 	if(DB::IsError($unique_trunks)) {
 	   die('unique: '.$unique_trunks->getMessage());
@@ -403,7 +483,7 @@ function writeoutids() {
 //get unique trunks
 function gettrunks() {
 	global $db;
-	$sql = "SELECT * FROM globals WHERE variable LIKE 'OUT_%'";
+	$sql = "SELECT * FROM globals WHERE variable LIKE 'OUT_%' AND variable NOT LIKE 'OUTCID%'";
 	$unique_trunks = $db->getAll($sql);
 	if(DB::IsError($unique_trunks)) {
 	   die('unique: '.$unique_trunks->getMessage());
@@ -431,13 +511,14 @@ function gettrunks() {
 	return $unique_trunks;
 }
 
-function edittrunk() {
+/*function edittrunk() {
 	global $db;
 	$trunknum = ltrim($_REQUEST['extdisplay'],'OUT_');
 	$tech=strtok($_REQUEST['tname'],'/');  // the technology.  ie: ZAP/g0 is ZAP
 	$channelid=$_REQUEST['channelid'];
 	$glofields = array(array($tech.'/'.$_REQUEST['channelid'],'OUT_'.$trunknum),
-					array($_REQUEST['dialprefix'],'DIAL_OUT_'.$trunknum));
+					array($_REQUEST['dialprefix'],'DIAL_OUT_'.$trunknum),
+					array($_REQUEST['outcid'],'OUTCID_'.$trunknum));
 	$compiled = $db->prepare('UPDATE globals SET value = ? WHERE variable = ?');
 	$result = $db->executeMultiple($compiled,$glofields);
 	if(DB::IsError($result)) {
@@ -480,7 +561,7 @@ function edittrunk() {
 			addTrunkRegister($trunknum,'iax',$_REQUEST['register']);
 		}
 	}
-}
+}*/
 
 function deltrunk() {
 	global $db;
@@ -488,7 +569,7 @@ function deltrunk() {
 	$tech=strtok($_REQUEST['tname'],'/');  // the technology.  ie: ZAP/g0 is ZAP
 
 	//delete from globals table
-	$sql = "DELETE FROM globals WHERE variable LIKE '%OUT_$trunknum'";
+	$sql = "DELETE FROM globals WHERE variable LIKE '%OUT_$trunknum' OR  variable LIKE '%OUTCID_$trunknum'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
         die($result->getMessage());
@@ -524,9 +605,11 @@ function addtrunk() {
 	$tech=$_REQUEST['tech'];
 	$channelid=$_REQUEST['channelid'];
 	$dialprefix=$_REQUEST['dialprefix'];
-
+	$outcid=stripslashes($_REQUEST['outcid']);
+	
 	$glofields = array(array('OUT_'.$trunknum,$tech.'/'.$channelid),
-						array('DIAL_OUT_'.$trunknum,$dialprefix));
+						array('DIAL_OUT_'.$trunknum,$dialprefix),
+						array('OUTCID_'.$trunknum,$outcid));
 	$compiled = $db->prepare('INSERT INTO globals (variable, value) values (?,?)');
 	$result = $db->executeMultiple($compiled,$glofields);
 	if(DB::IsError($result)) {

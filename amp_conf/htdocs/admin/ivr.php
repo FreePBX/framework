@@ -20,9 +20,6 @@ if ($promptnum == null) $promptnum = '1';
 		//do another select for all parts in this aa_.  Will return nothing if this in new aa
 		$aalines = aainfo($promptnum);
 		$optioncount=0;
-		if (count($aalines) > 0) {
-			//echo "<h5>You are editing the following menu:</h5>";
-		}
 		
 		//find relevant info in this context
 		foreach ($aalines as $aaline) {
@@ -58,6 +55,9 @@ if ($promptnum == null) $promptnum = '1';
 			elseif ($application == 'Background') {
 					$description = $aaline[5];
 			}
+			elseif ($application == 'DigitTimeout') {
+					$mname = $aaline[5];
+			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'custom') === false)) {
 					$optioncount++;
 					$dropt = array('custom',$extension,$args[0].','.$args[1].','.$args[2]);
@@ -74,7 +74,7 @@ switch($action) {
 	default:
 ?>
 
-<h4>Record Voice Menu #<? echo $promptnum ?></h4>
+<h4>Record Menu #<? echo $promptnum ?>: <?echo $mname?></h4>
 <?
 	//if we are trying to edit - let's be nice and give them the recording back
 	if ($_REQUEST['ivr_action'] == 'edit'){
@@ -110,10 +110,17 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 <p>
 	If you wish to re-record your message, dial *77 again.
 </p>
-<h5>Step 3: Describe</h5>
-<p style="text-align:right;">
-	Describe the voice menu: <textarea name="notes" rows="3" cols="50"><? echo $description ?></textarea>
-</p>
+<h5>Step 3: Name & Describe</h5>
+<table style="text-align:right;">
+<tr valign="top">
+	<td valign="top">Name this menu: </td>
+	<td style="text-align:left"><input type="text" name="mname" value="<? echo $mname ?>"></td>
+</tr>
+<tr>
+	<td valign="top">Describe the menu: </td>
+	<td>&nbsp;&nbsp;<textarea name="notes" rows="3" cols="50"><? echo $description ?></textarea></td>
+</tr>
+</table>
 <h6>Click "Continue" when you are satisfied with your recording<input name="Submit" type="submit" value="Continue"></h6>
 
 <h4>Consider including in your recording:</h4>
@@ -146,13 +153,14 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 	break;
 	case 'ivr_recorded':
 ?>
-<h4>Options for Voice Menu #<? echo $promptnum ?></h4>
+<h4>Options for Menu #<? echo $promptnum ?>: <? echo $_REQUEST['mname']; ?></h4>
 <form name="prompt" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="ivr_options_yes_num"/>
 <input type="hidden" name="notes" value="<? echo $_REQUEST['notes'];?>">
+<input type="hidden" name="mname" value="<? echo $_REQUEST['mname']; ?>">
 <p>
 Aside from local extensions and the pound key (#) for the directory, how many other options should callers be able to dial during the playback of Prompt #<? echo $promptnum ?>?<br>
-<br>Number of options for Voice Menu #<? echo $promptnum ?><input size="2" type="text" name="ivr_num_options" value="<? echo $optioncount ?>">
+<br>Number of options for Menu #<? echo $promptnum ?>: <? echo $_REQUEST['mname']; ?><input size="2" type="text" name="ivr_num_options" value="<? echo $optioncount ?>">
 </p>
 <h6><input name="Submit" type="submit" value="Continue"></h6>
 </form>
@@ -181,6 +189,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 	<form name="prompt" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
 		<input type="hidden" name="action" value="ivr_options_set">
 		<input type="hidden" name="notes" value="<? echo $_REQUEST['notes'];?>">
+		<input type="hidden" name="mname" value="<? echo $_REQUEST['mname']; ?>">
 		<input name="Submit" type="submit" value="Finished!  Click to save your changes.">
 	</form><br><br><br><br><br><br>
 <?
@@ -194,21 +203,22 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 		//get unique call groups
 		$gresults = getgroups();
 ?>
-<h4>Options for Voice Menu #<? echo $promptnum ?></h4>
+<h4>Options for Menu #<? echo $promptnum ?>: <? echo $_REQUEST['mname']; ?></h4>
 <p>
-	Define the various options you expect your callers to dial after/during the playback of this recorded voice menu.
+	Define the various options you expect your callers to dial after/during the playback of this recorded menu.
 </p>
 <p>
 	"<b>Dialed Option #</b>" is the number you expect the caller to dial.<br>
-	"<b>Action</b>" is the result of the caller dialing the option #.  This can send the caller to an internal extension, a voicemail box, or to another recorded voice menu. 
+	"<b>Action</b>" is the result of the caller dialing the option #.  This can send the caller to an internal extension, a voicemail box, or to another recorded menu. 
 </p>
 <p>
-	If choose to send the caller to another voice menu, enter the number of an existing, or non-existing, voice menu.  You will be asked to record voice menus for numbers representing non-existing voice menus. You are currently working on voice menu #<? echo $promptnum ?>
+	If choose to send the caller to another menu, enter the number of an existing, or non-existing, menu.  You will be asked to record voice menus for numbers representing non-existing menus. You are currently working on menu #<? echo $promptnum ?>: <? echo $_REQUEST['mname']; ?>
 </p>
 <hr>
 <p>	<form name="prompt" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="action" value="ivr_options_set"/>
 	<input type="hidden" name="notes" value="<? echo $_REQUEST['notes'];?>">
+	<input type="hidden" name="mname" value="<? echo $_REQUEST['mname']; ?>">
 	<input type="hidden" name="ivr_num_options" value="<? echo $_REQUEST['ivr_num_options'] ?>">
 	<table>
 	<tr>
@@ -233,14 +243,15 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 			$menu_num=1;
 			foreach ($unique_aas as $unique_aa) {
 				$menu_num = substr($unique_aa[0],3);
+				$menu_name = $unique_aa[1];
 				echo '<option value="'.$menu_num.'"';
 				echo ($dropts[$i][2]==$menu_num)?' selected=selected':'';
-				echo '>Voice Menu #'.$menu_num;
+				echo '>Menu #'.$menu_num.': '.$menu_name;
 				$menu_num++;
 			}
 			for ($j = 0; $j < $_REQUEST['ivr_num_options']; $j++) { 
 				$menu_num++;
-				echo '<option value="'.$menu_num.'">A NEW Voice Menu #'.$menu_num;
+				echo '<option value="'.$menu_num.'">A NEW Menu #'.$menu_num;
 			}
 		?>
 			</select><br>
@@ -274,7 +285,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 			}
 		?>			
 			</select><br>
-			<input type="radio" name="goto_indicate<? echo $i ?>" value="custom" disabled="true" <?echo ($dropts[$i][0]=='custom')?' checked=checked':''; ?>/> <a href="#" class="info">Custom Goto<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word "custom" and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions.conf<b><b></span></a>: 
+			<input type="radio" name="goto_indicate<? echo $i ?>" value="custom" disabled="true" <?echo ($dropts[$i][0]=='custom')?' checked=checked':''; ?>/> <a href="#" class="info">Custom Goto<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word "custom" and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf<b><b></span></a>: 
 			<input type="text" size="20" name="custom<? echo $i ?>" value="<? echo $dropts[$i][2]; ?>" onclick="javascript:document.prompt.goto_indicate<? echo $i ?>[4].checked=true;javascript:document.prompt.goto<? echo $i ?>.value='custom';"/>
 			</input><br>
 	

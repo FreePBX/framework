@@ -27,7 +27,9 @@ if (count($unique_aas) > 0) {
 	
 	//create top-level for each voice menu
 	foreach ($unique_aas as $unique_aa) {
-		$menu_nums[] = (int) substr($unique_aa[0],3);
+		$num = (int) substr($unique_aa[0],3);
+		$menu_nums[] = $num;
+		$menu_names[$num] = $unique_aa[1];
 		asort($menu_nums);
 		$menus[] = $unique_aa[0];
 	}
@@ -37,10 +39,10 @@ if (count($unique_aas) > 0) {
 	<ul>
 		<li>
 			<span style="float:right;text-align:right;">
-				&bull; <a href="config.php?display=2&promptnum=<? echo $menu_num ?>&ivr_action=edit">Edit Voice Menu #<? echo $menu_num ?></a><br>
+				&bull; <a href="config.php?display=2&promptnum=<? echo $menu_num ?>&ivr_action=edit">Edit Menu #<? echo $menu_num ?></a><br>
 				&bull; <a href="config.php?display=2&ivract_target=<? echo $menu_num ?>&ivr_action=delete">Delete</a>
 			</span>
-			Voice Menu #<? echo $menu_num ?>
+			Menu #<? echo $menu_num ?>: <b><?echo $menu_names[$menu_num]?></b>
 			<ul>
 <?
 		//do another select for all parts in this aa_
@@ -55,23 +57,23 @@ if (count($unique_aas) > 0) {
 			$args = explode(',',$aaline[4]);
 			$argslen = count($args);
 			if ($application == 'Macro' && $args[0] == 'exten-vm') {
-					echo '<li>option '.$extension.' <b>dials extension #'.$args[2].'</b>';
+					echo '<li>dialling '.$extension.' <b>dials extension #'.$args[2].'</b>';
 			}
 			elseif ($application == 'Macro' && $args[0] == 'vm') {
-					echo '<li>option '.$extension.' <b>sends to voicemail box #'.$args[1].'</b>';
+					echo '<li>dialling '.$extension.' <b>sends to voicemail box #'.$args[1].'</b>';
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'aa_') === false)) {
-					echo '<li>option '.$extension.' <b>goes to Voice Menu #'.substr($args[0],3).'</b>';
+					echo '<li>dialling '.$extension.' <b>goes to Menu #'.substr($args[0],3).'</b>';
 					$menu_request[] = $args[0]; //we'll check to see if the aa_ target exists later
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'ext-group') === false)) {
-					echo '<li>option '.$extension.' <b>dials group #'.$args[1].'</b>';
+					echo '<li>dialling '.$extension.' <b>dials group #'.$args[1].'</b>';
 			}
 			elseif ($application == 'Background') {
 					$description = $aaline[5];
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'custom') === false)) {
-				echo '<li>option '.$extension.' <b>goes to '.$args[0].','.$args[1].','.$args[2].'</b>';
+				echo '<li>dialling '.$extension.' <b>goes to '.$args[0].','.$args[1].','.$args[2].'</b>';
 			}
 		}
 ?>
@@ -93,12 +95,12 @@ if (count($unique_aas) > 0) {
 						$found = true;
 			}
 			if ($found == false) 
-				echo '<ul><li>Voice Menu #'.substr($mreq,3).' - <span style="color:red;">not yet created!</span><ul><li><a href="config.php?display=2&promptnum='.substr($mreq,3).'">Create Voice Menu #'.substr($mreq,3).'</a></ul></ul><br>';
+				echo '<ul><li>Menu #'.substr($mreq,3).' - <span style="color:red;">not yet created!</span><ul><li><a href="config.php?display=2&promptnum='.substr($mreq,3).'">Create Voice Menu #'.substr($mreq,3).'</a></ul></ul><br>';
 		}
 	}
 	
 	//include a link to create an additional voice menu.
-	echo '<ul><li>Would you like to create another Voice Menu?<ul><li><a href="config.php?display=2&promptnum='.++$menu_num.'">Create Voice Menu #'.$menu_num.'</a></ul></ul><br>';
+	echo '<ul><li>Would you like to create another Menu?<ul><li><a href="config.php?display=2&promptnum='.++$menu_num.'">Create Voice Menu #'.$menu_num.'</a></ul></ul><br>';
 	
 } //end if (count($unique_aas) > 0)
 else {

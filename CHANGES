@@ -1,3 +1,24 @@
+1.10.006
+
+- Use extensions_custom.conf for customizations.  Sample included.
+- Add option to define outbound CallerID on trunks
+- Add option to define outbound CallerID for extensions
+- Create extensions without voicemail and directory
+- Add Call-Forward on Busy application (enable: *90<destination>, disable: *91)
+- Upgrade FOP to 0.19.  AMP now writes out op_buttons_additional.conf
+- Include AMP version on admin welcome page
+- Rework extensions admin
+- Add 'allow','disallow' settings for SIP and IAX extensions
+- Add 'pickupgroup','callgroup' settings for SIP extensions
+- Digital Receptionist voice menus can now be named
+- Allow custom goto for Call Groups
+- Digital Receptionist wizard check for proper format on custom goto
+- Fixed bug which limited AMP to 10 Digital Receptionist menus
+- Default outbound numbers now dial via a macro
+- Increase verbosity of mysql connection errors
+- Fixed upload wav for Ditial Receptionist
+- Fix Trunks admin so that it writes FOP config
+
 1.10.005
 
 - Add "Advanced Edit" qualify= option for NEWLY created extensions

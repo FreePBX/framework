@@ -13,7 +13,7 @@ use DBI;
 $table_name = "sip";
 # the path to the extensions.conf file
 # WARNING: this file will be substituted by the output of this program
-$sip_conf = "/var/www/html/panel/op_buttons.cfg";
+$sip_conf = "/var/www/html/panel/op_buttons_additional.cfg";
 # the name of the box the MySQL database is running on
 $hostname = "localhost";
 # the name of the database our tables are kept

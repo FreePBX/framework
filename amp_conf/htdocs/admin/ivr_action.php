@@ -59,7 +59,7 @@ switch($_REQUEST['ivr_action']) {
 		$aa[] = array($context,'i','1','Playback','invalid','','0');
 		$aa[] = array($context,'i','2','Goto','s,5','','0');
 		//priority 1 - 3
-		$aa[] = array($context,$extension,'1','DigitTimeout','3','','0');
+		$aa[] = array($context,$extension,'1','DigitTimeout','3',$_REQUEST['mname'],'0');
 		$aa[] = array($context,$extension,'2','ResponseTimeout','7','','0');
 		$aa[] = array($context,$extension,'3','Background','custom/'.$context,$_REQUEST['notes'],'0');
 		

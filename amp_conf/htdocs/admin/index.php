@@ -35,7 +35,7 @@ switch($display) {
 
     <h2>AMP</h2>
     <p>
-        Welcome to the Asterisk Management Portal
+        Welcome to the Asterisk Management Portal <?$ver=getversion(); echo $ver[0][0];?>
         <br><br><br><br><br><br>
     </p>
     

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=1.10.005
+VERSION=1.10.006
 
 
 ROOT_UID=0	 # root uid is 0
@@ -46,6 +46,11 @@ asterisk -rx reload
 echo
 echo "New configuration applied ..."
 echo 
+echo "Writing FOP config"
+echo
+
+su - asterisk -c "/var/www/html/admin/retrieve_op_conf_from_mysql.pl"
+su - asterisk -c "/var/www/html/admin/bounce_op.sh"
 
 UpdateVersion
 

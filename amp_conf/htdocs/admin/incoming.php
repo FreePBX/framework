@@ -86,7 +86,8 @@ $gresults = getgroups();
 <?
 	foreach ($unique_aas as $unique_aa) {
 		$menu_num = substr($unique_aa[0],3);
-		echo '<option value="aa_'.$menu_num.'" '.($INCOMING == 'aa_'.$menu_num ? 'SELECTED' : '').'>Voice Menu #'.$menu_num;
+		$menu_name = $unique_aa[1];
+		echo '<option value="aa_'.$menu_num.'" '.($INCOMING == 'aa_'.$menu_num ? 'SELECTED' : '').'>Menu #'.$menu_num.': '.$menu_name;
 	}
 ?>
 	</select><br>
@@ -118,7 +119,8 @@ $gresults = getgroups();
 <?
 	foreach ($unique_aas as $unique_aa) {
 		$menu_num = substr($unique_aa[0],3);
-		echo '<option value="aa_'.$menu_num.'" '.($AFTER_INCOMING == 'aa_'.$menu_num ? 'SELECTED' : '').'>Voice Menu #'.$menu_num;
+		$menu_name = $unique_aa[1];
+		echo '<option value="aa_'.$menu_num.'" '.($AFTER_INCOMING == 'aa_'.$menu_num ? 'SELECTED' : '').'>Menu #'.$menu_num.': '.$menu_name;
 	}
 ?>
 	</select><br>
