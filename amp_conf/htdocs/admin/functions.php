@@ -426,26 +426,6 @@ function delExten($extdisplay) {
     }
 }
 
-//change the default trunk (delete and re-add)
-function setDefaultTrunk($trunknum) {
-	global $db;
-	$glofields = array(array('OUT'),
-					array('DIAL_OUT'),
-					array('OUTCID'));
-	$compiled = $db->prepare('DELETE FROM globals WHERE variable = ?');
-	$result = $db->executeMultiple($compiled,$glofields);
-	if(DB::IsError($result)) {
-		die($result->getMessage()."<br>deldefault<br>".$result);	
-	}
-	$glofields = array(array('OUT','${OUT_'.$trunknum.'}'),
-					array('DIAL_OUT','${DIAL_OUT_'.$trunknum.'}'),
-					array('OUTCID','${OUTCID_'.$trunknum.'}'));
-	$compiled = $db->prepare('INSERT INTO globals (variable, value) VALUES (?,?)');
-	$result = $db->executeMultiple($compiled,$glofields);
-	if(DB::IsError($result)) {
-		die($result->getMessage()."<br>adddefault<br>".$result);	
-	}
-}
 
 //add trunk to outbound-trunks context
 function addOutTrunk($trunknum) {
@@ -463,7 +443,7 @@ function addOutTrunk($trunknum) {
 //write the OUTIDS global variable (used in dialparties.agi)
 function writeoutids() {
 	global $db;
-	$sql = "SELECT variable FROM globals WHERE variable LIKE 'OUT_%' AND variable NOT LIKE 'OUTCID%'";
+	$sql = "SELECT variable FROM globals WHERE variable LIKE 'OUT\\\_%'"; // we have to escape _ for mysql: normally a wildcard
 	$unique_trunks = $db->getAll($sql);
 	if(DB::IsError($unique_trunks)) {
 	   die('unique: '.$unique_trunks->getMessage());
@@ -483,7 +463,7 @@ function writeoutids() {
 //get unique trunks
 function gettrunks() {
 	global $db;
-	$sql = "SELECT * FROM globals WHERE variable LIKE 'OUT_%' AND variable NOT LIKE 'OUTCID%' ORDER BY TRIM(LEADING 'OUT_' FROM variable) + 0";
+	$sql = "SELECT * FROM globals WHERE variable LIKE 'OUT\\\_%'"; // we have to escape _ for mysql: normally a wildcard
 	$unique_trunks = $db->getAll($sql);
 	if(DB::IsError($unique_trunks)) {
 	   die('unique: '.$unique_trunks->getMessage());
@@ -508,6 +488,7 @@ function gettrunks() {
 		$unique_trunks[] = array('OUT_1','ZAP/g0');
 		addOutTrunk("1");
 	}
+	asort($unique_trunks);
 	return $unique_trunks;
 }
 
@@ -563,89 +544,170 @@ function gettrunks() {
 	}
 }*/
 
-function deltrunk() {
+
+
+//add trunk info to sip or iax table
+function addSipOrIaxTrunk($config,$table,$channelid,$trunknum) {
 	global $db;
-	$trunknum = ltrim($_REQUEST['extdisplay'],'OUT_');
-	$tech=strtok($_REQUEST['tname'],'/');  // the technology.  ie: ZAP/g0 is ZAP
+	
+	echo "addSipOrIaxTrunk($config,$table,$channelid,$trunknum)";
+	
+	$confitem[] = array('account',$channelid);
+	$gimmieabreak = nl2br($config);
+	$lines = split('<br />',$gimmieabreak);
+	foreach ($lines as $line) {
+		$line = trim($line);
+		if (count(split('=',$line)) > 1) {
+			$confitem[] = split('=',$line);
+		}
+	}
+	$compiled = $db->prepare("INSERT INTO $table (id, keyword, data) values ('9999$trunknum',?,?)");
+	$result = $db->executeMultiple($compiled,$confitem);
+	if(DB::IsError($result)) {
+		die($result->getMessage()."<br><br>INSERT INTO $table (id, keyword, data) values ('9999$trunknum',?,?)");	
+	}
+}
+
+function getTrunkTech($trunknum) {
+	global $db;
+	
+	$sql = "SELECT value FROM globals WHERE variable = 'OUT_".$trunknum."'";
+	if (!$results = $db->getAll($sql)) {
+		return false;
+	}
+	$tech = strtolower( strtok($results[0][0],'/') ); // the technology.  ie: ZAP/g0 is ZAP
+	
+	if ($tech == "iax2") $tech = "iax"; // same thing, here
+	
+	return $tech;
+}
+
+// just used internally by addTrunk() and editTrunk()
+function backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register) {
+	global $db;
+	
+	if (!$dialoutprefix) $dialoutprefix = ""; // can't be NULL
+	
+	echo  "backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register)";
+	
+	// change iax to "iax2" (only spot we actually store iax2, since its used by Dial()..)
+	$techtemp = ((strtolower($tech) == "iax") ? "iax2" : $tech);
+	
+	$glofields = array(
+			array('OUT_'.$trunknum, strtoupper($techtemp).'/'.$channelid),
+			array('OUTPREFIX_'.$trunknum, $dialoutprefix),
+			array('OUTMAXCHANS_'.$trunknum, $maxchans),
+			array('OUTCID_'.$trunknum, $outcid),
+			);
+			
+	unset($techtemp); 
+	
+	$compiled = $db->prepare('INSERT INTO globals (variable, value) values (?,?)');
+	var_dump($glofields);
+	$result = $db->executeMultiple($compiled,$glofields);
+	if(DB::IsError($result)) {
+	var_dump($result);
+		die($result->getMessage()."<br><br>".$sql);
+	}
+	
+	echo "writeoutdids";
+	writeoutids();
+	
+	//addOutTrunk($trunknum); don't need to add to outbound-routes anymore
+	
+	switch (strtolower($tech)) {
+		case "iax":
+		case "iax2":
+			addSipOrIaxTrunk($peerdetails,'iax',$channelid,$trunknum);
+			if ($usercontext != ""){
+				addSipOrIaxTrunk($userconfig,'iax',$usercontext,'9'.$trunknum);
+			}
+			if ($register != ""){
+				addTrunkRegister($trunknum,'iax',$register);
+			}
+		break;
+		case "sip":
+			addSipOrIaxTrunk($peerdetails,'sip',$channelid,$trunknum);
+			addSipOrIaxTrunk($userconfig,'sip',$usercontext,'9'.$trunknum);
+			if ($register != ""){
+				addTrunkRegister($trunknum,'sip',$register);
+			}
+		break;
+	}
+	
+}
+
+// we're adding ,don't require a $trunknum
+function addTrunk($tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register) {
+	global $db;
+	
+	// find the next available ID
+	$trunknum = 1;
+	foreach(gettrunks() as $trunk) {
+		if ($trunknum == ltrim($trunk[0],"OUT_")) { 
+			$trunknum++;
+		}
+	}
+	
+	backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register);
+}
+
+function deltrunk($trunknum, $tech = null) {
+	global $db;
+	
+	if ($tech === null) { // in EditTrunk, we get this info anyways
+		$tech = getTrunkTech($trunknum);
+	}
 
 	//delete from globals table
-	$sql = "DELETE FROM globals WHERE variable LIKE '%OUT_$trunknum' OR  variable LIKE '%OUTCID_$trunknum'";
-    $result = $db->query($sql);
-    if(DB::IsError($result)) {
-        die($result->getMessage());
-    }
+	//$sql = "DELETE FROM globals WHERE variable LIKE '%OUT_$trunknum' OR  variable LIKE '%OUTCID_$trunknum'";
+	$sql = "DELETE FROM globals WHERE variable LIKE '%OUT_$trunknum' OR variable IN ('OUTCID_$trunknum','OUTMAXCHANS_$trunknum','OUTPREFIX_$trunknum')";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
 	
 	//write outids
 	writeoutids();
 
 	//delete from extensions table
-	delextensions('outbound-trunks','_${DIAL_OUT_'.$trunknum.'}.');
+	//delextensions('outbound-trunks','_${DIAL_OUT_'.$trunknum.'}.');
 	
 	//and conditionally, from iax or sip
-	if ($tech == 'SIP') {
-		$sql = "DELETE FROM sip WHERE id = '9999$trunknum' OR id = '99999$trunknum' OR id = '9999999$trunknum'";
-		$result = $db->query($sql);
-		if(DB::IsError($result)) {
-			die($result->getMessage());
-		}
-	}
-	if ($tech == 'IAX2') {
-		$sql = "DELETE FROM iax WHERE id = '9999$trunknum' OR id = '99999$trunknum' OR id = '9999999$trunknum'";
-		$result = $db->query($sql);
-		if(DB::IsError($result)) {
-			die($result->getMessage());
-		}
-	}
-}
-
-
-function addtrunk() {
-	global $db;
-	$trunknum = ltrim($_REQUEST['extdisplay'],'OUT_');
-	$tech=$_REQUEST['tech'];
-	$channelid=$_REQUEST['channelid'];
-	$dialprefix=$_REQUEST['dialprefix'];
-	$outcid=stripslashes($_REQUEST['outcid']);
-	
-	$glofields = array(array('OUT_'.$trunknum,$tech.'/'.$channelid),
-						array('DIAL_OUT_'.$trunknum,$dialprefix),
-						array('OUTCID_'.$trunknum,$outcid));
-	$compiled = $db->prepare('INSERT INTO globals (variable, value) values (?,?)');
-	$result = $db->executeMultiple($compiled,$glofields);
-	if(DB::IsError($result)) {
-		die($result->getMessage()."<br><br>".$sql);	
-	}
-	addOutTrunk($trunknum);
-	writeoutids();
-	
-	if ($_REQUEST['defaulttrunk'] == "yes") {
-		setDefaultTrunk($trunknum);
-	}
-	
-	if ($tech == "IAX2") {
-		addSipOrIaxTrunk($_REQUEST['config'],'iax',$channelid,$trunknum);
-		if ($_REQUEST['usercontext'] != ""){
-			addSipOrIaxTrunk($_REQUEST['userconfig'],'iax',$_REQUEST['usercontext'],'9'.$trunknum);
-		}
-		if ($_REQUEST['register'] != ""){
-			addTrunkRegister($trunknum,'iax',$_REQUEST['register']);
-		}
-	}
-	
-	if ($tech == "SIP") {
-		addSipOrIaxTrunk($_REQUEST['config'],'sip',$channelid,$trunknum);
-		if ($_REQUEST['usercontext'] != ""){
-			addSipOrIaxTrunk($_REQUEST['userconfig'],'sip',$_REQUEST['usercontext'],'9'.$trunknum);
-		}
-		if ($_REQUEST['register'] != ""){
-			addTrunkRegister($trunknum,'sip',$_REQUEST['register']);
-		}
+	switch (strtolower($tech)) {
+		case "iax":
+		case "iax2":
+			$sql = "DELETE FROM iax WHERE id = '9999$trunknum' OR id = '99999$trunknum' OR id = '9999999$trunknum'";
+			$result = $db->query($sql);
+			if(DB::IsError($result)) {
+				die($result->getMessage());
+			}
+		break;
+		case "sip": 
+			$sql = "DELETE FROM sip WHERE id = '9999$trunknum' OR id = '99999$trunknum' OR id = '9999999$trunknum'";
+			$result = $db->query($sql);
+			if(DB::IsError($result)) {
+				die($result->getMessage());
+			}
+		break;
 	}
 }
 
-//get and print trunk details
-function getTrunkDetails($trunknum,$tech) {
+function editTrunk($trunknum, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register) {
+echo "editTrunk($trunknum, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register)";
+	$tech = getTrunkTech($trunknum);
+	deltrunk($trunknum, $tech);
+	backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register);
+}
+
+//get and print peer details (prefixed with 4 9's)
+function getTrunkPeerDetails($trunknum) {
 	global $db;
+	
+	$tech = getTrunkTech($trunknum);
+	
+	if ($tech == "zap") return ""; // zap has no details
+	
 	$sql = "SELECT keyword,data FROM $tech WHERE id = '9999$trunknum' ORDER BY id";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
@@ -659,9 +721,56 @@ function getTrunkDetails($trunknum,$tech) {
 	return $confdetail;
 }
 
-//get trunk account name
-function getTrunkAccount($trunknum,$tech) {
+//get and print user config (prefixed with 5 9's)
+function getTrunkUserConfig($trunknum) {
 	global $db;
+	
+	$tech = getTrunkTech($trunknum);
+	
+	if ($tech == "zap") return ""; // zap has no details
+	
+	$sql = "SELECT keyword,data FROM $tech WHERE id = '99999$trunknum' ORDER BY id";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	foreach ($results as $result) {
+		if ($result[0] != 'account') {
+			$confdetail .= $result[0] .'='. $result[1] . "\n";
+		}
+	}
+	return $confdetail;
+}
+
+//get trunk user context (prefixed with 5 9's)
+function getTrunkUserContext($trunknum) {
+	global $db;
+	
+	$tech = getTrunkTech($trunknum);
+	if ($tech == "zap") return ""; // zap has no account
+	
+	$sql = "SELECT keyword,data FROM $tech WHERE id = '99999$trunknum' ORDER BY id";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	foreach ($results as $result) {
+		if ($result[0] == 'account') {
+			$account = $result[1];
+		}
+	}
+	return $account;
+}
+
+/*
+
+//get trunk user context (prefixed with 4 9's)
+function getTrunkTrunkName($trunknum) {
+	global $db;
+	
+	$tech = getTrunkTech($trunknum);
+	if ($tech == "zap") return ""; // zap has no account
+	
 	$sql = "SELECT keyword,data FROM $tech WHERE id = '9999$trunknum' ORDER BY id";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
@@ -675,28 +784,31 @@ function getTrunkAccount($trunknum,$tech) {
 	return $account;
 }
 
-//add trunk info to sip or iax table
-function addSipOrIaxTrunk($config,$table,$channelid,$trunknum) {
-		global $db;
-		$confitem[] = array('account',$channelid);
-		$gimmieabreak = nl2br($config);
-		$lines = split('<br />',$gimmieabreak);
-		foreach ($lines as $line) {
-			$line = trim($line);
-			if (count(split('=',$line)) > 1) {
-				$confitem[] = split('=',$line);
-			}
-		}
-		$compiled = $db->prepare("INSERT INTO $table (id, keyword, data) values ('9999$trunknum',?,?)");
-		$result = $db->executeMultiple($compiled,$confitem);
-		if(DB::IsError($result)) {
-			die($result->getMessage()."<br><br>INSERT INTO $table (id, keyword, data) values ('9999$trunknum',?,?)");	
-		}
+
+*/
+
+function getTrunkTrunkName($trunknum) {
+	global $db;
+	
+	$sql = "SELECT value FROM globals WHERE variable = 'OUT_".$trunknum."'";
+	if (!$results = $db->getAll($sql)) {
+		return false;
+	}
+	strtok($results[0][0],'/');
+	$tech = strtolower( strtok('/') ); // the technology.  ie: ZAP/g0 is ZAP
+	
+	if ($tech == "iax2") $tech = "iax"; // same thing, here
+	
+	return $tech;
 }
 
 //get trunk account register string
-function getTrunkRegister($trunknum,$tech) {
+function getTrunkRegister($trunknum) {
 	global $db;
+	$tech = getTrunkTech($trunknum);
+	
+	if ($tech == "zap") return ""; // zap has no register
+	
 	$sql = "SELECT keyword,data FROM $tech WHERE id = '9999999$trunknum'";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
@@ -716,5 +828,183 @@ function addTrunkRegister($trunknum,$tech,$reg) {
 		die($result->getMessage());
 	}
 }
+
+//get unique outbound route names
+function getroutenames() {
+	global $db;
+	$sql = "SELECT DISTINCT SUBSTRING(context,15) FROM extensions WHERE context LIKE 'outboundroute-%' ORDER BY context ";
+	// we SUBSTRING() to remove "outboundroute-"
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	return $results;
+}
+
+//get unique outbound route patterns for a given context
+function getroutepatterns($route) {
+	global $db;
+	$sql = "SELECT extension, args FROM extensions WHERE context = 'outboundroute-".$route."' AND args LIKE 'dialout-trunk%' ORDER BY extension ";
+	// we SUBSTRING() to remove the _
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	
+	$patterns = array();
+	foreach ($results as $row) {
+		if ($row[0][0] == "_") {
+			// remove leading _
+			$pattern = substr($row[0],1);
+		} else {
+			$pattern = $row[0];
+		}
+		
+		if (preg_match("/{EXTEN:(\d+)}/", $row[1], $matches)) {
+			// this has a digit offset, we need to insert a |
+			$pattern = substr($pattern,0,$matches[1])."|".substr($pattern,$matches[1]);
+		}
+		
+		$patterns[] = $pattern;
+	}
+	return array_unique($patterns);
+}
+
+//get unique outbound route trunks for a given context
+function getroutetrunks($route) {
+	global $db;
+	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outboundroute-".$route."' AND args LIKE 'dialout-trunk,%' ORDER BY priority ";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	
+	$trunks = array();
+	foreach ($results as $row) {
+		if (preg_match('/^dialout-trunk,(\d+)/', $row[0], $matches)) {
+			// check in_array -- even though we did distinct
+			// we still might get ${EXTEN} and ${EXTEN:1} if they used | to split a pattern
+			if (!in_array("OUT_".$matches[1], $trunks)) {
+				$trunks[] = "OUT_".$matches[1];
+			}
+		}
+	}
+	return $trunks;
+}
+
+function addroute($name, $patterns, $trunks) {
+	global $db;
+
+	$trunks = array_values($trunks); // probably already done, but it's important for our dialplan
+	
+	foreach ($patterns as $pattern) {
+		
+		if (false !== ($pos = strpos($pattern,"|"))) {
+			// we have a | meaning to not pass the digits on
+			// (ie, 9|NXXXXXX should use the pattern _9NXXXXXX but only pass NXXXXXX, not the leading 9)
+			
+			$pattern = str_replace("|","",$pattern); // remove all |'s
+			$exten = "EXTEN:".$pos; // chop off leading digit
+		} else {
+			// we pass the full dialed number as-is
+			$exten = "EXTEN"; 
+		}
+		
+		if (!preg_match("/^[0-9*]+$/",$pattern)) { 
+			// note # is not here, as asterisk doesn't recoginize it as a normal digit, thus it requires _ pattern matching
+			
+			// it's not strictly digits, so it must have patterns, so prepend a _
+			$pattern = "_".$pattern;
+		}
+		
+		foreach ($trunks as $priority => $trunk) {
+			$priority += 1; // since arrays are 0-based, but we want priorities to start at 1
+			
+			$sql = "INSERT INTO extensions (context, extension, priority, application, args) VALUES ";
+			$sql .= "('outboundroute-".$name."', ";
+			$sql .= "'".$pattern."', ";
+			$sql .= "'".$priority."', ";
+			$sql .= "'Macro', ";
+			$sql .= "'dialout-trunk,".substr($trunk,4).",\${".$exten."}'"; // cut off OUT_ from $trunk
+			$sql .= ")";
+			
+			$result = $db->query($sql);
+			if(DB::IsError($result)) {
+				die($result->getMessage());
+			}
+		}
+		
+		$priority += 1;
+		$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr) VALUES ";
+		$sql .= "('outboundroute-".$name."', ";
+		$sql .= "'".$pattern."', ";
+		$sql .= "'".$priority."', ";
+		$sql .= "'Macro', ";
+		$sql .= "'outisbusy', ";
+		$sql .= "'No available circuits')";
+		
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			die($result->getMessage());
+		}
+	}
+
+	
+	// add an include=>outboundroute-$name  to [outbound-allroutes]:
+	
+	// we have to find the first available priority.. priority doesn't really matter for the include, but
+	// there is a unique index on (context,extension,priority) so if we don't do this we can't put more than
+	// one route in the outbound-allroutes context.
+	$sql = "SELECT priority FROM extensions WHERE context = 'outbound-allroutes' AND extension = 'include'";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	$priorities = array();
+	foreach ($results as $row) {
+		$priorities[] = $row[0];
+	}
+	for ($priority = 1; in_array($priority, $priorities); $priority++);
+	
+	// $priority should now be the lowest available number
+	
+	$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ";
+	$sql .= "('outbound-allroutes', ";
+	$sql .= "'include', ";
+	$sql .= "'".$priority."', ";
+	$sql .= "'outboundroute-".$name."', ";
+	$sql .= "'', ";
+	$sql .= "'', ";
+	$sql .= "'2')";
+	
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($priority.$result->getMessage());
+	}
+	
+}
+
+function deleteroute($name) {
+	global $db;
+	$sql = "DELETE FROM extensions WHERE context = 'outboundroute-".$name."'";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+	
+	$sql = "DELETE FROM extensions WHERE context = 'outbound-allroutes' AND application = 'outboundroute-".$name."' ";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+	
+	return $result;
+}
+
+function editroute($name, $patterns, $trunks) {
+	deleteroute($name);
+	addroute($name, $patterns, $trunks);
+}
+
 
 ?>

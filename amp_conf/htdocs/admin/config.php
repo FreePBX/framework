@@ -27,6 +27,7 @@ $display=$_REQUEST['display'];
 	<li><a id="<? echo ($display=='4' ? 'current':'') ?>" href="config.php?display=4">Ring Groups</a></li>
 	<li><a id="<? echo ($display=='2' ? 'current':'') ?>" href="config.php?display=2">Digital Receptionist</a></li>
 	<li><a id="<? echo ($display=='6' ? 'current':'') ?>" href="config.php?display=6">Trunks</a></li>
+	<li><a id="<? echo ($display=='8' ? 'current':'') ?>" href="config.php?display=8">Outbound Routes</a></li>
 	<li><a id="<? echo ($display=='7' ? 'current':'') ?>" href="config.php?display=7">DID Routes</a></li>
 	<li><a id="<? echo ($display=='1' ? 'current':'') ?>" href="config.php?display=1">On Hold Music</a></li>
 	<li><a id="<? echo ($display=='5' ? 'current':'') ?>" href="config.php?display=5">General Settings</a></li>
@@ -85,6 +86,11 @@ switch($display) {
 	case '7':	
 			
 		include 'did.php';
+		
+	break;
+	case '8':	
+			
+		include 'routing.php';
 		
 	break;
 }

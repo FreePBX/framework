@@ -107,17 +107,37 @@ function checkDID(theForm) {
 	}
 }
 
-function checkTrunk(theForm) {
-	$dialprefix = theForm.dialprefix.value;
+function checkTrunk(theForm, action) {
 	$channelid = theForm.channelid.value;
 	$usercontext = theForm.usercontext.value;
 
-	if ($dialprefix == "" || $channelid == "") {
-		alert('Please fill out all forms');
+	if ($channelid == "") {
+		alert('Missing required field: trunk name');
 	} else if ($channelid == $usercontext) {
 		alert('Trunk Name and User Context cannot be set to the same value');
 	} else {
-	theForm.submit();
+		theForm.action.value = action;
+		theForm.submit();
+	}
+}
+
+function checkRoute(theForm, action) {
+	$routename = theForm.routename.value;
+	$dialpattern = theForm.dialpattern.value;
+	$trunkpriority = document.getElementById('trunkpri0').value;
+
+	if ($routename == "") {
+		alert('Route name must not be blank');
+	} else if (!$routename.match('^[a-zA-Z][a-zA-Z0-9]+$')) {
+		alert('Route name cannot start with a number, and can only contain letters and numbers');
+	} else if (!$dialpattern.match('[A-Z0-9a-z]+')) {
+		alert('Dial pattern cannot be blank');
+	} else if ($trunkpriority.value == '') {
+		//TODO this doesn't account for other items besides the first being filled in
+		alert('At least one trunk must be picked');
+	} else {
+		theForm.action.value = action;
+		theForm.submit();
 	}
 }
 

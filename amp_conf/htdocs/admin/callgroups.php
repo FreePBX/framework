@@ -183,8 +183,12 @@ foreach ($gresults as $gresult) {
 			<table>
 			<tr><td colspan="2"><h5><? echo ($extdisplay ? 'Edit Ring Group' : 'Add Ring Group') ?><hr></h5></td></tr>
 			<tr>
+<?		if ($extdisplay){ ?>
+				<input size="5" type="hidden" name="account" value="<? echo ltrim($extdisplay,'GRP-'); ?>">
+<?		} else { ?>
 				<td><a href="#" class="info">group number:<span>The number users will dial to ring extensions in this ring group</span></a></td>
-				<td><input size="5" <? echo ($extdisplay ? 'disabled="true"' : '') ?> type="text" name="account" value="<? echo ($extdisplay ? ltrim($extdisplay,'GRP-') : $gresult[0] + 1 ); ?>"></td>
+				<td><input size="5" type="text" name="account" value="<? echo $gresult[0] + 1; ?>"></td>
+<?		} ?>
 			</tr>
 			<tr>
 				<td><a href="#" class="info">extension list:<span>Separate extensions with a | (pipe) character. Ex: 201|202|203<br><br>You can include an extension on a remote system, or an external number by including an asterisk (*) after the dial prefix for the appropriate trunk.  ex:  9*2448089 would dial 2448089 on the trunk accessible with dial prefix 9.<br><br></span></a></td>
