@@ -1,5 +1,7 @@
+<?php
+
 /* check for old prefix based routing */
-out("Upgrading Dial Prefix to Outbound Routes..");
+outn("Upgrading Dial Prefix to Outbound Routes..");
 
 // see if they're still using the old dialprefix method
 $sql = "SELECT variable,value FROM globals WHERE variable LIKE 'DIAL\\\_OUT\\\_%'";
@@ -8,6 +10,8 @@ $results = $db->getAll($sql);
 if(DB::IsError($results)) {
 	die($results->getMessage());
 }
+
+outn(count($results)." to update..");
 
 if (count($results) > 0) {
 	// yes, they are using old method, let's update
@@ -66,13 +70,15 @@ if (count($results) > 0) {
 	
 	// delete old values
 	$sql = "DELETE FROM globals WHERE (variable LIKE 'DIAL\\\_OUT\\\_%') OR (variable = 'OUT') ";
+	debug($sql);
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
 		die($result->getMessage());
 	}
 	
 }
-	
+
+out("OK");
 
 function addroute($name, $patterns, $trunks) {
 	global $db;
@@ -126,6 +132,7 @@ function addroute($name, $patterns, $trunks) {
 				$sql .= "'dialout-trunk,".substr($trunk,4).",\${".$exten."}'"; // cut off OUT_ from $trunk
 			$sql .= ")";
 			
+			debug($sql);
 			$result = $db->query($sql);
 			if(DB::IsError($result)) {
 				die($result->getMessage());
@@ -141,6 +148,7 @@ function addroute($name, $patterns, $trunks) {
 		$sql .= "'outisbusy', ";
 		$sql .= "'No available circuits')";
 		
+		debug($sql);
 		$result = $db->query($sql);
 		if(DB::IsError($result)) {
 			die($result->getMessage());
@@ -175,9 +183,12 @@ function addroute($name, $patterns, $trunks) {
 	$sql .= "'', ";
 	$sql .= "'2')";
 	
+	debug($sql);
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
 		die($priority.$result->getMessage());
 	}
 	
 }
+
+?>
