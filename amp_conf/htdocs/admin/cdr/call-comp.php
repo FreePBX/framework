@@ -222,7 +222,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 
 <!-- ** ** ** ** ** Part for the research ** ** ** ** ** -->
 	<center>
-	<FORM METHOD=POST ACTION="<?php =$PHP_SELF?>?s=1&t=1&order=<?php =$order?>&sens=<?php =$sens?>&current_page=<?php =$current_page?>">
+	<FORM METHOD=POST ACTION="<?php echo $PHP_SELF?>?s=1&t=1&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php echo $current_page?>">
 	<INPUT TYPE="hidden" NAME="posted" value=1>
 	<INPUT TYPE="hidden" NAME="display" value="1">
 		<table class="bar-status" width="75%" border="0" cellspacing="1" cellpadding="2" align="center">
@@ -385,14 +385,14 @@ foreach ($table_graph as $tkey => $data){
 		//bgcolor="#336699" 
 	?>
 		</tr><tr>
-		<td align="right" class="sidenav" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><?php =$tkey?></font></td>
-		<td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php =$minutes_60?> </font></td>
-        <td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="left" nowrap="nowrap" width="<?php =$widthbar+60?>">
+		<td align="right" class="sidenav" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><?php echo $tkey?></font></td>
+		<td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php echo $minutes_60?> </font></td>
+        <td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="left" nowrap="nowrap" width="<?php echo $widthbar+60?>">
         <table cellspacing="0" cellpadding="0"><tbody><tr>
-        <td bgcolor="#e22424"><img src="images/spacer.gif" width="<?php =$widthbar?>" height="6"></td>
+        <td bgcolor="#e22424"><img src="images/spacer.gif" width="<?php echo $widthbar?>" height="6"></td>
         </tr></tbody></table></td>
-        <td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php =$data[0]?></font></td>
-        <td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php =$tmc_60?> </font></td>
+        <td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php echo $data[0]?></font></td>
+        <td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php echo $tmc_60?> </font></td>
      <?php 	 }	 
 	 	$total_tmc_60 = sprintf("%02d",intval(($totalminutes/$totalcall)/60)).":".sprintf("%02d",intval(($totalminutes/$totalcall)%60));				
 		$total_minutes_60 = sprintf("%02d",intval($totalminutes/60)).":".sprintf("%02d",intval($totalminutes%60));
@@ -407,9 +407,9 @@ foreach ($table_graph as $tkey => $data){
 	<!-- TOTAL -->
 	<tr bgcolor="#600101">
 		<td align="right" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b>TOTAL</b></font></td>
-		<td align="center" nowrap="nowrap" colspan="2"><font face="verdana" size="1" color="#ffffff"><b><?php =$total_minutes_60?> </b></font></td>
-		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?php =$totalcall?></b></font></td>
-		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?php =$total_tmc_60?></b></font></td>                        
+		<td align="center" nowrap="nowrap" colspan="2"><font face="verdana" size="1" color="#ffffff"><b><?php echo $total_minutes_60?> </b></font></td>
+		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?php echo $totalcall?></b></font></td>
+		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?php echo $total_tmc_60?></b></font></td>                        
 	</tr>
 	<!-- FIN TOTAL -->
 
@@ -421,6 +421,6 @@ foreach ($table_graph as $tkey => $data){
 	<center><h3>No calls in your selection.</h3></center>
 <?php  } ?>
 	<br>
- 	<IMG SRC="graph_stat.php?min_call=<?php =$min_call?>&fromstatsday_sday=<?php =$fromstatsday_sday?>&days_compare=<?php =$days_compare?>&fromstatsmonth_sday=<?php =$fromstatsmonth_sday?>" ALT="Stat Graph">
+ 	<IMG SRC="graph_stat.php?min_call=<?php echo $min_call?>&fromstatsday_sday=<?php echo $fromstatsday_sday?>&days_compare=<?php echo $days_compare?>&fromstatsmonth_sday=<?php echo $fromstatsmonth_sday?>" ALT="Stat Graph">
 
 </center>

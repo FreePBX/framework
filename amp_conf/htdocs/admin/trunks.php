@@ -259,7 +259,7 @@ if (!$tech && !$extdisplay) {
 		
 		echo "<h2>Edit ".strtoupper($tech)." Trunk</h2>";
 ?>
-		<p><a href="config.php?display=<?php = $display ?>&extdisplay=<?php = $extdisplay ?>&action=deltrunk">Delete Trunk <?php  echo strtoupper($tech)."/".$channelid; ?></a></p>
+		<p><a href="config.php?display=<?php echo $display ?>&extdisplay=<?php echo $extdisplay ?>&action=deltrunk">Delete Trunk <?php  echo strtoupper($tech)."/".$channelid; ?></a></p>
 <?php 
 
 		// find which routes use this trunk
@@ -306,7 +306,7 @@ if (!$tech && !$extdisplay) {
 	
 		<form name="trunkEdit" action="config.php" method="post">
 			<input type="hidden" name="display" value="<?php echo $display?>"/>
-			<input type="hidden" name="extdisplay" value="<?php = $extdisplay ?>"/>
+			<input type="hidden" name="extdisplay" value="<?php echo $extdisplay ?>"/>
 			<input type="hidden" name="action" value=""/>
 			<input type="hidden" name="tech" value="<?php echo $tech?>"/>
 			<table>
@@ -319,14 +319,14 @@ if (!$tech && !$extdisplay) {
 				<td>
 					<a href=# class="info">Outbound Caller ID<span><br>Setting this option will override all clients' caller IDs for calls placed out this trunk<br><br>Format: <b>"caller name" &lt;#######&gt;</b><br><br>Leave this field blank to simply pass client caller IDs.<br><br></span></a>: 
 				</td><td>
-					<input type="text" size="20" name="outcid" value="<?php = $outcid;?>"/>
+					<input type="text" size="20" name="outcid" value="<?php echo $outcid;?>"/>
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<a href=# class="info">Maximum channels<span>Controls the maximum number of channels (simultaneous calls) that can be used on this trunk, including both incoming and outgoing calls. Leave blank to specify no maximum.</span></a>: 
 				</td><td>
-					<input type="text" size="3" name="maxchans" value="<?php = $maxchans; ?>"/>
+					<input type="text" size="3" name="maxchans" value="<?php echo $maxchans; ?>"/>
 				</td>
 			</tr>
 			<tr>
@@ -346,7 +346,7 @@ if (!$tech && !$extdisplay) {
 	<strong>+</strong>&nbsp;&nbsp;&nbsp; adds a dialing prefix from the number (for example, 1613+NXXXXXX would match when some dialed "5551234" and would pass "16135551234" to the trunk)
 					</span></a>:
 				</td><td valign="top">&nbsp;
-					<textarea id="dialrules" cols="20" rows="<?php  $rows = count($dialrules)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="dialrules"><?php =  implode("\n",$dialrules);?></textarea><br>
+					<textarea id="dialrules" cols="20" rows="<?php  $rows = count($dialrules)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="dialrules"><?php echo implode("\n",$dialrules);?></textarea><br>
 					
 					<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
 				</td>
@@ -466,7 +466,7 @@ if (!$tech && !$extdisplay) {
 				<td>
 					<a href=# class="info">Local dialing pattern<span>The dialing pattern to make a 'local' call.</span></a>: 
 				</td><td>
-					<input id="localpattern" type="text" size="10" maxlength="20" name="localpattern" value="<?php = $localpattern ?>"/>
+					<input id="localpattern" type="text" size="10" maxlength="20" name="localpattern" value="<?php echo $localpattern ?>"/>
 					
 				</td>
 			</tr>
@@ -474,7 +474,7 @@ if (!$tech && !$extdisplay) {
 				<td>
 					<a href=# class="info">Long-distance dial prefix<span>The prefix for dialing long-distance numbers. In north america, this should be "1".</span></a>: 
 				</td><td>
-					<input id="lddialprefix" type="text" size="3" maxlength="6" name="lddialprefix" value="<?php = $lddialprefix ?>"/>
+					<input id="lddialprefix" type="text" size="3" maxlength="6" name="lddialprefix" value="<?php echo $lddialprefix ?>"/>
 					
 				</td>
 			</tr>
@@ -482,7 +482,7 @@ if (!$tech && !$extdisplay) {
 				<td>
 					<a href=# class="info">Local LD prefix<span>The area code this trunk is in. Any 7-digit numbers that don't match a number in the below list will have dialprefix+areacode added to them. </span></a>: 
 				</td><td>
-					<input id="areacode" type="text" size="3" maxlength="6" name="areacode" value="<?php = $areacode ?>"/>
+					<input id="areacode" type="text" size="3" maxlength="6" name="areacode" value="<?php echo $areacode ?>"/>
 					
 				</td>
 			</tr>
@@ -490,7 +490,7 @@ if (!$tech && !$extdisplay) {
 				<td valign="top">
 					<a href=# class="info">Local prefixes<span>This should be a list of local areacodes + prefixes to use for local dialing.</span></a>: 
 				</td><td valign="top">&nbsp;
-					<textarea id="localprefixes" cols="8" rows="<?php  $rows = count($localprefixes)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="localprefixes"><?php =  implode("\n",$localprefixes);?></textarea><br>
+					<textarea id="localprefixes" cols="8" rows="<?php  $rows = count($localprefixes)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="localprefixes"><?php echo  implode("\n",$localprefixes);?></textarea><br>
 					 
 					<input id="npanxx" name="npanxx" type="hidden" /><br>
 					<a href=# class="info">Populate with local rules<span>Do a lookup from http://members.dandy.net/~czg/search.html to find all local-reachable area codes and phone numbers.</span></a>: <input type="button" value="Go" onClick="checkPopulate();" />
@@ -540,7 +540,7 @@ if (!$tech && !$extdisplay) {
 				<td>
 					<a href=# class="info">Outbound Dial Prefix<span>The outbound dialing prefix is used to prefix a dialing string to all outbound calls placed on this trunk. For example, if this trunk is behind another PBX or is a Centrex line, then you would put 9 here to access an outbound line.<br><br>Most users should leave this option blank.</span></a>: 
 				</td><td>
-					<input type="text" size="8" name="dialoutprefix" value="<?php = $dialoutprefix ?>"/>
+					<input type="text" size="8" name="dialoutprefix" value="<?php echo $dialoutprefix ?>"/>
 				</td>
 			</tr>
 			<tr>
@@ -557,7 +557,7 @@ if (!$tech && !$extdisplay) {
 					<td>
 						<a href=# class="info">Zap Identifier (trunk name)<span><br>ZAP channels are referenced either by a group number or channel number (which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> (group zero).<br><br></span></a>: 
 					</td><td>
-						<input type="text" size="8" name="channelid" value="<?php = $channelid ?>"/>
+						<input type="text" size="8" name="channelid" value="<?php echo $channelid ?>"/>
 						<input type="hidden" size="14" name="usercontext" value="notneeded"/>
 					</td>
 				</tr>
@@ -569,7 +569,7 @@ if (!$tech && !$extdisplay) {
 					<td>
 						<a href=# class="info">Trunk Name<span><br>Give this trunk a unique name.  Example: myiaxtel<br><br></span></a>: 
 					</td><td>
-						<input type="text" size="14" name="channelid" value="<?php = $channelid ?>"/>
+						<input type="text" size="14" name="channelid" value="<?php echo $channelid ?>"/>
 					</td>
 				</tr>
 				<tr>
@@ -579,7 +579,7 @@ if (!$tech && !$extdisplay) {
 				</tr>
 				<tr>
 					<td colspan="2">
-						<textarea rows="10" cols="40" name="peerdetails"><?php = $peerdetails ?></textarea>
+						<textarea rows="10" cols="40" name="peerdetails"><?php echo $peerdetails ?></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -591,7 +591,7 @@ if (!$tech && !$extdisplay) {
 					<td>
 						<a href=# class="info">USER Context<span><br>This is most often the account name or number your provider expects.<br><br>This USER Context will be used to define the below user details.</span></a>: 
 					</td><td>
-						<input type="text" size="14" name="usercontext" value="<?php = $usercontext  ?>"/>
+						<input type="text" size="14" name="usercontext" value="<?php echo $usercontext  ?>"/>
 					</td>
 				</tr>
 				<tr>
@@ -601,7 +601,7 @@ if (!$tech && !$extdisplay) {
 				</tr>
 				<tr>
 					<td colspan="2">
-						<textarea rows="10" cols="40" name="userconfig"><?php = $userconfig; ?></textarea>
+						<textarea rows="10" cols="40" name="userconfig"><?php echo $userconfig; ?></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -616,7 +616,7 @@ if (!$tech && !$extdisplay) {
 				</tr>
 				<tr>
 					<td colspan="2">
-						<input type="text" size="40" name="register" value="<?php = $register ?>"/>
+						<input type="text" size="40" name="register" value="<?php echo $register ?>"/>
 					</td>
 				</tr>
 	<?php 
@@ -626,7 +626,7 @@ if (!$tech && !$extdisplay) {
 				
 			<tr>
 				<td colspan="2">
-					<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkTrunk(trunkEdit, '<?php = ($extdisplay ? "edittrunk" : "addtrunk") ?>')"></h6>
+					<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkTrunk(trunkEdit, '<?php echo ($extdisplay ? "edittrunk" : "addtrunk") ?>')"></h6>
 				</td>
 			</tr>
 			</table>

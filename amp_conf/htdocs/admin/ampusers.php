@@ -96,7 +96,7 @@ foreach ($tresults as $tresult) {
 		$sections = $user["sections"];
 		
 ?>
-		<p><a href="config.php?display=<?php = $display ?>&userdisplay=<?php = $userdisplay ?>&action=delampuser">Delete User <?php  echo $userdisplay; ?></a></p>
+		<p><a href="config.php?display=<?php echo $display ?>&userdisplay=<?php echo $userdisplay ?>&action=delampuser">Delete User <?php  echo $userdisplay; ?></a></p>
 <?php 
 
 	} else {
@@ -117,7 +117,7 @@ foreach ($tresults as $tresult) {
 	
 		<form name="ampuserEdit" action="config.php" method="get">
 			<input type="hidden" name="display" value="<?php echo $display?>"/>
-			<input type="hidden" name="userdisplay" value="<?php = $userdisplay ?>"/>
+			<input type="hidden" name="userdisplay" value="<?php echo $userdisplay ?>"/>
 			<input type="hidden" name="action" value=""/>
 			<input type="hidden" name="tech" value="<?php echo $tech?>"/>
 			<table>
@@ -130,7 +130,7 @@ foreach ($tresults as $tresult) {
 				<td>
 					<a href=# class="info">Username<span></span></a>: 
 				</td><td>
-					<input type="text" size="20" name="username" value="<?php = $username;?>"/>
+					<input type="text" size="20" name="username" value="<?php echo $username;?>"/>
 				</td>
 			</tr>
 <?php  if ($amp_conf["AUTHTYPE"] == "database") { ?>			
@@ -138,7 +138,7 @@ foreach ($tresults as $tresult) {
 				<td>
 					<a href=# class="info">Password<span></span></a>: 
 				</td><td>
-					<input type="password" size="20" name="password" value="<?php = $password;?>"/>
+					<input type="password" size="20" name="password" value="<?php echo $password;?>"/>
 				</td>
 			</tr>
 <?php  } ?>
@@ -152,16 +152,16 @@ foreach ($tresults as $tresult) {
 				<td>
 					<a href=# class="info">Department Name<span></span></a>: 
 				</td><td>
-					<input type="text" size="20" name="deptname" value="<?php = $deptname;?>"/>
+					<input type="text" size="20" name="deptname" value="<?php echo $deptname;?>"/>
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<a href=# class="info">Extension Range<span></span></a>: 
 				</td><td>
-					<input type="text" size="5" name="extension_low" value="<?php = $extension_low;?>"/>
+					<input type="text" size="5" name="extension_low" value="<?php echo $extension_low;?>"/>
 					&nbsp;to
-					<input type="text" size="5" name="extension_high" value="<?php = $extension_high;?>"/>
+					<input type="text" size="5" name="extension_high" value="<?php echo $extension_high;?>"/>
 				</td>
 			</tr>
 			<tr>
@@ -185,7 +185,7 @@ foreach ($tresults as $tresult) {
 			
 			<tr>
 				<td colspan="2">
-					<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkAmpUser(ampuserEdit, '<?php = ($userdisplay ? "editampuser" : "addampuser") ?>')"></h6>
+					<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkAmpUser(ampuserEdit, '<?php echo ($userdisplay ? "editampuser" : "addampuser") ?>')"></h6>
 				</td>
 			</tr>
 			</table>

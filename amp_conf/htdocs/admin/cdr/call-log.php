@@ -232,7 +232,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <!-- ** ** ** ** ** Part for the research ** ** ** ** ** -->
 
 	<center>
-	<FORM METHOD=POST ACTION="<?php =$PHP_SELF?>?s=1&t=0&order=<?php =$order?>&sens=<?php =$sens?>&current_page=<?php =$current_page?>">
+	<FORM METHOD=POST ACTION="<?php echo $PHP_SELF?>?s=1&t=0&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php echo $current_page?>">
 	<INPUT TYPE="hidden" NAME="posted" value=1>
 	<INPUT TYPE="hidden" NAME="current_page" value=0>	
 		<table class="bar-status" width="75%" border="0" cellspacing="1" cellpadding="2" align="center">
@@ -357,7 +357,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					<font face="verdana" size="1" color="#ffffff"><b>&nbsp;&nbsp;DESTINATION</b></font>
 				</td>				
 				<td class="bar-search" align="left" bgcolor="#cddeff">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="dst" value="<?php =$dst?>"></td>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="dst" value="<?php echo $dst?>"></td>
 				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="dsttype" value="1" <?php if((!isset($dsttype))||($dsttype==1)){?>checked<?php }?>>Exact</td>
 				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="dsttype" value="2" <?php if($dsttype==2){?>checked<?php }?>>Begins with</td>
 				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="dsttype" value="3" <?php if($dsttype==3){?>checked<?php }?>>Contains</td>
@@ -381,7 +381,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					<font face="verdana" size="1" color="#ffffff"><b>&nbsp;&nbsp;CLI</b></font>
 				</td>				
 				<td class="bar-search" align="left" bgcolor="#cddeff">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="clid" value="<?php =$clid?>"></td>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="clid" value="<?php echo $clid?>"></td>
 				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="clidtype" value="1" <?php if((!isset($clidtype))||($clidtype==1)){?>checked<?php }?>>Exact</td>
 				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="clidtype" value="2" <?php if($clidtype==2){?>checked<?php }?>>Begins with</td>
 				<td class="bar-search" align="center" bgcolor="#cddeff"><input type="radio" NAME="clidtype" value="3" <?php if($clidtype==3){?>checked<?php }?>>Contains</td>
@@ -393,7 +393,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					<font face="verdana" size="1" color="#ffffff"><b>&nbsp;&nbsp;CHANNEL</b></font>
 				</td>				
 				<td class="bar-search" align="left" bgcolor="#acbdee">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="channel" value="<?php =$channel?>"></td>				
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="channel" value="<?php echo $channel?>"></td>				
 				</tr></table></td>
 			</tr>
 
@@ -417,13 +417,13 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <!-- ** ** ** ** ** Part to display the CDR ** ** ** ** ** -->
 
 			<center>Number of call : <?php  if (is_array($list) && count($list)>0){ echo $nb_record; }else{echo "0";}?></center>
-      <table width="<?php =$FG_HTML_TABLE_WIDTH?>" border="0" align="center" cellpadding="0" cellspacing="0">
+      <table width="<?php echo $FG_HTML_TABLE_WIDTH?>" border="0" align="center" cellpadding="0" cellspacing="0">
 <TR bgcolor="#ffffff"> 
           <TD bgColor=#7f99cc height=16 style="PADDING-LEFT: 5px; PADDING-RIGHT: 3px"> 
             <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
               <TBODY>
                 <TR> 
-                  <TD><SPAN style="COLOR: #ffffff; FONT-SIZE: 11px"><B><?php =$FG_HTML_TABLE_TITLE?></B></SPAN></TD>
+                  <TD><SPAN style="COLOR: #ffffff; FONT-SIZE: 11px"><B><?php echo $FG_HTML_TABLE_TITLE?></B></SPAN></TD>
                   <TD align=right> <IMG alt="Back to Top" border=0 height=12 src="images/btn_top_12x12.gif" width=12> 
                   </TD>
                 </TR>
@@ -434,7 +434,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
           <TD> <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
 <TBODY>
                 <TR bgColor=#F0F0F0> 
-				  <TD width="<?php =$FG_ACTION_SIZE_COLUMN?>" align=center class="tableBodyRight" style="PADDING-BOTTOM: 2px; PADDING-LEFT: 2px; PADDING-RIGHT: 2px; PADDING-TOP: 2px"></TD>					
+				  <TD width="<?php echo $FG_ACTION_SIZE_COLUMN?>" align=center class="tableBodyRight" style="PADDING-BOTTOM: 2px; PADDING-LEFT: 2px; PADDING-RIGHT: 2px; PADDING-TOP: 2px"></TD>					
 				  
                   <?php 
 				  	if (is_array($list) && count($list)>0){
@@ -445,13 +445,13 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					?>				
 				  
 					
-                  <TD width="<?php =$FG_TABLE_COL[$i][2]?>" align=middle class="tableBody" style="PADDING-BOTTOM: 2px; PADDING-LEFT: 2px; PADDING-RIGHT: 2px; PADDING-TOP: 2px"> 
+                  <TD width="<?php echo $FG_TABLE_COL[$i][2]?>" align=middle class="tableBody" style="PADDING-BOTTOM: 2px; PADDING-LEFT: 2px; PADDING-RIGHT: 2px; PADDING-TOP: 2px"> 
                     <center><strong> 
                     <?php  if (strtoupper($FG_TABLE_COL[$i][4])=="SORT"){?>
                     <a href="<?php  echo $PHP_SELF."?s=1&t=0&stitle=$stitle&atmenu=$atmenu&current_page=$current_page&order=".$FG_TABLE_COL[$i][1]."&sens="; if ($sens=="ASC"){echo"DESC";}else{echo"ASC";} 
 					echo "&posted=$posted&Period=$Period&frommonth=$frommonth&fromstatsmonth=$fromstatsmonth&tomonth=$tomonth&tostatsmonth=$tostatsmonth&fromday=$fromday&fromstatsday_sday=$fromstatsday_sday&fromstatsmonth_sday=$fromstatsmonth_sday&today=$today&tostatsday_sday=$tostatsday_sday&tostatsmonth_sday=$tostatsmonth_sday&dsttype=$dsttype&sourcetype=$sourcetype&clidtype=$clidtype&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid";?>"> 
                     <span class="liens"><?php  } ?>
-                    <?php =$FG_TABLE_COL[$i][0]?> 
+                    <?php echo $FG_TABLE_COL[$i][0]?> 
                     <?php if ($order==$FG_TABLE_COL[$i][1] && $sens=="ASC"){?>
                     &nbsp;<img src="images/icon_up_12x12.GIF" width="12" height="12" border="0"> 
                     <?php }elseif ($order==$FG_TABLE_COL[$i][1] && $sens=="DESC"){?>
@@ -468,7 +468,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 				   <?php } ?>		
                 </TR>
                 <TR> 
-                  <TD bgColor=#e1e1e1 colSpan=<?php =$FG_TOTAL_TABLE_COL?> height=1><IMG 
+                  <TD bgColor=#e1e1e1 colSpan=<?php echo $FG_TOTAL_TABLE_COL?> height=1><IMG 
                               height=1 
                               src="images/clear.gif" 
                               width=1></TD>
@@ -483,8 +483,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 						 $ligne_number++;
 				?>
 				
-               		 <TR bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$ligne_number%2]?>"  onMouseOver="bgColor='#C4FFD7'" onMouseOut="bgColor='<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$ligne_number%2]?>'"> 
-						<TD vAlign=top align="<?php =$FG_TABLE_COL[$i][3]?>" class=tableBody><?php  echo $ligne_number+$current_page*$FG_LIMITE_DISPLAY.".&nbsp;"; ?></TD>
+               		 <TR bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$ligne_number%2]?>"  onMouseOver="bgColor='#C4FFD7'" onMouseOut="bgColor='<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$ligne_number%2]?>'"> 
+						<TD vAlign=top align="<?php echo $FG_TABLE_COL[$i][3]?>" class=tableBody><?php  echo $ligne_number+$current_page*$FG_LIMITE_DISPLAY.".&nbsp;"; ?></TD>
 							 
 				  		<?php for($i=0;$i<$FG_NB_TABLE_COL;$i++){ ?>
 						
@@ -525,7 +525,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 							
 							
 				 		 ?>
-                 		 <TD vAlign=top align="<?php =$FG_TABLE_COL[$i][3]?>" class=tableBody><?php =stripslashes($record_display)?></TD>
+                 		 <TD vAlign=top align="<?php echo $FG_TABLE_COL[$i][3]?>" class=tableBody><?php echo stripslashes($record_display)?></TD>
 				 		 <?php  } ?>
                   
 					</TR>
@@ -534,7 +534,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					 while ($ligne_number < $FG_LIMITE_DISPLAY){
 					 	$ligne_number++;
 				?>
-					<TR bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$ligne_number%2]?>"> 
+					<TR bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$ligne_number%2]?>"> 
 				  		<?php for($i=0;$i<$FG_NB_TABLE_COL;$i++){ 
 							//$FG_TABLE_COL[$i][1];			
 							//$FG_TABLE_COL[]=array ("Name", "name", "20%");
@@ -552,12 +552,12 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 				  }//end_if
 				 ?>
                 <TR> 
-                  <TD class=tableDivider colSpan=<?php =$FG_TOTAL_TABLE_COL?>><IMG height=1 
+                  <TD class=tableDivider colSpan=<?php echo $FG_TOTAL_TABLE_COL?>><IMG height=1 
                               src="images/clear.gif" 
                               width=1></TD>
                 </TR>
                 <TR> 
-                  <TD class=tableDivider colSpan=<?php =$FG_TOTAL_TABLE_COL?>><IMG height=1 
+                  <TD class=tableDivider colSpan=<?php echo $FG_TOTAL_TABLE_COL?>><IMG height=1 
                               src="images/clear.gif" 
                               width=1></TD>
                 </TR>
@@ -571,13 +571,13 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                 <TR> 
                   <TD align="right"><SPAN style="COLOR: #ffffff; FONT-SIZE: 11px"><B> 
                     <?php if ($current_page>0){?>
-                    <img src="images/fleche-g.gif" width="5" height="10"> <a href="<?php =$PHP_SELF?>?s=1&t=0&order=<?php =$order?>&sens=<?php =$sens?>&current_page=<?php  echo ($current_page-1)?><?php  if (!is_null($letter) && ($letter!="")){ echo "&letter=$letter";} 
+                    <img src="images/fleche-g.gif" width="5" height="10"> <a href="<?php echo $PHP_SELF?>?s=1&t=0&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php  echo ($current_page-1)?><?php  if (!is_null($letter) && ($letter!="")){ echo "&letter=$letter";} 
 					echo "&posted=$posted&Period=$Period&frommonth=$frommonth&fromstatsmonth=$fromstatsmonth&tomonth=$tomonth&tostatsmonth=$tostatsmonth&fromday=$fromday&fromstatsday_sday=$fromstatsday_sday&fromstatsmonth_sday=$fromstatsmonth_sday&today=$today&tostatsday_sday=$tostatsday_sday&tostatsmonth_sday=$tostatsmonth_sday&dsttype=$dsttype&sourcetype=$sourcetype&clidtype=$clidtype&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid";?>"> 
                     Previous </a> - 
                     <?php }?>
                     <?php echo ($current_page+1);?> / <?php  echo $nb_record_max;?> 
                     <?php if ($current_page<$nb_record_max-1){?>
-                    - <a href="<?php =$PHP_SELF?>?s=1&t=0&order=<?php =$order?>&sens=<?php =$sens?>&current_page=<?php  echo ($current_page+1)?><?php  if (!is_null($letter) && ($letter!="")){ echo "&letter=$letter";} 
+                    - <a href="<?php echo $PHP_SELF?>?s=1&t=0&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php  echo ($current_page+1)?><?php  if (!is_null($letter) && ($letter!="")){ echo "&letter=$letter";} 
 					echo "&posted=$posted&Period=$Period&frommonth=$frommonth&fromstatsmonth=$fromstatsmonth&tomonth=$tomonth&tostatsmonth=$tostatsmonth&fromday=$fromday&fromstatsday_sday=$fromstatsday_sday&fromstatsmonth_sday=$fromstatsmonth_sday&today=$today&tostatsday_sday=$tostatsday_sday&tostatsmonth_sday=$tostatsmonth_sday&dsttype=$dsttype&sourcetype=$sourcetype&clidtype=$clidtype&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid";?>"> 
                     Next </a> <img src="images/fleche-d.gif" width="5" height="10"> 
                     </B></SPAN> 
@@ -686,14 +686,14 @@ foreach ($list_total_day as $data){
 		//bgcolor="#336699" 
 	?>
 		</tr><tr>
-		<td align="right" class="sidenav" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><?php =$data[0]?></font></td>
-		<td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php =$minutes?> </font></td>
-        <td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="left" nowrap="nowrap" width="<?php =$widthbar+60?>">
+		<td align="right" class="sidenav" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><?php echo $data[0]?></font></td>
+		<td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php echo $minutes?> </font></td>
+        <td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="left" nowrap="nowrap" width="<?php echo $widthbar+60?>">
         <table cellspacing="0" cellpadding="0"><tbody><tr>
-        <td bgcolor="#e22424"><img src="images/spacer.gif" width="<?php =$widthbar?>" height="6"></td>
+        <td bgcolor="#e22424"><img src="images/spacer.gif" width="<?php echo $widthbar?>" height="6"></td>
         </tr></tbody></table></td>
-        <td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php =$data[2]?></font></td>
-        <td bgcolor="<?php =$FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php =$tmc?> </font></td>
+        <td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php echo $data[2]?></font></td>
+        <td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php echo $tmc?> </font></td>
      <?php 	 }	 	 	
 	 	
 		if ((!isset($resulttype)) || ($resulttype=="min")){  
@@ -713,9 +713,9 @@ foreach ($list_total_day as $data){
 	<!-- TOTAL -->
 	<tr bgcolor="#600101">
 		<td align="right" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b>TOTAL</b></font></td>
-		<td align="center" nowrap="nowrap" colspan="2"><font face="verdana" size="1" color="#ffffff"><b><?php =$totalminutes?> </b></font></td>
-		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?php =$totalcall?></b></font></td>
-		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?php =$total_tmc?></b></font></td>                        
+		<td align="center" nowrap="nowrap" colspan="2"><font face="verdana" size="1" color="#ffffff"><b><?php echo $totalminutes?> </b></font></td>
+		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?php echo $totalcall?></b></font></td>
+		<td align="center" nowrap="nowrap"><font face="verdana" size="1" color="#ffffff"><b><?php echo $total_tmc?></b></font></td>                        
 	</tr>
 	<!-- FIN TOTAL -->
 
