@@ -56,7 +56,7 @@ if ($action == 'bscEdit' || $action == 'advEdit' || $action == 'add') {
 }
 
 //remove a row
-if ($action == 'delete') {
+if ($action == 'delete' || ($_REQUEST['vmpwd'] == '')) {
     for ($i = 0; $i < $row; $i++) {
         if ($uservm[$i][0] == $extdisplay) {
             array_splice($uservm,$i,1);

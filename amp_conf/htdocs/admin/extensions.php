@@ -333,7 +333,7 @@ switch($extdisplay) {
             </td>
             <tr>
                 <td>
-                    <a href="#" class="info">voicemail password<span>This is the password used to access the voicemail system.<br>This password can only contain numbers.<br>A user can change the password you enter here after logging into the voicemail system (*98) with a phone.</span></a>: 
+                    <a href="#" class="info">voicemail password<span>This is the password used to access the voicemail system.<br><br>This password can only contain numbers.<br><br>A user can change the password you enter here after logging into the voicemail system (*98) with a phone.<br><br>Note: If you leave this field blank, a voicemail account will NOT be created for this extension.<br></span></a>: 
                 </td><td>
                     <input tabindex="3" size="10" type="text" name="vmpwd" value=""/>
                 </td>

@@ -19,7 +19,7 @@ function checkForm(theForm) {
 		$mailbox = $account;
 	}
 	
-	if ($account == "" || $secret == "" || $vmpwd == "" || $context == "" || $dtmfmode == "" || $host == "" || $type == "" || $mailbox == "" || $username == "" || $fullname == "") {
+	if ($account == "" || $secret == "" || $context == "" || $dtmfmode == "" || $host == "" || $type == "" || $mailbox == "" || $username == "" || $fullname == "") {
 		alert('Please fill out all forms.');
 	} else if (($account.indexOf('0') == 0) || ($account.indexOf('8') == 0)) {
 		alert('Extensions cannot begin with 0 or 8');
@@ -27,6 +27,9 @@ function checkForm(theForm) {
 		alert('There is something wrong with your extension number - it must be in integer');
 	} else {
 	theForm.submit();
+	}
+	if ($vmpwd == "") {
+		alert('A voicemail account has _not_ been created.  Please set the "mailbox" setting for this extension to an existing voicemail account number. To do this, click this extension on the right and change "mailbox" under "Advanced Edit"');	
 	}
 }
 
