@@ -300,9 +300,9 @@ Aside from local extensions and the pound key (#), how many other options should
 		
 			<table>
 			<?php 
-			
 			//get the failover destination at priority 1
-			$goto = getargs($dropts[$i],1);
+			$sql = "SELECT args FROM extensions WHERE extension = '".$dropts[$i]."' AND priority = '1' AND context = '".$menu_id."'";
+			list($goto) = $db->getRow($sql);
 			//draw goto selects
 			echo drawselects('prompt',$goto,$i);
 			//echo 'goto='.$goto;
