@@ -1,5 +1,7 @@
 1.10.007
 
+- Added cvs2cl generated ChangeLog (see this for minor changes and bug fixes)
+- Upgrade Asterisk-Stat to v2.0
 - Use /etc/amportal.conf to tweak AMP to your environement (MySql credentials, web root, ip address, etc)
 - New Outbound Routes page to control trunks used for outbound calls based on dial patterns
 - Trunks page redone to support routing, adds dial rules to modify numbers per-trunk before dialing
@@ -7,8 +9,6 @@
 - dialparties changed to respect outbound routing for call forward settings
 - New AGI-based directory application to support both first and last name lookups and return to operator
 - New AMP installs can have 10 digit extension numbers 
-- Fix (again) upload wav for Digital Receptionist
-- Strip any quotes in DBI's Table function in retreive_op_conf_from_mysql.pl
 - provide customization points for all AMP generated extension contexts.
 
 
