@@ -261,6 +261,23 @@ if (!$tech && !$extdisplay) {
 ?>
 		<p><a href="config.php?display=<?= $display ?>&extdisplay=<?= $extdisplay ?>&action=deltrunk">Delete Trunk <? echo strtoupper($tech)."/".$channelid; ?></a></p>
 <?
+
+		// find which routes use this trunk
+		$routes = gettrunkroutes($trunknum);
+		$num_routes = count($routes);
+		if ($num_routes > 0) {
+			echo "<a href=# class=\"info\">In use by ".$num_routes." route".($num_routes == 1 ? "" : "s")."<span>";
+			foreach($routes as $route=>$priority) {
+				echo "Route <b>".$route."</b>: Sequence <b>".$priority."</b><br>";
+			}
+			echo "</span></a>";
+		} else {
+			echo "<b>WARNING:</b> <a href=# class=\"info\">This trunk is not used by any routes!<span>";
+			echo "This trunk will not be able to be used for outbound calls until a route is setup that uses it. Click on <b>Outbound Routes</b> to setup routing.";
+			echo "</span></a>";
+		}
+		echo "<br><br>";
+
 	} else {
 		// set defaults
 		$outcid = "";
