@@ -26,7 +26,9 @@ function getaas() {
 function getextens() {
 	$sip = getSip();
 	$iax = getIax();
+	$zap= getZap();
 	$results = array_merge($sip, $iax);
+	$results = array_merge($results,$zap);
 	sort($results);
 	return $results;
 }
@@ -36,7 +38,7 @@ function getSip() {
 	$sql = "SELECT id,data FROM sip WHERE keyword = 'callerid' ORDER BY id";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
-		die($results->getMessage());
+		$results = null;
 	}
 	return $results;
 }
@@ -46,7 +48,17 @@ function getIax() {
 	$sql = "SELECT id,data FROM iax WHERE keyword = 'callerid' ORDER BY id";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
-		die($results->getMessage());
+		$results = null;
+	}
+	return $results;
+}
+
+function getZap() {
+	global $db;
+	$sql = "SELECT id,data FROM zap WHERE keyword = 'callerid' ORDER BY id";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		$results = null;
 	}
 	return $results;
 }
@@ -167,6 +179,62 @@ function getversion() {
 		die($results->getMessage());
 	}
 	return $results;
+}
+
+function zapexists() {
+	global $db;
+	$sql = "CREATE TABLE IF NOT EXISTS `zap` (`id` int(11) NOT NULL default '-1',`keyword`varchar(20) NOT NULL default '',`data`varchar(150) NOT NULL default '',`flags` int(1) NOT NULL default '0',PRIMARY KEY (`id`,`keyword`))";
+	$results = $db->query($sql);
+}
+
+function addzap($account,$callerid) {
+	zapexists();
+	global $db;
+	$zapfields = array(
+		array($account,'account',$account),
+		array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:''),
+		array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:''),
+		array($account,'callerid',$callerid),
+		array($account,'signalling',($_REQUEST['signalling'])?$_REQUEST['signalling']:'fxo_ks'),
+		array($account,'echocancel',($_REQUEST['echocancel'])?$_REQUEST['echocancel']:'yes'),
+		array($account,'echocancelwhenbridged',($_REQUEST['echocancelwhenbridged'])?$_REQUEST['echocancelwhenbridged']:'no'),
+		array($account,'echotraining',($_REQUEST['echotraining'])?$_REQUEST['echotraining']:'800'),
+		//array($account,'group',($_REQUEST['group'])?$_REQUEST['group']:'31'), //Default<>0 which is the default zap trunk
+		array($account,'busydetect',($_REQUEST['busydetect'])?$_REQUEST['busydetect']:'no'),
+		array($account,'busycount',($_REQUEST['busycount'])?$_REQUEST['busycount']:'7'),
+		array($account,'callprogress',($_REQUEST['callprogress'])?$_REQUEST['callprogress']:'no'),
+		array($account,'channel',($_REQUEST['channel'])?$_REQUEST['channel']:''));
+
+    $compiled = $db->prepare('INSERT INTO zap (id, keyword, data) values (?,?,?)');
+	$result = $db->executeMultiple($compiled,$zapfields);
+    if(DB::IsError($result)) {
+        die($result->getMessage()."<br><br>error adding to ZAP table");	
+    }	
+
+	//add E<enten>=ZAP to global vars (appears in extensions_additional.conf)
+	$sql = "INSERT INTO globals VALUES ('E$account', 'ZAP')"; 
+	$result = $db->query($sql); 
+	if(DB::IsError($result)) {     
+		die($result->getMessage().$sql); 
+	}
+
+	//add ZAPCHAN_<exten>=<zapchannel> to global vars. Needed in dialparties.agi to decide channel number without hitting the database.
+	$zapchannel=$_REQUEST['channel'];
+	$sql = "INSERT INTO globals VALUES ('ZAPCHAN_$account', '$zapchannel')";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage().$sql);
+	}
+	
+//add ECID<enten> to global vars if using outbound CID
+	if ($_REQUEST['outcid'] != '') {
+		$outcid = $_REQUEST['outcid'];
+		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
+		$result = $db->query($sql); 
+		if(DB::IsError($result)) {     
+			die($result->getMessage().$sql); 
+		}
+	}
 }
 
 //create iax if it doesn't exist
@@ -308,6 +376,15 @@ function exteninfo($extdisplay) {
 		}
 		if (count($thisExten) > 0) {
 			$thisExten[] = array('$extdisplay','tech','iax2','info');  //add this to the array - as it doesn't exist in the table
+		} else {
+			$sql = "SELECT * FROM zap WHERE id = '$extdisplay'";
+			$thisExten = $db->getAll($sql);
+			if(DB::IsError($thisExten)) {
+				die($thisExten->getMessage());
+			}
+			if (count($thisExten) > 0) {
+				$thisExten[] = array('$extdisplay','tech','zap','info');
+			}
 		}
 	}
 	//get var containing external cid
@@ -414,12 +491,22 @@ function delExten($extdisplay) {
     if(DB::IsError($result)) {
         die($result->getMessage().$sql);
     }
-	$sql = "DELETE FROM globals WHERE variable = 'E$extdisplay'";
+    $sql = "DELETE FROM zap WHERE id = '$extdisplay'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
         die($result->getMessage().$sql);
     }
-	$sql = "DELETE FROM globals WHERE variable = 'ECID$extdisplay'";
+    $sql = "DELETE FROM globals WHERE variable = 'E$extdisplay'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+        die($result->getMessage().$sql);
+    }
+    $sql = "DELETE FROM globals WHERE variable = 'ECID$extdisplay'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+        die($result->getMessage().$sql);
+    }
+	$sql = "DELETE FROM globals WHERE variable = 'ZAPCHAN_$extdisplay'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
         die($result->getMessage().$sql);

@@ -22,6 +22,9 @@ $wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_sip_conf_fr
 //script to write iax conf file from mysql
 $wIaxScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_iax_conf_from_mysql.pl';
 
+//script to write zap_additional.conf file from mysql
+$wZapScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_zap_conf_from_mysql.pl';
+
 //script to write extensions_additional.conf file from mysql
 $wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
 
@@ -46,15 +49,18 @@ if ($action == 'add') {
 	if ($_REQUEST['tech'] == 'iax2') {
 		//add to iax table
 		addiax($account,$callerid);	
-	} else {  #ok, it's SIP
-	    //add to sip table
-	    addsip($account,$callerid);
+	} else if ($_REQUEST['tech'] == 'sip') {
+		//add to sip table
+		addsip($account,$callerid);
+	} else { //zap
+		addzap($account,$callerid);
 	}
 	
 
     //write out conf files
     exec($wScript);
 	exec($wIaxScript);
+	exec($wZapScript);
 	
 	//write out op_server.cfg
 	exec($wOpScript);
@@ -88,6 +94,7 @@ if ($action == 'delete') {
     //write out conf files
     exec($wScript);
     exec($wIaxScript);
+	exec($wZapScript);
 	
 	//write out op_server.cfg
 	exec($wOpScript);
@@ -122,9 +129,11 @@ if ($action == 'advEdit') {
 		if ($_REQUEST['tech'] == 'iax2') {
 			//add to iax table
 			addiax($account,$callerid);	
-		} else {  #ok, it's SIP
+		} else if ($_REQUEST['tech'] == 'sip') {
 			//add to sip table
 			addsip($account,$callerid);
+		} else {
+			addzap($account,$callerid);
 		}
 	
 	
@@ -140,6 +149,7 @@ if ($action == 'advEdit') {
     //write out conf files
     exec($wScript);
     exec($wIaxScript);
+	exec($wZapScript);
 	
 	//write out op_server.cfg
 	exec($wOpScript);
@@ -303,13 +313,14 @@ switch($extdisplay) {
             <table>
 			<tr><td colspan=2><h5><br>Account Settings:<hr></h5></td></tr>
 			<tr>
-				<td>
+				<td width="135">
 					<a href="#" class="info">phone protocol<span>The technology your phone supports</span></a>: 
 				</td>
 				<td>&nbsp;
-					<select name="tech" onchange="javascript:if(addNew.tech.value == 'iax2') document.getElementById('dtmfmode').style.display = 'none;'; else document.getElementById('dtmfmode').style.display = 'inline;';">
+					<select name="tech" onchange="hideExtenFields(addNew)">
 						<option value="sip">SIP</option> 
-						<option value="iax2">IAX2</option> 
+						<option value="iax2">IAX2</option>
+						<option value="zap">ZAP</option>
 					</select>
 					<select name="dtmfmode" id="dtmfmode">
 						<option value="rfc2833">rfc2833</option> 
@@ -325,15 +336,28 @@ switch($extdisplay) {
                     <input tabindex="1" size="5" type="text" name="account" value="<? echo ($result[0] == '' ? '200' : ($result[0] + 1))?>"/>
                 </td>
             </tr>
+			</table>
+			<table id="secret" style="display:inline">
             <tr>
-                <td>
-                    <a href="#" class="info">extension password<span>The client (phone) uses this password to access the system.<br>This password can contain numbers and letters.<br></span></a>:
+                <td width="135">
+                    <a href="#" class="info">extension password<span>The client (phone) uses this password to access the system.<br>This password can contain numbers and letters.<br>Ignored on Zap channels.<br></span></a>:
                 </td><td>
                     <input tabindex="2" size="10" type="text" name="secret" value=""/>
                 </td>
-            </td>
+            </tr>
+			</table>
+			<table id="channel" style="display:none">
+			<tr>
+				<td width="135">
+					<a href="#" class="info">zap channel<span>The zap channel this extension is connected.<br>Ignored on SIP or IAX channels.<br></span></a>:
+				</td><td>
+					<input tabindex="2" size="4" type="text" name="channel" value=""/>
+				</td>
+			</tr>
+			</table>
+			<table>
             <tr>
-                <td><a href="#" class="info">full name<span>User's full name. This is used for the Caller ID Name and for the Company Directory (if enabled below).</span></a>: </td>
+                <td  width="135"><a href="#" class="info">full name<span>User's full name. This is used for the Caller ID Name and for the Company Directory (if enabled below).</span></a>: </td>
                 <td><input tabindex="4" type="text" name="name" value="<? echo $name; ?>"/></td>
             </tr>
 			<tr><td colspan=2>

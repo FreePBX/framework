@@ -70,8 +70,16 @@ if (table_exists($dbh,"iax")) {
 	}
 	push(@total_result, @{ $result });
 }
-    
 
+if (table_exists($dbh,"zap")) {
+	$statement = "SELECT data,id FROM zap WHERE keyword='account' and flags <> 1 group by data order by id";
+	$result = $dbh->selectall_arrayref($statement);
+	@resultSet = @{$result};
+	if ($#resultSet == -1 ) {
+		print "Notice: no zap accounts defined\n";
+	}
+	push(@total_result, @{ $result });
+}
 
 foreach my $row ( @total_result ) {
 	$btn++;
@@ -95,8 +103,15 @@ foreach my $row ( @total_result ) {
 			$statement = "SELECT keyword,data from iax where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
 			$tech="IAX2";
 			$result = $dbh->selectall_arrayref($statement);
+			my @resSetIax = @{$result};
+			if ( $#resSetIax == -1 ) { #Maybe it's ZAP
+				$statement = "SELECT keyword,data from zap where id=$id and keyword <> 'account' and flags<>1 order by keyword";
+				$tech="ZAP";
+				$result = $dbh->selectall_arrayref($statement);
+			}
 
 	}
+	$zapchannel="PROBLEM"; #default to an invalid zap channel
 	$callerid = $account;  #default callerid to account
 	foreach my $row ( @{ $result } ) {
 		my @result = @{ $row };
@@ -104,12 +119,19 @@ foreach my $row ( @total_result ) {
 			$callerid = $result[1];
 			$callerid =~ tr/\"<>//d;
 		}
+		if ( $result[0] eq "channel" ) {
+			$zapchannel = $result[1];
+		}
 	}
 	$icon='4';
 	if ($callerid eq $account) {  #if this happens, we know it's a voip trunk, so change the icon
 		$icon='3';
 	}
-	print EXTEN "[$tech/$account]\nPosition=$btn\nLabel=\"$callerid\"\nExtension=$account\nContext=from-internal\nIcon=$icon\nVoicemail_Context=default\n";
+	if ($tech eq "ZAP") {
+		print EXTEN "[Zap/$zapchannel]\nPosition=$btn\nLabel=\"$callerid\"\nExtension=$account\nContext=from-internal\nIcon=$icon\nVoicemail_Context=default\n"
+	} else {
+		print EXTEN "[$tech/$account]\nPosition=$btn\nLabel=\"$callerid\"\nExtension=$account\nContext=from-internal\nIcon=$icon\nVoicemail_Context=default\n";
+	}
 }
 
 exit 0;
@@ -136,4 +158,3 @@ sub table_exists {
     }
     return 0;
 }
-
