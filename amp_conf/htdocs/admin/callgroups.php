@@ -54,6 +54,10 @@ if ($action == 'addGRP') {
 				$args = 'ext-group,'.$_REQUEST['group'].',1';
 				$addarray = array('ext-group',$account,'5','Goto',$args,'','0');
 			}
+			elseif ($goto == 'custom') {
+			        $args = $_REQUEST['custom_args'];
+			        $addarray = array('ext-group',$account,'5','Goto',$args,'','0');
+            }
 	
 	addextensions($addarray);
 	
@@ -113,6 +117,10 @@ if ($action == 'edtGRP') {
 					$args = 'ext-group,'.$_REQUEST['group'].',1';
 					$addarray = array('ext-group',$account,'5','Goto',$args,'','0');
 				}
+				elseif ($goto == 'custom') {
+                	$args = $_REQUEST['custom_args'];
+                    $addarray = array('ext-group',$account,'5','Goto',$args,'','0');
+                }
 		
 		addextensions($addarray);
 		
@@ -223,8 +231,9 @@ switch($extdisplay) {
 				}
 			?>			
 				</select><br>
-				
-				
+				<input type="radio" name="goto_indicate" value="custom" disabled="true" <? echo strpos($thisGRPgoto[0][0],'custom') === false ? '' : 'CHECKED=CHECKED';?> /><a href="#" class="info">Custom<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word "custom" and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf<b><b></span></a>:
+                <input type="text" size="15" name="custom_args" onclick="javascript:document.editGRP.goto_indicate[4].checked=true;" value="<? echo strpos($thisGRPgoto[0][0],'custom') === false ? '' : $thisGRPgoto[0][0]; ?>" />
+                <br>
 				
 				</td>
 				
@@ -276,41 +285,44 @@ switch($extdisplay) {
 	</tr><tr>
 		<td valign="top">if no answer:</td>
 		<td>
-	<input type="hidden" name="display" value="<?echo $dispnum?>">				
-	<input type="radio" name="goto_indicate" value="ivr" disabled="true"/> 
-	<input type="hidden" name="goto0" value="">
-	<select name="ivr" onclick="javascript:document.addGRP.goto_indicate[0].checked=true;javascript:document.addGRP.goto0.value='ivr';"/>
-<?
-	foreach ($unique_aas as $unique_aa) {
-		$menu_num = substr($unique_aa[0],3);
-		echo '<option value="'.$menu_num.'">Voice Menu #'.$menu_num;
-	}
-?>
-	</select><br>
-	<input type="radio" name="goto_indicate" value="extension" disabled="true"/>
-	<select name="extension" onclick="javascript:document.addGRP.goto_indicate[1].checked=true;javascript:document.addGRP.goto0.value='extension';"/>
-<?
-	foreach ($extens as $exten) {
-		echo '<option value="'.$exten[0].'">Extension #'.$exten[0];
-	}
-?>		
-	</select><br>
-	<input type="radio" name="goto_indicate" value="voicemail" disabled="true"/>
-	<select name="voicemail" onclick="javascript:document.addGRP.goto_indicate[2].checked=true;javascript:document.addGRP.goto0.value='voicemail';"/>
-<?
-	foreach ($extens as $exten) {
-		echo '<option value="'.$exten[0].'">Voicemail #'.$exten[0];
-	}
-?>		
-	</select><br>
-	<input type="radio" name="goto_indicate" value="group" disabled="true"/>
-	<select name="group<? echo $i ?>" onclick="javascript:document.addGRP.goto_indicate[3].checked=true;javascript:document.addGRP.goto0.value='group';"/>
-<?
-	foreach ($gresults as $gresult) {
-		echo '<option value="'.$gresult[0].'">Group #'.$gresult[0];
-	}
-?>			
-	</select><br>
+			<input type="hidden" name="display" value="<?echo $dispnum?>">				
+			<input type="radio" name="goto_indicate" value="ivr" disabled="true"/> 
+			<input type="hidden" name="goto0" value="">
+			<select name="ivr" onclick="javascript:document.addGRP.goto_indicate[0].checked=true;javascript:document.addGRP.goto0.value='ivr';"/>
+		<?
+			foreach ($unique_aas as $unique_aa) {
+				$menu_num = substr($unique_aa[0],3);
+				echo '<option value="'.$menu_num.'">Voice Menu #'.$menu_num;
+			}
+		?>
+			</select><br>
+			<input type="radio" name="goto_indicate" value="extension" disabled="true"/>
+			<select name="extension" onclick="javascript:document.addGRP.goto_indicate[1].checked=true;javascript:document.addGRP.goto0.value='extension';"/>
+		<?
+			foreach ($extens as $exten) {
+				echo '<option value="'.$exten[0].'">Extension #'.$exten[0];
+			}
+		?>		
+			</select><br>
+			<input type="radio" name="goto_indicate" value="voicemail" disabled="true"/>
+			<select name="voicemail" onclick="javascript:document.addGRP.goto_indicate[2].checked=true;javascript:document.addGRP.goto0.value='voicemail';"/>
+		<?
+			foreach ($extens as $exten) {
+				echo '<option value="'.$exten[0].'">Voicemail #'.$exten[0];
+			}
+		?>		
+			</select><br>
+			<input type="radio" name="goto_indicate" value="group" disabled="true"/>
+			<select name="group<? echo $i ?>" onclick="javascript:document.addGRP.goto_indicate[3].checked=true;javascript:document.addGRP.goto0.value='group';"/>
+		<?
+			foreach ($gresults as $gresult) {
+				echo '<option value="'.$gresult[0].'">Group #'.$gresult[0];
+			}
+		?>			
+			</select><br>
+			<input type="radio" name="goto_indicate" value="custom" disabled="true" <? echo strpos($thisGRPgoto[0][0],'ext-acd') === false ? '' : 'CHECKED=CHECKED';?> /><a href="#" class="info">Custom<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word "custom" and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf<br><br></span></a>:
+			<input type="text" size="15" name="custom_args" onclick="javascript:document.addGRP.goto_indicate[4].checked=true;"/>
+    </td>
 	
 	</tr><tr>
 		<td>&nbsp;</td>

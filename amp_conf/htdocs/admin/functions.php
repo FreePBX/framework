@@ -96,7 +96,7 @@ function getgrouptime($grpexten) {
 //get goto in specified group
 function getgroupgoto($grpexten) {
 	global $db;
-	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND (args LIKE 'ext-local,%,%' OR args LIKE 'vm,%' OR args LIKE 'aa_%,%,%' OR args LIKE 'ext-group,%,%' OR args LIKE 'from-pstn,s,1')";
+	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND (args LIKE 'ext-local,%,%' OR args LIKE 'vm,%' OR args LIKE 'aa_%,%,%' OR args LIKE 'ext-group,%,%' OR args LIKE 'from-pstn,s,1' OR args LIKE '%custom%')";
 	$thisGRPgoto = $db->getAll($sql);
 	if(DB::IsError($thisGRPgoto)) {
 	   die($thisGRPgoto->getMessage());
@@ -271,13 +271,18 @@ function exteninfo($extdisplay) {
 	if(DB::IsError($thisExten)) {
 	   die($thisExten->getMessage());
 	}
-	if (count($thisExten) == 0) {  //if nothing was pulled from sip, then it must be iax
+	if (count($thisExten) > 0) {
+		$thisExten[] = array('$extdisplay','tech','sip','info');  //add this to the array - as it doesn't exist in the table
+	} else {
+	//if (count($thisExten) == 0) {  //if nothing was pulled from sip, then it must be iax
 		$sql = "SELECT * FROM iax WHERE id = '$extdisplay'";
 		$thisExten = $db->getAll($sql);
 		if(DB::IsError($thisExten)) {
 		   die($thisExten->getMessage());
-		}	
-		$thisExten[] = array('$extdisplay','dtmfmode','iax2','info');  //add this to the array - as it doesn't exist in the table
+		}
+		if (count($thisExten) > 0) {
+		$thisExten[] = array('$extdisplay','tech','iax2','info');  //add this to the array - as it doesn't exist in the table
+		}
 	}
 	return $thisExten;
 }

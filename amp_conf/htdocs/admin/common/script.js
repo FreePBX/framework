@@ -2,34 +2,32 @@ function checkForm(theForm) {
 	$account = theForm.account.value;
 	$secret = theForm.secret.value;
 	$vmpwd = theForm.vmpwd.value;
+	$email = theForm.email.value;
+	$pager = theForm.pager.value;
 	$context = theForm.context.value;
-	$dtmfmode = theForm.dtmfmode.value;
 	$host = theForm.host.value;
 	$type = theForm.type.value;
 	$mailbox = theForm.mailbox.value;
 	$username = theForm.username.value;
 	$fullname = theForm.name.value;
+	$vm = theForm.vm.value;
 	
 	if ($username == "") {
 		theForm.username.value = $account;
 		$username = $account;
 	}
-	if ($mailbox == "") {
-		theForm.mailbox.value = $account;
-		$mailbox = $account;
-	}
+
 	
-	if ($account == "" || $secret == "" || $context == "" || $dtmfmode == "" || $host == "" || $type == "" || $mailbox == "" || $username == "" || $fullname == "") {
-		alert('Please fill out all forms.');
+	if ($account == "" || $secret == "" || $context == "" || $host == "" || $type == ""  || $username == "") {
+		alert('Please fill in all required fields.');
 	} else if (($account.indexOf('0') == 0) || ($account.indexOf('8') == 0)) {
 		alert('Extensions cannot begin with 0 or 8');
 	} else if ($account != parseInt($account)) {
 		alert('There is something wrong with your extension number - it must be in integer');
+	} else if ($vm == "enabled" && $fullname == "" && $vmpwd == "" && $email == "" && $pager == "") {
+		alert('You have enabled Voicemail & Directory for this extension, but have not specified any options.  Please specify options, or disable Voicemail & Directory.');	
 	} else {
 	theForm.submit();
-	}
-	if ($vmpwd == "") {
-		alert('A voicemail account has _not_ been created.  Please set the "mailbox" setting for this extension to an existing voicemail account number. To do this, click this extension on the right and change "mailbox" under "Advanced Edit"');	
 	}
 }
 
@@ -55,7 +53,7 @@ function checkIncoming(theForm) {
 }
 
 function checkGRP(theForm) {
-	$grplist = theForm.grplist.value;
+	var bad = "false";
 
 	var whichitem = 0;
 	while (whichitem < theForm.goto_indicate.length) {
@@ -64,11 +62,24 @@ function checkGRP(theForm) {
 		}
 		whichitem++;
 	}
+
+	var gotoType = theForm.elements[ "goto0" ].value;
+	if (gotoType == 'custom') {
+		var gotoVal = theForm.elements[ "custom_args"].value;
+		if (gotoVal.indexOf('custom') == -1) {
+			bad = "true";
+			alert('Custom Goto contexts must contain the string "custom".  ie: custom-app,s,1');
+		}
+	}
 	
+	$grplist = theForm.grplist.value;
 	if ($grplist == "") {
 		alert('Please enter an extension list.');
-	} else {
-	theForm.submit();
+		bad="true";
+	} 
+	
+	if (bad == "false") {
+		theForm.submit();
 	}
 }
 
@@ -123,5 +134,18 @@ function checkIVR(theForm,ivr_num_options) {
 	}
 	if (bad == "false") {
 		theForm.submit();
+	}
+}
+
+function checkVoicemail(theForm) {
+	$vm = theForm.elements["vm"].value;
+	if ($vm == 'disabled') {
+		document.getElementById('voicemail').style.display='none';
+		theForm.vmpwd.value = '';
+		theForm.name.value = '';
+		theForm.email.value = '';
+		theForm.pager.value = '';
+	} else {
+		document.getElementById('voicemail').style.display='block';
 	}
 }
