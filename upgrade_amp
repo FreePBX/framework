@@ -551,6 +551,7 @@ out("OK");
 
 // **** Apply amportal.conf configuration to files
 
+debug("Running ".dirname(__FILE__)."/apply_conf.sh");
 outn("Configuring install for your environment..");
 if (!$dryrun) {
 	exec(dirname(__FILE__)."/apply_conf.sh");
@@ -596,6 +597,11 @@ if (false !== ($pos = array_search($version, $versions))) {
 	out("Current version not found");
 }
 
+
+// **** Generate AMP configs
+out("Generating AMP configs..");
+generate_configs();
+out("Generating AMP configs..OK");
 
 // **** Bounce FOP
 outn("Restarting Flash Operator Panel..");
