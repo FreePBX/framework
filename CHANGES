@@ -4,7 +4,7 @@
 - Add option to define outbound CallerID on trunks
 - Add option to define outbound CallerID for extensions
 - Create extensions without voicemail and directory
-- Web voicemail (vmail.cgi) will store your password in a cookie. NOTE: manual modification to vm_email.onc required!
+- Web voicemail (vmail.cgi) will automatically log in users linking from email notication. NOTE: see the new vm_email.inc.template for new URL format
 - Add Call-Forward on Busy application (enable: *90<destination>, disable: *91)
 - Upgrade FOP to 0.19.  AMP now writes out op_buttons_additional.conf
 - Include AMP version on admin welcome page
