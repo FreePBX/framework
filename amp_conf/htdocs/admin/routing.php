@@ -257,7 +257,7 @@ if ($extdisplay) { // editing
 	<form id="routeEdit" name="routeEdit" action="config.php" method="POST">
 		<input type="hidden" name="display" value="<?php echo $display?>"/>
 		<input type="hidden" name="extdisplay" value="<?php echo $extdisplay ?>"/>
-		<input type="hidden" name="action" value=""/>
+		<input type="hidden" id="action" name="action" value=""/>
 		<table>
 		<tr>
 			<td>
