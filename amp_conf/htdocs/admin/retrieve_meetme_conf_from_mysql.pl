@@ -24,7 +24,7 @@ $username = "AMPDBUSER";
 $password = "AMPDBPASS";
 
 ################### END OF CONFIGURATION #######################
-open EXTEN, ">$extensions_conf" || die "Cannot create/overwrite meetme file: $extensions_conf\n";
+open EXTEN, ">$extensions_conf" or die "Cannot create/overwrite meetme file: $extensions_conf\n";
 
 $dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
 

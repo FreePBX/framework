@@ -27,7 +27,7 @@ $password = "AMPDBPASS";
 
 $additional = "";
 
-open EXTEN, ">$sip_conf" || die "Cannot create/overwrite extensions file: $sip_conf\n";
+open EXTEN, ">$sip_conf" or die "Cannot create/overwrite extensions file: $sip_conf\n";
 
 $dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
 

@@ -34,7 +34,7 @@ $btn=10;
 ################### END OF CONFIGURATION #######################
 
 
-open EXTEN, ">$sip_conf" || die "Cannot create/overwrite config file: $sip_conf\n";
+open EXTEN, ">$sip_conf" or die "Cannot create/overwrite config file: $sip_conf\n";
 
 print EXTEN "$additional";
 
