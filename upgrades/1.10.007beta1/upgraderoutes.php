@@ -45,6 +45,20 @@ if (count($results) > 0) {
 				"311",
 */
 				);
+
+	$default_patterns2 = array(	// default patterns that used to be in extensions.conf
+				"NXXXXXX",
+				"NXXNXXXXXX",
+				"1800NXXXXXX",
+				"1888NXXXXXX",
+				"1877NXXXXXX",
+				"1866NXXXXXX",
+				"1NXXNXXXXXX",
+				"011.",
+				"911",
+				"411",
+				"311",
+				);
 	
 	foreach ($results as $temp) {
 		// temp[0] is "DIAL_OUT_1"
@@ -63,7 +77,7 @@ if (count($results) > 0) {
 		
 		if ($trunknum == $def_trunk) {
 			// this is the default trunk, add the patterns with no prefix
-			$patterns = array_merge($patterns, $default_patterns);
+			$patterns = array_merge($patterns, $default_patterns2);
 		}
 		
 		// add this as a new route

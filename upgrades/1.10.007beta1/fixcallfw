@@ -814,7 +814,7 @@ if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AM
 			
 			if ($value != $newvalue) {
 				echo "-> Changing ".$family."/".$key." to ".$newvalue."\n";
-				$astman->database_put($family, $key, $value);
+				$astman->database_put($family, $key, $newvalue);
 				$count++;
 			}
 		}
