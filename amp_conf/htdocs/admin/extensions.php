@@ -246,6 +246,7 @@ switch($extdisplay) {
 			<input type="hidden" name="iaxport" value="<? echo ($iaxport==null) ? '4569' : $iaxport; ?>"/>
 			<input type="hidden" name="notransfer" value="<? echo ($notransfer==null) ? 'yes' : $notransfer; ?>"/>
 			<input type="hidden" name="qualify" value="<? echo ($qualify==null) ? 'no' : $qualify; ?>"/>
+			<input type="hidden" name="callerid" value="<? echo ($callerid==null) ? ' ' : htmlentities($callerid); ?>"/>
 			<tr>
 				<td>
 					&nbsp;
