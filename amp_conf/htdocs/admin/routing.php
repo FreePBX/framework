@@ -1,5 +1,6 @@
 <?php /* $Id$ */
 // routing.php Copyright (C) 2004 Greg MacLellan (greg@mtechsolutions.ca)
+// routing.php <trunk & roting priority additions> Copyright (C) 2005 Ron Hartmann (rhartmann@vercomsystems.com)
 // Asterisk Management Portal Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -56,6 +57,10 @@ if (isset($_REQUEST["dialpattern"])) {
 	$dialpattern = array_values(array_unique($dialpattern));
 }
 	
+if ( (isset($_REQUEST['reporoutedirection'])) && (isset($_REQUEST['reporoutekey']))) {
+	$routepriority = getroutenames();
+	$routepriority = setroutepriority($routepriority, $_REQUEST['reporoutedirection'], $_REQUEST['reporoutekey']);
+}
 
 $trunkpriority = array();
 if (isset($_REQUEST["trunkpriority"])) {
@@ -116,8 +121,13 @@ switch ($action) {
 		} else {
 			echo "<script language=\"javascript\">alert('Error renaming route: duplicate name');</script>";
 		}
-		
-		$extdisplay = $_REQUEST["newroutename"];
+		$route_prefix=substr($routename,0,4);
+		$extdisplay=$route_prefix.$_REQUEST["newroutename"];
+
+	break;
+	case 'prioritizeroute':
+		exec($extenScript);
+		needreload();
 	break;
 	case 'populatenpanxx':
 		if (preg_match("/^([2-9]\d\d)-?([2-9]\d\d)$/", $_REQUEST["npanxx"], $matches)) {
@@ -179,17 +189,38 @@ foreach ($globals as $global) {
 ?>
 </div>
 
+
+
 <div class="rnav">
     <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>">Add Route</a><br></li>
-
 <?php 
-//get existing trunk info
-$tresults = getroutenames();
-
-foreach ($tresults as $tresult) {
-    echo "<li><a id=\"".($extdisplay==$tresult[0] ? 'current':'')."\" href=\"config.php?display=".$display."&extdisplay={$tresult[0]}\">{$tresult[0]}</a></li>";
-}
-
+$reporoutedirection = $_REQUEST['reporoutedirection'];
+$reporoutekey = $_REQUEST['reporoutekey'];
+$key = -1;
+$routepriority = getroutenames();
+$positions=count($routepriority);
+foreach ($routepriority as $tresult) {
+$key++;
+?>
+			<?php   // move up
+    			echo "<li><a id=\"".($extdisplay==$tresult[0] ? 'current':'')."\" href=\"config.php?display=".$display."&extdisplay={$tresult[0]}\">$key ". substr($tresult[0],4)."</a>";
+			if ($key > 0) {?>
+				<img src="images/scrollup.gif" onclick="repositionRoute('<?php echo $key ?>','up')" alt="Move Up" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+			<?php  } else { ?>
+				<img src="images/blank.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+			<?php  }
+			
+			// move down
+			
+			if ($key < ($positions-1)) {?>
+				<img src="images/scrolldown.gif" onclick="repositionRoute('<?php echo $key ?>','down')" alt="Move Down"  style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+			<?php  } else { ?>
+				<img src="images/blank.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+			<?php  } 
+			echo "</li>";?>
+			
+<?php 
+} // foreach
 ?>
 </div>
 
@@ -220,7 +251,7 @@ foreach (gettrunks() as $temp) {
 
 if ($extdisplay) { // editing
 ?>
-	<p><a href="config.php?display=<?php echo $display ?>&extdisplay=<?php echo $extdisplay ?>&action=delroute">Delete Route <?php  echo $extdisplay; ?></a></p>
+	<p><a href="config.php?display=<?php echo $display ?>&extdisplay=<?php echo $extdisplay ?>&action=delroute">Delete Route <?php  echo substr($extdisplay,4); ?></a></p>
 <?php  } ?>
 
 	<form id="routeEdit" name="routeEdit" action="config.php" method="POST">
@@ -234,7 +265,7 @@ if ($extdisplay) { // editing
 			</td>
 <?php  if ($extdisplay) { // editing?>
 			<td>
-				<?php echo $extdisplay;?>
+				<?php echo substr($extdisplay,4);?>
 				<input type="hidden" id="routename" name="routename" value="<?php echo $extdisplay;?>"/>
 				<input type="button" onClick="renameRoute();" value="Rename" style="font-size:10px;"  />
 				<input type="hidden" id="newroutename" name="newroutename" value=""/>
@@ -404,28 +435,14 @@ $key += 1; // this will be the next key value
 		</tr>
 		<input type="hidden" id="repotrunkdirection" name="repotrunkdirection" value="">
 		<input type="hidden" id="repotrunkkey" name="repotrunkkey" value="">
+		<input type="hidden" id="reporoutedirection" name="reporoutedirection" value="">
+		<input type="hidden" id="reporoutekey" name="reporoutekey" value="">
 <?php 
 $key = -1;
 $positions=count($trunkpriority);
 foreach ($trunkpriority as $key=>$trunk) {
 ?>
 		<tr>
-			<script language=javascript>
-			function repositionTrunk(repositiondirection,repositionkey,key,direction){
-				if(direction == "up"){
-					document.getElementById('repotrunkdirection').value=direction;
-					document.getElementById('repotrunkkey').value=key;
-				}else if(direction == "down" ){
-					document.getElementById('repotrunkdirection').value=direction;
-					document.getElementById('repotrunkkey').value=key;
-				}
-				document.getElementById('routeEdit').submit();
-			}
-			function deleteTrunk(key) {
-				document.getElementById('trunk'+key).value = '';
-				document.getElementById('routeEdit').submit();
-			}
-			</script>
 			<td align="right"><?php echo $key; ?>&nbsp;&nbsp;
 			</td>
 			<td>
@@ -490,6 +507,6 @@ $name = "";
 	</form>
 	
 <?php  //Make sure the bottom border is low enuf
-foreach ($tresults as $tresult) {
+foreach ($routepriority as $tresult) {
     echo "<br><br><br>";
 }
