@@ -1,7 +1,20 @@
 <?php /* $Id$ */
 
-define ("WEBROOT", "http://AMPWEBADDRESS/admin/cdr/");
-define ("FSROOT", "AMPWEBROOT/admin/cdr/");
+function parse_amportal_conf($filename) {
+        $file = file($filename);
+        foreach ($file as $line) {
+                if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) {
+                        $conf[ $matches[1] ] = $matches[2];
+                }
+        }
+        return $conf;
+}
+
+$amp_conf = parse_amportal_conf("/etc/amportal.conf");
+
+
+define ("WEBROOT", "http://".$amp_conf["AMPWEBADDRESS"]."/admin/cdr/");
+define ("FSROOT", $amp_conf["AMPWEBROOT"]."/admin/cdr/");
 
 
 
@@ -10,8 +23,8 @@ define ("LIBDIR", FSROOT."lib/");
 
 define ("HOST", "localhost");
 define ("PORT", "5432");
-define ("USER", "AMPDBUSER");
-define ("PASS", "AMPDBPASS");
+define ("USER", $amp_conf["AMPDBUSER"]);
+define ("PASS", $amp_conf["AMPDBPASS"]);
 define ("DBNAME", "asteriskcdrdb");
 define ("DB_TYPE", "mysql"); // mysql or postgres
 

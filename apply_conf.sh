@@ -34,23 +34,12 @@ echo "/etc/asterisk/cdr_mysql.conf"
 sed -r -i "s/user=[a-zA-Z0-9]*/user=$AMPDBUSER/" /etc/asterisk/cdr_mysql.conf
 sed -r -i "s/password=[a-zA-Z0-9]*/password=$AMPDBPASS/" /etc/asterisk/cdr_mysql.conf
 
-echo $AMPWEBROOT"/admin/cdr/lib/defines.php"
-sed -r -i "s/define \(\"USER\", \"[a-zA-Z0-9]*\"\);/define \(\"USER\", \"$AMPDBUSER\"\);/" $AMPWEBROOT/admin/cdr/lib/defines.php
-sed -r -i "s/define \(\"PASS\", \"[a-zA-Z0-9]*\"\);/define \(\"PASS\", \"$AMPDBPASS\"\);/" $AMPWEBROOT/admin/cdr/lib/defines.php
-sed -r -i "s/define \(\"WEBROOT\", \"[a-zA-Z0-9_-\.\/\\]*\"\);/define \(\"WEBROOT\", \"http:\/\/$AMPWEBADDRESS\/admin\/cdr\/\"\);/" $AMPWEBROOT/admin/cdr/lib/defines.php
-sed -r -i "s!define \(\"FSROOT\", \"[a-zA-Z0-9_-\.\/\\]*\"\);!define \(\"FSROOT\", \"$AMPWEBROOT\/admin\/cdr\/\"\);!" $AMPWEBROOT/admin/cdr/lib/defines.php
-
 # do a bunch at once here
 find $AMPWEBROOT/admin/ -name retrieve\*.pl
 sed -r -i "s/username = \"[a-zA-Z0-9]*\";/username = \"$AMPDBUSER\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
 sed -r -i "s/password = \"[a-zA-Z0-9]*\";/password = \"$AMPDBPASS\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
 
 sed -r -i "s!op_conf = \"[a-zA-Z0-9_-\.\/\\]*\";!op_conf = \"$AMPWEBROOT\/panel\/op_buttons_additional.cfg\";!" $AMPWEBROOT/admin/retrieve_op_conf_from_mysql.pl
-
-#this is now handled by parse_amportal_conf in config.php
-#echo "/var/www/html/admin/common/db_connect.php"
-#sed -r -i "s/db_user = '[a-zA-Z0-9]*';/db_user = '$AMPDBUSER';/" $AMPWEBROOT/admin/common/db_connect.php
-#sed -r -i "s/db_pass = '[a-zA-Z0-9]*';/db_pass = '$AMPDBPASS';/" $AMPWEBROOT/admin/common/db_connect.php
 
 echo "/etc/asterisk/manager.conf"
 sed -r -i "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" /etc/asterisk/manager.conf
