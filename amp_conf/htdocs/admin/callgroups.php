@@ -136,13 +136,13 @@ if ($action == 'edtGRP') {
 </div>
 
 <div class="rnav">
-    <li><a id="<? echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?echo $dispnum?>">Add Call Group</a><br></li>
+    <li><a id="<? echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?echo $dispnum?>">Add Ring Group</a><br></li>
 <?
-//get unique call groups
+//get unique ring groups
 $gresults = getgroups();
 
 foreach ($gresults as $gresult) {
-    echo "<li><a id=\"".($extdisplay=='GRP-'.$gresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=GRP-{$gresult[0]}\">Call Group {$gresult[0]}</a></li>";
+    echo "<li><a id=\"".($extdisplay=='GRP-'.$gresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=GRP-{$gresult[0]}\">Ring Group {$gresult[0]}</a></li>";
 }
 ?>
 </div>
@@ -160,7 +160,7 @@ switch($extdisplay) {
 			$unique_aas = getaas();
 			//get unique extensions
 			$extens = getextens();
-			//get unique call groups
+			//get unique ring groups
 			$gresults = getgroups();
 	
 			//get extensions in this group
@@ -174,7 +174,7 @@ switch($extdisplay) {
 
 			$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delGRP';
 	?>
-			<h2>Call Group: <? echo ltrim($extdisplay,'GRP-'); ?></h2>
+			<h2>Ring Group: <? echo ltrim($extdisplay,'GRP-'); ?></h2>
 			<p><a href="<? echo $delURL ?>">Delete Group <? echo ltrim($extdisplay,'GRP-'); ?></a></p>
 			<h4>Edit:</h4>
 			<form name="editGRP" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
@@ -263,11 +263,11 @@ switch($extdisplay) {
 		$unique_aas = getaas();
 		//get unique extensions
 		$extens = getextens();
-		//get unique call groups
+		//get unique ring groups
 		$gresults = getgroups();
 ?>
 
-	<h2>Add Call Group: <? echo $grp ?></h2>
+	<h2>Add Ring Group: <? echo $grp ?></h2>
 	<form name="addGRP" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="action" value="addGRP">
 	<input type="hidden" name="account" value="<? echo $grp ?>">

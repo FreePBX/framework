@@ -24,7 +24,7 @@ $display=$_REQUEST['display'];
 <div class="nav">
 	<li><a id="<? echo ($display=='' ? 'current':'') ?>" href="config.php?">Incoming Calls</a></li>
 	<li><a id="<? echo ($display=='3' ? 'current':'') ?>" href="config.php?display=3">Extensions</a></li>
-	<li><a id="<? echo ($display=='4' ? 'current':'') ?>" href="config.php?display=4">Call Groups</a></li>
+	<li><a id="<? echo ($display=='4' ? 'current':'') ?>" href="config.php?display=4">Ring Groups</a></li>
 	<li><a id="<? echo ($display=='2' ? 'current':'') ?>" href="config.php?display=2">Digital Receptionist</a></li>
 	<li><a id="<? echo ($display=='6' ? 'current':'') ?>" href="config.php?display=6">Trunks</a></li>
 	<li><a id="<? echo ($display=='7' ? 'current':'') ?>" href="config.php?display=7">DID Routes</a></li>

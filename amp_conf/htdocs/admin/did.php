@@ -112,7 +112,7 @@ if ($action == 'edtGRP') {
 <div class="rnav">
     <li><a id="<? echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?echo $dispnum?>">Add DID</a><br></li>
 <?
-//get unique call groups
+//get unique Ring Groups
 $dresults = getdids();
 
 foreach ($dresults as $dresult) {
@@ -134,7 +134,7 @@ switch($extdisplay) {
 			$unique_aas = getaas();
 			//get unique extensions
 			$extens = getextens();
-			//get unique call groups
+			//get unique Ring Groups
 			$gresults = getgroups();
 	
 			//get goto for this group
@@ -224,7 +224,7 @@ switch($extdisplay) {
 		$unique_aas = getaas();
 		//get unique extensions
 		$extens = getextens();
-		//get unique call groups
+		//get unique Ring Groups
 		$gresults = getgroups();
 ?>
 

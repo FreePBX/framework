@@ -14,13 +14,13 @@ h,1,Hangup()
 include => custom-recordme			; extensions can also dial 5678 
 
 ; custom-count2four,s,1 can be used as a custom target for
-; a Digital Receptionist menu or a Call Group
+; a Digital Receptionist menu or a Ring Group
 [custom-count2four]		
 s,1,SayDigits(1234)
 s,2,Hangup
 
 ; custom-recordme,5678,1 can be used as a custom target for
-; a Digital Receptionist menu or a Call Group
+; a Digital Receptionist menu or a Ring Group
 [custom-recordme]
 exten => 5678,1,Wait(2)
 exten => 5678,2,Record(/tmp/asterisk-recording:gsm)

@@ -60,7 +60,7 @@ $unique_aas = getaas();
 //get unique extensions
 $extens = getextens();
 
-//get unique call groups
+//get unique Ring Groups
 $gresults = getgroups();
 ?>
 
@@ -99,7 +99,7 @@ $gresults = getgroups();
 	}
 ?>		
 	</select><br>
-	<input type="radio" name="in_indicate" value="group" disabled="true" <? echo strpos($INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> Call Group: 
+	<input type="radio" name="in_indicate" value="group" disabled="true" <? echo strpos($INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> Ring Group: 
 	<select name="INCOMING_GRP" onclick="javascript:document.incoming.in_indicate[2].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_GRP.options[document.incoming.INCOMING_GRP.options.selectedIndex].value;"/>
 <?
 	foreach ($gresults as $gresult) {
@@ -132,7 +132,7 @@ $gresults = getgroups();
 	}
 ?>		
 	</select><br>
-	<input type="radio" name="after_in_indicate" value="group" disabled="true" <? echo strpos($AFTER_INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> Call Group: 
+	<input type="radio" name="after_in_indicate" value="group" disabled="true" <? echo strpos($AFTER_INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> Ring Group: 
 	<select name="AFTER_INCOMING_GRP" onclick="javascript:document.incoming.after_in_indicate[2].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_GRP.options[document.incoming.AFTER_INCOMING_GRP.options.selectedIndex].value;"/>
 <?
 	foreach ($gresults as $gresult) {

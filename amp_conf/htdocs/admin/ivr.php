@@ -202,7 +202,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 		//get unique extensions
 		$extens = getextens();
 		
-		//get unique call groups
+		//get unique Ring Groups
 		$gresults = getgroups();
 ?>
 <h4>Options for Menu #<? echo $promptnum ?>: <? echo $_REQUEST['mname']; ?></h4>
@@ -277,7 +277,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 			}
 		?>		
 			</select><br>
-			<input type="radio" name="goto_indicate<? echo $i ?>" value="group" disabled="true" <?echo ($dropts[$i][0]=='group')?' checked=checked':''; ?>/> Call Group: 
+			<input type="radio" name="goto_indicate<? echo $i ?>" value="group" disabled="true" <?echo ($dropts[$i][0]=='group')?' checked=checked':''; ?>/> Ring Group: 
 			<select name="group<? echo $i ?>" onclick="javascript:document.prompt.goto_indicate<? echo $i ?>[3].checked=true;javascript:document.prompt.goto<? echo $i ?>.value='group';"/>
 		<?
 			foreach ($gresults as $gresult) {
