@@ -81,6 +81,7 @@ if ( $#resultSet == -1 ) {
 foreach my $row ( @{ $result } ) {
 	my $context = @{ $row }[0];
 	print EXTEN "[$context]\n";
+	print EXTEN "include => $context-custom\n";
 	$statement = "SELECT * from $table_name where context='$context' order by extension, priority";
 	my $result = $dbh->selectall_arrayref($statement);
 	unless ($result) {
