@@ -331,7 +331,7 @@ switch($extdisplay) {
 			foreach ($thisExten as $result) {
 				if ($result[1] != 'account' && $result[1] != 'tech') {
 					if ($result[1] == '1outcid') {
-						echo '<tr><td><a href="#" class="info">outbound callerid: <span><br>Overrides the caller id when dialling out a trunk. Any setting here will override the common outbound caller id set in the Trunks admin.<br><br>Format: <b>"caller name" &lt;#######&gt;</b><br><br>Leave this field blank to disable the outbound callerid feature for this extension.<br><br></span></a></td>';
+						echo '<tr><td><a href="#" class="info">outbound callerid: <span><br>Overrides the caller id when dialing out a trunk. Any setting here will override the common outbound caller id set in the Trunks admin.<br><br>Format: <b>"caller name" &lt;#######&gt;</b><br><br>Leave this field blank to disable the outbound callerid feature for this extension.<br><br></span></a></td>';
 						echo '<td><input size="20" type="text" name="outcid" value="'.htmlentities($result[2]).'"/></td></tr>';
 					} else if ($result[1] == 'callerid') {  //We don't allow user to change cid number, since the dialplan depends on it.  
 						$cid = explode('"',$result[2]);
@@ -407,7 +407,7 @@ switch($extdisplay) {
 
 				<tr>
  					<td><a href="#" class="info">Delete Vmail<span>If set to "yes" the message will be deleted from the voicemailbox (after having been emailed). 
-Provides functionality that allows a user to receive their voicemail via email alone, rather than having the voicemail able to be retrieved from the Webinterface or the Extension handset.  CAUTION: MUST HAVE attach voicemail to email SET TO YES OTHERWISE YOUR MESSAGES WILL BE LOST FOREVER. 
+Provides functionality that allows a user to receive their voicemail via email alone, rather than having the voicemail able to be retrieved from the Webinterface or the Extension handset.  CAUTION: MUST HAVE email attachment SET TO YES OTHERWISE YOUR MESSAGES WILL BE LOST FOREVER. 
 </span></a>: </td>
  					<?php if ($vmops_delete == "yes"){?>
  					<td><input type="radio" name="delete" value="delete=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="delete" value="delete=no"/> no</td>

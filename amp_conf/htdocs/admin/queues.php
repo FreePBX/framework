@@ -102,7 +102,7 @@ if ($action == 'delete') {
 <?php		if ($extdisplay){ ?>
 		<input type="hidden" name="account" value="<?php echo $extdisplay; ?>">
 <?php		} else { ?>
-		<td><a href="#" class="info">queue number:<span>Use this number to dial into the queue, or transfer callers to this number to put the into the queue.<br><br>Agents will dial this queue number plus * to log onto the queue, and this queue number plus ** to log out of the queue.<br><br>For example, if the queue number is 123:<br><br><b>123* = log in<br>123** = log out</b></span></a></td>
+		<td><a href="#" class="info">queue number:<span>Use this number to dial into the queue, or transfer callers to this number to put them into the queue.<br><br>Agents will dial this queue number plus * to log onto the queue, and this queue number plus ** to log out of the queue.<br><br>For example, if the queue number is 123:<br><br><b>123* = log in<br>123** = log out</b></span></a></td>
 		<td><input type="text" name="account" value=""></td>
 <?php		} ?>
 	</tr>
@@ -162,7 +162,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">Hold Music Category:<span>Music (or Commercial) played to the caller while they wait in line for an available agent.<br><br>  This music is defined in the "Music On Hold" Menu to the left.</span></a></td>
+		<td><a href="#" class="info">Hold Music Category:<span>Music (or Commercial) played to the caller while they wait in line for an available agent.<br><br>  This music is defined in the "On Hold Music" Menu to the left.</span></a></td>
 		<td>
 			<select name="music"/>
 			<?php
@@ -180,7 +180,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">Announce Position:<span>How often to announce queue position and/or estimated holdtime to caller the caller (0 to Disable Announcement).</span></a></td>
+		<td><a href="#" class="info">Announce Position:<span>How often to announce queue position and/or estimated holdtime to the caller (0 to Disable Announcement).</span></a></td>
 		<td>
 			<select name="announceposition"/>
 			<?php
@@ -299,7 +299,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">retry:<span>The number of seconds we wait before trying all the phones again?</span></a></td>
+		<td><a href="#" class="info">retry:<span>The number of seconds we wait before trying all the phones again</span></a></td>
 		<td>
 			<select name="retry"/>
 			<?php

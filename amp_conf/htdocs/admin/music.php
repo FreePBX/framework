@@ -170,7 +170,7 @@ if ($action == 'add')
 	<table>
 	<tr><td colspan="2"><h5>Add Music Category<hr></h5></td></tr>
 	<tr>
-		<td><a href="#" class="info">Category Name:<span>Allows you to Set up Different Categories for music on hold.  This is usefull if you would like to specify different Hold Music or Commercials for various ACD Queues. </span></a></td>
+		<td><a href="#" class="info">Category Name:<span>Allows you to Set up Different Categories for music on hold.  This is useful if you would like to specify different Hold Music or Commercials for various ACD Queues. </span></a></td>
 		<td><input type="text" name="category" value=""></td>
 	</tr>
 	<tr>

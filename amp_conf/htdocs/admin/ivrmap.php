@@ -62,29 +62,29 @@ if (count($unique_aas) > 0) {
 			$argslen = count($args);
 			//need to be backwards compatible, as we dial extensions by goto ext-local now
 			if ($application == 'Macro' && $args[0] == 'exten-vm') {
-					echo '<li>dialling '.$extension.' <b>dials extension #'.$args[2].'</b>';
+					echo '<li>dialing '.$extension.' <b>dials extension #'.$args[2].'</b>';
 			}
 			elseif ($application == 'Goto' && $args[0] == 'ext-local') {
-				echo '<li>dialling '.$extension.' <b>dials extension #'.$args[1].'</b>';
+				echo '<li>dialing '.$extension.' <b>dials extension #'.$args[1].'</b>';
 			}
 			elseif ($application == 'Macro' && $args[0] == 'vm') {
-					echo '<li>dialling '.$extension.' <b>sends to voicemail box #'.$args[1].'</b>';
+					echo '<li>dialing '.$extension.' <b>sends to voicemail box #'.$args[1].'</b>';
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'aa_') === false)) {
-					echo '<li>dialling '.$extension.' <b>goes to Menu ID '.$args[0].'</b>';
+					echo '<li>dialing '.$extension.' <b>goes to Menu ID '.$args[0].'</b>';
 					$menu_request[] = $args[0]; //we'll check to see if the aa_ target exists later
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'ext-group') === false)) {
-					echo '<li>dialling '.$extension.' <b>dials group #'.$args[1].'</b>';
+					echo '<li>dialing '.$extension.' <b>dials group #'.$args[1].'</b>';
 			}
 			elseif ($application == 'Background') {
 					$description = $aaline[5];
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'custom') === false)) {
-				echo '<li>dialling '.$extension.' <b>goes to '.$args[0].','.$args[1].','.$args[2].'</b>';
+				echo '<li>dialing '.$extension.' <b>goes to '.$args[0].','.$args[1].','.$args[2].'</b>';
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'ext-queues') === false)) {
-				echo '<li>dialling '.$extension.' <b>goes to Queue #'.$args[1].'</b>';
+				echo '<li>dialing '.$extension.' <b>goes to Queue #'.$args[1].'</b>';
 			}
 		}
 ?>
