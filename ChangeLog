@@ -1,3 +1,110 @@
+2005-03-24 16:15  rcourtna
+
+	* upgrades/1.10.007beta1/: fixcallfw, upgraderoutes.php: typo in
+	  fixcallfw.  accomodate for 'default trunk' in upgraderoutes.php
+
+2005-03-24 14:54  rcourtna
+
+	* upgrades/1.10.007beta1.md5: find . -type f -exec md5sum {} \; >
+	  /usr/src/AMP/upgrades/1.10.007beta1.md5
+
+2005-03-24 14:09  rcourtna
+
+	* install_amp: new installs will require a default voicemail.conf
+	  copied in
+
+2005-03-24 13:28  gregmac
+
+	* amp_conf/etc/asterisk/extensions_custom.conf.sample: Fix missing
+	  "exten=>"'s (bug 1169333)
+
+2005-03-24 12:22  rcourtna
+
+	* upgrades/1.10.007/: fixcallfw, tables.sql, upgraderoutes.php:
+	  moved to beta1
+
+2005-03-24 12:16  rcourtna
+
+	* install_amp, upgrades/1.10.007beta1/fixcallfw,
+	  upgrades/1.10.007beta1/tables.sql,
+	  upgrades/1.10.007beta1/upgradecallgroups.php,
+	  upgrades/1.10.007beta1/upgraderoutes.php: change 1.10.007 to
+	  1.10.007beta1
+
+2005-03-24 11:09  ronhartmann
+
+	* upgrades/1.10.007/fixcallfw: Added ability to read in the
+	  amportal.conf to get connection param's.
+
+2005-03-24 10:44  gregmac
+
+	* install_amp: Added --force-version option
+
+2005-03-24 10:43  gregmac
+
+	* install_amp: Added --force-version option, updated help screen
+
+2005-03-24 10:27  ronhartmann
+
+	* upgrades/1.10.007/upgraderoutes.php: Added error checking for
+	  Rename Routes looks for 001- and if found aborts rename assuming
+	  that the routes are in the correct format.
+
+2005-03-24 09:39  gregmac
+
+	* upgrades/1.10.007/fixcallfw: Fixes call forwards from ie
+	  9*5551234 to 95551234 in the astdb
+
+2005-03-24 07:18  gregmac
+
+	* install_amp: Added exit option, fixed diff arguments (were
+	  backwards)
+
+2005-03-24 07:12  gregmac
+
+	* upgrades/1.10.007/upgraderoutes.php: Changed migrated route
+	  patterns to use . only
+
+2005-03-23 17:15  rcourtna
+
+	* amp_conf/var/www/html/admin/: callgroups.php, extensions.php,
+	  ivrmap.php, music.php, queues.php, trunks.php: fixed grammatical
+	  and spelling errors
+
+2005-03-23 14:48  rcourtna
+
+	* amp_conf/var/www/html/admin/ampusers.php: allow Admin Access to
+	  be set to nothing - ie: user can view only CDR and FOp
+
+2005-03-23 13:33  rcourtna
+
+	* amp_conf/var/www/html/admin/queues.php: allow static agents to be
+	  cahnged to null
+
+2005-03-23 13:00  rcourtna
+
+	* amp_conf/var/lib/asterisk/agi-bin/dialparties.agi: s/else
+	  if/elsif/
+
+2005-03-23 11:29  rcourtna
+
+	* INSTALL, UPGRADE, install_amp, upgrade_amp: change 'upgrade_amp'
+	  to 'install_amp'
+
+2005-03-23 08:47  rcourtna
+
+	* amp_conf/var/www/html/admin/: retrieve_iax_conf_from_mysql.pl,
+	  retrieve_sip_conf_from_mysql.pl: only try to write register= line
+	  if register string exists
+
+2005-03-23 07:53  rcourtna
+
+	* upgrade_amp: forgot to generate configs using .pls
+
+2005-03-22 22:42  rcourtna
+
+	* ChangeLog: pre 007 update
+
 2005-03-22 22:40  rcourtna
 
 	* upgrade_amp: glue and polish
