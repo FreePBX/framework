@@ -1,4 +1,4 @@
-<?php /* $Id */
+<?php /* $Id$ */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or

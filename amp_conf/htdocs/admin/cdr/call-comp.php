@@ -1,4 +1,4 @@
-<?php /* $Id */
+<?php /* $Id$ */
 include ("./lib/defines.php");
 include ("./lib/Class.Table.php");
 

@@ -1,4 +1,4 @@
-<?php /* $Id */
+<?php /* $Id$ */
 
 function getpost_ifset($test_vars)
 {

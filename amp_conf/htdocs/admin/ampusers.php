@@ -1,4 +1,4 @@
-<?php /* $Id */
+<?php /* $Id$ */
 // routing.php Copyright (C) 2004 Greg MacLellan (greg@mtechsolutions.ca)
 // Asterisk Management Portal Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //

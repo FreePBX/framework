@@ -1,1 +1,1 @@
-<?php /* $Id */ echo phpinfo();?>
+<?php /* $Id$ */ echo phpinfo();?>
