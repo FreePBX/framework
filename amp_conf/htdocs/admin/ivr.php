@@ -18,6 +18,10 @@ $menu_id = $_REQUEST['menu_id'];
 // individual AMP Users department prefix - has no effect if deptartment is empty
 $dept = str_replace(' ','_',$_SESSION["user"]->_deptname);
 
+$dircontext = $_SESSION["user"]->_deptname;  //we'll override this below if a directory has already been set in database
+if (empty($dircontext))  
+	$dircontext = 'default';						
+
 if (empty($menu_id)) $menu_id = $dept.'aa_1';
 
 		//do another select for all parts in this aa_.  Will return nothing if this in new aa
@@ -61,6 +65,9 @@ if (empty($menu_id)) $menu_id = $dept.'aa_1';
 					$optioncount++;
 					$dropts[]= $extension;
 			}
+			elseif ($application == 'SetVar') {  //directory context
+					$dircontext = ltrim('=',strstr('=',$args));
+			}
 		}
 		
 		
@@ -70,6 +77,8 @@ if (empty($menu_id)) $menu_id = $dept.'aa_1';
 		
 switch($action) {
 	default:
+	// we prompt the user for the extension they are calling from
+	// this reduces the possiblity of simultaneous actions of ivr recordings conflicting
 ?>
 <h4>Your Current Extension</h4>
 <form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
@@ -191,8 +200,21 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 <input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 <input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
 <input type="hidden" name="display" value="2">
+<p>Callers to this Menu can press the pound key (#) to access the user directory.<br><br>
+Directory context to be used: 
+<select name="dir-context">
+<?php
+$uservm = getVoicemail();
+$vmcontexts = array_keys($uservm);
+echo 'ctx:'.$dircontext;
+foreach ($vmcontexts as $vmcontext) {
+	echo '<option value="'.$vmcontext.'" '.(strpos($dircontext,$vmcontext) === false ? '' : 'SELECTED').'>'.($vmcontext=='general' ? 'Entire Directory' : $vmcontext);
+}
+?>
+</select>
+</p>
 <p>
-Aside from local extensions and the pound key (#) for the directory, how many other options should callers be able to dial during the playback of this menu prompt?<br>
+Aside from local extensions and the pound key (#), how many other options should callers be able to dial during the playback of this menu prompt?<br>
 <br>Number of options for Menu: <?php echo $_REQUEST['mname']; ?><input size="2" type="text" name="ivr_num_options" value="<?php echo $optioncount ?>">
 </p>
 <h6><input name="Submit" type="submit" value="Continue"></h6>
@@ -227,6 +249,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 		<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 		<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 		<input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
+		<input type="hidden" name="dir-context" value="<?php echo $_REQUEST['dir-context'];?>">
 		<input name="Submit" type="submit" value="Finished!  Click to save your changes.">
 	</form><br><br><br><br><br><br>
 <?php 
@@ -258,6 +281,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 	<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 	<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 	<input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
+	<input type="hidden" name="dir-context" value="<?php echo $_REQUEST['dir-context'];?>">
 	<table>
 	<tr>
 		<td><h4>Dialed Option #</h4></td>
