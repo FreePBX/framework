@@ -94,7 +94,6 @@ function install_upgrade($version) {
 					fclose($fd);
 					
 					foreach ($sqls as $sql) {
-						$db->query($sql);
 						$result = $db->query($sql); 
 						if(DB::IsError($result)) {     
 							die("[FATAL] \"".$result->getDebugInfo()."\" while running ".$file."\n"); 
