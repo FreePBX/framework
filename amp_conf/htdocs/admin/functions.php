@@ -1058,12 +1058,94 @@ function getroutenames() {
 	if(DB::IsError($results)) {
 		die($results->getMessage());
 	}
+	
+	if (count($results) == 0) {
+		// see if they're still using the old dialprefix method
+		$sql = "SELECT variable,value FROM globals WHERE variable LIKE 'DIAL\\\_OUT\\\_%'";
+		// we SUBSTRING() to remove "outrt-"
+		$results = $db->getAll($sql);
+		if(DB::IsError($results)) {
+			die($results->getMessage());
+		}
+		
+		if (count($results) > 0) {
+			// yes, they are using old method, let's update
+			
+			// get the default trunk
+			$sql = "SELECT value FROM globals WHERE variable = 'OUT'";
+			$results_def = $db->getAll($sql);
+			if(DB::IsError($results_def)) {
+				die($results_def->getMessage());
+			}
+			
+			if (preg_match("/{OUT_(\d+)}/", $results_def[0][0], $matches)) {
+				$def_trunk = $matches[1];
+			} else {
+				$def_trunk = "";
+			}
+			
+			$default_patterns = array(	// default patterns that used to be in extensions.conf
+						"NXXXXXX",
+						"NXXNXXXXXX",
+						"1800NXXXXXX",
+						"1888NXXXXXX",
+						"1877NXXXXXX",
+						"1866NXXXXXX",
+						"1NXXNXXXXXX",
+						"011.",
+						"911",
+						"411",
+						"311",
+						);
+			
+			foreach ($results as $temp) {
+				// temp[0] is "DIAL_OUT_1"
+				// temp[1] is the dial prefix
+				
+				$trunknum = substr($temp[0],9);
+				
+				$name = "route".$trunknum;
+				
+				$trunks = array(1=>"OUT_".$trunknum); // only one trunk to use
+				
+				$patterns = array();
+				foreach ($default_patterns as $pattern) {
+					$patterns[] = $temp[1]."|".$pattern;
+				}
+				
+				if ($trunknum == $def_trunk) {
+					// this is the default trunk, add the patterns with no prefix
+					$patterns = array_merge($patterns, $default_patterns);
+				}
+				
+				// add this as a new route
+				addroute($name, $patterns, $trunks);
+			}
+			
+			
+			// delete old values
+			$sql = "DELETE FROM globals WHERE (variable LIKE 'DIAL\\\_OUT\\\_%') OR (variable = 'OUT') ";
+			$result = $db->query($sql);
+			if(DB::IsError($result)) {
+				die($result->getMessage());
+			}
+			
+			// we need to re-generate extensions_additional.conf
+			// i'm not sure how to do this from here
+			
+			// re-run our query
+			$sql = "SELECT DISTINCT SUBSTRING(context,7) FROM extensions WHERE context LIKE 'outrt-%' ORDER BY context ";
+			// we SUBSTRING() to remove "outrt-"
+			$results = $db->getAll($sql);
+			if(DB::IsError($results)) {
+				die($results->getMessage());
+			}
+		}
+		
+	} // else, it just means they have no routes.
+	
 	return $results;
 }
-
-// SQL to convert from "outboundroute-"
-//TODO This comment should be removed before release
-//UPDATE extensions SET context = CONCAT('outrt-',SUBSTRING(context,15)) WHERE context LIKE 'outboundroute-%' 
 
 //get unique outbound route patterns for a given context
 function getroutepatterns($route) {
