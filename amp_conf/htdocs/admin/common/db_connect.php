@@ -30,5 +30,5 @@ $db = DB::connect($datasource); // attempt connection
 // if connection failed show error
 // don't worry about this for now, we get to it in the errors section
 if(DB::isError($db)) {
-	die($db->getMessage());
+	die($db->getDebugInfo()); 
 }
