@@ -1197,6 +1197,25 @@ function getroutetrunks($route) {
 	return $trunks;
 }
 
+//get outbound routes for a given trunk
+function gettrunkroutes($trunknum) {
+	global $db;
+	
+	$sql = "SELECT DISTINCT SUBSTRING(context,7), priority FROM extensions WHERE context LIKE 'outrt-%' AND args LIKE 'dialout-trunk,".$trunknum.",%' ORDER BY context ";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	
+	$routes = array();
+	foreach ($results as $row) {
+		$routes[$row[0]] = $row[1];
+	}
+	
+	// array(routename=>priority)
+	return $routes;
+}
+
 function addroute($name, $patterns, $trunks) {
 	global $db;
 
@@ -1304,6 +1323,30 @@ function deleteroute($name) {
 	}
 	
 	return $result;
+}
+
+function renameRoute($oldname, $newname) {
+	global $db;
+	$sql = "SELECT context FROM extensions WHERE context = 'outrt-".$newname."'";
+	$results = $db->getAll($sql);
+	if (count($results) > 0) {
+		// there's already a route with this name
+		return false;
+	}
+	
+	$sql = "UPDATE extensions SET context = 'outrt-".$newname."' WHERE context = 'outrt-".$oldname."'";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+	
+	$sql = "UPDATE extensions SET application = 'outrt-".$newname."'WHERE context = 'outbound-allroutes' AND application = 'outrt-".$oldname."' ";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+	
+	return true;
 }
 
 function editroute($name, $patterns, $trunks) {
