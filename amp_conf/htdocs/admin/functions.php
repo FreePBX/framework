@@ -168,7 +168,7 @@ function getaas() {
 	global $db;
 	$dept = str_replace(' ','_',$_SESSION["user"]->_deptname);
 	if (empty($dept)) $dept='%';  //if we are not restricted to dept (ie: admin), then display all AA menus
-	$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND priority = '1' AND context LIKE '".$dept."aa_%' ORDER BY context";
+	$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND application LIKE 'DigitTimeout' AND context LIKE '".$dept."aa_%' ORDER BY context";
 	$unique_aas = $db->getAll($sql);
 	if(DB::IsError($unique_aas)) {
 	   die('unique: '.$unique_aas->getMessage().'<hr>'.$sql);
