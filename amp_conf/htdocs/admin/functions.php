@@ -689,6 +689,7 @@ function gettrunks() {
 	    if(DB::IsError($result)) {
 	        die($result->getMessage()."<br><br>".$sql);	
 	    }
+		setDefaultTrunk("1");
 		$unique_trunks[] = array('OUT_1','ZAP/g0');
 		addOutTrunk("1");
 	}
@@ -1275,7 +1276,12 @@ function addroute($name, $patterns, $trunks) {
 		$trunktech[$tr[0]]=$tech;
 	}
 	
+ 	
+	$routepriority = getroutenames();
+ 	$order=setroutepriorityvalue(count($routepriority));
+ 	$name = sprintf ("%s-%s",$order,$name);
 	$trunks = array_values($trunks); // probably already done, but it's important for our dialplan
+
 	
 	foreach ($patterns as $pattern) {
 		
@@ -1386,6 +1392,9 @@ function deleteroute($name) {
 
 function renameRoute($oldname, $newname) {
 	global $db;
+
+	$route_prefix=substr($oldname,0,4);
+	$newname=$route_prefix.$newname;
 	$sql = "SELECT context FROM extensions WHERE context = 'outrt-".$newname."'";
 	$results = $db->getAll($sql);
 	if (count($results) > 0) {
@@ -1398,8 +1407,8 @@ function renameRoute($oldname, $newname) {
 	if(DB::IsError($result)) {
 		die($result->getMessage());
 	}
-	
-	$sql = "UPDATE extensions SET application = 'outrt-".$newname."'WHERE context = 'outbound-allroutes' AND application = 'outrt-".$oldname."' ";
+        $mypriority=sprintf("%d",$route_prefix);	
+	$sql = "UPDATE extensions SET application = 'outrt-".$newname."', priority = '$mypriority' WHERE context = 'outbound-allroutes' AND application = 'outrt-".$oldname."' ";
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
 		die($result->getMessage());
@@ -1412,6 +1421,118 @@ function editroute($name, $patterns, $trunks) {
 	deleteroute($name);
 	addroute($name, $patterns, $trunks);
 }
+
+function getroute($route) {
+	global $db;
+ 	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND args LIKE 'dialout-trunk,%' ORDER BY priority ";
+ 	$results = $db->getAll($sql);
+ 	if(DB::IsError($results)) {
+ 		die($results->getMessage());
+ 	}
+ 	
+ 	$trunks = array();
+ 	foreach ($results as $row) {
+ 		if (preg_match('/^dialout-trunk,(\d+)/', $row[0], $matches)) {
+ 			// check in_array -- even though we did distinct
+ 			// we still might get ${EXTEN} and ${EXTEN:1} if they used | to split a pattern
+ 			if (!in_array("OUT_".$matches[1], $trunks)) {
+ 				$trunks[] = "OUT_".$matches[1];
+ 			}
+ 		}
+ 	}
+ 	return $trunks;
+}
+function setroutepriorityvalue2($key)
+{
+	$my_lookup=array();
+	$x=0;
+	for ($j=97;$j<100;$j++)
+	{
+		for ($i=97;$i<123;$i++)
+		{
+			$my_lookup[$x++] = sprintf("%c%c",$j,$i);
+		}
+	}
+echo "my key is $key $my_lookup[$key]";
+	return ($my_lookup[$key]);
+}
+function setroutepriorityvalue($key)
+{
+	$key=$key+1;
+	if ($key<10)
+		$prefix = sprintf("00%d",$key);
+	else if ((9<$key)&&($key<100))
+		$prefix = sprintf("0%d",$key);
+	else if ($key>100)
+		$prefix = sprintf("%d",$key);
+	return ($prefix);
+}
+function setroutepriority($routepriority, $reporoutedirection, $reporoutekey)
+{
+	global $db;
+	$counter=-1;
+	foreach ($routepriority as $tresult) 
+	{
+		$counter++;
+		if (($counter==($reporoutekey-1)) && ($reporoutedirection=="up")) {
+			// swap this one with the one before (move up)
+			$temproute = $routepriority[$counter];
+			$routepriority[ $counter ] = $routepriority[ $counter+1 ];
+			$routepriority[ $counter+1 ] = $temproute;
+			
+		} else if (($counter==($reporoutekey)) && ($reporoutedirection=="down")) {
+			// swap this one with the one after (move down)
+			$temproute = $routepriority[ $counter+1 ];
+			$routepriority[ $counter+1 ] = $routepriority[ $counter ];
+			$routepriority[ $counter ] = $temproute;
+		}
+	}
+	unset($temptrunk);
+	$routepriority = array_values($routepriority); // resequence our numbers
+	$counter=0;
+	foreach ($routepriority as $tresult) 
+	{
+		$order=setroutepriorityvalue($counter++);
+		$sql = sprintf("Update extensions set context='outrt-%s-%s' WHERE context='outrt-%s'",$order,substr($tresult[0],4), $tresult[0]);
+		$result = $db->query($sql); 
+		if(DB::IsError($result)) {     
+			die($result->getMessage()); 
+		}
+	}
+	// Delete and readd the outbound-allroutes entries
+	$sql = "delete from  extensions WHERE context='outbound-allroutes'";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+        	die($result->getMessage().$sql);
+	}
+	$sql = "SELECT DISTINCT context FROM extensions WHERE context like 'outrt-%' ORDER BY context";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+
+	$priority_loops=1;	
+	foreach ($results as $row) {
+		$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ";
+		$sql .= "('outbound-allroutes', ";
+		$sql .= "'include', ";
+		$sql .= "'".$priority_loops++."', ";
+		$sql .= "'".$row[0]."', ";
+		$sql .= "'', ";
+		$sql .= "'', ";
+		$sql .= "'2')";
+	
+		//$sql = sprintf("Update extensions set application='outrt-%s-%s' WHERE context='outbound-allroutes' and  application='outrt-%s'",$order,substr($tresult[0],4), $tresult[0]);
+		$result = $db->query($sql); 
+		if(DB::IsError($result)) {     
+			die($result->getMessage(). $sql); 
+ 		}
+	}
+	$routepriority = getroutenames();
+	return ($routepriority);
+}
+
+ 
 
 
 function parse_conf($filename, &$conf, &$section) {
