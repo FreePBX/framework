@@ -45,12 +45,20 @@ CREATE TABLE IF NOT EXISTS `extensions` (
   PRIMARY KEY  (`context`,`extension`,`priority`)
 ) TYPE=MyISAM;
 
+
 -- 
--- Dumping data for table `extensions`
+-- Create a default route (9 to get out)
 -- 
 
-;
+INSERT INTO extensions (context, extension, priority, application, args) VALUES 
+ ('outrt-001-9_outside','_9.','1','Macro','dialout-trunk,1,${EXTEN:1}');
 
+INSERT INTO extensions (context, extension, priority, application, args, descr) VALUES 
+ ('outrt-001-9_outside','_9.','2','Macro','outisbusy','No available circuits');
+
+INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES 
+ ('outbound-allroutes','include','1','outrt-001-9_outside','','','2');
+ 
 -- --------------------------------------------------------
 
 -- 
@@ -76,7 +84,6 @@ INSERT INTO `globals` VALUES ('FAX_RX_EMAIL', 'fax@mydomain.com');
 INSERT INTO `globals` VALUES ('INCOMING', 'group-all');
 INSERT INTO `globals` VALUES ('NULL', '""');
 INSERT INTO `globals` VALUES ('OPERATOR', '');
-INSERT INTO `globals` VALUES ('OUT', 'ZAP/g0');
 INSERT INTO `globals` VALUES ('PARKNOTIFY', 'SIP/200');
 INSERT INTO `globals` VALUES ('RECORDEXTEN', '""');
 INSERT INTO `globals` VALUES ('RINGTIMER', '15');
@@ -86,6 +93,8 @@ INSERT INTO `globals` VALUES ('IN_OVERRIDE', 'forcereghours');
 INSERT INTO `globals` VALUES ('REGTIME', '7:55-17:05');
 INSERT INTO `globals` VALUES ('REGDAYS', 'mon-fri');
 INSERT INTO `globals` VALUES ('DIRECTORY_OPTS', '');
+INSERT INTO `globals` VALUES ('DIALOUTIDS', '1');
+INSERT INTO `globals` VALUES ('OUT_1', 'ZAP/g0');
 
 -- --------------------------------------------------------
 
