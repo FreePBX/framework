@@ -90,6 +90,7 @@ switch($action) {
 	<form enctype="multipart/form-data" name="upload" action="<? echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
 		Alternatively, upload a recording in <a href="#" class="info">.wav format<span>The .wav file _must_ have a sample rate of 8000Hz</span></a>:<br>
 		<input type="hidden" name="display" value="2">
+		<input type="hidden" name="promptnum" value="<?echo $promptnum?>">
 		<input type="file" name="ivrfile"/>
 		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('Please wait until the page reloads.');"/>
 	</form>
