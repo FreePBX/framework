@@ -32,13 +32,13 @@ chown_asterisk() {
 	chown -R asterisk:asterisk /var/spool/asterisk
 	chown -R asterisk:asterisk /dev/zap
 	chown asterisk /dev/tty9
-	chown -R asterisk:asterisk AMPWEBROOT
-	chown -R asterisk:asterisk AMPCGIBIN
+	chown -R asterisk:asterisk $AMPWEBROOT
+	chown -R asterisk:asterisk $AMPCGIBIN
 	chmod u+x /var/lib/asterisk/agi-bin/*.agi
-	chmod u+x AMPCGIBIN/*.cgi
-	chmod u+x AMPWEBROOT/admin/*.pl
-	chmod u+x AMPWEBROOT/admin/*.sh
-	chmod u+x AMPWEBROOT/panel/*.pl
+	chmod u+x $AMPCGIBIN/*.cgi
+	chmod u+x $AMPWEBROOT/admin/*.pl
+	chmod u+x $AMPWEBROOT/admin/*.sh
+	chmod u+x $AMPWEBROOT/panel/*.pl
 	echo Permissions OK
 }
 
@@ -112,7 +112,7 @@ pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
 		then
 			echo "FOP server is already running"
 		else
-			su - asterisk -c "cd AMPWEBROOT/panel && AMPWEBROOT/panel/safe_opserver &"
+			su - asterisk -c "cd $AMPWEBROOT/panel && $AMPWEBROOT/panel/safe_opserver &"
 			sleep 1
 			check_fop
 			echo "FOP Server Started"
