@@ -24,17 +24,43 @@ $display=12;
 switch($action) {
 	default:
 ?>
-</div>
-<div class="rnav">
-    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>">Add Recording</a><br></li>
+<h4>Your Current Extension</h4>
+<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
+        <input type="hidden" name="action" value="recordings_start">
+        <input type="hidden" name="display" value="<?php echo $display?>">
+        This Digital Receptionist wizard asks you to record and playback a greeting using your phone.<br><br>
+        Please enter your current extension number:
+        <input type="text" size="6" name="cidnum"><br>
+        <h6><input name="Submit" type="submit" value="Continue"></h6><br><br><br><br><br><br>
+</form>
 
 <?php
-//get existing trunk info
+        break;
+	case 'recorded':
+		$rname=strtr($rname," ", "_"); /* remove any spaces from the name to ensure a happy playground */
+		//rename = move in php.  This ensures that someone trying to dial *99 will not hear old recordings.
+		rename('/var/lib/asterisk/sounds/'.$_REQUEST['cidnum'].'ivrrecording.wav','/var/lib/asterisk/sounds/custom/'.$rname.'.wav');
+		echo "Recording $prompt Saved";
+
+	break;
+	case 'delete':
+		unlink('/var/lib/asterisk/sounds/custom/'.$prompt.'.wav');
+		echo "Recording $prompt Deleted";
+	break;
+        case 'recordings_start':
+?>
+
+</div>
+<div class="rnav">
+    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>&action=recordings_start&cidnum=<?php echo $_REQUEST['cidnum'] ?>">Add Recording</a><br></li>
+
+<?php
+//get existing recordings info
 $tresults = getsystemrecordings("/var/lib/asterisk/sounds/custom");
 
 if (isset($tresults)){
 	foreach ($tresults as $tresult) {
-		echo "<li><a id=\"".($recordingdisplay==$tresult ? 'current':'')."\" href=\"config.php?display=".$display."&recordingdisplay={$tresult}&recording_action=edit\">{$tresult}</a></li>";
+		echo "<li><a id=\"".($recordingdisplay==$tresult ? 'current':'')."\" href=\"config.php?display=".$display."&recordingdisplay={$tresult}&recording_action=edit&action=recordings_start&cidnum=$_REQUEST[cidnum]\">{$tresult}</a></li>";
 	}
 }
 
@@ -49,7 +75,9 @@ if (isset($tresults)){
 ?>
 	<p><a href="config.php?display=<?php echo $display ?>&recordingdisplay=<?php echo $prompt ?>&action=delete">Delete Recording <?php echo $prompt; ?></a></p>
 <?php
-		copy('/var/lib/asterisk/sounds/custom/'.$prompt.'.wav','/var/lib/asterisk/sounds/ivrrecording.wav');
+		//copy('/var/lib/asterisk/sounds/custom/'.$prompt.'.wav','/var/lib/asterisk/sounds/ivrrecording.wav');
+		copy('/var/lib/asterisk/sounds/custom/'.$prompt.'.wav','/var/lib/asterisk/sounds/'.$_REQUEST['cidnum'].'ivrrecording.wav');
+
 		echo '<h5>Dial *99 to listen to your current recording - click continue if you wish to re-use it.</h5>';
 	}
 ?>
@@ -62,18 +90,22 @@ if (isset($tresults)){
 		Alternatively, upload a recording in <a href="#" class="info">.wav format<span>The .wav file _must_ have a sample rate of 8000Hz</span></a>:<br>
 		<input type="hidden" name="display" value="<?php echo $display?>">
 		<input type="hidden" name="promptnum" value="<?php echo $promptnum?>">
+		<input type="hidden" name="action" value="recordings_start">
+                <input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 		<input type="file" name="ivrfile"/>
+
 		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('Please wait until the page reloads.');"/>
 	</form>
 <?php
 if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
-	move_uploaded_file($_FILES['ivrfile']['tmp_name'], "/var/lib/asterisk/sounds/ivrrecording.wav");
+	move_uploaded_file($_FILES['ivrfile']['tmp_name'], "/var/lib/asterisk/sounds/".$_REQUEST['cidnum']."ivrrecording.wav");
 	echo "<h6>Successfully uploaded ".$_FILES['ivrfile']['name']."</h6>";
 }
 ?>
 </p>
 <form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="recorded">
+<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 <input type="hidden" name="promptnum" value="<?php echo $promptnum?>">
 <input type="hidden" name="display" value="<?php echo $display?>">
 <h5>Step 2: Verify</h5>
@@ -87,7 +119,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 <table style="text-align:right;">
 <tr valign="top">
 	<td valign="top">Name this Recording: </td>
-	<td style="text-align:left"><input type="text" name="rname" value="<?php echo $rname ?>"></td>
+	<td style="text-align:left"><input type="text" name="rname" value="<?php echo $prompt ?>"></td>
 </tr>
 </table>
 <h6>Click "SAVE" when you are satisfied with your recording<input name="Submit" type="submit" value="Save"></h6>
@@ -95,15 +127,6 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 </form>
 
 <?php
-	break;
-	case 'recorded':
-		$rname=strtr($rname," ", "_"); /* remove any spaces from the name to ensure a happy playground */
-		copy('/var/lib/asterisk/sounds/ivrrecording.wav','/var/lib/asterisk/sounds/custom/'.$rname.'.wav');
-		echo "Recording $prompt Saved";
-	break;
-	case 'delete':
-		unlink('/var/lib/asterisk/sounds/custom/'.$prompt.'.wav');
-		echo "Recording $prompt Deleted";
 	break;
 ?>
 
