@@ -206,6 +206,7 @@ if (!$tech && !$extdisplay) {
 	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=ZAP">Add ZAP Trunk</a><br><br>
 	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=IAX2">Add IAX2 Trunk</a><br><br>
 	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=SIP">Add SIP Trunk</a><br><br>
+	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=ENUM">Add ENUM Trunk</a><br><br>
 <?php 
 } else {
 	if ($extdisplay) {
@@ -217,26 +218,28 @@ if (!$tech && !$extdisplay) {
 		$maxchans = ${"OUTMAXCHANS_".$trunknum};
 		$dialoutprefix = ${"OUTPREFIX_".$trunknum};
 		
-		if (!isset($channelid)) {
-			$channelid = getTrunkTrunkName($trunknum); 
-		}
-		
-		// load from db
-		if (!isset($peerdetails)) {	
-			$peerdetails = getTrunkPeerDetails($trunknum);
-		}
-		
-		if (!isset($usercontext)) {	
-			$usercontext = getTrunkUserContext($trunknum); 
-			
-		}
+		if ($tech!="enum") {
+	
+			if (!isset($channelid)) {
+				$channelid = getTrunkTrunkName($trunknum); 
+			}
 
-		if (!isset($userconfig)) {	
-			$userconfig = getTrunkUserConfig($trunknum);
-		}
-			
-		if (!isset($register)) {	
-			$register = getTrunkRegister($trunknum);
+			// load from db
+			if (!isset($peerdetails)) {	
+				$peerdetails = getTrunkPeerDetails($trunknum);
+			}
+
+			if (!isset($usercontext)) {	
+				$usercontext = getTrunkUserContext($trunknum); 
+			}
+
+			if (!isset($userconfig)) {	
+				$userconfig = getTrunkUserConfig($trunknum);
+			}
+				
+			if (!isset($register)) {	
+				$register = getTrunkRegister($trunknum);
+			}
 		}
 		
 		/* //DIALRULES
@@ -562,6 +565,8 @@ if (!$tech && !$extdisplay) {
 					</td>
 				</tr>
 	<?php 
+		break;
+		case "enum":
 		break;
 		default:
 	?>

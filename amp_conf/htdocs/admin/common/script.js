@@ -158,13 +158,19 @@ function checkDID(theForm) {
 }
 
 function checkTrunk(theForm, action) {
-	$channelid = theForm.channelid.value;
-	$usercontext = theForm.usercontext.value;
-
-	if ($channelid == "") {
-		alert('Missing required field: trunk name');
-	} else if ($channelid == $usercontext) {
-		alert('Trunk Name and User Context cannot be set to the same value');
+	$tech = theForm.tech.value;
+	if ($tech != "enum") {
+		$channelid = theForm.channelid.value;
+		$usercontext = theForm.usercontext.value;
+	
+		if ($channelid == "") {
+			alert('Missing required field: trunk name');
+		} else if ($channelid == $usercontext) {
+			alert('Trunk Name and User Context cannot be set to the same value');
+		} else {
+			theForm.action.value = action;
+			theForm.submit();
+		}
 	} else {
 		theForm.action.value = action;
 		theForm.submit();

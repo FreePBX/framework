@@ -1190,7 +1190,7 @@ function getroutenames() {
 //get unique outbound route patterns for a given context
 function getroutepatterns($route) {
 	global $db;
-	$sql = "SELECT extension, args FROM extensions WHERE context = 'outrt-".$route."' AND args LIKE 'dialout-trunk%' ORDER BY extension ";
+	$sql = "SELECT extension, args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'dialout-trunk%' OR args LIKE'dialout-enum%') ORDER BY extension ";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 		die($results->getMessage());
@@ -1218,7 +1218,7 @@ function getroutepatterns($route) {
 //get unique outbound route trunks for a given context
 function getroutetrunks($route) {
 	global $db;
-	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND args LIKE 'dialout-trunk,%' ORDER BY priority ";
+	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'dialout-trunk,%' OR args LIKE 'dialout-enum,%') ORDER BY priority ";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 		die($results->getMessage());
@@ -1232,6 +1232,10 @@ function getroutetrunks($route) {
 			if (!in_array("OUT_".$matches[1], $trunks)) {
 				$trunks[] = "OUT_".$matches[1];
 			}
+		} else if (preg_match('/^dialout-enum,(\d+)/', $row[0], $matches)) {
+			if (!in_array("OUT_".$matches[1], $trunks)) {
+				$trunks[] = "OUT_".$matches[1];
+			}
 		}
 	}
 	return $trunks;
@@ -1241,7 +1245,7 @@ function getroutetrunks($route) {
 function gettrunkroutes($trunknum) {
 	global $db;
 	
-	$sql = "SELECT DISTINCT SUBSTRING(context,7), priority FROM extensions WHERE context LIKE 'outrt-%' AND args LIKE 'dialout-trunk,".$trunknum.",%' ORDER BY context ";
+	$sql = "SELECT DISTINCT SUBSTRING(context,7), priority FROM extensions WHERE context LIKE 'outrt-%' AND (args LIKE 'dialout-trunk,".$trunknum.",%' OR args LIKE 'dialout-enum,".$trunknum.",%')ORDER BY context ";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 		die($results->getMessage());
@@ -1259,6 +1263,19 @@ function gettrunkroutes($trunknum) {
 function addroute($name, $patterns, $trunks) {
 	global $db;
 
+	$trunktech=array();
+
+	//Retrieve each trunk tech for later lookup
+	$sql="select * from globals WHERE variable LIKE 'OUT\\_%'";
+        $result = $db->getAll($sql);
+        if(DB::IsError($result)) {
+		die($result->getMessage());
+	}
+	foreach($result as $tr) {
+		$tech = strtok($tr[1], "/");
+		$trunktech[$tr[0]]=$tech;
+	}
+	
 	$trunks = array_values($trunks); // probably already done, but it's important for our dialplan
 	
 	foreach ($patterns as $pattern) {
@@ -1289,7 +1306,10 @@ function addroute($name, $patterns, $trunks) {
 			$sql .= "'".$pattern."', ";
 			$sql .= "'".$priority."', ";
 			$sql .= "'Macro', ";
-			$sql .= "'dialout-trunk,".substr($trunk,4).",\${".$exten."}'"; // cut off OUT_ from $trunk
+			if ($trunktech[$trunk] == "ENUM")
+				$sql .= "'dialout-enum,".substr($trunk,4).",\${".$exten."}'"; // cut off OUT_ from $trunk
+			else
+				$sql .= "'dialout-trunk,".substr($trunk,4).",\${".$exten."}'"; // cut off OUT_ from $trunk
 			$sql .= ")";
 			
 			$result = $db->query($sql);
