@@ -23,9 +23,12 @@ if ($action == 'editglobals') {
 	$globalfields = array(array($_REQUEST['RINGTIMER'],'RINGTIMER'),
 						array($_REQUEST['FAX_RX'],'FAX_RX'),
 						array($_REQUEST['FAX_RX_EMAIL'],'FAX_RX_EMAIL'),
-						array($_REQUEST['DIRECTORY'],'DIRECTORY'));
+						array($_REQUEST['DIRECTORY'],'DIRECTORY'),
+						array(isset($_REQUEST['DIRECTORY_OPTS']) ? $_REQUEST['DIRECTORY_OPTS'] : "",'DIRECTORY_OPTS'),
+						);
 
-	$compiled = $db->prepare('UPDATE globals SET value = ? WHERE variable = ?');
+	//$compiled = $db->prepare('UPDATE globals SET value = ? WHERE variable = ?');
+	$compiled = $db->prepare('REPLACE INTO globals (value,variable) VALUES (?, ?)');
 	$result = $db->executeMultiple($compiled,$globalfields);
 	if(DB::IsError($result)) {
 		echo $action.'<br>';
@@ -36,7 +39,6 @@ if ($action == 'editglobals') {
 	
 	//indicate 'need reload' link in header.php 
 	needreload();
-	
 }
 	
 //get all rows relating to selected account
@@ -74,7 +76,10 @@ $extens = getextens();
 	<select name="DIRECTORY">
 		<option value="first" <? echo ($DIRECTORY == 'first' ? 'SELECTED' : '')?>>first name
 		<option value="last" <? echo ($DIRECTORY == 'last' ? 'SELECTED' : '')?>>last name
+		<option value="both" <? echo ($DIRECTORY == 'both' ? 'SELECTED' : '')?>>first or last name
 	</select> 
+	<br><br>
+	<input type="checkbox" value="e" name="DIRECTORY_OPTS" <? echo ($DIRECTORY_OPTS ? 'CHECKED' : '')?>> <a href=# class="info">Play extension number<span>Plays a message "Please hold while I transfer you to extension xxx" that lets the caller know what extension to use in the future.</span></a> to caller before transferring call
 </p>
 
 <h5>Fax Machine</h5>
