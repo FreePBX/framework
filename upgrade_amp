@@ -288,6 +288,16 @@ function run_upgrade($versions) {
 
 /********************************************************************************************************************/
 
+// **** Make sure we have STDIN etc
+
+// from  ben-php dot net at efros dot com   at  php.net/install.unix.commandline
+if (version_compare(phpversion(),'4.3.0','<') || !defined("STDIN")) {
+	define('STDIN',fopen("php://stdin","r"));
+	define('STDOUT',fopen("php://stout","r"));
+	define('STDERR',fopen("php://sterr","r"));
+	register_shutdown_function( create_function( '' , 'fclose(STDIN); fclose(STOUT); fclose(STERR); return true;' ) );
+}
+   
 // **** Make sure we have PEAR's DB.php, and include it
 
 outn("Checking for PEAR DB..");
