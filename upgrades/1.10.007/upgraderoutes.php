@@ -217,6 +217,13 @@ function FixTables() {
 function FixRoutes() {
         global $db;
 
+	$sql = "SELECT DISTINCT SUBSTRING(context,7) FROM extensions WHERE context LIKE 'outrt-001-%' ORDER BY context ";
+        $routes = $db->getAll($sql);
+        if (count($routes) > 0) {
+                // the route is already in the correct format therefore we need not rename them
+		return true;
+	}
+
         $sql = "DELETE from  extensions WHERE context='outbound-allroutes'";
         $result = $db->query($sql);
         if(DB::IsError($result)) {
