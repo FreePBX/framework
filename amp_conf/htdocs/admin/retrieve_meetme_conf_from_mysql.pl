@@ -19,9 +19,9 @@ $hostname = "localhost";
 # the name of the database our tables are kept
 $database = "asterisk";
 # username to connect to the database
-$username = "asteriskuser";
+$username = "AMPDBUSER";
 # password to connect to the database
-$password = "amp109";
+$password = "AMPDBPASS";
 
 ################### END OF CONFIGURATION #######################
 open EXTEN, ">$extensions_conf" || die "Cannot create/overwrite meetme file: $extensions_conf\n";

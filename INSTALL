@@ -45,16 +45,7 @@ AMP requires the following changes to php and apache for uploading new MOH files
 		upload_max_filesize=20M
 	- vi +14 /etc/httpd/conf.d/php.conf (if you have it)
 		LimitRequestBody 20000000
-
-** NOTE: AMP assumes Apache's document root is /var/www/html.  cgi-bin is expected to be /var/www/cgi-bin. If you have these directory on your system, then it is probably safe to continue.  Otherwise, please modify the document root. ie:
-
-	- edit /etc/apache2/sites-available/default
-	- change 'DocumentRoot /var/www' to 'DocumentRoot /var/www/html'
-	- change '<Directory /var/www>' to '<Directory /var/www/html>'
-	- comment out '# RedirectMatch ^/$ /apache2-default/'
-	- change 'ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/' to 'ScriptAlias /cgi-bin/ /var/www/cgi-bin/'
-	- change '<Directory "/usr/lib/cgi-bin">' to '<Directory "/var/www/cgi-bin">'
-
+		
 		
 ###
 Download asterisk-perl from http://asterisk.gnuinter.net and install it
@@ -141,53 +132,56 @@ Building Asterisk and configuring it to run as a non-root user
 
 	The user that will run the asterisk process (asterisk) must own several directories/files.  We'll take care of that later.
 
-
-###
-Setting up MySQL for CDR
-**Note, it is recommended that you not change the 'amp109' password below.  If you do opt to change it, you will need to do a search/replace in the AMP directory (until someone writes a script to do this for us)
-
-	- /usr/bin/mysql_install_db
-	- /etc/init.d/mysqld start (or /etc/init.d/mysql start) 
-
-	- mysqladmin -u root password 'db_root_pwd'
-	- mysqladmin create asteriskcdrdb -p
-	- mysql --user root -p
-
-		mysql> GRANT ALL PRIVILEGES
-			-> ON asteriskcdrdb.*
-			-> TO asteriskuser@localhost
-			-> IDENTIFIED BY 'amp109';
-
-		mysql> quit
-
-	- mysql --user=root --password=db_root_pwd asteriskcdrdb < /usr/src/AMP/SQL/cdr_mysql_table.sql
-
 	
 ###
 Get and build cdr_mysql module for asterisk
 
 	- cd /usr/src/asterisk-addons
 	- make clean && make && make install
-
-
+	
+	
 ###
-Setup MySQL for AMP web interface
+Setting up MySQL for CDR and AMP web interface
 
+	- /usr/bin/mysql_install_db
+	- /etc/init.d/mysqld start (or /etc/init.d/mysql start) 
+
+	- mysqladmin -u root password 'db_root_pwd'
+	- mysqladmin create asteriskcdrdb -p
+	- mysql --user=root --password=db_root_pwd asteriskcdrdb < /usr/src/AMP/SQL/cdr_mysql_table.sql
+	
 	- mysqladmin create asterisk -p
 	- mysql --user root -p asterisk < /usr/src/AMP/SQL/newinstall.sql
-	- mysql --user root -p asterisk
 
-		mysql> GRANT ALL PRIVILEGES
-			-> ON asterisk.*
-			-> TO asteriskuser@localhost
-			-> IDENTIFIED BY 'amp109';
+	
+###
+Grant access to these two databases you just created
 
+**Note the default mysql username/password is asteriskuser/amp109.  
+**If you change either of these, you will also need to change amportal.conf below
+
+	- mysql --user root -p
+
+		mysql> GRANT ALL PRIVILEGES ON asteriskcdrdb.* TO asteriskuser@localhostIDENTIFIED BY 'amp109';
+		Query OK, 0 rows affected (0.00 sec)
+
+		mysql> GRANT ALL PRIVILEGES ON asterisk.* TO asteriskuser@localhost IDENTIFIED BY 'amp109';
+		Query OK, 0 rows affected (0.00 sec)
+		
 		mysql> quit
 
-		
+###
+Define the default AMP configuration for your server.  
+
+	- cp /usr/src/AMP/amportal.conf /etc
+
+###
+Edit the default amportal.conf to reflect your environment.
+
+	- vi /etc/amportal.conf
+
 ###
 Copy in all necessary Asterisk configuration files
-**Note - this script can be used to upgrade your configuration with newer verions of AMP
 
 	- cd /usr/src/AMP
 	- ./apply_conf.sh
@@ -196,21 +190,10 @@ Copy in all necessary Asterisk configuration files
 If this is the first time installing (ie: there is no exisiting configuration):
 	
 		- cd /etc/asterisk
-		- mv vm_email.inc.template vm_email.inc
-		- cp  voicemail.conf.template voicemail.conf
+		- cp voicemail.conf.template voicemail.conf
 		- mv zapata.conf.template zapata.conf
-		- cd /var/www/html/admin/cdr/lib
-		- mv defines.php.template defines.php
-		- cd /var/www/html/panel
-		- mv op_server.cfg.template op_server.cfg
 		- cd /usr/src/AMP
 		- ./chown_asterisk.sh
-
-	Change the web server URL (ip address) in:
-		
-		- /var/www/html/admin/cdr/lib/defines.php (WEBROOT)
-		- /etc/asterisk/vm_email.inc
-		- /var/www/html/panel/op_server.cfg  (web_hostname)
 		
 	Modify lines 28+ of /var/www/html/admin/retrieve_op_conf_from_mysql.pl to reflect the number of zap channels you have
 		
@@ -242,9 +225,9 @@ httpd (Apache) configuration
 		User asterisk
 		Group asterisk
 		
-		and:
+		and (change "/var/www/html" to reflect your web root):
 		
-		#Password protect /var/www/html/admin
+		#Password protect AMP admin  
 		<Directory /var/www/html/admin>
 		AuthType Basic
 		AuthName "Restricted Area"
@@ -289,10 +272,10 @@ Auto Start
 Checks:
 
 	ensure that httpd is running as user 'asterisk'
-	(NOTE: AMP/chown_asterisk.sh should take care of these)
+	(NOTE: AMP/chown_asterisk.sh should take care of the following)
 	ensure that asterisk owns /etc/asterisk
-	ensure that asterisk owns /var/www/html/admin
-	ensure that the perl scripts under /var/www/html/admin have the execute bit set
+	ensure that asterisk owns your <web root>/admin
+	ensure that the perl scripts under <web root>/admin have the execute bit set
 
 	
 ###
@@ -302,7 +285,7 @@ Start everything:
 
 	- As root run:
 
-		service httpd start
+		service httpd restart
 		(or /etc/init.d/apache2 restart)
 
 	- As root run:

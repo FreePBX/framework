@@ -16,6 +16,25 @@ then
 	exit $E_NOTROOT
 fi
 
+# check to see if we are running this from the right place
+if [ ! -e "upgrade.sh" ] 
+	then
+	echo;
+	echo "You must run this script from AMP's source directory";
+	echo;
+	exit;
+fi
+
+# make sure config file exists
+if [ ! -e "/etc/amportal.conf" ]       # Check if file exists.
+  then
+    echo;
+    echo "/etc/amportal.conf does not exist!";
+	echo "Using a default amportal.conf";
+	cp amportal.conf /etc/
+fi
+source /etc/amportal.conf
+
 ###################################
 # UpdateVersion function
 UpdateVersion ()
@@ -23,34 +42,12 @@ UpdateVersion ()
 	echo "Updating version information in database"
 	echo
 	# Update voxbox version Major.asterisk.vbswver
-	mysql --user=asteriskuser --password=amp109 --execute="UPDATE admin SET value = '$VERSION' WHERE variable = 'version'" asterisk
+	mysql --user=AMPDBUSER --password=AMPDBPASS --execute="UPDATE admin SET value = '$VERSION' WHERE variable = 'version'" asterisk
 }
 
-echo
-echo "Warning!!!"
-echo "This AMP upgrade will overwrite your current Asterisk configuration files."
-echo "You will _not_ lose configurations you made from the AMP web admin."
-echo
-echo "Press enter to continue."
-echo
-
-read anything
 
 # copy in new config
-cp -rf /usr/src/AMP/amp_conf/* /
-/usr/src/AMP/chown_asterisk.sh
-
-# reload asterisk
-asterisk -rx reload
-
-echo
-echo "New configuration applied ..."
-echo 
-echo "Writing FOP config"
-echo
-
-su - asterisk -c "/var/www/html/admin/retrieve_op_conf_from_mysql.pl"
-su - asterisk -c "/var/www/html/admin/bounce_op.sh"
+source apply_conf.sh
 
 UpdateVersion
 

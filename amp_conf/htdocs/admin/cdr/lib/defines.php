@@ -1,7 +1,7 @@
 <?php
 
-define ("WEBROOT", "http://192.168.1.101/admin/cdr/");
-define ("FSROOT", "/var/www/html/admin/cdr/");
+define ("WEBROOT", "http://AMPWEBADDRESS/admin/cdr/");
+define ("FSROOT", "AMPWEBROOT/admin/cdr/");
 
 
 
@@ -11,8 +11,8 @@ define ("LIBDIR", FSROOT."lib/");
 
 define ("HOST", "localhost");
 define ("PORT", "5432");
-define ("USER", "asteriskuser");
-define ("PASS", "amp109");
+define ("USER", "AMPDBUSER");
+define ("PASS", "AMPDBPASS");
 define ("DBNAME", "asteriskcdrdb");
 define ("DB_TYPE", "mysql"); // mysql or postgres
 

@@ -13,6 +13,16 @@ then
 	exit $E_NOTROOT
 fi
 
+# make sure config file exists
+if [ ! -e "/etc/amportal.conf" ]       # Check if file exists.
+  then
+    echo;
+    echo "/etc/amportal.conf does not exist!";
+	echo "Have you installed the AMP configuration?";
+	exit;
+fi
+source /etc/amportal.conf
+
 chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
 	chown -R asterisk:asterisk /var/run/asterisk
@@ -24,10 +34,10 @@ chown_asterisk() {
 	chown asterisk /dev/tty9
 	chown -R asterisk:asterisk /var/www
 	chmod u+x /var/lib/asterisk/agi-bin/*.agi
-	chmod u+x /var/www/cgi-bin/*.cgi
-	chmod u+x /var/www/html/admin/*.pl
-	chmod u+x /var/www/html/admin/*.sh
-	chmod u+x /var/www/html/panel/*.pl
+	chmod u+x AMPCGIBIN/*.cgi
+	chmod u+x AMPWEBROOT/admin/*.pl
+	chmod u+x AMPWEBROOT/admin/*.sh
+	chmod u+x AMPWEBROOT/panel/*.pl
 	echo Permissions OK
 }
 
@@ -101,7 +111,7 @@ pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
 		then
 			echo "FOP server is already running"
 		else
-			su - asterisk -c "cd /var/www/html/panel && /var/www/html/panel/safe_opserver &"
+			su - asterisk -c "cd AMPWEBROOT/panel && AMPWEBROOT/panel/safe_opserver &"
 			sleep 1
 			check_fop
 			echo "FOP Server Started"

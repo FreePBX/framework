@@ -12,7 +12,7 @@
 //GNU General Public License for more details.
 ?>
 <?
-$vmconf = '/var/www/html/admin/voicemail.conf';
+$vmconf = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'voicemail.conf';
 $vmconf_live = '/etc/asterisk/voicemail.conf';
 
 $fh = fopen($vmconf_live,"r");

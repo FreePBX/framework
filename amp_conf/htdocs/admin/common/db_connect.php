@@ -13,8 +13,8 @@
 
 require_once('DB.php'); //PEAR must be installed
 
-$db_user = 'asteriskuser';
-$db_pass = 'amp109';
+$db_user = 'AMPDBUSER';
+$db_pass = 'AMPDBPASS';
 $db_host = 'localhost';
 $db_name = 'asterisk';
 $db_engine = 'mysql';

@@ -13,15 +13,15 @@ use DBI;
 $table_name = "sip";
 # the path to the extensions.conf file
 # WARNING: this file will be substituted by the output of this program
-$sip_conf = "/var/www/html/panel/op_buttons_additional.cfg";
+$sip_conf = "AMPWEBROOT/panel/op_buttons_additional.cfg";
 # the name of the box the MySQL database is running on
 $hostname = "localhost";
 # the name of the database our tables are kept
 $database = "asterisk";
 # username to connect to the database
-$username = "asteriskuser";
+$username = "AMPDBUSER";
 # password to connect to the database
-$password = "amp109";
+$password = "AMPDBPASS";
 
 # Zap Channels = remove or add to this list as necessary
 $additional = "[Zap/1]\nPosition=1\nLabel=\"External 1\"\nExtension=-1\nIcon=3\n";
