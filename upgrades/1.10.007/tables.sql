@@ -13,15 +13,11 @@ ALTER TABLE `iax` CHANGE `id` `id` BIGINT( 11 ) DEFAULT "-1" NOT NULL;
 
 ALTER TABLE `extensions` CHANGE `context` `context` VARCHAR( 45  ) DEFAULT 'default' NOT NULL;
 
-ALTER TABLE extensions modify context varchar(45) NOT NULL default 'default';
-
-ALTER TABLE extensions modify application varchar(45) NOT NULL default '';
-
 -- 
 -- Create new tables
 -- 
 
-CREATE TABLE IF NOT EXISTS `zap` (`id` bigint(11) NOT NULL default '-1',`keyword`varchar(20) NOT NULL default '',`data`varchar(150) NOT NULL default '',`flags` int(1) NOT NULL default '0',PRIMARY KEY (`id`,`keyword`)) TYPE=MyISAM;
+CREATE TABLE IF NOT EXISTS `zap` (`id` bigint(11) NOT NULL default '-1',`keyword` varchar(20) NOT NULL default '',`data` varchar(150) NOT NULL default '',`flags` int(1) NOT NULL default '0',PRIMARY KEY (`id`,`keyword`)) TYPE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS `queues` (`id` bigint(11) NOT NULL default '-1',`keyword` varchar(20) NOT NULL default '',`data` varchar(150) NOT NULL default '',`flags` int(1) NOT NULL default '0',PRIMARY KEY  (`id`,`keyword`,`data`)) TYPE=MyISAM;
 
