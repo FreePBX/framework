@@ -483,7 +483,8 @@ foreach ($args[0] as $arg) {
 // **** Look for user = root
 
 outn("Checking user..");
-if ($_ENV["USER"] != "root") {
+$current_user=(isset($_ENV["USER"]) ? $_ENV["USER"] : exec('whoami',$output));
+if ($current_user != "root"){
 	out("FAILED");
 	fatal($argv[0]." must be run as root");
 }
