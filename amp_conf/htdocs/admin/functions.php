@@ -1814,9 +1814,9 @@ function getVoicemail() {
  * pass by reference. At the same time, it removes entries as it writes them to the file, so if you don't have
  * a copy, by the time it's done $vmconf will be empty.
 */
-function write_voicemailconf($filename, &$vmconf, &$section) {
-	if (is_null($section)) {
-		$section = "general";
+function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
+	if ($iteration == 0) {
+		$section = null;
 	}
 	
 	$output = array();
@@ -1824,57 +1824,149 @@ function write_voicemailconf($filename, &$vmconf, &$section) {
 	if (file_exists($filename)) {
 		$fd = fopen($filename, "r");
 		while ($line = fgets($fd, 1024)) {
-			if (preg_match("/^\s*(\d+)\s*=>\s*(\d+),(.*),(.*),(.*),(.*)\s*([;#].*)?/",$line,$matches)) {
+			if (preg_match("/^(\s*)(\d+)(\s*)=>(\s*)(\d+),(.*),(.*),(.*),(.*)(\s*[;#].*)?$/",$line,$matches)) {
 				// "mailbox=>password,name,email,pager,options"
 				// this is a voicemail line
+				//DEBUG echo "\nmailbox";
 				
-				if (isset($vmconf[$section][ $matches[1] ])) {	
+				// make sure we have something as a comment
+				if (!isset($matches[10])) {
+					$matches[10] = "";
+				}
+				
+				// $matches[1] [3] and [4] are to preserve indents/whitespace, we add these back in
+				
+				if (isset($vmconf[$section][ $matches[2] ])) {	
 					// we have this one loaded
 					// repopulate from our version
-					$temp = & $vmconf[$section][ $matches[1] ];
+					$temp = & $vmconf[$section][ $matches[2] ];
 					
 					$options = array();
 					foreach ($temp["options"] as $key=>$value) {
 						$options[] = $key."=".$value;
 					}
 					
-					$output[] = $temp["mailbox"]."=>".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
+					$output[] = $matches[1].$temp["mailbox"].$matches[3]."=>".$matches[4].$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options).$matches[10];
 					
 					// remove this one from $vmconf
-					unset($vmconf[$section][ $matches[1] ]);
+					unset($vmconf[$section][ $matches[2] ]);
 				} else {
-					// we don't know about this mailbox (JUST added?)
-					// leave it alone
-					$output[] = $line;
+					// we don't know about this mailbox, so it must be deleted
+					// (and hopefully not JUST added since we did read_voiceamilconf)
+					
+					// do nothing
 				}
 				
-			} else if (preg_match("/^\s*(\d+)\s*=>\s*dup,(.*)\s*([;#].*)?/",$line,$matches)) {
+			} else if (preg_match("/^(\s*)(\d+)(\s*)=>(\s*)dup,(.*)(\s*[;#].*)?$/",$line,$matches)) {
 				// "mailbox=>dup,name"
 				// duplace name line
 				// leave it as-is (for now)
+				//DEBUG echo "\ndup mailbox";
 				$output[] = $line;
-			} else if (preg_match("/^\s*#include\s+(.*)\s*([;#].*)?/",$line,$matches)) {
+			} else if (preg_match("/^(\s*)#include(\s+)(.*)(\s*[;#].*)?$/",$line,$matches)) {
 				// include another file
+				//DEBUG echo "\ninclude ".$matches[3]."<blockquote>";
 				
-				if ($matches[1][0] == "/") {
-					// absolute path
-					$filename = $matches[1];
-				} else {
-					// relative path
-					$filename =  dirname($filename)."/".$matches[1];
+				// make sure we have something as a comment
+				if (!isset($matches[4])) {
+					$matches[4] = "";
 				}
 				
-				//parse_voicemailconf($filename, $vmconf, $section);
+				if ($matches[3][0] == "/") {
+					// absolute path
+					$include_filename = $matches[3];
+				} else {
+					// relative path
+					$include_filename =  dirname($filename)."/".$matches[3];
+				}
 				
-			} else if (preg_match("/^\s*\[(.+)\]/",$line,$matches)) {
+				$output[] = $matches[1]."#include".$matches[2].$matches[3].$matches[4];
+				write_voicemailconf($include_filename, $vmconf, $section, $iteration+1);
+				
+				//DEBUG echo "</blockquote>";
+				
+			} else if (preg_match("/^(\s*)\[(.+)\](\s*[;#].*)?$/",$line,$matches)) {
 				// section name
+				//DEBUG echo "\nsection";
 				
-				// we need to add any new entries here, before the section changes
+				// make sure we have something as a comment
+				if (!isset($matches[3])) {
+					$matches[3] = "";
+				}
+				
+				// check if this is the first run (section is null)
+				if ($section !== null) {
+					// we need to add any new entries here, before the section changes
+					//DEBUG echo "<blockquote><i>";
+					//DEBUG var_dump($vmconf[$section]);
+					foreach ($vmconf[$section] as $key=>$value) {
+						if (is_array($value)) {
+							// mailbox line
+							
+							$temp = & $vmconf[$section][ $key ];
+							
+							$options = array();
+							foreach ($temp["options"] as $key=>$value) {
+								$options[] = $key."=".$value;
+							}
+							
+							$output[] = $temp["mailbox"]."=>".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
+							
+							// remove this one from $vmconf
+							unset($vmconf[$section][ $key ]);
+							
+						} else {
+							// option line
+							
+							$output[] = $key."=".$vmconf[$section][ $key ];
+							
+							// remove this one from $vmconf
+							unset($vmconf[$section][ $key ]);
+						}
+					}
+					//DEBUG echo "</i></blockquote>";
+				}
+				
+				$section = strtolower($matches[2]);
+				$output[] = $matches[1]."[".$section."]".$matches[3];
+				
+			} else if (preg_match("/^(\s*)([a-zA-Z0-9-_]+)(\s*)=(\s*)(.*?)(\s*[;#].*)?$/",$line,$matches)) {
+				// name = value
+				// option line
+				//DEBUG echo "\noption line";
+				
+				
+				// make sure we have something as a comment
+				if (!isset($matches[6])) {
+					$matches[6] = "";
+				}
+				
+				if (isset($vmconf[$section][ $matches[2] ])) {
+					$output[] = $matches[1].$matches[2].$matches[3]."=".$matches[4].$vmconf[$section][ $matches[2] ].$matches[6];
+					
+					// remove this one from $vmconf
+					unset($vmconf[$section][ $matches[2] ]);
+				} 
+				// else it's been deleted, so we don't write it in
+				
+			} else {
+				// unknown other line -- probably a comment or whitespace
+				//DEBUG echo "\nother: ".$line;
+				
+				$output[] = str_replace(array("\n","\r"),"",$line); // str_replace so we don't double-space
+			}
+		}
+		
+		if ($iteration == 0) {
+			// we need to add any new entries here, since it's the end of the file
+			//DEBUG echo "END OF FILE!! <blockquote><i>";
+			//DEBUG var_dump($vmconf);
+			foreach (array_keys($vmconf) as $section) {
 				foreach ($vmconf[$section] as $key=>$value) {
 					if (is_array($value)) {
 						// mailbox line
 						
-						$temp = & $vmconf[$section][ $matches[1] ];
+						$temp = & $vmconf[$section][ $key ];
 						
 						$options = array();
 						foreach ($temp["options"] as $key=>$value) {
@@ -1884,42 +1976,35 @@ function write_voicemailconf($filename, &$vmconf, &$section) {
 						$output[] = $temp["mailbox"]."=>".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
 						
 						// remove this one from $vmconf
-						unset($vmconf[$section][ $matches[1] ]);
+						unset($vmconf[$section][ $key ]);
 						
 					} else {
 						// option line
 						
-						$output[] = $matches[1]."=".$vmconf[$section][ $matches[1] ];
+						$output[] = $key."=".$vmconf[$section][ $key ];
 						
 						// remove this one from $vmconf
-						unset($vmconf[$section][ $matches[1] ]);
+						unset($vmconf[$section][$key ]);
 					}
 				}
-				
-				$section = strtolower($matches[1]);
-			} else if (preg_match("/^\s*([a-zA-Z0-9-_]+)\s*=\s*(.*?)\s*([;#].*)?$/",$line,$matches)) {
-				// name = value
-				// option line
-				if (isset($vmconf[$section][ $matches[1] ])) {
-					$output[] = $matches[1]."=".$vmconf[$section][ $matches[1] ];
-					
-					// remove this one from $vmconf
-					unset($vmconf[$section][ $matches[1] ]);
-				}
-			} else {
-				// unknown other line
-				$output[] = $line;
 			}
+			//DEBUG echo "</i></blockquote>";
 		}
+		
 		fclose($fd);
 		
+		//DEBUG echo "\n\nwriting ".$filename;
+		//DEBUG echo "\n-----------\n";
+		//DEBUG echo implode("\n",$output);
+		//DEBUG echo "\n-----------\n";
+		
 		// write this file back out
-		var_dump($output);
-		/*
-		$fd = fopen($filename, "w");
-		fwrite($fd, implode("\n",$output);
-		fclose($fd);
-		*/
+		
+		if ($fd = fopen($filename, "w")) {
+			fwrite($fd, implode("\n",$output)."\n");
+			fclose($fd);
+		}
+		
 	}
 }
 
