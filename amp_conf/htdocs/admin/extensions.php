@@ -362,7 +362,7 @@ switch($extdisplay) {
 					<td><input tabindex="7" type="radio" name="options" value="attach=yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input tabindex="8" type="radio" name="options" value="attach=no"/> no</td>
 				</tr>
 				<tr>
-					<td><a href="#" class="info">pager email address<span>Pager/mobile email address that short voicemail notications are sent to.</span></a>: </td>
+					<td><a href="#" class="info">pager email address<span>Pager/mobile email address that short voicemail notifcations are sent to.</span></a>: </td>
 					<td><input tabindex="6" type="text" name="pager" value="<? echo $pager; ?>"/></td>
 				</tr>
 				</table>

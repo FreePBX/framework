@@ -103,6 +103,8 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 </p>
 <form name="prompt" action="<? $_REQUEST['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="ivr_recorded">
+<input type="hidden" name="promptnum" value="<?echo $promptnum?>">
+<input type="hidden" name="display" value="2">
 <h5>Step 2: Verify</h5>
 <p>
 	After recording or uploading, <em>dial *99</em> to listen to your message.
