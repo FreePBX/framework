@@ -100,34 +100,47 @@ function checkGRP(theForm,action) {
 }
 
 function checkQ(theForm) {
-	var bad = "false";
+        $queuename = theForm.name.value;
+        var bad = "false";
 
-	var whichitem = 0;
-	while (whichitem < theForm.goto_indicate0.length) {
-		if (theForm.goto_indicate0[whichitem].checked) {
-			theForm.goto0.value=theForm.goto_indicate0[whichitem].value;
-		}
-		whichitem++;
-	}
-	
-	var gotoType = theForm.elements[ "goto0" ].value;
-	if (gotoType == 'custom') {
-		var gotoVal = theForm.elements[ "custom_args0"].value;
-		if (gotoVal.indexOf('custom') == -1) {
-			bad = "true";
-			alert('Custom Goto contexts must contain the string "custom".  ie: custom-app,s,1');
-		}
-	}
-	
-	$account = theForm.account.value;
-	if (($account.indexOf('0') == 0) && ($account.length > 1)) {
-		alert('Queue numbers with more than one digit cannot begin with 0');
-		bad="true";
-	}
-	
-	if (bad == "false") {
-		theForm.submit();
-	}
+        var whichitem = 0;
+        while (whichitem < theForm.goto_indicate0.length) {
+                if (theForm.goto_indicate0[whichitem].checked) {
+                        theForm.goto0.value=theForm.goto_indicate0[whichitem].value;
+                }
+                whichitem++;
+        }
+
+        var gotoType = theForm.elements[ "goto0" ].value;
+        if (gotoType == 'custom') {
+                var gotoVal = theForm.elements[ "custom_args0"].value;
+                if (gotoVal.indexOf('custom') == -1) {
+                        bad = "true";
+                        alert('Custom Goto contexts must contain the string "custom".  ie: custom-app,s,1');
+                }
+        }
+
+        $account = theForm.account.value;
+        if ($account == "") {
+                alert('Queue Number must not be blank');
+                bad="true";
+        }
+        else if (($account.indexOf('0') == 0) && ($account.length > 1)) {
+                alert('Queue numbers with more than one digit cannot begin with 0');
+                bad="true";
+        }
+
+        if ($queuename == "") {
+                alert('Queue name must not be blank');
+                bad="true";
+        } else if (!$queuename.match('^[a-zA-Z][a-zA-Z0-9]+$')) {
+                alert('Queue name cannot start with a number, and can only contain letters and numbers');
+                bad="true";
+        }
+
+        if (bad == "false") {
+                theForm.submit();
+        }
 }
 
 function checkDID(theForm) {
