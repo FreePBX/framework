@@ -39,91 +39,17 @@ $action = $_REQUEST['action'];
 $extdisplay=$_REQUEST['extdisplay'];
 $dispnum = 3; //used for switch on config.php
 
-//add extension
-if ($action == 'add') {
+$account = $_REQUEST['account'];
 
-    $account = $_REQUEST['account'];
-	$callerid = '"'.$_REQUEST['name'].'" '.'<'.$account.'>';
-
-	// If IAX2, handle it differently 
-	if ($_REQUEST['tech'] == 'iax2') {
-		//add to iax table
-		addiax($account,$callerid);	
-	} else if ($_REQUEST['tech'] == 'sip') {
-		//add to sip table
-		addsip($account,$callerid);
-	} else { //zap
-		addzap($account,$callerid);
-	}
+//check if the extension is within range for this user
+if (isset($account) && !checkRange($account)){
+	echo "<script>javascript:alert('Warning! Extension $account is not allowed for your account.');</script>";
+} else {
 	
-
-    //write out conf files
-    exec($wScript);
-	exec($wIaxScript);
-	exec($wZapScript);
+	//add extension
+	if ($action == 'add') {
 	
-	//write out op_server.cfg
-	exec($wOpScript);
-	    
-    //take care of voicemail.conf if using voicemail
-	if ($_REQUEST['vm'] != 'disabled')
-	{
-    	include 'vm_conf.php';
-	}
-	
-	//update ext-local context in extensions.conf
-	addaccount($account);
-    
-    //write out extenstions_additional.conf
-	exec($wScript1);
-	
-	//write out meetme_additional.conf
-	exec($wMeetScript);
-	
-	//indicate 'need reload' link in footer.php 
-	needreload();
-	
-} //end add
-
-//delete extension from database
-if ($action == 'delete') {
-
-	//delete the extension info
-    delExten($extdisplay);
-    
-    //write out conf files
-    exec($wScript);
-    exec($wIaxScript);
-	exec($wZapScript);
-	
-	//write out op_server.cfg
-	exec($wOpScript);
-	
-    //take care of voicemail.conf
-    include 'vm_conf.php';
-	
-	//update ext-local context in extensions.conf
-	$result = delextensions('ext-local',$extdisplay);
-
-	//write out new conf file
-	exec($wScript1);
-	
-	//write out meetme_additional.conf
-	exec($wMeetScript);
-
-	//indicate 'need reload' link in header.php 
-	needreload();
-	
-} //end delete
-
-//edit database
-if ($action == 'advEdit') {
-
-    $account = $_REQUEST['account'];
-	$callerid = '"'.$_REQUEST['cidname'].'" '.'<'.$account.'>';
-
-	//delete and re-add the account
-		delExten($account);
+		$callerid = '"'.$_REQUEST['name'].'" '.'<'.$account.'>';
 	
 		// If IAX2, handle it differently 
 		if ($_REQUEST['tech'] == 'iax2') {
@@ -132,54 +58,124 @@ if ($action == 'advEdit') {
 		} else if ($_REQUEST['tech'] == 'sip') {
 			//add to sip table
 			addsip($account,$callerid);
-		} else {
+		} else { //zap
 			addzap($account,$callerid);
 		}
+		
 	
+		//write out conf files
+		exec($wScript);
+		exec($wIaxScript);
+		exec($wZapScript);
+		
+		//write out op_server.cfg
+		exec($wOpScript);
+			
+		//take care of voicemail.conf if using voicemail
+		if ($_REQUEST['vm'] != 'disabled')
+		{
+			include 'vm_conf.php';
+		}
+		
+		//update ext-local context in extensions.conf
+		addaccount($account);
+		
+		//write out extenstions_additional.conf
+		exec($wScript1);
+		
+		//write out meetme_additional.conf
+		exec($wMeetScript);
+		
+		//indicate 'need reload' link in footer.php 
+		needreload();
+		
+	} //end add
 	
-/*	// If IAX2, handle it differently 
-	if ($_REQUEST['tech'] == 'iax2') {
-		//edit iax table
-		editIax($account,$callerid);
-	} else {
-		//ok, it's SIP
-		editSip($account,$callerid);
-	}
-*/	
-    //write out conf files
-    exec($wScript);
-    exec($wIaxScript);
-	exec($wZapScript);
+	//delete extension from database
+	if ($action == 'delete') {
 	
-	//write out op_server.cfg
-	exec($wOpScript);
-
-    //take care of voicemail.conf.  If vm has been disabled, then delete from voicemail.conf
-	if ($_REQUEST['vm'] == 'disabled')
-	{
-		$action = 'delete';
+		//delete the extension info
+		delExten($extdisplay);
+		
+		//write out conf files
+		exec($wScript);
+		exec($wIaxScript);
+		exec($wZapScript);
+		
+		//write out op_server.cfg
+		exec($wOpScript);
+		
+		//take care of voicemail.conf
 		include 'vm_conf.php';
-		$action = 'advEdit';
-	} else {
-		include 'vm_conf.php';
-	}
+		
+		//update ext-local context in extensions.conf
+		$result = delextensions('ext-local',$extdisplay);
 	
-	//update ext-local context in extensions.conf
-	$mailb = ($_REQUEST['mailbox'] == '') ? 'novm' : $_REQUEST['mailbox'];
-	$sql = "UPDATE `extensions` SET `args` = 'exten-vm,".$mailb.",".$account."' WHERE `context` = 'ext-local' AND `extension` = '".$account."' AND `priority` = '1' LIMIT 1 ;";
-	$result = $db->query($sql);
-	if(DB::IsError($result)) {
-        die($result->getMessage());
-    }
-	exec($wScript1);
+		//write out new conf file
+		exec($wScript1);
+		
+		//write out meetme_additional.conf
+		exec($wMeetScript);
 	
-	//write out meetme_additional.conf
-	exec($wMeetScript);
+		//indicate 'need reload' link in header.php 
+		needreload();
+		
+	} //end delete
 	
-	//indicate 'need reload' link in header.php 
-	needreload();
+	//edit database
+	if ($action == 'advEdit') {
 	
-} //end edit
+		$callerid = '"'.$_REQUEST['cidname'].'" '.'<'.$account.'>';
+	
+		//delete and re-add the account
+			delExten($account);
+		
+			// If IAX2, handle it differently 
+			if ($_REQUEST['tech'] == 'iax2') {
+				//add to iax table
+				addiax($account,$callerid);	
+			} else if ($_REQUEST['tech'] == 'sip') {
+				//add to sip table
+				addsip($account,$callerid);
+			} else {
+				addzap($account,$callerid);
+			}
+		
+		//write out conf files
+		exec($wScript);
+		exec($wIaxScript);
+		exec($wZapScript);
+		
+		//write out op_server.cfg
+		exec($wOpScript);
+	
+		//take care of voicemail.conf.  If vm has been disabled, then delete from voicemail.conf
+		if ($_REQUEST['vm'] == 'disabled')
+		{
+			$action = 'delete';
+			include 'vm_conf.php';
+			$action = 'advEdit';
+		} else {
+			include 'vm_conf.php';
+		}
+		
+		//update ext-local context in extensions.conf
+		$mailb = ($_REQUEST['mailbox'] == '') ? 'novm' : $_REQUEST['mailbox'];
+		$sql = "UPDATE `extensions` SET `args` = 'exten-vm,".$mailb.",".$account."' WHERE `context` = 'ext-local' AND `extension` = '".$account."' AND `priority` = '1' LIMIT 1 ;";
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			die($result->getMessage());
+		}
+		exec($wScript1);
+		
+		//write out meetme_additional.conf
+		exec($wMeetScript);
+		
+		//indicate 'need reload' link in header.php 
+		needreload();
+		
+	} //end edit
+}
 
 ?>
 </div>
@@ -190,8 +186,10 @@ if ($action == 'advEdit') {
 //get unique account rows for navigation menu
 $results = getextens();
 
-foreach ($results as $result) {
-    echo "<li><a id=\"".($extdisplay==$result[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$result[0]}\">{$result[1]}</a></li>";
+if (isset($results)) {
+	foreach ($results as $result) {
+		echo "<li><a id=\"".($extdisplay==$result[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$result[0]}\">{$result[1]}</a></li>";
+	}
 }
 ?>
 </div>
@@ -423,8 +421,10 @@ switch($extdisplay) {
 ?>
 
 <?php  //Make sure the bottom border is low enuf
-foreach ($results as $result) {
-    echo "<br><br>";
+if (isset($resuults)) {
+	foreach ($results as $result) {
+		echo "<br><br>";
+	}
 }
 ?>
 

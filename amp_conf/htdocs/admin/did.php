@@ -71,8 +71,10 @@ switch ($action) {
 //get unique Ring Groups
 $dresults = getdids();
 
-foreach ($dresults as $dresult) {
-    echo "<li><a id=\"".($extdisplay=='DID-'.$dresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=DID-{$dresult[0]}\">DID # {$dresult[0]}</a></li>";
+if (isset($dresults)) {
+	foreach ($dresults as $dresult) {
+		echo "<li><a id=\"".($extdisplay=='DID-'.$dresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=DID-{$dresult[0]}\">DID # {$dresult[0]}</a></li>";
+	}
 }
 ?>
 </div>
@@ -131,8 +133,10 @@ echo drawselects('editGRP',$goto,0);
 ?>
 <br><br><br><br><br><br><br><br><br>
 <?php //Make sure the bottom border is low enuf
-foreach ($dresults as $dresult) {
-    echo "<br>";
+if (isset($dresults)) {
+	foreach ($dresults as $dresult) {
+		echo "<br><br>";
+	}
 }
 ?>
 

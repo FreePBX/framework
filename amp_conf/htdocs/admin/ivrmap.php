@@ -27,29 +27,33 @@ if (count($unique_aas) > 0) {
 	
 	//create top-level for each voice menu
 	foreach ($unique_aas as $unique_aa) {
-		$num = (int) substr($unique_aa[0],3);
-		$menu_nums[] = $num;
-		$menu_names[$num] = $unique_aa[1];
-		asort($menu_nums);
-		$menus[] = $unique_aa[0];
+		$menus[] = array($unique_aa[0],$unique_aa[1]);
+		//Here we are looking for the largest menu_num in use, so that we can increment for a new menu
+		//if we are not restricted to a dept (ie: admin), then count only non-dept specific menus
+		if (!empty($dept)) {
+			$num = (int) substr(strrchr($unique_aa[0],"_"),1);
+			if ($num > $menu_num) $menu_num = $num;
+		}
+		else if (substr($unique_aa[0],0,3) == 'aa_') {
+			$num = (int) substr(strrchr($unique_aa[0],"_"),1);
+			if ($num > $menu_num) $menu_num = $num;
+		}
 	}
-	foreach ($menu_nums as $menu_num)
+	foreach ($menus as $menu)
 	{
 ?>
 	<ul>
 		<li>
 			<span style="float:right;text-align:right;">
-				&bull; <a href="config.php?display=2&promptnum=<?php  echo $menu_num ?>&ivr_action=edit">Edit Menu #<?php  echo $menu_num ?></a><br>
-				&bull; <a href="config.php?display=2&ivract_target=<?php  echo $menu_num ?>&ivr_action=delete">Delete</a>
+				&bull; <a href="config.php?display=2&menu_id=<?php  echo $menu[0] ?>&ivr_action=edit">Modify this Menu</a><br>
+				&bull; <a href="config.php?display=2&menu_id=<?php  echo $menu[0] ?>&ivr_action=delete">Delete</a>
 			</span>
-			Menu #<?php  echo $menu_num ?>: <b><?php echo $menu_names[$menu_num]?></b>
+			Menu <?php  echo $menu[0] ?>: <b><?php echo $menu[1]?></b>
 			<ul>
 <?php 
 		//do another select for all parts in this aa_
-		$aalines = aainfo($menu_num);
+		$aalines = aainfo($menu[0]);
 		
-		//$description = $aalines[0][5];
-
 		//find relevant info in this context
 		foreach ($aalines as $aaline) {
 			$extension = $aaline[1];
@@ -67,7 +71,7 @@ if (count($unique_aas) > 0) {
 					echo '<li>dialling '.$extension.' <b>sends to voicemail box #'.$args[1].'</b>';
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'aa_') === false)) {
-					echo '<li>dialling '.$extension.' <b>goes to Menu #'.substr($args[0],3).'</b>';
+					echo '<li>dialling '.$extension.' <b>goes to Menu ID '.$args[0].'</b>';
 					$menu_request[] = $args[0]; //we'll check to see if the aa_ target exists later
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'ext-group') === false)) {
@@ -86,28 +90,14 @@ if (count($unique_aas) > 0) {
 ?>
 			</ul>
 			<br>
-			Menu #<?php  echo $menu_num ?> notes: <b><i><?php  echo $description; ?></i></b>
+			Menu notes: <b><i><?php  echo $description; ?></i></b>
 	</ul>
 	<hr>		
 <?php 				
 	} //end foreach ($unique_aas as $unique_aa) 
-	
-	//search the $menus[] for $menu_request[]
-	//in other words - if a voice menu is requested that doesn't exist, then display a prompt to build the missing menu
-	if (count($menu_request) > 0) {
-		foreach ($menu_request as $mreq) {
-			$found = false;
-			foreach ($menus as $menu) {
-				if ($mreq == $menu)
-						$found = true;
-			}
-			if ($found == false) 
-				echo '<ul><li>Menu #'.substr($mreq,3).' - <span style="color:red;">not yet created!</span><ul><li><a href="config.php?display=2&promptnum='.substr($mreq,3).'">Create Voice Menu #'.substr($mreq,3).'</a></ul></ul><br>';
-		}
-	}
-	
+		
 	//include a link to create an additional voice menu.
-	echo '<ul><li>Would you like to create another Menu?<ul><li><a href="config.php?display=2&promptnum='.++$menu_num.'">Create Voice Menu #'.$menu_num.'</a></ul></ul><br>';
+	echo '<ul><li>Would you like to create another Menu?<ul><li><a href="config.php?display=2&menu_id='.$dept.'aa_'.++$menu_num.'">Create a new Voice Menu</a></ul></ul><br>';
 	
 } //end if (count($unique_aas) > 0)
 else {

@@ -88,34 +88,42 @@ $queues = getqueues();
 	<input type="hidden" name="INCOMING" value="<?php  echo $INCOMING; ?>">
 	<select name="INCOMING_IVR" onclick="javascript:document.incoming.in_indicate[0].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_IVR.options[document.incoming.INCOMING_IVR.options.selectedIndex].value;"/>
 <?php 
-	foreach ($unique_aas as $unique_aa) {
-		$menu_num = substr($unique_aa[0],3);
-		$menu_name = $unique_aa[1];
-		echo '<option value="aa_'.$menu_num.'" '.($INCOMING == 'aa_'.$menu_num ? 'SELECTED' : '').'>'.($menu_name ? $menu_name : 'Menu #'.$menu_num);
+	if (isset($unique_aas)) {
+		foreach ($unique_aas as $unique_aa) {
+			$menu_num = substr($unique_aa[0],3);
+			$menu_name = $unique_aa[1];
+			echo '<option value="aa_'.$menu_num.'" '.($INCOMING == 'aa_'.$menu_num ? 'SELECTED' : '').'>'.($menu_name ? $menu_name : 'Menu #'.$menu_num);
+		}
 	}
 ?>
 	</select><br>
 	<input type="radio" name="in_indicate" value="extension" disabled="true" <?php  echo strpos($INCOMING,'EXT') === false ? '' : 'CHECKED=CHECKED';?>/> Extension: 
 	<select name="INCOMING_EXTEN" onclick="javascript:document.incoming.in_indicate[1].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_EXTEN.options[document.incoming.INCOMING_EXTEN.options.selectedIndex].value;"/>
 <?php 
-	foreach ($extens as $exten) {
-		echo '<option value="EXT-'.$exten[0].'" '.($INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1];
+	if (isset($extens)) {
+		foreach ($extens as $exten) {
+			echo '<option value="EXT-'.$exten[0].'" '.($INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1];
+		}
 	}
 ?>		
 	</select><br>
 	<input type="radio" name="in_indicate" value="group" disabled="true" <?php  echo strpos($INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> Ring Group: 
 	<select name="INCOMING_GRP" onclick="javascript:document.incoming.in_indicate[2].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_GRP.options[document.incoming.INCOMING_GRP.options.selectedIndex].value;"/>
 <?php 
-	foreach ($gresults as $gresult) {
-		echo '<option value="GRP-'.$gresult[0].'" '.($INCOMING == 'GRP-'.$gresult[0] ? 'SELECTED' : '').'>#'.$gresult[0];
+	if (isset($gresults)) {
+		foreach ($gresults as $gresult) {
+			echo '<option value="GRP-'.$gresult[0].'" '.($INCOMING == 'GRP-'.$gresult[0] ? 'SELECTED' : '').'>#'.$gresult[0];
+		}
 	}
 ?>			
 	</select><br>
 	<input type="radio" name="in_indicate" value="queue" disabled="true" <?php  echo strpos($INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> Queue: 
 	<select name="INCOMING_QUEUE" onclick="javascript:document.incoming.in_indicate[3].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_QUEUE.options[document.incoming.INCOMING_QUEUE.options.selectedIndex].value;"/>
 <?php 
-	foreach ($queues as $queue) {
-		echo '<option value="QUE-'.$queue[0].'" '.($INCOMING == 'QUE-'.$queue[0] ? 'SELECTED' : '').'>'.$queue[0].':'.$queue[1];
+	if (isset($queues)) {
+		foreach ($queues as $queue) {
+			echo '<option value="QUE-'.$queue[0].'" '.($INCOMING == 'QUE-'.$queue[0] ? 'SELECTED' : '').'>'.$queue[0].':'.$queue[1];
+		}
 	}
 ?>			
 	</select><br>
@@ -129,34 +137,42 @@ $queues = getqueues();
 	<input type="hidden" name="AFTER_INCOMING" value="<?php  echo $AFTER_INCOMING; ?>">
 	<select name="AFTER_INCOMING_IVR" onclick="javascript:document.incoming.after_in_indicate[0].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_IVR.options[document.incoming.AFTER_INCOMING_IVR.options.selectedIndex].value;"/>
 <?php 
-	foreach ($unique_aas as $unique_aa) {
-		$menu_num = substr($unique_aa[0],3);
-		$menu_name = $unique_aa[1];
-		echo '<option value="aa_'.$menu_num.'" '.($AFTER_INCOMING == 'aa_'.$menu_num ? 'SELECTED' : '').'>'.($menu_name ? $menu_name : 'Menu #'.$menu_num);
+	if (isset($unique_aas)) {
+		foreach ($unique_aas as $unique_aa) {
+			$menu_num = substr($unique_aa[0],3);
+			$menu_name = $unique_aa[1];
+			echo '<option value="aa_'.$menu_num.'" '.($AFTER_INCOMING == 'aa_'.$menu_num ? 'SELECTED' : '').'>'.($menu_name ? $menu_name : 'Menu #'.$menu_num);
+		}
 	}
 ?>
 	</select><br>
 	<input type="radio" name="after_in_indicate" value="extension" disabled="true" <?php  echo strpos($AFTER_INCOMING,'EXT') === false ? '' : 'CHECKED=CHECKED';?>/> Extension: 
 	<select name="AFTER_INCOMING_EXTEN" onclick="javascript:document.incoming.after_in_indicate[1].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_EXTEN.options[document.incoming.AFTER_INCOMING_EXTEN.options.selectedIndex].value;"/>
 <?php 
-	foreach ($extens as $exten) {
-		echo '<option value="EXT-'.$exten[0].'" '.($AFTER_INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1];
+	if (isset($extens)) {
+		foreach ($extens as $exten) {
+			echo '<option value="EXT-'.$exten[0].'" '.($AFTER_INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1];
+		}
 	}
 ?>		
 	</select><br>
 	<input type="radio" name="after_in_indicate" value="group" disabled="true" <?php  echo strpos($AFTER_INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> Ring Group: 
 	<select name="AFTER_INCOMING_GRP" onclick="javascript:document.incoming.after_in_indicate[2].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_GRP.options[document.incoming.AFTER_INCOMING_GRP.options.selectedIndex].value;"/>
 <?php 
-	foreach ($gresults as $gresult) {
-		echo '<option value="GRP-'.$gresult[0].'" '.($AFTER_INCOMING == 'GRP-'.$gresult[0] ? 'SELECTED' : '').'>#'.$gresult[0];
+	if (isset($gresults)) {
+		foreach ($gresults as $gresult) {
+			echo '<option value="GRP-'.$gresult[0].'" '.($AFTER_INCOMING == 'GRP-'.$gresult[0] ? 'SELECTED' : '').'>#'.$gresult[0];
+		}
 	}
 ?>			
 	</select><br>
 	<input type="radio" name="after_in_indicate" value="queue" disabled="true" <?php  echo strpos($AFTER_INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> Queue: 
 	<select name="AFTER_INCOMING_QUEUE" onclick="javascript:document.incoming.after_in_indicate[3].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_QUEUE.options[document.incoming.AFTER_INCOMING_QUEUE.options.selectedIndex].value;"/>
 <?php 
-	foreach ($queues as $queue) {
-		echo '<option value="QUE-'.$queue[0].'" '.($AFTER_INCOMING == 'QUE-'.$queue[0] ? 'SELECTED' : '').'>'.$queue[0].':'.$queue[1];
+	if (isset($queues)) {
+		foreach ($queues as $queue) {
+			echo '<option value="QUE-'.$queue[0].'" '.($AFTER_INCOMING == 'QUE-'.$queue[0] ? 'SELECTED' : '').'>'.$queue[0].':'.$queue[1];
+		}
 	}
 ?>			
 	</select><br>

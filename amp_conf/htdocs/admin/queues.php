@@ -26,29 +26,34 @@ $password = $_REQUEST['password'];
 $prefix = $_REQUEST['prefix'];
 $goto = $_REQUEST['goto0'];
 
-//if submitting form, update database
-switch ($action) {
-	case "add":
-		addqueue($account,$name,$password,$prefix,$goto);
-		exec($wScript1);
-		exec($wScript2);
-		needreload();
-	break;
-	case "delete":
-		delqueue($extdisplay);
-		exec($wScript1);
-		exec($wScript2);
-		needreload();
-	break;
-	case "edit":  //just delete and re-add
-		delqueue($account);
-		addqueue($account,$name,$password,$prefix,$goto);
-		exec($wScript1);
-		exec($wScript2);
-		needreload();
-	break;
+//check if the extension is within range for this user
+if (isset($account) && !checkRange($account)){
+	echo "<script>javascript:alert('Warning! Extension $account is not allowed for your account.');</script>";
+} else {
+	
+	//if submitting form, update database
+	switch ($action) {
+		case "add":
+			addqueue($account,$name,$password,$prefix,$goto);
+			exec($wScript1);
+			exec($wScript2);
+			needreload();
+		break;
+		case "delete":
+			delqueue($extdisplay);
+			exec($wScript1);
+			exec($wScript2);
+			needreload();
+		break;
+		case "edit":  //just delete and re-add
+			delqueue($account);
+			addqueue($account,$name,$password,$prefix,$goto);
+			exec($wScript1);
+			exec($wScript2);
+			needreload();
+		break;
+	}
 }
-
 
 //get unique extensions
 $extens = getextens();
@@ -61,8 +66,10 @@ $queues = getqueues();
 <div class="rnav">
     <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>">Add Queue</a><br></li>
 <?php
-foreach ($queues as $queue) {
-    echo "<li><a id=\"".($extdisplay==$queue[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$queue[0]}\">{$queue[0]}:{$queue[1]}</a></li>";
+if (isset($queues)) {
+	foreach ($queues as $queue) {
+		echo "<li><a id=\"".($extdisplay==$queue[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$queue[0]}\">{$queue[0]}:{$queue[1]}</a></li>";
+	}
 }
 ?>
 </div>
@@ -115,6 +122,7 @@ if ($action == 'delete') {
 		<td>
 			<select multiple size="10" name="members[]"/>
 			<?php
+			if (isset($extens)) {
 				foreach ($extens as $exten) { // (number,cid,tech)
 					if ($exten[2] == 'zap') {
 						$sql = "SELECT data FROM zap WHERE keyword = 'channel' AND id = '$exten[0]'";
@@ -126,6 +134,7 @@ if ($action == 'delete') {
 					
 					echo '<option value="'.$device.'" '.(in_array($device,$member) ? 'SELECTED' : '').'>'.$exten[1];
 				}
+			}
 			?>		
 			</select>
 		</td>

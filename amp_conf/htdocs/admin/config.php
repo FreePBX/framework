@@ -147,11 +147,12 @@ switch($display) {
 	break;
 	case '2':
 		echo "<h2>Digital Receptionist</h2>";
-		//if promptnum is being passed, assume we want to record a menu
-		if ($_REQUEST['promptnum'] == null)
+		// The Digital Receptionist code is a rat's nest.  If you are planning on making significant modifications, just re-write from scratch.
+		//if menu_id is being empty, or if we are requesting delete, just use ivr_action.php
+		if ((empty($_REQUEST['menu_id'])) || ($_REQUEST['ivr_action'] == 'delete'))
 			include 'ivr_action.php'; 
 		else
-			include 'ivr.php'; //wizard to create a new menu
+			include 'ivr.php'; //wizard to create/edit a menu
 	break;
 	case '3':
 		include 'extensions.php';

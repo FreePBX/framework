@@ -14,11 +14,14 @@
 
 <?php
 $action = $_REQUEST['action'];
-$promptnum = $_REQUEST['promptnum'];
-if ($promptnum == null) $promptnum = '1';
+$menu_id = $_REQUEST['menu_id'];
+// individual AMP Users department prefix - has no effect if deptartment is empty
+$dept = str_replace(' ','_',$_SESSION["user"]->_deptname);
+
+if (empty($menu_id)) $menu_id = $dept.'aa_1';
 
 		//do another select for all parts in this aa_.  Will return nothing if this in new aa
-		$aalines = aainfo($promptnum);
+		$aalines = aainfo($menu_id);
 		$optioncount=0;
 		
 		//find relevant info in this context
@@ -35,7 +38,7 @@ if ($promptnum == null) $promptnum = '1';
 					$optioncount++;
 					$dropts[]= $extension;
 			}
-			elseif ($application == 'Goto' && !(strpos($args[0],'aa_') === false)) {
+			elseif ($application == 'Goto' && !(strpos($args[0],$dept.'aa_') === false)) {
 					$optioncount++;
 					$dropts[]= $extension;
 					//$menu_request[] = $args[0]; //we'll check to see if the aa_ target exists later
@@ -68,12 +71,36 @@ if ($promptnum == null) $promptnum = '1';
 switch($action) {
 	default:
 ?>
+<h4>Your Current Extension</h4>
+<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
+	<input type="hidden" name="action" value="ivr_start">
+	<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
+	<input type="hidden" name="display" value="2">
+	This Digital Receptionist wizard asks you to record and playback a greeting using your phone.<br><br>
+	Please enter your current extension number: 
+	<input type="text" size="6" name="cidnum"><br>
+	<h6><input name="Submit" type="submit" value="Continue"></h6><br><br><br><br><br><br>
+</form>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<?php	
+	break;
+	case 'ivr_start':
+?>
 
-<h4>Record Menu #<?php echo $promptnum ?>: <?php echo $mname?></h4>
+<h4>Record Menu: <?php echo $mname?></h4>
 <?php
 	//if we are trying to edit - let's be nice and give them the recording back
 	if ($_REQUEST['ivr_action'] == 'edit'){
-		copy('/var/lib/asterisk/sounds/custom/aa_'.$promptnum.'.wav','/var/lib/asterisk/sounds/ivrrecording.wav');
+		copy('/var/lib/asterisk/sounds/custom/'.$menu_id.'.wav','/var/lib/asterisk/sounds/'.$_REQUEST['cidnum'].'ivrrecording.wav');
 		echo '<h5>Dial *99 to listen to your current recording - click continue if you wish to re-use it.</h5>';
 	}
 ?>
@@ -85,21 +112,26 @@ switch($action) {
 	<form enctype="multipart/form-data" name="upload" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
 		Alternatively, upload a recording in <a href="#" class="info">.wav format<span>The .wav file _must_ have a sample rate of 8000Hz</span></a>:<br>
 		<input type="hidden" name="display" value="2">
-		<input type="hidden" name="promptnum" value="<?php echo $promptnum?>">
+		<input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
+		<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
+		<input type="hidden" name="action" value="ivr_start">
+		<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 		<input type="file" name="ivrfile"/>
 		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('Please wait until the page reloads.');"/>
 	</form>
 <?php
 if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
-	move_uploaded_file($_FILES['ivrfile']['tmp_name'], "/var/lib/asterisk/sounds/ivrrecording.wav");
+	move_uploaded_file($_FILES['ivrfile']['tmp_name'], "/var/lib/asterisk/sounds/".$_REQUEST['cidnum']."ivrrecording.wav");
 	echo "<h6>Successfully uploaded ".$_FILES['ivrfile']['name']."</h6>";
 }
 ?>
 </p>
-<form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
+<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="ivr_recorded">
-<input type="hidden" name="promptnum" value="<?php echo $promptnum?>">
+<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
+<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 <input type="hidden" name="display" value="2">
+<input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
 <h5>Step 2: Verify</h5>
 <p>
 	After recording or uploading, <em>dial *99</em> to listen to your message.
@@ -150,14 +182,18 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 	break;
 	case 'ivr_recorded':
 ?>
-<h4>Options for Menu #<?php echo $promptnum ?>: <?php echo $_REQUEST['mname']; ?></h4>
-<form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
+<h4>Options for Menu: <?php echo $_REQUEST['mname']; ?></h4>
+<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="ivr_options_yes_num"/>
 <input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
 <input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">
+<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
+<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
+<input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
+<input type="hidden" name="display" value="2">
 <p>
-Aside from local extensions and the pound key (#) for the directory, how many other options should callers be able to dial during the playback of Prompt #<?php echo $promptnum ?>?<br>
-<br>Number of options for Menu #<?php echo $promptnum ?>: <?php echo $_REQUEST['mname']; ?><input size="2" type="text" name="ivr_num_options" value="<?php echo $optioncount ?>">
+Aside from local extensions and the pound key (#) for the directory, how many other options should callers be able to dial during the playback of this menu prompt?<br>
+<br>Number of options for Menu: <?php echo $_REQUEST['mname']; ?><input size="2" type="text" name="ivr_num_options" value="<?php echo $optioncount ?>">
 </p>
 <h6><input name="Submit" type="submit" value="Continue"></h6>
 </form>
@@ -183,10 +219,14 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 	
 	if (( $_REQUEST['ivr_num_options'] == '0' ) || ( $_REQUEST['ivr_num_options'] == '' )) {
 ?>
-	<form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
+	<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
+		<input type="hidden" name="display" value="2">
 		<input type="hidden" name="action" value="ivr_options_set">
 		<input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
 		<input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">
+		<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
+		<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
+		<input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
 		<input name="Submit" type="submit" value="Finished!  Click to save your changes.">
 	</form><br><br><br><br><br><br>
 <?php 
@@ -200,7 +240,7 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 		//get unique Ring Groups
 		$gresults = getgroups();
 ?>
-<h4>Options for Menu #<?php echo $promptnum ?>: <?php echo $_REQUEST['mname']; ?></h4>
+<h4>Options for Menu: <?php echo $_REQUEST['mname']; ?></h4>
 <p>
 	Define the various options you expect your callers to dial after/during the playback of this recorded menu.
 </p>
@@ -209,11 +249,15 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 	"<b>Action</b>" is the result of the caller dialing the option #.  This can send the caller to an internal extension, a voicemail box, ring group, queue, or to another recorded menu. 
 </p>
 <hr>
-<p>	<form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
+<p>	<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
+	<input type="hidden" name="display" value="2">
 	<input type="hidden" name="action" value="ivr_options_set"/>
 	<input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
 	<input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">
 	<input type="hidden" name="ivr_num_options" value="<?php echo $_REQUEST['ivr_num_options'] ?>">
+	<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
+	<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
+	<input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
 	<table>
 	<tr>
 		<td><h4>Dialed Option #</h4></td>
@@ -278,7 +322,6 @@ Aside from local extensions and the pound key (#) for the directory, how many ot
 	//if we are editing an exisiting menu, delete the original before writing
 	if ($_REQUEST['ivr_action'] == 'edit') {
 		$_REQUEST['ivr_action'] = 'delete';
-		$_REQUEST['ivract_target'] = $promptnum;
 		$_REQUEST['map_display'] = 'no';
 		include 'ivr_action.php';
 	}

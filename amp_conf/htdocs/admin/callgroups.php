@@ -24,35 +24,39 @@ $account = $_REQUEST['account'];
 $grplist = $_REQUEST['grplist'];
 $grptime = $_REQUEST['grptime'];
 $grppre = $_REQUEST['grppre'];
+
+//check if the extension is within range for this user
+if (isset($account) && !checkRange($account)){
+	echo "<script>javascript:alert('Warning! Extension $account is not allowed for your account.');</script>";
+} else {
+	//add group
+	if ($action == 'addGRP') {
+		
+		addgroup($account,$grplist,$grptime,$grppre,$goto);
+		
+		exec($wScript1);
+		needreload();
+	}
 	
-//add group
-if ($action == 'addGRP') {
+	//del group
+	if ($action == 'delGRP') {
+		delextensions('ext-group',ltrim($extdisplay,'GRP-'));
+		
+		exec($wScript1);
+		needreload();
+	}
 	
-	addgroup($account,$grplist,$grptime,$grppre,$goto);
+	//edit group - just delete and then re-add the extension
+	if ($action == 'edtGRP') {
 	
-	exec($wScript1);
-	needreload();
+		delextensions('ext-group',$account);	
+		addgroup($account,$grplist,$grptime,$grppre,$goto);
+	
+		exec($wScript1); 
+		needreload();
+	
+	}
 }
-
-//del group
-if ($action == 'delGRP') {
-	delextensions('ext-group',ltrim($extdisplay,'GRP-'));
-	
-	exec($wScript1);
-	needreload();
-}
-
-//edit group - just delete and then re-add the extension
-if ($action == 'edtGRP') {
-
-	delextensions('ext-group',$account);	
-	addgroup($account,$grplist,$grptime,$grppre,$goto);
-
-	exec($wScript1); 
-	needreload();
-
-}
-
 ?>
 </div>
 
@@ -62,8 +66,10 @@ if ($action == 'edtGRP') {
 //get unique ring groups
 $gresults = getgroups();
 
-foreach ($gresults as $gresult) {
-    echo "<li><a id=\"".($extdisplay=='GRP-'.$gresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=GRP-{$gresult[0]}\">Ring Group {$gresult[0]}</a></li>";
+if (isset($gresults)) {
+	foreach ($gresults as $gresult) {
+		echo "<li><a id=\"".($extdisplay=='GRP-'.$gresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=GRP-{$gresult[0]}\">Ring Group {$gresult[0]}</a></li>";
+	}
 }
 ?>
 </div>
@@ -105,7 +111,7 @@ foreach ($gresults as $gresult) {
 <?php 		} ?>
 			</tr>
 			<tr>
-				<td><a href="#" class="info">extension list:<span>Separate extensions with a | (pipe) character. Ex: 201|202|203<br><br>You can include an extension on a remote system, or an external number by including an asterisk (*) after the dial prefix for the appropriate trunk.  ex:  9*2448089 would dial 2448089 on the trunk accessible with dial prefix 9.<br><br></span></a></td>
+				<td><a href="#" class="info">extension list:<span>Separate extensions with a | (pipe) character. Ex: 201|202|203<br><br>You can include an extension on a remote system, or an external number by suffixing a number with a pound (#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see Outbound Routes).<br><br></span></a></td>
 				<td><input type="text" name="grplist" value="<?php  echo substr($thisGRP[0][0],6) ?>"></td>
 			</tr>
 			<tr>
@@ -137,8 +143,10 @@ echo drawselects('editGRP',$goto,0);
 ?>
 
 <?php  //Make sure the bottom border is low enuf
-foreach ($gresults as $gresult) {
-    echo "<br>";
+if (isset($queues)) {
+	foreach ($gresults as $gresult) {
+		echo "<br>";
+	}
 }
 ?>
 

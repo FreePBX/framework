@@ -152,14 +152,26 @@ class ampuser {
 	}
 }
 
+// returns true if extension is within allowed range
+function checkRange($extension){
+	$low = $_SESSION["user"]->_extension_low;
+	$high = $_SESSION["user"]->_extension_high;
+	if ((($extension >= $low) && ($extension <= $high)) || (empty($low) && empty($high)))
+		return true;
+	else
+		return false;
+}
+
 
 //get unique voice menu numbers - returns 2 dimensional array
 function getaas() {
 	global $db;
-	$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND priority = '1' AND context LIKE 'aa_%' ORDER BY context";
+	$dept = str_replace(' ','_',$_SESSION["user"]->_deptname);
+	if (empty($dept)) $dept='%';  //if we are not restricted to dept (ie: admin), then display all AA menus
+	$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND priority = '1' AND context LIKE '".$dept."aa_%' ORDER BY context";
 	$unique_aas = $db->getAll($sql);
 	if(DB::IsError($unique_aas)) {
-	   die('unique: '.$unique_aas->getMessage());
+	   die('unique: '.$unique_aas->getMessage().'<hr>'.$sql);
 	}
 	return $unique_aas;
 }
@@ -171,8 +183,13 @@ function getextens() {
 	$iax = getIax();
 	$zap= getZap();
 	$results = array_merge($sip, $iax, $zap);
-	sort($results);
-	return $results;
+	foreach($results as $result){
+		if (checkRange($result[0])){
+			$extens[] = array($result[0],$result[1],$result[2]);
+		}
+	}
+	sort($extens);
+	return $extens;
 }
 
 function getSip() {
@@ -226,9 +243,14 @@ function getgroups() {
 	$sql = "SELECT extension FROM extensions WHERE args = 'rg-group' ORDER BY extension";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
-		die($results->getMessage());
+		$results = null;
 	}
-	return $results;
+	foreach($results as $result){
+		if (checkRange($result[0])){
+			$extens[] = array($result[0]);
+		}
+	}
+	return $extens;
 }
 
 //get the existing queue extensions
@@ -237,9 +259,14 @@ function getqueues() {
 	$sql = "SELECT extension,descr FROM extensions WHERE application = 'Queue' ORDER BY extension";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
-		die($results->getMessage());
+		$results = null;
 	}
-	return $results;
+	foreach($results as $result){
+		if (checkRange($result[0])){
+			$extens[] = array($result[0],$result[1]);
+		}
+	}
+	return $extens;
 }
 
 //get the existing did extensions
@@ -300,7 +327,7 @@ function addextensions($addarray) {
 	$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ('".$addarray[0]."', '".$addarray[1]."', '".$addarray[2]."', '".$addarray[3]."', '".$addarray[4]."', '".$addarray[5]."' , '".$addarray[6]."')";
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
-        die($result->getMessage());
+        die($result->getMessage().$sql);
     }
 	return $result;
 }
@@ -327,10 +354,11 @@ function needreload() {
 }
 
 //get info about auto-attendant
-function aainfo($menu_num) {
+function aainfo($menu_id) {
 	global $db;
 	//do another select for all parts in this aa_
-	$sql = "SELECT * FROM extensions WHERE context = 'aa_".$menu_num."' ORDER BY extension";
+//	$sql = "SELECT * FROM extensions WHERE context = '".$dept."aa_".$menu_num."' ORDER BY extension";
+	$sql = "SELECT * FROM extensions WHERE context = '".$menu_id."' ORDER BY extension";
 	$aalines = $db->getAll($sql);
 	if(DB::IsError($aalines)) {
 		die('aalines: '.$aalines->getMessage());
@@ -1564,47 +1592,61 @@ function drawselects($formName,$goto,$i) {
 	$gresults = getgroups();
 	//get unique queues
 	$queues = getqueues();
-
+	// individual AMP Users department prefix - has no effect if deptartment is empty
+//	$dept = str_replace(' ','_',$_SESSION["user"]->_deptname);
+	
 	$selectHtml = '	<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';				
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="ivr" disabled="true" '.(strpos($goto,'aa_') === false ? '' : 'CHECKED=CHECKED').' /> Digital Receptionist: ';
 	$selectHtml .=	'<select name="ivr'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[0].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'ivr\';"/>';
 
-	foreach ($unique_aas as $unique_aa) {
-		$menu_num = substr($unique_aa[0],3);
-		$menu_name = $unique_aa[1];
-		$selectHtml .= '<option value="'.$menu_num.'" '.(strpos($goto,'aa_'.$menu_num) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : 'Menu #'.$menu_num);
+	if (isset($extens)) {
+		foreach ($unique_aas as $unique_aa) {
+//			$menu_num = substr(strrchr($unique_aa[0],"_"),1);
+			$menu_id = $unique_aa[0];
+			$menu_name = $unique_aa[1];
+//			$selectHtml .= '<option value="'.$menu_id.'" '.(strpos($goto,$dept.'aa_'.$menu_num) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : 'Menu ID'.$menu_id);
+			$selectHtml .= '<option value="'.$menu_id.'" '.(strpos($goto,$menu_id) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : 'Menu ID'.$menu_id);
+		}
 	}
 
 	$selectHtml .=	'</select><br>';
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="extension" disabled="true" '.(strpos($goto,'ext-local') === false ? '' : 'CHECKED=CHECKED').'/> Extension: ';
 	$selectHtml .=	'<select name="extension'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[1].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'extension\';"/>';
 	
-	foreach ($extens as $exten) {
-		$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1];
+	if (isset($extens)) {
+		foreach ($extens as $exten) {
+			$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1];
+		}
 	}
 			
 	$selectHtml .=	'</select><br>';
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="voicemail" disabled="true" '.(strpos($goto,'vm') === false ? '' : 'CHECKED=CHECKED').' /> Voicemail: '; 
 	$selectHtml .=	'<select name="voicemail'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[2].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'voicemail\';"/>';
 	
-	foreach ($extens as $exten) {
-		$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1];
+	if (isset($extens)) {
+		foreach ($extens as $exten) {
+			$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1];
+		}
 	}
 			
 	$selectHtml .=	'</select><br>';
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="group" disabled="true" '.(strpos($goto,'ext-group') === false ? '' : 'CHECKED=CHECKED').' /> Ring Group: ';
 	$selectHtml .=	'<select name="group'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[3].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'group\';"/>';
 	
-	foreach ($gresults as $gresult) {
-		$selectHtml .= '<option value="'.$gresult[0].'" '.(strpos($goto,$gresult[0]) === false ? '' : 'SELECTED').'>#'.$gresult[0];
+	if (isset($gresults)) {
+		foreach ($gresults as $gresult) {
+			$selectHtml .= '<option value="'.$gresult[0].'" '.(strpos($goto,$gresult[0]) === false ? '' : 'SELECTED').'>#'.$gresult[0];
+		}
 	}
 				
 	$selectHtml .=	'</select><br>';
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="queue" disabled="true" '.(strpos($goto,'ext-queues') === false ? '' : 'CHECKED=CHECKED').' /> Queue: ';
 	$selectHtml .=	'<select name="queue'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[4].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'queue\';"/>';
 	
-	foreach ($queues as $queue) {
-		$selectHtml .= '<option value="'.$queue[0].'" '.(strpos($goto,$queue[0]) === false ? '' : 'SELECTED').'>'.$queue[0].':'.$queue[1];
+	if (isset($queues)) {
+		foreach ($queues as $queue) {
+			$selectHtml .= '<option value="'.$queue[0].'" '.(strpos($goto,$queue[0]) === false ? '' : 'SELECTED').'>'.$queue[0].':'.$queue[1];
+		}
 	}
 				
 	$selectHtml .=	'</select><br>';
@@ -1628,7 +1670,8 @@ function setGoto($account,$context,$priority,$goto,$i) {  //preforms logic for s
 		addextensions($addarray);
 	}
 	elseif ($goto == 'ivr') {
-		$args = 'aa_'.$_REQUEST['ivr'.$i].',s,1';
+		//$args = 'aa_'.$_REQUEST['ivr'.$i].',s,1';
+		$args = $_REQUEST['ivr'.$i].',s,1';
 		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
 		addextensions($addarray);
 	}
