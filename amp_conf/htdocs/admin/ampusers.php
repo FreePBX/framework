@@ -127,7 +127,7 @@ foreach ($tresults as $tresult) {
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Username<span></span></a>: 
+					<a href=# class="info">Username<span>Create a unique username for this new user</span></a>: 
 				</td><td>
 					<input type="text" size="20" name="username" value="<?php echo $username;?>"/>
 				</td>
@@ -135,7 +135,7 @@ foreach ($tresults as $tresult) {
 <?php  if ($amp_conf["AUTHTYPE"] == "database") { ?>			
 			<tr>
 				<td>
-					<a href=# class="info">Password<span></span></a>: 
+					<a href=# class="info">Password<span>Create a password for this new user</span></a>: 
 				</td><td>
 					<input type="password" size="20" name="password" value="<?php echo $password;?>"/>
 				</td>
@@ -149,14 +149,14 @@ foreach ($tresults as $tresult) {
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Department Name<span></span></a>: 
+					<a href=# class="info">Department Name<span>Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department.</span></a>: 
 				</td><td>
 					<input type="text" size="20" name="deptname" value="<?php echo $deptname;?>"/>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Extension Range<span></span></a>: 
+					<a href=# class="info">Extension Range<span>Restrict this user's view to only Extensions, Ring Groups, and Queues within this range.</span></a>: 
 				</td><td>
 					<input type="text" size="5" name="extension_low" value="<?php echo $extension_low;?>"/>
 					&nbsp;to
@@ -165,7 +165,7 @@ foreach ($tresults as $tresult) {
 			</tr>
 			<tr>
 				<td valign="top">
-					<a href=# class="info">Admin Access<span></span></a>: 
+					<a href=# class="info">Admin Access<span>Select the Admin Sections this user should have access to.</span></a>: 
 				</td><td>&nbsp;
 					<select multiple name="sections[]">
 <?php 
