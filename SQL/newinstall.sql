@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `extensions` (
   `context` varchar(45) NOT NULL default 'default',
   `extension` varchar(45) NOT NULL default '',
   `priority` int(2) NOT NULL default '1',
-  `application` varchar(20) NOT NULL default '',
+  `application` varchar(45) NOT NULL default '',
   `args` varchar(50) default NULL,
   `descr` text,
   `flags` int(1) NOT NULL default '0',
