@@ -50,7 +50,9 @@ my %mailbox;
 my %instancias;
 my %orden_instancias;
 my %agents;
+my %agents_name;
 my $p;
+my $m;
 my $O;
 my @S;
 my @key;
@@ -68,6 +70,10 @@ my $poll_voicemail;
 my $kill_zombies;
 my $ren_agentlogin;
 my $ren_cbacklogin;
+my $ren_agentname;
+my $ren_queuemember;
+my $change_led;
+my $cdial_nosecure;
 my $debug;
 my $flash_file;
 my %barge_rooms;
@@ -80,7 +86,10 @@ my $directorio = $0;
 my $papa;
 my $auth_md5 = 1;
 my $md5challenge;
+my %shapes;
 my %no_encryption = ();
+my %total_shapes;
+my @btninclude = ();
 
 my $PADDING = join(
                    '',
@@ -222,20 +231,24 @@ sub read_server_config()
     }
     close(CONFIG);
 
-    $manager_host   = $config->{"GENERAL"}{"manager_host"};
-    $manager_user   = $config->{"GENERAL"}{"manager_user"};
-    $manager_secret = $config->{"GENERAL"}{"manager_secret"};
-    $web_hostname   = $config->{"GENERAL"}{"web_hostname"};
-    $listen_port    = $config->{"GENERAL"}{"listen_port"};
-    $security_code  = $config->{"GENERAL"}{"security_code"};
-    $flash_dir      = $config->{"GENERAL"}{"flash_dir"};
-    $poll_interval  = $config->{"GENERAL"}{"poll_interval"};
-    $poll_voicemail = $config->{"GENERAL"}{"poll_voicemail"};
-    $kill_zombies   = $config->{"GENERAL"}{"kill_zombies"};
-    $debug          = $config->{"GENERAL"}{"debug"};
-    $auth_md5       = $config->{"GENERAL"}{"auth_md5"};
-    $ren_agentlogin = $config->{"GENERAL"}{"rename_label_agentlogin"};
-    $ren_cbacklogin = $config->{"GENERAL"}{"rename_label_callbacklogin"};
+    $manager_host    = $config->{"GENERAL"}{"manager_host"};
+    $manager_user    = $config->{"GENERAL"}{"manager_user"};
+    $manager_secret  = $config->{"GENERAL"}{"manager_secret"};
+    $web_hostname    = $config->{"GENERAL"}{"web_hostname"};
+    $listen_port     = $config->{"GENERAL"}{"listen_port"};
+    $security_code   = $config->{"GENERAL"}{"security_code"};
+    $flash_dir       = $config->{"GENERAL"}{"flash_dir"};
+    $poll_interval   = $config->{"GENERAL"}{"poll_interval"};
+    $poll_voicemail  = $config->{"GENERAL"}{"poll_voicemail"};
+    $kill_zombies    = $config->{"GENERAL"}{"kill_zombies"};
+    $debug           = $config->{"GENERAL"}{"debug"};
+    $auth_md5        = $config->{"GENERAL"}{"auth_md5"};
+    $ren_agentlogin  = $config->{"GENERAL"}{"rename_label_agentlogin"};
+    $ren_cbacklogin  = $config->{"GENERAL"}{"rename_label_callbacklogin"};
+    $ren_agentname   = $config->{"GENERAL"}{"rename_to_agent_name"};
+    $ren_queuemember = $config->{"GENERAL"}{"rename_queue_member"};
+    $change_led      = $config->{"GENERAL"}{"change_led_agent"};
+    $cdial_nosecure  = $config->{"GENERAL"}{"clicktodial_insecure"};
 
     my @todos_los_rooms;
     foreach my $val ($config)
@@ -297,9 +310,25 @@ sub read_server_config()
     {
         $ren_agentlogin = 0;
     }
+    if (!defined $cdial_nosecure)
+    {
+        $cdial_nosecure = 0;
+    }
+    if (!defined $ren_agentname)
+    {
+        $ren_agentname = 0;
+    }
     if (!defined $ren_cbacklogin)
     {
         $ren_cbacklogin = 0;
+    }
+    if (!defined $ren_queuemember)
+    {
+        $ren_queuemember = 0;
+    }
+    if (!defined $change_led)
+    {
+        $change_led = 0;
     }
     if (!defined $kill_zombies)
     {
@@ -317,60 +346,205 @@ sub read_server_config()
     $/ = "\0";
 }
 
+sub collect_includes
+{
+    my $filename = shift;
+    my $archivo  = $directorio . "/" . $filename;
+
+    if (-r $archivo)
+    {
+
+        if (!inArray($filename, @btninclude))
+        {
+            push(@btninclude, $filename);
+        }
+        else
+        {
+            log_debug("$filename already included", 16);
+            return;
+        }
+
+        push(@btninclude, $filename);
+
+        open(CONFIG, "< $archivo")
+          or die("Could not open $filename. Aborting...\n\n");
+
+        my @lineas  = <CONFIG>;
+        my $cuantos = @lineas;
+        foreach my $linea (@lineas)
+        {
+            $linea =~ s/^\s+//g;
+            $linea =~ s/([^;]*)[;](.*)/$1/g;
+            $linea =~ s/\s+$//g;
+            if ($linea =~ /^include/)
+            {
+
+                # store include lines in an array so we can
+                # process them later excluding duplicates
+                $linea =~ s/^include//g;
+                $linea =~ s/^\s+//g;
+                $linea =~ s/^=>//g;
+                $linea =~ s/^\s+//g;
+                $linea =~ s/\s+$//g;
+                collect_includes($linea);
+            }
+        }
+        close CONFIG;
+    }
+    else
+    {
+        log_debug("$archivo not readable... skiping", 16);
+    }
+}
+
 sub read_buttons_config()
 {
     my @btn_cfg  = ();
     my $contador = -1;
+    my @uniq;
 
     $/ = "\n";
 
-    open(CONFIG, "< $directorio/op_buttons.cfg")
-      or die("Could not open op_buttons.cfg. Aborting...");
-
-    # Read op_buttons.cfg loading it into a hash for easier processing
-
-    while (<CONFIG>)
+    my %seen = ();
+    foreach my $item (@btninclude)
     {
-        chop;
-        $_ =~ s/^\s+//g;
-        $_ =~ s/([^;]*)[;](.*)/$1/g;
-        $_ =~ s/\s+$//g;
-        if (/^#/ || /^;/ || /^$/) { next; }   # Ignores comments and empty lines
-
-        if (/^\Q[\E/)
-        {
-            $contador++;
-            s/\[(.*)\]/$1/g;
-            if (!/^Local/i)
-            {
-                tr/a-z/A-Z/;
-            }
-            $btn_cfg[$contador]{'channel'} = $_;
-        }
-        else
-        {
-            next unless ($contador >= 0);
-            my ($key, $val) = split(/=/, $_);
-            $key =~ tr/A-Z/a-z/;
-            $key =~ s/^\s+//g;
-            $key =~ s/(.*)\s+/$1/g;
-            if ($key ne "label")
-            {
-                $val =~ s/^\s+//g;
-                $val =~ s/(.*)\s+/$1/g;
-            }
-            $btn_cfg[$contador]{"$key"} = $val;
-        }
+        push(@uniq, $item) unless $seen{$item}++;
     }
 
-    close(CONFIG);
+    foreach my $archivo (@uniq)
+    {
+
+        open(CONFIG, "< $directorio/$archivo")
+          or die("Could not open op_buttons.cfg. Aborting...");
+
+        # Read op_buttons.cfg loading it into a hash for easier processing
+
+        while (<CONFIG>)
+        {
+            chop;
+            $_ =~ s/^\s+//g;
+            $_ =~ s/([^;]*)[;](.*)/$1/g;
+            $_ =~ s/\s+$//g;
+            if (/^#/ || /^;/ || /^$/)
+            {
+                next;
+            }    # Ignores comments and empty lines
+
+            if (/^\Q[\E/)
+            {
+                $contador++;
+                s/\[(.*)\]/$1/g;
+                if (!/^Local/i)
+                {
+                    tr/a-z/A-Z/;
+                }
+                $btn_cfg[$contador]{'channel'} = $_;
+            }
+            else
+            {
+                next unless ($contador >= 0);
+                my ($key, $val) = split(/=/, $_);
+                $key =~ tr/A-Z/a-z/;
+                $key =~ s/^\s+//g;
+                $key =~ s/(.*)\s+/$1/g;
+                if ($key ne "label")
+                {
+                    $val =~ s/^\s+//g;
+                    $val =~ s/(.*)\s+/$1/g;
+                }
+                $btn_cfg[$contador]{"$key"} = $val;
+            }
+        }
+
+        close(CONFIG);
+    }
 
     # We finished reading the file, now we populate our
     # structures with the relevant data
+    my $rectangulos = 0;
+
     foreach (@btn_cfg)
     {
         my @positions = ();
         my %tmphash   = %$_;
+
+        if ($tmphash{"channel"} eq "RECTANGLE")
+        {
+            if (defined($tmphash{"panel_context"}))
+            {
+                $tmphash{"panel_context"} =~ tr/a-z/A-Z/;
+                $tmphash{"panel_context"} =~ s/^DEFAULT$//;
+            }
+            else
+            {
+                $tmphash{"panel_context"} = "";
+            }
+            my $conttemp = $tmphash{"panel_context"};
+
+            if (!defined($tmphash{"x"}))
+            {
+                $tmphash{"x"} = 1;
+            }
+            if (!defined($tmphash{"y"}))
+            {
+                $tmphash{"y"} = 1;
+            }
+            if (!defined($tmphash{"width"}))
+            {
+                $tmphash{"width"} = 1;
+            }
+            if (!defined($tmphash{"height"}))
+            {
+                $tmphash{"height"} = 1;
+            }
+            if (!defined($tmphash{"line_width"}))
+            {
+                $tmphash{"line_width"} = 1;
+            }
+            if (!defined($tmphash{"line_color"}))
+            {
+                $tmphash{"line_color"} = "0x000000";
+            }
+            if (!defined($tmphash{"fade_color1"}))
+            {
+                $tmphash{"fade_color1"} = "0xd0d0d0";
+            }
+            if (!defined($tmphash{"fade_color2"}))
+            {
+                $tmphash{"fade_color2"} = "0xd0d000";
+            }
+            if (!defined($tmphash{"rnd_border"}))
+            {
+                $tmphash{"rnd_border"} = 3;
+            }
+            if (!defined($tmphash{"alpha"}))
+            {
+                $tmphash{"alpha"} = 100;
+            }
+            if (!defined($tmphash{"layer"}))
+            {
+                $tmphash{"layer"} = "bottom";
+            }
+
+            $rectangulos++;
+            if ($rectangulos > 1)
+            {
+                $shapes{$conttemp} .= "&";
+            }
+            $total_shapes{$conttemp}++;
+            $shapes{$conttemp} .= "rect_$rectangulos=" . $tmphash{"x"} . ",";
+            $shapes{$conttemp} .= $tmphash{"y"} . ",";
+            $shapes{$conttemp} .= $tmphash{"width"} . ",";
+            $shapes{$conttemp} .= $tmphash{"height"} . ",";
+            $shapes{$conttemp} .= $tmphash{"line_width"} . ",";
+            $shapes{$conttemp} .= $tmphash{"line_color"} . ",";
+            $shapes{$conttemp} .= $tmphash{"fade_color1"} . ",";
+            $shapes{$conttemp} .= $tmphash{"fade_color2"} . ",";
+            $shapes{$conttemp} .= $tmphash{"rnd_border"} . ",";
+            $shapes{$conttemp} .= $tmphash{"alpha"} . ",";
+            $shapes{$conttemp} .= $tmphash{"layer"};
+            next;
+        }
 
         if (!defined($tmphash{"position"}))
         {
@@ -478,8 +652,10 @@ sub genera_config
     # swf movie on load, with info about buttons, layout, etc.
 
     $/ = "\n";
-    my $style_variables = "";
+    my %style_variables;
     my @contextos       = ();
+    my @uniq            = ();
+    my $contextoactual  = "";
 
     open(STYLE, "<op_style.cfg")
       or die("Could not open op_style.cfg for reading");
@@ -489,8 +665,16 @@ sub genera_config
         $_ =~ s/^\s+//g;
         $_ =~ s/([^;]*)[;](.*)/$1/g;
         $_ =~ s/\s+$//g;
-        if (/^\Q[\E/) { next; }
-        $style_variables .= $_ . "&";
+
+        #        if (/^\Q[\E/) { next; }
+        if (/^\Q[\E/)
+        {
+            s/\[(.*)\]/$1/g;
+            $contextoactual = $_;
+            $contextoactual =~ tr/A-Z/a-z/;
+            next;
+        }
+        $style_variables{$contextoactual} .= $_ . "&";
     }
     close(STYLE);
 
@@ -509,6 +693,14 @@ sub genera_config
         "Could not write configuration data $flash_file.\nCheck your file permissions\n"
       );
     print VARIABLES "server=$web_hostname&port=$listen_port";
+
+    while (my ($key, $val) = each(%shapes))
+    {
+        if ($key eq "")    # DEFAULT PANEL CONTEXT
+        {
+            print VARIABLES "&$val";
+        }
+    }
     while (my ($key, $val) = each(%textos))
     {
         $val =~ s/\"(.*)\"/$1/g;
@@ -525,17 +717,27 @@ sub genera_config
             print VARIABLES "&icono$key=$val";
         }
     }
-    print VARIABLES "&" . $style_variables;
-    print VARIABLES "CheckDone=1";
+    print VARIABLES "&" . $style_variables{"general"};
+    if (!defined($total_shapes{""}))
+    {
+        $total_shapes{""} = 0;
+    }
+    print VARIABLES "total_rectangles=" . $total_shapes{""};
     close(VARIABLES);
 
-    # Writes variables.txt for each context defined
-    foreach (@contextos)
+    my %seen = ();
+    foreach my $item (@contextos)
     {
+        push(@uniq, $item) unless $seen{$item}++;
+    }
 
-        #        my $flash_context_file = $flash_dir . "/variables" . $_ . ".txt";
-        my $directorio = "";
-        my $host_web   = "";
+    # Writes variables.txt for each context defined
+    foreach (@uniq)
+    {
+        my $directorio   = "";
+        my $host_web     = "";
+        my $contextlower = $_;
+        $contextlower =~ tr/A-Z/a-z/;
 
         if (defined($config->{$_}{"flash_dir"}))
         {
@@ -561,6 +763,13 @@ sub genera_config
             "Could not write configuration data $flash_file.\nCheck your file permissions\n"
           );
         print VARIABLES "server=$host_web&port=$listen_port";
+        while (my ($key, $val) = each(%shapes))
+        {
+            if ($key eq $_)    # OTHER CONTEXT
+            {
+                print VARIABLES "&$val";
+            }
+        }
         while (my ($key, $val) = each(%textos))
         {
             $val =~ s/\"(.*)\"/$1/g;
@@ -579,8 +788,16 @@ sub genera_config
                 print VARIABLES "&icono$key=$val";
             }
         }
-        print VARIABLES "&" . $style_variables;
-        print VARIABLES "CheckDone=1";
+        if (!defined($style_variables{$contextlower}))
+        {
+            $style_variables{$contextlower} = $style_variables{"general"};
+        }
+        print VARIABLES "&" . $style_variables{$contextlower};
+        if (!defined($total_shapes{$_}))
+        {
+            $total_shapes{$_} = 0;
+        }
+        print VARIABLES "total_rectangles=" . $total_shapes{$_};
         close(VARIABLES);
     }
     $/ = "\0";
@@ -664,6 +881,7 @@ sub generate_configs_onhup
     %textos             = ();
     %iconos             = ();
     %extension_transfer = ();
+    %shapes             = ();
     read_buttons_config();
     read_server_config();
     genera_config();
@@ -674,6 +892,8 @@ sub manager_reconnect()
     my $attempt        = 1;
     my $total_attempts = 60;
     my $command;
+    %agents      = ();
+    %agents_name = ();
 
     do
     {
@@ -693,6 +913,15 @@ sub manager_reconnect()
         sleep(10);    # wait 10 seconds before trying to reconnect
     } until $p;
     $O->add($p);
+    foreach my $hd ($O->handles)
+    {
+        if ($hd != $m && $hd != $p)
+        {
+            log_debug("Closing flash client $hd", 16);
+            $O->remove($hd);
+            close($hd);
+        }
+    }
 
     if ($auth_md5 == 1)
     {
@@ -706,6 +935,8 @@ sub manager_reconnect()
         $command .= "Secret: $manager_secret\r\n\r\n";
     }
     send_command_to_manager($command);
+
+    #    send_initial_status();
 }
 
 # Checks file_name to find out the directory where the configuration
@@ -716,6 +947,7 @@ chdir($directorio);
 $directorio = `pwd`;
 chop($directorio);
 
+collect_includes("op_buttons.cfg");
 read_buttons_config();
 read_server_config();
 genera_config();
@@ -747,7 +979,7 @@ else
 
 send_command_to_manager($command);
 
-my $m =
+$m =
   new IO::Socket::INET(Listen => 1, LocalPort => $listen_port, ReuseAddr => 1)
   or die "\nCan't listen to port $listen_port\n";
 $O = new IO::Select();
@@ -806,38 +1038,65 @@ while (1)
                 }
                 else
                 {
-                    $i =~ s/([^\r])\n/$1\r\n/g;    # Reemplaza \n solo por \r\n
 
+                    # $i =~ s/([^\r])\n/$1\r\n/g;    # Reemplaza \n solo por \r\n
                     $bloque_completo = "" if (!defined($bloque_completo));
-                    $papa            = $i;
-                    $papa            = substr($bloque_completo, -5) . $papa;
-                    if ($papa =~ "\r\n\r\n" || $i =~ /\0/)
+                    $bloque_completo .= $i;
+                    next
+                      if (   $bloque_completo !~ /\r\n\r\n/
+                          && $bloque_completo !~ /\0/);
+                    log_debug("** End of block", 16);
+                    $bloque_final = $bloque_completo;
+                    $bloque_final =~
+                      s/([^\r])\n/$1\r\n/g;    # Reemplaza \n solo por \r\n
+                    $bloque_completo = "";
+                    my @lineas = split("\r\n", $bloque_final);
+
+                    foreach my $linea (@lineas)
                     {
-                        log_debug("** End of block", 16);
-                        $bloque_final    = $bloque_completo . $i;
-                        $bloque_completo = "";
-                        $bloque_final =~
-                          s/([^\r])\n/$1\r\n/g;    # Reemplaza \n solo por \r\n
-                        my @lineas = split("\r\n", $bloque_final);
-                        foreach my $linea (@lineas)
+                        if (length($linea) < 2)
                         {
-                            if (length($linea) < 2)
-                            {
-                                $bloque_completo = $linea;
-                            }
-                            else
-                            {
-                                if ($_ == $p) { log_debug("<- $linea", 1); }
-                            }
+                            $bloque_completo = $linea;
                         }
-                        if ($_ == $p) { log_debug(" ", 1); }
+                        else
+                        {
+                            if ($_ == $p) { log_debug("<- $linea", 1); }
+                        }
                     }
-                    else
-                    {
-                        my $quehay = substr($i, -2);
-                        $bloque_completo .= $i;
-                        next;
-                    }
+                    if ($_ == $p) { log_debug(" ", 1); }
+
+                    #    $i =~ s/([^\r])\n/$1\r\n/g;    # Reemplaza \n solo por \r\n
+
+                    #    $bloque_completo = "" if (!defined($bloque_completo));
+                    #    $papa            = $i;
+                    #    $papa            = substr($bloque_completo, -5) . $papa;
+                    #    if ($papa =~ "\r\n\r\n" || $i =~ /\0/)
+                    #    {
+                    #        log_debug("** End of block", 16);
+                    #        $bloque_final    = $bloque_completo . $i;
+                    #        $bloque_completo = "";
+                    #        $bloque_final =~
+                    #          s/([^\r])\n/$1\r\n/g;    # Reemplaza \n solo por \r\n
+                    #        my @lineas = split("\r\n", $bloque_final);
+                    #        foreach my $linea (@lineas)
+                    #        {
+                    #            if (length($linea) < 2)
+                    #            {
+                    #                $bloque_completo = $linea;
+                    #            }
+                    #            else
+                    #            {
+                    #                if ($_ == $p) { log_debug("<- $linea", 1); }
+                    #            }
+                    #        }
+                    #        if ($_ == $p) { log_debug(" ", 1); }
+                    #    }
+                    #    else
+                    #    {
+                    #        my $quehay = substr($i, -2);
+                    #        $bloque_completo .= $i;
+                    #        next;
+                    #    }
 
                     foreach my $C ($O->handles)
                     {
@@ -1314,7 +1573,7 @@ sub process_flash_command
         {
             $flash_contexto{$socket} = "";
         }
-        if ($datos eq "1")
+        if ($datos =~ /^1/)
         {
             $no_encryption{"$socket"} = 1;
         }
@@ -1410,7 +1669,8 @@ sub process_flash_command
             $md5clave = MD5HexDigest($myclave);
         }
 
-        if ("$password" eq "$md5clave")
+        if (   ("$password" eq "$md5clave")
+            || ($accion =~ /^dial/ && $cdial_nosecure == 1))
         {
             sends_correct($socket);
             log_debug(
@@ -1763,6 +2023,21 @@ sub process_flash_command
                 $comando .= "\r\n";
                 send_command_to_manager($comando);
             }
+            elsif ($accion =~ /^dial/)
+            {
+                my $numero_a_discar = $accion;
+                $numero_a_discar =~ s/^dial//g;
+                $comando = "Action: Originate\r\n";
+                $comando .= "Channel: $origin_channel\r\n";
+                $comando .= "Exten: $numero_a_discar\r\n";
+                if ($contexto ne "")
+                {
+                    $comando .= "Context: $contexto\r\n";
+                }
+                $comando .= "Priority: 1\r\n";
+                $comando .= "\r\n";
+                send_command_to_manager($comando);
+            }
         }
         else
         {
@@ -1889,17 +2164,20 @@ sub process_cli_command
     {
         my $agent_number;
         my $agent_state;
+        my $agent_name;
 
         # Show Agents CLI command, generates fake events
 
         foreach (@lineas)
         {
             $_ =~ s/\s+/ /g;
-            /(\d+) (\(.*\)) (.*) (\(.*\))/;
+            /(\d+) \((.*)\) (.*) (\(.*\))/;
             if (defined($1))
             {
-                $agent_number = $1;
-                $agent_state  = $3;
+                $agent_number               = $1;
+                $agent_name                 = $2;
+                $agent_state                = $3;
+                $agents_name{$agent_number} = $agent_name;
             }
             if (defined($3))
             {
@@ -1918,7 +2196,6 @@ sub process_cli_command
                 {
 
                     # Agent login
-                    print "$agent_state\n";
                     $agent_state =~ s/\s+/ /g;
                     $agent_state =~ s/logged in on //g;
                     $agent_state =~ s/(.*) (.*)/$1/g;
@@ -1926,6 +2203,33 @@ sub process_cli_command
                     $bloque[$contador]{"Event"}   = "Agentlogin";
                     $bloque[$contador]{"Channel"} = $agent_state;
                     $bloque[$contador]{"Agent"}   = $agent_number;
+                    $contador++;
+                }
+            }
+        }
+    }
+    elsif ($texto =~ "ActionID: iaxpeers")
+    {
+        foreach my $valor (@lineas)
+        {
+            log_debug("** Line: $valor", 32);
+            $valor =~ s/\s+/ /g;
+            my @parametros = split(" ", $valor);
+            my $interno    = $parametros[0];
+            my $ultimo     = @parametros;
+            if ($ultimo == 6)
+            {
+                $ultimo = $ultimo - 1;
+                my $estado = $parametros[$ultimo];
+                if (defined($estado)
+                    && $estado ne
+                    "")    # If set, is the status of 'sip show peers'
+                {
+                    $interno = "IAX2/" . $interno . "-" . $interno;
+                    log_debug("** State: $estado Extension: $interno", 16);
+                    $bloque[$contador]{"Event"}   = "Regstatus";
+                    $bloque[$contador]{"Channel"} = $interno;
+                    $bloque[$contador]{"State"}   = $estado;
                     $contador++;
                 }
             }
@@ -1996,6 +2300,7 @@ sub procesa_bloque
         {
             $evento = "";
             $hash_temporal{$key} = $val;
+            $val =~ s/UserEvent//g;
             if    ($val =~ /Newchannel/)      { $evento = "newchannel"; }
             elsif ($val =~ /Newcallerid/)     { $evento = "newcallerid"; }
             elsif ($val =~ /^Status$/)        { $evento = "status"; }
@@ -2067,37 +2372,77 @@ sub procesa_bloque
     $enlazado .= ":" . $datos{$unico_id}{"AppData"}
       if defined($datos{$unico_id}{"AppData"});
 
-    if ($evento eq "agentcblogin" && $ren_cbacklogin == 1)
+    if ($evento eq "agentcblogin")
     {
-        my $texto = $hash_temporal{"Agent"};
+        my $labeltext = ".";
+        my $texto     = $hash_temporal{"Agent"};
         if (defined($extension_transfer_reverse{$hash_temporal{"Loginchan"}}))
         {
             $canal = $extension_transfer_reverse{$hash_temporal{"Loginchan"}};
-            $estado_final = "changelabel";
-            $return = "$canal|$estado_final|Agent/$texto|$unico_id|$canalid";
+            $estado_final = "changelabel" . $change_led;
+            if ($ren_cbacklogin == 1)
+            {
+                $labeltext = "Agent/$texto";
+                if ($ren_agentname == 1)
+                {
+                    if (defined($agents_name{$texto}))
+                    {
+                        $labeltext = $agents_name{$texto};
+                    }
+                }
+            }
+            $return = "$canal|$estado_final|$labeltext|$unico_id|$canalid";
             $agents{$texto} = $canal;
         }
         $evento = "";
     }
 
-    if ($evento eq "agentlogin" && $ren_agentlogin == 1)
+    if ($evento eq "agentlogin")
     {
+        my $labeltext = ".";
+
         $texto = $hash_temporal{"Agent"};
+
         ($canal, my $nada) =
           separate_session_from_channel($hash_temporal{"Channel"});
-        $estado_final = "changelabel";
-        $return       = "$canal|$estado_final|Agent/$texto|$unico_id|$canalid";
+        $estado_final = "changelabel" . $change_led;
+
+        if ($ren_agentlogin == 1 && !defined($hash_temporal{'Fake'}))
+        {
+            $labeltext = "Agent/$texto";
+            if ($ren_agentname == 1)
+            {
+                if (defined($agents_name{$texto}))
+                {
+                    $labeltext = $agents_name{$texto};
+                }
+            }
+        }
+        if ($ren_queuemember == 1)
+        {
+            $labeltext = "Agent/$texto";
+            if ($ren_agentname == 1)
+            {
+                if (defined($agents_name{$texto}))
+                {
+                    $labeltext = $agents_name{$texto};
+                }
+            }
+        }
+
+        $return         = "$canal|$estado_final|$labeltext|$unico_id|$canalid";
         $agents{$texto} = $canal;
-        $evento = "";
+        $evento         = "";
     }
 
-    if ($evento eq "agentlogoff")
+    if ($evento eq "agentlogoff"
+        && ($ren_agentlogin == 1 || $ren_cbacklogin == 1 || $change_led == 1))
     {
         $texto = $hash_temporal{"Agent"};
         if (defined($agents{$texto}))
         {
             $canal        = $agents{$texto};
-            $estado_final = "changelabel";
+            $estado_final = "changelabel" . $change_led;
             $return       = "$canal|$estado_final|original|$unico_id|$canalid";
         }
         delete $agents{$texto};
@@ -2123,18 +2468,32 @@ sub procesa_bloque
         while (($key, $val) = each(%hash_temporal))
         {
             $texto .= "$key = $val\n";
+            if ($key eq "Queue")
+            {
+                $estado_final .= $val;
+            }
         }
         $unico_id = $canal;
         $texto    = encode_base64($texto);
         $return   = "$canal|$estado_final|$texto|$unico_id|$canalid";
         $evento   = "";
+
+        #		if($ren_queuemember == 1) {
+        # Generates Fake Agent Login to change led color and label renaming
+        $fake_bloque[$fakecounter]{"Event"}   = "Agentlogin";
+        $fake_bloque[$fakecounter]{"Channel"} = $canal . "-1234";
+        $fake_bloque[$fakecounter]{"Agent"}   = $canal;
+        $fake_bloque[$fakecounter]{"Fake"}    = "1";
+        $fakecounter++;
+
+        #		}
     }
 
     if ($evento eq "queuestatus")
     {
         $canal = $hash_temporal{"Queue"};
         $canal =~ tr/a-z/A-Z/;
-        $estado_final = "info";
+        $estado_final = "infoqstat";
         $texto        = "";
         while (($key, $val) = each(%hash_temporal))
         {
@@ -2163,7 +2522,6 @@ sub procesa_bloque
         }
 
         # Generates a Fake Block/Event for sending info status to queues
-
         while (($key, $val) = each(%hash_temporal))
         {
             $fake_bloque[$fakecounter]{$key} = $val;
@@ -2233,7 +2591,7 @@ sub procesa_bloque
             send_command_to_manager($comando);
         }
 
-        $estado_final = "ocupado";
+        $estado_final = "ocupado9";    # 9 for conference
         my $plural = "";
         if (!defined($hash_temporal{"Fake"}))
         {
@@ -2269,7 +2627,7 @@ sub procesa_bloque
     {
         $canal = $hash_temporal{"Meetme"};
         $canal =~ tr/a-z/A-Z/;
-        $estado_final = "ocupado";
+        $estado_final = "ocupado9";    # 9 for meetme
         my $plural = "";
         $datos{$canal}{"Count"}--;
         $barge_rooms{$canal} = $datos{$canal}{"Count"};
@@ -2467,7 +2825,6 @@ sub procesa_bloque
 
             $estado_final = "meetmeuser";
             $texto = $hash_temporal{"Usernum"} . "," . $hash_temporal{"Meetme"};
-
             log_debug($return, 128);
 
             #        $evento="";
@@ -2989,6 +3346,12 @@ sub alarma_al_minuto
         my $comando = "Action: Command\r\n";
         $comando .= "Command: sip show peers\r\n\r\n";
         send_command_to_manager($comando);
+
+        $comando = "Action: Command\r\n";
+        $comando .= "ActionID: iaxpeers\r\n";
+        $comando .= "Command: iax2 show peers\r\n\r\n";
+        send_command_to_manager($comando);
+
         if ($poll_voicemail == 1)
         {
 
@@ -3102,6 +3465,19 @@ sub close_all
     }
 
     exit(0);
+}
+
+sub inArray
+{
+    my $val = shift;
+    for my $elem (@_)
+    {
+        if ($val eq $elem)
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 sub encode_base64
