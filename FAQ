@@ -21,7 +21,7 @@ A:
 
 
 Q: Can I use conference rooms (meetme)?
-A: A meetme room is created for every single extension.  To access an extension's meetme room, prefix teh extension number with an 8.  ie:  extension 200 has meetme room 8200
+A: A meetme room is created for every single extension.  To access an extension's meetme room, prefix the extension number with an 8.  ie:  extension 200 has meetme room 8200
 
 
 Q: What happens when I add/change/remove an extension?
@@ -34,5 +34,5 @@ A:
 	- op_server.cfg is regenerated (for Flash Operator Panel)
 
 Q: How do the changed .conf files get loaded into Asterisk?
-A: When you make a change to the extension information, a red bar will appear across the top of the AMP interface.  When you have finished making changes, and wish for them to take effect, just click this red bar.  When you do this, Asterisk will perform a 'reload' (to read in the changed files).  The FOP server, op_server.pl, will also be bounced, to ensure that the changes are also seen in the FOP.
+A: When you make a change to the extension information, a red bar will appear across the top of the AMP interface.  When you have finished making changes, and wish for them to take effect, just click this red bar.  When you do this, Asterisk will perform a 'reload' (to read in the changed files).  The FOP server, op_server.pl, will also be bounced, to ensure that the FOP also sees the changes.
 
