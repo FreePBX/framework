@@ -39,6 +39,7 @@ chown_asterisk() {
 	chmod u+x $AMPWEBROOT/admin/*.pl
 	chmod u+x $AMPWEBROOT/admin/*.sh
 	chmod u+x $AMPWEBROOT/panel/*.pl
+	chmod u+x $AMPWEBROOT/panel/safe_opserver
 	echo Permissions OK
 }
 
