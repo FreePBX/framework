@@ -184,16 +184,13 @@ switch($extdisplay) {
 		<input type="hidden" name="action" value="bscEdit"/>
 		<h4>Basic Edit:</h4>
 		<p>
-			<table>
-			<tr>
-				<td>extension number:</td>
 				<?
 				foreach ($thisExten as $result) {
 					${$result[1]} = $result[2];
 				}
 				?>
-				<td><input tabindex="1" size="10" type="text" name="account" value="<? echo $account; ?>"/></td>
-			</tr>
+			<input tabindex="1" type="hidden" name="account" value="<? echo $account; ?>"/>
+			<table>
 			<tr>
 				<td>extension password:</td>
 				<td><input tabindex="2" size="10" type="text" name="secret" value="<? echo $secret; ?>"/></td>
@@ -264,11 +261,12 @@ switch($extdisplay) {
 			<table>
 			<? 
 			foreach ($thisExten as $result) {
-				if ($result[1] != 'callerid') {
+				if ($result[1] != 'callerid' && $result[1] != 'account') {
 					echo '<tr><td>'.$result[1].': </td><td><input size="10" type="text" name="'.$result[1].'" value="'.$result[2].'"/></td></tr>';
 				}
 			}
 			?>
+			<input type="hidden" name="account" value="<? echo $account ?>">
 			<tr>
 				<td>
 					voicemail pwd:
