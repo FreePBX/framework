@@ -46,8 +46,8 @@ switch ($action) {
 ?>
 </div>
 <div class="rnav">
-    <li><a href="config.php?display=<?php echo $display?>&action=add">Add Music Category</a><br></li>
-    <li><a id="<?php echo ($category=='Default' ? 'current':'')?>" href="config.php?display=<?php echo $display?>&category=Default">Default</a><br></li>
+    <li><a href="config.php?display=<?php echo $display?>&action=add"><?php echo _("Add Music Category")?></a><br></li>
+    <li><a id="<?php echo ($category=='Default' ? 'current':'')?>" href="config.php?display=<?php echo $display?>&category=Default"><?php echo _("Default")?></a><br></li>
 
 <?php
 //get existing trunk info
@@ -75,7 +75,7 @@ $handle = fopen("/etc/asterisk/musiconhold_additional.conf", "w");
 
 if (fwrite($handle, $File_Write) === FALSE)
 {
-        echo "Cannot write to file ($tmpfname)";
+        echo _("Cannot write to file")." ($tmpfname)";
         exit;
 }
 
@@ -132,7 +132,7 @@ function draw_list($file_array, $path_to_dir, $category)
 			print "<div style=\"text-align:right;width:350px;border: 1px solid;padding:2px;\">";
 			//print "<a style=\"float:left;margin-left:5px;\" href=\"file:". $path_to_dir ."". $thisfile ."\">".$thisfile."</a>";
 			print "<b style=\"float:left;margin-left:5px;\" >".$thisfile."</b>";
-			print "<a style=\"margin-right:5px;\" href=\"".$_SERVER['SCRIPT_NAME']."?display=1&del=".$thisfile."&category=".$category."\">Delete</a>";
+			print "<a style=\"margin-right:5px;\" href=\"".$_SERVER['SCRIPT_NAME']."?display=1&del=".$thisfile."&category=".$category."\">"._("Delete")."</a>";
 			print "</div><br>";
 		}
 	}
@@ -158,7 +158,7 @@ function kill_mpg123()
 ?>
 
 <div class="content">
-<h2>On Hold Music</h2>
+<h2><?php echo _("On Hold Music")?></h2>
 
 <?php
 if ($action == 'add')
@@ -168,13 +168,13 @@ if ($action == 'add')
 	<input type="hidden" name="display" value="<?php echo $display?>">
 	<input type="hidden" name="action" value="addednew">
 	<table>
-	<tr><td colspan="2"><h5>Add Music Category<hr></h5></td></tr>
+	<tr><td colspan="2"><h5><?php echo _("Add Music Category")?><hr></h5></td></tr>
 	<tr>
-		<td><a href="#" class="info">Category Name:<span>Allows you to Set up Different Categories for music on hold.  This is useful if you would like to specify different Hold Music or Commercials for various ACD Queues. </span></a></td>
+		<td><a href="#" class="info"><?php echo _("Category Name:")?><span><?php echo _("Allows you to Set up Different Categories for music on hold.  This is useful if you would like to specify different Hold Music or Commercials for various ACD Queues.")?> </span></a></td>
 		<td><input type="text" name="category" value=""></td>
 	</tr>
 	<tr>
-		<td colspan="2"><br><h6><input name="Submit" type="submit" value="Submit Changes" ></h6></td>		
+		<td colspan="2"><br><h6><input name="Submit" type="submit" value='<?php echo _("Submit Changes")?>' ></h6></td>		
 	</tr>
 	</table></form>
 	<br><br><br><br><br>
@@ -185,17 +185,17 @@ else
 {
 ?>
 
-	<h5>Category: <?php echo $category ?></h5>
+	<h5><?php echo _("Category:")?> <?php echo $category=="Default"?_("Default"):$category;?></h5>
 	<?php  if ($category!="Default"){?>
-	<p><a href="config.php?display=<?php echo $display ?>&action=delete&category=<?php echo $category ?>">Delete Music Category <?php echo $category; ?></a></p><?php }?>
+	<p><a href="config.php?display=<?php echo $display ?>&action=delete&category=<?php echo $category ?>"><?php echo _("Delete Music Category")?> <?php echo $category; ?></a></p><?php }?>
 
 	<form enctype="multipart/form-data" name="upload" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
-		Upload a .wav or .mp3 file:<br>
+		<?php echo _("Upload a .wav or .mp3 file:")?><br>
 		<input type="hidden" name="display" value="1">
 		<input type="hidden" name="category" value="<?php echo "$category" ?>">
 		<input type="hidden" name="action" value="addedfile">
 		<input type="file" name="mohfile"/>
-		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('Please wait until the page loads. Your file is being processed.');"/>
+		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('<?php echo _("Please wait until the page loads. Your file is being processed.")?>');"/>
 	</form>
 	
 	
@@ -205,7 +205,7 @@ else
 		//echo $_FILES['mohfile']['name']." uploaded OK";
 		move_uploaded_file($_FILES['mohfile']['tmp_name'], $path_to_dir."/orig_".$_FILES['mohfile']['name']);
 		process_mohfile($_FILES['mohfile']['name']);
-		echo "<h5>Completed processing ".$_FILES['mohfile']['name']."!</h5>";
+		echo "<h5>"._("Completed processing")." ".$_FILES['mohfile']['name']."!</h5>";
 		kill_mpg123();
 	}
 
@@ -216,11 +216,11 @@ else
 
 	if ($_REQUEST['del']) {
 		if (($numf == 1) && ($category == "Default") ){
-			echo "<h5>You must have at least one file for On Hold Music.  Please upload one before deleting this one.</h5>";
+			echo "<h5>"._("You must have at least one file for On Hold Music.  Please upload one before deleting this one.")."</h5>";
 		} else {
 			$rmcmd="rm -f \"".$path_to_dir."/".$_REQUEST['del']."\"";
 			exec($rmcmd);
-			echo "<h5>Deleted ".$_REQUEST['del']."!</h5>";
+			echo "<h5>"._("Deleted")." ".$_REQUEST['del']."!</h5>";
 			kill_mpg123();
 		}
 	}
