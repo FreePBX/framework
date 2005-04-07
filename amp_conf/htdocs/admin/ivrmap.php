@@ -20,7 +20,7 @@ $unique_aas = getaas();
 if (count($unique_aas) > 0) {
 ?>
 
-	<h4>Voice Menu Map</h4>
+	<h4><?php echo _("Voice Menu Map")?></h4>
 
 <?php 
 	//convert the customizable parts of each auto attendant to a user-readable format
@@ -45,10 +45,10 @@ if (count($unique_aas) > 0) {
 	<ul>
 		<li>
 			<span style="float:right;text-align:right;">
-				&bull; <a href="config.php?display=2&menu_id=<?php  echo $menu[0] ?>&ivr_action=edit">Modify this Menu</a><br>
-				&bull; <a href="config.php?display=2&menu_id=<?php  echo $menu[0] ?>&ivr_action=delete">Delete</a>
+				&bull; <a href="config.php?display=2&menu_id=<?php  echo $menu[0] ?>&ivr_action=edit"><?php echo _("Modify this Menu")?></a><br>
+				&bull; <a href="config.php?display=2&menu_id=<?php  echo $menu[0] ?>&ivr_action=delete"><?php echo _("Delete")?></a>
 			</span>
-			Menu <?php  echo $menu[0] ?>: <b><?php echo $menu[1]?></b>
+			<?php echo _("Menu")?> <?php  echo $menu[0] ?>: <b><?php echo $menu[1]?></b>
 			<ul>
 <?php 
 		//do another select for all parts in this aa_
@@ -62,42 +62,42 @@ if (count($unique_aas) > 0) {
 			$argslen = count($args);
 			//need to be backwards compatible, as we dial extensions by goto ext-local now
 			if ($application == 'Macro' && $args[0] == 'exten-vm') {
-					echo '<li>dialing '.$extension.' <b>dials extension #'.$args[2].'</b>';
+					echo '<li>'._("dialing").' '.$extension.' <b>'._("dials extension #").$args[2].'</b>';
 			}
 			elseif ($application == 'Goto' && $args[0] == 'ext-local') {
-				echo '<li>dialing '.$extension.' <b>dials extension #'.$args[1].'</b>';
+				echo '<li>'._("dialing").' '.$extension.' <b>'._("dials extension #").$args[1].'</b>';
 			}
 			elseif ($application == 'Macro' && $args[0] == 'vm') {
-					echo '<li>dialing '.$extension.' <b>sends to voicemail box #'.$args[1].'</b>';
+					echo '<li>'._("dialing").' '.$extension.' <b>'._("sends to voicemail box #").$args[1].'</b>';
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'aa_') === false)) {
-					echo '<li>dialing '.$extension.' <b>goes to Menu ID '.$args[0].'</b>';
+					echo '<li>'._("dialing").' '.$extension.' <b>'._("goes to Menu ID").' '.$args[0].'</b>';
 					$menu_request[] = $args[0]; //we'll check to see if the aa_ target exists later
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'ext-group') === false)) {
-					echo '<li>dialing '.$extension.' <b>dials group #'.$args[1].'</b>';
+					echo '<li>'._("dialing").' '.$extension.' <b>'._("dials group #").$args[1].'</b>';
 			}
 			elseif ($application == 'Background') {
 					$description = $aaline[5];
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'custom') === false)) {
-				echo '<li>dialing '.$extension.' <b>goes to '.$args[0].','.$args[1].','.$args[2].'</b>';
+				echo '<li>'._("dialing").' '.$extension.' <b>'._("goes to").' '.$args[0].','.$args[1].','.$args[2].'</b>';
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'ext-queues') === false)) {
-				echo '<li>dialing '.$extension.' <b>goes to Queue #'.$args[1].'</b>';
+				echo '<li>'._("dialing").' '.$extension.' <b>'._("goes to Queue #").$args[1].'</b>';
 			}
 		}
 ?>
 			</ul>
 			<br>
-			Menu notes: <b><i><?php  echo $description; ?></i></b>
+			<?php echo _("Menu notes:")?> <b><i><?php  echo $description; ?></i></b>
 	</ul>
 	<hr>		
 <?php 				
 	} //end foreach ($unique_aas as $unique_aa) 
 		
 	//include a link to create an additional voice menu.
-	echo '<ul><li>Would you like to create another Menu?<ul><li><a href="config.php?display=2&menu_id='.$dept.'aa_'.++$menu_num.'">Create a new Voice Menu</a></ul></ul><br>';
+	echo '<ul><li>'._("Would you like to create another Menu?").'<ul><li><a href="config.php?display=2&menu_id='.$dept.'aa_'.++$menu_num.'">'._("Create a new Voice Menu").'</a></ul></ul><br>';
 	
 } //end if (count($unique_aas) > 0)
 else {
