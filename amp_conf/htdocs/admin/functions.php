@@ -2212,5 +2212,25 @@ function rmdirr($dirname)
     $dir->close();
     return rmdir($dirname);
 }
+function backuptableexists() {
+        global $db;
 
+        $sql ="CREATE TABLE IF NOT EXISTS `Backup` (";
+                $sql.="`Name` varchar(50) default NULL,";
+                $sql.="`Voicemail` varchar(50) default NULL,";
+                $sql.="`Recordings` varchar(50) default NULL,";
+                $sql.="`Configurations` varchar(50) default NULL,";
+                $sql.="`CDR` varchar(55) default NULL,";
+                $sql.="`FOP` varchar(50) default NULL,";
+                $sql.="`Minutes` varchar(50) default NULL,";
+                $sql.="`Hours` varchar(50) default NULL,";
+                $sql.="`Days` varchar(50) default NULL,";
+                $sql.="`Months` varchar(50) default NULL,";
+                $sql.="`Weekdays` varchar(50) default NULL,";
+                $sql.="`Command` varchar(200) default NULL,";
+                $sql.="`Method` varchar(50) default NULL,";
+                $sql.="`ID` int(11) NOT NULL auto_increment,";
+                $sql.="PRIMARY KEY  (ID))";
+        $results = $db->query($sql);
+}
 ?>
