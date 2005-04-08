@@ -92,6 +92,7 @@ $amp_sections = array(
 		7=>_("DID Routes"),
 		1=>_("On Hold Music"),
 		12=>_("System Recordings"),
+		13=>_("Backup & Restore"),
 		5=>_("General Settings"),
 		99=>_("Apply Changes Bar")
 	);
@@ -141,10 +142,6 @@ switch($display) {
 		echo "<p>"._("The section you requested does not exist or you do not have access to it.")."</p>";
 		echo str_repeat("<br />", 10);
 	break;
-	case '9':
-		echo "<h2>"._("Incoming Calls")."</h2>";
-		include 'incoming.php';
-	break;
 	case '1':
 		include 'music.php';
 	break;
@@ -163,9 +160,6 @@ switch($display) {
 	case '4':
 		include 'callgroups.php';
 	break;
-	case '11':
-		include 'queues.php';
-	break;
 	case '5':
 		echo "<h2>"._("General Settings")."</h2>";
 		include 'general.php';
@@ -179,11 +173,21 @@ switch($display) {
 	case '8':
 		include 'routing.php';
 	break;
-	case '12':
-		include 'recordings.php';
+	case '9':
+		echo "<h2>"._("Incoming Calls")."</h2>";
+		include 'incoming.php';
 	break;
 	case '10':
 		include 'ampusers.php';
+	break;
+	case '11':
+		include 'queues.php';
+	break;
+	case '12':
+		include 'recordings.php';
+	break;
+	case '13':
+		include 'backup.php';
 	break;
 }
 ?>
