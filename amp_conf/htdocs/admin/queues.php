@@ -29,7 +29,7 @@ $goto = $_REQUEST['goto0'];
 
 //check if the extension is within range for this user
 if (isset($account) && !checkRange($account)){
-	echo "<script>javascript:alert('Warning! Extension $account is not allowed for your account.');</script>";
+	echo "<script>javascript:alert('"._("Warning! Extension")." $account "._("is not allowed for your account.")."');</script>";
 } else {
 	
 	//if submitting form, update database
@@ -65,7 +65,7 @@ $queues = getqueues();
 </div>
 
 <div class="rnav">
-    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>">Add Queue</a><br></li>
+    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add Queue")?></a><br></li>
 <?php
 if (isset($queues)) {
 	foreach ($queues as $queue) {
@@ -89,37 +89,37 @@ if ($action == 'delete') {
 	$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delete';
 ?>
 
-	<h2>Queue: <?php echo $extdisplay; ?></h2>
+	<h2><?php echo _("Queue:")." ". $extdisplay; ?></h2>
 <?php		if ($extdisplay){ ?>
-	<p><a href="<?php echo $delURL ?>">Delete Queue <?php echo $extdisplay; ?></a></p>
+	<p><a href="<?php echo $delURL ?>"><?php echo _("Delete Queue")?> <?php echo $extdisplay; ?></a></p>
 <?php		} ?>
 	<form name="editQ" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="display" value="<?php echo $dispnum?>">
 	<input type="hidden" name="action" value="<?php echo ($extdisplay ? 'edit' : 'add') ?>">
 	<table>
-	<tr><td colspan="2"><h5><?php echo ($extdisplay ? 'Edit Queue' : 'Add Queue') ?><hr></h5></td></tr>
+	<tr><td colspan="2"><h5><?php echo ($extdisplay ? _("Edit Queue") : _("Add Queue")) ?><hr></h5></td></tr>
 	<tr>
 <?php		if ($extdisplay){ ?>
 		<input type="hidden" name="account" value="<?php echo $extdisplay; ?>">
 <?php		} else { ?>
-		<td><a href="#" class="info">queue number:<span>Use this number to dial into the queue, or transfer callers to this number to put them into the queue.<br><br>Agents will dial this queue number plus * to log onto the queue, and this queue number plus ** to log out of the queue.<br><br>For example, if the queue number is 123:<br><br><b>123* = log in<br>123** = log out</b></span></a></td>
+		<td><a href="#" class="info"><?php echo _("queue number:")?><span><?php echo _("Use this number to dial into the queue, or transfer callers to this number to put them into the queue.<br><br>Agents will dial this queue number plus * to log onto the queue, and this queue number plus ** to log out of the queue.<br><br>For example, if the queue number is 123:<br><br><b>123* = log in<br>123** = log out</b>")?></span></a></td>
 		<td><input type="text" name="account" value=""></td>
 <?php		} ?>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">queue name:<span>Give this queue a brief name to help you identify it.</span></a></td>
+		<td><a href="#" class="info"><?php echo _("queue name:")?><span><?php echo _("Give this queue a brief name to help you identify it.")?></span></a></td>
 		<td><input type="text" name="name" value="<?php echo (isset($name) ? $name : ''); ?>"></td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">queue password:<span>You can require agents to enter a password before they can log in to this queue.<br><br>This setting is optional.</span></a></td>
+		<td><a href="#" class="info"><?php echo _("queue password:")?><span><?php echo _("You can require agents to enter a password before they can log in to this queue.<br><br>This setting is optional.")?></span></a></td>
 		<td><input type="text" name="password" value="<?php echo (isset($password) ? $password : ''); ?>"></td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">CID name prefix:<span>You can optionally prefix the Caller ID name of callers to the queue. ie: If you prefix with "Sales:", a call from John Doe would display as "Sales:John Doe" on the extensions that ring.</span></a></td>
+		<td><a href="#" class="info"><?php echo _("CID name prefix:")?><span><?php echo _("You can optionally prefix the Caller ID name of callers to the queue. ie: If you prefix with \"Sales:\", a call from John Doe would display as \"Sales:John Doe\" on the extensions that ring.")?></span></a></td>
 		<td><input size="4" type="text" name="prefix" value="<?php echo (isset($prefix) ? $prefix : ''); ?>"></td>
 	</tr>
 	<tr  valign="top">
-		<td><a href="#" class="info">static agents:<span>Static agents are extensions that are assumed to always be on the queue.  Static agents do not need to 'log in' to the queue, and cannot 'log out' of the queue.<br><br>Hold <b>CTRL</b> to select multiple extensions</span></a></td>
+		<td><a href="#" class="info"><?php echo _("static agents:")?><span><?php echo _("Static agents are extensions that are assumed to always be on the queue.  Static agents do not need to 'log in' to the queue, and cannot 'log out' of the queue.<br><br>Hold <b>CTRL</b> to select multiple extensions")?></span></a></td>
 		<td>
 			<select multiple size="10" name="members[]"/>
 			<option>
@@ -131,6 +131,8 @@ if ($action == 'delete') {
 						$channel = $db->getOne($sql);
 						$device = 'zap/'.$channel;
 					} else {
+						if ($exten[2] == "iax")
+							$exten[2]="iax2";
 						$device = $exten[2].'/'.$exten[0];
 					}
 					
@@ -142,15 +144,15 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 
-	<tr><td colspan="2"><br><h5>Queue Options<hr></h5></td></tr>
+	<tr><td colspan="2"><br><h5><?php echo _("Queue Options")?><hr></h5></td></tr>
 	<tr>
-		<td><a href="#" class="info">Agent Announcement:<span>Announcement played to the Agent prior to bridging in the caller <br><br> Example: "the Following call is from the Sales Queue" or "This call is from the Technical Support Queue".<br><br>To add additional recordings please use the "System Recordings" MENU to the left</span></a></td>
+		<td><a href="#" class="info"><?php echo _("Agent Announcement:")?><span><?php echo _("Announcement played to the Agent prior to bridging in the caller <br><br> Example: \"the Following call is from the Sales Queue\" or \"This call is from the Technical Support Queue\".<br><br>To add additional recordings please use the \"System Recordings\" MENU to the left")?></span></a></td>
 		<td>
 			<select name="agentannounce"/>
 			<?php
 				$tresults = getsystemrecordings("/var/lib/asterisk/sounds/custom");
 				$default = (isset($agentannounce) ? $agentannounce : None);
-				echo '<option value="None">None';
+				echo '<option value="None">'._("None");
 				if (isset($tresults)) {
 					foreach ($tresults as $tresult) {
 						$searchvalue="custom/$tresult";	
@@ -162,13 +164,13 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">Hold Music Category:<span>Music (or Commercial) played to the caller while they wait in line for an available agent.<br><br>  This music is defined in the "On Hold Music" Menu to the left.</span></a></td>
+		<td><a href="#" class="info"><?php echo _("Hold Music Category:")?><span><?php echo _("Music (or Commercial) played to the caller while they wait in line for an available agent.<br><br>  This music is defined in the \"On Hold Music\" Menu to the left.")?></span></a></td>
 		<td>
 			<select name="music"/>
 			<?php
 				$tresults = getmusiccategory("/var/lib/asterisk/mohmp3");
 				$default = (isset($music) ? $music : 'default');
-				echo '<option value="default">Default';
+				echo '<option value="default">'._("Default");
 				if (isset($tresults)) {
 					foreach ($tresults as $tresult) {
 						$searchvalue="$tresult";	
@@ -180,7 +182,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">Announce Position:<span>How often to announce queue position and/or estimated holdtime to the caller (0 to Disable Announcement).</span></a></td>
+		<td><a href="#" class="info"><?php echo _("Announce Position:")?><span><?php echo _("How often to announce queue position and/or estimated holdtime to the caller (0 to Disable Announcement).")?></span></a></td>
 		<td>
 			<select name="announceposition"/>
 			<?php
@@ -193,21 +195,21 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">Announce Hold Time:<span> Should we include estimated hold time in position announcements?  Either yes, no, or only once; hold time will not be announced if <1 minute </span></a></td>
+		<td><a href="#" class="info"><?php echo _("Announce Hold Time:")?><span> <?php echo _("Should we include estimated hold time in position announcements?  Either yes, no, or only once; hold time will not be announced if <1 minute")?> </span></a></td>
 		<td>
 			<select name="announceholdtime">
 			<?php
 			echo "it is ${announceholdtime}";
 				$default = (isset(${announceholdtime}) ? ${announceholdtime} : no);
-				echo '<option value=yes '.($default == "yes" ? 'SELECTED' : '').'>Yes</option>';
-				echo '<option value=no '.($default == "no" ? 'SELECTED' : '').'>No</option>';
-				echo '<option value=once '.($default == "once" ? 'SELECTED' : '').'>Once</option>';
+				echo '<option value=yes '.($default == "yes" ? 'SELECTED' : '').'>'._("Yes").'</option>';
+				echo '<option value=no '.($default == "no" ? 'SELECTED' : '').'>'._("No").'</option>';
+				echo '<option value=once '.($default == "once" ? 'SELECTED' : '').'>'._("Once").'</option>';
 			?>		
 			</select>		
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">max wait time:<span>The maximum number of seconds a caller can wait in a queue before being pulled out.  (0 for unlimited).</span></a></td>
+		<td><a href="#" class="info"><?php echo _("max wait time:")?><span><?php echo _("The maximum number of seconds a caller can wait in a queue before being pulled out.  (0 for unlimited).")?></span></a></td>
 		<td>
 			<select name="maxwait"/>
 			<?php
@@ -220,7 +222,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">max callers:<span>Maximum number of people waiting in the queue (0 for unlimited)</span></a></td>
+		<td><a href="#" class="info"><?php echo _("max callers:")?><span><?php echo _("Maximum number of people waiting in the queue (0 for unlimited)")?></span></a></td>
 		<td>
 			<select name="maxlen"/>
 			<?php 
@@ -233,7 +235,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">join empty:<span>If you wish to allow queues that have no members currently to be joined, set this to yes</span></a></td>
+		<td><a href="#" class="info"><?php echo _("join empty:")?><span><?php echo _("If you wish to allow queues that have no members currently to be joined, set this to yes")?></span></a></td>
 		<td>
 			<select name="joinempty"/>
 			<?php
@@ -247,14 +249,14 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">leave when empty:<span>If you wish to remove callers from the queue if there are no agents present, set this to yes</span></a></td>
+		<td><a href="#" class="info"><?php echo _("leave when empty:")?><span><?php echo _("If you wish to remove callers from the queue if there are no agents present, set this to yes")?></span></a></td>
 		<td>
 			<select name="leavewhenempty"/>
 			<?php
 				$default = (isset($leavewhenempty) ? $leavewhenempty : 'no');
-				$items = array('yes','no');
-				foreach ($items as $item) {
-					echo '<option value="'.$item.'" '. ($default == $item ? 'SELECTED' : '').'>'.$item;
+				$items = array('yes'=>_("Yes"),'no'=>_("No"));
+				foreach ($items as $item=>$val) {
+					echo '<option value="'.$item.'" '. ($default == $item ? 'SELECTED' : '').'>'.$val;
 				}
 			?>		
 			</select>		
@@ -262,14 +264,14 @@ if ($action == 'delete') {
 	</tr>
 	<tr>
 		<td>
-			<a href="#" class="info">ring strategy:
+			<a href="#" class="info"><?php echo _("ring strategy:")?>
 				<span>
-					<b>ringall</b>:  ring all available channels until one answers (default)<br>
-					<b>roundrobin</b>: take turns ringing each available interface<br>
-					<b>leastrecent</b>: ring interface which was least recently called by this queue<br>
-					<b>fewestcalls</b>: ring the one with fewest completed calls from this queue<br>
-					<b>random</b>: ring random interface<br>
-					<b>rrmemory</b>: round robin with memory, remember where we left off last ring pass<br>
+					<b><?php echo _("ringall")?></b>:  <?php echo _("ring all available channels until one answers (default)")?><br>
+					<b><?php echo _("roundrobin")?></b>: <?php echo _("take turns ringing each available interface")?><br>
+					<b><?php echo _("leastrecent")?></b>: <?php echo _("ring interface which was least recently called by this queue")?><br>
+					<b><?php echo _("fewestcalls")?></b>: <?php echo _("ring the one with fewest completed calls from this queue")?><br>
+					<b><?php echo _("random")?></b>: <?php echo _("ring random interface")?><br>
+					<b><?php echo _("rrmemory")?></b>: <?php echo _("round robin with memory, remember where we left off last ring pass")?><br>
 				</span>
 			</a>
 		</td>
@@ -286,7 +288,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">agent timeout:<span>The number of seconds a phone can ring before we consider it a timeout.</span></a></td>
+		<td><a href="#" class="info"><?php echo _("agent timeout:")?><span><?php echo _("The number of seconds a phone can ring before we consider it a timeout.")?></span></a></td>
 		<td>
 			<select name="timeout"/>
 			<?php
@@ -299,7 +301,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">retry:<span>The number of seconds we wait before trying all the phones again</span></a></td>
+		<td><a href="#" class="info"><?php echo _("retry:")?><span><?php echo _("The number of seconds we wait before trying all the phones again")?></span></a></td>
 		<td>
 			<select name="retry"/>
 			<?php
@@ -312,7 +314,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info">wrap-up-time:<span>After a successful call, how many seconds to wait before sending a potentially free member another call (default is 0, or no delay)</span></a></td>
+		<td><a href="#" class="info"><?php echo _("wrap-up-time:")?><span><?php echo _("After a successful call, how many seconds to wait before sending a potentially free member another call (default is 0, or no delay)")?></span></a></td>
 		<td>
 			<select name="wrapuptime"/>
 			<?php
@@ -325,12 +327,12 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 
-	<tr><td colspan="2"><br><h5>Fail Over Destination<hr></h5></td></tr>
+	<tr><td colspan="2"><br><h5><?php echo _("Fail Over Destination")?><hr></h5></td></tr>
 
 	<?php echo drawselects('editQ',$goto,0);?>
 	
 	<tr>
-		<td colspan="2"><br><h6><input name="Submit" type="button" value="Submit Changes" onclick="checkQ(editQ);"></h6></td>		
+		<td colspan="2"><br><h6><input name="Submit" type="button" value="<?php echo _("Submit Changes")?>" onclick="checkQ(editQ);"></h6></td>		
 	</tr>
 	</table>
 	</form>
