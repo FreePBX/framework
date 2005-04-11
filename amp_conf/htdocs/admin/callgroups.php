@@ -107,13 +107,18 @@ if (isset($gresults)) {
 			echo '<br><h3>Group '.ltrim($extdisplay,'GRP-').' deleted!</h3><br><br><br><br><br><br><br><br>';
 		} else {
 			
-	
-			if (!getgroupinfo(ltrim($extdisplay,'GRP-'), $thisGRPtime, $thisGRPprefix, $thisGRP)) {
-				//TODO : handle this error better
-				//die("Invalid ext-group line in database");
+		
+			if (!isset($grptime) || !isset($grppre) || !isset($grplist)) {
+				if (!getgroupinfo(ltrim($extdisplay,'GRP-'), $grptime, $grppre, $grplist)) {
+					//TODO : handle this error better
+					//die("Invalid ext-group line in database");
+				}
 			}
 			
-			$grplist = explode("-",$thisGRP);
+			if (!is_array($grplist)) {
+				// ensure it's not a string
+				$grplist = explode("-",$grplist);
+			}
 
 			$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delGRP';
 	?>
@@ -144,10 +149,10 @@ if (isset($gresults)) {
 			</tr>
 			<tr>
 				<td><a href="#" class="info">CID name prefix:<span>You can optionally prefix the Caller ID name when ringing extensions in this group. ie: If you prefix with "Sales:", a call from John Doe would display as "Sales:John Doe" on the extensions that ring.</span></a></td>
-				<td><input size="4" type="text" name="grppre" value="<?php  echo $thisGRPprefix ?>"></td>
+				<td><input size="4" type="text" name="grppre" value="<?php  echo $grppre ?>"></td>
 			</tr><tr>
 				<td>ring time (max 60 sec):</td>
-				<td><input size="4" type="text" name="grptime" value="<?php  echo $thisGRPtime ?>"></td>
+				<td><input size="4" type="text" name="grptime" value="<?php  echo $grptime ?>"></td>
 			</tr>
 			<tr><td colspan="2"><br><h5>Destination if no answer:<hr></h5></td></tr>
 
