@@ -72,6 +72,7 @@ switch ($amp_conf["AUTHTYPE"]) {
 sipexists();
 iaxexists();
 zapexists();
+backuptableexists();
 
 // setup html
 include 'header.php';
