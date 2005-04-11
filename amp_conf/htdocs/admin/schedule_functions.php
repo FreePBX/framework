@@ -170,7 +170,7 @@ function Save_Backup_Schedule($Backup_Parms, $backup_options )
 	if ($Backup_Parms[1]=="now")
 	{
 		$Cron_Script="/var/lib/asterisk/bin/ampbackup.pl '$Backup_Parms[0]' $backup_options[0] $backup_options[1] $backup_options[2] $backup_options[3] $backup_options[4]";
-		echo "$Cron_Script";
+		//echo "$Cron_Script";
 		exec($Cron_Script);
 	}
 	$sql = "INSERT INTO Backup (Name, Voicemail, Recordings, Configurations, CDR, FOP, Minutes, Hours, Days, Months,Weekdays, Command, Method ) VALUES (";
