@@ -158,10 +158,12 @@ else if ($action == 'restore')
 ?>
 	<h2><?php echo _("System Restore")?></h2>
 <?php
-	if (!isset($_REQUEST['dir'])) 
+	if (!isset($_REQUEST['dir'])) {
 		$dir = "/var/lib/asterisk/backups";
-	else 
+		if(!is_dir($dir)) mkdir($dir);
+	} else {
 		$dir = "$_REQUEST[dir]";
+	}
 	$file = "$_REQUEST[file]";
 
 	Get_Tar_Files($dir, $display, $file);
