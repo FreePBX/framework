@@ -330,3 +330,6 @@ function changeLang(lang) {
 	window.location.reload();
 }
 
+function decision(message, url){
+if(confirm(message)) location.href = url;
+}
