@@ -167,7 +167,7 @@ else if ($action == 'restore')
 	$file = "$_REQUEST[file]";
 
 	Get_Tar_Files($dir, $display, $file);
-	echo "<br><br><br><br><br><br>";
+	echo "<br><br><br><br><br><br><br><br><br><br><br><br>";
 	
 }
 else
