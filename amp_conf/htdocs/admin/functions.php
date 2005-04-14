@@ -690,17 +690,26 @@ function addSipOrIaxTrunk($config,$table,$channelid,$trunknum) {
 	
 	//echo "addSipOrIaxTrunk($config,$table,$channelid,$trunknum)";
 	
-	$confitem[] = array('account',$channelid);
+	$confitem['account'] = $channelid;
 	$gimmieabreak = nl2br($config);
 	$lines = split('<br />',$gimmieabreak);
 	foreach ($lines as $line) {
 		$line = trim($line);
 		if (count(split('=',$line)) > 1) {
-			$confitem[] = split('=',$line);
+			$tmp = split('=',$line);
+			$key=trim($tmp[0]);
+			$value=trim($tmp[1]);
+			if (isset($confitem[$key]) && !empty($confitem[$key]))
+				$confitem[$key].="&".$value;
+			else
+				$confitem[$key]=$value;
 		}
 	}
+	foreach($confitem as $k=>$v) {
+		$dbconfitem[]=array($k,$v);
+	}
 	$compiled = $db->prepare("INSERT INTO $table (id, keyword, data) values ('9999$trunknum',?,?)");
-	$result = $db->executeMultiple($compiled,$confitem);
+	$result = $db->executeMultiple($compiled,$dbconfitem);
 	if(DB::IsError($result)) {
 		die($result->getMessage()."<br><br>INSERT INTO $table (id, keyword, data) values ('9999$trunknum',?,?)");	
 	}

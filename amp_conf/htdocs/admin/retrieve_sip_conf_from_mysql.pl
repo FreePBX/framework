@@ -103,7 +103,10 @@ foreach my $row ( @{ $result } ) {
 	}
 	foreach my $row ( @{ $result } ) {
 		my @result = @{ $row };
-		print EXTEN "$result[0]=$result[1]\n";
+	        @opts=split("&",$result[1]);
+	        foreach $opt (@opts) {
+			print EXTEN "$result[0]=$opt\n";
+		}
 	}                                         	
 	print EXTEN "$additional\n";
 }
