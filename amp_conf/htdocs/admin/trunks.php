@@ -190,7 +190,7 @@ foreach ($globals as $global) {
 $tresults = gettrunks();
 
 foreach ($tresults as $tresult) {
-    echo "<li><a id=\"".($extdisplay==$tresult[0] ? 'current':'')."\" href=\"config.php?display=".$display."&extdisplay={$tresult[0]}\">Trunk {$tresult[1]}</a></li>";
+    echo "<li><a id=\"".($extdisplay==$tresult[0] ? 'current':'')."\" href=\"config.php?display=".$display."&extdisplay={$tresult[0]}\" title=\"".$tresult[1]."\">Trunk ".substr(ltrim($tresult[1],"AMP:"),0,15)."</a></li>";
 }
 
 ?>
@@ -207,13 +207,14 @@ if (!$tech && !$extdisplay) {
 	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=IAX2">Add IAX2 Trunk</a><br><br>
 	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=SIP">Add SIP Trunk</a><br><br>
 	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=ENUM">Add ENUM Trunk</a><br><br>
+	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=CUSTOM">Add Custom Trunk</a><br><br>
 <?php 
 } else {
 	if ($extdisplay) {
 		//list($trunk_tech, $trunk_name) = explode("/",$tname);
 		//if ($trunk_tech == "IAX2") $trunk_tech = "IAX"; // same thing
 		$tech = getTrunkTech($trunknum);
-	
+
 		$outcid = ${"OUTCID_".$trunknum};
 		$maxchans = ${"OUTMAXCHANS_".$trunknum};
 		$dialoutprefix = ${"OUTPREFIX_".$trunknum};
@@ -224,21 +225,23 @@ if (!$tech && !$extdisplay) {
 				$channelid = getTrunkTrunkName($trunknum); 
 			}
 
-			// load from db
-			if (!isset($peerdetails)) {	
-				$peerdetails = getTrunkPeerDetails($trunknum);
-			}
-
-			if (!isset($usercontext)) {	
-				$usercontext = getTrunkUserContext($trunknum); 
-			}
-
-			if (!isset($userconfig)) {	
-				$userconfig = getTrunkUserConfig($trunknum);
-			}
-				
-			if (!isset($register)) {	
-				$register = getTrunkRegister($trunknum);
+			if ($tech!="custom") {  // custom trunks will not have user/peer details in database table
+				// load from db
+				if (!isset($peerdetails)) {	
+					$peerdetails = getTrunkPeerDetails($trunknum);
+				}
+	
+				if (!isset($usercontext)) {	
+					$usercontext = getTrunkUserContext($trunknum); 
+				}
+	
+				if (!isset($userconfig)) {	
+					$userconfig = getTrunkUserConfig($trunknum);
+				}
+					
+				if (!isset($register)) {	
+					$register = getTrunkRegister($trunknum);
+				}
 			}
 		}
 		
@@ -262,7 +265,7 @@ if (!$tech && !$extdisplay) {
 		
 		echo "<h2>Edit ".strtoupper($tech)." Trunk</h2>";
 ?>
-		<p><a href="config.php?display=<?php echo $display ?>&extdisplay=<?php echo $extdisplay ?>&action=deltrunk">Delete Trunk <?php  echo strtoupper($tech)."/".$channelid; ?></a></p>
+		<p><a title="<?php echo $channelid ?>" href="config.php?display=<?php echo $display ?>&extdisplay=<?php echo $extdisplay ?>&action=deltrunk">Delete Trunk <?php  echo substr($channelid,0,20); ?></a></p>
 <?php 
 
 		// find which routes use this trunk
@@ -567,6 +570,18 @@ if (!$tech && !$extdisplay) {
 	<?php 
 		break;
 		case "enum":
+		break;
+		case "custom":
+	?>
+				<tr>
+					<td>
+						<a href=# class="info">Custom Dial String<span>Define the custom Dial String.  Include the token $OUTNUM$ wherever the number to dial should go.<br><br><b>examples:</b><br><br>CAPI/XXXXXXXX:b$OUTNUM$,30,r<br>H323/$OUTNUM$@XX.XX.XX.XX<br>OH323/$OUTNUM$@XX.XX.XX.XX:XXXX<br>vpb/1-1/$OUTNUM$</span></a>: 
+					</td><td>
+						<input type="text" size="35" maxlength="46" name="channelid" value="<?php echo $channelid ?>"/>
+						<input type="hidden" size="14" name="usercontext" value="notneeded"/>
+					</td>
+				</tr>	
+	<?php
 		break;
 		default:
 	?>

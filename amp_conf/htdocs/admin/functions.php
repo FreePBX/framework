@@ -713,10 +713,13 @@ function getTrunkTech($trunknum) {
 	if (!$results = $db->getAll($sql)) {
 		return false;
 	}
-	$tech = strtolower( strtok($results[0][0],'/') ); // the technology.  ie: ZAP/g0 is ZAP
-	
-	if ($tech == "iax2") $tech = "iax"; // same thing, here
-	
+	if(strpos($results[0][0],"AMP:") === 0) {  //custom trunks begin with AMP:
+		$tech = "custom";
+	} else {
+		$tech = strtolower( strtok($results[0][0],'/') ); // the technology.  ie: ZAP/g0 is ZAP
+		
+		if ($tech == "iax2") $tech = "iax"; // same thing, here
+	}
 	return $tech;
 }
 
@@ -863,9 +866,10 @@ function backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans
 	
 	// change iax to "iax2" (only spot we actually store iax2, since its used by Dial()..)
 	$techtemp = ((strtolower($tech) == "iax") ? "iax2" : $tech);
+	$outval = (($techtemp == "custom") ? "AMP:".$channelid : strtoupper($techtemp).'/'.$channelid);
 	
 	$glofields = array(
-			array('OUT_'.$trunknum, strtoupper($techtemp).'/'.$channelid),
+			array('OUT_'.$trunknum, $outval),
 			array('OUTPREFIX_'.$trunknum, $dialoutprefix),
 			array('OUTMAXCHANS_'.$trunknum, $maxchans),
 			array('OUTCID_'.$trunknum, $outcid),
@@ -1042,12 +1046,13 @@ function getTrunkTrunkName($trunknum) {
 	if (!$results = $db->getAll($sql)) {
 		return false;
 	}
+	if(strpos($results[0][0],"AMP:") === 0) {  //custom trunks begin with AMP:
+		$tname = ltrim($results[0][0],"AMP:");
+	} else {
 	strtok($results[0][0],'/');
-	$tech = strtolower( strtok('/') ); // the technology.  ie: ZAP/g0 is ZAP
-	
-	if ($tech == "iax2") $tech = "iax"; // same thing, here
-	
-	return $tech;
+		$tname = strtolower( strtok('/') ); // the text _after_ technology.  ie: ZAP/g0 is g0
+	}
+	return $tname;
 }
 
 //get trunk account register string

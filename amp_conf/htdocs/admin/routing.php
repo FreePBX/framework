@@ -489,7 +489,7 @@ $name = "";
 				<option value="" SELECTED></option>
 				<?php 
 				foreach ($trunks as $name=>$display) {
-					echo "<option value=\"".$name."\">".$display."</option>";
+					echo "<option value=\"".$name."\">".ltrim($display,"AMP:")."</option>";
 				}
 				?>
 				</select>
