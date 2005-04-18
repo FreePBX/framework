@@ -27,6 +27,30 @@ $agentannounce = $_REQUEST['agentannounce'];
 $prefix = $_REQUEST['prefix'];
 $goto = $_REQUEST['goto0'];
 
+$members = array();
+if (isset($_REQUEST["members"])) {
+	$members = explode("\n",$_REQUEST["members"]);
+
+	if (!$members) {
+		$members = array();
+	}
+	
+	foreach (array_keys($members) as $key) {
+		//trim it
+		$members[$key] = trim($members[$key]);
+
+		// remove invalid chars
+		$members[$key] = preg_replace("/[^0-9#*]/", "", $members[$key]);
+		
+		// remove blanks // prefix with the channel
+		if ($members[$key] == "") unset($members[$key]);
+		else $members[$key] = "Local/".$members[$key]."@from-internal";	
+	}
+	
+	// check for duplicates, and re-sequence
+	$members = array_values(array_unique($members));
+}
+
 //check if the extension is within range for this user
 if (isset($account) && !checkRange($account)){
 	echo "<script>javascript:alert('"._("Warning! Extension")." $account "._("is not allowed for your account.")."');</script>";
@@ -35,7 +59,7 @@ if (isset($account) && !checkRange($account)){
 	//if submitting form, update database
 	switch ($action) {
 		case "add":
-			addqueue($account,$name,$password,$prefix,$goto,$agentannounce);
+			addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members);
 			exec($wScript1);
 			exec($wScript2);
 			needreload();
@@ -48,7 +72,7 @@ if (isset($account) && !checkRange($account)){
 		break;
 		case "edit":  //just delete and re-add
 			delqueue($account);
-			addqueue($account,$name,$password,$prefix,$goto,$agentannounce);
+			addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members);
 			exec($wScript1);
 			exec($wScript2);
 			needreload();
@@ -118,29 +142,12 @@ if ($action == 'delete') {
 		<td><a href="#" class="info"><?php echo _("CID name prefix:")?><span><?php echo _("You can optionally prefix the Caller ID name of callers to the queue. ie: If you prefix with \"Sales:\", a call from John Doe would display as \"Sales:John Doe\" on the extensions that ring.")?></span></a></td>
 		<td><input size="4" type="text" name="prefix" value="<?php echo (isset($prefix) ? $prefix : ''); ?>"></td>
 	</tr>
-	<tr  valign="top">
-		<td><a href="#" class="info"><?php echo _("static agents:")?><span><?php echo _("Static agents are extensions that are assumed to always be on the queue.  Static agents do not need to 'log in' to the queue, and cannot 'log out' of the queue.<br><br>Hold <b>CTRL</b> to select multiple extensions")?></span></a></td>
-		<td>
-			<select multiple size="10" name="members[]"/>
-			<option>
-			<?php
-			if (isset($extens)) {
-				foreach ($extens as $exten) { // (number,cid,tech)
-					if ($exten[2] == 'zap') {
-						$sql = "SELECT data FROM zap WHERE keyword = 'channel' AND id = '$exten[0]'";
-						$channel = $db->getOne($sql);
-						$device = 'zap/'.$channel;
-					} else {
-						if ($exten[2] == "iax")
-							$exten[2]="iax2";
-						$device = $exten[2].'/'.$exten[0];
-					}
-					
-					echo '<option value="'.$device.'" '.(in_array($device,$member) ? 'SELECTED' : '').'>'.$exten[1];
-				}
-			}
-			?>		
-			</select>
+	<tr>
+		<td valign="top"><a href="#" class="info"><?php echo _("static agents") ?>:<span><br><?php echo _("Static agents are extensions that are assumed to always be on the queue.  Static agents do not need to 'log in' to the queue, and cannot 'log out' of the queue.<br><br>List extensions to ring, one per line.<br><br>You can include an extension on a remote system, or an external number (Outbound Routing must contain a valid route for external numbers)") ?><br><br></span></a></td>
+		<td valign="top">&nbsp;
+			<textarea id="members" cols="15" rows="<?php  $rows = count($member)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="members"><?php foreach ($member as $mem) { echo rtrim(ltrim(strstr($mem,"/"),"/"),"@from-internal")."\n"; }?></textarea><br>
+			
+			<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
 		</td>
 	</tr>
 

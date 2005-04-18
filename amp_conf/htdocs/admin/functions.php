@@ -1628,7 +1628,7 @@ function deleteDialRules($trunknum) {
 	writeDialRulesFile($conf);
 }
 
-function addqueue($account,$name,$password,$prefix,$goto,$agentannounce) {
+function addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members) {
 	global $db;
 	
 	//add to extensions table
@@ -1668,8 +1668,8 @@ function addqueue($account,$name,$password,$prefix,$goto,$agentannounce) {
 		array($account,'music',($_REQUEST['music'])?$_REQUEST['music']:'default'));
 		
 	//there can be multiple members
-	if (isset($_REQUEST['members'])) {
-		foreach ($_REQUEST['members'] as $member) {
+	if (isset($members)) {
+		foreach ($members as $member) {
 			$fields[] = array($account,'member',$member);
 		}
 	}
