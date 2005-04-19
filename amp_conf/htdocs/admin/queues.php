@@ -189,33 +189,6 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info"><?php echo _("Announce Position:")?><span><?php echo _("How often to announce queue position and/or estimated holdtime to the caller (0 to Disable Announcement).")?></span></a></td>
-		<td>
-			<select name="announceposition"/>
-			<?php
-				$default = (isset($announceposition) ? $announceposition : 0);
-				for ($i=0; $i <= 1200; $i+=15) {
-					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.timeString($i,true).'</option>';
-				}
-			?>		
-			</select>		
-		</td>
-	</tr>
-	<tr>
-		<td><a href="#" class="info"><?php echo _("Announce Hold Time:")?><span> <?php echo _("Should we include estimated hold time in position announcements?  Either yes, no, or only once; hold time will not be announced if <1 minute")?> </span></a></td>
-		<td>
-			<select name="announceholdtime">
-			<?php
-			echo "it is ${announceholdtime}";
-				$default = (isset(${announceholdtime}) ? ${announceholdtime} : no);
-				echo '<option value=yes '.($default == "yes" ? 'SELECTED' : '').'>'._("Yes").'</option>';
-				echo '<option value=no '.($default == "no" ? 'SELECTED' : '').'>'._("No").'</option>';
-				echo '<option value=once '.($default == "once" ? 'SELECTED' : '').'>'._("Once").'</option>';
-			?>		
-			</select>		
-		</td>
-	</tr>
-	<tr>
 		<td><a href="#" class="info"><?php echo _("max wait time:")?><span><?php echo _("The maximum number of seconds a caller can wait in a queue before being pulled out.  (0 for unlimited).")?></span></a></td>
 		<td>
 			<select name="maxwait"/>
@@ -329,6 +302,69 @@ if ($action == 'delete') {
 				for ($i=0; $i <= 60; $i++) {
 					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.timeString($i,true).'</option>';
 				}
+			?>		
+			</select>		
+		</td>
+	</tr>
+	<tr><td colspan="2"><br><h5><?php echo _("Caller Announcements")?><hr></h5></td></tr>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("Frequency:")?><span><?php echo _("How often to announce queue position, estimated holdtime, and/or voice menu to the caller (0 to Disable Announcements).")?></span></a></td>
+		<td>
+			<select name="announcefreq"/>
+			<?php
+				$default = (isset($thisQ['announce-frequency']) ? $thisQ['announce-frequency'] : 0);
+				for ($i=0; $i <= 1200; $i+=15) {
+					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.timeString($i,true).'</option>';
+				}
+			?>		
+			</select>		
+		</td>
+	</tr>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("Announce Position:")?><span><?php echo _("Announce position of caller in the queue?")?></span></a></td>
+		<td>
+			<select name="announceposition"/>
+			<?php //setting to "no" will override sounds queue-youarenext, queue-thereare, queue-callswaitingÊ 
+				$default = (isset($thisQ['announce-position']) ? $thisQ['announce-position'] : "no");  
+					echo '<option value=yes '.($default == "yes" ? 'SELECTED' : '').'>'._("Yes").'</option>';
+					echo '<option value=no '.($default == "no" ? 'SELECTED' : '').'>'._("No").'</option>';
+			?>		
+			</select>		
+		</td>
+	</tr>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("Announce Hold Time:")?><span><?php echo _("Should we include estimated hold time in position announcements?  Either yes, no, or only once; hold time will not be announced if <1 minute")?> </span></a></td>
+		<td>
+			<select name="announceholdtime">
+			<?php
+				$default = (isset($thisQ['announce-holdtime']) ? $thisQ['announce-holdtime'] : "no");
+				echo '<option value=yes '.($default == "yes" ? 'SELECTED' : '').'>'._("Yes").'</option>';
+				echo '<option value=no '.($default == "no" ? 'SELECTED' : '').'>'._("No").'</option>';
+				echo '<option value=once '.($default == "once" ? 'SELECTED' : '').'>'._("Once").'</option>';
+			?>		
+			</select>		
+		</td>
+	</tr>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("Voice Menu:")?><span> <?php echo _("After announcing Position and/or Hold Time, you can optionally present an existing Digital Receptionist Voice Menu.<br><br>This voicemenu must only contain single-digit 'dialed options'.")?> </span></a></td>
+		<td>
+			<select name="announcemenu">
+			<?php // setting this will override the sound file queue-thankyou, and set the context= option
+			$default = (isset(${announcemenu}) ? ${announcemenu} : "none");
+			
+			echo '<option value=none '.($default == "none" ? 'SELECTED' : '').'>'._("None").'</option>';
+			
+			//query for exisiting aa_N contexts
+			$unique_aas = getaas();		
+			
+			if (isset($unique_aas)) {
+				foreach ($unique_aas as $unique_aa) {
+					$menu_id = $unique_aa[0];
+					$menu_name = $unique_aa[1];
+					echo '<option value="'.$menu_id.'" '.(strpos($default,$menu_id) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : 'Menu ID'.$menu_id);
+				}
+			}
+		
 			?>		
 			</select>		
 		</td>

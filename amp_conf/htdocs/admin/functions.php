@@ -1662,11 +1662,16 @@ function addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members
 		array($account,'timeout',($_REQUEST['timeout'])?$_REQUEST['timeout']:'15'),
 		array($account,'retry',($_REQUEST['retry'])?$_REQUEST['retry']:'5'),
 		array($account,'wrapuptime',($_REQUEST['wrapuptime'])?$_REQUEST['wrapuptime']:'0'),
-		array($account,'agentannounce',($_REQUEST['agentannounce'])?$_REQUEST['agentannounce']:'None'),
-		array($account,'announce-frequency',($_REQUEST['announceposition'])?$_REQUEST['announceposition']:'0'),
+		//array($account,'agentannounce',($_REQUEST['agentannounce'])?$_REQUEST['agentannounce']:'None'),
+		array($account,'announce-frequency',($_REQUEST['announcefreq'])?$_REQUEST['announcefreq']:'0'),
 		array($account,'announce-holdtime',($_REQUEST['announceholdtime'])?$_REQUEST['announceholdtime']:'no'),
+		array($account,'queue-youarenext',($_REQUEST['announceposition']=='no')?'':'queue-youarenext'),  //if no, play no sound
+		array($account,'queue-thereare',($_REQUEST['announceposition']=='no')?'':'queue-thereare'),  //if no, play no sound
+		array($account,'queue-callswaiting',($_REQUEST['announceposition']=='no')?'':'queue-callswaiting'),  //if no, play no sound
+		array($account,'queue-thankyou',($_REQUEST['announcemenu']=='none')?'queue-thankyou':'custom/'.$_REQUEST['announcemenu']),  //if none, play default thankyou, else custom/aa
+		array($account,'context',($_REQUEST['announcemenu']=='none')?'':$_REQUEST['announcemenu']),  //if not none, set context=aa
 		array($account,'music',($_REQUEST['music'])?$_REQUEST['music']:'default'));
-		
+
 	//there can be multiple members
 	if (isset($members)) {
 		foreach ($members as $member) {
@@ -1703,21 +1708,18 @@ function getqueueinfo($account) {
 	$sql = "SELECT keyword,data FROM queues WHERE id = '$account'";
 	$results = $db->getAssoc($sql);
 
-	//okay, but the announce-holdtime data has a dash and someone smarter than me needs to figure it out
-	//so we will get it directly
-	$sql = "SELECT data FROM queues WHERE id = '$account' AND keyword = 'announce-holdtime'";
-	$myresults = $db->getCol($sql);
-	$results['announceholdtime'] = $myresults[0];
-
-	//okay, but the announce-holdtime data has a dash and someone smarter than me needs to figure it out
-	//so we will get it directly
-	$sql = "SELECT data FROM queues WHERE id = '$account' AND keyword = 'announce-frequency'";
-	$myresults = $db->getCol($sql);
-	$results['announceposition'] = $myresults[0];
-	
 	//okay, but there can be multiple member variables ... do another select for them
 	$sql = "SELECT data FROM queues WHERE id = '$account' AND keyword = 'member'";
 	$results['member'] = $db->getCol($sql);
+	
+	//queues.php looks for 'announcemenu', which is the same a context
+	$results['announcemenu'] = 	$results['context'];
+	
+	//if 'queue-youarenext=queue-youarenext', then assume we want to announce position
+	if($results['queue-youarenext'] == 'queue-youarenext') 
+		$results['announce-position'] = 'yes';
+	else
+		$results['announce-position'] = 'no';
 	
 	//get CID Prefix
 	$sql = "SELECT args FROM extensions WHERE extension = '$account' AND context = 'ext-queues' AND priority = '2'";
@@ -1765,7 +1767,7 @@ function drawselects($formName,$goto,$i) {
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="ivr" disabled="true" '.(strpos($goto,'aa_') === false ? '' : 'CHECKED=CHECKED').' /> Digital Receptionist: ';
 	$selectHtml .=	'<select name="ivr'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[0].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'ivr\';"/>';
 
-	if (isset($extens)) {
+	if (isset($unique_aas)) {
 		foreach ($unique_aas as $unique_aa) {
 			$menu_id = $unique_aa[0];
 			$menu_name = $unique_aa[1];
