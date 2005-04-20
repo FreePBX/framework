@@ -1641,15 +1641,17 @@ function addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account,'2','SetCIDName',$prefix.'${CALLERIDNAME}','','0');
 	addextensions($addarray);
-	$addarray = array('ext-queues',$account,'3','Queue',$account.'|t||'.$agentannounce.'|'.$_REQUEST['maxwait'],$name,'0');
+	$addarray = array('ext-queues',$account,'3','SetVar','MONITOR_FILENAME=/var/spool/asterisk/monitor/q${EXTEN}-${UNIQUEID}','','0');
+	addextensions($addarray);
+	$addarray = array('ext-queues',$account,'4','Queue',$account.'|t||'.$agentannounce.'|'.$_REQUEST['maxwait'],$name,'0');
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account.'*','1','Macro','agent-add,'.$account.','.$password,'','0');
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account.'**','1','Macro','agent-del,'.$account,'','0');
 	addextensions($addarray);
 	
-	//start at priority 3
-	setGoto($account,'ext-queues','4',$goto,0);
+	//start at priority 5. if changing this priority, also change in getqueueinfo()
+	setGoto($account,'ext-queues','5',$goto,0);
 	
 	
 	// now add to queues table
@@ -1670,6 +1672,8 @@ function addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members
 		array($account,'queue-callswaiting',($_REQUEST['announceposition']=='no')?'':'queue-callswaiting'),  //if no, play no sound
 		array($account,'queue-thankyou',($_REQUEST['announcemenu']=='none')?'queue-thankyou':'custom/'.$_REQUEST['announcemenu']),  //if none, play default thankyou, else custom/aa
 		array($account,'context',($_REQUEST['announcemenu']=='none')?'':$_REQUEST['announcemenu']),  //if not none, set context=aa
+		array($account,'monitor-format',($_REQUEST['monitor-format'])?$_REQUEST['monitor-format']:''),
+		array($account,'monitor-join','yes'),
 		array($account,'music',($_REQUEST['music'])?$_REQUEST['music']:'default'));
 
 	//there can be multiple members
@@ -1722,13 +1726,13 @@ function getqueueinfo($account) {
 		$results['announce-position'] = 'no';
 	
 	//get CID Prefix
-	$sql = "SELECT args FROM extensions WHERE extension = '$account' AND context = 'ext-queues' AND priority = '2'";
+	$sql = "SELECT args FROM extensions WHERE extension = '$account' AND context = 'ext-queues' AND application = 'SetCIDName'";
 	list($args) = $db->getRow($sql);
 	$prefix = explode('$',$args); //in table like prefix${CALLERIDNAME}
 	$results['prefix'] = $prefix[0];	
 	
 	//get max wait time from Queue command
-	$sql = "SELECT args,descr FROM extensions WHERE extension = '$account' AND context = 'ext-queues' AND priority = '3'";
+	$sql = "SELECT args,descr FROM extensions WHERE extension = '$account' AND context = 'ext-queues' AND application = 'Queue'";
 	list($args, $descr) = $db->getRow($sql);
 	$maxwait = explode('|',$args);  //in table like queuenum|t|||maxwait
 	$results['agentannounce'] = $maxwait[3];
@@ -1741,8 +1745,8 @@ function getqueueinfo($account) {
 	$password = explode(',',$args); //in table like agent-add,account,password
 	$results['password'] = $password[2];
 	
-	//get the failover destination (at priority 4)
-	$sql = "SELECT args FROM extensions WHERE extension = '".$account."' AND priority = '4'";
+	//get the failover destination (at priority 5)
+	$sql = "SELECT args FROM extensions WHERE extension = '".$account."' AND priority = '5'";
 	list($args) = $db->getRow($sql);
 	$results['goto'] = $args; 
 

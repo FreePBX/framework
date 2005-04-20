@@ -306,6 +306,18 @@ if ($action == 'delete') {
 			</select>		
 		</td>
 	</tr>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("call recording:")?><span><?php echo _("Incoming calls to agents can be recorded. (saved to /var/spool/asterisk/monitor")?></span></a></td>
+		<td>
+			<select name="monitor-format"/>
+			<?php //setting to "no" will override sounds queue-youarenext, queue-thereare, queue-callswaitingÊ 
+				$default = (empty($thisQ['monitor-format']) ? "no" : "yes");  
+					echo '<option value="wav49" '.($default == "yes" ? 'SELECTED' : '').'>'._("Yes").'</option>';
+					echo '<option value="" '.($default == "no" ? 'SELECTED' : '').'>'._("No").'</option>';
+			?>	
+			</select>		
+		</td>
+	</tr>
 	<tr><td colspan="2"><br><h5><?php echo _("Caller Announcements")?><hr></h5></td></tr>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Frequency:")?><span><?php echo _("How often to announce queue position, estimated holdtime, and/or voice menu to the caller (0 to Disable Announcements).")?></span></a></td>
