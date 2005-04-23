@@ -45,7 +45,7 @@ switch ($amp_conf["AUTHTYPE"]) {
 			if (!$_SESSION["user"]->checkPassword($_SERVER["PHP_AUTH_PW"])) {
 			
 				// one last chance -- check admin user
-				if ( !(getAmpAdminUsers() > 0) && ($_SERVER["PHP_AUTH_USER"] == $amp_conf["AMPDBUSER"]) && ($_SERVER["PHP_AUTH_PW"] == $amp_conf["AMPDBPASS"])) {
+				if ( !(count(getAmpAdminUsers()) > 0) && ($_SERVER["PHP_AUTH_USER"] == $amp_conf["AMPDBUSER"]) && ($_SERVER["PHP_AUTH_PW"] == $amp_conf["AMPDBPASS"])) {
 					// set admin access
 					$_SESSION["user"]->setAdmin();
 				} else {
