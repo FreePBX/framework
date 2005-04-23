@@ -83,6 +83,17 @@ function getAmpUsers() {
 	return $results;
 }
 
+function getAmpAdminUsers() {
+	global $db;
+
+	$sql = "SELECT username FROM ampusers WHERE sections='*'";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+	   die($results->getMessage());
+	}
+	return $results;
+}
+
 function getAmpUser($username) {
 	global $db;
 	
