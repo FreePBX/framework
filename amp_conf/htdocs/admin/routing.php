@@ -123,7 +123,7 @@ switch ($action) {
 			exec($extenScript);
 			needreload();
 		} else {
-			echo "<script language=\"javascript\">alert('Error renaming route: duplicate name');</script>";
+			echo "<script language=\"javascript\">alert('"._("Error renaming route: duplicate name")."');</script>";
 		}
 		$route_prefix=substr($routename,0,4);
 		$extdisplay=$route_prefix.$_REQUEST["newroutename"];
@@ -161,12 +161,12 @@ switch ($action) {
 				// check for duplicates, and re-sequence
 				$dialpattern = array_values(array_unique($dialpattern));
 			} else {
-				$errormsg = "Error fetching prefix list for: ". $_REQUEST["npanxx"];
+				$errormsg = _("Error fetching prefix list for: "). $_REQUEST["npanxx"];
 			}
 			
 		} else {
 			// what a horrible error message... :p
-			$errormsg = "Invalid format for NPA-NXX code (must be format: NXXNXX)";
+			$errormsg = _("Invalid format for NPA-NXX code (must be format: NXXNXX)");
 		}
 		
 		if (isset($errormsg)) {
@@ -196,7 +196,7 @@ foreach ($globals as $global) {
 
 
 <div class="rnav">
-    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>">Add Route</a><br></li>
+    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>"><?php echo _("Add Route")?></a><br></li>
 <?php 
 $reporoutedirection = $_REQUEST['reporoutedirection'];
 $reporoutekey = $_REQUEST['reporoutekey'];
@@ -209,7 +209,7 @@ $key++;
 			<?php   // move up
     			echo "<li><a id=\"".($extdisplay==$tresult[0] ? 'current':'')."\" href=\"config.php?display=".$display."&extdisplay={$tresult[0]}\">$key ". substr($tresult[0],4)."</a>";
 			if ($key > 0) {?>
-				<img src="images/scrollup.gif" onclick="repositionRoute('<?php echo $key ?>','up')" alt="Move Up" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+				<img src="images/scrollup.gif" onclick="repositionRoute('<?php echo $key ?>','up')" alt="<?php echo _("Move Up")?>" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
 			<?php  } else { ?>
 				<img src="images/blank.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
 			<?php  }
@@ -217,7 +217,7 @@ $key++;
 			// move down
 			
 			if ($key < ($positions-1)) {?>
-				<img src="images/scrolldown.gif" onclick="repositionRoute('<?php echo $key ?>','down')" alt="Move Down"  style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+				<img src="images/scrolldown.gif" onclick="repositionRoute('<?php echo $key ?>','down')" alt="<?php echo _("Move Down")?>"  style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
 			<?php  } else { ?>
 				<img src="images/blank.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
 			<?php  } 
@@ -243,9 +243,9 @@ if ($extdisplay) {
 		$trunkpriority = getroutetrunks($extdisplay);
 	}
 	
-	echo "<h2>Edit Route</h2>";
+	echo "<h2>"._("Edit Route")."</h2>";
 } else {	
-	echo "<h2>Add Route</h2>";
+	echo "<h2>"._("Add Route")."</h2>";
 }
 
 // build trunks associative array
@@ -255,7 +255,7 @@ foreach (gettrunks() as $temp) {
 
 if ($extdisplay) { // editing
 ?>
-	<p><a href="config.php?display=<?php echo $display ?>&extdisplay=<?php echo $extdisplay ?>&action=delroute">Delete Route <?php  echo substr($extdisplay,4); ?></a></p>
+	<p><a href="config.php?display=<?php echo $display ?>&extdisplay=<?php echo $extdisplay ?>&action=delroute"><?php echo _("Delete Route")?> <?php  echo substr($extdisplay,4); ?></a></p>
 <?php  } ?>
 
 	<form id="routeEdit" name="routeEdit" action="config.php" method="POST">
@@ -265,7 +265,7 @@ if ($extdisplay) { // editing
 		<table>
 		<tr>
 			<td>
-				<a href=# class="info">Route Name<span><br>Name of this route. Should be used to describe what type of calls this route matches (for example, 'local' or 'longdistance').<br><br></span></a>: 
+				<a href=# class="info"><?php echo _("Route Name")?><span><br><?php echo _("Name of this route. Should be used to describe what type of calls this route matches (for example, 'local' or 'longdistance').")?><br><br></span></a>: 
 			</td>
 <?php  if ($extdisplay) { // editing?>
 			<td>
@@ -276,9 +276,9 @@ if ($extdisplay) { // editing
 				<script language="javascript">
 				function renameRoute() {
 					do {
-						var newname = prompt("Rename route " + document.getElementById('routename').value + " to:");
+						var newname = prompt("<?php echo _("Rename route")?> " + document.getElementById('routename').value + " <?php echo _("to:")?>");
 						if (newname == null) return;
-					} while (!newname.match('^[a-zA-Z0-9][a-zA-Z0-9]+$') && !alert("Route name cannot start with a number, and can only contain letters and numbers"));
+					} while (!newname.match('^[a-zA-Z0-9][a-zA-Z0-9]+$') && !alert("<?php echo _("Route name cannot start with a number, and can only contain letters and numbers")?>"));
 					
 					document.getElementById('newroutename').value = newname;
 					document.getElementById('routeEdit').action.value = 'renameroute';
@@ -295,13 +295,13 @@ if ($extdisplay) { // editing
 		<tr>
 			<td colspan="2">
 				<br>
-				<a href=# class="info">Dial Patterns<span>A Dial Pattern is a unique set of digits that will select this trunk. Enter one dial pattern per line.<br><br><b>Rules:</b><br>
-   <strong>X</strong>&nbsp;&nbsp;&nbsp; matches any digit from 0-9<br>
-   <strong>Z</strong>&nbsp;&nbsp;&nbsp; matches any digit form 1-9<br>
-   <strong>N</strong>&nbsp;&nbsp;&nbsp; matches any digit from 2-9<br>
-   <strong>[1237-9]</strong>&nbsp;   matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)<br>
-   <strong>.</strong>&nbsp;&nbsp;&nbsp; wildcard, matches one or more characters <br>
-   <strong>|</strong>&nbsp;&nbsp;&nbsp; seperates a dialing prefix from the number (for example, 9|NXXXXXX would match when some dialed "95551234" but would only pass "5551234" to the trunks)
+				<a href=# class="info"><?php echo _("Dial Patterns")?><span><?php echo _("A Dial Pattern is a unique set of digits that will select this trunk. Enter one dial pattern per line.")?><br><br><b><?php echo _("Rules:")?></b><br>
+   <strong>X</strong>&nbsp;&nbsp;&nbsp; <?php echo _("matches any digit from 0-9")?><br>
+   <strong>Z</strong>&nbsp;&nbsp;&nbsp; <?php echo _("matches any digit form 1-9")?><br>
+   <strong>N</strong>&nbsp;&nbsp;&nbsp; <?php echo _("matches any digit from 2-9")?><br>
+   <strong>[1237-9]</strong>&nbsp;   <?php echo _("matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)")?><br>
+   <strong>.</strong>&nbsp;&nbsp;&nbsp; <?php echo _("wildcard, matches one or more characters")?> <br>
+   <strong>|</strong>&nbsp;&nbsp;&nbsp; <?php echo _("seperates a dialing prefix from the number (for example, 9|NXXXXXX would match when some dialed \"95551234\" but would only pass \"5551234\" to the trunks)")?>
 				</span></a><br><br>
 			</td>
 		</tr>
@@ -338,11 +338,11 @@ $key += 1; // this will be the next key value
 			</td><td>
 				<textarea cols="20" rows="<?php  $rows = count($dialpattern)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" id="dialpattern" name="dialpattern"><?php echo  implode("\n",$dialpattern);?></textarea><br>
 				
-				<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
+				<input type="submit" style="font-size:10px;" value="<?php echo _("Clean & Remove duplicates")?>" />
 			</td>
 		</tr>
 		<tr>
-			<td>Insert:</td>
+			<td><?php echo ("Insert:")?></td>
 			<input id="npanxx" name="npanxx" type="hidden" />
 			<script language="javascript">
 			
@@ -352,9 +352,9 @@ $key += 1; // this will be the next key value
 ?>				
 				//var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?", document.getElementById('areacode').value);
 				do {
-					var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.");
+					var npanxx = prompt("<?php echo _("What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.")?>");
 					if (npanxx == null) return;
-				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("Invalid NPA-NXX. Must be of the format 'NXX-NXX'"));
+				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("<?php echo _("Invalid NPA-NXX. Must be of the format 'NXX-NXX'")?>"));
 				
 				document.getElementById('npanxx').value = npanxx;
 				document.getElementById('routeEdit').action.value = "populatenpanxx";
@@ -362,7 +362,7 @@ $key += 1; // this will be the next key value
 <?php  
 	} else { // curl is not installed
 ?>
-				alert("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.");
+				alert("<?php echo _("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.")?>");
 <?php 
 	}
 ?>
@@ -434,7 +434,7 @@ $key += 1; // this will be the next key value
 		<tr>
 			<td colspan="2">
 			<br><br>
-				<a href=# class="info">Trunk Sequence<span>The Trunk Sequence controls the order of trunks that will be used when the above Dial Patterns are matched. <br><br>For Dial Patterns that match long distance numbers, for example, you'd want to pick the cheapest routes for long distance (ie, VoIP trunks first) followed by more expensive routes (POTS lines).<br></span></a><br><br>
+				<a href=# class="info"><?php echo _("Trunk Sequence")?><span><?php echo _("The Trunk Sequence controls the order of trunks that will be used when the above Dial Patterns are matched. <br><br>For Dial Patterns that match long distance numbers, for example, you'd want to pick the cheapest routes for long distance (ie, VoIP trunks first) followed by more expensive routes (POTS lines).")?><br></span></a><br><br>
 			</td>
 		</tr>
 		<input type="hidden" id="repotrunkdirection" name="repotrunkdirection" value="">
@@ -462,7 +462,7 @@ foreach ($trunkpriority as $key=>$trunk) {
 				<img src="images/delete.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11" onclick="deleteTrunk(<?php echo $key ?>)">
 			<?php   // move up
 			if ($key > 0) {?>
-				<img src="images/scrollup.gif" onclick="repositionTrunk(repotrunkdirection,repotrunkkey, '<?php echo $key ?>','up')" alt="Move Up" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+				<img src="images/scrollup.gif" onclick="repositionTrunk(repotrunkdirection,repotrunkkey, '<?php echo $key ?>','up')" alt="<?php echo _("Move Up")?>" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
 			<?php  } else { ?>
 				<img src="images/blank.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
 			<?php  }
@@ -470,7 +470,7 @@ foreach ($trunkpriority as $key=>$trunk) {
 			// move down
 			
 			if ($key < ($positions-1)) {?>
-				<img src="images/scrolldown.gif" onclick="repositionTrunk(repotrunkdirection,repotrunkkey, '<?php echo $key ?>','down')" alt="Move Down"  style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
+				<img src="images/scrolldown.gif" onclick="repositionTrunk(repotrunkdirection,repotrunkkey, '<?php echo $key ?>','down')" alt="<?php echo _("Move Down")?>"  style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
 			<?php  } else { ?>
 				<img src="images/blank.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
 			<?php  } ?>
@@ -498,13 +498,13 @@ $name = "";
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" value="Add">
+				<input type="submit" value="<?php echo _("Add")?>">
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
 			<br>
-				<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkRoute(routeEdit, '<?php echo ($extdisplay ? "editroute" : "addroute") ?>')"></h6>
+				<h6><input name="Submit" type="button" value="<?php echo _("Submit Changes")?>" onclick="checkRoute(routeEdit, '<?php echo ($extdisplay ? "editroute" : "addroute") ?>')"></h6>
 			</td>
 		</tr>
 		</table>
