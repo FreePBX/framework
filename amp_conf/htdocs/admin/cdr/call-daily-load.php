@@ -88,8 +88,6 @@ $FG_HTML_TABLE_TITLE=" - Call Logs - ";
 $FG_HTML_TABLE_WIDTH="90%";
 
 
-
-
 if ($FG_DEBUG == 3) echo "<br>Table : $FG_TABLE_NAME  	- 	Col_query : $FG_COL_QUERY";
 $instance_table = new Table($FG_TABLE_NAME, $FG_COL_QUERY);
 $instance_table_graph = new Table($FG_TABLE_NAME, $FG_COL_QUERY_GRAPH);
@@ -169,13 +167,23 @@ if (DB_TYPE == "postgres"){
 
 if ($FG_DEBUG == 3) echo "<br>$date_clause<br>";
 
-
-  
 if (strpos($SQLcmd, 'WHERE') > 0) { 
 	$FG_TABLE_CLAUSE = substr($SQLcmd,6).$date_clause; 
 }elseif (strpos($date_clause, 'AND') > 0){
 	$FG_TABLE_CLAUSE = substr($date_clause,5); 
 }
+
+/* --AMP BEGIN-- */
+//enforce restrictions for this AMP User
+session_start();
+$AMP_CLAUSE = $HTTP_SESSION_VARS['AMP_SQL'];
+if (!isset($AMP_CLAUSE)) {
+        $AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
+}
+$FG_TABLE_CLAUSE .= $AMP_CLAUSE;
+/* --AMP END-- */
+
+
 
 if ($_POST['posted']==1){
 	//> function Get_list ($clause=null, $order=null, $sens=null, $field_order_letter=null, $letters = null, $limite=null, $current_record = NULL)

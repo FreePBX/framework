@@ -143,6 +143,16 @@ if (strpos($SQLcmd, 'WHERE') > 0) {
 
 if ($FG_DEBUG == 3) echo $FG_TABLE_CLAUSE;
 
+/* --AMP BEGIN-- */
+//enforce restrictions for this AMP User
+session_start();
+$AMP_CLAUSE = $HTTP_SESSION_VARS['AMP_SQL'];
+if (!isset($AMP_CLAUSE)) {
+        $AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
+}
+$FG_TABLE_CLAUSE .= $AMP_CLAUSE;
+/* --AMP END-- */
+
 
 //$list = $instance_table -> Get_list ($FG_TABLE_CLAUSE, $order, $sens, null, null, null, null);
 

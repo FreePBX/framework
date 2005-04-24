@@ -187,6 +187,18 @@ if (strpos($SQLcmd, 'WHERE') > 0) {
 	$FG_TABLE_CLAUSE = substr($date_clause,5); 
 }
 
+/* --AMP BEGIN-- */
+//enforce restrictions for this AMP User
+session_start();
+$AMP_CLAUSE = $HTTP_SESSION_VARS['AMP_SQL'];
+if (!isset($AMP_CLAUSE)) {
+        $AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
+}
+$FG_TABLE_CLAUSE .= $AMP_CLAUSE;
+/* --AMP END-- */
+
+
+
 if ($FG_DEBUG == 3) echo "<br>Clause : $FG_TABLE_CLAUSE";
 //$nb_record = $instance_table -> Table_count ($FG_TABLE_CLAUSE);
 $nb_record = count($list_total);
