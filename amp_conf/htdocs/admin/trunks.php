@@ -150,12 +150,12 @@ switch ($action) {
 				// check for duplicates, and re-sequence
 				$dialrules = array_values(array_unique($dialrules));
 			} else {
-				$errormsg = "Error fetching prefix list for: ". $_REQUEST["npanxx"];
+				$errormsg = _("Error fetching prefix list for: "). $_REQUEST["npanxx"];
 			}
 			
 		} else {
 			// what a horrible error message... :p
-			$errormsg = "Invalid format for NPA-NXX code (must be format: NXXNXX)";
+			$errormsg = _("Invalid format for NPA-NXX code (must be format: NXXNXX)");
 		}
 		
 		if (isset($errormsg)) {
@@ -183,14 +183,14 @@ foreach ($globals as $global) {
 </div>
 
 <div class="rnav">
-    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>">Add Trunk</a><br></li>
+    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>"><?php echo _("Add Trunk")?></a><br></li>
 
 <?php 
 //get existing trunk info
 $tresults = gettrunks();
 
 foreach ($tresults as $tresult) {
-    echo "<li><a id=\"".($extdisplay==$tresult[0] ? 'current':'')."\" href=\"config.php?display=".$display."&extdisplay={$tresult[0]}\" title=\"".$tresult[1]."\">Trunk ".substr(ltrim($tresult[1],"AMP:"),0,15)."</a></li>";
+    echo "<li><a id=\"".($extdisplay==$tresult[0] ? 'current':'')."\" href=\"config.php?display=".$display."&extdisplay={$tresult[0]}\" title=\"".$tresult[1]."\">"._("Trunk")." ".substr(ltrim($tresult[1],"AMP:"),0,15)."</a></li>";
 }
 
 ?>
@@ -202,12 +202,12 @@ foreach ($tresults as $tresult) {
 
 if (!$tech && !$extdisplay) {
 ?>
-	<h2>Add a Trunk</h2>
-	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=ZAP">Add ZAP Trunk</a><br><br>
-	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=IAX2">Add IAX2 Trunk</a><br><br>
-	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=SIP">Add SIP Trunk</a><br><br>
-	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=ENUM">Add ENUM Trunk</a><br><br>
-	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=CUSTOM">Add Custom Trunk</a><br><br>
+	<h2><?php echo _("Add a Trunk")?></h2>
+	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=ZAP"><?php echo _("Add ZAP Trunk")?></a><br><br>
+	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=IAX2"><?php echo _("Add IAX2 Trunk")?></a><br><br>
+	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=SIP"><?php echo _("Add SIP Trunk")?></a><br><br>
+	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=ENUM"><?php echo _("Add ENUM Trunk")?></a><br><br>
+	<a href="<?php echo $_REQUEST['PHP_SELF'].'?display='.$display; ?>&tech=CUSTOM"><?php echo _("Add Custom Trunk")?></a><br><br>
 <?php 
 } else {
 	if ($extdisplay) {
@@ -263,23 +263,23 @@ if (!$tech && !$extdisplay) {
 			unset($temp);
 		}
 		
-		echo "<h2>Edit ".strtoupper($tech)." Trunk</h2>";
+		echo "<h2>".sprintf(_("Edit %s Trunk"),strtoupper($tech))."</h2>";
 ?>
-		<p><a title="<?php echo $channelid ?>" href="config.php?display=<?php echo $display ?>&extdisplay=<?php echo $extdisplay ?>&action=deltrunk">Delete Trunk <?php  echo substr($channelid,0,20); ?></a></p>
+		<p><a title="<?php echo $channelid ?>" href="config.php?display=<?php echo $display ?>&extdisplay=<?php echo $extdisplay ?>&action=deltrunk"><?php echo _("Delete Trunk")?> <?php  echo substr($channelid,0,20); ?></a></p>
 <?php 
 
 		// find which routes use this trunk
 		$routes = gettrunkroutes($trunknum);
 		$num_routes = count($routes);
 		if ($num_routes > 0) {
-			echo "<a href=# class=\"info\">In use by ".$num_routes." route".($num_routes == 1 ? "" : "s")."<span>";
+			echo "<a href=# class=\"info\">"._("In use by")." ".$num_routes." ".($num_routes == 1 ? _("route") : _("routes"))."<span>";
 			foreach($routes as $route=>$priority) {
-				echo "Route <b>".$route."</b>: Sequence <b>".$priority."</b><br>";
+				echo _("Route")." <b>".$route."</b>: "._("Sequence")." <b>".$priority."</b><br>";
 			}
 			echo "</span></a>";
 		} else {
-			echo "<b>WARNING:</b> <a href=# class=\"info\">This trunk is not used by any routes!<span>";
-			echo "This trunk will not be able to be used for outbound calls until a route is setup that uses it. Click on <b>Outbound Routes</b> to setup routing.";
+			echo "<b>WARNING:</b> <a href=# class=\"info\">"._("This trunk is not used by any routes!")."<span>";
+			echo _("This trunk will not be able to be used for outbound calls until a route is setup that uses it. Click on <b>Outbound Routes</b> to setup routing.");
 			echo "</span></a>";
 		}
 		echo "<br><br>";
@@ -306,7 +306,7 @@ if (!$tech && !$extdisplay) {
 		$lddialprefix = "1";
 		$areacode = "";
 	
-		echo "<h2>Add ".strtoupper($tech)." Trunk</h2>";
+		echo "<h2>".sprintf("Add %s Trunk",strtoupper($tech))."</h2>";
 	} 
 ?>
 	
@@ -318,57 +318,57 @@ if (!$tech && !$extdisplay) {
 			<table>
 			<tr>
 				<td colspan="2">
-					<h4>General Settings</h4>
+					<h4><?php echo _("General Settings")?></h4>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Outbound Caller ID<span><br>Setting this option will override all clients' caller IDs for calls placed out this trunk<br><br>Format: <b>"caller name" &lt;#######&gt;</b><br><br>Leave this field blank to simply pass client caller IDs.<br><br></span></a>: 
+					<a href=# class="info"><?php echo _("Outbound Caller ID")?><span><br><?php echo _("Setting this option will override all clients' caller IDs for calls placed out this trunk<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this field blank to simply pass client caller IDs.")?><br><br></span></a>: 
 				</td><td>
 					<input type="text" size="20" name="outcid" value="<?php echo $outcid;?>"/>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Maximum channels<span>Controls the maximum number of channels (simultaneous calls) that can be used on this trunk, including both incoming and outgoing calls. Leave blank to specify no maximum.</span></a>: 
+					<a href=# class="info"><?php echo _("Maximum channels")?><span><?php echo _("Controls the maximum number of channels (simultaneous calls) that can be used on this trunk, including both incoming and outgoing calls. Leave blank to specify no maximum.")?></span></a>: 
 				</td><td>
 					<input type="text" size="3" name="maxchans" value="<?php echo $maxchans; ?>"/>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<br><h4>Outgoing Dial Rules</h4>
+					<br><h4><?php echo _("Outgoing Dial Rules")?></h4>
 				</td>
 			</tr>
 			<tr>
 				<td valign="top">
-					<a href=# class="info">Dial Rules<span>A Dial Rule controls how calls will be dialed on this trunk. It can be used to add or remove prefixes. Numbers that don't match any patterns defined here will be dialed as-is. Note that a pattern without a + or | (to add or remove a prefix) is useless.<br><br><b>Rules:</b><br>
-	<strong>X</strong>&nbsp;&nbsp;&nbsp; matches any digit from 0-9<br>
-	<strong>Z</strong>&nbsp;&nbsp;&nbsp; matches any digit from 1-9<br>
-	<strong>N</strong>&nbsp;&nbsp;&nbsp; matches any digit from 2-9<br>
-	<strong>[1237-9]</strong>&nbsp;   matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)<br>
-	<strong>.</strong>&nbsp;&nbsp;&nbsp; wildcard, matches one or more characters (not allowed before a | or +)<br>
-	<strong>|</strong>&nbsp;&nbsp;&nbsp; removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed "6135551234" but would only pass "5551234" to the trunk)
-	<strong>+</strong>&nbsp;&nbsp;&nbsp; adds a dialing prefix from the number (for example, 1613+NXXXXXX would match when some dialed "5551234" and would pass "16135551234" to the trunk)
+					<a href=# class="info"><?php echo _("Dial Rules")?><span><?php echo _("A Dial Rule controls how calls will be dialed on this trunk. It can be used to add or remove prefixes. Numbers that don't match any patterns defined here will be dialed as-is. Note that a pattern without a + or | (to add or remove a prefix) is useless.")?><br><br><b><?php echo _("Rules:")?></b><br>
+	<strong>X</strong>&nbsp;&nbsp;&nbsp; <?php echo _("matches any digit from 0-9")?><br>
+	<strong>Z</strong>&nbsp;&nbsp;&nbsp; <?php echo _("matches any digit from 1-9")?><br>
+	<strong>N</strong>&nbsp;&nbsp;&nbsp; <?php echo _("matches any digit from 2-9")?><br>
+	<strong>[1237-9]</strong>&nbsp;   <?php echo _("matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)")?><br>
+	<strong>.</strong>&nbsp;&nbsp;&nbsp; <?php echo _("wildcard, matches one or more characters (not allowed before a | or +)")?><br>
+	<strong>|</strong>&nbsp;&nbsp;&nbsp; <?php echo _("removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed \"6135551234\" but would only pass \"5551234\" to the trunk)")?>
+	<strong>+</strong>&nbsp;&nbsp;&nbsp; <?php echo _("adds a dialing prefix from the number (for example, 1613+NXXXXXX would match when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)")?>
 					</span></a>:
 				</td><td valign="top">&nbsp;
 					<textarea id="dialrules" cols="20" rows="<?php  $rows = count($dialrules)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="dialrules"><?php echo implode("\n",$dialrules);?></textarea><br>
 					
-					<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
+					<input type="submit" style="font-size:10px;" value="<?php echo _("Clean & Remove duplicates")?>" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Dial rules wizards<span>
-					<strong>Always add prefix to local numbers</strong> is useful for VoIP trunks, where if a number is dialed as "5551234", it can be converted to "16135551234".<br>
-					<strong>Remove prefix from local numbers</strong> is useful for ZAP trunks, where if a local number is dialed as "16135551234", it can be converted to "555-1234".<br>
-					<strong>Lookup and remove local prefixes</strong> is the same as Remove prefix from local numbers, but uses the database at http://members.dandy.net/~czg/search.html to find your local calling area (NA-only)<br>
+					<a href=# class="info"><?php echo _("Dial rules wizards")?><span>
+					<strong><?php echo _("Always add prefix to local numbers")?></strong> <?php echo _("is useful for VoIP trunks, where if a number is dialed as \"5551234\", it can be converted to \"16135551234\".")?><br>
+					<strong><?php echo _("Remove prefix from local numbers")?></strong> <?php echo _("is useful for ZAP trunks, where if a local number is dialed as \"16135551234\", it can be converted to \"555-1234\".")?><br>
+					<strong><?php echo _("Lookup and remove local prefixes")?></strong> <?php echo _("is the same as Remove prefix from local numbers, but uses the database at http://members.dandy.net/~czg/search.html to find your local calling area (NA-only)")?><br>
 					</span></a>:
 				</td><td valign="top">&nbsp;&nbsp;<select id="autopop" name="autopop" onChange="changeAutoPop(); ">
-						<option value="" SELECTED>(pick one)</option>
-						<option value="always">Always add prefix to local numbers</option>
-						<option value="remove">Remove prefix from local numbers</option>
-						<option value="lookup">Lookup and remove local prefixes</option>
+						<option value="" SELECTED><?php echo _("(pick one)")?></option>
+						<option value="always"><?php echo _("Always add prefix to local numbers")?></option>
+						<option value="remove"><?php echo _("Remove prefix from local numbers")?></option>
+						<option value="lookup"><?php echo _("Lookup and remove local prefixes")?></option>
 					</select>
 				</td>
 			</tr>
@@ -381,9 +381,9 @@ if (!$tech && !$extdisplay) {
 ?>				
 				//var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?", document.getElementById('areacode').value);
 				do {
-					var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.");
+					var npanxx = prompt("<?php echo _("What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.")?>");
 					if (npanxx == null) return;
-				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("Invalid NPA-NXX. Must be of the format 'NXX-NXX'"));
+				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("<?php echo _("Invalid NPA-NXX. Must be of the format 'NXX-NXX'")?>"));
 				
 				document.getElementById('npanxx').value = npanxx;
 				trunkEdit.action.value = "populatenpanxx";
@@ -391,7 +391,7 @@ if (!$tech && !$extdisplay) {
 <?php  
 	} else { // curl is not installed
 ?>
-				alert("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.");
+				alert("<?php echo _("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.")?>");
 <?php 
 	}
 ?>
@@ -399,14 +399,14 @@ if (!$tech && !$extdisplay) {
 			
 			function populateAlwaysAdd() {
 				do {
-					var localpattern = prompt("What is the local dialing pattern?\n\n(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)","NXXXXXX");
+					var localpattern = prompt("<?php echo _("What is the local dialing pattern?\n\n(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)")?>","NXXXXXX");
 					if (localpattern == null) return;
-				} while (!localpattern.match('^[0-9#*ZXN\.]+$') && !alert("Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."));
+				} while (!localpattern.match('^[0-9#*ZXN\.]+$') && !alert("<?php echo _("Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed.")?>"));
 				
 				do {
-					var localprefix = prompt("What prefix should be added to the dialing pattern?\n\n(ie. for US/CAN, 1+areacode, ie, '1613')?");
+					var localprefix = prompt("<?php echo _("What prefix should be added to the dialing pattern?\n\n(ie. for US/CAN, 1+areacode, ie, '1613')?")?>");
 					if (localprefix == null) return;
-				} while (!localprefix.match('^[0-9#*]+$') && !alert("Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."));
+				} while (!localprefix.match('^[0-9#*]+$') && !alert("<?php echo _("Invalid prefix. Only dialable characters (0-9, #, and *) are allowed.")?>"));
 
 				dialrules = document.getElementById('dialrules');
 				if (dialrules.value[dialrules.value.length-1] != '\n') {
@@ -417,14 +417,14 @@ if (!$tech && !$extdisplay) {
 			
 			function populateRemove() {
 				do {
-					var localprefix = prompt("What prefix should be removed from the number?\n\n(ie. for US/CAN, 1+areacode, ie, '1613')");
+					var localprefix = prompt("<?php echo _("What prefix should be removed from the number?\n\n(ie. for US/CAN, 1+areacode, ie, '1613')")?>");
 					if (localprefix == null) return;
-				} while (!localprefix.match('^[0-9#*ZXN\.]+$') && !alert("Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed."));
+				} while (!localprefix.match('^[0-9#*ZXN\.]+$') && !alert("<?php echo _("Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed.")?>"));
 				
 				do {
-					var localpattern = prompt("What is the dialing pattern for local numbers after "+localprefix+"? \n\n(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)","NXXXXXX");
+					var localpattern = prompt("<?php echo _("What is the dialing pattern for local numbers after")?> "+localprefix+"? \n\n<?php echo _("(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)")?>","NXXXXXX");
 					if (localpattern == null) return;
-				} while (!localpattern.match('^[0-9#*ZXN\.]+$') && !alert("Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."));
+				} while (!localpattern.match('^[0-9#*ZXN\.]+$') && !alert("<?php echo _("Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed.")?>"));
 				
 				dialrules = document.getElementById('dialrules');
 				if (dialrules.value[dialrules.value.length-1] != '\n') {
@@ -544,14 +544,14 @@ if (!$tech && !$extdisplay) {
 */?>
 			<tr>
 				<td>
-					<a href=# class="info">Outbound Dial Prefix<span>The outbound dialing prefix is used to prefix a dialing string to all outbound calls placed on this trunk. For example, if this trunk is behind another PBX or is a Centrex line, then you would put 9 here to access an outbound line.<br><br>Most users should leave this option blank.</span></a>: 
+					<a href=# class="info"><?php echo _("Outbound Dial Prefix")?><span><?php echo _("The outbound dialing prefix is used to prefix a dialing string to all outbound calls placed on this trunk. For example, if this trunk is behind another PBX or is a Centrex line, then you would put 9 here to access an outbound line.<br><br>Most users should leave this option blank.")?></span></a>: 
 				</td><td>
 					<input type="text" size="8" name="dialoutprefix" value="<?php echo $dialoutprefix ?>"/>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<br><h4>Outgoing Settings</h4>
+					<br><h4><?php echo _("Outgoing Settings")?></h4>
 				</td>
 			</tr>
 	
@@ -561,7 +561,7 @@ if (!$tech && !$extdisplay) {
 	?>
 				<tr>
 					<td>
-						<a href=# class="info">Zap Identifier (trunk name)<span><br>ZAP channels are referenced either by a group number or channel number (which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> (group zero).<br><br></span></a>: 
+						<a href=# class="info"><?php echo _("Zap Identifier (trunk name)")?><span><br><?php echo _("ZAP channels are referenced either by a group number or channel number (which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> (group zero).")?><br><br></span></a>: 
 					</td><td>
 						<input type="text" size="8" name="channelid" value="<?php echo $channelid ?>"/>
 						<input type="hidden" size="14" name="usercontext" value="notneeded"/>
@@ -575,7 +575,7 @@ if (!$tech && !$extdisplay) {
 	?>
 				<tr>
 					<td>
-						<a href=# class="info">Custom Dial String<span>Define the custom Dial String.  Include the token $OUTNUM$ wherever the number to dial should go.<br><br><b>examples:</b><br><br>CAPI/XXXXXXXX:b$OUTNUM$,30,r<br>H323/$OUTNUM$@XX.XX.XX.XX<br>OH323/$OUTNUM$@XX.XX.XX.XX:XXXX<br>vpb/1-1/$OUTNUM$</span></a>: 
+						<a href=# class="info"><?php echo _("Custom Dial String")?><span><?php echo _("Define the custom Dial String.  Include the token")?> $OUTNUM$ <?php echo _("wherever the number to dial should go.<br><br><b>examples:</b><br><br>CAPI/XXXXXXXX:b")?>$OUTNUM$<?php echo _(",30,r<br>H323/")?>$OUTNUM$@XX.XX.XX.XX<br>OH323/$OUTNUM$@XX.XX.XX.XX:XXXX<br>vpb/1-1/$OUTNUM$</span></a>: 
 					</td><td>
 						<input type="text" size="35" maxlength="46" name="channelid" value="<?php echo $channelid ?>"/>
 						<input type="hidden" size="14" name="usercontext" value="notneeded"/>
@@ -587,14 +587,14 @@ if (!$tech && !$extdisplay) {
 	?>
 				<tr>
 					<td>
-						<a href=# class="info">Trunk Name<span><br>Give this trunk a unique name.  Example: myiaxtel<br><br></span></a>: 
+						<a href=# class="info"><?php echo _("Trunk Name")?><span><br><?php echo _("Give this trunk a unique name.  Example: myiaxtel")?><br><br></span></a>: 
 					</td><td>
 						<input type="text" size="14" name="channelid" value="<?php echo $channelid ?>"/>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<a href=# class="info">PEER Details<span><br>Modify the default PEER connection parameters for your VoIP provider.<br><br>You may need to add to the default lines listed below, depending on your provider.<br><br></span></a>: 
+						<a href=# class="info"><?php echo _("PEER Details")?><span><br><?php echo _("Modify the default PEER connection parameters for your VoIP provider.<br><br>You may need to add to the default lines listed below, depending on your provider.")?><br><br></span></a>: 
 					</td>
 				</tr>
 				<tr>
@@ -604,19 +604,19 @@ if (!$tech && !$extdisplay) {
 				</tr>
 				<tr>
 					<td colspan="2">
-						<br><h4>Incoming Settings</h4>
+						<br><h4><?php echo _("Incoming Settings")?></h4>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<a href=# class="info">USER Context<span><br>This is most often the account name or number your provider expects.<br><br>This USER Context will be used to define the below user details.</span></a>: 
+						<a href=# class="info"><?php echo _("USER Context")?><span><br><?php echo _("This is most often the account name or number your provider expects.<br><br>This USER Context will be used to define the below user details.")?></span></a>: 
 					</td><td>
 						<input type="text" size="14" name="usercontext" value="<?php echo $usercontext  ?>"/>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<a href=# class="info">USER Details<span><br>Modify the default USER connection parameters for your VoIP provider.<br><br>You may need to add to the default lines listed below, depending on your provider.<br><br></span></a>: 
+						<a href=# class="info"><?php echo _("USER Details")?><span><br><?php echo _("Modify the default USER connection parameters for your VoIP provider.")?><br><br><?php echo _("You may need to add to the default lines listed below, depending on your provider.")?><br><br></span></a>: 
 					</td>
 				</tr>
 				<tr>
@@ -626,12 +626,12 @@ if (!$tech && !$extdisplay) {
 				</tr>
 				<tr>
 					<td colspan="2">
-						<br><h4>Registration</h4>
+						<br><h4><?php echo _("Registration")?></h4>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<a href=# class="info">Register String<span><br>Most VoIP providers require your system to REGISTER with theirs. Enter the registration line here.<br><br>example:<br><br>username:password@switch.voipprovider.com<br><br></span></a>: 
+						<a href=# class="info"><?php echo _("Register String")?><span><br><?php echo _("Most VoIP providers require your system to REGISTER with theirs. Enter the registration line here.<br><br>example:<br><br>username:password@switch.voipprovider.com")?><br><br></span></a>: 
 					</td>
 				</tr>
 				<tr>
@@ -646,7 +646,7 @@ if (!$tech && !$extdisplay) {
 				
 			<tr>
 				<td colspan="2">
-					<h6><input name="Submit" type="button" value="Submit Changes" onclick="checkTrunk(trunkEdit, '<?php echo ($extdisplay ? "edittrunk" : "addtrunk") ?>')"></h6>
+					<h6><input name="Submit" type="button" value="<?php echo _("Submit Changes")?>" onclick="checkTrunk(trunkEdit, '<?php echo ($extdisplay ? "edittrunk" : "addtrunk") ?>')"></h6>
 				</td>
 			</tr>
 			</table>
