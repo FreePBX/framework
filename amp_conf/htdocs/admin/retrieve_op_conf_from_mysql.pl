@@ -24,6 +24,51 @@ $queuepos="42-50,61-70";
 #@zaplines=(@zaplines,[ "Zap/3","Zap 3" ]);
 #@zaplines=(@zaplines,[ "Zap/4","Zap 4" ]);
 
+
+# LETS PARSE zapata.conf
+# Allowed format options
+# %c Zap Channel number
+# %n Line number
+# %N Line number, but restart counter
+# Example:
+# ;AMPLABEL:Channel %c - Button %n
+
+$zapataconf="/etc/asterisk/zapata.conf";
+
+$zaplabel="Channel \%c";
+$lastlabelnum=0;
+open ZAPATA, "<$zapataconf" || die "Cannot open config file: $zapataconf\n";
+
+while( $line = <ZAPATA> ) {
+	next if $line =~ /^(\s)*$/;
+	chomp($line);
+	if($line =~ /^;AMPLABEL:\s*(\S+[\s\S]*)$/) {
+		$zaplabel=$1;
+		$line=~/\%N/ and $lastlabelnum=0;
+	}
+	if($line =~ /^[b]?channel\s*=\s*[>]?\s*([\d\,-]+)\s*$/) {
+		@ranges=split(/,/,$1);
+		foreach $ran(@ranges) {
+			@range=split(/-/,$ran);
+			$start=$range[0];
+			$end=$start;
+			@range>1 and $end=$range[1];
+			foreach $c($start .. $end) {
+				$lastlabelnum++;
+				$newlabel=$zaplabel;
+				$newlabel=~s/\%c/$c/;
+				$newlabel=~s/\%n/$lastlabelnum/;
+				$newlabel=~s/\%N/$lastlabelnum/;
+				
+				@zaplines=(@zaplines,[ "Zap/$c","$newlabel" ]);
+			}
+			
+		}
+	}
+}
+#Finished parsing zapata.conf
+
+
 # Conference Rooms not yet implemented in AMP config
 @conferences=();   #### ext#, description
 #@conferences=(@conferences,[ "810","Conf.10" ]);
