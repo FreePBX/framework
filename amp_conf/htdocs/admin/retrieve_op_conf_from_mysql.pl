@@ -35,7 +35,7 @@ $queuepos="42-50,61-70";
 
 $zapataconf="/etc/asterisk/zapata.conf";
 
-$zaplabel="Channel \%c";
+$zaplabel="Zap \%c";
 $lastlabelnum=0;
 open ZAPATA, "<$zapataconf" || die "Cannot open config file: $zapataconf\n";
 
