@@ -42,9 +42,15 @@ open ZAPATA, "<$zapataconf" || die "Cannot open config file: $zapataconf\n";
 while( $line = <ZAPATA> ) {
 	next if $line =~ /^(\s)*$/;
 	chomp($line);
+	if($line =~ /^;AMPWILDCARDLABEL\((\d+)\)\s*:\s*([\S\s]+)\s*$/) {
+		@zaplines=(@zaplines,[ "Zap/*","$2",$1 ]);
+		next;	
+	}
+
 	if($line =~ /^;AMPLABEL:\s*(\S+[\s\S]*)$/) {
 		$zaplabel=$1;
 		$line=~/\%N/ and $lastlabelnum=0;
+		next;
 	}
 	if($line =~ /^[b]?channel\s*=\s*[>]?\s*([\d\,-]+)\s*$/) {
 		@ranges=split(/,/,$1);
@@ -224,11 +230,22 @@ foreach my $pcontext ( @ampusers ) {
 	
 	$btn=0; 
 	foreach my $row ( @zaplines ) {
-		$btn=get_next_btn($trunkpos,$btn);
 		$zapdef=@{$row}[0];
 		$zapdesc=@{$row}[1];
 		$icon='3';
-		print EXTEN "[$zapdef]\nPosition=$btn\nLabel=\"$zapdesc\"\nExtension=-1\nIcon=$icon\nPanel_Context=$panelcontext\n";
+		$btn=get_next_btn($trunkpos,$btn);
+		if ($zapdef eq "Zap/*") {
+			$numbuttons=@{$row}[2]-1;
+			print EXTEN "[$zapdef]\nLabel=\"$zapdesc\"\nExtension=-1\nIcon=$icon\nPanel_Context=$panelcontext\nPosition=".$btn;
+			while($numbuttons-->0) {
+				$btn=get_next_btn($trunkpos,$btn);
+				print EXTEN ",".$btn;
+			}
+
+			print EXTEN "\n";
+		} else {
+			print EXTEN "[$zapdef]\nPosition=$btn\nLabel=\"$zapdesc\"\nExtension=-1\nIcon=$icon\nPanel_Context=$panelcontext\n";
+		}
 	}
 	
 	
