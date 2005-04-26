@@ -1,0 +1,389 @@
+#!/usr/bin/php
+<?php
+
+define("AMP_CONF", "/etc/amportal.conf");
+define("PHP_ASMANAGER", "/var/lib/asterisk/bin/php-asmanager.php");
+define("MONITOR_DIR", "/var/spool/asterisk/monitor");
+
+function out($text) {
+	echo $text."\n";
+}
+
+function outn($text) {
+	echo $text;
+}
+
+function error($text) {
+	echo "[ERROR] ".$text."\n";
+}
+
+function fatal($text) {
+	echo "[FATAL] ".$text."\n";
+	exit(1);
+}
+
+function debug($text) {
+	global $debug;
+	
+	if ($debug) echo "[DEBUG] ".$text."\n";
+}
+
+function showHelp() {
+	out("This script will archive all monitor recordings in ".MONITOR_DIR."/.");
+	out("Optional parameters:");
+	out("  --help, -h, -?           Show this help");
+	out("  --debug                  Enable debug output");
+	out("  --dry-run                Don't actually do anything");
+	out("  --mp3    				Recursively convert all .WAV to .mp3");
+}
+
+function parse_amportal_conf($filename) {
+	$file = file($filename);
+	foreach ($file as $line) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+			$conf[ $matches[1] ] = $matches[2];
+		}
+	}
+	return $conf;
+}
+
+/** creates directory tree recursively
+ */
+function makeDirs($strPath, $mode = 0770) {
+	return is_dir($strPath) or ( makeDirs(dirname($strPath), $mode) and mkdir($strPath, $mode) );
+}
+
+
+/** processes all recordings in MONITOR_DIR
+ */
+function process_files() {
+	global $dryrun;
+	global $debug;
+	
+	if (is_dir(MONITOR_DIR)) {
+		$dir = opendir(MONITOR_DIR);
+		while ($file = readdir($dir)) {
+			$calltype="";
+			if (($file[0] != ".") && is_file(MONITOR_DIR."/".$file)) {
+				if($debug) {
+						debug("Processing file ".$file);					
+				}
+				if ((strtolower(substr($file,-4)) == ".WAV") || (strtolower(substr($file,-4)) == ".wav") || (strtolower(substr($file,-4)) == ".gsm")) {
+					// check if recording is from a queue, ringgroup or outbound
+					// queue recordings saved like q<queue#>-<uniqueid>.wav
+					// ringgroup recordings saved like g<rg#>-<uniqueid>.wav
+					// outbound call recordings saved like OUT-<uniqueid>.wav
+					// all other call recordings saved like <uniqueid>.wav
+					if(!(strpos($file,"OUT") === false)) {  //outbound
+						$outbound=substr($file,3,(strpos($file,"-")-3));
+						$calltype="out-".$outbound;
+						$uniqueid = substr($file,strpos($file,"-")+1,strlen($file)-strlen($outbound)-8);
+					} else if(strpos($file,"q") === 0) {   //queue
+						$queue=substr($file,1,(strpos($file,"-")-1));
+						$calltype="queue-".$queue;
+						$uniqueid = substr($file,strpos($file,"-")+1,strlen($file)-(strlen($queue)+6));
+					} else if(strpos($file,"g") === 0) {   //ringgroup
+						$ringgroup=substr($file,1,(strpos($file,"-")-1));
+						$calltype="ringgroup-".$ringgroup;
+						$uniqueid = substr($file,strpos($file,"-")+1,strlen($file)-(strlen($ringgroup)+6));
+					} else {  //direct inbound
+						$uniqueid = substr($file,0,strlen($file)-4);
+						$calltype="in";
+					}
+					outn("-> Looking for ".$calltype." CDR record id ".$uniqueid.".. ");
+					$cdrRecord = get_cdr($uniqueid,$calltype);
+					if(isset($cdrRecord['extension'])) {
+						$calldate = strtok($cdrRecord['calldate']," ");
+						if ($debug) debug("Calldate is ".$calldate);
+						$calltime = strtok(" ");
+						if ($debug) debug("Calltime is ".$calltime);
+						$filepath = MONITOR_DIR."/".str_replace("-","/",$calldate)."/".$cdrRecord['extension']."/".$cdrRecord['direction'];
+						if ($debug) debug("Preparing directory ".$filepath);
+						if(!$dryrun) {
+							makeDirs($filepath);
+						}
+						//the filename contains the time and uniqueid
+						if(strpos($file,"q") === 0) {
+							$filename = "q".$queue."-".$calltime."-".$uniqueid.substr($file,-4);
+						} else {
+							$filename = $calltime."-".$uniqueid.substr($file,-4);
+						}
+						out("Storing recording to ".$filepath);
+						if(!$dryrun) {
+							exec("mv ".MONITOR_DIR."/".$file." ".$filepath."/".$filename);
+						}
+					} else {
+						out("Storing recording as an orphan");
+						if(!$dryrun) {
+							makeDirs(MONITOR_DIR."/orphans");
+							exec("mv ".MONITOR_DIR."/".$file." ".MONITOR_DIR."/orphans/");
+						}
+					}
+				} else {
+					error("Don't know what to do with ".$file);
+				}
+			}
+		}
+	} else {
+		fatal(MONITOR_DIR." does not exist!");
+	}
+}
+
+function check_table() {
+	global $db;
+	global $debug;
+	outn("Verifying CDR 'uniqueid' field exisits..");
+	$sql = "SELECT uniqueid FROM cdr";
+	if ($debug) {out(""); debug("Query: ".$sql);}
+	$result = $db->query($sql); 
+	if(DB::IsError($result)) {     
+		fatal($result->getDebugInfo()."\" while running ".$sql."\n"); 
+	}
+	if (count($result) > 0) {
+		out("OK");
+	} else {
+		out("FAILED");
+		fatal("No unique IDs have been logged in your CDR Table.\n\nIn /usr/src/asterisk-addons:\n1. Add a CFLAGS+=-DMYSQL_LOGUNIQUEID to the Makefile.\n2. Add a #define MYSQL_LOGUNIQUEID to the top of the sourcefile.\nFinally perform the usual make clean, make, make install.");
+	}
+	return($result);
+}
+
+function get_cdr($uniqueid,$calltype) {
+	global $db;
+	global $debug;
+	$sql = "SELECT * FROM cdr WHERE uniqueid = '$uniqueid'";
+	//if ($debug) {out(""); debug("Query: ".$sql);}
+	$result = $db->getRow($sql); 
+	if(DB::IsError($result)) {     
+		fatal($result->getDebugInfo()."\" while running ".$sql."\n"); 
+	}
+	if (count($result) > 0) {
+		out("Found");
+	} else {
+		out("Not Found");
+	}
+	$cdrRecord['calldate']=$result[0];
+	$cdrRecord['clid']=$result[1];
+	$cdrRecord['src']=$result[2];
+	$cdrRecord['dst']=$result[3];
+	$cdrRecord['dcontext']=$result[4];
+	$cdrRecord['channel']=$result[5];
+	$cdrRecord['dstchannel']=$result[6];
+	$cdrRecord['lastapp']=$result[7];
+	$cdrRecord['lastdata']=$result[8];
+	$cdrRecord['duration']=$result[9];
+	$cdrRecord['billsec']=$result[10];
+	$cdrRecord['disposition']=$result[11];
+	$cdrRecord['amaflags']=$result[12];
+	$cdrRecord['accountcode']=$result[13];
+	$cdrRecord['uniqueid']=$result[14];
+	$cdrRecord['userfield']=$result[15];
+	if (strpos($calltype,"in") === 0) {
+		if($debug) debug("Getting incoming destination from dst: ".$cdrRecord['dst']);
+		$cdrRecord['extension']=$cdrRecord['dst'];
+		$cdrRecord['direction']="in";
+	} else if(strpos($calltype,"out") === 0) {
+		if($debug) debug("Getting outgoing origination from calltype: ".$calltype);
+		$cdrRecord['extension']=ltrim($calltype,"out-");
+		$cdrRecord['direction']="out";
+	} else if (strpos($calltype,"ringgroup") === 0) {
+		if($debug) debug("Getting group destination from dstchannel: ".$cdrRecord['dstchannel']);
+		$cdrRecord['extension']=substr($cdrRecord['dstchannel'],strpos($cdrRecord['dstchannel'],"/")+1,(strpos($cdrRecord['dstchannel'],"-")-strpos($cdrRecord['dstchannel'],"/")-1)); //cut out the channel number
+		outn("Checking if ".$cdrRecord['extension']." has recordings enabled..");
+		$extrecord = check_recording_option($cdrRecord['extension']);
+		$cdrRecord['direction']="in";
+		if ($extrecord == "ENABLED") {
+			out("YES");
+		} else {
+			out("NO");
+			unset($cdrRecord['extension']);
+		}
+	} else if (strpos($calltype,"queue") === 0) {
+		if($debug) debug("Getting queue destination from dst: ".$cdrRecord['dst']);
+		$cdrRecord['extension']=$cdrRecord['dst'];
+		$cdrRecord['direction']="in";
+	}
+	if (empty($cdrRecord['extension'])) {
+		error("Unable to determine extension number for ".$uniqueid);
+	} else {
+		if($debug) debug(".. found extension ".$cdrRecord['extension']);
+	}
+	return($cdrRecord);
+}
+
+
+function check_recording_option($extension) {
+	global $amp_conf;
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		return $astman->database_get("Record-In",$extension);
+	} else {
+		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
+	}
+}
+
+
+// Create list of all files 
+function make_tree($path){ 
+	$handle=opendir($path);
+	while($a=readdir($handle)){
+		if(!preg_match('/^\./',$a)){
+			$full_path="$path/$a";
+			if(is_file($full_path)){ $list[]=$full_path; } // only files //$list[]=$full_path;
+				if(is_dir($full_path)){
+					$recursive=make_tree($full_path);
+					for($n=0; $n<count($recursive); $n++){
+						$list[]=$recursive[$n];
+					}
+				}
+			}
+	}
+	closedir($handle);
+	return $list;
+}
+
+function convert_files() {
+	global $debug;
+	global $dryrun;
+	outn("-> Converting files to mp3..");
+	$files = make_tree(MONITOR_DIR);
+	foreach ($files as $file) {
+		if ((strtolower(substr($file,-4)) == ".WAV") || (strtolower(substr($file,-4)) == ".wav") || (strtolower(substr($file,-4)) == ".gsm")) {
+			$newfile = substr($file,0,strlen($file)-3)."mp3";
+			$lamecmd="lame --cbr -m m -t -F \"".$file."\" \"".$newfile."\"";
+			if($debug) debug($lamecmd);
+			if (!$dryrun) {
+				exec($lamecmd);
+				exec("rm -f ".$file);
+			}
+		}
+	}
+	out("OK");
+}
+/********************************************************************************************************************/
+
+// **** Make sure we have STDIN etc
+
+// from  ben-php dot net at efros dot com   at  php.net/install.unix.commandline
+if (version_compare(phpversion(),'4.3.0','<') || !defined("STDIN")) {
+	define('STDIN',fopen("php://stdin","r"));
+	define('STDOUT',fopen("php://stdout","r"));
+	define('STDERR',fopen("php://stderr","r"));
+	register_shutdown_function( create_function( '' , 'fclose(STDIN); fclose(STDOUT); fclose(STDERR); return true;' ) );
+}
+   
+   
+// **** Make sure we have PEAR's DB.php, and include it
+
+outn("Checking for PEAR DB..");
+if (! @ include('DB.php')) {
+	out("FAILED");
+	fatal("PEAR must be installed (requires DB.php). Include path: ".ini_get("include_path"));
+}
+out("OK");
+
+
+// **** Make sure we have PEAR's GetOpts.php, and include it
+
+outn("Checking for PEAR Console::Getopt..");
+if (! @ include("Console/Getopt.php")) {
+	out("FAILED");
+	fatal("PEAR must be installed (requires Console/Getopt.php). Include path: ".ini_get("include_path"));
+}
+out("OK");
+
+// **** Make sure we have php-asmanager.php, and include it
+
+outn("Checking for PHP_ASMANAGER..");
+if (! @ include(PHP_ASMANAGER)) {
+	out("FAILED");
+	fatal("Cannot include ".PHP_ASMANAGER);
+}
+out("OK");
+
+// **** Parse out command-line options
+
+$shortopts = "h?u:p:";
+$longopts = array("help","debug","dry-run","mp3");
+
+$args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
+if (is_object($args)) {
+	// assume it's PEAR_ERROR
+	out($args->message);
+	exit(255);
+}
+
+$debug = false;
+$dryrun = false;
+$mp3= false;
+
+foreach ($args[0] as $arg) {
+	switch ($arg[0]) {
+		case "--help": case "h": case "?":
+			showHelp();
+			exit(10);
+		break;
+		case "--dry-run":
+			out("Dry-run only, nothing will be changed");
+			$dryrun = true;
+		break;
+		case "--debug":
+			$debug = true;
+			debug("Debug mode enabled");
+		break;
+		case "--mp3":
+			$mp3 = true;
+			debug("MP3 conversion enabled");
+		break;
+	}
+}
+
+
+// **** Look for user = root
+
+outn("Checking user..");
+$current_user=(isset($_ENV["USER"]) ? $_ENV["USER"] : exec('whoami',$output));
+if ($current_user != "root"){
+	out("FAILED");
+	fatal($argv[0]." must be run as root");
+}
+out("OK");
+
+
+// **** read amportal.conf
+
+outn("Reading ".AMP_CONF."..");
+$amp_conf = parse_amportal_conf(AMP_CONF);
+if (count($amp_conf) == 0) {
+	fatal("FAILED");
+}
+out("OK");
+
+
+// **** Connect to database
+
+outn("Connecting to database..");
+
+$db_user = $amp_conf["AMPDBUSER"];
+$db_pass = $amp_conf["AMPDBPASS"];
+$db_host = 'localhost';
+$db_name = 'asteriskcdrdb';
+$db_engine = 'mysql';
+
+$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
+
+$db = DB::connect($datasource); // attempt connection
+
+if(DB::isError($db)) {
+	out("FAILED");
+	debug($db->userinfo);
+	fatal("Cannot connect to database");
+	
+}
+out("OK");
+
+check_table();
+process_files();
+if($mp3) {
+	convert_files();
+}
