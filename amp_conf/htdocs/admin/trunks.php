@@ -381,9 +381,9 @@ if (!$tech && !$extdisplay) {
 ?>				
 				//var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?", document.getElementById('areacode').value);
 				do {
-					var npanxx = prompt("<?php echo _("What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.")?>");
+					var npanxx = prompt("<?php echo _('What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.')?>");
 					if (npanxx == null) return;
-				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("<?php echo _("Invalid NPA-NXX. Must be of the format 'NXX-NXX'")?>"));
+				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("<?php echo _('Invalid NPA-NXX. Must be of the format \'NXX-NXX\'')?>"));
 				
 				document.getElementById('npanxx').value = npanxx;
 				trunkEdit.action.value = "populatenpanxx";
@@ -391,7 +391,7 @@ if (!$tech && !$extdisplay) {
 <?php  
 	} else { // curl is not installed
 ?>
-				alert("<?php echo _("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.")?>");
+				alert("<?php echo _('Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.')?>");
 <?php 
 	}
 ?>
@@ -399,12 +399,12 @@ if (!$tech && !$extdisplay) {
 			
 			function populateAlwaysAdd() {
 				do {
-					var localpattern = prompt("<?php echo _("What is the local dialing pattern?\n\n(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)")?>","NXXXXXX");
+					var localpattern = prompt("<?php echo _('What is the local dialing pattern?\n\n(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)')?>","NXXXXXX");
 					if (localpattern == null) return;
 				} while (!localpattern.match('^[0-9#*ZXN\.]+$') && !alert("<?php echo _("Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed.")?>"));
 				
 				do {
-					var localprefix = prompt("<?php echo _("What prefix should be added to the dialing pattern?\n\n(ie. for US/CAN, 1+areacode, ie, '1613')?")?>");
+					var localprefix = prompt("<?php echo _('What prefix should be added to the dialing pattern?\n\n(ie. for US/CAN, 1+areacode, ie, \'1613\')?')?>");
 					if (localprefix == null) return;
 				} while (!localprefix.match('^[0-9#*]+$') && !alert("<?php echo _("Invalid prefix. Only dialable characters (0-9, #, and *) are allowed.")?>"));
 
@@ -417,9 +417,9 @@ if (!$tech && !$extdisplay) {
 			
 			function populateRemove() {
 				do {
-					var localprefix = prompt("<?php echo _("What prefix should be removed from the number?\n\n(ie. for US/CAN, 1+areacode, ie, '1613')")?>");
+					var localprefix = prompt("<?php echo _('What prefix should be removed from the number?\n\n(ie. for US/CAN, 1+areacode, ie, \'1613\')')?>");
 					if (localprefix == null) return;
-				} while (!localprefix.match('^[0-9#*ZXN\.]+$') && !alert("<?php echo _("Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed.")?>"));
+				} while (!localprefix.match('^[0-9#*ZXN\.]+$') && !alert("<?php echo _('Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed.')?>"));
 				
 				do {
 					var localpattern = prompt("<?php echo _("What is the dialing pattern for local numbers after")?> "+localprefix+"? \n\n<?php echo _("(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)")?>","NXXXXXX");

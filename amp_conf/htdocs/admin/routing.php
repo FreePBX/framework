@@ -352,9 +352,9 @@ $key += 1; // this will be the next key value
 ?>				
 				//var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?", document.getElementById('areacode').value);
 				do {
-					var npanxx = prompt("<?php echo _("What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.")?>");
+					var npanxx = prompt("<?php echo _('What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.')?>");
 					if (npanxx == null) return;
-				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("<?php echo _("Invalid NPA-NXX. Must be of the format 'NXX-NXX'")?>"));
+				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("<?php echo _('Invalid NPA-NXX. Must be of the format \'NXX-NXX\'')?>"));
 				
 				document.getElementById('npanxx').value = npanxx;
 				document.getElementById('routeEdit').action.value = "populatenpanxx";
@@ -362,7 +362,7 @@ $key += 1; // this will be the next key value
 <?php  
 	} else { // curl is not installed
 ?>
-				alert("<?php echo _("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.")?>");
+				alert('<?php echo _("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.")?>');
 <?php 
 	}
 ?>
