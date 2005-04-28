@@ -52,7 +52,7 @@ if (isset($_REQUEST["grplist"])) {
 
 //check if the extension is within range for this user
 if (isset($account) && !checkRange($account)){
-	echo "<script>javascript:alert('Warning! Extension $account is not allowed for your account.');</script>";
+	echo "<script>javascript:alert('". _("Warning! Extension")." ".$account." "._("is not allowed for your account").".');</script>";
 } else {
 	//add group
 	if ($action == 'addGRP') {
@@ -86,14 +86,14 @@ if (isset($account) && !checkRange($account)){
 </div>
 
 <div class="rnav">
-    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>">Add Ring Group</a><br></li>
+    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add Ring Group")?></a><br></li>
 <?php 
 //get unique ring groups
 $gresults = getgroups();
 
 if (isset($gresults)) {
 	foreach ($gresults as $gresult) {
-		echo "<li><a id=\"".($extdisplay=='GRP-'.$gresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=GRP-{$gresult[0]}\">Ring Group {$gresult[0]}</a></li>";
+		echo "<li><a id=\"".($extdisplay=='GRP-'.$gresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=GRP-{$gresult[0]}\">"._("Ring Group")." {$gresult[0]}</a></li>";
 	}
 }
 ?>
@@ -122,25 +122,25 @@ if (isset($gresults)) {
 
 			$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delGRP';
 	?>
-			<h2>Ring Group: <?php  echo ltrim($extdisplay,'GRP-'); ?></h2>
+			<h2><?php echo _("Ring Group")?>: <?php  echo ltrim($extdisplay,'GRP-'); ?></h2>
 <?php 		if ($extdisplay){ ?>
-			<p><a href="<?php  echo $delURL ?>">Delete Group <?php  echo ltrim($extdisplay,'GRP-'); ?></a></p>
+			<p><a href="<?php  echo $delURL ?>"><?php echo _("Delete Group")?> <?php  echo ltrim($extdisplay,'GRP-'); ?></a></p>
 <?php 		} ?>
 			<form name="editGRP" action="<?php  $_REQUEST['PHP_SELF'] ?>" method="post">
 			<input type="hidden" name="display" value="<?php echo $dispnum?>">
 			<input type="hidden" name="action" value="">
 			<table>
-			<tr><td colspan="2"><h5><?php  echo ($extdisplay ? 'Edit Ring Group' : 'Add Ring Group') ?><hr></h5></td></tr>
+			<tr><td colspan="2"><h5><?php  echo ($extdisplay ? _("Edit Ring Group") : _("Add Ring Group")) ?><hr></h5></td></tr>
 			<tr>
 <?php 		if ($extdisplay){ ?>
 				<input size="5" type="hidden" name="account" value="<?php  echo ltrim($extdisplay,'GRP-'); ?>">
 <?php 		} else { ?>
-				<td><a href="#" class="info">group number:<span>The number users will dial to ring extensions in this ring group</span></a></td>
+				<td><a href="#" class="info"><?php echo _("group number")?>:<span><?php echo _("The number users will dial to ring extensions in this ring group")?></span></a></td>
 				<td><input size="5" type="text" name="account" value="<?php  echo $gresult[0] + 1; ?>"></td>
 <?php 		} ?>
 			</tr>
 			<tr>
-				<td valign="top"><a href="#" class="info">extension list:<span><br>List extensions to ring, one per line.<br><br>You can include an extension on a remote system, or an external number by suffixing a number with a pound (#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see Outbound Routing).<br><br></span></a></td>
+				<td valign="top"><a href="#" class="info"><?php echo _("extension list")?>:<span><br><?php echo _("List extensions to ring, one per line.<br><br>You can include an extension on a remote system, or an external number by suffixing a number with a pound (#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see Outbound Routing).")?><br><br></span></a></td>
 				<td valign="top">&nbsp;
 					<textarea id="grplist" cols="15" rows="<?php  $rows = count($grplist)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="grplist"><?php echo implode("\n",$grplist);?></textarea><br>
 					
@@ -148,13 +148,13 @@ if (isset($gresults)) {
 				</td>
 			</tr>
 			<tr>
-				<td><a href="#" class="info">CID name prefix:<span>You can optionally prefix the Caller ID name when ringing extensions in this group. ie: If you prefix with "Sales:", a call from John Doe would display as "Sales:John Doe" on the extensions that ring.</span></a></td>
+				<td><a href="#" class="info"><?php echo _("CID name prefix")?>:<span><?php echo _('You can optionally prefix the Caller ID name when ringing extensions in this group. ie: If you prefix with "Sales:", a call from John Doe would display as "Sales:John Doe" on the extensions that ring.')?></span></a></td>
 				<td><input size="4" type="text" name="grppre" value="<?php  echo $grppre ?>"></td>
 			</tr><tr>
-				<td>ring time (max 60 sec):</td>
+				<td><?php echo _("ring time (max 60 sec)")?>:</td>
 				<td><input size="4" type="text" name="grptime" value="<?php  echo $grptime ?>"></td>
 			</tr>
-			<tr><td colspan="2"><br><h5>Destination if no answer:<hr></h5></td></tr>
+			<tr><td colspan="2"><br><h5><?php echo _("Destination if no answer")?>:<hr></h5></td></tr>
 
 <?php 
 //get goto for this group - note priority 2

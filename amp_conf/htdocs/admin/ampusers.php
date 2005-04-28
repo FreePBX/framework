@@ -65,7 +65,7 @@ switch ($action) {
 </div>
 
 <div class="rnav">
-    <li><a id="<?php  echo ($userdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>">Add User</a><br></li>
+    <li><a id="<?php  echo ($userdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>"><?php echo _("Add User")?></a><br></li>
 
 <?php 
 //get existing trunk info
@@ -83,7 +83,7 @@ foreach ($tresults as $tresult) {
 <?php 
 
 	if ($userdisplay) {
-		echo "<h2>Edit AMP User</h2>";
+		echo "<h2>"._("Edit AMP User")."</h2>";
 		
 		$user = getAmpUser($userdisplay);
 		
@@ -95,7 +95,7 @@ foreach ($tresults as $tresult) {
 		$sections = $user["sections"];
 		
 ?>
-		<p><a href="config.php?display=<?php echo $display ?>&userdisplay=<?php echo $userdisplay ?>&action=delampuser">Delete User <?php  echo $userdisplay; ?></a></p>
+		<p><a href="config.php?display=<?php echo $display ?>&userdisplay=<?php echo $userdisplay ?>&action=delampuser"><?php echo _("Delete User")?> <?php  echo $userdisplay; ?></a></p>
 <?php 
 
 	} else {
@@ -110,7 +110,7 @@ foreach ($tresults as $tresult) {
 		$sections = array("*");
 		
 	
-		echo "<h2>Add AMP User</h2>";
+		echo "<h2>"._("Add AMP User")."</h2>";
 	} 
 ?>
 	
@@ -122,12 +122,12 @@ foreach ($tresults as $tresult) {
 			<table>
 			<tr>
 				<td colspan="2">
-					<h4>General Settings</h4>
+					<h4><?php echo _("General Settings")?></h4>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Username<span>Create a unique username for this new user</span></a>: 
+					<a href=# class="info"><?php echo _("Username<span>Create a unique username for this new user</span>")?></a>: 
 				</td><td>
 					<input type="text" size="20" name="username" value="<?php echo $username;?>"/>
 				</td>
@@ -135,7 +135,7 @@ foreach ($tresults as $tresult) {
 <?php  if ($amp_conf["AUTHTYPE"] == "database") { ?>			
 			<tr>
 				<td>
-					<a href=# class="info">Password<span>Create a password for this new user</span></a>: 
+					<a href=# class="info"><?php echo _("Password<span>Create a password for this new user</span>")?></a>: 
 				</td><td>
 					<input type="password" size="20" name="password" value="<?php echo $password;?>"/>
 				</td>
@@ -144,19 +144,19 @@ foreach ($tresults as $tresult) {
 			<tr>
 				<td colspan="2">
 					<br>
-					<h4>Access Restrictions</h4>
+					<h4><?php echo _("Access Restrictions")?></h4>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Department Name<span>Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department.</span></a>: 
+					<a href=# class="info"><?php echo _("Department Name<span>Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department.</span>")?></a>: 
 				</td><td>
 					<input type="text" size="20" name="deptname" value="<?php echo $deptname;?>"/>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Extension Range<span>Restrict this user's view to only Extensions, Ring Groups, and Queues within this range.</span></a>: 
+					<a href=# class="info"><?php echo _("Extension Range<span>Restrict this user's view to only Extensions, Ring Groups, and Queues within this range.</span>")?></a>: 
 				</td><td>
 					<input type="text" size="5" name="extension_low" value="<?php echo $extension_low;?>"/>
 					&nbsp;to
@@ -165,7 +165,7 @@ foreach ($tresults as $tresult) {
 			</tr>
 			<tr>
 				<td valign="top">
-					<a href=# class="info">Admin Access<span>Select the Admin Sections this user should have access to.</span></a>: 
+					<a href=# class="info"><?php echo _("Admin Access<span>Select the Admin Sections this user should have access to.</span>")?></a>: 
 				</td><td>&nbsp;
 					<select multiple name="sections[]">
 					<option>

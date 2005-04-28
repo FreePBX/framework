@@ -11,8 +11,8 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$title="AMP: Call Detail Reports";
-$message="Call Detail Reports";
+$title="AMP: "._("Call Detail Reports");
+$message=_("Call Detail Reports");
 
 require_once('functions.php');
 
@@ -37,8 +37,8 @@ switch ($amp_conf["AUTHTYPE"]) {
 		if (!isset($_SERVER["PHP_AUTH_USER"])) {
 			header("WWW-Authenticate: Basic realm=\"AMPortal\"");
 			header("HTTP/1.0 401 Unauthorized");
-			echo "You are not authorized to use this resource<br>";
-			echo "<a href=index.php?action=logout>Go Back</a>";
+			echo _("You are not authorized to use this resource")."<br>";
+			echo "<a href=index.php?action=logout>"._("Go Back")."</a>";
 			exit;
 		} else {
 			$_SESSION["user"] = new ampuser($_SERVER["PHP_AUTH_USER"]);
@@ -50,8 +50,8 @@ switch ($amp_conf["AUTHTYPE"]) {
 					$_SESSION["user"]->setAdmin();
 				} else {
 					header("HTTP/1.0 401 Unauthorized");
-					echo "You are not authorized to use this resource<br>";
-					echo "<a href=index.php?action=logout>Go Back</a>";
+					echo _("You are not authorized to use this resource")."<br>";
+					echo "<a href=index.php?action=logout>"._("Go Back")."</a>";
 					exit;
 				}
 			}
@@ -82,10 +82,10 @@ if (isset($_REQUEST['display'])) {
 
 // setup menu 
 $amp_sections = array(
-		1=>"Call Logs",
-		2=>"Compare Calls",
-		3=>"Monthly Traffic",
-		4=>"Daily load",
+		1=>_("Call Logs"),
+		2=>_("Compare Calls"),
+		3=>_("Monthly Traffic"),
+		4=>_("Daily load"),
 	);
 	
 foreach ($amp_sections as $key=>$value) {

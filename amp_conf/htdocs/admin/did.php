@@ -66,7 +66,7 @@ switch ($action) {
 </div>
 
 <div class="rnav">
-    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>">Add DID</a><br></li>
+    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add DID")?></a><br></li>
 <?php 
 //get unique Ring Groups
 $dresults = getdids();
@@ -88,24 +88,24 @@ if (isset($dresults)) {
 		
 		$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delDID';
 ?>
-		<h2>DID Route: <?php echo ltrim($extdisplay,'DID-'); ?></h2>
+		<h2><?php echo _("DID Route")?>: <?php echo ltrim($extdisplay,'DID-'); ?></h2>
 <?php if ($extdisplay) {	?>
-		<p><a href="<?php echo $delURL ?>">Delete DID <?php echo ltrim($extdisplay,'DID-'); ?></a></p>
+		<p><a href="<?php echo $delURL ?>"><?php echo _("Delete DID")?> <?php echo ltrim($extdisplay,'DID-'); ?></a></p>
 <?php } ?>
 		<form name="editGRP" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 		<input type="hidden" name="display" value="<?php echo $dispnum?>">
 		<input type="hidden" name="action" value="<?php echo ($extdisplay ? 'edtDID' : 'addDID') ?>">
 		<input type="hidden" name="account" value="<?php echo ltrim($extdisplay,'DID-'); ?>">
 		<table>
-		<tr><td colspan="2"><h5><?php echo ($extdisplay ? 'Edit DID' : 'Add DID') ?><hr></h5></td></tr>
+		<tr><td colspan="2"><h5><?php echo ($extdisplay ? _('Edit DID') : _('Add DID')) ?><hr></h5></td></tr>
 		<tr>
-			<td><a href="#" class="info">DID Number:<span>Define the expected DID digits if your trunk passes DID for incoming calls. <br><br>Caller Id can be matched as well by appending "/" and the expected digits.<br><br><b>Examples:</b><br>123 - match DID "123"<br>s/100 - match CID "100"<br>1234/_256NXXXXXX - both</span></a></td>
+			<td><a href="#" class="info"><?php echo _("DID Number")?>:<span><?php echo _('Define the expected DID digits if your trunk passes DID for incoming calls. <br><br>Caller Id can be matched as well by appending "/" and the expected digits.<br><br><b>Examples:</b><br>123 - match DID "123"<br>s/100 - match CID "100"<br>1234/_256NXXXXXX - both')?></span></a></td>
 			<td><input type="text" name="account" <?php echo ($extdisplay ? 'disabled="true"' : '') ?> value="<?php echo ltrim($extdisplay,'DID-') ?>"></td>
 		</tr>
 		<tr>
 			<td><br></td>
 		</tr>
-		<tr><td colspan="2"><h5>Set Destination<hr></h5></td></tr>
+		<tr><td colspan="2"><h5><?php echo _("Set Destination")?><hr></h5></td></tr>
 		
 <?php 
 //get the failover destination
@@ -116,7 +116,7 @@ echo drawselects('editGRP',$goto,0);
 		
 		<tr><td colspan=2>
 		<input type="radio" name="goto_indicate0" value="from-pstn" <?php echo strpos($goto,'from-pstn') === false ? '' : 'CHECKED=CHECKED';?> /> 
-			Use 'Incoming Calls' settings<br>
+			<?php echo _("Use 'Incoming Calls' settings")?><br>
 			<br>				
 		</td></tr>
 		

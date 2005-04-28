@@ -277,7 +277,7 @@ if (isset($account) && !checkRange($account)){
 </div>
 
 <div class="rnav">
-    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>">Add Extension</a><br></li>
+    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add Extension")?></a><br></li>
 <?php 
 //get unique account rows for navigation menu
 $results = getextens();
