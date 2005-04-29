@@ -381,9 +381,9 @@ if (!$tech && !$extdisplay) {
 ?>				
 				//var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?", document.getElementById('areacode').value);
 				do {
-					var npanxx = prompt("<?php echo _('What is your areacode + prefix (NPA-NXX)?\n\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\n\nThis may take a few seconds.')?>");
+					var npanxx = <?php echo 'prompt("'._("What is your areacode + prefix (NPA-NXX)?\\n\\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\\n\\nThis may take a few seconds.".'")')?>;
 					if (npanxx == null) return;
-				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && !alert("<?php echo _('Invalid NPA-NXX. Must be of the format \'NXX-NXX\'')?>"));
+				} while (!npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$") && <?php echo '!alert("'._("Invalid NPA-NXX. Must be of the format \'NXX-NXX\'").'")'?>);
 				
 				document.getElementById('npanxx').value = npanxx;
 				trunkEdit.action.value = "populatenpanxx";
@@ -391,7 +391,7 @@ if (!$tech && !$extdisplay) {
 <?php  
 	} else { // curl is not installed
 ?>
-				alert("<?php echo _('Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.')?>");
+				<?php echo 'alert("'._("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.").'")'?>;
 <?php 
 	}
 ?>
@@ -399,14 +399,14 @@ if (!$tech && !$extdisplay) {
 			
 			function populateAlwaysAdd() {
 				do {
-					var localpattern = prompt("<?php echo _('What is the local dialing pattern?\n\n(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)')?>","NXXXXXX");
+					var localpattern = <?php echo 'prompt("'._("What is the local dialing pattern?\\n\\n(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)").'"'?>,"NXXXXXX");
 					if (localpattern == null) return;
-				} while (!localpattern.match('^[0-9#*ZXN\.]+$') && !alert("<?php echo _("Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed.")?>"));
+				} while (!localpattern.match('^[0-9#*ZXN\.]+$') && <?php echo '!alert("'._("Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed.").'")'?>);
 				
 				do {
-					var localprefix = prompt("<?php echo _('What prefix should be added to the dialing pattern?\n\n(ie. for US/CAN, 1+areacode, ie, \'1613\')?')?>");
+					var localprefix = <?php echo 'prompt("'._("What prefix should be added to the dialing pattern?\\n\\n(ie. for US/CAN, 1+areacode, ie, \'1613\')?").'")'?>;
 					if (localprefix == null) return;
-				} while (!localprefix.match('^[0-9#*]+$') && !alert("<?php echo _("Invalid prefix. Only dialable characters (0-9, #, and *) are allowed.")?>"));
+				} while (!localprefix.match('^[0-9#*]+$') && <?php echo '!alert("'._("Invalid prefix. Only dialable characters (0-9, #, and *) are allowed.").'")'?>);
 
 				dialrules = document.getElementById('dialrules');
 				if (dialrules.value[dialrules.value.length-1] != '\n') {
@@ -417,14 +417,14 @@ if (!$tech && !$extdisplay) {
 			
 			function populateRemove() {
 				do {
-					var localprefix = prompt("<?php echo _('What prefix should be removed from the number?\n\n(ie. for US/CAN, 1+areacode, ie, \'1613\')')?>");
+					var localprefix = <?php echo 'prompt("'._("What prefix should be removed from the number?\\n\\n(ie. for US/CAN, 1+areacode, ie, \'1613\')").'")'?>;
 					if (localprefix == null) return;
-				} while (!localprefix.match('^[0-9#*ZXN\.]+$') && !alert("<?php echo _('Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed.')?>"));
+				} while (!localprefix.match('^[0-9#*ZXN\.]+$') && <?php echo '!alert("'._('Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed.').'")'?>);
 				
 				do {
-					var localpattern = prompt("<?php echo _("What is the dialing pattern for local numbers after")?> "+localprefix+"? \n\n<?php echo _("(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)")?>","NXXXXXX");
+					var localpattern = <?php echo 'prompt("'._("What is the dialing pattern for local numbers after")?> "+localprefix+"? \n\n<?php echo _("(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)").'"'?>,"NXXXXXX");
 					if (localpattern == null) return;
-				} while (!localpattern.match('^[0-9#*ZXN\.]+$') && !alert("<?php echo _("Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed.")?>"));
+				} while (!localpattern.match('^[0-9#*ZXN\.]+$') && <?php echo '!alert("'._("Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed.").'")'?>);
 				
 				dialrules = document.getElementById('dialrules');
 				if (dialrules.value[dialrules.value.length-1] != '\n') {
@@ -470,7 +470,7 @@ if (!$tech && !$extdisplay) {
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Local dialing pattern<span>The dialing pattern to make a 'local' call.</span></a>: 
+					<a href=# class="info"><?php echo _("Local dialing pattern<span>The dialing pattern to make a 'local' call.</span>")</a>: 
 				</td><td>
 					<input id="localpattern" type="text" size="10" maxlength="20" name="localpattern" value="<?php echo $localpattern ?>"/>
 					
@@ -478,7 +478,7 @@ if (!$tech && !$extdisplay) {
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Long-distance dial prefix<span>The prefix for dialing long-distance numbers. In north america, this should be "1".</span></a>: 
+					<a href=# class="info"><?php echo _("Long-distance dial prefix<span>The prefix for dialing long-distance numbers. In north america, this should be \"1\".</span>")?></a>: 
 				</td><td>
 					<input id="lddialprefix" type="text" size="3" maxlength="6" name="lddialprefix" value="<?php echo $lddialprefix ?>"/>
 					
@@ -486,7 +486,7 @@ if (!$tech && !$extdisplay) {
 			</tr>
 			<tr>
 				<td>
-					<a href=# class="info">Local LD prefix<span>The area code this trunk is in. Any 7-digit numbers that don't match a number in the below list will have dialprefix+areacode added to them. </span></a>: 
+					<a href=# class="info"><?php echo _("Local LD prefix<span>The area code this trunk is in. Any 7-digit numbers that don't match a number in the below list will have dialprefix+areacode added to them. </span>")?></a>: 
 				</td><td>
 					<input id="areacode" type="text" size="3" maxlength="6" name="areacode" value="<?php echo $areacode ?>"/>
 					
@@ -494,12 +494,12 @@ if (!$tech && !$extdisplay) {
 			</tr>
 			<tr>
 				<td valign="top">
-					<a href=# class="info">Local prefixes<span>This should be a list of local areacodes + prefixes to use for local dialing.</span></a>: 
+					<a href=# class="info"><?php echo _("Local prefixes<span>This should be a list of local areacodes + prefixes to use for local dialing.</span>")?></a>: 
 				</td><td valign="top">&nbsp;
 					<textarea id="localprefixes" cols="8" rows="<?php  $rows = count($localprefixes)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="localprefixes"><?php echo  implode("\n",$localprefixes);?></textarea><br>
 					 
 					<input id="npanxx" name="npanxx" type="hidden" /><br>
-					<a href=# class="info">Populate with local rules<span>Do a lookup from http://members.dandy.net/~czg/search.html to find all local-reachable area codes and phone numbers.</span></a>: <input type="button" value="Go" onClick="checkPopulate();" />
+					<a href=# class="info"><?php echo _("Populate with local rules<span>Do a lookup from http://members.dandy.net/~czg/search.html to find all local-reachable area codes and phone numbers.</span>")?></a>: <input type="button" value="Go" onClick="checkPopulate();" />
 					<br><br>
 				</td>
 			</tr>
@@ -507,14 +507,14 @@ if (!$tech && !$extdisplay) {
 			
 			function checkPopulate() {
 				//var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?", document.getElementById('areacode').value);
-				var npanxx = prompt("What is your areacode + prefix (NPA-NXX)?");
+				var npanxx = <?php echo 'prompt("'._("What is your areacode + prefix (NPA-NXX)?").'")'?>;
 				
 				if (npanxx.match("^[2-9][0-9][0-9][-]?[2-9][0-9][0-9]$")) {
 					document.getElementById('npanxx').value = npanxx;
 					trunkEdit.action.value = "populatenpanxx";
 					trunkEdit.submit();
 				} else if (npanxx != null) {
-					alert("Invalid format for NPA-NXX code (must be format: NXXNXX)");
+					<?php echo 'alert("'._("Invalid format for NPA-NXX code (must be format: NXXNXX)").'")'?>;
 				}
 			}
 			

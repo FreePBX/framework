@@ -39,15 +39,15 @@ function checkForm(theForm) {
 
 	
 	if (($tech != "zap") && ($account == "" || $secret == "" || $context == "" || $host == "" || $type == ""  || $username == "")) {
-		alert('<?php echo _("Please fill in all required fields.")?>');
+		<?php echo "alert('"._("Please fill in all required fields.")."')"?>;
 	} else if (($tech == "zap") && ( $account == "" || $context == "" || $channel=="")) {
-		alert('<?php echo _("Please fill in all required fields.")?>');
+		<?php echo "alert('"._("Please fill in all required fields.")."')"?>;
 	} else if (($account.indexOf('0') == 0) && ($account.length > 1)) {
-		alert('<?php echo _("Extensions numbers with more than one digit cannot begin with 0")?>');
+		<?php echo "alert('"._("Extensions numbers with more than one digit cannot begin with 0")."')"?>;
 	} else if ($account != parseInt($account)) {
-		alert('<?php echo _("There is something wrong with your extension number - it must be in integer")?>');
+		<?php echo "alert('"._("There is something wrong with your extension number - it must be in integer")."')"?>;
 	} else if ($vm == "enabled" && $fullname == "" && $vmpwd == "" && $email == "" && $pager == "") {
-		alert('<?php echo _("You have enabled Voicemail & Directory for this extension, but have not specified any options.  Please specify options, or disable Voicemail & Directory.")?>');	
+		<?php echo "alert('"._("You have enabled Voicemail & Directory for this extension, but have not specified any options.  Please specify options, or disable Voicemail & Directory.")."')"?>;
 	} else {
 	theForm.submit();
 	}
@@ -58,7 +58,7 @@ function checkGeneral(theForm) {
 	$FAX_RX = theForm.FAX_RX.value;
 
 	if ($RINGTIMER == "" || $FAX_RX == "") {
-		alert('<?php echo _("Please fill out all forms.")?>');
+		<?php echo "alert('"._("Please fill in all required fields.")."')"?>;
 	} else {
 	theForm.submit();
 	}
@@ -68,7 +68,7 @@ function checkIncoming(theForm) {
 	$INCOMING = theForm.INCOMING.value;
 
 	if ($INCOMING == "") {
-		alert('<?php echo _("Please select where you would like to send incoming calls to.")?>');
+		<?php echo "alert('"._("Please select where you would like to send incoming calls to.")."')"?>;
 	} else {
 	theForm.submit();
 	}
@@ -90,31 +90,31 @@ function checkGRP(theForm,action) {
 		var gotoVal = theForm.elements[ "custom_args0"].value;
 		if (gotoVal.indexOf('custom') == -1) {
 			bad = "true";
-			alert('<?php echo _("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")?>');
+			<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
 		}
 	}
 	
 	$grplist = theForm.grplist.value;
 	if ($grplist == "") {
-		alert('<?php echo _("Please enter an extension list.")?>');
+		<?php echo "alert('"._("Please enter an extension list.")."')"?>;
 		bad="true";
 	} 
 	
 	$account = theForm.account.value;
 	if (($account.indexOf('0') == 0) && ($account.length > 1)) {
-		alert('<?php echo _("Group numbers with more than one digit cannot begin with 0")?>');
+		<?php echo "alert('"._("Group numbers with more than one digit cannot begin with 0")."')"?>;
 		bad="true";
 	}
 	
 	$grppre = theForm.grppre.value;
 	if (!$grppre.match('^[a-zA-Z0-9:_\-]*$')) {
-		alert('<?php echo _("Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -")?>');
+		<?php echo "alert('"._("Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -")."')"?>;
 		bad = "true";
 	}
 	
 	$grptime = theForm.grptime.value;
 	if (!$grptime.match('^[1-9][0-9]*$')) {
-		alert('<?php echo _("Invalid time specified")?>');
+		<?php echo "alert('"._("Invalid time specified")."')"?>;
 		bad = "true";
 	}
 	
@@ -141,25 +141,25 @@ function checkQ(theForm) {
                 var gotoVal = theForm.elements[ "custom_args0"].value;
                 if (gotoVal.indexOf('custom') == -1) {
                         bad = "true";
-                        alert('<?php echo _("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")?>');
+						<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
                 }
         }
 
         $account = theForm.account.value;
         if ($account == "") {
-                alert('<?php echo _("Queue Number must not be blank")?>');
+                <?php echo "alert('"._("Queue Number must not be blank")."')"?>;
                 bad="true";
         }
         else if (($account.indexOf('0') == 0) && ($account.length > 1)) {
-                alert('<?php echo _("Queue numbers with more than one digit cannot begin with 0")?>');
+                <?php echo "alert('"._("Queue numbers with more than one digit cannot begin with 0")."')"?>;
                 bad="true";
         }
 
         if ($queuename == "") {
-                alert('<?php echo _("Queue name must not be blank")?>');
+                <?php echo "alert('"._("Queue name must not be blank")."')"?>;
                 bad="true";
         } else if (!$queuename.match('^[a-zA-Z][a-zA-Z0-9]+$')) {
-                alert('<?php echo _("Queue name cannot start with a number, and can only contain letters and numbers")?>');
+                <?php echo "alert('"._("Queue name cannot start with a number, and can only contain letters and numbers")."')"?>;
                 bad="true";
         }
 
@@ -184,12 +184,12 @@ function checkDID(theForm) {
 		var gotoVal = theForm.elements[ "custom_args0"].value;
 		if (gotoVal.indexOf('custom') == -1) {
 			bad = "true";
-			alert('<?php echo _("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")?>');
+			<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
 		}
 	}
 	
 	if ($account == "") {
-		alert('<?php echo _("Please enter a DID number list.")?>');
+		<?php echo "alert('"._("Please enter a DID number list.")."')"?>;
 	} else {
 	theForm.submit();
 	}
@@ -202,9 +202,9 @@ function checkTrunk(theForm, action) {
 		$usercontext = theForm.usercontext.value;
 	
 		if ($channelid == "") {
-			alert('<?php echo _("Missing required field: trunk name")?>');
+			<?php echo "alert('"._("Missing required field: trunk name")."')"?>;
 		} else if ($channelid == $usercontext) {
-			alert('<?php echo _("Trunk Name and User Context cannot be set to the same value")?>');
+			<?php echo "alert('"._("Trunk Name and User Context cannot be set to the same value")."')"?>;
 		} else {
 			theForm.action.value = action;
 			theForm.submit();
@@ -224,14 +224,14 @@ function checkRoute(theForm, action) {
 	$routeRegex_new = /^[a-zA-Z0-9]+$/;
 
 	if ($routename == "") {
-		alert('<?php echo _("Route name must not be blank")?>');
+		<?php echo "alert('"._("Route name must not be blank")."')"?>;
 	} else if ( (!$routename.match($routeRegex_new)) && (!$routename.match($routeRegex_update)) ) {
-		alert('<?php echo _("Route name cannot start with a number, and can only contain letters and numbers")?>');
+		<?php echo "alert('"._("Route name cannot start with a number, and can only contain letters and numbers")."')"?>;
 	} else if (!$dialpattern.match('[A-Z0-9a-z]+')) {
-		alert('<?php echo _("Dial pattern cannot be blank")?>');
+		<?php echo "alert('"._("Dial pattern cannot be blank")."')"?>;
 	} else if ($trunkpriority == '') {
 		//TODO this doesn't account for other items besides the first being filled in'
-		alert('<?php echo _("At least one trunk must be picked")?>');
+		<?php echo "alert('"._("At least one trunk must be picked")."')"?>;
 	} else {
 		theForm.action.value = action;
 		theForm.submit();
@@ -287,7 +287,7 @@ function checkIVR(theForm,ivr_num_options) {
 			if (gotoVal.indexOf('custom') == -1) {
 				bad = "true";
 				item = formNum + 1;
-				alert('<?php echo _("There is a problem with option number")?> '+item+'.\n\n<?php echo _("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")?>');
+				<?php echo "alert('"._("There is a problem with option number")?> '+item+'.\n\n<?php echo _("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
 			}
 		}
 	}
@@ -328,9 +328,9 @@ function checkAmpUser(theForm, action) {
 	$username = theForm.username.value;
 
 	if ($username == "") {
-		alert('<?php echo _("Username must not be blank")?>');
+		<?php echo "alert('"._("Username must not be blank")."')"?>;
 	} else if (!$username.match('^[a-zA-Z][a-zA-Z0-9]+$')) {
-		alert('<?php echo _("Username cannot start with a number, and can only contain letters and numbers")?>');
+		<?php echo "alert('"._("Username cannot start with a number, and can only contain letters and numbers")."')"?>;
 	} else {
 		theForm.action.value = action;
 		theForm.submit();
