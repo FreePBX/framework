@@ -385,25 +385,27 @@ function addzap($account,$callerid) {
 	zapexists();
 	global $db;
 	$zapfields = array(
-		array($account,'account',$account),
-		array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:''),
-		array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:''),
-		array($account,'callerid',$callerid),
-		array($account,'signalling',($_REQUEST['signalling'])?$_REQUEST['signalling']:'fxo_ks'),
-		array($account,'echocancel',($_REQUEST['echocancel'])?$_REQUEST['echocancel']:'yes'),
-		array($account,'echocancelwhenbridged',($_REQUEST['echocancelwhenbridged'])?$_REQUEST['echocancelwhenbridged']:'no'),
-		array($account,'echotraining',($_REQUEST['echotraining'])?$_REQUEST['echotraining']:'800'),
-		//array($account,'group',($_REQUEST['group'])?$_REQUEST['group']:'31'), //Default<>0 which is the default zap trunk
-		array($account,'busydetect',($_REQUEST['busydetect'])?$_REQUEST['busydetect']:'no'),
-		array($account,'busycount',($_REQUEST['busycount'])?$_REQUEST['busycount']:'7'),
-		array($account,'callprogress',($_REQUEST['callprogress'])?$_REQUEST['callprogress']:'no'),
-		array($account,'channel',($_REQUEST['channel'])?$_REQUEST['channel']:''));
+	array($account,'account',$account),
+	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:''),
+	array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:''),
+	array($account,'callerid',$callerid),
+	array($account,'signalling',($_REQUEST['signalling'])?$_REQUEST['signalling']:'fxo_ks'),
+	array($account,'echocancel',($_REQUEST['echocancel'])?$_REQUEST['echocancel']:'yes'),
+	array($account,'echocancelwhenbridged',($_REQUEST['echocancelwhenbridged'])?$_REQUEST['echocancelwhenbridged']:'no'),
+	array($account,'echotraining',($_REQUEST['echotraining'])?$_REQUEST['echotraining']:'800'),
+	//array($account,'group',($_REQUEST['group'])?$_REQUEST['group']:'31'), //Default<>0 which is the default zap trunk
+	array($account,'busydetect',($_REQUEST['busydetect'])?$_REQUEST['busydetect']:'no'),
+	array($account,'busycount',($_REQUEST['busycount'])?$_REQUEST['busycount']:'7'),
+	array($account,'callprogress',($_REQUEST['callprogress'])?$_REQUEST['callprogress']:'no'),
+	array($account,'record_in',($_REQUEST['record_in'])?$_REQUEST['record_in']:'On-Demand'),
+	array($account,'record_out',($_REQUEST['record_out'])?$_REQUEST['record_out']:'On-Demand'),
+	array($account,'channel',($_REQUEST['channel'])?$_REQUEST['channel']:''));
 
-    $compiled = $db->prepare('INSERT INTO zap (id, keyword, data) values (?,?,?)');
+	$compiled = $db->prepare('INSERT INTO zap (id, keyword, data) values (?,?,?)');
 	$result = $db->executeMultiple($compiled,$zapfields);
-    if(DB::IsError($result)) {
-        die($result->getMessage()."<br><br>error adding to ZAP table");	
-    }	
+	if(DB::IsError($result)) {
+		die($result->getMessage()."<br><br>error adding to ZAP table");	
+	}	
 
 	//add E<enten>=ZAP to global vars (appears in extensions_additional.conf)
 	$sql = "INSERT INTO globals VALUES ('E$account', 'ZAP')"; 
@@ -420,7 +422,7 @@ function addzap($account,$callerid) {
 		die($result->getMessage().$sql);
 	}
 	
-//add ECID<enten> to global vars if using outbound CID
+	//add ECID<enten> to global vars if using outbound CID
 	if ($_REQUEST['outcid'] != '') {
 		$outcid = $_REQUEST['outcid'];
 		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
@@ -442,25 +444,27 @@ function iaxexists() {
 function addiax($account,$callerid) {
 	iaxexists();
 	global $db;
-    $iaxfields = array(array($account,'account',$account),
-                    array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
-                    array($account,'notransfer',($_REQUEST['notransfer'])?$_REQUEST['notransfer']:''),
-                    array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:''),
-                    array($account,'host',($_REQUEST['host'])?$_REQUEST['host']:''),
-                    array($account,'type',($_REQUEST['type'])?$_REQUEST['type']:''),
-                    array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:''),
-                    array($account,'username',($_REQUEST['username'])?$_REQUEST['username']:''),
-					array($account,'port',($_REQUEST['iaxport'])?$_REQUEST['iaxport']:''),
-					array($account,'qualify',($_REQUEST['qualify'])?$_REQUEST['qualify']:''),
-					array($account,'disallow',($_REQUEST['disallow'])?$_REQUEST['disallow']:''),
-					array($account,'allow',($_REQUEST['allow'])?$_REQUEST['allow']:''),
-					array($account,'callerid',$callerid));
+	$iaxfields = array(array($account,'account',$account),
+	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
+	array($account,'notransfer',($_REQUEST['notransfer'])?$_REQUEST['notransfer']:''),
+	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:''),
+	array($account,'host',($_REQUEST['host'])?$_REQUEST['host']:''),
+	array($account,'type',($_REQUEST['type'])?$_REQUEST['type']:''),
+	array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:''),
+	array($account,'username',($_REQUEST['username'])?$_REQUEST['username']:''),
+	array($account,'port',($_REQUEST['iaxport'])?$_REQUEST['iaxport']:''),
+	array($account,'qualify',($_REQUEST['qualify'])?$_REQUEST['qualify']:''),
+	array($account,'disallow',($_REQUEST['disallow'])?$_REQUEST['disallow']:''),
+	array($account,'allow',($_REQUEST['allow'])?$_REQUEST['allow']:''),
+	array($account,'record_in',($_REQUEST['record_in'])?$_REQUEST['record_in']:'On-Demand'),
+	array($account,'record_out',($_REQUEST['record_out'])?$_REQUEST['record_out']:'On-Demand'),
+	array($account,'callerid',$callerid));
 
-    $compiled = $db->prepare('INSERT INTO iax (id, keyword, data) values (?,?,?)');
+	$compiled = $db->prepare('INSERT INTO iax (id, keyword, data) values (?,?,?)');
 	$result = $db->executeMultiple($compiled,$iaxfields);
-    if(DB::IsError($result)) {
-        die($result->getMessage()."<br><br>error adding to IAX table");	
-    }	
+	if(DB::IsError($result)) {
+		die($result->getMessage()."<br><br>error adding to IAX table");	
+	}	
 
 	//add E<enten>=IAX2 to global vars (appears in extensions_additional.conf)
 	$sql = "INSERT INTO globals VALUES ('E$account', 'IAX2')"; 
@@ -469,7 +473,7 @@ function addiax($account,$callerid) {
 		die($result->getMessage().$sql); 
 	}
 
-//add ECID<enten> to global vars if using outbound CID
+	//add ECID<enten> to global vars if using outbound CID
 	if ($_REQUEST['outcid'] != '') {
 		$outcid = $_REQUEST['outcid'];
 		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
@@ -491,29 +495,31 @@ function sipexists() {
 function addsip($account,$callerid) {
 	sipexists();
 	global $db;
-    $sipfields = array(array($account,'account',$account),
-	                    array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
-	                    array($account,'canreinvite',($_REQUEST['canreinvite'])?$_REQUEST['canreinvite']:''),
-	                    array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:''),
-	                    array($account,'dtmfmode',($_REQUEST['dtmfmode'])?$_REQUEST['dtmfmode']:''),
-	                    array($account,'host',($_REQUEST['host'])?$_REQUEST['host']:''),
-	                    array($account,'type',($_REQUEST['type'])?$_REQUEST['type']:''),
-	                    array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:''),
-	                    array($account,'username',($_REQUEST['username'])?$_REQUEST['username']:''),
-						array($account,'nat',($_REQUEST['nat'])?$_REQUEST['nat']:''),
-						array($account,'port',($_REQUEST['port'])?$_REQUEST['port']:''),
-						array($account,'qualify',($_REQUEST['qualify'])?$_REQUEST['qualify']:''),
-						array($account,'callgroup',($_REQUEST['callgroup'])?$_REQUEST['callgroup']:''),
-						array($account,'pickupgroup',($_REQUEST['pickupgroup'])?$_REQUEST['pickupgroup']:''),
-						array($account,'disallow',($_REQUEST['disallow'])?$_REQUEST['disallow']:''),
-						array($account,'allow',($_REQUEST['allow'])?$_REQUEST['allow']:''),
-						array($account,'callerid',$callerid));
+	$sipfields = array(array($account,'account',$account),
+	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
+	array($account,'canreinvite',($_REQUEST['canreinvite'])?$_REQUEST['canreinvite']:''),
+	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:''),
+	array($account,'dtmfmode',($_REQUEST['dtmfmode'])?$_REQUEST['dtmfmode']:''),
+	array($account,'host',($_REQUEST['host'])?$_REQUEST['host']:''),
+	array($account,'type',($_REQUEST['type'])?$_REQUEST['type']:''),
+	array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:''),
+	array($account,'username',($_REQUEST['username'])?$_REQUEST['username']:''),
+	array($account,'nat',($_REQUEST['nat'])?$_REQUEST['nat']:''),
+	array($account,'port',($_REQUEST['port'])?$_REQUEST['port']:''),
+	array($account,'qualify',($_REQUEST['qualify'])?$_REQUEST['qualify']:''),
+	array($account,'callgroup',($_REQUEST['callgroup'])?$_REQUEST['callgroup']:''),
+	array($account,'pickupgroup',($_REQUEST['pickupgroup'])?$_REQUEST['pickupgroup']:''),
+	array($account,'disallow',($_REQUEST['disallow'])?$_REQUEST['disallow']:''),
+	array($account,'allow',($_REQUEST['allow'])?$_REQUEST['allow']:''),
+	array($account,'record_in',($_REQUEST['record_in'])?$_REQUEST['record_in']:'On-Demand'),
+	array($account,'record_out',($_REQUEST['record_out'])?$_REQUEST['record_out']:'On-Demand'),
+	array($account,'callerid',$callerid));
 
-	    $compiled = $db->prepare('INSERT INTO sip (id, keyword, data) values (?,?,?)');
-		$result = $db->executeMultiple($compiled,$sipfields);
-	    if(DB::IsError($result)) {
-	        die($result->getMessage()."<br><br>".'error adding to SIP table');	
-	    }
+	$compiled = $db->prepare('INSERT INTO sip (id, keyword, data) values (?,?,?)');
+	$result = $db->executeMultiple($compiled,$sipfields);
+	if(DB::IsError($result)) {
+		die($result->getMessage()."<br><br>".'error adding to SIP table');	
+	}
 	    
 	//add E<enten>=SIP to global vars (appears in extensions_additional.conf)
 	$sql = "INSERT INTO globals VALUES ('E$account', 'SIP')"; 
@@ -522,7 +528,7 @@ function addsip($account,$callerid) {
 		die($result->getMessage().$sql); 
 	}
 	
-//add ECID<enten> to global vars if using outbound CID
+	//add ECID<enten> to global vars if using outbound CID
 	if ($_REQUEST['outcid'] != '') {
 		$outcid = $_REQUEST['outcid'];
 		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
@@ -2263,5 +2269,51 @@ function backuptableexists() {
                 $sql.="`ID` int(11) NOT NULL auto_increment,";
                 $sql.="PRIMARY KEY  (ID))";
         $results = $db->query($sql);
+}
+function setrecordingstatus($extension, $direction, $state) {
+$amp_conf = parse_amportal_conf("/etc/amportal.conf");
+        $fp = fsockopen("localhost", 5038, $errno, $errstr, 10);
+        if (!$fp) {
+                echo "Unable to connect to Asterisk Manager ($errno)<br />\n";
+        } else {
+                $buffer='';
+                stream_set_timeout($fp, 5);
+                $buffer = fgets($fp);
+                if ($buffer!="Asterisk Call Manager/1.0\r\n")
+                        echo "Asterisk Call Manager not responding<br />\n";
+                else {
+                        $out="Action: Login\r\nUsername: ".$amp_conf['AMPMGRUSER']."\r\nSecret: ".$amp_conf['AMPMGRPASS']."\r\n\r\n";
+                        fwrite($fp,$out);
+                        $buffer=fgets($fp);
+                        if ($buffer!="Response: Success\r\n")
+                                echo "Asterisk authentication failed:<br />$buffer<br />\n";
+                        else {
+                                $buffers=fgets($fp); // get rid of Message: Authentication accepted
+				if ($direction=="In"){
+					if ($state=="Always")
+                                		$out="Action: Command\r\nCommand: database put RECORD_IN $extension ENABLED\r\n\r\n";
+					else if ($state=="Never")
+                                		$out="Action: Command\r\nCommand: database put RECORD_IN $extension DISABLED\r\n\r\n";
+					else
+                                		$out="Action: Command\r\nCommand: database del RECORD_IN $extension\r\n\r\n";
+				}
+				else if ($direction=="Out"){
+					if ($state=="Always")
+                                		$out="Action: Command\r\nCommand: database put RECORD_OUT $extension ENABLED\r\n\r\n";
+					else if ($state=="Never")
+                                		$out="Action: Command\r\nCommand: database put RECORD_OUT $extension DISABLED\r\n\r\n";
+					else
+                                		$out="Action: Command\r\nCommand: database del RECORD_OUT $extension\r\n\r\n";
+				}
+                                fwrite($fp,$out);
+                                $buffer=fgets($fp); // get rid of a blank line
+                                $buffer=fgets($fp);
+                                if ($buffer!="Response: Follows\r\n")
+                                        echo "Asterisk reload command not understood $buffer<br />\n";
+                        }
+                }
+
+        }
+        fclose($fp);
 }
 ?>
