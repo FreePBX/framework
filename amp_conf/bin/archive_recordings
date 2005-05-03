@@ -70,28 +70,32 @@ function process_files() {
 				}
 				if ((strtolower(substr($file,-4)) == ".WAV") || (strtolower(substr($file,-4)) == ".wav") || (strtolower(substr($file,-4)) == ".gsm")) {
 					// check if recording is from a queue, ringgroup or outbound
-					// queue recordings saved like q<queue#>-<uniqueid>.wav
-					// ringgroup recordings saved like g<rg#>-<uniqueid>.wav
-					// outbound call recordings saved like OUT-<uniqueid>.wav
-					// all other call recordings saved like <uniqueid>.wav
+					// queue recordings saved like q<queue#>-<date>-<time>-<uniqueid>.wav
+					// ringgroup recordings saved like g<rg#>-<date>-<time>-<uniqueid>.wav
+					// outbound call recordings saved like OUT<exten>-<date>-<time>-<uniqueid>.wav
+					// all other call recordings saved like <date>-<time>-<uniqueid>.wav
 					if(!(strpos($file,"OUT") === false)) {  //outbound
 						$outbound=substr($file,3,(strpos($file,"-")-3));
 						$calltype="out-".$outbound;
-						$uniqueid = substr($file,strpos($file,"-")+1,strlen($file)-strlen($outbound)-8);
+						$uniqueid = substr($file,strrpos($file,"-")+1,-4);
+						$datetime = substr($file,strpos($file,"-")+1,strrpos($file,"-")-strlen($outbound)-4);
 					} else if(strpos($file,"q") === 0) {   //queue
 						$queue=substr($file,1,(strpos($file,"-")-1));
 						$calltype="queue-".$queue;
-						$uniqueid = substr($file,strpos($file,"-")+1,strlen($file)-(strlen($queue)+6));
+						$uniqueid = substr($file,strrpos($file,"-")+1,-4);
+						$datetime = substr($file,strpos($file,"-")+1,strrpos($file,"-")-strlen($queue)-2);
 					} else if(strpos($file,"g") === 0) {   //ringgroup
 						$ringgroup=substr($file,1,(strpos($file,"-")-1));
 						$calltype="ringgroup-".$ringgroup;
-						$uniqueid = substr($file,strpos($file,"-")+1,strlen($file)-(strlen($ringgroup)+6));
+						$uniqueid = substr($file,strrpos($file,"-")+1,-4);
+						$datetime = substr($file,strpos($file,"-")+1,strrpos($file,"-")-strlen($ringgroup)-2);
 					} else {  //direct inbound
-						$uniqueid = substr($file,0,strlen($file)-4);
 						$calltype="in";
+						$uniqueid = substr($file,strrpos($file,"-")+1,-4);
+						$datetime = substr($file,0,strrpos($file,"-"));
 					}
-					outn("-> Looking for ".$calltype." CDR record id ".$uniqueid.".. ");
-					$cdrRecord = get_cdr($uniqueid,$calltype);
+					outn("-> Looking for \"".$calltype."\" type CDR for ".$uniqueid.".. ");
+					$cdrRecord = get_cdr($datetime,$uniqueid,$calltype);
 					if(isset($cdrRecord['extension'])) {
 						$calldate = strtok($cdrRecord['calldate']," ");
 						if ($debug) debug("Calldate is ".$calldate);
@@ -148,10 +152,24 @@ function check_table() {
 	return($result);
 }
 
-function get_cdr($uniqueid,$calltype) {
+// makes "20050502-162120" look like "2005-05-02 16:21:20"
+function fix_datetime($datetime) {
+	$datetime = str_replace("-"," ",$datetime);
+	$year = substr($datetime,0,4);
+	$month = substr($datetime,4,2);
+	$day = substr($datetime,6,2);
+	$hours = substr($datetime,9,2);
+	$minutes = substr($datetime,11,2);
+	$seconds = substr($datetime,13,2);
+	$datetime = "$year-$month-$day $hours:$minutes:$seconds";
+	return $datetime;
+}
+
+function get_cdr($datetime,$uniqueid,$calltype) {
 	global $db;
 	global $debug;
-	$sql = "SELECT * FROM cdr WHERE uniqueid = '$uniqueid'";
+	$datetime = fix_datetime($datetime);
+	$sql = "SELECT * FROM cdr WHERE uniqueid = '$uniqueid' AND calldate = '$datetime'";
 	//if ($debug) {out(""); debug("Query: ".$sql);}
 	$result = $db->getRow($sql); 
 	if(DB::IsError($result)) {     
@@ -204,9 +222,9 @@ function get_cdr($uniqueid,$calltype) {
 		$cdrRecord['direction']="in";
 	}
 	if (empty($cdrRecord['extension'])) {
-		error("Unable to determine extension number for ".$uniqueid);
+		if($debug) debug(".. no owner for ".$uniqueid);
 	} else {
-		if($debug) debug(".. found extension ".$cdrRecord['extension']);
+		if($debug) debug(".. recording owned by ".$cdrRecord['extension']);
 	}
 	return($cdrRecord);
 }
