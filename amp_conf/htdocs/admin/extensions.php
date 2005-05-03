@@ -88,6 +88,7 @@ if (isset($account) && !checkRange($account)){
 	
 		$callerid = '"'.$_REQUEST['name'].'" '.'<'.$account.'>';
 	
+	
 		// If IAX2, handle it differently 
 		if ($_REQUEST['tech'] == 'iax2') {
 			//add to iax table
@@ -144,6 +145,8 @@ if (isset($account) && !checkRange($account)){
 		
 		//indicate 'need reload' link in footer.php 
 		needreload();
+		setrecordingstatus($account, "In", $_REQUEST['record_in']);	
+		setrecordingstatus($account, "Out", $_REQUEST['record_out']);	
 		$account='';
 		$email='';
 		$pager='';
@@ -181,6 +184,8 @@ if (isset($account) && !checkRange($account)){
 	
 		//indicate 'need reload' link in header.php 
 		needreload();
+		setrecordingstatus($account, "In", "DELETE");	
+		setrecordingstatus($account, "Out", "DELETE");	
 		
 	} //end delete
 	
@@ -260,6 +265,8 @@ if (isset($account) && !checkRange($account)){
 		
 		//indicate 'need reload' link in header.php 
 		needreload();
+		setrecordingstatus($account, "In", $_REQUEST['record_in']);	
+		setrecordingstatus($account, "Out", $_REQUEST['record_out']);	
 		// make sure that all the settings are accurately displayed based on the values passed in the last submit.
 		$options=$options[0];
 		if (is_array($vmoptions))
@@ -338,6 +345,10 @@ switch($extdisplay) {
 					} else if ($result[1] == 'callerid') {  //We don't allow user to change cid number, since the dialplan depends on it.  
 						$cid = explode('"',$result[2]);
 						echo '<tr><td width="135">'.$result[1].': </td><td><input size="14" type="text" name="cidname" value="'.htmlentities($cid[1]).'"/>'.htmlentities($cid[2]).'</td></tr>';
+					} else if ($result[1] == 'record_in') {  //set the recording variables.  
+						$record_in=$result[2];
+					} else if ($result[1] == 'record_out') {  //set the recording variables.  
+						$record_out=$result[2];
 					} else {
 						echo '<tr><td width="135">'.$result[1].': </td><td><input size="20" type="text" name="'.$result[1].'" value="'.htmlentities($result[2]).'"/></td></tr>';
 					}
@@ -345,6 +356,42 @@ switch($extdisplay) {
 			}
 			?>
 			<input type="hidden" name="account" value="<?php  echo $extdisplay ?>">
+		<tr>
+ 			<td><a href="#" class="info">Record INCOMING<span>Record ALL INBOUND CALLS recieved at this extension.</span></a>: </td>
+ 			<?php if ($record_in == "Always"){?>
+ 			<td><input type="radio" name="record_in" value="Always" checked=checked/> <?php echo _("Always");?> 
+				<input type="radio" name="record_in" value="Never"/> <?php echo _("Never");?>
+				<input type="radio" name="record_in" value="On-Demand"/> <?php echo _("On-Demand");?>
+</td>
+ 			<?php }  else if ($record_in == "Never"){?>
+ 			<td><input type="radio" name="record_in" value="Always"/> <?php echo _("Always");?> 
+				<input type="radio" name="record_in" value="Never" checked=checked/> <?php echo _("Never");?>
+				<input type="radio" name="record_in" value="On-Demand"/> <?php echo _("On-Demand");?>
+</td>
+ 			<?php } else{ ?>
+ 			<td><input type="radio" name="record_in" value="Always"/> <?php echo _("Always");?> 
+				<input type="radio" name="record_in" value="Never"/> <?php echo _("Never");?>
+				<input type="radio" name="record_in" value="On-Demand" checked=checked/> <?php echo _("On-Demand");?>
+			<?php }?>
+ 		</tr>
+		<tr>
+ 			<td><a href="#" class="info">Record OUTGOING<span>Record ALL OutBound CALLS made from this extension.</span></a>: </td>
+ 			<?php if ($record_out == "Always"){?>
+ 			<td><input type="radio" name="record_out" value="Always" checked=checked/> <?php echo _("Always");?> 
+				<input type="radio" name="record_out" value="Never"/> <?php echo _("Never");?>
+				<input type="radio" name="record_out" value="On-Demand"/> <?php echo _("On-Demand");?>
+</td>
+ 			<?php }  else if ($record_out == "Never"){?>
+ 			<td><input type="radio" name="record_out" value="Always"/> <?php echo _("Always");?> 
+				<input type="radio" name="record_out" value="Never" checked=checked/> <?php echo _("Never");?>
+				<input type="radio" name="record_out" value="On-Demand"/> <?php echo _("On-Demand");?>
+</td>
+ 			<?php } else{ ?>
+ 			<td><input type="radio" name="record_out" value="Always"/> <?php echo _("Always");?> 
+				<input type="radio" name="record_out" value="Never"/> <?php echo _("Never");?>
+				<input type="radio" name="record_out" value="On-Demand" checked=checked/> <?php echo _("On-Demand");?>
+			<?php }?>
+ 		</tr>
 			<tr><td colspan=2>
 				<h5><br><?php echo _("Voicemail & Directory:");?>&nbsp;&nbsp;&nbsp;&nbsp;
 					<select name="vm" onchange="checkVoicemail(advEdit);">
@@ -496,6 +543,42 @@ switch($extdisplay) {
                 <td  width="135"><a href="#" class="info"><?php echo _("full name")?><span><?php echo _("User's full name. This is used for the Caller ID Name and for the Company Directory (if enabled below).")?></span></a>: </td>
                 <td><input tabindex="3" type="text" name="name" value="<?php  echo $name; ?>"/></td>
             </tr>
+		<tr>
+ 			<td><a href="#" class="info">Record INCOMING<span>Record ALL INBOUND CALLS recieved at this extension.</span></a>: </td>
+ 			<?php if ($record_in == "Always"){?>
+ 			<td><input type="radio" name="record_in" value="Always" checked=checked/> <?php echo _("Always");?> 
+				<input type="radio" name="record_in" value="Never"/> <?php echo _("Never");?>
+				<input type="radio" name="record_in" value="On-Demand"/> <?php echo _("On-Demand");?>
+</td>
+ 			<?php }  else if ($record_in == "Never"){?>
+ 			<td><input type="radio" name="record_in" value="Always"/> <?php echo _("Always");?> 
+				<input type="radio" name="record_in" value="Never" checked=checked/> <?php echo _("Never");?>
+				<input type="radio" name="record_in" value="On-Demand"/> <?php echo _("On-Demand");?>
+</td>
+ 			<?php } else{ ?>
+ 			<td><input type="radio" name="record_in" value="Always"/> <?php echo _("Always");?> 
+				<input type="radio" name="record_in" value="Never"/> <?php echo _("Never");?>
+				<input type="radio" name="record_in" value="On-Demand" checked=checked/> <?php echo _("On-Demand");?>
+			<?php }?>
+ 		</tr>
+		<tr>
+ 			<td><a href="#" class="info">Record OUTGOING<span>Record ALL OutBound CALLS made from this extension.</span></a>: </td>
+ 			<?php if ($record_out == "Always"){?>
+ 			<td><input type="radio" name="record_out" value="Always" checked=checked/> <?php echo _("Always");?> 
+				<input type="radio" name="record_out" value="Never"/> <?php echo _("Never");?>
+				<input type="radio" name="record_out" value="On-Demand"/> <?php echo _("On-Demand");?>
+</td>
+ 			<?php }  else if ($record_out == "Never"){?>
+ 			<td><input type="radio" name="record_out" value="Always"/> <?php echo _("Always");?> 
+				<input type="radio" name="record_out" value="Never" checked=checked/> <?php echo _("Never");?>
+				<input type="radio" name="record_out" value="On-Demand"/> <?php echo _("On-Demand");?>
+</td>
+ 			<?php } else{ ?>
+ 			<td><input type="radio" name="record_out" value="Always"/> <?php echo _("Always");?> 
+				<input type="radio" name="record_out" value="Never"/> <?php echo _("Never");?>
+				<input type="radio" name="record_out" value="On-Demand" checked=checked/> <?php echo _("On-Demand");?>
+			<?php }?>
+ 		</tr>
 			<tr><td colspan=2>
 				<h5><br><br><?php echo _("Voicemail & Directory:")?>&nbsp;&nbsp;&nbsp;&nbsp;
 					<select name="vm" onchange="checkVoicemail(addNew);">
