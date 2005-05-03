@@ -127,7 +127,7 @@ switch ($action) {
 			// first thing we do is grab the exch:
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_URL, "http://members.dandy.net/~czg/prefix.php?npa=".$matches[1]."&nxx=".$matches[2]."&ocn=&pastdays=0&nextdays=0");
+			curl_setopt($ch, CURLOPT_URL, "http://members.dandy.net/~czg/lca_prefix.php?npa=".$matches[1]."&nxx=".$matches[2]."&ocn=&pastdays=0&nextdays=0");
 			curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Linux; Amportal Local Trunks Configuration)");
 			$str = curl_exec($ch);
 			curl_close($ch);
