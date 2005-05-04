@@ -2291,19 +2291,19 @@ $amp_conf = parse_amportal_conf("/etc/amportal.conf");
                                 $buffers=fgets($fp); // get rid of Message: Authentication accepted
 				if ($direction=="In"){
 					if ($state=="Always")
-                                		$out="Action: Command\r\nCommand: database put RECORD_IN $extension ENABLED\r\n\r\n";
+                                		$out="Action: Command\r\nCommand: database put RECORD-IN $extension ENABLED\r\n\r\n";
 					else if ($state=="Never")
-                                		$out="Action: Command\r\nCommand: database put RECORD_IN $extension DISABLED\r\n\r\n";
+                                		$out="Action: Command\r\nCommand: database put RECORD-IN $extension DISABLED\r\n\r\n";
 					else
-                                		$out="Action: Command\r\nCommand: database del RECORD_IN $extension\r\n\r\n";
+                                		$out="Action: Command\r\nCommand: database del RECORD-IN $extension\r\n\r\n";
 				}
 				else if ($direction=="Out"){
 					if ($state=="Always")
-                                		$out="Action: Command\r\nCommand: database put RECORD_OUT $extension ENABLED\r\n\r\n";
+                                		$out="Action: Command\r\nCommand: database put RECORD-OUT $extension ENABLED\r\n\r\n";
 					else if ($state=="Never")
-                                		$out="Action: Command\r\nCommand: database put RECORD_OUT $extension DISABLED\r\n\r\n";
+                                		$out="Action: Command\r\nCommand: database put RECORD-OUT $extension DISABLED\r\n\r\n";
 					else
-                                		$out="Action: Command\r\nCommand: database del RECORD_OUT $extension\r\n\r\n";
+                                		$out="Action: Command\r\nCommand: database del RECORD-OUT $extension\r\n\r\n";
 				}
                                 fwrite($fp,$out);
                                 $buffer=fgets($fp); // get rid of a blank line
