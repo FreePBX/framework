@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `extensions` (
   `extension` varchar(45) NOT NULL default '',
   `priority` int(2) NOT NULL default '1',
   `application` varchar(45) NOT NULL default '',
-  `args` varchar(50) default NULL,
+  `args` varchar(255) default NULL,
   `descr` text,
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`context`,`extension`,`priority`)
