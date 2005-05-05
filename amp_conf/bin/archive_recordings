@@ -35,6 +35,7 @@ function showHelp() {
 	out("  --debug                  Enable debug output");
 	out("  --dry-run                Don't actually do anything");
 	out("  --mp3    				Recursively convert all .WAV to .mp3");
+	out("  --delwav					Use with --mp3 to delete orignal files after converting to .mp3");
 }
 
 function parse_amportal_conf($filename) {
@@ -106,15 +107,10 @@ function process_files() {
 						if(!$dryrun) {
 							makeDirs($filepath);
 						}
-						//the filename contains the time and uniqueid
-						if(strpos($file,"q") === 0) {
-							$filename = "q".$queue."-".$calltime."-".$uniqueid.substr($file,-4);
-						} else {
-							$filename = $calltime."-".$uniqueid.substr($file,-4);
-						}
+
 						out("Storing recording to ".$filepath);
 						if(!$dryrun) {
-							exec("mv ".MONITOR_DIR."/".$file." ".$filepath."/".$filename);
+							exec("mv ".MONITOR_DIR."/".$file." ".$filepath."/".$file);
 						}
 					} else {
 						out("Storing recording as an orphan");
@@ -234,7 +230,7 @@ function check_recording_option($extension) {
 	global $amp_conf;
 	$astman = new AGI_AsteriskManager();
 	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
-		return $astman->database_get("Record-In",$extension);
+		return $astman->database_get("RECORD-IN",$extension);
 	} else {
 		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
 	}
@@ -263,16 +259,19 @@ function make_tree($path){
 function convert_files() {
 	global $debug;
 	global $dryrun;
+	global $delwav;
 	outn("-> Converting files to mp3..");
 	$files = make_tree(MONITOR_DIR);
 	foreach ($files as $file) {
-		if ((strtolower(substr($file,-4)) == ".WAV") || (strtolower(substr($file,-4)) == ".wav") || (strtolower(substr($file,-4)) == ".gsm")) {
+		if ((substr($file,-4) == ".WAV")) {
 			$newfile = substr($file,0,strlen($file)-3)."mp3";
-			$lamecmd="lame --cbr -m m -t -F \"".$file."\" \"".$newfile."\"";
+			$lamecmd="lame --cbr -m m -t -F \"".$file."\" \"".$newfile."\""; //this doesn't work
 			if($debug) debug($lamecmd);
 			if (!$dryrun) {
 				exec($lamecmd);
-				exec("rm -f ".$file);
+				if($delwav) {
+					exec("rm -f ".$file);
+				}
 			}
 		}
 	}
@@ -352,6 +351,10 @@ foreach ($args[0] as $arg) {
 		case "--mp3":
 			$mp3 = true;
 			debug("MP3 conversion enabled");
+		break;
+		case "--delwav":
+			$delwav = true;
+			debug("Will delete wav after converting to mp3");
 		break;
 	}
 }
