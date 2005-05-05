@@ -157,16 +157,22 @@ function fix_datetime($datetime) {
 	$hours = substr($datetime,9,2);
 	$minutes = substr($datetime,11,2);
 	$seconds = substr($datetime,13,2);
-	$datetime = "$year-$month-$day $hours:$minutes:$seconds";
-	return $datetime;
+	$allowance = substr(($seconds - 1) + 100,1); //we allow a slight movement in the CDR timestamp for execution of dialparties.agi, etc
+	if($allowance<0) {
+		$allowance="59";
+		$minutes=substr(($minutes-1 - 1) + 100,1);
+	}
+	$datetimes['exact'] = "$year-$month-$day $hours:$minutes:$seconds";
+	$datetimes['allow'] = "$year-$month-$day $hours:$minutes:$allowance";
+	return $datetimes;
 }
 
 function get_cdr($datetime,$uniqueid,$calltype) {
 	global $db;
 	global $debug;
-	$datetime = fix_datetime($datetime);
-	$sql = "SELECT * FROM cdr WHERE uniqueid = '$uniqueid' AND calldate = '$datetime'";
-	//if ($debug) {out(""); debug("Query: ".$sql);}
+	$datetimes = fix_datetime($datetime);
+	$sql = "SELECT * FROM cdr WHERE uniqueid = '$uniqueid' AND calldate BETWEEN '".$datetimes['allow']."' AND '".$datetimes['exact']."'";
+	if ($debug) {out(""); debug("Query: ".$sql);}
 	$result = $db->getRow($sql); 
 	if(DB::IsError($result)) {     
 		fatal($result->getDebugInfo()."\" while running ".$sql."\n"); 

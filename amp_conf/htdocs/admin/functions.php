@@ -1658,7 +1658,7 @@ function addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account,'2','SetCIDName',$prefix.'${CALLERIDNAME}','','0');
 	addextensions($addarray);
-	$addarray = array('ext-queues',$account,'3','SetVar','MONITOR_FILENAME=/var/spool/asterisk/monitor/q${EXTEN}-${UNIQUEID}','','0');
+	$addarray = array('ext-queues',$account,'3','SetVar','MONITOR_FILENAME=/var/spool/asterisk/monitor/q${EXTEN}-${TIMESTAMP}-${UNIQUEID}','','0');
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account,'4','Queue',$account.'|t||'.$agentannounce.'|'.$_REQUEST['maxwait'],$name,'0');
 	addextensions($addarray);
