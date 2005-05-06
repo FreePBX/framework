@@ -94,20 +94,22 @@ if (isset($_REQUEST["trunkpriority"])) {
 }
 
 $routename = isset($_REQUEST["routename"]) ? $_REQUEST["routename"] : "";
+$routepass = isset($_REQUEST["routepass"]) ? $_REQUEST["routepass"] : "";
 
 //if submitting form, update database
 switch ($action) {
 	case "addroute":
-		addRoute($routename, $dialpattern, $trunkpriority,"new");
+		addRoute($routename, $dialpattern, $trunkpriority,"new", $routepass);
 		exec($extenScript);
 		needreload();
 		$extdisplay = ''; // resets back to main screen
 		$routename = ''; // resets back to main screen
+		$routepass = ''; // resets back to main screen
 		$dialpattern=array();
 		$trunkpriority=array();
 	break;
 	case "editroute":
-		editRoute($routename, $dialpattern, $trunkpriority);
+		editRoute($routename, $dialpattern, $trunkpriority, $routepass);
 		exec($extenScript);
 		needreload();
 	break;
@@ -243,6 +245,10 @@ if ($extdisplay) {
 		$trunkpriority = getroutetrunks($extdisplay);
 	}
 	
+	if (!isset($_REQUEST["routepass"])) {
+		$routepass = getroutepassword($extdisplay);
+	}
+	
 	echo "<h2>"._("Edit Route")."</h2>";
 } else {	
 	echo "<h2>"._("Add Route")."</h2>";
@@ -291,6 +297,10 @@ if ($extdisplay) { // editing
 				<input type="text" size="20" name="routename" value="<?php echo $routename;?>"/>
 			</td>
 <?php  } ?>
+		</tr>
+		<tr>
+			<td><a href=# class="info"><?php echo _("Route Password")?>:<span><?php echo _("Optional: A route can prompt users for a password before allowing a calls to progress.  This is useful for restricing calls to international destinations or 1-900 numbers.<br><br>Leave this field blank to not prompt for password.</span>")?></a></td>
+			<td><input type="text" size="20" name="routepass" value="<?php echo $routepass;?>"/></td>
 		</tr>
 		<tr>
 			<td colspan="2">

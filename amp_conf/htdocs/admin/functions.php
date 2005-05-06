@@ -1260,6 +1260,23 @@ function getroutetrunks($route) {
 	return $trunks;
 }
 
+//get password for this route
+function getroutepassword($route) {
+	global $db;
+	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'dialout-trunk,%' OR args LIKE 'dialout-enum,%') ORDER BY priority ";
+	$results = $db->getOne($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	if (preg_match('/^.*,.*,.*,(\d+)/', $results, $matches)) {
+		$password = $matches[1];
+	} else {
+		$password = "";
+	}
+	return $password;
+	
+}
+
 //get outbound routes for a given trunk
 function gettrunkroutes($trunknum) {
 	global $db;
@@ -1279,7 +1296,7 @@ function gettrunkroutes($trunknum) {
 	return $routes;
 }
 
-function addroute($name, $patterns, $trunks, $method) {
+function addroute($name, $patterns, $trunks, $method, $pass) {
 	global $db;
 
 	$trunktech=array();
@@ -1333,9 +1350,9 @@ function addroute($name, $patterns, $trunks, $method) {
 			$sql .= "'".$priority."', ";
 			$sql .= "'Macro', ";
 			if ($trunktech[$trunk] == "ENUM")
-				$sql .= "'dialout-enum,".substr($trunk,4).",\${".$exten."}'"; // cut off OUT_ from $trunk
+				$sql .= "'dialout-enum,".substr($trunk,4).",\${".$exten."},".$pass."'"; // cut off OUT_ from $trunk
 			else
-				$sql .= "'dialout-trunk,".substr($trunk,4).",\${".$exten."}'"; // cut off OUT_ from $trunk
+				$sql .= "'dialout-trunk,".substr($trunk,4).",\${".$exten."},".$pass."'"; // cut off OUT_ from $trunk
 			$sql .= ")";
 			
 			$result = $db->query($sql);
@@ -1438,9 +1455,9 @@ function renameRoute($oldname, $newname) {
 	return true;
 }
 
-function editroute($name, $patterns, $trunks) {
+function editroute($name, $patterns, $trunks, $pass) {
 	deleteroute($name);
-	addroute($name, $patterns, $trunks,"edit");
+	addroute($name, $patterns, $trunks,"edit", $pass);
 }
 
 function getroute($route) {
