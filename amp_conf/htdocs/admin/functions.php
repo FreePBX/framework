@@ -1802,7 +1802,7 @@ function drawselects($formName,$goto,$i) {
 	$queues = getqueues();
 	
 	$selectHtml = '	<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';				
-	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="ivr" disabled="true" '.(strpos($goto,'aa_') === false ? '' : 'CHECKED=CHECKED').' /> Digital Receptionist: ';
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="ivr" disabled="true" '.(strpos($goto,'aa_') === false ? '' : 'CHECKED=CHECKED').' /> '._("Digital Receptionist").': ';
 	$selectHtml .=	'<select name="ivr'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[0].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'ivr\';"/>';
 
 	if (isset($unique_aas)) {
@@ -1814,7 +1814,7 @@ function drawselects($formName,$goto,$i) {
 	}
 
 	$selectHtml .=	'</select><br>';
-	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="extension" disabled="true" '.(strpos($goto,'ext-local') === false ? '' : 'CHECKED=CHECKED').'/> Extension: ';
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="extension" disabled="true" '.(strpos($goto,'ext-local') === false ? '' : 'CHECKED=CHECKED').'/> '._("Extension").': ';
 	$selectHtml .=	'<select name="extension'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[1].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'extension\';"/>';
 	
 	if (isset($extens)) {
@@ -1824,7 +1824,7 @@ function drawselects($formName,$goto,$i) {
 	}
 			
 	$selectHtml .=	'</select><br>';
-	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="voicemail" disabled="true" '.(strpos($goto,'vm') === false ? '' : 'CHECKED=CHECKED').' /> Voicemail: '; 
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="voicemail" disabled="true" '.(strpos($goto,'vm') === false ? '' : 'CHECKED=CHECKED').' /> '._("Voicemail").': '; 
 	$selectHtml .=	'<select name="voicemail'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[2].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'voicemail\';"/>';
 	
 	if (isset($extens)) {
@@ -1834,7 +1834,7 @@ function drawselects($formName,$goto,$i) {
 	}
 			
 	$selectHtml .=	'</select><br>';
-	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="group" disabled="true" '.(strpos($goto,'ext-group') === false ? '' : 'CHECKED=CHECKED').' /> Ring Group: ';
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="group" disabled="true" '.(strpos($goto,'ext-group') === false ? '' : 'CHECKED=CHECKED').' /> '._("Ring Group").': ';
 	$selectHtml .=	'<select name="group'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[3].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'group\';"/>';
 	
 	if (isset($gresults)) {
@@ -1844,7 +1844,7 @@ function drawselects($formName,$goto,$i) {
 	}
 				
 	$selectHtml .=	'</select><br>';
-	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="queue" disabled="true" '.(strpos($goto,'ext-queues') === false ? '' : 'CHECKED=CHECKED').' /> Queue: ';
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="queue" disabled="true" '.(strpos($goto,'ext-queues') === false ? '' : 'CHECKED=CHECKED').' /> '._("Queue").': ';
 	$selectHtml .=	'<select name="queue'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[4].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'queue\';"/>';
 	
 	if (isset($queues)) {
@@ -1855,7 +1855,7 @@ function drawselects($formName,$goto,$i) {
 				
 	$selectHtml .=	'</select><br>';
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="custom" disabled="true" '.(strpos($goto,'custom') === false ? '' : 'CHECKED=CHECKED').' />';
-	$selectHtml .= '<a href="#" class="info"> Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word "custom" and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf<b><b></span></a>:';
+	$selectHtml .= '<a href="#" class="info"> '._("Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word 'custom' and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf</span>").'</a>:';
 	$selectHtml .=	'<input type="text" size="15" name="custom_args'.$i.'" onclick="javascript:document.'.$formName.'.goto_indicate'.$i.'[5].checked=true;javascript:document.'.$formName.'.goto'.$i.'.value=\'custom\';" value="'.(strpos($goto,'custom') === false ? '' : $goto).'" />';
 	$selectHtml .=	'<br></td></tr>';
 	

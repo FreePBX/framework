@@ -174,7 +174,7 @@ else
 {
 	if (isset($Message)){
 	?>
-		<h3><?php echo _("$Message") ?></h3>
+		<h3><?php echo $Message ?></h3>
 	<?php }
 	else{
 	?>

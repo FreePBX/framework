@@ -100,7 +100,7 @@ $amp_sections = array(
 	
 // only show AMP Users if they have authtype set approiately
 if (isset($amp_conf["AUTHTYPE"]) && ($amp_conf["AUTHTYPE"] != "none")) {
-	$amp_sections[10] = "AMP Users";
+	$amp_sections[10] = _("AMP Users");
 }
 
 

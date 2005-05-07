@@ -357,7 +357,7 @@ switch($extdisplay) {
 			?>
 			<input type="hidden" name="account" value="<?php  echo $extdisplay ?>">
 		<tr>
- 			<td><a href="#" class="info">Record INCOMING<span>Record ALL INBOUND CALLS recieved at this extension.</span></a>: </td>
+ 			<td><a href="#" class="info"><?php echo _("Record INCOMING<span>Record ALL INBOUND CALLS recieved at this extension.</span>")?></a>: </td>
  			<?php if ($record_in == "Always"){?>
  			<td><input type="radio" name="record_in" value="Always" checked=checked/> <?php echo _("Always");?> 
 				<input type="radio" name="record_in" value="Never"/> <?php echo _("Never");?>
@@ -375,7 +375,7 @@ switch($extdisplay) {
 			<?php }?>
  		</tr>
 		<tr>
- 			<td><a href="#" class="info">Record OUTGOING<span>Record ALL OutBound CALLS made from this extension.</span></a>: </td>
+ 			<td><a href="#" class="info"><?php echo _("Record OUTGOING<span>Record ALL OutBound CALLS made from this extension.</span>")?></a>: </td>
  			<?php if ($record_out == "Always"){?>
  			<td><input type="radio" name="record_out" value="Always" checked=checked/> <?php echo _("Always");?> 
 				<input type="radio" name="record_out" value="Never"/> <?php echo _("Never");?>
