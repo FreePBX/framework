@@ -84,9 +84,9 @@ $queues = getqueues();
 	<input type="text" size="8" name="REGDAYS" value="<?php  echo $REGDAYS ?>">:
 </p>
 <p> 
-	<input type="radio" name="in_indicate" value="ivr" disabled="true" <?php  echo strpos($INCOMING,'aa_') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Digital Receptionist:")?> 
+	<input type="radio" name="in_indicate" value="ivr" onclick="javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_IVR.options[document.incoming.INCOMING_IVR.options.selectedIndex].value;" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.incoming.INCOMING.value=document.incoming.INCOMING_IVR.options[document.incoming.INCOMING_IVR.options.selectedIndex].value;" <?php  echo strpos($INCOMING,'aa_') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Digital Receptionist:")?> 
 	<input type="hidden" name="INCOMING" value="<?php  echo $INCOMING; ?>">
-	<select name="INCOMING_IVR" onclick="javascript:document.incoming.in_indicate[0].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_IVR.options[document.incoming.INCOMING_IVR.options.selectedIndex].value;"/>
+	<select name="INCOMING_IVR" onchange="javascript:if (document.incoming.in_indicate[0].checked) document.incoming.INCOMING.value=document.incoming.INCOMING_IVR.options[document.incoming.INCOMING_IVR.options.selectedIndex].value;" onkeypress="javascript:setTimeout('if (document.incoming.in_indicate[0].checked) document.incoming.INCOMING.value=document.incoming.INCOMING_IVR.options[document.incoming.INCOMING_IVR.options.selectedIndex].value;', 100);"/>
 <?php 
 	if (isset($unique_aas)) {
 		foreach ($unique_aas as $unique_aa) {
@@ -97,8 +97,8 @@ $queues = getqueues();
 	}
 ?>
 	</select><br>
-	<input type="radio" name="in_indicate" value="extension" disabled="true" <?php  echo strpos($INCOMING,'EXT') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Extension:")?>
-	<select name="INCOMING_EXTEN" onclick="javascript:document.incoming.in_indicate[1].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_EXTEN.options[document.incoming.INCOMING_EXTEN.options.selectedIndex].value;"/>
+	<input type="radio" name="in_indicate" value="extension" onclick="javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_EXTEN.options[document.incoming.INCOMING_EXTEN.options.selectedIndex].value;" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.incoming.INCOMING.value=document.incoming.INCOMING_EXTEN.options[document.incoming.INCOMING_EXTEN.options.selectedIndex].value;"  <?php  echo strpos($INCOMING,'EXT') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Extension:")?>
+	<select name="INCOMING_EXTEN" onchange="javascript:if (document.incoming.in_indicate[1].checked) document.incoming.INCOMING.value=document.incoming.INCOMING_EXTEN.options[document.incoming.INCOMING_EXTEN.options.selectedIndex].value;" onkeypress="javascript:setTimeout('if (document.incoming.in_indicate[1].checked) document.incoming.INCOMING.value=document.incoming.INCOMING_EXTEN.options[document.incoming.INCOMING_EXTEN.options.selectedIndex].value;', 100);"/>
 <?php 
 	if (isset($extens)) {
 		foreach ($extens as $exten) {
@@ -107,8 +107,8 @@ $queues = getqueues();
 	}
 ?>		
 	</select><br>
-	<input type="radio" name="in_indicate" value="group" disabled="true" <?php  echo strpos($INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Ring Group:")?>
-	<select name="INCOMING_GRP" onclick="javascript:document.incoming.in_indicate[2].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_GRP.options[document.incoming.INCOMING_GRP.options.selectedIndex].value;"/>
+	<input type="radio" name="in_indicate" value="group" onclick="javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_GRP.options[document.incoming.INCOMING_GRP.options.selectedIndex].value;" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.incoming.INCOMING.value=document.incoming.INCOMING_GRP.options[document.incoming.INCOMING_GRP.options.selectedIndex].value;" <?php  echo strpos($INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Ring Group:")?>
+	<select name="INCOMING_GRP" onchange="javascript:if (document.incoming.in_indicate[2].checked) document.incoming.INCOMING.value=document.incoming.INCOMING_GRP.options[document.incoming.INCOMING_GRP.options.selectedIndex].value;" onkeypress="javascript:setTimeout('if (document.incoming.in_indicate[2].checked) document.incoming.INCOMING.value=document.incoming.INCOMING_GRP.options[document.incoming.INCOMING_GRP.options.selectedIndex].value;', 100);"/>
 <?php 
 	if (isset($gresults)) {
 		foreach ($gresults as $gresult) {
@@ -117,8 +117,8 @@ $queues = getqueues();
 	}
 ?>			
 	</select><br>
-	<input type="radio" name="in_indicate" value="queue" disabled="true" <?php  echo strpos($INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Queue:")?> 
-	<select name="INCOMING_QUEUE" onclick="javascript:document.incoming.in_indicate[3].checked=true;javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_QUEUE.options[document.incoming.INCOMING_QUEUE.options.selectedIndex].value;"/>
+	<input type="radio" name="in_indicate" value="queue" onclick="javascript:document.incoming.INCOMING.value=document.incoming.INCOMING_QUEUE.options[document.incoming.INCOMING_QUEUE.options.selectedIndex].value;" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.incoming.INCOMING.value=document.incoming.INCOMING_QUEUE.options[document.incoming.INCOMING_QUEUE.options.selectedIndex].value;" <?php  echo strpos($INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Queue:")?> 
+	<select name="INCOMING_QUEUE" onchange="javascript:if (document.incoming.in_indicate[3].checked) document.incoming.INCOMING.value=document.incoming.INCOMING_QUEUE.options[document.incoming.INCOMING_QUEUE.options.selectedIndex].value;" onkeypress="javascript:setTimeout('if (document.incoming.in_indicate[3].checked) document.incoming.INCOMING.value=document.incoming.INCOMING_QUEUE.options[document.incoming.INCOMING_QUEUE.options.selectedIndex].value;', 100);"/>
 <?php 
 	if (isset($queues)) {
 		foreach ($queues as $queue) {
@@ -133,9 +133,9 @@ $queues = getqueues();
 	<?php echo _("after hours:")?> 
 </p>
 <p> 
-	<input type="radio" name="after_in_indicate" value="ivr" disabled="true" <?php  echo strpos($AFTER_INCOMING,'aa_') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Digital Receptionist:")?>
+	<input type="radio" name="after_in_indicate" value="ivr" onclick="javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_IVR.options[document.incoming.AFTER_INCOMING_IVR.options.selectedIndex].value;" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_IVR.options[document.incoming.AFTER_INCOMING_IVR.options.selectedIndex].value;" <?php  echo strpos($AFTER_INCOMING,'aa_') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Digital Receptionist:")?>
 	<input type="hidden" name="AFTER_INCOMING" value="<?php  echo $AFTER_INCOMING; ?>">
-	<select name="AFTER_INCOMING_IVR" onclick="javascript:document.incoming.after_in_indicate[0].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_IVR.options[document.incoming.AFTER_INCOMING_IVR.options.selectedIndex].value;"/>
+	<select name="AFTER_INCOMING_IVR" onchange="javascript:if (document.incoming.after_in_indicate[0].checked) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_IVR.options[document.incoming.AFTER_INCOMING_IVR.options.selectedIndex].value;" onkeypress="javascript:setTimeout('if (document.incoming.after_in_indicate[0].checked) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_IVR.options[document.incoming.AFTER_INCOMING_IVR.options.selectedIndex].value;', 100);"/>
 <?php 
 	if (isset($unique_aas)) {
 		foreach ($unique_aas as $unique_aa) {
@@ -146,8 +146,8 @@ $queues = getqueues();
 	}
 ?>
 	</select><br>
-	<input type="radio" name="after_in_indicate" value="extension" disabled="true" <?php  echo strpos($AFTER_INCOMING,'EXT') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Extension:")?>
-	<select name="AFTER_INCOMING_EXTEN" onclick="javascript:document.incoming.after_in_indicate[1].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_EXTEN.options[document.incoming.AFTER_INCOMING_EXTEN.options.selectedIndex].value;"/>
+	<input type="radio" name="after_in_indicate" value="extension" onclick="javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_EXTEN.options[document.incoming.AFTER_INCOMING_EXTEN.options.selectedIndex].value;" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_EXTEN.options[document.incoming.AFTER_INCOMING_EXTEN.options.selectedIndex].value;" <?php  echo strpos($AFTER_INCOMING,'EXT') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Extension:")?>
+	<select name="AFTER_INCOMING_EXTEN" onchange="javascript:if (document.incoming.after_in_indicate[1].checked) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_EXTEN.options[document.incoming.AFTER_INCOMING_EXTEN.options.selectedIndex].value;" onkeypress="javascript:setTimeout('if (document.incoming.after_in_indicate[1].checked) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_EXTEN.options[document.incoming.AFTER_INCOMING_EXTEN.options.selectedIndex].value;', 100);"/>
 <?php 
 	if (isset($extens)) {
 		foreach ($extens as $exten) {
@@ -156,8 +156,8 @@ $queues = getqueues();
 	}
 ?>		
 	</select><br>
-	<input type="radio" name="after_in_indicate" value="group" disabled="true" <?php  echo strpos($AFTER_INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Ring Group:")?>
-	<select name="AFTER_INCOMING_GRP" onclick="javascript:document.incoming.after_in_indicate[2].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_GRP.options[document.incoming.AFTER_INCOMING_GRP.options.selectedIndex].value;"/>
+	<input type="radio" name="after_in_indicate" value="group" onclick="javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_GRP.options[document.incoming.AFTER_INCOMING_GRP.options.selectedIndex].value;" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_GRP.options[document.incoming.AFTER_INCOMING_GRP.options.selectedIndex].value;" <?php  echo strpos($AFTER_INCOMING,'GR') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Ring Group:")?>
+	<select name="AFTER_INCOMING_GRP" onchange="javascript:if (document.incoming.after_in_indicate[2].checked) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_GRP.options[document.incoming.AFTER_INCOMING_GRP.options.selectedIndex].value;" onkeypress="javascript:setTimeout('if (document.incoming.after_in_indicate[2].checked) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_GRP.options[document.incoming.AFTER_INCOMING_GRP.options.selectedIndex].value;', 100);"/>
 <?php 
 	if (isset($gresults)) {
 		foreach ($gresults as $gresult) {
@@ -166,8 +166,8 @@ $queues = getqueues();
 	}
 ?>			
 	</select><br>
-	<input type="radio" name="after_in_indicate" value="queue" disabled="true" <?php  echo strpos($AFTER_INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Queue:")?> 
-	<select name="AFTER_INCOMING_QUEUE" onclick="javascript:document.incoming.after_in_indicate[3].checked=true;javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_QUEUE.options[document.incoming.AFTER_INCOMING_QUEUE.options.selectedIndex].value;"/>
+	<input type="radio" name="after_in_indicate" value="queue" onclick="javascript:document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_QUEUE.options[document.incoming.AFTER_INCOMING_QUEUE.options.selectedIndex].value;" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_QUEUE.options[document.incoming.AFTER_INCOMING_QUEUE.options.selectedIndex].value;" <?php  echo strpos($AFTER_INCOMING,'QUE') === false ? '' : 'CHECKED=CHECKED';?>/> <?php echo _("Queue:")?> 
+	<select name="AFTER_INCOMING_QUEUE" onchange="javascript:if (document.incoming.after_in_indicate[3].checked) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_QUEUE.options[document.incoming.AFTER_INCOMING_QUEUE.options.selectedIndex].value;" onkeypress="javascript:setTimeout('if (document.incoming.after_in_indicate[3].checked) document.incoming.AFTER_INCOMING.value=document.incoming.AFTER_INCOMING_QUEUE.options[document.incoming.AFTER_INCOMING_QUEUE.options.selectedIndex].value;', 100);"/>
 <?php 
 	if (isset($queues)) {
 		foreach ($queues as $queue) {
