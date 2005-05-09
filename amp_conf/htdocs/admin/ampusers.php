@@ -114,7 +114,7 @@ foreach ($tresults as $tresult) {
 	} 
 ?>
 	
-		<form name="ampuserEdit" action="config.php" method="get">
+		<form autocomplete="off" name="ampuserEdit" action="config.php" method="get">
 			<input type="hidden" name="display" value="<?php echo $display?>"/>
 			<input type="hidden" name="userdisplay" value="<?php echo $userdisplay ?>"/>
 			<input type="hidden" name="action" value=""/>

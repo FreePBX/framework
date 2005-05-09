@@ -329,7 +329,7 @@ switch($extdisplay) {
 
 		
 		
-		<form name="advEdit" action="<?php  $_REQUEST['PHP_SELF'] ?>" method="post">
+		<form autocomplete="off" name="advEdit" action="<?php  $_REQUEST['PHP_SELF'] ?>" method="post">
 		<input type="hidden" name="display" value="<?php echo $dispnum?>">
 		<input type="hidden" name="action" value="advEdit"/>
 		<input type="hidden" name="tech" value="<?php echo $tech?>"/>
@@ -488,7 +488,7 @@ switch($extdisplay) {
     case '':
 ?>
 
-    <form name="addNew" action="<?php  $_REQUEST['PHP_SELF'] ?>" method="post">
+    <form autocomplete="off" name="addNew" action="<?php  $_REQUEST['PHP_SELF'] ?>" method="post">
 		<input type="hidden" name="display" value="<?php echo $dispnum?>">
         <input type="hidden" name="action" value="add">
         <h2><?php echo _("Add an Extension")?></h2>

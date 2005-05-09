@@ -264,7 +264,7 @@ if ($extdisplay) { // editing
 	<p><a href="config.php?display=<?php echo $display ?>&extdisplay=<?php echo $extdisplay ?>&action=delroute"><?php echo _("Delete Route")?> <?php  echo substr($extdisplay,4); ?></a></p>
 <?php  } ?>
 
-	<form id="routeEdit" name="routeEdit" action="config.php" method="POST">
+	<form autocomplete="off" id="routeEdit" name="routeEdit" action="config.php" method="POST">
 		<input type="hidden" name="display" value="<?php echo $display?>"/>
 		<input type="hidden" name="extdisplay" value="<?php echo $extdisplay ?>"/>
 		<input type="hidden" id="action" name="action" value=""/>
