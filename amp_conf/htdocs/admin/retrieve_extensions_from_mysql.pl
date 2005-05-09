@@ -109,6 +109,10 @@ foreach my $row ( @{ $result } ) {
 		elsif ($result[6] == 2) {
 			print EXTEN "include => $result[3]\n";
 		}
+		# add voice mail extension
+		if($context eq "ext-local") {
+			print EXTEN "exten => *$result[1],1,Macro(vm,$result[1])\n";
+		}
 	}                                         	
 	print EXTEN "\n";
 }
