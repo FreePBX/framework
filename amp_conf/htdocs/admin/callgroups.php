@@ -158,7 +158,7 @@ if (isset($gresults)) {
 
 <?php 
 //get goto for this group - note priority 2
-$goto = getargs(ltrim($extdisplay,'GRP-'),2);
+$goto = getargs(ltrim($extdisplay,'GRP-'),2,'ext-group');
 //draw goto selects
 echo drawselects('editGRP',$goto,0);
 ?>

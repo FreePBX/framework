@@ -109,7 +109,7 @@ if (isset($dresults)) {
 		
 <?php 
 //get the failover destination
-$goto = getargs(ltrim($extdisplay,'DID-'),1);
+$goto = getargs(ltrim($extdisplay,'DID-'),1,'ext-did');
 //draw goto selects
 echo drawselects('editGRP',$goto,0);
 ?>

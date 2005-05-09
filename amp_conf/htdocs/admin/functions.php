@@ -1896,9 +1896,9 @@ function setGoto($account,$context,$priority,$goto,$i) {  //preforms logic for s
 }
 
 //get args for specified exten and priority - primarily used to grab goto destination
-function getargs($exten,$priority) {
+function getargs($exten,$priority,$context) {
 	global $db;
-	$sql = "SELECT args FROM extensions WHERE extension = '".$exten."' AND priority = '".$priority."'";
+	$sql = "SELECT args FROM extensions WHERE extension = '".$exten."' AND priority = '".$priority."' AND context = '".$context."'";
 	list($args) = $db->getRow($sql);
 	return $args;
 }
