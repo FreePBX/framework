@@ -134,7 +134,7 @@ else if ($action == 'edit')
 {
 	?>
 	<h2><?php echo _("System Backup")?></h2>
-	<p><a href="config.php?display=<?php echo $display ?>&action=delete&backupid=<?php echo $_REQUEST['backupid']; ?>"><?php echo _("Delete Backup Scehdule")?> <?php echo $_REQUEST['backupname']; ?></a></p>
+	<p><a href="config.php?display=<?php echo $display ?>&action=delete&backupid=<?php echo $_REQUEST['backupid']; ?>"><?php echo _("Delete Backup Schedule")?> <?php echo $_REQUEST['backupname']; ?></a></p>
 	<form name="addbackup" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="display" value="<?php echo $display?>">
 	<input type="hidden" name="action" value="edited">
