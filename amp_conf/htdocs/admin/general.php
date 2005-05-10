@@ -24,6 +24,7 @@ if ($action == 'editglobals') {
 						array($_REQUEST['FAX_RX'],'FAX_RX'),
 						array($_REQUEST['FAX_RX_EMAIL'],'FAX_RX_EMAIL'),
 						array($_REQUEST['DIRECTORY'],'DIRECTORY'),
+						array($_REQUEST['VM_PREFIX'],'VM_PREFIX'),
 						array(isset($_REQUEST['DIRECTORY_OPTS']) ? $_REQUEST['DIRECTORY_OPTS'] : "",'DIRECTORY_OPTS'),
 						);
 
@@ -66,6 +67,9 @@ $extens = getextens();
 <p>
 	<?php echo _("Number of seconds to ring phones before sending callers to voicemail:")?>
 	<input type="text" size="2" name="RINGTIMER" value="<?php  echo $RINGTIMER?>"/>
+	<br><br>
+	<?php echo _("Extension prefix for dialing direct to voicemail:")?>
+	<input type="text" size="2" name="VM_PREFIX" value="<?php  echo $VM_PREFIX?>"/>
 </p>
 
 <h5><?php echo _("Company Directory")?></h5>
