@@ -35,6 +35,8 @@ $queuepos="42-50,61-70";
 
 $zapataconf="/etc/asterisk/zapata.conf";
 
+$ampwildcard=0;
+
 $zaplabel="Zap \%c";
 $lastlabelnum=0;
 open ZAPATA, "<$zapataconf" || die "Cannot open config file: $zapataconf\n";
@@ -44,15 +46,18 @@ while( $line = <ZAPATA> ) {
 	chomp($line);
 	if($line =~ /^;AMPWILDCARDLABEL\((\d+)\)\s*:\s*([\S\s]+)\s*$/) {
 		@zaplines=(@zaplines,[ "Zap/*","$2",$1 ]);
+		$ampwildcard=1;
 		next;	
 	}
 
 	if($line =~ /^;AMPLABEL:\s*(\S+[\s\S]*)$/) {
 		$zaplabel=$1;
 		$line=~/\%N/ and $lastlabelnum=0;
+		$ampwildcard=0;
 		next;
 	}
 	if($line =~ /^[b]?channel\s*=\s*[>]?\s*([\d\,-]+)\s*$/) {
+		$ampwildcard and next;
 		@ranges=split(/,/,$1);
 		foreach $ran(@ranges) {
 			@range=split(/-/,$ran);
