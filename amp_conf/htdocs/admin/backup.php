@@ -25,7 +25,7 @@ switch ($action) {
 		$ALL_weekdays=$_POST['all_weekdays'];
 
 		$backup_schedule=$_REQUEST['backup_schedule'];
-		$name=$_REQUEST['name'];
+		$name=(empty($_REQUEST['name'])?'backup':$_REQUEST['name']);
 		$mins=$_REQUEST['mins'];
 		$hours=$_REQUEST['hours'];
 		$days=$_REQUEST['days'];
@@ -49,7 +49,7 @@ switch ($action) {
 		$ALL_weekdays=$_REQUEST['all_weekdays'];
 
 		$backup_schedule=$_REQUEST['backup_schedule'];
-		$name=$_REQUEST['name'];
+		$name=(empty($_REQUEST['name'])?'backup':$_REQUEST['name']);
 		$mins=$_REQUEST['mins'];
 		$hours=$_REQUEST['hours'];
 		$days=$_REQUEST['days'];
