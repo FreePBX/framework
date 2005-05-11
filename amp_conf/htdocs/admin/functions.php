@@ -496,6 +496,7 @@ function addsip($account,$callerid) {
 	sipexists();
 	global $db;
 	$sipfields = array(array($account,'account',$account),
+	array($account,'accountcode',($_REQUEST['accountcode'])?$_REQUEST['accountcode']:''),
 	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
 	array($account,'canreinvite',($_REQUEST['canreinvite'])?$_REQUEST['canreinvite']:''),
 	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:''),
