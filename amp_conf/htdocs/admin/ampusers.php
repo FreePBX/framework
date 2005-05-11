@@ -50,13 +50,22 @@ if (isset($_REQUEST["sections"])) {
 switch ($action) {
 	case "addampuser":
 		addAmpUser($username, $password, $extension_low, $extension_high, $deptname, $sections);
+		exec($wOpScript);
+		//indicate 'need reload' link in footer.php 
+		needreload();
 	break;
 	case "editampuser":
 		deleteAmpUser($userdisplay);
 		addAmpUser($username, $password, $extension_low, $extension_high, $deptname, $sections);
+		exec($wOpScript);
+		//indicate 'need reload' link in footer.php 
+		needreload();
 	break;
 	case "delampuser":
 		deleteAmpUser($userdisplay);
+		exec($wOpScript);
+		//indicate 'need reload' link in footer.php 
+		needreload();
 		$userdisplay = ""; // go "add" screen
 	break;
 }
