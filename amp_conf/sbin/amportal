@@ -41,6 +41,7 @@ chown_asterisk() {
 	chmod u+x /var/lib/asterisk/agi-bin/*.agi
 	chmod u+x /var/lib/asterisk/agi-bin/directory
 	chmod u+x /var/lib/asterisk/agi-bin/fixlocalprefix
+	chmod u+x /var/lib/asterisk/agi-bin/recordingcheck
 	chmod u+x $AMPCGIBIN/vmail.cgi
 	chmod u+x $AMPWEBROOT/admin/*.pl
 	chmod u+x $AMPWEBROOT/admin/*.sh
