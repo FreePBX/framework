@@ -1927,7 +1927,7 @@ function parse_voicemailconf($filename, &$vmconf, &$section) {
 	if (file_exists($filename)) {
 		$fd = fopen($filename, "r");
 		while ($line = fgets($fd, 1024)) {
-			if (preg_match("/^\s*(\d+)\s*=>\s*(\d+),(.*),(.*),(.*),(.*)\s*([;#].*)?/",$line,$matches)) {
+			if (preg_match("/^\s*(\d+)\s*=>\s*(\d*),(.*),(.*),(.*),(.*)\s*([;#].*)?/",$line,$matches)) {
 				// "mailbox=>password,name,email,pager,options"
 				// this is a voicemail line	
 				$vmconf[$section][ $matches[1] ] = array("mailbox"=>$matches[1],
