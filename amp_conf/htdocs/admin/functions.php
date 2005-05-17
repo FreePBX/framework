@@ -673,8 +673,7 @@ function writeoutids() {
 //get unique trunks
 function gettrunks() {
 	global $db;
-	$sql = "SELECT * FROM globals WHERE variable LIKE 'OUT\\\_%' ORDER BY CAST( RIGHT( variable, 
-LENGTH( variable ) -4 ) AS unsigned )"; // we have to escape _ for mysql: normally a wildcard
+	$sql = "SELECT * FROM globals WHERE variable LIKE 'OUT\\\_%' ORDER BY CAST( RIGHT( variable, LENGTH( variable ) -4 ) AS unsigned )"; // we have to escape _ for mysql: normally a wildcard
 	$unique_trunks = $db->getAll($sql);
 	if(DB::IsError($unique_trunks)) {
 	   die('unique: '.$unique_trunks->getMessage());
