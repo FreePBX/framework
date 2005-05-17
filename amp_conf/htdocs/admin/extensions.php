@@ -134,7 +134,7 @@ if (isset($account) && !checkRange($account)){
 		}
 		
 		//update ext-local context in extensions.conf
-		$mailb = ($_REQUEST['mailbox'] == '') ? 'novm' : $_REQUEST['mailbox'];
+		$mailb = ($_REQUEST['vm'] == 'disabled' || $_REQUEST['mailbox'] == '') ? 'novm' : $_REQUEST['mailbox'];
 		addaccount($account,$mailb);
 		
 		//write out extenstions_additional.conf
@@ -252,7 +252,7 @@ if (isset($account) && !checkRange($account)){
 		saveVoicemail($uservm);
 		
 		//update ext-local context in extensions.conf
-		$mailb = ($_REQUEST['mailbox'] == '') ? 'novm' : $_REQUEST['mailbox'];
+		$mailb = ($_REQUEST['vm'] == 'disabled' || $_REQUEST['mailbox'] == '') ? 'novm' : $_REQUEST['mailbox'];
 		$sql = "UPDATE `extensions` SET `args` = 'exten-vm,".$mailb.",".$account."' WHERE `context` = 'ext-local' AND `extension` = '".$account."' AND `priority` = '1' LIMIT 1 ;";
 		$result = $db->query($sql);
 		if(DB::IsError($result)) {
