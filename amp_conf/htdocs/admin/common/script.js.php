@@ -248,7 +248,7 @@ function repositionTrunk(repositiondirection,repositionkey,key,direction){
 	document.getElementById('routeEdit').submit();
 }
 function deleteTrunk(key) {
-	document.getElementById('trunk'+key).value = '';
+	document.getElementById('trunkpri'+key).value = '';
 	document.getElementById('routeEdit').submit();
 }
 function repositionRoute(key,direction){
