@@ -310,10 +310,12 @@ if ($action == 'delete') {
 		<td><a href="#" class="info"><?php echo _("call recording:")?><span><?php echo _("Incoming calls to agents can be recorded. (saved to /var/spool/asterisk/monitor")?></span></a></td>
 		<td>
 			<select name="monitor-format"/>
-			<?php //setting to "no" will override sounds queue-youarenext, queue-thereare, queue-callswaitingÊ 
-				$default = (empty($thisQ['monitor-format']) ? "no" : "yes");  
-					echo '<option value="wav49" '.($default == "yes" ? 'SELECTED' : '').'>'._("Yes").'</option>';
-					echo '<option value="" '.($default == "no" ? 'SELECTED' : '').'>'._("No").'</option>';
+			<?php
+				$default = (empty($thisQ['monitor-format']) ? "no" : $thisQ['monitor-format']);  
+				echo '<option value="wav49" '.($default == "wav49" ? 'SELECTED' : '').'>'._("wav49").'</option>';
+				echo '<option value="wav" '.($default == "wav" ? 'SELECTED' : '').'>'._("wav").'</option>';
+				echo '<option value="gsm" '.($default == "gsm" ? 'SELECTED' : '').'>'._("gsm").'</option>';
+				echo '<option value="" '.($default == "no" ? 'SELECTED' : '').'>'._("No").'</option>';
 			?>	
 			</select>		
 		</td>
