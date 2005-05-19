@@ -26,11 +26,14 @@ $goto = $_REQUEST['goto0'];
 switch ($action) {
 	case 'addDID':
 	
+		$addarray = array('ext-did',$account,'1','SetVar','FROM_DID='.$account,'','0');
+		addextensions($addarray);
+			
 		if ($goto == 'from-pstn') {
-			$addarray = array('ext-did',$account,'1','Goto','from-pstn,s,1','','0');
+			$addarray = array('ext-did',$account,'2','Goto','from-pstn,s,1','','0');
 			addextensions($addarray);
 		} else {
-			setGoto($account,'ext-did','1',$goto,0);
+			setGoto($account,'ext-did','2',$goto,0);
 		}
 
 		exec($wScript1);
@@ -49,11 +52,14 @@ switch ($action) {
 
 		delextensions('ext-did',$account);
 	
+		$addarray = array('ext-did',$account,'1','SetVar','FROM_DID='.$account,'','0');
+		addextensions($addarray);
+			
 		if ($goto == 'from-pstn') {
-			$addarray = array('ext-did',$account,'1','Goto','from-pstn,s,1','','0');
+			$addarray = array('ext-did',$account,'2','Goto','from-pstn,s,1','','0');
 			addextensions($addarray);
 		} else {
-			setGoto($account,'ext-did','1',$goto,0);
+			setGoto($account,'ext-did','2',$goto,0);
 		}
 
 		exec($wScript1);
@@ -109,7 +115,7 @@ if (isset($dresults)) {
 		
 <?php 
 //get the failover destination
-$goto = getargs(ltrim($extdisplay,'DID-'),1,'ext-did');
+$goto = getargs(ltrim($extdisplay,'DID-'),2,'ext-did');
 //draw goto selects
 echo drawselects('editGRP',$goto,0);
 ?>

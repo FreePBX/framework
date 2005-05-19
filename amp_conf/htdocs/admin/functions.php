@@ -283,7 +283,7 @@ function getqueues() {
 //get the existing did extensions
 function getdids() {
 	global $db;
-	$sql = "SELECT extension FROM extensions WHERE context = 'ext-did' ORDER BY extension";
+	$sql = "SELECT extension FROM extensions WHERE context = 'ext-did' and priority ='1' ORDER BY extension";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 		die($results->getMessage());
