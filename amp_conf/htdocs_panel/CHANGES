@@ -1,5 +1,123 @@
 CHANGES to Flash Operator Panel
 
+.21
+ Apr 24 2005:
+
+  - Added voicemail_extension parameter to op_server.cfg. If set,
+    FOP will originate a call to that extension when double clicking
+    on the MWI icon.
+
+  - Added version checking between client & server
+
+  - You can disable the icon for a button by using icon=0
+
+  - Added support for Zap DND state. You have to define the 'dnd'
+    family in op_astdb.cfg
+
+  - Added astdb checks. See op_astdb.cfg and extensions.conf.sample
+    for details. You can check for day/time mode or anything that its
+    stored on asterisk db.
+
+  - Changed the PARKXXX buttons to PARK/XXX for consistency. The old
+    syntax will still work fine.
+
+  - Added monitoring for callerid instead of channel name. Use
+    [CLID/XXXXXX] as the button name in op_buttons.cfg. Its experimental
+    Commands like originates and others might not work. This kind
+    of button will work with CVS-HEAD and without using the dial 'o'
+    flag.
+
+  - Added persistent security code. It remembers your last input so
+    you don't have to complete it the next time you open FOP.
+
+  - Added Panel_Context=* to op_buttons.cfg files, with it, that entry
+    will be added to every panel context defined.
+
+  - Fixed callerid on CVS-HEAD, now it works without using
+    the dial 'o' flag
+
+  - Added agent status. It displays Idle status an its
+    timers, and refresh queue statistics after each agent
+    call. Set agent_status to 1 in op_server.cfg
+
+  - Added the option to change the led color from asterisk's
+    dialplan:
+
+    exten => 1,1,UserEvent(FOP_ledcolor|Color: 0x0000FF^State: 0)
+
+    The color can be any hex value. The State is:
+
+       0 for available status (channel not in use)
+       1 for busy status (channel in use)
+       2 for agent status (channel not in use and logged in agent)
+
+  - Added the option to fire screen pops from asterisk's
+    dialplan:
+
+    exten => 1,1,UserEvent(FOP_Popup|URL: page.php?e=${EXTEN}^Target: top)
+
+  - Removed some DOWN status events that were redundant
+
+  - Added callerid name in screen popups, look at the
+    mypage.php sample in the html directory 
+
+  - Initial Status is fetched from op_server.pl memory
+    instead of querying asterisk every time. Saves lots
+    of asterisk resources and speeds things up
+
+  - Fixed infobox bug when a button has multiple matches
+
+  - Background image. Just place a background.jpg file
+    in the same directory as the .swf file and it will
+    be displayed as the background. The canvas size is
+    996x600
+
+  - REGEXP buttons. Wildcard buttons are discarded in
+    favor of the more powerful REGEXP buttons. If you
+    use wildcard buttons, replace them with a REGEXP
+    (Ex: if you have [SIP/*] change it to [_SIP/.*])
+
+  - The security code is now optional (leave it blank
+    in op_server.cfg for no security code when performing 
+    actions)
+
+  - Added absolute timeout for transferred calls
+
+  - Added the option to restart asterisk instead of reload
+    the panel when hitting the reload button (enable_restart
+    in op_server.cfg)
+
+  - Reworked some button matching routines, now it should
+    support Modem[i4l], oh323/* and mISDN
+
+.20
+ Feb 22 2005:
+
+  - Added support for monitoring multiple asterisk servers
+
+  - Added wildcard buttons (IAX2/*)
+
+  - Added Park Slot buttons (PARK701)
+
+  - Barge Muted (barge_muted in op_server.cfg)
+        Will start the 3rd leg muted when barging in
+
+  - CallerID Privacy (clid_privacy in op_server.cfg)
+        Will hide the callerid number in the buttons
+
+  - Show IP address of peers (show_ip in op_server.cfg)
+        Will show the ip address of peers in their buttons
+
+  - Text legends (LEGEND primitive in op_buttons.cfg)
+
+  - Highlight of linked buttons
+
+  - Added Mailbox parameter to the button definition
+
+  - You can specify a channel name in the dial parameter
+    when using click-to-dial features, thus making it easier
+    to implement
+
 .19
  Nov 04 2004:
 

@@ -22,3 +22,25 @@ exten => 11,102,Dial(SIP/11,30,TrH)
 exten => 11,105,Busy
 exten => 11,203,Busy
 
+
+# Example on setting DND state from the dialplan
+# *78 Sets DND ON
+# *79 Sets DND OFF
+#
+# This example only sets the dnd db value and
+# signals FOP to display the status on the button
+# you might have to add a check in your stdext
+# macro to honour the DND status
+
+exten => *78,1,UserEvent(ASTDB|Family: dnd^State: On)
+exten => *78,2,SetVar(temp=${CHANNEL})
+exten => *78,3,Cut(temp=temp,,1)
+exten => *78,4,DBPut(dnd/${temp}=On)
+exten => *78,5,Hangup
+
+exten => *79,1,UserEvent(ASTDB|Family: dnd^State: ^)
+exten => *79,2,SetVar(temp=${CHANNEL})
+exten => *79,3,Cut(temp=temp,,1)
+exten => *79,4,DBDel(dnd/${temp})
+exten => *79,5,Hangup
+

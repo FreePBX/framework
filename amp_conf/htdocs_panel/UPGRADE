@@ -1,6 +1,46 @@
 Notes on upgrading from an older release
 ========================================
 
+o Upgrading from version .20 to .21:
+    New configuration file: op_astdb.cfg used to monitor asterisk
+    db values and change states for a button based on them.
+
+    New option: voicemail_extension parameter in op_server.cfg. 
+    If set, FOP will originate a call to that extension when 
+    double clicking on the MWI icon.
+
+    The PARK buttons are now specified as PARK/XXX
+    instead of PARKXXX to make it more consistent with
+    channel naming conventions. The old name will still
+    work.
+
+	To enable agent_status (displays agent idle
+    time and refresh queue status after each 
+    call). In op_server.cfg:
+
+		agent_status=1
+
+
+	If there is a background.jpg image in the same
+    directory as the swf file, it will be used as
+    the background for the panel. Resolution: 996x600
+
+    The syntax for wildcard buttons has changed, if 
+    you have [SIP/*] change it to [_SIP/.*]
+	The new matching routine allows full regexps to
+    be used. To use regexps buttons start them with
+    an underscore followed by your expression.
+
+	To disable the security code, leave it blank. In
+ 	op_server.cfg:
+		security_code = ""
+
+    To enable timeout on transfers, you have to set the
+    transfer_timeout paramenter to op_server.cfg
+
+    You can set the reload button to perform an asterisk
+	restart if you set enable_restart to 1 in op_server.cfg
+
 o Upgrading from version .19 to .20:
 
     You can define the server number of a button in op_buttons.cfg
