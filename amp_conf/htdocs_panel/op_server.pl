@@ -851,7 +851,8 @@ sub read_buttons_config()
             $canal_key .= "&" . $tmphash{"panel_context"};
         }
 
-        if (   ($tmphash{"position"} !~ /,/) && ($tmphash{"position"} !~ /-/)
+        if (   ($tmphash{"position"} !~ /,/)
+            && ($tmphash{"position"} !~ /-/)
             && (($canal_key =~ /\*/) || ($canal_key =~ /^_/)))
         {
 
@@ -867,7 +868,7 @@ sub read_buttons_config()
         if ($tmphash{"position"} =~ /[,-]/)
         {
 
-            my $canalidx = $tmphash{'channel'};
+            my $canalidx = $tmphash{'server'} . "^" . $tmphash{'channel'};
             if (defined($tmphash{"panel_context"})
                 && $tmphash{"panel_context"} ne "")
             {
@@ -921,6 +922,7 @@ sub read_buttons_config()
 
                 # Saves last position for the button@context
                 $lastposition{$tmphash{"panel_context"}} = $pos;
+                log_debug("** " . $tmphash{"server"} . "^$chan_trunk in position " . $pos, 16);
             }
         }
         else
@@ -1362,6 +1364,7 @@ sub get_next_trunk_button
         $canal_tipo_fop = $canalid;
         $canalid =~ s/(.*)\^(.*)/$2/g;
     }
+
     if ($canal_tipo_fop =~ /\QCAPI[\E/)
     {
         $canal_tipo_fop =~ tr/a-z/A-Z/;
@@ -1389,6 +1392,8 @@ sub get_next_trunk_button
         my ($nada, $ses) = separate_session_from_channel($canalsesion);
         $sesion = $ses;
     }
+    $canal_tipo_fop =~ tr/a-z/A-Z/;
+    log_debug("$debugh canal_tipo_fop $canal_tipo_fop", 64);
 
     my $canalconcontexto = "";
     if ($contexto ne "")
@@ -1411,24 +1416,28 @@ sub get_next_trunk_button
 
     my $canalconcontextosinserver = $canalconcontexto;
     $canalconcontextosinserver =~ s/(\d+)\^(.*)/$2/g;
-
-    if (exists($instancias{"$canalconcontextosinserver"}))
+    if ($canalconcontexto !~ /\^/)
     {
-        if (exists($instancias{"$canalconcontextosinserver"}{"$server^$canalsesion"}))
+        $canalconcontexto = $server . "^" . $canalconcontexto;
+    }
+    &print_instancias(2);
+    if (exists($instancias{"$canalconcontexto"}))
+    {
+        if (exists($instancias{"$canalconcontexto"}{"$server^$canalsesion"}))
         {
             log_debug(
-                "$debugh Found instancias($canalconcontextosinserver)($server^$canalsesion)=$instancias{\"$canalconcontextosinserver\"}{\"$server^$canalsesion\"}",
+                "$debugh Found instancias($canalconcontexto)($server^$canalsesion)=$instancias{\"$canalconcontexto\"}{\"$server^$canalsesion\"}",
                 64
             );
-            $trunk_pos = $instancias{"$canalconcontextosinserver"}{"$server^$canalsesion"};
+            $trunk_pos = $instancias{"$canalconcontexto"}{"$server^$canalsesion"};
         }
         else
         {
-            log_debug("$debugh Not Found instancias($canalconcontextosinserver)($server^$canalsesion)", 64);
+            log_debug("$debugh Not Found instancias($canalconcontexto)($server^$canalsesion)", 64);
             my %busy_slots = ();
             foreach my $key1 (sort (keys(%instancias)))
             {
-                if ($key1 eq $canalconcontextosinserver)
+                if ($key1 eq $canalconcontexto)
                 {
                     foreach my $key2 (sort (keys(%{$instancias{$key1}})))
                     {
@@ -1441,7 +1450,7 @@ sub get_next_trunk_button
             {
                 last if (!exists($busy_slots{$trunk_pos}));
             }
-            $instancias{"$canalconcontextosinserver"}{"$server^$canalsesion"} = $trunk_pos;
+            $instancias{"$canalconcontexto"}{"$server^$canalsesion"} = $trunk_pos;
         }
         $return = "$canal_tipo_fop=${trunk_pos}$contexto";
     }
@@ -1996,7 +2005,15 @@ sub find_panel_buttons
                 log_debug("$debugh context match buttons ( $_ )  $canal $contexto", 32);
                 $canalfinal = $canal;
             }
-            if ($_ =~ /^$server\^CLID\/$calleridnum\&?/)
+            elsif ($_ =~ /^\Q$server^$canal\E=/)
+            {
+                log_debug("$debugh trunk match ( $_ )  $canal $contexto", 32);
+                $canalfinal = get_next_trunk_button($canalsesion, $contexto, $server, $canalsesion);
+                print "canalfinal $canalfinal\n";
+                $canalfinal =~ s/(.*)\^(.*)/$2/g;
+                print "canalfinal $canalfinal\n";
+            }
+            elsif ($_ =~ /^$server\^CLID\/$calleridnum\&?/)
             {
 
                 log_debug("$debugh clid match ( $_ )  $canal $contexto", 32);
@@ -2051,7 +2068,7 @@ sub find_panel_buttons
             {
                 $regexp = $_;
                 $regexp =~ /^(\d+)\^_([^=&]*)(=[^&]*)?(\&.*)?/;
-                my $server = $1;
+                my $serverb = $1;
                 $regexp = $2;
                 my $posicion = $3;
                 my $contexto = "";
@@ -2077,7 +2094,10 @@ sub find_panel_buttons
                         # No es un trunk
                         $canalfinal = $_;
                     }
-                    push @canales, $canalfinal;
+                    if ($canalfinal ne "")
+                    {
+                        push @canales, $canalfinal;
+                    }
                 }
             }
         }
@@ -2105,6 +2125,10 @@ sub find_panel_buttons
     if ($cuantoscanales > 0)
     {
         $cache_hit{$indice_cache} = [@canales];
+    }
+    foreach (@canales)
+    {
+        log_debug("$debugh cache button $_", 128);
     }
     return @canales;
 }
@@ -3982,6 +4006,9 @@ sub digest_event_block
 
                         if (   $quehace !~ /^ocupado/
                             && $quehace !~ /^corto/
+                            && $quehace !~ /^state/
+                            && $quehace !~ /^settext/
+                            && $quehace !~ /^setlabel/
                             && $quehace !~ /^setlink/
                             && $quehace !~ /^meetme/
                             && $quehace !~ /^ring/
@@ -4778,6 +4805,7 @@ while (1)
                     {
                         if ($handle_manager_connected eq $handle)
                         {
+
                             $bloque_final = $bloque_final . "Server: $que_manager";
                         }
                         $que_manager++;
