@@ -25,27 +25,57 @@ use integer;
 
 use IO::Socket;
 use IO::Select;
-use POSIX qw(setsid);
+use Fcntl;
+use POSIX qw(setsid EWOULDBLOCK);
 
+my $FOP_VERSION                = "021.001";
 my %datos                      = ();
 my %sesbot                     = ();
 my %linkbot                    = ();
+my %cache_hit                  = ();
 my %estadoboton                = ();
 my %statusboton                = ();
+my %botonled                   = ();
+my %botonalpha                 = ();
+my %botonregistrado            = ();
+my %botontext                  = ();
+my %boton_ip                   = ();
+my %botonlabel                 = ();
+my %botontimer                 = ();
+my %botonpark                  = ();
+my %botonmeetme                = ();
+my %botonclid                  = ();
+my %botonqueue                 = ();
+my %botonqueuemember           = ();
+my %botonvoicemail             = ();
+my %botonvoicemailcount        = ();
+my %botonlinked                = ();
 my %parked                     = ();
 my %laststatus                 = ();
+my %autenticado                = ();
 my %auto_conference            = ();
 my %buttons                    = ();
 my %button_server              = ();
 my %buttons_reverse            = ();
 my %textos                     = ();
 my %iconos                     = ();
+my %remote_callerid            = ();
+my %remote_callerid_name       = ();
 my %extension_transfer         = ();
 my %extension_transfer_reverse = ();
 my %flash_contexto             = ();
+my %saved_clidnum              = ();
+my %saved_clidname             = ();
 my %keys_socket                = ();
 my %manager_socket             = ();
 my %start_muted                = ();
+my %timeouts                   = ();
+my %no_rectangle               = ();
+my %astdbcommands              = ();
+my %client_queue               = ();
+my %manager_queue              = ();
+my %client_queue_nocrypt       = ();
+my %ip_addy                    = ();
 my $config                     = {};
 my $global_verbose             = 1;
 my $counter_servers            = -1;
@@ -54,14 +84,16 @@ my $bloque_final;
 my $todo;
 my @bloque;
 my @respuestas;
+my @all_flash_files;
 my @masrespuestas;
 my @fake_bloque;
 my @flash_clients;
 my @status_active;
 my %mailbox;
 my %instancias;
-my %orden_instancias;
 my %agents;
+my %channel_to_agent;
+my %reverse_agents;
 my %agents_name;
 my @p;
 my $m;
@@ -76,7 +108,7 @@ my $web_hostname;
 my $listen_port;
 my $security_code;
 my $flash_dir;
-my $mandapolicy = "";
+my $restrict_channel = "";
 my $socketpolicy;
 my $poll_interval;
 my $poll_voicemail;
@@ -84,14 +116,17 @@ my $kill_zombies;
 my $ren_agentlogin;
 my $ren_cbacklogin;
 my $ren_agentname;
+my $agent_status;
 my $ren_queuemember;
 my $ren_wildcard;
 my $clid_privacy;
 my $show_ip;
+my $enable_restart;
 my $change_led;
 my $cdial_nosecure;
 my $barge_muted;
-my $debug;
+my $debug       = -1;
+my $debug_cache = "";
 my $flash_file;
 my %barge_rooms;
 my %barge_context;
@@ -112,18 +147,16 @@ my %total_legends;
 my %lastposition;
 my @btninclude = ();
 my $command    = "";
-my $firstpass  = 1;
+my $daemonized = 0;
 
 my $PADDING = join(
                    '',
                    map(chr,
                        (
-                        0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0,    0, 0, 0
+                        0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                        ))
                   );
 my %a2b = (
@@ -211,6 +244,7 @@ if (defined($ARGV[0]))
         open MYPIDFILE, ">/var/run/op_panel.pid";
         print MYPIDFILE $$;
         close MYPIDFILE;
+        $daemonized = 1;
     }
 }
 
@@ -289,12 +323,14 @@ sub read_server_config()
     $ren_cbacklogin   = $config->{"GENERAL"}{"rename_label_callbacklogin"};
     $ren_wildcard     = $config->{"GENERAL"}{"rename_label_wildcard"};
     $ren_agentname    = $config->{"GENERAL"}{"rename_to_agent_name"};
+    $agent_status     = $config->{"GENERAL"}{"agent_status"};
     $ren_queuemember  = $config->{"GENERAL"}{"rename_queue_member"};
     $change_led       = $config->{"GENERAL"}{"change_led_agent"};
     $cdial_nosecure   = $config->{"GENERAL"}{"clicktodial_insecure"};
     $barge_muted      = $config->{"GENERAL"}{"barge_muted"};
     $clid_privacy     = $config->{"GENERAL"}{"clid_privacy"};
     $show_ip          = $config->{"GENERAL"}{"show_ip"};
+    $enable_restart   = $config->{"GENERAL"}{"enable_restart"};
 
     my @todos_los_rooms;
     foreach my $val ($config)
@@ -306,6 +342,10 @@ sub read_server_config()
                 if ($cc eq "barge_rooms")
                 {
                     ($first_room, $last_room) = split(/-/, $dd);
+                    if (!defined($last_room))
+                    {
+                        $last_room = $first_room;
+                    }
                     my @arrayroom = $first_room .. $last_room;
                     foreach (@arrayroom)
                     {
@@ -322,6 +362,7 @@ sub read_server_config()
     $clid_format    = $config->{"GENERAL"}{"clid_format"};
 
     $flash_file = $flash_dir . "/variables.txt";
+    push @all_flash_files, $flash_file;
 
     if (!defined $web_hostname)
     {
@@ -364,9 +405,17 @@ sub read_server_config()
     {
         $barge_muted = 0;
     }
+    if (!defined $enable_restart)
+    {
+        $enable_restart = 0;
+    }
     if (!defined $cdial_nosecure)
     {
         $cdial_nosecure = 0;
+    }
+    if (!defined $agent_status)
+    {
+        $agent_status = 1;
     }
     if (!defined $ren_agentname)
     {
@@ -399,6 +448,13 @@ sub read_server_config()
     if (!defined $debug)
     {
         $debug = 0;
+    }
+    else
+    {
+        if ($daemonized == 1)
+        {
+            $debug = 0;
+        }
     }
     $/ = "\0";
 }
@@ -454,11 +510,49 @@ sub collect_includes
     }
 }
 
+sub read_astdb_config()
+{
+    $/ = "\n";
+    if (-e "$directorio/op_astdb.cfg")
+    {
+        open(ASTDB, "<$directorio/op_astdb.cfg")
+          or die("Could not open op_astdb.cfg. Aborting...");
+        my $contador = 0;
+        my $key      = "";
+        while (<ASTDB>)
+        {
+            chomp;
+            $_ =~ s/^\s+//g;
+            $_ =~ s/([^;]*)[;](.*)/$1/g;
+            $_ =~ s/\s+$//g;
+
+            if (/^#/ || /^;/ || /^$/)
+            {
+                next;
+            }    # Ignores comments and empty lines
+
+            if (/^\Q[\E/)
+            {
+                s/\[(.*)\]/$1/g;
+                $key = $_;
+            }
+            else
+            {
+                push @{$astdbcommands{$key}}, $_;
+            }
+        }
+    }
+
+    $/ = "\0";
+}
+
 sub read_buttons_config()
 {
     my @btn_cfg  = ();
     my $contador = -1;
     my @uniq;
+    my $no_counter = 0;
+    my @contextos  = ();
 
     $/ = "\n";
 
@@ -470,9 +564,8 @@ sub read_buttons_config()
 
     foreach my $archivo (@uniq)
     {
-
         open(CONFIG, "< $directorio/$archivo")
-          or die("Could not open op_buttons.cfg. Aborting...");
+          or die("Could not open $directorio/$archivo. Aborting...");
 
         # Read op_buttons.cfg loading it into a hash for easier processing
 
@@ -491,7 +584,7 @@ sub read_buttons_config()
             {
                 $contador++;
                 s/\[(.*)\]/$1/g;
-                if (!/^Local/i)
+                if (!/^Local/i && !/^_/)
                 {
                     tr/a-z/A-Z/;
                 }
@@ -506,26 +599,77 @@ sub read_buttons_config()
                 $key =~ s/(.*)\s+/$1/g;
                 if (   $key ne "label"
                     && $key ne "font_family"
-                    && $key ne "text")
+                    && $key ne "text"
+                    && $key ne "mailbox"
+                    && $key ne "voicemail_context")
                 {
                     $val =~ s/^\s+//g;
                     $val =~ s/(.*)\s+/$1/g;
                 }
                 $btn_cfg[$contador]{"$key"} = $val;
+                if ($key eq "panel_context")
+                {
+                    push @contextos, $val;
+                }
             }
         }
 
         close(CONFIG);
     }
 
+    my %seen2 = ();
+    my @uniq2 = grep { !$seen2{$_}++ } @contextos;
+    @contextos = @uniq2;
+    @uniq2     = grep { !/\*/ } @contextos;
+    @contextos = @uniq2;
+    push @contextos, "DEFAULT";
+
+    # Pass to replicate panel_context=* configuration
+    my @copy_cfg = ();
+    @copy_cfg = @btn_cfg;
+    foreach (@copy_cfg)
+    {
+        my %tmphash = %$_;
+        if (defined($tmphash{"panel_context"}))
+        {
+            if ($tmphash{"panel_context"} eq "*")
+            {
+                foreach my $contextoahora (@contextos)
+                {
+                    $contador++;
+                    while (my ($key, $val) = each(%tmphash))
+                    {
+                        if ($key eq "panel_context")
+                        {
+                            $val = $contextoahora;
+                        }
+                        $btn_cfg[$contador]{"$key"} = $val;
+                    }
+                }
+            }
+        }
+    }
+
     # We finished reading the file, now we populate our
     # structures with the relevant data
     my %rectangles_counter;
     my %legends_counter;
+
     foreach (@btn_cfg)
     {
         my @positions = ();
         my %tmphash   = %$_;
+
+        if (defined($tmphash{"panel_context"}))
+        {
+            if ($tmphash{"panel_context"} eq "*")
+            {
+
+                # We skip the * panel_context because we already
+                # expand them to every context possible before
+                next;
+            }
+        }
 
         if ($tmphash{"channel"} eq "LEGEND")
         {
@@ -571,8 +715,7 @@ sub read_buttons_config()
                 $legends{$conttemp} .= "&";
             }
             $total_legends{$conttemp}++;
-            $legends{$conttemp} .=
-              "legend_$legends_counter{$conttemp}=" . $tmphash{"x"} . ",";
+            $legends{$conttemp} .= "legend_$legends_counter{$conttemp}=" . $tmphash{"x"} . ",";
             $legends{$conttemp} .= $tmphash{"y"} . ",";
             $legends{$conttemp} .= $tmphash{"text"} . ",";
             $legends{$conttemp} .= $tmphash{"font_size"} . ",";
@@ -645,8 +788,7 @@ sub read_buttons_config()
                 $shapes{$conttemp} .= "&";
             }
             $total_shapes{$conttemp}++;
-            $shapes{$conttemp} .=
-              "rect_$rectangles_counter{$conttemp}=" . $tmphash{"x"} . ",";
+            $shapes{$conttemp} .= "rect_$rectangles_counter{$conttemp}=" . $tmphash{"x"} . ",";
             $shapes{$conttemp} .= $tmphash{"y"} . ",";
             $shapes{$conttemp} .= $tmphash{"width"} . ",";
             $shapes{$conttemp} .= $tmphash{"height"} . ",";
@@ -662,11 +804,7 @@ sub read_buttons_config()
 
         if (!defined($tmphash{"position"}))
         {
-
-            log_debug(
-                "** Ignoring button configuration $tmphash{'channel'}, position?",
-                16
-            );
+            log_debug("** Ignored button $tmphash{'channel'}, position?", 16);
             next;
         }
 
@@ -686,10 +824,17 @@ sub read_buttons_config()
 
         if (!defined($tmphash{"icon"}))
         {
-            $tmphash{"icon"} = "1";
+            $tmphash{"icon"} = "0";
         }
 
         my $canal_key = $tmphash{"channel"};
+
+        if ($canal_key =~ m/^PARK\d/)
+        {
+
+            # Change the PARKXXX tu PARK/XXX
+            $canal_key =~ s/PARK(.*)/PARK\/$1/g;
+        }
 
         if (defined($tmphash{"panel_context"}))
         {
@@ -706,7 +851,8 @@ sub read_buttons_config()
             $canal_key .= "&" . $tmphash{"panel_context"};
         }
 
-        if (($tmphash{"position"} !~ /,/) && ($canal_key =~ /\*/))
+        if (   ($tmphash{"position"} !~ /,/) && ($tmphash{"position"} !~ /-/)
+            && (($canal_key =~ /\*/) || ($canal_key =~ /^_/)))
         {
 
             # If it's a wildcard button with just one position
@@ -715,10 +861,12 @@ sub read_buttons_config()
             my $pos = $tmphash{"position"};
             $pos =~ s/(\d+),(\d+)/$1/g;
             $tmphash{"position"} = "$pos,$pos";
+            $no_counter = 1;
         }
 
-        if ($tmphash{"position"} =~ /,/)
+        if ($tmphash{"position"} =~ /[,-]/)
         {
+
             my $canalidx = $tmphash{'channel'};
             if (defined($tmphash{"panel_context"})
                 && $tmphash{"panel_context"} ne "")
@@ -726,8 +874,29 @@ sub read_buttons_config()
                 $canalidx .= "&" . $tmphash{"panel_context"};
             }
 
-            $instancias{"$tmphash{'server'}^$canalidx"} = [];
-            @positions = split(/,/, $tmphash{"position"});
+            $instancias{"$canalidx"}{""} = 0;
+
+            my @ranges = split(/,/, $tmphash{"position"});
+            foreach my $valu (@ranges)
+            {
+                if ($valu !~ m/-/)
+                {
+                    push @positions, $valu;
+                }
+                else
+                {
+                    my @range2 = split(/-/, $valu);
+                    my $menor = $range2[0] < $range2[1] ? $range2[0] : $range2[1];
+                    my $mayor = $range2[0] > $range2[1] ? $range2[0] : $range2[1];
+                    my @newrange = $menor .. $mayor;
+                    foreach my $valevale (@newrange)
+                    {
+                        push @positions, $valevale;
+                    }
+                }
+            }
+
+            #@positions = split(/,/, $tmphash{"position"});
             my $count = 0;
             foreach my $pos (@positions)
             {
@@ -742,7 +911,11 @@ sub read_buttons_config()
                 }
 
                 $buttons{"$tmphash{'server'}^$chan_trunk"} = $pos;
-                $textos{"$indice_contexto"} = $tmphash{"label"} . " " . $count;
+                $textos{"$indice_contexto"}                = $tmphash{"label"};
+                if ($no_counter == 0)
+                {
+                    $textos{"$indice_contexto"} .= " " . $count;
+                }
                 $iconos{"$indice_contexto"} = $tmphash{"icon"};
                 $button_server{"$pos"}      = $tmphash{"server"};
 
@@ -769,21 +942,16 @@ sub read_buttons_config()
                 $lastposition{$tmphash{"panel_context"}} = $lastpos;
             }
 
-            log_debug("** " . $tmphash{"channel"} . " in position " . $lastpos,
-                      16);
+            log_debug("** " . $tmphash{"channel"} . " in position " . $lastpos, 16);
 
             if ($tmphash{"panel_context"} ne "")
             {
 
-                $buttons{"$tmphash{'server'}^$canal_key"} =
-                  $lastpos . "\@" . $tmphash{'panel_context'};
+                $buttons{"$tmphash{'server'}^$canal_key"} = $lastpos . "\@" . $tmphash{'panel_context'};
 
-                $textos{"$lastpos\@$tmphash{'panel_context'}"} =
-                  $tmphash{"label"};
-                $iconos{"$lastpos\@$tmphash{'panel_context'}"} =
-                  $tmphash{"icon"};
-                $button_server{$buttons{"$tmphash{'server'}^$canal_key"}} =
-                  $tmphash{"server"};
+                $textos{"$lastpos\@$tmphash{'panel_context'}"}            = $tmphash{"label"};
+                $iconos{"$lastpos\@$tmphash{'panel_context'}"}            = $tmphash{"icon"};
+                $button_server{$buttons{"$tmphash{'server'}^$canal_key"}} = $tmphash{"server"};
             }
             else
             {
@@ -792,11 +960,30 @@ sub read_buttons_config()
                     $canal_key .= "=1";
                 }
 
-                $buttons{"$tmphash{'server'}^$canal_key"} = $lastpos;
-                $textos{$lastpos}                         = $tmphash{"label"};
-                $iconos{$lastpos}                         = $tmphash{"icon"};
-                $button_server{$buttons{"$tmphash{'server'}^$canal_key"}} =
-                  $tmphash{"server"};
+                $buttons{"$tmphash{'server'}^$canal_key"}                 = $lastpos;
+                $textos{$lastpos}                                         = $tmphash{"label"};
+                $iconos{$lastpos}                                         = $tmphash{"icon"};
+                $button_server{$buttons{"$tmphash{'server'}^$canal_key"}} = $tmphash{"server"};
+            }
+        }
+
+        if (defined($tmphash{"no_rectangle"}))
+        {
+            my $count = @positions;
+            if ($count == 0)
+            {
+                push @positions, $lastposition{$tmphash{'panel_context'}};
+            }
+
+            if ($tmphash{"no_rectangle"} eq "true")
+            {
+                my $pcont = $tmphash{"panel_context"};
+                if ($pcont eq "") { $pcont = "GENERAL"; }
+                foreach my $pos (@positions)
+                {
+                    $pos =~ s/\@$pcont//g;
+                    $no_rectangle{$pcont}{$pos} = 1;
+                }
             }
         }
 
@@ -809,13 +996,11 @@ sub read_buttons_config()
             }
             else
             {
-                $extension_transfer{"$tmphash{'server'}^$canal_key"} =
-                  $tmphash{"extension"};
+                $extension_transfer{"$tmphash{'server'}^$canal_key"} = $tmphash{"extension"};
             }
             if (defined($tmphash{"voicemail_context"}))
             {
-                $mailbox{"$tmphash{'server'}^$canal_key"} =
-                  $tmphash{"extension"} . "@" . $tmphash{"voicemail_context"};
+                $mailbox{"$tmphash{'server'}^$canal_key"} = $tmphash{"extension"} . "@" . $tmphash{"voicemail_context"};
             }
         }
         if (defined($tmphash{"mailbox"}))
@@ -866,16 +1051,50 @@ sub genera_config
         if ($_ =~ /\@/)
         {
             my @partes = split(/\@/);
-            push(@contextos, $partes[1]);
+            if ($partes[1] ne "*")
+            {
+                push(@contextos, $partes[1]);
+            }
         }
     }
 
     # Writes default context variables.txt
     open(VARIABLES, ">$flash_file")
-      or die(
-        "Could not write configuration data $flash_file.\nCheck your file permissions\n"
-      );
-    print VARIABLES "server=$web_hostname&port=$listen_port";
+      or die("Could not write configuration data $flash_file.\nCheck your file permissions\n");
+    print VARIABLES "server=$web_hostname&port=$listen_port&restart=$enable_restart";
+
+    if ($config->{"GENERAL"}{"security_code"} eq "")
+    {
+        print VARIABLES "&nosecurity=1";
+    }
+
+    if (defined($config->{"GENERAL"}{"transfer_timeout"}))
+    {
+        my @partes = split(/\|/, $config->{"GENERAL"}{"transfer_timeout"});
+        my $cuantos = @partes;
+        print VARIABLES "&totaltimes=$cuantos";
+        my $contador = 1;
+        foreach (@partes)
+        {
+            print VARIABLES "&timeout_$contador=$_";
+            $contador++;
+        }
+    }
+    else
+    {
+        print VARIABLES "&totaltimes=0";
+    }
+
+    if ($no_rectangle{"GENERAL"})
+    {
+        my $pos_no_dibujar = "";
+        while (my ($key, $val) = each(%{$no_rectangle{'GENERAL'}}))
+        {
+            $pos_no_dibujar .= "$key,";
+        }
+        $pos_no_dibujar = substr($pos_no_dibujar, 0, -1);
+        print VARIABLES "&nodraw=$pos_no_dibujar";
+    }
 
     while (my ($key, $val) = each(%shapes))
     {
@@ -953,11 +1172,47 @@ sub genera_config
         }
 
         my $flash_context_file = $directorio . "/variables" . $_ . ".txt";
+        push @all_flash_files, $flash_context_file;
         open(VARIABLES, ">$flash_context_file")
-          or die(
-            "Could not write configuration data $flash_file.\nCheck your file permissions\n"
-          );
-        print VARIABLES "server=$host_web&port=$listen_port";
+          or die("Could not write configuration data $flash_context_file.\nCheck your file permissions\n");
+        print VARIABLES "server=$host_web&port=$listen_port&restart=$enable_restart";
+
+        if (defined($config->{$_}{"security_code"}))
+        {
+            if ($config->{"$_"}{"security_code"} eq "")
+            {
+                print VARIABLES "&nosecurity=1";
+            }
+        }
+
+        if (defined($config->{"$_"}{"transfer_timeout"}))
+        {
+            my @partes = split(/\|/, $config->{"$_"}{"transfer_timeout"});
+            my $cuantos = @partes;
+            print VARIABLES "&totaltimes=$cuantos";
+            my $contador = 1;
+            foreach (@partes)
+            {
+                print VARIABLES "&timeout_$contador=$_";
+                $contador++;
+            }
+        }
+        else
+        {
+            print VARIABLES "&totaltimes=0";
+        }
+
+        if ($no_rectangle{$_})
+        {
+            my $pos_no_dibujar = "";
+            while (my ($key, $val) = each(%{$no_rectangle{$_}}))
+            {
+                $pos_no_dibujar .= "$key,";
+            }
+            $pos_no_dibujar = substr($pos_no_dibujar, 0, -1);
+            print VARIABLES "&nodraw=$pos_no_dibujar";
+        }
+
         while (my ($key, $val) = each(%shapes))
         {
             if ($key eq $_)    # OTHER CONTEXT
@@ -987,7 +1242,10 @@ sub genera_config
         while (my ($key, $val) = each(%iconos))
         {
             $val =~ s/\"(.*)\"/$1/g;
-            if ($key =~ /\@$_$/)
+            my $contextoboton = $key;
+            $contextoboton =~ s/(.*)\@(.*)/$2/g;
+            $contextoboton =~ tr/a-z/A-Z/;
+            if ($contextoboton eq $_)
             {
                 $key =~ s/(\d+)\@.+/$1/g;
                 print VARIABLES "&icono$key=$val";
@@ -1043,52 +1301,20 @@ sub dump_internal_hashes_to_stdout
         &print_linkbot();
     }
 
-    if (keys(%estadoboton))
-    {
-        print "---------------------------------------------------\n";
-        print "ESTADO BOTONES\n";
-        print "---------------------------------------------------\n";
-        for (keys %estadoboton)
-        {
-            my $separador = 0;
-            my $nroboton  = $_;
-            print
-              "$nroboton\t $estadoboton{$nroboton}\t $statusboton{$nroboton}\n";
-        }
-        print "---------------------------------------------------\n";
-    }
-    else
-    {
-        print "No estadoboton populated\n";
-    }
+    &print_cachehit();
 
-    my $number_of_flash_clients_connected = @flash_clients;
-
-    if ($number_of_flash_clients_connected > 0)
+    print "\n";
+    while (my ($key, $val) = each(%timeouts))
     {
-        print "\nFlash clients connected: $number_of_flash_clients_connected\n";
-        print "---------------------------------------------------\n";
-
-        foreach my $C (@flash_clients)
-        {
-            print "$C : ";
-            my $sockaddr = $C->peername;
-            if (defined($sockaddr))
-            {
-                my ($port, $inetaddr) = sockaddr_in($sockaddr);
-                my $ip_address = inet_ntoa($inetaddr);
-                print "$ip_address\n";
-            }
-            else { print " is closed\n "; }
-
-            #print "\n";
-        }
-        print "---------------------------------------------------\n";
+        print "Timer($key)=$val\n";
     }
-    else
-    {
-        print "\nNo flash clients connected\n\n";
-    }
+    print "\n";
+
+    &print_status();
+
+    &print_clients();
+
+    &print_cola_write();
 }
 
 sub generate_configs_onhup
@@ -1101,23 +1327,31 @@ sub generate_configs_onhup
     %legends            = ();
     %total_shapes       = ();
     %total_legends      = ();
-    read_buttons_config();
-    read_server_config();
-    genera_config();
+    &read_buttons_config();
+    &read_server_config();
+    &read_astdb_config();
+    &genera_config();
+    &send_initial_status();
 }
 
 sub get_next_trunk_button
 {
     my $canalid        = shift;
+    my $contexto       = shift;
     my $server         = shift;
+    my $canalsesion    = shift;
     my $canal_tipo_fop = "";
     my $canal;
     my $sesion;
+    my $return = "";
     my @uniq;
-    my $btn_num;
+    my $trunk_pos;
     my $debugh = "** GET_NEXT_TRUNK";
 
-    log_debug("$debugh canalid $canalid", 64);
+    # This routine mantains and returns the position of each channel inside
+    # a trunk button.
+
+    log_debug("$debugh START SUB $canalid $contexto $server $canalsesion", 16);
 
     if ($canalid !~ /\^/)
     {
@@ -1137,20 +1371,29 @@ sub get_next_trunk_button
     $canal_tipo_fop =~ s/\s+//g;
     $canal_tipo_fop =~ s/(.*)[-\/](.*)/$1/g;
     $sesion = $2;
-    $sesion =~ s/(.*)\&(.*)/$1/g;    # removes context if it has any
-    $canal_tipo_fop =~ s/IAX2\/(.*)@(.*)/IAX2\/$1/g;
-    $canal_tipo_fop =~ s/IAX2\[(.*)@(.*)\]/IAX2\[$1\]/g;
+    $sesion         =~ s/(.*)\&(.*)/$1/g;                              # removes context if it has any
+    $canal_tipo_fop =~ s/(\d+\^IAX2\/)(.*)@?(.*)?/$1\U$2\E/g;
+    $canal_tipo_fop =~ s/(\d+\^IAX2)\[(.*)@?(.*)?\]?/$1\[\U$2\E\]/g;
+    log_debug("$debugh canal_tipo_fop $canal_tipo_fop", 64);
 
-    log_debug("$debugh canal_tipo_fop $canal_tipo_fop", 128);
-
-    my ($nada, $contexto) = split(/\&/, $canalid);
-    if (!defined($contexto)) { $contexto = ""; }
+    if ($canalid =~ /^_.*/)
+    {
+        $canal_tipo_fop = $canalid;
+        $canal_tipo_fop =~ /([^=].*)(=\d+)(.*)/;
+        $canal_tipo_fop = $1;
+        if (defined($3))
+        {
+            $contexto = $3;
+        }
+        log_debug("$debugh contexto $contexto", 32);
+        my ($nada, $ses) = separate_session_from_channel($canalsesion);
+        $sesion = $ses;
+    }
 
     my $canalconcontexto = "";
     if ($contexto ne "")
     {
-        $canalconcontexto = "$canal_tipo_fop&$contexto";
-        $contexto         = "&$contexto";
+        $canalconcontexto = "$canal_tipo_fop$contexto";
     }
     else
     {
@@ -1162,78 +1405,47 @@ sub get_next_trunk_button
     {
 
         # Si la sesion es XXXX devuelve siempre el 1er boton
-        #              print "GET_NEXT_TRUNK sesion XXXX return 1st\n";
+        log_debug("$debugh return $canal_tipo_fop=1$contexto (1st one)", 64);
         return "$canal_tipo_fop=1$contexto";
     }
 
-    if (!defined($orden_instancias{"$server^$canalid"}))
-    {
-        log_debug("$debugh no esta definido orden_instancias($server^$canalid)",
-                  128);
-        log_debug("$debugh hago grep a instancias($canalconcontexto)", 128);
+    my $canalconcontextosinserver = $canalconcontexto;
+    $canalconcontextosinserver =~ s/(\d+)\^(.*)/$2/g;
 
-        foreach my $pepe (@{$instancias{$canalconcontexto}})
+    if (exists($instancias{"$canalconcontextosinserver"}))
+    {
+        if (exists($instancias{"$canalconcontextosinserver"}{"$server^$canalsesion"}))
         {
-            log_debug("$debugh que hay instancias($canalconcontexto) = $pepe",
-                      128);
+            log_debug(
+                "$debugh Found instancias($canalconcontextosinserver)($server^$canalsesion)=$instancias{\"$canalconcontextosinserver\"}{\"$server^$canalsesion\"}",
+                64
+            );
+            $trunk_pos = $instancias{"$canalconcontextosinserver"}{"$server^$canalsesion"};
         }
-
-        my $btn_num = @{$instancias{$canalconcontexto}};
-        $btn_num++;
-
-        #        my $btn_num = 1;
-        #        foreach my $val (@{$instancias{$canalconcontexto}})
-        #        {
-        #            $btn_num++;
-        #        }
-
-        $orden_instancias{"$server^$canalid"} = $btn_num;
-    }
-    else
-    {
-        log_debug(
-            "$debugh esta definido orden_instancias($server^$canalid) y vale $orden_instancias{\"$server^$canalid\"}",
-            128
-        );
-    }
-
-    log_debug("$debugh existe instancias($canalconcontexto)?", 32);
-
-    if (exists($instancias{"$canalconcontexto"}))
-    {
-        log_debug(
-            "$debugh si existe, esta definido instancias($canalconcontexto) le agrego $canalid",
-            128
-        );
-        push @{$instancias{"$canalconcontexto"}}, $canalid;
-        my %seen = ();
-        @uniq = grep { !$seen{$_}++ } @{$instancias{$canalconcontexto}};
-        delete $instancias{"$canalconcontexto"};
-        $instancias{"$canalconcontexto"} = [@uniq];
-        my $contador = 0;
-
-        foreach my $valor (@uniq)
+        else
         {
-            $contador++;
-            log_debug("$debugh loop instancias $valor es igual a $canalid?",
-                      128);
-            if ($valor eq $canalid)
+            log_debug("$debugh Not Found instancias($canalconcontextosinserver)($server^$canalsesion)", 64);
+            my %busy_slots = ();
+            foreach my $key1 (sort (keys(%instancias)))
             {
-                my $queboton = $orden_instancias{"$server^$canalid"};
-                log_debug("$debugh coincide, el orden es $queboton", 128);
-
-                log_debug(
-                         "$debugh returns $canal_tipo_fop=${queboton}$contexto",
-                         128);
-                return "$canal_tipo_fop=${queboton}$contexto";
+                if ($key1 eq $canalconcontextosinserver)
+                {
+                    foreach my $key2 (sort (keys(%{$instancias{$key1}})))
+                    {
+                        my $indice = $instancias{$key1}{$key2};
+                        $busy_slots{$indice} = 1;
+                    }
+                }
             }
+            for ($trunk_pos = 1 ; ; $trunk_pos++)
+            {
+                last if (!exists($busy_slots{$trunk_pos}));
+            }
+            $instancias{"$canalconcontextosinserver"}{"$server^$canalsesion"} = $trunk_pos;
         }
+        $return = "$canal_tipo_fop=${trunk_pos}$contexto";
     }
-    else
-    {
-        log_debug("$debugh NO esta definido instancias($canalconcontexto)",
-                  128);
-    }
+    return $return;
 }
 
 sub separate_session_from_channel
@@ -1241,10 +1453,22 @@ sub separate_session_from_channel
     my $elemento = shift;
     my $debugh   = "** SEPARATE_SESSION_FROM_CHAN";
     log_debug("$debugh elemento1 $elemento", 32);
-    if ($elemento !~ /[-\/].+$/)
+    if ($elemento !~ /.*[-\/].*[-\/].+$/)
     {
-        $elemento .= "-XXXX";
+        if ($elemento =~ /^OH323/ || $elemento =~ /^\QMODEM[I4l]\E/i || $elemento =~ /^mISDN/i)
+        {
+            $elemento =~ s/(.*)\/(.*)/\U$1\E\/${2}-${2}/g;
+        }
+        else
+        {
+            $elemento .= "-XXXX";
+        }
     }
+    if ($elemento =~ /^mISDN/i)
+    {
+        $elemento =~ s/(.*)\/(.*)/\U$1\E\/${2}-${2}/g;
+    }
+    log_debug("$debugh elemento1 $elemento", 32);
     $elemento =~ s/(.*)[-\/](.*)/$1\t$2/g;
     log_debug("$debugh elemento2 $elemento", 32);
     my $canal  = $1;
@@ -1263,6 +1487,32 @@ sub separate_session_from_channel
     return @partes;
 }
 
+sub peerinfo
+{
+    my $sock  = shift;
+    my $short = shift;
+    if ($sock eq "")
+    {
+        return "";
+    }
+    if (defined($sock->peeraddr))
+    {
+        if (defined($short))
+        {
+            return $sock->peerhost;
+        }
+        else
+        {
+            return sprintf("%s:%s", $sock->peerhost, $sock->peerport);
+        }
+
+    }
+    else
+    {
+        return "";
+    }
+}
+
 sub erase_instances_for_trunk_buttons
 {
     my $canalid          = shift;
@@ -1278,7 +1528,7 @@ sub erase_instances_for_trunk_buttons
     $canalid          = "$server^$canalid";
     $canalid =~ s/(.*)<(.*)>/$1/g;    #discards ZOMBIE or MASQ
 
-    log_debug("$debugh canalid $canalid canal $canal", 16);
+    log_debug("$debugh canalid $canalid canal $canal", 1);
 
     $canalglobal = $canalid;
     $canalglobal =~ s/(.*)[-\/](.*)/$1/g;
@@ -1320,104 +1570,19 @@ sub erase_instances_for_trunk_buttons
         $sesiontemp =~ s/(.*)\/(.*)-(.*)/\U$1\E\/${2}-${sesiontemp2}${3}/g;
     }
 
-    log_debug("$debugh buscando instancias($canalconcontexto)", 128);
+    log_debug("$debugh looking for $canalid on instancias to erase it", 128);
 
-    if (defined($instancias{"$canalconcontexto"}))
+    foreach my $key1 (sort (keys(%instancias)))
     {
-        log_debug(
-            "$debugh canalid $canalid instancias($canalconcontexto) esta definido",
-            16
-        );
-
-        foreach $valor (@{$instancias{$canalconcontexto}})
+        foreach my $key2 (sort (keys(%{$instancias{$key1}})))
         {
-
-            if ($valor ne $canalidsinserver)
+            if ($key2 eq $canalid)
             {
-                push(@new, $valor);
+                delete $instancias{$key1}{$key2};
+                log_debug("$debugh Erasing $canalid from instanacias!", 128);
             }
-        }
-        delete $instancias{"$canalconcontexto"};
-        delete $orden_instancias{"$canalid"};
-        log_debug("$debugh erasing instancias($canalconcontexto)", 32);
-        log_debug("$debugh erasing orden_instancias($canalid)",    32);
-
-        my $cuantos = @new;
-        if ($cuantos == 0)
-        {
-            $instancias{$canalconcontexto} = [];
-            log_debug("$debugh instancias($canalconcontexto) esta vacio", 32);
-        }
-        else
-        {
-            $instancias{$canalconcontexto} = [@new];
-        }
-        foreach $valor (@new)
-        {
-            log_debug(
-                "$debugh instancia($canalconcontexto) Session remaining: $valor",
-                64
-            );
         }
     }
-    else
-    {
-        log_debug("$debugh instancias($canalconcontexto) no esta definido",
-                  128);
-        if ($sesiontemp ne $canalid)
-        {
-            $canalid = $sesiontemp;
-        }
-
-        my $acomparar = $canalid . $contexto;
-
-        for my $regexp (keys %orden_instancias)
-        {
-            $regexp =~ s/\*/\.\*/g;
-            $regexp =~ s/\^/\\\^/g;
-            log_debug(
-                   "$debugh comparando orden_instancias $acomparar con $regexp",
-                   128);
-            if ($acomparar =~ /$regexp/)
-            {
-                my $aborrar = $regexp;
-                $aborrar =~ s/\.\*/\*/g;
-                $aborrar =~ s/\\\^/\^/g;
-                delete $orden_instancias{"$aborrar"};
-                log_debug("$debugh borro aborrar $aborrar!", 128);
-
-            }
-            else
-            {
-                log_debug("$debugh No coincide", 128);
-            }
-        }
-        for my $kinst (keys %instancias)
-        {
-            my @new = ();
-            log_debug("$debugh instancias $kinst", 128);
-            foreach my $valor (@{$instancias{$kinst}})
-            {
-                log_debug(
-                    "$debugh instancias $kinst contiene $valor ( = $acomparar?)",
-                    128
-                );
-                my $regexp = $valor;
-                $regexp =~ s/\*/\.\*/g;
-                $regexp =~ s/\^/\\\^*/g;
-                if ($acomparar !~ /$regexp/)
-                {
-                    push(@new, $valor);
-                    log_debug(
-                        "$debugh no coincide, dejo $valor en instancias($kinst)",
-                        128
-                    );
-                }
-            }
-            $instancias{"$kinst"} = \@new;
-        }
-    }
-
 }
 
 sub generate_linked_buttons_list
@@ -1445,21 +1610,14 @@ sub generate_linked_buttons_list
         {
             log_debug("$debugh y contiene $_", 32);
             my ($canal1, $sesion1) = separate_session_from_channel($_);
-            log_debug(
-                "$debugh luego de separate canal1 = $canal1 y sesion1 = $sesion1",
-                128
-            );
+            log_debug("$debugh luego de separate canal1 = $canal1 y sesion1 = $sesion1", 128);
             my $canalsesion = $_;
             if (!defined($sesion1))
             {
                 $canalsesion = $canal1 . "-XXXX";
             }
-            log_debug(
-                "$debugh canal1 = $canal1 y sesion1 = $sesion1 canalsesion=$canalsesion",
-                128
-            );
-            my @linkbotones =
-              find_panel_buttons($canal1, $canalsesion, $server);
+            log_debug("$debugh canal1 = $canal1 y sesion1 = $sesion1 canalsesion=$canalsesion", 128);
+            my @linkbotones = find_panel_buttons($canal1, $canalsesion, $server);
             foreach my $cual (@linkbotones)
             {
                 my ($nada2, $contexto2) = split(/\&/, $cual);
@@ -1505,6 +1663,27 @@ sub erase_all_sessions_from_channel
     my $debugh = "** ERASE_ALL_SESS_FROM";
     log_debug("$debugh canal $canal canalid $canalid", 16);
 
+    my $indice_cache = $canalid . "-" . $canal . "-" . $server;
+    log_debug("$debugh borro cache_hit($indice_cache)", 128);
+    delete $cache_hit{$indice_cache};
+    if (keys(%cache_hit))
+    {
+        for (keys %cache_hit)
+        {
+            if (defined(@{$cache_hit{$_}}))
+            {
+                foreach my $val (@{$cache_hit{$_}})
+                {
+                    if ($val eq $canal)
+                    {
+                        log_debug("$debugh borro cache $_", 128);
+                        delete $cache_hit{$_};
+                    }
+                }
+            }
+        }
+    }
+
     if ($canal =~ /=/)
     {
 
@@ -1522,8 +1701,7 @@ sub erase_all_sessions_from_channel
             log_debug("$debugh $msesion ne $canalsesion?", 64);
             if ($msesion ne $canalsesion)
             {
-                log_debug("$debugh sesbot es distinto dejo $msesion a \@final",
-                          64);
+                log_debug("$debugh sesbot es distinto dejo $msesion a \@final", 64);
                 push @final, $msesion;
             }
         }
@@ -1570,9 +1748,7 @@ sub erase_all_sessions_from_channel
                 $val =~ tr/a-z/A-Z/;
                 if ($canalid eq $val)
                 {
-                    log_debug(
-                          "** Found a match $canalid=$val ($quehay) - Cleared!",
-                          16);
+                    log_debug("** Found a match $canalid=$val ($quehay) - Cleared!", 16);
                     delete $datos{$quehay};
                 }
             }
@@ -1582,7 +1758,6 @@ sub erase_all_sessions_from_channel
     {
         log_debug("$debugh devuleve $valores", 64);
     }
-    &print_sesbot(2);
     return @return;
 }
 
@@ -1596,8 +1771,8 @@ sub extraer_todas_las_sesiones_de_un_canal
     my $val           = "";
     my $quehay        = "";
     my @result        = ();
-
-    log_debug("** Extracts all sessions from the channel $canal", 16);
+    my $debugh        = "** EXTRAER_TODAS ";
+    log_debug("$debugh from the channel $canal", 16);
 
     # Removes the context if its set
 
@@ -1610,23 +1785,16 @@ sub extraer_todas_las_sesiones_de_un_canal
     if ($canal =~ /(.*)=(\d+)/)
     {
         ($canalbase, $sesion_numero) = split(/\=/, $canal);
-        log_debug("** Its a trunk $canalbase button number $sesion_numero!", 8);
+        log_debug("** Its a trunk $canalbase button number $sesion_numero!", 16);
 
-        # $sesion_numero--;
-        # push(@result, $instancias{$canalbase}[$sesion_numero]);
-        for $quehay (keys %orden_instancias)
+        foreach my $key1 (sort (keys(%instancias)))
         {
-            my $vel = $quehay;
-            $vel =~ s/(.*)[-\/](.*)/$1/g;
-            $vel =~ s/IAX2\/(.*)@(.*)/IAX2\/$1/g;
-            $vel =~ s/IAX2\[(.*)@(.*)\]/IAX2\/$1/g;
-            if ($vel eq $canalbase)
+            foreach my $key2 (sort (keys(%{$instancias{$key1}})))
             {
-                my $orden = $orden_instancias{$quehay};
-                $orden = $orden + 1 - 1;
-                if ($sesion_numero == $orden)
+                if ($key2 eq $canalbase)
                 {
-                    push(@result, $quehay);
+                    push @result, $key2;
+                    log_debug("$debugh encontro sesion $canalbase", 16);
                 }
             }
         }
@@ -1714,6 +1882,13 @@ sub extraer_todos_los_enlaces_de_un_canal
         $canal   = $pedazos[1];
     }
 
+    # If the channel is not an agent, it will have a session
+    # appended to it separated with a hypen
+    if ($canal !~ m/^Agent/i)
+    {
+        $canal = $canal . "-";
+    }
+
     log_debug("$debugh canal $canal server $server", 32);
 
     for $quehay (keys %datos)
@@ -1723,8 +1898,8 @@ sub extraer_todos_los_enlaces_de_un_canal
         my $linkeado   = "";
         while (my ($key, $val) = each(%{$datos{$quehay}}))
         {
-
-            if ($val =~ /^$canal-/i && $key =~ /^Chan/i)
+            log_debug("$debugh buscando $canal en $key=$val", 128);
+            if ($val =~ /^$canal/i && $key =~ /^Chan/i)
             {
                 $canalaqui = 1;
             }
@@ -1765,8 +1940,17 @@ sub find_panel_buttons
     my $contextoindex = "";
     my $server_boton  = 0;
     my $debugh        = "** FIND_PANEL_BUT";
-    log_debug("$debugh canal $canal canalsesion $canalsesion server $server",
-              32);
+    my $calleridnum   = "noexiste";
+    log_debug("$debugh canal $canal canalsesion $canalsesion server $server", 32);
+
+    my $uniqueid = find_uniqueid($canalsesion, $server);
+    if ($uniqueid ne "")
+    {
+        if (defined($datos{$uniqueid}{"CallerID"}))
+        {
+            $calleridnum = $datos{$uniqueid}{"CallerID"};
+        }
+    }
 
     # XXXXX We have to try hard to find a match for the channel
     # There are several posibilities:
@@ -1786,216 +1970,147 @@ sub find_panel_buttons
 
         # "<" Is an invalid character for a channel name, unless its a zombie
         # or masq, in that case we should discard them
-        log_debug(
-            "$debugh canalsesion $canalsesion (Se supone que no debo tratar zombies?)",
-            16
-        );
+        log_debug("$debugh canalsesion $canalsesion (Se supone que no debo tratar zombies?)", 16);
     }
 
-    my $match = 0;
-
-    for (keys %buttons)
+    # Attemp to match a button from cache
+    my $indice_cache = $canalsesion . "-" . $canal . "-" . $server;
+    if (!defined($cache_hit{$indice_cache}))
     {
-
-        $canalfinal = "";
-        my ($nada, $contexto) = split("\&", $_);
-        if (!defined($contexto)) { $contexto = ""; }
-        if ($contexto ne "") { $contexto = "&" . $contexto; }
-        if ($_ =~ /^\Q$server^$canal\E$/)
+        log_debug("$debugh CACHE MISS $indice_cache", 16);
+        for (keys %buttons)
         {
-
-            log_debug("$debugh exact match buttons ( $_ )  $canal $contexto",
-                      32);
-            $canalfinal = $canal;
-            $match      = 1;
-        }
-        elsif ($_ =~ /^\Q$server^$canal\E\&/)
-        {
-
-            log_debug("$debugh context match buttons ( $_ )  $canal $contexto",
-                      32);
-            $canalfinal = $canal;
-            $match      = 1;
-        }
-        elsif ($_ =~ /^\Q$server^$canal\E=/)
-        {
-
-            $canalfinal = get_next_trunk_button($canalsesion, $server);
-            $canalfinal =~ s/(.*)\^(.*)/$2/g;
-            $match = 1;
-
-        }
-
-        if ($canalfinal ne "")
-        {
-            my $indicefin = "";
-            if ($canalfinal =~ /\^/)
+            $canalfinal = "";
+            my ($nada, $contexto) = split("\&", $_);
+            if (!defined($contexto)) { $contexto = ""; }
+            if ($contexto ne "") { $contexto = "&" . $contexto; }
+            if ($_ =~ /^\Q$server^$canal\E$/)
             {
-                $indicefin = "${canalfinal}${contexto}";
+
+                log_debug("$debugh exact match buttons ( $_ )  $canal $contexto", 32);
+                $canalfinal = $canal;
             }
-            else
+            elsif ($_ =~ /^\Q$server^$canal\E\&/)
             {
-                $indicefin = "$server^${canalfinal}${contexto}";
+
+                log_debug("$debugh context match buttons ( $_ )  $canal $contexto", 32);
+                $canalfinal = $canal;
             }
-            my $posicion = $buttons{$indicefin};
-            $server_boton = $button_server{$posicion};
-            log_debug("$debugh server para $canalfinal = $server_boton", 64);
-            if ($server eq $server_boton)
+            if ($_ =~ /^$server\^CLID\/$calleridnum\&?/)
             {
-                log_debug(
-                    "$debugh agrega ${canalfinal}${contexto} al array \@canales porque $server es igual a $server_boton",
-                    32
-                );
-                push @canales, "${canalfinal}${contexto}";
+
+                log_debug("$debugh clid match ( $_ )  $canal $contexto", 32);
+                $canalfinal = "CLID/$calleridnum";
             }
-            else
+
+            if ($canalfinal ne "")
             {
-                log_debug(
-                    "$debugh no coincide server $server con serverboton $server_boton",
-                    64
-                );
-            }
-        }
-    }
-    $canalfinal = "";
+                my $indicefin             = "";
+                my $canalfinalconcontexto = $canalfinal;
 
-    #    if ($match == 0)
-    my $nada1      = "";
-    my $contextemp = "";
-    my %contextosencontrados;
-    for my $val (@canales)
-    {
-        ($nada1, $contextemp) = split("&", $val);
-        if (!defined($contextemp)) { $contextemp = ""; }
-        $contextosencontrados{"&$contextemp"} = 1;
-    }
-
-    for (keys %buttons)
-    {
-        if ($_ =~ /\*/)
-        {
-            $pos = index($_, "*");
-            if ($canal !~ /\^/)
-            {
-                $canal = "$server^$canal";
-            }
-            my $compara1 = substr($canal, 0, $pos);
-            my $compara2 = substr($_,     0, $pos);
-
-            if ($compara1 eq $compara2)
-            {
-
-                log_debug(
-                    "$debugh Coincide! el canal es $canal o puede ser tambien $_",
-                    64
-                );
-                my ($nada, $contexto) = split("&", $_);    # antes decia $canal;
-                if (!defined($contexto))
+                if ($canalfinal =~ /\^/)
                 {
-                    $contexto      = "";
-                    $contextoindex = "&";
-                }
-                if ($contexto ne "")
-                {
-                    $contexto      = "&$contexto";
-                    $contextoindex = $contexto;
-                }
-                ($canalfinal, $sesion) =
-                  separate_session_from_channel($canalsesion);
-                $canalfinal =~ s/(.*)=(.*)/$1/g;
-                if ($canalfinal =~ /^ZAP/i && $sesion ne "XXXX")
-                {
-
-                    # If we think of wildcard ZAP channels, we need to fake the session
-                    # because its allways a sequence number,
-                    # so Zap/2-1 will overlap with Zap/1-1 when we make it wildcard,
-                    # because both channels will look at Zap/*-1
-                    # We then construct a fake session using the Zap channel number as the
-                    # first part of the session.
-                    my $sesiontemp = $canalfinal;
-                    $sesiontemp =~ s/^ZAP\///g;
-                    $sesiontemp .= $sesion;
-                    $sesion = $sesiontemp;
-                }
-                if ($canalfinal =~ /^MGCP/i && $sesion ne "XXXX")
-                {
-                    my $sesiontemp = $canalfinal;
-                    $sesiontemp =~ s/(.*)\@(.*)/$2/g;
-                    $sesiontemp = substr($sesiontemp, -3);
-                    $sesiontemp .= $sesion;
-                    $sesion = $sesiontemp;
-                }
-                $canalfinal = $compara1 . "*-$sesion";
-                $canalfinal .= "$contexto";
-
-                log_debug(
-                    "$debugh es un wildcard $canalsesion = $canalfinal = $contexto",
-                    128
-                );
-                if (!defined($contextosencontrados{$contextoindex}))
-                {
-                    $canalfinal = get_next_trunk_button($canalfinal, $server);
-                    $canalfinal =~ s/(.*)\^(.*)/$2/g;
-
-                    log_debug(
-                        "$debugh no esta definido contextosencontrados ($contextoindex) canalfinal = $canalfinal",
-                        128
-                    );
+                    $indicefin = "${canalfinal}";
                 }
                 else
                 {
-                    $canalfinal = "";
+                    $indicefin = "$server^${canalfinal}";
                 }
-            }
-            if ($canalfinal ne "")
-            {
-                log_debug("$debugh WILDCARD canalfinal $canalfinal", 64);
-                if ($canalfinal ne ""
-                    && defined($buttons{"$server^$canalfinal"}))
+                if ($indicefin !~ /(.*)\&(.*)$/)
                 {
-                    my $posicion = $buttons{"$server^$canalfinal"};
-                    $server_boton = $button_server{$posicion};
-                    log_debug(
-                        "$debugh canalfinal = $canalfinal y server $server = $server_boton",
-                        128
-                    );
-                    if ($server eq $server_boton)
+                    $indicefin             = "$indicefin$contexto";
+                    $canalfinalconcontexto = "${canalfinal}${contexto}";
+                }
+
+                my $posicion = $buttons{$indicefin};
+                $server_boton = $button_server{$posicion};
+                log_debug("$debugh server para $canalfinal = $server_boton", 64);
+
+                push @canales, "${canalfinalconcontexto}";
+            }
+        }
+        $canalfinal = "";
+
+        my $nada1      = "";
+        my $contextemp = "";
+        my %contextosencontrados;
+        for my $val (@canales)
+        {
+            ($nada1, $contextemp) = split("&", $val);
+            if (!defined($contextemp)) { $contextemp = ""; }
+            $contextosencontrados{"&$contextemp"} = 1;
+        }
+
+        # Attempt to have regexp buttons
+        my $canal_sin_server_ni_contexto = $canal;
+        $canal_sin_server_ni_contexto =~ s/(^\d+\^)(.*)(\&.*)?(=\d+)?/$2/;
+        for (keys %buttons)
+        {
+            my $regexp = "";
+            if ($_ =~ /^\d+\^_/)
+            {
+                $regexp = $_;
+                $regexp =~ /^(\d+)\^_([^=&]*)(=[^&]*)?(\&.*)?/;
+                my $server = $1;
+                $regexp = $2;
+                my $posicion = $3;
+                my $contexto = "";
+                if (defined($4))
+                {
+                    $contexto = $4;
+                    if (defined($contextosencontrados{$contexto}))
                     {
-                        push @canales, $canalfinal;
-                        log_debug(
-                            "$debugh agrega2 ${canalfinal} al array \@canales porque coincide $server WILD",
-                            32
-                        );
+                        next;
+                    }
+                }
+                if ($canal_sin_server_ni_contexto =~ m/$regexp/i)
+                {
+                    if (defined($posicion))
+                    {
+
+                        # Es un trunk
+                        $canalfinal = get_next_trunk_button($_, $contexto, $server, $canalsesion);
                     }
                     else
                     {
-                        log_debug(
-                            "$debugh no coincide server $server con serverboton $server_boton  WILD",
-                            64
-                        );
-                    }
-                }
 
-                # last;
+                        # No es un trunk
+                        $canalfinal = $_;
+                    }
+                    push @canales, $canalfinal;
+                }
             }
         }
 
+        my %count = ();
+        my @unique = grep { ++$count{$_} < 2 } @canales;
+        @canales = @unique;
+        foreach my $val (@canales)
+        {
+            log_debug("$debugh returns canal $val", 128);
+        }
     }
-
-    my %count = ();
-    my @unique = grep { ++$count{$_} < 2 } @canales;
-    @canales = @unique;
-    foreach my $val (@canales)
+    else
     {
 
-        log_debug("$debugh lista de canales: $val", 128);
+        # We have a cache match, retrieve the buttons from cache
+        @canales = @{$cache_hit{$indice_cache}};
+        log_debug("$debugh CACHE HIT Retrieving buttons from cache ($indice_cache)", 16);
+        foreach (@canales)
+        {
+            log_debug("$debugh cache button $_", 128);
+        }
+    }
+    my $cuantoscanales = @canales;
+    if ($cuantoscanales > 0)
+    {
+        $cache_hit{$indice_cache} = [@canales];
     }
     return @canales;
 }
 
 sub procesa_bloque
 {
-
     my $blaque = shift;
     my $socket = shift;
     my %bloque = %$blaque if defined(%$blaque);
@@ -2009,6 +2124,8 @@ sub procesa_bloque
     my $unico_id      = "";
     my $exten         = "";
     my $clid          = "";
+    my $clidnum       = "";
+    my $clidname      = "";
     my $canalid       = "";
     my $key           = "";
     my $val           = "";
@@ -2024,9 +2141,12 @@ sub procesa_bloque
     my $fakecounter   = 1;
     my $fill_datos    = 0;
     my $server        = 0;
+    my $timeout       = 0;
     my $debugh        = "** PROCESA_BLOQUE";
 
     log_debug("$debugh START SUB", 16);
+
+    $hash_temporal{"Event"} = "";
 
     while (my ($key, $val) = each(%bloque))
     {
@@ -2038,8 +2158,44 @@ sub procesa_bloque
         {
             $val = "";
         }
+
+        #			my ($lcan,$lses) = separate_session_from_channel($val);
+        #			if(exists($channel_to_agent{$lcan}))
+        #			{
+        #			    print "Cambio $val por ".$channel_to_agent{$lcan}."\n";
+        #				my $ori_val = $val;
+        #				$val =~ s/(.*)-(.*)/$channel_to_agent{$lcan}-$2/g;
+        #				($lcan,$lses) = separate_session_from_channel($val);
+        #				$channel_to_agent{$lcan}=$lcan;
+        #			}
+
         $hash_temporal{$key} = $val;
+
         log_debug("$debugh     HASH_TEMPORAL($key) = $val", 128);
+    }
+
+    if ($hash_temporal{"Event"} =~ /^UserEvent/)
+    {
+
+        # This blocks checks if we have an UserEvent
+        # and splits every key value pair if it haves
+        # a caret as a delimiter
+        while (my ($key, $val) = each(%hash_temporal))
+        {
+            if ($val =~ /\^/)
+            {
+                my @partes = split(/\^/, $val, 2);
+                $hash_temporal{$key} = $partes[0];
+                my $resto_de_parametros = $partes[1];
+                @partes = split(/\^/, $resto_de_parametros);
+                foreach my $value (@partes)
+                {
+                    my @partes2 = split(/: /, $value);
+                    if (!defined($partes2[0])) { next; }
+                    $hash_temporal{$partes2[0]} = $partes2[1];
+                }
+            }
+        }
     }
 
     $canalid = "";
@@ -2095,10 +2251,19 @@ sub procesa_bloque
         $evento = $hash_temporal{"Event"};
     }
 
-    log_debug(
-        "$debugh canalid $canalid unico_id $unico_id evento $evento enlazado $enlazado",
-        128
-    );
+    if (defined($hash_temporal{"ActionID"}))
+    {
+        if ($hash_temporal{"ActionID"} =~ /^timeout/i)
+        {
+            my @partes = split(/\|/, $hash_temporal{"ActionID"});
+            $canalid  = $partes[1];
+            $timeout  = $partes[2];
+            $evento   = "Timeout";
+            $unico_id = "YYYY-$server";
+        }
+    }
+
+    log_debug("$debugh canalid $canalid unico_id $unico_id evento $evento enlazado $enlazado", 128);
 
     # Populates a global hash to keep track of
     # 'active' channels, the ones that are not
@@ -2126,9 +2291,7 @@ sub procesa_bloque
                         $val = "";
                     }
                     $datos{$unico_id}{"$key"} = $val;
-                    log_debug(
-                            "$debugh POPULATES datos($unico_id){ $key } = $val",
-                            128);
+                    log_debug("$debugh POPULATES datos($unico_id){ $key } = $val", 128);
                 }
             }
         }
@@ -2139,44 +2302,45 @@ sub procesa_bloque
     }
 
     $evento =~ s/UserEvent//g;
-    if    ($evento =~ /Newchannel/)      { $evento = "newchannel"; }
-    elsif ($evento =~ /Newcallerid/)     { $evento = "newcallerid"; }
-    elsif ($evento =~ /^Status$/)        { $evento = "status"; }
-    elsif ($evento =~ /^StatusComplete/) { $evento = "statuscomplete"; }
-    elsif ($evento =~ /Newexten/)        { $evento = "newexten"; }
-    elsif ($evento =~ /ParkedCall/)      { $evento = "parkedcall"; }
-    elsif ($evento =~ /Newstate/)        { $evento = "newstate"; }
-    elsif ($evento =~ /Hangup/)          { $evento = "hangup"; }
-    elsif ($evento =~ /Rename/)          { $evento = "rename"; }
-    elsif ($evento =~ /MessageWaiting/)  { $evento = "voicemail"; }
-    elsif ($evento =~ /Regstatus/)       { $evento = "regstatus"; }
-    elsif ($evento =~ /^Unlink/)         { $evento = "unlink"; }
-    elsif ($evento =~ /QueueParams/)     { $evento = "queueparams"; }
-    elsif ($evento =~ /QueueMember/)     { $evento = "queuemember"; }
-    elsif ($evento =~ /QueueStatus/)     { $evento = "queuestatus"; }
-    elsif ($evento =~ /^Link/)           { $evento = "link"; }
-    elsif ($evento =~ /^Join/)           { $evento = "join"; }
-    elsif ($evento =~ /^MeetmeJoin/)     { $evento = "meetmejoin"; }
-    elsif ($evento =~ /^MeetmeLeave/)    { $evento = "meetmeleave"; }
-    elsif ($evento =~ /^meetmemute/)     { $evento = "meetmemute"; }
-    elsif ($evento =~ /^meetmeunmute/)   { $evento = "meetmeunmute"; }
-    elsif ($evento =~ /^Agentlogin/)     { $evento = "agentlogin"; }
-    elsif ($evento =~ /^RefreshQueue/)   { $evento = "refreshqueue"; }
-    elsif ($evento =~ /^Agentcallbacklogin/)
-    {
-        $evento = "agentcblogin";
-    }
-    elsif ($evento =~ /^Agentcallbacklogoff/)
-    {
-        $evento = "agentlogoff";
-    }
-    elsif ($evento =~ /^Agentlogoff/) { $evento = "agentlogoff"; }
-    elsif ($evento =~ /^IsMeetmeMember/)
-    {
-        $evento = "fakeismeetmemember";
-    }
-    elsif ($evento =~ /^PeerStatus/) { $evento = "peerstatus"; }
-    elsif ($evento =~ /^Leave/)      { $evento = "leave"; }
+    if    ($evento =~ /Newchannel/)           { $evento = "newchannel"; }
+    elsif ($evento =~ /Newcallerid/)          { $evento = "newcallerid"; }
+    elsif ($evento =~ /^Status$/)             { $evento = "status"; }
+    elsif ($evento =~ /^StatusComplete/)      { $evento = "statuscomplete"; }
+    elsif ($evento =~ /Newexten/)             { $evento = "newexten"; }
+    elsif ($evento =~ /^ParkedCall$/)         { $evento = "parkedcall"; }
+    elsif ($evento =~ /Newstate/)             { $evento = "newstate"; }
+    elsif ($evento =~ /Hangup/)               { $evento = "hangup"; }
+    elsif ($evento =~ /Rename/)               { $evento = "rename"; }
+    elsif ($evento =~ /MessageWaiting/)       { $evento = "voicemail"; }
+    elsif ($evento =~ /Regstatus/)            { $evento = "regstatus"; }
+    elsif ($evento =~ /^Unlink/)              { $evento = "unlink"; }
+    elsif ($evento =~ /QueueParams/)          { $evento = "queueparams"; }
+    elsif ($evento =~ /QueueMember/)          { $evento = "queuemember"; }
+    elsif ($evento =~ /QueueStatus/)          { $evento = "queuestatus"; }
+    elsif ($evento =~ /^Link/)                { $evento = "link"; }
+    elsif ($evento =~ /^Join/)                { $evento = "join"; }
+    elsif ($evento =~ /^MeetmeJoin/)          { $evento = "meetmejoin"; }
+    elsif ($evento =~ /^MeetmeLeave/)         { $evento = "meetmeleave"; }
+    elsif ($evento =~ /^meetmemute/)          { $evento = "meetmemute"; }
+    elsif ($evento =~ /^meetmeunmute/)        { $evento = "meetmeunmute"; }
+    elsif ($evento =~ /^Agentlogin/)          { $evento = "agentlogin"; }
+    elsif ($evento =~ /^RefreshQueue/)        { $evento = "refreshqueue"; }
+    elsif ($evento =~ /^Timeout/)             { $evento = "timeout"; }
+    elsif ($evento =~ /^AgentCalled/)         { $evento = "agentcalled"; }
+    elsif ($evento =~ /^AgentConnect/)        { $evento = "agentconnect"; }
+    elsif ($evento =~ /^AgentCompleted/)      { $evento = "agentcompleted"; }
+    elsif ($evento =~ /^Agentcallbacklogin/)  { $evento = "agentcblogin"; }
+    elsif ($evento =~ /^Agentcallbacklogoff/) { $evento = "agentlogoff"; }
+    elsif ($evento =~ /^Agentlogoff/)         { $evento = "agentlogoff"; }
+    elsif ($evento =~ /^IsMeetmeMember/)      { $evento = "fakeismeetmemember"; }
+    elsif ($evento =~ /^PeerStatus/)          { $evento = "peerstatus"; }
+    elsif ($evento =~ /^Leave/)               { $evento = "leave"; }
+    elsif ($evento =~ /^FOP_Popup/i)          { $evento = "foppopup"; }
+    elsif ($evento =~ /^FOP_LedColor/i)       { $evento = "fopledcolor"; }
+    elsif ($evento =~ /^Dial/)                { $evento = "dial"; }
+    elsif ($evento =~ /^ASTDB/)               { $evento = "astdb"; }
+    elsif ($evento =~ /^DNDState/)            { $evento = "zapdndstate"; }
+    elsif ($evento =~ /^ZapShowChannels$/)    { $evento = "zapdndstate"; }
     else { log_debug("$debugh No event match ($evento)", 16); }
 
     if (defined($hash_temporal{"Link"}))
@@ -2191,11 +2355,144 @@ sub procesa_bloque
             $fake_bloque[$fakecounter]{"CallerID"} = $hash_temporal{"CallerID"};
             $fake_bloque[$fakecounter]{"Uniqueid"} = $unid;
             $fakecounter++;
-            log_debug(
-                "$debugh Fake bloque canal $hash_temporal{'Link'} con seconds $hash_temporal{'Seconds'}",
-                128
-            );
+            log_debug("$debugh Fake bloque canal $hash_temporal{'Link'} con seconds $hash_temporal{'Seconds'}", 128);
         }
+    }
+
+    if ($evento eq "agentcalled")
+    {
+
+        # We use this event to send the ringing state for an Agent
+        $estado_final = "ringing";
+        $canal        = $hash_temporal{"AgentCalled"};
+        $canal =~ tr/a-z/A-Z/;
+        $canalid  = $canal . "-XXXX";
+        $clidnum  = $hash_temporal{"CallerID"};
+        $clidname = $hash_temporal{"CallerIDName"};
+        $texto    = "Incoming call from [" . format_clid($clidnum, $clid_format) . "]";
+        my $base64_clidnum  = encode_base64($clidnum . " ");
+        my $base64_clidname = encode_base64($clidname . " ");
+        push @return, "$canal|clidnum|$base64_clidnum|$canalid-$server|$canalid";
+        push @return, "$canal|clidname|$base64_clidname|$canalid-$server|$canalid";
+        push @return, "$canal|$estado_final|$texto|$canalid-$server|$canalid";
+        $evento = "";
+    }
+
+    if ($evento eq "agentconnect")
+    {
+
+        # We use this event to fake the ringing state
+        $estado_final = "ocupado";
+        $texto        = "Taking call from $hash_temporal{\"Queue\"}";
+        $canal        = $hash_temporal{"Channel"};
+        $canal =~ tr/a-z/A-Z/;
+        $canalid = $canal . "-XXXX";
+        push @return, "$canal|$estado_final|$texto|$canalid-$server|$canalid";    #NEW
+        $evento = "";
+    }
+
+    if ($evento eq "dial")
+    {
+
+        # We use this hashes to store the remote callerid for CVS-HEAD
+        my $key      = "$server^$hash_temporal{'Destination'}";
+        my $dorigen  = "";
+        my $ddestino = "";
+        my $dnada    = "";
+        $remote_callerid{$key}      = $hash_temporal{"CallerID"};
+        $remote_callerid_name{$key} = $hash_temporal{"CallerIDName"};
+
+        # We also look for Dial from Local/XX@context to TECH/XX for
+        # matching agentcallbacklogins exten@context to real channels
+        # so we can map outgoing calls to Agent buttons
+        # It will only work after the agent receives at least one call
+        ($dorigen,  $dnada) = separate_session_from_channel($hash_temporal{'Source'});
+        ($ddestino, $dnada) = separate_session_from_channel($hash_temporal{'Destination'});
+        if (exists($channel_to_agent{$dorigen}))
+        {
+            my $agente = $channel_to_agent{$dorigen};
+
+            # delete $channel_to_agent{$dorigen};
+            $channel_to_agent{$ddestino} = $agente;
+        }
+    }
+
+    if ($evento eq "zapdndstate")
+    {
+        $canal = $hash_temporal{"Channel"};
+        my $zstatus = "";
+        if ($canal !~ m/Zap/i)
+        {
+            $canal = "Zap/$canal";
+        }
+        if (defined($hash_temporal{"Status"}))
+        {
+            $zstatus = $hash_temporal{"Status"};
+        }
+        if (defined($hash_temporal{"DND"}))
+        {
+            $zstatus = $hash_temporal{"DND"};
+        }
+        if ($zstatus =~ /disabled/i)
+        {
+            $zstatus = "";
+        }
+
+        # If we receive a zap dnd state, we fake the ASTDB
+        # event with family 'dnd'. So it will execute the
+        # actions listed on op_astdb.cfg inside [dnd]
+        $fake_bloque[$fakecounter]{"Event"}   = "ASTDB";
+        $fake_bloque[$fakecounter]{"Channel"} = $canal;
+        $fake_bloque[$fakecounter]{"Family"}  = "dnd";
+        $fake_bloque[$fakecounter]{"Value"}   = $zstatus;
+        $fakecounter++;
+
+        $evento = "";
+    }
+
+    if ($evento eq "astdb")
+    {
+        my $valor = "";
+        $estado_final = "astdb";
+        ($canal, my $nada) = separate_session_from_channel($hash_temporal{"Channel"});
+        $canalid = $hash_temporal{"Channel"} . "-XXXX";
+        my $clave = $hash_temporal{"Family"};
+        if (!defined($hash_temporal{"Value"}))
+        {
+            $valor = "";
+        }
+        else
+        {
+            $valor = $hash_temporal{"Value"};
+        }
+
+        foreach my $item (@{$astdbcommands{$clave}})
+        {
+            my $item_temp = $item;
+            $item_temp =~ s/\${value}/$valor/g;
+            my ($comando, $datos) = split(/=/, $item_temp);
+            if ($valor ne "")
+            {
+                push @return, "$canal|$comando|$datos|$canalid-$server|$canalid";
+            }
+            else
+            {
+                push @return, "$canal|$comando||$canalid-$server|$canalid";
+            }
+        }
+        $evento = "";
+    }
+
+    if ($evento eq "timeout")
+    {
+        $estado_final = "timeout";
+        $texto        = $timeout;
+        my $ahora = time();
+        my $unique = find_uniqueid($canalid, $server);
+        $datos{$unique}{"Timeout"} = $ahora + $timeout;
+        $timeouts{$canalid} = $ahora + $timeout;
+        push @return, "$canal|$estado_final|$texto|$unique|$canalid";    #NEW
+        $evento = "";
     }
 
     if ($evento eq "regstatus")
@@ -2204,23 +2501,47 @@ sub procesa_bloque
         # Sends the IP address of the peer to the flash client
         # XXXX It will have to store this value internally in future version
         # to avoid polling asterisk every time
-        ($canal, my $nada) =
-          separate_session_from_channel($hash_temporal{"Channel"});
+        ($canal, my $nada) = separate_session_from_channel($hash_temporal{"Channel"});
         $texto = $hash_temporal{"IP"};
         my $serv = $hash_temporal{"Server"};
         if ($show_ip)
         {
-            $estado_final = "ip";
-            print
-              "evento regstatus $canal|$estado_final|$texto|$unico_id|$canalid\n";
+
+            # $estado_final = "ip";
+            $estado_final = "settext";
+            $boton_ip{$canalid} = $texto;
             push @return, "$canal|$estado_final|$texto|$unico_id|$canalid";
+
+            # $evento = "";
         }
+    }
+
+    if ($evento eq "fopledcolor")
+    {
+        my $color = "";
+        my $state = "";
+        ($canal, my $nada) = separate_session_from_channel($hash_temporal{"Channel"});
+        $color        = $hash_temporal{"Color"};
+        $state        = $hash_temporal{"State"};
+        $estado_final = "fopledcolor";
+        push @return, "$canal|$estado_final|$color^$state|$unico_id|$canalid";
+        $evento = "";
+    }
+
+    if ($evento eq "foppopup")
+    {
+        ($canal, my $nada) = separate_session_from_channel($hash_temporal{"Channel"});
+        my $url    = $hash_temporal{"URL"};
+        my $target = $hash_temporal{"Target"};
+        my $data   = "$url^$target";
+        $estado_final = "foppopup";
+        push @return, "$canal|$estado_final|$data|$unico_id|$canalid";
+        $evento = "";
     }
 
     if ($evento eq "refreshqueue")
     {
-        ($canal, my $nada) =
-          separate_session_from_channel($hash_temporal{"Channel"});
+        ($canal, my $nada) = separate_session_from_channel($hash_temporal{"Channel"});
 
         # Turns off led of the agent that generated the refresh
         if ($change_led == 1)
@@ -2228,16 +2549,34 @@ sub procesa_bloque
             $estado_final = "changelabel" . $change_led;
             push @return, "$canal|$estado_final|original|$unico_id|$canalid";
         }
-        send_queue_status();
+        request_queue_status($socket, $hash_temporal{"Channel"});
         $evento = "";
     }
 
     if ($evento eq "agentcblogin")
     {
+        my $canalreal = "";
         my $labeltext = ".";
         my $texto     = $hash_temporal{"Agent"};
 
-        if (defined($agents{$texto}))
+        if (defined($datos{$unico_id}{"Channel"}))
+        {
+            ($canalreal, my $nada) = separate_session_from_channel($datos{$unico_id}{"Channel"});
+            $canalreal =~ tr/a-z/A-Z/;
+            $channel_to_agent{"$canalreal"} = "AGENT/$texto";
+            $channel_to_agent{"$canalreal"} =~ tr/a-z/A-Z/;
+        }
+        $canalreal = "Local/$hash_temporal{'Loginchan'}";
+        $canalreal =~ tr/a-z/A-Z/;
+        $channel_to_agent{"$canalreal"} = "AGENT/$texto";
+        $channel_to_agent{"$canalreal"} =~ tr/a-z/A-Z/;
+
+        if ($canalid eq "")
+        {
+            $canalid = "$texto-XXXX";
+        }
+
+        if (defined($agents{"$server^$texto"}))
         {
 
             # If it was already logged in, fake a logout event
@@ -2246,11 +2585,18 @@ sub procesa_bloque
                 || $ren_cbacklogin == 1
                 || $change_led == 1)
             {
-                $canal        = $agents{$texto};
+                $canal = $agents{"$server^$texto"};
+
                 $estado_final = "changelabel" . $change_led;
-                push @return,
-                  "$agents{$texto}|$estado_final|original|$unico_id|$canalid";
-                delete $agents{$texto};
+                if ($canal =~ /^AGENT/i)
+                {
+                    push @return, "AGENT/$texto|setalpha|100|$unico_id|$canalid";
+                }
+                else
+                {
+                    push @return, "$canal|$estado_final|original|$unico_id|$canalid";
+                }
+                delete $agents{"$server^$texto"};
             }
         }
 
@@ -2266,38 +2612,61 @@ sub procesa_bloque
             $estado_final = "changelabel" . $change_led;
             if ($ren_cbacklogin == 1)
             {
-                $labeltext = "Agent/$texto";
+                $labeltext = "AGENT/$texto";
                 if ($ren_agentname == 1)
                 {
-                    if (defined($agents_name{$texto}))
+                    if (defined($agents_name{"$server^$texto"}))
                     {
-                        $labeltext = $agents_name{$texto};
+                        $labeltext = $agents_name{"$server^$texto"};
                     }
                 }
             }
-            push @return, "$canal|$estado_final|$labeltext|$unico_id|$canalid";
-            $agents{$texto} = $canal;
+            if ($canal !~ /^agent/i)
+            {
+                push @return, "$canal|$estado_final|$labeltext|$unico_id|$canalid";
+            }
+            else
+            {
+                push @return, "AGENT/$texto|setalpha|100|$unico_id|$canalid";
+            }
+            if ($agent_status == 1)
+            {
+                push @return, "$canal|isagent|0|$unico_id|$canalid";
+                push @return, "AGENT/$texto|isagent|0|$unico_id|$canalid";
+            }
+            $agents{"$server^$texto"} = $canal;
+            $reverse_agents{$canal} = $texto;
         }
         $evento = "";
     }
 
     if ($evento eq "agentlogin")
     {
+
+        while (($key, $val) = each(%hash_temporal))
+        {
+
+            # print "$key = $val\n";
+        }
+
         my $labeltext = ".";
 
         $texto = $hash_temporal{"Agent"};
-        ($canal, my $nada) =
-          separate_session_from_channel($hash_temporal{"Channel"});
+        ($canal, my $nada) = separate_session_from_channel($hash_temporal{"Channel"});
         $estado_final = "changelabel" . $change_led;
+        if ($canalid eq "")
+        {
+            $canalid = "AGENT/$texto-XXXX";
+        }
 
         if ($ren_agentlogin == 1 && !defined($hash_temporal{'Fake'}))
         {
             $labeltext = "Agent/$texto";
             if ($ren_agentname == 1)
             {
-                if (defined($agents_name{$texto}))
+                if (defined($agents_name{"$server^$texto"}))
                 {
-                    $labeltext = $agents_name{$texto};
+                    $labeltext = $agents_name{"$server^$texto"};
                 }
             }
         }
@@ -2306,50 +2675,93 @@ sub procesa_bloque
             $labeltext = "Agent/$texto";
             if ($ren_agentname == 1)
             {
-                if (defined($agents_name{$texto}))
+                if (defined($agents_name{"$server^$texto"}))
                 {
-                    $labeltext = $agents_name{$texto};
+                    $labeltext = $agents_name{"$server^$texto"};
                 }
             }
         }
 
-        push @return, "$canal|$estado_final|$labeltext|$unico_id|$canalid";
-        $agents{$texto} = $canal;
-        $evento = "";
-    }
-
-    if ($evento eq "agentlogoff"
-        && ($ren_agentlogin == 1 || $ren_cbacklogin == 1 || $change_led == 1))
-    {
-        $texto = $hash_temporal{"Agent"};
-        if (defined($agents{$texto}))
+        if ($canal =~ m/^AGENT/i)
         {
-            $canal        = $agents{$texto};
-            $estado_final = "changelabel" . $change_led;
-            push @return, "$canal|$estado_final|original|$unico_id|$canalid";
-            delete $agents{$texto};
+            push @return, "$canal|setalpha|100|$unico_id|$canalid";
         }
         else
         {
-
-            # print "PROCESA_BLOQUE agents(texto) no esta definido\n";
+            push @return, "$canal|$estado_final|$labeltext|$unico_id|$canalid";
         }
+
+        if ($agent_status == 1)
+        {
+            push @return, "$canal|isagent|0|$unico_id|$canalid";
+        }
+
+        $agents{"$server^$texto"} = $canal;
         $evento = "";
+    }
+
+    if ($evento eq "agentlogoff")
+    {
+        my $agente                = "AGENT/" . $hash_temporal{'Agent'};
+        my %temp_channel_to_agent = %channel_to_agent;
+        while (($key, $val) = each(%temp_channel_to_agent))
+        {
+            if ($val eq $agente)
+            {
+                delete $channel_to_agent{$key};
+            }
+        }
+        undef %temp_channel_to_agent;
+
+        if ($ren_agentlogin == 1 || $ren_cbacklogin == 1 || $change_led == 1)
+        {
+            $texto        = $hash_temporal{"Agent"};
+            $estado_final = "changelabel" . $change_led;
+
+            if ($canalid eq "")
+            {
+                $canalid = "AGENT/$texto-XXXX";
+            }
+
+            push @return, "AGENT/$texto|setalpha|50|$unico_id|$canalid";
+
+            if ($agent_status == 1)
+            {
+                push @return, "$canal|isagent|-1|$unico_id|$canalid";
+                push @return, "AGENT/$texto|isagent|-1|$unico_id|$canalid";
+            }
+
+            if (defined($agents{"$server^$texto"}))
+            {
+                $canal = $agents{"$server^$texto"};
+                push @return, "$canal|$estado_final|original|$unico_id|$canalid";
+                delete $agents{"$server^$canal"};
+                delete $agents{"$server^$texto"};
+                delete $reverse_agents{$texto};
+                delete $reverse_agents{$canal};
+            }
+
+            $evento = "";
+        }
     }
 
     if ($evento eq "queuemember")
     {
+        my $canalag = $hash_temporal{"Location"};
+        $canalag =~ tr/a-z/A-Z/;
+        my $canalagid  = $canalag . "-XXXX";
+        my $unicoag_id = "$canalag-$server";
         $canal = $hash_temporal{"Location"};
-        if (substr($canal, 0, 5) eq "Agent")
-        {
-            $canal =~ s/Agent\///g;
 
-            if (defined($agents{"$canal"}))
+        if ($canal =~ /^AGENT/i)
+        {
+            my $temp = $canal;
+            $temp =~ s/^AGENT\///gi;
+            if (defined($agents{"$server^$temp"}))
             {
-                $canal = $agents{$canal};
+                $canal = $agents{"$server^$temp"};
             }
         }
-
         $canal =~ tr/a-z/A-Z/;
         $estado_final = "info";
         $texto        = "";
@@ -2367,14 +2779,20 @@ sub procesa_bloque
         $texto   = encode_base64($texto);
         $canalid = $canal . "-XXXX";
         push @return, "$canal|$estado_final|$texto|$unico_id|$canalid";
+        push @return, "$canalag|$estado_final|$texto|$unicoag_id|$canalagid";
         $evento = "";
 
-        # Generates Fake Agent Login to change led color and label renaming
-        $fake_bloque[$fakecounter]{"Event"}   = "Agentlogin";
-        $fake_bloque[$fakecounter]{"Channel"} = $canal . "-XXXX";
-        $fake_bloque[$fakecounter]{"Agent"}   = $canal;
-        $fake_bloque[$fakecounter]{"Fake"}    = "1";
-        $fakecounter++;
+        if ($canal !~ /^AGENT/i)
+        {
+
+            # Generates Fake Agent Login to change led color and label renaming
+            $fake_bloque[$fakecounter]{"Event"}   = "Agentlogin";
+            $fake_bloque[$fakecounter]{"Channel"} = $canal . "-XXXX";
+            $fake_bloque[$fakecounter]{"Agent"}   = $canal;
+            $fake_bloque[$fakecounter]{"Fake"}    = "1";
+            $fakecounter++;
+        }
+
     }
 
     if ($evento eq "queuestatus")
@@ -2396,10 +2814,10 @@ sub procesa_bloque
 
     if ($evento eq "meetmemute" || $evento eq "meetmeunmute")
     {
-        $canal        = $canalid;
+        my ($canal, $nada) = separate_session_from_channel($canalid);
         $estado_final = $evento;
-
-        #        push @return, "$canal|$evento||$unico_id|$canal";
+        push @return, "$canal|$evento||$unico_id|$canalid";
+        $evento = "";
     }
 
     if ($evento eq "queueparams")
@@ -2411,8 +2829,7 @@ sub procesa_bloque
         if ($hash_temporal{"Calls"} > 0)
         {
             if ($hash_temporal{"Calls"} > 1) { $plural = "s"; }
-            $texto =
-              $hash_temporal{"Calls"} . " member$plural waiting on queue...";
+            $texto    = $hash_temporal{"Calls"} . " member$plural waiting on queue...";
             $unico_id = "$canal-$server";
             push @return, "$canal|$estado_final|$texto|$unico_id|$canalid";
             $evento = "";
@@ -2455,18 +2872,6 @@ sub procesa_bloque
 
         $canal =~ tr/a-z/A-Z/;
 
-        # Fake event to signal flash that a button is member
-        # of a meetme
-
-        #        $fake_bloque[$fakecounter]{"Event"}   = "IsMeetmeMember";
-        #        $fake_bloque[$fakecounter]{"Channel"} = $hash_temporal{"Channel"};
-        #        $fake_bloque[$fakecounter]{"Usernum"} = $hash_temporal{"Usernum"};
-        #        $fake_bloque[$fakecounter]{"Meetme"}  = $hash_temporal{"Meetme"};
-        #        $fakecounter++;
-
-        # Originates a call to the third extension if it finds
-        # an auto created conference
-
         for $quehay (keys %auto_conference)
         {
 
@@ -2479,13 +2884,11 @@ sub procesa_bloque
 
         if ($originate ne "no")
         {
-            log_debug("$debugh origino a meetme en el contexto $contexto!",
-                      128);
+            log_debug("$debugh origino a meetme en el contexto $contexto!", 128);
             my $comando = "Action: Originate\r\n";
             $comando .= "Channel: $originate\r\n";
             $comando .= "Exten: $canal\r\n";
-            $comando .=
-              "Context: " . $config->{$contexto}{'conference_context'} . "\r\n";
+            $comando .= "Context: " . $config->{$contexto}{'conference_context'} . "\r\n";
             $comando .= "Priority: 1\r\n";
             $comando .= "\r\n";
             send_command_to_manager($comando, $socket);
@@ -2504,23 +2907,17 @@ sub procesa_bloque
             if (!defined($datos{"$canal-$server"}{"Count"}))
             {
                 $datos{"$canal-$server"}{"Count"} = 0;
-                log_debug(
-                         "$debugh POPULATES datos($canal-$server){ count } = 0",
-                         64);
+                log_debug("$debugh POPULATES datos($canal-$server){ count } = 0", 64);
             }
             $datos{"$canal-$server"}{"Count"}++;
-            log_debug(
-                "$debugh pongo DATOS ($canal-$server) {count} en $datos{\"$canal-$server\"}{'Count'}",
-                16
-            );
+            log_debug("$debugh pongo DATOS ($canal-$server) {count} en $datos{\"$canal-$server\"}{'Count'}", 16);
         }
         else
         {
         }
 
         # Its a fake meetmejoin generated from the meetme status at startup
-        my ($canalsinses, $pedses) =
-          separate_session_from_channel($hash_temporal{'Channel'});
+        my ($canalsinses, $pedses) = separate_session_from_channel($hash_temporal{'Channel'});
         push @return,
           "$hash_temporal{'Meetme'}|setlink|$hash_temporal{'Channel'}|YYYY-$server|$hash_temporal{'Channel'}";
         push @return,
@@ -2531,13 +2928,10 @@ sub procesa_bloque
         if (defined($hash_temporal{"Total"}))
         {
             $datos{"$canal-$server"}{"Count"} = $hash_temporal{"Total"};
-            log_debug(
-                "$debugh pongo DATOS de ($canal-$server) {count} en $hash_temporal{'Total'}",
-                64
-            );
+            log_debug("$debugh pongo DATOS de ($canal-$server) {count} en $hash_temporal{'Total'}", 64);
         }
 
-        $barge_rooms{"$canal-$server"} = $datos{"$canal-$server"}{"Count"};
+        $barge_rooms{"$canal"} = $datos{"$canal-$server"}{"Count"};
 
         if (defined($datos{"$canal-$server"}{"Count"}))
         {
@@ -2554,8 +2948,7 @@ sub procesa_bloque
             my $boton_con_contexto = $buttons{"$server^$canalsinses"};
             my $comando            = "Action: Command\r\n";
             $comando .= "ActionID: meetmemute$boton_con_contexto\r\n";
-            $comando .=
-              "Command: meetme mute $hash_temporal{'Meetme'} $hash_temporal{'Usernum'}\r\n\r\n";
+            $comando .= "Command: meetme mute $hash_temporal{'Meetme'} $hash_temporal{'Usernum'}\r\n\r\n";
             send_command_to_manager($comando, $socket);
             delete $start_muted{"$server^$canalsinses"};
         }
@@ -2573,11 +2966,8 @@ sub procesa_bloque
         $estado_final = "ocupado9";    # 9 for meetme
         my $plural = "";
         $datos{"$canal-$server"}{"Count"}--;
-        log_debug(
-            "$debugh pongo DATOS ( $canal-$server) (count) en $datos{\"$canal-$server\"}{'Count'} leave",
-            64
-        );
-        $barge_rooms{"$canal-$server"} = $datos{"$canal-$server"}{"Count"};
+        log_debug("$debugh pongo DATOS ( $canal-$server) (count) en $datos{\"$canal-$server\"}{'Count'} leave", 64);
+        $barge_rooms{"$canal"} = $datos{"$canal-$server"}{"Count"};
         if ($datos{"$canal-$server"}{"Count"} > 1)  { $plural       = "s"; }
         if ($datos{"$canal-$server"}{"Count"} <= 0) { $estado_final = "corto"; }
         $texto =
@@ -2587,7 +2977,6 @@ sub procesa_bloque
           . " member$plural].";
         $unico_id = $canal . "-" . $server;
         push @return, "$canal|$estado_final|$texto|$unico_id|$canalid";
-        $evento = "";
         my $canaleja = $hash_temporal{"Channel"};
         delete $auto_conference{$canaleja};
         log_debug("$debugh Erasing auto_conference $canaleja", 16);
@@ -2599,7 +2988,7 @@ sub procesa_bloque
 
         my ($canal1, $nada1) = separate_session_from_channel($canaleja);
         push @return, "$canal1|unsetlink|$canal|$unico_id|$canalid";
-
+        $evento = "";
     }
 
     if ($evento eq "leave")
@@ -2642,10 +3031,8 @@ sub procesa_bloque
                 {
 
                     # If it has new voicemail, ask for mailboxcount
-                    send_command_to_manager(
-                        "Action: MailboxCount\r\nMailbox: $hash_temporal{'Mailbox'}\r\n\r\n",
-                        $socket
-                    );
+                    send_command_to_manager("Action: MailboxCount\r\nMailbox: $hash_temporal{'Mailbox'}\r\n\r\n",
+                                            $socket);
                 }
             }
             else
@@ -2653,11 +3040,10 @@ sub procesa_bloque
                 $estado_final = "voicemailcount";
                 my $nuevos = $hash_temporal{"NewMessages"};
                 my $viejos = $hash_temporal{"OldMessages"};
-                $texto   = "New: $nuevos, Old: $viejos";
+                $texto   = "New $nuevos, Old $viejos";
                 $canalid = $canal . "-XXXX";
             }
-            push @return,
-              "$canal|$estado_final|$texto|$unico_id-$server|$canalid";
+            push @return, "$canal|$estado_final|$texto|$unico_id-$server|$canalid";
         }
         $evento = "";
     }
@@ -2695,7 +3081,7 @@ sub procesa_bloque
             log_debug("$debugh EXISTE parked{$server^$channel1} ", 128);
             my $parkexten = $parked{"$server^$channel1"};
             delete $parked{"$server^$channel1"};
-            push @return, "PARK$parkexten|corto||YYYY-$server|$channel1";
+            push @return, "PARK/$parkexten|corto||YYYY-$server|$channel1";
             push @return, "$canal1|ocupado5||$uniqueid1|$channel1";
         }
         else
@@ -2709,17 +3095,44 @@ sub procesa_bloque
             log_debug("$debugh SI EXISTE!",                        128);
             my $parkexten = $parked{"$server^$channel2"};
             delete $parked{"$server^$channel2"};
-            push @return, "PARK$parkexten|corto||YYYY-$server|$channel2";
+            push @return, "PARK/$parkexten|corto||YYYY-$server|$channel2";
             push @return, "$canal2|ocupado5||$uniqueid2|$channel2";
         }
         else
         {
             log_debug("$debugh NO EXISTE parked{$server^$channel2}", 128);
         }
+        my $clid1 = "";
+        my $clid2 = "";
 
+        if (defined($datos{$uniqueid2}{"Callerid"}))
+        {
+            $clid1 = $datos{$uniqueid2}{"Callerid"};
+        }
+        if (defined($datos{$uniqueid2}{"CallerID"}))
+        {
+            $clid1 = $datos{$uniqueid2}{"CallerID"};
+        }
+        if (defined($datos{$uniqueid1}{"Callerid"}))
+        {
+            $clid2 = $datos{$uniqueid1}{"Callerid"};
+        }
+        if (defined($datos{$uniqueid1}{"CallerID"}))
+        {
+            $clid2 = $datos{$uniqueid1}{"CallerID"};
+        }
+
+        if ($clid1 ne "" && $channel2 ne "")
+        {
+            push @return, "$canal1|settext|$clid1|$uniqueid1|$channel1";
+        }
+        if ($clid2 ne "" && $channel1 ne "")
+        {
+            push @return, "$canal2|settext|$clid2|$uniqueid2|$channel2";
+        }
         push @return, "$canal1|setlink|$channel2|$uniqueid1|$channel1";
         push @return, "$canal2|setlink|$channel1|$uniqueid2|$channel2";
-
+        $evento = "";    #NEW
     }
 
     if ($evento eq "unlink")
@@ -2757,39 +3170,16 @@ sub procesa_bloque
 
         #push @return, "$boton1|unsetlink|$boton2|$uniqueid1|$channel2";
         #push @return, "$boton2|unsetlink|$boton1|$uniqueid2|$channel1";
-        push @return, "$canal1|unsetlink|$channel2|$uniqueid1|$channel1";
-        push @return, "$canal2|unsetlink|$channel1|$uniqueid2|$channel2";
-    }
-
-    if ($evento eq "newexten")
-    {
-
-        # If its a new extension without state, defaults to 'Up'
-        if (!defined($datos{$unico_id}{'State'}) && $fill_datos)
-        {
-            $datos{$unico_id}{'State'} = "Up";
-            log_debug("$debugh POPULATES datos($unico_id){ State } = Up", 128);
-        }
-
-        # If its a parked channel, set the PARK button to 'Down'
-        if (exists($parked{"$server^$canalid"}))
-        {
-            log_debug("$debugh EXISTE parked{$server^$canalid}", 128);
-            my $parkexten = $parked{"$server^$canalid"};
-            delete $parked{"$server^$canalid"};
-            push @return, "PARK$parkexten|corto||YYYY-$server|$canalid";
-        }
-        else
-        {
-            log_debug("$debugh NO EXISTE parked{$server^$canalid}", 128);
-        }
+        push @return, "$canal1|unsetlink|$channel2|$uniqueid1-$server|$channel1";
+        push @return, "$canal2|unsetlink|$channel1|$uniqueid2-$server|$channel2";
+        $evento = "";    #NEW
     }
 
     if ($evento eq "rename")
     {
         my $nuevo_nombre = "";
         my $viejo_nombre = "";
-        log_debug("$debugh RENAME Event", 1);
+        log_debug("$debugh RENAME Event", 16);
         $evento = "";
         while (($key, $val) = each(%hash_temporal))
         {
@@ -2802,13 +3192,7 @@ sub procesa_bloque
                 $viejo_nombre = $val;
             }
         }
-        log_debug(
-                "$debugh RENAME $viejo_nombre por $nuevo_nombre (id $unico_id)",
-                16);
-
-        #if ($nuevo_nombre !~ /</ && $viejo_nombre !~ /</) {
-        #print "RENAME de $viejo_nombre a $nuevo_nombre debe generar evento\n";
-        #}
+        log_debug("$debugh RENAME $viejo_nombre por $nuevo_nombre (id $unico_id)", 16);
 
         # Directamente borra la sesion que se debe renombrar
         if (($nuevo_nombre !~ /</) && ($viejo_nombre !~ /</))
@@ -2825,10 +3209,7 @@ sub procesa_bloque
                     }
                     else
                     {
-                        log_debug(
-                            "$debugh RENAME quito de sesbot ($mnroboton) el valor $msesion",
-                            16
-                        );
+                        log_debug("$debugh RENAME quito de sesbot ($mnroboton) el valor $msesion", 16);
 
                         #push @final, $nuevo_nombre;
                         #print "RENAME agrego a sesbot ($mnroboton) el valor $nuevo_nombre\n";
@@ -2842,43 +3223,26 @@ sub procesa_bloque
                 @final = ();
                 foreach my $msesion (@{$linkbot{$mnroboton}})
                 {
-                    log_debug(
-                            "$debugh RENAME iteracion cada linkbot($mnroboton)",
-                            32);
+                    log_debug("$debugh RENAME iteracion cada linkbot($mnroboton)", 32);
                     if ($msesion ne $viejo_nombre)
                     {
                         push @final, $msesion;
-                        log_debug(
-                            "$debugh RENAME dejo $msesion en linkbot($mnroboton)",
-                            32
-                        );
+                        log_debug("$debugh RENAME dejo $msesion en linkbot($mnroboton)", 32);
                     }
                     else
                     {
                         &print_sesbot(20);
-                        log_debug(
-                            "$debugh RENAME viejo $viejo_nombre no va, en realidad va $nuevo_nombre",
-                            32
-                        );
+                        log_debug("$debugh RENAME viejo $viejo_nombre no va, en realidad va $nuevo_nombre", 32);
                         push @final, $nuevo_nombre;
                         $estado_final = "setlink";
                         my $botoncambiado = $buttons{"$mnroboton"};
-                        log_debug("$debugh RENAME buttons($mnroboton)", 32);
-                        log_debug("$debugh RENAME sesbot($botoncambiado)[0]",
-                                  32);
+                        log_debug("$debugh RENAME buttons($mnroboton)",       32);
+                        log_debug("$debugh RENAME sesbot($botoncambiado)[0]", 32);
                         my $canalcambiado = $sesbot{$botoncambiado}[0];
-                        my ($canalito, $nada) =
-                          separate_session_from_channel($canalcambiado);
-                        push @return,
-                          "$canalito|$estado_final|$nuevo_nombre|$unico_id|$canalcambiado";
-
-                        #        push @return, "$canalito|unsetlink|$viejo_nombre|$unico_id|$canalcambiado";
-                        #        print "$canalito|unsetlink|$viejo_nombre|$unico_id|$canalcambiado\n";
-                        ($canalito, $nada) =
-                          separate_session_from_channel($nuevo_nombre);
-                        push @return,
-                          "$canalito|$estado_final|$canalcambiado|$unico_id|$nuevo_nombre";
-
+                        my ($canalito, $nada) = separate_session_from_channel($canalcambiado);
+                        push @return, "$canalito|$estado_final|$nuevo_nombre|$unico_id|$canalcambiado";
+                        ($canalito, $nada) = separate_session_from_channel($nuevo_nombre);
+                        push @return, "$canalito|$estado_final|$canalcambiado|$unico_id|$nuevo_nombre";
                         $canal = $canalito;
                     }
                 }
@@ -2893,14 +3257,12 @@ sub procesa_bloque
                 if (($key eq "Channel") && ($val eq $viejo_nombre))
                 {
                     $datos{"$quehay"}{"$key"} = $nuevo_nombre;
-                    log_debug(
-                        "$debugh POPULATES datos($quehay){ $key } = $nuevo_nombre",
-                        32
-                    );
+                    log_debug("$debugh POPULATES datos($quehay){ $key } = $nuevo_nombre", 32);
                 }
             }
         }
         &print_sesbot(3);
+        $evento = "";    #NEW
     }
 
     if ($evento eq "peerstatus")
@@ -2935,15 +3297,16 @@ sub procesa_bloque
             $estado_final = "noregistrado";
             $texto        = "Lagged $tiempo";
         }
-        $evento  = "";
         $canalid = $canal . "-XXXX";
         push @return, "$canal|$estado_final|$texto|$unico_id|$canalid";
+        $evento = "";
     }
 
     if ($evento eq "status")
     {
         $evento = "";
     }
+
     if ($evento eq "statuscomplete")
     {
 
@@ -2971,8 +3334,8 @@ sub procesa_bloque
                 my $myevent = "Newexten";
                 while (my ($key, $val) = each(%{$datos{$_}}))
                 {
-                    log_debug("$debugh STATUSCOMPLETE datos { $key } = $val",
-                              128);
+                    log_debug("$debugh STATUSCOMPLETE datos { $key } = $val", 128);
+
                     if (defined($val))
                     {
                         $hay_activos = 1;
@@ -2982,24 +3345,19 @@ sub procesa_bloque
                             $myevent = "Ring";
                             $fake_bloque[$fakecounter]{'Origin'} = "true";
                         }
-
-                        #						if ($key eq "Uniqueid")
-                        #						{
-                        #							my @pedacitos = split(/-/,$val);
-                        #							if( "$pedacitos[1]" eq "$server" )
-                        #							{
-                        #								push @ids, $_;
-                        #							}
-                        #						}
+                        if ($key eq "Channel")
+                        {
+                            if ($timeouts{$val})
+                            {
+                                $datos{$_}{"Timeout"} = $timeouts{$val};
+                            }
+                        }
                     }
                 }
                 if ($hay_activos == 1)
                 {
                     $fake_bloque[$fakecounter]{"Event"} = $myevent;
-                    log_debug(
-                        "$debugh fake bloque de $fakecounter (evento) lo pongo en $myevent",
-                        128
-                    );
+                    log_debug("$debugh fake bloque de $fakecounter (evento) lo pongo en $myevent", 128);
                     $fakecounter++;
                 }
             }
@@ -3016,10 +3374,7 @@ sub procesa_bloque
             {
                 if (exists($datos{"$valor"}{"Link"}))
                 {
-                    log_debug(
-                        "$debugh datos de $valor tiene defined Link genero un Fake bloque",
-                        128
-                    );
+                    log_debug("$debugh datos de $valor tiene defined Link genero un Fake bloque", 128);
 
                     my $channel1 = $datos{$valor}{"Channel"};
                     my $channel2 = $datos{$valor}{"Link"};
@@ -3032,70 +3387,148 @@ sub procesa_bloque
                     $fake_bloque[$fakecounter]{"Uniqueid1"} = $unique1;
                     $fake_bloque[$fakecounter]{"Uniqueid2"} = $unique2;
 
-                    while (my ($quey, $vail) =
-                           each(%{$fake_bloque[$fakecounter]}))
+                    while (my ($quey, $vail) = each(%{$fake_bloque[$fakecounter]}))
                     {
-                        log_debug("$debugh FAKEBLOQUE contiene $quey = $vail",
-                                  128);
+                        log_debug("$debugh FAKEBLOQUE contiene $quey = $vail", 128);
                     }
 
+                    $fakecounter++;
+                }
+                if (exists($datos{"$valor"}{"Timeout"}))
+                {
+                    my $calltimeout = $datos{"$valor"}{"Timeout"} - time();
+                    $fake_bloque[$fakecounter]{"ActionID"} = "timeout|$datos{$valor}{'Channel'}|$calltimeout";
                     $fakecounter++;
                 }
             }
         }
 
-        # $evento = "";
+        $evento = "";    #NEW (estaba comentado)
     }
+
+    if ($evento eq "fakeismeetmemember")
+    {
+        my @bot1 = ();
+        my $bot2 = 0;
+        $estado_final = "meetmeuser";
+        $texto        = $hash_temporal{"Usernum"} . "," . $hash_temporal{"Meetme"};
+        my ($chan1, $nada1) = separate_session_from_channel($hash_temporal{'Channel'});
+        push @return, "$hash_temporal{'Meetme'}|setlink|$hash_temporal{'Channel'}||$hash_temporal{'Channel'}";
+        push @return, "$chan1|setlink|$hash_temporal{'Meetme'}||$hash_temporal{'Channel'}";
+        $evento = "";    #NEW
+    }
+
+    if ($evento eq "newexten")
+    {
+
+        # If its a new extension without state, defaults to 'Up'
+        if (!defined($datos{$unico_id}{'State'}) && $fill_datos)
+        {
+            $datos{$unico_id}{'State'} = "Up";
+            log_debug("$debugh POPULATES datos($unico_id){ State } = Up", 128);
+        }
+
+        # If its a parked channel, set the PARK button to 'Down'
+        if (exists($parked{"$server^$canalid"}))
+        {
+            log_debug("$debugh EXISTE parked{$server^$canalid}", 128);
+            my $parkexten = $parked{"$server^$canalid"};
+            delete $parked{"$server^$canalid"};
+            push @return, "PARK/$parkexten|corto||YYYY-$server|$canalid";
+        }
+        else
+        {
+            log_debug("$debugh NO EXISTE parked{$server^$canalid}", 128);
+        }
+    }
+
+    if ($evento eq "hangup")
+    {
+        if (exists($datos{$unico_id}))
+        {
+            $datos{$unico_id}{'State'} = "Down";
+            log_debug("$debugh POPULATES datos($unico_id){ State } = down", 128);
+        }
+        else
+        {
+            $hash_temporal{'State'} = "Down";
+        }
+
+        # Look if the channel was parked and clear that button too
+        if (exists($parked{"$server^$canalid"}))
+        {
+            log_debug("$debugh 2 EXISTE parked{$server^$canalid}", 128);
+            my $parkexten = $parked{"$server^$canalid"};
+            delete $parked{"$server^$canalid"};
+            push @return, "PARK/$parkexten|corto||YYYY-$server|$canalid";
+        }
+        else
+        {
+            log_debug("$debugh NO EXISTE parked{$server^$canalid}", 128);
+        }
+    }
+
+    if ($evento eq "parkedcall")
+    {
+        $texto        = "[Parked on " . $hash_temporal{'Exten'} . "]";
+        $estado_final = "ocupado3";
+        my ($canal, $nada) = separate_session_from_channel($hash_temporal{'Channel'});
+        my $textid   = "";
+        my $timeout  = "";
+        my $unidchan = find_uniqueid($hash_temporal{'Channel'}, $server);
+        $textid = $datos{$unidchan}{'Callerid'}
+          if (defined($datos{$unidchan}{'Callerid'}));
+        $textid = $datos{$unidchan}{'CallerID'}
+          if (defined($datos{$unidchan}{'CallerID'}));
+        $timeout = "(" . $hash_temporal{'Timeout'} . ")";
+        $textid =~ s/\"//g;
+        $textid =~ s/\<//g;
+        $textid =~ s/\>//g;
+        push @return, "$canal|ocupado3|$texto|$unidchan|$canalid";
+        push @return,
+          "PARK/$hash_temporal{'Exten'}|park|[$textid]$timeout|$hash_temporal{'Timeout'}-$server|$hash_temporal{'Channel'}";
+
+        log_debug("$debugh pongo parked($server^$hash_temporal{'Channel'}) en $hash_temporal{'Exten'}", 64);
+        $parked{"$server^$hash_temporal{'Channel'}"} = $hash_temporal{'Exten'};
+        $evento = "";    #NEW
+    }
+
+    if ($evento eq "newcallerid")
+    {
+        $estado_final = "ocupado";
+        $state        = "Newcallerid";
+        my $save_clidnum  = "";
+        my $save_clidname = "";
+        if (defined($hash_temporal{'CallerIDName'}))
+        {
+            $save_clidnum  = $hash_temporal{'CallerID'};
+            $save_clidname = $hash_temporal{'CallerIDName'};
+        }
+        elsif (defined($hash_temporal{'CalleridName'}))
+        {
+            $save_clidnum  = $hash_temporal{'Callerid'};
+            $save_clidname = $hash_temporal{'CalleridName'};
+        }
+        else
+        {
+            ($save_clidnum, $save_clidname) = split_callerid($hash_temporal{'CallerID'});
+        }
+        $saved_clidnum{"$server^$hash_temporal{'Channel'}"}  = $save_clidnum;
+        $saved_clidname{"$server^$hash_temporal{'Channel'}"} = $save_clidname;
+    }
+
+    # From now on, we only look for the State of the datos block
+    # Dont check for $evento bellow this line!
 
     if ($evento ne "")
     {
-        log_debug("$debugh Event $evento", 16);
-
-        if ($evento eq "hangup")
-        {
-            if (exists($datos{$unico_id}))
-            {
-                $datos{$unico_id}{'State'} = "Down";
-                log_debug("$debugh POPULATES datos($unico_id){ State } = down",
-                          128);
-            }
-            else
-            {
-                $hash_temporal{'State'} = "Down";
-            }
-
-            # Look if the channel was parked and clear that button too
-            if (exists($parked{"$server^$canalid"}))
-            {
-                log_debug("$debugh 2 EXISTE parked{$server^$canalid}", 128);
-                my $parkexten = $parked{"$server^$canalid"};
-                delete $parked{"$server^$canalid"};
-                push @return, "PARK$parkexten|corto||YYYY-$server|$canalid";
-            }
-            else
-            {
-                log_debug("$debugh NO EXISTE parked{$server^$canalid}", 128);
-            }
-        }
-
-        if ($evento eq "fakeismeetmemember")
-        {
-            my @bot1 = ();
-            my $bot2 = 0;
-            $estado_final = "meetmeuser";
-            $texto = $hash_temporal{"Usernum"} . "," . $hash_temporal{"Meetme"};
-            my ($chan1, $nada1) =
-              separate_session_from_channel($hash_temporal{'Channel'});
-            push @return,
-              "$hash_temporal{'Meetme'}|setlink|$hash_temporal{'Channel'}||$hash_temporal{'Channel'}";
-            push @return,
-              "$chan1|setlink|$hash_temporal{'Meetme'}||$hash_temporal{'Channel'}";
-        }
+        log_debug("$debugh Event $evento, canal '$canal'", 16);
 
         # De acuerdo a los datos de la extension genera
         # la linea con info para el flash
 
         $elemento = $canalid;
+
         if (exists($datos{$unico_id}))
         {
             if (exists($datos{$unico_id}{'Channel'}))
@@ -3117,9 +3550,7 @@ sub procesa_bloque
                 }
             }
         }
-        $elemento =~ s/(.*)[-\/](.*)/$1\t$2/g;
-        $elemento =~ tr/a-z/A-Z/;
-        ($canal, $sesion) = split(/\t/, $elemento);
+        ($canal, $sesion) = separate_session_from_channel($elemento);
 
         if (defined($canal))
         {
@@ -3166,6 +3597,25 @@ sub procesa_bloque
             {
                 $clid = $datos{$unico_id}{'CallerID'};
             }
+            if ($clid ne "")
+            {
+                ($clidnum, $clidname) = split_callerid($clid);
+            }
+            if (exists($datos{$unico_id}{'CallerIDName'}))
+            {
+                $clidname = $datos{$unico_id}{'CallerIDName'};
+            }
+
+            # The ones below are for catching the callerid from the
+            # Dial event on CVS-HEAD
+            if (exists($remote_callerid{"$server^$canalid"}))
+            {
+                $clidnum = $remote_callerid{"$server^$canalid"};
+            }
+            if (exists($remote_callerid_name{"$server^$canalid"}))
+            {
+                $clidname = $remote_callerid_name{"$server^$canalid"};
+            }
         }
         else
         {
@@ -3184,33 +3634,24 @@ sub procesa_bloque
             }
         }
 
-        my $clid_with_format = format_clid($clid, $clid_format);
+        my $clid_with_format = format_clid($clidnum, $clid_format);
 
-        if ($evento eq "parkedcall")
+        if ($state eq "Ringing")
         {
-            $texto        = "[Parked on " . $hash_temporal{'Exten'} . "]";
-            $estado_final = "ocupado3";
-            my $textid   = "";
-            my $timeout  = "";
-            my $unidchan = find_uniqueid($hash_temporal{'Channel'}, $server);
-            $textid = $datos{$unidchan}{'Callerid'}
-              if (defined($datos{$unidchan}{'Callerid'}));
-            $textid = $datos{$unidchan}{'CallerID'}
-              if (defined($datos{$unidchan}{'CallerID'}));
-            $timeout = "(" . $hash_temporal{'Timeout'} . ")";
-            $textid =~ s/\"//g;
-            $textid =~ s/\<//g;
-            $textid =~ s/\>//g;
+            if ($clidnum ne "")
+            {
+                my $base64_clidnum  = encode_base64($clidnum . " ");
+                my $base64_clidname = encode_base64($clidname . " ");
+                my $ret             = "$canal|clidnum|$base64_clidnum|$unico_id|$hash_temporal{'Channel'}";
+                push @return, $ret;
+                $ret = "$canal|clidname|$base64_clidname|$unico_id|$hash_temporal{'Channel'}";
+                push @return, $ret;
+            }
+        }
 
-            push @return,
-              "PARK$hash_temporal{'Exten'}|park|[$textid]$timeout|$hash_temporal{'Timeout'}-$server|$hash_temporal{'Channel'}";
-
-            log_debug(
-                "$debugh pongo parked($server^$hash_temporal{'Channel'}) en $hash_temporal{'Exten'}",
-                64
-            );
-            $parked{"$server^$hash_temporal{'Channel'}"} =
-              $hash_temporal{'Exten'};
+        if ($state eq "Rsrvd")
+        {
+            $state = "Ring";
         }
 
         if ($state eq "Ring")
@@ -3218,19 +3659,27 @@ sub procesa_bloque
             $texto                      = "Originating call ";
             $estado_final               = "ring";
             $datos{$unico_id}{'Origin'} = "true";
-            log_debug("$debugh POPULATES datos($unico_id){ Origin } = true",
-                      128);
+            log_debug("$debugh POPULATES datos($unico_id){ Origin } = true", 128);
         }
 
         if ($state eq "Dialing")
         {
             $texto        = "Dialing";
-            $estado_final = "ocupado";
+            $estado_final = "ring";
+            if ($canal =~ /^OH323/)
+            {
+
+                # OH323 use a random channel name when Dialing
+                # that later changes its name. So we just discard
+                # this event/name to avoid getting Dialing channels
+                # foerever (because we never receive a Down status)
+                $estado_final = "";
+            }
         }
 
         if ($state =~ /^UNK/)
         {
-            $texto        = "No registrado " . $exten;
+            $texto        = "No registrado";
             $estado_final = "noregistrado";
             $unico_id     = "YYYY-$server";
             if ($canalid !~ /(.*)-XXXX$/)
@@ -3241,7 +3690,7 @@ sub procesa_bloque
 
         if ($state =~ /^UNR/)
         {
-            $texto        = "No alcanzable " . $exten;
+            $texto        = "No alcanzable";
             $estado_final = "unreachable";
             $unico_id     = "YYYY-$server";
             if ($canalid !~ /(.*)-XXXX$/)
@@ -3252,7 +3701,7 @@ sub procesa_bloque
 
         if ($state =~ /^Unm/)
         {
-            $texto        = "Registrado " . $exten;
+            $texto        = "Registrado";
             $estado_final = "registrado";
             $unico_id     = "YYYY-$server";
             if ($canalid !~ /(.*)-XXXX$/)
@@ -3263,7 +3712,7 @@ sub procesa_bloque
 
         if ($state =~ /^OK/)
         {
-            $texto        = "Registrado " . $exten;
+            $texto        = "Registrado";
             $estado_final = "registrado";
             $unico_id     = "YYYY-$server";
             if ($canalid !~ /(.*)-XXXX$/)
@@ -3272,29 +3721,58 @@ sub procesa_bloque
             }
         }
 
+        if ($state eq "Newcallerid")
+        {
+            $texto = "Incoming call from [" . $clid_with_format . "] " . $enlazado;
+        }
+
         if ($state eq "Ringing")
         {
-            $texto =
-              "Incoming call from [" . $clid_with_format . "] " . $enlazado;
+            $texto        = "Incoming call from [" . $clid_with_format . "] " . $enlazado;
             $estado_final = "ringing";
         }
 
         if ($state eq "Down")
         {
 
-            # $canalid      = $elemento;    El comentario es NEW
-            $estado_final = "corto";
+            if ($evento eq "hangup")
+            {
+
+                # Solo nos interesa mandar a flash los down por hangup
+                # para evitar enviar eventos redundantes
+                $estado_final = "corto";
+                if ($agent_status == 1)
+                {
+                    if (exists($agents{"$server^$canal"}) || exists($reverse_agents{$canal}))
+                    {
+                        print
+                          "Existe agents{$server^$canal) $agents{\"$server^$canal\"}, o reverse_agents($canal) $reverse_agents{$canal}\n";
+                        push @return, "$canal|isagent|0|$unico_id|$canalid";
+                    }
+                }
+            }
+            delete $timeouts{$canalid};
+            delete $remote_callerid{"$server^$canalid"};
+            delete $remote_callerid_name{"$server^$canalid"};
+            delete $saved_clidname{"$server^$canalid"};
+            delete $saved_clidnum{"$server^$canalid"};
 
             #erase_instances_for_trunk_buttons($canalsesion);
         }
 
+        my $exclude    = 0;
+        my $exten_clid = "";
         if ($state eq "Up")
         {
             if ($exten ne "")
             {
                 if (is_number($exten))
                 {
-                    my $exten_clid = $exten;
+                    $exten_clid = $exten;
+                    if (defined($saved_clidnum{"$server^$canalid"}))
+                    {
+                        $exten_clid = format_clid($saved_clidnum{"$server^$canalid"}, $clid_format);
+                    }
                     if ($clid_privacy)
                     {
                         $exten_clid = "n/a";
@@ -3303,8 +3781,16 @@ sub procesa_bloque
                 }
                 else
                 {
-                    $conquien = $exten;
-                    log_debug("$debugh CLID is not a number!", 32);
+                    if (length($exten) == 1)
+                    {
+                        $conquien = $exten;
+                        $exclude  = 1;        # We ignore events that have letter extensions 's', 'h', etc
+                        log_debug("$debugh CLID is not a number! $exten", 16);
+                    }
+                    else
+                    {
+                        $conquien = $exten;
+                    }
                 }
             }
             else
@@ -3314,26 +3800,36 @@ sub procesa_bloque
 
             if (defined($hash_temporal{'Seconds'}))
             {
-                $conquien .= " (" . $hash_temporal{'Seconds'} . ")";
-                push @return,
-                  "$canal|settimer|$hash_temporal{'Seconds'}|$unico_id|$canalid";
 
-                #                print
-                #                 "PROCESA_BLOQUE $canal|settimer|$hash_temporal{'Seconds'}|$unico_id|$canalid";
+                # $conquien .= " (" . $hash_temporal{'Seconds'} . ")";
+                push @return, "$canal|settimer|$hash_temporal{'Seconds'}|$unico_id|$canalid";
+                push @return, "$canal|state|busy|$unico_id|$canalid";
+
             }
 
             if (defined($datos{$unico_id}{'Origin'}))
             {
                 if ($datos{$unico_id}{'Origin'} eq "true")
                 {
-                    $texto = "Outgoing call to $conquien - $enlazado";
+                    if ($exclude == 1)
+                    {
+                        $texto = "skip";
+                    }
+                    else
+                    {
+
+                        # $texto = "Calling $conquien - $enlazado";
+                        $texto = "Calling [$exten_clid]";
+                    }
                     $estado_final = "ocupado2";    # 2 for origin button
                 }
             }
             else
             {
-                $texto = "Incoming call from $conquien - $enlazado";
-                $estado_final = "ocupado1";        # 1 for destination button
+
+                # $texto = "Incoming call from $conquien - $enlazado";
+                $texto        = "Incoming call from [$conquien]";
+                $estado_final = "ocupado1";                         # 1 for destination button
             }
         }
 
@@ -3347,24 +3843,17 @@ sub procesa_bloque
 
     }
 
-    log_debug("$debugh Al fin tengo canal $canal y estado_final $estado_final",
-              64);
+    my %seen = ();
+    my @uniq =
+      grep { !$seen{$_}++ } @return;
+    @return = @uniq;
 
-    if ($canal ne "" && $estado_final ne "")
+    foreach (@return)
     {
-        foreach (@return)
-        {
-            log_debug("$debugh returns $_", 16);
-        }
-        return @return;
+        log_debug("$debugh returns $_", 16);
     }
-    else
-    {
-        log_debug("$debugh esta VACIO no hay canal ni estado_final definido",
-                  16);
-        @return = ();
-        return @return;
-    }
+    return @return;
+
 }
 
 sub digest_event_block
@@ -3400,19 +3889,23 @@ sub digest_event_block
         {
             if (defined($mensaje) && $mensaje ne "")
             {
-                log_debug("$debugh GOT $mensaje", 128);
+                log_debug("$debugh GOT $mensaje", 32);
                 delete $datos{""};    # Erase the hash with no uniqueid
-
                 ($canal, $quehace, $dos, $uniqueid, $canalid) =
                   split(/\|/, $mensaje);
-
-                log_debug("$debugh Uniqueid $uniqueid Canalid $canalid", 64);
+                if ($dos eq "skip")
+                {
+                    log_debug("$debugh SALTEO $mensaje", 32);
+                    next;
+                }
+                log_debug("$debugh canal $canal quehace $quehace dos $dos", 16);
+                log_debug("$debugh Uniqueid $uniqueid Canalid $canalid",    16);
 
                 if (!defined($canal))   { $canal   = ""; }
                 if (!defined($quehace)) { $quehace = ""; }
                 if (!defined($dos))     { $dos     = ""; }
-                $canalid =~ s/\s+//g;    # Removes whitespace from CHANNEL-ID
-                $canalid =~ s/(.*)<(.*)>/$1/g;    #discards ZOMBIE or MASQ
+                $canalid =~ s/\s+//g;             # Removes whitespace from CHANNEL-ID
+                $canalid =~ s/(.*)<(.*)>/$1/g;    # discards ZOMBIE or MASQ
 
                 if ($canal =~ /^vpb\//i)
                 {
@@ -3429,7 +3922,6 @@ sub digest_event_block
                 log_debug("$debugh Quehace $quehace", 64);
 
                 my $buttontext = $dos;
-                my $timerbot   = $dos;
 
                 if ($buttontext =~ /\Q[\E/)
                 {
@@ -3440,30 +3932,21 @@ sub digest_event_block
                     $buttontext = "";
                 }
 
-                if ($timerbot =~ /\Q(\E/)
-                {
-                    $timerbot =~ s/.*\Q(\E(.*)\Q)\E.*/$1/g;
-                }
-                else
-                {
-                    $timerbot = "";
-                }
                 my @canaleja = find_panel_buttons($canal, $canalid, $server);
                 my $cuantos  = @canaleja;
 
-                #                if ($cuantos == 0)
-                #                {
-                log_debug("$debugh Populando INFO quehace $quehace", 128);
-
-                # If we have pseudo channels, clean them anyways
                 if ($quehace eq "corto" || $quehace eq "info")
                 {
+
+                    # We collect the last state of the channel on hangup
                     while (my ($key, $val) = each(%{$datos{$uniqueid}}))
                     {
                         $todo .= "$key = $val\n"
                           if ($key ne "E") && (defined($val));
                         log_debug("$debugh \tAgrego $key = $val", 128);
                     }
+                    $todo .= " ";
+                    $todo = encode_base64($todo);
 
                     delete $datos{$uniqueid};
                     log_debug("$debugh erasing datos{$uniqueid}", 128);
@@ -3471,26 +3954,31 @@ sub digest_event_block
 
                 foreach $canal (@canaleja)
                 {
-                    log_debug("$debugh LOOP por canaleja es el turno de $canal",
-                              128);
+                    log_debug("$debugh LOOP por canaleja es el turno de $canal", 16);
 
                     if (!defined($buttons{"$server^$canal"}))
                     {
-                        log_debug("$debugh \tNo tengo botones para $canal",
-                                  128);
+                        log_debug("$debugh \tNo tengo botones para $server^$canal, END FUNCTION", 128);
                         for (keys %buttons)
                         {
                             log_debug("$debugh \t\tKey $_", 128);
                         }
-                        return;
+                        next;
                     }
 
-                    # If its a wildcard button, we have to ignore all events
+                    # If its a REGEXP button, we have to ignore all events
                     # except ocupado*, corto, setlink and unsetlink
-                    if ($canal =~ /\*/)
+                    if ($canal =~ /^_/)
                     {
-                        log_debug("$debugh es un WILD y quehace vale $quehace",
-                                  64);
+                        log_debug("$debugh canal $canal es un WILD y quehace vale $quehace", 32);
+
+                        if (   $quehace =~ /registr/
+                            || $quehace =~ /reacha/
+                            || $quehace =~ /^inf/)
+                        {
+                            log_debug("$debugh IGNORO $quehace porque es un wildcard", 16);
+                            next;
+                        }
 
                         if (   $quehace !~ /^ocupado/
                             && $quehace !~ /^corto/
@@ -3500,29 +3988,17 @@ sub digest_event_block
                             && $quehace !~ /^settimer/
                             && $quehace !~ /^unsetlink/)
                         {
-
+                            my ($nada, $elcontexto) = split(/\&/, $canal);
+                            if (!defined($elcontexto)) { $elcontexto = ""; }
+                            if ($elcontexto ne "")
+                            {
+                                $elcontexto = "&" . $elcontexto;
+                            }
                             my ($canalsolo, $nrotrunk) = split(/=/, $canal);
-                            $canal = $canalsolo . "=1";
-                            log_debug(
-                                "$debugh como quehace es $quehace, elijo el 1ero del trunk del canal wildcard $canal",
-                                128
-                            );
+                            $canal = $canalsolo . "=1" . $elcontexto;
+                            log_debug("$debugh quehace=$quehace, elijo el 1ero del trunk $canal", 16);
 
                             #next;
-                        }
-                        if (
-                               $quehace =~ /registr/
-                            || $quehace =~ /reacha/
-
-                            # || $quehace =~ /changelabel1/
-                            || $quehace =~ /^inf/
-                           )
-                        {
-                            log_debug(
-                                "$debugh IGNORO $quehace porque es un wildcard",
-                                16
-                            );
-                            next;
                         }
 
                         # If we have a wildcard button with changelabel
@@ -3530,8 +4006,7 @@ sub digest_event_block
                         # change it so to not change the led color.
                         if ($quehace =~ /changelabel1/)
                         {
-                            log_debug("$debugh el wildcard tiene changelabel1!",
-                                      128);
+                            log_debug("$debugh el wildcard tiene changelabel1, lo cambio por changelabel0!", 16);
                             $quehace = "changelabel0";
                         }
                     }
@@ -3540,9 +4015,8 @@ sub digest_event_block
                     {
                         if ($quehace eq 'corto' || $quehace eq 'info')
                         {
-                            my @linked =
-                              erase_all_sessions_from_channel($canalid, $canal,
-                                                              $server);
+
+                            my @linked = erase_all_sessions_from_channel($canalid, $canal, $server);
                             push @linked, $canal;
                             my $btnorinum = "";
                             foreach my $canaleje (@linked)
@@ -3555,24 +4029,18 @@ sub digest_event_block
                                 {
                                     $btnorinum = $buttons{"$server^$canaleje"};
                                 }
-                                log_debug("$debugh call GEN_LINKED 1", 32);
-                                my $listabotones =
-                                  generate_linked_buttons_list($canaleje,
-                                                               $server);
-                                push @respuestas,
-                                  "$btnorinum|linked|$listabotones";
+                                log_debug("$debugh call GEN_LINKED 1", 16);
+                                my $listabotones = generate_linked_buttons_list($canaleje, $server);
+                                push @respuestas, "$btnorinum|linked|$listabotones";
                             }
 
                             delete $datos{$uniqueid};
-                            log_debug("$debugh REMOVING datos { $uniqueid }",
-                                      32);
-                            $todo .= " ";
-                            $todo = encode_base64($todo);
+                            log_debug("$debugh REMOVING datos { $uniqueid }", 16);
                         }
 
                         if ($quehace eq "setlink")
                         {
-
+                            log_debug("$debugh IF quehace = SETLINK", 16);
                             my ($nada1, $contexto1) = split(/\&/, $canal);
                             if (!defined($contexto1)) { $contexto1 = ""; }
                             my $listabotones = "";
@@ -3581,16 +4049,11 @@ sub digest_event_block
                             {
                                 push @{$linkbot{"$server^$canal"}}, "";
                                 pop @{$linkbot{"$server^$canal"}};
-                                log_debug(
-                                    "$debugh DEFINIENDO linkbot ($server^$canal)",
-                                    64
-                                );
+                                log_debug("$debugh DEFINIENDO linkbot ($server^$canal)", 16);
                             }
 
-                            my ($canal1, $sesion1) =
-                              separate_session_from_channel($dos);
-                            my @linkbotones =
-                              find_panel_buttons($canal1, $dos, $server);
+                            my ($canal1, $sesion1) = separate_session_from_channel($dos);
+                            my @linkbotones = find_panel_buttons($canal1, $dos, $server);
                             foreach (@linkbotones)
                             {
                                 my ($nada2, $contexto2) = split(/\&/, $_);
@@ -3598,34 +4061,30 @@ sub digest_event_block
                                 if ($contexto1 eq $contexto2)
                                 {
                                     push @{$linkbot{"$server^$canal"}}, $dos;
-                                    log_debug(
-                                        "$debugh AGREGO a linkbot{ $server^$canal} el valor $dos",
-                                        64
-                                    );
+                                    log_debug("$debugh AGREGO a linkbot{ $server^$canal} el valor $dos", 16);
                                 }
                             }
 
                             my %seen = ();
                             my @uniq =
-                              grep { !$seen{$_}++ }
-                              @{$linkbot{"$server^$canal"}};
+                              grep { !$seen{$_}++ } @{$linkbot{"$server^$canal"}};
                             $linkbot{"$server^$canal"} = \@uniq;
                             foreach my $valorad (@uniq)
                             {
-                                log_debug(
-                                    "$debugh linkbot ($server^$canal) = $valorad",
-                                    128
-                                );
+                                log_debug("$debugh linkbot ($server^$canal) = $valorad", 16);
                             }
                             my $btnorinum = $buttons{"$server^$canal"};
-                            log_debug("$debugh llamo a GENERATE_LINKED 2", 32);
-                            $listabotones =
-                              generate_linked_buttons_list($canal, $server);
+                            log_debug("$debugh llamo a GENERATE_LINKED", 16);
+                            $listabotones = generate_linked_buttons_list($canal, $server);
                             push @respuestas, "$btnorinum|linked|$listabotones";
+                            $botonlinked{$btnorinum} = $listabotones;
+                            log_debug("$debugh linkeado con $listabotones", 16);
+                            log_debug("$debugh ENDIF quehace = SETLINK",    16);
                         }
 
                         if ($quehace eq "unsetlink")
                         {
+                            log_debug("$debugh IF quehace = UNSETLINK", 16);
                             my @final = ();
                             foreach my $msesion (@{$linkbot{"$server^$canal"}})
                             {
@@ -3635,23 +4094,27 @@ sub digest_event_block
                                 }
                             }
                             $linkbot{"$server^$canal"} = [@final];
-
-                            #                            my $btnorinum    = $buttons{$canal};
-                            #                            my $listabotones =
-                            #                              generate_linked_buttons_list($canal);
-                            #                            push @respuestas, "$btnorinum|linked|$listabotones";
-                            #print "UNSETLINK $canal: $btnorinum|linked|$listabotones\n";
+                            log_debug("$debugh ENDIF quehace = UNSETLINK", 16);
                         }
 
                         $interno = $buttons{"$server^$canal"};
                         $interno = "" if (!defined($interno));
+
                         if ($interno eq "")
                         {
-                            log_debug(
-                                "$debugh NO HAY INTERNO buttons($server^$canal), ABORTO",
-                                128
-                            );
+                            log_debug("$debugh NO HAY INTERNO buttons($server^$canal), ABORTO", 16);
                             next;
+                        }
+                        log_debug("$debugh EL INTERNO es $interno", 16);
+
+                        if (!defined($laststatus{$interno}))
+                        {
+                            $laststatus{$interno} = "";
+                        }
+                        if (!defined($estadoboton{$interno}))
+                        {
+                            $estadoboton{$interno} = "";
+                            $statusboton{$interno} = "";
                         }
 
                         # Mantains hash of arrays with sessions for each button number
@@ -3677,17 +4140,19 @@ sub digest_event_block
                             if ($quehace eq "corto")
                             {
 
-                                log_debug(
-                                    "$debugh CORTO interno $interno canal $canal",
-                                    16
-                                );
-                                my $canalbotonreverse =
-                                  $buttons_reverse{$interno};
+                                log_debug("$debugh CORTO interno $interno canal $canal", 16);
 
-                                if ($canal =~ /\*/ && $ren_wildcard == 1)
+                                delete $botonpark{$interno};
+                                delete $botonmeetme{$interno};
+                                delete $botonclid{$interno};
+                                delete $botonlinked{$interno};
+                                delete $botontimer{$interno};
+
+                                my $canalbotonreverse = $buttons_reverse{$interno};
+
+                                if ($canal =~ /^_/ && $ren_wildcard == 1)
                                 {
-                                    push @respuestas,
-                                      "$interno|changelabel0|labeloriginal";
+                                    push @respuestas, "$interno|changelabel0|labeloriginal";
                                 }
 
                                 delete $linkbot{$interno};
@@ -3707,7 +4172,6 @@ sub digest_event_block
                                     );
                                     $cambiaron{$interno}   = 1;
                                     $estadoboton{$interno} = "free";
-                                    $laststatus{$interno}  = "free";
                                     $statusboton{$interno} = $dos;
                                 }
                                 else
@@ -3716,110 +4180,51 @@ sub digest_event_block
                                         "$debugh CORTO y SIGUE OCUPADO estadoboton($interno) = busy, sesbot($interno) tiene algo",
                                         16
                                     );
-                                    if ($laststatus{$interno} ne
-                                        "busy|${buttontext}|${timerbot}")
+                                    &print_sesbot(3);
+                                    if ($laststatus{$interno} ne "busy|${buttontext}")
                                     {
-                                        $cambiaron{$interno}  = 1;
-                                        $laststatus{$interno} =
-                                          "busy|${buttontext}|${timerbot}";
+                                        $cambiaron{$interno} = 1;
                                         log_debug(
                                             "$debugh Y es distinto al ultimo estado $laststatus{$interno} ne $estadoboton{$interno}",
                                             16
                                         );
                                     }
-                                    $estadoboton{$interno} =
-                                      "busy|${buttontext}|${timerbot}";
-                                    $laststatus{$interno} =
-                                      "busy|${buttontext}|${timerbot}";
+                                    $estadoboton{$interno} = "busy|${buttontext}";
                                 }
-
-                                #my @final = ();
-                                #for my $mnroboton (keys %sesbot)
-                                #{
-                                #    @final = ();
-                                #    foreach my $msesion (@{$sesbot{$mnroboton}})
-                                #    {
-                                #        print
-                                #          "CORTO $canalid (comparo con msesion $msesion)\n";
-                                #        if ($msesion ne $canalid)
-                                #        {
-                                #            push @final, $msesion;
-                                #        } else {
-                                #print "CORTO coincidencia !!!!!!!!?!??!?!?!?! $msesion $canalid\n";
-                                #}
-                                #            }
-                                #            $sesbot{$mnroboton} = [@final];
-                                #            my $cuantos = @final;
-                                #            if (!defined($laststatus{$mnroboton}))
-                                #            {
-                                #                $laststatus{$mnroboton} = "";
-                                #            }
-                                #            if ($cuantos == 0)
-                                #            {
-                                #                if ($laststatus{$mnroboton} !~ /^free/)
-                                #                {
-                                #                    $cambiaron{$mnroboton}  = 1;
-                                #                    $laststatus{$mnroboton} = "free";
-                                #print "cambiaron ($mnroboton) = 1, ahora esta en free\n";
-                                #                    }
-                                #                    $estadoboton{$mnroboton} = "free";
-                                #                    $statusboton{$mnroboton} = $dos;
-                                #                }
-                                #                else
-                                #                {
-                                #                    if ($laststatus{$mnroboton} ne
-                                #                        "busy|${buttontext}|${timerbot}")
-                                #                    {
-                                #                        $cambiaron{$mnroboton}  = 1;
-                                #                        $laststatus{$mnroboton} =
-                                #                          "busy|${buttontext}|${timerbot}";
-                                #print "cambiaron ($mnroboton) = 1, ahora esta en busy\n";
-                                #                        }
-                                #                        $estadoboton{$mnroboton} =
-                                #                          "busy|${buttontext}|${timerbot}";
-                                #                    }
-                                #                    $statusboton{$mnroboton} = $dos;
-                                #                }
 
                             }
                             else
                             {
+
+                                # quehace no es "corto"
+                                #
+
                                 if (!defined(@{$sesbot{$interno}}))
                                 {
                                     push @{$sesbot{$interno}}, "";
                                     pop @{$sesbot{$interno}};
                                 }
 
-                                # if ($canalid !~ /\*/)
-                                # {
                                 push @{$sesbot{$interno}}, "$canalid";
-                                log_debug(
-                                    "$debugh AGREGO a sesbot($interno) el valor $canalid",
-                                    16
-                                );
+                                log_debug("$debugh AGREGO a sesbot($interno) el valor $canalid", 16);
                                 foreach my $vavi (@{$sesbot{$interno}})
                                 {
-                                    log_debug(
-                                         "$debugh sesbot($interno) tiene $vavi",
-                                         32
-                                    );
+                                    log_debug("$debugh sesbot($interno) tiene $vavi", 16);
                                 }
 
-                                #  }
-                                if ($canal =~ /\*/ && $quehace =~ /^ring/)
+                                if ($canal =~ /^_/ && $quehace =~ /^ring/)
                                 {
-                                    log_debug(
-                                        "$debugh TENGO UN WILDCARD ORIGINANDO LLAMADO! $canal $quehace $canalid",
-                                        16
-                                    );
+                                    log_debug("$debugh TENGO UN WILDCARD ORIGINANDO LLAMADO! $canal $quehace $canalid",
+                                              16);
                                     if ($quehace eq "ring")
                                     {
-                                        $quehace = "ocupado";
+
+                                        # $quehace = "ocupado1";
                                     }
                                     if ($ren_wildcard == 1)
                                     {
-                                        push @respuestas,
-                                          "$interno|changelabel0|$canalid";
+                                        push @respuestas, "$interno|changelabel0|$canalid";
+                                        $botonlabel{$interno} = $canalid;
                                     }
                                 }
 
@@ -3827,44 +4232,101 @@ sub digest_event_block
                                 my @uniq =
                                   grep { !$seen{$_}++ } @{$sesbot{$interno}};
                                 $sesbot{$interno} = [@uniq];
-                                if (!defined($laststatus{$interno}))
-                                {
-                                    $laststatus{$interno} = "";
-                                }
+
                                 if ($quehace eq "ringing")
                                 {
-                                    if ($laststatus{$interno} ne
-                                        "ringing|${buttontext}|${timerbot}")
+                                    if ($laststatus{$interno} ne "ringing|${buttontext}")
                                     {
-                                        $cambiaron{$interno}  = 1;
-                                        $laststatus{$interno} =
-                                          "ringing|${buttontext}|${timerbot}";
+                                        $cambiaron{$interno} = 1;
                                     }
-                                    $estadoboton{$interno} =
-                                      "ringing|${buttontext}|${timerbot}";
-
-                                    # print "ringing $estadoboton{$interno}\n";
-                                }
-                                elsif ($quehace =~ /^changelabel/)
-                                {
-
-                                    # print
-                                    #  "quehace changelabel $estadoboton{$interno} $statusboton{$interno}\n";
-                                }
-                                else
-                                {
-                                    if ($laststatus{$interno} ne
-                                        "busy|${buttontext}|${timerbot}")
+                                    $estadoboton{$interno} = "ringing|${buttontext}";
+                                    if ($dos =~ m/(.*)?\[(.*)\].*?/)
                                     {
-                                        $cambiaron{$interno}  = 1;
-                                        $laststatus{$interno} =
-                                          "busy|${buttontext}|${timerbot}";
+                                        my $clidtext = $2;
+                                        $botonclid{$interno} = $clidtext;
                                     }
-                                    $estadoboton{$interno} =
-                                      "busy|${buttontext}|${timerbot}";
+
+                                }
+                                elsif ($quehace =~ /^ocupado/)
+                                {
+                                    if ($laststatus{$interno} ne "busy|${buttontext}")
+                                    {
+                                        $cambiaron{$interno} = 1;
+                                    }
+                                    $estadoboton{$interno} = "busy|${buttontext}";
                                     $statusboton{$interno} = $dos;
                                 }
                             }
+                        }
+                        else
+                        {
+                            log_debug("$debugh ATENCION canalid es $canalid, NO PROCESAR?", 16);
+                        }
+
+                        if ($quehace =~ /changelabel/)
+                        {
+
+                            # Mantains state of label and led
+                            my $cambia_el_led = $quehace;
+                            $cambia_el_led =~ s/changelabel//g;
+                            $botonled{$interno}   = $cambia_el_led;
+                            $botonlabel{$interno} = $dos;
+                        }
+                        if ($quehace eq "park")
+                        {
+                            $dos =~ m/(.*)\((.*)\)/;
+                            my $texto   = $1;
+                            my $timeout = $2;
+                            $timeout = time() + $timeout;
+                            $botonpark{$interno} = "$texto|$timeout";
+                        }
+                        if ($quehace eq "meetmeuser")
+                        {
+                            $botonmeetme{$interno} = $dos;
+                        }
+
+                        if ($quehace =~ /infoqstat/)
+                        {
+                            $botonqueue{$interno} = $dos;
+                        }
+                        elsif ($quehace =~ /info/)
+                        {
+                            my $cola = $quehace;
+                            $cola =~ s/^info//g;
+                            push @{$botonqueuemember{$interno}}, "$cola|$dos";
+                        }
+
+                        if ($quehace eq "settext")
+                        {
+                            $botontext{$interno} = $dos;
+                            push @respuestas, "$interno|settext|$dos";
+                        }
+                        if ($quehace eq "setalpha")
+                        {
+                            $botonalpha{$interno} = $dos;
+                            push @respuestas, "$interno|setalpha|$dos";
+                        }
+                        if ($quehace eq "flip")
+                        {
+                            push @respuestas, "$interno|flip|$dos";
+                        }
+                        if ($quehace eq "setlabel")
+                        {
+                            if (   $dos ne "."
+                                && $dos ne "original"
+                                && $dos ne "labeloriginal")
+                            {
+                                $botonlabel{$interno} = $dos;
+                                push @respuestas, "$interno|setlabel|$dos";
+                            }
+                        }
+                        if ($quehace eq "voicemail")
+                        {
+                            $botonvoicemail{$interno} = $dos;
+                        }
+                        if ($quehace eq "voicemailcount")
+                        {
+                            $botonvoicemailcount{$interno} = $dos;
                         }
 
                         # linkbot{key} hash mantains the list of linked channels
@@ -3873,8 +4335,7 @@ sub digest_event_block
 
                         if (   ($quehace !~ /^corto/)
                             && ($quehace !~ /^ocupado/)
-                            && ($quehace !~ /link/)
-                            && ($quehace !~ /^ring/))
+                            && ($quehace !~ /link/))
                         {
                             $cambiaron{$interno} = 1;
                         }
@@ -3887,35 +4348,149 @@ sub digest_event_block
 
                         if (@{$sesbot{$interno}} > 0 && $quehace eq 'corto')
                         {
-                            log_debug(
-                                "$debugh Still busy...sesbot($interno) is not empty,  ignoring hangup",
-                                16
-                            );
+                            log_debug("$debugh Still busy...sesbot($interno) is not empty,  ignoring hangup", 16);
                         }
                         else
                         {
+
+                            # This block is for the voicemail client
+                            if ($quehace =~ "^voicemail")
+                            {
+                                my $canalsincontexto = $canal;
+                                $canalsincontexto =~ s/(.*)&(.*)/$1/g;
+                                push @mensajefinal, "$canalsincontexto\@$canalsincontexto|$quehace|$dos";
+                            }
+
+                            # This block is for the voicemail client, popups
+                            if ($quehace =~ "^ringing")
+                            {
+                                my $canalsincontexto = $canal;
+                                $canalsincontexto =~ s/(.*)&(.*)/$1/g;
+                                my $calleridpop = $dos;
+                                $calleridpop =~ s/(.*)\Q[\E(.*)/$2/g;
+                                $calleridpop =~ s/\]//g;
+                                $calleridpop =~ s/\s+//g;
+                                push @mensajefinal, "$canalsincontexto\@$canalsincontexto|$quehace|$calleridpop";
+                            }
+
                             my $quehace2 = $quehace;
-                            if ($quehace2 eq "ring") { $quehace2 = "ocupado"; }
+
+                            if ($quehace2 eq "ring")
+                            {
+
+                                #$quehace2 = "ocupado";
+                            }
 
                             next unless ($quehace2 ne "setlink");
                             next unless ($quehace2 ne "unsetlink");
-                            push @mensajefinal, "$interno|$quehace2|$dos";
-                            log_debug(
-                                "$debugh Agrego mensaje final $interno|$quehace2|$dos",
-                                16
-                            );
 
-                            #                        if (defined($mensajefinal) && $interno ne "")
+                            if ($quehace2 !~ /isagent/)
+                            {
+
+                                # Discard events that we dont want to send
+                                # to flash clients
+                                # "isagent"
+                                push @mensajefinal, "$interno|$quehace2|$dos";
+                            }
+
+                            if ($quehace2 =~ /ocupado/)
+                            {
+                                if ($dos =~ m/(.*)?\[(.*)\].*?/)
+                                {
+                                    my $clidtext = $2;
+                                    $botonclid{$interno} = $clidtext;
+                                }
+
+                                #push @mensajefinal, "$interno|state|busy";
+                                push @mensajefinal, "$interno|settimer|0\@UP";
+                            }
+                            if ($quehace2 eq "settimer")
+                            {
+                                $botontimer{$interno} = time() - $dos;
+                            }
+                            if ($quehace eq "ocupado1" || $quehace eq "ocupado9")
+                            {
+                                push @mensajefinal, "$interno|settimer|0\@UP";
+                                if (!defined($botontimer{$interno}))
+                                {
+                                    $botontimer{$interno} = time();
+                                }
+                            }
+                            if ($quehace2 =~ /^ring$/)
+                            {
+                                push @mensajefinal, "$interno|state|busy";
+
+                                #push @mensajefinal, "$interno|settext|$dos";
+                            }
+                            if ($quehace2 =~ /corto/)
+                            {
+
+                                #push @mensajefinal, "$interno|state|free";
+                                #push @mensajefinal, "$interno|settext|";
+                                if ((exists($agents{"$server^$canal"}) || exists($reverse_agents{$canal}))
+                                    && $agent_status == 1)
+                                {
+                                    push @mensajefinal, "$interno|settimer|0\@IDLE";
+                                    push @mensajefinal, "$interno|settext|Idle";
+                                    if ($laststatus{$interno} =~ /busy/)
+                                    {
+                                        request_queue_status($socket, $canalid);
+                                    }
+                                }
+                                else
+                                {
+                                    push @mensajefinal, "$interno|settimer|0\@STOP";
+                                    if (defined($boton_ip{"$canal-XXXX"}))
+                                    {
+                                        my $valip = $boton_ip{"$canal-XXXX"};
+                                        push @mensajefinal, "$interno|settext|$valip";
+                                        $botontext{$interno} = $valip;
+                                    }
+                                    else
+                                    {
+                                        $botontext{$interno} = "";
+                                    }
+
+                                    if (defined($botonalpha{$interno}))
+                                    {
+                                        if ($botonalpha{$interno} ne "")
+                                        {
+                                            push @mensajefinal, "$interno|setalpha|$botonalpha{$interno}";
+                                        }
+                                    }
+                                }
+                            }
+
+                            if ($quehace eq "registrado")
+                            {
+                                if (defined($botonalpha{$interno}))
+                                {
+                                    if ($botonalpha{$interno} ne "")
+                                    {
+                                        push @mensajefinal, "$interno|setalpha|50";
+                                    }
+                                    else
+                                    {
+                                        push @mensajefinal, "$interno|setalpha|100";
+                                    }
+                                }
+                            }
+
+                            if ($quehace eq "registrado" || $quehace eq "noregistrado" || $quehace eq "unreachable")
+                            {
+                                $botonregistrado{$interno} = "$quehace|$dos";
+                            }
+
+                            log_debug("$debugh Agrego mensaje final $interno|$quehace2|$dos", 16);
+
+                            #if (defined($mensajefinal) && $interno ne "")
                             $cuantas = @mensajefinal;
                             if ($cuantas > 0 && $interno ne "")
                             {
                                 if (exists $cambiaron{$interno})
                                 {
 
-                                    log_debug(
-                                        "$debugh Existe cambiaron($interno) = $cambiaron{$interno}",
-                                        32
-                                    );
+                                    log_debug("$debugh Existe cambiaron($interno) = $cambiaron{$interno}", 16);
 
                                     #push(@respuestas, $mensajefinal);
                                     foreach (@mensajefinal)
@@ -3926,25 +4501,23 @@ sub digest_event_block
                                 else
                                 {
 
-                                    log_debug(
-                                        "$debugh No existe cambiaron($interno)",
-                                        32
-                                    );
+                                    log_debug("$debugh No existe cambiaron($interno)", 16);
                                     foreach (@mensajefinal)
                                     {
 
                                         # If the last status was not modified, avoid sending info
-                                        #                                        push @respuestas, $_;
+                                        # push @respuestas, $_;
                                     }
                                 }
                                 if ($todo ne "")
                                 {
-                                    my $otromensajefinal =
-                                      "$interno|info|$todo";
+                                    my $otromensajefinal = "$interno|info|$todo";
                                     push(@respuestas, $otromensajefinal);
                                 }
                             }
                         }
+
+                        $laststatus{$interno} = $estadoboton{$interno};
                     }
                     else
                     {    # endif canal distinto de nada
@@ -3958,8 +4531,7 @@ sub digest_event_block
     my @uniq = grep { !$seen{$_}++ } @respuestas;
     @respuestas = @uniq;
     $cuantas    = @respuestas;
-    log_debug("$debugh There are $cuantas commands to send to flash clients",
-              16);
+    log_debug("$debugh There are $cuantas commands to send to flash clients", 16);
     foreach my $valor (@respuestas)
     {
         log_debug("$debugh RET: $valor", 32);
@@ -3967,14 +4539,25 @@ sub digest_event_block
     return @respuestas;
 }
 
+sub nonblock
+{
+    my $socket = shift;
+    my $flags;
+
+    $flags = fcntl($socket, F_GETFL, 0)
+      or die "Can't get flags for socket: $!\n";
+    fcntl($socket, F_SETFL, $flags | O_NONBLOCK)
+      or die "Can't make socket nonblocking: $!\n";
+}
+
 sub manager_connection
 {
-    my $host   = "";
-    my $user   = "";
-    my $pass   = "";
-    my $debugh = "** MANAGER CONNECTION";
-
-    my $contador = 0;
+    my $host       = "";
+    my $user       = "";
+    my $pass       = "";
+    my $debugh     = "** MANAGER CONNECTION";
+    my $temphandle = "";
+    my $contador   = 0;
 
     foreach my $mhost (@manager_host)
     {
@@ -3993,7 +4576,7 @@ sub manager_connection
                 }
             }
 
-            log_debug("$debugh Connecting to $mhost", 1);
+            log_debug("$debugh Connecting to $mhost $contador", 1);
 
             $p[$contador] =
               new IO::Socket::INET->new(
@@ -4005,10 +4588,7 @@ sub manager_connection
 
             if (!$p[$contador])
             {
-                log_debug(
-                    "$debugh Couldn't connect to $mhost (Server $contador). Retry in $poll_interval seconds",
-                    1
-                );
+                log_debug("$debugh Couldn't connect to $mhost (Server $contador). Retry in $poll_interval seconds", 1);
                 $p[$contador]                 = "";
                 $manager_conectado[$contador] = 0;
                 $contador++;
@@ -4018,13 +4598,12 @@ sub manager_connection
             {
                 log_debug("$debugh Connected to $mhost (Server $contador)", 1);
                 $manager_conectado[$contador] = 1;
+                $p[$contador]->autoflush(1);
+                $ip_addy{$p[$contador]} = peerinfo($p[$contador], 1);
             }
 
-            $p[$contador]->autoflush(1);
             $manager_socket{$p[$contador]} =
-                $manager_host[$contador] . "|"
-              . $manager_user[$contador] . "|"
-              . $manager_secret[$contador];
+              $manager_host[$contador] . "|" . $manager_user[$contador] . "|" . $manager_secret[$contador];
             my $command = "";
 
             if ($auth_md5 == 1)
@@ -4038,7 +4617,7 @@ sub manager_connection
                 $command .= "Username: $user\r\n";
                 $command .= "Secret: $pass\r\n\r\n";
             }
-            send_command_to_manager($command, $p[$contador]);
+            send_command_to_manager($command, $p[$contador],, 1);
         }
         $contador++;
     }
@@ -4054,6 +4633,59 @@ sub manager_connection
 
 }
 
+sub clean_socket
+{
+    my $socket = shift;
+    my $debugh = "** CLEAN SOCKET ";
+    log_debug("$debugh connection lost removing socket $socket", 1);
+
+    $O->remove($socket);
+    $socket->close;
+    delete $ip_addy{$socket};
+    if (exists($manager_socket{$socket}))
+    {
+        delete $manager_queue{$socket};
+
+        # The closed connections belong to an asterisk manager port
+        my @partes  = split(/\|/, $manager_socket{$socket});
+        my @pp      = ();
+        my $counter = 0;
+        foreach my $cual (@p)
+        {
+            if (defined($cual))
+            {
+                if ($cual eq $_)
+                {
+                    log_debug("$debugh Connection lost to server $counter", 1);
+                    $manager_conectado[$counter] = 0;
+                    delete $autenticado{$_};
+                    push @pp, "";
+                }
+                else
+                {
+                    log_debug("$debugh still connected to $ip_addy{$cual}", 16);
+                    push @pp, $cual;
+                }
+            }
+            $counter++;
+        }
+        @p = @pp;
+    }
+    else
+    {
+
+        # The closed socket was from a client
+        log_debug("$debugh flash client connection lost", 1);
+        delete $client_queue{$socket};
+        delete $client_queue_nocrypt{$socket};
+        my $cualborrar = $socket;
+        my @temp = grep(!/\Q$cualborrar\E/, @flash_clients);
+        @flash_clients = @temp;
+        delete($keys_socket{$socket});
+        &print_clients();
+    }
+}
+
 # Checks file_name to find out the directory where the configuration
 # files should reside
 
@@ -4065,11 +4697,11 @@ chop($directorio);
 collect_includes("op_buttons.cfg");
 read_buttons_config();
 read_server_config();
+read_astdb_config();
 genera_config();
 
 # Tries to open the listening socket
-$m =
-  new IO::Socket::INET(Listen => 1, LocalPort => $listen_port, ReuseAddr => 1)
+$m = new IO::Socket::INET(Listen => 1, LocalPort => $listen_port, ReuseAddr => 1, Blocking => 0)
   or die "\nCan't listen to port $listen_port\n";
 $O = new IO::Select();
 $O->add($m);
@@ -4079,27 +4711,28 @@ manager_connection();
 
 $/ = "\0";
 
-alarm(2);
-
 # Endless loop
 while (1)
 {
     my $debugh = "** MAIN";
 
-    while (@S = $O->can_read)
+    while (@S = $O->can_read(0.001))
     {
         foreach (@S)
         {
             my $handle = $_;
+
             if ($_ == $m)
             {
 
                 # New client connection
-                log_debug("$debugh New client connection", 16);
                 my $C = $m->accept;
+                $ip_addy{$C} = peerinfo($C, 1);
+                log_debug("$debugh New client connection $ip_addy{$C}", 1);
                 push(@flash_clients, $C);
                 $O->add($C);
-                alarm(5);
+                nonblock($C);
+                &print_clients();
             }
             else
             {
@@ -4110,50 +4743,10 @@ while (1)
                 $R = sysread($_, $i{$handle}, 1);
                 if (defined($R) && $R == 0)
                 {
-                    my $T = syswrite($_, ' ', 1);
-                    if (!defined($T))
-                    {
-                        $O->remove($_);
-                        $_->close;
 
-                        # Removes handle from flash_clients array
-                        my $cualborrar = $_;
-                        my @temp = grep(!/\Q$cualborrar\E/, @flash_clients);
-                        @flash_clients = @temp;
-                        delete($keys_socket{$_});
-
-                        if (exists($manager_socket{$_}))
-                        {
-
-                            # The closed connections belong to an asterisk manager port
-                            my @partes = split(/\|/, $manager_socket{$_});
-                            my @pp = ();
-                            log_debug(
-                                    "$debugh Asterisk Manager connection lost!",
-                                    16);
-                            my $counter = 0;
-                            foreach my $cual (@p)
-                            {
-                                if (defined($cual))
-                                {
-                                    if ($cual eq $_)
-                                    {
-                                        log_debug(
-                                            "$debugh Connection lost, server $counter",
-                                            16
-                                        );
-                                        $manager_conectado[$counter] = 0;
-                                    }
-                                    else
-                                    {
-                                        push @pp, $cual;
-                                    }
-                                }
-                                $counter++;
-                            }
-                            @p = @pp;
-                        }
-                    }
+                    # Could not read.. close the socket
+                    log_debug("$debugh closing $ip_addy{$_}", 1);
+                    clean_socket($_);
                 }
                 else
                 {
@@ -4175,8 +4768,7 @@ while (1)
                     }
 
                     $bloque_final = $bloque_completo{$handle};
-                    $bloque_final =~
-                      s/([^\r])\n/$1\r\n/g;    # Reemplaza \n solo por \r\n
+                    $bloque_final =~ s/([^\r])\n/$1\r\n/g;    # Reemplaza \n solo por \r\n
                     $bloque_final =~ s/\r\n\r\n/\r\n/g;
                     $bloque_completo{$handle} = "";
 
@@ -4186,8 +4778,7 @@ while (1)
                     {
                         if ($handle_manager_connected eq $handle)
                         {
-                            $bloque_final =
-                              $bloque_final . "Server: $que_manager";
+                            $bloque_final = $bloque_final . "Server: $que_manager";
                         }
                         $que_manager++;
                     }
@@ -4200,17 +4791,9 @@ while (1)
                         my @lineas = split("\r\n", $bloque_final);
                         foreach my $linea (@lineas)
                         {
-                            my $ip_address = "0.0.0.0";
-                            my $sockaddr   = $handle->peername;
-                            if (defined($sockaddr))
-                            {
-                                my ($port, $inetaddr) = sockaddr_in($sockaddr);
-                                $ip_address = inet_ntoa($inetaddr);
-                            }
                             if (exists($manager_socket{$handle}))
                             {
-                                my $linea_formato =
-                                  sprintf("%-15s <- %s", $ip_address, $linea);
+                                my $linea_formato = sprintf("%-15s <- %s", $ip_addy{$handle}, $linea);
                                 log_debug($linea_formato, 1);
                             }
                         }
@@ -4228,48 +4811,35 @@ while (1)
                             # Read the info and arrange it into blocks
                             # for processing in 'procesa_bloque'
                             if (   $bloque_final =~ /Event:/
-                                || $bloque_final =~ /Message: Mailbox/)
+                                || $bloque_final =~ /Message: Mailbox/
+                                || $bloque_final =~ /Message: Timeout/)
                             {
-                                log_debug(
-                                    "$debugh There's an 'Event' in the event block",
-                                    32
-                                );
+                                log_debug("$debugh There's an 'Event' in the event block", 32);
                                 my @lineas = split(/\r\n/, $bloque_final);
                                 @bloque = ();
                                 my $contador = -1;
                                 foreach my $p (@lineas)
                                 {
-                                    log_debug("$debugh Parse line: $p", 128);
                                     my $my_event = "";
                                     if ($p =~ /Event:/)
                                     {
                                         $contador++;
-                                        log_debug(
-                                            "$debugh Event detected contador = $contador",
-                                            128
-                                        );
+                                        log_debug("$debugh Event detected contador = $contador", 128);
                                     }
                                     elsif ($p =~ /Message: Mailbox/)
                                     {
-                                        $my_event =
-                                          "MessageWaiting";    # Fake event
+                                        $my_event = "MessageWaiting";    # Fake event
                                         $contador++;
-                                        log_debug(
-                                            "$debugh Event mailbox detected contador = $contador",
-                                            128
-                                        );
+                                        log_debug("$debugh Event mailbox detected contador = $contador", 128);
                                     }
-                                    my ($atributo, $valor) = split(/: /, $p);
+                                    my ($atributo, $valor) = split(/: /, $p, 2);
                                     if (defined $atributo && $atributo ne "")
                                     {
                                         if ($my_event ne "")
                                         {
                                             $atributo = "Event";
                                             $valor    = $my_event;
-                                            log_debug(
-                                                "$debugh Fake event generated $atributo=$valor",
-                                                128
-                                            );
+                                            log_debug("$debugh Fake event generated $atributo=$valor", 128);
                                         }
                                         if (length($atributo) >= 1)
                                         {
@@ -4277,25 +4847,18 @@ while (1)
                                             {
                                                 $contador = 0;
                                             }
-                                            $bloque[$contador]{"$atributo"} =
-                                              $valor;
+                                            $bloque[$contador]{"$atributo"} = $valor;
                                         }
                                     }
                                 }
-                                log_debug(
-                                    "$debugh There are $contador blocks for processing",
-                                    128
-                                );
+                                log_debug("$debugh There are $contador blocks for processing", 128);
                                 @respuestas = ();
                                 log_debug("$debugh Answer block cleared", 32);
-                                @respuestas =
-                                  digest_event_block(\@bloque, "real", $C);
+                                @respuestas = digest_event_block(\@bloque, "real", $C);
                                 @masrespuestas = ();
                                 while (@fake_bloque)
                                 {
-                                    my @respi =
-                                      digest_event_block(\@fake_bloque, "fake",
-                                                         $C);
+                                    my @respi = digest_event_block(\@fake_bloque, "fake", $C);
                                     foreach (@respi)
                                     {
                                         push @masrespuestas, $_;
@@ -4304,25 +4867,16 @@ while (1)
                             }
                             elsif ($bloque_final =~ /--END COMMAND--/)
                             {
-                                log_debug(
-                                    "$debugh There's an 'END' in the event block",
-                                    32
-                                );
+                                log_debug("$debugh There's an 'END' in the event block", 32);
                                 $todo .= $bloque_final;
                                 process_cli_command($todo);
                                 my $cuantos = @bloque;
-                                log_debug(
-                                    "$debugh There are $cuantos blocks for processing",
-                                    128
-                                );
-                                @respuestas =
-                                  digest_event_block(\@bloque, "real", $C);
+                                log_debug("$debugh There are $cuantos blocks for processing", 128);
+                                @respuestas = digest_event_block(\@bloque, "real", $C);
                                 @masrespuestas = ();
                                 while (@fake_bloque)
                                 {
-                                    my @respi =
-                                      digest_event_block(\@fake_bloque, "fake",
-                                                         $C);
+                                    my @respi = digest_event_block(\@fake_bloque, "fake", $C);
                                     foreach (@respi)
                                     {
                                         push @masrespuestas, $_;
@@ -4332,10 +4886,7 @@ while (1)
                             }
                             elsif ($bloque_final =~ /<msg/)
                             {
-                                log_debug(
-                                    "$debugh Processing command received from flash clients...",
-                                    32
-                                );
+                                log_debug("$debugh Processing command received from flash clients...", 32);
                                 process_flash_command($bloque_final, $_);
                                 @respuestas   = ();
                                 $bloque_final = "";
@@ -4354,12 +4905,16 @@ while (1)
                                 }
                                 manager_login_md5($md5challenge, $C);
                             }
+                            elsif ($bloque_final =~ /Message: Authentication ac/)
+                            {
+
+                                # Authentication Accepted, enable sending commands
+                                $autenticado{$C} = 1;
+                                send_initial_status($C);
+                            }
                             else
                             {
-                                log_debug(
-                                    "$debugh There is no 'Event' nor 'End' in the block. Erasing block...",
-                                    32
-                                );
+                                log_debug("$debugh There is no 'Event' nor 'End' in the block. Erasing block...", 32);
 
                                 # No Event in the block. Lets clear it up...
                                 @bloque = ();
@@ -4368,19 +4923,16 @@ while (1)
                         }
                         else
                         {
-                            my $contador = 0;
 
                             # Send messages to Flash clients
                             @respuestas = (@respuestas, @masrespuestas);
                             @masrespuestas = ();
                             my %seen = ();
-                            my @uniq =
-                              grep { !$seen{$_}++ } @respuestas;
+                            my @uniq = grep { !$seen{$_}++ } @respuestas;
                             @respuestas = @uniq;
                             foreach my $valor (@respuestas)
                             {
-                                my ($contextores, $nada1, $nada2) =
-                                  split(/\|/, $valor);
+                                my ($contextores, $nada1, $nada2) = split(/\|/, $valor);
                                 my @pedacitos = split(/\@/, $contextores);
                                 if (defined($pedacitos[1]))
                                 {
@@ -4392,15 +4944,7 @@ while (1)
                                 }
                                 if (defined($flash_contexto{$C}))
                                 {
-                                    if ($flash_contexto{$C} eq $contextores)
-                                    {
-
-                                        # Send messages only to the clients with
-                                        # the specific context
-                                        my $T =
-                                          send_status_to_flash($C, $valor);
-                                        $contador++;
-                                    }
+                                    send_status_to_flash($C, $valor, 0);
                                 }
                             }    # end foreach respuestas
                         }
@@ -4409,7 +4953,123 @@ while (1)
             }    # end else for active connections
         }    # end foreach @S -> can read
     }    # while can read
+
+    foreach my $sacket ($O->can_write(0.001))
+    {
+        if (defined($client_queue{$sacket}))
+        {
+
+            # Loop through command buffer to send to  clients
+            while (my $comd = shift @{$client_queue{$sacket}})
+            {
+                my $tolog = shift @{$client_queue_nocrypt{$sacket}};
+                my $ret = actual_syswrite($sacket, $comd, "isclient", $tolog);
+                if ($ret == -1)
+                {
+                    log_debug("Partial syswrite, buffering for $ip_addy{$sacket}", 1);
+                    last;
+                }
+
+            }
+        }
+        if (defined($manager_queue{$sacket}))
+        {
+
+            # Loop through command buffer to send to managers
+            while (my $comd = shift @{$manager_queue{$sacket}})
+            {
+                my $cuantos = @{$manager_queue{$sacket}};
+
+                my $ret = actual_syswrite($sacket, $comd, "ismanager", $comd);
+                if ($ret == -1)
+                {
+                    log_debug("Partial syswrite, buffering for $ip_addy{$sacket}", 1);
+                    last;
+                }
+
+            }
+        }
+    }
 }    # endless loop
+
+sub actual_syswrite
+{
+    my ($socket, $encriptadofinal, $whom, $log) = @_;
+    my $largo = length($encriptadofinal);
+    my $res   = syswrite($socket, $encriptadofinal, $largo);
+
+    if (defined $res && $res > 0)
+    {
+        if ($res != $largo)
+        {
+
+            # Could not write the whole command, buffer
+            # the rest for later
+            my $offset = $largo - $res;
+            $offset = $offset * -1;
+            my $buf = substr($encriptadofinal, $offset);
+            unshift(@{$client_queue{$socket}},         $buf);
+            unshift(@{$client_queue_nocrypt{$socket}}, $log);
+            log_debug("Partial syswrite, len $res but $largo written", 1);
+
+            my $cuantos = @{$client_queue{$socket}};
+            if ($cuantos > 200)
+            {
+                &clean_socket($socket);
+            }
+            return -1;
+        }
+        else
+        {
+
+            # Write succesfull, log to stdout
+            $log = substr($log, 0, -1);
+            if ($debug > 0)
+            {
+                if ($whom eq "isclient")
+                {
+                    my $linea_formato = sprintf("%-15s => %s", $ip_addy{$socket}, $log);
+                    log_debug("$linea_formato", 8);
+                    $global_verbose = "separador";
+                }
+                else
+                {
+                    $log =~ s/\r//g;
+                    $log =~ s/\n//g;
+                    if ($log ne "")
+                    {
+                        my $linea_formato = sprintf("%-15s -> %s", $ip_addy{$socket}, $log);
+                        log_debug("$linea_formato", 2);
+                    }
+                    else
+                    {
+                        $global_verbose = "separador";
+                    }
+                }
+            }
+        }
+    }
+    elsif ($! == EWOULDBLOCK)
+    {
+
+        # would block: not an error
+        # handle blocking, by trying again later
+        log_debug("Write wouldblock, buffering for $ip_addy{$socket}", 1);
+        push(@{$client_queue{$socket}},         $encriptadofinal);
+        push(@{$client_queue_nocrypt{$socket}}, $log);
+        my $cuantos = @{$client_queue{$socket}};
+        if ($cuantos > 200)
+        {
+            &clean_socket($socket);
+        }
+    }
+    else
+    {
+        log_debug("Write error on $ip_addy{$socket}", 1);
+        &clean_socket($socket);
+    }
+    return 0;
+}
 
 sub process_flash_command
 {
@@ -4443,20 +5103,13 @@ sub process_flash_command
     my $panelcontext;
     my $auto_conf_exten;
     my $conference_context;
-    my $barge_rooms;
+    my $bargerooms;
     my $found_room;
     my $servidor_dial = "";
     my $debugh        = "-- PROCESS_FLASH_COMMAND";
+    my $calltimeout   = 0;
 
-    my $ip_address = "0.0.0.0";
-    my $sockaddr   = $socket->peername;
-    if (defined($sockaddr))
-    {
-        my ($port, $inetaddr) = sockaddr_in($sockaddr);
-        $ip_address = inet_ntoa($inetaddr);
-    }
-
-    my $linea_formato = sprintf("%-15s <= %s", $ip_address, $comando);
+    my $linea_formato = sprintf("%-15s <= %s", $ip_addy{$socket}, $comando);
     log_debug("$linea_formato", 4);
 
     log_debug("$debugh START SUB", 16);
@@ -4465,9 +5118,15 @@ sub process_flash_command
     ($datosflash, $accion, $password) = split(/\|/, $comando);
     chop($password);
 
-    log_debug(
-             "$debugh datosflash $datosflash accion $accion password $password",
-             128);
+    log_debug("$debugh datosflash $datosflash accion $accion password $password", 16);
+
+    if ($accion =~ /\+/)
+    {
+
+        # The command has a timeout for the call
+        $accion =~ s/(.*)\+(.*)\+(.*)/$1$3/g;
+        $calltimeout = $2;
+    }
 
     if ($datosflash =~ /_level0\.casilla/)
     {
@@ -4510,8 +5169,6 @@ sub process_flash_command
     if ($accion =~ /^contexto\d+/)
     {
 
-        sends_key($socket);
-
         my ($nada, $contextoenviado) = split(/\@/, $datosflash);
 
         if (defined($contextoenviado))
@@ -4531,7 +5188,11 @@ sub process_flash_command
             $no_encryption{"$socket"} = 0;
         }
 
-        send_initial_status();
+        sends_key($socket);
+        sends_version($socket);
+
+        # send_initial_status();
+        first_client_status($socket);
         return;
     }
     if (defined($flash_contexto{$socket}))
@@ -4562,19 +5223,19 @@ sub process_flash_command
 
     if (defined($config->{$panelcontext}{"barge_rooms"}))
     {
-        $barge_rooms = $config->{$panelcontext}{"barge_rooms"};
-        ($first_room, $last_room) = split(/-/, $barge_rooms);
+        $bargerooms = $config->{$panelcontext}{"barge_rooms"};
+        ($first_room, $last_room) = split(/-/, $bargerooms);
     }
     else
     {
         if (defined($config->{"GENERAL"}{"barge_rooms"}))
         {
-            $barge_rooms = $config->{"GENERAL"}{"barge_rooms"};
-            ($first_room, $last_room) = split(/-/, $barge_rooms);
+            $bargerooms = $config->{"GENERAL"}{"barge_rooms"};
+            ($first_room, $last_room) = split(/-/, $bargerooms);
         }
         else
         {
-            $barge_rooms = "";
+            $bargerooms = "";
         }
     }
 
@@ -4584,26 +5245,21 @@ sub process_flash_command
     # button of the command if any
     if (   $accion =~ /^meetmemute/
         || $accion =~ /^meetmeunmute/
-        || $accion =~ /^bogus/)
+        || $accion =~ /^bogus/
+        || $accion =~ /^restart/)
     {
         $origin_channel = "bogus";
     }
     else
     {
         my $datosflash_sincontexto = $datosflash;
-        if ($accion =~ /^dial/)
-        {
+        $datosflash_sincontexto =~ s/(.*)\@(.*)/$1/g;
 
-            # If we have a dial command check to see if the
-            # origin is a button number or a channel name
-            if ($datosflash =~ /\@/)
-            {
-                $datosflash_sincontexto =~ s/(.*)\@(.*)/$1/g;
-            }
-        }
         if (is_number($datosflash_sincontexto))
         {
 
+            # If the originator is a number, assume button position
+            # on fop, search for the channel in the buttons hash
             while (($canal, $nroboton) = each(%buttons))
             {
                 if ($nroboton eq $datosflash)
@@ -4625,27 +5281,69 @@ sub process_flash_command
         }
         else
         {
+
+            # The origin has letters, assume its a channel name
+            # with a possible extensions.conf context after '@'
+            # (We have already removed the '@fop_context')
+
+            if ($datosflash_sincontexto =~ /\@/)
+            {
+                $contexto = $datosflash_sincontexto;
+                $datosflash_sincontexto =~ s/(.*)\@(.*)/$1/g;
+                $contexto               =~ s/(.*)\@(.*)/$2/g;
+            }
+
             $origin_channel = $datosflash_sincontexto;
 
             # If we receive a channel name for the dial command
             # we default to server number 1 to send the command
             $servidor_dial = "default";
+
         }
     }
-    log_debug("$debugh origin_channel = $origin_channel", 64);
+
+    if ($accion =~ /^restrict/ && defined($origin_channel))
+    {
+        my $contextoaagregar = "";
+        if ($panelcontext ne "GENERAL")
+        {
+            $contextoaagregar = "&$panelcontext";
+        }
+        $restrict_channel = $origin_channel;
+        log_debug("$debugh RESTRICT commands to channel $restrict_channel", 32);
+        my $indice = "0^$restrict_channel$contextoaagregar";
+        log_debug("$debugh RESTRICT indice $indice", 32);
+        my $btn_num = "0";
+        if (defined($buttons{"$indice"}))
+        {
+            $btn_num = $buttons{"$indice"};
+            $btn_num =~ s/(.*)\@(.*)/$1/g;
+        }
+        if ($btn_num ne "0")
+        {
+            log_debug("$debugh RESTRICT btn_num $btn_num", 32);
+            my $manda = "$btn_num|restrict|0";
+            send_status_to_flash($socket, $manda, 0);
+        }
+        else
+        {
+            log_debug("$debugh RESTRICT channel not found $indice!", 32);
+        }
+        return;
+    }
 
     if (defined($origin_channel))
     {
+        log_debug("$debugh origin_channel = $origin_channel", 64);
+
         if (defined($config->{$panelcontext}{"security_code"}))
         {
-            $myclave =
-              $config->{$panelcontext}{"security_code"} . $keys_socket{$socket};
+            $myclave = $config->{$panelcontext}{"security_code"} . $keys_socket{$socket};
         }
         else
         {
             $myclave = "";
-            $myclave =
-              $config->{"GENERAL"}{"security_code"} . $keys_socket{$socket};
+            $myclave = $config->{"GENERAL"}{"security_code"} . $keys_socket{$socket};
         }
 
         if ($myclave ne "")
@@ -4657,11 +5355,18 @@ sub process_flash_command
             || ($accion =~ /^dial/ && $cdial_nosecure == 1))
         {
             sends_correct($socket);
-            log_debug(
-                "** The channel selected is $origin_channel and the security code matches",
-                16
-            );
+            log_debug("** The channel selected is $origin_channel and the security code matches", 16);
             sends_key($socket);
+            if ($accion =~ /^restart/)
+            {
+
+                $comando = "Action: Command\r\n";
+                $comando .= "Command: restart when convenient\r\n\r\n";
+                log_debug("!! Command received: restart when convenient", 32);
+                send_command_to_manager($comando, $p[0]);
+                alarm(10);
+                return;
+            }
 
             if ($accion =~ /-/)
             {
@@ -4701,23 +5406,23 @@ sub process_flash_command
             {
                 log_debug("$debugh btn_destino es igual a cero!", 32);
             }
-
-            log_debug("$debugh btn_destino = $btn_destino", 32);
-
-            # Now assigns the channel name to destino variable
-            # traversing the %buttons hash to find the key/channel
-            while (($canal, $nroboton) = each(%buttons))
+            else
             {
-                log_debug(
-                    "$debugh compara nroboton $nroboton con btn_destino $btn_destino",
-                    32
-                );
 
-                if ($nroboton eq $btn_destino)
+                log_debug("$debugh btn_destino = $btn_destino", 32);
+
+                # Now assigns the channel name to destino variable
+                # traversing the %buttons hash to find the key/channel
+                while (($canal, $nroboton) = each(%buttons))
                 {
-                    $canal =~ s/(.*)=(.*)/$1/g;
-                    $destino = $canal;
-                    last;
+                    log_debug("$debugh compara nroboton $nroboton con btn_destino $btn_destino", 32);
+
+                    if ($nroboton eq $btn_destino)
+                    {
+                        $canal =~ s/(.*)=(.*)/$1/g;
+                        $destino = $canal;
+                        last;
+                    }
                 }
             }
 
@@ -4729,11 +5434,43 @@ sub process_flash_command
                     my @pedazos2 = split(/\^/, $destino);
                     $destin_server = $pedazos2[0];
                     $destino       = $pedazos2[1];
-                    log_debug(
-                        "$debugh El boton de destino es $destino en el server $destin_server",
-                        64
-                    );
+                    log_debug("$debugh El boton de destino es $destino en el server $destin_server", 64);
                 }
+            }
+
+            if ($accion =~ /^voicemail/)
+            {
+                my $vext     = "";
+                my $vcontext = "";
+
+                if (defined($config->{$panelcontext}{"voicemail_extension"}))
+                {
+                    my $voicemailext = $config->{$panelcontext}{"voicemail_extension"};
+                    ($vext, $vcontext) = split(/\@/, $voicemailext);
+                }
+                else
+                {
+                    log_debug("There is no voicemail_extension defined in op_server.cfg!", 32);
+                    return;
+                }
+
+                my $keyext = "$origin_server^$origin_channel";
+                if ($contexto ne "") { $keyext .= "\&$contexto"; }
+                my $vclid = $extension_transfer{$keyext};
+                $vclid =~ s/(.*)\@(.*)/$1/g;
+
+                $comando = "Action: Originate\r\n";
+                $comando .= "Channel: $origin_channel\r\n";
+                $comando .= "Callerid: $vclid <$vclid>\r\n";
+                $comando .= "Exten: $vext\r\n";
+                if (defined($vcontext))
+                {
+                    $comando .= "Context: $vcontext\r\n";
+                }
+                $comando .= "Priority: 1\r\n";
+                $comando .= "\r\n";
+                send_command_to_manager($comando, $p[$button_server{$datosflash}]);
+                return;
             }
 
             if (is_number($destino))
@@ -4743,9 +5480,8 @@ sub process_flash_command
                 # conference. So treat a conference command as a regular
                 # transfer or redirect. (We do not want to send into a
                 # meetme conference another ongoing meetme conference)
-                my @sesiones_del_canal =
-                  extraer_todas_las_sesiones_de_un_canal($origin_channel);
-                my $cuantos = @sesiones_del_canal;
+                my @sesiones_del_canal = extraer_todas_las_sesiones_de_un_canal($origin_channel);
+                my $cuantos            = @sesiones_del_canal;
 
                 if ($accion =~ /^conference/)
                 {
@@ -4770,8 +5506,11 @@ sub process_flash_command
                     $comando = "Action: Hangup\r\n";
                     $comando .= "Channel: $_\r\n\r\n";
                     log_debug("-- Command received: $accion chan $_", 32);
-                    send_command_to_manager($comando,
-                                            $p[$button_server{$datosflash}]);
+                    send_command_to_manager($comando, $p[$button_server{$datosflash}]);
+
+                    #					$comando = "Action: Command\r\n";
+                    #					$comando .= "Command: soft hangup $_\r\n\r\n";
+                    #                    send_command_to_manager($comando, $p[$button_server{$datosflash}]);
                 }
             }
             elsif ($accion =~ /^meetmemute/)
@@ -4784,10 +5523,8 @@ sub process_flash_command
                 $boton_con_contexto =~ s/^meetmemute//g;
                 $comando = "Action: Command\r\n";
                 $comando .= "ActionID: meetmemute$boton_con_contexto\r\n";
-                $comando .=
-                  "Command: meetme mute $conference $meetmemember\r\n\r\n";
-                send_command_to_manager($comando,
-                                       $p[$button_server{$boton_con_contexto}]);
+                $comando .= "Command: meetme mute $conference $meetmemember\r\n\r\n";
+                send_command_to_manager($comando, $p[$button_server{$boton_con_contexto}]);
             }
             elsif ($accion =~ /^meetmeunmute/)
             {
@@ -4799,50 +5536,37 @@ sub process_flash_command
                 $boton_con_contexto =~ s/^meetmeunmute//g;
                 $comando = "Action: Command\r\n";
                 $comando .= "ActionID: meetmeunmute$boton_con_contexto\r\n";
-                $comando .=
-                  "Command: meetme unmute $conference $meetmemember\r\n\r\n";
-                send_command_to_manager($comando,
-                                       $p[$button_server{$boton_con_contexto}]);
+                $comando .= "Command: meetme unmute $conference $meetmemember\r\n\r\n";
+                send_command_to_manager($comando, $p[$button_server{$boton_con_contexto}]);
             }
             elsif ($accion =~ /^conference/)
             {
-                log_debug(
-                       "$debugh CONFERENCE extension_transfer($origin_channel)",
-                       32);
+                log_debug("$debugh CONFERENCE extension_transfer($origin_channel)", 32);
                 my $indice    = $origin_server . "^" . $origin_channel;
                 my $originate = $extension_transfer{$indice};
 
                 foreach (keys(%buttons))
                 {
-                    log_debug(
-                        "$debugh comparo $buttons{$_} con btn_destino $btn_destino",
-                        64
-                    );
+                    log_debug("$debugh comparo $buttons{$_} con btn_destino $btn_destino", 64);
                     if ($buttons{$_} eq $btn_destino)
                     {
                         if ($canal =~ /\*/)
                         {
                             my @canalarray = @{$sesbot{$btn_destino}};
                             my $canalses   = $canalarray[0];
-                            my ($newcanal, $newses) =
-                              separate_session_from_channel($canalses);
+                            my ($newcanal, $newses) = separate_session_from_channel($canalses);
                             $canal = $newcanal;
                         }
                         $canal =~ s/(.*)=(.*)/$1/g;
-                        log_debug(
-                            "$debugh coincidencia para btn_destino $btn_destino el canal es $canal",
-                            64
-                        );
-                        my @links =
-                          extraer_todos_los_enlaces_de_un_canal($canal);
+                        log_debug("$debugh coincidencia para btn_destino $btn_destino el canal es $canal", 64);
+                        my @links = extraer_todos_los_enlaces_de_un_canal($canal);
 
                         my @canal_transferir = @{$sesbot{$btn_destino}};
 
                         my $cuantos = @links;
                         if ($cuantos <= 0)
                         {
-                            my @extensiondialed =
-                              extracts_exten_from_active_channel($canal);
+                            my @extensiondialed = extracts_exten_from_active_channel($canal);
                             $comando = "Action: Originate\r\n";
                             $comando .= "Channel: $origin_channel\r\n";
                             $comando .= "Exten: $extensiondialed[0]\r\n";
@@ -4858,11 +5582,10 @@ sub process_flash_command
 
                             # Try to find an empty conference
                             my $empty_room = $first_room;
-                            for (my $at = $first_room ;
-                                 $at <= $last_room ;
-                                 $at++)
+                            for (my $at = $first_room ; $at <= $last_room ; $at++)
                             {
-                                if ($barge_rooms{"$at-$origin_server"} == 0)
+                                log_debug("room $at = " . $barge_rooms{"$at"}, 128);
+                                if ($barge_rooms{"$at"} == 0)
                                 {
                                     $found_room = 1;
                                     $empty_room = $at;
@@ -4879,16 +5602,15 @@ sub process_flash_command
                                 $comando .= "ActionID: 1234\r\n";
                                 $comando .= "Context: $conference_context\r\n";
                                 $comando .= "Priority: 1\r\n\r\n";
-                                $auto_conference{$canal_transferir[0]} =
-                                  $origin_channel;
+                                $auto_conference{$canal_transferir[0]} = $origin_channel;
                             }
                             else
                             {
+                                log_debug("$debugh No hay meetme vacio!", 64);
                                 $comando = "";
                             }
                         }
-                        send_command_to_manager($comando,
-                                               $p[$button_server{$datosflash}]);
+                        send_command_to_manager($comando, $p[$button_server{$datosflash}]);
                         last;
                     }
                 }
@@ -4898,8 +5620,7 @@ sub process_flash_command
                 $comando = "Action: Command\r\n";
                 $comando .= "Command: database put clid $destino ";
                 $comando .= "\"$clid\"\r\n\r\n";
-                send_command_to_manager($comando,
-                                        $p[$button_server{$datosflash}]);
+                send_command_to_manager($comando, $p[$button_server{$datosflash}]);
 
                 $canal_destino = retrieve_extension($btn_destino);
 
@@ -4907,8 +5628,7 @@ sub process_flash_command
                 {
                     my @canalarray = @{$sesbot{$datosflash}};
                     my $canalses   = $canalarray[0];
-                    my ($newcanal, $newses) =
-                      separate_session_from_channel($canalses);
+                    my ($newcanal, $newses) = separate_session_from_channel($canalses);
                     $origin_channel = $newcanal;
                 }
 
@@ -4925,9 +5645,7 @@ sub process_flash_command
                     {
 
                         # Transfer the session from the *other* button
-                        @cuales_transferir =
-                          extraer_todos_los_enlaces_de_un_canal(
-                                                               $origin_channel);
+                        @cuales_transferir = extraer_todos_los_enlaces_de_un_canal($origin_channel);
                     }
                     else
                     {
@@ -4942,10 +5660,7 @@ sub process_flash_command
                     }
                     foreach my $valor (@cuales_transferir)
                     {
-                        log_debug(
-                            "** Will try to transfer $valor to extension number $canal_destino!",
-                            16
-                        );
+                        log_debug("** Will try to transfer $valor to extension number $canal_destino!", 16);
                         $comando = "Action: Redirect\r\n";
                         $comando .= "Channel: $valor\r\n";
                         $comando .= "Exten: $canal_destino\r\n";
@@ -4954,8 +5669,18 @@ sub process_flash_command
                             $comando .= "Context: $contexto\r\n";
                         }
                         $comando .= "Priority: 1\r\n\r\n";
-                        send_command_to_manager($comando,
-                                               $p[$button_server{$datosflash}]);
+                        send_command_to_manager($comando, $p[$button_server{$datosflash}]);
+
+                        if ($calltimeout > 0)
+                        {
+                            $comando = "Action: AbsoluteTimeout\r\n";
+                            $comando .= "Channel: $valor\r\n";
+                            $comando .= "Timeout: $calltimeout\r\n";
+                            $comando .= "ActionID: timeout|$valor|$calltimeout\r\n";
+                            $comando .= "\r\n";
+                            send_command_to_manager($comando, $p[$button_server{$datosflash}]);
+                        }
+
                     }
                 }
                 else
@@ -4972,8 +5697,7 @@ sub process_flash_command
                 {
                     my @canalarray = @{$sesbot{$datosflash}};
                     my $canalses   = $canalarray[0];
-                    my ($newcanal, $newses) =
-                      separate_session_from_channel($canalses);
+                    my ($newcanal, $newses) = separate_session_from_channel($canalses);
                     $origin_channel = $newcanal;
                 }
 
@@ -4992,9 +5716,7 @@ sub process_flash_command
                         log_debug("$debugh REVERSE TRANSFER", 16);
 
                         # Transfer the session from the *other* button
-                        @cuales_transferir =
-                          extraer_todos_los_enlaces_de_un_canal(
-                                                               $origin_channel);
+                        @cuales_transferir = extraer_todos_los_enlaces_de_un_canal($origin_channel);
                     }
                     else
                     {
@@ -5010,10 +5732,7 @@ sub process_flash_command
 
                     foreach my $valor (@cuales_transferir)
                     {
-                        log_debug(
-                            "$debugh Will try to transfer $valor to extension number $canal_destino!",
-                            16
-                        );
+                        log_debug("$debugh Will try to transfer $valor to extension number $canal_destino!", 16);
                         $comando = "Action: Redirect\r\n";
                         $comando .= "Channel: $valor\r\n";
                         $comando .= "Exten: $canal_destino\r\n";
@@ -5022,32 +5741,36 @@ sub process_flash_command
                             $comando .= "Context: $contexto\r\n";
                         }
                         $comando .= "Priority: 1\r\n\r\n";
-                        send_command_to_manager($comando,
-                                               $p[$button_server{$datosflash}]);
+                        send_command_to_manager($comando, $p[$button_server{$datosflash}]);
+
+                        if ($calltimeout > 0)
+                        {
+                            $comando = "Action: AbsoluteTimeout\r\n";
+                            $comando .= "Channel: $valor\r\n";
+                            $comando .= "Timeout: $calltimeout\r\n";
+                            $comando .= "ActionID: timeout|$valor|$calltimeout\r\n";
+                            $comando .= "\r\n";
+                            send_command_to_manager($comando, $p[$button_server{$datosflash}]);
+                        }
+
                     }
                 }
                 else
                 {
-                    log_debug(
-                             "** Untransferable destination! ($origin_channel)",
-                             16);
+                    log_debug("** Untransferable destination! ($origin_channel)", 16);
                 }
             }
             elsif ($accion =~ /^coriginate/)
             {
                 if ($origin_channel =~ /\*/)
                 {
-                    log_debug(
-                        "Cannot originate from wildcard buttons ($origin_channel)",
-                        16
-                    );
+                    log_debug("Cannot originate from wildcard buttons ($origin_channel)", 16);
                     return;
                 }
                 $comando = "Action: Command\r\n";
                 $comando .= "Command: database put clid $destino ";
                 $comando .= "\"$clid\"\r\n\r\n";
-                send_command_to_manager($comando,
-                                        $p[$button_server{$datosflash}]);
+                send_command_to_manager($comando, $p[$button_server{$datosflash}]);
 
                 $extension_destino = retrieve_extension($btn_destino);
                 if ($extension_destino =~ /\@/)
@@ -5057,10 +5780,7 @@ sub process_flash_command
                     $contexto          = $pedazos[1];
                 }
 
-                log_debug(
-                    "$debugh Originate from $origin_channel to extension $extension_destino!",
-                    16
-                );
+                log_debug("$debugh Originate from $origin_channel to extension $extension_destino!", 16);
 
                 if ($origin_channel =~ /^IAX2\[/)
                 {
@@ -5076,17 +5796,13 @@ sub process_flash_command
                 }
                 $comando .= "Priority: 1\r\n";
                 $comando .= "\r\n";
-                send_command_to_manager($comando,
-                                        $p[$button_server{$datosflash}]);
+                send_command_to_manager($comando, $p[$button_server{$datosflash}]);
             }
             elsif ($accion =~ /^originate/)
             {
                 if ($origin_channel =~ /\*/)
                 {
-                    log_debug(
-                        "** Cannot originate from wildcard buttons ($origin_channel)",
-                        16
-                    );
+                    log_debug("** Cannot originate from wildcard buttons ($origin_channel)", 16);
                     return;
                 }
                 $extension_destino = retrieve_extension($btn_destino);
@@ -5097,13 +5813,16 @@ sub process_flash_command
                     $contexto          = $pedazos[1];
                 }
 
-                log_debug(
-                    "$debugh Originate from $origin_channel to extension $extension_destino!",
-                    16
-                );
-                $clid =
-                    $textos{"$datosflash"} . " <"
-                  . $extension_transfer{"$origin_server^$origin_channel"} . ">";
+                log_debug("$debugh Originate from $origin_channel to extension $extension_destino!", 16);
+                my $keyext = "$origin_server^$origin_channel";
+
+                # if ($contexto ne "") { $keyext .= "\&$contexto"; }
+                while (my ($key, $val) = each(%extension_transfer))
+                {
+                    print "k $key, v $val, keyext $keyext\n";
+                }
+                $clid = $textos{"$datosflash"} . " <" . $extension_transfer{$keyext} . ">";
+
                 if ($origin_channel =~ /^IAX2\[/)
                 {
                     $origin_channel =~ s/^IAX2\[(.*)\]/IAX2\/$1/g;
@@ -5119,8 +5838,7 @@ sub process_flash_command
                 }
                 $comando .= "Priority: 1\r\n";
                 $comando .= "\r\n";
-                send_command_to_manager($comando,
-                                        $p[$button_server{$datosflash}]);
+                send_command_to_manager($comando, $p[$button_server{$datosflash}]);
             }
             elsif ($accion =~ /^dial/)
             {
@@ -5156,6 +5874,7 @@ sub process_flash_command
     else
     {
         log_debug("$debugh There is no channel selected ?", 16);
+        print("$debugh There is no channel selected ?\n");
     }
 }
 
@@ -5217,18 +5936,253 @@ sub retrieve_extension
     return $canal_destino;
 }
 
-sub send_queue_status
+sub request_astdb_status
 {
-    foreach my $socket (@p)
-    {
-        if (defined($socket) && $socket ne "")
-        {
 
-            send_command_to_manager("Action: QueueStatus\r\n\r\n", $socket);
-            send_command_to_manager(
-                "Action: Command\r\nActionId: agents\r\nCommand: show agents\r\n\r\n",
-                $socket
-            );
+    for my $key (keys %astdbcommands)
+    {
+        my $nro_servidor = 0;
+        foreach my $socket (@p)
+        {
+            if (defined($socket) && $socket ne "")
+            {
+                for (keys %buttons)
+                {
+                    my $canal = $_;
+                    $canal =~ m/(\d+)\^([^&]*)(.*)/g;
+                    my $servidor = $1;
+                    my $canalito = $2;
+                    if ($canalito !~ m/^_/ && $nro_servidor == $servidor && $canalito !~ m/=/)
+                    {
+                        my $comando = "Action: Command\r\n";
+                        $comando .= "ActionID: astdb-$key-$canalito\r\n";
+                        $comando .= "Command: database get $key $canalito\r\n\r\n";
+                        if (defined($autenticado{$socket}))
+                        {
+                            if ($autenticado{$socket} == 1)
+                            {
+                                send_command_to_manager($comando, $socket);
+                            }
+                        }
+                    }
+                }
+            }
+            $nro_servidor++;
+        }
+    }
+}
+
+sub request_queue_status
+{
+    my $socket  = shift;
+    my $canalid = shift;
+    my $member  = "";
+    my $nada    = "";
+
+    if (defined($canalid))
+    {
+        ($member, $nada) = separate_session_from_channel($canalid);
+    }
+
+    my @todos = ();
+
+    if ($socket eq "all")
+    {
+        @todos = @p;
+    }
+    else
+    {
+        push @todos, $socket;
+    }
+
+    foreach my $socket2 (@todos)
+    {
+        if (defined($socket2) && $socket2 ne "")
+        {
+            send_command_to_manager("Action: Command\r\nActionId: agents\r\nCommand: show agents\r\n\r\n", $socket2);
+            if (defined($member))
+            {
+                my @agentes = ();
+                push @agentes, $member;
+                if (exists($reverse_agents{$member}))
+                {
+                    push @agentes, "Agent/" . $reverse_agents{$member};
+                }
+                foreach my $cual (@agentes)
+                {
+                    send_command_to_manager("Action: QueueStatus\r\nMember: $cual\r\n\r\n", $socket2);
+
+                }
+            }
+            else
+            {
+                send_command_to_manager("Action: QueueStatus\r\n\r\n", $socket2);
+            }
+        }
+    }
+}
+
+sub first_client_status
+{
+
+    # This functions traverses all FOP internal hashes and send the proper
+    # commands to the flash client to reflect the status of each button.
+
+    my $socket  = shift;
+    my $interno = "";
+    if (keys(%estadoboton))
+    {
+        for $interno (keys %botonled)
+        {
+            if ($botonled{$interno} == 1)
+            {
+                send_status_to_flash($socket, "$interno|changelabel1|$botonlabel{$interno}", 0);
+            }
+        }
+        for $interno (keys %botonvoicemail)
+        {
+            if ($botonvoicemail{$interno} == 1)
+            {
+                send_status_to_flash($socket, "$interno|voicemail|1", 0);
+            }
+        }
+        for $interno (keys %botonvoicemailcount)
+        {
+            send_status_to_flash($socket, "$interno|voicemailcount|$botonvoicemailcount{$interno}", 0);
+        }
+        for $interno (keys %botonalpha)
+        {
+            if ($botonalpha{$interno} ne "")
+            {
+                send_status_to_flash($socket, "$interno|setalpha|$botonalpha{$interno}", 0);
+            }
+        }
+        for $interno (keys %botontext)
+        {
+            if ($botontext{$interno} ne "")
+            {
+                send_status_to_flash($socket, "$interno|settext|$botontext{$interno}", 0);
+            }
+        }
+        for $interno (keys %botonqueue)
+        {
+            send_status_to_flash($socket, "$interno|infoqstat|$botonqueue{$interno}", 0);
+        }
+        if (keys(%botonqueuemember))
+        {
+            for $interno (keys %botonqueuemember)
+            {
+                if (defined(@{$botonqueuemember{$interno}}))
+                {
+                    my %temphash = ();
+                    foreach my $val (@{$botonqueuemember{$interno}})
+                    {
+                        my @datos = split(/\|/, $val);
+                        $temphash{$datos[0]} = $datos[1];
+
+                        #                        send_status_to_flash($socket, "$interno|info$datos[0]|$datos[1]", 0);
+                    }
+                    while (my ($key, $val) = each(%temphash))
+                    {
+                        send_status_to_flash($socket, "$interno|info$key|$val", 0);
+                    }
+                }
+            }
+        }
+        if (keys(%botonpark))
+        {
+            for $interno (keys %botonpark)
+            {
+                $botonpark{$interno} =~ m/(.*)\|(.*)/;
+                my $texto   = $1;
+                my $timeout = $2;
+                my $diftime = $timeout - time();
+                if ($diftime > 0)
+                {
+                    send_status_to_flash($socket, "$interno|park|$texto($diftime)", 0);
+                }
+            }
+        }
+        for $interno (keys %estadoboton)
+        {
+            if ($estadoboton{$interno} !~ /^free/)
+            {
+                if ($estadoboton{$interno} =~ /^busy/)
+                {
+                    send_status_to_flash($socket, "$interno|state|busy", 0);
+                    if (defined($botonlabel{$interno}))
+                    {
+                        send_status_to_flash($socket, "$interno|changelabel0|$botonlabel{$interno}", 0);
+                    }
+                }
+                elsif ($estadoboton{$interno} =~ /ringi/)
+                {
+                    send_status_to_flash($socket, "$interno|state|ringing", 0);
+                }
+                if (defined($botonclid{$interno}))
+                {
+                    if ($botonclid{$interno} ne "")
+                    {
+                        send_status_to_flash($socket, "$interno|settext|$botonclid{$interno}", 0);
+                    }
+                }
+            }
+        }
+        if (keys(%botonlinked))
+        {
+            for $interno (keys %botonlinked)
+            {
+                if ($botonlinked{$interno} ne "")
+                {
+                    send_status_to_flash($socket, "$interno|linked|$botonlinked{$interno}", 0);
+                }
+            }
+        }
+        if (keys(%botonmeetme))
+        {
+            for $interno (keys %botonmeetme)
+            {
+                if ($botonmeetme{$interno} ne "")
+                {
+                    send_status_to_flash($socket, "$interno|meetmeuser|$botonmeetme{$interno}", 0);
+                }
+            }
+        }
+        if (keys(%botontimer))
+        {
+            for $interno (keys %botontimer)
+            {
+                if ($botontimer{$interno} ne "")
+                {
+                    my $diftime = time() - $botontimer{$interno};
+                    send_status_to_flash($socket, "$interno|settimer|$diftime\@UP", 0);
+                    send_status_to_flash($socket, "$interno|state|busy",            0);
+                }
+            }
+        }
+        if (keys(%botonlabel))
+        {
+            for $interno (keys %botonlabel)
+            {
+                if (   $botonlabel{$interno} ne ""
+                    && $botonlabel{$interno} ne "."
+                    && $botonlabel{$interno} ne "original"
+                    && $botonlabel{$interno} ne "labeloriginal")
+                {
+                    send_status_to_flash($socket, "$interno|setlabel|$botonlabel{$interno}", 0);
+                }
+            }
+        }
+        if (keys(%botonregistrado))
+        {
+            for $interno (keys %botonregistrado)
+            {
+                if ($botonregistrado{$interno} ne "")
+                {
+                    my ($quehace, $dos) = split(/\|/, $botonregistrado{$interno});
+                    send_status_to_flash($socket, "$interno|$quehace|$dos", 0);
+                }
+            }
         }
     }
 }
@@ -5238,24 +6192,29 @@ sub send_initial_status
     %datos = ();
     my $nro_servidor = 0;
     my $debugh       = "** SEND INITIAL STATUS";
+    my $cual         = shift;
+    my @socket_manager;
+
+    if (defined($cual))
+    {
+        push @socket_manager, $cual;
+    }
+    else
+    {
+        @socket_manager = @p;
+    }
 
     log_debug("$debugh START SUB", 16);
 
-    foreach my $socket (@p)
+    request_astdb_status();
+
+    foreach my $socket (@socket_manager)
     {
 
         if (defined($socket) && $socket ne "")
         {
             my @pedazos = split(/\|/, $manager_socket{$socket});
-
-            my $ip_address = "0.0.0.0";
-            my $sockaddr   = $socket->peername;
-            if (defined($sockaddr))
-            {
-                my ($port, $inetaddr) = sockaddr_in($sockaddr);
-                $ip_address = inet_ntoa($inetaddr);
-            }
-            if ($pedazos[0] eq $ip_address)
+            if ($pedazos[0] eq $ip_addy{$socket})
             {
                 my $contador = 0;
                 foreach my $valor (@manager_host)
@@ -5270,10 +6229,10 @@ sub send_initial_status
 
             send_command_to_manager("Action: Status\r\n\r\n", $socket);
 
-            send_command_to_manager(
-                "Action: Command\r\nActionID: parkedcalls\r\nCommand: show parkedcalls\r\n\r\n",
-                $socket
-            );
+            send_command_to_manager("Action: ZapShowChannels\r\n\r\n", $socket);
+
+            send_command_to_manager("Action: Command\r\nActionID: parkedcalls\r\nCommand: show parkedcalls\r\n\r\n",
+                                    $socket);
 
             # Send commands to check the mailbox status for each mailbox defined
             while (my ($key, $val) = each(%mailbox))
@@ -5282,10 +6241,8 @@ sub send_initial_status
                 my $servidormbox = $pedacitos[0];
                 if ("$servidormbox" eq "$nro_servidor")
                 {
-                    log_debug("$debugh mailbox $ip_address $key $val", 32);
-                    send_command_to_manager(
-                               "Action: MailboxStatus\r\nMailbox: $val\r\n\r\n",
-                               $socket);
+                    log_debug("$debugh mailbox $ip_addy{$socket} $key $val", 32);
+                    send_command_to_manager("Action: MailboxStatus\r\nMailbox: $val\r\n\r\n", $socket);
                 }
             }
             my @all_meetme_rooms = ();
@@ -5334,15 +6291,14 @@ sub send_initial_status
                 if ("$servidormeetme" eq "$nro_servidor")
                 {
                     send_command_to_manager(
-                        "Action: Command\r\nActionID: meetme_$meetmeroom\r\nCommand: meetme list $meetmeroom\r\n\r\n",
-                        $socket
-                    );
+                          "Action: Command\r\nActionID: meetme_$meetmeroom\r\nCommand: meetme list $meetmeroom\r\n\r\n",
+                          $socket);
                 }
             }
-
+            request_queue_status($socket, "");
         }
     }
-    send_queue_status();
+    alarm(2);
 }
 
 sub process_cli_command
@@ -5433,11 +6389,12 @@ sub process_cli_command
             /(\d+) \((.*)\) (.*) (\(.*\))/;
             if (defined($1))
             {
-                $agent_number               = $1;
-                $agent_name                 = $2;
-                $agent_state                = $3;
-                $agents_name{$agent_number} = $agent_name;
+                $agent_number                         = $1;
+                $agent_name                           = $2;
+                $agent_state                          = $3;
+                $agents_name{"$server^$agent_number"} = $agent_name;
             }
+
             if (defined($3))
             {
                 if ($agent_state =~ /available at/)
@@ -5458,7 +6415,7 @@ sub process_cli_command
                     # Agent login
                     $agent_state =~ s/\s+/ /g;
                     $agent_state =~ s/logged in on //g;
-                    $agent_state =~ s/(.*) (.*)/$1/g;
+                    $agent_state =~ s/([^ ]*).*/$1/g;
 
                     $bloque[$contador]{"Event"}   = "Agentlogin";
                     $bloque[$contador]{"Channel"} = $agent_state;
@@ -5466,8 +6423,44 @@ sub process_cli_command
                     $bloque[$contador]{"Server"}  = "$server";
                     $contador++;
                 }
+                if ($agent_state =~ /not logged in/)
+                {
+                    $bloque[$contador]{"Event"}  = "Agentlogoff";
+                    $bloque[$contador]{"Agent"}  = "$agent_number";
+                    $bloque[$contador]{"Server"} = "$server";
+                    $contador++;
+                }
             }
         }
+    }
+    elsif ($texto =~ /ActionID: astdb-/)
+    {
+        my $astdbk = "";
+        my $canalk = "";
+        my $valork = "";
+        foreach (@lineas)
+        {
+            if (/^ActionID/)
+            {
+                $_ =~ m/ActionID: astdb-([^-]*)-(.*)/;
+                $astdbk = $1;
+                $canalk = $2;
+            }
+            if (/^Value:/)
+            {
+                $valork = $_;
+                $valork =~ s/Value: //g;
+            }
+        }
+        if ($valork ne "")
+        {
+            $bloque[$contador]{"Event"}   = "ASTDB";
+            $bloque[$contador]{"Channel"} = $canalk;
+            $bloque[$contador]{"Value"}   = $valork;
+            $bloque[$contador]{"Family"}  = $astdbk;
+            $contador++;
+        }
+
     }
     elsif ($texto =~ /ActionID: meetmeun/ || $texto =~ /ActionID: meetmemute/)
     {
@@ -5555,6 +6548,7 @@ sub process_cli_command
                 next;
             }
             last if $valor =~ /^--End/i;
+            last if $valor =~ /^\d+ parked/i;
             next unless $info;
             $valor =~ s/\s+/ /g;
             my @parametros = split(" ", $valor);
@@ -5568,13 +6562,6 @@ sub process_cli_command
             $bloque[$contador]{"Server"}  = "$server";
             $contador++;
 
-            # Event: ParkedCall
-            # Exten: 702
-            # Channel: SIP/16-1601
-            # From: SIP/20-669a
-            # Timeout: 45
-            # CallerID: "Nicolas Gudino" <16>
-            # Server: 0
         }
     }
     else
@@ -5598,9 +6585,7 @@ sub process_cli_command
 
             if (length($valor) < $statPos)
             {
-                log_debug(
-                        "$debugh SIP PEER line $valor does not match $statPos!",
-                        16);
+                log_debug("$debugh SIP PEER line $valor does not match $statPos!", 16);
                 next;
             }
 
@@ -5646,14 +6631,11 @@ sub process_cli_command
 sub find_uniqueid
 {
 
-    # returns the uniqueid of certain channel
+    # returns the uniqueid of a given channel
     my $canal  = shift;
     my $server = shift;
     my $uniqid = "";
     my $match  = 0;
-    my $debugh = "** FIND_UNIQUEID";
-
-    log_debug("$debugh canal $canal server $server", 64);
 
     if (keys(%datos))
     {
@@ -5662,21 +6644,17 @@ sub find_uniqueid
             $match = 0;
             while (my ($key, $val) = each(%{$datos{$_}}))
             {
-                log_debug("$debugh datos($_) key = $key , val = $val", 32);
                 if ($key eq "Channel" && $val eq $canal)
                 {
-                    log_debug("$debugh encontre canal=$val", 128);
                     $match++;
                 }
                 if ($key eq "Server" && $val eq $server)
                 {
-                    log_debug("$debugh encontre server $val", 128);
                     $match++;
                 }
             }
             if ($match > 1)
             {
-                log_debug("$debugh devuelvo $_", 128);
                 $uniqid = $_;
                 last;
             }
@@ -5711,9 +6689,7 @@ sub check_if_extension_is_busy
                         $comando = "Action: Hangup\r\n";
                         $comando .= "Channel: $val\r\n\r\n";
                         send_command_to_manager($comando);
-                        log_debug(
-                                "$debugh ZOMBIE!! I will try to kill it!! $val",
-                                16);
+                        log_debug("$debugh ZOMBIE!! I will try to kill it!! $val", 16);
                     }
                 }
                 else
@@ -5724,9 +6700,7 @@ sub check_if_extension_is_busy
                     if ($canal eq $interno)
                     {
                         $return = "si";
-                        log_debug(
-                                 "$debugh Extension still busy $canal $interno",
-                                 16);
+                        log_debug("$debugh Extension still busy $canal $interno", 16);
                     }
                     else
                     {
@@ -5746,14 +6720,14 @@ sub log_debug
     my $verbose = "0";
 
     if (!defined($nivel)) { $nivel = 1; }
-    if (!defined($debug)) { $debug = $nivel; }
 
     if ($debug & $nivel)
     {
         $texto =~ s/\0//g;
         if ($texto !~ m/^\d+\.\d+\.\d+\.\d+/)
         {
-            $verbose = "verbose";
+            $verbose = $texto;
+            $verbose =~ s/^\*\* ([^\s]*).*/$1/g;
         }
         else
         {
@@ -5761,12 +6735,26 @@ sub log_debug
             $parte =~ s/(\d+\.\d+\.\d+\.\d+)\s+(.*)/$1/g;
             $verbose = $parte;
         }
-        if ($verbose ne $global_verbose)
+        if ($debug == -1)
         {
-            print "\n";
+
+            # Debug log Cache
+            $debug_cache .= "$texto\n";
         }
-        $global_verbose = $verbose;
-        print "$texto\n";
+        else
+        {
+            if ($debug_cache ne "")
+            {
+                print $debug_cache. "\n";
+                $debug_cache = "";
+            }
+            if ($verbose ne $global_verbose)
+            {
+                print "\n";
+            }
+            $global_verbose = $verbose;
+            print "$texto\n";
+        }
     }
 }
 
@@ -5774,131 +6762,143 @@ sub alarma_al_minuto
 {
     my $nro_servidor = 0;
     my $debugh       = "** ALARM ";
-    if ($firstpass == 1)
-    {
+    manager_connection();
 
-        # If its the first time, send complete initial status to asterisk
-        $firstpass = 2;
-        send_initial_status();
-    }
-    else
+    #	%cache_hit = ();   # Clears button cache
+    foreach (@p)
     {
-        &manager_connection();
-
-        foreach (@p)
+        if (defined($_) && $_ ne "")
         {
-            if (defined($_) && $_ ne "")
+            log_debug("Enviando status a " . $ip_addy{$_}, 16);
+            my @pedazos = split(/\|/, $manager_socket{$_});
+
+            if ($pedazos[0] eq $ip_addy{$_})
+            {
+                my $contador = 0;
+                foreach my $valor (@manager_host)
+                {
+                    if ($valor eq $pedazos[0])
+                    {
+                        $nro_servidor = $contador;
+                    }
+                    $contador++;
+                }
+            }
+
+            my $comando = "Action: Command\r\n";
+            $comando .= "Command: sip show peers\r\n\r\n";
+            send_command_to_manager($comando, $_);
+
+            $comando = "Action: Command\r\n";
+            $comando .= "ActionID: iaxpeers\r\n";
+            $comando .= "Command: iax2 show peers\r\n\r\n";
+            send_command_to_manager($comando, $_);
+
+            if ($poll_voicemail == 1)
             {
 
-                my @pedazos = split(/\|/, $manager_socket{$_});
-
-                my $ip_address = "0.0.0.0";
-                my $sockaddr   = $_->peername;
-                if (defined($sockaddr))
+                # Send commands to check the mailbox status for each mailbox defined
+                while (my ($key, $val) = each(%mailbox))
                 {
-                    my ($port, $inetaddr) = sockaddr_in($sockaddr);
-                    $ip_address = inet_ntoa($inetaddr);
-                }
-                if ($pedazos[0] eq $ip_address)
-                {
-                    my $contador = 0;
-                    foreach my $valor (@manager_host)
+                    my @pedacitos = split(/\^/, $key);
+                    my $servidormbox = $pedacitos[0];
+                    if ("$servidormbox" eq "$nro_servidor")
                     {
-                        if ($valor eq $pedazos[0])
-                        {
-                            $nro_servidor = $contador;
-                        }
-                        $contador++;
-                    }
-                }
-
-                my $comando = "Action: Command\r\n";
-                $comando .= "Command: sip show peers\r\n\r\n";
-                send_command_to_manager($comando, $_);
-
-                $comando = "Action: Command\r\n";
-                $comando .= "ActionID: iaxpeers\r\n";
-                $comando .= "Command: iax2 show peers\r\n\r\n";
-                send_command_to_manager($comando, $_);
-
-                if ($poll_voicemail == 1)
-                {
-
-                    # Send commands to check the mailbox status for each mailbox defined
-                    while (my ($key, $val) = each(%mailbox))
-                    {
-                        my @pedacitos = split(/\^/, $key);
-                        my $servidormbox = $pedacitos[0];
-                        if ("$servidormbox" eq "$nro_servidor")
-                        {
-                            log_debug("$debugh mailbox $ip_address $key $val",
-                                      32);
-                            send_command_to_manager(
-                                "Action: MailboxStatus\r\nMailbox: $val\r\n\r\n",
-                                $_
-                            );
-                        }
-
+                        log_debug("$debugh mailbox $ip_addy{$_} $key $val", 32);
+                        send_command_to_manager("Action: MailboxStatus\r\nMailbox: $val\r\n\r\n", $_);
                     }
                 }
             }
         }
     }
     alarm($poll_interval);
-
 }
 
 sub send_status_to_flash
 {
     my $socket       = shift;
     my $status       = shift;
+    my $nocrypt      = shift;
     my $encriptado   = $status;
-    my $boton_numero = 0;
+    my $but_no       = 0;
+    my $debugh       = "** SEND_STATUS_TO_FLASH ";
+    my $contexto     = "";
+    my $cmd          = "";
+    my $cmd_crypt    = "";
+    my $data         = "";
+    my $data_crypt   = "";
+    my $noencriptado = "";
+
+    if (!defined($socket))
+    {
+        log_debug("$debugh socket $socket not open!!!", 64);
+    }
 
     if ($encriptado =~ /key\|0/)
     {
-        $boton_numero = '0';
+        $but_no = '0';
+        $encriptado =~ m/(.*)\|(.*)\|(.*)/;
+        $cmd  = $2;
+        $data = $1;
+
     }
     else
     {
-        $boton_numero = $status;
-        $boton_numero =~ s/(\d+)(.*)\|(.*)/$1/g;
-    }
+        $but_no = $status;
+        $but_no =~ s/(\d+)(.*)\|(.*)/$1/g;
+        $contexto = $status;
+        $contexto =~ s/([^\|]*).*/$1/g;
+        $contexto =~ m/(.*)\@(.*)/;
 
-    $encriptado = &TEAencrypt($encriptado, $keys_socket{"$socket"});
-    my $encriptadofinal =
-      "<response data=\"$encriptado\" btn=\"$boton_numero\"/>\0";
-
-    if (!defined($keys_socket{"$socket"}))
-    {
-        $encriptadofinal =
-          "<response data=\"$status\" btn=\"$boton_numero\"/>\0";
-    }
-    if (defined($no_encryption{"$socket"}))
-    {
-        if ($no_encryption{"$socket"} == 1)
+        if (defined($2))
         {
-            $encriptadofinal =
-              "<response data=\"$status\" btn=\"$boton_numero\"/>\0";
+            $contexto = $2;
+            $but_no .= "\@$contexto";
         }
+        else
+        {
+            $contexto = "";
+        }
+        $status =~ m/(.*)\|(.*)\|(.*)/;
+        $cmd  = $2;
+        $data = $3;
     }
-    my $T = syswrite($socket, $encriptadofinal, length($encriptadofinal));
-    if (!$T)
-    {
-        log_debug("HEY! el socket $socket no esta abiierto!!!", 1);
-    }
-    $encriptadofinal = substr($encriptadofinal, 0, -1);
-    my $ip_address = "0.0.0.0";
-    my $sockaddr   = $socket->peername;
-    if (defined($sockaddr))
-    {
-        my ($port, $inetaddr) = sockaddr_in($sockaddr);
-        $ip_address = inet_ntoa($inetaddr);
-    }
-    my $linea_formato = sprintf("%-15s => %s", $ip_address, $status);
 
-    log_debug("$linea_formato", 8);
-    return $T;
+    if ($flash_contexto{$socket} ne $contexto && $but_no ne "0")
+    {
+
+        # If the context does not match, exit without queueing anything
+        return;
+    }
+
+    if (!defined($no_encryption{"$socket"}))
+    {
+        $no_encryption{"$socket"} = 0;
+    }
+
+    $noencriptado = "<response btn=\"$but_no\" cmd=\"$cmd\" data=\"$data\"/>\0";
+
+    if (!defined($keys_socket{"$socket"}) || $nocrypt == 1 || $no_encryption{"$socket"} == 1)
+    {
+        $encriptado = "<response btn=\"$but_no\" cmd=\"$cmd\" data=\"$data\"/>\0";
+    }
+    else
+    {
+        $cmd_crypt  = &TEAencrypt($cmd,  $keys_socket{"$socket"});
+        $data_crypt = &TEAencrypt($data, $keys_socket{"$socket"});
+        $encriptado = "<response btn=\"$but_no\" cmd=\"$cmd_crypt\" data=\"$data_crypt\">\0";
+    }
+    if (!defined($ip_addy{$socket}))
+    {
+        log_debug("Skip actual_syswrite to $socket cause it does not exists!", 128);
+    }
+    else
+    {
+        actual_syswrite($socket, $encriptado, "isclient", $noencriptado);
+    }
+
+    #push @{$client_queue_nocrypt{$socket}}, $noencriptado;
+    #push @{$client_queue{$socket}},         $encriptado;
 }
 
 sub manager_login_md5
@@ -5913,17 +6913,24 @@ sub manager_login_md5
     $command .= "Username: $partes[1]\r\n";
     $command .= "AuthType: MD5\r\n";
     $command .= "Key: $md5clave\r\n\r\n";
-    send_command_to_manager($command, $handle);
+    send_command_to_manager($command, $handle, 1);
 }
 
 sub send_command_to_manager
 {
     my $comando       = shift;
     my $socket        = shift;
+    my $noneedtoauth  = shift;
     my @todos_sockets = ();
 
     if (!defined($socket))
     {
+        return;
+    }
+
+    if (!defined($autenticado{$socket}) && !defined($noneedtoauth))
+    {
+        log_debug("Cannot send command $comando, manager connection to " . $ip_addy{$socket} . " failed", 1);
         return;
     }
 
@@ -5952,14 +6959,44 @@ sub send_command_to_manager
         my @lineas = split("\r\n", $comando);
         foreach my $linea (@lineas)
         {
-            syswrite($sockwrite, "$linea\r\n");
-            my $linea_formato = sprintf("%-15s -> %s", $partes[0], $linea);
+
+            #           syswrite($sockwrite, "$linea\r\n");
+            push @{$manager_queue{$sockwrite}}, "$linea\r\n";
+
+            # my $linea_formato = sprintf("%-15s -> %s", $partes[0], $linea);
 
             #            log_debug("$partes[0] -> $linea", 2);
-            log_debug("$linea_formato", 2);
+            #log_debug("$linea_formato", 2);
         }
-        syswrite($sockwrite, "\r\n");
+        $global_verbose = "separator";
+        push @{$manager_queue{$sockwrite}}, "\r\n";
+
+        #        syswrite($sockwrite, "\r\n");
     }
+}
+
+sub split_callerid
+{
+    my $clid         = shift;
+    my @return       = ();
+    my $calleridname = "";
+    my $calleridnum  = "";
+
+    if ($clid =~ /</)
+    {
+        $clid =~ /"?(.*)<(.*)>/;
+        $calleridname = $1;
+        $calleridnum  = $2;
+    }
+    else
+    {
+        $calleridnum  = $clid;
+        $calleridname = "unknown";
+    }
+    push @return, $calleridnum;
+    push @return, $calleridname;
+
+    return @return;
 }
 
 sub is_number
@@ -5978,26 +7015,24 @@ sub is_number
 
 sub close_all
 {
-    log_debug("Exiting...", 1);
-    my $ip_address = "0.0.0.0";
-    my $portnum    = 0;
+    foreach my $file (@all_flash_files)
+    {
+        log_debug("Removing $file...", 1);
+        unlink($file);
+    }
     foreach my $hd ($O->handles)
     {
-        my $sockaddr = $hd->peername;
-        if (defined($sockaddr) && $hd ne "")
+        my $peer_ip = $ip_addy{$hd};
+        if (defined($peer_ip))
         {
-            my ($port, $inetaddr) = sockaddr_in($sockaddr);
-            $ip_address = inet_ntoa($inetaddr);
-            $portnum    = $port;
+            log_debug("Closing " . $peer_ip, 1);
         }
-        if ($portnum != 0)
-        {
-            log_debug("Closing $ip_address $portnum", 1);
-        }
+
         $O->remove($hd);
         close($hd);
     }
 
+    log_debug("Exiting...", 1);
     exit(0);
 }
 
@@ -6102,8 +7137,7 @@ sub generate_random_password
 {
     my $passwordsize = shift;
     my @alphanumeric = ('a' .. 'z', 'A' .. 'Z', 0 .. 9);
-    my $randpassword = join '', map $alphanumeric[rand @alphanumeric],
-      0 .. $passwordsize;
+    my $randpassword = join '', map $alphanumeric[rand @alphanumeric], 0 .. $passwordsize;
 
     return $randpassword;
 }
@@ -6112,14 +7146,33 @@ sub sends_incorrect
 {
     my $socket = shift;
     my $manda  = "0|incorrect|0";
-    my $T      = send_status_to_flash($socket, $manda);
+    my $T      = send_status_to_flash($socket, $manda, 0);
+    print " Manda icorrect!\n";
 }
 
 sub sends_correct
 {
     my $socket = shift;
     my $manda  = "0|correct|0";
-    my $T      = send_status_to_flash($socket, $manda);
+    my $T      = send_status_to_flash($socket, $manda, 0);
+}
+
+sub sends_version
+{
+    my $socket   = shift;
+    my $nocrypt  = 0;
+    my $contexto = $flash_contexto{$socket};
+    my $boton    = "0";
+    if ($contexto ne "")
+    {
+        $boton .= "\@$contexto";
+    }
+    my $version_string = "$boton|version|$FOP_VERSION";
+    if (!$keys_socket{"$socket"})
+    {
+        $nocrypt = 1;
+    }
+    send_status_to_flash($socket, $version_string, $nocrypt);
 }
 
 sub sends_key
@@ -6127,13 +7180,18 @@ sub sends_key
 
     # Generate random key por padding the password
     # and write it to the client
-    my $socket = shift;
-    my $keylen = int(rand(22));
+    my $socket  = shift;
+    my $keylen  = int(rand(22));
+    my $nocrypt = 0;
     $keylen += 15;
     my $randomkey = generate_random_password($keylen);
     my $mandakey  = "$randomkey|key|0";
-    my $T         = send_status_to_flash($socket, $mandakey);
+    if (!$keys_socket{"$socket"})
+    {
+        $nocrypt = 1;
+    }
     $keys_socket{"$socket"} = $randomkey;
+    send_status_to_flash($socket, $mandakey, $nocrypt);
 }
 
 sub MD5Digest
@@ -6302,8 +7360,7 @@ sub MD5Update
     if ($inputLen >= $partLen)
     {
 
-        substr($context->{buffer}, $index, $partLen) =
-          substr($input, 0, $partLen);
+        substr($context->{buffer}, $index, $partLen) = substr($input, 0, $partLen);
 
         &MD5Transform(\@{$context->{state}}, $context->{buffer});
 
@@ -6320,8 +7377,7 @@ sub MD5Update
     }
 
     # Buffer remaining input
-    substr($context->{buffer}, $index, $inputLen - $i) =
-      substr($input, $i, $inputLen - $i);
+    substr($context->{buffer}, $index, $inputLen - $i) = substr($input, $i, $inputLen - $i);
 }
 
 # MD5 finalization. Ends an MD5 message-digest operation, writing the
@@ -6476,10 +7532,8 @@ sub Decode
     for ($i = 0, $j = 0 ; $j < $len ; $i++, $j += 4)
     {
         $output->[$i] =
-          (ord(substr($input, $j + 0, 1))) |
-          (ord(substr($input, $j + 1, 1)) << 8) |
-          (ord(substr($input, $j + 2, 1)) << 16) |
-          (ord(substr($input, $j + 3, 1)) << 24);
+          (ord(substr($input, $j + 0, 1))) | (ord(substr($input, $j + 1, 1)) << 8) |
+          (ord(substr($input, $j + 2, 1)) << 16) | (ord(substr($input, $j + 3, 1)) << 24);
     }
 }
 #########################################################################
@@ -6525,8 +7579,7 @@ sub binary2str
     my @str = ();
     foreach my $i (@_)
     {
-        push @str, chr(0xFF & ($i >> 24)), chr(0xFF & ($i >> 16)),
-          chr(0xFF & ($i >> 8)), chr(0xFF & $i);
+        push @str, chr(0xFF & ($i >> 24)), chr(0xFF & ($i >> 16)), chr(0xFF & ($i >> 8)), chr(0xFF & $i);
     }
     return join '', @str;
 }
@@ -6613,7 +7666,7 @@ sub asciidigest
 sub binarydigest
 {
     my $str = $_[$[];    # returns 4 32-bit-int binary signature
-         # warning: mode of use invented by Peter Billam 1998, needs checking !
+                         # warning: mode of use invented by Peter Billam 1998, needs checking !
     return '' unless $str;
 
     # add 1 char ('0'..'15') at front to specify no of pad chars at end ...
@@ -6664,8 +7717,8 @@ sub TEAencrypt
     $str = chr($npads | (0xF8 & &rand_byte)) . $str;
     if ($npads)
     {
-        my $padding = pack 'CCCCCCC', &rand_byte, &rand_byte, &rand_byte,
-          &rand_byte, &rand_byte, &rand_byte, &rand_byte;
+        my $padding = pack 'CCCCCCC', &rand_byte, &rand_byte, &rand_byte, &rand_byte, &rand_byte, &rand_byte,
+          &rand_byte;
         $str = $str . substr($padding, $[, $npads);
     }
     my @pblocks = &str2binary($str);
@@ -6746,11 +7799,9 @@ sub tea_code
     my $n   = 32;
     while ($n-- > 0)
     {
-        $sum += 0x9e3779b9;    # TEA magic number delta
-        $v0  +=
-          (($v1 << 4) + $k0) ^ ($v1 + $sum) ^ ((0x07FFFFFF & ($v1 >> 5)) + $k1);
-        $v1 +=
-          (($v0 << 4) + $k2) ^ ($v0 + $sum) ^ ((0x07FFFFFF & ($v0 >> 5)) + $k3);
+        $sum += 0x9e3779b9;                                                              # TEA magic number delta
+        $v0  += (($v1 << 4) + $k0) ^ ($v1 + $sum) ^ ((0x07FFFFFF & ($v1 >> 5)) + $k1);
+        $v1  += (($v0 << 4) + $k2) ^ ($v0 + $sum) ^ ((0x07FFFFFF & ($v0 >> 5)) + $k3);
     }
     return ($v0, $v1);
 }
@@ -6766,10 +7817,8 @@ sub tea_decode
     $sum = 0x9e3779b9 << 5;    # TEA magic number delta
     while ($n-- > 0)
     {
-        $v1 -=
-          (($v0 << 4) + $k2) ^ ($v0 + $sum) ^ ((0x07FFFFFF & ($v0 >> 5)) + $k3);
-        $v0 -=
-          (($v1 << 4) + $k0) ^ ($v1 + $sum) ^ ((0x07FFFFFF & ($v1 >> 5)) + $k1);
+        $v1 -= (($v0 << 4) + $k2) ^ ($v0 + $sum) ^ ((0x07FFFFFF & ($v0 >> 5)) + $k3);
+        $v0 -= (($v1 << 4) + $k0) ^ ($v1 + $sum) ^ ((0x07FFFFFF & ($v1 >> 5)) + $k1);
         $sum -= 0x9e3779b9;
     }
     return ($v0, $v1);
@@ -6779,8 +7828,7 @@ sub rand_byte
 {
     if (!$rand_byte_already_called)
     {
-        srand(time() ^ ($$ + ($$ << 15)))
-          ;    # could do better, but its only padding
+        srand(time() ^ ($$ + ($$ << 15)));    # could do better, but its only padding
         $rand_byte_already_called = 1;
     }
     int(rand 256);
@@ -6820,6 +7868,37 @@ sub print_datos
     }
 }
 
+sub print_cachehit
+{
+    if ($debug & 1)
+    {
+        print "---------------------------------------------------\n";
+        print "CACHE HIT\n";
+        print "---------------------------------------------------\n";
+        if (keys(%cache_hit))
+        {
+            for (keys %cache_hit)
+            {
+                print "key $_\n";
+
+                if (defined(@{$cache_hit{$_}}))
+                {
+                    my @final = ();
+                    foreach my $val (@{$cache_hit{$_}})
+                    {
+                        print "\tcache_hit($_) = $val\n";
+                    }
+                }
+            }
+        }
+        else
+        {
+            print "NO CACHE HITS TO DISPLAY\n";
+        }
+        print "---------------------------------------------------\n";
+    }
+}
+
 sub print_linkbot
 {
     if ($debug & 1)
@@ -6851,10 +7930,11 @@ sub print_linkbot
 
 sub print_sesbot
 {
+    my $quien = shift;
     if ($debug & 1)
     {
         print "---------------------------------------------------\n";
-        print "SESIONES BOTONES\n";
+        print "SESIONES BOTONES $quien\n";
         print "---------------------------------------------------\n";
         if (keys(%sesbot))
         {
@@ -6884,20 +7964,14 @@ sub print_instancias
     {
         my $num = shift;
         print "---------------------------------------------------\n";
-        print "Orden instancias $num\n";
-        foreach (sort (keys(%orden_instancias)))
-        {
-            printf("%-20s %-10s\n", $_, $orden_instancias{$_});
-        }
+        print "Instancias 2 $num\n";
         print "---------------------------------------------------\n";
-        print "Instancias $num\n";
-        print "---------------------------------------------------\n";
-        foreach (sort (keys(%instancias)))
+        foreach my $caca (sort (keys(%instancias)))
         {
-            print $_. "\n";
-            foreach my $val (@{$instancias{$_}})
+            print $caca. "\n";
+            foreach my $pipu (sort (keys(%{$instancias{$caca}})))
             {
-                print "= $val\n";
+                print "\t$pipu = $instancias{$caca}{$pipu}\n";
             }
         }
         print "---------------------------------------------------\n";
@@ -6914,8 +7988,95 @@ sub print_botones
         print "---------------------------------------------------\n";
         foreach (sort (keys(%buttons)))
         {
-            printf("%-20s %-10s %-10s\n",
-                   $_, $buttons{$_}, $button_server{$buttons{$_}});
+            printf("%-20s %-10s %-10s\n", $_, $buttons{$_}, $button_server{$buttons{$_}});
+        }
+    }
+}
+
+sub print_cola_write
+{
+    my $socket = shift;
+    if (!defined($socket))
+    {
+        for (keys %client_queue)
+        {
+            my $contame = 0;
+            foreach my $val (@{$client_queue{$_}})
+            {
+                $contame++;
+                print "cola $contame $_ comando $val\n";
+            }
+        }
+    }
+    else
+    {
+        my $contame = 0;
+        foreach my $val (@{$client_queue{$socket}})
+        {
+            $contame++;
+            print "cola $contame $socket comando $val\n";
+        }
+    }
+}
+
+sub print_clients
+{
+    if ($debug & 1)
+    {
+        my $number_of_flash_clients_connected = @flash_clients;
+
+        if ($number_of_flash_clients_connected > 0)
+        {
+            print "\nFlash clients connected: $number_of_flash_clients_connected\n";
+            print "---------------------------------------------------\n";
+
+            foreach my $C (@flash_clients)
+            {
+                print peerinfo($C) . " $C\n";
+            }
+            print "---------------------------------------------------\n";
+        }
+        else
+        {
+            print "No flash clients connected\n";
+        }
+    }
+}
+
+sub print_status
+{
+    if (keys(%estadoboton))
+    {
+        print "---------------------------------------------------\n";
+        print "ESTADO BOTONES\n";
+        print "---------------------------------------------------\n";
+        for (keys %estadoboton)
+        {
+            my $separador = 0;
+            my $nroboton  = $_;
+            print "$nroboton\t $estadoboton{$nroboton}\t $statusboton{$nroboton}\n";
+        }
+        print "---------------------------------------------------\n";
+    }
+    else
+    {
+        print "No estadoboton populated\n";
+    }
+
+    if (keys(%botonled))
+    {
+        print "----- LEDS --------\n";
+        for (keys %botonled)
+        {
+            print "$_ = $botonled{$_} $botonlabel{$_}\n";
+        }
+    }
+    if (keys(%botonvoicemail))
+    {
+        print "----- VOICEMAIL --------\n";
+        for (keys %botonvoicemail)
+        {
+            print "$_ = $botonvoicemail{$_}\n";
         }
     }
 }
