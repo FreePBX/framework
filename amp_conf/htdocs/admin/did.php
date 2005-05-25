@@ -42,7 +42,7 @@ switch ($action) {
 	break;
 	case 'delDID':
 
-		delextensions('ext-did',ltrim($extdisplay,'DID-'));
+		delextensions('ext-did',substr($extdisplay,4));
 		
 		exec($wScript1);
 		needreload();
@@ -89,24 +89,24 @@ if (isset($dresults)) {
 <?php 
 	
 	if ($action == 'delDID') {
-		echo '<br><h3>DID # '.ltrim($extdisplay,'DID-').' deleted!</h3><br><br><br><br><br><br><br><br>';
+		echo '<br><h3>DID # '.substr($extdisplay,4).' deleted!</h3><br><br><br><br><br><br><br><br>';
 	} else {
 		
 		$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delDID';
 ?>
-		<h2><?php echo _("DID Route")?>: <?php echo ltrim($extdisplay,'DID-'); ?></h2>
+		<h2><?php echo _("DID Route")?>: <?php echo substr($extdisplay,4); ?></h2>
 <?php if ($extdisplay) {	?>
-		<p><a href="<?php echo $delURL ?>"><?php echo _("Delete DID")?> <?php echo ltrim($extdisplay,'DID-'); ?></a></p>
+		<p><a href="<?php echo $delURL ?>"><?php echo _("Delete DID")?> <?php echo substr($extdisplay,4); ?></a></p>
 <?php } ?>
 		<form name="editGRP" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 		<input type="hidden" name="display" value="<?php echo $dispnum?>">
 		<input type="hidden" name="action" value="<?php echo ($extdisplay ? 'edtDID' : 'addDID') ?>">
-		<input type="hidden" name="account" value="<?php echo ltrim($extdisplay,'DID-'); ?>">
+		<input type="hidden" name="account" value="<?php echo substr($extdisplay,4); ?>">
 		<table>
 		<tr><td colspan="2"><h5><?php echo ($extdisplay ? _('Edit DID') : _('Add DID')) ?><hr></h5></td></tr>
 		<tr>
 			<td><a href="#" class="info"><?php echo _("DID Number")?>:<span><?php echo _('Define the expected DID digits if your trunk passes DID for incoming calls. <br><br>Caller Id can be matched as well by appending "/" and the expected digits.<br><br><b>Examples:</b><br>123 - match DID "123"<br>s/100 - match CID "100"<br>1234/_256NXXXXXX - both')?></span></a></td>
-			<td><input type="text" name="account" <?php echo ($extdisplay ? 'disabled="true"' : '') ?> value="<?php echo ltrim($extdisplay,'DID-') ?>"></td>
+			<td><input type="text" name="account" <?php echo ($extdisplay ? 'disabled="true"' : '') ?> value="<?php echo substr($extdisplay,4) ?>"></td>
 		</tr>
 		<tr>
 			<td><br></td>
@@ -115,7 +115,7 @@ if (isset($dresults)) {
 		
 <?php 
 //get the failover destination
-$goto = getargs(ltrim($extdisplay,'DID-'),2,'ext-did');
+$goto = getargs(substr($extdisplay,4),2,'ext-did');
 //draw goto selects
 echo drawselects('editGRP',$goto,0);
 ?>
