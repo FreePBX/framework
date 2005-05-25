@@ -69,6 +69,10 @@ unless ($result) {
 @resultSet = @{$result};
 if ( $#resultSet == -1 ) {
   print "No Backup Schedules defined in $table_name\n";
+  #grab any other cronjobs that are running as asterisk and NOT associated with backups
+	system ("/usr/bin/crontab -l | grep -v ampbackup.pl  >> $Backup_cron ");
+	#issue the schedule to the cron scheduler
+	system ("/usr/bin/crontab $Backup_cron");
   exit;
 }
 

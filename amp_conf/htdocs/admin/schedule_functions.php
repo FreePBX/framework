@@ -344,12 +344,12 @@ function Schedule_Show_Minutes($Minutes_Set="")
 	echo "<td valign=top><select multiple size=12 name=mins[]>";
 	for ($minutes=0; $minutes<=59; $minutes++)
 	{
-		if (($minutes==12)||($minutes==24)||($minutes==36)||($minutes==48))
+/*		if (($minutes==12)||($minutes==24)||($minutes==36)||($minutes==48))
 		{
 			echo "</select></td>";
 			echo "<td width=2 valign=top><select multiple size=12 name=mins[]>";
 		}
-		if (strstr($Minutes_Set,":$minutes:"))
+*/		if (strstr($Minutes_Set,":$minutes:"))
 			echo "<option value=\"$minutes\" selected>$minutes";
 		else
 			echo "<option value=\"$minutes\" >$minutes";
@@ -363,12 +363,12 @@ function Schedule_Show_Hours($Hours_Set="")
 	echo "<td valign=top><select multiple size=12 name=hours[]>";
 	for ($hours=0; $hours<=23; $hours++)
 	{
-		if ($hours==12)
+/*		if ($hours==12)
 		{
 			echo "</select></td>";
 			echo "<td valign=top><select multiple size=12 name=hours[]>";
 		}
-		if (strstr($Hours_Set,":$hours:"))
+*/		if (strstr($Hours_Set,":$hours:"))
 			echo "<option value=\"$hours\" selected>$hours";
 		else
 			echo "<option value=\"$hours\" >$hours";
@@ -392,12 +392,12 @@ function Schedule_Show_Days($Days_Set="")
 	echo "<td valign=top><select multiple size=12 name=days[]>";
 	for ($days=1; $days<=31; $days++)
 	{
-		if (($days==13)||($days==25))
+/*		if (($days==13)||($days==25))
 		{
 			echo "</select></td>";
 			echo "<td valign=top><select multiple size=12 name=days[]>";
 		}
-		if (strstr($Days_Set,":$days:"))
+*/		if (strstr($Days_Set,":$days:"))
 			echo "<option value=\"$days\" selected>$days";
 		else
 			echo "<option value=\"$days\" >$days";
@@ -420,16 +420,16 @@ function Schedule_Show_Months($Months_Set="")
 	echo "<td valign=top><select multiple size=12 name=months[]>";
 	echo (strstr($Months_Set,":1:") ? '<option value="1" selected>January':'<option value="1" >January');
 	echo (strstr($Months_Set,":2:") ? '<option value="2" selected>February':'<option value="2" >February');
-	echo (strstr($Months_Set,":3:") ? '<option value="3" selected>March':'<option value="2" >March');
-	echo (strstr($Months_Set,":4:") ? '<option value="4" selected>April':'<option value="2" >April');
-	echo (strstr($Months_Set,":5:") ? '<option value="5" selected>May':'<option value="2" >May');
-	echo (strstr($Months_Set,":6:") ? '<option value="6" selected>June':'<option value="2" >June');
-	echo (strstr($Months_Set,":7:") ? '<option value="7" selected>July':'<option value="2" >July');
-	echo (strstr($Months_Set,":8:") ? '<option value="8" selected>August':'<option value="2" >August');
-	echo (strstr($Months_Set,":9:") ? '<option value="9" selected>September':'<option value="2" >September');
-	echo (strstr($Months_Set,":10:") ? '<option value="10" selected>October':'<option value="2" >October');
-	echo (strstr($Months_Set,":11:") ? '<option value="11" selected>November':'<option value="2" >November');
-	echo (strstr($Months_Set,":12:") ? '<option value="12" selected>December':'<option value="2" >December');
+	echo (strstr($Months_Set,":3:") ? '<option value="3" selected>March':'<option value="3" >March');
+	echo (strstr($Months_Set,":4:") ? '<option value="4" selected>April':'<option value="4" >April');
+	echo (strstr($Months_Set,":5:") ? '<option value="5" selected>May':'<option value="5" >May');
+	echo (strstr($Months_Set,":6:") ? '<option value="6" selected>June':'<option value="6" >June');
+	echo (strstr($Months_Set,":7:") ? '<option value="7" selected>July':'<option value="7" >July');
+	echo (strstr($Months_Set,":8:") ? '<option value="8" selected>August':'<option value="8" >August');
+	echo (strstr($Months_Set,":9:") ? '<option value="9" selected>September':'<option value="9" >September');
+	echo (strstr($Months_Set,":10:") ? '<option value="10" selected>October':'<option value="10" >October');
+	echo (strstr($Months_Set,":11:") ? '<option value="11" selected>November':'<option value="11" >November');
+	echo (strstr($Months_Set,":12:") ? '<option value="12" selected>December':'<option value="12" >December');
 
 	echo "</select></td>";
 	echo "</tr></table></td>";
@@ -447,13 +447,13 @@ function Schedule_Show_Weekdays($Weekdays_Set="")
 	}
 	echo "<table> <tr>";
 	echo "<td valign=top><select multiple size=12 name=weekdays[]>";
-	echo (strstr($Weekdays_Set,":0:") ? '<option value="1" selected>Monday':'<option value="1" >Monday');
+	echo (strstr($Weekdays_Set,":0:") ? '<option value="1" selected>Monday':'<option value="0" >Monday');
 	echo (strstr($Weekdays_Set,":1:") ? '<option value="1" selected>Tuesday':'<option value="1" >Tuesday');
 	echo (strstr($Weekdays_Set,":2:") ? '<option value="2" selected>Wednesday':'<option value="2" >Wednesday');
-	echo (strstr($Weekdays_Set,":3:") ? '<option value="3" selected>Thursday':'<option value="2" >Thursday');
-	echo (strstr($Weekdays_Set,":4:") ? '<option value="4" selected>Friday':'<option value="2" >Friday');
-	echo (strstr($Weekdays_Set,":5:") ? '<option value="5" selected>Saturday':'<option value="2" >Saturday');
-	echo (strstr($Weekdays_Set,":6:") ? '<option value="6" selected>Sunday':'<option value="2" >Sunday');
+	echo (strstr($Weekdays_Set,":3:") ? '<option value="3" selected>Thursday':'<option value="3" >Thursday');
+	echo (strstr($Weekdays_Set,":4:") ? '<option value="4" selected>Friday':'<option value="4" >Friday');
+	echo (strstr($Weekdays_Set,":5:") ? '<option value="5" selected>Saturday':'<option value="5" >Saturday');
+	echo (strstr($Weekdays_Set,":6:") ? '<option value="6" selected>Sunday':'<option value="6" >Sunday');
 
 	echo "</select></td>";
 	echo "</tr></table></td>";
@@ -461,18 +461,14 @@ function Schedule_Show_Weekdays($Weekdays_Set="")
 function show_quickbar($Method="")
 {
 ?>
-	<tr bgcolor=#7f7f7f> <td colspan=5><b><?php echo _("When to execute");?></b></td> </tr>
 	<tr bgcolor=#b7b7b7> <td colspan=6><?php echo _("Run Backup");?> 
 	<select name=backup_schedule>
-	<?php if ($Method!="")
-		echo "<option value=\"$Method\" selected>$Method";
-	?>
-	<option value=follow_schedule ><?php echo _("Follow Schedule Below");?>
-	<option value=now ><?php echo _("Now");?>
-	<option value=daily ><?php echo _("Daily (at midnight)");?>
-	<option value=weekly ><?php echo _("Weekly (on Sunday)");?>
-	<option value=monthly ><?php echo _("Monthly (on the 1st)");?>
-	<option value=yearly ><?php echo _("Yearly (on 1st Jan)");?>
+	<option value=follow_schedule <?php echo ($Method == "follow_schedule" ? "SELECTED" : "")?>><?php echo _("Follow Schedule Below");?>
+	<option value=now <?php echo ($Method == "now" ? "SELECTED" : "")?>><?php echo _("Now");?>
+	<option value=daily <?php echo ($Method == "daily" ? "SELECTED" : "")?>><?php echo _("Daily (at midnight)");?>
+	<option value=weekly <?php echo ($Method == "weekly" ? "SELECTED" : "")?>><?php echo _("Weekly (on Sunday)");?>
+	<option value=monthly <?php echo ($Method == "monthly" ? "SELECTED" : "")?>><?php echo _("Monthly (on the 1st)");?>
+	<option value=yearly <?php echo ($Method == "yearly" ? "SELECTED" : "")?>><?php echo _("Yearly (on 1st Jan)");?>
 	</select>
 	</td></tr>
 <?php
@@ -490,13 +486,13 @@ function show_schedule($quickbar="no", $BackupID="")
 	else{
 		$backup_times=Get_Backup_Times($BackupID);
 		foreach ($backup_times as $bk_times) 
-			$Minutes="$bk_times[0]"; $Hours="$bk_times[1]"; $Days="$bk_times[2]"; $Months="$bk_times[3]"; $WeekDays="$bk_times[4]"; $Method="$bk_times[5]";
+			$Minutes="$bk_times[0]"; $Hours="$bk_times[1]"; $Days="$bk_times[2]"; $Months="$bk_times[3]"; $Weekdays="$bk_times[4]"; $Method="$bk_times[5]";
 		
 	}
 	if ($quickbar=="yes")
 		show_quickbar($Method);
 	else
-		echo "<tr bgcolor=#7f7f7f> <td colspan=5><b>"; echo _("When to execute"); echo "</b></td> </tr> <tr bgcolor=#7f7f7f>";
+		echo "<tr bgcolor=#7f7f7f>";
 	echo "<td><b>Minutes</b></td> <td><b>Hours</b></td> <td><b>Days</b></td> <td><b>Months</b></td><td><b>Weekdays</b></td> </tr> <tr bgcolor=#b7b7b7>";
 	echo "<td valign=top>";
 	Schedule_Show_Minutes($Minutes); 
