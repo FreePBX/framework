@@ -297,7 +297,7 @@ function Show_Backup_Options($ID="")
         </tr>
 
 	<tr>
- 		<td><a href="#" class="info"><?php echo _("VoiceMail");?><span><?php _("Backup the System VoiceMail Boxes... CAUTION Could be Large File");?></span></a>: </td>
+ 		<td><a href="#" class="info"><?php echo _("VoiceMail");?><span><?php echo _("Backup the System VoiceMail Boxes... CAUTION: Could result in large file");?></span></a>: </td>
  		<?php if ($voicemail == "yes"){?>
  			<td><input type="radio" name="bk_voicemail" value="yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_voicemail" value="no"/> no</td>
  		<?php } else{ ?>
