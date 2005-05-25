@@ -1801,6 +1801,20 @@ function drawselects($formName,$goto,$i) {
 	$gresults = getgroups();
 	//get unique queues
 	$queues = getqueues();
+
+	//get voicemail
+	$uservm = getVoicemail();
+	$vmcontexts = array_keys($uservm);
+	foreach ($extens as $thisext) {
+		$extnum = $thisext[0];
+		// search vm contexts for this extensions mailbox
+		foreach ($vmcontexts as $vmcontext) {
+			if(isset($uservm[$vmcontext][$extnum])){
+				$vmname = $uservm[$vmcontext][$extnum]['name'];
+				$vmboxes[] = array($extnum, '"' . $vmname . '" <' . $extnum . '>');
+			}
+		}
+	}
 	
 	$selectHtml = '	<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';				
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="ivr" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'ivr\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'ivr\';" '.(strpos($goto,'aa_') === false ? '' : 'CHECKED=CHECKED').' /> '._("Digital Receptionist").': ';
@@ -1828,8 +1842,8 @@ function drawselects($formName,$goto,$i) {
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="voicemail" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'voicemail\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'voicemail\';" '.(strpos($goto,'vm') === false ? '' : 'CHECKED=CHECKED').' /> '._("Voicemail").': '; 
 	$selectHtml .=	'<select name="voicemail'.$i.'"/>';
 	
-	if (isset($extens)) {
-		foreach ($extens as $exten) {
+	if (isset($vmboxes)) {
+		foreach ($vmboxes as $exten) {
 			$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1];
 		}
 	}
