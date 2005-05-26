@@ -48,6 +48,8 @@ function checkForm(theForm) {
 		<?php echo "alert('"._("There is something wrong with your extension number - it must be in integer")."')"?>;
 	} else if ($vm == "enabled" && $fullname == "" && $vmpwd == "" && $email == "" && $pager == "") {
 		<?php echo "alert('"._("You have enabled Voicemail & Directory for this extension, but have not specified any options.  Please specify options, or disable Voicemail & Directory.")."')"?>;
+	} else if ((!$vmpwd.match('^[0-9]+')) && ($vmpwd != "")) {
+		<?php echo "alert('"._("A voicemail passsword can only contain digits")."')"?>;
 	} else {
 	theForm.submit();
 	}
