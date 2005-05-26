@@ -39,7 +39,7 @@ find $AMPWEBROOT/admin/ -name retrieve\*.pl
 sed -r -i "s/username = \"[a-zA-Z0-9]*\";/username = \"$AMPDBUSER\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
 sed -r -i "s/password = \"[a-zA-Z0-9]*\";/password = \"$AMPDBPASS\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
 
-sed -r -i "s!op_conf = \"[a-zA-Z0-9_-\.\/\\]*\";!op_conf = \"$AMPWEBROOT\/panel\/op_buttons_additional.cfg\";!" $AMPWEBROOT/admin/retrieve_op_conf_from_mysql.pl
+sed -r -i "s!op_conf = \".*\";!op_conf = \"$AMPWEBROOT\/panel\/op_buttons_additional.cfg\";!" $AMPWEBROOT/admin/retrieve_op_conf_from_mysql.pl
 
 echo "/etc/asterisk/manager.conf"
 sed -r -i "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" /etc/asterisk/manager.conf
@@ -58,8 +58,8 @@ sed -r -i "s!flash_dir=[a-zA-Z0-9_\-\.\/\\]*!flash_dir=$AMPWEBROOT\/panel!" $AMP
 sed -r -i "s!web_hostname=[a-zA-Z0-9\.]*!web_hostname=$AMPWEBADDRESS!" $AMPWEBROOT/panel/op_server.cfg
 sed -r -i "s!web_hostname=[a-zA-Z0-9\.]*!web_hostname=$AMPWEBADDRESS!" $AMPWEBROOT/panel/op_server.cfg
 
-echo "/etc/asterisk/vm_email.inc (may require manual check)"
-sed -i -e "s/AMPWEBADDRESS/$AMPWEBADDRESS/g" /etc/asterisk/vm_email.inc
+echo "/etc/asterisk/vm_email.inc"
+sed -r -i "s!http://.*/cgi-bin!http://$AMPWEBADDRESS/cgi-bin!" /etc/asterisk/vm_email.inc
 
 echo "Done"
 echo
