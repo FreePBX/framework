@@ -278,6 +278,40 @@ if (isset($account) && !checkRange($account)){
 
 		
 	} //end edit
+
+	//re-read the voicemail as could have changed above
+	//not idea to copy code I know but needed something
+	//in quick to try debug another error where the
+	//voicemail information is turning to garbage
+	$uservm = getVoicemail();
+	$vmcontexts = array_keys($uservm);
+	$vm=false;
+	foreach	($vmcontexts as $vmcontext) {
+	        if(isset($uservm[$vmcontext][$extdisplay])){
+	                //echo $extdisplay.' found in context '.$vmcontext.'<hr>';
+	                $incontext = $vmcontext;  //the context for the current extension
+	                $vmpwd = $uservm[$vmcontext][$extdisplay]['pwd'];
+	                $name = $uservm[$vmcontext][$extdisplay]['name'];
+	                $email = $uservm[$vmcontext][$extdisplay]['email'];
+	                $pager = $uservm[$vmcontext][$extdisplay]['pager'];
+	                //loop through all options
+	                if (is_array($uservm[$vmcontext][$extdisplay]['options'])) {
+	                        $alloptions = array_keys($uservm[$vmcontext][$extdisplay]['options']);
+	                        if (isset($alloptions)) {
+	                                foreach ($alloptions as $option) {
+	                                        if ( ($option!="attach") && ($option!="envelope") && ($option!="saycid") && ($option!="delete") && ($option!="nextaftercmd") && ($option!='') )
+	                                                $options .= $option.'='.$uservm[$vmcontext][$extdisplay]['options'][$option].'|';
+	                                }
+	                                $options = rtrim($options,'|');
+	                                // remove the = sign if there are no options set
+	                                $options = rtrim($options,'=');
+	
+	                        }
+	                        extract($uservm[$vmcontext][$extdisplay]['options'], EXTR_PREFIX_ALL, "vmops");
+	                }
+	                $vm=true;
+	        }
+	}
 }
 
 ?>
