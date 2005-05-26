@@ -133,7 +133,7 @@ function check_table() {
 	global $db;
 	global $debug;
 	outn("Verifying CDR 'uniqueid' field exisits..");
-	$sql = "SELECT uniqueid FROM cdr";
+	$sql = "SELECT uniqueid FROM cdr WHERE NOT uniqueid=\"\"";
 	if ($debug) {out(""); debug("Query: ".$sql);}
 	$result = $db->query($sql); 
 	if(DB::IsError($result)) {     
@@ -143,7 +143,7 @@ function check_table() {
 		out("OK");
 	} else {
 		out("FAILED");
-		fatal("No unique IDs have been logged in your CDR Table.\n\nIn /usr/src/asterisk-addons:\n1. Add a CFLAGS+=-DMYSQL_LOGUNIQUEID to the Makefile.\n2. Add a #define MYSQL_LOGUNIQUEID to the top of the sourcefile.\nFinally perform the usual make clean, make, make install.");
+		fatal("No unique IDs have been logged in your CDR Table.\n\nIn /usr/src/asterisk-addons:\n1. Add a CFLAGS+=-DMYSQL_LOGUNIQUEID to the top of the Makefile.\n2. Perform the usual make clean, make, make install.\n3. Restart Asterisk");
 	}
 	return($result);
 }
