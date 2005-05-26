@@ -2018,7 +2018,7 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 	if (file_exists($filename)) {
 		$fd = fopen($filename, "r");
 		while ($line = fgets($fd, 1024)) {
-			if (preg_match("/^(\s*)(\d+)(\s*)=>(\s*)(\d+),(.*),(.*),(.*),(.*)(\s*[;#].*)?$/",$line,$matches)) {
+			if (preg_match("/^(\s*)(\d+)(\s*)=>(\s*)(\d*),(.*),(.*),(.*),(.*)(\s*[;#].*)?$/",$line,$matches)) {
 				// "mailbox=>password,name,email,pager,options"
 				// this is a voicemail line
 				//DEBUG echo "\nmailbox";
