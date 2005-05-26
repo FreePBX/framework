@@ -447,13 +447,13 @@ function Schedule_Show_Weekdays($Weekdays_Set="")
 	}
 	echo "<table> <tr>";
 	echo "<td valign=top><select multiple size=12 name=weekdays[]>";
-	echo (strstr($Weekdays_Set,":0:") ? '<option value="1" selected>Monday':'<option value="0" >Monday');
-	echo (strstr($Weekdays_Set,":1:") ? '<option value="1" selected>Tuesday':'<option value="1" >Tuesday');
-	echo (strstr($Weekdays_Set,":2:") ? '<option value="2" selected>Wednesday':'<option value="2" >Wednesday');
-	echo (strstr($Weekdays_Set,":3:") ? '<option value="3" selected>Thursday':'<option value="3" >Thursday');
-	echo (strstr($Weekdays_Set,":4:") ? '<option value="4" selected>Friday':'<option value="4" >Friday');
-	echo (strstr($Weekdays_Set,":5:") ? '<option value="5" selected>Saturday':'<option value="5" >Saturday');
-	echo (strstr($Weekdays_Set,":6:") ? '<option value="6" selected>Sunday':'<option value="6" >Sunday');
+	echo (strstr($Weekdays_Set,":1:") ? '<option value="1" selected>Monday':'<option value="1" >Monday');
+	echo (strstr($Weekdays_Set,":2:") ? '<option value="2" selected>Tuesday':'<option value="2" >Tuesday');
+	echo (strstr($Weekdays_Set,":3:") ? '<option value="3" selected>Wednesday':'<option value="3" >Wednesday');
+	echo (strstr($Weekdays_Set,":4:") ? '<option value="4" selected>Thursday':'<option value="4" >Thursday');
+	echo (strstr($Weekdays_Set,":5:") ? '<option value="5" selected>Friday':'<option value="5" >Friday');
+	echo (strstr($Weekdays_Set,":6:") ? '<option value="6" selected>Saturday':'<option value="6" >Saturday');
+	echo (strstr($Weekdays_Set,":0:") ? '<option value="0" selected>Sunday':'<option value="0" >Sunday');
 
 	echo "</select></td>";
 	echo "</tr></table></td>";
