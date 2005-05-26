@@ -110,7 +110,7 @@ foreach my $row ( @{ $result } ) {
 			print EXTEN "include => $result[3]\n";
 		}
 		# add voice mail extension
-		if($context eq "ext-local") {
+		if($context eq "ext-local" && ($result[4])) {
 			 if (!($result[4] =~ m/,novm,/)) {
 				print EXTEN "exten => \${VM_PREFIX}$result[1],1,Macro(vm,$result[1])\n";
 			 }
