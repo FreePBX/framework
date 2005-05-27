@@ -305,7 +305,7 @@ function getgroupgoto($grpexten) {
 
 function getgroupinfo($grpexten, &$time, &$prefix, &$group) {
 	global $db;
-	$sql = "SELECT args FROM extensions WHERE extension = '".$grpexten."' AND priority = '1'";
+	$sql = "SELECT args FROM extensions WHERE context = 'ext-group' AND extension = '".$grpexten."' AND priority = '1'";
 	$res = $db->getAll($sql);
 	if(DB::IsError($res)) {
 	   die($thisGRPprefix->getMessage());
