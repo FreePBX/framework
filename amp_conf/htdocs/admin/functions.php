@@ -1828,53 +1828,53 @@ function drawselects($formName,$goto,$i) {
 	
 	$selectHtml = '	<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';				
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="ivr" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'ivr\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'ivr\';" '.(strpos($goto,'aa_') === false ? '' : 'CHECKED=CHECKED').' /> '._("Digital Receptionist").': ';
-	$selectHtml .=	'<select name="ivr'.$i.'"/>';
+	$selectHtml .=	'<select name="ivr'.$i.'">';
 
 	if (isset($unique_aas)) {
 		foreach ($unique_aas as $unique_aa) {
 			$menu_id = $unique_aa[0];
 			$menu_name = $unique_aa[1];
-			$selectHtml .= '<option value="'.$menu_id.'" '.(strpos($goto,$menu_id) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : 'Menu ID'.$menu_id);
+			$selectHtml .= '<option value="'.$menu_id.'" '.(strpos($goto,$menu_id) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : 'Menu ID'.$menu_id) . '</option>';
 		}
 	}
 
 	$selectHtml .=	'</select><br>';
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="extension" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'extension\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'extension\';" '.(strpos($goto,'ext-local') === false ? '' : 'CHECKED=CHECKED').'/> '._("Extension").': ';
-	$selectHtml .=	'<select name="extension'.$i.'"/>';
+	$selectHtml .=	'<select name="extension'.$i.'">';
 	
 	if (isset($extens)) {
 		foreach ($extens as $exten) {
-			$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1];
+			$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1] . '</option>';
 		}
 	}
 			
 	$selectHtml .=	'</select><br>';
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="voicemail" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'voicemail\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'voicemail\';" '.(strpos($goto,'vm') === false ? '' : 'CHECKED=CHECKED').' /> '._("Voicemail").': '; 
-	$selectHtml .=	'<select name="voicemail'.$i.'"/>';
+	$selectHtml .=	'<select name="voicemail'.$i.'">';
 	
 	if (isset($vmboxes)) {
 		foreach ($vmboxes as $exten) {
-			$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1];
+			$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1] . '</option>';
 		}
 	}
 			
 	$selectHtml .=	'</select><br>';
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="group" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'group\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'group\';" '.(strpos($goto,'ext-group') === false ? '' : 'CHECKED=CHECKED').' /> '._("Ring Group").': ';
-	$selectHtml .=	'<select name="group'.$i.'"/>';
+	$selectHtml .=	'<select name="group'.$i.'">';
 	
 	if (isset($gresults)) {
 		foreach ($gresults as $gresult) {
-			$selectHtml .= '<option value="'.$gresult[0].'" '.(strpos($goto,$gresult[0]) === false ? '' : 'SELECTED').'>#'.$gresult[0];
+			$selectHtml .= '<option value="'.$gresult[0].'" '.(strpos( ','.$goto.',' , ','.$gresult[0].',' ) === false ? '' : 'SELECTED').'>#'.$gresult[0] . '</option>';
 		}
 	}
 				
 	$selectHtml .=	'</select><br>';
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="queue" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'queue\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'queue\';" '.(strpos($goto,'ext-queues') === false ? '' : 'CHECKED=CHECKED').' /> '._("Queue").': ';
-	$selectHtml .=	'<select name="queue'.$i.'"/>';
+	$selectHtml .=	'<select name="queue'.$i.'">';
 	
 	if (isset($queues)) {
 		foreach ($queues as $queue) {
-			$selectHtml .= '<option value="'.$queue[0].'" '.(strpos($goto,$queue[0]) === false ? '' : 'SELECTED').'>'.$queue[0].':'.$queue[1];
+			$selectHtml .= '<option value="'.$queue[0].'" '.(strpos($goto,$queue[0]) === false ? '' : 'SELECTED').'>'.$queue[0].':'.$queue[1] . '</option>';
 		}
 	}
 				
