@@ -93,11 +93,14 @@ if (isset($account) && !checkRange($account)){
 		if ($_REQUEST['tech'] == 'iax2') {
 			//add to iax table
 			addiax($account,$callerid);	
+			$hint = "IAX2/".$account;
 		} else if ($_REQUEST['tech'] == 'sip') {
 			//add to sip table
 			addsip($account,$callerid);
+			$hint = "SIP/".$account;
 		} else { //zap
 			addzap($account,$callerid);
+			$hint = ($_REQUEST['channel'])?("Zap/".$_REQUEST['channel']):'';
 		}
 		
 	
@@ -135,7 +138,7 @@ if (isset($account) && !checkRange($account)){
 		
 		//update ext-local context in extensions.conf
 		$mailb = ($_REQUEST['vm'] == 'disabled' || $_REQUEST['mailbox'] == '') ? 'novm' : $_REQUEST['mailbox'];
-		addaccount($account,$mailb);
+		addaccount($account,$mailb,$hint);
 		
 		//write out extenstions_additional.conf
 		exec($wScript1);

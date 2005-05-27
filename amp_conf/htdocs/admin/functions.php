@@ -540,15 +540,25 @@ function addsip($account,$callerid) {
 	}
 }
 
-function addaccount($account,$mailb) {
+function addaccount($account,$mailb,$hint = '') {
 	extensionsexists();
 	global $db;
 	$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ('ext-local', '".$account."', '1', 'Macro', 'exten-vm,".$mailb.",".$account."', NULL , '0')";
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
-        die($result->getMessage());
-    }
-    return $result;
+        	die($result->getMessage());
+    	}
+
+	//Add 'hint' priority if passed
+	if ($hint != '') {
+		$sql = "INSERT INTO extensions (context, extension, priority, application) VALUES ('ext-local', '".$account."', 'hint', '".$hint."')";
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			die($result->getMessage());
+		}
+	}
+
+    	return $result;
 }
 
 //create extensions if it doesn't exist
