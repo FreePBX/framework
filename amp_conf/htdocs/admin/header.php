@@ -42,9 +42,11 @@
 </head>
 
 <?php
+	if (extension_loaded('gettext')) {
 	setlocale(LC_MESSAGES,  $_COOKIE['lang'] ? $_COOKIE['lang']:'en_US');
 	bindtextdomain('amp','./i18n');
 	textdomain('amp');
+	}
 ?>
 
 <body>
