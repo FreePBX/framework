@@ -222,13 +222,12 @@ function checkRoute(theForm, action) {
 	$dialpattern = theForm.dialpattern.value;
 	$trunkpriority = document.getElementById('trunkpri0').value;
 
-	#$routeRegex_update = /^\d{3}-[a-zA-Z0-9]+$/;
-	$routeRegex_update = /^[a-zA-Z0-9]+$/;
+	$routeRegex_update = /^\d{3}-[a-zA-Z0-9]+$/;
 	$routeRegex_new = /^[a-zA-Z0-9]+$/;
 
 	if ($routename == "") {
 		<?php echo "alert('"._("Route name must not be blank")."')"?>;
-	} else if ( (!$routename.match($routeRegex_new)) && (!$routename.match($routeRegex_update)) ) {
+	} else if ( !$routename.match($routeRegex_new) ) {
 		<?php echo "alert('"._("Route name is invalid, please try again")."')"?>;
 	} else if (!$dialpattern.match('[A-Z0-9a-z]+')) {
 		<?php echo "alert('"._("Dial pattern cannot be blank")."')"?>;
