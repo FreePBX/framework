@@ -225,11 +225,21 @@ function checkRoute(theForm, action) {
 	$routeRegex_update = /^\d{3}-[a-zA-Z0-9]+$/;
 	$routeRegex_new = /^[a-zA-Z0-9]+$/;
 
-	if ($routename == "") {
-		<?php echo "alert('"._("Route name must not be blank")."')"?>;
-	} else if ( !$routename.match($routeRegex_new) ) {
-		<?php echo "alert('"._("Route name is invalid, please try again")."')"?>;
-	} else if (!$dialpattern.match('[A-Z0-9a-z]+')) {
+	// routename checks
+	// we don't really care about the name on edit!
+	if (action == "addroute") {
+		if ($routename == "") {
+			<?php echo "alert('"._("Route name must not be blank")."')"?>;
+			return false;
+		}
+		if ( !$routename.match($routeRegex_new) ) {
+			<?php echo "alert('"._("Route name is invalid, please try again")."')"?>;
+			return false;
+		}
+	}
+
+	// dialpattern checks
+	if (!$dialpattern.match('[A-Z0-9a-z]+')) {
 		<?php echo "alert('"._("Dial pattern cannot be blank")."')"?>;
 	} else if ($trunkpriority == '') {
 		//TODO this doesn't account for other items besides the first being filled in'

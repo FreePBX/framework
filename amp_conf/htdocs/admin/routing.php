@@ -284,7 +284,7 @@ if ($extdisplay) { // editing
 					do {
 						var newname = prompt("<?php echo _("Rename route")?> " + document.getElementById('routename').value + " <?php echo _("to:")?>");
 						if (newname == null) return;
-					} while (!newname.match('^[a-zA-Z0-9][a-zA-Z0-9]+$') && !alert("<?php echo _("Route name cannot start with a number, and can only contain letters and numbers")?>"));
+					} while (!newname.match('^[a-zA-Z0-9][a-zA-Z0-9]+$') && !alert("<?php echo _("Route name is invalid...please try again")?>"));
 					
 					document.getElementById('newroutename').value = newname;
 					document.getElementById('routeEdit').action.value = 'renameroute';
