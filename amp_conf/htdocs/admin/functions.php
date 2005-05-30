@@ -205,6 +205,7 @@ function getextens() {
 
 function getSip() {
 	global $db;
+	sipexists();
 	$sql = "SELECT id,data FROM sip WHERE keyword = 'callerid' ORDER BY id";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
@@ -220,6 +221,7 @@ function getSip() {
 
 function getIax() {
 	global $db;
+	iaxexists();
 	$sql = "SELECT id,data FROM iax WHERE keyword = 'callerid' ORDER BY id";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
@@ -235,6 +237,7 @@ function getIax() {
 
 function getZap() {
 	global $db;
+	zapexists();
 	$sql = "SELECT id,data FROM zap WHERE keyword = 'callerid' ORDER BY id";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
