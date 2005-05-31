@@ -1322,6 +1322,9 @@ sub dump_internal_hashes_to_stdout
 sub generate_configs_onhup
 {
     %buttons            = ();
+    %sesbot             = ();
+    %linkbot            = ();
+    %instancias         = ();
     %textos             = ();
     %iconos             = ();
     %extension_transfer = ();
@@ -1420,7 +1423,7 @@ sub get_next_trunk_button
     {
         $canalconcontexto = $server . "^" . $canalconcontexto;
     }
-    &print_instancias(2);
+
     if (exists($instancias{"$canalconcontexto"}))
     {
         if (exists($instancias{"$canalconcontexto"}{"$server^$canalsesion"}))
@@ -5367,11 +5370,13 @@ sub process_flash_command
         if (defined($config->{$panelcontext}{"security_code"}))
         {
             $myclave = $config->{$panelcontext}{"security_code"} . $keys_socket{$socket};
+            log_debug("$debugh usando key " . $keys_socket{$socket}, 16);
         }
         else
         {
             $myclave = "";
             $myclave = $config->{"GENERAL"}{"security_code"} . $keys_socket{$socket};
+            log_debug("$debugh usando key " . $keys_socket{$socket}, 16);
         }
 
         if ($myclave ne "")
@@ -5490,6 +5495,7 @@ sub process_flash_command
                 $comando = "Action: Originate\r\n";
                 $comando .= "Channel: $origin_channel\r\n";
                 $comando .= "Callerid: $vclid <$vclid>\r\n";
+                $comando .= "Async: True\r\n";
                 $comando .= "Exten: $vext\r\n";
                 if (defined($vcontext))
                 {
@@ -5815,6 +5821,7 @@ sub process_flash_command
                     $origin_channel =~ s/^IAX2\[(.*)\]/IAX2\/$1/g;
                 }
                 $comando = "Action: Originate\r\n";
+                $comando .= "Async: True\r\n";
                 $comando .= "Channel: $origin_channel\r\n";
                 $comando .= "Exten: $extension_destino\r\n";
 
@@ -5844,11 +5851,7 @@ sub process_flash_command
                 log_debug("$debugh Originate from $origin_channel to extension $extension_destino!", 16);
                 my $keyext = "$origin_server^$origin_channel";
 
-                # if ($contexto ne "") { $keyext .= "\&$contexto"; }
-                while (my ($key, $val) = each(%extension_transfer))
-                {
-                    print "k $key, v $val, keyext $keyext\n";
-                }
+                if ($panelcontext ne "") { $keyext .= "\&$panelcontext"; }
                 $clid = $textos{"$datosflash"} . " <" . $extension_transfer{$keyext} . ">";
 
                 if ($origin_channel =~ /^IAX2\[/)
@@ -5857,6 +5860,7 @@ sub process_flash_command
                 }
                 $comando = "Action: Originate\r\n";
                 $comando .= "Channel: $origin_channel\r\n";
+                $comando .= "Async: True\r\n";
                 $comando .= "Callerid: $clid\r\n";
                 $comando .= "Exten: $extension_destino\r\n";
 
@@ -5882,6 +5886,7 @@ sub process_flash_command
                 $numero_a_discar =~ s/^dial//g;
                 $comando = "Action: Originate\r\n";
                 $comando .= "Channel: $origin_channel\r\n";
+                $comando .= "Async: True\r\n";
                 $comando .= "Exten: $numero_a_discar\r\n";
                 if ($contexto ne "")
                 {
@@ -6909,12 +6914,21 @@ sub send_status_to_flash
     if (!defined($keys_socket{"$socket"}) || $nocrypt == 1 || $no_encryption{"$socket"} == 1)
     {
         $encriptado = "<response btn=\"$but_no\" cmd=\"$cmd\" data=\"$data\"/>\0";
+        if ($cmd eq "key")
+        {
+            $keys_socket{$socket} = $data;
+            print "pongo keys_socket en $data\n";
+        }
     }
     else
     {
         $cmd_crypt  = &TEAencrypt($cmd,  $keys_socket{"$socket"});
         $data_crypt = &TEAencrypt($data, $keys_socket{"$socket"});
         $encriptado = "<response btn=\"$but_no\" cmd=\"$cmd_crypt\" data=\"$data_crypt\">\0";
+        if ($cmd eq "key")
+        {
+            $keys_socket{$socket} = $data;
+        }
     }
     if (!defined($ip_addy{$socket}))
     {
@@ -7218,7 +7232,10 @@ sub sends_key
     {
         $nocrypt = 1;
     }
-    $keys_socket{"$socket"} = $randomkey;
+    if (!defined($keys_socket{$socket}))
+    {
+        $keys_socket{$socket} = $randomkey;
+    }
     send_status_to_flash($socket, $mandakey, $nocrypt);
 }
 

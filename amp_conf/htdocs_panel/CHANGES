@@ -1,7 +1,21 @@
 CHANGES to Flash Operator Panel
 
 .21
- Apr 24 2005:
+ May 29 2005:
+
+  - You can use 'transparent' as a fade_color for a button in 
+    op_style.cfg. That button will only display its borders, with
+    no background color. You can use the background.jpg in creative
+    ways now.
+
+  - The restrict input parameter can be set to a channel name
+    instead of just the button possition. The restricted button
+    will be hightlithed.
+
+  - Added margintop and marginleft to the input parameters taken by
+    operator_panel.swf, to set the global margins for the swf object.
+    You can experiment by loading the .swf file directly like:
+    operator_panel.swf?margintop=20&marginleft=40
 
   - Added voicemail_extension parameter to op_server.cfg. If set,
     FOP will originate a call to that extension when double clicking
