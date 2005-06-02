@@ -1815,16 +1815,18 @@ function drawselects($formName,$goto,$i) {
 	//get unique queues
 	$queues = getqueues();
 
-	//get voicemail
-	$uservm = getVoicemail();
-	$vmcontexts = array_keys($uservm);
-	foreach ($extens as $thisext) {
-		$extnum = $thisext[0];
-		// search vm contexts for this extensions mailbox
-		foreach ($vmcontexts as $vmcontext) {
-			if(isset($uservm[$vmcontext][$extnum])){
-				$vmname = $uservm[$vmcontext][$extnum]['name'];
-				$vmboxes[] = array($extnum, '"' . $vmname . '" <' . $extnum . '>');
+	if (isset($extens)) {
+		//get voicemail
+		$uservm = getVoicemail();
+		$vmcontexts = array_keys($uservm);
+		foreach ($extens as $thisext) {
+			$extnum = $thisext[0];
+			// search vm contexts for this extensions mailbox
+			foreach ($vmcontexts as $vmcontext) {
+				if(isset($uservm[$vmcontext][$extnum])){
+					$vmname = $uservm[$vmcontext][$extnum]['name'];
+					$vmboxes[] = array($extnum, '"' . $vmname . '" <' . $extnum . '>');
+				}
 			}
 		}
 	}
