@@ -96,10 +96,14 @@ $extens = getextens();
 	if (isset($extens)) {
 		foreach ($extens as $exten) {
 			$tech=strtoupper($exten[2]);
-			echo '<option value="'.$tech.'/'.$exten[0].'" '.($FAX_RX == $tech.'/'.$exten[0] ? 'SELECTED' : '').'>'._("Extension #").$exten[0];
+			if($tech == 'ZAP') {
+				echo '<option value="'.$tech.'/${ZAPCHAN_'.$exten[0].'}" '.($FAX_RX == $tech.'/${ZAPCHAN_'.$exten[0].'}' ? 'SELECTED' : '').'>'._("Extension #").$exten[0];
+			} else {
+				echo '<option value="'.$tech.'/'.$exten[0].'" '.($FAX_RX == $tech.'/'.$exten[0] ? 'SELECTED' : '').'>'._("Extension #").$exten[0];
+			}
 		}
 	}
-?>			
+?>	
 	</select>
 	
 </p>
