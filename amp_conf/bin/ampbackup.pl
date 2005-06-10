@@ -139,7 +139,7 @@ else
 	if ( $Backup_FOP eq "yes" ){
 		system ("/bin/tar -Pcz -f /tmp/ampbackups.$Stamp/fop.tar.gz $webroot/panel");
 	}
-	system ("/bin/mkdir '/var/lib/asterisk/backups/$Backup_Name' > /dev/null  2>&1");
+	system ("/bin/mkdir -p '/var/lib/asterisk/backups/$Backup_Name' > /dev/null  2>&1");
 	system ("/bin/tar -Pcz -f '/var/lib/asterisk/backups/$Backup_Name/$Stamp.tar.gz' /tmp/ampbackups.$Stamp");
 	system ("/bin/rm -rf /tmp/ampbackups.$Stamp > /dev/null  2>&1");
 
