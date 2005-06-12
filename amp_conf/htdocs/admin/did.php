@@ -79,7 +79,7 @@ $dresults = getdids();
 
 if (isset($dresults)) {
 	foreach ($dresults as $dresult) {
-		echo "<li><a id=\"".($extdisplay=='DID-'.$dresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=DID-{$dresult[0]}\">DID # {$dresult[0]}</a></li>";
+		echo "<li><a id=\"".($extdisplay=='DID-'.$dresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=DID-" . urlencode($dresult[0]) . "\">DID # {$dresult[0]}</a></li>";
 	}
 }
 ?>
