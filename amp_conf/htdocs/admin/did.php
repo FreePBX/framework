@@ -101,7 +101,9 @@ if (isset($dresults)) {
 		<form name="editGRP" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 		<input type="hidden" name="display" value="<?php echo $dispnum?>">
 		<input type="hidden" name="action" value="<?php echo ($extdisplay ? 'edtDID' : 'addDID') ?>">
+<?php if ($extdisplay) {        ?>
 		<input type="hidden" name="account" value="<?php echo substr($extdisplay,4); ?>">
+<?php } ?>
 		<table>
 		<tr><td colspan="2"><h5><?php echo ($extdisplay ? _('Edit DID') : _('Add DID')) ?><hr></h5></td></tr>
 		<tr>
