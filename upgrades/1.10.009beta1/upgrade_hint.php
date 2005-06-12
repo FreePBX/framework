@@ -88,6 +88,7 @@ function get_dial_string($extnum) {
 				if (count($zapres) > 0)
 					$zapchannel = $result[0][0];
 				$ds = "Zap/" . $zapchannel;
+				break;
 			default:
 				outn($exttech . "...");
 				break;
