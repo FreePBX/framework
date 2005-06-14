@@ -172,7 +172,6 @@ function checkQ(theForm) {
 
 function checkDID(theForm) {
 	var bad = "false";
-
 	var whichitem = 0;
 	while (whichitem < theForm.goto_indicate0.length) {
 		if (theForm.goto_indicate0[whichitem].checked) {
@@ -180,13 +179,7 @@ function checkDID(theForm) {
 		}
 		whichitem++;
 	}
-
-        var $account = theForm.account.value;
-        if ($account == "") {
-                bad = "true";
-                <?php echo "alert('"._("Please enter a DID number list.")."')"?>;
-        }
-
+	
 	var gotoType = theForm.elements[ "goto0" ].value;
 	if (gotoType == 'custom') {
 		var gotoVal = theForm.elements[ "custom_args0"].value;
@@ -195,7 +188,7 @@ function checkDID(theForm) {
 			<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
 		}
 	}
-
+	
 	if (bad == "false") {
 		theForm.submit();
 	}

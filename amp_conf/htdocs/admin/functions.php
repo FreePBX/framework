@@ -1854,7 +1854,7 @@ function drawselects($formName,$goto,$i) {
 	}
 			
 	$selectHtml .=	'</select><br>';
-	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="voicemail" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'voicemail\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'voicemail\';" '.(strpos($goto,'vm') === false ? '' : 'CHECKED=CHECKED').' /> '._("Voicemail").': '; 
+	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="voicemail" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'voicemail\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'voicemail\';" '.(strpos($goto,'vm') === false ? '' : 'CHECKED=CHECKED').(strpos($goto,'ext-local,${VM_PREFIX}') === false ? '' : 'CHECKED=CHECKED').' /> '._("Voicemail").': '; 
 	$selectHtml .=	'<select name="voicemail'.$i.'">';
 	
 	if (isset($vmboxes)) {
@@ -1922,6 +1922,36 @@ function setGoto($account,$context,$priority,$goto,$i) {  //preforms logic for s
 		$args = 'ext-queues,'.$_REQUEST['queue'.$i	].',1';
 		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
 		addextensions($addarray);
+	}
+}
+
+// the old drawselects stuff above builds the select forms using abbreviated goto names..  
+// setGoto then translates these into a full goto string, which is used in the dialplan.
+// terrible, I know.  New functionality, like Inbound Routing, stores the "full goto" string in it's table
+// This function just returns what the full goto is supposed to be. (will bo obsolete in AMP2).
+function buildActualGoto($requestarray,$i) {
+	switch($requestarray['goto'.$i]) {
+		case 'extension':
+			return 'ext-local,'.$requestarray['extension'.$i].',1';
+		break;
+		case 'voicemail':
+			return 'ext-local,${VM_PREFIX}'.$requestarray['voicemail'.$i].',1';
+		break;
+		case 'ivr':
+			return $requestarray['ivr'.$i].',s,1';
+		break;
+		case 'group':
+			return 'ext-group,'.$requestarray['group'.$i].',1';
+		break;
+		case 'custom':
+			return $requestarray['custom_args'.$i];
+		break;
+		case 'queue':
+			return 'ext-queues,'.$requestarray['queue'.$i	].',1';
+		break;
+		default:
+			return $requestarray['goto'.$i];
+		break;
 	}
 }
 
