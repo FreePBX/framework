@@ -55,6 +55,7 @@ unless ($result) {
 my @resultSet = @{$result};
 if ( $#resultSet > -1 ) {
 	print EXTEN "[globals]\n";
+	print EXTEN "#include globals_custom.conf\n";
 	foreach $row (@{ $result }) {
 		my @result = @{ $row };
 		print EXTEN "$result[0] = $result[1]\n";
