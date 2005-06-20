@@ -314,10 +314,10 @@ function getgroupinfo($grpexten, &$strategy, &$time, &$prefix, &$group) {
 	   die($thisGRPprefix->getMessage());
 	}
 	if (preg_match("/^rg-group,(.*),(.*),(.*),(.*)$/", $res[0][0], $matches)) {
-		$strategy = $matches[2];
-		$time = $matches[1];
-		$prefix = $matches[2];
-		$group = $matches[3];
+		$strategy = $matches[1];
+		$time = $matches[2];
+		$prefix = $matches[3];
+		$group = $matches[4];
 		return true;
 	} 
 	return false;
