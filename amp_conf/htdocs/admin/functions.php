@@ -306,14 +306,15 @@ function getgroupgoto($grpexten) {
 }
 
 
-function getgroupinfo($grpexten, &$time, &$prefix, &$group) {
+function getgroupinfo($grpexten, &$strategy, &$time, &$prefix, &$group) {
 	global $db;
 	$sql = "SELECT args FROM extensions WHERE context = 'ext-group' AND extension = '".$grpexten."' AND priority = '1'";
 	$res = $db->getAll($sql);
 	if(DB::IsError($res)) {
 	   die($thisGRPprefix->getMessage());
 	}
-	if (preg_match("/^rg-group,(.*),(.*),(.*)$/", $res[0][0], $matches)) {
+	if (preg_match("/^rg-group,(.*),(.*),(.*),(.*)$/", $res[0][0], $matches)) {
+		$strategy = $matches[1];
 		$time = $matches[1];
 		$prefix = $matches[2];
 		$group = $matches[3];
@@ -1963,10 +1964,10 @@ function getargs($exten,$priority,$context) {
 	return $args;
 }
 
-function addgroup($account,$grplist,$grptime,$grppre,$goto) {
+function addgroup($account,$grplist,$grpstrategy,$grptime,$grppre,$goto) {
 	global $db;
 	
-	$addarray = array('ext-group',$account,'1','Macro','rg-group,'.$grptime.','.$grppre.','.$grplist,'','0');
+	$addarray = array('ext-group',$account,'1','Macro','rg-group,'.$grpstrategy.','.$grptime.','.$grppre.','.$grplist,'','0');
 	addextensions($addarray);
 	
 	setGoto($account,'ext-group','2',$goto,0);
