@@ -3,6 +3,13 @@
 
 out("Upgrading CAll Groups to add in Strategies..");
 
+$sql = "ALTER TABLE `extensions` CHANGE `args` `args` VARCHAR( 100 ) NOT NULL";
+$results = $db->query($sql);
+if (DB::IsError($results)) {
+        die($results->getMessage());
+}
+
+
 $sql = "SELECT extension, args FROM extensions where context = 'ext-group' and priority = '1'";
 $results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
 if (DB::IsError($results)) {
