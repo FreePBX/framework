@@ -17,21 +17,22 @@ if (DB::IsError($results)) {
 }
 
 foreach ($results as $result) {
-        $grparray=explode(',',$result['args'],4);
-        $application = $grparray[0];
-        $timer = $grparray[1];
-        $CID = $grparray[2];
-        $members = $grparray[3];
-        $extension=$result['extension'];
-        $arg_string="$application,ringall,$timer,$CID,$members";
-        $sql="UPDATE extensions set args=\"$arg_string\" where extension=\"$extension\" and priority=\"1\"";
-        $updateresults = $db->query($sql);
-        if(DB::IsError($updateresults)) {
-                die($updateresults->getMessage());
+        if ((strstr($result['args'],"ringall") === FALSE ) && (strstr($result['args'],"hunt") === FALSE ) && (strstr($result['args'],"memoryhunt") === FALSE ))
+        {
+                $grparray=explode(',',$result['args'],4);
+                $application = $grparray[0];
+                $timer = $grparray[1];
+                $CID = $grparray[2];
+                $members = $grparray[3];
+                $extension=$result['extension'];
+                $arg_string="$application,ringall,$timer,$CID,$members";
+                $sql="UPDATE extensions set args=\"$arg_string\" where extension=\"$extension\" and priority=\"1\"";
+                $updateresults = $db->query($sql);
+                if(DB::IsError($updateresults)) {
+                        die($updateresults->getMessage());
+                }
         }
-
 }
-
 out("OK");
 
 ?>
