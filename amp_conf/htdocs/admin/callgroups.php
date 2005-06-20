@@ -57,7 +57,7 @@ if (isset($account) && !checkRange($account)){
 	//add group
 	if ($action == 'addGRP') {
 		
-		addgroup($account,implode("-",$grplist),$grptime,$grppre,$goto);
+		addgroup($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
 		
 		exec($wScript1);
 		needreload();
@@ -75,7 +75,7 @@ if (isset($account) && !checkRange($account)){
 	if ($action == 'edtGRP') {
 	
 		delextensions('ext-group',$account);	
-		addgroup($account,implode("-",$grplist),$grptime,$grppre,$goto);
+		addgroup($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
 	
 		exec($wScript1); 
 		needreload();
@@ -109,7 +109,7 @@ if (isset($gresults)) {
 			
 		
 			if (!isset($grptime) || !isset($grppre) || !isset($grplist)) {
-				if (!getgroupinfo(ltrim($extdisplay,'GRP-'), $grptime, $grppre, $grplist)) {
+				if (!getgroupinfo(ltrim($extdisplay,'GRP-'), $strategy,  $grptime, $grppre, $grplist)) {
 					//TODO : handle this error better
 					//die("Invalid ext-group line in database");
 				}
@@ -140,6 +140,26 @@ if (isset($gresults)) {
 <?php 		} ?>
 			</tr>
 			<tr>
+				<td> <a href="#" class="info"><?php echo _("ring strategy:")?>
+				<span>
+					<b><?php echo _("ringall")?></b>:  <?php echo _("ring all available channels until one answers (default)")?><br>
+					<b><?php echo _("hunt")?></b>: <?php echo _("take turns ringing each available extension")?><br>
+					<b><?php echo _("memoryhunt")?></b>: <?php echo _("ring first extension in the list, then ring the 1st and 2nd extension, then ring 1st 2nd and 3rd extension in the list.... etc.")?><br>
+				</span>
+				</a></td>
+				<td>
+					<select name="strategy"/>
+					<?php
+						$default = (isset($strategy) ? $strategy : 'ringall');
+						$items = array('ringall','hunt','memoryhunt');
+						foreach ($items as $item) {
+							echo '<option value="'.$item.'" '.($default == $item ? 'SELECTED' : '').'>'.$item;
+						}
+					?>		
+					</select>
+				</td>
+			</tr>
+			<tr>
 				<td valign="top"><a href="#" class="info"><?php echo _("extension list")?>:<span><br><?php echo _("List extensions to ring, one per line.<br><br>You can include an extension on a remote system, or an external number by suffixing a number with a pound (#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see Outbound Routing).")?><br><br></span></a></td>
 				<td valign="top">&nbsp;
 					<textarea id="grplist" cols="15" rows="<?php  $rows = count($grplist)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="grplist"><?php echo implode("\n",$grplist);?></textarea><br>
@@ -150,7 +170,10 @@ if (isset($gresults)) {
 			<tr>
 				<td><a href="#" class="info"><?php echo _("CID name prefix")?>:<span><?php echo _('You can optionally prefix the Caller ID name when ringing extensions in this group. ie: If you prefix with "Sales:", a call from John Doe would display as "Sales:John Doe" on the extensions that ring.')?></span></a></td>
 				<td><input size="4" type="text" name="grppre" value="<?php  echo $grppre ?>"></td>
-			</tr><tr>
+			</tr>
+
+
+			<tr>
 				<td><?php echo _("ring time (max 60 sec)")?>:</td>
 				<td><input size="4" type="text" name="grptime" value="<?php  echo $grptime ?>"></td>
 			</tr>
