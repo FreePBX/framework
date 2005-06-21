@@ -23,6 +23,7 @@ $goto = $_REQUEST['goto0'];
 $account = $_REQUEST['account'];
 $grptime = $_REQUEST['grptime'];
 $grppre = $_REQUEST['grppre'];
+$strategy = $_REQUEST['strategy'];
 
 
 $grplist = array();
