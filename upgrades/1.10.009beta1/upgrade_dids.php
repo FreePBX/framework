@@ -1,7 +1,16 @@
 <?php  /* $Id */
 
+outn("Ensuring 'incoming' table exists..");
 
-out("Upgrading DID Routes..");
+$sql = "CREATE TABLE IF NOT EXISTS `incoming` ( `cidnum` VARCHAR( 20 ) , `extension` VARCHAR( 20 ) , `destination` VARCHAR( 50 ) , `faxexten` VARCHAR( 20 ) , `faxemail` VARCHAR( 50 ) , `answer` TINYINT( 1 ) , `wait` INT( 2 ) , `privacyman` TINYINT( 1 ) )";
+$results = $db->query($sql);
+if (DB::IsError($results)) {
+	die($results->getMessage());
+}
+
+out("OK");
+
+outn("Upgrading DID Routes..");
 
 $sql = "SELECT extension,application,args FROM extensions where context = 'ext-did' and priority = '2' and (application = 'Goto' or application = 'Macro')";
 $results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
