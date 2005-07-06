@@ -56,8 +56,9 @@ switch($display) {
 	Language:
 	<select onchange="javascript:changeLang(this.value)">
         <option value="en_US" <? echo ($_COOKIE['lang']=="en_US" ? "selected" : "") ?> >English</option>
-        <option value="it_IT" <? echo ($_COOKIE['lang']=="it_IT" ? "selected" : "") ?> >Italian</option>
         <option value="fr_FR" <? echo ($_COOKIE['lang']=="fr_FR" ? "selected" : "") ?> >French</option>
+        <option value="de_DE" <? echo ($_COOKIE['lang']=="de_DE" ? "selected" : "") ?> >German</option>
+        <option value="it_IT" <? echo ($_COOKIE['lang']=="it_IT" ? "selected" : "") ?> >Italian</option>
     </select>
 	<?php } ?>
     </p>

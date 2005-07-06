@@ -90,7 +90,7 @@ $amp_sections = array(
 	
 foreach ($amp_sections as $key=>$value) {
 	echo "<div class=\"nav\" style=\"width=25%;text-align:center;\">";
-	echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"reports.php?display=".$key."\">".$value."</a></li>";
+	echo "<li><nobr><a id=\"".(($display==$key) ? 'current':'')."\" href=\"reports.php?display=".$key."\">".$value."</a><nobr></li>";
 	echo "</div>";
 }
 
