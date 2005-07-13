@@ -20,6 +20,7 @@ $wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_
 // individual AMP Users department prefix - has no effect if deptartment is empty
 $dept = str_replace(' ','_',$_SESSION["user"]->_deptname);
 
+
 switch($_REQUEST['ivr_action']) {
 	case 'delete':
 	
@@ -56,18 +57,26 @@ switch($_REQUEST['ivr_action']) {
 		$aa[] = array($context,'fax','1','Goto','ext-fax,in_fax,1','','0');
 		$aa[] = array($context,'include','3','app-directory','','','2');
 		$aa[] = array($context,'h','1','Hangup','','','0');
-		//$aa[] = array($context,'t','1','Playback','vm-goodbye','','0');
-		//$aa[] = array($context,'t','2','Hangup','','','0');
 		$aa[] = array($context,'i','1','Playback','invalid','','0');
 		$aa[] = array($context,'i','2','Goto','s,7','','0');
 		//priority 1 - 7
 		$aa[] = array($context,$extension,'1','GotoIf','$[${DIALSTATUS} = ANSWER]?4','','0');
 		$aa[] = array($context,$extension,'2','Answer','','','0');
 		$aa[] = array($context,$extension,'3','Wait','1','','0');
-		$aa[] = array($context,$extension,'4','SetVar','DIR-CONTEXT='.$_REQUEST['dir-context'],'','0');
-		$aa[] = array($context,$extension,'5','DigitTimeout','3',$_REQUEST['mname'],'0');
-		$aa[] = array($context,$extension,'6','ResponseTimeout','7','','0');
-		$aa[] = array($context,$extension,'7','Background','custom/'.$context,$_REQUEST['notes'],'0');
+		$aa[] = array($context,$extension,'4','SetVar','LOOPED=1','','0');
+		$aa[] = array($context,$extension,'5','GotoIf','$[${LOOPED} > 2]?hang,1','','0');
+		$aa[] = array($context,$extension,'6','SetVar','DIR-CONTEXT='.$_REQUEST['dir-context'],'','0');
+		$aa[] = array($context,$extension,'7','DigitTimeout','3',$_REQUEST['mname'],'0');
+		$aa[] = array($context,$extension,'8','ResponseTimeout','7','','0');
+		$aa[] = array($context,$extension,'9','Background','custom/'.$context,$_REQUEST['notes'],'0');
+		
+		$aa[] = array($context,'t','1','SetVar','LOOPED=$[${LOOPED} + 1]','','0');
+		$aa[] = array($context,'t','2','Goto','s,5','','0');
+		
+		$aa[] = array($context,'hang','1','Playback','vm-goodbye','','0');
+		$aa[] = array($context,'hang','2','Hangup','','','0');
+
+		
 
 		//plop the stuff into database
 		$compiled = $db->prepare('INSERT INTO extensions (context, extension, priority, application, args, descr, flags) values (?,?,?,?,?,?,?)');
