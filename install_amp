@@ -549,6 +549,11 @@ $db_engine = 'mysql';
 
 $datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
 
+if (!function_exists($db_engine.'_connect')) {
+	out("FAILED");
+	fatal($db_engine." PHP libraries not installed");
+}
+
 $db = DB::connect($datasource); // attempt connection
 
 if(DB::isError($db)) {
