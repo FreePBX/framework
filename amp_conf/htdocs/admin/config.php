@@ -84,7 +84,8 @@ if (isset($_REQUEST['display'])) {
 // setup menu 
 $amp_sections = array(
 		9=>_("Incoming Calls"),
-		3=>_("Extensions"),
+		"users"=>_("Users"),
+		"devices"=>_("Devices"),
 		4=>_("Ring Groups"),
 		11=>_("Queues"),
 		2=>_("Digital Receptionist"),
@@ -155,9 +156,6 @@ switch($display) {
 		else
 			include 'ivr.php'; //wizard to create/edit a menu
 	break;
-	case '3':
-		include 'extensions.php';
-	break;
 	case '4':
 		include 'callgroups.php';
 	break;
@@ -189,6 +187,12 @@ switch($display) {
 	break;
 	case '13':
 		include 'backup.php';
+	break;
+	case 'devices':
+		include 'devices.php';
+	break;
+	case 'users':
+		include 'users.php';
 	break;
 }
 ?>

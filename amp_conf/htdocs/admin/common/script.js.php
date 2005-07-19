@@ -322,14 +322,22 @@ function hideExtenFields(theForm) {
 		document.getElementById('dtmfmode').style.display = 'none';
 		document.getElementById('secret').style.display = 'inline';
 		document.getElementById('channel').style.display = 'none';
+		document.getElementById('dial').style.display = 'none';
 	} else if (theForm.tech.value == 'sip') {
 		document.getElementById('dtmfmode').style.display = 'inline';
 		document.getElementById('secret').style.display = 'inline';
 		document.getElementById('channel').style.display = 'none';
+		document.getElementById('dial').style.display = 'none';
 	} else if (theForm.tech.value == 'zap') {
 		document.getElementById('dtmfmode').style.display = 'none';
 		document.getElementById('secret').style.display = 'none';
 		document.getElementById('channel').style.display = 'block';
+		document.getElementById('dial').style.display = 'none';
+	} else if (theForm.tech.value == 'custom') {
+		document.getElementById('dtmfmode').style.display = 'none';
+		document.getElementById('secret').style.display = 'none';
+		document.getElementById('channel').style.display = 'none';
+		document.getElementById('dial').style.display = 'block';
 	}
 }
 

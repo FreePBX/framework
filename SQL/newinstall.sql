@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 -- 
 
 INSERT INTO `admin` VALUES ('need_reload', 'false');
-INSERT INTO `admin` VALUES ('version','1.10.007');
+INSERT INTO `admin` VALUES ('version','1.10.009beta1');
 -- --------------------------------------------------------
 
 -- 
@@ -37,7 +37,7 @@ INSERT INTO `admin` VALUES ('version','1.10.007');
 CREATE TABLE IF NOT EXISTS `extensions` (
   `context` varchar(45) NOT NULL default 'default',
   `extension` varchar(45) NOT NULL default '',
-  `priority` int(2) NOT NULL default '1',
+  `priority` VARCHAR(5) NOT NULL default '1',
   `application` varchar(45) NOT NULL default '',
   `args` varchar(255) default NULL,
   `descr` text,
@@ -95,6 +95,7 @@ INSERT INTO `globals` VALUES ('REGDAYS', 'mon-fri');
 INSERT INTO `globals` VALUES ('DIRECTORY_OPTS', '');
 INSERT INTO `globals` VALUES ('DIALOUTIDS', '1');
 INSERT INTO `globals` VALUES ('OUT_1', 'ZAP/g0');
+INSERT INTO `globals` VALUES ('VM_PREFIX', '*');
 
 -- --------------------------------------------------------
 
@@ -103,8 +104,8 @@ INSERT INTO `globals` VALUES ('OUT_1', 'ZAP/g0');
 -- 
 
 CREATE TABLE IF NOT EXISTS `sip` (
-  `id` bigint(11) NOT NULL default '-1',
-  `keyword` varchar(20) NOT NULL default '',
+  `id` VARCHAR( 20 ) NOT NULL default '-1',
+  `keyword` varchar(30) NOT NULL default '',
   `data` varchar(150) NOT NULL default '',
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`,`keyword`)
@@ -137,8 +138,8 @@ CREATE TABLE IF NOT EXISTS `ampusers` (
 -- 
 	         
 CREATE TABLE IF NOT EXISTS `iax` (
-  `id` bigint(11) NOT NULL default '-1',
-  `keyword` varchar(20) NOT NULL default '',
+  `id` VARCHAR( 20 ) NOT NULL default '-1',
+  `keyword` varchar(30) NOT NULL default '',
   `data` varchar(150) NOT NULL default '',
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`,`keyword`)
@@ -150,8 +151,8 @@ CREATE TABLE IF NOT EXISTS `iax` (
 -- 
 
 CREATE TABLE IF NOT EXISTS `zap` (
-  `id` bigint(11) NOT NULL default '-1',
-  `keyword`varchar(20) NOT NULL default '',
+  `id` VARCHAR( 20 ) NOT NULL default '-1',
+  `keyword`varchar(30) NOT NULL default '',
   `data`varchar(150) NOT NULL default '',
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY (`id`,`keyword`)
@@ -168,3 +169,13 @@ CREATE TABLE IF NOT EXISTS `queues` (
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`,`keyword`,`data`)
 ) TYPE=MyISAM;;
+
+
+CREATE TABLE IF NOT EXISTS devices (id VARCHAR( 20 ) NOT NULL , tech VARCHAR( 10 ) NOT NULL , dial VARCHAR( 50 ) NOT NULL , devicetype VARCHAR( 5 ) NOT NULL , user VARCHAR( 50 ) , description VARCHAR( 50 ));
+
+CREATE TABLE IF NOT EXISTS users (extension VARCHAR( 20 ) NOT NULL , password VARCHAR( 20 ) , name VARCHAR( 50 ) , voicemail VARCHAR( 50 ) , ringtimer INT(3) , noanswer VARCHAR( 100 ) , recording VARCHAR( 50 ) ,  outboundcid VARCHAR( 50 ));
+
+CREATE TABLE IF NOT EXISTS `incoming` ( `cidnum` VARCHAR( 20 ) , `extension` VARCHAR( 20 ) , `destination` VARCHAR( 50 ) , `faxexten` VARCHAR( 20 ) , `faxemail` VARCHAR( 50 ) , `answer` TINYINT( 1 ) , `wait` INT( 2 ) , `privacyman` TINYINT( 1 ) );
+
+CREATE TABLE IF NOT EXISTS `Backup` (`Name` varchar(50) default NULL,`Voicemail` varchar(50) default NULL,`Recordings` varchar(50) default NULL,`Configurations` varchar(50) default NULL,`CDR` varchar(55) default NULL,`FOP` varchar(50) default NULL,`Minutes` varchar(50) default NULL,`Hours` varchar(50) default NULL,`Days` varchar(50) default NULL,`Months` varchar(50) default NULL,`Weekdays` varchar(50) default NULL,`Command` varchar(200) default NULL,`Method` varchar(50) default NULL,`ID` int(11) NOT NULL auto_increment,PRIMARY KEY  (ID));
+

@@ -1,0 +1,388 @@
+<?php /* $Id$ */
+//Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
+//
+//This program is free software; you can redistribute it and/or
+//modify it under the terms of the GNU General Public License
+//as published by the Free Software Foundation; either version 2
+//of the License, or (at your option) any later version.
+//
+//This program is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//GNU General Public License for more details.
+
+include 'common/php-asmanager.php';
+
+function adduser($vars,$vmcontext) {
+	extract($vars);
+	
+	global $db;
+	global $amp_conf;
+	//ensure this id is not already in use
+	$extens = getextens();
+	foreach($extens as $exten) {
+		if ($exten[0]==$extension) {
+			echo "<script>javascript:alert('"._("This user extension is already in use")."');</script>";
+			return false;
+		}
+	}
+	
+	//insert into devices table
+	$sql="INSERT INTO users (extension,password,name,voicemail,ringtimer,noanswer,recording,outboundcid) values (\"$extension\",\"$password\",\"$name\",\"$voicemail\",\"$ringtimer\",\"$noanswer\",\"$recording\",\"$outboundcid\")";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+        die($results->getMessage().$sql);
+	}
+	
+	//add details to astdb
+/*	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		$astman->database_put("AMPUSER",$extension."/password",$password);
+		$astman->database_put("AMPUSER",$extension."/ringtimer",$ringtimer);
+		$astman->database_put("AMPUSER",$extension."/noanswer",$noasnwer);
+		$astman->database_put("AMPUSER",$extension."/recording",$recording);
+		$astman->database_put("AMPUSER",$extension."/outboundcid","\"".$outboundcid."\"");
+		$astman->database_put("AMPUSER",$extension."/cidname","\"".$name."\"");
+		$astman->disconnect();
+	} else {
+		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
+	}
+*/
+
+	//write to extensions table - AMP2 will not do this
+	//update ext-local context in extensions.conf
+	$mailb = ($vm == 'disabled' || $mailbox == '') ? 'novm' : $mailbox;
+	addaccount($extension,$mailb,$hint);
+	
+	//take care of voicemail.conf if using voicemail
+	if ($vm != 'disabled')
+	{ 
+		$vmoption = explode("=",$attach);
+			$vmoptions[$vmoption[0]] = $vmoption[1];
+		$vmoption = explode("=",$saycid);
+			$vmoptions[$vmoption[0]] = $vmoption[1];
+		$vmoption = explode("=",$envelope);
+			$vmoptions[$vmoption[0]] = $vmoption[1];
+		$vmoption = explode("=",$delete);
+			$vmoptions[$vmoption[0]] = $vmoption[1];
+		$vmoption = explode("=",$nextaftercmd);
+			$vmoptions[$vmoption[0]] = $vmoption[1];
+		$uservm[$vmcontext][$extension] = array(
+									'mailbox' => $extension, 
+									'pwd' => $vmpwd,
+									'name' => $name,
+									'email' => $email,
+									'pager' => $pager,
+									'options' => $vmoptions);
+		saveVoicemail($uservm);
+	}
+}
+
+function getextenInfo($extension){
+	global $db;
+	//get all the variables for the meetme
+	$sql = "SELECT * FROM users WHERE extension = '$extension'";
+	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
+	if(DB::IsError($results)) {
+        die($results->getMessage().$sql);
+	}
+	return $results;
+}
+
+function deluser($extension,$incontext,$uservm){
+	global $db;
+	global $amp_conf;
+	
+	//delete from devices table
+	$sql="DELETE FROM users WHERE extension = \"$extension\"";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+        die($results->getMessage().$sql);
+	}
+	
+	//delete details to astdb
+/*	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		$astman->database_del("AMPUSER",$extension."/password");
+		$astman->database_del("AMPUSER",$extension."/cidname");
+		$astman->database_del("AMPUSER",$extension."/outboundcid");
+		$astman->database_del("AMPUSER",$extension."/ringtimer");
+		$astman->database_del("AMPUSER",$extension."/noanswer");
+		$astman->database_del("AMPUSER",$extension."/recording");
+	} else {
+		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
+	}*/
+	
+	//take care of voicemail.conf
+	unset($uservm[$incontext][$extension]);
+	saveVoicemail($uservm);
+		
+	//delete the extension info from extensions table
+	delExten($extdisplay);
+}
+
+//script to write extensions_additional.conf file from mysql
+$wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
+
+//script to write meetme_additional.conf file from mysql 
+$wMeetScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_meetme_conf_from_mysql.pl';
+
+$dispnum = 'users'; //used for switch in config.php
+
+//create vars from the request
+extract($_REQUEST);
+
+//make sure we can connect to Asterisk Manager
+checkAstMan();
+
+//read in the voicemail.conf and set appropriate variables for display
+$uservm = getVoicemail();
+$vmcontexts = array_keys($uservm);
+$vm=false;
+foreach ($vmcontexts as $vmcontext) {
+	if(isset($uservm[$vmcontext][$extdisplay])){
+		//echo $extdisplay.' found in context '.$vmcontext.'<hr>';
+		$incontext = $vmcontext;  //the context for the current extension
+		$vmpwd = $uservm[$vmcontext][$extdisplay]['pwd'];
+		$name = $uservm[$vmcontext][$extdisplay]['name'];
+		$email = $uservm[$vmcontext][$extdisplay]['email'];
+		$pager = $uservm[$vmcontext][$extdisplay]['pager'];
+		//loop through all options
+		if (is_array($uservm[$vmcontext][$extdisplay]['options'])) {
+			$alloptions = array_keys($uservm[$vmcontext][$extdisplay]['options']);
+			if (isset($alloptions)) {
+				foreach ($alloptions as $option) {
+					if ( ($option!="attach") && ($option!="envelope") && ($option!="saycid") && ($option!="delete") && ($option!="nextaftercmd") && ($option!='') )
+						$options .= $option.'='.$uservm[$vmcontext][$extdisplay]['options'][$option].'|';
+				}
+				$options = rtrim($options,'|');
+				// remove the = sign if there are no options set
+				$options = rtrim($options,'=');
+				
+			}
+			extract($uservm[$vmcontext][$extdisplay]['options'], EXTR_PREFIX_ALL, "vmops");
+		}
+		$vm=true;
+	}
+}
+
+$vmcontext = $_SESSION["user"]->_deptname; //AMP Users can only add to their department's context
+if (empty($vmcontext)) 
+	$vmcontext = ($_REQUEST['vmcontext'] ? $_REQUEST['vmcontext'] : $incontext);
+if (empty($vmcontext))
+	$vmcontext = 'default';
+
+//check if the extension is within range for this user
+if (isset($extension) && !checkRange($extension)){
+	echo "<script>javascript:alert('". _("Warning! Extension")." ".$extension." "._("is not allowed for your account").".');</script>";
+} else {
+
+	//if submitting form, update database
+	// hmm, with device / user separation, how do we handle "hint" extensions TODO
+	switch ($action) {
+		case "add":
+			adduser($_REQUEST,$vmcontext);
+
+			//write out extensions_additional.conf
+			exec($wScript1);			
+			//write out meetme_additional.conf
+			exec($wMeetScript);
+			needreload();
+		break;
+		case "del":
+			deluser($extdisplay,$incontext,$uservm);
+			//write out extensions_additional.conf
+			exec($wScript1);			
+			//write out meetme_additional.conf
+			exec($wMeetScript);
+			needreload();
+		break;
+		case "edit":  //just delete and re-add
+			deluser($extdisplay,$incontext,$uservm);
+			adduser($_REQUEST,$vmcontext);
+			//write out extensions_additional.conf
+			exec($wScript1);			
+			//write out meetme_additional.conf
+			exec($wMeetScript);
+			needreload();
+		break;
+	}
+}
+
+?>
+</div>
+
+<div class="rnav">
+    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add User")?></a><br></li>
+<?php 
+//get unique users/extensions
+$extens = getextens();
+
+if (isset($extens)) {
+	foreach ($extens as $exten) {
+		echo "<li><a id=\"".($extdisplay==$exten[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$exten[0]}\">{$exten[1]} <{$exten[0]}></a></li>";
+	}
+}
+?>
+</div>
+
+
+<div class="content">
+<?php 
+	if ($action == 'del') {
+		echo '<br><h3>'.$extdisplay.' deleted!</h3><br><br><br><br><br><br><br><br>';
+	} else {
+		$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=del';
+?>
+<?php if ($extdisplay) {	
+	$extenInfo=getExtenInfo($extdisplay);
+	extract($extenInfo);
+	if (is_array($deviceInfo)) extract($deviceInfo);
+?>
+		<h2><?php echo _("User")?>: <?php echo $extdisplay; ?></h2>
+		<p><a href="<?php echo $delURL ?>"><?php echo _("Delete User")?> <?php echo $extdisplay ?></a></p>
+<?php } else { ?>
+		<h2><?php echo _("Add User/Extension")?></h2>
+<?php } ?>
+		<form name="addNew" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
+		<input type="hidden" name="display" value="<?php echo $dispnum?>">
+		<input type="hidden" name="action" value="<?php echo ($extdisplay ? 'edit' : 'add') ?>">
+		<input type="hidden" name="extdisplay" value="<?php echo $extdisplay ?>">
+		<table>
+		
+		<tr><td colspan="2"><h5><?php echo ($extdisplay ? _('Edit User') : _('Add User')) ?><hr></h5></td></tr>
+
+		<tr <?php echo ($extdisplay ? 'style="display:none"':'') ?>>
+			<td>
+				<a href="#" class="info"><?php echo _("User Extension")?><span><?php echo _("The extension number to dial to reach this user.")?></span></a>:
+			</td>
+			<td>
+				<input type="text" name="extension" value="<?php echo $extdisplay ?>">
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<a href="#" class="info"><?php echo _("User Password")?><span><?php echo _("A user will enter this password when logging onto a device.")?><br></span></a>:
+			</td><td>
+				<input tabindex="2" type="text" name="password" value="<?php echo $password ?>"/>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<a href="#" class="info"><?php echo _("Display Name")?><span><?php echo _("The caller id name for calls from this user will be set to this name.")?><br></span></a>:
+			</td><td>
+				<input tabindex="2" type="text" name="name" value="<?php echo $name ?>"/>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="2">
+				<h5><br>Extension Options<hr></h5>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<a href="#" class="info"><?php echo _("Outbound CID")?><span><?php echo _("Overrides the caller id when dialing out a trunk. Any setting here will override the common outbound caller id set in the Trunks admin.<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this field blank to disable the outbound callerid feature for this extension.")?><br></span></a>:
+			</td><td>
+				<input tabindex="2" type="text" name="outboundcid" value="<?php echo $outboundcid ?>"/>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<a href="#" class="info"><?php echo _("Ring Timer")?><span><?php echo _("Number of seconds to ring the extension before giving up.")?><br></span></a>:
+			</td><td>
+				<input tabindex="2" type="text" name="ringtimer" value="<?php echo $ringtimer ?>"/>
+			</td>
+		</tr>
+		
+			<tr><td colspan=2>
+				<h5><br><br><?php echo _("Voicemail & Directory:")?>&nbsp;&nbsp;&nbsp;&nbsp;
+					<select name="vm" onchange="checkVoicemail(addNew);">
+						<option value="enabled" <?php  echo ($vm) ? 'selected' : '' ?>><?php echo _("Enabled");?></option> 
+						<option value="disabled" <?php  echo ($vm) ? '' : 'selected' ?>><?php echo _("Disabled");?></option> 
+					</select>
+				<hr></h5>
+			</td></tr>
+			<tr><td colspan=2>
+				<table id="voicemail" <?php  echo ($vm) ? '' : 'style="display:none;"' ?>>
+				<tr>
+					<td>
+						<a href="#" class="info"><?php echo _("voicemail password")?><span><?php echo _("This is the password used to access the voicemail system.<br><br>This password can only contain numbers.<br><br>A user can change the password you enter here after logging into the voicemail system (*98) with a phone.")?><br><br></span></a>: 
+					</td><td>
+						<input tabindex="4" size="10" type="text" name="vmpwd" value=""/>
+					</td>
+				</tr>
+				<tr>
+					<td><a href="#" class="info"><?php echo _("email address")?><span><?php echo _("The email address that voicemails are sent to.")?></span></a>: </td>
+					<td><input tabindex="5" type="text" name="email" value="<?php  echo $email; ?>"/></td>
+				</tr>
+				<tr>
+					<td><a href="#" class="info"><?php echo _("pager email address")?><span><?echo _("Pager/mobile email address that short voicemail notifcations are sent to.")?></span></a>: </td>
+					<td><input tabindex="6" type="text" name="pager" value="<?php  echo $pager; ?>"/></td>
+				</tr>
+				<tr>
+ 					<td><a href="#" class="info"><?php echo _("email attachment")?><span><?php echo _("Option to attach voicemails to email.")?></span></a>: </td>
+ 					<?php if ($vmops_attach == "yes"){?>
+ 					<td><input  tabindex="7" type="radio" name="attach" value="attach=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="8" type="radio" name="attach" value="attach=no"/> <?php echo _("no");?></td>
+ 					<?php } else{ ?>
+ 					<td><input  tabindex="7" type="radio" name="attach" value="attach=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="8" type="radio" name="attach" value="attach=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
+ 				</tr>
+ 
+				<tr>
+ 					<td><a href="#" class="info"><?php echo _("Play CID")?><span><?php echo _("Read back caller's telephone number prior to playing the incoming message, and just after announcing the date and time the message was left.")?></span></a>: </td>
+ 					<?php if ($vmops_saycid == "yes"){?>
+ 					<td><input  tabindex="9" type="radio" name="saycid" value="saycid=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="10" type="radio" name="saycid" value="saycid=no"/> <?php echo _("no");?></td>
+ 					<?php } else{ ?>
+ 					<td><input  tabindex="9" type="radio" name="saycid" value="saycid=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="10" type="radio" name="saycid" value="saycid=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
+ 				</tr>
+
+				<tr>
+ 					<td><a href="#" class="info"><?php echo _("Play Envelope")?><span><?php echo _("Envelope controls whether or not the voicemail system will play the message envelope (date/time) before playing the voicemail message. This settng does not affect the operation of the envelope option in the advanced voicemail menu.")?></span></a>: </td>
+ 					<?php if ($vmops_envelope == "yes"){?>
+ 					<td><input  tabindex="11" type="radio" name="envelope" value="envelope=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="12" type="radio" name="envelope" value="envelope=no"/> <?php echo _("no");?></td>
+ 					<?php } else{ ?>
+ 					<td><input  tabindex="11" type="radio" name="envelope" value="envelope=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="12" type="radio" name="envelope" value="envelope=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
+ 				</tr>
+
+				<tr>
+ 					<td><a href="#" class="info"><?php echo _("Play Next")?><span><?php echo _("If set to \"yes,\" after deleting or saving a voicemail message, the system will automatically play the next message, if no the user will have to press \"6\" to go to the next message")?></span></a>: </td>
+ 					<?php if ($vmops_nextaftercmd == "yes"){?>
+ 					<td><input  tabindex="13" type="radio" name="nextaftercmd" value="nextaftercmd=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="14" type="radio" name="nextaftercmd" value="nextaftercmd=no"/> <?php echo _("no");?></td>
+ 					<?php } else{ ?>
+ 					<td><input  tabindex="13" type="radio" name="nextaftercmd" value="nextaftercmd=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="14" type="radio" name="nextaftercmd" value="nextaftercmd=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
+ 				</tr>
+
+				<tr>
+ 					<td><a href="#" class="info"><?php echo _("Delete Vmail")?><span><?php echo _("If set to \"yes\" the message will be deleted from the voicemailbox (after having been emailed). Provides functionality that allows a user to receive their voicemail via email alone, rather than having the voicemail able to be retrieved from the Webinterface or the Extension handset.  CAUTION: MUST HAVE attach voicemail to email SET TO YES OTHERWISE YOUR MESSAGES WILL BE LOST FOREVER.")?>
+</span></a>: </td>
+ 					<?php if ($vmops_delete == "yes"){?>
+ 					<td><input  tabindex="15" type="radio" name="delete" value="delete=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="16" type="radio" name="delete" value="delete=no"/> <?php echo _("no");?></td>
+ 					<?php } else{ ?>
+ 					<td><input  tabindex="15" type="radio" name="delete" value="delete=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input tabindex="16" type="radio" name="delete" value="delete=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
+ 				</tr>
+			</table>
+		</td></tr>
+		<tr>
+			<td colspan=2>
+				<br><br><h6><input name="Submit" type="button" value="<?php echo _("Add Device")?>" onclick="javascript:if(addNew.extension.value=='' || parseInt(addNew.extension.value)!=addNew.extension.value) {alert('<?php echo _("Please enter a device id.")?>')} else {addNew.submit();}"></h6>
+			</td>
+		</tr>
+		</table>
+		
+		</form>
+<?php 		
+	} //end if action-del
+?>
+
+<br><br><br><br><br><br><br><br><br>
+<?php //Make sure the bottom border is low enuf
+if (isset($extens)) {
+	foreach ($extens as $exten) {
+		echo "<br><br>";
+	}
+}
+?>

@@ -24,36 +24,39 @@
 
 //check to see if we are requesting an asterisk reload
 if ($_REQUEST['clk_reload'] == 'true') {
+	//update astdb
+	users2astdb();
+	devices2astdb();
+	
 	//reload asterisk
+	$fp = fsockopen("localhost", 5038, $errno, $errstr, 10);
+	if (!$fp) {
+			echo "Unable to connect to Asterisk Manager ($errno)<br />\n";
+	} else {
+			$buffer='';
+			stream_set_timeout($fp, 5);
+			$buffer = fgets($fp);
+			if ($buffer!="Asterisk Call Manager/1.0\r\n")
+					echo "Asterisk Call Manager not responding<br />\n";
+			else {
+					$out="Action: Login\r\nUsername: ".$amp_conf['AMPMGRUSER']."\r\nSecret: ".$amp_conf['AMPMGRPASS']."\r\n\r\n";
+					fwrite($fp,$out);
+					$buffer=fgets($fp);
+					if ($buffer!="Response: Success\r\n")
+							echo "Asterisk authentication failed:<br />$buffer<br />\n";
+					else {
+							$buffers=fgets($fp); // get rid of Message: Authentication accepted
+							$out="Action: Command\r\nCommand: Reload\r\n\r\n";
+							fwrite($fp,$out);
+							$buffer=fgets($fp); // get rid of a blank line
+							$buffer=fgets($fp);
+							if ($buffer!="Response: Follows\r\n")
+									echo "Asterisk reload command not understood $buffer<br />\n";
+					}
+			}
 
-        $fp = fsockopen("localhost", 5038, $errno, $errstr, 10);
-        if (!$fp) {
-                echo "Unable to connect to Asterisk Manager ($errno)<br />\n";
-        } else {
-                $buffer='';
-                stream_set_timeout($fp, 5);
-                $buffer = fgets($fp);
-                if ($buffer!="Asterisk Call Manager/1.0\r\n")
-                        echo "Asterisk Call Manager not responding<br />\n";
-                else {
-                        $out="Action: Login\r\nUsername: ".$amp_conf['AMPMGRUSER']."\r\nSecret: ".$amp_conf['AMPMGRPASS']."\r\n\r\n";
-                        fwrite($fp,$out);
-                        $buffer=fgets($fp);
-                        if ($buffer!="Response: Success\r\n")
-                                echo "Asterisk authentication failed:<br />$buffer<br />\n";
-                        else {
-                                $buffers=fgets($fp); // get rid of Message: Authentication accepted
-                                $out="Action: Command\r\nCommand: Reload\r\n\r\n";
-                                fwrite($fp,$out);
-                                $buffer=fgets($fp); // get rid of a blank line
-                                $buffer=fgets($fp);
-                                if ($buffer!="Response: Follows\r\n")
-                                        echo "Asterisk reload command not understood $buffer<br />\n";
-                        }
-                }
-
-        }
-        fclose($fp);
+	}
+	fclose($fp);
 	
 	//bounce op_server.pl
 	$wOpBounce = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'bounce_op.sh';

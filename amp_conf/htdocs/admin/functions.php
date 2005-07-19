@@ -190,6 +190,15 @@ function getaas() {
 // get the existing extensions
 // the returned arrays contain [0]:extension [1]:CID [2]:technology
 function getextens() {
+	global $db;
+	$sql = "SELECT extension,name FROM users ORDER BY extension";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		$results = null;
+	}
+	return $results;
+}
+/*function getextens() {
 	$sip = getSip();
 	$iax = getIax();
 	$zap= getZap();
@@ -201,9 +210,9 @@ function getextens() {
 	}
 	if (isset($extens)) sort($extens);
 	return $extens;
-}
+}*/
 
-function getSip() {
+/*function getSip() {
 	global $db;
 	sipexists();
 	$sql = "SELECT id,data FROM sip WHERE keyword = 'callerid' ORDER BY id";
@@ -217,9 +226,9 @@ function getSip() {
 		$sip[] = $result;
 	}
 	return $sip;
-}
+}*/
 
-function getIax() {
+/*function getIax() {
 	global $db;
 	iaxexists();
 	$sql = "SELECT id,data FROM iax WHERE keyword = 'callerid' ORDER BY id";
@@ -233,9 +242,9 @@ function getIax() {
 		$iax[] = $result;
 	}
 	return $iax;
-}
+}*/
 
-function getZap() {
+/*function getZap() {
 	global $db;
 	zapexists();
 	$sql = "SELECT id,data FROM zap WHERE keyword = 'callerid' ORDER BY id";
@@ -249,7 +258,7 @@ function getZap() {
 		$zap[] = $result;
 	}
 	return $zap;
-}
+}*/
 
 //get the existing group extensions
 function getgroups() {
@@ -385,7 +394,7 @@ function zapexists() {
 	$results = $db->query($sql);
 }
 
-function addzap($account,$callerid) {
+/*function addzap($account,$callerid) {
 	zapexists();
 	global $db;
 	$zapfields = array(
@@ -435,7 +444,7 @@ function addzap($account,$callerid) {
 			die($result->getMessage().$sql); 
 		}
 	}
-}
+}*/
 
 //create iax if it doesn't exist
 function iaxexists() {
@@ -445,7 +454,7 @@ function iaxexists() {
 }
 
 //add to iax table
-function addiax($account,$callerid) {
+/*function addiax($account,$callerid) {
 	iaxexists();
 	global $db;
 	$iaxfields = array(array($account,'account',$account),
@@ -486,7 +495,7 @@ function addiax($account,$callerid) {
 			die($result->getMessage().$sql); 
 		}
 	}
-}
+}*/
 
 //create sip if it doesn't exist
 function sipexists() {
@@ -496,22 +505,22 @@ function sipexists() {
 }
 
 //add to sip table
-function addsip($account,$callerid) {
+/*function addsip($account,$callerid) {
 	sipexists();
 	global $db;
 	$sipfields = array(array($account,'account',$account),
 	array($account,'accountcode',($_REQUEST['accountcode'])?$_REQUEST['accountcode']:''),
 	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
-	array($account,'canreinvite',($_REQUEST['canreinvite'])?$_REQUEST['canreinvite']:''),
-	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:''),
+	array($account,'canreinvite',($_REQUEST['canreinvite'])?$_REQUEST['canreinvite']:'no'),
+	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:'from-internal'),
 	array($account,'dtmfmode',($_REQUEST['dtmfmode'])?$_REQUEST['dtmfmode']:''),
-	array($account,'host',($_REQUEST['host'])?$_REQUEST['host']:''),
-	array($account,'type',($_REQUEST['type'])?$_REQUEST['type']:''),
-	array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:''),
-	array($account,'username',($_REQUEST['username'])?$_REQUEST['username']:''),
-	array($account,'nat',($_REQUEST['nat'])?$_REQUEST['nat']:''),
-	array($account,'port',($_REQUEST['port'])?$_REQUEST['port']:''),
-	array($account,'qualify',($_REQUEST['qualify'])?$_REQUEST['qualify']:''),
+	array($account,'host',($_REQUEST['host'])?$_REQUEST['host']:'dynamic'),
+	array($account,'type',($_REQUEST['type'])?$_REQUEST['type']:'friend'),
+	array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:$account.'@device'),
+	array($account,'username',($_REQUEST['username'])?$_REQUEST['username']:$account),
+	array($account,'nat',($_REQUEST['nat'])?$_REQUEST['nat']:'never'),
+	array($account,'port',($_REQUEST['port'])?$_REQUEST['port']:'5060'),
+	array($account,'qualify',($_REQUEST['qualify'])?$_REQUEST['qualify']:'no'),
 	array($account,'callgroup',($_REQUEST['callgroup'])?$_REQUEST['callgroup']:''),
 	array($account,'pickupgroup',($_REQUEST['pickupgroup'])?$_REQUEST['pickupgroup']:''),
 	array($account,'disallow',($_REQUEST['disallow'])?$_REQUEST['disallow']:''),
@@ -542,7 +551,7 @@ function addsip($account,$callerid) {
 			die($result->getMessage().$sql); 
 		}
 	}
-}
+}*/
 
 function addaccount($account,$mailb,$hint = '') {
 	extensionsexists();
@@ -2393,5 +2402,85 @@ $amp_conf = parse_amportal_conf("/etc/amportal.conf");
 
         }
         fclose($fp);
+}
+
+// this function simply makes a connection to the asterisk manager, and should be called by modules that require it (ie: dbput/dbget)
+function checkAstMan() {
+	require_once('common/php-asmanager.php');
+	global $amp_conf;
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		return $astman->disconnect();
+	} else {
+		echo "<h3>Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]."</h3>This module requires access to the Asterisk Manager.  Please ensure Asterisk is running and access to the manager is available.</div>";
+		exit;
+	}
+}
+
+function devices2astdb(){
+	require_once('common/php-asmanager.php');
+	checkAstMan();
+	global $db;
+	global $amp_conf;
+	$sql = "SELECT * FROM devices";
+	$devresults = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+	if(DB::IsError($devresults)) {
+		$devresults = null;
+	}
+
+	//add details to astdb
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {	
+		foreach($devresults as $dev) {
+			extract($dev);	
+			//delete existing
+			$astman->database_del("DEVICE",$extension."/dial");
+			$astman->database_del("DEVICE",$extension."/type");
+			//add new
+			$astman->database_put("DEVICE",$id."/dial",$dial);
+			$astman->database_put("DEVICE",$id."/type",$devicetype);
+		}
+	} else {
+		echo "Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
+	}
+	return $astman->disconnect();
+}
+
+function users2astdb(){
+	require_once('common/php-asmanager.php');
+	checkAstMan();
+	global $db;
+	global $amp_conf;
+	$sql = "SELECT * FROM users";
+	$userresults = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+	if(DB::IsError($userresults)) {
+		$userresults = null;
+	}
+	
+	//add details to astdb
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		foreach($userresults as $usr) {
+			extract($usr);
+		
+			//delete existing
+			$astman->database_del("AMPUSER",$extension."/password");
+			$astman->database_del("AMPUSER",$extension."/ringtimer");
+			$astman->database_del("AMPUSER",$extension."/noanswer");
+			$astman->database_del("AMPUSER",$extension."/recording");
+			$astman->database_del("AMPUSER",$extension."/outboundcid");
+			$astman->database_del("AMPUSER",$extension."/cidname");
+			//add new
+			$astman->database_put("AMPUSER",$extension."/password",$password);
+			$astman->database_put("AMPUSER",$extension."/ringtimer",$ringtimer);
+			$astman->database_put("AMPUSER",$extension."/noanswer",$noasnwer);
+			$astman->database_put("AMPUSER",$extension."/recording",$recording);
+			$astman->database_put("AMPUSER",$extension."/outboundcid","\"".$outboundcid."\"");
+			$astman->database_put("AMPUSER",$extension."/cidname","\"".$name."\"");
+		}	
+	} else {
+		echo "Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
+	}
+	return $astman->disconnect();
 }
 ?>
