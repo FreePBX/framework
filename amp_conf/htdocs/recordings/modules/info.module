@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Functions to get info
+ */
+
+/*
+ * Gets file names recursively 6 folders deep
+ *
+ * @param $dir
+ *   directory to search
+ * @param $maxCount
+ *   max count of sub folders searched
+ * @param $recursiveCount
+ *   current sub folder count
+ * @param $files
+ *   files found
+ */
+function get_files($dir,&$maxCount,&$recursiveCount,&$files) {
+
+  $dh = opendir($dir);
+  while (false!== ($filename = readdir($dh))) {
+    if($filename<>"." and $filename<>"..") {
+      $path = $dir . $filename;
+      if ($maxCount<6 && is_dir($path)) {
+        $recursiveCount++;
+        get_files($path . "/",$maxCount,$recursiveCount,$files);
+      } else {
+        $files[$maxCount] = $path;
+        $maxCount++;
+      }
+    }
+  } 
+}
+
+
+?>

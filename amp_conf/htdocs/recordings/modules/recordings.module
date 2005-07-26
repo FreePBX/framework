@@ -1,0 +1,196 @@
+<?php
+
+/**
+ * @file
+ * Functions for the interface to the recordings
+ */
+
+/*
+ * Displays stats page
+ *
+ * @param $args
+ *   Common arguments
+ */
+function recordings_detail_display($args) {
+
+  global $asterisk_recording_path;
+
+  $display = new DisplaySearch();
+
+  // get the search string
+  $q = get_argument($args,'q');
+  $start = get_argument($args,'start');
+  $span = get_argument($args,'span');
+
+  // New Header
+  $ret .= $display->DisplayHeaderText("Recordings");
+  $ret .= $display->DisplaySearchBlock('left',$q,true);
+  get_cdr_count($recordCount);
+  $ret .= $display->DisplayInfoBarBlock($q,$start,$span,$recordCount);
+
+  // det caller records from the database
+  get_cdr_data($q,$start,$span,$data);
+
+  // get the recordings from the asterisk server (this is not scalable and need to find a better way)
+  $count = 0;
+  $recursiveCount = 0;
+  get_files($asterisk_recording_path,$count,$recursiveCount,$files);
+
+  // add javascript popup script
+  $ret .= "<SCRIPT LANGUAGE='JavaScript'>
+           <!-- Begin
+           function popUp(URL) {
+             eval(\"page = window.open(URL, 'play', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=324,height=24');\");
+           }
+           // End -->
+           </script>";
+
+  foreach($data as $key=>$value) {
+
+    // date and time
+    $buf = split(' ', $value[calldate]);
+    $date = $buf[0];
+    $time = $buf[1];
+
+    // recording popup
+// TODO: this is not a pretty hack, but database is not recording a unique ID so no way to know what recordings are without an ugly test
+    $recordingLink = '';
+    get_recording($asterisk_recording_path,$files,$value[lastdata],$value[calldate],$recording);
+    if (is_file($recording)) {
+      $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "')\">play</a>";
+    }
+    
+    $tableText .= "<tr>
+	             <td>" . $date . "</td>
+	             <td>" . $time . "</td>
+	             <td>" . $value[clid] . "</td>
+	             <td>" . $value[src] . "</td>
+	             <td>" . $value[dst] . "</td>
+	             <td>" . $value[dcontext] . "</td>
+	             <td>" . $value[duration] . " sec</td>
+	             <td>" . $value[disposition] . "</td>
+	             <td>" . $recordingLink . "</td>
+	           </tr>";
+  }
+
+  $ret .= "<table class='recordings'>
+	     <tr>
+               <th>Date</td>
+               <th>Time</td>
+	       <th>Caller ID</td>
+	       <th>Source</td>
+	       <th>Destination</td>
+	       <th>Context</td>
+	       <th>Duration</td>
+	       <th>Disposition</td>
+	       <th>Monitor</td>
+             </tr>
+             " . $tableText . "
+             <br />
+           </table>";
+
+  $ret .= "<br>";
+  $ret .= $display->DisplaySearchBlock('center',$q,true);
+  $ret .= $display->DisplayNavigationBlock($q,$start,$span,$recordCount);
+
+  return $ret;
+}
+
+/*
+ * Checks for a recording file
+ *
+ * @param $dir
+ *   path call recordings on the asterisk server
+ * @param $files
+ *   current call recordings on the asterisk server
+ * @param $lastdata
+ *   last action recorded in database
+ * @param $calldate
+ *   date call was made
+ * @param $recording
+ *   Reference to the variable to store a $recording name if found
+ */
+function get_recording($dir,$files,$lastdata,$calldate,&$recording) {
+
+    $recording = '';
+    $buf = preg_split("/\|/", $lastdata);
+    $uniqueID = $buf[1];
+    if (isset($uniqueID)) {
+      $recording = $dir . $uniqueID . ".WAV";
+    } 
+    if (!is_file($recording)) { 
+      foreach($files as $key => $path) {
+        $buf = preg_replace('/:|-/', '', $calldate);
+        $buf = preg_replace('/\s+/', '-', $buf);
+        if (preg_match("/".$buf."/",$path) || 
+             (strlen($uniqueID)>1 && preg_match("/".$uniqueID."/",$path) )) {
+          $recording = $path;
+        }
+      } 
+    }
+}
+
+/*
+ * Gets cdr record count
+ *
+ * @param $count
+ *   Reference to the variable to store the data in
+ */
+function get_cdr_count(&$count) {
+
+  $dbh = $_SESSION['dbh_cdr'];
+  $sql = "SELECT count(*) FROM cdr";
+
+  $data = $dbh->getAll($sql);
+  $count = $data[0][0];
+}
+
+/*
+ * Gets cdr data
+ *
+ * @param $data
+ *   Reference to the variable to store the data in
+ */
+function get_cdr_data($q,$start,$span,&$data) {
+
+  if ($q != '*' && $q != NULL) {
+    $searchText .= "WHERE ";
+    $tok = strtok($q," \n\t");
+    while ($tok) {
+      $searchText .= " (calldate regexp '" . $tok . "'
+                     OR clid regexp '" . $tok . "'
+                     OR src regexp '" . $tok . "'
+                     OR dst regexp '" . $tok . "'
+                     OR dcontext regexp '" . $tok . "'
+                     OR duration regexp '" . $tok . "'
+                     OR disposition regexp '" . $tok . "'
+                     OR uniqueid regexp '" . $tok . "'
+                     " . ")";
+      $tok = strtok(" \n\t");
+      if ($tok) {
+        $searchText .= " AND";
+      }
+    }
+  }
+
+  $dbh = $_SESSION['dbh_cdr'];
+  $sql = "SELECT calldate, 
+                 clid, 
+                 src,
+                 dst, 
+                 dcontext, 
+                 lastapp, 
+                 lastdata, 
+                 duration, 
+                 disposition, 
+                 amaflags, 
+                 uniqueid, 
+                 userfield 
+           FROM cdr 
+           " . $searchText . "
+           ORDER BY calldate desc
+           LIMIT " . $start . "," . $span;
+  $data = $dbh->getAll($sql,DB_FETCHMODE_ASSOC);
+}
+
+?>

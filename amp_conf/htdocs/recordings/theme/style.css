@@ -1,0 +1,438 @@
+
+/* Begin Typography & Colors */
+
+body {
+	color: #333;
+	background-color: white;
+	}
+body, p, div {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	}
+small small {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-weight: bold;
+	}
+a:visited {
+	color: #999;
+	}
+p {
+	margin:.5em 0;
+}
+p.footer {
+	margin-top:	5em;
+	margin-left:	161px;
+	font-size:	10px
+	}
+sup {
+	font-size:	9px
+	}
+p.caption	{
+	width:	67%;
+	margin-bottom:	1em
+	}
+h3, h4, .heading, .initial {
+	margin-top:	1.5em
+	}
+h2, h3, h4 {
+	font-family:	"Trebuchet MS", Arial, Helvetica, Tahoma, Verdana, sans-serif;
+	margin-top:	0;
+	margin-bottom:	0;
+	color:	#555;
+	}
+h2 {
+	font-size:	1.2em;
+	}
+h3 {
+	font-size:	1em;
+	}
+div.spacer {
+	clear: both;
+	}
+
+/* End Typography & Colors */
+
+
+
+/* Being page */
+
+#page {
+	background-color: white;
+	text-align: left;
+	}
+
+/* End page */
+
+
+
+/* Begin logo */
+
+#logo {
+        padding: 12px;
+        padding-right: 24px;
+        font-size: 2.0em;
+        color: #fff; 
+        text-align: left;
+        background-color: #105D90;
+        }
+#logo a:link, #logo a:visited {
+	color: white;
+	text-decoration: none;
+	}
+#logo a:active, a:link {
+	color: #fff;
+	}
+#logo a:hover {
+	color: #fc0;
+	}
+#logo small b	{
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-weight: bold;
+	}
+
+/* End logo */
+
+
+
+/* Being topheader */
+
+#topheader {
+	width: 100%; 
+	background-color: #105D90;
+	padding: 0px; 
+      margin: 0px;
+	}
+#topheader span.left {
+	float: left;
+	text-align: left;
+	font-weight: bold;
+	color: #fff;
+	width: 49%;
+	}
+#topheader span.right {
+	float: right;
+	text-align: right;
+	font-weight: bold;
+	color: #fff;
+	width: 49%;
+	}
+
+/* End topheader */
+
+
+
+/* Begin topnav */
+
+#topnav {
+        width: 100%;
+        height: 36px;
+        border=0 
+	padding: 0;
+        margin-top: -1px;	/* stupid browser hack */
+	color: #999;
+	background-color: #333;
+	}
+#topnav span.left {
+	float: left;
+	text-align: left;
+	font-weight: bold;
+	color: #fff;
+	width: 49%;
+	}
+#topnav span.right {
+	float: right;
+	text-align: right;
+	font-weight: bold;
+	color: #fff;
+	width: 49%;
+	}
+
+.topnav a:link, .topnav a:visited {
+	color: white;
+	text-decoration: none;
+	}
+.topnav a:active, a:link {
+	color: #105D90;
+	}
+.topnav a:hover {
+	color: #fc0;
+	}
+.topnav small b	{
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-weight: bold;
+	background-color: #105D90;
+	}
+
+/* End topnav */
+
+
+
+/* Being headerspacer */
+
+#headerspacer {
+        border: 0; 
+	padding: 0;
+        margin-top: -16px;	/* stupid browser hack */
+	background-color: #fff;
+        height: 16px
+	}
+
+/* End headerspacer */
+
+
+/* Begin login */
+
+#login  {	
+        width: 300px;
+	}
+#login span.left {
+	width: 29%;
+        height: 28px;
+	float: left;
+	text-align: right;
+	}
+#login span.right {
+	width: 69%;
+        height: 28px;
+	float: right;
+	text-align: left;
+	}
+
+/* End login */
+
+
+/* Begin main */
+
+#main {
+/*	width: 3000px;*/
+	}
+
+/* End main */
+
+
+/* Begin menu */
+
+#menu {
+	width: 156px;
+      float: left;
+	}
+
+/* End menu */
+
+
+/* Begin nav */
+
+.nav {
+	font-weight: bold;
+        color: #105D90;
+	}
+.nav p.sub small small {
+	font-weight: normal;
+	}
+.nav a:visited	{
+	color: #105D90;
+	}
+.sub    {
+	margin-left: 1em;
+	}
+.navimg {
+	margin-bottom: 15px;
+	}
+.navtext {
+	margin-left: 20px;
+	}
+
+/* End nav */
+
+
+/* Begin line */
+
+#line   {
+        border: 1px solid #333; 
+	padding: 0;
+        margin: 0;	
+	color: #999;
+	background-color: #333;
+        width: 700px;
+	height: 1px;
+	}
+#line span.left {
+	float: left;
+	text-align: left;
+	font-weight: bold;
+	color: #fff;
+	width: 49%;
+	}
+#line span.right {
+	float: right;
+	text-align: right;
+	font-weight: bold;
+	color: #fff;
+	width: 49%;
+	}
+
+/* End line */
+
+
+/* Begin navbar */
+
+#navbar {
+        width: 700px;
+        height: 24px;
+        border: 1px; 
+        padding: 0;
+        margin-bottom: 14px;
+        color: #999;
+        background-color: #333;
+	}
+#navbar span.left {
+        margin: 2px;
+	float: left;
+	text-align: left;
+	font-weight: bold;
+	color: #fff;
+        vertical-align: middle;
+	}
+#navbar span.right {
+        margin: 2px;
+	float: right;
+	text-align: right;
+	font-weight: bold;
+	color: #fff;
+         vertical-align: middle;
+	}
+/* End navbar */
+
+
+/* Begin info_bar */
+
+#info_bar {
+        border: 1px solid #333; 
+        padding: 3px;
+        margin-top: -1px;	/* stupid browser hack */
+        color: #999;
+        background-color: #333;
+        width: 700px;
+        height: 20px;
+	}
+#info_bar span.left {
+	float: left;
+	text-align: left;
+	font-weight: bold;
+	color: #fff;
+	width: 49%;
+	}
+#info_bar span.right {
+	float: right;
+	text-align: right;
+	font-weight: bold;
+	color: #fff;
+	width: 49%;
+	}
+.info_bar a:link, .topnav a:visited {
+	color: white;
+	text-decoration: none;
+	}
+.info_bar a:active, a:link {
+	color: #105D90;
+	}
+.info_bar a:hover {
+	color: #fc0;
+	}
+.info_bar small b	{
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-weight: bold;
+	}
+
+/* End info_bar */
+
+
+/* Begin centerbar */
+
+#centerbar {
+       margin: 0 auto; 
+       width: 600px;
+       text-align: center;
+       }
+
+/* Begin centerbar */
+
+
+/* Begin subheader */
+
+#subheader {
+      padding: 0px; 
+      margin: 0px;
+      margin-bottom: 16px;
+      }
+
+/* End subheader */
+
+
+/* Begin center */
+
+#center {
+      float: left;
+      margin-bottom: 20px;
+      }
+
+/* End center */
+
+
+/* End recordings */
+
+table.recordings{ 
+      width: 700px;
+      font-family: Verdana;
+      font-weight: normal;
+      font-size: 11px;
+      color: #404040;
+      background-color: #fafafa;
+      border: 1px #6699CC solid;
+      border-collapse: collapse;
+      border-spacing: 0px;
+      margin-top: 0px;
+      }
+
+table.recordings td.recordingsHD, th { 
+      border: 1px solid #6699CC;
+      border-bottom: 2px solid #6699CC;
+      background-color: #BEC8D1;
+      text-align: center;
+      font-family: Verdana;
+      font-weight: bold;
+      font-size: 11px;
+      color: #404040;
+      }
+
+table.recordings td { 
+      border: 1px solid #6699CC;
+      font-family: Verdana, sans-serif, Arial;
+      font-weight: normal;
+      font-size: 11px;
+      color: #404040;
+      background-color: white;
+      text-align: center;
+      padding: 3px;
+      }
+
+.servBodL { 
+      border-left: 1px dotted #CEDCEA; 
+      }
+
+/* End recordings */
+
+
+/* Begin footer */
+
+#footer {	
+      width: 1000px;
+	}
+
+/* End footer */
+
+
+
+
+
+
+
