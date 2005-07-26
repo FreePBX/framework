@@ -115,6 +115,12 @@ switch ($action) {
 	break;
 	case "delroute":
 		deleteRoute($extdisplay);
+		// re-order the routes to make sure that there are no skipped numbers.
+		// example if we have 001-test1, 002-test2, and 003-test3 then delete 002-test2
+		// we do not want to have our routes as 001-test1, 003-test3 we need to reorder them
+		// so we are left with 001-test1, 002-test3
+		$routepriority = getroutenames();
+		$routepriority = setroutepriority($routepriority, '','');
 		exec($extenScript);
 		needreload();
 		
