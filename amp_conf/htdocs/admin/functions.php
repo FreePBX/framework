@@ -1350,8 +1350,12 @@ function addroute($name, $patterns, $trunks, $method, $pass) {
 	
  	if ($method=="new")
 	{	
-		$routepriority = getroutenames();
-	 	$order=setroutepriorityvalue(count($routepriority));
+            $sql="select DISTINCT context FROM extensions WHERE context LIKE 'outrt-%' ORDER BY context";
+            $routepriority = $db->getAll($sql);
+            if(DB::IsError($result)) {
+                    die($result->getMessage());
+            }
+            $order=setroutepriorityvalue(count($routepriority));
 	 	$name = sprintf ("%s-%s",$order,$name);
 	}
 	$trunks = array_values($trunks); // probably already done, but it's important for our dialplan
@@ -1602,8 +1606,16 @@ function setroutepriority($routepriority, $reporoutedirection, $reporoutekey)
 			die($result->getMessage(). $sql); 
  		}
 	}
-	$routepriority = getroutenames();
-	return ($routepriority);
+	$sql = "SELECT DISTINCT SUBSTRING(context,7) FROM extensions WHERE context LIKE 'outrt-%' ORDER BY context ";
+        // we SUBSTRING() to remove "outrt-"
+        $routepriority = $db->getAll($sql);
+        if(DB::IsError($routepriority))
+        {
+                die($routepriority->getMessage());
+        }
+        return ($routepriority);
+	
+	
 }
 
  
