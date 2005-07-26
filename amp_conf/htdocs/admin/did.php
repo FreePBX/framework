@@ -214,16 +214,11 @@ if (isset($inroutes)) {
 					<option value="disabled" <?php  echo ($faxexten == 'disabled' ? 'SELECTED' : '')?>><?php echo _("disabled")?>
 					<option value="system" <?php  echo ($faxexten == 'system' ? 'SELECTED' : '')?>><?php echo _("system")?>
 			<?php 
-				//get unique extensions
-				$extens = getextens();
-				if (isset($extens)) {
-					foreach ($extens as $exten) {
-						$tech=strtoupper($exten[2]);
-						if($tech == 'ZAP') {
-							echo '<option value="'.$tech.'/${ZAPCHAN_'.$exten[0].'}" '.($FAX_RX == $tech.'/${ZAPCHAN_'.$exten[0].'}' ? 'SELECTED' : '').'>'._("Extension #").$exten[0];
-						} else {
-							echo '<option value="'.$tech.'/'.$exten[0].'" '.($FAX_RX == $tech.'/'.$exten[0] ? 'SELECTED' : '').'>'._("Extension #").$exten[0];
-						}
+				//get unique devices
+				$devices = getdevices();
+				if (isset($devices)) {
+					foreach ($devices as $device) {
+						echo '<option value="'.$device['id'].'" '.($FAX_RX == $device['id'] ? 'SELECTED' : '').'>'.$device['description'].' &lt;'.$device['id'].'&gt;';
 					}
 				}
 			?>	

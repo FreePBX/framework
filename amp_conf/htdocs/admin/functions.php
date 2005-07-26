@@ -198,6 +198,18 @@ function getextens() {
 	}
 	return $results;
 }
+
+//get the existing devices
+function getdevices() {
+	global $db;
+	$sql = "SELECT id,description FROM devices";
+	$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+	if(DB::IsError($results)) {
+		$results = null;
+	}
+	return $results;
+}
+
 /*function getextens() {
 	$sip = getSip();
 	$iax = getIax();

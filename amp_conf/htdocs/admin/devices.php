@@ -13,17 +13,6 @@
 
 include 'common/php-asmanager.php';
 
-//get the existing devices
-function getdevices() {
-	global $db;
-	$sql = "SELECT id,description FROM devices";
-	$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
-	if(DB::IsError($results)) {
-		$results = null;
-	}
-	return $results;
-}
-
 function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 	global $db;
 	global $amp_conf;
@@ -61,6 +50,10 @@ function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 	} else {
 		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
 	}
+	
+	//voicemail symlink
+	exec("rm -f /var/spool/asterisk/voicemail/device/".$id);
+	exec("/bin/ln -s /var/spool/asterisk/voicemail/default/".$user."/ /var/spool/asterisk/voicemail/device/".$id);
 		
 	//take care of sip/iax/zap config
 	$funct = "add".strtolower($tech);
@@ -92,6 +85,9 @@ function deldevice($account){
 	} else {
 		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
 	}
+	
+	//voicemail symlink
+	exec("rm -f /var/spool/asterisk/voicemail/device/".$account);
 	
 	//take care of sip/iax/zap config
 	$funct = "del".strtolower($devinfo['tech']);

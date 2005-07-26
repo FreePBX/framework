@@ -54,8 +54,8 @@ foreach ($globals as $global) {
 	${$global[0]} = $global[1];	
 }
 
-//get unique extensions
-$extens = getextens();
+//get unique devices
+$devices = getdevices();
 
 ?>
 
@@ -93,14 +93,9 @@ $extens = getextens();
 		<option value="disabled" <?php  echo ($FAX_RX == 'disabled' ? 'SELECTED' : '')?>><?php echo _("disabled")?>
 		<option value="system" <?php  echo ($FAX_RX == 'system' ? 'SELECTED' : '')?>><?php echo _("system")?>
 <?php 
-	if (isset($extens)) {
-		foreach ($extens as $exten) {
-			$tech=strtoupper($exten[2]);
-			if($tech == 'ZAP') {
-				echo '<option value="'.$tech.'/${ZAPCHAN_'.$exten[0].'}" '.($FAX_RX == $tech.'/${ZAPCHAN_'.$exten[0].'}' ? 'SELECTED' : '').'>'._("Extension #").$exten[0];
-			} else {
-				echo '<option value="'.$tech.'/'.$exten[0].'" '.($FAX_RX == $tech.'/'.$exten[0] ? 'SELECTED' : '').'>'._("Extension #").$exten[0];
-			}
+	if (isset($devices)) {
+		foreach ($devices as $device) {
+			echo '<option value="'.$device['id'].'" '.($FAX_RX == $device['id'] ? 'SELECTED' : '').'>'.$device['description'].' &lt;'.$device['id'].'&gt;';
 		}
 	}
 ?>	

@@ -112,6 +112,8 @@ if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AM
 							$record_in = $set['data'];
 					}
 				}
+				$sql = "UPDATE sip SET data = '".$extension."@device' WHERE id = '".$extension."' AND keyword = 'mailbox' LIMIT 1";
+				$resu = $db->query($sql);
 			} else if ($tech == "iax2"){
 				$dial = "IAX2/".$extension;
 				$sql = "SELECT keyword,data FROM iax WHERE id = '{$extension}'";
@@ -126,6 +128,8 @@ if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AM
 							$record_in = $set['data'];
 					}
 				}
+				$sql = "UPDATE iax SET data = '".$extension."@device' WHERE id = '".$extension."' AND keyword = 'mailbox' LIMIT 1";
+				$resu = $db->query($sql);
 			} else if ($tech == "zap"){
 				$sql = "SELECT value FROM globals WHERE variable = 'ZAPCHAN_{$extension}'";
 				$zapchan = $db->getOne($sql);
@@ -143,6 +147,8 @@ if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AM
 							$record_in = $set['data'];
 					}
 				}
+				$sql = "UPDATE zap SET data = '".$extension."@device' WHERE id = '".$extension."' AND keyword = 'mailbox' LIMIT 1";
+				$resu = $db->query($sql);
 			}
 			
 			$name=substr($name,0,strcspn($name,'<'));

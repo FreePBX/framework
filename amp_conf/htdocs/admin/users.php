@@ -27,36 +27,39 @@ function adduser($vars,$vmcontext) {
 		}
 	}
 	
-	//insert into devices table
+	//build the recording variable
+	$recording = "out=".$record_out."|in=".$record_in;
+	
+	//insert into users table
 	$sql="INSERT INTO users (extension,password,name,voicemail,ringtimer,noanswer,recording,outboundcid) values (\"$extension\",\"$password\",\"$name\",\"$voicemail\",\"$ringtimer\",\"$noanswer\",\"$recording\",\"$outboundcid\")";
 	$results = $db->query($sql);
 	if(DB::IsError($results)) {
         die($results->getMessage().$sql);
 	}
 	
-	//add details to astdb
-/*	$astman = new AGI_AsteriskManager();
-	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
-		$astman->database_put("AMPUSER",$extension."/password",$password);
-		$astman->database_put("AMPUSER",$extension."/ringtimer",$ringtimer);
-		$astman->database_put("AMPUSER",$extension."/noanswer",$noasnwer);
-		$astman->database_put("AMPUSER",$extension."/recording",$recording);
-		$astman->database_put("AMPUSER",$extension."/outboundcid","\"".$outboundcid."\"");
-		$astman->database_put("AMPUSER",$extension."/cidname","\"".$name."\"");
-		$astman->disconnect();
-	} else {
-		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
-	}
-*/
-
 	//write to extensions table - AMP2 will not do this
 	//update ext-local context in extensions.conf
-	$mailb = ($vm == 'disabled' || $mailbox == '') ? 'novm' : $mailbox;
+	
+	//warning: as of 009 we aren't allowing a user to use any mailbox but their own 
+	//This may affect some upgraders as it is possible in previous versions!
+	//$mailb = ($vm == 'disabled' || $mailbox == '') ? 'novm' : $mailbox;
+	$mailb = ($vm == 'disabled') ? 'novm' : $extension;
 	addaccount($extension,$mailb,$hint);
 	
 	//take care of voicemail.conf if using voicemail
+	$uservm = getVoicemail();
+	unset($uservm[$incontext][$account]);
+	
 	if ($vm != 'disabled')
 	{ 
+		// need to check if there are any options entered in the text field
+		if ($_REQUEST['options']!=''){
+			$options = explode("|",$_REQUEST['options']);
+			foreach($options as $option) {
+				$vmoption = explode("=",$option);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
+			}
+		}
 		$vmoption = explode("=",$attach);
 			$vmoptions[$vmoption[0]] = $vmoption[1];
 		$vmoption = explode("=",$saycid);
@@ -74,8 +77,8 @@ function adduser($vars,$vmcontext) {
 									'email' => $email,
 									'pager' => $pager,
 									'options' => $vmoptions);
-		saveVoicemail($uservm);
 	}
+	saveVoicemail($uservm);
 }
 
 function getextenInfo($extension){
@@ -86,6 +89,13 @@ function getextenInfo($extension){
 	if(DB::IsError($results)) {
         die($results->getMessage().$sql);
 	}
+	//explode recording vars
+	$recording = explode("|",$results['recording']);
+	$recout = substr($recording[0],4);
+	$recin = substr($recording[1],3);
+	$results['record_in']=$recin;
+	$results['record_out']=$recout;
+
 	return $results;
 }
 
@@ -100,25 +110,12 @@ function deluser($extension,$incontext,$uservm){
         die($results->getMessage().$sql);
 	}
 	
-	//delete details to astdb
-/*	$astman = new AGI_AsteriskManager();
-	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
-		$astman->database_del("AMPUSER",$extension."/password");
-		$astman->database_del("AMPUSER",$extension."/cidname");
-		$astman->database_del("AMPUSER",$extension."/outboundcid");
-		$astman->database_del("AMPUSER",$extension."/ringtimer");
-		$astman->database_del("AMPUSER",$extension."/noanswer");
-		$astman->database_del("AMPUSER",$extension."/recording");
-	} else {
-		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
-	}*/
-	
 	//take care of voicemail.conf
 	unset($uservm[$incontext][$extension]);
 	saveVoicemail($uservm);
 		
 	//delete the extension info from extensions table
-	delExten($extdisplay);
+	delextensions('ext-local',$extension);
 }
 
 //script to write extensions_additional.conf file from mysql
@@ -148,6 +145,7 @@ foreach ($vmcontexts as $vmcontext) {
 		$email = $uservm[$vmcontext][$extdisplay]['email'];
 		$pager = $uservm[$vmcontext][$extdisplay]['pager'];
 		//loop through all options
+		$options="";
 		if (is_array($uservm[$vmcontext][$extdisplay]['options'])) {
 			$alloptions = array_keys($uservm[$vmcontext][$extdisplay]['options']);
 			if (isset($alloptions)) {
@@ -291,11 +289,35 @@ if (isset($extens)) {
 			</td>
 		</tr>
 		
-		<tr>
+		<!--<tr>
 			<td>
 				<a href="#" class="info"><?php echo _("Ring Timer")?><span><?php echo _("Number of seconds to ring the extension before giving up.")?><br></span></a>:
 			</td><td>
 				<input tabindex="2" type="text" name="ringtimer" value="<?php echo $ringtimer ?>"/>
+			</td>
+		</tr>-->
+		
+		<tr>
+			<td>
+				<a href="#" class="info"><?php echo _("Record Incoming")?><span><?php echo _("Record all inbound calls recieved at this extension.")?><br></span></a>:
+			</td><td>
+				<select name="record_in"/>
+					<option value="Adhoc" <?php  echo ($record_in == "On-Demand") ? 'selected' : '' ?>><?php echo _("On Demand")?>
+					<option value="Always" <?php  echo ($record_in == "Always") ? 'selected' : '' ?>><?php echo _("Always")?>
+					<option value="Never" <?php  echo ($record_in == "Never") ? 'selected' : '' ?>><?php echo _("Never")?>
+				</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<a href="#" class="info"><?php echo _("Record Outgoing")?><span><?php echo _("Record all outbound calls recieved at this extension.")?><br></span></a>:
+			</td><td>
+				<select name="record_out"/>
+					<option value="Adhoc" <?php  echo ($record_out == "On-Demand") ? 'selected' : '' ?>><?php echo _("On Demand")?>
+					<option value="Always" <?php  echo ($record_out == "Always") ? 'selected' : '' ?>><?php echo _("Always")?>
+					<option value="Never" <?php  echo ($record_out == "Never") ? 'selected' : '' ?>><?php echo _("Never")?>
+				</select>
 			</td>
 		</tr>
 		
@@ -303,7 +325,7 @@ if (isset($extens)) {
 				<h5><br><br><?php echo _("Voicemail & Directory:")?>&nbsp;&nbsp;&nbsp;&nbsp;
 					<select name="vm" onchange="checkVoicemail(addNew);">
 						<option value="enabled" <?php  echo ($vm) ? 'selected' : '' ?>><?php echo _("Enabled");?></option> 
-						<option value="disabled" <?php  echo ($vm) ? '' : 'selected' ?>><?php echo _("Disabled");?></option> 
+						<option value="disabled" <?php  echo (!$vm) ? 'selected' : '' ?>><?php echo _("Disabled");?></option> 
 					</select>
 				<hr></h5>
 			</td></tr>
@@ -313,7 +335,7 @@ if (isset($extens)) {
 					<td>
 						<a href="#" class="info"><?php echo _("voicemail password")?><span><?php echo _("This is the password used to access the voicemail system.<br><br>This password can only contain numbers.<br><br>A user can change the password you enter here after logging into the voicemail system (*98) with a phone.")?><br><br></span></a>: 
 					</td><td>
-						<input tabindex="4" size="10" type="text" name="vmpwd" value=""/>
+						<input tabindex="4" size="10" type="text" name="vmpwd" value="<?php echo $vmpwd ?>"/>
 					</td>
 				</tr>
 				<tr>
@@ -364,6 +386,15 @@ if (isset($extens)) {
  					<?php } else{ ?>
  					<td><input  tabindex="15" type="radio" name="delete" value="delete=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input tabindex="16" type="radio" name="delete" value="delete=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
  				</tr>
+ 				
+ 				<tr>
+					<td><a href="#" class="info">vm options<span><?php echo _("Separate options with pipe ( | )")?><br><br>ie: review=yes|maxmessage=60</span></a>: </td>
+					<td><input size="20" type="text" name="options" value="<?php  echo $options; ?>" /></td>
+				</tr>
+				<tr>
+					<td><?php echo _("vm context:")?> </td>
+					<td><input size="20" type="text" name="vmcontext" value="<?php  echo $vmcontext; ?>" /></td>
+				</tr>
 			</table>
 		</td></tr>
 		<tr>
