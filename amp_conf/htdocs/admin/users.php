@@ -409,11 +409,3 @@ if (isset($extens)) {
 	} //end if action-del
 ?>
 
-<br><br><br><br><br><br><br><br><br>
-<?php //Make sure the bottom border is low enuf
-if (isset($extens)) {
-	foreach ($extens as $exten) {
-		echo "<br><br>";
-	}
-}
-?>

@@ -199,8 +199,4 @@ foreach ($tresults as $tresult) {
 			</tr>
 			</table>
 		</form>
-	
-<?php  //Make sure the bottom border is low enuf
-foreach ($tresults as $tresult) {
-    echo "<br><br><br>";
-}
+

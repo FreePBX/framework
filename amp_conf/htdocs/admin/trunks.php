@@ -655,8 +655,4 @@ if (!$tech && !$extdisplay) {
 }
 ?>
 
-	
-<?php  //Make sure the bottom border is low enuf
-foreach ($tresults as $tresult) {
-    echo "<br><br><br>";
-}
+

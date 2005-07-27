@@ -526,7 +526,3 @@ $name = "";
 		</table>
 	</form>
 	
-<?php  //Make sure the bottom border is low enuf
-foreach ($routepriority as $tresult) {
-    echo "<br><br><br>";
-}

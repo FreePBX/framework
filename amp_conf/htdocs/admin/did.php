@@ -289,14 +289,7 @@ echo drawselects('editGRP',$destination,0);
 	
 
 ?>
-<br><br><br><br><br><br><br><br><br>
-<?php //Make sure the bottom border is low enuf
-if (isset($dresults)) {
-	foreach ($dresults as $dresult) {
-		echo "<br><br>";
-	}
-}
-?>
+
 
 
 

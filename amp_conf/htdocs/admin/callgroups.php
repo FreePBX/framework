@@ -199,13 +199,6 @@ echo drawselects('editGRP',$goto,0);
 
 ?>
 
-<?php  //Make sure the bottom border is low enuf
-if (isset($queues)) {
-	foreach ($gresults as $gresult) {
-		echo "<br>";
-	}
-}
-?>
 
 
 

@@ -104,7 +104,7 @@ if (isset($amp_conf["AUTHTYPE"]) && ($amp_conf["AUTHTYPE"] != "none")) {
 	$amp_sections[10] = _("AMP Users");
 }
 
-
+echo "<table width=\"100%\"><tr><td>";
 // show menu
 echo "<div class=\"nav\">";
 
@@ -198,5 +198,6 @@ switch($display) {
 ?>
 
 </div>
-<?php echo str_repeat("<br />", 8);?>
+</td></tr></table>
+<?php echo str_repeat("<br />", 3);?>
 <?php include 'footer.php' ?>

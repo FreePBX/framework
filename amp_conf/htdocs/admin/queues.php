@@ -403,10 +403,6 @@ if ($action == 'delete') {
 ?>
 
 
-<?php //Make sure the bottom border is low enuf
-str_repeat('<br />',count($queues));
-?>
-
 
 
 
