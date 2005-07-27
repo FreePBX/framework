@@ -332,7 +332,7 @@ function getgroupinfo($grpexten, &$strategy, &$time, &$prefix, &$group) {
 	$sql = "SELECT args FROM extensions WHERE context = 'ext-group' AND extension = '".$grpexten."' AND priority = '1'";
 	$res = $db->getAll($sql);
 	if(DB::IsError($res)) {
-	   die($thisGRPprefix->getMessage());
+	   die($res->getMessage());
 	}
 	if (preg_match("/^rg-group,(.*),(.*),(.*),(.*)$/", $res[0][0], $matches)) {
 		$strategy = $matches[1];
