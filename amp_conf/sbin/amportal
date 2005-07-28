@@ -34,6 +34,7 @@ chown_asterisk() {
 	chown asterisk /dev/tty9
 	chown -R asterisk:asterisk $AMPWEBROOT/admin
 	chown -R asterisk:asterisk $AMPWEBROOT/panel
+	chown -R asterisk:asterisk $AMPWEBROOT/recordings
 	chown -R asterisk:asterisk $AMPWEBROOT/_asterisk
 	chown -R asterisk:asterisk $AMPCGIBIN/vmail.cgi
 	chmod u+x /var/lib/asterisk/bin/*.pl
