@@ -60,6 +60,12 @@ function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 	if(function_exists($funct)){
 		$funct($id);
 	}
+	
+	//if the device is of type 'fixed', then we can use HINT
+	//TODO is it possible to use ${variables} for a HINT extensions (ie: for adhoc devices)
+	if(($devicetype == "fixed") && ($user != "none")) {
+		addhint($user,$dial);
+	}
 }
 
 function deldevice($account){
@@ -94,6 +100,9 @@ function deldevice($account){
 	if(function_exists($funct)){
 		$funct($account);
 	}
+	
+	//take care of any hint priority
+	delhint($devinfo['user']);
 }
 
 function getdeviceInfo($account){
@@ -322,26 +331,6 @@ if($extdisplay) {
 	}
 }
 ?>
-
-<!--
-
-		<input type="hidden" name="canreinvite" value="no"/>
-		<input type="hidden" name="context" value="from-internal"/>
-		<input type="hidden" name="host" value="dynamic"/>
-		<input type="hidden" name="type" value="friend"/>
-		<input type="hidden" name="nat" value="never"/>
-		<input type="hidden" name="port" value="5060"/>
-		<input type="hidden" name="mailbox" value=""/>
-		<input type="hidden" name="username" value=""/>
-		<input type="hidden" name="iaxport" value="4569"/>
-		<input type="hidden" name="notransfer" value="yes"/>
-		<input type="hidden" name="qualify" value="no"/>
-		<input type="hidden" name="callgroup" value=""/>
-		<input type="hidden" name="pickupgroup" value=""/>
-		<input type="hidden" name="disallow" value=""/>
-		<input type="hidden" name="allow" value=""/>
-		<input type="hidden" name="vmcontext" value="<?php echo $vmcontext ?>"/>	
--->		
 			
 		<tr>
 			<td colspan=2>
@@ -363,6 +352,7 @@ if($extdisplay) {
 function addsip($account) {
 	sipexists();
 	global $db;
+	global $currentFile;
 	$sipfields = array(array($account,'account',$account),
 	array($account,'accountcode',($_REQUEST['accountcode'])?$_REQUEST['accountcode']:''),
 	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
@@ -389,23 +379,7 @@ function addsip($account) {
 	if(DB::IsError($result)) {
 		die($result->getDebugInfo()."<br><br>".'error adding to SIP table');	
 	}
-	    
-	//add E<enten>=SIP to global vars (appears in extensions_additional.conf)
-//	$sql = "INSERT INTO globals VALUES ('E$account', 'SIP')"; 
-//	$result = $db->query($sql); 
-//	if(DB::IsError($result)) {     
-//		die($result->getMessage().$sql); 
-//	}
-	
-	//add ECID<enten> to global vars if using outbound CID
-//	if ($_REQUEST['outcid'] != '') {
-//		$outcid = $_REQUEST['outcid'];
-//		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
-//		$result = $db->query($sql); 
-//		if(DB::IsError($result)) {     
-//			die($result->getMessage().$sql); 
-//		}
-//	}
+		   
 
 	//script to write sip conf file from mysql
 	$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_sip_conf_from_mysql.pl';
@@ -418,6 +392,7 @@ function addsip($account) {
 
 function delsip($account) {
 	global $db;
+	global $currentFile;
     $sql = "DELETE FROM sip WHERE id = '$account'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
@@ -445,6 +420,7 @@ function getsip($account) {
 //add to iax table
 function addiax2($account) {
 	global $db;
+	global $currentFile;
 	$iaxfields = array(array($account,'account',$account),
 	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
 	array($account,'notransfer',($_REQUEST['notransfer'])?$_REQUEST['notransfer']:'yes'),
@@ -467,22 +443,6 @@ function addiax2($account) {
 		die($result->getMessage()."<br><br>error adding to IAX table");	
 	}	
 
-	//add E<enten>=IAX2 to global vars (appears in extensions_additional.conf)
-//	$sql = "INSERT INTO globals VALUES ('E$account', 'IAX2')"; 
-//	$result = $db->query($sql); 
-//	if(DB::IsError($result)) {     
-//		die($result->getMessage().$sql); 
-//	}
-
-	//add ECID<enten> to global vars if using outbound CID
-//	if ($_REQUEST['outcid'] != '') {
-//		$outcid = $_REQUEST['outcid'];
-//		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
-//		$result = $db->query($sql); 
-//		if(DB::IsError($result)) {     
-//			die($result->getMessage().$sql); 
-//		}
-//	}
 
 	//script to write iax2 conf file from mysql
 	$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_iax_conf_from_mysql.pl';
@@ -494,6 +454,7 @@ function addiax2($account) {
 
 function deliax2($account) {
 	global $db;
+	global $currentFile;
     $sql = "DELETE FROM iax WHERE id = '$account'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
@@ -521,6 +482,7 @@ function getiax2($account) {
 function addzap($account) {
 	zapexists();
 	global $db;
+	global $currentFile;
 	$zapfields = array(
 	array($account,'account',$account),
 	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:'from-internal'),
@@ -543,30 +505,6 @@ function addzap($account) {
 		die($result->getMessage()."<br><br>error adding to ZAP table");	
 	}	
 
-	//add E<enten>=ZAP to global vars (appears in extensions_additional.conf)
-//	$sql = "INSERT INTO globals VALUES ('E$account', 'ZAP')"; 
-//	$result = $db->query($sql); 
-//	if(DB::IsError($result)) {     
-//		die($result->getMessage().$sql); 
-//	}
-
-	//add ZAPCHAN_<exten>=<zapchannel> to global vars. Needed in dialparties.agi to decide channel number without hitting the database.
-//	$zapchannel=$_REQUEST['channel'];
-//	$sql = "INSERT INTO globals VALUES ('ZAPCHAN_$account', '$zapchannel')";
-//	$result = $db->query($sql);
-//	if(DB::IsError($result)) {
-//		die($result->getMessage().$sql);
-//	}
-	
-	//add ECID<enten> to global vars if using outbound CID
-//	if ($_REQUEST['outcid'] != '') {
-//		$outcid = $_REQUEST['outcid'];
-//		$sql = "INSERT INTO globals VALUES ('ECID$account', '$outcid')"; 
-//		$result = $db->query($sql); 
-//		if(DB::IsError($result)) {     
-//			die($result->getMessage().$sql); 
-//		}
-//	}
 
 	//script to write zap conf file from mysql
 	$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_zap_conf_from_mysql.pl';
@@ -578,6 +516,7 @@ function addzap($account) {
 
 function delzap($account) {
 	global $db;
+	global $currentFile;
     $sql = "DELETE FROM zap WHERE id = '$account'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
@@ -601,4 +540,36 @@ function getzap($account) {
 	}
 	return $results;
 }
+
+function addhint($account,$hint){
+	global $db;
+	global $currentFile;	
+	//delete any existing hint for this extension
+	delhint($account);
+	
+	//Add 'hint' priority if passed
+	if ($hint != '') {
+		$sql = "INSERT INTO extensions (context, extension, priority, application) VALUES ('ext-local', '".$account."', 'hint', '".$hint."')";
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			echo $result->getMessage().$sql;
+		}
+	}
+	$wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
+	exec($wScript1);
+}
+
+function delhint($user) {
+	global $currentFile;
+	global $db;
+	//delete from devices table
+	$sql="DELETE FROM extensions WHERE extension = \"{$user}\" AND priority = \"hint\"";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+        die($results->getMessage().$sql);
+	}
+	$wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
+	exec($wScript1);
+}
+
 ?>
