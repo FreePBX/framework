@@ -263,7 +263,7 @@ if (isset($extens)) {
 			<td>
 				<a href="#" class="info"><?php echo _("User Password")?><span><?php echo _("A user will enter this password when logging onto a device.")?><br></span></a>:
 			</td><td>
-				<input tabindex="2" type="text" name="password" value="<?php echo $password ?>"/>
+				<input type="text" name="password" value="<?php echo $password ?>"/>
 			</td>
 		</tr>
 
@@ -271,7 +271,7 @@ if (isset($extens)) {
 			<td>
 				<a href="#" class="info"><?php echo _("Display Name")?><span><?php echo _("The caller id name for calls from this user will be set to this name.")?><br></span></a>:
 			</td><td>
-				<input tabindex="2" type="text" name="name" value="<?php echo $name ?>"/>
+				<input type="text" name="name" value="<?php echo $name ?>"/>
 			</td>
 		</tr>
 		
@@ -285,7 +285,7 @@ if (isset($extens)) {
 			<td>
 				<a href="#" class="info"><?php echo _("Outbound CID")?><span><?php echo _("Overrides the caller id when dialing out a trunk. Any setting here will override the common outbound caller id set in the Trunks admin.<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this field blank to disable the outbound callerid feature for this extension.")?><br></span></a>:
 			</td><td>
-				<input tabindex="2" type="text" name="outboundcid" value="<?php echo $outboundcid ?>"/>
+				<input type="text" name="outboundcid" value="<?php echo $outboundcid ?>"/>
 			</td>
 		</tr>
 		
@@ -293,7 +293,7 @@ if (isset($extens)) {
 			<td>
 				<a href="#" class="info"><?php echo _("Ring Timer")?><span><?php echo _("Number of seconds to ring the extension before giving up.")?><br></span></a>:
 			</td><td>
-				<input tabindex="2" type="text" name="ringtimer" value="<?php echo $ringtimer ?>"/>
+				<input type="text" name="ringtimer" value="<?php echo $ringtimer ?>"/>
 			</td>
 		</tr>-->
 		
@@ -335,56 +335,56 @@ if (isset($extens)) {
 					<td>
 						<a href="#" class="info"><?php echo _("voicemail password")?><span><?php echo _("This is the password used to access the voicemail system.<br><br>This password can only contain numbers.<br><br>A user can change the password you enter here after logging into the voicemail system (*98) with a phone.")?><br><br></span></a>: 
 					</td><td>
-						<input tabindex="4" size="10" type="text" name="vmpwd" value="<?php echo $vmpwd ?>"/>
+						<input size="10" type="text" name="vmpwd" value="<?php echo $vmpwd ?>"/>
 					</td>
 				</tr>
 				<tr>
 					<td><a href="#" class="info"><?php echo _("email address")?><span><?php echo _("The email address that voicemails are sent to.")?></span></a>: </td>
-					<td><input tabindex="5" type="text" name="email" value="<?php  echo $email; ?>"/></td>
+					<td><input type="text" name="email" value="<?php  echo $email; ?>"/></td>
 				</tr>
 				<tr>
 					<td><a href="#" class="info"><?php echo _("pager email address")?><span><?echo _("Pager/mobile email address that short voicemail notifcations are sent to.")?></span></a>: </td>
-					<td><input tabindex="6" type="text" name="pager" value="<?php  echo $pager; ?>"/></td>
+					<td><input type="text" name="pager" value="<?php  echo $pager; ?>"/></td>
 				</tr>
 				<tr>
  					<td><a href="#" class="info"><?php echo _("email attachment")?><span><?php echo _("Option to attach voicemails to email.")?></span></a>: </td>
  					<?php if ($vmops_attach == "yes"){?>
- 					<td><input  tabindex="7" type="radio" name="attach" value="attach=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="8" type="radio" name="attach" value="attach=no"/> <?php echo _("no");?></td>
+ 					<td><input  type="radio" name="attach" value="attach=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="attach" value="attach=no"/> <?php echo _("no");?></td>
  					<?php } else{ ?>
- 					<td><input  tabindex="7" type="radio" name="attach" value="attach=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="8" type="radio" name="attach" value="attach=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
+ 					<td><input  type="radio" name="attach" value="attach=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="attach" value="attach=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
  				</tr>
  
 				<tr>
  					<td><a href="#" class="info"><?php echo _("Play CID")?><span><?php echo _("Read back caller's telephone number prior to playing the incoming message, and just after announcing the date and time the message was left.")?></span></a>: </td>
  					<?php if ($vmops_saycid == "yes"){?>
- 					<td><input  tabindex="9" type="radio" name="saycid" value="saycid=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="10" type="radio" name="saycid" value="saycid=no"/> <?php echo _("no");?></td>
+ 					<td><input  type="radio" name="saycid" value="saycid=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="saycid" value="saycid=no"/> <?php echo _("no");?></td>
  					<?php } else{ ?>
- 					<td><input  tabindex="9" type="radio" name="saycid" value="saycid=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="10" type="radio" name="saycid" value="saycid=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
+ 					<td><input  type="radio" name="saycid" value="saycid=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="saycid" value="saycid=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
  				</tr>
 
 				<tr>
  					<td><a href="#" class="info"><?php echo _("Play Envelope")?><span><?php echo _("Envelope controls whether or not the voicemail system will play the message envelope (date/time) before playing the voicemail message. This settng does not affect the operation of the envelope option in the advanced voicemail menu.")?></span></a>: </td>
  					<?php if ($vmops_envelope == "yes"){?>
- 					<td><input  tabindex="11" type="radio" name="envelope" value="envelope=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="12" type="radio" name="envelope" value="envelope=no"/> <?php echo _("no");?></td>
+ 					<td><input  type="radio" name="envelope" value="envelope=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="envelope" value="envelope=no"/> <?php echo _("no");?></td>
  					<?php } else{ ?>
- 					<td><input  tabindex="11" type="radio" name="envelope" value="envelope=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="12" type="radio" name="envelope" value="envelope=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
+ 					<td><input  type="radio" name="envelope" value="envelope=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="envelope" value="envelope=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
  				</tr>
 
 				<tr>
  					<td><a href="#" class="info"><?php echo _("Play Next")?><span><?php echo _("If set to \"yes,\" after deleting or saving a voicemail message, the system will automatically play the next message, if no the user will have to press \"6\" to go to the next message")?></span></a>: </td>
  					<?php if ($vmops_nextaftercmd == "yes"){?>
- 					<td><input  tabindex="13" type="radio" name="nextaftercmd" value="nextaftercmd=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="14" type="radio" name="nextaftercmd" value="nextaftercmd=no"/> <?php echo _("no");?></td>
+ 					<td><input  type="radio" name="nextaftercmd" value="nextaftercmd=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="nextaftercmd" value="nextaftercmd=no"/> <?php echo _("no");?></td>
  					<?php } else{ ?>
- 					<td><input  tabindex="13" type="radio" name="nextaftercmd" value="nextaftercmd=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="14" type="radio" name="nextaftercmd" value="nextaftercmd=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
+ 					<td><input  type="radio" name="nextaftercmd" value="nextaftercmd=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="nextaftercmd" value="nextaftercmd=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
  				</tr>
 
 				<tr>
  					<td><a href="#" class="info"><?php echo _("Delete Vmail")?><span><?php echo _("If set to \"yes\" the message will be deleted from the voicemailbox (after having been emailed). Provides functionality that allows a user to receive their voicemail via email alone, rather than having the voicemail able to be retrieved from the Webinterface or the Extension handset.  CAUTION: MUST HAVE attach voicemail to email SET TO YES OTHERWISE YOUR MESSAGES WILL BE LOST FOREVER.")?>
 </span></a>: </td>
  					<?php if ($vmops_delete == "yes"){?>
- 					<td><input  tabindex="15" type="radio" name="delete" value="delete=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  tabindex="16" type="radio" name="delete" value="delete=no"/> <?php echo _("no");?></td>
+ 					<td><input  type="radio" name="delete" value="delete=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="delete" value="delete=no"/> <?php echo _("no");?></td>
  					<?php } else{ ?>
- 					<td><input  tabindex="15" type="radio" name="delete" value="delete=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input tabindex="16" type="radio" name="delete" value="delete=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
+ 					<td><input  type="radio" name="delete" value="delete=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="delete" value="delete=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
  				</tr>
  				
  				<tr>
@@ -399,7 +399,7 @@ if (isset($extens)) {
 		</td></tr>
 		<tr>
 			<td colspan=2>
-				<br><br><h6><input name="Submit" type="button" value="<?php echo _("Add Device")?>" onclick="javascript:if(addNew.extension.value=='' || parseInt(addNew.extension.value)!=addNew.extension.value) {alert('<?php echo _("Please enter a device id.")?>')} else {addNew.submit();}"></h6>
+				<br><br><h6><input name="Submit" type="button" value="<?php echo _("Submit")?>" onclick="javascript:if(addNew.extension.value=='' || parseInt(addNew.extension.value)!=addNew.extension.value) {alert('<?php echo _("Please enter a device id.")?>')} else {addNew.submit();}"></h6>
 			</td>
 		</tr>
 		</table>
