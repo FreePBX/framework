@@ -363,6 +363,7 @@ if($extdisplay) {
 function addsip($account) {
 	sipexists();
 	global $db;
+	global $currentFile;
 	$sipfields = array(array($account,'account',$account),
 	array($account,'accountcode',($_REQUEST['accountcode'])?$_REQUEST['accountcode']:''),
 	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
@@ -418,6 +419,7 @@ function addsip($account) {
 
 function delsip($account) {
 	global $db;
+	global $currentFile;
     $sql = "DELETE FROM sip WHERE id = '$account'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
@@ -445,6 +447,7 @@ function getsip($account) {
 //add to iax table
 function addiax2($account) {
 	global $db;
+	global $currentFile;
 	$iaxfields = array(array($account,'account',$account),
 	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
 	array($account,'notransfer',($_REQUEST['notransfer'])?$_REQUEST['notransfer']:'yes'),
@@ -494,6 +497,7 @@ function addiax2($account) {
 
 function deliax2($account) {
 	global $db;
+	global $currentFile;
     $sql = "DELETE FROM iax WHERE id = '$account'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
@@ -521,6 +525,7 @@ function getiax2($account) {
 function addzap($account) {
 	zapexists();
 	global $db;
+	global $currentFile;
 	$zapfields = array(
 	array($account,'account',$account),
 	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:'from-internal'),
@@ -578,6 +583,7 @@ function addzap($account) {
 
 function delzap($account) {
 	global $db;
+	global $currentFile;
     $sql = "DELETE FROM zap WHERE id = '$account'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
