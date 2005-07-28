@@ -198,7 +198,7 @@ if (isset($devices)) {
 
 		<tr <?php echo ($extdisplay ? 'style="display:none"':'') ?>>
 			<td>
-				<a href="#" class="info"><?php echo _("Device ID")?><span><?php echo _('Give your device a unique integer ID.  The device will use this ID to authenicate to the system.<br><br> eg: 00000001, 00000002')?></span></a>:
+				<a href="#" class="info"><?php echo _("Device ID")?><span><?php echo _('Give your device a unique integer ID.  The device will use this ID to authenicate to the system.')?></span></a>:
 			</td>
 			<td>
 				<input type="text" name="deviceid" value="<?php echo $extdisplay ?>">
@@ -209,7 +209,7 @@ if (isset($devices)) {
 			<td>
 				<a href="#" class="info"><?php echo _("Description")?><span><?php echo _("The caller id name for this device will be set to this description until it is logged into.")?><br></span></a>:
 			</td><td>
-				<input tabindex="2" type="text" name="description" value="<?php echo $description ?>"/>
+				<input type="text" name="description" value="<?php echo $description ?>"/>
 			</td>
 		</tr>
 
@@ -345,7 +345,7 @@ if($extdisplay) {
 			
 		<tr>
 			<td colspan=2>
-				<br><br><h6><input name="Submit" type="button" value="<?php echo _("Add Device")?>" onclick="javascript:if(addNew.deviceid.value=='' || parseInt(addNew.deviceid.value)!=addNew.deviceid.value) {alert('<?php echo _("Please enter a device id.")?>')} else {addNew.submit();}"></h6>
+				<br><br><h6><input name="Submit" type="button" value="<?php echo _("Submit")?>" onclick="javascript:if(addNew.deviceid.value=='' || parseInt(addNew.deviceid.value)!=addNew.deviceid.value) {alert('<?php echo _("Please enter a device id.")?>')} else {addNew.submit();}"></h6>
 			</td>
 		</tr>
 		</table>
@@ -363,7 +363,6 @@ if($extdisplay) {
 function addsip($account) {
 	sipexists();
 	global $db;
-	global $currentFile;
 	$sipfields = array(array($account,'account',$account),
 	array($account,'accountcode',($_REQUEST['accountcode'])?$_REQUEST['accountcode']:''),
 	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
@@ -419,7 +418,6 @@ function addsip($account) {
 
 function delsip($account) {
 	global $db;
-	global $currentFile;
     $sql = "DELETE FROM sip WHERE id = '$account'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
@@ -447,7 +445,6 @@ function getsip($account) {
 //add to iax table
 function addiax2($account) {
 	global $db;
-	global $currentFile;
 	$iaxfields = array(array($account,'account',$account),
 	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
 	array($account,'notransfer',($_REQUEST['notransfer'])?$_REQUEST['notransfer']:'yes'),
@@ -497,7 +494,6 @@ function addiax2($account) {
 
 function deliax2($account) {
 	global $db;
-	global $currentFile;
     $sql = "DELETE FROM iax WHERE id = '$account'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
@@ -525,7 +521,6 @@ function getiax2($account) {
 function addzap($account) {
 	zapexists();
 	global $db;
-	global $currentFile;
 	$zapfields = array(
 	array($account,'account',$account),
 	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:'from-internal'),
@@ -583,7 +578,6 @@ function addzap($account) {
 
 function delzap($account) {
 	global $db;
-	global $currentFile;
     $sql = "DELETE FROM zap WHERE id = '$account'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
