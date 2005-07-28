@@ -198,7 +198,7 @@ if (isset($devices)) {
 
 		<tr <?php echo ($extdisplay ? 'style="display:none"':'') ?>>
 			<td>
-				<a href="#" class="info"><?php echo _("Device ID")?><span><?php echo _('Give your device a unique integer ID.  The device will use this ID to authenicate to the system.')?></span></a>:
+				<a href="#" class="info"><?php echo _("Device ID")?><span><?php echo _('Give your device a unique integer ID.  The device will use this ID to authenicate to the system.<br><br> eg: 00000001, 00000002')?></span></a>:
 			</td>
 			<td>
 				<input type="text" name="deviceid" value="<?php echo $extdisplay ?>">
