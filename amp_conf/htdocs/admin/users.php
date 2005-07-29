@@ -300,7 +300,7 @@ if (isset($extens)) {
 		
 		<tr>
 			<td>
-				<a href="#" class="info"><?php echo _("Record Incoming")?><span><?php echo _("Record all inbound calls recieved at this extension.")?><br></span></a>:
+				<a href="#" class="info"><?php echo _("Record Incoming")?><span><?php echo _("Record all inbound calls received at this extension.")?><br></span></a>:
 			</td><td>
 				<select name="record_in"/>
 					<option value="Adhoc" <?php  echo ($record_in == "On-Demand") ? 'selected' : '' ?>><?php echo _("On Demand")?>
@@ -312,7 +312,7 @@ if (isset($extens)) {
 		
 		<tr>
 			<td>
-				<a href="#" class="info"><?php echo _("Record Outgoing")?><span><?php echo _("Record all outbound calls recieved at this extension.")?><br></span></a>:
+				<a href="#" class="info"><?php echo _("Record Outgoing")?><span><?php echo _("Record all outbound calls received at this extension.")?><br></span></a>:
 			</td><td>
 				<select name="record_out"/>
 					<option value="Adhoc" <?php  echo ($record_out == "On-Demand") ? 'selected' : '' ?>><?php echo _("On Demand")?>

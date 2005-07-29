@@ -24,12 +24,12 @@ $display=12;
 switch($action) {
 	default:
 ?>
-<h4><?php echo _("Your Current Extension")?></h4>
+<h4><?php echo _("Your User/Extension")?></h4>
 <form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
         <input type="hidden" name="action" value="recordings_start">
         <input type="hidden" name="display" value="<?php echo $display?>">
         <?php echo _("This Digital Receptionist wizard asks you to record and playback a greeting using your phone.")?><br><br>
-        <?php echo _("Please enter your current extension number:")?>
+        <?php echo _("Please enter your user/extension number:")?>
         <input type="text" size="6" name="cidnum"><br>
         <h6><input name="Submit" type="submit" value="Continue"></h6><br><br><br><br><br><br>
 </form>

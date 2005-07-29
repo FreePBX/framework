@@ -80,13 +80,13 @@ switch($action) {
 	// we prompt the user for the extension they are calling from
 	// this reduces the possiblity of simultaneous actions of ivr recordings conflicting
 ?>
-<h4><?php echo _("Your Current Extension")?></h4>
+<h4><?php echo _("Your User/Extension")?></h4>
 <form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="action" value="ivr_start">
 	<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 	<input type="hidden" name="display" value="2">
 	<?php echo _("This Digital Receptionist wizard asks you to record and playback a greeting using your phone.")?><br><br>
-	<?php echo _("Please enter your current extension number:")?> 
+	<?php echo _("Please enter your user/extension:")?> 
 	<input type="text" size="6" name="cidnum"><br>
 	<h6><input name="Submit" type="submit" value="<?php echo _("Continue")?>"></h6><br><br><br><br><br><br>
 </form>

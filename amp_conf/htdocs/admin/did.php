@@ -238,7 +238,7 @@ if (isset($inroutes)) {
 		</tr>
 		<tr><td colspan="2"><h5><?php echo _("Options")?><hr></h5></td></tr>
 		<tr>
-			<td><a href="#" class="info"><?php echo _("Immediate Answer")?><span><?php echo _('Answer calls the moment they detected?  Note: If using a "Fax Extension" (above) you may wish to enable this so that we can listen for a fax tone.')?></span></a>:</td>
+			<td><a href="#" class="info"><?php echo _("Immediate Answer")?><span><?php echo _('Answer calls the moment they are detected?  Note: If using a "Fax Extension" (above) you may wish to enable this so that we can listen for a fax tone.')?></span></a>:</td>
 			<td>
 				<select name="answer">
 					<option value="0" <?php  echo ($answer == '0' ? 'SELECTED' : '')?>><?php echo _("No")?>
