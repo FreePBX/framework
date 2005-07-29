@@ -587,6 +587,7 @@ $check_md5s=true;
 $md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
 recursive_copy("amp_conf", "", $md5sums);
 if (!is_file("/etc/asterisk/voicemail.conf")) exec("cp /etc/asterisk/voicemail.conf.template /etc/asterisk/voicemail.conf");
+if (!is_dir("/var/spool/asterisk/voicemail/device")) exec("mkdir /var/spool/asterisk/voicemail/device");
 out("OK");
 
 // **** Apply amportal.conf configuration to files
