@@ -37,6 +37,20 @@ function adduser($vars,$vmcontext) {
         die($results->getMessage().$sql);
 	}
 	
+	//write to astdb
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {	
+		$astman->database_put("AMPUSER",$extension."/password",$password);
+		$astman->database_put("AMPUSER",$extension."/ringtimer",$ringtimer);
+		$astman->database_put("AMPUSER",$extension."/noanswer",$noasnwer);
+		$astman->database_put("AMPUSER",$extension."/recording",$recording);
+		$astman->database_put("AMPUSER",$extension."/outboundcid","\"".$outboundcid."\"");
+		$astman->database_put("AMPUSER",$extension."/cidname","\"".$name."\"");
+		$astman->disconnect();
+	} else {
+		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
+	}
+	
 	//write to extensions table - AMP2 will not do this
 	//update ext-local context in extensions.conf
 	
@@ -110,6 +124,20 @@ function deluser($extension,$incontext,$uservm){
 	if(DB::IsError($results)) {
         die($results->getMessage().$sql);
 	}
+
+	//delete details to astdb
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {	
+		$astman->database_del("AMPUSER",$extension."/password",$password);
+		$astman->database_del("AMPUSER",$extension."/ringtimer",$ringtimer);
+		$astman->database_del("AMPUSER",$extension."/noanswer",$noasnwer);
+		$astman->database_del("AMPUSER",$extension."/recording",$recording);
+		$astman->database_del("AMPUSER",$extension."/outboundcid","\"".$outboundcid."\"");
+		$astman->database_del("AMPUSER",$extension."/cidname","\"".$name."\"");
+		$astman->disconnect();
+	} else {
+		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
+	}
 	
 	//take care of voicemail.conf
 	unset($uservm[$incontext][$extension]);
@@ -177,7 +205,7 @@ if (isset($extension) && !checkRange($extension)){
 } else {
 
 	//if submitting form, update database
-	// hmm, with device / user separation, how do we handle "hint" extensions TODO
+	// hmm, with device / user separation, only "fixed" devices use hint
 	switch ($action) {
 		case "add":
 			adduser($_REQUEST,$vmcontext);

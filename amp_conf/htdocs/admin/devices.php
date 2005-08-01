@@ -40,10 +40,11 @@ function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 	}
 	
 	//add details to astdb
+	//TODO submitting the form will reset the logged in user for this device to default
 	$astman = new AGI_AsteriskManager();
 	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
-		//$astman->database_put("DEVICE",$id."/dial",$dial);
-		//$astman->database_put("DEVICE",$id."/type",$devicetype);
+		$astman->database_put("DEVICE",$id."/dial",$dial);
+		$astman->database_put("DEVICE",$id."/type",$devicetype);
 		$astman->database_put("DEVICE",$id."/user",$user);
 		$astman->database_put("AMPUSER",$user."/device",$id);
 		$astman->disconnect();
@@ -88,6 +89,7 @@ function deldevice($account){
 		$astman->database_del("DEVICE",$account."/dial");
 		$astman->database_del("DEVICE",$account."/type");
 		$astman->database_del("DEVICE",$account."/user");
+		$astman->disconnect();
 	} else {
 		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
 	}
@@ -151,6 +153,10 @@ switch ($action) {
 		//generateExtensions();
 		needreload();
 	break;
+	case "resetall":  //form a url with this option to nuke the AMPUSER & DEVICE trees and start over.
+		users2astdb();
+		devices2astdb();
+	break;
 }
 ?>
 </div>
@@ -187,11 +193,12 @@ if (isset($devices)) {
 		$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=del';
 ?>
 <?php if ($extdisplay) {	
-	$deviceInfo=getDeviceInfo($extdisplay);
-	extract($deviceInfo);
+	$deviceInfo=getdeviceInfo($extdisplay);
+	extract($deviceInfo,EXTR_PREFIX_ALL,'devinfo');
+	$tech = $devinfo_tech;
 	if (is_array($deviceInfo)) extract($deviceInfo);
 ?>
-		<h2><?php echo strtoupper($tech)." "._("Device")?>: <?php echo $extdisplay; ?></h2>
+		<h2><?php echo strtoupper($tech)." "._("Device")?>: <?php echo extdisplay; ?></h2>
 		<p><a href="<?php echo $delURL ?>"><?php echo _("Delete Device")?> <?php echo $extdisplay ?></a></p>
 <?php } else { ?>
 		<h2><?php echo _("Add")." ".strtoupper($tech)." "._("Device")?></h2>
@@ -218,7 +225,7 @@ if (isset($devices)) {
 			<td>
 				<a href="#" class="info"><?php echo _("Description")?><span><?php echo _("The caller id name for this device will be set to this description until it is logged into.")?><br></span></a>:
 			</td><td>
-				<input type="text" name="description" value="<?php echo $description ?>"/>
+				<input type="text" name="description" value="<?php echo $devinfo_description ?>"/>
 			</td>
 		</tr>
 
@@ -226,8 +233,8 @@ if (isset($devices)) {
 			<td><a href="#" class="info"><?php echo _("Device Type")?><span><?php echo _('Devices can be fixed or adhoc. Fixed devices are always associated to the same extension/user. Adhoc devices can be logged into by users.')?></span></a>:</td>
 			<td>
 				<select name="devicetype">
-					<option value="fixed" <?php  echo ($devicetype == 'fixed' ? 'SELECTED' : '')?>><?php echo _("Fixed")?>
-					<option value="adhoc" <?php  echo ($devicetype == 'adhoc' ? 'SELECTED' : '')?>><?php echo _("Adhoc")?>
+					<option value="fixed" <?php  echo ($devinfo_devicetype == 'fixed' ? 'SELECTED' : '')?>><?php echo _("Fixed")?>
+					<option value="adhoc" <?php  echo ($devinfo_devicetype == 'adhoc' ? 'SELECTED' : '')?>><?php echo _("Adhoc")?>
 				</select>
 			</td>
 		</tr>
@@ -236,7 +243,7 @@ if (isset($devices)) {
 			<td><a href="#" class="info"><?php echo _("Default User")?><span><?php echo _('Fixed devices will always mapped to this user.  Adhoc devices will be mapped to this user by default.')?></span></a>:</td>
 			<td>
 				<select name="deviceuser">
-					<option value="none" <?php echo ($user == 'none' ? 'SELECTED' : '')?>><?php echo _("none")?>
+					<option value="none" <?php echo ($devinfo_user == 'none' ? 'SELECTED' : '')?>><?php echo _("none")?>
 			<?php 
 				//get unique extensions
 				$users = getextens();
@@ -570,6 +577,72 @@ function delhint($user) {
 	}
 	$wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
 	exec($wScript1);
+}
+
+// this function rebuilds the astdb based on device table contents
+// used on devices.php if action=resetall
+function devices2astdb(){
+	require_once('common/php-asmanager.php');
+	checkAstMan();
+	global $db;
+	global $amp_conf;
+	$sql = "SELECT * FROM devices";
+	$devresults = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+	if(DB::IsError($devresults)) {
+		$devresults = null;
+	}
+
+	//add details to astdb
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {	
+		$astman->database_deltree("DEVICE");
+		foreach($devresults as $dev) {
+			extract($dev);	
+			$astman->database_put("DEVICE",$id."/dial",$dial);
+			$astman->database_put("DEVICE",$id."/type",$devicetype);
+			$astman->database_put("DEVICE",$id."/user",$user);
+			$astman->database_put("AMPUSER",$user."/device",$id);
+			
+			//voicemail symlink
+			exec("rm -f /var/spool/asterisk/voicemail/device/".$id);
+			exec("/bin/ln -s /var/spool/asterisk/voicemail/default/".$user."/ /var/spool/asterisk/voicemail/device/".$id);
+		}
+	} else {
+		echo "Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
+	}
+	return $astman->disconnect();
+}
+
+// this function rebuilds the astdb based on users table contents
+// used on devices.php if action=resetall
+function users2astdb(){
+	require_once('common/php-asmanager.php');
+	checkAstMan();
+	global $db;
+	global $amp_conf;
+	$sql = "SELECT * FROM users";
+	$userresults = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+	if(DB::IsError($userresults)) {
+		$userresults = null;
+	}
+	
+	//add details to astdb
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		$astman->database_deltree("AMPUSER");
+		foreach($userresults as $usr) {
+			extract($usr);
+			$astman->database_put("AMPUSER",$extension."/password",$password);
+			$astman->database_put("AMPUSER",$extension."/ringtimer",$ringtimer);
+			$astman->database_put("AMPUSER",$extension."/noanswer",$noasnwer);
+			$astman->database_put("AMPUSER",$extension."/recording",$recording);
+			$astman->database_put("AMPUSER",$extension."/outboundcid","\"".$outboundcid."\"");
+			$astman->database_put("AMPUSER",$extension."/cidname","\"".$name."\"");
+		}	
+	} else {
+		echo "Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
+	}
+	return $astman->disconnect();
 }
 
 ?>

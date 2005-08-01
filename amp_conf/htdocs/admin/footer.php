@@ -24,9 +24,6 @@
 
 //check to see if we are requesting an asterisk reload
 if ($_REQUEST['clk_reload'] == 'true') {
-	//update astdb
-	users2astdb();
-	devices2astdb();
 	
 	//reload asterisk
 	$fp = fsockopen("localhost", 5038, $errno, $errstr, 10);
