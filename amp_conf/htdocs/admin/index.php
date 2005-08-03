@@ -15,8 +15,8 @@ session_start();
 
 // check for logout in request
 if ($_REQUEST["action"] == "logout") {
-	$_SESSION["logout"] = "yes";
-	unset($_SESSION["user"]);
+	$_SESSION["AMP_logout"] = "yes";
+	unset($_SESSION["AMP_user"]);
 	session_unregister('AMP_SQL'); //used in reports.php
 }
 ?>

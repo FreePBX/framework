@@ -165,8 +165,8 @@ class ampuser {
 
 // returns true if extension is within allowed range
 function checkRange($extension){
-	$low = $_SESSION["user"]->_extension_low;
-	$high = $_SESSION["user"]->_extension_high;
+	$low = $_SESSION["AMP_user"]->_extension_low;
+	$high = $_SESSION["AMP_user"]->_extension_high;
 	if ((($extension >= $low) && ($extension <= $high)) || (empty($low) && empty($high)))
 		return true;
 	else
@@ -177,7 +177,7 @@ function checkRange($extension){
 //get unique voice menu numbers - returns 2 dimensional array
 function getaas() {
 	global $db;
-	$dept = str_replace(' ','_',$_SESSION["user"]->_deptname);
+	$dept = str_replace(' ','_',$_SESSION["AMP_user"]->_deptname);
 	if (empty($dept)) $dept='%';  //if we are not restricted to dept (ie: admin), then display all AA menus
 	$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND application LIKE 'DigitTimeout' AND context LIKE '".$dept."aa_%' ORDER BY context";
 	$unique_aas = $db->getAll($sql);

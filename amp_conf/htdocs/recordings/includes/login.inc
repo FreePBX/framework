@@ -28,7 +28,7 @@ class Login {
       if ($success) {
 
         // create the session array 
-        $_SESSION['user'] = $user; 
+        $_SESSION['AMP_user'] = $user; 
       }
 
       $this->error = $ldap->error;  // in case there was an error save it to a local variable

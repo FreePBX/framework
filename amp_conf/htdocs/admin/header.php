@@ -77,9 +77,9 @@ if (isset($amp_conf["AMPADMINLOGO"])){?>
 
 <div class="message">
         <?php  
-	if (isset($_SESSION["user"])) {
+	if (isset($_SESSION["AMP_user"])) {
 		if ($amp_conf["AUTHTYPE"] != "none") {
-			echo _("Logged in").": ".$_SESSION["user"]->username;
+			echo _("Logged in").": ".$_SESSION["AMP_user"]->username;
 			echo " (<a href=index.php?action=logout>"._("logout")."</a>)";
 			echo "&nbsp;::&nbsp;";
 		}

@@ -62,7 +62,7 @@ function get_argument(&$args, $name) {
 function bootstrap() {
 
 /*
-  if ( !isset($_SESSION['user']) ) {
+  if ( !isset($_SESSION['AMP_user']) ) {
 
     // start a new session for the user and login
     ini_set('session.gc_maxlifetime', '3900');  // make the session timeout a long time

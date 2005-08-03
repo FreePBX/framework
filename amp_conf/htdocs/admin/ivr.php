@@ -16,9 +16,9 @@
 $action = $_REQUEST['action'];
 $menu_id = $_REQUEST['menu_id'];
 // individual AMP Users department prefix - has no effect if deptartment is empty
-$dept = str_replace(' ','_',$_SESSION["user"]->_deptname);
+$dept = str_replace(' ','_',$_SESSION["AMP_user"]->_deptname);
 
-$dircontext = $_SESSION["user"]->_deptname;  //we'll override this below if a directory has already been set in database
+$dircontext = $_SESSION["AMP_user"]->_deptname;  //we'll override this below if a directory has already been set in database
 if (empty($dircontext))  
 	$dircontext = 'default';						
 

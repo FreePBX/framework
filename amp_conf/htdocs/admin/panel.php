@@ -26,10 +26,10 @@ session_start();
 require_once('common/db_connect.php'); //PEAR must be installed
 
 //  unset server vars if we are logged out
-if (isset($_SESSION["logout"])) {
+if (isset($_SESSION["AMP_logout"])) {
 	unset($_SERVER["PHP_AUTH_USER"]);
 	unset($_SERVER["PHP_AUTH_PW"]);
-	unset($_SESSION["logout"]);
+	unset($_SESSION["AMP_logout"]);
 }
 
 switch ($amp_conf["AUTHTYPE"]) {
@@ -41,13 +41,13 @@ switch ($amp_conf["AUTHTYPE"]) {
 			echo "<a href=index.php?action=logout>"._("Go Back")."</a>";
 			exit;
 		} else {
-			$_SESSION["user"] = new ampuser($_SERVER["PHP_AUTH_USER"]);
-			if (!$_SESSION["user"]->checkPassword($_SERVER["PHP_AUTH_PW"])) {
+			$_SESSION["AMP_user"] = new ampuser($_SERVER["PHP_AUTH_USER"]);
+			if (!$_SESSION["AMP_user"]->checkPassword($_SERVER["PHP_AUTH_PW"])) {
 			
 				// one last chance -- check admin user
 				if (($_SERVER["PHP_AUTH_USER"] == $amp_conf["AMPDBUSER"]) && ($_SERVER["PHP_AUTH_PW"] == $amp_conf["AMPDBPASS"])) {
 					// set admin access
-					$_SESSION["user"]->setAdmin();
+					$_SESSION["AMP_user"]->setAdmin();
 				} else {
 					header("HTTP/1.0 401 Unauthorized");
 					echo _("You are not authorized to use this resource")."<br>";
@@ -61,10 +61,10 @@ switch ($amp_conf["AUTHTYPE"]) {
 		
 	break;
 	default: 
-		if (!isset($_SESSION["user"])) {
-			$_SESSION["user"] = new ampuser($amp_conf["AMPDBUSER"]);
+		if (!isset($_SESSION["AMP_user"])) {
+			$_SESSION["AMP_user"] = new ampuser($amp_conf["AMPDBUSER"]);
 		}
-		$_SESSION["user"]->setAdmin();
+		$_SESSION["AMP_user"]->setAdmin();
 	break;
 }
 
@@ -72,7 +72,7 @@ switch ($amp_conf["AUTHTYPE"]) {
 include 'header.php';
 ?>
 </div>
-<iframe width="100%" height="80%" frameborder="0" align="top" src="../panel/index_amp.php?context=<?php echo $_SESSION["user"]->_deptname?>"></iframe>
+<iframe width="100%" height="80%" frameborder="0" align="top" src="../panel/index_amp.php?context=<?php echo $_SESSION["AMP_user"]->_deptname?>"></iframe>
 
 </body>
 </html>

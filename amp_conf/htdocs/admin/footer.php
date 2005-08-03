@@ -67,7 +67,7 @@ if ($_REQUEST['clk_reload'] == 'true') {
 	}
 	$need_reload[0] = 'false';
 }
-if (isset($_SESSION["user"]) && ($_SESSION["user"]->checkSection(99))) {
+if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
 	if ($need_reload[0] == 'true') {
 	?>
 	<div class="inyourface"><a href="<?php  echo $_SERVER["PHP_SELF"]?>?display=<?php  echo $_REQUEST['display'] ?>&clk_reload=true"><?php echo _("You have made changes - when finished, click here to APPLY them") ?></a></div>

@@ -31,7 +31,7 @@ function DatabaseLogon() {
  */
 function LoginForm() {
 
-  if ( !isset($_SESSION['user']) ) {
+  if ( !isset($_SESSION['AMP_user']) ) {
 
     if (isset($_REQUEST)) { $request = $_REQUEST; } else { $request = NULL; }
 
