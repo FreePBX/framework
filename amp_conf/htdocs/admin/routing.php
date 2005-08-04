@@ -475,7 +475,7 @@ foreach ($trunkpriority as $key=>$trunk) {
 				?>
 				</select>
 				
-				<img src="images/delete.gif" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11" onclick="deleteTrunk(<?php echo $key ?>)">
+				<img src="images/trash.png" style="float:none; margin-left:0px; margin-bottom:0px;" title="Click here to remove this trunk" onclick="deleteTrunk(<?php echo $key ?>)">
 			<?php   // move up
 			if ($key > 0) {?>
 				<img src="images/scrollup.gif" onclick="repositionTrunk(repotrunkdirection,repotrunkkey, '<?php echo $key ?>','up')" alt="<?php echo _("Move Up")?>" style="float:none; margin-left:0px; margin-bottom:0px;" width="9" height="11">
