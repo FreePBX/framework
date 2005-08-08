@@ -765,5 +765,14 @@ class AGI_AsteriskManager
 		$r = $this->command("database del ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
 		return (bool)strstr($r["data"], "removed");
 	}
+	
+	/** Delete a family from the asterisk database
+	 * @param string $family	The family name to use
+	 * @return bool True if successful
+	 */
+	function database_deltree($family) {
+		$r = $this->command("database deltree ".str_replace(" ","/",$family));
+		return (bool)strstr($r["data"], "removed");
+	}
 }
 ?>
