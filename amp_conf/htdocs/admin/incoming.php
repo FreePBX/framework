@@ -52,7 +52,7 @@ die($globals->getMessage());
 
 //create a set of variables that match the items in global[0]
 foreach ($globals as $global) {
-	${$global[0]} = $global[1];	
+	${$trim(global[0])} = $global[1];	
 }
 
 //query for exisiting aa_N contexts

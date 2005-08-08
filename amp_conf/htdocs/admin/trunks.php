@@ -176,7 +176,7 @@ if(DB::IsError($globals)) {
 
 //create a set of variables that match the items in global[0]
 foreach ($globals as $global) {
-	${$global[0]} = htmlentities($global[1]);
+	${trim($global[0])} = htmlentities($global[1]);
 }
 
 ?>
@@ -391,7 +391,7 @@ if (!$tech && !$extdisplay) {
 <?php  
 	} else { // curl is not installed
 ?>
-				<?php echo 'alert("'._("Error: Cannot continue!\n\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.").'")'?>;
+				<?php echo 'alert("'._("Error: Cannot continue!\\n\\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information.").'")'?>;
 <?php 
 	}
 ?>
