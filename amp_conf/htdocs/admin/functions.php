@@ -1790,6 +1790,11 @@ function delqueue($account) {
 function getqueueinfo($account) {
 	global $db;
 	
+    if ($account == "")
+    {
+	    return array();
+    }
+    
 	//get all the variables for the queue
 	$sql = "SELECT keyword,data FROM queues WHERE id = '$account'";
 	$results = $db->getAssoc($sql);
