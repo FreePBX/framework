@@ -77,7 +77,9 @@ pid_length=`pidof asterisk|awk '{print length($0)}'`
 		then
 			echo "Asterisk is already running"
 		else
-			su - asterisk -c "export PATH=$PATH:/usr/sbin && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
+			# su - asterisk -c "export PATH=$PATH:/usr/sbin && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
+			export LD_LIBRARY_PATH=/usr/local/lib
+			/usr/sbin/safe_asterisk -U asterisk -G asterisk
 			sleep 5
 			check_asterisk
 			sleep 1
