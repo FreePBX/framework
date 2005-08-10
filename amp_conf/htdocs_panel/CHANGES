@@ -1,5 +1,50 @@
 CHANGES to Flash Operator Panel
 
+.23
+ Jul 6 2005:
+
+  - Added Queue Position status. Just change your queue buttons to use
+    more than one position. Then, instead of having a summary button for
+    your queue you will have each position destined to the person waiting
+    in that same position on your queue. You can drag them as any other
+    button to transfer.
+
+  - Minor bugfixes
+  
+  - Internationalization support. 'language' configuration directive
+    in op_server.cfg and op_lang_XX.cfg files and help_XX.html
+
+  - Support for command line parameters, start the server with --help
+    to see the list of supported options
+
+  - The web_hostname and port settings in op_server.cfg are now optional
+    If omited it will connect to the same host where the .swf resides and
+    port 4445
+
+  - Added restriction for mybutton to FOP_Popup userevent, just add the
+    (optional) Button parameter with the button position (that must be
+    set in the client's mybutton parameter)
+
+    exten => 1,1,UserEvent(FOP_Popup|URL: page.php?e=${EXTEN}^Target: top^Button: 1)
+
+  - Added font and shadow color parameters for button labels and for text
+    legends. In op_style.cfg you have 2 optional new parameters:
+
+		label_font_color = 000000
+		label_shadow_color = FFFFFF
+
+	You have to put the hex color code for each one. To change the color of a legend
+    use the parameter:
+
+        font_color = FF0000
+
+    Improved debian init script. Thanks to Tzafir Cohen.
+
+.22
+ Jun 9 2005:
+  
+  - Minor bugfixes
+
 .21
  May 29 2005:
 

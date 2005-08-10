@@ -1,6 +1,57 @@
 Notes on upgrading from an older release
 ========================================
 
+o Upgrading from version .22 to .23:
+
+    Client and server must be upgraded or it will not work well.
+
+    Internationalization support: 
+
+       Parameter ADDED to op_server.cfg:
+
+	       language
+
+	   To set the language to use in the general section
+       and optionally in every panel context defined.
+
+       The language files are named op_lang_XX.cfg where XX is the 
+       language to use defined in the language option.  Each panel 
+       context might have  a distinct language. The default language 
+       is 'en' (english).
+
+       You can create your own language file. If you do, please
+       send it back to me so I can include it in the tarball.
+       Some strings include variables, they are represented as
+       $1 and $2. You can ommit the variables or use them as you
+       see fit.
+
+       The help file is now called help-XX.html. Be sure to add that file
+       or rename the one you have. Please contribute with translations or 
+       beautifying them if you can.
+
+    Parameters REMOVED from op_style.cfg (they were moved to the language
+    configuration file):
+
+	    clid_label
+        detail_title
+        detail_from
+        detail_to
+        detail_duration
+
+    Parameters ADDED to op_style.cfg (to set the button label color):
+
+		label_font_color = 000000
+		label_shadow_color = FFFFFF
+
+
+    Support for command line options. Run op_server.pl with --help to
+    see the available options
+
+
+o Upgrading from version .21 to .22:
+
+    Just replace op_server.pl that has minor bugfixes
+
 o Upgrading from version .20 to .21:
     New configuration file: op_astdb.cfg used to monitor asterisk
     db values and change states for a button based on them.
