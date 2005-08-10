@@ -31,6 +31,11 @@ function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 	if (empty($dial))
 		$dial = strtoupper($tech)."/".$id;
 	
+	//check to see if we are requesting a new user
+	if ($user == "new") {
+		$user = $id;
+		$jump = true;
+	}
 	
 	//insert into devices table
 	$sql="INSERT INTO devices (id,tech,dial,devicetype,user,description) values (\"$id\",\"$tech\",\"$dial\",\"$devicetype\",\"$user\",\"$description\")";
@@ -66,6 +71,11 @@ function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 	//TODO is it possible to use ${variables} for a HINT extensions (ie: for adhoc devices)
 	if(($devicetype == "fixed") && ($user != "none")) {
 		addhint($user,$dial);
+	}
+	
+	//if we are requesting a new user, let's jump to users.php
+	if ($jump) {
+		echo("<script language=\"JavaScript\">window.location=\"config.php?display=users&extdisplay={$id}&name={$description}\";</script>");
 	}
 }
 
@@ -240,10 +250,11 @@ if (isset($devices)) {
 		</tr>
 		
 		<tr>
-			<td><a href="#" class="info"><?php echo _("Default User")?><span><?php echo _('Fixed devices will always mapped to this user.  Adhoc devices will be mapped to this user by default.')?></span></a>:</td>
+			<td><a href="#" class="info"><?php echo _("Default User")?><span><?php echo _('Fixed devices will always mapped to this user.  Adhoc devices will be mapped to this user by default.<br><br>If selecting "New User", a new User Extension of the same Device ID will be set as the Default User.')?></span></a>:</td>
 			<td>
 				<select name="deviceuser">
 					<option value="none" <?php echo ($devinfo_user == 'none' ? 'SELECTED' : '')?>><?php echo _("none")?>
+					<option value="new"><?php echo _("New User")?>
 			<?php 
 				//get unique extensions
 				$users = getextens();

@@ -84,8 +84,8 @@ if (isset($_REQUEST['display'])) {
 // setup menu 
 $amp_sections = array(
 		9=>_("Incoming Calls"),
-		"users"=>_("Users"),
 		"devices"=>_("Devices"),
+		"users"=>_("Users"),
 		4=>_("Ring Groups"),
 		11=>_("Queues"),
 		2=>_("Digital Receptionist"),
