@@ -54,6 +54,20 @@ function get_argument(&$args, $name) {
 }
 
 /**
+ * Starts the session
+ */
+function start_session() {
+
+  if (!isset($_SESSION['user']) ) {
+
+    // start a new session for the user 
+    ini_set('session.gc_maxlifetime', '3900');  // make the session timeout a long time
+    set_time_limit (360);
+    session_start();
+  }
+}
+
+/**
  * bootstrap
  *
  * Loads critical variables needed for every page request
@@ -61,18 +75,15 @@ function get_argument(&$args, $name) {
  */
 function bootstrap() {
 
-/*
-  if ( !isset($_SESSION['AMP_user']) ) {
+  if(isset($_REQUEST['logout'])) {
+    $login = new Login();
+    $login->Unauth();
+  }
 
-    // start a new session for the user and login
-    ini_set('session.gc_maxlifetime', '3900');  // make the session timeout a long time
-    set_time_limit (360);
-    session_start();
-
+  if ( !isset($_SESSION['user']) ) {
     $login = new Login();
     $login->Auth();
   }
-*/
 
   // set error reporting
   error_reporting (E_ALL & ~ E_NOTICE);  
@@ -101,9 +112,14 @@ function ari_page_footer() {
  * Includes and run functions
  */
 
+start_session();
+
 include_once("includes/main.conf");
 include_once("includes/login.inc");
 
 bootstrap();
+
+
+
 
 ?>

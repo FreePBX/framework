@@ -1,0 +1,492 @@
+<?php
+
+/**
+ * @file
+ * Functions for the interface to the voicemail recordings
+ */
+
+/*
+ * Deletes selected voicemails and updates page
+ *
+ * @param $args
+ *   Common arguments
+ */
+function voicemail_subnav_menu($args) {
+
+  global $asterisk_voicemail_path;
+  global $asterisk_voicemail_folders;
+
+  // args
+  $s = get_argument($args,'s');
+  $q = get_argument($args,'q');
+
+  $context = $_SESSION['user']['context'];
+  $mailbox = $_SESSION['user']['mailbox'];
+
+  $paths = split(';',$asterisk_voicemail_path);
+
+  // make folder list
+  foreach($paths as $key => $path) {
+
+    AppendPath($path,$context);
+    AppendPath($path,$mailbox);
+
+    if (is_dir($path)) {
+      $dh = opendir($path);
+      while (false!== ($folder = readdir($dh))) {
+
+        $folderPath = $path;
+        AppendPath($folderPath,$folder);
+
+        if($folder!="." && $folder!=".." && 
+             filetype($folderPath)=='dir') {
+          $i = 0;
+          while ($asterisk_voicemail_folders[$i]) {
+            if ($asterisk_voicemail_folders[$i]==$folder) {
+
+              // get message count
+              $indexes = get_vm_index($folderPath,$q);
+              $recordCount = 0;
+              get_vm_count($indexes,$recordCount);
+
+              // add folder to list
+              $ret .= "<p><small><small>
+                         <a href='" . $_SERVER['PHP_SELF'] . "?s=voicemail&q=" . $q . "&folder=" . $folder. "'>
+                         " . $folder . " (" . $recordCount . ")" . "
+                         </a>
+                       </small></small></p>";
+            }
+            $i++;
+          }
+        }
+      } 
+    }
+  }
+
+  return $ret;
+}
+
+/*
+ * Acts on the selected voicemails in the method indicated by the action and updates page
+ *
+ * @param $args
+ *   Common arguments
+ * @param $a
+ *   What to do to the message
+ */
+function voicemail_msg_action($a,$args) {
+
+  global $asterisk_voicemail_folders;
+
+  // args
+  $s = get_argument($args,'s');
+  $a = get_argument($args,'a');
+  $folder = get_argument($args,'folder');
+  $q = get_argument($args,'q');
+
+  // get files
+  $files = array();
+  foreach($_REQUEST as $key => $value) {
+    if (preg_match('/selected/',$key)) {
+      array_push($files, $value);
+    }
+  }
+
+  if ($a=='delete') {
+    delete_vm_data($files);
+  }
+  else if ($a=='move_to') {
+    $folder_rx = get_argument($args,'folder_rx');
+    $mailbox = $_SESSION['user']['mailbox'];
+    move_vm_data($files, $mailbox, $folder_rx);
+  } 
+  else if ($a=='forward_to') {
+    $mailbox_rx = get_argument($args,'mailbox_rx');
+    $folder_rx = $asterisk_voicemail_folders[0];
+    move_vm_data($files, $mailbox_rx, $folder_rx);
+  }
+
+  // redirect to see updated page
+  $ret .= "
+    <head>
+      <script>
+      <!--
+        window.location = \"" . $_SERVER['PHP_SELF'] . "?s=" . $s . "&folder=" . $folder . "&&q=" . $q . "\"
+      // -->
+      </script>
+    </head>";
+
+  return $ret;
+}
+
+
+/*
+ * Displays stats page
+ *
+ * @param $args
+ *   Common arguments
+ */
+function voicemail_detail_display($args) {
+
+  global $asterisk_voicemail_path;
+  global $asterisk_voicemail_folders;
+
+  $display = new DisplaySearch();
+
+  // args
+  $s = get_argument($args,'s');
+  $q = get_argument($args,'q');
+  $start = get_argument($args,'start');
+  $span = get_argument($args,'span');
+
+  $start = $start=='' ? 0 : $start ;
+  $span = $span=='' ? 15 : $span ;
+
+  $paths = split(';',$asterisk_voicemail_path);
+
+  $context = $_SESSION['user']['context'];
+  $mailbox = $_SESSION['user']['mailbox'];
+  $folder = get_argument($args,'folder');
+  if (!$folder) {
+    $folder = $asterisk_voicemail_folders[0];
+  }
+
+  // get data
+  foreach($paths as $key => $path) {
+    $vmPath = $path . "$context/$mailbox/$folder";
+    $indexes = get_vm_index($vmPath,$q);
+    get_vm_count($indexes,$recordCount);
+    get_vm_data($indexes,$start,$span,$data);
+  }
+
+  // get the call monitor recordings from the asterisk server (this is not scalable and need to find a better way)
+  $filter = '';
+  $recursiveMax = 1;
+  $recursiveCount = 0;
+  foreach($paths as $key => $path) {
+    get_files($path,$filter,$recursiveMax,$recursiveCount,$files);
+  }
+
+  // New Header
+  $ret .= $display->DisplayHeaderText("Voicemail for " . $_SESSION['user']['name'] . " (" . $mailbox . ")");
+  if ($mailbox=='admin') {
+    $_SESSION['error'] = "No Voicemail Recordings for Admin";
+    $ret .= $display->DisplayLine();
+    return $ret;
+  }
+  $ret .= $display->DisplaySearchBlock('left',$s,$q,true);
+
+  // start form
+  $ret .= "
+    <form  name='records_form' action='" . $_SERVER['PHP_SELF'] . "' method='GET'>
+     <input type=hidden name=s value=" . $s . ">	
+     <input type=hidden name=q value=" . $q . ">
+     <input type=hidden name=folder value=" . $folder . ">
+     <input type=hidden name=start value=0>";
+
+  // move options
+  $i=0;
+  while ($asterisk_voicemail_folders[$i]) {
+    $f = $asterisk_voicemail_folders[$i];
+    if ($f!=$folder) {
+      $move_options .= "<option VALUE='" . $f . "'>&nbsp;&nbsp;&nbsp;&nbsp;" .  $f;
+    }
+    $i++;
+  }
+
+  // forward options
+  foreach($paths as $key => $path) {
+    AppendPath($path,$context);
+    if (is_dir($path)) {
+      $dh = opendir($path);
+      while (false!== ($filename = readdir($dh))) {
+        if($filename!="." && $filename!=".." && $filename!="1234") {
+          $forward_options .= "<option VALUE='" . $filename . "'>" . $filename;
+        }
+      } 
+    }
+  }
+
+  $controls = "
+        <input class='infoBar' type='submit' name='a' value='delete'>
+        <input class='infoBar' type='submit' name='a' value='move_to'>
+        <select name='folder_rx' style='width:140px;'>
+          <option VALUE=''>Folder
+          " . $move_options . "
+        </select>
+        <input class='infobar' type='submit' name='a' value='forward_to'>
+        <select name='mailbox_rx'>
+          <option VALUE=''>
+          " . $forward_options . "
+        </select>";
+  $ret .= $display->DisplayInfoBarBlock($controls,$q,$start,$span,$recordCount);
+
+  // add javascript popup script
+  $ret .= "
+    <SCRIPT LANGUAGE='JavaScript'>
+    <!-- Begin
+    function popUp(URL) {
+      popup = window.open(URL, 'play', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=324,height=24');
+    }
+
+    function checkAll(form,set) {
+      var elem = 0;
+      var i = 0;
+      while (elem = form.elements[i]) {
+        if (set) {
+          elem.checked = true;
+        } else {
+          elem.checked = false;
+        }
+        i++;
+      }
+      return true;
+    }
+    // End -->
+    </script>";
+
+  if (isset($data)) {
+    foreach($data as $file=>$value) {
+
+      // recording popup link
+      $recording = preg_replace('/.txt/', '.wav', $file);
+      if (is_file($recording)) {
+        $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "')\">play</a>";
+      } 
+
+      $tableText .= "
+        <tr>
+          <td class='checkbox'><input type=checkbox name='selected" . ++$i . "' value=" . $file . "></td>
+          <td width=68>" . GetDateFormat($value['origtime']) . "</td>
+          <td>" . GetTimeFormat($value['origtime']) . "</td>
+          <td width=100>" . $value[callerid] . "</td>
+          <td>" . $value[priority] . "</td>
+          <td width=90>" . $value[origmailbox] . "</td>
+          <td>" . $value[duration] . " sec</td>
+          <td>" . $recordingLink . "</td>
+        </tr>";
+    }
+  }
+
+  // table
+  $ret .= "
+    <table>
+      <tr>
+        <td>
+          <small>select: </small>
+          <small><a href='' OnClick=\"checkAll(document.records_form,true); return false;\">all</a></small>
+          <small><a href='' OnClick=\"checkAll(document.records_form,false); return false;\">none</a></small>
+        </td>
+      </tr>
+    </table>
+    <table class='voicemail'>
+      <tr>
+        <th></th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Caller ID</th>
+        <th>Priority</th>
+        <th>Orig Mailbox</th>
+        <th>Duration</th>
+        <th>Recording</th>
+      </tr>
+      " . $tableText . "
+    </table>";
+
+  // end form
+  $ret .= "</form>";
+
+  $ret .= "<br>";
+  $ret .= $display->DisplaySearchBlock('center',$s,$q,false);
+  $ret .= $display->DisplayNavigationBlock($s,$q,$start,$span,$recordCount);
+
+  return $ret;
+}
+
+/*
+ * Gets voicemail data
+ *
+ * @param $data
+ *   Reference to the variable to store the data in
+ * @param $q
+ *   search string
+ */
+function get_vm_index($path,$q) {
+
+  $filter = '.txt';
+  $recursiveMax = 0;
+  $recursiveCount = 0;
+  get_files($path,$filter,$recursiveMax,$recursiveCount,$files);
+
+  if (isset($files)) {
+
+    // ugly, but sorts array by time stamp
+    foreach ($files as $key1 => $file) {
+      $indexes[$file] = $file;
+    }
+    if (count($indexes)) {
+      arsort($indexes);
+    } 
+  }
+
+  return $indexes;
+}
+
+/*
+ * Deletes selected voicemails
+ *
+ * @param $files
+ *   Array of files to delete
+ */
+function delete_vm_data($files) {
+
+  foreach($files as $key => $path) {
+
+    // get file parts for search
+    $path_parts = pathinfo($path);
+    $path = $path_parts['dirname'];
+    CheckPathSlash($path);
+
+    list($name,$ext) = split("\.",$path_parts['basename']);
+
+    // delete all related files using a wildcard
+    if (is_dir($path)) {
+      foreach(glob($path . $name . ".*") as $fn) {
+        unlink($fn);
+      } 
+    }
+  }
+}
+
+/*
+ * Moves selected voicemails to a specified folder
+ *
+ * @param $files
+ *   Array of files to delete
+ * @param $mailbox_rx
+ *   Mailbox to move message to
+ * @param $folder_rx
+ *   Folder to move the messages to
+ */
+function move_vm_data($files,$mailbox_rx,$folder_rx) {
+
+  global $asterisk_voicemail_path;
+
+  $context = $_SESSION['user']['context'];
+
+  // recieving path
+  $paths = split(';',$asterisk_voicemail_path);
+  $path_rx = $paths[0];
+  AppendPath($path_rx,$context);
+  AppendPath($path_rx,$mailbox_rx);
+  AppendPath($path_rx,$folder_rx);
+  if (!is_dir($path_rx)) {
+    mkdir("$path_rx", 0700); 
+  }
+
+  // get recieving folder last message number
+  if (is_dir($path_rx)) {
+
+    $lastNum = 0;
+    $lastNumLen = 4;
+
+    $dh = opendir($path_rx);
+    while (false!== ($filename = readdir($dh))) {
+      if($filename!="." && $filename!="..") {
+
+        $msg_path = $path_rx;
+        AppendPath($msg_path,$filename);
+        if (is_file($msg_path)) {
+          $path_parts = pathinfo($msg_path);
+          $num = preg_replace("/[a-zA-Z]|\./",'', $path_parts['basename']);
+          if ($num > $lastNum) {
+            $lastNum = $num;
+            $lastNumLen = strlen($lastNum);
+          }
+        } 
+      }
+    } 
+  }
+  else {
+    $_SESSION['error'] = "Could not create mailbox folder " . $folder_rx . " on the server";
+    return;
+  }
+
+  // copy files to new location, incrementing each message number 
+  asort($files);
+  foreach($files as $key => $path) {
+
+    // get file parts for search
+    $path_parts = pathinfo($path);
+    $path = $path_parts['dirname'];
+    CheckPathSlash($path);
+    list($name,$ext) = split("\.",$path_parts['basename']);
+
+    if (is_dir($path)) {
+      $lastNum++;
+      foreach(glob($path . $name . ".*") as $src) {
+       
+        $dest = $path_rx; 
+        $path_parts = pathinfo($src);
+        $folder_rx = preg_replace("/\d+/",sprintf("%0" . $lastNumLen . "d",$lastNum),$path_parts['basename']);
+        AppendPath($dest,$folder_rx);
+
+        copy($src,$dest);
+        unlink($src);
+      } 
+    }
+  }
+}
+
+/*
+ * Gets voicemail record count
+ *
+ * @param $indexes
+ *   array of files to be counted
+ * @param $count
+ *   Reference to the variable to store the data in
+ */
+function get_vm_count($indexes,&$count) {
+
+  $count = $count + count($indexes);
+}
+
+/*
+ * Gets voicemail data
+ *
+ * @param $indexes
+ *   array of voicemail files
+ * @param $start
+ *   message number to start page with
+ * @param $span
+ *   number of messages to display on page
+ * @param $data
+ *   Reference to the variable to store the data in
+ */
+function get_vm_data($indexes,$start,$span,&$data) {
+
+  if (!isset($indexes)) {
+    return;
+  }
+
+  // populate array 
+  $i = 0;
+  foreach ($indexes as $file => $time) {
+    if ($i>$start-1+$span) {
+      return;
+    }
+    elseif ($i>$start-1 && $i<$start+$span) {
+      $lines = file($file);
+      foreach ($lines as $key => $line) {
+        unset($value);
+        list($var,$value) = split('=',$line);
+        if ($value) {
+          $data[$file][$var] = $value;
+        }
+      }
+    }
+    $i++;
+  }
+}
+
+?>

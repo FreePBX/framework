@@ -35,13 +35,20 @@ class Display {
    */
   function DisplayLine() {
 
+    if ($_SESSION['error']) {
+      $errorText = "<div class='error'>
+                      " . $_SESSION['error'] . "
+                    </div>";
+    }
+    unset($_SESSION['error']);
+
     $ret = "
-      <br>
       <div id='line'>
         <div class='spacer'></div>
         <div class='spacer'></div>
       </div>
-      <br>";
+      <br>
+      " . $errorText;
 
     return $ret;
   }
@@ -66,7 +73,7 @@ class DisplaySearch extends Display {
    * @param $focus
    *   whether to focus control on this block
    */
-  function DisplaySearchBlock($align,$q,$focus) {
+  function DisplaySearchBlock($align,$s,$q,$focus) {
 
     if ($align=='center') {
       $alignText = "id='centerbar'";
@@ -74,6 +81,7 @@ class DisplaySearch extends Display {
 
     $ret .= "<div " . $alignText . ">
                <form action='" . $_SERVER['PHP_SELF'] . "' method='GET' name='search'>
+                 <input type=hidden name=s value=" . $s . ">	
                  <input type=text name=q size=40 value='" . $q . "' maxlength=256>
                  <input type=hidden name=start value=0>			
                  <input type=submit name=btnS value='Search'>
@@ -84,7 +92,7 @@ class DisplaySearch extends Display {
       $ret .= "<script type='text/javascript'> 
                  <!-- 
                  if (document.search) { 
-                   document.search.query.focus(); 
+                   document.search.q.focus(); 
                  } 
                  // -->                
                </script>";
@@ -96,6 +104,8 @@ class DisplaySearch extends Display {
   /**
    * Displays info bar
    *
+   * @param $controls
+   *   controls for the page on the bar
    * @param $q
    *   search query
    * @param $start
@@ -105,7 +115,7 @@ class DisplaySearch extends Display {
    * @param $total
    *   total number of records found by current search
    */
-  function DisplayInfoBarBlock($q,$start,$span,$total) {
+  function DisplayInfoBarBlock($controls,$q,$start,$span,$total) {
 
     if ($total<$span) { 
       $span = $total; 
@@ -113,30 +123,36 @@ class DisplaySearch extends Display {
     $startCount = ($total>0)?$start+1:$start;
     $spanCount = ($start+$span>$total)?$total:$start+$span;
 
-    if ($q != NULL) {
-      $searchedForText = "<small><small>Searched for <u>" . $q . "</u></small></small>";
+    if ($controls) {
+      $leftText = $controls;
+    }
+    elseif ($q != NULL) {
+      $leftText = "<small><small>Searched for <u>" . $q . "</u></small></small>";
     }
 
     if ($span<$total) {
-      $recordCountText = "<small><small>Results " . $startCount . " - " . $spanCount . " of " . $total . "</small></small>";
+      $rightText = "<small><small>Results " . $startCount . " - " . $spanCount . " of " . $total . "</small></small>";
     } else {
-      $recordCountText = "<small><small>Results " . $total . "<small></small>";
+      $rightText = "<small><small>Results " . $total . "</small></small>";
     }
 
-    $ret .= "<div id='navbar'>
-               <span class='left'>
-               " . $searchedForText ."
-               </span>
-               <span class='right'>
-               " . $recordCountText ."
-               </span>
-             </div>";
+    $ret .= "
+      <table id='navbar' width='100%'>
+        <tr>
+          <td>
+           " . $leftText . "
+         </td>
+         <td align='right'>
+           " . $rightText ."
+         </td>
+       </tr>
+     </table>";
 
     return $ret;
   }
 
   /**
-   * Displays info bar
+   * Displays navigation bar
    *
    * @param $q
    *   search query
@@ -147,7 +163,10 @@ class DisplaySearch extends Display {
    * @param $total
    *   total number of records found by current search
    */
-  function DisplayNavigationBlock($q,$start,$span,$total) {
+  function DisplayNavigationBlock($s,$q,$start,$span,$total) {
+
+    $start = $start=='' ? 0 : $start ;
+    $span = $span=='' ? 15 : $span ;
 
     // add navigation to bottom of page
     $totalPages = ceil($total/$span);
@@ -161,7 +180,7 @@ class DisplaySearch extends Display {
     // if more than ten pages then stop at this page plus ten otherwise stop at last page
     $end = ($startPage>8)?($startPage+10):10;
 
-    $url = $_SERVER['PHP_SELF'] . "?q=" . $q;
+    $url = $_SERVER['PHP_SELF'] . "?s=" . $s . "&q=" . $q;
 
     if ($startPage!=0) {
       $startPageText = "<a href='" . $url . "&start=0'><small>First</a>&nbsp;</small>
@@ -170,7 +189,7 @@ class DisplaySearch extends Display {
 
     for($nextPage=$begin;($nextPage<$totalPages)&&($nextPage<$end);$nextPage++) {
       if ($nextPage == $startPage) {
-          $middlePageText .= "<a href='" . $url . "&start=0'><small>" . ($nextPage+1) . "</a>&nbsp;</small>";
+          $middlePageText .= "<small>" . ($nextPage+1) . "&nbsp;</small>";
       } else {
           $middlePageText .= "<a href='" . $url . "&start=" . ($nextPage*$span) . "'><small>" . ($nextPage+1) . "</a>&nbsp;</small>";
       }

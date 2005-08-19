@@ -20,7 +20,7 @@ p {
 }
 p.footer {
 	margin-top:	5em;
-	margin-left:	161px;
+	margin-left:	148px;
 	font-size:	10px
 	}
 sup {
@@ -51,6 +51,13 @@ div.spacer {
 
 /* End Typography & Colors */
 
+/* Begin error */
+
+.error  {	
+        color: #CC3333;
+	}
+
+/* End error */
 
 
 /* Being page */
@@ -58,10 +65,10 @@ div.spacer {
 #page {
 	background-color: white;
 	text-align: left;
+	min-width: 760px;
 	}
 
 /* End page */
-
 
 
 /* Begin logo */
@@ -92,14 +99,13 @@ div.spacer {
 /* End logo */
 
 
-
 /* Being topheader */
 
 #topheader {
 	width: 100%; 
 	background-color: #105D90;
 	padding: 0px; 
-      margin: 0px;
+        margin: 0px;
 	}
 #topheader span.left {
 	float: left;
@@ -117,7 +123,6 @@ div.spacer {
 	}
 
 /* End topheader */
-
 
 
 /* Begin topnav */
@@ -165,7 +170,6 @@ div.spacer {
 /* End topnav */
 
 
-
 /* Being headerspacer */
 
 #headerspacer {
@@ -177,6 +181,22 @@ div.spacer {
 	}
 
 /* End headerspacer */
+
+
+/* Begin main */
+
+#main {
+        min-width: 760px;
+        float: left;
+	}
+#main span.left {
+	float: left;
+	}
+#main span.right {
+	float: left;
+	}
+
+/* End main */
 
 
 /* Begin login */
@@ -200,20 +220,32 @@ div.spacer {
 /* End login */
 
 
-/* Begin main */
+/* Begin loginText */
 
-#main {
-/*	width: 3000px;*/
+#login_text  {	
+        width: 604px;
+	}
+#login_text span.left {
+	width: 13%;
+        height: 28px;
+	float: left;
+	text-align: right;
+	}
+#login_text span.right {
+	width: 87%;
+        height: 28px;
+	float: right;
+	text-align: left;
 	}
 
-/* End main */
+/* End login_text */
 
 
 /* Begin menu */
 
 #menu {
-	width: 156px;
-      float: left;
+	width: 148px;
+        float: left;
 	}
 
 /* End menu */
@@ -224,35 +256,160 @@ div.spacer {
 .nav {
 	font-weight: bold;
         color: #105D90;
+	margin-right: 20px;
 	}
-.nav p.sub small small {
-	font-weight: normal;
-	}
+.nav p {
+        margin:  0px;
+        padding-top: 2px;
+        padding-bottom: 3px;
+        background: #FFF; 
+        }
 .nav a:visited	{
 	color: #105D90;
 	}
 .sub    {
 	margin-left: 1em;
 	}
-.navimg {
-	margin-bottom: 15px;
-	}
 .navtext {
 	margin-left: 20px;
 	}
+.nav_b1 {
+        height: 1px; 
+        font-size: 1px; 
+        overflow: hidden; 
+        display: block; 
+        background: #EEE; 
+        margin:0 5px;
+        }
+.nav_b2 {
+        height: 1px; 
+        font-size: 1px; 
+        overflow: hidden; 
+        display: block; 
+        background: #FFF; 
+        border-right: 2px solid #EEE; 
+        border-left: 2px solid #EEE; 
+        margin:0 3px;
+        }
+.nav_b3 {
+        height: 1px; 
+        font-size: 1px; 
+        overflow: hidden; 
+        display:block; 
+        background: #FFF; 
+        border-right: 1px solid #EEE; 
+        border-left: 1px solid #EEE; 
+        margin: 0 2px;
+        }
+.nav_b4 {
+        height: 2px; 
+        font-size: 1px; 
+        overflow: hidden; 
+        display:block; 
+        background: #FFF;
+        border-right: 1px solid #EEE; 
+        border-left:1px solid #EEE; 
+        margin:0 1px;
+        }
+.nav_items {
+        padding-left: 8px;
+        background: #FFF; 
+        border-right: 1px solid #EEE; 
+        border-left: 1px solid #EEE;
+        }
 
 /* End nav */
+
+
+/* Begin subnav */
+
+.subnav {
+	font-weight: bold;
+        color: #105D90;
+	margin-right: 20px;
+	}
+.subnav p {
+        margin:  0px;
+        padding-top: 2px;
+        padding-bottom: 3px;
+        background: #BEC8D1; 
+        }
+.subnav a:visited	{
+	color: #105D90;
+	}
+.subnav_b1 {
+        height: 1px; 
+        font-size: 1px; 
+        overflow: hidden; 
+        display: block; 
+        background: #aaa; 
+        margin:0 5px;
+        }
+.subnav_b2 {
+        height: 1px; 
+        font-size: 1px; 
+        overflow: hidden; 
+        display: block; 
+        background: #BEC8D1; 
+        border-right: 2px solid #aaa; 
+        border-left: 2px solid #aaa; 
+        margin:0 3px;
+        }
+.subnav_b3 {
+        height: 1px; 
+        font-size: 1px; 
+        overflow: hidden; 
+        display:block; 
+        background: #BEC8D1; 
+        border-right: 1px solid #aaa; 
+        border-left: 1px solid #aaa; 
+        margin: 0 2px;
+        }
+.subnav_b4 {
+        height: 2px; 
+        font-size: 1px; 
+        overflow: hidden; 
+        display:block; 
+        background: #BEC8D1;
+        border-right: 1px solid #aaa; 
+        border-left:1px solid #aaa; 
+        margin:0 1px;
+        }
+.subnav_title {
+	font-weight: normal;
+        color: #105D90;
+        font-size: 12px;
+        padding-left: 8px;
+	}
+.subnav_items {
+        padding-left: 20px;
+        background: #BEC8D1; 
+        border-right: 1px solid #aaa; 
+        border-left: 1px solid #aaa;
+        }
+
+/* End subnav */
+
+
+/* Begin center */
+
+#center {
+      float: left;
+      margin-bottom: 20px;
+      }
+
+/* End center */
 
 
 /* Begin line */
 
 #line   {
+        min-width: 604px;
         border: 1px solid #333; 
 	padding: 0;
         margin: 0;	
 	color: #999;
 	background-color: #333;
-        width: 700px;
 	height: 1px;
 	}
 #line span.left {
@@ -276,12 +433,12 @@ div.spacer {
 /* Begin navbar */
 
 #navbar {
-        width: 700px;
+        width: 604px;
         height: 24px;
         border: 1px; 
         padding: 0;
-        margin-bottom: 14px;
-        color: #999;
+        margin-bottom: 0;
+        color: #fff;
         background-color: #333;
 	}
 #navbar span.left {
@@ -289,29 +446,30 @@ div.spacer {
 	float: left;
 	text-align: left;
 	font-weight: bold;
-	color: #fff;
         vertical-align: middle;
+	width: 49%;
 	}
 #navbar span.right {
         margin: 2px;
 	float: right;
 	text-align: right;
 	font-weight: bold;
-	color: #fff;
-         vertical-align: middle;
+        vertical-align: middle;
+	width: 49%;
 	}
+
 /* End navbar */
 
 
 /* Begin info_bar */
 
 #info_bar {
+        min-width: 604px;
         border: 1px solid #333; 
         padding: 3px;
         margin-top: -1px;	/* stupid browser hack */
         color: #999;
         background-color: #333;
-        width: 700px;
         height: 20px;
 	}
 #info_bar span.left {
@@ -342,6 +500,11 @@ div.spacer {
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 	font-weight: bold;
 	}
+input.infoBar {
+   font-size: 11px;
+   padding: 0px;
+   height: 22px;
+}
 
 /* End info_bar */
 
@@ -350,7 +513,7 @@ div.spacer {
 
 #centerbar {
        margin: 0 auto; 
-       width: 600px;
+       width: 604px;
        text-align: center;
        }
 
@@ -368,20 +531,19 @@ div.spacer {
 /* End subheader */
 
 
-/* Begin center */
+/* Begin for tables */
 
-#center {
-      float: left;
-      margin-bottom: 20px;
+.servBodL { 
+      border-left: 1px dotted #CEDCEA; 
       }
 
-/* End center */
+/* End for tables */
 
 
-/* End recordings */
+/* End callmonitor */
 
-table.recordings{ 
-      width: 700px;
+table.callmonitor{ 
+      width: 604px;
       font-family: Verdana;
       font-weight: normal;
       font-size: 11px;
@@ -393,7 +555,7 @@ table.recordings{
       margin-top: 0px;
       }
 
-table.recordings td.recordingsHD, th { 
+table.callmonitor td.callmonitorHD, th { 
       border: 1px solid #6699CC;
       border-bottom: 2px solid #6699CC;
       background-color: #BEC8D1;
@@ -404,7 +566,7 @@ table.recordings td.recordingsHD, th {
       color: #404040;
       }
 
-table.recordings td { 
+table.callmonitor td { 
       border: 1px solid #6699CC;
       font-family: Verdana, sans-serif, Arial;
       font-weight: normal;
@@ -415,20 +577,97 @@ table.recordings td {
       padding: 3px;
       }
 
-.servBodL { 
-      border-left: 1px dotted #CEDCEA; 
+
+/* End callmonitor */
+
+
+/* End voicemail */
+
+.voicemail {
+      margin: 0px;
+      }
+table.voicemail{ 
+      width: 604px;
+      font-family: Verdana;
+      font-weight: normal;
+      font-size: 11px;
+      color: #404040;
+      background-color: #fafafa;
+      border: 1px #6699CC solid;
+      border-collapse: collapse;
+      border-spacing: 0px;
+      margin: 0px;
+      padding: 0px;
+      }
+table.voicemail td.voicemailHD, th { 
+      border: 1px solid #6699CC;
+      border-bottom: 2px solid #6699CC;
+      background-color: #BEC8D1;
+      text-align: center;
+      font-family: Verdana;
+      font-weight: bold;
+      font-size: 11px;
+      color: #404040;
+      }
+table.voicemail td { 
+      border: 1px solid #6699CC;
+      font-family: Verdana, sans-serif, Arial;
+      font-weight: normal;
+      font-size: 11px;
+      color: #404040;
+      background-color: white;
+      text-align: center;
+      padding: 3px;
+      }
+table.voicemail td.checkbox { 
+      padding: 1px;
       }
 
-/* End recordings */
+/* End voicemail */
 
 
 /* Begin footer */
 
-#footer {	
-      width: 1000px;
+#footer {
+        margin-left: 148px;
+	font-size: 10px;
+        overflow: auto;
+        width: 100%;
+        clear: both;
+	}
+#footer a:hover {
+	text-decoration: underline;      
+	color: #105D90;
+	}
+#footer a:link {
+	text-decoration: none;
+	color: #999;
+	}
+#footer a:visited {
+	text-decoration: none;
+	color: #999;
 	}
 
 /* End footer */
+
+
+/* the bodge for IE browsers */
+
+* html .minwidth {
+	border-left: 760px solid #fff; 
+	position: relative; 
+	float: left; 
+	z-index: 1;
+	}
+* html .container {
+	margin-left: -760px; 
+	position: relative; 
+	float: left; 
+	z-index :2;
+	}
+
+
+
 
 
 
