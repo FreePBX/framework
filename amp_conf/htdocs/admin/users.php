@@ -240,16 +240,9 @@ if (isset($extension) && !checkRange($extension)){
 </div>
 
 <div class="rnav">
-    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add User")?></a><br></li>
 <?php 
-//get unique users/extensions
 $extens = getextens();
-
-if (isset($extens)) {
-	foreach ($extens as $exten) {
-		echo "<li><a id=\"".($extdisplay==$exten[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$exten[0]}\">{$exten[1]} <{$exten[0]}></a></li>";
-	}
-}
+drawListMenu($extens, $_REQUEST['skip'], $dispnum, $extdisplay, _("User"));
 ?>
 </div>
 

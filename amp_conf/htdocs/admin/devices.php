@@ -19,7 +19,7 @@ function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 	//ensure this id is not already in use
 	$devices = getdevices();
 	foreach($devices as $device) {
-		if ($device['id']==$id) {
+		if ($device[0]==$id) {
 			echo "<script>javascript:alert('"._("This device id is already in use")."');</script>";
 			return false;
 		}
@@ -172,16 +172,9 @@ switch ($action) {
 </div>
 
 <div class="rnav">
-    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add Device")?></a><br></li>
 <?php 
-//get unique incoming routes
 $devices = getdevices();
-
-if (isset($devices)) {
-	foreach ($devices as $device) {
-		echo "<li><a id=\"".($extdisplay==$device['id'] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$device['id']}\">{$device['description']} <{$device['id']}></a></li>";
-	}
-}
+drawListMenu($devices, $_REQUEST['skip'], $dispnum, $extdisplay, _("Device"));
 ?>
 </div>
 

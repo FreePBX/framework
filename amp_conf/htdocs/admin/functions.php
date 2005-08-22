@@ -203,7 +203,7 @@ function getextens() {
 function getdevices() {
 	global $db;
 	$sql = "SELECT id,description FROM devices";
-	$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 		$results = null;
 	}
@@ -2444,6 +2444,60 @@ function checkAstMan() {
 		echo "<h3>Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]."</h3>This module requires access to the Asterisk Manager.  Please ensure Asterisk is running and access to the manager is available.</div>";
 		exit;
 	}
+}
+
+// draw list for users and devices with paging
+function drawListMenu($results, $skip, $dispnum, $extdisplay, $description) {
+	$perpage=20;
+	
+	$skipped = 0;
+	$index = 0;
+	if ($skip == "") $skip = 0;
+ 	echo "<li><a id=\"".($extdisplay=='' ? 'current':'')."\" href=\"config.php?display=".$dispnum."\">"._("Add")." ".$description."</a></li>";
+
+	if (isset($results)) {
+	 
+			foreach ($results AS $key=>$result) {
+				if ($index >= $perpage) {
+					$shownext= 1;
+					break;
+					}
+				if ($skipped<$skip && $skip!= 0) {
+					$skipped= $skipped + 1;
+					continue;
+					}
+				$index= $index + 1;
+	 
+	  echo "<li><a id=\"".($extdisplay==$result[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$result[0]}\">{$result[1]} <{$result[0]}></a></li>";
+	 
+	 }
+	}
+	 
+	 if ($index >= $perpage) {
+	 
+	 print "<li><center>";
+	 
+	 }
+	 
+	 if ($skip) {
+	 
+		 $prevskip= $skip - $perpage;
+		 if ($prevskip<0) $prevskip= 0;
+		 $prevtag_pre= "<a href='?display=".$dispnum."&skip=$prevskip'>[PREVIOUS]</a>";
+		 print "$prevtag_pre";
+		 }
+		 if ($shownext) {
+	 
+			 $nextskip= $skip + $index;
+			 if ($prevtag_pre) $prevtag .= " | ";
+			 print "$prevtag <a href='?display=".$dispnum."&skip=$nextskip'>[NEXT]</a>";
+			 }
+		 elseif ($skip) {
+			 print "$prevtag";
+	  }
+	 
+	 print "</center></li>";
+	
 }
 
 
