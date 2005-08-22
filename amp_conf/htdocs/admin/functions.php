@@ -922,7 +922,7 @@ function getTrunkDialRules($trunknum) {
 function backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register) {
 	global $db;
 	
-	if (!$dialoutprefix) $dialoutprefix = ""; // can't be NULL
+	if  (is_null($dialoutprefix)) $dialoutprefix = ""; // can't be NULL
 	
 	//echo  "backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register)";
 	
