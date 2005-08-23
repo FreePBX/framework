@@ -2388,7 +2388,7 @@ function backuptableexists() {
 }
 function setrecordingstatus($extension, $direction, $state) {
 $amp_conf = parse_amportal_conf("/etc/amportal.conf");
-        $fp = fsockopen("localhost", 5038, $errno, $errstr, 10);
+        $fp = @fsockopen("localhost", 5038, $errno, $errstr, 10);
         if (!$fp) {
                 echo "Unable to connect to Asterisk Manager ($errno)<br />\n";
         } else {
@@ -2428,9 +2428,9 @@ $amp_conf = parse_amportal_conf("/etc/amportal.conf");
                                         echo "Asterisk reload command not understood $buffer<br />\n";
                         }
                 }
-
+		fclose($fp);
         }
-        fclose($fp);
+        
 }
 
 // this function simply makes a connection to the asterisk manager, and should be called by modules that require it (ie: dbput/dbget)
