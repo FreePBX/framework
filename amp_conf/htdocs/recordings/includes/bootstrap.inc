@@ -58,7 +58,7 @@ function get_argument(&$args, $name) {
  */
 function start_session() {
 
-  if (!isset($_SESSION['user']) ) {
+  if (!isset($_SESSION['ari_user']) ) {
 
     // start a new session for the user 
     ini_set('session.gc_maxlifetime', '3900');  // make the session timeout a long time
@@ -80,7 +80,7 @@ function bootstrap() {
     $login->Unauth();
   }
 
-  if ( !isset($_SESSION['user']) ) {
+  if ( !isset($_SESSION['ari_user']) ) {
     $login = new Login();
     $login->Auth();
   }

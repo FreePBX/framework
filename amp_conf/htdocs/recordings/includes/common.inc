@@ -10,22 +10,37 @@
  */
 function DatabaseLogon() {
 
-  global $amp_conf;
+  global $amp_functions_file;
+  global $amportal_conf_file;
+  global $standalone;
 
-  if (!$amp_conf) {
-    return false;
+  if ($standalone['use']) {
+    $username = $standalone['asterisk_dbuser'];
+    $password = $standalone['asterisk_dbpass'];
+  } 
+  else {
+    if (is_file($amp_functions_file)) {
+      include_once($amp_functions_file);
+      $amp_conf = parse_amportal_conf($amportal_conf_file);
+      $username = $amp_conf["AMPDBUSER"];
+      $password = $amp_conf["AMPDBPASS"];
+      unset($amp_conf);
+    } 
   }
 
   require_once('DB.php'); //PEAR must be installed
-
+ 
   $db = new Database();
 
-  $db->logon($amp_conf["AMPDBUSER"], 
-             $amp_conf["AMPDBPASS"],
-             'localhost',
-             'asteriskcdrdb',
-             'mysql',
-             $_SESSION['dbh_cdr']);
+  $success = $db->logon($username, 
+                        $password,
+                        'localhost',
+                        'asteriskcdrdb',
+                        'mysql',
+                        $_SESSION['dbh_cdr']);
+  if (!$success) {
+    return false;
+  }
   
   return true;
 }
@@ -35,13 +50,7 @@ function DatabaseLogon() {
  */
 function LoginForm() {
 
-  global $ari_no_login;
-
-  if ($ari_no_login) {
-    return;
-  }
-
-  if ( !isset($_SESSION['user']) ) {
+  if ( !isset($_SESSION['ari_user']) ) {
 
     if (isset($_REQUEST)) { $request = $_REQUEST; } else { $request = NULL; }
 
@@ -120,59 +129,39 @@ function GetTimeFormat($timestamp) {
  */
 function HandleBlock() {
 
-  global $ari_no_login;
+  if (!isset($_REQUEST['s'])) {
+    $_REQUEST['s'] = $_SESSION['ari_user']['default_page'];
+  }
 
-  if (isset($_REQUEST['s'])) {
+  $s = $_REQUEST['s'];     // section
+  $a = $_REQUEST['a'];     // action
 
-    $s = $_REQUEST['s'];     // section
-    $a = $_REQUEST['a'];     // action
+  // set arguments
+  foreach($_REQUEST as $key => $value) {
+    set_argument($args,$key,$value);
+  }
 
-    // set arguments
-    foreach($_REQUEST as $key => $value) {
-      set_argument($args,$key,$value);
-    }
+  if ($s=="callmonitor") {
 
-    if ($s=="callmonitor") {
+    include_once("modules/callmonitor.module"); 
+    $content .= callmonitor_detail_display($args);
+  }
+  elseif ($s=="voicemail") {
 
-      include_once("modules/callmonitor.module"); 
-      $content .= callmonitor_detail_display($args);
-    }
-    elseif ($s=="voicemail") {
+    include_once("modules/voicemail.module"); 
 
-      include_once("modules/voicemail.module"); 
+    $navsub_menu .= voicemail_subnav_menu($args);
 
-      $navsub_menu .= voicemail_subnav_menu($args);
-
-      if ($a) {
-        $content .= voicemail_msg_action($a,$args);
-      }
-      else {
-        $content .= voicemail_detail_display($args);
-      }
+    if ($a) {
+      $content .= voicemail_msg_action($a,$args);
     }
     else {
-      $content .= "Page Not Found.";
-    }
-  } 
-  else {
-
-    if ($ari_no_login) {
-
-      set_argument($args,"s","callmonitor");
-
-      include_once("modules/callmonitor.module"); 
-      $content .= callmonitor_detail_display($args);
-    } 
-    else {
-
-      set_argument($args,"s","voicemail");
-
-      include_once("modules/voicemail.module"); 
-
-      $navsub_menu .= voicemail_subnav_menu($args);
       $content .= voicemail_detail_display($args);
     }
-  }  
+  }
+  else {
+    $content .= "Page Not Found.";
+  } 
 
   return array($navsub_menu,$content);
 }
@@ -185,7 +174,7 @@ function Handler() {
   global $ari_no_login;
 
   $error = $_SESSION['error'];
-  if ($_SESSION['user'] && !$ari_no_login) {
+  if ($_SESSION['ari_user'] && !$ari_no_login) {
     $logout = 1;
   }
 

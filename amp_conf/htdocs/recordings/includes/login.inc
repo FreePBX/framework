@@ -15,6 +15,7 @@ class Login {
   function Auth() {
 
     global $asterisk_voicemail_conf;
+    global $asterisk_sip_conf;
     global $callmonitor_admin_mailboxes;
     global $ari_no_login;
 
@@ -25,8 +26,12 @@ class Login {
       $username = $_POST['username'];
       $password = $_POST['password'];
 
+// need to add the sip secret to the login
+
       $lines = file($asterisk_voicemail_conf);
       foreach ($lines as $key => $line) {
+
+//echo $key . " " . $line . "<br>";
 
         unset($value);
         list($var,$value) = split('=>',$line);
@@ -58,12 +63,17 @@ class Login {
         }
       }
 
-      // no login user
-      if ($ari_no_login) {
-        $mailbox = 'admin';
-        $name = 'Administrator';
-        $admin_callmonitor = 1;
-      } 
+
+
+// here is where need to add the sip login stuff
+
+
+//$asterisk_sip_conf
+
+
+
+
+      $default_page = 'voicemail';
 
       if (!$category) {
         $category = "general";
@@ -72,12 +82,21 @@ class Login {
         $context = "default";
       }
 
+      // no login user
+      if ($ari_no_login) {
+        $mailbox = 'admin';
+        $name = 'Administrator';
+        $admin_callmonitor = 1;
+        $default_page = 'callmonitor';
+      } 
+
       if ($mailbox) {
-        $_SESSION['user']['mailbox'] = $mailbox;
-        $_SESSION['user']['name'] = $displayname;
-        $_SESSION['user']['category'] = $category;
-        $_SESSION['user']['context'] = $context;
-        $_SESSION['user']['admin_callmonitor'] = $admin_callmonitor;
+        $_SESSION['ari_user']['mailbox'] = $mailbox;
+        $_SESSION['ari_user']['name'] = $displayname;
+        $_SESSION['ari_user']['category'] = $category;
+        $_SESSION['ari_user']['context'] = $context;
+        $_SESSION['ari_user']['admin_callmonitor'] = $admin_callmonitor;
+        $_SESSION['ari_user']['default_page'] = $default_page;
       } 
     }
   } 
@@ -86,7 +105,7 @@ class Login {
     * Purpose: logout
     */
   function Unauth() {
-    unset($_SESSION['user']);
+    unset($_SESSION['ari_user']);
   }
 
   /**
@@ -96,6 +115,13 @@ class Login {
    *   Variable to hold data entered into form
    */
   function Form($request) {
+
+    global $ari_no_login;
+
+    if ($ari_no_login) {
+      $ret = '';
+      return;
+    }
 
     // if user name and password were given, but there was a problem report the error
     if ($this->error!='') {

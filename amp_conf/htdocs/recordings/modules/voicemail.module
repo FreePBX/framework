@@ -20,8 +20,8 @@ function voicemail_subnav_menu($args) {
   $s = get_argument($args,'s');
   $q = get_argument($args,'q');
 
-  $context = $_SESSION['user']['context'];
-  $mailbox = $_SESSION['user']['mailbox'];
+  $context = $_SESSION['ari_user']['context'];
+  $mailbox = $_SESSION['ari_user']['mailbox'];
 
   $paths = split(';',$asterisk_voicemail_path);
 
@@ -97,7 +97,7 @@ function voicemail_msg_action($a,$args) {
   }
   else if ($a=='move_to') {
     $folder_rx = get_argument($args,'folder_rx');
-    $mailbox = $_SESSION['user']['mailbox'];
+    $mailbox = $_SESSION['ari_user']['mailbox'];
     move_vm_data($files, $mailbox, $folder_rx);
   } 
   else if ($a=='forward_to') {
@@ -144,8 +144,8 @@ function voicemail_detail_display($args) {
 
   $paths = split(';',$asterisk_voicemail_path);
 
-  $context = $_SESSION['user']['context'];
-  $mailbox = $_SESSION['user']['mailbox'];
+  $context = $_SESSION['ari_user']['context'];
+  $mailbox = $_SESSION['ari_user']['mailbox'];
   $folder = get_argument($args,'folder');
   if (!$folder) {
     $folder = $asterisk_voicemail_folders[0];
@@ -168,7 +168,7 @@ function voicemail_detail_display($args) {
   }
 
   // New Header
-  $ret .= $display->DisplayHeaderText("Voicemail for " . $_SESSION['user']['name'] . " (" . $mailbox . ")");
+  $ret .= $display->DisplayHeaderText("Voicemail for " . $_SESSION['ari_user']['name'] . " (" . $mailbox . ")");
   if ($mailbox=='admin') {
     $_SESSION['error'] = "No Voicemail Recordings for Admin";
     $ret .= $display->DisplayLine();
@@ -372,7 +372,7 @@ function move_vm_data($files,$mailbox_rx,$folder_rx) {
 
   global $asterisk_voicemail_path;
 
-  $context = $_SESSION['user']['context'];
+  $context = $_SESSION['ari_user']['context'];
 
   // recieving path
   $paths = split(';',$asterisk_voicemail_path);

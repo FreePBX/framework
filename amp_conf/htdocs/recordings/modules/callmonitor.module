@@ -41,10 +41,10 @@ function callmonitor_detail_display($args) {
   }
 
   // New Header
-  if ($_SESSION['user']['admin_callmonitor']) {
+  if ($_SESSION['ari_user']['admin_callmonitor']) {
     $headerText = "Call Monitor";
   } else {
-    $headerText = "Call Monitor for " . $_SESSION['user']['name'] . " (" . $_SESSION['user']['mailbox'] . ")";
+    $headerText = "Call Monitor for " . $_SESSION['ari_user']['name'] . " (" . $_SESSION['ari_user']['mailbox'] . ")";
   }
   $ret .= $display->DisplayHeaderText($headerText);
   $ret .= $display->DisplaySearchBlock('left',$s,$q,true);
@@ -145,6 +145,7 @@ function get_recording($dir,$files,$lastdata,$calldate,&$recording) {
         if (preg_match("/".$buf."/",$path) || 
              (strlen($uniqueID)>1 && preg_match("/".$uniqueID."/",$path) )) {
           $recording = $path;
+          return;
         }
       } 
     }
@@ -180,13 +181,13 @@ function get_search_text($q) {
   }
 
   // admin
-  if (!$_SESSION['user']['admin_callmonitor']) {
+  if (!$_SESSION['ari_user']['admin_callmonitor']) {
     if (!$searchText) {
       $searchText .= "WHERE ";
     } else {
       $searchText .= "AND ";
     }
-    $searchText .= "src = '" . $_SESSION['user']['mailbox'] . "'";
+    $searchText .= "src = '" . $_SESSION['ari_user']['mailbox'] . "'";
   }
 
   return $searchText;
