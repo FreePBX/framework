@@ -2501,4 +2501,551 @@ function drawListMenu($results, $skip, $dispnum, $extdisplay, $description) {
 }
 
 
+function adduser($vars,$vmcontext) {
+	extract($vars);
+	
+	global $db;
+	global $amp_conf;
+	//ensure this id is not already in use
+	$extens = getextens();
+	foreach($extens as $exten) {
+		if ($exten[0]==$extension) {
+			echo "<script>javascript:alert('"._("This user extension is already in use")."');</script>";
+			return false;
+		}
+	}
+	
+	//build the recording variable
+	$recording = "out=".$record_out."|in=".$record_in;
+	
+	//insert into users table
+	$sql="INSERT INTO users (extension,password,name,voicemail,ringtimer,noanswer,recording,outboundcid) values (\"$extension\",\"$password\",\"$name\",\"$voicemail\",\"$ringtimer\",\"$noanswer\",\"$recording\",\"$outboundcid\")";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+        die($results->getMessage().$sql);
+	}
+	
+	//write to astdb
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {	
+		$astman->database_put("AMPUSER",$extension."/password",$password);
+		$astman->database_put("AMPUSER",$extension."/ringtimer",$ringtimer);
+		$astman->database_put("AMPUSER",$extension."/noanswer",$noasnwer);
+		$astman->database_put("AMPUSER",$extension."/recording",$recording);
+		$astman->database_put("AMPUSER",$extension."/outboundcid","\"".$outboundcid."\"");
+		$astman->database_put("AMPUSER",$extension."/cidname","\"".$name."\"");
+		$astman->disconnect();
+	} else {
+		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
+	}
+	
+	//write to extensions table - AMP2 will not do this
+	//update ext-local context in extensions.conf
+	
+	//warning: as of 009 we aren't allowing a user to use any mailbox but their own 
+	//This may affect some upgraders as it is possible in previous versions!
+	//$mailb = ($vm == 'disabled' || $mailbox == '') ? 'novm' : $mailbox;
+	$mailb = ($vm == 'disabled') ? 'novm' : $extension;
+	//hint will always be empty.  For now, we'll only do hint for "fixed" devices.  see devices.php.
+	addaccount($extension,$mailb,$hint);
+	
+	//take care of voicemail.conf if using voicemail
+	$uservm = getVoicemail();
+	unset($uservm[$incontext][$account]);
+	
+	if ($vm != 'disabled')
+	{ 
+		// need to check if there are any options entered in the text field
+		if ($_REQUEST['options']!=''){
+			$options = explode("|",$_REQUEST['options']);
+			foreach($options as $option) {
+				$vmoption = explode("=",$option);
+				$vmoptions[$vmoption[0]] = $vmoption[1];
+			}
+		}
+		$vmoption = explode("=",$attach);
+			$vmoptions[$vmoption[0]] = $vmoption[1];
+		$vmoption = explode("=",$saycid);
+			$vmoptions[$vmoption[0]] = $vmoption[1];
+		$vmoption = explode("=",$envelope);
+			$vmoptions[$vmoption[0]] = $vmoption[1];
+		$vmoption = explode("=",$delete);
+			$vmoptions[$vmoption[0]] = $vmoption[1];
+		$vmoption = explode("=",$nextaftercmd);
+			$vmoptions[$vmoption[0]] = $vmoption[1];
+		$uservm[$vmcontext][$extension] = array(
+									'mailbox' => $extension, 
+									'pwd' => $vmpwd,
+									'name' => $name,
+									'email' => $email,
+									'pager' => $pager,
+									'options' => $vmoptions);
+	}
+	saveVoicemail($uservm);
+}
+
+function getextenInfo($extension){
+	global $db;
+	//get all the variables for the meetme
+	$sql = "SELECT * FROM users WHERE extension = '$extension'";
+	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
+	if(DB::IsError($results)) {
+        die($results->getMessage().$sql);
+	}
+	//explode recording vars
+	$recording = explode("|",$results['recording']);
+	$recout = substr($recording[0],4);
+	$recin = substr($recording[1],3);
+	$results['record_in']=$recin;
+	$results['record_out']=$recout;
+
+	return $results;
+}
+
+function deluser($extension,$incontext,$uservm){
+	global $db;
+	global $amp_conf;
+	
+	//delete from devices table
+	$sql="DELETE FROM users WHERE extension = \"$extension\"";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+        die($results->getMessage().$sql);
+	}
+
+	//delete details to astdb
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {	
+		$astman->database_del("AMPUSER",$extension."/password",$password);
+		$astman->database_del("AMPUSER",$extension."/ringtimer",$ringtimer);
+		$astman->database_del("AMPUSER",$extension."/noanswer",$noasnwer);
+		$astman->database_del("AMPUSER",$extension."/recording",$recording);
+		$astman->database_del("AMPUSER",$extension."/outboundcid","\"".$outboundcid."\"");
+		$astman->database_del("AMPUSER",$extension."/cidname","\"".$name."\"");
+		$astman->disconnect();
+	} else {
+		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
+	}
+	
+	//take care of voicemail.conf
+	unset($uservm[$incontext][$extension]);
+	saveVoicemail($uservm);
+		
+	//delete the extension info from extensions table
+	delextensions('ext-local',$extension);
+}
+
+function adddevice($id,$tech,$dial,$devicetype,$user,$description){
+	global $db;
+	global $amp_conf;
+	//ensure this id is not already in use
+	$devices = getdevices();
+	foreach($devices as $device) {
+		if ($device[0]==$id) {
+			echo "<script>javascript:alert('"._("This device id is already in use")."');</script>";
+			return false;
+		}
+	}
+	//unless defined, $dial is TECH/id
+	//zap is an exception
+	if (empty($dial) && strtolower($tech) == "zap")
+		$dial = "ZAP/".$_REQUEST['channel'];
+	if (empty($dial))
+		$dial = strtoupper($tech)."/".$id;
+	
+	//check to see if we are requesting a new user
+	if ($user == "new") {
+		$user = $id;
+		$jump = true;
+	}
+	
+	//insert into devices table
+	$sql="INSERT INTO devices (id,tech,dial,devicetype,user,description) values (\"$id\",\"$tech\",\"$dial\",\"$devicetype\",\"$user\",\"$description\")";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+        die($results->getMessage().$sql);
+	}
+	
+	//add details to astdb
+	//TODO submitting the form will reset the logged in user for this device to default
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		$astman->database_put("DEVICE",$id."/dial",$dial);
+		$astman->database_put("DEVICE",$id."/type",$devicetype);
+		$astman->database_put("DEVICE",$id."/user",$user);
+		$astman->database_put("AMPUSER",$user."/device",$id);
+		$astman->disconnect();
+	} else {
+		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
+	}
+	
+	//voicemail symlink
+	exec("rm -f /var/spool/asterisk/voicemail/device/".$id);
+	exec("/bin/ln -s /var/spool/asterisk/voicemail/default/".$user."/ /var/spool/asterisk/voicemail/device/".$id);
+		
+	//take care of sip/iax/zap config
+	$funct = "add".strtolower($tech);
+	if(function_exists($funct)){
+		$funct($id);
+	}
+	
+	//if the device is of type 'fixed', then we can use HINT
+	//TODO is it possible to use ${variables} for a HINT extensions (ie: for adhoc devices)
+	if(($devicetype == "fixed") && ($user != "none")) {
+		addhint($user,$dial);
+	}
+	
+	//if we are requesting a new user, let's jump to users.php
+	if ($jump) {
+		echo("<script language=\"JavaScript\">window.location=\"config.php?display=users&extdisplay={$id}&name={$description}\";</script>");
+	}
+}
+
+function deldevice($account){
+	global $db;
+	global $amp_conf;
+	
+	//get all info about device
+	$devinfo = getdeviceInfo($account);
+	
+	//delete from devices table
+	$sql="DELETE FROM devices WHERE id = \"$account\"";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+        die($results->getMessage().$sql);
+	}
+	
+	//delete details to astdb
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		$astman->database_del("DEVICE",$account."/dial");
+		$astman->database_del("DEVICE",$account."/type");
+		$astman->database_del("DEVICE",$account."/user");
+		$astman->disconnect();
+	} else {
+		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
+	}
+	
+	//voicemail symlink
+	exec("rm -f /var/spool/asterisk/voicemail/device/".$account);
+	
+	//take care of sip/iax/zap config
+	$funct = "del".strtolower($devinfo['tech']);
+	if(function_exists($funct)){
+		$funct($account);
+	}
+	
+	//take care of any hint priority
+	delhint($devinfo['user']);
+}
+
+function getdeviceInfo($account){
+	global $db;
+	//get all the variables for the meetme
+	$sql = "SELECT * FROM devices WHERE id = '$account'";
+	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
+	
+	//take care of sip/iax/zap config
+	$funct = "get".strtolower($results['tech']);
+	if(function_exists($funct)){
+		$devtech = $funct($account);
+		if (is_array($devtech)){
+			$results = array_merge($results,$devtech);
+		}
+	}
+	
+	return $results;
+}
+
+//add to sip table
+function addsip($account) {
+	sipexists();
+	global $db;
+	global $currentFile;
+	$sipfields = array(array($account,'account',$account),
+	array($account,'accountcode',($_REQUEST['accountcode'])?$_REQUEST['accountcode']:''),
+	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
+	array($account,'canreinvite',($_REQUEST['canreinvite'])?$_REQUEST['canreinvite']:'no'),
+	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:'from-internal'),
+	array($account,'dtmfmode',($_REQUEST['dtmfmode'])?$_REQUEST['dtmfmode']:''),
+	array($account,'host',($_REQUEST['host'])?$_REQUEST['host']:'dynamic'),
+	array($account,'type',($_REQUEST['type'])?$_REQUEST['type']:'friend'),
+	array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:$account.'@device'),
+	array($account,'username',($_REQUEST['username'])?$_REQUEST['username']:$account),
+	array($account,'nat',($_REQUEST['nat'])?$_REQUEST['nat']:'never'),
+	array($account,'port',($_REQUEST['port'])?$_REQUEST['port']:'5060'),
+	array($account,'qualify',($_REQUEST['qualify'])?$_REQUEST['qualify']:'no'),
+	array($account,'callgroup',($_REQUEST['callgroup'])?$_REQUEST['callgroup']:''),
+	array($account,'pickupgroup',($_REQUEST['pickupgroup'])?$_REQUEST['pickupgroup']:''),
+	array($account,'disallow',($_REQUEST['disallow'])?$_REQUEST['disallow']:''),
+	array($account,'allow',($_REQUEST['allow'])?$_REQUEST['allow']:''),
+	array($account,'record_in',($_REQUEST['record_in'])?$_REQUEST['record_in']:'On-Demand'),
+	array($account,'record_out',($_REQUEST['record_out'])?$_REQUEST['record_out']:'On-Demand'),
+	array($account,'callerid',($_REQUEST['description'])?$_REQUEST['description']." <".$account.'>':'device'." <".$account.'>'));
+
+	$compiled = $db->prepare('INSERT INTO sip (id, keyword, data) values (?,?,?)');
+	$result = $db->executeMultiple($compiled,$sipfields);
+	if(DB::IsError($result)) {
+		die($result->getDebugInfo()."<br><br>".'error adding to SIP table');	
+	}
+		   
+
+	//script to write sip conf file from mysql
+	$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_sip_conf_from_mysql.pl';
+	exec($wScript);
+	//script to write op_server.cfg file from mysql 
+	$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
+	exec($wOpScript);
+
+}
+
+function delsip($account) {
+	global $db;
+	global $currentFile;
+    $sql = "DELETE FROM sip WHERE id = '$account'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+        die($result->getMessage().$sql);
+	}
+
+	//script to write sip conf file from mysql
+	$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_sip_conf_from_mysql.pl';
+	exec($wScript);
+	//script to write op_server.cfg file from mysql 
+	$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
+	exec($wOpScript);
+}
+
+function getsip($account) {
+	global $db;
+	$sql = "SELECT keyword,data FROM sip WHERE id = '$account'";
+	$results = $db->getAssoc($sql);
+	if(DB::IsError($results)) {
+		$results = null;
+	}
+	return $results;
+}
+
+//add to iax table
+function addiax2($account) {
+	global $db;
+	global $currentFile;
+	$iaxfields = array(array($account,'account',$account),
+	array($account,'secret',($_REQUEST['secret'])?$_REQUEST['secret']:''),
+	array($account,'notransfer',($_REQUEST['notransfer'])?$_REQUEST['notransfer']:'yes'),
+	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:'from-internal'),
+	array($account,'host',($_REQUEST['host'])?$_REQUEST['host']:'dynamic'),
+	array($account,'type',($_REQUEST['type'])?$_REQUEST['type']:'friend'),
+	array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:$account.'@device'),
+	array($account,'username',($_REQUEST['username'])?$_REQUEST['username']:$account),
+	array($account,'port',($_REQUEST['iaxport'])?$_REQUEST['iaxport']:'4569'),
+	array($account,'qualify',($_REQUEST['qualify'])?$_REQUEST['qualify']:'no'),
+	array($account,'disallow',($_REQUEST['disallow'])?$_REQUEST['disallow']:''),
+	array($account,'allow',($_REQUEST['allow'])?$_REQUEST['allow']:''),
+	array($account,'record_in',($_REQUEST['record_in'])?$_REQUEST['record_in']:'On-Demand'),
+	array($account,'record_out',($_REQUEST['record_out'])?$_REQUEST['record_out']:'On-Demand'),
+	array($account,'callerid',($_REQUEST['description'])?$_REQUEST['description']." <".$account.'>':'device'." <".$account.'>'));
+
+	$compiled = $db->prepare('INSERT INTO iax (id, keyword, data) values (?,?,?)');
+	$result = $db->executeMultiple($compiled,$iaxfields);
+	if(DB::IsError($result)) {
+		die($result->getMessage()."<br><br>error adding to IAX table");	
+	}	
+
+
+	//script to write iax2 conf file from mysql
+	$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_iax_conf_from_mysql.pl';
+	exec($wScript);
+	//script to write op_server.cfg file from mysql 
+	$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
+	exec($wOpScript);
+}
+
+function deliax2($account) {
+	global $db;
+	global $currentFile;
+    $sql = "DELETE FROM iax WHERE id = '$account'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+        die($result->getMessage().$sql);
+	}
+	
+	//script to write iax2 conf file from mysql
+	$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_iax_conf_from_mysql.pl';
+	exec($wScript);
+	//script to write op_server.cfg file from mysql 
+	$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
+	exec($wOpScript);
+}
+
+function getiax2($account) {
+	global $db;
+	$sql = "SELECT keyword,data FROM iax WHERE id = '$account'";
+	$results = $db->getAssoc($sql);
+	if(DB::IsError($results)) {
+		$results = null;
+	}
+	return $results;
+}
+
+function addzap($account) {
+	zapexists();
+	global $db;
+	global $currentFile;
+	$zapfields = array(
+	array($account,'account',$account),
+	array($account,'context',($_REQUEST['context'])?$_REQUEST['context']:'from-internal'),
+	array($account,'mailbox',($_REQUEST['mailbox'])?$_REQUEST['mailbox']:$account.'@device'),
+	array($account,'callerid',($_REQUEST['description'])?$_REQUEST['description']." <".$account.'>':'device'." <".$account.'>'),
+	array($account,'signalling',($_REQUEST['signalling'])?$_REQUEST['signalling']:'fxo_ks'),
+	array($account,'echocancel',($_REQUEST['echocancel'])?$_REQUEST['echocancel']:'yes'),
+	array($account,'echocancelwhenbridged',($_REQUEST['echocancelwhenbridged'])?$_REQUEST['echocancelwhenbridged']:'no'),
+	array($account,'echotraining',($_REQUEST['echotraining'])?$_REQUEST['echotraining']:'800'),
+	array($account,'busydetect',($_REQUEST['busydetect'])?$_REQUEST['busydetect']:'no'),
+	array($account,'busycount',($_REQUEST['busycount'])?$_REQUEST['busycount']:'7'),
+	array($account,'callprogress',($_REQUEST['callprogress'])?$_REQUEST['callprogress']:'no'),
+	array($account,'record_in',($_REQUEST['record_in'])?$_REQUEST['record_in']:'On-Demand'),
+	array($account,'record_out',($_REQUEST['record_out'])?$_REQUEST['record_out']:'On-Demand'),
+	array($account,'channel',($_REQUEST['channel'])?$_REQUEST['channel']:''));
+
+	$compiled = $db->prepare('INSERT INTO zap (id, keyword, data) values (?,?,?)');
+	$result = $db->executeMultiple($compiled,$zapfields);
+	if(DB::IsError($result)) {
+		die($result->getMessage()."<br><br>error adding to ZAP table");	
+	}	
+
+
+	//script to write zap conf file from mysql
+	$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_zap_conf_from_mysql.pl';
+	exec($wScript);
+	//script to write op_server.cfg file from mysql 
+	$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
+	exec($wOpScript);
+}
+
+function delzap($account) {
+	global $db;
+	global $currentFile;
+    $sql = "DELETE FROM zap WHERE id = '$account'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+        die($result->getMessage().$sql);
+	}
+	
+	//script to write zap conf file from mysql
+	$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_zap_conf_from_mysql.pl';
+	exec($wScript);
+	//script to write op_server.cfg file from mysql 
+	$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
+	exec($wOpScript);
+}
+
+function getzap($account) {
+	global $db;
+	$sql = "SELECT keyword,data FROM zap WHERE id = '$account'";
+	$results = $db->getAssoc($sql);
+	if(DB::IsError($results)) {
+		$results = null;
+	}
+	return $results;
+}
+
+function addhint($account,$hint){
+	global $db;
+	global $currentFile;	
+	//delete any existing hint for this extension
+	delhint($account);
+	
+	//Add 'hint' priority if passed
+	if ($hint != '') {
+		$sql = "INSERT INTO extensions (context, extension, priority, application) VALUES ('ext-local', '".$account."', 'hint', '".$hint."')";
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			echo $result->getMessage().$sql;
+		}
+	}
+	$wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
+	exec($wScript1);
+}
+
+function delhint($user) {
+	global $currentFile;
+	global $db;
+	//delete from devices table
+	$sql="DELETE FROM extensions WHERE extension = \"{$user}\" AND priority = \"hint\"";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+        die($results->getMessage().$sql);
+	}
+	$wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
+	exec($wScript1);
+}
+
+// this function rebuilds the astdb based on device table contents
+// used on devices.php if action=resetall
+function devices2astdb(){
+	require_once('common/php-asmanager.php');
+	checkAstMan();
+	global $db;
+	global $amp_conf;
+	$sql = "SELECT * FROM devices";
+	$devresults = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+	if(DB::IsError($devresults)) {
+		$devresults = null;
+	}
+
+	//add details to astdb
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {	
+		$astman->database_deltree("DEVICE");
+		foreach($devresults as $dev) {
+			extract($dev);	
+			$astman->database_put("DEVICE",$id."/dial",$dial);
+			$astman->database_put("DEVICE",$id."/type",$devicetype);
+			$astman->database_put("DEVICE",$id."/user",$user);
+			$astman->database_put("AMPUSER",$user."/device",$id);
+			
+			//voicemail symlink
+			exec("rm -f /var/spool/asterisk/voicemail/device/".$id);
+			exec("/bin/ln -s /var/spool/asterisk/voicemail/default/".$user."/ /var/spool/asterisk/voicemail/device/".$id);
+		}
+	} else {
+		echo "Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
+	}
+	return $astman->disconnect();
+}
+
+// this function rebuilds the astdb based on users table contents
+// used on devices.php if action=resetall
+function users2astdb(){
+	require_once('common/php-asmanager.php');
+	checkAstMan();
+	global $db;
+	global $amp_conf;
+	$sql = "SELECT * FROM users";
+	$userresults = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+	if(DB::IsError($userresults)) {
+		$userresults = null;
+	}
+	
+	//add details to astdb
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		$astman->database_deltree("AMPUSER");
+		foreach($userresults as $usr) {
+			extract($usr);
+			$astman->database_put("AMPUSER",$extension."/password",$password);
+			$astman->database_put("AMPUSER",$extension."/ringtimer",$ringtimer);
+			$astman->database_put("AMPUSER",$extension."/noanswer",$noasnwer);
+			$astman->database_put("AMPUSER",$extension."/recording",$recording);
+			$astman->database_put("AMPUSER",$extension."/outboundcid","\"".$outboundcid."\"");
+			$astman->database_put("AMPUSER",$extension."/cidname","\"".$name."\"");
+		}	
+	} else {
+		echo "Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
+	}
+	return $astman->disconnect();
+}
+
+
 ?>

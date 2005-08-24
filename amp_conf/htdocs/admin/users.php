@@ -13,139 +13,7 @@
 
 include 'common/php-asmanager.php';
 
-function adduser($vars,$vmcontext) {
-	extract($vars);
-	
-	global $db;
-	global $amp_conf;
-	//ensure this id is not already in use
-	$extens = getextens();
-	foreach($extens as $exten) {
-		if ($exten[0]==$extension) {
-			echo "<script>javascript:alert('"._("This user extension is already in use")."');</script>";
-			return false;
-		}
-	}
-	
-	//build the recording variable
-	$recording = "out=".$record_out."|in=".$record_in;
-	
-	//insert into users table
-	$sql="INSERT INTO users (extension,password,name,voicemail,ringtimer,noanswer,recording,outboundcid) values (\"$extension\",\"$password\",\"$name\",\"$voicemail\",\"$ringtimer\",\"$noanswer\",\"$recording\",\"$outboundcid\")";
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-        die($results->getMessage().$sql);
-	}
-	
-	//write to astdb
-	$astman = new AGI_AsteriskManager();
-	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {	
-		$astman->database_put("AMPUSER",$extension."/password",$password);
-		$astman->database_put("AMPUSER",$extension."/ringtimer",$ringtimer);
-		$astman->database_put("AMPUSER",$extension."/noanswer",$noasnwer);
-		$astman->database_put("AMPUSER",$extension."/recording",$recording);
-		$astman->database_put("AMPUSER",$extension."/outboundcid","\"".$outboundcid."\"");
-		$astman->database_put("AMPUSER",$extension."/cidname","\"".$name."\"");
-		$astman->disconnect();
-	} else {
-		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
-	}
-	
-	//write to extensions table - AMP2 will not do this
-	//update ext-local context in extensions.conf
-	
-	//warning: as of 009 we aren't allowing a user to use any mailbox but their own 
-	//This may affect some upgraders as it is possible in previous versions!
-	//$mailb = ($vm == 'disabled' || $mailbox == '') ? 'novm' : $mailbox;
-	$mailb = ($vm == 'disabled') ? 'novm' : $extension;
-	//hint will always be empty.  For now, we'll only do hint for "fixed" devices.  see devices.php.
-	addaccount($extension,$mailb,$hint);
-	
-	//take care of voicemail.conf if using voicemail
-	$uservm = getVoicemail();
-	unset($uservm[$incontext][$account]);
-	
-	if ($vm != 'disabled')
-	{ 
-		// need to check if there are any options entered in the text field
-		if ($_REQUEST['options']!=''){
-			$options = explode("|",$_REQUEST['options']);
-			foreach($options as $option) {
-				$vmoption = explode("=",$option);
-				$vmoptions[$vmoption[0]] = $vmoption[1];
-			}
-		}
-		$vmoption = explode("=",$attach);
-			$vmoptions[$vmoption[0]] = $vmoption[1];
-		$vmoption = explode("=",$saycid);
-			$vmoptions[$vmoption[0]] = $vmoption[1];
-		$vmoption = explode("=",$envelope);
-			$vmoptions[$vmoption[0]] = $vmoption[1];
-		$vmoption = explode("=",$delete);
-			$vmoptions[$vmoption[0]] = $vmoption[1];
-		$vmoption = explode("=",$nextaftercmd);
-			$vmoptions[$vmoption[0]] = $vmoption[1];
-		$uservm[$vmcontext][$extension] = array(
-									'mailbox' => $extension, 
-									'pwd' => $vmpwd,
-									'name' => $name,
-									'email' => $email,
-									'pager' => $pager,
-									'options' => $vmoptions);
-	}
-	saveVoicemail($uservm);
-}
 
-function getextenInfo($extension){
-	global $db;
-	//get all the variables for the meetme
-	$sql = "SELECT * FROM users WHERE extension = '$extension'";
-	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
-	if(DB::IsError($results)) {
-        die($results->getMessage().$sql);
-	}
-	//explode recording vars
-	$recording = explode("|",$results['recording']);
-	$recout = substr($recording[0],4);
-	$recin = substr($recording[1],3);
-	$results['record_in']=$recin;
-	$results['record_out']=$recout;
-
-	return $results;
-}
-
-function deluser($extension,$incontext,$uservm){
-	global $db;
-	global $amp_conf;
-	
-	//delete from devices table
-	$sql="DELETE FROM users WHERE extension = \"$extension\"";
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-        die($results->getMessage().$sql);
-	}
-
-	//delete details to astdb
-	$astman = new AGI_AsteriskManager();
-	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {	
-		$astman->database_del("AMPUSER",$extension."/password",$password);
-		$astman->database_del("AMPUSER",$extension."/ringtimer",$ringtimer);
-		$astman->database_del("AMPUSER",$extension."/noanswer",$noasnwer);
-		$astman->database_del("AMPUSER",$extension."/recording",$recording);
-		$astman->database_del("AMPUSER",$extension."/outboundcid","\"".$outboundcid."\"");
-		$astman->database_del("AMPUSER",$extension."/cidname","\"".$name."\"");
-		$astman->disconnect();
-	} else {
-		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
-	}
-	
-	//take care of voicemail.conf
-	unset($uservm[$incontext][$extension]);
-	saveVoicemail($uservm);
-		
-	//delete the extension info from extensions table
-	delextensions('ext-local',$extension);
-}
 
 //script to write extensions_additional.conf file from mysql
 $wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
@@ -421,7 +289,7 @@ drawListMenu($extens, $_REQUEST['skip'], $dispnum, $extdisplay, _("User"));
 		</td></tr>
 		<tr>
 			<td colspan=2>
-				<br><br><h6><input name="Submit" type="button" value="<?php echo _("Submit")?>" onclick="javascript:if(addNew.extension.value=='' || parseInt(addNew.extension.value)!=addNew.extension.value) {alert('<?php echo _("Please enter a device id.")?>')} else {addNew.submit();}"></h6>
+				<br><br><h6><input name="Submit" type="button" value="<?php echo _("Submit")?>" onclick="javascript:if(addNew.extension.value=='' || parseInt(addNew.extension.value)!=addNew.extension.value) {alert('<?php echo _("Please enter an extension number.")?>')} else {addNew.submit();}"></h6>
 			</td>
 		</tr>
 		</table>

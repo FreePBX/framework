@@ -81,8 +81,11 @@ if (isset($_REQUEST['display'])) {
 	$display=$_REQUEST['display'];
 }
 
-// setup menu 
-$amp_sections = array(
+
+// simple 'extensions' admin or 'device/user separation'?
+// have to do it this way, since array_splice resets all the array keys as integers
+if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
+	$amp_sections = array(
 		9=>_("Incoming Calls"),
 		"devices"=>_("Devices"),
 		"users"=>_("Users"),
@@ -98,7 +101,24 @@ $amp_sections = array(
 		5=>_("General Settings"),
 		99=>_("Apply Changes Bar")
 	);
-	
+} else {
+	$amp_sections = array(
+		9=>_("Incoming Calls"),
+		"extensions"=>("Extensions"),
+		4=>_("Ring Groups"),
+		11=>_("Queues"),
+		2=>_("Digital Receptionist"),
+		6=>_("Trunks"),
+		7=>_("Inbound Routing"),
+		8=>_("Outbound Routing"),
+		1=>_("On Hold Music"),
+		12=>_("System Recordings"),
+		13=>_("Backup & Restore"),
+		5=>_("General Settings"),
+		99=>_("Apply Changes Bar")
+	);
+}
+
 // only show AMP Users if they have authtype set approiately
 if (isset($amp_conf["AUTHTYPE"]) && ($amp_conf["AUTHTYPE"] != "none")) {
 	$amp_sections[10] = _("AMP Users");
@@ -193,6 +213,9 @@ switch($display) {
 	break;
 	case 'users':
 		include 'users.php';
+	break;
+	case 'extensions':
+		include 'extensions.php';
 	break;
 }
 ?>
