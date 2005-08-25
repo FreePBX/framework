@@ -249,7 +249,8 @@ switch(strtolower($tech)) {
 			'busydetect' => 'no',
 			'busycount' => '7',
 			'callprogress' => 'no',
-			'dial' => ''
+			'dial' => '',
+			'accountcode' => ''
 		);
 	break;
 	case "iax2":
@@ -265,7 +266,8 @@ switch(strtolower($tech)) {
 			'qualify' => 'no',
 			'disallow' => '',
 			'allow' => '',
-			'dial' => ''
+			'dial' => '',
+			'accountcode' => ''
 		);		
 	break;
 	case "sip":
@@ -285,7 +287,8 @@ switch(strtolower($tech)) {
 			'pickupgroup' => '',
 			'disallow' => '',
 			'allow' => '',
-			'dial' => ''
+			'dial' => '',
+			'accountcode' => ''
 		);
 	break;
 	case "custom":
