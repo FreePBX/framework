@@ -173,7 +173,7 @@ drawListMenu($extens, $_REQUEST['skip'], $dispnum, $extdisplay, _("User"));
 		
 		<tr>
 			<td>
-				<a href="#" class="info"><?php echo _("Outbound CID")?><span><?php echo _("Overrides the caller id when dialing out a trunk. Any setting here will override the common outbound caller id set in the Trunks admin.<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this field blank to disable the outbound callerid feature for this extension.")?><br></span></a>:
+				<a href="#" class="info"><?php echo _("Outbound CID")?><span><?php echo _("Overrides the caller id when dialing out a trunk. Any setting here will override the common outbound caller id set in the Trunks admin.<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this field blank to disable the outbound callerid feature for this user.")?><br></span></a>:
 			</td><td>
 				<input type="text" name="outboundcid" value="<?php echo $outboundcid ?>"/>
 			</td>
