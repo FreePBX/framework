@@ -151,7 +151,7 @@ drawListMenu($extens, $_REQUEST['skip'], $dispnum, $extdisplay, _("User"));
 		
 		<tr>
 			<td>
-				<a href="#" class="info"><?php echo _("User Password")?><span><?php echo _("A user will enter this password when logging onto a device.")?><br></span></a>:
+				<a href="#" class="info"><?php echo _("User Password")?><span><?php echo _("A user will enter this password when logging onto a device. *11 logs into a device.  *12 logs out of a device.")?><br></span></a>:
 			</td><td>
 				<input type="text" name="password" value="<?php echo $password ?>"/>
 			</td>
