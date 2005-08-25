@@ -4,7 +4,7 @@ session_start();
 
 
 /* -- AMP Begin -- */
-$AMP_CLAUSE = $HTTP_SESSION_VARS['AMP_SQL'];
+$AMP_CLAUSE = $_SESSION['AMP_SQL'];
 if (!isset($AMP_CLAUSE)) {
 	$AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
 	echo "<font color=red>YOU MUST ACCESS THE CDR THROUGH THE ASTERISK MANAGEMENT PORTAL!</font>";
