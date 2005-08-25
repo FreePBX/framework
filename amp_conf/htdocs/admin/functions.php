@@ -1888,7 +1888,7 @@ function drawselects($formName,$goto,$i) {
 	
 	if (isset($extens)) {
 		foreach ($extens as $exten) {
-			$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1] . '</option>';
+			$selectHtml .= '<option value="'.$exten[0].'" '.(strpos($goto,$exten[0]) === false ? '' : 'SELECTED').'>'.$exten[1] . ' <'.$exten[0].'></option>';
 		}
 	}
 			

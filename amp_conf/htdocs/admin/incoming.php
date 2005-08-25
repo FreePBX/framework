@@ -102,7 +102,7 @@ $queues = getqueues();
 <?php 
 	if (isset($extens)) {
 		foreach ($extens as $exten) {
-			echo '<option value="EXT-'.$exten[0].'" '.($INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1];
+			echo '<option value="EXT-'.$exten[0].'" '.($INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1].' <'.$exten[0].'>';
 		}
 	}
 ?>		
@@ -151,7 +151,7 @@ $queues = getqueues();
 <?php 
 	if (isset($extens)) {
 		foreach ($extens as $exten) {
-			echo '<option value="EXT-'.$exten[0].'" '.($AFTER_INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1];
+			echo '<option value="EXT-'.$exten[0].'" '.($AFTER_INCOMING == 'EXT-'.$exten[0] ? 'SELECTED' : '').'>'.$exten[1].' <'.$exten[0].'>';
 		}
 	}
 ?>		
