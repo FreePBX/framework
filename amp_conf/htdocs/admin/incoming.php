@@ -90,9 +90,9 @@ $queues = getqueues();
 <?php 
 	if (isset($unique_aas)) {
 		foreach ($unique_aas as $unique_aa) {
-			$menu_num = substr($unique_aa[0],3);
+			$menu_num = substr($unique_aa[0],strrpos($unique_aa[0],'_')+1);
 			$menu_name = $unique_aa[1];
-			echo '<option value="aa_'.$menu_num.'" '.($INCOMING == 'aa_'.$menu_num ? 'SELECTED' : '').'>'.($menu_name ? $menu_name : _("Menu #").$menu_num);
+			echo '<option value="'.$unique_aa[0].'" '.($INCOMING == $unique_aa[0] ? 'SELECTED' : '').'>'.($menu_name ? $menu_name : _("Menu #").$menu_num);
 		}
 	}
 ?>
@@ -139,9 +139,9 @@ $queues = getqueues();
 <?php 
 	if (isset($unique_aas)) {
 		foreach ($unique_aas as $unique_aa) {
-			$menu_num = substr($unique_aa[0],3);
+			$menu_num = substr($unique_aa[0],strrpos($unique_aa[0],'_')+1);
 			$menu_name = $unique_aa[1];
-			echo '<option value="aa_'.$menu_num.'" '.($AFTER_INCOMING == 'aa_'.$menu_num ? 'SELECTED' : '').'>'.($menu_name ? $menu_name : _("Menu #").$menu_num);
+			echo '<option value="'.$unique_aa[0].'" '.($AFTER_INCOMING == $unique_aa[0] ? 'SELECTED' : '').'>'.($menu_name ? $menu_name : _("Menu #").$menu_num);
 		}
 	}
 ?>
