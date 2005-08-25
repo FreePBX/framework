@@ -109,6 +109,7 @@ if (isset($queues)) {
 if ($action == 'delete') {
 	echo '<br><h3>Queue '.$extdisplay.' deleted!</h3><br><br><br><br><br><br><br><br>';
 } else {
+	$member = array();
 	//get members in this queue
 	$thisQ = getqueueinfo($extdisplay);
 	//create variables
