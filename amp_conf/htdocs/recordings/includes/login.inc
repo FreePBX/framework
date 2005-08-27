@@ -5,75 +5,137 @@
  * login functions
  */
 
+/**
+  * Class for login
+  */
 class Login {
 
   var $error;
 
   /**
-    * Purpose: Authenticate user and register user information into a session
+    * Authenticate user and register user information into a session
     */
   function Auth() {
 
+    global $ari_cookie_password;
     global $asterisk_voicemail_conf;
     global $asterisk_sip_conf;
     global $callmonitor_admin_mailboxes;
     global $ari_no_login;
 
-    // when login, make a new session
-    if ( (isset($_POST['username']) && isset($_POST['password']) ||
-           $ari_no_login) ) {
+    // get the ari authentication cookie 
+    $buf = unserialize($_COOKIE['ari_auth']);
+    list($data,$chksum) = $buf;
+    if (md5($data) == $chksum) {
+      $data = unserialize($this->decrypt($data,$ari_cookie_password));
+      $username = $data['username'];
+      $password = $data['password'];
+    }
 
+    if (isset($_POST['username']) && 
+          isset($_POST['password'])) {
       $username = $_POST['username'];
       $password = $_POST['password'];
+    }
 
-// need to add the sip secret to the login
+    // when login, make a new session
+    if ($username && $password && !$ari_no_login) {
 
+      $auth = false;
+
+      // check voicemail login
       $lines = file($asterisk_voicemail_conf);
       foreach ($lines as $key => $line) {
-
-//echo $key . " " . $line . "<br>";
 
         unset($value);
         list($var,$value) = split('=>',$line);
         $var = trim($var);
         if ($var==$username && $value) {
           $buf = split(',',$value);
-          if ($buf[0]==$password) {   
+          if ($buf[0]==$password) {  
+
+            // authenticated
+            $auth = true; 
             $mailbox = $username ;
             $displayname = $buf[1];
+
+            $default_page = 'voicemail';
 
             $admin_callmonitor = 0;
             if ($callmonitor_admin_mailboxes) {
               $mailboxes = split(',',$callmonitor_admin_mailboxes);
               foreach ($mailboxes as $key => $value) {
-                if ($value=='all') {
+                if ($value=='all' || $mailbox==$value) {
                   $admin_callmonitor = 1;
-                  break;
-                }
-                if ($mailbox==$value) {
-                  $admin_callmonitor = 1;
+                  break 2;
                 }
               }
             }
           }
           else {
-            $_SESSION['error'] = "Incorrect Password";
+            $_SESSION['ari_error'] = "Incorrect Password";
             return;
           }
         }
       }
 
+      // check sip login
+      $lines = file($asterisk_sip_conf);
+      foreach ($lines as $key => $line) {
 
+        unset($value);
+        list($var,$value) = split('=',$line);
+        $var = trim($var);
+        $value = trim($value);
+        if ($var=="username") {
+          $sip_username = $value;
+        }
+        if ($var=="secret") {
 
-// here is where need to add the sip login stuff
+          $sip_password = $value;
+          if ($sip_username==$username &&
+                $sip_password==$password) {  
 
+            // authenticated
+            $auth = true;  
+            $mailbox = $username ;
+            $displayname = $username;
 
-//$asterisk_sip_conf
+            $default_page = 'callmonitor';
 
+            $_SESSION['ari_error'] = "Voicemail Login not found, SIP Login used<br>
+                                      No access to voicemail";
 
+            $admin_callmonitor = 0;
+            if ($callmonitor_admin_mailboxes) {
+              $mailboxes = split(',',$callmonitor_admin_mailboxes);
+              foreach ($mailboxes as $key => $value) {
+                if ($value=='all' || $mailbox==$value) {
+                  $admin_callmonitor = 1;
+                  break 2;
+                }
+              }
+            }
+          }
+          else if ($sip_username==$username &&
+                     $sip_password!=$password) {
+            $_SESSION['ari_error'] = "Incorrect Password";
+            return;
+          }
+        }
 
+        // if authenticated and user wants to be remembered, set cookie 
+        if ($auth &&$_POST['remember']) {
 
-      $default_page = 'voicemail';
+          $data = array('username' => $username, 'password' => $password);
+          $data = $this->encrypt(serialize($data),$ari_cookie_password);
+
+          $chksum = md5($data);
+
+          $buf = serialize(array($data,$chksum));
+          setcookie('ari_auth',$buf,time()+365*24*60*60,'/');
+        }
+      }
 
       if (!$category) {
         $category = "general";
@@ -102,14 +164,16 @@ class Login {
   } 
 
   /**
-    * Purpose: logout
+    * logout
     */
   function Unauth() {
+    unset($_COOKIE["ari_auth"]);
+    setcookie('ari_auth',"",time(),'/');
     unset($_SESSION['ari_user']);
   }
 
   /**
-   * Purpose: Provide a login form for user
+   * Provide a login form for user
    *
    * @param $request
    *   Variable to hold data entered into form
@@ -155,27 +219,29 @@ class Login {
           <input type='password' name='password' maxlength=20 tabindex=2>
         </span>
         <span class='left'>
+          <input type='checkbox' name='remember'>
+        </span>
+        <span class='right_text'>
+          Remember Password
         </span>
         <span class='right'>
-          <input type='submit' name='btnSubmit' value='Submit' tabindex=3></small></small></p>
+          <input type='submit' name='btnSubmit' value='Submit' tabindex=3>
         </span>
-        <div class='spacer'></div>
+        <div id='login_text'>
+          <span class='left'>
+            &nbsp
+          </span>
+          <span class='right'>
+            <small>
+              Use your <b>Voicemail Mailbox and Password</b><br>
+              This is the same password used for the phone<br>
+              <br>
+              For password maintenance or assistance, contact your Phone System Administrator.
+            </small>
+          </span>
+          <div class='spacer'></div>
+        </div>
       </form>
-      <div id='login_text'>
-        <div class='spacer'></div>
-        <span class='left'>
-          &nbsp
-        </span>
-        <span class='right'>
-          <small>
-            Use your <b>Voicemail Mailbox and Password</b><br>
-            This is the same password used for the phone<br>
-            <br>
-            For password maintenance or assistance, contact your Phone System Administrator.
-          </small>
-        </span>
-        <div class='spacer'></div>
-      </div>
       <br>   
       <br>   
       <br>";
@@ -190,10 +256,80 @@ class Login {
       </script>";
 
     return $ret;
-
   } 
 
-} 
+  /**
+   * Gets a random value for encryption
+   * - From php.net docs
+   *
+   * @param $iv_len
+   *   length of random variable
+   */
+  function get_rnd_iv($iv_len) {
+
+    $iv = '';
+    while ($iv_len-- > 0) {
+      $iv .= chr(mt_rand() & 0xff);
+    }
+    return $iv;
+  }
+
+  /**
+   * Encrypts string
+   * - From php.net docs
+   *
+   * @param $str
+   *   string to encrypt
+   * @param $salt
+   *   password to use for encryption
+   * @param $iv_len
+   *   length of random number
+   */
+  function encrypt($str, $salt, $iv_len = 16) {
+
+    $str .= "\x13";
+    $n = strlen($str);
+    if ($n % 16) $str .= str_repeat("\0", 16 - ($n % 16));
+    $i = 0;
+    $enc_text = $this->get_rnd_iv($iv_len);
+    $iv = substr($salt ^ $enc_text, 0, 512);
+    while ($i < $n) {
+      $block = substr($str, $i, 16) ^ pack('H*', md5($iv));
+      $enc_text .= $block;
+      $iv = substr($block . $iv, 0, 512) ^ $salt;
+      $i += 16;
+    }
+    return base64_encode($enc_text);
+  }
+
+  /**
+   * Decrypts string
+   * - From php.net docs
+   *
+   * @param $enc
+   *   encrypted string to decrypt
+   * @param $salt
+   *   password to use for encryption
+   * @param $iv_len
+   *   length of random number
+   */
+  function decrypt($enc, $salt, $iv_len = 16) {
+
+     $enc = base64_decode($enc);
+     $n = strlen($enc);
+     $i = $iv_len;
+     $str = '';
+     $iv = substr($salt ^ substr($enc, 0, $iv_len), 0, 512);
+     while ($i < $n) {
+         $block = substr($enc, $i, 16);
+         $str .= $block ^ pack('H*', md5($iv));
+         $iv = substr($block . $iv, 0, 512) ^ $salt;
+         $i += 16;
+     }
+     return preg_replace('/\\x13\\x00*$/', '', $str);
+  }
+
+}
 
 
 ?>

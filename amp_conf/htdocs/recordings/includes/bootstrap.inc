@@ -56,7 +56,7 @@ function get_argument(&$args, $name) {
 /**
  * Starts the session
  */
-function start_session() {
+function ari_session_start() {
 
   if (!isset($_SESSION['ari_user']) ) {
 
@@ -80,7 +80,7 @@ function bootstrap() {
     $login->Unauth();
   }
 
-  if ( !isset($_SESSION['ari_user']) ) {
+  if (!isset($_SESSION['ari_user'])) {
     $login = new Login();
     $login->Auth();
   }
@@ -112,14 +112,12 @@ function ari_page_footer() {
  * Includes and run functions
  */
 
-start_session();
+ari_session_start();
 
 include_once("includes/main.conf");
 include_once("includes/login.inc");
 
 bootstrap();
-
-
 
 
 ?>

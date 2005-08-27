@@ -170,7 +170,7 @@ function voicemail_detail_display($args) {
   // New Header
   $ret .= $display->DisplayHeaderText("Voicemail for " . $_SESSION['ari_user']['name'] . " (" . $mailbox . ")");
   if ($mailbox=='admin') {
-    $_SESSION['error'] = "No Voicemail Recordings for Admin";
+    $_SESSION['ari_error'] = "No Voicemail Recordings for Admin";
     $ret .= $display->DisplayLine();
     return $ret;
   }
@@ -408,7 +408,7 @@ function move_vm_data($files,$mailbox_rx,$folder_rx) {
     } 
   }
   else {
-    $_SESSION['error'] = "Could not create mailbox folder " . $folder_rx . " on the server";
+    $_SESSION['ari_error'] = "Could not create mailbox folder " . $folder_rx . " on the server";
     return;
   }
 

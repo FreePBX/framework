@@ -70,7 +70,7 @@ function callmonitor_detail_display($args) {
 // TODO: this is not a pretty hack, but database is not recording a unique ID so no way to know what call monitor recordings are without an ugly test
     $recordingLink = '';
     foreach($paths as $key => $path) {
-      $recording = get_recording($path,$files,$value[lastdata],$date,$time,$value[calldate]);
+      $recording = get_recording($path,$files,$value[lastdata],$value[calldate]);
       if (isset($recording)) {
         break;
       }
@@ -89,6 +89,9 @@ function callmonitor_detail_display($args) {
 	             <td>" . $value[duration] . " sec</td>
 	             <td>" . $recordingLink . "</td>
 	           </tr>";
+  }
+  if (!count($data)) {
+    $tableText .= "<tr></tr>";
   }
 
   $ret .= "<table class='callmonitor'>
@@ -127,7 +130,7 @@ function callmonitor_detail_display($args) {
  * @param $recording
  *   Reference to the variable to store a $recording name if found
  */
-function get_recording($dir,$files,$lastdata,$date,$time,$calldate) {
+function get_recording($dir,$files,$lastdata,$calldate) {
 
   $recording='';
 
@@ -140,13 +143,11 @@ function get_recording($dir,$files,$lastdata,$date,$time,$calldate) {
     }
   } 
 
-  $uniqueID = preg_replace('/\-/', '', $date) . "-" . preg_replace('/\:/', '', $time);
   if (!$recording) { 
     foreach($files as $key => $path) {
-      $buf = preg_replace('/:|-/', '', $calldate);
-      $buf = preg_replace('/\s+/', '-', $buf);
-      if (preg_match("/".$buf."/",$path) || 
-           (strlen($uniqueID)>1 && preg_match("/".$uniqueID."/",$path) )) {
+      $buf = preg_replace('/\-|\:/', '', $calldate);
+      $uniqueID = preg_replace('/\s+/', '-', $buf);
+      if (strlen($uniqueID)>1 && preg_match("/".$uniqueID."/",$path)) {
         $recording = $path;
         break;
       }

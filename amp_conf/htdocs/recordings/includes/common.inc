@@ -48,25 +48,19 @@ function DatabaseLogon() {
 /*
  * Checks if user is set and sets
  */
-function LoginForm() {
+function CheckErrorMessage() {
 
-  if ( !isset($_SESSION['ari_user']) ) {
-
-    if (isset($_REQUEST)) { $request = $_REQUEST; } else { $request = NULL; }
-
-    $login = new Login();
-    $display = new Display(NULL);
-
-    // new header
-    $ret .= $display->DisplayHeaderText("Login");
-    $ret .= $display->DisplayLine();
-
-    // login form
-    $ret .= $login->Form($request);
-
-    return $ret;
+  if ($_SESSION['ari_error']) {
+    $ret .= "<div class='error'>
+               " . $_SESSION['ari_error'] . "
+             </div>
+             <br>";
+    unset($_SESSION['ari_error']);
   }
+
+  return $ret;
 }
+
 
 /* Utilities */
 
@@ -125,9 +119,36 @@ function GetTimeFormat($timestamp) {
 /* */
 
 /*
+ * Checks if user is set and sets
+ */
+function LoginBlock() {
+
+  if ( !isset($_SESSION['ari_user']) ) {
+
+    if (isset($_REQUEST)) { $request = $_REQUEST; } else { $request = NULL; }
+
+    $login = new Login();
+    $display = new Display(NULL);
+
+    // new header
+    $ret .= $display->DisplayHeaderText("Login");
+    $ret .= $display->DisplayLine();
+    $ret .= CheckErrorMessage();
+
+    // login form
+    $ret .= $login->Form($request);
+
+    return $ret;
+  }
+}
+
+/*
  * Main handler for website
  */
 function HandleBlock() {
+
+  // check errors here and in login block
+  $content .= CheckErrorMessage();
 
   if (!isset($_REQUEST['s'])) {
     $_REQUEST['s'] = $_SESSION['ari_user']['default_page'];
@@ -173,7 +194,7 @@ function Handler() {
 
   global $ari_no_login;
 
-  $error = $_SESSION['error'];
+  $error = $_SESSION['ari_error'];
   if ($_SESSION['ari_user'] && !$ari_no_login) {
     $logout = 1;
   }
@@ -181,17 +202,16 @@ function Handler() {
   $success = DatabaseLogon();
   if ($success) {
 
-    // check if login form is needed (user auth done in bootstrap)
-    $content = LoginForm();
-
+    // check if login is needed (user auth done in bootstrap)
+    $content = LoginBlock();
     if (!isset($content)) {
         list($navsub_menu,$content) = HandleBlock();
     }
   }
   else {
 
-    $_SESSION['error'] = "No database connection<br>
-                          Check AMP installation, asterisk database, or ARI main.conf";
+    $_SESSION['ari_error'] = "No database connection<br>
+                              Check AMP installation, asterisk database, or ARI main.conf";
 
     $display = new Display();
 

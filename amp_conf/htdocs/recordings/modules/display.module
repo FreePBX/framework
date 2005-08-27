@@ -35,20 +35,12 @@ class Display {
    */
   function DisplayLine() {
 
-    if ($_SESSION['error']) {
-      $errorText = "<div class='error'>
-                      " . $_SESSION['error'] . "
-                    </div>";
-    }
-    unset($_SESSION['error']);
-
     $ret = "
       <div id='line'>
         <div class='spacer'></div>
         <div class='spacer'></div>
       </div>
-      <br>
-      " . $errorText;
+      <br>";
 
     return $ret;
   }
