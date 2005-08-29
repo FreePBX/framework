@@ -96,7 +96,8 @@ $database = "asterisk";
 $username = "AMPDBUSER";
 # password to connect to the database
 $password = "AMPDBPASS";
-
+# sort option: extension or lastname
+$sortoption = "extension";
 
 ################### END OF CONFIGURATION #######################
 
@@ -114,7 +115,7 @@ $dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$
 
 foreach my $table ("sip","iax","zap") {
 	if (table_exists($dbh,$table)) {
-		$statement = "SELECT data,id,'$table' from $table where keyword='account' and flags <> 1 and id<9999 group by data order by id";
+		$statement = "SELECT data,id,'$table' from $table where keyword='callerid' and flags <> 1 and id<9999 group by data order by id";
 		$result = $dbh->selectall_arrayref($statement);
 		@resultSet = @{$result};
 		if ( $#resultSet == -1 ) {
@@ -125,7 +126,12 @@ foreach my $table ("sip","iax","zap") {
 	else { print "no existe $table\n"; }
 }
 
-@extensionlist=sort {$a->[1] cmp $b->[1]}(@extensionlist);
+# sort the extensions
+if  ($sortoption eq "lastname") {
+	@extensionlist=sort by_lastname @extensionlist;
+} else {
+	@extensionlist=sort {$a->[1] cmp $b->[1]}(@extensionlist);
+}
 
 #Next, populate queues
 @queues=(); 
@@ -177,7 +183,7 @@ foreach my $pcontext ( @ampusers ) {
 	
 	$btn=0; 
 	if ($exten_low != 0 && $exten_high != 0) {  #display only allowed range of extensions for panel_contexts
-		@extensionrange = grep { @{ $_ }[0]+0 >= $exten_low && @{ $_ }[0]+0 <= $exten_high } @extensionlist;
+		@extensionrange = grep { @{ $_ }[1]+0 >= $exten_low && @{ $_ }[1]+0 <= $exten_high } @extensionlist;
 	} else {
 		@extensionrange = @extensionlist;
 	}
@@ -204,7 +210,7 @@ foreach my $pcontext ( @ampusers ) {
 		#my @resSet = @{$result};
 		
 		$callerid = $account;  #default callerid to account
-		$user=$account;
+		$user=$id;
 	
 		foreach my $drow ( @{ $result } ) {
 			my @result = @{ $drow };
@@ -361,5 +367,18 @@ sub table_exists {
         return 1 unless $@;
     }
     return 0;
+}
+
+sub by_lastname {
+	$a_var = $a->[0];
+	$b_var = $b->[0];
+	($a_firstname,$a_lastname)=$a_var=~/^(\w*)\s+(\w*).*$/;
+	($b_firstname,$b_lastname)=$b_var=~/^(\w*)\s+(\w*).*$/;
+	if (!$a_lastname) {$a_lastname=$a_firstname}
+	if (!$b_lastname) {$b_lastname=$b_firstname}
+	$sortResult=lc $a_lastname cmp lc $b_lastname;
+	if ($sortResult == 0) 
+	{ $sortResult=lc $a_firstname cmp lc $b_firstname }
+	return $sortResult;
 }
 
