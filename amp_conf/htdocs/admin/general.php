@@ -54,9 +54,6 @@ foreach ($globals as $global) {
 	${trim($global[0])} = $global[1];	
 }
 
-//get unique devices
-$devices = getdevices();
-
 ?>
 
 <form name="general" action="config.php" method="post">
@@ -93,9 +90,11 @@ $devices = getdevices();
 		<option value="disabled" <?php  echo ($FAX_RX == 'disabled' ? 'SELECTED' : '')?>><?php echo _("disabled")?>
 		<option value="system" <?php  echo ($FAX_RX == 'system' ? 'SELECTED' : '')?>><?php echo _("system")?>
 <?php 
+	//get unique devices
+	$devices = getdevices();
 	if (isset($devices)) {
 		foreach ($devices as $device) {
-			echo '<option value="'.$device['id'].'" '.($FAX_RX == $device['id'] ? 'SELECTED' : '').'>'.$device['description'].' &lt;'.$device['id'].'&gt;';
+			echo '<option value="'.$device[0].'" '.($FAX_RX == $device[0] ? 'SELECTED' : '').'>'.$device[1].' &lt;'.$device[0].'&gt;';
 		}
 	}
 ?>	
