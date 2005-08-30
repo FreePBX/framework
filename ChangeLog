@@ -1,3 +1,260 @@
+2005-08-30 14:51  rcourtna
+
+	* amp_conf/var/www/html/: index.html (1.4),
+	  admin/retrieve_extensions_from_mysql.pl (1.11): Rob's fix for
+	  extensions retrieval script.	Also renamed some things on index
+	  page.
+
+2005-08-30 14:27  tcourtnage
+
+	* amp_conf/var/www/html/admin/queues.php (1.21): Change all helps
+	  to refer to "agents".
+
+2005-08-30 11:46  rcourtna
+
+	* amp_conf/var/www/html/admin/: index.php (1.17),
+	  i18n/es_ES/LC_MESSAGES/amp.mo (1.1),
+	  i18n/es_ES/LC_MESSAGES/amp.po (1.1): spanish translations
+
+2005-08-29 18:02  rcourtna
+
+	* amp_conf/var/www/html/admin/functions.php (1.91),
+	  amp_conf/var/www/html/admin/queues.php (1.20),
+	  upgrades/1.10.009beta2/upgradequeues.php (1.1): allow for welcome
+	  message when callers join queue
+
+2005-08-29 16:52  rcourtna
+
+	* amportal.conf (1.8), apply_conf.sh (1.12),
+	  amp_conf/var/www/html/admin/retrieve_op_conf_from_mysql.pl
+	  (1.18): allow FOP to sort buttons by extension or last name.	Set
+	  FOPSORT=extension or FOPSORT=lastname in amportal.conf
+
+2005-08-29 12:32  rcourtna
+
+	* amp_conf/var/www/html/admin/general.php (1.17): correct array
+	  index for fax extensions
+
+2005-08-27 12:11  dan_littlejohn
+
+	* amp_conf/var/www/html/recordings/: includes/bootstrap.inc (1.5),
+	  includes/common.inc (1.5), includes/login.inc (1.5),
+	  includes/main.conf (1.4), modules/callmonitor.module (1.4),
+	  modules/display.module (1.3), modules/voicemail.module (1.3),
+	  theme/style.css (1.3): Added remember me (cookie authentication
+	  support Added SIP extension authentication (if used no voicemail)
+	  Bug fixes and code cleanup
+
+2005-08-25 11:37  rcourtna
+
+	* upgrades/1.10.009beta2.md5 (1.1): prepare for beta2
+
+2005-08-25 11:29  rcourtna
+
+	* amp_conf/var/www/html/admin/: functions.php (1.90), incoming.php
+	  (1.16): extension dropdowns should display extension number`
+
+2005-08-25 11:20  rcourtna
+
+	* amp_conf/var/www/html/admin/did.php (1.22): wrong index for
+	  device array used
+
+2005-08-25 11:14  rcourtna
+
+	* amp_conf/var/www/html/admin/queues.php (1.19): correct invalid
+	  argument error in queues.php
+
+2005-08-25 11:01  rcourtna
+
+	* amp_conf/var/www/html/admin/cdr/cdr.php (1.6): as of PHP-5.0.0,
+	  HTTP_*_VARS have been deprecated
+
+2005-08-25 10:50  rcourtna
+
+	* amp_conf/var/www/html/admin/users.php (1.12): [ 1255235 ] Users:
+	  User Password Log In / Log Out Documentation
+
+2005-08-25 10:47  rcourtna
+
+	* amp_conf/var/www/html/admin/users.php (1.11): [ 1255324 ] Users:
+	  Outbound Caller ID Documentation
+
+2005-08-25 10:44  rcourtna
+
+	* amp_conf/var/www/html/admin/: devices.php (1.12), extensions.php
+	  (1.38): [ 1267009 ] devices.php hasn't accountcode field
+
+2005-08-25 10:38  rcourtna
+
+	* amp_conf/var/www/html/admin/incoming.php (1.15): [ 1272144 ]
+	  patch of "incoming calls" menu for amp user
+
+2005-08-24 15:04  rcourtna
+
+	* upgrades/1.10.009beta2/ampextensions.php (1.1): upgrade script to
+	  take care of AMPEXTENSIONS in amportal.conf
+
+2005-08-24 15:02  rcourtna
+
+	* amportal.conf (1.7), install_amp (1.22),
+	  amp_conf/var/www/html/index.html (1.3),
+	  amp_conf/var/www/html/admin/config.php (1.27),
+	  amp_conf/var/www/html/admin/devices.php (1.11),
+	  amp_conf/var/www/html/admin/extensions.php (1.37),
+	  amp_conf/var/www/html/admin/functions.php (1.89),
+	  amp_conf/var/www/html/admin/incoming.php (1.14),
+	  amp_conf/var/www/html/admin/users.php (1.10): expose ARI on
+	  index.html Provide a simple "Extensions" admin which can be used
+	  in place of devices/users.AMPEXTENSIONS setting in amportal.conf
+	  will select the type of admin presented.
+
+2005-08-23 19:44  dan_littlejohn
+
+	* amp_conf/var/www/html/recordings/modules/callmonitor.module
+	  (1.3): Better fix to call monitor recording lookup problem
+
+2005-08-23 18:58  dan_littlejohn
+
+	* amp_conf/var/www/html/recordings/: includes/bootstrap.inc (1.4),
+	  includes/common.inc (1.4), includes/login.inc (1.4),
+	  includes/main.conf (1.3), modules/callmonitor.module (1.2),
+	  modules/voicemail.module (1.2): Code cleanup.  Bug Fix for
+	  $_SESSION['user'] conflict with AMP.	Changed to
+	  $_SESSION['ari_user'] Bug fix for call monitor recording lookup.
+	  Now quits loop when recording is found and returns correct link.
+
+2005-08-23 11:06  rcourtna
+
+	* amp_conf/var/www/html/admin/functions.php (1.88): "$fp =
+	  fsockopen("localhost", 5038, $errno, $errstr, 10);" - there
+	  should be an @ sign to supress errors in the event the socket
+	  can't be open - also the fclose (a few lines down) should be
+	  moved up into the else clause (i.e. you only close the socket if
+	  the open was good)
+
+2005-08-22 10:42  rcourtna
+
+	* amp_conf/var/www/html/admin/functions.php (1.87): [ 1266153 ]
+	  trunks.php do not save OUTPREFIX value
+
+2005-08-22 09:03  rcourtna
+
+	* amp_conf/etc/asterisk/extensions.conf (1.61): [ 1260895 ] error
+	  in first regexp
+
+2005-08-22 08:18  rcourtna
+
+	* amp_conf/var/www/html/admin/: devices.php (1.10), functions.php
+	  (1.86), users.php (1.9): allow device/user list "paging" if
+	  number of items > 20
+
+2005-08-19 16:02  dan_littlejohn
+
+	* amp_conf/var/www/html/recordings/: ABOUT.txt (1.2), index.php
+	  (1.2), includes/bootstrap.inc (1.3), includes/common.inc (1.3),
+	  includes/login.inc (1.3), includes/main.conf (1.2),
+	  modules/callmonitor.module (1.1), modules/display.module (1.2),
+	  modules/info.module (1.2), modules/recordings.module (1.2),
+	  modules/voicemail.module (1.1), theme/header_monitor.png (1.2),
+	  theme/header_monitor.psd (1.2), theme/page.tpl.php (1.2),
+	  theme/style.css (1.2): Update for ARI.
+
+	  Adds Authentication and Voicemail support.
+
+	  New configuration options : - Navigate to
+	  /var/www/html/recordings/includes - Open the file main.conf - If
+	  you wish to only use the call monitor portion set $ari_no_login=1
+	  - If you wish for certain extensions to view all calls in the
+	  call monitor,   set $callmonitor_admin_mailboxes equal to a comma
+	  delimited list of the   extensions - If you wish for all users to
+	  view all calls in the call monitor,	set
+	  $callmonitor_admin_mailboxes to "all"
+
+2005-08-11 09:09  rcourtna
+
+	* upgrades/1.10.009beta2/vmprefix.sql (1.1): AMP 008 fresh install
+	  was missing the VM_PREFIX field in globals.  Make sure upgraders
+	  get it.
+
+2005-08-11 08:14  rcourtna
+
+	* amp_conf/var/www/html/panel/: op_lang_de.cfg (1.1),
+	  op_lang_en.cfg (1.1), op_lang_es.cfg (1.1), op_lang_it.cfg (1.1):
+	  commit missing files for new FOP
+
+2005-08-10 16:31  rcourtna
+
+	* amp_conf/var/www/html/panel/: CHANGES (1.5), TODO (1.5), UPGRADE
+	  (1.5), op_server.cfg (1.4), op_server.pl (1.8), op_style.cfg
+	  (1.6), operator_panel.swf (1.7): upgrade to fop 0.23 snapshot
+
+2005-08-10 16:16  rcourtna
+
+	* amp_conf/var/www/html/admin/: config.php (1.26), devices.php
+	  (1.9): added a really lame feature.  Now when you create a
+	  device, you have the option to create a user for that device with
+	  user extension = device id
+
+2005-08-08 14:49  rcourtna
+
+	* amp_conf/var/www/html/admin/: general.php (1.16), incoming.php
+	  (1.13), routing.php (1.25), trunks.php (1.20): [ 1233511 ] PHP &
+	  HTML/JavaScript fixes
+
+2005-08-08 14:37  rcourtna
+
+	* amp_conf/var/www/html/admin/functions.php (1.85): [ 1233581 ]
+	  Cosmetic fix to functions.php for Queues
+
+2005-08-08 14:30  rcourtna
+
+	* amp_conf/usr/sbin/amportal (1.14): [ 1245521 ] amportal should
+	  use -U and -G instead of 'su'
+
+2005-08-08 14:14  rcourtna
+
+	* CHANGES (1.17), install_amp (1.21),
+	  amp_conf/var/lib/asterisk/bin/php-asmanager.php (1.2),
+	  upgrades/1.10.009beta2/default_devices_users.php (1.1): [ 1250573
+	  ] Can no longer call extensions or receive incoming calls...
+
+2005-08-04 16:14  tcourtnage
+
+	* amp_conf/var/www/html/admin/cdr/cdr.php (1.5): Fix two typos.
+
+2005-08-04 14:40  mheydon1973
+
+	* amp_conf/var/www/html/admin/common/script.js.php (1.13): [
+	  1251369 ] AMP Users - Department Name - Error on checking for ' '
+
+2005-08-04 14:30  mheydon1973
+
+	* amp_conf/var/www/html/admin/: routing.php (1.24),
+	  images/trash.png (1.1): [ 1247118 ] outbound routing "delete"
+	  button
+
+2005-08-03 15:01  mheydon1973
+
+	* amp_conf/var/www/html/: admin/config.php (1.25),
+	  admin/extensions.php (1.36), admin/footer.php (1.15),
+	  admin/functions.php (1.84), admin/header.php (1.17),
+	  admin/index.php (1.16), admin/ivr.php (1.19),
+	  admin/ivr_action.php (1.13), admin/panel.php (1.3),
+	  admin/reports.php (1.11), admin/users.php (1.8),
+	  recordings/includes/bootstrap.inc (1.2),
+	  recordings/includes/common.inc (1.2),
+	  recordings/includes/login.inc (1.2): Changes to _SESSION to make
+	  them less likely to conflict with other SESSION vars from other
+	  sites....plus now less likely to conflict when register_globals =
+	  On
+
+	  All _SESSION now in the format _SESSION["AMP_user"]
+
+2005-08-01 16:15  rcourtna
+
+	* CHANGES (1.16), ChangeLog (1.15), upgrades/1.10.009beta1.md5
+	  (1.1): prepare for beta1
+
 2005-08-01 15:33  rcourtna
 
 	* amp_conf/: etc/asterisk/extensions.conf (1.60),
