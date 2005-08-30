@@ -102,11 +102,14 @@ foreach my $row ( @{ $result } ) {
 		my @result = @{ $row };
 		if ($result[6] == 0) {
 			print EXTEN "exten => $result[1],$result[2],$result[3]";
-			print EXTEN "($result[4])" if defined $result[4];
-			print EXTEN "\t" if not defined $result[4];
-			print EXTEN "\t; $result[5]" if defined $result[5];
-			print EXTEN "\n";
+			if (defined $result[4] && $result[4] ne '') {
+				print EXTEN "($result[4])";
+			} 
+			if (defined $result[5] && $result[5] ne '') {
+				print EXTEN "\t; $result[5]";
 			}
+			print EXTEN "\n";
+		}
 		elsif ($result[6] == 2) {
 			print EXTEN "include => $result[3]\n";
 		}
