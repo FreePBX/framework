@@ -18,8 +18,6 @@ include 'common/php-asmanager.php';
 //make sure we can connect to Asterisk Manager
 checkAstMan();
 
-$dispnum = 'devices'; //used for switch on config.php
-
 /* User specific stuff */
 
 //script to write extensions_additional.conf file from mysql
@@ -81,8 +79,8 @@ if (isset($extension) && !checkRange($extension)){
 	//deviceid and extension are the same and fixed
 	$deviceid = $extension;
 	$deviceuser = $extension;
-	$description = $name;
-	
+	$description = $_REQUEST['name'];
+
 	//if submitting form, update database
 	switch ($action) {
 		case "add":
