@@ -28,6 +28,7 @@ $password = $_REQUEST['password'];
 $agentannounce = $_REQUEST['agentannounce'];
 $prefix = $_REQUEST['prefix'];
 $goto = $_REQUEST['goto0'];
+$joinannounce = $_REQUEST['joinannounce'];
 
 $members = array();
 if (isset($_REQUEST["members"])) {
@@ -61,7 +62,7 @@ if (isset($account) && !checkRange($account)){
 	//if submitting form, update database
 	switch ($action) {
 		case "add":
-			addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members);
+			addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
 			exec($wScript1);
 			exec($wScript2);
 			exec($wOpScript);
@@ -76,7 +77,7 @@ if (isset($account) && !checkRange($account)){
 		break;
 		case "edit":  //just delete and re-add
 			delqueue($account);
-			addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members);
+			addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
 			exec($wScript1);
 			exec($wScript2);
 			exec($wOpScript);
@@ -385,6 +386,24 @@ if ($action == 'delete') {
 				}
 			}
 		
+			?>		
+			</select>		
+		</td>
+	</tr>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("Join Announcement:")?><span><?php echo _("Announcement played to callers once prior to joining the queue.<br><br>To add additional recordings please use the \"System Recordings\" MENU to the left")?></span></a></td>
+		<td>
+			<select name="joinannounce"/>
+			<?php
+				$tresults = getsystemrecordings("/var/lib/asterisk/sounds/custom");
+				$default = (isset($joinannounce) ? $joinannounce : None);
+				echo '<option value="None">'._("None");
+				if (isset($tresults)) {
+					foreach ($tresults as $tresult) {
+						$searchvalue="custom/$tresult";	
+						echo '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$tresult;
+					}
+				}
 			?>		
 			</select>		
 		</td>

@@ -1710,7 +1710,7 @@ function deleteDialRules($trunknum) {
 	writeDialRulesFile($conf);
 }
 
-function addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members) {
+function addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce) {
 	global $db;
 	
 	//add to extensions table
@@ -1725,15 +1725,17 @@ function addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account,'3','SetVar','MONITOR_FILENAME=/var/spool/asterisk/monitor/q${EXTEN}-${TIMESTAMP}-${UNIQUEID}','','0');
 	addextensions($addarray);
-	$addarray = array('ext-queues',$account,'4','Queue',$account.'|t||'.$agentannounce.'|'.$_REQUEST['maxwait'],$name,'0');
+	$addarray = array('ext-queues',$account,'4','Playback','custom/'.$joinannounce,'','0');
+	addextensions($addarray);
+	$addarray = array('ext-queues',$account,'5','Queue',$account.'|t||'.$agentannounce.'|'.$_REQUEST['maxwait'],$name,'0');
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account.'*','1','Macro','agent-add,'.$account.','.$password,'','0');
 	addextensions($addarray);
 	$addarray = array('ext-queues',$account.'**','1','Macro','agent-del,'.$account,'','0');
 	addextensions($addarray);
 	
-	//start at priority 5. if changing this priority, also change in getqueueinfo()
-	setGoto($account,'ext-queues','5',$goto,0);
+	//failover goto
+	setGoto($account,'ext-queues','6',$goto,0);
 	
 	
 	// now add to queues table
@@ -1826,14 +1828,18 @@ function getqueueinfo($account) {
 	$results['maxwait'] = $maxwait[4];
 	$results['name'] = $descr;
 	
+	$sql = "SELECT args FROM extensions WHERE extension = '$account' AND context = 'ext-queues' and application = 'Playback'";
+	list($args) = $db->getRow($sql);
+	$results['joinannounce'] = $args; 
+	
 	//get password from AddQueueMember command
 	$sql = "SELECT args FROM extensions WHERE extension = '$account*' AND context = 'ext-queues'";
 	list($args) = $db->getRow($sql);
 	$password = explode(',',$args); //in table like agent-add,account,password
 	$results['password'] = $password[2];
 	
-	//get the failover destination (at priority 5)
-	$sql = "SELECT args FROM extensions WHERE extension = '".$account."' AND priority = '5'";
+	//get the failover destination (desc=jump)
+	$sql = "SELECT args FROM extensions WHERE extension = '".$account."' AND descr = 'jump'";
 	list($args) = $db->getRow($sql);
 	$results['goto'] = $args; 
 
@@ -1934,32 +1940,32 @@ function drawselects($formName,$goto,$i) {
 function setGoto($account,$context,$priority,$goto,$i) {  //preforms logic for setting goto destinations
 	if ($goto == 'extension') {
 		$args = 'ext-local,'.$_REQUEST['extension'.$i].',1';
-		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
+		$addarray = array($context,$account,$priority,'Goto',$args,'jump','0');
 		addextensions($addarray);
 	}
 	elseif ($goto == 'voicemail') {
 		$args = 'vm,'.$_REQUEST['voicemail'.$i];
-		$addarray = array($context,$account,$priority,'Macro',$args,'','0');
+		$addarray = array($context,$account,$priority,'Macro',$args,'jump','0');
 		addextensions($addarray);
 	}
 	elseif ($goto == 'ivr') {
 		$args = $_REQUEST['ivr'.$i].',s,1';
-		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
+		$addarray = array($context,$account,$priority,'Goto',$args,'jump','0');
 		addextensions($addarray);
 	}
 	elseif ($goto == 'group') {
 		$args = 'ext-group,'.$_REQUEST['group'.$i].',1';
-		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
+		$addarray = array($context,$account,$priority,'Goto',$args,'jump','0');
 		addextensions($addarray);
 	}
 	elseif ($goto == 'custom') {
 		$args = $_REQUEST['custom_args'.$i];
-		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
+		$addarray = array($context,$account,$priority,'Goto',$args,'jump','0');
 		addextensions($addarray);
 	}
 	elseif ($goto == 'queue') {
 		$args = 'ext-queues,'.$_REQUEST['queue'.$i	].',1';
-		$addarray = array($context,$account,$priority,'Goto',$args,'','0');
+		$addarray = array($context,$account,$priority,'Goto',$args,'jump','0');
 		addextensions($addarray);
 	}
 }
