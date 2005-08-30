@@ -222,7 +222,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info"><?php echo _("join empty:")?><span><?php echo _("If you wish to allow queues that have no members currently to be joined, set this to yes")?></span></a></td>
+		<td><a href="#" class="info"><?php echo _("join empty:")?><span><?php echo _("If you wish to allow callers to join queues that currently have no agents, set this to yes")?></span></a></td>
 		<td>
 			<select name="joinempty"/>
 			<?php
@@ -253,11 +253,11 @@ if ($action == 'delete') {
 		<td>
 			<a href="#" class="info"><?php echo _("ring strategy:")?>
 				<span>
-					<b><?php echo _("ringall")?></b>:  <?php echo _("ring all available channels until one answers (default)")?><br>
-					<b><?php echo _("roundrobin")?></b>: <?php echo _("take turns ringing each available interface")?><br>
-					<b><?php echo _("leastrecent")?></b>: <?php echo _("ring interface which was least recently called by this queue")?><br>
-					<b><?php echo _("fewestcalls")?></b>: <?php echo _("ring the one with fewest completed calls from this queue")?><br>
-					<b><?php echo _("random")?></b>: <?php echo _("ring random interface")?><br>
+					<b><?php echo _("ringall")?></b>:  <?php echo _("ring all available agents until one answers (default)")?><br>
+					<b><?php echo _("roundrobin")?></b>: <?php echo _("take turns ringing each available agent")?><br>
+					<b><?php echo _("leastrecent")?></b>: <?php echo _("ring agent which was least recently called by this queue")?><br>
+					<b><?php echo _("fewestcalls")?></b>: <?php echo _("ring the agent with fewest completed calls from this queue")?><br>
+					<b><?php echo _("random")?></b>: <?php echo _("ring random agent")?><br>
 					<b><?php echo _("rrmemory")?></b>: <?php echo _("round robin with memory, remember where we left off last ring pass")?><br>
 				</span>
 			</a>
@@ -275,7 +275,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info"><?php echo _("agent timeout:")?><span><?php echo _("The number of seconds a phone can ring before we consider it a timeout.")?></span></a></td>
+		<td><a href="#" class="info"><?php echo _("agent timeout:")?><span><?php echo _("The number of seconds an agents phone can ring before we consider it a timeout.")?></span></a></td>
 		<td>
 			<select name="timeout"/>
 			<?php
@@ -301,7 +301,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info"><?php echo _("wrap-up-time:")?><span><?php echo _("After a successful call, how many seconds to wait before sending a potentially free member another call (default is 0, or no delay)")?></span></a></td>
+		<td><a href="#" class="info"><?php echo _("wrap-up-time:")?><span><?php echo _("After a successful call, how many seconds to wait before sending a potentially free agent another call (default is 0, or no delay)")?></span></a></td>
 		<td>
 			<select name="wrapuptime"/>
 			<?php
