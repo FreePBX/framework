@@ -113,18 +113,16 @@ $dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$
 
 @extensionlist=();
 
-foreach my $table ("sip","iax","zap") {
-	if (table_exists($dbh,$table)) {
-		$statement = "SELECT data,id,'$table' from $table where keyword='callerid' and flags <> 1 and id<9999 group by data order by id";
-		$result = $dbh->selectall_arrayref($statement);
-		@resultSet = @{$result};
-		if ( $#resultSet == -1 ) {
-	  		print "Notice: no $table accounts defined\n";
-		}
-		push(@extensionlist, @{ $result });
+if (table_exists($dbh,"devices")) {
+	$statement = "SELECT description,id,dial from devices";
+	$result = $dbh->selectall_arrayref($statement);
+	@resultSet = @{$result};
+	if ( $#resultSet == -1 ) {
+		print "Notice: no devices defined\n";
 	}
-	else { print "no existe $table\n"; }
+	push(@extensionlist, @{ $result });
 }
+else { print "no existe $table\n"; }
 
 # sort the extensions
 if  ($sortoption eq "lastname") {
@@ -188,49 +186,13 @@ foreach my $pcontext ( @ampusers ) {
 		@extensionrange = @extensionlist;
 	}
 	foreach my $row ( @extensionrange ) {
-		my $account = @{ $row }[0];
+		my $description = @{ $row }[0];
 		my $id = @{ $row }[1];
-		my $table = @{ $row }[2];
-	#	next if ($account eq "");
+		my $dial = @{ $row }[2];
+#	#	next if ($account eq "");
 		$btn=get_next_btn($extenpos,$btn);
-		$statement = "SELECT keyword,data from $table where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
-		my $result = $dbh->selectall_arrayref($statement);
-		unless ($result) {
-			# check for errors after every single database call
-			print "dbh->selectall_arrayref($statement) failed!\n";
-			print "DBI::err=[$DBI::err]\n";
-			print "DBI::errstr=[$DBI::errstr]\n";
-			exit;
-		}
-		
-		$tech="SIP" if $table eq "sip";
-		$tech="IAX2" if $table eq "iax";
-		$tech="ZAP" if $table eq "zap";
-	
-		#my @resSet = @{$result};
-		
-		$callerid = $account;  #default callerid to account
-		$user=$id;
-	
-		foreach my $drow ( @{ $result } ) {
-			my @result = @{ $drow };
-			if ( $result[0] eq "callerid" ) {
-				$callerid = $result[1];
-				@fields=split(/</,$callerid);
-				$callerid=$fields[1] ." ". $fields[0];
-				$callerid =~ tr/\"<>//d;
-			}
-			if ( $result[0] eq "channel" ) {
-				if ($tech eq "ZAP") { $user = $result[1]; }
-			}
-			if ( $result[0] eq "mailbox" ) {
-				$vmcontext = $result[1];
-				if ($vmcontext =~ /@/) { $vmcontext =~ s/^.*@//; }
-				else { $vmcontext="default"; }
-			}
-		}
 		$icon='4';
-		print EXTEN "[$tech/$user]\nPosition=$btn\nLabel=\"$callerid\"\nExtension=$account\nContext=from-internal\nIcon=$icon\nVoicemail_Context=$vmcontext\nPanel_Context=$panelcontext\n";
+		print EXTEN "[$dial]\nPosition=$btn\nLabel=\"$id : $description\"\nExtension=$id\nContext=from-internal\nIcon=$icon\nVoicemail_Context=device\nPanel_Context=$panelcontext\n";
 	}
 	
 	
@@ -374,8 +336,8 @@ sub by_lastname {
 	$b_var = $b->[0];
 	($a_firstname,$a_lastname)=$a_var=~/^(\w*)\s+(\w*).*$/;
 	($b_firstname,$b_lastname)=$b_var=~/^(\w*)\s+(\w*).*$/;
-	if (!$a_lastname) {$a_lastname=$a_firstname}
-	if (!$b_lastname) {$b_lastname=$b_firstname}
+	if (!$a_lastname) {$a_lastname=$a_var;}
+	if (!$b_lastname) {$b_lastname=$b_var;}
 	$sortResult=lc $a_lastname cmp lc $b_lastname;
 	if ($sortResult == 0) 
 	{ $sortResult=lc $a_firstname cmp lc $b_firstname }
