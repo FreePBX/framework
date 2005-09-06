@@ -112,7 +112,7 @@ drawListMenu($devices, $_REQUEST['skip'], $dispnum, $extdisplay, _("Device"));
 		</tr>
 
 		<tr>
-			<td><a href="#" class="info"><?php echo _("Device Type")?><span><?php echo _('Devices can be fixed or adhoc. Fixed devices are always associated to the same extension/user. Adhoc devices can be logged into by users.')?></span></a>:</td>
+			<td><a href="#" class="info"><?php echo _("Device Type")?><span><?php echo _('Devices can be fixed or adhoc. Fixed devices are always associated to the same extension/user. Adhoc devices can be logged into (*11) and logged out of (*12) by users.')?></span></a>:</td>
 			<td>
 				<select name="devicetype">
 					<option value="fixed" <?php  echo ($devinfo_devicetype == 'fixed' ? 'SELECTED' : '')?>><?php echo _("Fixed")?>

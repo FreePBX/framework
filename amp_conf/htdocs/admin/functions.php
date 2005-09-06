@@ -2679,7 +2679,13 @@ function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 		$astman->database_put("DEVICE",$id."/dial",$dial);
 		$astman->database_put("DEVICE",$id."/type",$devicetype);
 		$astman->database_put("DEVICE",$id."/user",$user);
-		$astman->database_put("AMPUSER",$user."/device",$id);
+		if($user != "none") {
+			$existingdevices = $astman->database_get("AMPUSER",$user."/device");
+			if (!empty($existingdevices)) {
+					$existingdevices .= "&";
+			}
+			$astman->database_put("AMPUSER",$user."/device",$existingdevices.$id);
+		}
 		$astman->disconnect();
 	} else {
 		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
@@ -2724,6 +2730,22 @@ function deldevice($account){
 	//delete details to astdb
 	$astman = new AGI_AsteriskManager();
 	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		// If a user was selected, remove this device from the user
+		$deviceuser = $astman->database_get("DEVICE",$account."/user");
+		if ($user != "none") {
+				// Remove the device record from the user's device list
+				$userdevices = $astman->database_get("AMPUSER",$deviceuser."/device");
+				$userdevices = str_replace($account."&", "", $userdevices."&");
+				// If there was more than one device, remove the extra "&" at the end.
+				if (substr($userdevices, -1, 1) == "&") {
+					$userdevices = substr($userdevices, 0, -1);
+				}
+				if (empty($userdevices)) {
+						$astman->database_del("AMPUSER",$deviceuser."/device");
+				} else {
+						$astman->database_put("AMPUSER",$deviceuser."/device",$userdevices);
+				}
+		}
 		$astman->database_del("DEVICE",$account."/dial");
 		$astman->database_del("DEVICE",$account."/type");
 		$astman->database_del("DEVICE",$account."/user");
@@ -3008,8 +3030,15 @@ function devices2astdb(){
 			extract($dev);	
 			$astman->database_put("DEVICE",$id."/dial",$dial);
 			$astman->database_put("DEVICE",$id."/type",$devicetype);
-			$astman->database_put("DEVICE",$id."/user",$user);
-			$astman->database_put("AMPUSER",$user."/device",$id);
+			$astman->database_put("DEVICE",$id."/user",$user);		
+			// If a user is selected, add this device to the user
+			if($user != "none") {
+					$existingdevices = $astman->database_get("AMPUSER",$user."/device");
+					if (!empty($existingdevices)) {
+							$existingdevices .= "&";
+					}
+					$astman->database_put("AMPUSER",$user."/device",$existingdevices.$id);
+			}
 			
 			//voicemail symlink
 			exec("rm -f /var/spool/asterisk/voicemail/device/".$id);
