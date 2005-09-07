@@ -159,6 +159,14 @@ case "$1" in
 		stop_asterisk
 		stop_fop
 	;;
+	restart)
+		stop_asterisk
+		stop_fop
+		sleep 1
+		chown_asterisk
+		run_asterisk
+		run_fop
+	;;
 	chown)
 		chown_asterisk
 	;;
@@ -171,6 +179,7 @@ case "$1" in
 		echo
 		echo "start: Starts Asterisk and Flash Operator Panel server"
 		echo "stop: Gracefully stops Asterisk and the FOP server"
+		echo "restart: Stop and Starts"
 		echo "kill: Kills Asterisk and the FOP server"
 		echo "chown: Sets appropriate permissions on files"
 		echo
