@@ -1,12 +1,15 @@
 1.10.009
 
+- Asterisk Recording Interface (ARI).  ARI is a php interface to Voicemail and monitor recordings. (written by littlejohnconsulting.com)
+- Queues can now play a "welcome" message to callers upon joining.
 - DID Routes re-written as Inbound Routing.  This allows for DID specific fax emails and call answering options.
 - RingGroups now use strategies: Ring All (default), Hunt, Memory Hunt
-- Separation of Devices and Users.  Devices are endpoints (ie: phones), and can be Fixed to a user, or Adhoc.  Users are extensions, with options like voicemail.  A user can log in to an Adhoc device by dialing *11, and log-off by dialing *12
+- Optional separation of Devices and Users (AMPEXTENSIONS option added to amportal.conf).  Devices are endpoints (ie: phones), and can be Fixed to a user, or Adhoc.  Users are extensions, with options like voicemail.  A user can log in to Adhoc devices by dialing *11, and log-off by dialing *12.
 - Custom device technology support
 - HINT priorities for FIXED devices
-- Interface translated to French, German, Italian
+- Interface translated to French, German, Italian, Spanish
 - FOP .21
+- FOP button layout can now be sorted by last name or extension number
 
 1.10.008
 
