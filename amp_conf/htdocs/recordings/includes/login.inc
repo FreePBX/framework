@@ -44,83 +44,87 @@ class Login {
       $auth = false;
 
       // check voicemail login
-      $lines = file($asterisk_voicemail_conf);
-      foreach ($lines as $key => $line) {
+      if (!$auth) {
+        $lines = file($asterisk_voicemail_conf);
+        foreach ($lines as $key => $line) {
 
-        unset($value);
-        list($var,$value) = split('=>',$line);
-        $var = trim($var);
-        if ($var==$username && $value) {
-          $buf = split(',',$value);
-          if ($buf[0]==$password) {  
+          unset($value);
+          list($var,$value) = split('=>',$line);
+          $var = trim($var);
+          if ($var==$username && $value) {
+            $buf = split(',',$value);
+            if ($buf[0]==$password) {  
 
-            // authenticated
-            $auth = true; 
-            $mailbox = $username ;
-            $displayname = $buf[1];
+              // authenticated
+              $auth = true; 
+              $mailbox = $username ;
+              $displayname = $buf[1];
 
-            $default_page = 'voicemail';
-
-            $admin_callmonitor = 0;
-            if ($callmonitor_admin_mailboxes) {
-              $mailboxes = split(',',$callmonitor_admin_mailboxes);
-              foreach ($mailboxes as $key => $value) {
-                if ($value=='all' || $mailbox==$value) {
-                  $admin_callmonitor = 1;
-                  break 2;
+              $default_page = 'voicemail';
+  
+              $admin_callmonitor = 0;
+              if ($callmonitor_admin_mailboxes) {
+                $mailboxes = split(',',$callmonitor_admin_mailboxes);
+                foreach ($mailboxes as $key => $value) {
+                  if ($value=='all' || $mailbox==$value) {
+                    $admin_callmonitor = 1;
+                    break 2;
+                  }
                 }
               }
             }
-          }
-          else {
-            $_SESSION['ari_error'] = "Incorrect Password";
-            return;
+            else {
+              $_SESSION['ari_error'] = "Incorrect Password";
+              return;
+            }
           }
         }
       }
 
       // check sip login
-      $lines = file($asterisk_sip_conf);
-      foreach ($lines as $key => $line) {
+      if (!$auth) {
+        $lines = file($asterisk_sip_conf);
+        foreach ($lines as $key => $line) {
 
-        unset($value);
-        list($var,$value) = split('=',$line);
-        $var = trim($var);
-        $value = trim($value);
-        if ($var=="username") {
-          $sip_username = $value;
-        }
-        if ($var=="secret") {
+          unset($value);
+          list($var,$value) = split('=',$line);
+          $var = trim($var);
+          $value = trim($value);
+          if ($var=="username") {
+            $sip_username = $value;
+          }
+          if ($var=="secret") {
 
-          $sip_password = $value;
-          if ($sip_username==$username &&
-                $sip_password==$password) {  
+            $sip_password = $value;
+            if ($sip_username==$username &&
+                  $sip_password==$password) {  
 
-            // authenticated
-            $auth = true;  
-            $mailbox = $username ;
-            $displayname = $username;
+              // authenticated
+              $auth = true;  
+              $mailbox = $username ;
+              $displayname = $username;
 
-            $default_page = 'callmonitor';
+              $default_page = 'callmonitor';
 
-            $_SESSION['ari_error'] = "Voicemail Login not found, SIP Login used<br>
-                                      No access to voicemail";
+              $_SESSION['ari_error'] = "Voicemail Login not found, SIP Login used<br>
+                                        No access to voicemail";
 
-            $admin_callmonitor = 0;
-            if ($callmonitor_admin_mailboxes) {
-              $mailboxes = split(',',$callmonitor_admin_mailboxes);
-              foreach ($mailboxes as $key => $value) {
-                if ($value=='all' || $mailbox==$value) {
-                  $admin_callmonitor = 1;
-                  break 2;
+              $admin_callmonitor = 0;
+              if ($callmonitor_admin_mailboxes) {
+                $mailboxes = split(',',$callmonitor_admin_mailboxes);
+                foreach ($mailboxes as $key => $value) {
+                  if ($value=='all' || $mailbox==$value) {
+                    $admin_callmonitor = 1;
+                    break 2;
+                  }
                 }
               }
             }
-          }
-          else if ($sip_username==$username &&
-                     $sip_password!=$password) {
-            $_SESSION['ari_error'] = "Incorrect Password";
-            return;
+            else if ($sip_username==$username &&
+                       $sip_password!=$password) {
+              $_SESSION['ari_error'] = "Incorrect Password";
+              return;
+            }
           }
         }
 
