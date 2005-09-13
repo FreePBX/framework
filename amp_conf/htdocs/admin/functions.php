@@ -2525,7 +2525,7 @@ function adduser($vars,$vmcontext) {
 	$recording = "out=".$record_out."|in=".$record_in;
 	
 	//insert into users table
-	$sql="INSERT INTO users (extension,password,name,voicemail,ringtimer,noanswer,recording,outboundcid) values (\"$extension\",\"$password\",\"$name\",\"$voicemail\",\"$ringtimer\",\"$noanswer\",\"$recording\",\"$outboundcid\")";
+	$sql="INSERT INTO users (extension,password,name,voicemail,ringtimer,noanswer,recording,outboundcid) values (\"$extension\",\"$password\",\"$name\",\"$voicemail\",\"$ringtimer\",\"$noanswer\",\"$recording\",'$outboundcid')";
 	$results = $db->query($sql);
 	if(DB::IsError($results)) {
         die($results->getMessage().$sql);
