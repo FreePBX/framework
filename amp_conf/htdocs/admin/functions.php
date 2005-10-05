@@ -188,7 +188,7 @@ function getaas() {
 }
 
 // get the existing extensions
-// the returned arrays contain [0]:extension [1]:CID [2]:technology
+// the returned arrays contain [0]:extension [1]:name
 function getextens() {
 	global $db;
 	$sql = "SELECT extension,name FROM users ORDER BY extension";
@@ -196,7 +196,13 @@ function getextens() {
 	if(DB::IsError($results)) {
 		$results = null;
 	}
-	return $results;
+	foreach($results as $result){
+		if (checkRange($result[0])){
+			$extens[] = array($result[0],$result[1]);
+		}
+	}
+	if (isset($extens)) sort($extens);
+	return $extens;
 }
 
 //get the existing devices
@@ -207,70 +213,14 @@ function getdevices() {
 	if(DB::IsError($results)) {
 		$results = null;
 	}
-	return $results;
-}
-
-/*function getextens() {
-	$sip = getSip();
-	$iax = getIax();
-	$zap= getZap();
-	$results = array_merge($sip, $iax, $zap);
 	foreach($results as $result){
 		if (checkRange($result[0])){
-			$extens[] = array($result[0],$result[1],$result[2]);
+			$extens[] = array($result[0],$result[1]);
 		}
 	}
 	if (isset($extens)) sort($extens);
 	return $extens;
-}*/
-
-/*function getSip() {
-	global $db;
-	sipexists();
-	$sql = "SELECT id,data FROM sip WHERE keyword = 'callerid' ORDER BY id";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-		$results = null;
-	}
-	//add value 'sip' to each array
-	foreach ($results as $result) {
-		$result[] = 'sip';
-		$sip[] = $result;
-	}
-	return $sip;
-}*/
-
-/*function getIax() {
-	global $db;
-	iaxexists();
-	$sql = "SELECT id,data FROM iax WHERE keyword = 'callerid' ORDER BY id";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-		$results = null;
-	}
-	//add value 'iax' to each array
-	foreach ($results as $result) {
-		$result[] = 'iax';
-		$iax[] = $result;
-	}
-	return $iax;
-}*/
-
-/*function getZap() {
-	global $db;
-	zapexists();
-	$sql = "SELECT id,data FROM zap WHERE keyword = 'callerid' ORDER BY id";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-		$results = null;
-	}
-	//add value 'zap' to each array
-	foreach ($results as $result) {
-		$result[] = 'zap';
-		$zap[] = $result;
-	}
-	return $zap;
-}*/
+}
 
 //get the existing group extensions
 function getgroups() {
