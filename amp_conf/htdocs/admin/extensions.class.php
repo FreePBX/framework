@@ -2,7 +2,7 @@
 
 class extensions {
 	/** The config
-	 * array(section=>array(extension=>array(priority=>value)))
+	 * array(section=>array(extension=>array( array('basetag'=>basetag,'tag'=>tag,'addpri'=>addpri,'cmd'=>cmd) )))
 	 * ( $_exts[$section][$extension][$priority] )
 	 */
 	var $_exts;
@@ -11,12 +11,6 @@ class extensions {
 	 * special cases of priorities
 	 */
 	var $_hints;
-	
-	/** Last priority used
-	 * array(section=>array(extension=>lastpriority))
-	 * ( $_lastpri[$section][$extension] )
-	 */
-	var $_lastpri;
 	
 	var $_sorted;
 	
