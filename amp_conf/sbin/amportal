@@ -52,7 +52,7 @@ check_asterisk() {
 # check to see if asterisk is running
 # Note, this isn't fool-proof.  If safe_asterisk is constantly restarting a dying asterisk, then there is a chance pidof will return non zero.  We call this twice to reduce chances of this happening
 pid_length=`pidof asterisk|awk '{print length($0)}'`
-	if [ "$pid_length" == "0" ]
+	if [ "$pid_length" == "0" -a "$pid_length" != "" ]
 		then
 				killall -9 safe_asterisk
 				killall -9 mpg123 > /dev/null
@@ -70,7 +70,7 @@ run_asterisk() {
 echo
 echo "STARTING ASTERISK"
 pid_length=`pidof asterisk|awk '{print length($0)}'`
-	if [ "$pid_length" != "0" ]
+	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 		then
 			echo "Asterisk is already running"
 		else
@@ -89,7 +89,7 @@ stop_asterisk() {
 echo
 echo "STOPPING ASTERISK"
 pid_length=`pidof asterisk|awk '{print length($0)}'`
-	if [ "$pid_length" != "0" ]
+	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 		then
 			/usr/sbin/asterisk -rx "stop gracefully"
 			echo "Asterisk Stopped"
@@ -99,7 +99,7 @@ pid_length=`pidof asterisk|awk '{print length($0)}'`
 check_fop() {
 #check to see if FOP is running
 	pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
-	if [ "$pid_length" == "0" ]
+	if [ "$pid_length" == "0" -a "$pid_length" != ""]
 		then
 				killall -9 safe_opserver
 				echo
@@ -116,7 +116,7 @@ run_fop() {
 echo
 echo "STARTING FOP SERVER"
 pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
-	if [ "$pid_length" != "0" ]
+	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 		then
 			echo "FOP server is already running"
 		else
@@ -131,7 +131,7 @@ stop_fop() {
 	echo
 	echo "STOPPING FOP SERVER"
 	pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
-		if [ "$pid_length" != "0" ]
+		if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 			then
 				killall -9 safe_opserver
 				killall -9 op_server.pl
