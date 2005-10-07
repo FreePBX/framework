@@ -2820,6 +2820,7 @@ function addiax2($account) {
 	array($account,'qualify',($_REQUEST['qualify'])?$_REQUEST['qualify']:'no'),
 	array($account,'disallow',($_REQUEST['disallow'])?$_REQUEST['disallow']:''),
 	array($account,'allow',($_REQUEST['allow'])?$_REQUEST['allow']:''),
+	array($account,'accountcode',($_REQUEST['accountcode'])?$_REQUEST['accountcode']:''),
 	array($account,'record_in',($_REQUEST['record_in'])?$_REQUEST['record_in']:'On-Demand'),
 	array($account,'record_out',($_REQUEST['record_out'])?$_REQUEST['record_out']:'On-Demand'),
 	array($account,'callerid',($_REQUEST['description'])?$_REQUEST['description']." <".$account.'>':'device'." <".$account.'>'));
