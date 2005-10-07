@@ -2505,6 +2505,11 @@ function adduser($vars,$vmcontext) {
 	//hint will always be empty.  For now, we'll only do hint for "fixed" devices.  see devices.php.
 	addaccount($extension,$mailb,$hint);
 	
+	//we'll only have devicetype var if from extensions.php
+	if(($devicetype == "fixed") && ($extension != "none")) {
+		addhint($extension,$dial);
+	}
+	
 	//take care of voicemail.conf if using voicemail
 	$uservm = getVoicemail();
 	unset($uservm[$incontext][$account]);
