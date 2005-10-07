@@ -91,6 +91,11 @@ if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
  	<a target="_blank" href="http://sourceforge.net/projects/amportal"><img border="0" style="float:left;" src="images/powered_by_amp.png"></a>
         <br>
 		<br>
+<?php
+	echo "Version ";
+	$ver=getversion(); echo $ver[0][0];
+	echo " on <b>".$_SERVER["SERVER_NAME"]."</b>";
+?>
 		<br>
 		<br>
     </span>
