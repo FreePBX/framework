@@ -2594,6 +2594,8 @@ function deluser($extension,$incontext,$uservm){
 function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 	global $db;
 	global $amp_conf;
+	global $currentFile;
+	
 	//ensure this id is not already in use
 	$devices = getdevices();
 	foreach($devices as $device) {
@@ -2651,6 +2653,10 @@ function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 		$funct($id);
 	}
 	
+	//script to write op_server.cfg file from mysql 
+	$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
+	exec($wOpScript);
+	
 	//if the device is of type 'fixed', then we can use HINT
 	//TODO is it possible to use ${variables} for a HINT extensions (ie: for adhoc devices)
 	if(($devicetype == "fixed") && ($user != "none")) {
@@ -2666,6 +2672,7 @@ function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 function deldevice($account){
 	global $db;
 	global $amp_conf;
+	global $currentFile;
 	
 	//get all info about device
 	$devinfo = getdeviceInfo($account);
@@ -2712,6 +2719,10 @@ function deldevice($account){
 	if(function_exists($funct)){
 		$funct($account);
 	}
+	
+	//script to write op_server.cfg file from mysql 
+	$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
+	exec($wOpScript);
 	
 	//take care of any hint priority
 	delhint($devinfo['user']);
@@ -2771,9 +2782,6 @@ function addsip($account) {
 	//script to write sip conf file from mysql
 	$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_sip_conf_from_mysql.pl';
 	exec($wScript);
-	//script to write op_server.cfg file from mysql 
-	$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
-	exec($wOpScript);
 
 }
 
