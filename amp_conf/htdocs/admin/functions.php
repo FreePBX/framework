@@ -1062,7 +1062,7 @@ function getTrunkTrunkName($trunknum) {
 		$tname = ltrim($results[0][0],"AMP:");
 	} else {
 	strtok($results[0][0],'/');
-		$tname = strtolower( strtok('/') ); // the text _after_ technology.  ie: ZAP/g0 is g0
+		$tname = strtok('/'); // the text _after_ technology.  ie: ZAP/g0 is g0
 	}
 	return $tname;
 }
