@@ -2502,13 +2502,14 @@ function adduser($vars,$vmcontext) {
 	//This may affect some upgraders as it is possible in previous versions!
 	//$mailb = ($vm == 'disabled' || $mailbox == '') ? 'novm' : $mailbox;
 	$mailb = ($vm == 'disabled') ? 'novm' : $extension;
-	//hint will always be empty.  For now, we'll only do hint for "fixed" devices.  see devices.php.
-	addaccount($extension,$mailb,$hint);
 	
 	//we'll only have devicetype var if from extensions.php
 	if(($devicetype == "fixed") && ($extension != "none")) {
-		addhint($extension,$dial);
+		$hint=$dial;
 	}
+	
+	//hint will always be empty.  For now, we'll only do hint for "fixed" devices.  see devices.php.
+	addaccount($extension,$mailb,$hint);
 	
 	//take care of voicemail.conf if using voicemail
 	$uservm = getVoicemail();
