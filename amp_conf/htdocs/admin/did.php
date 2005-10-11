@@ -218,7 +218,7 @@ if (isset($inroutes)) {
 				$devices = getdevices();
 				if (isset($devices)) {
 					foreach ($devices as $device) {
-						echo '<option value="'.$device[0].'" '.($FAX_RX == $device[0] ? 'SELECTED' : '').'>'.$device[1].' &lt;'.$device[0].'&gt;';
+						echo '<option value="'.$device[0].'" '.($faxexten == $device[0] ? 'SELECTED' : '').'>'.$device[1].' &lt;'.$device[0].'&gt;';
 					}
 				}
 			?>	
