@@ -159,7 +159,8 @@ switch(strtolower($tech)) {
 			'busycount' => '7',
 			'callprogress' => 'no',
 			'dial' => '',
-			'accountcode' => ''
+			'accountcode' => '',
+			'mailbox' => ''
 		);
 	break;
 	case "iax2":
@@ -176,7 +177,8 @@ switch(strtolower($tech)) {
 			'disallow' => '',
 			'allow' => '',
 			'dial' => '',
-			'accountcode' => ''
+			'accountcode' => '',
+			'mailbox' => ''
 		);		
 	break;
 	case "sip":
@@ -197,7 +199,8 @@ switch(strtolower($tech)) {
 			'disallow' => '',
 			'allow' => '',
 			'dial' => '',
-			'accountcode' => ''
+			'accountcode' => '',
+			'mailbox' => ''
 		);
 	break;
 	case "custom":
