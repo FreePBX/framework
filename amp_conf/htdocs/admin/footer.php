@@ -25,6 +25,47 @@
 //check to see if we are requesting an asterisk reload
 if ($_REQUEST['clk_reload'] == 'true') {
 	
+	if (isset($amp_conf["POST_RELOAD"]))
+	{
+		echo "
+			<style>
+				.clsWait        { position: absolute; top:75px; left: 100; width: 700px; text-align:center; border: red solid 1px; background:#f0d0d0; display: block; font-weight: bold }
+				.clsWaitFinishOK{ position: absolute; top:75px; left: 100; width: 700px; text-align:center; border: blue solid 1px; background:#d0d0f0; display: block; }
+				.clsHidden      { display: none }
+			</style>
+		";
+		echo "<div id='idWaitBanner' class='clsWait'> Please wait while applyig configuration</div>";
+		
+		if (!isset($amp_conf["POST_RELOAD_DEBUG"]) || 
+		    (($amp_conf["POST_RELOAD_DEBUG"]!="1") && 
+		     ($amp_conf["POST_RELOAD_DEBUG"]!="true")) 
+		   )
+			echo "<div style='display:none'>";
+			
+		echo "Executing post apply script <b>".$amp_conf["POST_RELOAD"]."</b><pre>";
+		system( $amp_conf["POST_RELOAD"] );
+		echo "</pre>";
+		
+		if (!isset($amp_conf["POST_RELOAD_DEBUG"]) || 
+		    (($amp_conf["POST_RELOAD_DEBUG"]!="1") && 
+		     ($amp_conf["POST_RELOAD_DEBUG"]!="true"))
+		    )
+			echo "</div><br>";
+		
+ 		echo "
+			<script> 
+				function hideWaitBanner()
+				{
+					document.getElementById('idWaitBanner').className = 'clsHidden';
+				}
+
+				document.getElementById('idWaitBanner').innerHTML = 'Configuration applied';
+				document.getElementById('idWaitBanner').className = 'clsWaitFinishOK';
+				setTimeout('hideWaitBanner()',3000);
+			</script>
+		";
+	}
+	
 	//reload asterisk
 	$fp = fsockopen("localhost", 5038, $errno, $errstr, 10);
 	if (!$fp) {
