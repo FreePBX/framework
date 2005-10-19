@@ -5,255 +5,411 @@
  * Functions for the interface to the call monitor recordings
  */
 
-/*
- * Displays stats page
- *
- * @param $args
- *   Common arguments
- */
-function callmonitor_detail_display($args) {
+/**
+  * Class for callmonitor
+  */
+class callmonitor {
 
-  global $asterisk_callmonitor_path;
+  /*
+   * rank (for prioritizing modules)
+   */
+  function callmonitor_rank() {
 
-  $display = new DisplaySearch();
-
-  // get the search string
-  $s = get_argument($args,'s');
-  $q = get_argument($args,'q');
-  $start = get_argument($args,'start');
-  $span = get_argument($args,'span');
-
-  $start = $start=='' ? 0 : $start ;
-  $span = $span=='' ? 15 : $span ;
-
-  $paths = split(';',$asterisk_callmonitor_path);
-
-  // get data
-  get_cdr_count($q,$recordCount);
-  get_cdr_data($q,$start,$span,$data);
-
-  // get the call monitor recordings from the asterisk server (this is not scalable and need to find a better way)
-  $filter = '';
-  $recursiveMax = 6;
-  $recursiveCount = 0;
-  foreach($paths as $key => $path) {
-    get_files($path,$filter,$recursiveMax,$recursiveCount,$files);
+    $rank = 2;
+    return $rank;
   }
 
-  // New Header
-  if ($_SESSION['ari_user']['admin_callmonitor']) {
-    $headerText = "Call Monitor";
-  } else {
-    $headerText = "Call Monitor for " . $_SESSION['ari_user']['name'] . " (" . $_SESSION['ari_user']['mailbox'] . ")";
+  /*
+   * Adds menu item to nav menu
+   *
+   * @param $args
+   *   Common arguments
+   */
+  function callmonitor_nav_menu($args) {
+
+    $ret .= "
+      <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=callmonitor&f=display'>Call Monitor</a></small></small></p>";
+
+    return $ret;
   }
-  $ret .= $display->DisplayHeaderText($headerText);
-  $ret .= $display->DisplaySearchBlock('left',$s,$q,true);
-  $ret .= $display->DisplayInfoBarBlock($controls,$q,$start,$span,$recordCount);
 
-  // add javascript popup script
-  $ret .= "<SCRIPT LANGUAGE='JavaScript'>
-           <!-- Begin
-           function popUp(URL) {
-             eval(\"page = window.open(URL, 'play', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=324,height=24');\");
-           }
-           // End -->
-           </script>";
+  /*
+   * Acts on the selected call monitor recordings in the method indicated by the action and updates page
+   *
+   * @param $args
+   *   Common arguments
+   */
+  function callmonitor_rec_action($args) {
 
-  foreach($data as $key=>$value) {
+    global $asterisk_callmonitor_path;
 
-    // date and time
-    $buf = split(' ', $value[calldate]);
-    $date = $buf[0];
-    $time = $buf[1];
+    // args
+    $m = get_argument($args,'m');
+    $a = get_argument($args,'a');
+    $q = get_argument($args,'q');
 
-    // recording popup
-// TODO: this is not a pretty hack, but database is not recording a unique ID so no way to know what call monitor recordings are without an ugly test
-    $recordingLink = '';
-    foreach($paths as $key => $path) {
-      $recording = get_recording($path,$files,$value[lastdata],$value[calldate]);
-      if (isset($recording)) {
-        break;
+    // get files
+    $files = array();
+    foreach($_REQUEST as $key => $value) {
+      if (preg_match('/selected/',$key)) {
+        array_push($files, $value);
       }
     }
-    if (is_file($recording)) {
-      $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "')\">play</a>";
+
+    if ($a=='delete') {
+      $this->delete_rec_data($files);
     }
+
+    // redirect to see updated page
+    $ret .= "
+      <head>
+        <script>
+        <!--
+          window.location = \"" . $_SERVER['PHP_SELF'] . "?m=" . $m . "&q=" . $q . "\"
+        // -->
+        </script>
+      </head>";
+
+    return $ret;
+  }
+
+  /*
+   * Displays stats page
+   *
+   * @param $args
+   *   Common arguments
+   */
+  function callmonitor_display($args) {
+
+    global $asterisk_callmonitor_path;
+    global $callmonitor_allow_delete;
+
+    $display = new DisplaySearch();
+
+    // get the search string
+    $m = get_argument($args,'m');
+    $q = get_argument($args,'q');
+    $start = get_argument($args,'start');
+    $span = get_argument($args,'span');
+
+    $start = $start=='' ? 0 : $start ;
+    $span = $span=='' ? 15 : $span ;
+
+    $paths = split(';',$asterisk_callmonitor_path);
+
+    // get data
+    $this->get_cdr_count($q,$recordCount);
+    $this->get_cdr_data($q,$start,$span,$data);
+
+    // get the call monitor recordings from the asterisk server (this is not scalable and need to find a better way)
+    $filter = '';
+    $recursiveMax = 6;
+    $recursiveCount = 0;
+    foreach($paths as $key => $path) {
+      get_files($path,$filter,$recursiveMax,$recursiveCount,$files);
+    }
+
+    // table controls
+    if ($callmonitor_allow_delete) {
+      $controls = "
+        <input class='infoBar' type='submit' name='a' value='delete'>
+        </select>";
+    }
+
+    // table header
+    if ($callmonitor_allow_delete) {
+      $recording_delete_header = "<th></th>";
+    }
+
+    // table body
+    foreach($data as $key=>$value) {
+
+      // date and time
+      $buf = split(' ', $value[calldate]);
+      $date = $buf[0];
+      $time = $buf[1];
+
+      // recording popup
+      $recordingLink = '';
+      foreach($paths as $key => $path) {
+        $recording = $this->get_recording($path,$files,$value[lastdata],$value[calldate]);
+        if (isset($recording)) {
+          break;
+        }
+      }
+
+      // recording delete checkbox
+      if ($callmonitor_allow_delete) {
+        $recording_delete_checkbox = "<td class='checkbox'><input type=checkbox name='selected" . ++$i . "' value=" . $recording . "></td>";
+      }
+
+      if (is_file($recording)) {
+        $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "')\">play</a>";
+      }
     
-    $tableText .= "<tr>
-	             <td width=70>" . $date . "</td>
-	             <td>" . $time . "</td>
-	             <td>" . $value[clid] . "</td>
-	             <td>" . $value[src] . "</td>
-	             <td>" . $value[dst] . "</td>
-	             <td>" . $value[dcontext] . "</td>
-	             <td>" . $value[duration] . " sec</td>
-	             <td>" . $recordingLink . "</td>
-	           </tr>";
-  }
-  if (!count($data)) {
-    $tableText .= "<tr></tr>";
-  }
-
-  $ret .= "<table class='callmonitor'>
-	     <tr>
-               <th>Date</td>
-               <th>Time</td>
-	       <th>Caller ID</td>
-	       <th>Source</td>
-	       <th>Destination</td>
-	       <th>Context</td>
-	       <th>Duration</td>
-	       <th>Monitor</td>
-             </tr>
-             " . $tableText . "
-             <br />
-           </table>";
-
-  $ret .= "<br>";
-  $ret .= $display->DisplaySearchBlock('center',$s,$q,false);
-  $ret .= $display->DisplayNavigationBlock($s,$q,$start,$span,$recordCount);
-
-  return $ret;
-}
-
-/*
- * Checks for a recording file
- *
- * @param $dir
- *   path call monitor recording directory on the asterisk server
- * @param $files
- *   current call monitor recordings on the asterisk server
- * @param $lastdata
- *   last action recorded in database
- * @param $calldate
- *   date call was made
- * @param $recording
- *   Reference to the variable to store a $recording name if found
- */
-function get_recording($dir,$files,$lastdata,$calldate) {
-
-  $recording='';
-
-  $buf = preg_split("/\|/", $lastdata);
-  $uniqueID = $buf[1];
-  if (isset($uniqueID)) {
-    $path = $dir . $uniqueID . ".WAV";
-    if (is_file($path)) {
-      $recording = $path;
+      $tableText .= "<tr>
+                       " . $recording_delete_checkbox . "
+	               <td width=70>" . $date . "</td>
+	               <td>" . $time . "</td>
+	               <td>" . $value[clid] . "</td>
+	               <td>" . $value[src] . "</td>
+	               <td>" . $value[dst] . "</td>
+	               <td>" . $value[dcontext] . "</td>
+	               <td>" . $value[duration] . " sec</td>
+	               <td>" . $recordingLink . "</td>
+	             </tr>";
     }
-  } 
+    if (!count($data)) {
+      $tableText .= "<tr></tr>";
+    }
 
-  if (!$recording) { 
-    foreach($files as $key => $path) {
-      $buf = preg_replace('/\-|\:/', '', $calldate);
-      $uniqueID = preg_replace('/\s+/', '-', $buf);
-      if (strlen($uniqueID)>1 && preg_match("/".$uniqueID."/",$path)) {
+    // build page content
+    if ($_SESSION['ari_user']['admin_callmonitor']) {
+      $headerText = "Call Monitor";
+    } else {
+      $headerText = _("Call Monitor for") . " " . $_SESSION['ari_user']['name'] . " (" . $_SESSION['ari_user']['extension'] . ")";
+    }
+    $ret .= $display->DisplayHeaderText($headerText);
+    $ret .= $display->DisplaySearchBlock('left',$m,$folder,$q,true);
+
+    // start form
+    if ($callmonitor_allow_delete) {
+
+      $ret .= "
+        <form  name='callmonitor_form' action='" . $_SERVER['PHP_SELF'] . "' method='GET'>
+          <input type=hidden name=m value=" . $m . ">	
+          <input type=hidden name=f value=rec_action>
+          <input type=hidden name=q value=" . $q . ">
+          <input type=hidden name=start value=0>";
+    }
+    $ret .= $display->DisplayInfoBarBlock($controls,$q,$start,$span,$recordCount);
+
+    // javascript for popup and message actions
+    $ret .= "
+      <SCRIPT LANGUAGE='JavaScript'>
+      <!-- Begin
+      function popUp(URL) {
+        eval(\"page = window.open(URL, 'play', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=324,height=24');\");
+      }
+
+      function checkAll(form,set) {
+        var elem = 0;
+        var i = 0;
+        while (elem = form.elements[i]) {
+          if (set) {
+            elem.checked = true;
+          } else {
+            elem.checked = false;
+          }
+          i++;
+        }
+        return true;
+      }
+      // End -->
+      </script>";
+
+    // call monitor recording delete controls
+    if ($callmonitor_allow_delete) {
+      $ret .= "
+        <table>
+          <tr>
+            <td>
+              <small>select: </small>
+              <small><a href='' OnClick=\"checkAll(document.callmonitor_form,true); return false;\">all</a></small>
+              <small><a href='' OnClick=\"checkAll(document.callmonitor_form,false); return false;\">none</a></small>
+            </td>
+          </tr>
+        </table>";
+    }
+    else {
+      $ret .= "<br>";
+    }
+
+    // table body
+    $ret .= "
+      <table class='callmonitor'>
+         <tr>
+           " . $recording_delete_header . "
+           <th>Date</th>
+           <th>Time</th>
+           <th>Caller ID</th>
+           <th>Source</th>
+           <th>Destination</th>
+           <th>Context</th>
+           <th>Duration</th>
+           <th>Monitor</th>
+         </tr>
+         " . $tableText . "
+       </table>";
+
+    // end form
+    if ($callmonitor_allow_delete) {
+      $ret .= "</form>";
+    }
+
+    $ret .= "<br>";
+    $ret .= $display->DisplaySearchBlock('center',$m,$folder,$q,false);
+    $ret .= $display->DisplayNavigationBlock($m,$folder,$q,$start,$span,$recordCount);
+
+    return $ret;
+  }
+
+  /*
+   * Checks for a recording file
+   *
+   * @param $dir
+   *   path call monitor recording directory on the asterisk server
+   * @param $files
+   *   current call monitor recordings on the asterisk server
+   * @param $lastdata
+   *   last action recorded in database
+   * @param $calldate
+   *   date call was made
+   * @param $recording
+   *   Reference to the variable to store a $recording name if found
+   */
+  function get_recording($dir,$files,$lastdata,$calldate) {
+
+    $recording='';
+
+    $buf = preg_split("/\|/", $lastdata);
+    $uniqueID = $buf[1];
+    if (isset($uniqueID)) {
+      $path = $dir . $uniqueID . ".WAV";
+      if (is_file($path)) {
         $recording = $path;
-        break;
       }
     } 
+
+    if (!$recording) { 
+      foreach($files as $key => $path) {
+        $buf = preg_replace('/\-|\:/', '', $calldate);
+        $uniqueID = preg_replace('/\s+/', '-', $buf);
+        if (strlen($uniqueID)>1 && preg_match("/".$uniqueID."/",$path)) {
+          $recording = $path;
+          break;
+        }
+      } 
+    }
+
+    return $recording;
   }
 
-  return $recording;
-}
 
-/*
- * Gets cdr record count
- *
- * @param $q
- *   query text
- */
-function get_search_text($q) {
+  /*
+   * Deletes selected call monitor recordings
+   *
+   * @param $files
+   *   Array of files to delete
+   */
+  function delete_rec_data($files) {
 
-  // searchText
-  if ($q != '*' && $q != NULL) {
-    $searchText .= "WHERE ";
-    $tok = strtok($q," \n\t");
-    while ($tok) {
-      $searchText .= " (calldate regexp '" . $tok . "'
-                       OR clid regexp '" . $tok . "'
-                       OR src regexp '" . $tok . "'
-                       OR dst regexp '" . $tok . "'
-                       OR dcontext regexp '" . $tok . "'
-                       OR duration regexp '" . $tok . "'
-                       OR disposition regexp '" . $tok . "'
-                       OR uniqueid regexp '" . $tok . "'
+    foreach($files as $key => $file) {
+      unlink($file);
+    }
+  }
+
+  /*
+   * Gets cdr record count
+   *
+   * @param $q
+   *   query text
+   */
+  function get_search_text($q) {
+
+    // searchText
+    if ($q != '*' && $q != NULL) {
+      $searchText .= "WHERE ";
+      $tok = strtok($q," \n\t");
+      while ($tok) {
+        $searchText .= " (calldate regexp '" . $tok . "'
+                         OR clid regexp '" . $tok . "'
+                         OR src regexp '" . $tok . "'
+                         OR dst regexp '" . $tok . "'
+                         OR dcontext regexp '" . $tok . "'
+                         OR duration regexp '" . $tok . "'
+                         OR disposition regexp '" . $tok . "'
+                         OR uniqueid regexp '" . $tok . "'
                        )";
-      $tok = strtok(" \n\t");
-      if ($tok) {
-        $searchText .= " AND";
+        $tok = strtok(" \n\t");
+        if ($tok) {
+          $searchText .= " AND";
+        }
       }
     }
-  }
 
-  // admin
-  if (!$_SESSION['ari_user']['admin_callmonitor']) {
-    if (!$searchText) {
-      $searchText .= "WHERE ";
-    } else {
-      $searchText .= "AND ";
+    // admin
+    if (!$_SESSION['ari_user']['admin_callmonitor']) {
+      if (!$searchText) {
+        $searchText .= "WHERE ";
+      } else {
+        $searchText .= "AND ";
+      }
+      $searchText .= "src = '" . $_SESSION['ari_user']['extension'] . "'
+                      OR dst = '" . $_SESSION['ari_user']['extension'] . "'";
     }
-    $searchText .= "src = '" . $_SESSION['ari_user']['mailbox'] . "'";
+
+    return $searchText;
   }
 
-  return $searchText;
+  /*
+   * Gets cdr record count
+   *
+   * @param $q
+   *   query text
+   * @param $count
+   *   Reference to the variable to store the data in
+   */
+  function get_cdr_count($q,&$count) {
+
+    $searchText = $this->get_search_text($q);
+
+    $dbh = $_SESSION['dbh_cdr'];
+    $sql = "SELECT count(*) 
+            FROM cdr
+            " . $searchText;
+
+    $data = $dbh->getAll($sql);
+    $count = $data[0][0];
+  }
+
+  /*
+   * Gets cdr data
+   *
+   * @param $q
+   *   query text
+   * @param $start
+   *   start record
+   * @param $span
+   *   number of records to return
+   * @param $data
+   *   Reference to the variable to store the data in
+   */
+  function get_cdr_data($q,$start,$span,&$data) {
+
+    $searchText = $this->get_search_text($q);
+
+    $dbh = $_SESSION['dbh_cdr'];
+    $sql = "SELECT calldate, 
+                   clid, 
+                   src,
+                   dst, 
+                   dcontext, 
+                   lastapp, 
+                   lastdata, 
+                   duration, 
+                   disposition, 
+                   amaflags, 
+                   uniqueid, 
+                   userfield 
+             FROM cdr 
+             " . $searchText . "
+             ORDER BY calldate desc
+             LIMIT " . $start . "," . $span;
+    $data = $dbh->getAll($sql,DB_FETCHMODE_ASSOC);
+  }
+
 }
 
-/*
- * Gets cdr record count
- *
- * @param $q
- *   query text
- * @param $count
- *   Reference to the variable to store the data in
- */
-function get_cdr_count($q,&$count) {
-
-  $searchText = get_search_text($q);
-
-  $dbh = $_SESSION['dbh_cdr'];
-  $sql = "SELECT count(*) 
-          FROM cdr
-          " . $searchText;
-
-  $data = $dbh->getAll($sql);
-  $count = $data[0][0];
-}
-
-/*
- * Gets cdr data
- *
- * @param $q
- *   query text
- * @param $start
- *   start record
- * @param $span
- *   number of records to return
- * @param $data
- *   Reference to the variable to store the data in
- */
-function get_cdr_data($q,$start,$span,&$data) {
-
-  $searchText = get_search_text($q);
-
-  $dbh = $_SESSION['dbh_cdr'];
-  $sql = "SELECT calldate, 
-                 clid, 
-                 src,
-                 dst, 
-                 dcontext, 
-                 lastapp, 
-                 lastdata, 
-                 duration, 
-                 disposition, 
-                 amaflags, 
-                 uniqueid, 
-                 userfield 
-           FROM cdr 
-           " . $searchText . "
-           ORDER BY calldate desc
-           LIMIT " . $start . "," . $span;
-  $data = $dbh->getAll($sql,DB_FETCHMODE_ASSOC);
-}
 
 ?>

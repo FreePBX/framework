@@ -28,9 +28,19 @@ function DatabaseLogon() {
     } 
   }
 
-  require_once('DB.php'); //PEAR must be installed
+  require_once('DB.php'); // PEAR must be installed
  
   $db = new Database();
+
+  $success = $db->logon($username, 
+                        $password,
+                        'localhost',
+                        'asterisk',
+                        'mysql',
+                        $_SESSION['dbh_asterisk']);
+  if (!$success) {
+    return false;
+  }
 
   $success = $db->logon($username, 
                         $password,
@@ -41,7 +51,7 @@ function DatabaseLogon() {
   if (!$success) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -72,11 +82,11 @@ function CheckErrorMessage() {
  */
 function CheckPathSlash(&$path) {
 
-  $s = '';
+  $slash = '';
   if (!preg_match('/\/$/',$path)) {
-    $s = '/';
+    $slash = '/';
   } 
-  $path .= $s; 
+  $path .= $slash; 
 }
 
 /**
@@ -89,11 +99,11 @@ function CheckPathSlash(&$path) {
  */
 function AppendPath(&$path,$folder) {
 
-  $s = '';
+  $m = '';
   if (!preg_match('/\/$/',$path)) {
-    $s = '/';
+    $m = '/';
   } 
-  $path .= $s . $folder; 
+  $path .= $m . $folder; 
 }
 
 /**
@@ -150,11 +160,17 @@ function HandleBlock() {
   // check errors here and in login block
   $content .= CheckErrorMessage();
 
-  if (!isset($_REQUEST['s'])) {
-    $_REQUEST['s'] = $_SESSION['ari_user']['default_page'];
+  # if nothing set goto user default page
+  if (!isset($_REQUEST['m'])) {
+    $_REQUEST['m'] = $_SESSION['ari_user']['default_page'];
+  }
+  # if not function specified then use display page function
+  if (!isset($_REQUEST['f'])) {
+    $_REQUEST['f'] = 'display';
   }
 
-  $s = $_REQUEST['s'];     // section
+  $m = $_REQUEST['m'];     // module
+  $f = $_REQUEST['f'];     // function
   $a = $_REQUEST['a'];     // action
 
   // set arguments
@@ -162,29 +178,85 @@ function HandleBlock() {
     set_argument($args,$key,$value);
   }
 
-  if ($s=="callmonitor") {
+  $modules = array();
 
-    include_once("modules/callmonitor.module"); 
-    $content .= callmonitor_detail_display($args);
-  }
-  elseif ($s=="voicemail") {
+  // get modules
+  $modules_path = "./modules";
+  if (is_dir($modules_path)) {
 
-    include_once("modules/voicemail.module"); 
+    $filter = ".module";
+    $recursiveMax = 1;
+    $recursiveCount = 0;
+    get_files($modules_path,$filter,$recursiveMax,$recursiveCount,$files);
 
-    $navsub_menu .= voicemail_subnav_menu($args);
+    foreach($files as $key => $path) {
 
-    if ($a) {
-      $content .= voicemail_msg_action($a,$args);
+      // build module object 
+      include_once($path); 
+      $path_parts = pathinfo($path);
+      list($name,$ext) = split("\.",$path_parts['basename']);
+
+      // check for module and get rank
+      if (class_exists($name)) {
+
+        $module = new $name();
+        $module_methods = get_class_methods($module);
+
+        // set rank
+        $rank = 99999;
+        $rank_function = $name . "_rank";
+        if (in_array(strtolower($rank_function), $module_methods)) {
+          $rank = $module->$rank_function(); 
+        }
+
+        // add to module name to array
+        $moduleNames[$name] = $rank;
+      }
     }
-    else {
-      $content .= voicemail_detail_display($args);
-    }
+    asort($moduleNames);
   }
   else {
-    $content .= "Page Not Found.";
+    $_SESSION['ari_error'] = $path . " " . _("not a directory or not readable");
+  }
+
+  // process modules
+  foreach (array_keys($moduleNames) as $name) {
+
+    // check for module and process
+    if (class_exists($name)) {
+
+      $module = new $name();
+      $module_methods = get_class_methods($module);
+
+      // add nav menu item
+      $nav_menu_function = $name . "_nav_menu";
+      if (in_array(strtolower($nav_menu_function), $module_methods)) {
+        $nav_menu .= $module->$nav_menu_function($args); 
+      }
+
+      if ($m==$name) {
+
+        // build sub menu
+        $nav_submenu_function = $m . "_nav_submenu";
+        if (in_array(strtolower($nav_submenu_function), $module_methods)) {
+          $nav_submenu .= $module->$nav_submenu_function($args); 
+        }
+
+        // execute function (usually to build content)
+        $function = $m . "_" . $f;
+        if (in_array(strtolower($function), $module_methods)) {
+          $content .= $module->$function($args);
+        }
+      }
+    }
+  }
+
+  // error message if no content
+  if (!$content) {
+    $content .= _("Page Not Found.");
   } 
 
-  return array($navsub_menu,$content);
+  return array($nav_menu,$nav_submenu,$content);
 }
 
 /*
@@ -192,6 +264,7 @@ function HandleBlock() {
  */
 function Handler() {
 
+  global $ari_version;
   global $ari_no_login;
 
   $error = $_SESSION['ari_error'];
@@ -205,13 +278,13 @@ function Handler() {
     // check if login is needed (user auth done in bootstrap)
     $content = LoginBlock();
     if (!isset($content)) {
-        list($navsub_menu,$content) = HandleBlock();
+        list($nav_menu,$nav_submenu,$content) = HandleBlock();
     }
   }
   else {
 
-    $_SESSION['ari_error'] = "No database connection<br>
-                              Check AMP installation, asterisk database, or ARI main.conf";
+    $_SESSION['ari_error'] = _("No database connection") . "<br>" .
+                             _("Check AMP installation, asterisk database, or ARI main.conf");
 
     $display = new Display();
 
@@ -227,9 +300,9 @@ function Handler() {
  * Includes and run functions
  */  
 
-include_once("modules/database.module");
-include_once("modules/display.module");  
-include_once("modules/info.module");
+include_once("includes/database.inc");
+include_once("includes/display.inc");  
+include_once("includes/info.inc");
 
 
 ?>

@@ -20,7 +20,7 @@ class Login {
     global $ari_cookie_password;
     global $asterisk_voicemail_conf;
     global $asterisk_sip_conf;
-    global $callmonitor_admin_mailboxes;
+    global $callmonitor_admin_extensions;
     global $ari_no_login;
 
     // get the ari authentication cookie 
@@ -57,16 +57,17 @@ class Login {
 
               // authenticated
               $auth = true; 
-              $mailbox = $username ;
+              $extension = $username ;
               $displayname = $buf[1];
+              $vm_password = $buf[0];
 
               $default_page = 'voicemail';
   
               $admin_callmonitor = 0;
-              if ($callmonitor_admin_mailboxes) {
-                $mailboxes = split(',',$callmonitor_admin_mailboxes);
-                foreach ($mailboxes as $key => $value) {
-                  if ($value=='all' || $mailbox==$value) {
+              if ($callmonitor_admin_extensions) {
+                $extensions = split(',',$callmonitor_admin_extensions);
+                foreach ($extensions as $key => $value) {
+                  if ($value=='all' || $extension==$value) {
                     $admin_callmonitor = 1;
                     break 2;
                   }
@@ -101,19 +102,19 @@ class Login {
 
               // authenticated
               $auth = true;  
-              $mailbox = $username ;
+              $extension = $username ;
               $displayname = $username;
 
               $default_page = 'callmonitor';
 
-              $_SESSION['ari_error'] = "Voicemail Login not found, SIP Login used<br>
-                                        No access to voicemail";
+              $_SESSION['ari_error'] = _("Voicemail Login not found, SIP Login used") . "<br>" .
+                                       _("No access to voicemail");
 
               $admin_callmonitor = 0;
-              if ($callmonitor_admin_mailboxes) {
-                $mailboxes = split(',',$callmonitor_admin_mailboxes);
-                foreach ($mailboxes as $key => $value) {
-                  if ($value=='all' || $mailbox==$value) {
+              if ($callmonitor_admin_extensions) {
+                $extensions = split(',',$callmonitor_admin_extensions);
+                foreach ($extensions as $key => $value) {
+                  if ($value=='all' || $extension==$value) {
                     $admin_callmonitor = 1;
                     break 2;
                   }
@@ -122,7 +123,7 @@ class Login {
             }
             else if ($sip_username==$username &&
                        $sip_password!=$password) {
-              $_SESSION['ari_error'] = "Incorrect Password";
+              $_SESSION['ari_error'] = _("Incorrect Password");
               return;
             }
           }
@@ -150,15 +151,16 @@ class Login {
 
       // no login user
       if ($ari_no_login) {
-        $mailbox = 'admin';
+        $extension = 'admin';
         $name = 'Administrator';
         $admin_callmonitor = 1;
         $default_page = 'callmonitor';
       } 
 
-      if ($mailbox) {
-        $_SESSION['ari_user']['mailbox'] = $mailbox;
+      if ($extension) {
+        $_SESSION['ari_user']['extension'] = $extension;
         $_SESSION['ari_user']['name'] = $displayname;
+        $_SESSION['ari_user']['voicemail_password'] = $vm_password;
         $_SESSION['ari_user']['category'] = $category;
         $_SESSION['ari_user']['context'] = $context;
         $_SESSION['ari_user']['admin_callmonitor'] = $admin_callmonitor;
@@ -199,7 +201,7 @@ class Login {
     if (isset($request)) {
       foreach ($request as $key => $value) {
         if ($key != "ID") {
-          if ($key!="username" && $key!="password" ) {
+          if ($key!="username" && $key!="password") {
             $hiddenInputText .= "<input type='hidden' name=" . $key . " value=" . $value . ">";
           }
         }
@@ -208,47 +210,43 @@ class Login {
 
     $ret .= "
       <form id='login' action=" . $_SERVER['PHP_SELF'] . " method='POST' name='login'>
-        " . $hiddenInputText . "
-        <div class='spacer'></div>
-        <span class='left'>
-          <small><small>Login&nbsp;Name:&nbsp;&nbsp;</small></small>
-        </span>
-        <span class='right'>
-          <input type='text' name='username' value='' maxlength=20 tabindex=1>
-        </span>
-        <span class='left'>
-          <small><small>Password:&nbsp;&nbsp;</small></small>
-        </span>
-        <span class='right'>
-          <input type='password' name='password' maxlength=20 tabindex=2>
-        </span>
-        <span class='left'>
-          <input type='checkbox' name='remember'>
-        </span>
-        <span class='right_text'>
-          Remember Password
-        </span>
-        <span class='right'>
-          <input type='submit' name='btnSubmit' value='Submit' tabindex=3>
-        </span>
-        <div id='login_text'>
-          <span class='left'>
-            &nbsp
-          </span>
-          <span class='right'>
-            <small>
-              Use your <b>Voicemail Mailbox and Password</b><br>
-              This is the same password used for the phone<br>
-              <br>
-              For password maintenance or assistance, contact your Phone System Administrator.
-            </small>
-          </span>
-          <div class='spacer'></div>
-        </div>
-      </form>
-      <br>   
-      <br>   
-      <br>";
+      " . $hiddenInputText . "
+        <table width=600 border=0>
+          <tr>
+            <td align=right width=20% nowrap>
+              <small><small>Login:&nbsp;&nbsp;</small></small>
+            </td>
+            <td colspan=1 width=70%>
+              <input type='text' name='username' value='' maxlength=20 tabindex=1>
+            </td>
+          </tr>
+          <tr>
+            <td align=right width=20% nowrap>
+              <small><small>Password:&nbsp;&nbsp;</small></small>
+            </td>
+            <td colspan=1>
+              <input type='password' name='password' maxlength=20 tabindex=2>
+            </td>
+          </tr>						
+          <td></td>	
+          <td>
+            <input type='submit' name='btnSubmit' value='Submit' tabindex=3></small></small></p>
+            </td>
+          </tr>
+          <tr><td>&nbsp;</td></tr>
+          <tr>
+            <td></td>
+            <td> 
+              <small>" .
+                _("Use your") . " " ."<b>" . _("Voicemail Mailbox and Password") . "</b><br>" .
+                _("This is the same password used for the phone") . "<br>" .
+                "<br>" . 
+                _("For password maintenance or assistance, contact your Phone System Administrator.") . "
+              </small>
+            </td>
+          </tr>
+        </table>
+      </form>";
 
     $ret .= "
       <script type='text/javascript'> 

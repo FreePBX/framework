@@ -18,15 +18,16 @@ if (isset($_GET['recording'])) {
   $extension = strtolower(substr(strrchr($name,"."),1));
 
   // This will set the Content-Type to the appropriate setting for the file
-  switch( $extension ) {
+  switch($extension) {
     case "mp3": $ctype="audio/mpeg"; break;
     case "wav": $ctype="audio/x-wav"; break;
+    case "gsm": $ctype="audio/x-gsm"; break;
 
     // not downloadable
     case "php":
     case "htm":
     case "html":
-    case "txt": die("<b>Cannot be used for ". $file_extension ." files!</b>"); break;
+    case "txt": die("<b>" . _("Cannot be used for") . ". $file_extension ." " . _("files") . "!</b>"); break;
 
     default: $ctype="application/force-download";
   }
