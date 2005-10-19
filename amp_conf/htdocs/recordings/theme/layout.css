@@ -1,0 +1,360 @@
+/*
+ * Layout 
+ */
+
+/* Page */
+
+#page {
+  background-color: white;
+  text-align: left;
+  min-width: 760px;
+}
+
+/* main */
+
+#main {
+  min-width: 760px;
+  float: left;
+}
+
+#main span.left {
+  float: left;
+}
+
+#main span.right {
+  float: left;
+}
+
+/* Center */
+
+#center {
+  float: left;
+  margin-bottom: 20px;
+}
+
+/* Login */
+
+#login  {  
+  width: 300px;
+}
+
+#login span.left {
+  width: 29%;
+  height: 28px;
+  float: left;
+  text-align: right;
+}
+
+#login span.right {
+  width: 69%;
+  height: 28px;
+  float: right;
+  text-align: left;
+}
+
+#login span.right_text {
+  padding-top: 3px;
+  margin-bottom: -2px;
+  width: 69%;
+  height: 24px;
+  float: right;
+  text-align: left;
+  font-size: 9px;
+}
+
+/* LoginText */
+
+#login_text  {  
+  margin-top: 1px;
+  width: 604px;
+}
+
+#login_text span.left {
+  width: 15%;
+  height: 28px;
+  float: left;
+  text-align: right;
+}
+
+#login_text span.right {
+  width: 85%;
+  height: 28px;
+  float: right;
+  text-align: left;
+}
+
+/* Line */
+
+#line   {
+  min-width: 604px;
+  border: 1px solid #333; 
+  padding: 0;
+  margin: 0;  
+  color: #999;
+  background-color: #333;
+  height: 1px;
+}
+#line span.left {
+  float: left;
+  text-align: left;
+  font-weight: bold;
+  color: #fff;
+  width: 49%;
+}
+#line span.right {
+  float: right;
+  text-align: right;
+  font-weight: bold;
+  color: #fff;
+  width: 49%;
+}
+
+/* Navbar */
+
+#navbar {
+  width: 604px;
+  height: 24px;
+  border: 1px; 
+  padding: 0;
+  margin-bottom: 0;
+  color: #fff;
+  background-color: #333;
+}
+#navbar span.left {
+  margin: 2px;
+  float: left;
+  text-align: left;
+  font-weight: bold;
+  vertical-align: middle;
+  width: 49%;
+}
+#navbar span.right {
+  margin: 2px;
+  float: right;
+  text-align: right;
+  font-weight: bold;
+  vertical-align: middle;
+  width: 49%;
+}
+
+/* Info Bar */
+
+#info_bar {
+  min-width: 604px;
+  border: 1px solid #333; 
+  padding: 3px;
+  margin-top: -1px;  /* stupid browser hack */
+  color: #999;
+  background-color: #333;
+  height: 20px;
+}
+#info_bar span.left {
+  float: left;
+  text-align: left;
+  font-weight: bold;
+  color: #fff;
+  width: 49%;
+}
+#info_bar span.right {
+  float: right;
+  text-align: right;
+  font-weight: bold;
+  color: #fff;
+  width: 49%;
+}
+.info_bar a:link {
+  color: white;
+  text-decoration: none;
+}
+.info_bar a:active, a:link {
+  color: #105D90;
+}
+.info_bar a:hover {
+  color: #fc0;
+}
+.info_bar small b  {
+  font-family: Verdana, Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
+input.infoBar {
+  font-size: 11px;
+  padding: 0px;
+  height: 22px;
+}
+
+/* Centerbar */
+
+#centerbar {
+  margin: 0 auto; 
+  width: 604px;
+  text-align: center;
+}
+
+/* Subheader */
+
+#subheader {
+  padding: 0px; 
+  margin: 0px;
+  margin-bottom: 16px;
+}
+
+/* servBodL */
+
+.servBodL { 
+  border-left: 1px dotted #CEDCEA; 
+}
+
+/* Callmonitor */
+
+table.callmonitor{ 
+  width: 604px;
+  font-family: Verdana;
+  font-weight: normal;
+  font-size: 11px;
+  color: #404040;
+  background-color: #fafafa;
+  border: 1px #6699CC solid;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  margin-top: 0px;
+}
+table.callmonitor td.callmonitorHD, th { 
+  border: 1px solid #6699CC;
+  border-bottom: 2px solid #6699CC;
+  background-color: #BEC8D1;
+  text-align: center;
+  font-family: Verdana;
+  font-weight: bold;
+  font-size: 11px;
+  color: #404040;
+}
+table.callmonitor td { 
+  border: 1px solid #6699CC;
+  font-family: Verdana, sans-serif, Arial;
+  font-weight: normal;
+  font-size: 11px;
+  color: #404040;
+  background-color: white;
+  text-align: center;
+  padding: 3px;
+}
+
+/* Voicemail */
+
+.voicemail {
+  margin: 0px;
+}
+table.voicemail{ 
+  width: 604px;
+  font-family: Verdana;
+  font-weight: normal;
+  font-size: 11px;
+  color: #404040;
+  background-color: #fafafa;
+  border: 1px #6699CC solid;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+table.voicemail td.voicemailHD, th { 
+  border: 1px solid #6699CC;
+  border-bottom: 2px solid #6699CC;
+  background-color: #BEC8D1;
+  text-align: center;
+  font-family: Verdana;
+  font-weight: bold;
+  font-size: 11px;
+  color: #404040;
+}
+table.voicemail td { 
+  border: 1px solid #6699CC;
+  font-family: Verdana, sans-serif, Arial;
+  font-weight: normal;
+  font-size: 11px;
+  color: #404040;
+  background-color: white;
+  text-align: center;
+  padding: 3px;
+}
+table.voicemail td.checkbox { 
+  padding: 1px;
+}
+
+/* Settings */
+
+.settings { 
+  font-family: Verdana, sans-serif, Arial;
+  font-weight: normal;
+  font-size: 12px;
+}
+table.settings { 
+  font-family: Verdana;
+  color: #404040;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  padding-bottom: 3px;
+}
+table.settings td { 
+  color: #404040;
+  background-color: white;
+  padding: 3px;
+}
+table.settings td.note { 
+  color: #105D90;
+}
+
+/* Footer */
+
+#ariFooter {
+  color: #999;
+  margin-left: 148px;
+  font-size: 10px;
+  overflow: auto;
+  width: 100%;
+  clear: both;
+}
+
+#ariFooter a {
+  text-decoration: none;
+  color: #999;
+}
+
+#ariFooter a:hover {
+  text-decoration: underline;  
+  color: #105D90;
+}
+
+#ariFooter a:link {
+  text-decoration: none;
+  color: #999;
+}
+
+/* Misc */
+
+.ariClearBoth {
+  clear: both;
+  margin: 0;
+  padding: 0;
+}
+
+.ariBlockHide {
+  display: none;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  position: absolute;  /* IE5 Mac */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

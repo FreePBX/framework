@@ -30,7 +30,7 @@ class voicemail {
     // put if statement in return string, because do not know $ari_no_login until page is built
     $ret .= "
       <?php if ($ari_no_login =='') { ?>
-        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?s=voicemail&f=display'>Voicemail</a></small></small></p>
+        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=voicemail&f=display'>Voicemail</a></small></small></p>
       <?php } ?>";
 
     return $ret;
