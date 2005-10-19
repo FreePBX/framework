@@ -1,0 +1,54 @@
+Change log - 09/30/2005
+
+ * added i18n language support
+ * fixed bug if no folder or extension was selected and "move_to" or 
+   "forward_to" clicked (bug submitted by Elias Sofronas)
+ * converted modules to a OO plugin architecture
+ * added version to footer
+ * add theme customization
+ * added recording type support (.WAV, .GSM) on settings page
+ * fixed bug to find call recording files better (patch submitted by Mark Voevodin)
+ * fixed bug for navigation and search controls to link to correct folder (bug submitted by Elias Sofronas)
+ * added voicemail password change to settings page
+ * added call monitor delete recording functionality (does not delete database entry)
+ * added call recording settings on settings page
+
+Change log - 09/15/2005
+
+ * added settings page
+ * added call monitor record options on settings page
+ * fixed bug to view src and dst calls in call monitor when restricted (bug submitted by Elias Sofronas and Thomas Stalder)
+
+Change log - 08/25/2005
+
+ * added SIP authentication login (this does not allow voicemail access)
+ * added persistent passwords (cookies)
+ * added encryption for cookies 
+
+Change log - 08/23/2005
+
+ * Fixed $_SESSION['user'] bug conflict with AMP
+   -> changed to $_SESSION['ari_user']
+ * Fixed recording file lookup bug.
+
+Change log - 08/16/2005
+
+ * Fixed formating bug in css
+ * Added multipath to call monitor recordings
+    - set with $asterisk_callmonitor_path in /includes/main.conf
+ * added authentication
+    - use voicemail password
+       - access mailbox voicemail
+       - access call monitor for mailbox
+    - use AMP password
+       - access call monitor for all users
+    - config to allow voicemail to have call monitor access to all users
+  * voicemail access
+     - search of mailbox
+     - easy to delete voicemail interface
+     - move voicemail interface
+     - forward voicemail interface
+ 
+
+
+    
