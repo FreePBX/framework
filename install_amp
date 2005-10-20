@@ -20,6 +20,8 @@ $versions = array(
 
 define("AMP_CONF", "/etc/amportal.conf");
 
+define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
+
 define("UPGRADE_DIR", dirname(__FILE__)."/upgrades");
 
 /********************************************************************************************************************/
@@ -61,6 +63,16 @@ function parse_amportal_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
 		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+			$conf[ $matches[1] ] = $matches[2];
+		}
+	}
+	return $conf;
+}
+
+function parse_asterisk_conf($filename) {
+	$file = file($filename);
+	foreach ($file as $line) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
 			$conf[ $matches[1] ] = $matches[2];
 		}
 	}
@@ -173,6 +185,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 	global $dryrun;
 	global $check_md5s;
 	global $amp_conf;
+	global $asterisk_conf;
 	
 	if ($dirsource && ($dirsource[0] != "/")) $dirsource = "/".$dirsource;
 	
@@ -192,6 +205,19 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 			// html and cgi-bin directories are configurable in amportal.conf
 			$destination=str_replace("/var/www/html",$amp_conf["AMPWEBROOT"],$destination);
 			$destination=str_replace("/var/www/cgi-bin",$amp_conf["AMPCGIBIN"],$destination);
+			/* Prepare for CVS directory moves
+			$destination=str_replace("/htdocs",$amp_conf["AMPWEBROOT"],$destination);
+			$destination=str_replace("/cgi-bin",$amp_conf["AMPCGIBIN"],$destination);
+			$destination=str_replace("/htdocs_panel",$amp_conf["FOPWEBROOT"],$destination);
+			$destination=str_replace("/bin",$amp_conf["AMPCGIBIN"],$destination);
+			$destination=str_replace("/sbin",$amp_conf["AMPCGIBIN"],$destination);
+			
+			// the following are configurable in asterisk.conf
+			$destination=str_replace("/astetc",$asterisk_conf["astetcdir"],$destination);
+			$destination=str_replace("/mohmp3",$asterisk_conf["astvarlibdir"]."/mohmp3",$destination);
+			$destination=str_replace("/astvarlib",$asterisk_conf["astvarlibdir"],$destination);
+			$destination=str_replace("/agi-bin",$asterisk_conf["astagidir"],$destination);
+			*/
 			
 			// if this is a directory, ensure destination exists
 			if (is_dir($source)) {
@@ -543,6 +569,15 @@ if (isset($new_username) || isset($new_password)) {
 	// write amportal.conf
 	write_amportal_conf(AMP_CONF, $amp_conf);
 }
+
+// **** read asterisk.conf
+
+outn("Reading ".ASTERISK_CONF."..");
+$asterisk_conf = parse_asterisk_conf(ASTERISK_CONF);
+if (count($asterisk_conf) == 0) {
+	fatal("FAILED. Have you installed Asterisk?");
+}
+out("OK");
 
 // **** Connect to database
 
