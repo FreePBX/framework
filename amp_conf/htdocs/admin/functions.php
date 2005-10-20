@@ -515,7 +515,7 @@ function sipexists() {
 	}
 }*/
 
-function addaccount($account,$mailb,$hint = '') {
+function addaccount($account,$mailb) {
 	extensionsexists();
 	global $db;
 	$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ('ext-local', '".$account."', '1', 'Macro', 'exten-vm,".$mailb.",".$account."', NULL , '0')";
@@ -523,15 +523,6 @@ function addaccount($account,$mailb,$hint = '') {
 	if(DB::IsError($result)) {
         	die($result->getMessage());
     	}
-
-	//Add 'hint' priority if passed
-	if ($hint != '') {
-		$sql = "INSERT INTO extensions (context, extension, priority, application) VALUES ('ext-local', '".$account."', 'hint', '".$hint."')";
-		$result = $db->query($sql);
-		if(DB::IsError($result)) {
-			die($result->getMessage());
-		}
-	}
 
     	return $result;
 }
@@ -2503,13 +2494,13 @@ function adduser($vars,$vmcontext) {
 	//$mailb = ($vm == 'disabled' || $mailbox == '') ? 'novm' : $mailbox;
 	$mailb = ($vm == 'disabled') ? 'novm' : $extension;
 	
-	//we'll only have devicetype var if from extensions.php
-	if(($devicetype == "fixed") && ($extension != "none")) {
-		$hint=$dial;
+	addaccount($extension,$mailb);
+	
+	//we'll only have dial var if from extensions.php
+	if(isset($dial)) {
+		addhint($extension);
 	}
 	
-	//hint will always be empty.  For now, we'll only do hint for "fixed" devices.  see devices.php.
-	addaccount($extension,$mailb,$hint);
 	
 	//take care of voicemail.conf if using voicemail
 	$uservm = getVoicemail();
@@ -2595,6 +2586,9 @@ function deluser($extension,$incontext,$uservm){
 		
 	//delete the extension info from extensions table
 	delextensions('ext-local',$extension);
+	
+	//delete hint
+	delhint($extension);
 }
 
 function adddevice($id,$tech,$dial,$devicetype,$user,$description){
@@ -2663,10 +2657,8 @@ function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 	$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
 	exec($wOpScript);
 	
-	//if the device is of type 'fixed', then we can use HINT
-	//TODO is it possible to use ${variables} for a HINT extensions (ie: for adhoc devices)
-	if(($devicetype == "fixed") && ($user != "none")) {
-		addhint($user,$dial);
+	if($user != "none") {
+		addhint($user);
 	}
 	
 	//if we are requesting a new user, let's jump to users.php
@@ -2731,7 +2723,7 @@ function deldevice($account){
 	exec($wOpScript);
 	
 	//take care of any hint priority
-	delhint($devinfo['user']);
+	addhint($devinfo['user']);
 }
 
 function getdeviceInfo($account){
@@ -2943,14 +2935,29 @@ function getzap($account) {
 	return $results;
 }
 
-function addhint($account,$hint){
+//TODO it is current not possible to use ${variables} for a HINT extensions (ie: for adhoc devices).
+//Because of this limitation, the only way to update HINTs for adhoc devices, is to make the change 
+//via the amp admin, so that a dialplan rewrite $ reload can be performed.
+function addhint($account){
 	global $db;
 	global $currentFile;	
 	//delete any existing hint for this extension
 	delhint($account);
 	
+	//determine what devices this user is associated with
+	$sql = "SELECT dial from devices where user = '{$account}'";
+	$results = $db->getCol($sql);
+	if(DB::IsError($results)) {
+		echo $results->getMessage().$sql;
+	}
+	
+	//create a string 
+	if (isset($results)){
+		$hint = implode($results,"&");
+	}
+
 	//Add 'hint' priority if passed
-	if ($hint != '') {
+	if (isset($hint)) {
 		$sql = "INSERT INTO extensions (context, extension, priority, application) VALUES ('ext-local', '".$account."', 'hint', '".$hint."')";
 		$result = $db->query($sql);
 		if(DB::IsError($result)) {
