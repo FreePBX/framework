@@ -2496,10 +2496,7 @@ function adduser($vars,$vmcontext) {
 	
 	addaccount($extension,$mailb);
 	
-	//we'll only have dial var if from extensions.php
-	if(isset($dial)) {
-		addhint($extension);
-	}
+	addhint($extension);
 	
 	
 	//take care of voicemail.conf if using voicemail
