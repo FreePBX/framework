@@ -154,7 +154,7 @@ drawListMenu($devices, $_REQUEST['skip'], $dispnum, $extdisplay, _("Extension"))
 	$tech = $devinfo_tech;
 	if (is_array($deviceInfo)) extract($deviceInfo);
 ?>
-		<h2><?php echo strtoupper($tech)." "._("Extension")?>: <?php echo extdisplay; ?></h2>
+		<h2><?php echo strtoupper($tech)." "._("Extension")?>: <?php echo $extdisplay; ?></h2>
 		<p><a href="<?php echo $delURL ?>"><?php echo _("Delete Extension")?> <?php echo $extdisplay ?></a></p>
 <?php } else { ?>
 		<h2><?php echo _("Add")." ".strtoupper($tech)." "._("Extension")?></h2>
