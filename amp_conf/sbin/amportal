@@ -33,7 +33,7 @@ chown_asterisk() {
 	chown -R asterisk:asterisk /dev/zap
 	chown asterisk /dev/tty9
 	chown -R asterisk:asterisk $AMPWEBROOT/admin
-	chown -R asterisk:asterisk $AMPWEBROOT/panel
+	chown -R asterisk:asterisk $FOPWEBROOT
 	chown -R asterisk:asterisk $AMPWEBROOT/recordings
 	chown -R asterisk:asterisk $AMPWEBROOT/_asterisk
 	chown -R asterisk:asterisk $AMPCGIBIN/vmail.cgi
@@ -43,8 +43,8 @@ chown_asterisk() {
 	chmod u+x $AMPCGIBIN/vmail.cgi
 	chmod u+x $AMPWEBROOT/admin/*.pl
 	chmod u+x $AMPWEBROOT/admin/*.sh
-	chmod u+x $AMPWEBROOT/panel/*.pl
-	chmod u+x $AMPWEBROOT/panel/safe_opserver
+	chmod u+x $FOPWEBROOT/*.pl
+	chmod u+x $FOPWEBROOT/safe_opserver
 	echo Permissions OK
 }
 
@@ -99,7 +99,7 @@ pid_length=`pidof asterisk|awk '{print length($0)}'`
 check_fop() {
 #check to see if FOP is running
 	pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
-	if [ "$pid_length" == "0" -a "$pid_length" != ""]
+	if [ "$pid_length" == "0" -a "$pid_length" != "" ]
 		then
 				killall -9 safe_opserver
 				echo

@@ -202,22 +202,22 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 			$source = $dirsourceparent.$dirsource."/".$file;
 			$destination =  $dirdest.$dirsource."/".$file;
 			
-			// html and cgi-bin directories are configurable in amportal.conf
-			$destination=str_replace("/var/www/html",$amp_conf["AMPWEBROOT"],$destination);
-			$destination=str_replace("/var/www/cgi-bin",$amp_conf["AMPCGIBIN"],$destination);
-			/* Prepare for CVS directory moves
-			$destination=str_replace("/htdocs",$amp_conf["AMPWEBROOT"],$destination);
-			$destination=str_replace("/cgi-bin",$amp_conf["AMPCGIBIN"],$destination);
+			// configurable in amportal.conf
+			if (strpos($destination,"htdocs_panel")) {
+				$destination=str_replace("/htdocs_panel",$amp_conf["FOPWEBROOT"],$destination);
+			} else {
+				$destination=str_replace("/htdocs",$amp_conf["AMPWEBROOT"],$destination);
+			}
 			$destination=str_replace("/htdocs_panel",$amp_conf["FOPWEBROOT"],$destination);
-			$destination=str_replace("/bin",$amp_conf["AMPCGIBIN"],$destination);
-			$destination=str_replace("/sbin",$amp_conf["AMPCGIBIN"],$destination);
+			$destination=str_replace("/cgi-bin",$amp_conf["AMPCGIBIN"],$destination);
+			$destination=str_replace("/bin",$amp_conf["AMPBIN"],$destination);
+			$destination=str_replace("/sbin",$amp_conf["AMPSBIN"],$destination);
 			
 			// the following are configurable in asterisk.conf
 			$destination=str_replace("/astetc",$asterisk_conf["astetcdir"],$destination);
 			$destination=str_replace("/mohmp3",$asterisk_conf["astvarlibdir"]."/mohmp3",$destination);
 			$destination=str_replace("/astvarlib",$asterisk_conf["astvarlibdir"],$destination);
 			$destination=str_replace("/agi-bin",$asterisk_conf["astagidir"],$destination);
-			*/
 			
 			// if this is a directory, ensure destination exists
 			if (is_dir($source)) {
