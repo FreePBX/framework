@@ -77,7 +77,7 @@ Getting Asterisk and Zaptel (AMP uses the v1.0 branch)
 	- export CVS_RSH=
 	- export CVSROOT=:pserver:anoncvs@cvs.digium.com:/usr/cvsroot
 	- cvs login      (the password is: anoncvs)
-	- cvs checkout -r v1-0 zaptel libpri asterisk asterisk-addons
+	- cvs checkout -r v1-0 zaptel libpri asterisk asterisk-addons asterisk-sounds
 
 
 ###
@@ -142,6 +142,11 @@ Get and build cdr_mysql module for asterisk
 	- cd /usr/src/asterisk-addons
 	- make clean && make && make install
 	
+###
+Install asterisk-sounds
+
+	- cd /usr/src/asterisk-sounds
+	- make install
 	
 ###
 Setting up MySQL for CDR and AMP web interface
