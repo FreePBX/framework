@@ -93,6 +93,14 @@ switch($_REQUEST['ivr_action']) {
 			//application depends on goto1,2,3
 			//args will be exten, ivr, or voicemail
 			$extension = $_REQUEST['ivr_option'.$i];
+			//if we ahve defined t as an option, remove the exisitng one from above
+			if($extension == 't') {
+				$sql = "DELETE FROM extensions WHERE context = '".$context."' AND extension = 't'";
+				$result = $db->query($sql);
+				if(DB::IsError($result)) {
+					die($result->getMessage());
+				}
+			}
 			$goto = $_REQUEST['goto'.$i];
 			setGoto($extension,$context,'1',$goto,$i);
 		}
