@@ -124,7 +124,7 @@ if (isset($amp_conf["AUTHTYPE"]) && ($amp_conf["AUTHTYPE"] != "none")) {
 	$amp_sections[10] = _("AMP Users");
 }
 
-echo "<table width=\"100%\"><tr><td>";
+echo "<table width=\"100%\" cellspacing='0' cellpadding='0'><tr><td>";
 // show menu
 echo "<div class=\"nav\">";
 
