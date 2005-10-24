@@ -80,7 +80,7 @@ drawListMenu($devices, $_REQUEST['skip'], $dispnum, $extdisplay, _("Device"));
 	$tech = $devinfo_tech;
 	if (is_array($deviceInfo)) extract($deviceInfo);
 ?>
-		<h2><?php echo strtoupper($tech)." "._("Device")?>: <?php echo extdisplay; ?></h2>
+		<h2><?php echo strtoupper($tech)." "._("Device")?>: <?php echo $extdisplay; ?></h2>
 		<p><a href="<?php echo $delURL ?>"><?php echo _("Delete Device")?> <?php echo $extdisplay ?></a></p>
 <?php } else { ?>
 		<h2><?php echo _("Add")." ".strtoupper($tech)." "._("Device")?></h2>
