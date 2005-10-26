@@ -390,19 +390,23 @@ function needreload() {
 
 /** Collect AMP settings
  */
-function collect_settings($filename) {
-	global $dbhost;
+function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '') {
 	out("Creating new /etc/amportal.conf");
 	
-	outn("Enter your USERNAME to connect to the 'asterisk' database:\n [asteriskuser] ");
+	outn("Enter your USERNAME to connect to the 'asterisk' database:\n [".($dbuser ? $dbuser : "asteriskuser")."] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPDBUSER"] = "asteriskuser";
+	if (preg_match('/^$/',$key)) $amp_conf["AMPDBUSER"] = ($dbuser ? $dbuser : "asteriskuser");
 	else $amp_conf["AMPDBUSER"] = $key;
 	
-	outn("Enter your PASSWORD to connect to the 'asterisk' database:\n [amp109] ");
+	outn("Enter your PASSWORD to connect to the 'asterisk' database:\n [".($dbpass ? $dbpass : "amp109")."] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPDBPASS"] = "amp109";
+	if (preg_match('/^$/',$key)) $amp_conf["AMPDBPASS"] = ($dbpass ? $dbpass : "amp109");
 	else $amp_conf["AMPDBPASS"] = $key;
+	
+	outn("Enter the hostname of the 'asterisk' database:\n [".($dbhost ? $dbhost : "localhost")."] ");
+	$key = trim(fgets(STDIN,1024));
+	if (preg_match('/^$/',$key)) $amp_conf["AMPDBHOST"] = ($dbhost ? $dbhost : "amp109");
+	else $amp_conf["AMPDBHOST"] = $key;
 	
 	outn("Enter a USERNAME to connect to the Asterisk Manager interface:\n [admin] ");
 	$key = trim(fgets(STDIN,1024));
@@ -497,12 +501,6 @@ function collect_settings($filename) {
 			fatal("Cannot create ".$amp_conf["AMPSBIN"]."!");
 		}
 	} while(1);
-	
-	if (isset($dbhost)) {
-		$amp_conf["AMPDBHOST"] = $dbhost;
-	} else {
-		$amp_conf["AMPDBHOST"] = 'localhost';
-	}
 	
 	// write amportal.conf
 	write_amportal_conf($filename, $amp_conf);
@@ -607,7 +605,7 @@ outn("Checking for ".AMP_CONF."..");
 if (!file_exists(AMP_CONF)) {
 	out(AMP_CONF." does not exist, copying default");
 	copy("amportal.conf", "/etc/amportal.conf");
-	collect_settings(AMP_CONF);
+	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password);
 }
 out("OK");
 
