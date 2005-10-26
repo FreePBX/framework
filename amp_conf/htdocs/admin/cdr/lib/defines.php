@@ -21,7 +21,7 @@ define ("FSROOT", $amp_conf["AMPWEBROOT"]."/admin/cdr/");
 define ("LIBDIR", FSROOT."lib/");
 
 
-define ("HOST", "localhost");
+define ("HOST", $amp_conf["AMPDBHOST"]);
 define ("PORT", "5432");
 define ("USER", $amp_conf["AMPDBUSER"]);
 define ("PASS", $amp_conf["AMPDBPASS"]);

@@ -33,11 +33,13 @@ echo "Updating configuration..."
 echo "/etc/asterisk/cdr_mysql.conf"
 sed -r -i "s/user=[a-zA-Z0-9]*/user=$AMPDBUSER/" /etc/asterisk/cdr_mysql.conf
 sed -r -i "s/password=[a-zA-Z0-9]*/password=$AMPDBPASS/" /etc/asterisk/cdr_mysql.conf
+sed -r -i "s/hostname=[a-zA-Z0-9]*/hostname=$AMPDBHOST/" /etc/asterisk/cdr_mysql.conf
 
 # do a bunch at once here
 find $AMPWEBROOT/admin/ -name retrieve\*.pl
 sed -r -i "s/username = \"[a-zA-Z0-9]*\";/username = \"$AMPDBUSER\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
 sed -r -i "s/password = \"[a-zA-Z0-9]*\";/password = \"$AMPDBPASS\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
+sed -r -i "s/hostname = \"[a-zA-Z0-9]*\";/hostname = \"$AMPDBHOST\";/" `find $AMPWEBROOT/admin/ -name retrieve\*.pl`
 
 # sort option for FOP
 sed -r -i "s/sortoption = \"[a-zA-Z0-9]*\";/sortoption = \"$FOPSORT\";/" $AMPWEBROOT/admin/retrieve_op_conf_from_mysql.pl
