@@ -1340,6 +1340,8 @@ function addroute($name, $patterns, $trunks, $method, $pass) {
 			if(DB::IsError($result)) {
 				die($result->getMessage());
 			}
+			//blank pass so that it isn't added for additional trunks
+			$pass = "";
 		}
 		
 		$priority += 1;
