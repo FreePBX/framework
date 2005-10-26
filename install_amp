@@ -16,6 +16,7 @@ $versions = array(
 		'1.10.009beta1',
 		'1.10.009beta2',
 		'1.10.009',
+		'1.10.010beta1'
 	);
 
 define("AMP_CONF", "/etc/amportal.conf");
@@ -412,12 +413,33 @@ function collect_settings($filename) {
 	else $amp_conf["AMPMGRPASS"] = $key;
 	
 	do {
-		outn("Enter the path to your Apache webroot:\n [/var/www/html] ");
+		outn("Enter the path to use for your AMP web root:\n [/var/www/html] ");
 		$key = trim(fgets(STDIN,1024));
 		if (preg_match('/^$/',$key)) $amp_conf["AMPWEBROOT"] = "/var/www/html";
 		else $amp_conf["AMPWEBROOT"] = rtrim($key,'/');
-		if (is_dir($amp_conf["AMPWEBROOT"])) break;
-		else error($amp_conf["AMPWEBROOT"]." is not a directory!");
+		if (is_dir($amp_conf["AMPWEBROOT"])) {
+			break;
+		} else if (mkdir($amp_conf["AMPWEBROOT"],755)){
+			outn("Created ".$amp_conf["AMPWEBROOT"]});
+			break;
+		} else {
+			fatal("Cannot create ".$amp_conf["AMPWEBROOT"]."!");
+		}
+	} while(1);
+	
+	do {
+		outn("Enter the path to use for your FOP web root:\n [/var/www/html/panel] ");
+		$key = trim(fgets(STDIN,1024));
+		if (preg_match('/^$/',$key)) $amp_conf["FOPWEBROOT"] = "/var/www/html/panel";
+		else $amp_conf["FOPWEBROOT"] = rtrim($key,'/');
+		if (is_dir($amp_conf["FOPWEBROOT"])) {
+			break;
+		} else if (mkdir($amp_conf["FOPWEBROOT"],755)){
+			outn("Created ".$amp_conf["FOPWEBROOT"]});
+			break;
+		} else {
+			fatal("Cannot create ".$amp_conf["FOPWEBROOT"]."!");
+		}
 	} while(1);
 	
 	do {
@@ -426,7 +448,7 @@ function collect_settings($filename) {
 		if (preg_match('/^$/',$key)) $amp_conf["AMPCGIBIN"] = "/var/www/cgi-bin";
 		else $amp_conf["AMPCGIBIN"] = rtrim($key,'/');
 		if (is_dir($amp_conf["AMPCGIBIN"])) break;
-		else error($amp_conf["AMPCGIBIN"]." is not a directory!");
+		else fatal($amp_conf["AMPCGIBIN"]." is not a directory!");
 	} while(1);
 	
 	outn("Enter the IP ADDRESS or hostname used to access the AMP web-admin:\n [xx.xx.xx.xx] ");
@@ -443,6 +465,36 @@ function collect_settings($filename) {
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) $amp_conf["AMPEXTENSIONS"] = "extensions";
 	else $amp_conf["AMPEXTENSIONS"] = $key;
+	
+	do {
+		outn("Enter directory in which to store AMP executable scripts:\n [/var/lib/asterisk/bin] ");
+		$key = trim(fgets(STDIN,1024));
+		if (preg_match('/^$/',$key)) $amp_conf["AMPBIN"] = "/var/lib/asterisk/bin";
+		else $amp_conf["AMPBIN"] = rtrim($key,'/');
+		if (is_dir($amp_conf["AMPBIN"])) {
+			break;
+		} else if (mkdir($amp_conf["AMPBIN"],755)){
+			outn("Created ".$amp_conf["AMPBIN"]});
+			break;
+		} else {
+			fatal("Cannot create ".$amp_conf["AMPBIN"]."!");
+		}
+	} while(1);
+	
+	do {
+		outn("Enter directory in which to store super-user scripts:\n [/usr/sbin] ");
+		$key = trim(fgets(STDIN,1024));
+		if (preg_match('/^$/',$key)) $amp_conf["AMPSBIN"] = "/usr/sbin";
+		else $amp_conf["AMPSBIN"] = rtrim($key,'/');
+		if (is_dir($amp_conf["AMPSBIN"])) {
+			break;
+		} else if (mkdir($amp_conf["AMPSBIN"],755)){
+			outn("Created ".$amp_conf["AMPSBIN"]});
+			break;
+		} else {
+			fatal("Cannot create ".$amp_conf["AMPSBIN"]."!");
+		}
+	} while(1);
 	
 	// write amportal.conf
 	write_amportal_conf($filename, $amp_conf);
