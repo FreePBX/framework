@@ -58,6 +58,7 @@ function showHelp() {
 	out("  --debug                  Enable debug output");
 	out("  --dry-run                Don't actually do anything");
 	out("  --force-version <ver>    Force upgrade from version <ver>");
+	out("  --dbhost <ip address>    Use a remote database server");
 }
 
 function parse_amportal_conf($filename) {
@@ -390,6 +391,7 @@ function needreload() {
 /** Collect AMP settings
  */
 function collect_settings($filename) {
+	global $dbhost;
 	out("Creating new /etc/amportal.conf");
 	
 	outn("Enter your USERNAME to connect to the 'asterisk' database:\n [asteriskuser] ");
@@ -420,7 +422,7 @@ function collect_settings($filename) {
 		if (is_dir($amp_conf["AMPWEBROOT"])) {
 			break;
 		} else if (mkdir($amp_conf["AMPWEBROOT"],755)){
-			outn("Created ".$amp_conf["AMPWEBROOT"]});
+			outn("Created ".$amp_conf["AMPWEBROOT"]);
 			break;
 		} else {
 			fatal("Cannot create ".$amp_conf["AMPWEBROOT"]."!");
@@ -435,7 +437,7 @@ function collect_settings($filename) {
 		if (is_dir($amp_conf["FOPWEBROOT"])) {
 			break;
 		} else if (mkdir($amp_conf["FOPWEBROOT"],755)){
-			outn("Created ".$amp_conf["FOPWEBROOT"]});
+			outn("Created ".$amp_conf["FOPWEBROOT"]);
 			break;
 		} else {
 			fatal("Cannot create ".$amp_conf["FOPWEBROOT"]."!");
@@ -474,7 +476,7 @@ function collect_settings($filename) {
 		if (is_dir($amp_conf["AMPBIN"])) {
 			break;
 		} else if (mkdir($amp_conf["AMPBIN"],755)){
-			outn("Created ".$amp_conf["AMPBIN"]});
+			outn("Created ".$amp_conf["AMPBIN"]);
 			break;
 		} else {
 			fatal("Cannot create ".$amp_conf["AMPBIN"]."!");
@@ -489,12 +491,18 @@ function collect_settings($filename) {
 		if (is_dir($amp_conf["AMPSBIN"])) {
 			break;
 		} else if (mkdir($amp_conf["AMPSBIN"],755)){
-			outn("Created ".$amp_conf["AMPSBIN"]});
+			outn("Created ".$amp_conf["AMPSBIN"]);
 			break;
 		} else {
 			fatal("Cannot create ".$amp_conf["AMPSBIN"]."!");
 		}
 	} while(1);
+	
+	if (isset($dbhost)) {
+		$amp_conf["AMPDBHOST"] = $dbhost;
+	} else {
+		$amp_conf["AMPDBHOST"] = 'localhost';
+	}
 	
 	// write amportal.conf
 	write_amportal_conf($filename, $amp_conf);
@@ -536,7 +544,7 @@ out("OK");
 // **** Parse out command-line options
 
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -574,6 +582,10 @@ foreach ($args[0] as $arg) {
 			$version = $arg[1];
 			out("Forcing upgrade from version ".$version);
 		break;
+		case "--dbhost":
+			$dbhost = $arg[1];
+			out("Using remote database server at ".$dbhost);
+		break;
 	}
 }
 
@@ -608,7 +620,7 @@ if (count($amp_conf) == 0) {
 }
 out("OK");
 
-if (isset($new_username) || isset($new_password)) {
+if (isset($new_username) || isset($new_password) || isset($dbhost)) {
 	// new username/pwd 
 	
 	if (isset($new_username)) {
@@ -616,6 +628,10 @@ if (isset($new_username) || isset($new_password)) {
 	}
 	if (isset($new_password)) {
 		$amp_conf["AMPDBPASS"] = $new_password;
+	}
+	
+	if (isset($dbhost)) {
+		$amp_conf["AMPDBHOST"] = $dbhost;
 	}
 	
 	// write amportal.conf
@@ -637,7 +653,7 @@ outn("Connecting to database..");
 
 $db_user = $amp_conf["AMPDBUSER"];
 $db_pass = $amp_conf["AMPDBPASS"];
-$db_host = 'localhost';
+$db_host = $amp_conf["AMPDBHOST"];
 $db_name = 'asterisk';
 $db_engine = 'mysql';
 
