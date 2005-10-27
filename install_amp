@@ -724,9 +724,9 @@ if (!$dryrun) {
 out("OK");
 
 // **** Create spool directories for monitor and fax
-if (!is_dir($asterisk_conf["astspooldir"]."/monitor")
+if (!is_dir($asterisk_conf["astspooldir"]."/monitor"))
 	mkdir($asterisk_conf["astspooldir"]."/monitor",700);
-if (!is_dir($asterisk_conf["astspooldir"]."/fax")
+if (!is_dir($asterisk_conf["astspooldir"]."/fax"))
 	mkdir($asterisk_conf["astspooldir"]."/fax",700);
 
 
