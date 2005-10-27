@@ -405,7 +405,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '') {
 	
 	outn("Enter the hostname of the 'asterisk' database:\n [".($dbhost ? $dbhost : "localhost")."] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPDBHOST"] = ($dbhost ? $dbhost : "amp109");
+	if (preg_match('/^$/',$key)) $amp_conf["AMPDBHOST"] = ($dbhost ? $dbhost : "localhost");
 	else $amp_conf["AMPDBHOST"] = $key;
 	
 	outn("Enter a USERNAME to connect to the Asterisk Manager interface:\n [admin] ");
