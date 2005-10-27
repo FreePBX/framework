@@ -554,6 +554,11 @@ if (is_object($args)) {
 $debug = false;
 $dryrun = false;
 
+//initialize variables to avoid php notices
+$dbhost = null; 
+$new_username = null;
+$new_password = null;
+
 foreach ($args[0] as $arg) {
 	switch ($arg[0]) {
 		case "--help": case "h": case "?":
