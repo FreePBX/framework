@@ -128,18 +128,18 @@ class Login {
             }
           }
         }
+      }
 
-        // if authenticated and user wants to be remembered, set cookie 
-        if ($auth &&$_POST['remember']) {
+      // if authenticated and user wants to be remembered, set cookie 
+      if ($auth && $_POST['remember']) {
 
-          $data = array('username' => $username, 'password' => $password);
-          $data = $this->encrypt(serialize($data),$ari_cookie_password);
+        $data = array('username' => $username, 'password' => $password);
+        $data = $this->encrypt(serialize($data),$ari_cookie_password);
 
-          $chksum = md5($data);
+        $chksum = md5($data);
 
-          $buf = serialize(array($data,$chksum));
-          setcookie('ari_auth',$buf,time()+365*24*60*60,'/');
-        }
+        $buf = serialize(array($data,$chksum));
+        setcookie('ari_auth',$buf,time()+365*24*60*60,'/');
       }
 
       if (!$category) {
@@ -209,40 +209,47 @@ class Login {
     }
 
     $ret .= "
-      <form id='login' action=" . $_SERVER['PHP_SELF'] . " method='POST' name='login'>
+      <form action=" . $_SERVER['PHP_SELF'] . " method='POST' name='login'>
       " . $hiddenInputText . "
-        <table width=600 border=0>
+        <table id='login'>
           <tr>
-            <td align=right width=20% nowrap>
+            <td class='right'>
               <small><small>Login:&nbsp;&nbsp;</small></small>
             </td>
-            <td colspan=1 width=70%>
+            <td>
               <input type='text' name='username' value='' maxlength=20 tabindex=1>
             </td>
           </tr>
           <tr>
-            <td align=right width=20% nowrap>
+            <td class='right'>
               <small><small>Password:&nbsp;&nbsp;</small></small>
             </td>
             <td colspan=1>
               <input type='password' name='password' maxlength=20 tabindex=2>
             </td>
           </tr>						
-          <td></td>	
-          <td>
-            <input type='submit' name='btnSubmit' value='Submit' tabindex=3></small></small></p>
+            <td></td>	
+            <td>
+              <input type='submit' name='btnSubmit' value='Submit' tabindex=3></small></small></p>
+            </td>
+          </tr>
+          <tr>
+            <td class='right'>
+              <input type='checkbox' name='remember'>
+            </td>
+            <td class='left'>
+              <p class='small'>Remember Password</p>
             </td>
           </tr>
           <tr><td>&nbsp;</td></tr>
+        <table>
+        <table id='login_text'>
           <tr>
-            <td></td>
-            <td> 
-              <small>" .
-                _("Use your") . " " ."<b>" . _("Voicemail Mailbox and Password") . "</b><br>" .
-                _("This is the same password used for the phone") . "<br>" .
-                "<br>" . 
-                _("For password maintenance or assistance, contact your Phone System Administrator.") . "
-              </small>
+            <td>" .
+              _("Use your") . " " ."<b>" . _("Voicemail Mailbox and Password") . "</b><br>" .
+              _("This is the same password used for the phone") . "<br>" .
+              "<br>" . 
+              _("For password maintenance or assistance, contact your Phone System Administrator.") . "
             </td>
           </tr>
         </table>

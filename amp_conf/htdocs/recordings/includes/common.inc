@@ -17,7 +17,6 @@ function DatabaseLogon() {
   if ($standalone['use']) {
     $username = $standalone['asterisk_dbuser'];
     $password = $standalone['asterisk_dbpass'];
-	$hostname = $standalone['asterisk_dphost'];
   } 
   else {
     if (is_file($amp_functions_file)) {
@@ -25,7 +24,6 @@ function DatabaseLogon() {
       $amp_conf = parse_amportal_conf($amportal_conf_file);
       $username = $amp_conf["AMPDBUSER"];
       $password = $amp_conf["AMPDBPASS"];
-	  $hostname = $amp_conf["AMPDBHOST"];
       unset($amp_conf);
     } 
   }
@@ -36,7 +34,7 @@ function DatabaseLogon() {
 
   $success = $db->logon($username, 
                         $password,
-                        $hostname,
+                        'localhost',
                         'asterisk',
                         'mysql',
                         $_SESSION['dbh_asterisk']);

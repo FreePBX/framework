@@ -101,7 +101,8 @@ class callmonitor {
     $this->get_cdr_count($q,$recordCount);
     $this->get_cdr_data($q,$start,$span,$data);
 
-    // get the call monitor recordings from the asterisk server (this is not scalable and need to find a better way)
+    // get the call monitor recordings from the asterisk server
+    $files = array();
     $filter = '';
     $recursiveMax = 6;
     $recursiveCount = 0;
@@ -144,7 +145,7 @@ class callmonitor {
       }
 
       if (is_file($recording)) {
-        $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "')\">play</a>";
+        $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "')\">" . _("play") . "</a>";
       }
     
       $tableText .= "<tr>
@@ -230,14 +231,14 @@ class callmonitor {
       <table class='callmonitor'>
          <tr>
            " . $recording_delete_header . "
-           <th>Date</th>
-           <th>Time</th>
-           <th>Caller ID</th>
-           <th>Source</th>
-           <th>Destination</th>
-           <th>Context</th>
-           <th>Duration</th>
-           <th>Monitor</th>
+           <th>" . _("Date") . "</th>
+           <th>" . _("Time") . "</th>
+           <th>" . _("Caller ID") . "</th>
+           <th>" . _("Source") . "</th>
+           <th>" . _("Destination") . "</th>
+           <th>" . _("Context") . "</th>
+           <th>" . _("Duration") . "</th>
+           <th>" . _("Monitor") . "</th>
          </tr>
          " . $tableText . "
        </table>";

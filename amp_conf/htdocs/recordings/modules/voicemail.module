@@ -252,7 +252,9 @@ class voicemail {
         $voicemail_audio_format = $_COOKIE['ari_voicemail_audio_format']=='' ? '.wav' : $_COOKIE['ari_voicemail_audio_format'];
         $recording = preg_replace('/.txt/', $voicemail_audio_format, $file);
         if (is_file($recording)) {
-          $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "')\">play</a>";
+          $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "')\">
+            " . _("play") . "
+          </a>";
         } 
         else {
           $_SESSION['ari_error'] = _("Voicemail recording(s) was not found.") . "<br>" .
@@ -331,13 +333,13 @@ class voicemail {
       <table class='voicemail'>
         <tr>
           <th></th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Caller ID</th>
-          <th>Priority</th>
-          <th>Orig Mailbox</th>
-          <th>Duration</th>
-          <th>Recording</th>
+          <th>" . _("Date") . "</th>
+          <th>" . _("Time") . "</th>
+          <th>" . _("Caller ID") . "</th>
+          <th>" . _("Priority") . "</th>
+          <th>" . _("Orig Mailbox") . "</th>
+          <th>" . _("Duration") . "</th>
+          <th>" . _("Recording") . "</th>
         </tr>
         " . $tableText . "
       </table>";
@@ -347,7 +349,7 @@ class voicemail {
 
     $ret .= "<br>";
     $ret .= $display->DisplaySearchBlock('center',$m,$folder,$q,false);
-    $ret .= $display->DisplayNavigationBlock($s,$folder,$q,$start,$span,$recordCount);
+    $ret .= $display->DisplayNavigationBlock($m,$folder,$q,$start,$span,$recordCount);
 
     return $ret;
   }

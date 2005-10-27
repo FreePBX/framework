@@ -34,58 +34,37 @@
 
 /* Login */
 
-#login  {  
-  width: 300px;
+table#login  {  
+  width: 600px;
+  border: 0px;
 }
 
-#login span.left {
-  width: 29%;
-  height: 28px;
-  float: left;
+table#login td.right {  
   text-align: right;
+  width: 20%;
 }
 
-#login span.right {
-  width: 69%;
-  height: 28px;
-  float: right;
+table#login td.left {  
   text-align: left;
 }
 
-#login span.right_text {
-  padding-top: 3px;
-  margin-bottom: -2px;
-  width: 69%;
-  height: 24px;
-  float: right;
-  text-align: left;
-  font-size: 9px;
+table#login td.small {  
+  font-size: 11px;
 }
 
-/* LoginText */
-
-#login_text  {  
-  margin-top: 1px;
-  width: 604px;
+#login p { 
+  font-size: 11px;
 }
 
-#login_text span.left {
-  width: 15%;
-  height: 28px;
-  float: left;
-  text-align: right;
-}
-
-#login_text span.right {
-  width: 85%;
-  height: 28px;
-  float: right;
+table#login_text  { 
+  margin-left: 60px; 
+  font-size: 13px;
   text-align: left;
 }
 
 /* Line */
 
-#line   {
+#line {
   min-width: 604px;
   border: 1px solid #333; 
   padding: 0;

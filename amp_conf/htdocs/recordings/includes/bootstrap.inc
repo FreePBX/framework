@@ -54,6 +54,25 @@ function get_argument(&$args, $name) {
 }
 
 /**
+ * Cleans up old versions with files that will crater the system
+ */
+function version_cleanup() {
+
+  if (is_file("./modules/database.module")) {
+    unlink("./modules/database.module");
+  }
+  if (is_file("./modules/display.module")) {
+    unlink("./modules/display.module");
+  }
+  if (is_file("./modules/info.module")) {
+    unlink("./modules/info.module");
+  }
+  if (is_file("./theme/style.css")) {
+    unlink("./theme/style.css");
+  }
+}
+
+/**
  * Sets language
  *
  * sets the language for i18n php gettext module
@@ -134,6 +153,7 @@ function ari_page_footer() {
  * Includes and run functions
  */
 
+version_cleanup();
 ari_session_start();
 
 include_once("version.inc");

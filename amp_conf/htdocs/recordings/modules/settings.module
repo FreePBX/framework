@@ -69,6 +69,7 @@ class settings {
   function settings_action($args) {
 
     global $asterisk_voicemail_conf;
+    global $settings_allow_call_recording_set;
 
     // args
     $m = get_argument($args,'m');
@@ -153,12 +154,14 @@ class settings {
       setcookie("ari_voicemail_audio_format", $voicemail_audio_format, time()+365*24*60*60);
 
       // update call monitor record setting
-      $extension = $_SESSION['ari_user']['extension'];
-      if ($record_in && $record_out) {
-        $this->set_recording_status($extension, "In", $record_in);
-        $this->set_recording_status($extension, "Out", $record_out);
+      if ($settings_allow_call_recording_set) {
+        $extension = $_SESSION['ari_user']['extension'];
+        if ($record_in && $record_out) {
+          $this->set_recording_status($extension, "In", $record_in);
+          $this->set_recording_status($extension, "Out", $record_out);
 
-        $this->set_record_settings($this->protocol_config_file,$this->protocol_table,$extension,$record_in,$record_out);
+          $this->set_record_settings($this->protocol_config_file,$this->protocol_table,$extension,$record_in,$record_out);
+        }
       }
     }
 
@@ -182,6 +185,8 @@ class settings {
    *   Common arguments
    */
   function settings_display($args) {
+
+    global $settings_allow_call_recording_set;
 
     // args
     $m = get_argument($args,'m');
@@ -211,10 +216,10 @@ class settings {
  	    " . _("Language:") . "
 	    <select name='lang_code'>
               <option value='en_US' " . ($_COOKIE['ari_lang']=='en_US' ? 'selected' : '') .  ">English</option>
+              <option value='es_ES' " . ($_COOKIE['ari_lang']=='es_ES' ? 'selected' : '') .  ">Espa&ntilde;ol</option>
+              <option value='pt_BR' " . ($_COOKIE['ari_lang']=='pt_BR' ? 'selected' : '') .  ">Portuguese</option>
             </select>
           </p>";
-
-/* <option value='es_ES' " . ($_COOKIE['ari_lang']=='es_ES' ? 'selected' : '') .  ">Espa&ntilde;ol</option> */
     } 
 
     // voicemail settings
@@ -249,34 +254,36 @@ class settings {
           </tr>
         </table>";
 
-    // call monitor settings
-    foreach($data as $key=>$value) {
-      if ($value[keyword]=='record_in') {
-        if ($value[data]=='Always') {
-          $ri_always = 'checked=checked';
-        }
-        elseif ($value[data]=='Never') {
-          $ri_never = 'checked=checked';
-        }
-        elseif ($value[data]=='Adhoc') {
-          $ri_on_demand = 'checked=checked';
-        }
-      }
-      if ($value[keyword]=='record_out') {
-        if ($value[data]=='Always') {
-          $ro_always = 'checked=checked';
-        }
-        elseif ($value[data]=='Never') {
-          $ro_never = 'checked=checked';
-        }
-        elseif ($value[data]=='Adhoc') {
-          $ro_on_demand = 'checked=checked';
-        }
-      }
-    }
+    if ($settings_allow_call_recording_set) {
 
-    $setCallMonitorText = "
-      <table class='settings'>
+      // call monitor settings
+      foreach($data as $key=>$value) {
+        if ($value[keyword]=='record_in') {
+          if ($value[data]=='Always') {
+            $ri_always = 'checked=checked';
+          }
+          elseif ($value[data]=='Never') {
+            $ri_never = 'checked=checked';
+          }
+          elseif ($value[data]=='Adhoc') {
+            $ri_on_demand = 'checked=checked';
+          }
+        }
+        if ($value[keyword]=='record_out') {
+          if ($value[data]=='Always') {
+            $ro_always = 'checked=checked';
+          }
+          elseif ($value[data]=='Never') {
+            $ro_never = 'checked=checked';
+          }
+          elseif ($value[data]=='Adhoc') {
+            $ro_on_demand = 'checked=checked';
+          }
+        }
+      }
+
+      $setCallMonitorText = "
+        <table class='settings'>
 	  <tr>
             <td><h3>" . _("Call Monitor Settings") . "</h3></td>
 	  </tr>
@@ -297,6 +304,7 @@ class settings {
             </td>
           </tr>
         </table>";
+    }
 
     $ret .= "
       <form class='settings' name='ari_settings' action='' method='GET'>
