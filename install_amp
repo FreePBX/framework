@@ -728,8 +728,8 @@ out("OK");
 
 outn("Setting permissions on files..");
 if (!$dryrun) {
-	exec("chmod u+x /usr/sbin/amportal");
-	exec("/usr/sbin/amportal chown");
+	exec("chmod u+x ".$amp_conf["AMPSBIN"]."/amportal");
+	exec($amp_conf["AMPSBIN"]."/amportal chown");
 }
 out("OK");
 
