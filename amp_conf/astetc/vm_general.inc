@@ -12,3 +12,4 @@ silencethreshold=128     	; What do we consider to be silence
 skipms=3000					; How many miliseconds to skip forward/back when rew/ff in message playback
 review=yes					; Allow sender to review/rerecord their message before saving it
 operator=yes				; Allow caller to press 0
+nextaftercmd=yes			; Automagically play next message when current message is deleted or saved

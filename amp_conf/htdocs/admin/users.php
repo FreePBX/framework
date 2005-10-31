@@ -47,7 +47,7 @@ foreach ($vmcontexts as $vmcontext) {
 			$alloptions = array_keys($uservm[$vmcontext][$extdisplay]['options']);
 			if (isset($alloptions)) {
 				foreach ($alloptions as $option) {
-					if ( ($option!="attach") && ($option!="envelope") && ($option!="saycid") && ($option!="delete") && ($option!="nextaftercmd") && ($option!='') )
+					if ( ($option!="attach") && ($option!="envelope") && ($option!="saycid") && ($option!="delete") && ($option!='') )
 						$options .= $option.'='.$uservm[$vmcontext][$extdisplay]['options'][$option].'|';
 				}
 				$options = rtrim($options,'|');
@@ -258,14 +258,6 @@ drawListMenu($extens, $_REQUEST['skip'], $dispnum, $extdisplay, _("User"));
  					<td><input  type="radio" name="envelope" value="envelope=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="envelope" value="envelope=no"/> <?php echo _("no");?></td>
  					<?php } else{ ?>
  					<td><input  type="radio" name="envelope" value="envelope=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="envelope" value="envelope=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
- 				</tr>
-
-				<tr>
- 					<td><a href="#" class="info"><?php echo _("Play Next")?><span><?php echo _("If set to \"yes,\" after deleting or saving a voicemail message, the system will automatically play the next message, if no the user will have to press \"6\" to go to the next message")?></span></a>: </td>
- 					<?php if ($vmops_nextaftercmd == "yes"){?>
- 					<td><input  type="radio" name="nextaftercmd" value="nextaftercmd=yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="nextaftercmd" value="nextaftercmd=no"/> <?php echo _("no");?></td>
- 					<?php } else{ ?>
- 					<td><input  type="radio" name="nextaftercmd" value="nextaftercmd=yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" name="nextaftercmd" value="nextaftercmd=no" checked=checked /> <?php echo _("no");?></td> <?php }?>
  				</tr>
 
 				<tr>

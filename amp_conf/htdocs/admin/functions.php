@@ -2523,8 +2523,6 @@ function adduser($vars,$vmcontext) {
 			$vmoptions[$vmoption[0]] = $vmoption[1];
 		$vmoption = explode("=",$delete);
 			$vmoptions[$vmoption[0]] = $vmoption[1];
-		$vmoption = explode("=",$nextaftercmd);
-			$vmoptions[$vmoption[0]] = $vmoption[1];
 		$uservm[$vmcontext][$extension] = array(
 									'mailbox' => $extension, 
 									'pwd' => $vmpwd,
