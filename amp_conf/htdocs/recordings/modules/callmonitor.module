@@ -133,7 +133,7 @@ class callmonitor {
       // recording popup
       $recordingLink = '';
       foreach($paths as $key => $path) {
-        $recording = $this->get_recording($path,$files,$value[lastdata],$value[calldate]);
+        $recording = $this->get_recording($path,$files,$value['uniqueid'],$value[lastdata],$value[calldate]);
         if (isset($recording)) {
           break;
         }
@@ -269,17 +269,25 @@ class callmonitor {
    * @param $recording
    *   Reference to the variable to store a $recording name if found
    */
-  function get_recording($dir,$files,$lastdata,$calldate) {
+  function get_recording($dir,$files,$uniqueID,$lastdata,$calldate) {
 
     $recording='';
 
-    $buf = preg_split("/\|/", $lastdata);
-    $uniqueID = $buf[1];
+    if ($uniqueID=='') {
+      $buf = preg_split("/\|/", $lastdata);
+      $uniqueID = $buf[1];
+    }
+
     if (isset($uniqueID)) {
-      $path = $dir . $uniqueID . ".WAV";
-      if (is_file($path)) {
-        $recording = $path;
+
+      // Creating an index for uniqueid in the cdrdb database should be faster.
+      foreach($files as $key => $path) {
+        if (preg_match("/".$uniqueID."/",$path)) {
+          $recording=$path;
+          break;
+        }
       }
+
     } 
 
     if (!$recording) { 

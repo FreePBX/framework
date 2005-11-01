@@ -467,14 +467,7 @@ class settings {
     // update database
     $dbh = $_SESSION['dbh_asterisk'];
 
-    $sql = "UPDATE " . $table . " SET data='" . $record_in . "' WHERE id='" . $id . "' AND keyword='record_in'";
-    $sth = $dbh->prepare($sql);
-    $res = $dbh->execute($sth);
-    if (DB::isError($res)) {
-      die($res->getMessage());
-    }
-
-    $sql = "UPDATE " . $table . " SET data='" . $record_out . "' WHERE id='" . $id . "' AND keyword='record_out'";
+    $sql = "UPDATE " . $table . " SET data='out=" . $record_out . "|in=" . $record_in . "' WHERE id='" . $id . "' AND keyword='recording'";
     $sth = $dbh->prepare($sql);
     $res = $dbh->execute($sth);
     if (DB::isError($res)) {
