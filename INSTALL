@@ -25,20 +25,38 @@ AMP has several requirements, including the following packages (names may vary b
 	cvs
 	bison
 	ncurses-devel (or libncurses5-dev)
+	audiofile-devel (or libaudiofile-devel)
 	curl
 	sox
 
-### Perl module Net::Telnet is required:
+### Install these Perl modules:
 	
-	 perl -MCPAN -e "install Net::Telnet"
+	perl -MCPAN -e "install Net::Telnet"
+	
+	perl -MCPAN -e "install IPC::Signal"
+	
+	perl -MCPAN -e "install Proc::WaitStat"
+
+###
+Mime-contruct is needed to generate emails with fax file attachments:
+
+
+	- download the latest mime-construct from http://search.cpan.org/~rosch/
+	- install it
+
+###
+Download asterisk-perl from http://asterisk.gnuinter.net and install it
 
 ###		
 Some linux distros have replaced the mpg123 application with another application, mpg321, and created a symbolic link to "mpg123", so it seems to work in the same way. Asterisk MusicOnHold only works with original mpg123.
 
-	- Remove the symbolic links mpg123 located in /usr/bin and /usr/local/bin:
+	Remove the mpg321 package installed by your distro, 
+	or
+	Remove the symbolic links mpg123 located in /usr/bin and /usr/local/bin:
 	- rm /usr/bin/mpg123
 	- rm /usr/local/bin/mpg123 
-	- Then install mpg123 from http://www.mpg123.de
+	
+	Then install mpg123 from http://www.mpg123.de
 	
 ###
 AMP requires the following changes to php and apache for uploading new MOH files:
@@ -49,20 +67,8 @@ AMP requires the following changes to php and apache for uploading new MOH files
 	- vi +14 /etc/httpd/conf.d/php.conf (if you have it)
 		LimitRequestBody 20000000
 		
-		
-###
-Download asterisk-perl from http://asterisk.gnuinter.net and install it
-
-	
-###
-Mime-contruct is needed to generate emails with fax file attachments:
-
-	- perl -MCPAN -e "install IPC::Signal"
-	
-	- perl -MCPAN -e "install Proc::WaitStat"
-	
-	- download mime-construct from http://search.cpan.org/~rosch/mime-construct-1.8
-	- install it
+	- might also need to set register_globals = on in the php.ini for displaying CDR logs in
+	  the AMP interface
 
 ###
 Download the latest AMP files:
@@ -71,7 +77,8 @@ Download the latest AMP files:
 	- tar -zxvf AMP<version>.tar.gz
 
 ###
-Getting Asterisk and Zaptel (AMP uses the v1.0 branch)
+Getting Asterisk and Zaptel from CVS or download the latest Asterisk and Zaptel source archives
+(AMP uses the v1.0 branch)
 
 	- cd /usr/src
 	- export CVS_RSH=
@@ -79,6 +86,7 @@ Getting Asterisk and Zaptel (AMP uses the v1.0 branch)
 	- cvs login      (the password is: anoncvs)
 	- cvs checkout -r v1-0 zaptel libpri asterisk asterisk-addons asterisk-sounds
 
+(As of 2005-11-02, AMP 010 has been tested with Asterisk 1.2 beta1)
 
 ###
 For TDM zap devices (FXO/FXS):
@@ -86,16 +94,9 @@ For TDM zap devices (FXO/FXS):
 	- cd /usr/src/zaptel
 	- make && make install
 
-	This will build the wcfxo.o (and wcfxs.o) module/driver which needs to be loaded (as root) into the kernel:
-
-	- modprobe wcfxs (or wcfxo for x100p)
-
-	Confirm that the module is loaded with lsmod:
-
-		[root@myhost root]# lsmod | grep wcfxo
-		wcfxs                  9280   0  (unused)
-		zaptel                179584   0  [wcfxs]
-
+	If you will be using a Digium telephony card that supports T1/E1 signaling do this step as well:
+	- cd /usr/src/libpri
+	- make && make install
 	
 ###
 Patching Asterisk with softfax/spandsp.
@@ -109,9 +110,9 @@ Patching Asterisk with softfax/spandsp.
 
 	Copy the following files (from soft-switch.org) to /usr/src/asterisk/apps/ :
 
-		- cp app_rxfax.c /usr/src/asterisk/apps/
-		- cp app_txfax.c /usr/src/asterisk/apps/
-		- cp apps_makefile.patch /usr/src/asterisk/apps/
+	- cp app_rxfax.c /usr/src/asterisk/apps/
+	- cp app_txfax.c /usr/src/asterisk/apps/
+	- cp apps_makefile.patch /usr/src/asterisk/apps/
 
 	- cd /usr/src/asterisk/apps
 	- patch < apps_makefile.patch
@@ -121,25 +122,21 @@ Patching Asterisk with softfax/spandsp.
 Create a group and non-root user:
 
 	- groupadd asterisk
-	- useradd -c "asterisk PBX" -d /var/lib/asterisk -u 5060 -g asterisk asterisk
+	- useradd -c "asterisk PBX" -d /var/lib/asterisk -g asterisk asterisk
 	
 	
 ###
 Building Asterisk and configuring it to run as a non-root user
 
-	- Edit /usr/src/asterisk/Makefile such that (~ line 122):
-
-		ASTVARRUNDIR=$(INSTALL_PREFIX)/var/run/asterisk
-
+	- mkdir /var/run/asterisk
+	- cd /usr/src/asterisk
 	- make clean && make && make install
 
-	The user that will run the asterisk process (asterisk) must own several directories/files.  We'll take care of that later.
-
-	
 ###
 Get and build cdr_mysql module for asterisk
 
 	- cd /usr/src/asterisk-addons
+	- perl -p -i.bak -e 's/CFLAGS.*D_GNU_SOURCE/CFLAGS+=-D_GNU_SOURCE\nCFLAGS+=-DMYSQL_LOGUNIQUEID/' Makefile
 	- make clean && make && make install
 	
 ###
@@ -192,21 +189,84 @@ Configure Flash Operator Panel for your zap channels:
 ###
 Configure zaptel driver:
 
-	- edit /etc/zaptel.conf to reflect installed digium interfaces (see /etc/zaptel.conf.template)
-	- ztcfg -v
+	a. Edit /etc/zaptel.conf to reflect installed Digium telephony card(s).
+	
+        Only the parameters/values relevant to a TDM400P with 4 FXO modules are included below:
+
+	fxsks=1-4
+	loadzone=us
+	defaultzone=us
+
+        Only the parameters/values relevant to a TE110P (T1 configuration) are included below:
+        
+	span=1,1,0,esf,b8zs
+	bchan=1-23
+	dchan=24
+	loadzone=us
+	defaultzone=us
+
+	b. ztcfg -v
 
 			Zaptel Configuration
 			======================
 			
 			1 channels configured.
+	
+	If you get a warning about unable to open master device /dev/zap/ctl, that's ok.  It's a result
+	of the zaptel module(s) not loaded yet.
 
+
+
+        Detailed information with regard to Asterisk's configuration files can be found here:
+	http://voip-info.org/wiki-Asterisk+config+files
 
 ###
 Configure zapata module in asterisk config.
 
-	- edit /etc/asterisk/zapata.conf to reflect installed FXO digium interfaces (see zapata.conf.template)
-	- IMPORTANT! - ensure that FXO zap channels have "group=0"
+	- edit /etc/asterisk/zapata.conf to reflect installed digium interfaces (see zapata.conf.template)
 
+	Only the parameters/values relevant to a TDM400P with 4 FXO modules are included below:
+
+	[channels]
+	language=en
+	context=from-pstn
+	signalling=fxs_ks
+	faxdetect=incoming
+	usecallerid=yes
+	callerid=asreceived
+	echocancel=yes
+	callprogress=no
+	busydetect=no
+	echocancelwhenbridged=no
+	echotraining=800
+	group=0
+	channel=1-4
+
+
+	Only the parameters/values relevant to a TE110P (T1 configuration) are included below:
+
+	[channels]
+	language=en
+	context=from-pstn
+	switchtype=national
+	pridialplan=national
+	signalling=pri_cpe
+	faxdetect=incoming
+	usecallerid=yes
+	echocancel=yes
+	callerid=asreceived
+	echocancelwhenbridged=no
+	echotraining=800
+	group=0
+	channel=1-23
+
+
+	Note: if your configuration is using zap channels as FXS endpoints, zapata.conf must
+	contain the following line in order to provision these endpoints in AMP's Extensions admin:
+	#include zapata_additional.conf
+
+	Detailed information with regard to Asterisk's configuration files can be found here:
+	http://voip-info.org/wiki-Asterisk+config+files
 
 ###
 httpd (Apache) configuration
@@ -234,37 +294,69 @@ httpd (Apache) configuration
 		mkdir /usr/local/apache/passwd
 		htpasswd -c /usr/local/apache/passwd/wwwpasswd wwwadmin
 
-
 ###
-Asterisk user environment
+Amportal Control Script
 
-	- Edit /var/lib/asterisk/.bash_profile to include /usr/sbin in the PATH and set the LD_LIBRARY_PATH variable:
+	Version 1.10.004 of AMP provided a new control script. The functionality of which is to start,
+	stop or kill services in the AMP environment, or to set permissions on directories/files in the
+	AMP environment:
 
-		PATH=$PATH:/usr/sbin:$HOME/bin
-		export PATH
-		export LD_LIBRARY_PATH=/usr/local/lib
-
-	- Edit /etc/ld.so.conf to include spandsp libs:
-		
-		/usr/local/lib
+	[root@pbx root]# amportal
 	
-	- run ldconfig
+	----------AMP Control Script-----------
+	Usage: amportal start|stop|kill|chown
+	start: Starts Asterisk and Flash Operator Panel server
+	stop: Gracefully stops Asterisk and the FOP server
+	kill: Kills Asterisk and the FOP server
+	chown: Sets appropriate permissions on files
+	
+	The amportal script is the recommended way to stop and start asterisk:
+	
+	[root@pbx root]# /usr/sbin/amportal stop
+	[root@pbx root]# /usr/sbin/amportal start
 
 ###
 Auto Start
 
-	- Add to /etc/rc.d/rc.local:
+	The module/driver that you load at boot time depends upon whether you are using a
+	TDM400P or TE110P. The wcfxs module should be loaded for the former and the wcte11xp
+	module should be loaded for the latter. (In recent Asterisk code the functionality provided by
+	wcfxs is provided in wctdm. At the time of this writing the AMP/Asterisk build does indeed use
+	wcfxs for the TDM400P telephony card.)
+
+	The following scripts are for RedHat and derivatives that use an rc.local:
 	
-		echo ADDING WCFXS   (use module suitable for your zap interface)
-		/sbin/modprobe wcfxs
-		echo STARTING ASTERISK
-		/usr/sbin/amportal start
+	Edit /etc/rc.d/rc.local to include the following for the TDM400P:
+	#!/bin/sh
+	#
+	# This script will be executed *after* all the other init scripts.
+	# You can put your own initialization stuff in here if you don't
+	# want to do the full Sys V style init stuff.
+	touch /var/lock/subsys/local
+	echo Loading wcfxs
+	/sbin/modprobe wcfxs
+	/usr/sbin/amportal start
+
+	Edit /etc/rc.d/rc.local to include the following for the TE110P:
+
+	#!/bin/sh
+	#
+	# This script will be executed *after* all the other init scripts.
+	# You can put your own initialization stuff in here if you don't
+	# want to do the full Sys V style init stuff.
+	touch /var/lock/subsys/local
+	echo Loading wcte11xp
+	/sbin/modprobe wcte11xp
+	/usr/sbin/amportal start
+
+	For Debian and others (?), you'll have to add startup script(s) to /etc/init.d and link them
+	to the appropriate rc?.d runlevel.
 
 	
+	Also ensure that mysql and apache are set to start at bootup.
+
 ###
-Start everything:
-
-	- ensure your PATH includes /usr/sbin
+Start everything (or reboot and it should start automagically):
 
 	- As root run:
 
@@ -273,10 +365,11 @@ Start everything:
 
 	- As root run:
 
-		/usr/sbin/amportal start
+		amportal start
 
 	- Point your browser to:
 
 		http://[ip address]
 
-
+If you notice any errors or updates that are needed to this document, please e-mail:
+info@coalescentsystems.ca
