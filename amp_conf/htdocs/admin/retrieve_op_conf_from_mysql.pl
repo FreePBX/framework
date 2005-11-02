@@ -333,9 +333,8 @@ sub table_exists {
 
 sub by_lastname {
 	$a_var = $a->[0];
-	$b_var = $b->[0];
-	($a_firstname,$a_lastname)=$a_var=~/^(\w*)\s+(\w*).*$/;
-	($b_firstname,$b_lastname)=$b_var=~/^(\w*)\s+(\w*).*$/;
+	($a_firstname,$a_lastname)=$a_var=~/^([0-9A-Za-z_.]*)\s+([0-9A-Za-z_.]*).*$/;
+	($b_firstname,$b_lastname)=$b_var=~/^([0-9A-Za-z_.]*)\s+([0-9A-Za-z_.]*).*$/;
 	if (!$a_lastname) {$a_lastname=$a_var;}
 	if (!$b_lastname) {$b_lastname=$b_var;}
 	$sortResult=lc $a_lastname cmp lc $b_lastname;
