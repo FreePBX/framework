@@ -295,7 +295,7 @@ function checkIVR(theForm,ivr_num_options) {
 			var gotoVal = theForm.elements[ "custom_args"+formNum ].value;
 			if (gotoVal.indexOf('custom') == -1) {
 				bad = "true";
-				item = formNum + 1;
+				var item = formNum + 1;
 				<?php echo "alert('"._("There is a problem with option number")?> '+item+'.\n\n<?php echo _("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
 			}
 		}
