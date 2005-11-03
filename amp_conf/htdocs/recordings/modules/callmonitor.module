@@ -276,7 +276,9 @@ class callmonitor {
     $buf = preg_replace('/\-|\:/', '', $calldate);
     $timestamp = preg_replace('/\s+/', '-', $buf);
 
-    $uniqueID = $timestamp . "-" . $uniqueNum;
+    if ($uniqueNum) {
+      $uniqueID = $timestamp . "-" . $uniqueNum;
+    }
     if ($uniqueID=='') {
       $buf = preg_split("/\|/", $lastdata);
       $uniqueID = $buf[1];
@@ -285,8 +287,14 @@ class callmonitor {
     // try to find a file using the unique id
     if (isset($uniqueID)) {
 
-      // try first for a known file type
+      // try to match a known inbound file type
       $path = $dir . $uniqueID . ".WAV";
+      if (is_file($path)) {
+        $recording = $path;
+      }
+
+      // try to match a known outbound file type
+      $path = $dir . "OUT" . $_SESSION['ari_user']['extension'] . "-" . $uniqueID . ".WAV";
       if (is_file($path)) {
         $recording = $path;
       }
@@ -294,7 +302,7 @@ class callmonitor {
       // try and match the unique id
       if (!$recording) { 
         foreach($files as $key => $path) {
-          if (strlen($uniqueID)>1 && strpos($path,$uniqueID)!=FALSE) {
+          if (strlen($uniqueNum)>1 && strpos($path,$uniqueNum)!=FALSE) {
             $recording = $path;
             break;
           }
@@ -303,9 +311,9 @@ class callmonitor {
     } 
 
     // try and match a file using the calldate (if no unique number from database)
-    if (!$recording && !isset($uniqueNum)) { 
+    if (!$recording && !$uniqueNum) { 
       foreach($files as $key => $path) {
-        if (strlen($timestamp)>1 && strpos($path,$timestamp)!=FALSE) {
+        if (strlen($timestamp)>1 && strpos($path,$timestamp)!==FALSE) {
           $recording = $path;
           break;
         }
