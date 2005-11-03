@@ -17,9 +17,11 @@ class Login {
     */
   function Auth() {
 
+    global $admin_username;
+    global $admin_password;
     global $ari_cookie_password;
     global $asterisk_voicemail_conf;
-    global $asterisk_sip_conf;
+    global $protocols;
     global $callmonitor_admin_extensions;
     global $ari_no_login;
 
@@ -42,6 +44,22 @@ class Login {
     if ($username && $password && !$ari_no_login) {
 
       $auth = false;
+
+      // check admin
+      if (!$auth) {
+        if ($username==$admin_username && 
+              $password==$admin_password) {
+
+          // authenticated
+          $auth = true; 
+
+          $extension = 'admin';
+          $name = 'Administrator';
+          $admin_callmonitor = 1;
+
+          $default_page = 'callmonitor';
+        }
+      }
 
       // check voicemail login
       if (!$auth) {
@@ -84,50 +102,62 @@ class Login {
 
       // check sip login
       if (!$auth) {
-        $lines = file($asterisk_sip_conf);
-        foreach ($lines as $key => $line) {
 
-          unset($value);
-          list($var,$value) = split('=',$line);
-          $var = trim($var);
-          $value = trim($value);
-          if ($var=="username") {
-            $sip_username = $value;
-          }
-          if ($var=="secret") {
+        foreach($protocols as $protocol => $data) {
 
-            $sip_password = $value;
-            if ($sip_username==$username &&
-                  $sip_password==$password) {  
+          if (is_readable($data['config_file'])) {
 
-              // authenticated
-              $auth = true;  
-              $extension = $username ;
-              $displayname = $username;
+            $lines = file($data['config_file']);
+            foreach ($lines as $key => $line) {
 
-              $default_page = 'callmonitor';
+              unset($value);
+              list($var,$value) = split('=',$line);
+              $var = trim($var);
+              $value = trim($value);
+              if ($var=="username") {
+                $protocol_username = $value;
+              }
+              if ($var=="secret") {
 
-              $_SESSION['ari_error'] = _("Voicemail Login not found, SIP Login used") . "<br>" .
-                                       _("No access to voicemail");
+                $protocol_password = $value;
+                if ($protocol_username==$username &&
+                      $protocol_password==$password) {  
 
-              $admin_callmonitor = 0;
-              if ($callmonitor_admin_extensions) {
-                $extensions = split(',',$callmonitor_admin_extensions);
-                foreach ($extensions as $key => $value) {
-                  if ($value=='all' || $extension==$value) {
-                    $admin_callmonitor = 1;
-                    break 2;
+                  // authenticated
+                  $auth = true;  
+                  $extension = $username ;
+                  $displayname = $username;
+
+                  $default_page = 'callmonitor';
+
+                  $_SESSION['ari_error'] = _("Voicemail Login not found") . ", " . $protocol . " " . _("Login used") . "<br>" .
+                                           _("No access to voicemail");
+
+                  $admin_callmonitor = 0;
+                  if ($callmonitor_admin_extensions) {
+                    $extensions = split(',',$callmonitor_admin_extensions);
+                    foreach ($extensions as $key => $value) {
+                      if ($value=='all' || $extension==$value) {
+                        $admin_callmonitor = 1;
+                        break 2;
+                      }
+                    }
                   }
+                }
+                else if ($protocol_username==$username &&
+                           $protocol_password!=$password) {
+                  $_SESSION['ari_error'] = _("Incorrect Password");
+                  return;
                 }
               }
             }
-            else if ($sip_username==$username &&
-                       $sip_password!=$password) {
-              $_SESSION['ari_error'] = _("Incorrect Password");
-              return;
-            }
           }
         }
+      }
+
+      // let user know bad login
+      if (!$auth) {
+        $_SESSION['ari_error'] = _("Incorrect Username or Password");
       }
 
       // if authenticated and user wants to be remembered, set cookie 
@@ -214,7 +244,7 @@ class Login {
         <table id='login'>
           <tr>
             <td class='right'>
-              <small><small>Login:&nbsp;&nbsp;</small></small>
+              <small><small>" . _("Login") . ":&nbsp;&nbsp;</small></small>
             </td>
             <td>
               <input type='text' name='username' value='' maxlength=20 tabindex=1>
@@ -222,7 +252,7 @@ class Login {
           </tr>
           <tr>
             <td class='right'>
-              <small><small>Password:&nbsp;&nbsp;</small></small>
+              <small><small>" . _("Password") . ":&nbsp;&nbsp;</small></small>
             </td>
             <td colspan=1>
               <input type='password' name='password' maxlength=20 tabindex=2>
@@ -230,7 +260,7 @@ class Login {
           </tr>						
             <td></td>	
             <td>
-              <input type='submit' name='btnSubmit' value='Submit' tabindex=3></small></small></p>
+              <input type='submit' name='btnSubmit' value='" . _("Submit") . "' tabindex=3></small></small></p>
             </td>
           </tr>
           <tr>
@@ -238,7 +268,7 @@ class Login {
               <input type='checkbox' name='remember'>
             </td>
             <td class='left'>
-              <p class='small'>Remember Password</p>
+              <p class='small'>" . _("Remember Password") . "</p>
             </td>
           </tr>
           <tr><td>&nbsp;</td></tr>

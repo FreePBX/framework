@@ -18,16 +18,17 @@ class settings {
    */
   function settings() {
 
+    // determine what protocol user is using
     global $protocols;
 
     foreach ($protocols as $protocol => $value) {
       $data = array();
-      $this->get_record_settings($value['table'],$_SESSION['ari_user']['extension'],&$data);
+      $this->get_protocol_record_settings($value['table'],$_SESSION['ari_user']['extension'],&$data);
       if (count($data)) {
         $this->protocol_table = $value['table'];  
         $this->protocol_config_file = $value['config_file'];  
         break;
-      }
+      }  
     }
   }
 
@@ -52,7 +53,7 @@ class settings {
     $ret .= "
       <?php if ($logout !='') { ?>
         <br>
-        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=settings&f=display'>Settings</a></small></small></p>
+        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=settings&f=display'>" . _("Settings") . "</a></small></small></p>
       <?php } ?>";
 
     return $ret;
@@ -68,6 +69,7 @@ class settings {
    */
   function settings_action($args) {
 
+    global $admin_username;
     global $asterisk_voicemail_conf;
     global $settings_allow_call_recording_set;
 
@@ -91,76 +93,79 @@ class settings {
         setcookie("ari_lang", $lang_code, time()+365*24*60*60);
       }
 
-      // update voicemail password
-      if ($voicemail_password=='' || $voicemail_password_confirm=='') {
-        $_SESSION['ari_error'] = 
-          _("Voicemail password not changed") . "<br>" .
-          _("Password and password confirm must not be blank");
-      }
-      else if (strlen($voicemail_password)!=4 || !is_numeric($voicemail_password)) {
-        $_SESSION['ari_error'] = 
-          _("Voicemail password not changed") . "<br>" .
-          _("Password must be all numbers and 4 digits");
-      }
-      else if ($voicemail_password!=$voicemail_password_confirm) {
-        $_SESSION['ari_error'] = 
-          _("Voicemail password not changed") . "<br>" .
-          _("Password and password confirm do not match");
-      }
-      else {
+      if ($_SESSION['ari_user']['extension']!=$admin_username) {
 
-        // check for writable the files
-        $temp_file = $asterisk_voicemail_conf . ".tmp";
-        $fp = fopen($temp_file, "w");
-        if (!$fp) {
+        // update voicemail password
+        if ($voicemail_password=='' || $voicemail_password_confirm=='') {
           $_SESSION['ari_error'] = 
             _("Voicemail password not changed") . "<br>" .
-            $temp_file . " " . _("does not exist or is not writable");
+            _("Password and password confirm must not be blank");
+        }  
+        else if (strlen($voicemail_password)!=4 || !is_numeric($voicemail_password)) {
+          $_SESSION['ari_error'] = 
+            _("Voicemail password not changed") . "<br>" .
+            _("Password must be all numbers and 4 digits");
         }
-        else if (!is_writable($asterisk_voicemail_conf)) {
+        else if ($voicemail_password!=$voicemail_password_confirm) {
           $_SESSION['ari_error'] = 
             _("Voicemail password not changed") . "<br>" .
-            $asterisk_voicemail_conf . " " . _("does not exist or is not writable");
+            _("Password and password confirm do not match");
         }
         else {
 
-          // save password
-          $lines = file($asterisk_voicemail_conf);
-          foreach ($lines as $key => $line) {
-            unset($value);
-            list($var,$value) = split('=>',$line);
-            $var = trim($var);
-            if ($var==$_SESSION['ari_user']['extension'] && $value) {
-
-              // write out line with password change
-              $buf = split(',',$value);
-              $buf[0] = $voicemail_password;
-              $line = $var . " => " . join(',', $buf);
-              fwrite($fp, $line);
-            }
-            else {
-
-              // write out original line with no changes
-              fwrite($fp, $line);
-            }
+          // check for writable the files
+          $temp_file = $asterisk_voicemail_conf . ".tmp";
+          $fp = fopen($temp_file, "w");
+          if (!$fp) {
+            $_SESSION['ari_error'] = 
+              _("Voicemail password not changed") . "<br>" .
+              $temp_file . " " . _("does not exist or is not writable");
           }
-          fclose($fp);
-          unlink($asterisk_voicemail_conf);
-          rename($temp_file,$asterisk_voicemail_conf);
+          else if (!is_writable($asterisk_voicemail_conf)) {
+            $_SESSION['ari_error'] = 
+              _("Voicemail password not changed") . "<br>" .
+              $asterisk_voicemail_conf . " " . _("does not exist or is not writable");
+          }
+          else {
+
+            // save password
+            $lines = file($asterisk_voicemail_conf);
+            foreach ($lines as $key => $line) {
+              unset($value);
+              list($var,$value) = split('=>',$line);
+              $var = trim($var);
+              if ($var==$_SESSION['ari_user']['extension'] && $value) {
+
+                // write out line with password change
+                $buf = split(',',$value);
+                $buf[0] = $voicemail_password;
+                $line = $var . " => " . join(',', $buf);
+                fwrite($fp, $line);
+              }
+              else {
+
+                // write out original line with no changes
+                fwrite($fp, $line);
+              }
+            }
+            fclose($fp);
+            unlink($asterisk_voicemail_conf);
+            rename($temp_file,$asterisk_voicemail_conf);
+          }
         }
-      }
   
-      // update voicemail audio format setting
-      setcookie("ari_voicemail_audio_format", $voicemail_audio_format, time()+365*24*60*60);
+        // update voicemail audio format setting
+        setcookie("ari_voicemail_audio_format", $voicemail_audio_format, time()+365*24*60*60);
 
-      // update call monitor record setting
-      if ($settings_allow_call_recording_set) {
-        $extension = $_SESSION['ari_user']['extension'];
-        if ($record_in && $record_out) {
-          $this->set_recording_status($extension, "In", $record_in);
-          $this->set_recording_status($extension, "Out", $record_out);
+        // update call monitor record setting
+        if ($settings_allow_call_recording_set) {
+          $extension = $_SESSION['ari_user']['extension'];
+          if ($record_in && $record_out) {
+            $this->set_recording_status($extension, "In", $record_in);
+            $this->set_recording_status($extension, "Out", $record_out);
 
-          $this->set_record_settings($this->protocol_config_file,$this->protocol_table,$extension,$record_in,$record_out);
+            $this->set_record_settings($extension,$record_in,$record_out);
+          }
         }
       }
     }
@@ -186,6 +191,7 @@ class settings {
    */
   function settings_display($args) {
 
+    global $admin_username;
     global $settings_allow_call_recording_set;
 
     // args
@@ -197,7 +203,8 @@ class settings {
     $display = new DisplaySearch();
 
     // get data
-    $this->get_record_settings($this->protocol_table,$_SESSION['ari_user']['extension'],&$data);
+    $data = array();
+    $this->get_record_settings($_SESSION['ari_user']['extension'],&$data);
 
     // New Header
     if ($_SESSION['ari_user']['admin_settings']) {
@@ -217,93 +224,97 @@ class settings {
 	    <select name='lang_code'>
               <option value='en_US' " . ($_COOKIE['ari_lang']=='en_US' ? 'selected' : '') .  ">English</option>
               <option value='es_ES' " . ($_COOKIE['ari_lang']=='es_ES' ? 'selected' : '') .  ">Espa&ntilde;ol</option>
+              <option value='gr_GR' " . ($_COOKIE['ari_lang']=='gr_GR' ? 'selected' : '') .  ">Greek</option>
               <option value='pt_BR' " . ($_COOKIE['ari_lang']=='pt_BR' ? 'selected' : '') .  ">Portuguese</option>
+              <option value='sv_SE' " . ($_COOKIE['ari_lang']=='sv_SE' ? 'selected' : '') .  ">Swedish</option>
             </select>
           </p>";
     } 
 
-    // voicemail settings
-    $setVoicemailText = "
-        <table class='settings'>
-	  <tr>
-            <td><h3>" . _("Voicemail Settings") . "</h3></td>
-	  </tr>
-	  <tr>
-            <td>" . _("Voicemail Password:") . "</td>
-            <td>
-              <input name='voicemail_password' type='password' size=16 value=" . $_SESSION['ari_user']['voicemail_password'] . ">
-            </td>
-	  </tr>
-	  <tr>
-            <td>" . _("Enter again to confirm:") . "</td>
-            <td>
-              <input name='voicemail_password_confirm' type='password' size=16 value=" . $_SESSION['ari_user']['voicemail_password'] . ">
-            </td>
-	  </tr>
-	  <tr>
-           <td class='note' colspan=2><small>" . _("Passwords must be all numbers and only 4 digits") . "</small></td>
-	  </tr>
-	  <tr>
-            <td>" . _("Audio Format:") . "</td>
-            <td>
-              <select name='voicemail_audio_format'>
-                <option value='.wav' " . ($_COOKIE['ari_voicemail_audio_format']=='.wav' ? 'selected' : '') .  ">" . _("Best Quality") . " (.wav)</option>
-                <option value='.gsm' " . ($_COOKIE['ari_voicemail_audio_format']=='.gsm' ? 'selected' : '') .  ">" . _("Smallest Download") . " (.gsm)</option>
-              </select>
-            </td>
-          </tr>
-        </table>";
+    if ($_SESSION['ari_user']['extension']!=$admin_username) {
 
-    if ($settings_allow_call_recording_set) {
+      // voicemail settings
+      $setVoicemailText = "
+          <table class='settings'>
+	    <tr>
+              <td><h3>" . _("Voicemail Settings") . "</h3></td>
+	    </tr>
+	    <tr>
+              <td>" . _("Voicemail Password:") . "</td>
+              <td>
+                <input name='voicemail_password' type='password' size=16 value=" . $_SESSION['ari_user']['voicemail_password'] . ">
+              </td>
+	    </tr>
+	    <tr>
+              <td>" . _("Enter again to confirm:") . "</td>
+              <td>
+                <input name='voicemail_password_confirm' type='password' size=16 value=" . $_SESSION['ari_user']['voicemail_password'] . ">
+              </td>
+	    </tr>
+	    <tr>
+             <td class='note' colspan=2><small>" . _("Passwords must be all numbers and only 4 digits") . "</small></td>
+	    </tr>
+	    <tr>
+              <td>" . _("Audio Format:") . "</td>
+              <td>
+                <select name='voicemail_audio_format'>
+                  <option value='.wav' " . ($_COOKIE['ari_voicemail_audio_format']=='.wav' ? 'selected' : '') .  ">" . _("Best Quality") . " (.wav)</option>
+                  <option value='.gsm' " . ($_COOKIE['ari_voicemail_audio_format']=='.gsm' ? 'selected' : '') .  ">" . _("Smallest Download") . " (.gsm)</option>
+                </select>
+              </td>
+            </tr>
+          </table>";
 
       // call monitor settings
-      foreach($data as $key=>$value) {
-        if ($value[keyword]=='record_in') {
-          if ($value[data]=='Always') {
-            $ri_always = 'checked=checked';
+      if ($settings_allow_call_recording_set) {
+        foreach($data as $key=>$value) {
+          if ($key=='record_in') {
+            if ($value=='Always') {
+              $ri_always = 'checked=checked';
+            }
+            elseif ($value=='Never') {
+              $ri_never = 'checked=checked';
+            }
+            elseif ($value=='Adhoc') {
+              $ri_on_demand = 'checked=checked';
+            }
           }
-          elseif ($value[data]=='Never') {
-            $ri_never = 'checked=checked';
-          }
-          elseif ($value[data]=='Adhoc') {
-            $ri_on_demand = 'checked=checked';
+          if ($key=='record_out') {
+            if ($value=='Always') {
+              $ro_always = 'checked=checked';
+            }
+            elseif ($value=='Never') {
+              $ro_never = 'checked=checked';
+            }
+            elseif ($value=='Adhoc') {
+              $ro_on_demand = 'checked=checked';
+            }
           }
         }
-        if ($value[keyword]=='record_out') {
-          if ($value[data]=='Always') {
-            $ro_always = 'checked=checked';
-          }
-          elseif ($value[data]=='Never') {
-            $ro_never = 'checked=checked';
-          }
-          elseif ($value[data]=='Adhoc') {
-            $ro_on_demand = 'checked=checked';
-          }
-        }
-      }
 
-      $setCallMonitorText = "
-        <table class='settings'>
-	  <tr>
-            <td><h3>" . _("Call Monitor Settings") . "</h3></td>
-	  </tr>
-	  <tr>
-            <td>" . _("Record INCOMING:") . " </td>
-            <td>
-              <input type='radio' name='record_in' value='Always' " . $ri_always . "/> " . _("Always") . " 
-              <input type='radio' name='record_in' value='Never' " . $ri_never . "/> " . _("Never") . "				
-              <input type='radio' name='record_in' value='Adhoc' " . $ri_on_demand . "/> " . _("On-Demand") . "
-            </td>
-          </tr>
-          <tr>
-            <td>" . _("Record OUTGOING:") . " </td>
-            <td>
-              <input type='radio' name='record_out' value='Always' " . $ro_always . "/> " . _("Always") . "
-              <input type='radio' name='record_out' value='Never' " . $ro_never . "/> " . _("Never") . "				
-              <input type='radio' name='record_out' value='Adhoc' " . $ro_on_demand . "/> " . _("On-Demand") . "
-            </td>
-          </tr>
-        </table>";
+        $setCallMonitorText = "
+          <table class='settings'>
+	    <tr>
+              <td><h3>" . _("Call Monitor Settings") . "</h3></td>
+	    </tr>
+	    <tr>
+              <td>" . _("Record INCOMING:") . " </td>
+              <td>
+                <input type='radio' name='record_in' value='Always' " . $ri_always . "/> " . _("Always") . " 
+                <input type='radio' name='record_in' value='Never' " . $ri_never . "/> " . _("Never") . "				
+                <input type='radio' name='record_in' value='Adhoc' " . $ri_on_demand . "/> " . _("On-Demand") . "
+              </td>
+            </tr>
+            <tr>
+              <td>" . _("Record OUTGOING:") . " </td>
+              <td>
+                <input type='radio' name='record_out' value='Always' " . $ro_always . "/> " . _("Always") . "
+                <input type='radio' name='record_out' value='Never' " . $ro_never . "/> " . _("Never") . "				
+                <input type='radio' name='record_out' value='Adhoc' " . $ro_on_demand . "/> " . _("On-Demand") . "
+              </td>
+            </tr>
+          </table>";
+      }
     }
 
     $ret .= "
@@ -317,7 +328,7 @@ class settings {
 	<br>
         " . $setCallMonitorText . "
         <br>
-        <input name='submit' type='submit' value='Update'>
+        <input name='submit' type='submit' value='" . ("Update") . "'>
       </form>";
 
     return $ret;
@@ -409,14 +420,19 @@ class settings {
   }
 
   /*
-   * Gets record data
+   * Gets record settings for a protocol
    *
+   * @param $table
+   *   Table to pull information from
+   * @param $id
+   *   User to get information about
    * @param $data
    *   Reference to the variable to store the data in
    */
-  function get_record_settings($table,$id,&$data) {
+  function get_protocol_record_settings($table,$id,&$data) {
 
     $dbh = $_SESSION['dbh_asterisk'];
+
     $sql = "SELECT id,
                    keyword,
                    data,
@@ -427,51 +443,125 @@ class settings {
              AND id='" . $id . "'";
 
     $data = $dbh->getAll($sql,DB_FETCHMODE_ASSOC);
+
+    foreach($data as $key=>$value) {
+      if ($value[keyword]=='record_in') {
+        $data['record_in'] = $value[data];
+      }
+      if ($value[keyword]=='record_out') {
+        $data['record_out'] = $value[data];
+      }
+    }
   }
 
   /*
-   * Gets cdr data
+   * Gets record settings
    *
+   * @param $id
+   *   User to get information about
    * @param $data
    *   Reference to the variable to store the data in
    */
-  function set_record_settings($file,$table,$id,$record_in,$record_out) {
+  function get_record_settings($id,&$data) {
 
-    // update config file
-    $found = false;
-    $lines = file($file);  // opens file and reads to array
-    $f=fopen($file,"w");  // clear file
-    foreach ($lines as $line) {
+    // check protocol tables first
+    $this->get_protocol_record_settings($this->protocol_table,$id,&$data);
 
-      unset($value);
-      list($var,$value) = split('=',$line);
-      $var = trim($var);
-      $value = trim($value);
+    // if no data, try users table
+    $dbh = $_SESSION['dbh_asterisk'];
+    if (!$data['record_in'] || !$data['record_out']) {
 
-      if (preg_match("/\[" . $id . "\]/i", $var)) {
-        $found = true;
+      $sql = "SELECT recording
+               FROM users
+               WHERE extension='" . $id . "'";
+
+      $raw = $dbh->getAll($sql,DB_FETCHMODE_ASSOC);
+
+      $parts = array();
+      $parts = split('[|]', $raw[0]['recording']);
+
+      foreach ($parts as $part) {
+
+        list($key,$value) = split('[=]', $part);
+
+        if ($key=='in') {
+          $data['record_in'] = $value;
+        }
+        elseif ($key=='out') {
+          $data['record_out'] = $value;
+        }
       }
-
-      if ($found) {
-        if ($var=='record_in') {
-          $line = $var . "=" . $record_in ."\n";
-        }
-        if ($var=='record_out') {
-          $line = $var . "=" . $record_out . "\n";
-        }
-      }   
-      fputs($f,$line); // place $line back in file
     }
-    fclose($f);
+  }
+
+  /*
+   * Sets the record settings
+   *
+   * @param $id
+   *   User to get information about
+   * @param $record_in
+   *   Incoming recording setting to put in database
+   * @param $record_out
+   *   Outgoing recording setting to put in database
+   */
+  function set_record_settings($id,$record_in,$record_out) {
+
+    // update AMP config file (for older versions, depreciate on 11/01/06)
+    if (is_writable($this->protocol_config_file)) {
+
+      $found = false;
+      $lines = array();
+      $lines = file($this->protocol_config_file);  // opens file and reads to array
+      $f=fopen($this->protocol_config_file,"w");  // clear file
+      foreach ($lines as $line) {
+
+        unset($value);
+        list($var,$value) = split('=',$line);
+        $var = trim($var);
+        $value = trim($value);
+
+        if (preg_match("/\[" . $id . "\]/i", $var)) {
+          $found = true;
+        }
+
+        if ($found) {
+          if ($var=='record_in') {
+            $line = $var . "=" . $record_in ."\n";
+          }
+          if ($var=='record_out') {
+            $line = $var . "=" . $record_out . "\n";
+          }
+        }   
+        fputs($f,$line); // place $line back in file
+      }
+      fclose($f);
+    }
 
     // update database
     $dbh = $_SESSION['dbh_asterisk'];
 
-    $sql = "UPDATE " . $table . " SET data='out=" . $record_out . "|in=" . $record_in . "' WHERE id='" . $id . "' AND keyword='recording'";
+    $sql = "UPDATE " . $this->protocol_table . " SET data='" . $record_in . "' WHERE id='" . $id . "' AND keyword='record_in'";
     $sth = $dbh->prepare($sql);
     $res = $dbh->execute($sth);
     if (DB::isError($res)) {
-      die($res->getMessage());
+      $_SESSION['ari_error'] = $result->getMessage() . " " . _("in table") . " " . $this->protocol_table;
+    }
+
+    $sql = "UPDATE " . $this->protocol_table . " SET data='" . $record_out . "' WHERE id='" . $id . "' AND keyword='record_out'";
+    $sth = $dbh->prepare($sql);
+    $res = $dbh->execute($sth);
+    if (DB::isError($res)) {
+      $_SESSION['ari_error'] = $result->getMessage() . " " . _("in table") . " " . $this->protocol_table;
+    }
+
+    // update AMP database
+    $dbh = $_SESSION['dbh_asterisk'];
+
+    $sql = "UPDATE users SET recording='out=" . $record_out . "|in=" . $record_in . "' WHERE extension='" . $id . "'";
+    $sth = $dbh->prepare($sql);
+    $result = $dbh->execute($sth);
+    if (DB::isError($result)) {
+      $_SESSION['ari_error'] = $result->getMessage() . " " . _("in table") . " " . "users";
     }
   }
 

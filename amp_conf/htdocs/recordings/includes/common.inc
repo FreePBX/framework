@@ -5,6 +5,59 @@
  * common functions - core handler
  */
 
+/*
+ * Checks if user is set and sets
+ */
+function CheckErrorMessage() {
+
+  if ($_SESSION['ari_error']) {
+    $ret .= "<div class='error'>
+               " . $_SESSION['ari_error'] . "
+             </div>
+             <br>";
+    unset($_SESSION['ari_error']);
+  }
+
+  return $ret;
+}
+
+/**
+ * Sets i18n locale language
+ *
+ * sets the language for i18n php gettext module
+ * (gettext has to be enabled in the php.ini)
+ *
+ */
+function set_locale_lang() {
+
+  if (extension_loaded('gettext')) {
+    
+    // try and find the default locale
+    $locale = 'en_US';
+    $default_lang = preg_replace('/-/','_',$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+    $locale_dir = "./locale";
+    $directories = array();
+    get_directories($locale_dir,"",&$directories);
+    foreach($directories as $directory) {
+
+      $buf = substr($directory,strlen($locale_dir)+1,strlen($directory) - strlen($locale_dir));
+      if (preg_match("/" . $default_lang . "/i",$buf)) {
+        $locale = $buf;  
+        $break;
+      }
+    }
+
+    // set locale
+    setlocale(LC_MESSAGES,$_COOKIE['ari_lang'] ? $_COOKIE['ari_lang']:$locale);
+    bindtextdomain('ari','./locale');
+    textdomain('ari');
+  } else {
+    function _($str) {
+      return $str;
+    }
+  }
+}
+
 /**
  * Builds database connections
  */
@@ -54,23 +107,6 @@ function DatabaseLogon() {
 
   return true;
 }
-
-/*
- * Checks if user is set and sets
- */
-function CheckErrorMessage() {
-
-  if ($_SESSION['ari_error']) {
-    $ret .= "<div class='error'>
-               " . $_SESSION['ari_error'] . "
-             </div>
-             <br>";
-    unset($_SESSION['ari_error']);
-  }
-
-  return $ret;
-}
-
 
 /* Utilities */
 
@@ -301,8 +337,9 @@ function Handler() {
  */  
 
 include_once("includes/database.inc");
-include_once("includes/display.inc");  
-include_once("includes/info.inc");
+include_once("includes/display.inc"); 
+
+set_locale_lang(); 
 
 
 ?>

@@ -28,7 +28,7 @@ class callmonitor {
   function callmonitor_nav_menu($args) {
 
     $ret .= "
-      <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=callmonitor&f=display'>Call Monitor</a></small></small></p>";
+      <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=callmonitor&f=display'>" . _("Call Monitor") . "</a></small></small></p>";
 
     return $ret;
   }
@@ -113,7 +113,7 @@ class callmonitor {
     // table controls
     if ($callmonitor_allow_delete) {
       $controls = "
-        <input class='infoBar' type='submit' name='a' value='delete'>
+        <input class='infoBar' type='submit' name='a' value='" . _("delete") . "'>
         </select>";
     }
 
@@ -166,9 +166,9 @@ class callmonitor {
 
     // build page content
     if ($_SESSION['ari_user']['admin_callmonitor']) {
-      $headerText = "Call Monitor";
+      $headerText = _("Call Monitor");
     } else {
-      $headerText = _("Call Monitor for") . " " . $_SESSION['ari_user']['name'] . " (" . $_SESSION['ari_user']['extension'] . ")";
+      $headerText = _("Call Monitor") . " " . _("for") . " " . $_SESSION['ari_user']['name'] . " (" . $_SESSION['ari_user']['extension'] . ")";
     }
     $ret .= $display->DisplayHeaderText($headerText);
     $ret .= $display->DisplaySearchBlock('left',$m,$folder,$q,true);
@@ -215,9 +215,9 @@ class callmonitor {
         <table>
           <tr>
             <td>
-              <small>select: </small>
-              <small><a href='' OnClick=\"checkAll(document.callmonitor_form,true); return false;\">all</a></small>
-              <small><a href='' OnClick=\"checkAll(document.callmonitor_form,false); return false;\">none</a></small>
+              <small>" . _("select") . ": </small>
+              <small><a href='' OnClick=\"checkAll(document.callmonitor_form,true); return false;\">" . _("all") . "</a></small>
+              <small><a href='' OnClick=\"checkAll(document.callmonitor_form,false); return false;\">" . _("none") . "</a></small>
             </td>
           </tr>
         </table>";
@@ -269,32 +269,43 @@ class callmonitor {
    * @param $recording
    *   Reference to the variable to store a $recording name if found
    */
-  function get_recording($dir,$files,$uniqueID,$lastdata,$calldate) {
+  function get_recording($dir,$files,$uniqueNum,$lastdata,$calldate) {
 
     $recording='';
 
+    $buf = preg_replace('/\-|\:/', '', $calldate);
+    $timestamp = preg_replace('/\s+/', '-', $buf);
+
+    $uniqueID = $timestamp . "-" . $uniqueNum;
     if ($uniqueID=='') {
       $buf = preg_split("/\|/", $lastdata);
       $uniqueID = $buf[1];
     }
 
+    // try to find a file using the unique id
     if (isset($uniqueID)) {
 
-      // Creating an index for uniqueid in the cdrdb database should be faster.
-      foreach($files as $key => $path) {
-        if (preg_match("/".$uniqueID."/",$path)) {
-          $recording=$path;
-          break;
-        }
+      // try first for a known file type
+      $path = $dir . $uniqueID . ".WAV";
+      if (is_file($path)) {
+        $recording = $path;
       }
 
+      // try and match the unique id
+      if (!$recording) { 
+        foreach($files as $key => $path) {
+          if (strlen($uniqueID)>1 && strpos($path,$uniqueID)!=FALSE) {
+            $recording = $path;
+            break;
+          }
+        } 
+      }
     } 
 
-    if (!$recording) { 
+    // try and match a file using the calldate (if no unique number from database)
+    if (!$recording && !isset($uniqueNum)) { 
       foreach($files as $key => $path) {
-        $buf = preg_replace('/\-|\:/', '', $calldate);
-        $uniqueID = preg_replace('/\s+/', '-', $buf);
-        if (strlen($uniqueID)>1 && preg_match("/".$uniqueID."/",$path)) {
+        if (strlen($timestamp)>1 && strpos($path,$timestamp)!=FALSE) {
           $recording = $path;
           break;
         }

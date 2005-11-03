@@ -73,26 +73,6 @@ function version_cleanup() {
 }
 
 /**
- * Sets language
- *
- * sets the language for i18n php gettext module
- * (gettext has to be enabled in the php.ini)
- *
- */
-function set_i18n_lang() {
-
-  if (extension_loaded('gettext')) {
-    setlocale(LC_MESSAGES,$_COOKIE['ari_lang'] ? $_COOKIE['ari_lang']:'en_US');
-    bindtextdomain('ari','./locale');
-    textdomain('ari');
-  } else {
-    function _($str) {
-      return $str;
-    }
-  }
-}
-
-/**
  * Starts the session
  */
 function ari_session_start() {
@@ -136,7 +116,6 @@ function bootstrap() {
 function ari_page_header() {
 
   bootstrap();
-  set_i18n_lang();
 }
 
 /**
@@ -159,7 +138,7 @@ ari_session_start();
 include_once("version.inc");
 include_once("includes/main.conf");
 include_once("includes/login.inc");
-
+include_once("includes/info.inc");
 
 
 

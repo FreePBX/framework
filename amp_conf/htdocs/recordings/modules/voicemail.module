@@ -30,7 +30,7 @@ class voicemail {
     // put if statement in return string, because do not know $ari_no_login until page is built
     $ret .= "
       <?php if ($ari_no_login =='') { ?>
-        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=voicemail&f=display'>Voicemail</a></small></small></p>
+        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=voicemail&f=display'>" . _("Voicemail") . "</a></small></small></p>
       <?php } ?>";
 
     return $ret;
@@ -232,13 +232,13 @@ class voicemail {
 
     // table controls
     $controls = "
-          <input class='infoBar' type='submit' name='a' value='delete'>
-          <input class='infoBar' type='submit' name='a' value='move_to'>
+          <input class='infoBar' type='submit' name='a' value='" . _("delete") . "'>
+          <input class='infoBar' type='submit' name='a' value='" . _("move_to") . "'>
           <select name='folder_rx' style='width:140px;'>
             <option VALUE=''>Folder
             " . $move_options . "
           </select>
-          <input class='infobar' type='submit' name='a' value='forward_to'>
+          <input class='infobar' type='submit' name='a' value='" . _("forward_to") . "'>
           <select name='extension_rx'>
             <option VALUE=''>
             " . $forward_options . "
@@ -277,7 +277,7 @@ class voicemail {
 
     // build page content
     $ret .= CheckErrorMessage();
-    $ret .= $display->DisplayHeaderText(_("Voicemail for") . " " . $_SESSION['ari_user']['name'] . " (" . $extension . ")");
+    $ret .= $display->DisplayHeaderText(_("Voicemail") . " " . _("for") . " " . $_SESSION['ari_user']['name'] . " (" . $extension . ")");
     if ($extension=='admin') {
       $_SESSION['ari_error'] = _("No Voicemail Recordings for Admin");
       $ret .= $display->DisplayLine();
@@ -324,9 +324,9 @@ class voicemail {
       <table>
         <tr>
           <td>
-            <small>select: </small>
-            <small><a href='' OnClick=\"checkAll(document.voicemail_form,true); return false;\">all</a></small>
-            <small><a href='' OnClick=\"checkAll(document.voicemail_form,false); return false;\">none</a></small>
+            <small>" . _("select") . ": </small>
+            <small><a href='' OnClick=\"checkAll(document.voicemail_form,true); return false;\">" . _("all") . "</a></small>
+            <small><a href='' OnClick=\"checkAll(document.voicemail_form,false); return false;\">" . _("none") . "</a></small>
           </td>
         </tr>
       </table>
