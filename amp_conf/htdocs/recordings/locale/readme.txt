@@ -7,5 +7,5 @@ $ msgfmt -v ari.po -o ari.mo
 
 // To update
 $ cp es_ES/LC_MESSAGES/ari.po ./old.po
-$ msgmerge old.po ari.po --output-file=new.po
+$ msgmerge ari.po ../../ari.po --output-file=new.po
 $ msgfmt new.po

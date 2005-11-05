@@ -1,5 +1,7 @@
 Roadmap
 
+  need to use php-asmanager.php or build a class for the Asterisk Manager Interface
+
   Sorting, for example by callerID,duration etc.
   email settings
   voicemail prompts
@@ -7,20 +9,22 @@ Roadmap
   fax support
   on-demand call recording
   clean up css for login
+  disable the call monitor for non-admins
+  need to fix the voicemail folder translation of the sub nav menu
 
-make a new i18n file and send it out to translators
+Change log - 11/04/2005
 
-need to fix the voicemail folder translation of the sub nav menu
+ * fixed bug to reload asterisk voicemail after voicemail password setting change (submitted by Jason Becker)
 
-Showing in which sub-folder you are, for example i press Work, and i want to see it somewhere, so i know everytime which messages i am looking.
+Change log - 11/03/2005
 
-Change log - 11/02/2005
-
+ * Highlight which voicemail sub-folder in use (submitted by Elias Sofronas)
  * set default i18n page (suggested by Niklas Larsson)
  * admin only account for call monitor (submitted by Julian J. M.)
  * enhanced pattern matching call monitor unique id from database (submitted by Julian J. M.)
  * updated Spanish translation (submitted by Diego Iastrubni)
  * added Swedish translation (submitted by Niklas Larsson)
+ * added Greek translation (submitted by Elias Sofronas)
  * fixed bug in call recording settings method (changed in AMP 1.10.009)
  * fix bugs in i18n translation (submitted by Niklas Larsson)
    - buttons, left menus, select  all | none, Call Monitor (heading), Login page.

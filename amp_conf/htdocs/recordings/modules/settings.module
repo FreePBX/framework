@@ -71,6 +71,7 @@ class settings {
 
     global $admin_username;
     global $asterisk_voicemail_conf;
+    global $settings_allow_voicemail_password_set;
     global $settings_allow_call_recording_set;
 
     // args
@@ -96,61 +97,68 @@ class settings {
       if ($_SESSION['ari_user']['extension']!=$admin_username) {
 
         // update voicemail password
-        if ($voicemail_password=='' || $voicemail_password_confirm=='') {
-          $_SESSION['ari_error'] = 
-            _("Voicemail password not changed") . "<br>" .
-            _("Password and password confirm must not be blank");
-        }  
-        else if (strlen($voicemail_password)!=4 || !is_numeric($voicemail_password)) {
-          $_SESSION['ari_error'] = 
-            _("Voicemail password not changed") . "<br>" .
-            _("Password must be all numbers and 4 digits");
-        }
-        else if ($voicemail_password!=$voicemail_password_confirm) {
-          $_SESSION['ari_error'] = 
-            _("Voicemail password not changed") . "<br>" .
-            _("Password and password confirm do not match");
-        }
-        else {
+        if ($settings_allow_voicemail_password_set) {
 
-          // check for writable the files
-          $temp_file = $asterisk_voicemail_conf . ".tmp";
-          $fp = fopen($temp_file, "w");
-          if (!$fp) {
+          // update voicemail password
+          if ($voicemail_password=='' || $voicemail_password_confirm=='') {
             $_SESSION['ari_error'] = 
               _("Voicemail password not changed") . "<br>" .
-              $temp_file . " " . _("does not exist or is not writable");
+              _("Password and password confirm must not be blank");
+          }  
+          else if (strlen($voicemail_password)!=4 || !is_numeric($voicemail_password)) {
+            $_SESSION['ari_error'] = 
+              _("Voicemail password not changed") . "<br>" .
+              _("Password must be all numbers and 4 digits");
           }
-          else if (!is_writable($asterisk_voicemail_conf)) {
+          else if ($voicemail_password!=$voicemail_password_confirm) {
             $_SESSION['ari_error'] = 
               _("Voicemail password not changed") . "<br>" .
-              $asterisk_voicemail_conf . " " . _("does not exist or is not writable");
+              _("Password and password confirm do not match");
           }
           else {
 
-            // save password
-            $lines = file($asterisk_voicemail_conf);
-            foreach ($lines as $key => $line) {
-              unset($value);
-              list($var,$value) = split('=>',$line);
-              $var = trim($var);
-              if ($var==$_SESSION['ari_user']['extension'] && $value) {
-
-                // write out line with password change
-                $buf = split(',',$value);
-                $buf[0] = $voicemail_password;
-                $line = $var . " => " . join(',', $buf);
-                fwrite($fp, $line);
-              }
-              else {
-
-                // write out original line with no changes
-                fwrite($fp, $line);
-              }
+            // check for writable the files
+            $temp_file = $asterisk_voicemail_conf . ".tmp";
+            $fp = fopen($temp_file, "w");
+            if (!$fp) {
+              $_SESSION['ari_error'] = 
+                _("Voicemail password not changed") . "<br>" .
+                $temp_file . " " . _("does not exist or is not writable");
             }
-            fclose($fp);
-            unlink($asterisk_voicemail_conf);
-            rename($temp_file,$asterisk_voicemail_conf);
+            else if (!is_writable($asterisk_voicemail_conf)) {
+              $_SESSION['ari_error'] = 
+                _("Voicemail password not changed") . "<br>" .
+                $asterisk_voicemail_conf . " " . _("does not exist or is not writable");
+            }
+            else {
+
+              // save password
+              $lines = file($asterisk_voicemail_conf);
+              foreach ($lines as $key => $line) {
+                unset($value);
+                list($var,$value) = split('=>',$line);
+                $var = trim($var);
+                if ($var==$_SESSION['ari_user']['extension'] && $value) {
+
+                  // write out line with password change
+                  $buf = split(',',$value);
+                  $buf[0] = $voicemail_password;
+                  $line = $var . " => " . join(',', $buf);
+                  fwrite($fp, $line);
+                }
+                else {
+
+                  // write out original line with no changes
+                  fwrite($fp, $line);
+                }
+              }
+              fclose($fp);
+              unlink($asterisk_voicemail_conf);
+              rename($temp_file,$asterisk_voicemail_conf);
+
+              // reload asterisk voicemail
+              $this->reload_asterisk_voicemail();
+            }
           }
         }
   
@@ -192,6 +200,7 @@ class settings {
   function settings_display($args) {
 
     global $admin_username;
+    global $settings_allow_voicemail_password_set;
     global $settings_allow_call_recording_set;
 
     // args
@@ -234,7 +243,8 @@ class settings {
     if ($_SESSION['ari_user']['extension']!=$admin_username) {
 
       // voicemail settings
-      $setVoicemailText = "
+      if ($settings_allow_voicemail_password_set) {
+        $setVoicemailText = "
           <table class='settings'>
 	    <tr>
               <td><h3>" . _("Voicemail Settings") . "</h3></td>
@@ -264,6 +274,7 @@ class settings {
               </td>
             </tr>
           </table>";
+      }
 
       // call monitor settings
       if ($settings_allow_call_recording_set) {
@@ -335,7 +346,7 @@ class settings {
   }
 
   /*
-   * Reloads Asterisk Configuration
+   * Sets Asterisk call recording setting
    *
    * @param $extension
    *   Extension to modify
@@ -413,6 +424,62 @@ class settings {
           if ($buffer!="Response: Follows\r\n") {
             $_SESSION['ari_error'] =  _("Asterisk reload command not understood") . $buffer . "<br />\n";
           }
+        }
+      }
+    }
+    fclose($fp);
+  }
+
+  /*
+   * Reloads Asterisk Configuration
+   */
+  function reload_asterisk_voicemail() {
+
+    // taken from Asterisk Managment Portal functions.php
+
+    global $amp_functions_file;
+    global $amportal_conf_file;
+    global $standalone;
+
+    if ($standalone['use']) {
+      $username = $standalone['asterisk_mgruser'];
+      $password = $standalone['asterisk_mgrpass'];
+    } 
+    else {
+      if (is_file($amp_functions_file)) {
+        include_once($amp_functions_file);
+        $amp_conf = parse_amportal_conf($amportal_conf_file);
+        $username = $amp_conf['AMPMGRUSER'];
+        $password = $amp_conf['AMPMGRPASS'];
+        unset($amp_conf);
+      } 
+    }
+
+    $fp = fsockopen("localhost", 5038, $errno, $errstr, 10);
+    if (!$fp) {
+      $_SESSION['ari_error'] =  _("Unable to connect to Asterisk Manager") . " ($errno)<br />\n";
+    } else {
+      $buffer='';
+      stream_set_timeout($fp, 5);
+      $buffer = fgets($fp);
+      if ($buffer!="Asterisk Call Manager/1.0\r\n") {
+        $_SESSION['ari_error'] = _("Asterisk Call Manager not responding") . "<br />\n";
+      }
+      else {
+        $out="Action: Login\r\nUsername: ".$username."\r\nSecret: ".$password."\r\n\r\n";
+        fwrite($fp,$out);
+        $buffer=fgets($fp);
+        if ($buffer!="Response: Success\r\n") {
+          $_SESSION['ari_error'] =  _("Asterisk authentication failed:") . "<br />$buffer<br />\n";
+        }
+        else {
+          $buffers=fgets($fp); // get rid of Message: Authentication accepted
+          $out="Action: Command\r\nCommand: Reload app_voicemail.so\r\n\r\n";
+          fwrite($fp,$out);
+          $buffer=fgets($fp); // get rid of a blank line
+          $buffer=fgets($fp);
+          if ($buffer!="Response: Follows\r\n")
+            $_SESSION['ari_error'] =  _("Asterisk reload command not understood") . $buffer . "<br />\n";
         }
       }
     }

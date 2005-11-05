@@ -50,6 +50,7 @@ class voicemail {
     // args
     $m = get_argument($args,'m');
     $q = get_argument($args,'q');
+    $current_folder = get_argument($args,'folder');
 
     $context = $_SESSION['ari_user']['context'];
     $extension = $_SESSION['ari_user']['extension'];
@@ -80,9 +81,16 @@ class voicemail {
                 $recordCount = 0;
                 $this->get_vm_count($indexes,$recordCount);
 
+                // set current folder color
+                $class='';
+                if ($current_folder==$folder || 
+                     ($current_folder=='' && $asterisk_voicemail_folders[0]==$folder)) {
+                  $class = "class='current'";
+                }
+
                 // add folder to list
                 $ret .= "<p><small><small>
-                           <a href='" . $_SERVER['PHP_SELF'] . "?m=voicemail&q=" . $q . "&folder=" . $folder. "'>
+                           <a " . $class . " href='" . $_SERVER['PHP_SELF'] . "?m=voicemail&q=" . $q . "&folder=" . $folder. "'>
                            " . $folder . " (" . $recordCount . ")" . "
                            </a>
                          </small></small></p>";
