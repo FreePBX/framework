@@ -12,6 +12,9 @@ function parse_amportal_conf($filename) {
 
 $amp_conf = parse_amportal_conf("/etc/amportal.conf");
 
+if ($amp_conf["AMPWEBADDRESS"] == "")
+	{$amp_conf["AMPWEBADDRESS"] = $_SERVER["HTTP_HOST"];}
+	
 if ($_SERVER["HTTP_HOST"] != $amp_conf["AMPWEBADDRESS"]) {
 	$proto = ((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? "https" : "http");
 	header("Location: ".$proto."://".$amp_conf["AMPWEBADDRESS"].$_SERVER["REQUEST_URI"]);
