@@ -3051,5 +3051,50 @@ function users2astdb(){
 	return $astman->disconnect();
 }
 
-
+/* look for all modules in modules dir.
+** returns array:
+** mod['module']['displayName']
+** mod['module']['version']
+** mod['module']['status']
+** mod['module']['items'][array(items)]
+*/
+function find_allmodules() {
+	global $db;
+	$dir = opendir('modules');
+	//loop through each module directory, ensure there is a module.ini file
+	while ($file = readdir($dir)) {
+		if (($file != ".") && ($file != "..") && ($file != "CVS") && is_dir('modules/'.$file) && is_file('modules/'.$file.'/module.ini')) {
+			//open module.ini and read contents
+			$inifile = file('modules/'.$file.'/module.ini');
+			foreach ($inifile as $line) {
+				// parse the module display name and version from module.ini
+				if (preg_match("/^\s*([a-zA-Z0-9]+)=([a-zA-Z0-9 .&-]+)\s*$/",$line,$matches)) { 
+					if (trim($matches[1]) == "name")
+						$mod[ $file ]['displayName'] = $matches[2];
+					else if (trim($matches[1]) == "version")
+						$mod[ $file ]['version'] = $matches[2];
+					else 
+						$mod[ $file ]['items'][ $matches[1] ] = $matches[2];
+				}
+				// determine details about this module from database
+				// modulename should match the directory name
+				$sql = "SELECT * FROM modules WHERE modulename = '".$file."'";
+				$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
+				if(DB::IsError($results)) {
+					die($results->getMessage());
+				}
+				//set status key based on results (0=not installed, 1=disabled, 2=enabled)
+				if ($results) {
+					if ($results['enabled'] != 0)
+						$mod[ $file ]["status"] = 2;
+					else
+						$mod[ $file ]["status"] = 1;
+				} else {
+					$mod[ $file ]["status"] = 0;
+				}
+			}
+		}
+	}
+	return $mod;
+}
 ?>

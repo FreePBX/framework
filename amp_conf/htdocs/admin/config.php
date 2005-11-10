@@ -18,7 +18,7 @@ require_once('functions.php');
 
 // get settings
 $amp_conf = parse_amportal_conf("/etc/amportal.conf");
-
+	 
 // start session
 session_start();
 
@@ -81,7 +81,7 @@ if (isset($_REQUEST['display'])) {
 	$display=$_REQUEST['display'];
 }
 
-
+/*
 // simple 'extensions' admin or 'device/user separation'?
 // have to do it this way, since array_splice resets all the array keys as integers
 if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
@@ -117,11 +117,36 @@ if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "devicea
 		5=>_("General Settings"),
 		99=>_("Apply Changes Bar")
 	);
-}
+}*/
 
+	$amp_sections = array(
+		'modules'=>_("Module Admin")
+	);
+
+/*
 // only show AMP Users if they have authtype set approiately
 if (isset($amp_conf["AUTHTYPE"]) && ($amp_conf["AUTHTYPE"] != "none")) {
 	$amp_sections[10] = _("AMP Users");
+}*/
+
+// query for our modules
+$modules = find_allmodules();
+
+// include any module global functions
+// add module sections to $amp_sections
+if(is_array($modules)){
+	foreach($modules as $key => $module) {
+		//only use this module if it's enabled (status=2)
+		if ($module['status'] == 2) {
+			//include module functions
+			if (is_file("modules/{$key}/functions.inc.php")) {
+				require_once("modules/{$key}/functions.inc.php");
+			}
+			foreach($module['items'] as $itemKey => $itemName) {
+				$amp_sections[$itemKey] = $itemName;
+			}
+		}
+	}
 }
 
 echo "<table width=\"100%\" cellspacing='0' cellpadding='0'><tr><td>";
@@ -153,18 +178,31 @@ if (!empty($display) && !isset($amp_sections[$display])) {
 	$display = "noaccess";
 }
 
+
 // show the approiate page
 switch($display) {
 	default:
-		echo "<p>"._("Welcome to AMP")."</p>";
-		echo str_repeat("<br />", 12);
+		//display the appropriate module page
+		if (is_array($modules)) {
+			foreach ($modules as $modkey => $module) {
+				if (is_array(array_keys($module['items']))){
+					foreach (array_keys($module['items']) as $item){
+						if ($display == $item)  {
+							include "modules/{$modkey}/page.{$item}.php";
+						}
+					}
+				}
+			}
+		}
 	break;
 	case 'noaccess':
 		echo "<h2>"._("Not found")."</h2>";
 		echo "<p>"._("The section you requested does not exist or you do not have access to it.")."</p>";
-		echo str_repeat("<br />", 10);
 	break;
-	case '1':
+	case 'modules':
+		include 'page.modules.php';
+	break;
+/*	case '1':
 		include 'music.php';
 	break;
 	case '2':
@@ -216,11 +254,10 @@ switch($display) {
 	break;
 	case 'extensions':
 		include 'extensions.php';
-	break;
+	break;*/
 }
 ?>
 
 </div>
 </td></tr></table>
-<?php echo str_repeat("<br />", 3);?>
 <?php include 'footer.php' ?>
