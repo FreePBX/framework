@@ -749,8 +749,9 @@ class AGI_AsteriskManager
 	 */
 	function database_get($family, $key) {
 		$r = $this->command("database get ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
-		if (substr($r["data"],0,6) == "Value:") {
-			return trim(substr($r["data"],6));
+		$data = strpos($r["data"],"Value:");
+		if ($data !== false) {
+			return trim(substr($r["data"],6+$data));
 		} else {
 			return false;
 		}
