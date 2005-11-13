@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <TITLE>ARI</TITLE>
-    <link rel="stylesheet" href="theme/main.css" type="text/css" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF8" />
+    <link rel="stylesheet" href="theme/main.css" type="text/css">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   </head>
   <body>
   <div id="page">
@@ -39,7 +39,7 @@
               <div class='nav_items'>
                   <?php print($nav_menu) ?>
                   <?php if ($logout != '') { ?>
-                    <p><small><small><a href='<?=$_SERVER['PHP_SELF']?>?logout=1'>Logout</a></small></small></p>
+                    <p><small><small><a href='<?=$_SERVER['PHP_SELF']?>?logout=1'><?echo _("Logout")?></a></small></small></p>
                   <?php } ?>
               </div>
               <b class='nav_b4'></b><b class='nav_b3'></b><b class='nav_b2'></b><b class='nav_b1'></b>
@@ -48,7 +48,7 @@
           <div><img height=14 src="theme/spacer.gif" alt=""></div> 
           <?php if ($nav_submenu != '') { ?>
             <div class="subnav">
-              <div class="subnav_title">Folders:</div>
+              <div class="subnav_title"><?echo _("Folders")?>:</div>
               <b class='subnav_b1'></b><b class='subnav_b2'></b><b class='subnav_b3'></b><b class='subnav_b4'></b>
               <div class='subnav_items'>
                 <?php print($nav_submenu) ?>

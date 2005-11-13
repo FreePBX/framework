@@ -19,9 +19,9 @@ class settings {
   function settings() {
 
     // determine what protocol user is using
-    global $protocols;
+    global $asterisk_protocols;
 
-    foreach ($protocols as $protocol => $value) {
+    foreach ($asterisk_protocols as $protocol => $value) {
       $data = array();
       $this->get_protocol_record_settings($value['table'],$_SESSION['ari_user']['extension'],&$data);
       if (count($data)) {
@@ -233,7 +233,7 @@ class settings {
 	    <select name='lang_code'>
               <option value='en_US' " . ($_COOKIE['ari_lang']=='en_US' ? 'selected' : '') .  ">English</option>
               <option value='es_ES' " . ($_COOKIE['ari_lang']=='es_ES' ? 'selected' : '') .  ">Espa&ntilde;ol</option>
-              <option value='gr_GR' " . ($_COOKIE['ari_lang']=='gr_GR' ? 'selected' : '') .  ">Greek</option>
+              <option value='el_GR' " . ($_COOKIE['ari_lang']=='el_GR' ? 'selected' : '') .  ">Greek</option>
               <option value='pt_BR' " . ($_COOKIE['ari_lang']=='pt_BR' ? 'selected' : '') .  ">Portuguese</option>
               <option value='sv_SE' " . ($_COOKIE['ari_lang']=='sv_SE' ? 'selected' : '') .  ">Swedish</option>
             </select>
@@ -339,7 +339,7 @@ class settings {
 	<br>
         " . $setCallMonitorText . "
         <br>
-        <input name='submit' type='submit' value='" . ("Update") . "'>
+        <input name='submit' type='submit' value='" . _("Update") . "'>
       </form>";
 
     return $ret;
@@ -628,7 +628,8 @@ class settings {
     $sth = $dbh->prepare($sql);
     $result = $dbh->execute($sth);
     if (DB::isError($result)) {
-      $_SESSION['ari_error'] = $result->getMessage() . " " . _("in table") . " " . "users";
+      // take this out when backward compatability is depreciated
+      // $_SESSION['ari_error'] = $result->getMessage() . " " . _("in table") . " " . "users";
     }
   }
 

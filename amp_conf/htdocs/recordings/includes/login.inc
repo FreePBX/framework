@@ -17,11 +17,13 @@ class Login {
     */
   function Auth() {
 
-    global $admin_username;
-    global $admin_password;
+    global $ari_admin_username;
+    global $ari_admin_password;
     global $ari_cookie_password;
     global $asterisk_voicemail_conf;
-    global $protocols;
+    global $asterisk_voicemail_context;
+    global $asterisk_voicemail_path;
+    global $asterisk_protocols;
     global $callmonitor_admin_extensions;
     global $ari_no_login;
 
@@ -41,20 +43,21 @@ class Login {
     }
 
     // when login, make a new session
-    if ($username && $password && !$ari_no_login) {
+    if ($username && !$ari_no_login) {
 
       $auth = false;
 
       // check admin
       if (!$auth) {
-        if ($username==$admin_username && 
-              $password==$admin_password) {
+        if ($username==$ari_admin_username && 
+              $password==$ari_admin_password) {
 
           // authenticated
           $auth = true; 
 
           $extension = 'admin';
           $name = 'Administrator';
+          $admin = 1;
           $admin_callmonitor = 1;
 
           $default_page = 'callmonitor';
@@ -63,47 +66,76 @@ class Login {
 
       // check voicemail login
       if (!$auth) {
-        $lines = file($asterisk_voicemail_conf);
-        foreach ($lines as $key => $line) {
 
-          unset($value);
-          list($var,$value) = split('=>',$line);
-          $var = trim($var);
-          if ($var==$username && $value) {
-            $buf = split(',',$value);
-            if ($buf[0]==$password) {  
+        if (is_readable($asterisk_voicemail_conf)) {
 
-              // authenticated
-              $auth = true; 
-              $extension = $username ;
-              $displayname = $buf[1];
-              $vm_password = $buf[0];
+          $lines = file($asterisk_voicemail_conf);
+          foreach ($lines as $key => $line) {
 
-              $default_page = 'voicemail';
+            // check for current context and process
+            if (preg_match("/\[.*\]/i",$line)) {
+              $currentContext = trim(preg_replace('/\[|\]/', '', $line));
+            }
+            if ($asterisk_voicemail_context &&
+                  $currentContext!=$asterisk_voicemail_context) {
+              continue;
+            }
+
+            // check for user and process
+            unset($value);
+            list($var,$value) = split('=>',$line);
+            $var = trim($var);
+            if ($var==$username && $value) {
+              $buf = split(',',$value);
+              if ($buf[0]==$password) {  
+
+                // authenticated
+                $auth = true; 
+                $extension = $username ;
+                $displayname = $buf[1];
+                $vm_password = $buf[0];
+                $default_page = 'voicemail';
+                $context = $currentContext;
+
+                $admin = 0;
+                if ($ari_admin_extensions) {
+                  $extensions = split(',',$ari_admin_extensions);
+                  foreach ($extensions as $key => $value) {
+                    if ($extension==$value) {
+                      $admin = 1;
+                      break 2;
+                    }
+                  }
+                }
   
-              $admin_callmonitor = 0;
-              if ($callmonitor_admin_extensions) {
-                $extensions = split(',',$callmonitor_admin_extensions);
-                foreach ($extensions as $key => $value) {
-                  if ($value=='all' || $extension==$value) {
-                    $admin_callmonitor = 1;
-                    break 2;
+                $admin_callmonitor = 0;
+                if ($callmonitor_admin_extensions) {
+                  $extensions = split(',',$callmonitor_admin_extensions);
+                  foreach ($extensions as $key => $value) {
+                    if ($value=='all' || $extension==$value) {
+                      $admin_callmonitor = 1;
+                      break 2;
+                    }
                   }
                 }
               }
-            }
-            else {
-              $_SESSION['ari_error'] = "Incorrect Password";
-              return;
+              else {
+                $_SESSION['ari_error'] = "Incorrect Password";
+                return;
+              }
             }
           }
+        }
+        else {
+          $_SESSION['ari_error'] = "File not readable: " . $asterisk_voicemail_conf;
+          return;
         }
       }
 
       // check sip login
       if (!$auth) {
 
-        foreach($protocols as $protocol => $data) {
+        foreach($asterisk_protocols as $protocol => $data) {
 
           if (is_readable($data['config_file'])) {
 
@@ -127,11 +159,21 @@ class Login {
                   $auth = true;  
                   $extension = $username ;
                   $displayname = $username;
-
                   $default_page = 'callmonitor';
 
                   $_SESSION['ari_error'] = _("Voicemail Login not found") . ", " . $protocol . " " . _("Login used") . "<br>" .
                                            _("No access to voicemail");
+
+                  $admin = 0;
+                  if ($ari_admin_extensions) {
+                    $extensions = split(',',$ari_admin_extensions);
+                    foreach ($extensions as $key => $value) {
+                      if ($extension==$value) {
+                        $admin = 1;
+                        break 2;
+                      }
+                    }
+                  }
 
                   $admin_callmonitor = 0;
                   if ($callmonitor_admin_extensions) {
@@ -172,9 +214,12 @@ class Login {
         setcookie('ari_auth',$buf,time()+365*24*60*60,'/');
       }
 
+      // set category
       if (!$category) {
         $category = "general";
       }
+   
+      // set context
       if (!$context) {
         $context = "default";
       }
@@ -193,6 +238,7 @@ class Login {
         $_SESSION['ari_user']['voicemail_password'] = $vm_password;
         $_SESSION['ari_user']['category'] = $category;
         $_SESSION['ari_user']['context'] = $context;
+        $_SESSION['ari_user']['admin'] = $admin;
         $_SESSION['ari_user']['admin_callmonitor'] = $admin_callmonitor;
         $_SESSION['ari_user']['default_page'] = $default_page;
       } 
@@ -237,6 +283,13 @@ class Login {
         }
       }
     }
+
+    $display = new Display(NULL);
+
+    // new header
+    $ret .= $display->DisplayHeaderText(_("Login"));
+    $ret .= $display->DisplayLine();
+    $ret .= CheckErrorMessage();
 
     $ret .= "
       <form action=" . $_SERVER['PHP_SELF'] . " method='POST' name='login'>

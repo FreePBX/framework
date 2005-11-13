@@ -18,9 +18,12 @@ if (isset($_GET['recording'])) {
   $extension = strtolower(substr(strrchr($name,"."),1));
 
   // This will set the Content-Type to the appropriate setting for the file
+  $ctype ='';
   switch( $extension ) {
     case "mp3": $ctype="audio/mpeg"; break;
     case "wav": $ctype="audio/x-wav"; break;
+    case "Wav": $ctype="audio/x-wav"; break;
+    case "WAV": $ctype="audio/x-wav"; break;
     case "gsm": $ctype="audio/x-gsm"; break;
 
     // not downloadable
@@ -29,13 +32,12 @@ if (isset($_GET['recording'])) {
     case "html":
     case "txt": die("<b>Cannot be used for ". $file_extension ." files!</b>"); break;
 
-    default: $ctype="application/force-download";
+    default: die("<b>Cannot use file: ". $path ."!</b>"); break ;
   }
 
-// need to check if file is mis labeled or a liar.
-
+  // need to check if file is mislabeled or a liar.
   $fp=fopen($path, "rb");
-  if ($size && $fp) {
+  if ($size && $ctype && $fp) {
     header("Pragma: public");
     header("Expires: 0");
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");

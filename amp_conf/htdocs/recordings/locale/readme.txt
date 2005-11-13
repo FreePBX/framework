@@ -1,11 +1,30 @@
 // To create the .po (write your translations to this file):
-$ cd ..
-$ find *.php includes/*.inc modules/*.module misc/*.php | xargs xgettext -L PHP -o ari.po --keyword=_ -
+$ find *.php ../includes/* ../modules/*.module ../misc/*.php ../theme/* | xargs xgettext -L PHP -o ari.po --keyword=_ -
+
+// To create the utf-8 .po  
+$ iconv -f iso-8859-1 -t utf-8 -o ari.utf-8.po ari.po
 
 // To create the .mo:  
-$ msgfmt -v ari.po -o ari.mo
+$ msgfmt -v ari.utf-8.po -o ari.mo
 
-// To update
-$ cp es_ES/LC_MESSAGES/ari.po ./old.po
-$ msgmerge ari.po ../../ari.po --output-file=new.po
-$ msgfmt new.po
+// To update (assume both files to be merged are utf-8)
+$ msgmerge es_ES/LC_MESSAGES/ari.po ari.utf-8.po --output-file=es_ES/LC_MESSAGES/ari.po
+$ msgfmt -v es_ES/LC_MESSAGES/ari.po -o es_ES/LC_MESSAGES/ari.mo
+
+
+// script
+//   for this to work all translated files need to be converted to utf-8 (use iconv)
+//
+find *.php ../includes/* ../modules/*.module ../misc/*.php ../theme/* | xargs xgettext -L PHP -o ari.po --keyword=_ -
+iconv -f iso-8859-1 -t utf-8 -o ari.utf-8.po ari.po
+msgfmt -v ari.utf-8.po -o ari.mo
+msgmerge el_GR/LC_MESSAGES/ari.po ari.utf-8.po --output-file=el_GR/LC_MESSAGES/ari.po
+msgfmt -v el_GR/LC_MESSAGES/ari.po -o el_GR/LC_MESSAGES/ari.mo
+msgmerge es_ES/LC_MESSAGES/ari.po ari.utf-8.po --output-file=es_ES/LC_MESSAGES/ari.po
+msgfmt -v es_ES/LC_MESSAGES/ari.po -o es_ES/LC_MESSAGES/ari.mo
+msgmerge pt_BR/LC_MESSAGES/ari.po ari.utf-8.po --output-file=pt_BR/LC_MESSAGES/ari.po
+msgfmt -v pt_BR/LC_MESSAGES/ari.po -o pt_BR/LC_MESSAGES/ari.mo
+msgmerge sv_SE/LC_MESSAGES/ari.po ari.utf-8.po --output-file=sv_SE/LC_MESSAGES/ari.po
+msgfmt -v sv_SE/LC_MESSAGES/ari.po -o sv_SE/LC_MESSAGES/ari.mo
+
+

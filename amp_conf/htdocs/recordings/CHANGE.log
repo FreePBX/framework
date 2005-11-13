@@ -1,16 +1,35 @@
 Roadmap
 
-  need to use php-asmanager.php or build a class for the Asterisk Manager Interface
-
-  Sorting, for example by callerID,duration etc.
+  realtime support
+  on-demand call recording
+  Sorting, for example by callerID, duration etc.
   email settings
   voicemail prompts
   forward calls
   fax support
-  on-demand call recording
   clean up css for login
-  disable the call monitor for non-admins
-  need to fix the voicemail folder translation of the sub nav menu
+  clean up css for misc/audio.php
+  added class to handle Asterisk Manager Interface (phpagi-asmanager.php would need error handling added)
+  remove gr_GR files from cvs
+
+Change log - 11/13/2005
+
+  fix call monitor file matching problem if call time is a second or two later than time recorded in database log
+
+ * refactored login context support 
+ * added voicemail context support (submitted by Todd Courtnage)
+ * fixed voicemail sub nav folders to allow i18n translation (submitted by Elias Sofronas)
+ * fixed voicemail finding messages in different contexts (sponsored by Brian Connelly, Connelly Management)
+
+Change log - 11/09/2005
+
+ * fixed utf-8 translation in Greek (submitted by Elias Sofronas)
+ * added admin only access to specific modules (submitted by Julian J. M.)
+ * rework handler module code so that each module is only build one time
+ * added download message link on recording playback popup (sponsored by John Cardner, Phonoscope, Inc)
+ * converted i18n translation to utf-8 (submitted by Niklas Larsson and Elias Sofronas)
+ * fix more bugs in i18n translation (submitted by Niklas Larsson)
+ * fixed security bug that allowed access to all files (Edwin Eefting, syn-3.nl)
 
 Change log - 11/04/2005
 

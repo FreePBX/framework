@@ -8,328 +8,365 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-03 17:47-0600\n"
+"POT-Creation-Date: 2005-11-13 09:30-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Niklas Larsson <pnsystem@comhem.se>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: includes/common.inc:255
-msgid "not a directory or not readable"
-msgstr "inte en mapp eller ej läsbar"
+#: ../includes/asi.inc:48 ../modules/settings.module:382
+#: ../modules/settings.module:460
+msgid "Unable to connect to Asterisk Manager"
+msgstr "Kan ej ansluta till Asterisk Manager"
 
-#: includes/common.inc:292
+#: ../includes/asi.inc:54 ../modules/settings.module:388
+#: ../modules/settings.module:466
+msgid "Asterisk Call Manager not responding"
+msgstr "Asterisk Call Manager svara ej"
+
+#: ../includes/asi.inc:61 ../modules/settings.module:395
+#: ../modules/settings.module:473
+msgid "Asterisk authentication failed:"
+msgstr "Ej godkÃ¤nd autentisering mot Asterisk:"
+
+#: ../includes/asi.inc:95 ../modules/settings.module:425
+#: ../modules/settings.module:482
+msgid "Asterisk reload command not understood"
+msgstr "Asterisk fÃ¶rstod ej omladdningskommandot"
+
+#: ../includes/common.inc:172
+msgid "not a directory or not readable"
+msgstr "inte en mapp eller ej lÃ¤sbar"
+
+#: ../includes/common.inc:206
 msgid "Page Not Found."
 msgstr "Sidan hittas ej."
 
-#: includes/common.inc:322
+#: ../includes/common.inc:236
 msgid "No database connection"
 msgstr "Ingen kontakt med databasen"
 
-#: includes/common.inc:323
+#: ../includes/common.inc:237
 msgid "Check AMP installation, asterisk database, or ARI main.conf"
 msgstr "Kontrollera AMP installationen, asterisk databas eller ARI main.conf"
 
-#: includes/display.inc:123
-msgid "Searched for"
-msgstr "Söker efter"
+#: ../includes/display.inc:80
+msgid "Search"
+msgstr "SÃ¶k"
 
-#: includes/display.inc:127 includes/display.inc:129
+#: ../includes/display.inc:123
+msgid "Searched for"
+msgstr "SÃ¶kte efter"
+
+#: ../includes/display.inc:127 ../includes/display.inc:129
 msgid "Results"
 msgstr "Resultat"
 
-#: includes/display.inc:127
+#: ../includes/display.inc:127
 msgid "of"
 msgstr "av"
 
-#: includes/display.inc:179
+#: ../includes/display.inc:179
 msgid "First"
-msgstr "Först"
+msgstr "FÃ¶rst"
 
-#: includes/display.inc:192
+#: ../includes/display.inc:192
 msgid "Last"
 msgstr "Sist"
 
-#: includes/login.inc:133
-#, fuzzy
+#: ../includes/login.inc:164
 msgid "Voicemail Login not found"
-msgstr "Hittar inte röstbrevlåda, använder SIP konto istället"
+msgstr "Hittar inte rÃ¶stbrevlÃ¥da, anvÃ¤nder SIP konto istÃ¤llet"
 
-#: includes/login.inc:133
+#: ../includes/login.inc:164
 msgid "Login used"
-msgstr ""
+msgstr "AnvÃ¤nd Login"
 
-#: includes/login.inc:134
+#: ../includes/login.inc:165
 msgid "No access to voicemail"
-msgstr "Inget tillträde till röstbrevlådan"
+msgstr "Inget tilltrÃ¤de till rÃ¶stbrevlÃ¥dan"
 
-#: includes/login.inc:149
+#: ../includes/login.inc:191
 msgid "Incorrect Password"
-msgstr "Felaktigt lösenord"
+msgstr "Felaktigt lÃ¶senord"
 
-#: includes/login.inc:160
-#, fuzzy
+#: ../includes/login.inc:202
 msgid "Incorrect Username or Password"
-msgstr "Felaktigt lösenord"
+msgstr "Felaktigt lÃ¶senord"
 
-#: includes/login.inc:247
+#: ../includes/login.inc:290 ../includes/login.inc:300
 msgid "Login"
-msgstr ""
+msgstr "AnvÃ¤ndarnamn"
 
-#: includes/login.inc:255
-#, fuzzy
+#: ../includes/login.inc:308
 msgid "Password"
-msgstr "Felaktigt lösenord"
+msgstr "LÃ¶senord"
 
-#: includes/login.inc:263
+#: ../includes/login.inc:316
 msgid "Submit"
-msgstr ""
+msgstr "Logga in"
 
-#: includes/login.inc:271
-#, fuzzy
+#: ../includes/login.inc:324
 msgid "Remember Password"
-msgstr "Lösenord för röstbrevlåda:"
+msgstr "Kom ihÃ¥g mig"
 
-#: includes/login.inc:279
+#: ../includes/login.inc:332
 msgid "Use your"
-msgstr "Använd din"
+msgstr "AnvÃ¤nd din"
 
-#: includes/login.inc:279
+#: ../includes/login.inc:332
 msgid "Voicemail Mailbox and Password"
-msgstr "Röstbrevlådas nummer och lösenord"
+msgstr "RÃ¶stbrevlÃ¥das nummer och lÃ¶senord"
 
-#: includes/login.inc:280
+#: ../includes/login.inc:333
 msgid "This is the same password used for the phone"
-msgstr "Detta är samma lösenord som till din telefon"
+msgstr "Detta Ã¤r samma lÃ¶senord som till din telefon"
 
-#: includes/login.inc:282
+#: ../includes/login.inc:335
 msgid ""
 "For password maintenance or assistance, contact your Phone System "
 "Administrator."
 msgstr ""
-"Om du har problem med lösenord eller behöver hjälp ska du kontakta din växel "
+"Om du har problem med lÃ¶senord eller behÃ¶ver hjÃ¤lp ska du kontakta din vÃ¤xel "
 "ansvarig"
 
-#: modules/callmonitor.module:31 modules/callmonitor.module:169
-#: modules/callmonitor.module:171
-#, fuzzy
-msgid "Call Monitor"
-msgstr "Samtalsregister för"
-
-#: modules/callmonitor.module:116 modules/voicemail.module:243
-msgid "delete"
+#: ../includes/main.conf:97
+msgid "INBOX"
 msgstr ""
 
-#: modules/callmonitor.module:148 modules/voicemail.module:264
+#: ../includes/main.conf:99
+msgid "Old"
+msgstr ""
+
+#: ../includes/main.conf:101
+msgid "Work"
+msgstr ""
+
+#: ../includes/main.conf:103
+msgid "Family"
+msgstr ""
+
+#: ../includes/main.conf:105
+msgid "Friends"
+msgstr ""
+
+#: ../modules/callmonitor.module:31 ../modules/callmonitor.module:169
+#: ../modules/callmonitor.module:171
+msgid "Call Monitor"
+msgstr "Samtalsregister"
+
+#: ../modules/callmonitor.module:116 ../modules/voicemail.module:264
+msgid "delete"
+msgstr "Radera"
+
+#: ../modules/callmonitor.module:148 ../modules/voicemail.module:285
 msgid "play"
 msgstr "spela"
 
-#: modules/callmonitor.module:171 modules/voicemail.module:288
+#: ../modules/callmonitor.module:171 ../modules/voicemail.module:309
 msgid "for"
-msgstr ""
+msgstr "fÃ¶r"
 
-#: modules/callmonitor.module:218 modules/voicemail.module:335
+#: ../modules/callmonitor.module:218 ../modules/voicemail.module:356
 msgid "select"
-msgstr ""
+msgstr "Val"
 
-#: modules/callmonitor.module:219 modules/voicemail.module:336
+#: ../modules/callmonitor.module:219 ../modules/voicemail.module:357
 msgid "all"
-msgstr ""
+msgstr "alla"
 
-#: modules/callmonitor.module:220 modules/voicemail.module:337
+#: ../modules/callmonitor.module:220 ../modules/voicemail.module:358
 msgid "none"
-msgstr ""
+msgstr "inga"
 
-#: modules/callmonitor.module:234 modules/voicemail.module:344
+#: ../modules/callmonitor.module:234 ../modules/voicemail.module:365
 msgid "Date"
 msgstr "Datum"
 
-#: modules/callmonitor.module:235 modules/voicemail.module:345
+#: ../modules/callmonitor.module:235 ../modules/voicemail.module:366
 msgid "Time"
 msgstr "Tid"
 
-#: modules/callmonitor.module:236 modules/voicemail.module:346
+#: ../modules/callmonitor.module:236 ../modules/voicemail.module:367
 msgid "Caller ID"
 msgstr "Nummerpresentation"
 
-#: modules/callmonitor.module:237
+#: ../modules/callmonitor.module:237
 msgid "Source"
-msgstr "Källa"
+msgstr "KÃ¤lla"
 
-#: modules/callmonitor.module:238
+#: ../modules/callmonitor.module:238
 msgid "Destination"
-msgstr "Mål"
+msgstr "MÃ¥l"
 
-#: modules/callmonitor.module:239
+#: ../modules/callmonitor.module:239
 msgid "Context"
 msgstr "Sammanhang"
 
-#: modules/callmonitor.module:240 modules/voicemail.module:349
+#: ../modules/callmonitor.module:240 ../modules/voicemail.module:370
 msgid "Duration"
-msgstr "Längd"
+msgstr "LÃ¤ngd"
 
-#: modules/callmonitor.module:241
+#: ../modules/callmonitor.module:241
 msgid "Monitor"
 msgstr "Inspelning"
 
-#: modules/settings.module:56 modules/settings.module:211
+#: ../modules/settings.module:56 ../modules/settings.module:220
 msgid "Settings"
-msgstr "Inställningar"
+msgstr "InstÃ¤llningar"
 
-#: modules/settings.module:101 modules/settings.module:106
-#: modules/settings.module:111 modules/settings.module:121
-#: modules/settings.module:126
+#: ../modules/settings.module:105 ../modules/settings.module:110
+#: ../modules/settings.module:115 ../modules/settings.module:125
+#: ../modules/settings.module:130
 msgid "Voicemail password not changed"
-msgstr "Lösenord för röstbrevlådan har inte ändrats"
+msgstr "LÃ¶senord fÃ¶r rÃ¶stbrevlÃ¥dan har inte Ã¤ndrats"
 
-#: modules/settings.module:102
+#: ../modules/settings.module:106
 msgid "Password and password confirm must not be blank"
-msgstr "Lösenord och bekräfta lösenord får inte vara tomma"
+msgstr "LÃ¶senord och bekrÃ¤fta lÃ¶senord fÃ¥r inte vara tomma"
 
-#: modules/settings.module:107
+#: ../modules/settings.module:111
 msgid "Password must be all numbers and 4 digits"
-msgstr "Lösenordet måste vara 4 siffror"
+msgstr "LÃ¶senordet mÃ¥ste vara 4 siffror"
 
-#: modules/settings.module:112
+#: ../modules/settings.module:116
 msgid "Password and password confirm do not match"
-msgstr "Lösenord och bekräfta lösenord stämmer inte"
+msgstr "LÃ¶senord och bekrÃ¤ftat lÃ¶senord stÃ¤mmer inte"
 
-#: modules/settings.module:122 modules/settings.module:127
+#: ../modules/settings.module:126 ../modules/settings.module:131
 msgid "does not exist or is not writable"
-msgstr "finns ej eller är ej läsbar"
+msgstr "finns ej eller Ã¤r ej lÃ¤sbar"
 
-#: modules/settings.module:213
+#: ../modules/settings.module:222
 msgid "Settings for"
-msgstr "Inställningar för"
+msgstr "InstÃ¤llningar fÃ¶r"
 
-#: modules/settings.module:223
+#: ../modules/settings.module:232
 msgid "Language:"
-msgstr "Språk:"
+msgstr "SprÃ¥k:"
 
-#: modules/settings.module:240
+#: ../modules/settings.module:250
 msgid "Voicemail Settings"
-msgstr "Inställningar för röstbrevlåda"
+msgstr "InstÃ¤llningar fÃ¶r RÃ¶stbrevlÃ¥da"
 
-#: modules/settings.module:243
+#: ../modules/settings.module:253
 msgid "Voicemail Password:"
-msgstr "Lösenord för röstbrevlåda:"
+msgstr "LÃ¶senord fÃ¶r rÃ¶stbrevlÃ¥da:"
 
-#: modules/settings.module:249
+#: ../modules/settings.module:259
 msgid "Enter again to confirm:"
-msgstr "Bekräfta:"
+msgstr "BekrÃ¤fta:"
 
-#: modules/settings.module:255
+#: ../modules/settings.module:265
 msgid "Passwords must be all numbers and only 4 digits"
-msgstr "Lösenordet måste vara 4 siffror"
+msgstr "LÃ¶senordet mÃ¥ste vara 4 siffror"
 
-#: modules/settings.module:258
+#: ../modules/settings.module:268
 msgid "Audio Format:"
 msgstr "Ljud format:"
 
-#: modules/settings.module:261
+#: ../modules/settings.module:271
 msgid "Best Quality"
-msgstr "Bästa kvaliten"
+msgstr "BÃ¤sta kvaliten"
 
-#: modules/settings.module:262
+#: ../modules/settings.module:272
 msgid "Smallest Download"
 msgstr "Minsta storlek"
 
-#: modules/settings.module:298
+#: ../modules/settings.module:309
 msgid "Call Monitor Settings"
-msgstr "Inställningar för Samtalsregister"
+msgstr "InstÃ¤llningar fÃ¶r Samtalsregister"
 
-#: modules/settings.module:301
+#: ../modules/settings.module:312
 msgid "Record INCOMING:"
 msgstr "Spela in inkommande samtal:"
 
-#: modules/settings.module:303 modules/settings.module:311
+#: ../modules/settings.module:314 ../modules/settings.module:322
 msgid "Always"
 msgstr "Alltid"
 
-#: modules/settings.module:304 modules/settings.module:312
+#: ../modules/settings.module:315 ../modules/settings.module:323
 msgid "Never"
 msgstr "Aldrig"
 
-#: modules/settings.module:305 modules/settings.module:313
+#: ../modules/settings.module:316 ../modules/settings.module:324
 msgid "On-Demand"
 msgstr "Vid behov"
 
-#: modules/settings.module:309
+#: ../modules/settings.module:320
 msgid "Record OUTGOING:"
-msgstr "Spela in utgående samtal:"
+msgstr "Spela in utgÃ¥ende samtal:"
 
-#: modules/settings.module:371
-msgid "Unable to connect to Asterisk Manager"
-msgstr "Kan ej ansluta till Asterisk Manager"
+#: ../modules/settings.module:342
+msgid "Update"
+msgstr "Uppdatera"
 
-#: modules/settings.module:377
-msgid "Asterisk Call Manager not responding"
-msgstr "Asterisk Call Manager svara ej"
-
-#: modules/settings.module:384
-msgid "Asterisk authentication failed:"
-msgstr "Ej godkänd autentisering mot Asterisk:"
-
-#: modules/settings.module:414
-msgid "Asterisk reload command not understood"
-msgstr "Asterisk förstod ej omladdningskommandot"
-
-#: modules/settings.module:547 modules/settings.module:554
-#: modules/settings.module:564
+#: ../modules/settings.module:614 ../modules/settings.module:621
 msgid "in table"
-msgstr ""
+msgstr "i tabell"
 
-#: modules/voicemail.module:33 modules/voicemail.module:288
-#, fuzzy
+#: ../modules/voicemail.module:33 ../modules/voicemail.module:309
 msgid "Voicemail"
-msgstr "Röstbrevlåda för"
+msgstr "RÃ¶stbrevlÃ¥da"
 
-#: modules/voicemail.module:139
+#: ../modules/voicemail.module:142
 msgid "A folder must be selected before the message can be moved."
-msgstr "En mapp måsta väljas innan meddelandet kan flyttas."
+msgstr "En mapp mÃ¥sta vÃ¤ljas innan meddelandet kan flyttas."
 
-#: modules/voicemail.module:150
+#: ../modules/voicemail.module:156
 msgid "An extension must be selected before the message can be forwarded."
-msgstr "En anknytning måste väljas innan meddelandet kan vidarebefodras."
+msgstr "En anknytning mÃ¥ste vÃ¤ljas innan meddelandet kan vidarebefodras."
 
-#: modules/voicemail.module:244
+#: ../modules/voicemail.module:265
 msgid "move_to"
-msgstr ""
+msgstr "Flytta till"
 
-#: modules/voicemail.module:249
+#: ../modules/voicemail.module:270
 msgid "forward_to"
-msgstr ""
+msgstr "Vidarebefodra till"
 
-#: modules/voicemail.module:268
+#: ../modules/voicemail.module:289
 msgid "Voicemail recording(s) was not found."
-msgstr "Röstmeddelande hittades inte."
+msgstr "RÃ¶stmeddelande hittades inte."
 
-#: modules/voicemail.module:269
+#: ../modules/voicemail.module:290
 msgid "Check voicemail audio format on settings page to change from"
-msgstr "Ändra inställningar för röstbrevlådans ljud format för att ändra från"
+msgstr "Ã„ndra instÃ¤llningar fÃ¶r rÃ¶stbrevlÃ¥dans ljud format fÃ¶r att Ã¤ndra frÃ¥n"
 
-#: modules/voicemail.module:290
+#: ../modules/voicemail.module:311
 msgid "No Voicemail Recordings for Admin"
-msgstr "Inga röstmeddelande för Admin"
+msgstr "Inga rÃ¶stmeddelande fÃ¶r Admin"
 
-#: modules/voicemail.module:347
+#: ../modules/voicemail.module:368
 msgid "Priority"
 msgstr "Prioritet"
 
-#: modules/voicemail.module:348
+#: ../modules/voicemail.module:369
 msgid "Orig Mailbox"
-msgstr "Ursprunglig röstbrevlåda"
+msgstr "Ursprunglig rÃ¶stbrevlÃ¥da"
 
-#: modules/voicemail.module:350
+#: ../modules/voicemail.module:371
 msgid "Recording"
 msgstr "Inspelning"
 
-#: modules/voicemail.module:470
+#: ../modules/voicemail.module:495
 msgid "Could not create mailbox folder"
-msgstr "Kan inte skapa mapp för röstbrevlåda"
+msgstr "Kan inte skapa mapp fÃ¶r rÃ¶stbrevlÃ¥da"
 
-#: modules/voicemail.module:470
+#: ../modules/voicemail.module:495
 msgid "on the server"
-msgstr "på servern"
+msgstr "pÃ¥ servern"
+
+#: ../misc/recording_popup.php:20
+msgid "download"
+msgstr ""
+
+#: ../theme/page.tpl.php:42
+msgid "Logout"
+msgstr "Logga ut"
+
+#: ../theme/page.tpl.php:51
+msgid "Folders"
+msgstr "Mappar"

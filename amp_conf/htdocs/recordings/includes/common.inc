@@ -22,43 +22,6 @@ function CheckErrorMessage() {
 }
 
 /**
- * Sets i18n locale language
- *
- * sets the language for i18n php gettext module
- * (gettext has to be enabled in the php.ini)
- *
- */
-function set_locale_lang() {
-
-  if (extension_loaded('gettext')) {
-    
-    // try and find the default locale
-    $locale = 'en_US';
-    $default_lang = preg_replace('/-/','_',$_SERVER['HTTP_ACCEPT_LANGUAGE']);
-    $locale_dir = "./locale";
-    $directories = array();
-    get_directories($locale_dir,"",&$directories);
-    foreach($directories as $directory) {
-
-      $buf = substr($directory,strlen($locale_dir)+1,strlen($directory) - strlen($locale_dir));
-      if (preg_match("/" . $default_lang . "/i",$buf)) {
-        $locale = $buf;  
-        $break;
-      }
-    }
-
-    // set locale
-    setlocale(LC_MESSAGES,$_COOKIE['ari_lang'] ? $_COOKIE['ari_lang']:$locale);
-    bindtextdomain('ari','./locale');
-    textdomain('ari');
-  } else {
-    function _($str) {
-      return $str;
-    }
-  }
-}
-
-/**
  * Builds database connections
  */
 function DatabaseLogon() {
@@ -108,62 +71,6 @@ function DatabaseLogon() {
   return true;
 }
 
-/* Utilities */
-
-/**
- * Checks the path for a trailing slash
- *
- * @param $path
- *   path to append
- */
-function CheckPathSlash(&$path) {
-
-  $slash = '';
-  if (!preg_match('/\/$/',$path)) {
-    $slash = '/';
-  } 
-  $path .= $slash; 
-}
-
-/**
- * Appends folder to end of path
- *
- * @param $path
- *   path to append
- * @param $folder
- *   folder to append to path
- */
-function AppendPath(&$path,$folder) {
-
-  $m = '';
-  if (!preg_match('/\/$/',$path)) {
-    $m = '/';
-  } 
-  $path .= $m . $folder; 
-}
-
-/**
- * Get Date format 
- *
- * @param $timestamp
- *   timestamp to be converted
- */
-function GetDateFormat($timestamp) {
-  return date('Y-m-d', $timestamp);
-}
-
-/**
- * Get time format 
- *
- * @param $timestamp
- *   timestamp to be converted
- */
-function GetTimeFormat($timestamp) {   
-  return date('G:i:s', $timestamp);
-}
-
-/* */
-
 /*
  * Checks if user is set and sets
  */
@@ -174,12 +81,6 @@ function LoginBlock() {
     if (isset($_REQUEST)) { $request = $_REQUEST; } else { $request = NULL; }
 
     $login = new Login();
-    $display = new Display(NULL);
-
-    // new header
-    $ret .= $display->DisplayHeaderText("Login");
-    $ret .= $display->DisplayLine();
-    $ret .= CheckErrorMessage();
 
     // login form
     $ret .= $login->Form($request);
@@ -192,6 +93,8 @@ function LoginBlock() {
  * Main handler for website
  */
 function HandleBlock() {
+
+  global $ari_admin_modules;
 
   // check errors here and in login block
   $content .= CheckErrorMessage();
@@ -245,44 +148,55 @@ function HandleBlock() {
           $rank = $module->$rank_function(); 
         }
 
-        // add to module name to array
-        $moduleNames[$name] = $rank;
+        // check if admin module
+        $found = 0;
+        if ($ari_admin_modules) {
+          $adminModules = split(',',$ari_admin_modules);
+          foreach ($adminModules as $key => $value) {
+            if ($name==$value) {
+              $found = 1;
+              break;
+            }
+          }
+        }
+
+       // if not admin module or admin user add to module name to array
+       if (!$found || $ari_admin_user) {
+         $modules[$rank] = $module;
+       }
       }
     }
-    asort($moduleNames);
+    ksort($modules);
   }
   else {
     $_SESSION['ari_error'] = $path . " " . _("not a directory or not readable");
   }
 
   // process modules
-  foreach (array_keys($moduleNames) as $name) {
+  foreach ($modules as $module) {
 
-    // check for module and process
-    if (class_exists($name)) {
+    // process module
+    $name = get_class($module);
+    $module_methods = get_class_methods($module);
 
-      $module = new $name();
-      $module_methods = get_class_methods($module);
+    // add nav menu item
+    $nav_menu_function = $name . "_nav_menu";
+    if (in_array(strtolower($nav_menu_function), $module_methods)) {
+      $nav_menu .= $module->$nav_menu_function($args); 
+    }
 
-      // add nav menu item
-      $nav_menu_function = $name . "_nav_menu";
-      if (in_array(strtolower($nav_menu_function), $module_methods)) {
-        $nav_menu .= $module->$nav_menu_function($args); 
+    if ($m==$name) {
+
+      // build sub menu
+      $nav_submenu_function = $m . "_nav_submenu";
+      if (in_array(strtolower($nav_submenu_function), $module_methods)) {
+        $nav_submenu .= $module->$nav_submenu_function($args); 
       }
 
-      if ($m==$name) {
-
-        // build sub menu
-        $nav_submenu_function = $m . "_nav_submenu";
-        if (in_array(strtolower($nav_submenu_function), $module_methods)) {
-          $nav_submenu .= $module->$nav_submenu_function($args); 
-        }
-
-        // execute function (usually to build content)
-        $function = $m . "_" . $f;
-        if (in_array(strtolower($function), $module_methods)) {
-          $content .= $module->$function($args);
-        }
+      // execute function (usually to build content)
+      $function = $m . "_" . $f;
+      if (in_array(strtolower($function), $module_methods)) {
+        $content .= $module->$function($args);
       }
     }
   }
@@ -338,8 +252,6 @@ function Handler() {
 
 include_once("includes/database.inc");
 include_once("includes/display.inc"); 
-
-set_locale_lang(); 
 
 
 ?>

@@ -6,7 +6,7 @@
  */
 
 /**
-  * display constructor 
+  * Display 
   */
 class Display {
 
@@ -77,7 +77,7 @@ class DisplaySearch extends Display {
                  <input type=hidden name=folder value=" . $folder . ">
                  <input type=text name=q size=40 value='" . $q . "' maxlength=256>
                  <input type=hidden name=start value=0>			
-                 <input type=submit name=btnS value='Search'>
+                 <input type=submit name=btnS value='" . _("Search") . "'>
                </form>
              </div>";
 

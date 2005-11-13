@@ -74,7 +74,10 @@ class voicemail {
                filetype($folderPath)=='dir') {
             $i = 0;
             while ($asterisk_voicemail_folders[$i]) {
-              if ($asterisk_voicemail_folders[$i]==$folder) {
+
+              $f = $asterisk_voicemail_folders[$i]['folder'];
+              $fn = $asterisk_voicemail_folders[$i]['name'];
+              if ($f==$folder) {
 
                 // get message count
                 $indexes = $this->get_vm_index($folderPath,$q);
@@ -84,14 +87,14 @@ class voicemail {
                 // set current folder color
                 $class='';
                 if ($current_folder==$folder || 
-                     ($current_folder=='' && $asterisk_voicemail_folders[0]==$folder)) {
+                     ($current_folder=='' && $asterisk_voicemail_folders[0]['folder']==$folder)) {
                   $class = "class='current'";
                 }
 
                 // add folder to list
                 $ret .= "<p><small><small>
-                           <a " . $class . " href='" . $_SERVER['PHP_SELF'] . "?m=voicemail&q=" . $q . "&folder=" . $folder. "'>
-                           " . $folder . " (" . $recordCount . ")" . "
+                           <a " . $class . " href='" . $_SERVER['PHP_SELF'] . "?m=voicemail&q=" . $q . "&folder=" . $f. "'>
+                           " . $fn . " (" . $recordCount . ")" . "
                            </a>
                          </small></small></p>";
               }
@@ -139,19 +142,22 @@ class voicemail {
           = _("A folder must be selected before the message can be moved.");
       }
       else {
+        $context = $_SESSION['ari_user']['context'];
         $extension = $_SESSION['ari_user']['extension'];
-        $this->move_vm_data($files, $extension, $folder_rx);
+        $this->move_vm_data($files, $context, $extension, $folder_rx);
       }
     } 
     else if ($a=='forward_to') {
-      $extension_rx = get_argument($args,'extension_rx');
+
+      $mailbox_rx = get_argument($args,'mailbox_rx');
+      list($context_rx,$extension_rx) = split('/',$mailbox_rx);
       if ($extension_rx=='') {
         $_SESSION['ari_error'] 
           = _("An extension must be selected before the message can be forwarded.");
       }
       else {
-        $folder_rx = $asterisk_voicemail_folders[0];
-        $this->move_vm_data($files, $extension_rx, $folder_rx);
+        $folder_rx = $asterisk_voicemail_folders[0]['folder'];
+        $this->move_vm_data($files, $context_rx, $extension_rx, $folder_rx);
       }
     }
 
@@ -176,6 +182,7 @@ class voicemail {
    */
   function voicemail_display($args) {
 
+    global $asterisk_voicemail_conf;
     global $asterisk_voicemail_path;
     global $asterisk_voicemail_folders;
 
@@ -196,11 +203,12 @@ class voicemail {
     $extension = $_SESSION['ari_user']['extension'];
     $folder = get_argument($args,'folder');
     if (!$folder) {
-      $folder = $asterisk_voicemail_folders[0];
+      $folder = $asterisk_voicemail_folders[0]['folder'];
     }
 
     // get data
     foreach($paths as $key => $path) {
+      CheckPathSlash(&$path);
       $vmPath = $path . "$context/$extension/$folder";
       $indexes = $this->get_vm_index($vmPath,$q);
       $this->get_vm_count($indexes,$recordCount);
@@ -218,36 +226,49 @@ class voicemail {
     // move options
     $i=0;
     while ($asterisk_voicemail_folders[$i]) {
-      $f = $asterisk_voicemail_folders[$i];
+      $f = $asterisk_voicemail_folders[$i]['folder'];
+      $fn = $asterisk_voicemail_folders[$i]['name'];
       if ($f!=$folder) {
-        $move_options .= "<option VALUE='" . $f . "'>&nbsp;&nbsp;&nbsp;&nbsp;" .  $f;
+        $move_options .= "<option VALUE='" . $f . "'>&nbsp;&nbsp;&nbsp;&nbsp;" .  $fn;
       }
       $i++;
     }
 
     // forward options
-    foreach($paths as $key => $path) {
-      AppendPath($path,$context);
-      if (is_dir($path)) {
-        $dh = opendir($path);
-        while (false!== ($filename = readdir($dh))) {
-          if($filename!="." && $filename!=".." && $filename!="1234") {
-            $forward_options .= "<option VALUE='" . $filename . "'>" . $filename;
+    if (is_readable($asterisk_voicemail_conf)) {
+      $lines = file($asterisk_voicemail_conf);
+      foreach ($lines as $key => $line) {
+
+        // get context for forward to mailbox
+        if (preg_match("/\[.*\]/i",$line)) {
+          $forwardContext = trim(preg_replace('/\[|\]/', '', $line));
+        }
+
+        // get username and add to options
+        if (preg_match("/\=\>/i",$line)) {
+          list($username,$value) = split('=>',$line);
+          $username = trim($username);
+          if ($username!=$_SESSION['ari_user']['extension']) {
+            $forward_options .= "<option VALUE='" . $forwardContext . "/" . $username . "'>" . $username;
           }
-        } 
+        }
       }
+    }
+    else {
+      $_SESSION['ari_error'] = "File not readable: " . $asterisk_voicemail_conf;
+      return;
     }
 
     // table controls
     $controls = "
           <input class='infoBar' type='submit' name='a' value='" . _("delete") . "'>
           <input class='infoBar' type='submit' name='a' value='" . _("move_to") . "'>
-          <select name='folder_rx' style='width:140px;'>
+          <select name='folder_rx' style='width:124px;'>
             <option VALUE=''>Folder
             " . $move_options . "
           </select>
           <input class='infobar' type='submit' name='a' value='" . _("forward_to") . "'>
-          <select name='extension_rx'>
+          <select name='mailbox_rx'>
             <option VALUE=''>
             " . $forward_options . "
           </select>";
@@ -308,7 +329,7 @@ class voicemail {
       <SCRIPT LANGUAGE='JavaScript'>
       <!-- Begin
       function popUp(URL) {
-        popup = window.open(URL, 'play', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=324,height=24');
+        popup = window.open(URL, 'play', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=324,height=110');
       }
 
       function checkAll(form,set) {
@@ -427,17 +448,21 @@ class voicemail {
    * @param $folder_rx
    *   Folder to move the messages to
    */
-  function move_vm_data($files,$extension_rx,$folder_rx) {
+  function move_vm_data($files,$context_rx,$extension_rx,$folder_rx) {
 
     global $asterisk_voicemail_path;
-
-    $context = $_SESSION['ari_user']['context'];
 
     // recieving path
     $paths = split(';',$asterisk_voicemail_path);
     $path_rx = $paths[0];
-    AppendPath($path_rx,$context);
+    AppendPath($path_rx,$context_rx);
+    if (!is_dir($path_rx)) {
+      mkdir("$path_rx", 0700); 
+    }
     AppendPath($path_rx,$extension_rx);
+    if (!is_dir($path_rx)) {
+      mkdir("$path_rx", 0700); 
+    }
     AppendPath($path_rx,$folder_rx);
     if (!is_dir($path_rx)) {
       mkdir("$path_rx", 0700); 
