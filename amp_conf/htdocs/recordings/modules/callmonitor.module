@@ -113,7 +113,7 @@ class callmonitor {
     // table controls
     if ($callmonitor_allow_delete) {
       $controls = "
-        <input class='infoBar' type='submit' name='a' value='" . _("delete") . "'>
+        <input class='infoBar' type='submit' name='a' value='delete'>
         </select>";
     }
 
@@ -333,7 +333,11 @@ class callmonitor {
   function delete_rec_data($files) {
 
     foreach($files as $key => $file) {
-      unlink($file);
+      if (is_writable($file)) {
+        unlink($file);
+      } else {
+        $_SESSION['ari_error'] = _("Only deletes recording files, not cdr log");
+      }
     }
   }
 

@@ -55,28 +55,29 @@ class voicemail {
     $context = $_SESSION['ari_user']['context'];
     $extension = $_SESSION['ari_user']['extension'];
 
-    $paths = split(';',$asterisk_voicemail_path);
-
     // make folder list
-    foreach($paths as $key => $path) {
+    $paths = split(';',$asterisk_voicemail_path);
+    $i = 0;
+    while ($asterisk_voicemail_folders[$i]) {
 
-      AppendPath($path,$context);
-      AppendPath($path,$extension);
+      $f = $asterisk_voicemail_folders[$i]['folder'];
+      $fn = $asterisk_voicemail_folders[$i]['name'];
+
+      foreach($paths as $key => $path) {
+
+        AppendPath($path,$context);
+        AppendPath($path,$extension);
   
-      if (is_dir($path)) {
-        $dh = opendir($path);
-        while (false!== ($folder = readdir($dh))) {
+        if (is_dir($path)) {
+          $dh = opendir($path);
+          while (false!== ($folder = readdir($dh))) {
 
-          $folderPath = $path;
-          AppendPath($folderPath,$folder);
+            $folderPath = $path;
+            AppendPath($folderPath,$folder);
 
-          if($folder!="." && $folder!=".." && 
-               filetype($folderPath)=='dir') {
-            $i = 0;
-            while ($asterisk_voicemail_folders[$i]) {
+            if($folder!="." && $folder!=".." && 
+                 filetype($folderPath)=='dir') {
 
-              $f = $asterisk_voicemail_folders[$i]['folder'];
-              $fn = $asterisk_voicemail_folders[$i]['name'];
               if ($f==$folder) {
 
                 // get message count
@@ -98,11 +99,11 @@ class voicemail {
                            </a>
                          </small></small></p>";
               }
-              $i++;
             }
           }
         } 
       }
+      $i++;
     }
 
     return $ret;
@@ -261,13 +262,13 @@ class voicemail {
 
     // table controls
     $controls = "
-          <input class='infoBar' type='submit' name='a' value='" . _("delete") . "'>
-          <input class='infoBar' type='submit' name='a' value='" . _("move_to") . "'>
+          <input class='infobar' type='submit' name='a' value='delete'>
+          <input class='infobar' type='submit' name='a' value='move_to'>
           <select name='folder_rx' style='width:124px;'>
-            <option VALUE=''>Folder
+            <option VALUE=''>" . _("Folder") . "
             " . $move_options . "
           </select>
-          <input class='infobar' type='submit' name='a' value='" . _("forward_to") . "'>
+          <input class='infobar' type='submit' name='a' value='forward_to'>
           <select name='mailbox_rx'>
             <option VALUE=''>
             " . $forward_options . "
@@ -510,13 +511,18 @@ class voicemail {
         $lastNum++;
         foreach(glob($path . $name . ".*") as $src) {
 
-          $dest = $path_rx; 
+          $dst = $path_rx; 
           $path_parts = pathinfo($src);
           $folder_rx = preg_replace("/\d+/",sprintf("%0" . $lastNumLen . "d",$lastNum),$path_parts['basename']);
-          AppendPath($dest,$folder_rx);
-
-          copy($src,$dest);
-          unlink($src);
+          AppendPath($dst,$folder_rx);
+          if (is_writable($src) && is_writable($path_rx)) {
+            copy($src,$dst);
+            unlink($src);
+          }
+          else {
+            $_SESSION['ari_error'] = _("Permission denied on folder") . " " . $src . " " . "or" . " " . $path_rx;
+            return;
+          }
         } 
       }
     }

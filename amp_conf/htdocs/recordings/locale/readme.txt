@@ -17,11 +17,12 @@ $ msgfmt -v es_ES/LC_MESSAGES/ari.po -o es_ES/LC_MESSAGES/ari.mo
 //
 find *.php ../includes/* ../modules/*.module ../misc/*.php ../theme/* | xargs xgettext -L PHP -o ari.po --keyword=_ -
 iconv -f iso-8859-1 -t utf-8 -o ari.utf-8.po ari.po
-msgfmt -v ari.utf-8.po -o ari.mo
 msgmerge el_GR/LC_MESSAGES/ari.po ari.utf-8.po --output-file=el_GR/LC_MESSAGES/ari.po
 msgfmt -v el_GR/LC_MESSAGES/ari.po -o el_GR/LC_MESSAGES/ari.mo
 msgmerge es_ES/LC_MESSAGES/ari.po ari.utf-8.po --output-file=es_ES/LC_MESSAGES/ari.po
 msgfmt -v es_ES/LC_MESSAGES/ari.po -o es_ES/LC_MESSAGES/ari.mo
+msgmerge fr_FR/LC_MESSAGES/ari.po ari.utf-8.po --output-file=fr_FR/LC_MESSAGES/ari.po
+msgfmt -v fr_FR/LC_MESSAGES/ari.po -o fr_FR/LC_MESSAGES/ari.mo
 msgmerge pt_BR/LC_MESSAGES/ari.po ari.utf-8.po --output-file=pt_BR/LC_MESSAGES/ari.po
 msgfmt -v pt_BR/LC_MESSAGES/ari.po -o pt_BR/LC_MESSAGES/ari.mo
 msgmerge sv_SE/LC_MESSAGES/ari.po ari.utf-8.po --output-file=sv_SE/LC_MESSAGES/ari.po

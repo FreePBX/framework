@@ -11,10 +11,11 @@ Roadmap
   clean up css for misc/audio.php
   added class to handle Asterisk Manager Interface (phpagi-asmanager.php would need error handling added)
   remove gr_GR files from cvs
+  fix call monitor file matching problem if call time is a second or two later than time recorded in database log
+  fix delete, move_to, and forward_to voicemail buttons for i18n translations
+  fix delete call monitor button for i18n translations
 
 Change log - 11/13/2005
-
-  fix call monitor file matching problem if call time is a second or two later than time recorded in database log
 
  * refactored login context support 
  * added voicemail context support (submitted by Todd Courtnage)

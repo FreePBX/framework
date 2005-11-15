@@ -233,6 +233,7 @@ class settings {
 	    <select name='lang_code'>
               <option value='en_US' " . ($_COOKIE['ari_lang']=='en_US' ? 'selected' : '') .  ">English</option>
               <option value='es_ES' " . ($_COOKIE['ari_lang']=='es_ES' ? 'selected' : '') .  ">Espa&ntilde;ol</option>
+              <option value='fr_FR' " . ($_COOKIE['ari_lang']=='fr_FR' ? 'selected' : '') .  ">French</option>
               <option value='el_GR' " . ($_COOKIE['ari_lang']=='el_GR' ? 'selected' : '') .  ">Greek</option>
               <option value='pt_BR' " . ($_COOKIE['ari_lang']=='pt_BR' ? 'selected' : '') .  ">Portuguese</option>
               <option value='sv_SE' " . ($_COOKIE['ari_lang']=='sv_SE' ? 'selected' : '') .  ">Swedish</option>
