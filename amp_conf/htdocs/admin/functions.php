@@ -21,67 +21,6 @@ function parse_amportal_conf($filename) {
 	return $conf;
 }
 
-function timeString($seconds, $full = false) {
-        if ($seconds == 0) {
-                return "0 ".($full ? "seconds" : "s");
-        }
-
-        $minutes = floor($seconds / 60);
-        $seconds = $seconds % 60;
-
-        $hours = floor($minutes / 60);
-        $minutes = $minutes % 60;
-
-        $days = floor($hours / 24);
-        $hours = $hours % 24;
-
-        if ($full) {
-                return substr(
-                                ($days ? $days." day".(($days == 1) ? "" : "s").", " : "").
-                                ($hours ? $hours." hour".(($hours == 1) ? "" : "s").", " : "").
-                                ($minutes ? $minutes." minute".(($minutes == 1) ? "" : "s").", " : "").
-                                ($seconds ? $seconds." second".(($seconds == 1) ? "" : "s").", " : ""),
-                               0, -2);
-        } else {
-                return substr(($days ? $days."d, " : "").($hours ? $hours."h, " : "").($minutes ? $minutes."m, " : "").($seconds ? $seconds."s, " : ""), 0, -2);
-        }
-}
-
-function addAmpUser($username, $password, $extension_low, $extension_high, $deptname, $sections) {
-	global $db;
-	$sql = "INSERT INTO ampusers (username, password, extension_low, extension_high, deptname, sections) VALUES (";
-	$sql .= "'".$username."',";
-	$sql .= "'".$password."',";
-	$sql .= "'".$extension_low."',";
-	$sql .= "'".$extension_high."',";
-	$sql .= "'".$deptname."',";
-	$sql .= "'".implode(";",$sections)."');";
-	$result = $db->query($sql);
-	if(DB::IsError($result)) {
-		die($result->getMessage().'<hr>'.$sql);
-	} 
-}
-
-function deleteAmpUser($username) {
-	global $db;
-	
-	$sql = "DELETE FROM ampusers WHERE username = '".$username."'";
-	$result = $db->query($sql);
-	if(DB::IsError($result)) {
-		die($result->getMessage());
-	}
-}
-
-function getAmpUsers() {
-	global $db;
-	
-	$sql = "SELECT username FROM ampusers ORDER BY username";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-	   die($results->getMessage());
-	}
-	return $results;
-}
 
 function getAmpAdminUsers() {
 	global $db;
@@ -1793,7 +1732,7 @@ function getqueueinfo($account) {
 // $goto is the current goto destination setting
 // $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
 function drawselects($formName,$goto,$i) {  
-
+/*
 	//query for exisiting aa_N contexts
 	$unique_aas = getaas();
 	//get unique extensions
@@ -1876,6 +1815,49 @@ function drawselects($formName,$goto,$i) {
 	$selectHtml .= '<a href="#" class="info"> '._("Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word 'custom' and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf</span>").'</a>:';
 	$selectHtml .=	'<input type="text" size="15" name="custom_args'.$i.'" value="'.(strpos($goto,'custom') === false ? '' : $goto).'" />';
 	$selectHtml .=	'<br></td></tr>';
+	*/
+	
+	/* --- MODULES BEGIN --- */
+	global $active_modules;
+	
+	//close off our row
+	$selectHtml .= '<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';
+	
+	//check for module-specific destination functions
+	foreach ($active_modules as $mod) {
+		$funct = strtolower($mod.'_destinations');
+	
+		//if the modulename_destinations() function exits, run it and display selections for it
+		if (function_exists($funct)) {
+			$destArray = $funct(); //returns an array with 'destination' and 'description'.
+			$checked = false;
+			if (isset($destArray)) {
+				//loop through each option returned by the module
+				foreach ($destArray as $dest) {
+					// check to see if the currently selected goto matches one these destinations
+					if ($dest['destination'] == $goto)
+						$checked = true;  //there is a match, so we select the radio for this group
+
+					// create an select option for each destination 
+					$options .= '<option value="'.$dest['destination'].'" '.(strpos($goto,$dest['destination']) === false ? '' : 'SELECTED').'>'.($dest['description'] ? $dest['description'] : $dest['destination']);
+				}
+			}
+			
+			$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="'.$mod.'" onclick="javascript:document.this.goto'.$i.'.value=\''.$mod.'\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.this.goto'.$i.'.value=\''.$mod.'\';" '.($checked? 'CHECKED=CHECKED' : '').' /> '._($mod).': ';
+			$selectHtml .=	'<select name="'.$mod.$i.'"/>';
+			$selectHtml .= $options;	
+			$selectHtml .=	'</select><br>';
+		}
+	}
+	/* --- MODULES END --- */
+	
+	//display a custom goto field
+	$selectHtml .= '<input type="radio" name="goto_indicate'.$i.'" value="custom" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'custom\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'custom\';" '.(strpos($goto,'custom') === false ? '' : 'CHECKED=CHECKED').' />';
+	$selectHtml .= '<a href="#" class="info"> '._("Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word 'custom' and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf</span>").'</a>:';
+	$selectHtml .= '<input type="text" size="15" name="custom_args'.$i.'" value="'.(strpos($goto,'custom') === false ? '' : $goto).'" />';
+	
+	//close off our row
+	$selectHtml .= '</td></tr>';
 	
 	return $selectHtml;
 }
@@ -3053,10 +3035,10 @@ function users2astdb(){
 
 /* look for all modules in modules dir.
 ** returns array:
-** mod['module']['displayName']
-** mod['module']['version']
-** mod['module']['status']
-** mod['module']['items'][array(items)]
+** array['module']['displayName']
+** array['module']['version']
+** array['module']['status']
+** array['module']['items'][array(items)]
 */
 function find_allmodules() {
 	global $db;

@@ -138,6 +138,8 @@ if(is_array($modules)){
 	foreach($modules as $key => $module) {
 		//only use this module if it's enabled (status=2)
 		if ($module['status'] == 2) {
+			// active_modules array used in drawselects function
+			$active_modules[] = $key;
 			//include module functions
 			if (is_file("modules/{$key}/functions.inc.php")) {
 				require_once("modules/{$key}/functions.inc.php");

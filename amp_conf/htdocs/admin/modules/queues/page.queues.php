@@ -202,7 +202,7 @@ if ($action == 'delete') {
 			<?php
 				$default = (isset($maxwait) ? $maxwait : 0);
 				for ($i=0; $i <= 1200; $i+=60) {
-					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.timeString($i,true).'</option>';
+					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.queues_timeString($i,true).'</option>';
 				}
 			?>		
 			</select>		
@@ -281,7 +281,7 @@ if ($action == 'delete') {
 			<?php
 				$default = (isset($timeout) ? $timeout : 15);
 				for ($i=0; $i <= 60; $i++) {
-					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.timeString($i,true).'</option>';
+					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.queues_timeString($i,true).'</option>';
 				}
 			?>		
 			</select>		
@@ -294,7 +294,7 @@ if ($action == 'delete') {
 			<?php
 				$default = (isset($retry) ? $retry : 5);
 				for ($i=0; $i <= 20; $i++) {
-					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.timeString($i,true).'</option>';
+					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.queues_timeString($i,true).'</option>';
 				}
 			?>		
 			</select>		
@@ -307,7 +307,7 @@ if ($action == 'delete') {
 			<?php
 				$default = (isset($wrapuptime) ? $wrapuptime : 0);
 				for ($i=0; $i <= 60; $i++) {
-					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.timeString($i,true).'</option>';
+					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.queues_timeString($i,true).'</option>';
 				}
 			?>		
 			</select>		
@@ -335,7 +335,7 @@ if ($action == 'delete') {
 			<?php
 				$default = (isset($thisQ['announce-frequency']) ? $thisQ['announce-frequency'] : 0);
 				for ($i=0; $i <= 1200; $i+=15) {
-					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.timeString($i,true).'</option>';
+					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.queues_timeString($i,true).'</option>';
 				}
 			?>		
 			</select>		
