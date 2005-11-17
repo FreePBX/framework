@@ -598,6 +598,7 @@ foreach ($args[0] as $arg) {
 outn("Checking user..");
 //$current_user=(isset($_ENV["USER"]) ? $_ENV["USER"] : exec('whoami',$output));
 $euid = (posix_getpwuid(posix_geteuid()));
+$current_user = $euid['name'];
 if ($current_user != "root"){
 	out("FAILED");
 	fatal($argv[0]." must be run as root");
