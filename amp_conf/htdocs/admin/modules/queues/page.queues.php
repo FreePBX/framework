@@ -411,7 +411,7 @@ if ($action == 'delete') {
 
 	<tr><td colspan="2"><br><h5><?php echo _("Fail Over Destination")?><hr></h5></td></tr>
 
-	<?php echo drawselects('editQ',$goto,0);?>
+	<?php echo drawselects($goto,0);?>
 	
 	<tr>
 		<td colspan="2"><br><h6><input name="Submit" type="button" value="<?php echo _("Submit Changes")?>" onclick="checkQ(editQ);"></h6></td>		

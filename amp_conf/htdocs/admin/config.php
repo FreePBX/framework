@@ -14,6 +14,9 @@
 $title="Asterisk Management Portal";
 $message="Setup";
 
+require_once('functions.inc.php');
+
+//obsolete stuff
 require_once('functions.php');
 
 // get settings

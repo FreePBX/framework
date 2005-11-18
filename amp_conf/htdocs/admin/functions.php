@@ -11,107 +11,8 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-function parse_amportal_conf($filename) {
-	$file = file($filename);
-	foreach ($file as $line) {
-		if (preg_match("/^\s*([\w]+)\s*=\s*\"?([\w\/\:\.\%-]*)\"?\s*([;#].*)?/",$line,$matches)) {
-			$conf[ $matches[1] ] = $matches[2];
-		}
-	}
-	return $conf;
-}
 
-
-function getAmpAdminUsers() {
-	global $db;
-
-	$sql = "SELECT username FROM ampusers WHERE sections='*'";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-	   die($results->getMessage());
-	}
-	return $results;
-}
-
-function getAmpUser($username) {
-	global $db;
-	
-	$sql = "SELECT username, password, extension_low, extension_high, deptname, sections FROM ampusers WHERE username = '".$username."'";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-	   die($results->getMessage());
-	}
-	
-	if (count($results) > 0) {
-		$user = array();
-		$user["username"] = $results[0][0];
-		$user["password"] = $results[0][1];
-		$user["extension_low"] = $results[0][2];
-		$user["extension_high"] = $results[0][3];
-		$user["deptname"] = $results[0][4];
-		$user["sections"] = explode(";",$results[0][5]);
-		return $user;
-	} else {
-		return false;
-	}
-}
-
-class ampuser {
-	var $username;
-	var $_password;
-	var $_extension_high;
-	var $_extension_low;
-	var $_deptname;
-	var $_sections;
-	
-	function ampuser($username) {
-		$this->username = $username;
-		if ($user = getAmpUser($username)) {
-			$this->_password = $user["password"];
-			$this->_extension_high = $user["extension_high"];
-			$this->_extension_low = $user["extension_low"];
-			$this->_deptname = $user["deptname"];
-			$this->_sections = $user["sections"];
-		} else {
-			// user doesn't exist
-			$this->_password = false;
-			$this->_extension_high = "";
-			$this->_extension_low = "";
-			$this->_deptname = "";
-			$this->_sections = array();
-		}
-	}
-	
-	/** Give this user full admin access
-	*/
-	function setAdmin() {
-		$this->_extension_high = "";
-		$this->_extension_low = "";
-		$this->_deptname = "";
-		$this->_sections = array("*");
-	}
-	
-	function checkPassword($password) {
-		// strict checking so false will never match
-		return ($this->_password === $password);
-	}
-	
-	function checkSection($section) {
-		// if they have * then it means all sections
-		return in_array("*", $this->_sections) || in_array($section, $this->_sections);
-	}
-}
-
-// returns true if extension is within allowed range
-function checkRange($extension){
-	$low = $_SESSION["AMP_user"]->_extension_low;
-	$high = $_SESSION["AMP_user"]->_extension_high;
-	if ((($extension >= $low) && ($extension <= $high)) || (empty($low) && empty($high)))
-		return true;
-	else
-		return false;
-}
-
+/* everything in this file is obsolete!!= */
 
 //get unique voice menu numbers - returns 2 dimensional array
 function getaas() {
@@ -128,6 +29,7 @@ function getaas() {
 
 // get the existing extensions
 // the returned arrays contain [0]:extension [1]:name
+//obsolete
 function getextens() {
 	global $db;
 	$sql = "SELECT extension,name FROM users ORDER BY extension";
@@ -145,6 +47,7 @@ function getextens() {
 }
 
 //get the existing devices
+//obsolete
 function getdevices() {
 	global $db;
 	$sql = "SELECT id,description FROM devices";
@@ -255,15 +158,7 @@ function delextensions($context,$exten) {
 	return $result;
 }
 
-//tell application we need to reload asterisk
-function needreload() {
-	global $db;
-	$sql = "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'"; 
-	$result = $db->query($sql); 
-	if(DB::IsError($result)) {     
-		die($result->getMessage()); 
-	}
-}
+
 
 //get info about auto-attendant
 function aainfo($menu_id) {
@@ -278,16 +173,6 @@ function aainfo($menu_id) {
 	return $aalines;
 }
 
-//get the version number
-function getversion() {
-	global $db;
-	$sql = "SELECT value FROM admin WHERE variable = 'version'";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-	return $results;
-}
 
 function zapexists() {
 	global $db;
@@ -473,6 +358,7 @@ function extensionsexists() {
 	$results = $db->query($sql);
 }
 
+/* was obsolete in 009?? 
 //get all rows relating to selected account
 function exteninfo($extdisplay) {
 	global $db;
@@ -550,7 +436,7 @@ function delExten($extdisplay) {
         die($result->getMessage().$sql);
     }
 }
-
+*/
 
 //add trunk to outbound-trunks context
 function addOutTrunk($trunknum) {
@@ -1731,7 +1617,7 @@ function getqueueinfo($account) {
 // $formName is the name of the form we are drawing in
 // $goto is the current goto destination setting
 // $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
-function drawselects($formName,$goto,$i) {  
+function drawselects($goto,$i) {  
 /*
 	//query for exisiting aa_N contexts
 	$unique_aas = getaas();
@@ -1820,7 +1706,6 @@ function drawselects($formName,$goto,$i) {
 	/* --- MODULES BEGIN --- */
 	global $active_modules;
 	
-	//close off our row
 	$selectHtml .= '<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';
 	
 	//check for module-specific destination functions
@@ -1843,7 +1728,7 @@ function drawselects($formName,$goto,$i) {
 				}
 			}
 			
-			$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="'.$mod.'" onclick="javascript:document.this.goto'.$i.'.value=\''.$mod.'\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.this.goto'.$i.'.value=\''.$mod.'\';" '.($checked? 'CHECKED=CHECKED' : '').' /> '._($mod).': ';
+			$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="'.$mod.'" onclick="javascript:this.form.goto'.$i.'.value=\''.$mod.'\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$mod.'\';" '.($checked? 'CHECKED=CHECKED' : '').' /> '._($mod).': ';
 			$selectHtml .=	'<select name="'.$mod.$i.'"/>';
 			$selectHtml .= $options;	
 			$selectHtml .=	'</select><br>';
@@ -1895,6 +1780,7 @@ function setGoto($account,$context,$priority,$goto,$i) {  //preforms logic for s
 	}
 }
 
+/*
 // the old drawselects stuff above builds the select forms using abbreviated goto names..  
 // setGoto then translates these into a full goto string, which is used in the dialplan.
 // terrible, I know.  New functionality, like Inbound Routing, stores the "full goto" string in it's table
@@ -1923,7 +1809,7 @@ function buildActualGoto($requestarray,$i) {
 			return $requestarray['goto'.$i];
 		break;
 	}
-}
+}*/
 
 //get args for specified exten and priority - primarily used to grab goto destination
 function getargs($exten,$priority,$context) {
@@ -1942,290 +1828,7 @@ function addgroup($account,$grplist,$grpstrategy,$grptime,$grppre,$goto) {
 	setGoto($account,'ext-group','2',$goto,0);
 }
 
-/** Recursively read voicemail.conf (and any included files)
- * This function is called by getVoicemailConf()
- */
-function parse_voicemailconf($filename, &$vmconf, &$section) {
-	if (is_null($vmconf)) {
-		$vmconf = array();
-	}
-	if (is_null($section)) {
-		$section = "general";
-	}
-	
-	if (file_exists($filename)) {
-		$fd = fopen($filename, "r");
-		while ($line = fgets($fd, 1024)) {
-			if (preg_match("/^\s*(\d+)\s*=>\s*(\d*),(.*),(.*),(.*),(.*)\s*([;#].*)?/",$line,$matches)) {
-				// "mailbox=>password,name,email,pager,options"
-				// this is a voicemail line	
-				$vmconf[$section][ $matches[1] ] = array("mailbox"=>$matches[1],
-									"pwd"=>$matches[2],
-									"name"=>$matches[3],
-									"email"=>$matches[4],
-									"pager"=>$matches[5],
-									"options"=>array(),
-									);
-								
-				// parse options
-				//output($matches);
-				foreach (explode("|",$matches[6]) as $opt) {
-					$temp = explode("=",$opt);
-					//output($temp);
-					if (isset($temp[1])) {
-						list($key,$value) = $temp;
-						$vmconf[$section][ $matches[1] ]["options"][$key] = $value;
-					}
-				}
-			} else if (preg_match("/^\s*(\d+)\s*=>\s*dup,(.*)\s*([;#].*)?/",$line,$matches)) {
-				// "mailbox=>dup,name"
-				// duplace name line
-				$vmconf[$section][ $matches[1] ]["dups"][] = $matches[2];
-			} else if (preg_match("/^\s*#include\s+(.*)\s*([;#].*)?/",$line,$matches)) {
-				// include another file
-				
-				if ($matches[1][0] == "/") {
-					// absolute path
-					$filename = $matches[1];
-				} else {
-					// relative path
-					$filename =  dirname($filename)."/".$matches[1];
-				}
-				
-				parse_voicemailconf($filename, $vmconf, $section);
-				
-			} else if (preg_match("/^\s*\[(.+)\]/",$line,$matches)) {
-				// section name
-				$section = strtolower($matches[1]);
-			} else if (preg_match("/^\s*([a-zA-Z0-9-_]+)\s*=\s*(.*?)\s*([;#].*)?$/",$line,$matches)) {
-				// name = value
-				// option line
-				$vmconf[$section][ $matches[1] ] = $matches[2];
-			}
-		}
-		fclose($fd);
-	}
-}
 
-function getVoicemail() {
-	$vmconf = null;
-	$section = null;
-	
-	// yes, this is hardcoded.. is this a bad thing?
-	parse_voicemailconf("/etc/asterisk/voicemail.conf", $vmconf, $section);
-	
-	return $vmconf;
-}
-
-/** Write the voicemail.conf file
- * This is called by saveVoicemail()
- * It's important to make a copy of $vmconf before passing it. Since this is a recursive function, has to
- * pass by reference. At the same time, it removes entries as it writes them to the file, so if you don't have
- * a copy, by the time it's done $vmconf will be empty.
-*/
-function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
-	if ($iteration == 0) {
-		$section = null;
-	}
-	
-	$output = array();
-	
-	if (file_exists($filename)) {
-		$fd = fopen($filename, "r");
-		while ($line = fgets($fd, 1024)) {
-			if (preg_match("/^(\s*)(\d+)(\s*)=>(\s*)(\d*),(.*),(.*),(.*),(.*)(\s*[;#].*)?$/",$line,$matches)) {
-				// "mailbox=>password,name,email,pager,options"
-				// this is a voicemail line
-				//DEBUG echo "\nmailbox";
-				
-				// make sure we have something as a comment
-				if (!isset($matches[10])) {
-					$matches[10] = "";
-				}
-				
-				// $matches[1] [3] and [4] are to preserve indents/whitespace, we add these back in
-				
-				if (isset($vmconf[$section][ $matches[2] ])) {	
-					// we have this one loaded
-					// repopulate from our version
-					$temp = & $vmconf[$section][ $matches[2] ];
-					
-					$options = array();
-					foreach ($temp["options"] as $key=>$value) {
-						$options[] = $key."=".$value;
-					}
-					
-					$output[] = $matches[1].$temp["mailbox"].$matches[3]."=>".$matches[4].$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options).$matches[10];
-					
-					// remove this one from $vmconf
-					unset($vmconf[$section][ $matches[2] ]);
-				} else {
-					// we don't know about this mailbox, so it must be deleted
-					// (and hopefully not JUST added since we did read_voiceamilconf)
-					
-					// do nothing
-				}
-				
-			} else if (preg_match("/^(\s*)(\d+)(\s*)=>(\s*)dup,(.*)(\s*[;#].*)?$/",$line,$matches)) {
-				// "mailbox=>dup,name"
-				// duplace name line
-				// leave it as-is (for now)
-				//DEBUG echo "\ndup mailbox";
-				$output[] = $line;
-			} else if (preg_match("/^(\s*)#include(\s+)(.*)(\s*[;#].*)?$/",$line,$matches)) {
-				// include another file
-				//DEBUG echo "\ninclude ".$matches[3]."<blockquote>";
-				
-				// make sure we have something as a comment
-				if (!isset($matches[4])) {
-					$matches[4] = "";
-				}
-				
-				if ($matches[3][0] == "/") {
-					// absolute path
-					$include_filename = $matches[3];
-				} else {
-					// relative path
-					$include_filename =  dirname($filename)."/".$matches[3];
-				}
-				
-				$output[] = $matches[1]."#include".$matches[2].$matches[3].$matches[4];
-				write_voicemailconf($include_filename, $vmconf, $section, $iteration+1);
-				
-				//DEBUG echo "</blockquote>";
-				
-			} else if (preg_match("/^(\s*)\[(.+)\](\s*[;#].*)?$/",$line,$matches)) {
-				// section name
-				//DEBUG echo "\nsection";
-				
-				// make sure we have something as a comment
-				if (!isset($matches[3])) {
-					$matches[3] = "";
-				}
-				
-				// check if this is the first run (section is null)
-				if ($section !== null) {
-					// we need to add any new entries here, before the section changes
-					//DEBUG echo "<blockquote><i>";
-					//DEBUG var_dump($vmconf[$section]);
-					if (isset($vmconf[$section])){  //need this, or we get an error if we unset the last items in this section - should probably automatically remove the section/context from voicemail.conf
-						foreach ($vmconf[$section] as $key=>$value) {
-							if (is_array($value)) {
-								// mailbox line
-								
-								$temp = & $vmconf[$section][ $key ];
-								
-								$options = array();
-								foreach ($temp["options"] as $key1=>$value) {
-									$options[] = $key1."=".$value;
-								}
-								
-								$output[] = $temp["mailbox"]." => ".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
-								
-								// remove this one from $vmconf
-								unset($vmconf[$section][ $key ]);
-								
-							} else {
-								// option line
-								
-								$output[] = $key."=".$vmconf[$section][ $key ];
-								
-								// remove this one from $vmconf
-								unset($vmconf[$section][ $key ]);
-							}
-						}
-					} 
-					//DEBUG echo "</i></blockquote>";
-				}
-				
-				$section = strtolower($matches[2]);
-				$output[] = $matches[1]."[".$section."]".$matches[3];
-				$existing_sections[] = $section; //remember that this section exists
-
-			} else if (preg_match("/^(\s*)([a-zA-Z0-9-_]+)(\s*)=(\s*)(.*?)(\s*[;#].*)?$/",$line,$matches)) {
-				// name = value
-				// option line
-				//DEBUG echo "\noption line";
-				
-				
-				// make sure we have something as a comment
-				if (!isset($matches[6])) {
-					$matches[6] = "";
-				}
-				
-				if (isset($vmconf[$section][ $matches[2] ])) {
-					$output[] = $matches[1].$matches[2].$matches[3]."=".$matches[4].$vmconf[$section][ $matches[2] ].$matches[6];
-					
-					// remove this one from $vmconf
-					unset($vmconf[$section][ $matches[2] ]);
-				} 
-				// else it's been deleted, so we don't write it in
-				
-			} else {
-				// unknown other line -- probably a comment or whitespace
-				//DEBUG echo "\nother: ".$line;
-				
-				$output[] = str_replace(array("\n","\r"),"",$line); // str_replace so we don't double-space
-			}
-		}
-		
-		if ($iteration == 0) {
-			// we need to add any new entries here, since it's the end of the file
-			//DEBUG echo "END OF FILE!! <blockquote><i>";
-			//DEBUG var_dump($vmconf);
-			foreach (array_keys($vmconf) as $section) {
-				if (!in_array($section,$existing_sections))  // If this is a new section, write the context label
-					$output[] = "[".$section."]";
-				foreach ($vmconf[$section] as $key=>$value) {
-					if (is_array($value)) {
-						// mailbox line
-						
-						$temp = & $vmconf[$section][ $key ];
-						
-						$options = array();
-						foreach ($temp["options"] as $key=>$value) {
-							$options[] = $key."=".$value;
-						}
-						
-						$output[] = $temp["mailbox"]." => ".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
-						
-						// remove this one from $vmconf
-						unset($vmconf[$section][ $key ]);
-						
-					} else {
-						// option line
-						
-						$output[] = $key."=".$vmconf[$section][ $key ];
-						
-						// remove this one from $vmconf
-						unset($vmconf[$section][$key ]);
-					}
-				}
-			}
-			//DEBUG echo "</i></blockquote>";
-		}
-		
-		fclose($fd);
-		
-		//DEBUG echo "\n\nwriting ".$filename;
-		//DEBUG echo "\n-----------\n";
-		//DEBUG echo implode("\n",$output);
-		//DEBUG echo "\n-----------\n";
-		
-		// write this file back out
-		
-		if ($fd = fopen($filename, "w")) {
-			fwrite($fd, implode("\n",$output)."\n");
-			fclose($fd);
-		}
-		
-	}
-}
-
-function saveVoicemail($vmconf) {
-	// yes, this is hardcoded.. is this a bad thing?
-	write_voicemailconf("/etc/asterisk/voicemail.conf", $vmconf, $section);
-}
 
 function getsystemrecordings($path) {
 	$i = 0;
@@ -2364,74 +1967,10 @@ $amp_conf = parse_amportal_conf("/etc/amportal.conf");
         
 }
 
-// this function simply makes a connection to the asterisk manager, and should be called by modules that require it (ie: dbput/dbget)
-function checkAstMan() {
-	require_once('common/php-asmanager.php');
-	global $amp_conf;
-	$astman = new AGI_AsteriskManager();
-	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
-		return $astman->disconnect();
-	} else {
-		echo "<h3>Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]."</h3>This module requires access to the Asterisk Manager.  Please ensure Asterisk is running and access to the manager is available.</div>";
-		exit;
-	}
-}
-
-// draw list for users and devices with paging
-function drawListMenu($results, $skip, $dispnum, $extdisplay, $description) {
-	$perpage=20;
-	
-	$skipped = 0;
-	$index = 0;
-	if ($skip == "") $skip = 0;
- 	echo "<li><a id=\"".($extdisplay=='' ? 'current':'')."\" href=\"config.php?display=".$dispnum."\">"._("Add")." ".$description."</a></li>";
-
-	if (isset($results)) {
-	 
-			foreach ($results AS $key=>$result) {
-				if ($index >= $perpage) {
-					$shownext= 1;
-					break;
-					}
-				if ($skipped<$skip && $skip!= 0) {
-					$skipped= $skipped + 1;
-					continue;
-					}
-				$index= $index + 1;
-	 
-	  echo "<li><a id=\"".($extdisplay==$result[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$result[0]}\">{$result[1]} <{$result[0]}></a></li>";
-	 
-	 }
-	}
-	 
-	 if ($index >= $perpage) {
-	 
-	 print "<li><center>";
-	 
-	 }
-	 
-	 if ($skip) {
-	 
-		 $prevskip= $skip - $perpage;
-		 if ($prevskip<0) $prevskip= 0;
-		 $prevtag_pre= "<a href='?display=".$dispnum."&skip=$prevskip'>[PREVIOUS]</a>";
-		 print "$prevtag_pre";
-		 }
-		 if ($shownext) {
-	 
-			 $nextskip= $skip + $index;
-			 if ($prevtag_pre) $prevtag .= " | ";
-			 print "$prevtag <a href='?display=".$dispnum."&skip=$nextskip'>[NEXT]</a>";
-			 }
-		 elseif ($skip) {
-			 print "$prevtag";
-	  }
-	 
-	 print "</center></li>";
-	
-}
 
 
+
+//obsolete
 function adduser($vars,$vmcontext) {
 	extract($vars);
 	
@@ -2516,6 +2055,7 @@ function adduser($vars,$vmcontext) {
 	saveVoicemail($uservm);
 }
 
+//obsolete
 function getextenInfo($extension){
 	global $db;
 	//get all the variables for the meetme
@@ -2534,6 +2074,7 @@ function getextenInfo($extension){
 	return $results;
 }
 
+//obsolete
 function deluser($extension,$incontext,$uservm){
 	global $db;
 	global $amp_conf;
@@ -2570,6 +2111,7 @@ function deluser($extension,$incontext,$uservm){
 	delhint($extension);
 }
 
+//obsolete
 function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 	global $db;
 	global $amp_conf;
@@ -2646,6 +2188,7 @@ function adddevice($id,$tech,$dial,$devicetype,$user,$description){
 	}
 }
 
+//obsolete
 function deldevice($account){
 	global $db;
 	global $amp_conf;
@@ -2705,6 +2248,7 @@ function deldevice($account){
 	addhint($devinfo['user']);
 }
 
+//obsolete
 function getdeviceInfo($account){
 	global $db;
 	//get all the variables for the meetme
@@ -2723,6 +2267,7 @@ function getdeviceInfo($account){
 	return $results;
 }
 
+//obsolete
 //add to sip table
 function addsip($account) {
 	sipexists();
@@ -2762,6 +2307,7 @@ function addsip($account) {
 
 }
 
+//obsolete
 function delsip($account) {
 	global $db;
 	global $currentFile;
@@ -2779,6 +2325,7 @@ function delsip($account) {
 	exec($wOpScript);
 }
 
+//obsolete
 function getsip($account) {
 	global $db;
 	$sql = "SELECT keyword,data FROM sip WHERE id = '$account'";
@@ -2789,6 +2336,7 @@ function getsip($account) {
 	return $results;
 }
 
+//obsolete
 //add to iax table
 function addiax2($account) {
 	global $db;
@@ -2825,6 +2373,7 @@ function addiax2($account) {
 	exec($wOpScript);
 }
 
+//obsolete
 function deliax2($account) {
 	global $db;
 	global $currentFile;
@@ -2842,6 +2391,7 @@ function deliax2($account) {
 	exec($wOpScript);
 }
 
+//obsolete
 function getiax2($account) {
 	global $db;
 	$sql = "SELECT keyword,data FROM iax WHERE id = '$account'";
@@ -2852,6 +2402,7 @@ function getiax2($account) {
 	return $results;
 }
 
+//obsolete
 function addzap($account) {
 	zapexists();
 	global $db;
@@ -2887,6 +2438,7 @@ function addzap($account) {
 	exec($wOpScript);
 }
 
+//obsolete
 function delzap($account) {
 	global $db;
 	global $currentFile;
@@ -2904,6 +2456,7 @@ function delzap($account) {
 	exec($wOpScript);
 }
 
+//obsolete
 function getzap($account) {
 	global $db;
 	$sql = "SELECT keyword,data FROM zap WHERE id = '$account'";
@@ -2917,6 +2470,8 @@ function getzap($account) {
 //TODO it is current not possible to use ${variables} for a HINT extensions (ie: for adhoc devices).
 //Because of this limitation, the only way to update HINTs for adhoc devices, is to make the change 
 //via the amp admin, so that a dialplan rewrite $ reload can be performed.
+
+//obsolete
 function addhint($account){
 	global $db;
 	global $currentFile;	
@@ -2947,6 +2502,7 @@ function addhint($account){
 	exec($wScript1);
 }
 
+//obsolete
 function delhint($user) {
 	global $currentFile;
 	global $db;
@@ -2962,6 +2518,8 @@ function delhint($user) {
 
 // this function rebuilds the astdb based on device table contents
 // used on devices.php if action=resetall
+
+//obsolete
 function devices2astdb(){
 	require_once('common/php-asmanager.php');
 	checkAstMan();
@@ -3003,6 +2561,8 @@ function devices2astdb(){
 
 // this function rebuilds the astdb based on users table contents
 // used on devices.php if action=resetall
+
+//obsolete
 function users2astdb(){
 	require_once('common/php-asmanager.php');
 	checkAstMan();
@@ -3033,50 +2593,5 @@ function users2astdb(){
 	return $astman->disconnect();
 }
 
-/* look for all modules in modules dir.
-** returns array:
-** array['module']['displayName']
-** array['module']['version']
-** array['module']['status']
-** array['module']['items'][array(items)]
-*/
-function find_allmodules() {
-	global $db;
-	$dir = opendir('modules');
-	//loop through each module directory, ensure there is a module.ini file
-	while ($file = readdir($dir)) {
-		if (($file != ".") && ($file != "..") && ($file != "CVS") && is_dir('modules/'.$file) && is_file('modules/'.$file.'/module.ini')) {
-			//open module.ini and read contents
-			$inifile = file('modules/'.$file.'/module.ini');
-			foreach ($inifile as $line) {
-				// parse the module display name and version from module.ini
-				if (preg_match("/^\s*([a-zA-Z0-9]+)=([a-zA-Z0-9 .&-]+)\s*$/",$line,$matches)) { 
-					if (trim($matches[1]) == "name")
-						$mod[ $file ]['displayName'] = $matches[2];
-					else if (trim($matches[1]) == "version")
-						$mod[ $file ]['version'] = $matches[2];
-					else 
-						$mod[ $file ]['items'][ $matches[1] ] = $matches[2];
-				}
-				// determine details about this module from database
-				// modulename should match the directory name
-				$sql = "SELECT * FROM modules WHERE modulename = '".$file."'";
-				$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
-				if(DB::IsError($results)) {
-					die($results->getMessage());
-				}
-				//set status key based on results (0=not installed, 1=disabled, 2=enabled)
-				if ($results) {
-					if ($results['enabled'] != 0)
-						$mod[ $file ]["status"] = 2;
-					else
-						$mod[ $file ]["status"] = 1;
-				} else {
-					$mod[ $file ]["status"] = 0;
-				}
-			}
-		}
-	}
-	return $mod;
-}
+
 ?>

@@ -16,7 +16,8 @@ $versions = array(
 		'1.10.009beta1',
 		'1.10.009beta2',
 		'1.10.009',
-		'1.10.010beta1'
+		'1.10.010beta1',
+		'1.10.010'
 	);
 
 define("AMP_CONF", "/etc/amportal.conf");
@@ -721,6 +722,7 @@ out("OK");
 debug("Running ".dirname(__FILE__)."/apply_conf.sh");
 outn("Configuring install for your environment..");
 if (!$dryrun) {
+	exec("chmod u+x ".$amp_conf["AMPSBIN"]."/amportal");
 	exec(dirname(__FILE__)."/apply_conf.sh");
 }
 out("OK");
@@ -736,7 +738,6 @@ if (!is_dir($asterisk_conf["astspooldir"]."/fax"))
 
 outn("Setting permissions on files..");
 if (!$dryrun) {
-	exec("chmod u+x ".$amp_conf["AMPSBIN"]."/amportal");
 	exec($amp_conf["AMPSBIN"]."/amportal chown");
 }
 out("OK");

@@ -304,7 +304,7 @@ foreach ($vmcontexts as $vmcontext) {
 			$sql = "SELECT args FROM extensions WHERE extension = '".$dropts[$i]."' AND priority = '1' AND context = '".$menu_id."'";
 			list($goto) = $db->getRow($sql);
 			//draw goto selects
-			echo drawselects('prompt',$goto,$i);
+			echo drawselects($goto,$i);
 			//echo 'goto='.$goto;
 			?>
 			</table>

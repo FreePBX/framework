@@ -25,4 +25,19 @@ function queues_timeString($seconds, $full = false) {
         }
 }
 
+// The destinations this module provides
+// returns a associative arrays with keys 'destination' and 'description'
+function queues_destinations() {
+	//get the list of all exisiting
+	$results = getqueues();
+	
+	//return an associative array with destination and description
+	if (isset($results)) {
+		foreach($results as $result){
+				$extens[] = array('destination' => 'ext-queues,'.$result['0'].',1', 'description' => $result['1'].' <'.$result['0'].'>');
+		}
+	}
+	
+	return $extens;
+}
 ?>
