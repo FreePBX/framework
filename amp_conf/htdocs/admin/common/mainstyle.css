@@ -29,9 +29,9 @@ div#page {
     text-align:left;
     padding-left: 20px;
     padding-right: 20px;
-    border-left: 1px solid #B97054;
+   /* border-left: 1px solid #B97054;
     border-right: 1px solid #B97054;
-    border-bottom: 1px solid #B97054;
+    border-bottom: 1px solid #B97054;*/
 }
 div.header {
 	height: 80px;  /* img height (98px) + img margin */
@@ -74,7 +74,7 @@ div.header li {
 }
 div.message {
 	text-align:right;
-	border-bottom: 1px solid #2E78A7;
+	border-bottom: 1px solid #808080;
 	color:#A96046;
 	margin-top:-15px;
 	padding-bottom:5px;
@@ -95,9 +95,9 @@ div.nav a:hover {
 div.nav li{
     list-style-type: none;
     list-style-position: outside;
-    border-right: 1px solid #2E78A7;
-    border-left: 1px solid #2E78A7;
-    border-bottom: 1px solid #2E78A7;
+    border-right: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-bottom: 1px solid #808080;
     padding:5px;
 }
 
@@ -115,9 +115,9 @@ div.rnav a:hover {
 div.rnav li{
     list-style-type: none;
     list-style-position: outside;
-    border-right: 1px solid #2E78A7;
-    border-left: 1px solid #2E78A7;
-    border-bottom: 1px solid #2E78A7;
+    border-right: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-bottom: 1px solid #808080;
     padding:5px;
 }
 
@@ -207,7 +207,8 @@ div.content input {
 }
 
 span.footer {
-    border-top: 1px solid #2E78A7;
+	margin-top: 10px;
+    border-top: 1px dashed #808080;
     padding-top:5px;
     display:block;
     text-align:left;
@@ -237,14 +238,15 @@ span.tm {
     vertical-align:top;
 }
 div.inyourface a{
-	position:absolute;
+	position:fixed;
 	display:block;
-	top:75px;
-	width:700px;
+	top:0px;
+	left:0px;
+	width:100%;
 	color:white;
 	background-color:red;
 	font-weight:bold;
 	text-align:center;
 	text-decoration:none;
-	border: 1px dashed white;	
+	border: 1px solid black;	
 }
