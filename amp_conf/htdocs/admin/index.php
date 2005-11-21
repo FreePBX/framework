@@ -25,7 +25,7 @@ if ($_REQUEST["action"] == "logout") {
 $title=_("Asterisk Management Portal");
 $message=_("Administration");
 
-require_once('functions.php');
+require_once('functions.inc.php');
 
 // get settings
 $amp_conf = parse_amportal_conf("/etc/amportal.conf");
