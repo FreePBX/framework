@@ -626,6 +626,44 @@ if (count($amp_conf) == 0) {
 }
 out("OK");
 
+// Ensure our "critical" variables are set.  We absolutely need these to copy in files.
+
+if (!array_key_exists("FOPWEBROOT",$amp_conf) || 
+	!array_key_exists("AMPBIN",$amp_conf) || 
+	!array_key_exists("AMPSBIN",$amp_conf) || 
+	!array_key_exists("AMPCGIBIN",$amp_conf) || 
+	!array_key_exists("AMPWEBROOT",$amp_conf)
+) {
+
+	if (!array_key_exists("AMPWEBROOT",$amp_conf)) {
+		out("Adding AMPWEBROOT option to amportal.conf - using AMP default");
+		$amp_conf["AMPWEBROOT"] = "/var/www/html";
+	}
+	
+	if (!array_key_exists("AMPCGIBIN",$amp_conf)) {
+		out("Adding AMPCGIBIN option to amportal.conf - using AMP default");
+		$amp_conf["AMPCGIBIN"] = "/var/www/cgi-bin";
+	}
+	
+	if (!array_key_exists("FOPWEBROOT",$amp_conf)) {
+		out("Adding FOPWEBROOT option to amportal.conf - using AMP default");
+		$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"]."/panel";
+	}
+	
+	if (!array_key_exists("AMPBIN",$amp_conf)) {
+		out("Adding AMPBIN option to amportal.conf - using AMP default");
+		$amp_conf["AMPBIN"] = "/var/lib/asterisk/bin";
+	}
+	
+	if (!array_key_exists("AMPSBIN",$amp_conf)) {
+		out("Adding AMPSBIN option to amportal.conf - using AMP default");
+		$amp_conf["AMPSBIN"] = "/usr/sbin";
+	}
+	
+	// write amportal.conf
+	write_amportal_conf(AMP_CONF, $amp_conf);
+}
+
 if (isset($new_username) || isset($new_password) || isset($dbhost)) {
 	// new username/pwd 
 	
