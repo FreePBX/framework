@@ -167,11 +167,11 @@ function find_allmodules() {
 *  $fetchmode can be DB_FETCHMODE_ORDERED, DB_FETCHMODE_ASSOC, DB_FETCHMODE_OBJECT
 *  returns array, unless using getOne
 */
-function sql($sql,$type="query",$fetchmode=DB_FETCHMODE_ORDERED) {
+function sql($sql,$type="query",$fetchmode=null) {
 	global $db;
 	$results = $db->$type($sql,$fetchmode);
 	if(DB::IsError($results)) {
-		die($results->getMessage().'<hr>'.$sql);
+		die($results->getDebugInfo());
 	}
 	return $results;
 }

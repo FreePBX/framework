@@ -439,6 +439,7 @@ function delExten($extdisplay) {
 */
 
 //add trunk to outbound-trunks context
+//obsolete
 function addOutTrunk($trunknum) {
 	extensionsexists();
 	global $db;
@@ -452,6 +453,7 @@ function addOutTrunk($trunknum) {
 
 
 //write the OUTIDS global variable (used in dialparties.agi)
+//obsolete
 function writeoutids() {
 	global $db;
 	$sql = "SELECT variable FROM globals WHERE variable LIKE 'OUT\\\_%'"; // we have to escape _ for mysql: normally a wildcard
@@ -472,6 +474,7 @@ function writeoutids() {
 }
 
 //get unique trunks
+//obsolete
 function gettrunks() {
 	global $db;
 	$sql = "SELECT * FROM globals WHERE variable LIKE 'OUT\\\_%' ORDER BY RIGHT( variable, LENGTH( variable ) - 4 )+0"; // we have to escape _ for mysql: normally a wildcard
@@ -504,6 +507,7 @@ function gettrunks() {
 
 
 //add trunk info to sip or iax table
+//obsolete
 function addSipOrIaxTrunk($config,$table,$channelid,$trunknum) {
 	global $db;
 	
@@ -534,6 +538,7 @@ function addSipOrIaxTrunk($config,$table,$channelid,$trunknum) {
 	}
 }
 
+//obsolete
 function getTrunkTech($trunknum) {
 	global $db;
 	
@@ -685,6 +690,7 @@ function getTrunkDialRules($trunknum) {
 }
 
 // just used internally by addTrunk() and editTrunk()
+//obsolete
 function backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register) {
 	global $db;
 	
@@ -740,6 +746,7 @@ function backendAddTrunk($trunknum, $tech, $channelid, $dialoutprefix, $maxchans
 }
 
 // we're adding ,don't require a $trunknum
+//obsolete
 function addTrunk($tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register) {
 	global $db;
 	
@@ -756,6 +763,7 @@ function addTrunk($tech, $channelid, $dialoutprefix, $maxchans, $outcid, $peerde
 	return $trunknum;
 }
 
+//obsolete
 function deleteTrunk($trunknum, $tech = null) {
 	global $db;
 	
@@ -798,6 +806,7 @@ function deleteTrunk($trunknum, $tech = null) {
 	}
 }
 
+//obsolete
 function editTrunk($trunknum, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register) {
 	//echo "editTrunk($trunknum, $channelid, $dialoutprefix, $maxchans, $outcid, $peerdetails, $usercontext, $userconfig, $register)";
 	$tech = getTrunkTech($trunknum);
@@ -806,6 +815,7 @@ function editTrunk($trunknum, $channelid, $dialoutprefix, $maxchans, $outcid, $p
 }
 
 //get and print peer details (prefixed with 4 9's)
+//obsolete
 function getTrunkPeerDetails($trunknum) {
 	global $db;
 	
@@ -827,6 +837,7 @@ function getTrunkPeerDetails($trunknum) {
 }
 
 //get and print user config (prefixed with 5 9's)
+//obsolete
 function getTrunkUserConfig($trunknum) {
 	global $db;
 	
@@ -848,6 +859,7 @@ function getTrunkUserConfig($trunknum) {
 }
 
 //get trunk user context (prefixed with 5 9's)
+//obsolete
 function getTrunkUserContext($trunknum) {
 	global $db;
 	
@@ -867,6 +879,7 @@ function getTrunkUserContext($trunknum) {
 	return $account;
 }
 
+//obsolete
 function getTrunkTrunkName($trunknum) {
 	global $db;
 	
@@ -884,6 +897,7 @@ function getTrunkTrunkName($trunknum) {
 }
 
 //get trunk account register string
+//obsolete
 function getTrunkRegister($trunknum) {
 	global $db;
 	$tech = getTrunkTech($trunknum);
@@ -901,6 +915,7 @@ function getTrunkRegister($trunknum) {
 	return $register;
 }
 
+//obsolete
 function addTrunkRegister($trunknum,$tech,$reg) {
 	global $db;
 	$sql = "INSERT INTO $tech (id, keyword, data) values ('9999999$trunknum','register','$reg')";
@@ -911,6 +926,7 @@ function addTrunkRegister($trunknum,$tech,$reg) {
 }
 
 //get unique outbound route names
+//obsolete
 function getroutenames() {
 	global $db;
 	$sql = "SELECT DISTINCT SUBSTRING(context,7) FROM extensions WHERE context LIKE 'outrt-%' ORDER BY context ";
@@ -1009,6 +1025,7 @@ function getroutenames() {
 }
 
 //get unique outbound route patterns for a given context
+//obsolete
 function getroutepatterns($route) {
 	global $db;
 	$sql = "SELECT extension, args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'dialout-trunk%' OR args LIKE'dialout-enum%') ORDER BY extension ";
@@ -1037,6 +1054,7 @@ function getroutepatterns($route) {
 }
 
 //get unique outbound route trunks for a given context
+//obsolete
 function getroutetrunks($route) {
 	global $db;
 	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'dialout-trunk,%' OR args LIKE 'dialout-enum,%') ORDER BY priority ";
@@ -1063,6 +1081,7 @@ function getroutetrunks($route) {
 }
 
 //get password for this route
+//obsolete
 function getroutepassword($route) {
 	global $db;
 	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'dialout-trunk,%' OR args LIKE 'dialout-enum,%') ORDER BY priority ";
@@ -1080,6 +1099,7 @@ function getroutepassword($route) {
 }
 
 //get outbound routes for a given trunk
+//obsolete
 function gettrunkroutes($trunknum) {
 	global $db;
 	
@@ -1098,6 +1118,7 @@ function gettrunkroutes($trunknum) {
 	return $routes;
 }
 
+//obsolete
 function addroute($name, $patterns, $trunks, $method, $pass) {
 	global $db;
 
@@ -1219,6 +1240,7 @@ function addroute($name, $patterns, $trunks, $method, $pass) {
 	
 }
 
+//obsolete
 function deleteroute($name) {
 	global $db;
 	$sql = "DELETE FROM extensions WHERE context = 'outrt-".$name."'";
@@ -1236,6 +1258,7 @@ function deleteroute($name) {
 	return $result;
 }
 
+//obsolete
 function renameRoute($oldname, $newname) {
 	global $db;
 
@@ -1263,6 +1286,7 @@ function renameRoute($oldname, $newname) {
 	return true;
 }
 
+//obsolete
 function editroute($name, $patterns, $trunks, $pass) {
 	deleteroute($name);
 	addroute($name, $patterns, $trunks,"edit", $pass);
@@ -1302,6 +1326,8 @@ function setroutepriorityvalue2($key)
 echo "my key is $key $my_lookup[$key]";
 	return ($my_lookup[$key]);
 }
+
+//obsolete
 function setroutepriorityvalue($key)
 {
 	$key=$key+1;
@@ -1313,6 +1339,8 @@ function setroutepriorityvalue($key)
 		$prefix = sprintf("%d",$key);
 	return ($prefix);
 }
+
+//obsolete
 function setroutepriority($routepriority, $reporoutedirection, $reporoutekey)
 {
 	global $db;
@@ -1388,7 +1416,7 @@ function setroutepriority($routepriority, $reporoutedirection, $reporoutekey)
 
  
 
-
+//opsolete
 function parse_conf($filename, &$conf, &$section) {
 	if (is_null($conf)) {
 		$conf = array();
@@ -1424,6 +1452,7 @@ function parse_conf($filename, &$conf, &$section) {
 	}
 }
 
+//obsolete
 function readDialRulesFile() {
 	global $localPrefixFile; // probably not the best way
 	
@@ -1432,6 +1461,7 @@ function readDialRulesFile() {
 	return $conf;
 }
 
+//obsolete
 function getDialRules($trunknum) {
 	$conf = readDialRulesFile();
 	if (isset($conf["trunk-".$trunknum])) {
@@ -1440,6 +1470,7 @@ function getDialRules($trunknum) {
 	return false;
 }
 
+//obsolete
 function writeDialRulesFile($conf) {
 	global $localPrefixFile; // probably not the best way
 	
@@ -1454,6 +1485,7 @@ function writeDialRulesFile($conf) {
 	fclose($fd);
 }
 
+//obsolete
 function addDialRules($trunknum, $dialrules) {
 	$values = array();
 	$i = 1;
@@ -1469,6 +1501,7 @@ function addDialRules($trunknum, $dialrules) {
 	writeDialRulesFile($conf);
 }
 
+//obsolete
 function deleteDialRules($trunknum) {
 	$conf = readDialRulesFile();
 	
