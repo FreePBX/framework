@@ -15,6 +15,7 @@
 /* everything in this file is obsolete!!= */
 
 //get unique voice menu numbers - returns 2 dimensional array
+//obsolete
 function getaas() {
 	global $db;
 	$dept = str_replace(' ','_',$_SESSION["AMP_user"]->_deptname);
@@ -161,6 +162,7 @@ function delextensions($context,$exten) {
 
 
 //get info about auto-attendant
+//obsolete
 function aainfo($menu_id) {
 	global $db;
 	//do another select for all parts in this aa_
@@ -1647,11 +1649,12 @@ function getqueueinfo($account) {
 	return $results;
 }
 
+/* moved to functions.inc.php
 // $formName is the name of the form we are drawing in
 // $goto is the current goto destination setting
 // $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
 function drawselects($goto,$i) {  
-/*
+
 	//query for exisiting aa_N contexts
 	$unique_aas = getaas();
 	//get unique extensions
@@ -1733,10 +1736,7 @@ function drawselects($goto,$i) {
 	$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="custom" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'custom\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'custom\';" '.(strpos($goto,'custom') === false ? '' : 'CHECKED=CHECKED').' />';
 	$selectHtml .= '<a href="#" class="info"> '._("Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word 'custom' and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf</span>").'</a>:';
 	$selectHtml .=	'<input type="text" size="15" name="custom_args'.$i.'" value="'.(strpos($goto,'custom') === false ? '' : $goto).'" />';
-	$selectHtml .=	'<br></td></tr>';
-	*/
-	
-	/* --- MODULES BEGIN --- */
+
 	global $active_modules;
 	
 	$selectHtml .= '<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';
@@ -1767,7 +1767,7 @@ function drawselects($goto,$i) {
 			$selectHtml .=	'</select><br>';
 		}
 	}
-	/* --- MODULES END --- */
+
 	
 	//display a custom goto field
 	$selectHtml .= '<input type="radio" name="goto_indicate'.$i.'" value="custom" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'custom\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'custom\';" '.(strpos($goto,'custom') === false ? '' : 'CHECKED=CHECKED').' />';
@@ -1779,6 +1779,7 @@ function drawselects($goto,$i) {
 	
 	return $selectHtml;
 }
+*/
 
 function setGoto($account,$context,$priority,$goto,$i) {  //preforms logic for setting goto destinations
 	if ($goto == 'extension') {

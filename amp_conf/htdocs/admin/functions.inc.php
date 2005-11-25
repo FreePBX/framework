@@ -550,4 +550,53 @@ function saveVoicemail($vmconf) {
 	write_voicemailconf("/etc/asterisk/voicemail.conf", $vmconf, $section);
 }
 
+
+// $goto is the current goto destination setting
+// $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
+function drawselects($goto,$i) {  
+	
+	/* --- MODULES BEGIN --- */
+	global $active_modules;
+	
+	$selectHtml .= '<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';
+	
+	//check for module-specific destination functions
+	foreach ($active_modules as $mod) {
+		$funct = strtolower($mod.'_destinations');
+	
+		//if the modulename_destinations() function exits, run it and display selections for it
+		if (function_exists($funct)) {
+			$options = "";
+			$destArray = $funct(); //returns an array with 'destination' and 'description'.
+			$checked = false;
+			if (isset($destArray)) {
+				//loop through each option returned by the module
+				foreach ($destArray as $dest) {
+					// check to see if the currently selected goto matches one these destinations
+					if ($dest['destination'] == $goto)
+						$checked = true;  //there is a match, so we select the radio for this group
+
+					// create an select option for each destination 
+					$options .= '<option value="'.$dest['destination'].'" '.(strpos($goto,$dest['destination']) === false ? '' : 'SELECTED').'>'.($dest['description'] ? $dest['description'] : $dest['destination']);
+				}
+			}
+			
+			$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="'.$mod.'" onclick="javascript:this.form.goto'.$i.'.value=\''.$mod.'\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$mod.'\';" '.($checked? 'CHECKED=CHECKED' : '').' /> '._($mod).': ';
+			$selectHtml .=	'<select name="'.$mod.$i.'"/>';
+			$selectHtml .= $options;	
+			$selectHtml .=	'</select><br>';
+		}
+	}
+	/* --- MODULES END --- */
+	
+	//display a custom goto field
+	$selectHtml .= '<input type="radio" name="goto_indicate'.$i.'" value="custom" onclick="javascript:document.'.$formName.'.goto'.$i.'.value=\'custom\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) document.'.$formName.'.goto'.$i.'.value=\'custom\';" '.(strpos($goto,'custom') === false ? '' : 'CHECKED=CHECKED').' />';
+	$selectHtml .= '<a href="#" class="info"> '._("Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word 'custom' and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf</span>").'</a>:';
+	$selectHtml .= '<input type="text" size="15" name="custom_args'.$i.'" value="'.(strpos($goto,'custom') === false ? '' : $goto).'" />';
+	
+	//close off our row
+	$selectHtml .= '</td></tr>';
+	
+	return $selectHtml;
+}
 ?>

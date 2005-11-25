@@ -14,7 +14,7 @@
 
 <?php 
 //query for exisiting aa_N contexts
-$unique_aas = getaas();
+$unique_aas = ivr_list();
 
 //check to see if we have any aa_ contexts
 if (count($unique_aas) > 0) {
@@ -52,7 +52,7 @@ if (count($unique_aas) > 0) {
 			<ul>
 <?php 
 		//do another select for all parts in this aa_
-		$aalines = aainfo($menu[0]);
+		$aalines = ivr_get($menu[0]);
 		
 		//find relevant info in this context
 		foreach ($aalines as $aaline) {

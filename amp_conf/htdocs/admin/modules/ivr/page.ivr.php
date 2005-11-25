@@ -25,7 +25,7 @@ if (empty($dircontext))
 if (empty($menu_id)) $menu_id = $dept.'aa_1';
 
 		//do another select for all parts in this aa_.  Will return nothing if this in new aa
-		$aalines = aainfo($menu_id);
+		$aalines = ivr_get($menu_id);
 		$optioncount=0;
 		
 		//find relevant info in this context
@@ -84,7 +84,7 @@ switch($action) {
 <form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="action" value="ivr_start">
 	<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
-	<input type="hidden" name="display" value="2">
+	<input type="hidden" name="display" value="ivr">
 	<?php echo _("This Digital Receptionist wizard asks you to record and playback a greeting using your phone.")?><br><br>
 	<?php echo _("Please enter your user/extension:")?> 
 	<input type="text" size="6" name="cidnum"><br>
@@ -120,7 +120,7 @@ switch($action) {
 <p>
 	<form enctype="multipart/form-data" name="upload" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
 		<?php echo _("Alternatively, upload a recording in")?> <a href="#" class="info"><?php echo _(".wav format")?><span><?php echo _("The .wav file _must_ have a sample rate of 8000Hz")?></span></a>:<br>
-		<input type="hidden" name="display" value="2">
+		<input type="hidden" name="display" value="ivr">
 		<input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
 		<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 		<input type="hidden" name="action" value="ivr_start">
@@ -139,7 +139,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 <input type="hidden" name="action" value="ivr_recorded">
 <input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 <input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
-<input type="hidden" name="display" value="2">
+<input type="hidden" name="display" value="ivr">
 <input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
 <h5><?php echo _("Step 2: Verify")?></h5>
 <p>
@@ -199,7 +199,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 <input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 <input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 <input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
-<input type="hidden" name="display" value="2">
+<input type="hidden" name="display" value="ivr">
 <p><?php echo _("Callers to this Menu can press the pound key (#) to access the user directory.")?><br><br>
 <?php echo _("Directory context to be used:")?> 
 <select name="dir-context">
@@ -242,7 +242,7 @@ foreach ($vmcontexts as $vmcontext) {
 	if (( $_REQUEST['ivr_num_options'] == '0' ) || ( $_REQUEST['ivr_num_options'] == '' )) {
 ?>
 	<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
-		<input type="hidden" name="display" value="2">
+		<input type="hidden" name="display" value="ivr">
 		<input type="hidden" name="action" value="ivr_options_set">
 		<input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
 		<input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">
@@ -254,14 +254,16 @@ foreach ($vmcontexts as $vmcontext) {
 	</form><br><br><br><br><br><br>
 <?php 
 	} else {
+/* this stuff isn't required
 		//query for exisiting aa_N contexts
-		$unique_aas = getaas();
+		$unique_aas = ivr_list();
 		
 		//get unique extensions
-		$extens = getextens();
+		$extens = core_users_list();
 		
 		//get unique Ring Groups
 		$gresults = getgroups();
+*/
 ?>
 <h4><?php echo _("Options for Menu:")." ".$_REQUEST['mname']; ?></h4>
 <p>
@@ -273,7 +275,7 @@ foreach ($vmcontexts as $vmcontext) {
 </p>
 <hr>
 <p>	<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
-	<input type="hidden" name="display" value="2">
+	<input type="hidden" name="display" value="ivr">
 	<input type="hidden" name="action" value="ivr_options_set"/>
 	<input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
 	<input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">

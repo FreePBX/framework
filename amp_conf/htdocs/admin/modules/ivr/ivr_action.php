@@ -102,6 +102,7 @@ switch($_REQUEST['ivr_action']) {
 				}
 			}
 			$goto = $_REQUEST['goto'.$i];
+			//TODO we need to make this module use it's own table!!
 			setGoto($extension,$context,'1',$goto,$i);
 		}
 		
