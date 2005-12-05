@@ -93,7 +93,7 @@ class extensions {
 		}
 		*/
 		
-		var_dump($this->_exts);
+		//var_dump($this->_exts);
 		
 		foreach (array_keys($this->_exts) as $section) {
 			$output .= "[".$section."]\n";
@@ -103,7 +103,7 @@ class extensions {
 				
 					$ext = $this->_exts[$section][$extension][$idx];
 					
-					var_dump($ext);
+					//var_dump($ext);
 					
 					$output .= "exten => ".$extension.",".
 						$ext['basetag'].
@@ -281,6 +281,7 @@ class ext_setvar {
 	}
 }
 
+/* example usage
 $ext = new extensions;
 
 
@@ -293,6 +294,7 @@ echo "<pre>";
 echo $ext->generateConf();
 echo $ext->generateOldConf();
 exit;
+*/
 
 /*
 exten => 123,1(dial1),Dial(ZAP/1234)

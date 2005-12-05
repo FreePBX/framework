@@ -141,7 +141,7 @@ if(is_array($modules)){
 	foreach($modules as $key => $module) {
 		//only use this module if it's enabled (status=2)
 		if ($module['status'] == 2) {
-			// active_modules array used in drawselects function
+			// active_modules array used in drawselects function and genConf function
 			$active_modules[] = $key;
 			//include module functions
 			if (is_file("modules/{$key}/functions.inc.php")) {
@@ -262,7 +262,11 @@ switch($display) {
 	break;*/
 }
 ?>
-
+<?php 
+	require_once("extensions.class.php");
+	$ext = new extensions;
+	genConf($active_modules); 
+?>
 </div>
 </td></tr></table>
 <?php include 'footer.php' ?>

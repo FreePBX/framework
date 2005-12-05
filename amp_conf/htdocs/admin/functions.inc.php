@@ -599,4 +599,19 @@ function drawselects($goto,$i) {
 	
 	return $selectHtml;
 }
+
+function genConf($modules) {
+	global $ext;  // is this the best way to pass this?
+	$engine = "asterisk";
+	foreach($modules as $module) {
+		$funcname = $module."_get_config";
+		if (function_exists($funcname)) { 
+			$funcname($engine);
+			//$config = $funcname($engine);  
+			//foreach ($config as $file=>$contents) { ... }
+		}
+	}
+	echo "<pre>";
+	echo $ext->generateConf();
+}
 ?>
