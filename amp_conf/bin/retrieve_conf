@@ -1,0 +1,236 @@
+#!/usr/bin/php -q
+<?php
+
+define("AMP_CONF", "/etc/amportal.conf");
+define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
+
+function out($text) {
+	echo $text."\n";
+}
+
+function outn($text) {
+	echo $text;
+}
+
+function error($text) {
+	echo "[ERROR] ".$text."\n";
+}
+
+function fatal($text) {
+	echo "[FATAL] ".$text."\n";
+	exit(1);
+}
+
+function debug($text) {
+	global $debug;
+	
+	if ($debug) echo "[DEBUG] ".$text."\n";
+}
+
+function showHelp() {
+	out("Optional parameters:");
+	out("  --help, -h, -?           Show this help");
+	out("  --debug                  Enable debug output");
+	out("  --dry-run                Don't actually do anything");
+}
+
+
+function parse_amportal_conf2($filename) {
+	$file = file($filename);
+	foreach ($file as $line) {
+		if (preg_match("/^\s*([\w]+)\s*=\s*\"?([\w\/\:\.\%-]*)\"?\s*([;#].*)?/",$line,$matches)) {
+			$conf[ $matches[1] ] = $matches[2];
+		}
+	}
+	return $conf;
+}
+
+function parse_asterisk_conf($filename) {
+	$file = file($filename);
+	foreach ($file as $line) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+			$conf[ $matches[1] ] = $matches[2];
+		}
+	}
+	return $conf;
+}
+
+
+
+
+/********************************************************************************************************************/
+
+// **** Make sure we have STDIN etc
+
+// from  ben-php dot net at efros dot com   at  php.net/install.unix.commandline
+if (version_compare(phpversion(),'4.3.0','<') || !defined("STDIN")) {
+	define('STDIN',fopen("php://stdin","r"));
+	define('STDOUT',fopen("php://stdout","r"));
+	define('STDERR',fopen("php://stderr","r"));
+	register_shutdown_function( create_function( '' , 'fclose(STDIN); fclose(STDOUT); fclose(STDERR); return true;' ) );
+}
+   
+// **** Make sure we have PEAR's DB.php, and include it
+
+outn("Checking for PEAR DB..");
+if (! @ include('DB.php')) {
+	out("FAILED");
+	fatal("PEAR must be installed (requires DB.php). Include path: ".ini_get("include_path"));
+}
+out("OK");
+
+
+// **** Make sure we have PEAR's GetOpts.php, and include it
+
+outn("Checking for PEAR Console::Getopt..");
+if (! @ include("Console/Getopt.php")) {
+	out("FAILED");
+	fatal("PEAR must be installed (requires Console/Getopt.php). Include path: ".ini_get("include_path"));
+}
+out("OK");
+
+
+// **** Parse out command-line options
+
+$shortopts = "h?u:p:";
+$longopts = array("help","debug","dry-run");
+
+$args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
+if (is_object($args)) {
+	// assume it's PEAR_ERROR
+	out($args->message);
+	exit(255);
+}
+
+$debug = false;
+$dryrun = false;
+
+foreach ($args[0] as $arg) {
+	switch ($arg[0]) {
+		case "--help": case "h": case "?":
+			showHelp();
+			exit(10);
+		break;
+		case "--dry-run":
+			out("Dry-run only, no files will be written");
+			$dryrun = true;
+		break;
+		case "--debug":
+			$debug = true;
+			debug("Debug mode enabled");
+		break;
+	}
+}
+
+// **** Check for amportal.conf
+
+outn("Checking for ".AMP_CONF."..");
+if (!file_exists(AMP_CONF)) {
+	fatal("Does not exist, or is inaccessible");
+}
+out("OK");
+
+// **** read amportal.conf
+
+outn("Reading ".AMP_CONF."..");
+$amp_conf = parse_amportal_conf2(AMP_CONF);
+if (count($amp_conf) == 0) {
+	fatal("FAILED");
+}
+out("OK");
+
+// **** Check for asterisk.conf
+
+outn("Checking for ".ASTERISK_CONF."..");
+if (!file_exists(ASTERISK_CONF)) {
+	fatal("Does not exist, or is inaccessible");
+}
+out("OK");
+
+// **** read asterisk.conf
+
+outn("Reading ".ASTERISK_CONF."..");
+$asterisk_conf = parse_asterisk_conf(ASTERISK_CONF);
+if (count($asterisk_conf) == 0) {
+	fatal("FAILED. Have you installed Asterisk?");
+}
+out("OK");
+
+// **** Connect to database
+
+outn("Connecting to database..");
+
+$db_user = $amp_conf["AMPDBUSER"];
+$db_pass = $amp_conf["AMPDBPASS"];
+$db_host = $amp_conf["AMPDBHOST"];
+$db_name = 'asterisk';
+$db_engine = 'mysql';
+
+$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
+
+if (!function_exists($db_engine.'_connect')) {
+	out("FAILED");
+	fatal($db_engine." PHP libraries not installed");
+}
+
+$db = DB::connect($datasource); // attempt connection
+
+if(DB::isError($db)) {
+	out("FAILED");
+	debug($db->userinfo);
+	fatal("Cannot connect to database");
+	
+}
+out("OK");
+
+//include common functions
+require_once($amp_conf['AMPWEBROOT']."/admin/extensions.class.php");
+require_once($amp_conf['AMPWEBROOT']."/admin/functions.inc.php");
+
+// query for our modules
+$modules = find_allmodules();
+
+// include any module global functions
+if(is_array($modules)){
+	foreach($modules as $key => $module) {
+		//only use this module if it's enabled (status=2)
+		if ($module['status'] == 2) {
+			// active_modules array used in genConf function
+			$active_modules[] = $key;
+			//include module functions
+			if (is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
+				require_once($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
+			}
+		}
+	}
+}
+
+require_once($amp_conf['AMPWEBROOT']."/admin/extensions.class.php");
+$ext = new extensions;
+
+function generateConf($modules) {
+	global $ext;
+	$engine = "asterisk";
+	foreach($modules as $module) {
+		$funcname = $module."_get_config";
+		if (function_exists($funcname)) { 
+			//$funcname($engine);
+			$config = $funcname($engine);  
+			foreach ($config as $file=>$contents) { 
+				echo $file;
+			}
+		}
+	}
+	echo $ext->generateConf();
+}
+
+
+generateConf($active_modules); 
+
+
+
+
+// **** Set reload flag for AMP admin
+needreload();
+out("Please Reload Asterisk by visiting http://".$amp_conf["AMPWEBADDRESS"]."/admin");
+?>

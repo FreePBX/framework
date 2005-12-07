@@ -262,11 +262,6 @@ switch($display) {
 	break;*/
 }
 ?>
-<?php 
-	require_once("extensions.class.php");
-	$ext = new extensions;
-	genConf($active_modules); 
-?>
 </div>
 </td></tr></table>
 <?php include 'footer.php' ?>

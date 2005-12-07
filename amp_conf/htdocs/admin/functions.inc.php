@@ -121,14 +121,17 @@ function checkRange($extension){
 ** array['module']['status']
 ** array['module']['items'][array(items)]
 */
+
 function find_allmodules() {
 	global $db;
-	$dir = opendir('modules');
+	global $amp_conf;
+
+	$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
 	//loop through each module directory, ensure there is a module.ini file
 	while ($file = readdir($dir)) {
-		if (($file != ".") && ($file != "..") && ($file != "CVS") && is_dir('modules/'.$file) && is_file('modules/'.$file.'/module.ini')) {
+		if (($file != ".") && ($file != "..") && ($file != "CVS") && is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file) && is_file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.ini')) {
 			//open module.ini and read contents
-			$inifile = file('modules/'.$file.'/module.ini');
+			$inifile = file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.ini');
 			foreach ($inifile as $line) {
 				// parse the module display name and version from module.ini
 				if (preg_match("/^\s*([a-zA-Z0-9]+)=([a-zA-Z0-9 .&-]+)\s*$/",$line,$matches)) { 
@@ -600,18 +603,4 @@ function drawselects($goto,$i) {
 	return $selectHtml;
 }
 
-function genConf($modules) {
-	global $ext;  // is this the best way to pass this?
-	$engine = "asterisk";
-	foreach($modules as $module) {
-		$funcname = $module."_get_config";
-		if (function_exists($funcname)) { 
-			$funcname($engine);
-			//$config = $funcname($engine);  
-			//foreach ($config as $file=>$contents) { ... }
-		}
-	}
-	echo "<pre>";
-	echo $ext->generateConf();
-}
 ?>
