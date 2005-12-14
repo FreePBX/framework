@@ -89,7 +89,7 @@ function checkGRP(theForm,action) {
 
 	var gotoType = theForm.elements[ "goto0" ].value;
 	if (gotoType == 'custom') {
-		var gotoVal = theForm.elements[ "custom_args0"].value;
+		var gotoVal = theForm.elements[ "custom0"].value;
 		if (gotoVal.indexOf('custom') == -1) {
 			bad = "true";
 			<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
@@ -140,7 +140,7 @@ function checkQ(theForm) {
 
         var gotoType = theForm.elements[ "goto0" ].value;
         if (gotoType == 'custom') {
-                var gotoVal = theForm.elements[ "custom_args0"].value;
+                var gotoVal = theForm.elements[ "custom0"].value;
                 if (gotoVal.indexOf('custom') == -1) {
                         bad = "true";
 						<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
@@ -182,7 +182,7 @@ function checkDID(theForm) {
 	
 	var gotoType = theForm.elements[ "goto0" ].value;
 	if (gotoType == 'custom') {
-		var gotoVal = theForm.elements[ "custom_args0"].value;
+		var gotoVal = theForm.elements[ "custom0"].value;
 		if (gotoVal.indexOf('custom') == -1) {
 			bad = "true";
 			<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
@@ -292,7 +292,7 @@ function checkIVR(theForm,ivr_num_options) {
 	
 		var gotoType = theForm.elements[ "goto"+formNum ].value;
 		if (gotoType == 'custom') {
-			var gotoVal = theForm.elements[ "custom_args"+formNum ].value;
+			var gotoVal = theForm.elements[ "custom"+formNum ].value;
 			if (gotoVal.indexOf('custom') == -1) {
 				bad = "true";
 				var item = formNum + 1;

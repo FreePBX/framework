@@ -214,11 +214,11 @@ function generateConf($modules) {
 	foreach($modules as $module) {
 		$funcname = $module."_get_config";
 		if (function_exists($funcname)) { 
-			//$funcname($engine);
-			$config = $funcname($engine);  
+			$funcname($engine);
+			/*$config = $funcname($engine);  
 			foreach ($config as $file=>$contents) { 
 				echo $file;
-			}
+			}*/
 		}
 	}
 	echo $ext->generateConf();

@@ -281,6 +281,24 @@ class ext_setvar {
 	}
 }
 
+class ext_wait extends extension {
+	function output() {
+		return "Wait(".$this->data.")";
+	}
+}
+
+class ext_answer extends extension {
+	function output() {
+		return "Answer";
+	}
+}
+
+class ext_privacymanager extends extension {
+	function output() {
+		return "PrivacyManager";
+	}
+}
+
 /* example usage
 $ext = new extensions;
 
