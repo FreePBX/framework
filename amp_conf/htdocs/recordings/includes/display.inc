@@ -68,11 +68,14 @@ class DisplaySearch extends Display {
   function DisplaySearchBlock($align,$m,$folder,$q,$focus) {
 
     if ($align=='center') {
-      $alignText = "id='centerbar'";
+      $alignText = "class='bar_center'";
+    }
+    else {
+      $alignText = "class='bar_left'";
     }
 
     $ret .= "<div " . $alignText . ">
-               <form action='" . $_SERVER['PHP_SELF'] . "' method='GET' name='search'>
+               <form class='bar' action='" . $_SERVER['PHP_SELF'] . "' method='GET' name='search'>
                  <input type=hidden name=m value=" . $m . ">	
                  <input type=hidden name=folder value=" . $folder . ">
                  <input type=text name=q size=40 value='" . $q . "' maxlength=256>
@@ -192,7 +195,7 @@ class DisplaySearch extends Display {
                           <a href='" . $url . "&start=" . ($totalPages-1)*$span  . "'><small>" . _("Last") . "</a>&nbsp;</small>";
     }
 
-    $ret .= "<div id='centerbar'>
+    $ret .= "<div class='bar_center'>
               " . $startPageText . "
               " . $middlePageText . "
               " . $endPageText . "

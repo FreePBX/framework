@@ -322,13 +322,13 @@ function ari_page_footer() {
  * Includes and run functions
  */
 
-version_cleanup();
 set_locale_lang(); 
+version_cleanup();
 ari_session_start();
 
-include_once("version.inc");
-include_once("includes/main.conf");
-include_once("includes/login.inc");
+include_once("./includes/main.conf");
+include_once("./version.inc");
+include_once("./includes/login.inc");
 
 
 ?>

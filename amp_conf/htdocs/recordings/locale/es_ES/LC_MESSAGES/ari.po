@@ -1,64 +1,67 @@
-# translation of ari-es.po to Spanish
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
-# Diego Iastrubni <elcuco@kde.org>, 2005.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: ari-es\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-14 22:41-0600\n"
-"PO-Revision-Date: 2005-11-02 01:19+0200\n"
-"Last-Translator: Diego Iastrubni <elcuco@kde.org>\n"
-"Language-Team: spanish <elcuco@kde.org>\n"
+"POT-Creation-Date: 2005-12-08 10:07-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.10.2\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: ../includes/asi.inc:48 ../modules/settings.module:383
-#: ../modules/settings.module:461
+#: ../includes/asi.inc:33
 msgid "Unable to connect to Asterisk Manager"
-msgstr "No se puede connectar al Asterisk Manager"
+msgstr "No es posible conectar con la Centralita"
 
-#: ../includes/asi.inc:54 ../modules/settings.module:389
-#: ../modules/settings.module:467
+#: ../includes/asi.inc:41
 msgid "Asterisk Call Manager not responding"
-msgstr "El Asterisk Call Manager no responde"
+msgstr "La Centralita no responde"
 
-#: ../includes/asi.inc:61 ../modules/settings.module:396
-#: ../modules/settings.module:474
+#: ../includes/asi.inc:49
 msgid "Asterisk authentication failed:"
-msgstr "Autemtificacio con Asterisk fallo:"
+msgstr "Fallo la Autenticacion con la Centralita"
 
-#: ../includes/asi.inc:95 ../modules/settings.module:426
-#: ../modules/settings.module:483
+#: ../includes/asi.inc:87
 msgid "Asterisk reload command not understood"
+msgstr "La recarga no funcino"
+
+#: ../includes/common.inc:62
+#, fuzzy
+msgid "No Asterisk Manager Interface connection"
+msgstr "La Centralita no responde"
+
+#: ../includes/common.inc:63 ../includes/common.inc:80
+#: ../includes/common.inc:94
+#, fuzzy
+msgid "Check AMP installation, asterisk, and ARI main.conf"
+msgstr "Compruebe la instalacion de XinapSis, DDBB o ARI en main.conf"
+
+#: ../includes/common.inc:79 ../includes/common.inc:93
+msgid "Cannot connect to the"
 msgstr ""
 
-#: ../includes/common.inc:172
+#: ../includes/common.inc:79 ../includes/common.inc:93
+msgid "database"
+msgstr ""
+
+#: ../includes/common.inc:209
 msgid "not a directory or not readable"
-msgstr "no es un directorio, o no se puede leer"
+msgstr "no es un directorio o no tiene permisos de lectura"
 
-#: ../includes/common.inc:206
+#: ../includes/common.inc:243
 msgid "Page Not Found."
-msgstr "Página No encontrada."
-
-#: ../includes/common.inc:236
-msgid "No database connection"
-msgstr "Ninguna conexión con la base de datos"
-
-#: ../includes/common.inc:237
-msgid "Check AMP installation, asterisk database, or ARI main.conf"
-msgstr ""
-"Compruebe la instalación del AMP, la base de datos del asterisco, o ARI main."
-"conf"
+msgstr "Pagina No encontrada"
 
 #: ../includes/display.inc:80
-#, fuzzy
 msgid "Search"
-msgstr "Buscado para"
+msgstr "Buscar"
 
 #: ../includes/display.inc:123
 msgid "Searched for"
@@ -80,306 +83,322 @@ msgstr "Primero"
 msgid "Last"
 msgstr "Ultimo"
 
-#: ../includes/login.inc:164
+#: ../includes/login.inc:167
 #, fuzzy
 msgid "Voicemail Login not found"
 msgstr ""
-"La conexión de Voicemail no fue encontrada, se utilizó la conexión del SIP"
+"No se encontro el usuario del Buzon de Voz, se usa el usuario de la extension"
 
-#: ../includes/login.inc:164
+#: ../includes/login.inc:167
+#, fuzzy
 msgid "Login used"
-msgstr ""
+msgstr "Usuario"
 
-#: ../includes/login.inc:165
+#: ../includes/login.inc:168
 msgid "No access to voicemail"
-msgstr "No hay acceso al voicemail"
+msgstr "No tiene permiso para acceder al Buzon de Voz"
 
-#: ../includes/login.inc:191
+#: ../includes/login.inc:194
 msgid "Incorrect Password"
-msgstr "Contraseña Incorrecta"
+msgstr "Contrasena Incorrecta"
 
-#: ../includes/login.inc:202
+#: ../includes/login.inc:206
 #, fuzzy
 msgid "Incorrect Username or Password"
-msgstr "Contraseña Incorrecta"
+msgstr "Contrasena Incorrecta"
 
-#: ../includes/login.inc:290 ../includes/login.inc:300
+#: ../includes/login.inc:294 ../includes/login.inc:304
 msgid "Login"
-msgstr ""
+msgstr "Usuario"
 
-#: ../includes/login.inc:308
-#, fuzzy
+#: ../includes/login.inc:312
 msgid "Password"
-msgstr "Contraseña Incorrecta"
+msgstr "Contrasena"
 
-#: ../includes/login.inc:316
+#: ../includes/login.inc:320
 msgid "Submit"
-msgstr ""
+msgstr "Enviar"
 
-#: ../includes/login.inc:324
-#, fuzzy
+#: ../includes/login.inc:328
 msgid "Remember Password"
-msgstr "Contraseña de Voicemail:"
+msgstr "Recordar Contrasena"
 
-#: ../includes/login.inc:332
+#: ../includes/login.inc:336
 msgid "Use your"
 msgstr "Utilice su"
 
-#: ../includes/login.inc:332
+#: ../includes/login.inc:336
 msgid "Voicemail Mailbox and Password"
-msgstr "Buzón y contraseña de Voicemail"
+msgstr "Buzon de Voz y contrasena"
 
-#: ../includes/login.inc:333
+#: ../includes/login.inc:337
 msgid "This is the same password used for the phone"
-msgstr "Ésta es la misma contraseña usada para el teléfono"
+msgstr "Esta es es la misma contrasena usada para el telefono"
 
-#: ../includes/login.inc:335
+#: ../includes/login.inc:339
 msgid ""
 "For password maintenance or assistance, contact your Phone System "
 "Administrator."
 msgstr ""
-"Para el mantenimiento o la ayuda de la contraseña, entre en contacto con a "
-"su administrador de sistema de teléfono"
+"Para mantenimiento de contrasenas o asistencia, pongase en contacto con el "
+"Administrador."
 
-#: ../includes/main.conf:97
+#: ../includes/main.conf:105
 msgid "INBOX"
 msgstr ""
 
-#: ../includes/main.conf:99
+#: ../includes/main.conf:107
 msgid "Family"
-msgstr ""
+msgstr "Familiares"
 
-#: ../includes/main.conf:101
+#: ../includes/main.conf:109
 msgid "Friends"
-msgstr ""
+msgstr "Amigos"
 
-#: ../includes/main.conf:103
+#: ../includes/main.conf:111
 msgid "Old"
-msgstr ""
+msgstr "Antiguos"
 
-#: ../includes/main.conf:105
+#: ../includes/main.conf:113
 msgid "Work"
-msgstr ""
+msgstr "Trabajo"
 
-#: ../modules/callmonitor.module:31 ../modules/callmonitor.module:169
-#: ../modules/callmonitor.module:171
-#, fuzzy
+#: ../modules/callmonitor.module:31 ../modules/callmonitor.module:177
+#: ../modules/callmonitor.module:179
 msgid "Call Monitor"
-msgstr "llame al Monitor para ***"
+msgstr "Registro de Llamadas"
 
-#: ../modules/callmonitor.module:148 ../modules/voicemail.module:286
+#: ../modules/callmonitor.module:120 ../modules/voicemail.module:268
+msgid "delete"
+msgstr "Eliminar"
+
+#: ../modules/callmonitor.module:154 ../modules/voicemail.module:294
 msgid "play"
-msgstr "Escuchar"
+msgstr "escuchar"
 
-#: ../modules/callmonitor.module:171 ../modules/voicemail.module:310
+#: ../modules/callmonitor.module:179 ../modules/voicemail.module:319
 msgid "for"
-msgstr ""
+msgstr "para"
 
-#: ../modules/callmonitor.module:218 ../modules/voicemail.module:357
+#: ../modules/callmonitor.module:226 ../modules/voicemail.module:366
 msgid "select"
-msgstr ""
+msgstr "Selecionar"
 
-#: ../modules/callmonitor.module:219 ../modules/voicemail.module:358
+#: ../modules/callmonitor.module:227 ../modules/voicemail.module:367
 msgid "all"
-msgstr ""
+msgstr "todos"
 
-#: ../modules/callmonitor.module:220 ../modules/voicemail.module:359
+#: ../modules/callmonitor.module:228 ../modules/voicemail.module:368
 msgid "none"
-msgstr ""
+msgstr "ninguno"
 
-#: ../modules/callmonitor.module:234 ../modules/voicemail.module:366
+#: ../modules/callmonitor.module:242 ../modules/voicemail.module:375
 msgid "Date"
 msgstr "Fecha"
 
-#: ../modules/callmonitor.module:235 ../modules/voicemail.module:367
+#: ../modules/callmonitor.module:243 ../modules/voicemail.module:376
 msgid "Time"
 msgstr "Hora"
 
-#: ../modules/callmonitor.module:236 ../modules/voicemail.module:368
+#: ../modules/callmonitor.module:244 ../modules/voicemail.module:377
 msgid "Caller ID"
-msgstr ""
+msgstr "Caller ID"
 
-#: ../modules/callmonitor.module:237
+#: ../modules/callmonitor.module:245
 msgid "Source"
 msgstr "Origen"
 
-#: ../modules/callmonitor.module:238
+#: ../modules/callmonitor.module:246
 msgid "Destination"
-msgstr ""
+msgstr "Destino"
 
-#: ../modules/callmonitor.module:239
+#: ../modules/callmonitor.module:247
 msgid "Context"
-msgstr ""
+msgstr "Contexto"
 
-#: ../modules/callmonitor.module:240 ../modules/voicemail.module:371
+#: ../modules/callmonitor.module:248 ../modules/voicemail.module:380
 msgid "Duration"
 msgstr "Duracion"
 
-#: ../modules/callmonitor.module:241
+#: ../modules/callmonitor.module:249
+#, fuzzy
 msgid "Monitor"
-msgstr "Monitor"
+msgstr "Monitor para"
 
-#: ../modules/callmonitor.module:339
+#: ../modules/callmonitor.module:375
 msgid "Only deletes recording files, not cdr log"
 msgstr ""
 
-#: ../modules/settings.module:56 ../modules/settings.module:220
+#: ../modules/settings.module:56 ../modules/settings.module:328
 msgid "Settings"
-msgstr "Ajustes"
+msgstr "Configuracion"
 
 #: ../modules/settings.module:105 ../modules/settings.module:110
 #: ../modules/settings.module:115 ../modules/settings.module:125
 #: ../modules/settings.module:130
 msgid "Voicemail password not changed"
-msgstr "Contraseña del voicemail no se ha cambiado"
+msgstr "La Contrasena del Buzon de Voz no ha cambiado"
 
 #: ../modules/settings.module:106
-#, fuzzy
 msgid "Password and password confirm must not be blank"
-msgstr "La contraseña no puede esta vacia"
+msgstr "Contrasena y la confirmacion de esta no deben de estar en blanco"
 
 #: ../modules/settings.module:111
 msgid "Password must be all numbers and 4 digits"
-msgstr "La contraseña deve ser solamente de numeros, y 4 digitas"
+msgstr "Contrasena ha de ser numerica y de longitud 4 digitos"
 
 #: ../modules/settings.module:116
 msgid "Password and password confirm do not match"
-msgstr "Las contraseñas no coinsiden"
+msgstr "Contrasena y conformacion no corresponden"
 
 #: ../modules/settings.module:126 ../modules/settings.module:131
 msgid "does not exist or is not writable"
-msgstr "no existe o no se puede escribir"
+msgstr "No existe o no se puede escribir"
 
 #: ../modules/settings.module:222
-msgid "Settings for"
-msgstr "Ajustes para"
-
-#: ../modules/settings.module:232
 msgid "Language:"
 msgstr "Idioma:"
 
-#: ../modules/settings.module:251
+#: ../modules/settings.module:243
 msgid "Voicemail Settings"
-msgstr "Ajustes para Voicemail"
+msgstr "Propiedades del Buzon de Voz"
 
-#: ../modules/settings.module:254
-msgid "Voicemail Password:"
-msgstr "Contraseña de Voicemail:"
+#: ../modules/settings.module:246
+msgid "Voicemail Password"
+msgstr "Contrasena del Buzon de Voz"
 
-#: ../modules/settings.module:260
+#: ../modules/settings.module:252
 msgid "Enter again to confirm:"
-msgstr ""
+msgstr "Introduzca otra vez para confirmar:"
 
-#: ../modules/settings.module:266
+#: ../modules/settings.module:258
 msgid "Passwords must be all numbers and only 4 digits"
-msgstr "Contraseñas deben ser de 4 numeros y solo 4 digitas"
+msgstr "Contrasena ha de ser numerica y de longitud 4 digitos"
 
-#: ../modules/settings.module:269
+#: ../modules/settings.module:261
 msgid "Audio Format:"
-msgstr ""
+msgstr "Formato del Audio:"
 
-#: ../modules/settings.module:272
+#: ../modules/settings.module:264
 msgid "Best Quality"
-msgstr "Mejor calidad"
+msgstr "Mejor Calidad"
 
-#: ../modules/settings.module:273
+#: ../modules/settings.module:265
 msgid "Smallest Download"
-msgstr "Mas chico"
+msgstr "Descarga rapida"
 
-#: ../modules/settings.module:310
+#: ../modules/settings.module:302
 msgid "Call Monitor Settings"
-msgstr ""
+msgstr "Propiedades del Registro de Llamadas"
 
-#: ../modules/settings.module:313
+#: ../modules/settings.module:305
 msgid "Record INCOMING:"
-msgstr "Guearar llamadas de entrada:"
+msgstr "Grabaciones INCOMING:"
 
-#: ../modules/settings.module:315 ../modules/settings.module:323
+#: ../modules/settings.module:307 ../modules/settings.module:315
 msgid "Always"
 msgstr "Siempre"
 
-#: ../modules/settings.module:316 ../modules/settings.module:324
+#: ../modules/settings.module:308 ../modules/settings.module:316
 msgid "Never"
 msgstr "Nunca"
 
-#: ../modules/settings.module:317 ../modules/settings.module:325
+#: ../modules/settings.module:309 ../modules/settings.module:317
 msgid "On-Demand"
-msgstr "Por pedido"
+msgstr "Bajo demanda"
 
-#: ../modules/settings.module:321
+#: ../modules/settings.module:313
 msgid "Record OUTGOING:"
-msgstr "Guearar llamadas de salida:"
+msgstr "Grabaciones OUTGOING"
 
-#: ../modules/settings.module:343
-#, fuzzy
+#: ../modules/settings.module:330
+msgid "Settings for"
+msgstr "Ajustes para"
+
+#: ../modules/settings.module:347
 msgid "Update"
-msgstr "Fecha"
+msgstr "Actualizar"
 
-#: ../modules/settings.module:615 ../modules/settings.module:622
+#: ../modules/settings.module:530 ../modules/settings.module:537
 msgid "in table"
 msgstr ""
 
-#: ../modules/voicemail.module:33 ../modules/voicemail.module:310
-#, fuzzy
+#: ../modules/voicemail.module:33 ../modules/voicemail.module:319
 msgid "Voicemail"
-msgstr "Voicemail para"
+msgstr "Buzon de Voz"
 
 #: ../modules/voicemail.module:143
 msgid "A folder must be selected before the message can be moved."
-msgstr "Hay que elejir una carpeta hantes de que el mensaje de pueda mover."
+msgstr "Debe elegir primero una carpeta antes de mover el mensaje."
 
 #: ../modules/voicemail.module:157
 msgid "An extension must be selected before the message can be forwarded."
-msgstr ""
+msgstr "Debe de seleccionar una extension antes de reenviar el mensaje"
 
-#: ../modules/voicemail.module:268
+#: ../modules/voicemail.module:271
+msgid "move_to"
+msgstr "Mover a"
+
+#: ../modules/voicemail.module:274
 msgid "Folder"
-msgstr ""
+msgstr "Carpetas"
 
-#: ../modules/voicemail.module:290
+#: ../modules/voicemail.module:278
+msgid "forward_to"
+msgstr "Enviar a"
+
+#: ../modules/voicemail.module:298
+#, fuzzy
 msgid "Voicemail recording(s) was not found."
-msgstr "Ninguna grabacione de Voicemail se ha encontrado."
+msgstr "No se ha encontrado grabaciones en el Buzon de Voz."
 
-#: ../modules/voicemail.module:291
+#: ../modules/voicemail.module:299
 msgid "Check voicemail audio format on settings page to change from"
-msgstr ""
+msgstr "Compruebe el formato del audio en la pagina de configuracion"
 
-#: ../modules/voicemail.module:312
+#: ../modules/voicemail.module:321
 msgid "No Voicemail Recordings for Admin"
-msgstr "Ningunas grabaciones de Voicemail para el Admin"
+msgstr "No hay grabaciones en el Buzon de Voz de Admin"
 
-#: ../modules/voicemail.module:369
+#: ../modules/voicemail.module:378
 msgid "Priority"
 msgstr "Prioridad"
 
-#: ../modules/voicemail.module:370
+#: ../modules/voicemail.module:379
 msgid "Orig Mailbox"
-msgstr "Directorio original de correo"
+msgstr "Buzon de Voz Orig"
 
-#: ../modules/voicemail.module:372
+#: ../modules/voicemail.module:381
 msgid "Recording"
-msgstr "Grabando"
+msgstr "Grabaciones"
 
-#: ../modules/voicemail.module:496
+#: ../modules/voicemail.module:544
 msgid "Could not create mailbox folder"
-msgstr "No se puede hacer el directorio de correo"
+msgstr "No puedo crear la carpeta en el buzon de voz"
 
-#: ../modules/voicemail.module:496
+#: ../modules/voicemail.module:544
 msgid "on the server"
 msgstr "en el servidor"
 
-#: ../modules/voicemail.module:523
+#: ../modules/voicemail.module:571
 msgid "Permission denied on folder"
 msgstr ""
 
-#: ../misc/recording_popup.php:20
+#: ../misc/recording_popup.php:33
 msgid "download"
-msgstr ""
+msgstr "Descargar"
 
 #: ../theme/page.tpl.php:42
 msgid "Logout"
-msgstr ""
+msgstr "Salir"
 
 #: ../theme/page.tpl.php:51
+#, fuzzy
 msgid "Folders"
-msgstr ""
+msgstr "Carpetas"
+
+#~ msgid "No database connection"
+#~ msgstr "Ninguna conexion con la base de datos"
+
+#~ msgid "Voicemail for"
+#~ msgstr "Buzon de Voz para"

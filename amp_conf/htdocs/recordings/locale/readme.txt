@@ -23,6 +23,8 @@ msgmerge es_ES/LC_MESSAGES/ari.po ari.utf-8.po --output-file=es_ES/LC_MESSAGES/a
 msgfmt -v es_ES/LC_MESSAGES/ari.po -o es_ES/LC_MESSAGES/ari.mo
 msgmerge fr_FR/LC_MESSAGES/ari.po ari.utf-8.po --output-file=fr_FR/LC_MESSAGES/ari.po
 msgfmt -v fr_FR/LC_MESSAGES/ari.po -o fr_FR/LC_MESSAGES/ari.mo
+msgmerge it_IT/LC_MESSAGES/ari.po ari.utf-8.po --output-file=it_IT/LC_MESSAGES/ari.po
+msgfmt -v ot_IT/LC_MESSAGES/ari.po -o it_IT/LC_MESSAGES/ari.mo
 msgmerge pt_BR/LC_MESSAGES/ari.po ari.utf-8.po --output-file=pt_BR/LC_MESSAGES/ari.po
 msgfmt -v pt_BR/LC_MESSAGES/ari.po -o pt_BR/LC_MESSAGES/ari.mo
 msgmerge sv_SE/LC_MESSAGES/ari.po ari.utf-8.po --output-file=sv_SE/LC_MESSAGES/ari.po

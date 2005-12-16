@@ -124,6 +124,8 @@ class voicemail {
     $a = get_argument($args,'a');
     $folder = get_argument($args,'folder');
     $q = get_argument($args,'q');
+    $start = get_argument($args,'start');
+    $span = get_argument($args,'span');
 
     // get files
     $files = array();
@@ -167,7 +169,7 @@ class voicemail {
       <head>
         <script>
         <!--
-          window.location = \"" . $_SERVER['PHP_SELF'] . "?m=" . $m . "&folder=" . $folder . "&q=" . $q . "\"
+          window.location = \"" . $_SERVER['PHP_SELF'] . "?m=" . $m . "&folder=" . $folder . "&q=" . $q . "&start=" . $start . "&span=" .$span . "\"
         // -->
         </script>
       </head>";
@@ -207,6 +209,11 @@ class voicemail {
       $folder = $asterisk_voicemail_folders[0]['folder'];
     }
 
+    // check admin
+    if ($extension=='admin') {
+      $_SESSION['ari_error'] = _("No Voicemail Recordings for Admin");
+    }
+
     // get data
     foreach($paths as $key => $path) {
       CheckPathSlash(&$path);
@@ -215,6 +222,8 @@ class voicemail {
       $this->get_vm_count($indexes,$recordCount);
       $this->get_vm_data($indexes,$start,$span,$data);
     }
+
+    // build controls
 
     // get the recordings from the asterisk server
     $filter = '';
@@ -262,13 +271,19 @@ class voicemail {
 
     // table controls
     $controls = "
-          <input class='infobar' type='submit' name='a' value='delete'>
-          <input class='infobar' type='submit' name='a' value='move_to'>
+          <button class='infobar' type='submit' onclick=\"document.voicemail_form.a.value='delete'\">
+          " . _("delete") . "
+          </button>
+          <button class='infobar' type='submit' onclick=\"document.voicemail_form.a.value='move_to'\">
+          " . _("move_to") . "
+          </button>
           <select name='folder_rx' style='width:124px;'>
             <option VALUE=''>" . _("Folder") . "
             " . $move_options . "
           </select>
-          <input class='infobar' type='submit' name='a' value='forward_to'>
+          <button class='infobar' type='submit' onclick=\"document.voicemail_form.a.value='forward_to'\">
+          " . _("forward_to") . "
+          </button>
           <select name='mailbox_rx'>
             <option VALUE=''>
             " . $forward_options . "
@@ -307,12 +322,8 @@ class voicemail {
 
     // build page content
     $ret .= CheckErrorMessage();
+
     $ret .= $display->DisplayHeaderText(_("Voicemail") . " " . _("for") . " " . $_SESSION['ari_user']['name'] . " (" . $extension . ")");
-    if ($extension=='admin') {
-      $_SESSION['ari_error'] = _("No Voicemail Recordings for Admin");
-      $ret .= $display->DisplayLine();
-      return $ret;
-    }
     $ret .= $display->DisplaySearchBlock('left',$m,$folder,$q,true);
 
     // start form
@@ -320,9 +331,11 @@ class voicemail {
       <form  name='voicemail_form' action='" . $_SERVER['PHP_SELF'] . "' method='GET'>
         <input type=hidden name=m value=" . $m . ">	
         <input type=hidden name=f value=msg_action>
+        <input type=hidden name=a value=''>
         <input type=hidden name=q value=" . $q . ">
         <input type=hidden name=folder value=" . $folder . ">
-        <input type=hidden name=start value=0>";
+        <input type=hidden name=start value=" . $start . ">
+        <input type=hidden name=span value=" . $span . ">";
     $ret .= $display->DisplayInfoBarBlock($controls,$q,$start,$span,$recordCount);
 
     // add javascript for popup and message actions
@@ -377,7 +390,6 @@ class voicemail {
     // end form
     $ret .= "</form>";
 
-    $ret .= "<br>";
     $ret .= $display->DisplaySearchBlock('center',$m,$folder,$q,false);
     $ret .= $display->DisplayNavigationBlock($m,$folder,$q,$start,$span,$recordCount);
 
@@ -402,8 +414,47 @@ class voicemail {
     if (isset($files)) {
 
       // ugly, but sorts array by time stamp
-      foreach ($files as $key1 => $file) {
-        $indexes[$file] = $file;
+      foreach ($files as $file) {
+
+        $found = 1;
+
+        // search filter
+        if ($q) {
+
+          $found = 0;
+          if (is_file($file)) {
+
+            $lines = file($file);
+            foreach ($lines as $key => $line) {
+              unset($value);
+              list($key,$value) = split('=',$line);
+              if ($value) {
+                if ($key=="origmailbox") {
+                  $origmailbox = $value;
+                }
+                if ($key=="callerid") {
+                  $callerid = $value;
+                }
+                if ($key=="origtime") {
+                  $date = GetDateFormat($value);
+                  $time = GetTimeFormat($value);
+                }
+              }
+            }
+          }
+
+          if (preg_match("/" . $q . "/", $origmailbox) || 
+                preg_match("/" . $q . "/", $callerid) || 
+                preg_match("/" . $q . "/", $date) || 
+                preg_match("/" . $q . "/", $time)) {
+            $found = 1;
+          }
+        }
+
+        // add to index
+        if ($found) {
+          $indexes[$file] = $file;
+        }
       }
       if (count($indexes)) {
         arsort($indexes);
@@ -569,9 +620,9 @@ class voicemail {
         $lines = file($file);
         foreach ($lines as $key => $line) {
           unset($value);
-          list($var,$value) = split('=',$line);
+          list($key,$value) = split('=',$line);
           if ($value) {
-            $data[$file][$var] = $value;
+            $data[$file][$key] = $value;
           }
         }
       }

@@ -135,61 +135,65 @@ class Login {
       // check sip login
       if (!$auth) {
 
-        foreach($asterisk_protocols as $protocol => $data) {
+        foreach($asterisk_protocols as $protocol => $value) {
 
-          if (is_readable($data['config_file'])) {
+          $config_files = split(';',$value['config_files']);
+          foreach ($config_files as $config_file) {
 
-            $lines = file($data['config_file']);
-            foreach ($lines as $key => $line) {
+            if (is_readable($config_file)) {
 
-              unset($value);
-              list($var,$value) = split('=',$line);
-              $var = trim($var);
-              $value = trim($value);
-              if ($var=="username") {
-                $protocol_username = $value;
-              }
-              if ($var=="secret") {
+              $lines = file($config_file);
+              foreach ($lines as $key => $line) {
 
-                $protocol_password = $value;
-                if ($protocol_username==$username &&
-                      $protocol_password==$password) {  
-
-                  // authenticated
-                  $auth = true;  
-                  $extension = $username ;
-                  $displayname = $username;
-                  $default_page = 'callmonitor';
-
-                  $_SESSION['ari_error'] = _("Voicemail Login not found") . ", " . $protocol . " " . _("Login used") . "<br>" .
-                                           _("No access to voicemail");
-
-                  $admin = 0;
-                  if ($ari_admin_extensions) {
-                    $extensions = split(',',$ari_admin_extensions);
-                    foreach ($extensions as $key => $value) {
-                      if ($extension==$value) {
-                        $admin = 1;
-                        break 2;
-                      }
-                    }
-                  }
-
-                  $admin_callmonitor = 0;
-                  if ($callmonitor_admin_extensions) {
-                    $extensions = split(',',$callmonitor_admin_extensions);
-                    foreach ($extensions as $key => $value) {
-                      if ($value=='all' || $extension==$value) {
-                        $admin_callmonitor = 1;
-                        break 2;
-                      }
-                    }
-                  }
+                unset($value);
+                list($var,$value) = split('=',$line);
+                $var = trim($var);
+                $value = trim($value);
+                if ($var=="username") {
+                  $protocol_username = $value;
                 }
-                else if ($protocol_username==$username &&
-                           $protocol_password!=$password) {
-                  $_SESSION['ari_error'] = _("Incorrect Password");
-                  return;
+                if ($var=="secret") {
+
+                  $protocol_password = $value;
+                  if ($protocol_username==$username &&
+                        $protocol_password==$password) {  
+
+                    // authenticated
+                    $auth = true;  
+                    $extension = $username ;
+                    $displayname = $username;
+                    $default_page = 'callmonitor';
+  
+                    $_SESSION['ari_error'] = _("Voicemail Login not found") . ", " . $protocol . " " . _("Login used") . "<br>" .
+                                             _("No access to voicemail");
+
+                    $admin = 0;
+                    if ($ari_admin_extensions) {
+                      $extensions = split(',',$ari_admin_extensions);
+                      foreach ($extensions as $key => $value) {
+                        if ($extension==$value) {
+                          $admin = 1;
+                          break 2;
+                        }
+                      }
+                    }
+
+                    $admin_callmonitor = 0;
+                    if ($callmonitor_admin_extensions) {
+                      $extensions = split(',',$callmonitor_admin_extensions);
+                      foreach ($extensions as $key => $value) {
+                        if ($value=='all' || $extension==$value) {
+                          $admin_callmonitor = 1;
+                          break 2;
+                        }
+                      }
+                    }
+                  }
+                  else if ($protocol_username==$username &&
+                             $protocol_password!=$password) {
+                    $_SESSION['ari_error'] = _("Incorrect Password");
+                    return;
+                  }
                 }
               }
             }

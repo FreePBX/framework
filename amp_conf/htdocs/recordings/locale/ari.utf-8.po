@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-14 22:41-0600\n"
+"POT-Creation-Date: 2005-12-08 10:07-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,40 +16,45 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../includes/asi.inc:48 ../modules/settings.module:383
-#: ../modules/settings.module:461
+#: ../includes/asi.inc:33
 msgid "Unable to connect to Asterisk Manager"
 msgstr ""
 
-#: ../includes/asi.inc:54 ../modules/settings.module:389
-#: ../modules/settings.module:467
+#: ../includes/asi.inc:41
 msgid "Asterisk Call Manager not responding"
 msgstr ""
 
-#: ../includes/asi.inc:61 ../modules/settings.module:396
-#: ../modules/settings.module:474
+#: ../includes/asi.inc:49
 msgid "Asterisk authentication failed:"
 msgstr ""
 
-#: ../includes/asi.inc:95 ../modules/settings.module:426
-#: ../modules/settings.module:483
+#: ../includes/asi.inc:87
 msgid "Asterisk reload command not understood"
 msgstr ""
 
-#: ../includes/common.inc:172
+#: ../includes/common.inc:62
+msgid "No Asterisk Manager Interface connection"
+msgstr ""
+
+#: ../includes/common.inc:63 ../includes/common.inc:80
+#: ../includes/common.inc:94
+msgid "Check AMP installation, asterisk, and ARI main.conf"
+msgstr ""
+
+#: ../includes/common.inc:79 ../includes/common.inc:93
+msgid "Cannot connect to the"
+msgstr ""
+
+#: ../includes/common.inc:79 ../includes/common.inc:93
+msgid "database"
+msgstr ""
+
+#: ../includes/common.inc:209
 msgid "not a directory or not readable"
 msgstr ""
 
-#: ../includes/common.inc:206
+#: ../includes/common.inc:243
 msgid "Page Not Found."
-msgstr ""
-
-#: ../includes/common.inc:236
-msgid "No database connection"
-msgstr ""
-
-#: ../includes/common.inc:237
-msgid "Check AMP installation, asterisk database, or ARI main.conf"
 msgstr ""
 
 #: ../includes/display.inc:80
@@ -76,142 +81,146 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
-#: ../includes/login.inc:164
+#: ../includes/login.inc:167
 msgid "Voicemail Login not found"
 msgstr ""
 
-#: ../includes/login.inc:164
+#: ../includes/login.inc:167
 msgid "Login used"
 msgstr ""
 
-#: ../includes/login.inc:165
+#: ../includes/login.inc:168
 msgid "No access to voicemail"
 msgstr ""
 
-#: ../includes/login.inc:191
+#: ../includes/login.inc:194
 msgid "Incorrect Password"
 msgstr ""
 
-#: ../includes/login.inc:202
+#: ../includes/login.inc:206
 msgid "Incorrect Username or Password"
 msgstr ""
 
-#: ../includes/login.inc:290 ../includes/login.inc:300
+#: ../includes/login.inc:294 ../includes/login.inc:304
 msgid "Login"
 msgstr ""
 
-#: ../includes/login.inc:308
+#: ../includes/login.inc:312
 msgid "Password"
 msgstr ""
 
-#: ../includes/login.inc:316
+#: ../includes/login.inc:320
 msgid "Submit"
 msgstr ""
 
-#: ../includes/login.inc:324
+#: ../includes/login.inc:328
 msgid "Remember Password"
 msgstr ""
 
-#: ../includes/login.inc:332
+#: ../includes/login.inc:336
 msgid "Use your"
 msgstr ""
 
-#: ../includes/login.inc:332
+#: ../includes/login.inc:336
 msgid "Voicemail Mailbox and Password"
 msgstr ""
 
-#: ../includes/login.inc:333
+#: ../includes/login.inc:337
 msgid "This is the same password used for the phone"
 msgstr ""
 
-#: ../includes/login.inc:335
+#: ../includes/login.inc:339
 msgid ""
 "For password maintenance or assistance, contact your Phone System "
 "Administrator."
 msgstr ""
 
-#: ../includes/main.conf:97
+#: ../includes/main.conf:105
 msgid "INBOX"
 msgstr ""
 
-#: ../includes/main.conf:99
+#: ../includes/main.conf:107
 msgid "Family"
 msgstr ""
 
-#: ../includes/main.conf:101
+#: ../includes/main.conf:109
 msgid "Friends"
 msgstr ""
 
-#: ../includes/main.conf:103
+#: ../includes/main.conf:111
 msgid "Old"
 msgstr ""
 
-#: ../includes/main.conf:105
+#: ../includes/main.conf:113
 msgid "Work"
 msgstr ""
 
-#: ../modules/callmonitor.module:31 ../modules/callmonitor.module:169
-#: ../modules/callmonitor.module:171
+#: ../modules/callmonitor.module:31 ../modules/callmonitor.module:177
+#: ../modules/callmonitor.module:179
 msgid "Call Monitor"
 msgstr ""
 
-#: ../modules/callmonitor.module:148 ../modules/voicemail.module:286
+#: ../modules/callmonitor.module:120 ../modules/voicemail.module:268
+msgid "delete"
+msgstr ""
+
+#: ../modules/callmonitor.module:154 ../modules/voicemail.module:294
 msgid "play"
 msgstr ""
 
-#: ../modules/callmonitor.module:171 ../modules/voicemail.module:310
+#: ../modules/callmonitor.module:179 ../modules/voicemail.module:319
 msgid "for"
 msgstr ""
 
-#: ../modules/callmonitor.module:218 ../modules/voicemail.module:357
+#: ../modules/callmonitor.module:226 ../modules/voicemail.module:366
 msgid "select"
 msgstr ""
 
-#: ../modules/callmonitor.module:219 ../modules/voicemail.module:358
+#: ../modules/callmonitor.module:227 ../modules/voicemail.module:367
 msgid "all"
 msgstr ""
 
-#: ../modules/callmonitor.module:220 ../modules/voicemail.module:359
+#: ../modules/callmonitor.module:228 ../modules/voicemail.module:368
 msgid "none"
 msgstr ""
 
-#: ../modules/callmonitor.module:234 ../modules/voicemail.module:366
+#: ../modules/callmonitor.module:242 ../modules/voicemail.module:375
 msgid "Date"
 msgstr ""
 
-#: ../modules/callmonitor.module:235 ../modules/voicemail.module:367
+#: ../modules/callmonitor.module:243 ../modules/voicemail.module:376
 msgid "Time"
 msgstr ""
 
-#: ../modules/callmonitor.module:236 ../modules/voicemail.module:368
+#: ../modules/callmonitor.module:244 ../modules/voicemail.module:377
 msgid "Caller ID"
 msgstr ""
 
-#: ../modules/callmonitor.module:237
+#: ../modules/callmonitor.module:245
 msgid "Source"
 msgstr ""
 
-#: ../modules/callmonitor.module:238
+#: ../modules/callmonitor.module:246
 msgid "Destination"
 msgstr ""
 
-#: ../modules/callmonitor.module:239
+#: ../modules/callmonitor.module:247
 msgid "Context"
 msgstr ""
 
-#: ../modules/callmonitor.module:240 ../modules/voicemail.module:371
+#: ../modules/callmonitor.module:248 ../modules/voicemail.module:380
 msgid "Duration"
 msgstr ""
 
-#: ../modules/callmonitor.module:241
+#: ../modules/callmonitor.module:249
 msgid "Monitor"
 msgstr ""
 
-#: ../modules/callmonitor.module:339
+#: ../modules/callmonitor.module:375
 msgid "Only deletes recording files, not cdr log"
 msgstr ""
 
-#: ../modules/settings.module:56 ../modules/settings.module:220
+#: ../modules/settings.module:56 ../modules/settings.module:328
 msgid "Settings"
 msgstr ""
 
@@ -238,74 +247,74 @@ msgid "does not exist or is not writable"
 msgstr ""
 
 #: ../modules/settings.module:222
-msgid "Settings for"
-msgstr ""
-
-#: ../modules/settings.module:232
 msgid "Language:"
 msgstr ""
 
-#: ../modules/settings.module:251
+#: ../modules/settings.module:243
 msgid "Voicemail Settings"
 msgstr ""
 
-#: ../modules/settings.module:254
-msgid "Voicemail Password:"
+#: ../modules/settings.module:246
+msgid "Voicemail Password"
 msgstr ""
 
-#: ../modules/settings.module:260
+#: ../modules/settings.module:252
 msgid "Enter again to confirm:"
 msgstr ""
 
-#: ../modules/settings.module:266
+#: ../modules/settings.module:258
 msgid "Passwords must be all numbers and only 4 digits"
 msgstr ""
 
-#: ../modules/settings.module:269
+#: ../modules/settings.module:261
 msgid "Audio Format:"
 msgstr ""
 
-#: ../modules/settings.module:272
+#: ../modules/settings.module:264
 msgid "Best Quality"
 msgstr ""
 
-#: ../modules/settings.module:273
+#: ../modules/settings.module:265
 msgid "Smallest Download"
 msgstr ""
 
-#: ../modules/settings.module:310
+#: ../modules/settings.module:302
 msgid "Call Monitor Settings"
 msgstr ""
 
-#: ../modules/settings.module:313
+#: ../modules/settings.module:305
 msgid "Record INCOMING:"
 msgstr ""
 
-#: ../modules/settings.module:315 ../modules/settings.module:323
+#: ../modules/settings.module:307 ../modules/settings.module:315
 msgid "Always"
 msgstr ""
 
-#: ../modules/settings.module:316 ../modules/settings.module:324
+#: ../modules/settings.module:308 ../modules/settings.module:316
 msgid "Never"
 msgstr ""
 
-#: ../modules/settings.module:317 ../modules/settings.module:325
+#: ../modules/settings.module:309 ../modules/settings.module:317
 msgid "On-Demand"
 msgstr ""
 
-#: ../modules/settings.module:321
+#: ../modules/settings.module:313
 msgid "Record OUTGOING:"
 msgstr ""
 
-#: ../modules/settings.module:343
+#: ../modules/settings.module:330
+msgid "Settings for"
+msgstr ""
+
+#: ../modules/settings.module:347
 msgid "Update"
 msgstr ""
 
-#: ../modules/settings.module:615 ../modules/settings.module:622
+#: ../modules/settings.module:530 ../modules/settings.module:537
 msgid "in table"
 msgstr ""
 
-#: ../modules/voicemail.module:33 ../modules/voicemail.module:310
+#: ../modules/voicemail.module:33 ../modules/voicemail.module:319
 msgid "Voicemail"
 msgstr ""
 
@@ -317,47 +326,55 @@ msgstr ""
 msgid "An extension must be selected before the message can be forwarded."
 msgstr ""
 
-#: ../modules/voicemail.module:268
+#: ../modules/voicemail.module:271
+msgid "move_to"
+msgstr ""
+
+#: ../modules/voicemail.module:274
 msgid "Folder"
 msgstr ""
 
-#: ../modules/voicemail.module:290
+#: ../modules/voicemail.module:278
+msgid "forward_to"
+msgstr ""
+
+#: ../modules/voicemail.module:298
 msgid "Voicemail recording(s) was not found."
 msgstr ""
 
-#: ../modules/voicemail.module:291
+#: ../modules/voicemail.module:299
 msgid "Check voicemail audio format on settings page to change from"
 msgstr ""
 
-#: ../modules/voicemail.module:312
+#: ../modules/voicemail.module:321
 msgid "No Voicemail Recordings for Admin"
 msgstr ""
 
-#: ../modules/voicemail.module:369
+#: ../modules/voicemail.module:378
 msgid "Priority"
 msgstr ""
 
-#: ../modules/voicemail.module:370
+#: ../modules/voicemail.module:379
 msgid "Orig Mailbox"
 msgstr ""
 
-#: ../modules/voicemail.module:372
+#: ../modules/voicemail.module:381
 msgid "Recording"
 msgstr ""
 
-#: ../modules/voicemail.module:496
+#: ../modules/voicemail.module:544
 msgid "Could not create mailbox folder"
 msgstr ""
 
-#: ../modules/voicemail.module:496
+#: ../modules/voicemail.module:544
 msgid "on the server"
 msgstr ""
 
-#: ../modules/voicemail.module:523
+#: ../modules/voicemail.module:571
 msgid "Permission denied on folder"
 msgstr ""
 
-#: ../misc/recording_popup.php:20
+#: ../misc/recording_popup.php:33
 msgid "download"
 msgstr ""
 

@@ -10,7 +10,14 @@
  */
 class Database {
 
-  var $error;
+  /*
+   * Constructor
+   */
+  function Database() {
+
+    // PEAR must be installed
+    require_once('DB.php'); 
+  }
 
   /*
    * Logs into database and returns database handle
@@ -32,17 +39,14 @@ class Database {
    */
   function logon($username,$password,$host,$name,$engine,&$dbh) {
 
-    require_once('DB.php'); //PEAR must be installed
-
     // datasource in in this style: dbengine://username:password@host/database 
     $datasource = $engine.'://'.$username.':'.$password.'@'.$host.'/'.$name;
     
     $dbh = DB::connect($datasource); // attempt connection
 
     // if connection failed show error
-    // don't worry about this for now, we get to it in the errors section
     if(DB::isError($dbh)) {
-    	$this->error = $dbh->getDebugInfo(); 
+      $_SESSION['ari_error'] = $dbh->getMessage(); 
       return false;
     }
     return true;

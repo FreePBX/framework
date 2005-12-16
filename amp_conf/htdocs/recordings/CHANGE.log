@@ -7,13 +7,45 @@ Roadmap
   voicemail prompts
   forward calls
   fax support
-  clean up css for login
-  clean up css for misc/audio.php
-  added class to handle Asterisk Manager Interface (phpagi-asmanager.php would need error handling added)
-  remove gr_GR files from cvs
-  fix call monitor file matching problem if call time is a second or two later than time recorded in database log
-  fix delete, move_to, and forward_to voicemail buttons for i18n translations
-  fix delete call monitor button for i18n translations
+
+for call forward
+ exten => s,1,DBget(boolean=CFBOOLEAN/${MACRO_EXTEN}) ; check toggle, if not skip rest of macro
+ exten => s,2,DBget(temp=CFIM/${MACRO_EXTEN}) ; Get CFIM key, if not skip rest of macro
+ exten => s,3,Dial(Local/${temp}@pbx/n)   ; Unconditional forward
+    - functionality should have a cookie to store a number
+
+Change log - 12/09/2005
+
+ * fix to recognize on-demand call monitor recordings (identified as auto-...) (submitted by Francesco Romano, Antonio Cano Damas, and Jason P. Meyer)
+ * added German (submitted by Till Stoermer)
+
+Change log - 12/07/2005
+
+ * fixed search bug (submitted by Francesco Romano)
+ * fixed formating bugs
+
+Change log - 12/01/2005
+
+ * fix delete, move_to, and forward_to voicemail buttons for i18n translations
+ * fix delete call monitor button for i18n translations
+ * fix call monitor file matching problem if call time is a second or two later than time recorded in database log (submitted by Will Prater, Steve D, and others)
+ * changed to get call recording settings from asterisk and not the mysql database to support ARI standalone 
+ * fix i18n for recording popup (submitted by Antonio Cano Damas)
+ * added search for voicemail
+ * added class to handle Asterisk Manager Interface (phpagi-asmanager.php would need error handling added)
+ * moved i18n language functions to own file so can support i18n in recording popup
+ * added Italian (submitted by Francesco Romano)
+ * updated Spanish translation (submitted by Antonio Cano Damas)
+ * fixed bugs in standalone code (sponsored by Hugh Buitano and also submitted by John Biundo)
+ * fixed logo (submitted by John Biundo)
+ * cleaned up css for misc/audio.php
+
+Change log - 11/17/2005
+
+ * added protocol multi-config_file (iax,sip,zap) support (sponsored by Hugh Buitano, Infosecure Systems)
+ * add global variables for asterisk and asteriskcdr database hosts and names (sponsored by Hugh Buitano, Infosecure Systems)
+ * added French translation (submitted by Joachim Buron-Pilatre, Phileas Com)
+ * fixed bug (submitted by Joachim Buron-Pilatre, Phileas Com)
 
 Change log - 11/13/2005
 

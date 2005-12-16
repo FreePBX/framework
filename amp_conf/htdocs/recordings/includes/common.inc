@@ -26,49 +26,86 @@ function CheckErrorMessage() {
  */
 function DatabaseLogon() {
 
+  global $standalone;
   global $amp_functions_file;
   global $amportal_conf_file;
-  global $standalone;
+  global $asterisk_dbhost;
+  global $asterisk_dbname;
+  global $asteriskcdr_dbhost;
+  global $asteriskcdr_dbname;
 
+  // get user
   if ($standalone['use']) {
-    $username = $standalone['asterisk_dbuser'];
-    $password = $standalone['asterisk_dbpass'];
+    $mgruser = $standalone['asterisk_mgruser'];
+    $mgrpass = $standalone['asterisk_mgrpass'];
+    $dbuser = $standalone['asterisk_dbuser'];
+    $dbpass = $standalone['asterisk_dbpass'];
   } 
   else {
     if (is_file($amp_functions_file)) {
       include_once($amp_functions_file);
       $amp_conf = parse_amportal_conf($amportal_conf_file);
-      $username = $amp_conf["AMPDBUSER"];
-      $password = $amp_conf["AMPDBPASS"];
+      $mgruser = $amp_conf['AMPMGRUSER'];
+      $mgrpass = $amp_conf['AMPMGRPASS'];
+      $dbuser = $amp_conf["AMPDBUSER"];
+      $dbpass = $amp_conf["AMPDBPASS"];
       unset($amp_conf);
     } 
   }
 
-  require_once('DB.php'); // PEAR must be installed
- 
-  $db = new Database();
+  // asterisk manager interface (berkeley database I think)
+  global $asterisk_manager_interface;
+  $asterisk_manager_interface = new AsteriskManagerInterface();
 
-  $success = $db->logon($username, 
-                        $password,
-                        'localhost',
-                        'asterisk',
-                        'mysql',
-                        $_SESSION['dbh_asterisk']);
+  $success = $asterisk_manager_interface->Connect($mgruser,$mgrpass);
   if (!$success) {
-    return false;
+    $_SESSION['ari_error'] .= _("No Asterisk Manager Interface connection") . "<br>" .
+                              _("Check AMP installation, asterisk, and ARI main.conf");
+    return FALSE;
   }
 
-  $success = $db->logon($username, 
-                        $password,
-                        'localhost',
-                        'asteriskcdrdb',
+  // pear interface databases
+  $db = new Database();
+
+  // AMP asterisk database
+  if (!$standalone['use']) {
+    $success = $db->logon($dbuser, 
+                          $dbpass,
+                          $asterisk_dbhost,
+                          $asterisk_dbname,
+                          'mysql',
+                          $_SESSION['dbh_asterisk']);
+    if (!$success) {
+      $_SESSION['ari_error'] = _("Cannot connect to the") . " " . $asterisk_dbname . " " . _("database") . "<br>" .
+                               _("Check AMP installation, asterisk, and ARI main.conf");
+      return FALSE;
+    }
+  }
+
+  // cdr database
+  $success = $db->logon($dbuser, 
+                        $dbpass,
+                        $asteriskcdr_dbhost,
+                        $asteriskcdr_dbname,
                         'mysql',
                         $_SESSION['dbh_cdr']);
   if (!$success) {
-    return false;
+    $_SESSION['ari_error'] = _("Cannot connect to the") . " " . $asteriskcdr_dbname . " " . _("database") . "<br>" .
+                             _("Check AMP installation, asterisk, and ARI main.conf");
+    return FALSE;
   }
 
-  return true;
+  return TRUE;
+}
+
+/**
+ * Logout if needed for any databases
+ */
+function DatabaseLogoff() {
+
+  global $asterisk_manager_interface;
+
+  $asterisk_manager_interface->Disconnect();
 }
 
 /*
@@ -222,6 +259,7 @@ function Handler() {
     $logout = 1;
   }
 
+  // login to database
   $success = DatabaseLogon();
   if ($success) {
 
@@ -233,25 +271,29 @@ function Handler() {
   }
   else {
 
-    $_SESSION['ari_error'] = _("No database connection") . "<br>" .
-                             _("Check AMP installation, asterisk database, or ARI main.conf");
-
     $display = new Display();
 
     $content .= $display->DisplayHeaderText("ARI");
     $content .= $display->DisplayLine();
+    $content .= CheckErrorMessage();
   }
 
   // builds the page
-  include_once("theme/page.tpl.php"); 
+  include_once("./theme/page.tpl.php"); 
+
+  // log off any databases needed
+  DatabaseLogoff();
 }
 
 /**
  * Includes and run functions
  */  
 
-include_once("includes/database.inc");
-include_once("includes/display.inc"); 
+$asterisk_manager_interface = '';
+
+include_once("./includes/asi.inc");
+include_once("./includes/database.inc");
+include_once("./includes/display.inc"); 
 
 
 ?>

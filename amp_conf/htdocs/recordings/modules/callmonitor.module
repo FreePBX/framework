@@ -47,6 +47,8 @@ class callmonitor {
     $m = get_argument($args,'m');
     $a = get_argument($args,'a');
     $q = get_argument($args,'q');
+    $start = get_argument($args,'start');
+    $span = get_argument($args,'span');
 
     // get files
     $files = array();
@@ -65,7 +67,7 @@ class callmonitor {
       <head>
         <script>
         <!--
-          window.location = \"" . $_SERVER['PHP_SELF'] . "?m=" . $m . "&q=" . $q . "\"
+          window.location = \"" . $_SERVER['PHP_SELF'] . "?m=" . $m . "&q=" . $q . "&start=" . $start . "&span=" .$span . "\"
         // -->
         </script>
       </head>";
@@ -99,7 +101,10 @@ class callmonitor {
 
     // get data
     $this->get_cdr_count($q,$recordCount);
+    $data = array();
     $this->get_cdr_data($q,$start,$span,$data);
+
+    // build controls
 
     // get the call monitor recordings from the asterisk server
     $files = array();
@@ -113,7 +118,9 @@ class callmonitor {
     // table controls
     if ($callmonitor_allow_delete) {
       $controls = "
-        <input class='infoBar' type='submit' name='a' value='delete'>
+        <button class='infobar' type='submit' onclick=\"document.callmonitor_form.a.value='delete'\">
+        " . _("delete") . "
+        </button>
         </select>";
     }
 
@@ -123,6 +130,7 @@ class callmonitor {
     }
 
     // table body
+    $used = array();
     foreach($data as $key=>$value) {
 
       // date and time
@@ -133,7 +141,7 @@ class callmonitor {
       // recording popup
       $recordingLink = '';
       foreach($paths as $key => $path) {
-        $recording = $this->get_recording($path,$files,$value['uniqueid'],$value[lastdata],$value[calldate]);
+        $recording = $this->get_recording($path,$files,$used,$value['uniqueid'],$value[lastdata],$value[calldate],$value[duration]);
         if (isset($recording)) {
           break;
         }
@@ -165,6 +173,8 @@ class callmonitor {
     }
 
     // build page content
+    $ret .= CheckErrorMessage();
+
     if ($_SESSION['ari_user']['admin_callmonitor']) {
       $headerText = _("Call Monitor");
     } else {
@@ -180,8 +190,10 @@ class callmonitor {
         <form  name='callmonitor_form' action='" . $_SERVER['PHP_SELF'] . "' method='GET'>
           <input type=hidden name=m value=" . $m . ">	
           <input type=hidden name=f value=rec_action>
+          <input type=hidden name=a value=''>
           <input type=hidden name=q value=" . $q . ">
-          <input type=hidden name=start value=0>";
+          <input type=hidden name=start value=" . $start . ">
+          <input type=hidden name=span value=" . $span . ">";
     }
     $ret .= $display->DisplayInfoBarBlock($controls,$q,$start,$span,$recordCount);
 
@@ -248,7 +260,6 @@ class callmonitor {
       $ret .= "</form>";
     }
 
-    $ret .= "<br>";
     $ret .= $display->DisplaySearchBlock('center',$m,$folder,$q,false);
     $ret .= $display->DisplayNavigationBlock($m,$folder,$q,$start,$span,$recordCount);
 
@@ -262,6 +273,8 @@ class callmonitor {
    *   path call monitor recording directory on the asterisk server
    * @param $files
    *   current call monitor recordings on the asterisk server
+   * @param $used
+   *   keep track of what recordings already have been used
    * @param $lastdata
    *   last action recorded in database
    * @param $calldate
@@ -269,15 +282,18 @@ class callmonitor {
    * @param $recording
    *   Reference to the variable to store a $recording name if found
    */
-  function get_recording($dir,$files,$uniqueNum,$lastdata,$calldate) {
+  function get_recording($dir,$files,$used,$uniqueNum,$lastdata,$calldate,$duration) {
 
     $recording='';
 
-    $buf = preg_replace('/\-|\:/', '', $calldate);
-    $timestamp = preg_replace('/\s+/', '-', $buf);
+    // timestamps
+    $st = trim(strtotime($calldate));
+    $et = trim(strtotime($calldate) + $duration);   // for on-demand call recordings
 
+    // unique id
     if ($uniqueNum) {
-      $uniqueID = $timestamp . "-" . $uniqueNum;
+      $buf = preg_replace('/\-|\:/', '', $calldate);
+      $uniqueID = preg_replace('/\s+/', '-', $buf) . "-" . $uniqueNum;
     }
     if ($uniqueID=='') {
       $buf = preg_split("/\|/", $lastdata);
@@ -313,16 +329,52 @@ class callmonitor {
     // try and match a file using the calldate (if no unique number from database)
     if (!$recording && !$uniqueNum) { 
       foreach($files as $key => $path) {
-        if (strlen($timestamp)>1 && strpos($path,$timestamp)!==FALSE) {
+        $parts = split("-", $path);
+        if (strlen($st)>1 && 
+              (strpos($path,$st)!==FALSE || 
+               (strpos($path,"auto")!==FALSE && $parts[1] >= $st && $parts[1] <= $et))) {
           $recording = $path;
           break;
         }
       } 
     }
 
+    // one last stab at finding a recording by adding a second
+    if (!$recording && !$uniqueNum) { 
+      $st_1 = trim($st+1);
+      $st_2 = trim($st+2);
+      $et_1 = trim($et+1);
+      $et_2 = trim($et+2);
+      foreach($files as $key => $path) {
+        $split = explode("-", $path);
+        if (strlen($st)>1 
+              && (strpos($path,$st_1)!==FALSE || 
+                  strpos($path,$st_2)!==FALSE ||
+                  (strpos($path,"auto")!==FALSE && $parts[1] >= $st_1 && $parts[1] <= $et_1) ||
+                  (strpos($path,"auto")!==FALSE && $parts[1] >= $st_2 && $parts[1] <= $et_2))) {
+          $recording = $path;
+          break;
+        }
+      } 
+    }
+
+    // check that the recording has not already been used
+    if ($recording) { 
+      foreach($used as $path) {
+        if ($recording==$path) {
+          $recording = '';
+          break;
+        }
+      } 
+    }
+    
+    // add to used array
+    if ($recording) {
+      array_push($used,$recording);
+    }
+
     return $recording;
   }
-
 
   /*
    * Deletes selected call monitor recordings
@@ -377,8 +429,8 @@ class callmonitor {
       } else {
         $searchText .= "AND ";
       }
-      $searchText .= "src = '" . $_SESSION['ari_user']['extension'] . "'
-                      OR dst = '" . $_SESSION['ari_user']['extension'] . "'";
+      $searchText .= "(src = '" . $_SESSION['ari_user']['extension'] . "'
+                      OR dst = '" . $_SESSION['ari_user']['extension'] . "')";
     }
 
     return $searchText;
@@ -401,8 +453,12 @@ class callmonitor {
             FROM cdr
             " . $searchText;
 
-    $data = $dbh->getAll($sql);
-    $count = $data[0][0];
+    $result = $dbh->getAll($sql);
+    if (DB::isError($result)) {
+      $_SESSION['ari_error'] = $result->getMessage();
+      return;
+    }
+    $count = $result[0][0];
   }
 
   /*
@@ -438,8 +494,14 @@ class callmonitor {
              " . $searchText . "
              ORDER BY calldate desc
              LIMIT " . $start . "," . $span;
-    $data = $dbh->getAll($sql,DB_FETCHMODE_ASSOC);
+    $result = $dbh->getAll($sql,DB_FETCHMODE_ASSOC);
+    if (DB::isError($result)) {
+      $_SESSION['ari_error'] = $result->getMessage();
+      return;
+    }
+    $data = $result;
   }
+
 
 }
 

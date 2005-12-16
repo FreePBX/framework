@@ -161,13 +161,26 @@ input.infoBar {
   height: 22px;
 }
 
-/* Centerbar */
+/* bars */
 
-#centerbar {
-  margin: 0 auto; 
+.bar {
+  margin: 0;
+}
+
+.bar_left {
+  width: 604px;
+  margin: 0 0 16px 0; 
+  padding: 0;
+}
+
+.bar_center {
   width: 604px;
   text-align: center;
+  margin: 0 0 16px 0; 
+  padding: 0;
 }
+
+
 
 /* Subheader */
 
@@ -195,7 +208,7 @@ table.callmonitor{
   border: 1px #6699CC solid;
   border-collapse: collapse;
   border-spacing: 0px;
-  margin-top: 0px;
+  margin: 0 0 16px 0;
 }
 table.callmonitor td.callmonitorHD, th { 
   border: 1px solid #6699CC;
@@ -233,7 +246,7 @@ table.voicemail{
   border: 1px #6699CC solid;
   border-collapse: collapse;
   border-spacing: 0px;
-  margin: 0px;
+  margin: 0 0 16px 0;
   padding: 0px;
 }
 table.voicemail td.voicemailHD, th { 
@@ -324,6 +337,8 @@ table.settings td.note {
   overflow: hidden;
   position: absolute;  /* IE5 Mac */
 }
+
+
 
 
 
