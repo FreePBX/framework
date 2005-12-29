@@ -81,6 +81,10 @@ class extensions {
 		$this->_hints[$section][$extension][] = $hintvalue;
 	}
 	
+	function addGlobal($globvar, $globval) {
+		$this->_globals[$globvar] = $globval;
+	}
+	
 	/** Generate the file
 	* @return A string containing the extensions.conf file
 	*/
@@ -95,8 +99,18 @@ class extensions {
 		
 		//var_dump($this->_exts);
 		
+		//take care of globals first
+		$output .= "[globals]\n";
+		$output .= "#include globals_custom.conf\n";
+		foreach (array_keys($this->_globals) as $global) {
+			$output .= $global." = ".$this->_globals[$global]."\n";
+		}
+		$output .= "\n\n;end of [globals]\n\n\n";
+		
+		//now the rest of the contexts
 		foreach (array_keys($this->_exts) as $section) {
 			$output .= "[".$section."]\n";
+			$output .= "include => {$section}-custom\n";
 			
 			foreach (array_keys($this->_exts[$section]) as $extension) {
 				foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
