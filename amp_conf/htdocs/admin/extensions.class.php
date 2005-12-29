@@ -113,7 +113,7 @@ class extensions {
 				}
 				if (isset($this->_hints[$section][$extension])) {
 					foreach ($this->_hints[$section][$extension] as $hint) {
-						$output .= "exten => ".$extension.",hint,".$hint;
+						$output .= "exten => ".$extension.",hint,".$hint."\n";
 					}
 				}
 			}
@@ -296,6 +296,20 @@ class ext_answer extends extension {
 class ext_privacymanager extends extension {
 	function output() {
 		return "PrivacyManager";
+	}
+}
+
+class ext_macro {
+	var $macro;
+	var $args;
+	
+	function ext_macro($macro, $args='') {
+		$this->macro = $macro;
+		$this->args = $args;
+	}
+	
+	function output() {
+		return "Macro(".$this->macro.",".$this->args.")";
 	}
 }
 
