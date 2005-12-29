@@ -327,12 +327,12 @@ class callmonitor {
     } 
 
     // try and match a file using the calldate (if no unique number from database)
-    if (!$recording && !$uniqueNum) { 
+    if (!$recording) { 
       foreach($files as $key => $path) {
         $parts = split("-", $path);
         if (strlen($st)>1 && 
-              (strpos($path,$st)!==FALSE || 
-               (strpos($path,"auto")!==FALSE && $parts[1] >= $st && $parts[1] <= $et))) {
+               (strpos($path,$st)!==FALSE && !$uniqueNum) || 
+               (strpos($path,"auto")!==FALSE && $parts[1] >= $st && $parts[1] <= $et)) {
           $recording = $path;
           break;
         }
@@ -340,7 +340,7 @@ class callmonitor {
     }
 
     // one last stab at finding a recording by adding a second
-    if (!$recording && !$uniqueNum) { 
+    if (!$recording) { 
       $st_1 = trim($st+1);
       $st_2 = trim($st+2);
       $et_1 = trim($et+1);
@@ -348,8 +348,8 @@ class callmonitor {
       foreach($files as $key => $path) {
         $split = explode("-", $path);
         if (strlen($st)>1 
-              && (strpos($path,$st_1)!==FALSE || 
-                  strpos($path,$st_2)!==FALSE ||
+              && ((strpos($path,$st_1)!==FALSE && !$uniqueNum) || 
+                  (strpos($path,$st_2)!==FALSE && !$uniqueNum) ||
                   (strpos($path,"auto")!==FALSE && $parts[1] >= $st_1 && $parts[1] <= $et_1) ||
                   (strpos($path,"auto")!==FALSE && $parts[1] >= $st_2 && $parts[1] <= $et_2))) {
           $recording = $path;

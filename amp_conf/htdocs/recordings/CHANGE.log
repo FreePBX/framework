@@ -1,3 +1,23 @@
+Roadmap
+
+  realtime support
+  on-demand call recording
+  Sorting, for example by callerID, duration etc.
+  email settings
+  voicemail prompts
+  forward calls
+  fax support
+
+for call forward
+ exten => s,1,DBget(boolean=CFBOOLEAN/${MACRO_EXTEN}) ; check toggle, if not skip rest of macro
+ exten => s,2,DBget(temp=CFIM/${MACRO_EXTEN}) ; Get CFIM key, if not skip rest of macro
+ exten => s,3,Dial(Local/${temp}@pbx/n)   ; Unconditional forward
+    - functionality should have a cookie to store a number
+
+Change log - 12/09/2005
+
+ * another fix to the on-demand call monitor recordings (submitted by Blake Krone)
+
 Change log - 12/09/2005
 
  * fix to recognize on-demand call monitor recordings (identified as auto-...) (submitted by Francesco Romano, Antonio Cano Damas, and Jason P. Meyer)
