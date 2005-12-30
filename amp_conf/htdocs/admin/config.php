@@ -163,7 +163,7 @@ foreach ($amp_sections as $key=>$value) {
 	// check access
 	if ($_SESSION["AMP_user"]->checkSection($key)) {
 		if ($key != 99) {
-			echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?display=".$key."\">".$value."</a></li>";
+			echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?display=".$key."\">"._($value)."</a></li>";
 		}
 	} else {
 		// they don't have access to this, remove it completely
