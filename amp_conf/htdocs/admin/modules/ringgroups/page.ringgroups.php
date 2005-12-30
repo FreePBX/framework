@@ -17,7 +17,7 @@ $wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions
 	
 $action = $_REQUEST['action'];
 $extdisplay=$_REQUEST['extdisplay'];
-$dispnum = 4; //used for switch on config.php
+$dispnum = 'ringgroups'; //used for switch on config.php
 
 $goto = $_REQUEST['goto0'];
 $account = $_REQUEST['account'];

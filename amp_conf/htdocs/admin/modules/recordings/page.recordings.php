@@ -18,7 +18,7 @@ $promptnum = $_REQUEST['promptnum'];
 $prompt = $_REQUEST['recordingdisplay'];
 $rname = $_REQUEST['rname'];
 if ($promptnum == null) $promptnum = '1';
-$display=12;
+$display='recordings';
 
 
 switch($action) {

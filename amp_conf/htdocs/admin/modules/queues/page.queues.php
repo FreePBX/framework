@@ -20,7 +20,7 @@ $wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_f
 
 $action = $_REQUEST['action'];
 $extdisplay=$_REQUEST['extdisplay'];  //the extension we are currently displaying
-$dispnum = 11; //used for switch on config.php
+$dispnum = 'queues'; //used for switch on config.php
 
 $account = $_REQUEST['account'];
 $name = $_REQUEST['name'];

@@ -45,8 +45,8 @@ if (count($unique_aas) > 0) {
 	<ul>
 		<li>
 			<span style="float:right;text-align:right;">
-				&bull; <a href="config.php?display=2&menu_id=<?php  echo $menu[0] ?>&ivr_action=edit"><?php echo _("Modify this Menu")?></a><br>
-				&bull; <a href="config.php?display=2&menu_id=<?php  echo $menu[0] ?>&ivr_action=delete"><?php echo _("Delete")?></a>
+				&bull; <a href="config.php?display=ivr&menu_id=<?php  echo $menu[0] ?>&ivr_action=edit"><?php echo _("Modify this Menu")?></a><br>
+				&bull; <a href="config.php?display=ivr&menu_id=<?php  echo $menu[0] ?>&ivr_action=delete"><?php echo _("Delete")?></a>
 			</span>
 			<?php echo _("Menu")?> <?php  echo $menu[0] ?>: <b><?php echo $menu[1]?></b>
 			<ul>
@@ -97,7 +97,7 @@ if (count($unique_aas) > 0) {
 	} //end foreach ($unique_aas as $unique_aa) 
 		
 	//include a link to create an additional voice menu.
-	echo '<ul><li>'._("Would you like to create another Menu?").'<ul><li><a href="config.php?display=2&menu_id='.$dept.'aa_'.++$menu_num.'">'._("Create a new Voice Menu").'</a></ul></ul><br>';
+	echo '<ul><li>'._("Would you like to create another Menu?").'<ul><li><a href="config.php?display=ivr&menu_id='.$dept.'aa_'.++$menu_num.'">'._("Create a new Voice Menu").'</a></ul></ul><br>';
 	
 } //end if (count($unique_aas) > 0)
 else {

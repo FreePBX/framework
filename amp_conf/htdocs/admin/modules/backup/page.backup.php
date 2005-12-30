@@ -16,7 +16,7 @@
 <?php
 include_once "schedule_functions.php";
 $action = $_REQUEST['action'];
-$display=13;
+$display='backup';
 
 switch ($action) {
 	case "addednew":

@@ -16,7 +16,7 @@
 $action = $_REQUEST['action'];
 $category = strtr($_REQUEST['category']," ", "-");
 if ($category == null) $category = 'Default';
-$display=1;
+$display='music';
 
 if ($category == "Default")
 	$path_to_dir = "/var/lib/asterisk/mohmp3"; //path to directory u want to read.
