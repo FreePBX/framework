@@ -85,6 +85,10 @@ class extensions {
 		$this->_globals[$globvar] = $globval;
 	}
 	
+	function addInclude($section, $incsection) {
+		$this->_includes[$section][] = $incsection;
+	}
+	
 	/** Generate the file
 	* @return A string containing the extensions.conf file
 	*/
@@ -110,7 +114,15 @@ class extensions {
 		//now the rest of the contexts
 		foreach (array_keys($this->_exts) as $section) {
 			$output .= "[".$section."]\n";
+			
+			//automatically include a -custom context
 			$output .= "include => {$section}-custom\n";
+			//add requested includes for this context
+			if (isset($this->_includes[$section])) {
+				foreach ($this->_includes[$section] as $include) {
+					$output .= "include => ".$include."\n";
+				}
+			}
 			
 			foreach (array_keys($this->_exts[$section]) as $extension) {
 				foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
