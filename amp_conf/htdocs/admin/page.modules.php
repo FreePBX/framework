@@ -76,9 +76,11 @@ if (isset($_POST['submit'])) { // if form has been submitted
 		break;
 		case "enable":
 			enableModule($_POST['modname']);
+			echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."'</script>";
 		break;
 		case "disable":
 			disableModule($_POST['modname']);
+			echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."'</script>";
 		break;
 	}
 }
