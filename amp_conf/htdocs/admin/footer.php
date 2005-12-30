@@ -74,7 +74,7 @@ if ($_REQUEST['clk_reload'] == 'true') {
 			$buffer='';
 			stream_set_timeout($fp, 5);
 			$buffer = fgets($fp);
-			if ($buffer!="Asterisk Call Manager/1.0\r\n")
+			if ($buffer!="Asterisk Call Manager/1.0\r\n" && $buffer!="Asterisk Call Manager/1.2\r\n")
 					echo "Asterisk Call Manager not responding<br />\n";
 			else {
 					$out="Action: Login\r\nUsername: ".$amp_conf['AMPMGRUSER']."\r\nSecret: ".$amp_conf['AMPMGRPASS']."\r\n\r\n";
