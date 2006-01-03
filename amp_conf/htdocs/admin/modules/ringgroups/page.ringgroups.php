@@ -19,7 +19,7 @@ $action = $_REQUEST['action'];
 $extdisplay=$_REQUEST['extdisplay'];
 $dispnum = 'ringgroups'; //used for switch on config.php
 
-$goto = $_REQUEST['goto0'];
+$goto = $_REQUEST[$_REQUEST['goto0']."0"];
 $account = $_REQUEST['account'];
 $grptime = $_REQUEST['grptime'];
 $grppre = $_REQUEST['grppre'];
@@ -58,7 +58,7 @@ if (isset($account) && !checkRange($account)){
 	//add group
 	if ($action == 'addGRP') {
 		
-		addgroup($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
+		ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
 		
 		exec($wScript1);
 		needreload();
@@ -66,7 +66,7 @@ if (isset($account) && !checkRange($account)){
 	
 	//del group
 	if ($action == 'delGRP') {
-		delextensions('ext-group',ltrim($extdisplay,'GRP-'));
+		legacy_extensions_del('ext-group',ltrim($extdisplay,'GRP-'));
 		
 		exec($wScript1);
 		needreload();
@@ -75,8 +75,8 @@ if (isset($account) && !checkRange($account)){
 	//edit group - just delete and then re-add the extension
 	if ($action == 'edtGRP') {
 	
-		delextensions('ext-group',$account);	
-		addgroup($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
+		legacy_extensions_del('ext-group',$account);	
+		ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
 	
 		exec($wScript1); 
 		needreload();
@@ -90,7 +90,7 @@ if (isset($account) && !checkRange($account)){
     <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add Ring Group")?></a><br></li>
 <?php 
 //get unique ring groups
-$gresults = getgroups();
+$gresults = ringgroups_list();
 
 if (isset($gresults)) {
 	foreach ($gresults as $gresult) {
@@ -110,7 +110,7 @@ if (isset($gresults)) {
 			
 		
 			if (!isset($grptime) || !isset($grppre) || !isset($grplist)) {
-				if (!getgroupinfo(ltrim($extdisplay,'GRP-'), $strategy,  $grptime, $grppre, $grplist)) {
+				if (!ringgroups_get(ltrim($extdisplay,'GRP-'), $strategy,  $grptime, $grppre, $grplist)) {
 					//TODO : handle this error better
 					//die("Invalid ext-group line in database");
 				}
@@ -182,7 +182,8 @@ if (isset($gresults)) {
 
 <?php 
 //get goto for this group - note priority 2
-$goto = getargs(ltrim($extdisplay,'GRP-'),2,'ext-group');
+$goto = legacy_args_get(ltrim($extdisplay,'GRP-'),2,'ext-group');
+
 //draw goto selects
 echo drawselects($goto,0);
 ?>

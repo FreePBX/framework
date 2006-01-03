@@ -66,6 +66,7 @@ function getdevices() {
 }
 
 //get the existing group extensions
+//obsolete
 function getgroups() {
 	global $db;
 	$sql = "SELECT DISTINCT extension FROM extensions WHERE context = 'ext-group' ORDER BY extension";
@@ -119,7 +120,7 @@ function getgroupgoto($grpexten) {
 	return $thisGRPgoto;
 }
 
-
+//obsolete
 function getgroupinfo($grpexten, &$strategy, &$time, &$prefix, &$group) {
 	global $db;
 	$sql = "SELECT args FROM extensions WHERE context = 'ext-group' AND extension = '".$grpexten."' AND priority = '1'";
@@ -138,6 +139,7 @@ function getgroupinfo($grpexten, &$strategy, &$time, &$prefix, &$group) {
 }
 
 //add to extensions table - used in callgroups.php
+//obsolete
 function addextensions($addarray) {
 	global $db;
 	$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ('".$addarray[0]."', '".$addarray[1]."', '".$addarray[2]."', '".$addarray[3]."', '".$addarray[4]."', '".$addarray[5]."' , '".$addarray[6]."')";
@@ -149,6 +151,7 @@ function addextensions($addarray) {
 }
 
 //delete extension from extensions table
+//obsolete
 function delextensions($context,$exten) {
 	global $db;
 	$sql = "DELETE FROM extensions WHERE context = '".$context."' AND `extension` = '".$exten."'";
@@ -1781,6 +1784,7 @@ function drawselects($goto,$i) {
 }
 */
 
+//obsolete
 function setGoto($account,$context,$priority,$goto,$i) {  //preforms logic for setting goto destinations
 	if ($goto == 'extension') {
 		$args = 'ext-local,'.$_REQUEST['extension'.$i].',1';
@@ -1846,6 +1850,7 @@ function buildActualGoto($requestarray,$i) {
 }*/
 
 //get args for specified exten and priority - primarily used to grab goto destination
+//obsolete
 function getargs($exten,$priority,$context) {
 	global $db;
 	$sql = "SELECT args FROM extensions WHERE extension = '".$exten."' AND priority = '".$priority."' AND context = '".$context."'";
@@ -1853,6 +1858,7 @@ function getargs($exten,$priority,$context) {
 	return $args;
 }
 
+//obsolete
 function addgroup($account,$grplist,$grpstrategy,$grptime,$grppre,$goto) {
 	global $db;
 	
