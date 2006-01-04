@@ -83,6 +83,7 @@ function getgroups() {
 }
 
 //get the existing queue extensions
+//obsolete
 function getqueues() {
 	global $db;
 	$sql = "SELECT extension,descr FROM extensions WHERE application = 'Queue' ORDER BY extension";
@@ -1516,6 +1517,7 @@ function deleteDialRules($trunknum) {
 	writeDialRulesFile($conf);
 }
 
+//obsolete
 function addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce) {
 	global $db;
 	
@@ -1580,6 +1582,7 @@ function addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members
     }
 }
 
+//obsolete
 function delqueue($account) {
 	global $db;
 	//delete from extensions table
@@ -1595,6 +1598,7 @@ function delqueue($account) {
 
 }
 
+//obsolete
 function getqueueinfo($account) {
 	global $db;
 	

@@ -27,7 +27,7 @@ $name = $_REQUEST['name'];
 $password = $_REQUEST['password'];
 $agentannounce = $_REQUEST['agentannounce'];
 $prefix = $_REQUEST['prefix'];
-$goto = $_REQUEST['goto0'];
+$goto = $_REQUEST[$_REQUEST['goto0']."0"];
 $joinannounce = $_REQUEST['joinannounce'];
 
 $members = array();
@@ -62,22 +62,22 @@ if (isset($account) && !checkRange($account)){
 	//if submitting form, update database
 	switch ($action) {
 		case "add":
-			addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
+			queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
 			exec($wScript1);
 			exec($wScript2);
 			exec($wOpScript);
 			needreload();
 		break;
 		case "delete":
-			delqueue($extdisplay);
+			queues_del($extdisplay);
 			exec($wScript1);
 			exec($wScript2);
 			exec($wOpScript);
 			needreload();
 		break;
 		case "edit":  //just delete and re-add
-			delqueue($account);
-			addqueue($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
+			queues_del($account);
+			queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
 			exec($wScript1);
 			exec($wScript2);
 			exec($wOpScript);
@@ -86,10 +86,8 @@ if (isset($account) && !checkRange($account)){
 	}
 }
 
-//get unique extensions
-$extens = getextens();
 //get unique queues
-$queues = getqueues();
+$queues = queues_list();
 	
 ?>
 </div>
@@ -112,7 +110,7 @@ if ($action == 'delete') {
 } else {
 	$member = array();
 	//get members in this queue
-	$thisQ = getqueueinfo($extdisplay);
+	$thisQ = queues_get($extdisplay);
 	//create variables
 	extract($thisQ);
 	
@@ -411,7 +409,12 @@ if ($action == 'delete') {
 
 	<tr><td colspan="2"><br><h5><?php echo _("Fail Over Destination")?><hr></h5></td></tr>
 
-	<?php echo drawselects($goto,0);?>
+	<?php 
+	//get goto for this group - note priority 6
+	$goto = legacy_args_get($extdisplay,6,'ext-queues');
+	echo drawselects($goto,0);
+	
+	?>
 	
 	<tr>
 		<td colspan="2"><br><h6><input name="Submit" type="button" value="<?php echo _("Submit Changes")?>" onclick="checkQ(editQ);"></h6></td>		

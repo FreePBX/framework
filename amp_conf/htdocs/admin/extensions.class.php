@@ -339,6 +339,35 @@ class ext_macro {
 	}
 }
 
+class ext_setcidname extends extension {
+	function output() {
+		return "SetCIDName(".$this->data.")";
+	}
+}
+
+class ext_playback extends extension {
+	function output() {
+		return "Playback(".$this->data.")";
+	}
+}
+
+class ext_queue {
+	var $var;
+	var $value;
+	
+	function ext_queue($queuename, $options, $optionalurl, $announceoverride, $timeout) {
+		$this->queuename = $queuename;
+		$this->options = $options;
+		$this->optionalurl = $optionalurl;
+		$this->announceoverride = $announceoverride;
+		$this->timeout = $timeout;
+	}
+	
+	function output() {
+		return "Queue(".$this->queuename."|".$this->options."|".$this->optionalurl."|".$this->announceoverride."|".$this->timeout.")";
+	}
+}
+
 /* example usage
 $ext = new extensions;
 
