@@ -17,7 +17,7 @@ function ringgroups_destinations() {
 	return $extens;
 }
 
-/* 	Generates dialplan for "core" components (extensions & inbound routing)
+/* 	Generates dialplan for ringgroups
 	We call this with retrieve_conf
 */
 function ringgroups_get_config($engine) {

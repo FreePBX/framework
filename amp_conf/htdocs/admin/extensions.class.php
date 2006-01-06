@@ -14,6 +14,12 @@ class extensions {
 	
 	var $_sorted;
 	
+	/** The filename to write this configuration to
+	*/
+	function get_filename() {
+		return "extensions_additional.conf";
+	}
+	
 	/** Add an entry to the extensions file
 	* @param $section    The section to be added to
 	* @param $extension  The extension used
