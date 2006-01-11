@@ -66,35 +66,24 @@ if ($_REQUEST['clk_reload'] == 'true') {
 		";
 	}
 	
-	//reload asterisk
-	$fp = fsockopen("localhost", 5038, $errno, $errstr, 10);
-	if (!$fp) {
-			echo "Unable to connect to Asterisk Manager ($errno)<br />\n";
+	//run retrieve script
+	$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf';
+	exec($retrieve.'>/dev/null');
+	
+	require_once('common/php-asmanager.php');
+	$astman = new AGI_AsteriskManager();
+	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		/*	Would be cool to do the following from here 
+			(to avoid permission problems when running apache as nobody).
+			Unfortunately, I can't make it work :-(
+		$astman->send_request('Command', array('Command'=>'!/var/lib/asterisk/bin/retrieve_conf'));
+		*/	
+		//reload asterisk
+		$astman->send_request('Command', array('Command'=>'reload'));	
 	} else {
-			$buffer='';
-			stream_set_timeout($fp, 5);
-			$buffer = fgets($fp);
-			if ($buffer!="Asterisk Call Manager/1.0\r\n" && $buffer!="Asterisk Call Manager/1.2\r\n")
-					echo "Asterisk Call Manager not responding<br />\n";
-			else {
-					$out="Action: Login\r\nUsername: ".$amp_conf['AMPMGRUSER']."\r\nSecret: ".$amp_conf['AMPMGRPASS']."\r\n\r\n";
-					fwrite($fp,$out);
-					$buffer=fgets($fp);
-					if ($buffer!="Response: Success\r\n")
-							echo "Asterisk authentication failed:<br />$buffer<br />\n";
-					else {
-							$buffers=fgets($fp); // get rid of Message: Authentication accepted
-							$out="Action: Command\r\nCommand: Reload\r\n\r\n";
-							fwrite($fp,$out);
-							$buffer=fgets($fp); // get rid of a blank line
-							$buffer=fgets($fp);
-							if ($buffer!="Response: Follows\r\n")
-									echo "Asterisk reload command not understood $buffer<br />\n";
-					}
-			}
-
+		echo "Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
 	}
-	fclose($fp);
+	$astman->disconnect();
 	
 	//bounce op_server.pl
 	$wOpBounce = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'bounce_op.sh';

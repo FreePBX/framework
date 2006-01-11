@@ -231,7 +231,7 @@ foreach($active_modules as $module) {
 // extensions_additional.conf
 echo $ext->get_filename();
 echo $ext->generateConf();
-
+write_file($ext->get_filename(),$ext->generateConf());
 
 // now we write out our conf files for modules
 // check for any objects for each of the active modules
@@ -240,9 +240,16 @@ foreach($active_modules as $active_module) {
 	if(class_exists($classname) && get_class(${$classname}) !== false) {
 		echo ${$classname}->get_filename();
 		echo ${$classname}->generateConf();
+		write_file(${$classname}->get_filename(),${$classname}->generateConf());
 	}
 }
 
+function write_file($filename,$contents) {
+	if ($fd = fopen("/etc/asterisk/".$filename, "w")) {
+		fwrite($fd, $contents);
+		fclose($fd);
+	}
+}
 
 
 // **** Set reload flag for AMP admin
