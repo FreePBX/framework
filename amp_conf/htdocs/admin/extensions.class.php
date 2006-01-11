@@ -261,11 +261,11 @@ class ext_goto extends extension {
 	}
 }
 
-class ext_if extends extension {
+class ext_gotoif extends extension {
 	var $true_priority;
 	var $false_priority;
 	var $condition;
-	function ext_if($condition, $true_priority, $false_priority = false) {
+	function ext_gotoif($condition, $true_priority, $false_priority = false) {
 		$this->true_priority = $true_priority;
 		$this->false_priority = $false_priority;
 		$this->condition = $condition;
@@ -371,6 +371,12 @@ class ext_queue {
 	
 	function output() {
 		return "Queue(".$this->queuename."|".$this->options."|".$this->optionalurl."|".$this->announceoverride."|".$this->timeout.")";
+	}
+}
+
+class ext_hangup extends extension {
+	function output() {
+		return "Hangup";
 	}
 }
 
