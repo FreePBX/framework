@@ -271,7 +271,7 @@ class ext_gotoif extends extension {
 		$this->condition = $condition;
 	}
 	function output() {
-		return 'If(' .$condition. '?' .$true_priority.($false_priority ? ':' .$false_priority : '' ). ')' ;
+		return 'GotoIf(' .$condition. '?' .$true_priority.($false_priority ? ':' .$false_priority : '' ). ')' ;
 	}
 	function incrementContents($value) {
 		$this->true_priority += $value;
