@@ -16,6 +16,44 @@ function ivr_destinations() {
 	return $extens;
 }
 
+/* 	Generates dialplan for conferences
+	We call this with retrieve_conf
+*/
+function ivr_get_config($engine) {
+	global $ext;  // is this the best way to pass this?
+	global $conferences_conf;
+	switch($engine) {
+		case "asterisk":
+			foreach(ivr_list() as $item) {
+				$ivr = ivr_get(ltrim($item['0']));
+				// add dialplan
+				$ext->addInclude($item[0],'ext-local');
+				$ext->addInclude($item[0],'app-messagecenter');
+				$ext->addInclude($item[0],'app-directory');
+				$ext->add($item[0], 'h', '', new ext_hangup());
+				$ext->add($item[0], 'i', '', new ext_playback('invalid'));
+				$ext->add($item[0], 'i', '', new ext_goto('7','s'));
+				
+				$ext->add($item[0], 's', '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','4'));
+				$ext->add($item[0], 's', '', new ext_answer());
+				$ext->add($item[0], 's', '', new ext_wait('1'));
+				$ext->add($item[0], 's', '', new ext_setvar('LOOPED','1'));
+				$ext->add($item[0], 's', '', new ext_gotoif('$[${LOOPED} > 2]','hang,1'));
+				$ext->add($item[0], 's', '', new ext_setvar('DIR-CONTEXT',$ivr[15][4]));
+				$ext->add($item[0], 's', '', new ext_digittimeout('3'));
+				$ext->add($item[0], 's', '', new ext_responsetimeout('7'));
+				$ext->add($item[0], 's', '', new ext_background($ivr[18][4]));
+				
+				$ext->add($item[0], 't', '', new ext_setvar('LOOPED','$[${LOOPED} + 1]'));
+				$ext->add($item[0], 't', '', new ext_goto('5','s'));
+				
+				$ext->add($item[0], 'hang', '', new ext_playback('vm-goodbye'));
+				$ext->add($item[0], 'hang', '', new ext_hangup());
+
+			}
+		break;
+	}
+}
 
 //get info about auto-attendant
 function ivr_get($menu_id) {

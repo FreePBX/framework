@@ -271,7 +271,7 @@ class ext_gotoif extends extension {
 		$this->condition = $condition;
 	}
 	function output() {
-		return 'GotoIf(' .$condition. '?' .$true_priority.($false_priority ? ':' .$false_priority : '' ). ')' ;
+		return 'GotoIf(' .$this->condition. '?' .$this->true_priority.($this->false_priority ? ':' .$this->false_priority : '' ). ')' ;
 	}
 	function incrementContents($value) {
 		$this->true_priority += $value;
@@ -377,6 +377,24 @@ class ext_queue {
 class ext_hangup extends extension {
 	function output() {
 		return "Hangup";
+	}
+}
+
+class ext_digittimeout extends extension {
+	function output() {
+		return "DigitTimeout(".$this->data.")";
+	}
+}
+
+class ext_responsetimeout extends extension {
+	function output() {
+		return "ResponseTimeout(".$this->data.")";
+	}
+}
+
+class ext_background extends extension {
+	function output() {
+		return "Background(".$this->data.")";
 	}
 }
 

@@ -64,11 +64,11 @@ if (count($unique_aas) > 0) {
 			if ($application == 'Macro' && $args[0] == 'exten-vm') {
 					echo '<li>'._("dialing").' '.$extension.' <b>'._("dials extension #").$args[2].'</b>';
 			}
+			elseif ($application == 'Goto' && strpos($args[1],'VM_PREFIX')) {
+				echo '<li>'._("dialing").' '.$extension.' <b>'._("sends to voicemail box #").ltrim($args[1],'${VM_PREFIX}').'</b>';
+			}
 			elseif ($application == 'Goto' && $args[0] == 'ext-local') {
 				echo '<li>'._("dialing").' '.$extension.' <b>'._("dials extension #").$args[1].'</b>';
-			}
-			elseif ($application == 'Macro' && $args[0] == 'vm') {
-					echo '<li>'._("dialing").' '.$extension.' <b>'._("sends to voicemail box #").$args[1].'</b>';
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'aa_') === false)) {
 					echo '<li>'._("dialing").' '.$extension.' <b>'._("goes to Menu ID").' '.$args[0].'</b>';

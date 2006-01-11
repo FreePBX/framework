@@ -30,7 +30,7 @@ switch($_REQUEST['ivr_action']) {
 		   die('oops: '.$delres->getMessage());
 		}	
 
-		//we are going to call 'write' anyways - so check if editing
+/*		//we are going to call 'write' anyways - so check if editing
 		if ($_REQUEST['map_display'] != 'no') {
 			//write out conf file
 			exec($wScript);
@@ -41,7 +41,7 @@ switch($_REQUEST['ivr_action']) {
 				die($result->getMessage());
 			}
 		}
-		
+*/		
 	break;
 	case 'write':
 	
@@ -101,14 +101,17 @@ switch($_REQUEST['ivr_action']) {
 					die($result->getMessage());
 				}
 			}
-			$goto = $_REQUEST['goto'.$i];
+			$goto = $_REQUEST[$_REQUEST['goto'.$i].$i];
 			//TODO we need to make this module use it's own table!!
-			setGoto($extension,$context,'1',$goto,$i);
+			//setGoto($extension,$context,'1',$goto,$i);
+			//add failover goto
+			$addarray = array($context,$extension,'1','Goto',$goto,'jump','0');
+			legacy_extensions_add($addarray);
 		}
 		
 		
 		//write out conf file
-		exec($wScript);
+		//exec($wScript);
 		
 		//make sure the 'custom' sounds directory exists and then copy the recording to it
 		if (!is_dir('/var/lib/asterisk/sounds/custom')) {
@@ -119,7 +122,7 @@ switch($_REQUEST['ivr_action']) {
 			echo 'error: could not copy or rename the voice recording - please contact support';
 
 	//indicate 'need reload' link in header.php 
-	needreload();
+	//needreload();
 		
 	break;
 }
