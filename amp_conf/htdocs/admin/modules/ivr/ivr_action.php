@@ -15,7 +15,6 @@
 <?php 
 //this file checks to see if we need to adjust the extensions table, makes changes, and then calls ivrmap.php to display map
 $menu_id = $_REQUEST['menu_id'];
-$wScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
 
 // individual AMP Users department prefix - has no effect if deptartment is empty
 $dept = str_replace(' ','_',$_SESSION["AMP_user"]->_deptname);

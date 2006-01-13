@@ -11,13 +11,6 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-
-//script to write extensions_additional.conf file from mysql
-$wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
-$wScript2 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_queues_from_mysql.pl';
-//script to write op_server.cfg file from mysql 
-$wOpScript = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_op_conf_from_mysql.pl';
-
 $action = $_REQUEST['action'];
 $extdisplay=$_REQUEST['extdisplay'];  //the extension we are currently displaying
 $dispnum = 'queues'; //used for switch on config.php
@@ -63,24 +56,15 @@ if (isset($account) && !checkRange($account)){
 	switch ($action) {
 		case "add":
 			queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
-			exec($wScript1);
-			exec($wScript2);
-			exec($wOpScript);
 			needreload();
 		break;
 		case "delete":
 			queues_del($extdisplay);
-			exec($wScript1);
-			exec($wScript2);
-			exec($wOpScript);
 			needreload();
 		break;
 		case "edit":  //just delete and re-add
 			queues_del($account);
 			queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
-			exec($wScript1);
-			exec($wScript2);
-			exec($wOpScript);
 			needreload();
 		break;
 	}

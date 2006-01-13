@@ -11,10 +11,6 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-
-//script to write extensions_additional.conf file from mysql
-$wScript1 = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'retrieve_extensions_from_mysql.pl';
-	
 $action = $_REQUEST['action'];
 $extdisplay=$_REQUEST['extdisplay'];
 $dispnum = 'ringgroups'; //used for switch on config.php
@@ -59,16 +55,12 @@ if (isset($account) && !checkRange($account)){
 	if ($action == 'addGRP') {
 		
 		ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
-		
-		exec($wScript1);
 		needreload();
 	}
 	
 	//del group
 	if ($action == 'delGRP') {
 		legacy_extensions_del('ext-group',ltrim($extdisplay,'GRP-'));
-		
-		exec($wScript1);
 		needreload();
 	}
 	
@@ -77,8 +69,6 @@ if (isset($account) && !checkRange($account)){
 	
 		legacy_extensions_del('ext-group',$account);	
 		ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
-	
-		exec($wScript1); 
 		needreload();
 	
 	}

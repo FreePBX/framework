@@ -254,6 +254,29 @@ function write_file($filename,$contents) {
 }
 
 
+// run legacy retrieve scripts
+// TODO these legacy retrieve scripts should be obsoleted, in favor of classes like extensions class
+
+//script to write op_server.cfg file from mysql 
+$script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.pl';
+exec($script);
+
+//script to write sip conf file from mysql
+$script = $amp_conf['AMPBIN'].'retrieve_sip_conf_from_mysql.pl';
+exec($script);
+
+//script to write iax2 conf file from mysql
+$script = $amp_conf['AMPBIN'].'retrieve_iax_conf_from_mysql.pl';
+exec($script);
+
+//script to write zap conf file from mysql
+$script = $amp_conf['AMPBIN'].'retrieve_zap_conf_from_mysql.pl';
+exec($script);
+
+//script to write queues conf file from mysql
+$script = $amp_conf['AMPBIN'].'retrieve_queues_conf_from_mysql.pl';
+exec($script);
+	
 // **** Set reload flag for AMP admin
 needreload();
 out("Please Reload Asterisk by visiting http://".$amp_conf["AMPWEBADDRESS"]."/admin");
