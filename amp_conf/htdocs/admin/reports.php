@@ -14,7 +14,7 @@
 $title="AMP: "._("Call Detail Reports");
 $message=_("Call Detail Reports");
 
-require_once('functions.php');
+require_once('functions.inc.php');
 
 // get settings
 $amp_conf = parse_amportal_conf("/etc/amportal.conf");

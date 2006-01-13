@@ -279,6 +279,21 @@ class ext_gotoif extends extension {
 	}
 }
 
+class ext_gotoiftime extends extension {
+	var $true_priority;
+	var $condition;
+	function ext_gotoiftime($condition, $true_priority) {
+		$this->true_priority = $true_priority;
+		$this->condition = $condition;
+	}
+	function output() {
+		return 'GotoIfTime(' .$this->condition. '?' .$this->true_priority. ')' ;
+	}
+	function incrementContents($value) {
+		$this->true_priority += $value;
+	}
+}
+
 class ext_noop extends extension {
 	function output() {
 		return "Noop(".$this->data.")";

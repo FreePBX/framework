@@ -113,6 +113,14 @@ function checkRange($extension){
 		return false;
 }
 
+// returns true if department string matches dept for this user
+function checkDept($dept){
+	$deptname = $_SESSION["AMP_user"]->_deptname;
+	if (($dept == $deptname) || empty($dept))
+		return true;
+	else
+		return false;
+}
 
 /* look for all modules in modules dir.
 ** returns array:
@@ -556,6 +564,8 @@ function saveVoicemail($vmconf) {
 
 // $goto is the current goto destination setting
 // $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
+// esnure that any form that includes this calls the setDestinations() javascript function on submit.
+// ie: if the form name is "edit", and drawselects has been called with $i=2 then use onsubmit="setDestinations(edit,2)"
 function drawselects($goto,$i) {  
 	
 	/* --- MODULES BEGIN --- */

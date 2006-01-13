@@ -17,7 +17,7 @@ $message="Setup";
 require_once('functions.inc.php');
 
 //obsolete stuff
-require_once('functions.php');
+//require_once('functions.php');
 
 // get settings
 $amp_conf = parse_amportal_conf("/etc/amportal.conf");
@@ -72,10 +72,10 @@ switch ($amp_conf["AUTHTYPE"]) {
 }
 
 //make sure our tables are there
-sipexists();
+/*sipexists();
 iaxexists();
 zapexists();
-backuptableexists();
+backuptableexists();*/
 
 // setup html
 include 'header.php';
@@ -158,8 +158,17 @@ echo "<table width=\"100%\" cellspacing='0' cellpadding='0'><tr><td>";
 // show menu
 echo "<div class=\"nav\">";
 
-foreach ($amp_sections as $key=>$value) {
+// extensions vs device/users ... this is a bad design, but hey, it worksv
+if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
+	unset($amp_sections["extensions"]);
+} else {
+	unset($amp_sections["devices"]);
+	unset($amp_sections["users"]);
+}
 
+
+	
+foreach ($amp_sections as $key=>$value) {		
 	// check access
 	if ($_SESSION["AMP_user"]->checkSection($key)) {
 		if ($key != 99) {

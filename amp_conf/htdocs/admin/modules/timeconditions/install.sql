@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS timeconditions ( timeconditions_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY , displayname VARCHAR( 50 ) , time VARCHAR( 100 ) , truegoto VARCHAR( 50 ) , falsegoto VARCHAR( 50 ), deptname VARCHAR( 50 )); 

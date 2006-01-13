@@ -3,7 +3,7 @@
 // returns a associative arrays with keys 'destination' and 'description'
 function queues_destinations() {
 	//get the list of all exisiting
-	$results = getqueues();
+	$results = queues_list();
 	
 	//return an associative array with destination and description
 	if (isset($results)) {

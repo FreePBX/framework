@@ -367,3 +367,18 @@ function changeLang(lang) {
 function decision(message, url){
 if(confirm(message)) location.href = url;
 }
+
+//call this function from forms that include module destinations
+//numForms is the number of destination forms to process (usually 1)
+function setDestinations(theForm,numForms) {
+	for (var formNum = 0; formNum < numForms; formNum++) {
+		var whichitem = 0;
+		while (whichitem < theForm['goto_indicate'+formNum].length) {
+			if (theForm['goto_indicate'+formNum][whichitem].checked) {
+				theForm['goto'+formNum].value=theForm['goto_indicate'+formNum][whichitem].value;
+			}
+			whichitem++;
+		}
+	}
+}
+
