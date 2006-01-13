@@ -24,6 +24,7 @@ function ringgroups_get_config($engine) {
 	global $ext;  // is this the best way to pass this?
 	switch($engine) {
 		case "asterisk":
+			$ext->addInclude('from-internal-additional','ext-group');
 			foreach(ringgroups_list() as $item) {
 				$exten = ringgroups_get(ltrim($item['0']), $strategy,  $grptime, $grppre, $grplist);
 				$ext->add('ext-group', ltrim($item['0']), '', new ext_macro('rg-group',"{$strategy},{$grptime},{$grppre},{$grplist}"));

@@ -22,7 +22,8 @@ function queues_get_config($engine) {
 	global $ext;  // is this the best way to pass this?
 	switch($engine) {
 		case "asterisk":
-			/* inbound routing extensions */
+			/* queue extensions */
+			$ext->addInclude('from-internal-additional','ext-queues');
 			foreach(queues_list() as $item) {
 				
 				$exten = $item[0];

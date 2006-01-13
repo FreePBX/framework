@@ -229,6 +229,8 @@ foreach($active_modules as $module) {
 }
 
 // extensions_additional.conf
+// create the from-internal-additional context so other can add to it
+$ext->add('from-internal-additional', 'h', '', new ext_hangup());
 echo $ext->get_filename();
 echo $ext->generateConf();
 write_file($ext->get_filename(),$ext->generateConf());

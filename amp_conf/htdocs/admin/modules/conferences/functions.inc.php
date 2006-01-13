@@ -44,6 +44,7 @@ function conferences_get_config($engine) {
 	global $conferences_conf;
 	switch($engine) {
 		case "asterisk":
+			$ext->addInclude('from-internal-additional','ext-meetme');
 			foreach(conferences_list() as $item) {
 				$room = conferences_get(ltrim($item['0']));
 				// add dialplan
