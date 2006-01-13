@@ -116,9 +116,9 @@ if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
  	        	<a target="_blank" href="http://amp.coalescentsystems.ca"><img border="0" src="images/<?php echo $amp_conf["AMPFOOTERLOGO"] ?>"></a>
  		<?php } ?>
  	<?php } else{ ?>
-         	<a target="_blank" href="http://amp.coalescentsystems.ca"><img border="0" src="images/powered_by_amp.png"></a>
+         	<a target="_blank" href="http://amp.coalescentsystems.ca"><img border="0" src="images/freepbx_small.png"></a>
  	<?php }  ?>        
- 	<a target="_blank" href="http://sourceforge.net/projects/amportal"><img border="0" style="float:left;" src="images/powered_by_amp.png"></a>
+ 	<a target="_blank" href="http://sourceforge.net/projects/amportal"><img border="0" style="float:left;" src="images/freepbx_small.png"></a>
         <br>
 		<br>
 <?php

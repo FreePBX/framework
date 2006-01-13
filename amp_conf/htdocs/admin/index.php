@@ -22,7 +22,7 @@ if ($_REQUEST["action"] == "logout") {
 ?>
 
 <?php
-$title=_("Asterisk Management Portal");
+$title=_("freePBX administration");
 $message=_("Administration");
 
 require_once('functions.inc.php');
@@ -64,9 +64,9 @@ switch($display) {
 	<?php } ?>
     </p>
 
-    <h2>AMP</h2>
+    <h2>freePBX</h2>
     <p>
-        <?php echo _("Welcome to the Asterisk Management Portal") ?> <?php $ver=getversion(); echo $ver[0][0];?>
+        <?php echo _("Welcome to the FreePBX Administration") ?> <?php $ver=getversion(); echo $ver[0][0];?>
         <br><br><br><br><br><br>
     </p>
     

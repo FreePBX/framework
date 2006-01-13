@@ -55,10 +55,10 @@
 <div class="header">
 
 <?php
-if (isset($amp_conf["AMPADMINLOGO"])){?>
+if (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])){?>
     <a href="index.php"><img src="images/<?php echo $amp_conf["AMPADMINLOGO"] ?>"/></a>
 <?php } else{ ?>
-    <a href="index.php"><img src="images/amp.png"/></a>
+    <a href="index.php"><img src="images/freepbx.png"/></a>
 <?php }  ?>
 
     <a id="<?php  echo ($currentFile=='config.php' ? 'current':'') ?>" href="config.php?">

@@ -11,7 +11,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$title="Asterisk Management Portal";
+$title="freePBX administration";
 $message="Setup";
 
 require_once('functions.inc.php');
@@ -71,56 +71,12 @@ switch ($amp_conf["AUTHTYPE"]) {
 	break;
 }
 
-//make sure our tables are there
-/*sipexists();
-iaxexists();
-zapexists();
-backuptableexists();*/
-
 // setup html
 include 'header.php';
 
 if (isset($_REQUEST['display'])) {
 	$display=$_REQUEST['display'];
 }
-
-/*
-// simple 'extensions' admin or 'device/user separation'?
-// have to do it this way, since array_splice resets all the array keys as integers
-if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
-	$amp_sections = array(
-		9=>_("Incoming Calls"),
-		"devices"=>_("Devices"),
-		"users"=>_("Users"),
-		4=>_("Ring Groups"),
-		11=>_("Queues"),
-		2=>_("Digital Receptionist"),
-		6=>_("Trunks"),
-		7=>_("Inbound Routing"),
-		8=>_("Outbound Routing"),
-		1=>_("On Hold Music"),
-		12=>_("System Recordings"),
-		13=>_("Backup & Restore"),
-		5=>_("General Settings"),
-		99=>_("Apply Changes Bar")
-	);
-} else {
-	$amp_sections = array(
-		9=>_("Incoming Calls"),
-		"extensions"=>("Extensions"),
-		4=>_("Ring Groups"),
-		11=>_("Queues"),
-		2=>_("Digital Receptionist"),
-		6=>_("Trunks"),
-		7=>_("Inbound Routing"),
-		8=>_("Outbound Routing"),
-		1=>_("On Hold Music"),
-		12=>_("System Recordings"),
-		13=>_("Backup & Restore"),
-		5=>_("General Settings"),
-		99=>_("Apply Changes Bar")
-	);
-}*/
 
 	$amp_sections = array(
 		'modules'=>_("Module Admin")
@@ -217,59 +173,6 @@ switch($display) {
 	case 'modules':
 		include 'page.modules.php';
 	break;
-/*	case '1':
-		include 'music.php';
-	break;
-	case '2':
-		echo "<h2>"._("Digital Receptionist")."</h2>";
-		// The Digital Receptionist code is a rat's nest.  If you are planning on making significant modifications, just re-write from scratch.
-		//if menu_id is being empty, or if we are requesting delete, just use ivr_action.php
-		if ((empty($_REQUEST['menu_id'])) || ($_REQUEST['ivr_action'] == 'delete'))
-			include 'ivr_action.php'; 
-		else
-			include 'ivr.php'; //wizard to create/edit a menu
-	break;
-	case '4':
-		include 'callgroups.php';
-	break;
-	case '5':
-		echo "<h2>"._("General Settings")."</h2>";
-		include 'general.php';
-	break;
-	case '6':
-		include 'trunks.php';
-	break;
-	case '7':
-		include 'did.php';
-	break;
-	case '8':
-		include 'routing.php';
-	break;
-	case '9':
-		echo "<h2>"._("Incoming Calls")."</h2>";
-		include 'incoming.php';
-	break;
-	case '10':
-		include 'ampusers.php';
-	break;
-	case '11':
-		include 'queues.php';
-	break;
-	case '12':
-		include 'recordings.php';
-	break;
-	case '13':
-		include 'backup.php';
-	break;
-	case 'devices':
-		include 'devices.php';
-	break;
-	case 'users':
-		include 'users.php';
-	break;
-	case 'extensions':
-		include 'extensions.php';
-	break;*/
 }
 ?>
 </div>
