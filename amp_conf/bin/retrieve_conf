@@ -230,7 +230,7 @@ foreach($active_modules as $module) {
 
 // extensions_additional.conf
 // create the from-internal-additional context so other can add to it
-$ext->add('from-internal-additional', 'h', '', new ext_hangup());
+$ext->add('from-internal-additional', 'h', '', new ext_hangup(''));
 //echo $ext->get_filename();
 //echo $ext->generateConf();
 write_file($ext->get_filename(),$ext->generateConf());
@@ -262,19 +262,19 @@ $script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.pl';
 exec($script);
 
 //script to write sip conf file from mysql
-$script = $amp_conf['AMPBIN'].'retrieve_sip_conf_from_mysql.pl';
+$script = $amp_conf['AMPBIN'].'/retrieve_sip_conf_from_mysql.pl';
 exec($script);
 
 //script to write iax2 conf file from mysql
-$script = $amp_conf['AMPBIN'].'retrieve_iax_conf_from_mysql.pl';
+$script = $amp_conf['AMPBIN'].'/retrieve_iax_conf_from_mysql.pl';
 exec($script);
 
 //script to write zap conf file from mysql
-$script = $amp_conf['AMPBIN'].'retrieve_zap_conf_from_mysql.pl';
+$script = $amp_conf['AMPBIN'].'/retrieve_zap_conf_from_mysql.pl';
 exec($script);
 
 //script to write queues conf file from mysql
-$script = $amp_conf['AMPBIN'].'retrieve_queues_conf_from_mysql.pl';
+$script = $amp_conf['AMPBIN'].'/retrieve_queues_conf_from_mysql.pl';
 exec($script);
 	
 // **** Set reload flag for AMP admin

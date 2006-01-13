@@ -30,7 +30,10 @@ chown_asterisk() {
 	chown -R asterisk:asterisk /var/lib/asterisk
 	chown -R asterisk:asterisk /var/log/asterisk
 	chown -R asterisk:asterisk /var/spool/asterisk
-	chown -R asterisk:asterisk /dev/zap
+	if [ -d /dev/zap ] 
+		then 
+			chown -R asterisk:asterisk /dev/zap 
+		fi
 	chown asterisk /dev/tty9
 	chown -R asterisk:asterisk $AMPWEBROOT/admin
 	chown -R asterisk:asterisk $FOPWEBROOT

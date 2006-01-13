@@ -30,12 +30,12 @@ function ivr_get_config($engine) {
 				$ext->addInclude($item[0],'ext-local');
 				$ext->addInclude($item[0],'app-messagecenter');
 				$ext->addInclude($item[0],'app-directory');
-				$ext->add($item[0], 'h', '', new ext_hangup());
+				$ext->add($item[0], 'h', '', new ext_hangup(''));
 				$ext->add($item[0], 'i', '', new ext_playback('invalid'));
 				$ext->add($item[0], 'i', '', new ext_goto('7','s'));
 				
 				$ext->add($item[0], 's', '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','4'));
-				$ext->add($item[0], 's', '', new ext_answer());
+				$ext->add($item[0], 's', '', new ext_answer(''));
 				$ext->add($item[0], 's', '', new ext_wait('1'));
 				$ext->add($item[0], 's', '', new ext_setvar('LOOPED','1'));
 				$ext->add($item[0], 's', '', new ext_gotoif('$[${LOOPED} > 2]','hang,1'));
@@ -48,7 +48,7 @@ function ivr_get_config($engine) {
 				$ext->add($item[0], 't', '', new ext_goto('5','s'));
 				
 				$ext->add($item[0], 'hang', '', new ext_playback('vm-goodbye'));
-				$ext->add($item[0], 'hang', '', new ext_hangup());
+				$ext->add($item[0], 'hang', '', new ext_hangup(''));
 
 			}
 		break;
