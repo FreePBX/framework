@@ -574,7 +574,7 @@ function drawselects($goto,$i) {
 	$selectHtml .= '<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';
 	
 	//check for module-specific destination functions
-	foreach ($active_modules as $mod) {
+	foreach ($active_modules as $mod => $displayname) {
 		$funct = strtolower($mod.'_destinations');
 	
 		//if the modulename_destinations() function exits, run it and display selections for it
@@ -594,7 +594,7 @@ function drawselects($goto,$i) {
 				}
 			}
 			
-			$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="'.$mod.'" onclick="javascript:this.form.goto'.$i.'.value=\''.$mod.'\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$mod.'\';" '.($checked? 'CHECKED=CHECKED' : '').' /> '._($mod).': ';
+			$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="'.$mod.'" onclick="javascript:this.form.goto'.$i.'.value=\''.$mod.'\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$mod.'\';" '.($checked? 'CHECKED=CHECKED' : '').' /> '._($displayname).': ';
 			$selectHtml .=	'<select name="'.$mod.$i.'"/>';
 			$selectHtml .= $options;	
 			$selectHtml .=	'</select><br>';
