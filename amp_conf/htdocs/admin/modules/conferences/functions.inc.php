@@ -13,8 +13,10 @@ class conferences_conf {
 	// return the output that goes in the file
 	function generateConf() {
 		$output = "";
-		foreach (array_keys($this->_meetmes) as $meetme) {
-			$output .= 'conf => '.$meetme."|".$this->_meetmes[$meetme]."\n";
+		if (is_array($this->_meetmes)) {
+			foreach (array_keys($this->_meetmes) as $meetme) {
+				$output .= 'conf => '.$meetme."|".$this->_meetmes[$meetme]."\n";
+			}
 		}
 		return $output;
 	}
