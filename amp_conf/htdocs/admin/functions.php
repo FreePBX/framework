@@ -1895,6 +1895,7 @@ function getsystemrecordings($path) {
 	return ($filearray);
 }
 
+//obsolete
 function getmusiccategory($path) {
 	$i = 0;
 	$arraycount = 0;
@@ -1915,6 +1916,7 @@ function getmusiccategory($path) {
 	return ($filearray);
 }
 
+//obsolete
 function rmdirr($dirname)
 {
     // Sanity check

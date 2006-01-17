@@ -34,7 +34,7 @@ switch ($action) {
 		needreload();
 	break;
 	case "delete":
-		rmdirr("$path_to_dir"); 
+		music_rmdirr("$path_to_dir"); 
 		$path_to_dir = "/var/lib/asterisk/mohmp3"; //path to directory u want to read.
 		$category='Default';
 		createmusicconf();
@@ -51,7 +51,7 @@ switch ($action) {
 
 <?php
 //get existing trunk info
-$tresults = getmusiccategory("/var/lib/asterisk/mohmp3");
+$tresults = music_list("/var/lib/asterisk/mohmp3");
 if (isset($tresults)) {
 	foreach ($tresults as $tresult) {
 		echo "<li><a id=\"".($category==$tresult ? 'current':'')."\" href=\"config.php?display=".$display."&category={$tresult}&action=edit\">{$tresult}</a></li>";
@@ -65,7 +65,7 @@ if (isset($tresults)) {
 function createmusicconf()
 {
 	$File_Write="";
-	$tresults = getmusiccategory("/var/lib/asterisk/mohmp3");
+	$tresults = music_list("/var/lib/asterisk/mohmp3");
 	if (isset($tresults)) {
 		foreach ($tresults as $tresult) 
 			$File_Write.="{$tresult} => quietmp3:/var/lib/asterisk/mohmp3/{$tresult}\n";
@@ -191,7 +191,7 @@ else
 
 	<form enctype="multipart/form-data" name="upload" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
 		<?php echo _("Upload a .wav or .mp3 file:")?><br>
-		<input type="hidden" name="display" value="1">
+		<input type="hidden" name="display" value="<?php echo $display?>">
 		<input type="hidden" name="category" value="<?php echo "$category" ?>">
 		<input type="hidden" name="action" value="addedfile">
 		<input type="file" name="mohfile"/>
