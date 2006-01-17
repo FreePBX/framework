@@ -45,14 +45,16 @@ function conferences_get_config($engine) {
 	switch($engine) {
 		case "asterisk":
 			$ext->addInclude('from-internal-additional','ext-meetme');
-			foreach(conferences_list() as $item) {
-				$room = conferences_get(ltrim($item['0']));
-				// add dialplan
-				$ext->add('ext-meetme', ltrim($item['0']), '', new ext_macro('joinmeetme',"{$room['exten']},{$room['options']}"));
-				$ext->add('ext-meetme', ltrim($item['0']), '', new ext_macro('joinmeetmeadmin',"{$room['exten']},{$room['options']},{$room['userpin']},{$room['adminpin']}"));
-				
-				// add meetme config
-				$conferences_conf->addMeetme($room['exten'],$room['userpin']);
+			if(is_array($conflist = conferences_list())) {
+				foreach($conflist as $item) {
+					$room = conferences_get(ltrim($item['0']));
+					// add dialplan
+					$ext->add('ext-meetme', ltrim($item['0']), '', new ext_macro('joinmeetme',"{$room['exten']},{$room['options']}"));
+					$ext->add('ext-meetme', ltrim($item['0']), '', new ext_macro('joinmeetmeadmin',"{$room['exten']},{$room['options']},{$room['userpin']},{$room['adminpin']}"));
+					
+					// add meetme config
+					$conferences_conf->addMeetme($room['exten'],$room['userpin']);
+				}
 			}
 		break;
 	}
