@@ -56,7 +56,7 @@ switch($action) {
 
 <?php
 //get existing recordings info
-$tresults = getsystemrecordings("/var/lib/asterisk/sounds/custom");
+$tresults = recordings_list("/var/lib/asterisk/sounds/custom");
 
 if (isset($tresults)){
 	foreach ($tresults as $tresult) {

@@ -1873,7 +1873,7 @@ function addgroup($account,$grplist,$grpstrategy,$grptime,$grppre,$goto) {
 }
 
 
-
+//obsolete
 function getsystemrecordings($path) {
 	$i = 0;
 	$arraycount = 0;
