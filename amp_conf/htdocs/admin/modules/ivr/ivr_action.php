@@ -128,5 +128,5 @@ switch($_REQUEST['ivr_action']) {
 
 //show the new map
 if ($_REQUEST['map_display'] != 'no')
-	include 'ivrmap.php';
+	include 'modules/ivr/ivrmap.php';
 ?>
