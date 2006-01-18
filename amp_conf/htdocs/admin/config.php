@@ -125,11 +125,21 @@ if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "devicea
 
 
 	
-foreach ($amp_sections as $key=>$value) {		
+foreach ($amp_sections as $key=>$value) {
 	// check access
 	if ($_SESSION["AMP_user"]->checkSection($key)) {
 		if ($key != 99) {
-			echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?display=".$key."\">"._($value)."</a></li>";
+			// if the module has it's own translations, use them for displaying menu item
+			if (extension_loaded('gettext')) {
+				if(is_dir("modules/{$key}/i18n")) {
+					bindtextdomain($key,"modules/{$key}/i18n");
+					textdomain($key);
+				} else {
+					bindtextdomain('amp','./i18n');
+					textdomain('amp');
+				}
+			}
+			echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?display=".$key."\">"._($value)."</a></li>";			
 		}
 	} else {
 		// they don't have access to this, remove it completely
@@ -159,6 +169,13 @@ switch($display) {
 				if (is_array(array_keys($module['items']))){
 					foreach (array_keys($module['items']) as $item){
 						if ($display == $item)  {
+							// modules can use their own translation files
+							if (extension_loaded('gettext')) {
+								if(is_dir("./modules/{$modkey}/i18n")) {
+									bindtextdomain($modkey,"./modules/{$modkey}/i18n");
+									textdomain($modkey);
+								}
+							}
 							include "modules/{$modkey}/page.{$item}.php";
 						}
 					}
@@ -174,6 +191,13 @@ switch($display) {
 		include 'page.modules.php';
 	break;
 }
+
+//use main translation file for footer
+if (extension_loaded('gettext')) {
+	bindtextdomain('amp','./i18n');
+	textdomain('amp');
+}
+	
 ?>
 </div>
 </td></tr></table>
