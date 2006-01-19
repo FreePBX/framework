@@ -52,12 +52,24 @@ function conferences_get_config($engine) {
 					$room = conferences_get(ltrim($item['0']));
 					// add dialplan
 					$ext->add('ext-meetme', ltrim($item['0']), '', new ext_macro('joinmeetme',"{$room['exten']},{$room['options']}"));
-					$ext->add('ext-meetme', ltrim($item['0']), '', new ext_macro('joinmeetmeadmin',"{$room['exten']},{$room['options']},{$room['userpin']},{$room['adminpin']}"));
 					
 					// add meetme config
 					$conferences_conf->addMeetme($room['exten'],$room['userpin']);
 				}
 			}
+			// now add our macros
+			//;arg1=roomnum, arg2=options, arg3=userpin, arg4=adminpin
+			$ext->add('macro-joinmeetme', 's', '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','READ'));
+			$ext->add('macro-joinmeetme', 's', '', new ext_answer(''));
+			$ext->add('macro-joinmeetme', 's', '', new ext_wait(1));
+			$ext->add('macro-joinmeetme', 's', 'READ', new ext_read('PIN','enter-conf-pin-number'));
+			$ext->add('macro-joinmeetme', 's', '', new ext_gotoif('$[foo${PIN} = foo${ARG3}]','user,1'));
+			$ext->add('macro-joinmeetme', 's', '', new ext_gotoif('$[${PIN} = ${ARG4}]','admin,1'));
+			$ext->add('macro-joinmeetme', 's', '', new ext_playback('conf-invalidpin'));
+			$ext->add('macro-joinmeetme', 's', '', new ext_goto('READ'));
+			$ext->add('macro-joinmeetme', 'user', '', new ext_meetme('${ARG1}','w${ARG2}','${ARG3}'));
+			$ext->add('macro-joinmeetme', 'admin', '', new ext_meetme('${ARG1}','awA${ARG2}','${ARG3}'));
+			$ext->add('macro-joinmeetme', 'h', '', new ext_hangup(''));			
 		break;
 	}
 }

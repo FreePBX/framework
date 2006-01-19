@@ -413,6 +413,54 @@ class ext_background extends extension {
 	}
 }
 
+class ext_read {
+	var $astvar;
+	var $filename;
+	var $maxdigits;
+	var $option;
+	
+	function ext_read($astvar, $filename='', $maxdigits='', $option='') {
+		$this->astvar = $astvar;
+		$this->filename = $filename;
+		$this->maxdigits = $maxdigits;
+		$this->option = $option;
+	}
+	
+	function output() {
+		return "Read(".$this->astvar.",".$this->filename.",".$this->maxdigits.",".$this->option.")";
+	}
+}
+
+class ext_meetme {
+	var $confno;
+	var $options;
+	var $pin;
+	
+	function ext_meetme($confno, $options='', $pin='') {
+		$this->confno = $confno;
+		$this->options = $options;
+		$this->pin = $pin;
+	}
+	
+	function output() {
+		return "MeetMe(".$this->confno.",".$this->options.",".$this->pin.")";
+	}
+}
+
+class ext_authenticate {
+	var $pass;
+	var $options;
+	
+	function ext_authenticate($pass, $options='') {
+		$this->pass = $pass;
+		$this->options = $options;
+	}
+	
+	function output() {
+		return "Authenticate(".$this->pass.",".$this->options.")";
+	}
+}
+
 /* example usage
 $ext = new extensions;
 
