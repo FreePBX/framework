@@ -2,7 +2,6 @@ Roadmap
 
   realtime support
   on-demand call recording
-  Sorting, for example by callerID, duration etc.
   email settings
   voicemail prompts
   forward calls
@@ -13,6 +12,12 @@ for call forward
  exten => s,2,DBget(temp=CFIM/${MACRO_EXTEN}) ; Get CFIM key, if not skip rest of macro
  exten => s,3,Dial(Local/${temp}@pbx/n)   ; Unconditional forward
     - functionality should have a cookie to store a number
+
+Change log - 01/12/2006
+
+ * added column sort to voicemail page (requested by Diego Elias Sofronas)
+ * added column sort to call monitor page (requested by Elias Sofronas)
+ * added i18n lang select to login page (requested by Diego Iastrubni)
 
 Change log - 12/09/2005
 

@@ -6,50 +6,6 @@
  */
 
 /**
- * Sets i18n locale language
- *
- * sets the language for i18n php gettext module
- * (gettext has to be enabled in the php.ini)
- *
- */
-function set_locale_lang() {
-
-  global $ari_language_default;
-
-  if (extension_loaded('gettext')) {
-
-    // try and find the default locale
-    $default_lang = preg_replace('/-/','_',$_SERVER['HTTP_ACCEPT_LANGUAGE']);
-
-    $locale = 'en_US';
-    $locale_dir = "./locale";
-    $directories = array();
-    get_directories($locale_dir,"",&$directories);
-    foreach($directories as $directory) {
-      $buf = substr($directory,strlen($locale_dir)+1,strlen($directory) - strlen($locale_dir));
-      if (preg_match("/" . $buf . "/i",$default_lang)) {
-        $locale = $buf;  
-        break;
-      }
-    }
-
-    // set locale
-    $language = $_COOKIE['ari_lang'] ? $_COOKIE['ari_lang']:$locale;
-    putenv("LANG=$language"); 
-    putenv("LANGUAGE=$language");
-    setlocale(LC_MESSAGES,$language);
-    bindtextdomain('ari','./locale');
-    bind_textdomain_codeset('ari', 'UTF-8');
-    textdomain('ari');
-
-  } else {
-    function _($str) {
-      return $str;
-    }
-  }
-}
-
-/**
  * Set a arguments.
  *
  * @param $args
@@ -322,7 +278,10 @@ function ari_page_footer() {
  * Includes and run functions
  */
 
-set_locale_lang(); 
+include_once("./includes/lang.inc");
+$language = new Language();
+$language->Set();
+
 version_cleanup();
 ari_session_start();
 

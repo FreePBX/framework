@@ -81,7 +81,7 @@ class voicemail {
               if ($f==$folder) {
 
                 // get message count
-                $indexes = $this->get_vm_index($folderPath,$q);
+                $indexes = $this->get_vm_index($folderPath,$q,$order,$sort);
                 $recordCount = 0;
                 $this->get_vm_count($indexes,$recordCount);
 
@@ -126,6 +126,8 @@ class voicemail {
     $q = get_argument($args,'q');
     $start = get_argument($args,'start');
     $span = get_argument($args,'span');
+    $order = get_argument($args,'order');
+    $sort = get_argument($args,'sort');
 
     // get files
     $files = array();
@@ -169,7 +171,7 @@ class voicemail {
       <head>
         <script>
         <!--
-          window.location = \"" . $_SERVER['PHP_SELF'] . "?m=" . $m . "&folder=" . $folder . "&q=" . $q . "&start=" . $start . "&span=" .$span . "\"
+          window.location = \"" . $_SERVER['PHP_SELF'] . "?m=" . $m . "&folder=" . $folder . "&q=" . $q . "&start=" . $start . "&span=" . $span . "&order=" . $order . "&sort=" . $sort . "\"
         // -->
         </script>
       </head>";
@@ -193,12 +195,17 @@ class voicemail {
 
     // args
     $m = get_argument($args,'m');
+    $f = get_argument($args,'f');
     $q = get_argument($args,'q');
     $start = get_argument($args,'start');
     $span = get_argument($args,'span');
+    $order = get_argument($args,'order');
+    $sort = get_argument($args,'sort');
 
-    $start = $start=='' ? 0 : $start ;
-    $span = $span=='' ? 15 : $span ;
+    $start = $start=='' ? 0 : $start;
+    $span = $span=='' ? 15 : $span;
+    $order = $order=='' ? 'calldate' : $order;
+    $sort = $sort=='' ? 'desc' : $sort;
 
     $paths = split(';',$asterisk_voicemail_path);
 
@@ -218,7 +225,7 @@ class voicemail {
     foreach($paths as $key => $path) {
       CheckPathSlash(&$path);
       $vmPath = $path . "$context/$extension/$folder";
-      $indexes = $this->get_vm_index($vmPath,$q);
+      $indexes = $this->get_vm_index($vmPath,$q,$order,$sort);
       $this->get_vm_count($indexes,$recordCount);
       $this->get_vm_data($indexes,$start,$span,$data);
     }
@@ -236,10 +243,10 @@ class voicemail {
     // move options
     $i=0;
     while ($asterisk_voicemail_folders[$i]) {
-      $f = $asterisk_voicemail_folders[$i]['folder'];
+      $cf = $asterisk_voicemail_folders[$i]['folder'];
       $fn = $asterisk_voicemail_folders[$i]['name'];
-      if ($f!=$folder) {
-        $move_options .= "<option VALUE='" . $f . "'>&nbsp;&nbsp;&nbsp;&nbsp;" .  $fn;
+      if ($cf!=$folder) {
+        $move_options .= "<option VALUE='" . $cf . "'>&nbsp;&nbsp;&nbsp;&nbsp;" .  $fn;
       }
       $i++;
     }
@@ -289,6 +296,52 @@ class voicemail {
             " . $forward_options . "
           </select>";
 
+    // table header
+    $recording_delete_header = "<th></th>";
+
+    $fields[0]['field'] = "calldate";
+    $fields[0]['text'] = _("Date");
+    $fields[1]['field'] = "calldate";
+    $fields[1]['text'] = _("Time");
+    $fields[2]['field'] = "clid";
+    $fields[2]['text'] = _("Caller ID");
+    $fields[3]['field'] = "priority";
+    $fields[3]['text'] = _("Priority");
+    $fields[4]['field'] = "origmailbox";
+    $fields[4]['text'] = _("Orig Mailbox");
+    $fields[5]['field'] = "duration";
+    $fields[5]['text'] = _("Duration");
+    $i = 0;
+    while ($fields[$i]) {
+
+      $field = $fields[$i]['field'];
+      $text = $fields[$i]['text'];
+      if ($order==$field) { 
+        if ($sort=='asc') {
+          $currentSort = 'desc';
+          $arrowImg = "<img src='theme/images/arrow-asc.png' alt='sort'>";
+        }
+        else {
+          $currentSort = 'asc';
+          $arrowImg = "<img src='theme/images/arrow-desc.png' alt='sort'>";
+        }   
+
+        if ($i==1) {
+          $arrowImg = '';
+        }    
+      }
+      else {
+        $arrowImg = '';
+        $currentSort = 'desc';
+      }
+
+      $unicode_q = urlencode($q);
+      $recording_header .= "<th><a href=" .  $_SERVER['PHP_SELF'] . "?m=" . $m . "&f=" . $f . "&q=" . $unicode_q . "&order=" . $field . "&sort=" . $currentSort . ">" . $text . $arrowImg . "</a></th>";
+
+      $i++;
+    }
+    $recording_header .= "<th>" . _("Message") . "</th>";
+
     // table body
     if (isset($data)) {
       foreach($data as $file=>$value) {
@@ -324,7 +377,7 @@ class voicemail {
     $ret .= CheckErrorMessage();
 
     $ret .= $display->DisplayHeaderText(_("Voicemail") . " " . _("for") . " " . $_SESSION['ari_user']['name'] . " (" . $extension . ")");
-    $ret .= $display->DisplaySearchBlock('left',$m,$folder,$q,true);
+    $ret .= $display->DisplaySearchBlock('left',$m,$folder,$sort,$order,$q,true);
 
     // start form
     $ret .= "
@@ -335,7 +388,10 @@ class voicemail {
         <input type=hidden name=q value=" . $q . ">
         <input type=hidden name=folder value=" . $folder . ">
         <input type=hidden name=start value=" . $start . ">
-        <input type=hidden name=span value=" . $span . ">";
+        <input type=hidden name=span value=" . $span . ">
+        <input type=hidden name=order value=" . $order . ">
+        <input type=hidden name=sort value=" . $sort . ">";
+
     $ret .= $display->DisplayInfoBarBlock($controls,$q,$start,$span,$recordCount);
 
     // add javascript for popup and message actions
@@ -362,7 +418,7 @@ class voicemail {
       // End -->
       </script>";
 
-    // table
+    // voicemail delete recording controls
     $ret .= "
       <table>
         <tr>
@@ -372,17 +428,14 @@ class voicemail {
             <small><a href='' OnClick=\"checkAll(document.voicemail_form,false); return false;\">" . _("none") . "</a></small>
           </td>
         </tr>
-      </table>
+      </table>";
+
+    // table
+    $ret .= "
       <table class='voicemail'>
         <tr>
-          <th></th>
-          <th>" . _("Date") . "</th>
-          <th>" . _("Time") . "</th>
-          <th>" . _("Caller ID") . "</th>
-          <th>" . _("Priority") . "</th>
-          <th>" . _("Orig Mailbox") . "</th>
-          <th>" . _("Duration") . "</th>
-          <th>" . _("Recording") . "</th>
+           " . $recording_delete_header . "
+           " . $recording_header . "
         </tr>
         " . $tableText . "
       </table>";
@@ -390,8 +443,8 @@ class voicemail {
     // end form
     $ret .= "</form>";
 
-    $ret .= $display->DisplaySearchBlock('center',$m,$folder,$q,false);
-    $ret .= $display->DisplayNavigationBlock($m,$folder,$q,$start,$span,$recordCount);
+    $ret .= $display->DisplaySearchBlock('center',$m,$folder,$sort,$order,$q,false);
+    $ret .= $display->DisplayNavigationBlock($m,$folder,$sort,$order,$q,$start,$span,$recordCount);
 
     return $ret;
   }
@@ -404,7 +457,7 @@ class voicemail {
    * @param $q
    *   search string
    */
-  function get_vm_index($path,$q) {
+  function get_vm_index($path,$q,$order,$sort) {
 
     $filter = '.txt';
     $recursiveMax = 0;
@@ -416,48 +469,62 @@ class voicemail {
       // ugly, but sorts array by time stamp
       foreach ($files as $file) {
 
-        $found = 1;
+        if (is_file($file)) {
 
-        // search filter
-        if ($q) {
+          $lines = file($file);
+          foreach ($lines as $key => $line) {
+            unset($value);
+            list($key,$value) = split('=',$line);
+            if ($value) {
 
-          $found = 0;
-          if (is_file($file)) {
-
-            $lines = file($file);
-            foreach ($lines as $key => $line) {
-              unset($value);
-              list($key,$value) = split('=',$line);
-              if ($value) {
-                if ($key=="origmailbox") {
-                  $origmailbox = $value;
-                }
-                if ($key=="callerid") {
-                  $callerid = $value;
-                }
-                if ($key=="origtime") {
-                  $date = GetDateFormat($value);
-                  $time = GetTimeFormat($value);
-                }
+              if ($key=="origtime") {
+                $calldate = $value;
+                $date = GetDateFormat($value);
+                $time = GetTimeFormat($value);
+              }
+              if ($key=="callerid") {
+                $callerid = $value;
+              }
+              if ($key=="priority") {
+                $priority = $value;
+              }
+              if ($key=="origmailbox") {
+                $origmailbox = $value;
+              }
+              if ($key=="duration") {
+                $duration = (int)$value;
               }
             }
           }
 
-          if (preg_match("/" . $q . "/", $origmailbox) || 
-                preg_match("/" . $q . "/", $callerid) || 
-                preg_match("/" . $q . "/", $date) || 
-                preg_match("/" . $q . "/", $time)) {
-            $found = 1;
+          // search filter
+          $found = 1;
+          if ($q) {
+
+            $found = 0;
+
+            if (preg_match("/" . $q . "/", $origmailbox) || 
+                  preg_match("/" . $q . "/", $callerid) || 
+                  preg_match("/" . $q . "/", $date) || 
+                  preg_match("/" . $q . "/", $time)) {
+              $found = 1;
+            }
           }
         }
 
         // add to index
         if ($found) {
-          $indexes[$file] = $file;
+          $indexes[$file] = $$order;
         }
       }
+
       if (count($indexes)) {
-        arsort($indexes);
+        if ($sort=='desc') {
+          arsort($indexes);
+        }
+        else {
+          asort($indexes);
+        }
       } 
     }
 
@@ -612,7 +679,7 @@ class voicemail {
 
     // populate array 
     $i = 0;
-    foreach ($indexes as $file => $time) {
+    foreach ($indexes as $file => $index) {
       if ($i>$start-1+$span) {
         return;
       }

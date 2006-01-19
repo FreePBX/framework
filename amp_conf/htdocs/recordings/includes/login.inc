@@ -264,7 +264,7 @@ class Login {
    * @param $request
    *   Variable to hold data entered into form
    */
-  function Form($request) {
+  function GetForm($request) {
 
     global $ari_no_login;
 
@@ -288,6 +288,7 @@ class Login {
       }
     }
 
+    $language = new Language();
     $display = new Display(NULL);
 
     // new header
@@ -296,9 +297,10 @@ class Login {
     $ret .= CheckErrorMessage();
 
     $ret .= "
-      <form action=" . $_SERVER['PHP_SELF'] . " method='POST' name='login'>
-      " . $hiddenInputText . "
-        <table id='login'>
+
+      <table id='login'>
+        <form id='login' name='login' action=" . $_SERVER['PHP_SELF'] . " method='POST'>
+        " . $hiddenInputText . "
           <tr>
             <td class='right'>
               <small><small>" . _("Login") . ":&nbsp;&nbsp;</small></small>
@@ -314,7 +316,8 @@ class Login {
             <td colspan=1>
               <input type='password' name='password' maxlength=20 tabindex=2>
             </td>
-          </tr>						
+          </tr>	
+          <tr>				
             <td></td>	
             <td>
               <input type='submit' name='btnSubmit' value='" . _("Submit") . "' tabindex=3></small></small></p>
@@ -328,19 +331,25 @@ class Login {
               <p class='small'>" . _("Remember Password") . "</p>
             </td>
           </tr>
-          <tr><td>&nbsp;</td></tr>
-        <table>
-        <table id='login_text'>
-          <tr>
-            <td>" .
-              _("Use your") . " " ."<b>" . _("Voicemail Mailbox and Password") . "</b><br>" .
-              _("This is the same password used for the phone") . "<br>" .
-              "<br>" . 
-              _("For password maintenance or assistance, contact your Phone System Administrator.") . "
-            </td>
-          </tr>
-        </table>
-      </form>";
+        </form>
+        <tr>				
+          <td></td>	
+          <td>
+            " . $language->GetForm() . "
+          </td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+      </table>
+      <table id='login_text'>
+        <tr>
+          <td>" .
+            _("Use your") . " " ."<b>" . _("Voicemail Mailbox and Password") . "</b><br>" .
+            _("This is the same password used for the phone") . "<br>" .
+            "<br>" . 
+            _("For password maintenance or assistance, contact your Phone System Administrator.") . "<br>" . "
+          </td>
+        </tr>
+      </table>";
 
     $ret .= "
       <script type='text/javascript'> 

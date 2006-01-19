@@ -34,32 +34,45 @@
 
 /* Login */
 
+#login  {  
+  margin: 0;
+  padding: 0;
+}
+#login p { 
+  font-size: 0.7em;
+}
 table#login  {  
   width: 600px;
   border: 0px;
 }
-
 table#login td.right {  
   text-align: right;
   width: 20%;
 }
-
 table#login td.left {  
   text-align: left;
 }
-
 table#login td.small {  
-  font-size: 11px;
+  font-size: 0.7em;
 }
-
-#login p { 
-  font-size: 11px;
-}
-
 table#login_text  { 
   margin-left: 60px; 
-  font-size: 13px;
+  font-size: 0.8em;
   text-align: left;
+}
+
+/* i18n lang */
+
+.lang {
+  display: inline;
+  font-size: 0.8em;
+  margin: 0;
+  padding: 0;
+}
+.lang_code {
+  margin: 0;
+  padding: 0;
+  width: 10em;
 }
 
 /* Line */
@@ -182,6 +195,7 @@ input.infoBar {
 
 
 
+
 /* Subheader */
 
 #subheader {
@@ -198,37 +212,41 @@ input.infoBar {
 
 /* Callmonitor */
 
-table.callmonitor{ 
-  width: 604px;
-  font-family: Verdana;
-  font-weight: normal;
-  font-size: 11px;
-  color: #404040;
-  background-color: #fafafa;
+table.callmonitor { 
   border: 1px #6699CC solid;
   border-collapse: collapse;
   border-spacing: 0px;
   margin: 0 0 16px 0;
+  width: 604px;
 }
-table.callmonitor td.callmonitorHD, th { 
+table.callmonitor th { 
+  background-color: #BEC8D1;
   border: 1px solid #6699CC;
   border-bottom: 2px solid #6699CC;
-  background-color: #BEC8D1;
   text-align: center;
   font-family: Verdana;
   font-weight: bold;
-  font-size: 11px;
+  font-size: 0.7em;
   color: #404040;
 }
+table.callmonitor th a { 
+  color: #404040;
+}
+table.callmonitor img { 
+  border: 0;
+}
 table.callmonitor td { 
+  background-color: white;
   border: 1px solid #6699CC;
+  color: #404040;
   font-family: Verdana, sans-serif, Arial;
   font-weight: normal;
-  font-size: 11px;
-  color: #404040;
-  background-color: white;
-  text-align: center;
+  font-size: 0.7em;
   padding: 3px;
+  text-align: center;
+}
+table.callmonitor td.checkbox { 
+  padding: 1px;
 }
 
 /* Voicemail */
@@ -237,37 +255,37 @@ table.callmonitor td {
   margin: 0px;
 }
 table.voicemail{ 
-  width: 604px;
-  font-family: Verdana;
-  font-weight: normal;
-  font-size: 11px;
-  color: #404040;
-  background-color: #fafafa;
   border: 1px #6699CC solid;
   border-collapse: collapse;
   border-spacing: 0px;
   margin: 0 0 16px 0;
-  padding: 0px;
+  width: 604px;
 }
-table.voicemail td.voicemailHD, th { 
+table.voicemail th { 
+  background-color: #BEC8D1;
   border: 1px solid #6699CC;
   border-bottom: 2px solid #6699CC;
-  background-color: #BEC8D1;
   text-align: center;
   font-family: Verdana;
   font-weight: bold;
-  font-size: 11px;
+  font-size: 0.7em;
   color: #404040;
 }
+table.voicemail th a { 
+  color: #404040;
+}
+table.voicemail img { 
+  border: 0;
+}
 table.voicemail td { 
+  background-color: white;
   border: 1px solid #6699CC;
+  color: #404040;
   font-family: Verdana, sans-serif, Arial;
   font-weight: normal;
-  font-size: 11px;
-  color: #404040;
-  background-color: white;
-  text-align: center;
+  font-size: 0.7em;
   padding: 3px;
+  text-align: center;
 }
 table.voicemail td.checkbox { 
   padding: 1px;
@@ -278,7 +296,9 @@ table.voicemail td.checkbox {
 .settings { 
   font-family: Verdana, sans-serif, Arial;
   font-weight: normal;
-  font-size: 12px;
+  font-size: 0.9em;
+  padding: 0;
+  margin: 0;
 }
 table.settings { 
   font-family: Verdana;

@@ -87,12 +87,9 @@ class settings {
     $record_in = get_argument($args,'record_in');
     $record_out = get_argument($args,'record_out');
 
-    if ($a=='update') {
+    $language = new Language();
 
-      // update i18n language setting
-      if (extension_loaded('gettext')) {
-        setcookie("ari_lang", $lang_code, time()+365*24*60*60);
-      }
+    if ($a=='update') {
 
       if ($_SESSION['ari_user']['extension']!=$admin_username) {
 
@@ -161,7 +158,7 @@ class settings {
             }
           }
         }
-  
+
         // update voicemail audio format setting
         setcookie("ari_voicemail_audio_format", $voicemail_audio_format, time()+365*24*60*60);
 
@@ -209,6 +206,7 @@ class settings {
     $start = get_argument($args,'start');
     $span = get_argument($args,'span');
 
+    $language = new Language();
     $display = new DisplaySearch();
 
     // get data
@@ -216,20 +214,11 @@ class settings {
     $this->get_record_settings($_SESSION['ari_user']['extension'],&$data);
 
     // lang setting options
-    if (extension_loaded('gettext')) {
+    if (extension_loaded('gettext')) { 
       $setLangText = "
-          <p>
+          <p class='lang'>
  	    " . _("Language:") . "
-	    <select name='lang_code'>
-              <option value='en_US' " . ($_COOKIE['ari_lang']=='en_US' ? 'selected' : '') .  ">English</option>
-              <option value='es_ES' " . ($_COOKIE['ari_lang']=='es_ES' ? 'selected' : '') .  ">Espa&ntilde;ol</option>
-              <option value='fr_FR' " . ($_COOKIE['ari_lang']=='fr_FR' ? 'selected' : '') .  ">French</option>
-              <option value='de_DE' " . ($_COOKIE['ari_lang']=='de_DE' ? 'selected' : '') .  ">German</option>
-              <option value='el_GR' " . ($_COOKIE['ari_lang']=='el_GR' ? 'selected' : '') .  ">Greek</option>
-              <option value='it_IT' " . ($_COOKIE['ari_lang']=='it_IT' ? 'selected' : '') .  ">Italian</option>
-              <option value='pt_BR' " . ($_COOKIE['ari_lang']=='pt_BR' ? 'selected' : '') .  ">Portuguese</option>
-              <option value='sv_SE' " . ($_COOKIE['ari_lang']=='sv_SE' ? 'selected' : '') .  ">Swedish</option>
-            </select>
+	    " . $language->GetForm() . "
           </p>";
     } 
 
@@ -335,11 +324,11 @@ class settings {
     $ret .= $display->DisplayLine();
 
     $ret .= "
+      " . $setLangText . "
       <form class='settings' name='ari_settings' action='' method='GET'>
         <input type=hidden name=m value=" . $m . ">
         <input type=hidden name=f value='action'>
         <input type=hidden name=a value='update'>
-        " . $setLangText . "
 	<br>
         " . $setVoicemailText . "
 	<br>
@@ -424,6 +413,7 @@ class settings {
       $data['record_in'] = 'Adhoc';
     }
     $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get RECORD-OUT $id\r\n\r\n",$response);
+
     if (preg_match("/ENABLED/",$response)) {
       $data['record_out'] = 'Always';
     }

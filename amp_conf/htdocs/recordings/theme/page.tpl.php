@@ -77,7 +77,7 @@
     <!--begin footer-->
     <div id="ariFooter">
       <small>
-        &nbsp;&nbsp;Version <?php print($ari_version) ?><br>
+        &nbsp;&nbsp;<?echo _("Version")?> <?php print($ari_version) ?><br>
         &middot;&nbsp;<a href="http://www.littlejohnconsulting.com">Littlejohn Consulting</a> 
       </small>
     </div>

@@ -65,7 +65,7 @@ class DisplaySearch extends Display {
    * @param $focus
    *   whether to focus control on this block
    */
-  function DisplaySearchBlock($align,$m,$folder,$q,$focus) {
+  function DisplaySearchBlock($align,$m,$folder,$sort,$order,$q,$focus) {
 
     if ($align=='center') {
       $alignText = "class='bar_center'";
@@ -78,6 +78,8 @@ class DisplaySearch extends Display {
                <form class='bar' action='" . $_SERVER['PHP_SELF'] . "' method='GET' name='search'>
                  <input type=hidden name=m value=" . $m . ">	
                  <input type=hidden name=folder value=" . $folder . ">
+                 <input type=hidden name=sort value=" . $sort . ">
+                 <input type=hidden name=order value=" . $order . ">
                  <input type=text name=q size=40 value='" . $q . "' maxlength=256>
                  <input type=hidden name=start value=0>			
                  <input type=submit name=btnS value='" . _("Search") . "'>
@@ -159,7 +161,7 @@ class DisplaySearch extends Display {
    * @param $total
    *   total number of records found by current search
    */
-  function DisplayNavigationBlock($m,$folder,$q,$start,$span,$total) {
+  function DisplayNavigationBlock($m,$folder,$sort,$order,$q,$start,$span,$total) {
 
     $start = $start=='' ? 0 : $start ;
     $span = $span=='' ? 15 : $span ;
@@ -169,14 +171,14 @@ class DisplaySearch extends Display {
     $startPage = floor($start/$span);
 
     // encode search string
-    $q = urlencode($q);
+    $unicode_q = urlencode($q);
 
     // if more than ten pages start at this page minus ten otherwise start at zero
     $begin = ($startPage>10)?($startPage-10):0;
     // if more than ten pages then stop at this page plus ten otherwise stop at last page
     $end = ($startPage>8)?($startPage+10):10;
 
-    $url = $_SERVER['PHP_SELF'] . "?m=" . $m . "&folder=" . $folder . "&q=" . $q;
+    $url = $_SERVER['PHP_SELF'] . "?m=" . $m . "&folder=" . $folder . "&sort=" . $sort . "&order=" . $order . "&q=" . $unicode_q;
 
     if ($startPage!=0) {
       $startPageText = "<a href='" . $url . "&start=0'><small>" . _("First") . "</a>&nbsp;</small>
@@ -194,6 +196,8 @@ class DisplaySearch extends Display {
           $endPageText = "<a href='" . $url . "&start=" . ($start+$span) . "'><small>></a>&nbsp;</small>
                           <a href='" . $url . "&start=" . ($totalPages-1)*$span  . "'><small>" . _("Last") . "</a>&nbsp;</small>";
     }
+
+
 
     $ret .= "<div class='bar_center'>
               " . $startPageText . "

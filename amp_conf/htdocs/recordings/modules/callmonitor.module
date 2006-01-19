@@ -49,6 +49,8 @@ class callmonitor {
     $q = get_argument($args,'q');
     $start = get_argument($args,'start');
     $span = get_argument($args,'span');
+    $order = get_argument($args,'order');
+    $sort = get_argument($args,'sort');
 
     // get files
     $files = array();
@@ -67,7 +69,7 @@ class callmonitor {
       <head>
         <script>
         <!--
-          window.location = \"" . $_SERVER['PHP_SELF'] . "?m=" . $m . "&q=" . $q . "&start=" . $start . "&span=" .$span . "\"
+          window.location = \"" . $_SERVER['PHP_SELF'] . "?m=" . $m . "&q=" . $q . "&start=" . $start . "&span=" . $span . "&order=" . $order . "&sort=" . $sort . "\"
         // -->
         </script>
       </head>";
@@ -90,19 +92,24 @@ class callmonitor {
 
     // get the search string
     $m = get_argument($args,'m');
+    $f = get_argument($args,'f');
     $q = get_argument($args,'q');
     $start = get_argument($args,'start');
     $span = get_argument($args,'span');
+    $order = get_argument($args,'order');
+    $sort = get_argument($args,'sort');
 
-    $start = $start=='' ? 0 : $start ;
-    $span = $span=='' ? 15 : $span ;
+    $start = $start=='' ? 0 : $start;
+    $span = $span=='' ? 15 : $span;
+    $order = $order=='' ? 'calldate' : $order;
+    $sort = $sort=='' ? 'desc' : $sort;
 
     $paths = split(';',$asterisk_callmonitor_path);
 
     // get data
     $this->get_cdr_count($q,$recordCount);
     $data = array();
-    $this->get_cdr_data($q,$start,$span,$data);
+    $this->get_cdr_data($q,$start,$span,$order,$sort,$data);
 
     // build controls
 
@@ -128,6 +135,51 @@ class callmonitor {
     if ($callmonitor_allow_delete) {
       $recording_delete_header = "<th></th>";
     }
+
+    $fields[0]['field'] = "calldate";
+    $fields[0]['text'] = _("Date");
+    $fields[1]['field'] = "calldate";
+    $fields[1]['text'] = _("Time");
+    $fields[2]['field'] = "clid";
+    $fields[2]['text'] = _("Caller ID");
+    $fields[3]['field'] = "src";
+    $fields[3]['text'] = _("Source");
+    $fields[4]['field'] = "dst";
+    $fields[4]['text'] = _("Destination");
+    $fields[5]['field'] = "dcontext";
+    $fields[5]['text'] = _("Context");
+    $fields[6]['field'] = "duration";
+    $fields[6]['text'] = _("Duration");
+    $i = 0;
+    while ($fields[$i]) {
+
+      $field = $fields[$i]['field'];
+      $text = $fields[$i]['text'];
+      if ($order==$field) { 
+        if ($sort=='asc') {
+          $currentSort = 'desc';
+          $arrowImg = "<img src='theme/images/arrow-asc.png' alt='sort'>";
+        }
+        else {
+          $currentSort = 'asc';
+          $arrowImg = "<img src='theme/images/arrow-desc.png' alt='sort'>";
+        }   
+
+        if ($i==1) {
+          $arrowImg = '';
+        }    
+      }
+      else {
+        $arrowImg = '';
+        $currentSort = 'desc';
+      }
+
+      $unicode_q = urlencode($q);
+      $recording_header .= "<th><a href=" .  $_SERVER['PHP_SELF'] . "?m=" . $m . "&f=" . $f . "&q=" . $unicode_q . "&order=" . $field . "&sort=" . $currentSort . ">" . $text . $arrowImg . "</a></th>";
+
+      $i++;
+    }
+    $recording_header .= "<th>" . _("Monitor") . "</th>";
 
     // table body
     $used = array();
@@ -181,7 +233,7 @@ class callmonitor {
       $headerText = _("Call Monitor") . " " . _("for") . " " . $_SESSION['ari_user']['name'] . " (" . $_SESSION['ari_user']['extension'] . ")";
     }
     $ret .= $display->DisplayHeaderText($headerText);
-    $ret .= $display->DisplaySearchBlock('left',$m,$folder,$q,true);
+    $ret .= $display->DisplaySearchBlock('left',$m,$folder,$sort,$order,$q,true);
 
     // start form
     if ($callmonitor_allow_delete) {
@@ -193,8 +245,11 @@ class callmonitor {
           <input type=hidden name=a value=''>
           <input type=hidden name=q value=" . $q . ">
           <input type=hidden name=start value=" . $start . ">
-          <input type=hidden name=span value=" . $span . ">";
+          <input type=hidden name=span value=" . $span . ">
+          <input type=hidden name=order value=" . $order . ">
+          <input type=hidden name=sort value=" . $sort . ">";
     }
+
     $ret .= $display->DisplayInfoBarBlock($controls,$q,$start,$span,$recordCount);
 
     // javascript for popup and message actions
@@ -221,7 +276,7 @@ class callmonitor {
       // End -->
       </script>";
 
-    // call monitor recording delete controls
+    // call monitor delete recording controls
     if ($callmonitor_allow_delete) {
       $ret .= "
         <table>
@@ -238,30 +293,29 @@ class callmonitor {
       $ret .= "<br>";
     }
 
-    // table body
+    // table
     $ret .= "
       <table class='callmonitor'>
-         <tr>
-           " . $recording_delete_header . "
-           <th>" . _("Date") . "</th>
-           <th>" . _("Time") . "</th>
-           <th>" . _("Caller ID") . "</th>
-           <th>" . _("Source") . "</th>
-           <th>" . _("Destination") . "</th>
-           <th>" . _("Context") . "</th>
-           <th>" . _("Duration") . "</th>
-           <th>" . _("Monitor") . "</th>
-         </tr>
-         " . $tableText . "
-       </table>";
+        <tr>
+          " . $recording_delete_header . "
+          " . $recording_header . "
+        </tr>
+        " . $tableText . "
+      </table>";
+
+    $start = get_argument($args,'start');
+    $span = get_argument($args,'span');
+    $order = get_argument($args,'order');
+    $sort = get_argument($args,'sort');
 
     // end form
     if ($callmonitor_allow_delete) {
       $ret .= "</form>";
     }
 
-    $ret .= $display->DisplaySearchBlock('center',$m,$folder,$q,false);
-    $ret .= $display->DisplayNavigationBlock($m,$folder,$q,$start,$span,$recordCount);
+
+    $ret .= $display->DisplaySearchBlock('center',$m,$folder,$sort,$order,$q,false);
+    $ret .= $display->DisplayNavigationBlock($m,$folder,$sort,$order,$q,$start,$span,$recordCount);
 
     return $ret;
   }
@@ -473,7 +527,7 @@ class callmonitor {
    * @param $data
    *   Reference to the variable to store the data in
    */
-  function get_cdr_data($q,$start,$span,&$data) {
+  function get_cdr_data($q,$start,$span,$order,$sort,&$data) {
 
     $searchText = $this->get_search_text($q);
 
@@ -492,7 +546,7 @@ class callmonitor {
                    userfield 
              FROM cdr 
              " . $searchText . "
-             ORDER BY calldate desc
+             ORDER BY " . $order . " " . $sort . "
              LIMIT " . $start . "," . $span;
     $result = $dbh->getAll($sql,DB_FETCHMODE_ASSOC);
     if (DB::isError($result)) {

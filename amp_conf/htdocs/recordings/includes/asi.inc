@@ -60,7 +60,6 @@ class AsteriskManagerInterface {
     return TRUE;
   }
 
-
   /*
    * Reloads Asterisk Configuration
    */
@@ -71,7 +70,6 @@ class AsteriskManagerInterface {
     }
   }
 
-
   /*
    * Reloads Asterisk Configuration
    *
@@ -81,18 +79,29 @@ class AsteriskManagerInterface {
   function Command($command,&$response) {
 
     fwrite($this->socket,$command);
-    $buffer=fgets($this->socket); // get rid of a blank line
-    if (preg_match('/END COMMAND/',$buffer)) {
-      return TRUE;
+
+    $count = 0;
+    while (($buffer = fgets($this->socket)) && (!preg_match('/Response: Follows/i', $buffer))) {
+
+      if ($count>100) {
+        $_SESSION['ari_error'] =  _("Asterisk command not understood") . "<br />" . $buffer . "<br />\n";
+        return FALSE;
+      }
+      $count++;
     }
-    $buffer=fgets($this->socket);
-    if ($buffer!="Response: Follows\r\n") {
-      $_SESSION['ari_error'] =  _("Asterisk reload command not understood") . "<br />" . $buffer . "<br />\n";
-      return FALSE;
-    }
-    $response=fgets($this->socket);
-    if (!preg_match('/END COMMAND/',$response)) {
-      $buffer=fgets($this->socket);
+
+    $count = 0;
+    while (($buffer = fgets($this->socket)) && (!preg_match('/END COMMAND/i', $buffer))) {
+
+      if (preg_match('/Value/',$buffer)) {
+        $response = $buffer;
+      }
+
+      if ($count>100) {
+        $_SESSION['ari_error'] =  _("Asterisk command not understood") . "<br />" . $buffer . "<br />\n";
+        return FALSE;
+      }
+      $count++;
     }
 
     return TRUE;

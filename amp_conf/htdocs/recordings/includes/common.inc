@@ -40,6 +40,8 @@ function DatabaseLogon() {
     $mgrpass = $standalone['asterisk_mgrpass'];
     $dbuser = $standalone['asterisk_dbuser'];
     $dbpass = $standalone['asterisk_dbpass'];
+    $cdrdbuser = $standalone['asterisk_cdrdbuser'];
+    $cdrdbpass = $standalone['asterisk_cdrdbpass'];
   } 
   else {
     if (is_file($amp_functions_file)) {
@@ -49,6 +51,8 @@ function DatabaseLogon() {
       $mgrpass = $amp_conf['AMPMGRPASS'];
       $dbuser = $amp_conf["AMPDBUSER"];
       $dbpass = $amp_conf["AMPDBPASS"];
+      $cdrdbuser = $amp_conf["AMPDBUSER"];
+      $cdrdbpass = $amp_conf["AMPDBPASS"];
       unset($amp_conf);
     } 
   }
@@ -83,8 +87,8 @@ function DatabaseLogon() {
   }
 
   // cdr database
-  $success = $db->logon($dbuser, 
-                        $dbpass,
+  $success = $db->logon($cdrdbuser, 
+                        $cdrdbpass,
                         $asteriskcdr_dbhost,
                         $asteriskcdr_dbname,
                         'mysql',
@@ -120,7 +124,7 @@ function LoginBlock() {
     $login = new Login();
 
     // login form
-    $ret .= $login->Form($request);
+    $ret .= $login->GetForm($request);
 
     return $ret;
   }
