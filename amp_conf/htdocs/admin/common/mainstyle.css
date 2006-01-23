@@ -25,7 +25,7 @@ a:hover {
 div#page {
     margin-left: auto;
     margin-right: auto;
-    width:720px;
+    width: 85%;
     text-align:left;
     padding-left: 20px;
     padding-right: 20px;
@@ -85,13 +85,19 @@ div.message {
 div.nav {
     float:left;
     width:150px;
+	display: block;
 }
 div.nav a {
 	color: #2E78A7;
 	text-decoration : none;
+	display: block;
+    padding:5px;
+    border:1px solid white;    
 }
 div.nav a:hover {
 	color: #ee9a47;
+	background: #FDF1D5;
+	border:1px solid #F2AF1D;	
 }
 div.nav li{
     list-style-type: none;
@@ -99,19 +105,24 @@ div.nav li{
     border-right: 1px solid #808080;
     border-left: 1px solid #808080;
     border-bottom: 1px solid #808080;
-    padding:5px;
 }
 
 div.rnav {
+    display: block;
     float:right;
     width:175px;
 }
 div.rnav a {
 	color: #2E78A7;
 	text-decoration : none;
+	display: block;
+	padding: 5px;
+        border:1px solid white;		
 }
 div.rnav a:hover {
 	color: #ee9a47;
+	background: #FDF1D5;
+        border:1px solid #F2AF1D;		
 }
 div.rnav li{
     list-style-type: none;
@@ -119,7 +130,6 @@ div.rnav li{
     border-right: 1px solid #808080;
     border-left: 1px solid #808080;
     border-bottom: 1px solid #808080;
-    padding:5px;
 }
 
 a.info{
@@ -251,3 +261,4 @@ div.inyourface a{
 	text-decoration:none;
 	border: 1px solid black;	
 }
+
