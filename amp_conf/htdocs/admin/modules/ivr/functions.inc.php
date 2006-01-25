@@ -25,7 +25,7 @@ function ivr_get_config($engine) {
 	switch($engine) {
 		case "asterisk":
 			foreach(ivr_list() as $item) {
-				$ivr = ivr_get(ltrim($item['0']));
+				$ivr = ivr_get_s(ltrim($item['0']));
 				// add dialplan
 				$ext->addInclude($item[0],'ext-local');
 				$ext->addInclude($item[0],'app-messagecenter');
@@ -39,10 +39,10 @@ function ivr_get_config($engine) {
 				$ext->add($item[0], 's', '', new ext_wait('1'));
 				$ext->add($item[0], 's', '', new ext_setvar('LOOPED','1'));
 				$ext->add($item[0], 's', '', new ext_gotoif('$[${LOOPED} > 2]','hang,1'));
-				$ext->add($item[0], 's', '', new ext_setvar('DIR-CONTEXT',$ivr[15][4]));
+				$ext->add($item[0], 's', '', new ext_setvar('DIR-CONTEXT',substr($ivr[5][4],12)));
 				$ext->add($item[0], 's', '', new ext_digittimeout('3'));
 				$ext->add($item[0], 's', '', new ext_responsetimeout('7'));
-				$ext->add($item[0], 's', '', new ext_background($ivr[18][4]));
+				$ext->add($item[0], 's', '', new ext_background($ivr[8][4]));
 				
 				$ext->add($item[0], 't', '', new ext_setvar('LOOPED','$[${LOOPED} + 1]'));
 				$ext->add($item[0], 't', '', new ext_goto('5','s'));
@@ -68,14 +68,23 @@ function ivr_get($menu_id) {
 	return $aalines;
 }
 
-
+//get only 's' extension info about auto-attendant
+function ivr_get_s($menu_id) {
+	global $db;
+	$sql = "SELECT * FROM extensions WHERE context = '".$menu_id."' AND extension = 's' ORDER BY extension";
+	$aalines = $db->getAll($sql);
+	if(DB::IsError($aalines)) {
+		die('aalines: '.$aalines->getMessage());
+	}
+	return $aalines;
+}
 
 //get unique voice menu numbers - returns 2 dimensional array
 function ivr_list() {
 	global $db;
 	$dept = str_replace(' ','_',$_SESSION["AMP_user"]->_deptname);
 	if (empty($dept)) $dept='%';  //if we are not restricted to dept (ie: admin), then display all AA menus
-	$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND application LIKE 'DigitTimeout' AND context LIKE '".$dept."aa_%' ORDER BY context";
+	$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND application LIKE 'DigitTimeout' AND context LIKE '".$dept."aa_%' ORDER BY context,priority";
 	$unique_aas = $db->getAll($sql);
 	if(DB::IsError($unique_aas)) {
 	   die('unique: '.$unique_aas->getMessage().'<hr>'.$sql);
