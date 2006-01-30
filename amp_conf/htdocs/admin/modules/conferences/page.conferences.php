@@ -25,13 +25,16 @@ if (isset($account) && !checkRange($account)){
 	switch ($action) {
 		case "add":
 			conferences_add($_REQUEST['account'],$_REQUEST['name'],$_REQUEST['userpin'],$_REQUEST['adminpin'],$_REQUEST['options']);
+			needreload();
 		break;
 		case "delete":
 			conferences_del($extdisplay);
+			needreload();
 		break;
 		case "edit":  //just delete and re-add
 			conferences_del($_REQUEST['account']);
 			conferences_add($_REQUEST['account'],$_REQUEST['name'],$_REQUEST['userpin'],$_REQUEST['adminpin'],$_REQUEST['options']);
+			needreload();
 		break;
 	}
 }
