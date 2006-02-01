@@ -2,7 +2,6 @@
 <?php
 
 define("AMP_CONF", "/etc/amportal.conf");
-define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
 
 function out($text) {
 	echo $text."\n";
@@ -44,18 +43,6 @@ function parse_amportal_conf2($filename) {
 	}
 	return $conf;
 }
-
-function parse_asterisk_conf($filename) {
-	$file = file($filename);
-	foreach ($file as $line) {
-		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
-			$conf[ $matches[1] ] = $matches[2];
-		}
-	}
-	return $conf;
-}
-
-
 
 
 /********************************************************************************************************************/
@@ -136,23 +123,6 @@ outn("Reading ".AMP_CONF."..");
 $amp_conf = parse_amportal_conf2(AMP_CONF);
 if (count($amp_conf) == 0) {
 	fatal("FAILED");
-}
-out("OK");
-
-// **** Check for asterisk.conf
-
-outn("Checking for ".ASTERISK_CONF."..");
-if (!file_exists(ASTERISK_CONF)) {
-	fatal("Does not exist, or is inaccessible");
-}
-out("OK");
-
-// **** read asterisk.conf
-
-outn("Reading ".ASTERISK_CONF."..");
-$asterisk_conf = parse_asterisk_conf(ASTERISK_CONF);
-if (count($asterisk_conf) == 0) {
-	fatal("FAILED. Have you installed Asterisk?");
 }
 out("OK");
 
