@@ -324,7 +324,7 @@ class ext_setvar {
 	}
 	
 	function output() {
-		return "SetVar(".$this->var."=".$this->value.")";
+		return "Set(".$this->var."=".$this->value.")";
 	}
 }
 
@@ -362,7 +362,7 @@ class ext_macro {
 
 class ext_setcidname extends extension {
 	function output() {
-		return "SetCIDName(".$this->data.")";
+		return "Set(CALLERID(name)=".$this->data.")";
 	}
 }
 
@@ -397,13 +397,13 @@ class ext_hangup extends extension {
 
 class ext_digittimeout extends extension {
 	function output() {
-		return "DigitTimeout(".$this->data.")";
+		return "Set(TIMEOUT(digit)=".$this->data.")";
 	}
 }
 
 class ext_responsetimeout extends extension {
 	function output() {
-		return "ResponseTimeout(".$this->data.")";
+		return "Set(TIMEOUT(response)=".$this->data.")";
 	}
 }
 
