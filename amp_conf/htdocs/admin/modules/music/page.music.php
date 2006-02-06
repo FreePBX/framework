@@ -54,7 +54,7 @@ switch ($action) {
 $tresults = music_list("/var/lib/asterisk/mohmp3");
 if (isset($tresults)) {
 	foreach ($tresults as $tresult) {
-		echo "<li><a id=\"".($category==$tresult ? 'current':'')."\" href=\"config.php?display=".$display."&category={$tresult}&action=edit\">{$tresult}</a></li>";
+		echo "<li><a id=\"".($category==$tresult ? 'current':'')."\" href=\"config.php?display={$display}&category={$tresult}&action=edit\">{$tresult}</a></li>";
 	}
 }
 ?>
@@ -132,7 +132,7 @@ function draw_list($file_array, $path_to_dir, $category)
 			print "<div style=\"text-align:right;width:350px;border: 1px solid;padding:2px;\">";
 			//print "<a style=\"float:left;margin-left:5px;\" href=\"file:". $path_to_dir ."". $thisfile ."\">".$thisfile."</a>";
 			print "<b style=\"float:left;margin-left:5px;\" >".$thisfile."</b>";
-			print "<a style=\"margin-right:5px;\" href=\"".$_SERVER['SCRIPT_NAME']."?display=1&del=".$thisfile."&category=".$category."\">"._("Delete")."</a>";
+			print "<a style=\"margin-right:5px;\" href=\"".$_SERVER['SCRIPT_NAME']."?display=".$display."&del=".$thisfile."&category=".$category."\">"._("Delete")."</a>";
 			print "</div><br>";
 		}
 	}
