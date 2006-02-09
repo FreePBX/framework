@@ -141,12 +141,13 @@ if ($action == 'delete') {
 	</tr>
 
 	<tr><td colspan="2"><br><h5><?php echo _("Queue Options")?><hr></h5></td></tr>
+<?php if(function_exists(recordings_list)) { //only include if recordings is enabled?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Agent Announcement:")?><span><?php echo _("Announcement played to the Agent prior to bridging in the caller <br><br> Example: \"the Following call is from the Sales Queue\" or \"This call is from the Technical Support Queue\".<br><br>To add additional recordings please use the \"System Recordings\" MENU to the left")?></span></a></td>
 		<td>
 			<select name="agentannounce"/>
 			<?php
-				$tresults = getsystemrecordings("/var/lib/asterisk/sounds/custom");
+				$tresults = recordings_list("/var/lib/asterisk/sounds/custom");
 				$default = (isset($agentannounce) ? $agentannounce : None);
 				echo '<option value="None">'._("None");
 				if (isset($tresults)) {
@@ -159,12 +160,13 @@ if ($action == 'delete') {
 			</select>		
 		</td>
 	</tr>
+<?php } if(function_exists(music_list)) { //only include if music module is enabled?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Hold Music Category:")?><span><?php echo _("Music (or Commercial) played to the caller while they wait in line for an available agent.<br><br>  This music is defined in the \"On Hold Music\" Menu to the left.")?></span></a></td>
 		<td>
 			<select name="music"/>
 			<?php
-				$tresults = getmusiccategory("/var/lib/asterisk/mohmp3");
+				$tresults = music_list("/var/lib/asterisk/mohmp3");
 				$default = (isset($music) ? $music : 'default');
 				echo '<option value="default">'._("Default");
 				if (isset($tresults)) {
@@ -177,6 +179,7 @@ if ($action == 'delete') {
 			</select>		
 		</td>
 	</tr>
+<?php } ?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("max wait time:")?><span><?php echo _("The maximum number of seconds a caller can wait in a queue before being pulled out.  (0 for unlimited).")?></span></a></td>
 		<td>
@@ -348,6 +351,7 @@ if ($action == 'delete') {
 			</select>		
 		</td>
 	</tr>
+<?php if(function_exists(ivr_list)) { //only include if music module is enabled?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Voice Menu:")?><span> <?php echo _("After announcing Position and/or Hold Time, you can optionally present an existing Digital Receptionist Voice Menu.<br><br>This voicemenu must only contain single-digit 'dialed options'.")?> </span></a></td>
 		<td>
@@ -358,7 +362,7 @@ if ($action == 'delete') {
 			echo '<option value=none '.($default == "none" ? 'SELECTED' : '').'>'._("None").'</option>';
 			
 			//query for exisiting aa_N contexts
-			$unique_aas = getaas();		
+			$unique_aas = ivr_list();		
 			
 			if (isset($unique_aas)) {
 				foreach ($unique_aas as $unique_aa) {
@@ -368,16 +372,18 @@ if ($action == 'delete') {
 				}
 			}
 		
-			?>		
-			</select>		
+			?>
+			</select>
 		</td>
 	</tr>
+	
+<?php } if(function_exists(recordings_list)) { //only include if recordings is enabled?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Join Announcement:")?><span><?php echo _("Announcement played to callers once prior to joining the queue.<br><br>To add additional recordings please use the \"System Recordings\" MENU to the left")?></span></a></td>
 		<td>
 			<select name="joinannounce"/>
 			<?php
-				$tresults = getsystemrecordings("/var/lib/asterisk/sounds/custom");
+				$tresults = recordings_list("/var/lib/asterisk/sounds/custom");
 				$default = (isset($joinannounce) ? $joinannounce : None);
 				echo '<option value="None">'._("None");
 				if (isset($tresults)) {
@@ -390,6 +396,7 @@ if ($action == 'delete') {
 			</select>		
 		</td>
 	</tr>
+<?php } ?>
 
 	<tr><td colspan="2"><br><h5><?php echo _("Fail Over Destination")?><hr></h5></td></tr>
 

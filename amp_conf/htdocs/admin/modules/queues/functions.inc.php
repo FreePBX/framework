@@ -85,7 +85,7 @@ function queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$membe
 	global $db;
 	
 	//add to extensions table
-	if ($agentannounce != 'None')
+	if (!empty($agentannounce) && $agentannounce != 'None')
 		$agentannounce="custom/$agentannounce";
 	else
 		$agentannounce="";
