@@ -160,6 +160,14 @@ require_once($amp_conf['AMPWEBROOT']."/admin/functions.inc.php");
 // query for our modules
 $modules = find_allmodules();
 
+//Putting the core module last, to move outbound-allroutes 
+// last in from-internals-additional
+if (array_key_exists('core', $modules)) {
+        $core_tmp = $modules['core'];
+        unset($modules['core']);
+        $modules['core'] = $core_tmp;
+}
+
 // include any module global functions
 if(is_array($modules)){
 	foreach($modules as $key => $module) {
