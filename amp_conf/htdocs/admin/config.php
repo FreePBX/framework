@@ -88,25 +88,27 @@ if (isset($amp_conf["AUTHTYPE"]) && ($amp_conf["AUTHTYPE"] != "none")) {
 	$amp_sections[10] = _("AMP Users");
 }*/
 
-// query for our modules
-$modules = find_allmodules();
+// determine module type to show, default to 'setup'
+if(isset($_REQUEST['type']) && $_REQUEST['type'] == "tool") {
+	$type='tool';
+} else {
+	$type='setup';
+}
+// get all enabled modules
+// active_modules array used below and in drawselects function and genConf function
+$active_modules = find_modules(2,$type);
 
 // include any module global functions
 // add module sections to $amp_sections
-if(is_array($modules)){
-	foreach($modules as $key => $module) {
-		//only use this module if it's enabled (status=2)
-		if ($module['status'] == 2) {
-			// active_modules array used in drawselects function and genConf function
-			//$active_modules[] = $key;
-			$active_modules[$key] = $module['displayName'];
-			//include module functions
-			if (is_file("modules/{$key}/functions.inc.php")) {
-				require_once("modules/{$key}/functions.inc.php");
-			}
-			foreach($module['items'] as $itemKey => $itemName) {
-				$amp_sections[$itemKey] = $itemName;
-			}
+if(is_array($active_modules)){
+	foreach($active_modules as $key => $module) {
+		//include module functions
+		if (is_file("modules/{$key}/functions.inc.php")) {
+			require_once("modules/{$key}/functions.inc.php");
+		}
+		//create an array of module sections to display
+		foreach($module['items'] as $itemKey => $itemName) {
+			$amp_sections[$itemKey] = $itemName;
 		}
 	}
 }
@@ -139,7 +141,7 @@ foreach ($amp_sections as $key=>$value) {
 					textdomain('amp');
 				}
 			}
-			echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?display=".$key."\">"._($value)."</a></li>";			
+			echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?".(isset($_REQUEST['type'])?"type={$_REQUEST['type']}&":"")."display=".$key."\">"._($value)."</a></li>";			
 		}
 	} else {
 		// they don't have access to this, remove it completely
@@ -164,8 +166,8 @@ if (!empty($display) && !isset($amp_sections[$display])) {
 switch($display) {
 	default:
 		//display the appropriate module page
-		if (is_array($modules)) {
-			foreach ($modules as $modkey => $module) {
+		if (is_array($active_modules)) {
+			foreach ($active_modules as $modkey => $module) {
 				if (is_array(array_keys($module['items']))){
 					foreach (array_keys($module['items']) as $item){
 						if ($display == $item)  {

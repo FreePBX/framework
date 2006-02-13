@@ -61,9 +61,13 @@ if (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/
     <a href="index.php"><img src="images/freepbx.png"/></a>
 <?php }  ?>
 
-    <a id="<?php  echo ($currentFile=='config.php' ? 'current':'') ?>" href="config.php?">
+    <a id="<?php  echo ($currentFile=='config.php' && $_REQUEST['type']!='tool' ? 'current':'') ?>" href="config.php?">
         &#8226;
         <li><?php echo _("Setup") ?></li>
+    </a>
+    <a id="<?php  echo ($currentFile=='config.php' && $_REQUEST['type']=='tool' ? 'current':'') ?>" href="config.php?type=tool">
+        &#8226;
+        <li><?php echo _("Tools") ?></li>
     </a>
     <a id="<?php  echo ($currentFile=='reports.php' ? 'current':'') ?>" href="reports.php?">
         &#8226;

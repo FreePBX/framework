@@ -25,9 +25,9 @@ function Get_Tar_Files($dir="", $display="", $file="")
                         while (($file = readdir($dh)) !== false)
                         {
                                 if (($file!=".") && ($file!="..") && ($dir=="/var/lib/asterisk/backups/"))
-                                        echo "<li><a href=\"config.php?display=$display&action=restore&dir=$dir/$file\">$file</a><br></li>";
+                                        echo "<li><a href=\"config.php?type=tool&display=$display&action=restore&dir=$dir/$file\">$file</a><br></li>";
                                 else if (($file!=".") && ($file!="..") )
-                                        echo "<li><a href=\"config.php?display=$display&action=restore&dir=$dir/$file&file=$file\">$file</a><br></li>";
+                                        echo "<li><a href=\"config.php?type=tool&display=$display&action=restore&dir=$dir/$file&file=$file\">$file</a><br></li>";
                         }
                         closedir($dh);
                 }

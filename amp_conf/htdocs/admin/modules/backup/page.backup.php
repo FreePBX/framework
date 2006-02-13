@@ -17,6 +17,7 @@
 include_once "schedule_functions.php";
 $action = $_REQUEST['action'];
 $display='backup';
+$type = 'tool';
 
 switch ($action) {
 	case "addednew":
@@ -90,8 +91,8 @@ switch ($action) {
 ?>
 </div>
 <div class="rnav">
-    <li><a href="config.php?display=<?php echo $display?>&action=add"><?php echo _("Add Backup Schedule")?></a><br></li>
-    <li><a href="config.php?display=<?php echo $display?>&action=restore"><?php echo _("Restore from Backup")?></a><br></li>
+    <li><a href="config.php?type=tool&display=<?php echo $display?>&action=add"><?php echo _("Add Backup Schedule")?></a><br></li>
+    <li><a href="config.php?type=tool&display=<?php echo $display?>&action=restore"><?php echo _("Restore from Backup")?></a><br></li>
 
 <?php 
 //get unique account rows for navigation menu
@@ -99,7 +100,7 @@ $results = Get_Backup_Sets();
 
 if (isset($results)) {
 	foreach ($results as $result) {
-		echo "<li><a id=\"".($extdisplay==$result[13] ? 'current':'')."\" href=\"config.php?display=".$display."&action=edit&backupid={$result[13]}&backupname={$result[0]}\">{$result[0]}</a></li>";
+		echo "<li><a id=\"".($extdisplay==$result[13] ? 'current':'')."\" href=\"config.php?type=tool&display=".$display."&action=edit&backupid={$result[13]}&backupname={$result[0]}\">{$result[0]}</a></li>";
 	}
 }
 ?>
@@ -115,6 +116,7 @@ if ($action == 'add')
 	<h2><?php echo _("System Backup")?></h2>
 	<form name="addbackup" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="display" value="<?php echo $display?>">
+	<input type="hidden" name="type" value="<?php echo $type?>">
 	<input type="hidden" name="action" value="addednew">
         <table>
 	<?php Show_Backup_Options(); ?>
@@ -135,11 +137,12 @@ else if ($action == 'edit')
 {
 	?>
 	<h2><?php echo _("System Backup")?></h2>
-	<p><a href="config.php?display=<?php echo $display ?>&action=delete&backupid=<?php echo $_REQUEST['backupid']; ?>"><?php echo _("Delete Backup Schedule")?> <?php echo $_REQUEST['backupname']; ?></a></p>
+	<p><a href="config.php?type=tool&display=<?php echo $display ?>&action=delete&backupid=<?php echo $_REQUEST['backupid']; ?>"><?php echo _("Delete Backup Schedule")?> <?php echo $_REQUEST['backupname']; ?></a></p>
 	<form name="addbackup" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="display" value="<?php echo $display?>">
 	<input type="hidden" name="action" value="edited">
 	<input type="hidden" name="backupid" value="<?php echo $_REQUEST['backupid']; ?>">
+	<input type="hidden" name="type" value="<?php echo $type?>">
         <table>
 	<?php Show_Backup_Options($_REQUEST['backupid']); ?>
         </table>

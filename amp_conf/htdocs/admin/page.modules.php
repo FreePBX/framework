@@ -89,7 +89,7 @@ if (isset($_POST['submit'])) { // if form has been submitted
 <h2>Module Administration</h2>
 
 <table border="1" width="100%">
-<th>Module</th><th>Version</th><th>Status</th><th>Action</th>
+<th>Module</th><th>Version</th><th>Type</th><th>Status</th><th>Action</th>
 <?php
 foreach(find_allmodules() as $key => $mod) {
 	
@@ -134,6 +134,9 @@ foreach(find_allmodules() as $key => $mod) {
 	echo "</td>";
 	echo "<td>";
 	echo $mod['version'];
+	echo "</td>";
+	echo "<td>";
+	echo $mod['type'];
 	echo "</td>";
 	echo "<td>";
 	echo $status;

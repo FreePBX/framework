@@ -126,8 +126,10 @@ function checkDept($dept){
 ** returns array:
 ** array['module']['displayName']
 ** array['module']['version']
+** array['module']['type']
 ** array['module']['status']
 ** array['module']['items'][array(items)]
+** Use find_modules() to return only specific type or status
 */
 
 function find_allmodules() {
@@ -147,6 +149,8 @@ function find_allmodules() {
 						$mod[ $file ]['displayName'] = $matches[2];
 					else if (trim($matches[1]) == "version")
 						$mod[ $file ]['version'] = $matches[2];
+					else if (trim($matches[1]) == "type")
+						$mod[ $file ]['type'] = $matches[2];
 					else 
 						$mod[ $file ]['items'][ $matches[1] ] = $matches[2];
 				}
@@ -170,6 +174,30 @@ function find_allmodules() {
 		}
 	}
 	return $mod;
+}
+
+/* finds modules of the specified status and type
+** $status can be 0 (not installed), 1 (disabled), 2 (enabled)
+** $type can be 'setup' or 'tool'
+**
+** returns array:
+** array['module']['displayName']
+** array['module']['version']
+** array['module']['type']
+** array['module']['status']
+** array['module']['items'][array(items)]
+*/
+function find_modules($status,$type) {
+	$modules = find_allmodules();
+	//$return_modules = $modules;
+	// add only modules of type=$status
+	foreach(array_keys($modules) as $key) {
+		//remove modules not matching status or type
+		if($modules[$key]['status'] == $status && $modules[$key]['type'] == $type) {
+			$return_modules[$key] = $modules[$key];
+		}
+	}
+	return $return_modules;
 }
 
 
