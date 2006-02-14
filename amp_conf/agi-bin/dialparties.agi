@@ -21,15 +21,11 @@
 # descriptive error reporting by Rob Thomas <xrobau@gmail.com> 
 # 18th Sep 2005
 
-if (eval "require Asterisk::AGI;") {
-        use Asterisk::AGI;
-} else {
+if (!eval "require Asterisk::AGI;") {
         print "VERBOSE \"Asterisk::AGI NOT INSTALLED - see documentation\" 0\n";
         exit;
 }
-if (eval "require Net::Telnet;") {
-        use Net::Telnet;
-} else {
+if (!eval "require Net::Telnet;") {
         print "VERBOSE \"Net::Telnet NOT INSTALLED - see documentation\" 0\n";
         exit;
 }
