@@ -1,4 +1,4 @@
-#!/usr/bin/perl -Tw
+#!/usr/bin/perl -w
 # Retrieves the sip user/peer entries from the database
 # Use these commands to create the appropriate tables in MySQL
 #
@@ -6,7 +6,12 @@
 #
 # if flags = 1 then the records are not included in the output file
 
+use FindBin;
+push @INC, "$FindBin::Bin";
+
 use DBI;
+require "retrieve_parse_amportal_conf.pl";
+
 ################### BEGIN OF CONFIGURATION ####################
 
 # the name of the extensions table
@@ -14,14 +19,17 @@ $table_name = "sip";
 # the path to the extensions.conf file
 # WARNING: this file will be substituted by the output of this program
 $sip_conf = "/etc/asterisk/sip_additional.conf";
-# the name of the box the MySQL database is running on
-$hostname = "localhost";
 # the name of the database our tables are kept
 $database = "asterisk";
+
+# cool hack by Julien BLACHE <jblache@debian.org>
+$ampconf = parse_amportal_conf( "/etc/amportal.conf" );
 # username to connect to the database
-$username = "AMPDBUSER";
+$username = $ampconf->{"AMPDBUSER"};
 # password to connect to the database
-$password = "AMPDBPASS";
+$password = $ampconf->{"AMPDBPASS"};
+# the name of the box the MySQL database is running on
+$hostname = $ampconf->{"AMPDBHOST"};
 
 ################### END OF CONFIGURATION #######################
 

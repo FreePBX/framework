@@ -1,4 +1,4 @@
-#!/usr/bin/perl -Tw
+#!/usr/bin/perl -w
 # Retrieves the sip user/peer entries from the database
 # Use these commands to create the appropriate tables in MySQL
 #
@@ -6,7 +6,12 @@
 #
 # if flags = 1 then the records are not included in the output file
 
+use FindBin;
+push @INC, "$FindBin::Bin";
+
 use DBI;
+require "retrieve_parse_amportal_conf.pl";
+
 ################### BEGIN OF CONFIGURATION ####################
 
 ######## STYLE INFO #########
@@ -88,17 +93,19 @@ while( $line = <ZAPATA> ) {
 
 # WARNING: this file will be substituted by the output of this program
 $op_conf = "AMPWEBROOT/panel/op_buttons_additional.cfg";
-# the name of the box the MySQL database is running on
-$hostname = "localhost";
 # the name of the database our tables are kept
 $database = "asterisk";
-# username to connect to the database
-$username = "AMPDBUSER";
-# password to connect to the database
-$password = "AMPDBPASS";
 # sort option: extension or lastname
 $sortoption = "extension";
 
+# cool hack by Julien BLACHE <jblache@debian.org>
+$ampconf = parse_amportal_conf( "/etc/amportal.conf" );
+# username to connect to the database
+$username = $ampconf->{"AMPDBUSER"};
+# password to connect to the database
+$password = $ampconf->{"AMPDBPASS"};
+# the name of the box the MySQL database is running on
+$hostname = $ampconf->{"AMPDBHOST"};
 ################### END OF CONFIGURATION #######################
 
 
