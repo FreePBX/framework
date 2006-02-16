@@ -8,7 +8,7 @@
 /*
  * Checks if user is set and sets
  */
-function CheckErrorMessage() {
+function checkErrorMessage() {
 
   if ($_SESSION['ari_error']) {
     $ret .= "<div class='error'>
@@ -24,29 +24,31 @@ function CheckErrorMessage() {
 /**
  * Builds database connections
  */
-function DatabaseLogon() {
+function databaseLogon() {
 
-  global $standalone;
-  global $amp_functions_file;
-  global $amportal_conf_file;
-  global $asterisk_dbhost;
-  global $asterisk_dbname;
-  global $asteriskcdr_dbhost;
-  global $asteriskcdr_dbname;
+  global $STANDALONE;
+  global $AMP_FUNCTIONS_FILE;
+  global $AMPORTAL_CONF_FILE;
+  global $ASTERISK_DBHOST;
+  global $ASTERISK_DBNAME;
+  global $ASTERISK_DBTYPE;
+  global $ASTERISKCDR_DBHOST;
+  global $ASTERISKCDR_DBNAME;
+  global $ASTERISKCDR_DBTYPE;
 
   // get user
-  if ($standalone['use']) {
-    $mgruser = $standalone['asterisk_mgruser'];
-    $mgrpass = $standalone['asterisk_mgrpass'];
-    $dbuser = $standalone['asterisk_dbuser'];
-    $dbpass = $standalone['asterisk_dbpass'];
-    $cdrdbuser = $standalone['asterisk_cdrdbuser'];
-    $cdrdbpass = $standalone['asterisk_cdrdbpass'];
+  if ($STANDALONE['use']) {
+    $mgruser = $STANDALONE['asterisk_mgruser'];
+    $mgrpass = $STANDALONE['asterisk_mgrpass'];
+    $dbuser = $STANDALONE['asterisk_dbuser'];
+    $dbpass = $STANDALONE['asterisk_dbpass'];
+    $cdrdbuser = $STANDALONE['asterisk_cdrdbuser'];
+    $cdrdbpass = $STANDALONE['asterisk_cdrdbpass'];
   } 
   else {
-    if (is_file($amp_functions_file)) {
-      include_once($amp_functions_file);
-      $amp_conf = parse_amportal_conf($amportal_conf_file);
+    if (is_file($AMP_FUNCTIONS_FILE)) {
+      include_once($AMP_FUNCTIONS_FILE);
+      $amp_conf = parse_amportal_conf($AMPORTAL_CONF_FILE);
       $mgruser = $amp_conf['AMPMGRUSER'];
       $mgrpass = $amp_conf['AMPMGRPASS'];
       $dbuser = $amp_conf["AMPDBUSER"];
@@ -72,15 +74,15 @@ function DatabaseLogon() {
   $db = new Database();
 
   // AMP asterisk database
-  if (!$standalone['use']) {
+  if (!$STANDALONE['use']) {
     $success = $db->logon($dbuser, 
                           $dbpass,
-                          $asterisk_dbhost,
-                          $asterisk_dbname,
-                          'mysql',
+                          $ASTERISK_DBHOST,
+                          $ASTERISK_DBNAME,
+                          $ASTERISK_DBTYPE,
                           $_SESSION['dbh_asterisk']);
     if (!$success) {
-      $_SESSION['ari_error'] = _("Cannot connect to the") . " " . $asterisk_dbname . " " . _("database") . "<br>" .
+      $_SESSION['ari_error'] = _("Cannot connect to the $ASTERISK_DBNAME database") . "<br>" .
                                _("Check AMP installation, asterisk, and ARI main.conf");
       return FALSE;
     }
@@ -89,12 +91,12 @@ function DatabaseLogon() {
   // cdr database
   $success = $db->logon($cdrdbuser, 
                         $cdrdbpass,
-                        $asteriskcdr_dbhost,
-                        $asteriskcdr_dbname,
-                        'mysql',
+                        $ASTERISKCDR_DBHOST,
+                        $ASTERISKCDR_DBNAME,
+                        $ASTERISKCDR_DBTYPE,
                         $_SESSION['dbh_cdr']);
   if (!$success) {
-    $_SESSION['ari_error'] = _("Cannot connect to the") . " " . $asteriskcdr_dbname . " " . _("database") . "<br>" .
+    $_SESSION['ari_error'] = _("Cannot connect to the $ASTERISKCDR_DBNAME database") . "<br>" .
                              _("Check AMP installation, asterisk, and ARI main.conf");
     return FALSE;
   }
@@ -105,7 +107,7 @@ function DatabaseLogon() {
 /**
  * Logout if needed for any databases
  */
-function DatabaseLogoff() {
+function databaseLogoff() {
 
   global $asterisk_manager_interface;
 
@@ -115,7 +117,7 @@ function DatabaseLogoff() {
 /*
  * Checks if user is set and sets
  */
-function LoginBlock() {
+function loginBlock() {
 
   if ( !isset($_SESSION['ari_user']) ) {
 
@@ -133,12 +135,12 @@ function LoginBlock() {
 /*
  * Main handler for website
  */
-function HandleBlock() {
+function handleBlock() {
 
-  global $ari_admin_modules;
+  global $ARI_ADMIN_MODULES;
 
   // check errors here and in login block
-  $content .= CheckErrorMessage();
+  $content .= checkErrorMessage();
 
   # if nothing set goto user default page
   if (!isset($_REQUEST['m'])) {
@@ -155,7 +157,7 @@ function HandleBlock() {
 
   // set arguments
   foreach($_REQUEST as $key => $value) {
-    set_argument($args,$key,$value);
+    SetArgument($args,$key,$value);
   }
 
   $modules = array();
@@ -165,9 +167,9 @@ function HandleBlock() {
   if (is_dir($modules_path)) {
 
     $filter = ".module";
-    $recursiveMax = 1;
-    $recursiveCount = 0;
-    get_files($modules_path,$filter,$recursiveMax,$recursiveCount,$files);
+    $recursive_max = 1;
+    $recursive_count = 0;
+    getFiles($modules_path,$filter,$recursive_max,$recursive_count,$files);
 
     foreach($files as $key => $path) {
 
@@ -180,19 +182,19 @@ function HandleBlock() {
       if (class_exists($name)) {
 
         $module = new $name();
-        $module_methods = get_class_methods($module);
+        $module_methods = get_class_methods($module);    // note that this returns all lowercase
 
         // set rank
         $rank = 99999;
-        $rank_function = $name . "_rank";
+        $rank_function = "rank";
         if (in_array(strtolower($rank_function), $module_methods)) {
           $rank = $module->$rank_function(); 
         }
 
         // check if admin module
         $found = 0;
-        if ($ari_admin_modules) {
-          $adminModules = split(',',$ari_admin_modules);
+        if ($ARI_ADMIN_MODULES) {
+          $adminModules = split(',',$ARI_ADMIN_MODULES);
           foreach ($adminModules as $key => $value) {
             if ($name==$value) {
               $found = 1;
@@ -210,34 +212,34 @@ function HandleBlock() {
     ksort($modules);
   }
   else {
-    $_SESSION['ari_error'] = $path . " " . _("not a directory or not readable");
+    $_SESSION['ari_error'] = _("$path not a directory or not readable");
   }
 
   // process modules
   foreach ($modules as $module) {
 
     // process module
-    $name = get_class($module);
-    $module_methods = get_class_methods($module);
+    $name = get_class($module);    // note that this returns all lowercase
+    $module_methods = get_class_methods($module);    // note that this returns all lowercase
 
     // add nav menu item
-    $nav_menu_function = $name . "_nav_menu";
+    $nav_menu_function = "navMenu";
     if (in_array(strtolower($nav_menu_function), $module_methods)) {
       $nav_menu .= $module->$nav_menu_function($args); 
     }
 
-    if ($m==$name) {
+    if (strtolower($m)==$name) {
 
       // build sub menu
-      $nav_submenu_function = $m . "_nav_submenu";
+      $nav_submenu_function = "navSubmenu";
       if (in_array(strtolower($nav_submenu_function), $module_methods)) {
         $nav_submenu .= $module->$nav_submenu_function($args); 
       }
 
       // execute function (usually to build content)
-      $function = $m . "_" . $f;
-      if (in_array(strtolower($function), $module_methods)) {
-        $content .= $module->$function($args);
+      if (in_array(strtolower($f), $module_methods)) {
+
+        $content .= $module->$f($args);
       }
     }
   }
@@ -253,46 +255,50 @@ function HandleBlock() {
 /*
  * Main handler for website
  */
-function Handler() {
+function handler() {
 
-  global $ari_version;
-  global $ari_no_login;
+  global $ARI_VERSION;
+  global $ARI_NO_LOGIN;
 
   $error = $_SESSION['ari_error'];
-  if ($_SESSION['ari_user'] && !$ari_no_login) {
+  if ($_SESSION['ari_user'] && !$ARI_NO_LOGIN) {
     $logout = 1;
   }
 
   // login to database
-  $success = DatabaseLogon();
+  $success = databaseLogon();
   if ($success) {
 
     // check if login is needed (user auth done in bootstrap)
-    $content = LoginBlock();
+    $content = loginBlock();
     if (!isset($content)) {
-        list($nav_menu,$nav_submenu,$content) = HandleBlock();
+        list($nav_menu,$nav_submenu,$content) = handleBlock();
     }
   }
   else {
 
     $display = new Display();
 
-    $content .= $display->DisplayHeaderText("ARI");
-    $content .= $display->DisplayLine();
-    $content .= CheckErrorMessage();
+    $content .= $display->displayHeaderText("ARI");
+    $content .= $display->displayLine();
+    $content .= checkErrorMessage();
   }
+
+  // version
+  $ari_version = $ARI_VERSION;
 
   // builds the page
   include_once("./theme/page.tpl.php"); 
 
   // log off any databases needed
-  DatabaseLogoff();
+  databaseLogoff();
 }
 
 /**
  * Includes and run functions
  */  
 
+// create asterisk manager interface singleton
 $asterisk_manager_interface = '';
 
 include_once("./includes/asi.inc");

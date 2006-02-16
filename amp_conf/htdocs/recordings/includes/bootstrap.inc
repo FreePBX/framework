@@ -16,7 +16,7 @@
  *   The value to set. This can be any PHP data type; these functions take care
  *   of serialization as necessary.
  */
-function set_argument(&$args, $name, $value) {
+function setArgument(&$args, $name, $value) {
 
   if (!isset($value)) {
     $value = '';
@@ -33,7 +33,7 @@ function set_argument(&$args, $name, $value) {
  * @param $name
  *   The name of the variable to undefine.
  */
-function unset_argument(&$args, $name) {
+function unsetArgument(&$args, $name) {
 
   unset($args[$name]);
 }
@@ -48,7 +48,7 @@ function unset_argument(&$args, $name) {
  * @return
  *   The value of the variable.
  */
-function get_argument(&$args, $name) {
+function getArgument(&$args, $name) {
 
   return isset($args[$name]) ? $args[$name] : '';
 }
@@ -63,7 +63,7 @@ function get_argument(&$args, $name) {
  * @param $directories
  *   directories found
  */
-function get_directories($path,$filter,&$directories) {
+function getDirectories($path,$filter,&$directories) {
 
   if (is_dir($path)) {
 
@@ -71,7 +71,7 @@ function get_directories($path,$filter,&$directories) {
     while (false!== ($item = readdir($dh))) {
       if($item!="." && $item!="..") {
 
-        CheckPathSlash($path);
+        checkPathSlash($path);
         $directory = $path;
         AppendPath($directory,$item);
 
@@ -101,14 +101,14 @@ function get_directories($path,$filter,&$directories) {
  *   directory to search
  * @param $filter
  *   string to use as a filter to match files to return
- * @param $recursiveMax
+ * @param $recursive_max
  *   max number of sub folders to search
- * @param $recursiveCount
+ * @param $recursive_count
  *   current sub folder count
  * @param $files
  *   files found
  */
-function get_files($path,$filter,$recursiveMax,&$recursiveCount,&$files) {
+function getFiles($path,$filter,$recursive_max,&$recursive_count,&$files) {
 
   if (is_dir($path)) {
     $dh = opendir($path);
@@ -119,9 +119,24 @@ function get_files($path,$filter,$recursiveMax,&$recursiveCount,&$files) {
         $msg_path = $path;
         AppendPath($msg_path,$item);
 
-        if ($recursiveMax<$recursiveMax && is_dir($path)) {
-          $recursiveCount++;
-          get_files($path,$recursiveMax,$recursiveCount,$files);
+        $fileCount++;
+        if ($fileCount>3000) {
+          $_SESSION['ari_error'] 
+            .= _("To many files in $msg_path Not all files processed") . "<br>";
+          return;
+        }
+
+        if ($recursive_count<$recursive_max && is_dir($msg_path)) {
+
+          $dirCount++;
+          if ($dirCount>10) {
+            $_SESSION['ari_error'] 
+              .= _("To many directories in $msg_path Not all files processed") . "<br>";
+            return;
+          }
+
+          $count = $recursive_count + 1;
+          GetFiles($msg_path,$filter,$recursive_max,$count,$files);
         } else {
           $found = 0;
           if ($filter) {
@@ -148,7 +163,7 @@ function get_files($path,$filter,$recursiveMax,&$recursiveCount,&$files) {
  * @param $path
  *   path to append
  */
-function CheckPathSlash(&$path) {
+function checkPathSlash(&$path) {
 
   $slash = '';
   if (!preg_match('/\/$/',$path)) {
@@ -165,7 +180,7 @@ function CheckPathSlash(&$path) {
  * @param $folder
  *   folder to append to path
  */
-function AppendPath(&$path,$folder) {
+function appendPath(&$path,$folder) {
 
   $m = '';
   if (!preg_match('/\/$/',$path)) {
@@ -180,7 +195,7 @@ function AppendPath(&$path,$folder) {
  * @param $timestamp
  *   timestamp to be converted
  */
-function GetDateFormat($timestamp) {
+function getDateFormat($timestamp) {
   return date('Y-m-d', $timestamp);
 }
 
@@ -190,16 +205,27 @@ function GetDateFormat($timestamp) {
  * @param $timestamp
  *   timestamp to be converted
  */
-function GetTimeFormat($timestamp) {   
+function getTimeFormat($timestamp) {   
   return date('G:i:s', $timestamp);
 }
 
 /* */
 
 /**
+ * Checks ARI dependencies
+ */
+function checkDependencies() {
+
+  if (!version_compare(phpversion(), '4', '>=')) {
+    echo _("ARI requires a version of PHP 4.0 or later");
+    exit();
+  }
+}
+
+/**
  * Cleans up old versions with files that will crater the system
  */
-function version_cleanup() {
+function versionCleanup() {
 
   if (is_file("./includes/info.inc")) {
     unlink("./includes/info.inc");
@@ -221,7 +247,7 @@ function version_cleanup() {
 /**
  * Starts the session
  */
-function ari_session_start() {
+function startARISession() {
 
   if (!isset($_SESSION['ari_user']) ) {
 
@@ -259,9 +285,9 @@ function bootstrap() {
  *
  * TODO: Figure out caching
  */
-function ari_page_header() {
+function ariPageHeader() {
 
-  bootstrap();
+  Bootstrap();
 }
 
 /**
@@ -270,7 +296,7 @@ function ari_page_header() {
  * This function sets the page cache if appropriate, and allows modules to
  * react to the closing of the page by calling hook_exit().
  */
-function ari_page_footer() {
+function ariPageFooter() {
 
 }
 
@@ -280,10 +306,11 @@ function ari_page_footer() {
 
 include_once("./includes/lang.inc");
 $language = new Language();
-$language->Set();
+$language->set();
 
-version_cleanup();
-ari_session_start();
+checkDependencies();
+versionCleanup();
+startARISession();
 
 include_once("./includes/main.conf");
 include_once("./version.inc");

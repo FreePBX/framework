@@ -17,21 +17,22 @@ class Login {
     */
   function Auth() {
 
-    global $ari_admin_username;
-    global $ari_admin_password;
-    global $ari_cookie_password;
-    global $asterisk_voicemail_conf;
-    global $asterisk_voicemail_context;
-    global $asterisk_voicemail_path;
-    global $asterisk_protocols;
-    global $callmonitor_admin_extensions;
-    global $ari_no_login;
+    global $ARI_ADMIN_USERNAME;
+    global $ARI_ADMIN_PASSWORD;
+    global $ARI_ADMIN_EXTENSIONS;
+    global $ARI_COOKIE_PASSWORD;
+    global $ASTERISK_VOICEMAIL_CONF;
+    global $ASTERISK_VOICEMAIL_CONTEXT;
+    global $ASTERISK_VOICEMAIL_PATH;
+    global $ASTERISK_PROTOCOLS;
+    global $CALLMONITOR_ADMIN_EXTENSIONS;
+    global $ARI_NO_LOGIN;
 
     // get the ari authentication cookie 
     $buf = unserialize($_COOKIE['ari_auth']);
     list($data,$chksum) = $buf;
     if (md5($data) == $chksum) {
-      $data = unserialize($this->decrypt($data,$ari_cookie_password));
+      $data = unserialize($this->decrypt($data,$ARI_COOKIE_PASSWORD));
       $username = $data['username'];
       $password = $data['password'];
     }
@@ -42,15 +43,18 @@ class Login {
       $password = $_POST['password'];
     }
 
+    // init email options array
+    $voicemail_email = array();
+
     // when login, make a new session
-    if ($username && !$ari_no_login) {
+    if ($username && !$ARI_NO_LOGIN) {
 
       $auth = false;
 
       // check admin
       if (!$auth) {
-        if ($username==$ari_admin_username && 
-              $password==$ari_admin_password) {
+        if ($username==$ARI_ADMIN_USERNAME && 
+              $password==$ARI_ADMIN_PASSWORD) {
 
           // authenticated
           $auth = true; 
@@ -67,17 +71,17 @@ class Login {
       // check voicemail login
       if (!$auth) {
 
-        if (is_readable($asterisk_voicemail_conf)) {
+        if (is_readable($ASTERISK_VOICEMAIL_CONF)) {
 
-          $lines = file($asterisk_voicemail_conf);
+          $lines = file($ASTERISK_VOICEMAIL_CONF);
           foreach ($lines as $key => $line) {
 
             // check for current context and process
             if (preg_match("/\[.*\]/i",$line)) {
               $currentContext = trim(preg_replace('/\[|\]/', '', $line));
             }
-            if ($asterisk_voicemail_context &&
-                  $currentContext!=$asterisk_voicemail_context) {
+            if ($ASTERISK_VOICEMAIL_CONTEXT &&
+                  $currentContext!=$ASTERISK_VOICEMAIL_CONTEXT) {
               continue;
             }
 
@@ -96,10 +100,22 @@ class Login {
                 $vm_password = $buf[0];
                 $default_page = 'voicemail';
                 $context = $currentContext;
+                $voicemail_email_address = $buf[2];
+                $voicemail_pager_address = $buf[3];
+                
+                if ($voicemail_email_address || $voicemail_pager_address) {
+                  $voicemail_email_enable = 1;
+                }
+
+                $options = split('\|',$buf[4]);
+                foreach ($options as $option) {
+                  $opt_buf = split('=',$option);
+                  $voicemail_email[$opt_buf[0]] = trim($opt_buf[1]);
+                }
 
                 $admin = 0;
-                if ($ari_admin_extensions) {
-                  $extensions = split(',',$ari_admin_extensions);
+                if ($ARI_ADMIN_EXTENSIONS) {
+                  $extensions = split(',',$ARI_ADMIN_EXTENSIONS);
                   foreach ($extensions as $key => $value) {
                     if ($extension==$value) {
                       $admin = 1;
@@ -109,8 +125,8 @@ class Login {
                 }
   
                 $admin_callmonitor = 0;
-                if ($callmonitor_admin_extensions) {
-                  $extensions = split(',',$callmonitor_admin_extensions);
+                if ($CALLMONITOR_ADMIN_EXTENSIONS) {
+                  $extensions = split(',',$CALLMONITOR_ADMIN_EXTENSIONS);
                   foreach ($extensions as $key => $value) {
                     if ($value=='all' || $extension==$value) {
                       $admin_callmonitor = 1;
@@ -127,7 +143,7 @@ class Login {
           }
         }
         else {
-          $_SESSION['ari_error'] = "File not readable: " . $asterisk_voicemail_conf;
+          $_SESSION['ari_error'] = "File not readable: " . $ASTERISK_VOICEMAIL_CONF;
           return;
         }
       }
@@ -135,7 +151,7 @@ class Login {
       // check sip login
       if (!$auth) {
 
-        foreach($asterisk_protocols as $protocol => $value) {
+        foreach($ASTERISK_PROTOCOLS as $protocol => $value) {
 
           $config_files = split(';',$value['config_files']);
           foreach ($config_files as $config_file) {
@@ -168,8 +184,8 @@ class Login {
                                              _("No access to voicemail");
 
                     $admin = 0;
-                    if ($ari_admin_extensions) {
-                      $extensions = split(',',$ari_admin_extensions);
+                    if ($ARI_ADMIN_EXTENSIONS) {
+                      $extensions = split(',',$ARI_ADMIN_EXTENSIONS);
                       foreach ($extensions as $key => $value) {
                         if ($extension==$value) {
                           $admin = 1;
@@ -179,8 +195,8 @@ class Login {
                     }
 
                     $admin_callmonitor = 0;
-                    if ($callmonitor_admin_extensions) {
-                      $extensions = split(',',$callmonitor_admin_extensions);
+                    if ($CALLMONITOR_ADMIN_EXTENSIONS) {
+                      $extensions = split(',',$CALLMONITOR_ADMIN_EXTENSIONS);
                       foreach ($extensions as $key => $value) {
                         if ($value=='all' || $extension==$value) {
                           $admin_callmonitor = 1;
@@ -210,7 +226,7 @@ class Login {
       if ($auth && $_POST['remember']) {
 
         $data = array('username' => $username, 'password' => $password);
-        $data = $this->encrypt(serialize($data),$ari_cookie_password);
+        $data = $this->encrypt(serialize($data),$ARI_COOKIE_PASSWORD);
 
         $chksum = md5($data);
 
@@ -229,7 +245,7 @@ class Login {
       }
 
       // no login user
-      if ($ari_no_login) {
+      if ($ARI_NO_LOGIN) {
         $extension = 'admin';
         $name = 'Administrator';
         $admin_callmonitor = 1;
@@ -238,10 +254,16 @@ class Login {
 
       if ($extension) {
         $_SESSION['ari_user']['extension'] = $extension;
-        $_SESSION['ari_user']['name'] = $displayname;
+        $_SESSION['ari_user']['displayname'] = $displayname;
         $_SESSION['ari_user']['voicemail_password'] = $vm_password;
         $_SESSION['ari_user']['category'] = $category;
         $_SESSION['ari_user']['context'] = $context;
+        $_SESSION['ari_user']['voicemail_email_address'] = $voicemail_email_address;
+        $_SESSION['ari_user']['voicemail_pager_address'] = $voicemail_pager_address;
+        $_SESSION['ari_user']['voicemail_email_enable'] = $voicemail_email_enable;
+        foreach ($voicemail_email as $key => $value) {
+          $_SESSION['ari_user']['voicemail_email'][$key] = $value;
+        }
         $_SESSION['ari_user']['admin'] = $admin;
         $_SESSION['ari_user']['admin_callmonitor'] = $admin_callmonitor;
         $_SESSION['ari_user']['default_page'] = $default_page;
@@ -266,9 +288,9 @@ class Login {
    */
   function GetForm($request) {
 
-    global $ari_no_login;
+    global $ARI_NO_LOGIN;
 
-    if ($ari_no_login) {
+    if ($ARI_NO_LOGIN) {
       $ret = '';
       return;
     }
@@ -294,7 +316,7 @@ class Login {
     // new header
     $ret .= $display->DisplayHeaderText(_("Login"));
     $ret .= $display->DisplayLine();
-    $ret .= CheckErrorMessage();
+    $ret .= checkErrorMessage();
 
     $ret .= "
 
@@ -343,7 +365,7 @@ class Login {
       <table id='login_text'>
         <tr>
           <td>" .
-            _("Use your") . " " ."<b>" . _("Voicemail Mailbox and Password") . "</b><br>" .
+            _("Use your <b>Voicemail Mailbox and Password</b>") . "<br>" .
             _("This is the same password used for the phone") . "<br>" .
             "<br>" . 
             _("For password maintenance or assistance, contact your Phone System Administrator.") . "<br>" . "

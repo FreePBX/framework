@@ -1,17 +1,65 @@
 Roadmap
 
-  realtime support
-  on-demand call recording
-  email settings
-  voicemail prompts
-  forward calls
+  PHP5 support
+  move rest of ARI to classes
+  table time formatting (into more readable format, but still allow searching)
   fax support
+  admin tabs (for changing config file)
+   - add ping to check if astdb working
+   - add ping to check if cdrdb working
+  realtime support
 
-for call forward
- exten => s,1,DBget(boolean=CFBOOLEAN/${MACRO_EXTEN}) ; check toggle, if not skip rest of macro
- exten => s,2,DBget(temp=CFIM/${MACRO_EXTEN}) ; Get CFIM key, if not skip rest of macro
- exten => s,3,Dial(Local/${temp}@pbx/n)   ; Unconditional forward
-    - functionality should have a cookie to store a number
+Change log - 02/14/2006
+
+ * added callmonitor duration filter to filter out short length calls (sponsored by John Cardner, Phonoscope, Inc)
+
+Change log - 02/09/2006
+
+ * added voicemail email and pager settings
+ * more rework of callmonitor recording match to handle large volumes of recordings (sponsored by John Cardner, Phonoscope, Inc)
+
+Change log - 02/07/2006
+
+ * added check for PHP PEAR installation
+ * added check for proper communication with the Asterisk Manager
+ * fixed class coding standard (ie ClassName)
+ * fixed method coding standard (ie methodName)
+ * fixed variable coding standard (ie variable_name)
+ * fixed constant coding standard (ie CONSTANT_NAME)
+ * added config option for voicemail password length  (submitted by Chuck Bunn)
+    - set with $SETTINGS_VOICEMAIL_PASSWORD_LENGTH in /includes/main.conf
+ * added voicemail audio format admin option in settings page (submitted by Chuck Bunn) 
+    - set with $ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT in /includes/main.conf
+ * fixed bug to separate voicemail password set in settings page (submitted by Chuck Bunn) 
+
+Change log - 02/05/2006
+
+ * added call forward setting
+ * added Hebrew Translation (submitted by Diego Iastrubni)
+ * fixed i18n translation best practices and bugs (submitted by Diego Iastrubni)
+ * fixed voicemail message move bug (submitted by Steve Davies)
+ * fixed voicemail folder creation permissions issue (submitted by Steve Davies) 
+
+Change log - 01/31/2006
+
+ * added help page
+ * added file lookup limiting code to prevent hanging when extremely large numbers of files are found in a directory
+ * added database type global variable
+
+Change log - 01/26/2006
+
+ * added php 4 or later version checking
+ * fixed php pre 4.3 version compatability
+ * fixed buy in call manager file matching recursively searching directories (submitted by Adrian Carter)
+
+Change log - 01/20/2006
+
+ * added call monitor aggressive matching option
+
+Change log - 01/18/2006
+
+ * added Hungarian Translation (submitted by Diego Imre Csaba Varasdy)
+ * fixed bug for Asterisk Manager change in Asterisk 1.2
 
 Change log - 01/12/2006
 
@@ -26,7 +74,7 @@ Change log - 12/09/2005
 Change log - 12/09/2005
 
  * fix to recognize on-demand call monitor recordings (identified as auto-...) (submitted by Francesco Romano, Antonio Cano Damas, and Jason P. Meyer)
- * added German (submitted by Till Stoermer)
+ * added German Translation (submitted by Till Stoermer)
 
 Change log - 12/07/2005
 

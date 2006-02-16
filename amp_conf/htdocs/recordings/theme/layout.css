@@ -192,9 +192,9 @@ input.infoBar {
   margin: 0 0 16px 0; 
   padding: 0;
 }
-
-
-
+.bar_center a:active, .bar_center a:hover {
+  color: red;
+}
 
 /* Subheader */
 
@@ -254,7 +254,7 @@ table.callmonitor td.checkbox {
 .voicemail {
   margin: 0px;
 }
-table.voicemail{ 
+table.voicemail { 
   border: 1px #6699CC solid;
   border-collapse: collapse;
   border-spacing: 0px;
@@ -288,6 +288,52 @@ table.voicemail td {
   text-align: center;
 }
 table.voicemail td.checkbox { 
+  padding: 1px;
+}
+
+/* Help */
+
+.help {
+  margin: 0px;
+}
+table.help { 
+  border: 1px #6699CC solid;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  margin: 0 0 16px 0;
+}
+table.help th { 
+  background-color: #BEC8D1;
+  border: 1px solid #6699CC;
+  border-bottom: 2px solid #6699CC;
+  font-family: Verdana;
+  font-weight: bold;
+  font-size: 0.7em;
+  color: #404040;
+}
+table.help th.feature_codes { 
+  text-align: center;
+  width: 9em;
+}
+table.help th a { 
+  color: #404040;
+}
+table.help img { 
+  border: 0;
+}
+table.help td { 
+  background-color: white;
+  border: 1px solid #6699CC;
+  color: #404040;
+  font-family: Verdana, sans-serif, Arial;
+  font-weight: normal;
+  font-size: 0.7em;
+  padding: 3px;
+}
+table.help td.feature_codes { 
+  text-align: center;
+}
+table.help td.checkbox { 
   padding: 1px;
 }
 

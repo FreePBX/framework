@@ -16,7 +16,26 @@ class Database {
   function Database() {
 
     // PEAR must be installed
-    require_once('DB.php'); 
+    $include_path = ini_get('include_path');
+    $buf = split(':|,',$include_path);
+
+    $found = 0;
+    foreach ($buf as $path) {
+      checkPathSlash($path);
+      $pear_check_path = "/" . $path . "DB.php";
+      if (is_file($pear_check_path)) {
+        $found = 1;
+        break;
+      }
+    }
+
+    if ($found) {
+      require_once('DB.php');
+    }
+    else {
+      $_SESSION['ari_error'] = 
+        _("PHP PEAR must be installed.  Visit http://pear.php.net for help with installation.");
+    }
   }
 
   /*
@@ -40,7 +59,7 @@ class Database {
   function logon($username,$password,$host,$name,$engine,&$dbh) {
 
     // datasource in in this style: dbengine://username:password@host/database 
-    $datasource = $engine.'://'.$username.':'.$password.'@'.$host.'/'.$name;
+    $datasource = $engine . '://' . $username . ':' . $password . '@' . $host . '/' . $name;
     
     $dbh = DB::connect($datasource); // attempt connection
 

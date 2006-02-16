@@ -22,7 +22,7 @@ class Display {
    * @param $text
    *   Header text to display
    */
-  function DisplayHeaderText($text) {
+  function displayHeaderText($text) {
 
     $ret = "<h2>" . $text . "</h2>
             <br>";
@@ -33,7 +33,7 @@ class Display {
   /**
    * Displays header line 
    */
-  function DisplayLine() {
+  function displayLine() {
 
     $ret = "
       <div id='line'>
@@ -46,7 +46,9 @@ class Display {
   }
 }  
 
-
+/**
+  * DisplaySearch  
+  */
 class DisplaySearch extends Display {
 
   /**
@@ -65,8 +67,9 @@ class DisplaySearch extends Display {
    * @param $focus
    *   whether to focus control on this block
    */
-  function DisplaySearchBlock($align,$m,$folder,$sort,$order,$q,$focus) {
+  function displaySearchBlock($align,$m,$q,$url_opts,$focus) {
 
+    // align
     if ($align=='center') {
       $alignText = "class='bar_center'";
     }
@@ -74,14 +77,18 @@ class DisplaySearch extends Display {
       $alignText = "class='bar_left'";
     }
 
+    // url options
+    foreach ($url_opts as $key => $value) {
+      $option_text .= "<input type=hidden name=" . $key . " value=" . $value . ">";
+    }
+
+    // build
     $ret .= "<div " . $alignText . ">
                <form class='bar' action='" . $_SERVER['PHP_SELF'] . "' method='GET' name='search'>
                  <input type=hidden name=m value=" . $m . ">	
-                 <input type=hidden name=folder value=" . $folder . ">
-                 <input type=hidden name=sort value=" . $sort . ">
-                 <input type=hidden name=order value=" . $order . ">
                  <input type=text name=q size=40 value='" . $q . "' maxlength=256>
-                 <input type=hidden name=start value=0>			
+                 " . $option_text . " 
+                 <input type=hidden name=start value=0>	
                  <input type=submit name=btnS value='" . _("Search") . "'>
                </form>
              </div>";
@@ -113,35 +120,35 @@ class DisplaySearch extends Display {
    * @param $total
    *   total number of records found by current search
    */
-  function DisplayInfoBarBlock($controls,$q,$start,$span,$total) {
+  function displayInfoBarBlock($controls,$q,$start,$span,$total) {
 
     if ($total<$span) { 
       $span = $total; 
     }
-    $startCount = ($total>0)?$start+1:$start;
-    $spanCount = ($start+$span>$total)?$total:$start+$span;
+    $start_count = ($total>0)?$start+1:$start;
+    $span_count = ($start+$span>$total)?$total:$start+$span;
 
     if ($controls) {
-      $leftText = $controls;
+      $left_text = $controls;
     }
     elseif ($q != NULL) {
-      $leftText = "<small><small>" . _("Searched for") . " <u>" . $q . "</u></small></small>";
+      $left_text = "<small><small>" . _("Searched for") . " <u>" . $q . "</u></small></small>";
     }
 
     if ($span<$total) {
-      $rightText = "<small><small>" . _("Results") . " " . $startCount . " - " . $spanCount . " " . _("of") . " " . $total . "</small></small>";
+      $right_text = "<small><small>" . _("Results $start_count - $span_count of $total") . "</small></small>";
     } else {
-      $rightText = "<small><small>" . _("Results") . " " . $total . "</small></small>";
+      $right_text = "<small><small>" . _("Results $total") . "</small></small>";
     }
 
     $ret .= "
       <table id='navbar' width='100%'>
         <tr>
           <td>
-           " . $leftText . "
+           " . $left_text . "
          </td>
          <td align='right'>
-           " . $rightText ."
+           " . $right_text ."
          </td>
        </tr>
      </table>";
@@ -161,48 +168,50 @@ class DisplaySearch extends Display {
    * @param $total
    *   total number of records found by current search
    */
-  function DisplayNavigationBlock($m,$folder,$sort,$order,$q,$start,$span,$total) {
+  function displayNavigationBlock($m,$q,$url_opts,$start,$span,$total) {
 
     $start = $start=='' ? 0 : $start ;
     $span = $span=='' ? 15 : $span ;
 
-    // add navigation to bottom of page
-    $totalPages = ceil($total/$span);
-    $startPage = floor($start/$span);
-
-    // encode search string
-    $unicode_q = urlencode($q);
+    $total_pages = ceil($total/$span);
+    $start_page = floor($start/$span);
 
     // if more than ten pages start at this page minus ten otherwise start at zero
-    $begin = ($startPage>10)?($startPage-10):0;
+    $begin = ($start_page>10)?($start_page-10):0;
     // if more than ten pages then stop at this page plus ten otherwise stop at last page
-    $end = ($startPage>8)?($startPage+10):10;
+    $end = ($start_page>8)?($start_page+10):10;
 
-    $url = $_SERVER['PHP_SELF'] . "?m=" . $m . "&folder=" . $folder . "&sort=" . $sort . "&order=" . $order . "&q=" . $unicode_q;
+    // url
+    $unicode_q = urlencode($q);  // encode search string
 
-    if ($startPage!=0) {
-      $startPageText = "<a href='" . $url . "&start=0'><small>" . _("First") . "</a>&nbsp;</small>
+    foreach ($url_opts as $key => $value) {
+      $option_text .= "&" . $key . "=" . $value;
+    }
+
+    $url = $_SERVER['PHP_SELF'] . "?m=" . $m . "&q=" . $unicode_q . $option_text;
+
+    // build
+    if ($start_page!=0) {
+      $start_page_text = "<a href='" . $url . "&start=0'><small>" . _("First") . "</a>&nbsp;</small>
 			<a href=" . $url . "&start=" . ($start-$span) . "><small><</a>&nbsp;</small>";
     }
 
-    for($nextPage=$begin;($nextPage<$totalPages)&&($nextPage<$end);$nextPage++) {
-      if ($nextPage == $startPage) {
-          $middlePageText .= "<small>" . ($nextPage+1) . "&nbsp;</small>";
+    for($next_page=$begin;($next_page<$total_pages)&&($next_page<$end);$next_page++) {
+      if ($next_page == $start_page) {
+          $middle_page_text .= "<small>" . ($next_page+1) . "&nbsp;</small>";
       } else {
-          $middlePageText .= "<a href='" . $url . "&start=" . ($nextPage*$span) . "'><small>" . ($nextPage+1) . "</a>&nbsp;</small>";
+          $middle_page_text .= "<a href='" . $url . "&start=" . ($next_page*$span) . "'><small>" . ($next_page+1) . "</a>&nbsp;</small>";
       }
     }
-    if ( ($startPage != $totalPages-1)  && ($total != 0) ) {
-          $endPageText = "<a href='" . $url . "&start=" . ($start+$span) . "'><small>></a>&nbsp;</small>
-                          <a href='" . $url . "&start=" . ($totalPages-1)*$span  . "'><small>" . _("Last") . "</a>&nbsp;</small>";
+    if ( ($start_page != $total_pages-1)  && ($total != 0) ) {
+          $end_page_text = "<a href='" . $url . "&start=" . ($start+$span) . "'><small>></a>&nbsp;</small>
+                          <a href='" . $url . "&start=" . ($total_pages-1)*$span  . "'><small>" . _("Last") . "</a>&nbsp;</small>";
     }
 
-
-
     $ret .= "<div class='bar_center'>
-              " . $startPageText . "
-              " . $middlePageText . "
-              " . $endPageText . "
+              " . $start_page_text . "
+              " . $middle_page_text . "
+              " . $end_page_text . "
              </div>";
 
     return $ret;

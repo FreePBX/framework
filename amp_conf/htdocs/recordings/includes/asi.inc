@@ -16,6 +16,50 @@ class AsteriskManagerInterface {
    * constructor 
    */
   function AsteriskManagerInterface() {
+
+    global $AMP_FUNCTIONS_FILE;
+    global $AMPORTAL_CONF_FILE;
+    global $ASTERISK_MANAGER_FILE;
+
+    // get manager user
+    if ($STANDALONE['use']) {
+      $mgruser = $STANDALONE['asterisk_mgruser'];
+    } 
+    else {
+      if (is_file($AMP_FUNCTIONS_FILE)) {
+        include_once($AMP_FUNCTIONS_FILE);
+        $amp_conf = parse_amportal_conf($AMPORTAL_CONF_FILE);
+        $mgruser = $amp_conf['AMPMGRUSER'];
+        unset($amp_conf);
+      } 
+    }
+
+    // check if php is allowed to talk to Asterisk Manager
+    $found_account = 0;
+    $found = 0;
+    $lines = file($ASTERISK_MANAGER_FILE);
+    foreach ($lines as $key => $line) {
+
+      if (preg_match("/$mgruser/",$line)) {
+        $found_account = 1;
+      }
+
+      if ($found_account && $line=='permit=0.0.0.0') {
+        break;
+      }
+
+      if ($found_account && preg_match('/permit/',$line)) {
+        $found = 1;
+        break;
+      }
+    }
+
+    if (!$found) {
+      echo _("ARI does not appear to have access to the Asterisk Manager.") . "<br>" . 
+           _("Check the ARI 'main.conf' configuration file to set the Asterisk Manager Account.") . "<br>" . 
+           _("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account including a 'permit=' line for localhost or the webserver.");
+      exit();
+    }
   }
 
   /*
@@ -26,7 +70,7 @@ class AsteriskManagerInterface {
    * @param $password
    *   asterisk manager interface password 
    */
-  function Connect($username,$password) {
+  function connect($username,$password) {
 
     $fp = fsockopen("localhost", 5038, $errno, $errstr, 10);
     if (!$fp) {
@@ -35,9 +79,14 @@ class AsteriskManagerInterface {
     } 
     else {
       $buffer='';
-      stream_set_timeout($fp, 5);
+      if(version_compare(phpversion(), '4.3', '>=')) {
+        stream_set_timeout($fp, 5);
+      } 
+      else {
+        socket_set_timeout($fp, 5);
+      }
       $buffer = fgets($fp);
-      if ($buffer!="Asterisk Call Manager/1.0\r\n") {
+      if (!preg_match('/Asterisk Call Manager/i', $buffer)) {
         $_SESSION['ari_error'] = _("Asterisk Call Manager not responding") . "<br />\n";
         return FALSE;
       }
@@ -46,7 +95,7 @@ class AsteriskManagerInterface {
         fwrite($fp,$out);
         $buffer=fgets($fp);
         if ($buffer!="Response: Success\r\n") {
-          $_SESSION['ari_error'] =  _("Asterisk authentication failed:") . "<br />" . $buff . "<br />\n";
+          $_SESSION['ari_error'] =  _("Asterisk authentication failed:") . "<br />" . $buffer . "<br />\n";
           return FALSE;
         }
         else {
@@ -63,7 +112,7 @@ class AsteriskManagerInterface {
   /*
    * Reloads Asterisk Configuration
    */
-  function Disconnect() {
+  function disconnect() {
 
     if ($this->socket) {
       fclose($this->socket);
@@ -76,7 +125,7 @@ class AsteriskManagerInterface {
    * @param $command
    *   Command to be sent to the asterisk manager interface 
    */
-  function Command($command,&$response) {
+  function command($command,&$response) {
 
     fwrite($this->socket,$command);
 

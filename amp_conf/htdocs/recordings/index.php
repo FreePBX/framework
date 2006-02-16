@@ -6,12 +6,12 @@
  */
 
 include_once("includes/bootstrap.inc");
-ari_page_header();
+ariPageHeader();
 include_once("includes/common.inc");
 
 handler();
 
-ari_page_footer();
+ariPageFooter();
 
 
 ?>

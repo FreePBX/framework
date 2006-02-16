@@ -8,12 +8,12 @@
 /**
   * Class for voicemail
   */
-class voicemail {
+class Voicemail {
 
   /*
    * rank (for prioritizing modules)
    */
-  function voicemail_rank() {
+  function rank() {
 
     $rank = 1;
     return $rank;
@@ -25,12 +25,12 @@ class voicemail {
    * @param $args
    *   Common arguments
    */
-  function voicemail_nav_menu($args) {
+  function navMenu($args) {
 
     // put if statement in return string, because do not know $ari_no_login until page is built
     $ret .= "
       <?php if ($ari_no_login =='') { ?>
-        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=voicemail&f=display'>" . _("Voicemail") . "</a></small></small></p>
+        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=Voicemail&f=display'>" . _("Voicemail") . "</a></small></small></p>
       <?php } ?>";
 
     return $ret;
@@ -42,26 +42,26 @@ class voicemail {
    * @param $args
    *   Common arguments
    */
-  function voicemail_nav_submenu($args) {
+  function navSubmenu($args) {
 
-    global $asterisk_voicemail_path;
-    global $asterisk_voicemail_folders;
+    global $ASTERISK_VOICEMAIL_PATH;
+    global $ASTERISK_VOICEMAIL_FOLDERS;
 
     // args
-    $m = get_argument($args,'m');
-    $q = get_argument($args,'q');
-    $current_folder = get_argument($args,'folder');
+    $m = getArgument($args,'m');
+    $q = getArgument($args,'q');
+    $current_folder = getArgument($args,'folder');
 
     $context = $_SESSION['ari_user']['context'];
     $extension = $_SESSION['ari_user']['extension'];
 
     // make folder list
-    $paths = split(';',$asterisk_voicemail_path);
+    $paths = split(';',$ASTERISK_VOICEMAIL_PATH);
     $i = 0;
-    while ($asterisk_voicemail_folders[$i]) {
+    while ($ASTERISK_VOICEMAIL_FOLDERS[$i]) {
 
-      $f = $asterisk_voicemail_folders[$i]['folder'];
-      $fn = $asterisk_voicemail_folders[$i]['name'];
+      $f = $ASTERISK_VOICEMAIL_FOLDERS[$i]['folder'];
+      $fn = $ASTERISK_VOICEMAIL_FOLDERS[$i]['name'];
 
       foreach($paths as $key => $path) {
 
@@ -72,30 +72,30 @@ class voicemail {
           $dh = opendir($path);
           while (false!== ($folder = readdir($dh))) {
 
-            $folderPath = $path;
-            AppendPath($folderPath,$folder);
+            $folder_path = $path;
+            AppendPath($folder_path,$folder);
 
             if($folder!="." && $folder!=".." && 
-                 filetype($folderPath)=='dir') {
+                 filetype($folder_path)=='dir') {
 
               if ($f==$folder) {
 
                 // get message count
-                $indexes = $this->get_vm_index($folderPath,$q,$order,$sort);
-                $recordCount = 0;
-                $this->get_vm_count($indexes,$recordCount);
+                $indexes = $this->getVoicemailIndex($folder_path,$q,$order,$sort);
+                $record_count = 0;
+                $this->getVoicemailCount($indexes,$record_count);
 
                 // set current folder color
                 $class='';
                 if ($current_folder==$folder || 
-                     ($current_folder=='' && $asterisk_voicemail_folders[0]['folder']==$folder)) {
+                     ($current_folder=='' && $ASTERISK_VOICEMAIL_FOLDERS[0]['folder']==$folder)) {
                   $class = "class='current'";
                 }
 
                 // add folder to list
                 $ret .= "<p><small><small>
-                           <a " . $class . " href='" . $_SERVER['PHP_SELF'] . "?m=voicemail&q=" . $q . "&folder=" . $f. "'>
-                           " . $fn . " (" . $recordCount . ")" . "
+                           <a " . $class . " href='" . $_SERVER['PHP_SELF'] . "?m=Voicemail&q=" . $q . "&folder=" . $f. "'>
+                           " . $fn . " (" . $record_count . ")" . "
                            </a>
                          </small></small></p>";
               }
@@ -115,19 +115,19 @@ class voicemail {
    * @param $args
    *   Common arguments
    */
-  function voicemail_msg_action($args) {
+  function msgAction($args) {
 
-    global $asterisk_voicemail_folders;
+    global $ASTERISK_VOICEMAIL_FOLDERS;
 
     // args
-    $m = get_argument($args,'m');
-    $a = get_argument($args,'a');
-    $folder = get_argument($args,'folder');
-    $q = get_argument($args,'q');
-    $start = get_argument($args,'start');
-    $span = get_argument($args,'span');
-    $order = get_argument($args,'order');
-    $sort = get_argument($args,'sort');
+    $m = getArgument($args,'m');
+    $a = getArgument($args,'a');
+    $folder = getArgument($args,'folder');
+    $q = getArgument($args,'q');
+    $start = getArgument($args,'start');
+    $span = getArgument($args,'span');
+    $order = getArgument($args,'order');
+    $sort = getArgument($args,'sort');
 
     // get files
     $files = array();
@@ -138,10 +138,10 @@ class voicemail {
     }
 
     if ($a=='delete') {
-      $this->delete_vm_data($files);
+      $this->deleteVoicemailData($files);
     }
     else if ($a=='move_to') {
-      $folder_rx = get_argument($args,'folder_rx');
+      $folder_rx = getArgument($args,'folder_rx');
       if ($folder_rx=='') {
         $_SESSION['ari_error'] 
           = _("A folder must be selected before the message can be moved.");
@@ -149,20 +149,20 @@ class voicemail {
       else {
         $context = $_SESSION['ari_user']['context'];
         $extension = $_SESSION['ari_user']['extension'];
-        $this->move_vm_data($files, $context, $extension, $folder_rx);
+        $this->moveVoicemailData($files, $context, $extension, $folder_rx);
       }
     } 
     else if ($a=='forward_to') {
 
-      $mailbox_rx = get_argument($args,'mailbox_rx');
+      $mailbox_rx = getArgument($args,'mailbox_rx');
       list($context_rx,$extension_rx) = split('/',$mailbox_rx);
       if ($extension_rx=='') {
         $_SESSION['ari_error'] 
           = _("An extension must be selected before the message can be forwarded.");
       }
       else {
-        $folder_rx = $asterisk_voicemail_folders[0]['folder'];
-        $this->move_vm_data($files, $context_rx, $extension_rx, $folder_rx);
+        $folder_rx = $ASTERISK_VOICEMAIL_FOLDERS[0]['folder'];
+        $this->moveVoicemailData($files, $context_rx, $extension_rx, $folder_rx);
       }
     }
 
@@ -185,35 +185,38 @@ class voicemail {
    * @param $args
    *   Common arguments
    */
-  function voicemail_display($args) {
+  function display($args) {
 
-    global $asterisk_voicemail_conf;
-    global $asterisk_voicemail_path;
-    global $asterisk_voicemail_folders;
+    global $ASTERISK_VOICEMAIL_CONF;
+    global $ASTERISK_VOICEMAIL_PATH;
+    global $ASTERISK_VOICEMAIL_FOLDERS;
+
+    $voicemail_audio_format = $_COOKIE['ari_voicemail_audio_format'];
 
     $display = new DisplaySearch();
 
     // args
-    $m = get_argument($args,'m');
-    $f = get_argument($args,'f');
-    $q = get_argument($args,'q');
-    $start = get_argument($args,'start');
-    $span = get_argument($args,'span');
-    $order = get_argument($args,'order');
-    $sort = get_argument($args,'sort');
+    $m = getArgument($args,'m');
+    $f = getArgument($args,'f');
+    $q = getArgument($args,'q');
+    $start = getArgument($args,'start');
+    $span = getArgument($args,'span');
+    $order = getArgument($args,'order');
+    $sort = getArgument($args,'sort');
 
     $start = $start=='' ? 0 : $start;
     $span = $span=='' ? 15 : $span;
     $order = $order=='' ? 'calldate' : $order;
     $sort = $sort=='' ? 'desc' : $sort;
 
-    $paths = split(';',$asterisk_voicemail_path);
+    $paths = split(';',$ASTERISK_VOICEMAIL_PATH);
 
-    $context = $_SESSION['ari_user']['context'];
+    $displayname = $_SESSION['ari_user']['displayname'];
     $extension = $_SESSION['ari_user']['extension'];
-    $folder = get_argument($args,'folder');
+    $context = $_SESSION['ari_user']['context'];
+    $folder = getArgument($args,'folder');
     if (!$folder) {
-      $folder = $asterisk_voicemail_folders[0]['folder'];
+      $folder = $ASTERISK_VOICEMAIL_FOLDERS[0]['folder'];
     }
 
     // check admin
@@ -224,10 +227,10 @@ class voicemail {
     // get data
     foreach($paths as $key => $path) {
       CheckPathSlash(&$path);
-      $vmPath = $path . "$context/$extension/$folder";
-      $indexes = $this->get_vm_index($vmPath,$q,$order,$sort);
-      $this->get_vm_count($indexes,$recordCount);
-      $this->get_vm_data($indexes,$start,$span,$data);
+      $vm_path = $path . "$context/$extension/$folder";
+      $indexes = $this->getVoicemailIndex($vm_path,$q,$order,$sort);
+      $this->getVoicemailCount($indexes,$record_count);
+      $this->getVoicemailData($indexes,$start,$span,$data);
     }
 
     // build controls
@@ -237,14 +240,14 @@ class voicemail {
     $recursiveMax = 1;
     $recursiveCount = 0;
     foreach($paths as $key => $path) {
-      get_files($path,$filter,$recursiveMax,$recursiveCount,$files);
+      GetFiles($path,$filter,$recursiveMax,$recursiveCount,$files);
     }
 
     // move options
     $i=0;
-    while ($asterisk_voicemail_folders[$i]) {
-      $cf = $asterisk_voicemail_folders[$i]['folder'];
-      $fn = $asterisk_voicemail_folders[$i]['name'];
+    while ($ASTERISK_VOICEMAIL_FOLDERS[$i]) {
+      $cf = $ASTERISK_VOICEMAIL_FOLDERS[$i]['folder'];
+      $fn = $ASTERISK_VOICEMAIL_FOLDERS[$i]['name'];
       if ($cf!=$folder) {
         $move_options .= "<option VALUE='" . $cf . "'>&nbsp;&nbsp;&nbsp;&nbsp;" .  $fn;
       }
@@ -252,8 +255,8 @@ class voicemail {
     }
 
     // forward options
-    if (is_readable($asterisk_voicemail_conf)) {
-      $lines = file($asterisk_voicemail_conf);
+    if (is_readable($ASTERISK_VOICEMAIL_CONF)) {
+      $lines = file($ASTERISK_VOICEMAIL_CONF);
       foreach ($lines as $key => $line) {
 
         // get context for forward to mailbox
@@ -272,7 +275,7 @@ class voicemail {
       }
     }
     else {
-      $_SESSION['ari_error'] = "File not readable: " . $asterisk_voicemail_conf;
+      $_SESSION['ari_error'] = "File not readable: " . $ASTERISK_VOICEMAIL_CONF;
       return;
     }
 
@@ -347,7 +350,7 @@ class voicemail {
       foreach($data as $file=>$value) {
 
         // recording popup link
-        $voicemail_audio_format = $_COOKIE['ari_voicemail_audio_format']=='' ? '.wav' : $_COOKIE['ari_voicemail_audio_format'];
+        $voicemail_audio_format = $voicemail_audio_format=='' ? '.wav' : $voicemail_audio_format;
         $recording = preg_replace('/.txt/', $voicemail_audio_format, $file);
         if (is_file($recording)) {
           $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "')\">
@@ -356,7 +359,7 @@ class voicemail {
         } 
         else {
           $_SESSION['ari_error'] = _("Voicemail recording(s) was not found.") . "<br>" .
-                                   _("Check voicemail audio format on settings page to change from") . " " . $_COOKIE['ari_voicemail_audio_format'];
+                                   _("On settings page, change voicemail audio format.  It is currently set to $voicemail_audio_format");
         }
 
         $tableText .= "
@@ -373,17 +376,23 @@ class voicemail {
       }
     }
 
-    // build page content
-    $ret .= CheckErrorMessage();
+    // options
+    $url_opts = array();
+    $url_opts['folder'] = $folder;
+    $url_opts['sort'] = $sort;
+    $url_opts['order'] = $order;
 
-    $ret .= $display->DisplayHeaderText(_("Voicemail") . " " . _("for") . " " . $_SESSION['ari_user']['name'] . " (" . $extension . ")");
-    $ret .= $display->DisplaySearchBlock('left',$m,$folder,$sort,$order,$q,true);
+    // build page content
+    $ret .= checkErrorMessage();
+
+    $ret .= $display->displayHeaderText(_("Voicemail for $displayname ($extension)"));
+    $ret .= $display->displaySearchBlock('left',$m,$q,$url_opts,true);
 
     // start form
     $ret .= "
-      <form  name='voicemail_form' action='" . $_SERVER['PHP_SELF'] . "' method='GET'>
+      <form name='voicemail_form' action='" . $_SERVER['PHP_SELF'] . "' method='GET'>
         <input type=hidden name=m value=" . $m . ">	
-        <input type=hidden name=f value=msg_action>
+        <input type=hidden name=f value=msgAction>
         <input type=hidden name=a value=''>
         <input type=hidden name=q value=" . $q . ">
         <input type=hidden name=folder value=" . $folder . ">
@@ -392,7 +401,7 @@ class voicemail {
         <input type=hidden name=order value=" . $order . ">
         <input type=hidden name=sort value=" . $sort . ">";
 
-    $ret .= $display->DisplayInfoBarBlock($controls,$q,$start,$span,$recordCount);
+    $ret .= $display->displayInfoBarBlock($controls,$q,$start,$span,$record_count);
 
     // add javascript for popup and message actions
     $ret .= "
@@ -443,8 +452,8 @@ class voicemail {
     // end form
     $ret .= "</form>";
 
-    $ret .= $display->DisplaySearchBlock('center',$m,$folder,$sort,$order,$q,false);
-    $ret .= $display->DisplayNavigationBlock($m,$folder,$sort,$order,$q,$start,$span,$recordCount);
+    $ret .= $display->displaySearchBlock('center',$m,$q,$url_opts,false);
+    $ret .= $display->displayNavigationBlock($m,$q,$url_opts,$start,$span,$record_count);
 
     return $ret;
   }
@@ -457,12 +466,12 @@ class voicemail {
    * @param $q
    *   search string
    */
-  function get_vm_index($path,$q,$order,$sort) {
+  function getVoicemailIndex($path,$q,$order,$sort) {
 
     $filter = '.txt';
     $recursiveMax = 0;
     $recursiveCount = 0;
-    get_files($path,$filter,$recursiveMax,$recursiveCount,$files);
+    GetFiles($path,$filter,$recursiveMax,$recursiveCount,$files);
 
     if (isset($files)) {
 
@@ -537,7 +546,7 @@ class voicemail {
    * @param $files
    *   Array of files to delete
    */
-  function delete_vm_data($files) {
+  function deleteVoicemailData($files) {
 
     foreach($files as $key => $path) {
 
@@ -550,9 +559,14 @@ class voicemail {
 
       // delete all related files using a wildcard
       if (is_dir($path)) {
-        foreach(glob($path . $name . ".*") as $fn) {
-          unlink($fn);
-        } 
+        $hdl = opendir($path);
+        while ($fn = readdir($hdl)) {
+          if (preg_match("/" . $name ."/",$fn)) {
+            $file = $path . $fn;
+            unlink($file);
+          }
+        }
+        closedir($hdl);
       }
     }
   }
@@ -567,12 +581,12 @@ class voicemail {
    * @param $folder_rx
    *   Folder to move the messages to
    */
-  function move_vm_data($files,$context_rx,$extension_rx,$folder_rx) {
+  function moveVoicemailData($files,$context_rx,$extension_rx,$folder_rx) {
 
-    global $asterisk_voicemail_path;
+    global $ASTERISK_VOICEMAIL_PATH;
 
     // recieving path
-    $paths = split(';',$asterisk_voicemail_path);
+    $paths = split(';',$ASTERISK_VOICEMAIL_PATH);
     $path_rx = $paths[0];
     AppendPath($path_rx,$context_rx);
     if (!is_dir($path_rx)) {
@@ -590,7 +604,7 @@ class voicemail {
     // get recieving folder last message number
     if (is_dir($path_rx)) {
 
-      $lastNum = 0;
+      $lastNum = -1;
       $lastNumLen = 4;
 
       $dh = opendir($path_rx);
@@ -611,7 +625,7 @@ class voicemail {
       } 
     }
     else {
-      $_SESSION['ari_error'] = _("Could not create mailbox folder") . " " . $folder_rx . " " . _("on the server");
+      $_SESSION['ari_error'] = _("Could not create mailbox folder $folder_rx on the server");
       return;
     }
 
@@ -627,21 +641,25 @@ class voicemail {
       if (is_dir($path)) {
 
         $lastNum++;
-        foreach(glob($path . $name . ".*") as $src) {
-
-          $dst = $path_rx; 
-          $path_parts = pathinfo($src);
-          $folder_rx = preg_replace("/\d+/",sprintf("%0" . $lastNumLen . "d",$lastNum),$path_parts['basename']);
-          AppendPath($dst,$folder_rx);
-          if (is_writable($src) && is_writable($path_rx)) {
-            copy($src,$dst);
-            unlink($src);
-          }
-          else {
-            $_SESSION['ari_error'] = _("Permission denied on folder") . " " . $src . " " . "or" . " " . $path_rx;
-            return;
-          }
-        } 
+        $hdl = opendir($path);
+        while ($fn = readdir($hdl)) {
+          if (preg_match("/" . $name . "/",$fn)) {
+            $src = $path . $fn;
+            $dst = $path_rx; 
+            $path_parts = pathinfo($src);
+            $folder_rx = preg_replace("/\d+/",sprintf("%0" . $lastNumLen . "d",$lastNum),$path_parts['basename']);
+            AppendPath($dst,$folder_rx);
+            if (is_writable($src) && is_writable($path_rx)) {
+              copy($src,$dst);
+              unlink($src);
+            }
+            else {
+              $_SESSION['ari_error'] = _("Permission denied on folder $src or $path_rx");
+              return;
+            }
+          } 
+        }
+        closedir($hdl);
       }
     }
   }
@@ -654,7 +672,7 @@ class voicemail {
    * @param $count
    *   Reference to the variable to store the data in
    */
-  function get_vm_count($indexes,&$count) {
+  function getVoicemailCount($indexes,&$count) {
 
     $count = $count + count($indexes);
   }
@@ -671,7 +689,7 @@ class voicemail {
    * @param $data
    *   Reference to the variable to store the data in
    */
-  function get_vm_data($indexes,$start,$span,&$data) {
+  function getVoicemailData($indexes,$start,$span,&$data) {
 
     if (!isset($indexes)) {
       return;
