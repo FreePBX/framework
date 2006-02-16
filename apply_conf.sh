@@ -35,17 +35,6 @@ sed -r -i "s/user=[a-zA-Z0-9]*/user=$AMPDBUSER/" /etc/asterisk/cdr_mysql.conf
 sed -r -i "s/password=[a-zA-Z0-9]*/password=$AMPDBPASS/" /etc/asterisk/cdr_mysql.conf
 sed -r -i "s/hostname=[a-zA-Z0-9]*/hostname=$AMPDBHOST/" /etc/asterisk/cdr_mysql.conf
 
-# do a bunch at once here
-find $AMPBIN/ -name retrieve\*.pl
-sed -r -i "s/username = \"[a-zA-Z0-9]*\";/username = \"$AMPDBUSER\";/" `find $AMPBIN/ -name retrieve\*.pl`
-sed -r -i "s/password = \"[a-zA-Z0-9]*\";/password = \"$AMPDBPASS\";/" `find $AMPBIN/ -name retrieve\*.pl`
-sed -r -i "s/hostname = \"[a-zA-Z0-9]*\";/hostname = \"$AMPDBHOST\";/" `find $AMPBIN/ -name retrieve\*.pl`
-
-# sort option for FOP
-sed -r -i "s/sortoption = \"[a-zA-Z0-9]*\";/sortoption = \"$FOPSORT\";/" $AMPBIN/retrieve_op_conf_from_mysql.pl
-
-sed -r -i "s!op_conf = \"[^\"]*\";!op_conf = \"$AMPWEBROOT\/panel\/op_buttons_additional.cfg\";!" $AMPBIN/retrieve_op_conf_from_mysql.pl
-
 echo "/etc/asterisk/manager.conf"
 sed -r -i "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" /etc/asterisk/manager.conf
 sed -r -i "/\[general\]/!s/\[[a-zA-Z0-9]+\]/[$AMPMGRUSER]/" /etc/asterisk/manager.conf

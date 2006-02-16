@@ -91,21 +91,23 @@ while( $line = <ZAPATA> ) {
 #@conferences=(@conferences,[ "811","Conf.11" ]);
 
 
-# WARNING: this file will be substituted by the output of this program
-$op_conf = "AMPWEBROOT/panel/op_buttons_additional.cfg";
 # the name of the database our tables are kept
 $database = "asterisk";
-# sort option: extension or lastname
-$sortoption = "extension";
 
 # cool hack by Julien BLACHE <jblache@debian.org>
 $ampconf = parse_amportal_conf( "/etc/amportal.conf" );
+
+# WARNING: this file will be substituted by the output of this program
+$op_conf = $ampconf->{"AMPWEBROOT"}."/panel/op_buttons_additional.cfg";
 # username to connect to the database
 $username = $ampconf->{"AMPDBUSER"};
 # password to connect to the database
 $password = $ampconf->{"AMPDBPASS"};
 # the name of the box the MySQL database is running on
 $hostname = $ampconf->{"AMPDBHOST"};
+#sort option: extension or lastname
+$sortoption = $ampconf->{"FOPSORT"};
+
 ################### END OF CONFIGURATION #######################
 
 
