@@ -27,7 +27,7 @@ function checkErrorMessage() {
 function databaseLogon() {
 
   global $STANDALONE;
-  global $AMP_FUNCTIONS_FILE;
+  global $AMP_FUNCTIONS_FILES;
   global $AMPORTAL_CONF_FILE;
   global $ASTERISK_DBHOST;
   global $ASTERISK_DBNAME;
@@ -46,8 +46,17 @@ function databaseLogon() {
     $cdrdbpass = $STANDALONE['asterisk_cdrdbpass'];
   } 
   else {
-    if (is_file($AMP_FUNCTIONS_FILE)) {
-      include_once($AMP_FUNCTIONS_FILE);
+
+    $include = 0;
+    $files = split(';',$AMP_FUNCTIONS_FILES);
+    foreach ($files as $file) {
+      if (is_file($file)) {
+        include_once($file);
+        $include = 1;
+      }
+    }
+
+    if ($include) {
       $amp_conf = parse_amportal_conf($AMPORTAL_CONF_FILE);
       $mgruser = $amp_conf['AMPMGRUSER'];
       $mgrpass = $amp_conf['AMPMGRPASS'];
