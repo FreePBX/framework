@@ -40,6 +40,9 @@
 		history.forward();
 		//-->
 	</script> 
+<!--[if IE]>
+    <style type="text/css">div.inyourface a{position:absolute;}</style>
+<![endif]-->
 </head>
 
 <?php
