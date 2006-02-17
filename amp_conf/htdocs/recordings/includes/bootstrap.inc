@@ -110,7 +110,7 @@ function getDirectories($path,$filter,&$directories) {
  */
 function getFiles($path,$filter,$recursive_max,&$recursive_count,&$files) {
 
-  if (is_dir($path)) {
+  if (@is_dir($path)) {
     $dh = opendir($path);
     while (false!== ($item = readdir($dh))) {
       if($item!="." && $item!="..") {

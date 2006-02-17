@@ -411,86 +411,89 @@ class Settings {
 	  </tr>";
       }
 
-      if ($_SESSION['ari_user']['voicemail_email_enable']) { 
-        $voicemail_email_address = $_SESSION['ari_user']['voicemail_email_address'];
-        $voicemail_pager_address = $_SESSION['ari_user']['voicemail_pager_address'];
-        $voicemail_email_enable = 'checked';
+      if (isset($_SESSION['ari_user']['voicemail_email'])) {
 
-        foreach (array_keys($_SESSION['ari_user']['voicemail_email']) as $key) {
-          $var = "voicemail_email_$key";
-          $var_enable = $var . "enable";
-          if ($_SESSION['ari_user']['voicemail_email'][$key]=='yes') {
-            $$var_enable = 'checked';
+        if ($_SESSION['ari_user']['voicemail_email_enable']) { 
+          $voicemail_email_address = $_SESSION['ari_user']['voicemail_email_address'];
+          $voicemail_pager_address = $_SESSION['ari_user']['voicemail_pager_address'];
+          $voicemail_email_enable = 'checked';
+
+          foreach (array_keys($_SESSION['ari_user']['voicemail_email']) as $key) {
+            $var = "voicemail_email_$key";
+            $var_enable = $var . "enable";
+            if ($_SESSION['ari_user']['voicemail_email'][$key]=='yes') {
+              $$var_enable = 'checked';
+            }
           }
-        }
-      }
-      else {
-
-        $voicemail_email_address = $_COOKIE['ari_voicemail_email_address'];
-        $voicemail_email_text_box_options = "disabled style='background: #DDD;'";
-        $voicemail_pager_address = $_COOKIE['ari_voicemail_pager_address'];
-        $voicemail_pager_text_box_options = "disabled style='background: #DDD;'";
-
-        foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
-          $var = "voicemail_email_$key";
-          $var_cookie = "ari_" . $var;
-          $var_enable = $var . "enable";
-          $var_text_box_options = $var . "text_box_options";
-
-          $$var_text_box_options = "disabled style='background: #DDD;'";
-          if ($_COOKIE[$var_cookie]=='yes') {
-            $$var_enable = 'checked';
-          }
-        }
-      }
-
-      $set_voicemail_email_text = "
-	<tr>
-          <td>" . _("Email Voicemail To") . ":" . "</td>
-          <td>
-            <input " . $voicemail_email_text_box_options . " name='voicemail_email_address' type='text' size=48 value='" . $voicemail_email_address . "'>
-          </td>
-	</tr>
-	<tr>
-          <td>" . _("Pager Voicemail To") . ":" . "</td>
-          <td>
-            <input " . $voicemail_pager_text_box_options . " name='voicemail_pager_address' type='text' size=48 value='" . $voicemail_pager_address . "'>
-          </td>
-	</tr>
-        <tr>
-          <td></td>
-          <td>
-            <input " . $voicemail_email_enable . " type=checkbox name='voicemail_email_enable' value='1' OnClick=\"disable_fields(); return true;\">
-            <small>Enable</small>
-          </td>
-        </tr>";
-
-      $var_texts = array();
-      $var_texts['attach'] = _("Email voicemail as attachment");
-      $var_texts['saycid'] = _("Say caller id in recording emailed");
-      $var_texts['envelope'] = _("Say envelop in recording emailed");
-      $var_texts['delete'] = _("Delete voicemail when emailed");
-      foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
-        $var = "voicemail_email_$key";
-        $var_enable = $var . "enable";
-        $var_text_box_options = $var . "text_box_options";
-        if ($var_texts[$key]) {
-          $var_text = $var_texts[$key];
         }
         else {
-          $var_text = $key;
+
+          $voicemail_email_address = $_COOKIE['ari_voicemail_email_address'];
+          $voicemail_email_text_box_options = "disabled style='background: #DDD;'";
+          $voicemail_pager_address = $_COOKIE['ari_voicemail_pager_address'];
+          $voicemail_pager_text_box_options = "disabled style='background: #DDD;'";
+
+          foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
+            $var = "voicemail_email_$key";
+            $var_cookie = "ari_" . $var;
+            $var_enable = $var . "enable";
+            $var_text_box_options = $var . "text_box_options";
+
+            $$var_text_box_options = "disabled style='background: #DDD;'";
+            if ($_COOKIE[$var_cookie]=='yes') {
+              $$var_enable = 'checked';
+            }
+          }
         }
 
-        $set_voicemail_email_text .= "
+        $set_voicemail_email_text = "
+	  <tr>
+            <td>" . _("Email Voicemail To") . ":" . "</td>
+            <td>
+              <input " . $voicemail_email_text_box_options . " name='voicemail_email_address' type='text' size=48 value='" . $voicemail_email_address . "'>
+            </td>
+	  </tr>
+	  <tr>
+            <td>" . _("Pager Voicemail To") . ":" . "</td>
+            <td>
+              <input " . $voicemail_pager_text_box_options . " name='voicemail_pager_address' type='text' size=48 value='" . $voicemail_pager_address . "'>
+            </td>
+	  </tr>
           <tr>
             <td></td>
             <td>
-              <input " . $$var_enable . " " . $$var_text_box_options . " type=checkbox name='" . $var . "' value='yes' OnClick=\"disable_fields(); return true;\">
-              <small>" . $var_text . "</small>
+              <input " . $voicemail_email_enable . " type=checkbox name='voicemail_email_enable' value='1' OnClick=\"disable_fields(); return true;\">
+              <small>Enable</small>
             </td>
           </tr>";
-      }
 
+        $var_texts = array();
+        $var_texts['attach'] = _("Email voicemail as attachment");
+        $var_texts['saycid'] = _("Say caller id in recording emailed");
+        $var_texts['envelope'] = _("Say envelop in recording emailed");
+        $var_texts['delete'] = _("Delete voicemail when emailed");
+        foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
+          $var = "voicemail_email_$key";
+          $var_enable = $var . "enable";
+          $var_text_box_options = $var . "text_box_options";
+          if ($var_texts[$key]) {
+            $var_text = $var_texts[$key];
+          }
+          else {
+            $var_text = $key;
+          }
+
+          $set_voicemail_email_text .= "
+            <tr>
+              <td></td>
+              <td>
+                <input " . $$var_enable . " " . $$var_text_box_options . " type=checkbox name='" . $var . "' value='yes' OnClick=\"disable_fields(); return true;\">
+                <small>" . $var_text . "</small>
+              </td>
+            </tr>";
+        }
+      }
+ 
       if ($_COOKIE['ari_voicemail_audio_format']=='.wav' || 
             ($_COOKIE['ari_voicemail_audio_format']=='' && $ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT='.wav')) {
         $wav_enable = 'selected';
@@ -574,12 +577,14 @@ class Settings {
     }
 
     // javascript enable options
-    foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
-      $var = "voicemail_email_$key";
-      $js_voicemail_email_disable .= "
-        document.ari_settings.$var.disabled = false;";
-      $js_voicemail_email_enable .= "
-        document.ari_settings.$var.disabled = true;";
+    if (isset($_SESSION['ari_user']['voicemail_email'])) {
+      foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
+        $var = "voicemail_email_$key";
+        $js_voicemail_email_disable .= "
+          document.ari_settings.$var.disabled = false;";
+        $js_voicemail_email_enable .= "
+          document.ari_settings.$var.disabled = true;";
+      }
     }
 
     // build page content

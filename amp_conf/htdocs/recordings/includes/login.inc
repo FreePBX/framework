@@ -27,6 +27,8 @@ class Login {
     global $ASTERISK_PROTOCOLS;
     global $CALLMONITOR_ADMIN_EXTENSIONS;
     global $ARI_NO_LOGIN;
+    global $ARI_DEFAULT_ADMIN_PAGE;
+    global $ARI_DEFAULT_USER_PAGE;
 
     // get the ari authentication cookie 
     $buf = unserialize($_COOKIE['ari_auth']);
@@ -64,7 +66,7 @@ class Login {
           $admin = 1;
           $admin_callmonitor = 1;
 
-          $default_page = 'callmonitor';
+          $default_page = $ARI_DEFAULT_ADMIN_PAGE;
         }
       }
 
@@ -98,7 +100,7 @@ class Login {
                 $extension = $username ;
                 $displayname = $buf[1];
                 $vm_password = $buf[0];
-                $default_page = 'voicemail';
+                $default_page = $ARI_DEFAULT_USER_PAGE;
                 $context = $currentContext;
                 $voicemail_email_address = $buf[2];
                 $voicemail_pager_address = $buf[3];
@@ -178,7 +180,7 @@ class Login {
                     $auth = true;  
                     $extension = $username ;
                     $displayname = $username;
-                    $default_page = 'callmonitor';
+                    $default_page = $ARI_DEFAULT_ADMIN_PAGE;
   
                     $_SESSION['ari_error'] = _("Voicemail Login not found") . ", " . $protocol . " " . _("Login used") . "<br>" .
                                              _("No access to voicemail");
@@ -249,7 +251,7 @@ class Login {
         $extension = 'admin';
         $name = 'Administrator';
         $admin_callmonitor = 1;
-        $default_page = 'callmonitor';
+        $default_page = $ARI_DEFAULT_ADMIN_PAGE;
       } 
 
       if ($extension) {

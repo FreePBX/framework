@@ -147,6 +147,7 @@ function loginBlock() {
 function handleBlock() {
 
   global $ARI_ADMIN_MODULES;
+  global $ARI_DISABLED_MODULES;
 
   // check errors here and in login block
   $content .= checkErrorMessage();
@@ -203,8 +204,8 @@ function handleBlock() {
         // check if admin module
         $found = 0;
         if ($ARI_ADMIN_MODULES) {
-          $adminModules = split(',',$ARI_ADMIN_MODULES);
-          foreach ($adminModules as $key => $value) {
+          $admin_modules = split(',',$ARI_ADMIN_MODULES);
+          foreach ($admin_modules as $key => $value) {
             if ($name==$value) {
               $found = 1;
               break;
@@ -212,8 +213,20 @@ function handleBlock() {
           }
         }
 
+        // check if disabled module
+        $disabled = 0;
+        if ($ARI_DISABLED_MODULES) {
+          $disabled_modules = split(',',$ARI_DISABLED_MODULES);
+          foreach ($disabled_modules as $key => $value) {
+            if ($name==$value) {
+              $disabled = 1;
+              break;
+            }
+          }
+        }
+
        // if not admin module or admin user add to module name to array
-       if (!$found || $ari_admin_user) {
+       if (!$disabled && (!$found || $ari_admin_user)) {
          $modules[$rank] = $module;
        }
       }
