@@ -14,7 +14,7 @@
 session_start();
 
 // check for logout in request
-if ($_REQUEST["action"] == "logout") {
+if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "logout") {
 	$_SESSION["AMP_logout"] = "yes";
 	unset($_SESSION["AMP_user"]);
 	session_unregister('AMP_SQL'); //used in reports.php
@@ -35,7 +35,11 @@ require_once('common/db_connect.php'); //PEAR must be installed
 
 include 'header.php'; 
 
-$display=$_REQUEST['display'];
+if (isset($_REQUEST['display'])) {
+	$display=$_REQUEST['display'];
+} else { 
+	$display='';
+}
 ?>
 
 <div class="nav">
@@ -46,13 +50,20 @@ $display=$_REQUEST['display'];
 <div class="content">
 
 <?php
-$display=$_REQUEST['display'];
+if (isset($_REQUEST['display'])) {
+	$display=$_REQUEST['display'];
+} else { 
+	$display='';
+}
 switch($display) {
     default:
 ?>
 
     <p align="right">
-	<?php if (extension_loaded('gettext')) {?>
+	<?php if (extension_loaded('gettext')) {
+		if (!isset($_COOKIE['lang'])) {
+			$_COOKIE['lang'] = "en_US";
+		} ?>
 	Language:
 	<select onchange="javascript:changeLang(this.value)">
         <option value="en_US" <? echo ($_COOKIE['lang']=="en_US" ? "selected" : "") ?> >English</option>
