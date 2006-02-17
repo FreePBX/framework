@@ -76,8 +76,9 @@ include 'header.php';
 
 if (isset($_REQUEST['display'])) {
 	$display=$_REQUEST['display'];
+} else {
+        $display='';
 }
-
 	$amp_sections = array(
 		'modules'=>_("Module Admin")
 	);

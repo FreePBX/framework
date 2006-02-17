@@ -43,7 +43,11 @@
 
 <?php
 	if (extension_loaded('gettext')) {
-	setlocale(LC_MESSAGES,  $_COOKIE['lang'] ? $_COOKIE['lang']:'en_US');
+	if (isset($_COOKIE['lang'])) {
+		setlocale(LC_MESSAGES,  $_COOKIE['lang']);
+	} else {
+		setlocale(LC_MESSAGES,  'en_US');
+	}
 	bindtextdomain('amp','./i18n');
 	textdomain('amp');
 	}
@@ -59,9 +63,10 @@ if (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/
     <a href="index.php"><img src="images/<?php echo $amp_conf["AMPADMINLOGO"] ?>"/></a>
 <?php } else{ ?>
     <a href="index.php"><img src="images/freepbx.png"/></a>
-<?php }  ?>
+<?php } 
+if (!isset($_REQUEST['type'])) { $_REQUEST['type'] = 'setup'; } ?>
 
-    <a id="<?php  echo ($currentFile=='config.php' && $_REQUEST['type']!='tool' ? 'current':'') ?>" href="config.php?">
+    <a id="<?php  echo ($currentFile=='config.php' && $_REQUEST['type']!='tool' ? 'current':'') ?>" href="config.php?type=setup">
         &#8226;
         <li><?php echo _("Setup") ?></li>
     </a>

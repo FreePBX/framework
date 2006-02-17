@@ -4,7 +4,11 @@ if (!extension_loaded('gettext')) {
                return $str;
        }
 } else {
-    setlocale(LC_MESSAGES,  $_COOKIE['lang'] ? $_COOKIE['lang']:'en_US');
+    if (isset($_COOKIE['lang'])) {
+    	setlocale(LC_MESSAGES,  $_COOKIE['lang']);
+    } else { 
+    	setlocale(LC_MESSAGES,  'en_US');
+    }
     bindtextdomain('amp','../i18n');
     textdomain('amp');
 }
