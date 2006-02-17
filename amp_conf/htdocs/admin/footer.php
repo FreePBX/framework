@@ -23,7 +23,7 @@
 <?php  
 
 //check to see if we are requesting an asterisk reload
-if ($_REQUEST['clk_reload'] == 'true') {
+if (isset($_REQUEST['clk_reload'])) {
 	
 	if (isset($amp_conf["POST_RELOAD"]))
 	{
