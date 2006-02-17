@@ -622,7 +622,7 @@ function drawselects($goto,$i) {
 				}
 			}
 			
-			$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="'.$mod.'" onclick="javascript:this.form.goto'.$i.'.value=\''.$mod.'\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$mod.'\';" '.($checked? 'CHECKED=CHECKED' : '').' /> '._($displayname).': ';
+			$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="'.$mod.'" onclick="javascript:this.form.goto'.$i.'.value=\''.$mod.'\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$mod.'\';" '.($checked? 'CHECKED=CHECKED' : '').' /> '._($displayname['displayName']).': ';
 			$selectHtml .=	'<select name="'.$mod.$i.'"/>';
 			$selectHtml .= $options;	
 			$selectHtml .=	'</select><br>';
