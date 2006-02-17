@@ -37,7 +37,7 @@ $array = array ("INTRO", "CDR REPORT", "CALLS COMPARE", "MONTHLY TRAFFIC","DAILY
 $s = $s ? $s : 0;
 $section="section$s$t";
 
-$racine=$PHP_SELF;
+$racine=$_SERVER['PHP_SELF'];
 $update = "03 March 2005";
 
 

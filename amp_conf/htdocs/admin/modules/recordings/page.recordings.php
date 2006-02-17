@@ -25,7 +25,7 @@ switch($action) {
 	default:
 ?>
 <h4><?php echo _("Your User/Extension")?></h4>
-<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
+<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
         <input type="hidden" name="action" value="recordings_start">
         <input type="hidden" name="display" value="<?php echo $display?>">
         <?php echo _("This Digital Receptionist wizard asks you to record and playback a greeting using your phone.")?><br><br>
@@ -103,7 +103,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 }
 ?>
 </p>
-<form name="prompt" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
+<form name="prompt" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="recorded">
 <input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 <input type="hidden" name="promptnum" value="<?php echo $promptnum?>">

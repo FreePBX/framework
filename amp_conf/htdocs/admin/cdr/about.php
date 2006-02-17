@@ -24,7 +24,7 @@ $array = array ("INFO", "CONTACT");
 $s = $s ? $s : 0;
 $section="section$s$t";
 
-$racine=$PHP_SELF;
+$racine=$_SERVER['PHP_SELF'];
 $update = "03 March 2005";
 
 $paypal="OK"; //OK || NOK

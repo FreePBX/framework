@@ -114,7 +114,7 @@ if ($action == 'add')
 {
 	?>
 	<h2><?php echo _("System Backup")?></h2>
-	<form name="addbackup" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
+	<form name="addbackup" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="display" value="<?php echo $display?>">
 	<input type="hidden" name="type" value="<?php echo $type?>">
 	<input type="hidden" name="action" value="addednew">
@@ -138,7 +138,7 @@ else if ($action == 'edit')
 	?>
 	<h2><?php echo _("System Backup")?></h2>
 	<p><a href="config.php?type=tool&display=<?php echo $display ?>&action=delete&backupid=<?php echo $_REQUEST['backupid']; ?>"><?php echo _("Delete Backup Schedule")?> <?php echo $_REQUEST['backupname']; ?></a></p>
-	<form name="addbackup" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
+	<form name="addbackup" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="display" value="<?php echo $display?>">
 	<input type="hidden" name="action" value="edited">
 	<input type="hidden" name="backupid" value="<?php echo $_REQUEST['backupid']; ?>">

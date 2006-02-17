@@ -81,7 +81,7 @@ switch($action) {
 	// this reduces the possiblity of simultaneous actions of ivr recordings conflicting
 ?>
 <h4><?php echo _("Your User/Extension")?></h4>
-<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
+<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="action" value="ivr_start">
 	<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 	<input type="hidden" name="display" value="ivr">
@@ -135,7 +135,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 }
 ?>
 </p>
-<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
+<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="ivr_recorded">
 <input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 <input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
@@ -192,7 +192,7 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 	case 'ivr_recorded':
 ?>
 <h4>Options for Menu: <?php echo $_REQUEST['mname']; ?></h4>
-<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
+<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="ivr_options_yes_num"/>
 <input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
 <input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">
@@ -241,7 +241,7 @@ foreach ($vmcontexts as $vmcontext) {
 	
 	if (( $_REQUEST['ivr_num_options'] == '0' ) || ( $_REQUEST['ivr_num_options'] == '' )) {
 ?>
-	<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
+	<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 		<input type="hidden" name="display" value="ivr">
 		<input type="hidden" name="action" value="ivr_options_set">
 		<input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
@@ -274,7 +274,7 @@ foreach ($vmcontexts as $vmcontext) {
 	"<b><?php echo _("Action")?></b>" <?php echo _("is the result of the caller dialing the option #.  This can send the caller to an internal extension, a voicemail box, ring group, queue, or to another recorded menu.")?> 
 </p>
 <hr>
-<p>	<form name="prompt" action="<?php echo $_REQUEST['PHP_SELF'] ?>" method="post">
+<p>	<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="display" value="ivr">
 	<input type="hidden" name="action" value="ivr_options_set"/>
 	<input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">

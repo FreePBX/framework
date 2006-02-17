@@ -164,7 +164,7 @@ function kill_mpg123()
 if ($action == 'add')
 {
 	?>
-	<form name="addcategory" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post">
+	<form name="addcategory" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="display" value="<?php echo $display?>">
 	<input type="hidden" name="action" value="addednew">
 	<table>

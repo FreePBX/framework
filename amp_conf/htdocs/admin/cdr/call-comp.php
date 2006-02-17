@@ -251,7 +251,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 
 <!-- ** ** ** ** ** Part for the research ** ** ** ** ** -->
 	<center>
-	<FORM METHOD=POST ACTION="<?php echo $PHP_SELF?>?s=<?php echo $s?>&t=<?php echo $t?>&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php echo $current_page?>">
+	<FORM METHOD=POST ACTION="<?php echo $_SERVER['PHP_SELF']?>?s=<?php echo $s?>&t=<?php echo $t?>&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php echo $current_page?>">
 	<INPUT TYPE="hidden" NAME="posted" value=1>
 		<table class="bar-status" width="75%" border="0" cellspacing="1" cellpadding="2" align="center">
 			<tbody>

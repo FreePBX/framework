@@ -59,14 +59,14 @@ if ($action == 'delete') {
 		$thisItem = timeconditions_get($itemid);
 	}
 
-	$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delete';
+	$delURL = $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delete';
 ?>
 
 	<h2><?php echo _("Time Condition:")." ". $itemid; ?></h2>
 <?php		if ($itemid){ ?>
 	<p><a href="<?php echo $delURL ?>"><?php echo _("Delete Time Condition")?> <?php echo $itemid; ?></a></p>
 <?php		} ?>
-	<form autocomplete="off" name="edit" action="<?php $_REQUEST['PHP_SELF'] ?>" method="post" onsubmit="setDestinations(edit,2)">
+	<form autocomplete="off" name="edit" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="setDestinations(edit,2)">
 	<input type="hidden" name="display" value="<?php echo $dispnum?>">
 	<input type="hidden" name="action" value="<?php echo ($itemid ? 'edit' : 'add') ?>">
 	<input type="hidden" name="deptname" value="<?php echo $_SESSION["AMP_user"]->_deptname ?>">

@@ -111,13 +111,13 @@ if (isset($gresults)) {
 				$grplist = explode("-",$grplist);
 			}
 
-			$delURL = $_REQUEST['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delGRP';
+			$delURL = $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delGRP';
 	?>
 			<h2><?php echo _("Ring Group")?>: <?php  echo ltrim($extdisplay,'GRP-'); ?></h2>
 <?php 		if ($extdisplay){ ?>
 			<p><a href="<?php  echo $delURL ?>"><?php echo _("Delete Group")?> <?php  echo ltrim($extdisplay,'GRP-'); ?></a></p>
 <?php 		} ?>
-			<form name="editGRP" action="<?php  $_REQUEST['PHP_SELF'] ?>" method="post">
+			<form name="editGRP" action="<?php  $_SERVER['PHP_SELF'] ?>" method="post">
 			<input type="hidden" name="display" value="<?php echo $dispnum?>">
 			<input type="hidden" name="action" value="">
 			<table>
