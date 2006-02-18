@@ -12,8 +12,9 @@
 //GNU General Public License for more details.
 
 
-$action = $_REQUEST['action'];
-$itemid=$_REQUEST['itemid'];  //the item we are currently displaying
+isset($_REQUEST['action'])?$action = $_REQUEST['action']:$action='';
+//the item we are currently displaying
+isset($_REQUEST['itemid'])?$itemid=$_REQUEST['itemid']:$itemid='';
 $dispnum = "timeconditions"; //used for switch on config.php
 
 //if submitting form, update database
@@ -89,14 +90,22 @@ if ($action == 'delete') {
 
 <?php 
 //draw goto selects
-echo drawselects($thisItem['truegoto'],0);
+if (isset($thisItem)) {
+	echo drawselects($thisItem['truegoto'],0);
+} else { 
+	echo drawselects(null, 0);
+}
 ?>
 
 	<tr><td colspan="2"><br><h5><?php echo _("Destination if time does not match")?>:<hr></h5></td></tr>
 
 <?php 
 //draw goto selects
-echo drawselects($thisItem['falsegoto'],1);
+if (isset($thisItem)) {
+	echo drawselects($thisItem['falsegoto'],1);
+} else { 
+	echo drawselects(null, 0);
+}
 ?>
 
 	<tr>

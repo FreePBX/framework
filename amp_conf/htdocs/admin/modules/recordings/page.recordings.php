@@ -13,10 +13,10 @@
 ?>
 
 <?php
-$action = $_REQUEST['action'];
-$promptnum = $_REQUEST['promptnum'];
-$prompt = $_REQUEST['recordingdisplay'];
-$rname = $_REQUEST['rname'];
+isset($_REQUEST['action'])?$action = $_REQUEST['action']:$action='';
+isset($_REQUEST['promptnum'])?$promptnum = $_REQUEST['promptnum']:$promptnum='';
+isset($_REQUEST['recordingdisplay'])?$prompt = $_REQUEST['recordingdisplay']:$prompt='';
+isset($_REQUEST['rname'])?$rname = $_REQUEST['rname']:$rname='';
 if ($promptnum == null) $promptnum = '1';
 $display='recordings';
 
@@ -52,7 +52,7 @@ switch($action) {
 
 </div>
 <div class="rnav">
-    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $display?>&action=recordings_start&cidnum=<?php echo $_REQUEST['cidnum'] ?>"><?php echo _("Add Recording")?></a><br></li>
+    <li><a id="<?php echo isset($extdisplay)?'current':''; ?>" href="config.php?display=<?php echo $display?>&action=recordings_start&cidnum=<?php echo $_REQUEST['cidnum'] ?>"><?php echo _("Add Recording")?></a><br></li>
 
 <?php
 //get existing recordings info
@@ -71,7 +71,7 @@ if (isset($tresults)){
 <h4><?php echo _("Recording")?>: <?php echo $prompt ?></h4>
 <?php
 	//if we are trying to edit - let's be nice and give them the recording back
-	if ($_REQUEST['recording_action'] == 'edit'){
+	if (isset($_REQUEST['recording_action']) && $_REQUEST['recording_action'] == 'edit'){
 ?>
 	<p><a href="config.php?display=<?php echo $display ?>&recordingdisplay=<?php echo $prompt ?>&action=delete"><?php echo _("Delete Recording")?> <?php echo $prompt; ?></a></p>
 <?php
@@ -97,7 +97,7 @@ if (isset($tresults)){
 		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('Please wait until the page reloads.');"/>
 	</form>
 <?php
-if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
+if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 	move_uploaded_file($_FILES['ivrfile']['tmp_name'], "/var/lib/asterisk/sounds/".$_REQUEST['cidnum']."ivrrecording.wav");
 	echo "<h6>"._("Successfully uploaded")." ".$_FILES['ivrfile']['name']."</h6>";
 }
