@@ -33,7 +33,7 @@
     <title><?php  echo $title ?></title>
     <meta http-equiv="Content-Type" content="text/html">
     <link href="common/mainstyle.css" rel="stylesheet" type="text/css"> 
-    <script src="common/script.js.php"></script>  
+    <script src="common/script.js.php" type="text/javascript"></script>  
     <script type="text/javascript"> 
 		<!--
 		// Disable browser's Back button on another pg being able to go back to this pg.
