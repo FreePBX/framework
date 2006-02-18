@@ -84,6 +84,7 @@ switch($action) {
 <form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="action" value="ivr_start">
 	<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
+	<input type="hidden" name="ivr_action" value="<?php echo isset($_REQUEST['ivr_action'])?$_REQUEST['ivr_action']:''?>">
 	<input type="hidden" name="display" value="ivr">
 	<?php echo _("This Digital Receptionist wizard asks you to record and playback a greeting using your phone.")?><br><br>
 	<?php echo _("Please enter your user/extension:")?> 
