@@ -276,7 +276,7 @@ function drawListMenu($results, $skip, $dispnum, $extdisplay, $description) {
 		 $prevtag_pre= "<a href='?display=".$dispnum."&skip=$prevskip'>[PREVIOUS]</a>";
 		 print "$prevtag_pre";
 		 }
-		 if ($shownext) {
+		 if (isset($shownext)) {
 	 
 			 $nextskip= $skip + $index;
 			 if ($prevtag_pre) $prevtag .= " | ";
