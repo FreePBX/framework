@@ -14,13 +14,14 @@
 
 <?php 
 //this file checks to see if we need to adjust the extensions table, makes changes, and then calls ivrmap.php to display map
-$menu_id = $_REQUEST['menu_id'];
-
+isset($_REQUEST['menu_id'])?$menu_id = $_REQUEST['menu_id']:$menu_id='';
+isset($_REQUEST['ivr_action'])?$ivr_action = $_REQUEST['ivr_action']:$ivr_action='';
 // individual AMP Users department prefix - has no effect if deptartment is empty
 $dept = str_replace(' ','_',$_SESSION["AMP_user"]->_deptname);
 
 
-switch($_REQUEST['ivr_action']) {
+
+switch($ivr_action) {
 	case 'delete':
 	
 		$delsql = "DELETE FROM extensions WHERE context = '$menu_id'";
@@ -127,6 +128,6 @@ switch($_REQUEST['ivr_action']) {
 }
 
 //show the new map
-if ($_REQUEST['map_display'] != 'no')
+if (!isset($_REQUEST['map_display']) || $_REQUEST['map_display'] != 'no')
 	include 'modules/ivr/ivrmap.php';
 ?>

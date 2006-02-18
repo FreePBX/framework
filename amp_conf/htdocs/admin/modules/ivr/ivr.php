@@ -13,8 +13,8 @@
 ?>
 
 <?php
-$action = $_REQUEST['action'];
-$menu_id = $_REQUEST['menu_id'];
+isset($_REQUEST['action'])?$action = $_REQUEST['action']:$action='';
+isset($_REQUEST['menu_id'])?$menu_id = $_REQUEST['menu_id']:$menu_id='';
 // individual AMP Users department prefix - has no effect if deptartment is empty
 $dept = str_replace(' ','_',$_SESSION["AMP_user"]->_deptname);
 
@@ -108,7 +108,7 @@ switch($action) {
 <h4>Record Menu: <?php echo $mname?></h4>
 <?php
 	//if we are trying to edit - let's be nice and give them the recording back
-	if ($_REQUEST['ivr_action'] == 'edit'){
+	if (isset($_REQUEST['ivr_action']) && $_REQUEST['ivr_action'] == 'edit'){
 		copy('/var/lib/asterisk/sounds/custom/'.$menu_id.'.wav','/var/lib/asterisk/sounds/'.$_REQUEST['cidnum'].'ivrrecording.wav');
 		echo '<h5>'._("Dial *99 to listen to your current recording - click continue if you wish to re-use it.").'</h5>';
 	}
@@ -121,7 +121,7 @@ switch($action) {
 	<form enctype="multipart/form-data" name="upload" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
 		<?php echo _("Alternatively, upload a recording in")?> <a href="#" class="info"><?php echo _(".wav format")?><span><?php echo _("The .wav file _must_ have a sample rate of 8000Hz")?></span></a>:<br>
 		<input type="hidden" name="display" value="ivr">
-		<input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
+		<input type="hidden" name="ivr_action" value="<?php echo isset($_REQUEST['ivr_action'])?$_REQUEST['ivr_action']:''?>">
 		<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 		<input type="hidden" name="action" value="ivr_start">
 		<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
@@ -129,7 +129,7 @@ switch($action) {
 		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('<?php echo _("Please wait until the page reloads.")?>');"/>
 	</form>
 <?php
-if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
+if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 	move_uploaded_file($_FILES['ivrfile']['tmp_name'], "/var/lib/asterisk/sounds/".$_REQUEST['cidnum']."ivrrecording.wav");
 	echo "<h6>"._("Successfully uploaded")." ".$_FILES['ivrfile']['name']."</h6>";
 }
@@ -137,10 +137,10 @@ if (is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
 </p>
 <form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="ivr_recorded">
-<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
+<input type="hidden" name="cidnum" value="<?php echo isset($_REQUEST['cidnum'])?$_REQUEST['cidnum']:'' ;?>">
 <input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 <input type="hidden" name="display" value="ivr">
-<input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
+<input type="hidden" name="ivr_action" value="<?php echo isset($_REQUEST['ivr_action'])?$_REQUEST['ivr_action']:'' ?>">
 <h5><?php echo _("Step 2: Verify")?></h5>
 <p>
 	<?php echo _("After recording or uploading,")?> <em><?php echo _("dial *99")?></em> <?php echo _("to listen to your message.")?>

@@ -25,6 +25,10 @@ if (count($unique_aas) > 0) {
 <?php 
 	//convert the customizable parts of each auto attendant to a user-readable format
 	
+	//Init menu_num to avoid PHP warnings
+	if (!isset($menu_num)) {
+		$menu_num = 0;
+	}
 	//create top-level for each voice menu
 	foreach ($unique_aas as $unique_aa) {
 		$menus[] = array($unique_aa[0],$unique_aa[1]);
