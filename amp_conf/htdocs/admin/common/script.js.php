@@ -1,4 +1,6 @@
 <?php
+header ("Content-type: application/x-javascript");
+
 if (!extension_loaded('gettext')) {
        function _($str) {
                return $str;

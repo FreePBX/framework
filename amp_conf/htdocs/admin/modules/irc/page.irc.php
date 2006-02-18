@@ -14,7 +14,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$action = $_REQUEST['action'];
+isset($_REQUEST['action'])?$action = $_REQUEST['action']:$action = '';
 $display='irc';
 $type = 'tool';
 

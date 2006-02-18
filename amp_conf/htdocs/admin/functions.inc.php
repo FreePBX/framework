@@ -599,6 +599,8 @@ function drawselects($goto,$i) {
 	/* --- MODULES BEGIN --- */
 	global $active_modules;
 	
+	// This is purely to remove a warning. 
+	if (!isset($selectHtml)) { $selectHtml=''; }
 	$selectHtml .= '<tr><td colspan=2><input type="hidden" name="goto'.$i.'" value="">';
 	
 	//check for module-specific destination functions

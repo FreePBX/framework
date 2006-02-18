@@ -10,9 +10,10 @@ function timeconditions_destinations() {
 		foreach($results as $result){
 				$extens[] = array('destination' => 'timeconditions,'.$result['timeconditions_id'].',1', 'description' => $result['displayname']);
 		}
+		return $extens;
+	} else {
+		return null;
 	}
-	
-	return $extens;
 }
 
 
@@ -44,7 +45,11 @@ function timeconditions_list() {
 			$allowed[] = $result;
 		}
 	}
-	return $allowed;
+	if (isset($allowed)) {
+		return $allowed;
+	} else { 
+		return null;
+	}
 }
 
 function timeconditions_get($id){

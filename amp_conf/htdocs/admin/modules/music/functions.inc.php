@@ -16,8 +16,12 @@ function music_list($path) {
 		closedir($handle); 
 		}
 	}
-	if (isset($filearray)) sort($filearray);
-	return ($filearray);
+	if (isset($filearray)) {
+		sort($filearray);
+		return ($filearray);
+	} else {
+		return null;
+	}
 }
 
 function music_rmdirr($dirname)
@@ -50,3 +54,4 @@ function music_rmdirr($dirname)
 }
 
 ?>
+

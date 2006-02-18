@@ -11,18 +11,24 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$action = $_REQUEST['action'];
-$extdisplay=$_REQUEST['extdisplay'];  //the extension we are currently displaying
-$dispnum = 'queues'; //used for switch on config.php
+//used for switch on config.php
+$dispnum = 'queues';
 
-$account = $_REQUEST['account'];
-$name = $_REQUEST['name'];
-$password = $_REQUEST['password'];
-$agentannounce = $_REQUEST['agentannounce'];
-$prefix = $_REQUEST['prefix'];
-$goto = $_REQUEST[$_REQUEST['goto0']."0"];
-$joinannounce = $_REQUEST['joinannounce'];
+isset($_REQUEST['action'])?$action = $_REQUEST['action']:$action='';
+//the extension we are currently displaying
+isset($_REQUEST['extdisplay'])?$extdisplay=$_REQUEST['extdisplay']:$extdisplay='';
+isset($_REQUEST['account'])?$account = $_REQUEST['account']:$account='';
+isset($_REQUEST['name'])?$name = $_REQUEST['name']:$name='';
+isset($_REQUEST['password'])?$password = $_REQUEST['password']:$password='';
+isset($_REQUEST['agentannounce'])?$agentannounce = $_REQUEST['agentannounce']:$agentannounce='';
+isset($_REQUEST['prefix'])?$prefix = $_REQUEST['prefix']:$prefix='';
+isset($_REQUEST['joinannounce'])?$joinannounce = $_REQUEST['joinannounce']:$joinannounce='';
 
+if (isset($_REQUEST['goto0']) && isset($_REQUEST[$_REQUEST['goto0']."0"])) {
+	$goto = $_REQUEST[$_REQUEST['goto0']."0"];
+} else {
+	$goto = '';
+}
 $members = array();
 if (isset($_REQUEST["members"])) {
 	$members = explode("\n",$_REQUEST["members"]);
@@ -141,7 +147,7 @@ if ($action == 'delete') {
 	</tr>
 
 	<tr><td colspan="2"><br><h5><?php echo _("Queue Options")?><hr></h5></td></tr>
-<?php if(function_exists(recordings_list)) { //only include if recordings is enabled?>
+<?php if(function_exists('recordings_list')) { //only include if recordings is enabled?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Agent Announcement:")?><span><?php echo _("Announcement played to the Agent prior to bridging in the caller <br><br> Example: \"the Following call is from the Sales Queue\" or \"This call is from the Technical Support Queue\".<br><br>To add additional recordings please use the \"System Recordings\" MENU to the left")?></span></a></td>
 		<td>
@@ -160,7 +166,7 @@ if ($action == 'delete') {
 			</select>		
 		</td>
 	</tr>
-<?php } if(function_exists(music_list)) { //only include if music module is enabled?>
+<?php } if(function_exists('music_list')) { //only include if music module is enabled?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Hold Music Category:")?><span><?php echo _("Music (or Commercial) played to the caller while they wait in line for an available agent.<br><br>  This music is defined in the \"On Hold Music\" Menu to the left.")?></span></a></td>
 		<td>
@@ -351,7 +357,7 @@ if ($action == 'delete') {
 			</select>		
 		</td>
 	</tr>
-<?php if(function_exists(ivr_list)) { //only include if music module is enabled?>
+<?php if(function_exists('ivr_list')) { //only include if music module is enabled?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Voice Menu:")?><span> <?php echo _("After announcing Position and/or Hold Time, you can optionally present an existing Digital Receptionist Voice Menu.<br><br>This voicemenu must only contain single-digit 'dialed options'.")?> </span></a></td>
 		<td>
@@ -377,7 +383,7 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	
-<?php } if(function_exists(recordings_list)) { //only include if recordings is enabled?>
+<?php } if(function_exists('recordings_list')) { //only include if recordings is enabled?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Join Announcement:")?><span><?php echo _("Announcement played to callers once prior to joining the queue.<br><br>To add additional recordings please use the \"System Recordings\" MENU to the left")?></span></a></td>
 		<td>

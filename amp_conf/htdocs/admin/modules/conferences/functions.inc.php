@@ -32,9 +32,10 @@ function conferences_destinations() {
 		foreach($results as $result){
 				$extens[] = array('destination' => 'ext-meetme,'.$result['0'].',1', 'description' => $result['1']." <".$result['0'].">");
 		}
-	}
-	
 	return $extens;
+	} else {
+	return null;
+	}
 }
 
 
@@ -84,7 +85,11 @@ function conferences_list() {
 			$extens[] = array($result['exten'],$result['description']);
 		}
 	}
-	return $extens;
+	if (isset($extens)) {
+		return $extens;
+	} else {
+		return null;
+	}
 }
 
 function conferences_get($account){

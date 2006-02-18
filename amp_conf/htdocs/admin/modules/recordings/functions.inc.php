@@ -17,7 +17,11 @@ function recordings_list($path) {
 		}
 		   
 	}
-	if (isset($filearray)) sort($filearray);
-	return ($filearray);
+	if (isset($filearray)) {
+		sort($filearray);
+		return ($filearray);
+	} else {
+		return null;
+	}
 }
 ?>
