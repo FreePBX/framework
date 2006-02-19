@@ -11,15 +11,21 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$action = $_REQUEST['action'];
-$extdisplay=$_REQUEST['extdisplay'];
 $dispnum = 'ringgroups'; //used for switch on config.php
 
-$goto = $_REQUEST[$_REQUEST['goto0']."0"];
-$account = $_REQUEST['account'];
-$grptime = $_REQUEST['grptime'];
-$grppre = $_REQUEST['grppre'];
-$strategy = $_REQUEST['strategy'];
+isset($_REQUEST['action'])?$action = $_REQUEST['action']:$action='';
+//the extension we are currently displaying
+isset($_REQUEST['extdisplay'])?$extdisplay=$_REQUEST['extdisplay']:$extdisplay='';
+isset($_REQUEST['account'])?$account = $_REQUEST['account']:$account='';
+isset($_REQUEST['grptime'])?$grptime = $_REQUEST['grptime']:$grptime='';
+isset($_REQUEST['grppre'])?$grppre = $_REQUEST['grppre']:$grppre='';
+isset($_REQUEST['strategy'])?$strategy = $_REQUEST['strategy']:$strategy='';
+
+if (isset($_REQUEST['goto0']) && isset($_REQUEST[$_REQUEST['goto0']."0"])) {
+        $goto = $_REQUEST[$_REQUEST['goto0']."0"];
+} else {
+        $goto = '';
+}
 
 
 $grplist = array();

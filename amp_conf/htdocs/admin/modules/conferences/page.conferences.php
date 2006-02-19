@@ -12,8 +12,9 @@
 //GNU General Public License for more details.
 
 
-$action = $_REQUEST['action'];
-$extdisplay=$_REQUEST['extdisplay'];  //the extension we are currently displaying
+isset($_REQUEST['action'])?$action = $_REQUEST['action']:$action='';
+//the extension we are currently displaying
+isset($_REQUEST['extdisplay'])?$extdisplay=$_REQUEST['extdisplay']:$extdisplay='';
 $dispnum = "conferences"; //used for switch on config.php
 
 //check if the extension is within range for this user
@@ -112,8 +113,8 @@ if ($action == 'delete') {
 			<select name="options"/>
 			<?php
 				$default = (isset($options) ? $options : "");
-				echo '<option value="" '.($options != "q" ? 'SELECTED' : '').'>'._("No");
-				echo '<option value="q" '.($options == "q" ? 'SELECTED' : '').'>'._("Yes");
+				echo '<option value="" '.($default != "q" ? 'SELECTED' : '').'>'._("No");
+				echo '<option value="q" '.($default == "q" ? 'SELECTED' : '').'>'._("Yes");
 			?>		
 			</select>		
 		</td>

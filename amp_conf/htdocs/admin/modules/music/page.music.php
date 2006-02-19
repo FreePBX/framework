@@ -13,8 +13,8 @@
 ?>
 
 <?php
-$action = $_REQUEST['action'];
-$category = strtr($_REQUEST['category']," ", "-");
+$action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
+$category = strtr(isset($_REQUEST['category'])?$_REQUEST['category']:''," ", "-");
 if ($category == null) $category = 'Default';
 $display='music';
 
@@ -91,6 +91,7 @@ function makemusiccategory($category)
 function build_list() 
 {
 	global $path_to_dir;
+	$pattern = '';
 	$handle=opendir($path_to_dir) ;
 	$extensions = array('.mp3'); // list of extensions which only u want to read.
 	
@@ -132,7 +133,8 @@ function draw_list($file_array, $path_to_dir, $category)
 			print "<div style=\"text-align:right;width:350px;border: 1px solid;padding:2px;\">";
 			//print "<a style=\"float:left;margin-left:5px;\" href=\"file:". $path_to_dir ."". $thisfile ."\">".$thisfile."</a>";
 			print "<b style=\"float:left;margin-left:5px;\" >".$thisfile."</b>";
-			print "<a style=\"margin-right:5px;\" href=\"".$_SERVER['SCRIPT_NAME']."?display=".$display."&del=".$thisfile."&category=".$category."\">"._("Delete")."</a>";
+			print "<a style=\"margin-right:5px;\" href=\"".$_SERVER['SCRIPT_NAME']."?display=";
+			print isset($display)?$display:''."&del=".$thisfile."&category=".$category."\">"._("Delete")."</a>";
 			print "</div><br>";
 		}
 	}
@@ -201,7 +203,7 @@ else
 	
 	<?php
 
-	if (is_uploaded_file($_FILES['mohfile']['tmp_name'])) {
+	if (isset($_FILES['mohfile']['tmp_name']) && is_uploaded_file($_FILES['mohfile']['tmp_name'])) {
 		//echo $_FILES['mohfile']['name']." uploaded OK";
 		move_uploaded_file($_FILES['mohfile']['tmp_name'], $path_to_dir."/orig_".$_FILES['mohfile']['name']);
 		process_mohfile($_FILES['mohfile']['name']);
@@ -214,7 +216,7 @@ else
 	$numf = count($file_array);
 
 
-	if ($_REQUEST['del']) {
+	if (isset($_REQUEST['del'])) {
 		if (($numf == 1) && ($category == "Default") ){
 			echo "<h5>"._("You must have at least one file for On Hold Music.  Please upload one before deleting this one.")."</h5>";
 		} else {
