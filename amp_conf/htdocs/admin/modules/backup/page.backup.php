@@ -91,8 +91,8 @@ switch ($action) {
 ?>
 </div>
 <div class="rnav">
-    <li><a href="config.php?type=tool&display=<?php echo $display?>&action=add"><?php echo _("Add Backup Schedule")?></a><br></li>
-    <li><a href="config.php?type=tool&display=<?php echo $display?>&action=restore"><?php echo _("Restore from Backup")?></a><br></li>
+    <li><a href="config.php?type=tool&display=<?php echo $display?>&action=add"><?php echo _("Add Backup Schedule")?></a></li>
+    <li><a href="config.php?type=tool&display=<?php echo $display?>&action=restore"><?php echo _("Restore from Backup")?></a></li>
 
 <?php 
 //get unique account rows for navigation menu

@@ -83,7 +83,7 @@ if (isset($account) && !checkRange($account)){
 </div>
 
 <div class="rnav">
-    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add Ring Group")?></a><br></li>
+    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add Ring Group")?></a></li>
 <?php 
 //get unique ring groups
 $gresults = ringgroups_list();

@@ -52,7 +52,7 @@ switch($action) {
 
 </div>
 <div class="rnav">
-    <li><a id="<?php echo isset($extdisplay)?'current':''; ?>" href="config.php?display=<?php echo $display?>&action=recordings_start&cidnum=<?php echo $_REQUEST['cidnum'] ?>"><?php echo _("Add Recording")?></a><br></li>
+    <li><a id="<?php echo isset($extdisplay)?'current':''; ?>" href="config.php?display=<?php echo $display?>&action=recordings_start&cidnum=<?php echo $_REQUEST['cidnum'] ?>"><?php echo _("Add Recording")?></a></li>
 
 <?php
 //get existing recordings info

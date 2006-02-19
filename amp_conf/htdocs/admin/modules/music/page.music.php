@@ -46,8 +46,8 @@ switch ($action) {
 ?>
 </div>
 <div class="rnav">
-    <li><a href="config.php?display=<?php echo $display?>&action=add"><?php echo _("Add Music Category")?></a><br></li>
-    <li><a id="<?php echo ($category=='Default' ? 'current':'')?>" href="config.php?display=<?php echo $display?>&category=Default"><?php echo _("Default")?></a><br></li>
+    <li><a href="config.php?display=<?php echo $display?>&action=add"><?php echo _("Add Music Category")?></a></li>
+    <li><a id="<?php echo ($category=='Default' ? 'current':'')?>" href="config.php?display=<?php echo $display?>&category=Default"><?php echo _("Default")?></a></li>
 
 <?php
 //get existing trunk info
