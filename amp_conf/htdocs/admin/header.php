@@ -63,29 +63,53 @@
 <div class="header">
 
 <?php
-if (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])){?>
+if (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"]))
+{ ?>
     <a href="index.php"><img src="images/<?php echo $amp_conf["AMPADMINLOGO"] ?>"/></a>
-<?php } else{ ?>
+<?php } else { ?>
     <a href="index.php"><img src="images/freepbx.png"/></a>
 <?php } 
-if (!isset($_REQUEST['type'])) { $_REQUEST['type'] = 'setup'; } ?>
+if (!isset($_REQUEST['type'])) { $_REQUEST['type'] = 'setup'; } 
+?>
 
-    <a id="<?php  echo ($currentFile=='config.php' && $_REQUEST['type']!='tool' ? 'current':'') ?>" href="config.php?type=setup">
-        &#8226;
-        <li><?php echo _("Setup") ?></li>
-    </a>
-    <a id="<?php  echo ($currentFile=='config.php' && $_REQUEST['type']=='tool' ? 'current':'') ?>" href="config.php?type=tool">
-        &#8226;
-        <li><?php echo _("Tools") ?></li>
-    </a>
-    <a id="<?php  echo ($currentFile=='reports.php' ? 'current':'') ?>" href="reports.php?">
-        &#8226;
-        <li><?php echo _("Reports") ?></li>
-    </a>
-    <a id="<?php  echo ($currentFile=='panel.php' ? 'current':'') ?>" href="panel.php?">
-        &#8226;
-        <li><?php echo _("Panel") ?></li>
-    </a>
+<?php if (is_file("manage.php")){ ?>
+       <a id="<?php echo ($currentFile=='manage.php' ? 'current':'') ?>" href="manage.php?">
+       &#8226;
+       <li><?php echo _("Management") ?></li>
+       </a>
+<?php } ?>
+
+	<a id="<?php echo ($currentFile=='config.php' && $_REQUEST['type']!='tool' ? 'current':'') ?>" href="config.php?type=setup">
+		&#8226;
+		<li><?php echo _("Setup") ?></li>
+	</a>
+
+	<a id="<?php echo ($currentFile=='config.php' && $_REQUEST['type']=='tool' ? 'current':'') ?>" href="config.php?type=tool">
+		&#8226;
+		<li><?php echo _("Tools") ?></li>
+	</a>
+
+<?php if (is_file("cdr/cdr.php")){ ?>
+	<a id="<?php echo ($currentFile=='reports.php' ? 'current':'') ?>" href="reports.php?">
+		&#8226;
+		<li><?php echo _("Reports") ?></li>
+	</a>
+<?php } ?>
+
+<?php if (is_file("../panel/index_amp.php")){ ?>
+	<a id="<?php echo ($currentFile=='panel.php' ? 'current':'') ?>" href="panel.php?">
+		&#8226;
+		<li><?php echo _("Panel") ?></li>
+	</a>
+<?php } ?>
+
+<?php if (is_file("../recordings/index.php")){ ?>
+	<a href="../recordings/index.php" target="_blank">
+		&#8226;
+		<li><?php echo _("Recordings") ?></li>
+	</a>
+<?php } ?>
+
 </div>
 
 <div class="message">
