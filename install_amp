@@ -61,6 +61,7 @@ function showHelp() {
 	out("  --dry-run                Don't actually do anything");
 	out("  --force-version <ver>    Force upgrade from version <ver>");
 	out("  --dbhost <ip address>    Use a remote database server");
+	out("  --no-files               Just run updates without installing files");
 }
 
 function parse_amportal_conf($filename) {
@@ -512,7 +513,6 @@ if (! @ include('DB.php')) {
 }
 out("OK");
 
-
 // **** Make sure we have PEAR's GetOpts.php, and include it
 
 outn("Checking for PEAR Console::Getopt..");
@@ -523,10 +523,20 @@ if (! @ include("Console/Getopt.php")) {
 out("OK");
 
 
+// **** Make sure we have libasteriskperl
+$perl_test = "perl -e 'use Asterisk::AGI'";
+outn( "Checking for libasteriskperl (perl bindings for asterisk)..." );
+exec( " $perl_test &> /dev/null", $perl_output, $perl_result );
+if ( $perl_result != 0)
+{
+	out("FAILED\nReturn code from \"$perl_test\" is: " . $perl_result );
+	fatal( "Please install libasteriskperl from your vendor.\nThis perl module is needed for executing dialparties.agi." );
+}
+
 // **** Parse out command-line options
 
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -537,6 +547,7 @@ if (is_object($args)) {
 
 $debug = false;
 $dryrun = false;
+$install_files = true;
 
 //initialize variables to avoid php notices
 $dbhost = null; 
@@ -572,6 +583,10 @@ foreach ($args[0] as $arg) {
 		case "--dbhost":
 			$dbhost = $arg[1];
 			out("Using remote database server at ".$dbhost);
+		break;
+		case "--no-files":
+			$install_files = false;
+			out("Running upgrade only, without installing files.");
 		break;
 	}
 }
@@ -730,38 +745,44 @@ if (!isset($version)) {
 
 // **** Copy files
 
-outn("Installing new AMP files..");
-$check_md5s=true;
-$md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
-recursive_copy("amp_conf", "", $md5sums);
-if (!is_file("/etc/asterisk/voicemail.conf")) exec("cp /etc/asterisk/voicemail.conf.template /etc/asterisk/voicemail.conf");
-if (!is_dir("/var/spool/asterisk/voicemail/device")) exec("mkdir /var/spool/asterisk/voicemail/device");
-out("OK");
+if ($install_files)
+{
+	outn("Installing new AMP files..");
+	$check_md5s=true;
+	$md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
+	recursive_copy("amp_conf", "", $md5sums);
+	if (!is_file("/etc/asterisk/voicemail.conf")) exec("cp /etc/asterisk/voicemail.conf.template /etc/asterisk/voicemail.conf");
+	if (!is_dir("/var/spool/asterisk/voicemail/device")) exec("mkdir /var/spool/asterisk/voicemail/device");
+	out("OK");
+}
 
 // **** Apply amportal.conf configuration to files
-
 debug("Running ".dirname(__FILE__)."/apply_conf.sh");
 outn("Configuring install for your environment..");
 if (!$dryrun) {
-	exec("chmod u+x ".$amp_conf["AMPSBIN"]."/amportal");
+	if (file_exists($amp_conf["AMPSBIN"]."/amportal"))
+		exec("chmod u+x ".$amp_conf["AMPSBIN"]."/amportal");
 	exec(dirname(__FILE__)."/apply_conf.sh");
 }
 out("OK");
 
 // **** Create spool directories for monitor and fax
 if (!is_dir($asterisk_conf["astspooldir"]."/monitor"))
-	mkdir($asterisk_conf["astspooldir"]."/monitor",700);
+	mkdir($asterisk_conf["astspooldir"]."/monitor",766);
 if (!is_dir($asterisk_conf["astspooldir"]."/fax"))
-	mkdir($asterisk_conf["astspooldir"]."/fax",700);
+	mkdir($asterisk_conf["astspooldir"]."/fax",766);
 
 
 // **** Set permissions all files
 
-outn("Setting permissions on files..");
-if (!$dryrun) {
-	exec($amp_conf["AMPSBIN"]."/amportal chown");
+if ($install_files)
+{
+	outn("Setting permissions on files..");
+	if (!$dryrun) {
+		exec($amp_conf["AMPSBIN"]."/amportal chown");
+	}
+	out("OK");
 }
-out("OK");
 
 
 // **** Read upgrades/ directory
@@ -806,6 +827,14 @@ out("OK");
 
 // **** Set reload flag for AMP admin
 needreload();
-out("Please Reload Asterisk by visiting http://".$amp_conf["AMPWEBADDRESS"]."/admin");
+
+if ($amp_conf["AMPWEBADDRESS"])
+{
+	out("Please Reload Asterisk by visiting http://".$amp_conf["AMPWEBADDRESS"]."/admin");
+}
+else
+{
+	out("Please Reload Asterisk by browsing your server.");
+}
 
 ?>
