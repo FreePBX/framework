@@ -122,7 +122,7 @@ switch($ivr_action) {
 			echo 'error: could not copy or rename the voice recording - please contact support';
 
 	//indicate 'need reload' link in header.php 
-	//needreload();
+	needreload();
 		
 	break;
 }
