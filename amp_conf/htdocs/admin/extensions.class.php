@@ -461,6 +461,16 @@ class ext_authenticate {
 	}
 }
 
+class ext_page {
+	function output() {
+		return "Page(".$this->data.")";
+	}
+}
+
+/* example usage
+$ext = new extensions;
+
+
 /* example usage
 $ext = new extensions;
 
