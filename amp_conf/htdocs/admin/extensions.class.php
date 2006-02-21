@@ -461,7 +461,7 @@ class ext_authenticate {
 	}
 }
 
-class ext_page {
+class ext_page extends extension {
 	function output() {
 		return "Page(".$this->data.")";
 	}
