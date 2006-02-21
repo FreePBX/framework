@@ -49,6 +49,7 @@ switch ($action) {
 	default:
 		paging_sidebar($selection, $type, $display);
 ?>
+
 <p>This module is for specific phones that are capable of Paging or Intercom. Presently, Intercom is <b>not</b>
 supported, only group paging is. The current list of supported phones is GXP-2000 with firmware 1.0.13 or higher,
 Snom phones with 'recent' firmware, and (someone fill in some more phone information here).</p>
@@ -95,7 +96,7 @@ function paging_show($xtn, $display, $type) {
 function paging_sidebar($selection, $type, $display) {
 	echo "<div class='rnav'>\n";
 	echo "<li><a id='".($selection==''?'current':'std')."' ";
-	echo "href='config.php?type=${type}&amp;display=${display}&amp;action=add'>"._("Add Paging Group")."</a><br></li>"; 
+	echo "href='config.php?type=${type}&amp;display=${display}&amp;action=add'>"._("Add Paging Group")."</a></li>"; 
 	//get the list of paging groups
 	$presults = paging_list();
 	if ($presults) {
