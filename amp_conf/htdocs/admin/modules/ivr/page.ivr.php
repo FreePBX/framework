@@ -17,8 +17,8 @@
 // The Digital Receptionist code is a rat's nest.  If you are planning on making significant modifications, just re-write from scratch.
 //if menu_id is being empty, or if we are requesting delete, just use ivr_action.php
 if ((!isset($_REQUEST['menu_id']) || empty($_REQUEST['menu_id'])) || (isset($_REQUEST['ivr_action']) && $_REQUEST['ivr_action'] == 'delete'))
-	include 'ivr_action.php'; 
+	include 'modules/ivr/ivr_action.php'; 
 else
-	include 'ivr.php'; //wizard to create/edit a menu
+	include 'modules/ivr/ivr.php'; //wizard to create/edit a menu
 			
 ?>
