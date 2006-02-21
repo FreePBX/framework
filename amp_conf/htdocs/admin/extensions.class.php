@@ -471,10 +471,6 @@ class ext_page {
 $ext = new extensions;
 
 
-/* example usage
-$ext = new extensions;
-
-
 $ext->add('default','123', 'dial1', new ext_dial('ZAP/1234'));
 $ext->add('default','123', '', new ext_noop('test1'));
 $ext->add('default','123', '', new ext_noop('test2'));
