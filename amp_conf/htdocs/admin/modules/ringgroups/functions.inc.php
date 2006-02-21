@@ -25,17 +25,20 @@ function ringgroups_get_config($engine) {
 	switch($engine) {
 		case "asterisk":
 			$ext->addInclude('from-internal-additional','ext-group');
-			foreach(ringgroups_list() as $item) {
-				$exten = ringgroups_get(ltrim($item['0']), $strategy,  $grptime, $grppre, $grplist);
-				$ext->add('ext-group', ltrim($item['0']), '', new ext_macro('rg-group',"{$strategy},{$grptime},{$grppre},{$grplist}"));
-
-				//get goto for this group - note priority 2
-				$goto = legacy_args_get(ltrim($item['0']),2,'ext-group');
-				// destination from database is backwards from what ext_goto expects
-				$goto_context = strtok($goto,',');
-				$goto_exten = strtok(',');
-				$goto_pri = strtok(',');
-				$ext->add('ext-group', ltrim($item['0']), '', new ext_goto($goto_pri,$goto_exten,$goto_context));
+			$ringlist = ringgroups_list();
+			if (is_array($ringlist)) {
+				foreach($ringlist as $item) {
+					$exten = ringgroups_get(ltrim($item['0']), $strategy,  $grptime, $grppre, $grplist);
+					$ext->add('ext-group', ltrim($item['0']), '', new ext_macro('rg-group',"{$strategy},{$grptime},{$grppre},{$grplist}"));
+	
+					//get goto for this group - note priority 2
+					$goto = legacy_args_get(ltrim($item['0']),2,'ext-group');
+					// destination from database is backwards from what ext_goto expects
+					$goto_context = strtok($goto,',');
+					$goto_exten = strtok(',');
+					$goto_pri = strtok(',');
+					$ext->add('ext-group', ltrim($item['0']), '', new ext_goto($goto_pri,$goto_exten,$goto_context));
+				}
 			}
 		break;
 	}
