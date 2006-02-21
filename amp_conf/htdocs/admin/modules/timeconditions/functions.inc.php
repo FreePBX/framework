@@ -25,11 +25,14 @@ function timeconditions_get_config($engine) {
 	global $conferences_conf;
 	switch($engine) {
 		case "asterisk":
-			foreach(timeconditions_list() as $item) {
-				$thisitem = timeconditions_get(ltrim($item['timeconditions_id']));
-				// add dialplan
-				$ext->add('timeconditions', $item['timeconditions_id'], '', new ext_gotoiftime($item['time'],$item['truegoto']));
-				$ext->add('timeconditions', $item['timeconditions_id'], '', new ext_goto($item['falsegoto']));
+			$timelist = timeconditions_list();
+			if(is_array($timelist)) {
+				foreach($timelist as $item) {
+					$thisitem = timeconditions_get(ltrim($item['timeconditions_id']));
+					// add dialplan
+					$ext->add('timeconditions', $item['timeconditions_id'], '', new ext_gotoiftime($item['time'],$item['truegoto']));
+					$ext->add('timeconditions', $item['timeconditions_id'], '', new ext_goto($item['falsegoto']));
+				}
 			}
 		break;
 	}
@@ -38,11 +41,13 @@ function timeconditions_get_config($engine) {
 //get the existing meetme extensions
 function timeconditions_list() {
 	$results = sql("SELECT * FROM timeconditions","getAll",DB_FETCHMODE_ASSOC);
-	foreach($results as $result){
-		// check to see if we have a dept match for the current AMP User.
-		if (checkDept($result['deptname'])){
-			// return this item's dialplan destination, and the description
-			$allowed[] = $result;
+	if(is_array($results)){
+		foreach($results as $result){
+			// check to see if we have a dept match for the current AMP User.
+			if (checkDept($result['deptname'])){
+				// return this item's dialplan destination, and the description
+				$allowed[] = $result;
+			}
 		}
 	}
 	if (isset($allowed)) {
