@@ -45,15 +45,19 @@ switch ($action) {
 	case "submit":
 		paging_modify($pagenbr, $pagelist);
 		paging_sidebar($selection, $type, $display);
+		echo "<h5>Paging Group $pagenbr Modified</h5>\n";
+		paging_text();
 		break;
 	default:
 		paging_sidebar($selection, $type, $display);
-?>
+		paging_text();
+}
 
+function paging_text() {
+?>
 <p>This module is for specific phones that are capable of Paging or Intercom. Presently, Intercom is <b>not</b>
 supported, only group paging is. The current list of supported phones is GXP-2000 with firmware 1.0.13 or higher,
 Snom phones with 'recent' firmware, and (someone fill in some more phone information here).</p>
-
 <?php
 }
 
