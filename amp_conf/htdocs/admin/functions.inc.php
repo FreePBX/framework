@@ -105,8 +105,8 @@ class ampuser {
 
 // returns true if extension is within allowed range
 function checkRange($extension){
-	$low = $_SESSION["AMP_user"]->_extension_low;
-	$high = $_SESSION["AMP_user"]->_extension_high;
+	$low = isset($_SESSION["AMP_user"]->_extension_low)?$_SESSION["AMP_user"]->_extension_low:'';
+	$high = isset($_SESSION["AMP_user"]->_extension_high)?$_SESSION["AMP_user"]->_extension_high:'';
 	if ((($extension >= $low) && ($extension <= $high)) || (empty($low) && empty($high)))
 		return true;
 	else

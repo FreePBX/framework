@@ -3,6 +3,7 @@
 // executes the SQL found in a module install.sql or uninstall.sql
 function runModuleSQL($moddir,$type){
 	global $db;
+	$data='';
 	if (is_file("modules/{$moddir}/{$type}.sql")) {
 		// run sql script
 		$fd = fopen("modules/{$moddir}/{$type}.sql","r");
