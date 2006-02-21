@@ -350,12 +350,12 @@ foreach ($vmcontexts as $vmcontext) {
 	if ($_REQUEST['ivr_action'] == 'edit') {
 		$_REQUEST['ivr_action'] = 'delete';
 		$_REQUEST['map_display'] = 'no';
-		include 'ivr_action.php';
+		include 'modules/ivr/ivr_action.php';
 	}
 	
 	$_REQUEST['map_display'] = 'yes';
 	$_REQUEST['ivr_action'] = 'write';
-	include 'ivr_action.php';
+	include 'modules/ivr/ivr_action.php';
 ?>
 
 

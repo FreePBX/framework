@@ -105,7 +105,7 @@ if (count($unique_aas) > 0) {
 	
 } //end if (count($unique_aas) > 0)
 else {
-	include 'ivr.php';
+	include 'modules/ivr/ivr.php';
 	
 }
 ?>
