@@ -49,17 +49,21 @@ function ivr_get_config($engine) {
 				
 				$ext->add($item[0], 'hang', '', new ext_playback('vm-goodbye'));
 				$ext->add($item[0], 'hang', '', new ext_hangup(''));
-
+				// Actually add the IVR commands now.
+				foreach(ivr_get($item[0]) as $ivr_item) {
+					if (preg_match("/[0-9*#]/", $ivr_item[1])) {
+						$ext->add($item[0], $ivr_item[1],'', new ext_goto($ivr_item[4]));
+					
+					}
+				}
 			}
 		break;
 	}
 }
 
-//get info about auto-attendant
+//Return an array of commands for this IVR
 function ivr_get($menu_id) {
 	global $db;
-	//do another select for all parts in this aa_
-//	$sql = "SELECT * FROM extensions WHERE context = '".$dept."aa_".$menu_num."' ORDER BY extension";
 	$sql = "SELECT * FROM extensions WHERE context = '".$menu_id."' ORDER BY extension";
 	$aalines = $db->getAll($sql);
 	if(DB::IsError($aalines)) {
