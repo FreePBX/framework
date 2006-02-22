@@ -97,7 +97,7 @@ if (!isset($_REQUEST['type'])) { $_REQUEST['type'] = 'setup'; }
 <?php } ?>
 
 <?php if (is_file("../panel/index_amp.php")){ ?>
-	<a id="<?php echo ($currentFile=='panel.php' ? 'current':'') ?>" href="panel.php?">
+	<a id="<?php echo ($currentFile=='panel.php' ? 'current':'') ?>" href="/panel">
 		&#8226;
 		<li><?php echo _("Panel") ?></li>
 	</a>
