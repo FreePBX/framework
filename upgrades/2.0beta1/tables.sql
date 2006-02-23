@@ -10,9 +10,3 @@ CREATE TABLE IF NOT EXISTS `modules` (
 ) TYPE = MYISAM ;
 
 
---
--- Upgrade Devices table
---
-
-ALTER TABLE `devices` ADD `emergency_cid` VARCHAR( 100 ) NULL;
-
