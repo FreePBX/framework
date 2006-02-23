@@ -134,7 +134,7 @@ if (table_exists($dbh,"devices")) {
 else { print "no existe $table\n"; }
 
 # sort the extensions
-if  ($sortoption eq "lastname") {
+if  (defined($sortoption) && ($sortoption eq "lastname")) {
 	@extensionlist=sort by_lastname @extensionlist;
 } else {
 	@extensionlist=sort {$a->[1] cmp $b->[1]}(@extensionlist);
