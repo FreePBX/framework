@@ -72,7 +72,7 @@ switch ($amp_conf["AUTHTYPE"]) {
 include 'header.php';
 ?>
 </div>
-<iframe width="100%" height="80%" frameborder="0" align="top" src="../panel/index_amp.php?context=<?php echo $_SESSION["AMP_user"]->_deptname?>"></iframe>
+<iframe width="97%" height="600" frameborder="0" align="top" src="../panel/index_amp.php?context=<?php echo $_SESSION["AMP_user"]->_deptname?>"></iframe>
 
 </body>
 </html>

@@ -114,5 +114,5 @@ if ((!empty($low)) && (!empty($high))) {
 <br><br>
 </div>
 
-<iframe width="100%" height="80%" frameborder="0" align="top" src="cdr/cdr.php?s=<?php echo $display; echo ($display=='1' ? '&posted=1' : '');?>"></iframe>
+<iframe width="97%" height="600" frameborder="0" align="top" src="cdr/cdr.php?s=<?php echo $display; echo ($display=='1' ? '&posted=1' : '');?>"></iframe>
 
