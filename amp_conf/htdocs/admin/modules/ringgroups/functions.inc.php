@@ -82,7 +82,7 @@ function ringgroups_get($grpexten, &$strategy, &$time, &$prefix, &$group) {
 	if(DB::IsError($res)) {
 	   die($res->getMessage());
 	}
-	if (preg_match("/^rg-group,(.*),(.*),(.*),(.*)$/", $res[0][0], $matches)) {
+	if (isset($res[0][0]) && preg_match("/^rg-group,(.*),(.*),(.*),(.*)$/", $res[0][0], $matches)) {
 		$strategy = $matches[1];
 		$time = $matches[2];
 		$prefix = $matches[3];

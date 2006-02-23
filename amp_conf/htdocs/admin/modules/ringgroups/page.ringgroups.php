@@ -28,12 +28,11 @@ if (isset($_REQUEST['goto0']) && isset($_REQUEST[$_REQUEST['goto0']."0"])) {
 }
 
 
-$grplist = array();
 if (isset($_REQUEST["grplist"])) {
 	$grplist = explode("\n",$_REQUEST["grplist"]);
 
 	if (!$grplist) {
-		$grplist = array();
+		$grplist = null;
 	}
 	
 	foreach (array_keys($grplist) as $key) {
@@ -129,7 +128,14 @@ if (isset($gresults)) {
 			<table>
 			<tr><td colspan="2"><h5><?php  echo ($extdisplay ? _("Edit Ring Group") : _("Add Ring Group")) ?><hr></h5></td></tr>
 			<tr>
-<?php 		if ($extdisplay){ ?>
+<?php
+	if ($extdisplay) { 
+		// We need to populate grplist with the existing extension list.
+		ringgroups_get(ltrim($extdisplay,'GRP-'), $strategy,  $grptime, $grppre, $grpliststr);
+		$grplist=explode("-", $grpliststr);
+
+
+?>
 				<input size="5" type="hidden" name="account" value="<?php  echo ltrim($extdisplay,'GRP-'); ?>">
 <?php 		} else { ?>
 				<td><a href="#" class="info"><?php echo _("group number")?>:<span><?php echo _("The number users will dial to ring extensions in this ring group")?></span></a></td>
@@ -159,7 +165,11 @@ if (isset($gresults)) {
 			<tr>
 				<td valign="top"><a href="#" class="info"><?php echo _("extension list")?>:<span><br><?php echo _("List extensions to ring, one per line.<br><br>You can include an extension on a remote system, or an external number by suffixing a number with a pound (#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see Outbound Routing).")?><br><br></span></a></td>
 				<td valign="top">&nbsp;
-					<textarea id="grplist" cols="15" rows="<?php  $rows = count($grplist)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="grplist"><?php echo implode("\n",$grplist);?></textarea><br>
+<?php
+		$rows = count($grplist)+1; 
+		($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows);
+?>
+					<textarea id="grplist" cols="15" rows="<?php  echo $rows ?>" name="grplist"><?php echo implode("\n",$grplist);?></textarea><br>
 					
 					<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
 				</td>
