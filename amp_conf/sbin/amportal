@@ -124,7 +124,7 @@ pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
 		then
 			echo "FOP server is already running"
 		else
-			su - asterisk -c "cd $FOPWEBROOT/panel && $FOPWEBROOT/panel/safe_opserver &"
+			su - asterisk -c "cd $FOPWEBROOT && $FOPWEBROOT/safe_opserver &"
 			sleep 1
 			check_fop
 			echo "FOP Server Started"
