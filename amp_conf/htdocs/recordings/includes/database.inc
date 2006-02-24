@@ -16,26 +16,7 @@ class Database {
   function Database() {
 
     // PEAR must be installed
-    $include_path = ini_get('include_path');
-    $buf = split(':|,',$include_path);
-
-    $found = 0;
-    foreach ($buf as $path) {
-      checkPathSlash($path);
-      $pear_check_path = "/" . $path . "DB.php";
-      if (is_file($pear_check_path)) {
-        $found = 1;
-        break;
-      }
-    }
-
-    if ($found) {
-      require_once('DB.php');
-    }
-    else {
-      $_SESSION['ari_error'] = 
-        _("PHP PEAR must be installed.  Visit http://pear.php.net for help with installation.");
-    }
+    require_once('DB.php');
   }
 
   /*

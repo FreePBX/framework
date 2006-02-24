@@ -216,8 +216,28 @@ function getTimeFormat($timestamp) {
  */
 function checkDependencies() {
 
+  // check for PHP
   if (!version_compare(phpversion(), '4', '>=')) {
     echo _("ARI requires a version of PHP 4.0 or later");
+    exit();
+  }
+
+  // check for PEAR
+  $include_path = ini_get('include_path');
+  $buf = split(':|,',$include_path);
+
+  $found = 0;
+  foreach ($buf as $path) {
+    checkPathSlash($path);
+    $pear_check_path = "/" . $path . "DB.php";
+    if (is_file($pear_check_path)) {
+      $found = 1;
+      break;
+    }
+  }
+
+  if (!$found) {
+    echo _("PHP PEAR must be installed.  Visit http://pear.php.net for help with installation.");
     exit();
   }
 }

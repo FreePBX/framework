@@ -1,15 +1,12 @@
 Roadmap
 
-  PHP5 support
-  move rest of ARI to classes
-  table time formatting (into more readable format, but still allow searching)
-  fax support
-  admin tabs (for changing config file)
-   - add ping to check if astdb working
-   - add ping to check if cdrdb working
-  realtime support
 
-// fix the amp function file being in two spots
+
+Change log - 02/22/2006
+
+ * added filter to not load code not needed if a module is not loaded (submitted by Diego Iastrubni)
+ * refactored asterisk manager interface class to not require password lookup in common and asi files
+ * fixed module admin bug (submitted by serger)
 
 Change log - 02/14/2006
 

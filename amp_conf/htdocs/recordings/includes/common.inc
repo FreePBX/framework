@@ -21,6 +21,72 @@ function checkErrorMessage() {
   return $ret;
 }
 
+/*
+ * Checks modules directory, and configuration, and loaded modules 
+ */
+function loadModules() {
+
+  global $ARI_ADMIN_MODULES;
+  global $ARI_DISABLED_MODULES;
+
+  global $loaded_modules;
+
+  $modules_path = "./modules";
+  if (is_dir($modules_path)) {
+
+    $filter = ".module";
+    $recursive_max = 1;
+    $recursive_count = 0;
+    getFiles($modules_path,$filter,$recursive_max,$recursive_count,$files);
+
+    foreach($files as $key => $path) {
+
+      // build module object 
+      include_once($path); 
+      $path_parts = pathinfo($path);
+      list($name,$ext) = split("\.",$path_parts['basename']);
+
+      // check for module and get rank
+      if (class_exists($name)) {
+
+        $module = new $name();
+
+        // check if admin module
+        $found = 0;
+        if ($ARI_ADMIN_MODULES) {
+          $admin_modules = split(',',$ARI_ADMIN_MODULES);
+          foreach ($admin_modules as $key => $value) {
+            if ($name==$value) {
+              $found = 1;
+              break;
+            }
+          }
+        }
+
+        // check if disabled module
+        $disabled = 0;
+        if ($ARI_DISABLED_MODULES) {
+          $disabled_modules = split(',',$ARI_DISABLED_MODULES);
+          foreach ($disabled_modules as $key => $value) {
+            if ($name==$value) {
+              $disabled = 1;
+              break;
+            }
+          }
+        }
+
+        // if not admin module or admin user add to module name to array
+        if (!$disabled && (!$found || $_SESSION['ari_user']['admin'])) {
+          $loaded_modules[$name] = $module;
+        }
+      }
+    }
+  }
+  else {
+    $_SESSION['ari_error'] = _("$path not a directory or not readable");
+  }
+}
+
 /**
  * Builds database connections
  */
@@ -35,6 +101,9 @@ function databaseLogon() {
   global $ASTERISKCDR_DBHOST;
   global $ASTERISKCDR_DBNAME;
   global $ASTERISKCDR_DBTYPE;
+  global $ARI_DISABLED_MODULES;
+
+  global $loaded_modules;
 
   // get user
   if ($STANDALONE['use']) {
@@ -98,16 +167,18 @@ function databaseLogon() {
   }
 
   // cdr database
-  $success = $db->logon($cdrdbuser, 
-                        $cdrdbpass,
-                        $ASTERISKCDR_DBHOST,
-                        $ASTERISKCDR_DBNAME,
-                        $ASTERISKCDR_DBTYPE,
-                        $_SESSION['dbh_cdr']);
-  if (!$success) {
-    $_SESSION['ari_error'] = _("Cannot connect to the $ASTERISKCDR_DBNAME database") . "<br>" .
-                             _("Check AMP installation, asterisk, and ARI main.conf");
-    return FALSE;
+  if (in_array('callmonitor',array_keys($loaded_modules))) {
+    $success = $db->logon($cdrdbuser, 
+                          $cdrdbpass,
+                          $ASTERISKCDR_DBHOST,
+                          $ASTERISKCDR_DBNAME,
+                          $ASTERISKCDR_DBTYPE,
+                          $_SESSION['dbh_cdr']);
+    if (!$success) {
+      $_SESSION['ari_error'] = _("Cannot connect to the $ASTERISKCDR_DBNAME database") . "<br>" .
+                               _("Check AMP installation, asterisk, and ARI main.conf");
+      return FALSE;
+    }
   }
 
   return TRUE;
@@ -146,8 +217,7 @@ function loginBlock() {
  */
 function handleBlock() {
 
-  global $ARI_ADMIN_MODULES;
-  global $ARI_DISABLED_MODULES;
+  global $loaded_modules;
 
   // check errors here and in login block
   $content .= checkErrorMessage();
@@ -170,79 +240,31 @@ function handleBlock() {
     SetArgument($args,$key,$value);
   }
 
-  $modules = array();
+  // set rank
+  $ranked_modules = array();
+  foreach ($loaded_modules as $module) {
 
-  // get modules
-  $modules_path = "./modules";
-  if (is_dir($modules_path)) {
-
-    $filter = ".module";
-    $recursive_max = 1;
-    $recursive_count = 0;
-    getFiles($modules_path,$filter,$recursive_max,$recursive_count,$files);
-
-    foreach($files as $key => $path) {
-
-      // build module object 
-      include_once($path); 
-      $path_parts = pathinfo($path);
-      list($name,$ext) = split("\.",$path_parts['basename']);
-
-      // check for module and get rank
-      if (class_exists($name)) {
-
-        $module = new $name();
-        $module_methods = get_class_methods($module);    // note that this returns all lowercase
-
-        // set rank
-        $rank = 99999;
-        $rank_function = "rank";
-        if (in_array(strtolower($rank_function), $module_methods)) {
-          $rank = $module->$rank_function(); 
-        }
-
-        // check if admin module
-        $found = 0;
-        if ($ARI_ADMIN_MODULES) {
-          $admin_modules = split(',',$ARI_ADMIN_MODULES);
-          foreach ($admin_modules as $key => $value) {
-            if ($name==$value) {
-              $found = 1;
-              break;
-            }
-          }
-        }
-
-        // check if disabled module
-        $disabled = 0;
-        if ($ARI_DISABLED_MODULES) {
-          $disabled_modules = split(',',$ARI_DISABLED_MODULES);
-          foreach ($disabled_modules as $key => $value) {
-            if ($name==$value) {
-              $disabled = 1;
-              break;
-            }
-          }
-        }
-
-       // if not admin module or admin user add to module name to array
-       if (!$disabled && (!$found || $ari_admin_user)) {
-         $modules[$rank] = $module;
-       }
-      }
+    $module_methods = get_class_methods($module);    // note that this returns all lowercase
+        
+    $rank = 99999;
+    $rank_function = "rank";
+    if (in_array(strtolower($rank_function), $module_methods)) {
+      $rank = $module->$rank_function(); 
     }
-    ksort($modules);
+
+     $ranked_modules[$rank] = $module;
   }
-  else {
-    $_SESSION['ari_error'] = _("$path not a directory or not readable");
-  }
+  ksort($ranked_modules);
 
   // process modules
-  foreach ($modules as $module) {
+  foreach ($ranked_modules as $module) {
 
     // process module
     $name = get_class($module);    // note that this returns all lowercase
     $module_methods = get_class_methods($module);    // note that this returns all lowercase
+
+    // init module
+    $module->init();
 
     // add nav menu item
     $nav_menu_function = "navMenu";
@@ -287,6 +309,9 @@ function handler() {
     $logout = 1;
   }
 
+  // load modules
+  loadModules();
+
   // login to database
   $success = databaseLogon();
   if ($success) {
@@ -322,6 +347,9 @@ function handler() {
 
 // create asterisk manager interface singleton
 $asterisk_manager_interface = '';
+
+// array to keep track of loaded modules
+$loaded_modules = array();
 
 include_once("./includes/asi.inc");
 include_once("./includes/database.inc");

@@ -20,6 +20,12 @@ class Callmonitor {
   }
 
   /*
+   * init
+   */
+  function init() {
+  }
+
+  /*
    * Adds menu item to nav menu
    *
    * @param $args
@@ -71,6 +77,25 @@ class Callmonitor {
 
       setcookie("ari_duration_filter", $duration_filter, time()+365*24*60*60);
     }
+
+
+
+
+
+
+
+
+
+// interesting.  just get info here then update page with ajax here or force a reload
+// once figure it out, just echo the xml or whatever.
+
+
+
+
+
+
+
+
 
     // redirect to see updated page
     $ret .= "
@@ -243,6 +268,39 @@ class Callmonitor {
     }
     $ret .= $display->displayHeaderText($header_text);
     $ret .= $display->displaySearchBlock('left',$m,$q,$url_opts,true);
+
+
+
+
+
+
+
+
+
+
+
+
+// somewhere here add the code for ajax javascript to dynamically update the page
+
+
+// need to build the request object
+// either get the info if ajax works or degrade and submit form
+    // action='" . $_SERVER['PHP_SELF'] . "'
+// if ajax works return info and update page or degrade and re-direct
+    // return what? xml?
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // start form
     if ($CALLMONITOR_ALLOW_DELETE) {
@@ -583,11 +641,13 @@ class Callmonitor {
    */
   function getCdrCount($q,$duration_filter,&$count) {
 
+    global $ASTERISKCDR_DBTABLE;
+
     $searchText = $this->getSearchText($q,$duration_filter);
 
     $dbh = $_SESSION['dbh_cdr'];
     $sql = "SELECT count(*) 
-            FROM cdr
+            FROM " . $ASTERISKCDR_DBTABLE . "
             " . $searchText;
 
     $result = $dbh->getAll($sql);
@@ -612,6 +672,8 @@ class Callmonitor {
    */
   function getCdrData($q,$duration_filter,$start,$span,$order,$sort,&$data) {
 
+    global $ASTERISKCDR_DBTABLE;
+
     $searchText = $this->getSearchText($q,$duration_filter);
 
     $dbh = $_SESSION['dbh_cdr'];
@@ -627,7 +689,7 @@ class Callmonitor {
                    amaflags, 
                    uniqueid, 
                    userfield 
-             FROM cdr 
+             FROM " . $ASTERISKCDR_DBTABLE . " 
              " . $searchText . "
              ORDER BY " . $order . " " . $sort . "
              LIMIT " . $start . "," . $span;

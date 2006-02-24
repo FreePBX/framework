@@ -16,60 +16,6 @@ class AsteriskManagerInterface {
    * constructor 
    */
   function AsteriskManagerInterface() {
-
-    global $AMP_FUNCTIONS_FILES;
-    global $AMPORTAL_CONF_FILE;
-    global $ASTERISK_MANAGER_FILE;
-
-    // get manager user
-    if ($STANDALONE['use']) {
-      $mgruser = $STANDALONE['asterisk_mgruser'];
-    } 
-    else {
-
-      $include = 0;
-      $files = split(';',$AMP_FUNCTIONS_FILES);
-      foreach ($files as $file) {
-        if (is_file($file)) {
-          include_once($file);
-          $include = 1;
-        }
-      }
-
-      if ($include) {
-        $amp_conf = parse_amportal_conf($AMPORTAL_CONF_FILE);
-        $mgruser = $amp_conf['AMPMGRUSER'];
-        $mgrpass = $amp_conf['AMPMGRPASS'];
-        unset($amp_conf);
-      }
-    }
-
-    // check if php is allowed to talk to Asterisk Manager
-    $found_account = 0;
-    $found = 0;
-    $lines = file($ASTERISK_MANAGER_FILE);
-    foreach ($lines as $key => $line) {
-
-      if (preg_match("/$mgruser/",$line)) {
-        $found_account = 1;
-      }
-
-      if ($found_account && $line=='permit=0.0.0.0') {
-        break;
-      }
-
-      if ($found_account && preg_match('/permit/',$line)) {
-        $found = 1;
-        break;
-      }
-    }
-
-    if (!$found) {
-      echo _("ARI does not appear to have access to the Asterisk Manager.") . "<br>" . 
-           _("Check the ARI 'main.conf' configuration file to set the Asterisk Manager Account.") . "<br>" . 
-           _("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account including a 'permit=' line for localhost or the webserver.");
-      exit();
-    }
   }
 
   /*
@@ -82,9 +28,15 @@ class AsteriskManagerInterface {
    */
   function connect($username,$password) {
 
-    $fp = fsockopen("localhost", 5038, $errno, $errstr, 10);
+    global $ASTERISKMGR_DBHOST;
+
+    // connect
+    $fp = fsockopen($ASTERISKMGR_DBHOST, 5038, $errno, $errstr, 10);
     if (!$fp) {
-      $_SESSION['ari_error'] =  _("Unable to connect to Asterisk Manager") . " ($errno)<br />\n";
+      $_SESSION['ari_error'] =  
+           _("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" . 
+           _("Check the ARI 'main.conf' configuration file to set the Asterisk Manager Account.") . "<br>" . 
+           _("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account including a 'permit=' line for localhost or the webserver.");
       return FALSE;
     } 
     else {
