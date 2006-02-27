@@ -110,47 +110,51 @@ class extensions {
 		//var_dump($this->_exts);
 		
 		//take care of globals first
-		$output .= "[globals]\n";
-		$output .= "#include globals_custom.conf\n";
-		foreach (array_keys($this->_globals) as $global) {
-			$output .= $global." = ".$this->_globals[$global]."\n";
+		if(is_array($this->_globals)){
+			$output .= "[globals]\n";
+			$output .= "#include globals_custom.conf\n";
+			foreach (array_keys($this->_globals) as $global) {
+				$output .= $global." = ".$this->_globals[$global]."\n";
+			}
+			$output .= "\n\n;end of [globals]\n\n\n";
 		}
-		$output .= "\n\n;end of [globals]\n\n\n";
 		
 		//now the rest of the contexts
-		foreach (array_keys($this->_exts) as $section) {
-			$output .= "[".$section."]\n";
-			
-			//automatically include a -custom context
-			$output .= "include => {$section}-custom\n";
-			//add requested includes for this context
-			if (isset($this->_includes[$section])) {
-				foreach ($this->_includes[$section] as $include) {
-					$output .= "include => ".$include."\n";
-				}
-			}
-			
-			foreach (array_keys($this->_exts[$section]) as $extension) {
-				foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
+		if(is_array($this->_exts)){
+			foreach (array_keys($this->_exts) as $section) {
+				$output .= "[".$section."]\n";
 				
-					$ext = $this->_exts[$section][$extension][$idx];
-					
-					//var_dump($ext);
-					
-					$output .= "exten => ".$extension.",".
-						$ext['basetag'].
-						($ext['addpri'] ? '+'.$ext['addpri'] : '').
-						($ext['tag'] ? '('.$ext['tag'].')' : '').
-						",".$ext['cmd']->output()."\n";
-				}
-				if (isset($this->_hints[$section][$extension])) {
-					foreach ($this->_hints[$section][$extension] as $hint) {
-						$output .= "exten => ".$extension.",hint,".$hint."\n";
+				//automatically include a -custom context
+				$output .= "include => {$section}-custom\n";
+				//add requested includes for this context
+				if (isset($this->_includes[$section])) {
+					foreach ($this->_includes[$section] as $include) {
+						$output .= "include => ".$include."\n";
 					}
 				}
+				
+				foreach (array_keys($this->_exts[$section]) as $extension) {
+					foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
+					
+						$ext = $this->_exts[$section][$extension][$idx];
+						
+						//var_dump($ext);
+						
+						$output .= "exten => ".$extension.",".
+							$ext['basetag'].
+							($ext['addpri'] ? '+'.$ext['addpri'] : '').
+							($ext['tag'] ? '('.$ext['tag'].')' : '').
+							",".$ext['cmd']->output()."\n";
+					}
+					if (isset($this->_hints[$section][$extension])) {
+						foreach ($this->_hints[$section][$extension] as $hint) {
+							$output .= "exten => ".$extension.",hint,".$hint."\n";
+						}
+					}
+				}
+				
+				$output .= "\n; end of [".$section."]\n\n\n";
 			}
-			
-			$output .= "\n; end of [".$section."]\n\n\n";
 		}
 		
 		return $output;
