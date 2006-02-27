@@ -161,7 +161,8 @@ if (isset($conf["trunk-".$trunk])) {
 			}
 			
 			// remove all non-pattern digits from rule
-			$regex = preg_replace("/[^0-9XNZ#*\.]/", "", $regex);
+			//$regex = preg_replace("/[^0-9XNZ#*\.]/", "", $regex); //old
+			$regex = preg_replace("/[^0-9XNZ#*.\[\]]/", "", $regex); //Patch 1424889
 			
 			// convert asterisk pattern matching into perl regular expression
 			$regex = str_replace(
