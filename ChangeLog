@@ -1,3 +1,276 @@
+2006-02-27 15:44  rcourtna
+
+	* amp_conf/htdocs/admin/modules/backup/: page.backup.php (1.6),
+	  schedule_functions.php (1.3): [ 1439945 ] Restore Fail
+
+2006-02-27 15:24  rcourtna
+
+	*
+	  amp_conf/htdocs/admin/modules/timeconditions/page.timeconditions.php
+	  (1.7): [ 1439957 ] Changes on timeconditions are not applied
+
+2006-02-27 15:21  rcourtna
+
+	* amp_conf/htdocs/admin/modules/music/page.music.php (1.9): [
+	  1439951 ] Can't delete music files
+
+2006-02-27 15:16  rcourtna
+
+	* CHANGES (1.26), amp_conf/agi-bin/dialparties.agi (1.4): [ 1390417
+	  ] No cidname passthrough in dialparites
+
+2006-02-27 15:02  rcourtna
+
+	* amp_conf/htdocs/admin/cdr/graph_pie.php (1.2): [ 1386028 ] fix
+	  for reporting of december in the Monthly Traffic report
+
+2006-02-27 14:56  rcourtna
+
+	*
+	  amp_conf/htdocs/admin/modules/timeconditions/page.timeconditions.php
+	  (1.6): [ 1323065 ] Incomming calls page should display the server
+	  time Added to Time Conditions Module
+
+2006-02-27 14:43  rcourtna
+
+	* install_amp (1.44), amp_conf/sounds/dir-intro-fn-oper.gsm (1.1),
+	  amp_conf/sounds/dir-intro-fnln-oper.gsm (1.1),
+	  amp_conf/sounds/dir-intro-fnln.gsm (1.1),
+	  amp_conf/sounds/dir-intro-oper.gsm (1.1): [ 1365909 ] Unable to
+	  use "#" to access the directory
+
+2006-02-27 14:24  rcourtna
+
+	* amp_conf/: astetc/musiconhold.conf (1.3),
+	  htdocs/admin/modules/music/page.music.php (1.8): use native mp3
+	  playback
+
+2006-02-27 14:00  rcourtna
+
+	* amp_conf/htdocs/admin/modules/conferences/functions.inc.php
+	  (1.8): wrong key used in array
+
+2006-02-27 13:31  rcourtna
+
+	* amp_conf/htdocs/admin/: header.php (1.31), panel.php (1.6),
+	  reports.php (1.14): [ 1395889 ] SLES 9 Patch.  Make sure we
+	  initialize gettext before trying to use the _() function
+
+2006-02-27 12:28  rcourtna
+
+	* amp_conf/htdocs/admin/modules/queues/page.queues.php (1.12): [
+	  1423842 ] Allow penalties on Queue Static Agents
+
+2006-02-27 12:10  rcourtna
+
+	* CHANGES (1.25), amp_conf/agi-bin/fixlocalprefix (1.2): [ 1424889
+	  ] pattern "[x-y]" in localprefixes.conf.  I jut commented out the
+	  old pattern, just in case the patch poses a problem
+
+2006-02-27 11:55  rcourtna
+
+	* amp_conf/htdocs/admin/modules/core/: functions.inc.php (1.38),
+	  page.routing.php (1.7): [ 1438302 ] Allow route password file vs.
+	  number
+
+2006-02-27 11:40  rcourtna
+
+	* amp_conf/htdocs/admin/modules/queues/page.queues.php (1.11): [
+	  1439364 ] problem w/Queues and members
+
+2006-02-27 10:41  rcourtna
+
+	*
+	  amp_conf/htdocs/admin/modules/timeconditions/page.timeconditions.php
+	  (1.5): [ 1439355 ] Time Condition Module
+
+2006-02-27 10:36  rcourtna
+
+	* amp_conf/htdocs/admin/modules/core/functions.inc.php (1.37): [
+	  1438022 ] Deleting an extension leave an entry in astdb
+
+2006-02-27 10:21  rcourtna
+
+	* amportal.conf (1.13), amp_conf/htdocs_panel/index_amp.php (1.3):
+	  [ 1438881 ] freePBX 2.0 Beta 1 /panel/index_amp.php error
+
+2006-02-27 10:07  rcourtna
+
+	* amp_conf/htdocs/admin/: header.php (1.30), common/script.js.php
+	  (1.19): [ 1215507 ] Problem with help windows
+
+2006-02-27 09:51  rcourtna
+
+	* amp_conf/htdocs/admin/extensions.class.php (1.20): is_array
+	  sanity checks
+
+2006-02-23 21:10  dan_littlejohn
+
+	* amp_conf/htdocs/recordings/: CHANGE.log (1.15), version.inc
+	  (1.15), theme/spacer.gif (1.2), theme/spacer.png (1.1): [no log
+	  message]
+
+2006-02-23 21:00  dan_littlejohn
+
+	* amp_conf/htdocs/recordings/: CHANGE.log (1.14), LICENSE.txt
+	  (1.2), README.txt (1.2), version.inc (1.14), includes/asi.inc
+	  (1.5), includes/bootstrap.inc (1.14), includes/common.inc (1.16),
+	  includes/database.inc (1.4), includes/main.conf (1.18),
+	  locale/de_DE/LC_MESSAGES/ari.mo (1.2),
+	  locale/it_IT/LC_MESSAGES/ari.mo (1.2), modules/callmonitor.module
+	  (1.16), modules/help.module (1.2), modules/settings.module
+	  (1.12), modules/voicemail.module (1.14), theme/page.tpl.php
+	  (1.6): [no log message]
+
+2006-02-23 16:39  rcourtna
+
+	* amp_conf/htdocs/admin/modules/core/functions.inc.php (1.36): [
+	  1437416 ] Extra & entries on editing extensions in astdb
+
+2006-02-23 16:13  rcourtna
+
+	* amp_conf/htdocs/admin/: header.php (1.29), panel.php (1.5),
+	  reports.php (1.13): use fixed heights for iframes, since
+	  percentages is not a standard, and do not work when using dtd in
+	  header
+
+2006-02-23 16:02  rcourtna
+
+	* amp_conf/sbin/amportal (1.22): op_server.pl lives in FOPWEBROOT,
+	  not FOPWEBROOT/panel.  TODO - this executable should be in
+	  AMPBIN, and it's config file should not live in web root!!
+
+2006-02-23 15:58  rcourtna
+
+	* upgrades/2.0beta1/: emergancycid.php (1.1), tables.sql (1.5):
+	  make column add in upgrade script fool proof
+
+2006-02-23 15:35  rcourtna
+
+	* amp_conf/htdocs/admin/header.php (1.28): access panel via
+	  admin/panel.php, not directly (so we can manipulate the url for
+	  display dept-specific views)
+
+2006-02-23 15:18  qldrob
+
+	* amp_conf/bin/retrieve_op_conf_from_mysql.pl (1.4): Remove whinge
+	  in retrieve_op_conf.
+
+2006-02-23 04:53  qldrob
+
+	* amp_conf/htdocs/admin/modules/: conferences/functions.inc.php
+	  (1.7), ringgroups/functions.inc.php (1.6),
+	  ringgroups/page.ringgroups.php (1.9): Fixed ringgroups, and a
+	  couple more warning cleanups.
+
+2006-02-22 14:16  qldrob
+
+	* amp_conf/htdocs/admin/modules/core/page.extensions.php (1.11):
+	  $description == $name? No. $description = $description. Thanks,
+	  Niklas!
+
+2006-02-21 19:32  qldrob
+
+	* amp_conf/htdocs/admin/header.php (1.27): Panel lives in /panel,
+	  not admin/panel.php..
+
+2006-02-21 17:03  qldrob
+
+	* amp_conf/htdocs/admin/modules/ivr/functions.inc.php (1.6): IVR
+	  commands now work.
+
+2006-02-21 16:51  qldrob
+
+	* amp_conf/htdocs/admin/modules/ivr/ivr_action.php (1.7): Problem
+	  1: ivr _does_ need to do a needsreload.
+
+2006-02-21 16:15  qldrob
+
+	* amp_conf/htdocs/admin/modules/paging/page.paging.php (1.3):
+	  Paging tidy-ups - nothing was being displayed after you clicked
+	  'Submit', so I fiddled with the switch statement slightly.
+	  Someone needs to i18n that. Sorry for being lazy 8)
+
+2006-02-21 15:17  qldrob
+
+	* amp_conf/htdocs/admin/: functions.inc.php (1.14),
+	  page.modules.php (1.7): Couple of more warning fixes..
+
+2006-02-21 13:48  rcourtna
+
+	* amp_conf/htdocs/admin/modules/ringgroups/functions.inc.php (1.5):
+	  is_array check before foreach
+
+2006-02-21 13:45  rcourtna
+
+	* amp_conf/htdocs/admin/modules/core/functions.inc.php (1.35): fix
+	  bad quoting around outbound_cid
+
+2006-02-21 13:03  rcourtna
+
+	* amp_conf/htdocs/admin/modules/ivr/: ivrmap.php (1.6), ivr.php
+	  (1.5): more include path fixes
+
+2006-02-21 11:49  rcourtna
+
+	* amp_conf/htdocs/admin/modules/ivr/page.ivr.php (1.6): correct
+	  include paths
+
+2006-02-21 11:42  rcourtna
+
+	* amp_conf/htdocs/admin/common/mainstyle.css (1.10): add a margin
+	  to rnav, so that text can't bump up against it
+
+2006-02-21 11:26  rcourtna
+
+	* amp_conf/htdocs/admin/modules/paging/page.paging.php (1.2):
+	  remove br in rnav
+
+2006-02-21 11:19  rcourtna
+
+	* amp_conf/htdocs/admin/modules/paging/module.ini (1.2): i think
+	  Paging should be a "setup" item, and not a "tool".
+
+2006-02-21 11:17  rcourtna
+
+	* amp_conf/htdocs/admin/modules/timeconditions/functions.inc.php
+	  (1.3): add array checks to avoid errors
+
+2006-02-21 09:08  qldrob
+
+	* amp_conf/htdocs/admin/modules/paging/module.ini (1.1): Don't
+	  forget module.ini
+
+2006-02-21 09:07  qldrob
+
+	* amp_conf/htdocs/admin/modules/paging/: functions.inc.php (1.1),
+	  install.sql (1.1), page.paging.php (1.1), phones.sql (1.1),
+	  uninstall.sql (1.1): OK, here we go. This is pretty much
+	  untested, but it seems like it may work.  Possibly 8). There's a
+	  fair bit of functionality to be added, but I really wanted to get
+	  this into CVS. The idea behing using app_page is that you don't
+	  need any external AGI's, and, you don't have a paging time limit,
+	  which is a nice bonus.
+
+2006-02-21 09:03  qldrob
+
+	* amp_conf/htdocs/admin/extensions.class.php (1.19): Forgot
+	  'extends extension'.
+
+2006-02-21 07:11  qldrob
+
+	* amp_conf/htdocs/admin/extensions.class.php (1.18): Without the
+	  extra comment bit.. Don't know how that got there.
+
+2006-02-21 07:09  qldrob
+
+	* amp_conf/htdocs/admin/extensions.class.php (1.17): Add the 'Page'
+	  application
+
+2006-02-20 12:33  rcourtna
+
+	* ChangeLog (1.17): update changelog
+
 2006-02-20 12:28  rcourtna
 
 	* CHANGES (1.24): update CHANGES doc for 2.0.  If I failed to
