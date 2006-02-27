@@ -104,7 +104,7 @@ if (isset($thisItem)) {
 if (isset($thisItem)) {
 	echo drawselects($thisItem['falsegoto'],1);
 } else { 
-	echo drawselects(null, 0);
+	echo drawselects(null, 1);
 }
 ?>
 
