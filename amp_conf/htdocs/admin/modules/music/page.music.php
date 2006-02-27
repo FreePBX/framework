@@ -127,6 +127,7 @@ function build_list()
 
 function draw_list($file_array, $path_to_dir, $category) 
 {
+	global $display;
 	//list existing mp3s and provide delete buttons
 	if ($file_array) {
 		foreach ($file_array as $thisfile) {
@@ -134,7 +135,7 @@ function draw_list($file_array, $path_to_dir, $category)
 			//print "<a style=\"float:left;margin-left:5px;\" href=\"file:". $path_to_dir ."". $thisfile ."\">".$thisfile."</a>";
 			print "<b style=\"float:left;margin-left:5px;\" >".$thisfile."</b>";
 			print "<a style=\"margin-right:5px;\" href=\"".$_SERVER['SCRIPT_NAME']."?display=";
-			print isset($display)?$display:''."&del=".$thisfile."&category=".$category."\">"._("Delete")."</a>";
+			print (isset($display)?$display:'')."&del=".$thisfile."&category=".$category."\">"._("Delete")."</a>";
 			print "</div><br>";
 		}
 	}
