@@ -54,18 +54,22 @@ if ($debug >= 2) {
 }
 $priority = $input{'priority'} + 1;
 
-if ($input{'callerid'} =~  /^\"(.*)\"\s+\<(\d+)-?(\d*)\>\s*$/) {
-  $cidname = $1;
-  $cidnum  = $2.$3;
-  debug("Caller ID name is '$cidname' number is '$cidnum'", 1);
-} elsif ($input{'callerid'} =~  /^(\d+)*$/) {
-  $cidname = $1;
-  $cidnum  = $1;
-  debug("Caller ID name and number are '$cidnum'", 1);
+if ($input{'calleridname'}) {
+	$cidname = $input{'calleridname'};
+	$cidnum = $input{'callerid'};
+	debug("Caller ID name is '$cidname' number is '$cidnum'", 1);
+} elsif ($input{'callerid'} =~ /^\"(.*)\"\s+\<(\d+)-?(\d*)\>\s*$/) {
+	$cidname = $1;
+	$cidnum = $2.$3;
+	debug("Caller ID name is '$cidname' number is '$cidnum'", 1);
+} elsif ($input{'callerid'} =~ /^(\d+)*$/) {
+	$cidname = $1;
+	$cidnum = $1;
+	debug("Caller ID name and number are '$cidnum'", 1);
 } else {
-  $cidname = undef;
-  $cidnum  = undef;
-  debug("Caller ID is not set", 1);
+	$cidname = undef;
+	$cidnum = undef;
+	debug("Caller ID is not set", 1);
 }
 
 $timer = $AGI->get_variable('ARG1') || 0;
