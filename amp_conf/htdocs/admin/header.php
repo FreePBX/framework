@@ -57,7 +57,7 @@
 	}
 ?>
 
-<body>
+<body onload="setAllInfoToHideSelects();">
 <div id="page">
 
 <div class="header">

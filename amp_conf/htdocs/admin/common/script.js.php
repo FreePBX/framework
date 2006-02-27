@@ -16,6 +16,14 @@ if (!extension_loaded('gettext')) {
 }
 
 ?>
+
+Is_DOM = (document.getElementById) ? true : false;
+Is_NS4 = (document.layers) ? true : false;
+Is_IE = (document.all) ? true : false;
+Is_IE4 = Is_IE && !Is_DOM;
+Is_Mac = (navigator.appVersion.indexOf("Mac") != -1);
+Is_IE4M = Is_IE4 && Is_Mac;
+
 function checkForm(theForm) {
 	$tech = theForm.tech.value;
 	$account = theForm.account.value;
@@ -387,4 +395,49 @@ function setDestinations(theForm,numForms) {
 		}
 	}
 }
+
+//this will hide or show all the <select> elements on a page
+function hideSelects(b)
+{
+      var allelems = document.all.tags('SELECT');
+      if (allelems != null)
+      {
+              var i;
+              for (i = 0; i < allelems.length; i++)
+                      allelems[i].style.visibility = (b ? 'hidden' : 'inherit');
+      }
+}
+
+// these two 'do' functions are needed to assign to the onmouse events
+function doHideSelects(event)
+{
+      hideSelects(true);
+}
+function doShowSelects(event)
+{
+      hideSelects(false);
+}
+
+// this will setup all the 'A' tags on a page, with the 'info' class, with the
+// above functions
+function setAllInfoToHideSelects()
+{
+      if (Is_IE)
+      {
+              var allelems = document.all.tags('A');
+              if (allelems != null)
+              {
+                      var i, elem;
+                      for (i = 0; elem = allelems[i]; i++)
+                      {
+                              if (elem.className=='info' && elem.onmouseover == null && elem.onmouseout == null)
+                              {
+                                      elem.onmouseover = doHideSelects;
+                                      elem.onmouseout = doShowSelects;
+                              }
+                      }
+              }
+      }
+}
+
 
