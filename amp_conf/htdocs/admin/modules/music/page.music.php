@@ -68,7 +68,7 @@ function createmusicconf()
 	$tresults = music_list("/var/lib/asterisk/mohmp3");
 	if (isset($tresults)) {
 		foreach ($tresults as $tresult) 
-			$File_Write.="{$tresult} => quietmp3:/var/lib/asterisk/mohmp3/{$tresult}\n";
+			$File_Write.="{$tresult} => /var/lib/asterisk/mohmp3/{$tresult}\n";
 	}
 
 $handle = fopen("/etc/asterisk/musiconhold_additional.conf", "w");
@@ -152,11 +152,11 @@ function process_mohfile($mohfile)
 	exec($rmcmd);
 }
 
-function kill_mpg123()
+/*function kill_mpg123()
 {
 	$killcmd="killall -9 mpg123";
 	exec($killcmd);
-}
+}*/
 ?>
 
 <div class="content">
@@ -208,7 +208,7 @@ else
 		move_uploaded_file($_FILES['mohfile']['tmp_name'], $path_to_dir."/orig_".$_FILES['mohfile']['name']);
 		process_mohfile($_FILES['mohfile']['name']);
 		echo "<h5>"._("Completed processing")." ".$_FILES['mohfile']['name']."!</h5>";
-		kill_mpg123();
+		//kill_mpg123();
 	}
 
 	//build the array of files
@@ -223,7 +223,7 @@ else
 			$rmcmd="rm -f \"".$path_to_dir."/".$_REQUEST['del']."\"";
 			exec($rmcmd);
 			echo "<h5>"._("Deleted")." ".$_REQUEST['del']."!</h5>";
-			kill_mpg123();
+			//kill_mpg123();
 		}
 	}
 	$file_array = build_list();
