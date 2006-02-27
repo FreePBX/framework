@@ -80,7 +80,7 @@ function conferences_list() {
 	$results = sql("SELECT exten,description FROM meetme","getAll",DB_FETCHMODE_ASSOC);
 	foreach($results as $result){
 		// check to see if we are in-range for the current AMP User.
-		if (isset($result[0]) && checkRange($result[0])){
+		if (isset($result['exten']) && checkRange($result['exten'])){
 			// return this item's dialplan destination, and the description
 			$extens[] = array($result['exten'],$result['description']);
 		}
