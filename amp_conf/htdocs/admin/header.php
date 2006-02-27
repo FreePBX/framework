@@ -30,7 +30,7 @@
 <html>
 
 <head>
-    <title><?php  echo $title ?></title>
+    <title><?php  echo _($title) ?></title>
     <meta http-equiv="Content-Type" content="text/html">
     <link href="common/mainstyle.css" rel="stylesheet" type="text/css"> 
     <script src="common/script.js.php" type="text/javascript"></script>  
@@ -121,7 +121,7 @@ if (!isset($_REQUEST['type'])) { $_REQUEST['type'] = 'setup'; }
 			echo "&nbsp;::&nbsp;";
 		}
 	}
-	echo $message;
+	echo _($message);
 	?>
 </div>
 

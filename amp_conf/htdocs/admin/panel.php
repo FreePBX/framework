@@ -11,8 +11,8 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$title="AMP: "._("Flash Operator Panel");
-$message=_("Flash Operator Panel");
+$title="freePBX: Flash Operator Panel";
+$message="Flash Operator Panel";
 
 require_once('functions.inc.php');
 

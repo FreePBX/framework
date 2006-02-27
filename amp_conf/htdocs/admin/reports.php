@@ -11,8 +11,8 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$title="AMP: "._("Call Detail Reports");
-$message=_("Call Detail Reports");
+$title="freePBX: Call Detail Reports";
+$message="Call Detail Reports";
 
 require_once('functions.inc.php');
 
