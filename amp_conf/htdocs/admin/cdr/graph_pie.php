@@ -132,7 +132,7 @@ if (!isset($days_compare) ){
 list($myyear, $mymonth)= split ("-", $fromstatsmonth_sday);
 
 $mymonth = $mymonth +1;
-if ($current_mymonth==13) {
+if ($mymonth==13) {
 		$mymonth=1;		
 		$myyear = $myyear + 1;
 }
