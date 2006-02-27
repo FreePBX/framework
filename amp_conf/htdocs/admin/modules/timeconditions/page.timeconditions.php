@@ -21,12 +21,15 @@ $dispnum = "timeconditions"; //used for switch on config.php
 switch ($action) {
 	case "add":
 		timeconditions_add($_POST);
+		needreload();
 	break;
 	case "delete":
 		timeconditions_del($itemid);
+		needreload();
 	break;
 	case "edit":  //just delete and re-add
 		timeconditions_edit($itemid,$_POST);
+		needreload();
 	break;
 }
 
