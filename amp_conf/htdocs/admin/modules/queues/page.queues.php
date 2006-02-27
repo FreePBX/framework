@@ -42,11 +42,22 @@ if (isset($_REQUEST["members"])) {
 		$members[$key] = trim($members[$key]);
 
 		// remove invalid chars
-		$members[$key] = preg_replace("/[^0-9#*]/", "", $members[$key]);
-		
+		$members[$key] = preg_replace("/[^0-9#\,*]/", "", $members[$key]);
+
+		$penalty_pos = strrpos($members[$key], ",");
+		if ( $penalty_pos === false ) {
+				$penalty_val = 0;
+		} else {
+				$penalty_val = substr($members[$key], $penalty_pos+1); // get penalty
+				$members[$key] = substr($members[$key],0,$penalty_pos); // clean up ext
+				$members[$key] = preg_replace("/[^0-9#*]/", "", $members[$key]); //clean out other ,'s
+				$penalty_val = preg_replace("/[^0-9*]/", "", $penalty_val); // get rid of #'s if there
+				$penalty_val = ($penalty_val == "") ? 0 : $penalty_val;
+		}
+
 		// remove blanks // prefix with the channel
 		if ($members[$key] == "") unset($members[$key]);
-		else $members[$key] = "Local/".$members[$key]."@from-internal";	
+		else $members[$key] = "Local/".$members[$key]."@from-internal,".$penalty_val;
 	}
 	
 	// check for duplicates, and re-sequence
@@ -140,8 +151,7 @@ if ($action == 'delete') {
 	<tr>
 		<td valign="top"><a href="#" class="info"><?php echo _("static agents") ?>:<span><br><?php echo _("Static agents are extensions that are assumed to always be on the queue.  Static agents do not need to 'log in' to the queue, and cannot 'log out' of the queue.<br><br>List extensions to ring, one per line.<br><br>You can include an extension on a remote system, or an external number (Outbound Routing must contain a valid route for external numbers)") ?><br><br></span></a></td>
 		<td valign="top">&nbsp;
-			<textarea id="members" cols="15" rows="<?php  $rows = count($member)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="members"><?php foreach ($member as $mem) { echo rtrim(ltrim(strstr($mem,"/"),"/"),"@from-internal")."\n"; }?></textarea><br>
-			
+			<textarea id="members" cols="15" rows="<?php  $rows = count($member)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="members"><?php foreach ($member as $mem) { $mem = rtrim(ltrim(strstr($mem,"/"),"/"),"@from-internal");echo substr($mem,0,strpos($mem, "@")).substr($mem,strrpos($mem, ","))."\n"; }?></textarea><br>
 			<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
 		</td>
 	</tr>
