@@ -202,7 +202,7 @@ if ($action == 'delete') {
 			<select name="maxwait"/>
 			<?php
 				$default = (isset($maxwait) ? $maxwait : 0);
-				for ($i=0; $i <= 1200; $i+=60) {
+				for ($i=0; $i <= 1200; $i+=30) {
 					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.queues_timeString($i,true).'</option>';
 				}
 			?>		
