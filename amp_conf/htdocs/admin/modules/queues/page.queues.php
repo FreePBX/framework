@@ -46,7 +46,7 @@ if (isset($_REQUEST["members"])) {
 		
 		// remove blanks // prefix with the channel
 		if ($members[$key] == "") unset($members[$key]);
-		else $members[$key] = "Local/".$members[$key]."@from-internal/n";	
+		else $members[$key] = "Local/".$members[$key]."@from-internal";	
 	}
 	
 	// check for duplicates, and re-sequence
