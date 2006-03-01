@@ -1,0 +1,108 @@
+SQLite2 support in freepbx
+--------------------------
+
+If you are reading this, you should be aware that the support for sqlite2 is not 
+perfect at the writing of this document. Many things are garanteed not to work, and 
+patches are more then welcome.
+
+This document speaks about SQLite2 on Debian Sarge/Rapid 1.1.1, and not other versions. 
+SQLite3 is not supported, since there are no php4 bindings for it on Debian. The code should
+work on other operating systems or distributions, but it shuold work on others. Any feedback is
+welcomed.
+
+
+1) Creating the initial tables
+------------------------------
+The first step will be creating a default "database" for freepbx to use. We cannot use the 
+standard newinstall.sql file, because of these reasons:
+
+a) Usage of backtips `
+b) CREATE TABLE IF NOT EXISTS syntax is not supported
+c) ALTER is not supported
+d) autoincrement is not supported
+
+There is a special sql file for sqlite, which generates identical to the 
+standard file for mysql, execept of this changes:
+
+1) If tables already exists, the script will throw a lof of errors
+   (as you are trying to create a table that already exists).
+   
+2) The tables modules and Backup do not contain an auto incremental ID,
+   and we will have to update the id on php code.
+
+      
+	cat newinstall.sqlite.sql | sqlite /var/lib/freepbx/freepbx.db
+
+
+2) Configuring freepbx to use sqlite and not mysql
+--------------------------------------------------
+You will need to add a new entry in /etc/amportal.conf:
+
+	AMPDBENGINE=sqlite
+
+This new entry, will cause the entries:
+	AMPDBHOST
+	AMPDBUSER
+	AMPDBPASS
+	
+Instead, you will have to supply a new entry:
+	
+	AMPDBFILE=/var/lib/freepbx/freepbx.db
+	
+That's it. Be sure that apache (or whatever web server you are using) has
+write access to it. Usually, these commands will be enough:
+
+	chown www-data.www-data /var/lib/freepbx/freepbx.db
+	chmod g+rw /var/lib/freepbx/freepbx.db
+	
+That's it. freepbx should now work.
+
+
+3) Moving from sqlite back to mysql
+-----------------------------------
+I will not discuss here about importing and exporting the data, since this should
+be pretty trivial. 
+
+You need to set AMPDBENGINE=mysql (or remark that line, as the default is to use 
+mysql as on AMP). Do not forget to set the variables to define the connection:
+	AMPDBHOST
+	AMPDBUSER
+	AMPDBPASS
+
+	
+4) Behind the scenes
+--------------------
+If you are not interested about how this work is been done, you may ignore the rest 
+of this document.
+
+One of the most important changes, is found in amp_conf/htdocs/admin/common/db_connect.php, were
+the creation of the database handle is created. If you are adding support for new connections
+this should be the first please to start coding.
+
+As reported on 1.d, sqlite2 does not support autoincrement. The affected tables are:
+modules and Backup. The function installModule on amp_conf/htdocs/admin/page.modules.php 
+had to be changed, and in sqlite2 there is php code, that finds the biggest id available on
+that table, and then sets the new id as needed.
+
+There are some queries which use unsupported features as well. Some can be found at 
+amp_conf/htdocs/admin/modules/core/functions.inc.php, core_trunks_list()
+
+
+5) TODO
+-------
+a) The table Backup needs to be modified (no autoincrement support)
+b) Fix amp_conf/htdocs/admin/modules/core/functions.inc.php, core_trunks_list()
+c) Fix amp_conf/htdocs/admin/modules/core/functions.inc.php, core_routing_getroutenames()
+d) Find more problems and fix them!
+
+
+6) Contact
+----------
+If you have more questions, feel free to contact me, or post a message on the amportal-devel 
+mailing list.
+
+	amportal-devel@lists.sourceforge.net
+	diego.iastrubni@xorcom.com
+	
+	
+Diego 

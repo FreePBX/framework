@@ -19,6 +19,17 @@ function parse_amportal_conf($filename) {
 			$conf[ $matches[1] ] = $matches[2];
 		}
 	}
+	
+	if ( !isset($conf["AMPDBENGINE"]) || ($conf["AMPDBENGINE"] == ""))
+	{
+		$conf["AMPDBENGINE"] = "mysql";
+	}
+
+/*			
+	if (($amp_conf["AMPDBENGINE"] == "sqlite") && (!isset($amp_conf["AMPDBENGINE"])))
+		$amp_conf["AMPDBFILE"] = "/var/lib/freepbx/freepbx.sqlite";
+*/
+	
 	return $conf;
 }
 
@@ -139,7 +150,7 @@ function find_allmodules() {
 	$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
 	//loop through each module directory, ensure there is a module.ini file
 	while ($file = readdir($dir)) {
-		if (($file != ".") && ($file != "..") && ($file != "CVS") && is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file) && is_file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.ini')) {
+		if (($file != ".") && ($file != "..") && ($file != "CVS") && ($file != ".svn") && is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file) && is_file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.ini')) {
 			//open module.ini and read contents
 			$inifile = file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.ini');
 			foreach ($inifile as $line) {

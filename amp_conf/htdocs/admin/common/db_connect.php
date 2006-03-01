@@ -13,19 +13,45 @@
 
 require_once('DB.php'); //PEAR must be installed
 
-$db_user = $amp_conf["AMPDBUSER"];
-$db_pass = $amp_conf["AMPDBPASS"];
-$db_host = $amp_conf["AMPDBHOST"];
-$db_name = 'asterisk';
-$db_engine = 'mysql';
+$db_engine = $amp_conf["AMPDBENGINE"];
 
-$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
-
-/* datasource in in this style:
-
-dbengine://username:password@host/database */
-
-$db = DB::connect($datasource); // attempt connection
+switch ($db_engine)
+{
+	case "pgsql":
+	case "mysql":
+		/* datasource in in this style:
+		dbengine://username:password@host/database */
+		
+		$db_user = $amp_conf["AMPDBUSER"];
+		$db_pass = $amp_conf["AMPDBPASS"];
+		$db_host = $amp_conf["AMPDBHOST"];
+		$db_name = 'asterisk';
+		
+		$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
+		$db = DB::connect($datasource); // attempt connection
+		break;
+		
+	case "sqlite":
+		require_once('DB/sqlite.php');
+		
+		if (!isset($amp_conf["AMPDBFILE"]))
+			die("You must setup properly AMPDBFILE in /etc/amportal.conf");
+			
+		if (isset($amp_conf["AMPDBFILE"]) == "")
+			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
+			
+		$DSN = array (
+			"database" => $amp_conf["AMPDBFILE"],
+			"mode" => 0666
+		);
+		
+		$db = new DB_sqlite();
+		$db->connect( $DSN );
+		break;
+	
+	default:
+		die( "Unknown SQL engine: [$db_engine]");
+}
 
 // if connection failed show error
 // don't worry about this for now, we get to it in the errors section

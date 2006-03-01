@@ -25,9 +25,28 @@ function runModuleSQL($moddir,$type){
 		return true;
 }
 
-function installModule($modname,$modversion) {
+function installModule($modname,$modversion) 
+{
 	global $db;
-	$sql = "INSERT INTO modules (modulename, version) values ('{$modname}','{$modversion}')";
+	global $amp_conf;
+	
+	switch ($amp_conf["AMPDBENGINE"])
+	{
+		case "sqlite":
+			// to support sqlite2, we are not using autoincrement. we need to find the 
+			// max ID available, and then insert it
+			$sql = "SELECT max(id) FROM modules;";
+			$results = $db->getRow($sql);
+			$new_id = $results[0];
+			$new_id ++;
+			$sql = "INSERT INTO modules (id,modulename, version,enabled) values ('{$new_id}','{$modname}','{$modversion}','0' );";
+			break;
+		
+		default:
+			$sql = "INSERT INTO modules (modulename, version) values ('{$modname}','{$modversion}');";
+			break;
+	}
+
 	$results = $db->query($sql);
 	if(DB::IsError($results)) {
 		die($results->getMessage());
