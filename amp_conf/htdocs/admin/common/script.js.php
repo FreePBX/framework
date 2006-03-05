@@ -440,4 +440,15 @@ function setAllInfoToHideSelects()
       }
 }
 
+function checkConf(theForm)
+{
+	if (theForm.account.value == "")
+	{
+		<?php echo "alert('" . _("Please enter the Conference Number.") . "')" ?>;
+		return false;
+	}
+	
+	return true;
+}
+
 

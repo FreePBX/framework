@@ -80,7 +80,7 @@ if ($action == 'delete') {
 <?php		if ($extdisplay){ ?>
 	<p><a href="<?php echo $delURL ?>"><?php echo _("Delete Conference")?> <?php echo $extdisplay; ?></a></p>
 <?php		} ?>
-	<form autocomplete="off" name="editMM" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+	<form autocomplete="off" name="editMM" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return checkConf(editMM);">
 	<input type="hidden" name="display" value="<?php echo $dispnum?>">
 	<input type="hidden" name="action" value="<?php echo ($extdisplay ? 'edit' : 'add') ?>">
 	<table>
