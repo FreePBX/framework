@@ -27,13 +27,31 @@ $password = $ampconf->{"AMPDBPASS"};
 # the name of the box the MySQL database is running on
 $hostname = $ampconf->{"AMPDBHOST"};
 
+# the engine to be used for the SQL queries,
+# if none supplied, backfall to mysql
+$db_engine = "mysql";
+if (exists($ampconf->{"AMPDBENGINE"})){
+	$db_engine = $ampconf->{"AMPDBENGINE"};
+}
+
 ################### END OF CONFIGURATION #######################
 
-$additional = "";
+if ( $db_engine eq "mysql" ) {
+	$dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
+}
+elsif ( $db_engine eq "pgsql" ) {
+	$dbh = DBI->connect("dbi:pgsql:dbname=$database;host=$hostname", "$username", "$password");
+}
+elsif ( $db_engine eq "sqlite" ) {
+	if (!exists($ampconf->{"AMPDBFILE"})) {
+		print "No AMPDBFILE set in /etc/amportal.conf\n";
+		exit;
+	}
+	
+	my $db_file = $ampconf->{"AMPDBFILE"};
+	$dbh = DBI->connect("dbi:SQLite2:dbname=$db_file","","");
+}
 
-open EXTEN, ">$queues_conf" || die "Cannot create/overwrite extensions file: $queues_conf\n";
-
-$dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
 $statement = "SELECT keyword,data from $table_name where id=0 and keyword <> 'account' and flags <> 1";
 my $result = $dbh->selectall_arrayref($statement);
 unless ($result) {
@@ -43,6 +61,9 @@ unless ($result) {
   print "DBI::errstr=[$DBI::errstr]\n";
   exit;
 }
+
+open EXTEN, ">$queues_conf" or die "Cannot create/overwrite extensions file: $queues_conf\n";
+$additional = "";
 my @resultSet = @{$result};
 if ( $#resultSet > -1 ) {
 	foreach $row (@{ $result }) {

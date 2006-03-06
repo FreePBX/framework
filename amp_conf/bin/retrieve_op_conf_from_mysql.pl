@@ -108,15 +108,32 @@ $hostname = $ampconf->{"AMPDBHOST"};
 #sort option: extension or lastname
 $sortoption = $ampconf->{"FOPSORT"};
 
+# the engine to be used for the SQL queries,
+# if none supplied, backfall to mysql
+$db_engine = "mysql";
+if (exists($ampconf->{"AMPDBENGINE"})){
+	$db_engine = $ampconf->{"AMPDBENGINE"};
+}
 ################### END OF CONFIGURATION #######################
 
 
+if ( $db_engine eq "mysql" ) {
+	$dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
+}
+elsif ( $db_engine eq "pgsql" ) {
+	$dbh = DBI->connect("dbi:pgsql:dbname=$database;host=$hostname", "$username", "$password");
+}
+elsif ( $db_engine eq "sqlite" ) {
+	if (!exists($ampconf->{"AMPDBFILE"})) {
+		print "No AMPDBFILE set in /etc/amportal.conf\n";
+		exit;
+	}
+	
+	my $db_file = $ampconf->{"AMPDBFILE"};
+	$dbh = DBI->connect("dbi:SQLite2:dbname=$db_file","","");
+}
+
 open EXTEN, ">$op_conf" || die "Cannot create/overwrite config file: $op_conf\n";
-
-#print EXTEN "$additional";
-
-$dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
-
 
 #First, populate extensions
 
@@ -131,7 +148,7 @@ if (table_exists($dbh,"devices")) {
 	}
 	push(@extensionlist, @{ $result });
 }
-else { print "no existe $table\n"; }
+else { print "Table does not exist: devices\n"; }
 
 # sort the extensions
 if  (defined($sortoption) && ($sortoption eq "lastname")) {
