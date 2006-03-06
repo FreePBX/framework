@@ -164,9 +164,10 @@ foreach my $k (keys %ext) {
     debug("Extension $extnum has call waiting enabled",1);
   }
 
-if ($extnum != '') 
-{ # Still got an extension to be called?
-	my $extds = get_dial_string($extnum);
+   if ($extnum != '') 
+   { # Still got an extension to be called?
+     my $extds = get_dial_string($extnum);
+     if (length($extds)) {
     	$ds .= $extds . '&';
 
     	# Update Caller ID for calltrace application
@@ -185,6 +186,7 @@ if ($extnum != '')
       		}
     	} else{
 		$ext_hunt{$k}=$extds; # Need to have the extension HASH set with technology for hunt group ring 
+		}
 	}
 }
 }
