@@ -90,6 +90,9 @@ if (count($unique_aas) > 0) {
 			elseif ($application == 'Goto' && !(strpos($args[0],'ext-queues') === false)) {
 				echo '<li>'._("dialing").' '.$extension.' <b>'._("goes to Queue #").$args[1].'</b>';
 			}
+			elseif ($application == 'Goto' && !(strpos($args[0],'timeconditions') === false)) {
+				echo '<li>'._("dialing").' '.$extension.' <b>'._("goes to Time Condition ").$args[1].'</b>';
+			}
 		}
 ?>
 			</ul>
