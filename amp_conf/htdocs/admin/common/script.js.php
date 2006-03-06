@@ -448,6 +448,28 @@ function checkConf(theForm)
 		return false;
 	}
 	
+	// update $options
+	var theOptionsFld = theForm.options;
+	theOptionsFld.value = "";
+	for (var i = 0; i < theForm.elements.length; i++)
+	{
+		var theEle = theForm.elements[i];
+		var theEleName = theEle.name;
+		if (theEleName.indexOf("#") > 1)
+		{
+			var arr = theEleName.split("#");
+			if (arr[0] == "opt")
+				theOptionsFld.value += theEle.value;
+		}
+	}
+
+	// not possible to have a 'leader' conference with no adminpin
+	if (theForm.options.value.indexOf("w") > -1 && theForm.adminpin.value == "")
+	{
+		<?php echo "alert('" . _("You must set an admin PIN for the Conference Leader when selecting the leader wait option.") . "')" ?>;
+		return false;
+	}
+		
 	return true;
 }
 

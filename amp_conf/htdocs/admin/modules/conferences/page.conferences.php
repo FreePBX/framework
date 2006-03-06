@@ -106,20 +106,74 @@ if ($action == 'delete') {
 		<td><input size="8" type="text" name="adminpin" value="<?php echo (isset($adminpin) ? $adminpin : ''); ?>"></td>
 	</tr>
 
+	<?php
+	$options = (isset($options) ? $options : "");
+	?>
+	<input type="hidden" name="options" value="<?php echo $options; ?>">
+	
 	<tr><td colspan="2"><br><h5><?php echo _("Conference Options")?><hr></h5></td></tr>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("leader wait:")?><span><?php echo _("wait until the conference leader (admin user) arrives before starting the conference")?></span></a></td>
+		<td>
+			<select name="opt#w">
+			<?php
+				$optselect = strpos($options, "w");
+				echo '<option value=""' . ($optselect === false ? ' SELECTED' : '') . '>'._("No") . '</option>';
+				echo '<option value="w"'. ($optselect !== false ? ' SELECTED' : '') . '>'._("Yes"). '</option>';
+			?>		
+			</select>		
+		</td>
+	</tr>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("quiet mode:")?><span><?php echo _("quiet mode (do not play enter/leave sounds)")?></span></a></td>
 		<td>
-			<select name="options"/>
+			<select name="opt#q">
 			<?php
-				$default = (isset($options) ? $options : "");
-				echo '<option value="" '.($default != "q" ? 'SELECTED' : '').'>'._("No");
-				echo '<option value="q" '.($default == "q" ? 'SELECTED' : '').'>'._("Yes");
+				$optselect = strpos($options, "q");
+				echo '<option value=""' . ($optselect === false ? ' SELECTED' : '') . '>'._("No") . '</option>';
+				echo '<option value="q"'. ($optselect !== false ? ' SELECTED' : '') . '>'._("Yes"). '</option>';
+			?>		
+			</select>		
+		</td>
+	</tr>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("user count:")?><span><?php echo _("announce user(s) count on joining conference")?></span></a></td>
+		<td>
+			<select name="opt#c">
+			<?php
+				$optselect = strpos($options, "c");
+				echo '<option value=""' . ($optselect === false ? ' SELECTED' : '') . '>'._("No") . '</option>';
+				echo '<option value="c"'. ($optselect !== false ? ' SELECTED' : '') . '>'._("Yes"). '</option>';
+			?>		
+			</select>		
+		</td>
+	</tr>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("user join/leave:")?><span><?php echo _("announce user join/leave")?></span></a></td>
+		<td>
+			<select name="opt#i">
+			<?php
+				$optselect = strpos($options, "i");
+				echo '<option value=""' . ($optselect === false ? ' SELECTED' : '') . '>'._("No") . '</option>';
+				echo '<option value="i"'. ($optselect !== false ? ' SELECTED' : '') . '>'._("Yes"). '</option>';
+			?>		
+			</select>		
+		</td>
+	</tr>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("music on hold:")?><span><?php echo _("enable music on hold when the conference has a single caller")?></span></a></td>
+		<td>
+			<select name="opt#M">
+			<?php
+				$optselect = strpos($options, "M");
+				echo '<option value=""' . ($optselect === false ? ' SELECTED' : '') . '>'._("No") . '</option>';
+				echo '<option value="M"'. ($optselect !== false ? ' SELECTED' : '') . '>'._("Yes"). '</option>';
 			?>		
 			</select>		
 		</td>
 	</tr>
 
+	
 	<tr>
 		<td colspan="2"><br><h6><input name="Submit" type="submit" value="<?php echo _("Submit Changes")?>"></h6></td>		
 	</tr>

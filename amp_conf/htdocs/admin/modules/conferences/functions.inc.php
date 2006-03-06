@@ -69,8 +69,8 @@ function conferences_get_config($engine) {
 			$ext->add('macro-joinmeetme', 's', '', new ext_gotoif('$[${PIN} = ${ARG4}]','admin,1'));
 			$ext->add('macro-joinmeetme', 's', '', new ext_playback('conf-invalidpin'));
 			$ext->add('macro-joinmeetme', 's', '', new ext_goto('READ'));
-			$ext->add('macro-joinmeetme', 'user', '', new ext_meetme('${ARG1}','w${ARG2}','${ARG3}'));
-			$ext->add('macro-joinmeetme', 'admin', '', new ext_meetme('${ARG1}','awA${ARG2}','${ARG4}'));
+			$ext->add('macro-joinmeetme', 'user', '', new ext_meetme('${ARG1}','${ARG2}','${ARG3}'));
+			$ext->add('macro-joinmeetme', 'admin', '', new ext_meetme('${ARG1}','aA${ARG2}','${ARG4}'));
 			$ext->add('macro-joinmeetme', 'h', '', new ext_hangup(''));			
 		break;
 	}
