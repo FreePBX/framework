@@ -34,7 +34,8 @@ function ivr_get_config($engine) {
 				$ext->add($item[0], 'i', '', new ext_playback('invalid'));
 				$ext->add($item[0], 'i', '', new ext_goto('7','s'));
 				
-				$ext->add($item[0], 's', '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','4'));
+				$ext->add($item[0], 's', '', new ext_gotoif('$["foo${DIALSTATUS}" = "foo"]','3'));
+				$ext->add($item[0], 's', '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','5'));
 				$ext->add($item[0], 's', '', new ext_answer(''));
 				$ext->add($item[0], 's', '', new ext_wait('1'));
 				$ext->add($item[0], 's', '', new ext_setvar('LOOPED','1'));
