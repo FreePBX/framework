@@ -47,17 +47,6 @@ Mime-contruct is needed to generate emails with fax file attachments:
 
 ###
 Download asterisk-perl from http://asterisk.gnuinter.net and install it
-
-###		
-Some linux distros have replaced the mpg123 application with another application, mpg321, and created a symbolic link to "mpg123", so it seems to work in the same way. Asterisk MusicOnHold only works with original mpg123.
-
-	Remove the mpg321 package installed by your distro, 
-	or
-	Remove the symbolic links mpg123 located in /usr/bin and /usr/local/bin:
-	- rm /usr/bin/mpg123
-	- rm /usr/local/bin/mpg123 
-	
-	Then install mpg123 from http://www.mpg123.de
 	
 ###
 AMP requires the following changes to php and apache for uploading new MOH files:
@@ -67,27 +56,21 @@ AMP requires the following changes to php and apache for uploading new MOH files
 		upload_max_filesize=20M
 	- vi +14 /etc/httpd/conf.d/php.conf (if you have it)
 		LimitRequestBody 20000000
-		
-	- might also need to set register_globals = on in the php.ini for displaying CDR logs in
-	  the AMP interface
 
 ###
 Download the latest AMP files:
 
-	- download the latest AMP tarball to /usr/src
-	- tar -zxvf AMP<version>.tar.gz
+	- download the latest freePBX tarball to /usr/src
+	- tar -zxvf freepbx<version>.tar.gz
 
 ###
-Getting Asterisk and Zaptel from CVS or download the latest Asterisk and Zaptel source archives
-(AMP uses the v1.0 branch)
+Getting Asterisk and Zaptel from SVN or download the latest Asterisk and Zaptel source archives
+(freePBX uses the v2.0 branch)
 
 	- cd /usr/src
-	- export CVS_RSH=
-	- export CVSROOT=:pserver:anoncvs@cvs.digium.com:/usr/cvsroot
-	- cvs login      (the password is: anoncvs)
-	- cvs checkout -r v1-0 zaptel libpri asterisk asterisk-addons asterisk-sounds
-
-(As of 2005-11-02, AMP 010 has been tested with Asterisk 1.2 beta1)
+	- svn checkout http://svn.digium.com/svn/asterisk/branches/1.2 asterisk-1.2
+	- svn checkout http://svn.digium.com/svn/zaptel/branches/1.2 zaptel-1.2
+	- svn checkout http://svn.digium.com/svn/libpri/branches/1.2 libpri-1.2
 
 ###
 For TDM zap devices (FXO/FXS):
@@ -179,14 +162,8 @@ Grant access to these two databases you just created
 ###
 Run the "install" script to install all the AMP files:  
 
-	- /usr/src/AMP/install_amp
+	- /usr/src/freePBX/install_amp
 	
-###
-Configure Flash Operator Panel for your zap channels:
-	
-	- Modify lines 21+ of /var/www/html/admin/retrieve_op_conf_from_mysql.pl to reflect the number of zap channels you have
-		
-
 ###
 Configure zaptel driver:
 
@@ -216,9 +193,7 @@ Configure zaptel driver:
 	If you get a warning about unable to open master device /dev/zap/ctl, that's ok.  It's a result
 	of the zaptel module(s) not loaded yet.
 
-
-
-        Detailed information with regard to Asterisk's configuration files can be found here:
+	Detailed information with regard to Asterisk's configuration files can be found here:
 	http://voip-info.org/wiki-Asterisk+config+files
 
 ###
@@ -230,6 +205,7 @@ Configure zapata module in asterisk config.
 
 	[channels]
 	language=en
+	#include zapata_additional.conf
 	context=from-pstn
 	signalling=fxs_ks
 	faxdetect=incoming
@@ -248,6 +224,7 @@ Configure zapata module in asterisk config.
 
 	[channels]
 	language=en
+	#include zapata_additional.conf
 	context=from-pstn
 	switchtype=national
 	pridialplan=national
@@ -277,30 +254,11 @@ httpd (Apache) configuration
 		User asterisk
 		Group asterisk
 		
-	- If you wish to secure your AMP admin directory:
-	
-		(change "/var/www/html" to reflect your web root):
-		
-		#Password protect AMP admin  
-		<Directory /var/www/html/admin>
-		AuthType Basic
-		AuthName "Restricted Area"
-		AuthUserFile /usr/local/apache/passwd/wwwpasswd
-		Require user wwwadmin
-		</Directory>
-
-		- and create the wwwpasswd file:
-
-		mkdir /usr/local/apache
-		mkdir /usr/local/apache/passwd
-		htpasswd -c /usr/local/apache/passwd/wwwpasswd wwwadmin
-
 ###
 Amportal Control Script
 
-	Version 1.10.004 of AMP provided a new control script. The functionality of which is to start,
-	stop or kill services in the AMP environment, or to set permissions on directories/files in the
-	AMP environment:
+	FreePBX's amportal control script starts, stops or kills services in the AMP environment, and sets permissions on directories/files in the
+	FreePBX environment:
 
 	[root@pbx root]# amportal
 	
@@ -370,7 +328,7 @@ Start everything (or reboot and it should start automagically):
 
 	- Point your browser to:
 
-		http://[ip address]
+		http://[ip address]  (default login is admin/admin)
 
 If you notice any errors or updates that are needed to this document, please e-mail:
 info@coalescentsystems.ca

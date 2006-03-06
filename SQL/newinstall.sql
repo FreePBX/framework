@@ -132,7 +132,9 @@ CREATE TABLE IF NOT EXISTS `ampusers` (
   PRIMARY KEY  (`username`)
 ) TYPE=MyISAM;
 
-
+INSERT INTO ampusers (username, password, extension_low, extension_high, deptname, sections) VALUES 
+ ('admin','admin','','','','*');
+ 
 -- 
 -- Table structure for table `iax`
 -- 
