@@ -147,6 +147,13 @@ if (!function_exists($db_engine.'_connect')) {
 $db = DB::connect($datasource); // attempt connection
 */
 
+# the engine to be used for the SQL queries,
+# if none supplied, backfall to mysql
+$db_engine = "mysql";
+if (isset($amp_conf["AMPDBENGINE"])){
+	$db_engine = $amp_conf["AMPDBENGINE"];
+}
+
 switch ($db_engine)
 {
 	case "pgsql":
