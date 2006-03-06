@@ -50,32 +50,33 @@ if (isset($_REQUEST["grplist"])) {
 	$grplist = array_values(array_unique($grplist));
 }
 
-
-
-//check if the extension is within range for this user
-if (isset($account) && !checkRange($account)){
-	echo "<script>javascript:alert('". _("Warning! Extension")." ".$account." "._("is not allowed for your account").".');</script>";
-} else {
-	//add group
-	if ($action == 'addGRP') {
+// do if we are submitting a form
+if(isset($_POST['action'])){
+	//check if the extension is within range for this user
+	if (isset($account) && !checkRange($account)){
+		echo "<script>javascript:alert('". _("Warning! Extension")." ".$account." "._("is not allowed for your account").".');</script>";
+	} else {
+		//add group
+		if ($action == 'addGRP') {
+			
+			ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
+			needreload();
+		}
 		
-		ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
-		needreload();
-	}
-	
-	//del group
-	if ($action == 'delGRP') {
-		legacy_extensions_del('ext-group',ltrim($extdisplay,'GRP-'));
-		needreload();
-	}
-	
-	//edit group - just delete and then re-add the extension
-	if ($action == 'edtGRP') {
-	
-		legacy_extensions_del('ext-group',$account);	
-		ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
-		needreload();
-	
+		//del group
+		if ($action == 'delGRP') {
+			legacy_extensions_del('ext-group',ltrim($extdisplay,'GRP-'));
+			needreload();
+		}
+		
+		//edit group - just delete and then re-add the extension
+		if ($action == 'edtGRP') {
+		
+			legacy_extensions_del('ext-group',$account);	
+			ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
+			needreload();
+		
+		}
 	}
 }
 ?>

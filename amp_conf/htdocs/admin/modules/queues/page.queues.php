@@ -64,26 +64,29 @@ if (isset($_REQUEST["members"])) {
 	$members = array_values(array_unique($members));
 }
 
-//check if the extension is within range for this user
-if (isset($account) && !checkRange($account)){
-	echo "<script>javascript:alert('"._("Warning! Extension")." $account "._("is not allowed for your account.")."');</script>";
-} else {
-	
-	//if submitting form, update database
-	switch ($action) {
-		case "add":
-			queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
-			needreload();
-		break;
-		case "delete":
-			queues_del($extdisplay);
-			needreload();
-		break;
-		case "edit":  //just delete and re-add
-			queues_del($account);
-			queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
-			needreload();
-		break;
+// do if we are submitting a form
+if(isset($_POST['action'])){
+	//check if the extension is within range for this user
+	if (isset($account) && !checkRange($account)){
+		echo "<script>javascript:alert('"._("Warning! Extension")." $account "._("is not allowed for your account.")."');</script>";
+	} else {
+		
+		//if submitting form, update database
+		switch ($action) {
+			case "add":
+				queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
+				needreload();
+			break;
+			case "delete":
+				queues_del($extdisplay);
+				needreload();
+			break;
+			case "edit":  //just delete and re-add
+				queues_del($account);
+				queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
+				needreload();
+			break;
+		}
 	}
 }
 
