@@ -61,9 +61,10 @@ function conferences_get_config($engine) {
 			}
 			// now add our macros
 			//;arg1=roomnum, arg2=options, arg3=userpin, arg4=adminpin
-			$ext->add('macro-joinmeetme', 's', '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','READ'));
+			$ext->add('macro-joinmeetme', 's', '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','PIN'));
 			$ext->add('macro-joinmeetme', 's', '', new ext_answer(''));
 			$ext->add('macro-joinmeetme', 's', '', new ext_wait(1));
+			$ext->add('macro-joinmeetme', 's', 'PIN', new ext_gotoif('$[foo${ARG3} = foo]','user,1'));
 			$ext->add('macro-joinmeetme', 's', 'READ', new ext_read('PIN','enter-conf-pin-number'));
 			$ext->add('macro-joinmeetme', 's', '', new ext_gotoif('$[foo${PIN} = foo${ARG3}]','user,1'));
 			$ext->add('macro-joinmeetme', 's', '', new ext_gotoif('$[${PIN} = ${ARG4}]','admin,1'));
