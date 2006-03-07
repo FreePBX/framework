@@ -172,6 +172,18 @@ if ($action == 'delete') {
 			</select>		
 		</td>
 	</tr>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("allow menu:")?><span><?php echo _("present menu (user or admin) when '*' is received ('send' to menu)")?></span></a></td>
+		<td>
+			<select name="opt#s">
+			<?php
+				$optselect = strpos($options, "s");
+				echo '<option value=""' . ($optselect === false ? ' SELECTED' : '') . '>'._("No") . '</option>';
+				echo '<option value="s"'. ($optselect !== false ? ' SELECTED' : '') . '>'._("Yes"). '</option>';
+			?>		
+			</select>		
+		</td>
+	</tr>
 
 	
 	<tr>
