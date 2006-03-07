@@ -89,7 +89,7 @@ if ($action == 'delete') {
 <?php		if ($extdisplay){ ?>
 		<input type="hidden" name="account" value="<?php echo $extdisplay; ?>">
 <?php		} else { ?>
-		<td><a href="#" class="info"><?php echo _("conference number:")?><span><?php echo _("Use this number to dial into the conference.<br><br>Conference admins will dial this conference number plus *<br><br>For example, if the conference number is 123:<br><br><b>123 = log in as user<br>123* = log in as admin</b>")?></span></a></td>
+		<td><a href="#" class="info"><?php echo _("conference number:")?><span><?php echo _("Use this number to dial into the conference.")?></span></a></td>
 		<td><input type="text" name="account" value=""></td>
 <?php		} ?>
 	</tr>
@@ -98,11 +98,11 @@ if ($action == 'delete') {
 		<td><input type="text" name="name" value="<?php echo (isset($description) ? $description : ''); ?>"></td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info"><?php echo _("user PIN:")?><span><?php echo _("You can require callers to enter a password before they can enter this conference.<br><br>This setting is optional.")?></span></a></td>
+		<td><a href="#" class="info"><?php echo _("user PIN:")?><span><?php echo _("You can require callers to enter a password before they can enter this conference.<br><br>This setting is optional.<br><br>If either PIN is entered, the user will be prompted to enter a PIN.")?></span></a></td>
 		<td><input size="8" type="text" name="userpin" value="<?php echo (isset($userpin) ? $userpin : ''); ?>"></td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info"><?php echo _("admin PIN:")?><span><?php echo _("Enter a PIN number the admin must enter after dialing <conference#>*")?></span></a></td>
+		<td><a href="#" class="info"><?php echo _("admin PIN:")?><span><?php echo _("Enter a PIN number for the admin user.<br><br>This setting is optional unless the 'leader wait' option is in use, then this PIN will identify the leader.")?></span></a></td>
 		<td><input size="8" type="text" name="adminpin" value="<?php echo (isset($adminpin) ? $adminpin : ''); ?>"></td>
 	</tr>
 
