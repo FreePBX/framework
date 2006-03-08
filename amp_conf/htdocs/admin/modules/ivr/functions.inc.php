@@ -39,7 +39,7 @@ function ivr_get_config($engine) {
 				$ext->add($item[0], 's', '', new ext_answer(''));
 				$ext->add($item[0], 's', '', new ext_wait('1'));
 				$ext->add($item[0], 's', '', new ext_setvar('LOOPED','1'));
-				$ext->add($item[0], 's', '', new ext_gotoif('$[${LOOPED} > 2]','hang,1'));
+				$ext->add($item[0], 's', 'LOOP', new ext_gotoif('$[${LOOPED} > 2]','hang,1'));
 				$ext->add($item[0], 's', '', new ext_setvar('DIR-CONTEXT',substr($ivr[5][4],12)));
 				$ext->add($item[0], 's', '', new ext_digittimeout('3'));
 				$ext->add($item[0], 's', '', new ext_responsetimeout('7'));
@@ -55,7 +55,7 @@ function ivr_get_config($engine) {
 						$ext->add($item[0], $ivr_item[1],'', new ext_goto($ivr_item[4]));
 					}
 					// check for user timeout setting
-					if ($ivr_item[1]=="t") {
+					if ($ivr_item[1]=="t" && $ivr_item[2]=="1" && $ivr_item[3]=="Goto") {
 						$ext->add($item[0], $ivr_item[1],'', new ext_goto($ivr_item[4]));
 						$default_t = false;
 					}
@@ -63,7 +63,7 @@ function ivr_get_config($engine) {
 				//apply default timeout if needed
 				if($default_t) {
 					$ext->add($item[0], 't', '', new ext_setvar('LOOPED','$[${LOOPED} + 1]'));
-					$ext->add($item[0], 't', '', new ext_goto('5','s'));				
+					$ext->add($item[0], 't', '', new ext_goto('LOOP'));				
 				}
 			}
 		break;
