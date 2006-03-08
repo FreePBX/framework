@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-08 10:07-0600\n"
+"POT-Creation-Date: 2006-02-28 22:51-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Arnaldo M. Pereira <arnaldo@ansi-c.org>\n"
 "Language-Team: Brazilian Portuguese <arnaldo@ansi-c.org>\n"
@@ -16,129 +16,139 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../includes/asi.inc:33
-msgid "Unable to connect to Asterisk Manager"
-msgstr "Não foi possível conectar ao Asterisk Manager"
-
-#: ../includes/asi.inc:41
+#: ../includes/asi.inc:48
 msgid "Asterisk Call Manager not responding"
 msgstr "Asterisk Call Manager não responde"
 
-#: ../includes/asi.inc:49
+#: ../includes/asi.inc:56
 msgid "Asterisk authentication failed:"
 msgstr "Autenticação no Asterisk falhou:"
 
-#: ../includes/asi.inc:87
-msgid "Asterisk reload command not understood"
+#: ../includes/asi.inc:94 ../includes/asi.inc:108
+#, fuzzy
+msgid "Asterisk command not understood"
 msgstr "Comando reload do Asterisk não compreendido"
 
-#: ../includes/common.inc:62
-#, fuzzy
-msgid "No Asterisk Manager Interface connection"
-msgstr "Asterisk Call Manager não responde"
+#: ../includes/bootstrap.inc:134
+#, php-format
+msgid "To many directories in %s Not all files processed"
+msgstr ""
 
-#: ../includes/common.inc:63 ../includes/common.inc:80
-#: ../includes/common.inc:94
+#: ../includes/bootstrap.inc:221
+msgid "ARI requires a version of PHP 4.0 or later"
+msgstr ""
+
+#: ../includes/bootstrap.inc:240
+msgid ""
+"PHP PEAR must be installed.  Visit http://pear.php.net for help with "
+"installation."
+msgstr ""
+
+#: ../includes/common.inc:147
+#, fuzzy
+msgid "ARI does not appear to have access to the Asterisk Manager."
+msgstr "Não foi possível conectar ao Asterisk Manager"
+
+#: ../includes/common.inc:148
+msgid ""
+"Check the ARI 'main.conf' configuration file to set the Asterisk Manager "
+"Account."
+msgstr ""
+
+#: ../includes/common.inc:149
+msgid "Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account"
+msgstr ""
+
+#: ../includes/common.inc:150
+msgid ""
+"make sure [general] enabled = yes and a 'permit=' line for localhost or the "
+"webserver."
+msgstr ""
+
+#: ../includes/common.inc:167 ../includes/common.inc:182
 #, fuzzy
 msgid "Check AMP installation, asterisk, and ARI main.conf"
 msgstr ""
 "Verifique a instalação do AMP, do banco de dados do asterisk ou do main.conf "
 "do ARI"
 
-#: ../includes/common.inc:79 ../includes/common.inc:93
-msgid "Cannot connect to the"
-msgstr ""
-
-#: ../includes/common.inc:79 ../includes/common.inc:93
-msgid "database"
-msgstr ""
-
-#: ../includes/common.inc:209
-msgid "not a directory or not readable"
-msgstr "não é um diretório ou não pode ser lido"
-
-#: ../includes/common.inc:243
+#: ../includes/common.inc:296
 msgid "Page Not Found."
 msgstr "Página não encontrada."
 
-#: ../includes/display.inc:80
+#: ../includes/display.inc:92
 #, fuzzy
 msgid "Search"
 msgstr "Procurado"
 
-#: ../includes/display.inc:123
+#: ../includes/display.inc:135
 msgid "Searched for"
 msgstr "Procurado"
 
-#: ../includes/display.inc:127 ../includes/display.inc:129
-msgid "Results"
+#: ../includes/display.inc:139
+#, fuzzy, php-format
+msgid "Results %d of %d"
 msgstr "Resultados"
 
-#: ../includes/display.inc:127
-msgid "of"
-msgstr "de"
+#: ../includes/display.inc:141
+#, fuzzy, php-format
+msgid "Results %d"
+msgstr "Resultados"
 
-#: ../includes/display.inc:179
+#: ../includes/display.inc:195
 msgid "First"
 msgstr "Primeiro"
 
-#: ../includes/display.inc:192
+#: ../includes/display.inc:208
 msgid "Last"
 msgstr ""
 
-#: ../includes/login.inc:167
+#: ../includes/login.inc:185
 #, fuzzy
-msgid "Voicemail Login not found"
+msgid "Voicemail Login not found."
 msgstr "Login do Voicemail não encontrado, utilizado login SIP"
 
-#: ../includes/login.inc:167
-msgid "Login used"
-msgstr ""
-
-#: ../includes/login.inc:168
+#: ../includes/login.inc:186
 msgid "No access to voicemail"
 msgstr "Sem acesso ao voicemail"
 
-#: ../includes/login.inc:194
+#: ../includes/login.inc:212
 msgid "Incorrect Password"
 msgstr "Senha incorreta"
 
-#: ../includes/login.inc:206
+#: ../includes/login.inc:224
 #, fuzzy
 msgid "Incorrect Username or Password"
 msgstr "Senha incorreta"
 
-#: ../includes/login.inc:294 ../includes/login.inc:304
+#: ../includes/login.inc:319 ../includes/login.inc:330
 msgid "Login"
 msgstr ""
 
-#: ../includes/login.inc:312
+#: ../includes/login.inc:338
 #, fuzzy
 msgid "Password"
 msgstr "Senha incorreta"
 
-#: ../includes/login.inc:320
+#: ../includes/login.inc:347
 msgid "Submit"
 msgstr ""
 
-#: ../includes/login.inc:328
+#: ../includes/login.inc:355
 #, fuzzy
 msgid "Remember Password"
 msgstr "Voicemail para"
 
-#: ../includes/login.inc:336
-msgid "Use your"
-msgstr "Use seu"
-
-#: ../includes/login.inc:336
-msgid "Voicemail Mailbox and Password"
+#: ../includes/login.inc:370
+#, fuzzy
+msgid "Use your <b>Voicemail Mailbox and Password</b>"
 msgstr "Mailbox e senha do Voicemail"
 
-#: ../includes/login.inc:337
+#: ../includes/login.inc:371
 msgid "This is the same password used for the phone"
 msgstr "Esta é a mesma senha utilizada para o telefone"
 
-#: ../includes/login.inc:339
+#: ../includes/login.inc:373
 msgid ""
 "For password maintenance or assistance, contact your Phone System "
 "Administrator."
@@ -146,253 +156,419 @@ msgstr ""
 "Para manutenção e assistência, entre em contato com o Administrador de seu "
 "Sistema de Telefonia"
 
-#: ../includes/main.conf:105
+#: ../includes/main.conf:126
 msgid "INBOX"
 msgstr ""
 
-#: ../includes/main.conf:107
+#: ../includes/main.conf:128
 msgid "Family"
 msgstr ""
 
-#: ../includes/main.conf:109
+#: ../includes/main.conf:130
 msgid "Friends"
 msgstr ""
 
-#: ../includes/main.conf:111
+#: ../includes/main.conf:132
 msgid "Old"
 msgstr ""
 
-#: ../includes/main.conf:113
+#: ../includes/main.conf:134
 msgid "Work"
 msgstr ""
 
-#: ../modules/callmonitor.module:31 ../modules/callmonitor.module:177
-#: ../modules/callmonitor.module:179
+#: ../includes/main.conf:187
+msgid "Directory"
+msgstr ""
+
+#: ../includes/main.conf:188
+msgid "Echo Test"
+msgstr ""
+
+#: ../includes/main.conf:189 ../modules/callmonitor.module:157
+#: ../modules/voicemail.module:314
+msgid "Time"
+msgstr ""
+
+#: ../includes/main.conf:190
+msgid "Weather"
+msgstr ""
+
+#: ../includes/main.conf:191
+msgid "Schedule wakeup call"
+msgstr ""
+
+#: ../includes/main.conf:192
+msgid "festival test (your extension is XXX)"
+msgstr ""
+
+#: ../includes/main.conf:193
+msgid "Activate Call Waiting (deactivated by default)"
+msgstr ""
+
+#: ../includes/main.conf:194
+msgid "Deactivate Call Waiting"
+msgstr ""
+
+#: ../includes/main.conf:195
+msgid "Call Forwarding System"
+msgstr ""
+
+#: ../includes/main.conf:196
+msgid "Disable Call Forwarding"
+msgstr ""
+
+#: ../includes/main.conf:197
+msgid "IVR Recording"
+msgstr ""
+
+#: ../includes/main.conf:198
+msgid "Enable Do-Not-Disturb"
+msgstr ""
+
+#: ../includes/main.conf:199
+msgid "Disable Do-Not-Disturb"
+msgstr ""
+
+#: ../includes/main.conf:200
+msgid "Call Forward on Busy"
+msgstr ""
+
+#: ../includes/main.conf:201
+msgid "Disable Call Forward on Busy"
+msgstr ""
+
+#: ../includes/main.conf:202
+msgid "Message Center (does no ask for extension)"
+msgstr ""
+
+#: ../includes/main.conf:203
+msgid "Enter Message Center"
+msgstr ""
+
+#: ../includes/main.conf:204
+msgid "Playback IVR Recording"
+msgstr ""
+
+#: ../includes/main.conf:205
+msgid "Test Fax"
+msgstr ""
+
+#: ../includes/main.conf:206
+msgid "Simulate incoming call"
+msgstr ""
+
+#: ../modules/callmonitor.module:37 ../modules/callmonitor.module:247
 #, fuzzy
 msgid "Call Monitor"
 msgstr "Monitor de ligações para"
 
-#: ../modules/callmonitor.module:120 ../modules/voicemail.module:268
+#: ../modules/callmonitor.module:137 ../modules/voicemail.module:291
 msgid "delete"
 msgstr ""
 
-#: ../modules/callmonitor.module:154 ../modules/voicemail.module:294
-msgid "play"
+#: ../modules/callmonitor.module:143
+msgid "duration"
 msgstr ""
 
-#: ../modules/callmonitor.module:179 ../modules/voicemail.module:319
-msgid "for"
+#: ../modules/callmonitor.module:146
+msgid "ignore"
 msgstr ""
 
-#: ../modules/callmonitor.module:226 ../modules/voicemail.module:366
-msgid "select"
-msgstr ""
-
-#: ../modules/callmonitor.module:227 ../modules/voicemail.module:367
-msgid "all"
-msgstr ""
-
-#: ../modules/callmonitor.module:228 ../modules/voicemail.module:368
-msgid "none"
-msgstr ""
-
-#: ../modules/callmonitor.module:242 ../modules/voicemail.module:375
+#: ../modules/callmonitor.module:155 ../modules/voicemail.module:312
 msgid "Date"
 msgstr ""
 
-#: ../modules/callmonitor.module:243 ../modules/voicemail.module:376
-msgid "Time"
-msgstr ""
-
-#: ../modules/callmonitor.module:244 ../modules/voicemail.module:377
+#: ../modules/callmonitor.module:159 ../modules/voicemail.module:316
 msgid "Caller ID"
 msgstr ""
 
-#: ../modules/callmonitor.module:245
+#: ../modules/callmonitor.module:161
 msgid "Source"
 msgstr ""
 
-#: ../modules/callmonitor.module:246
+#: ../modules/callmonitor.module:163
 msgid "Destination"
 msgstr ""
 
-#: ../modules/callmonitor.module:247
+#: ../modules/callmonitor.module:165
 msgid "Context"
 msgstr ""
 
-#: ../modules/callmonitor.module:248 ../modules/voicemail.module:380
+#: ../modules/callmonitor.module:167 ../modules/voicemail.module:322
 msgid "Duration"
 msgstr ""
 
-#: ../modules/callmonitor.module:249
+#: ../modules/callmonitor.module:198
 #, fuzzy
 msgid "Monitor"
 msgstr "Monitor de ligações para"
 
-#: ../modules/callmonitor.module:375
+#: ../modules/callmonitor.module:218 ../modules/voicemail.module:363
+msgid "play"
+msgstr ""
+
+#: ../modules/callmonitor.module:249
+#, fuzzy, php-format
+msgid "Call Monitor for %s (%s)"
+msgstr "Monitor de ligações para"
+
+#: ../modules/callmonitor.module:301 ../modules/voicemail.module:441
+msgid "select"
+msgstr ""
+
+#: ../modules/callmonitor.module:302 ../modules/voicemail.module:442
+msgid "all"
+msgstr ""
+
+#: ../modules/callmonitor.module:303 ../modules/voicemail.module:443
+msgid "none"
+msgstr ""
+
+#: ../modules/callmonitor.module:533
 msgid "Only deletes recording files, not cdr log"
 msgstr ""
 
-#: ../modules/settings.module:56 ../modules/settings.module:328
+#: ../modules/help.module:39 ../modules/help.module:68
+msgid "Help"
+msgstr ""
+
+#: ../modules/help.module:70
+#, fuzzy, php-format
+msgid "Help for %s (%s)"
+msgstr "Configurações para"
+
+#: ../modules/help.module:77
+msgid "Handset Feature Code"
+msgstr ""
+
+#: ../modules/help.module:80
+msgid "Action"
+msgstr ""
+
+#: ../modules/settings.module:56 ../modules/settings.module:618
 msgid "Settings"
 msgstr "Configurações"
 
-#: ../modules/settings.module:105 ../modules/settings.module:110
-#: ../modules/settings.module:115 ../modules/settings.module:125
-#: ../modules/settings.module:130
+#: ../modules/settings.module:114
+msgid "Call forward number not changed"
+msgstr ""
+
+#: ../modules/settings.module:115
+#, php-format
+msgid ""
+"Number %s must contain dial numbers (characters like '(', '-', and ')' are "
+"ok)"
+msgstr ""
+
+#: ../modules/settings.module:135 ../modules/settings.module:140
+#: ../modules/settings.module:145 ../modules/settings.module:155
+#: ../modules/settings.module:160
 msgid "Voicemail password not changed"
 msgstr "Senha do Voicemail não alterada"
 
-#: ../modules/settings.module:106
+#: ../modules/settings.module:136
 msgid "Password and password confirm must not be blank"
 msgstr "Senha e confirmação de senha não pode ser não pode estar em branco"
 
-#: ../modules/settings.module:111
-msgid "Password must be all numbers and 4 digits"
-msgstr "A senha deve conter apenas números e apenas 4 dígitos"
-
-#: ../modules/settings.module:116
-msgid "Password and password confirm do not match"
-msgstr "Senha e confirmação de senha não batem"
-
-#: ../modules/settings.module:126 ../modules/settings.module:131
-msgid "does not exist or is not writable"
-msgstr "não existe ou não tem permissão de escrita"
-
-#: ../modules/settings.module:222
-msgid "Language:"
-msgstr ""
-
-#: ../modules/settings.module:243
-#, fuzzy
-msgid "Voicemail Settings"
-msgstr "Voicemail para"
-
-#: ../modules/settings.module:246
-#, fuzzy
-msgid "Voicemail Password"
-msgstr "Voicemail para"
-
-#: ../modules/settings.module:252
-msgid "Enter again to confirm:"
-msgstr ""
-
-#: ../modules/settings.module:258
+#: ../modules/settings.module:141
 #, fuzzy
 msgid "Passwords must be all numbers and only 4 digits"
 msgstr "A senha deve conter apenas números e apenas 4 dígitos"
 
-#: ../modules/settings.module:261
+#: ../modules/settings.module:146
+msgid "Password and password confirm do not match"
+msgstr "Senha e confirmação de senha não batem"
+
+#: ../modules/settings.module:156 ../modules/settings.module:161
+#: ../modules/settings.module:212 ../modules/settings.module:217
+#, fuzzy, php-format
+msgid "%s does not exist or is not writable"
+msgstr "não existe ou não tem permissão de escrita"
+
+#: ../modules/settings.module:201
+#, fuzzy
+msgid "Voicemail email and pager address not changed"
+msgstr "Senha do Voicemail não alterada"
+
+#: ../modules/settings.module:211 ../modules/settings.module:216
+#, fuzzy
+msgid "Voicemail email settings not changed"
+msgstr "Senha do Voicemail não alterada"
+
+#: ../modules/settings.module:358
+msgid "Language:"
+msgstr ""
+
+#: ../modules/settings.module:379
+#, fuzzy
+msgid "Call Routing"
+msgstr "Monitor de ligações para"
+
+#: ../modules/settings.module:382
+#, fuzzy
+msgid "Call Forwarding:"
+msgstr "Monitor de ligações para"
+
+#: ../modules/settings.module:390
+msgid "Enable"
+msgstr ""
+
+#: ../modules/settings.module:401
+#, fuzzy
+msgid "Voicemail Password:"
+msgstr "Voicemail para"
+
+#: ../modules/settings.module:407
+msgid "Enter again to confirm:"
+msgstr ""
+
+#: ../modules/settings.module:413
+#, fuzzy, php-format
+msgid "Passwords must be all numbers and only %s digits"
+msgstr "A senha deve conter apenas números e apenas 4 dígitos"
+
+#: ../modules/settings.module:454
+#, fuzzy
+msgid "Email Voicemail To:"
+msgstr "Voicemail para"
+
+#: ../modules/settings.module:460
+#, fuzzy
+msgid "Pager Voicemail To:"
+msgstr "Voicemail para"
+
+#: ../modules/settings.module:474
+msgid "Email voicemail as attachment"
+msgstr ""
+
+#: ../modules/settings.module:475
+msgid "Say caller id in recording emailed"
+msgstr ""
+
+#: ../modules/settings.module:476
+msgid "Say envelop in recording emailed"
+msgstr ""
+
+#: ../modules/settings.module:477
+msgid "Delete voicemail when emailed"
+msgstr ""
+
+#: ../modules/settings.module:511
 msgid "Audio Format:"
 msgstr ""
 
-#: ../modules/settings.module:264
+#: ../modules/settings.module:514
 msgid "Best Quality"
 msgstr ""
 
-#: ../modules/settings.module:265
+#: ../modules/settings.module:515
 msgid "Smallest Download"
 msgstr ""
 
-#: ../modules/settings.module:302
+#: ../modules/settings.module:523
+#, fuzzy
+msgid "Voicemail Settings"
+msgstr "Voicemail para"
+
+#: ../modules/settings.module:562
 #, fuzzy
 msgid "Call Monitor Settings"
 msgstr "Monitor de ligações para"
 
-#: ../modules/settings.module:305
+#: ../modules/settings.module:565
 msgid "Record INCOMING:"
 msgstr ""
 
-#: ../modules/settings.module:307 ../modules/settings.module:315
+#: ../modules/settings.module:567 ../modules/settings.module:575
 msgid "Always"
 msgstr ""
 
-#: ../modules/settings.module:308 ../modules/settings.module:316
+#: ../modules/settings.module:568 ../modules/settings.module:576
 msgid "Never"
 msgstr ""
 
-#: ../modules/settings.module:309 ../modules/settings.module:317
+#: ../modules/settings.module:569 ../modules/settings.module:577
 msgid "On-Demand"
 msgstr ""
 
-#: ../modules/settings.module:313
+#: ../modules/settings.module:573
 msgid "Record OUTGOING:"
 msgstr ""
 
-#: ../modules/settings.module:330
-msgid "Settings for"
+#: ../modules/settings.module:620
+#, fuzzy, php-format
+msgid "Settings for %s (%s)"
 msgstr "Configurações para"
 
-#: ../modules/settings.module:347
+#: ../modules/settings.module:656
 msgid "Update"
 msgstr ""
 
-#: ../modules/settings.module:530 ../modules/settings.module:537
-msgid "in table"
-msgstr ""
-
-#: ../modules/voicemail.module:33 ../modules/voicemail.module:319
+#: ../modules/voicemail.module:39
 #, fuzzy
 msgid "Voicemail"
 msgstr "Voicemail para"
 
-#: ../modules/voicemail.module:143
+#: ../modules/voicemail.module:153
 msgid "A folder must be selected before the message can be moved."
 msgstr "Uma pasta deve ser selecionada antes que a mensagem possa ser movida."
 
-#: ../modules/voicemail.module:157
+#: ../modules/voicemail.module:167
 msgid "An extension must be selected before the message can be forwarded."
 msgstr ""
 "Uma extensão deve ser selecionada antes que a mensagem possa ser repassada."
 
-#: ../modules/voicemail.module:271
-msgid "move_to"
-msgstr ""
-
-#: ../modules/voicemail.module:274
-msgid "Folder"
-msgstr ""
-
-#: ../modules/voicemail.module:278
-msgid "forward_to"
-msgstr ""
-
-#: ../modules/voicemail.module:298
-msgid "Voicemail recording(s) was not found."
-msgstr "Gravação do(s) Voicemail(s) não encontrada."
-
-#: ../modules/voicemail.module:299
-msgid "Check voicemail audio format on settings page to change from"
-msgstr ""
-"Verifique o formato do audio do voicemail na página de configurações para "
-"mudar de"
-
-#: ../modules/voicemail.module:321
+#: ../modules/voicemail.module:230
 msgid "No Voicemail Recordings for Admin"
 msgstr "Sem gravações para Admin"
 
-#: ../modules/voicemail.module:378
+#: ../modules/voicemail.module:294
+msgid "move_to"
+msgstr ""
+
+#: ../modules/voicemail.module:297
+msgid "Folder"
+msgstr ""
+
+#: ../modules/voicemail.module:301
+msgid "forward_to"
+msgstr ""
+
+#: ../modules/voicemail.module:318
 msgid "Priority"
 msgstr ""
 
-#: ../modules/voicemail.module:379
+#: ../modules/voicemail.module:320
 msgid "Orig Mailbox"
 msgstr ""
 
-#: ../modules/voicemail.module:381
-msgid "Recording"
+#: ../modules/voicemail.module:352
+msgid "Message"
 msgstr ""
 
-#: ../modules/voicemail.module:544
-msgid "Could not create mailbox folder"
+#: ../modules/voicemail.module:367
+msgid "Voicemail recording(s) was not found."
+msgstr "Gravação do(s) Voicemail(s) não encontrada."
+
+#: ../modules/voicemail.module:368
+#, php-format
+msgid ""
+"On settings page, change voicemail audio format.  It is currently set to %s"
+msgstr ""
+
+#: ../modules/voicemail.module:394
+#, fuzzy, php-format
+msgid "Voicemail for %s (%s)"
+msgstr "Voicemail para"
+
+#: ../modules/voicemail.module:660
+#, fuzzy, php-format
+msgid "Could not create mailbox folder %s on the server"
 msgstr "Não foi possível criar caixa de mensagens"
 
-#: ../modules/voicemail.module:544
-msgid "on the server"
-msgstr "no servidor"
-
-#: ../modules/voicemail.module:571
-msgid "Permission denied on folder"
+#: ../modules/voicemail.module:689
+#, php-format
+msgid "Permission denied on folder %s or %s"
 msgstr ""
 
 #: ../misc/recording_popup.php:33
@@ -406,6 +582,34 @@ msgstr ""
 #: ../theme/page.tpl.php:51
 msgid "Folders"
 msgstr ""
+
+#: ../theme/page.tpl.php:80
+msgid "Version"
+msgstr ""
+
+#, fuzzy
+#~ msgid "No Asterisk Manager Interface connection"
+#~ msgstr "Asterisk Call Manager não responde"
+
+#~ msgid "not a directory or not readable"
+#~ msgstr "não é um diretório ou não pode ser lido"
+
+#~ msgid "of"
+#~ msgstr "de"
+
+#~ msgid "Use your"
+#~ msgstr "Use seu"
+
+#~ msgid "Password must be all numbers and 4 digits"
+#~ msgstr "A senha deve conter apenas números e apenas 4 dígitos"
+
+#~ msgid "Check voicemail audio format on settings page to change from"
+#~ msgstr ""
+#~ "Verifique o formato do audio do voicemail na página de configurações para "
+#~ "mudar de"
+
+#~ msgid "on the server"
+#~ msgstr "no servidor"
 
 #~ msgid "No database connection"
 #~ msgstr "Sem conexão com o banco de dados"
