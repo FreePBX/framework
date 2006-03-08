@@ -69,6 +69,10 @@ if (empty($menu_id)) $menu_id = $dept.'aa_1';
 					$optioncount++;
 					$dropts[]= $extension;
 			}
+			elseif ($application == 'Goto' && !(strpos($args[0],'ext-meetme') === false)) {
+					$optioncount++;
+					$dropts[]= $extension;
+			}
 			elseif ($application == 'SetVar') {  //directory context
 					$dircontext = ltrim('=',strstr('=',$args));
 			}
