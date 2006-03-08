@@ -45,8 +45,6 @@ chown_asterisk() {
 	chmod u+x /var/lib/asterisk/bin/retrieve_conf
 	chmod u+x /var/lib/asterisk/agi-bin/*
 	chmod u+x $AMPCGIBIN/vmail.cgi
-	chmod u+x $AMPWEBROOT/admin/*.pl
-	chmod u+x $AMPWEBROOT/admin/*.sh
 	chmod u+x $FOPWEBROOT/*.pl
 	chmod u+x $FOPWEBROOT/safe_opserver
 	echo Permissions OK
