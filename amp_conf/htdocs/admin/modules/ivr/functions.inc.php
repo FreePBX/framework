@@ -24,46 +24,49 @@ function ivr_get_config($engine) {
 	global $conferences_conf;
 	switch($engine) {
 		case "asterisk":
-			foreach(ivr_list() as $item) {
-				$ivr = ivr_get_s(ltrim($item['0']));
-				// add dialplan
-				$ext->addInclude($item[0],'ext-local');
-				$ext->addInclude($item[0],'app-messagecenter');
-				$ext->addInclude($item[0],'app-directory');
-				$ext->add($item[0], 'h', '', new ext_hangup(''));
-				$ext->add($item[0], 'i', '', new ext_playback('invalid'));
-				$ext->add($item[0], 'i', '', new ext_goto('7','s'));
-				
-				$ext->add($item[0], 's', '', new ext_gotoif('$["foo${DIALSTATUS}" = "foo"]','3'));
-				$ext->add($item[0], 's', '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','5'));
-				$ext->add($item[0], 's', '', new ext_answer(''));
-				$ext->add($item[0], 's', '', new ext_wait('1'));
-				$ext->add($item[0], 's', '', new ext_setvar('LOOPED','1'));
-				$ext->add($item[0], 's', 'LOOP', new ext_gotoif('$[${LOOPED} > 2]','hang,1'));
-				$ext->add($item[0], 's', '', new ext_setvar('DIR-CONTEXT',substr($ivr[5][4],12)));
-				$ext->add($item[0], 's', '', new ext_digittimeout('3'));
-				$ext->add($item[0], 's', '', new ext_responsetimeout('7'));
-				$ext->add($item[0], 's', '', new ext_background($ivr[8][4]));
-				
-				$ext->add($item[0], 'hang', '', new ext_playback('vm-goodbye'));
-				$ext->add($item[0], 'hang', '', new ext_hangup(''));
-				
-				$default_t=true;
-				// Actually add the IVR commands now.
-				foreach(ivr_get($item[0]) as $ivr_item) {
-					if (preg_match("/[0-9*#]/", $ivr_item[1])) {
-						$ext->add($item[0], $ivr_item[1],'', new ext_goto($ivr_item[4]));
+			$ivrlist = ivr_list();
+			if(is_array($ivrlist)) {
+				foreach($ivrlist as $item) {
+					$ivr = ivr_get_s(ltrim($item['0']));
+					// add dialplan
+					$ext->addInclude($item[0],'ext-local');
+					$ext->addInclude($item[0],'app-messagecenter');
+					$ext->addInclude($item[0],'app-directory');
+					$ext->add($item[0], 'h', '', new ext_hangup(''));
+					$ext->add($item[0], 'i', '', new ext_playback('invalid'));
+					$ext->add($item[0], 'i', '', new ext_goto('7','s'));
+					
+					$ext->add($item[0], 's', '', new ext_gotoif('$["foo${DIALSTATUS}" = "foo"]','3'));
+					$ext->add($item[0], 's', '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','5'));
+					$ext->add($item[0], 's', '', new ext_answer(''));
+					$ext->add($item[0], 's', '', new ext_wait('1'));
+					$ext->add($item[0], 's', '', new ext_setvar('LOOPED','1'));
+					$ext->add($item[0], 's', 'LOOP', new ext_gotoif('$[${LOOPED} > 2]','hang,1'));
+					$ext->add($item[0], 's', '', new ext_setvar('DIR-CONTEXT',substr($ivr[5][4],12)));
+					$ext->add($item[0], 's', '', new ext_digittimeout('3'));
+					$ext->add($item[0], 's', '', new ext_responsetimeout('7'));
+					$ext->add($item[0], 's', '', new ext_background($ivr[8][4]));
+					
+					$ext->add($item[0], 'hang', '', new ext_playback('vm-goodbye'));
+					$ext->add($item[0], 'hang', '', new ext_hangup(''));
+					
+					$default_t=true;
+					// Actually add the IVR commands now.
+					foreach(ivr_get($item[0]) as $ivr_item) {
+						if (preg_match("/[0-9*#]/", $ivr_item[1])) {
+							$ext->add($item[0], $ivr_item[1],'', new ext_goto($ivr_item[4]));
+						}
+						// check for user timeout setting
+						if ($ivr_item[1]=="t" && $ivr_item[2]=="1" && $ivr_item[3]=="Goto") {
+							$ext->add($item[0], $ivr_item[1],'', new ext_goto($ivr_item[4]));
+							$default_t = false;
+						}
 					}
-					// check for user timeout setting
-					if ($ivr_item[1]=="t" && $ivr_item[2]=="1" && $ivr_item[3]=="Goto") {
-						$ext->add($item[0], $ivr_item[1],'', new ext_goto($ivr_item[4]));
-						$default_t = false;
+					//apply default timeout if needed
+					if($default_t) {
+						$ext->add($item[0], 't', '', new ext_setvar('LOOPED','$[${LOOPED} + 1]'));
+						$ext->add($item[0], 't', '', new ext_goto('LOOP'));				
 					}
-				}
-				//apply default timeout if needed
-				if($default_t) {
-					$ext->add($item[0], 't', '', new ext_setvar('LOOPED','$[${LOOPED} + 1]'));
-					$ext->add($item[0], 't', '', new ext_goto('LOOP'));				
 				}
 			}
 		break;
