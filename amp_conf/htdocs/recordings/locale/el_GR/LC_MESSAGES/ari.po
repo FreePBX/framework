@@ -1,0 +1,613 @@
+# Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Elias Sofronas <esofronas@gmail.com>, 2005.
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-02-28 22:51-0500\n"
+"PO-Revision-Date: 2005-11-14 10:06+0200\n"
+"Last-Translator: Elias Sofronas <esofronas@gmail.com>\n"
+"Language-Team: English <en@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../includes/asi.inc:48
+msgid "Asterisk Call Manager not responding"
+msgstr "Ο διαχειριστής κλήσεων Asterisk δεν αποκρίνεται"
+
+#: ../includes/asi.inc:56
+msgid "Asterisk authentication failed:"
+msgstr "Η πιστοποίηση στο Asterisk απέτυχε:"
+
+#: ../includes/asi.inc:94 ../includes/asi.inc:108
+#, fuzzy
+msgid "Asterisk command not understood"
+msgstr "Η εντολή Asterisk επαναφόρτωσης δεν αναγνωρίστηκε"
+
+#: ../includes/bootstrap.inc:134
+#, php-format
+msgid "To many directories in %s Not all files processed"
+msgstr ""
+
+#: ../includes/bootstrap.inc:221
+msgid "ARI requires a version of PHP 4.0 or later"
+msgstr ""
+
+#: ../includes/bootstrap.inc:240
+msgid ""
+"PHP PEAR must be installed.  Visit http://pear.php.net for help with "
+"installation."
+msgstr ""
+
+#: ../includes/common.inc:147
+#, fuzzy
+msgid "ARI does not appear to have access to the Asterisk Manager."
+msgstr "Αδύνατη η σύνδεση στον Asterisk Manager"
+
+#: ../includes/common.inc:148
+msgid ""
+"Check the ARI 'main.conf' configuration file to set the Asterisk Manager "
+"Account."
+msgstr ""
+
+#: ../includes/common.inc:149
+msgid "Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account"
+msgstr ""
+
+#: ../includes/common.inc:150
+msgid ""
+"make sure [general] enabled = yes and a 'permit=' line for localhost or the "
+"webserver."
+msgstr ""
+
+#: ../includes/common.inc:167 ../includes/common.inc:182
+#, fuzzy
+msgid "Check AMP installation, asterisk, and ARI main.conf"
+msgstr ""
+"Ελέγχτε την εγκατάσταση του AMP, την βάση δεδομένων του asterisk, ή το ARI "
+"main.conf"
+
+#: ../includes/common.inc:296
+msgid "Page Not Found."
+msgstr "Η σελίδα δεν βρέθηκε"
+
+#: ../includes/display.inc:92
+msgid "Search"
+msgstr "Εύρεση"
+
+#: ../includes/display.inc:135
+msgid "Searched for"
+msgstr "Εύρεση για"
+
+#: ../includes/display.inc:139
+#, fuzzy, php-format
+msgid "Results %d of %d"
+msgstr "Αποτελέσματα"
+
+#: ../includes/display.inc:141
+#, fuzzy, php-format
+msgid "Results %d"
+msgstr "Αποτελέσματα"
+
+#: ../includes/display.inc:195
+msgid "First"
+msgstr "Πρώτο"
+
+#: ../includes/display.inc:208
+msgid "Last"
+msgstr "Τελευταίο"
+
+#: ../includes/login.inc:185
+#, fuzzy
+msgid "Voicemail Login not found."
+msgstr "Δεν βρέθηκε πρόσβαση για θυρίδα μυνημάτων"
+
+#: ../includes/login.inc:186
+msgid "No access to voicemail"
+msgstr "Καμία πρόσβαση στον τηλεφωνητή"
+
+#: ../includes/login.inc:212
+msgid "Incorrect Password"
+msgstr "Λάθος Κωδικός"
+
+#: ../includes/login.inc:224
+msgid "Incorrect Username or Password"
+msgstr "Λάθος όνομα χρήστη ή κωδικός"
+
+#: ../includes/login.inc:319 ../includes/login.inc:330
+msgid "Login"
+msgstr "Θυρίδα"
+
+#: ../includes/login.inc:338
+msgid "Password"
+msgstr "Κωδικός"
+
+#: ../includes/login.inc:347
+msgid "Submit"
+msgstr "Είσοδος"
+
+#: ../includes/login.inc:355
+msgid "Remember Password"
+msgstr "Απομνημόνευση Κωδικού"
+
+#: ../includes/login.inc:370
+#, fuzzy
+msgid "Use your <b>Voicemail Mailbox and Password</b>"
+msgstr "Θυρίδα Τηλεφωνητή και Κωδικό"
+
+#: ../includes/login.inc:371
+msgid "This is the same password used for the phone"
+msgstr "Αυτό είναι ο ίδιος κωδικός που χρησιμοποιήθηκε για το τηλέφωνο"
+
+#: ../includes/login.inc:373
+msgid ""
+"For password maintenance or assistance, contact your Phone System "
+"Administrator."
+msgstr ""
+"Για αλλαγή κωδικού ή υποστήριξη, επικοινωνήστε με τον Διαχειριστή του "
+"συστήματος"
+
+#: ../includes/main.conf:126
+msgid "INBOX"
+msgstr "ΕΣΕΡΧΟΜΕΝΑ"
+
+#: ../includes/main.conf:128
+msgid "Family"
+msgstr "ΟΙΚΟΓΕΝΕΙΑ"
+
+#: ../includes/main.conf:130
+msgid "Friends"
+msgstr "ΦΙΛΟΙ"
+
+#: ../includes/main.conf:132
+msgid "Old"
+msgstr "ΠΑΛΙΑ"
+
+#: ../includes/main.conf:134
+msgid "Work"
+msgstr "ΔΟΥΛΕΙΑ"
+
+#: ../includes/main.conf:187
+msgid "Directory"
+msgstr ""
+
+#: ../includes/main.conf:188
+msgid "Echo Test"
+msgstr ""
+
+#: ../includes/main.conf:189 ../modules/callmonitor.module:157
+#: ../modules/voicemail.module:314
+msgid "Time"
+msgstr "Ώρα"
+
+#: ../includes/main.conf:190
+msgid "Weather"
+msgstr ""
+
+#: ../includes/main.conf:191
+msgid "Schedule wakeup call"
+msgstr ""
+
+#: ../includes/main.conf:192
+msgid "festival test (your extension is XXX)"
+msgstr ""
+
+#: ../includes/main.conf:193
+msgid "Activate Call Waiting (deactivated by default)"
+msgstr ""
+
+#: ../includes/main.conf:194
+msgid "Deactivate Call Waiting"
+msgstr ""
+
+#: ../includes/main.conf:195
+msgid "Call Forwarding System"
+msgstr ""
+
+#: ../includes/main.conf:196
+msgid "Disable Call Forwarding"
+msgstr ""
+
+#: ../includes/main.conf:197
+#, fuzzy
+msgid "IVR Recording"
+msgstr "Μυνήματα Θυρίδας"
+
+#: ../includes/main.conf:198
+msgid "Enable Do-Not-Disturb"
+msgstr ""
+
+#: ../includes/main.conf:199
+msgid "Disable Do-Not-Disturb"
+msgstr ""
+
+#: ../includes/main.conf:200
+msgid "Call Forward on Busy"
+msgstr ""
+
+#: ../includes/main.conf:201
+msgid "Disable Call Forward on Busy"
+msgstr ""
+
+#: ../includes/main.conf:202
+msgid "Message Center (does no ask for extension)"
+msgstr ""
+
+#: ../includes/main.conf:203
+msgid "Enter Message Center"
+msgstr ""
+
+#: ../includes/main.conf:204
+msgid "Playback IVR Recording"
+msgstr ""
+
+#: ../includes/main.conf:205
+msgid "Test Fax"
+msgstr ""
+
+#: ../includes/main.conf:206
+msgid "Simulate incoming call"
+msgstr ""
+
+#: ../modules/callmonitor.module:37 ../modules/callmonitor.module:247
+msgid "Call Monitor"
+msgstr "Παρακολούθηση Κλήσεων"
+
+#: ../modules/callmonitor.module:137 ../modules/voicemail.module:291
+msgid "delete"
+msgstr "διαγραφή"
+
+#: ../modules/callmonitor.module:143
+#, fuzzy
+msgid "duration"
+msgstr "Διάρκεια"
+
+#: ../modules/callmonitor.module:146
+#, fuzzy
+msgid "ignore"
+msgstr "κανένα"
+
+#: ../modules/callmonitor.module:155 ../modules/voicemail.module:312
+msgid "Date"
+msgstr "Ημερομηνία"
+
+#: ../modules/callmonitor.module:159 ../modules/voicemail.module:316
+msgid "Caller ID"
+msgstr "Ταυτότητα Καλούντος"
+
+#: ../modules/callmonitor.module:161
+msgid "Source"
+msgstr "Πηγή"
+
+#: ../modules/callmonitor.module:163
+msgid "Destination"
+msgstr "Προορισμός"
+
+#: ../modules/callmonitor.module:165
+msgid "Context"
+msgstr "Περιεχόμενο"
+
+#: ../modules/callmonitor.module:167 ../modules/voicemail.module:322
+msgid "Duration"
+msgstr "Διάρκεια"
+
+#: ../modules/callmonitor.module:198
+msgid "Monitor"
+msgstr "Παρακολούθηση"
+
+#: ../modules/callmonitor.module:218 ../modules/voicemail.module:363
+msgid "play"
+msgstr "άκουσε"
+
+#: ../modules/callmonitor.module:249
+#, fuzzy, php-format
+msgid "Call Monitor for %s (%s)"
+msgstr "Παρακολούθηση Κλήσεων"
+
+#: ../modules/callmonitor.module:301 ../modules/voicemail.module:441
+msgid "select"
+msgstr "επιλογή"
+
+#: ../modules/callmonitor.module:302 ../modules/voicemail.module:442
+msgid "all"
+msgstr "όλα"
+
+#: ../modules/callmonitor.module:303 ../modules/voicemail.module:443
+msgid "none"
+msgstr "κανένα"
+
+#: ../modules/callmonitor.module:533
+msgid "Only deletes recording files, not cdr log"
+msgstr ""
+
+#: ../modules/help.module:39 ../modules/help.module:68
+msgid "Help"
+msgstr ""
+
+#: ../modules/help.module:70
+#, fuzzy, php-format
+msgid "Help for %s (%s)"
+msgstr "Ρυθμίσεις για"
+
+#: ../modules/help.module:77
+msgid "Handset Feature Code"
+msgstr ""
+
+#: ../modules/help.module:80
+msgid "Action"
+msgstr ""
+
+#: ../modules/settings.module:56 ../modules/settings.module:618
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: ../modules/settings.module:114
+msgid "Call forward number not changed"
+msgstr ""
+
+#: ../modules/settings.module:115
+#, php-format
+msgid ""
+"Number %s must contain dial numbers (characters like '(', '-', and ')' are "
+"ok)"
+msgstr ""
+
+#: ../modules/settings.module:135 ../modules/settings.module:140
+#: ../modules/settings.module:145 ../modules/settings.module:155
+#: ../modules/settings.module:160
+msgid "Voicemail password not changed"
+msgstr "Ο κωδικός του τηλεφωνητή δεν άλλαξε"
+
+#: ../modules/settings.module:136
+msgid "Password and password confirm must not be blank"
+msgstr "Ο κωδικός και η επιβεβαίωση κωδικού δεν πρέπει να είναι κενά"
+
+#: ../modules/settings.module:141
+msgid "Passwords must be all numbers and only 4 digits"
+msgstr "Οι κωδικοί πρέπει να είναι μόνο 4 αριθμοί"
+
+#: ../modules/settings.module:146
+msgid "Password and password confirm do not match"
+msgstr "Ο κωδικός και η επιβεβαίωση κωδικού δεν συμφωνούν"
+
+#: ../modules/settings.module:156 ../modules/settings.module:161
+#: ../modules/settings.module:212 ../modules/settings.module:217
+#, fuzzy, php-format
+msgid "%s does not exist or is not writable"
+msgstr "Δεν υπάρχει ή δεν είναι εγγράψιμο"
+
+#: ../modules/settings.module:201
+#, fuzzy
+msgid "Voicemail email and pager address not changed"
+msgstr "Ο κωδικός του τηλεφωνητή δεν άλλαξε"
+
+#: ../modules/settings.module:211 ../modules/settings.module:216
+#, fuzzy
+msgid "Voicemail email settings not changed"
+msgstr "Ο κωδικός του τηλεφωνητή δεν άλλαξε"
+
+#: ../modules/settings.module:358
+msgid "Language:"
+msgstr "Γλώσσα:"
+
+#: ../modules/settings.module:379
+#, fuzzy
+msgid "Call Routing"
+msgstr "Ρυθμίσεις Παρακολούθησης Κλήσεων"
+
+#: ../modules/settings.module:382
+#, fuzzy
+msgid "Call Forwarding:"
+msgstr "Ρυθμίσεις Παρακολούθησης Κλήσεων"
+
+#: ../modules/settings.module:390
+#, fuzzy
+msgid "Enable"
+msgstr "στο πεδίο"
+
+#: ../modules/settings.module:401
+#, fuzzy
+msgid "Voicemail Password:"
+msgstr "Κωδικός Τηλεφωνητή"
+
+#: ../modules/settings.module:407
+msgid "Enter again to confirm:"
+msgstr "Εισάγετε ξανά για επιβεβαίωση:"
+
+#: ../modules/settings.module:413
+#, fuzzy, php-format
+msgid "Passwords must be all numbers and only %s digits"
+msgstr "Οι κωδικοί πρέπει να είναι μόνο 4 αριθμοί"
+
+#: ../modules/settings.module:454
+#, fuzzy
+msgid "Email Voicemail To:"
+msgstr "Τηλεφωνητής"
+
+#: ../modules/settings.module:460
+#, fuzzy
+msgid "Pager Voicemail To:"
+msgstr "Τηλεφωνητής"
+
+#: ../modules/settings.module:474
+msgid "Email voicemail as attachment"
+msgstr ""
+
+#: ../modules/settings.module:475
+msgid "Say caller id in recording emailed"
+msgstr ""
+
+#: ../modules/settings.module:476
+msgid "Say envelop in recording emailed"
+msgstr ""
+
+#: ../modules/settings.module:477
+msgid "Delete voicemail when emailed"
+msgstr ""
+
+#: ../modules/settings.module:511
+msgid "Audio Format:"
+msgstr "Ποιότητα Ήχου:"
+
+#: ../modules/settings.module:514
+msgid "Best Quality"
+msgstr "Μέγιστη Ποιότητα"
+
+#: ../modules/settings.module:515
+msgid "Smallest Download"
+msgstr "Μικρότερο Download"
+
+#: ../modules/settings.module:523
+msgid "Voicemail Settings"
+msgstr "Ρυθμίσεις Τηλεφωνητή"
+
+#: ../modules/settings.module:562
+msgid "Call Monitor Settings"
+msgstr "Ρυθμίσεις Παρακολούθησης Κλήσεων"
+
+#: ../modules/settings.module:565
+msgid "Record INCOMING:"
+msgstr "Ηχογράφηση ΕΙΣΕΡΧΟΜΕΝΟΥ:"
+
+#: ../modules/settings.module:567 ../modules/settings.module:575
+msgid "Always"
+msgstr "Πάντα"
+
+#: ../modules/settings.module:568 ../modules/settings.module:576
+msgid "Never"
+msgstr "Ποτέ"
+
+#: ../modules/settings.module:569 ../modules/settings.module:577
+msgid "On-Demand"
+msgstr "Επιτόπου"
+
+#: ../modules/settings.module:573
+msgid "Record OUTGOING:"
+msgstr "Ηχογράφηση ΕΞΕΡΧΟΜΕΝΟΥ:"
+
+#: ../modules/settings.module:620
+#, fuzzy, php-format
+msgid "Settings for %s (%s)"
+msgstr "Ρυθμίσεις για"
+
+#: ../modules/settings.module:656
+msgid "Update"
+msgstr "Ανανέωση"
+
+#: ../modules/voicemail.module:39
+msgid "Voicemail"
+msgstr "Τηλεφωνητής"
+
+#: ../modules/voicemail.module:153
+msgid "A folder must be selected before the message can be moved."
+msgstr "Πρέπει να επιλεχθεί ένας κατάλογος πρίν μεταφερεθεί το μύνημα."
+
+#: ../modules/voicemail.module:167
+msgid "An extension must be selected before the message can be forwarded."
+msgstr "Πρέπει να επιλεχθεί Θυρίδα παραλήπτη πρίν προωθηθεί το μύνημα."
+
+#: ../modules/voicemail.module:230
+msgid "No Voicemail Recordings for Admin"
+msgstr "Δεν Υπάρχουν Εγγραφές Μυνημάτων για τον Διαχειριστή"
+
+#: ../modules/voicemail.module:294
+msgid "move_to"
+msgstr "μετακίνηση"
+
+#: ../modules/voicemail.module:297
+#, fuzzy
+msgid "Folder"
+msgstr "Κατάλογοι"
+
+#: ../modules/voicemail.module:301
+msgid "forward_to"
+msgstr "προώθηση"
+
+#: ../modules/voicemail.module:318
+msgid "Priority"
+msgstr "Προτεραιότητα"
+
+#: ../modules/voicemail.module:320
+msgid "Orig Mailbox"
+msgstr "Αρχικός Κατάλογος Μυνημάτων"
+
+#: ../modules/voicemail.module:352
+msgid "Message"
+msgstr ""
+
+#: ../modules/voicemail.module:367
+msgid "Voicemail recording(s) was not found."
+msgstr "Δεν βρέθηκαν εγγραφή(ές) στον τηλεφωνητή."
+
+#: ../modules/voicemail.module:368
+#, php-format
+msgid ""
+"On settings page, change voicemail audio format.  It is currently set to %s"
+msgstr ""
+
+#: ../modules/voicemail.module:394
+#, fuzzy, php-format
+msgid "Voicemail for %s (%s)"
+msgstr "Τηλεφωνητής"
+
+#: ../modules/voicemail.module:660
+#, fuzzy, php-format
+msgid "Could not create mailbox folder %s on the server"
+msgstr "Αδύνατη η δημιουργία καταλόγου μυνημάτων"
+
+#: ../modules/voicemail.module:689
+#, php-format
+msgid "Permission denied on folder %s or %s"
+msgstr ""
+
+#: ../misc/recording_popup.php:33
+msgid "download"
+msgstr "κατέβασμα"
+
+#: ../theme/page.tpl.php:42
+msgid "Logout"
+msgstr "Αποσύνδεση"
+
+#: ../theme/page.tpl.php:51
+msgid "Folders"
+msgstr "Κατάλογοι"
+
+#: ../theme/page.tpl.php:80
+msgid "Version"
+msgstr ""
+
+#~ msgid "Login used"
+#~ msgstr "Όνομα χρήστη που χρησιμοποιήθηκε"
+
+#, fuzzy
+#~ msgid "No Asterisk Manager Interface connection"
+#~ msgstr "Ο διαχειριστής κλήσεων Asterisk δεν αποκρίνεται"
+
+#~ msgid "not a directory or not readable"
+#~ msgstr "δεν είναι κατάλογος ή δεν είναι αναγνώσιμος"
+
+#~ msgid "of"
+#~ msgstr "από"
+
+#~ msgid "Use your"
+#~ msgstr "Χρησιμοποίησε την δικιά σου"
+
+#~ msgid "for"
+#~ msgstr "για"
+
+#~ msgid "Password must be all numbers and 4 digits"
+#~ msgstr "Ο κωδικός πρέπει να έιναι 4 αριθμοί"
+
+#~ msgid "Check voicemail audio format on settings page to change from"
+#~ msgstr ""
+#~ "Ελέγχτε το audio format του μυνήματος στην σελίδα ρυθμίσεων για αλλαγή"
+
+#~ msgid "on the server"
+#~ msgstr "στον server"
+
+#~ msgid "No database connection"
+#~ msgstr "Δεν υπάρχει σύνδεση με την βάση δεδομένων"
