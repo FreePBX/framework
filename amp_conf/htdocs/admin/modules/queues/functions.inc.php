@@ -24,28 +24,31 @@ function queues_get_config($engine) {
 		case "asterisk":
 			/* queue extensions */
 			$ext->addInclude('from-internal-additional','ext-queues');
-			foreach(queues_list() as $item) {
-				
-				$exten = $item[0];
-				$q = queues_get($exten);
-				
-				$ext->add('ext-queues', $exten, '', new ext_answer(''));
-				$ext->add('ext-queues', $exten, '', new ext_setcidname($q['prefix'].'${CALLERIDNAME}'));
-				$ext->add('ext-queues', $exten, '', new ext_setvar('MONITOR_FILENAME','/var/spool/asterisk/monitor/q${EXTEN}-${TIMESTAMP}-${UNIQUEID}'));
-				if(($q['joinannounce'] != "custom/None") && !empty($q['joinannounce']))
-					$ext->add('ext-queues', $exten, '', new ext_playback($q['joinannounce']));
-				$ext->add('ext-queues', $exten, '', new ext_queue($exten,'t','',$q['agentannounce'],$q['maxwait']));
-
-				// destination field in 'incoming' database is backwards from what ext_goto expects
-				$goto_context = strtok($q['goto'],',');
-				$goto_exten = strtok(',');
-				$goto_pri = strtok(',');
-				
-				$ext->add('ext-queues', $exten, '', new ext_goto($goto_pri,$goto_exten,$goto_context));
-				
-				//dynamic agent login/logout
-				$ext->add('ext-queues', $exten."*", '', new ext_macro('agent-add',$exten.",".$q['password']));
-				$ext->add('ext-queues', $exten."**", '', new ext_macro('agent-del',$exten.",".$exten));
+			$qlist = queues_list();
+			if (is_array($qlist)) {
+				foreach($qlist as $item) {
+					
+					$exten = $item[0];
+					$q = queues_get($exten);
+					
+					$ext->add('ext-queues', $exten, '', new ext_answer(''));
+					$ext->add('ext-queues', $exten, '', new ext_setcidname($q['prefix'].'${CALLERIDNAME}'));
+					$ext->add('ext-queues', $exten, '', new ext_setvar('MONITOR_FILENAME','/var/spool/asterisk/monitor/q${EXTEN}-${TIMESTAMP}-${UNIQUEID}'));
+					if(($q['joinannounce'] != "custom/None") && !empty($q['joinannounce']))
+						$ext->add('ext-queues', $exten, '', new ext_playback($q['joinannounce']));
+					$ext->add('ext-queues', $exten, '', new ext_queue($exten,'t','',$q['agentannounce'],$q['maxwait']));
+	
+					// destination field in 'incoming' database is backwards from what ext_goto expects
+					$goto_context = strtok($q['goto'],',');
+					$goto_exten = strtok(',');
+					$goto_pri = strtok(',');
+					
+					$ext->add('ext-queues', $exten, '', new ext_goto($goto_pri,$goto_exten,$goto_context));
+					
+					//dynamic agent login/logout
+					$ext->add('ext-queues', $exten."*", '', new ext_macro('agent-add',$exten.",".$q['password']));
+					$ext->add('ext-queues', $exten."**", '', new ext_macro('agent-del',$exten.",".$exten));
+				}
 			}
 		break;
 	}
