@@ -78,7 +78,7 @@ if(isset($_POST['action'])){
 				needreload();
 			break;
 			case "delete":
-				queues_del($extdisplay);
+				queues_del($account);
 				needreload();
 			break;
 			case "edit":  //just delete and re-add
@@ -118,13 +118,18 @@ if ($action == 'delete') {
 	//create variables
 	extract($thisQ);
 	
-
-	$delURL = $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delete';
+	$delButton = "
+				<form name=delete action=\"{$_SERVER['PHP_SELF']}\" method=POST>
+					<input type=\"hidden\" name=\"display\" value=\"{$dispnum}\">
+					<input type=\"hidden\" name=\"account\" value=\"{$extdisplay}\">
+					<input type=\"hidden\" name=\"action\" value=\"delete\">
+					<input type=submit value=\""._("Delete Queue")."\">
+				</form>";
 ?>
 
 	<h2><?php echo _("Queue:")." ". $extdisplay; ?></h2>
 <?php		if ($extdisplay){ ?>
-	<p><a href="<?php echo $delURL ?>"><?php echo _("Delete Queue")?> <?php echo $extdisplay; ?></a></p>
+	<p><?php echo $delButton ?></p>
 <?php		} ?>
 	<form autocomplete="off" name="editQ" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="display" value="<?php echo $dispnum?>">
