@@ -13,7 +13,7 @@
     <div id="ariHeader">
       <div class="spacer"></div>
       <span id="left">
-        <a href="<?=$_SERVER['PHP_SELF']?>" alt="ARI"><img src="theme/logo.png" height=72 alt="" /></a>
+        <a href="<?=$_SERVER['PHP_SELF']?>" alt="ARI"><img src="theme/logo.gif" height=72 alt="" /></a>
       </span>
       <span id="right"></span>
       <div class="spacer"></div>
@@ -25,14 +25,14 @@
       </span>
       <div class="spacer"></div>
     </div> 
-    <div id="headerspacer"><img src="theme/spacer.png" alt=""></div> 
+    <div id="headerspacer"><img src="theme/spacer.gif" alt=""></div> 
     <div id="main">
     <div class="minwidth">
     <div class="container">
       <div class="spacer"></div>
       <span class="left">
         <div id="menu">
-          <div><img height=4 src="theme/spacer.png" alt=""></div> 
+          <div><img height=4 src="theme/spacer.gif" alt=""></div> 
           <div class="nav">
             <?php if ($nav_menu != '') { ?>
               <b class='nav_b1'></b><b class='nav_b2'></b><b class='nav_b3'></b><b class='nav_b4'></b>
@@ -45,7 +45,7 @@
               <b class='nav_b4'></b><b class='nav_b3'></b><b class='nav_b2'></b><b class='nav_b1'></b>
             <?php } ?>
           </div>
-          <div><img height=14 src="theme/spacer.png" alt=""></div> 
+          <div><img height=14 src="theme/spacer.gif" alt=""></div> 
           <?php if ($nav_submenu != '') { ?>
             <div class="subnav">
               <div class="subnav_title"><?echo _("Folders")?>:</div>

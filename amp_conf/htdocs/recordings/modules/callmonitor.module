@@ -78,25 +78,6 @@ class Callmonitor {
       setcookie("ari_duration_filter", $duration_filter, time()+365*24*60*60);
     }
 
-
-
-
-
-
-
-
-
-// interesting.  just get info here then update page with ajax here or force a reload
-// once figure it out, just echo the xml or whatever.
-
-
-
-
-
-
-
-
-
     // redirect to see updated page
     $ret .= "
       <head>
@@ -119,6 +100,7 @@ class Callmonitor {
   function display($args) {
 
     global $CALLMONITOR_ALLOW_DELETE;
+    global $AJAX_PAGE_REFRESH_ENABLE;
 
     $display = new DisplaySearch();
 
@@ -184,6 +166,7 @@ class Callmonitor {
     $fields[5]['text'] = _("Context");
     $fields[6]['field'] = "duration";
     $fields[6]['text'] = _("Duration");
+
     $i = 0;
     while ($fields[$i]) {
 
@@ -192,11 +175,11 @@ class Callmonitor {
       if ($order==$field) { 
         if ($sort=='asc') {
           $currentSort = 'desc';
-          $arrowImg = "<img src='theme/images/arrow-asc.png' alt='sort'>";
+          $arrowImg = "<img src='theme/images/arrow-asc.gif' alt='sort'>";
         }
         else {
           $currentSort = 'asc';
-          $arrowImg = "<img src='theme/images/arrow-desc.png' alt='sort'>";
+          $arrowImg = "<img src='theme/images/arrow-desc.gif' alt='sort'>";
         }   
 
         if ($i==1) {
@@ -244,7 +227,7 @@ class Callmonitor {
 	               <td>" . $value[src] . "</td>
 	               <td>" . $value[dst] . "</td>
 	               <td>" . $value[dcontext] . "</td>
-	               <td>" . $value[duration] . " sec</td>
+	               <td width=90>" . $value[duration] . " sec</td>
 	               <td>" . $recordingLink . "</td>
 	             </tr>";
     }
@@ -261,46 +244,19 @@ class Callmonitor {
     // build page content
     $ret .= checkErrorMessage();
 
+    // ajax page refresh script
+    if ($AJAX_PAGE_REFRESH_ENABLE) {
+      $ret .= ajaxRefreshScript($args);
+    }
+
+    // header
     if ($_SESSION['ari_user']['admin_callmonitor']) {
       $header_text = _("Call Monitor");
     } else {
-      $header_text = _("Call Monitor for $displayname ($extension)");
+      $header_text = sprintf(_("Call Monitor for %s (%s)"),$displayname,$extension);
     }
     $ret .= $display->displayHeaderText($header_text);
     $ret .= $display->displaySearchBlock('left',$m,$q,$url_opts,true);
-
-
-
-
-
-
-
-
-
-
-
-
-// somewhere here add the code for ajax javascript to dynamically update the page
-
-
-// need to build the request object
-// either get the info if ajax works or degrade and submit form
-    // action='" . $_SERVER['PHP_SELF'] . "'
-// if ajax works return info and update page or degrade and re-direct
-    // return what? xml?
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // start form
     if ($CALLMONITOR_ALLOW_DELETE) {
@@ -465,6 +421,14 @@ class Callmonitor {
           array_push($check_files,$callmonitor_path . $unique_file_key . ".WAV");
           array_push($check_files,$callmonitor_path . $unique_file_key . ".wav");
           array_push($check_files,$callmonitor_path . $unique_file_key . ".gsm");
+
+          array_push($check_files,$callmonitor_path . "g" . $extension . "-" . $unique_file_key . ".WAV");
+          array_push($check_files,$callmonitor_path . "g" . $extension . "-" . $unique_file_key . ".wav");
+          array_push($check_files,$callmonitor_path . "g" . $extension . "-" . $unique_file_key . ".gsm");
+
+          array_push($check_files,$callmonitor_path . "q" . $extension . "-" . $unique_file_key . ".WAV");
+          array_push($check_files,$callmonitor_path . "q" . $extension . "-" . $unique_file_key . ".wav");
+          array_push($check_files,$callmonitor_path . "q" . $extension . "-" . $unique_file_key . ".gsm");
 
           array_push($check_files,$callmonitor_path . "OUT" . $extension . "-" . $unique_file_key . ".WAV");
           array_push($check_files,$callmonitor_path . "OUT" . $extension . "-" . $unique_file_key . ".wav");

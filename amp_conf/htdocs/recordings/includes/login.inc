@@ -20,7 +20,7 @@ class Login {
     global $ARI_ADMIN_USERNAME;
     global $ARI_ADMIN_PASSWORD;
     global $ARI_ADMIN_EXTENSIONS;
-    global $ARI_COOKIE_PASSWORD;
+    global $ARI_CRYPT_PASSWORD;
     global $ASTERISK_VOICEMAIL_CONF;
     global $ASTERISK_VOICEMAIL_CONTEXT;
     global $ASTERISK_VOICEMAIL_PATH;
@@ -30,11 +30,13 @@ class Login {
     global $ARI_DEFAULT_ADMIN_PAGE;
     global $ARI_DEFAULT_USER_PAGE;
 
+    $crypt = new Crypt();
+
     // get the ari authentication cookie 
     $buf = unserialize($_COOKIE['ari_auth']);
     list($data,$chksum) = $buf;
     if (md5($data) == $chksum) {
-      $data = unserialize($this->decrypt($data,$ARI_COOKIE_PASSWORD));
+      $data = unserialize($crypt->decrypt($data,$ARI_CRYPT_PASSWORD));
       $username = $data['username'];
       $password = $data['password'];
     }
@@ -182,7 +184,7 @@ class Login {
                     $displayname = $username;
                     $default_page = $ARI_DEFAULT_ADMIN_PAGE;
   
-                    $_SESSION['ari_error'] = _("Voicemail Login not found") . ", " . $protocol . " " . _("Login used") . "<br>" .
+                    $_SESSION['ari_error'] = _("Voicemail Login not found.") . "<br>" .
                                              _("No access to voicemail");
 
                     $admin = 0;
@@ -228,7 +230,7 @@ class Login {
       if ($auth && $_POST['remember']) {
 
         $data = array('username' => $username, 'password' => $password);
-        $data = $this->encrypt(serialize($data),$ARI_COOKIE_PASSWORD);
+        $data = $crypt->encrypt(serialize($data),$ARI_CRYPT_PASSWORD);
 
         $chksum = md5($data);
 
@@ -297,6 +299,10 @@ class Login {
       return;
     }
 
+    if (isset($_GET['login'])) {
+      $login = $_GET['login'];
+    }
+
     // if user name and password were given, but there was a problem report the error
     if ($this->error!='') {
       $ret = $this->error;
@@ -321,7 +327,6 @@ class Login {
     $ret .= checkErrorMessage();
 
     $ret .= "
-
       <table id='login'>
         <form id='login' name='login' action=" . $_SERVER['PHP_SELF'] . " method='POST'>
         " . $hiddenInputText . "
@@ -330,7 +335,7 @@ class Login {
               <small><small>" . _("Login") . ":&nbsp;&nbsp;</small></small>
             </td>
             <td>
-              <input type='text' name='username' value='' maxlength=20 tabindex=1>
+              <input type='text' name='username' value='" . $login . "' maxlength=20 tabindex=1>
             </td>
           </tr>
           <tr>
@@ -387,76 +392,6 @@ class Login {
     return $ret;
   } 
 
-  /**
-   * Gets a random value for encryption
-   * - From php.net docs
-   *
-   * @param $iv_len
-   *   length of random variable
-   */
-  function get_rnd_iv($iv_len) {
-
-    $iv = '';
-    while ($iv_len-- > 0) {
-      $iv .= chr(mt_rand() & 0xff);
-    }
-    return $iv;
-  }
-
-  /**
-   * Encrypts string
-   * - From php.net docs
-   *
-   * @param $str
-   *   string to encrypt
-   * @param $salt
-   *   password to use for encryption
-   * @param $iv_len
-   *   length of random number
-   */
-  function encrypt($str, $salt, $iv_len = 16) {
-
-    $str .= "\x13";
-    $n = strlen($str);
-    if ($n % 16) $str .= str_repeat("\0", 16 - ($n % 16));
-    $i = 0;
-    $enc_text = $this->get_rnd_iv($iv_len);
-    $iv = substr($salt ^ $enc_text, 0, 512);
-    while ($i < $n) {
-      $block = substr($str, $i, 16) ^ pack('H*', md5($iv));
-      $enc_text .= $block;
-      $iv = substr($block . $iv, 0, 512) ^ $salt;
-      $i += 16;
-    }
-    return base64_encode($enc_text);
-  }
-
-  /**
-   * Decrypts string
-   * - From php.net docs
-   *
-   * @param $enc
-   *   encrypted string to decrypt
-   * @param $salt
-   *   password to use for encryption
-   * @param $iv_len
-   *   length of random number
-   */
-  function decrypt($enc, $salt, $iv_len = 16) {
-
-     $enc = base64_decode($enc);
-     $n = strlen($enc);
-     $i = $iv_len;
-     $str = '';
-     $iv = substr($salt ^ substr($enc, 0, $iv_len), 0, 512);
-     while ($i < $n) {
-         $block = substr($enc, $i, 16);
-         $str .= $block ^ pack('H*', md5($iv));
-         $iv = substr($block . $iv, 0, 512) ^ $salt;
-         $i += 16;
-     }
-     return preg_replace('/\\x13\\x00*$/', '', $str);
-  }
 
 }
 

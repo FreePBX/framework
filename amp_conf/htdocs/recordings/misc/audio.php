@@ -5,9 +5,18 @@
  * plays recording file
  */
 
+
+
 if (isset($_GET['recording'])) {
 
-  $path = $_GET['recording'];
+  chdir("..");
+  include_once("./includes/bootstrap.inc");
+
+  global $ARI_CRYPT_PASSWORD;
+
+  $crypt = new Crypt();
+
+  $path = $crypt->decrypt($_GET['recording'],$ARI_CRYPT_PASSWORD);
   
   // See if the file exists
   if (!is_file($path)) { die("<b>404 File not found!</b>"); }
@@ -27,12 +36,7 @@ if (isset($_GET['recording'])) {
     case "gsm": $ctype="audio/x-gsm"; break;
 
     // not downloadable
-    case "php":
-    case "htm":
-    case "html":
-    case "txt": die("<b>Cannot be used for ". $file_extension ." files!</b>"); break;
-
-    default: die("<b>Cannot use file: ". $path ."!</b>"); break ;
+    default: die("<b>404 File not found!</b>"); break ;
   }
 
   // need to check if file is mislabeled or a liar.

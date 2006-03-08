@@ -65,9 +65,9 @@ class Help {
     $ret .= checkErrorMessage();
 
     if ($_SESSION['ari_user']['admin_help']) {
-      $header_text = _("help");
+      $header_text = _("Help");
     } else {
-      $header_text = _("help for $displayname ($extension)");
+      $header_text = sprintf(_("Help for %s (%s)"),$displayname,$extension);
     }
 
     // handset feature code header

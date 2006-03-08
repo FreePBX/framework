@@ -112,7 +112,7 @@ class Settings {
         if ($call_forward_enable && !is_numeric($stripped_call_forward_number)) {
           $_SESSION['ari_error'] = 
             _("Call forward number not changed") . "<br>" .
-            _("Number $call_forward_number must contain dial numbers (characters like '(', '-', and ')' are ok)");
+            sprintf(_("Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"),$call_forward_number);
         }
         else {
 
@@ -138,7 +138,7 @@ class Settings {
           else if (strlen($voicemail_password)!=$SETTINGS_VOICEMAIL_PASSWORD_LENGTH || !is_numeric($voicemail_password)) {
             $_SESSION['ari_error'] = 
               _("Voicemail password not changed") . "<br>" .
-              _("Passwords must be all numbers and only 4 digits");
+              sprintf(_("Passwords must be all numbers and only %d digits"),$SETTINGS_VOICEMAIL_PASSWORD_LENGTH);
           }
           else if ($voicemail_password!=$voicemail_password_confirm) {
             $_SESSION['ari_error'] = 
@@ -153,12 +153,12 @@ class Settings {
             if (!$fp) {
               $_SESSION['ari_error'] = 
                 _("Voicemail password not changed") . "<br>" .
-                _("$temp_file does not exist or is not writable");
+                sprintf(_("%s does not exist or is not writable"),$temp_file);
             }
             else if (!is_writable($ASTERISK_VOICEMAIL_CONF)) {
               $_SESSION['ari_error'] = 
                 _("Voicemail password not changed") . "<br>" .
-                _("$ASTERISK_VOICEMAIL_CONF does not exist or is not writable");
+                sprintf(_("%s does not exist or is not writable"),$ASTERISK_VOICEMAIL_CONF);
             }
             else {
 
@@ -209,12 +209,12 @@ class Settings {
             if (!$fp) {
               $_SESSION['ari_error'] = 
                 _("Voicemail email settings not changed") . "<br>" .
-                _("$temp_file does not exist or is not writable");
+                sprintf(_("%s does not exist or is not writable"),$temp_file);
             }
             else if (!is_writable($ASTERISK_VOICEMAIL_CONF)) {
               $_SESSION['ari_error'] = 
                 _("Voicemail email settings not changed") . "<br>" .
-                _("$ASTERISK_VOICEMAIL_CONF does not exist or is not writable");
+                sprintf(_("%s does not exist or is not writable"),$ASTERISK_VOICEMAIL_CONF);
             }
             else {
 
@@ -379,7 +379,7 @@ class Settings {
               <td><h3>" . _("Call Routing") . "</h3></td>
 	    </tr>
 	    <tr>
-              <td>" . _("Call Forwarding") . ":" . "</td>
+              <td>" . _("Call Forwarding:") . "</td>
               <td>
                 <input " . $call_forward_text_box_options . " name='call_forward_number' type='text' size=24 value='" . $call_forward_number . "'>
               </td>
@@ -387,7 +387,7 @@ class Settings {
               <td></td>
               <td>
                 <input " . $call_forward_enable . " type=checkbox name='call_forward_enable' value='checked' OnClick=\"disable_fields(); return true;\">
-                <small>Enable</small>
+                <small>" . _("Enable") . "</small>
               </td>
 	    </tr>
           </table>";
@@ -398,7 +398,7 @@ class Settings {
 
           $set_voicemail_password_text = "
 	    <tr>
-              <td>" . _("Voicemail Password") . ":" . "</td>
+              <td>" . _("Voicemail Password:") . "</td>
               <td>
                 <input name='voicemail_password' type='password' size=16 value=" . $_SESSION['ari_user']['voicemail_password'] . ">
               </td>
@@ -410,7 +410,7 @@ class Settings {
               </td>
 	    </tr>
 	    <tr>
-             <td class='note' colspan=2><small>" . _("Passwords must be all numbers and only $SETTINGS_VOICEMAIL_PASSWORD_LENGTH digits") . "</small></td>
+             <td class='note' colspan=2><small>" . sprintf(_("Passwords must be all numbers and only %s digits"),$SETTINGS_VOICEMAIL_PASSWORD_LENGTH) . "</small></td>
 	    </tr>";
         }
 
@@ -451,13 +451,13 @@ class Settings {
 
           $set_voicemail_email_text = "
 	    <tr>
-              <td>" . _("Email Voicemail To") . ":" . "</td>
+              <td>" . _("Email Voicemail To:") . "</td>
               <td>
                 <input " . $voicemail_email_text_box_options . " name='voicemail_email_address' type='text' size=48 value='" . $voicemail_email_address . "'>
               </td>
 	    </tr>
 	    <tr>
-              <td>" . _("Pager Voicemail To") . ":" . "</td>
+              <td>" . _("Pager Voicemail To:") . "</td>
               <td>
                 <input " . $voicemail_pager_text_box_options . " name='voicemail_pager_address' type='text' size=48 value='" . $voicemail_pager_address . "'>
               </td>
@@ -617,7 +617,7 @@ class Settings {
     if ($_SESSION['ari_user']['admin_settings']) {
       $headerText = _("Settings");
     } else {
-      $headerText = _("Settings for $displayname ($extension)");
+      $headerText = sprintf(_("Settings for %s (%s)"),$displayname,$extension);
     }
 
     $ret .= $display->displayHeaderText($headerText);

@@ -143,8 +143,11 @@ function databaseLogon() {
 
   $success = $asterisk_manager_interface->Connect($mgruser,$mgrpass);
   if (!$success) {
-    $_SESSION['ari_error'] .= _("No Asterisk Manager Interface connection") . "<br>" .
-                              _("Check AMP installation, asterisk, and ARI main.conf");
+    $_SESSION['ari_error'] =  
+      _("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" . 
+      _("Check the ARI 'main.conf' configuration file to set the Asterisk Manager Account.") . "<br>" . 
+      _("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account") . "<br>" .
+      _("make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver.");
     return FALSE;
   }
 
@@ -160,7 +163,7 @@ function databaseLogon() {
                           $ASTERISK_DBTYPE,
                           $_SESSION['dbh_asterisk']);
     if (!$success) {
-      $_SESSION['ari_error'] = _("Cannot connect to the $ASTERISK_DBNAME database") . "<br>" .
+      $_SESSION['ari_error'] .= _("Cannot connect to the $ASTERISK_DBNAME database") . "<br>" .
                                _("Check AMP installation, asterisk, and ARI main.conf");
       return FALSE;
     }
@@ -175,7 +178,7 @@ function databaseLogon() {
                           $ASTERISKCDR_DBTYPE,
                           $_SESSION['dbh_cdr']);
     if (!$success) {
-      $_SESSION['ari_error'] = _("Cannot connect to the $ASTERISKCDR_DBNAME database") . "<br>" .
+      $_SESSION['ari_error'] .= sprintf(_("Cannot connect to the $ASTERISKCDR_DBNAME database"),$ASTERISKCDR_DBNAME) . "<br>" .
                                _("Check AMP installation, asterisk, and ARI main.conf");
       return FALSE;
     }
@@ -260,8 +263,8 @@ function handleBlock() {
   foreach ($ranked_modules as $module) {
 
     // process module
-    $name = get_class($module);    // note that this returns all lowercase
-    $module_methods = get_class_methods($module);    // note that this returns all lowercase
+    $name = get_class($module);    // note PHP4 returns all lowercase
+    $module_methods = get_class_methods($module);    // note PHP4 returns all lowercase
 
     // init module
     $module->init();
@@ -272,7 +275,7 @@ function handleBlock() {
       $nav_menu .= $module->$nav_menu_function($args); 
     }
 
-    if (strtolower($m)==$name) {
+    if (strtolower($m)==strtolower($name)) {
 
       // build sub menu
       $nav_submenu_function = "navSubmenu";
@@ -304,6 +307,10 @@ function handler() {
   global $ARI_VERSION;
   global $ARI_NO_LOGIN;
 
+  // version
+  $ari_version = $ARI_VERSION;
+
+  // check error
   $error = $_SESSION['ari_error'];
   if ($_SESSION['ari_user'] && !$ARI_NO_LOGIN) {
     $logout = 1;
@@ -331,14 +338,18 @@ function handler() {
     $content .= checkErrorMessage();
   }
 
-  // version
-  $ari_version = $ARI_VERSION;
-
-  // builds the page
-  include_once("./theme/page.tpl.php"); 
-
   // log off any databases needed
   databaseLogoff();
+
+  // check for ajax request and refresh or if not build the page
+  if (isset($_REQUEST['ajax_refresh'])) {
+    echo $content;
+  }
+  else {
+
+    // build the page
+    include_once("./theme/page.tpl.php"); 
+  }
 }
 
 /**
@@ -354,6 +365,7 @@ $loaded_modules = array();
 include_once("./includes/asi.inc");
 include_once("./includes/database.inc");
 include_once("./includes/display.inc"); 
+include_once("./includes/ajax.inc");
 
 
 ?>

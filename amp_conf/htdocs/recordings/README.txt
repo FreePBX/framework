@@ -7,7 +7,7 @@ Send bug reports, requests to dan@littlejohnconsulting.com
 
 +++
 
-isc notes
+Misc notes
 
 ARI Project Page
   www.littlejohnconsulting.com?q=ari
@@ -28,6 +28,14 @@ Requirements
 security
   for security all the files in ./recordings/include should be locked down in the web browser
     so they cannot be viewed.
+
+voicemail email links - For those who would like to include a link to ARI in the voicemail email and set the correct login (mailbox) you can do so as:
+
+  http://< ip address >/recordings/index.php?login=< login >
+ 
+    replace 
+      < ip address > with the server dns or ip
+      < login > with the login or mailbox
 
 +++
 

@@ -136,9 +136,9 @@ class DisplaySearch extends Display {
     }
 
     if ($span<$total) {
-      $right_text = "<small><small>" . _("Results $start_count - $span_count of $total") . "</small></small>";
+      $right_text = "<small><small>" . sprintf(_("Results %d of %d"),$start_count - $span_count,$total) . "</small></small>";
     } else {
-      $right_text = "<small><small>" . _("Results $total") . "</small></small>";
+      $right_text = "<small><small>" . sprintf(_("Results %d"),$total) . "</small></small>";
     }
 
     $ret .= "

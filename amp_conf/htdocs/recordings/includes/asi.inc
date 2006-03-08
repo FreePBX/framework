@@ -33,10 +33,6 @@ class AsteriskManagerInterface {
     // connect
     $fp = fsockopen($ASTERISKMGR_DBHOST, 5038, $errno, $errstr, 10);
     if (!$fp) {
-      $_SESSION['ari_error'] =  
-           _("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" . 
-           _("Check the ARI 'main.conf' configuration file to set the Asterisk Manager Account.") . "<br>" . 
-           _("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account including a 'permit=' line for localhost or the webserver.");
       return FALSE;
     } 
     else {

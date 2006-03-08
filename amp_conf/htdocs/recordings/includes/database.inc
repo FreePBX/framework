@@ -46,7 +46,7 @@ class Database {
 
     // if connection failed show error
     if(DB::isError($dbh)) {
-      $_SESSION['ari_error'] = $dbh->getMessage(); 
+      $_SESSION['ari_error'] .= $dbh->getMessage() . "<br><br>"; 
       return false;
     }
     return true;

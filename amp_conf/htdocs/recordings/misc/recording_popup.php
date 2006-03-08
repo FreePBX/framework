@@ -21,7 +21,13 @@ include_once("./includes/bootstrap.inc");
 
 <?php
 
-  if (isset($_GET['recording'])) {
+  global $ARI_CRYPT_PASSWORD;
+
+  $crypt = new Crypt();
+
+  $path = $crypt->encrypt($_GET['recording'],$ARI_CRYPT_PASSWORD);
+
+  if (isset($path)) {
     if (isset($_GET['date'])) {
       echo($_GET['date'] . "<br>");
     }
@@ -29,8 +35,8 @@ include_once("./includes/bootstrap.inc");
       echo($_GET['time'] . "<br>");
     }
     echo("<br>");
-    echo("<embed src='audio.php?recording=" . $_GET['recording'] . "' width=300, height=20 autostart=yes loop=false></embed><br>");
-    echo("<a class='popup_download' href=/recordings/misc/audio.php?recording="  . $_GET['recording'] . ">" . _("download") . "</a><br>");
+    echo("<embed src='audio.php?recording=" . $path . "' width=300, height=20 autostart=yes loop=false></embed><br>");
+    echo("<a class='popup_download' href=/recordings/misc/audio.php?recording="  . $path . ">" . _("download") . "</a><br>");
   }
 
 ?>

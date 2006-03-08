@@ -1,14 +1,16 @@
-Roadmap
 
-  PHP5 support
-  move rest of ARI to classes
-  table time formatting (into more readable format, but still allow searching)
-  fax support
-  admin tabs (for changing config file)
-  realtime support
-  add ajax to call monitor and voicemail tables
 
-fix the so that voicemail message move perserves permissions, group, and user
+
+Change log - 03/07/2006
+
+ * added ajax seemless page refresh to callmonitor and voicemail 
+ * added recording playback encryption (requested by François Harvey - securiweb.net)
+ * added ajax page refresh for voicemail and callmonitor (will seemlessly update page realtime)
+ * fixed bug in file permissions when a voicemail was moved (submitted by ?)
+
+Change log - 03/01/2006
+
+ * added billsec (off-hook time) to call monitor (submitted by Franklin Leite)
 
 Change log - 02/22/2006
 

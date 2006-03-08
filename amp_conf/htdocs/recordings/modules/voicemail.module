@@ -196,6 +196,7 @@ class Voicemail {
     global $ASTERISK_VOICEMAIL_CONF;
     global $ASTERISK_VOICEMAIL_PATH;
     global $ASTERISK_VOICEMAIL_FOLDERS;
+    global $AJAX_PAGE_REFRESH_ENABLE;
 
     $voicemail_audio_format = $_COOKIE['ari_voicemail_audio_format'];
 
@@ -328,11 +329,11 @@ class Voicemail {
       if ($order==$field) { 
         if ($sort=='asc') {
           $currentSort = 'desc';
-          $arrowImg = "<img src='theme/images/arrow-asc.png' alt='sort'>";
+          $arrowImg = "<img src='theme/images/arrow-asc.gif' alt='sort'>";
         }
         else {
           $currentSort = 'asc';
-          $arrowImg = "<img src='theme/images/arrow-desc.png' alt='sort'>";
+          $arrowImg = "<img src='theme/images/arrow-desc.gif' alt='sort'>";
         }   
 
         if ($i==1) {
@@ -365,7 +366,7 @@ class Voicemail {
         } 
         else {
           $_SESSION['ari_error'] = _("Voicemail recording(s) was not found.") . "<br>" .
-                                   _("On settings page, change voicemail audio format.  It is currently set to $voicemail_audio_format");
+                                   sprintf(_("On settings page, change voicemail audio format.  It is currently set to %s"),$voicemail_audio_format);
         }
 
         $tableText .= "
@@ -391,7 +392,13 @@ class Voicemail {
     // build page content
     $ret .= checkErrorMessage();
 
-    $ret .= $display->displayHeaderText(_("Voicemail for $displayname ($extension)"));
+    // ajax page refresh script
+    if ($AJAX_PAGE_REFRESH_ENABLE) {
+      $ret .= ajaxRefreshScript($args);
+    }
+
+    // header
+    $ret .= $display->displayHeaderText(sprintf(_("Voicemail for %s (%s)"),$displayname,$extension));
     $ret .= $display->displaySearchBlock('left',$m,$q,$url_opts,true);
 
     // start form
@@ -591,20 +598,30 @@ class Voicemail {
 
     global $ASTERISK_VOICEMAIL_PATH;
 
+    $perm = fileperms($ASTERISK_VOICEMAIL_PATH);
+    $uid = fileowner($ASTERISK_VOICEMAIL_PATH);
+    $gid = filegroup($ASTERISK_VOICEMAIL_PATH);
+
     // recieving path
     $paths = split(';',$ASTERISK_VOICEMAIL_PATH);
     $path_rx = $paths[0];
     AppendPath($path_rx,$context_rx);
     if (!is_dir($path_rx)) {
-      mkdir("$path_rx", 0700); 
+      mkdir($path_rx, $perm); 
+      chown($path_rx,intval($uid));
+      chgrp($path_rx,intval($gid));
     }
     AppendPath($path_rx,$extension_rx);
     if (!is_dir($path_rx)) {
-      mkdir("$path_rx", 0700); 
+      mkdir($path_rx, $perm); 
+      chown($path_rx,intval($uid));
+      chgrp($path_rx,intval($gid));
     }
     AppendPath($path_rx,$folder_rx);
     if (!is_dir($path_rx)) {
-      mkdir("$path_rx", 0700); 
+      mkdir($path_rx, $perm); 
+      chown($path_rx,intval($uid));
+      chgrp($path_rx,intval($gid));
     }
 
     // get recieving folder last message number
@@ -631,7 +648,7 @@ class Voicemail {
       } 
     }
     else {
-      $_SESSION['ari_error'] = _("Could not create mailbox folder $folder_rx on the server");
+      $_SESSION['ari_error'] = sprintf(_("Could not create mailbox folder %s on the server"),$folder_rx);
       return;
     }
 
@@ -656,11 +673,23 @@ class Voicemail {
             $folder_rx = preg_replace("/\d+/",sprintf("%0" . $lastNumLen . "d",$lastNum),$path_parts['basename']);
             AppendPath($dst,$folder_rx);
             if (is_writable($src) && is_writable($path_rx)) {
+
+              $perm = fileperms($src);
+              $uid = fileowner($src);
+              $gid = filegroup($src);
+
               copy($src,$dst);
+
+              if (is_writable($dst)) {
+                chmod($dst, $perm); 
+                chown($dst,intval($uid));
+                chgrp($dst,intval($gid));
+              }
+
               unlink($src);
             }
             else {
-              $_SESSION['ari_error'] = _("Permission denied on folder $src or $path_rx");
+              $_SESSION['ari_error'] = sprintf(_("Permission denied on folder %s or %s"),$src,$path_rx);
               return;
             }
           } 

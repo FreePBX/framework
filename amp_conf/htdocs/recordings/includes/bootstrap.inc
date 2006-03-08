@@ -110,7 +110,7 @@ function getDirectories($path,$filter,&$directories) {
  */
 function getFiles($path,$filter,$recursive_max,&$recursive_count,&$files) {
 
-  if (@is_dir($path)) {
+  if (@is_dir($path) && @is_readable($path)) {
     $dh = opendir($path);
     while (false!== ($item = readdir($dh))) {
       if($item!="." && $item!="..") {
@@ -131,7 +131,7 @@ function getFiles($path,$filter,$recursive_max,&$recursive_count,&$files) {
           $dirCount++;
           if ($dirCount>10) {
             $_SESSION['ari_error'] 
-              .= _("To many directories in $msg_path Not all files processed") . "<br>";
+              .= sprintf(_("To many directories in %s Not all files processed"),$msg_path) . "<br>";
             return;
           }
 
@@ -334,6 +334,7 @@ startARISession();
 
 include_once("./includes/main.conf");
 include_once("./version.inc");
+include_once("./includes/crypt.inc"); 
 include_once("./includes/login.inc");
 
 
