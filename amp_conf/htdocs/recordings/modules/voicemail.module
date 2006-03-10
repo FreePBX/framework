@@ -106,8 +106,11 @@ class Voicemail {
                          </small></small></p>";
               }
             }
-          }
+          } 
         } 
+        else {
+          $_SESSION['ari_error'] .= sprintf(_("Path is not a directory: %s"),$path) . "<br>";
+        }
       }
       $i++;
     }

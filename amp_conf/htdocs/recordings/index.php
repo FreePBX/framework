@@ -5,9 +5,9 @@
  * main
  */
 
-include_once("includes/bootstrap.inc");
+include_once("includes/bootstrap.php");
 ariPageHeader();
-include_once("includes/common.inc");
+include_once("includes/common.php");
 
 handler();
 

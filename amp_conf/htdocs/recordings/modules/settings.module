@@ -466,7 +466,7 @@ class Settings {
               <td></td>
               <td>
                 <input " . $voicemail_email_enable . " type=checkbox name='voicemail_email_enable' value='1' OnClick=\"disable_fields(); return true;\">
-                <small>Enable</small>
+                <small>" . _("Enable") . "</small>
               </td>
            </tr>";
 

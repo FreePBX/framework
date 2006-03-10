@@ -10,13 +10,16 @@
 if (isset($_GET['recording'])) {
 
   chdir("..");
-  include_once("./includes/bootstrap.inc");
+  include_once("./includes/bootstrap.php");
 
   global $ARI_CRYPT_PASSWORD;
 
   $crypt = new Crypt();
 
   $path = $crypt->decrypt($_GET['recording'],$ARI_CRYPT_PASSWORD);
+
+  // strip ".." from path for security
+  $path = preg_replace('/\.\./','',$path);
   
   // See if the file exists
   if (!is_file($path)) { die("<b>404 File not found!</b>"); }

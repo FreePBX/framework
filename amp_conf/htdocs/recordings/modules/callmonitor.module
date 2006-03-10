@@ -47,8 +47,6 @@ class Callmonitor {
    */
   function recAction($args) {
 
-    global $ASTERISK_CALLMONITOR_PATH;
-
     // args
     $m = getArgument($args,'m');
     $a = getArgument($args,'a');
@@ -99,6 +97,7 @@ class Callmonitor {
    */
   function display($args) {
 
+    global $ASTERISK_CALLMONITOR_PATH;
     global $CALLMONITOR_ALLOW_DELETE;
     global $AJAX_PAGE_REFRESH_ENABLE;
 
@@ -128,8 +127,14 @@ class Callmonitor {
     $this->getCdrData($q,$duration_filter,$start,$span,$order,$sort,$data);
 
     // get the call monitor recording files
+    $paths = split(';',$ASTERISK_CALLMONITOR_PATH);
+    foreach($paths as $key => $path) {
+      if (!is_dir($path)) {
+        $_SESSION['ari_error'] .= sprintf(_("Path is not a directory: %s"),$path) . "<br>";
+      }
+    }
     $recordings = array();
-    $this->getRecording($data,$recordings);
+    $this->getRecording($ASTERISK_CALLMONITOR_PATH,$data,$recordings);
 
     // build controls
     if ($CALLMONITOR_ALLOW_DELETE) {
@@ -358,9 +363,8 @@ class Callmonitor {
    * @param $recording
    *   Reference to the variable to store a $recording name if found
    */
-  function getRecording($data,&$recordings) {
+  function getRecording($asterisk_callmonitor_path,$data,&$recordings) {
 
-    global $ASTERISK_CALLMONITOR_PATH;
     global $CALLMONITOR_ONLY_EXACT_MATCHING;
     global $CALLMONITOR_AGGRESSIVE_MATCHING;
 
@@ -368,9 +372,9 @@ class Callmonitor {
 
     $extension = $_SESSION['ari_user']['extension'];
 
-    $callmonitor_paths = split(';',$ASTERISK_CALLMONITOR_PATH);
-    foreach($callmonitor_paths as $key => $callmonitor_path) {
-      CheckPathSlash($callmonitor_paths[$key]);
+    $paths = split(';',$asterisk_callmonitor_path);
+    foreach($paths as $key => $path) {
+      CheckPathSlash($paths[$key]);
     }
 
     $files = array();
@@ -378,8 +382,8 @@ class Callmonitor {
       $filter = '';
       $recursiveMax = 6;
       $recursiveCount = 0;
-      foreach($callmonitor_paths as $key => $callmonitor_path) {
-        GetFiles($callmonitor_path,$filter,$recursiveMax,$recursiveCount,$files);
+      foreach($paths as $key => $path) {
+        GetFiles($path,$filter,$recursiveMax,$recursiveCount,$files);
       }
     }
 
@@ -408,31 +412,31 @@ class Callmonitor {
       }
 
       $recordingLink = '';
-      foreach($callmonitor_paths as $callmonitor_key => $callmonitor_path) {
+      foreach($paths as $callmonitor_key => $path) {
 
         // try to find an exact match using the uniqueid
         if (isset($uniqueid)) {
 
           $check_files = array();
-          array_push($check_files,$callmonitor_path . $uniqueid . ".WAV");
-          array_push($check_files,$callmonitor_path . $uniqueid . ".wav");
-          array_push($check_files,$callmonitor_path . $uniqueid . ".gsm");
+          array_push($check_files,$path . $uniqueid . ".WAV");
+          array_push($check_files,$path . $uniqueid . ".wav");
+          array_push($check_files,$path . $uniqueid . ".gsm");
 
-          array_push($check_files,$callmonitor_path . $unique_file_key . ".WAV");
-          array_push($check_files,$callmonitor_path . $unique_file_key . ".wav");
-          array_push($check_files,$callmonitor_path . $unique_file_key . ".gsm");
+          array_push($check_files,$path . $unique_file_key . ".WAV");
+          array_push($check_files,$path . $unique_file_key . ".wav");
+          array_push($check_files,$path . $unique_file_key . ".gsm");
 
-          array_push($check_files,$callmonitor_path . "g" . $extension . "-" . $unique_file_key . ".WAV");
-          array_push($check_files,$callmonitor_path . "g" . $extension . "-" . $unique_file_key . ".wav");
-          array_push($check_files,$callmonitor_path . "g" . $extension . "-" . $unique_file_key . ".gsm");
+          array_push($check_files,$path . "g" . $extension . "-" . $unique_file_key . ".WAV");
+          array_push($check_files,$path . "g" . $extension . "-" . $unique_file_key . ".wav");
+          array_push($check_files,$path . "g" . $extension . "-" . $unique_file_key . ".gsm");
 
-          array_push($check_files,$callmonitor_path . "q" . $extension . "-" . $unique_file_key . ".WAV");
-          array_push($check_files,$callmonitor_path . "q" . $extension . "-" . $unique_file_key . ".wav");
-          array_push($check_files,$callmonitor_path . "q" . $extension . "-" . $unique_file_key . ".gsm");
+          array_push($check_files,$path . "q" . $extension . "-" . $unique_file_key . ".WAV");
+          array_push($check_files,$path . "q" . $extension . "-" . $unique_file_key . ".wav");
+          array_push($check_files,$path . "q" . $extension . "-" . $unique_file_key . ".gsm");
 
-          array_push($check_files,$callmonitor_path . "OUT" . $extension . "-" . $unique_file_key . ".WAV");
-          array_push($check_files,$callmonitor_path . "OUT" . $extension . "-" . $unique_file_key . ".wav");
-          array_push($check_files,$callmonitor_path . "OUT" . $extension . "-" . $unique_file_key . ".gsm");
+          array_push($check_files,$path . "OUT" . $extension . "-" . $unique_file_key . ".WAV");
+          array_push($check_files,$path . "OUT" . $extension . "-" . $unique_file_key . ".wav");
+          array_push($check_files,$path . "OUT" . $extension . "-" . $unique_file_key . ".gsm");
 
           // try to match 
           foreach($check_files as $check_file) {
