@@ -1,11 +1,12 @@
 ###
-Installing Asterisk Management Portal (AMP)
+Installing freePBX
 
 
 ###
-AMP has several requirements, including the following packages (names may vary based on distro):
+freePBX has several requirements, including the following packages (names may vary based on distro):
 
 	libxml2
+	libxml2-devel
 	libtiff
 	libtiff-devel
 	lame
@@ -18,12 +19,12 @@ AMP has several requirements, including the following packages (names may vary b
 	php4-pear (if pear is not included with your php)
 	php-mysql
 	(on SUSE, also install php4-gettext and php4-session)
+	php-gd
 	openssl
 	openssl-devel (or libssl-dev)
-	kernel-source (or linux-source)
+	kernel-devel (or linux-source)
 	perl
 	perl-CPAN
-	cvs
 	bison
 	ncurses-devel (or libncurses5-dev)
 	audiofile-devel (or libaudiofile-devel)
@@ -49,7 +50,7 @@ Mime-contruct is needed to generate emails with fax file attachments:
 Download asterisk-perl from http://asterisk.gnuinter.net and install it
 	
 ###
-AMP requires the following changes to php and apache for uploading new MOH files:
+freePBX requires the following changes to php and apache for uploading new MOH files:
 
 
 	- vi +482 /etc/php.ini  (or /etc/php4/apache2/php.ini)
@@ -58,7 +59,7 @@ AMP requires the following changes to php and apache for uploading new MOH files
 		LimitRequestBody 20000000
 
 ###
-Download the latest AMP files:
+Download the latest freePBX files:
 
 	- download the latest freePBX tarball to /usr/src
 	- tar -zxvf freepbx<version>.tar.gz
@@ -130,17 +131,17 @@ Install asterisk-sounds
 	- make install
 	
 ###
-Setting up MySQL for CDR and AMP web interface
+Setting up MySQL for CDR and freePBX web interface
 
 	- /usr/bin/mysql_install_db
 	- /etc/init.d/mysqld start (or /etc/init.d/mysql start) 
 
 	- mysqladmin -u root password 'db_root_pwd'
 	- mysqladmin create asteriskcdrdb -p
-	- mysql --user=root --password=db_root_pwd asteriskcdrdb < /usr/src/AMP/SQL/cdr_mysql_table.sql
+	- mysql --user=root --password=db_root_pwd asteriskcdrdb < /usr/src/freepbx<version>/SQL/cdr_mysql_table.sql
 	
 	- mysqladmin create asterisk -p
-	- mysql --user root -p asterisk < /usr/src/AMP/SQL/newinstall.sql
+	- mysql --user root -p asterisk < /usr/src/freepbx<version>/SQL/newinstall.sql
 
 	
 ###
@@ -160,7 +161,7 @@ Grant access to these two databases you just created
 		mysql> quit
 
 ###
-Run the "install" script to install all the AMP files:  
+Run the "install" script to install all the freePBX files:  
 
 	- /usr/src/freePBX/install_amp
 	
@@ -240,7 +241,7 @@ Configure zapata module in asterisk config.
 
 
 	Note: if your configuration is using zap channels as FXS endpoints, zapata.conf must
-	contain the following line in order to provision these endpoints in AMP's Extensions admin:
+	contain the following line in order to provision these endpoints in freePBX's Extensions admin:
 	#include zapata_additional.conf
 
 	Detailed information with regard to Asterisk's configuration files can be found here:
@@ -255,10 +256,16 @@ httpd (Apache) configuration
 		Group asterisk
 		
 ###
+Chown the PHP session.save_path directory:
+
+	- chown asterisk /var/lib/php/session
+
+		
+###
 Amportal Control Script
 
-	FreePBX's amportal control script starts, stops or kills services in the AMP environment, and sets permissions on directories/files in the
-	FreePBX environment:
+	FreePBX's amportal control script starts, stops or kills services in the freePBX environment, and sets permissions on directories/files in the
+	freePBX environment:
 
 	[root@pbx root]# amportal
 	
@@ -279,9 +286,7 @@ Auto Start
 
 	The module/driver that you load at boot time depends upon whether you are using a
 	TDM400P or TE110P. The wcfxs module should be loaded for the former and the wcte11xp
-	module should be loaded for the latter. (In recent Asterisk code the functionality provided by
-	wcfxs is provided in wctdm. At the time of this writing the AMP/Asterisk build does indeed use
-	wcfxs for the TDM400P telephony card.)
+	module should be loaded for the latter.
 
 	The following scripts are for RedHat and derivatives that use an rc.local:
 	
@@ -312,7 +317,10 @@ Auto Start
 	to the appropriate rc?.d runlevel.
 
 	
-	Also ensure that mysql and apache are set to start at bootup.
+	Also ensure that mysql and apache are set to start at bootup. For RedHat-based systems do the following:
+	
+	- chkconfig --level 3 httpd on
+	- chkconfig --level 3 mysqld on
 
 ###
 Start everything (or reboot and it should start automagically):
