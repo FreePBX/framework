@@ -42,11 +42,11 @@ $timeconditions = timeconditions_list();
 
 <!-- right side menu -->
 <div class="rnav">
-    <li><a id="<?php echo ($itemid=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add Time Condition")?></a></li>
+    <li><a id="<?php echo ($itemid=='' ? 'current':'') ?>" href="config.php?display=<?php echo urlencode($dispnum)?>"><?php echo _("Add Time Condition")?></a></li>
 <?php
 if (isset($timeconditions)) {
 	foreach ($timeconditions as $timecond) {
-		echo "<li><a id=\"".($itemid==$timecond['timeconditions_id'] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&itemid={$timecond['timeconditions_id']}\">{$timecond['displayname']}</a></li>";
+		echo "<li><a id=\"".($itemid==$timecond['timeconditions_id'] ? 'current':'')."\" href=\"config.php?display=".urlencode($dispnum)."&itemid=".urlencode($timecond['timeconditions_id'])."\">{$timecond['displayname']}</a></li>";
 	}
 }
 ?>
