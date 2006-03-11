@@ -52,7 +52,7 @@ switch($action) {
 
 </div>
 <div class="rnav">
-    <li><a id="<?php echo isset($extdisplay)?'current':''; ?>" href="config.php?display=<?php echo $display?>&action=recordings_start&cidnum=<?php echo $_REQUEST['cidnum'] ?>"><?php echo _("Add Recording")?></a></li>
+    <li><a id="<?php echo isset($extdisplay)?'current':''; ?>" href="config.php?display=<?php echo urlencode($display)?>&action=recordings_start&cidnum=<?php echo urlencode($_REQUEST['cidnum']) ?>"><?php echo _("Add Recording")?></a></li>
 
 <?php
 //get existing recordings info
@@ -73,7 +73,7 @@ if (isset($tresults)){
 	//if we are trying to edit - let's be nice and give them the recording back
 	if (isset($_REQUEST['recording_action']) && $_REQUEST['recording_action'] == 'edit'){
 ?>
-	<p><a href="config.php?display=<?php echo $display ?>&recordingdisplay=<?php echo $prompt ?>&action=delete"><?php echo _("Delete Recording")?> <?php echo $prompt; ?></a></p>
+	<p><a href="config.php?display=<?php echo urlencode($display) ?>&recordingdisplay=<?php echo urlencode($prompt) ?>&action=delete"><?php echo _("Delete Recording")?> <?php echo $prompt; ?></a></p>
 <?php
 		//copy('/var/lib/asterisk/sounds/custom/'.$prompt.'.wav','/var/lib/asterisk/sounds/ivrrecording.wav');
 		copy('/var/lib/asterisk/sounds/custom/'.$prompt.'.wav','/var/lib/asterisk/sounds/'.$_REQUEST['cidnum'].'ivrrecording.wav');
