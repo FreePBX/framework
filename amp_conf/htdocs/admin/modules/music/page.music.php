@@ -46,15 +46,15 @@ switch ($action) {
 ?>
 </div>
 <div class="rnav">
-    <li><a href="config.php?display=<?php echo $display?>&action=add"><?php echo _("Add Music Category")?></a></li>
-    <li><a id="<?php echo ($category=='Default' ? 'current':'')?>" href="config.php?display=<?php echo $display?>&category=Default"><?php echo _("Default")?></a></li>
+    <li><a href="config.php?display=<?php echo urlencode($display)?>&action=add"><?php echo _("Add Music Category")?></a></li>
+    <li><a id="<?php echo ($category=='Default' ? 'current':'')?>" href="config.php?display=<?php echo urlencode($display)?>&category=Default"><?php echo _("Default")?></a></li>
 
 <?php
 //get existing trunk info
 $tresults = music_list("/var/lib/asterisk/mohmp3");
 if (isset($tresults)) {
 	foreach ($tresults as $tresult) {
-		echo "<li><a id=\"".($category==$tresult ? 'current':'')."\" href=\"config.php?display={$display}&category={$tresult}&action=edit\">{$tresult}</a></li>";
+		echo "<li><a id=\"".($category==$tresult ? 'current':'')."\" href=\"config.php?display=".urlencode($display)."&category=".urlencode($tresult)."&action=edit\">{$tresult}</a></li>";
 	}
 }
 ?>
@@ -190,7 +190,7 @@ else
 
 	<h5><?php echo _("Category:")?> <?php echo $category=="Default"?_("Default"):$category;?></h5>
 	<?php  if ($category!="Default"){?>
-	<p><a href="config.php?display=<?php echo $display ?>&action=delete&category=<?php echo $category ?>"><?php echo _("Delete Music Category")?> <?php echo $category; ?></a></p><?php }?>
+	<p><a href="config.php?display=<?php echo urlencode($display) ?>&action=delete&category=<?php echo urlencode($category) ?>"><?php echo _("Delete Music Category")?> <?php echo $category; ?></a></p><?php }?>
 
 	<form enctype="multipart/form-data" name="upload" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST"/>
 		<?php echo _("Upload a .wav or .mp3 file:")?><br>
