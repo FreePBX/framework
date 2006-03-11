@@ -1,4 +1,4 @@
-<?php /* $Id:$ */
+<?php /* $Id$ */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -50,11 +50,11 @@ $meetmes = conferences_list();
 
 <!-- right side menu -->
 <div class="rnav">
-    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add Conference")?></a></li>
+    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo urlencode($dispnum)?>"><?php echo _("Add Conference")?></a></li>
 <?php
 if (isset($meetmes)) {
 	foreach ($meetmes as $meetme) {
-		echo "<li><a id=\"".($extdisplay==$meetme[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$meetme[0]}\">{$meetme[0]}:{$meetme[1]}</a></li>";
+		echo "<li><a id=\"".($extdisplay==$meetme[0] ? 'current':'')."\" href=\"config.php?display=".urlencode($dispnum)."&extdisplay=".urlencode($meetme[0])."\">{$meetme[0]}:{$meetme[1]}</a></li>";
 	}
 }
 ?>
