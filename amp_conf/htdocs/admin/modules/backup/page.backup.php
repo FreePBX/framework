@@ -91,8 +91,8 @@ switch ($action) {
 ?>
 </div>
 <div class="rnav">
-    <li><a href="config.php?type=<?php echo $type?>&display=<?php echo $display?>&action=add"><?php echo _("Add Backup Schedule")?></a></li>
-    <li><a href="config.php?type=<?php echo $type?>&display=<?php echo $display?>&action=restore"><?php echo _("Restore from Backup")?></a></li>
+    <li><a href="config.php?type=<?php echo urlencode($type)?>&display=<?php echo urlencode($display)?>&action=add"><?php echo _("Add Backup Schedule")?></a></li>
+    <li><a href="config.php?type=<?php echo urlencode($type)?>&display=<?php echo urlencode($display)?>&action=restore"><?php echo _("Restore from Backup")?></a></li>
 
 <?php 
 //get unique account rows for navigation menu
@@ -100,7 +100,7 @@ $results = Get_Backup_Sets();
 
 if (isset($results)) {
 	foreach ($results as $result) {
-		echo "<li><a id=\"".($extdisplay==$result[13] ? 'current':'')."\" href=\"config.php?type=".$type."&display=".$display."&action=edit&backupid={$result[13]}&backupname={$result[0]}\">{$result[0]}</a></li>";
+		echo "<li><a id=\"".($extdisplay==$result[13] ? 'current':'')."\" href=\"config.php?type=".urlencode($type)."&display=".urlencode($display)."&action=edit&backupid=".urlencode($result[13])."&backupname=".urlencode($result[0])."\">{$result[0]}</a></li>";
 	}
 }
 ?>
@@ -137,7 +137,7 @@ else if ($action == 'edit')
 {
 	?>
 	<h2><?php echo _("System Backup")?></h2>
-	<p><a href="config.php?type=<?php echo $type?>&display=<?php echo $display ?>&action=delete&backupid=<?php echo $_REQUEST['backupid']; ?>"><?php echo _("Delete Backup Schedule")?> <?php echo $_REQUEST['backupname']; ?></a></p>
+	<p><a href="config.php?type=<?php echo urlencode($type)?>&display=<?php echo urlencode($display) ?>&action=delete&backupid=<?php echo urlencode($_REQUEST['backupid']); ?>"><?php echo _("Delete Backup Schedule")?> <?php echo $_REQUEST['backupname']; ?></a></p>
 	<form name="addbackup" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="display" value="<?php echo $display?>">
 	<input type="hidden" name="action" value="edited">
