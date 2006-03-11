@@ -57,8 +57,26 @@ function ajaxRefreshScript($args) {
               result.load(http_request.responseStream);
             }
 
+            var delimiter = '<-&*&->';
+            var response_array = http_request.responseText.split(delimiter);
+
+            var i1 = http_request.responseText.indexOf(delimiter);
+            var i2 = i1 + delimiter.length;
+            var i3 = http_request.responseText.indexOf(delimiter,i2);
+            var i4 = i3 + delimiter.length;
+
+            var nav_menu_len = i1;
+            var nav_submenu_len = i3 - i2;
+
+            var nav_menu = http_request.responseText.substr(0,nav_menu_len);
+            var nav_submenu = http_request.responseText.substr(i2,nav_submenu_len);
+            var content = http_request.responseText.substr(i4);
+
+            document.getElementById('nav_submenu').innerHTML = '';
+            document.getElementById('nav_submenu').innerHTML = nav_submenu;
+
             document.getElementById('content').innerHTML = '';
-            document.getElementById('content').innerHTML = http_request.responseText;
+            document.getElementById('content').innerHTML = content;
           } 
         }
       }

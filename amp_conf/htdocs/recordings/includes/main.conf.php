@@ -109,7 +109,7 @@ $AJAX_PAGE_REFRESH_ENABLE = 1;
 # sets the default user page
 #   option: refresh time in 'minutes:seconds' (0 to inifinity) : (0 to 59)
 #
-$AJAX_PAGE_REFRESH_TIME = '0:10';
+$AJAX_PAGE_REFRESH_TIME = '1:00';
 
 ###############################
 # voicemail settings

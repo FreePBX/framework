@@ -351,7 +351,7 @@ function handler() {
 
   // check for ajax request and refresh or if not build the page
   if (isset($_REQUEST['ajax_refresh'])) {
-    echo $content;
+    echo $nav_menu . "<-&*&->" . $nav_submenu . "<-&*&->" . $content;
   }
   else {
 

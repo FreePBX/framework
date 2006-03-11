@@ -475,6 +475,7 @@ class Settings {
           $var_texts['saycid'] = _("Say caller id in recording emailed");
           $var_texts['envelope'] = _("Say envelop in recording emailed");
           $var_texts['delete'] = _("Delete voicemail when emailed");
+          $var_texts['nextaftercmd'] = _("Play next message after deleting current message");
           foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
             $var = "voicemail_email_$key";
             $var_enable = $var . "enable";

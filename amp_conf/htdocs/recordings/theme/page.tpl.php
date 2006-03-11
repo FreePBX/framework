@@ -36,7 +36,7 @@
           <div class="nav">
             <?php if ($nav_menu != '') { ?>
               <b class='nav_b1'></b><b class='nav_b2'></b><b class='nav_b3'></b><b class='nav_b4'></b>
-              <div id='nav_items'>
+              <div id='nav_menu' class='nav_items'>
                   <?php print($nav_menu) ?>
                   <?php if ($logout != '') { ?>
                     <p><small><small><a href='<?=$_SERVER['PHP_SELF']?>?logout=1'><?echo _("Logout")?></a></small></small></p>
@@ -50,7 +50,7 @@
             <div class="subnav">
               <div class="subnav_title"><?echo _("Folders")?>:</div>
               <b class='subnav_b1'></b><b class='subnav_b2'></b><b class='subnav_b3'></b><b class='subnav_b4'></b>
-              <div id='subnav_items'>
+              <div id='nav_submenu' class='subnav_items'>
                 <?php print($nav_submenu) ?>
               </div>
               <b class='subnav_b4'></b><b class='subnav_b3'></b><b class='subnav_b2'></b><b class='subnav_b1'></b>
