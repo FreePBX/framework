@@ -83,14 +83,14 @@ if(isset($_POST['action'])){
 </div>
 
 <div class="rnav">
-    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add Ring Group")?></a></li>
+    <li><a id="<?php  echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo urlencode($dispnum)?>"><?php echo _("Add Ring Group")?></a></li>
 <?php 
 //get unique ring groups
 $gresults = ringgroups_list();
 
 if (isset($gresults)) {
 	foreach ($gresults as $gresult) {
-		echo "<li><a id=\"".($extdisplay=='GRP-'.$gresult[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay=GRP-{$gresult[0]}\">"._("Ring Group")." {$gresult[0]}</a></li>";
+		echo "<li><a id=\"".($extdisplay=='GRP-'.$gresult[0] ? 'current':'')."\" href=\"config.php?display=".urlencode($dispnum)."&extdisplay=".urlencode("GRP-".$gresult[0])."\">"._("Ring Group")." {$gresult[0]}</a></li>";
 	}
 }
 ?>
