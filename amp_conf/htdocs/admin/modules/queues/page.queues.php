@@ -97,11 +97,11 @@ $queues = queues_list();
 </div>
 
 <div class="rnav">
-    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo $dispnum?>"><?php echo _("Add Queue")?></a></li>
+    <li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=<?php echo urlencode($dispnum)?>"><?php echo _("Add Queue")?></a></li>
 <?php
 if (isset($queues)) {
 	foreach ($queues as $queue) {
-		echo "<li><a id=\"".($extdisplay==$queue[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$queue[0]}\">{$queue[0]}:{$queue[1]}</a></li>";
+		echo "<li><a id=\"".($extdisplay==$queue[0] ? 'current':'')."\" href=\"config.php?display=".urlencode($dispnum)."&extdisplay=".urlencode($queue[0])."\">{$queue[0]}:{$queue[1]}</a></li>";
 	}
 }
 ?>
