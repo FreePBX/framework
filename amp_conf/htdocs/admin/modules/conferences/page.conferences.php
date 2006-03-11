@@ -1,4 +1,4 @@
-<?php /* $Id */
+<?php /* $Id:$ */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ if (isset($account) && !checkRange($account)){
 	//if submitting form, update database
 	switch ($action) {
 		case "add":
-			conferences_add($_REQUEST['account'],$_REQUEST['name'],$_REQUEST['userpin'],$_REQUEST['adminpin'],$_REQUEST['options']);
+			conferences_add($_REQUEST['account'],$_REQUEST['name'],$_REQUEST['userpin'],$_REQUEST['adminpin'],$_REQUEST['options'],$_REQUEST['joinmsg']);
 			needreload();
 		break;
 		case "delete":
@@ -34,7 +34,7 @@ if (isset($account) && !checkRange($account)){
 		break;
 		case "edit":  //just delete and re-add
 			conferences_del($_REQUEST['account']);
-			conferences_add($_REQUEST['account'],$_REQUEST['name'],$_REQUEST['userpin'],$_REQUEST['adminpin'],$_REQUEST['options']);
+			conferences_add($_REQUEST['account'],$_REQUEST['name'],$_REQUEST['userpin'],$_REQUEST['adminpin'],$_REQUEST['options'],$_REQUEST['joinmsg']);
 			needreload();
 		break;
 	}
@@ -112,6 +112,36 @@ if ($action == 'delete') {
 	<input type="hidden" name="options" value="<?php echo $options; ?>">
 	
 	<tr><td colspan="2"><br><h5><?php echo _("Conference Options")?><hr></h5></td></tr>
+<?php if(function_exists('recordings_list')) { //only include if recordings is enabled?>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("join message:")?><span><?php echo _("Message to be played to the caller before joining the conference.<br><br>To add additional recordings please use the \"System Recordings\" MENU to the left")?></span></a></td>
+		<td>
+			<select name="joinmsg"/>
+			<?php
+				$tresults = recordings_list("/var/lib/asterisk/sounds/custom");
+				$default = (isset($joinmsg) ? $joinmsg : '');
+				echo '<option value="">'._("None");
+				if (isset($tresults)) {
+					foreach ($tresults as $tresult) {
+						$searchvalue="custom/$tresult";	
+						echo '<option value="custom/'.$tresult.'"'.($searchvalue == $default ? ' SELECTED' : '').'>'.$tresult;
+					}
+				}
+			?>		
+			</select>		
+		</td>
+	</tr>
+<?php }	else { ?>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("join message:")?><span><?php echo _("Message to be played to the caller before joining the conference.<br><br>You must install and enable the \"Systems Recordings\" Module to edit this option")?></span></a></td>
+		<td>
+			<?php
+				$default = (isset($joinmsg) ? $joinmsg : '');
+			?>
+			<input type="hidden" name="joinmsg" value="<?php echo $default; ?>"><?php echo ($default != '' ? $default : 'None'); ?>
+		</td>
+	</tr>
+<?php } ?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("leader wait:")?><span><?php echo _("wait until the conference leader (admin user) arrives before starting the conference")?></span></a></td>
 		<td>

@@ -1,4 +1,4 @@
-<?php /* $Id */
+<?php /* $Id:$ */
 
 // extend extensions class.
 // This example is about as simple as it gets
@@ -48,38 +48,75 @@ function conferences_get_config($engine) {
 	switch($engine) {
 		case "asterisk":
 			$ext->addInclude('from-internal-additional','ext-meetme');
+			$contextname = 'ext-meetme';
 			if(is_array($conflist = conferences_list())) {
 				foreach($conflist as $item) {
 					$room = conferences_get(ltrim($item['0']));
-					// add dialplan
-					//$ext->add('ext-meetme', ltrim($item['0']), '', new ext_macro('joinmeetme',"{$room['exten']},{$room['options']}"));
-					$ext->add('ext-meetme', ltrim($item['0']), '', new ext_macro('joinmeetme',"{$room['exten']},{$room['options']},{$room['userpin']},{$room['adminpin']}"));
+					
+					$roomnum = ltrim($item['0']);
+					$roomoptions = $room['options'];
+					$roomuserpin = $room['userpin'];
+					$roomadminpin = $room['adminpin'];
+					$roomjoinmsg = $room['joinmsg'];
+					
+					// entry point
+					$ext->add($contextname, $roomnum, '', new ext_setvar('MEETME_ROOMNUM',$roomnum));
+					$ext->add($contextname, $roomnum, '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]',($roomuserpin == '' && $roomadminpin == '' ? 'USER' : 'READPIN')));			
+					$ext->add($contextname, $roomnum, '', new ext_answer(''));
+					$ext->add($contextname, $roomnum, '', new ext_wait(1));
+					
+					// Deal with PINs -- if exist
+					if ($roomuserpin != '' || $roomadminpin != '') {
+						$ext->add($contextname, $roomnum, 'READPIN', new ext_read('PIN','enter-conf-pin-number'));
+						
+						// userpin -- must do always, otherwise if there is just an adminpin
+						// there would be no way to get to the conference !
+						$ext->add($contextname, $roomnum, '', new ext_gotoif('$[foo${PIN} = foo'.$roomuserpin.']','USER'));
+
+						// admin pin -- exists
+						if ($roomadminpin != '') {
+							$ext->add($contextname, $roomnum, '', new ext_gotoif('$[${PIN} = '.$roomadminpin.']','ADMIN'));
+						}
+
+						// pin invalid
+						$ext->add($contextname, $roomnum, '', new ext_playback('conf-invalidpin'));
+						$ext->add($contextname, $roomnum, '', new ext_goto('READPIN'));
+						
+						// admin mode -- only valid if there is an admin pin
+						if ($roomadminpin != '') {
+							$ext->add($contextname, $roomnum, 'ADMIN', new ext_setvar('MEETME_OPTS','aA'.$roomoptions));
+							if ($roomjoinmsg != "") {  // play joining message if one defined
+								$ext->add($contextname, $roomnum, '', new ext_playback($roomjoinmsg));
+							}
+							$ext->add($contextname, $roomnum, '', new ext_goto('STARTMEETME,1'));							
+						}
+					}
+					
+					// user mode
+					$ext->add($contextname, $roomnum, 'USER', new ext_setvar('MEETME_OPTS',$roomoptions));
+					if ($roomjoinmsg != "") {  // play joining message if one defined
+						$ext->add($contextname, $roomnum, '', new ext_playback($roomjoinmsg));
+					}
+					$ext->add($contextname, $roomnum, '', new ext_goto('STARTMEETME,1'));
 					
 					// add meetme config
 					$conferences_conf->addMeetme($room['exten'],$room['userpin']);
 				}
 			}
-			// now add our macros
-			//;arg1=roomnum, arg2=options, arg3=userpin, arg4=adminpin
-			$ext->add('macro-joinmeetme', 's', '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','PIN'));
-			$ext->add('macro-joinmeetme', 's', '', new ext_answer(''));
-			$ext->add('macro-joinmeetme', 's', '', new ext_wait(1));
-			$ext->add('macro-joinmeetme', 's', 'PIN', new ext_gotoif('$[foo${ARG3}foo${ARG4} = foofoo]','user,1'));
-			$ext->add('macro-joinmeetme', 's', 'READ', new ext_read('PIN','enter-conf-pin-number'));
-			$ext->add('macro-joinmeetme', 's', '', new ext_gotoif('$[foo${PIN} = foo${ARG3}]','user,1'));
-			$ext->add('macro-joinmeetme', 's', '', new ext_gotoif('$[${PIN} = ${ARG4}]','admin,1'));
-			$ext->add('macro-joinmeetme', 's', '', new ext_playback('conf-invalidpin'));
-			$ext->add('macro-joinmeetme', 's', '', new ext_goto('READ'));
-			$ext->add('macro-joinmeetme', 'user', '', new ext_meetme('${ARG1}','${ARG2}','${ARG3}'));
-			$ext->add('macro-joinmeetme', 'admin', '', new ext_meetme('${ARG1}','aA${ARG2}','${ARG4}'));
-			$ext->add('macro-joinmeetme', 'h', '', new ext_hangup(''));			
+
+			// Start the conference
+			$ext->add($contextname, 'STARTMEETME', '', new ext_meetme('${MEETME_ROOMNUM}','${MEETME_OPTS}','${PIN}'));
+			$ext->add($contextname, 'STARTMEETME', '', new ext_hangup(''));
+			
+			// hangup for whole context
+			$ext->add($contextname, 'h', '', new ext_hangup(''));			
 		break;
 	}
 }
 
 //get the existing meetme extensions
 function conferences_list() {
-	$results = sql("SELECT exten,description FROM meetme","getAll",DB_FETCHMODE_ASSOC);
+	$results = sql("SELECT exten,description FROM meetme ORDER BY exten","getAll",DB_FETCHMODE_ASSOC);
 	foreach($results as $result){
 		// check to see if we are in-range for the current AMP User.
 		if (isset($result['exten']) && checkRange($result['exten'])){
@@ -96,7 +133,7 @@ function conferences_list() {
 
 function conferences_get($account){
 	//get all the variables for the meetme
-	$results = sql("SELECT exten,options,userpin,adminpin,description FROM meetme WHERE exten = '$account'","getRow",DB_FETCHMODE_ASSOC);
+	$results = sql("SELECT exten,options,userpin,adminpin,description,joinmsg FROM meetme WHERE exten = '$account'","getRow",DB_FETCHMODE_ASSOC);
 	return $results;
 }
 
@@ -104,7 +141,7 @@ function conferences_del($account){
 	$results = sql("DELETE FROM meetme WHERE exten = \"$account\"","query");
 }
 
-function conferences_add($account,$name,$userpin,$adminpin,$options){
-	$results = sql("INSERT INTO meetme (exten,description,userpin,adminpin,options) values (\"$account\",\"$name\",\"$userpin\",\"$adminpin\",\"$options\")");
+function conferences_add($account,$name,$userpin,$adminpin,$options,$joinmsg=null){
+	$results = sql("INSERT INTO meetme (exten,description,userpin,adminpin,options,joinmsg) values (\"$account\",\"$name\",\"$userpin\",\"$adminpin\",\"$options\",\"$joinmsg\")");
 }
 ?>
