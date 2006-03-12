@@ -9,8 +9,8 @@ function ringgroups_destinations() {
 	// return an associative array with destination and description
 	if (isset($results)) {
 		foreach($results as $result){
-				ringgroups_get(ltrim($result['0']), $strategy,  $grptime, $grppre, $grplist);
-				$extens[] = array('destination' => 'ext-group,'.ltrim($result['0']).',1', 'description' => $grppre.' <'.ltrim($result['0']).'>');
+				$thisgrp = ringgroups_get(ltrim($result['0']));
+				$extens[] = array('destination' => 'ext-group,'.ltrim($result['0']).',1', 'description' => $thisgrp['grppre'].' <'.ltrim($result['0']).'>');
 		}
 	}
 	
@@ -25,70 +25,77 @@ function ringgroups_get_config($engine) {
 	switch($engine) {
 		case "asterisk":
 			$ext->addInclude('from-internal-additional','ext-group');
+			$contextname = 'ext-group';
 			$ringlist = ringgroups_list();
 			if (is_array($ringlist)) {
 				foreach($ringlist as $item) {
-					$exten = ringgroups_get(ltrim($item['0']), $strategy,  $grptime, $grppre, $grplist);
-					$ext->add('ext-group', ltrim($item['0']), '', new ext_macro('rg-group',"{$strategy},{$grptime},{$grppre},{$grplist}"));
-	
-					//get goto for this group - note priority 2
-					$goto = legacy_args_get(ltrim($item['0']),2,'ext-group');
-					// destination from database is backwards from what ext_goto expects
-					$goto_context = strtok($goto,',');
-					$goto_exten = strtok(',');
-					$goto_pri = strtok(',');
-					$ext->add('ext-group', ltrim($item['0']), '', new ext_goto($goto_pri,$goto_exten,$goto_context));
+					$grpnum = ltrim($item['0']);
+					$grp = ringgroups_get($grpnum);
+					
+					$strategy = $grp['strategy'];
+					$grptime = $grp['grptime'];
+					$grplist = $grp['grplist'];
+					$postdest = $grp['postdest'];
+					$grppre = $grp['grppre'];
+					$annmsg = $grp['annmsg'];
+					
+					$ext->add($contextname, $grpnum, '', new ext_macro('user-callerid'));
+					// check for old prefix
+					$ext->add($contextname, $grpnum, '', new ext_gotoif('$[${CALLERID(name):0:${LEN(${RGPREFIX})}} != ${RGPREFIX}]', 'NEWPREFIX'));
+					// strip off old prefix
+					$ext->add($contextname, $grpnum, '', new ext_setvar('CALLERID(name)','${CALLERID(name):${LEN(${RGPREFIX})}}'));
+					// set new prefix
+					$ext->add($contextname, $grpnum, 'NEWPREFIX', new ext_setvar('RGPREFIX',$grppre));
+					// add prefix to callerid name
+					$ext->add($contextname, $grpnum, '', new ext_setvar('CALLERID(name)','${RGPREFIX}${CALLERID(name)}'));
+					// recording stuff
+					$ext->add($contextname, $grpnum, '', new ext_setvar('RecordMethod','Group'));
+					$ext->add($contextname, $grpnum, '', new ext_macro('record-enable','${MACRO_EXTEN},${RecordMethod}'));
+					// group dial
+					$ext->add($contextname, $grpnum, '', new ext_setvar('RingGroupMethod',$strategy));
+					if ((isset($annmsg) ? $annmsg : '') != '') {
+						// should always answer before playing anything, shouldn't we ?
+						$ext->add($contextname, $grpnum, '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','DIALGRP'));			
+						$ext->add($contextname, $grpnum, '', new ext_answer(''));
+						$ext->add($contextname, $grpnum, '', new ext_wait(1));
+						$ext->add($contextname, $grpnum, '', new ext_playback($annmsg));
+					}
+					$ext->add($contextname, $grpnum, 'DIALGRP', new ext_macro('dial',$grptime.',${DIAL_OPTIONS},'.$grplist));
+					$ext->add($contextname, $grpnum, '', new ext_setvar('RingGroupMethod',''));
+					// where next?
+					if ((isset($postdest) ? $postdest : '') != '')
+						$ext->add($contextname, $grpnum, '', new ext_goto($postdest));
+					else
+						$ext->add($contextname, $grpnum, '', new ext_hangup(''));
 				}
 			}
 		break;
 	}
 }
-/* 
-This module needs to be updated to use it's own 
-database table and NOT the 'extensions' table
-*/
 
-function ringgroups_add($account,$grplist,$grpstrategy,$grptime,$grppre,$goto) {
-	global $db;
-	
-	//add call to ringgroup macro
-	$addarray = array('ext-group',$account,'1','Macro','rg-group,'.$grpstrategy.','.$grptime.','.$grppre.','.$grplist,'','0');
-	legacy_extensions_add($addarray);
-	
-	//add failover goto
-	$addarray = array('ext-group',$account,'2','Goto',$goto,'jump','0');
-	legacy_extensions_add($addarray);
+function ringgroups_add($grpnum,$strategy,$grptime,$grplist,$postdest,$grppre='',$annmsg='') {
+	$results = sql("INSERT INTO ringgroups (grpnum, strategy, grptime, grppre, grplist, annmsg, postdest) VALUES (".$grpnum.", '".str_replace("'", "''", $strategy)."', ".str_replace("'", "''", $grptime).", '".str_replace("'", "''", $grppre)."', '".str_replace("'", "''", $grplist)."', '".str_replace("'", "''", $annmsg)."', '".str_replace("'", "''", $postdest)."')");
+}
+
+function ringgroups_del($grpnum) {
+	$results = sql("DELETE FROM ringgroups WHERE grpnum = $grpnum","query");
 }
 
 function ringgroups_list() {
-	global $db;
-	$sql = "SELECT DISTINCT extension FROM extensions WHERE context = 'ext-group' ORDER BY extension";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-		$results = null;
-	}
-	foreach($results as $result){
-		if (checkRange($result[0])){
-			$extens[] = array($result[0]);
+	$results = sql("SELECT grpnum FROM ringgroups ORDER BY grpnum","getAll",DB_FETCHMODE_ASSOC);
+	foreach ($results as $result) {
+		if (isset($result['grpnum']) && checkRange($result['grpnum'])) {
+			$grps[] = array($result['grpnum']);
 		}
 	}
-	return $extens;
+	if (isset($grps))
+		return $grps;
+	else
+		return null;
 }
 
-function ringgroups_get($grpexten, &$strategy, &$time, &$prefix, &$group) {
-	global $db;
-	$sql = "SELECT args FROM extensions WHERE context = 'ext-group' AND extension = '".$grpexten."' AND priority = '1'";
-	$res = $db->getAll($sql);
-	if(DB::IsError($res)) {
-	   die($res->getMessage());
-	}
-	if (isset($res[0][0]) && preg_match("/^rg-group,(.*),(.*),(.*),(.*)$/", $res[0][0], $matches)) {
-		$strategy = $matches[1];
-		$time = $matches[2];
-		$prefix = $matches[3];
-		$group = $matches[4];
-		return true;
-	} 
-	return false;
+function ringgroups_get($grpnum) {
+	$results = sql("SELECT grpnum, strategy, grptime, grppre, grplist, annmsg, postdest FROM ringgroups WHERE grpnum = $grpnum","getRow",DB_FETCHMODE_ASSOC);
+	return $results;
 }
 ?>

@@ -20,6 +20,7 @@ isset($_REQUEST['account'])?$account = $_REQUEST['account']:$account='';
 isset($_REQUEST['grptime'])?$grptime = $_REQUEST['grptime']:$grptime='';
 isset($_REQUEST['grppre'])?$grppre = $_REQUEST['grppre']:$grppre='';
 isset($_REQUEST['strategy'])?$strategy = $_REQUEST['strategy']:$strategy='';
+isset($_REQUEST['annmsg'])?$annmsg = $_REQUEST['annmsg']:$annmsg='';
 
 if (isset($_REQUEST['goto0']) && isset($_REQUEST[$_REQUEST['goto0']."0"])) {
         $goto = $_REQUEST[$_REQUEST['goto0']."0"];
@@ -58,24 +59,22 @@ if(isset($_POST['action'])){
 	} else {
 		//add group
 		if ($action == 'addGRP') {
-			
-			ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
+			//ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
+			ringgroups_add($account,$strategy,$grptime,implode("-",$grplist),$goto,$grppre,$annmsg);
 			needreload();
 		}
 		
 		//del group
 		if ($action == 'delGRP') {
-			legacy_extensions_del('ext-group',$account);
+			ringgroups_del($account);
 			needreload();
 		}
 		
 		//edit group - just delete and then re-add the extension
 		if ($action == 'edtGRP') {
-		
-			legacy_extensions_del('ext-group',$account);	
-			ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
+			ringgroups_del($account);	
+			ringgroups_add($account,$strategy,$grptime,implode("-",$grplist),$goto,$grppre,$annmsg);
 			needreload();
-		
 		}
 	}
 }
@@ -101,16 +100,16 @@ if (isset($gresults)) {
 
 		
 		if ($action == 'delGRP') {
-			echo '<br><h3>Group '.ltrim($extdisplay,'GRP-').' deleted!</h3><br><br><br><br><br><br><br><br>';
+			echo '<br><h3>Group '.$account.' deleted!</h3><br><br><br><br><br><br><br><br>';
 		} else {
 			
 		
-			if (!isset($grptime) || !isset($grppre) || !isset($grplist)) {
-				if (!ringgroups_get(ltrim($extdisplay,'GRP-'), $strategy,  $grptime, $grppre, $grplist)) {
-					//TODO : handle this error better
-					//die("Invalid ext-group line in database");
-				}
-			}
+			//if (!isset($grptime) || !isset($grppre) || !isset($grplist)) {
+			//	if (!ringgroups_get(ltrim($extdisplay,'GRP-'))) {
+			//		//TODO : handle this error better
+			//		//die("Invalid ext-group line in database");
+			//	}
+			//}
 			
 			if (!is_array($grplist)) {
 				// ensure it's not a string
@@ -138,9 +137,14 @@ if (isset($gresults)) {
 <?php
 	if ($extdisplay) { 
 		// We need to populate grplist with the existing extension list.
-		ringgroups_get(ltrim($extdisplay,'GRP-'), $strategy,  $grptime, $grppre, $grpliststr);
+		$thisgrp = ringgroups_get(ltrim($extdisplay,'GRP-'));
+		$grpliststr = $thisgrp['grplist'];
 		$grplist=explode("-", $grpliststr);
-
+		$strategy = $thisgrp['strategy'];
+		$grppre = $thisgrp['grppre'];
+		$grptime = $thisgrp['grptime'];
+		$goto = $thisgrp['postdest'];
+		$annmsg = $thisgrp['annmsg'];
 
 ?>
 				<input size="5" type="hidden" name="account" value="<?php  echo ltrim($extdisplay,'GRP-'); ?>">
@@ -191,12 +195,40 @@ if (isset($gresults)) {
 				<td><?php echo _("ring time (max 60 sec)")?>:</td>
 				<td><input size="4" type="text" name="grptime" value="<?php  echo $grptime ?>"></td>
 			</tr>
+<?php if(function_exists('recordings_list')) { //only include if recordings is enabled?>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("announcement:")?><span><?php echo _("Message to be played to the caller before dialing this group.<br><br>To add additional recordings please use the \"System Recordings\" MENU to the left")?></span></a></td>
+		<td>
+			<select name="annmsg"/>
+			<?php
+				$tresults = recordings_list("/var/lib/asterisk/sounds/custom");
+				$default = (isset($annmsg) ? $annmsg : '');
+				echo '<option value="">'._("None");
+				if (isset($tresults)) {
+					foreach ($tresults as $tresult) {
+						$searchvalue="custom/$tresult";	
+						echo '<option value="custom/'.$tresult.'"'.($searchvalue == $default ? ' SELECTED' : '').'>'.$tresult;
+					}
+				}
+			?>		
+			</select>		
+		</td>
+	</tr>
+<?php }	else { ?>
+	<tr>
+		<td><a href="#" class="info"><?php echo _("announcement:")?><span><?php echo _("Message to be played to the caller before dialing this group.<br><br>You must install and enable the \"Systems Recordings\" Module to edit this option")?></span></a></td>
+		<td>
+			<?php
+				$default = (isset($annmsg) ? $annmsg : '');
+			?>
+			<input type="hidden" name="annmsg" value="<?php echo $default; ?>"><?php echo ($default != '' ? $default : 'None'); ?>
+		</td>
+	</tr>
+<?php } ?>
+			
 			<tr><td colspan="2"><br><h5><?php echo _("Destination if no answer")?>:<hr></h5></td></tr>
 
 <?php 
-//get goto for this group - note priority 2
-$goto = legacy_args_get(ltrim($extdisplay,'GRP-'),2,'ext-group');
-
 //draw goto selects
 echo drawselects($goto,0);
 ?>
