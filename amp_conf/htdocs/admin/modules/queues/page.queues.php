@@ -111,7 +111,7 @@ if (isset($queues)) {
 <div class="content">
 <?php
 if ($action == 'delete') {
-	echo '<br><h3>Queue '.$extdisplay.' deleted!</h3><br><br><br><br><br><br><br><br>';
+	echo '<br><h3>'._("Queue").' '.$account.' '._("deleted").'!</h3><br><br><br><br><br><br><br><br>';
 } else {
 	$member = array();
 	//get members in this queue
@@ -129,7 +129,12 @@ if ($action == 'delete') {
 				</form>";
 ?>
 
+<?php if ($extdisplay) { ?>
 	<h2><?php echo _("Queue:")." ". $extdisplay; ?></h2>
+<?php } else { ?>
+	<h2><?php echo _("Add Queue"); ?></h2>
+<?php } ?>
+
 <?php		if ($extdisplay){ ?>
 	<p><?php echo $delButton ?></p>
 <?php		} ?>
