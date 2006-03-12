@@ -97,54 +97,51 @@ if (isset($gresults)) {
 
 <div class="content">
 <?php 
-
-		
-		if ($action == 'delGRP') {
-			echo '<br><h3>Group '.$account.' deleted!</h3><br><br><br><br><br><br><br><br>';
-		} else {
-			
-		
-			//if (!isset($grptime) || !isset($grppre) || !isset($grplist)) {
-			//	if (!ringgroups_get(ltrim($extdisplay,'GRP-'))) {
-			//		//TODO : handle this error better
-			//		//die("Invalid ext-group line in database");
-			//	}
-			//}
-			
-			if (!is_array($grplist)) {
-				// ensure it's not a string
-				$grplist = explode("-",$grplist);
-			}
-
-			$delButton = "
-				<form name=delete action=\"{$_SERVER['PHP_SELF']}\" method=POST>
-					<input type=\"hidden\" name=\"display\" value=\"{$dispnum}\">
-					<input type=\"hidden\" name=\"account\" value=\"".ltrim($extdisplay,'GRP-')."\">
-					<input type=\"hidden\" name=\"action\" value=\"delGRP\">
-					<input type=submit value=\""._("Delete Group")."\">
-				</form>";
-	?>
-			<h2><?php echo _("Ring Group")?>: <?php  echo ltrim($extdisplay,'GRP-'); ?></h2>
-<?php 		if ($extdisplay){ ?>
-			<p><?php echo $delButton?></p>
-<?php 		} ?>
-			<form name="editGRP" action="<?php  $_SERVER['PHP_SELF'] ?>" method="post">
-			<input type="hidden" name="display" value="<?php echo $dispnum?>">
-			<input type="hidden" name="action" value="">
-			<table>
-			<tr><td colspan="2"><h5><?php  echo ($extdisplay ? _("Edit Ring Group") : _("Add Ring Group")) ?><hr></h5></td></tr>
-			<tr>
-<?php
-	if ($extdisplay) { 
+if ($action == 'delGRP') {
+	echo '<br><h3>'._("Ring Group").' '.$account.' '._("deleted").'!</h3><br><br><br><br><br><br><br><br>';
+} else {
+	if ($extdisplay) {
 		// We need to populate grplist with the existing extension list.
 		$thisgrp = ringgroups_get(ltrim($extdisplay,'GRP-'));
 		$grpliststr = $thisgrp['grplist'];
-		$grplist=explode("-", $grpliststr);
+		$grplist = explode("-", $grpliststr);
 		$strategy = $thisgrp['strategy'];
 		$grppre = $thisgrp['grppre'];
 		$grptime = $thisgrp['grptime'];
 		$goto = $thisgrp['postdest'];
 		$annmsg = $thisgrp['annmsg'];
+		unset($grpliststr);
+		unset($thisgrp);
+		
+		$delButton = "
+			<form name=delete action=\"{$_SERVER['PHP_SELF']}\" method=POST>
+				<input type=\"hidden\" name=\"display\" value=\"{$dispnum}\">
+				<input type=\"hidden\" name=\"account\" value=\"".ltrim($extdisplay,'GRP-')."\">
+				<input type=\"hidden\" name=\"action\" value=\"delGRP\">
+				<input type=submit value=\""._("Delete Group")."\">
+			</form>";
+			
+		echo "<h2>"._("Ring Group").": ".ltrim($extdisplay,'GRP-')."</h2>";
+		echo "<p>".$delButton."</p>";
+	} else {
+		$grplist = explode("-", '');;
+		$strategy = '';
+		$grppre = '';
+		$grptime = '';
+		$goto = '';
+		$annmsg = '';
+
+		echo "<h2>"._("Add Ring Group")."</h2>";
+	}
+	?>
+			<form name="editGRP" action="<?php  $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return checkGRP(editGRP);">
+			<input type="hidden" name="display" value="<?php echo $dispnum?>">
+			<input type="hidden" name="action" value="<?php echo ($extdisplay ? 'edtGRP' : 'addGRP'); ?>">
+			<table>
+			<tr><td colspan="2"><h5><?php  echo ($extdisplay ? _("Edit Ring Group") : _("Add Ring Group")) ?><hr></h5></td></tr>
+			<tr>
+<?php
+	if ($extdisplay) { 
 
 ?>
 				<input size="5" type="hidden" name="account" value="<?php  echo ltrim($extdisplay,'GRP-'); ?>">
@@ -234,7 +231,7 @@ echo drawselects($goto,0);
 ?>
 			
 			<tr>
-			<td colspan="2"><br><h6><input name="Submit" type="button" value="Submit Changes" onclick="checkGRP(editGRP, <?php  echo ($extdisplay ? "'edtGRP'" : "'addGRP'") ?>);"></h6></td>		
+			<td colspan="2"><br><h6><input name="Submit" type="submit" value="Submit Changes"></h6></td>		
 			
 			</tr>
 			</table>
@@ -244,8 +241,38 @@ echo drawselects($goto,0);
 		
 
 ?>
+<script language="javascript">
+<!--
 
+function checkGRP(theForm) {
+	// set up the Destination stuff
+	setDestinations(theForm, 1);
 
+	// form validation
+	defaultEmptyOK = false;
+	if (!isInteger(theForm.account.value)) {
+		return warnInvalid(theForm.account, "Invalid Group Number specified");
+	} else if (theForm.account.value.indexOf('0') == 0 && theForm.account.value.length > 1) {
+		return warnInvalid(theForm.account, "Group numbers with more than one digit cannot begin with 0");
+	}
+	
+	defaultEmptyOK = false;	
+	if (isEmpty(theForm.grplist.value))
+		return warnInvalid(theForm.grplist, "Please enter an extension list.");
 
+	defaultEmptyOK = true;
+	if (!isPrefix(theForm.grppre.value))
+		return warnInvalid(theForm.grppre, "Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -");
+	
+	defaultEmptyOK = false;
+	if (!isInteger(theForm.grptime.value))
+		return warnInvalid(theForm.grptime, "Invalid time specified");
 
+	if (!validateDestinations(theForm, 1, true))
+		return false;
+		
+	return true;
+}
+-->
+</script>
 
