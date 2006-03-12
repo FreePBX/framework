@@ -24,15 +24,30 @@ $display='recordings';
 switch($action) {
 	default:
 ?>
-<h4><?php echo _("Your User/Extension")?></h4>
-<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+<h2><?php echo _("System Recordings")?></h2>
+<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return prompt_onsubmit();">
         <input type="hidden" name="action" value="recordings_start">
         <input type="hidden" name="display" value="<?php echo $display?>">
-        <?php echo _("This Digital Receptionist wizard asks you to record and playback a greeting using your phone.")?><br><br>
+        <?php echo _("You can use your extension to record and playback a System Recording.")?><br><br>
         <?php echo _("Please enter your user/extension number:")?>
         <input type="text" size="6" name="cidnum"><br>
         <h6><input name="Submit" type="submit" value="Continue"></h6><br><br><br><br><br><br>
-</form>
+<script language="javascript">
+<!--
+var theForm = document.prompt;
+theForm.cidnum.focus();
+function prompt_onsubmit() {
+	var theForm = document.prompt;
+	
+	defaultEmptyOK = false;
+	if (!isInteger(theForm.cidnum.value))
+		return warnInvalid(theForm.cidnum, "Please enter your user/extension number:");
+		
+	return true;
+}
+-->
+</script>
+	</form>
 
 <?php
         break;
@@ -40,12 +55,12 @@ switch($action) {
 		$rname=strtr($rname," ", "_"); /* remove any spaces from the name to ensure a happy playground */
 		//rename = move in php.  This ensures that someone trying to dial *99 will not hear old recordings.
 		rename('/var/lib/asterisk/sounds/'.$_REQUEST['cidnum'].'ivrrecording.wav','/var/lib/asterisk/sounds/custom/'.$rname.'.wav');
-		echo _("Recording").$prompt._("Saved");
+		echo '<br><h3>'._("System Recording").' "'.$rname.'" '._("Saved").'!</h3>';
 
 	break;
 	case 'delete':
 		unlink('/var/lib/asterisk/sounds/custom/'.$prompt.'.wav');
-		echo _("Recording").$prompt._("Deleted");
+		echo '<br><h3>'._("System Recording").' "'.$prompt.'" '._("Deleted").'!</h3>';
 	break;
         case 'recordings_start':
 ?>
@@ -68,7 +83,13 @@ if (isset($tresults)){
 </div>
 
 <div class="content">
-<h4><?php echo _("Recording")?>: <?php echo $prompt ?></h4>
+<?php
+if ($prompt) {
+	echo "<h2>"._("Recording").": ".$prompt."</h2>";
+} else {
+	echo "<h2>"._("Add Recording")."</h2>";
+}
+?>
 <?php
 	//if we are trying to edit - let's be nice and give them the recording back
 	if (isset($_REQUEST['recording_action']) && $_REQUEST['recording_action'] == 'edit'){
@@ -103,7 +124,7 @@ if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']
 }
 ?>
 </p>
-<form name="prompt" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+<form name="prompt" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return rec_onsubmit();">
 <input type="hidden" name="action" value="recorded">
 <input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 <input type="hidden" name="promptnum" value="<?php echo $promptnum?>">
@@ -123,7 +144,16 @@ if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']
 </tr>
 </table>
 <h6><?php echo _('Click "SAVE" when you are satisfied with your recording')?><input name="Submit" type="submit" value="Save"></h6>
-
+<script language="javascript">
+<!--
+var theForm = document.prompt;
+function rec_onsubmit() {
+	defaultEmptyOK = false;
+	if (!isAlphanumeric(theForm.rname.value))
+		return warnInvalid(theForm.rname, "Please enter a valid Name for this System Recording");
+}
+-->
+</script>
 </form>
 
 <?php
