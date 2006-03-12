@@ -1,4 +1,4 @@
-<?php /* $id$ */
+<?php /* $id:$ */
 // The destinations this module provides
 // returns a associative arrays with keys 'destination' and 'description'
 function queues_destinations() {
@@ -84,7 +84,7 @@ function queues_timeString($seconds, $full = false) {
 This module needs to be updated to use it's own database table and not the extensions table
 */
 
-function queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce) {
+function queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce,$maxwait) {
 	global $db;
 	
 	//add to extensions table
@@ -101,7 +101,7 @@ function queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$membe
 	legacy_extensions_add($addarray);
 	$addarray = array('ext-queues',$account,'4','Playback','custom/'.$joinannounce,'','0');
 	legacy_extensions_add($addarray);
-	$addarray = array('ext-queues',$account,'5','Queue',$account.'|t||'.$agentannounce.'|'.$_REQUEST['maxwait'],$name,'0');
+	$addarray = array('ext-queues',$account,'5','Queue',$account.'|t||'.$agentannounce.'|'.$maxwait,$name,'0');
 	legacy_extensions_add($addarray);
 	$addarray = array('ext-queues',$account.'*','1','Macro','agent-add,'.$account.','.$password,'','0');
 	legacy_extensions_add($addarray);

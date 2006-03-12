@@ -389,7 +389,12 @@ class ext_queue {
 	}
 	
 	function output() {
-		return "Queue(".$this->queuename."|".$this->options."|".$this->optionalurl."|".$this->announceoverride."|".$this->timeout.")";
+		// for some reason the Queue cmd takes an empty last param (timeout) as being 0
+		// when really we want unlimited
+		if ($this->timeout != "")
+			return "Queue(".$this->queuename."|".$this->options."|".$this->optionalurl."|".$this->announceoverride."|".$this->timeout.")";
+		else
+			return "Queue(".$this->queuename."|".$this->options."|".$this->optionalurl."|".$this->announceoverride.")";
 	}
 }
 

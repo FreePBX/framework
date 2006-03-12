@@ -23,6 +23,7 @@ isset($_REQUEST['password'])?$password = $_REQUEST['password']:$password='';
 isset($_REQUEST['agentannounce'])?$agentannounce = $_REQUEST['agentannounce']:$agentannounce='';
 isset($_REQUEST['prefix'])?$prefix = $_REQUEST['prefix']:$prefix='';
 isset($_REQUEST['joinannounce'])?$joinannounce = $_REQUEST['joinannounce']:$joinannounce='';
+$maxwait = (isset($_REQUEST['maxwait']) ? $_REQUEST['maxwait'] : '');
 
 if (isset($_REQUEST['goto0']) && isset($_REQUEST[$_REQUEST['goto0']."0"])) {
 	$goto = $_REQUEST[$_REQUEST['goto0']."0"];
@@ -74,7 +75,7 @@ if(isset($_POST['action'])){
 		//if submitting form, update database
 		switch ($action) {
 			case "add":
-				queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
+				queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce,$maxwait);
 				needreload();
 			break;
 			case "delete":
@@ -83,7 +84,7 @@ if(isset($_POST['action'])){
 			break;
 			case "edit":  //just delete and re-add
 				queues_del($account);
-				queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce);
+				queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$members,$joinannounce,$maxwait);
 				needreload();
 			break;
 		}
@@ -116,6 +117,7 @@ if ($action == 'delete') {
 	//get members in this queue
 	$thisQ = queues_get($extdisplay);
 	//create variables
+	unset($maxwait);
 	extract($thisQ);
 	
 	$delButton = "
@@ -211,7 +213,10 @@ if ($action == 'delete') {
 			<?php
 				$default = (isset($maxwait) ? $maxwait : 0);
 				for ($i=0; $i <= 1200; $i+=30) {
-					echo '<option value="'.$i.'" '.($i == $default ? 'SELECTED' : '').'>'.queues_timeString($i,true).'</option>';
+					if ($i == 0)
+						echo '<option value="">'._("Unlimited").'</option>';
+					else
+						echo '<option value="'.$i.'"'.($i == $maxwait ? ' SELECTED' : '').'>'.queues_timeString($i,true).'</option>';
 				}
 			?>		
 			</select>		
