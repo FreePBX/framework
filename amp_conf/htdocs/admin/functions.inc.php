@@ -162,6 +162,8 @@ function find_allmodules() {
 						$mod[ $file ]['version'] = $matches[2];
 					else if (trim($matches[1]) == "type")
 						$mod[ $file ]['type'] = $matches[2];
+					else if (trim($matches[1]) == "category")
+						$mod[ $file ]['category'] = $matches[2];
 					else 
 						$mod[ $file ]['items'][ $matches[1] ] = $matches[2];
 				}

@@ -110,11 +110,31 @@ if (isset($_POST['submit'])) { // if form has been submitted
 
 <table border="1" >
 <tr>
-	<th>Module</th><th>Version</th><th>Type</th><th>Status</th><th>Action</th>
+	<th>Module</th><th>Category</th><th>Version</th><th>Type</th><th>Status</th><th>Action</th>
 </tr>
 
 <?php
-foreach(find_allmodules() as $key => $mod) {
+$allmods = find_allmodules();
+foreach($allmods as $key => $mod) {
+	// sort the list in category / displayName order
+	// this is the only way i know how to do this...surely there is another way?
+	
+	// fields for sort
+	$displayName = isset($mod['displayName']) ? $mod['displayName'] : 'unknown';
+	$category = isset($mod['category']) ? $mod['category'] : 'unknown';	
+	// we want to sort on this so make it first in the new array
+	$newallmods[$key]['asort'] = $category.$displayName;
+
+	// copy the rest of the array
+	$newallmods[$key]['displayName'] = $displayName;
+	$newallmods[$key]['category'] = $category;
+	$newallmods[$key]['version'] = isset($mod['version']) ? $mod['version'] : 'unknown';
+	$newallmods[$key]['type'] = isset($mod['type']) ? $mod['type'] : 'unknown';
+	$newallmods[$key]['status'] = isset($mod['status']) ? $mod['status'] : 0;
+	
+	asort($newallmods);	
+}
+foreach($newallmods as $key => $mod) {
 	
 	//dynamicatlly create a form based on status
 	if ($mod['status'] == 0) {
@@ -156,10 +176,13 @@ foreach(find_allmodules() as $key => $mod) {
 	echo $mod['displayName'];
 	echo "</td>";
 	echo "<td>";
+	echo $mod['category'];
+	echo "</td>";
+	echo "<td>";
 	echo $mod['version'];
 	echo "</td>";
 	echo "<td>";
-	echo $mod['type'];
+	echo $mod['type']; 
 	echo "</td>";
 	echo "<td>";
 	echo $status;
