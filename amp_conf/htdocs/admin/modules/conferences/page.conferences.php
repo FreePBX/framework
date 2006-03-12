@@ -76,10 +76,14 @@ if ($action == 'delete') {
 	$delURL = $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delete';
 ?>
 
-	<h2><?php echo _("Conference:")." ". $extdisplay; ?></h2>
+	
 <?php		if ($extdisplay){ ?>
+	<h2><?php echo _("Conference:")." ". $extdisplay; ?></h2>
 	<p><a href="<?php echo $delURL ?>"><?php echo _("Delete Conference")?> <?php echo $extdisplay; ?></a></p>
-<?php		} ?>
+<?php		} else { ?>
+	<h2><?php echo _("Add Conference"); ?></h2>
+<?php		}
+?>
 	<form autocomplete="off" name="editMM" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return checkConf(editMM);">
 	<input type="hidden" name="display" value="<?php echo $dispnum?>">
 	<input type="hidden" name="action" value="<?php echo ($extdisplay ? 'edit' : 'add') ?>">
