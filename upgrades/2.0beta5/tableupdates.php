@@ -33,17 +33,6 @@ if (!DB::IsError($incomes)) { // no error...module installed
                 }
         }
 
-	// Add 'adddialopts' field
-	/* $sql = "SELECT adddialopts FROM incoming";
-	$incomeadddialopts = $db->getRow($sql, DB_FETCHMODE_ASSOC);
-	if(DB::IsError($incomeadddialopts)) { // error, new field doesn't exist
-		$sql = "ALTER TABLE incoming ADD adddialopts VARCHAR( 10 ) NULL";
-                $result = $db->query($sql);
-                if(DB::IsError($result)) {
-                        die($result->getDebugInfo());
-                }
-	} */
-
 }
 
 ?>
