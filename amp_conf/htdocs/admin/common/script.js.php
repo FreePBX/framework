@@ -90,55 +90,53 @@ function checkIncoming(theForm) {
 	}
 }
 
-function checkGRP(theForm,action) {
-	var bad = "false";
+//function checkGRP(theForm) {
+//	alert("start");
+	//var whichitem = 0;
+	//while (whichitem < theForm.goto_indicate0.length) {
+	//	if (theForm.goto_indicate0[whichitem].checked) {
+	//		theForm.goto0.value=theForm.goto_indicate0[whichitem].value;
+	//	}
+	//	whichitem++;
+	//}
 
-	var whichitem = 0;
-	while (whichitem < theForm.goto_indicate0.length) {
-		if (theForm.goto_indicate0[whichitem].checked) {
-			theForm.goto0.value=theForm.goto_indicate0[whichitem].value;
-		}
-		whichitem++;
-	}
-
-	var gotoType = theForm.elements[ "goto0" ].value;
-	if (gotoType == 'custom') {
-		var gotoVal = theForm.elements[ "custom0"].value;
-		if (gotoVal.indexOf('custom') == -1) {
-			bad = "true";
-			<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
-		}
-	}
+	//var gotoType = theForm.elements[ "goto0" ].value;
+	//if (gotoType == 'custom') {
+	//	var gotoVal = theForm.elements[ "custom0"].value;
+	//	if (gotoVal.indexOf('custom') == -1) {
+	//		<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
+	//		return false;
+	//	}
+	//}
 	
-	$grplist = theForm.grplist.value;
-	if ($grplist == "") {
-		<?php echo "alert('"._("Please enter an extension list.")."')"?>;
-		bad="true";
-	} 
+	//if (isEmpty(theForm.grplist.value))
+	//	return warnInvalid(theForm.grplist, "Please enter an extension list.");
 	
-	$account = theForm.account.value;
-	if (($account.indexOf('0') == 0) && ($account.length > 1)) {
-		<?php echo "alert('"._("Group numbers with more than one digit cannot begin with 0")."')"?>;
-		bad="true";
-	}
+	//$account = theForm.account.value;
+	//if (($account.indexOf('0') == 0) && ($account.length > 1)) {
+	//	<?php echo "alert('"._("Group numbers with more than one digit cannot begin with 0")."')"?>;
+	//	bad="true";
+	//}
 	
-	$grppre = theForm.grppre.value;
-	if (!$grppre.match('^[a-zA-Z0-9:_\-]*$')) {
-		<?php echo "alert('"._("Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -")."')"?>;
-		bad = "true";
-	}
+	//$grppre = theForm.grppre.value;
+	//if (!$grppre.match('^[a-zA-Z0-9:_\-]*$')) {
+	//	<?php echo "alert('"._("Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -")."')"?>;
+	//	bad = "true";
+	//}
 	
-	$grptime = theForm.grptime.value;
-	if (!$grptime.match('^[1-9][0-9]*$')) {
-		<?php echo "alert('"._("Invalid time specified")."')"?>;
-		bad = "true";
-	}
+	//$grptime = theForm.grptime.value;
+	//if (!$grptime.match('^[1-9][0-9]*$')) {
+	//	<?php echo "alert('"._("Invalid time specified")."')"?>;
+	//	bad = "true";
+	//}
 	
-	if (bad == "false") {
-		theForm.action.value = action;
-		theForm.submit();
-	}
-}
+	//if (bad == "false") {
+	//	theForm.action.value = action;
+	//	theForm.submit(); 
+	//}
+	
+//	return true;
+//}
 
 function checkQ(theForm) {
         $queuename = theForm.name.value;
@@ -396,6 +394,47 @@ function setDestinations(theForm,numForms) {
 	}
 }
 
+//call this function to validate all your destinations
+//numForms is the number of destinatino forms to process (usually 1)
+//bRequired true|false if user must select something
+function validateDestinations(theForm,numForms,bRequired) {
+	var valid = true;
+
+	for (var formNum = 0; formNum < numForms && valid == true; formNum++) {
+		valid = validateSingleDestination(theForm,formNum,bRequired);
+	}
+	
+	return valid;
+}
+
+//this is called from validateDestinations to check each set
+//you can call this directly if you have multiple sets and only
+//require one to be selected, for example.
+//formNum is the set number (0 indexed)
+//bRequired true|false if user must select something
+function validateSingleDestination(theForm,formNum,bRequired) {
+	var gotoType = theForm.elements[ 'goto'+formNum ].value;
+	
+	if (bRequired && gotoType == '') {
+		alert('<?php echo _("Please select a \"Destination\""); ?>');
+		return false;
+	} else {
+		// check the 'custom' goto, if selected
+		if (gotoType == 'custom') {
+			var gotoFld = theForm.elements[ 'custom'+formNum ];
+			var gotoVal = gotoFld.value;
+			if (gotoVal.indexOf('custom-') == -1) {
+				alert('<?php echo _("Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"); ?>');
+				gotoFld.focus();
+				return false;
+			}
+		}
+	}
+	
+	return true;
+}
+
+
 //this will hide or show all the <select> elements on a page
 function hideSelects(b)
 {
@@ -473,4 +512,296 @@ function checkConf(theForm)
 	return true;
 }
 
+// Various form checking helper functions -- very useful
+var whitespace = " \t\n\r";
+var decimalPointDelimiter = ".";
+var defaultEmptyOK = false;
+
+function isEmail (s) {
+	if (isEmpty(s)) 
+       if (isEmail.arguments.length == 1) return defaultEmptyOK;
+       else return (isEmail.arguments[1] == true);
+    // is s whitespace?
+    if (isWhitespace(s)) return false;
+    // there must be >= 1 character before @, so we
+    // start looking at character position 1 
+    // (i.e. second character)
+    var i = 1;
+    var sLength = s.length;
+    // look for @
+    while ((i < sLength) && (s.charAt(i) != "@")) {
+		i++;
+    }
+
+    if ((i >= sLength) || (s.charAt(i) != "@")) return false;
+    else i += 2;
+
+    // look for .
+    while ((i < sLength) && (s.charAt(i) != ".")) {
+		i++;
+    }
+    // there must be at least one character after the .
+    if ((i >= sLength - 1) || (s.charAt(i) != ".")) return false;
+    else return true;
+}
+
+function isAlphabetic (s) {
+	var i;
+    if (isEmpty(s)) 
+       if (isAlphabetic.arguments.length == 1) return defaultEmptyOK;
+       else return (isAlphabetic.arguments[1] == true);
+    // Search through string's characters one by one
+    // until we find a non-alphabetic character.
+    // When we do, return false; if we don't, return true.
+    for (i = 0; i < s.length; i++) {   
+        // Check that current character is letter.
+        var c = s.charAt(i);
+
+        if (!isLetter(c))
+        return false;
+    }
+    // All characters are letters.
+    return true;
+}
+
+function isAlphanumeric (s) {
+	var i;
+    if (isEmpty(s)) 
+       if (isAlphanumeric.arguments.length == 1) return defaultEmptyOK;
+       else return (isAlphanumeric.arguments[1] == true);
+    // Search through string's characters one by one
+    // until we find a non-alphanumeric character.
+    // When we do, return false; if we don't, return true.
+    for (i = 0; i < s.length; i++) {   
+        // Check that current character is number or letter.
+        var c = s.charAt(i);
+        if (! (isLetter(c) || isDigit(c) ) )
+        return false;
+    }
+    // All characters are numbers or letters.
+    return true;
+}
+
+function isPrefix (s) {
+	var i;
+    if (isEmpty(s)) 
+       if (isPrefix.arguments.length == 1) return defaultEmptyOK;
+       else return (isPrefix.arguments[1] == true);
+    // Search through string's characters one by one
+    // until we find a non-prefix character.
+    // When we do, return false; if we don't, return true.
+    for (i = 0; i < s.length; i++) {   
+        // Check that current character is number or letter.
+        var c = s.charAt(i);
+        if (! (isPrefixChar(c) ) )
+        return false;
+    }
+    // All characters are numbers or letters.
+    return true;
+}
+
+function isAddress (s) {
+	var i;
+    if (isEmpty(s)) 
+       if (isAddress.arguments.length == 1) return defaultEmptyOK;
+       else return (isAddress.arguments[1] == true);
+    // Search through string's characters one by one
+    // until we find a non-alphanumeric character.
+    // When we do, return false; if we don't, return true.
+    for (i = 0; i < s.length; i++) {   
+        // Check that current character is number or letter.
+        var c = s.charAt(i);
+        if (! (isAddrLetter(c) || isDigit(c) ) )
+        return false;
+    }
+    // All characters are numbers or letters.
+    return true;
+}
+
+function isPhone (s) {
+	var i;
+    if (isEmpty(s)) 
+       if (isPhone.arguments.length == 1) return defaultEmptyOK;
+       else return (isPhone.arguments[1] == true);
+    // Search through string's characters one by one
+    // until we find a non-alphanumeric character.
+    // When we do, return false; if we don't, return true.
+    for (i = 0; i < s.length; i++) {   
+        // Check that current character is number or letter.
+        var c = s.charAt(i);
+        if (!isPhoneDigit(c))
+        return false;
+    }
+    // All characters are numbers or letters.
+    return true;
+}
+
+function isURL (s) {
+	var i;
+    if (isEmpty(s)) 
+       if (isURL.arguments.length == 1) return defaultEmptyOK;
+       else return (isURL.arguments[1] == true);
+    // Search through string's characters one by one
+    // until we find a non-alphanumeric character.
+    // When we do, return false; if we don't, return true.
+    for (i = 0; i < s.length; i++) {   
+        // Check that current character is number or letter.
+        var c = s.charAt(i);
+        if (! (isURLLetter(c) || isDigit(c) ) )
+        return false;
+    }
+    // All characters are numbers or letters.
+    return true;
+}
+function isInteger (s)
+
+{   var i;
+
+    if (isEmpty(s)) 
+       if (isInteger.arguments.length == 1) return defaultEmptyOK;
+       else return (isInteger.arguments[1] == true);
+
+    // Search through string's characters one by one
+    // until we find a non-numeric character.
+    // When we do, return false; if we don't, return true.
+
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character is number.
+        var c = s.charAt(i);
+
+        if (!isDigit(c)) return false;
+    }
+
+    // All characters are numbers.
+    return true;
+}
+
+function isFloat (s) {
+	var i;
+    var seenDecimalPoint = false;
+
+    if (isEmpty(s)) 
+       if (isFloat.arguments.length == 1) return defaultEmptyOK;
+       else return (isFloat.arguments[1] == true);
+
+    if (s == decimalPointDelimiter) return false;
+
+    // Search through string's characters one by one
+    // until we find a non-numeric character.
+    // When we do, return false; if we don't, return true.
+
+    for (i = 0; i < s.length; i++) {   
+        // Check that current character is number.
+        var c = s.charAt(i);
+
+        if ((c == decimalPointDelimiter) && !seenDecimalPoint) seenDecimalPoint = true;
+        else if (!isDigit(c)) return false;
+    }
+
+    // All characters are numbers.
+    return true;
+}
+
+function checkNumber(object_value) {
+    
+    if (object_value.length == 0)
+        return true;
+
+	var start_format = " .+-0123456789";
+	var number_format = " .0123456789";
+	var check_char;
+	var decimal = false;
+	var trailing_blank = false;
+	var digits = false;
+
+	check_char = start_format.indexOf(object_value.charAt(0))
+	if (check_char == 1)
+	    decimal = true;
+	else if (check_char < 1)
+		return false;
+        
+	for (var i = 1; i < object_value.length; i++)
+	{
+		check_char = number_format.indexOf(object_value.charAt(i))
+		if (check_char < 0)
+			return false;
+		else if (check_char == 1)
+		{
+			if (decimal)
+				return false;
+			else
+				decimal = true;
+		}
+		else if (check_char == 0)
+		{
+			if (decimal || digits)	
+				trailing_blank = true;
+		}
+	    else if (trailing_blank)
+			return false;
+		else
+			digits = true;
+	}	
+
+    return true
+ }
+
+
+function isWhitespace (s)
+
+{   var i;
+
+    // Is s empty?
+    if (isEmpty(s)) return true;
+
+    // Search through string's characters one by one
+    // until we find a non-whitespace character.
+    // When we do, return false; if we don't, return true.
+
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+
+        if (whitespace.indexOf(c) == -1) return false;
+    }
+
+    // All characters are whitespace.
+    return true;
+}
+function isEmpty(s)
+{   return ((s == null) || (s.length == 0));
+}
+
+function isLetter (c)
+{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == " ") || (c == "&") || (c == "'") || (c == "(") || (c == ")") || (c == "-") || (c == "/"))
+}
+
+function isAddrLetter (c)
+{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == " ") || (c == "&") || (c == ",") || (c == ".") || (c == "(") || (c == ")") || (c == "-") || (c == "'") || (c == "/") )
+}
+
+function isURLLetter (c)
+{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == ":") || (c == ",") || (c == ".") || (c == "%") || (c == "#") || (c == "-") || (c == "/") || (c == "?") || (c == "&") || (c == "=") )
+}
+
+function isDigit (c)
+{   return ((c >= "0") && (c <= "9"))
+}
+
+function isPhoneDigit (c)
+{   return ( ((c >= "0") && (c <= "9")) || (c == " ") || (c == "-") || (c == "(") || (c == ")") ) 
+}
+
+function isPrefixChar (c)
+{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == ":") || (c == "_") || (c == "-") )
+}
+
+function warnInvalid (theField, s) {
+    theField.focus();
+    theField.select();
+    alert(<?php echo _(s); ?>);
+    return false;
+}
 
