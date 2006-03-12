@@ -7,7 +7,7 @@ function recordings_list($path) {
 	if (is_dir($path)){
 		if ($handle = opendir($path)){
 			while (false !== ($file = readdir($handle))){ 
-				if (($file != ".") && ($file != "..") && ($file != "CVS") && (strpos($file, "aa_") === FALSE)    ) 
+				if (($file != ".") && ($file != "..") && ($file != "CVS") && ($file != ".svn") && (strpos($file, "aa_") === FALSE)    ) 
 				{
 					$file_parts=explode(".",$file);
 					$filearray[($i++)] = $file_parts[0];
