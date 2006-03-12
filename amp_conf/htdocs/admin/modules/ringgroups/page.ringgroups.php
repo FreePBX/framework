@@ -265,8 +265,13 @@ function checkGRP(theForm) {
 		return warnInvalid(theForm.grppre, "Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -");
 	
 	defaultEmptyOK = false;
-	if (!isInteger(theForm.grptime.value))
+	if (!isInteger(theForm.grptime.value)) {
 		return warnInvalid(theForm.grptime, "Invalid time specified");
+	} else {
+		var grptimeVal = theForm.grptime.value;
+		if (grptimeVal < 1 || grptimeVal > 60)
+			return warnInvalid(theForm.grptime, "Time must be between 1 and 60 seconds");
+	}
 
 	if (!validateDestinations(theForm, 1, true))
 		return false;
