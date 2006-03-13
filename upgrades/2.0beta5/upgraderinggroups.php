@@ -26,10 +26,11 @@ if (is_array($ringlist)) {
 	foreach($ringlist as $item) {
 		$ctr += 1;
 		
-		$exten = ringgroups_get(ltrim($item['0']), $strategy,  $grptime, $grppre, $grplist);		
-		outn("     upgrading GRP-".$exten."... ");
+		$grpnum = ltrim($item['0']);
+		outn("     upgrading GRP-".$grpnum."... ");
 
-		$goto = legacy_args_get(ltrim($item['0']),2,'ext-group');
+		$exten = ringgroups_get($grpnum, $strategy,  $grptime, $grppre, $grplist);		
+		$goto = legacy_args_get($grpnum,2,'ext-group');
 		
 		// write new record
 		$sql = "INSERT INTO ringgroups (grpnum, strategy, grptime, grppre, grplist, postdest) ";
