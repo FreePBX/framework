@@ -167,7 +167,7 @@ function process_mohfile($mohfile)
 if ($action == 'add')
 {
 	?>
-	<form name="addcategory" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+	<form name="addcategory" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return addcategory_onsubmit();">
 	<input type="hidden" name="display" value="<?php echo $display?>">
 	<input type="hidden" name="action" value="addednew">
 	<table>
@@ -179,7 +179,25 @@ if ($action == 'add')
 	<tr>
 		<td colspan="2"><br><h6><input name="Submit" type="submit" value='<?php echo _("Submit Changes")?>' ></h6></td>		
 	</tr>
-	</table></form>
+	</table>
+<script language="javascript">
+<!--
+
+var theForm = document.addcategory;
+theForm.category.focus();
+
+function addcategory_onsubmit() {
+	defaultEmptyOK = false;
+	if (!isAlphanumeric(theForm.category.value))
+		return warnInvalid(theForm.category, "Please enter a valid Category Name");
+	
+	return true;
+}
+
+-->
+</script>
+
+	</form>
 	<br><br><br><br><br>
 
 <?php
