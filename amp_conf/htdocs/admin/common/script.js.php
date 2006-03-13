@@ -90,54 +90,6 @@ function checkIncoming(theForm) {
 	}
 }
 
-//function checkGRP(theForm) {
-//	alert("start");
-	//var whichitem = 0;
-	//while (whichitem < theForm.goto_indicate0.length) {
-	//	if (theForm.goto_indicate0[whichitem].checked) {
-	//		theForm.goto0.value=theForm.goto_indicate0[whichitem].value;
-	//	}
-	//	whichitem++;
-	//}
-
-	//var gotoType = theForm.elements[ "goto0" ].value;
-	//if (gotoType == 'custom') {
-	//	var gotoVal = theForm.elements[ "custom0"].value;
-	//	if (gotoVal.indexOf('custom') == -1) {
-	//		<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
-	//		return false;
-	//	}
-	//}
-	
-	//if (isEmpty(theForm.grplist.value))
-	//	return warnInvalid(theForm.grplist, "Please enter an extension list.");
-	
-	//$account = theForm.account.value;
-	//if (($account.indexOf('0') == 0) && ($account.length > 1)) {
-	//	<?php echo "alert('"._("Group numbers with more than one digit cannot begin with 0")."')"?>;
-	//	bad="true";
-	//}
-	
-	//$grppre = theForm.grppre.value;
-	//if (!$grppre.match('^[a-zA-Z0-9:_\-]*$')) {
-	//	<?php echo "alert('"._("Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -")."')"?>;
-	//	bad = "true";
-	//}
-	
-	//$grptime = theForm.grptime.value;
-	//if (!$grptime.match('^[1-9][0-9]*$')) {
-	//	<?php echo "alert('"._("Invalid time specified")."')"?>;
-	//	bad = "true";
-	//}
-	
-	//if (bad == "false") {
-	//	theForm.action.value = action;
-	//	theForm.submit(); 
-	//}
-	
-//	return true;
-//}
-
 function checkQ(theForm) {
         $queuename = theForm.name.value;
         var bad = "false";
@@ -477,39 +429,6 @@ function setAllInfoToHideSelects()
                       }
               }
       }
-}
-
-function checkConf(theForm)
-{
-	if (theForm.account.value == "")
-	{
-		<?php echo "alert('" . _("Please enter the Conference Number.") . "')" ?>;
-		return false;
-	}
-	
-	// update $options
-	var theOptionsFld = theForm.options;
-	theOptionsFld.value = "";
-	for (var i = 0; i < theForm.elements.length; i++)
-	{
-		var theEle = theForm.elements[i];
-		var theEleName = theEle.name;
-		if (theEleName.indexOf("#") > 1)
-		{
-			var arr = theEleName.split("#");
-			if (arr[0] == "opt")
-				theOptionsFld.value += theEle.value;
-		}
-	}
-
-	// not possible to have a 'leader' conference with no adminpin
-	if (theForm.options.value.indexOf("w") > -1 && theForm.adminpin.value == "")
-	{
-		<?php echo "alert('" . _("You must set an admin PIN for the Conference Leader when selecting the leader wait option.") . "')" ?>;
-		return false;
-	}
-		
-	return true;
 }
 
 // Various form checking helper functions -- very useful

@@ -84,7 +84,7 @@ if ($action == 'delete') {
 	<h2><?php echo _("Add Conference"); ?></h2>
 <?php		}
 ?>
-	<form autocomplete="off" name="editMM" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return checkConf(editMM);">
+	<form autocomplete="off" name="editMM" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return checkConf();">
 	<input type="hidden" name="display" value="<?php echo $dispnum?>">
 	<input type="hidden" name="action" value="<?php echo ($extdisplay ? 'edit' : 'add') ?>">
 	<table>
@@ -224,6 +224,49 @@ if ($action == 'delete') {
 		<td colspan="2"><br><h6><input name="Submit" type="submit" value="<?php echo _("Submit Changes")?>"></h6></td>		
 	</tr>
 	</table>
+<script language="javascript">
+<!--
+var theForm = document.editMM;
+
+if (theForm.account.value == "") {
+	theForm.account.focus();
+} else {
+	theForm.name.focus();
+}
+
+function checkConf()
+{
+	defaultEmptyOK = false;
+	if (!isInteger(theForm.account.value))
+		return warnInvalid(theForm.account, "Please enter a valid Conference Number");
+		
+	if (!isAlphanumeric(theForm.name.value))
+		return warnInvalid(theForm.name, "Please enter a valid Conference Name");
+		
+	// update $options
+	var theOptionsFld = theForm.options;
+	theOptionsFld.value = "";
+	for (var i = 0; i < theForm.elements.length; i++)
+	{
+		var theEle = theForm.elements[i];
+		var theEleName = theEle.name;
+		if (theEleName.indexOf("#") > 1)
+		{
+			var arr = theEleName.split("#");
+			if (arr[0] == "opt")
+				theOptionsFld.value += theEle.value;
+		}
+	}
+
+	// not possible to have a 'leader' conference with no adminpin
+	if (theForm.options.value.indexOf("w") > -1 && theForm.adminpin.value == "")
+		return warnInvalid(theForm.adminpin, "You must set an admin PIN for the Conference Leader when selecting the leader wait option");
+		
+	return true;
+}
+
+-->
+</script>
 	</form>
 <?php		
 } //end if action == delGRP
