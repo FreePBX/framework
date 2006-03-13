@@ -29,8 +29,8 @@ if (isset($_REQUEST['clk_reload'])) {
 	{
 		echo "
 			<style>
-				.clsWait        { position: absolute; top:75px; left: 100; width: 700px; text-align:center; border: red solid 1px; background:#f0d0d0; display: block; font-weight: bold }
-				.clsWaitFinishOK{ position: absolute; top:75px; left: 100; width: 700px; text-align:center; border: blue solid 1px; background:#d0d0f0; display: block; }
+				.clsWait        { position: absolute; top:75px; left: 15%; width: 70%; text-align:center; border: red solid 1px; background:#f0d0d0; display: block; font-weight: bold }
+				.clsWaitFinishOK{ position: absolute; top:75px; left: 15%; width: 70%; text-align:center; border: blue solid 1px; background:#d0d0f0; display: block; }
 				.clsHidden      { display: none }
 			</style>
 		";
