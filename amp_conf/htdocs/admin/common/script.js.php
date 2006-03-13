@@ -519,6 +519,24 @@ function isPrefix (s) {
     return true;
 }
 
+function isCallerID (s) {
+	var i;
+    if (isEmpty(s)) 
+       if (isCallerID.arguments.length == 1) return defaultEmptyOK;
+       else return (isCallerID.arguments[1] == true);
+    // Search through string's characters one by one
+    // until we find a non-prefix character.
+    // When we do, return false; if we don't, return true.
+    for (i = 0; i < s.length; i++) {   
+        // Check that current character is number or letter.
+        var c = s.charAt(i);
+        if (! (isCallerIDChar(c) ) )
+        return false;
+    }
+    // All characters are numbers or letters.
+    return true;
+}
+
 function isAddress (s) {
 	var i;
     if (isEmpty(s)) 
@@ -715,6 +733,10 @@ function isPhoneDigit (c)
 
 function isPrefixChar (c)
 {   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || ((c >= "0") && (c <= "9")) || (c == ":") || (c == "_") || (c == "-") )
+}
+
+function isCallerIDChar (c)
+{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || ((c >= "0") && (c <= "9")) || (c == "<") || (c == ">") || (c == " ") || (c == "\"") )
 }
 
 function warnInvalid (theField, s) {
