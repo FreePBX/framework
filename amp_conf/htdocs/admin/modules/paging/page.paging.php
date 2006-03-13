@@ -73,7 +73,7 @@ function paging_show($xtn, $display, $type) {
 	} else {
 		$rows = 5;
 	}
-	echo "<form name='page_edit' action='".$_SERVER['PHP_SELF']."' method='post'>\n";
+	echo "<form name='page_edit' action='".$_SERVER['PHP_SELF']."' method='post' onsubmit='return page_edit_onsubmit();'>\n";
 	echo "<input type='hidden' name='display' value='${display}'>\n";
 	echo "<input type='hidden' name='type' value='${type}'>\n";
 	echo "<input type='hidden' name='action' value='submit'>\n";
@@ -93,6 +93,24 @@ function paging_show($xtn, $display, $type) {
 	<td colspan="2"><br><h6><input type="submit" name="Submit" type="button" value="Submit Changes"></h6></td>
 	</tr>
 	</table>
+<script language="javascript">
+<!--
+var theForm = document.page_edit;
+theForm.pagenbr.focus();
+
+function page_edit_onsubmit() {
+	defaultEmptyOK = false;
+	if (!isInteger(theForm.pagenbr.value))
+		return warnInvalid(theForm.pagenbr, "Please enter a valid Paging Extension");
+	
+	if (isEmpty(theForm.xtnlist.value) || isWhitespace(theForm.xtnlist.value))
+		return warnInvalid(theForm.xtnlist, "Please enter the Extension List details");
+		
+	return true;
+}
+
+-->
+</script>
 	</form>
 <?php
 }
