@@ -114,7 +114,7 @@ switch($action) {
 	case 'ivr_start':
 ?>
 
-<h4>Record Menu: <?php echo $mname?></h4>
+<h4><?php echo _("Record Menu")?>: <?php echo $mname?></h4>
 <?php
 	//if we are trying to edit - let's be nice and give them the recording back
 	if (isset($_REQUEST['ivr_action']) && $_REQUEST['ivr_action'] == 'edit'){
@@ -135,7 +135,7 @@ switch($action) {
 		<input type="hidden" name="action" value="ivr_start">
 		<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 		<input type="file" name="ivrfile"/>
-		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('<?php echo _("Please wait until the page reloads.")?>');"/>
+		<input type="button" value="<?php echo _("Upload")?>" onclick="document.upload.submit(upload);alert('<?php echo _("Please wait until the page reloads.")?>');"/>
 	</form>
 <?php
 if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
@@ -200,7 +200,7 @@ if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']
 	break;
 	case 'ivr_recorded':
 ?>
-<h4>Options for Menu: <?php echo $_REQUEST['mname']; ?></h4>
+<h4><?php echo _("Options for Menu:")?> <?php echo $_REQUEST['mname']; ?></h4>
 <form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 <input type="hidden" name="action" value="ivr_options_yes_num"/>
 <input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
@@ -217,7 +217,7 @@ $uservm = getVoicemail();
 $vmcontexts = array_keys($uservm);
 echo 'ctx:'.$dircontext;
 foreach ($vmcontexts as $vmcontext) {
-	echo '<option value="'.$vmcontext.'" '.(strpos($dircontext,$vmcontext) === false ? '' : 'SELECTED').'>'.($vmcontext=='general' ? 'Entire Directory' : $vmcontext);
+	echo '<option value="'.$vmcontext.'" '.(strpos($dircontext,$vmcontext) === false ? '' : 'SELECTED').'>'.($vmcontext=='general' ? _("Entire Directory") : _($vmcontext));
 }
 ?>
 </select>
@@ -226,7 +226,7 @@ foreach ($vmcontexts as $vmcontext) {
 <?php echo _("Aside from local extensions and the pound key (#), how many other options should callers be able to dial during the playback of this menu prompt?")?><br>
 <br><?php echo _("Number of options for Menu:")?> <?php echo $_REQUEST['mname']; ?><input size="2" type="text" name="ivr_num_options" value="<?php echo $optioncount ?>">
 </p>
-<h6><input name="Submit" type="submit" value="Continue"></h6>
+<h6><input name="Submit" type="submit" value="<?php echo _("Continue")?>"></h6>
 </form>
 
 

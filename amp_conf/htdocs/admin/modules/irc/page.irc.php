@@ -36,10 +36,9 @@ switch ($action) {
 	$vers=getversion();
 ?>
 
-<p>When you connect, you will be automatically be named 'FreePBX' 
-and a random 4 digit number, eg, FreePBX3486. If you wish to change this to
-your normal nickname, you can type '<b>/nick yournickname</b>', and your nick
-will change. This is an ENGLISH ONLY support channel. Sorry.</p>
+<p>
+<?php echo _("When you connect, you will be automatically be named 'FreePBX' and a random 4 digit number, eg, FreePBX3486. If you wish to change this to your normal nickname, you can type '<b>/nick yournickname</b>', and your nick will change. This is an ENGLISH ONLY support channel. Sorry.")?>
+</p>
 
 <applet name=PJirc codebase=modules/irc/pjirc/ code=IRCApplet.class archive="irc.jar,pixx.jar" width=640 height=400>
 <param name="CABINETS" value="irc.cab,securedirc.cab,pixx.cab">

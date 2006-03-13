@@ -106,11 +106,11 @@ if (isset($_POST['submit'])) { // if form has been submitted
 }
 ?>
 
-<h2>Module Administration</h2>
+<h2><?php echo _("Module Administration")?></h2>
 
 <table border="1" >
 <tr>
-	<th>Module</th><th>Category</th><th>Version</th><th>Type</th><th>Status</th><th>Action</th>
+	<th><?php echo _("Module")?></th><th><?php echo _("Category")?></th><th><?php echo _("Version")?></th><th><?php echo _("Type")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
 </tr>
 
 <?php
@@ -173,7 +173,7 @@ foreach($newallmods as $key => $mod) {
 	
 	echo "<tr>";
 	echo "<td>";
-	echo $mod['displayName'];
+	echo _($mod['displayName']);
 	echo "</td>";
 	echo "<td>";
 	echo $mod['category'];
@@ -182,7 +182,7 @@ foreach($newallmods as $key => $mod) {
 	echo $mod['version'];
 	echo "</td>";
 	echo "<td>";
-	echo $mod['type']; 
+	echo _($mod['type']); 
 	echo "</td>";
 	echo "<td>";
 	echo $status;

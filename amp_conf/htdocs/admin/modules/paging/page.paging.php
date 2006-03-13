@@ -36,7 +36,7 @@ switch ($action) {
 	case "delete":
 		paging_del($selection);
 		paging_sidebar($selection, $type, $display);
-		echo "Paging Group Deleted<br>\n";
+		echo _("Paging Group Deleted<br>\n");
 		break;
 	case "modify":
 		paging_sidebar($selection, $type, $display);
@@ -45,7 +45,7 @@ switch ($action) {
 	case "submit":
 		paging_modify($pagenbr, $pagelist);
 		paging_sidebar($selection, $type, $display);
-		echo "<h5>Paging Group $pagenbr Modified</h5>\n";
+		echo _("<h5>Paging Group $pagenbr Modified</h5>\n");
 		paging_text();
 		break;
 	default:
@@ -55,9 +55,7 @@ switch ($action) {
 
 function paging_text() {
 ?>
-<p>This module is for specific phones that are capable of Paging or Intercom. Presently, Intercom is <b>not</b>
-supported, only group paging is. The current list of supported phones is GXP-2000 with firmware 1.0.13 or higher,
-Snom phones with 'recent' firmware, and (someone fill in some more phone information here).</p>
+<p><?php echo _("This module is for specific phones that are capable of Paging or Intercom. Presently, Intercom is <b>not</b> supported, only group paging is. The current list of supported phones is GXP-2000 with firmware 1.0.13 or higher, Snom phones with 'recent' firmware, and (someone fill in some more phone information here).") ?></p>
 <?php
 }
 
@@ -87,10 +85,10 @@ function paging_show($xtn, $display, $type) {
 	<br><br></span></a></td>
 	<td valign="top"> <textarea id="xtnlist" cols="15" rows="<?php echo $rows ?>" name="pagelist"><?php 
 		echo ($xtn)?implode("\n",paging_get_devs($xtn)):''; ?></textarea><br>
-	<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
+	<input type="submit" style="font-size:10px;" value="<?php echo _("Clean & Remove duplicates")?>" />
 	</td></tr>
 	<tr>
-	<td colspan="2"><br><h6><input type="submit" name="Submit" type="button" value="Submit Changes"></h6></td>
+	<td colspan="2"><br><h6><input type="submit" name="Submit" type="button" value="<?php echo _("Submit Changes")?>"></h6></td>
 	</tr>
 	</table>
 <script language="javascript">
@@ -130,6 +128,6 @@ function paging_sidebar($selection, $type, $display) {
 			echo _("Page Group")." ${group}</a></li>";
 		}
 	} 
-	echo "</div><div class='content'><h2>Paging and Intercom</h2>\n";
+	echo "</div><div class='content'><h2>"._("Paging and Intercom")."</h2>\n";
 }
 ?>

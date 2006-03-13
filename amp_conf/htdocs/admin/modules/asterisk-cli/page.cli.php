@@ -26,19 +26,19 @@
  */
 ?>
 
-<h2>Asterisk CLI</h2>
+<h2><?php echo _("Asterisk CLI")?></h2>
 
 <form action="config.php?type=tool&display=cli" method="POST" enctype="multipart/form-data" name="frmExecPlus">
 	<table>
 		<tr>
-			<td class="label" align="right">Command:</td>
+			<td class="label" align="right"><?php echo _("Command:")?></td>
 			<td class="type"><input name="txtCommand" type="text" size="70" value="<?=htmlspecialchars($_POST['txtCommand']);?>"></td>
 		</tr>
 		
 		<tr>
 			<td valign="top">   </td>
 			<td valign="top" class="label">
-				<input type="submit" class="button" value="Execute">
+				<input type="submit" class="button" value="<?php echo _("Execute:")?>">
 			</td>
 		</tr>
 		

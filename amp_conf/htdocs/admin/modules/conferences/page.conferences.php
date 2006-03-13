@@ -64,7 +64,7 @@ if (isset($meetmes)) {
 <div class="content">
 <?php
 if ($action == 'delete') {
-	echo '<br><h3>Conference '.$extdisplay.' deleted!</h3><br><br><br><br><br><br><br><br>';
+	echo '<br><h3>'._("Conference").' '.$extdisplay.' '._("deleted").'!</h3><br><br><br><br><br><br><br><br>';
 } else {
 	if ($extdisplay){ 
 		//get details for this meetme

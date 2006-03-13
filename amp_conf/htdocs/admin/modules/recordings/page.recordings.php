@@ -31,7 +31,7 @@ switch($action) {
         <?php echo _("You can use your extension to record and playback a System Recording.")?><br><br>
         <?php echo _("Please enter your user/extension number:")?>
         <input type="text" size="6" name="cidnum"><br>
-        <h6><input name="Submit" type="submit" value="Continue"></h6><br><br><br><br><br><br>
+        <h6><input name="Submit" type="submit" value="<?php echo _("Continue")?>"></h6><br><br><br><br><br><br>
 <script language="javascript">
 <!--
 var theForm = document.prompt;
@@ -115,7 +115,7 @@ if ($prompt) {
                 <input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 		<input type="file" name="ivrfile"/>
 
-		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('Please wait until the page reloads.');"/>
+		<input type="button" value="<?php echo _("Upload")?>" onclick="document.upload.submit(upload);alert('<?php echo _("Please wait until the page reloads.")?>');"/>
 	</form>
 <?php
 if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']['tmp_name'])) {
@@ -143,7 +143,7 @@ if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']
 	<td style="text-align:left"><input type="text" name="rname" value="<?php echo $prompt ?>"></td>
 </tr>
 </table>
-<h6><?php echo _('Click "SAVE" when you are satisfied with your recording')?><input name="Submit" type="submit" value="Save"></h6>
+<h6><?php echo _("Click \"SAVE\" when you are satisfied with your recording")?><input name="Submit" type="submit" value="<?php echo _("Save")?>"></h6>
 <script language="javascript">
 <!--
 var theForm = document.prompt;

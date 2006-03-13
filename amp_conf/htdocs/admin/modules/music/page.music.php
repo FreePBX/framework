@@ -216,7 +216,7 @@ else
 		<input type="hidden" name="category" value="<?php echo "$category" ?>">
 		<input type="hidden" name="action" value="addedfile">
 		<input type="file" name="mohfile"/>
-		<input type="button" value="Upload" onclick="document.upload.submit(upload);alert('<?php echo _("Please wait until the page loads. Your file is being processed.")?>');"/>
+		<input type="button" value="<?php echo _("Upload")?>" onclick="document.upload.submit(upload);alert('<?php echo _("Please wait until the page loads. Your file is being processed.")?>');"/>
 	</form>
 	
 	

@@ -121,11 +121,11 @@ if ($action == 'add')
         <table>
 	<?php Show_Backup_Options(); ?>
         </table>
-    <h5>Run Schedule<hr></h5>
+    <h5><?php echo _("Run Schedule")?><hr></h5>
         <table>
 	<?php show_schedule("yes",""); ?>
 	<tr>
-        <td colspan="5" align="center"><input name="Submit" type="submit" value="Submit Changes" ></td>
+        <td colspan="5" align="center"><input name="Submit" type="submit" value="<?php echo _("Submit Changes")?>" ></td>
         </tr>
         </table>
 	</form>
@@ -146,11 +146,11 @@ else if ($action == 'edit')
         <table>
 	<?php Show_Backup_Options($_REQUEST['backupid']); ?>
         </table>
-    <h5>Run Schedule<hr></h5>
+    <h5><?php echo _("Run Schedule")?><hr></h5>
         <table>
 	<?php show_schedule("yes", "$_REQUEST[backupid]"); ?>
 	<tr>
-        <td colspan="5" align="center"><input name="Submit" type="submit" value="Submit Changes" ></td>
+        <td colspan="5" align="center"><input name="Submit" type="submit" value="<?php echo _("Submit Changes")?>" ></td>
         </tr>
         </table>
 	</form>

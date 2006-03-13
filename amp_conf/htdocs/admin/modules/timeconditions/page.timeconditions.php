@@ -53,7 +53,7 @@ if (isset($timeconditions)) {
 </div>
 
 <div style="float: right; padding: 5; background: #e0e0ff; border: #2E78A7 solid 1px;">
-	Server time: <span id="idTime">00:00:00</span>
+	<?php echo _("Server time:")?> <span id="idTime">00:00:00</span>
 </div>
 
 <script>
@@ -107,7 +107,7 @@ updateTime();
 <div class="content">
 <?php
 if ($action == 'delete') {
-	echo '<br><h3>Time Condition '.$itemid.' deleted!</h3>';
+	echo '<br><h3>'._("Time Condition").' '.$itemid.' '._("deleted").'!</h3>';
 } else {
 	if ($itemid){ 
 		//get details for this time condition

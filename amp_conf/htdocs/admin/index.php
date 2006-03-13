@@ -64,14 +64,14 @@ switch($display) {
 		if (!isset($_COOKIE['lang'])) {
 			$_COOKIE['lang'] = "en_US";
 		} ?>
-	Language:
-	<select onchange="javascript:changeLang(this.value)">
-        <option value="en_US" <? echo ($_COOKIE['lang']=="en_US" ? "selected" : "") ?> >English</option>
-        <option value="fr_FR" <? echo ($_COOKIE['lang']=="fr_FR" ? "selected" : "") ?> >French</option>
-        <option value="de_DE" <? echo ($_COOKIE['lang']=="de_DE" ? "selected" : "") ?> >German</option>
-        <option value="it_IT" <? echo ($_COOKIE['lang']=="it_IT" ? "selected" : "") ?> >Italian</option>
-        <option value="es_ES" <? echo ($_COOKIE['lang']=="es_ES" ? "selected" : "") ?> >Spanish</option>
-    </select>
+   <?php echo _("Language:") ?>
+     <select onchange="javascript:changeLang(this.value)">
+        <option value="en_US" <? echo ($_COOKIE['lang']=="en_US" ? "selected" : "") ?> >English</option>
+        <option value="fr_FR" <? echo ($_COOKIE['lang']=="fr_FR" ? "selected" : "") ?> >Fran&ccedil;ais</option>
+        <option value="de_DE" <? echo ($_COOKIE['lang']=="de_DE" ? "selected" : "") ?> >Deutsch</option>
+        <option value="it_IT" <? echo ($_COOKIE['lang']=="it_IT" ? "selected" : "") ?> >Italiano</option>
+        <option value="es_ES" <? echo ($_COOKIE['lang']=="es_ES" ? "selected" : "") ?> >Espa&ntilde;ol</option>
+     </select>
 	<?php } ?>
     </p>
 

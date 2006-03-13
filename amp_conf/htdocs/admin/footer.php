@@ -81,7 +81,7 @@ if (isset($_REQUEST['clk_reload'])) {
 		//reload asterisk
 		$astman->send_request('Command', array('Command'=>'reload'));	
 	} else {
-		echo "Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
+		echo _("Cannot connect to Asterisk Manager with ").$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
 	}
 	$astman->disconnect();
 	

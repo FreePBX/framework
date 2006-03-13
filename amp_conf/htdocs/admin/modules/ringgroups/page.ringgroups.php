@@ -164,7 +164,7 @@ if ($action == 'delGRP') {
 						$default = (isset($strategy) ? $strategy : 'ringall');
 						$items = array('ringall','hunt','memoryhunt');
 						foreach ($items as $item) {
-							echo '<option value="'.$item.'" '.($default == $item ? 'SELECTED' : '').'>'.$item;
+							echo '<option value="'.$item.'" '.($default == $item ? 'SELECTED' : '').'>'._($item);
 						}
 					?>		
 					</select>
@@ -179,7 +179,7 @@ if ($action == 'delGRP') {
 ?>
 					<textarea id="grplist" cols="15" rows="<?php  echo $rows ?>" name="grplist"><?php echo implode("\n",$grplist);?></textarea><br>
 					
-					<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
+					<input type="submit" style="font-size:10px;" value="<?php echo _("Clean & Remove duplicates")?>" />
 				</td>
 			</tr>
 			<tr>
@@ -231,7 +231,7 @@ echo drawselects($goto,0);
 ?>
 			
 			<tr>
-			<td colspan="2"><br><h6><input name="Submit" type="submit" value="Submit Changes"></h6></td>		
+			<td colspan="2"><br><h6><input name="Submit" type="submit" value="<?php echo _("Submit Changes")?>"></h6></td>		
 			
 			</tr>
 			</table>

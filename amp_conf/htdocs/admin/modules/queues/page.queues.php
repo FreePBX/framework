@@ -167,7 +167,7 @@ if ($action == 'delete') {
 		<td valign="top"><a href="#" class="info"><?php echo _("static agents") ?>:<span><br><?php echo _("Static agents are extensions that are assumed to always be on the queue.  Static agents do not need to 'log in' to the queue, and cannot 'log out' of the queue.<br><br>List extensions to ring, one per line.<br><br>You can include an extension on a remote system, or an external number (Outbound Routing must contain a valid route for external numbers)") ?><br><br></span></a></td>
 		<td valign="top">&nbsp;
 			<textarea id="members" cols="15" rows="<?php  $rows = count($member)+1; echo (($rows < 5) ? 5 : (($rows > 20) ? 20 : $rows) ); ?>" name="members"><?php foreach ($member as $mem) { $mem = rtrim(ltrim(strstr($mem,"/"),"/"),"@from-internal");echo substr($mem,0,strpos($mem, "@")).substr($mem,strrpos($mem, ","))."\n"; }?></textarea><br>
-			<input type="submit" style="font-size:10px;" value="Clean & Remove duplicates" />
+			<input type="submit" style="font-size:10px;" value="<?php echo _("Clean & Remove duplicates") ?>" />
 		</td>
 	</tr>
 
@@ -246,7 +246,7 @@ if ($action == 'delete') {
 			<select name="joinempty"/>
 			<?php
 				$default = (isset($joinempty) ? $joinempty : 'yes');
-				$items = array('yes','no');
+				$items = array('yes'=>_("Yes"),'no'=>_("No"));
 				foreach ($items as $item) {
 					echo '<option value="'.$item.'" '. ($default == $item ? 'SELECTED' : '').'>'.$item;
 				}
@@ -287,7 +287,7 @@ if ($action == 'delete') {
 				$default = (isset($strategy) ? $strategy : 'ringall');
 				$items = array('ringall','roundrobin','leastrecent','fewestcalls','random','rrmemory');
 				foreach ($items as $item) {
-					echo '<option value="'.$item.'" '.($default == $item ? 'SELECTED' : '').'>'.$item;
+					echo '<option value="'.$item.'" '.($default == $item ? 'SELECTED' : '').'>'._($item);
 				}
 			?>		
 			</select>
@@ -402,7 +402,7 @@ if ($action == 'delete') {
 				foreach ($unique_aas as $unique_aa) {
 					$menu_id = $unique_aa[0];
 					$menu_name = $unique_aa[1];
-					echo '<option value="'.$menu_id.'" '.(strpos($default,$menu_id) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : 'Menu ID'.$menu_id);
+					echo '<option value="'.$menu_id.'" '.(strpos($default,$menu_id) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : _("Menu ID ").$menu_id);
 				}
 			}
 		

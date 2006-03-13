@@ -300,41 +300,41 @@ function Show_Backup_Options($ID="")
 	<tr>
  		<td><a href="#" class="info"><?php echo _("VoiceMail");?><span><?php echo _("Backup the System VoiceMail Boxes... CAUTION: Could result in large file");?></span></a>: </td>
  		<?php if ($voicemail == "yes"){?>
- 			<td><input type="radio" name="bk_voicemail" value="yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_voicemail" value="no"/> no</td>
+ 			<td><input type="radio" name="bk_voicemail" value="yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_voicemail" value="no"/> <?php echo _("no");?></td>
  		<?php } else{ ?>
- 			<td><input type="radio" name="bk_voicemail" value="yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_voicemail" value="no" checked=checked/> no</td>
+ 			<td><input type="radio" name="bk_voicemail" value="yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_voicemail" value="no" checked=checked/> <?php echo _("no");?></td>
  		<?php } ?>
  	</tr>
 	<tr>
  		<td><a href="#" class="info"><?php echo _("System Recordings");?><span><?php echo _("Backup the System Recordings (AutoAttendent, Music On Hold, System Recordings)");?></span></a>: </td>
  		<?php if ($sysrecordings == "yes"){?>
- 			<td><input type="radio" name="bk_sysrecordings" value="yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_sysrecordings" value="no"/> no</td>
+ 			<td><input type="radio" name="bk_sysrecordings" value="yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_sysrecordings" value="no"/> <?php echo _("no");?></td>
  		<?php } else{ ?>
- 			<td><input type="radio" name="bk_sysrecordings" value="yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_sysrecordings" value="no" checked=checked/> no</td>
+ 			<td><input type="radio" name="bk_sysrecordings" value="yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_sysrecordings" value="no" checked=checked/> <?php echo _("no");?></td>
  		<?php } ?>
  	</tr>
 	<tr>
  		<td><a href="#" class="info"><?php echo _("System Configuration");?><span><?php echo _("Backup the System Configurations (Database, etc files, SQL Database, astdb)");?></span></a>: </td>
  		<?php if ($sysconfig == "yes"){?>
- 			<td><input type="radio" name="bk_sysconfig" value="yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_sysconfig" value="no"/> no</td>
+ 			<td><input type="radio" name="bk_sysconfig" value="yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_sysconfig" value="no"/> <?php echo _("no");?></td>
  		<?php } else{ ?>
- 			<td><input type="radio" name="bk_sysconfig" value="yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_sysconfig" value="no" checked=checked/> no</td>
+ 			<td><input type="radio" name="bk_sysconfig" value="yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_sysconfig" value="no" checked=checked/> <?php echo _("no");?></td>
  		<?php } ?>
  	</tr>
 	<tr>
  		<td><a href="#" class="info"><?php echo _("CDR");?><span><?php echo _("Backup the System Call Detail Reporting (HTML and Database)");?></span></a>: </td>
  		<?php if ($cdr == "yes"){?>
- 			<td><input type="radio" name="bk_cdr" value="yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_cdr" value="no"/> no</td>
+ 			<td><input type="radio" name="bk_cdr" value="yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_cdr" value="no"/> <?php echo _("no");?></td>
  		<?php } else{ ?>
- 			<td><input type="radio" name="bk_cdr" value="yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_cdr" value="no" checked=checked/> no</td>
+ 			<td><input type="radio" name="bk_cdr" value="yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_cdr" value="no" checked=checked/> <?php echo _("no");?></td>
  		<?php } ?>
  	</tr>
 	<tr>
  		<td><a href="#" class="info"><?php echo _("Operator Panel");?><span><?php echo _("Backup the Operator Panel (HTML and Database)");?></span></a>: </td>
  		<?php if ($fop == "yes"){?>
- 			<td><input type="radio" name="bk_fop" value="yes" checked=checked/> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_fop" value="no"/> no</td>
+ 			<td><input type="radio" name="bk_fop" value="yes" checked=checked/> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_fop" value="no"/> <?php echo _("no");?></td>
  		<?php } else{ ?>
- 			<td><input type="radio" name="bk_fop" value="yes" /> yes &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_fop" value="no" checked=checked/> no</td>
+ 			<td><input type="radio" name="bk_fop" value="yes" /> <?php echo _("yes");?> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="bk_fop" value="no" checked=checked/> <?php echo _("no");?></td>
  		<?php } ?>
  	</tr>
 	<?php
@@ -419,18 +419,18 @@ function Schedule_Show_Months($Months_Set="")
 	}
 	echo "<table> <tr>";
 	echo "<td valign=top><select multiple size=12 name=months[]>";
-	echo (strstr($Months_Set,":1:") ? '<option value="1" selected>January':'<option value="1" >January');
-	echo (strstr($Months_Set,":2:") ? '<option value="2" selected>February':'<option value="2" >February');
-	echo (strstr($Months_Set,":3:") ? '<option value="3" selected>March':'<option value="3" >March');
-	echo (strstr($Months_Set,":4:") ? '<option value="4" selected>April':'<option value="4" >April');
-	echo (strstr($Months_Set,":5:") ? '<option value="5" selected>May':'<option value="5" >May');
-	echo (strstr($Months_Set,":6:") ? '<option value="6" selected>June':'<option value="6" >June');
-	echo (strstr($Months_Set,":7:") ? '<option value="7" selected>July':'<option value="7" >July');
-	echo (strstr($Months_Set,":8:") ? '<option value="8" selected>August':'<option value="8" >August');
-	echo (strstr($Months_Set,":9:") ? '<option value="9" selected>September':'<option value="9" >September');
-	echo (strstr($Months_Set,":10:") ? '<option value="10" selected>October':'<option value="10" >October');
-	echo (strstr($Months_Set,":11:") ? '<option value="11" selected>November':'<option value="11" >November');
-	echo (strstr($Months_Set,":12:") ? '<option value="12" selected>December':'<option value="12" >December');
+	echo (strstr($Months_Set,":1:") ? '<option value="1" selected>'._("January"):'<option value="1" >'._("January"));
+ 	echo (strstr($Months_Set,":2:") ? '<option value="2" selected>'._("February"):'<option value="2" >'._("February"));
+ 	echo (strstr($Months_Set,":3:") ? '<option value="3" selected>'._("March"):'<option value="3" >'._("March"));
+ 	echo (strstr($Months_Set,":4:") ? '<option value="4" selected>'._("April"):'<option value="4" >'._("April"));
+ 	echo (strstr($Months_Set,":5:") ? '<option value="5" selected>'._("May"):'<option value="5" >'._("May"));
+ 	echo (strstr($Months_Set,":6:") ? '<option value="6" selected>'._("June"):'<option value="6" >'._("June"));
+ 	echo (strstr($Months_Set,":7:") ? '<option value="7" selected>'._("July"):'<option value="7" >'._("July"));
+ 	echo (strstr($Months_Set,":8:") ? '<option value="8" selected>'._("August"):'<option value="8" >'._("August"));
+ 	echo (strstr($Months_Set,":9:") ? '<option value="9" selected>'._("September"):'<option value="9" >'._("September"));
+ 	echo (strstr($Months_Set,":10:") ? '<option value="10" selected>'._("October"):'<option value="10" >'._("October"));
+ 	echo (strstr($Months_Set,":11:") ? '<option value="11" selected>'._("November"):'<option value="11" >'._("November"));
+ 	echo (strstr($Months_Set,":12:") ? '<option value="12" selected>'._("December"):'<option value="12" >'._("December"));
 
 	echo "</select></td>";
 	echo "</tr></table></td>";
@@ -448,13 +448,13 @@ function Schedule_Show_Weekdays($Weekdays_Set="")
 	}
 	echo "<table> <tr>";
 	echo "<td valign=top><select multiple size=12 name=weekdays[]>";
-	echo (strstr($Weekdays_Set,":1:") ? '<option value="1" selected>Monday':'<option value="1" >Monday');
-	echo (strstr($Weekdays_Set,":2:") ? '<option value="2" selected>Tuesday':'<option value="2" >Tuesday');
-	echo (strstr($Weekdays_Set,":3:") ? '<option value="3" selected>Wednesday':'<option value="3" >Wednesday');
-	echo (strstr($Weekdays_Set,":4:") ? '<option value="4" selected>Thursday':'<option value="4" >Thursday');
-	echo (strstr($Weekdays_Set,":5:") ? '<option value="5" selected>Friday':'<option value="5" >Friday');
-	echo (strstr($Weekdays_Set,":6:") ? '<option value="6" selected>Saturday':'<option value="6" >Saturday');
-	echo (strstr($Weekdays_Set,":0:") ? '<option value="0" selected>Sunday':'<option value="0" >Sunday');
+	echo (strstr($Weekdays_Set,":1:") ? '<option value="1" selected>'._("Monday"):'<option value="1" >'._("Monday"));
+	echo (strstr($Weekdays_Set,":2:") ? '<option value="2" selected>'._("Tuesday"):'<option value="2" >'._("Tuesday"));
+	echo (strstr($Weekdays_Set,":3:") ? '<option value="3" selected>'._("Wednesday"):'<option value="3" >'._("Wednesday"));
+	echo (strstr($Weekdays_Set,":4:") ? '<option value="4" selected>'._("Thursday"):'<option value="4" >'._("Thursday"));
+	echo (strstr($Weekdays_Set,":5:") ? '<option value="5" selected>'._("Friday"):'<option value="5" >'._("Friday"));
+	echo (strstr($Weekdays_Set,":6:") ? '<option value="6" selected>'._("Saturday"):'<option value="6" >'._("Saturday"));
+	echo (strstr($Weekdays_Set,":0:") ? '<option value="0" selected>'._("Sunday"):'<option value="0" >'._("Sunday"));
 
 	echo "</select></td>";
 	echo "</tr></table></td>";
@@ -494,7 +494,7 @@ function show_schedule($quickbar="no", $BackupID="")
 		show_quickbar($Method);
 	else
 		echo "<tr bgcolor=#7f7f7f>";
-	echo "<td><b>Minutes</b></td> <td><b>Hours</b></td> <td><b>Days</b></td> <td><b>Months</b></td><td><b>Weekdays</b></td> </tr> <tr bgcolor=#b7b7b7>";
+	echo "<td><b>"._("Minutes")."</b></td> <td><b>"._("Hours")."</b></td> <td><b>"._("Days")."</b></td> <td><b>"._("Months")."</b></td><td><b>"._("Weekdays")."</b></td> </tr> <tr bgcolor=#b7b7b7>";
 	echo "<td valign=top>";
 	Schedule_Show_Minutes($Minutes); 
 	echo "<td valign=top>";

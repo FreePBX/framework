@@ -20,10 +20,10 @@ function paging_init() {
 		// runModuleSQL stolen blatantly from page.module.php.
 		runModuleSQL('paging', 'uninstall');
 		if (runModuleSQL('paging', 'install')==false) {
-			echo "There is a problem with install.sql, cannot re-create databases. Contact support\n";
+			echo _("There is a problem with install.sql, cannot re-create databases. Contact support\n");
 			die;
 		} else {
-			echo "Database was deleted! Recreated successfully.<br>\n";
+			echo _("Database was deleted! Recreated successfully.<br>\n");
 			$results = $db->getAll($sql);
 		}
 	}

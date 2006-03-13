@@ -116,10 +116,10 @@ switch($ivr_action) {
 		//make sure the 'custom' sounds directory exists and then copy the recording to it
 		if (!is_dir('/var/lib/asterisk/sounds/custom')) {
 			if (!mkdir('/var/lib/asterisk/sounds/custom',0775))
-				echo 'could not create /var/lib/asterisk/sounds/custom';
+				echo _("could not create /var/lib/asterisk/sounds/custom");
 		}
 		if (!copy('/var/lib/asterisk/sounds/'.$_REQUEST['cidnum'].'ivrrecording.wav','/var/lib/asterisk/sounds/custom/'.$context.'.wav'))
-			echo 'error: could not copy or rename the voice recording - please contact support';
+			echo _("error: could not copy or rename the voice recording - please contact support");
 
 	//indicate 'need reload' link in header.php 
 	needreload();
