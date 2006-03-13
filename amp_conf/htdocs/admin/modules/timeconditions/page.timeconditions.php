@@ -117,11 +117,11 @@ if ($action == 'delete') {
 	$delURL = $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delete';
 ?>
 
-	<h2><?php echo _("Time Condition:")." ". $itemid; ?></h2>
+	<h2><?php echo ($itemid ? _("Time Condition:")." ". $itemid : _("Add Time Condition")); ?></h2>
 <?php		if ($itemid){ ?>
 	<p><a href="<?php echo $delURL ?>"><?php echo _("Delete Time Condition")?> <?php echo $itemid; ?></a></p>
 <?php		} ?>
-	<form autocomplete="off" name="edit" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="setDestinations(edit,2)">
+	<form autocomplete="off" name="edit" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return edit_onsubmit();">
 	<input type="hidden" name="display" value="<?php echo $dispnum?>">
 	<input type="hidden" name="action" value="<?php echo ($itemid ? 'edit' : 'add') ?>">
 	<input type="hidden" name="deptname" value="<?php echo $_SESSION["AMP_user"]->_deptname ?>">
@@ -166,6 +166,33 @@ if (isset($thisItem)) {
 		<td colspan="2"><br><h6><input name="Submit" type="submit" value="<?php echo _("Submit Changes")?>"></h6></td>		
 	</tr>
 	</table>
+<script language="javascript">
+<!--
+
+var theForm = document.edit;
+theForm.displayname.focus();
+
+function edit_onsubmit() {
+	setDestinations(edit,2);
+	
+	defaultEmptyOK = false;
+	if (!isAlphanumeric(theForm.displayname.value))
+		return warnInvalid(theForm.displayname, "Please enter a valid Time Conditions Name");
+	
+	if (isEmpty(theForm.time.value) || isWhitespace(theForm.time.value))
+		return warnInvalid(theForm.time, "Please enter the Time to Match");
+		
+	if (!validateDestinations(edit,2,true))
+		return false;
+	
+	return true;
+}
+
+
+-->
+</script>
+
+
 	</form>
 <?php		
 } //end if action == delete
