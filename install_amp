@@ -537,6 +537,7 @@ if ( $perl_result != 0)
 	out("FAILED\nReturn code from \"$perl_test\" is: " . $perl_result );
 	fatal( "Please install libasteriskperl from your vendor.\nThis perl module is needed for executing dialparties.agi." );
 }
+out("OK");
 
 // **** Parse out command-line options
 
