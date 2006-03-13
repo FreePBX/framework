@@ -35,14 +35,14 @@ if (is_array($ringlist)) {
 		// write new record
 		$sql = "INSERT INTO ringgroups (grpnum, strategy, grptime, grppre, grplist, postdest) ";
 		$sql .= "VALUES (";
-		$sql .= $exten.", '".str_replace("'","''",$strategy)."', ".$grptime.", '".str_replace("'","''",$grppre)."', '".str_replace("'","''",$grplist)."', '".str_replace("'","''",$goto)."') ";
+		$sql .= $grpnum.", '".str_replace("'","''",$strategy)."', ".$grptime.", '".str_replace("'","''",$grppre)."', '".str_replace("'","''",$grplist)."', '".str_replace("'","''",$goto)."') ";
 		$result = $db->query($sql);
 		if(DB::IsError($result)) {
 			die($result->getDebugInfo());
 		}
 		
 		// update existing -- mark as CONVERTED
-		$sql = "UPDATE extensions SET context = CONCAT('CONVERTED',context) WHERE context = 'ext-group' AND extension = '".$exten."'";
+		$sql = "UPDATE extensions SET context = CONCAT('CONVERTED',context) WHERE context = 'ext-group' AND extension = '".$grpnum."'";
 		$result = $db->query($sql);
 		if(DB::IsError($result)) {
 			die($result->getDebugInfo());
