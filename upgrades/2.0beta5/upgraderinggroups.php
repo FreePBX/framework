@@ -3,6 +3,7 @@
 $ringlist = ringgroups_list();
 $ctr = 0;
 if (is_array($ringlist)) {
+	outn("   Creating 'ringgroups' table if needed... ");
 	// Create the new table first
 	$sql = "CREATE TABLE IF NOT EXISTS `ringgroups` ( ";
 	$sql .= "`grpnum` INT NOT NULL , ";
@@ -18,12 +19,16 @@ if (is_array($ringlist)) {
 	if(DB::IsError($result)) {
 		die($result->getDebugInfo());
 	}
-
+	out("OK");
+	
+	out("   Upgrading old Ring Group(s)");
 	// upgrade each group
 	foreach($ringlist as $item) {
 		$ctr += 1;
 		
 		$exten = ringgroups_get(ltrim($item['0']), $strategy,  $grptime, $grppre, $grplist);		
+		outn("     upgrading GRP-".$exten."... ");
+
 		$goto = legacy_args_get(ltrim($item['0']),2,'ext-group');
 		
 		// write new record
@@ -42,10 +47,38 @@ if (is_array($ringlist)) {
 			die($result->getDebugInfo());
 		}
 		
-		echo "     Updated GRP-".$exten."\n";
+		out("OK");
+	}
+	
+	out("   Processed ".$ctr." Ring Group(s)");
+} else { // might have the Ring Groups module already installed from a previous beta -- needs new table
+	$sql = "SELECT COUNT(*) AS RES FROM modules WHERE modulename = 'ringgroups'";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getDebugInfo());
+	} else {
+		$row = $result->fetchRow();
+		if ($row[0] > 0) {
+			outn("   Ring Groups module in use, creating 'ringgroups' table if needed... ");
+			// Create the new table first
+			$sql = "CREATE TABLE IF NOT EXISTS `ringgroups` ( ";
+			$sql .= "`grpnum` INT NOT NULL , ";
+			$sql .= "`strategy` VARCHAR( 50 ) NOT NULL , ";
+			$sql .= "`grptime` SMALLINT NOT NULL , ";
+			$sql .= "`grppre` VARCHAR( 100 ) NULL , ";
+			$sql .= "`grplist` VARCHAR( 255 ) NOT NULL , ";
+			$sql .= "`annmsg` VARCHAR( 255 ) NULL , ";
+			$sql .= "`postdest` VARCHAR( 255 ) NULL , ";
+			$sql .= "PRIMARY KEY  (`grpnum`) ";
+			$sql .= ") TYPE = MYISAM ";
+			$result = $db->query($sql);
+			if(DB::IsError($result)) {
+				die($result->getDebugInfo());
+			}
+			out("OK");
+		}
 	}
 }
-echo "   Processed ".$ctr." Ring Group(s)\n";
 
 // ** HELPER FUNCTIONS
 function ringgroups_list() {
