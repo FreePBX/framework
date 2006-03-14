@@ -134,26 +134,6 @@ function checkQ(theForm) {
         }
 }
 
-function checkTrunk(theForm, action) {
-	$tech = theForm.tech.value;
-	if ($tech != "enum") {
-		$channelid = theForm.channelid.value;
-		$usercontext = theForm.usercontext.value;
-	
-		if ($channelid == "") {
-			<?php echo "alert('"._("Missing required field: trunk name")."')"?>;
-		} else if ($channelid == $usercontext) {
-			<?php echo "alert('"._("Trunk Name and User Context cannot be set to the same value")."')"?>;
-		} else {
-			theForm.action.value = action;
-			theForm.submit();
-		}
-	} else {
-		theForm.action.value = action;
-		theForm.submit();
-	}
-}
-
 function repositionTrunk(repositiondirection,repositionkey,key,direction){
 	if(direction == "up"){
 		document.getElementById('repotrunkdirection').value=direction;
@@ -666,7 +646,7 @@ function isCallerIDChar (c)
 }
 
 function isDialpatternChar (c)
-{   return ( ((c >= "0") && (c <= "9")) || (c == "[") || (c == "]") || (c == "-") || (c == ".") || (c == "|") || (c == "Z" || c == "z") || (c == "X" || c == "x") || (c == "N" || c == "n") || (c == "*") )
+{   return ( ((c >= "0") && (c <= "9")) || (c == "[") || (c == "]") || (c == "-") || (c == "+") || (c == ".") || (c == "|") || (c == "Z" || c == "z") || (c == "X" || c == "x") || (c == "N" || c == "n") || (c == "*") )
 }
 
 function warnInvalid (theField, s) {
