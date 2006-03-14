@@ -52,7 +52,7 @@ if (count($unique_aas) > 0) {
 				&bull; <a href="config.php?display=ivr&menu_id=<?php  echo urlencode($menu[0]) ?>&ivr_action=edit"><?php echo _("Modify this Menu")?></a><br>
 				&bull; <a href="config.php?display=ivr&menu_id=<?php  echo urlencode($menu[0]) ?>&ivr_action=delete"><?php echo _("Delete")?></a>
 			</span>
-			<?php echo _("Menu")?> <?php  echo $menu[0] ?>: <b><?php echo $menu[1]?></b>
+			<?php echo _("Menu")?> <?php  echo $menu[0] ?>: <b><?php echo urldecode($menu[1])?></b>
 			<ul>
 <?php 
 		//do another select for all parts in this aa_
@@ -100,7 +100,7 @@ if (count($unique_aas) > 0) {
 ?>
 			</ul>
 			<br>
-			<?php echo _("Menu notes:")?> <b><i><?php  echo $description; ?></i></b>
+			<?php echo _("Menu notes:")?> <b><i><?php  echo urldecode($description); ?></i></b>
 	</ul>
 	<hr>		
 <?php 				

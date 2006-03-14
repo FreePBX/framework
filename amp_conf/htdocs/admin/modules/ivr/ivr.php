@@ -174,11 +174,11 @@ if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']
 <table style="text-align:right;">
 <tr valign="top">
 	<td valign="top"><?php echo _("Name this menu:")?> </td>
-	<td style="text-align:left"><input type="text" name="mname" value="<?php echo htmlspecialchars($mname) ?>"></td>
+	<td style="text-align:left"><input type="text" name="mname" value="<?php echo urldecode($mname) ?>"></td>
 </tr>
 <tr>
 	<td valign="top"><?php echo _("Describe the menu:")?> </td>
-	<td>&nbsp;&nbsp;<textarea name="notes" rows="3" cols="50"><?php echo htmlspecialchars($description); ?></textarea></td>
+	<td>&nbsp;&nbsp;<textarea name="notes" rows="3" cols="50"><?php echo urldecode($description); ?></textarea></td>
 </tr>
 </table>
 <h6><?php echo _("Click \"Continue\" when you are satisfied with your recording")?><input name="Submit" type="submit" value="<?php echo _("Continue")?>"></h6>
@@ -229,8 +229,8 @@ function rec_onsubmit() {
 <h4><?php echo _("Options for Menu:")?> <?php echo $_REQUEST['mname']; ?></h4>
 <form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return numopts_onsubmit();">
 <input type="hidden" name="action" value="ivr_options_yes_num"/>
-<input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
-<input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">
+<input type="hidden" name="notes" value="<?php echo urlencode($_REQUEST['notes']);?>">
+<input type="hidden" name="mname" value="<?php echo urlencode($_REQUEST['mname']); ?>">
 <input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 <input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 <input type="hidden" name="ivr_action" value="<?php echo $_REQUEST['ivr_action']?>">
