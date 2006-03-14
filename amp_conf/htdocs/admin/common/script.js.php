@@ -134,30 +134,6 @@ function checkQ(theForm) {
         }
 }
 
-function checkDID(theForm) {
-	var bad = "false";
-	var whichitem = 0;
-	while (whichitem < theForm.goto_indicate0.length) {
-		if (theForm.goto_indicate0[whichitem].checked) {
-			theForm.goto0.value=theForm.goto_indicate0[whichitem].value;
-		}
-		whichitem++;
-	}
-	
-	var gotoType = theForm.elements[ "goto0" ].value;
-	if (gotoType == 'custom') {
-		var gotoVal = theForm.elements[ "custom0"].value;
-		if (gotoVal.indexOf('custom') == -1) {
-			bad = "true";
-			<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
-		}
-	}
-	
-	if (bad == "false") {
-		theForm.submit();
-	}
-}
-
 function checkTrunk(theForm, action) {
 	$tech = theForm.tech.value;
 	if ($tech != "enum") {
