@@ -154,38 +154,6 @@ function checkTrunk(theForm, action) {
 	}
 }
 
-function checkRoute(theForm, action) {
-	$routename = theForm.routename.value;
-	$dialpattern = theForm.dialpattern.value;
-	$trunkpriority = document.getElementById('trunkpri0').value;
-
-	$routeRegex_update = /^\d{3}-[a-zA-Z0-9]+$/;
-	$routeRegex_new = /^[a-zA-Z0-9]+$/;
-
-	// routename checks
-	// we don't really care about the name on edit!
-	if (action == "addroute") {
-		if ($routename == "") {
-			<?php echo "alert('"._("Route name must not be blank")."')"?>;
-			return false;
-		}
-		if ( !$routename.match($routeRegex_new) ) {
-			<?php echo "alert('"._("Route name is invalid, please try again")."')"?>;
-			return false;
-		}
-	}
-
-	// dialpattern checks
-	if (!$dialpattern.match('[A-Z0-9a-z]+')) {
-		<?php echo "alert('"._("Dial pattern cannot be blank")."')"?>;
-	} else if ($trunkpriority == '') {
-		//TODO this doesn't account for other items besides the first being filled in'
-		<?php echo "alert('"._("At least one trunk must be picked")."')"?>;
-	} else {
-		theForm.action.value = action;
-		theForm.submit();
-	}
-}
 function repositionTrunk(repositiondirection,repositionkey,key,direction){
 	if(direction == "up"){
 		document.getElementById('repotrunkdirection').value=direction;
@@ -200,18 +168,6 @@ function deleteTrunk(key) {
 	document.getElementById('trunkpri'+key).value = '';
 	document.getElementById('routeEdit').submit();
 }
-function repositionRoute(key,direction){
-	if(direction == "up"){
-		document.getElementById('reporoutedirection').value=direction;
-		document.getElementById('reporoutekey').value=key;
-	}else if(direction == "down" ){
-		document.getElementById('reporoutedirection').value=direction;
-		document.getElementById('reporoutekey').value=key;
-	}
-	document.getElementById('action').value='prioritizeroute';
-	document.getElementById('routeEdit').submit();
-}
-
 
 function openWindow(url,width,height) { 
 	popupWin = window.open(url, '', 'width='+width + ',height='+height)
@@ -485,6 +441,28 @@ function isCallerID (s) {
     return true;
 }
 
+function isDialpattern (s) {
+	var i;
+    if (isEmpty(s)) 
+       if (isDialpattern.arguments.length == 1) return defaultEmptyOK;
+       else return (isDialpattern.arguments[1] == true);
+    // Search through string's characters one by one
+    // until we find a non-prefix character.
+    // When we do, return false; if we don't, return true.
+    for (i = 0; i < s.length; i++) {   
+        // Check that current character is number or letter.
+        var c = s.charAt(i);
+        if ( !isDialpatternChar(c) ) {
+		if (c.charCodeAt(0) != 13 && c.charCodeAt(0) != 10) {
+			//alert(c.charCodeAt(0));
+			return false;
+		}
+	}
+    }
+    // All characters are numbers or letters.
+    return true;
+}
+
 function isAddress (s) {
 	var i;
     if (isEmpty(s)) 
@@ -685,6 +663,10 @@ function isPrefixChar (c)
 
 function isCallerIDChar (c)
 {   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || ((c >= "0") && (c <= "9")) || (c == "<") || (c == ">") || (c == " ") || (c == "\"") )
+}
+
+function isDialpatternChar (c)
+{   return ( ((c >= "0") && (c <= "9")) || (c == "[") || (c == "]") || (c == "-") || (c == ".") || (c == "|") || (c == "Z" || c == "z") || (c == "X" || c == "x") || (c == "N" || c == "n") || (c == "*") )
 }
 
 function warnInvalid (theField, s) {
