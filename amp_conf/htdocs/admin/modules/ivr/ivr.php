@@ -174,11 +174,11 @@ if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']
 <table style="text-align:right;">
 <tr valign="top">
 	<td valign="top"><?php echo _("Name this menu:")?> </td>
-	<td style="text-align:left"><input type="text" name="mname" value="<?php echo $mname ?>"></td>
+	<td style="text-align:left"><input type="text" name="mname" value="<?php echo htmlspecialchars($mname) ?>"></td>
 </tr>
 <tr>
 	<td valign="top"><?php echo _("Describe the menu:")?> </td>
-	<td>&nbsp;&nbsp;<textarea name="notes" rows="3" cols="50"><?php echo $description ?></textarea></td>
+	<td>&nbsp;&nbsp;<textarea name="notes" rows="3" cols="50"><?php echo htmlspecialchars($description); ?></textarea></td>
 </tr>
 </table>
 <h6><?php echo _("Click \"Continue\" when you are satisfied with your recording")?><input name="Submit" type="submit" value="<?php echo _("Continue")?>"></h6>
