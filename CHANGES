@@ -3,6 +3,7 @@
 - AMP is now "FreePBX"
 - New module system allows for drop-in functionality
 - Requires Asterisk 1.2.x
+- All previous AMP functionality ported to new module system
 - Added Modules: Conferences, Time Conditions, Asterisk CLI, Online Support 
 - GUI improvements
 - FOP .24
@@ -13,6 +14,7 @@
 - Default is to use freePBX database authentication.  New installs create a new user.
 - Initial sqlite support!
 - Much improved form validation for all modules
+- Inbound routes can set ALERT_INFO variable for SIP devices
 
 1.10.010
 
