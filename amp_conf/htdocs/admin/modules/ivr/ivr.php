@@ -55,7 +55,7 @@ if (empty($menu_id)) $menu_id = $dept.'aa_1';
 					$description = $aaline[5];
 			}
 			elseif ($application == 'DigitTimeout') {
-					$mname = $aaline[5];
+					$mname = urldecode($aaline[5]);
 			}
 			elseif ($application == 'Goto' && !(strpos($args[0],'custom') === false)) {
 					$optioncount++;
@@ -226,7 +226,7 @@ function rec_onsubmit() {
 	break;
 	case 'ivr_recorded':
 ?>
-<h4><?php echo _("Options for Menu:")?> <?php echo $_REQUEST['mname']; ?></h4>
+<h4><?php echo _("Options for Menu:")?> <?php echo urldecode($_REQUEST['mname']); ?></h4>
 <form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return numopts_onsubmit();">
 <input type="hidden" name="action" value="ivr_options_yes_num"/>
 <input type="hidden" name="notes" value="<?php echo urlencode($_REQUEST['notes']);?>">
@@ -250,7 +250,7 @@ foreach ($vmcontexts as $vmcontext) {
 </p>
 <p>
 <?php echo _("Aside from local extensions and the pound key (#), how many other options should callers be able to dial during the playback of this menu prompt?")?><br>
-<br><?php echo _("Number of options for Menu:")?> <?php echo $_REQUEST['mname']; ?><input size="2" type="text" name="ivr_num_options" value="<?php echo $optioncount ?>">
+<br><?php echo _("Number of options for Menu:")?> <?php echo urldecode($_REQUEST['mname']); ?><input size="2" type="text" name="ivr_num_options" value="<?php echo $optioncount ?>">
 </p>
 <h6><input name="Submit" type="submit" value="<?php echo _("Continue")?>"></h6>
 <script languague="javascript">
@@ -314,7 +314,7 @@ function numopts_onsubmit() {
 		$gresults = getgroups();
 */
 ?>
-<h4><?php echo _("Options for Menu:")." ".$_REQUEST['mname']; ?></h4>
+<h4><?php echo _("Options for Menu:")." ".urldecode($_REQUEST['mname']); ?></h4>
 <p>
 	<?php echo _("Define the various options you expect your callers to dial after/during the playback of this recorded menu.")?>
 </p>
