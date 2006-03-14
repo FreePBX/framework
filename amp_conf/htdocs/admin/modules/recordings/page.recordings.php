@@ -37,8 +37,6 @@ switch($action) {
 var theForm = document.prompt;
 theForm.cidnum.focus();
 function prompt_onsubmit() {
-	var theForm = document.prompt;
-	
 	defaultEmptyOK = false;
 	if (!isInteger(theForm.cidnum.value))
 		return warnInvalid(theForm.cidnum, "Please enter your user/extension number:");
