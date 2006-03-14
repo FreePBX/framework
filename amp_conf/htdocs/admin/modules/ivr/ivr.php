@@ -89,7 +89,7 @@ switch($action) {
 	// this reduces the possiblity of simultaneous actions of ivr recordings conflicting
 ?>
 <h4><?php echo _("Your User/Extension")?></h4>
-<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return prompt_onsubmit();">
 	<input type="hidden" name="action" value="ivr_start">
 	<input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
 	<input type="hidden" name="ivr_action" value="<?php echo isset($_REQUEST['ivr_action'])?$_REQUEST['ivr_action']:''?>">
@@ -98,6 +98,19 @@ switch($action) {
 	<?php echo _("Please enter your user/extension:")?> 
 	<input type="text" size="6" name="cidnum"><br>
 	<h6><input name="Submit" type="submit" value="<?php echo _("Continue")?>"></h6><br><br><br><br><br><br>
+<script languague="javascript">
+<!--
+var theForm = document.prompt;
+theForm.cidnum.focus();
+function prompt_onsubmit() {
+	defaultEmptyOK = false;
+	if (!isInteger(theForm.cidnum.value))
+		return warnInvalid(theForm.cidnum, "Please enter your user/extension number:");
+		
+	return true;
+}
+-->
+</script>
 </form>
 	
 	
@@ -144,7 +157,7 @@ if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']
 }
 ?>
 </p>
-<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return rec_onsubmit();">
 <input type="hidden" name="action" value="ivr_recorded">
 <input type="hidden" name="cidnum" value="<?php echo isset($_REQUEST['cidnum'])?$_REQUEST['cidnum']:'' ;?>">
 <input type="hidden" name="menu_id" value="<?php echo $menu_id?>">
@@ -178,6 +191,19 @@ if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']
 <p>
 	<?php echo _("Example:  Thank you for calling. Please press 1 for our locations, 2 for hours of operation, or 0 to speak with a representative. If you know the extension of the party you are calling, dial it now.  To access the company directory, press pound now.")?>
 </p>
+
+<script language="javascript">
+<!--
+var theForm = document.prompt;
+
+function rec_onsubmit() {
+	defaultEmptyOK = false;
+	if (!isAlphanumeric(theForm.mname.value))
+		return warnInvalid(theForm.mname, "Please enter a valid Name for this menu");
+}
+
+-->
+</script>
 </form>
 
 
@@ -201,7 +227,7 @@ if (isset($_FILES['ivrfile']['tmp_name']) && is_uploaded_file($_FILES['ivrfile']
 	case 'ivr_recorded':
 ?>
 <h4><?php echo _("Options for Menu:")?> <?php echo $_REQUEST['mname']; ?></h4>
-<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return numopts_onsubmit();">
 <input type="hidden" name="action" value="ivr_options_yes_num"/>
 <input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
 <input type="hidden" name="mname" value="<?php echo $_REQUEST['mname']; ?>">
@@ -227,6 +253,20 @@ foreach ($vmcontexts as $vmcontext) {
 <br><?php echo _("Number of options for Menu:")?> <?php echo $_REQUEST['mname']; ?><input size="2" type="text" name="ivr_num_options" value="<?php echo $optioncount ?>">
 </p>
 <h6><input name="Submit" type="submit" value="<?php echo _("Continue")?>"></h6>
+<script languague="javascript">
+<!--
+var theForm = document.prompt;
+
+function numopts_onsubmit() {
+	defaultEmptyOK = false;
+	if (!isInteger(theForm.ivr_num_options.value))
+		return warnInvalid(theForm.ivr_num_options, "Please enter a valid Number of options");
+		
+	return true;
+}
+
+-->
+</script>
 </form>
 
 
@@ -283,7 +323,7 @@ foreach ($vmcontexts as $vmcontext) {
 	"<b><?php echo _("Action")?></b>" <?php echo _("is the result of the caller dialing the option #.  This can send the caller to an internal extension, a voicemail box, ring group, queue, or to another recorded menu.")?> 
 </p>
 <hr>
-<p>	<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+<p>	<form name="prompt" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return checkIVR(<?php echo $_REQUEST['ivr_num_options']?>);">
 	<input type="hidden" name="display" value="ivr">
 	<input type="hidden" name="action" value="ivr_options_set"/>
 	<input type="hidden" name="notes" value="<?php echo $_REQUEST['notes'];?>">
@@ -329,8 +369,31 @@ foreach ($vmcontexts as $vmcontext) {
 ?>
 	</table>
 	<h6>
-	<input type="button" value="<?php echo _("Continue")?>" onClick="checkIVR(prompt,<?php echo $_REQUEST['ivr_num_options']?>)"
+	<input type="submit" value="<?php echo _("Continue")?>">
 	</h6>
+<script language="javascript">
+<!--
+var theForm = document.prompt;
+
+function checkIVR(ivr_num_options) {
+	setDestinations(theForm,ivr_num_options);
+	
+	defaultEmptyOK = false;
+	for (var i = 0; i < ivr_num_options; i++) {
+		var theFldName = "ivr_option"+i;
+		var theFldVal = theForm[theFldName].value;
+		if ( (!isInteger(theFldVal) && theFldVal != "t" && theFldVal != "*") || (isWhitespace(theFldVal)) ) // && theForm[theFldName].value != "t" && theForm[theFldName].value != "*")
+			return warnInvalid(theForm[theFldName], "Please enter the Option # using only digits or 't' or '*'");
+	}
+	
+	if (!validateDestinations(theForm,ivr_num_options,true))
+		return false;
+	
+	return true;
+}
+-->
+</script>
+	
 	</form>
 </p>
 <?php 

@@ -241,34 +241,6 @@ function openWindow(url,width,height) {
 	popupWin = window.open(url, '', 'width='+width + ',height='+height)
 }
 
-function checkIVR(theForm,ivr_num_options) {
-	var bad = "false";
-	for (var formNum = 0; formNum < ivr_num_options; formNum++) {
-		
-		var whichitem = 0;
-		
-		while (whichitem < theForm['goto_indicate'+formNum].length) {
-			if (theForm['goto_indicate'+formNum][whichitem].checked) {
-				theForm['goto'+formNum].value=theForm['goto_indicate'+formNum][whichitem].value;
-			}
-			whichitem++;
-		}
-	
-		var gotoType = theForm.elements[ "goto"+formNum ].value;
-		if (gotoType == 'custom') {
-			var gotoVal = theForm.elements[ "custom"+formNum ].value;
-			if (gotoVal.indexOf('custom') == -1) {
-				bad = "true";
-				var item = formNum + 1;
-				<?php echo "alert('"._("There is a problem with option number")?> '+item+'.\n\n<?php echo _("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
-			}
-		}
-	}
-	if (bad == "false") {
-		theForm.submit();
-	}
-}
-
 function checkVoicemail(theForm) {
 	$vm = theForm.elements["vm"].value;
 	if ($vm == 'disabled') {
