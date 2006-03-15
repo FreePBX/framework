@@ -33,11 +33,17 @@ class Voicemail {
    */
   function navMenu($args) {
 
-    // put if statement in return string, because do not know $ari_no_login until page is built
-    $ret .= "
-      <?php if ($ari_no_login =='') { ?>
-        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=Voicemail&f=display'>" . _("Voicemail") . "</a></small></small></p>
-      <?php } ?>";
+    global $ARI_NO_LOGIN;
+
+    // check logout
+    if ($_SESSION['ari_user'] && !$ARI_NO_LOGIN) {
+      $logout = 1;
+    }
+
+    if ($logout!='') { 
+      $ret .= "
+        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=Voicemail&f=display'>" . _("Voicemail") . "</a></small></small></p>";
+    } 
 
     return $ret;
   }
@@ -48,7 +54,7 @@ class Voicemail {
    * @param $args
    *   Common arguments
    */
-  function navSubmenu($args) {
+  function navSubMenu($args) {
 
     global $ASTERISK_VOICEMAIL_PATH;
     global $ASTERISK_VOICEMAIL_FOLDERS;

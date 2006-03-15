@@ -220,16 +220,23 @@ function loginBlock() {
  */
 function handleBlock() {
 
+  global $ARI_NO_LOGIN;
+
   global $loaded_modules;
 
   // check errors here and in login block
   $content .= checkErrorMessage();
 
-  # if nothing set goto user default page
+  // check logout
+  if ($_SESSION['ari_user'] && !$ARI_NO_LOGIN) {
+    $logout = 1;
+  }
+
+  // if nothing set goto user default page
   if (!isset($_REQUEST['m'])) {
     $_REQUEST['m'] = $_SESSION['ari_user']['default_page'];
   }
-  # if not function specified then use display page function
+  // if not function specified then use display page function
   if (!isset($_REQUEST['f'])) {
     $_REQUEST['f'] = 'display';
   }
@@ -259,7 +266,7 @@ function handleBlock() {
       $rank = $module->$rank_function(); 
     }
 
-     $ranked_modules[$rank] = $module;
+    $ranked_modules[$rank] = $module;
   }
   ksort($ranked_modules);
 
@@ -277,18 +284,18 @@ function handleBlock() {
     // init module
     $module->init();
 
-    // add nav menu item
+    // add nav menu items
     $nav_menu_function = "navMenu";
     if (in_array(strtolower($nav_menu_function), $module_methods)) {
       $nav_menu .= $module->$nav_menu_function($args); 
-    }
+    }      
 
     if (strtolower($m)==strtolower($name)) {
 
       // build sub menu
-      $nav_submenu_function = "navSubmenu";
-      if (in_array(strtolower($nav_submenu_function), $module_methods)) {
-        $nav_submenu .= $module->$nav_submenu_function($args); 
+      $subnav_menu_function = "navSubMenu";
+      if (in_array(strtolower($subnav_menu_function), $module_methods)) {
+        $subnav_menu .= $module->$subnav_menu_function($args); 
       }
 
       // execute function (usually to build content)
@@ -299,12 +306,17 @@ function handleBlock() {
     }
   }
 
+  // add logout link
+  if ($logout != '') { 
+    $nav_menu .= "<p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?logout=1'>" . _("Logout") . "</a></small></small></p>";
+  } 
+
   // error message if no content
   if (!$content) {
     $content .= _("Page Not Found.");
   } 
 
-  return array($nav_menu,$nav_submenu,$content);
+  return array($nav_menu,$subnav_menu,$content);
 }
 
 /*
@@ -313,16 +325,12 @@ function handleBlock() {
 function handler() {
 
   global $ARI_VERSION;
-  global $ARI_NO_LOGIN;
 
   // version
   $ari_version = $ARI_VERSION;
 
   // check error
   $error = $_SESSION['ari_error'];
-  if ($_SESSION['ari_user'] && !$ARI_NO_LOGIN) {
-    $logout = 1;
-  }
 
   // load modules
   loadModules();
@@ -334,7 +342,7 @@ function handler() {
     // check if login is needed (user auth done in bootstrap)
     $content = loginBlock();
     if (!isset($content)) {
-        list($nav_menu,$nav_submenu,$content) = handleBlock();
+        list($nav_menu,$subnav_menu,$content) = handleBlock();
     }
   }
   else {
@@ -351,7 +359,7 @@ function handler() {
 
   // check for ajax request and refresh or if not build the page
   if (isset($_REQUEST['ajax_refresh'])) {
-    echo $nav_menu . "<-&*&->" . $nav_submenu . "<-&*&->" . $content;
+    echo $nav_menu . "<-&*&->" . $subnav_menu . "<-&*&->" . $content;
   }
   else {
 

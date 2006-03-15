@@ -58,7 +58,6 @@ $ARI_NO_LOGIN = 0;
 #
 $ARI_ADMIN_USERNAME = "admin";
 $ARI_ADMIN_PASSWORD = "ari_password";
-
 #
 # Admin extensions
 #   option: Comma delimited list of extensions
@@ -109,8 +108,7 @@ $AJAX_PAGE_REFRESH_ENABLE = 1;
 # sets the default user page
 #   option: refresh time in 'minutes:seconds' (0 to inifinity) : (0 to 59)
 #
-$AJAX_PAGE_REFRESH_TIME = '1:00';
-
+$AJAX_PAGE_REFRESH_TIME = "01:00";
 ###############################
 # voicemail settings
 ###############################
@@ -158,8 +156,7 @@ $ASTERISK_CALLMONITOR_PATH = "/var/spool/asterisk/monitor";
 # Extensions with access to all call monitor recordings
 #   option: Comma delimited list of extensions or "all"
 #
-$CALLMONITOR_ADMIN_EXTENSIONS = "1";
-
+$CALLMONITOR_ADMIN_EXTENSIONS = "";
 #
 # Allow call monitor users to delete monitored calls
 #   option: 0 - do not show controls
@@ -242,8 +239,16 @@ $SETTINGS_ALLOW_VOICEMAIL_PASSWORD_SET = 1;
 
 #
 # password length 
+#   setting: number of characters required for changing voicemail password
 #
-$SETTINGS_VOICEMAIL_PASSWORD_LENGTH = 4;
+$SETTINGS_VOICEMAIL_PASSWORD_LENGTH = 3;
+
+#
+# password exact length
+#   option: 0 - do not require exact length when setting the password
+#           1 - require exact length when setting the password
+#
+$SETTINGS_VOICEMAIL_PASSWORD_EXACT = 0;
 
 #
 # Default

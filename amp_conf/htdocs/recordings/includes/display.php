@@ -31,7 +31,7 @@ class Display {
   }
 
   /**
-   * Displays header line 
+   * displays header line 
    */
   function displayLine() {
 
@@ -58,7 +58,7 @@ class DisplaySearch extends Display {
   }
 
   /**
-   * Displays search controls
+   * displays search controls
    *
    * @param $align
    *   where to align the control
@@ -107,7 +107,7 @@ class DisplaySearch extends Display {
   }
 
   /**
-   * Displays info bar
+   * displays info bar
    *
    * @param $controls
    *   controls for the page on the bar
@@ -157,7 +157,7 @@ class DisplaySearch extends Display {
   }
 
   /**
-   * Displays navigation bar
+   * displays navigation bar
    *
    * @param $q
    *   search query

@@ -72,6 +72,9 @@ function ajaxRefreshScript($args) {
             var nav_submenu = http_request.responseText.substr(i2,nav_submenu_len);
             var content = http_request.responseText.substr(i4);
 
+            document.getElementById('nav_menu').innerHTML = '';
+            document.getElementById('nav_menu').innerHTML = nav_menu;
+
             document.getElementById('nav_submenu').innerHTML = '';
             document.getElementById('nav_submenu').innerHTML = nav_submenu;
 

@@ -49,12 +49,18 @@ class Settings {
    */
   function navMenu($args) {
 
-    // put if statement in return string, because do not know $logout until page is built
-    $ret .= "
-      <?php if ($logout !='') { ?>
+    global $ARI_NO_LOGIN;
+
+    // check logout
+    if ($_SESSION['ari_user'] && !$ARI_NO_LOGIN) {
+      $logout = 1;
+    }
+
+    if ($logout!='') { 
+      $ret .= "
         <br>
-        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=Settings&f=display'>" . _("Settings") . "</a></small></small></p>
-      <?php } ?>";
+        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=Settings&f=display'>" . _("Settings") . "</a></small></small></p>";
+    } 
 
     return $ret;
   }
@@ -73,6 +79,7 @@ class Settings {
     global $ASTERISK_VOICEMAIL_CONF;
     global $SETTINGS_ALLOW_VOICEMAIL_PASSWORD_SET;
     global $SETTINGS_VOICEMAIL_PASSWORD_LENGTH;
+    global $SETTINGS_VOICEMAIL_PASSWORD_EXACT;
     global $SETTINGS_ALLOW_CALL_RECORDING_SET;
 
     // args
@@ -135,7 +142,12 @@ class Settings {
               _("Voicemail password not changed") . "<br>" .
               _("Password and password confirm must not be blank");
           }  
-          else if (strlen($voicemail_password)!=$SETTINGS_VOICEMAIL_PASSWORD_LENGTH || !is_numeric($voicemail_password)) {
+          else if ((strlen($voicemail_password)<$SETTINGS_VOICEMAIL_PASSWORD_LENGTH) || !is_numeric($voicemail_password)) {
+            $_SESSION['ari_error'] = 
+              _("Voicemail password not changed") . "<br>" .
+              sprintf(_("Passwords must be all numbers and greater than %d digits"),$SETTINGS_VOICEMAIL_PASSWORD_LENGTH);
+          }
+          else if (strlen($voicemail_password)!=$SETTINGS_VOICEMAIL_PASSWORD_LENGTH && $SETTINGS_VOICEMAIL_PASSWORD_EXACT || !is_numeric($voicemail_password)) {
             $_SESSION['ari_error'] = 
               _("Voicemail password not changed") . "<br>" .
               sprintf(_("Passwords must be all numbers and only %d digits"),$SETTINGS_VOICEMAIL_PASSWORD_LENGTH);
@@ -442,7 +454,7 @@ class Settings {
               $var_enable = $var . "enable";
               $var_text_box_options = $var . "text_box_options";
 
-              $$var_text_box_options = "disabled style='background: #DDD;'";
+              $$var_text_box_options = "disabled";
               if ($_COOKIE[$var_cookie]=='yes') {
                 $$var_enable = 'checked';
               }
