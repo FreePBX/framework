@@ -23,6 +23,7 @@ $type = 'tool';
 </div> 
 <div class="rnav">
     <li><a href="config.php?type=tool&display=<?php echo urlencode($display)?>&action=start"><?php echo _("Start IRC")?></a></li>
+    <li><a href="http://aussievoip.com.au/wiki-FreePBX" target="_new"><?php echo _("Online Documentation")?></a></li>
 </div>
 <div class="content">
 
