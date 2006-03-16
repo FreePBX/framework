@@ -178,7 +178,11 @@ function queues_list() {
 			$extens[] = array($result[0],$result[1]);
 		}
 	}
-	return $extens;
+	if (isset($extens)) {
+		return $extens;
+	} else {
+		return null;
+	}
 }
 
 
