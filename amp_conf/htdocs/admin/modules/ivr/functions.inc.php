@@ -65,7 +65,7 @@ function ivr_get_config($engine) {
 					//apply default timeout if needed
 					if($default_t) {
 						$ext->add($item[0], 't', '', new ext_setvar('LOOPED','$[${LOOPED} + 1]'));
-						$ext->add($item[0], 't', '', new ext_goto('LOOP'));				
+						$ext->add($item[0], 't', '', new ext_goto('s,LOOP'));				
 					}
 				}
 			}
