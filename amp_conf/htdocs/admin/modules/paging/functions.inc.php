@@ -173,7 +173,3 @@ function paging_add($xtn, $plist) {
 
 
 ?>
-
-
-
-

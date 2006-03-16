@@ -500,7 +500,3 @@ exten => 123,n,noop(test at 102)
 */
 
 ?>
-
-
-
-
