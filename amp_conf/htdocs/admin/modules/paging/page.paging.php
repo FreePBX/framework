@@ -55,7 +55,7 @@ switch ($action) {
 
 function paging_text() {
 ?>
-<p><?php echo _("This module is for specific phones that are capable of Paging or Intercom. Presently, Intercom is <b>not</b> supported, only group paging is. The current list of supported phones is GXP-2000 with firmware 1.0.13 or higher, Snom phones with 'recent' firmware, and (someone fill in some more phone information here).") ?></p>
+<p><?php echo _("This module is for specific phones that are capable of Paging or Intercom. Presently, Intercom is <b>not</b> supported, only group paging is. The current list of supported phones is GXP-2000 with firmware 1.0.13 or higher, Snom phones with 'recent' firmware, and a few various other phones.") ?></p>
 <?php
 }
 
