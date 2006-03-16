@@ -149,6 +149,19 @@ function deleteTrunk(key) {
 	document.getElementById('routeEdit').submit();
 }
 
+function repositionRoute(key,direction){
+	if(direction == "up"){
+		document.getElementById('reporoutedirection').value=direction;
+		document.getElementById('reporoutekey').value=key;
+	}else if(direction == "down" ){
+		document.getElementById('reporoutedirection').value=direction;
+		document.getElementById('reporoutekey').value=key;
+	}
+	document.getElementById('action').value='prioritizeroute';
+	document.getElementById('routeEdit').submit();
+}
+
+
 function openWindow(url,width,height) { 
 	popupWin = window.open(url, '', 'width='+width + ',height='+height)
 }
