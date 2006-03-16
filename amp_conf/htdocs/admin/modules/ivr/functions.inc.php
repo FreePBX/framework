@@ -98,7 +98,11 @@ function ivr_get_s($menu_id) {
 //get unique voice menu numbers - returns 2 dimensional array
 function ivr_list() {
 	global $db;
-	$dept = str_replace(' ','_',$_SESSION["AMP_user"]->_deptname);
+	if (isset($_SESSION["AMP_user"])) {
+		$dept = str_replace(' ','_',$_SESSION["AMP_user"]->_deptname);
+	} else {
+		$dept = '%';
+	}
 	if (empty($dept)) $dept='%';  //if we are not restricted to dept (ie: admin), then display all AA menus
 	$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND application LIKE 'DigitTimeout' AND context LIKE '".$dept."aa_%' ORDER BY context,priority";
 	$unique_aas = $db->getAll($sql);
