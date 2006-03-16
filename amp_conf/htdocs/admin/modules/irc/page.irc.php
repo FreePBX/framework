@@ -58,6 +58,10 @@ switch ($action) {
 
 <?php echo _("This allows you to contact the FreePBX channel on IRC."); ?>
 
+<?php echo _("Note that when you click anywhere else, you will close your IRC session."); ?>
+
+<?php echo _("It's suggested to use <b>'Open Link in New Window'</b> or <b>'Open Link In New Tab'</b> with Mozilla or Firefox."); ?>
+
 <?php echo _("As IRC is an un-moderated international medium, AMP, FreePBX, Coalescent Systems, or any other party can not be held responsible for the actions or behaviour of other people on the network"); ?>
 
 <?php echo _("When you connect to IRC, to assist in support, the IRC client will automatically send the following information to everyone in the #freePBX channel:"); ?>
