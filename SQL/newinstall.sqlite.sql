@@ -27,7 +27,7 @@ CREATE TABLE admin (
 -- 
 
 INSERT INTO admin VALUES ('need_reload', 'false');
-INSERT INTO admin VALUES ('version','1.10.010beta1');
+INSERT INTO admin VALUES ('version','2.0.0');
 -- --------------------------------------------------------
 
 -- 
@@ -177,7 +177,7 @@ CREATE TABLE devices (id VARCHAR( 20 ) NOT NULL , tech VARCHAR( 10 ) NOT NULL , 
 
 CREATE TABLE users (extension VARCHAR( 20 ) NOT NULL , password VARCHAR( 20 ) , name VARCHAR( 50 ) , voicemail VARCHAR( 50 ) , ringtimer INT(3) , noanswer VARCHAR( 100 ) , recording VARCHAR( 50 ) ,  outboundcid VARCHAR( 50 ));
 
-CREATE TABLE incoming ( cidnum VARCHAR( 20 ) , extension VARCHAR( 20 ) , destination VARCHAR( 50 ) , faxexten VARCHAR( 20 ) , faxemail VARCHAR( 50 ) , answer TINYINT( 1 ) , wait INT( 2 ) , privacyman TINYINT( 1 ) );
+CREATE TABLE incoming ( cidnum VARCHAR( 20 ) , extension VARCHAR( 20 ) , destination VARCHAR( 50 ) , faxexten VARCHAR( 20 ) , faxemail VARCHAR( 50 ) , answer TINYINT( 1 ) , wait INT( 2 ) , privacyman TINYINT( 1 ) , alertinfo VARCHAR( 32 ));
 
 CREATE TABLE Backup (Name varchar(50) default NULL,Voicemail varchar(50) default NULL,Recordings varchar(50) default NULL,Configurations varchar(50) default NULL,CDR varchar(55) default NULL,FOP varchar(50) default NULL,Minutes varchar(50) default NULL,Hours varchar(50) default NULL,Days varchar(50) default NULL,Months varchar(50) default NULL,Weekdays varchar(50) default NULL,Command varchar(200) default NULL,Method varchar(50) default NULL,ID int(11) NOT NULL,PRIMARY KEY  (ID));
 
