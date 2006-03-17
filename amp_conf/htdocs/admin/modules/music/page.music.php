@@ -68,7 +68,7 @@ function createmusicconf()
 	$tresults = music_list("/var/lib/asterisk/mohmp3");
 	if (isset($tresults)) {
 		foreach ($tresults as $tresult) 
-			$File_Write.="{$tresult} => /var/lib/asterisk/mohmp3/{$tresult}\n";
+			$File_Write.="[{$tresult}]\nmode=files\ndirectory=/var/lib/asterisk/mohmp3/{$tresult}\n";
 	}
 
 $handle = fopen("/etc/asterisk/musiconhold_additional.conf", "w");
