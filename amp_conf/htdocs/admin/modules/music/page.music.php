@@ -144,13 +144,19 @@ function draw_list($file_array, $path_to_dir, $category)
 function process_mohfile($mohfile)
 {
 	global $path_to_dir;
+	$output = 0;
+	$returncode = 0;
 	$origmohfile=$path_to_dir."/orig_".$mohfile;
 	$newname = strtr($mohfile,"&", "_");
-      $newmohfile=$path_to_dir."/". ((strpos($newname,'.mp3') === false) ? $newname.".mp3" : $newname);
-	$lamecmd="lame --cbr -m m -t -F \"".$origmohfile."\" \"".$newmohfile."\"";
-	exec($lamecmd);
+	$newmohfile=$path_to_dir."/". ((strpos($newname,'.mp3') === false) ? $newname.".mp3" : $newname);
+	$lamecmd="lame --cbr -m m -t -F \"".$origmohfile."\" \"".$newmohfile."\" 2>&1 ";
+	exec($lamecmd, $output, $returncode);
+	if ($returncode != 0) {
+		return join("<br>\n", $output);
+	}
 	$rmcmd="rm -f \"". $origmohfile."\"";
 	exec($rmcmd);
+	return null;
 }
 
 /*function kill_mpg123()
@@ -225,8 +231,12 @@ else
 	if (isset($_FILES['mohfile']['tmp_name']) && is_uploaded_file($_FILES['mohfile']['tmp_name'])) {
 		//echo $_FILES['mohfile']['name']." uploaded OK";
 		move_uploaded_file($_FILES['mohfile']['tmp_name'], $path_to_dir."/orig_".$_FILES['mohfile']['name']);
-		process_mohfile($_FILES['mohfile']['name']);
-		echo "<h5>"._("Completed processing")." ".$_FILES['mohfile']['name']."!</h5>";
+		$process_err = process_mohfile($_FILES['mohfile']['name']);
+		if (isset($process_err)) {
+			echo "<h5>"._("Error Processing").": \"$process_err\" for ".$_FILES['mohfile']['name']."!</h5>";
+		} else {
+			echo "<h5>"._("Completed processing")." ".$_FILES['mohfile']['name']."!</h5>";
+		}
 		//kill_mpg123();
 	}
 
