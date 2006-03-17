@@ -665,7 +665,7 @@ function isDialpatternChar (c)
 function warnInvalid (theField, s) {
     theField.focus();
     theField.select();
-    alert(<?php echo _(s); ?>);
+    alert(s);
     return false;
 }
 
