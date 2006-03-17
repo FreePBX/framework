@@ -72,14 +72,18 @@ function ajaxRefreshScript($args) {
             var nav_submenu = http_request.responseText.substr(i2,nav_submenu_len);
             var content = http_request.responseText.substr(i4);
 
-            document.getElementById('nav_menu').innerHTML = '';
-            document.getElementById('nav_menu').innerHTML = nav_menu;
-
-            document.getElementById('nav_submenu').innerHTML = '';
-            document.getElementById('nav_submenu').innerHTML = nav_submenu;
-
-            document.getElementById('content').innerHTML = '';
-            document.getElementById('content').innerHTML = content;
+            if (nav_menu) {
+              document.getElementById('nav_menu').innerHTML = '';
+              document.getElementById('nav_menu').innerHTML = nav_menu;
+            }
+            if (nav_submenu) {
+              document.getElementById('nav_submenu').innerHTML = '';
+              document.getElementById('nav_submenu').innerHTML = nav_submenu;
+            }
+            if (content) {
+              document.getElementById('content').innerHTML = '';
+              document.getElementById('content').innerHTML = content;
+            }
           } 
         }
       }
