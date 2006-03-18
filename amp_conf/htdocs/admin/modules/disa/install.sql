@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS disa ( disa_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY , displayname VARCHAR( 50 ), pin VARCHAR ( 50 ), cid VARCHAR ( 50 ), context VARCHAR ( 50 ) ); 
