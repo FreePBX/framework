@@ -44,7 +44,7 @@ $disas = disa_list();
 <?php
 if (isset($disas)) {
 	foreach ($disas as $d) {
-		echo "<li><a id=\"".($itemid==$d['disa_id'] ? 'current':'std')."\" href=\"config.php?display=".urlencode($dispnum)."&itemid=".urlencode($d['disa_id'])."\">{$d['displayname']}</a></li>";
+		echo "<li><a id=\"".($itemid==$d['disa_id'] ? 'current':'std')."\" href=\"config.php?display=".urlencode($dispnum)."&itemid=".urlencode($d['disa_id'])."\">{$d['displayname']} ({$d['disa_id']})</a></li>";
 	}
 }
 ?>
@@ -60,7 +60,7 @@ if ($action == 'delete') {
 	$delURL = $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'&action=delete';
 ?>
 
-	<h2><?php echo ($itemid ? "DISA: ".$thisItem["displayname"] : _("Add")." DISA"); ?></h2>
+	<h2><?php echo ($itemid ? "DISA: ".$thisItem["displayname"]." ($itemid)" : _("Add")." DISA"); ?></h2>
 <?php		if ($itemid){ ?>
 	<p><a href="<?php echo $delURL ?>"><?php echo _("Delete")." DISA"?> <?php echo $thisItem["displayname"]; ?></a></p>
 <?php		} ?>
