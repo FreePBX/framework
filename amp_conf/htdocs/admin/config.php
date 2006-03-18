@@ -14,6 +14,7 @@
 $title="freePBX administration";
 $message="Setup";
 
+$quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 require_once('functions.inc.php');
 
 //obsolete stuff
@@ -113,10 +114,11 @@ if(is_array($active_modules)){
 		}
 	}
 }
-
-echo "<table width=\"100%\" cellspacing='0' cellpadding='0'><tr><td>";
-// show menu
-echo "<div class=\"nav\">";
+if (!$quietmode) {
+	echo "<table width=\"100%\" cellspacing='0' cellpadding='0'><tr><td>";
+	// show menu
+	echo "<div class=\"nav\">\n";
+}
 
 // extensions vs device/users ... this is a bad design, but hey, it worksv
 if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
@@ -142,7 +144,8 @@ foreach ($amp_sections as $key=>$value) {
 					textdomain('amp');
 				}
 			}
-			echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?".(isset($_REQUEST['type'])?"type={$_REQUEST['type']}&":"")."display=".$key."\">"._($value)."</a></li>";			
+			if (!$quietmode) 
+				echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?".(isset($_REQUEST['type'])?"type={$_REQUEST['type']}&":"")."display=".$key."\">"._($value)."</a></li>\n";
 		}
 	} else {
 		// they don't have access to this, remove it completely
