@@ -476,6 +476,12 @@ class ext_page extends extension {
 	}
 }
 
+class ext_disa extends extension {
+	function output() {
+		return "DISA(".$this->data.")";
+	}
+}
+
 /* example usage
 $ext = new extensions;
 
