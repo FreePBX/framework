@@ -11,7 +11,8 @@ function recordings_init() {
         if (DB::IsError($results)) {
                 // It couldn't locate the table. This is bad. Lets try to re-create it, just
                 // in case the user has had the brilliant idea to delete it.
-                // runModuleSQL taken from page.module.php.
+                // runModuleSQL taken from page.module.php. It's inclusion here is probably
+		// A bad thing. It should be, I think, globally available. 
                 runModuleSQL('recordings', 'uninstall');
                 if (runModuleSQL('recordings', 'install')==false) {
                         echo _("There is a problem with install.sql, cannot re-create databases. Contact support\n");
@@ -72,7 +73,7 @@ function recording_add($displayname, $filename) {
 	return true;
 	
 }
-	
+
 function runModuleSQL($moddir,$type){
         global $db;
         $data='';
