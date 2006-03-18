@@ -40,6 +40,7 @@ switch ($action) {
 		break;
 	case "edit":
 		recording_sidebar($id, $usersnum);	
+		recording_editpage($id, $usersnum);
 		break;
 	default:
 		recording_sidebar($id, $usersnum);
@@ -90,7 +91,7 @@ function recording_mainpage($usersnum) { ?>
 	<form name="prompt" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return rec_onsubmit();">
 	<input type="hidden" name="action" value="recorded">
 	<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
-	<input type="hidden" name="display" value="<?php echo $display?>">
+	<input type="hidden" name="display" value="recordings">
 	<?php
 	if (!empty($usersnum)) { ?>
 		<h5><?php echo _("Step 2: Verify")?></h5>
@@ -119,14 +120,23 @@ function recording_mainpage($usersnum) { ?>
 	-->
 	</script>
 	</form>
+	</div>
 <?php
 }
 
+function recording_editpage($id, $usersnum) { ?>
+	<div class="content">
+	<h2><?php echo _("System Recordings")?></h2>
+	<h2><?php echo _("Edit Recording") ?></h2>
+	<h5><?php echo _("Step 1: Record or upload")?></h5>
+	</div>
+<?php
+}
 
 function recording_sidebar($id, $num) {
 ?>
         <div class="rnav">
-        <li><a id="nul" href="config.php?display=<?php echo urlencode($display)?>"><?php echo _("Add Recording")?></a></li>
+        <li><a id="nul" href="config.php?display=recordings"><?php echo _("Add Recording")?></a></li>
 <?php
 
         $tresults = recordings_list();
@@ -138,6 +148,5 @@ function recording_sidebar($id, $num) {
         }
         echo "</div>\n";
 }
-
 
 ?>
