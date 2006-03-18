@@ -5,6 +5,6 @@
  * version
  */
 
-$ARI_VERSION = '00.08.03';
+$ARI_VERSION = '00.08.04';
 
 ?>
