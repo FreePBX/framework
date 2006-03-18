@@ -96,6 +96,9 @@ if (count($unique_aas) > 0) {
 			elseif ($application == 'Goto' && !(strpos($args[0],'ext-meetme') === false)) {
 				echo '<li>'._("dialing").' '.$extension.' <b>'._("goes to Conference ").$args[1].'</b>';
 			}
+			elseif ($application == 'Goto' && !(strpos($args[0],'disa') === false)) {
+				echo '<li>'._("dialing").' '.$extension.' <b>'._("goes to DISA ").$args[1].'</b>';
+			}
 		}
 ?>
 			</ul>
