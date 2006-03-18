@@ -90,7 +90,7 @@ function disa_del($id) {
 function disa_edit($id, $post) {
 	if (!disa_chk($post))
 		return null;
-	extract($post)
+	extract($post);
         if(empty($displayname)) $displayname = "unnamed";
 	if(empty($pin)) $pin = "no-password";
         $results = sql("UPDATE disa  set displayname = \"$displayname\", pin = \"$pin\", cid = \"$cid\", context = \"$context\" where disa_id = \"$id\"");
