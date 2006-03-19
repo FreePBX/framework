@@ -82,7 +82,7 @@ function disa_add($post) {
                 return null;
         extract($post);
         if(empty($displayname)) $displayname = "unnamed";
-        $results = sql("INSERT INTO disa (displayname,pin,cid,context) values (\"$displayname\",\"$pin\",\"$cid\",\"$context\")");
+        $results = sql("INSERT INTO disa (displayname,pin,cid,context) values (\"".str_replace("\"", "\"\"",$displayname)."\",\"".$pin."\",\"".str_replace("\"", "\"\"", $cid)."\",\"".$context."\")");
 }
 
 function disa_del($id) {
@@ -95,6 +95,6 @@ function disa_edit($id, $post) {
 		return null;
 	extract($post);
         if(empty($displayname)) $displayname = "unnamed";
-        $results = sql("UPDATE disa  set displayname = \"$displayname\", pin = \"$pin\", cid = \"$cid\", context = \"$context\" where disa_id = \"$id\"");
+        $results = sql("UPDATE disa  set displayname = \"".str_replace("\"", "\"\"",$displayname)."\", pin = \"$pin\", cid = \"".str_replace("\"", "\"\"",$cid)."\", context = \"$context\" where disa_id = \"$id\"");
 }
 ?>

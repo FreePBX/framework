@@ -74,19 +74,19 @@ if ($action == 'delete') {
 	<tr>
 		<td><a href="#" class="info"><?php echo "DISA "._("name:")?><span><?php echo _("Give this DISA a brief name to help you identify it.")?></span></a></td>
 
-		<td><input type="text" name="displayname" value="<?php echo (isset($thisItem['displayname']) ? $thisItem['displayname'] : ''); ?>"></td>
+		<td><input type="text" name="displayname" value="<?php echo htmlspecialchars(isset($thisItem['displayname']) ? $thisItem['displayname'] : ''); ?>"></td>
 	</tr>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("PIN"); ?><span><?php echo _("The user will be prompted for this number.")." "._("If you wish to have multiple PIN's, seperate them with commas"); ?></span></a></td>
-		<td><input type="text" name="pin" value="<?php echo (isset($thisItem['pin']) ? $thisItem['pin'] : ''); ?>"></td>
+		<td><input type="text" name="pin" value="<?php echo htmlspecialchars(isset($thisItem['pin']) ? $thisItem['pin'] : ''); ?>"></td>
 	</tr>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Caller ID"); ?><span><?php echo _("(Optional) When using this DISA, the users CallerID will be set to this. Format is \"User Name\" <5551234>"); ?></span></a></td>
-		<td><input type="text" name="cid" value="<?php echo (isset($thisItem['cid']) ? $thisItem['cid'] : ''); ?>"></td>
+		<td><input type="text" name="cid" value="<?php echo htmlspecialchars(isset($thisItem['cid']) ? $thisItem['cid'] : ''); ?>"></td>
 	</tr>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Context"); ?><span><?php echo _("(Experts Only) Sets the context that calls will originate from. Leave this as from-internal unless you know what you're doing."); ?></span></a></td>
-		<td><input type="text" name="context" value="<?php echo (isset($thisItem['context']) ? $thisItem['context'] : 'from-internal'); ?>"></td>
+		<td><input type="text" name="context" value="<?php echo htmlspecialchars(isset($thisItem['context']) ? $thisItem['context'] : 'from-internal'); ?>"></td>
 	</tr>
         <tr>
                 <td colspan="2"><br><h6><input name="Submit" type="submit" value="<?php echo _("Submit Changes")?>"></h6></td>
