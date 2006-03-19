@@ -34,6 +34,7 @@ switch($action) {
         <h6><input name="Submit" type="submit" value="<?php echo _("Continue")?>"></h6><br><br><br><br><br><br>
 <script language="javascript">
 <!--
+
 var theForm = document.prompt;
 theForm.cidnum.focus();
 function prompt_onsubmit() {
@@ -43,9 +44,11 @@ function prompt_onsubmit() {
 		
 	return true;
 }
--->
+
+//-->
 </script>
-	</form>
+
+</form>
 
 <?php
         break;

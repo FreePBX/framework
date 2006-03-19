@@ -285,6 +285,6 @@ function checkGRP(theForm) {
 		
 	return true;
 }
--->
+//-->
 </script>
 

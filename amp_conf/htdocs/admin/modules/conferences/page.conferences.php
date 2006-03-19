@@ -226,6 +226,7 @@ if ($action == 'delete') {
 	</table>
 <script language="javascript">
 <!--
+
 var theForm = document.editMM;
 
 if (theForm.account.value == "") {
@@ -269,7 +270,7 @@ function checkConf()
 	return true;
 }
 
--->
+//-->
 </script>
 	</form>
 <?php		

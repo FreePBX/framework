@@ -202,7 +202,7 @@ function addcategory_onsubmit() {
 	return true;
 }
 
--->
+//-->
 </script>
 
 	</form>

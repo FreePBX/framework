@@ -99,3 +99,15 @@ switch($display) {
 
 
 </div>
+
+<script language="javascript">
+<!--
+
+function changeLang(lang) {
+	document.cookie='lang='+lang;
+	window.location.reload();
+}
+
+//-->
+</script>
+
