@@ -16,6 +16,7 @@
 
 $action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
 $id = isset($_REQUEST['id'])?$_REQUEST['id']:'';
+$notes = isset($_REQUEST['notes'])?$_REQUEST['notes']:'';
 $rname = isset($_REQUEST['rname'])?$_REQUEST['rname']:'';
 $usersnum = isset($_REQUEST['usersnum'])?$_REQUEST['usersnum']:'';
 
@@ -33,25 +34,33 @@ switch ($action) {
 		// Clean up the filename, take out any nasty characters
 		$filename = escapeshellcmd(strtr($rname, '/ ', '__'));
 		rename('/var/lib/asterisk/sounds/'.$dest.'ivrrecording.wav','/var/lib/asterisk/sounds/custom/'.$filename.'.wav');
-		recording_add($rname, $filename.".wav");
+		recordings_add($rname, $filename.".wav");
 		recording_sidebar(null, $usersnum);
-		echo '<br><h3>'._("System Recording").' "'.$rname.'" '._("Saved").'!</h3>';
-		recording_mainpage($usersnum);
+		recording_addpage($usersnum);
+		echo '<div class="content">><h5>'._("System Recording").' "'.$rname.'" '._("Saved").'!</h5>';
 		break;
 	case "edit":
 		recording_sidebar($id, $usersnum);	
 		recording_editpage($id, $usersnum);
 		break;
+	case "edited":
+		recordings_update($id, $rname, $notes);
+		recording_sidebar($id, $usernsnum);
+		recording_editpage($id, $usersnum);
+		echo '<div class="content"><h5>'._("System Recording").' "'.$rname.'" '._("Updated").'!</h5></div>';
+		break;
+	case "delete";
+		recordings_del($id);
 	default:
 		recording_sidebar($id, $usersnum);
-		recording_mainpage($usersnum);
+		recording_addpage($usersnum);
 		break;
 }
 	
-function recording_mainpage($usersnum) { ?>
+function recording_addpage($usersnum) { ?>
 	<div class="content">
 	<h2><?php echo _("System Recordings")?></h2>
-	<h2><?php echo _("Add Recording") ?></h2>
+	<h3><?php echo _("Add Recording") ?></h3>
 	<h5><?php echo _("Step 1: Record or upload")?></h5>
 	<p> <?php if (!empty($usersnum)) {
 		echo _("Using your phone,")."<a href=\"#\" class=\"info\">"._("dial *77")." <span>";
@@ -72,7 +81,7 @@ function recording_mainpage($usersnum) { ?>
 		<?php echo _('Alternatively, upload a recording in')?> <a href="#" class="info"><?php echo _(".wav format")?><span><?php echo _("The .wav file _must_ be 16 bit PCM Encoded at a sample rate of 8000Hz")?></span></a>:<br>
 		<input type="hidden" name="display" value="recordings">
 		<input type="hidden" name="action" value="recordings_start">
-                <input type="hidden" name="usersnum" value="<?php echo $usersnum;?>">
+                <input type="hidden" name="usersnum" value="<?php echo $usersnum ?>">
 		<input type="file" name="ivrfile"/>
 		<input type="button" value="<?php echo _("Upload")?>" onclick="document.upload.submit(upload);alert('<?php echo _("Please wait until the page reloads.")?>');"/>
 	</form>
@@ -90,7 +99,6 @@ function recording_mainpage($usersnum) { ?>
 	</p>
 	<form name="prompt" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return rec_onsubmit();">
 	<input type="hidden" name="action" value="recorded">
-	<input type="hidden" name="cidnum" value="<?php echo $_REQUEST['cidnum'];?>">
 	<input type="hidden" name="display" value="recordings">
 	<?php
 	if (!empty($usersnum)) { ?>
@@ -124,11 +132,39 @@ function recording_mainpage($usersnum) { ?>
 <?php
 }
 
-function recording_editpage($id, $usersnum) { ?>
+function recording_editpage($id, $num) { ?>
+	
 	<div class="content">
 	<h2><?php echo _("System Recordings")?></h2>
-	<h2><?php echo _("Edit Recording") ?></h2>
-	<h5><?php echo _("Step 1: Record or upload")?></h5>
+	<h3><?php echo _("Edit Recording") ?></h3>
+	<?php
+	$this_recording = recordings_get($id);
+	if (!$this_recording) {
+		echo "<tr><td colspan=2><h2>Error reading Recording ID $id - Aborting</h2></td></tr></table>";
+		return;
+	}?>
+	<?php 
+	echo "<a href=config.php?display=recordings&amp;action=delete&amp;usersnum=".urlencode($num);
+	echo "&amp;id=$id>Remove Recording</a> <i style='font-size: x-small'>(Note, does not delete file from computer)</i>";
+	?>
+	<form name="prompt" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+	<input type="hidden" name="action" value="edited">
+	<input type="hidden" name="display" value="recordings">
+	<input type="hidden" name="usersnum" value="<?php echo $usersnum ?>">
+	<input type="hidden" name="id" value="<?php echo $id ?>">
+	<table>
+	<tr><td colspan=2><hr></td></tr>
+	<tr>
+		<td><a href="#" class="info">Change Name<span>This changes the short name, visible on the right, of this recording</span></a></td>
+		<td><input type="text" name="rname" value="<?php echo $this_recording[1] ?>"></td>
+	</tr>
+	<tr>
+	    	<td><a href="#" class="info">Descriptive Name<span>This is displayed, as a hint, when selecting this recording in Queues, Digital Receptionist, etc</span></a></td>
+	    	<td>&nbsp;<textarea name="notes" rows="3" cols="40"><?php echo $this_recording[3] ?></textarea></td>
+	</tr>
+	</table>
+	<input name="Submit" type="submit" value="<?php echo _("Save")?>"></h6>
+	</form>
 	</div>
 <?php
 }
@@ -136,14 +172,14 @@ function recording_editpage($id, $usersnum) { ?>
 function recording_sidebar($id, $num) {
 ?>
         <div class="rnav">
-        <li><a id="nul" href="config.php?display=recordings"><?php echo _("Add Recording")?></a></li>
+        <li><a id="<?php echo empty($id)?'current':'nul' ?>" href="config.php?display=recordings&amp;usersnum=<?php echo urlencode($num) ?>"><?php echo _("Add Recording")?></a></li>
 <?php
 
         $tresults = recordings_list();
         if (isset($tresults)){
                 foreach ($tresults as $tresult) {
                         echo "<li><a id=\"".($id==$tresult[0] ? 'current':'nul')."\" href=\"config.php?display=recordings";
-                        echo "&amp;action=edit&amp;usersnum=".urlencode($id)."&amp;id={$tresult['0']}\">{$tresult['1']}</a></li>\n";
+                        echo "&amp;action=edit&amp;usersnum=".urlencode($num)."&amp;id={$tresult['0']}\">{$tresult['1']}</a></li>\n";
                 }
         }
         echo "</div>\n";

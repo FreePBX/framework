@@ -198,13 +198,13 @@ if ($action == 'delGRP') {
 		<td>
 			<select name="annmsg"/>
 			<?php
-				$tresults = recordings_list("/var/lib/asterisk/sounds/custom");
+				$tresults = recordings_list();
 				$default = (isset($annmsg) ? $annmsg : '');
 				echo '<option value="">'._("None");
-				if (isset($tresults)) {
+				if (isset($tresults[0])) {
 					foreach ($tresults as $tresult) {
 						$searchvalue="custom/$tresult";	
-						echo '<option value="custom/'.$tresult.'"'.($searchvalue == $default ? ' SELECTED' : '').'>'.$tresult;
+						echo '<option value='.$tresult[0].'"'.($searchvalue == $default ? ' SELECTED' : '').'>'.$tresult[1];
 					}
 				}
 			?>		

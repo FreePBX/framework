@@ -38,10 +38,10 @@ function recordings_init() {
 			if ($file[0] != "." && $file != "CVS") {
 				// Ignore the suffix..
 				$fname = ereg_replace('.wav', '', $file);
-				recording_add($fname, $file);
+				recordings_add($fname, "custom/$file");
 			}
 		}
-		$result = sql("INSERT INTO recordings values ('', '__invalid', 'install done')");
+		$result = sql("INSERT INTO recordings values ('', '__invalid', 'install done', '')");
         } 
 }
 
@@ -60,19 +60,37 @@ function recordings_list() {
         return $results;
 }
 
-function recording_add($displayname, $filename) {
+function recordings_get($id) {
 	global $db;
-	$recordings_directory = "/var/lib/asterisk/sounds/custom/";
+        $sql = "SELECT * FROM recordings where id='$id'";
+        $results = $db->getAll($sql);
+        if(DB::IsError($results)) {
+                $results = null;
+        }
+	return $results[0];
+}
+
+function recordings_add($displayname, $filename) {
+	global $db;
 
 	// Check to make sure we can actually read the file
-	if (!is_readable($recordings_directory.$filename)) {
+	if (!is_readable('/var/lib/asterisk/sounds/'.$filename)) {
 		print "Unable to add $filename - Can't read file!";
 		return false;
 	}
-	sql("INSERT INTO recordings values ('', '$displayname', '$filename')");
+	sql("INSERT INTO recordings values ('', '$displayname', '$filename', 'No long description available')");
 	return true;
 	
 }
+
+function recordings_update($id, $rname, $descr) {
+	 $results = sql("UPDATE recordings SET displayname = \"$rname\", description = \"$descr\" WHERE id = \"$id\"");
+}
+
+function recordings_del($id) {
+	 $results = sql("DELETE FROM recordings WHERE id = \"$id\"");
+}
+
 
 function runModuleSQL($moddir,$type){
         global $db;
