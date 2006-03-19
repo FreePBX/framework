@@ -17,6 +17,11 @@ if (!extension_loaded('gettext')) {
 
 ?>
 
+
+// ***************************************************
+// ** Client-side Browser Detection                 **
+// ***************************************************
+
 Is_DOM = (document.getElementById) ? true : false;
 Is_NS4 = (document.layers) ? true : false;
 Is_IE = (document.all) ? true : false;
@@ -24,265 +29,15 @@ Is_IE4 = Is_IE && !Is_DOM;
 Is_Mac = (navigator.appVersion.indexOf("Mac") != -1);
 Is_IE4M = Is_IE4 && Is_Mac;
 
-function checkForm(theForm) {
-	$tech = theForm.tech.value;
-	$account = theForm.account.value;
-	$vmpwd = theForm.vmpwd.value;
-	$email = theForm.email.value;
-	$pager = theForm.pager.value;
-	$context = theForm.context.value;
-	
-	if ($tech != "zap") {
-		$secret = theForm.secret.value;
-		$host = theForm.host.value;
-		$type = theForm.type.value;
-		$username = theForm.username.value;
-		if ($username == "") {
-			theForm.username.value = $account;
-			$username = $account;
-		}
-	}
 
-	$mailbox = theForm.mailbox.value;
-	$fullname = theForm.name.value;
-	$vm = theForm.vm.value;
-	
-	if ($tech == "zap") {
-		$channel=theForm.channel.value;
-	}
+// ***************************************************
+// ** Client-side library functions                     **
+// ***************************************************
 
-	
-	if (($tech != "zap") && ($account == "" || $secret == "" || $context == "" || $host == "" || $type == ""  || $username == "")) {
-		<?php echo "alert('"._("Please fill in all required fields.")."')"?>;
-	} else if (($tech == "zap") && ( $account == "" || $context == "" || $channel=="")) {
-		<?php echo "alert('"._("Please fill in all required fields.")."')"?>;
-	} else if (($account.indexOf('0') == 0) && ($account.length > 1)) {
-		<?php echo "alert('"._("Extensions numbers with more than one digit cannot begin with 0")."')"?>;
-	} else if ($account != parseInt($account)) {
-		<?php echo "alert('"._("There is something wrong with your extension number - it must be in integer")."')"?>;
-	} else if ($vm == "enabled" && $fullname == "" && $vmpwd == "" && $email == "" && $pager == "") {
-		<?php echo "alert('"._("You have enabled Voicemail & Directory for this extension, but have not specified any options.  Please specify options, or disable Voicemail & Directory.")."')"?>;
-	} else if ((!$vmpwd.match('^[0-9]+')) && ($vmpwd != "")) {
-		<?php echo "alert('"._("A voicemail passsword can only contain digits")."')"?>;
-	} else {
-	theForm.submit();
-	}
+function decision(message, url) {
+	if (confirm(message))
+		location.href = url;
 }
-
-function checkGeneral(theForm) {
-	$RINGTIMER = theForm.RINGTIMER.value;
-	$FAX_RX = theForm.FAX_RX.value;
-
-	if ($RINGTIMER == "" || $FAX_RX == "") {
-		<?php echo "alert('"._("Please fill in all required fields.")."')"?>;
-	} else {
-	theForm.submit();
-	}
-}
-
-function checkIncoming(theForm) {
-	$INCOMING = theForm.INCOMING.value;
-
-	if ($INCOMING == "") {
-		<?php echo "alert('"._("Please select where you would like to send incoming calls to.")."')"?>;
-	} else {
-	theForm.submit();
-	}
-}
-
-function checkQ(theForm) {
-        $queuename = theForm.name.value;
-        var bad = "false";
-
-        var whichitem = 0;
-        while (whichitem < theForm.goto_indicate0.length) {
-                if (theForm.goto_indicate0[whichitem].checked) {
-                        theForm.goto0.value=theForm.goto_indicate0[whichitem].value;
-                }
-                whichitem++;
-        }
-
-        var gotoType = theForm.elements[ "goto0" ].value;
-        if (gotoType == 'custom') {
-                var gotoVal = theForm.elements[ "custom0"].value;
-                if (gotoVal.indexOf('custom') == -1) {
-                        bad = "true";
-						<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
-                }
-        }
-
-        $account = theForm.account.value;
-        if ($account == "") {
-                <?php echo "alert('"._("Queue Number must not be blank")."')"?>;
-                bad="true";
-        }
-        else if (($account.indexOf('0') == 0) && ($account.length > 1)) {
-                <?php echo "alert('"._("Queue numbers with more than one digit cannot begin with 0")."')"?>;
-                bad="true";
-        }
-
-        if ($queuename == "") {
-                <?php echo "alert('"._("Queue name must not be blank")."')"?>;
-                bad="true";
-        } else if (!$queuename.match('^[a-zA-Z][a-zA-Z0-9]+$')) {
-                <?php echo "alert('"._("Queue name cannot start with a number, and can only contain letters and numbers")."')"?>;
-                bad="true";
-        }
-
-        if (bad == "false") {
-                theForm.submit();
-        }
-}
-
-function repositionTrunk(repositiondirection,repositionkey,key,direction){
-	if(direction == "up"){
-		document.getElementById('repotrunkdirection').value=direction;
-		document.getElementById('repotrunkkey').value=key;
-	}else if(direction == "down" ){
-		document.getElementById('repotrunkdirection').value=direction;
-		document.getElementById('repotrunkkey').value=key;
-	}
-	document.getElementById('routeEdit').submit();
-}
-function deleteTrunk(key) {
-	document.getElementById('trunkpri'+key).value = '';
-	document.getElementById('routeEdit').submit();
-}
-
-function repositionRoute(key,direction){
-	if(direction == "up"){
-		document.getElementById('reporoutedirection').value=direction;
-		document.getElementById('reporoutekey').value=key;
-	}else if(direction == "down" ){
-		document.getElementById('reporoutedirection').value=direction;
-		document.getElementById('reporoutekey').value=key;
-	}
-	document.getElementById('action').value='prioritizeroute';
-	document.getElementById('routeEdit').submit();
-}
-
-
-function openWindow(url,width,height) { 
-	popupWin = window.open(url, '', 'width='+width + ',height='+height)
-}
-
-function checkVoicemail(theForm) {
-	$vm = theForm.elements["vm"].value;
-	if ($vm == 'disabled') {
-		document.getElementById('voicemail').style.display='none';
-		theForm.vmpwd.value = '';
-		theForm.email.value = '';
-		theForm.pager.value = '';
-	} else {
-		document.getElementById('voicemail').style.display='block';
-	}
-}
-
-function hideExtenFields(theForm) {
-	if(theForm.tech.value == 'iax2') {
-		document.getElementById('dtmfmode').style.display = 'none';
-		document.getElementById('secret').style.display = 'inline';
-		document.getElementById('channel').style.display = 'none';
-		document.getElementById('dial').style.display = 'none';
-	} else if (theForm.tech.value == 'sip') {
-		document.getElementById('dtmfmode').style.display = 'inline';
-		document.getElementById('secret').style.display = 'inline';
-		document.getElementById('channel').style.display = 'none';
-		document.getElementById('dial').style.display = 'none';
-	} else if (theForm.tech.value == 'zap') {
-		document.getElementById('dtmfmode').style.display = 'none';
-		document.getElementById('secret').style.display = 'none';
-		document.getElementById('channel').style.display = 'block';
-		document.getElementById('dial').style.display = 'none';
-	} else if (theForm.tech.value == 'custom') {
-		document.getElementById('dtmfmode').style.display = 'none';
-		document.getElementById('secret').style.display = 'none';
-		document.getElementById('channel').style.display = 'none';
-		document.getElementById('dial').style.display = 'block';
-	}
-}
-
-function checkAmpUser(theForm, action) {
-	$username = theForm.username.value;
-	$deptname = theForm.deptname.value;
-	
-	if ($username == "") {
-		<?php echo "alert('"._("Username must not be blank")."')"?>;
-	} else if (!$username.match('^[a-zA-Z][a-zA-Z0-9]+$')) {
-		<?php echo "alert('"._("Username cannot start with a number, and can only contain letters and numbers")."')"?>;
-	} else if ($deptname == "default") {
-		<?php echo "alert('"._("For security reasons, you cannot use the department name default")."')"?>;
-	} else if ($deptname != "" && !$deptname.match('^[a-zA-Z0-9]+$')) {
-		<?php echo "alert('"._("Department name cannot have a space")."')"?>;
-	} else {
-		theForm.action.value = action;
-		theForm.submit();
-	}
-}
-
-function changeLang(lang) {
-	document.cookie='lang='+lang;
-	window.location.reload();
-}
-
-function decision(message, url){
-if(confirm(message)) location.href = url;
-}
-
-//call this function from forms that include module destinations
-//numForms is the number of destination forms to process (usually 1)
-function setDestinations(theForm,numForms) {
-	for (var formNum = 0; formNum < numForms; formNum++) {
-		var whichitem = 0;
-		while (whichitem < theForm['goto_indicate'+formNum].length) {
-			if (theForm['goto_indicate'+formNum][whichitem].checked) {
-				theForm['goto'+formNum].value=theForm['goto_indicate'+formNum][whichitem].value;
-			}
-			whichitem++;
-		}
-	}
-}
-
-//call this function to validate all your destinations
-//numForms is the number of destinatino forms to process (usually 1)
-//bRequired true|false if user must select something
-function validateDestinations(theForm,numForms,bRequired) {
-	var valid = true;
-
-	for (var formNum = 0; formNum < numForms && valid == true; formNum++) {
-		valid = validateSingleDestination(theForm,formNum,bRequired);
-	}
-	
-	return valid;
-}
-
-//this is called from validateDestinations to check each set
-//you can call this directly if you have multiple sets and only
-//require one to be selected, for example.
-//formNum is the set number (0 indexed)
-//bRequired true|false if user must select something
-function validateSingleDestination(theForm,formNum,bRequired) {
-	var gotoType = theForm.elements[ 'goto'+formNum ].value;
-	
-	if (bRequired && gotoType == '') {
-		alert('<?php echo _("Please select a \"Destination\""); ?>');
-		return false;
-	} else {
-		// check the 'custom' goto, if selected
-		if (gotoType == 'custom') {
-			var gotoFld = theForm.elements[ 'custom'+formNum ];
-			var gotoVal = gotoFld.value;
-			if (gotoVal.indexOf('custom-') == -1) {
-				alert('<?php echo _("Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"); ?>');
-				gotoFld.focus();
-				return false;
-			}
-		}
-	}
-	
-	return true;
-}
-
 
 //this will hide or show all the <select> elements on a page
 function hideSelects(b)
@@ -326,6 +81,65 @@ function setAllInfoToHideSelects()
                       }
               }
       }
+}
+
+//call this function from forms that include module destinations
+//numForms is the number of destination forms to process (usually 1)
+function setDestinations(theForm,numForms) {
+	for (var formNum = 0; formNum < numForms; formNum++) {
+		var whichitem = 0;
+		while (whichitem < theForm['goto_indicate'+formNum].length) {
+			if (theForm['goto_indicate'+formNum][whichitem].checked) {
+				theForm['goto'+formNum].value=theForm['goto_indicate'+formNum][whichitem].value;
+			}
+			whichitem++;
+		}
+	}
+}
+
+
+// ***************************************************
+// ** Client-side Form Validation Functions         **
+// ***************************************************
+
+//call this function to validate all your destinations
+//numForms is the number of destinatino forms to process (usually 1)
+//bRequired true|false if user must select something
+function validateDestinations(theForm,numForms,bRequired) {
+	var valid = true;
+
+	for (var formNum = 0; formNum < numForms && valid == true; formNum++) {
+		valid = validateSingleDestination(theForm,formNum,bRequired);
+	}
+	
+	return valid;
+}
+
+//this is called from validateDestinations to check each set
+//you can call this directly if you have multiple sets and only
+//require one to be selected, for example.
+//formNum is the set number (0 indexed)
+//bRequired true|false if user must select something
+function validateSingleDestination(theForm,formNum,bRequired) {
+	var gotoType = theForm.elements[ 'goto'+formNum ].value;
+	
+	if (bRequired && gotoType == '') {
+		alert('<?php echo _("Please select a \"Destination\""); ?>');
+		return false;
+	} else {
+		// check the 'custom' goto, if selected
+		if (gotoType == 'custom') {
+			var gotoFld = theForm.elements[ 'custom'+formNum ];
+			var gotoVal = gotoFld.value;
+			if (gotoVal.indexOf('custom-') == -1) {
+				alert('<?php echo _("Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"); ?>');
+				gotoFld.focus();
+				return false;
+			}
+		}
+	}
+	
+	return true;
 }
 
 // Various form checking helper functions -- very useful
@@ -533,6 +347,50 @@ function isInteger (s)
     return true;
 }
 
+function isPINList (s)
+
+{   var i;
+
+    if (isEmpty(s)) 
+       if (isPINList.arguments.length == 1) return defaultEmptyOK;
+       else return (isPINList.arguments[1] == true);
+
+    // Search through string's characters one by one
+    // until we find a non-numeric character.
+    // When we do, return false; if we don't, return true.
+
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character is number.
+        var c = s.charAt(i);
+
+        if (!isDigit(c) && c != ",") return false;
+    }
+
+    // All characters are numbers.
+    return true;
+}
+
+function isDialidentifier(s)
+{
+    var i;
+
+    if (isEmpty(s)) 
+       if (isDialidentifier.arguments.length == 1) return defaultEmptyOK;
+       else return (isDialidentifier.arguments[1] == true);
+
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character is number or a 'w'.
+        var c = s.charAt(i);
+
+        if (!isDigit(c) && c != "w" && c != "W") return false;
+    }
+
+    // All characters are numbers.
+    return true;
+}
+
 function isFloat (s) {
 	var i;
     var seenDecimalPoint = false;
@@ -655,13 +513,17 @@ function isPrefixChar (c)
 }
 
 function isCallerIDChar (c)
-{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || ((c >= "0") && (c <= "9")) || (c == "<") || (c == ">") || (c == " ") || (c == "\"") )
+{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || ((c >= "0") && (c <= "9")) || (c == "<") || (c == ">") || (c == "(") || (c == ")") || (c == " ") || (c == "\"") )
 }
 
 function isDialpatternChar (c)
 {   return ( ((c >= "0") && (c <= "9")) || (c == "[") || (c == "]") || (c == "-") || (c == "+") || (c == ".") || (c == "|") || (c == "Z" || c == "z") || (c == "X" || c == "x") || (c == "N" || c == "n") || (c == "*") )
 }
 
+// this will display a message, select the content of the relevent field and
+// then set the focus to that field.  finally return FALSE to the 'onsubmit' event
+// NOTE: <select> boxes do not support the .select method, therefore you cannot
+// use this function on any <select> elements
 function warnInvalid (theField, s) {
     theField.focus();
     theField.select();

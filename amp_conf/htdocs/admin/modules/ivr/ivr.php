@@ -102,8 +102,10 @@ switch($action) {
 	<?php echo _("Please enter your user/extension:")?> 
 	<input type="text" size="6" name="cidnum"><br>
 	<h6><input name="Submit" type="submit" value="<?php echo _("Continue")?>"></h6><br><br><br><br><br><br>
-<script languague="javascript">
+
+<script language="javascript">
 <!--
+
 var theForm = document.prompt;
 theForm.cidnum.focus();
 function prompt_onsubmit() {
@@ -113,8 +115,10 @@ function prompt_onsubmit() {
 		
 	return true;
 }
--->
+
+//-->
 </script>
+
 </form>
 	
 	

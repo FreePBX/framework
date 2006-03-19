@@ -245,32 +245,39 @@ echo drawselects($goto,0);
 <!--
 
 function checkGRP(theForm) {
+	var msgInvalidGrpNum = "<?php echo _('Invalid Group Number specified'); ?>";
+	var msgInvalidGrpNumStartWithZero = "<?php echo _('Group numbers with more than one digit cannot begin with 0'); ?>";
+	var msgInvalidExtList = "<?php echo _('Please enter an extension list.'); ?>";
+	var msgInvalidGrpPrefix = "<?php echo _('Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -'); ?>";
+	var msgInvalidTime = "<?php echo _('Invalid time specified'); ?>";
+	var msgInvalidGrpTimeRange = "<?php echo _('Time must be between 1 and 60 seconds'); ?>";
+
 	// set up the Destination stuff
 	setDestinations(theForm, 1);
 
 	// form validation
 	defaultEmptyOK = false;
 	if (!isInteger(theForm.account.value)) {
-		return warnInvalid(theForm.account, "Invalid Group Number specified");
+		return warnInvalid(theForm.account, msgInvalidGrpNum);
 	} else if (theForm.account.value.indexOf('0') == 0 && theForm.account.value.length > 1) {
-		return warnInvalid(theForm.account, "Group numbers with more than one digit cannot begin with 0");
+		return warnInvalid(theForm.account, msgInvalidGrpNumStartWithZero);
 	}
 	
 	defaultEmptyOK = false;	
 	if (isEmpty(theForm.grplist.value))
-		return warnInvalid(theForm.grplist, "Please enter an extension list.");
+		return warnInvalid(theForm.grplist, msgInvalidExtList);
 
 	defaultEmptyOK = true;
 	if (!isPrefix(theForm.grppre.value))
-		return warnInvalid(theForm.grppre, "Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -");
+		return warnInvalid(theForm.grppre, msgInvalidGrpPrefix);
 	
 	defaultEmptyOK = false;
 	if (!isInteger(theForm.grptime.value)) {
-		return warnInvalid(theForm.grptime, "Invalid time specified");
+		return warnInvalid(theForm.grptime, msgInvalidTime);
 	} else {
 		var grptimeVal = theForm.grptime.value;
 		if (grptimeVal < 1 || grptimeVal > 60)
-			return warnInvalid(theForm.grptime, "Time must be between 1 and 60 seconds");
+			return warnInvalid(theForm.grptime, msgInvalidGrpTimeRange);
 	}
 
 	if (!validateDestinations(theForm, 1, true))
@@ -278,6 +285,6 @@ function checkGRP(theForm) {
 		
 	return true;
 }
--->
+//-->
 </script>
 

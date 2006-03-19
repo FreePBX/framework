@@ -29,6 +29,10 @@ function disa_get_config($engine) {
 					$fh = fopen("/etc/asterisk/disa-".$item['disa_id'].".conf", "w+");
 					$pinarr = explode(',' , $item['pin'] );
 					foreach($pinarr as $pin) {
+						// empty password should be 'no-password'
+						if ( (isset($pin) ? $pin : '') == '' )
+							$pin = 'no-password';
+						
 						// Don't support remote MWI, too easy for users to break.
 						fwrite($fh, "$pin|".$item['context']."|".$item['cid']."\n");
 					}
@@ -78,8 +82,7 @@ function disa_add($post) {
                 return null;
         extract($post);
         if(empty($displayname)) $displayname = "unnamed";
-	if(empty($pin)) $pin = "no-password";
-        $results = sql("INSERT INTO disa (displayname,pin,cid,context) values (\"$displayname\",\"$pin\",\"$cid\",\"$context\")");
+        $results = sql("INSERT INTO disa (displayname,pin,cid,context) values (\"".str_replace("\"", "\"\"",$displayname)."\",\"".$pin."\",\"".str_replace("\"", "\"\"", $cid)."\",\"".$context."\")");
 }
 
 function disa_del($id) {
@@ -92,7 +95,6 @@ function disa_edit($id, $post) {
 		return null;
 	extract($post);
         if(empty($displayname)) $displayname = "unnamed";
-	if(empty($pin)) $pin = "no-password";
-        $results = sql("UPDATE disa  set displayname = \"$displayname\", pin = \"$pin\", cid = \"$cid\", context = \"$context\" where disa_id = \"$id\"");
+        $results = sql("UPDATE disa  set displayname = \"".str_replace("\"", "\"\"",$displayname)."\", pin = \"$pin\", cid = \"".str_replace("\"", "\"\"",$cid)."\", context = \"$context\" where disa_id = \"$id\"");
 }
 ?>

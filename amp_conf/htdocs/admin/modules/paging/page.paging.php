@@ -97,12 +97,15 @@ var theForm = document.page_edit;
 theForm.pagenbr.focus();
 
 function page_edit_onsubmit() {
+	var msgInvalidPageExt = "<?php echo _('Please enter a valid Paging Extension'); ?>";
+	var msgInvalidExtList = "<?php echo _('Please enter the Extension List details'); ?>";
+
 	defaultEmptyOK = false;
 	if (!isInteger(theForm.pagenbr.value))
-		return warnInvalid(theForm.pagenbr, "Please enter a valid Paging Extension");
+		return warnInvalid(theForm.pagenbr, msgInvalidPageExt);
 	
 	if (isEmpty(theForm.xtnlist.value) || isWhitespace(theForm.xtnlist.value))
-		return warnInvalid(theForm.xtnlist, "Please enter the Extension List details");
+		return warnInvalid(theForm.xtnlist, msgInvalidExtList);
 		
 	return true;
 }

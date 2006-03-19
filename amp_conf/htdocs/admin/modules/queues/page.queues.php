@@ -445,6 +445,57 @@ if ($action == 'delete') {
 		<td colspan="2"><br><h6><input name="Submit" type="button" value="<?php echo _("Submit Changes")?>" onclick="checkQ(editQ);"></h6></td>		
 	</tr>
 	</table>
+
+<script language="javascript">
+<!--
+
+function checkQ(theForm) {
+        $queuename = theForm.name.value;
+        var bad = "false";
+
+        var whichitem = 0;
+        while (whichitem < theForm.goto_indicate0.length) {
+                if (theForm.goto_indicate0[whichitem].checked) {
+                        theForm.goto0.value=theForm.goto_indicate0[whichitem].value;
+                }
+                whichitem++;
+        }
+
+        var gotoType = theForm.elements[ "goto0" ].value;
+        if (gotoType == 'custom') {
+                var gotoVal = theForm.elements[ "custom0"].value;
+                if (gotoVal.indexOf('custom') == -1) {
+                        bad = "true";
+						<?php echo "alert('"._("Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1")."')"?>;
+                }
+        }
+
+        $account = theForm.account.value;
+        if ($account == "") {
+                <?php echo "alert('"._("Queue Number must not be blank")."')"?>;
+                bad="true";
+        }
+        else if (($account.indexOf('0') == 0) && ($account.length > 1)) {
+                <?php echo "alert('"._("Queue numbers with more than one digit cannot begin with 0")."')"?>;
+                bad="true";
+        }
+
+        if ($queuename == "") {
+                <?php echo "alert('"._("Queue name must not be blank")."')"?>;
+                bad="true";
+        } else if (!$queuename.match('^[a-zA-Z][a-zA-Z0-9]+$')) {
+                <?php echo "alert('"._("Queue name cannot start with a number, and can only contain letters and numbers")."')"?>;
+                bad="true";
+        }
+
+        if (bad == "false") {
+                theForm.submit();
+        }
+}
+
+//-->
+</script>
+
 	</form>
 <?php		
 } //end if action == delGRP
