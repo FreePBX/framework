@@ -77,7 +77,7 @@ if ($action == 'delete') {
 		<td><input type="text" name="displayname" value="<?php echo (isset($thisItem['displayname']) ? $thisItem['displayname'] : ''); ?>"></td>
 	</tr>
 	<tr>
-		<td><a href="#" class="info"><?php echo _("PIN"); ?><span><?php echo _("The user will be prompted for this number, or use 'no-password' for no Authentication.")." "._("If you wish to have multiple PIN's, seperate them with commas"); ?></span></a></td>
+		<td><a href="#" class="info"><?php echo _("PIN"); ?><span><?php echo _("The user will be prompted for this number.")." "._("If you wish to have multiple PIN's, seperate them with commas"); ?></span></a></td>
 		<td><input type="text" name="pin" value="<?php echo (isset($thisItem['pin']) ? $thisItem['pin'] : ''); ?>"></td>
 	</tr>
 	<tr>
@@ -93,7 +93,42 @@ if ($action == 'delete') {
         </tr>
         </table>
 
+<script language="javascript">
+<!--
+
+var theForm = document.edit;
+theForm.displayname.focus();
+
+function edit_onsubmit() {
+	var msgInvalidDISAName = "<?php echo _('Please enter a valid DISA Name'); ?>";
+	var msgInvalidDISAPIN = "<?php echo _('Please enter a valid DISA PIN'); ?>";
+	var msgInvalidCID = "<?php echo _('Please enter a valid Caller ID or leave it blank'); ?>";
+	var msgInvalidContext = "<?php echo _('Context cannot be blank'); ?>";
+	
+	defaultEmptyOK = false;
+	if (!isAlphanumeric(theForm.displayname.value))
+		return warnInvalid(theForm.displayname, msgInvalidDISAName);
+	
+	defaultEmptyOK = true;
+	if (!isPINList(theForm.pin.value))
+		return warnInvalid(theForm.pin, msgInvalidDISAPIN);
+	
+	defaultEmptyOK = true;
+	if (!isCallerID(theForm.cid.value))
+		return warnInvalid(theForm.cid, msgInvalidCID);
+	
+	defaultEmptyOK = false;
+	if (isEmpty(theForm.context.value))
+		return warnInvalid(theForm.context, msgInvalidContext);
+	
+	return true;
+}
+
+//-->
+</script>
+
 	</form>
 <?php		
 }
 ?>
+

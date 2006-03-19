@@ -347,6 +347,30 @@ function isInteger (s)
     return true;
 }
 
+function isPINList (s)
+
+{   var i;
+
+    if (isEmpty(s)) 
+       if (isPINList.arguments.length == 1) return defaultEmptyOK;
+       else return (isPINList.arguments[1] == true);
+
+    // Search through string's characters one by one
+    // until we find a non-numeric character.
+    // When we do, return false; if we don't, return true.
+
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character is number.
+        var c = s.charAt(i);
+
+        if (!isDigit(c) && c != ",") return false;
+    }
+
+    // All characters are numbers.
+    return true;
+}
+
 function isDialidentifier(s)
 {
     var i;
