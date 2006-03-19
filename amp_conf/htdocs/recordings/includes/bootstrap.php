@@ -328,7 +328,7 @@ include_once("./includes/lang.php");
 $language = new Language();
 $language->set();
 
-checkDependencies();
+//checkDependencies();
 versionCleanup();
 startARISession();
 

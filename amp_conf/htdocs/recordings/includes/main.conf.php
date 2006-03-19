@@ -251,6 +251,18 @@ $SETTINGS_VOICEMAIL_PASSWORD_LENGTH = 3;
 $SETTINGS_VOICEMAIL_PASSWORD_EXACT = 0;
 
 #
+# voicemail email option descriptions
+#
+$SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS = array();
+$SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS['attach'] = _("Email voicemail as attachment");
+$SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS['saycid'] = _("Say caller id in recording emailed");
+$SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS['envelope'] = _("Say envelop (date/time) in recording emailed");
+$SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS['delete'] = _("Delete voicemail when emailed");
+$SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS['nextaftercmd'] = _("Play next message after deleting current message");
+$SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS['review'] = _("Ask caller to review their voicemail before sending");
+$SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS['maxmessage'] = _("Maximum time in seconds a voicemail will record");
+
+#
 # Default
 #   option: ".wav" - wav format
 #           ".gsm" - gsm format

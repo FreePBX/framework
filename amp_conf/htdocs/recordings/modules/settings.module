@@ -189,6 +189,7 @@ class Settings {
                   $buf = split(',',$value);
                   $buf[0] = $voicemail_password;
                   $line = $var . " => " . join(',', $buf);
+
                   fwrite($fp, $line);
                 }
                 else {
@@ -273,7 +274,7 @@ class Settings {
                   foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
                     $option = "voicemail_email_$key";
                     if ($$option) {
-                      $options .= $key . "=yes";
+                      $options .= $key . "=" . $value;
                     }
                     else {
                       $options .= $key . "=no";
@@ -283,6 +284,10 @@ class Settings {
                   $buf[4] = substr($options, 0, -1);
 
                   $line = $var . " =>" . join(',', $buf);
+                  if (substr($line, 0, -1)!="\n") {
+                     $line .= "\n";
+                  }
+
                   fwrite($fp, $line);
                 }
                 else {
@@ -311,8 +316,7 @@ class Settings {
         // update call monitor record setting
         if ($SETTINGS_ALLOW_CALL_RECORDING_SET) {
           if ($record_in && $record_out) {
-            $this->SetRecordSettings($exten, "In", $record_in);
-            $this->SetRecordSettings($exten, "Out", $record_out);
+            $this->setRecordSettings($exten,$record_in,$record_out);
           }
         }
       }
@@ -342,6 +346,7 @@ class Settings {
     global $ARI_ADMIN_USERNAME;
     global $SETTINGS_ALLOW_VOICEMAIL_PASSWORD_SET;
     global $SETTINGS_VOICEMAIL_PASSWORD_LENGTH;
+    global $SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS;
     global $ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT;
     global $SETTINGS_ALLOW_CALL_RECORDING_SET;
 
@@ -354,7 +359,7 @@ class Settings {
     $span = getArgument($args,'span');
 
     $displayname = $_SESSION['ari_user']['displayname'];
-    $extension = $_SESSION['ari_user']['extension'];
+    $exten = $_SESSION['ari_user']['extension'];
 
     $language = new Language();
     $display = new DisplaySearch();
@@ -373,10 +378,10 @@ class Settings {
     } 
 
     // build controls
-    if ($extension!=$ARI_ADMIN_USERNAME) {
+    if ($exten!=$ARI_ADMIN_USERNAME) {
 
       // call forward settings
-      $this->getCallForwardNumber($extension,$call_forward_number);
+      $this->getCallForwardNumber($exten,$call_forward_number);
       if ($call_forward_number) { 
         $call_forward_enable = 'checked';
       }
@@ -482,31 +487,41 @@ class Settings {
               </td>
            </tr>";
 
-          $var_texts = array();
-          $var_texts['attach'] = _("Email voicemail as attachment");
-          $var_texts['saycid'] = _("Say caller id in recording emailed");
-          $var_texts['envelope'] = _("Say envelop in recording emailed");
-          $var_texts['delete'] = _("Delete voicemail when emailed");
-          $var_texts['nextaftercmd'] = _("Play next message after deleting current message");
           foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
+
             $var = "voicemail_email_$key";
             $var_enable = $var . "enable";
             $var_text_box_options = $var . "text_box_options";
-            if ($var_texts[$key]) {
-              $var_text = $var_texts[$key];
+            if ($SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS[$key]) {
+              $var_text = $SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS[$key];
             }
             else {
               $var_text = $key;
             }
 
-            $set_voicemail_email_text .= "
-              <tr>
-                <td></td>
-                <td>
-                  <input " . $$var_enable . " " . $$var_text_box_options . " type=checkbox name='" . $var . "' value='yes' OnClick=\"disable_fields(); return true;\">
-                  <small>" . $var_text . "</small>
-                </td>
-              </tr>";
+            if ($value != 'yes' && $value != 'no' && $value !='') {
+
+              $size = strlen($value) - 1;
+              $set_voicemail_email_text .= "
+                <tr>
+                  <td></td>
+                  <td>
+                    <input type=text size='" . $size . "' name='" . $var . "' value='" . $value . "' OnClick=\"disable_fields(); return true;\">
+                    <small>" . $var_text . "</small>
+                  </td>
+                </tr>";
+            } 
+            else {
+
+              $set_voicemail_email_text .= "
+                <tr>
+                  <td></td>
+                  <td>
+                    <input " . $$var_enable . " " . $$var_text_box_options . " type=checkbox name='" . $var . "' value='yes' OnClick=\"disable_fields(); return true;\">
+                    <small>" . $var_text . "</small>
+                  </td>
+                </tr>";
+            }
           }
         }
  
@@ -542,7 +557,8 @@ class Settings {
       }
 
       // call monitor settings
-      if ($SETTINGS_ALLOW_CALL_RECORDING_SET && 
+      if ($this->getFreePBXVersion() &&
+            $SETTINGS_ALLOW_CALL_RECORDING_SET && 
             in_array('callmonitor',array_keys($loaded_modules))) {
         foreach($data as $key=>$value) {
           if ($key=='record_in') {
@@ -630,7 +646,7 @@ class Settings {
     if ($_SESSION['ari_user']['admin_settings']) {
       $headerText = _("Settings");
     } else {
-      $headerText = sprintf(_("Settings for %s (%s)"),$displayname,$extension);
+      $headerText = sprintf(_("Settings for %s (%s)"),$displayname,$exten);
     }
 
     $ret .= $display->displayHeaderText($headerText);
@@ -735,31 +751,45 @@ class Settings {
    * @param $state
    *   State to set to
    */
-  function SetRecordSettings($exten,$direction,$state) {
+  function setRecordSettings($exten,$state_in,$state_out) {
 
     global $asterisk_manager_interface;
 
-    if ($state=="Always") {
-      $type_opt = "put";
-      $value_opt = " " . "ENABLED";
-    }
-    elseif ($state=="Never") {
-      $type_opt = "put";
-      $value_opt = " " . "DISABLED";
+    if (version_compare($this->getFreePBXVersion(), '1.10', '<')) {
+
+      if ($state_in=="Always") {
+        $type_opt = "put";
+        $value_opt = " " . "ENABLED";
+      }
+      elseif ($state_in=="Never") {
+        $type_opt = "put";
+        $value_opt = " " . "DISABLED";
+      }
+      else {
+        $type_opt = "del";
+        $value_opt = "";
+      }
+      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt RECORD-IN $exten $value_opt\r\n\r\n",$response);
+
+      if ($state_out=="Always") {
+        $type_opt = "put";
+        $value_opt = " " . "ENABLED";
+      }
+      elseif ($state_out=="Never") {
+        $type_opt = "put";
+        $value_opt = " " . "DISABLED";
+      }
+      else {
+        $type_opt = "del";
+        $value_opt = "";
+      }
+      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt RECORD-OUT $exten $value_opt\r\n\r\n",$response);
     }
     else {
-      $type_opt = "del";
-      $value_opt = "";
-    }
 
-    if ($direction=="In") {
-      $variable_opt = "RECORD-IN";
+      $value_opt= "out=".$state_out."|in=".$state_in;
+      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/recording $value_opt\r\n\r\n",$response);
     }
-      elseif ($direction=="Out") {
-      $variable_opt = "RECORD-OUT";
-    }
-
-    $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt $variable_opt $exten $value_opt\r\n\r\n",$response);
   }
 
   /*
@@ -776,28 +806,54 @@ class Settings {
 
     global $asterisk_manager_interface;
 
-    $response = '';
-    $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get RECORD-IN $exten\r\n\r\n",$response);
-    if (preg_match("/ENABLED/",$response)) {
-      $data['record_in'] = 'Always';
-    }
-    elseif (preg_match("/DISABLED/",$response)) { 
-      $data['record_in'] = 'Never';
-    }
-    else {
-      $data['record_in'] = 'Adhoc';
-    }
+    if (version_compare($this->getFreePBXVersion(), '1.10', '<')) {
 
-    $response = '';
-    $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get RECORD-OUT $exten\r\n\r\n",$response);
-    if (preg_match("/ENABLED/",$response)) {
-      $data['record_out'] = 'Always';
-    }
-    elseif (preg_match("/DISABLED/",$response)) { 
-      $data['record_out'] = 'Never';
+      $response = '';
+      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get RECORD-IN $exten\r\n\r\n",$response);
+      if (preg_match("/ENABLED/",$response)) {
+        $data['record_in'] = 'Always';
+      }
+      elseif (preg_match("/DISABLED/",$response)) { 
+        $data['record_in'] = 'Never';
+      }
+      else {
+        $data['record_in'] = 'Adhoc';
+      }
+
+      $response = '';
+      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get RECORD-OUT $exten\r\n\r\n",$response);
+      if (preg_match("/ENABLED/",$response)) {
+        $data['record_out'] = 'Always';
+      }
+      elseif (preg_match("/DISABLED/",$response)) { 
+        $data['record_out'] = 'Never';
+      }
+      else {
+        $data['record_out'] = 'Adhoc';
+      }
     }
     else {
-      $data['record_out'] = 'Adhoc';
+
+      $response = '';
+      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/recording\r\n\r\n",$response);
+      if (strstr($response,"in=Always")) {
+        $data['record_in'] = 'Always';
+      }
+      elseif (strstr($response,"in=Never")) { 
+        $data['record_in'] = 'Never';
+      }
+      else {
+        $data['record_in'] = 'Adhoc';
+      }
+      if (strstr($response,"out=Always")) {
+        $data['record_out'] = 'Always';
+      }
+      elseif (strstr($response,"out=Never")) { 
+        $data['record_out'] = 'Never';
+      }
+      else {
+        $data['record_out'] = 'Adhoc';
+      }
     }
   }
 
@@ -824,6 +880,23 @@ class Settings {
 
     $asterisk_manager_interface->Command("Action: Command\r\nCommand: Reload app_voicemail.so\r\n\r\n",$response);
   }
+
+  /*
+   * Gets FreePBX Version
+   */
+  function getFreePBXVersion() {
+
+    if (isset($_SESSION['dbh_asterisk'])) {
+      $sql = "SELECT * FROM admin WHERE variable = 'version'";
+      $results = $_SESSION['dbh_asterisk']->getAll($sql);
+      if(DB::IsError($results)) {
+        $_SESSION['ari_error'] = $results->getMessage();
+      }
+
+      return $results[0][1];
+    }
+  }
+
 
 }
 
