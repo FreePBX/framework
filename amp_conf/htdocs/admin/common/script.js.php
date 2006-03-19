@@ -533,6 +533,26 @@ function isInteger (s)
     return true;
 }
 
+function isDialidentifier(s)
+{
+    var i;
+
+    if (isEmpty(s)) 
+       if (isDialidentifier.arguments.length == 1) return defaultEmptyOK;
+       else return (isDialidentifier.arguments[1] == true);
+
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character is number or a 'w'.
+        var c = s.charAt(i);
+
+        if (!isDigit(c) && c != "w" && c != "W") return false;
+    }
+
+    // All characters are numbers.
+    return true;
+}
+
 function isFloat (s) {
 	var i;
     var seenDecimalPoint = false;
