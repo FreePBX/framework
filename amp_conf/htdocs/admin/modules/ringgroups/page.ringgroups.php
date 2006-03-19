@@ -204,7 +204,7 @@ if ($action == 'delGRP') {
 				if (isset($tresults[0])) {
 					foreach ($tresults as $tresult) {
 						$searchvalue="custom/$tresult";	
-						echo '<option value='.$tresult[2].'"'.($searchvalue == $default ? ' SELECTED' : '').'>'.$tresult[1];
+						echo '<option value='.$tresult[2].'"'.($searchvalue == $default ? ' SELECTED' : '').'>'.$tresult[1]."</option>\n";
 					}
 				}
 			?>		
