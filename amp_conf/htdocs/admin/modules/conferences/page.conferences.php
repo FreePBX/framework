@@ -236,12 +236,16 @@ if (theForm.account.value == "") {
 
 function checkConf()
 {
+	var msgInvalidConfNumb = "<?php echo _('Please enter a valid Conference Number'); ?>";
+	var msgInvalidConfName = "<?php echo _('Please enter a valid Conference Name'); ?>";
+	var msgNeedAdminPIN = "<?php echo _('You must set an admin PIN for the Conference Leader when selecting the leader wait option'); ?>";
+	
 	defaultEmptyOK = false;
 	if (!isInteger(theForm.account.value))
-		return warnInvalid(theForm.account, "Please enter a valid Conference Number");
+		return warnInvalid(theForm.account, msgInvalidConfNumb);
 		
 	if (!isAlphanumeric(theForm.name.value))
-		return warnInvalid(theForm.name, "Please enter a valid Conference Name");
+		return warnInvalid(theForm.name, msgInvalidConfName);
 		
 	// update $options
 	var theOptionsFld = theForm.options;
@@ -260,7 +264,7 @@ function checkConf()
 
 	// not possible to have a 'leader' conference with no adminpin
 	if (theForm.options.value.indexOf("w") > -1 && theForm.adminpin.value == "")
-		return warnInvalid(theForm.adminpin, "You must set an admin PIN for the Conference Leader when selecting the leader wait option");
+		return warnInvalid(theForm.adminpin, msgNeedAdminPIN);
 		
 	return true;
 }

@@ -173,14 +173,17 @@ var theForm = document.edit;
 theForm.displayname.focus();
 
 function edit_onsubmit() {
+	var msgInvalidTimeCondName = "<?php echo _('Please enter a valid Time Conditions Name'); ?>";
+	var msgInvalidTimeMatch = "<?php echo _('Please enter the Time to Match'); ?>";
+
 	setDestinations(edit,2);
 	
 	defaultEmptyOK = false;
 	if (!isAlphanumeric(theForm.displayname.value))
-		return warnInvalid(theForm.displayname, "Please enter a valid Time Conditions Name");
+		return warnInvalid(theForm.displayname, msgInvalidTimeCondName);
 	
 	if (isEmpty(theForm.time.value) || isWhitespace(theForm.time.value))
-		return warnInvalid(theForm.time, "Please enter the Time to Match");
+		return warnInvalid(theForm.time, msgInvalidTimeMatch);
 		
 	if (!validateDestinations(edit,2,true))
 		return false;

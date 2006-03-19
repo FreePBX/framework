@@ -69,17 +69,6 @@ function checkForm(theForm) {
 	}
 }
 
-function checkGeneral(theForm) {
-	$RINGTIMER = theForm.RINGTIMER.value;
-	$FAX_RX = theForm.FAX_RX.value;
-
-	if ($RINGTIMER == "" || $FAX_RX == "") {
-		<?php echo "alert('"._("Please fill in all required fields.")."')"?>;
-	} else {
-	theForm.submit();
-	}
-}
-
 function checkIncoming(theForm) {
 	$INCOMING = theForm.INCOMING.value;
 

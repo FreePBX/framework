@@ -193,9 +193,11 @@ var theForm = document.addcategory;
 theForm.category.focus();
 
 function addcategory_onsubmit() {
+	var msgInvalidCategoryName = "<?php echo _('Please enter a valid Category Name'); ?>";
+
 	defaultEmptyOK = false;
 	if (!isAlphanumeric(theForm.category.value))
-		return warnInvalid(theForm.category, "Please enter a valid Category Name");
+		return warnInvalid(theForm.category, msgInvalidCategoryName);
 	
 	return true;
 }
