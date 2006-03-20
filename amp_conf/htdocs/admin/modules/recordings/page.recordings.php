@@ -29,12 +29,12 @@ switch ($action) {
 		if (empty($usersnum)) {
 			$dest = "unnumbered-";
 		} else {
-			$dest = $usersnum;
+			$dest = "{$usersnum}-";
 		}
 		// Clean up the filename, take out any nasty characters
 		$filename = escapeshellcmd(strtr($rname, '/ ', '__'));
-		rename('/var/lib/asterisk/sounds/'.$dest.'ivrrecording.wav','/var/lib/asterisk/sounds/custom/'.$filename.'.wav');
-		$isok = recordings_add($rname, $filename.".wav");
+		rename("/var/lib/asterisk/sounds/{$dest}ivrrecording.wav","/var/lib/asterisk/sounds/custom/{$filename}.wav");
+		$isok = recordings_add($rname, "custom/{$filename}.wav");
 		recording_sidebar(null, $usersnum);
 		recording_addpage($usersnum);
 		if ($isok) 
@@ -100,6 +100,7 @@ function recording_addpage($usersnum) { ?>
 	<form name="prompt" action="<?php $_SERVER['PHP_SELF'] ?>" method="post" onsubmit="return rec_onsubmit();">
 	<input type="hidden" name="action" value="recorded">
 	<input type="hidden" name="display" value="recordings">
+	<input type="hidden" name="usersnum" value="<?php echo $usersnum ?>">
 	<?php
 	if (!empty($usersnum)) { ?>
 		<h5><?php echo _("Step 2: Verify")?></h5>
@@ -112,7 +113,7 @@ function recording_addpage($usersnum) { ?>
 	<table style="text-align:right;">
 		<tr valign="top">
 			<td valign="top"><?php echo _("Name this Recording")?>: </td>
-			<td style="text-align:left"><input type="text" name=""></td>
+			<td style="text-align:left"><input type="text" name="rname"></td>
 		</tr>
 	</table>
 	<h6><?php echo _("Click \"SAVE\" when you are satisfied with your recording")?>
