@@ -152,14 +152,9 @@ foreach ($amp_sections as $key=>$value) {
 		unset($amp_sections[$key]);
 	}
 }
-	
-echo "</div>";
-
-?>
-
-<div class="content">
-
-<?php 
+if (!$quietmode) {	
+	echo "</div>\n<div class=\"content\">\n";
+}
 // check access
 if (!empty($display) && !isset($amp_sections[$display])) {
 	$display = "noaccess";

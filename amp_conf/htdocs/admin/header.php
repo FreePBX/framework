@@ -10,10 +10,8 @@
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
-?>
 
-<?php 
-	//get the current file name
+//get the current file name
     $currentFile = $_SERVER["PHP_SELF"];
     $parts = Explode('/', $currentFile);
     $currentFile = $parts[count($parts) - 1];
