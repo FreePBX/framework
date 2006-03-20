@@ -45,13 +45,13 @@
 
 <?php
 	if (extension_loaded('gettext')) {
-	if (isset($_COOKIE['lang'])) {
-		setlocale(LC_MESSAGES,  $_COOKIE['lang']);
-	} else {
-		setlocale(LC_MESSAGES,  'en_US');
-	}
-	bindtextdomain('amp','./i18n');
-	textdomain('amp');
+		if (isset($_COOKIE['lang'])) {
+			setlocale(LC_MESSAGES,  $_COOKIE['lang']);
+		} else {
+			setlocale(LC_MESSAGES,  'en_US');
+		}
+		bindtextdomain('amp','./i18n');
+		textdomain('amp');
 	}
 ?>
 
