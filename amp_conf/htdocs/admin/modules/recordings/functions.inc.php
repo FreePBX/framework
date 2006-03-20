@@ -91,30 +91,4 @@ function recordings_del($id) {
 	 $results = sql("DELETE FROM recordings WHERE id = \"$id\"");
 }
 
-
-function runModuleSQL($moddir,$type){
-        global $db;
-        $data='';
-        if (is_file("modules/{$moddir}/{$type}.sql")) {
-                // run sql script
-                $fd = fopen("modules/{$moddir}/{$type}.sql","r");
-                while (!feof($fd)) {
-                        $data .= fread($fd, 1024);
-                }
-                fclose($fd);
-
-                preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*);\s*\n/Us", $data, $matches);
-
-                foreach ($matches[1] as $sql) {
-                                $result = $db->query($sql);
-                                if(DB::IsError($result)) {
-                                        return false;
-                                }
-                }
-                return true;
-        }
-                return true;
-}
-
-
 ?>

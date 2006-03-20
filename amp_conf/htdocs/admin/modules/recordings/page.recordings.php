@@ -34,10 +34,11 @@ switch ($action) {
 		// Clean up the filename, take out any nasty characters
 		$filename = escapeshellcmd(strtr($rname, '/ ', '__'));
 		rename('/var/lib/asterisk/sounds/'.$dest.'ivrrecording.wav','/var/lib/asterisk/sounds/custom/'.$filename.'.wav');
-		recordings_add($rname, $filename.".wav");
+		$isok = recordings_add($rname, $filename.".wav");
 		recording_sidebar(null, $usersnum);
 		recording_addpage($usersnum);
-		echo '<div class="content">><h5>'._("System Recording").' "'.$rname.'" '._("Saved").'!</h5>';
+		if ($isok) 
+			echo '<div class="content"><h5>'._("System Recording").' "'.$rname.'" '._("Saved").'!</h5>';
 		break;
 	case "edit":
 		recording_sidebar($id, $usersnum);	
@@ -69,7 +70,6 @@ function recording_addpage($usersnum) { ?>
 	} else { ?>
 		<form name="xtnprompt" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 		<input type="hidden" name="display" value="recordings">
-		<input type="hidden" name="action" value="<?php echo $action ?>">
 		<?php
 		echo _("If you wish to make and verify recordings from your phone, please enter your extension number here:"); ?>
 		<input type="text" size="6" name="usersnum"> <input name="Submit" type="submit" value="Go">
@@ -112,7 +112,7 @@ function recording_addpage($usersnum) { ?>
 	<table style="text-align:right;">
 		<tr valign="top">
 			<td valign="top"><?php echo _("Name this Recording")?>: </td>
-			<td style="text-align:left"><input type="text" name="rname" value="<?php echo $prompt ?>"></td>
+			<td style="text-align:left"><input type="text" name=""></td>
 		</tr>
 	</table>
 	<h6><?php echo _("Click \"SAVE\" when you are satisfied with your recording")?>
@@ -150,7 +150,7 @@ function recording_editpage($id, $num) { ?>
 	<form name="prompt" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="action" value="edited">
 	<input type="hidden" name="display" value="recordings">
-	<input type="hidden" name="usersnum" value="<?php echo $usersnum ?>">
+	<input type="hidden" name="usersnum" value="<?php echo $num ?>">
 	<input type="hidden" name="id" value="<?php echo $id ?>">
 	<table>
 	<tr><td colspan=2><hr></td></tr>
@@ -183,6 +183,30 @@ function recording_sidebar($id, $num) {
                 }
         }
         echo "</div>\n";
+}
+
+function runModuleSQL($moddir,$type){
+        global $db;
+        $data='';
+        if (is_file("modules/{$moddir}/{$type}.sql")) {
+                // run sql script
+                $fd = fopen("modules/{$moddir}/{$type}.sql","r");
+                while (!feof($fd)) {
+                        $data .= fread($fd, 1024);
+                }
+                fclose($fd);
+
+                preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*);\s*\n/Us", $data, $matches);
+
+                foreach ($matches[1] as $sql) {
+                                $result = $db->query($sql);
+                                if(DB::IsError($result)) {
+                                        return false;
+                                }
+                }
+                return true;
+        }
+                return true;
 }
 
 ?>
