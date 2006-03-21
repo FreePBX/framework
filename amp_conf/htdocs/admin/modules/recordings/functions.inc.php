@@ -78,7 +78,10 @@ function recordings_add($displayname, $filename) {
 		print "Unable to add $filename - Can't read file!";
 		return false;
 	}
-	sql("INSERT INTO recordings values ('', '$displayname', '$filename', 'No long description available')");
+	// Now, we don't want a .wav on the end if there is one.
+	if (strstr($filename, '.wav')) 
+		$nowav = substr($filename, 0, -4);
+	sql("INSERT INTO recordings values ('', '$displayname', '$nowav', 'No long description available')");
 	return true;
 	
 }

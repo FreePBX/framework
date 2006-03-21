@@ -37,7 +37,7 @@ function ringgroups_get_config($engine) {
 					$grplist = $grp['grplist'];
 					$postdest = $grp['postdest'];
 					$grppre = $grp['grppre'];
-					$annmsg = $grp['annmsg'];
+					$annmsg = $grp['annmsg']; // This is now a number refercing system recordings
 					
 					$ext->add($contextname, $grpnum, '', new ext_macro('user-callerid'));
 					// check for old prefix
@@ -53,12 +53,13 @@ function ringgroups_get_config($engine) {
 					$ext->add($contextname, $grpnum, '', new ext_macro('record-enable','${MACRO_EXTEN},${RecordMethod}'));
 					// group dial
 					$ext->add($contextname, $grpnum, '', new ext_setvar('RingGroupMethod',$strategy));
-					if ((isset($annmsg) ? $annmsg : '') != '') {
-						// should always answer before playing anything, shouldn't we ?
-						$ext->add($contextname, $grpnum, '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','DIALGRP'));			
+					if (isset($annmsg) && $annmsg != '') {
+						// I have idea what this is for - we haven't done a DIAL yet??
+						// $ext->add($contextname, $grpnum, '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','DIALGRP'));
+						$filename = recordings_get($annmsg);
 						$ext->add($contextname, $grpnum, '', new ext_answer(''));
 						$ext->add($contextname, $grpnum, '', new ext_wait(1));
-						$ext->add($contextname, $grpnum, '', new ext_playback($annmsg));
+						$ext->add($contextname, $grpnum, '', new ext_playback($filename[2]));
 					}
 					$ext->add($contextname, $grpnum, 'DIALGRP', new ext_macro('dial',$grptime.',${DIAL_OPTIONS},'.$grplist));
 					$ext->add($contextname, $grpnum, '', new ext_setvar('RingGroupMethod',''));

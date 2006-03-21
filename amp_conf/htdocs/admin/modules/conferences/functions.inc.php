@@ -1,4 +1,4 @@
-<?php /* $Id:$ */
+<?php /* $Id$ */
 
 // extend extensions class.
 // This example is about as simple as it gets
