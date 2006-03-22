@@ -129,7 +129,9 @@ if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "devicea
 }
 
 
-	
+// add the APPLY Changes bar as a section, so it shows in the Administrators module
+$amp_sections[99] = _("Apply Changes Bar");
+
 foreach ($amp_sections as $key=>$value) {
 	// check access
 	if ($_SESSION["AMP_user"]->checkSection($key)) {
