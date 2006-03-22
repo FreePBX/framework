@@ -173,7 +173,7 @@ switch($display) {
 		//display the appropriate module page
 		if (is_array($active_modules)) {
 			foreach ($active_modules as $modkey => $module) {
-				if (is_array(array_keys($module['items']))){
+				if (is_array($module['items'])){
 					foreach (array_keys($module['items']) as $item){
 						if ($display == $item)  {
 							// modules can use their own translation files
