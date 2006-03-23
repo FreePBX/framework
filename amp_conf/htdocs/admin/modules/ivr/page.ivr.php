@@ -1,4 +1,5 @@
-<?php /* $Id$ */
+<?php 
+/* $Id$ */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -13,6 +14,7 @@
 
 // The Digital Receptionist code is a rat's nest.  If you are planning on making significant modifications, just re-write from scratch.
 // OK! You're the boss. --Rob
+// Re-written from the ground up by Rob Thomas <xrobau@gmail.com> 23rd March, 2006.
 
 
 $action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
@@ -67,19 +69,17 @@ function ivr_show_edit($id, $nbroptions, $post) {
 
 	$ivr_details = ivr_get_details($id);
 	$ivr_dests = ivr_get_dests($id);
-	
-	// Load up all the variables that may or may not have been posted
 ?>
 	<div class="content">
         <h2><?php echo _("Digital Receptionist"); ?></h2>
         <h3><?php echo _("Edit Menu")." ".$ivr_details['displayname']; ?></h3>
 <?php 
-	echo "<a href='config.php?display=ivr&amp;action=delete&amp;id=$id' >"._("Delete")." "._("Digital Receptionist").'</a>';
+	echo "<a href='config.php?display=ivr&amp;action=delete&amp;id=$id' >"._("Delete")." "._("Digital Receptionist")." {$ivr_details['displayname']}</a>";
 ?>
         <form name="prompt" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-        <input type="hidden" name="action" value="edited">
-        <input type="hidden" name="display" value="ivr">
-        <input type="hidden" name="id" value="<?php echo $id ?>">
+        <input type="hidden" name="action" value="edited" />
+        <input type="hidden" name="display" value="ivr" />
+        <input type="hidden" name="id" value="<?php echo $id ?>" />
         <table>
         <tr><td colspan=2><hr /></td></tr>
         <tr>
@@ -126,6 +126,8 @@ function ivr_show_edit($id, $nbroptions, $post) {
 	<tr><td colspan=2>
 	<input name="increase" type="submit" value="<?php echo _("Increase Options")?>"></h6>
 	&nbsp;
+	<input name="Submit" type="submit" value="<?php echo _("Save")?>"></h6>
+	&nbsp;
 	<input name="decrease" type="submit" value="<?php echo _("Decrease Options")?>"></h6>
 	</td></tr>
         <tr><td colspan=2><hr /></td></tr>
@@ -148,12 +150,16 @@ function ivr_show_edit($id, $nbroptions, $post) {
         </table>
 <?php
 	if ($nbroptions < $count) { 
-		echo "<input type='hidden' name='nbroptions' value=$count ?>\n";
+		echo "<input type='hidden' name='nbroptions' value=$count />\n";
 	} else {
-		echo "<input type='hidden' name='nbroptions' value=$nbroptions ?>\n";
+		echo "<input type='hidden' name='nbroptions' value=$nbroptions />\n";
 	} 
 ?>
-        <input name="Submit" type="submit" value="<?php echo _("Save")?>"></h6>
+	<input name="increase" type="submit" value="<?php echo _("Increase Options")?>"></h6>
+	&nbsp;
+	<input name="Submit" type="submit" value="<?php echo _("Save")?>"></h6>
+	&nbsp;
+	<input name="decrease" type="submit" value="<?php echo _("Decrease Options")?>"></h6>
         </form>
         </div>
 

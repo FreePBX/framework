@@ -52,8 +52,81 @@ function ivr_init() {
 		// Note, the __install_done line is for internal version checking - the second field
 		// should be incremented and checked if the database ever changes.
                 $result = sql("INSERT INTO ivr values ('', '__install_done', '1', '', '', '')");
+		needreload();
         }
 }
+
+// The destinations this module provides
+// returns a associative arrays with keys 'destination' and 'description'
+function ivr_destinations() {
+	//get the list of IVR's
+	$results = ivr_list();
+
+	// return an associative array with destination and description
+	if (isset($results)) {
+		foreach($results as $result){
+			$extens[] = array('destination' => 'ivr-'.$result['ivr_id'].',s,1', 'description' => $result['displayname']);
+		}
+	}
+	return $extens;
+}
+
+function ivr_get_config($engine) {
+        global $ext;
+        global $conferences_conf;
+
+	switch($engine) {
+		case "asterisk":
+			$ivrlist = ivr_list();
+			if(is_array($ivrlist)) {
+				foreach($ivrlist as $item) {
+					$id = "ivr-".$item['ivr_id'];
+					$details = ivr_get_details($id);
+					if (!empty($details['ena_directdial'])) 
+                                        	$ext->addInclude($id,'ext-local');
+					// I'm not sure I like the ability of people to send voicemail from the IVR.
+					// Make it a config option, possibly?
+                                        // $ext->addInclude($item[0],'app-messagecenter');
+					if (!empty($details['ena_directory']))
+                                        	$ext->addInclude($id,'app-directory');
+                                        $ext->add($id, 'h', '', new ext_hangup(''));
+                                        $ext->add($id, 's', '', new ext_answer(''));
+                                        $ext->add($id, 's', '', new ext_wait('1'));
+                                        $ext->add($id, 's', '', new ext_digittimeout($details['timeout']));
+                                        $ext->add($id, 's', '', new ext_responsetimeout($details['timeout']));
+                                        $ext->add($id, 's', '', new ext_background($details['announcement']));
+
+                                        $ext->add($id, 'hang', '', new ext_playback('vm-goodbye'));
+                                        $ext->add($id, 'hang', '', new ext_hangup(''));
+
+                                        $default_t=true;
+                                        // Actually add the IVR commands now.
+					$timeout = '';
+					$invalid = '';
+					$dests = ivr_get_dests($item['ivr_id']);
+					if (!empty($dests)) {
+                                        	foreach($dests as $dest) {
+							if ($dest['selection'] == 't') $timeout='1';
+							if ($dest['selection'] == 'i') $invalid='1';
+							$ext->add($id, $dest['selection'],'', new ext_goto($dest['dest']));
+						}
+                                        }
+					// Apply invalid if required
+                                        //$ext->add($id, 'i', '', new ext_playback('invalid'));
+                                        //$ext->add($id, 'i', '', new ext_goto('loop'));
+                                        //$ext->add($id, 's', 'loop', new ext_setvar('LOOPED','1'));
+                                        //$ext->add($item[0], 's', 'LOOP', new ext_gotoif('$[${LOOPED} > 2]','hang,1'));
+                                        //apply default timeout if needed
+                                        //if($default_t) {
+                                        //        $ext->add($item[0], 't', '', new ext_setvar('LOOPED','$[${LOOPED} + 1]'));
+                                        //        $ext->add($item[0], 't', '', new ext_goto('s,LOOP'));
+                                       // }
+                                }
+                        }
+                break;
+        }
+}
+
 
 
 function ivr_get_ivr_id($name) {
@@ -63,8 +136,10 @@ function ivr_get_ivr_id($name) {
 		// It's not there. Create it and return the ID
 		sql("INSERT INTO ivr values('','$name', '', 'Y', 'Y', 10)");
 		$res = $db->getRow("SELECT ivr_id from ivr where displayname='$name'");
+		needreload();
 	}
 	return ($res[0]);
+	
 }
 
 function ivr_add_command($id, $cmd, $dest) {
@@ -78,6 +153,7 @@ function ivr_add_command($id, $cmd, $dest) {
 		// Update it.
 		sql("UPDATE ivr_dests SET dest='$dest' where ivr_id='$id' and selection='$cmd'");
 	}
+	needreload();
 }
 function ivr_do_edit($id, $post) {
 
@@ -107,9 +183,11 @@ function ivr_do_edit($id, $post) {
 			$cmd = $post['option'.$match[1]];
 			// Debugging if it all goes pear shaped.
 			// print "I think pushing $cmd does $dest<br>\n";
-			ivr_add_command($id, $cmd, $dest);
+			if (!empty($cmd))
+				ivr_add_command($id, $cmd, $dest);
 		}
 	}
+	needreload();
 }
 
 
@@ -119,7 +197,7 @@ function ivr_list() {
 	$sql = "SELECT * FROM ivr where displayname <> '__install_done' ORDER BY displayname";
         $res = $db->getAll($sql, DB_FETCHMODE_ASSOC);
         if(DB::IsError($res)) {
-                $res = null;
+		return null;
         }
         return $res;
 }
@@ -130,7 +208,7 @@ function ivr_get_details($id) {
 	$sql = "SELECT * FROM ivr where ivr_id='$id'";
         $res = $db->getAll($sql, DB_FETCHMODE_ASSOC);
         if(DB::IsError($res)) {
-                $res = null;
+		return null;
         }
         return $res[0];
 }
@@ -141,7 +219,7 @@ function ivr_get_dests($id) {
 	$sql = "SELECT selection, dest FROM ivr_dests where ivr_id='$id' ORDER BY selection";
         $res = $db->getAll($sql, DB_FETCHMODE_ASSOC);
         if(DB::IsError($res)) {
-                $res = null;
+                return null;
         }
         return $res;
 }
