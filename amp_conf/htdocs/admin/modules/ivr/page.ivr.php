@@ -18,6 +18,7 @@
 $action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
 $id = isset($_REQUEST['id'])?$_REQUEST['id']:'';
 $dircontext = isset($_SESSION["AMP_user"]->_deptname)?$_SESSION["AMP_user"]->_deptname:'';
+$nbroptions = isset($_REQUEST['nbroptions'])?$_REQUEST['nbroptions']:'3';
 
 echo "</div>\n";
 if (empty($dircontext))
@@ -33,7 +34,12 @@ switch ($action) {
 	case "edited":
 		ivr_do_edit($id, $_POST);
 		ivr_sidebar($id);
-		ivr_show_edit($id, $_POST);
+		if (isset($_REQUEST['increase'])) 
+			$nbroptions++;
+		if (isset($_REQUEST['decrease'])) {
+			$nbroptions--;
+		}
+		ivr_show_edit($id, $nbroptions, $_POST);
 		break;
 	default:
 		ivr_sidebar($id);
@@ -56,14 +62,14 @@ function ivr_sidebar($id)  {
         echo "</div>\n";
 }
 
-function ivr_show_edit($id, $post) {
+function ivr_show_edit($id, $nbroptions, $post) {
 	global $db;
 
 	$ivr_details = ivr_get_details($id);
 	$ivr_dests = ivr_get_dests($id);
 	
 	// Load up all the variables that may or may not have been posted
-	$nbroptions = isset($_REQUEST['nbroptions'])?$_REQUEST['nbroptions']:'';
+	print "It's $nbroptions\n";
 ?>
 	<div class="content">
         <h2><?php echo _("Digital Receptionist"); ?></h2>
@@ -76,7 +82,7 @@ function ivr_show_edit($id, $post) {
         <input type="hidden" name="display" value="ivr">
         <input type="hidden" name="id" value="<?php echo $id ?>">
         <table>
-        <tr><td colspan=2><hr></td></tr>
+        <tr><td colspan=2><hr /></td></tr>
         <tr>
                 <td><a href="#" class="info">Change Name<span>This changes the short name, visible on the right, of this IVR</span></a></td>
                 <td><input type="text" name="displayname" value="<?php echo $ivr_details['displayname'] ?>"></td>
@@ -93,14 +99,62 @@ function ivr_show_edit($id, $post) {
                 <td><a href="#" class="info">Enable Direct Dial<span>Let callers into the IVR dial an extension directly</span></a></td>
                 <td><input type="checkbox" name="ena_directdial" <? echo $ivr_details['enable_directdial'] ?>></td>
         </tr>
-        <tr><td colspan=2><hr></td></tr>
+<?php
+	if(function_exists('recordings_list')) { //only include if recordings is enabled ?>
+        <tr>
+                <td><a href="#" class="info"><?php echo _("Announcement")?><span><?php echo _("Message to be played to the caller. To add additional recordings please use the \"System Recordings\" MENU to the left")?></span></a></td>
+                <td>&nbsp;
+                        <select name="annmsg"/>
+                        <?php
+                                $tresults = recordings_list();
+                                $default = (isset($annmsg) ? $annmsg : '');
+                                echo '<option value="">'._("None")."</option>";
+                                if (isset($tresults[0])) {
+                                        foreach ($tresults as $tresult) {
+                                                echo '<option value="'.$tresult[0].'"'.($tresult[0] == $default ? ' SELECTED' : '').'>'.$tresult[1]."</option>\n";
+                                        }
+                                }
+                        ?>
+                        </select>
+                </td>
+        </tr>
+	
+<?php
+	}
+?>
+
+        <tr><td colspan=2><hr /></td></tr>
 	<tr><td colspan=2>
 	<input name="increase" type="submit" value="<?php echo _("Increase Options")?>"></h6>
+	&nbsp;
 	<input name="decrease" type="submit" value="<?php echo _("Decrease Options")?>"></h6>
-	</td><tr>
+	</td></tr>
+        <tr><td colspan=2><hr /></td></tr>
+<?php
+	// Draw the destinations
+	$dests = ivr_get_dests($id);
+	if (!empty($dests)) {
+		$count = 0;
+		foreach ($dests as $dest) {
+			drawdestinations($count, $dest['selection'], $dest['dest']);
+			$count++;
+		}
+		while ($count < $nbroptions) {
+			drawdestinations($count, null, null);
+			$count++;
+		}
+	}
+?>
+	
         </table>
+<?php
+	if ($nbroptions < $count) { 
+		echo "<input type='hidden' name='nbroptions' value=$count ?>\n";
+	} else {
+		echo "<input type='hidden' name='nbroptions' value=$nbroptions ?>\n";
+	} 
+?>
         <input name="Submit" type="submit" value="<?php echo _("Save")?>"></h6>
-	<input type="hidden" name="nbroptions" value="<?php echo $nbroptions ?>">
         </form>
         </div>
 
@@ -110,7 +164,18 @@ function ivr_show_edit($id, $post) {
 echo "</div>\n";
 }
 
-
+function drawdestinations($count, $sel,  $dest) { ?>
+	<tr> <td style="text-align:right;">
+		<input size="2" type="text" name="option<?php echo $count ?>" value="<?php echo $sel ?>"><br />
+<?php if (!empty($sel)) {  ?>
+		<i style='font-size: x-small'>Leave blank to remove</i>
+<?php }  ?>
+	</td>
+		<td> <table> <?php echo drawselects($dest,$count); ?> </table> </td>
+	</tr>
+	<tr><td colspan=2><hr /></td></tr>
+<?php
+}
 
 
 function runModuleSQL($moddir,$type){

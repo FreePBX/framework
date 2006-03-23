@@ -123,7 +123,7 @@ function ivr_get_details($id) {
 function ivr_get_dests($id) {
 	global $db;
 
-	$sql = "SELECT selection, dest FROM ivr where ivr_id='$id'";
+	$sql = "SELECT selection, dest FROM ivr_dests where ivr_id='$id'";
         $res = $db->getAll($sql, DB_FETCHMODE_ASSOC);
         if(DB::IsError($res)) {
                 $res = null;
