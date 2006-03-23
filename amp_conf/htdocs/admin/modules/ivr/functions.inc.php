@@ -134,7 +134,7 @@ function ivr_get_ivr_id($name) {
 	$res = $db->getRow("SELECT ivr_id from ivr where displayname='$name'");
 	if ($res->numRows == 0) {
 		// It's not there. Create it and return the ID
-		sql("INSERT INTO ivr values('','$name', '', 'Y', 'Y', 10)");
+		sql("INSERT INTO ivr values('','$name', '', 'Y', 'Y', 10, '')");
 		$res = $db->getRow("SELECT ivr_id from ivr where displayname='$name'");
 		needreload();
 	}
