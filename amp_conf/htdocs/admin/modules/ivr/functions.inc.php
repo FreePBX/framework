@@ -42,7 +42,7 @@ function ivr_init() {
 						$arr=explode(',', $cmd['args']);
 						// s == unset, so don't care
 						if ($arr[0] != 's') 
-							ivr_add_command($id,$cmd['extension'],$arr[0],$arr[1]);
+							ivr_add_command($id,$cmd['extension'],$cmd['args']);
 					}
 				}
 			}
@@ -51,33 +51,92 @@ function ivr_init() {
 		}	
 		// Note, the __install_done line is for internal version checking - the second field
 		// should be incremented and checked if the database ever changes.
-                // $result = sql("INSERT INTO ivr values ('', '__install_done', '1', '', '')");
+                $result = sql("INSERT INTO ivr values ('', '__install_done', '1', '', '', '')");
         }
 }
 
 
 function ivr_get_ivr_id($name) {
 	global $db;
-	$res = $db->getRow("SELECT ivr_id from ivr where descrname='$name'");
+	$res = $db->getRow("SELECT ivr_id from ivr where displayname='$name'");
 	if ($res->numRows == 0) {
 		// It's not there. Create it and return the ID
-		sql("INSERT INTO ivr values('','$name', '', 'Y', 'Y')");
-		$res = $db->getRow("SELECT ivr_id from ivr where descrname='$name'");
+		sql("INSERT INTO ivr values('','$name', '', 'Y', 'Y', 10)");
+		$res = $db->getRow("SELECT ivr_id from ivr where displayname='$name'");
 	}
 	return ($res[0]);
 }
 
-function ivr_add_command($id, $cmd, $dest, $dest_id) {
+function ivr_add_command($id, $cmd, $dest) {
 	global $db;
 	// Does it already exist?
 	$res = $db->getRow("SELECT * from ivr_dests where ivr_id='$id' and selection='$cmd'");
 	if ($res->numRows == 0) {
 		// Just add it.
-		sql("INSERT INTO ivr_dests VALUES('$id', '$cmd', '$dest', '$dest_id')");
+		sql("INSERT INTO ivr_dests VALUES('$id', '$cmd', '$dest')");
 	} else {
 		// Update it.
-		sql("UPDATE ivr_dests SET dest_type='$dest', dest_id='$dest_id' where ivr_id='$id' and selection='$cmd'");
+		sql("UPDATE ivr_dests SET dest='$dest' where ivr_id='$id' and selection='$cmd'");
 	}
 }
+function ivr_do_edit($id, $post) {
 
+	$displayname = isset($post['displayname'])?$post['displayname']:'';
+	$timeout = isset($post['timeout'])?$post['timeout']:'';
+	$ena_directory = isset($post['ena_directory'])?$post['ena_directory']:'';
+	$ena_directdial = isset($post['ena_directdial'])?$post['ena_directdial']:'';
+
+	if (!empty($ena_directory)) {
+		$ena_directory='CHECKED';
+	}
+
+	if (!empty($ena_directdial)) {
+		$ena_directdial='CHECKED';
+	}
+
+	sql("UPDATE ivr SET displayname='$displayname', enable_directory='$ena_directory', enable_directdial='$ena_directdial', timeout='$timeout' WHERE ivr_id='$id'");
+}
+
+
+function ivr_list() {
+	global $db;
+
+	$sql = "SELECT * FROM ivr where displayname <> '__install_done' ORDER BY displayname";
+        $res = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+        if(DB::IsError($res)) {
+                $res = null;
+        }
+        return $res;
+}
+
+function ivr_get_details($id) {
+	global $db;
+
+	$sql = "SELECT * FROM ivr where ivr_id='$id'";
+        $res = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+        if(DB::IsError($res)) {
+                $res = null;
+        }
+        return $res[0];
+}
+
+function ivr_get_dests($id) {
+	global $db;
+
+	$sql = "SELECT selection, dest FROM ivr where ivr_id='$id'";
+        $res = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+        if(DB::IsError($res)) {
+                $res = null;
+        }
+        return $res;
+}
+	
+function ivr_get_name($id) {
+	$res = ivr_get_details($id);
+	if (isset($res['displayname'])) {
+		return $res['displayname'];
+	} else {
+		return null;
+	}
+}
 ?>
