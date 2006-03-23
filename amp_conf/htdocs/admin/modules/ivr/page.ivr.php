@@ -57,7 +57,7 @@ switch ($action) {
 	case "delete":
 		sql("DELETE from ivr where ivr_id='$id'");
 		sql("DELETE FROM ivr_dests where ivr_id='$id'");
-		needs_reload();
+		needreload();
 	default:
 		ivr_sidebar($id);
 ?>
