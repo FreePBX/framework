@@ -29,7 +29,7 @@ ivr_init();
 switch ($action) {
 	case "edit":
 		ivr_sidebar($id);
-		ivr_show_edit($id, $_POST);
+		ivr_show_edit($id, $nbroptions, $_POST);
 		break;
 	case "edited":
 		ivr_do_edit($id, $_POST);
@@ -69,7 +69,6 @@ function ivr_show_edit($id, $nbroptions, $post) {
 	$ivr_dests = ivr_get_dests($id);
 	
 	// Load up all the variables that may or may not have been posted
-	print "It's $nbroptions\n";
 ?>
 	<div class="content">
         <h2><?php echo _("Digital Receptionist"); ?></h2>

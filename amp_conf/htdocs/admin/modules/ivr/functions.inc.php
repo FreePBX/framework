@@ -86,15 +86,30 @@ function ivr_do_edit($id, $post) {
 	$ena_directory = isset($post['ena_directory'])?$post['ena_directory']:'';
 	$ena_directdial = isset($post['ena_directdial'])?$post['ena_directdial']:'';
 
-	if (!empty($ena_directory)) {
+	if (!empty($ena_directory)) 
 		$ena_directory='CHECKED';
-	}
 
-	if (!empty($ena_directdial)) {
+
+	if (!empty($ena_directdial)) 
 		$ena_directdial='CHECKED';
-	}
-
+	
 	sql("UPDATE ivr SET displayname='$displayname', enable_directory='$ena_directory', enable_directdial='$ena_directdial', timeout='$timeout' WHERE ivr_id='$id'");
+
+	// Delete all the old dests
+	sql("DELETE FROM ivr_dests where ivr_id='$id'");
+	// Now, lets find all the goto's in the post. Destinations return goto_indicateN => foo and get fooN for the dest.
+	// Is that right, or am I missing something?
+	foreach(array_keys($post) as $var) {
+		if (preg_match('/goto_indicate(\d+)/', $var, $match)) {
+			// This is a really horrible line of code. take N, and get value of fooN. See above. Note we
+			// get match[1] from the preg_match above
+			$dest = $post[$post[$var].$match[1]];
+			$cmd = $post['option'.$match[1]];
+			// Debugging if it all goes pear shaped.
+			// print "I think pushing $cmd does $dest<br>\n";
+			ivr_add_command($id, $cmd, $dest);
+		}
+	}
 }
 
 
@@ -123,7 +138,7 @@ function ivr_get_details($id) {
 function ivr_get_dests($id) {
 	global $db;
 
-	$sql = "SELECT selection, dest FROM ivr_dests where ivr_id='$id'";
+	$sql = "SELECT selection, dest FROM ivr_dests where ivr_id='$id' ORDER BY selection";
         $res = $db->getAll($sql, DB_FETCHMODE_ASSOC);
         if(DB::IsError($res)) {
                 $res = null;
