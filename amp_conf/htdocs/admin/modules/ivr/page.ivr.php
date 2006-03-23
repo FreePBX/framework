@@ -29,6 +29,15 @@ if (empty($dircontext))
 ivr_init();
 
 switch ($action) {
+	case "add":
+		$id = ivr_get_ivr_id('Unnamed');
+		// Set the defaults
+		$def['timeout'] = 5;
+		$def['ena_directdial'] = 'CHECKED';
+		$def['ena_directory'] = 'CHECKED';
+		ivr_sidebar($id);
+		ivr_show_edit($id, 3,  $def);
+		break;
 	case "edit":
 		ivr_sidebar($id);
 		ivr_show_edit($id, $nbroptions, $_POST);
@@ -41,17 +50,28 @@ switch ($action) {
 		if (isset($_REQUEST['decrease'])) {
 			$nbroptions--;
 		}
+		if ($nbroptions < 1)
+			$nbroptions = 1;
 		ivr_show_edit($id, $nbroptions, $_POST);
 		break;
+	case "delete":
+		sql("DELETE from ivr where ivr_id='$id'");
+		sql("DELETE FROM ivr_dests where ivr_id='$id'");
+		needs_reload();
 	default:
 		ivr_sidebar($id);
+?>
+<h2>System Recordings</h2>
+<h3>Blah.</h3>
+Blah blah
+<?php
 }
 
 
 function ivr_sidebar($id)  {
 ?>
         <div class="rnav">
-        <li><a id="<?php echo empty($id)?'current':'nul' ?>" href="config.php?display=ivr"><?php echo _("Add IVR")?></a></li>
+        <li><a id="<?php echo empty($id)?'current':'nul' ?>" href="config.php?display=ivr&amp;action=add"><?php echo _("Add IVR")?></a></li>
 <?php
 
         $tresults = ivr_list();
@@ -134,16 +154,16 @@ function ivr_show_edit($id, $nbroptions, $post) {
 <?php
 	// Draw the destinations
 	$dests = ivr_get_dests($id);
+	$count = 0;
 	if (!empty($dests)) {
-		$count = 0;
 		foreach ($dests as $dest) {
 			drawdestinations($count, $dest['selection'], $dest['dest']);
 			$count++;
 		}
-		while ($count < $nbroptions) {
-			drawdestinations($count, null, null);
-			$count++;
-		}
+	}
+	while ($count < $nbroptions) {
+		drawdestinations($count, null, null);
+		$count++;
 	}
 ?>
 	
