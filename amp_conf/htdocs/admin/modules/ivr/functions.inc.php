@@ -1,115 +1,83 @@
-<?php /* $id$ */
+<?php
+ /* $Id$ */
 
-// The destinations this module provides
-// returns a associative arrays with keys 'destination' and 'description'
-function ivr_destinations() {
-	//get the list of meetmes
-	$results = ivr_list();
-	
-	// return an associative array with destination and description
-	if (isset($results)) {
-		foreach($results as $result){
-				$extens[] = array('destination' => $result[0].',s,1', 'description' => $result['1']);
-		}
-	}
-	
-	return $extens;
-}
 
-/* 	Generates dialplan for conferences
-	We call this with retrieve_conf
-*/
-function ivr_get_config($engine) {
-	global $ext;  // is this the best way to pass this?
-	global $conferences_conf;
-	switch($engine) {
-		case "asterisk":
-			$ivrlist = ivr_list();
-			if(is_array($ivrlist)) {
-				foreach($ivrlist as $item) {
-					$ivr = ivr_get_s(ltrim($item['0']));
-					// add dialplan
-					$ext->addInclude($item[0],'ext-local');
-					$ext->addInclude($item[0],'app-messagecenter');
-					$ext->addInclude($item[0],'app-directory');
-					$ext->add($item[0], 'h', '', new ext_hangup(''));
-					$ext->add($item[0], 'i', '', new ext_playback('invalid'));
-					$ext->add($item[0], 'i', '', new ext_goto('7','s'));
-					
-					$ext->add($item[0], 's', '', new ext_gotoif('$["foo${DIALSTATUS}" = "foo"]','3'));
-					$ext->add($item[0], 's', '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','5'));
-					$ext->add($item[0], 's', '', new ext_answer(''));
-					$ext->add($item[0], 's', '', new ext_wait('1'));
-					$ext->add($item[0], 's', '', new ext_setvar('LOOPED','1'));
-					$ext->add($item[0], 's', 'LOOP', new ext_gotoif('$[${LOOPED} > 2]','hang,1'));
-					$ext->add($item[0], 's', '', new ext_setvar('DIR-CONTEXT',substr($ivr[5][4],12)));
-					$ext->add($item[0], 's', '', new ext_digittimeout('3'));
-					$ext->add($item[0], 's', '', new ext_responsetimeout('7'));
-					$ext->add($item[0], 's', '', new ext_background($ivr[8][4]));
-					
-					$ext->add($item[0], 'hang', '', new ext_playback('vm-goodbye'));
-					$ext->add($item[0], 'hang', '', new ext_hangup(''));
-					
-					$default_t=true;
-					// Actually add the IVR commands now.
-					foreach(ivr_get($item[0]) as $ivr_item) {
-						if (preg_match("/[0-9*#]/", $ivr_item[1])) {
-							$ext->add($item[0], $ivr_item[1],'', new ext_goto($ivr_item[4]));
-						}
-						// check for user timeout setting
-						if ($ivr_item[1]=="t" && $ivr_item[2]=="1" && $ivr_item[3]=="Goto") {
-							$ext->add($item[0], $ivr_item[1],'', new ext_goto($ivr_item[4]));
-							$default_t = false;
-						}
-					}
-					//apply default timeout if needed
-					if($default_t) {
-						$ext->add($item[0], 't', '', new ext_setvar('LOOPED','$[${LOOPED} + 1]'));
-						$ext->add($item[0], 't', '', new ext_goto('s,LOOP'));				
+function ivr_init() {
+        global $db;
+
+        // Check to make sure that install.sql has been run
+        $sql = "SELECT ivr_id from ivr LIMIT 1";
+        $results = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+
+        if (DB::IsError($results)) {
+                // It couldn't locate the table. This is bad. Lets try to re-create it, just
+                // in case the user has had the brilliant idea to delete it.
+                // runModuleSQL taken from page.module.php. It's inclusion here is probably
+                // A bad thing. It should be, I think, globally available.
+                runModuleSQL('ivr', 'uninstall');
+                if (runModuleSQL('ivr', 'install')==false) {
+                        echo _("There is a problem with install.sql, cannot re-create databases. Contact support\n");
+                        die;
+                } else {
+                        echo _("Database was deleted! Recreated successfully.<br>\n");
+                        $results = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+                }
+        }
+        if (!isset($results[0])) {
+                // Note: There's an invalid entry created, __invalid, after this is run,
+                // so as long as this has been run _once_, there will always be a result.
+                print "First-time use. Searching for existing IVR's.<br>\n";
+		// Read old IVR format, part of xtns..
+		$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND application LIKE 'DigitTimeout' AND context LIKE '".$dept."aa_%' ORDER BY context,priority";
+		$unique_aas = $db->getAll($sql);
+		if (isset($unique_aas)) {
+			foreach($unique_aas as $aa){
+				print "Upgrading {$aa[0]}<br>\n";
+				// This gets all the menu options
+				$id = ivr_get_ivr_id($aa[0]);
+				$sql = "SELECT extension,args from extensions where application='Goto' and context='{$aa[0]}'";
+				$cmds = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+				if (isset($cmds)) {
+					foreach ($cmds as $cmd) {
+						$arr=explode(',', $cmd['args']);
+						// s == unset, so don't care
+						if ($arr[0] != 's') 
+							ivr_add_command($id,$cmd['extension'],$arr[0],$arr[1]);
 					}
 				}
 			}
-		break;
-	}
+		} else {
+			print "No IVR's found<br>\n";
+		}	
+		// Note, the __install_done line is for internal version checking - the second field
+		// should be incremented and checked if the database ever changes.
+                // $result = sql("INSERT INTO ivr values ('', '__install_done', '1', '', '')");
+        }
 }
 
-//Return an array of commands for this IVR
-function ivr_get($menu_id) {
+
+function ivr_get_ivr_id($name) {
 	global $db;
-	$sql = "SELECT * FROM extensions WHERE context = '".$menu_id."' ORDER BY extension";
-	$aalines = $db->getAll($sql);
-	if(DB::IsError($aalines)) {
-		die('aalines: '.$aalines->getMessage());
+	$res = $db->getRow("SELECT ivr_id from ivr where descrname='$name'");
+	if ($res->numRows == 0) {
+		// It's not there. Create it and return the ID
+		sql("INSERT INTO ivr values('','$name', '', 'Y', 'Y')");
+		$res = $db->getRow("SELECT ivr_id from ivr where descrname='$name'");
 	}
-	return $aalines;
+	return ($res[0]);
 }
 
-//get only 's' extension info about auto-attendant
-function ivr_get_s($menu_id) {
+function ivr_add_command($id, $cmd, $dest, $dest_id) {
 	global $db;
-	$sql = "SELECT * FROM extensions WHERE context = '".$menu_id."' AND extension = 's' ORDER BY extension";
-	$aalines = $db->getAll($sql);
-	if(DB::IsError($aalines)) {
-		die('aalines: '.$aalines->getMessage());
-	}
-	return $aalines;
-}
-
-//get unique voice menu numbers - returns 2 dimensional array
-function ivr_list() {
-	global $db;
-	if (isset($_SESSION["AMP_user"])) {
-		$dept = str_replace(' ','_',$_SESSION["AMP_user"]->_deptname);
+	// Does it already exist?
+	$res = $db->getRow("SELECT * from ivr_dests where ivr_id='$id' and selection='$cmd'");
+	if ($res->numRows == 0) {
+		// Just add it.
+		sql("INSERT INTO ivr_dests VALUES('$id', '$cmd', '$dest', '$dest_id')");
 	} else {
-		$dept = '%';
+		// Update it.
+		sql("UPDATE ivr_dests SET dest_type='$dest', dest_id='$dest_id' where ivr_id='$id' and selection='$cmd'");
 	}
-	if (empty($dept)) $dept='%';  //if we are not restricted to dept (ie: admin), then display all AA menus
-	$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND application LIKE 'DigitTimeout' AND context LIKE '".$dept."aa_%' ORDER BY context,priority";
-	$unique_aas = $db->getAll($sql);
-	if(DB::IsError($unique_aas)) {
-	   die('unique: '.$unique_aas->getMessage().'<hr>'.$sql);
-	}
-	return $unique_aas;
 }
 
 ?>
