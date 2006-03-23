@@ -81,39 +81,52 @@ function ivr_get_config($engine) {
 			if(is_array($ivrlist)) {
 				foreach($ivrlist as $item) {
 					$id = "ivr-".$item['ivr_id'];
-					$details = ivr_get_details($id);
-					if (!empty($details['ena_directdial'])) 
+					$details = ivr_get_details($item['ivr_id']);
+					if (!empty($details['enable_directdial'])) 
                                         	$ext->addInclude($id,'ext-local');
 					// I'm not sure I like the ability of people to send voicemail from the IVR.
 					// Make it a config option, possibly?
                                         // $ext->addInclude($item[0],'app-messagecenter');
-					if (!empty($details['ena_directory']))
+					if (!empty($details['enable_directory']))
                                         	$ext->addInclude($id,'app-directory');
                                         $ext->add($id, 'h', '', new ext_hangup(''));
+                                        $ext->add($id, 's', '', new ext_setvar('LOOPCOUNT', 0));
                                         $ext->add($id, 's', '', new ext_answer(''));
                                         $ext->add($id, 's', '', new ext_wait('1'));
-                                        $ext->add($id, 's', '', new ext_digittimeout($details['timeout']));
+                                        $ext->add($id, 's', 'begin', new ext_digittimeout($details['timeout']));
                                         $ext->add($id, 's', '', new ext_responsetimeout($details['timeout']));
-                                        $ext->add($id, 's', '', new ext_background($details['announcement']));
-
+					if(function_exists('recordings_get')) {
+						$recording = recordings_get($details['announcement']);
+						$ext->add($id, 's', '', new ext_background($recording[2]));
+					}
                                         $ext->add($id, 'hang', '', new ext_playback('vm-goodbye'));
                                         $ext->add($id, 'hang', '', new ext_hangup(''));
 
                                         $default_t=true;
-                                        // Actually add the IVR commands now.
-					$timeout = '';
-					$invalid = '';
+					// Actually add the IVR commands now.
 					$dests = ivr_get_dests($item['ivr_id']);
 					if (!empty($dests)) {
-                                        	foreach($dests as $dest) {
-							if ($dest['selection'] == 't') $timeout='1';
-							if ($dest['selection'] == 'i') $invalid='1';
+						foreach($dests as $dest) {
+							if ($dest['selection'] == 't') $timeout=true;
+							if ($dest['selection'] == 'i') $invalid=true;
 							$ext->add($id, $dest['selection'],'', new ext_goto($dest['dest']));
 						}
-                                        }
+					}
 					// Apply invalid if required
-                                        //$ext->add($id, 'i', '', new ext_playback('invalid'));
-                                        //$ext->add($id, 'i', '', new ext_goto('loop'));
+					if (!isset($invalid)) {
+						$ext->add($id, 'i', '', new ext_playback('invalid'));
+						$ext->add($id, 'i', '', new ext_goto('loop,1'));
+						$addloop=true;
+					}
+					if (!isset($timeout)) {
+						$ext->add($id, 't', '', new ext_goto('loop,1'));
+						$addloop=true;
+					}
+					if (isset($addloop)) {
+						$ext->add($id, 'loop', '', new ext_setvar('LOOPCOUNT','$[${LOOPCOUNT} + 1]'));	
+						$ext->add($id, 'loop', '', new ext_gotoif('$[${LOOPCOUNT} > 2]','hang,1'));
+						$ext->add($id, 'loop', '', new ext_goto($id.',s,begin'));
+					}
                                         //$ext->add($id, 's', 'loop', new ext_setvar('LOOPED','1'));
                                         //$ext->add($item[0], 's', 'LOOP', new ext_gotoif('$[${LOOPED} > 2]','hang,1'));
                                         //apply default timeout if needed
@@ -161,6 +174,7 @@ function ivr_do_edit($id, $post) {
 	$timeout = isset($post['timeout'])?$post['timeout']:'';
 	$ena_directory = isset($post['ena_directory'])?$post['ena_directory']:'';
 	$ena_directdial = isset($post['ena_directdial'])?$post['ena_directdial']:'';
+	$annmsg = isset($post['annmsg'])?$post['annmsg']:'';
 
 	if (!empty($ena_directory)) 
 		$ena_directory='CHECKED';
@@ -169,7 +183,7 @@ function ivr_do_edit($id, $post) {
 	if (!empty($ena_directdial)) 
 		$ena_directdial='CHECKED';
 	
-	sql("UPDATE ivr SET displayname='$displayname', enable_directory='$ena_directory', enable_directdial='$ena_directdial', timeout='$timeout' WHERE ivr_id='$id'");
+	sql("UPDATE ivr SET displayname='$displayname', enable_directory='$ena_directory', enable_directdial='$ena_directdial', timeout='$timeout', announcement='$annmsg' WHERE ivr_id='$id'");
 
 	// Delete all the old dests
 	sql("DELETE FROM ivr_dests where ivr_id='$id'");

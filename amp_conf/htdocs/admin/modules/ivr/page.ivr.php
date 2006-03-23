@@ -126,11 +126,11 @@ function ivr_show_edit($id, $nbroptions, $post) {
                         <select name="annmsg"/>
                         <?php
                                 $tresults = recordings_list();
-                                $default = (isset($annmsg) ? $annmsg : '');
+                                $annmsg = isset($ivr_details['announcement'])?$ivr_details['announcement']:'';
                                 echo '<option value="">'._("None")."</option>";
                                 if (isset($tresults[0])) {
                                         foreach ($tresults as $tresult) {
-                                                echo '<option value="'.$tresult[0].'"'.($tresult[0] == $default ? ' SELECTED' : '').'>'.$tresult[1]."</option>\n";
+                                                echo '<option value="'.$tresult[0].'"'.($tresult[0] == $annmsg ? ' SELECTED' : '').'>'.$tresult[1]."</option>\n";
                                         }
                                 }
                         ?>
