@@ -51,7 +51,7 @@ function ivr_init() {
 		}	
 		// Note, the __install_done line is for internal version checking - the second field
 		// should be incremented and checked if the database ever changes.
-                $result = sql("INSERT INTO ivr values ('', '__install_done', '1', '', '', '')");
+                $result = sql("INSERT INTO ivr (displayname, deptname) VALUES ('__install_done', '1')");
 		needreload();
         }
 }
@@ -134,7 +134,7 @@ function ivr_get_ivr_id($name) {
 	$res = $db->getRow("SELECT ivr_id from ivr where displayname='$name'");
 	if ($res->numRows == 0) {
 		// It's not there. Create it and return the ID
-		sql("INSERT INTO ivr values('','$name', '', 'Y', 'Y', 10, '')");
+		sql("INSERT INTO ivr (displayname, enable_directory, enable_directdial, timeout)  values('$name', 'Y', 'Y', 10)");
 		$res = $db->getRow("SELECT ivr_id from ivr where displayname='$name'");
 		needreload();
 	}
