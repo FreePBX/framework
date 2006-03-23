@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `queues` (
   `data` varchar(150) NOT NULL default '',
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`,`keyword`,`data`)
-) TYPE=MyISAM;;
+) TYPE=MyISAM;
 
 
 CREATE TABLE IF NOT EXISTS devices (id VARCHAR( 20 ) NOT NULL , tech VARCHAR( 10 ) NOT NULL , dial VARCHAR( 50 ) NOT NULL , devicetype VARCHAR( 5 ) NOT NULL , user VARCHAR( 50 ) , description VARCHAR( 50 ));
