@@ -59,7 +59,7 @@ function ringgroups_get_config($engine) {
 						$filename = recordings_get($annmsg);
 						$ext->add($contextname, $grpnum, '', new ext_answer(''));
 						$ext->add($contextname, $grpnum, '', new ext_wait(1));
-						$ext->add($contextname, $grpnum, '', new ext_playback($filename[2]));
+						$ext->add($contextname, $grpnum, '', new ext_playback($filename['filename']));
 					}
 					$ext->add($contextname, $grpnum, 'DIALGRP', new ext_macro('dial',$grptime.',${DIAL_OPTIONS},'.$grplist));
 					$ext->add($contextname, $grpnum, '', new ext_setvar('RingGroupMethod',''));

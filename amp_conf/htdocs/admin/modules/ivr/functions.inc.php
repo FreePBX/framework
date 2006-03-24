@@ -97,7 +97,7 @@ function ivr_get_config($engine) {
                                         $ext->add($id, 's', '', new ext_responsetimeout($details['timeout']));
 					if(function_exists('recordings_get')) {
 						$recording = recordings_get($details['announcement']);
-						$ext->add($id, 's', '', new ext_background($recording[2]));
+						$ext->add($id, 's', '', new ext_background($recording['filename']));
 					}
                                         $ext->add($id, 'hang', '', new ext_playback('vm-goodbye'));
                                         $ext->add($id, 'hang', '', new ext_hangup(''));
