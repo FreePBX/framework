@@ -36,7 +36,7 @@ function queues_get_config($engine) {
 					$ext->add('ext-queues', $exten, '', new ext_setvar('MONITOR_FILENAME','/var/spool/asterisk/monitor/q${EXTEN}-${TIMESTAMP}-${UNIQUEID}'));
 					if(isset($q['joinannounce']) && $q['joinannounce'] != "") {
 						$filename = recordings_get($annmsg);
-						$ext->add('ext-queues', $exten, '', new ext_playback($filename[2]));
+						$ext->add('ext-queues', $exten, '', new ext_playback($filename['filename']));
 					}
 					$ext->add('ext-queues', $exten, '', new ext_queue($exten,'t','',$q['agentannounce'],$q['maxwait']));
 	

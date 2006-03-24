@@ -157,11 +157,11 @@ function recording_editpage($id, $num) { ?>
 	<tr><td colspan=2><hr></td></tr>
 	<tr>
 		<td><a href="#" class="info">Change Name<span>This changes the short name, visible on the right, of this recording</span></a></td>
-		<td><input type="text" name="rname" value="<?php echo $this_recording[1] ?>"></td>
+		<td><input type="text" name="rname" value="<?php echo $this_recording['displayname'] ?>"></td>
 	</tr>
 	<tr>
 	    	<td><a href="#" class="info">Descriptive Name<span>This is displayed, as a hint, when selecting this recording in Queues, Digital Receptionist, etc</span></a></td>
-	    	<td>&nbsp;<textarea name="notes" rows="3" cols="40"><?php echo $this_recording[3] ?></textarea></td>
+	    	<td>&nbsp;<textarea name="notes" rows="3" cols="40"><?php echo $this_recording['description'] ?></textarea></td>
 	</tr>
 	</table>
 	<input name="Submit" type="submit" value="<?php echo _("Save")?>"></h6>

@@ -18,14 +18,12 @@ function recordings_init() {
                         echo _("There is a problem with install.sql, cannot re-create databases. Contact support\n");
                         die;
                 } else {
-                        echo _("Database was deleted! Recreated successfully.<br>\n");
                         $results = $db->getAll($sql, DB_FETCHMODE_ASSOC);
                 }
         }
         if (!isset($results[0])) {
 		// Note: There's an invalid entry created, __invalid, after this is run,
 		// so as long as this has been run _once_, there will always be a result.
-                print "First-time use. Searching for existing recordings.<br>\n";
 		// Check for write permissions on custom directory.
 		// PHP 4.0 and above has 'is_writable'
 		if (!is_writable($recordings_directory)) {
@@ -46,6 +44,18 @@ function recordings_init() {
 }
 
 
+function recordings_get_id($fn) {
+	global $db;
+	
+	$sql = "SELECT id FROM recordings WHERE filename='$fn'";
+        $results = $db->getRow($sql, DB_FETCHMODE_ASSOC);
+	if (isset($results['id']) {
+		return $results['id'];
+	} // else
+	return null;
+}
+	
+
 function recordings_list() {
 	global $db;
 
@@ -63,11 +73,11 @@ function recordings_list() {
 function recordings_get($id) {
 	global $db;
         $sql = "SELECT * FROM recordings where id='$id'";
-        $results = $db->getAll($sql);
+        $results = $db->getRow($sql, DB_FETCHMODE_ASSOC);
         if(DB::IsError($results)) {
                 $results = null;
         }
-	return $results[0];
+	return $results;
 }
 
 function recordings_add($displayname, $filename) {
