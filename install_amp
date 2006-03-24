@@ -190,6 +190,23 @@ function ask_overwrite($file1, $file2) {
 	} while(1);
 }
 
+function amp_mkdir($directory, $mode = "0755", $recursive = false) {
+	debug("mkdir ".$directory.", ".$mode);
+	if (version_compare(phpversion(), 5.0) < 0) {
+		// php <5 can't recursively create directories
+		if ($recursive) {
+			$output = false;
+			$return_value = false;
+			exec("mkdir -m ".$mode." -p ".$directory,  $output, $return_value);
+			return ($return_value == 0);
+		} else {
+			return mkdir($directory, $mode);
+		}
+	} else {
+		return mkdir($directory, $mode, $recursive);
+	}
+}
+
 /** Recursively copy a directory
  */
 function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") {
@@ -209,34 +226,33 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 	*/
 	
 	while (isset($dir_handle) && ($file = readdir($dir_handle))) {
-		if (($file!=".") && ($file!="..") && ($file != "CVS")) {
+		if (($file!=".") && ($file!="..") && ($file != "CVS") && ($file != ".svn")) {
 			$source = $dirsourceparent.$dirsource."/".$file;
 			$destination =  $dirdest.$dirsource."/".$file;
 			
 			// configurable in amportal.conf
 			if (strpos($destination,"htdocs_panel")) {
-				$destination=str_replace("/htdocs_panel",$amp_conf["FOPWEBROOT"],$destination);
+				$destination=str_replace("/htdocs_panel",trim($amp_conf["FOPWEBROOT"]),$destination);
 			} else {
-				$destination=str_replace("/htdocs",$amp_conf["AMPWEBROOT"],$destination);
+				$destination=str_replace("/htdocs",trim($amp_conf["AMPWEBROOT"]),$destination);
 			}
-			$destination=str_replace("/htdocs_panel",$amp_conf["FOPWEBROOT"],$destination);
-			$destination=str_replace("/cgi-bin",$amp_conf["AMPCGIBIN"],$destination);
-			$destination=str_replace("/bin",$amp_conf["AMPBIN"],$destination);
-			$destination=str_replace("/sbin",$amp_conf["AMPSBIN"],$destination);
+			$destination=str_replace("/htdocs_panel",trim($amp_conf["FOPWEBROOT"]),$destination);
+			$destination=str_replace("/cgi-bin",trim($amp_conf["AMPCGIBIN"]),$destination);
+			$destination=str_replace("/bin",trim($amp_conf["AMPBIN"]),$destination);
+			$destination=str_replace("/sbin",trim($amp_conf["AMPSBIN"]),$destination);
 			
 			// the following are configurable in asterisk.conf
-			$destination=str_replace("/astetc",$asterisk_conf["astetcdir"],$destination);
-			$destination=str_replace("/mohmp3",$asterisk_conf["astvarlibdir"]."/mohmp3",$destination);
-			$destination=str_replace("/astvarlib",$asterisk_conf["astvarlibdir"],$destination);
-			$destination=str_replace("/agi-bin",$asterisk_conf["astagidir"],$destination);
-			$destination=str_replace("/sounds",$asterisk_conf["astvarlibdir"]."/sounds",$destination);
+			$destination=str_replace("/astetc",trim($asterisk_conf["astetcdir"]),$destination);
+			$destination=str_replace("/mohmp3",trim($asterisk_conf["astvarlibdir"])."/mohmp3",$destination);
+			$destination=str_replace("/astvarlib",trim($asterisk_conf["astvarlibdir"]),$destination);
+			$destination=str_replace("/agi-bin",trim($asterisk_conf["astagidir"]),$destination);
+			$destination=str_replace("/sounds",trim($asterisk_conf["astvarlibdir"])."/sounds",$destination);
 			
 			// if this is a directory, ensure destination exists
 			if (is_dir($source)) {
 				if (!file_exists($destination)) {
-					debug("mkdir ".$destination);
 					if ((!$dryrun) && ($destination != "")) {
-						mkdir($destination, 0750);
+						amp_mkdir($destination, 0750, true);
 					}
 				}
 			}
@@ -364,7 +380,7 @@ function generate_configs() {
 	
 	out("Generating Configurations.conf..");
 	if (!$dryrun)
-		passthru("su - asterisk -c ".$amp_conf["AMPBIN"]."/retrieve_conf");
+		passthru("su - asterisk -c ".trim($amp_conf["AMPBIN"])."/retrieve_conf");
 }
 
 
@@ -417,7 +433,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '') {
 		else $amp_conf["AMPWEBROOT"] = rtrim($key,'/');
 		if (is_dir($amp_conf["AMPWEBROOT"])) {
 			break;
-		} else if (mkdir($amp_conf["AMPWEBROOT"],755)){
+		} else if (amp_mkdir($amp_conf["AMPWEBROOT"],"0755",true)){
 			out("Created ".$amp_conf["AMPWEBROOT"]);
 			break;
 		} else {
@@ -432,7 +448,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '') {
 		else $amp_conf["FOPWEBROOT"] = rtrim($key,'/');
 		if (is_dir($amp_conf["FOPWEBROOT"])) {
 			break;
-		} else if (mkdir($amp_conf["FOPWEBROOT"],755)){
+		} else if (amp_mkdir($amp_conf["FOPWEBROOT"],"0755",true)){
 			out("Created ".$amp_conf["FOPWEBROOT"]);
 			break;
 		} else {
@@ -471,7 +487,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '') {
 		else $amp_conf["AMPBIN"] = rtrim($key,'/');
 		if (is_dir($amp_conf["AMPBIN"])) {
 			break;
-		} else if (mkdir($amp_conf["AMPBIN"],755)){
+		} else if (amp_mkdir($amp_conf["AMPBIN"],"0755",true)){
 			out("Created ".$amp_conf["AMPBIN"]);
 			break;
 		} else {
@@ -486,7 +502,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '') {
 		else $amp_conf["AMPSBIN"] = rtrim($key,'/');
 		if (is_dir($amp_conf["AMPSBIN"])) {
 			break;
-		} else if (mkdir($amp_conf["AMPSBIN"],755)){
+		} else if (amp_mkdir($amp_conf["AMPSBIN"],"0755",true)){
 			out("Created ".$amp_conf["AMPSBIN"]);
 			break;
 		} else {
@@ -759,8 +775,8 @@ if ($install_files)
 	$check_md5s=true;
 	$md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
 	recursive_copy("amp_conf", "", $md5sums);
-	if (!is_file("/etc/asterisk/voicemail.conf")) exec("cp /etc/asterisk/voicemail.conf.template /etc/asterisk/voicemail.conf");
-	if (!is_dir("/var/spool/asterisk/voicemail/device")) exec("mkdir /var/spool/asterisk/voicemail/device");
+	if (!is_file("/etc/asterisk/voicemail.conf")) copy("/etc/asterisk/voicemail.conf.template","/etc/asterisk/voicemail.conf");
+	if (!is_dir("/var/spool/asterisk/voicemail/device")) amp_mkdir("/var/spool/asterisk/voicemail/device", "0755", true);
 	out("OK");
 }
 
@@ -776,9 +792,9 @@ out("OK");
 
 // **** Create spool directories for monitor and fax
 if (!is_dir($asterisk_conf["astspooldir"]."/monitor"))
-	mkdir($asterisk_conf["astspooldir"]."/monitor",766);
+	amp_mkdir($asterisk_conf["astspooldir"]."/monitor","0766",true);
 if (!is_dir($asterisk_conf["astspooldir"]."/fax"))
-	mkdir($asterisk_conf["astspooldir"]."/fax",766);
+	amp_mkdir($asterisk_conf["astspooldir"]."/fax","0766",true);
 
 
 // **** Set permissions all files
