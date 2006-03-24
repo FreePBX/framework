@@ -61,9 +61,17 @@ switch ($action) {
 	default:
 		ivr_sidebar($id);
 ?>
-<h2>System Recordings</h2>
-<h3>Blah.</h3>
-Blah blah
+<div class="content">
+<h2><?php echo _("Digital Receptionist"); ?></h2>
+<h3>Instructions</h3>
+You use the Digital Receptionist to make IVR's, Interactive Voice Responce systems.<br />
+When creating a menu option, apart from the standard options of 0-9,* and #, you can also
+use 'i' and 't' destinations. 'i' is used when the caller pushes an invalid button, and 't'
+is used when there is no response.  If those options aren't supplied, the default 't' is 
+to replay the menu three times and then hang up, and the default 'i' is to say 'Invalid option,
+please try again' and replay the menu. After three invalid attempts, the line is hung up.
+</div>
+
 <?php
 }
 
