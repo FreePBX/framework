@@ -25,7 +25,6 @@ function disa_get_config($engine) {
                         if(is_array($disalist)) {
                                 foreach($disalist as $item) {
 					// Create the disa-$id.conf file
-					print "Trying to open /etc/asterisk/disa-".$item['disa_id'].".conf\n";
 					$fh = fopen("/etc/asterisk/disa-".$item['disa_id'].".conf", "w+");
 					$pinarr = explode(',' , $item['pin'] );
 					foreach($pinarr as $pin) {
