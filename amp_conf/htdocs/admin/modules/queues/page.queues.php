@@ -178,13 +178,12 @@ if ($action == 'delete') {
 		<td>
 			<select name="agentannounce"/>
 			<?php
-				$tresults = recordings_list("/var/lib/asterisk/sounds/custom");
-				$default = (isset($agentannounce) ? $agentannounce : None);
-				echo '<option value="None">'._("None");
-				if (isset($tresults)) {
+				$tresults = recordings_list();
+				$default = (isset($agentannounce) ? $agentannounce : 'None');
+				echo '<option value="None">'._("None").'</option>';
+				if (isset($tresults[0])) {
 					foreach ($tresults as $tresult) {
-						$searchvalue="custom/$tresult";	
-						echo '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$tresult;
+						echo '<option value="'.$tresult[0].'"'.($tresult[0] == $default ? ' SELECTED' : '').'>'.$tresult[1]."</option>\n";
 					}
 				}
 			?>		

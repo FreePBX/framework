@@ -34,8 +34,10 @@ function queues_get_config($engine) {
 					$ext->add('ext-queues', $exten, '', new ext_answer(''));
 					$ext->add('ext-queues', $exten, '', new ext_setcidname($q['prefix'].'${CALLERIDNAME}'));
 					$ext->add('ext-queues', $exten, '', new ext_setvar('MONITOR_FILENAME','/var/spool/asterisk/monitor/q${EXTEN}-${TIMESTAMP}-${UNIQUEID}'));
-					if(($q['joinannounce'] != "custom/None") && !empty($q['joinannounce']))
-						$ext->add('ext-queues', $exten, '', new ext_playback($q['joinannounce']));
+					if(isset($q['joinannounce']) && $q['joinannounce'] != "") {
+						$filename = recordings_get($annmsg);
+						$ext->add('ext-queues', $exten, '', new ext_playback($filename[2]));
+					}
 					$ext->add('ext-queues', $exten, '', new ext_queue($exten,'t','',$q['agentannounce'],$q['maxwait']));
 	
 					// destination field in 'incoming' database is backwards from what ext_goto expects
@@ -89,7 +91,7 @@ function queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$membe
 	
 	//add to extensions table
 	if (!empty($agentannounce) && $agentannounce != 'None')
-		$agentannounce="custom/$agentannounce";
+		$agentannounce="$agentannounce";
 	else
 		$agentannounce="";
 
@@ -99,7 +101,7 @@ function queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$membe
 	legacy_extensions_add($addarray);
 	$addarray = array('ext-queues',$account,'3','SetVar','MONITOR_FILENAME=/var/spool/asterisk/monitor/q${EXTEN}-${TIMESTAMP}-${UNIQUEID}','','0');
 	legacy_extensions_add($addarray);
-	$addarray = array('ext-queues',$account,'4','Playback','custom/'.$joinannounce,'','0');
+	$addarray = array('ext-queues',$account,'4','Playback',$joinannounce,'','0');
 	legacy_extensions_add($addarray);
 	$addarray = array('ext-queues',$account,'5','Queue',$account.'|t||'.$agentannounce.'|'.$maxwait,$name,'0');
 	legacy_extensions_add($addarray);

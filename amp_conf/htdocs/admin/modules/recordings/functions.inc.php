@@ -1,27 +1,97 @@
 <?php
 
-function recordings_list($path) {
-	$i = 0;
-	$arraycount = 0;
-	
-	if (is_dir($path)){
-		if ($handle = opendir($path)){
-			while (false !== ($file = readdir($handle))){ 
-				if (($file != ".") && ($file != "..") && ($file != "CVS") && ($file != ".svn") && (strpos($file, "aa_") === FALSE)    ) 
-				{
-					$file_parts=explode(".",$file);
-					$filearray[($i++)] = $file_parts[0];
-				}
-			}
-		closedir($handle); 
+function recordings_init() {
+        global $db;
+	$recordings_directory = "/var/lib/asterisk/sounds/custom/";
+
+        // Check to make sure that install.sql has been run
+        $sql = "SELECT id from recordings LIMIT 1";
+        $results = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+
+        if (DB::IsError($results)) {
+                // It couldn't locate the table. This is bad. Lets try to re-create it, just
+                // in case the user has had the brilliant idea to delete it.
+                // runModuleSQL taken from page.module.php. It's inclusion here is probably
+		// A bad thing. It should be, I think, globally available. 
+                runModuleSQL('recordings', 'uninstall');
+                if (runModuleSQL('recordings', 'install')==false) {
+                        echo _("There is a problem with install.sql, cannot re-create databases. Contact support\n");
+                        die;
+                } else {
+                        echo _("Database was deleted! Recreated successfully.<br>\n");
+                        $results = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+                }
+        }
+        if (!isset($results[0])) {
+		// Note: There's an invalid entry created, __invalid, after this is run,
+		// so as long as this has been run _once_, there will always be a result.
+                print "First-time use. Searching for existing recordings.<br>\n";
+		// Check for write permissions on custom directory.
+		// PHP 4.0 and above has 'is_writable'
+		if (!is_writable($recordings_directory)) {
+			print "<h2>Error</h2><br />I can not access the directory $recordings_directory. ";
+			print "Please make sure that it exists, and is writable by the web server.";
+			die;
 		}
-		   
-	}
-	if (isset($filearray)) {
-		sort($filearray);
-		return ($filearray);
-	} else {
-		return null;
-	}
+		$dh = opendir($recordings_directory);
+		while (false !== ($file = readdir($dh))) { // http://au3.php.net/readdir 
+			if ($file[0] != "." && $file != "CVS") {
+				// Ignore the suffix..
+				$fname = ereg_replace('.wav', '', $file);
+				recordings_add($fname, "custom/$file");
+			}
+		}
+		$result = sql("INSERT INTO recordings values ('', '__invalid', 'install done', '')");
+        } 
 }
+
+
+function recordings_list() {
+	global $db;
+
+	// I'm not clued on how 'Department's' work. There obviously should be 
+	// somee checking in here for it.
+
+        $sql = "SELECT * FROM recordings where displayname <> '__invalid' ORDER BY displayname";
+        $results = $db->getAll($sql);
+        if(DB::IsError($results)) {
+                $results = null;
+        }
+        return $results;
+}
+
+function recordings_get($id) {
+	global $db;
+        $sql = "SELECT * FROM recordings where id='$id'";
+        $results = $db->getAll($sql);
+        if(DB::IsError($results)) {
+                $results = null;
+        }
+	return $results[0];
+}
+
+function recordings_add($displayname, $filename) {
+	global $db;
+
+	// Check to make sure we can actually read the file
+	if (!is_readable('/var/lib/asterisk/sounds/'.$filename)) {
+		print "Unable to add $filename - Can't read file!";
+		return false;
+	}
+	// Now, we don't want a .wav on the end if there is one.
+	if (strstr($filename, '.wav')) 
+		$nowav = substr($filename, 0, -4);
+	sql("INSERT INTO recordings values ('', '$displayname', '$nowav', 'No long description available')");
+	return true;
+	
+}
+
+function recordings_update($id, $rname, $descr) {
+	 $results = sql("UPDATE recordings SET displayname = \"$rname\", description = \"$descr\" WHERE id = \"$id\"");
+}
+
+function recordings_del($id) {
+	 $results = sql("DELETE FROM recordings WHERE id = \"$id\"");
+}
+
 ?>

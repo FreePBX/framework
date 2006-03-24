@@ -150,7 +150,7 @@ foreach ($amp_sections as $key=>$value) {
 				if(preg_match("/^(<a.+>)(.+)(<\/a>)$/",$value,$matches))
 					echo "<li>".$matches[1]._($matches[2]).$matches[3]."</li>";
 				else
-					echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?".(isset($_REQUEST['type'])?"type={$_REQUEST['type']}&":"")."display=".$key."\">"._($value)."</a></li>\n";
+				echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?".(isset($_REQUEST['type'])?"type={$_REQUEST['type']}&":"")."display=".$key."\">"._($value)."</a></li>\n";
 			}
 		}
 	} else {

@@ -15,7 +15,7 @@
 function parse_amportal_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
-		if (preg_match("/^\s*([\w]+)\s*=\s*\"?([\w\/\:\.\%-]*)\"?\s*([;#].*)?/",$line,$matches)) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)=([a-zA-Z0-9 .&-@=_<>\"\']+)\s*$/",$line,$matches)) {
 			$conf[ $matches[1] ] = $matches[2];
 		}
 	}
@@ -159,7 +159,7 @@ function find_allmodules() {
 			$inifile = file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.ini');
 			foreach ($inifile as $line) {
 				// parse the module display name and version from module.ini
-				if (preg_match("/^\s*([a-zA-Z0-9]+)=([a-zA-Z0-9 .&-@=_<>\"\']+)\s*$/",$line,$matches)) { 
+				if (preg_match("/^\s*([a-zA-Z0-9]+)=([a-zA-Z0-9 .&-@]+)\s*$/",$line,$matches)) { 
 					if (trim($matches[1]) == "name")
 						$mod[ $file ]['displayName'] = $matches[2];
 					else if (trim($matches[1]) == "version")
