@@ -122,13 +122,12 @@ if ($action == 'delete') {
 		<td>
 			<select name="joinmsg"/>
 			<?php
-				$tresults = recordings_list("/var/lib/asterisk/sounds/custom");
+				$tresults = recordings_list();
 				$default = (isset($joinmsg) ? $joinmsg : '');
 				echo '<option value="">'._("None");
-				if (isset($tresults)) {
+				if (isset($tresults[0])) {
 					foreach ($tresults as $tresult) {
-						$searchvalue="custom/$tresult";	
-						echo '<option value="custom/'.$tresult.'"'.($searchvalue == $default ? ' SELECTED' : '').'>'.$tresult;
+						echo '<option value="'.$tresult[0].'"'.($tresult[0] == $default ? ' SELECTED' : '').'>'.$tresult[1];
 					}
 				}
 			?>		
