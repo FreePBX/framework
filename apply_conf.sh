@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 if [ "$1" == "-h" ]
 then
@@ -50,10 +50,10 @@ if [ -e $AMPWEBROOT"/panel/op_server.cfg" ]; then
 fi
 
 echo "/etc/asterisk/vm_email.inc"
-if [ "xx$AMPWEBADDRESS" = "$AMPWEBADDRESS" ]; then
-	sed -r -i "s!http://.*/recordings!http://$AMPWEBADDRESS/recordings!" /etc/asterisk/vm_email.inc
-else
+if [ "xx$AMPWEBADDRESS" = "xx" ]; then
 	echo "You might need to modify /etc/asterisk/vm_email.inc manually"
+else
+	sed -r -i "s!http://.*/recordings!http://$AMPWEBADDRESS/recordings!" /etc/asterisk/vm_email.inc
 fi
 
 
