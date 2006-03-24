@@ -51,7 +51,7 @@ fi
 
 echo "/etc/asterisk/vm_email.inc"
 if [ "xx$AMPWEBADDRESS" = "$AMPWEBADDRESS" ]; then
-	sed -r -i "s!http://.*/cgi-bin!http://$AMPWEBADDRESS/cgi-bin!" /etc/asterisk/vm_email.inc
+	sed -r -i "s!http://.*/recordings!http://$AMPWEBADDRESS/recordings!" /etc/asterisk/vm_email.inc
 else
 	echo "You might need to modify /etc/asterisk/vm_email.inc manually"
 fi
