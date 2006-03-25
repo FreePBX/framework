@@ -6,7 +6,8 @@ function ivr_init() {
         global $db;
 
         // Check to make sure that install.sql has been run
-        $sql = "SELECT ivr_id from ivr LIMIT 1";
+        $sql = "SELECT deptname from ivr where displayname='__install_done' LIMIT 1";
+
         $results = $db->getAll($sql, DB_FETCHMODE_ASSOC);
 
         if (DB::IsError($results)) {
@@ -19,36 +20,51 @@ function ivr_init() {
                         echo _("There is a problem with install.sql, cannot re-create databases. Contact support\n");
                         die;
                 } else {
-                        echo _("Database was deleted! Recreated successfully.<br>\n");
                         $results = $db->getAll($sql, DB_FETCHMODE_ASSOC);
                 }
         }
         if (!isset($results[0])) {
                 // Note: There's an invalid entry created, __invalid, after this is run,
                 // so as long as this has been run _once_, there will always be a result.
-                print "First-time use. Searching for existing IVR's.<br>\n";
+
+		// Ensure that recordings is up to date
+		recordings_init();
+
 		// Read old IVR format, part of xtns..
 		$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND application LIKE 'DigitTimeout' AND context LIKE '".$dept."aa_%' ORDER BY context,priority";
 		$unique_aas = $db->getAll($sql);
 		if (isset($unique_aas)) {
 			foreach($unique_aas as $aa){
-				print "Upgrading {$aa[0]}<br>\n";
 				// This gets all the menu options
 				$id = ivr_get_ivr_id($aa[0]);
+				// Save the old name, with a link to the new name, for upgrading
+				$ivr_newname[$aa[0]] = "ivr-$id";
+				// Get the old config
 				$sql = "SELECT extension,args from extensions where application='Goto' and context='{$aa[0]}'";
 				$cmds = $db->getAll($sql, DB_FETCHMODE_ASSOC);
 				if (isset($cmds)) {
+					// There were some actions, so loop through them
 					foreach ($cmds as $cmd) {
 						$arr=explode(',', $cmd['args']);
-						// s == unset, so don't care
+						// s == old stuff. We don't care.
 						if ($arr[0] != 's') 
 							ivr_add_command($id,$cmd['extension'],$cmd['args']);
 					}
 				}
 			}
-		} else {
-			print "No IVR's found<br>\n";
-		}	
+			// Now. Upgrade all the links inside the old IVR's
+			if (isset($ivr_newname)) {
+				// Some IVR's were upgraded
+				$sql = "SELECT * FROM ivr_dests WHERE dest LIKE '%aa_%'";
+				$dests = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+				if (isset($dests)) {
+					foreach ($dests as $dest) {
+						$arr=explode(',', $dest['dest']);
+						sql("UPDATE ivr_dests set dest='".$ivr_newname[$arr[0]].",".$arr[1].",".$arr[2]."' where ivr_id='".$dest['dest']."' and selection='".$dest['selection']."'");
+					}
+				}
+			}
+		} 
 		// Note, the __install_done line is for internal version checking - the second field
 		// should be incremented and checked if the database ever changes.
                 $result = sql("INSERT INTO ivr (displayname, deptname) VALUES ('__install_done', '1')");
