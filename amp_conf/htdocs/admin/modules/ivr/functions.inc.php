@@ -60,7 +60,7 @@ function ivr_init() {
 				if (isset($dests)) {
 					foreach ($dests as $dest) {
 						$arr=explode(',', $dest['dest']);
-						sql("UPDATE ivr_dests set dest='".$ivr_newname[$arr[0]].",".$arr[1].",".$arr[2]."' where ivr_id='".$dest['dest']."' and selection='".$dest['selection']."'");
+						sql("UPDATE ivr_dests set dest='".$ivr_newname[$arr[0]].",".$arr[1].",".$arr[2]."' where ivr_id='".$dest['ivr_id']."' and selection='".$dest['selection']."'");
 					}
 				}
 			}
