@@ -38,7 +38,7 @@ function ivr_init() {
 				// This gets all the menu options
 				$id = ivr_get_ivr_id($aa[1]);
 				// Save the old name, with a link to the new name, for upgrading
-				$ivr_newname[$aa[1]] = "ivr-$id";
+				$ivr_newname[$aa[0]] = "ivr-$id";
 				// Get the old config
 				$sql = "SELECT extension,args from extensions where application='Goto' and context='{$aa[0]}'";
 				$cmds = $db->getAll($sql, DB_FETCHMODE_ASSOC);

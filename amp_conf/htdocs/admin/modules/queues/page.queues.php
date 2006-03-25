@@ -435,6 +435,8 @@ if ($action == 'delete') {
 
 	<?php 
 	//get goto for this group - note priority 6
+	// ***FIXME*** If you change this to use it's own DB, fix IVR upgrades, it manually updates
+	// pri6 in extensions/ext-queues.
 	$goto = legacy_args_get($extdisplay,6,'ext-queues');
 	echo drawselects($goto,0);
 	
