@@ -60,9 +60,32 @@ function ivr_init() {
 				if (isset($dests)) {
 					foreach ($dests as $dest) {
 						$arr=explode(',', $dest['dest']);
-						sql("UPDATE ivr_dests set dest='".$ivr_newname[$arr[0]].",".$arr[1].",".$arr[2]."' where ivr_id='".$dest['ivr_id']."' and selection='".$dest['selection']."'");
+						sql("UPDATE ivr_dests set dest='".$ivr_newname[$arr[0]].",s,1' where ivr_id='".$dest['ivr_id']."' and selection='".$dest['selection']."'");
 					}
 				}
+			}
+
+			// Upgrade everything using IVR as a destination. Ick.
+
+			// Are queue's using an ivr failover?
+			// ***FIXME*** if upgrading queues away from legacy cruft.
+			$queues = $db->getAll("select extensions,args from extensions where args LIKE '%aa_%' and context='ext-queues' and priority='6'"); 
+			if ($res->numRows != 0) {
+				foreach ($queues as $q) {
+					$arr=explode(',', $q['args']);
+					sql("UPDATE extensions set args='".$ivr_newname[$arr[0]].",s,1' where context='ext-queues' and priority='6' and extension='".$q['extension']."'");
+                                }
+			}
+
+			// Now process everything else
+			foreach (array_keys($ivr_newname) as $old) {
+				// Timeconditions
+				sql("UPDATE timeconditions set truegoto='".$ivr_newname[$arr[0]]." where truegoto='$old,s,1'");
+				sql("UPDATE timeconditions set falsegoto='".$ivr_newname[$arr[0]]." where falsegoto='$old,s,1'");
+				// Inbound Routes
+				sql("UPDATE incoming set destination='".$ivr_newname[$arr[0]]." where destination='$old,s,1'");
+				// Ring Groups
+				sql("UPDATE ringroups set postdest='".$ivr_newname[$arr[0]]." where postdest='$old,s,1'");
 			}
 		} 
 		// Note, the __install_done line is for internal version checking - the second field
