@@ -80,12 +80,12 @@ function ivr_init() {
 			// Now process everything else
 			foreach (array_keys($ivr_newname) as $old) {
 				// Timeconditions
-				sql("UPDATE timeconditions set truegoto='".$ivr_newname[$arr[0]]." where truegoto='$old,s,1'");
-				sql("UPDATE timeconditions set falsegoto='".$ivr_newname[$arr[0]]." where falsegoto='$old,s,1'");
+				sql("UPDATE timeconditions set truegoto='".$ivr_newname[$arr[0]]."' where truegoto='$old,s,1'");
+				sql("UPDATE timeconditions set falsegoto='".$ivr_newname[$arr[0]]."' where falsegoto='$old,s,1'");
 				// Inbound Routes
-				sql("UPDATE incoming set destination='".$ivr_newname[$arr[0]]." where destination='$old,s,1'");
+				sql("UPDATE incoming set destination='".$ivr_newname[$arr[0]]."' where destination='$old,s,1'");
 				// Ring Groups
-				sql("UPDATE ringroups set postdest='".$ivr_newname[$arr[0]]." where postdest='$old,s,1'");
+				sql("UPDATE ringroups set postdest='".$ivr_newname[$arr[0]]."' where postdest='$old,s,1'");
 			}
 		} 
 		// Note, the __install_done line is for internal version checking - the second field
