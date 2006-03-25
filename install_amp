@@ -252,7 +252,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 			if (is_dir($source)) {
 				if (!file_exists($destination)) {
 					if ((!$dryrun) && ($destination != "")) {
-						amp_mkdir($destination, 0750, true);
+						amp_mkdir($destination, "0750", true);
 					}
 				}
 			}
