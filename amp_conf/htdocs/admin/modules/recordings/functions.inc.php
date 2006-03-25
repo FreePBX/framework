@@ -49,7 +49,7 @@ function recordings_get_id($fn) {
 	
 	$sql = "SELECT id FROM recordings WHERE filename='$fn'";
         $results = $db->getRow($sql, DB_FETCHMODE_ASSOC);
-	if (isset($results['id']) {
+	if (isset($results['id'])) {
 		return $results['id'];
 	} // else
 	return null;
