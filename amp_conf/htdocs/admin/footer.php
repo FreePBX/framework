@@ -101,7 +101,7 @@ if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
 	if ($need_reload[0] == 'true') {
 		if (isset($_REQUEST['display'])) {
 	?>
-	<div class="inyourface"><a href="<?php  echo $_SERVER["PHP_SELF"]?>?display=<?php  echo $_REQUEST['display'] ?>&clk_reload=true"><?php echo _("You have made changes - when finished, click here to APPLY them") ?></a></div>
+	<div class="inyourface"><a href="<?php  echo $_SERVER["PHP_SELF"]?>?<? echo (isset($_REQUEST['type']))?'type='.$_REQUEST['type'].'&amp;':''; ?>display=<?php  echo $_REQUEST['display'] ?>&amp;clk_reload=true"><?php echo _("You have made changes - when finished, click here to APPLY them") ?></a></div>
 	<?php } else { ?>
 	<div class="inyourface"><a href="<?php  echo $_SERVER["PHP_SELF"]?>?clk_reload=true"><?php echo _("You have made changes - when finished, click here to APPLY them") ?></a></div>
 	<?php 
