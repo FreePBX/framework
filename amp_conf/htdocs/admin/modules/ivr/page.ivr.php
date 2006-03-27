@@ -200,7 +200,7 @@ echo "</div>\n";
 function drawdestinations($count, $sel,  $dest) { ?>
 	<tr> <td style="text-align:right;">
 		<input size="2" type="text" name="option<?php echo $count ?>" value="<?php echo $sel ?>"><br />
-<?php if (!empty($sel)) {  ?>
+<?php if (strlen($sel)) {  ?>
 		<i style='font-size: x-small'>Leave blank to remove</i>
 <?php }  ?>
 	</td>

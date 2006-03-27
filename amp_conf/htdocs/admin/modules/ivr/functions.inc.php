@@ -186,7 +186,7 @@ function ivr_get_ivr_id($name) {
 	$res = $db->getRow("SELECT ivr_id from ivr where displayname='$name'");
 	if ($res->numRows == 0) {
 		// It's not there. Create it and return the ID
-		sql("INSERT INTO ivr (displayname, enable_directory, enable_directdial, timeout)  values('$name', 'Y', 'Y', 10)");
+		sql("INSERT INTO ivr (displayname, enable_directory, enable_directdial, timeout)  values('$name', 'CHECKED', 'CHECKED', 10)");
 		$res = $db->getRow("SELECT ivr_id from ivr where displayname='$name'");
 		needreload();
 	}
@@ -236,7 +236,7 @@ function ivr_do_edit($id, $post) {
 			$cmd = $post['option'.$match[1]];
 			// Debugging if it all goes pear shaped.
 			// print "I think pushing $cmd does $dest<br>\n";
-			if (!empty($cmd))
+			if (strlen($cmd))
 				ivr_add_command($id, $cmd, $dest);
 		}
 	}
