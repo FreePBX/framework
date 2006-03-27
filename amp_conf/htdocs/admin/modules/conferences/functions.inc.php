@@ -57,7 +57,7 @@ function conferences_get_config($engine) {
 					$roomoptions = $room['options'];
 					$roomuserpin = $room['userpin'];
 					$roomadminpin = $room['adminpin'];
-					$roomjoinmsg = $room['joinmsg'];
+					$roomjoinmsg = recordings_get($room['joinmsg']);
 					
 					// entry point
 					$ext->add($contextname, $roomnum, '', new ext_setvar('MEETME_ROOMNUM',$roomnum));
@@ -85,8 +85,8 @@ function conferences_get_config($engine) {
 						// admin mode -- only valid if there is an admin pin
 						if ($roomadminpin != '') {
 							$ext->add($contextname, $roomnum, 'ADMIN', new ext_setvar('MEETME_OPTS','aA'.$roomoptions));
-							if ($roomjoinmsg != "") {  // play joining message if one defined
-								$ext->add($contextname, $roomnum, '', new ext_playback($roomjoinmsg));
+							if (isset($roomjoinmsg)) {  // play joining message if one defined
+								$ext->add($contextname, $roomnum, '', new ext_playback($roomjoinmsg['filename']));
 							}
 							$ext->add($contextname, $roomnum, '', new ext_goto('STARTMEETME,1'));							
 						}
@@ -94,8 +94,8 @@ function conferences_get_config($engine) {
 					
 					// user mode
 					$ext->add($contextname, $roomnum, 'USER', new ext_setvar('MEETME_OPTS',$roomoptions));
-					if ($roomjoinmsg != "") {  // play joining message if one defined
-						$ext->add($contextname, $roomnum, '', new ext_playback($roomjoinmsg));
+					if (isset($roomjoinmsg)) {  // play joining message if one defined
+						$ext->add($contextname, $roomnum, '', new ext_playback($roomjoinmsg['filename']));
 					}
 					$ext->add($contextname, $roomnum, '', new ext_goto('STARTMEETME,1'));
 					
