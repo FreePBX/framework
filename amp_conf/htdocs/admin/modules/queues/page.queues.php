@@ -23,7 +23,7 @@ isset($_REQUEST['password'])?$password = $_REQUEST['password']:$password='';
 isset($_REQUEST['agentannounce'])?$agentannounce = $_REQUEST['agentannounce']:$agentannounce='';
 isset($_REQUEST['prefix'])?$prefix = $_REQUEST['prefix']:$prefix='';
 isset($_REQUEST['joinannounce'])?$joinannounce = $_REQUEST['joinannounce']:$joinannounce='';
-$maxwait = (isset($_REQUEST['maxwait']) ? $_REQUEST['maxwait'] : '');
+$maxwait = isset($_REQUEST['maxwait'])?$_REQUEST['maxwait']:'';
 
 if (isset($_REQUEST['goto0']) && isset($_REQUEST[$_REQUEST['goto0']."0"])) {
 	$goto = $_REQUEST[$_REQUEST['goto0']."0"];
@@ -390,7 +390,7 @@ if ($action == 'delete') {
 		<td>
 			<select name="announcemenu">
 			<?php // setting this will override the sound file queue-thankyou, and set the context= option
-			$default = (isset(${announcemenu}) ? ${announcemenu} : "none");
+			$default = (isset($announcemenu) ? $announcemenu : "none");
 			
 			echo '<option value=none '.($default == "none" ? 'SELECTED' : '').'>'._("None").'</option>';
 			
@@ -399,8 +399,8 @@ if ($action == 'delete') {
 			
 			if (isset($unique_aas)) {
 				foreach ($unique_aas as $unique_aa) {
-					$menu_id = $unique_aa[0];
-					$menu_name = $unique_aa[1];
+					$menu_id = $unique_aa['ivr_id'];
+					$menu_name = $unique_aa['displayname'];
 					echo '<option value="'.$menu_id.'" '.(strpos($default,$menu_id) === false ? '' : 'SELECTED').'>'.($menu_name ? $menu_name : _("Menu ID ").$menu_id);
 				}
 			}
