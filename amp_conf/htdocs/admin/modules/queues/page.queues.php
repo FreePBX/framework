@@ -30,12 +30,11 @@ if (isset($_REQUEST['goto0']) && isset($_REQUEST[$_REQUEST['goto0']."0"])) {
 } else {
 	$goto = '';
 }
-$members = array();
 if (isset($_REQUEST["members"])) {
 	$members = explode("\n",$_REQUEST["members"]);
 
 	if (!$members) {
-		$members = array();
+		$members = null;
 	}
 	
 	foreach (array_keys($members) as $key) {
@@ -57,8 +56,10 @@ if (isset($_REQUEST["members"])) {
 		}
 
 		// remove blanks // prefix with the channel
-		if ($members[$key] == "") unset($members[$key]);
-		else $members[$key] = "Local/".$members[$key]."@from-internal,".$penalty_val;
+		if (empty($members[$key]))  
+			unset($members[$key]);
+		else
+			$members[$key] = "Local/".$members[$key]."@from-internal,".$penalty_val;
 	}
 	
 	// check for duplicates, and re-sequence
@@ -420,13 +421,12 @@ if(function_exists('recordings_list')) { //only include if recordings is enabled
 		<td>
 			<select name="joinannounce"/>
 			<?php
-				$tresults = recordings_list("/var/lib/asterisk/sounds/custom");
+				$tresults = recordings_list();
 				$default = (isset($joinannounce) ? $joinannounce : None);
 				echo '<option value="None">'._("None");
-				if (isset($tresults)) {
+				if (isset($tresults[0])) {
 					foreach ($tresults as $tresult) {
-						$searchvalue="custom/$tresult";	
-						echo '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$tresult;
+						echo '<option value="'.$tresult[0].'" '.($tresult[0] == $default ? 'SELECTED' : '').'>'.$tresult[1]."</option>\n";;
 					}
 				}
 			?>		

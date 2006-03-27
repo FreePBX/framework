@@ -35,10 +35,11 @@ function queues_get_config($engine) {
 					$ext->add('ext-queues', $exten, '', new ext_setcidname($q['prefix'].'${CALLERIDNAME}'));
 					$ext->add('ext-queues', $exten, '', new ext_setvar('MONITOR_FILENAME','/var/spool/asterisk/monitor/q${EXTEN}-${TIMESTAMP}-${UNIQUEID}'));
 					if(isset($q['joinannounce']) && $q['joinannounce'] != "") {
-						$filename = recordings_get($annmsg);
+						$filename = recordings_get($q['joinannounce']);
 						$ext->add('ext-queues', $exten, '', new ext_playback($filename['filename']));
 					}
-					$ext->add('ext-queues', $exten, '', new ext_queue($exten,'t','',$q['agentannounce'],$q['maxwait']));
+					$filename = recordings_get($q['agentannounce']);
+					$ext->add('ext-queues', $exten, '', new ext_queue($exten,'t','',$filename['filename'],$q['maxwait']));
 	
 					// destination field in 'incoming' database is backwards from what ext_goto expects
 					$goto_context = strtok($q['goto'],',');
