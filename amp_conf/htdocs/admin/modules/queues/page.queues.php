@@ -384,7 +384,7 @@ if ($action == 'delete') {
 			</select>		
 		</td>
 	</tr>
-<?php if(function_exists('ivr_list')) { //only include if music module is enabled?>
+<?php if(function_exists('ivr_list')) { //only include if IVR module is enabled ?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Voice Menu:")?><span> <?php echo _("After announcing Position and/or Hold Time, you can optionally present an existing Digital Receptionist Voice Menu.<br><br>This voicemenu must only contain single-digit 'dialed options'.")?> </span></a></td>
 		<td>
@@ -410,7 +410,11 @@ if ($action == 'delete') {
 		</td>
 	</tr>
 	
-<?php } if(function_exists('recordings_list')) { //only include if recordings is enabled?>
+<?php } else {
+	echo "<input type=\"hidden\" name=\"announcemenu\" value=\"none\">";
+}
+
+if(function_exists('recordings_list')) { //only include if recordings is enabled ?>
 	<tr>
 		<td><a href="#" class="info"><?php echo _("Join Announcement:")?><span><?php echo _("Announcement played to callers once prior to joining the queue.<br><br>To add additional recordings please use the \"System Recordings\" MENU to the left")?></span></a></td>
 		<td>
