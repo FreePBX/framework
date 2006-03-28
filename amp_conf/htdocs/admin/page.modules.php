@@ -131,15 +131,7 @@ class xml2array{
 }
 
 
-
-
-
-
-
-
-
-
-
+$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
 
 
 
@@ -185,6 +177,16 @@ if (isset($_POST['submit'])) { // if form has been submitted
 
 <?php
 switch($extdisplay) {
+	case "online":
+		$fn = "http://svn.sourceforge.net/svnroot/amportal/modules/trunk/modules.xml";
+		$data = file_get_contents($fn);
+		$parser = new xml2array($data);
+		$xmlarray = $parser->parseXMLintoarray($data);
+		$modules = $xmlarray['XML']['MODULE'];
+		echo "<tr><td><pre>";
+		print_r($modules);
+		echo "</pre></td></tr>";
+	break;
 	default:
 		$allmods = find_allmodules();
 		foreach($allmods as $key => $mod) {
@@ -264,14 +266,6 @@ switch($extdisplay) {
 			echo "</td>";
 			echo "</tr>";
 		} 
-	break;
-	case "online":
-		$fn = "http://svn.sourceforge.net/svnroot/amportal/modules/trunk/modules.xml";
-		$data = file_get_contents($fn);
-		$parser = new xml2array($data);
-		echo "<tr><td><pre>";
-		print_r($parser->parseXMLintoarray($data));
-		echo "</pre></td></tr>";
 	break;
 }
 ?>
