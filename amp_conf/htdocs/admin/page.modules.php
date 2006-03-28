@@ -169,6 +169,13 @@ if (isset($_POST['submit'])) { // if form has been submitted
 }
 ?>
 
+</div>
+<div class="rnav">
+	<li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=modules&type=tool&extdisplay="><?php echo _("Local Modules") ?></a></li>
+	<li><a id="<?php echo ($extdisplay=='online' ? 'current':'') ?>" href="config.php?display=modules&type=tool&extdisplay=online"><?php echo _("Online Modules") ?></a></li>
+</div>
+<div class="content">
+
 <h2><?php echo _("Module Administration")?></h2>
 
 <table border="1" >
@@ -177,95 +184,96 @@ if (isset($_POST['submit'])) { // if form has been submitted
 </tr>
 
 <?php
-$allmods = find_allmodules();
-foreach($allmods as $key => $mod) {
-	// sort the list in category / displayName order
-	// this is the only way i know how to do this...surely there is another way?
-	
-	// fields for sort
-	$displayName = isset($mod['displayName']) ? $mod['displayName'] : 'unknown';
-	$category = isset($mod['category']) ? $mod['category'] : 'unknown';	
-	// we want to sort on this so make it first in the new array
-	$newallmods[$key]['asort'] = $category.$displayName;
-
-	// copy the rest of the array
-	$newallmods[$key]['displayName'] = $displayName;
-	$newallmods[$key]['category'] = $category;
-	$newallmods[$key]['version'] = isset($mod['version']) ? $mod['version'] : 'unknown';
-	$newallmods[$key]['type'] = isset($mod['type']) ? $mod['type'] : 'unknown';
-	$newallmods[$key]['status'] = isset($mod['status']) ? $mod['status'] : 0;
-	
-	asort($newallmods);	
-}
-foreach($newallmods as $key => $mod) {
-	
-	//dynamicatlly create a form based on status
-	if ($mod['status'] == 0) {
-		$status = _("Not Installed");
-		//install form
-		$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-		$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-		$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
-		$action .= "<input type=\"hidden\" name=\"modaction\" value=\"install\">";
-		$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Install")."\">";
-		$action .= "</form>";
-	} else if($mod['status'] == 1){
-		$status = _("Disabled");
-		//enable form
-		$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-		$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-		$action .= "<input type=\"hidden\" name=\"modaction\" value=\"enable\">";
-		$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Enable")."\">";
-		$action .= "</form>";
-		//uninstall form
-		$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-		$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-		$action .= "<input type=\"hidden\" name=\"modaction\" value=\"uninstall\">";
-		$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Uninstall")."\">";
-		$action .= "</form>";
+switch($extdisplay) {
+	default:
+		$allmods = find_allmodules();
+		foreach($allmods as $key => $mod) {
+			// sort the list in category / displayName order
+			// this is the only way i know how to do this...surely there is another way?
+			
+			// fields for sort
+			$displayName = isset($mod['displayName']) ? $mod['displayName'] : 'unknown';
+			$category = isset($mod['category']) ? $mod['category'] : 'unknown';	
+			// we want to sort on this so make it first in the new array
+			$newallmods[$key]['asort'] = $category.$displayName;
 		
-	} else if($mod['status'] == 2){
-		$status = _("Enabled");
-		//disable form
-		$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-		$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-		$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
-		$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
-		$action .= "</form>";
-	}
-	
-	echo "<tr>";
-	echo "<td>";
-	echo _($mod['displayName']);
-	echo "</td>";
-	echo "<td>";
-	echo $mod['category'];
-	echo "</td>";
-	echo "<td>";
-	echo $mod['version'];
-	echo "</td>";
-	echo "<td>";
-	echo _($mod['type']); 
-	echo "</td>";
-	echo "<td>";
-	echo $status;
-	echo "</td>";
-	echo "<td>";
-	echo $action;
-	echo "</td>";
-	echo "</tr>";
+			// copy the rest of the array
+			$newallmods[$key]['displayName'] = $displayName;
+			$newallmods[$key]['category'] = $category;
+			$newallmods[$key]['version'] = isset($mod['version']) ? $mod['version'] : 'unknown';
+			$newallmods[$key]['type'] = isset($mod['type']) ? $mod['type'] : 'unknown';
+			$newallmods[$key]['status'] = isset($mod['status']) ? $mod['status'] : 0;
+			
+			asort($newallmods);	
+		}
+		foreach($newallmods as $key => $mod) {
+			
+			//dynamicatlly create a form based on status
+			if ($mod['status'] == 0) {
+				$status = _("Not Installed");
+				//install form
+				$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+				$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
+				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"install\">";
+				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Install")."\">";
+				$action .= "</form>";
+			} else if($mod['status'] == 1){
+				$status = _("Disabled");
+				//enable form
+				$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"enable\">";
+				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Enable")."\">";
+				$action .= "</form>";
+				//uninstall form
+				$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"uninstall\">";
+				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Uninstall")."\">";
+				$action .= "</form>";
+				
+			} else if($mod['status'] == 2){
+				$status = _("Enabled");
+				//disable form
+				$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
+				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
+				$action .= "</form>";
+			}
+			
+			echo "<tr>";
+			echo "<td>";
+			echo _($mod['displayName']);
+			echo "</td>";
+			echo "<td>";
+			echo $mod['category'];
+			echo "</td>";
+			echo "<td>";
+			echo $mod['version'];
+			echo "</td>";
+			echo "<td>";
+			echo _($mod['type']); 
+			echo "</td>";
+			echo "<td>";
+			echo $status;
+			echo "</td>";
+			echo "<td>";
+			echo $action;
+			echo "</td>";
+			echo "</tr>";
+		} 
+	break;
+	case "online":
+		$fn = "http://svn.sourceforge.net/svnroot/amportal/modules/trunk/modules.xml";
+		$data = file_get_contents($fn);
+		$parser = new xml2array($data);
+		echo "<tr><td><pre>";
+		print_r($parser->parseXMLintoarray($data));
+		echo "</pre></td></tr>";
+	break;
 }
-
 ?>
 
 </table>
-
-<?php
-/*$fn = "http://svn.sourceforge.net/svnroot/amportal/modules/trunk/modules.xml";
-$data = file_get_contents($fn);
-$parser = new xml2array($data);
-echo "<pre>";
-print_r($parser->parseXMLintoarray($data));
-echo "</pre>";
-*/
-?>
