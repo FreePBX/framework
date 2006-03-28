@@ -170,24 +170,36 @@ if (isset($_POST['submit'])) { // if form has been submitted
 
 <h2><?php echo _("Module Administration")?></h2>
 
-<table border="1" >
-<tr>
-	<th><?php echo _("Module")?></th><th><?php echo _("Category")?></th><th><?php echo _("Version")?></th><th><?php echo _("Type")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
-</tr>
 
 <?php
 switch($extdisplay) {
-	case "online":
+	case "online": ?>
+		<table border="1" >
+<tr>
+	<th><?php echo _("Module")?></th><th><?php echo _("Category")?></th><th><?php echo _("Version")?></th><th><?php echo _("Author")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
+</tr>
+<?
 		$fn = "http://svn.sourceforge.net/svnroot/amportal/modules/trunk/modules.xml";
 		$data = file_get_contents($fn);
 		$parser = new xml2array($data);
 		$xmlarray = $parser->parseXMLintoarray($data);
 		$modules = $xmlarray['XML']['MODULE'];
+		if (is_array($modules)) {
+			foreach ($modules as $module) 
+				displayModule($module);
+		} else {
+			displayModule($modules);
+		}
 		echo "<tr><td><pre>";
 		print_r($modules);
 		echo "</pre></td></tr>";
 	break;
-	default:
+	default: ?>
+		<table border="1" >
+<tr>
+	<th><?php echo _("Module")?></th><th><?php echo _("Category")?></th><th><?php echo _("Version")?></th><th><?php echo _("Type")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
+</tr>
+<?php
 		$allmods = find_allmodules();
 		foreach($allmods as $key => $mod) {
 			// sort the list in category / displayName order
@@ -271,3 +283,34 @@ switch($extdisplay) {
 ?>
 
 </table>
+
+<?php
+
+function displayModule($arr) {
+	// So, we have an array with:
+	// [RAWNAME] => testmodule
+ 	// [TYPE] => testing
+	// [NAME] => Test Module
+	// [AUTHOR] => Rob Thomas
+	// [EMAIL] => xrobau@gmail.com
+	// [VERSION] => 1.0
+	// [REQUIREMENTS] => Array
+	// 	(
+	//	[MODULE] => recordings
+	// 	[PRODUCT] => asterisk-sounds
+	// 	[FILE] => /bin/sh
+	// 	/)
+	// [LOCATION] => trunk/testing/test-1.0.tgz
+
+	print "<tr><td>".$arr['NAME']." (".$arr['RAWNAME'].")</td>\n";
+	print "<td>".$arr['TYPE']."</td>\n";
+	print "<td>".$arr['VERSION']."</td>\n";
+	if (isset($arr['EMAIL']))
+		print "<td><a href=\"mailto:".$arr['EMAIL']."\">".$arr['AUTHOR']."</a></td>\n";
+	else 
+		print "<td>".$arr['AUTHOR']."</td>\n";
+	print "<td>Unknown</td><td>Nothing</td>\n";
+	print "</tr>";
+
+
+}
