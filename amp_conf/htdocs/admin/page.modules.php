@@ -80,6 +80,69 @@ function disableModule($modname) {
 	}
 }
 
+# Test parser to import the XML file from sourceforge.
+# Rob Thomas <xrobau@gmail.com>
+# Released under GPL V2.
+class xml2array{
+
+   function parseXMLintoarray ($xmldata){ // starts the process and returns the final array
+     $xmlparser = xml_parser_create();
+     xml_parse_into_struct($xmlparser, $xmldata, $arraydat);
+     xml_parser_free($xmlparser);
+     $semicomplete = $this->subdivide($arraydat);
+     $complete = $this->correctentries($semicomplete);
+     return $complete;
+   }
+  
+   function subdivide ($dataarray, $level = 1){
+     foreach ($dataarray as $key => $dat){
+       if ($dat['level'] === $level && $dat['type'] === "open"){
+         $toplvltag = $dat['tag'];
+       } elseif ($dat['level'] === $level && $dat['type'] === "close" && $dat['tag']=== $toplvltag){
+         $newarray[$toplvltag][] = $this->subdivide($temparray,($level +1));
+         unset($temparray,$nextlvl);
+       } elseif ($dat['level'] === $level && $dat['type'] === "complete"){
+         $newarray[$dat['tag']]=$dat['value'];
+       } elseif ($dat['type'] === "complete"||$dat['type'] === "close"||$dat['type'] === "open"){
+         $temparray[]=$dat;
+       }
+     }
+     return $newarray;
+   }
+	   
+	function correctentries($dataarray){
+		if (is_array($dataarray)){
+		  $keys =  array_keys($dataarray);
+		  if (count($keys)== 1 && is_int($keys[0])){
+		   $tmp = $dataarray[0];
+		   unset($dataarray[0]);
+			   $dataarray = $tmp;
+		  }
+		  $keys2 = array_keys($dataarray);
+		  foreach($keys2 as $key){
+		   $tmp2 = $dataarray[$key];
+		   unset($dataarray[$key]);
+		   $dataarray[$key] = $this->correctentries($tmp2);
+		   unset($tmp2);
+		  }
+		}
+		return $dataarray;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if (isset($_POST['submit'])) { // if form has been submitted
 	switch ($_POST['modaction']) {
 		case "install":
@@ -196,3 +259,13 @@ foreach($newallmods as $key => $mod) {
 ?>
 
 </table>
+
+<?php
+/*$fn = "http://svn.sourceforge.net/svnroot/amportal/modules/trunk/modules.xml";
+$data = file_get_contents($fn);
+$parser = new xml2array($data);
+echo "<pre>";
+print_r($parser->parseXMLintoarray($data));
+echo "</pre>";
+*/
+?>
