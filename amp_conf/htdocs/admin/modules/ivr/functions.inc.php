@@ -70,7 +70,7 @@ function ivr_init() {
 			// Are queue's using an ivr failover?
 			// ***FIXME*** if upgrading queues away from legacy cruft.
 			$queues = $db->getAll("select extensions,args from extensions where args LIKE '%aa_%' and context='ext-queues' and priority='6'"); 
-			if ($res->numRows != 0) {
+			if (count($res) != 0) {
 				foreach ($queues as $q) {
 					$arr=explode(',', $q['args']);
 					sql("UPDATE extensions set args='".$ivr_newname[$arr[0]].",s,1' where context='ext-queues' and priority='6' and extension='".$q['extension']."'");
@@ -184,7 +184,7 @@ function ivr_get_config($engine) {
 function ivr_get_ivr_id($name) {
 	global $db;
 	$res = $db->getRow("SELECT ivr_id from ivr where displayname='$name'");
-	if ($res->numRows == 0) {
+	if (count($res) == 0) {
 		// It's not there. Create it and return the ID
 		sql("INSERT INTO ivr (displayname, enable_directory, enable_directdial, timeout)  values('$name', 'CHECKED', 'CHECKED', 10)");
 		$res = $db->getRow("SELECT ivr_id from ivr where displayname='$name'");
@@ -198,7 +198,7 @@ function ivr_add_command($id, $cmd, $dest) {
 	global $db;
 	// Does it already exist?
 	$res = $db->getRow("SELECT * from ivr_dests where ivr_id='$id' and selection='$cmd'");
-	if ($res->numRows == 0) {
+	if (count($res) == 0) {
 		// Just add it.
 		sql("INSERT INTO ivr_dests VALUES('$id', '$cmd', '$dest')");
 	} else {
