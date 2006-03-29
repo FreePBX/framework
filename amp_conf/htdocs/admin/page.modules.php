@@ -178,21 +178,14 @@ switch($extdisplay) {
 <tr>
 	<th><?php echo _("Module")?></th><th><?php echo _("Category")?></th><th><?php echo _("Version")?></th><th><?php echo _("Author")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
 </tr>
-<?
-		$fn = "http://svn.sourceforge.net/svnroot/amportal/modules/trunk/modules.xml";
-		$data = file_get_contents($fn);
-		$parser = new xml2array($data);
-		$xmlarray = $parser->parseXMLintoarray($data);
-		$modules = $xmlarray['XML']['MODULE'];
+<?php
+		$modules = getModuleXml();
 		if (is_array($modules)) {
 			foreach ($modules as $module) 
 				displayModule($module);
 		} else {
 			displayModule($modules);
 		}
-		echo "<tr><td><pre>";
-		print_r($modules);
-		echo "</pre></td></tr>";
 	break;
 	default: ?>
 		<table border="1" >
@@ -311,6 +304,34 @@ function displayModule($arr) {
 		print "<td>".$arr['AUTHOR']."</td>\n";
 	print "<td>Unknown</td><td>Nothing</td>\n";
 	print "</tr>";
-
-
 }
+
+function getModuleXml() {
+	//this should be in an upgrade file ... putting here for now.
+	sql('CREATE TABLE IF NOT EXISTS module_xml (time INT NOT NULL , data BLOB NOT NULL) TYPE = MYISAM ;');
+	
+	$result = sql('SELECT * FROM module_xml','getRow',DB_FETCHMODE_ASSOC);
+	// if the epoch in the db is more than 10 minutes old, then regrab xml
+	if((time() - $result['time']) > 600) {
+		$fn = "http://svn.sourceforge.net/svnroot/amportal/modules/trunk/modules.xml";
+		$data = file_get_contents($fn);
+		// update the db with the new xml
+		sql('INSERT INTO module_xml (time,data) VALUES ('.time().',"'.$data.'")');
+	} else {
+		echo "using cache";
+		$data = $result['data'];
+	}
+	//echo time() - $result['time'];
+	$parser = new xml2array($data);
+	$xmlarray = $parser->parseXMLintoarray($data);
+	$modules = $xmlarray['XML']['MODULE'];
+	$debug=false;
+	if($debug) {
+		echo "<pre>";
+		print_r($modules);
+		echo "</pre>";
+	}
+	return $modules;
+}
+
+?>
