@@ -115,6 +115,16 @@ function queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$membe
 	$addarray = array('ext-queues',$account,'6','Goto',$goto,'jump','0');
 	legacy_extensions_add($addarray);
 	//setGoto($account,'ext-queues','6',$goto,0);
+	// Announce Menu?
+	if ($_REQUEST['announcemenu']=='none') {
+		$qthanku = 'queue-thankyou';
+		$context = '';
+	} else {
+		$arr = ivr_get_details($_REQUEST['announcemenu']);
+		$rec = recordings_get($arr['announcement']);
+		$qthanku = $rec['filename'];
+		$context = "ivr-".$_REQUEST['announcemenu'];
+	}
 	
 	
 	// now add to queues table
@@ -133,8 +143,8 @@ function queues_add($account,$name,$password,$prefix,$goto,$agentannounce,$membe
 		array($account,'queue-youarenext',($_REQUEST['announceposition']=='no')?'':'queue-youarenext'),  //if no, play no sound
 		array($account,'queue-thereare',($_REQUEST['announceposition']=='no')?'':'queue-thereare'),  //if no, play no sound
 		array($account,'queue-callswaiting',($_REQUEST['announceposition']=='no')?'':'queue-callswaiting'),  //if no, play no sound
-		array($account,'queue-thankyou',($_REQUEST['announcemenu']=='none')?'queue-thankyou':'custom/'.$_REQUEST['announcemenu']),  //if none, play default thankyou, else custom/aa
-		array($account,'context',($_REQUEST['announcemenu']=='none')?'':$_REQUEST['announcemenu']),  //if not none, set context=aa
+		array($account,'queue-thankyou',$qthanku),
+		array($account,'context',$context), 
 		array($account,'monitor-format',($_REQUEST['monitor-format'])?$_REQUEST['monitor-format']:''),
 		array($account,'monitor-join','yes'),
 		array($account,'music',($_REQUEST['music'])?$_REQUEST['music']:'default'));
