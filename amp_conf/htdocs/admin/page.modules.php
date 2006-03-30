@@ -1,139 +1,6 @@
 <?php /* $Id$ */
 
-// executes the SQL found in a module install.sql or uninstall.sql
-function runModuleSQL($moddir,$type){
-	global $db;
-	$data='';
-	if (is_file("modules/{$moddir}/{$type}.sql")) {
-		// run sql script
-		$fd = fopen("modules/{$moddir}/{$type}.sql","r");
-		while (!feof($fd)) {
-			$data .= fread($fd, 1024);
-		}
-		fclose($fd);
-
-		preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*);\s*\n/Us", $data, $matches);
-		
-		foreach ($matches[1] as $sql) {
-				$result = $db->query($sql); 
-				if(DB::IsError($result)) {     
-					return false;
-				}
-		}
-		return true;
-	}
-		return true;
-}
-
-function installModule($modname,$modversion) 
-{
-	global $db;
-	global $amp_conf;
-	
-	switch ($amp_conf["AMPDBENGINE"])
-	{
-		case "sqlite":
-			// to support sqlite2, we are not using autoincrement. we need to find the 
-			// max ID available, and then insert it
-			$sql = "SELECT max(id) FROM modules;";
-			$results = $db->getRow($sql);
-			$new_id = $results[0];
-			$new_id ++;
-			$sql = "INSERT INTO modules (id,modulename, version,enabled) values ('{$new_id}','{$modname}','{$modversion}','0' );";
-			break;
-		
-		default:
-			$sql = "INSERT INTO modules (modulename, version) values ('{$modname}','{$modversion}');";
-			break;
-	}
-
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-}
-
-function uninstallModule($modname) {
-	global $db;
-	$sql = "DELETE FROM modules WHERE modulename = '{$modname}'";
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-}
-
-function enableModule($modname) {
-	global $db;
-	$sql = "UPDATE modules SET enabled = 1 WHERE modulename = '{$modname}'";
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-}
-
-function disableModule($modname) {
-	global $db;
-	$sql = "UPDATE modules SET enabled = 0 WHERE modulename = '{$modname}'";
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-}
-
-# Test parser to import the XML file from sourceforge.
-# Rob Thomas <xrobau@gmail.com>
-# Released under GPL V2.
-class xml2array{
-
-   function parseXMLintoarray ($xmldata){ // starts the process and returns the final array
-     $xmlparser = xml_parser_create();
-     xml_parse_into_struct($xmlparser, $xmldata, $arraydat);
-     xml_parser_free($xmlparser);
-     $semicomplete = $this->subdivide($arraydat);
-     $complete = $this->correctentries($semicomplete);
-     return $complete;
-   }
-  
-   function subdivide ($dataarray, $level = 1){
-     foreach ($dataarray as $key => $dat){
-       if ($dat['level'] === $level && $dat['type'] === "open"){
-         $toplvltag = $dat['tag'];
-       } elseif ($dat['level'] === $level && $dat['type'] === "close" && $dat['tag']=== $toplvltag){
-         $newarray[$toplvltag][] = $this->subdivide($temparray,($level +1));
-         unset($temparray,$nextlvl);
-       } elseif ($dat['level'] === $level && $dat['type'] === "complete"){
-         $newarray[$dat['tag']]=$dat['value'];
-       } elseif ($dat['type'] === "complete"||$dat['type'] === "close"||$dat['type'] === "open"){
-         $temparray[]=$dat;
-       }
-     }
-     return $newarray;
-   }
-	   
-	function correctentries($dataarray){
-		if (is_array($dataarray)){
-		  $keys =  array_keys($dataarray);
-		  if (count($keys)== 1 && is_int($keys[0])){
-		   $tmp = $dataarray[0];
-		   unset($dataarray[0]);
-			   $dataarray = $tmp;
-		  }
-		  $keys2 = array_keys($dataarray);
-		  foreach($keys2 as $key){
-		   $tmp2 = $dataarray[$key];
-		   unset($dataarray[$key]);
-		   $dataarray[$key] = $this->correctentries($tmp2);
-		   unset($tmp2);
-		  }
-		}
-		return $dataarray;
-	}
-}
-
-
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
-
-
 
 if (isset($_POST['submit'])) { // if form has been submitted
 	switch ($_POST['modaction']) {
@@ -279,6 +146,8 @@ switch($extdisplay) {
 
 <?php
 
+/* BEGIN FUNCTIONS */
+
 function displayModule($arr) {
 	// So, we have an array with:
 	// [RAWNAME] => testmodule
@@ -332,6 +201,136 @@ function getModuleXml() {
 		echo "</pre>";
 	}
 	return $modules;
+}
+
+// executes the SQL found in a module install.sql or uninstall.sql
+function runModuleSQL($moddir,$type){
+	global $db;
+	$data='';
+	if (is_file("modules/{$moddir}/{$type}.sql")) {
+		// run sql script
+		$fd = fopen("modules/{$moddir}/{$type}.sql","r");
+		while (!feof($fd)) {
+			$data .= fread($fd, 1024);
+		}
+		fclose($fd);
+
+		preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*);\s*\n/Us", $data, $matches);
+		
+		foreach ($matches[1] as $sql) {
+				$result = $db->query($sql); 
+				if(DB::IsError($result)) {     
+					return false;
+				}
+		}
+		return true;
+	}
+		return true;
+}
+
+function installModule($modname,$modversion) 
+{
+	global $db;
+	global $amp_conf;
+	
+	switch ($amp_conf["AMPDBENGINE"])
+	{
+		case "sqlite":
+			// to support sqlite2, we are not using autoincrement. we need to find the 
+			// max ID available, and then insert it
+			$sql = "SELECT max(id) FROM modules;";
+			$results = $db->getRow($sql);
+			$new_id = $results[0];
+			$new_id ++;
+			$sql = "INSERT INTO modules (id,modulename, version,enabled) values ('{$new_id}','{$modname}','{$modversion}','0' );";
+			break;
+		
+		default:
+			$sql = "INSERT INTO modules (modulename, version) values ('{$modname}','{$modversion}');";
+			break;
+	}
+
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+}
+
+function uninstallModule($modname) {
+	global $db;
+	$sql = "DELETE FROM modules WHERE modulename = '{$modname}'";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+}
+
+function enableModule($modname) {
+	global $db;
+	$sql = "UPDATE modules SET enabled = 1 WHERE modulename = '{$modname}'";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+}
+
+function disableModule($modname) {
+	global $db;
+	$sql = "UPDATE modules SET enabled = 0 WHERE modulename = '{$modname}'";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+}
+
+# Test parser to import the XML file from sourceforge.
+# Rob Thomas <xrobau@gmail.com>
+# Released under GPL V2.
+class xml2array{
+
+   function parseXMLintoarray ($xmldata){ // starts the process and returns the final array
+     $xmlparser = xml_parser_create();
+     xml_parse_into_struct($xmlparser, $xmldata, $arraydat);
+     xml_parser_free($xmlparser);
+     $semicomplete = $this->subdivide($arraydat);
+     $complete = $this->correctentries($semicomplete);
+     return $complete;
+   }
+  
+   function subdivide ($dataarray, $level = 1){
+     foreach ($dataarray as $key => $dat){
+       if ($dat['level'] === $level && $dat['type'] === "open"){
+         $toplvltag = $dat['tag'];
+       } elseif ($dat['level'] === $level && $dat['type'] === "close" && $dat['tag']=== $toplvltag){
+         $newarray[$toplvltag][] = $this->subdivide($temparray,($level +1));
+         unset($temparray,$nextlvl);
+       } elseif ($dat['level'] === $level && $dat['type'] === "complete"){
+         $newarray[$dat['tag']]=$dat['value'];
+       } elseif ($dat['type'] === "complete"||$dat['type'] === "close"||$dat['type'] === "open"){
+         $temparray[]=$dat;
+       }
+     }
+     return $newarray;
+   }
+	   
+	function correctentries($dataarray){
+		if (is_array($dataarray)){
+		  $keys =  array_keys($dataarray);
+		  if (count($keys)== 1 && is_int($keys[0])){
+		   $tmp = $dataarray[0];
+		   unset($dataarray[0]);
+			   $dataarray = $tmp;
+		  }
+		  $keys2 = array_keys($dataarray);
+		  foreach($keys2 as $key){
+		   $tmp2 = $dataarray[$key];
+		   unset($dataarray[$key]);
+		   $dataarray[$key] = $this->correctentries($tmp2);
+		   unset($tmp2);
+		  }
+		}
+		return $dataarray;
+	}
 }
 
 ?>
