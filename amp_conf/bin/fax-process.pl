@@ -88,15 +88,17 @@ if ($buf eq "MM\x00\x2a" || $buf eq "II\x2a\x00") {
 	# doesn't exist?
 	open PDF, "tiff2pdf -w8.5 -l11 $file|";
 	$buf = "";
-	while (read(PDF, $buf, 60*57)) 
+	while (read(PDF, $buf, 60*57))  {
   		$encoded .= encode_base64($buf);
+	}
 	close PDF;
 } else {
 	# It's a PDF already
 	# Go back to the start of the file, and start again
 	seek(FILE, 0, 0); 
-	while (read(FILE, $buf, 60*57)) 
+	while (read(FILE, $buf, 60*57)) {
 		$encoded .= encode_base64($buf);
+	}
 }
 close FILE;
 
