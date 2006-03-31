@@ -24,6 +24,7 @@ switch ($action) {
 }
 
 
+needreload();
 applications_init();
 
 ?>
@@ -37,14 +38,13 @@ applications_init();
 	<table>
 	<tr><td colspan="2"><h5>Application Management<hr></h5></td></tr>
 	<?php 
-	$applications = applications_list("all");
+	$applications = applications_list("enabled");
 	foreach($applications as $item) { 
 		print "Arrrrr. <pre>\n";
 		print_r($item);
 		print "</pre>\n";
 	}
 
-exit;
 	
 
 

@@ -67,9 +67,12 @@ function applications_get_config($engine) {
 		case "asterisk":
 			if(is_array($applicationslist = applications_list("enabled"))) {
 				foreach($applicationslist as $item) {
-					if (function_exists('application_'.$item['name'])) {
-						'application_'.$item['name']("genconf");
-					}
+					$fname = 'application_'.$item['func'];
+					if (function_exists($fname)) {
+						$fname("genconf");
+					} else {
+						$ext->add('from-internal-additional', 'debug', '', new ext_noop("No func $fname"));
+					}	
 				}
 			}
 		break;
@@ -99,31 +102,87 @@ function applications_getcmd($app) {
 
 // Create Applications here
 function application_app_directory($cmd) {
+	global $ext;
 	// It's called with 'info' or 'genconf'. 'info' should just return a short 
 	// text string that is used for the mouseover
+
+	// Change the following two lines
+	$appname = "Directory"; // This is my name. Used for sql commands
+	$id = "app-directory"; // The context to be included
+	$descr = "Access to the internal directory";
+
 	if ($cmd == 'info') 
-		return _("Access to the internal directory");
+		return _($descr);
 	if ($cmd == 'genconf') {
 		// Here, we're generating the config file to go in extensions_additional.conf
-		global $ext;
 		
-		// Change the following two lines
-		$appname = "Directory"; // This is my name. Used for sql commands
-		$id = "app-directory"; // The context to be included
 
-		$cmd = applications_getcmd($appname);  // This gets the code to be used
+		$c = applications_getcmd($appname);  // This gets the code to be used
 		// Start creating the dialplan
-		$ext->addInclude('from-internal', $appcontext); // Add the include from from-internal
+		$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 		// Build the context
-		$ext->add($id, $cmd, '', new ext_wait('1')); // $cmd,1,Wait(1)
-		$ext->add($id, $cmd, '', new ext_agi('directory,${DIR-CONTEXT},ext-local,${DIRECTORY:0:1}${DIRECTORY_OPTS}o'));
-		$ext->add($id, $cmd, '', new ext_playback('vm-goodbye')); // $cmd,n,Playback(vm-goodbye)
-		$ext->add($id, $cmd, '', new ext_hangup());
+		$ext->add($id, $c, '', new ext_wait('1')); // $cmd,1,Wait(1)
+		$ext->add($id, $c, '', new ext_agi('directory,${DIR-CONTEXT},ext-local,${DIRECTORY:0:1}${DIRECTORY_OPTS}o'));
+		$ext->add($id, $c, '', new ext_playback('vm-goodbye')); // $cmd,n,Playback(vm-goodbye)
+		$ext->add($id, $c, '', new ext_hangup());
 	}
 }
 
+function application_app_dnd_on($cmd) {
+	global $ext;
+	// It's called with 'info' or 'genconf'. 'info' should just return a short 
+	// text string that is used for the mouseover
 
+	// Change the following three lines
+	$appname = "DND Activate"; // This is my name. Used for sql commands
+	$id = "app-dnd-on"; // The context to be included
+	$descr = "Turn on Do Not Disturb"; // The small help text to be used as a mouseover
+
+	if ($cmd == 'info') 
+		return _($descr);
+	if ($cmd == 'genconf') {
+		// Here, we're generating the config file to go in extensions_additional.conf
+		$c = applications_getcmd($appname);  // This gets the code to be used
+		// Start creating the dialplan
+		$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+		// This is where you build the context
+		$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+		$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+		$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
+		$ext->add($id, $c, '', new ext_setvar('DB(DND/${CALLERID(number)})', 'YES')); // $cmd,n,Set(...=YES)
+		$ext->add($id, $c, '', new ext_playback('do-not-disturb&activated')); // $cmd,n,Playback(...)
+		$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
+	}
+}
 		
+function application_app_dnd_off($cmd) {
+	global $ext;
+	// It's called with 'info' or 'genconf'. 'info' should just return a short 
+	// text string that is used for the mouseover
+
+	// Change the following three lines
+	$appname = "DND Deactivate"; // This is my name. Used for sql commands. MUST MATCH NAME in app_list above!!
+	$id = "app-dnd-off"; // The context to be included
+	$descr = "Turn off Do Not Disturb"; // The small help text to be used as a mouseover
+
+	if ($cmd == 'info') 
+		return _($descr);
+	if ($cmd == 'genconf') {
+		// Here, we're generating the config file to go in extensions_additional.conf
+		$c = applications_getcmd($appname);  // This gets the code to be used
+		// Start creating the dialplan
+		$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+		// This is where you build the context
+		$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+		$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+		$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
+		$ext->add($id, $c, '', new ext_dbdel('DND/${CALLERID(number)}')); // $cmd,n,DBdel(..)
+		$ext->add($id, $c, '', new ext_playback('do-not-disturb&de-activated')); // $cmd,n,Playback(...)
+		$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
+	}
+}
 		
 	
 
