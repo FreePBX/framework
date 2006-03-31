@@ -1,5 +1,6 @@
 <?php 
-//Copyright (C) 2006 Niklas Larsson
+// Original Copyright (C) 2006 Niklas Larsson
+// Re-written 20060331, Rob Thomas <xrobau@gmail.com>
 //
 //This program is free software; you can redistribute it and/or
 //modify it under the terms of the GNU General Public License
@@ -11,8 +12,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-isset($_REQUEST['action'])?$action = $_REQUEST['action']:$action='';
-
+$action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
 $dispnum = "applications"; //used for switch on config.php
 
 //if submitting form, update database
@@ -22,25 +22,44 @@ switch ($action) {
   	needreload();
   break;
 }
+
+
+applications_init();
+
 ?>
 
 </div>
 
 <div class="content">
-	<form autocomplete="off" name="editMM" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+	<form autocomplete="off" name="editapps" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 	<input type="hidden" name="display" value="<?php echo $dispnum?>">
-  <input type="hidden" name="action" value="save">
+  	<input type="hidden" name="action" value="save">
 	<table>
-	<tr><td colspan="2"><h5>Change Access Number to Applications<hr></h5></td></tr>
-<?php 
-  $applications = applications_list();
-  foreach($applications as $item){ ?>
-	<tr>
-		<td><?php echo $item['app'] ?></td>
-		<td><input type="text" name="<?php echo $item['var'] ?>" value="<?php echo $item['exten'] ?>"></td>
-	</tr>	
-	<?php
+	<tr><td colspan="2"><h5>Application Management<hr></h5></td></tr>
+	<?php 
+	$applications = applications_list("all");
+	foreach($applications as $item) { 
+		print "Arrrrr. <pre>\n";
+		print_r($item);
+		print "</pre>\n";
 	}
+
+exit;
+	
+
+
+
+
+
+
+
+
+?> 	<tr> <td> 
+<?php echo $item['app'] ?></td>
+			<td><input type="text" name="<?php echo $item['var'] ?>" value="<?php echo $item['exten'] ?>"></td>
+		</tr>	
+		<?php
+	//	}
  ?>
 	<tr>
 		<td colspan="2"><br><h6><input name="Submit" type="submit" value="<?php echo _("Submit Changes")?>"></h6></td>		
