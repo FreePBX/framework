@@ -481,6 +481,11 @@ class ext_disa extends extension {
 		return "DISA(".$this->data.")";
 	}
 }
+class ext_agi extends extension {
+	function output() {
+		return "AGI(".$this->data.")";
+	}
+}
 
 /* example usage
 $ext = new extensions;
