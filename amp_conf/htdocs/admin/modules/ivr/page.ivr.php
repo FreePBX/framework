@@ -43,21 +43,23 @@ switch ($action) {
 		ivr_show_edit($id, $nbroptions, $_POST);
 		break;
 	case "edited":
-		ivr_do_edit($id, $_POST);
-		ivr_sidebar($id);
-		if (isset($_REQUEST['increase'])) 
-			$nbroptions++;
-		if (isset($_REQUEST['decrease'])) {
-			$nbroptions--;
+		if (isset($_REQUEST['delete'])) {
+			sql("DELETE from ivr where ivr_id='$id'");
+			sql("DELETE FROM ivr_dests where ivr_id='$id'");
+			needreload();
+		} else {
+			ivr_do_edit($id, $_POST);
+			ivr_sidebar($id);
+			if (isset($_REQUEST['increase'])) 
+				$nbroptions++;
+			if (isset($_REQUEST['decrease'])) {
+				$nbroptions--;
+			}
+			if ($nbroptions < 1)
+				$nbroptions = 1;
+			ivr_show_edit($id, $nbroptions, $_POST);
+			break;
 		}
-		if ($nbroptions < 1)
-			$nbroptions = 1;
-		ivr_show_edit($id, $nbroptions, $_POST);
-		break;
-	case "delete":
-		sql("DELETE from ivr where ivr_id='$id'");
-		sql("DELETE FROM ivr_dests where ivr_id='$id'");
-		needreload();
 	default:
 		ivr_sidebar($id);
 ?>
@@ -103,12 +105,12 @@ function ivr_show_edit($id, $nbroptions, $post) {
         <h2><?php echo _("Digital Receptionist"); ?></h2>
         <h3><?php echo _("Edit Menu")." ".$ivr_details['displayname']; ?></h3>
 <?php 
-	echo "<a href='config.php?display=ivr&amp;action=delete&amp;id=$id' >"._("Delete")." "._("Digital Receptionist")." {$ivr_details['displayname']}</a>";
 ?>
         <form name="prompt" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
         <input type="hidden" name="action" value="edited" />
         <input type="hidden" name="display" value="ivr" />
         <input type="hidden" name="id" value="<?php echo $id ?>" />
+	<input name="delete" type="submit" value="<?php echo _("Delete")." "._("Digital Receptionist")." {$ivr_details['displayname']}"; ?>">
         <table>
         <tr><td colspan=2><hr /></td></tr>
         <tr>
