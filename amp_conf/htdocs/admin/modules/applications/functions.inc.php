@@ -45,8 +45,11 @@ function applications_init() {
 		// If this does become an issue, do a select name from app, then join them all together?
 		// I can't see it becoming too huge. There's not THAT many things you can do with a phone system 8)
 		$res = $db->getRow("SELECT func from applications where func='{$app['func']}'");
-		if (!isset($res[0])) 
+		if (!isset($res[0])) {
 			sql("INSERT INTO applications (func, name, appcmd, enabled) VALUES ('".$app['func']."','".$app['name']."', '".$app['appcmd']."', 'CHECKED')");
+			needreload();
+		}
+		
 	}
 }
 
@@ -89,5 +92,20 @@ function applications_getcmd($app) {
 		return null;
 }
 
+function applications_update($req) {
+	global $db;
+	
+	$apps = applications_list("all");
+	foreach ($apps as $app) {
+		if (isset($req[$app['func']]))
+			sql("UPDATE applications SET appcmd='".$req[$app['func']]."' where func='".$app['func']."'");
+		if (isset($req["ena_".$app['func']])) {
+			sql("UPDATE applications SET enabled='CHECKED' where func='".$app['func']."'");
+		} else {
+			sql("UPDATE applications SET enabled='' where func='".$app['func']."'");
+		}
+	}
+	needreload();
+}
 ?>
 	

@@ -25,9 +25,9 @@ function applications_known() {
                 array('appcmd'=>'*73', 'name'=>'Call Forward All Deactivate', 'func'=>'app_cfoff'),
                 array('appcmd'=>'*74', 'name'=>'Call Forward All Prompting Deativate', 'func'=>'app_cfoff_any'),
                 array('appcmd'=>'*90', 'name'=>'Call Forward Busy Activate', 'func'=>'app_cfbon'),
-                array('appcmd'=>'*91', 'name'=>'Call Forward Busy Prompting Activate', 'func'=>'app_cfbon_any'),
-                array('appcmd'=>'*92', 'name'=>'Call Forward Busy Deactive', 'func'=>'app_cfboff'),
-                array('appcmd'=>'*93', 'name'=>'Call Forward Busy Prompting Deactive', 'func'=>'app_cfboff_any')
+                array('appcmd'=>'*90', 'name'=>'Call Forward Busy Prompting Activate', 'func'=>'app_cfbon_any'),
+                array('appcmd'=>'*91', 'name'=>'Call Forward Busy Deactive', 'func'=>'app_cfboff'),
+                array('appcmd'=>'*92', 'name'=>'Call Forward Busy Prompting Deactive', 'func'=>'app_cfboff_any')
         );
 }
 

@@ -23,8 +23,6 @@ switch ($action) {
   break;
 }
 
-
-needreload();
 applications_init();
 
 ?>
@@ -36,33 +34,21 @@ applications_init();
 	<input type="hidden" name="display" value="<?php echo $dispnum?>">
   	<input type="hidden" name="action" value="save">
 	<table>
-	<tr><td colspan="2"><h5>Application Management<hr></h5></td></tr>
+	<tr><td colspan="3"><h3><?php echo _("Application Management"); ?><hr></h3></td></tr>
 	<?php 
-	$applications = applications_list("enabled");
-	foreach($applications as $item) { 
-		print "Arrrrr. <pre>\n";
-		print_r($item);
-		print "</pre>\n";
-	}
+	$applications = applications_list("all");
+	foreach($applications as $item) { ?> 	
+	<tr> <td> 
+	<?php echo _($item['name']); ?></td>
+			<td><input type="text" name="<?php echo $item['func'] ?>" value="<?php echo $item['appcmd'] ?>" size=4></td>
+			<td><input type="checkbox" name="ena_<?php echo $item['func'].'" '.$item['enabled']; ?>> Enabled</td>
 
-	
-
-
-
-
-
-
-
-
-?> 	<tr> <td> 
-<?php echo $item['app'] ?></td>
-			<td><input type="text" name="<?php echo $item['var'] ?>" value="<?php echo $item['exten'] ?>"></td>
 		</tr>	
 		<?php
-	//	}
+	}
  ?>
 	<tr>
-		<td colspan="2"><br><h6><input name="Submit" type="submit" value="<?php echo _("Submit Changes")?>"></h6></td>		
+		<td colspan="3"><br><h6><input name="Submit" type="submit" value="<?php echo _("Submit Changes")?>"></h6></td>		
 	</tr>
 	</table>
 	</form>
