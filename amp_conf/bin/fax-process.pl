@@ -117,10 +117,9 @@ foreach (0..16) { $boundary .= $chrs[rand (scalar @chrs)]; }
 my $len = length $encoded;
 # message body..
 my $msg ="Content-Class: urn:content-classes:message
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary=\"$boundary\"
+Content-Type: multipart/mixed; boundary=\"$boundary\"
 From: $from
 Date: $dtime
 Reply-To: $from
@@ -145,8 +144,7 @@ Content-Transfer-Encoding: base64
 Content-Description: $attachment
 Content-Disposition: attachment;
 	filename=\"$attachment\"
-Content-Type: text/plain; 
-	charset=us-ascii 
+Content-Type: $ct
 Content-Transfer-Encoding: quoted-printable
 
 $encoded 
