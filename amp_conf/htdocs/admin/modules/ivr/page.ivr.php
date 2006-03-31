@@ -63,13 +63,14 @@ switch ($action) {
 ?>
 <div class="content">
 <h2><?php echo _("Digital Receptionist"); ?></h2>
-<h3>Instructions</h3>
-You use the Digital Receptionist to make IVR's, Interactive Voice Responce systems.<br />
-When creating a menu option, apart from the standard options of 0-9,* and #, you can also
-use 'i' and 't' destinations. 'i' is used when the caller pushes an invalid button, and 't'
-is used when there is no response.  If those options aren't supplied, the default 't' is 
-to replay the menu three times and then hang up, and the default 'i' is to say 'Invalid option,
-please try again' and replay the menu. After three invalid attempts, the line is hung up.
+<h3><?php 
+echo _("Instructions")."</h3>";
+echo _("You use the Digital Receptionist to make IVR's, Interactive Voice Responce systems.")."<br />\n";
+echo _("When creating a menu option, apart from the standard options of 0-9,* and #, you can also use 'i' and 't' destinations.")."\n";
+echo _("'i' is used when the caller pushes an invalid button, and 't' is used when there is no response.")."\n";
+echo _("If those options aren't supplied, the default 't' is to replay the menu three times and then hang up,")."\n";
+echo _("and the default 'i' is to say 'Invalid option, please try again' and replay the menu.")."\n";
+echo _("After three invalid attempts, the line is hung up.")."\n"; ?>
 </div>
 
 <?php

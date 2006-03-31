@@ -72,7 +72,7 @@ function recording_addpage($usersnum) { ?>
 		<input type="hidden" name="display" value="recordings">
 		<?php
 		echo _("If you wish to make and verify recordings from your phone, please enter your extension number here:"); ?>
-		<input type="text" size="6" name="usersnum"> <input name="Submit" type="submit" value="Go">
+		<input type="text" size="6" name="usersnum"> <input name="Submit" type="submit" value="<?php echo _("Go"); ?>">
 		</form>
 	<?php } ?>
 	</p>
