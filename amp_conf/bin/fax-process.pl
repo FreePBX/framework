@@ -130,22 +130,16 @@ Subject: $subject
 This is a multi-part message in MIME format.
 
 --$boundary 
-Content-Type: text/plain;
-	charset=\"us-ascii\"
+Content-Type: text/plain; charset=\"us-ascii\"
 Content-Transfer-Encoding: quoted-printable
 
 A Fax has been recieved by the fax gateway, and is attached to this message.
 
 
 --$boundary
-Content-Type: $ct
-	name=\"$attachment\"
+Content-Type: $ct; name=\"$attachment\"
 Content-Transfer-Encoding: base64
-Content-Description: $attachment
-Content-Disposition: attachment;
-	filename=\"$attachment\"
-Content-Type: $ct
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment; filename=\"$attachment\"
 
 $encoded 
 --$boundary-- 
@@ -160,3 +154,4 @@ $smtp-> recipient($to);
 $smtp-> data();
 $smtp-> datasend($msg);
 $smtp-> dataend();
+
