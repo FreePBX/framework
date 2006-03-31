@@ -1,2 +1,1 @@
-
-DROP TABLE IF EXISTS applications;
+DROP TABLE applications;

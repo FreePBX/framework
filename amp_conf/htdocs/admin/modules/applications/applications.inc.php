@@ -20,12 +20,14 @@ function applications_known() {
                 array('appcmd'=>'*69', 'name'=>'Call Trace', 'func'=>'app_calltrace'),
                 array('appcmd'=>'*70', 'name'=>'Call Waiting Activate', 'func'=>'app_cwon'),
                 array('appcmd'=>'*71', 'name'=>'Call Waiting Deactivate', 'func'=>'app_cwoff'),
-                array('appcmd'=>'*72', 'name'=>'Call Forward Activate', 'func'=>'app_cfon'),
-                array('appcmd'=>'*72', 'name'=>'Call Forward Prompting Activate', 'func'=>'app_cfon_any'),
-                array('appcmd'=>'*73', 'name'=>'Call Forward Deactivate', 'func'=>'app_cfoff'),
-                array('appcmd'=>'*74', 'name'=>'Call Forward Prompting Deativate', 'func'=>'app_cfoff_any'),
+                array('appcmd'=>'*72', 'name'=>'Call Forward All Activate', 'func'=>'app_cfon'),
+                array('appcmd'=>'*72', 'name'=>'Call Forward All Prompting Activate', 'func'=>'app_cfon_any'),
+                array('appcmd'=>'*73', 'name'=>'Call Forward All Deactivate', 'func'=>'app_cfoff'),
+                array('appcmd'=>'*74', 'name'=>'Call Forward All Prompting Deativate', 'func'=>'app_cfoff_any'),
                 array('appcmd'=>'*90', 'name'=>'Call Forward Busy Activate', 'func'=>'app_cfbon'),
-                array('appcmd'=>'*91', 'name'=>'Call Forward Busy Deactive', 'func'=>'app_cfboff')
+                array('appcmd'=>'*91', 'name'=>'Call Forward Busy Prompting Activate', 'func'=>'app_cfbon_any'),
+                array('appcmd'=>'*92', 'name'=>'Call Forward Busy Deactive', 'func'=>'app_cfboff'),
+                array('appcmd'=>'*93', 'name'=>'Call Forward Busy Prompting Deactive', 'func'=>'app_cfboff_any')
         );
 }
 
@@ -260,6 +262,86 @@ function application_app_cfoff($f) {
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_dbdel('CF/${CALLERID(number)}')); 
 	$ext->add($id, $c, '', new ext_playback('call-fwd-unconditional&de-activated')); // $cmd,n,Playback(...)
+	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
+}
+
+function application_app_cfbon($f) {
+	global $ext;
+
+	$id = "app-cf-busy-on"; // The context to be included
+
+	$c = applications_getcmd($f);  // This gets the code to be used
+	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+	$clen = strlen($c);
+	$c = "_$c.";
+	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
+	$ext->add($id, $c, '', new ext_setvar('DB(CFB/${CALLERID(number)})', '${EXTEN:'.$clen.'}')); 
+	$ext->add($id, $c, '', new ext_playback('call-fwd-on-busy&for&extension'));
+	$ext->add($id, $c, '', new ext_saydigits('${CALLERID(number)}'));
+	$ext->add($id, $c, '', new ext_playback('is-set-to'));
+	$ext->add($id, $c, '', new ext_saydigits('${EXTEN:'.$clen.'}'));
+	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
+}
+function application_app_cfbon_any($f) {
+	global $ext;
+
+	$id = "app-cf-busy-on-any"; // The context to be included
+
+	$c = applications_getcmd($f);  // This gets the code to be used
+	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
+	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_background('ent-target-attendant'));
+	$ext->add($id, $c, '', new ext_read('toext', 'then-press-pound'));
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_setvar('DB(CFB/${fromext})', '${toext}')); 
+	$ext->add($id, $c, '', new ext_playback('call-fwd-on-busy&for&extension'));
+	$ext->add($id, $c, '', new ext_saydigits('${fromext}'));
+	$ext->add($id, $c, '', new ext_playback('is-set-to'));
+	$ext->add($id, $c, '', new ext_saydigits('${toext}'));
+	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
+}
+
+function application_app_cfboff_any($f) {
+	global $ext;
+
+	$id = "app-cf-busy-off-any"; // The context to be included
+
+	$c = applications_getcmd($f);  // This gets the code to be used
+	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
+	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_dbdel('DB(CFB/${fromext})')); 
+	$ext->add($id, $c, '', new ext_playback('call-fwd-on-busyl&for&extension'));
+	$ext->add($id, $c, '', new ext_saydigits('${fromext}'));
+	$ext->add($id, $c, '', new ext_playback('cancelled'));
+	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
+}
+
+function application_app_cfboff($f) {
+	global $ext;
+
+	$id = "app-cf-busy-off"; // The context to be included
+
+	$c = applications_getcmd($f);  // This gets the code to be used
+	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
+	$ext->add($id, $c, '', new ext_dbdel('CFB/${CALLERID(number)}')); 
+	$ext->add($id, $c, '', new ext_playback('call-fwd-on-busy&de-activated')); // $cmd,n,Playback(...)
 	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
 }
 
