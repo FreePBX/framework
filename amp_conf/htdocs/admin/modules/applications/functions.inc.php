@@ -1,31 +1,10 @@
 <?php 
 
+require "applications.inc.php";
 	
 function applications_list($cmd) {
-	$apps = array (
-	// Update this when new applications are created/added
-	// Format of 'Default Command', 'Descriptive Name, 'Function Name'
-		// Create a function 'application_($func}'
-		array('appcmd'=>'#', 'name'=>'Directory',  'func'=>'app_directory'),
-		// See application_app_directory for instructions
-		array('appcmd'=>'*78', 'name'=>'DND Activate', 'func'=>'app_dnd_on'),
-		// Note, you can't use 'app-dnd-off' - they have to be underscores.
-		array('appcmd'=>'*79', 'name'=>'DND Deactivate', 'func'=>'app_dnd_off'),
-		array('appcmd'=>'*98', 'name'=>'My Voicemail', 'func'=>'app_myvoicemail'),
-		// This checks for extra numbers dialled after it
-		array('appcmd'=>'*96', 'name'=>'Dial Voicemail', 'func'=>'app_dialvoicemail'),
-//		array('appcmd'=>'*97', 'name'=>'Message Center', 'func'=>'app_voicemail'),
-		// This one generates a seperate context.
-		array('appcmd'=>'*69', 'name'=>'Call Trace', 'func'=>'app_calltrace'),
-		array('appcmd'=>'*70', 'name'=>'Call Waiting Activate', 'func'=>'app_cwon'),
-		array('appcmd'=>'*71', 'name'=>'Call Waiting Deactivate', 'func'=>'app_cwoff'),
-		array('appcmd'=>'*72', 'name'=>'Call Forward Activate', 'func'=>'app_cfon'),
-		array('appcmd'=>'*72', 'name'=>'Call Forward Prompting Activate', 'func'=>'app_cfon_any'),
-		array('appcmd'=>'*73', 'name'=>'Call Forward Deactivate', 'func'=>'app_cfoff'),
-		array('appcmd'=>'*90', 'name'=>'Call Forward Busy Activate', 'func'=>'app_cfbon'),
-		array('appcmd'=>'*91', 'name'=>'Call Forward Busy Deactive', 'func'=>'app_cfboff')
-	);
 
+	$apps = applications_known();
 	$count=0;
 	// Run through them all
 	foreach ($apps as $app) {
@@ -76,12 +55,11 @@ function applications_get_config($engine) {
 	global $ext;  
 	switch($engine) {
 		case "asterisk":
-			require "applications.inc.php";
 			if(is_array($applicationslist = applications_list("enabled"))) {
 				foreach($applicationslist as $item) {
 					$fname = 'application_'.$item['func'];
 					if (function_exists($fname)) {
-						$fname("genconf");
+						$fname($item['func']);
 					} else {
 						$ext->add('from-internal-additional', 'debug', '', new ext_noop("No func $fname"));
 					}	

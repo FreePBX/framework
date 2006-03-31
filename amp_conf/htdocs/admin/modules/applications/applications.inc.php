@@ -1,13 +1,42 @@
 <?php 
 
+function applications_known() {
+	return array (
+        // Update this when new applications are created/added. The database is updated automatically when 
+	// a new one is entered here.
+
+        // Format is 'Default Command', 'Descriptive Name, 'Function Name'
+                // Create a function 'application_($func}'
+                array('appcmd'=>'#', 'name'=>'Directory',  'func'=>'app_directory'),
+                // See application_app_directory for instructions
+                array('appcmd'=>'*78', 'name'=>'DND Activate', 'func'=>'app_dnd_on'),
+                // Note, you can't use 'app-dnd-off' - they have to be underscores.
+                array('appcmd'=>'*79', 'name'=>'DND Deactivate', 'func'=>'app_dnd_off'),
+                array('appcmd'=>'*98', 'name'=>'My Voicemail', 'func'=>'app_myvoicemail'),
+                // This checks for extra numbers dialled after it
+                array('appcmd'=>'*96', 'name'=>'Dial Voicemail', 'func'=>'app_dialvoicemail'),
+//              array('appcmd'=>'*97', 'name'=>'Message Center', 'func'=>'app_voicemail'),
+                // This one generates a seperate context.
+                array('appcmd'=>'*69', 'name'=>'Call Trace', 'func'=>'app_calltrace'),
+                array('appcmd'=>'*70', 'name'=>'Call Waiting Activate', 'func'=>'app_cwon'),
+                array('appcmd'=>'*71', 'name'=>'Call Waiting Deactivate', 'func'=>'app_cwoff'),
+                array('appcmd'=>'*72', 'name'=>'Call Forward Activate', 'func'=>'app_cfon'),
+                array('appcmd'=>'*72', 'name'=>'Call Forward Prompting Activate', 'func'=>'app_cfon_any'),
+                array('appcmd'=>'*73', 'name'=>'Call Forward Deactivate', 'func'=>'app_cfoff'),
+                array('appcmd'=>'*74', 'name'=>'Call Forward Prompting Deativate', 'func'=>'app_cfoff_any'),
+                array('appcmd'=>'*90', 'name'=>'Call Forward Busy Activate', 'func'=>'app_cfbon'),
+                array('appcmd'=>'*91', 'name'=>'Call Forward Busy Deactive', 'func'=>'app_cfboff')
+        );
+}
+
 // Create Applications here
-function application_app_directory() {
+function application_app_directory($f) {
 	global $ext;
 
 	$id = "app-directory"; // The context to be included. This must be unique.
 
 	// Here, we're generating the config file to go in extensions_additional.conf
-	$c = applications_getcmd($appname);  // This gets the 'dial' code to be used
+	$c = applications_getcmd($f);  // This gets the 'dial' code to be used
 	// Start creating the dialplan
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 	// Build the context
@@ -17,12 +46,12 @@ function application_app_directory() {
 	$ext->add($id, $c, '', new ext_hangup()); // hangup
 }
 
-function application_app_dnd_on() {
+function application_app_dnd_on($f) {
 	global $ext;
 
 	$id = "app-dnd-on"; // The context to be included
 
-	$c = applications_getcmd($appname);  // This gets the code to be used
+	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
 	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
@@ -33,12 +62,12 @@ function application_app_dnd_on() {
 	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
 }
 		
-function application_app_dnd_off() {
+function application_app_dnd_off($f) {
 	global $ext;
 
 	$id = "app-dnd-off"; // The context to be included
 
-	$c = applications_getcmd($appname);  // This gets the code to be used
+	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
 	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
@@ -49,12 +78,12 @@ function application_app_dnd_off() {
 	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
 }
 	
-function application_app_myvoicemail() {
+function application_app_myvoicemail($f) {
 	global $ext;
 
 	$id = "app-vmmain"; // The context to be included
 
-	$c = applications_getcmd($appname);  // This gets the code to be used
+	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
 	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
@@ -65,12 +94,12 @@ function application_app_myvoicemail() {
 	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
 }
 
-function application_app_dialvoicemail() {
+function application_app_dialvoicemail($f) {
 	global $ext;
 
 	$id = "app-dialvm"; // The context to be included
 
-	$c = applications_getcmd($appname);  // This gets the code to be used
+	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
 	// Note that with this one, it has paramters. So we have to add '_' to the start and '.' to the end
@@ -85,12 +114,12 @@ function application_app_dialvoicemail() {
 	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
 }
 
-function application_app_calltrace() {
+function application_app_calltrace($f) {
 	global $ext;
 
 	$id = "app-calltrace"; // The context to be included
 
-	$c = applications_getcmd($appname);  // This gets the code to be used
+	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
 	$ext->add($id, $c, '', new ext_goto('1', 's', 'app-calltrace-perform')); 
@@ -121,13 +150,12 @@ function application_app_calltrace() {
 
 }
 
-
-function application_app_cwon() {
+function application_app_cwon($f) {
 	global $ext;
 
 	$id = "app-cw-on"; // The context to be included
 
-	$c = applications_getcmd($appname);  // This gets the code to be used
+	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
 	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
@@ -139,12 +167,12 @@ function application_app_cwon() {
 }
 
 
-function application_app_cwoff() {
+function application_app_cwoff($f) {
 	global $ext;
 
 	$id = "app-cw-off"; // The context to be included
 
-	$c = applications_getcmd($appname);  // This gets the code to be used
+	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
 	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
@@ -155,12 +183,32 @@ function application_app_cwoff() {
 	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
 }
 
-function application_app_cfon_any() {
+function application_app_cfon($f) {
+	global $ext;
+
+	$id = "app-cf-on"; // The context to be included
+
+	$c = applications_getcmd($f);  // This gets the code to be used
+	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+	$clen = strlen($c);
+	$c = "_$c.";
+	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
+	$ext->add($id, $c, '', new ext_setvar('DB(CF/${CALLERID(number)})', '${EXTEN:'.$clen.'}')); 
+	$ext->add($id, $c, '', new ext_playback('call-fwd-unconditional&for&extension'));
+	$ext->add($id, $c, '', new ext_saydigits('${CALLERID(number)}'));
+	$ext->add($id, $c, '', new ext_playback('is-set-to'));
+	$ext->add($id, $c, '', new ext_saydigits('${EXTEN:'.$clen.'}'));
+	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
+}
+function application_app_cfon_any($f) {
 	global $ext;
 
 	$id = "app-cf-on-any"; // The context to be included
 
-	$c = applications_getcmd($appname);  // This gets the code to be used
+	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
 	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
@@ -179,19 +227,39 @@ function application_app_cfon_any() {
 	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
 }
 
-function application_app_cfoff($cmd) {
+function application_app_cfoff_any($f) {
+	global $ext;
+
+	$id = "app-cf-off-any"; // The context to be included
+
+	$c = applications_getcmd($f);  // This gets the code to be used
+	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
+	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_dbdel('DB(CF/${fromext})')); 
+	$ext->add($id, $c, '', new ext_playback('call-fwd-unconditional&for&extension'));
+	$ext->add($id, $c, '', new ext_saydigits('${fromext}'));
+	$ext->add($id, $c, '', new ext_playback('cancelled'));
+	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
+}
+
+function application_app_cfoff($f) {
 	global $ext;
 
 	$id = "app-cf-off"; // The context to be included
 
-	$c = applications_getcmd($appname);  // This gets the code to be used
+	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
 	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_dbdel('CF/${CALLERID(number)}')); 
-	$ext->add($id, $c, '', new ext_playback('call-waiting&de-activated')); // $cmd,n,Playback(...)
+	$ext->add($id, $c, '', new ext_playback('call-fwd-unconditional&de-activated')); // $cmd,n,Playback(...)
 	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
 }
 
