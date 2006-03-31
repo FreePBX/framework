@@ -67,7 +67,7 @@ function applications_init() {
 		// I can't see it becoming too huge. There's not THAT many things you can do with a phone system 8)
 		$res = $db->getRow("SELECT func from applications where func='{$app['func']}'");
 		if (!isset($res[0])) 
-			sql("INSERT INTO applications (func, name, appcmd, enabled) VALUES ('".$app['func']."','".$app['name']."', '".$app['appcmd']."', '')");
+			sql("INSERT INTO applications (func, name, appcmd, enabled) VALUES ('".$app['func']."','".$app['name']."', '".$app['appcmd']."', 'CHECKED')");
 	}
 }
 
