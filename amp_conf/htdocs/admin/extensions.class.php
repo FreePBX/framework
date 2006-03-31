@@ -486,6 +486,11 @@ class ext_agi extends extension {
 		return "AGI(".$this->data.")";
 	}
 }
+class ext_dbdel extends extension {
+	function output() {
+		return "dbDel(".$this->data.")";
+	}
+}
 
 /* example usage
 $ext = new extensions;
