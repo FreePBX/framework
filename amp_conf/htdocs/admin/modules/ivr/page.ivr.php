@@ -121,11 +121,11 @@ function ivr_show_edit($id, $nbroptions, $post) {
         </tr>
         <tr>
                 <td><a href="#" class="info">Enable Directory<span>Let callers into the IVR dial '#' to access the directory</span></a></td>
-                <td><input type="checkbox" name="ena_directory" <? echo $ivr_details['enable_directory'] ?>></td>
+                <td><input type="checkbox" name="ena_directory" <?php echo $ivr_details['enable_directory'] ?>></td>
         </tr>
         <tr>
                 <td><a href="#" class="info">Enable Direct Dial<span>Let callers into the IVR dial an extension directly</span></a></td>
-                <td><input type="checkbox" name="ena_directdial" <? echo $ivr_details['enable_directdial'] ?>></td>
+                <td><input type="checkbox" name="ena_directdial" <?php echo $ivr_details['enable_directdial'] ?>></td>
         </tr>
 <?php
 	if(function_exists('recordings_list')) { //only include if recordings is enabled ?>
