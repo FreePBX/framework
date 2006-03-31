@@ -12,7 +12,17 @@ function applications_list($cmd) {
 		// Note, you can't use 'app-dnd-off' - they have to be underscores.
 		array('appcmd'=>'*79', 'name'=>'DND Deactivate', 'func'=>'app_dnd_off'),
 		array('appcmd'=>'*98', 'name'=>'My Voicemail', 'func'=>'app_myvoicemail'),
-		array('appcmd'=>'*97', 'name'=>'Message Center', 'func'=>'app_voicemail')
+		// This checks for extra numbers dialled after it
+		array('appcmd'=>'*96', 'name'=>'Dial Voicemail', 'func'=>'app_dialvoicemail'),
+		array('appcmd'=>'*97', 'name'=>'Message Center', 'func'=>'app_voicemail'),
+		// This generates its own macro
+		array('appcmd'=>'*69', 'name'=>'Call Trace', 'func'=>'app_calltrace'),
+		array('appcmd'=>'*70', 'name'=>'Call Waiting Activate', 'func'=>'app_cwon'),
+		array('appcmd'=>'*71', 'name'=>'Call Waiting Deactivate', 'func'=>'app_cwoff'),
+		array('appcmd'=>'*72', 'name'=>'Call Forward Activate', 'func'=>'app_cfon'),
+		array('appcmd'=>'*73', 'name'=>'Call Forward Deactivate', 'func'=>'app_cfoff'),
+		array('appcmd'=>'*90', 'name'=>'Call Forward Busy Activate', 'func'=>'app_cfbon'),
+		array('appcmd'=>'*91', 'name'=>'Call Forward Busy Deactive', 'func'=>'app_cfboff')
 	);
 
 	$count=0;
@@ -185,11 +195,115 @@ function application_app_dnd_off($cmd) {
 }
 		
 	
+function application_app_myvoicemail($cmd) {
+	global $ext;
+	// It's called with 'info' or 'genconf'. 'info' should just return a short 
+	// text string that is used for the mouseover
 
+	// Change the following three lines
+	$appname = "My Voicemail"; // This is my name. Used for sql commands. MUST MATCH NAME in app_list above!!
+	$id = "app-vmmain"; // The context to be included
+	$descr = "Check your voicemail. Prompts for password"; // The small help text to be used as a mouseover
 
+	if ($cmd == 'info') 
+		return _($descr);
+	if ($cmd == 'genconf') {
+		// Here, we're generating the config file to go in extensions_additional.conf
+		$c = applications_getcmd($appname);  // This gets the code to be used
+		// Start creating the dialplan
+		$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-
+		// This is where you build the context
+		$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+		$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+		$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
+		$ext->add($id, $c, '', new ext_macro('get-vmcontext','${CALLERID(num)}')); 
+		$ext->add($id, $c, '', new ext_vmmain('${CALLERID(num)}@${VMCONTEXT}')); // n,VoiceMailMain(${VMCONTEXT})
+		$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
+	}
+}
+		
 	
+
+function application_app_dialvoicemail($cmd) {
+	global $ext;
+	// It's called with 'info' or 'genconf'. 'info' should just return a short 
+	// text string that is used for the mouseover
+
+	// Change the following three lines
+	$appname = "Dial Voicemail"; // This is my name. Used for sql commands. MUST MATCH NAME in app_list above!!
+	$id = "app-dialvm"; // The context to be included
+	$descr = "Check voicemail from another xtn by dialing this and then the extension you want to check"; 
+	if ($cmd == 'info') 
+		return _($descr);
+	if ($cmd == 'genconf') {
+		// Here, we're generating the config file to go in extensions_additional.conf
+		$c = applications_getcmd($appname);  // This gets the code to be used
+		// Start creating the dialplan
+		$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+		// Note that with this one, it has paramters. So we have to add '_' to the start and '.' to the end
+		// of $c
+		$c = "_$c.";
+		$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+		$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+		// How long is the command? We need to strip that off the front
+		$clen = strlen($c)-2;
+		$ext->add($id, $c, '', new ext_macro('get-vmcontext','${EXTEN:'.$clen.'}')); 
+		$ext->add($id, $c, '', new ext_vmmain('${EXTEN:'.$clen.'}@${VMCONTEXT}')); // n,VoiceMailMain(${VMCONTEXT})
+		$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
+	}
+}
+		
 	
-	
+function application_app_calltrace($cmd) {
+	global $ext;
+	// It's called with 'info' or 'genconf'. 'info' should just return a short 
+	// text string that is used for the mouseover
+
+	// Change the following three lines
+	$appname = "Call Trace"; // This is my name. Used for sql commands. MUST MATCH NAME in app_list above!!
+	$id = "app-calltrace"; // The context to be included
+	$descr = "Reads out the number of the last caller, and if available, gives you the option to call them back"; 
+	if ($cmd == 'info') 
+		return _($descr);
+	if ($cmd == 'genconf') {
+		// Here, we're generating the config file to go in extensions_additional.conf
+		$c = applications_getcmd($appname);  // This gets the code to be used
+		// Start creating the dialplan
+		$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+		$ext->add($id, $c, '', new ext_goto('1', 's', 'app-calltrace-perform')); 
+
+		// Now, we need to create the calltrace application
+		$id = 'app-calltrace-perform';
+		$c = 's';
+		$ext->add($id, $c, '', new ext_macro('user-callerid')); 
+		$ext->add($id, $c, '', new ext_answer());
+		$ext->add($id, $c, '', new ext_wait('1'));
+		$ext->add($id, $c, '', new ext_background('info-about-last-call&telephone-number'));
+		$ext->add($id, $c, '', new ext_setvar('lastcaller', '${DB(CALLTRACE/${CALLERID(number)})}'));
+		$ext->add($id, $c, '', new ext_gotoif('$[ "${lastcaller}" = "" ]', 'noinfo'));
+		$ext->add($id, $c, 'ok', new ext_saydigits('${lastcaller}'));
+		$ext->add($id, $c, '', new ext_setvar('TIMEOUT(digit)', '3'));
+		$ext->add($id, $c, '', new ext_setvar('TIMEOUT(response)', '7'));
+		$ext->add($id, $c, '', new ext_background('to-call-this-number&press-1'));
+		$ext->add($id, $c, '', new ext_goto('fin'));
+		$ext->add($id, $c, 'noinfo', new ext_playback('from-unknown-caller'));
+		$ext->add($id, $c, '', new ext_macro('hangupcall')); 
+		$ext->add($id, $c, 'fin', new ext_noop('Waiting for input'));
+		$ext->add($id, '1', '', new ext_goto('1', '${lastcaller}', 'from-internal'));
+		$ext->add($id, 'i', '', new ext_playback('vm-goodbye')); 
+		$ext->add($id, 'i', '', new ext_macro('hangupcall')); 
+		$ext->add($id, 't', '', new ext_playback('vm-goodbye')); 
+		$ext->add($id, 't', '', new ext_macro('hangupcall')); 
+
+		// How long is the command? We need to strip that off the front
+		$clen = strlen($c)-2;
+		$ext->add($id, $c, '', new ext_macro('get-vmcontext','${EXTEN:'.$clen.'}')); 
+		$ext->add($id, $c, '', new ext_vmmain('${EXTEN:'.$clen.'}@${VMCONTEXT}')); // n,VoiceMailMain(${VMCONTEXT})
+		$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
+	}
+}
+
 ?>

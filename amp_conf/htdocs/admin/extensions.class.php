@@ -491,6 +491,21 @@ class ext_dbdel extends extension {
 		return "dbDel(".$this->data.")";
 	}
 }
+class ext_vmmain extends extension {
+	function output() {
+		return "VoiceMailMain(".$this->data.")";
+	}
+}
+class ext_vm extends extension {
+	function output() {
+		return "VoiceMail(".$this->data.")";
+	}
+}
+class ext_saydigits extends extension {
+	function output() {
+		return "SayDigits(".$this->data.")";
+	}
+}
 
 /* example usage
 $ext = new extensions;
