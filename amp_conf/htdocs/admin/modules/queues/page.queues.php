@@ -118,7 +118,6 @@ if ($action == 'delete') {
 	//get members in this queue
 	$thisQ = queues_get($extdisplay);
 	//create variables
-	unset($maxwait);
 	extract($thisQ);
 	
 	$delButton = "
@@ -422,7 +421,7 @@ if(function_exists('recordings_list')) { //only include if recordings is enabled
 			<select name="joinannounce"/>
 			<?php
 				$tresults = recordings_list();
-				$default = (isset($joinannounce) ? $joinannounce : None);
+				$default = (isset($joinannounce) ? $joinannounce : 'None');
 				echo '<option value="None">'._("None");
 				if (isset($tresults[0])) {
 					foreach ($tresults as $tresult) {
