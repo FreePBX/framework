@@ -234,7 +234,7 @@ function modules_getversion($modname) {
 function modules_setversion($modname, $vers) {
 	global $db;
 
-	return sql("SELECT modules SET version='$vers' WHERE modulename = '$modname'");
+	return sql("UPDATE modules SET version='$vers' WHERE modulename = '$modname'");
 }
 
 
