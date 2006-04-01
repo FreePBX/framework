@@ -117,7 +117,10 @@ function ivr_destinations() {
 			$extens[] = array('destination' => 'ivr-'.$result['ivr_id'].',s,1', 'description' => $result['displayname']);
 		}
 	}
-	return $extens;
+	if (isset($extens)) 
+		return $extens;
+	else
+		return null;
 }
 
 function ivr_get_config($engine) {
