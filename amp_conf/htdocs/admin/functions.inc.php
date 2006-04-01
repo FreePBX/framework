@@ -218,6 +218,26 @@ function find_modules($status,$type) {
 }
 
 
+// This returns the version of a module
+function modules_getversion($modname) {
+	global $db;
+
+	$sql = "SELECT version FROM modules WHERE modulename = '$modname'";
+	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
+	if (isset($results['version'])) 
+		return $results['version'];
+	else
+		return null;
+}
+
+// I bet you can't guess what this one does.
+function modules_setversion($modname, $vers) {
+	global $db;
+
+	return sql("SELECT modules SET version='$vers' WHERE modulename = '$modname'");
+}
+
+
 /* queries database using PEAR.
 *  $type can be query, getAll, getRow, getCol, getOne, etc
 *  $fetchmode can be DB_FETCHMODE_ORDERED, DB_FETCHMODE_ASSOC, DB_FETCHMODE_OBJECT
