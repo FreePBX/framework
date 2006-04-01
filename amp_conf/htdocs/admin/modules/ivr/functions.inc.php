@@ -93,6 +93,16 @@ function ivr_init() {
                 $result = sql("INSERT INTO ivr (displayname, deptname) VALUES ('__install_done', '1')");
 		needreload();
         }
+	// Now, we need to check for upgrades. 
+	// V1.0, old IVR. You shouldn't see this, but check for it anyway, and assume that it's 2.0
+	// V2.0, Original Release
+	// V2.1, added 'directorycontext' to the schema
+	// 
+	if (modules_getversion('ivr') == "1.0" || modules_getversion('ivr') == "2.0") {
+		// Add the col
+		sql('ALTER TABLE ivr ADD COLUMN dircontext VARCHAR ( 50 ) DEFAULT "default"');
+		modules_setversion('ivr', '1.1');
+	}
 }
 
 // The destinations this module provides
@@ -130,6 +140,7 @@ function ivr_get_config($engine) {
                                         	$ext->addInclude($id,'app-directory');
                                         $ext->add($id, 'h', '', new ext_hangup(''));
                                         $ext->add($id, 's', '', new ext_setvar('LOOPCOUNT', 0));
+                                        $ext->add($id, 's', '', new ext_setvar('__DIR-CONTEXT', $details['dircontext']));
                                         $ext->add($id, 's', '', new ext_answer(''));
                                         $ext->add($id, 's', '', new ext_wait('1'));
                                         $ext->add($id, 's', 'begin', new ext_digittimeout(3));
@@ -214,6 +225,7 @@ function ivr_do_edit($id, $post) {
 	$ena_directory = isset($post['ena_directory'])?$post['ena_directory']:'';
 	$ena_directdial = isset($post['ena_directdial'])?$post['ena_directdial']:'';
 	$annmsg = isset($post['annmsg'])?$post['annmsg']:'';
+	$dircontext = isset($post['dircontext'])?$post['dircontext']:'';
 
 	if (!empty($ena_directory)) 
 		$ena_directory='CHECKED';
@@ -222,7 +234,7 @@ function ivr_do_edit($id, $post) {
 	if (!empty($ena_directdial)) 
 		$ena_directdial='CHECKED';
 	
-	sql("UPDATE ivr SET displayname='$displayname', enable_directory='$ena_directory', enable_directdial='$ena_directdial', timeout='$timeout', announcement='$annmsg' WHERE ivr_id='$id'");
+	sql("UPDATE ivr SET displayname='$displayname', enable_directory='$ena_directory', enable_directdial='$ena_directdial', timeout='$timeout', announcement='$annmsg', dircontext='$dircontext' WHERE ivr_id='$id'");
 
 	// Delete all the old dests
 	sql("DELETE FROM ivr_dests where ivr_id='$id'");

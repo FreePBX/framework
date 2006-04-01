@@ -126,6 +126,21 @@ function ivr_show_edit($id, $nbroptions, $post) {
                 <td><input type="checkbox" name="ena_directory" <?php echo $ivr_details['enable_directory'] ?>></td>
         </tr>
         <tr>
+                <td><a href="#" class="info">Directory Context<span>When # is selected, this is the voicemail directory context that is used</span></a></td>
+                <td>&nbsp;
+			 <select name="dircontext"/>
+                        <?php
+				$tresults = getVoicemail();
+				$vmcontexts = array_keys($tresults);
+				foreach ($vmcontexts as $vmc) {
+					if ($vmc != 'general' ) 
+						echo '<option value="'.$vmc.'"'.($vmc == $ivr_details['dircontext'] ? ' SELECTED' : '').'>'.$vmc."</option>\n";
+				}
+                        ?>
+			</select>
+		</td>
+        </tr>
+        <tr>
                 <td><a href="#" class="info">Enable Direct Dial<span>Let callers into the IVR dial an extension directly</span></a></td>
                 <td><input type="checkbox" name="ena_directdial" <?php echo $ivr_details['enable_directdial'] ?>></td>
         </tr>
