@@ -24,6 +24,9 @@
  *  The original author of AST linux is:
  *  Kristian Kielhofner - KrisCompanies, LLC - http://astlinux.org/
  */
+
+
+$txtCommand = isset($_POST['txtCommand'])?$_POST['txtCommand']:'';
 ?>
 
 <h2><?php echo _("Asterisk CLI")?></h2>
@@ -32,7 +35,7 @@
 	<table>
 		<tr>
 			<td class="label" align="right"><?php echo _("Command:")?></td>
-			<td class="type"><input name="txtCommand" type="text" size="70" value="<?=htmlspecialchars($_POST['txtCommand']);?>"></td>
+			<td class="type"><input name="txtCommand" type="text" size="70" value="<?=htmlspecialchars($txtCommand);?>"></td>
 		</tr>
 		
 		<tr>
@@ -50,20 +53,19 @@
 </form>
 
 <p>
-<?php if (isBlank($_POST['txtCommand'])): ?>
+<?php if (isBlank($txtCommand)): ?>
 </p>
-<?php endif; ?>
-<?php if ($ulmsg) echo "<p><strong>" . $ulmsg . "</strong></p>\n"; ?>
-<?php
+<?php endif; 
+
 function isBlank( $arg ) { return ereg( "^\s*$", $arg ); }
 
-if (!isBlank($_POST['txtCommand']))
+if (!isBlank($txtCommand))
 {
 	echo "<pre>";
 	putenv("TERM=vt100");
 	putenv("PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin");
-	putenv("SCRIPT_FILENAME=" . strtok(stripslashes($_POST['txtCommand']), " "));  /* PHP scripts */
-	$ph = popen(stripslashes("asterisk -rx \"" . $_POST['txtCommand'] . "\""), "r" );
+	putenv("SCRIPT_FILENAME=" . strtok(stripslashes($txtCommand), " "));  /* PHP scripts */
+	$ph = popen(stripslashes("asterisk -rx \"$txtCommand\""), "r" );
 	while ($line = fgets($ph))
 		echo htmlspecialchars($line);
 	pclose($ph);
