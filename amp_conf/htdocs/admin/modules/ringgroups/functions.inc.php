@@ -14,7 +14,10 @@ function ringgroups_destinations() {
 		}
 	}
 	
-	return $extens;
+	if (isset($extens)) 
+		return $extens;
+	else
+		return null;
 }
 
 /* 	Generates dialplan for ringgroups

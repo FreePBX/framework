@@ -12,7 +12,10 @@ function queues_destinations() {
 		}
 	}
 	
-	return $extens;
+	if (isset($extens)) 
+		return $extens;
+	else
+		return null;
 }
 
 /* 	Generates dialplan for "queues" components (extensions & inbound routing)
