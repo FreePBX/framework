@@ -33,6 +33,7 @@ $amp_conf = parse_amportal_conf("/etc/amportal.conf");
 // connect to database
 require_once('common/db_connect.php'); //PEAR must be installed
 
+$quietmode = false;
 include 'header.php'; 
 
 if (isset($_REQUEST['display'])) {
