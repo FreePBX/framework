@@ -140,30 +140,44 @@ if ($r["result"] == 0) {
 $trunk = $r["data"];
 
 
-if (isset($conf["trunk-".$trunk])) {
-	foreach ($conf["trunk-".$trunk] as $key=>$rule) {
+if (isset($conf["trunk-$trunk"])) {
+	foreach ($conf["trunk-$trunk"] as $key=>$rule) {
 		// extract all ruleXX keys
-		//$agi->conlog($key." = ".$rule);
+		//$agi->conlog("$key = $rule");
 		if (preg_match("/^rule\d+$/",$key)) {
 			// $rule is a dial rule
 			
 			$regex = $rule;
-			if (false !== ($pos = strpos($rule,"|"))) {
+			$prefix = "";
+
+			// Remove all non-pattern characters from $regex except for '+' and '|'.
+			// Allow groups like "[0-9]" to remain.
+			$regex = preg_replace("/[^0-9XNZ#*\.\[\]\-\+\|]/", "", $regex);
+			
+			// Also kill the '-' characters outside of groups
+			$regex = preg_replace("/((?:\[[^\]]*\])*)([^\[\]\-]*)-?/", "$1$2", $regex);
+
+			if (false !== ($pos = strpos($regex,"|"))) {
 				// we're removing digits
-				$type = "remove";
-			} else if (false !== ($pos = strpos($rule,"+"))) {
-				$type = "add";
-				
-				$regex = substr($regex, $pos);
+				$type  = "remove";
+				$regex = substr($regex,0,$pos) . "(" . substr($regex, $pos) . ")";
+			} else if (false !== ($pos = strpos($regex,"+"))) {
+				$type   = "add";
+				$prefix = substr($regex,0,$pos);
+				$regex  = substr($regex,$pos);
+
+				// Clean up prefix.  It may only consist of digits.
+				$prefix = preg_replace("/[^0-9]/", "", $prefix);
 			} else {
 				$pos = 0;
 				$type = "asis";
 			}
-			
-			// remove all non-pattern digits from rule
-			//$regex = preg_replace("/[^0-9XNZ#*\.]/", "", $regex); //old
-			$regex = preg_replace("/[^0-9XNZ#*.\[\]]/", "", $regex); //Patch 1424889
-			
+
+			// Remove any remaining '+' and '|' characters from $regex.
+			// Note that there will be parenthesis in the regex if the type
+			// is "remove".
+			$regex = preg_replace("/[\+\|]/", "", $regex);
+
 			// convert asterisk pattern matching into perl regular expression
 			$regex = str_replace(
 					array(
@@ -179,20 +193,20 @@ if (isset($conf["trunk-".$trunk])) {
 						"[0-9#*]+",
 					),
 					$regex);
-			
-			//$agi->conlog("trying ".$regex." (".$rule.")");
-			if (preg_match("/^".$regex."$/",$number)) {
+
+			// $agi->conlog("Trying to match number '$number' with regex '$regex' ($rule)");
+			if (preg_match("/^$regex$/",$number)) {
 				// it matched
 				switch ($type) {
 					case "remove":
-						$number = substr($number, $pos);
-						$agi->verbose("Removed prefix. New number: ".$number);
+						$number = preg_replace("/^$regex$/", "$1", $number);
+						$agi->verbose("Removed prefix.  New number: $number");
 						$agi->set_variable("DIAL_NUMBER", $number);
 					break;
 					case "add":
 						// we're adding digits
-						$number = substr($rule,0,$pos).$number;
-						$agi->verbose("Added prefix. New number: ".$number);
+						$number = $prefix . $number;
+						$agi->verbose("Added prefix.  New number: $number");
 						$agi->set_variable("DIAL_NUMBER", $number);
 					break;
 				}
