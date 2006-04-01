@@ -506,6 +506,11 @@ class ext_saydigits extends extension {
 		return "SayDigits(".$this->data.")";
 	}
 }
+class ext_echo extends extension {
+	function output() {
+		return "Echo(".$this->data.")";
+	}
+}
 
 /* example usage
 $ext = new extensions;

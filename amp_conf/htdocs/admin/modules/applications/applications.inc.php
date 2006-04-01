@@ -27,7 +27,8 @@ function applications_known() {
                 array('appcmd'=>'*90', 'name'=>'Call Forward Busy Activate', 'func'=>'app_cfbon'),
                 array('appcmd'=>'*90', 'name'=>'Call Forward Busy Prompting Activate', 'func'=>'app_cfbon_any'),
                 array('appcmd'=>'*91', 'name'=>'Call Forward Busy Deactive', 'func'=>'app_cfboff'),
-                array('appcmd'=>'*92', 'name'=>'Call Forward Busy Prompting Deactive', 'func'=>'app_cfboff_any')
+                array('appcmd'=>'*92', 'name'=>'Call Forward Busy Prompting Deactive', 'func'=>'app_cfboff_any'),
+                array('appcmd'=>'*43', 'name'=>'Echo Test', 'func'=>'app_echo_test'),
         );
 }
 
@@ -344,5 +345,23 @@ function application_app_cfboff($f) {
 	$ext->add($id, $c, '', new ext_playback('call-fwd-on-busy&de-activated')); // $cmd,n,Playback(...)
 	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
 }
+
+function application_app_echo_test($f) {
+	global $ext;
+
+	$id = "app-echo-test"; // The context to be included
+
+	$c = applications_getcmd($f);  // This gets the code to be used
+	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_playback('demo-echotest')); // $cmd,n,Macro(user-callerid)
+	$ext->add($id, $c, '', new ext_echo()); 
+	$ext->add($id, $c, '', new ext_playback('demo-echodone')); // $cmd,n,Playback(...)
+	$ext->add($id, $c, '', new ext_hangup()); // $cmd,n,Macro(user-callerid)
+}
+
+?>
 
 ?>
