@@ -134,7 +134,7 @@ function application_app_calltrace($f) {
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); 
 	$ext->add($id, $c, '', new ext_answer(''));
 	$ext->add($id, $c, '', new ext_wait('1'));
-	$ext->add($id, $c, '', new ext_background('info-about-last-call&telephone-number'));
+	$ext->add($id, $c, '', new ext_playback('info-about-last-call&telephone-number'));
 	$ext->add($id, $c, '', new ext_setvar('lastcaller', '${DB(CALLTRACE/${CALLERID(number)})}'));
 	$ext->add($id, $c, '', new ext_gotoif('$[ "${lastcaller}" = "" ]', 'noinfo'));
 	$ext->add($id, $c, '', new ext_saydigits('${lastcaller}'));
@@ -216,10 +216,10 @@ function application_app_cfon_any($f) {
 
 	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
-	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
+	$ext->add($id, $c, '', new ext_playback('please-enter-your&extension'));
 	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
-	$ext->add($id, $c, '', new ext_background('ent-target-attendant'));
+	$ext->add($id, $c, '', new ext_playback('ent-target-attendant'));
 	$ext->add($id, $c, '', new ext_read('toext', 'then-press-pound'));
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_setvar('DB(CF/${fromext})', '${toext}')); 
@@ -240,7 +240,7 @@ function application_app_cfoff_any($f) {
 
 	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
-	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
+	$ext->add($id, $c, '', new ext_playback('please-enter-your&extension'));
 	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_dbdel('CF/${fromext}')); 
@@ -296,10 +296,10 @@ function application_app_cfbon_any($f) {
 
 	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
-	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
+	$ext->add($id, $c, '', new ext_playback('please-enter-your&extension'));
 	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
-	$ext->add($id, $c, '', new ext_background('ent-target-attendant'));
+	$ext->add($id, $c, '', new ext_playback('ent-target-attendant'));
 	$ext->add($id, $c, '', new ext_read('toext', 'then-press-pound'));
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_setvar('DB(CFB/${fromext})', '${toext}')); 
@@ -320,7 +320,7 @@ function application_app_cfboff_any($f) {
 
 	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
-	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
+	$ext->add($id, $c, '', new ext_playback('please-enter-your&extension'));
 	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_dbdel('CFB/${fromext}')); 
