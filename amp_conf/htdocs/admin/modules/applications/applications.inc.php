@@ -243,7 +243,7 @@ function application_app_cfoff_any($f) {
 	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
 	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
-	$ext->add($id, $c, '', new ext_dbdel('DB(CF/${fromext})')); 
+	$ext->add($id, $c, '', new ext_dbdel('CF/${fromext}')); 
 	$ext->add($id, $c, '', new ext_playback('call-fwd-unconditional&for&extension'));
 	$ext->add($id, $c, '', new ext_saydigits('${fromext}'));
 	$ext->add($id, $c, '', new ext_playback('cancelled'));
@@ -323,7 +323,7 @@ function application_app_cfboff_any($f) {
 	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
 	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
-	$ext->add($id, $c, '', new ext_dbdel('DB(CFB/${fromext})')); 
+	$ext->add($id, $c, '', new ext_dbdel('CFB/${fromext}')); 
 	$ext->add($id, $c, '', new ext_playback('call-fwd-on-busyl&for&extension'));
 	$ext->add($id, $c, '', new ext_saydigits('${fromext}'));
 	$ext->add($id, $c, '', new ext_playback('cancelled'));
