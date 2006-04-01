@@ -15,7 +15,7 @@
 
 <?php
 include_once "schedule_functions.php";
-$action = $_REQUEST['action'];
+$action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
 $display='backup';
 $type = 'tool';
 
