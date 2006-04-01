@@ -108,4 +108,3 @@ function applications_update($req) {
 	needreload();
 }
 ?>
-	

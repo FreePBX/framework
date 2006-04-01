@@ -46,7 +46,7 @@ function application_app_directory($f) {
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,1,Wait(1)
 	$ext->add($id, $c, '', new ext_agi('directory,${DIR-CONTEXT},ext-local,${DIRECTORY:0:1}${DIRECTORY_OPTS}o')); // AGI
 	$ext->add($id, $c, '', new ext_playback('vm-goodbye')); // $cmd,n,Playback(vm-goodbye)
-	$ext->add($id, $c, '', new ext_hangup()); // hangup
+	$ext->add($id, $c, '', new ext_hangup('')); // hangup
 }
 
 function application_app_dnd_on($f) {
@@ -57,7 +57,7 @@ function application_app_dnd_on($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_setvar('DB(DND/${CALLERID(number)})', 'YES')); // $cmd,n,Set(...=YES)
@@ -73,7 +73,7 @@ function application_app_dnd_off($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_dbdel('DND/${CALLERID(number)}')); // $cmd,n,DBdel(..)
@@ -89,7 +89,7 @@ function application_app_myvoicemail($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_macro('get-vmcontext','${CALLERID(num)}')); 
@@ -108,7 +108,7 @@ function application_app_dialvoicemail($f) {
 	// Note that with this one, it has paramters. So we have to add '_' to the start and '.' to the end
 	// of $c
 	$c = "_$c.";
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	// How long is the command? We need to strip that off the front
 	$clen = strlen($c)-2;
@@ -132,7 +132,7 @@ function application_app_calltrace($f) {
 	$id = 'app-calltrace-perform';
 	$c = 's';
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); 
-	$ext->add($id, $c, '', new ext_answer());
+	$ext->add($id, $c, '', new ext_answer(''));
 	$ext->add($id, $c, '', new ext_wait('1'));
 	$ext->add($id, $c, '', new ext_background('info-about-last-call&telephone-number'));
 	$ext->add($id, $c, '', new ext_setvar('lastcaller', '${DB(CALLTRACE/${CALLERID(number)})}'));
@@ -161,7 +161,7 @@ function application_app_cwon($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_setvar('DB(CW/${CALLERID(number)})', 'ENABLED')); 
@@ -178,7 +178,7 @@ function application_app_cwoff($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_dbdel('CW/${CALLERID(number)}')); 
@@ -196,7 +196,7 @@ function application_app_cfon($f) {
 
 	$clen = strlen($c);
 	$c = "_$c.";
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_setvar('DB(CF/${CALLERID(number)})', '${EXTEN:'.$clen.'}')); 
@@ -214,7 +214,7 @@ function application_app_cfon_any($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
 	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
@@ -238,7 +238,7 @@ function application_app_cfoff_any($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
 	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
@@ -258,7 +258,7 @@ function application_app_cfoff($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_dbdel('CF/${CALLERID(number)}')); 
@@ -276,7 +276,7 @@ function application_app_cfbon($f) {
 
 	$clen = strlen($c);
 	$c = "_$c.";
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_setvar('DB(CFB/${CALLERID(number)})', '${EXTEN:'.$clen.'}')); 
@@ -294,7 +294,7 @@ function application_app_cfbon_any($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
 	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
@@ -318,7 +318,7 @@ function application_app_cfboff_any($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_background('please-enter-your&extension'));
 	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
@@ -338,7 +338,7 @@ function application_app_cfboff($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_dbdel('CFB/${CALLERID(number)}')); 
@@ -354,14 +354,12 @@ function application_app_echo_test($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
-	$ext->add($id, $c, '', new ext_answer()); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_playback('demo-echotest')); // $cmd,n,Macro(user-callerid)
-	$ext->add($id, $c, '', new ext_echo()); 
+	$ext->add($id, $c, '', new ext_echo('')); 
 	$ext->add($id, $c, '', new ext_playback('demo-echodone')); // $cmd,n,Playback(...)
-	$ext->add($id, $c, '', new ext_hangup()); // $cmd,n,Macro(user-callerid)
+	$ext->add($id, $c, '', new ext_hangup('')); // $cmd,n,Macro(user-callerid)
 }
-
-?>
 
 ?>
