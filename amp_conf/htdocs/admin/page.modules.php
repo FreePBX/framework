@@ -184,6 +184,8 @@ function getModuleXml() {
 	if((time() - $result['time']) > 600) {
 		$fn = "http://svn.sourceforge.net/svnroot/amportal/modules/trunk/modules.xml";
 		$data = file_get_contents($fn);
+		// remove the old xml
+		sql('DELETE FROM module_xml');
 		// update the db with the new xml
 		sql('INSERT INTO module_xml (time,data) VALUES ('.time().',"'.$data.'")');
 	} else {
