@@ -1,0 +1,3189 @@
+# Russian freePBX ver. translation 
+# Copyright (C) 2006 PostMet Corporation
+# This file is distributed under the same license as the freePBX package.
+# Alexander Kozyrev <ceo@postmet.com>, Sergey Nikolayev <sergey@postmet.com>, 2006.
+#
+# fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-03-19 20:00+0200\n"
+"PO-Revision-Date: 2006-03-27 04:46+0200\n"
+"Last-Translator: Alexander Kozyrev <ceo@postmet.com>\n"
+"Language-Team: Russian <faq@postmet.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-5\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: config.php:83
+msgid "Module Admin"
+msgstr "Управление модулями"
+
+#: config.php:190
+msgid "Not found"
+msgstr "Не найдено"
+
+#: config.php:191
+msgid ""
+"The section you requested does not exist or you do not have access to it."
+msgstr ""
+"Запрашеваемый раздел не существует, или вы не имеете прав доступа в него"
+
+#: footer.php:84 modules/core/functions.inc.php:453
+#: modules/core/functions.inc.php:482
+msgid "Cannot connect to Asterisk Manager with "
+msgstr "Невозможно соединится с Asterisk Manager"
+
+#: footer.php:104 footer.php:106
+msgid "You have made changes - when finished, click here to APPLY them"
+msgstr "Вы сделали изменения в конфигурации - не забудьте нажать \"Применить\""
+
+#: functions.inc.php:263 modules/core/page.devices.php:86
+#: modules/core/page.extensions.php:145
+msgid "Add"
+msgstr "Добавить"
+
+#: functions.inc.php:654
+msgid ""
+"Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to "
+"a custom context.<br><br>The context name <b>MUST</b> contain the word "
+"'custom' and should be in the format custom-context , extension , priority. "
+"Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</"
+"b> context would need to be created and included in extensions_custom.conf</"
+"span>"
+msgstr ""
+"Собственная программа<span>ДЛЯ ОПЫТНЫХ ПОЛЬЗОВАТЕЛЕЙ<br>Используется функция Goto() "
+"для отсылки звонящих на произвольные контексты.<br><br>Контекст "
+"<b>ОБЯЗАТЕЛЬНО</b> должен содержать слово 'custom' и быть в формате: произвольный "
+"контекст, внутренний номер, приоритет. Пример:<br><br><b>custom-myapp,s,1</b>"
+"<br><br>Контекст <b>[custom-myapp]</b> должен быть создан и включен в конфигурацию в "
+"extensions_custom.conf</span>"
+
+
+#: functions.php:2029
+msgid "This user extension is already in use"
+msgstr "Этот внутренний номер уже используется"
+
+#: functions.php:2170 modules/core/functions.inc.php:263
+msgid "This device id is already in use"
+msgstr "Этот номер устройства уже используется"
+
+#: header.php:78
+msgid "Management"
+msgstr "Управление"
+
+#: header.php:84
+msgid "Setup"
+msgstr "Конфигурация"
+
+#: header.php:89
+msgid "Tools"
+msgstr "Инструменты"
+
+#: header.php:95
+msgid "Reports"
+msgstr "Отчеты"
+
+#: header.php:102
+msgid "Panel"
+msgstr "Панель"
+
+#: header.php:109
+msgid "Recordings"
+msgstr "Запись"
+
+#: header.php:119
+msgid "Logged in"
+msgstr "Произведен вход"
+
+#: header.php:120
+msgid "logout"
+msgstr "выход"
+
+#: index.php:25
+msgid "freePBX administration"
+msgstr "Администрирование freePBX"
+
+#: index.php:26
+msgid "Administration"
+msgstr "Администрирование"
+
+#: index.php:67
+msgid "Language:"
+msgstr "Язык:"
+
+#: index.php:81
+msgid "Welcome to the FreePBX Administration"
+msgstr "Добро пожаловать в freePBX"
+
+#: page.modules.php:89
+msgid "Module install script failed to run"
+msgstr "Произошла ошибка при запуске скрипта установки модуля"
+
+#: page.modules.php:95
+msgid "Module uninstall script failed to run"
+msgstr "Произошла ошибка при запуске скрипта деинсталляции модуля"
+
+#: page.modules.php:109
+msgid "Module Administration"
+msgstr "Управление модулями"
+
+#: page.modules.php:113
+msgid "Module"
+msgstr "Модуль"
+
+#: page.modules.php:113
+msgid "Category"
+msgstr "Категория"
+
+#: page.modules.php:113
+msgid "Version"
+msgstr "Версия"
+
+#: page.modules.php:113
+msgid "Type"
+msgstr "Тип"
+
+#: page.modules.php:113
+msgid "Status"
+msgstr "Состояние"
+
+#: page.modules.php:113 modules/ivr/ivr.php:340
+msgid "Action"
+msgstr "Действие"
+
+#: page.modules.php:141
+msgid "Not Installed"
+msgstr "Не установлен"
+
+#: page.modules.php:147
+msgid "Install"
+msgstr "Установить"
+
+#: page.modules.php:150 modules/core/page.extensions.php:317
+#: modules/core/page.users.php:195
+msgid "Disabled"
+msgstr "Выключен"
+
+#: page.modules.php:155
+msgid "Enable"
+msgstr "Включить"
+
+#: page.modules.php:161
+msgid "Uninstall"
+msgstr "Деинсталлировать"
+
+#: page.modules.php:165 modules/core/page.extensions.php:316
+#: modules/core/page.users.php:194
+msgid "Enabled"
+msgstr "Включен"
+
+#: page.modules.php:170
+msgid "Disable"
+msgstr "Выключить"
+
+#: panel.php:40 panel.php:53 reports.php:40 reports.php:53
+msgid "You are not authorized to use this resource"
+msgstr "Вы не авторизированны для использования этого ресурса"
+
+#: panel.php:41 panel.php:54 reports.php:41 reports.php:54
+msgid "Go Back"
+msgstr "Вернутся назад"
+
+#: reports.php:85
+msgid "Call Logs"
+msgstr "Журнал соединений"
+
+#: reports.php:86
+msgid "Compare Calls"
+msgstr "Анализ соединений"
+
+#: reports.php:87
+msgid "Monthly Traffic"
+msgstr "Ежемесячный трафик"
+
+#: reports.php:88
+msgid "Daily load"
+msgstr "Ежедневная загрузка"
+
+#: modules/asterisk-cli/page.cli.php:29
+msgid "Asterisk CLI"
+msgstr "Командная строка Asterisk"
+
+#: modules/asterisk-cli/page.cli.php:34
+msgid "Command:"
+msgstr "Команда:"
+
+#: modules/backup/page.backup.php:94
+msgid "Add Backup Schedule"
+msgstr "Добавить задание по резервному копированию"
+
+#: modules/backup/page.backup.php:95
+msgid "Restore from Backup"
+msgstr "Восстановиться с сохраненной копии"
+
+#: modules/backup/page.backup.php:116 modules/backup/page.backup.php:139
+#: modules/backup/page.backup.php:186
+msgid "System Backup"
+msgstr "Резервное копирование системы"
+
+#: modules/backup/page.backup.php:124 modules/backup/page.backup.php:149
+msgid "Run Schedule"
+msgstr "Запустить расписание"
+
+#: modules/backup/page.backup.php:140
+msgid "Delete Backup Schedule"
+msgstr "Удалить задание по резервному копированию"
+
+#: modules/backup/page.backup.php:164
+msgid "System Restore"
+msgstr "Восстановление системы"
+
+#: modules/backup/schedule_functions.php:22
+msgid "DELETE ALL THE DATA IN THIS SET"
+msgstr "УДАЛИТЬ ВСЕ ДАННЫЕ В ЭТОЙ СЕКЦИИ"
+
+#: modules/backup/schedule_functions.php:22
+msgid "Delete this backup set and all data associated with this backup set.."
+msgstr "Удалить эту секцию резервного копирования и все пункты внутри него"
+
+#: modules/backup/schedule_functions.php:38
+msgid "Delete File Set"
+msgstr "Удалить файловую секцию"
+
+#: modules/backup/schedule_functions.php:38
+msgid "Delete this backup set."
+msgstr "Удалить секцию резервного копирования"
+
+#: modules/backup/schedule_functions.php:43
+msgid "Restore Entire Backup Set"
+msgstr "Восстановить резервную копию полностью"
+
+#: modules/backup/schedule_functions.php:43
+msgid "Restore your Complete Backup set overwriting all files."
+msgstr "Восстановить файлы из полной резервной копии и переписать существующие"
+
+#: modules/backup/schedule_functions.php:47
+msgid "Restore VoiceMail Files"
+msgstr "Восстановить файлы голосовой почты"
+
+#: modules/backup/schedule_functions.php:47
+msgid ""
+"Restore your Voicemail files from this backup set.  NOTE! This will delete "
+"any voicemail currently in the voicemail boxes."
+msgstr ""
+"Восстановить файлы голосовой почты из резервной копии. Предупреждение: "
+"Эта операция удалит все голосовые сообщения имеющиеся на данный момент"
+
+#: modules/backup/schedule_functions.php:54
+msgid "Restore System Recordings Files"
+msgstr "Восстановление файлов записей сообщений"
+
+#: modules/backup/schedule_functions.php:54
+msgid ""
+"Restore your system Voice Recordings including AutoAttendent files from this "
+"backup set.  NOTE! This will OVERWRITE any voicerecordings  currently on the "
+"system. It will NOT delete new files not currently in the backup set"
+msgstr ""
+"Восстановить файлы записей сообщений из резервной копии. "
+"Предупреждение: Эта операция УДАЛИТ записи разговоров имеющиеся в системе, но НЕ УДАЛИТ "
+"новые файлы, которых не было в резервной копии"
+
+#: modules/backup/schedule_functions.php:59
+msgid "Restore System Configuration"
+msgstr "Восстановить конфигурацию системы"
+
+#: modules/backup/schedule_functions.php:59
+msgid ""
+"Restore your system configuration from this backup set.  NOTE! This will "
+"OVERWRITE any System changes you have made since this backup... ALL Itemes "
+"will be reset to what they were at the time of this backup set.."
+msgstr ""
+"Восстановить общую конфигурацию системы из резервной копии. Предупреждение: "
+"Эта операция ПЕРЕЗАПИШЕТ любые изменения в системе сделанные с момента создания "
+"резервной копии"
+
+#: modules/backup/schedule_functions.php:64
+msgid "Restore Operator Panel"
+msgstr "Восстановить панель оператора"
+
+#: modules/backup/schedule_functions.php:64
+msgid ""
+"Restore the Operator Panel from this backup set.  NOTE! This will OVERWRITE "
+"any Operator Panel Changes you have made since this backup... ALL Itemes "
+"will be reset to what they were at the time of this backup set.."
+msgstr ""
+"Восстановить панель оператора из резервной копии. Предупреждение: Эта операция "
+" ПЕРЕЗАПИШЕТ любые изменения в системе сделанные с момента создания "
+"резервной копии"
+
+#: modules/backup/schedule_functions.php:69
+msgid "Restore Call Detail Report"
+msgstr "Восстановить отчеты по звонкам"
+
+#: modules/backup/schedule_functions.php:69
+msgid ""
+"Restore the Call Detail Records from this backup set.  NOTE! This will "
+"DELETE ALL CALL RECORDS that have been saved since this backup set.."
+msgstr ""
+"Восстановить отчеты по звонкам из резервной копии. Предупреждение: Эта операция "
+"УДАЛИТ сведения о всех звонках сделаных с момента создания резервной копии"
+
+#: modules/backup/schedule_functions.php:74
+msgid "ERROR its not a BACKUP SET file"
+msgstr "ОШИБКА! Это не файл резервной копии"
+
+#: modules/backup/schedule_functions.php:296
+msgid "Schedule Name:"
+msgstr "Имя записи:"
+
+#: modules/backup/schedule_functions.php:296
+msgid "Give this Backup Schedule a brief name to help you identify it."
+msgstr "Дайте имя этой записи для удобства идентификации"
+
+#: modules/backup/schedule_functions.php:301
+msgid "VoiceMail"
+msgstr "Голосовая почта"
+
+#: modules/backup/schedule_functions.php:301
+msgid ""
+"Backup the System VoiceMail Boxes... CAUTION: Could result in large file"
+msgstr ""
+"Сохранить содержание ящиков голосовой почты. Предупреждение: В результате может "
+"получится файл резервной копии большого размера"
+
+#: modules/backup/schedule_functions.php:303
+#: modules/backup/schedule_functions.php:305
+#: modules/backup/schedule_functions.php:311
+#: modules/backup/schedule_functions.php:313
+#: modules/backup/schedule_functions.php:319
+#: modules/backup/schedule_functions.php:321
+#: modules/backup/schedule_functions.php:327
+#: modules/backup/schedule_functions.php:329
+#: modules/backup/schedule_functions.php:335
+#: modules/backup/schedule_functions.php:337
+#: modules/core/page.extensions.php:341 modules/core/page.extensions.php:343
+#: modules/core/page.extensions.php:349 modules/core/page.extensions.php:351
+#: modules/core/page.extensions.php:357 modules/core/page.extensions.php:359
+#: modules/core/page.extensions.php:366 modules/core/page.extensions.php:368
+#: modules/core/page.users.php:219 modules/core/page.users.php:221
+#: modules/core/page.users.php:227 modules/core/page.users.php:229
+#: modules/core/page.users.php:235 modules/core/page.users.php:237
+#: modules/core/page.users.php:244 modules/core/page.users.php:246
+msgid "yes"
+msgstr "да"
+
+#: modules/backup/schedule_functions.php:303
+#: modules/backup/schedule_functions.php:305
+#: modules/backup/schedule_functions.php:311
+#: modules/backup/schedule_functions.php:313
+#: modules/backup/schedule_functions.php:319
+#: modules/backup/schedule_functions.php:321
+#: modules/backup/schedule_functions.php:327
+#: modules/backup/schedule_functions.php:329
+#: modules/backup/schedule_functions.php:335
+#: modules/backup/schedule_functions.php:337
+#: modules/core/page.extensions.php:341 modules/core/page.extensions.php:343
+#: modules/core/page.extensions.php:349 modules/core/page.extensions.php:351
+#: modules/core/page.extensions.php:357 modules/core/page.extensions.php:359
+#: modules/core/page.extensions.php:366 modules/core/page.extensions.php:368
+#: modules/core/page.users.php:219 modules/core/page.users.php:221
+#: modules/core/page.users.php:227 modules/core/page.users.php:229
+#: modules/core/page.users.php:235 modules/core/page.users.php:237
+#: modules/core/page.users.php:244 modules/core/page.users.php:246
+msgid "no"
+msgstr "нет"
+
+#: modules/backup/schedule_functions.php:309
+#: modules/recordings/page.recordings.php:27
+msgid "System Recordings"
+msgstr "Запись сообщений"
+
+#: modules/backup/schedule_functions.php:309
+msgid ""
+"Backup the System Recordings (AutoAttendent, Music On Hold, System "
+"Recordings)"
+msgstr ""
+"Сохранить записи сообщений (АвтоСекретарь, Музыка в ожидании, Системные записи)"
+
+#: modules/backup/schedule_functions.php:317
+msgid "System Configuration"
+msgstr "Конфигурация системы"
+
+#: modules/backup/schedule_functions.php:317
+msgid ""
+"Backup the System Configurations (Database, etc files, SQL Database, astdb)"
+msgstr ""
+"Сохранить конфигурацию системы (Базы данных, asdb, другие файлы)"
+
+#: modules/backup/schedule_functions.php:325
+msgid "CDR"
+msgstr "Записи о соединениях"
+
+#: modules/backup/schedule_functions.php:325
+msgid "Backup the System Call Detail Reporting (HTML and Database)"
+msgstr "Сохранить отчеты о соединениях (HTML и базу данных)"
+
+#: modules/backup/schedule_functions.php:333
+msgid "Operator Panel"
+msgstr "Панель оператора"
+
+#: modules/backup/schedule_functions.php:333
+msgid "Backup the Operator Panel (HTML and Database)"
+msgstr "Сохранить копию Панели оператора (HTML и базу данных)"
+
+#: modules/backup/schedule_functions.php:384
+#: modules/backup/schedule_functions.php:388
+#: modules/backup/schedule_functions.php:413
+#: modules/backup/schedule_functions.php:417
+#: modules/backup/schedule_functions.php:442
+#: modules/backup/schedule_functions.php:446
+msgid "All"
+msgstr "Все"
+
+#: modules/backup/schedule_functions.php:385
+#: modules/backup/schedule_functions.php:389
+#: modules/backup/schedule_functions.php:414
+#: modules/backup/schedule_functions.php:418
+#: modules/backup/schedule_functions.php:443
+#: modules/backup/schedule_functions.php:447
+msgid "Selected"
+msgstr "Выбраные"
+
+#: modules/backup/schedule_functions.php:422
+msgid "January"
+msgstr "Январь"
+
+#: modules/backup/schedule_functions.php:423
+msgid "February"
+msgstr "Февраль"
+
+#: modules/backup/schedule_functions.php:424
+msgid "March"
+msgstr "Март"
+
+#: modules/backup/schedule_functions.php:425
+msgid "April"
+msgstr "Апрель"
+
+#: modules/backup/schedule_functions.php:426
+msgid "May"
+msgstr "Май"
+
+#: modules/backup/schedule_functions.php:427
+msgid "June"
+msgstr "Июнь"
+
+#: modules/backup/schedule_functions.php:428
+msgid "July"
+msgstr "Июль"
+
+#: modules/backup/schedule_functions.php:429
+msgid "August"
+msgstr "Август"
+
+#: modules/backup/schedule_functions.php:430
+msgid "September"
+msgstr "Сентябрь"
+
+#: modules/backup/schedule_functions.php:431
+msgid "October"
+msgstr "Октябрь"
+
+#: modules/backup/schedule_functions.php:432
+msgid "November"
+msgstr "Ноябрь"
+
+#: modules/backup/schedule_functions.php:433
+msgid "December"
+msgstr "Декабрь"
+
+#: modules/backup/schedule_functions.php:451
+msgid "Monday"
+msgstr "Понедельник"
+
+#: modules/backup/schedule_functions.php:452
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: modules/backup/schedule_functions.php:453
+msgid "Wednesday"
+msgstr "Среда"
+
+#: modules/backup/schedule_functions.php:454
+msgid "Thursday"
+msgstr "Четверг"
+
+#: modules/backup/schedule_functions.php:455
+msgid "Friday"
+msgstr "Пятница"
+
+#: modules/backup/schedule_functions.php:456
+msgid "Saturday"
+msgstr "Суббота"
+
+#: modules/backup/schedule_functions.php:457
+msgid "Sunday"
+msgstr "Воскресенье"
+
+#: modules/backup/schedule_functions.php:465
+msgid "Run Backup"
+msgstr "Резервное копирование"
+
+#: modules/backup/schedule_functions.php:467
+msgid "Follow Schedule Below"
+msgstr "Следовать расписанию ниже"
+
+#: modules/backup/schedule_functions.php:468
+msgid "Now"
+msgstr "Сейчас"
+
+#: modules/backup/schedule_functions.php:469
+msgid "Daily (at midnight)"
+msgstr "Ежедневно (в полночь)"
+
+#: modules/backup/schedule_functions.php:470
+msgid "Weekly (on Sunday)"
+msgstr "Еженедельно(в воскресенье)"
+
+#: modules/backup/schedule_functions.php:471
+msgid "Monthly (on the 1st)"
+msgstr "Ежемесячно (1-го числа)"
+
+#: modules/backup/schedule_functions.php:472
+msgid "Yearly (on 1st Jan)"
+msgstr "Ежегодно (1-го января)"
+
+#: modules/backup/schedule_functions.php:497
+msgid "Minutes"
+msgstr "Минуты"
+
+#: modules/backup/schedule_functions.php:497
+msgid "Hours"
+msgstr "Часы"
+
+#: modules/backup/schedule_functions.php:497
+msgid "Days"
+msgstr "Дни"
+
+#: modules/backup/schedule_functions.php:497
+msgid "Months"
+msgstr "Месяцы"
+
+#: modules/backup/schedule_functions.php:497
+msgid "Weekdays"
+msgstr "Дни недели"
+
+#: modules/conferences/page.conferences.php:22
+#: modules/core/page.extensions.php:72 modules/core/page.users.php:64
+#: modules/queues/page.queues.php:72 modules/ringgroups/page.ringgroups.php:58
+msgid "Warning! Extension"
+msgstr "Осторожно! Внутренний номер"
+
+#: modules/conferences/page.conferences.php:22
+#: modules/queues/page.queues.php:72
+msgid "is not allowed for your account."
+msgstr "не разрешено для вашего профиля"
+
+#: modules/conferences/page.conferences.php:53
+#: modules/conferences/page.conferences.php:84
+#: modules/conferences/page.conferences.php:91
+msgid "Add Conference"
+msgstr "Добавить конференцию"
+
+#: modules/conferences/page.conferences.php:67
+msgid "Conference"
+msgstr "Конференция"
+
+#: modules/conferences/page.conferences.php:67
+#: modules/core/page.devices.php:64 modules/core/page.did.php:65
+#: modules/core/page.extensions.php:121 modules/core/page.users.php:98
+#: modules/queues/page.queues.php:114
+#: modules/ringgroups/page.ringgroups.php:101
+#: modules/timeconditions/page.timeconditions.php:110
+msgid "deleted"
+msgstr "удалено"
+
+#: modules/conferences/page.conferences.php:81
+msgid "Conference:"
+msgstr "Конференция:"
+
+#: modules/conferences/page.conferences.php:82
+msgid "Delete Conference"
+msgstr "Удалить конференцию"
+
+#: modules/conferences/page.conferences.php:91
+msgid "Edit Conference"
+msgstr "Изменить конференцию"
+
+#: modules/conferences/page.conferences.php:96
+msgid "conference number:"
+msgstr "номер конференции:"
+
+#: modules/conferences/page.conferences.php:96
+msgid "Use this number to dial into the conference."
+msgstr "Используйте этот номер для присоединения к конференции"
+
+#: modules/conferences/page.conferences.php:101
+msgid "conference name:"
+msgstr "имя конференции"
+
+#: modules/conferences/page.conferences.php:101
+msgid "Give this conference a brief name to help you identify it."
+msgstr "Дайте имя этой конференции для удобства идентификации"
+
+#: modules/conferences/page.conferences.php:105
+msgid "user PIN:"
+msgstr "PIN пользователя:"
+
+#: modules/conferences/page.conferences.php:105
+msgid ""
+"You can require callers to enter a password before they can enter this "
+"conference.<br><br>This setting is optional.<br><br>If either PIN is "
+"entered, the user will be prompted to enter a PIN."
+msgstr ""
+"Вы можете обязать звонящих вводить пароль, прежде чем они смогут присоединится "
+"к конференции<br><br>Это не обязательный параметр.<br><br>Если PIN указан, он будет "
+"обязателен для ввода всеми участниками конференции."
+""
+
+#: modules/conferences/page.conferences.php:109
+msgid "admin PIN:"
+msgstr "PIN администратора:"
+
+#: modules/conferences/page.conferences.php:109
+msgid ""
+"Enter a PIN number for the admin user.<br><br>This setting is optional "
+"unless the 'leader wait' option is in use, then this PIN will identify the "
+"leader."
+msgstr ""
+"Введите PIN для пользователя, обладающего административными полномочиями.<br><br>"
+"Этот параметр не обязателен до того момента, пока используется опция \"ожидание лидера\", "
+"после чего этот PIN будет идентифицировать лидера"
+
+#: modules/conferences/page.conferences.php:118
+msgid "Conference Options"
+msgstr "Настройки конференции"
+
+#: modules/conferences/page.conferences.php:121
+#: modules/conferences/page.conferences.php:140
+msgid "join message:"
+msgstr "сообщение при присоединении:"
+
+#: modules/conferences/page.conferences.php:121
+msgid ""
+"Message to be played to the caller before joining the conference.<br><br>To "
+"add additional recordings please use the \"System Recordings\" MENU to the "
+"left"
+msgstr ""
+"Сообщение, которое будет проигрываться вновь присоединившимся к конференции участникам.<br><br>"
+"Для того, чтобы добавить дополнительную запись воспользуйтесь секцией \"Запись сообщений\" в меню слева"
+""
+
+
+#: modules/conferences/page.conferences.php:127
+#: modules/queues/page.queues.php:183 modules/queues/page.queues.php:396
+#: modules/queues/page.queues.php:422
+#: modules/ringgroups/page.ringgroups.php:203
+msgid "None"
+msgstr "Нет"
+
+#: modules/conferences/page.conferences.php:140
+msgid ""
+"Message to be played to the caller before joining the conference.<br><br>You "
+"must install and enable the \"Systems Recordings\" Module to edit this option"
+msgstr ""
+"Сообщение, которое будет проигрываться вновь присоединившимся к конференции участникам.<br><br>"
+"Вы должны установить и включить модуль \"Системные записи\" для изменения этого параметра"
+
+#: modules/conferences/page.conferences.php:150
+msgid "leader wait:"
+msgstr "ожидание лидера:"
+
+#: modules/conferences/page.conferences.php:150
+msgid ""
+"wait until the conference leader (admin user) arrives before starting the "
+"conference"
+msgstr ""
+"ожидать пока лидер конференции (администратор) присоединится прежде чем начинать конференцию"
+
+#: modules/conferences/page.conferences.php:155
+#: modules/conferences/page.conferences.php:167
+#: modules/conferences/page.conferences.php:179
+#: modules/conferences/page.conferences.php:191
+#: modules/conferences/page.conferences.php:203
+#: modules/conferences/page.conferences.php:215 modules/core/page.did.php:151
+#: modules/core/page.did.php:165 modules/queues/page.queues.php:249
+#: modules/queues/page.queues.php:263 modules/queues/page.queues.php:344
+#: modules/queues/page.queues.php:370 modules/queues/page.queues.php:382
+msgid "No"
+msgstr "Нет"
+
+#: modules/conferences/page.conferences.php:156
+#: modules/conferences/page.conferences.php:168
+#: modules/conferences/page.conferences.php:180
+#: modules/conferences/page.conferences.php:192
+#: modules/conferences/page.conferences.php:204
+#: modules/conferences/page.conferences.php:216 modules/core/page.did.php:152
+#: modules/core/page.did.php:166 modules/queues/page.queues.php:249
+#: modules/queues/page.queues.php:263 modules/queues/page.queues.php:369
+#: modules/queues/page.queues.php:381
+msgid "Yes"
+msgstr "Да"
+
+#: modules/conferences/page.conferences.php:162
+msgid "quiet mode:"
+msgstr "режим тишины:"
+
+#: modules/conferences/page.conferences.php:162
+msgid "quiet mode (do not play enter/leave sounds)"
+msgstr "режим тишины (не озвучивать вход/выход)"
+
+#: modules/conferences/page.conferences.php:174
+msgid "user count:"
+msgstr "количество пользователей:"
+
+#: modules/conferences/page.conferences.php:174
+msgid "announce user(s) count on joining conference"
+msgstr "анонсировать количество участников конференции при присоединении к ней"
+
+#: modules/conferences/page.conferences.php:186
+msgid "user join/leave:"
+msgstr "пользователь присоединился/отсоединился"
+
+#: modules/conferences/page.conferences.php:186
+msgid "announce user join/leave"
+msgstr "анонсировать присоединение/отсоединение пользователей"
+
+#: modules/conferences/page.conferences.php:198
+msgid "music on hold:"
+msgstr "музыка в ожидании:"
+
+#: modules/conferences/page.conferences.php:198
+msgid "enable music on hold when the conference has a single caller"
+msgstr "включить музыку режима ожидания когда конференция имеет всего лишь одного участника"
+
+#: modules/conferences/page.conferences.php:210
+msgid "allow menu:"
+msgstr "разрешить меню:"
+
+#: modules/conferences/page.conferences.php:210
+msgid "present menu (user or admin) when '*' is received ('send' to menu)"
+msgstr "определить меню (пользовательское или администраторское) при нажатии "
+"'*' ('отправить' в меню)"
+
+#: modules/core/functions.inc.php:225
+msgid "A route for this DID/CID already exists!"
+msgstr "Маршрут для этого DID/CID уже существует"
+
+#: modules/core/functions.inc.php:736
+msgid "This user {$thisexten}/{$extension} extension is already in use"
+msgstr "Этот пользователь {$thisexten}/{$extension} внутренний номер уже существует"
+
+#: modules/core/page.ampusers.php:62
+msgid "Add User"
+msgstr "Добавить пользователя"
+
+#: modules/core/page.ampusers.php:80
+msgid "Edit AMP User"
+msgstr "Изменить пользователя"
+
+#: modules/core/page.ampusers.php:92 modules/core/page.users.php:108
+msgid "Delete User"
+msgstr "Удалить пользователя"
+
+#: modules/core/page.ampusers.php:107
+msgid "Add AMP User"
+msgstr "Добавить пользователя AMP"
+
+#: modules/core/page.ampusers.php:119 modules/core/page.trunks.php:288
+msgid "General Settings"
+msgstr "Основные настройки"
+
+#: modules/core/page.ampusers.php:131
+msgid "Username<span>Create a unique username for this new user</span>"
+msgstr "Имя пользователя<span>Создать уникальное имя для этого пользователя</span>"
+
+#: modules/core/page.ampusers.php:139
+msgid "Password<span>Create a password for this new user</span>"
+msgstr "Пароль<span>Создать пароль для нового пользователя</span>"
+
+#: modules/core/page.ampusers.php:148
+msgid "Access Restrictions"
+msgstr "Ограничение доступа"
+
+#: modules/core/page.ampusers.php:153
+msgid ""
+"Department Name<span>Restrict this user's view of Digital Receptionist menus "
+"and System Recordings to only those for this department.</span>"
+msgstr ""
+"Подразделение<span>Ограничить этого пользователя в просмотре меню электронного секретаря "
+"и записей сообщений только для текущего подразделения.</span>"
+
+#: modules/core/page.ampusers.php:160
+msgid ""
+"Extension Range<span>Restrict this user's view to only Extensions, Ring "
+"Groups, and Queues within this range.</span>"
+msgstr ""
+"Диапазон внутренних номеров<span>Ограничить этого пользователя в просмотре внутренних номеров,"
+"соединений, групп и очередей внутри этого диапазона.</span>"
+
+#: modules/core/page.ampusers.php:169
+msgid ""
+"Admin Access<span>Select the Admin Sections this user should have access to."
+"</span>"
+msgstr""
+"Административный доступ<span>Будет предоставлен доступ к административному разделу."
+"</span>"
+
+#: modules/core/page.ampusers.php:181
+msgid "ALL SECTIONS"
+msgstr "ВСЕ СЕКЦИИ"
+
+#: modules/core/page.devices.php:56 modules/core/page.devices.php:83
+#: modules/core/page.devices.php:86
+msgid "Device"
+msgstr "Устройство"
+
+#: modules/core/page.devices.php:67
+msgid "Add a Device"
+msgstr "Добавить устройство"
+
+#: modules/core/page.devices.php:68 modules/core/page.extensions.php:125
+msgid "Select device technology:"
+msgstr "Выберите протокол"
+
+#: modules/core/page.devices.php:69 modules/core/page.extensions.php:126
+msgid "SIP"
+msgstr "SIP"
+
+#: modules/core/page.devices.php:70 modules/core/page.extensions.php:127
+msgid "IAX2"
+msgstr "IAX2"
+
+#: modules/core/page.devices.php:71 modules/core/page.extensions.php:128
+msgid "ZAP"
+msgstr "ZAP"
+
+#: modules/core/page.devices.php:72 modules/core/page.extensions.php:129
+msgid "Custom"
+msgstr "Другой"
+
+#: modules/core/page.devices.php:84
+msgid "Delete Device"
+msgstr "Удалить устройство"
+
+#: modules/core/page.devices.php:99
+msgid "Device ID"
+msgstr "ИД устройства"
+
+#: modules/core/page.devices.php:108
+msgid "Description"
+msgstr "Описание"
+
+#: modules/core/page.devices.php:108
+msgid ""
+"The caller id name for this device will be set to this description until it "
+"is logged into."
+msgstr ""
+"Будет использоваться это описание в качестве номера ИД "
+"для этого устройства, пока оно не зарегистрируется в прокси сервере"
+
+#: modules/core/page.devices.php:116 modules/core/page.extensions.php:192
+msgid "Emergency CID"
+msgstr "Номер ИД экстренных служб"
+
+#: modules/core/page.devices.php:116 modules/core/page.extensions.php:192
+msgid ""
+"This caller id will always be set when dialing out an Outbound Route flagged "
+"as Emergency.  The Emergency CID overrides all other caller id settings."
+msgstr ""
+"Этот номер ИД будет устанавливаться при звонках на исходящие маршруты промаркированые "
+"как экстренные. Номер ИД экстренных служб переопределяет все остальные номера ид"
+
+#: modules/core/page.devices.php:123
+msgid "Device Type"
+msgstr "Тип устройства"
+
+#: modules/core/page.devices.php:126
+msgid "Fixed"
+msgstr "Статическое"
+
+#: modules/core/page.devices.php:127
+msgid "Adhoc"
+msgstr "Периодическое"
+
+#: modules/core/page.devices.php:133
+msgid "Default User"
+msgstr "Пользователь по умолчанию"
+
+#: modules/core/page.devices.php:136
+msgid "none"
+msgstr "нет"
+
+#: modules/core/page.devices.php:137
+msgid "New User"
+msgstr "Новый пользователь"
+
+#: modules/core/page.did.php:47 modules/core/page.did.php:78
+msgid "Add Incoming Route"
+msgstr "Добавить входящий маршрут"
+
+#: modules/core/page.did.php:53
+msgid "any DID"
+msgstr "любой DID"
+
+#: modules/core/page.did.php:54
+msgid "any CID"
+msgstr "любой CID"
+
+#: modules/core/page.did.php:75 modules/core/page.trunks.php:244
+msgid "Route"
+msgstr "Маршрут"
+
+#: modules/core/page.did.php:76 modules/core/page.routing.php:258
+msgid "Delete Route"
+msgstr "Уничтожить маршрут"
+
+#: modules/core/page.did.php:87
+msgid "DID Number"
+msgstr "Номер DID"
+
+#: modules/core/page.did.php:91
+msgid "Caller ID Number"
+msgstr "Номер ИД"
+
+#: modules/core/page.did.php:97
+msgid "Fax Handling"
+msgstr "Прием факсов"
+
+#: modules/core/page.did.php:100
+msgid "Fax Extension"
+msgstr "Внутренний номер факса"
+
+#: modules/core/page.did.php:100
+msgid ""
+"Select 'system' to have the system receive and email faxes.<br><br>The "
+"freePBX default is defined in General Settings."
+msgstr ""
+"Выберите 'система' для автоматического получения факсов и дальнешей отсылки "
+"полученного на эл. почту в виде вложения. <br>Значения по умолчанию определены "
+"в 'Основных настройках'."
+
+#: modules/core/page.did.php:114
+msgid "freePBX default"
+msgstr "Значения по умолчанию"
+
+#: modules/core/page.did.php:115 modules/core/page.general.php:94
+msgid "disabled"
+msgstr "отключено"
+
+#: modules/core/page.did.php:116 modules/core/page.general.php:95
+msgid "system"
+msgstr "система"
+
+#: modules/core/page.did.php:131
+msgid "Fax Email"
+msgstr "Факс на эл. почту"
+
+#: modules/core/page.did.php:131
+msgid ""
+"Email address is used if 'system' has been chosen for the fax extension "
+"above.<br><br>Leave this blank to use the AMP default in General Settings."
+msgstr ""
+"Адрес эл. почты, который используется в случаях, если выше выбран пункт 'система' "
+" для внутреннего номера факса<br><br>Оставте это поле незаполненным, если хотите "
+"использовать значения по умолчанию в 'Основных настройках'."
+
+#: modules/core/page.did.php:146
+msgid "Privacy"
+msgstr "Безопасность"
+
+#: modules/core/page.did.php:148
+msgid "Privacy Manager"
+msgstr "Менеджер безопасности"
+
+#: modules/core/page.did.php:160
+msgid "Options"
+msgstr "Опции"
+
+#: modules/core/page.did.php:162
+msgid "Immediate Answer"
+msgstr "Немедленный ответ"
+
+#: modules/core/page.did.php:171
+msgid "Pause after answer"
+msgstr "Пауза после ответа"
+
+#: modules/core/page.did.php:178
+msgid "Alert Info"
+msgstr "Информация о сигнале"
+
+#: modules/core/page.did.php:189
+msgid "Set Destination"
+msgstr "Установить направление"
+
+#: modules/core/page.extensions.php:72 modules/core/page.users.php:64
+#: modules/ringgroups/page.ringgroups.php:58
+msgid "is not allowed for your account"
+msgstr "не разрешено для вашего профиля"
+
+#: modules/core/page.extensions.php:113 modules/core/page.extensions.php:142
+#: modules/core/page.extensions.php:145
+msgid "Extension"
+msgstr "Внутренний номер"
+
+#: modules/core/page.extensions.php:124
+msgid "Add an Extension"
+msgstr "Добавить внутренний номер"
+
+#: modules/core/page.extensions.php:143
+msgid "Delete Extension"
+msgstr "Удалить внутренний номер"
+
+#: modules/core/page.extensions.php:158
+msgid "Extension Number"
+msgstr "Внутренний номер"
+
+#: modules/core/page.extensions.php:167 modules/core/page.users.php:139
+msgid "Display Name"
+msgstr "Отображаемое имя"
+
+#: modules/core/page.extensions.php:167
+msgid "The caller id name for this device will be set to this."
+msgstr "Будет использоваться это описание в качестве номера ИД "
+"для этого устройства"
+
+
+#: modules/core/page.extensions.php:178
+msgid "Extension Options"
+msgstr "Опции внутреннего номера"
+
+#: modules/core/page.extensions.php:184 modules/core/page.users.php:153
+msgid "Outbound CID"
+msgstr "Исходящий номер ИД"
+
+#: modules/core/page.extensions.php:184
+msgid ""
+"Overrides the caller id when dialing out a trunk. Any setting here will "
+"override the common outbound caller id set in the Trunks admin."
+"<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this "
+"field blank to disable the outbound callerid feature for this extension."
+msgstr ""
+"Номер ИД игнорируется при звонке через транк. Любое значение установленное здесь "
+"изменится на значение номера ИД, установленное в разделе администрирования транков."
+"<br><br>Формат: <b>\"имя\" &lt;#######&gt;</b><br><br>Оставьте это поле пустым, "
+"чтобы не использовать эту функцию."
+
+#: modules/core/page.extensions.php:200 modules/core/page.users.php:169
+msgid "Record Incoming"
+msgstr "Запись входящих"
+
+#: modules/core/page.extensions.php:200 modules/core/page.users.php:169
+msgid "Record all inbound calls received at this extension."
+msgstr "Записывать все входящие звонки на этот внутренний номер"
+
+#: modules/core/page.extensions.php:203 modules/core/page.extensions.php:215
+#: modules/core/page.users.php:172 modules/core/page.users.php:184
+msgid "On Demand"
+msgstr "По запросу"
+
+#: modules/core/page.extensions.php:204 modules/core/page.extensions.php:216
+#: modules/core/page.users.php:173 modules/core/page.users.php:185
+msgid "Always"
+msgstr "Всегда"
+
+#: modules/core/page.extensions.php:205 modules/core/page.extensions.php:217
+#: modules/core/page.users.php:174 modules/core/page.users.php:186
+msgid "Never"
+msgstr "Никогда"
+
+#: modules/core/page.extensions.php:212 modules/core/page.users.php:181
+msgid "Record Outgoing"
+msgstr "Запись исходящих"
+
+#: modules/core/page.extensions.php:212 modules/core/page.users.php:181
+msgid "Record all outbound calls received at this extension."
+msgstr "Записывать все исходящие звонки с этого внутреннего номера"
+
+#: modules/core/page.extensions.php:224
+msgid "Device Options"
+msgstr "Опции устройства"
+
+#: modules/core/page.extensions.php:298 modules/core/page.extensions.php:301
+msgid "{$key}"
+msgstr "{$key}"
+
+#: modules/core/page.extensions.php:314 modules/core/page.users.php:192
+msgid "Voicemail & Directory:"
+msgstr "Голосовая почта и Телефонный справочник"
+
+#: modules/core/page.extensions.php:325 modules/core/page.users.php:203
+msgid "voicemail password"
+msgstr "пароль на голосовую почту"
+
+#: modules/core/page.extensions.php:325 modules/core/page.users.php:203
+msgid ""
+"This is the password used to access the voicemail system.<br><br>This "
+"password can only contain numbers.<br><br>A user can change the password you "
+"enter here after logging into the voicemail system (*98) with a phone."
+msgstr ""
+"Это пароль для доступа к голосовой почте.<br><br>Пароль может состоять "
+"только из цифр.<br><br>Пользователь может сменить установленный здесь пароль "
+"набрав (*98) со своего телефона после входа в систему голосовой почты."
+
+#: modules/core/page.extensions.php:331 modules/core/page.users.php:209
+msgid "email address"
+msgstr "адрес эл. почты"
+
+#: modules/core/page.extensions.php:331 modules/core/page.users.php:209
+msgid "The email address that voicemails are sent to."
+msgstr "Адрес эл. почты, на который будут приходить голосовые сообщения"
+
+#: modules/core/page.extensions.php:335 modules/core/page.users.php:213
+msgid "pager email address"
+msgstr "адрес эл. почты пейджера"
+
+#: modules/core/page.extensions.php:335 modules/core/page.users.php:213
+msgid ""
+"Pager/mobile email address that short voicemail notifcations are sent to."
+msgstr ""
+"Адрес эл. почты пейджера/мобильного телефона, на который будут доставляться "
+"уведомления о голосовых сообщениях."
+
+#: modules/core/page.extensions.php:339 modules/core/page.users.php:217
+msgid "email attachment"
+msgstr "вложения в эл. почту"
+
+#: modules/core/page.extensions.php:339 modules/core/page.users.php:217
+msgid "Option to attach voicemails to email."
+msgstr "Опции вложений в эл. почту"
+
+#: modules/core/page.extensions.php:347 modules/core/page.users.php:225
+msgid "Play CID"
+msgstr "Воспроизводить номер ИД"
+
+#: modules/core/page.extensions.php:347 modules/core/page.users.php:225
+msgid ""
+"Read back caller's telephone number prior to playing the incoming message, "
+"and just after announcing the date and time the message was left."
+msgstr ""
+"Считывать телефонный номер абонента прежде чем "
+"воспроизвести входящее сообщение после сообщения о дате "
+"и времени получения сообщения"
+
+#: modules/core/page.extensions.php:355 modules/core/page.users.php:233
+msgid "Play Envelope"
+msgstr "Воспроизводить заголовки"
+
+#: modules/core/page.extensions.php:355 modules/core/page.users.php:233
+msgid ""
+"Envelope controls whether or not the voicemail system will play the message "
+"envelope (date/time) before playing the voicemail message. This settng does "
+"not affect the operation of the envelope option in the advanced voicemail "
+"menu."
+msgstr ""
+"Использовать опционально дополнительные возможности "
+"в сообщениях голосовой почты, например воспроизводить "
+"дату и время перед воспроизведением самого сообщения. "
+"Эти установки не влияют на дополнительные возможности "
+"в расширенном меню голосовой почты."
+
+
+#: modules/core/page.extensions.php:363 modules/core/page.users.php:241
+msgid "Delete Vmail"
+msgstr "Удалять голосовую почту"
+
+#: modules/core/page.extensions.php:363 modules/core/page.users.php:241
+msgid ""
+"If set to \"yes\" the message will be deleted from the voicemailbox (after "
+"having been emailed). Provides functionality that allows a user to receive "
+"their voicemail via email alone, rather than having the voicemail able to be "
+"retrieved from the Webinterface or the Extension handset.  CAUTION: MUST "
+"HAVE attach voicemail to email SET TO YES OTHERWISE YOUR MESSAGES WILL BE "
+"LOST FOREVER."
+msgstr ""
+"Если этот флаг установлен в 'да' сообщение будет удаляться "
+"из почтового ящика голосовой почты после доставки его в  "
+"качестве вложения электронной почты. Обеспечивает функциональность "
+"позволяющую пользователю получать сообщения голосовой почты посредством "
+"вложений электронной почты, вместо использования вэб интерфейса "
+"или телефонного аппарата для прослушивания сообщений. Осторожно: "
+"Необходимо установить флажок в 'да' на  использовании сообщения в "
+"качестве вложения в эл. почту, иначе сообщения будут утеряны."
+
+#: modules/core/page.extensions.php:372
+msgid "vm options"
+msgstr "настройки голосовой почты"
+
+#: modules/core/page.extensions.php:372 modules/core/page.users.php:250
+msgid "Separate options with pipe ( | )"
+msgstr "Разделяйте опции знаком ( | )"
+
+#: modules/core/page.extensions.php:372
+msgid "ie: review=yes|maxmessage=60"
+msgstr "к примеру: review=yes|maxmessage=60"
+
+#: modules/core/page.extensions.php:376 modules/core/page.users.php:254
+msgid "vm context:"
+msgstr "контекст голосовой почты"
+
+#: modules/core/page.general.php:58
+msgid "Dialing Options"
+msgstr "Опции набора"
+
+#: modules/core/page.general.php:60
+msgid "Number of seconds to ring phones before sending callers to voicemail:"
+msgstr ""
+"Время в секундах, в течение которое будут звонить телефоны, "
+"прежде чем звонок уйдет на голосовую почту"
+
+#: modules/core/page.general.php:63
+msgid "Extension prefix for dialing direct to voicemail:"
+msgstr "Префикс внутреннего номера для попадания непосредственно в голосовую почту"
+
+#: modules/core/page.general.php:66
+msgid "Asterisk Dial command options:"
+msgstr "Опции команды Dial:"
+
+#: modules/core/page.general.php:67
+msgid "t: Allow the called user to transfer the call by hitting #"
+msgstr "t: Разрешает принимающему звонок абоненту перевести его другому нажатием #"
+
+#: modules/core/page.general.php:68
+msgid "T: Allow the calling user to transfer the call by hitting #"
+msgstr "T: Разрешает вызывающему абоненту перевести его другому абоненту нажатием #"
+
+#: modules/core/page.general.php:69
+msgid "r: Generate a ringing tone for the calling party"
+msgstr "r: Дает сигнал вызова для вызывающего абонента"
+
+#: modules/core/page.general.php:70
+msgid ""
+"w: Allow the called user to start recording after pressing *1 (Asterisk v1.2)"
+msgstr "w: Разрешает принимающему звонок абоненту начать запись разговора нажатием *1 (Asterisk v1.2)"
+
+#: modules/core/page.general.php:71
+msgid ""
+"W: Allow the calling user to start recording after pressing *1 (Asterisk "
+"v1.2)"
+msgstr "W: Разрешает вызывающему абоненту начать запись разговора нажатием *1 (Asterisk v1.2)"
+
+#: modules/core/page.general.php:76 modules/core/page.general.php:78
+msgid "Company Directory"
+msgstr "Телефонная книга компании"
+
+#: modules/core/page.general.php:78
+msgid "Find users in the"
+msgstr "Найти пользователя в"
+
+#: modules/core/page.general.php:79
+msgid ""
+"Callers who are greeted by a Digital Receptionist can dial pound (#) to "
+"access the Company Directory.<br><br>Internal extensions can dial *411 to "
+"access the Company Directory."
+msgstr ""
+"Позвонившие на входящее сообщение электронного секретаря могут донабрать знак решетки (#) "
+"чтобы попасть в телефонную книгу компании.<br><br>Внутренние пользователи дозваниваются "
+"до телефонной книги компании по номеру *411."
+
+#: modules/core/page.general.php:79
+msgid "by:"
+msgstr "по:"
+
+#: modules/core/page.general.php:81
+msgid "first name"
+msgstr "имя"
+
+#: modules/core/page.general.php:82
+msgid "last name"
+msgstr "фамилия"
+
+#: modules/core/page.general.php:83
+msgid "first or last name"
+msgstr "имя или фамилия"
+
+#: modules/core/page.general.php:86
+msgid "Play extension number"
+msgstr "Проигрывать внутренний номер"
+
+#: modules/core/page.general.php:86
+msgid ""
+"Plays a message \"Please hold while I transfer you to extension xxx\" that "
+"lets the caller know what extension to use in the future."
+msgstr ""
+"Проигрывает сообщение \"Пожалуйста, оставайтесь на линии. Происходит "
+"перенаправление вашего звонка на внутренний номер xxx\", что позволяет звонящему "
+"в дальнейшем дозваниваться непосредственно на интересующий его номер."
+
+#: modules/core/page.general.php:86
+msgid "to caller before transferring call"
+msgstr "звонящему перед перенаправлением звонка"
+
+#: modules/core/page.general.php:89
+msgid "Fax Machine"
+msgstr "Факс аппарат"
+
+#: modules/core/page.general.php:91
+msgid "Extension of"
+msgstr "Внутренний номер"
+
+#: modules/core/page.general.php:91
+msgid "fax machine"
+msgstr "факс аппарат"
+
+#: modules/core/page.general.php:91
+msgid ""
+"Select 'system' to have the system receive and email faxes.<br>Selecting "
+"'disabled' will result in incoming calls being answered more quickly."
+msgstr ""
+"Выберите 'система' для автоматического получения факсов и дальнейшей отсылки "
+"полученного на эл. почту в виде вложения. <br>Выберите 'отключено' для "
+"скорейшего получения входящих звонков."
+
+#: modules/core/page.general.php:91
+msgid "for receiving faxes:"
+msgstr "для получения факсов:"
+
+#: modules/core/page.general.php:109
+msgid "Email address"
+msgstr "Адрес эл. почты"
+
+#: modules/core/page.general.php:109
+msgid ""
+"Email address used if 'system' has been chosen for the fax extension above."
+msgstr ""
+"Адрес эл. почты, на который будут приходить факсы, если выше выбрана опция 'система'."
+
+#: modules/core/page.general.php:109
+msgid "to have faxes emailed to:"
+msgstr "на который будут посылаться факсы:"
+
+#: modules/core/page.routing.php:119
+msgid "Error renaming route: duplicate name"
+msgstr "Ошибка в переименовании маршрута: дубликация названия"
+
+#: modules/core/page.routing.php:156 modules/core/page.trunks.php:120
+msgid "Error fetching prefix list for: "
+msgstr "Ошибка вызова списка префиксов для:"
+
+#: modules/core/page.routing.php:161 modules/core/page.trunks.php:125
+msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
+msgstr "Неверный формат NPA-NXX (должен быть NXXNXX) "
+
+#: modules/core/page.routing.php:191 modules/core/page.routing.php:248
+msgid "Add Route"
+msgstr "Добавить маршрут"
+
+#: modules/core/page.routing.php:246
+msgid "Edit Route"
+msgstr "Редактировать маршрут"
+
+#: modules/core/page.routing.php:268
+msgid "Route Name"
+msgstr "Название маршрута"
+
+#: modules/core/page.routing.php:268
+msgid ""
+"Name of this route. Should be used to describe what type of calls this route "
+"matches (for example, 'local' or 'longdistance')."
+msgstr ""
+"Название маршрута. Рекомендуется использовать для указания типа "
+"маршрута, куда он ведет (например - 'локальные', или 'межгород')."
+
+#: modules/core/page.routing.php:296
+msgid "Route Password"
+msgstr "Пароль на маршрут"
+
+#: modules/core/page.routing.php:296
+msgid ""
+"Optional: A route can prompt users for a password before allowing calls to "
+"progress.  This is useful for restricting calls to international "
+"destinations or 1-900 numbers.<br><br>A numerical password, or the path to "
+"an Authenticate password file can be used.<br><br>Leave this field blank to "
+"not prompt for password.</span>"
+msgstr ""
+"Опционально: Маршрут может предложить пользователю набрать "
+"пароль прежде чем сделать дозвон. Это ограничение обычно ставят на "
+"международные направления, или платные +1-900 номера.<br><br>Оставьте это "
+"поле незаполнненым, если не хотите вводить ограничения."
+
+#: modules/core/page.routing.php:300
+msgid "Emergency Dialing"
+msgstr "Экстренные звонки"
+
+#: modules/core/page.routing.php:300
+msgid ""
+"Optional: Selecting this option will enforce the use of a device's Emergency "
+"CID setting (if set).  Select this option if this set of routes is used for "
+"emergency dialing (ie: 911).</span>"
+msgstr ""
+"Не обязательный параметр: Выбор этого пункта повлечет за собой использование "
+"настроек номера ИД экстренных служб (если они заданы). Выберите этот пункт "
+"если этот набор маршрутов используется для звонков на номера экстренной помощи "
+"(к примеру 911)."
+
+#: modules/core/page.routing.php:306
+msgid "Dial Patterns"
+msgstr "Шаблон номера"
+
+#: modules/core/page.routing.php:306
+msgid ""
+"A Dial Pattern is a unique set of digits that will select this trunk. Enter "
+"one dial pattern per line."
+msgstr ""
+"Шаблон номера - набор цифр и символов, по которому будет выбран "
+"транк. Вводите по одному шаблону на строку"
+
+#: modules/core/page.routing.php:306 modules/core/page.trunks.php:312
+msgid "Rules:"
+msgstr "Правила:"
+
+#: modules/core/page.routing.php:307 modules/core/page.trunks.php:313
+msgid "matches any digit from 0-9"
+msgstr "совпадение любой цифры от 0 - 9"
+
+#: modules/core/page.routing.php:308
+msgid "matches any digit form 1-9"
+msgstr "совпадение любой цифры от 1 - 9"
+
+#: modules/core/page.routing.php:309 modules/core/page.trunks.php:315
+msgid "matches any digit from 2-9"
+msgstr "совпадение любой цифры от 2 - 9"
+
+#: modules/core/page.routing.php:310 modules/core/page.trunks.php:316
+msgid ""
+"matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
+msgstr ""
+"совпадение любой цифры или буквы в скобках (в приведенном "
+"примере 1,2,3,7,8,9)"
+
+#: modules/core/page.routing.php:311
+msgid "wildcard, matches one or more characters"
+msgstr "Групповой символ, заменяет один или несколько символов"
+
+#: modules/core/page.routing.php:312
+msgid ""
+"seperates a dialing prefix from the number (for example, 9|NXXXXXX would "
+"match when some dialed \"95551234\" but would only pass \"5551234\" to the "
+"trunks)"
+msgstr ""
+"отделяет набранный префикс от номера (например, 9|NXXXXXX означает, "
+"что набранный номер '95551234' будет модифицирован в '5551234' и в таком "
+"виде направлен в транк"
+
+#: modules/core/page.routing.php:353
+msgid "Insert:"
+msgstr "Вставка:"
+
+#: modules/core/page.routing.php:363 modules/core/page.trunks.php:351
+#, c-format
+msgid ""
+"What is your areacode + prefix (NPA-NXX)?\\n\\n(Note: this database contains "
+"North American numbers only, and is not guaranteed to be 100% accurate. You "
+"will still have the option of modifying results.)\\n\\nThis may take a few "
+"seconds."
+msgstr ""
+"Какой код вашей области + префикс (NPA-NXX)?\\n\\n(Предупреждение: "
+"данная база данных содержит только номера США и Канады, и не "
+"гарантирует 100% точности. Вы имеете возможность изменить результаты.)"
+"\\n\\nЭто может занять несколько секунд"
+
+#: modules/core/page.routing.php:365 modules/core/page.trunks.php:353
+msgid "Invalid NPA-NXX. Must be of the format 'NXX-NXX'"
+msgstr "Неверный код NPA-NXX. Должен быть в формате'NXX-NXX' "
+
+#: modules/core/page.routing.php:373 modules/core/page.trunks.php:361
+msgid ""
+"Error: Cannot continue!\\n\\nPrefix lookup requires cURL support in PHP on "
+"the server. Please install or enable cURL support in your PHP installation "
+"to use this function. See http://www.php.net/curl for more information."
+msgstr ""
+"Ошибка: Нельзя продолжить! \\n\\n Для поиска префикса требуется поддержка "
+"функций cURL в PHP  на сервере. Пожалуйста инсталлируйте  или задействуйте "
+"поддержку cURL в инсталляции вашего РНР для использования этой возможности. "
+"См. http://www.php.net/curl для инструкций."
+
+#: modules/core/page.routing.php:430
+msgid "Pick pre-defined patterns"
+msgstr "Выберите предустановленные шаблоны"
+
+#: modules/core/page.routing.php:431
+msgid "Local 7 digit"
+msgstr "Локальные 7 цифр"
+
+#: modules/core/page.routing.php:432
+msgid "Local 7/10 digit"
+msgstr "Локальные 7/10 цифр"
+
+#: modules/core/page.routing.php:433
+msgid "Toll-free"
+msgstr "Бесплатные"
+
+#: modules/core/page.routing.php:434
+msgid "Long-distance"
+msgstr "Междугородные"
+
+#: modules/core/page.routing.php:435
+msgid "International"
+msgstr "Международные"
+
+#: modules/core/page.routing.php:436
+msgid "Information"
+msgstr "Информационные"
+
+#: modules/core/page.routing.php:437
+msgid "Emergency"
+msgstr "Экстренные"
+
+#: modules/core/page.routing.php:438
+msgid "Lookup local prefixes"
+msgstr "Просмотр локальных префиксов"
+
+#: modules/core/page.routing.php:445
+msgid "Trunk Sequence"
+msgstr "Последовательность выбора транка"
+
+#: modules/core/page.routing.php:445
+msgid ""
+"The Trunk Sequence controls the order of trunks that will be used when the "
+"above Dial Patterns are matched. <br><br>For Dial Patterns that match long "
+"distance numbers, for example, you'd want to pick the cheapest routes for "
+"long distance (ie, VoIP trunks first) followed by more expensive routes "
+"(POTS lines)."
+msgstr ""
+"Последовательность выбора транка дает порядок перебора транков, "
+"под шаблон которых попадает набранный номер. <br><br>Например, при наборе "
+"междугороднего номера вы направляете его в первую очередь по более "
+"дешевому маршруту (VoIP транк), затем по более дорогим (линии ТФОП)."
+
+#: modules/core/page.trunks.php:153
+msgid "Add Trunk"
+msgstr "Добавить транк"
+
+#: modules/core/page.trunks.php:160
+msgid "Trunk"
+msgstr "Транк"
+
+#: modules/core/page.trunks.php:172
+msgid "Add a Trunk"
+msgstr "Добавить транк"
+
+#: modules/core/page.trunks.php:173
+msgid "Add ZAP Trunk"
+msgstr "Добавить ZAP транк"
+
+#: modules/core/page.trunks.php:174
+msgid "Add IAX2 Trunk"
+msgstr "Добавить IAX2 транк"
+
+#: modules/core/page.trunks.php:175
+msgid "Add SIP Trunk"
+msgstr "Добавить SIP транк"
+
+#: modules/core/page.trunks.php:176
+msgid "Add ENUM Trunk"
+msgstr "Добавить ENUM транк"
+
+#: modules/core/page.trunks.php:177
+msgid "Add Custom Trunk"
+msgstr "Добавить специальный транк"
+
+#: modules/core/page.trunks.php:233
+#, c-format
+msgid "Edit %s Trunk"
+msgstr "Редактировать %s транк"
+
+#: modules/core/page.trunks.php:235
+msgid "Delete Trunk"
+msgstr "Удалить транк"
+
+#: modules/core/page.trunks.php:242
+msgid "In use by"
+msgstr "Используется"
+
+#: modules/core/page.trunks.php:242
+msgid "route"
+msgstr "маршрут"
+
+#: modules/core/page.trunks.php:242
+msgid "routes"
+msgstr "маршруты"
+
+#: modules/core/page.trunks.php:244
+msgid "Sequence"
+msgstr "Последовательность"
+
+#: modules/core/page.trunks.php:248
+msgid "WARNING:"
+msgstr "ОСТОРОЖНО:"
+
+#: modules/core/page.trunks.php:248
+msgid "This trunk is not used by any routes!"
+msgstr "Этот транк не используется никакими маршрутами!"
+
+#: modules/core/page.trunks.php:249
+msgid ""
+"This trunk will not be able to be used for outbound calls until a route is "
+"setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
+msgstr ""
+"Этот транк не может использоваться для соединений, "
+"пока не будет задействован в одном из маршрутов. Кликните "
+"на <b>Исходящая маршрутизация<b> для настройки маршрутов."
+
+#: modules/core/page.trunks.php:293
+msgid "Outbound Caller ID"
+msgstr "Исходящий ИД номер"
+
+#: modules/core/page.trunks.php:293
+msgid ""
+"Setting this option will override all clients' caller IDs for calls placed "
+"out this trunk<br><br>Format: <b>\"caller name\" &lt;#######&gt;</br></b>"
+"<br><br>Leave this field blank to simply pass client caller IDs."
+msgstr ""
+"Установка этой опции переписывает значение ИД исходящего "
+"номера для всех для всех абонентов, использующих этот транк. Формат:"
+"<b>\"Имя пользователя\" &lt;#######&gt;</b><br><br>Оставьте поле пустым, если не "
+"хотите изменять это значение"
+
+#: modules/core/page.trunks.php:300
+msgid "Maximum channels"
+msgstr "Максимально каналов"
+
+#: modules/core/page.trunks.php:300
+msgid ""
+"Controls the maximum number of channels (simultaneous calls) that can be "
+"used on this trunk, including both incoming and outgoing calls. Leave blank "
+"to specify no maximum."
+msgstr ""
+"Управляет максимальным количеством каналов (одновременных соединений) "
+"которые будут использоваться этим транком, включая входящие и исходящие "
+"звонки. Оставьте это поле пустым, чтобы использовать максимум возможных."
+
+#: modules/core/page.trunks.php:307
+msgid "Outgoing Dial Rules"
+msgstr "Правила набора для исходящих"
+
+#: modules/core/page.trunks.php:312
+msgid "Dial Rules"
+msgstr "Правила набора"
+
+#: modules/core/page.trunks.php:312
+msgid ""
+"A Dial Rule controls how calls will be dialed on this trunk. It can be used "
+"to add or remove prefixes. Numbers that don't match any patterns defined "
+"here will be dialed as-is. Note that a pattern without a + or | (to add or "
+"remove a prefix) is useless."
+msgstr ""
+"Правила набора контролируют как звонки будут набираться через транк. "
+"Можно добавлять и убирать префиксы. Номера, не попадающие в шаблоны, "
+"определенные ниже, будут набираться так как есть.  Шаблоны без + или | "
+"(добавить/убрать префикс) не используются."
+
+#: modules/core/page.trunks.php:314
+msgid "matches any digit from 1-9"
+msgstr "любая цифра от 1  до 9"
+
+#: modules/core/page.trunks.php:317
+msgid "wildcard, matches one or more characters (not allowed before a | or +)"
+msgstr "любой один или более символов (не разрешается перед | или +)"
+
+#: modules/core/page.trunks.php:318
+msgid ""
+"removes a dialing prefix from the number (for example, 613|NXXXXXX would "
+"match when some dialed \"6135551234\" but would only pass \"5551234\" to the "
+"trunk)"
+msgstr ""
+"убирать префикс из номера ( к примеру, если по шаблону '613|NXXXXXX' "
+"кто-то наберет '6135551234' и пароль, звонок на '5551234'  пойдет через транк"  
+
+#: modules/core/page.trunks.php:319
+msgid ""
+"adds a dialing prefix from the number (for example, 1613+NXXXXXX would match "
+"when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)"
+msgstr ""
+"добавлять полный префикс к номеру ( к примеру, если по шаблону '1613+NXXXXXX' "
+"кто-то наберет '5551234' и пароль, звонок на '16135551234'  пойдет через транк"  
+
+#: modules/core/page.trunks.php:329
+msgid "Dial rules wizards"
+msgstr "Создать правила набора"
+
+#: modules/core/page.trunks.php:330 modules/core/page.trunks.php:336
+msgid "Always add prefix to local numbers"
+msgstr "Всегда добавлять полный префикс к локальным номерам"
+
+#: modules/core/page.trunks.php:330
+msgid ""
+"is useful for VoIP trunks, where if a number is dialed as \"5551234\", it "
+"can be converted to \"16135551234\"."
+msgstr ""
+"используется обычно на VoIP транках, т е набираемый "
+"номер '5551234' будет конвертирован в '1-613-555-1234' "
+
+#: modules/core/page.trunks.php:331 modules/core/page.trunks.php:337
+msgid "Remove prefix from local numbers"
+msgstr "Удалить префикс из локального номера"
+
+#: modules/core/page.trunks.php:331
+msgid ""
+"is useful for ZAP trunks, where if a local number is dialed as \"16135551234"
+"\", it can be converted to \"555-1234\"."
+msgstr ""
+"используется обычно на транках ZAP каналов, т е набираемый "
+"номер '16135551234' будет конвертирован в '555-1234' "
+
+#: modules/core/page.trunks.php:332 modules/core/page.trunks.php:338
+msgid "Lookup and remove local prefixes"
+msgstr "Поиски и удаление локальных префиксов"
+
+#: modules/core/page.trunks.php:332
+msgid ""
+"is the same as Remove prefix from local numbers, but uses the database at "
+"http://members.dandy.net/~czg/search.html to find your local calling area "
+"(NA-only)"
+msgstr ""
+"так же, как при удалении/добавлении префикса в локальных номерах, "
+"но используя базу данных http://members.dandy.net/~czg/search.html для поиска "
+"вызываемой области "
+
+#: modules/core/page.trunks.php:335
+msgid "(pick one)"
+msgstr "(выберите один)"
+
+#: modules/core/page.trunks.php:369
+msgid ""
+"What is the local dialing pattern?\\n\\n(ie. NXXNXXXXXX for US/CAN 10-digit "
+"dialing, NXXXXXX for 7-digit)"
+msgstr ""
+"Что является шаблоном для локального набора номера? \\n\\n( "
+"например (NXXNXXXXXX для 10-ти значных наборов по США и Канаде, "
+"NXXXXXX для 7-ми значных)"
+
+#: modules/core/page.trunks.php:371 modules/core/page.trunks.php:394
+msgid "Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."
+msgstr "Неверный шаблон. Разрешены только 0-9, #, *, Z, N, X и ..."
+
+#: modules/core/page.trunks.php:374
+msgid ""
+"What prefix should be added to the dialing pattern?\\n\\n(ie. for US/CAN, 1"
+"+areacode, ie, '1613')?"
+msgstr ""
+"Который префикс добавить перед набором номера? \\n\\n(например "
+"для США и Канады, 1 + код области, то есть добавляется '1613'"
+
+#: modules/core/page.trunks.php:376
+msgid "Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."
+msgstr "Неверный префикс.  Разрешены только символы(0-9, #,  и *) "
+
+#: modules/core/page.trunks.php:387
+msgid ""
+"What prefix should be removed from the number?\\n\\n(ie. for US/CAN, 1"
+"+areacode, ie, '1613')"
+msgstr ""
+"Который префикс удалить перед набором номера? \\n\\n(например "
+"для США и Канады, 1 + код области, то есть убирается '1613'"
+
+#: modules/core/page.trunks.php:392
+msgid "What is the dialing pattern for local numbers after"
+msgstr "Шаблон набора для локальных номеров"
+
+#: modules/core/page.trunks.php:392
+msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
+msgstr ""
+"например (NXXNXXXXXX для 10-ти значных наборов по США и Канаде, "
+"NXXXXXX для 7-ми значных)"
+
+#: modules/core/page.trunks.php:514
+msgid "Outbound Dial Prefix"
+msgstr "Префикс выхода на линию"
+
+#: modules/core/page.trunks.php:514
+msgid ""
+"The outbound dialing prefix is used to prefix a dialing string to all "
+"outbound calls placed on this trunk. For example, if this trunk is behind "
+"another PBX or is a Centrex line, then you would put 9 here to access an "
+"outbound line.<br><br>Most users should leave this option blank."
+msgstr ""
+"Префикс выхода на линию используется для отделения номеров набранных "
+"исходящих соединений, сделанных через этот транк. Например, если этот "
+"транк подключен к АТС или к линии Centrex, то обычно используют 9 для выхода"
+"на линию.<br><br>Для большинства пользователей проще оставить это поле пустым"
+
+#: modules/core/page.trunks.php:522
+msgid "Outgoing Settings"
+msgstr "Исходящие настройки"
+
+#: modules/core/page.trunks.php:533
+msgid "Zap Identifier (trunk name)"
+msgstr "Zap идентификатор (название транка)"
+
+#: modules/core/page.trunks.php:533
+msgid ""
+"ZAP channels are referenced either by a group number or channel number "
+"(which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> "
+"(group zero)."
+msgstr ""
+"каналы ZAP указываются по номеру канала или группе каналов "
+"(которые определены в zapata.conf). <br><br> Установка по умолчанию <b>g0</b> "
+"(группа 0)."
+
+#: modules/core/page.trunks.php:547
+msgid "Custom Dial String"
+msgstr "Специальный набор"
+
+#: modules/core/page.trunks.php:547
+msgid "Define the custom Dial String.  Include the token"
+msgstr "Укажите тип специального набора"
+
+#: modules/core/page.trunks.php:547
+msgid ""
+"wherever the number to dial should go.<br><br><b>examples:</b><br><br>CAPI/"
+"XXXXXXXX:b"
+msgstr ""
+"схема набора номера.<br><br><b>примеры:</b><br><br>CAPI/XXXXXXXX:b,30,r<br> "
+"mISDN/1/"
+
+#: modules/core/page.trunks.php:547
+msgid ",30,r<br>H323/"
+msgstr ",30,r<br>H323/"
+
+#: modules/core/page.trunks.php:559
+msgid "Trunk Name"
+msgstr "Название транка"
+
+#: modules/core/page.trunks.php:559
+msgid "Give this trunk a unique name.  Example: myiaxtel"
+msgstr "Присвойте транку уникальное имя. Например: MyIAXtel"
+
+#: modules/core/page.trunks.php:566
+msgid "PEER Details"
+msgstr "опции для PEER"
+
+#: modules/core/page.trunks.php:566
+msgid ""
+"Modify the default PEER connection parameters for your VoIP provider."
+"<br><br>You may need to add to the default lines listed below, depending on "
+"your provider."
+msgstr ""
+"Измените уловные значения для PEER соединения к вашему VoIP провайдеру"
+"<br><br>Возможно понадобиться добавить строку записанную ниже, в зависимости от вашего провайдера"
+
+#: modules/core/page.trunks.php:576
+msgid "Incoming Settings"
+msgstr "Установки для входящих соединений"
+
+#: modules/core/page.trunks.php:581
+msgid "USER Context"
+msgstr "Контекст USER"
+
+#: modules/core/page.trunks.php:581
+msgid ""
+"This is most often the account name or number your provider expects."
+"<br><br>This USER Context will be used to define the below user details."
+msgstr ""
+"Здесь - упрощенно: профиль, название или номер вашего провайдера"
+"<br><br>Этот USER контекст будет использовать параметры, определенные ниже."
+
+#: modules/core/page.trunks.php:588
+msgid "USER Details"
+msgstr "опции USER"
+
+#: modules/core/page.trunks.php:588
+msgid "Modify the default USER connection parameters for your VoIP provider."
+msgstr "Изменить параметры USER соединения входящих соединений от вашего VoIP провайдера"
+
+#: modules/core/page.trunks.php:588
+msgid ""
+"You may need to add to the default lines listed below, depending on your "
+"provider."
+msgstr "Возможно понадобиться добавить строку записанную ниже, в зависимости от вашего провайдера"
+
+#: modules/core/page.trunks.php:598
+msgid "Registration"
+msgstr "Регистрация"
+
+#: modules/core/page.trunks.php:603
+msgid "Register String"
+msgstr "Строка регистрации"
+
+#: modules/core/page.trunks.php:603
+msgid ""
+"Most VoIP providers require your system to REGISTER with theirs. Enter the "
+"registration line here.<br><br>example:<br><br>username:password@switch."
+"voipprovider.com"
+msgstr ""
+"Большинство VoIP провайдеров требуют, чтобы ваша система регистрировалась. "
+"Введите строку регистрации.<br><br>Пример: username:password@2iax2.postmet.com"
+
+#: modules/core/page.users.php:90 modules/core/page.users.php:107
+msgid "User"
+msgstr "Пользователь"
+
+#: modules/core/page.users.php:110
+msgid "Add User/Extension"
+msgstr "Добавить пользователя/Номер"
+
+#: modules/core/page.users.php:122
+msgid "User Extension"
+msgstr "Внутренний номер пользователя"
+
+#: modules/core/page.users.php:122
+msgid "The extension number to dial to reach this user."
+msgstr "Внутренний номер, по которому можно найти пользователя"
+
+#: modules/core/page.users.php:131
+msgid "User Password"
+msgstr "Пароль пользователя"
+
+#: modules/core/page.users.php:131
+msgid ""
+"A user will enter this password when logging onto a device. *11 logs into a "
+"device.  *12 logs out of a device."
+msgstr ""
+"Пароль, который будет использовать пользователь для входа в устройство "
+"*11 - вход, *12 - выход"
+
+#: modules/core/page.users.php:139
+msgid "The caller id name for calls from this user will be set to this name."
+msgstr "Номер ИД для соединений от этого пользователя будет установлен в это значение"
+
+#: modules/core/page.users.php:153
+msgid ""
+"Overrides the caller id when dialing out a trunk. Any setting here will "
+"override the common outbound caller id set in the Trunks admin."
+"<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this "
+"field blank to disable the outbound callerid feature for this user."
+msgstr ""
+"Игнорировать номер ИД при звонке через транк. Все установки будут "
+"изменены на общий номер ИД установленный для транка."
+"<br><br>Формат: <b>\"Имя\" &lt;#######&gt;</b><br><br>Оставьте это поле "
+"пустым чтобы не использовать способ указания 'номер ИД' для этого внутреннего номера"
+
+#: modules/core/page.users.php:161
+msgid "Ring Timer"
+msgstr "Таймер вызова"
+
+#: modules/core/page.users.php:161
+msgid "Number of seconds to ring the extension before giving up."
+msgstr "Время вызова в секундах для абонента"
+
+#: modules/irc/page.irc.php:25
+msgid "Start IRC"
+msgstr "Запустить IRC"
+
+#: modules/irc/page.irc.php:26
+msgid "Online Documentation"
+msgstr "Документация онлайн"
+
+#: modules/irc/page.irc.php:31
+msgid "Online Support"
+msgstr "Поддержка онлайн"
+
+#: modules/irc/page.irc.php:41
+msgid ""
+"When you connect, you will be automatically be named 'FreePBX' and a random "
+"4 digit number, eg, FreePBX3486. If you wish to change this to your normal "
+"nickname, you can type '<b>/nick yournickname</b>', and your nick will "
+"change. This is an ENGLISH ONLY support channel. Sorry."
+msgstr ""
+"В момент соединения вам будет присвоена кличка 'Freepbx' и произвольное "
+"число из 4 символов, к примеру: FreePBX3486. Если вы хотите поменять его на "
+"привычную вам кличку наберите '<b>/nick yournickname</b>'. Просим прощения, "
+"канал поддержки англоговорящий."
+
+#: modules/irc/page.irc.php:60
+msgid "This allows you to contact the FreePBX channel on IRC."
+msgstr "Это позволяет вам подсоединятся к каналу FreePBX в IRC"
+
+#: modules/irc/page.irc.php:62
+msgid ""
+"Note that when you click anywhere else, you will close your IRC session."
+msgstr "Имейте ввиду что когда вы кликаете в какую-либо другую секцию "
+"IRC соединение прекращается"
+
+#: modules/irc/page.irc.php:64
+msgid ""
+"It's suggested to use <b>'Open Link in New Window'</b> or <b>'Open Link In "
+"New Tab'</b> with Mozilla or Firefox."
+msgstr "Рекомендуется использовать <b>'Open Link in New Window'</b> или <b>'Open Link In "
+"New Tab'</b> в броузерах Mozilla или Firefox."
+
+#: modules/irc/page.irc.php:66
+msgid ""
+"As IRC is an un-moderated international medium, AMP, FreePBX, Coalescent "
+"Systems, or any other party can not be held responsible for the actions or "
+"behaviour of other people on the network"
+msgstr ""
+"Поскольку IRC является немодерируемым средством массовой информации AMP, FreePBX, "
+"Coalescent Systems и иные компании не несут ответственности за действия или "
+"последствия других людей в этой сети"
+
+#: modules/irc/page.irc.php:68
+msgid ""
+"When you connect to IRC, to assist in support, the IRC client will "
+"automatically send the following information to everyone in the #freePBX "
+"channel:"
+msgstr ""
+"При присоединении к сети IRC для получения консультационной поддержки, IRC клиент "
+"автоматически отошлет эту информацию всем на канале #freePBX:"
+
+#: modules/irc/page.irc.php:71
+msgid "Your Linux Distribution:"
+msgstr "Ваш дистрибутив Linux:"
+
+#: modules/irc/page.irc.php:74
+msgid "Your FreePBX version:"
+msgstr "Версия freePBX:"
+
+#: modules/irc/page.irc.php:77
+msgid "Your Kernel version:"
+msgstr "Версия ядра:"
+
+#: modules/irc/page.irc.php:81
+msgid ""
+"If you do not want this information to be made public, please use another "
+"IRC client, or contact a commercial support provider"
+msgstr ""
+"Если вы не хотите чтобы эта информация была публично доступна используйте, "
+"пожалуйста, другой IRC клиент или контактируйте с коммерческими службами поддержки"
+
+#: modules/ivr/ivr_action.php:119
+msgid "could not create /var/lib/asterisk/sounds/custom"
+msgstr "невозможно создать /var/lib/asterisk/sounds/custom"
+
+#: modules/ivr/ivr_action.php:122
+msgid ""
+"error: could not copy or rename the voice recording - please contact support"
+msgstr ""
+"ошибка: невозможно скопировать или переименовать голосовую запись. свяжитесь "
+"со службой тех. поддержки"
+
+#: modules/ivr/ivrmap.php:23
+msgid "Voice Menu Map"
+msgstr "Карта голосового меню"
+
+#: modules/ivr/ivrmap.php:52
+msgid "Modify this Menu"
+msgstr "Изменить это меню"
+
+#: modules/ivr/ivrmap.php:53 modules/music/page.music.php:138
+msgid "Delete"
+msgstr "Удалить"
+
+#: modules/ivr/ivrmap.php:55
+msgid "Menu"
+msgstr "Меню"
+
+#: modules/ivr/ivrmap.php:69 modules/ivr/ivrmap.php:72
+#: modules/ivr/ivrmap.php:75 modules/ivr/ivrmap.php:78
+#: modules/ivr/ivrmap.php:82 modules/ivr/ivrmap.php:88
+#: modules/ivr/ivrmap.php:91 modules/ivr/ivrmap.php:94
+#: modules/ivr/ivrmap.php:97
+msgid "dialing"
+msgstr "вызов"
+
+#: modules/ivr/ivrmap.php:69 modules/ivr/ivrmap.php:75
+msgid "dials extension #"
+msgstr "вызов внутреннего номера #"
+
+#: modules/ivr/ivrmap.php:72
+msgid "sends to voicemail box #"
+msgstr "перенаправление в голосовую почту #"
+
+#: modules/ivr/ivrmap.php:78
+msgid "goes to Menu ID"
+msgstr "переход к ИД меню"
+
+#: modules/ivr/ivrmap.php:82
+msgid "dials group #"
+msgstr "происходит набор номера группы #"
+
+#: modules/ivr/ivrmap.php:88
+msgid "goes to"
+msgstr "переход к"
+
+#: modules/ivr/ivrmap.php:91
+msgid "goes to Queue #"
+msgstr "переход к очереди #"
+
+#: modules/ivr/ivrmap.php:94
+msgid "goes to Time Condition "
+msgstr "переход к правилам по времени"
+
+#: modules/ivr/ivrmap.php:97
+msgid "goes to Conference "
+msgstr "переход к конференции"
+
+#: modules/ivr/ivrmap.php:103
+msgid "Menu notes:"
+msgstr "Заметки к меню:"
+
+#: modules/ivr/ivrmap.php:110
+msgid "Would you like to create another Menu?"
+msgstr "Хотите создать ещё одно меню?"
+
+#: modules/ivr/ivrmap.php:110
+msgid "Create a new Voice Menu"
+msgstr "Создать новое голосовое меню"
+
+#: modules/ivr/ivr.php:91
+msgid "Your User/Extension"
+msgstr "Ваш текущий внутренний номер"
+
+#: modules/ivr/ivr.php:97
+msgid ""
+"This Digital Receptionist wizard asks you to record and playback a greeting "
+"using your phone."
+msgstr ""
+"Помощник электронного секретаря предложит вам создать запись приветственного сообщения  "
+"используя ваш телефон"
+
+#: modules/ivr/ivr.php:98
+msgid "Please enter your user/extension:"
+msgstr "Введите ваш внутренний номер:"
+
+#: modules/ivr/ivr.php:130
+msgid "Record Menu"
+msgstr "Меню записей"
+
+#: modules/ivr/ivr.php:135
+msgid ""
+"Dial *99 to listen to your current recording - click continue if you wish to "
+"re-use it."
+msgstr ""
+"Наберите *99 для того, чтобы прослушать вашу текущую запись и нажмите "
+"продолжить если вы хотите использовать ее в дальнейшем"
+
+#: modules/ivr/ivr.php:138 modules/recordings/page.recordings.php:103
+msgid "Step 1: Record"
+msgstr "Шаг 1: Запись"
+
+#: modules/ivr/ivr.php:140 modules/recordings/page.recordings.php:105
+msgid "Using your phone,"
+msgstr "Используя телефон,"
+
+#: modules/ivr/ivr.php:140 modules/recordings/page.recordings.php:105
+msgid "dial *77"
+msgstr "наберите *77"
+
+#: modules/ivr/ivr.php:140 modules/recordings/page.recordings.php:105
+msgid "Start speaking at the tone. Hangup when finished."
+msgstr ""
+"Начните надиктовывать сообщение после сигнала. Повесьте трубку по окончании."
+
+#: modules/ivr/ivr.php:140
+msgid "and record the message you wish to greet callers with."
+msgstr "и запишите сообщение, при помощи которого вы хотели бы приветствовать звонящих."
+
+#: modules/ivr/ivr.php:144
+msgid "Alternatively, upload a recording in"
+msgstr "Как вариант, закачайте запись в"
+
+#: modules/ivr/ivr.php:144 modules/recordings/page.recordings.php:109
+msgid ".wav format"
+msgstr "в формате .wav"
+
+#: modules/ivr/ivr.php:144 modules/recordings/page.recordings.php:109
+msgid "The .wav file _must_ have a sample rate of 8000Hz"
+msgstr ".wav файл должен быть с частотой битрейта 8000hz"
+
+#: modules/ivr/ivr.php:156 modules/recordings/page.recordings.php:121
+msgid "Successfully uploaded"
+msgstr "Закачка успешно завершена"
+
+#: modules/ivr/ivr.php:166 modules/recordings/page.recordings.php:130
+msgid "Step 2: Verify"
+msgstr "Шаг 2: Проверка"
+
+#: modules/ivr/ivr.php:168
+msgid "After recording or uploading,"
+msgstr "После записи или закачки,"
+
+#: modules/ivr/ivr.php:168
+msgid "dial *99"
+msgstr "наберите *99"
+
+#: modules/ivr/ivr.php:168
+msgid "to listen to your message."
+msgstr "для прослушивания вашего приветственного сообщения."
+
+#: modules/ivr/ivr.php:171 modules/recordings/page.recordings.php:135
+msgid "If you wish to re-record your message, dial *77 again."
+msgstr ""
+"В случае, если вы хотите перезаписать ваше сообщение, наберите *77 снова."
+
+#: modules/ivr/ivr.php:173
+msgid "Step 3: Name & Describe"
+msgstr "Шаг 3: Имя и Описание"
+
+#: modules/ivr/ivr.php:176
+msgid "Name this menu:"
+msgstr "Имя этого меню:"
+
+#: modules/ivr/ivr.php:180
+msgid "Describe the menu:"
+msgstr "Описание меню:"
+
+#: modules/ivr/ivr.php:184
+msgid "Click \"Continue\" when you are satisfied with your recording"
+msgstr "Нажмите \"Продолжить\" когда вы будете удовлетворены результатом"
+
+#: modules/ivr/ivr.php:186
+msgid "Consider including in your recording:"
+msgstr "Продолжить создание вашей записи:"
+
+#: modules/ivr/ivr.php:192
+msgid ""
+"Example:  Thank you for calling. Please press 1 for our locations, 2 for "
+"hours of operation, or 0 to speak with a representative. If you know the "
+"extension of the party you are calling, dial it now.  To access the company "
+"directory, press pound now."
+msgstr ""
+"Пример: Спасибо за ваш звонок. Пожалуйста, нажмите 1, чтобы узнать "
+"наше местонахождение, 2, чтобы узнать время работы, 0, чтобы поговорить с агентом. "
+"Если вы знаете внутренний номер абонента, наберите его. Чтобы попасть в телефонный "
+"справочник компании наберите решетку."
+
+#: modules/ivr/ivr.php:229 modules/ivr/ivr.php:317
+msgid "Options for Menu:"
+msgstr "Опции меню"
+
+#: modules/ivr/ivr.php:238
+msgid ""
+"Callers to this Menu can press the pound key (#) to access the user "
+"directory."
+msgstr ""
+"Звонящие в этом меню могут нажать решетку (#) для доступа к телефонному справочнику компании."
+
+#: modules/ivr/ivr.php:239
+msgid "Directory context to be used:"
+msgstr "Использовать контекст телефонного справочника:"
+
+#: modules/ivr/ivr.php:246
+msgid "Entire Directory"
+msgstr "Телефонный справочник"
+
+#: modules/ivr/ivr.php:252
+msgid ""
+"Aside from local extensions and the pound key (#), how many other options "
+"should callers be able to dial during the playback of this menu prompt?"
+msgstr ""
+"Помимо возможностей набрать внутренний номер или набрать решетку (#), сколько "
+"других возможностей предоставлять звонящему во время проигрывания этого меню?"
+
+#: modules/ivr/ivr.php:253
+msgid "Number of options for Menu:"
+msgstr "Число опций для меню:"
+
+#: modules/ivr/ivr.php:319
+msgid ""
+"Define the various options you expect your callers to dial after/during the "
+"playback of this recorded menu."
+msgstr ""
+"Определите различные опции, которыми, как вы рассчитываете, будут пользоваться "
+"звонящие во время проигрывания этого меню."
+
+#: modules/ivr/ivr.php:322
+msgid "is the number you expect the caller to dial."
+msgstr "номер, который по вашим расчетам будут набирать звонящие."
+
+#: modules/ivr/ivr.php:323
+msgid ""
+"is the result of the caller dialing the option #.  This can send the caller "
+"to an internal extension, a voicemail box, ring group, queue, or to another "
+"recorded menu."
+msgstr ""
+"результат того, что звонящий набрал некоторый номер #. Это может перенаправить "
+"звонок на внутренний номер, ящик голосовой почты, в группу вызовов, очередь или другое меню."
+
+#: modules/ivr/ivr.php:338
+msgid "Dialed Option #"
+msgstr "Набранная опция #"
+
+#: modules/music/page.music.php:49 modules/music/page.music.php:180
+msgid "Add Music Category"
+msgstr "Добавить категорию типа музыки"
+
+#: modules/music/page.music.php:50 modules/music/page.music.php:215
+#: modules/queues/page.queues.php:202
+msgid "Default"
+msgstr "По умолчанию"
+
+#: modules/music/page.music.php:78
+msgid "Cannot write to file"
+msgstr "Запись в файл невозможна"
+
+#: modules/music/page.music.php:170
+msgid "On Hold Music"
+msgstr "Музыка в ожидании"
+
+#: modules/music/page.music.php:182
+msgid "Category Name:"
+msgstr "Имя категории:"
+
+#: modules/music/page.music.php:182
+msgid ""
+"Allows you to Set up Different Categories for music on hold.  This is useful "
+"if you would like to specify different Hold Music or Commercials for various "
+"ACD Queues."
+msgstr ""
+"Позволяет вам настроить различные категории для музыки в режиме ожидания. "
+"Применимо в случаях, когда вы хотите использовать различную музыку или рекламу "
+"при различных ACD очередях."
+
+#: modules/music/page.music.php:215
+msgid "Category:"
+msgstr "Категория:"
+
+#: modules/music/page.music.php:217
+msgid "Delete Music Category"
+msgstr "Удалить музыкальную категорию"
+
+#: modules/music/page.music.php:220
+msgid "Upload a .wav or .mp3 file:"
+msgstr "Закачайте .wav или .mp3 файл:"
+
+#: modules/music/page.music.php:236
+msgid "Error Processing"
+msgstr "Ошибка процесса"
+
+#: modules/music/page.music.php:238
+msgid "Completed processing"
+msgstr "Закончено процесса"
+
+#: modules/music/page.music.php:250
+msgid ""
+"You must have at least one file for On Hold Music.  Please upload one before "
+"deleting this one."
+msgstr ""
+"Вы должны иметь как минимум один файл для проигрывания в режиме ожидания. "
+"Пожалуйста, закачайте хотя бы один прежде чем удалить этот."
+
+#: modules/music/page.music.php:254 modules/recordings/page.recordings.php:61
+msgid "Deleted"
+msgstr "Удалено"
+
+#: modules/paging/functions.inc.php:23
+msgid ""
+"There is a problem with install.sql, cannot re-create databases. Contact "
+"support\n"
+msgstr "Проблема с install.sql, невозможно пересоздать базу данных. Свяжитесь "
+"со службой тех. поддержки\n"
+
+#: modules/paging/functions.inc.php:26
+msgid "Database was deleted! Recreated successfully.<br>\n"
+msgstr "База данных удалена! Пересоздана успешно.<br>\n"
+
+#: modules/paging/page.paging.php:39
+msgid "Paging Group Deleted<br>\n"
+msgstr "Группа оповещения удалена<br>\n"
+
+#: modules/paging/page.paging.php:48
+msgid "<h5>Paging Group $pagenbr Modified</h5>\n"
+msgstr "<h5>Группа оповещений $pagenbr изменена</h5>\n"
+
+#: modules/paging/page.paging.php:58
+msgid ""
+"This module is for specific phones that are capable of Paging or Intercom. "
+"Presently, Intercom is <b>not</b> supported, only group paging is. The "
+"current list of supported phones is GXP-2000 with firmware 1.0.13 or higher, "
+"Snom phones with 'recent' firmware, and a few various other phones."
+msgstr ""
+"Модуль для специализированных телефонных аппаратов, поддерживающих оповещения и интерком. "
+"В данный момент функция интерком <b>не поддерживается</b>, только групповое оповещение."
+"В настоящее время поддерживается аппарат GXP-2000 с прошивкой 1.0.13 или выше, аппараты "
+"Snom со 'старыми' прошивками и некоторые другие телефонные аппараты"
+
+#: modules/paging/page.paging.php:70
+#: modules/ringgroups/page.ringgroups.php:121
+msgid "Delete Group"
+msgstr "Удалить группу"
+
+#: modules/paging/page.paging.php:79
+msgid "Modify Paging Group"
+msgstr "Изменить группу оповещения"
+
+#: modules/paging/page.paging.php:79 modules/paging/page.paging.php:119
+msgid "Add Paging Group"
+msgstr "Добавить группу оповещения"
+
+#: modules/paging/page.paging.php:80
+msgid "Paging Extension"
+msgstr "Внутренний номер оповещений"
+
+#: modules/paging/page.paging.php:81
+msgid "The number users will dial to page this group"
+msgstr "Внутренний номер, на который дозваниваются для оповещения группы"
+
+#: modules/paging/page.paging.php:84
+msgid "extension list:"
+msgstr "внутренние номера:"
+
+#: modules/paging/page.paging.php:84
+msgid "List extensions to page, one per line."
+msgstr "Список внутренних номеров для оповещения, по одному в строку"
+
+#: modules/paging/page.paging.php:128
+msgid "Page Group"
+msgstr "Группа оповещения"
+
+#: modules/paging/page.paging.php:131
+msgid "Paging and Intercom"
+msgstr "Оповещения и интерком"
+
+#: modules/queues/page.queues.php:101 modules/queues/page.queues.php:135
+#: modules/queues/page.queues.php:145
+msgid "Add Queue"
+msgstr "Добавить очередь"
+
+#: modules/queues/page.queues.php:114
+msgid "Queue"
+msgstr "Очередь"
+
+#: modules/queues/page.queues.php:128
+msgid "Delete Queue"
+msgstr "Удалить очередь"
+
+#: modules/queues/page.queues.php:133
+msgid "Queue:"
+msgstr "Очередь:"
+
+#: modules/queues/page.queues.php:145
+msgid "Edit Queue"
+msgstr "Изменить очередь"
+
+#: modules/queues/page.queues.php:150
+msgid "queue number:"
+msgstr "номер очереди:"
+
+#: modules/queues/page.queues.php:150
+msgid ""
+"Use this number to dial into the queue, or transfer callers to this number "
+"to put them into the queue.<br><br>Agents will dial this queue number plus * "
+"to log onto the queue, and this queue number plus ** to log out of the queue."
+"<br><br>For example, if the queue number is 123:<br><br><b>123* = log "
+"in<br>123** = log out</b>"
+msgstr ""
+"Используйте этот номер, чтобы дозвониться в очередь или перенаправить звонок в эту очередь. "
+"<br><br>Агенты, принимающие звонки, набрав этот номер со знаком звездочки (*) в конце попадают в очередь, а набрав номер с двумя знаками звездочки - выходят из очереди."
+"К примеру, если номер очереди 123:<br><br><b>123* = вход<br>123** = выход</b>"
+
+#: modules/queues/page.queues.php:155
+msgid "queue name:"
+msgstr "Название очереди:"
+
+#: modules/queues/page.queues.php:155
+msgid "Give this queue a brief name to help you identify it."
+msgstr "Дайте очереди краткое имя для удобства идентификации"
+
+#: modules/queues/page.queues.php:159
+msgid "queue password:"
+msgstr "пароль очереди:"
+
+#: modules/queues/page.queues.php:159
+msgid ""
+"You can require agents to enter a password before they can log in to this "
+"queue.<br><br>This setting is optional."
+msgstr ""
+"Вы можете потребовать от агентов вводить пароль, прежде чем они смогут попасть "
+"в очередь.<br><br>Это не обязательный параметр."
+
+#: modules/queues/page.queues.php:163
+msgid "CID name prefix:"
+msgstr "Префикс ИД номера:"
+
+#: modules/queues/page.queues.php:163
+msgid ""
+"You can optionally prefix the Caller ID name of callers to the queue. ie: If "
+"you prefix with \"Sales:\", a call from John Doe would display as \"Sales:"
+"John Doe\" on the extensions that ring."
+msgstr ""
+"Опционально, вы можете указать префикс ИД номера очереди. "
+"Т.е.: Если ваш идентификатор \"Sales:\", Звонок от John Doe будет выглядеть как "
+"\"Sales: John Doe\" на звонящем внутреннем номере."
+
+#: modules/queues/page.queues.php:167
+msgid "static agents"
+msgstr "статичные агенты"
+
+#: modules/queues/page.queues.php:167
+msgid ""
+"Static agents are extensions that are assumed to always be on the queue.  "
+"Static agents do not need to 'log in' to the queue, and cannot 'log out' of "
+"the queue.<br><br>List extensions to ring, one per line.<br><br>You can "
+"include an extension on a remote system, or an external number (Outbound "
+"Routing must contain a valid route for external numbers)"
+msgstr ""
+"Статичные агенты - внутренние номера, призванные всегда получать звонки из очереди. "
+"Статичным агенты не нужно входить в очередь, и они не могут из нее выйти "
+"<br><br>Список внутренних номеров, которые будут принимать звонки, по одному в строку. "
+"<br><br>В списке могут присутствовать как внутренние номера, так и внешние "
+"(При условии, что секция 'Исходящая маршрутизация' содержит работающий маршрут до "
+"указанного внешнего номера)"
+
+#: modules/queues/page.queues.php:174
+msgid "Queue Options"
+msgstr "Опции очереди"
+
+#: modules/queues/page.queues.php:177
+msgid "Agent Announcement:"
+msgstr "Анонсирование агентов:"
+
+#: modules/queues/page.queues.php:177
+msgid ""
+"Announcement played to the Agent prior to bridging in the caller <br><br> "
+"Example: \"the Following call is from the Sales Queue\" or \"This call is "
+"from the Technical Support Queue\".<br><br>To add additional recordings "
+"please use the \"System Recordings\" MENU to the left"
+msgstr ""
+"Проигрывание анонса прежде чем установить соединение. "
+"<br><br> Пример: \"Этот звонок из очереди под названием Sales\" или \"Этот "
+"звонок из очереди Technical Support\".<br><br>Для того, чтобы добавить дополнительные записи "
+"выберите секцию \"Запись сообщений\" в меню слева"
+
+#: modules/queues/page.queues.php:196
+msgid "Hold Music Category:"
+msgstr "Музыкальная категория в режиме ожидания:"
+
+#: modules/queues/page.queues.php:196
+msgid ""
+"Music (or Commercial) played to the caller while they wait in line for an "
+"available agent.<br><br>  This music is defined in the \"On Hold Music\" "
+"Menu to the left."
+msgstr ""
+"Музыка (или реклама), проигрываемая все то время, пока звонящий ожидает на линии свободного агента."
+"<br><br>Определяется в секции \"Музыка режима ожидания\" в меню слева."
+
+#: modules/queues/page.queues.php:215
+msgid "max wait time:"
+msgstr "максимальное время ожидания:"
+
+#: modules/queues/page.queues.php:215
+msgid ""
+"The maximum number of seconds a caller can wait in a queue before being "
+"pulled out.  (0 for unlimited)."
+msgstr ""
+"Максимальное время в секундах, пока звонок будет находится в очереди прежде чем соединение будет прервано "
+"(0 для неограниченного)."
+
+#: modules/queues/page.queues.php:222
+msgid "Unlimited"
+msgstr "Неограничено"
+
+#: modules/queues/page.queues.php:231
+msgid "max callers:"
+msgstr "максимальное количество в очереди:"
+
+#: modules/queues/page.queues.php:231
+msgid "Maximum number of people waiting in the queue (0 for unlimited)"
+msgstr ""
+"Максимальное количество ожидающих в очереди (0 для неограниченного)"
+
+#: modules/queues/page.queues.php:244
+msgid "join empty:"
+msgstr "дозваниваться в бездействующую:"
+
+#: modules/queues/page.queues.php:244
+msgid ""
+"If you wish to allow callers to join queues that currently have no agents, "
+"set this to yes"
+msgstr "Если вы хотите разрешить дозваниваться в очереди, которые в данный момент не имеют агентов, "
+"установите параметр в положение 'да'"
+
+#: modules/queues/page.queues.php:258
+msgid "leave when empty:"
+msgstr "покидать очередь если нет ожидающих:"
+
+#: modules/queues/page.queues.php:258
+msgid ""
+"If you wish to remove callers from the queue if there are no agents present, "
+"set this to yes"
+msgstr ""
+"Если вы хотите удалять ожидающих из очереди, если не определено ни одного агента, "
+"установите параметр в положение 'да'"
+
+#: modules/queues/page.queues.php:273
+#: modules/ringgroups/page.ringgroups.php:154
+msgid "ring strategy:"
+msgstr "стратегия звонков:"
+
+#: modules/queues/page.queues.php:275
+#: modules/ringgroups/page.ringgroups.php:156
+msgid "ringall"
+msgstr "звонят все"
+
+#: modules/queues/page.queues.php:275
+msgid "ring all available agents until one answers (default)"
+msgstr "звонят все доступные внутренние номера до тех пор, пока на не будет получен ответ.(По-определению)"
+
+#: modules/queues/page.queues.php:276
+msgid "roundrobin"
+msgstr "roundrobin"
+
+#: modules/queues/page.queues.php:276
+msgid "take turns ringing each available agent"
+msgstr "заставляет звонить все доступные интерфейсы"
+
+#: modules/queues/page.queues.php:277
+msgid "leastrecent"
+msgstr "leastrecent"
+
+#: modules/queues/page.queues.php:277
+msgid "ring agent which was least recently called by this queue"
+msgstr "звонок приходит на интерфейс, который последним принимал звонок из очереди"
+
+#: modules/queues/page.queues.php:278
+msgid "fewestcalls"
+msgstr "fewestcalls"
+
+#: modules/queues/page.queues.php:278
+msgid "ring the agent with fewest completed calls from this queue"
+msgstr "звонит тот, который принял наименьшее количество звонков из очереди"
+
+#: modules/queues/page.queues.php:279
+msgid "random"
+msgstr "random"
+
+#: modules/queues/page.queues.php:279
+msgid "ring random agent"
+msgstr "звонок приходит на произвольный интерфейс"
+
+#: modules/queues/page.queues.php:280
+msgid "rrmemory"
+msgstr "rrmemory"
+
+#: modules/queues/page.queues.php:280
+msgid "round robin with memory, remember where we left off last ring pass"
+msgstr "метод round robin с памятью, где покинул очередь последний звонок"
+
+#: modules/queues/page.queues.php:297
+msgid "agent timeout:"
+msgstr "таймаут агента:"
+
+#: modules/queues/page.queues.php:297
+msgid ""
+"The number of seconds an agents phone can ring before we consider it a "
+"timeout."
+msgstr "Как долго будет звонить телефон агента, после чего звонок будет отвергнут"
+
+#: modules/queues/page.queues.php:310
+msgid "retry:"
+msgstr "повторять через:"
+
+#: modules/queues/page.queues.php:310
+msgid "The number of seconds we wait before trying all the phones again"
+msgstr "Время ожидания, прежде чем использовать ещё одну попытку дозвонится до свободного агента"
+
+#: modules/queues/page.queues.php:323
+msgid "wrap-up-time:"
+msgstr "задержка соединения:"
+
+#: modules/queues/page.queues.php:323
+msgid ""
+"After a successful call, how many seconds to wait before sending a "
+"potentially free agent another call (default is 0, or no delay)"
+msgstr ""
+"После соединения, как быстро перенаправлять его на потенциально свободного агента "
+"(по умолчанию 0, или без задержки)"
+
+#: modules/queues/page.queues.php:336
+msgid "call recording:"
+msgstr "запись разговоров:"
+
+#: modules/queues/page.queues.php:336
+msgid ""
+"Incoming calls to agents can be recorded. (saved to /var/spool/asterisk/"
+"monitor)"
+msgstr ""
+"Все входящие звонки к агентам могут быть записаны (сохраняются в /var/"
+"spool/asterisk/monitor)."
+
+#: modules/queues/page.queues.php:341
+msgid "wav49"
+msgstr "wav49"
+
+#: modules/queues/page.queues.php:342
+msgid "wav"
+msgstr "wav"
+
+#: modules/queues/page.queues.php:343
+msgid "gsm"
+msgstr "gsm"
+
+#: modules/queues/page.queues.php:349
+msgid "Caller Announcements"
+msgstr "Анонсирование звонящего"
+
+#: modules/queues/page.queues.php:351
+msgid "Frequency:"
+msgstr "Частота:"
+
+#: modules/queues/page.queues.php:351
+msgid ""
+"How often to announce queue position, estimated holdtime, and/or voice menu "
+"to the caller (0 to Disable Announcements)."
+msgstr ""
+"Как часто анонсировать звонящему его позицию в очереди, ориентировочное время "
+"ожидания, и/или голосовое меню (0 для выключения анонсов)"
+
+#: modules/queues/page.queues.php:364
+msgid "Announce Position:"
+msgstr "Позиция анонса:"
+
+#: modules/queues/page.queues.php:364
+msgid "Announce position of caller in the queue?"
+msgstr "Анонсировать позицию звонящего в очереди?"
+
+#: modules/queues/page.queues.php:376
+msgid "Announce Hold Time:"
+msgstr "Анонсировать время ожидания:"
+
+#: modules/queues/page.queues.php:376
+msgid ""
+"Should we include estimated hold time in position announcements?  Either "
+"yes, no, or only once; hold time will not be announced if <1 minute"
+msgstr ""
+"Должно ли включатся в анонс ориентировочное время ожидания? "
+"Да, нет, или только один раз; время ожидания не будет анонсироваться если <1 минуты"
+
+#: modules/queues/page.queues.php:383
+msgid "Once"
+msgstr "Единожды"
+
+#: modules/queues/page.queues.php:390
+msgid "Voice Menu:"
+msgstr "Голосовое меню:"
+
+#: modules/queues/page.queues.php:390
+msgid ""
+"After announcing Position and/or Hold Time, you can optionally present an "
+"existing Digital Receptionist Voice Menu.<br><br>This voicemenu must only "
+"contain single-digit 'dialed options'."
+msgstr ""
+"После анонсирования места в очереди и времени ожидания вы можете опционально "
+"выбрать меню электронного секретаря.<br><br>Это интерактивное меню должно содержать "
+"только варианты набора, состоящие из одной цифры."
+
+#: modules/queues/page.queues.php:405
+msgid "Menu ID "
+msgstr "ИД меню"
+
+#: modules/queues/page.queues.php:416
+msgid "Join Announcement:"
+msgstr "Использовать уведомление:"
+
+#: modules/queues/page.queues.php:416
+msgid ""
+"Announcement played to callers once prior to joining the queue.<br><br>To "
+"add additional recordings please use the \"System Recordings\" MENU to the "
+"left"
+msgstr ""
+"Уведомление воспроизводится прежде чем поставить звонок в очередь.<br><br>Для "
+"дополнительной записи разговоров используйте \"Запись сообщений\" в меню слева"
+
+#: modules/queues/page.queues.php:435
+msgid "Fail Over Destination"
+msgstr "В случае, если соединение не состоялось"
+
+#: modules/recordings/page.recordings.php:31
+msgid "You can use your extension to record and playback a System Recording."
+msgstr "Вы можете использовать свой внутренний номер для записи и воспроизведения "
+"системных записей"
+
+#: modules/recordings/page.recordings.php:32
+msgid "Please enter your user/extension number:"
+msgstr "Введите ваш внутренний номер:"
+
+#: modules/recordings/page.recordings.php:56
+#: modules/recordings/page.recordings.php:61
+msgid "System Recording"
+msgstr "Запись сообщений"
+
+#: modules/recordings/page.recordings.php:56
+msgid "Saved"
+msgstr "Сохранено"
+
+#: modules/recordings/page.recordings.php:68
+#: modules/recordings/page.recordings.php:88
+msgid "Add Recording"
+msgstr "Добавить запись"
+
+#: modules/recordings/page.recordings.php:86
+msgid "Recording"
+msgstr "Запись"
+
+#: modules/recordings/page.recordings.php:95
+msgid "Delete Recording"
+msgstr "Удалить запись"
+
+#: modules/recordings/page.recordings.php:105
+msgid "and speak the message you wish to record."
+msgstr "и проговорите сообщение, которое хотите записать."
+
+#: modules/recordings/page.recordings.php:132
+msgid ""
+"After recording or uploading, <em>dial *99</em> to listen to your recording."
+msgstr ""
+"После записи или закачки, <em>наберите *99</em> для прослушивания вашей записи."
+
+#: modules/recordings/page.recordings.php:137
+msgid "Step 3: Name"
+msgstr "Шаг 3: Название"
+
+#: modules/recordings/page.recordings.php:140
+msgid "Name this Recording"
+msgstr "Название записи"
+
+#: modules/recordings/page.recordings.php:144
+msgid "Click \"SAVE\" when you are satisfied with your recording"
+msgstr "Кликнете на \"Сохранить\" когда вы будете удовлетворены результатом"
+
+#: modules/ringgroups/page.ringgroups.php:85
+#: modules/ringgroups/page.ringgroups.php:134
+#: modules/ringgroups/page.ringgroups.php:141
+msgid "Add Ring Group"
+msgstr "Добавить группу вызова"
+
+#: modules/ringgroups/page.ringgroups.php:92
+#: modules/ringgroups/page.ringgroups.php:101
+#: modules/ringgroups/page.ringgroups.php:124
+msgid "Ring Group"
+msgstr "Группа вызова"
+
+#: modules/ringgroups/page.ringgroups.php:141
+msgid "Edit Ring Group"
+msgstr "Редактировать группу вызова"
+
+#: modules/ringgroups/page.ringgroups.php:149
+msgid "group number"
+msgstr "номер группы"
+
+#: modules/ringgroups/page.ringgroups.php:149
+msgid "The number users will dial to ring extensions in this ring group"
+msgstr "Номер, на который будут звонить всем пользователям в группе"
+
+#: modules/ringgroups/page.ringgroups.php:156
+msgid "ring all available channels until one answers (default)"
+msgstr "звонят все доступные внутренние номера до тех пор, пока на не будет получен ответ.(По-определению)"
+
+#: modules/ringgroups/page.ringgroups.php:157
+msgid "hunt"
+msgstr "hunt"
+
+#: modules/ringgroups/page.ringgroups.php:157
+msgid "take turns ringing each available extension"
+msgstr "звонят по очереди все доступные добавочные номера группы до тех пор, пока не "
+"будет получен ответ."
+
+#: modules/ringgroups/page.ringgroups.php:158
+msgid "memoryhunt"
+msgstr "memoryhunt"
+
+#: modules/ringgroups/page.ringgroups.php:158
+msgid ""
+"ring first extension in the list, then ring the 1st and 2nd extension, then "
+"ring 1st 2nd and 3rd extension in the list.... etc."
+msgstr "звонит первый из добавочных номеров группы, после этого первый и второй вместе, "
+"после этого первый, второй и третий и т.д."
+
+#: modules/ringgroups/page.ringgroups.php:174
+msgid "extension list"
+msgstr "внутренние номера"
+
+#: modules/ringgroups/page.ringgroups.php:174
+msgid ""
+"List extensions to ring, one per line.<br><br>You can include an extension "
+"on a remote system, or an external number by suffixing a number with a pound "
+"(#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see "
+"Outbound Routing)."
+msgstr ""
+"Внутренние номера пользователей, по одному в строке.<br><br>Вы можете указать "
+"номер на удаленной системе, или любой внешний номер используя "
+"(#) в качестве суффикса. Например: при 2448089# будет набран номер 2448089 "
+"на соответствующем транке (см. Исходящие маршруты)."
+
+#: modules/ringgroups/page.ringgroups.php:186
+msgid "CID name prefix"
+msgstr "Префикс для ИД номера"
+
+#: modules/ringgroups/page.ringgroups.php:192
+msgid "ring time (max 60 sec)"
+msgstr "время вызова (макс. 60 сек)"
+
+#: modules/ringgroups/page.ringgroups.php:197
+#: modules/ringgroups/page.ringgroups.php:216
+msgid "announcement:"
+msgstr "анонс:"
+
+#: modules/ringgroups/page.ringgroups.php:197
+msgid ""
+"Message to be played to the caller before dialing this group.<br><br>To add "
+"additional recordings please use the \"System Recordings\" MENU to the left"
+msgstr ""
+"Сообщение, которое будет проигрываться звонящему до прихода сигналов вызова в группу.<br><br>"
+"Для того, чтобы добавить запись используйте секцию \"Запись сообщений\" в меню слева"
+
+#: modules/ringgroups/page.ringgroups.php:216
+msgid ""
+"Message to be played to the caller before dialing this group.<br><br>You "
+"must install and enable the \"Systems Recordings\" Module to edit this option"
+msgstr ""
+"Сообщение, которое будет проигрываться звонящему до прихода сигналов вызова в группу.<br><br>"
+"Вы должны установить и включить модуль \"Системные записи\" для того, чтобы иметь "
+"возможность изменять этот пункт"
+
+#: modules/ringgroups/page.ringgroups.php:226
+msgid "Destination if no answer"
+msgstr "Переназначение если нет ответа"
+
+#: modules/timeconditions/page.timeconditions.php:45
+#: modules/timeconditions/page.timeconditions.php:120
+#: modules/timeconditions/page.timeconditions.php:129
+msgid "Add Time Condition"
+msgstr "Добавить правило по времени"
+
+#: modules/timeconditions/page.timeconditions.php:56
+msgid "Server time:"
+msgstr "Время на сервере:"
+
+#: modules/timeconditions/page.timeconditions.php:110
+msgid "Time Condition"
+msgstr "Правила по времени"
+
+#: modules/timeconditions/page.timeconditions.php:120
+msgid "Time Condition:"
+msgstr "Правило по времени:"
+
+#: modules/timeconditions/page.timeconditions.php:122
+msgid "Delete Time Condition"
+msgstr "Удалить правило по времени"
+
+#: modules/timeconditions/page.timeconditions.php:129
+msgid "Edit Time Condition"
+msgstr "Изменить правило по времени"
+
+#: modules/timeconditions/page.timeconditions.php:136
+msgid "Time Condition name:"
+msgstr "Имя правила по времени"
+
+#: modules/timeconditions/page.timeconditions.php:136
+msgid "Give this Time Condition a brief name to help you identify it."
+msgstr "Дайте имя этому правилу по времени для удобства идентификации"
+
+#: modules/timeconditions/page.timeconditions.php:140
+msgid "Time to match:"
+msgstr "Время совпадения:"
+
+#: modules/timeconditions/page.timeconditions.php:140
+msgid ""
+"time range|days of week|days of month|months<br><br>you can use an * as a "
+"wildcard.<br><br>ex: <b>9:00-17:00|mon-fri|*|*</b>"
+msgstr ""
+"Диапазон времени|дней недели|дней месяца|месяцев<br><br>Знак "
+"звездочка (*) подходит для любых значений.<br><br>пример: <b>9:00-17:00|mon-fri|*|*</b>"
+
+#: modules/timeconditions/page.timeconditions.php:143
+msgid "Destination if time matches"
+msgstr "Перенаправление, если отвечает правилу по времени"
+
+#: modules/timeconditions/page.timeconditions.php:154
+msgid "Destination if time does not match"
+msgstr "Перенаправление, если не отвечает правилу по времени"
+
+#### GREP NE SRABOTAL
+#: modules/core/page.extensions.php:154
+msgid "Add Extension"
+msgstr "Добавить внутренний номер"
+
+#: modules/core/page.extensions.php:158
+msgid ""
+"Use a unique number.  The device will use this number to authenicate "
+"to the system, and users will dial it to ring the device."
+msgstr "Используйте уникальный номер. Устройство будет использовать этот номер "
+"для аутентификации в системе, и пользователи будут набирать этот номер "
+"для установления соединения с этим устройством"
+
+#: modules/core/page.extensions.php:268
+msgid "secret"
+msgstr "пароль"
+
+#: modules/core/page.extensions.php:269
+msgid "dtmfmode"
+msgstr "режим DTMF"
+
+#: modules/core/page.extensions.php:385
+msgid "Submit"
+msgstr "Сохранить"
+
+#: modules/core/page.general.php:114
+msgid "Submit Changes"
+msgstr "Сохранить изменения"
+
+#error in document
+#: modules/core/page.ampusers.php:125
+msgid "NOTE:</b> AUTHTYPE is not set to 'database' in /etc/amportal.conf - "
+"Module crippled."
+msgstr "Предупреждение: AUTHTYPE не установлен в положение 'database' в файле "
+"/etc/amportal.conf - модуль выведен из строя"
+
+#: modules/backup/module.ini:2
+msgid "Backup & Restore"
+msgstr "Резервное копирование"
+
+#: modules/core/module.ini:2
+msgid "Core"
+msgstr "База"
+#: modules/core/module.ini:8
+msgid "Extensions"
+msgstr "Внутренние номера"
+
+#: modules/core/module.ini:9
+msgid "Users"
+msgstr "Пользователи"
+
+#: modules/core/module.ini:10
+msgid "Devices"
+msgstr "Устройства"
+
+#: modules/core/module.ini:11
+msgid "Inbound Routes"
+msgstr "Входящая маршрутизация"
+
+#: modules/core/module.ini:12
+msgid "Outbound Routes"
+msgstr "Исходящая маршрутизация"
+
+#: modules/core/module.ini:13
+msgid "Trunks"
+msgstr "Транки"
+
+#: modules/core/module.ini:15
+msgid "Administrators"
+msgstr "Администраторы"
+
+#: modules/ivr/module.ini:2
+msgid "IVR"
+msgstr "Интерактивное Голосовое Меню"
+
+#: modules/ivr/module.ini:8
+msgid "Digital Receptionist"
+msgstr "Электронный секретарь"
+
+#: modules/queues/module.ini:8
+msgid "Queues"
+msgstr "Очереди"
+
+#: modules/ringgroups/module.ini:8
+msgid "Ring Groups"
+msgstr "Группы вызова"
+
+#: modules/timeconditions/module.ini:8
+msgid "Time Conditions"
+msgstr "Правила по времени"
+
+#: modules/conferences/module.ini:8
+msgid "Conferences"
+msgstr "Конференции"
+
+#: modules/core/page.did.php:87
+msgid ""
+"Define the expected DID Number if your trunk passes DID on incoming calls. <br><br>"
+"Leave this blank to match calls with any or no DID info."
+msgstr ""
+"Укажите ожидаемый номер на который будут поступать входящие звонки, если ваш транк "
+"поддерживает несколько DID номеров.<br><br>Оставьте это поле незаполненным, если хотите принимать на любой"
+
+#: modules/core/page.did.php:91
+msgid ""
+"Define the Caller ID Number to be matched on incoming calls.<br><br>"
+"Leave this field blank to match any or no CID info."
+msgstr ""
+"Укажите номер, который будет передаваться в качестве исходящего при "
+"звонках через этот транк, это может быть полезным для вызываемого абонента.<br><br>"
+"Оставьте это поле незаполненным, если не хотите изменять номер ИД"
+
+#: modules/core/page.did.php:148
+msgid ""
+"If no Caller ID is sent, Privacy Manager will asks the caller to enter their 10 digit phone number. "
+"The caller is given 3 attempts."
+msgstr ""
+"Если не распознан или отсутствует ИД номер входящего звонка, \"Менеджер безопасности\" предложит набрать 10-ти "
+"значный номер. Даётся 3 попытки."
+
+#: modules/core/page.did.php:162
+msgid ""
+"Answer calls the moment they are detected?  Note: If using a \"Fax Extension\" (above) you may wish to enable "
+"this so that we can listen for a fax tone."
+msgstr ""
+"Отвечать на звонок немедленно? Предупреждение: Если используется \"Внутренний номер факса\" указанный выше, "
+"вы можете захотеть услышать тоны вызова факса чтобы переключить вручную"
+
+#: modules/core/page.did.php:171
+msgid ""
+"The number of seconds we should wait after performing an Immediate Answer. "
+"The primary purpose of this is to pause and listen for a fax tone before allowing the call to proceed."
+msgstr ""
+"Время паузы в секундах, после которой будет установлено соединение. Назначение этой паузы - услышать тоны вызова факса "
+"прежде, чем будет продолжено установление соединения."
+
+#: modules/core/page.did.php:178
+msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
+msgstr "Информация о сигнале может быть использована для различных сигналов вызова "
+"различных SIP устройств"
+
+#: modules/core/page.routing.php:274
+msgid "Rename"
+msgstr "Переименовать"
+
+#: modules/core/page.routing.php:349
+msgid "Clean & Remove duplicates"
+msgstr "Очистить и удалить дубликаты"
+
+#: modules/core/page.trunks.php:293
+msgid ""
+"Setting this option will override all clients' caller IDs for calls placed "
+"out this trunk<br><br>Format: <b>\"caller name\" &lt;#######&gt;</"
+"b><br><br>Leave this field blank to simply pass client caller IDs."
+msgstr ""
+"Установка этой опции переписывает значение ИД исходящего "
+"номера для всех для всех абонентов, использующих этот транк. Формат:<br>"
+"<b>\"Имя пользователя\" &lt;#######&gt;</b><br><br>Оставьте поле пустым, если не "
+"хотите изменять это значение"
+
+#: modules/core/page.trunks.php:276
+msgid "Add %s Trunk"
+msgstr "Добавить %s транк"
+
+#: modules/core/page.recordings.php:34
+msgid "Continue"
+msgstr "Продолжить"
+
+#: modules/core/page.recordings.php:144
+msgid "Save"
+msgstr "Сохранить"
+
+#: modules/core/page.recordings.php:116
+msgid "Upload"
+msgstr "Загрузить"
+
+#: modules/core/page.ringgroups.php:186
+msgid ""
+"You can optionally prefix the Caller ID name when ringing extensions in "
+"this group. ie: If you prefix with \"Sales:\", a call from John Doe would display "
+"as \"Sales:John Doe\" on the extensions that ring."
+msgstr ""
+"Опционально, вы можете указать префикс номера ИД группы. "
+"Т.е.: Если ваш идентификатор \"Sales:\", Звонок от John Doe будет выглядеть как "
+"\"Sales: John Doe\" на звонящем внутреннем номере."
+
+msgid "Call Detail Reports"
+msgstr "Отчет о соединениях"
+
+msgid "Flash Operator Panel"
+msgstr "Панель оператора на flash"
+
+#: index.php:46
+msgid "Welcome"
+msgstr "Добро пожаловать"
