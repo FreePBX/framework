@@ -46,12 +46,14 @@ switch($extdisplay) {
 	<th><?php echo _("Module")?></th><th><?php echo _("Category")?></th><th><?php echo _("Version")?></th><th><?php echo _("Author")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
 </tr>
 <?php
+		// determine which modules we have installed already
+		$installed = find_allmodules();
 		$modules = getModuleXml();
 		if (is_array($modules)) {
 			foreach ($modules as $module) 
-				displayModule($module);
+				displayModule($module,$installed);
 		} else {
-			displayModule($modules);
+			displayModule($modules,$installed);
 		}
 	break;
 	default: ?>
@@ -148,7 +150,7 @@ switch($extdisplay) {
 
 /* BEGIN FUNCTIONS */
 
-function displayModule($arr) {
+function displayModule($arr,$installed) {
 	// So, we have an array with:
 	// [RAWNAME] => testmodule
  	// [TYPE] => testing
@@ -163,16 +165,34 @@ function displayModule($arr) {
 	// 	[FILE] => /bin/sh
 	// 	/)
 	// [LOCATION] => trunk/testing/test-1.0.tgz
+	
+	// Determine module status
+	if(array_key_exists($arr['RAWNAME'],$installed)) {
+		$status = "Local";
+		$action = "";
+	} else {
+		$status = "Online";
+		$action = "Download";
+	}
 
-	print "<tr><td>".$arr['NAME']." (".$arr['RAWNAME'].")</td>\n";
-	print "<td>".$arr['TYPE']."</td>\n";
-	print "<td>".$arr['VERSION']."</td>\n";
+	// build author string/link
 	if (isset($arr['EMAIL']))
-		print "<td><a href=\"mailto:".$arr['EMAIL']."\">".$arr['AUTHOR']."</a></td>\n";
+		$email = "<a href=\"mailto:".$arr['EMAIL']."\">".$arr['AUTHOR']."</a>";
 	else 
-		print "<td>".$arr['AUTHOR']."</td>\n";
-	print "<td>Unknown</td><td>Nothing</td>\n";
-	print "</tr>";
+		$email = $arr['AUTHOR'];
+		
+	print <<< End_of_Html
+	
+	<tr>
+		<td>{$arr['NAME']} ({$arr['RAWNAME']})</td>
+		<td>{$arr['TYPE']}</td>
+		<td>{$arr['VERSION']}</td>
+		<td>{$email}</td>
+		<td>{$status}</td>
+		<td>{$action}</td>
+	</tr>
+	
+End_of_Html;
 }
 
 function getModuleXml() {
