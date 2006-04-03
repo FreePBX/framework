@@ -369,7 +369,7 @@ class Voicemail {
         $voicemail_audio_format = $voicemail_audio_format=='' ? '.wav' : $voicemail_audio_format;
         $recording = preg_replace('/.txt/', $voicemail_audio_format, $file);
         if (is_file($recording)) {
-          $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "')\">
+          $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "'); return false;\">
             " . _("play") . "
           </a>";
         } 

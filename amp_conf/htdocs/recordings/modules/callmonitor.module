@@ -221,7 +221,7 @@ class Callmonitor {
 
       $recordingLink = '';
       if (is_file($recordings[$value['uniqueid'] . $value['calldate']])) {
-        $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "')\">" . _("play") . "</a>";
+        $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "'); return false;\">" . _("play") . "</a>";
       }
     
       $recording_body .= "<tr>

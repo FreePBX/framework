@@ -49,6 +49,10 @@ function ajaxRefreshScript($args) {
 
       function alertContents() {
 
+        if (http_request == false) {
+          return;
+        }
+
         if (http_request.readyState == 4) {
           if (http_request.status == 200) {
 
