@@ -24,6 +24,10 @@ if (isset($_POST['submit'])) { // if form has been submitted
 			disableModule($_POST['modname']);
 			echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."'</script>";
 		break;
+		case "download":
+			fetchModule($_POST['location']);
+			//echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."'</script>";
+		break;
 	}
 }
 ?>
@@ -35,12 +39,10 @@ if (isset($_POST['submit'])) { // if form has been submitted
 </div>
 <div class="content">
 
-<h2><?php echo _("Module Administration")?></h2>
-
-
 <?php
 switch($extdisplay) {
 	case "online": ?>
+		<h2><?php echo _("Online Modules")?></h2>
 		<table border="1" >
 <tr>
 	<th><?php echo _("Module")?></th><th><?php echo _("Category")?></th><th><?php echo _("Version")?></th><th><?php echo _("Author")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
@@ -57,6 +59,7 @@ switch($extdisplay) {
 		}
 	break;
 	default: ?>
+		<h2><?php echo _("Local Module Administration")?></h2>
 		<table border="1" >
 <tr>
 	<th><?php echo _("Module")?></th><th><?php echo _("Category")?></th><th><?php echo _("Version")?></th><th><?php echo _("Type")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
@@ -172,7 +175,13 @@ function displayModule($arr,$installed) {
 		$action = "";
 	} else {
 		$status = "Online";
-		$action = "Download";
+		$action = "
+		<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
+			<input type=hidden name=modaction value=download>
+			<input type=hidden name=location value={{$arr['LOCATION']}}>
+			<input type=submit name=submit value=Download>
+		</form>
+		";
 	}
 
 	// build author string/link
@@ -353,6 +362,20 @@ class xml2array{
 		}
 		return $dataarray;
 	}
+}
+
+//downloads a module, and extracts it into the module dir
+function fetchModule($location) {
+	$file = basename($location);
+	$url = "http://svn.sourceforge.net/svnroot/amportal/modules/".$location;
+	// download the file to /tmp
+	$filename = "/tmp/".$file;
+	$fp = @fopen($filename,"w");
+	fwrite($fp,file_get_contents($url));
+	fclose($fp);
+	// unarchive the module to the modules dir
+	exec("tar zxf {$filename} {$amp_conf['AMPWEBROOT']}/admin/modules/");
+	return;
 }
 
 ?>
