@@ -105,6 +105,11 @@ function application_app_dialvoicemail($f) {
 	$c = applications_getcmd($f);  // This gets the code to be used
 	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
 
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_vmmain('')); // n,VoiceMailMain(${VMCONTEXT})
+	$ext->add($id, $c, '', new ext_macro('hangupcall'));
+
 	// Note that with this one, it has paramters. So we have to add '_' to the start and '.' to the end
 	// of $c
 	$c = "_$c.";
