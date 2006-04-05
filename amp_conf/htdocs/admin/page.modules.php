@@ -178,7 +178,7 @@ function displayModule($arr,$installed) {
 		$action = "
 		<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
 			<input type=hidden name=modaction value=download>
-			<input type=hidden name=location value={{$arr['LOCATION']}}>
+			<input type=hidden name=location value={$arr['LOCATION']}>
 			<input type=submit name=submit value=Download>
 		</form>
 		";
@@ -366,16 +366,22 @@ class xml2array{
 
 //downloads a module, and extracts it into the module dir
 function fetchModule($location) {
+	global $amp_conf;
 	$file = basename($location);
-	$url = "http://svn.sourceforge.net/svnroot/amportal/modules/".$location;
-	// download the file to /tmp
+	$url = "https://svn.sourceforge.net/svnroot/amportal/modules/trunk/".$location;
+	//save the file to /tmp
 	$filename = "/tmp/".$file;
 	$fp = @fopen($filename,"w");
 	fwrite($fp,file_get_contents($url));
 	fclose($fp);
+	if(!file_exists($filename)) {
+		echo "<div class=\"error\">"._("Unable to save")." {$filename}</div>";
+		return false;
+	}
 	// unarchive the module to the modules dir
-	exec("tar zxf {$filename} {$amp_conf['AMPWEBROOT']}/admin/modules/");
-	return;
+	system("tar zxf {$filename} --directory={$amp_conf['AMPWEBROOT']}/admin/modules/");
+	unlink($filename);
+	return true;
 }
 
 ?>
