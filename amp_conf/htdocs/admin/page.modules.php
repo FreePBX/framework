@@ -50,13 +50,11 @@ switch($extdisplay) {
 <?php
 		// determine which modules we have installed already
 		$installed = find_allmodules();
+		// determine what modules are available
 		$modules = getModuleXml();
-		if (is_array($modules)) {
-			foreach ($modules as $module) 
-				displayModule($module,$installed);
-		} else {
-			displayModule($modules,$installed);
-		}
+		//echo "<pre>"; print_r($modules); echo "</pre>";
+		// display the modules
+		displayModules($modules,$installed);
 	break;
 	default: ?>
 		<h2><?php echo _("Local Module Administration")?></h2>
@@ -66,6 +64,7 @@ switch($extdisplay) {
 </tr>
 <?php
 		$allmods = find_allmodules();
+		//echo "<pre>"; print_r($allmods); echo "</pre>";
 		foreach($allmods as $key => $mod) {
 			// sort the list in category / displayName order
 			// this is the only way i know how to do this...surely there is another way?
@@ -153,55 +152,66 @@ switch($extdisplay) {
 
 /* BEGIN FUNCTIONS */
 
-function displayModule($arr,$installed) {
-	// So, we have an array with:
-	// [RAWNAME] => testmodule
- 	// [TYPE] => testing
-	// [NAME] => Test Module
-	// [AUTHOR] => Rob Thomas
-	// [EMAIL] => xrobau@gmail.com
-	// [VERSION] => 1.0
-	// [REQUIREMENTS] => Array
-	// 	(
-	//	[MODULE] => recordings
-	// 	[PRODUCT] => asterisk-sounds
-	// 	[FILE] => /bin/sh
-	// 	/)
-	// [LOCATION] => trunk/testing/test-1.0.tgz
-	
-	// Determine module status
-	if(array_key_exists($arr['RAWNAME'],$installed)) {
-		$status = "Local";
-		$action = "";
-	} else {
-		$status = "Online";
-		$action = "
-		<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
-			<input type=hidden name=modaction value=download>
-			<input type=hidden name=location value={$arr['LOCATION']}>
-			<input type=submit name=submit value=Download>
-		</form>
-		";
-	}
+function displayModules($arr,$installed) {
+	// So, we have an array with several:
+/*
+    [phpinfo] => Array
+        (
+            [displayName] => PHP Info
+            [version] => 1.0
+            [type] => tool
+            [category] => Basic
+            [author] => Coalescent Systems
+            [email] => info@coalescentsystems.ca
+            [items] => Array
+                (
+                    [PHPINFO] => PHP Info
+                    [PHPINFO2] => PHP Info2
+                )
 
-	// build author string/link
-	if (isset($arr['EMAIL']))
-		$email = "<a href=\"mailto:".$arr['EMAIL']."\">".$arr['AUTHOR']."</a>";
-	else 
-		$email = $arr['AUTHOR'];
+            [requirements] => Array
+                (
+                    [FILE] => /usr/sbin/asterisk
+                    [MODULE] => core
+                )
+
+        )
+*/
+	foreach(array_keys($arr) as $arrkey) {
+		// Determine module status
+		if(array_key_exists($arrkey,$installed)) {
+			$status = "Local";
+			$action = "";
+		} else {
+			$status = "Online";
+			$action = "
+			<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
+				<input type=hidden name=modaction value=download>
+				<input type=hidden name=location value={$arr[$arrkey]['location']}>
+				<input type=submit name=submit value=Download>
+			</form>
+			";
+		}
+	
+		// build author string/link
+		if (isset($arr[$arrkey]['email']))
+			$email = "<a href=\"mailto:".$arr[$arrkey]['email']."\">".$arr[$arrkey]['author']."</a>";
+		else 
+			$email = $arr[$arrkey]['author'];
+			
+		print <<< End_of_Html
 		
-	print <<< End_of_Html
-	
-	<tr>
-		<td>{$arr['NAME']} ({$arr['RAWNAME']})</td>
-		<td>{$arr['TYPE']}</td>
-		<td>{$arr['VERSION']}</td>
-		<td>{$email}</td>
-		<td>{$status}</td>
-		<td>{$action}</td>
-	</tr>
-	
+		<tr>
+			<td>{$arr[$arrkey]['displayName']} ({$arrkey})</td>
+			<td>{$arr[$arrkey]['type']}</td>
+			<td>{$arr[$arrkey]['version']}</td>
+			<td>{$email}</td>
+			<td>{$status}</td>
+			<td>{$action}</td>
+		</tr>
+		
 End_of_Html;
+	}
 }
 
 function getModuleXml() {
@@ -212,26 +222,26 @@ function getModuleXml() {
 	// if the epoch in the db is more than 10 minutes old, then regrab xml
 	if((time() - $result['time']) > 600) {
 		$fn = "http://svn.sourceforge.net/svnroot/amportal/modules/trunk/modules.xml";
+		//$fn = "/usr/src/freepbx-modules/modules.xml";
 		$data = file_get_contents($fn);
 		// remove the old xml
 		sql('DELETE FROM module_xml');
 		// update the db with the new xml
-		sql('INSERT INTO module_xml (time,data) VALUES ('.time().',"'.$data.'")');
+		$data4sql = (get_magic_quotes_gpc() ? $data : addslashes($data));
+		sql('INSERT INTO module_xml (time,data) VALUES ('.time().',"'.$data4sql.'")');
 	} else {
 		echo "using cache";
 		$data = $result['data'];
 	}
 	//echo time() - $result['time'];
-	$parser = new xml2array($data);
-	$xmlarray = $parser->parseXMLintoarray($data);
-	$modules = $xmlarray['XML']['MODULE'];
-	$debug=false;
-	if($debug) {
-		echo "<pre>";
-		print_r($modules);
-		echo "</pre>";
-	}
-	return $modules;
+	$parser = new xml2ModuleArray($data);
+	$xmlarray = $parser->parseModulesXML($data);
+	//$modules = $xmlarray['XML']['MODULE'];
+	
+	//echo "<hr>Raw XML Data<pre>"; print_r(htmlentities($data)); echo "</pre>";
+	//echo "<hr>XML2ARRAY<pre>"; print_r($xmlarray); echo "</pre>";
+	
+	return $xmlarray;
 }
 
 // executes the SQL found in a module install.sql or uninstall.sql
@@ -278,7 +288,7 @@ function installModule($modname,$modversion)
 		
 		default:
 			$sql = "INSERT INTO modules (modulename, version) values ('{$modname}','{$modversion}');";
-			break;
+		break;
 	}
 
 	$results = $db->query($sql);
@@ -314,56 +324,6 @@ function disableModule($modname) {
 	}
 }
 
-# Test parser to import the XML file from sourceforge.
-# Rob Thomas <xrobau@gmail.com>
-# Released under GPL V2.
-class xml2array{
-
-   function parseXMLintoarray ($xmldata){ // starts the process and returns the final array
-     $xmlparser = xml_parser_create();
-     xml_parse_into_struct($xmlparser, $xmldata, $arraydat);
-     xml_parser_free($xmlparser);
-     $semicomplete = $this->subdivide($arraydat);
-     $complete = $this->correctentries($semicomplete);
-     return $complete;
-   }
-  
-   function subdivide ($dataarray, $level = 1){
-     foreach ($dataarray as $key => $dat){
-       if ($dat['level'] === $level && $dat['type'] === "open"){
-         $toplvltag = $dat['tag'];
-       } elseif ($dat['level'] === $level && $dat['type'] === "close" && $dat['tag']=== $toplvltag){
-         $newarray[$toplvltag][] = $this->subdivide($temparray,($level +1));
-         unset($temparray,$nextlvl);
-       } elseif ($dat['level'] === $level && $dat['type'] === "complete"){
-         $newarray[$dat['tag']]=$dat['value'];
-       } elseif ($dat['type'] === "complete"||$dat['type'] === "close"||$dat['type'] === "open"){
-         $temparray[]=$dat;
-       }
-     }
-     return $newarray;
-   }
-	   
-	function correctentries($dataarray){
-		if (is_array($dataarray)){
-		  $keys =  array_keys($dataarray);
-		  if (count($keys)== 1 && is_int($keys[0])){
-		   $tmp = $dataarray[0];
-		   unset($dataarray[0]);
-			   $dataarray = $tmp;
-		  }
-		  $keys2 = array_keys($dataarray);
-		  foreach($keys2 as $key){
-		   $tmp2 = $dataarray[$key];
-		   unset($dataarray[$key]);
-		   $dataarray[$key] = $this->correctentries($tmp2);
-		   unset($tmp2);
-		  }
-		}
-		return $dataarray;
-	}
-}
-
 //downloads a module, and extracts it into the module dir
 function fetchModule($location) {
 	global $amp_conf;
@@ -385,3 +345,4 @@ function fetchModule($location) {
 }
 
 ?>
+

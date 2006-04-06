@@ -718,3 +718,119 @@ function drawselects($goto,$i) {
 
 /* end legacy functions */
 ?>
+
+<?php
+/* Usage
+Grab some XML data, either from a file, URL, etc. however you want. Assume storage in $strYourXML;
+
+$objXML = new xml2Array();
+$arrOutput = $objXML->parse($strYourXML);
+print_r($arrOutput); //print it out, or do whatever!
+
+*/
+
+class xml2Array {
+	
+	var $arrOutput = array();
+	var $resParser;
+	var $strXmlData;
+	
+	function parse($strInputXML) {
+	
+			$this->resParser = xml_parser_create ();
+			xml_set_object($this->resParser,$this);
+			xml_set_element_handler($this->resParser, "tagOpen", "tagClosed");
+			
+			xml_set_character_data_handler($this->resParser, "tagData");
+		
+			$this->strXmlData = xml_parse($this->resParser,$strInputXML );
+			if(!$this->strXmlData) {
+				die(sprintf("XML error: %s at line %d",
+			xml_error_string(xml_get_error_code($this->resParser)),
+			xml_get_current_line_number($this->resParser)));
+			}
+							
+			xml_parser_free($this->resParser);
+			
+			return $this->arrOutput;
+	}
+	function tagOpen($parser, $name, $attrs) {
+		$tag=array("name"=>$name,"attrs"=>$attrs); 
+		array_push($this->arrOutput,$tag);
+	}
+	
+	function tagData($parser, $tagData) {
+		if(trim($tagData)) {
+			if(isset($this->arrOutput[count($this->arrOutput)-1]['tagData'])) {
+				$this->arrOutput[count($this->arrOutput)-1]['tagData'] .= $tagData;
+			} 
+			else {
+				$this->arrOutput[count($this->arrOutput)-1]['tagData'] = $tagData;
+			}
+		}
+	}
+	
+	function tagClosed($parser, $name) {
+		$this->arrOutput[count($this->arrOutput)-2]['children'][] = $this->arrOutput[count($this->arrOutput)-1];
+		array_pop($this->arrOutput);
+	}
+}
+
+/*
+	Return a much more manageable assoc array with module data.
+*/
+class xml2ModuleArray extends xml2Array {
+	function parseModulesXML($strInputXML) {
+		$arrOutput = $this->parse($strInputXML);
+		// if you are confused about what's happening below, uncomment this why we do it
+		// echo "<pre>"; print_r($arrOutput); echo "</pre>";
+		
+		// ignore the regular xml garbage ([0]['children']) & loop through each module
+		if(!is_array($arrOutput[0]['children'])) return false;
+		foreach($arrOutput[0]['children'] as $module) {
+			if(!is_array($module['children'])) return false;
+			// loop through each modules's tags
+			foreach($module['children'] as $modTags) {
+
+					if(is_array($modTags['children'])) {
+						$$modTags['name'] = $modTags['children'];
+						// loop if there are children (menuitems and requirements)
+						foreach($modTags['children'] as $subTag) {
+							$subTags[$subTag['name']] = $subTag['tagData'];
+						}
+						$$modTags['name'] = $subTags;
+						unset($subTags);
+					} else {
+						// create a variable for each tag we find
+						$$modTags['name'] = $modTags['tagData'];
+					}
+
+			}
+			// now build our return array
+			$arrModules[$RAWNAME]['displayName'] = $NAME;
+			$arrModules[$RAWNAME]['version'] = $VERSION;
+			$arrModules[$RAWNAME]['type'] = $TYPE;
+			$arrModules[$RAWNAME]['category'] = $CATEGORY;
+			$arrModules[$RAWNAME]['author'] = $AUTHOR;
+			$arrModules[$RAWNAME]['email'] = $EMAIL;
+			$arrModules[$RAWNAME]['location'] = $LOCATION;
+			$arrModules[$RAWNAME]['items'] = $MENUITEMS;
+			$arrModules[$RAWNAME]['requirements'] = $REQUIREMENTS;
+			
+			//unset our variables
+			unset($NAME);
+			unset($VERSION);
+			unset($TYPE);
+			unset($CATEGORY);
+			unset($AUTHOR);
+			unset($EMAIL);
+			unset($LOCATION);
+			unset($MENUITEMS);
+			unset($REQUIREMENTS);
+		}
+		//echo "<pre>"; print_r($arrModules); echo "</pre>";
+
+		return $arrModules;
+	}
+}
+?>
