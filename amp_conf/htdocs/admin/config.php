@@ -109,8 +109,10 @@ if(is_array($active_modules)){
 			require_once("modules/{$key}/functions.inc.php");
 		}
 		//create an array of module sections to display
-		foreach($module['items'] as $itemKey => $itemName) {
-			$amp_sections[$itemKey] = $itemName;
+		if (is_array($module['items'])) {
+			foreach($module['items'] as $itemKey => $itemName) {
+				$amp_sections[$itemKey] = $itemName;
+			}
 		}
 	}
 }
