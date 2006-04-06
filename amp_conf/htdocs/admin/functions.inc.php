@@ -11,6 +11,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
+require_once('featurecodes.class.php');
 
 function parse_amportal_conf($filename) {
 	$file = file($filename);
