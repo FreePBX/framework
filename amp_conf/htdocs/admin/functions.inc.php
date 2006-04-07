@@ -718,9 +718,7 @@ function drawselects($goto,$i) {
 	}
 
 /* end legacy functions */
-?>
 
-<?php
 /* Usage
 Grab some XML data, either from a file, URL, etc. however you want. Assume storage in $strYourXML;
 
