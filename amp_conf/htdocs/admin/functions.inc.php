@@ -148,6 +148,7 @@ function checkDept($dept){
 ** Use find_modules() to return only specific type or status
 */
 
+/*
 function find_allmodules() {
 	global $db;
 	global $amp_conf;
@@ -192,6 +193,68 @@ function find_allmodules() {
 		}
 	}
 	return $mod;
+} */
+
+
+/* look for all modules in modules dir.
+** returns array:
+** array['module']['displayName']
+** array['module']['version']
+** array['module']['type']
+** array['module']['status']
+** array['module']['items'][array(items)]
+** Use find_modules() to return only specific type or status
+*/
+function find_allmodules() {
+	global $db;
+	global $amp_conf;
+	$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
+	$data = "<xml>";
+	//loop through each module directory, ensure there is a module.ini file
+	while ($file = readdir($dir)) {
+		if (($file != ".") && ($file != "..") && ($file != "CVS") && ($file != ".svn") && is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file) && is_file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.ini')) {
+			//open module.xml and read contents
+			if(is_file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.xml')){
+				$data .=file_get_contents($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.xml');
+				
+			}
+		}
+	}
+	$data .= "</xml>";
+	$parser = new xml2ModuleArray($data);
+	$xmlarray = $parser->parseModulesXML($data);
+	
+	// determine details about this module from database
+	// modulename should match the directory name
+	$sql = "SELECT * FROM modules";
+	$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	
+	if (is_array($results)) {
+		foreach($results as $result) {
+				/* 
+				set status key based on results
+				-1=broken (in table, not not on filesystem)
+				0 or null=not installed
+				1=disabled
+				2=enabled
+				*/
+				if(is_array($xmlarray[ $result['modulename'] ])) {
+					if ($result['enabled'] != 0)
+						$xmlarray[ $result['modulename'] ]["status"] = 2;
+					else
+						$xmlarray[ $result['modulename'] ]["status"] = 1;
+				} else {
+					$xmlarray[ $result['modulename'] ]["status"] = -1;
+				}
+					
+		}
+	}
+
+	//echo "<pre>"; print_r($xmlarray); echo "</pre>";
+	return $xmlarray;
 }
 
 /* finds modules of the specified status and type
@@ -802,12 +865,11 @@ class xml2ModuleArray extends xml2Array {
 			if(!is_array($module['children'])) return false;
 			// loop through each modules's tags
 			foreach($module['children'] as $modTags) {
-
 					if(is_array($modTags['children'])) {
 						$$modTags['name'] = $modTags['children'];
 						// loop if there are children (menuitems and requirements)
 						foreach($modTags['children'] as $subTag) {
-							$subTags[$subTag['name']] = $subTag['tagData'];
+							$subTags[strtolower($subTag['name'])] = $subTag['tagData'];
 						}
 						$$modTags['name'] = $subTags;
 						unset($subTags);
@@ -827,7 +889,7 @@ class xml2ModuleArray extends xml2Array {
 			$arrModules[$RAWNAME]['location'] = $LOCATION;
 			$arrModules[$RAWNAME]['items'] = $MENUITEMS;
 			$arrModules[$RAWNAME]['requirements'] = $REQUIREMENTS;
-			
+			//print_r($arrModules);
 			//unset our variables
 			unset($NAME);
 			unset($VERSION);

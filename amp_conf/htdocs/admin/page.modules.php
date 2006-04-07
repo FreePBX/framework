@@ -18,11 +18,15 @@ if (isset($_POST['submit'])) { // if form has been submitted
 		break;
 		case "enable":
 			enableModule($_POST['modname']);
-			echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."'</script>";
+			echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=1'</script>";
 		break;
 		case "disable":
 			disableModule($_POST['modname']);
-			echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."'</script>";
+			echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=2'</script>";
+		break;
+		case "delete":
+			deleteModule($_POST['modname']);
+			//echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."'</script>";
 		break;
 		case "download":
 			fetchModule($_POST['location']);
@@ -118,6 +122,14 @@ switch($extdisplay) {
 				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
 				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
 				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
+				$action .= "</form>";
+			} else if($mod['status'] == -1){
+				$status = _("Broken");
+				//disable form
+				$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"delete\">";
+				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Delete")."\">";
 				$action .= "</form>";
 			}
 			
@@ -247,7 +259,9 @@ function getModuleXml() {
 // executes the SQL found in a module install.sql or uninstall.sql
 function runModuleSQL($moddir,$type){
 	global $db;
+	global $amp_conf;
 	$data='';
+	// if there is an sql file, run it
 	if (is_file("modules/{$moddir}/{$type}.sql")) {
 		// run sql script
 		$fd = fopen("modules/{$moddir}/{$type}.sql","r");
@@ -266,7 +280,11 @@ function runModuleSQL($moddir,$type){
 		}
 		return true;
 	}
-		return true;
+	// if there is a php file, run it
+	if (is_file("modules/{$moddir}/{$type}.php")) {
+		include("modules/{$moddir}/{$type}.php");
+	}
+	return true;
 }
 
 function installModule($modname,$modversion) 
@@ -318,6 +336,15 @@ function enableModule($modname) {
 function disableModule($modname) {
 	global $db;
 	$sql = "UPDATE modules SET enabled = 0 WHERE modulename = '{$modname}'";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+}
+
+function deleteModule($modname) {
+	global $db;
+	$sql = "DELETE FROM modules WHERE modulename = '{$modname}' LIMIT 1";
 	$results = $db->query($sql);
 	if(DB::IsError($results)) {
 		die($results->getMessage());

@@ -80,9 +80,13 @@ if (isset($_REQUEST['display'])) {
 } else {
         $display='';
 }
+
+// if we are looking at tools, then show module admin
+if ($_REQUEST['type'] == "tool") {
 	$amp_sections = array(
 		'modules'=>_("Module Admin")
 	);
+}
 
 /*
 // only show AMP Users if they have authtype set approiately
