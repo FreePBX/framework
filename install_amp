@@ -227,7 +227,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 	*/
 	
 	while (isset($dir_handle) && ($file = readdir($dir_handle))) {
-		if (($file!=".") && ($file!="..") && ($file != "CVS") && ($file != ".svn")) {
+		if (($file!=".") && ($file!="..") && ($file != "CVS")) {
 			$source = $dirsourceparent.$dirsource."/".$file;
 			$destination =  $dirdest.$dirsource."/".$file;
 			
@@ -555,6 +555,17 @@ if ( $perl_result != 0)
 {
 	out("FAILED\nReturn code from \"$perl_test\" is: " . $perl_result );
 	fatal( "Please install libasteriskperl from your vendor.\nThis perl module is needed for executing dialparties.agi." );
+}
+out("OK");
+
+// **** Make sure we have Net::Telnet
+$perl_test = "perl -e 'use Net::Telnet'";
+outn( "Checking for Net::Telnet (used by dialparties.agi)..." );
+exec( " $perl_test &> /dev/null", $perl_output, $perl_result );
+if ( $perl_result != 0)
+{
+	out("FAILED\nReturn code from \"$perl_test\" is: " . $perl_result );
+	fatal( "Please install Net::Telnet from your vendor or CPAN.\nThis perl module is needed for executing dialparties.agi." );
 }
 out("OK");
 
