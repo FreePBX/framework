@@ -865,7 +865,7 @@ class xml2ModuleArray extends xml2Array {
 			if(!is_array($module['children'])) return false;
 			// loop through each modules's tags
 			foreach($module['children'] as $modTags) {
-					if(is_array($modTags['children'])) {
+					if(isset($modTags['children']) && is_array($modTags['children'])) {
 						$$modTags['name'] = $modTags['children'];
 						// loop if there are children (menuitems and requirements)
 						foreach($modTags['children'] as $subTag) {
@@ -880,15 +880,15 @@ class xml2ModuleArray extends xml2Array {
 
 			}
 			// now build our return array
-			$arrModules[$RAWNAME]['displayName'] = $NAME;
-			$arrModules[$RAWNAME]['version'] = $VERSION;
-			$arrModules[$RAWNAME]['type'] = $TYPE;
-			$arrModules[$RAWNAME]['category'] = $CATEGORY;
-			$arrModules[$RAWNAME]['author'] = $AUTHOR;
-			$arrModules[$RAWNAME]['email'] = $EMAIL;
-			$arrModules[$RAWNAME]['location'] = $LOCATION;
+			$arrModules[$RAWNAME]['displayName'] = $NAME;    // This has to be set
+			$arrModules[$RAWNAME]['version'] = $VERSION;     // This has to be set
+			$arrModules[$RAWNAME]['type'] = isset($TYPE)?$TYPE:'setup';
+			$arrModules[$RAWNAME]['category'] = isset($CATEGORY)?$CATEGORY:'Unknown';
+			$arrModules[$RAWNAME]['author'] = isset($AUTHOR)$AUTHOR:'Coalescent Systems';
+			$arrModules[$RAWNAME]['email'] = isset($EMAIL)?$EMAIL:'info@coalescentsystems.ca';
+			$arrModules[$RAWNAME]['location'] = isset($LOCATION)?$LOCATION:'local';
 			$arrModules[$RAWNAME]['items'] = $MENUITEMS;
-			$arrModules[$RAWNAME]['requirements'] = $REQUIREMENTS;
+			$arrModules[$RAWNAME]['requirements'] = isset($REQUIREMENTS)?$REQUIREMENTS:null;
 			//print_r($arrModules);
 			//unset our variables
 			unset($NAME);
