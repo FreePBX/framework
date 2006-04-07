@@ -24,13 +24,18 @@ class featurecode
 	}
 	
 	// INIT FUNCTION -- READS FROM DATABASE IF THERE BASICALLY
-	function init() {
-		if ($this->isReady())
-			die('FeatureCode: init already called!');
+	// $opt = 0 -- called by user code (i.e. outside this class)
+	// $opt = 1 -- called automatically by this class
+	// $opt = 2 -- called by user code, run even if called once already
+	function init($opt = 0) {
+		if ($this->isReady()) {
+			if ($opt < 2)
+				die('FeatureCode: init already called!');
+		}
 			
 		$s = "SELECT description, defaultcode, customcode, enabled ";
 		$s .= "FROM featurecodes ";
-		$s .= "WHERE modulename = '$this->_modulename' AND featurename = '$this->_featurename'";
+		$s .= "WHERE modulename = ".sql_formattext($this->_modulename)." AND featurename = ".sql_formattext($this->_featurename)." ";
 		
 		$res = sql($s, "getRow");
 		if (is_array($res)) { // found something, read it
@@ -51,10 +56,10 @@ class featurecode
 	// UPDATE FUNCTION -- WRITES CURRENT STUFF BACK TO DATABASE
 	function update() {
 		if (!$this->isReady())
-			die('FeatureCode: you must call init function before using');
+			die('FeatureCode: class function init never called...will not update');
 
 		$s = "REPLACE INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled) ";
-		$s .= "VALUES ('$this->_modulename', '$this->_featurename', '$this->_description', '$this->_defaultcode', '$this->_customcode', $this->_enabled) ";
+		$s .= "VALUES (".sql_formattext($this->_modulename).", ".sql_formattext($this->_featurename).", ".sql_formattext($this->_description).", ".sql_formattext($this->_defaultcode).", ".sql_formattext($this->_customcode).", ".sql_formattext($this->_enabled).") ";
 		sql($s, "query");
 		
 		return true;
@@ -63,7 +68,7 @@ class featurecode
 	// SET DESCRIPTION
 	function setDescription($description) {
 		if (!$this->isReady())
-			die('FeatureCode: you must call init function before using');
+			$this->init(1);
 
 		if ($description == '') {
 			unset($this->_description);
@@ -75,7 +80,7 @@ class featurecode
 	// GET DESCRIPTION
 	function getDescription() {
 		if (!$this->isReady())
-			die('FeatureCode: you must call init function before using');
+			$this->init(1);
 		
 		$desc = (isset($this->_description) ? $this->_description : '');
 		
@@ -85,7 +90,7 @@ class featurecode
 	// SET DEFAULT CODE
 	function setDefault($deafultcode) {
 		if (!$this->isReady())
-			die('FeatureCode: you must call init function before using');
+			$this->init(1);
 			
 		if ($deafultcode == '') {
 			unset($this->_defaultcode);
@@ -97,7 +102,7 @@ class featurecode
 	// SET CUSTOM CODE
 	function setCode($customcode) {
 		if (!$this->isReady())
-			die('FeatureCode: you must call init function before using');
+			$this->init(1);
 
 		if ($customcode == '') {
 			unset($this->_customcode);
@@ -110,7 +115,7 @@ class featurecode
 	//                     RETURN '' IF NOT AVAILABLE
 	function getCode() {
 		if (!$this->isReady())
-			die('FeatureCode: you must call init function before using');
+			$this->init(1);
 
 		$curcode = (isset($this->_customcode) ? $this->_customcode : '');
 		$defcode = (isset($this->_defaultcode) ? $this->_defaultcode : '');
@@ -129,11 +134,17 @@ class featurecode
 	
 	// SET ENABLED
 	function setEnabled($b = true) {
+		if (!$this->isReady())
+			$this->init(1);
+
 		$this->_enabled = ($b ? 1 : 0);
 	}
 	
 	// GET ENABLED
 	function isEnabled() {
+		if (!$this->isReady())
+			$this->init(1);
+
 		return ($this->_enabled == 1);
 	}
 }
@@ -144,7 +155,7 @@ class featurecode
 function featurecodes_getModuleFeatures($modulename) {
 	$s = "SELECT featurename, description ";
 	$s .= "FROM featurecodes ";
-	$s .= "WHERE modulename = '$modulename' AND enabled = 1 ";
+	$s .= "WHERE modulename = ".sql_formattext($modulename)." AND enabled = 1 ";
 
 	$results = sql($s,"getAll",DB_FETCHMODE_ASSOC);
 

@@ -253,6 +253,18 @@ function sql($sql,$type="query",$fetchmode=null) {
 	return $results;
 }
 
+// sql text formatting -- couldn't see that one was available already
+function sql_formattext($txt) {
+	if (isset($txt)) {
+		$fmt = str_replace("'", "''", $txt);
+		$fmt = "'" . $fmt . "'";
+	} else {
+		$fmt = 'null';
+	}
+
+	return $fmt;
+}
+
 //tell application we need to reload asterisk
 function needreload() {
 	global $db;

@@ -11,17 +11,15 @@ if ($_REQUEST['testfeaturecodes'] == "yes") {
 	<?php
 }
 function callwaiting_install() {
-	// Register FeatureCodes
-	// Activate
+	// Register FeatureCode - Activate
 	$fcc = new featurecode('callwaiting', 'cwon');
-	$fcc->init();
 	$fcc->setDescription('Call Waiting - Activate');
 	$fcc->setDefault('*70');
 	$fcc->update();
 	unset($fcc);
-	// Deactivate
+
+	// Register FeatureCode - Deactivate
 	$fcc = new featurecode('callwaiting', 'cwoff');
-	$fcc->init();
 	$fcc->setDescription('Call Waiting - Deactivate');
 	$fcc->setDefault('*71');
 	$fcc->update();
@@ -41,7 +39,6 @@ function callwaiting_get_config($engine) {
 					$fname = $modulename.'_'.$featurename;
 					if (function_exists($fname)) {
 						$fcc = new featurecode($modulename, $featurename);
-						$fcc->init();
 						$fc = $fcc->getCodeActive();
 						unset($fcc);
 						
