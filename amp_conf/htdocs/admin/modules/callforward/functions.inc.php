@@ -145,7 +145,7 @@ function callforward_cfboff_any($c) {
 	$ext->add($id, $c, '', new ext_read('fromext', 'then-press-pound'));
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_dbdel('CFB/${fromext}')); 
-	$ext->add($id, $c, '', new ext_playback('call-fwd-on-busyl&for&extension'));
+	$ext->add($id, $c, '', new ext_playback('call-fwd-on-busy&for&extension'));
 	$ext->add($id, $c, '', new ext_saydigits('${fromext}'));
 	$ext->add($id, $c, '', new ext_playback('cancelled'));
 	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
