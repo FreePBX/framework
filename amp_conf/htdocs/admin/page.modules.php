@@ -282,7 +282,6 @@ function runModuleSQL($moddir,$type){
 		$retval = true;
 	}
 	// if there is a php file, run it
-	print "Looking at modules/{$moddir}/{$type}.php\n";
 	if (is_file("modules/{$moddir}/{$type}.php")) {
 		include("modules/{$moddir}/{$type}.php");
 		$retval = true;

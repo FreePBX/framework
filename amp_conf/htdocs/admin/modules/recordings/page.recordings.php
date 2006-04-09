@@ -20,7 +20,15 @@ $notes = isset($_REQUEST['notes'])?$_REQUEST['notes']:'';
 $rname = isset($_REQUEST['rname'])?$_REQUEST['rname']:'';
 $usersnum = isset($_REQUEST['usersnum'])?$_REQUEST['usersnum']:'';
 
-recordings_init();
+// get feature codes for diplay purposes
+$fcc = new featurecode('recordings', 'record_save');
+$fc_save = $fcc->getCodeActive();
+unset($fcc);
+$fcc = new featurecode('recordings', 'record_check');
+$fc_check = $fcc->getCodeActive();
+unset($fcc);
+$fc_save = ($fc_save != '' ? $fc_save : _('** MISSING FEATURE CODE **'));
+$fc_check = ($fc_check != '' ? $fc_check : _('** MISSING FEATURE CODE **'));
 
 echo "</div>\n";
 
@@ -58,13 +66,16 @@ switch ($action) {
 		break;
 }
 	
-function recording_addpage($usersnum) { ?>
+function recording_addpage($usersnum) {
+	global $fc_save;
+	global $fc_check;
+	?>
 	<div class="content">
 	<h2><?php echo _("System Recordings")?></h2>
 	<h3><?php echo _("Add Recording") ?></h3>
 	<h5><?php echo _("Step 1: Record or upload")?></h5>
 	<p> <?php if (!empty($usersnum)) {
-		echo _("Using your phone,")."<a href=\"#\" class=\"info\">"._("dial *77")." <span>";
+		echo _("Using your phone,")."<a href=\"#\" class=\"info\">"._("dial")."&nbsp;".$fc_save." <span>";
 		echo _("Start speaking at the tone. Hangup when finished.")."</span></a>";
 		echo _("and speak the message you wish to record.")."\n";
 	} else { ?>
@@ -104,8 +115,8 @@ function recording_addpage($usersnum) { ?>
 	<?php
 	if (!empty($usersnum)) { ?>
 		<h5><?php echo _("Step 2: Verify")?></h5>
-		<p> <?php echo _("After recording or uploading, <em>dial *99</em> to listen to your recording.")?> </p>
-		<p> <?php echo _("If you wish to re-record your message, dial *77 again.")?></p>
+		<p> <?php echo _("After recording or uploading,")."&nbsp;<em>"._("dial")."&nbsp;".$fc_check."</em> "._("to listen to your recording.")?> </p>
+		<p> <?php echo _("If you wish to re-record your message, dial")."&nbsp;".$fc_save; ?></p>
 		<h5><?php echo _("Step 3: Name")?> </h5> <?php
 	} else { 
 		echo "<h5>"._("Step 2: Name")."</h5>";
