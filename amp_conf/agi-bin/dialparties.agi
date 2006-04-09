@@ -141,7 +141,7 @@ foreach my $k (keys %ext) {
     my $extstate = is_ext_avail($extnum);
     debug("extstate: $extstate",4);
 
-    if ($extstate > 0) { # extension in use
+    if ($extstate == 1) { # extension in use
       debug("Extension $extnum is not available to be called",1);
 
       if ($exthascfb == 1) { # CFB is in use
