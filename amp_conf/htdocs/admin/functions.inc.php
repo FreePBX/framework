@@ -274,7 +274,7 @@ function find_modules($status,$type) {
 	// add only modules of type=$status
 	foreach(array_keys($modules) as $key) {
 		//remove modules not matching status or type
-		if($modules[$key]['status'] == $status && $modules[$key]['type'] == $type) {
+		if(isset($modules[$key]['status']) && $modules[$key]['status'] == $status && isset($modules[$key]['type']) && $modules[$key]['type'] == $type) {
 			$return_modules[$key] = $modules[$key];
 		}
 	}
