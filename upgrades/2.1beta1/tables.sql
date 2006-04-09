@@ -20,3 +20,12 @@ CREATE TABLE IF NOT EXISTS `featurecodes` (
 
 ALTER TABLE `globals` DROP PRIMARY KEY ,
 ADD PRIMARY KEY ( `variable` );
+
+--
+-- People using SVN-HEAD could get very confused by the 'applications' module that
+-- was nearly going in before the work on FeatureCodes was done
+-- Following line will remove 'applications' from the modules, it's a bad fix but
+-- might stops loads of ppl asking on #freepbx !!!!
+--
+
+DELETE FROM modules WHERE modulename = 'applications';
