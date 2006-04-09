@@ -40,6 +40,8 @@ function queues_get_config($engine) {
 					if(function_exists('recordings_list') && isset($q['joinannounce']) && $q['joinannounce'] != "") {
 						$filename = recordings_get($q['joinannounce']);
 						$ext->add('ext-queues', $exten, '', new ext_playback($filename['filename']));
+					} else {
+						$filename['filename'] = null;
 					}
 					if(function_exists('recordings_list'))
 						$filename = recordings_get($q['agentannounce']);

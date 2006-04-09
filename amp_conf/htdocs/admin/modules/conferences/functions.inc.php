@@ -57,7 +57,8 @@ function conferences_get_config($engine) {
 					$roomoptions = $room['options'];
 					$roomuserpin = $room['userpin'];
 					$roomadminpin = $room['adminpin'];
-					$roomjoinmsg = recordings_get($room['joinmsg']);
+					if (function_exists('recordings_list'))
+						$roomjoinmsg = recordings_get($room['joinmsg']);
 					
 					// entry point
 					$ext->add($contextname, $roomnum, '', new ext_setvar('MEETME_ROOMNUM',$roomnum));

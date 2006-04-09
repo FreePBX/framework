@@ -56,7 +56,7 @@ function ringgroups_get_config($engine) {
 					$ext->add($contextname, $grpnum, '', new ext_macro('record-enable','${MACRO_EXTEN},${RecordMethod}'));
 					// group dial
 					$ext->add($contextname, $grpnum, '', new ext_setvar('RingGroupMethod',$strategy));
-					if (isset($annmsg) && $annmsg != '') {
+					if (function_exists('recordings_lists') && isset($annmsg) && $annmsg != '') {
 						// I have idea what this is for - we haven't done a DIAL yet??
 						// $ext->add($contextname, $grpnum, '', new ext_gotoif('$[${DIALSTATUS} = ANSWER]','DIALGRP'));
 						$filename = recordings_get($annmsg);
