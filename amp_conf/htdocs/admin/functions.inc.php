@@ -212,7 +212,7 @@ function find_allmodules() {
 	$data = "<xml>";
 	//loop through each module directory, ensure there is a module.ini file
 	while ($file = readdir($dir)) {
-		if (($file != ".") && ($file != "..") && ($file != "CVS") && ($file != ".svn") && is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file) && is_file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.ini')) {
+		if (($file != ".") && ($file != "..") && ($file != "CVS") && ($file != ".svn") && is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file) && is_file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.xml')) {
 			//open module.xml and read contents
 			if(is_file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.xml')){
 				$data .=file_get_contents($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.xml');
