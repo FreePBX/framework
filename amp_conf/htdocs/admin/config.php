@@ -118,6 +118,9 @@ if(is_array($active_modules)){
 				$amp_sections[$itemKey] = $itemName;
 			}
 		}
+		//sort it? probably not right but was getting in a mess to be honest
+		//so something better than nothing
+		asort($amp_sections);
 	}
 }
 if (!$quietmode) {
