@@ -34,6 +34,12 @@ if (!$quietmode) {
     <link href="common/mainstyle.css" rel="stylesheet" type="text/css"> 
     <script src="common/script.js.php" type="text/javascript"></script>  
     <script type="text/javascript"> 
+    <?php 
+	if (is_file("modules/{$display}/{$display}.css")) {
+	         echo "<link href=\"modules/{$display}/{$display}.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+	}
+     ?>
+
 		<!--
 		// Disable browser's Back button on another pg being able to go back to this pg.
 		history.forward();
