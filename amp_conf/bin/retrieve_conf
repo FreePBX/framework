@@ -219,7 +219,7 @@ if (array_key_exists('core', $modules)) {
 if(is_array($modules)){
 	foreach($modules as $key => $module) {
 		//only use this module if it's enabled (status=2)
-		if ($module['status'] == 2) {
+		if (isset($module['status']) && $module['status'] == 2) {
 			// active_modules array used in genConf function
 			$active_modules[] = $key;
 			//include module functions

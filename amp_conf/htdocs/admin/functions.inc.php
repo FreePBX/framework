@@ -887,7 +887,7 @@ class xml2ModuleArray extends xml2Array {
 			$arrModules[$RAWNAME]['author'] = isset($AUTHOR)?$AUTHOR:'Coalescent Systems';
 			$arrModules[$RAWNAME]['email'] = isset($EMAIL)?$EMAIL:'info@coalescentsystems.ca';
 			$arrModules[$RAWNAME]['location'] = isset($LOCATION)?$LOCATION:'local';
-			$arrModules[$RAWNAME]['items'] = $MENUITEMS;
+			$arrModules[$RAWNAME]['items'] = isset($MENUITEMS)?$MENUITEMS:null;
 			$arrModules[$RAWNAME]['requirements'] = isset($REQUIREMENTS)?$REQUIREMENTS:null;
 			//print_r($arrModules);
 			//unset our variables
