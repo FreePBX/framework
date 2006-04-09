@@ -281,12 +281,14 @@ function runModuleSQL($moddir,$type){
 		}
 		$retval = true;
 	}
+	
 	// if there is a php file, run it
 	if (is_file("modules/{$moddir}/{$type}.php")) {
 		include("modules/{$moddir}/{$type}.php");
 		$retval = true;
 	}
-	return $retval;
+	
+	return true;
 }
 
 function installModule($modname,$modversion) 
