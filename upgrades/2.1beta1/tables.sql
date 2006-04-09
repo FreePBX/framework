@@ -12,3 +12,9 @@ CREATE TABLE IF NOT EXISTS `featurecodes` (
   PRIMARY KEY  (`modulename`,`featurename`),
   KEY `enabled` (`enabled`)
 ) TYPE=MyISAM;
+
+--
+-- Add 'global' key 'TONEZONE'
+--
+
+INSERT INTO global (variable, value) VALUES ('TONEZONE', 'us');
