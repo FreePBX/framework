@@ -14,6 +14,8 @@
 
 <?php
 $action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
+$randon = isset($_REQUEST['randon'])?$_REQUEST['randon']:'';
+$randoff = isset($_REQUEST['randoff'])?$_REQUEST['randoff']:'';
 $category = strtr(isset($_REQUEST['category'])?$_REQUEST['category']:''," ", "-");
 if ($category == null) $category = 'Default';
 $display='music';
@@ -23,6 +25,14 @@ if ($category == "Default")
 else
 	$path_to_dir = "/var/lib/asterisk/mohmp3/$category"; //path to directory u want to read.
 
+if (strlen($randon)) {
+	touch($path_to_dir."/.random");
+	createmusicconf();
+}
+if (strlen($randoff)) {
+	unlink($path_to_dir."/.random");
+	createmusicconf();
+}
 switch ($action) {
 	case "addednew":
 		makemusiccategory($path_to_dir,$category); 
@@ -67,22 +77,28 @@ function createmusicconf()
 	$File_Write="";
 	$tresults = music_list("/var/lib/asterisk/mohmp3");
 	if (isset($tresults)) {
-		foreach ($tresults as $tresult) 
-			$File_Write.="[{$tresult}]\nmode=files\ndirectory=/var/lib/asterisk/mohmp3/{$tresult}\n";
+		foreach ($tresults as $tresult)  {
+			$dir = "/var/lib/asterisk/mohmp3/{$tresult}/";
+			if (file_exists("{$dir}.random")) {
+				$File_Write.="[{$tresult}]\nmode=files\ndirectory={$dir}\nrandom=yes\n";
+			} else {
+				$File_Write.="[{$tresult}]\nmode=files\ndirectory={$dir}{$tresult}\n";
+			}
+		}
 	}
 
-$handle = fopen("/etc/asterisk/musiconhold_additional.conf", "w");
+	$handle = fopen("/etc/asterisk/musiconhold_additional.conf", "w");
 
-if (fwrite($handle, $File_Write) === FALSE)
-{
-        echo _("Cannot write to file")." ($tmpfname)";
-        exit;
+	if (fwrite($handle, $File_Write) === FALSE) {
+		echo _("Cannot write to file")." ($tmpfname)";
+		exit;
+	}
+
+	fclose($handle);
+
+	needreload();
 }
 
-fclose($handle);
-
-
-}
 function makemusiccategory($category)
 {
 	mkdir("$path_to_dir/$category", 0755); 
@@ -226,8 +242,19 @@ else
 		<input type="file" name="mohfile"/>
 		<input type="button" value="<?php echo _("Upload")?>" onclick="document.upload.submit(upload);alert('<?php echo _("Please wait until the page loads. Your file is being processed.")?>');"/>
 	</form>
-	
-	
+	<br />
+	<form name="randomon" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+	<?php 
+		if ($category != "Default") {
+			if (file_exists("{$path_to_dir}/.random")) {
+				?> <input type="submit" name="randoff" value="Disable Random Play"> <?php
+			} else {
+				?> <input type="submit" name="randon" value="Enable Random Play"> <?php
+			}
+		}
+	?>
+	</form>
+	<br />
 	<?php
 
 	if (isset($_FILES['mohfile']['tmp_name']) && is_uploaded_file($_FILES['mohfile']['tmp_name'])) {
@@ -264,3 +291,4 @@ else
 <?php
 }
 ?>
+
