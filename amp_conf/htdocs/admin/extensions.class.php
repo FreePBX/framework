@@ -511,6 +511,17 @@ class ext_echo extends extension {
 		return "Echo(".$this->data.")";
 	}
 }
+// Thanks to agillis for the suggestion of the nvfaxdetect option
+class ext_nvfaxdetect extends extension {
+	function output() {
+		return "NVFaxDetect(".$this->data.")";
+	}
+}
+class ext_playtones extends extension {
+	function output() {
+		return "Playtones(".$this->data.")";
+	}
+}
 
 /* example usage
 $ext = new extensions;
