@@ -1,48 +1,43 @@
 <?php
 
-function recordings_init() {
-        global $db;
-	$recordings_directory = "/var/lib/asterisk/sounds/custom/";
+function recordings_get_config($engine) {
+	global $ext;  // is this the best way to pass this?
+	
+	$modulename = "recordings";
+	
+	switch($engine) {
+		case "asterisk":
+			// FeatureCodes for save / check
+			$fcc = new featurecode($modulename, 'record_save');
+			$fc_save = $fcc->getCodeActive();
+			unset($fcc);
 
-        // Check to make sure that install.sql has been run
-        $sql = "SELECT id from recordings LIMIT 1";
-        $results = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+			$fcc = new featurecode($modulename, 'record_check');
+			$fc_check = $fcc->getCodeActive();
+			unset($fcc);
 
-        if (DB::IsError($results)) {
-                // It couldn't locate the table. This is bad. Lets try to re-create it, just
-                // in case the user has had the brilliant idea to delete it.
-                // runModuleSQL taken from page.module.php. It's inclusion here is probably
-		// A bad thing. It should be, I think, globally available. 
-                runModuleSQL('recordings', 'uninstall');
-                if (runModuleSQL('recordings', 'install')==false) {
-                        echo _("There is a problem with install.sql, cannot re-create databases. Contact support\n");
-                        die;
-                } else {
-                        $results = $db->getAll($sql, DB_FETCHMODE_ASSOC);
-                }
-        }
-        if (!isset($results[0])) {
-		// Note: There's an invalid entry created, __invalid, after this is run,
-		// so as long as this has been run _once_, there will always be a result.
-		// Check for write permissions on custom directory.
-		// PHP 4.0 and above has 'is_writable'
-		if (!is_writable($recordings_directory)) {
-			print "<h2>Error</h2><br />I can not access the directory $recordings_directory. ";
-			print "Please make sure that it exists, and is writable by the web server.";
-			die;
-		}
-		$dh = opendir($recordings_directory);
-		while (false !== ($file = readdir($dh))) { // http://au3.php.net/readdir 
-			if ($file[0] != "." && $file != "CVS") {
-				// Ignore the suffix..
-				$fname = ereg_replace('.wav', '', $file);
-				recordings_add($fname, "custom/$file");
-			}
-		}
-		$result = sql("INSERT INTO recordings values ('', '__invalid', 'install done', '')");
-        } 
+			if ($fc_save != '' || $fc_check != '') {
+				$ext->addInclude('from-internal-additional', 'app-recordings'); // Add the include from from-internal
+				
+				if ($fc_save != '') {
+					$ext->add('app-recordings', $fc_save, '', new ext_macro('user-callerid'));
+					$ext->add('app-recordings', $fc_save, '', new ext_wait('2'));
+					$ext->add('app-recordings', $fc_save, '', new ext_record('${CALLERID(number)}-ivrrecording:wav'));
+					$ext->add('app-recordings', $fc_save, '', new ext_wait('2'));
+					$ext->add('app-recordings', $fc_save, '', new ext_hangup(''));
+				}
+
+				if ($fc_check != '') {
+					$ext->add('app-recordings', $fc_check, '', new ext_macro('user-callerid'));
+					$ext->add('app-recordings', $fc_check, '', new ext_wait('2'));
+					$ext->add('app-recordings', $fc_check, '', new ext_playback('${CALLERID(number)}-ivrrecording:wav'));
+					$ext->add('app-recordings', $fc_check, '', new ext_wait('2'));
+					$ext->add('app-recordings', $fc_check, '', new ext_hangup(''));
+				}
 }
-
+		break;
+	}
+}			
 
 function recordings_get_id($fn) {
 	global $db;

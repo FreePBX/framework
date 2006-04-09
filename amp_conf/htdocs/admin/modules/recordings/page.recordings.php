@@ -186,6 +186,7 @@ function recording_sidebar($id, $num) {
         echo "</div>\n";
 }
 
+/* 
 function runModuleSQL($moddir,$type){
         global $db;
         $data='';
@@ -209,5 +210,6 @@ function runModuleSQL($moddir,$type){
         }
                 return true;
 }
+*/
 
 ?>

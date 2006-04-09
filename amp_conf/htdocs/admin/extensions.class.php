@@ -370,6 +370,12 @@ class ext_setcidname extends extension {
 	}
 }
 
+class ext_record extends extension {
+	function output() {
+		return "Record(".$this->data.")";
+	}
+}
+
 class ext_playback extends extension {
 	function output() {
 		return "Playback(".$this->data.")";
