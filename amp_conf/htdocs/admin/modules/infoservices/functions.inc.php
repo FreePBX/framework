@@ -106,4 +106,22 @@ function infoservices_speakingclock($c) {
 	$ext->add($id, $c, '', new ext_playback('beep'));
 	$ext->add($id, $c, '', new ext_hangup(''));
 }
+
+function infoservices_speakextennum($c) {
+	global $ext;
+	
+	$id = "app-speakextennum";
+	
+	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_playback('your'));
+	$ext->add($id, $c, '', new ext_playback('extension'));
+	$ext->add($id, $c, '', new ext_playback('number'));
+	$ext->add($id, $c, '', new ext_playback('is'));
+	$ext->add($id, $c, '', new ext_saydigits('${CALLERIDNUM}'));
+	$ext->add($id, $c, '', new ext_wait('2')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_hangup(''));
+}
 ?>

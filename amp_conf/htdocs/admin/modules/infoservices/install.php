@@ -24,4 +24,10 @@ $fcc->setDefault('*60');
 $fcc->update();
 unset($fcc);	
 
+$fcc = new featurecode('infoservices', 'speakextennum');
+$fcc->setDescription('Speak Your Exten Number');
+$fcc->setDefault('*65');
+$fcc->update();
+unset($fcc);	
+
 ?>
