@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/php -q
 <?php 
 #
 # Copyright (C) 2003 Zac Sprackett <zsprackett-asterisk@sprackett.com>
@@ -21,8 +21,8 @@
 
 $config = parse_amportal_conf( "/etc/amportal.conf" );
 
-require_once AGIBIN_DIR . "/phpagi.php";
-require_once AGIBIN_DIR . "/phpagi-asmanager.php";
+require_once "phpagi.php";
+require_once "phpagi-asmanager.php";
 
 # Minor modifications to assist with Dependancy checking, automatically
 # parse required information from /etc/amportal.conf, and slightly more
@@ -31,20 +31,18 @@ require_once AGIBIN_DIR . "/phpagi-asmanager.php";
 
 $debug = 4;
 
-$ext;     # Hash that will contain our list of extensions to call
-$ext_hunt;# Hash that will contain our list of extensions to call used by huntgroup
-$cidnum;  # Caller ID Number for this call
-$cidname; # Caller ID Name for this call
-$timer;   # Call timer for Dial command
-$dialopts;# options for dialing
-$rc;      # Catch return code
-$priority;# Next priority 
-$rgmethod;# If Ring Group what ringing method was chosen
-$config;  # Contents of /etc/amportal.conf
+$ext="";     # Hash that will contain our list of extensions to call
+$ext_hunt="";# Hash that will contain our list of extensions to call used by huntgroup
+$cidnum="";  # Caller ID Number for this call
+$cidname=""; # Caller ID Name for this call
+$timer="";   # Call timer for Dial command
+$dialopts="";# options for dialing
+$rc="";      # Catch return code
+$priority="";# Next priority 
+$rgmethod="";# If Ring Group what ringing method was chosen
 
 $AGI = new AGI();
-debug("----------");
-$AGI->verbose("0000000000000", 0);
+debug("Starting New Dialparties.agi", 0);
 
 // $AGI->setcallback(\&mycallback);
 // $input = $AGI->$request;
@@ -87,9 +85,6 @@ else
 $timer		= get_var( $AGI, "ARG1" );
 $dialopts	= get_var( $AGI, "ARG2" );
 $rgmethod	= get_var( $AGI, "RingGroupMethod" );
-
-debug("--Methodology of ring is  '$rgmethod'", 1);
-
 if (empty($timer))	$timer		= 0;
 if (empty($dialopts))	$dialopts	= "";
 if (empty($rgmethod))	$rgmethod	= "none";
@@ -105,7 +100,6 @@ while($arg = get_var($AGI,"ARG". $arg_cnt) )
 		exit($arg_cnt);
 	}
 	
-// 	$extarray=split(/-/,$arg);
 	$extarray = split( '/-/', $arg );
 	foreach ( $extarray as $k )
 	{
@@ -122,7 +116,7 @@ foreach( $ext as $k)
 {
 	$cf  = $AGI->database_get('CF',$k);
 	$cf  = $cf['data'];
-	if ($cf) 
+	if (strlen($cf)) 
 	{
 		# append a hash sign so we can send out on chan_local below.
 		$ext[$k] = $cf.'#';  
@@ -142,12 +136,12 @@ foreach ( $ext as $k )
 		// no point in doing if cf is enabled
 		$dnd = $AGI->database_get('DND',$k);
 		$dnd = $dnd['data'];
-		if (empty($dnd) || ($dnd != 1) ) 
+		if (strlen($dnd)) 
 		{
-			debug("Extension $ext{$k} has do not disturb enabled", 1);
+			debug("Extension $k has do not disturb enabled", 1);
 			//delete $ext{$k};
 		} else {
-			debug("Extension $ext{$k} do not disturb is disabled", 3);
+			debug("Extension $k do not disturb is disabled", 3);
 		}
 	}
 }
@@ -158,7 +152,7 @@ foreach ( $ext as $k )
 {
 	$extnum    = $k;
 	$exthascw  = $AGI->database_get('CW', $extnum) ? 1 : 0;
-	$extcfb    = $AGI->database_get('CFB', $extnum);
+	$extcfb    = $AGI->database_get('CFB', $extnum)? 1 : 0;
 	$exthascfb = (strlen($extcfb) > 0) ? 1 : 0;
 	
 	# Dump details in level 4
