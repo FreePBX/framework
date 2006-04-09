@@ -314,6 +314,7 @@ function install_upgrade($version) {
 	global $dryrun;
 	
 	if (is_dir(UPGRADE_DIR."/".$version)) {
+		// sql scripts first
 		$dir = opendir(UPGRADE_DIR."/".$version);
 		while ($file = readdir($dir)) {
 			if (($file[0] != ".") && is_file(UPGRADE_DIR."/".$version."/".$file)) {
@@ -337,23 +338,33 @@ function install_upgrade($version) {
 							}
 						}
 					}
-					
-				} else if (strtolower(substr($file,-4)) == ".php") {
-					out("-> Running PHP script ".UPGRADE_DIR."/".$version."/".$file);
-					if (!$dryrun) {
-						run_included(UPGRADE_DIR."/".$version."/".$file);
-					}
-					
-				} else if (is_executable(UPGRADE_DIR."/".$version."/".$file)) {
-					out("-> Executing ".UPGRADE_DIR."/".$version."/".$file);
-					if (!$dryrun) {
-						exec(UPGRADE_DIR."/".$version."/".$file);
-					}
-				} else {
-					error("-> Don't know what to do with ".UPGRADE_DIR."/".$version."/".$file);
 				}
 			}
 		}
+
+                // now non sql scripts
+                $dir = opendir(UPGRADE_DIR."/".$version);
+                while ($file = readdir($dir)) {
+                        if (($file[0] != ".") && is_file(UPGRADE_DIR."/".$version."/".$file)) {
+                                if (strtolower(substr($file,-4)) == ".sql") {
+					// sql scripts were dealt with first
+                                } else if (strtolower(substr($file,-4)) == ".php") {
+                                        out("-> Running PHP script ".UPGRADE_DIR."/".$version."/".$file);
+                                        if (!$dryrun) {
+                                                run_included(UPGRADE_DIR."/".$version."/".$file);
+                                        }
+
+                                } else if (is_executable(UPGRADE_DIR."/".$version."/".$file)) {
+                                        out("-> Executing ".UPGRADE_DIR."/".$version."/".$file);
+                                        if (!$dryrun) {
+                                                exec(UPGRADE_DIR."/".$version."/".$file);
+                                        }
+                                } else {
+                                        error("-> Don't know what to do with ".UPGRADE_DIR."/".$version."/".$file);
+                                }
+                        }
+                }
+
 	}
 }
 
