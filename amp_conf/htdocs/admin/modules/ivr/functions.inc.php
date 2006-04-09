@@ -180,13 +180,7 @@ function ivr_get_config($engine) {
 						$ext->add($id, 'loop', '', new ext_gotoif('$[${LOOPCOUNT} > 2]','hang,1'));
 						$ext->add($id, 'loop', '', new ext_goto($id.',s,begin'));
 					}
-                                        //$ext->add($id, 's', 'loop', new ext_setvar('LOOPED','1'));
-                                        //$ext->add($item[0], 's', 'LOOP', new ext_gotoif('$[${LOOPED} > 2]','hang,1'));
-                                        //apply default timeout if needed
-                                        //if($default_t) {
-                                        //        $ext->add($item[0], 't', '', new ext_setvar('LOOPED','$[${LOOPED} + 1]'));
-                                        //        $ext->add($item[0], 't', '', new ext_goto('s,LOOP'));
-                                       // }
+					$ext->add($id, 'fax', '', new ext_goto('ext-fax,in_fax,1');
                                 }
                         }
                 break;
