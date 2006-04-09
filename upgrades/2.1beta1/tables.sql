@@ -14,7 +14,9 @@ CREATE TABLE IF NOT EXISTS `featurecodes` (
 ) TYPE=MyISAM;
 
 --
--- Add 'global' key 'TONEZONE'
+-- Change primary key on globals..it is nonsense to have the key as variable,value
+-- as that would allow duplicates
 --
 
-INSERT INTO globals (variable, value) VALUES ('TONEZONE', 'us');
+ALTER TABLE `globals` DROP PRIMARY KEY ,
+ADD PRIMARY KEY ( `variable` );
