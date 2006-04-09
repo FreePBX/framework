@@ -34,6 +34,11 @@ $featurecodes = featurecodes_getAllFeaturesDetailed();
   	<input type="hidden" name="action" value="save">
 	<table>
 	<tr><td colspan="4"><h3><?php echo _("Feature Code Admin"); ?><hr></h3></td></tr>
+	<tr>
+		<td colspan="2">&nbsp;</td>
+		<td align="center"><b><?php echo _("Use"); ?><br><?php echo _("Default"); ?>?</b></td>
+		<td align="center"><b><?php echo _("Feature"); ?><br><?php echo _("Status"); ?></b></td>
+	</tr>
 	<?php 
 	$currentmodule = "(none)";
 	foreach($featurecodes as $item) {
@@ -69,8 +74,8 @@ $featurecodes = featurecodes_getAllFeaturesDetailed();
 			<td>
 				<input type="text" name="custom#<?php echo $featureid; ?>" value="<?php echo $featurecodecustom; ?>" size="4">
 			</td>
-			<td>
-				<?php echo _("Default ?"); ?>&nbsp;<input type="checkbox" onclick="usedefault_onclick(this);" name="usedefault_<?php echo $featureid; ?>"<?php if ($featurecodecustom == '') echo "checked"; ?>>
+			<td align="center">
+				<input type="checkbox" onclick="usedefault_onclick(this);" name="usedefault_<?php echo $featureid; ?>"<?php if ($featurecodecustom == '') echo "checked"; ?>>
 				<input type="hidden" name="default_<?php echo $featureid; ?>" value="<?php echo $featurecodedefault; ?>">
 				<input type="hidden" name="origcustom_<?php echo $featureid; ?>" value="<?php echo $featurecodecustom; ?>">
 			</td>
