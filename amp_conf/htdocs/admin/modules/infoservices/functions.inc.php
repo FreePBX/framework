@@ -92,4 +92,18 @@ function infoservices_echotest($c) {
 	$ext->add($id, $c, '', new ext_hangup('')); // $cmd,n,Macro(user-callerid)
 }
 
+function infoservices_speakingclock($c) {
+	global $ext;
+
+	$id = "app-speakingclock"; // The context to be included
+
+	$ext->addInclude('from-internal-additional', $id); // Add the include from from-internal
+
+	$ext->add($id, $c, '', new ext_answer('')); // $cmd,1,Answer
+	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
+	$ext->add($id, $c, '', new ext_playback('at-tone-time-exactly'));
+	$ext->add($id, $c, '', new ext_sayunixtime(',,IMp'));
+	$ext->add($id, $c, '', new ext_playback('beep'));
+	$ext->add($id, $c, '', new ext_hangup(''));
+}
 ?>

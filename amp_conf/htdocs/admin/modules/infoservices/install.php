@@ -18,4 +18,10 @@ $fcc->setDefault('*43');
 $fcc->update();
 unset($fcc);	
 
+$fcc = new featurecode('infoservices', 'speakingclock');
+$fcc->setDescription('Speaking Clock');
+$fcc->setDefault('*60');
+$fcc->update();
+unset($fcc);	
+
 ?>
