@@ -278,7 +278,6 @@ function runModuleSQL($moddir,$type){
 					return false;
 				}
 		}
-		return true;
 	}
 	// if there is a php file, run it
 	print "Looking at modules/{$moddir}/{$type}.php\n";
