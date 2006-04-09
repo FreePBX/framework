@@ -39,7 +39,7 @@ function voicemail_myvoicemail($c) {
 	$ext->add($id, $c, '', new ext_wait('1')); // $cmd,n,Wait(1)
 	$ext->add($id, $c, '', new ext_macro('user-callerid')); // $cmd,n,Macro(user-callerid)
 	$ext->add($id, $c, '', new ext_macro('get-vmcontext','${CALLERID(num)}')); 
-	$ext->add($id, $c, '', new ext_vmmain('${CALLERID(num)}@${VMCONTEXT}|s')); // n,VoiceMailMain(${VMCONTEXT})
+	$ext->add($id, $c, '', new ext_vmmain('${CALLERID(num)}@${VMCONTEXT}')); // n,VoiceMailMain(${VMCONTEXT})
 	$ext->add($id, $c, '', new ext_macro('hangupcall')); // $cmd,n,Macro(user-callerid)
 }
 
