@@ -1,5 +1,4 @@
 #!/usr/bin/php
-
 <?php 
 #
 # Copyright (C) 2003 Zac Sprackett <zsprackett-asterisk@sprackett.com>
@@ -30,7 +29,7 @@ require_once AGIBIN_DIR . "/phpagi-asmanager.php";
 # descriptive error reporting by Rob Thomas <xrobau@gmail.com> 
 # 18th Sep 2005
 
-$debug = 0;
+$debug = 4;
 
 $ext;     # Hash that will contain our list of extensions to call
 $ext_hunt;# Hash that will contain our list of extensions to call used by huntgroup
@@ -138,8 +137,6 @@ foreach( $ext as $k)
 # Now check for DND
 foreach ( $ext as $k )
 {
-//	TODO WTF is this?
-// 	if (($ext{$k} =~ /\#/)!=1) 
 	if ( !preg_match($k, "/\#/", $matches) )
 	{   
 		// no point in doing if cf is enabled
@@ -321,7 +318,7 @@ function get_var( $agi, $value)
 	
 	if ($r['result'] == 1)
 	{
-		$result = $r['data']
+		$result = $r['data'];
 		return $result;
 	}
 	else
@@ -356,7 +353,7 @@ function get_dial_string( $extnum )
 	}
 }
 
-function debug($string, $level=0)
+function debug($string, $level=3)
 {
 	global $AGI;
 	$AGI->verbose($string, $level);
