@@ -1,31 +1,5 @@
 <?php
 
-// FOLLOWING FUNCTION WILL BE STRIPPED OUT TO A SEPERATE FILE ONCE RYAN
-// CHANGES THE MODULE INSTALL PROCESS TO RUN A .PHP FILE AS WELL AS A .SQL FILE
-if ($_REQUEST['testfeaturecodes'] == "yes") {
-	callwaiting_install();
-	?>
-	<script language="javascript">
-	alert("callwaiting_install ran!");
-	</script>
-	<?php
-}
-function callwaiting_install() {
-	// Register FeatureCode - Activate
-	$fcc = new featurecode('callwaiting', 'cwon');
-	$fcc->setDescription('Call Waiting - Activate');
-	$fcc->setDefault('*70');
-	$fcc->update();
-	unset($fcc);
-
-	// Register FeatureCode - Deactivate
-	$fcc = new featurecode('callwaiting', 'cwoff');
-	$fcc->setDescription('Call Waiting - Deactivate');
-	$fcc->setDefault('*71');
-	$fcc->update();
-	unset($fcc);	
-}
-
 function callwaiting_get_config($engine) {
 	$modulename = 'callwaiting';
 	
@@ -33,7 +7,7 @@ function callwaiting_get_config($engine) {
 	global $ext;  
 	switch($engine) {
 		case "asterisk":
-			if (is_array($featurelist = featurecodes_getModuleFeatures('callwaiting'))) {
+			if (is_array($featurelist = featurecodes_getModuleFeatures($modulename))) {
 				foreach($featurelist as $item) {
 					$featurename = $item['featurename'];
 					$fname = $modulename.'_'.$featurename;
@@ -45,7 +19,7 @@ function callwaiting_get_config($engine) {
 						if ($fc != '')
 							$fname($fc);
 					} else {
-						$ext->add('from-internal-additional', 'debug', '', new ext_noop("No func $fname"));
+						$ext->add('from-internal-additional', 'debug', '', new ext_noop($modulename.": No func $fname"));
 						var_dump($item);
 					}	
 				}

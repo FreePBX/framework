@@ -391,6 +391,26 @@ function isDialidentifier(s)
     return true;
 }
 
+function isDialDigits(s)
+{
+    var i;
+
+    if (isEmpty(s)) 
+       if (isDialDigits.arguments.length == 1) return defaultEmptyOK;
+       else return (isDialDigits.arguments[1] == true);
+
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character is number or a 'w'.
+        var c = s.charAt(i);
+
+        if (!isDialDigitChar(c)) return false;
+    }
+
+    // All characters are numbers.
+    return true;
+}
+
 function isFloat (s) {
 	var i;
     var seenDecimalPoint = false;
@@ -518,6 +538,10 @@ function isCallerIDChar (c)
 
 function isDialpatternChar (c)
 {   return ( ((c >= "0") && (c <= "9")) || (c == "[") || (c == "]") || (c == "-") || (c == "+") || (c == ".") || (c == "|") || (c == "Z" || c == "z") || (c == "X" || c == "x") || (c == "N" || c == "n") || (c == "*") || (c == "#" ) )
+}
+
+function isDialDigitChar (c)
+{   return ( ((c >= "0") && (c <= "9")) || (c == "*") || (c == "#" ) )
 }
 
 // this will display a message, select the content of the relevent field and

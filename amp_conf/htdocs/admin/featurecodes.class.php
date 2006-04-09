@@ -99,6 +99,16 @@ class featurecode
 		}
 	}
 	
+	// GET DEFAULT CODE
+	function getDefault() {
+		if (!$this->isReady())
+			$this->init(1);
+		
+		$def = (isset($this->_defaultcode) ? $this->_defaultcode : '');
+		
+		return $def;
+	}
+	
 	// SET CUSTOM CODE
 	function setCode($customcode) {
 		if (!$this->isReady())
@@ -157,13 +167,34 @@ function featurecodes_getModuleFeatures($modulename) {
 	$s .= "FROM featurecodes ";
 	$s .= "WHERE modulename = ".sql_formattext($modulename)." AND enabled = 1 ";
 
-	$results = sql($s,"getAll",DB_FETCHMODE_ASSOC);
+	$results = sql($s, "getAll", DB_FETCHMODE_ASSOC);
 
 	if (is_array($results)) {
 		return $results;
 	} else {
 		return null;
 		
+	}
+}
+
+function featurecodes_getAllFeaturesDetailed() {
+	$s = "SELECT featurecodes.modulename, featurecodes.featurename, featurecodes.description AS featuredescription, featurecodes.enabled AS featureenabled, featurecodes.defaultcode, featurecodes.customcode, ";
+	$s .= "modules.enabled AS moduleenabled ";
+	$s .= "FROM featurecodes ";
+	$s .= "INNER JOIN modules ON modules.modulename = featurecodes.modulename ";
+	$s .= "ORDER BY featurecodes.modulename, featurecodes.description ";
+	
+	$results = sql($s, "getAll", DB_FETCHMODE_ASSOC);
+	
+	if (is_array($results)) {
+		$modules = find_allmodules();
+		foreach ($results as $key => $item) {
+			$results[$key]['moduledescription'] = $modules[$item['modulename']]['displayName'];
+		}
+		
+		return $results;
+	} else {
+		return null;
 	}
 }
 ?>
