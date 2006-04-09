@@ -17,4 +17,4 @@ CREATE TABLE IF NOT EXISTS `featurecodes` (
 -- Add 'global' key 'TONEZONE'
 --
 
-INSERT INTO global (variable, value) VALUES ('TONEZONE', 'us');
+INSERT INTO globals (variable, value) VALUES ('TONEZONE', 'us');
