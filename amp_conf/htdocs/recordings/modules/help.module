@@ -36,7 +36,7 @@ class Help {
     // put if statement in return string, because do not know $logout until page is built
     $ret .= "
       <?php if ($logout !='') { ?>
-        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=Help&f=display'>" . _("Help") . "</a></small></small></p>
+        <p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Help&f=display'>" . _("Help") . "</a></small></small></p>
       <?php } ?>";
 
     return $ret;

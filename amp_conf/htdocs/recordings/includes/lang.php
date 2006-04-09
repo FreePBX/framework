@@ -28,8 +28,7 @@ class Language {
 
       $locale = 'en_US';
       $locale_dir = "./locale";
-      $directories = array();
-      getdirectories($locale_dir,"",&$directories);
+      $directories = getdirectories($locale_dir,"");
       foreach($directories as $directory) {
         $buf = substr($directory,strlen($locale_dir)+1,strlen($directory) - strlen($locale_dir));
         if (preg_match("/" . $buf . "/i",$default_lang)) {
@@ -39,7 +38,7 @@ class Language {
       }
 
       // set locale
-      $language = $_COOKIE['ari_lang'] ? $_COOKIE['ari_lang']:$locale;
+      $language = isset($_COOKIE['ari_lang']) ? $_COOKIE['ari_lang'] : $locale;
       putenv("LANG=$language"); 
       putenv("LANGUAGE=$language");
       setlocale(LC_MESSAGES,$language);
@@ -87,7 +86,7 @@ class Language {
             document.cookie = name+\"=\"+escape(value) + \";expires=\"+e.toGMTString();
           }
         </script>
-        <form class='lang' name='lang' action=" . $_SERVER['PHP_SELF'] . " method='POST'>
+        <form class='lang' name='lang' action=" . $_SESSION['ARI_ROOT'] . " method='POST'>
           <select class='lang_code' name='lang_code'  onChange=\"setCookie('ari_lang',document.lang.lang_code.value); window.location.reload();\">
             <option value='en_US' " . ($_COOKIE['ari_lang']=='en_US' ? 'selected' : '') .  ">English</option>
             <option value='es_ES' " . ($_COOKIE['ari_lang']=='es_ES' ? 'selected' : '') .  ">Espa&ntilde;ol</option>

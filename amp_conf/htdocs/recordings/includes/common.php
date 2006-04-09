@@ -37,7 +37,7 @@ function loadModules() {
     $filter = ".module";
     $recursive_max = 1;
     $recursive_count = 0;
-    getFiles($modules_path,$filter,$recursive_max,$recursive_count,$files);
+    $files = getFiles($modules_path,$filter,$recursive_max,$recursive_count);
 
     foreach($files as $key => $path) {
 
@@ -93,26 +93,39 @@ function loadModules() {
 function databaseLogon() {
 
   global $STANDALONE;
+
+  global $ASTERISKMGR_DBHOST;
+
   global $AMP_FUNCTIONS_FILES;
   global $AMPORTAL_CONF_FILE;
-  global $ASTERISK_DBHOST;
-  global $ASTERISK_DBNAME;
-  global $ASTERISK_DBTYPE;
+
+  global $LEGACY_AMP_DBENGINE;
+  global $LEGACY_AMP_DBFILE;
+  global $LEGACY_AMP_DBHOST;
+  global $LEGACY_AMP_DBNAME;
+
+  global $ASTERISKCDR_DBENGINE;
+  global $ASTERISKCDR_DBFILE;
   global $ASTERISKCDR_DBHOST;
   global $ASTERISKCDR_DBNAME;
-  global $ASTERISKCDR_DBTYPE;
+
   global $ARI_DISABLED_MODULES;
 
   global $loaded_modules;
 
   // get user
   if ($STANDALONE['use']) {
+
+    $mgrhost = $ASTERISKMGR_DBHOST;
     $mgruser = $STANDALONE['asterisk_mgruser'];
     $mgrpass = $STANDALONE['asterisk_mgrpass'];
-    $dbuser = $STANDALONE['asterisk_dbuser'];
-    $dbpass = $STANDALONE['asterisk_dbpass'];
-    $cdrdbuser = $STANDALONE['asterisk_cdrdbuser'];
-    $cdrdbpass = $STANDALONE['asterisk_cdrdbpass'];
+
+    $asteriskcdr_dbengine = $ASTERISKCDR_DBENGINE;
+    $asteriskcdr_dbfile = $ASTERISKCDR_DBFILE;
+    $asteriskcdr_dbuser = $STANDALONE['asteriskcdr_dbuser'];
+    $asteriskcdr_dbpass = $STANDALONE['asteriskcdr_dbpass'];
+    $asteriskcdr_dbhost = $ASTERISKCDR_DBHOST;
+    $asteriskcdr_dbname = $ASTERISKCDR_DBNAME;
   } 
   else {
 
@@ -127,12 +140,25 @@ function databaseLogon() {
 
     if ($include) {
       $amp_conf = parse_amportal_conf($AMPORTAL_CONF_FILE);
+
+      $mgrhost = $ASTERISKMGR_DBHOST;
       $mgruser = $amp_conf['AMPMGRUSER'];
       $mgrpass = $amp_conf['AMPMGRPASS'];
-      $dbuser = $amp_conf["AMPDBUSER"];
-      $dbpass = $amp_conf["AMPDBPASS"];
-      $cdrdbuser = $amp_conf["AMPDBUSER"];
-      $cdrdbpass = $amp_conf["AMPDBPASS"];
+
+      $amp_dbengine = isset($amp_conf["AMPDBENGINE"]) ? $amp_conf["AMPDBENGINE"] : $LEGACY_AMP_DBENGINE;
+      $amp_dbfile = isset($amp_conf["AMPDBFILE"]) ? $amp_conf["AMPDBFILE"] : $LEGACY_AMP_DBFILE;
+      $amp_dbuser = $amp_conf["AMPDBUSER"];
+      $amp_dbpass = $amp_conf["AMPDBPASS"];
+      $amp_dbhost = isset($amp_conf["AMPDBHOST"]) ? $amp_conf["AMPDBHOST"] : $LEGACY_AMP_DBHOST;
+      $amp_dbname = isset($amp_conf["AMPDBNAME"]) ? $amp_conf["AMPDBNAME"] : $LEGACY_AMP_DBNAME;
+
+      $asteriskcdr_dbengine = $ASTERISKCDR_DBENGINE;
+      $asteriskcdr_dbfile = $ASTERISKCDR_DBFILE;
+      $asteriskcdr_dbuser = $amp_conf["AMPDBUSER"];
+      $asteriskcdr_dbpass = $amp_conf["AMPDBPASS"];
+      $asteriskcdr_dbhost = $ASTERISKCDR_DBHOST;
+      $asteriskcdr_dbname = $ASTERISKCDR_DBNAME;
+
       unset($amp_conf);
     } 
   }
@@ -141,7 +167,7 @@ function databaseLogon() {
   global $asterisk_manager_interface;
   $asterisk_manager_interface = new AsteriskManagerInterface();
 
-  $success = $asterisk_manager_interface->Connect($mgruser,$mgrpass);
+  $success = $asterisk_manager_interface->Connect($mgrhost,$mgruser,$mgrpass);
   if (!$success) {
     $_SESSION['ari_error'] =  
       _("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" . 
@@ -156,14 +182,14 @@ function databaseLogon() {
 
   // AMP asterisk database
   if (!$STANDALONE['use']) {
-    $success = $db->logon($dbuser, 
-                          $dbpass,
-                          $ASTERISK_DBHOST,
-                          $ASTERISK_DBNAME,
-                          $ASTERISK_DBTYPE,
-                          $_SESSION['dbh_asterisk']);
-    if (!$success) {
-      $_SESSION['ari_error'] .= _("Cannot connect to the $ASTERISK_DBNAME database") . "<br>" .
+    $_SESSION['dbh_asterisk'] = $db->logon($amp_dbengine,
+                                           $amp_dbfile,
+                                           $amp_dbuser, 
+                                           $amp_dbpass,
+                                           $amp_dbhost,
+                                           $amp_dbname);
+    if (!isset($_SESSION['dbh_asterisk'])) {
+      $_SESSION['ari_error'] .= _("Cannot connect to the $amp_dbname database") . "<br>" .
                                _("Check AMP installation, asterisk, and ARI main.conf");
       return FALSE;
     }
@@ -171,14 +197,14 @@ function databaseLogon() {
 
   // cdr database
   if (in_array('callmonitor',array_keys($loaded_modules))) {
-    $success = $db->logon($cdrdbuser, 
-                          $cdrdbpass,
-                          $ASTERISKCDR_DBHOST,
-                          $ASTERISKCDR_DBNAME,
-                          $ASTERISKCDR_DBTYPE,
-                          $_SESSION['dbh_cdr']);
-    if (!$success) {
-      $_SESSION['ari_error'] .= sprintf(_("Cannot connect to the $ASTERISKCDR_DBNAME database"),$ASTERISKCDR_DBNAME) . "<br>" .
+    $_SESSION['dbh_cdr'] = $db->logon($asteriskcdr_dbengine,
+                                      $asteriskcdr_dbfile,
+                                      $asteriskcdr_dbuser, 
+                                      $asteriskcdr_dbpass,
+                                      $asteriskcdr_dbhost,
+                                      $asteriskcdr_dbname);
+    if (!isset($_SESSION['dbh_cdr'])) {
+      $_SESSION['ari_error'] .= sprintf(_("Cannot connect to the $asteriskcdr_dbname database"),$asteriskcdr_dbname) . "<br>" .
                                _("Check AMP installation, asterisk, and ARI main.conf");
       return FALSE;
     }
@@ -202,11 +228,19 @@ function databaseLogoff() {
  */
 function loginBlock() {
 
-  if ( !isset($_SESSION['ari_user']) ) {
+  $login = new Login();
+
+  if (isset($_REQUEST['logout'])) {
+    $login->Unauth();
+  }
+
+  if (!isset($_SESSION['ari_user'])) {
+    $login->Auth();
+  }
+
+  if (!isset($_SESSION['ari_user'])) {
 
     if (isset($_REQUEST)) { $request = $_REQUEST; } else { $request = NULL; }
-
-    $login = new Login();
 
     // login form
     $ret .= $login->GetForm($request);
@@ -246,8 +280,9 @@ function handleBlock() {
   $a = $_REQUEST['a'];     // action
 
   // set arguments
+  $args = array();
   foreach($_REQUEST as $key => $value) {
-    SetArgument($args,$key,$value);
+    $args[$key] = $value;
   }
 
   // set rank
@@ -308,7 +343,7 @@ function handleBlock() {
 
   // add logout link
   if ($logout != '') { 
-    $nav_menu .= "<p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?logout=1'>" . _("Logout") . "</a></small></small></p>";
+    $nav_menu .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?logout=1'>" . _("Logout") . "</a></small></small></p>";
   } 
 
   // error message if no content
@@ -339,7 +374,7 @@ function handler() {
   $success = databaseLogon();
   if ($success) {
 
-    // check if login is needed (user auth done in bootstrap)
+    // check if login is needed
     $content = loginBlock();
     if (!isset($content)) {
         list($nav_menu,$subnav_menu,$content) = handleBlock();
@@ -359,7 +394,13 @@ function handler() {
 
   // check for ajax request and refresh or if not build the page
   if (isset($_REQUEST['ajax_refresh'])) {
-    echo $nav_menu . "<-&*&->" . $subnav_menu . "<-&*&->" . $content;
+
+    echo "<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+      <response>
+        <nav_menu><![CDATA[" . $nav_menu . "]]></nav_menu>
+        <subnav_menu><![CDATA[" . $subnav_menu . "]]></subnav_menu>
+        <content><![CDATA[" . $content . "]]></content>
+      </response>";
   }
   else {
 

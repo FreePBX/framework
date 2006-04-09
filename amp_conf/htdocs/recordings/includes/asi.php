@@ -26,12 +26,10 @@ class AsteriskManagerInterface {
    * @param $password
    *   asterisk manager interface password 
    */
-  function connect($username,$password) {
-
-    global $ASTERISKMGR_DBHOST;
+  function connect($host,$username,$password) {
 
     // connect
-    $fp = fsockopen($ASTERISKMGR_DBHOST, 5038, $errno, $errstr, 10);
+    $fp = fsockopen($host, 5038, $errno, $errstr, 10);
     if (!$fp) {
       return FALSE;
     } 
@@ -82,8 +80,12 @@ class AsteriskManagerInterface {
    *
    * @param $command
    *   Command to be sent to the asterisk manager interface 
+   * @return $ret
+   *   response from asterisk manager interface 
    */
-  function command($command,&$response) {
+  function command($command) {
+
+    $response = '';
 
     fwrite($this->socket,$command);
 
@@ -106,12 +108,12 @@ class AsteriskManagerInterface {
 
       if ($count>100) {
         $_SESSION['ari_error'] =  _("Asterisk command not understood") . "<br />" . $buffer . "<br />\n";
-        return FALSE;
+        return;
       }
       $count++;
     }
 
-    return TRUE;
+    return $response;
   }
 
 }  

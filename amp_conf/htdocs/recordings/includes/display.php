@@ -84,7 +84,7 @@ class DisplaySearch extends Display {
 
     // build
     $ret .= "<div " . $alignText . ">
-               <form class='bar' action='" . $_SERVER['PHP_SELF'] . "' method='GET' name='search'>
+               <form class='bar' action='" . $_SESSION['ARI_ROOT'] . "' method='GET' name='search'>
                  <input type=hidden name=m value=" . $m . ">	
                  <input type=text name=q size=40 value='" . $q . "' maxlength=256>
                  " . $option_text . " 
@@ -136,7 +136,7 @@ class DisplaySearch extends Display {
     }
 
     if ($span<$total) {
-      $right_text = "<small><small>" . sprintf(_("Results %d of %d"),$start_count - $span_count,$total) . "</small></small>";
+      $right_text = "<small><small>" . sprintf(_("Results %d - %d of %d"),$start_count,$span_count,$total) . "</small></small>";
     } else {
       $right_text = "<small><small>" . sprintf(_("Results %d"),$total) . "</small></small>";
     }
@@ -188,7 +188,7 @@ class DisplaySearch extends Display {
       $option_text .= "&" . $key . "=" . $value;
     }
 
-    $url = $_SERVER['PHP_SELF'] . "?m=" . $m . "&q=" . $unicode_q . $option_text;
+    $url = $_SESSION['ARI_ROOT'] . "?m=" . $m . "&q=" . $unicode_q . $option_text;
 
     // build
     if ($start_page!=0) {

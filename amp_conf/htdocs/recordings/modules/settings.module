@@ -31,8 +31,7 @@ class Settings {
     global $ASTERISK_PROTOCOLS;
 
     foreach ($ASTERISK_PROTOCOLS as $protocol => $value) {
-      $data = array();
-      $this->getProtocolRecordSettings($value['table'],$_SESSION['ari_user']['extension'],&$data);
+      $data = $this->getProtocolRecordSettings($value['table'],$_SESSION['ari_user']['extension']);
       if (count($data)) {
         $this->protocol_table = $value['table'];  
         $this->protocol_config_files = $value['config_files'];  
@@ -59,7 +58,7 @@ class Settings {
     if ($logout!='') { 
       $ret .= "
         <br>
-        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=Settings&f=display'>" . _("Settings") . "</a></small></small></p>";
+        <p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Settings&f=display'>" . _("Settings") . "</a></small></small></p>";
     } 
 
     return $ret;
@@ -75,6 +74,7 @@ class Settings {
    */
   function action($args) {
 
+    global $STANDALONE;
     global $ARI_ADMIN_USERNAME;
     global $ASTERISK_VOICEMAIL_CONF;
     global $SETTINGS_ALLOW_VOICEMAIL_PASSWORD_SET;
@@ -97,9 +97,11 @@ class Settings {
     $voicemail_pager_address = getArgument($args,'voicemail_pager_address');
     $voicemail_email_enable = getArgument($args,'voicemail_email_enable');
 
-    foreach (array_keys($_SESSION['ari_user']['voicemail_email']) as $key) {
-      $var = "voicemail_email_$key"; 
-      $$var = getArgument($args,$var);
+    if (isset($_SESSION['ari_user']['voicemail_email'])) {
+      foreach (array_keys($_SESSION['ari_user']['voicemail_email']) as $key) {
+        $var = "voicemail_email_$key"; 
+        $$var = getArgument($args,$var);
+      }
     }
 
     $voicemail_audio_format = getArgument($args,'voicemail_audio_format');
@@ -115,21 +117,24 @@ class Settings {
       if ($exten!=$ARI_ADMIN_USERNAME) {
 
         // update call forward number
-        $stripped_call_forward_number = preg_replace('/-|\(|\)|\s/','',$call_forward_number);
-        if ($call_forward_enable && !is_numeric($stripped_call_forward_number)) {
-          $_SESSION['ari_error'] = 
-            _("Call forward number not changed") . "<br>" .
-            sprintf(_("Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"),$call_forward_number);
-        }
-        else {
+        if (!$STANDALONE['use']) {
 
-          // set database
-          $this->setCallForward($exten,$call_forward_enable,$stripped_call_forward_number);
+          $stripped_call_forward_number = preg_replace('/-|\(|\)|\s/','',$call_forward_number);
+          if ($call_forward_enable && !is_numeric($stripped_call_forward_number)) {
+            $_SESSION['ari_error'] = 
+              _("Call forward number not changed") . "<br>" .
+              sprintf(_("Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"),$call_forward_number);
+          }
+          else {
 
-          // store cookie
-          $stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_call_forward_number']);
-          if ($call_forward_number && $stripped!=$stripped_call_forward_number) {
-            setcookie("ari_call_forward_number", $call_forward_number, time()+365*24*60*60);
+            // set database
+            $this->setCallForward($exten,$call_forward_enable,$stripped_call_forward_number);
+
+            // store cookie
+            $stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_call_forward_number']);
+            if ($call_forward_number && $stripped!=$stripped_call_forward_number) {
+              setcookie("ari_call_forward_number", $call_forward_number, time()+365*24*60*60);
+            }
           }
         }
 
@@ -241,7 +246,7 @@ class Settings {
                   setcookie("$var_cookie", $$var, time()+365*24*60*60);
                 }
               }
-
+        
               // update session
               $_SESSION['ari_user']['voicemail_email_enable'] = $voicemail_email_enable;
               if ($voicemail_email_enable) {
@@ -273,7 +278,7 @@ class Settings {
 
                   foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
                     $option = "voicemail_email_$key";
-                    if ($$option) {
+                    if ($$option && $key) {
                       $options .= $key . "=" . $value;
                     }
                     else {
@@ -287,7 +292,7 @@ class Settings {
                   if (substr($line, 0, -1)!="\n") {
                      $line .= "\n";
                   }
-
+ 
                   fwrite($fp, $line);
                 }
                 else {
@@ -327,7 +332,7 @@ class Settings {
       <head>
         <script>
         <!--
-          window.location = \"" . $_SERVER['PHP_SELF'] . "?m=" . $m . "\"
+          window.location = \"" . $_SESSION['ARI_ROOT'] . "?m=" . $m . "\"
         // -->
         </script>
     </head>";
@@ -343,6 +348,7 @@ class Settings {
    */
   function display($args) {
 
+    global $STANDALONE;
     global $ARI_ADMIN_USERNAME;
     global $SETTINGS_ALLOW_VOICEMAIL_PASSWORD_SET;
     global $SETTINGS_VOICEMAIL_PASSWORD_LENGTH;
@@ -365,8 +371,7 @@ class Settings {
     $display = new DisplaySearch();
 
     // get data
-    $data = array();
-    $this->getRecordSettings($_SESSION['ari_user']['extension'],&$data);
+    $data = $this->getRecordSettings($_SESSION['ari_user']['extension']);
 
     // lang setting options
     if (extension_loaded('gettext')) { 
@@ -381,16 +386,18 @@ class Settings {
     if ($exten!=$ARI_ADMIN_USERNAME) {
 
       // call forward settings
-      $this->getCallForwardNumber($exten,$call_forward_number);
-      if ($call_forward_number) { 
-        $call_forward_enable = 'checked';
-      }
-      else {
-        $call_forward_number = $_COOKIE['ari_call_forward_number'];
-        $call_forward_text_box_options = "disabled style='background: #DDD;'";
-      }
+      if (!$STANDALONE['use']) {
 
-      $set_call_forward_text = "
+        $call_forward_number = $this->getCallForwardNumber($exten);
+        if ($call_forward_number) { 
+          $call_forward_enable = 'checked';
+        }
+        else {
+          $call_forward_number = $_COOKIE['ari_call_forward_number'];
+          $call_forward_text_box_options = "disabled style='background: #DDD;'";
+        }
+
+        $set_call_forward_text = "
           <table class='settings'>
 	    <tr>
               <td><h3>" . _("Call Routing") . "</h3></td>
@@ -408,10 +415,18 @@ class Settings {
               </td>
 	    </tr>
           </table>";
+      }
 
       // voicemail settings
       if (in_array('voicemail',array_keys($loaded_modules))) {
         if ($SETTINGS_ALLOW_VOICEMAIL_PASSWORD_SET) {
+
+          if ($SETTINGS_VOICEMAIL_PASSWORD_EXACT) {
+            $voicemail_password_length_message = sprintf(_("Passwords must be all numbers and only %s digits"),$SETTINGS_VOICEMAIL_PASSWORD_LENGTH);
+          }
+          else {
+            $voicemail_password_length_message = sprintf(_("Passwords must be all numbers and at least %s digits"),$SETTINGS_VOICEMAIL_PASSWORD_LENGTH);
+          }
 
           $set_voicemail_password_text = "
 	    <tr>
@@ -427,7 +442,7 @@ class Settings {
               </td>
 	    </tr>
 	    <tr>
-             <td class='note' colspan=2><small>" . sprintf(_("Passwords must be all numbers and only %s digits"),$SETTINGS_VOICEMAIL_PASSWORD_LENGTH) . "</small></td>
+             <td class='note' colspan=2><small>" . $voicemail_password_length_message . "</small></td>
 	    </tr>";
         }
 
@@ -560,6 +575,7 @@ class Settings {
       if ($this->getFreePBXVersion() &&
             $SETTINGS_ALLOW_CALL_RECORDING_SET && 
             in_array('callmonitor',array_keys($loaded_modules))) {
+
         foreach($data as $key=>$value) {
           if ($key=='record_in') {
             if ($value=='Always') {
@@ -712,7 +728,7 @@ class Settings {
 
     $variable_opt = "CF";
 
-    $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt $variable_opt $exten $value_opt\r\n\r\n",$response);
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt $variable_opt $exten $value_opt\r\n\r\n");
   }
 
   /*
@@ -720,14 +736,16 @@ class Settings {
    *
    * @param $exten
    *   Extension to get information about
-   * @param $number
-   *   Reference to the variable to store the number in
+   * @return $number
+   *   call forward number returned if set
    */
-  function getCallForwardNumber($exten,&$number) {
+  function getCallForwardNumber($exten) {
 
     global $asterisk_manager_interface;
 
-    $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get CF $exten\r\n\r\n",$response);
+    $number = '';
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get CF $exten\r\n\r\n");
     if (preg_match("/Value/i",$response)) {
       $buf = split(' ',trim($response));
       if (is_numeric($buf[1])) {
@@ -739,6 +757,8 @@ class Settings {
     if ($stripped==$number) {
       $number = $_COOKIE['ari_call_forward_number'];
     }
+
+    return $number;
   }
 
   /*
@@ -769,7 +789,7 @@ class Settings {
         $type_opt = "del";
         $value_opt = "";
       }
-      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt RECORD-IN $exten $value_opt\r\n\r\n",$response);
+      $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt RECORD-IN $exten $value_opt\r\n\r\n");
 
       if ($state_out=="Always") {
         $type_opt = "put";
@@ -783,12 +803,12 @@ class Settings {
         $type_opt = "del";
         $value_opt = "";
       }
-      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt RECORD-OUT $exten $value_opt\r\n\r\n",$response);
+      $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt RECORD-OUT $exten $value_opt\r\n\r\n");
     }
     else {
 
       $value_opt= "out=".$state_out."|in=".$state_in;
-      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/recording $value_opt\r\n\r\n",$response);
+      $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/recording $value_opt\r\n\r\n");
     }
   }
 
@@ -799,17 +819,18 @@ class Settings {
    *   Table to pull information from
    * @param $exten
    *   Extension to get information about
-   * @param $data
-   *   Reference to the variable to store the data in
+   * @return $data
+   *   call monitor record settings 
    */
-  function getProtocolRecordSettings($table,$exten,&$data) {
+  function getProtocolRecordSettings($table,$exten) {
 
     global $asterisk_manager_interface;
 
+    $data = array();
+
     if (version_compare($this->getFreePBXVersion(), '1.10', '<')) {
 
-      $response = '';
-      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get RECORD-IN $exten\r\n\r\n",$response);
+      $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get RECORD-IN $exten\r\n\r\n");
       if (preg_match("/ENABLED/",$response)) {
         $data['record_in'] = 'Always';
       }
@@ -820,8 +841,7 @@ class Settings {
         $data['record_in'] = 'Adhoc';
       }
 
-      $response = '';
-      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get RECORD-OUT $exten\r\n\r\n",$response);
+      $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get RECORD-OUT $exten\r\n\r\n");
       if (preg_match("/ENABLED/",$response)) {
         $data['record_out'] = 'Always';
       }
@@ -834,8 +854,7 @@ class Settings {
     }
     else {
 
-      $response = '';
-      $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/recording\r\n\r\n",$response);
+      $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/recording\r\n\r\n");
       if (strstr($response,"in=Always")) {
         $data['record_in'] = 'Always';
       }
@@ -855,6 +874,8 @@ class Settings {
         $data['record_out'] = 'Adhoc';
       }
     }
+
+    return $data;
   }
 
   /*
@@ -865,10 +886,12 @@ class Settings {
    * @param $data
    *   Reference to the variable to store the data in
    */
-  function getRecordSettings($exten,&$data) {
+  function getRecordSettings($exten) {
 
     // check protocol tables first
-    $this->getProtocolRecordSettings($this->protocol_table,$exten,&$data);
+    $data = $this->getProtocolRecordSettings($this->protocol_table,$exten);
+
+    return $data;
   }
 
   /*
@@ -878,7 +901,7 @@ class Settings {
 
     global $asterisk_manager_interface;
 
-    $asterisk_manager_interface->Command("Action: Command\r\nCommand: Reload app_voicemail.so\r\n\r\n",$response);
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: Reload app_voicemail.so\r\n\r\n");
   }
 
   /*

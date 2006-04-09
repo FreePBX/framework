@@ -32,9 +32,29 @@ class Login {
 
     $crypt = new Crypt();
 
+    // init variables
+    $extension = '';
+    $displayname = '';
+    $vm_password = '';
+    $category = '';
+    $context = '';
+    $voicemail_email_address = '';
+    $voicemail_pager_address = '';
+    $voicemail_email_enable = '';
+    $admin = '';
+    $admin_callmonitor = '';
+    $default_page = '';
+
+    $username = '';
+    $password = '';
+
     // get the ari authentication cookie 
-    $buf = unserialize($_COOKIE['ari_auth']);
-    list($data,$chksum) = $buf;
+    $data = '';
+    $chksum = '';
+    if (isset($_COOKIE['ari_auth'])) {
+      $buf = unserialize($_COOKIE['ari_auth']);
+      list($data,$chksum) = $buf;
+    }
     if (md5($data) == $chksum) {
       $data = unserialize($crypt->decrypt($data,$ARI_CRYPT_PASSWORD));
       $username = $data['username'];
@@ -78,6 +98,30 @@ class Login {
         if (is_readable($ASTERISK_VOICEMAIL_CONF)) {
 
           $lines = file($ASTERISK_VOICEMAIL_CONF);
+
+          // look for include files and tack their lines to end of array
+          foreach ($lines as $key => $line) {
+
+            if (preg_match("/include/i",$line)) {
+
+              $include_filename = '';
+              $parts = split(' ',$line);
+              if (isset($parts[1])) {
+                $include_filename = trim($parts[1]);
+              }
+
+              if ($include_filename) {
+                $path_parts = pathinfo($ASTERISK_VOICEMAIL_CONF);
+                $include_path = fixPathSlash($path_parts['dirname']) . $include_filename;
+                foreach (glob($include_path) as $include_file) {
+                  $include_lines = file($include_file);
+                  $lines = array_merge($include_lines,$lines);
+                }
+              }
+            }
+          }
+
+          // process
           foreach ($lines as $key => $line) {
 
             // check for current context and process
@@ -91,7 +135,13 @@ class Login {
 
             // check for user and process
             unset($value);
-            list($var,$value) = split('=>',$line);
+            $parts = split('=>',$line);
+            if (isset($parts[0])) {
+              $var = $parts[0];
+            }
+            if (isset($parts[1])) {
+              $value = $parts[1];
+            }
             $var = trim($var);
             if ($var==$username && $value) {
               $buf = split(',',$value);
@@ -166,9 +216,13 @@ class Login {
               foreach ($lines as $key => $line) {
 
                 unset($value);
-                list($var,$value) = split('=',$line);
-                $var = trim($var);
-                $value = trim($value);
+                $parts = split('=',$line);
+                if (isset($parts[0])) {
+                  $var = trim($parts[0]);
+                }
+                if (isset($parts[1])) {
+                  $value = trim($parts[1]);
+                }
                 if ($var=="username") {
                   $protocol_username = $value;
                 }
@@ -227,7 +281,11 @@ class Login {
       }
 
       // if authenticated and user wants to be remembered, set cookie 
-      if ($auth && $_POST['remember']) {
+      $remember = '';
+      if (isset($_POST['remember'])) {
+        $remember = $_POST['remember'];
+      }
+      if ($auth && $remember) {
 
         $data = array('username' => $username, 'password' => $password);
         $data = $crypt->encrypt(serialize($data),$ARI_CRYPT_PASSWORD);
@@ -256,8 +314,13 @@ class Login {
         $default_page = $ARI_DEFAULT_ADMIN_PAGE;
       } 
 
+      // get outboundCID if it exists
+      $outboundCID = $this->getOutboundCID($extension);
+
+      // set
       if ($extension) {
         $_SESSION['ari_user']['extension'] = $extension;
+        $_SESSION['ari_user']['outboundCID'] = $outboundCID;
         $_SESSION['ari_user']['displayname'] = $displayname;
         $_SESSION['ari_user']['voicemail_password'] = $vm_password;
         $_SESSION['ari_user']['category'] = $category;
@@ -271,9 +334,34 @@ class Login {
         $_SESSION['ari_user']['admin'] = $admin;
         $_SESSION['ari_user']['admin_callmonitor'] = $admin_callmonitor;
         $_SESSION['ari_user']['default_page'] = $default_page;
+
+        // force the session data saved
+        session_write_close();
       } 
     }
   } 
+
+  /*
+   * Gets user outbound caller id
+   *
+   * @param $exten
+   *   Extension to get information about
+   * @return $ret
+   *   outbound caller id 
+   */
+  function getOutboundCID($extension) {
+
+    global $asterisk_manager_interface;
+
+    $ret = '';
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $extension/outboundcid\r\n\r\n");
+    if ($response) {
+      $buf = split(' ',trim($response));
+      $ret = $buf[1];
+    }
+
+    return $ret;
+  }
 
   /**
     * logout
@@ -328,7 +416,7 @@ class Login {
 
     $ret .= "
       <table id='login'>
-        <form id='login' name='login' action=" . $_SERVER['PHP_SELF'] . " method='POST'>
+        <form id='login' name='login' action=" . $_SESSION['ARI_ROOT'] . " method='POST'>
         " . $hiddenInputText . "
           <tr>
             <td class='right'>

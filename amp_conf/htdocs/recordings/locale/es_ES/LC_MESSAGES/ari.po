@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-11 17:00-0500\n"
+"POT-Creation-Date: 2006-04-03 08:26-0400\n"
 "PO-Revision-Date: 2006-03-31 13:00\n"
 "Last-Translator: Antonio F. Cano <antonio@igestec.com>\n"
 "Language-Team: Espanol  <LL@li.org>\n"
@@ -25,49 +25,58 @@ msgstr "La Centralita no responde"
 msgid "Asterisk authentication failed:"
 msgstr "Fallo la Autenticacion con la Centralita"
 
-#: ../includes/asi.php:94 ../includes/asi.php:108
+#: ../includes/asi.php:98 ../includes/asi.php:112
 msgid "Asterisk command not understood"
 msgstr "La recarga no funcino"
 
-#: ../includes/bootstrap.php:134
+#: ../includes/bootstrap.php:106
+#, php-format
 msgid "To many directories in %s Not all files processed"
 msgstr "Demasiados directorios en %s, notodos los archivos han sido procesados"
 
-#: ../includes/bootstrap.php:221
+#: ../includes/bootstrap.php:209
 msgid "ARI requires a version of PHP 4.0 or later"
 msgstr "Necesita una versi&oacute; de PHP 4.0 o superior"
 
-#: ../includes/bootstrap.php:240
+#: ../includes/bootstrap.php:228
 msgid ""
 "PHP PEAR must be installed.  Visit http://pear.php.net for help with "
 "installation."
-msgstr "PHP PEAR debe estar instalado. Visite http://pear.php.net para obtener ayuda"
+msgstr ""
+"PHP PEAR debe estar instalado. Visite http://pear.php.net para obtener ayuda"
 
-#: ../includes/common.php:147
+#: ../includes/common.php:167
 msgid "ARI does not appear to have access to the Asterisk Manager."
 msgstr "No es posible conectar con la Centralita"
 
-#: ../includes/common.php:148
+#: ../includes/common.php:168
 msgid ""
 "Check the ARI 'main.conf' configuration file to set the Asterisk Manager "
 "Account."
-msgstr "Compruebe el archivo 'main.conf' para configuar la conexi&oacute;n con Asterisk Manager"
+msgstr ""
+"Compruebe el archivo 'main.conf' para configuar la conexi&oacute;n con "
+"Asterisk Manager"
 
-#: ../includes/common.php:149
+#: ../includes/common.php:169
 msgid "Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account"
-msgstr "Compruebe /etc/asterisk/manager.conf para crear una cuenta Asterisk Manager"
+msgstr ""
+"Compruebe /etc/asterisk/manager.conf para crear una cuenta Asterisk Manager"
 
-#: ../includes/common.php:150
+#: ../includes/common.php:170
 msgid ""
 "make sure [general] enabled = yes and a 'permit=' line for localhost or the "
 "webserver."
 msgstr ""
 
-#: ../includes/common.php:167 ../includes/common.php:182
+#: ../includes/common.php:187 ../includes/common.php:202
 msgid "Check AMP installation, asterisk, and ARI main.conf"
 msgstr "Compruebe la instalacion de FreePBX, DDBB o ARI en main.conf"
 
-#: ../includes/common.php:304
+#: ../includes/common.php:332
+msgid "Logout"
+msgstr "Salir"
+
+#: ../includes/common.php:337
 msgid "Page Not Found."
 msgstr "Pagina No encontrada"
 
@@ -80,10 +89,12 @@ msgid "Searched for"
 msgstr "Buscado para"
 
 #: ../includes/display.php:139
+#, php-format
 msgid "Results %d of %d"
 msgstr "Resultados %d de %d"
 
 #: ../includes/display.php:141
+#, php-format
 msgid "Results %d"
 msgstr "Resultados %d"
 
@@ -95,225 +106,261 @@ msgstr "Primero"
 msgid "Last"
 msgstr "Ultimo"
 
-#: ../includes/login.php:187
+#: ../includes/login.php:239
 msgid "Voicemail Login not found."
 msgstr ""
-"No se encontro el usuario del Buz&oacute;n de Voz, se usa el usuario de la extension"
+"No se encontro el usuario del Buz&oacute;n de Voz, se usa el usuario de la "
+"extension"
 
-#: ../includes/login.php:188
+#: ../includes/login.php:240
 msgid "No access to voicemail"
 msgstr "No tiene permiso para acceder al Buz&oacute;n de Voz"
 
-#: ../includes/login.php:214
+#: ../includes/login.php:266
 msgid "Incorrect Password"
 msgstr "Contrase&ntilde;a Incorrecta"
 
-#: ../includes/login.php:226
+#: ../includes/login.php:278
 msgid "Incorrect Username or Password"
 msgstr "Contrase&ntilde; Incorrecta"
 
-#: ../includes/login.php:325 ../includes/login.php:335
+#: ../includes/login.php:381 ../includes/login.php:391
 msgid "Login"
 msgstr "Usuario"
 
-#: ../includes/login.php:343
+#: ../includes/login.php:399
 msgid "Password"
 msgstr "Contrase&ntilde;a"
 
-#: ../includes/login.php:352
+#: ../includes/login.php:408
 msgid "Submit"
 msgstr "Enviar"
 
-#: ../includes/login.php:360
+#: ../includes/login.php:416
 msgid "Remember Password"
 msgstr "Recordar Contrase&ntilde;a"
 
-#: ../includes/login.php:375
+#: ../includes/login.php:431
 msgid "Use your <b>Voicemail Mailbox and Password</b>"
 msgstr "Use su Buz&oacute;n de Voz (Usuario)  y contrase&ntilde;a"
 
-#: ../includes/login.php:376
+#: ../includes/login.php:432
 msgid "This is the same password used for the phone"
 msgstr "Esta es es la misma contrase&ntilde;a usada para el telefono"
 
-#: ../includes/login.php:378
+#: ../includes/login.php:434
 msgid ""
 "For password maintenance or assistance, contact your Phone System "
 "Administrator."
 msgstr ""
-"Para mantenimiento de contrase&ntilde;as o asistencia, pongase en contacto con el "
-"Administrador."
+"Para mantenimiento de contrase&ntilde;as o asistencia, pongase en contacto "
+"con el Administrador."
 
-#: ../includes/main.conf.php:139
+#: ../includes/main.conf.php:152
 msgid "INBOX"
 msgstr "Entrada"
 
-#: ../includes/main.conf.php:141
+#: ../includes/main.conf.php:154
 msgid "Family"
 msgstr "Familiares"
 
-#: ../includes/main.conf.php:143
+#: ../includes/main.conf.php:156
 msgid "Friends"
 msgstr "Amigos"
 
-#: ../includes/main.conf.php:145
+#: ../includes/main.conf.php:158
 msgid "Old"
 msgstr "Antiguos"
 
-#: ../includes/main.conf.php:147
+#: ../includes/main.conf.php:160
 msgid "Work"
 msgstr "Trabajo"
 
-#: ../includes/main.conf.php:200
+#: ../includes/main.conf.php:213
 msgid "Directory"
 msgstr "Directorio"
 
-#: ../includes/main.conf.php:201
+#: ../includes/main.conf.php:214
 msgid "Echo Test"
 msgstr "Test Eco"
 
-#: ../includes/main.conf.php:202 ../modules/callmonitor.module:163
-#: ../modules/voicemail.module:318
+#: ../includes/main.conf.php:215 ../modules/callmonitor.module:161
+#: ../modules/voicemail.module:326
 msgid "Time"
 msgstr "Hora"
 
-#: ../includes/main.conf.php:203
+#: ../includes/main.conf.php:216
 msgid "Weather"
 msgstr "Tiempo"
 
-#: ../includes/main.conf.php:204
+#: ../includes/main.conf.php:217
 msgid "Schedule wakeup call"
 msgstr "Programar llamada despertador"
 
-#: ../includes/main.conf.php:205
+#: ../includes/main.conf.php:218
 msgid "festival test (your extension is XXX)"
 msgstr "Test festival tts (su extension es XXX)"
 
-#: ../includes/main.conf.php:206
+#: ../includes/main.conf.php:219
 msgid "Activate Call Waiting (deactivated by default)"
 msgstr "Activar Llamada en Espera (Desactivada por defecto)"
 
-#: ../includes/main.conf.php:207
+#: ../includes/main.conf.php:220
 msgid "Deactivate Call Waiting"
 msgstr "Desactivar Llamada en Espera"
 
-#: ../includes/main.conf.php:208
+#: ../includes/main.conf.php:221
 msgid "Call Forwarding System"
 msgstr "Desv&iacute;o de llamada"
 
-#: ../includes/main.conf.php:209
+#: ../includes/main.conf.php:222
 msgid "Disable Call Forwarding"
 msgstr "Desactivar el Desv&iacute;o de Llamada"
 
-#: ../includes/main.conf.php:210
+#: ../includes/main.conf.php:223
 msgid "IVR Recording"
 msgstr "Grabaciones"
 
-#: ../includes/main.conf.php:211
+#: ../includes/main.conf.php:224
 msgid "Enable Do-Not-Disturb"
 msgstr "Activar No-Molestar"
 
-#: ../includes/main.conf.php:212
+#: ../includes/main.conf.php:225
 msgid "Disable Do-Not-Disturb"
 msgstr "Desactivar No-Molestar"
 
-#: ../includes/main.conf.php:213
+#: ../includes/main.conf.php:226
 msgid "Call Forward on Busy"
 msgstr "Desv&iacute;o de llamada cuando est&eacute; Ocupado"
 
-#: ../includes/main.conf.php:214
+#: ../includes/main.conf.php:227
 msgid "Disable Call Forward on Busy"
 msgstr "Desactivar el Desv&iacute;o de llamada cuando est&eacute; Ocupado"
 
-#: ../includes/main.conf.php:215
+#: ../includes/main.conf.php:228
 msgid "Message Center (does no ask for extension)"
 msgstr "Centro de Mensajes (no pregunta la extens&iacute;n)"
 
-#: ../includes/main.conf.php:216
+#: ../includes/main.conf.php:229
 msgid "Enter Message Center"
 msgstr "Entrar en el Centro de Mensajes"
 
-#: ../includes/main.conf.php:217
+#: ../includes/main.conf.php:230
 msgid "Playback IVR Recording"
 msgstr "Escuchar la grabaci&oacute;n realizada"
 
-#: ../includes/main.conf.php:218
+#: ../includes/main.conf.php:231
 msgid "Test Fax"
 msgstr "Probar Fax"
 
-#: ../includes/main.conf.php:219
+#: ../includes/main.conf.php:232
 msgid "Simulate incoming call"
 msgstr "Simular una llamada entrante"
 
-#: ../modules/callmonitor.module:37 ../modules/callmonitor.module:259
+#: ../includes/main.conf.php:273
+msgid "Email voicemail as attachment"
+msgstr "Adjuntar el mensaje de voz en el correo electr&oacute;nico"
+
+#: ../includes/main.conf.php:274
+msgid "Say caller id in recording emailed"
+msgstr ""
+"Indica el CallerID en la grabaci&oacute;n enviada por correo electr&oacute;"
+"nico"
+
+#: ../includes/main.conf.php:275
+msgid "Say envelop (date/time) in recording emailed"
+msgstr ""
+"Indica la etiqueta (tiempo/hora) en la grabaci&oacute;n enviada por correo "
+"electr&oacute;nico"
+
+#: ../includes/main.conf.php:276
+msgid "Delete voicemail when emailed"
+msgstr ""
+"Eliminar el mensaje de voz una vez enviado  por correo electr&oacute;nico"
+
+#: ../includes/main.conf.php:277
+msgid "Play next message after deleting current message"
+msgstr "Reproducir el siguiente mensaje una vez eliminado el actual"
+
+#: ../includes/main.conf.php:278
+msgid "Ask caller to review their voicemail before sending"
+msgstr ""
+
+#: ../includes/main.conf.php:279
+msgid "Maximum time in seconds a voicemail will record"
+msgstr ""
+
+#: ../modules/callmonitor.module:37 ../modules/callmonitor.module:257
 msgid "Call Monitor"
 msgstr "Registro de Llamadas"
 
-#: ../modules/callmonitor.module:133 ../modules/voicemail.module:112
+#: ../modules/callmonitor.module:132 ../modules/voicemail.module:117
+#, php-format
 msgid "Path is not a directory: %s"
 msgstr "La ruta no es un directorio: %s"
 
-#: ../modules/callmonitor.module:143 ../modules/voicemail.module:295
+#: ../modules/callmonitor.module:141 ../modules/voicemail.module:303
 msgid "delete"
 msgstr "Eliminar"
 
-#: ../modules/callmonitor.module:149
+#: ../modules/callmonitor.module:147
 msgid "duration"
 msgstr "Duraci&oacute;n"
 
-#: ../modules/callmonitor.module:152
+#: ../modules/callmonitor.module:150
 msgid "ignore"
 msgstr "ninguno"
 
-#: ../modules/callmonitor.module:161 ../modules/voicemail.module:316
+#: ../modules/callmonitor.module:159 ../modules/voicemail.module:324
 msgid "Date"
 msgstr "Fecha"
 
-#: ../modules/callmonitor.module:165 ../modules/voicemail.module:320
+#: ../modules/callmonitor.module:163 ../modules/voicemail.module:328
 msgid "Caller ID"
 msgstr "Caller ID"
 
-#: ../modules/callmonitor.module:167
+#: ../modules/callmonitor.module:165
 msgid "Source"
 msgstr "Origen"
 
-#: ../modules/callmonitor.module:169
+#: ../modules/callmonitor.module:167
 msgid "Destination"
 msgstr "Destino"
 
-#: ../modules/callmonitor.module:171
+#: ../modules/callmonitor.module:169
 msgid "Context"
 msgstr "Contexto"
 
-#: ../modules/callmonitor.module:173 ../modules/voicemail.module:326
+#: ../modules/callmonitor.module:171 ../modules/voicemail.module:334
 msgid "Duration"
 msgstr "Duraci&oacute;n"
 
-#: ../modules/callmonitor.module:204
+#: ../modules/callmonitor.module:202
 msgid "Monitor"
 msgstr "Monitor para"
 
-#: ../modules/callmonitor.module:224 ../modules/voicemail.module:367
+#: ../modules/callmonitor.module:222 ../modules/voicemail.module:375
 msgid "play"
 msgstr "escuchar"
 
-#: ../modules/callmonitor.module:261
+#: ../modules/callmonitor.module:259
+#, php-format
 msgid "Call Monitor for %s (%s)"
 msgstr "Registro de Llamadas de %s (%s)"
 
-#: ../modules/callmonitor.module:313 ../modules/voicemail.module:451
+#: ../modules/callmonitor.module:311 ../modules/voicemail.module:459
 msgid "select"
 msgstr "Selecionar"
 
-#: ../modules/callmonitor.module:314 ../modules/voicemail.module:452
+#: ../modules/callmonitor.module:312 ../modules/voicemail.module:460
 msgid "all"
 msgstr "todos"
 
-#: ../modules/callmonitor.module:315 ../modules/voicemail.module:453
+#: ../modules/callmonitor.module:313 ../modules/voicemail.module:461
 msgid "none"
 msgstr "ninguno"
 
-#: ../modules/callmonitor.module:544
+#: ../modules/callmonitor.module:543
 msgid "Only deletes recording files, not cdr log"
 msgstr "Solo elimina los archivos grabados, no el log en el CDR"
 
@@ -322,6 +369,7 @@ msgid "Help"
 msgstr "Ayuda"
 
 #: ../modules/help.module:70
+#, php-format
 msgid "Help for %s (%s)"
 msgstr "Ayuda para %s (%s)"
 
@@ -333,213 +381,210 @@ msgstr "Teclas de Marcaci&oacute;n"
 msgid "Action"
 msgstr "Acci&oacute;n"
 
-#: ../modules/settings.module:56 ../modules/settings.module:619
-msgid "Settings for"
-msgstr "Configuracion de"
+#: ../modules/settings.module:61 ../modules/settings.module:647
+msgid "Settings"
+msgstr "Opciones"
 
-#: ../modules/settings.module:114
+#: ../modules/settings.module:122
 msgid "Call forward number not changed"
 msgstr "El n&uacute;mero del desv&iacute;o no ha cambiado"
 
-#: ../modules/settings.module:115
+#: ../modules/settings.module:123
+#, php-format
 msgid ""
 "Number %s must contain dial numbers (characters like '(', '-', and ')' are "
 "ok)"
-msgstr "El n&uacute;mero %s debe contener n&uacte;meros marcables (caracteres como '(', '-', y ')' son v&aacute;lidos)"
+msgstr ""
+"El n&uacute;mero %s debe contener n&uacte;meros marcables (caracteres como "
+"'(', '-', y ')' son v&aacute;lidos)"
 
-#: ../modules/settings.module:135 ../modules/settings.module:140
-#: ../modules/settings.module:145 ../modules/settings.module:155
-#: ../modules/settings.module:160
+#: ../modules/settings.module:143 ../modules/settings.module:148
+#: ../modules/settings.module:153 ../modules/settings.module:158
+#: ../modules/settings.module:168 ../modules/settings.module:173
 msgid "Voicemail password not changed"
 msgstr "La Contrase&ntilde;a del Buz&oacute;n de Voz no ha cambiado"
 
-#: ../modules/settings.module:136
+#: ../modules/settings.module:144
 msgid "Password and password confirm must not be blank"
-msgstr "Contrase&ntilde;a y la confirmacion de esta no deben de estar en blanco"
+msgstr ""
+"Contrase&ntilde;a y la confirmacion de esta no deben de estar en blanco"
 
-#: ../modules/settings.module:141
+#: ../modules/settings.module:149
+#, fuzzy, php-format
+msgid "Passwords must be all numbers and greater than %d digits"
+msgstr "Contrase&ntilde;a ha de ser numerica y de longitud %d digitos"
+
+#: ../modules/settings.module:154
+#, php-format
 msgid "Passwords must be all numbers and only %d digits"
 msgstr "Contrase&ntilde;a ha de ser numerica y de longitud %d digitos"
 
-#: ../modules/settings.module:146
+#: ../modules/settings.module:159
 msgid "Password and password confirm do not match"
 msgstr "Contrase&ntilde;a y conformacion no corresponden"
 
-#: ../modules/settings.module:156 ../modules/settings.module:161
-#: ../modules/settings.module:212 ../modules/settings.module:217
+#: ../modules/settings.module:169 ../modules/settings.module:174
+#: ../modules/settings.module:226 ../modules/settings.module:231
+#, php-format
 msgid "%s does not exist or is not writable"
 msgstr "%s No existe o no se puede escribir"
 
-#: ../modules/settings.module:201
+#: ../modules/settings.module:215
 msgid "Voicemail email and pager address not changed"
 msgstr "La Contrase&ntilde;a del Buz&oacute;n de Voz no ha cambiado"
 
-#: ../modules/settings.module:211 ../modules/settings.module:216
+#: ../modules/settings.module:225 ../modules/settings.module:230
 msgid "Voicemail email settings not changed"
 msgstr "La Contrase&ntilde;a del Buz&oacute;n de Voz no ha cambiado"
 
-#: ../modules/settings.module:358
+#: ../modules/settings.module:375
 msgid "Language:"
 msgstr "Idioma:"
 
-#: ../modules/settings.module:379
+#: ../modules/settings.module:396
 msgid "Call Routing"
 msgstr "Enrutado de llamadas"
 
-#: ../modules/settings.module:382
+#: ../modules/settings.module:399
 msgid "Call Forwarding:"
 msgstr "Desviar llamadas a:"
 
-#: ../modules/settings.module:390 ../modules/settings.module:469
+#: ../modules/settings.module:407 ../modules/settings.module:486
 msgid "Enable"
 msgstr "Activar"
 
-#: ../modules/settings.module:401
+#: ../modules/settings.module:418
 msgid "Voicemail Password:"
 msgstr "Contrase&ntilde;a del Buz&oacute;n de Voz"
 
-#: ../modules/settings.module:407
+#: ../modules/settings.module:424
 msgid "Enter again to confirm:"
 msgstr "Introduzca otra vez para confirmar:"
 
-#: ../modules/settings.module:413
+#: ../modules/settings.module:430
+#, php-format
 msgid "Passwords must be all numbers and only %s digits"
 msgstr "Contrase&ntilde;a ha de ser numerica y de longitud %s digitos"
 
-#: ../modules/settings.module:454
+#: ../modules/settings.module:471
 msgid "Email Voicemail To:"
 msgstr "Buz&oacute;n de Voz para"
 
-#: ../modules/settings.module:460
+#: ../modules/settings.module:477
 msgid "Pager Voicemail To:"
 msgstr "Buz&oacute;n de Voz para"
 
-#: ../modules/settings.module:474
-msgid "Email voicemail as attachment"
-msgstr "Adjuntar el mensaje de voz en el correo electr&oacute;nico"
-
-#: ../modules/settings.module:475
-msgid "Say caller id in recording emailed"
-msgstr "Indica el CallerID en la grabaci&oacute;n enviada por correo electr&oacute;nico"
-
-#: ../modules/settings.module:476
-msgid "Say envelop (date/time) in recording emailed"
-msgstr "Indica la etiqueta (tiempo/hora) en la grabaci&oacute;n enviada por correo electr&oacute;nico"
-
-#: ../modules/settings.module:477
-msgid "Delete voicemail when emailed"
-msgstr "Eliminar el mensaje de voz una vez enviado  por correo electr&oacute;nico"
-
-#: ../modules/settings.module:478
-msgid "Play next message after deleting current message"
-msgstr "Reproducir el siguiente mensaje una vez eliminado el actual"
-
-#: ../modules/settings.module:512
+#: ../modules/settings.module:539
 msgid "Audio Format:"
 msgstr "Formato del Audio:"
 
-#: ../modules/settings.module:515
+#: ../modules/settings.module:542
 msgid "Best Quality"
 msgstr "Mejor Calidad"
 
-#: ../modules/settings.module:516
+#: ../modules/settings.module:543
 msgid "Smallest Download"
 msgstr "Descarga rapida"
 
-#: ../modules/settings.module:524
+#: ../modules/settings.module:551
 msgid "Voicemail Settings"
 msgstr "Propiedades del Buz&oacute;n de Voz"
 
-#: ../modules/settings.module:563
+#: ../modules/settings.module:591
 msgid "Call Monitor Settings"
 msgstr "Propiedades del Registro de Llamadas"
 
-#: ../modules/settings.module:566
+#: ../modules/settings.module:594
 msgid "Record INCOMING:"
 msgstr "Grabaciones Entrantes:"
 
-#: ../modules/settings.module:568 ../modules/settings.module:576
+#: ../modules/settings.module:596 ../modules/settings.module:604
 msgid "Always"
 msgstr "Siempre"
 
-#: ../modules/settings.module:569 ../modules/settings.module:577
+#: ../modules/settings.module:597 ../modules/settings.module:605
 msgid "Never"
 msgstr "Nunca"
 
-#: ../modules/settings.module:570 ../modules/settings.module:578
+#: ../modules/settings.module:598 ../modules/settings.module:606
 msgid "On-Demand"
 msgstr "Bajo demanda"
 
-#: ../modules/settings.module:574
+#: ../modules/settings.module:602
 msgid "Record OUTGOING:"
 msgstr "Grabaciones Salientes:"
 
-#: ../modules/settings.module:621
+#: ../modules/settings.module:649
+#, php-format
 msgid "Settings for %s (%s)"
 msgstr "Ajustes para %s (%s)"
 
-#: ../modules/settings.module:657
+#: ../modules/settings.module:685
 msgid "Update"
 msgstr "Actualizar"
 
-#: ../modules/voicemail.module:39
+#: ../modules/voicemail.module:45
 msgid "Voicemail"
 msgstr "Buz&oacute;n de Voz"
 
-#: ../modules/voicemail.module:156
+#: ../modules/voicemail.module:161
 msgid "A folder must be selected before the message can be moved."
 msgstr "Debe elegir primero una carpeta antes de mover el mensaje."
 
-#: ../modules/voicemail.module:170
+#: ../modules/voicemail.module:175
 msgid "An extension must be selected before the message can be forwarded."
 msgstr "Debe de seleccionar una extension antes de reenviar el mensaje"
 
-#: ../modules/voicemail.module:234
+#: ../modules/voicemail.module:239
 msgid "No Voicemail Recordings for Admin"
 msgstr "No hay grabaciones en el Buz&oacute;n de Voz de Admin"
 
-#: ../modules/voicemail.module:298
+#: ../modules/voicemail.module:306
 msgid "move_to"
 msgstr "Mover a"
 
-#: ../modules/voicemail.module:301
+#: ../modules/voicemail.module:309
 msgid "Folder"
 msgstr "Carpetas"
 
-#: ../modules/voicemail.module:305
+#: ../modules/voicemail.module:313
 msgid "forward_to"
 msgstr "Enviar a"
 
-#: ../modules/voicemail.module:322
+#: ../modules/voicemail.module:330
 msgid "Priority"
 msgstr "Prioridad"
 
-#: ../modules/voicemail.module:324
+#: ../modules/voicemail.module:332
 msgid "Orig Mailbox"
 msgstr "Buz&oacute;n de Voz Orig"
 
-#: ../modules/voicemail.module:356
+#: ../modules/voicemail.module:364
 msgid "Message"
 msgstr "Mensaje"
 
-#: ../modules/voicemail.module:371
+#: ../modules/voicemail.module:379
 msgid "Voicemail recording(s) was not found."
 msgstr "No se ha encontrado grabaciones en el Buz&oacute;n de Voz."
 
-#: ../modules/voicemail.module:372
+#: ../modules/voicemail.module:380
+#, php-format
 msgid ""
 "On settings page, change voicemail audio format.  It is currently set to %s"
 msgstr ""
 
-#: ../modules/voicemail.module:404
+#: ../modules/voicemail.module:412
+#, php-format
 msgid "Voicemail for %s (%s)"
 msgstr "Buz&oacute;n de Voz de %s (%s)"
 
-#: ../modules/voicemail.module:654
+#: ../modules/voicemail.module:662
+#, php-format
 msgid "Could not create mailbox folder %s on the server"
 msgstr "No puedo crear la carpeta %s en el buz&oacute;n de voz"
 
-#: ../modules/voicemail.module:695
+#: ../modules/voicemail.module:702
+#, php-format
 msgid "Permission denied on folder %s or %s"
 msgstr "Permiso denegado en el directorio %s o %s"
 
@@ -547,12 +592,8 @@ msgstr "Permiso denegado en el directorio %s o %s"
 msgid "download"
 msgstr "Descargar"
 
-msgid "Settings"
-msgstr "Opciones"
+#~ msgid "Settings for"
+#~ msgstr "Configuracion de"
 
-msgid "Logout"
-msgstr "Salir"
-
-msgid "Folders"
-msgstr "Carpetas"
-
+#~ msgid "Folders"
+#~ msgstr "Carpetas"

@@ -49,7 +49,7 @@ function ajaxRefreshScript($args) {
 
       function alertContents() {
 
-        if (http_request == false) {
+        if (!http_request) {
           return;
         }
 
@@ -61,20 +61,20 @@ function ajaxRefreshScript($args) {
               result.load(http_request.responseStream);
             }
 
-            var delimiter = '<-&*&->';
-            var response_array = http_request.responseText.split(delimiter);
+            var response = http_request.responseXML.documentElement;
 
-            var i1 = http_request.responseText.indexOf(delimiter);
-            var i2 = i1 + delimiter.length;
-            var i3 = http_request.responseText.indexOf(delimiter,i2);
-            var i4 = i3 + delimiter.length;
-
-            var nav_menu_len = i1;
-            var nav_submenu_len = i3 - i2;
-
-            var nav_menu = http_request.responseText.substr(0,nav_menu_len);
-            var nav_submenu = http_request.responseText.substr(i2,nav_submenu_len);
-            var content = http_request.responseText.substr(i4);
+            var nav_menu = '';
+            if (response.getElementsByTagName('nav_menu')[0]) {
+              nav_menu = response.getElementsByTagName('nav_menu')[0].firstChild.data;
+            }
+            var nav_submenu = '';
+            if (response.getElementsByTagName('nav_submenu')[0]) {
+              nav_submenu = response.getElementsByTagName('nav_submenu')[0].firstChild.data;
+            }
+            var content = '';
+            if (response.getElementsByTagName('content')[0]) {
+              content = response.getElementsByTagName('content')[0].firstChild.data;
+            }
 
             if (nav_menu) {
               document.getElementById('nav_menu').innerHTML = '';
@@ -93,7 +93,7 @@ function ajaxRefreshScript($args) {
       }
 
       function updatePage() {
-        makeRequest('" . $_SERVER['PHP_SELF'] . "', '" . $url_args . "');
+        makeRequest('" . $_SESSION['ARI_ROOT'] . "', '" . $url_args . "');
       }
 
       // refresh time in 'minutes:seconds' (0 to inifinity) : (0 to 59)
@@ -121,7 +121,7 @@ function ajaxRefreshScript($args) {
         setTimeout(\"beginRefresh()\",1000);
       }
 
-      window.onload=beginRefresh();
+      window.onload=beginRefresh;
 
     </script>";
 

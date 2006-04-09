@@ -42,7 +42,7 @@ class Voicemail {
 
     if ($logout!='') { 
       $ret .= "
-        <p><small><small><a href='" . $_SERVER['PHP_SELF'] . "?m=Voicemail&f=display'>" . _("Voicemail") . "</a></small></small></p>";
+        <p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Voicemail&f=display'>" . _("Voicemail") . "</a></small></small></p>";
     } 
 
     return $ret;
@@ -77,15 +77,14 @@ class Voicemail {
 
       foreach($paths as $key => $path) {
 
-        AppendPath($path,$context);
-        AppendPath($path,$extension);
+        $path = appendPath($path,$context);
+        $path = appendPath($path,$extension);
   
-        if (is_dir($path)) {
+        if (is_dir($path) && is_readable($path)) {
           $dh = opendir($path);
           while (false!== ($folder = readdir($dh))) {
 
-            $folder_path = $path;
-            AppendPath($folder_path,$folder);
+            $folder_path = AppendPath($path,$folder);
 
             if($folder!="." && $folder!=".." && 
                  filetype($folder_path)=='dir') {
@@ -95,7 +94,7 @@ class Voicemail {
                 // get message count
                 $indexes = $this->getVoicemailIndex($folder_path,$q,$order,$sort);
                 $record_count = 0;
-                $this->getVoicemailCount($indexes,$record_count);
+                $record_count += $this->getVoicemailCount($indexes);
 
                 // set current folder color
                 $class='';
@@ -106,7 +105,7 @@ class Voicemail {
 
                 // add folder to list
                 $ret .= "<p><small><small>
-                           <a " . $class . " href='" . $_SERVER['PHP_SELF'] . "?m=Voicemail&q=" . $q . "&folder=" . $f. "'>
+                           <a " . $class . " href='" . $_SESSION['ARI_ROOT'] . "?m=Voicemail&q=" . $q . "&folder=" . $f. "'>
                            " . $fn . " (" . $record_count . ")" . "
                            </a>
                          </small></small></p>";
@@ -114,9 +113,6 @@ class Voicemail {
             }
           } 
         } 
-        else {
-          $_SESSION['ari_error'] .= sprintf(_("Path is not a directory: %s"),$path) . "<br>";
-        }
       }
       $i++;
     }
@@ -186,7 +182,7 @@ class Voicemail {
       <head>
         <script>
         <!--
-          window.location = \"" . $_SERVER['PHP_SELF'] . "?m=" . $m . "&folder=" . $folder . "&q=" . $q . "&start=" . $start . "&span=" . $span . "&order=" . $order . "&sort=" . $sort . "\"
+          window.location = \"" . $_SESSION['ARI_ROOT'] . "?m=" . $m . "&folder=" . $folder . "&q=" . $q . "&start=" . $start . "&span=" . $span . "&order=" . $order . "&sort=" . $sort . "\"
         // -->
         </script>
       </head>";
@@ -241,12 +237,13 @@ class Voicemail {
     }
 
     // get data
+    $data = array();
     foreach($paths as $key => $path) {
-      CheckPathSlash(&$path);
+      $path = fixPathSlash($path);
       $vm_path = $path . "$context/$extension/$folder";
       $indexes = $this->getVoicemailIndex($vm_path,$q,$order,$sort);
-      $this->getVoicemailCount($indexes,$record_count);
-      $this->getVoicemailData($indexes,$start,$span,$data);
+      $record_count += $this->getVoicemailCount($indexes);
+      $data = array_merge($data,$this->getVoicemailData($indexes,$start,$span));
     }
 
     // build controls
@@ -255,8 +252,10 @@ class Voicemail {
     $filter = '';
     $recursiveMax = 1;
     $recursiveCount = 0;
+    $files = array();
     foreach($paths as $key => $path) {
-      GetFiles($path,$filter,$recursiveMax,$recursiveCount,$files);
+      $path_files = GetFiles($path,$filter,$recursiveMax,$recursiveCount);
+      $files = array_merge($files,$path_files);
     }
 
     // move options
@@ -355,7 +354,7 @@ class Voicemail {
       }
 
       $unicode_q = urlencode($q);
-      $recording_header .= "<th><a href=" .  $_SERVER['PHP_SELF'] . "?m=" . $m . "&f=" . $f . "&q=" . $unicode_q . "&order=" . $field . "&sort=" . $currentSort . ">" . $text . $arrowImg . "</a></th>";
+      $recording_header .= "<th><a href=" .  $_SESSION['ARI_ROOT'] . "?m=" . $m . "&f=" . $f . "&q=" . $unicode_q . "&order=" . $field . "&sort=" . $currentSort . ">" . $text . $arrowImg . "</a></th>";
 
       $i++;
     }
@@ -412,7 +411,7 @@ class Voicemail {
 
     // start form
     $ret .= "
-      <form name='voicemail_form' action='" . $_SERVER['PHP_SELF'] . "' method='GET'>
+      <form name='voicemail_form' action='" . $_SESSION['ARI_ROOT'] . "' method='GET'>
         <input type=hidden name=m value=" . $m . ">	
         <input type=hidden name=f value=msgAction>
         <input type=hidden name=a value=''>
@@ -490,10 +489,12 @@ class Voicemail {
    */
   function getVoicemailIndex($path,$q,$order,$sort) {
 
+    $indexes = array();
+
     $filter = '.txt';
     $recursiveMax = 0;
     $recursiveCount = 0;
-    GetFiles($path,$filter,$recursiveMax,$recursiveCount,$files);
+    $files = getFiles($path,$filter,$recursiveMax,$recursiveCount);
 
     if (isset($files)) {
 
@@ -574,8 +575,7 @@ class Voicemail {
 
       // get file parts for search
       $path_parts = pathinfo($path);
-      $path = $path_parts['dirname'];
-      CheckPathSlash($path);
+      $path = fixPathSlash($path_parts['dirname']);
 
       list($name,$ext) = split("\.",$path_parts['basename']);
 
@@ -613,20 +613,19 @@ class Voicemail {
 
     // recieving path
     $paths = split(';',$ASTERISK_VOICEMAIL_PATH);
-    $path_rx = $paths[0];
-    AppendPath($path_rx,$context_rx);
+    $path_rx = appendPath($paths[0],$context_rx);
     if (!is_dir($path_rx)) {
       mkdir($path_rx, $perm); 
       chown($path_rx,intval($uid));
       chgrp($path_rx,intval($gid));
     }
-    AppendPath($path_rx,$extension_rx);
+    $path_rx = appendPath($path_rx,$extension_rx);
     if (!is_dir($path_rx)) {
       mkdir($path_rx, $perm); 
       chown($path_rx,intval($uid));
       chgrp($path_rx,intval($gid));
     }
-    AppendPath($path_rx,$folder_rx);
+    $path_rx = appendPath($path_rx,$folder_rx);
     if (!is_dir($path_rx)) {
       mkdir($path_rx, $perm); 
       chown($path_rx,intval($uid));
@@ -644,7 +643,7 @@ class Voicemail {
         if($filename!="." && $filename!="..") {
 
           $msg_path = $path_rx;
-          AppendPath($msg_path,$filename);
+          $msg_path = appendPath($msg_path,$filename);
           if (is_file($msg_path)) {
             $path_parts = pathinfo($msg_path);
             $num = preg_replace("/[a-zA-Z]|\./",'', $path_parts['basename']);
@@ -668,7 +667,7 @@ class Voicemail {
       // get file parts for search
       $path_parts = pathinfo($path);
       $path = $path_parts['dirname'];
-      CheckPathSlash($path);
+      $path = fixPathSlash($path);
       list($name,$ext) = split("\.",$path_parts['basename']);
       if (is_dir($path)) {
 
@@ -677,10 +676,9 @@ class Voicemail {
         while ($fn = readdir($hdl)) {
           if (preg_match("/" . $name . "/",$fn)) {
             $src = $path . $fn;
-            $dst = $path_rx; 
             $path_parts = pathinfo($src);
             $folder_rx = preg_replace("/\d+/",sprintf("%0" . $lastNumLen . "d",$lastNum),$path_parts['basename']);
-            AppendPath($dst,$folder_rx);
+            $dst = appendPath($path_rx,$folder_rx);
             if (is_writable($src) && is_writable($path_rx)) {
 
               $perm = fileperms($src);
@@ -713,12 +711,14 @@ class Voicemail {
    *
    * @param $indexes
    *   array of files to be counted
-   * @param $count
-   *   Reference to the variable to store the data in
+   * @return $count
+   *   number of cdr records counted
    */
-  function getVoicemailCount($indexes,&$count) {
+  function getVoicemailCount($indexes) {
 
-    $count = $count + count($indexes);
+    $count = count($indexes);
+
+    return $count;
   }
 
   /*
@@ -733,7 +733,9 @@ class Voicemail {
    * @param $data
    *   Reference to the variable to store the data in
    */
-  function getVoicemailData($indexes,$start,$span,&$data) {
+  function getVoicemailData($indexes,$start,$span) {
+
+    $data = array();
 
     if (!isset($indexes)) {
       return;
@@ -743,7 +745,7 @@ class Voicemail {
     $i = 0;
     foreach ($indexes as $file => $index) {
       if ($i>$start-1+$span) {
-        return;
+        return $data;
       }
       elseif ($i>$start-1 && $i<$start+$span) {
         $lines = file($file);
@@ -757,6 +759,8 @@ class Voicemail {
       }
       $i++;
     }
+
+    return $data;
   }
 
 }

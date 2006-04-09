@@ -15,20 +15,33 @@ $AMP_FUNCTIONS_FILES = "../admin/functions.php;../admin/functions.inc.php";
 $AMPORTAL_CONF_FILE = "/etc/amportal.conf";
 
 #
-# Database host and name
+# Host for Asterisk Manager Interface
+#
+$ASTERISKMGR_DBHOST = "localhost";
+
+#
+# Database options for older legacy AMP installations (pre-FreePBX)
+#   - $LEGACY_AMP_DBFILE only needs to be set if using a database like sqlite 
+#
+$LEGACY_AMP_DBENGINE = "mysql";
+$LEGACY_AMP_DBFILE = "";
+$LEGACY_AMP_DBHOST = "localhost";
+$LEGACY_AMP_DBNAME = "asterisk";
+
+#
+# Database cdr settings
+#   - Only need to update these settings if standalone or an older AMP version (pre-FreePBX) is used
+#   - $ASTERISKCDR_DBFILE only needs to be set if using a database like sqlite
 #   Options: supported database types (others are supported, but not listed)
 #     'mysql' - MySQL
 #     'pgsql' - PostgreSQL
 #     'oci8' - Oracle
 #     'odbc' - ODBC
 #
-$ASTERISKMGR_DBHOST = "localhost";
-$ASTERISK_DBHOST = "localhost";
-$ASTERISK_DBNAME = "asterisk";
-$ASTERISK_DBTYPE = "mysql";
+$ASTERISKCDR_DBENGINE = "mysql";
+$ASTERISKCDR_DBFILE = "";
 $ASTERISKCDR_DBHOST = "localhost";
 $ASTERISKCDR_DBNAME = "asteriskcdrdb";
-$ASTERISKCDR_DBTYPE = "mysql";
 $ASTERISKCDR_DBTABLE = "cdr";
 
 #
@@ -40,8 +53,8 @@ $ASTERISKCDR_DBTABLE = "cdr";
 $STANDALONE['use'] = false;
 $STANDALONE['asterisk_mgruser'] = "";
 $STANDALONE['asterisk_mgrpass'] = "";
-$STANDALONE['asterisk_cdrdbuser'] = "";
-$STANDALONE['asterisk_cdrdbpass'] = "";
+$STANDALONE['asteriskcdr_dbuser'] = "";
+$STANDALONE['asteriskcdr_dbpass'] = "";
 
 ###############################
 # authentication settings
@@ -209,7 +222,7 @@ $ARI_HELP_FEATURE_CODES['*78'] = _("Enable Do-Not-Disturb");
 $ARI_HELP_FEATURE_CODES['*79'] = _("Disable Do-Not-Disturb");
 $ARI_HELP_FEATURE_CODES['*90'] = _("Call Forward on Busy");
 $ARI_HELP_FEATURE_CODES['*91'] = _("Disable Call Forward on Busy");
-$ARI_HELP_FEATURE_CODES['*97'] = _("Message Center (does no ask for extension)");
+$ARI_HELP_FEATURE_CODES['*97'] = _("Message Center (does not ask for extension)");
 $ARI_HELP_FEATURE_CODES['*98'] = _("Enter Message Center");
 $ARI_HELP_FEATURE_CODES['*99'] = _("Playback IVR Recording");
 $ARI_HELP_FEATURE_CODES['666'] = _("Test Fax");

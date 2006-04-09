@@ -6,36 +6,20 @@
  */
 
 /**
- * Set a arguments.
- *
- * @param $args
- *   The name of the array being acted upon.
- * @param $name
- *   The name of the variable to set.
- * @param $value
- *   The value to set. This can be any PHP data type; these functions take care
- *   of serialization as necessary.
+ * Sets doc root
  */
-function setArgument(&$args, $name, $value) {
+function setARIRoot() {
 
-  if (!isset($value)) {
-    $value = '';
+  $found = 0;
+  if (isset($_SERVER['PHP_SELF'])) {
+    if ($_SERVER['PHP_SELF']!='') {
+      $_SESSION['ARI_ROOT'] = $_SERVER['PHP_SELF'];
+    }
   }
   
-  $args[$name] = $value;
-}
-
-/**
- * Unset a arguments.
- *
- * @param $args
- *   The name of the array being acted upon.
- * @param $name
- *   The name of the variable to undefine.
- */
-function unsetArgument(&$args, $name) {
-
-  unset($args[$name]);
+  if (!$found) {
+    $_SESSION['ARI_ROOT'] = "index.php";
+  }
 }
 
 /**
@@ -48,7 +32,7 @@ function unsetArgument(&$args, $name) {
  * @return
  *   The value of the variable.
  */
-function getArgument(&$args, $name) {
+function getArgument($args, $name) {
 
   return isset($args[$name]) ? $args[$name] : '';
 }
@@ -60,10 +44,12 @@ function getArgument(&$args, $name) {
  *   directory to search
  * @param $filter
  *   string to use as a filter to match files to return
- * @param $directories
+ * @return $directories
  *   directories found
  */
-function getDirectories($path,$filter,&$directories) {
+function getDirectories($path,$filter) {
+
+  $directories = array();
 
   if (is_dir($path)) {
 
@@ -71,9 +57,9 @@ function getDirectories($path,$filter,&$directories) {
     while (false!== ($item = readdir($dh))) {
       if($item!="." && $item!="..") {
 
-        checkPathSlash($path);
+        $path = fixPathSlash($path);
         $directory = $path;
-        AppendPath($directory,$item);
+        $directory = appendPath($directory,$item);
 
         if (is_dir($directory)) {
 
@@ -92,6 +78,8 @@ function getDirectories($path,$filter,&$directories) {
       }
     } 
   }
+
+  return $directories;
 }
 
 /*
@@ -105,19 +93,20 @@ function getDirectories($path,$filter,&$directories) {
  *   max number of sub folders to search
  * @param $recursive_count
  *   current sub folder count
- * @param $files
+ * @return $files
  *   files found
  */
-function getFiles($path,$filter,$recursive_max,&$recursive_count,&$files) {
+function getFiles($path,$filter,$recursive_max,$recursive_count) {
+
+  $files = array();
 
   if (@is_dir($path) && @is_readable($path)) {
     $dh = opendir($path);
     while (false!== ($item = readdir($dh))) {
       if($item!="." && $item!="..") {
 
-        CheckPathSlash($path);
-        $msg_path = $path;
-        AppendPath($msg_path,$item);
+        $path = fixPathSlash($path);
+        $msg_path = appendPath($path,$item);
 
         $fileCount++;
         if ($fileCount>3000) {
@@ -136,8 +125,10 @@ function getFiles($path,$filter,$recursive_max,&$recursive_count,&$files) {
           }
 
           $count = $recursive_count + 1;
-          GetFiles($msg_path,$filter,$recursive_max,$count,$files);
-        } else {
+          $path_files = getFiles($msg_path,$filter,$recursive_max,$count);
+          $files = array_merge($files,$path_files);
+        } 
+        else {
           $found = 0;
           if ($filter) {
             if (strpos($msg_path,$filter)) {
@@ -153,23 +144,31 @@ function getFiles($path,$filter,$recursive_max,&$recursive_count,&$files) {
       }
     } 
   }
+
+  return $files;
 }
 
 /* Utilities */
 
 /**
- * Checks the path for a trailing slash
+ * Fixes the path for a trailing slash
  *
  * @param $path
  *   path to append
+ * @return $ret
+ *   path to returned
  */
-function checkPathSlash(&$path) {
+function fixPathSlash($path) {
+
+  $ret = $path;
 
   $slash = '';
   if (!preg_match('/\/$/',$path)) {
     $slash = '/';
   } 
-  $path .= $slash; 
+  $ret .= $slash;
+
+  return $ret; 
 }
 
 /**
@@ -179,14 +178,20 @@ function checkPathSlash(&$path) {
  *   path to append
  * @param $folder
  *   folder to append to path
+ * @return $ret
+ *   path to returned
  */
-function appendPath(&$path,$folder) {
+function appendPath($path,$folder) {
+
+  $ret = $path;
 
   $m = '';
   if (!preg_match('/\/$/',$path)) {
     $m = '/';
   } 
-  $path .= $m . $folder; 
+  $ret .= $m . $folder; 
+
+  return $ret;
 }
 
 /**
@@ -217,8 +222,8 @@ function getTimeFormat($timestamp) {
 function checkDependencies() {
 
   // check for PHP
-  if (!version_compare(phpversion(), '4', '>=')) {
-    echo _("ARI requires a version of PHP 4.0 or later");
+  if (!version_compare(phpversion(), '4.3', '>=')) {
+    echo _("ARI requires a version of PHP 4.3 or later");
     exit();
   }
 
@@ -228,8 +233,8 @@ function checkDependencies() {
 
   $found = 0;
   foreach ($buf as $path) {
-    checkPathSlash($path);
-    $pear_check_path = "/" . $path . "DB.php";
+    $path = fixPathSlash($path);
+    $pear_check_path = $path . "DB.php";
     if (is_file($pear_check_path)) {
       $found = 1;
       break;
@@ -239,28 +244,6 @@ function checkDependencies() {
   if (!$found) {
     echo _("PHP PEAR must be installed.  Visit http://pear.php.net for help with installation.");
     exit();
-  }
-}
-
-/**
- * Cleans up old versions with files that will crater the system
- */
-function versionCleanup() {
-
-  if (is_file("./includes/info.inc")) {
-    unlink("./includes/info.inc");
-  }
-  if (is_file("./modules/database.module")) {
-    unlink("./modules/database.module");
-  }
-  if (is_file("./modules/display.module")) {
-    unlink("./modules/display.module");
-  }
-  if (is_file("./modules/info.module")) {
-    unlink("./modules/info.module");
-  }
-  if (is_file("./theme/style.css")) {
-    unlink("./theme/style.css");
   }
 }
 
@@ -285,16 +268,6 @@ function startARISession() {
  *
  */
 function bootstrap() {
-
-  if(isset($_REQUEST['logout'])) {
-    $login = new Login();
-    $login->Unauth();
-  }
-
-  if (!isset($_SESSION['ari_user'])) {
-    $login = new Login();
-    $login->Auth();
-  }
 
   // set error reporting
   error_reporting (E_ALL & ~ E_NOTICE);  
@@ -324,13 +297,13 @@ function ariPageFooter() {
  * Includes and run functions
  */
 
+checkDependencies();
+startARISession();
+setARIRoot();
+
 include_once("./includes/lang.php");
 $language = new Language();
 $language->set();
-
-//checkDependencies();
-versionCleanup();
-startARISession();
 
 include_once("./includes/main.conf.php");
 include_once("./version.php");

@@ -1,4 +1,34 @@
 
+Change log - 04/04/2006
+
+ * abstracted the doc_root (PHP_SELF) to a variable to handle cases where it is not set properly (requested by Diego Iastrubni)
+ * removed error message about user voicemail directory (submitted by Diego Iastrubni)
+ * added feature to login to allow voicemail include files with wildcards (submitted by Diego Iastrubni)
+ * made voicemail password length message more accurate and descriptive on settings page (submitte by Robert Colbert)
+ * added outbound caller id record matching for call monitor page for results returned to individual users (requested by Robert LaPoint) 
+ * fixed AJAX bug that kept giving javascript errors.  Now form, pass, and parse a full xml doc
+ * fixed bug in description of dial code in help settings page (submitte by Robert Colbert)
+ * fixed bug to disable AJAX if using a browser that does not support AJAX
+ * updated Italian Translation (contributed by Francesco Romano: alteclab.it)
+
+Change log - 03/31/2006
+
+ * updated Spanish Translation (contributed by Antonio Cano damas: igestec.com)
+
+Change log - 03/29/2006
+
+ * added support for voicemail.conf include files (requested by Diego Iastrubni)
+ * updated database connection to support sqlite (and other databases using a connect file) (requested by Diego Iastrubni)
+
+Change log - 03/28/2006
+
+ * updated for PHP5 support
+ * fixed bug in AJAX javascript (fix submitted by Mahmud Fatafta - voicemetro.com)
+
+Change log - 03/23/2006
+
+ * remove variable references in function calls for PHP5 support (PHP4 supports, PHP5 does not, go figure)
+
 Change log - 03/18/2006
 
  * fixed setting page voicemail options bug (submitted by Dave Vaughn: techcompinc.com)
