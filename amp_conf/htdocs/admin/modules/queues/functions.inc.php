@@ -37,7 +37,7 @@ function queues_get_config($engine) {
 					$ext->add('ext-queues', $exten, '', new ext_answer(''));
 					$ext->add('ext-queues', $exten, '', new ext_setcidname($q['prefix'].'${CALLERIDNAME}'));
 					$ext->add('ext-queues', $exten, '', new ext_setvar('MONITOR_FILENAME','/var/spool/asterisk/monitor/q${EXTEN}-${TIMESTAMP}-${UNIQUEID}'));
-					if(function_exists('recordings_list' && isset($q['joinannounce']) && $q['joinannounce'] != "") {
+					if(function_exists('recordings_list') && isset($q['joinannounce']) && $q['joinannounce'] != "") {
 						$filename = recordings_get($q['joinannounce']);
 						$ext->add('ext-queues', $exten, '', new ext_playback($filename['filename']));
 					}
