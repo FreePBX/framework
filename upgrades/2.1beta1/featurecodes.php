@@ -19,4 +19,10 @@ $fcc->setDefault('*12');
 $fcc->update();
 unset($fcc);
 
+$fcc = new featurecode('core', 'zapbarge');
+$fcc->setDescription('ZapBarge');
+$fcc->setDefault('888');
+$fcc->update();
+unset($fcc);
+
 ?>

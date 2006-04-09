@@ -533,7 +533,11 @@ class ext_playtones extends extension {
 		return "Playtones(".$this->data.")";
 	}
 }
-
+class ext_zapbarge extends extension {
+	function output() {
+		return "ZapBarge(".$this->data.")";
+	}
+}
 /* example usage
 $ext = new extensions;
 
