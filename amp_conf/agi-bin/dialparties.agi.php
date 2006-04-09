@@ -1,53 +1,51 @@
 #!/usr/bin/php -q
 <?php 
-#
-# Copyright (C) 2003 Zac Sprackett <zsprackett-asterisk@sprackett.com>
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# Amended by Coalescent Systems Inc. Sept, 2004
-# to include support for DND, Call Waiting, and CF to external trunk
-# info@coalescentsystems.ca
-# 
-# This script has been ported to PHP by Diego Iastrubni <diego.iastrubni@xorcom.com>
+//
+// Copyright (C) 2003 Zac Sprackett <zsprackett-asterisk@sprackett.com>
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// Amended by Coalescent Systems Inc. Sept, 2004
+// to include support for DND, Call Waiting, and CF to external trunk
+// info@coalescentsystems.ca
+// 
+// This script has been ported to PHP by Diego Iastrubni <diego.iastrubni@xorcom.com>
 
 $config = parse_amportal_conf( "/etc/amportal.conf" );
 
 require_once "phpagi.php";
 require_once "phpagi-asmanager.php";
 
-# Minor modifications to assist with Dependancy checking, automatically
-# parse required information from /etc/amportal.conf, and slightly more
-# descriptive error reporting by Rob Thomas <xrobau@gmail.com> 
-# 18th Sep 2005
+// Minor modifications to assist with Dependancy checking, automatically
+// parse required information from /etc/amportal.conf, and slightly more
+// descriptive error reporting by Rob Thomas <xrobau@gmail.com> 
+// 18th Sep 2005
 
 $debug = 4;
 
-$ext="";     # Hash that will contain our list of extensions to call
-$ext_hunt="";# Hash that will contain our list of extensions to call used by huntgroup
-$cidnum="";  # Caller ID Number for this call
-$cidname=""; # Caller ID Name for this call
-$timer="";   # Call timer for Dial command
-$dialopts="";# options for dialing
-$rc="";      # Catch return code
-$priority="";# Next priority 
-$rgmethod="";# If Ring Group what ringing method was chosen
+$ext="";      // Hash that will contain our list of extensions to call
+$ext_hunt=""; // Hash that will contain our list of extensions to call used by huntgroup
+$cidnum="";   // Caller ID Number for this call
+$cidname="";  // Caller ID Name for this call
+$timer="";    // Call timer for Dial command
+$dialopts=""; // options for dialing
+$rc="";       // Catch return code
+$priority=""; // Next priority 
+$rgmethod=""; // If Ring Group what ringing method was chosen
 
 $AGI = new AGI();
 debug("Starting New Dialparties.agi", 0);
 
 // $AGI->setcallback(\&mycallback);
 // $input = $AGI->$request;
-
-
 // printf( $AGI->$config . "\n" );
 
 if ($debug >= 2) 
@@ -95,31 +93,33 @@ $arg_cnt = 3;
 while($arg = get_var($AGI,"ARG". $arg_cnt) )
 {
 	if ($arg == '-') 
-	{  #not sure why, dialparties will get stuck in a loop if noresponse
+	{  // not sure why, dialparties will get stuck in a loop if noresponse
 		debug("get_variable got a \"noresponse\"!  Exiting",3);
 		exit($arg_cnt);
 	}
 	
 	$extarray = split( '/-/', $arg );
+// 	debug("line 104: ************ $arg ", 3);
 	foreach ( $extarray as $k )
 	{
-		$ext[$k] = $k;
+		$ext[] = $k;
 		debug("Added extension $k to extension map", 3);
 	}
 	
 	$arg_cnt++;
 }
 
-# Check for call forwarding first
-# If call forward is enabled, we use chan_local
+// Check for call forwarding first
+// If call forward is enabled, we use chan_local
 foreach( $ext as $k)
 {
 	$cf  = $AGI->database_get('CF',$k);
 	$cf  = $cf['data'];
 	if (strlen($cf)) 
 	{
-		# append a hash sign so we can send out on chan_local below.
-		$ext[$k] = $cf.'#';  
+		// append a hash sign so we can send out on chan_local below.
+// 		$ext[$k] = $cf.'#';  
+		$k = $cf.'#';  
 		debug("Extension $k has call forward set to $cf", 1);
 	} 
 	else 
@@ -128,7 +128,7 @@ foreach( $ext as $k)
 	}
 }
 
-# Now check for DND
+// Now check for DND
 foreach ( $ext as $k )
 {
 	if ( !preg_match($k, "/\#/", $matches) )
@@ -151,44 +151,50 @@ $ds = '';
 foreach ( $ext as $k )
 {
 	$extnum    = $k;
-	$exthascw  = $AGI->database_get('CW', $extnum) ? 1 : 0;
-	$extcfb    = $AGI->database_get('CFB', $extnum)? 1 : 0;
+	$exthascw  = $AGI->database_get('CW', $extnum);// ? 1 : 0;
+	$exthascw  = $exthascw['data']? 1:0;
+	$extcfb    = $AGI->database_get('CFB', $extnum);//? 1 : 0;
+	$extcfb    = $extcfb['data'];
 	$exthascfb = (strlen($extcfb) > 0) ? 1 : 0;
 	
-	# Dump details in level 4
+	// Dump details in level 4
 	debug("extnum: $extnum",4);
 	debug("exthascw: $exthascw",4);
 	debug("exthascfb: $exthascfb",4);
 	debug("extcfb: $extcfb",4);
 	
-	# if CF is not in use; AND
-	# CW is not in use or CFB is in use on this extension, then we need to check!
+// 	debug("----------------- trying extension: $k ",1);
+	// if CF is not in use; AND
+	// CW is not in use or CFB is in use on this extension, then we need to check!
 	//   if (($ext{$k} =~ /\#/)!=1 && (($exthascw == 0) || ($exthascfb == 1))) {
-	if ( preg_match($ext{$k}, "/\#/", $matches) && (($exthascw == 0) || ($exthascfb == 1)) )
+// 	if ( preg_match($k, "/\#/", $matches) && (($exthascw == 0) || ($exthascfb == 1)) )
+	if ((strpos($k,"#")==0) && (($exthascw == 0) || ($exthascfb == 1)) )
 	{
 		debug("Checking CW and CFB status for extension $extnum",3);
 		$extstate = is_ext_avail($extnum);
 		debug("extstate: $extstate",4);
 		
 		if ($extstate > 0) 
-		{ # extension in use
+		{	// extension in use
 			debug("Extension $extnum is not available to be called",1);
 		
 			if ($exthascfb == 1) 
-			{	# CFB is in use
+			{	// CFB is in use
 				debug("Extension $extnum has call forward on busy set to $extcfb",1);
 				$extnum = $extcfb . '#';   # same method as the normal cf, i.e. send to Local
-			} elseif ($exthascw == 0) 
-			{	# CW not in use
+			} 
+			elseif ($exthascw == 0) 
+			{	// CW not in use
 				debug("Extension $extnum has call waiting disabled",1);
 				$extnum = '';
-			} else 
-			{	# no reason why this will ever happen! but kept in for clarity
+			} 
+			else 
+			{	// no reason why this will ever happen! but kept in for clarity
 				debug("Extension $extnum has call waiting enabled",1);
 			}
 		}
 		elseif ($extstate < 0) 
-		{	# -1 means couldn't read status or chan unavailable
+		{	// -1 means couldn't read status or chan unavailable
 			debug("ExtensionState for $extnum could not be read...assuming ok",3);
 		} 
 		else 
@@ -197,16 +203,21 @@ foreach ( $ext as $k )
 		}
 	}
 	elseif ($exthascw == 1) 
-	{	# just log the fact that CW enabled
+	{	// just log the fact that CW enabled
 		debug("Extension $extnum has call waiting enabled",1);
+	}
+	else
+	{
+// 		debug("**************************Extension empty",1);
 	}
 	
 	if ($extnum != '') 
-	{ # Still got an extension to be called?
+	{	// Still got an extension to be called?
 		$extds = get_dial_string($extnum);
+// 		debug("line 207: ************ calling $extnum", 3);
 		$ds = $ds . $extds . '&';
 	
-		# Update Caller ID for calltrace application
+		// Update Caller ID for calltrace application
 // 		if (($ext{$k} =~ /#/)!=1 && ($rgmethod ne "hunt") && ($rgmethod ne "memoryhunt")) {  
 		if ( preg_match($k, "/\#/", $matches) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
 		{
@@ -224,12 +235,12 @@ foreach ( $ext as $k )
 			} 
 			else 
 			{
-				# We don't care about retval, this key may not exist
+				// We don't care about retval, this key may not exist
 				$AGI->database_del('CALLTRACE', $k);
 				debug("DbDel CALLTRACE/$k - Caller ID is not defined", 3);
 			}
 		} else{
-			$ext_hunt{$k}=$extds; # Need to have the extension HASH set with technology for hunt group ring 
+			$ext_hunt[$k]=$extds; // Need to have the extension HASH set with technology for hunt group ring 
 		}
 	}
 } // endforeach
@@ -244,10 +255,10 @@ if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt"))
 		
 	foreach ($extarray as $k )
 	{ 
-		# we loop through the original array to get the extensions in order of importance
+		// we loop through the original array to get the extensions in order of importance
 		if ($ext_hunt[$k]) 
 		{
-			#If the original array is included in the extension hash then set variables
+			//If the original array is included in the extension hash then set variables
 			$myhuntmember="HuntMember"."$loops";
 			if ($rgmethod == "hunt") 
 			{
@@ -283,19 +294,20 @@ if (!strlen($ds))
 		$ds = '|';
 		if ($timer)
 			$ds .= $timer;
-		$ds .= '|' . $dialopts; # pound to transfer, provide ringing
+		$ds .= '|' . $dialopts; // pound to transfer, provide ringing
 		$AGI->set_variable('ds',$ds);
 		$AGI->set_variable("HuntMembers",$loops);
-		$AGI->set_priority(20); #dial command is at priority 20 where dialplan handles calling a ringgroup with strategy of "hunt" or "MemoryHunt"
+		$AGI->set_priority(20); // dial command is at priority 20 where dialplan handles calling a ringgroup with strategy of "hunt" or "MemoryHunt"
 	} 
 	else
 	{
 		$ds .= '|';
 		if ($timer)
 			$ds .= $timer;
-		$ds .= '|' . $dialopts; # pound to transfer, provide ringing
+		$ds .= '|' . $dialopts; // pound to transfer, provide ringing
+// 		debug( "line 298 ************ ds = [$ds]" );
 		$AGI->set_variable('ds',$ds);
-		$AGI->set_priority(10); #dial command is at priority 10
+		$AGI->set_priority(10); // dial command is at priority 10
 	}
 }
 
@@ -326,25 +338,30 @@ function get_dial_string( $extnum )
 // 	if ($extnum =~ s/#//) 
  	if (strpos($extnum,'#') == 0)
 	{                       
-		# "#" used to identify external numbers in forwards and callgourps
+// 		debug( "line 331 ********************************************************************",3);
+		// "#" used to identify external numbers in forwards and callgourps
 		$dialstring = 'Local/'.$extnum.'@from-internal';
 	} 
 	else 
 	{
+// 		debug( "line 337 ********************************************************************",3);
 		$device = $AGI->database_get('AMPUSER',$extnum.'/device');
-		# a user can be logged into multipe devices, append the dial string for each
+		// a user can be logged into multipe devices, append the dial string for each
 		
+// 		debug(" line 339 *****************************88checking for device ................. $device ",3);
 		$device_array = split( '&', $device );
 		foreach ($device_array as $adevice) 
 		{
+// 			debug(" line 342 *****************************88checking for device ................. $adevice ",3);
 			$dds = $AGI->database_get('DEVICE',$adevice.'/dial');
 			$dialstring .= $dds['data'];
 			$dialstring .= '&';
 		}
-		
+// 		debug( "line 351 ******************************************************************* [$dialstring]",3);
 		chop($dialstring);
-		return $dialstring;
+	return $dialstring;
 	}
+	
 }
 
 function debug($string, $level=3)
@@ -363,14 +380,27 @@ function is_ext_avail( $extnum )
 {  
 	global $config;
 	
-	#uses manager api to get ExtensionState info
+	// uses manager api to get ExtensionState info
 	$server_ip = '127.0.0.1';
 	
+	debug("is_ext_avail");
+	$astman = new AGI_AsteriskManager( );
 	
-	$tn = AGI_AsteriskManager();
+	if (!$astman->connect("127.0.0.1", $config["AMPMGRUSER"] , $config["AMPMGRPASS"]))
+	{
+		return false;
+	}
 	
-	# Load $config with /etc/amportal.conf..
-	return $tn->ExtensionState( $extnum, 'from-internal' );
+	$status = $astman->ExtensionState( $extnum, 'from-internal' );
+	$astman->disconnect();
+	
+// /*	foreach( $status as $key=>$value)
+// 	{
+// 		debug("----------------------- status for $extnum = $key\[$value\]" );
+// 	}*/
+		
+	$status = $status['Status'];
+	return $status;
 	
 	/*
 	$tn = new Net::Telnet (Port => 5038,
@@ -378,7 +408,7 @@ function is_ext_avail( $extnum )
 				Output_record_separator => '',
 				Errmode    => 'return'
 				);
-	#connect to manager and login
+	#connect	 to manager and login
 	$tn->open("$server_ip");
 	$tn->waitfor('/0\n$/');
 		$tn->print("Action: Login\n");
