@@ -261,6 +261,7 @@ function runModuleSQL($moddir,$type){
 	global $db;
 	global $amp_conf;
 	$data='';
+	$retval = false;
 	// if there is an sql file, run it
 	if (is_file("modules/{$moddir}/{$type}.sql")) {
 		// run sql script
@@ -278,13 +279,15 @@ function runModuleSQL($moddir,$type){
 					return false;
 				}
 		}
+		$retval = true;
 	}
 	// if there is a php file, run it
 	print "Looking at modules/{$moddir}/{$type}.php\n";
 	if (is_file("modules/{$moddir}/{$type}.php")) {
 		include("modules/{$moddir}/{$type}.php");
+		$retval = true;
 	}
-	return true;
+	return $retval;
 }
 
 function installModule($modname,$modversion) 
