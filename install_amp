@@ -71,7 +71,7 @@ function showHelp() {
 	out("  --no-files               Just run updates without installing files");
 }
 
-function parse_amportal_conf($filename) {
+function install_parse_amportal_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
 		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) { 
@@ -92,7 +92,7 @@ function parse_asterisk_conf($filename) {
 }
 
 //get the version number
-function getversion() {
+function install_getversion() {
 	global $db;
 	$sql = "SELECT value FROM admin WHERE variable = 'version'";
 	$results = $db->getAll($sql);
@@ -387,7 +387,7 @@ function generate_configs() {
 
 /** Set reload flag for AMP admin
  */
-function needreload() {
+function install_needreload() {
 	global $db;
 	$sql = "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'"; 
 	$result = $db->query($sql); 
@@ -654,7 +654,7 @@ out("OK");
 // **** read amportal.conf
 
 outn("Reading ".AMP_CONF."..");
-$amp_conf = parse_amportal_conf(AMP_CONF);
+$amp_conf = install_parse_amportal_conf(AMP_CONF);
 if (count($amp_conf) == 0) {
 	fatal("FAILED");
 }
@@ -769,7 +769,7 @@ out("OK");
 
 if (!isset($version)) {
 	outn("Checking current version of AMP..");
-	$version = getversion();
+	$version = install_getversion();
 	if (!$version) {
 		out("no version information");
 		out("Assuming new installation");
@@ -862,7 +862,7 @@ out("OK");
 
 
 // **** Set reload flag for AMP admin
-needreload();
+install_needreload();
 
 if ($amp_conf["AMPWEBADDRESS"])
 {
