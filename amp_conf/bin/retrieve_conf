@@ -236,7 +236,7 @@ $ext = new extensions;
 
 // create objects for any module classes
 // currently only 1 class can be declared per module, not sure if that will be an issue
-if(is_array($active_modules)){
+if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $active_module) { 
 		$classname = $active_module."_conf";
 		if(class_exists($classname)) {
@@ -248,7 +248,7 @@ if(is_array($active_modules)){
 
 // run all of the *_get_config functions, which will populate the appropriate objects
 $engine = "asterisk";
-if(is_array($active_modules)){
+if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $module) {
 		$funcname = $module."_get_config";
 		if (function_exists($funcname)) { 
@@ -266,7 +266,7 @@ write_file($ext->get_filename(),$ext->generateConf());
 
 // now we write out our conf files for modules
 // check for any objects for each of the active modules
-if(is_array($active_modules)){
+if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $active_module) { 
 		$classname = $active_module."_conf";
 		if(class_exists($classname) && get_class(${$classname}) !== false) {

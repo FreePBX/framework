@@ -110,7 +110,7 @@ class extensions {
 		//var_dump($this->_exts);
 		
 		//take care of globals first
-		if(is_array($this->_globals)){
+		if(isset($this->_globals) && is_array($this->_globals)){
 			$output .= "[globals]\n";
 			$output .= "#include globals_custom.conf\n";
 			foreach (array_keys($this->_globals) as $global) {
