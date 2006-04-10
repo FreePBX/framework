@@ -391,9 +391,16 @@ function fetchModule($location) {
 	return true;
 }
 
-function upgradeModule($module) {
+function upgradeModule($module, $allmods = NULL) {
+	if($allmods === NULL)
+		$allmods = find_allmodules();
+	// the install.php can set this to false if the upgrade fails.
+	$success = true;
 	if(is_file("modules/$module/install.php"))
 		include "modules/$module/install.php";
+	if ($success) {
+		sql('UPDATE modules SET version = "'.$allmods[$module]['version'].'" WHERE modulename = "'.$module.'"');
+	}
 }
 
 ?>
