@@ -1,5 +1,7 @@
 <?php
 
+global $amp_conf;
+
 require_once($amp_conf['AMPWEBROOT'] . '/admin/modules/recordings/functions.inc.php');
 
 $fcc = new featurecode('recordings', 'record_save');
