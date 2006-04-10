@@ -68,7 +68,7 @@ INSERT INTO extensions (context, extension, priority, application, args, descr, 
 CREATE TABLE IF NOT EXISTS `globals` (
   `variable` char(20) NOT NULL default '',
   `value` char(50) NOT NULL default '',
-  PRIMARY KEY  (`variable`,`value`)
+  PRIMARY KEY  (`variable`)
 ) TYPE=MyISAM;
 
 -- 
@@ -172,8 +172,15 @@ CREATE TABLE IF NOT EXISTS `queues` (
   PRIMARY KEY  (`id`,`keyword`,`data`)
 ) TYPE=MyISAM;;
 
-
-CREATE TABLE IF NOT EXISTS devices (id VARCHAR( 20 ) NOT NULL , tech VARCHAR( 10 ) NOT NULL , dial VARCHAR( 50 ) NOT NULL , devicetype VARCHAR( 5 ) NOT NULL , user VARCHAR( 50 ) , description VARCHAR( 50 ));
+CREATE TABLE IF NOT EXISTS `devices` (
+`id` VARCHAR( 20 ) NOT NULL ,
+`tech` VARCHAR( 10 ) NOT NULL , 
+`dial` VARCHAR( 50 ) NOT NULL , 
+`devicetype` VARCHAR( 5 ) NOT NULL , 
+`user` VARCHAR( 50 ) , 
+`description` VARCHAR( 50 ) ,
+`emergency_cid` VARCHAR( 100 ) NULL
+) TYPE = MYISAM ;
 
 CREATE TABLE IF NOT EXISTS users (extension VARCHAR( 20 ) NOT NULL , password VARCHAR( 20 ) , name VARCHAR( 50 ) , voicemail VARCHAR( 50 ) , ringtimer INT(3) , noanswer VARCHAR( 100 ) , recording VARCHAR( 50 ) ,  outboundcid VARCHAR( 50 ));
 
@@ -192,11 +199,18 @@ CREATE TABLE IF NOT EXISTS `modules` (
 `enabled` TINYINT NOT NULL
 ) TYPE = MYISAM ;
 
-
 --
--- Upgrade Devices table
+-- Table structure for table `featurecodes`
 --
 
-ALTER TABLE `devices` ADD `emergency_cid` VARCHAR( 100 ) NULL;
-
+CREATE TABLE IF NOT EXISTS `featurecodes` (
+  `modulename` varchar(50) NOT NULL,
+  `featurename` varchar(50) NOT NULL,
+  `description` varchar(200) NOT NULL,
+  `defaultcode` varchar(20) default NULL,
+  `customcode` varchar(20) default NULL,
+  `enabled` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`modulename`,`featurename`),
+  KEY `enabled` (`enabled`)
+) TYPE=MyISAM;
 
