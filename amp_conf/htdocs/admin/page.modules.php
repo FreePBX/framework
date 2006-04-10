@@ -26,11 +26,12 @@ if (isset($_POST['submit'])) { // if form has been submitted
 		break;
 		case "delete":
 			deleteModule($_POST['modname']);
-			//echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."'</script>";
 		break;
 		case "download":
 			fetchModule($_POST['location']);
-			//echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."'</script>";
+		break;
+		case "upgrade":
+			upgradeModule($_POST['modname']);
 		break;
 	}
 }
@@ -122,6 +123,21 @@ switch($extdisplay) {
 				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
 				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
 				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
+				$action .= "</form>";
+			} else if($mod['status'] == 3){
+				$status = _("Enabled - needs upgrade");
+				//disable form
+				$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
+				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
+				$action .= "</form>";
+				//upgrade form
+				$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+				$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
+				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"upgrade\">";
+				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Upgrade")."\">";
 				$action .= "</form>";
 			} else if($mod['status'] == -1){
 				$status = _("Broken");
@@ -373,6 +389,11 @@ function fetchModule($location) {
 	system("tar zxf {$filename} --directory={$amp_conf['AMPWEBROOT']}/admin/modules/");
 	unlink($filename);
 	return true;
+}
+
+function upgradeModule($module) {
+	if(is_file("modules/$module/install.php"))
+		include "modules/$module/install.php";
 }
 
 ?>

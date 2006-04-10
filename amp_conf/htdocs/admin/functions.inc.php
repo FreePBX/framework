@@ -240,12 +240,19 @@ function find_allmodules() {
 				0 or null=not installed
 				1=disabled
 				2=enabled
+				3=enabled and needs upgrade
 				*/
 				if(is_array($xmlarray[ $result['modulename'] ])) {
-					if ($result['enabled'] != 0)
-						$xmlarray[ $result['modulename'] ]["status"] = 2;
-					else
+					if ($result['enabled'] != 0) {
+						// check if file and registered versions are the same
+						// version_compare returns 0 if no difference
+						if (version_compare($result['version'],$xmlarray[ $result['modulename'] ]["version"]) === 0)
+							$xmlarray[ $result['modulename'] ]["status"] = 2;
+						else 
+							$xmlarray[ $result['modulename'] ]["status"] = 3;
+					} else {
 						$xmlarray[ $result['modulename'] ]["status"] = 1;
+					}
 				} else {
 					$xmlarray[ $result['modulename'] ]["status"] = -1;
 				}
