@@ -46,7 +46,6 @@ debug("Starting New Dialparties.agi", 0);
 
 // $AGI->setcallback(\&mycallback);
 // $input = $AGI->$request;
-// printf( $AGI->$config . "\n" );
 
 if ($debug >= 2) 
 {
@@ -98,8 +97,7 @@ while($arg = get_var($AGI,"ARG". $arg_cnt) )
 		exit($arg_cnt);
 	}
 	
-	$extarray = split( '/-/', $arg );
-// 	debug("line 104: ************ $arg ", 3);
+	$extarray = split( '-', $arg );
 	foreach ( $extarray as $k )
 	{
 		$ext[] = $k;
@@ -139,8 +137,11 @@ foreach ( $ext as $k )
 		if (strlen($dnd)) 
 		{
 			debug("Extension $k has do not disturb enabled", 1);
-			//delete $ext{$k};
-		} else {
+			unset($k);
+			//PERL: delete $ext{$k};
+		} 
+		else 
+		{
 			debug("Extension $k do not disturb is disabled", 3);
 		}
 	}
@@ -163,11 +164,9 @@ foreach ( $ext as $k )
 	debug("exthascfb: $exthascfb",4);
 	debug("extcfb: $extcfb",4);
 	
-// 	debug("----------------- trying extension: $k ",1);
 	// if CF is not in use; AND
 	// CW is not in use or CFB is in use on this extension, then we need to check!
 	//   if (($ext{$k} =~ /\#/)!=1 && (($exthascw == 0) || ($exthascfb == 1))) {
-// 	if ( preg_match($k, "/\#/", $matches) && (($exthascw == 0) || ($exthascfb == 1)) )
 	if ((strpos($k,"#")==0) && (($exthascw == 0) || ($exthascfb == 1)) )
 	{
 		debug("Checking CW and CFB status for extension $extnum",3);
@@ -206,31 +205,26 @@ foreach ( $ext as $k )
 	{	// just log the fact that CW enabled
 		debug("Extension $extnum has call waiting enabled",1);
 	}
-	else
-	{
-// 		debug("**************************Extension empty",1);
-	}
 	
-	if ($extnum != '') 
+	if ($extnum != '')
 	{	// Still got an extension to be called?
-		$extds = get_dial_string($extnum);
-// 		debug("line 207: ************ calling $extnum", 3);
-		$ds = $ds . $extds . '&';
+		$extds = get_dial_string( $AGI, $extnum);
+	    	$ds .= $extds . '&';
 	
 		// Update Caller ID for calltrace application
 // 		if (($ext{$k} =~ /#/)!=1 && ($rgmethod ne "hunt") && ($rgmethod ne "memoryhunt")) {  
-		if ( preg_match($k, "/\#/", $matches) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
+		if ((strpos($k,"#")==0) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
 		{
-			if ($cidnum) 
+			if (!isset($cidnum))
 			{
-				$rc = $AGI->database_put('CALLTRACE', $ext{$k}, $cidnum);
+				$rc = $AGI->database_put('CALLTRACE', $k, $cidnum);
 				if ($rc == 1) 
 				{
-					debug("DbSet CALLTRACE/$ext{$k} to $cidnum", 3);
+					debug("DbSet CALLTRACE/$k to $cidnum", 3);
 				} 
 				else 
 				{
-					debug("Failed to DbSet CALLTRACE/$ext{$k} to $cidnum ($rc)", 1);
+					debug("Failed to DbSet CALLTRACE/$k to $cidnum ($rc)", 1);
 				}
 			} 
 			else 
@@ -239,7 +233,8 @@ foreach ( $ext as $k )
 				$AGI->database_del('CALLTRACE', $k);
 				debug("DbDel CALLTRACE/$k - Caller ID is not defined", 3);
 			}
-		} else{
+		} else
+		{
 			$ext_hunt[$k]=$extds; // Need to have the extension HASH set with technology for hunt group ring 
 		}
 	}
@@ -281,9 +276,8 @@ if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt"))
 	}
 }
 
-// chop $ds if length($ds);
-if (strlen($ds) )
-	chop($ds);
+// chop $ds if length($ds); - removes trailing "&"
+$ds = chop($ds," &");
 
 if (!strlen($ds)) 
 {
@@ -305,22 +299,20 @@ if (!strlen($ds))
 		if ($timer)
 			$ds .= $timer;
 		$ds .= '|' . $dialopts; // pound to transfer, provide ringing
-// 		debug( "line 298 ************ ds = [$ds]" );
 		$AGI->set_variable('ds',$ds);
 		$AGI->set_priority(10); // dial command is at priority 10
 	}
 }
 
+// EOF dialparties.agi
 exit( 0 );
 
+
+// helper functions
 
 function get_var( $agi, $value)
 {
 	$r = $agi->get_variable( $value );
-	
-// 	debug( "get_var" );
-// 	foreach( $r as $rr )
-// 		debug( "$rr" );
 	
 	if ($r['result'] == 1)
 	{
@@ -331,37 +323,35 @@ function get_var( $agi, $value)
 		return '';
 }
 
-function get_dial_string( $extnum )
+function get_dial_string( $agi, $extnum )
 {
 	$dialstring = '';
 	
-// 	if ($extnum =~ s/#//) 
- 	if (strpos($extnum,'#') == 0)
+// 	if ($extnum =~ s/#//) 	
+ 	if (strpos($extnum,'#') != 0)
 	{                       
-// 		debug( "line 331 ********************************************************************",3);
 		// "#" used to identify external numbers in forwards and callgourps
+		str_replace("#", "", $extnum);
 		$dialstring = 'Local/'.$extnum.'@from-internal';
 	} 
 	else 
 	{
-// 		debug( "line 337 ********************************************************************",3);
-		$device = $AGI->database_get('AMPUSER',$extnum.'/device');
-		// a user can be logged into multipe devices, append the dial string for each
+		$device_str = sprintf("%d/device", $extnum);
+		$device = $agi->database_get('AMPUSER',$device_str);
+		$device = $device['data'];
 		
-// 		debug(" line 339 *****************************88checking for device ................. $device ",3);
+		// a user can be logged into multipe devices, append the dial string for each		
 		$device_array = split( '&', $device );
 		foreach ($device_array as $adevice) 
 		{
-// 			debug(" line 342 *****************************88checking for device ................. $adevice ",3);
-			$dds = $AGI->database_get('DEVICE',$adevice.'/dial');
+			$dds = $agi->database_get('DEVICE',$adevice.'/dial');
 			$dialstring .= $dds['data'];
 			$dialstring .= '&';
 		}
-// 		debug( "line 351 ******************************************************************* [$dialstring]",3);
-		chop($dialstring);
-	return $dialstring;
+		$dialstring = chop($dialstring," &");
 	}
 	
+	return $dialstring;
 }
 
 function debug($string, $level=3)
@@ -379,13 +369,8 @@ function mycallback( $rc )
 function is_ext_avail( $extnum )
 {  
 	global $config;
-	
-	// uses manager api to get ExtensionState info
-	$server_ip = '127.0.0.1';
-	
-	debug("is_ext_avail");
-	$astman = new AGI_AsteriskManager( );
-	
+		
+	$astman = new AGI_AsteriskManager( );	
 	if (!$astman->connect("127.0.0.1", $config["AMPMGRUSER"] , $config["AMPMGRPASS"]))
 	{
 		return false;
@@ -393,16 +378,17 @@ function is_ext_avail( $extnum )
 	
 	$status = $astman->ExtensionState( $extnum, 'from-internal' );
 	$astman->disconnect();
-	
-// /*	foreach( $status as $key=>$value)
-// 	{
-// 		debug("----------------------- status for $extnum = $key\[$value\]" );
-// 	}*/
 		
 	$status = $status['Status'];
 	return $status;
 	
 	/*
+	README:
+	This is the old perl code. for some reason it talks "telnet" directly to the manager
+	this is wierd... anyway, in phpagi we have some functions which does the same. It does not 
+	work as expected, but hey, sometimes that enough! 
+	
+	
 	$tn = new Net::Telnet (Port => 5038,
 				Prompt => '/.*[\$%#>] $/',
 				Output_record_separator => '',
