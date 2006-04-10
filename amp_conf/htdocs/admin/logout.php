@@ -1,4 +1,4 @@
-<?php /* $Id$ */
+<?php /* $Id: $ */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
 //
 //This program is free software; you can redistribute it and/or
@@ -10,19 +10,28 @@
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
+// start session
 
-$title="freePBX: Flash Operator Panel";
-$message="Flash Operator Panel";
+session_start();
+$title=_("freePBX administration");
+
+$message=_("Logged Out");
 
 require_once('functions.inc.php');
 
 // get settings
 $amp_conf = parse_amportal_conf("/etc/amportal.conf");
 
-include 'header_auth.php';
-?>
-</div>
-<iframe width="97%" height="600" frameborder="0" align="top" src="../panel/index_amp.php?context=<?php echo $_SESSION["AMP_user"]->_deptname?>"></iframe>
+// to do a logout, all session-variables will be deleted,
+// a variable 'logout' is added:
+$_SESSION = array('logout' => true);
 
-</body>
-</html>
+include 'header.php'; 
+?>
+
+<p>
+	<br><br><br><br>
+	<h2><center> <?php echo _('You are now logged out.') ?> </center></h2>
+	<br><br><br><br>
+	<?php include 'footer.php'; ?>
+</p>

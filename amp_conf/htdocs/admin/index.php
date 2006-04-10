@@ -12,13 +12,6 @@
 //GNU General Public License for more details.
 // start session
 session_start();
-
-// check for logout in request
-if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "logout") {
-	$_SESSION["AMP_logout"] = "yes";
-	unset($_SESSION["AMP_user"]);
-	session_unregister('AMP_SQL'); //used in reports.php
-}
 ?>
 
 <?php

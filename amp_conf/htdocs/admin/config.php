@@ -12,73 +12,26 @@
 //GNU General Public License for more details.
 
 $title="freePBX administration";
-$message="Setup";
+
+// determine module type to show, default to 'setup'
+if(isset($_REQUEST['type']) && $_REQUEST['type'] == "tool") {
+	$message="Tools";
+} else {
+	$message="Setup";
+}
 
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 require_once('functions.inc.php');
 
-//obsolete stuff
-//require_once('functions.php');
-
 // get settings
 $amp_conf = parse_amportal_conf("/etc/amportal.conf");
 	 
-// start session
-session_start();
-
-// connect to database
-require_once('common/db_connect.php'); //PEAR must be installed
-
-//  unset server vars if we are logged out
-if (isset($_SESSION["AMP_logout"])) {
-	unset($_SERVER["PHP_AUTH_USER"]);
-	unset($_SERVER["PHP_AUTH_PW"]);
-	unset($_SESSION["AMP_logout"]);
-}
-
-switch ($amp_conf["AUTHTYPE"]) {
-	case "database":
-		if (!isset($_SERVER["PHP_AUTH_USER"])) {
-			header("WWW-Authenticate: Basic realm=\"AMPortal\"");
-			header("HTTP/1.0 401 Unauthorized");
-			echo "You are not authorized to use this resource<br>";
-			echo "<a href=index.php?action=logout>Go Back</a>";
-			exit;
-		} else {
-			$_SESSION["AMP_user"] = new ampuser($_SERVER["PHP_AUTH_USER"]);
-			if (!$_SESSION["AMP_user"]->checkPassword($_SERVER["PHP_AUTH_PW"])) {
-			
-				// one last chance -- check admin user
-				if ( !(count(getAmpAdminUsers()) > 0) && ($_SERVER["PHP_AUTH_USER"] == $amp_conf["AMPDBUSER"]) && ($_SERVER["PHP_AUTH_PW"] == $amp_conf["AMPDBPASS"])) {
-					// set admin access
-					$_SESSION["AMP_user"]->setAdmin();
-				} else {
-					header("HTTP/1.0 401 Unauthorized");
-					echo "You are not authorized to use this resource<br>";
-					echo "<a href=index.php?action=logout>Go Back</a>";
-					exit;
-				}
-			}
-		}
-	break;
-	case "http":
-		
-	break;
-	default: 
-		if (!isset($_SESSION["AMP_user"])) {
-			$_SESSION["AMP_user"] = new ampuser($amp_conf["AMPDBUSER"]);
-		}
-		$_SESSION["AMP_user"]->setAdmin();
-	break;
-}
-
-// setup html
-include 'header.php';
+include 'header_auth.php';
 
 if (isset($_REQUEST['display'])) {
 	$display=$_REQUEST['display'];
 } else {
-        $display='';
+	$display='';
 }
 
 // if we are looking at tools, then show module admin
@@ -130,7 +83,7 @@ if (!$quietmode) {
 	echo "<div class=\"nav\">\n";
 }
 
-// extensions vs device/users ... this is a bad design, but hey, it worksv
+// extensions vs device/users ... this is a bad design, but hey, it works
 if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
 	unset($amp_sections["extensions"]);
 } else {

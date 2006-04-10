@@ -78,10 +78,10 @@ if (!isset($_REQUEST['type'])) { $_REQUEST['type'] = 'setup'; }
 ?>
 
 <?php if (is_file("manage.php")){ ?>
-       <a id="<?php echo ($currentFile=='manage.php' ? 'current':'') ?>" href="manage.php?">
-       &#8226;
-       <li><?php echo _("Management") ?></li>
-       </a>
+	<a id="<?php echo ($currentFile=='manage.php' ? 'current':'') ?>" href="manage.php?">
+		&#8226;
+		<li><?php echo _("Management") ?></li>
+	</a>
 <?php } ?>
 
 	<a id="<?php echo ($currentFile=='config.php' && $_REQUEST['type']!='tool' ? 'current':'') ?>" href="config.php?type=setup">
@@ -118,16 +118,23 @@ if (!isset($_REQUEST['type'])) { $_REQUEST['type'] = 'setup'; }
 </div>
 
 <div class="message">
-        <?php  
-	if (isset($_SESSION["AMP_user"])) {
-		if ($amp_conf["AUTHTYPE"] != "none") {
-			echo _("Logged in").": ".$_SESSION["AMP_user"]->username;
-			echo " (<a href=index.php?action=logout>"._("logout")."</a>)";
-			echo "&nbsp;::&nbsp;";
-		}
+<?php  
+	if ( isset($_SESSION['AMP_user']) &&  $amp_conf['AUTHTYPE'] != 'none' ) {
+		echo _('Logged in: ').$_SESSION['AMP_user']->username;
+		echo ' (<a href="http'.(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=''?'s':'').'://';
+
+		if (!ereg('MSIE', $_SERVER['HTTP_USER_AGENT'])) { 
+			// use other logout for Firefox and other browsers 
+			echo 'logout:logout@'; 
+		} 
+
+		$pathLength = strrpos($_SERVER['PHP_SELF'],'/');
+		$logoutPath = ($pathLength === false) ? '' : substr($_SERVER['PHP_SELF'],0,$pathLength);
+
+		echo $_SERVER['HTTP_HOST'].$logoutPath.'/logout.php">Logout</a>)&nbsp;::&nbsp;';
 	}
 	echo _($message);
-	?>
+?>
 </div>
 
 <?php
