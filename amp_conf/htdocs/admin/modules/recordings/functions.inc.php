@@ -46,8 +46,9 @@ function recordings_get_id($fn) {
         $results = $db->getRow($sql, DB_FETCHMODE_ASSOC);
 	if (isset($results['id'])) {
 		return $results['id'];
-	} // else
-	return null;
+	} else {
+		return null;
+	}
 }
 	
 
