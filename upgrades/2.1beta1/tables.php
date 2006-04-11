@@ -12,4 +12,15 @@ if (!is_array($tz)) { // does not exist already
         }
 }
 
+// Add column 'channel' to incoming routing
+$sql = "SELECT channel FROM incoming";
+$check = $db->getRow($sql, DB_FETCHMODE_ASSOC);
+if(DB::IsError($check)) {
+        $sql = "ALTER TABLE incoming ADD channel VARCHAR( 20 ) DEFAULT \"\"";
+        $result = $db->query($sql);
+        if(DB::IsError($result)) {
+                die($result->getDebugInfo());
+        }
+}
+
 ?>
