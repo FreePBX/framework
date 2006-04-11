@@ -28,7 +28,8 @@ while (false !== ($file = readdir($dh))) { // http://au3.php.net/readdir
 	if ($file[0] != "." && $file != "CVS") {
 		// Ignore the suffix..
 		$fname = ereg_replace('.wav', '', $file);
-		recordings_add($fname, "custom/$file");
+		if (recordings_get_id("custom/$file") != null)) 
+			recordings_add($fname, "custom/$file");
 	}
 }
 $result = sql("INSERT INTO recordings values ('', '__invalid', 'install done', '')");
