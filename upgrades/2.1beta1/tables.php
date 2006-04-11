@@ -1,6 +1,6 @@
 <?php
 
-// Meetme table will only exist if Conferencing module installed
+// Add default TONEZONE of 'us' if no TONEZONE exists already
 $sql = "SELECT value FROM globals WHERE variable = 'TONEZONE' ";
 $tz = $db->getRow($sql, DB_FETCHMODE_ASSOC);
 if (!is_array($tz)) { // does not exist already
