@@ -400,6 +400,7 @@ function upgradeModule($module, $allmods = NULL) {
 		include "modules/$module/install.php";
 	if ($success) {
 		sql('UPDATE modules SET version = "'.$allmods[$module]['version'].'" WHERE modulename = "'.$module.'"');
+		needreload();
 	}
 }
 
