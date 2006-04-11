@@ -872,6 +872,15 @@ outn("Restarting Flash Operator Panel..");
 exec('su - asterisk -c "'.$amp_conf["AMPWEBROOT"].'/admin/bounce_op.sh"');
 out("OK");
 
+$version = install_getversion();
+$filename = $amp_conf["AMPWEBROOT"]."/admin/version.txt";
+if (!$fd = fopen($filename, "w")) {
+	fatal("Could not open ".$filename." for writing");
+}
+fwrite($fd, $version);
+fclose($fd);
+
+
 
 // **** Set reload flag for AMP admin
 install_needreload();
