@@ -10,7 +10,7 @@ function ringgroups_destinations() {
 	if (isset($results)) {
 		foreach($results as $result){
 				$thisgrp = ringgroups_get(ltrim($result['0']));
-				$extens[] = array('destination' => 'ext-group,'.ltrim($result['0']).',1', 'description' => $thisgrp['grppre'].' <'.ltrim($result['0']).'>');
+				$extens[] = array('destination' => 'ext-group,'.ltrim($result['0']).',1', 'description' => $thisgrp['description'].' <'.ltrim($result['0']).'>');
 		}
 	}
 	
@@ -77,8 +77,8 @@ function ringgroups_get_config($engine) {
 	}
 }
 
-function ringgroups_add($grpnum,$strategy,$grptime,$grplist,$postdest,$grppre='',$annmsg='') {
-	$results = sql("INSERT INTO ringgroups (grpnum, strategy, grptime, grppre, grplist, annmsg, postdest) VALUES (".$grpnum.", '".str_replace("'", "''", $strategy)."', ".str_replace("'", "''", $grptime).", '".str_replace("'", "''", $grppre)."', '".str_replace("'", "''", $grplist)."', '".str_replace("'", "''", $annmsg)."', '".str_replace("'", "''", $postdest)."')");
+function ringgroups_add($grpnum,$strategy,$grptime,$grplist,$postdest,$desc,$grppre='',$annmsg='') {
+	$results = sql("INSERT INTO ringgroups (grpnum, strategy, grptime, grppre, grplist, annmsg, postdest, description) VALUES (".$grpnum.", '".str_replace("'", "''", $strategy)."', ".str_replace("'", "''", $grptime).", '".str_replace("'", "''", $grppre)."', '".str_replace("'", "''", $grplist)."', '".str_replace("'", "''", $annmsg)."', '".str_replace("'", "''", $postdest)."', '".str_replace("'", "''", $desc)."')");
 }
 
 function ringgroups_del($grpnum) {
@@ -86,10 +86,10 @@ function ringgroups_del($grpnum) {
 }
 
 function ringgroups_list() {
-	$results = sql("SELECT grpnum FROM ringgroups ORDER BY grpnum","getAll",DB_FETCHMODE_ASSOC);
+	$results = sql("SELECT grpnum, description FROM ringgroups ORDER BY grpnum","getAll",DB_FETCHMODE_ASSOC);
 	foreach ($results as $result) {
 		if (isset($result['grpnum']) && checkRange($result['grpnum'])) {
-			$grps[] = array($result['grpnum']);
+			$grps[] = array($result['grpnum'], $result['description']);
 		}
 	}
 	if (isset($grps))
@@ -99,7 +99,7 @@ function ringgroups_list() {
 }
 
 function ringgroups_get($grpnum) {
-	$results = sql("SELECT grpnum, strategy, grptime, grppre, grplist, annmsg, postdest FROM ringgroups WHERE grpnum = $grpnum","getRow",DB_FETCHMODE_ASSOC);
+	$results = sql("SELECT grpnum, strategy, grptime, grppre, grplist, annmsg, postdest, description FROM ringgroups WHERE grpnum = $grpnum","getRow",DB_FETCHMODE_ASSOC);
 	return $results;
 }
 ?>

@@ -21,6 +21,7 @@ isset($_REQUEST['grptime'])?$grptime = $_REQUEST['grptime']:$grptime='';
 isset($_REQUEST['grppre'])?$grppre = $_REQUEST['grppre']:$grppre='';
 isset($_REQUEST['strategy'])?$strategy = $_REQUEST['strategy']:$strategy='';
 isset($_REQUEST['annmsg'])?$annmsg = $_REQUEST['annmsg']:$annmsg='';
+isset($_REQUEST['description'])?$description = $_REQUEST['description']:$description='';
 
 if (isset($_REQUEST['goto0']) && isset($_REQUEST[$_REQUEST['goto0']."0"])) {
         $goto = $_REQUEST[$_REQUEST['goto0']."0"];
@@ -60,7 +61,7 @@ if(isset($_POST['action'])){
 		//add group
 		if ($action == 'addGRP') {
 			//ringgroups_add($account,implode("-",$grplist),$strategy,$grptime,$grppre,$goto);
-			ringgroups_add($account,$strategy,$grptime,implode("-",$grplist),$goto,$grppre,$annmsg);
+			ringgroups_add($account,$strategy,$grptime,implode("-",$grplist),$goto,$description,$grppre,$annmsg);
 			needreload();
 		}
 		
@@ -73,7 +74,7 @@ if(isset($_POST['action'])){
 		//edit group - just delete and then re-add the extension
 		if ($action == 'edtGRP') {
 			ringgroups_del($account);	
-			ringgroups_add($account,$strategy,$grptime,implode("-",$grplist),$goto,$grppre,$annmsg);
+			ringgroups_add($account,$strategy,$grptime,implode("-",$grplist),$goto,$description,$grppre,$annmsg);
 			needreload();
 		}
 	}
@@ -89,7 +90,7 @@ $gresults = ringgroups_list();
 
 if (isset($gresults)) {
 	foreach ($gresults as $gresult) {
-		echo "<li><a id=\"".($extdisplay=='GRP-'.$gresult[0] ? 'current':'')."\" href=\"config.php?display=".urlencode($dispnum)."&extdisplay=".urlencode("GRP-".$gresult[0])."\">"._("Ring Group")." {$gresult[0]}</a></li>";
+		echo "<li><a id=\"".($extdisplay=='GRP-'.$gresult[0] ? 'current':'')."\" href=\"config.php?display=".urlencode($dispnum)."&extdisplay=".urlencode("GRP-".$gresult[0])."\">".$gresult[1]." ({$gresult[0]})</a></li>";
 	}
 }
 ?>
@@ -110,6 +111,7 @@ if ($action == 'delGRP') {
 		$grptime = $thisgrp['grptime'];
 		$goto = $thisgrp['postdest'];
 		$annmsg = $thisgrp['annmsg'];
+		$description = $thisgrp['description'];
 		unset($grpliststr);
 		unset($thisgrp);
 		
@@ -149,6 +151,10 @@ if ($action == 'delGRP') {
 				<td><a href="#" class="info"><?php echo _("group number")?>:<span><?php echo _("The number users will dial to ring extensions in this ring group")?></span></a></td>
 				<td><input size="5" type="text" name="account" value="<?php  echo $gresult[0] + 1; ?>"></td>
 <?php 		} ?>
+			</tr>
+			<tr>
+				<td> <a href="#" class="info"><?php echo _("group description:")?></td>
+				<td><input size="20" maxlength="35" type="text" name="description" value="<?php echo htmlspecialchars($description); ?>"></td>
 			</tr>
 			<tr>
 				<td> <a href="#" class="info"><?php echo _("ring strategy:")?>
@@ -250,6 +256,7 @@ function checkGRP(theForm) {
 	var msgInvalidGrpPrefix = "<?php echo _('Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -'); ?>";
 	var msgInvalidTime = "<?php echo _('Invalid time specified'); ?>";
 	var msgInvalidGrpTimeRange = "<?php echo _('Time must be between 1 and 60 seconds'); ?>";
+	var msgInvalidDescription = "<?php echo _('Please enter a valid Group Description'); ?>";
 
 	// set up the Destination stuff
 	setDestinations(theForm, 1);
@@ -263,6 +270,9 @@ function checkGRP(theForm) {
 	}
 	
 	defaultEmptyOK = false;	
+	if (!isAlphanumeric(theForm.description.value))
+		return warnInvalid(theForm.description, msgInvalidDescription);
+	
 	if (isEmpty(theForm.grplist.value))
 		return warnInvalid(theForm.grplist, msgInvalidExtList);
 
