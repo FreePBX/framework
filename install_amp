@@ -322,6 +322,7 @@ function install_upgrade($version) {
 					out("-> Running SQL script ".UPGRADE_DIR."/".$version."/".$file);
 					// run sql script
 					$fd = fopen(UPGRADE_DIR."/".$version."/".$file, "r");
+					$data = "";
 					while (!feof($fd)) {
 						$data .= fread($fd, 1024);
 					}
