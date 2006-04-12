@@ -249,7 +249,7 @@ function getModuleXml() {
 	$result = sql('SELECT * FROM module_xml','getRow',DB_FETCHMODE_ASSOC);
 	// if the epoch in the db is more than 10 minutes old, then regrab xml
 	if((time() - $result['time']) > 600) {
-		$fn = "http://svn.sourceforge.net/svnroot/amportal/modules/trunk/modules.xml";
+		$fn = "http://amportal.sourceforge.net/modules.xml";
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
 		$data = file_get_contents($fn);
 		// remove the old xml
