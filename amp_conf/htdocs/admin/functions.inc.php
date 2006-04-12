@@ -887,12 +887,12 @@ class xml2ModuleArray extends xml2Array {
 
 			}
 			// now build our return array
+			$arrModules[$RAWNAME]['rawname'] = $RAWNAME;    // This has to be set
 			$arrModules[$RAWNAME]['displayName'] = $NAME;    // This has to be set
 			$arrModules[$RAWNAME]['version'] = $VERSION;     // This has to be set
 			$arrModules[$RAWNAME]['type'] = isset($TYPE)?$TYPE:'setup';
 			$arrModules[$RAWNAME]['category'] = isset($CATEGORY)?$CATEGORY:'Unknown';
-			$arrModules[$RAWNAME]['author'] = isset($AUTHOR)?$AUTHOR:'Coalescent Systems';
-			$arrModules[$RAWNAME]['email'] = isset($EMAIL)?$EMAIL:'info@coalescentsystems.ca';
+			$arrModules[$RAWNAME]['info'] = isset($INFO)?$INFO:'http://www.freepbx.org/wiki/'.$RAWNAME;
 			$arrModules[$RAWNAME]['location'] = isset($LOCATION)?$LOCATION:'local';
 			$arrModules[$RAWNAME]['items'] = isset($MENUITEMS)?$MENUITEMS:null;
 			$arrModules[$RAWNAME]['requirements'] = isset($REQUIREMENTS)?$REQUIREMENTS:null;

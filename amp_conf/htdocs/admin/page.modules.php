@@ -50,7 +50,7 @@ switch($extdisplay) {
 		<h2><?php echo _("Online Modules")?></h2>
 		<table border="1" >
 <tr>
-	<th><?php echo _("Module")?></th><th><?php echo _("Category")?></th><th><?php echo _("Version")?></th><th><?php echo _("Author")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
+	<th><?php echo _("Module")?></th><th><?php echo _("Version")?></th><th><?php echo _("Type")?></th><th><?php echo _("Category")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
 </tr>
 <?php
 		// determine which modules we have installed already
@@ -59,13 +59,14 @@ switch($extdisplay) {
 		$modules = getModuleXml();
 		//echo "<pre>"; print_r($modules); echo "</pre>";
 		// display the modules
-		displayModules($modules,$installed);
+		$dispMods = new displayModules($installed,$modules);
+		echo $dispMods->drawModules();
 	break;
 	default: ?>
 		<h2><?php echo _("Local Module Administration")?></h2>
 		<table border="1" >
 <tr>
-	<th><?php echo _("Module")?></th><th><?php echo _("Category")?></th><th><?php echo _("Version")?></th><th><?php echo _("Type")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
+	<th><?php echo _("Module")?></th><th><?php echo _("Version")?></th><th><?php echo _("Type")?></th><th><?php echo _("Category")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
 </tr>
 <?php
 		$allmods = find_allmodules();
@@ -154,13 +155,13 @@ switch($extdisplay) {
 			echo _($mod['displayName']);
 			echo "</td>";
 			echo "<td>";
-			echo $mod['category'];
-			echo "</td>";
-			echo "<td>";
 			echo $mod['version'];
 			echo "</td>";
 			echo "<td>";
 			echo _($mod['type']); 
+			echo "</td>";
+			echo "<td>";
+			echo $mod['category'];
 			echo "</td>";
 			echo "<td>";
 			echo $status;
@@ -180,65 +181,75 @@ switch($extdisplay) {
 
 /* BEGIN FUNCTIONS */
 
-function displayModules($arr,$installed) {
-	// So, we have an array with several:
-/*
-    [phpinfo] => Array
-        (
-            [displayName] => PHP Info
-            [version] => 1.0
-            [type] => tool
-            [category] => Basic
-            [author] => Coalescent Systems
-            [email] => info@coalescentsystems.ca
-            [items] => Array
-                (
-                    [PHPINFO] => PHP Info
-                    [PHPINFO2] => PHP Info2
-                )
-
-            [requirements] => Array
-                (
-                    [FILE] => /usr/sbin/asterisk
-                    [MODULE] => core
-                )
-
-        )
+/* displays table of modules provided in the passed array
+ * If displaying online modules, pass that array as the second arg 
 */
-	foreach(array_keys($arr) as $arrkey) {
-		// Determine module status
-		if(array_key_exists($arrkey,$installed)) {
-			$status = "Local";
-			$action = "";
-		} else {
-			$status = "Online";
-			$action = "
-			<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
-				<input type=hidden name=modaction value=download>
-				<input type=hidden name=location value={$arr[$arrkey]['location']}>
-				<input type=submit name=submit value=Download>
-			</form>
-			";
-		}
+
+class displayModules {
+	var $html;
+	//constructor
+	function displayModules($installed,$online=false) {
+		// So, we have an array with several:
+	/*
+		[phpinfo] => Array
+			(
+				[displayName] => PHP Info
+				[version] => 1.0
+				[type] => tool
+				[category] => Basic
+				[info] => http://www.freepbx.org/wikiPage
+				[items] => Array
+					(
+						[PHPINFO] => PHP Info
+						[PHPINFO2] => PHP Info2
+					)
 	
-		// build author string/link
-		if (isset($arr[$arrkey]['email']))
-			$email = "<a href=\"mailto:".$arr[$arrkey]['email']."\">".$arr[$arrkey]['author']."</a>";
-		else 
-			$email = $arr[$arrkey]['author'];
+				[requirements] => Array
+					(
+						[FILE] => /usr/sbin/asterisk
+						[MODULE] => core
+					)
+	
+			)
+	*/
+		foreach(array_keys($online) as $arrkey) {
+			// Determine module status
+			if(array_key_exists($arrkey,$installed)) {
+				$status = "Local";
+				$action = "";
+			} else {
+				$status = "Online";
+				$action = "
+				<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
+					<input type=hidden name=modaction value=download>
+					<input type=hidden name=location value={$online[$arrkey]['location']}>
+					<input type=submit name=submit value=Download>
+				</form>
+				";
+			}
 			
-		print <<< End_of_Html
-		
-		<tr>
-			<td>{$arr[$arrkey]['displayName']} ({$arrkey})</td>
-			<td>{$arr[$arrkey]['type']}</td>
-			<td>{$arr[$arrkey]['version']}</td>
-			<td>{$email}</td>
-			<td>{$status}</td>
-			<td>{$action}</td>
-		</tr>
-		
+			$this->html .= $this->tableHtml($online[$arrkey],$status,$action);
+		}
+		//return $html;
+	}
+	
+	function tableHtml($arrRow,$status,$action) {
+		return <<< End_of_Html
+			
+			<tr>
+				<td><a target=_BLANK href={$arrRow['info']}>{$arrRow['displayName']} ({$arrRow['rawname']})</a></td>
+				<td>{$arrRow['version']}</td>
+				<td>{$arrRow['type']}</td>
+				<td>{$arrRow['category']}</td>
+				<td>{$status}</td>
+				<td>{$action}</td>
+			</tr>
+			
 End_of_Html;
+	}
+	
+	function drawModules() {
+		return $this->html;
 	}
 }
 
