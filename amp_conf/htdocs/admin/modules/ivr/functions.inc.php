@@ -27,9 +27,6 @@ function ivr_init() {
                 // Note: There's an invalid entry created, __invalid, after this is run,
                 // so as long as this has been run _once_, there will always be a result.
 
-		// Ensure that recordings is up to date
-		recordings_init();
-
 		// Read old IVR format, part of xtns..
 		$sql = "SELECT context,descr FROM extensions WHERE extension = 's' AND application LIKE 'DigitTimeout' AND context LIKE '".$dept."aa_%' ORDER BY context,priority";
 		$unique_aas = $db->getAll($sql);
