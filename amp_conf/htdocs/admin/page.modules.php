@@ -46,136 +46,28 @@ if (isset($_POST['submit'])) { // if form has been submitted
 
 <?php
 switch($extdisplay) {
-	case "online": ?>
-		<h2><?php echo _("Online Modules")?></h2>
-		<table border="1" >
-<tr>
-	<th><?php echo _("Module")?></th><th><?php echo _("Version")?></th><th><?php echo _("Type")?></th><th><?php echo _("Category")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
-</tr>
-<?php
+	case "online": 
+		echo "<h2>";
+		echo _("Online Modules");
+		echo "</h2>";
 		// determine which modules we have installed already
 		$installed = find_allmodules();
 		// determine what modules are available
-		$modules = getModuleXml();
-		//echo "<pre>"; print_r($modules); echo "</pre>";
-		// display the modules
-		$dispMods = new displayModules($installed,$modules);
+		$online = getModuleXml();
+		$dispMods = new displayModules($installed,$online);
 		echo $dispMods->drawModules();
 	break;
-	default: ?>
-		<h2><?php echo _("Local Module Administration")?></h2>
-		<table border="1" >
-<tr>
-	<th><?php echo _("Module")?></th><th><?php echo _("Version")?></th><th><?php echo _("Type")?></th><th><?php echo _("Category")?></th><th><?php echo _("Status")?></th><th><?php echo _("Action")?></th>
-</tr>
-<?php
-		$allmods = find_allmodules();
-		//echo "<pre>"; print_r($allmods); echo "</pre>";
-		foreach($allmods as $key => $mod) {
-			// sort the list in category / displayName order
-			// this is the only way i know how to do this...surely there is another way?
-			
-			// fields for sort
-			$displayName = isset($mod['displayName']) ? $mod['displayName'] : 'unknown';
-			$category = isset($mod['category']) ? $mod['category'] : 'unknown';	
-			// we want to sort on this so make it first in the new array
-			$newallmods[$key]['asort'] = $category.$displayName;
-		
-			// copy the rest of the array
-			$newallmods[$key]['displayName'] = $displayName;
-			$newallmods[$key]['category'] = $category;
-			$newallmods[$key]['version'] = isset($mod['version']) ? $mod['version'] : 'unknown';
-			$newallmods[$key]['type'] = isset($mod['type']) ? $mod['type'] : 'unknown';
-			$newallmods[$key]['status'] = isset($mod['status']) ? $mod['status'] : 0;
-			
-			asort($newallmods);	
-		}
-		foreach($newallmods as $key => $mod) {
-			
-			//dynamicatlly create a form based on status
-			if ($mod['status'] == 0) {
-				$status = _("Not Installed");
-				//install form
-				$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-				$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
-				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"install\">";
-				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Install")."\">";
-				$action .= "</form>";
-			} else if($mod['status'] == 1){
-				$status = _("Disabled");
-				//enable form
-				$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"enable\">";
-				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Enable")."\">";
-				$action .= "</form>";
-				//uninstall form
-				$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"uninstall\">";
-				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Uninstall")."\">";
-				$action .= "</form>";
-				
-			} else if($mod['status'] == 2){
-				$status = _("Enabled");
-				//disable form
-				$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
-				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
-				$action .= "</form>";
-			} else if($mod['status'] == 3){
-				$status = _("Enabled - needs upgrade");
-				//disable form
-				$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
-				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
-				$action .= "</form>";
-				//upgrade form
-				$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-				$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
-				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"upgrade\">";
-				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Upgrade")."\">";
-				$action .= "</form>";
-			} else if($mod['status'] == -1){
-				$status = _("Broken");
-				//disable form
-				$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-				$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-				$action .= "<input type=\"hidden\" name=\"modaction\" value=\"delete\">";
-				$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Delete")."\">";
-				$action .= "</form>";
-			}
-			
-			echo "<tr>";
-			echo "<td>";
-			echo _($mod['displayName']);
-			echo "</td>";
-			echo "<td>";
-			echo $mod['version'];
-			echo "</td>";
-			echo "<td>";
-			echo _($mod['type']); 
-			echo "</td>";
-			echo "<td>";
-			echo $mod['category'];
-			echo "</td>";
-			echo "<td>";
-			echo $status;
-			echo "</td>";
-			echo "<td>";
-			echo $action;
-			echo "</td>";
-			echo "</tr>";
-		} 
+	default:
+		echo "<h2>";
+		echo _("Local Module Administration");
+		echo "</h2>";
+		$installed = find_allmodules();
+		$dispMods = new displayModules($installed);
+		echo $dispMods->drawModules();
+
 	break;
 }
 ?>
-
-</table>
 
 <?php
 
@@ -212,25 +104,122 @@ class displayModules {
 	
 			)
 	*/
-		foreach(array_keys($online) as $arrkey) {
-			// Determine module status
-			if(array_key_exists($arrkey,$installed)) {
-				$status = "Local";
-				$action = "";
-			} else {
-				$status = "Online";
-				$action = "
-				<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
-					<input type=hidden name=modaction value=download>
-					<input type=hidden name=location value={$online[$arrkey]['location']}>
-					<input type=submit name=submit value=Download>
-				</form>
-				";
+	
+		// if we are displaying online modules, determine which are installed
+		if($online) {
+			
+			$online = $this->sortModules($online);
+			foreach(array_keys($online) as $arrkey) {
+				// Determine module status
+				if(array_key_exists($arrkey,$installed)) {
+					$status = "Local";
+					$action = "";
+				} else {
+					$status = "Online";
+					$action = "
+					<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
+						<input type=hidden name=modaction value=download>
+						<input type=hidden name=location value={$online[$arrkey]['location']}>
+						<input type=submit name=submit value=Download>
+					</form>
+					";
+				}
+				
+				$this->html .= $this->tableHtml($online[$arrkey],$status,$action);
 			}
 			
-			$this->html .= $this->tableHtml($online[$arrkey],$status,$action);
+		} else {	//local modules
+			
+			$installed = $this->sortModules($installed);
+			foreach($installed as $key => $mod) {
+				
+				//dynamicatlly create a form based on status
+				if ($mod['status'] == 0) {
+					$status = _("Not Installed");
+					//install form
+					$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+					$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
+					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"install\">";
+					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Install")."\">";
+					$action .= "</form>";
+				} else if($mod['status'] == 1){
+					$status = _("Disabled");
+					//enable form
+					$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"enable\">";
+					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Enable")."\">";
+					$action .= "</form>";
+					//uninstall form
+					$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"uninstall\">";
+					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Uninstall")."\">";
+					$action .= "</form>";
+					
+				} else if($mod['status'] == 2){
+					$status = _("Enabled");
+					//disable form
+					$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
+					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
+					$action .= "</form>";
+				} else if($mod['status'] == 3){
+					$status = _("Enabled (needs update)");
+					//disable form
+					$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
+					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
+					$action .= "</form>";
+					//upgrade form
+					$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+					$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
+					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"upgrade\">";
+					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Update")."\">";
+					$action .= "</form>";
+				} else if($mod['status'] == -1){
+					$status = _("Broken");
+					//disable form
+					$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"delete\">";
+					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Delete")."\">";
+					$action .= "</form>";
+				}
+				$this->html .= $this->tableHtml($mod,$status,$action);
+			}
 		}
-		//return $html;
+			
+	}
+	
+	//sorts the modules by category
+	function sortModules($array) {
+		foreach($array as $key => $mod) {
+				// sort the list in category / displayName order
+				// this is the only way i know how to do this...surely there is another way?
+				
+				// fields for sort
+				$displayName = isset($mod['displayName']) ? $mod['displayName'] : 'unknown';
+				$category = isset($mod['category']) ? $mod['category'] : 'unknown';	
+				// we want to sort on this so make it first in the new array
+				$newallmods[$key]['asort'] = $category.$displayName;
+			
+				// copy the rest of the array
+				$newallmods[$key]['displayName'] = $displayName;
+				$newallmods[$key]['category'] = $category;
+				$newallmods[$key]['rawname'] = $mod['rawname'];
+				$newallmods[$key]['info'] = $mod['info'];
+				$newallmods[$key]['version'] = isset($mod['version']) ? $mod['version'] : 'unknown';
+				$newallmods[$key]['type'] = isset($mod['type']) ? $mod['type'] : 'unknown';
+				$newallmods[$key]['status'] = isset($mod['status']) ? $mod['status'] : 0;
+				
+				asort($newallmods);	
+			}
+			return $newallmods;
 	}
 	
 	function tableHtml($arrRow,$status,$action) {
@@ -249,7 +238,10 @@ End_of_Html;
 	}
 	
 	function drawModules() {
-		return $this->html;
+		$table = "<table border=1><tr><th>". _("Module")."</th><th>". _("Version")."</th><th>". _("Type") ."</th><th>". _("Category") ."</th><th>". _("Status") ."</th><th>". _("Action") ."</th></tr>";
+		$table .= $this->html;
+		$table .= "</table>";
+		return $table;
 	}
 }
 
