@@ -110,10 +110,25 @@ class displayModules {
 			
 			$online = $this->sortModules($online);
 			foreach(array_keys($online) as $arrkey) {
-				// Determine module status
+				// Determine if module is already local
 				if(array_key_exists($arrkey,$installed)) {
-					$status = "Local";
-					$action = "";
+					//check if online version is newer
+					$newversion = $online[$arrkey]['version'];
+					$oldversion = $installed[$arrkey]['version'];
+					// version_compare returns 1 if new > old
+					if (version_compare($newversion,$oldversion) == 1) {
+						$status = "Local (update available)";
+						$action = "
+						<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
+							<input type=hidden name=modaction value=download>
+							<input type=hidden name=location value={$online[$arrkey]['location']}>
+							<input type=submit name=submit value=Download>
+						</form>
+						";
+					} else {
+						$status = "Local (up to date)";
+						$action = "";
+					}
 				} else {
 					$status = "Online";
 					$action = "
@@ -378,7 +393,7 @@ function deleteModule($modname) {
 function fetchModule($location) {
 	global $amp_conf;
 	$file = basename($location);
-	$url = "https://svn.sourceforge.net/svnroot/amportal/modules/trunk/".$location;
+	$url = "https://svn.sourceforge.net/svnroot/amportal/modules/".$location;
 	//save the file to /tmp
 	$filename = "/tmp/".$file;
 	$fp = @fopen($filename,"w");
