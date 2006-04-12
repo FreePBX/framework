@@ -228,6 +228,7 @@ class displayModules {
 				$newallmods[$key]['category'] = $category;
 				$newallmods[$key]['rawname'] = $mod['rawname'];
 				$newallmods[$key]['info'] = $mod['info'];
+				$newallmods[$key]['location'] = $mod['location'];
 				$newallmods[$key]['version'] = isset($mod['version']) ? $mod['version'] : 'unknown';
 				$newallmods[$key]['type'] = isset($mod['type']) ? $mod['type'] : 'unknown';
 				$newallmods[$key]['status'] = isset($mod['status']) ? $mod['status'] : 0;
