@@ -250,8 +250,8 @@ function getModuleXml() {
 	sql('CREATE TABLE IF NOT EXISTS module_xml (time INT NOT NULL , data BLOB NOT NULL) TYPE = MYISAM ;');
 	
 	$result = sql('SELECT * FROM module_xml','getRow',DB_FETCHMODE_ASSOC);
-	// if the epoch in the db is more than 10 minutes old, then regrab xml
-	if((time() - $result['time']) > 600) {
+	// if the epoch in the db is more than 2 hours old, then regrab xml
+	if((time() - $result['time']) > 14400) {
 		$fn = "http://amportal.sourceforge.net/modules.xml";
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
 		$data = file_get_contents($fn);
