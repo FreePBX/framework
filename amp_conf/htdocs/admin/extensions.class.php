@@ -538,6 +538,11 @@ class ext_zapbarge extends extension {
 		return "ZapBarge(".$this->data.")";
 	}
 }
+class ext_sayalpha extends extension {
+	function output() {
+		return "SayAlpha(".$this->data.")";
+	}
+}
 /* example usage
 $ext = new extensions;
 
