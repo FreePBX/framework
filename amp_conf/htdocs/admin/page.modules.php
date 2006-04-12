@@ -267,7 +267,12 @@ function getModuleXml() {
 	$result = sql('SELECT * FROM module_xml','getRow',DB_FETCHMODE_ASSOC);
 	// if the epoch in the db is more than 2 hours old, then regrab xml
 	if((time() - $result['time']) > 14400) {
-		$fn = "http://amportal.sourceforge.net/modules.xml";
+		$version = getversion();
+		$version = $version[0][0];
+		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
+		preg_match('/(\d+\.\d+)/',$version,$matches);
+		//echo "the result is ".$matches[1];
+		$fn = "http://amportal.sourceforge.net/modules-".$matches[1].".xml";
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
 		$data = file_get_contents($fn);
 		// remove the old xml
