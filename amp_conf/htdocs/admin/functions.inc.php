@@ -896,6 +896,7 @@ class xml2ModuleArray extends xml2Array {
 			$arrModules[$RAWNAME]['location'] = isset($LOCATION)?$LOCATION:'local';
 			$arrModules[$RAWNAME]['items'] = isset($MENUITEMS)?$MENUITEMS:null;
 			$arrModules[$RAWNAME]['requirements'] = isset($REQUIREMENTS)?$REQUIREMENTS:null;
+			$arrModules[$RAWNAME]['md5sum'] = isset($MD5SUM)?$MD5SUM:null;
 			//print_r($arrModules);
 			//unset our variables
 			unset($NAME);

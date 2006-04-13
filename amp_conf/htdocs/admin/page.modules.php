@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) { // if form has been submitted
 			deleteModule($_POST['modname']);
 		break;
 		case "download":
-			fetchModule($_POST['location']);
+			fetchModule($_POST['rawname']);
 		break;
 		case "upgrade":
 			upgradeModule($_POST['modname']);
@@ -124,7 +124,7 @@ class displayModules {
 						$action = "
 						<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
 							<input type=hidden name=modaction value=download>
-							<input type=hidden name=location value={$online[$arrkey]['location']}>
+							<input type=hidden name=rawname value={$online[$arrkey]['rawname']}>
 							<input type=submit name=submit value=Download>
 						</form>
 						";
@@ -137,7 +137,7 @@ class displayModules {
 					$action = "
 					<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
 						<input type=hidden name=modaction value=download>
-						<input type=hidden name=location value={$online[$arrkey]['location']}>
+						<input type=hidden name=rawname value={$online[$arrkey]['rawname']}>
 						<input type=submit name=submit value=Download>
 					</form>
 					";
@@ -291,7 +291,7 @@ function getModuleXml() {
 		$data4sql = (get_magic_quotes_gpc() ? $data : addslashes($data));
 		sql('INSERT INTO module_xml (time,data) VALUES ('.time().',"'.$data4sql.'")');
 	} else {
-		echo "using cache";
+//		echo "using cache";
 		$data = $result['data'];
 	}
 	//echo time() - $result['time'];
@@ -405,23 +405,48 @@ function deleteModule($modname) {
 }
 
 //downloads a module, and extracts it into the module dir
-function fetchModule($location) {
+function fetchModule($name) {
 	global $amp_conf;
-	$file = basename($location);
-	$url = "https://svn.sourceforge.net/svnroot/amportal/modules/".$location;
-	//save the file to /tmp
-	$filename = "/tmp/".$file;
-	$fp = @fopen($filename,"w");
-	fwrite($fp,file_get_contents($url));
-	fclose($fp);
-	if(!file_exists($filename)) {
-		echo "<div class=\"error\">"._("Unable to save")." {$filename}</div>";
+	$res = getThisModule($name);
+	if (!isset($res)) {
+		echo "<div class=\"error\">"._("Unaware of module")." {$name}</div>";
 		return false;
 	}
-	// unarchive the module to the modules dir
-	system("tar zxf {$filename} --directory={$amp_conf['AMPWEBROOT']}/admin/modules/");
-	unlink($filename);
-	return true;
+	$file = basename($res['location']);
+	$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
+	if(file_exists($filename)) {
+		// We might already have it! Let's check the MD5.
+		$filedata = "";
+		$fh = @fopen($filename, "r");
+		while (!feof($fh)) {
+			$filedata .= fread($fh, 8192);
+		}
+		if ($res['md5sum'] == md5 ($filedata)) {
+			return verifyAndInstall($filename);
+		} else {
+			unlink($filename);
+		}
+	}
+	$url = "https://svn.sourceforge.net/svnroot/amportal/modules/".$res['location'];
+	$fp = @fopen($filename,"w");
+	$filedata = file_get_contents($url);
+	fwrite($fp,$filedata);
+	fclose($fp);
+	if (is_readable($filename) !== TRUE ) {
+		echo "<div class=\"error\">"._("Unable to save")." {$filename} - Check file/directory permissions</div>";
+		return false;
+	}
+	// Check the MD5 info against what's in the module's XML
+	if (!isset($res['md5sum']) && !empty($res['md5sum'])) 
+		echo "<div class=\"error\">"._("Unable to Check Integrity of")." {$filename}</div>";
+	if ($res['md5sum'] =! md5 ($filedata)) {
+		echo "<div class=\"error\">"._("File Integrity FAILED for")." {$filename} - "._("Aborting")."</div>";
+		unlink($filename);
+		return false;
+	}
+	// verifyAndInstall does the untar, and will do the signed-package check.
+	return verifyAndInstall($filename);
+
 }
 
 function upgradeModule($module, $allmods = NULL) {
@@ -441,7 +466,21 @@ function rmModule($module) {
 	global $amp_conf;
 	if (is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$module) && strstr($module, '.') === FALSE ) {
 		exec('/bin/rm -rf '.$amp_conf['AMPWEBROOT'].'/admin/modules/'.$module);
-	} else 
+	}
+}
+
+function getThisModule($modname) {
+	$xmlinfo = getModuleXml();
+	foreach($xmlinfo as $key => $mod) {
+		if (isset($mod['rawname']) && $mod['rawname'] == $modname) 
+			return $mod;
+	}
+}
+
+function verifyAndInstall($filename) {
+	global $amp_conf;
+	system("tar zxf {$filename} --directory={$amp_conf['AMPWEBROOT']}/admin/modules/");
+	return true;
 }
 ?>
 
