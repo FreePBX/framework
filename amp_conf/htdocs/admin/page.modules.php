@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) { // if form has been submitted
 	<li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=modules&type=tool&extdisplay="><?php echo _("Local Modules") ?></a></li>
 	<li><a id="<?php echo ($extdisplay=='online' ? 'current':'') ?>" href="config.php?display=modules&type=tool&extdisplay=online"><?php echo _("Online Modules") ?></a></li>
 </div>
---!>
+-->
 <div class="content">
 
 
@@ -425,7 +425,7 @@ function fetchModule($name) {
 		while (!feof($fh)) {
 			$filedata .= fread($fh, 8192);
 		}
-		if (isset($res['md5sum'] && $res['md5sum'] == md5 ($filedata)) {
+		if (isset($res['md5sum']) && $res['md5sum'] == md5 ($filedata)) {
 			// Note, if there's no MD5 information, it will redownload
 			// every time. Otherwise theres no way to avoid a corrupt
 			// download
