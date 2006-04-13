@@ -242,7 +242,7 @@ function find_allmodules() {
 				2=enabled
 				3=enabled and needs upgrade
 				*/
-				if(is_array($xmlarray[ $result['modulename'] ])) {
+				if(isset($xmlarray[ $result['modulename']) && is_array($xmlarray[ $result['modulename'] ])) {
 					if ($result['enabled'] != 0) {
 						// check if file and registered versions are the same
 						// version_compare returns 0 if no difference
