@@ -425,7 +425,10 @@ function fetchModule($name) {
 		while (!feof($fh)) {
 			$filedata .= fread($fh, 8192);
 		}
-		if ($res['md5sum'] == md5 ($filedata)) {
+		if (isset($res['md5sum'] && $res['md5sum'] == md5 ($filedata)) {
+			// Note, if there's no MD5 information, it will redownload
+			// every time. Otherwise theres no way to avoid a corrupt
+			// download
 			return verifyAndInstall($filename);
 		} else {
 			unlink($filename);
@@ -441,9 +444,9 @@ function fetchModule($name) {
 		return false;
 	}
 	// Check the MD5 info against what's in the module's XML
-	if (!isset($res['md5sum']) || empty($res['md5sum'])) 
-		echo "<div class=\"error\">"._("Unable to Check Integrity of")." {$filename} - "._("Continuing Anyway")."</div>";
-	if ($res['md5sum'] != md5 ($filedata)) {
+	if (!isset($res['md5sum']) || empty($res['md5sum'])) {
+		echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
+	} elseif ($res['md5sum'] != md5 ($filedata)) {
 		echo "<div class=\"error\">"._("File Integrity FAILED for")." {$filename} - "._("Aborting")."</div>";
 		unlink($filename);
 		return false;
