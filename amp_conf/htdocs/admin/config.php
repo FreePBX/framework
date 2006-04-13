@@ -146,6 +146,24 @@ switch($display) {
 									textdomain($modkey);
 								}
 							}
+							//TODO Determine which item is this module displaying. Currently this is over the place, we should standarize on a "itemid" request var for now, we'll just cover all possibilities :-(
+							$possibilites = array(
+								'userdisplay',
+								'extdisplay',
+								'id',
+								'itemid',
+								'category',
+								'selection'
+							);
+							$itemid = '';
+							foreach($possibilites as $possibility) {
+								if (isset($_REQUEST[$possibility]) && !empty($_REQUEST[$possibility])) 
+									$itemid = $_REQUEST[$possibility];
+							}
+
+							// create a module_hook object for this module
+							$module_hook = new moduleHook;
+							$module_hook->install_hooks($itemid,$modkey,$item);
 							include "modules/{$modkey}/page.{$item}.php";
 						}
 					}

@@ -915,4 +915,54 @@ class xml2ModuleArray extends xml2Array {
 		return $arrModules;
 	}
 }
+
+
+
+class moduleHook {
+	var $hookHtml = '';
+	var $arrHooks = array();
+	
+	function install_hooks($itemid,$target_module,$target_menuid = '') {
+		global $active_modules;
+        // loop through all active modules
+        foreach($active_modules as $this_module) {
+                // look for requested hooks for $module
+                // ie: findme_hook_extensions()
+                $funct = $this_module['rawname'] . '_hook_' . $target_module;
+                if( function_exists( $funct ) ) {
+					// execute the function, appending the 
+					// html output to that of other hooking modules
+					if ($hookReturn = $funct($itemid,$target_menuid))
+						$this->hookHtml .= $hookReturn;
+					// remember who installed hooks
+					// we need to know this for processing form vars
+					$this->arrHooks[] = $this_module['rawname'];
+                }
+        }
+	}
+	
+//	hook_process($_REQUEST,$module) {
+//		
+//	}
+}
+
+/* just for testing hooks, i'll delete it later
+function queues_hook_core($itemid, $menuid) {
+	switch ($menuid) {
+		case 'did':
+			//get the current setting for this display (if any)
+			$alertinfo = $itemid;
+        	return '
+				<tr>
+					<td><a href="#" class="info">'._("Alert Info").'<span>'._('ALERT_INFO can be used for distinctive ring with SIP devices.').'</span></a>:</td>
+					<td><input type="text" name="alertinfo" size="10" value="'.(($alertinfo) ? $alertinfo : "") .'"></td>
+				</tr>
+			';
+		break;
+		default:
+			return false;
+		break;
+	}
+}
+*/
 ?>
