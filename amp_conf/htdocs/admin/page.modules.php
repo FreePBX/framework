@@ -33,6 +33,9 @@ if (isset($_POST['submit'])) { // if form has been submitted
 		case "upgrade":
 			upgradeModule($_POST['modname']);
 		break;
+		case "rmmod":
+			rmModule($_POST['modname']);
+		break;
 	}
 }
 ?>
@@ -157,6 +160,12 @@ class displayModules {
 					$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
 					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"install\">";
 					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Install")."\">";
+					$action .= "</form>";
+					$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+					$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
+					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"rmmod\">";
+					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Remove")."\">";
 					$action .= "</form>";
 				} else if($mod['status'] == 1){
 					$status = _("Disabled");
@@ -428,5 +437,11 @@ function upgradeModule($module, $allmods = NULL) {
 	}
 }
 
+function rmModule($module) {
+	global $amp_conf;
+	if (is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$module) && strstr($module, '.') === FALSE ) {
+		exec('/bin/rm -rf '.$amp_conf['AMPWEBROOT'].'/admin/modules/'.$module);
+	} else 
+}
 ?>
 
