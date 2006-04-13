@@ -41,11 +41,13 @@ if (isset($_POST['submit'])) { // if form has been submitted
 ?>
 
 </div>
-<div class="rnav">
+<!-- <div class="rnav">
 	<li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=modules&type=tool&extdisplay="><?php echo _("Local Modules") ?></a></li>
 	<li><a id="<?php echo ($extdisplay=='online' ? 'current':'') ?>" href="config.php?display=modules&type=tool&extdisplay=online"><?php echo _("Online Modules") ?></a></li>
 </div>
+--!>
 <div class="content">
+
 
 <?php
 switch($extdisplay) {
@@ -53,6 +55,7 @@ switch($extdisplay) {
 		echo "<h2>";
 		echo _("Online Modules");
 		echo "</h2>";
+		echo "<h3><a href='config.php?display=modules&type=tool&extdisplay=local'>"._("Local Modules")."</a></h3>\n";
 		// determine which modules we have installed already
 		$installed = find_allmodules();
 		// determine what modules are available
@@ -64,6 +67,7 @@ switch($extdisplay) {
 		echo "<h2>";
 		echo _("Local Module Administration");
 		echo "</h2>";
+		echo "<h3><a href='config.php?display=modules&type=tool&extdisplay=online'>"._("Online Modules")."</a></h3>\n";
 		$installed = find_allmodules();
 		$dispMods = new displayModules($installed);
 		echo $dispMods->drawModules();
