@@ -908,6 +908,7 @@ class xml2ModuleArray extends xml2Array {
 			unset($LOCATION);
 			unset($MENUITEMS);
 			unset($REQUIREMENTS);
+			unset($MD5SUM);
 		}
 		//echo "<pre>"; print_r($arrModules); echo "</pre>";
 

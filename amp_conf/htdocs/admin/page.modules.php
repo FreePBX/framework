@@ -441,9 +441,9 @@ function fetchModule($name) {
 		return false;
 	}
 	// Check the MD5 info against what's in the module's XML
-	if (!isset($res['md5sum']) && !empty($res['md5sum'])) 
-		echo "<div class=\"error\">"._("Unable to Check Integrity of")." {$filename}</div>";
-	if ($res['md5sum'] =! md5 ($filedata)) {
+	if (!isset($res['md5sum']) || empty($res['md5sum'])) 
+		echo "<div class=\"error\">"._("Unable to Check Integrity of")." {$filename} - "._("Continuing Anyway")."</div>";
+	if ($res['md5sum'] != md5 ($filedata)) {
 		echo "<div class=\"error\">"._("File Integrity FAILED for")." {$filename} - "._("Aborting")."</div>";
 		unlink($filename);
 		return false;
