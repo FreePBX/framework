@@ -922,36 +922,63 @@ class moduleHook {
 	var $hookHtml = '';
 	var $arrHooks = array();
 	
-	function install_hooks($itemid,$target_module,$target_menuid = '') {
+	function install_hooks($viewing_itemid,$target_module,$target_menuid = '') {
 		global $active_modules;
         // loop through all active modules
         foreach($active_modules as $this_module) {
-                // look for requested hooks for $module
-                // ie: findme_hook_extensions()
-                $funct = $this_module['rawname'] . '_hook_' . $target_module;
-                if( function_exists( $funct ) ) {
-					// execute the function, appending the 
-					// html output to that of other hooking modules
-					if ($hookReturn = $funct($itemid,$target_menuid))
-						$this->hookHtml .= $hookReturn;
-					// remember who installed hooks
-					// we need to know this for processing form vars
-					$this->arrHooks[] = $this_module['rawname'];
-                }
+			// look for requested hooks for $module
+			// ie: findme_hook_extensions()
+			$funct = $this_module['rawname'] . '_hook_' . $target_module;
+			if( function_exists( $funct ) ) {
+				// execute the function, appending the 
+				// html output to that of other hooking modules
+				if ($hookReturn = $funct($viewing_itemid,$target_menuid))
+					$this->hookHtml .= $hookReturn;
+				// remember who installed hooks
+				// we need to know this for processing form vars
+				$this->arrHooks[] = $this_module['rawname'];
+			}
         }
 	}
 	
-//	hook_process($_REQUEST,$module) {
-//		
-//	}
+	// process the request from the module we hooked
+	function process_hooks($viewing_itemid, $target_module, $target_menuid, $request) {
+		if(is_array($this->arrHooks)) {
+			foreach($this->arrHooks as $hookingMod) {
+				// check if there is a processing function
+				$funct = $hookingMod . '_hookProcess_' . $target_module;
+				if( function_exists( $funct ) ) {
+					$funct($viewing_itemid, $request);
+				}
+			}
+		}
+	}
 }
 
-/* just for testing hooks, i'll delete it later
-function queues_hook_core($itemid, $menuid) {
-	switch ($menuid) {
+/*
+// just for testing hooks, i'll delete it later
+function queues_hook_core($viewing_itemid, $target_menuid) {
+	switch ($target_menuid) {
 		case 'did':
 			//get the current setting for this display (if any)
-			$alertinfo = $itemid;
+			$alertinfo = $viewing_itemid;
+        	return '
+				<tr>
+					<td><a href="#" class="info">'._("Alert Info").'<span>'._('ALERT_INFO can be used for distinctive ring with SIP devices.').'</span></a>:</td>
+					<td><input type="text" name="alertinfo" size="10" value="'.(($alertinfo) ? $alertinfo : "") .'"></td>
+				</tr>
+			';
+		break;
+		default:
+			return false;
+		break;
+	}
+}
+
+function queues_hookProcess_core($viewing_itemid, $request) {
+	switch ($request['action']) {
+		case 'edtIncoming':
+			echo "<h1>HI</h1>";
         	return '
 				<tr>
 					<td><a href="#" class="info">'._("Alert Info").'<span>'._('ALERT_INFO can be used for distinctive ring with SIP devices.').'</span></a>:</td>
@@ -965,4 +992,5 @@ function queues_hook_core($itemid, $menuid) {
 	}
 }
 */
+
 ?>

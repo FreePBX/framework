@@ -161,10 +161,17 @@ switch($display) {
 									$itemid = $_REQUEST[$possibility];
 							}
 
-							// create a module_hook object for this module
+							// create a module_hook object for this module's page
 							$module_hook = new moduleHook;
+							// populate object variables
 							$module_hook->install_hooks($itemid,$modkey,$item);
+							
+							// include the module page
 							include "modules/{$modkey}/page.{$item}.php";
+							
+							// let hooking modules process the $_REQUEST
+							$module_hook->process_hooks($itemid,$modkey,$item,$_REQUEST);
+
 						}
 					}
 				}
