@@ -748,6 +748,16 @@ if (count($asterisk_conf) == 0) {
 }
 out("OK");
 
+if (isset($asterisk_conf['astetcdir'])) { $amp_conf['ASTETCDIR'] = $asterisk_conf['astetcdir']; }
+if (isset($asterisk_conf['astmoddir'])) { $amp_conf['ASTMODDIR'] = $asterisk_conf['astmoddir']; }
+if (isset($asterisk_conf['astvarlibdir'])) { $amp_conf['ASTVARLIBDIR'] = $asterisk_conf['astvarlibdir']; }
+if (isset($asterisk_conf['astagidir'])) { $amp_conf['ASTAGIDIR'] = $asterisk_conf['astagidir']; }
+if (isset($asterisk_conf['astspooldir'])) { $amp_conf['ASTSPOOLDIR'] = $asterisk_conf['astspooldir']; }
+if (isset($asterisk_conf['astrundir'])) { $amp_conf['ASTRUNDIR'] = $asterisk_conf['astrundir']; }
+if (isset($asterisk_conf['astlogdir'])) { $amp_conf['ASTLOGDIR'] = $asterisk_conf['astlogdir']; }
+
+write_amportal_conf(AMP_CONF, $amp_conf);
+
 // **** Connect to database
 
 outn("Connecting to database..");
