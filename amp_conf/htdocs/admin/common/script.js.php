@@ -99,8 +99,13 @@ function setDestinations(theForm,numForms) {
 
 
 // ***************************************************
-// ** Client-side Form Validation Functions         **
+// ** CLIENT-SIDE FORM VALIDATION FUNCTIONS         **
 // ***************************************************
+
+// Defaults and Consts for validation functions
+var whitespace = " \t\n\r";
+var decimalPointDelimiter = ".";
+var defaultEmptyOK = false;
 
 //call this function to validate all your destinations
 //numForms is the number of destinatino forms to process (usually 1)
@@ -142,20 +147,28 @@ function validateSingleDestination(theForm,formNum,bRequired) {
 	return true;
 }
 
-// Various form checking helper functions -- very useful
-var whitespace = " \t\n\r";
-var decimalPointDelimiter = ".";
-var defaultEmptyOK = false;
+// this will display a message, select the content of the relevent field and
+// then set the focus to that field.  finally return FALSE to the 'onsubmit' event
+// NOTE: <select> boxes do not support the .select method, therefore you cannot
+// use this function on any <select> elements
+function warnInvalid (theField, s) {
+    theField.focus();
+    theField.select();
+    alert(s);
+    return false;
+}
+
+
+// ***************************************************
+// ** Checks for a valid Email address              **
+// ***************************************************
 
 function isEmail (s) {
 	if (isEmpty(s)) 
        if (isEmail.arguments.length == 1) return defaultEmptyOK;
        else return (isEmail.arguments[1] == true);
-    // is s whitespace?
+
     if (isWhitespace(s)) return false;
-    // there must be >= 1 character before @, so we
-    // start looking at character position 1 
-    // (i.e. second character)
     var i = 1;
     var sLength = s.length;
     // look for @
@@ -170,266 +183,71 @@ function isEmail (s) {
     while ((i < sLength) && (s.charAt(i) != ".")) {
 		i++;
     }
-    // there must be at least one character after the .
-    if ((i >= sLength - 1) || (s.charAt(i) != ".")) return false;
+	if ((i >= sLength - 1) || (s.charAt(i) != ".")) return false;
     else return true;
 }
+
+// ***************************************************
+// ** String must contain Alphabetic letters ONLY   **
+// ***************************************************
 
 function isAlphabetic (s) {
 	var i;
     if (isEmpty(s)) 
        if (isAlphabetic.arguments.length == 1) return defaultEmptyOK;
        else return (isAlphabetic.arguments[1] == true);
-    // Search through string's characters one by one
-    // until we find a non-alphabetic character.
-    // When we do, return false; if we don't, return true.
     for (i = 0; i < s.length; i++) {   
-        // Check that current character is letter.
         var c = s.charAt(i);
 
         if (!isLetter(c))
         return false;
     }
-    // All characters are letters.
+
     return true;
 }
+
+// ***************************************************
+// ** String must be letters and numbers ONLY       **
+// ***************************************************
 
 function isAlphanumeric (s) {
 	var i;
     if (isEmpty(s)) 
        if (isAlphanumeric.arguments.length == 1) return defaultEmptyOK;
        else return (isAlphanumeric.arguments[1] == true);
-    // Search through string's characters one by one
-    // until we find a non-alphanumeric character.
-    // When we do, return false; if we don't, return true.
     for (i = 0; i < s.length; i++) {   
-        // Check that current character is number or letter.
         var c = s.charAt(i);
         if (! (isLetter(c) || isDigit(c) ) )
         return false;
     }
-    // All characters are numbers or letters.
+
     return true;
 }
 
-function isPrefix (s) {
-	var i;
-    if (isEmpty(s)) 
-       if (isPrefix.arguments.length == 1) return defaultEmptyOK;
-       else return (isPrefix.arguments[1] == true);
-    // Search through string's characters one by one
-    // until we find a non-prefix character.
-    // When we do, return false; if we don't, return true.
-    for (i = 0; i < s.length; i++) {   
-        // Check that current character is number or letter.
-        var c = s.charAt(i);
-        if (! (isPrefixChar(c) ) )
-        return false;
-    }
-    // All characters are numbers or letters.
-    return true;
-}
+// ***************************************************
+// ** Is Whole Number ?                             **
+// ***************************************************
 
-function isCallerID (s) {
-	var i;
-    if (isEmpty(s)) 
-       if (isCallerID.arguments.length == 1) return defaultEmptyOK;
-       else return (isCallerID.arguments[1] == true);
-    // Search through string's characters one by one
-    // until we find a non-prefix character.
-    // When we do, return false; if we don't, return true.
-    for (i = 0; i < s.length; i++) {   
-        // Check that current character is number or letter.
-        var c = s.charAt(i);
-        if (! (isCallerIDChar(c) ) )
-        return false;
-    }
-    // All characters are numbers or letters.
-    return true;
-}
-
-function isDialpattern (s) {
-	var i;
-    if (isEmpty(s)) 
-       if (isDialpattern.arguments.length == 1) return defaultEmptyOK;
-       else return (isDialpattern.arguments[1] == true);
-    // Search through string's characters one by one
-    // until we find a non-prefix character.
-    // When we do, return false; if we don't, return true.
-    for (i = 0; i < s.length; i++) {   
-        // Check that current character is number or letter.
-        var c = s.charAt(i);
-        if ( !isDialpatternChar(c) ) {
-		if (c.charCodeAt(0) != 13 && c.charCodeAt(0) != 10) {
-			//alert(c.charCodeAt(0));
-			return false;
-		}
-	}
-    }
-    // All characters are numbers or letters.
-    return true;
-}
-
-function isAddress (s) {
-	var i;
-    if (isEmpty(s)) 
-       if (isAddress.arguments.length == 1) return defaultEmptyOK;
-       else return (isAddress.arguments[1] == true);
-    // Search through string's characters one by one
-    // until we find a non-alphanumeric character.
-    // When we do, return false; if we don't, return true.
-    for (i = 0; i < s.length; i++) {   
-        // Check that current character is number or letter.
-        var c = s.charAt(i);
-        if (! (isAddrLetter(c) || isDigit(c) ) )
-        return false;
-    }
-    // All characters are numbers or letters.
-    return true;
-}
-
-function isPhone (s) {
-	var i;
-    if (isEmpty(s)) 
-       if (isPhone.arguments.length == 1) return defaultEmptyOK;
-       else return (isPhone.arguments[1] == true);
-    // Search through string's characters one by one
-    // until we find a non-alphanumeric character.
-    // When we do, return false; if we don't, return true.
-    for (i = 0; i < s.length; i++) {   
-        // Check that current character is number or letter.
-        var c = s.charAt(i);
-        if (!isPhoneDigit(c))
-        return false;
-    }
-    // All characters are numbers or letters.
-    return true;
-}
-
-function isURL (s) {
-	var i;
-    if (isEmpty(s)) 
-       if (isURL.arguments.length == 1) return defaultEmptyOK;
-       else return (isURL.arguments[1] == true);
-    // Search through string's characters one by one
-    // until we find a non-alphanumeric character.
-    // When we do, return false; if we don't, return true.
-    for (i = 0; i < s.length; i++) {   
-        // Check that current character is number or letter.
-        var c = s.charAt(i);
-        if (! (isURLLetter(c) || isDigit(c) ) )
-        return false;
-    }
-    // All characters are numbers or letters.
-    return true;
-}
-function isInteger (s)
-
-{   var i;
+function isInteger (s) {
+    var i;
 
     if (isEmpty(s)) 
        if (isInteger.arguments.length == 1) return defaultEmptyOK;
        else return (isInteger.arguments[1] == true);
 
-    // Search through string's characters one by one
-    // until we find a non-numeric character.
-    // When we do, return false; if we don't, return true.
-
     for (i = 0; i < s.length; i++)
     {   
-        // Check that current character is number.
         var c = s.charAt(i);
 
         if (!isDigit(c)) return false;
     }
 
-    // All characters are numbers.
     return true;
 }
 
-function isPINList (s)
-
-{   var i;
-
-    if (isEmpty(s)) 
-       if (isPINList.arguments.length == 1) return defaultEmptyOK;
-       else return (isPINList.arguments[1] == true);
-
-    // Search through string's characters one by one
-    // until we find a non-numeric character.
-    // When we do, return false; if we don't, return true.
-
-    for (i = 0; i < s.length; i++)
-    {   
-        // Check that current character is number.
-        var c = s.charAt(i);
-
-        if (!isDigit(c) && c != ",") return false;
-    }
-
-    // All characters are numbers.
-    return true;
-}
-
-function isDialidentifier(s)
-{
-    var i;
-
-    if (isEmpty(s)) 
-       if (isDialidentifier.arguments.length == 1) return defaultEmptyOK;
-       else return (isDialidentifier.arguments[1] == true);
-
-    for (i = 0; i < s.length; i++)
-    {   
-        // Check that current character is number or a 'w'.
-        var c = s.charAt(i);
-
-        if (!isDigit(c) && c != "w" && c != "W") return false;
-    }
-
-    // All characters are numbers.
-    return true;
-}
-
-function isDialDigits(s)
-{
-    var i;
-
-    if (isEmpty(s)) 
-       if (isDialDigits.arguments.length == 1) return defaultEmptyOK;
-       else return (isDialDigits.arguments[1] == true);
-
-    for (i = 0; i < s.length; i++)
-    {   
-        // Check that current character is number or a 'w'.
-        var c = s.charAt(i);
-
-        if (!isDialDigitChar(c)) return false;
-    }
-
-    // All characters are numbers.
-    return true;
-}
-
-function isDialPrefix(s)
-{
-    var i;
-
-    if (isEmpty(s)) 
-       if (isDialPrefix.arguments.length == 1) return defaultEmptyOK;
-       else return (isDialPrefix.arguments[1] == true);
-
-    for (i = 0; i < s.length; i++)
-    {   
-        // Check that current character is number or a 'w'.
-        var c = s.charAt(i);
-
-        if ( !isDialDigitChar(c) && (c != "q") ) return false;
-    }
-
-    // All characters are numbers.
-    return true;
-}
+// ***************************************************
+// ** Is Floating-point Number ?                    **
+// ***************************************************
 
 function isFloat (s) {
 	var i;
@@ -441,21 +259,19 @@ function isFloat (s) {
 
     if (s == decimalPointDelimiter) return false;
 
-    // Search through string's characters one by one
-    // until we find a non-numeric character.
-    // When we do, return false; if we don't, return true.
-
     for (i = 0; i < s.length; i++) {   
-        // Check that current character is number.
         var c = s.charAt(i);
 
         if ((c == decimalPointDelimiter) && !seenDecimalPoint) seenDecimalPoint = true;
         else if (!isDigit(c)) return false;
     }
 
-    // All characters are numbers.
     return true;
 }
+
+// ***************************************************
+// ** General number check                          **
+// ***************************************************
 
 function checkNumber(object_value) {
     
@@ -501,59 +317,181 @@ function checkNumber(object_value) {
     return true
  }
 
+// ***************************************************
+// ** Simply check if there is nothing in the str   **
+// ***************************************************
+
+function isEmpty(s)
+{   return ((s == null) || (s.length == 0));
+}
+
+// ***************************************************
+// ** Checks for all known whitespace               **
+// ***************************************************
 
 function isWhitespace (s)
-
 {   var i;
 
-    // Is s empty?
     if (isEmpty(s)) return true;
-
-    // Search through string's characters one by one
-    // until we find a non-whitespace character.
-    // When we do, return false; if we don't, return true.
 
     for (i = 0; i < s.length; i++)
     {   
-        // Check that current character isn't whitespace.
         var c = s.charAt(i);
 
         if (whitespace.indexOf(c) == -1) return false;
     }
 
-    // All characters are whitespace.
     return true;
 }
-function isEmpty(s)
-{   return ((s == null) || (s.length == 0));
+
+// ***************************************************
+// ** Valid URL check                               **
+// ***************************************************
+
+function isURL (s) {
+	var i;
+    if (isEmpty(s)) 
+       if (isURL.arguments.length == 1) return defaultEmptyOK;
+       else return (isURL.arguments[1] == true);
+
+    for (i = 0; i < s.length; i++) {   
+        // Check that current character is number or letter.
+        var c = s.charAt(i);
+        if (! (isURLChar(c) || isDigit(c) ) )
+        return false;
+    }
+
+    return true;
+}
+
+// ***************************************************
+// ** List of PIN numbers followed by ','           **
+// ***************************************************
+
+function isPINList (s)
+
+{   var i;
+
+    if (isEmpty(s)) 
+       if (isPINList.arguments.length == 1) return defaultEmptyOK;
+       else return (isPINList.arguments[1] == true);
+
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character is number.
+        var c = s.charAt(i);
+
+        if (!isDigit(c) && c != ",") return false;
+    }
+
+    return true;
+}
+
+// ***************************************************
+// ** Must be a valid Caller ID string              **
+// ***************************************************
+
+function isCallerID (s) {
+	var i;
+    if (isEmpty(s)) 
+       if (isCallerID.arguments.length == 1) return defaultEmptyOK;
+       else return (isCallerID.arguments[1] == true);
+
+
+       for (i = 0; i < s.length; i++) {   
+        var c = s.charAt(i);
+        if (! (isCallerIDChar(c) ) )
+        return false;
+    }
+
+    return true;
+}
+
+// ***************************************************
+// ** Must be a valid dialplan pattern string       **
+// ***************************************************
+
+function isDialpattern (s) {
+	var i;
+	
+	if (isEmpty(s)) 
+       if (isDialpattern.arguments.length == 1) return defaultEmptyOK;
+       else return (isDialpattern.arguments[1] == true);
+
+	for (i = 0; i < s.length; i++) {   
+		var c = s.charAt(i);
+		if ( !isDialpatternChar(c) ) {
+			if (c.charCodeAt(0) != 13 && c.charCodeAt(0) != 10) {
+				return false;
+			}
+		}
+	}
+	
+	return true;
+}
+
+// ***************************************************
+// ** Valid dial identifier -- for Dial cmd         **
+// ***************************************************
+
+function isDialIdentifier (s)
+{
+    var i;
+
+    if (isEmpty(s)) 
+       if (isDialIdentifier.arguments.length == 1) return defaultEmptyOK;
+       else return (isDialIdentifier.arguments[1] == true);
+
+    for (i = 0; i < s.length; i++)
+    {   
+        var c = s.charAt(i);
+
+        if ( !isDialDigitChar(c) && (c != "w") && (c != "W") ) return false;
+    }
+
+    return true;
+}
+
+// ***************************************************
+// ** Valid dialable digit (i.e. on a keypad)       **
+// ***************************************************
+
+function isDialDigits(s)
+{
+    var i;
+
+    if (isEmpty(s)) 
+       if (isDialDigits.arguments.length == 1) return defaultEmptyOK;
+       else return (isDialDigits.arguments[1] == true);
+
+    for (i = 0; i < s.length; i++)
+    {   
+        var c = s.charAt(i);
+
+        if (!isDialDigitChar(c)) return false;
+    }
+
+    return true;
+}
+
+// ***************************************************
+// ** HELPER FUNCTIONS FOR ABOVE VALIDATIONS        **
+// ***************************************************
+
+function isDigit (c)
+{   return ((c >= "0") && (c <= "9"))
 }
 
 function isLetter (c)
 {   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == " ") || (c == "&") || (c == "'") || (c == "(") || (c == ")") || (c == "-") || (c == "/"))
 }
 
-function isAddrLetter (c)
-{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == " ") || (c == "&") || (c == ",") || (c == ".") || (c == "(") || (c == ")") || (c == "-") || (c == "'") || (c == "/") )
-}
-
-function isURLLetter (c)
+function isURLChar (c)
 {   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == ":") || (c == ",") || (c == ".") || (c == "%") || (c == "#") || (c == "-") || (c == "/") || (c == "?") || (c == "&") || (c == "=") )
 }
 
-function isDigit (c)
-{   return ((c >= "0") && (c <= "9"))
-}
-
-function isPhoneDigit (c)
-{   return ( ((c >= "0") && (c <= "9")) || (c == " ") || (c == "-") || (c == "(") || (c == ")") ) 
-}
-
-function isPrefixChar (c)
-{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || ((c >= "0") && (c <= "9")) || (c == ":") || (c == "_") || (c == "-") )
-}
-
 function isCallerIDChar (c)
-{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || ((c >= "0") && (c <= "9")) || (c == "<") || (c == ">") || (c == "(") || (c == ")") || (c == " ") || (c == "\"") || (c == "&") || (c == "@") || (c == ".") )
+{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || ((c >= "0") && (c <= "9")) || (c == ":") || (c == "_") || (c == "-") || (c == "<") || (c == ">") || (c == "(") || (c == ")") || (c == " ") || (c == "\"") || (c == "&") || (c == "@") || (c == ".") )
 }
 
 function isDialpatternChar (c)
@@ -563,15 +501,3 @@ function isDialpatternChar (c)
 function isDialDigitChar (c)
 {   return ( ((c >= "0") && (c <= "9")) || (c == "*") || (c == "#" ) )
 }
-
-// this will display a message, select the content of the relevent field and
-// then set the focus to that field.  finally return FALSE to the 'onsubmit' event
-// NOTE: <select> boxes do not support the .select method, therefore you cannot
-// use this function on any <select> elements
-function warnInvalid (theField, s) {
-    theField.focus();
-    theField.select();
-    alert(s);
-    return false;
-}
-
