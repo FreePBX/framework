@@ -411,6 +411,26 @@ function isDialDigits(s)
     return true;
 }
 
+function isDialPrefix(s)
+{
+    var i;
+
+    if (isEmpty(s)) 
+       if (isDialPrefix.arguments.length == 1) return defaultEmptyOK;
+       else return (isDialPrefix.arguments[1] == true);
+
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character is number or a 'w'.
+        var c = s.charAt(i);
+
+        if ( !isDialDigitChar(c) && (c != "q") ) return false;
+    }
+
+    // All characters are numbers.
+    return true;
+}
+
 function isFloat (s) {
 	var i;
     var seenDecimalPoint = false;
@@ -533,7 +553,7 @@ function isPrefixChar (c)
 }
 
 function isCallerIDChar (c)
-{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || ((c >= "0") && (c <= "9")) || (c == "<") || (c == ">") || (c == "(") || (c == ")") || (c == " ") || (c == "\"") || (c == "&") )
+{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || ((c >= "0") && (c <= "9")) || (c == "<") || (c == ">") || (c == "(") || (c == ")") || (c == " ") || (c == "\"") || (c == "&") || (c == "@") || (c == ".") )
 }
 
 function isDialpatternChar (c)
