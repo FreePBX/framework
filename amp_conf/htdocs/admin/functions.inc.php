@@ -742,13 +742,13 @@ function drawselects($goto,$i) {
 					// create an select option for each destination 
 					$options .= '<option value="'.$dest['destination'].'" '.(strpos($goto,$dest['destination']) === false ? '' : 'SELECTED').'>'.($dest['description'] ? $dest['description'] : $dest['destination']);
 				}
+				$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="'.$mod.'" onclick="javascript:this.form.goto'.$i.'.value=\''.$mod.'\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$mod.'\';" '.($checked? 'CHECKED=CHECKED' : '').' /> '._($displayname['displayName']).': ';
+				if ($checked) { $goto = $mod; }
+				$selectHtml .=	'<select name="'.$mod.$i.'"/>';
+				$selectHtml .= $options;	
+				$selectHtml .=	"</select><br>\n";
 			}
 			
-			$selectHtml .=	'<input type="radio" name="goto_indicate'.$i.'" value="'.$mod.'" onclick="javascript:this.form.goto'.$i.'.value=\''.$mod.'\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$mod.'\';" '.($checked? 'CHECKED=CHECKED' : '').' /> '._($displayname['displayName']).': ';
-			if ($checked) { $goto = $mod; }
-			$selectHtml .=	'<select name="'.$mod.$i.'"/>';
-			$selectHtml .= $options;	
-			$selectHtml .=	"</select><br>\n";
 		}
 	}
 	/* --- MODULES END --- */
