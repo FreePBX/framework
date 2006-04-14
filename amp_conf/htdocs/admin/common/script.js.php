@@ -475,6 +475,40 @@ function isDialDigits(s)
 }
 
 // ***************************************************
+// ** Valid IVR input, any keypad char plus some    **
+// ** priority i or t if specified by themself's    **
+// ***************************************************
+
+function isIVROption(s)
+{
+    var i;
+
+    if (isEmpty(s)) 
+       if (isIVROption.arguments.length == 1) return defaultEmptyOK;
+       else return (isIVROption.arguments[1] == true);
+
+    if (s.length == 1) { // could be i or t as only one char entered
+    
+    	var c = s.charAt(0);
+    	
+    	if ( (!isDialDigitChar(c)) && (c != "i") && (c != "t") )
+    		return false;
+    		
+    } else { // numbers only
+    
+	    for (i = 0; i < s.length; i++)
+	    {   
+	        var c = s.charAt(i);
+	
+	        if (!isDialDigitChar(c)) return false;
+	    }
+	    
+	}
+	
+    return true;
+}
+
+// ***************************************************
 // ** Valid filename                                **
 // ***************************************************
 
