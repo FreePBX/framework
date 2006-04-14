@@ -278,8 +278,8 @@ function getModuleXml() {
 	sql('CREATE TABLE IF NOT EXISTS module_xml (time INT NOT NULL , data BLOB NOT NULL) TYPE = MYISAM ;');
 	
 	$result = sql('SELECT * FROM module_xml','getRow',DB_FETCHMODE_ASSOC);
-	// if the epoch in the db is more than 2 hours old, then regrab xml
-	if((time() - $result['time']) > 14400) {
+	// if the epoch in the db is more than 2 hours old, or the xml is less than 100 bytes, then regrab xml
+	if((time() - $result['time']) > 14400 || strlen($result['data']) < 100 ) {
 		$version = getversion();
 		$version = $version[0][0];
 		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
