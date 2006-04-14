@@ -475,6 +475,28 @@ function isDialDigits(s)
 }
 
 // ***************************************************
+// ** Valid filename                                **
+// ***************************************************
+
+function isFilename(s)
+{
+    var i;
+
+    if (isEmpty(s)) 
+       if (isFilename.arguments.length == 1) return defaultEmptyOK;
+       else return (isFilename.arguments[1] == true);
+
+    for (i = 0; i < s.length; i++)
+    {   
+        var c = s.charAt(i);
+
+        if (!isFilenameChar(c)) return false;
+    }
+
+    return true;
+}
+
+// ***************************************************
 // ** HELPER FUNCTIONS FOR ABOVE VALIDATIONS        **
 // ***************************************************
 
@@ -500,4 +522,8 @@ function isDialpatternChar (c)
 
 function isDialDigitChar (c)
 {   return ( ((c >= "0") && (c <= "9")) || (c == "*") || (c == "#" ) )
+}
+
+function isFilenameChar (c)
+{   return ( ((c >= "0") && (c <= "9")) || ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == "_") || (c == "-") )
 }
