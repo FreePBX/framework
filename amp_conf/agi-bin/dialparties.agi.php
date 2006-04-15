@@ -59,7 +59,11 @@ if ($debug >= 2)
 $priority = get_var( $AGI, "priority" ) + 1;
 debug( "priority is $priority" );
 
-$callerid = get_var( $AGI, "callerid" );
+// Caller ID info is stored in $request in AGI class, passed from Asterisk
+$cidnum = $AGI->request['agi_callerid'];
+$cidname = $AGI->request['agi_calleridname'];
+debug("Caller ID name is '$cidname' number is '$cidnum'", 1);
+/*
 if (preg_match( $callerid, '/^\"(.*)\"\s+\<(\d+)-?(\d*)\>\s*$/', $matches)) 
 {
 	$cidname = $matches[1];
@@ -78,6 +82,7 @@ else
 	$cidnum  = undef;
 	debug("Caller ID is not set", 1);
 }
+*/
 
 $timer		= get_var( $AGI, "ARG1" );
 $dialopts	= get_var( $AGI, "ARG2" );
