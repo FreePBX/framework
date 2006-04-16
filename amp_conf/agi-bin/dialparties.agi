@@ -30,7 +30,7 @@ if (!eval "require Net::Telnet;") {
         exit;
 }
 
-my $debug = 2;
+my $debug = 4;
 
 my %ext;     # Hash that will contain our list of extensions to call
 my %ext_hunt;# Hash that will contain our list of extensions to call used by huntgroup
@@ -127,41 +127,53 @@ foreach my $k (keys %ext) {
   my $exthascw = ($AGI->database_get('CW', $extnum)) ? 1 : 0;
   my $extcfb = $AGI->database_get('CFB', $extnum);
   my $exthascfb = (length($extcfb) > 0) ? 1 : 0;
-
+  my $extcfu = $AGI->database_get('CFU', $extnum);
+  my $exthascfu = (length($extcfu) > 0) ? 1 : 0;
+  
   # Dump details in level 4
   debug("extnum: $extnum",4);
   debug("exthascw: $exthascw",4);
   debug("exthascfb: $exthascfb",4);
   debug("extcfb: $extcfb",4);
+  debug("exthascfu: $exthascfu",4);
+  debug("extcfu: $extcfu",4);
 
-  # if CF is not in use; AND
-  # CW is not in use or CFB is in use on this extension, then we need to check!
-  if (($ext{$k} =~ /\#/)!=1 && (($exthascw == 0) || ($exthascfb == 1))) {
-    debug("Checking CW and CFB status for extension $extnum",3);
-    my $extstate = is_ext_avail($extnum);
-    debug("extstate: $extstate",4);
+  # if CF is not in use
+  if ( ($ext{$k} =~ /\#/)!=1 ) {
+    # CW is not in use or CFB is in use or CFU is in use on this extension, then we need to check!
+    if ( ($exthascw == 0) || ($exthascfb == 1) || ($exthascfu == 1) ) {
+      # get ExtensionState: 0-idle; 1-busy; 4-unavail <--- these are unconfirmed
+      my $extstate = is_ext_avail($extnum);
+      
+      if ( ($exthascfu == 1) && ($extstate == 4) ) { # Ext has CFU and is Unavailable
+        debug("Extension $extnum has call forward on no answer set and is unavailable",1);
+	
+        $extnum = $extcfu . '#';   # same method as the normal cf, i.e. send to Local
+      } elsif ( ($exthascw == 0) || ($exthascfb == 1) ) {
+        debug("Checking CW and CFB status for extension $extnum",3);
 
-    if ($extstate == 1) { # extension in use
-      debug("Extension $extnum is not available to be called",1);
+        if ($extstate > 0) { # extension in use
+          debug("Extension $extnum is not available to be called",1);
 
-      if ($exthascfb == 1) { # CFB is in use
-        debug("Extension $extnum has call forward on busy set to $extcfb",1);
+          if ($exthascfb == 1) { # CFB is in use
+            debug("Extension $extnum has call forward on busy set to $extcfb",1);
 
-        $extnum = $extcfb . '#';   # same method as the normal cf, i.e. send to Local
-      } elsif ($exthascw == 0) { # CW not in use
-        debug("Extension $extnum has call waiting disabled",1);
-        $extnum = '';
-      } else {
-        # no reason why this will ever happen! but kept in for clarity
+            $extnum = $extcfb . '#';   # same method as the normal cf, i.e. send to Local
+          } elsif ($exthascw == 0) { # CW not in use
+            debug("Extension $extnum has call waiting disabled",1);
+            $extnum = '';
+          } else {
+            debug("Extension $extnum has call waiting enabled",1);
+          }
+        } elsif ($extstate < 0) { # -1 means couldn't read status usually due to missing HINT
+          debug("ExtensionState for $extnum could not be read...assuming ok",3);
+        } else {
+          debug("Extension $extnum is available",1);
+        }
+      } elsif ($exthascw == 1) { # just log the fact that CW enabled
         debug("Extension $extnum has call waiting enabled",1);
       }
-    } elsif ($extstate < 0) { # -1 means couldn't read status or chan unavailable
-      debug("ExtensionState for $extnum could not be read...assuming ok",3);
-    } else {
-      debug("Extension $extnum is available...skipping checks",1);
     }
-  } elsif ($exthascw == 1) { # just log the fact that CW enabled
-    debug("Extension $extnum has call waiting enabled",1);
   }
 
    if ($extnum != '') 
@@ -320,7 +332,9 @@ sub is_ext_avail{  #uses manager api to get ExtensionState info
 		$extstatus = -1;	# Make -1 if couldn't read correctly
 	}
 
-        return $extstatus;
+    debug("extstate: $extstate", 4);
+
+    return $extstatus;
 }
 
 sub get_amportal_conf {
