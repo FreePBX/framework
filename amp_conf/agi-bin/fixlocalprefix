@@ -165,9 +165,6 @@ if (isset($conf["trunk-$trunk"])) {
 				$type   = "add";
 				$prefix = substr($regex,0,$pos);
 				$regex  = substr($regex,$pos);
-
-				// Clean up prefix.  It may only consist of digits.
-				$prefix = preg_replace("/[^0-9]/", "", $prefix);
 			} else {
 				$pos = 0;
 				$type = "asis";
