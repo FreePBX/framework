@@ -23,4 +23,16 @@ if(DB::IsError($check)) {
         }
 }
 
+// Add default ALLOW_SIP_ANON of 'no' if no ALLOW_SIP_ANON exists already
+$sql = "SELECT value FROM globals WHERE variable = 'ALLOW_SIP_ANON' ";
+$asa = $db->getRow($sql, DB_FETCHMODE_ASSOC);
+if (!is_array($asa)) { // does not exist already
+        // Default to 'no'
+        $sql = "INSERT INTO globals (variable, value) VALUES ('ALLOW_SIP_ANON', 'no') ";
+        $result = $db->query($sql);
+        if(DB::IsError($result)) {
+                die($result->getDebugInfo());
+        }
+}
+
 ?>
