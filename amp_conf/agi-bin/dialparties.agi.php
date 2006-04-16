@@ -94,7 +94,7 @@ debug("Methodology of ring is  '$rgmethod'", 1);
 
 // Start with Arg Count set to 3 as two args are used
 $arg_cnt = 3;
-while($arg = get_var($AGI,"ARG". $arg_cnt) )
+while( ($arg = get_var($AGI,"ARG". $arg_cnt)) )
 {
 	if ($arg == '-') 
 	{  // not sure why, dialparties will get stuck in a loop if noresponse
@@ -134,7 +134,8 @@ foreach( $ext as $k)
 // Now check for DND
 foreach ( $ext as $k )
 {
-	if ( !preg_match($k, "/\#/", $matches) )
+	//if ( !preg_match($k, "/\#/", $matches) )
+	if ( (strpos($k,"#")==0) )
 	{   
 		// no point in doing if cf is enabled
 		$dnd = $AGI->database_get('DND',$k);
@@ -162,48 +163,65 @@ foreach ( $ext as $k )
 	$extcfb    = $AGI->database_get('CFB', $extnum);//? 1 : 0;
 	$extcfb    = $extcfb['data'];
 	$exthascfb = (strlen($extcfb) > 0) ? 1 : 0;
+	$extcfu    = $AGI->database_get('CFU', $extnum);// ? 1 : 0;
+	$extcfu    = $extcfu['data'];
+ 	$exthascfu = (strlen($extcfu) > 0) ? 1 : 0;
 	
 	// Dump details in level 4
 	debug("extnum: $extnum",4);
 	debug("exthascw: $exthascw",4);
 	debug("exthascfb: $exthascfb",4);
 	debug("extcfb: $extcfb",4);
+	debug("exthascfu: $exthascfu",4);
+	debug("extcfu: $extcfu",4);
 	
-	// if CF is not in use; AND
-	// CW is not in use or CFB is in use on this extension, then we need to check!
+	// if CF is not in use
 	//   if (($ext{$k} =~ /\#/)!=1 && (($exthascw == 0) || ($exthascfb == 1))) {
-	if ((strpos($k,"#")==0) && (($exthascw == 0) || ($exthascfb == 1)) )
+	if ( (strpos($k,"#")==0) )
 	{
-		debug("Checking CW and CFB status for extension $extnum",3);
-		$extstate = is_ext_avail($extnum);
-		debug("extstate: $extstate",4);
-		
-		if ($extstate > 0) 
-		{	// extension in use
-			debug("Extension $extnum is not available to be called",1);
-		
-			if ($exthascfb == 1) 
-			{	// CFB is in use
-				debug("Extension $extnum has call forward on busy set to $extcfb",1);
-				$extnum = $extcfb . '#';   # same method as the normal cf, i.e. send to Local
-			} 
-			elseif ($exthascw == 0) 
-			{	// CW not in use
-				debug("Extension $extnum has call waiting disabled",1);
-				$extnum = '';
+		// CW is not in use or CFB is in use on this extension, then we need to check!
+		if ( ($exthascw == 0) || ($exthascfb == 1) || ($exthascfu == 1) )
+		{
+			// get ExtensionState: 0-idle; 1-busy; 4-unavail <--- these are unconfirmed
+			$extstate = is_ext_avail($extnum);
+	
+			if ( ($exthascfu == 1) && ($extstate == 4) ) // Ext has CFU and is Unavailable
+			{
+				debug("Extension $extnum has call forward on no answer set and is unavailable",1);
+				$extnum = $extcfu . '#';   # same method as the normal cf, i.e. send to Local
+			}
+			elseif ( ($exthascw == 0) || ($exthascfb == 1) ) 
+			{	
+				debug("Checking CW and CFB status for extension $extnum",3);
+			
+				if ($extstate > 0)
+				{ // extension in use
+					debug("Extension $extnum is not available to be called", 1);
+					
+					if ($exthascfb == 1) // extension in use
+					{	// CFB is in use
+						debug("Extension $extnum has call forward on busy set to $extcfb",1);
+						$extnum = $extcfb . '#';   # same method as the normal cf, i.e. send to Local
+					} 
+					elseif ($exthascw == 0) 
+					{	// CW not in use
+						debug("Extension $extnum has call waiting disabled",1);
+						$extnum = '';
+					} 
+					else 
+					{
+						debug("Extension $extnum has call waiting enabled",1);
+					}
+				}
+			}
+			elseif ($extstate < 0)
+			{	// -1 means couldn't read status usually due to missing HINT
+				debug("ExtensionState for $extnum could not be read...assuming ok",3);
 			} 
 			else 
-			{	// no reason why this will ever happen! but kept in for clarity
-				debug("Extension $extnum has call waiting enabled",1);
+			{
+				debug("Extension $extnum is available",1);
 			}
-		}
-		elseif ($extstate < 0) 
-		{	// -1 means couldn't read status or chan unavailable
-			debug("ExtensionState for $extnum could not be read...assuming ok",3);
-		} 
-		else 
-		{
-			debug("Extension $extnum is available...skipping checks",1);
 		}
 	}
 	elseif ($exthascw == 1) 
@@ -332,11 +350,12 @@ function get_dial_string( $agi, $extnum )
 {
 	$dialstring = '';
 	
-// 	if ($extnum =~ s/#//) 	
+// 	if ($extnum =~ s/#//)
  	if (strpos($extnum,'#') != 0)
 	{                       
 		// "#" used to identify external numbers in forwards and callgourps
-		str_replace("#", "", $extnum);
+		debug("Extnum '$extnum' contains '#'...removing", 4);
+		$extnum = str_replace("#", "", $extnum);
 		$dialstring = 'Local/'.$extnum.'@from-internal';
 	} 
 	else 
@@ -385,6 +404,7 @@ function is_ext_avail( $extnum )
 	$astman->disconnect();
 		
 	$status = $status['Status'];
+	debug("ExtensionState: $status", 4);
 	return $status;
 	
 	/*
@@ -440,9 +460,11 @@ function is_ext_avail( $extnum )
 function parse_amportal_conf($filename) 
 {
 	$file = file($filename);
+	$matches = array();
+	$matchpattern = '/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/';
 	foreach ($file as $line) 
 	{
-		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) 
+		if (preg_match($matchpattern, $line, $matches)) 
 		{
 			$conf[ $matches[1] ] = $matches[2];
 		}
