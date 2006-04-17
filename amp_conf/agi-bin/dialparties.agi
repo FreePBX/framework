@@ -261,7 +261,7 @@ sub get_dial_string
 
   if ($extnum =~ s/#//) {                       # "#" used to identify external numbers in forwards and callgourps
     debug("(get_dial_string) Making Local channel of '$extnum'",4);
-    $dialstring = 'Local/'.$extnum.'@from-internal/n';
+    $dialstring = 'Local/'.$extnum.'@from-internal';
   } else {
     debug("(get_dial_string) Reading dial string of '$extnum'",4);
     $device = $AGI->database_get('AMPUSER',$extnum.'/device');

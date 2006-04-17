@@ -24,11 +24,6 @@ $config = parse_amportal_conf( "/etc/amportal.conf" );
 require_once "phpagi.php";
 require_once "phpagi-asmanager.php";
 
-// Minor modifications to assist with Dependancy checking, automatically
-// parse required information from /etc/amportal.conf, and slightly more
-// descriptive error reporting by Rob Thomas <xrobau@gmail.com> 
-// 18th Sep 2005
-
 $debug = 4;
 
 $ext="";      // Hash that will contain our list of extensions to call
@@ -40,12 +35,10 @@ $dialopts=""; // options for dialing
 $rc="";       // Catch return code
 $priority=""; // Next priority 
 $rgmethod=""; // If Ring Group what ringing method was chosen
+$dsarray = array(); // This will hold all the dial strings, used to check for duplicate extensions
 
 $AGI = new AGI();
 debug("Starting New Dialparties.agi", 0);
-
-// $AGI->setcallback(\&mycallback);
-// $input = $AGI->$request;
 
 if ($debug >= 2) 
 {
@@ -63,26 +56,6 @@ debug( "priority is $priority" );
 $cidnum = $AGI->request['agi_callerid'];
 $cidname = $AGI->request['agi_calleridname'];
 debug("Caller ID name is '$cidname' number is '$cidnum'", 1);
-/*
-if (preg_match( $callerid, '/^\"(.*)\"\s+\<(\d+)-?(\d*)\>\s*$/', $matches)) 
-{
-	$cidname = $matches[1];
-	$cidnum  = $matches[2].$matches[3];//$2.$3;
-	debug("Caller ID name is '$cidname' number is '$cidnum'", 1);
-} 
-elseif (preg_match($callerid, '/^(\d+)*$/', $matches))
-{
-	$cidname = $matches[1];
-	$cidnum  = $matches[1];
-	debug("Caller ID name and number are '$cidnum'", 1);
-}
-else 
-{
-	$cidname = undef;
-	$cidnum  = undef;
-	debug("Caller ID is not set", 1);
-}
-*/
 
 $timer		= get_var( $AGI, "ARG1" );
 $dialopts	= get_var( $AGI, "ARG2" );
@@ -121,7 +94,6 @@ foreach( $ext as $k)
 	if (strlen($cf)) 
 	{
 		// append a hash sign so we can send out on chan_local below.
-// 		$ext[$k] = $cf.'#';  
 		$k = $cf.'#';  
 		debug("Extension $k has call forward set to $cf", 1);
 	} 
@@ -176,7 +148,6 @@ foreach ( $ext as $k )
 	debug("extcfu: $extcfu",4);
 	
 	// if CF is not in use
-	//   if (($ext{$k} =~ /\#/)!=1 && (($exthascw == 0) || ($exthascfb == 1))) {
 	if ( (strpos($k,"#")==0) )
 	{
 		// CW is not in use or CFB is in use on this extension, then we need to check!
@@ -187,9 +158,19 @@ foreach ( $ext as $k )
 	
 			if ( ($exthascfu == 1) && ($extstate == 4) ) // Ext has CFU and is Unavailable
 			{
-				debug("Extension $extnum has call forward on no answer set and is unavailable",1);
-				$extnum = '';
-				$AGI->set_variable('DIALSTATUS','NOANSWER');
+				// If part of a ring group, then just do what CF does, otherwise needs to
+				// drop back to dialplant with NOANSWER
+				if ($rgmethod != '' && $rgmethod != 'none')
+				{
+					debug("Extension $extnum has call forward on no answer set and is unavailable and is part of a Ring Group forwarding to '$extcfu'",1);
+						$extnum = $extcfu . '#';   # same method as the normal cf, i.e. send to Local
+				}
+				else 
+				{
+					debug("Extension $extnum has call forward on no answer set and is unavailable",1);
+					$extnum = '';
+					$AGI->set_variable('DIALSTATUS','NOANSWER');
+				}
 			}
 			elseif ( ($exthascw == 0) || ($exthascfb == 1) ) 
 			{	
@@ -233,34 +214,45 @@ foreach ( $ext as $k )
 	
 	if ($extnum != '')
 	{	// Still got an extension to be called?
-		$extds = get_dial_string( $AGI, $extnum);
-	    	$ds .= $extds . '&';
-	
-		// Update Caller ID for calltrace application
-// 		if (($ext{$k} =~ /#/)!=1 && ($rgmethod ne "hunt") && ($rgmethod ne "memoryhunt")) {  
-		if ((strpos($k,"#")==0) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
+		// check if we already have a dial string for this extension
+		// if so, ignore it as it's pointless ringing it twice !
+		$realext = str_replace("#", "", $extnum);
+		if ( isset($dsarray[$realext]) )
 		{
-			if (!isset($cidnum))
+			debug("Extension '$realext' already in the dialstring, ignoring duplicate",1);
+		}
+		else
+		{
+			$dsarray[$realext] = 1;  // could be dial string i suppose but currently only using for duplicate check
+			$extds = get_dial_string( $AGI, $extnum);
+		    	$ds .= $extds . '&';
+		
+			// Update Caller ID for calltrace application
+			if ((strpos($k,"#")==0) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
 			{
-				$rc = $AGI->database_put('CALLTRACE', $k, $cidnum);
-				if ($rc == 1) 
+				if (!isset($cidnum))
 				{
-					debug("DbSet CALLTRACE/$k to $cidnum", 3);
+					$rc = $AGI->database_put('CALLTRACE', $k, $cidnum);
+					if ($rc == 1) 
+					{
+						debug("DbSet CALLTRACE/$k to $cidnum", 3);
+					} 
+					else 
+					{
+						debug("Failed to DbSet CALLTRACE/$k to $cidnum ($rc)", 1);
+					}
 				} 
 				else 
 				{
-					debug("Failed to DbSet CALLTRACE/$k to $cidnum ($rc)", 1);
+					// We don't care about retval, this key may not exist
+					$AGI->database_del('CALLTRACE', $k);
+					debug("DbDel CALLTRACE/$k - Caller ID is not defined", 3);
 				}
-			} 
-			else 
-			{
-				// We don't care about retval, this key may not exist
-				$AGI->database_del('CALLTRACE', $k);
-				debug("DbDel CALLTRACE/$k - Caller ID is not defined", 3);
 			}
-		} else
-		{
-			$ext_hunt[$k]=$extds; // Need to have the extension HASH set with technology for hunt group ring 
+			else
+			{
+				$ext_hunt[$k]=$extds; // Need to have the extension HASH set with technology for hunt group ring 
+			}
 		}
 	}
 } // endforeach
@@ -356,7 +348,6 @@ function get_dial_string( $agi, $extnum )
  	if (strpos($extnum,'#') != 0)
 	{                       
 		// "#" used to identify external numbers in forwards and callgourps
-		debug("Extnum '$extnum' contains '#'...removing", 4);
 		$extnum = str_replace("#", "", $extnum);
 		$dialstring = 'Local/'.$extnum.'@from-internal';
 	} 
@@ -409,54 +400,6 @@ function is_ext_avail( $extnum )
 	debug("ExtensionState: $status", 4);
 	return $status;
 	
-	/*
-	README:
-	This is the old perl code. for some reason it talks "telnet" directly to the manager
-	this is wierd... anyway, in phpagi we have some functions which does the same. It does not 
-	work as expected, but hey, sometimes that enough! 
-	
-	
-	$tn = new Net::Telnet (Port => 5038,
-				Prompt => '/.*[\$%#>] $/',
-				Output_record_separator => '',
-				Errmode    => 'return'
-				);
-	#connect	 to manager and login
-	$tn->open("$server_ip");
-	$tn->waitfor('/0\n$/');
-		$tn->print("Action: Login\n");
-		$tn->print("Username: ".$config["AMPMGRUSER"]."\n");
-		$tn->print("Secret: ".$config["AMPMGRPASS"]."\n\n");
-		my ($pm, $m) = $tn->waitfor('/Authentication (.+)\n\n/');
-		if ($m =~ /Authentication failed/) {
-				debug ("/etc/amportal.conf contains incorrect AMPMGRUSER or AMPMGRPASS");
-				exit;
-		}
-		debug ("Correct AMPMGRUSER and AMPMGRPASS", 3);
-	#issue command
-	$tn->print("Action: ExtensionState\nExten: $extnum\nContext: ext-local\nActionId: 8355\n\n");
-	$tn->waitfor('/Response: Success\n/');
-	$tn->waitfor('/ActionID: 8355\n/');
-	
-	#wait for status
-	my $ok = 0; # 0 means ok to call
-	my $extstatus = 0;
-	($ok, $extstatus) = $tn->waitfor('/Status: .*\n/') or die "Could not get ExtensionState";
-	
-	#logoff
-	$tn->print("Action: Logoff\n\n");
-	
-	if ($ok && $extstatus =~ /Status: (.*)/) 
-	{
-		$extstatus = $1;
-	}
-	else 
-	{
-		$extstatus = -1;	# Make -1 if couldn't read correctly
-	}
-	
-	return $extstatus;
-	*/
 }
 
 function parse_amportal_conf($filename) 
