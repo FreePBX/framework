@@ -148,7 +148,8 @@ foreach my $k (keys %ext) {
       if ( ($exthascfu == 1) && ($extstate == 4) ) { # Ext has CFU and is Unavailable
         debug("Extension $extnum has call forward on no answer set and is unavailable",1);
 	
-        $extnum = $extcfu . '#';   # same method as the normal cf, i.e. send to Local
+        $extnum = '';
+        $AGI->set_variable('DIALSTATUS','NOANSWER');
       } elsif ( ($exthascw == 0) || ($exthascfb == 1) ) {
         debug("Checking CW and CFB status for extension $extnum",3);
 
@@ -156,12 +157,13 @@ foreach my $k (keys %ext) {
           debug("Extension $extnum is not available to be called",1);
 
           if ($exthascfb == 1) { # CFB is in use
-            debug("Extension $extnum has call forward on busy set to $extcfb",1);
+            debug("Extension $extnum has call forward on busy set to '$extcfb'",1);
 
-            $extnum = $extcfb . '#';   # same method as the normal cf, i.e. send to Local
+            $extnum = $extcfb.'#';   # same method as the normal cf, i.e. send to Local
           } elsif ($exthascw == 0) { # CW not in use
             debug("Extension $extnum has call waiting disabled",1);
             $extnum = '';
+            $AGI->set_variable('DIALSTATUS','BUSY');
           } else {
             debug("Extension $extnum has call waiting enabled",1);
           }
@@ -175,33 +177,36 @@ foreach my $k (keys %ext) {
       }
     }
   }
+  debug("extnum: $extnum",4);
 
-   if ($extnum != '') 
-   { # Still got an extension to be called?
-     my $extds = get_dial_string($extnum);
-     if (length($extds)) {
-    	$ds .= $extds . '&';
-
-    	# Update Caller ID for calltrace application
-    	if (($ext{$k} =~ /#/)!=1 && ($rgmethod ne "hunt") && ($rgmethod ne "memoryhunt")) {   	
-      		if ($cidnum) {
-        		$rc = $AGI->database_put('CALLTRACE', $ext{$k}, $cidnum);
-        		if ($rc == 1) {
-          			debug("DbSet CALLTRACE/$ext{$k} to $cidnum", 3);
-        		} else {
-          			debug("Failed to DbSet CALLTRACE/$ext{$k} to $cidnum ($rc)", 1);
-        		}
-      		} else {
-        		# We don't care about retval, this key may not exist
-        		$AGI->database_del('CALLTRACE', $ext{$k});
-        		debug("DbDel CALLTRACE/$ext{$k} - Caller ID is not defined", 3);
-      		}
-    	} else{
-		$ext_hunt{$k}=$extds; # Need to have the extension HASH set with technology for hunt group ring 
+	if (length($extnum) > 0) { # Still got an extension to be called?
+		debug("extnum: $extnum",4);
+		my $extds = get_dial_string($extnum);
+		debug("extds: $extds");
+		if (length($extds)) {
+			$ds .= $extds . '&';
+			
+			# Update Caller ID for calltrace application
+			if (($ext{$k} =~ /#/)!=1 && ($rgmethod ne "hunt") && ($rgmethod ne "memoryhunt")) {   	
+				if ($cidnum) {
+					$rc = $AGI->database_put('CALLTRACE', $ext{$k}, $cidnum);
+					if ($rc == 1) {
+						debug("DbSet CALLTRACE/$ext{$k} to $cidnum", 3);
+					} else {
+						debug("Failed to DbSet CALLTRACE/$ext{$k} to $cidnum ($rc)", 1);
+					}
+				} else {
+					# We don't care about retval, this key may not exist
+					$AGI->database_del('CALLTRACE', $ext{$k});
+					debug("DbDel CALLTRACE/$ext{$k} - Caller ID is not defined", 3);
+				}
+			} else {
+				$ext_hunt{$k}=$extds; # Need to have the extension HASH set with technology for hunt group ring 
+			}
 		}
 	}
 }
-}
+
 my $dshunt ='';
 my $loops=0;
 my $myhuntmember="";
@@ -255,8 +260,10 @@ sub get_dial_string
   my $dialstring = '';
 
   if ($extnum =~ s/#//) {                       # "#" used to identify external numbers in forwards and callgourps
-    $dialstring = 'Local/'.$extnum.'@from-internal';
+    debug("(get_dial_string) Making Local channel of '$extnum'",4);
+    $dialstring = 'Local/'.$extnum.'@from-internal/n';
   } else {
+    debug("(get_dial_string) Reading dial string of '$extnum'",4);
     $device = $AGI->database_get('AMPUSER',$extnum.'/device');
     # a user can be logged into multipe devices, append the dial string for each
     @device_array=split('&',$device);
@@ -265,8 +272,9 @@ sub get_dial_string
     	$dialstring .= '&';
     }
     chop($dialstring);
-    return $dialstring;
   }
+  debug("(get_dial_string) dialstring: $dialstring",4);
+  return $dialstring;
 }
 
 sub debug

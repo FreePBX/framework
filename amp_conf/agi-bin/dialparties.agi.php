@@ -188,7 +188,8 @@ foreach ( $ext as $k )
 			if ( ($exthascfu == 1) && ($extstate == 4) ) // Ext has CFU and is Unavailable
 			{
 				debug("Extension $extnum has call forward on no answer set and is unavailable",1);
-				$extnum = $extcfu . '#';   # same method as the normal cf, i.e. send to Local
+				$extnum = '';
+				$AGI->set_variable('DIALSTATUS','NOANSWER');
 			}
 			elseif ( ($exthascw == 0) || ($exthascfb == 1) ) 
 			{	
@@ -207,6 +208,7 @@ foreach ( $ext as $k )
 					{	// CW not in use
 						debug("Extension $extnum has call waiting disabled",1);
 						$extnum = '';
+						$AGI->set_variable('DIALSTATUS','BUSY');						
 					} 
 					else 
 					{
