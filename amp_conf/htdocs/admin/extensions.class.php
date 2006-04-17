@@ -543,6 +543,13 @@ class ext_sayalpha extends extension {
 		return "SayAlpha(".$this->data.")";
 	}
 }
+
+class ext_system extends extension {
+	function output() {
+		return "System(".$this->data.")";
+	}
+}
+
 /* example usage
 $ext = new extensions;
 
