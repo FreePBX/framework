@@ -95,6 +95,55 @@ class extensions {
 		$this->_includes[$section][] = $incsection;
 	}
 	
+	/* This function allows new priorities to be injected into already generated dialplan
+	*  usage: $ext->splice($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
+	*/
+	function splice($section, $extension, $priority, $command) {
+		if($priority == 0) {
+			$basetag = '1';
+			// we'll be defining a new pri "1", so change existing "1" to "n"
+			$this->_exts[$section][$extension][0]['basetag'] = 'n';
+		} else {
+			$basetag = 'n';
+		}
+		$newcommand = array(
+			'basetag' => $basetag,
+			'tag' => '',
+			'addpri' => '',
+			'cmd' => $command
+		);
+		//array_splice($this->_exts[$section][$extension],$priority,0,"helloworld");
+		/* This little routine from http://ca.php.net/array_splice overcomes 
+		*  problems that array_splice has with multidmentional arrays
+		*/
+			$array = $this->_exts[$section][$extension];
+			$ky = $priority;
+			$val = $newcommand;
+			$n = $ky; 
+			 foreach($array as $key => $value) 
+			   { 
+				$backup_array[$key] = $array[$key]; 
+			   } 
+			 $upper_limit = count($array); 
+			 while($n <= $upper_limit) 
+			   { 
+				if($n == $ky) 
+				  { 
+			 $array[$n] = $val; 
+			 echo $n; 
+				  } 
+				else 
+				  { 
+			 $i = $n - "1"; 
+			 $array[$n] = $backup_array[$i]; 
+				  } 
+				$n++; 
+			   } 
+		$this->_exts[$section][$extension] = $array;		
+		
+		print_r($this->_exts[$section][$extension]);
+	}
+	
 	/** Generate the file
 	* @return A string containing the extensions.conf file
 	*/
