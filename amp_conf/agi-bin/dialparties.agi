@@ -349,7 +349,7 @@ function get_dial_string( $agi, $extnum )
 	{                       
 		// "#" used to identify external numbers in forwards and callgourps
 		$extnum = str_replace("#", "", $extnum);
-		$dialstring = 'Local/'.$extnum.'@from-internal';
+		$dialstring = 'Local/'.$extnum.'@from-internal/n';
 	} 
 	else 
 	{
