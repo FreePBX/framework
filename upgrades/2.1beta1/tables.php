@@ -35,4 +35,18 @@ if (!is_array($asa)) { // does not exist already
         }
 }
 
+// Add default FAX_RX_FROM which allows users to set the 'from' address of fax emails
+// I've used a gmail account as the default as we know the domain's going to exist.
+$sql = "SELECT value FROM globals WHERE variable = 'FAX_RX_FROM' ";
+$asa = $db->getRow($sql, DB_FETCHMODE_ASSOC);
+if (!is_array($asa)) { // does not exist already
+        // Default to 'no'
+        $sql = "INSERT INTO globals (variable, value) VALUES ('FAX_RX_FROM', 'freepbx@gmail.com') ";
+        $result = $db->query($sql);
+        if(DB::IsError($result)) {
+                die($result->getDebugInfo());
+        }
+}
+
+
 ?>
