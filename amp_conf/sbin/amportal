@@ -35,9 +35,7 @@ chown_asterisk() {
 	chown -R asterisk:asterisk $AMPWEBROOT/recordings
 	chown -R asterisk:asterisk $AMPWEBROOT/_asterisk
 	chown -R asterisk:asterisk $AMPCGIBIN/vmail.cgi
-	chmod u+x /var/lib/asterisk/bin/*.pl
-	chmod u+x /var/lib/asterisk/bin/archive_recordings
-	chmod u+x /var/lib/asterisk/bin/retrieve_conf
+	chmod u+x /var/lib/asterisk/bin/*
 	chmod u+x /var/lib/asterisk/agi-bin/*
 	chmod u+x $AMPWEBROOT/admin/bounce_op.sh
 	chmod u+x $AMPCGIBIN/vmail.cgi
