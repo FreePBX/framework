@@ -12,8 +12,10 @@ if (isset($_POST['submit'])) { // if form has been submitted
 		break;
 		case "uninstall":
 			if (runModuleSQL($_POST['modname'],$_POST['modaction']))
+				uninstallModule($_POST['modname']);
+			else
 				echo "<div class=\"error\">"._("Module uninstall script failed to run")."</div>";
-			uninstallModule($_POST['modname']);
+			
 		break;
 		case "enable":
 			enableModule($_POST['modname']);
