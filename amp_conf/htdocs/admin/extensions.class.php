@@ -112,7 +112,7 @@ class extensions {
 			'addpri' => '',
 			'cmd' => $command
 		);
-		//array_splice($this->_exts[$section][$extension],$priority,0,"helloworld");
+
 		/* This little routine from http://ca.php.net/array_splice overcomes 
 		*  problems that array_splice has with multidmentional arrays
 		*/
@@ -139,9 +139,11 @@ class extensions {
 				  } 
 				$n++; 
 			   } 
+		
+		// apply our newly modified array
 		$this->_exts[$section][$extension] = $array;		
 		
-		print_r($this->_exts[$section][$extension]);
+		//print_r($this->_exts[$section][$extension]);
 	}
 	
 	/** Generate the file
