@@ -257,6 +257,17 @@ if(isset($active_modules) && is_array($active_modules)){
 	}
 }
 
+// now run all of the *_hookGet_config functions, which allows the generated dialplan to be modified (ie: $ext->splice())
+$engine = "asterisk";
+if(isset($active_modules) && is_array($active_modules)){
+	foreach($active_modules as $module) {
+		$funcname = $module."_hookGet_config";
+		if (function_exists($funcname)) { 
+			$funcname($engine);
+		}
+	}
+}
+
 // extensions_additional.conf
 // create the from-internal-additional context so other can add to it
 $ext->add('from-internal-additional', 'h', '', new ext_hangup(''));
