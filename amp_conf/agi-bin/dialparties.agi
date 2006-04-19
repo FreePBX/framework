@@ -225,7 +225,9 @@ foreach ( $ext as $k )
 		{
 			$dsarray[$realext] = 1;  // could be dial string i suppose but currently only using for duplicate check
 			$extds = get_dial_string( $AGI, $extnum);
-		    	$ds .= $extds . '&';
+			// Only add if there actually is a dial paramater
+			if (strlen($extds))
+				 $ds .= $extds . '&';
 		
 			// Update Caller ID for calltrace application
 			if ((strpos($k,"#")==0) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
@@ -298,7 +300,7 @@ $ds = chop($ds," &");
 
 if (!strlen($ds)) 
 {
-	$AGI->exec('NoOp');
+	$AGI->noop('No dial string!');
 } else {
 	if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt"))
 	{
