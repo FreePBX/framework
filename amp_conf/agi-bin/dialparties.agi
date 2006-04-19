@@ -236,16 +236,16 @@ foreach ( $ext as $k )
 			// Update Caller ID for calltrace application
 			if ((strpos($k,"#")==0) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
 			{
-				if (!isset($cidnum))
+				if (isset($cidnum))
 				{
 					$rc = $AGI->database_put('CALLTRACE', $k, $cidnum);
-					if ($rc == 1) 
+					if ($rc['result'] == 1) 
 					{
 						debug("DbSet CALLTRACE/$k to $cidnum", 3);
 					} 
 					else 
 					{
-						debug("Failed to DbSet CALLTRACE/$k to $cidnum ($rc)", 1);
+						debug("Failed to DbSet CALLTRACE/$k to $cidnum ({$rc['result']})", 1);
 					}
 				} 
 				else 
