@@ -1,9 +1,10 @@
 #!/usr/bin/php -q
 <?php
 /*
-This Callback script takes 2 arguments:
+This Callback script takes 3 arguments:
 1- number to dial
 2- context.exten.priority to dump number into
+3- time in seconds to sleep before calling back
 
 eg: callback 14032448089 ext-meetme.200.1
 */
@@ -67,7 +68,11 @@ print_r($args);
 
 $callback_number = $args[0];
 $callback_destination = $args[1];
+$pause_seconds = $args[2];
 
+if($pause_seconds)
+	sleep($pause_seconds);
+	
 // figure out context, exten, priority
 $dest = explode(".",$callback_destination);
 $callback_context = $dest[0];
