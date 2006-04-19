@@ -103,6 +103,8 @@ foreach( $ext as $k)
 	}
 }
 
+// Hacky.
+$count = 0;
 // Now check for DND
 foreach ( $ext as $k )
 {
@@ -115,7 +117,7 @@ foreach ( $ext as $k )
 		if (strlen($dnd)) 
 		{
 			debug("Extension $k has do not disturb enabled", 1);
-			unset($k);
+			unset($ext[$count]);
 			//PERL: delete $ext{$k};
 		} 
 		else 
@@ -123,6 +125,7 @@ foreach ( $ext as $k )
 			debug("Extension $k do not disturb is disabled", 3);
 		}
 	}
+	$count++;
 }
 
 // Main calling loop
@@ -225,9 +228,7 @@ foreach ( $ext as $k )
 		{
 			$dsarray[$realext] = 1;  // could be dial string i suppose but currently only using for duplicate check
 			$extds = get_dial_string( $AGI, $extnum);
-			// Only add if there actually is a dial paramater
-			if (strlen($extds))
-				 $ds .= $extds . '&';
+			if (strlen($extds)) $ds .= $extds . '&';
 		
 			// Update Caller ID for calltrace application
 			if ((strpos($k,"#")==0) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
@@ -300,7 +301,7 @@ $ds = chop($ds," &");
 
 if (!strlen($ds)) 
 {
-	$AGI->noop('No dial string!');
+	$AGI->noop('');
 } else {
 	if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt"))
 	{
