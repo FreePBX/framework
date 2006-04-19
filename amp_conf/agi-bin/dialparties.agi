@@ -87,6 +87,8 @@ while( ($arg = get_var($AGI,"ARG". $arg_cnt)) )
 
 // Check for call forwarding first
 // If call forward is enabled, we use chan_local
+// Hacky. We should be using an associative array, shouldn't we?
+$count = 0;
 foreach( $ext as $k)
 {
 	$cf  = $AGI->database_get('CF',$k);
@@ -94,13 +96,14 @@ foreach( $ext as $k)
 	if (strlen($cf)) 
 	{
 		// append a hash sign so we can send out on chan_local below.
-		$k = $cf.'#';  
+		$ext[$count] = $cf.'#';  
 		debug("Extension $k has call forward set to $cf", 1);
 	} 
 	else 
 	{
 		debug("Extension $k cf is disabled", 3);
 	}
+	$count++;
 }
 
 // Hacky.
