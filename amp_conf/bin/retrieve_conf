@@ -277,13 +277,23 @@ write_file($ext->get_filename(),$ext->generateConf());
 
 // now we write out our conf files for modules
 // check for any objects for each of the active modules
+// ** conferences is an example of a module that write a conf
 if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $active_module) { 
 		$classname = $active_module."_conf";
 		if(class_exists($classname) && get_class(${$classname}) !== false) {
 			//echo ${$classname}->get_filename();
 			//echo ${$classname}->generateConf();
-			write_file(${$classname}->get_filename(),${$classname}->generateConf());
+			
+			// if the module returns an array, it wants to write multiple files
+			// ** pinsets is an example of a module that does this
+			if (is_array(${$classname}->get_filename())) {
+				foreach(${$classname}->get_filename() as $modconf) {
+					write_file($modconf,${$classname}->generateConf($modconf));
+				}
+			} else {
+				write_file(${$classname}->get_filename(),${$classname}->generateConf());
+			}
 		}
 }
 }
