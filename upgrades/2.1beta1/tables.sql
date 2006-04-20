@@ -29,11 +29,3 @@ ADD PRIMARY KEY ( `variable` );
 --
 
 DELETE FROM modules WHERE modulename = 'applications';
-
--- Force upgrade of FeatureCode modules due to 'in development' state of them
--- this can be removed when 'going live'
---
-
-UPDATE modules SET version = 0.0 WHERE modulename IN ('callwaiting','callforward','donotdisturb','infoservices','recordings');
-
-UPDATE modules SET version = 1.0 WHERE modulename = 'ringgroups';
