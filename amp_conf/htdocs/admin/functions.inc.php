@@ -34,6 +34,15 @@ function parse_amportal_conf($filename) {
 	return $conf;
 }
 
+function parse_asterisk_conf($filename) {
+	$file = file($filename);
+	foreach ($file as $line) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+			$conf[ $matches[1] ] = $matches[2];
+		}
+	}
+	return $conf;
+}
 
 function getAmpAdminUsers() {
 	global $db;
