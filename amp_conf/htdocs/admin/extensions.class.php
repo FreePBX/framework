@@ -130,7 +130,7 @@ class extensions {
 				if($n == $ky) 
 				  { 
 			 $array[$n] = $val; 
-			 echo $n; 
+			// echo $n; 
 				  } 
 				else 
 				  { 
@@ -141,6 +141,7 @@ class extensions {
 			   } 
 		
 		// apply our newly modified array
+		//echo "Splicing [$section] $extension\n";
 		$this->_exts[$section][$extension] = $array;		
 		
 		//print_r($this->_exts[$section][$extension]);
@@ -189,8 +190,9 @@ class extensions {
 					
 						$ext = $this->_exts[$section][$extension][$idx];
 						
+						//echo "[$section] $extension $idx\n";
 						//var_dump($ext);
-						
+							
 						$output .= "exten => ".$extension.",".
 							$ext['basetag'].
 							($ext['addpri'] ? '+'.$ext['addpri'] : '').
