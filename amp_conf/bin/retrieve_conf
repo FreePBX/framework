@@ -2,6 +2,7 @@
 <?php
 
 define("AMP_CONF", "/etc/amportal.conf");
+define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
 
 function out($text) {
 	echo $text."\n";
@@ -38,6 +39,16 @@ function parse_amportal_conf2($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
 		if (preg_match("/^\s*([\w]+)\s*=\s*\"?([\w\/\:\.\%-]*)\"?\s*([;#].*)?/",$line,$matches)) {
+			$conf[ $matches[1] ] = $matches[2];
+		}
+	}
+	return $conf;
+}
+
+function parse_asterisk_conf2($filename) {
+	$file = file($filename);
+	foreach ($file as $line) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
 			$conf[ $matches[1] ] = $matches[2];
 		}
 	}
@@ -122,6 +133,13 @@ out("OK");
 outn("Reading ".AMP_CONF."..");
 $amp_conf = parse_amportal_conf2(AMP_CONF);
 if (count($amp_conf) == 0) {
+	fatal("FAILED");
+}
+out("OK");
+
+outn("Reading ".ASTERISK_CONF."..");
+$asterisk_conf = parse_asterisk_conf2(ASTERISK_CONF);
+if (count($asterisk_conf) == 0) {
 	fatal("FAILED");
 }
 out("OK");
@@ -299,7 +317,8 @@ if(isset($active_modules) && is_array($active_modules)){
 }
 
 function write_file($filename,$contents) {
-	if ($fd = fopen("/etc/asterisk/".$filename, "w")) {
+	global $asterisk_conf;
+	if ($fd = fopen($asterisk_conf['astetcdir'].'/'.$filename, "w")) {
 		fwrite($fd, $contents);
 		fclose($fd);
 	}
