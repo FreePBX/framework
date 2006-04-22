@@ -81,7 +81,7 @@ function install_parse_amportal_conf($filename) {
 	return $conf;
 }
 
-function parse_asterisk_conf($filename) {
+function install_parse_asterisk_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
 		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
@@ -742,7 +742,7 @@ out("OK");
 // **** read asterisk.conf
 
 outn("Reading ".ASTERISK_CONF."..");
-$asterisk_conf = parse_asterisk_conf(ASTERISK_CONF);
+$asterisk_conf = install_parse_asterisk_conf(ASTERISK_CONF);
 if (count($asterisk_conf) == 0) {
 	fatal("FAILED. Have you installed Asterisk?");
 }
