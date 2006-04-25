@@ -38,13 +38,13 @@ class extensions {
 				trigger_error(E_ERROR, "\$addpriority must be >= 1 in extensions::add()");
 				return false;
 			}
-			if (!isset($basetag)) {
+			if (empty($basetag)) {
 				trigger_error(E_ERROR, "\$basetag is required with \$addpriority in extensions::add()");
 				return false;
 			}
 		}
 		
-		if (!isset($basetag)) {
+		if (empty($basetag)) {
 			// no basetag, we need to make one
 			
 			if (!isset($this->_exts[$section][$extension])) {
