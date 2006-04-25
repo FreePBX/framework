@@ -558,7 +558,7 @@ if (! @ include("Console/Getopt.php")) {
 }
 out("OK");
 
-
+/* RC: WE SOULDN'T NEED THESE WITH NEW PHP DIALPARTIES
 // **** Make sure we have libasteriskperl
 $perl_test = "perl -e 'use Asterisk::AGI'";
 outn( "Checking for libasteriskperl (perl bindings for asterisk)..." );
@@ -580,6 +580,7 @@ if ( $perl_result != 0)
 	fatal( "Please install Net::Telnet from your vendor or CPAN.\nThis perl module is needed for executing dialparties.agi." );
 }
 out("OK");
+*/
 
 // **** Parse out command-line options
 
