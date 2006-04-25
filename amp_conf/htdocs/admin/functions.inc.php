@@ -385,7 +385,7 @@ function drawListMenu($results, $skip, $dispnum, $extdisplay, $description) {
 					}
 				$index= $index + 1;
 	 
-	  echo "<li><a id=\"".($extdisplay==$result[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$result[0]}\">{$result[1]} <{$result[0]}></a></li>";
+				echo "<li><a id=\"".($extdisplay==$result[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$result[0]}&skip={$skip}\">{$result[1]} <{$result[0]}></a></li>";
 	 
 	 }
 	}
