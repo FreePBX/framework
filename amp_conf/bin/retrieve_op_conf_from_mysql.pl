@@ -30,57 +30,67 @@ $queuepos="42-50,61-70";
 #@zaplines=(@zaplines,[ "Zap/4","Zap 4" ]);
 
 
-# LETS PARSE zapata.conf
-# Allowed format options
-# %c Zap Channel number
-# %n Line number
-# %N Line number, but restart counter
-# Example:
-# ;AMPLABEL:Channel %c - Button %n
-
 $zapataconf="/etc/asterisk/zapata.conf";
+$zapataautoconf="/etc/asterisk/zapata-auto.conf";
 
-$ampwildcard=0;
+if (-e $zapataconf) {
+	@zaplines = parse_zapata($zapataconf);
+} 
+if (-e $zapataautoconf) {
+	@zaplines = parse_zapata($zapataautoconf);
+}
 
-$zaplabel="Zap \%c";
-$lastlabelnum=0;
-open ZAPATA, "<$zapataconf" || die "Cannot open config file: $zapataconf\n";
+sub parse_zapata{
+	# LETS PARSE zapata.conf
+	# Allowed format options
+	# %c Zap Channel number
+	# %n Line number
+	# %N Line number, but restart counter
+	# Example:
+	# ;AMPLABEL:Channel %c - Button %n
+	my $conffile=shift;
+	$ampwildcard=0;
 
-while( $line = <ZAPATA> ) {
-	next if $line =~ /^(\s)*$/;
-	chomp($line);
-	if($line =~ /^;AMPWILDCARDLABEL\((\d+)\)\s*:\s*([\S\s]+)\s*$/) {
-		@zaplines=(@zaplines,[ "Zap/*","$2",$1 ]);
-		$ampwildcard=1;
-		next;	
-	}
-
-	if($line =~ /^;AMPLABEL:\s*(\S+[\s\S]*)$/) {
-		$zaplabel=$1;
-		$line=~/\%N/ and $lastlabelnum=0;
-		$ampwildcard=0;
-		next;
-	}
-	if($line =~ /^[b]?channel\s*=\s*[>]?\s*([\d\,-]+)\s*$/) {
-		$ampwildcard and next;
-		@ranges=split(/,/,$1);
-		foreach $ran(@ranges) {
-			@range=split(/-/,$ran);
-			$start=$range[0];
-			$end=$start;
-			@range>1 and $end=$range[1];
-			foreach $c($start .. $end) {
-				$lastlabelnum++;
-				$newlabel=$zaplabel;
-				$newlabel=~s/\%c/$c/;
-				$newlabel=~s/\%n/$lastlabelnum/;
-				$newlabel=~s/\%N/$lastlabelnum/;
+	$zaplabel="Zap \%c";
+	$lastlabelnum=0;
+	open ZAPATA, "<$conffile" || die "Cannot open config file: $zapataconf\n";
+	while( $line = <ZAPATA> ) {
+		next if $line =~ /^(\s)*$/;
+		chomp($line);
+		if($line =~ /^;AMPWILDCARDLABEL\((\d+)\)\s*:\s*([\S\s]+)\s*$/) {
+			@zaplines=(@zaplines,[ "Zap/*","$2",$1 ]);
+			$ampwildcard=1;
+			next;	
+		}
+	
+		if($line =~ /^;AMPLABEL:\s*(\S+[\s\S]*)$/) {
+			$zaplabel=$1;
+			$line=~/\%N/ and $lastlabelnum=0;
+			$ampwildcard=0;
+			next;
+		}
+		if($line =~ /^[b]?channel\s*=\s*[>]?\s*([\d\,-]+)\s*$/) {
+			$ampwildcard and next;
+			@ranges=split(/,/,$1);
+			foreach $ran(@ranges) {
+				@range=split(/-/,$ran);
+				$start=$range[0];
+				$end=$start;
+				@range>1 and $end=$range[1];
+				foreach $c($start .. $end) {
+					$lastlabelnum++;
+					$newlabel=$zaplabel;
+					$newlabel=~s/\%c/$c/;
+					$newlabel=~s/\%n/$lastlabelnum/;
+					$newlabel=~s/\%N/$lastlabelnum/;
+					
+					@zaplines=(@zaplines,[ "Zap/$c","$newlabel" ]);
+				}
 				
-				@zaplines=(@zaplines,[ "Zap/$c","$newlabel" ]);
 			}
-			
 		}
 	}
+	return @zaplines;
 }
 #Finished parsing zapata.conf
 
