@@ -56,7 +56,7 @@ elsif ( $db_engine eq "sqlite" ) {
 	$dbh = DBI->connect("dbi:SQLite2:dbname=$db_file","","");
 }
 
-$statement = "SELECT keyword,data from $table_name where id=0 and keyword <> 'account' and flags <> 1";
+$statement = "SELECT keyword,data from $table_name where id=-1 and keyword <> 'account' and flags <> 1";
 my $result = $dbh->selectall_arrayref($statement);
 unless ($result) {
 	# check for errors after every single database call
