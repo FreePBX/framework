@@ -16,16 +16,16 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ampusers.php:77
-msgid "Add User"
+#: ampusers.php:62
+msgid "Add Administrator"
 msgstr "Ajout Administrateur"
 
-#: ampusers.php:95
-msgid "Edit AMP User"
+#: ampusers.php:80
+msgid "Edit Administrator"
 msgstr "Edition Administrateur"
 
 #: modules/core/page.ampusers.php:107
-msgid "Delete User"
+msgid "Delete Administrator"
 msgstr "Suppression Administrateur"
 
 #: modules/core/page.ampusers.php:122
@@ -37,11 +37,11 @@ msgid "General Settings"
 msgstr "R&eacute;glages Globaux"
 
 #: modules/core/page.ampusers.php:139
-msgid "Username<span>Create a unique username for this new user</span>"
+msgid "Username<span>Create a unique username for this new administrator</span>"
 msgstr "Nom Administrateur<span>Cr&eacute;ation d'un Nom Unique pour cet Administrateur</span>"
 
 #: modules/core/page.ampusers.php:147
-msgid "Password<span>Create a password for this new user</span>"
+msgid "Password<span>Create a password for this new administrator</span>"
 msgstr "Mot de Passe<span>Mot de passe pour cet Administrateur</span>"
 
 #: modules/core/page.ampusers.php:156
@@ -50,7 +50,7 @@ msgstr "Restrictions d'acc&egrave;s"
 
 #: modules/core/page.ampusers.php:161
 msgid ""
-"Department Name<span>Restrict this user's view of Digital Receptionist menus "
+"Department Name<span>Restrict this administrator's view of Digital Receptionist menus "
 "and System Recordings to only those for this department.</span>"
 msgstr ""
 "Nom du D&eacute;partement<span>Restriction d'affichage, pour cet Administrateur, "
@@ -59,7 +59,7 @@ msgstr ""
 
 #: modules/core/page.ampusers.php:168
 msgid ""
-"Extension Range<span>Restrict this user's view to only Extensions, Ring "
+"Extension Range<span>Restrict this administrator's view to only Extensions, Ring "
 "Groups, and Queues within this range.</span>"
 msgstr ""
 "Gamme des Extensions<span>Restriction d'affichage, pour cet Administrateur, "
@@ -71,7 +71,7 @@ msgstr " &agrave;"
 
 #: modules/core/page.ampusers.php:177
 msgid ""
-"Admin Access<span>Select the Admin Sections this user should have access to."
+"Admin Access<span>Select the Admin Sections this administrator should have access to."
 "</span>"
 msgstr ""
 "Acc&egrave;s Admin<span>S&eacute;lection des modules auxquels cet Administrateur aura acc&egrave;s.</span>"
@@ -172,7 +172,7 @@ msgid ""
 "ring 1st 2nd and 3rd extension in the list.... etc."
 msgstr ""
 "Appelle la 1&egrave;re Extension disponible dans la liste, puis la 1&egrave;re "
-"et la 2nde, etc..."
+"et la 2nde, puis la 1&egrave;re, la 2nde et la 3&egrave;me etc..."
 
 #: callgroups.php:164
 msgid "extension list"
@@ -337,6 +337,13 @@ msgstr "Ajout"
 msgid "Device ID"
 msgstr "Identit&eacute; P&eacute;riph&eacute;rique"
 
+#: devices.php:99
+msgid ""
+"Give your device a unique integer ID.  The device will use this ID to authenicate to the system."
+msgstr ""
+"Donnez &agrave; votre p&eacute;riph&eacute;rique un Entier unique. "
+"Le p&eacute;riph&eacute;rique utilisera cette Identit&eacute; pour s'identifier au syst&egrave;me."
+
 #: devices.php:108
 msgid "Description"
 msgstr ""
@@ -349,9 +356,21 @@ msgstr ""
 "Le nom du CID pour ce P&eacute;riph&eacute;rique sera fix&eacute; &agrave; cette description"
 "jusqu'&agrave; ce qu'il s'inscrive"
 
-#: devices.php:115
+#: devices.php:123
 msgid "Device Type"
 msgstr "Type P&eacute;riph&eacute;rique"
+
+#: devices.php:123
+msgid ""
+"Devices can be fixed or adhoc. Fixed devices are always associated to the "
+"same extension/user. Adhoc devices can be logged into (*11) and logged out of (*12) by users."
+msgstr ""
+"Les P&eacute;riph&eacute;riques peuvent &ecirc;tre <b>Fixe</b> ou <b>Adhoc</b>.<br>"
+"Les P&eacute;riph&eacute;riques fixes sont toujours associ&eacute;s &agrave; "
+"la m&ecirc;me extension/utilisateur.<br>"
+"Les P&eacute;riph&eacute;riques adhocs sont accessibles par les Utilisateurs "
+"en tapant <strong>*11</strong> pour s'inscrire et <strong>*12</strong> "
+"pour se d&eacute;sinscrire."
 
 #: devices.php:118
 msgid "Fixed"
@@ -361,9 +380,21 @@ msgstr "Fixe"
 msgid "Adhoc"
 msgstr ""
 
-#: devices.php:125
+#: devices.php:133
 msgid "Default User"
-msgstr "Utilisateur par d&eacute;faut"
+msgstr "Utilisateur par D&eacute;faut"
+
+#: devices.php:133
+msgid ""
+"Fixed devices will always mapped to this user.  Adhoc devices will be mapped to "
+"this user by default.<br><br>If selecting \"New User\", a new User Extension of "
+"the same Device ID will be set as the Default User."
+msgstr ""
+"Les P&eacute;riph&eacute;riques fixes seront toujours associ&eacute;s &agrave; "
+"cet Utilisateur. Les P&eacute;riph&eacute;riques adhocs seront associ&eacute;s &agrave; "
+"cet Utilisateur par D&eacute;faut. <br>Si l'option <b>Nouvel Utilisateur</b> est choisie, "
+"une nouvelle Extension d'Utilisateur du m&ecirc;me P&eacute;riph&eacute;rique "
+"(Identit&eacute;) sera s&eacute;lectionn&eacute;e comme Utilisateur par D&eacute;faut"
 
 #: devices.php:128
 msgid "none"
@@ -816,9 +847,6 @@ msgstr ""
 msgid "mailbox"
 msgstr ""
 
-
-############ DEBUT ANCIEN MESSAGE EXTENSION
-
 #: extensions.php:338 extensions.php:497
 msgid "Account Settings"
 msgstr "Param&egrave;tres du compte"
@@ -897,9 +925,28 @@ msgid ""
 "User's full name. This is used for the Caller ID Name and for the Company "
 "Directory (if enabled below)."
 msgstr ""
-"Nom complet de l'utilisateur. Utilis&eacute; pour le CID (caller ID) et pour le r&eacutepertoire (si activ&eacute;)."
+"Nom complet de l'utilisateur. Utilis&eacute; pour le CID (caller ID) et pour le r&eacute;pertoire (si activ&eacute;)."
 
-#############  FIN EXTENSION ancien message
+#: page:users.php:108
+msgid "Delete User"
+msgstr "Suppression Utilisateur"
+
+#: page:users.php:118
+msgid "Edit User"
+msgstr "Edition Utilisateur"
+
+#: page:users.php:118
+msgid "Add User"
+msgstr "Ajout Utilisateur"
+
+#: page:devices.php:95
+msgid "Edit Device"
+msgstr "Edition P&eacute;riph&eacute;rique"
+
+#: page:devices.php:95
+msgid "Add Device"
+msgstr "Ajout P&eacute;riph&eacute;rique"
+
 
 #: footer.php:84
 msgid "Cannot connect to Asterisk Manager with "
@@ -1779,8 +1826,7 @@ msgid ""
 "The maximum number of seconds a caller can wait in a queue before being "
 "pulled out.  (0 for unlimited)."
 msgstr ""
-"Le temps maximum d'attente avant que l'appel soit sorti de la file "
-"(<b>0</b> pour illimit&eacute;)."
+"Le temps maximum d'attente avant que l'appel soit sorti de la file."
 
 #: queues.php:212
 msgid "max callers:"
@@ -1992,9 +2038,10 @@ msgstr "Destination par D&eacute;faut"
 ######### DEBUT ANCIENS MESSAGES de QUEUES
 ######### FIN ANCIENS MESSAGES de QUEUES
 
-#: recordings.php:32
-msgid "Please enter your user/extension number:"
-msgstr "SVP, entrez votre num&eacute;ro d'Utilisateur/Extension"
+#: page.recordings.php:31
+msgid "You can use your extension to record and playback a System Recording."
+msgstr "Vous pouvez utiliser votre Extension pour enregistrer et rejouer "
+"un Enregistrement Syst&egrave;me."
 
 #: recordings.php:43 recordings.php:48 recordings.php:71
 msgid "Recording"
@@ -2886,22 +2933,6 @@ msgid ""
 "Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1"
 msgstr ""
 
-#: common/script.js.php:101
-msgid "Please enter an extension list."
-msgstr ""
-
-#: common/script.js.php:107
-msgid "Group numbers with more than one digit cannot begin with 0"
-msgstr ""
-
-#: common/script.js.php:113
-msgid "Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -"
-msgstr ""
-
-#: common/script.js.php:119
-msgid "Invalid time specified"
-msgstr ""
-
 #: common/script.js.php:152
 msgid "Queue Number must not be blank"
 msgstr ""
@@ -2928,10 +2959,6 @@ msgstr ""
 msgid "Missing required field: trunk name"
 msgstr ""
 
-#: common/script.js.php:209
-msgid "Trunk Name and User Context cannot be set to the same value"
-msgstr ""
-
 #: common/script.js.php:229
 msgid "Route name must not be blank"
 msgstr ""
@@ -2944,10 +2971,6 @@ msgstr ""
 
 #: common/script.js.php:233
 msgid "Dial pattern cannot be blank"
-msgstr ""
-
-#: common/script.js.php:236
-msgid "At least one trunk must be picked"
 msgstr ""
 
 #: common/script.js.php:292
@@ -3076,7 +3099,7 @@ msgstr "Le mode silence permet de ne pas jouer les messages <strong>entrer/quitt
 
 #: modules/conferences/page.conferences.php:140
 msgid "user count:"
-msgstr "D&eacute;nombremenr Utilisateur:"
+msgstr "D&eacute;nombrement Utilisateur:"
 
 #: modules/conferences/page.conferences.php:140
 msgid "announce user(s) count on joining conference"
@@ -3244,6 +3267,15 @@ msgid "This allows you to contact the FreePBX channel on IRC."
 msgstr "Ceci vous permet de contacter le canal FreePBX sur IRC."
 
 #: modules/irc/page.irc.php:62
+msgid "Note that when you click anywhere else, you will close your IRC session."
+msgstr "Notez que si vous cliquez ailleurs, vous fermerez votre session IRC."
+
+#: modules/irc/page.irc.php:64
+msgid "It's suggested to use <b>'Open Link in New Window'</b> or <b>'Open Link In New Tab'</b> with Mozilla or Firefox."
+msgstr "Il est conseill&eacute; d'utiliser \"<b>Ouvrir le lien dans un nouvel onglet\" ou "
+"\"<b>Ouvrir le lien dans une nouvelle fen&ecirc;tre</b>\" dans IE, Mozilla ou Firefox."
+
+#: modules/irc/page.irc.php:66
 msgid ""
 "As IRC is an un-moderated international medium, AMP, FreePBX, Coalescent "
 "Systems, or any other party can not be held responsible for the actions or "
@@ -3253,7 +3285,7 @@ msgstr ""
 "aucune partie ne peut &ecirc;tre tenue comme responsable pour les actions "
 "ou comportements des personnes connect&eacute;es sur le r&eacute;seau. "
 
-#: modules/irc/page.irc.php:64
+#: modules/irc/page.irc.php:68
 msgid ""
 "When you connect to IRC, to assist in support, the IRC client will "
 "automatically send the following information to everyone in the #freePBX "
@@ -3263,19 +3295,19 @@ msgstr ""
 "automatiquement les informations suivantes &agrave; toute la "
 "communaut&eacute; pr&eacute;sente sur le canal #freePBX:"
 
-#: modules/irc/page.irc.php:67
+#: modules/irc/page.irc.php:71
 msgid "Your Linux Distribution:"
 msgstr "Votre Distribution Linux:"
 
-#: modules/irc/page.irc.php:70
+#: modules/irc/page.irc.php:74
 msgid "Your FreePBX version:"
 msgstr "Votre version FreePBX"
 
-#: modules/irc/page.irc.php:73
+#: modules/irc/page.irc.php:77
 msgid "Your Kernel version:"
 msgstr "Votre version Kernel:"
 
-#: modules/irc/page.irc.php:77
+#: modules/irc/page.irc.php:81
 msgid ""
 "If you do not want this information to be made public, please use another "
 "IRC client, or contact a commercial support provider"
@@ -3415,11 +3447,6 @@ msgid "Language:"
 msgstr "Langue:"
 
 #: modules/music/page.music.php:200
-msgid "Please wait until the page loads. Your file is being processed."
-msgstr "SVP, patientez jusqu'&agrave; la fin de l'op&eacute;ration. "
-"Votre fichier est t&eacute;l&eacute;charg&eacute;..."
-
-#: modules/music/page.music.php:200
 msgid "Upload"
 msgstr "T&eacute;l&eacute;charger"
 
@@ -3461,15 +3488,14 @@ msgid ""
 "This module is for specific phones that are capable of Paging or Intercom. "
 "Presently, Intercom is <b>not</b> supported, only group paging is. The "
 "current list of supported phones is GXP-2000 with firmware 1.0.13 or higher, "
-"Snom phones with 'recent' firmware, and (someone fill in some more phone "
-"information here)."
+"Snom phones with 'recent' firmware, and a few various other phones."
 msgstr ""
 "Ce module est d&eacute;di&eacute; &agrave; des t&eacute;l&eacute;phones "
 "sp&eacute;cifiques qui sont capables de paging (recherche de personnes) ou d'interphonie. "
 "Actuellement l'Interphonie n'est <b>pas</b> encore support&eacute;, "
 "seulement le paging l'est. La liste des t&eacute;l&eacute;phones compatibles "
 "sont le GXP-2000 avec un firmware 1.0.13 ou plus, les t&eacute;l&eacute;phones "
-"Snom avec des firmwares r&eacute;cents et ..."
+"Snom avec des firmwares r&eacute;cents et quelques autres t&eacute;l&eacute;phones."
 
 
 #: modules/paging/page.paging.php:79
@@ -3505,6 +3531,14 @@ msgid "Administrators"
 msgstr "Administrateurs"
 
 #: inconnu
+msgid "Users"
+msgstr "Utilisateurs"
+
+#: inconnu
+msgid "Devices"
+msgstr "P&eacute;riph&eacute;riques"
+
+#: inconnu
 msgid "Inbound Routes"
 msgstr "Routes Entrantes"
 
@@ -3527,10 +3561,6 @@ msgstr "Paging et Interphonie"
 #: page.timeconditions.php
 msgid "Server time:"
 msgstr "Heure du Serveur"
-
-#: page.modules.php:113
-msgid "Module"
-msgstr ""
 
 #: page.modules.php:113
 msgid "Version"
@@ -3564,10 +3594,6 @@ msgstr "R&eacute;ceptioniste Automatique"
 msgid "Record Menu"
 msgstr "Menu Enregistrement"
 
-#: ivr.php:138
-msgid "Please wait until the page reloads."
-msgstr "SVP, attendez jusqu'&agrave; ce que la page se recharge."
-
 #: ivr.php:220
 msgid "default"
 msgstr "d&eacute;faut"
@@ -3579,5 +3605,271 @@ msgstr "Termin&eacute;!  Cliquez ici pour sauvegarder vos modifications."
 #: call-comp.php:310
 msgid "Begins with"
 msgstr "Commence avec"
+
+#: page.modules.php:113
+msgid "Category"
+msgstr "Cat&eacute;gorie"
+
+#: page.modules.php:113
+msgid "Basic"
+msgstr "Base"
+
+#: page.modules.php:113
+msgid "Extras"
+msgstr ""
+
+#: page.modules.php:113
+msgid "Help"
+msgstr "Aide"
+
+#: page.modules.php:113
+msgid "Module"
+msgstr ""
+
+#: page.modules.php:113
+msgid "System Admin"
+msgstr "Admin. Syst&egrave;me"
+
+#: page.ringgroups.php:197
+msgid "announcement:"
+msgstr "Annonce:"
+
+#: page.ringgroups.php:197
+msgid "Message to be played to the caller before dialing this group.<br><br>To add additional recordings please use the \"System Recordings\" MENU to the left"
+msgstr "Annonce qui sera jou&eacute;e &agrave; l'Appelant avant d'&ecirc;tre "
+"transf&eacute;r&eacute; vers ce Groupe.<br>"
+"Pour ajouter des enregistrements, utiliser le menu <strong>Enregistrements "
+"Syst&egrave;me</strong>."
+
+#: page.conferences.php:121
+msgid "join message:"
+msgstr "Annonce:"
+
+#: page.conferences.php:121
+msgid ""
+"Message to be played to the caller before joining the conference.<br><br>"
+"To add additional recordings please use the \"System Recordings\" MENU to the left"
+msgstr "Annonce qui sera jou&eacute;e &agrave; l'Appelant avant de joindre la "
+"conf&eacute;rence.<br>"
+"Pour ajouter des enregistrements, utiliser le menu <strong>Enregistrements "
+"Syst&egrave;me</strong>."
+
+#: page.queues.php:222
+msgid "Unlimited"
+msgstr "Illimit&eacute;"
+
+#: page.did.php:178
+msgid "Alert Info"
+msgstr "Info Alert"
+
+#: page.did.php:178
+msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
+msgstr "Info Alert peut-&ecirc;tre utilis&eacute; pour des sonneries distinctives "
+"avec des p&eacute;riph&eacute;riques SIP."
+
+#: page.irc.php:26
+msgid "Online Documentation"
+msgstr "Documentation En-Ligne"
+
+#ATTENTION: Les messages suivants sont des alertes: pas d'accent, pas de caracteres de control sont admis... le fichier script.js est traite plus haut
+
+#: page.extensions.php:426 page.users.php:277
+msgid "Please enter a valid extension number."
+msgstr "SVP, entrez un Numero d'Extension valide."
+
+#: page.extensions.php:429 page.devices.php:270
+msgid "Please enter a valid Description for this device"
+msgstr "SVP, entrez une Description de Peripherique valide"
+
+#: page.extensions.php:433 page.users.php:289
+msgid "Please enter a valid Outbound CID"
+msgstr "SVP, entrez un CID Sortant valide."
+
+#: page.extensions.php:436 page.devices.php:274
+msgid "Please enter a valid Emergency CID"
+msgstr "SVP, entrez un CID d'Urgence valide."
+
+#: page.extensions.php:440 page.devices.php:279
+msgid "Please enter the dtmfmode for this device"
+msgstr "SVP, entrez un dtmfmode valide pour ce peripherique."
+
+#: page.extensions.php:443 page.devices.php:282
+msgid "Please enter the channel for this device"
+msgstr "SVP, entrez un canal valide pour ce peripherique."
+
+#: page.extensions.php:449 page.users.php:295
+msgid "Please enter a valid Voicemail Password, using digits only"
+msgstr "SVP, entrez un Mot de Passe Boite Vocale valide (utilisant des chiffres uniquement)."
+
+#: page.extensions.php:453 page.users.php:299
+msgid "Please enter a valid Email Address"
+msgstr "SVP, entrez une Adresse Courriel valide."
+
+#: page.extensions.php:456 page.users.php:302
+msgid "Please enter a valid Pager Email Address"
+msgstr "SVP, entrez une Adresse Courriel Mobile/Pager valide."
+
+#: page.extensions.php:460 page.users.php:306
+msgid "VM Context cannot be blank"
+msgstr "Le champ 'Contexte Boite Vocale' ne peut rester vide!"
+
+#: page.extensions.php:465 page.devices.php:285
+msgid ""
+"You havn't entered a Secret for this device, although this is possible it's generally bad practice to not assign a 'secret' to a device.\n\nAre you sure you want to leave the Secret empty?"
+msgstr ""
+"Vous n'avez pas entre de mot de passe dans le champ 'secret' de ce peripherique. Bien que cela soit possible, il est generalement deconseille de ne pas saisir le champ 'secret' pour un peripherique. Etes vous certain de laisser ce champ vide?"
+
+#: modules/music/page.music.php:200
+msgid "Please wait until the page loads. Your file is being processed."
+msgstr "SVP, patientez jusqu'a la page se recharge. Votre fichier est en train d'etre telecharge."
+
+#: ivr.php:138
+msgid "Please wait until the page reloads."
+msgstr "SVP, attendez jusqu'a ce que la page se recharge."
+
+#: ivr.php:202
+msgid "Please enter a valid Name for this menu"
+msgstr "SVP, entrez un Nom valide pour ce Menu."
+
+#: page.conferences.php:241
+msgid "Please enter a valid Conference Number"
+msgstr "SVP, entrez un 'Numero de Conference' valide."
+
+#: page.conferences.php:244
+msgid "Please enter a valid Conference Name"
+msgstr "SVP, entrez un 'Nom de Conference' valide."
+
+#: page.conferences.php:241
+msgid "You must set an admin PIN for the Conference Leader when selecting the leader wait option"
+msgstr "Vous devez entrer un 'Mot de Passe Administrateur' quand vous validez l'option 'Attente Leader'"
+
+#: page.devices.php:267
+msgid "Please enter a device id."
+msgstr "SVP, entrez une 'Identite Peripherique'."
+
+#: page.did.php:215
+msgid "Please enter a valid DID Number"
+msgstr "SVP, entrez un 'Numero SDA' valide."
+
+#: page.did.php:218
+msgid "Please enter a valid Caller ID Number"
+msgstr "SVP, entrez un 'Numero CID' valide."
+
+#: page.did.php:221
+msgid "Please enter a valid Fax Email or leave it empty to use the default"
+msgstr "SVP, entrez une 'Adresse Courriel du Fax' valide ou laissez ce champ vide pour utiliser la configuration Par Defaut."
+
+#: page.did.php:224
+msgid "Please enter a valid number for Pause after answer"
+msgstr "SVP, entrez un Nombre 'Pause apres reponse' valide."
+
+#: page.did.php:231
+msgid "Leaving the DID Number AND the Caller ID Number empty will match all incoming calls received not routed using any other defined Incoming Route.\n\nAre you sure?"
+msgstr "Laisser les champs 'numero SDA' et 'numero CID' vides aura pour consequence de faire correspondre tous les appels entrants n'utilisant aucune autre route definie. Etes vous certain?"
+
+#: page.users.php:281
+msgid "Please enter valid User Password using numbers only"
+msgstr "SVP, entrez un 'Mot de Passe Utilisateur' valide utilisant des chiffres uniquement."
+
+#: page.users.php:285
+msgid "Please enter a valid Display Name"
+msgstr "SVP, entrez un 'Nom Affiche (CID)' valide."
+
+## le message suivant n'est pas traduit, il faut revoir le code dans page.users
+#: page.users.php:313
+msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc device.\n\nAre you sure you wish to leave the User Password empty?"
+msgstr ""
+
+#: page.routing.php:535
+msgid "Route name is invalid, please try again"
+msgstr "Le 'Nom de la Route' est invalide, SVP essayez encore."
+
+#: page.routing.php:539
+msgid "Route password must be numberic or leave blank to disable"
+msgstr "Le 'Mot de Passe de la Route' doit contenir que des chiffres ou laisser le champ vide."
+
+#: page.routing.php:543
+msgid "Dial pattern is invalid"
+msgstr "Le 'Masque de Numerotation' est invalide."
+
+#: page.routing.php:547
+msgid "At least one trunk must be picked"
+msgstr "Au moins un Trunk doit etre choisi."
+
+#: page.trunks.php:632
+msgid "Invalid Outbound Caller ID"
+msgstr "'CID sortant' invalide"
+
+#: page.trunks.php:632
+msgid "Invalid Maximum Channels"
+msgstr "'Nombre maximal de Canaux' invalide"
+
+#: page.trunks.php:632
+msgid "Invalid Dial Rules"
+msgstr "'Regles de Composition' invalide"
+
+#: page.trunks.php:632
+msgid "Invalid Outbound Dial Prefix"
+msgstr "'Prefixe de Numerotation Externe' invalide"
+
+#: page.trunks.php:632
+msgid "Invalid Trunk Name entered"
+msgstr "'Nom de Trunk' invalide"
+
+#: page.trunks.php:632
+msgid "Trunk Name and User Context cannot be set to the same value"
+msgstr "Le 'Nom du Trunk' et le 'Contexte USER' ne peuvent pas avoir la meme valeur."
+
+#: recordings.php:32
+msgid "Please enter your user/extension number:"
+msgstr "SVP, entrez votre numero d'Utilisateur/Extension"
+
+#: ivr.php:263
+msgid "Please enter a valid Number of options"
+msgstr "SVP, entrez un Numero des options valide"
+
+#: ivr.php:386
+msgid "Please enter the Option # using only digits or 't' or '*'"
+msgstr "SVP, entrez le Numero d'option utilisant uniquement des chiffres ou 't' ou '*'"
+
+#: page.music.php:198
+msgid "Please enter a valid Category Name"
+msgstr "SVP, entrez un 'Nom de Categorie' valide"
+
+#: page.paging.php:102
+msgid "Please enter a valid Paging Extension"
+msgstr "SVP, entrez une 'Extension Paging' valide"
+
+#: page.ringgroups.php:254
+msgid "Invalid Group Number specified"
+msgstr "Numero Groupe invalide"
+
+#: page.ringgroups.php:254
+msgid "Group numbers with more than one digit cannot begin with 0"
+msgstr "Les numeros de Groupe de plus de 1 digit ne peuvent commencer par 0 (zero)"
+
+#: page.ringgroups.php:254
+msgid "Please enter an extension list."
+msgstr "SVP, entrez une liste d'extensions"
+
+#: page.ringgroups.php:254
+msgid "Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -"
+msgstr "Prefixe invalide. Caracteres valides: a-z A-Z 0-9 : _ -"
+
+#: page.ringgroups.php:254
+msgid "Invalid time specified"
+msgstr "Duree specifiee invalide"
+
+#: page.ringgroups.php:254
+msgid "Time must be between 1 and 60 seconds"
+msgstr "La Duree doit etre incluse entre 1 et 60 secondes."
+
+#: page.timeconditions.php:180
+msgid "Please enter a valid Time Conditions Name"
+msgstr "SVP, entrez un 'Nom de la Condition Temporelle' valide"
+
+#: page.timeconditions.php:183
+msgid "Please enter the Time to Match"
+msgstr "SVP, entrez un 'Temps a faire correspondre'"
 
 
