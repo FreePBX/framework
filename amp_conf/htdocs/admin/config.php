@@ -126,7 +126,7 @@ if (!$quietmode) {
 	echo "</div>\n<div class=\"content\">\n";
 }
 // check access
-if (!empty($display) && !isset($amp_sections[$display])) {
+if ( ($display != '') && !isset($amp_sections[$display]) ) {
 	$display = "noaccess";
 }
 
@@ -158,7 +158,7 @@ switch($display) {
 							);
 							$itemid = '';
 							foreach($possibilites as $possibility) {
-								if (isset($_REQUEST[$possibility]) && !empty($_REQUEST[$possibility])) 
+								if ( isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) 
 									$itemid = $_REQUEST[$possibility];
 							}
 

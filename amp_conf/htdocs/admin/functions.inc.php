@@ -128,7 +128,8 @@ class ampuser {
 function checkRange($extension){
 	$low = isset($_SESSION["AMP_user"]->_extension_low)?$_SESSION["AMP_user"]->_extension_low:'';
 	$high = isset($_SESSION["AMP_user"]->_extension_high)?$_SESSION["AMP_user"]->_extension_high:'';
-	if ((($extension >= $low) && ($extension <= $high)) || (empty($low) && empty($high)))
+	
+	if ((($extension >= $low) && ($extension <= $high)) || ($low == '' && $high == ''))
 		return true;
 	else
 		return false;
@@ -136,12 +137,9 @@ function checkRange($extension){
 
 // returns true if department string matches dept for this user
 function checkDept($dept){
-	if (isset($_SESSION["AMP_user"])) {
-		$deptname = $_SESSION["AMP_user"]->_deptname;
-	} else {
-		$deptname = null;
-	}
-	if (($dept == $deptname) || empty($dept))
+	$deptname = isset($_SESSION["AMP_user"])?$_SESSION["AMP_user"]:null;
+	
+	if ( ($dept == null) || ($dept == $deptname) )
 		return true;
 	else
 		return false;
