@@ -53,53 +53,37 @@ if (!is_array($asa)) { // does not exist already
 // Check for the directdid and didalert fields in users table
 // first search for table, you never know
 // 
-// Also add teh TRUNK_OPTIONS variable to globals
+// Also add the TRUNK_OPTIONS variable to globals
 //
-$sql = "SELECT extension FROM users";
-$usersexten = $db->getRow($sql, DB_FETCHMODE_ASSOC);
-if (!DB::IsError($usersexten)) { // no error...module installed
-
-        // Add 'directdid' field
-        $sql = "SELECT directdid FROM users";
-        $usersexten_directdid = $db->getRow($sql, DB_FETCHMODE_ASSOC);
-        if(DB::IsError($usersexten_directdid)) { // error, new field doesn't exist
-                $sql = "ALTER TABLE users ADD directdid VARCHAR( 50 ) NULL";
-                $result = $db->query($sql);
-                if(DB::IsError($result)) {
-                        die($result->getDebugInfo());
-                }
-        }
-
-        // Add 'didalert' field
-        $sql = "SELECT didalert FROM users";
-        $usersexten_didalert = $db->getRow($sql, DB_FETCHMODE_ASSOC);
-        if(DB::IsError($usersexten_didalert)) { // error, new field doesn't exist
-                $sql = "ALTER TABLE users ADD didalert VARCHAR( 50 ) NULL";
-                $result = $db->query($sql);
-                if(DB::IsError($result)) {
-                        die($result->getDebugInfo());
-                }
-        }
-
+// Add 'directdid' field
+$sql = "SELECT directdid FROM users";
+$usersexten_directdid = $db->getRow($sql, DB_FETCHMODE_ASSOC);
+if(DB::IsError($usersexten_directdid)) { // error, new field doesn't exist
+	$sql = "ALTER TABLE users ADD directdid VARCHAR( 50 ) NULL";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) 
+		die($result->getDebugInfo());
 }
 
-$sql = "SELECT variable, value FROM globals";
-$globalsexten = $db->getRow($sql, DB_FETCHMODE_ASSOC);
-if (!DB::IsError($globalsexten)) { // no error...module installed
+// Add 'didalert' field
+$sql = "SELECT didalert FROM users";
+$usersexten_didalert = $db->getRow($sql, DB_FETCHMODE_ASSOC);
+if(DB::IsError($usersexten_didalert)) { // error, new field doesn't exist
+	$sql = "ALTER TABLE users ADD didalert VARCHAR( 50 ) NULL";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) 
+		die($result->getDebugInfo());
+}
 
-        // Add TRUNK_OPTIONS field
-        $sql = "SELECT variable FROM globals WHERE variable = 'TRUNK_OPTIONS'";
-	$numrows = $db->getOne($sql);
-        if(DB::IsError($numrows)) { // error, something failed
-		die($numrows->getDebugInfo());
-	}
-	else if ($numrows == 0) {
-                $sql = "INSERT INTO `globals` VALUES ('TRUNK_OPTIONS', 'r')";
-                $result = $db->query($sql);
-                if(DB::IsError($result)) {
-                        die($result->getDebugInfo());
-                }
-        }
+// Add TRUNK_OPTIONS field
+$sql = "SELECT value FROM globals WHERE variable = 'FAX_RX_FROM' ";
+$asa = $db->getRow($sql, DB_FETCHMODE_ASSOC);
+if (!is_array($asa)) { // does not exist already
+	// Default to 'r'
+	$sql = "INSERT INTO globals (variable, value) VALUES ('TRUNK_OPTIONS', 'r') ";
+	$result = $db->query($sql);
+	if(DB::IsError($result)) 
+                die($result->getDebugInfo());
 }
 
 ?>
