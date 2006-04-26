@@ -30,7 +30,7 @@ if (is_array($ringlist)) {
 		outn("     upgrading GRP-".$grpnum."... ");
 
 		$exten = ringgroups_get($grpnum, $strategy,  $grptime, $grppre, $grplist);		
-		$goto = legacy_args_get($grpnum,2,'ext-group');
+		$goto = upgrade_legacy_args_get($grpnum,2,'ext-group');
 		
 		// write new record
 		$sql = "INSERT INTO ringgroups (grpnum, strategy, grptime, grppre, grplist, postdest) ";
@@ -112,7 +112,7 @@ function ringgroups_get($grpexten, &$strategy, &$time, &$prefix, &$group) {
 	return false;
 }
 
-function legacy_args_get($exten,$priority,$context) {
+function upgrade_legacy_args_get($exten,$priority,$context) {
 	global $db;
 	$sql = "SELECT args FROM extensions WHERE extension = '".$exten."' AND priority = '".$priority."' AND context = '".$context."'";
 	list($args) = $db->getRow($sql);
