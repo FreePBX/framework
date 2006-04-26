@@ -759,6 +759,15 @@ if (isset($asterisk_conf['astlogdir'])) { $amp_conf['ASTLOGDIR'] = $asterisk_con
 
 write_amportal_conf(AMP_CONF, $amp_conf);
 
+// **** Check for func_callerid.so - this is only in asterisk 1.2
+
+outn("Checking for Asterisk 1.2..");
+if (!file_exists($amp_conf["ASTMODDIR"]."/func_callerid.so")) {
+	fatal("Asterisk 1.2 is required for this version of freePBX");
+} else {
+	out("OK");
+}
+
 // **** Connect to database
 
 outn("Connecting to database..");
