@@ -77,6 +77,7 @@ CREATE TABLE globals (
 
 INSERT INTO globals VALUES ('CALLFILENAME', '""');
 INSERT INTO globals VALUES ('DIAL_OPTIONS', 'tr');
+INSERT INTO globals VALUES ('TRUNK_OPTIONS', 'r');
 INSERT INTO globals VALUES ('DIAL_OUT', '9');
 INSERT INTO globals VALUES ('FAX', '');
 INSERT INTO globals VALUES ('FAX_RX', 'system');
@@ -175,9 +176,14 @@ CREATE TABLE queues (
 
 CREATE TABLE devices (id VARCHAR( 20 ) NOT NULL , tech VARCHAR( 10 ) NOT NULL , dial VARCHAR( 50 ) NOT NULL , devicetype VARCHAR( 5 ) NOT NULL , user VARCHAR( 50 ) , description VARCHAR( 50 ), emergency_cid VARCHAR( 100 ));
 
-CREATE TABLE users (extension VARCHAR( 20 ) NOT NULL , password VARCHAR( 20 ) , name VARCHAR( 50 ) , voicemail VARCHAR( 50 ) , ringtimer INT(3) , noanswer VARCHAR( 100 ) , recording VARCHAR( 50 ) ,  outboundcid VARCHAR( 50 ));
+CREATE TABLE users (extension VARCHAR( 20 ) NOT NULL , password VARCHAR( 20 ) , name VARCHAR( 50 ) , voicemail VARCHAR( 50 ) , ringtimer INT(3) , noanswer VARCHAR( 100 ) , recording VARCHAR( 50 ) ,  outboundcid VARCHAR( 50 ) , directdid VARCHAR( 50 ) NULL , didalert VARCHAR ( 50 ) NULL );
 
-CREATE TABLE incoming ( cidnum VARCHAR( 20 ) , extension VARCHAR( 20 ) , destination VARCHAR( 50 ) , faxexten VARCHAR( 20 ) , faxemail VARCHAR( 50 ) , answer TINYINT( 1 ) , wait INT( 2 ) , privacyman TINYINT( 1 ) , alertinfo VARCHAR( 32 ));
+--
+-- Need to incorporate their changes, comment out for now
+--
+CREATE TABLE incoming ( cidnum VARCHAR( 20 ) , extension VARCHAR( 20 ) , destination VARCHAR( 50 ) , faxexten VARCHAR( 20 ) , faxemail VARCHAR( 50 ) , answer TINYINT( 1 ) , wait INT( 2 ) , privacyman TINYINT( 1 ) , alertinfo VARCHAR( 32 ) , channel VARCHAR( 20 ));
+--
+--
 
 CREATE TABLE Backup (Name varchar(50) default NULL,Voicemail varchar(50) default NULL,Recordings varchar(50) default NULL,Configurations varchar(50) default NULL,CDR varchar(55) default NULL,FOP varchar(50) default NULL,Minutes varchar(50) default NULL,Hours varchar(50) default NULL,Days varchar(50) default NULL,Months varchar(50) default NULL,Weekdays varchar(50) default NULL,Command varchar(200) default NULL,Method varchar(50) default NULL,ID int(11) NOT NULL,PRIMARY KEY  (ID));
 
