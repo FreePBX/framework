@@ -399,7 +399,7 @@ class ext_answer extends extension {
 
 class ext_privacymanager extends extension {
 	function output() {
-		return "PrivacyManager";
+		return "PrivacyManager(".$this->data.")";
 	}
 }
 
