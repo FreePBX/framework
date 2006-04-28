@@ -40,15 +40,6 @@ $dsarray = array(); // This will hold all the dial strings, used to check for du
 $AGI = new AGI();
 debug("Starting New Dialparties.agi", 0);
 
-if ($debug >= 2) 
-{
-	foreach( $keys as $key=>$value)
-	{
-		debug("$key = $value" ,3);
-		$AGI->verbose("$key = $value", 2);
-	}
-}
-
 $priority = get_var( $AGI, "priority" ) + 1;
 debug( "priority is $priority" );
 
