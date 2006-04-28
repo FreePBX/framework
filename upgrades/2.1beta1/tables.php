@@ -76,7 +76,7 @@ if(DB::IsError($usersexten_didalert)) { // error, new field doesn't exist
 }
 
 // Add TRUNK_OPTIONS field
-$sql = "SELECT value FROM globals WHERE variable = 'FAX_RX_FROM' ";
+$sql = "SELECT value FROM globals WHERE variable = 'TRUNK_OPTIONS' ";
 $asa = $db->getRow($sql, DB_FETCHMODE_ASSOC);
 if (!is_array($asa)) { // does not exist already
 	// Default to 'r'
