@@ -168,6 +168,8 @@ class AGI_AsteriskManager
 			$type = NULL;
 			$parameters = array();
 		
+			if (feof($this->socket))
+				return false;
 			$buffer = trim(fgets($this->socket, 4096));
 			while($buffer != '')
 			{
