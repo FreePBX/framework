@@ -154,80 +154,81 @@ class displayModules {
 		} else {	//local modules
 			
 			$installed = $this->sortModules($installed);
-			foreach($installed as $key => $mod) {
-				
-				//dynamicatlly create a form based on status
-				if ($mod['status'] == 0) {
-					$status = _("Not Installed");
-					//install form
-					$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-					$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
-					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"install\">";
-					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Install")."\">";
-					$action .= "</form>";
-					$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-					$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
-					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"rmmod\">";
-					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Remove")."\">";
-					$action .= "</form>";
-				} else if($mod['status'] == 1){
-					$status = _("Disabled");
-					//enable form
-					$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"enable\">";
-					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Enable")."\">";
-					$action .= "</form>";
-					//uninstall form
-					$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"uninstall\">";
-					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Uninstall")."\">";
-					$action .= "</form>";
-					
-				} else if($mod['status'] == 2){
-					$status = _("Enabled");
-					//disable form
-					$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
-					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
-					$action .= "</form>";
-				} else if($mod['status'] == 3){
-					$status = _("Enabled (needs update)");
-					//disable form
-					$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
-					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
-					$action .= "</form>";
-					//upgrade form
-					$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-					$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
-					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"upgrade\">";
-					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Update")."\">";
-					$action .= "</form>";
-				} else if($mod['status'] == -1){
-					$status = _("Broken");
-					//disable form
-					$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-					$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-					$action .= "<input type=\"hidden\" name=\"modaction\" value=\"delete\">";
-					$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Delete")."\">";
-					$action .= "</form>";
+			if (isset($installed) && is_array($installed)) {
+				foreach($installed as $key => $mod) {
+					//dynamicatlly create a form based on status
+					if ($mod['status'] == 0) {
+						$status = _("Not Installed");
+						//install form
+						$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+						$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
+						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"install\">";
+						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Install")."\">";
+						$action .= "</form>";
+						$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+						$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
+						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"rmmod\">";
+						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Remove")."\">";
+						$action .= "</form>";
+					} else if($mod['status'] == 1){
+						$status = _("Disabled");
+						//enable form
+						$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"enable\">";
+						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Enable")."\">";
+						$action .= "</form>";
+						//uninstall form
+						$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"uninstall\">";
+						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Uninstall")."\">";
+						$action .= "</form>";
+						
+					} else if($mod['status'] == 2){
+						$status = _("Enabled");
+						//disable form
+						$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
+						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
+						$action .= "</form>";
+					} else if($mod['status'] == 3){
+						$status = _("Enabled (needs update)");
+						//disable form
+						$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
+						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
+						$action .= "</form>";
+						//upgrade form
+						$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+						$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
+						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"upgrade\">";
+						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Update")."\">";
+						$action .= "</form>";
+					} else if($mod['status'] == -1){
+						$status = _("Broken");
+						//disable form
+						$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
+						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
+						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"delete\">";
+						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Delete")."\">";
+						$action .= "</form>";
+					}
+					$this->html .= $this->tableHtml($mod,$status,$action);
 				}
-				$this->html .= $this->tableHtml($mod,$status,$action);
 			}
 		}
-			
 	}
 	
 	//sorts the modules by category
 	function sortModules($array) {
-		foreach($array as $key => $mod) {
+		if (isset($array) && is_array($array)) {
+			foreach($array as $key => $mod) {
 				// sort the list in category / displayName order
 				// this is the only way i know how to do this...surely there is another way?
 				
@@ -250,6 +251,7 @@ class displayModules {
 				asort($newallmods);	
 			}
 			return $newallmods;
+		}
 	}
 	
 	function tableHtml($arrRow,$status,$action) {

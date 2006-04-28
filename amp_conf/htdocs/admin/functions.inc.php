@@ -286,13 +286,17 @@ function find_modules($status,$type) {
 	$modules = find_allmodules();
 	//$return_modules = $modules;
 	// add only modules of type=$status
-	foreach(array_keys($modules) as $key) {
-		//remove modules not matching status or type
-		if(isset($modules[$key]['status']) && $modules[$key]['status'] == $status && isset($modules[$key]['type']) && $modules[$key]['type'] == $type) {
-			$return_modules[$key] = $modules[$key];
+	if (isset($modules) && is_array($modules)) {	
+		foreach(array_keys($modules) as $key) {
+			//remove modules not matching status or type
+			if(isset($modules[$key]['status']) && $modules[$key]['status'] == $status && isset($modules[$key]['type']) && $modules[$key]['type'] == $type) {
+				$return_modules[$key] = $modules[$key];
+			}
 		}
+		return $return_modules;
+	} else {
+		return false;
 	}
-	return $return_modules;
 }
 
 
