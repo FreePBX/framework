@@ -376,7 +376,9 @@ class Callmonitor {
       $recursiveCount = 0;
       foreach($paths as $key => $path) {
         $path_files = getFiles($path,$filter,$recursiveMax,$recursiveCount);
-        $files = array_merge($files,$path_files);
+        if ($path_files) {
+          $files = array_merge($files,$path_files);
+        }
       }
       rsort($files);
     }

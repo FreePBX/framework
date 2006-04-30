@@ -52,7 +52,8 @@ class Database {
 
     // options
     $options = array(
-      'portability' => DB_PORTABILITY_ALL,
+      'debug'       => 2,
+      'portability' => DB_PORTABILITY_LOWERCASE|DB_PORTABILITY_RTRIM|DB_PORTABILITY_DELETE_COUNT|DB_PORTABILITY_NUMROWS|DB_PORTABILITY_ERRORS|DB_PORTABILITY_NULL_TO_EMPTY,
     );
     
     // attempt connection

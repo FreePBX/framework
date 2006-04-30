@@ -103,7 +103,8 @@ class AsteriskManagerInterface {
     while (($buffer = fgets($this->socket)) && (!preg_match('/END COMMAND/i', $buffer))) {
 
       if (preg_match('/Value/',$buffer)) {
-        $response = $buffer;
+        $parts = split(' ',trim($buffer));
+        $response = $parts[1];
       }
 
       if ($count>100) {

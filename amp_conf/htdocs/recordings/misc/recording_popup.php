@@ -35,7 +35,7 @@ include_once("./includes/bootstrap.php");
       echo($_GET['time'] . "<br>");
     }
     echo("<br>");
-    echo("<embed src='audio.php?recording=" . $path . "' width=300, height=20 autostart=yes loop=false></embed><br>");
+    echo("<embed src='audio.php?recording=" . $path . "' width=300, height=20 autoplay=true loop=false></embed><br>");
     echo("<a class='popup_download' href=/recordings/misc/audio.php?recording="  . $path . ">" . _("download") . "</a><br>");
   }
 

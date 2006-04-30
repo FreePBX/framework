@@ -38,6 +38,7 @@ class Login {
     $vm_password = '';
     $category = '';
     $context = '';
+    $voicemail_enabled = '';
     $voicemail_email_address = '';
     $voicemail_pager_address = '';
     $voicemail_email_enable = '';
@@ -149,11 +150,12 @@ class Login {
 
                 // authenticated
                 $auth = true; 
-                $extension = $username ;
+                $extension = $username;
                 $displayname = $buf[1];
                 $vm_password = $buf[0];
                 $default_page = $ARI_DEFAULT_USER_PAGE;
                 $context = $currentContext;
+                $voicemail_enabled = 1;
                 $voicemail_email_address = $buf[2];
                 $voicemail_pager_address = $buf[3];
                 
@@ -238,9 +240,6 @@ class Login {
                     $displayname = $username;
                     $default_page = $ARI_DEFAULT_ADMIN_PAGE;
   
-                    $_SESSION['ari_error'] = _("Voicemail Login not found.") . "<br>" .
-                                             _("No access to voicemail");
-
                     $admin = 0;
                     if ($ARI_ADMIN_EXTENSIONS) {
                       $extensions = split(',',$ARI_ADMIN_EXTENSIONS);
@@ -325,6 +324,7 @@ class Login {
         $_SESSION['ari_user']['voicemail_password'] = $vm_password;
         $_SESSION['ari_user']['category'] = $category;
         $_SESSION['ari_user']['context'] = $context;
+        $_SESSION['ari_user']['voicemail_enabled'] = $voicemail_enabled;
         $_SESSION['ari_user']['voicemail_email_address'] = $voicemail_email_address;
         $_SESSION['ari_user']['voicemail_pager_address'] = $voicemail_pager_address;
         $_SESSION['ari_user']['voicemail_email_enable'] = $voicemail_email_enable;
@@ -356,8 +356,7 @@ class Login {
     $ret = '';
     $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $extension/outboundcid\r\n\r\n");
     if ($response) {
-      $buf = split(' ',trim($response));
-      $ret = $buf[1];
+      $ret = $response;
     }
 
     return $ret;
@@ -378,7 +377,7 @@ class Login {
    * @param $request
    *   Variable to hold data entered into form
    */
-  function GetForm($request) {
+  function GetForm() {
 
     global $ARI_NO_LOGIN;
 
@@ -396,16 +395,6 @@ class Login {
       $ret = $this->error;
     }
 
-    if (isset($request)) {
-      foreach ($request as $key => $value) {
-        if ($key != "ID") {
-          if ($key!="username" && $key!="password") {
-            $hiddenInputText .= "<input type='hidden' name=" . $key . " value=" . $value . ">";
-          }
-        }
-      }
-    }
-
     $language = new Language();
     $display = new Display(NULL);
 
@@ -417,7 +406,6 @@ class Login {
     $ret .= "
       <table id='login'>
         <form id='login' name='login' action=" . $_SESSION['ARI_ROOT'] . " method='POST'>
-        " . $hiddenInputText . "
           <tr>
             <td class='right'>
               <small><small>" . _("Login") . ":&nbsp;&nbsp;</small></small>
@@ -452,7 +440,7 @@ class Login {
         <tr>				
           <td></td>	
           <td>
-            " . $language->GetForm() . "
+            " . $language->getForm() . "
           </td>
         </tr>
         <tr><td>&nbsp;</td></tr>

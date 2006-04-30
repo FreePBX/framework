@@ -1,4 +1,20 @@
 
+
+
+Change log - 04/28/2006
+
+ * changed PEAR portability flags to try and fix a bug a user is having (maybe a buggy or old version of PEAR on users machine)
+ * fixed no voicemail message to be more intuitive
+ * fixed ajax bug
+ * fixed German i18n translation bug (requested by Wanninger)
+ * fixed settings recording format bug
+ * fixed settings call forward bug
+
+Change log - 04/10/2006
+
+ * added autoplay of recordings (requested by Robert LaPoint)
+ * refactored the response from the asterisk manager interface so do not always have to strip off "value:" from the response
+
 Change log - 04/04/2006
 
  * abstracted the doc_root (PHP_SELF) to a variable to handle cases where it is not set properly (requested by Diego Iastrubni)

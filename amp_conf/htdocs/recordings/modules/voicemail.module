@@ -67,6 +67,12 @@ class Voicemail {
     $context = $_SESSION['ari_user']['context'];
     $extension = $_SESSION['ari_user']['extension'];
 
+    // check for voicemail enabled or admin
+    if ($_SESSION['ari_user']['voicemail_enabled']!=1 ||
+          $extension=='admin') {
+      return;
+    }
+
     // make folder list
     $paths = split(';',$ASTERISK_VOICEMAIL_PATH);
     $i = 0;
@@ -231,11 +237,6 @@ class Voicemail {
       $folder = $ASTERISK_VOICEMAIL_FOLDERS[0]['folder'];
     }
 
-    // check admin
-    if ($extension=='admin') {
-      $_SESSION['ari_error'] = _("No Voicemail Recordings for Admin");
-    }
-
     // get data
     $data = array();
     foreach($paths as $key => $path) {
@@ -397,8 +398,26 @@ class Voicemail {
     $url_opts['sort'] = $sort;
     $url_opts['order'] = $order;
 
+    $error = 0;
+
+    // check for voicemail enabled
+    if ($_SESSION['ari_user']['voicemail_enabled']!=1) {
+      $_SESSION['ari_error'] = _("Voicemail Login not found.") . "<br>" .
+                               _("No access to voicemail");
+      $error = 1;
+    }
+
+    // check admin
+    if ($extension=='admin') {
+      $_SESSION['ari_error'] = _("No Voicemail Recordings for Admin");
+      $error = 1;
+    }
+
     // build page content
     $ret .= checkErrorMessage();
+    if ($error) {
+      return $ret;
+    }
 
     // ajax page refresh script
     if ($AJAX_PAGE_REFRESH_ENABLE) {

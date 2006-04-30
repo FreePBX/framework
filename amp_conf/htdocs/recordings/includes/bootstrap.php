@@ -255,8 +255,9 @@ function startARISession() {
   if (!isset($_SESSION['ari_user']) ) {
 
     // start a new session for the user 
+    ini_set('session.name', 'ARI');             // prevent session name clashes
     ini_set('session.gc_maxlifetime', '3900');  // make the session timeout a long time
-    set_time_limit (360);
+    set_time_limit(360);
     session_start();
   }
 }
@@ -280,7 +281,7 @@ function bootstrap() {
  */
 function ariPageHeader() {
 
-  Bootstrap();
+  bootstrap();
 }
 
 /**
@@ -297,13 +298,13 @@ function ariPageFooter() {
  * Includes and run functions
  */
 
-checkDependencies();
-startARISession();
-setARIRoot();
-
 include_once("./includes/lang.php");
 $language = new Language();
 $language->set();
+
+checkDependencies();
+startARISession();
+setARIRoot();
 
 include_once("./includes/main.conf.php");
 include_once("./version.php");

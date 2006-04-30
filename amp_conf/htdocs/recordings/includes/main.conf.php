@@ -23,9 +23,9 @@ $ASTERISKMGR_DBHOST = "localhost";
 # Database options for older legacy AMP installations (pre-FreePBX)
 #   - $LEGACY_AMP_DBFILE only needs to be set if using a database like sqlite 
 #
+$LEGACY_AMP_DBHOST = "localhost";
 $LEGACY_AMP_DBENGINE = "mysql";
 $LEGACY_AMP_DBFILE = "";
-$LEGACY_AMP_DBHOST = "localhost";
 $LEGACY_AMP_DBNAME = "asterisk";
 
 #
@@ -38,9 +38,9 @@ $LEGACY_AMP_DBNAME = "asterisk";
 #     'oci8' - Oracle
 #     'odbc' - ODBC
 #
+$ASTERISKCDR_DBHOST = "localhost";
 $ASTERISKCDR_DBENGINE = "mysql";
 $ASTERISKCDR_DBFILE = "";
-$ASTERISKCDR_DBHOST = "localhost";
 $ASTERISKCDR_DBNAME = "asteriskcdrdb";
 $ASTERISKCDR_DBTABLE = "cdr";
 
@@ -198,6 +198,22 @@ $CALLMONITOR_AGGRESSIVE_MATCHING = 1;
 #           1 - only exact match 
 #
 $CALLMONITOR_ONLY_EXACT_MATCHING = 0;
+
+###############################
+# conference page settings
+###############################
+#
+# Meetme extension prefix
+#   for this module to function, the user has to have
+#   a meetme conference room {prefix}{extension}
+#
+$CONFERENCE_WEBMEETME_PREFIX = "";
+
+#
+# url to web meetme conference room
+#   example: "http://example.mycompany.com/webmeetme"
+#
+$CONFERENCE_WEBMEETME_URL = "";
 
 ###############################
 # help page settings

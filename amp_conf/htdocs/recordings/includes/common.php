@@ -171,7 +171,7 @@ function databaseLogon() {
   if (!$success) {
     $_SESSION['ari_error'] =  
       _("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" . 
-      _("Check the ARI 'main.conf' configuration file to set the Asterisk Manager Account.") . "<br>" . 
+      _("Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager Account.") . "<br>" . 
       _("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account") . "<br>" .
       _("make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver.");
     return FALSE;
@@ -236,14 +236,13 @@ function loginBlock() {
 
   if (!isset($_SESSION['ari_user'])) {
     $login->Auth();
+
   }
 
   if (!isset($_SESSION['ari_user'])) {
 
-    if (isset($_REQUEST)) { $request = $_REQUEST; } else { $request = NULL; }
-
     // login form
-    $ret .= $login->GetForm($request);
+    $ret .= $login->GetForm();
 
     return $ret;
   }
@@ -327,7 +326,7 @@ function handleBlock() {
 
     if (strtolower($m)==strtolower($name)) {
 
-      // build sub menu
+      // build sub menu 
       $subnav_menu_function = "navSubMenu";
       if (in_array(strtolower($subnav_menu_function), $module_methods)) {
         $subnav_menu .= $module->$subnav_menu_function($args); 
@@ -335,7 +334,6 @@ function handleBlock() {
 
       // execute function (usually to build content)
       if (in_array(strtolower($f), $module_methods)) {
-
         $content .= $module->$f($args);
       }
     }
@@ -393,7 +391,9 @@ function handler() {
   databaseLogoff();
 
   // check for ajax request and refresh or if not build the page
-  if (isset($_REQUEST['ajax_refresh'])) {
+  if (isset($_REQUEST['ajax_refresh']) ) {
+
+//&& isset($_SESSION['ari_user'])
 
     echo "<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
       <response>
