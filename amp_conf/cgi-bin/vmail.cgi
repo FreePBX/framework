@@ -90,6 +90,19 @@ _EOH
 
 }
 
+sub untaint() 
+{
+	my($data) = @_;
+	
+	if ($data =~ /^([-\@\w.]+)$/) {
+		$data = $1;
+	} else {
+		die "Security violation.";
+	}
+
+	return $data;
+}
+
 sub check_login()
 {
 	local ($filename, $startcat) = @_;
@@ -431,14 +444,15 @@ _EOH
 sub message_audio()
 {
 	my ($forcedownload) = @_;
-	my $folder = param('folder');
-	my $msgid = param('msgid');				
-	my $mailbox = param('mailbox');
-	my $context = param('context');
+	my $folder = &untaint(param('folder'));
+	my $msgid = &untaint(param('msgid'));
+	my $mailbox = &untaint(param('mailbox'));
+	my $context = &untaint(param('context'));
 	my $format = param('format');
 	if (!$format) {
 		$format = &getcookie('format');
 	}
+	&untaint($format);
 	my $path = "/var/spool/asterisk/voicemail/$context/$mailbox/$folder/msg${msgid}.$format";
 
 	$msgid =~ /^\d\d\d\d$/ || die("Msgid Liar ($msgid)!");
@@ -828,6 +842,8 @@ sub message_forward()
 	}
 	$msgcount = &msgcount($context, $newmbox, "INBOX");
 	my $txt;
+	$context = &untaint($context);
+	$newmbox = &untaint($newmbox);
 	if ($newmbox ne $mbox) {
 #		print header;
 		foreach $msg (@msgs) {
@@ -863,6 +879,9 @@ sub message_delete_or_move()
 		$context = "default";
 	}
 	my $passwd = param('password');
+	$context = &untaint($context);
+	$mbox = &untaint($mbox);
+	$folder = &untaint($folder);
 	my $msgcount = &msgcount($context, $mbox, $folder);
 	my $omsgcount = &msgcount($context, $mbox, $newfolder) if $newfolder;
 #	print header;
