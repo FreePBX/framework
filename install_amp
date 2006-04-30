@@ -764,9 +764,17 @@ write_amportal_conf(AMP_CONF, $amp_conf);
 outn("Checking for Asterisk 1.2..");
 if (!file_exists($amp_conf["ASTMODDIR"]."/func_callerid.so")) {
 	fatal("Asterisk 1.2 is required for this version of freePBX");
-} else {
-	out("OK");
 }
+out("OK");
+
+// **** Make sure selinux isn't enabled
+
+outn("Checking for selinux..");
+$tmpout = exec("selinuxenabled 2>&1", $tmpoutput, $sereturn);
+if ($sereturn == 0) {
+	fatal("selinux is ENABLED. This is not supported. Please disable selinux before using freePBX");
+}
+out("OK");
 
 // **** Connect to database
 
