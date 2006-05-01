@@ -215,6 +215,13 @@ function find_allmodules() {
 function find_allmodules() {
 	global $db;
 	global $amp_conf;
+	
+	if (!is_dir($amp_conf['AMPWEBROOT'].'/admin/modules'))
+	{
+	    mkdir( $amp_conf['AMPWEBROOT'].'/admin/modules' );
+	    return;
+	}
+	
 	$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
 	$data = "<xml>";
 	//loop through each module directory, ensure there is a module.ini file

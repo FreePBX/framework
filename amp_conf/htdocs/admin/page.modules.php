@@ -118,6 +118,12 @@ class displayModules {
 			
 			$online = $this->sortModules($online);
 			foreach(array_keys($online) as $arrkey) {
+			
+				if (!is_array($installed))
+				{
+				    continue;
+				}
+				    
 				// Determine if module is already local
 				if(array_key_exists($arrkey,$installed)) {
 					//check if online version is newer
@@ -272,7 +278,7 @@ End_of_Html;
 	function drawModules() {
 		$table = "<table border=1><tr><th>". _("Module")."</th><th>". _("Version")."</th><th>". _("Type") ."</th><th>". _("Category") ."</th><th>". _("Status") ."</th><th>". _("Action") ."</th></tr>";
 		$table .= $this->html;
-		$table .= "</table>";
+  		$table .= "</table>";
 		return $table;
 	}
 }
