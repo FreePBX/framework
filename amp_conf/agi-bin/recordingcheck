@@ -33,7 +33,7 @@ $type = $agi->get_variable("ARG2");
 switch($type['data']) {
 	case "Group":
 	
-		$r = $agi->get_variable("ARG4");
+		$r = $agi->get_variable("ARG1");
 		if ($r["result"] == 0) {
 			$agi->verbose("Extension List not set -- nothing to do");
 			exit(1);
