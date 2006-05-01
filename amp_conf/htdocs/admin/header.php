@@ -32,19 +32,19 @@ if (!$quietmode) {
     <title><?php  echo _($title) ?></title>
     <meta http-equiv="Content-Type" content="text/html">
     <link href="common/mainstyle.css" rel="stylesheet" type="text/css"> 
-    <script src="common/script.js.php" type="text/javascript"></script>  
-    <script type="text/javascript"> 
     <?php 
 	if (isset($display) && is_file("modules/{$display}/{$display}.css")) {
-	         echo "<link href=\"modules/{$display}/{$display}.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+	         echo "	<link href=\"modules/{$display}/{$display}.css\" rel=\"stylesheet\" type=\"text/css\">\n";
 	}
      ?>
 
+    <script type="text/javascript" src="common/script.js.php"></script>
+    <script type="text/javascript"> 
 		<!--
 		// Disable browser's Back button on another pg being able to go back to this pg.
 		history.forward();
 		//-->
-	</script> 
+    </script> 
 <!--[if IE]>
     <style type="text/css">div.inyourface a{position:absolute;}</style>
 <![endif]-->
