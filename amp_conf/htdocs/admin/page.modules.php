@@ -326,9 +326,9 @@ function runModuleSQL($moddir,$type){
 	$data='';
 	$retval = false;
 	// if there is an sql file, run it
-	if (is_file("modules/{$moddir}/{$type}.sql")) {
+	if (is_file("{$amp_conf['AMPWEBROOT']}/modules/{$moddir}/{$type}.sql")) {
 		// run sql script
-		$fd = fopen("modules/{$moddir}/{$type}.sql","r");
+		$fd = fopen("{$amp_conf['AMPWEBROOT']}/modules/{$moddir}/{$type}.sql","r");
 		while (!feof($fd)) {
 			$data .= fread($fd, 1024);
 		}
@@ -346,8 +346,8 @@ function runModuleSQL($moddir,$type){
 	}
 	
 	// if there is a php file, run it
-	if (is_file("modules/{$moddir}/{$type}.php")) {
-		include("modules/{$moddir}/{$type}.php");
+	if (is_file("{$amp_conf['AMPWEBROOT']}/modules/{$moddir}/{$type}.php")) {
+		include("{$amp_conf['AMPWEBROOT']}/modules/{$moddir}/{$type}.php");
 		$retval = true;
 	}
 	
