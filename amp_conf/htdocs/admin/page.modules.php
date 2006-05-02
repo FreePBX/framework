@@ -2,43 +2,85 @@
 
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
 
-if (isset($_POST['submit'])) { // if form has been submitted
-	switch ($_POST['modaction']) {
-		case "install":
-			if (runModuleSQL($_POST['modname'],$_POST['modaction'])) 
-				installModule($_POST['modname'],$_POST['modversion']);
-			else
-				echo "<div class=\"error\">"._("Module install script failed to run")."</div>";
-		break;
-		case "uninstall":
-			if (runModuleSQL($_POST['modname'],$_POST['modaction']))
-				uninstallModule($_POST['modname']);
-			else
-				echo "<div class=\"error\">"._("Module uninstall script failed to run")."</div>";
-			
-		break;
-		case "enable":
-			enableModule($_POST['modname']);
-			//echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=1'</script>";
-                        echo "<script language='Javascript'>window.location.reload()</script>\n";						
-		break;
-		case "disable":
-			disableModule($_POST['modname']);
-			//echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=2'</script>";
-                        echo "<script language='Javascript'>window.location.reload()</script>\n";						
-		break;
-		case "delete":
-			deleteModule($_POST['modname']);
-		break;
-		case "download":
-			fetchModule($_POST['rawname']);
-		break;
-		case "upgrade":
-			upgradeModule($_POST['modname']);
-		break;
-		case "rmmod":
-			rmModule($_POST['modname']);
-		break;
+$installed = find_allmodules();
+
+function pageReload(){
+return "";
+	//return "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=".rand()."'</script>";
+}
+
+if (isset($_POST['submit']) && is_array($_POST['modules'])) { // if form has been submitted
+	foreach ($_POST['modules'] as $module) {
+		switch ($_POST['modaction']) {
+			case "install":
+				if (runModuleSQL($module,'install')) 
+					installModule($module,$_POST[$module.'_version']);
+				else
+					echo "<div class=\"error\">"._("Module install script failed to run")."</div>";
+			break;
+			case "uninstall":
+				if (runModuleSQL($module,'uninstall'))
+					uninstallModule($module);
+				else
+					echo "<div class=\"error\">"._("Module uninstall script failed to run")."</div>";
+			break;
+			case "enable":
+				enableModule($module);
+				echo pageReload();
+			break;
+			case "disable":
+				disableModule($module);
+				echo pageReload();
+			break;
+			case "delete":
+				deleteModule($module);
+				rmModule($module);
+			break;
+			case "download":
+				fetchModule($module);
+			break;
+			case "upgrade":
+				upgradeModule($module);
+			break;
+			case "installenable": // install and enable a module
+				$boolInstall = true;
+				// only run install if it's not installed
+				if ($installed[$module]['status'] == 0) {
+					// set to false on failed install
+					$boolInstall = runModuleSQL($module,'install');
+					if ($boolInstall) {
+						installModule($module,$_POST[$module.'_version']);
+						enableModule($module);
+						echo pageReload();
+					} else {
+						echo "<div class=\"error\">{$module}: "._("Module install script failed to run")."</div>";
+					}
+				} else { // it's already installed, so just enable it
+					enableModule($module);
+					echo pageReload();
+				}
+			break;
+			case "downloadinstall": // download, install and enable
+				fetchModule($module);
+				if (runModuleSQL($module,'install')) 
+					installModule($module,$_POST[$module.'_version']);
+				else
+					echo "<div class=\"error\">"._("Module install script failed to run")."</div>";
+				enableModule($module);
+			break;
+			case "downloadupdate": //download and update
+				fetchModule($module);
+				upgradeModule($module);
+			break;
+			case "uninstalldelete": //uninstall and delete
+				if (runModuleSQL($module,'uninstall'))
+					uninstallModule($module);
+				else
+					echo "<div class=\"error\">"._("Module uninstall script failed to run")."</div>";
+				deleteModule($module);
+				rmModule($module);
+			break;
+		}
 	}
 }
 ?>
@@ -56,9 +98,9 @@ if (isset($_POST['submit'])) { // if form has been submitted
 switch($extdisplay) {
 	case "online": 
 		echo "<h2>";
-		echo _("Online Modules");
+		echo _("Module Administration (online)");
 		echo "</h2>";
-		echo "<h3><a href='config.php?display=modules&type=tool&extdisplay=local'>"._("Local Modules")."</a></h3>\n";
+		echo "<a href='config.php?display=modules&type=tool&extdisplay=local'>"._("Terminate Connection to Online Module Repository")."</a>\n";
 		// determine which modules we have installed already
 		$installed = find_allmodules();
 		// determine what modules are available
@@ -68,9 +110,9 @@ switch($extdisplay) {
 	break;
 	default:
 		echo "<h2>";
-		echo _("Local Module Administration");
+		echo _("Module Administration");
 		echo "</h2>";
-		echo "<h3><a href='config.php?display=modules&type=tool&extdisplay=online'>"._("Online Modules")."</a></h3>\n";
+		echo "<a href='config.php?display=modules&type=tool&extdisplay=online'>"._("Connect to Online Module Repository")."</a>\n";
 		$installed = find_allmodules();
 		$dispMods = new displayModules($installed);
 		echo $dispMods->drawModules();
@@ -133,104 +175,193 @@ class displayModules {
 					$oldversion = $installed[$arrkey]['version'];
 					// version_compare returns 1 if new > old
 					if (version_compare($newversion,$oldversion) == 1) {
-						$status = "Local (update available)";
-						$action = "
-						<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
-							<input type=hidden name=modaction value=download>
-							<input type=hidden name=rawname value={$online[$arrkey]['rawname']}>
-							<input type=submit name=submit value=Download>
-						</form>
-						";
+						$modsOnlineUpdate[] = $online[$arrkey];
 					} else {
-						$status = "Local (up to date)";
-						$action = "";
+						// we are not displaying this array .. it's just here for kicks
+						$modsOnlineInstalled[] = $online[$arrkey];
 					}
 				} else {
-					$status = "Online";
-					$action = "
-					<form action={$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']} method=post>
-						<input type=hidden name=modaction value=download>
-						<input type=hidden name=rawname value={$online[$arrkey]['rawname']}>
-						<input type=submit name=submit value=Download>
-					</form>
-					";
+					$modsOnlineOnly[] = $online[$arrkey];
 				}
 				
-				$this->html .= $this->tableHtml($online[$arrkey],$status,$action);
+				//$this->html .= $this->tableHtml($online[$arrkey],$status,$action);
 			}
 			
-		} else {	//local modules
-			
-			$installed = $this->sortModules($installed);
-			if (isset($installed) && is_array($installed)) {
-				foreach($installed as $key => $mod) {
-					//dynamicatlly create a form based on status
-					if ($mod['status'] == 0) {
-						$status = _("Not Installed");
-						//install form
-						$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-						$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
-						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"install\">";
-						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Install")."\">";
-						$action .= "</form>";
-						$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-						$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
-						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"rmmod\">";
-						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Remove")."\">";
-						$action .= "</form>";
-					} else if($mod['status'] == 1){
-						$status = _("Disabled");
-						//enable form
-						$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"enable\">";
-						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Enable")."\">";
-						$action .= "</form>";
-						//uninstall form
-						$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"uninstall\">";
-						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Uninstall")."\">";
-						$action .= "</form>";
-						
-					} else if($mod['status'] == 2){
-						$status = _("Enabled");
-						//disable form
-						$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
-						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
-						$action .= "</form>";
-					} else if($mod['status'] == 3){
-						$status = _("Enabled (needs update)");
-						//disable form
-						$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"disable\">";
-						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Disable")."\">";
-						$action .= "</form>";
-						//upgrade form
-						$action .= "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-						$action .= "<input type=\"hidden\" name=\"modversion\" value=\"{$mod['version']}\">";
-						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"upgrade\">";
-						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Update")."\">";
-						$action .= "</form>";
-					} else if($mod['status'] == -1){
-						$status = _("Broken");
-						//disable form
-						$action = "<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\" style=display:inline>";
-						$action .= "<input type=\"hidden\" name=\"modname\" value=\"{$key}\">";
-						$action .= "<input type=\"hidden\" name=\"modaction\" value=\"delete\">";
-						$action .= "<input type=\"submit\" name=\"submit\" value=\""._("Delete")."\">";
-						$action .= "</form>";
-					}
-					$this->html .= $this->tableHtml($mod,$status,$action);
+			/* 
+			 *  Available Module Updates
+			 */
+			if(is_array($modsOnlineUpdate)) {
+				$rows = "";
+				foreach($modsOnlineUpdate as $mod) {
+					$color = "orange";
+					$rows .= $this->tableHtml($mod,$color);
 				}
+				$this->options = "
+					<select name=\"modaction\">
+						<option value=\"downloadupdate\">"._("Download and Update selected")."
+						<option value=\"download\">"._("Download selected")."
+					</select>
+					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
+					";
+				// build the table
+				$this->html .= $this->formStart(_("Available Module Updates (online)"));
+				$this->html .= $rows;
+				$this->html .= $this->formEnd($mod['status']);
 			}
+			
+			/* 
+			 *  Online Modules
+			 */			
+			if(is_array($modsOnlineOnly)) {
+				$rows = "";
+				foreach($modsOnlineOnly as $mod) {
+					$color = "white";
+					$rows .= $this->tableHtml($mod,$color);
+				}
+				$this->options = "
+					<select name=\"modaction\">
+						<option value=\"downloadinstall\">"._("Download and Install selected")."
+						<option value=\"download\">"._("Download selected")."
+					</select>
+					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
+					";
+				// build the table
+				$this->html .= $this->formStart(_("Modules Available (online)"));
+				$this->html .= $rows;
+				$this->html .= $this->formEnd($mod['status']);
+			}			
+			
 		}
+			
+		$installed = $this->sortModules($installed);
+		if (isset($installed) && is_array($installed)) {
+			foreach($installed as $mod) {
+				//create seperate arrays based on module status
+				if ($mod['status'] == 0) {
+					$modsNotinstalled[] = $mod;
+				} else if($mod['status'] == 1){
+					$modsDisabled[] = $mod;
+				} else if($mod['status'] == 2){
+					$modsEnabled[] = $mod;
+				} else if($mod['status'] == 3){
+					$modsUpdate[] = $mod;
+				} else if($mod['status'] == -1){
+					$modsBroken[] = $mod;
+				}
+
+				//$this->html .= $this->tableHtml($mod,$status,$color);
+			}
+			
+			// draw a form and list for each module status
+			/* 
+			 *  Modules Needing Update
+			 */
+			if(is_array($modsUpdate)) {
+				$rows = "";
+				foreach($modsUpdate as $mod) {		
+					$color = "#CCFF00";
+					$rows .= $this->tableHtml($mod,$color);
+				}
+				$this->options = "
+					<select name=\"modaction\">
+						<option value=\"upgrade\">"._("Upgrade Selected")."
+					</select>
+					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
+					";
+				// build the table
+				$this->html .= $this->formStart(_("Enabled Modules Requiring Upgrade"));
+				$this->html .= $rows;
+				$this->html .= $this->formEnd($mod['status']);
+			}
+			
+			/* 
+			 *  Enabled Modules
+			 */			
+			if(is_array($modsEnabled)) {
+				$rows = "";
+				foreach($modsEnabled as $mod) {
+					$color = "white";
+					$rows .= $this->tableHtml($mod,$color);
+				}
+				$this->options = "
+					<select name=\"modaction\">
+						<option value=\"disable\">"._("Disable Selected")."
+						<option value=\"uninstall\">"._("Uninstall Selected")."
+						<option value=\"uninstalldelete\">"._("Uninstall and Delete Selected")."
+					</select>
+					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
+					";
+				// build the table
+				$this->html .= $this->formStart(_("Enabled Modules"));
+				$this->html .= $rows;
+				$this->html .= $this->formEnd($mod['status']);
+			}
+			
+			/* 
+			 *  Disabled Modules
+			 */			
+			if(is_array($modsDisabled)) {
+				$rows = "";
+				foreach($modsDisabled as $mod) {
+					$color = "white";
+					$rows .= $this->tableHtml($mod,$color);
+				}
+				$this->options = "
+					<select name=\"modaction\">
+						<option value=\"enable\">"._("Enable Selected")."
+						<option value=\"uninstall\">"._("Uninstall Selected")."
+						<option value=\"uninstalldelete\">"._("Uninstall and Delete Selected")."
+					</select>
+					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
+					";
+				// build the table
+				$this->html .= $this->formStart(_("Disabled Modules"));
+				$this->html .= $rows;
+				$this->html .= $this->formEnd($mod['status']);
+			}
+
+			/* 
+			 *  Local Modules Not Installed
+			 */			
+			if(is_array($modsNotinstalled)) {
+				$rows = "";
+				foreach($modsNotinstalled as $mod) {
+					$color = "white";
+					$rows .= $this->tableHtml($mod,$color);
+				}
+				$this->options = "
+					<select name=\"modaction\">
+						<option value=\"installenable\">"._("Enable Selected")."
+						<option value=\"delete\">"._("Delete Selected")."
+					</select>
+					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
+					";
+				// build the table
+				$this->html .= $this->formStart(_("Not Installed Local Modules"));
+				$this->html .= $rows;
+				$this->html .= $this->formEnd($mod['status']);
+			}
+			
+			if(is_array($modsBroken)) {
+				$rows = "";
+				foreach($modsBroken as $mod) {
+					$color = "#FFFFFF";
+					$rows .= $this->tableHtml($mod,$color);
+				}
+				$this->options = "
+					<select name=\"modac
+						<option value=\"delete\">"._("Delete Selected")."
+					</select>
+					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
+					";
+				// build the table
+				$this->html .= $this->formStart(_('Broken'));
+				$this->html .= $rows;
+				$this->html .= $this->formEnd($mod['status']);
+			}
+			
+		}
+		
 	}
 	
 	//sorts the modules by category
@@ -262,26 +393,37 @@ class displayModules {
 		}
 	}
 	
-	function tableHtml($arrRow,$status,$action) {
+	function tableHtml($arrRow,$color) {
 		return <<< End_of_Html
 			
-			<tr>
+			<tr bgcolor={$color}>
+				<td>
+					<input type="checkbox" name="modules[]" value="{$arrRow['rawname']}">
+					<input type="hidden" name="{$arrRow['rawname']}_version" value="{$arrRow['version']}">
+				</td>
 				<td><a target=_BLANK href={$arrRow['info']}>{$arrRow['displayName']} ({$arrRow['rawname']})</a></td>
 				<td>{$arrRow['version']}</td>
 				<td>{$arrRow['type']}</td>
 				<td>{$arrRow['category']}</td>
-				<td>{$status}</td>
-				<td>{$action}</td>
 			</tr>
 			
 End_of_Html;
 	}
 	
+	function formStart($title = "") {
+		return "
+			<h4>{$title}</h4>
+			<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\">
+			<table border=1><tr><th>&nbsp;</th><th>". _("Module")."</th><th>". _("Version")."</th><th>". _("Type") ."</th><th>". _("Category") ."</th></tr>
+				";
+	}
+
+	function formEnd() {
+		return "</table>{$this->options}</form><hr>";
+	}
+		
 	function drawModules() {
-		$table = "<table border=1><tr><th>". _("Module")."</th><th>". _("Version")."</th><th>". _("Type") ."</th><th>". _("Category") ."</th><th>". _("Status") ."</th><th>". _("Action") ."</th></tr>";
-		$table .= $this->html;
-  		$table .= "</table>";
-		return $table;
+		return $this->html;
 	}
 }
 
@@ -328,9 +470,9 @@ function runModuleSQL($moddir,$type){
 	$data='';
 	$retval = false;
 	// if there is an sql file, run it
-	if (is_file("{$amp_conf['AMPWEBROOT']}/admin/modules/{$moddir}/{$type}.sql")) {
+	if (is_file("modules/{$moddir}/{$type}.sql")) {
 		// run sql script
-		$fd = fopen("{$amp_conf['AMPWEBROOT']}/admin/modules/{$moddir}/{$type}.sql","r");
+		$fd = fopen("modules/{$moddir}/{$type}.sql","r");
 		while (!feof($fd)) {
 			$data .= fread($fd, 1024);
 		}
@@ -348,8 +490,8 @@ function runModuleSQL($moddir,$type){
 	}
 	
 	// if there is a php file, run it
-	if (is_file("{$amp_conf['AMPWEBROOT']}/admin/modules/{$moddir}/{$type}.php")) {
-		include("{$amp_conf['AMPWEBROOT']}/admin/modules/{$moddir}/{$type}.php");
+	if (is_file("modules/{$moddir}/{$type}.php")) {
+		include("modules/{$moddir}/{$type}.php");
 		$retval = true;
 	}
 	
