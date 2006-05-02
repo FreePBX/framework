@@ -112,7 +112,7 @@ foreach ( $ext as $k )
 		{
 			debug("Extension $k has do not disturb enabled", 1);
 			unset($ext[$count]);
-			//PERL: delete $ext{$k};
+			$AGI->set_variable('DIALSTATUS','NOANSWER');						
 		} 
 		else 
 		{
@@ -212,10 +212,6 @@ foreach ( $ext as $k )
 				debug("Extension $extnum is available",1);
 			}
 		}
-	}
-	elseif ($exthascw == 1) 
-	{	// just log the fact that CW enabled
-		debug("Extension $extnum has call waiting enabled",1);
 	}
 	
 	if ($extnum != '')
