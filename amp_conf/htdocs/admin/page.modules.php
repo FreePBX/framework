@@ -19,11 +19,13 @@ if (isset($_POST['submit'])) { // if form has been submitted
 		break;
 		case "enable":
 			enableModule($_POST['modname']);
-			echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=1'</script>";
+			//echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=1'</script>";
+                        echo "<script language='Javascript'>window.location.reload()</script>\n";						
 		break;
 		case "disable":
 			disableModule($_POST['modname']);
-			echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=2'</script>";
+			//echo "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=2'</script>";
+                        echo "<script language='Javascript'>window.location.reload()</script>\n";						
 		break;
 		case "delete":
 			deleteModule($_POST['modname']);
