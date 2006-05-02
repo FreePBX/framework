@@ -318,9 +318,11 @@ if(isset($active_modules) && is_array($active_modules)){
 
 function write_file($filename,$contents) {
 	global $asterisk_conf;
-	if ($fd = fopen($asterisk_conf['astetcdir'].'/'.$filename, "w")) {
-		fwrite($fd, $contents);
-		fclose($fd);
+	if (isset($filename) && !empty($filename)) {
+		if ($fd = fopen($asterisk_conf['astetcdir'].'/'.$filename, "w")) {
+			fwrite($fd, $contents);
+			fclose($fd);
+		}
 	}
 }
 
