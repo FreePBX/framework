@@ -7,7 +7,7 @@ Send bug reports, requests to dan@littlejohnconsulting.com
 
 +++
 
-isc notes
+Misc notes
 
 ARI Project Page
   www.littlejohnconsulting.com?q=ari
@@ -39,7 +39,7 @@ voicemail email links - For those who would like to include a link to ARI in the
 
 +++
 
-odule API
+Module API
 
 odules can be added or removed from ARI.
 

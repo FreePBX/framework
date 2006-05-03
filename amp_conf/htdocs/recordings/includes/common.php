@@ -393,8 +393,6 @@ function handler() {
   // check for ajax request and refresh or if not build the page
   if (isset($_REQUEST['ajax_refresh']) ) {
 
-//&& isset($_SESSION['ari_user'])
-
     echo "<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
       <response>
         <nav_menu><![CDATA[" . $nav_menu . "]]></nav_menu>
