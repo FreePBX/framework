@@ -32,7 +32,7 @@ echo "Updating configuration..."
 echo "/etc/asterisk/cdr_mysql.conf"
 sed -r -i "s/user=[a-zA-Z0-9]*/user=$AMPDBUSER/" /etc/asterisk/cdr_mysql.conf
 sed -r -i "s/password=[a-zA-Z0-9]*/password=$AMPDBPASS/" /etc/asterisk/cdr_mysql.conf
-sed -r -i "s/hostname=[a-zA-Z0-9]*/hostname=$AMPDBHOST/" /etc/asterisk/cdr_mysql.conf
+sed -r -i "s/hostname=[a-zA-Z0-9.-]*/hostname=$AMPDBHOST/" /etc/asterisk/cdr_mysql.conf
 
 echo "/etc/asterisk/manager.conf"
 sed -r -i "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" /etc/asterisk/manager.conf
