@@ -27,19 +27,26 @@ chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
 	chown -R asterisk:asterisk /var/run/asterisk
 	chown -R asterisk:asterisk /etc/asterisk
+	chmod -R g+w /etc/asterisk
 	chown -R asterisk:asterisk /var/lib/asterisk
+	chmod -R g+w /var/lib/asterisk
 	chown -R asterisk:asterisk /var/log/asterisk
+	chmod -R g+w /var/log/asterisk
 	chown -R asterisk:asterisk /var/spool/asterisk
+	chmod -R g+w /var/spool/asterisk
 	chown -R asterisk:asterisk $AMPWEBROOT/admin
+	chmod -R g+w $AMPWEBROOT/admin
 	chown -R asterisk:asterisk $FOPWEBROOT
+	chmod -R g+w $FOPWEBROOT
 	chown -R asterisk:asterisk $AMPWEBROOT/recordings
+	chmod -R g+w $AMPWEBROOT/recordings
 	chown -R asterisk:asterisk $AMPWEBROOT/_asterisk
 	chown -R asterisk:asterisk $AMPCGIBIN/vmail.cgi
-	chmod u+x /var/lib/asterisk/bin/*
+	chmod u+x,g+x /var/lib/asterisk/bin/*
 	chmod u+x /var/lib/asterisk/agi-bin/*
-	chmod u+x $AMPWEBROOT/admin/bounce_op.sh
-	chmod u+x $AMPCGIBIN/vmail.cgi
-	chmod u+x $FOPWEBROOT/*.pl
+	chmod u+x,g+x $AMPWEBROOT/admin/bounce_op.sh
+	chmod u+x,g+x $AMPCGIBIN/vmail.cgi
+	chmod u+x,g+x $FOPWEBROOT/*.pl
 	chmod u+x $FOPWEBROOT/safe_opserver
 	chown asterisk /dev/tty9
 	# Ensure that various hardware devices are owned correctly.
