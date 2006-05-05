@@ -625,8 +625,12 @@ function upgradeModule($module, $allmods = NULL) {
 
 function rmModule($module) {
 	global $amp_conf;
-	if (is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$module) && strstr($module, '.') === FALSE ) {
-		exec('/bin/rm -rf '.$amp_conf['AMPWEBROOT'].'/admin/modules/'.$module);
+	if($module != 'core') {
+		if (is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$module) && strstr($module, '.') === FALSE ) {
+			exec('/bin/rm -rf '.$amp_conf['AMPWEBROOT'].'/admin/modules/'.$module);
+		}
+	} else {
+		echo "<script language=\"Javascript\">alert('"._("You cannot delete the Core module")."');</script>";
 	}
 }
 
