@@ -355,7 +355,7 @@ function get_dial_string( $agi, $extnum )
 	} 
 	else 
 	{
-		$device_str = sprintf("%d/device", $extnum);
+		$device_str = sprintf("%s/device", $extnum);
 		$device = $agi->database_get('AMPUSER',$device_str);
 		$device = $device['data'];
 		
