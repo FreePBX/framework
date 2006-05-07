@@ -596,13 +596,16 @@ class ext_sayalpha extends extension {
 		return "SayAlpha(".$this->data.")";
 	}
 }
-
 class ext_system extends extension {
 	function output() {
 		return "System(".$this->data.")";
 	}
 }
-
+class ext_festival extends extension {
+	function output() {
+		return "Festival(".$this->data.")";
+	}
+}
 /* example usage
 $ext = new extensions;
 
