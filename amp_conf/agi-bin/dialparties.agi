@@ -173,7 +173,7 @@ foreach ( $ext as $k )
 			{	
 				debug("Checking CW and CFB status for extension $extnum",3);
 			
-				if ($extstate > 0)
+				if ($extstate > 0 && $extstate != 4)
 				{ // extension in use
 					debug("Extension $extnum is not available to be called", 1);
 					
