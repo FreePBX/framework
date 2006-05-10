@@ -215,7 +215,8 @@
       $this->conlog('PHPAGI internal configuration:');
       $this->conlog(print_r($this->config, true));
 
-foreach(explode("\n", print_r($this, true)) as $line) syslog(LOG_WARNING, $line);
+// Enable for debuggin purposes
+//foreach(explode("\n", print_r($this, true)) as $line) syslog(LOG_WARNING, $line);
     }
 
    // *********************************************************************************************************
