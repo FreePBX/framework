@@ -1,0 +1,2353 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <fmvillares@ciudad.com.ar>, 2005.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Gpwm"
+"POT-Creation-Date: 2005-08-17 10:15-0300\n"
+"PO-Revision-Date: 2005-08-20 15:30-0300\n"
+"Last-Translator: Grupo de Pesquisa Web Midia <http://gpwm.devin.com.br>\n"
+"Language-Team: Português\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ampusers.php:77
+msgid "Add User"
+msgstr "Adicionar Usuário"
+
+#: ampusers.php:95
+msgid "Edit AMP User"
+msgstr "Editar usuário de AMP"
+
+#: ampusers.php:107
+msgid "Delete User"
+msgstr "Deletar Usuário"
+
+#: ampusers.php:122
+msgid "Add AMP User"
+msgstr "Adicionar Usuário de AMP"
+
+#: ampusers.php:134 config.php:97 config.php:165 trunks.php:321
+msgid "General Settings"
+msgstr "Configurações Gerais"
+
+#: ampusers.php:139
+msgid "Username<span>Create a unique username for this new user</span>"
+msgstr "Nome do Usuário<span>Crie um único nome para este novo usuário</span>"
+
+#: ampusers.php:147
+msgid "Password<span>Create a password for this new user</span>"
+msgstr "Senha<span>Crie uma senha para este novo usuário</span>"
+
+#: ampusers.php:156
+msgid "Access Restrictions"
+msgstr "Restrições De Acesso"
+
+#: ampusers.php:161
+msgid ""
+"Department Name<span>Restrict this user's view of Digital Receptionist menus "
+"and System Recordings to only those for this department.</span>"
+msgstr ""
+"Nome do Departamento<span>Restringe a visualização desses usuários no Menu Digital de Recepção (URA)"
+"e gravações de Sistema para o seu departamento.</span>"
+
+#: ampusers.php:168
+msgid ""
+"Extension Range<span>Restrict this user's view to only Extensions, Ring "
+"Groups, and Queues within this range.</span>"
+msgstr ""
+"Campo de Extenção<span>Restringe deste usuário á grupos internos "
+"de camadas, e filas dentro do campo indicado.</span>"
+
+#: ampusers.php:177
+msgid ""
+"Admin Access<span>Select the Admin Sections this user should have access to."
+"</span>"
+msgstr ""
+"Acesso Administrativo<span>Selecione o nivel de acesso que este usuário deverá ter."
+"</span>"
+
+#: backup.php:93
+msgid "Add Backup Schedule"
+msgstr "Adicionar programação de backup"
+
+#: backup.php:94
+msgid "Restore from Backup"
+msgstr "Restaurar apartir de um backup"
+
+#: backup.php:115 backup.php:137 backup.php:183
+msgid "System Backup"
+msgstr "Backup de Sistema"
+
+#: backup.php:138
+msgid "Delete Backup Schedule"
+msgstr "Delitar uma programação de backup"
+
+#: backup.php:161
+msgid "System Restore"
+msgstr "Restauração do Sistema"
+
+#: callgroups.php:55 extensions.php:83 queues.php:56
+msgid "Warning! Extension"
+msgstr "Aviso! Interno"
+
+#: callgroups.php:55 extensions.php:83
+msgid "is not allowed for your account"
+msgstr "Sua conta não tem permissão para este acesso"
+
+#: callgroups.php:89 callgroups.php:133
+msgid "Add Ring Group"
+msgstr "Adicionar Grupo de chamadas"
+
+#: callgroups.php:96 callgroups.php:125 functions.php:1867
+msgid "Ring Group"
+msgstr "Grupo de chamadas"
+
+#: callgroups.php:127
+msgid "Delete Group"
+msgstr "Deletar Grupo"
+
+#: callgroups.php:133
+msgid "Edit Ring Group"
+msgstr "Editar Grupo de chamadas"
+
+#: callgroups.php:138
+msgid "group number"
+msgstr "numero do grupo"
+
+#: callgroups.php:138
+msgid "The number users will dial to ring extensions in this ring group"
+msgstr "O numero que os usuários poderam discar internamente para este para este grupo de chamada"
+
+#: callgroups.php:143
+msgid "extension list"
+msgstr "Lista de ramais"
+
+#: callgroups.php:143
+msgid ""
+"List extensions to ring, one per line.<br><br>You can include an extension "
+"on a remote system, or an external number by suffixing a number with a pound "
+"(#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see "
+"Outbound Routing)."
+msgstr ""
+"Lista de extenção de chamada, uma por linha.<br><br>Pode-se incluir extenções "
+"em sistemas remotos, o numero externo é agregado a um sufixo"
+"(#).  ex:  2448089# discará 2448089 no canal apropriado (ver "
+"Rota de Saída)."
+
+#: callgroups.php:151
+msgid "CID name prefix"
+msgstr "Nome do prefixo CID"
+
+#: callgroups.php:154
+msgid "ring time (max 60 sec)"
+msgstr "tempo de toque (max. 60seg)"
+
+#: callgroups.php:157
+msgid "Destination if no answer"
+msgstr "Destino caso ninguem atenda"
+
+#: config.php:86 config.php:178 incoming.php:74
+msgid "Incoming Calls"
+msgstr "Chamadas de Entrada"
+
+#: config.php:87
+msgid "Extensions"
+msgstr "Ramais"
+
+#: config.php:88
+msgid "Ring Groups"
+msgstr "Grupos de chamadas"
+
+#: config.php:89
+msgid "Queues"
+msgstr "Filas"
+
+#: config.php:90 config.php:150 functions.php:1835
+msgid "Digital Receptionist"
+msgstr "URA"
+
+#: config.php:91
+msgid "Trunks"
+msgstr "Canal"
+
+#: config.php:92
+msgid "Outbound Routing"
+msgstr "Rotas de Saida"
+
+#: config.php:93
+msgid "DID Routes"
+msgstr "Rotas DID"
+
+#: config.php:94 music.php:161
+msgid "On Hold Music"
+msgstr "Musica de espera"
+
+#: config.php:95 schedule_functions.php:308
+msgid "System Recordings"
+msgstr "Gravações do sistema"
+
+#: config.php:96
+msgid "Backup & Restore"
+msgstr "Backup & Restauracão"
+
+#: config.php:98
+msgid "Apply Changes Bar"
+msgstr "Barra de Confirmação de alterações"
+
+#: config.php:103
+msgid "AMP Users"
+msgstr "Usuarios AMP"
+
+#: config.php:138
+msgid "Welcome to AMP"
+msgstr "Bem-vindo ao AMP"
+
+#: config.php:83
+msgid "Module Admin"
+msgstr "Modo Administrativo"
+
+#: config.php:190
+msgid "Not found"
+msgstr "Não encontrado"
+
+#: config.php:191
+msgid ""
+"The section you requested does not exist or you do not have access to it."
+msgstr "A sessão que você está requisitando não existe ou você não possue acesso a ela"
+
+#: did.php:75
+msgid "Add DID"
+msgstr "Agregar DID"
+
+#: did.php:97
+msgid "DID Route"
+msgstr "Rota DID"
+
+#: did.php:99
+msgid "Delete DID"
+msgstr "Deletar DID"
+
+#: did.php:108
+msgid "DID Number"
+msgstr "Numero DID"
+
+#: did.php:114
+msgid "Set Destination"
+msgstr "Configurar destino"
+
+#: did.php:125
+msgid "Use 'Incoming Calls' settings"
+msgstr "Usar configuraciones de 'chamadas de entrada'"
+
+#: extensions.php:287
+msgid "Add Extension"
+msgstr "Adicionar Ramal"
+
+#: extensions.php:326
+msgid "Delete Extension"
+msgstr "Deletar Ramal"
+
+#: extensions.php:338 extensions.php:497
+msgid "Account Settings"
+msgstr "Configuração de Contas"
+
+#: extensions.php:343
+msgid "outbound callerid:"
+msgstr "Chamadas perdidas:"
+
+#: extensions.php:343
+msgid ""
+"Overrides the caller id when dialing out a trunk. Any setting here will "
+"override the common outbound caller id set in the Trunks admin."
+"<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this "
+"field blank to disable the outbound callerid feature for this extension."
+msgstr ""
+"Anula a identificação da chamada quando se disca por uma linha externa. Qualquer configuração aqui "
+"anula a identificação de chamada comum setada nas ferramentas administrativas."
+"<br><br>Formato: <b>\"nome da pessoa da chamada\" &lt;#######&gt;</b><br><br>Deixar este campo "
+"em branco para desabilitar esta função neste ramal."
+
+#: extensions.php:360
+msgid ""
+"Record INCOMING<span>Record ALL INBOUND CALLS received at this extension.</"
+"span>"
+msgstr ""
+"Grabar ENTRANTES<span>Grava todas as chamadas recebidas por este ramal.</"
+"span>"
+
+#: extensions.php:362 extensions.php:367 extensions.php:372 extensions.php:380
+#: extensions.php:385 extensions.php:390 extensions.php:549 extensions.php:554
+#: extensions.php:559 extensions.php:567 extensions.php:572 extensions.php:577
+msgid "Always"
+msgstr "Sempre"
+
+#: extensions.php:363 extensions.php:368 extensions.php:373 extensions.php:381
+#: extensions.php:386 extensions.php:391 extensions.php:550 extensions.php:555
+#: extensions.php:560 extensions.php:568 extensions.php:573 extensions.php:578
+msgid "Never"
+msgstr "Nunca"
+
+#: extensions.php:364 extensions.php:369 extensions.php:374 extensions.php:382
+#: extensions.php:387 extensions.php:392 extensions.php:551 extensions.php:556
+#: extensions.php:561 extensions.php:569 extensions.php:574 extensions.php:579
+msgid "On-Demand"
+msgstr "Baixa Demanda"
+
+#: extensions.php:378
+msgid ""
+"Record OUTGOING<span>Record ALL OutBound CALLS made from this extension.</"
+"span>"
+msgstr ""
+"Grabar SALIENTES<span>Grava todas as chamadas perdidas por este ramal.</"
+"span>"
+
+#: extensions.php:396 extensions.php:583
+msgid "Voicemail & Directory:"
+msgstr "Correio de Voz & Endereço"
+
+#: extensions.php:398 extensions.php:585
+msgid "Enabled"
+msgstr "Habilitado"
+
+#: extensions.php:399 extensions.php:586
+msgid "Disabled"
+msgstr "Desabilitado"
+
+#: extensions.php:407
+msgid "voicemail pwd:"
+msgstr "Senha de correio de voz:"
+
+#: extensions.php:414
+msgid "full name:"
+msgstr "nome completo:"
+
+#: extensions.php:418
+msgid "email address:"
+msgstr "Endereço de email:"
+
+#: extensions.php:422
+msgid "pager email address:"
+msgstr "Conta do Pager/Celular - SMS:"
+
+#: extensions.php:426 extensions.php:608
+msgid "email attachment"
+msgstr "emails auxiliar"
+
+#: extensions.php:426 extensions.php:608
+msgid "Option to attach voicemails to email."
+msgstr "Opção de juntar correio de voz com email"
+
+#: extensions.php:428 extensions.php:430 extensions.php:436 extensions.php:438
+#: extensions.php:444 extensions.php:446 extensions.php:452 extensions.php:454
+#: extensions.php:461 extensions.php:463 extensions.php:610 extensions.php:612
+#: extensions.php:618 extensions.php:620 extensions.php:626 extensions.php:628
+#: extensions.php:634 extensions.php:636 extensions.php:643 extensions.php:645
+msgid "yes"
+msgstr "sim"
+
+#: extensions.php:428 extensions.php:430 extensions.php:436 extensions.php:438
+#: extensions.php:444 extensions.php:446 extensions.php:452 extensions.php:454
+#: extensions.php:461 extensions.php:463 extensions.php:610 extensions.php:612
+#: extensions.php:618 extensions.php:620 extensions.php:626 extensions.php:628
+#: extensions.php:634 extensions.php:636 extensions.php:643 extensions.php:645
+msgid "no"
+msgstr "não"
+
+#: extensions.php:442 extensions.php:624
+msgid "Play Envelope"
+msgstr "Tocar"
+
+#: extensions.php:442 extensions.php:624
+msgid ""
+"Envelope controls whether or not the voicemail system will play the message "
+"envelope (date/time) before playing the voicemail message. This settng does "
+"not affect the operation of the envelope option in the advanced voicemail "
+"menu."
+msgstr ""
+"Esta opção serve para controlar o sistema que irá reproduzir a etiqueta da mensagem "
+"(fecha/hora) antes de reproduzir a mensagem. Este configuração não afeta "
+"a operação de etiqueta no menu avançado do correio de voz "
+
+#: extensions.php:450 extensions.php:632
+msgid "Play Next"
+msgstr "Tocar a próxima"
+
+#: extensions.php:450 extensions.php:632
+msgid ""
+"If set to \"yes,\" after deleting or saving a voicemail message, the system "
+"will automatically play the next message, if no the user will have to press "
+"\"6\" to go to the next message"
+msgstr ""
+"Se está setado como \"SIM,\" depois de deletar ou salvar uma mensagem no sistema "
+"automaticamente mostra a proxima mensagem, se não o usuário deverá digitar "
+"\"6\" para exibir a próxima mensagem."
+
+#: extensions.php:458 extensions.php:640
+msgid "Delete Vmail"
+msgstr "Deletar Vmail"
+
+#: extensions.php:458
+msgid ""
+"If set to \"yes\" the message will be deleted from the voicemailbox (after "
+"having been emailed). Provides functionality that allows a user to receive "
+"their voicemail via email alone, rather than having the voicemail able to be "
+"retrieved from the Webinterface or the Extension handset.  CAUTION: MUST "
+"HAVE email attachment SET TO YES OTHERWISE YOUR MESSAGES WILL BE LOST "
+"FOREVER."
+msgstr ""
+"Se estiver setado como \"sim\" a mensagem deverá ser deletada do correio de voz (depois de "
+"ter sido anviado por email). Provê a funcionalidade que permite o recebimento das mensagens por parte do usuário "
+"os correios de vmail somente, em vez de permitir que ele use a interface web com o telefone para "
+"receber suas mensagem.  PRECAUÇÃO: DEVE TER UM DESTINATÁRIO DE CORREIO VÁLIDO E ESTE DEVE ESTAR SETADO EM SIM "
+"SENÃO TODAS AS MENSAGENS SERAM PERDIDAS PARA SEMPRE."
+
+#: extensions.php:467
+msgid "Separate options with pipe ( | )"
+msgstr "Separar as opições com pipe ( | )"
+
+#: extensions.php:471
+msgid "vm context:"
+msgstr "contexto de vm:"
+
+#: extensions.php:494
+msgid "Add an Extension"
+msgstr "Adicionar Ramal"
+
+#: extensions.php:500
+msgid "phone protocol"
+msgstr "protocolo telefônico"
+
+#: extensions.php:500
+msgid "The technology your phone supports"
+msgstr "Tecnologia suportada pelo seu telefone"
+
+#: extensions.php:517
+msgid "extension number"
+msgstr "numero do ramal"
+
+#: extensions.php:517
+msgid ""
+"This is the phone number for the new extension.<br><b>It must be unique.</"
+"b><br><br>This extension's USERNAME and MAILBOX are also the same as the "
+"extension number."
+msgstr ""
+"Este é o numero telefonico de um novo ramal.<br><b>Deve ser único.</"
+"b><br><br>O nome de usuário e o Endereço de email deste ramal tambem sao o mesmo do ramal."
+
+#: extensions.php:526
+msgid "extension password"
+msgstr "senha do ramal"
+
+#: extensions.php:526
+msgid ""
+"The client (phone) uses this password to access the system.<br>This password "
+"can contain numbers and letters.<br>Ignored on Zap channels."
+msgstr ""
+"O cliente (telefone) usa esta senha para entrar no sistema.<br> Pode "
+"conter números e letras.<br>Ignoradas em filas Zap."
+
+#: extensions.php:535
+msgid "zap channel"
+msgstr "canal zap"
+
+#: extensions.php:535
+msgid ""
+"The zap channel this extension is connected.<br>Ignored on SIP or IAX "
+"channels."
+msgstr ""
+"O canal zap conectado a este ramal.<br>Ignorando os canais SIP e IAX "
+
+#: extensions.php:543
+msgid "full name"
+msgstr "nome completo"
+
+#: extensions.php:543
+msgid ""
+"User's full name. This is used for the Caller ID Name and for the Company "
+"Directory (if enabled below)."
+msgstr ""
+"Nome completo do usuário. Usado pelo identificador de chamadas e por um serviço de busca de "
+"Diretório da empresa (se devidamente habilitado)."
+
+#: extensions.php:594
+msgid "voicemail password"
+msgstr "senha do correio de voz"
+
+#: extensions.php:594
+msgid ""
+"This is the password used to access the voicemail system.<br><br>This "
+"password can only contain numbers.<br><br>A user can change the password you "
+"enter here after logging into the voicemail system (*98) with a phone."
+msgstr ""
+"Esta senha é usada para acessar o correio de voz.<br><br> Esta "
+"deve conter só números.<br><br>Pode-se usar esta senha para entrar  "
+"desde um telefone até o sistema de correio de voz (*98)."
+
+#: extensions.php:600
+msgid "email address"
+msgstr "endereço de email"
+
+#: extensions.php:600
+msgid "The email address that voicemails are sent to."
+msgstr "O endereço de email para onde a mensagem de voz será enviada"
+
+#: extensions.php:604
+msgid "pager email address"
+msgstr "endereço de SMS"
+
+#: extensions.php:604
+msgid ""
+"Pager/mobile email address that short voicemail notifcations are sent to."
+msgstr ""
+"Endereço de correio/sms/pager para enviar notificações de correio de voz novo."
+
+#: extensions.php:616
+msgid "Play CID"
+msgstr "Reproduzir CID"
+
+#: extensions.php:616
+msgid ""
+"Read back caller's telephone number prior to playing the incoming message, "
+"and just after announcing the date and time the message was left."
+msgstr ""
+"Reproduz a identificação de chamada da pessoa que liga antes de reproduzir a mensagem de entrada, "
+"e depois de mostra a data e a hora que a mensagem foi enviada."
+
+#: extensions.php:640
+msgid ""
+"If set to \"yes\" the message will be deleted from the voicemailbox (after "
+"having been emailed). Provides functionality that allows a user to receive "
+"their voicemail via email alone, rather than having the voicemail able to be "
+"retrieved from the Webinterface or the Extension handset.  CAUTION: MUST "
+"HAVE attach voicemail to email SET TO YES OTHERWISE YOUR MESSAGES WILL BE "
+"LOST FOREVER."
+msgstr ""
+"Se está setado como \"sim\" a mensagem será eliminada do correio de voz (depois de "
+"ter sido enviado por email). Esta funcionalidade permite que o usuário receba seus "
+"correios de voz por mail somente, em vez de permitir que use a interface web e o telefone para "
+"receber suas mensagens.  PRECAUÇÃO: DEVE-SE TER UM DESTINATÁRIO DE CORREIO VÁLIDO E ESTAR SETADO EM SIM "
+"NO CONTRÁRIO TODAS AS MENSAGENS SERAM PERDIDAS PARA SEMPRE."
+
+#: footer.php:104 footer.php:106
+msgid "You have made changes - when finished, click here to APPLY them"
+msgstr "Você fez algumas mudanças - quando acabar, clique aqui para aplicar estas mudanças"
+
+#: functions.inc.php:246
+msgid "Add"
+msgstr "Adicionar"
+
+#: functions.php:1847
+msgid "Extension"
+msgstr "Ramal"
+
+#: functions.php:1857
+msgid "Voicemail"
+msgstr "Correio de Voz"
+
+#: functions.php:1877
+msgid "Queue"
+msgstr "Fila"
+
+#: functions.inc.php:637
+msgid ""
+"Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to "
+"a custom context.<br><br>The context name <b>MUST</b> contain the word "
+"'custom' and should be in the format custom-context , extension , priority. "
+"Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</"
+"b> context would need to be created and included in extensions_custom.conf</"
+"span>"
+msgstr "Aplicação padrão<span><br>SOMENTE PARA USUARIOS AVANCADOS<br>"
+"<br>Usar Goto() para enviar que chama um procedimento específico.<br><br>"
+"O nome do contexto <b>TEM QUE<b> conter a palavra "
+"'custom' deve estar no formato <i>custom-context, extenção,"
+" prioridade</i>."
+"Exemplo:<br><br><b>custom-miapp,s,1</b><br><br>O contexto"
+" <b>[custom-miapp]</b> deveria criar no ficheiro"
+" <i>extensions_custom.conf</i></span>"
+
+#: general.php:66
+msgid "Dialing Options"
+msgstr "Opições de Discagem"
+
+#: general.php:68
+msgid "Number of seconds to ring phones before sending callers to voicemail:"
+msgstr "Segundos que os telefonos soam antes de enviar á pessoa que liga no correio de voz:"
+
+#: general.php:71
+msgid "Prefixo de Extenção prefix for dialing direct to voicemail:"
+msgstr "Prefixo do ramal para direcionar a chamada para o vmail:"
+
+#: general.php:75 general.php:77
+msgid "Company Directory"
+msgstr "Diretório da empresa"
+
+#: general.php:77
+msgid "Find users in the"
+msgstr "Achar usuários no"
+
+#: general.php:78
+msgid ""
+"Callers who are greeted by a Digital Receptionist can dial pound (#) to "
+"access the Company Directory.<br><br>Internal extensions can dial *411 to "
+"access the Company Directory."
+msgstr ""
+"As pessoas que são atendidas pelo IVR podem discar o numeral (#) para "
+"acessar o diretório da mesma empresa.<br><br>Os ramais podem discar para *411 para "
+"acessá-lo."
+
+#: general.php:78
+msgid "by:"
+msgstr "por:"
+
+#: general.php:80
+msgid "first name"
+msgstr "Primeiro Nome"
+
+#: general.php:81
+msgid "last name"
+msgstr "Ultimo Nome"
+
+#: general.php:82
+msgid "first or last name"
+msgstr "Primeiro nome ou Ultimo nome"
+
+#: general.php:85
+msgid "Play extension number"
+msgstr "Reproduzir numero do ramal"
+
+#: general.php:85
+msgid ""
+"Plays a message \"Please hold while I transfer you to extension xxx\" that "
+"lets the caller know what extension to use in the future."
+msgstr ""
+"Reproduza esta mensagem: \"Por favor espere enquanto te tranfiro para o ramal xxx\" isto "
+"permite que te chamem pelo nro. de ramal e o use no futuro."
+
+#: general.php:85
+msgid "to caller before transferring call"
+msgstr "Transferir chamadas..."
+
+#: general.php:88
+msgid "Fax Machine"
+msgstr "Maquina de FAX"
+
+#: general.php:90
+msgid "Extension of"
+msgstr "Interno de"
+
+#: general.php:90
+msgid "fax machine"
+msgstr "maquina de fax"
+
+#: general.php:90
+msgid ""
+"Select 'system' to have the system receive and email faxes.<br>Selecting "
+"'disabled' will result in incoming calls being answered more quickly."
+msgstr ""
+"Selecione 'system' para que este receba e envie pelos contatos de fax. <br> "
+"'desabilitado' resulta num atendimento das chamadas de entrada rapidamente."
+
+#: general.php:90
+msgid "for receiving faxes:"
+msgstr "para receber fax"
+
+#: general.php:93
+msgid "disabled"
+msgstr "desabilitado"
+
+#: general.php:94
+msgid "system"
+msgstr "sistema"
+
+#: general.php:99
+msgid "Extension #"
+msgstr "Interno #"
+
+#: general.php:107
+msgid "Email address"
+msgstr "Direção de email"
+
+#: general.php:107
+msgid ""
+"Email address used if 'system' has been chosen for the fax extension above."
+msgstr "Direção de email usada se 'sistema' for receptivo á fax."
+
+#: general.php:107
+msgid "to have faxes emailed to:"
+msgstr "para onde serao enviados os fax."
+
+
+#: header.php:78
+msgid "Management"
+msgstr "Gerenciamento"
+
+#: header.php:84
+msgid "Setup"
+msgstr "Cofiguração"
+
+#: header.php:89
+msgid "Tools"
+msgstr "Ferramientas"
+
+#: header.php:95
+msgid "Reports"
+msgstr "Informes"
+
+#: header.php:102
+msgid "Panel"
+msgstr "Panel"
+
+#: header.php:109
+msgid "Recordings"
+msgstr "Gravações"
+
+#: header.php:119
+msgid "Logged in"
+msgstr "Sessão iniciada"
+
+#: header.php:120
+msgid "logout"
+msgstr "sair"
+
+#: incoming.php:74
+msgid "Send"
+msgstr "Enviar"
+
+#: incoming.php:74
+msgid "Dial 7777 from an internal extension to simulate an incoming call"
+msgstr "Disque 7777 de um ramal para simular uma chamada de entrada"
+
+#: incoming.php:74
+msgid "from the"
+msgstr "vindo de"
+
+#: incoming.php:74
+msgid "PSTN"
+msgstr "PSTN"
+
+#: incoming.php:74
+msgid "Public Switched Telephone Network (ie: the phone company)"
+msgstr "Rede publica de telefonia (Ex: Telecom)"
+
+#: incoming.php:74
+msgid "to:"
+msgstr "para:"
+
+#: incoming.php:76
+msgid "regular hours:"
+msgstr "horario regular:"
+
+#: incoming.php:77
+msgid "times"
+msgstr "horas"
+
+#: incoming.php:78
+msgid ""
+"Enter a range, using 24-hour time format. For example, for 8:00am to 5:00pm, "
+"type:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<b>8:00-17:00</b><br><br>An asterisk "
+"(*) matches all hours."
+msgstr ""
+"Insira uma faixa de horários usando o formato de 24-horas. Exemplo, para 8:00am a 5:00pm, "
+"tipee:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<b>8:00-17:00</b><br><br>Um asterisco "
+"(*) se corresponde a todo o dia."
+
+#: incoming.php:81
+msgid "days"
+msgstr "dias"
+
+#: incoming.php:82
+msgid ""
+"Enter a range, using 3 letter abbreviations. For example, for Monday to "
+"Friday, type:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<b>mon-fri</b><br><br>An "
+"asterisk (*) matches all days."
+msgstr ""
+"Insira uma faixa semanal usando a abreveação dos dias semanais em ingles. Ex: para Segunda a Sexta "
+"tipee:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<b>mon-fri</b><br><br>Un "
+"asterisco (*) corresponde a toda semana."
+
+#: incoming.php:87 incoming.php:136
+msgid "Digital Receptionist:"
+msgstr "IVR - Telefonista"
+
+#: incoming.php:95 incoming.php:144
+msgid "Menu #"
+msgstr "Menu #"
+
+#: incoming.php:100 incoming.php:149
+msgid "Extension:"
+msgstr "Ramal"
+
+#: incoming.php:110 incoming.php:159
+msgid "Ring Group:"
+msgstr "Grupo de Chamadas:"
+
+#: incoming.php:120 incoming.php:169 queues.php:116
+msgid "Queue:"
+msgstr "Cola:"
+
+#: incoming.php:133
+msgid "after hours:"
+msgstr "depois de horas:"
+
+#: incoming.php:181
+msgid "Override Incoming Calls Settings"
+msgstr "Anular configuração das chamadas de entrada"
+
+#: incoming.php:183
+msgid "no override (obey the above settings)"
+msgstr "não anular (obedece as regras setadas acima)"
+
+#: incoming.php:184
+msgid "force regular hours"
+msgstr "forçar um horario regular"
+
+#: incoming.php:184
+msgid ""
+"Select this box if you would like to force the above regular hours setting "
+"to always take effect.<br><br>  This is useful for occasions when your "
+"office needs to remain open after-hours. (ie: open late on Thursday, or open "
+"all day on Sunday)."
+msgstr ""
+"Selecione esta opição se desejas forçar o sistema a usar a configuração de horario "
+"regular.<br><br>  Isto é util, por exemplo, quando a oficina "
+"precisa ficar aberta depois de algumas horas. (Ex: aberto esta tarde de terça-feira, ou "
+"aberto durante todo o domingo)."
+
+#: incoming.php:185
+msgid "force after hours"
+msgstr "forçar depois de horas"
+
+#: incoming.php:185
+msgid ""
+"Select this box if you would like to force the above after hours setting to "
+"always take effect.<br><br>  This is useful for holidays that fall in the "
+"'regular hours' range above (ie: a holiday Monday)."
+msgstr ""
+"Selecione esta opição se deseja forçar o sistema a usar a configuração de horario "
+"despois de uma determinada hora.<br><br>  Isto é util, por exemplo, quando a oficina "
+"precisa fechar fechar num feriado."
+
+#: index.php:25
+msgid "freePBX administration"
+msgstr "administralçao freePBX"
+
+#: index.php:26
+msgid "Administration"
+msgstr "Administração"
+
+#: index.php:80
+msgid "Welcome to the FreePBX Administration"
+msgstr "Bem-Vindo a administrção do FreePBX"
+
+#: ivrmap.php:23
+msgid "Voice Menu Map"
+msgstr "Mapa de Menu de Voz"
+
+#: ivrmap.php:48
+msgid "Modify this Menu"
+msgstr "Modificar este menu"
+
+#: ivrmap.php:49 music.php:135
+msgid "Delete"
+msgstr "Deletar"
+
+#: ivrmap.php:51
+msgid "Menu"
+msgstr "Menu"
+
+#: ivrmap.php:65 ivrmap.php:68 ivrmap.php:71 ivrmap.php:74 ivrmap.php:78
+#: ivrmap.php:84 ivrmap.php:87
+msgid "dialing"
+msgstr "discando"
+
+#: ivrmap.php:65 ivrmap.php:68
+msgid "dials extension #"
+msgstr "discar ramal #"
+
+#: ivrmap.php:71
+msgid "sends to voicemail box #"
+msgstr "enviar um sinal de voz #"
+
+#: ivrmap.php:74
+msgid "goes to Menu ID"
+msgstr "ir para o menu ID"
+
+#: ivrmap.php:78
+msgid "dials group #"
+msgstr "discar grupo #"
+
+#: ivrmap.php:84
+msgid "goes to"
+msgstr "ir para"
+
+#: ivrmap.php:87
+msgid "goes to Queue #"
+msgstr "ir para a fila #"
+
+#: ivrmap.php:93
+msgid "Menu notes:"
+msgstr "Notas de menu"
+
+#: ivrmap.php:100
+msgid "Would you like to create another Menu?"
+msgstr "Desejas criar outro menu?"
+
+#: ivrmap.php:100
+msgid "Create a new Voice Menu"
+msgstr "Criar um novo menu de voz"
+
+#: ivr.php:83 recordings.php:27
+msgid "Your Current Extension"
+msgstr "Seu ramal atual"
+
+#: ivr.php:88 recordings.php:31
+msgid ""
+"This Digital Receptionist wizard asks you to record and playback a greeting "
+"using your phone."
+msgstr ""
+"Este assistente de IVR permite gravar ou reproduzir uma saldação usando seu telefone."
+
+#: ivr.php:89 recordings.php:32
+msgid "Please enter your current extension number:"
+msgstr "Por favor insira seu numero de ramal atual:"
+
+#: ivr.php:113
+msgid ""
+"Dial *99 to listen to your current recording - click continue if you wish to "
+"re-use it."
+msgstr ""
+"Disque *99 para escutar sua gravação - clique se deseja reusá-la."
+
+#: ivr.php:116 recordings.php:84
+msgid "Step 1: Record"
+msgstr "passo 1: Gravação"
+
+#: ivr.php:118 recordings.php:86
+msgid "Using your phone,"
+msgstr "Usando seu telefone"
+
+#: ivr.php:118 recordings.php:86
+msgid "dial *77"
+msgstr "disque *77"
+
+#: ivr.php:118 recordings.php:86
+msgid "Start speaking at the tone. Hangup when finished."
+msgstr "Comece a falar ao escutar um sinal. Desligue ao finalizar"
+
+#: ivr.php:118
+msgid "and record the message you wish to greet callers with."
+msgstr "e grave a mensagem como deseja atender aqueles que chamarem."
+
+#: ivr.php:122
+msgid "Alternatively, upload a recording in"
+msgstr "Alternativamente, pode-se fazer o upload de uma gravação"
+
+#: ivr.php:122 recordings.php:90
+msgid ".wav format"
+msgstr "em formato *.wav"
+
+#: ivr.php:122 recordings.php:90
+msgid "The .wav file _must_ have a sample rate of 8000Hz"
+msgstr "O arquivo .wav DEVE estar instanciado em 8000hz"
+
+#: ivr.php:134 recordings.php:102
+msgid "Successfully uploaded"
+msgstr "Uploaded com sucesso!"
+
+#: ivr.php:144 recordings.php:111
+msgid "Step 2: Verify"
+msgstr "Passo 2: Verificação"
+
+#: ivr.php:146
+msgid "After recording or uploading,"
+msgstr "Depois de gravar ou fazer o upload de um arquivo,"
+
+#: ivr.php:146
+msgid "dial *99"
+msgstr "disque *99"
+
+#: ivr.php:146
+msgid "to listen to your message."
+msgstr "para escutar sua mensagem."
+
+#: ivr.php:149 recordings.php:116
+msgid "If you wish to re-record your message, dial *77 again."
+msgstr "Se deseja regravar sua mensagem, disque *77 de novo."
+
+#: ivr.php:151
+msgid "Step 3: Name & Describe"
+msgstr "Passo 3: Nome e Descrição"
+
+#: ivr.php:154
+msgid "Name this menu:"
+msgstr "Nome do menu:"
+
+#: ivr.php:158
+msgid "Describe the menu:"
+msgstr "Descreva o menu"
+
+#: ivr.php:162
+msgid "Click \"Continue\" when you are satisfied with your recording"
+msgstr "Clique em \"Continuar\" quando estiver satisfeito com a sua gravação"
+
+#: ivr.php:164
+msgid "Consider including in your recording:"
+msgstr "Considerações para incluir em sua gravação:"
+
+#: ivr.php:170
+msgid ""
+"Example:  Thank you for calling. Please press 1 for our locations, 2 for "
+"hours of operation, or 0 to speak with a representative. If you know the "
+"extension of the party you are calling, dial it now.  To access the company "
+"directory, press pound now."
+msgstr ""
+"Exemplo Obrigado pela sua chamada, presione 0 para falar com a telefonista, "
+"1 para Gerencia, 2 para Vendas...Muito obrigado!!"
+
+#: ivr.php:203
+msgid ""
+"Callers to this Menu can press the pound key (#) to access the user "
+"directory."
+msgstr ""
+"Quem ligar para este menu pode pressionar a tecla # para acessar o diretorio de usuários."
+
+#: ivr.php:204
+msgid "Directory context to be used:"
+msgstr "Contexto de Directorio a ser utilizado:"
+
+#: ivr.php:217
+msgid ""
+"Aside from local extensions and the pound key (#), how many other options "
+"should callers be able to dial during the playback of this menu prompt?"
+msgstr ""
+"Alem dos ramais locais e a tecla #, quantas outras opições "
+"a pessoa que ligou poderá discar durante a reprodução da mensagem deste menu?"
+
+#: ivr.php:218
+msgid "Number of options for Menu:"
+msgstr "Numero de opições do Menu:"
+
+#: ivr.php:266
+msgid "Options for Menu:"
+msgstr "Opições do Menu:"
+
+#: ivr.php:268
+msgid ""
+"Define the various options you expect your callers to dial after/during the "
+"playback of this recorded menu."
+msgstr ""
+"Define as opições que ud. espera que los llamantes disquen durante o despues de la reproduccion "
+"de esta grabacion de menu."
+
+#: ivr.php:271
+msgid "is the number you expect the caller to dial."
+msgstr "é o numero que ud. espera que a pessoa que ligou disque."
+
+#: ivr.php:272
+msgid ""
+"is the result of the caller dialing the option #.  This can send the caller "
+"to an internal extension, a voicemail box, ring group, queue, or to another "
+"recorded menu."
+msgstr ""
+"é o resultado da ação da pessoa que discou quando seleciona alguma opição #.  Isto poede enviar a pessoa que ligou "
+"para um ramal, apartir de um sinal de voz, Grupo de chamadas, fila, ou otro menu pre-gravado."
+
+#: ivr.php:287
+msgid "Dialed Option #"
+msgstr "Opição de discagem #"
+
+#: ivr.php:289
+msgid "Action"
+msgstr "Ação"
+
+#: music.php:49 music.php:171
+msgid "Add Music Category"
+msgstr "Agregar categoria musical"
+
+#: music.php:50 music.php:188 queues.php:180
+msgid "Default"
+msgstr "Opição padrão"
+
+#: music.php:78
+msgid "Cannot write to file"
+msgstr "Não se pode gravar o arquivo"
+
+#: music.php:173
+msgid "Category Name:"
+msgstr "Nome da categoria:"
+
+#: music.php:173
+msgid ""
+"Allows you to Set up Different Categories for music on hold.  This is useful "
+"if you would like to specify different Hold Music or Commercials for various "
+"ACD Queues."
+msgstr ""
+"Permite sejam configuradas diferentes categorias para a musica em espera. Isto é util "
+"se desejas especificar comerciais ou diferentes mensagens para filas de chamadas."
+
+#: music.php:188
+msgid "Category:"
+msgstr "Categoria:"
+
+#: music.php:190
+msgid "Delete Music Category"
+msgstr "Eliminar Categoria Musical"
+
+#: music.php:193
+msgid "Upload a .wav or .mp3 file:"
+msgstr "Upload de um arquivo .wav ou .mp3:"
+
+#: music.php:208
+msgid "Completed processing"
+msgstr "Processamento completado"
+
+#: music.php:219
+msgid ""
+"You must have at least one file for On Hold Music.  Please upload one before "
+"deleting this one."
+msgstr ""
+"Deve-se ter pelo menos 1 arquivo de musica em espera. Por favor upload "
+"algum arquivo mais antes de eliminar este outro."
+
+#: music.php:223 recordings.php:48
+msgid "Deleted"
+msgstr "Deletado!"
+
+#: page.modules.php:70
+msgid "Module install script failed to run"
+msgstr "O script do modulo de instalação falhou ao ser executado"
+
+#: page.modules.php:76
+msgid "Module uninstall script failed to run"
+msgstr "O script do modulo de desinstalação falhou ao ser executado"
+
+#: page.modules.php:102
+msgid "Not Installed"
+msgstr "Não instalado"
+
+#: page.modules.php:108
+msgid "Install"
+msgstr "Instalar"
+
+#: page.modules.php:116
+msgid "Enable"
+msgstr "Ativar"
+
+#: page.modules.php:122
+msgid "Uninstall"
+msgstr "Desinstalar"
+
+#: panel.php:14 panel.php:15
+msgid "Flash Operator Panel"
+msgstr "Flash Operator Panel"
+
+#: panel.php:40 panel.php:53 reports.php:40 reports.php:53
+msgid "You are not authorized to use this resource"
+msgstr "Você não está autorizado para utilizar este recurso"
+
+#: panel.php:41 panel.php:54 reports.php:41 reports.php:54
+msgid "Go Back"
+msgstr "Voltar"
+
+#: queues.php:56
+msgid "is not allowed for your account."
+msgstr "não está permitido para a sua conta."
+
+#: queues.php:92 queues.php:124
+msgid "Add Queue"
+msgstr "Adicionar fila"
+
+#: queues.php:118
+msgid "Delete Queue"
+msgstr "Deletar fila"
+
+#: queues.php:124
+msgid "Edit Queue"
+msgstr "Editar Fila"
+
+#: queues.php:129
+msgid "queue number:"
+msgstr "numero da fila:"
+
+#: queues.php:129
+msgid ""
+"Use this number to dial into the queue, or transfer callers to this number "
+"to put them into the queue.<br><br>Agents will dial this queue number plus * "
+"to log onto the queue, and this queue number plus ** to log out of the queue."
+"<br><br>For example, if the queue number is 123:<br><br><b>123* = log "
+"in<br>123** = log out</b>"
+msgstr ""
+"Use este numero para discar dentro das filas, ou para transferir chamadas para esta fila."
+"<br><br>As pessoas que discarem o numero da fila + * "
+"para logar-se, e este numero da fila + ** para deslogar-se."
+"<br><br>Exemplo, se o numero da fila for 123:<br><br><b>123* = loga-se "
+"e<br>123** = desloga-se</b>"
+
+#: queues.php:134
+msgid "queue name:"
+msgstr "nome da fila:"
+
+#: queues.php:134
+msgid "Give this queue a brief name to help you identify it."
+msgstr "Dê a esta fila um nome breve para poder identificá-la."
+
+#: queues.php:138
+msgid "queue password:"
+msgstr "senha da fila:"
+
+#: queues.php:138
+msgid ""
+"You can require agents to enter a password before they can log in to this "
+"queue.<br><br>This setting is optional."
+msgstr ""
+"Ud. pode requerer que seus agentes insiram uma senha para logar-se "
+"na fila.<br><br>Este parâmetro é opicional."
+
+#: queues.php:142
+msgid "CID name prefix:"
+msgstr "Prefixo do nome CID "
+
+#: queues.php:142
+msgid ""
+"You can optionally prefix the Caller ID name of callers to the queue. ie: If "
+"you prefix with \"Sales:\", a call from John Doe would display as \"Sales:"
+"John Doe\" on the extensions that ring."
+msgstr ""
+"Ud. pode fazer de forma opicional que apareça o nome da pessoa que chamou como prefixo do identificador de chamada na fila."
+"Ex. Se ud seleciona \"Vendas:\", uma chamada de João da Silva se mostrara como \"Vendas:"
+"João da Silva\" no ramal."
+
+#: queues.php:146
+msgid "static agents"
+msgstr "agentes estáticos"
+
+#: queues.php:146
+msgid ""
+"Static agents are extensions that are assumed to always be on the queue.  "
+"Static agents do not need to 'log in' to the queue, and cannot 'log out' of "
+"the queue.<br><br>List extensions to ring, one per line.<br><br>You can "
+"include an extension on a remote system, or an external number (Outbound "
+"Routing must contain a valid route for external numbers)"
+msgstr ""
+"os agentes estáticos são ramais que sempre estaram em uma fila. "
+"Esses agentes nao precisão logar na fila, tão pouco deslogar "
+"da mesma.<br><br>Listar os ramais que soaremn, 1 por linha.<br><br>Pode-se "
+"incluir um ramal de um sistema remoto, ou um numero externo"
+
+#: queues.php:154
+msgid "Queue Options"
+msgstr "Opições da fila"
+
+#: queues.php:156
+msgid "Agent Announcement:"
+msgstr "Anuncios para agentes:"
+
+#: queues.php:156
+msgid ""
+"Announcement played to the Agent prior to bridging in the caller <br><br> "
+"Example: \"the Following call is from the Sales Queue\" or \"This call is "
+"from the Technical Support Queue\".<br><br>To add additional recordings "
+"please use the \"System Recordings\" MENU to the left"
+msgstr ""
+"Anuncios que seram reproduzidos ao agente antes que se conecta á chamada. <br><br> "
+"Ex: \"a siguinte chamada provem da fila de Vendas\" ou \"Esta chamada provem de "
+"uma fila de supoerte técnico\".<br><br>Para adicionar novas gravações "
+"por favor use o menu \"Gravações de Sistema\" localizado a sua esquerda."
+
+#: queues.php:162 queues.php:369
+msgid "None"
+msgstr "Nada"
+
+#: queues.php:174
+msgid "Hold Music Category:"
+msgstr "Categoria da Musica em Espera:"
+
+#: queues.php:174
+msgid ""
+"Music (or Commercial) played to the caller while they wait in line for an "
+"available agent.<br><br>  This music is defined in the \"On Hold Music\" "
+"Menu to the left."
+msgstr ""
+"Musica ou comerciais que seriam reproduzidos para todos os que ligarem enquanto espera por um atendente "
+"livre.<br><br>  Esta musica está definida no menu \"Musica em Espera\" "
+"localizado a esquerda."
+
+#: queues.php:192
+msgid "max wait time:"
+msgstr "tempo max. de espera:"
+
+#: queues.php:192
+msgid ""
+"The maximum number of seconds a caller can wait in a queue before being "
+"pulled out.  (0 for unlimited)."
+msgstr ""
+"É o tempo máximo (em segundos) que uma pessoa espera na fila antes de ser "
+"tirado da fila. (0 significa sem limite)."
+
+#: queues.php:205
+msgid "max callers:"
+msgstr "max. num. de chamadas:"
+
+#: queues.php:205
+msgid "Maximum number of people waiting in the queue (0 for unlimited)"
+msgstr "Maximo número de pessoas esperando em uma fila (0 = sem limite)"
+
+#: queues.php:218
+msgid "join empty:"
+msgstr "entrar se estiver vazia:"
+
+#: queues.php:218
+msgid ""
+"If you wish to allow queues that have no members currently to be joined, set "
+"this to yes"
+msgstr ""
+"se ud. deseja permitir filas qua não tenham membros que podem entrar, basta setar a opição no SI"
+
+#: queues.php:232
+msgid "leave when empty:"
+msgstr "sair quando esvaziar:"
+
+#: queues.php:232
+msgid ""
+"If you wish to remove callers from the queue if there are no agents present, "
+"set this to yes"
+msgstr "se deseja remover as chamadas de um cila quando não existe mais nenhuma pessoa na fila, sete esta opição no SI"
+
+#: queues.php:237 queues.php:343 queues.php:355
+msgid "Yes"
+msgstr "Sim"
+
+#: queues.php:237 queues.php:318 queues.php:344 queues.php:356
+msgid "No"
+msgstr "Não"
+
+#: queues.php:247
+msgid "ring strategy:"
+msgstr "estrategia de toque:"
+
+#: queues.php:249
+msgid "ringall"
+msgstr "Sons em Todos"
+
+#: queues.php:249
+msgid "ring all available channels until one answers (default)"
+msgstr "deseja que soem todos os canais até que alguem atenda (por default)"
+
+#: queues.php:250
+msgid "roundrobin"
+msgstr "Round Robin"
+
+#: queues.php:250
+msgid "take turns ringing each available interface"
+msgstr "faz soar cada interface disponivel por turnos"
+
+#: queues.php:251
+msgid "leastrecent"
+msgstr "Menos Recente"
+
+#: queues.php:251
+msgid "ring interface which was least recently called by this queue"
+msgstr "faz soar a interface que tenha a chamada menos recente"
+
+#: queues.php:252
+msgid "fewestcalls"
+msgstr "Menor tempo de chamadas"
+
+#: queues.php:252
+msgid "ring the one with fewest completed calls from this queue"
+msgstr "faz soar a interface que tenha menos chamadas desta fila"
+
+#: queues.php:253
+msgid "random"
+msgstr "Aleatório"
+
+#: queues.php:253
+msgid "ring random interface"
+msgstr "faz soar uma interface aleatoriamente"
+
+#: queues.php:254
+msgid "rrmemory"
+msgstr "RoundRobin c/Memoria"
+
+#: queues.php:254
+msgid "round robin with memory, remember where we left off last ring pass"
+msgstr "round robin com memoria, mostra de onde foi e quando foi a ultima chamada"
+
+#: queues.php:271
+msgid "agent timeout:"
+msgstr "timeout da pessoa:"
+
+#: queues.php:271
+msgid "The number of seconds a phone can ring before we consider it a timeout."
+msgstr "O numero de segundos que um telefone pode soar antes que se considere em timeout (tempo limite espirado)"
+
+#: queues.php:284
+msgid "retry:"
+msgstr "Tentar novamente:"
+
+#: queues.php:284
+msgid "The number of seconds we wait before trying all the phones again"
+msgstr "O numero de segundos que se espera antes de tentar novamente efetivar a ligação e fazer soar todos os telefones"
+
+#: queues.php:297
+msgid "wrap-up-time:"
+msgstr "tempo de wrap-up: "
+
+#: queues.php:297
+msgid ""
+"After a successful call, how many seconds to wait before sending a "
+"potentially free member another call (default is 0, or no delay)"
+msgstr ""
+"Depois de um chamada bem completada, quantos segundos se esperara antes de enviar a "
+"outro membro potencialmente livre de outra chamada (por default é 0 ou sem demora)"
+
+#: queues.php:310
+msgid "call recording:"
+msgstr "gravação de chamada:"
+
+#: queues.php:310
+msgid ""
+"Incoming calls to agents can be recorded. (saved to /var/spool/asterisk/"
+"monitor"
+msgstr ""
+"As chamadas de entrada das pessoas podem ser gravadas. (grava-se em /var/spool/asterisk/"
+"monitor"
+
+#: queues.php:315
+msgid "wav49"
+msgstr "wav49"
+
+#: queues.php:316
+msgid "wav"
+msgstr "wav"
+
+#: queues.php:317
+msgid "gsm"
+msgstr "gsm"
+
+#: queues.php:323
+msgid "Caller Announcements"
+msgstr "Anuncios ás pessoas que chamam"
+
+#: queues.php:325
+msgid "Frequency:"
+msgstr "Frequencia:"
+
+#: queues.php:325
+msgid ""
+"How often to announce queue position, estimated holdtime, and/or voice menu "
+"to the caller (0 to Disable Announcements)."
+msgstr ""
+"Anunciará na posição na fila, tempo estimado de espera, e/ou menus de voz "
+"para os que ligarem (0 para desabilitar)."
+
+#: queues.php:338
+msgid "Announce Position:"
+msgstr "Anunciar posição:"
+
+#: queues.php:338
+msgid "Announce position of caller in the queue?"
+msgstr "Anunciar posição, daqueles que ligarem, na fila?"
+
+#: queues.php:350
+msgid "Announce Hold Time:"
+msgstr "Anunciar tempo de espera:"
+
+#: queues.php:350
+msgid ""
+"Should we include estimated hold time in position announcements?  Either "
+"yes, no, or only once; hold time will not be announced if <1 minute"
+msgstr ""
+"Deveria ser incluido o tempo estimado de espera nos anuncios de posição? "
+"Puede ser SI, NO, o Una Vez; el tiempo de espera no sera anunciado si es < a 1 minuto"
+
+#: queues.php:357
+msgid "Once"
+msgstr "Uma vez"
+
+#: queues.php:363
+msgid "Voice Menu:"
+msgstr "Menu de Voz:"
+
+#: queues.php:363
+msgid ""
+"After announcing Position and/or Hold Time, you can optionally present an "
+"existing Digital Receptionist Voice Menu.<br><br>This voicemenu must only "
+"contain single-digit 'dialed options'."
+msgstr ""
+"Logo depois de ser anunciada a posição e/ou tempo de espera, pode-se apresentar de forma "
+"opicional um menu de IVR existente.<br><br>Este menu de voz deve conter "
+"somente opições de discagem de somente 1 digito."
+
+#: queues.php:387
+msgid "Fail Over Destination"
+msgstr "Destino em caso de falhas"
+
+#: recordings.php:43 recordings.php:48 recordings.php:71
+msgid "Recording"
+msgstr "Gravações"
+
+#: recordings.php:43
+msgid "Saved"
+msgstr "Gravado"
+
+#: recordings.php:55
+msgid "Add Recording"
+msgstr "Adicionar Gravação"
+
+#: recordings.php:76
+msgid "Delete Recording"
+msgstr "Deletar Gravações"
+
+#: recordings.php:86
+msgid "and speak the message you wish to record."
+msgstr "e diga na mensagem que deseja gravar."
+
+#: recordings.php:113
+msgid ""
+"After recording or uploading, <em>dial *99</em> to listen to your recording."
+msgstr ""
+"Logo depois de gravar e 'subir' o arquivo, <em>disque *99</em> para escutar sua gravação."
+
+#: recordings.php:118
+msgid "Step 3: Name"
+msgstr "Paso 3: Nome"
+
+#: recordings.php:121
+msgid "Name this Recording"
+msgstr "Nome desta Gravação"
+
+#: reports.php:14 reports.php:15
+msgid "Call Detail Reports"
+msgstr "Informações dos detalhes de chamadas"
+
+#: reports.php:85
+msgid "Call Logs"
+msgstr "Log´s das chamadas"
+
+#: reports.php:86
+msgid "Compare Calls"
+msgstr "Comparar chamadas"
+
+#: reports.php:87
+msgid "Monthly Traffic"
+msgstr "Tráfego mensal"
+
+#: reports.php:88
+msgid "Daily load"
+msgstr "Carga diaria"
+
+#: routing.php:128
+msgid "Error renaming route: duplicate name"
+msgstr "Error renomeando rota: rota duplicada"
+
+#: routing.php:166 trunks.php:153
+msgid "Error fetching prefix list for: "
+msgstr "Error obtendo lista de prefixos para:"
+
+#: routing.php:171 trunks.php:158
+msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
+msgstr "Formato insválido de codigo NPA-NXX (deve estar no formato: NXXNXX)"
+
+#: routing.php:201 routing.php:254
+msgid "Add Route"
+msgstr "Agregar Rota"
+
+#: routing.php:252
+msgid "Edit Route"
+msgstr "Editar Rota"
+
+#: routing.php:264
+msgid "Delete Route"
+msgstr "Deletar Rota"
+
+#: routing.php:274
+msgid "Route Name"
+msgstr "Nome da Rota"
+
+#: routing.php:274
+msgid ""
+"Name of this route. Should be used to describe what type of calls this route "
+"matches (for example, 'local' or 'longdistance')."
+msgstr ""
+"Nome da rota. Serve usar para descrever que tipo de chamadas está sendo realizada "
+"dicha ruta (por ejemplo, 'local' o 'larga distancia')."
+
+#: routing.php:302
+msgid "Route Password"
+msgstr "Senha da Rota"
+
+#: routing.php:302
+msgid ""
+"Optional: A route can prompt users for a password before allowing calls to "
+"progress.  This is useful for restricting calls to international "
+"destinations or 1-900 numbers.<br><br>Leave this field blank to not prompt "
+"for password.</span>"
+msgstr ""
+"Opicional: Uma rota pode perguntar os usuarios por uma senha antes de permitir "
+"que existam chamadas. Isto é util para restringir chamadas em destinos internacionais "
+"os numeros 0600, etc.<br><br>Deixe este campo em branco para não preguntar "
+"pela senha.</span>"
+
+#: routing.php:308
+msgid "Dial Patterns"
+msgstr "Padrones de discagem"
+
+#: routing.php:308
+msgid ""
+"A Dial Pattern is a unique set of digits that will select this trunk. Enter "
+"one dial pattern per line."
+msgstr ""
+"Um padrão de discagem é um parametro único de digitos que selecionará este tronco. Entar "
+"um padão de discagem por linha."
+
+#: routing.php:308 trunks.php:345
+msgid "Rules:"
+msgstr "Regras:"
+
+#: routing.php:309 trunks.php:346
+msgid "matches any digit from 0-9"
+msgstr "iguala qualquier digito entre 0-9"
+
+#: routing.php:310
+msgid "matches any digit form 1-9"
+msgstr "iguala qualquier digito entre 1-9"
+
+#: routing.php:311 trunks.php:348
+msgid "matches any digit from 2-9"
+msgstr "iguala qualquier digito entre 2-9"
+
+#: routing.php:312 trunks.php:349
+msgid ""
+"matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
+msgstr ""
+"iguala qualquier digito ou letra entre as chaves (neste exemplo, 1,2,3,7,8,9)"
+
+#: routing.php:313
+msgid "wildcard, matches one or more characters"
+msgstr "coringa, iguala 1 ou mais caracteres"
+
+#: routing.php:314
+msgid ""
+"seperates a dialing prefix from the number (for example, 9|NXXXXXX would "
+"match when some dialed \"95551234\" but would only pass \"5551234\" to the "
+"trunks)"
+msgstr ""
+"separa um prefixo de discagem do numero (por exemplo, 9|NXXXXXX deveria "
+"igualar-se quando alguem discar \"95551234\" mas somente deveria deixar passar \"5551234\" as "
+"linhas de concção)"
+
+#: routing.php:365 trunks.php:384
+#, c-format
+msgid ""
+"What is your areacode + prefix (NPA-NXX)?\\n\\n(Note: this database contains "
+"North American numbers only, and is not guaranteed to be 100% accurate. You "
+"will still have the option of modifying results.)\\n\\nThis may take a few "
+"seconds."
+msgstr ""
+"Qual é o seu código de área + prefixo (NPA-NXX)?\\n\\n(Nota: esta base de dados contém "
+"Numeros de USA somente, e não esta garantido que seja 100% exata. Ud. "
+"igual tenha a opição de modificar os resultados.)\\n\\nEsto pode tomar "
+"alguns segundos."
+
+#: routing.php:367 trunks.php:386
+msgid "Invalid NPA-NXX. Must be of the format 'NXX-NXX'"
+msgstr "NPA-NXX Invalido. Deve estar no formato 'NXX-NXX'"
+
+#: routing.php:375 trunks.php:394
+msgid ""
+"Error: Cannot continue!\n"
+"\n"
+"Prefix lookup requires cURL support in PHP on the server. Please install or "
+"enable cURL support in your PHP installation to use this function. See "
+"http://www.php.net/curl for more information."
+msgstr ""
+"Error: Não pode continuar!\n"
+"\n"
+"A busca de prefixos reque suporte CURL em PHP no servidor. Por favor, instále-o "
+"ou habilite o suporte cURL em sua instalação PHP para usar esta função. Entre em "
+"http://www.php.net/curl para maiores informações."
+
+#: routing.php:447
+msgid "Trunk Sequence"
+msgstr "Sequencia das linhas de conecções"
+
+#: routing.php:447
+msgid ""
+"The Trunk Sequence controls the order of trunks that will be used when the "
+"above Dial Patterns are matched. <br><br>For Dial Patterns that match long "
+"distance numbers, for example, you'd want to pick the cheapest routes for "
+"long distance (ie, VoIP trunks first) followed by more expensive routes "
+"(POTS lines)."
+msgstr ""
+"A sequencia dos troncos controla a ordem doas linhas de conecções qual será usado quando "
+"os patrões de sequencia acima nomeados são igualados. <br><br>Por exemplo para os patrões "
+"de discagem de numeros de grande distancia, ud. deveria utilizar as rotas de menor custo "
+"de grande (Ex, 1 linhas de coneções de VoIP) seguidas das rotas mais caras "
+"(lineas POTS clasicas)."
+
+#: schedule_functions.php:21
+msgid "DELETE ALL THE DATA IN THIS SET"
+msgstr "DELETAR TODOS OS DADOS DOS PARAMETROS"
+
+#: schedule_functions.php:21
+msgid "Delete this backup set and all data associated with this backup set.."
+msgstr "Deletar estes parametros de backup e todos os dados associados com o mesmo..."
+
+#: schedule_functions.php:37
+msgid "Delete File Set"
+msgstr "Deletar os parâmetros de arquivos"
+
+#: schedule_functions.php:37
+msgid "Delete this backup set."
+msgstr "Deleta este parêmetro de backup."
+
+#: schedule_functions.php:42
+msgid "Restore Entire Backup Set"
+msgstr "Re-estabelece os parametros de backup completo"
+
+#: schedule_functions.php:42
+msgid "Restore your Complete Backup set overwriting all files."
+msgstr "Re-establece seus parametros de Backup Completamente sobre-escrevendo todos os arquivos."
+
+#: schedule_functions.php:46
+msgid "Restore VoiceMail Files"
+msgstr "Re-establecer arquivos de Correio de Voz"
+
+#: schedule_functions.php:46
+msgid ""
+"Restore your Voicemail files from this backup set.  NOTE! This will delete "
+"any voicemail currently in the voicemail boxes."
+msgstr ""
+"Re-estabelece seus arquivos de Correio de Voz desde este parâmetro de backup.  NOTA! Isto será deletado "
+"todos os correios que atualmente estão nas contas de correio de voz."
+
+#: schedule_functions.php:53
+msgid "Restore System Recordings Files"
+msgstr "Re-establecer arquivos de gravações de sistema"
+
+#: schedule_functions.php:53
+msgid ""
+"Restore your system Voice Recordings including AutoAttendent files from this "
+"backup set.  NOTE! This will OVERWRITE any voicerecordings  currently on the "
+"system. It will NOT delete new files not currently in the backup set"
+msgstr ""
+"Re-establece suas gravações de sistema incluindo a pertencente ao IVR desde que este parâmetro  "
+"de backup.  NOTA! Isto será deletado das gravações de voz atualmente "
+"estão num sistema, mas não deleta os arquivos novos que não estão nos parâmetros de backup."
+
+#: schedule_functions.php:58
+msgid "Restore System Configuration"
+msgstr "Restaurar Conguração do Sistema"
+
+#: schedule_functions.php:58
+msgid ""
+"Restore your system configuration from this backup set.  NOTE! This will "
+"OVERWRITE any System changes you have made since this backup... ALL Itemes "
+"will be reset to what they were at the time of this backup set.."
+msgstr ""
+"Re-establece as configurações do sistema desde que estes parâmetros de backup.  NOTA! Isto deletará "
+"todos os contatos do distema realizados desde que existe este backup... TODOS os Itens "
+"seram resetados num estado que tenham o tempo de realizar o backup..."
+
+#: schedule_functions.php:63
+msgid "Restore Operator Panel"
+msgstr "Restaurar Panel de Operação"
+
+#: schedule_functions.php:63
+msgid ""
+"Restore the Operator Panel from this backup set.  NOTE! This will OVERWRITE "
+"any Operator Panel Changes you have made since this backup... ALL Itemes "
+"will be reset to what they were at the time of this backup set.."
+msgstr ""
+"Restablece las configuraciones del Panel de Operador desde este set de backup.  NOTA! Esto eliminara "
+"todos los cambios del panel de Operador realizados desde que se hizo este backup... TODOS los Items "
+"seran reseteados al estado que tenian al tiempo de realizarse el backup..."
+
+#: schedule_functions.php:68
+msgid "Restore Call Detail Report"
+msgstr "Restaurar Reporte de Detalhe de Chamada"
+
+#: schedule_functions.php:68
+msgid ""
+"Restore the Call Detail Records from this backup set.  NOTE! This will "
+"DELETE ALL CALL RECORDS that have been saved since this backup set.."
+msgstr ""
+"Reestablece uma lista detalhada de chamadas desde este backup.  NOTA! isto eliminará "
+"DELETA TODAS AS CHAMADAS GRAVADAS desde que se realizou este backup..."
+
+#: schedule_functions.php:73
+msgid "ERROR its not a BACKUP SET file"
+msgstr "ERROR não é um arquivo de SET DE BACKUP"
+
+#: schedule_functions.php:295
+msgid "Schedule Name:"
+msgstr "Nome Backup:"
+
+#: schedule_functions.php:295
+msgid "Give this Backup Schedule a brief name to help you identify it."
+msgstr "Selecione um nome para este Backup afim de ajuda-lo a identifica-lo. "
+
+#: schedule_functions.php:300
+msgid "VoiceMail"
+msgstr "Correio De Voz"
+
+#: schedule_functions.php:300
+msgid ""
+"Backup the System VoiceMail Boxes... CAUTION: Could result in large file"
+msgstr "Realiza um backup chamadas de correio de voz. Precaução: Pode ser um arquivo muito grande"
+
+#: schedule_functions.php:308
+msgid ""
+"Backup the System Recordings (AutoAttendent, Music On Hold, System "
+"Recordings)"
+msgstr "Realiza um backup de gravação do sistema (IVR, Musica em Espera, Gravações de sistema)"
+
+#: schedule_functions.php:316
+msgid "System Configuration"
+msgstr "Configuração do Sistema"
+
+#: schedule_functions.php:316
+msgid ""
+"Backup the System Configurations (Database, etc files, SQL Database, astdb)"
+msgstr "Realiza um backup das configurações de sistema (DB, arquivos de /etc, SQL, etc)"
+
+#: schedule_functions.php:324
+msgid "CDR"
+msgstr "CDR"
+
+#: schedule_functions.php:324
+msgid "Backup the System Call Detail Reporting (HTML and Database)"
+msgstr "Realiza um backup dos dados dos detalhes das chamadas (HTML e Bancos de dados)"
+
+#: schedule_functions.php:332
+msgid "Operator Panel"
+msgstr "Panel de controle"
+
+#: schedule_functions.php:332
+msgid "Backup the Operator Panel (HTML and Database)"
+msgstr "Realiza um backup do painel de controle (HTML e Banco de dados)"
+
+#: schedule_functions.php:383 schedule_functions.php:387
+#: schedule_functions.php:412 schedule_functions.php:416
+#: schedule_functions.php:441 schedule_functions.php:445
+msgid "All"
+msgstr "Todo"
+
+#: schedule_functions.php:384 schedule_functions.php:388
+#: schedule_functions.php:413 schedule_functions.php:417
+#: schedule_functions.php:442 schedule_functions.php:446
+msgid "Selected"
+msgstr "Selecionado"
+
+#: schedule_functions.php:464
+msgid "Run Backup"
+msgstr "Executar Backup"
+
+#: schedule_functions.php:466
+msgid "Follow Schedule Below"
+msgstr "Respeitar o Horário aqui setado abaixo"
+
+#: schedule_functions.php:467
+msgid "Now"
+msgstr "Agora"
+
+#: schedule_functions.php:468
+msgid "Daily (at midnight)"
+msgstr "Diariamente (á meia-noite)"
+
+#: schedule_functions.php:469
+msgid "Weekly (on Sunday)"
+msgstr "Semanalmente (aos Domingos)"
+
+#: schedule_functions.php:470
+msgid "Monthly (on the 1st)"
+msgstr "Mensalmente (em Primeiro.)"
+
+#: schedule_functions.php:471
+msgid "Yearly (on 1st Jan)"
+msgstr "Anualmente (em Primeiro de Janeiro)"
+
+#: trunks.php:186
+msgid "Add Trunk"
+msgstr "Adicionar canal"
+
+#: trunks.php:193
+msgid "Trunk"
+msgstr "Canal"
+
+#: trunks.php:205
+msgid "Add a Trunk"
+msgstr "Adicionar um canal"
+
+#: trunks.php:206
+msgid "Add ZAP Trunk"
+msgstr "Adicionar um canal ZAP"
+
+#: trunks.php:207
+msgid "Add IAX2 Trunk"
+msgstr "Adicionar um canal IAX2"
+
+#: trunks.php:208
+msgid "Add SIP Trunk"
+msgstr "Adicionar um canal SIP"
+
+#: trunks.php:209
+msgid "Add ENUM Trunk"
+msgstr "Adicionar um canal ENUM"
+
+#: trunks.php:210
+msgid "Add Custom Trunk"
+msgstr "Adicionar um canal personalizado"
+
+#: trunks.php:266
+#, c-format
+msgid "Edit %s Trunk"
+msgstr "Editar canal %s"
+
+#: trunks.php:268
+msgid "Delete Trunk"
+msgstr "Eliminar canal"
+
+#: trunks.php:275
+msgid "In use by"
+msgstr "Em uso de"
+
+#: trunks.php:275
+msgid "route"
+msgstr "rota"
+
+#: trunks.php:275
+msgid "routes"
+msgstr "rotas"
+
+#: trunks.php:277
+msgid "Route"
+msgstr "Rota"
+
+#: trunks.php:277
+msgid "Sequence"
+msgstr "Sequencia"
+
+#: trunks.php:281
+msgid "This trunk is not used by any routes!"
+msgstr "Este tronco não está sendo usado por nenhuma rota!"
+
+#: trunks.php:282
+msgid ""
+"This trunk will not be able to be used for outbound calls until a route is "
+"setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
+msgstr ""
+"Este canal não pode ser usada para realizar chamadas de saídas bas apenas que uma rota tenha sido "
+"setada para usá-la. Click em <b>Rotas de Saída</b> para configurar as rotas."
+
+#: trunks.php:326
+msgid "Outbound Caller ID"
+msgstr "Identificados de chamadas de saída"
+
+#: trunks.php:326
+msgid ""
+"Setting this option will override all clients' caller IDs for calls placed "
+"out this trunk<br><br>Format: <b>\"caller name\" &lt;#######&gt;</"
+"b><br><br>Leave this field blank to simply pass client caller IDs."
+msgstr ""
+"Selecionando esta opição anulará o identificador de chamadas dos clientes para as chamadas realizadas "
+"deste canal.<br><br>Formato: <b>\"nome da pessoa que liga\" &lt;#######&gt;</"
+"b><br><br>Deixar este campo em branco simplesmente passar a identificação da chamada co cliente."
+
+#: trunks.php:333
+msgid "Maximum channels"
+msgstr "Máximo de canais"
+
+#: trunks.php:333
+msgid ""
+"Controls the maximum number of channels (simultaneous calls) that can be "
+"used on this trunk, including both incoming and outgoing calls. Leave blank "
+"to specify no maximum."
+msgstr ""
+"Controla a quantidade máxima de canais (chamadas simultâneas) que pode-se realizar "
+"desde este canal, incluiendo chamadas de entradas e saídas. Deixar em branco "
+"para especificar o máximo."
+
+#: trunks.php:340
+msgid "Outgoing Dial Rules"
+msgstr "Regras de Discagem de saída"
+
+#: trunks.php:345
+msgid "Dial Rules"
+msgstr "Regras de Discgemo"
+
+#: trunks.php:345
+msgid ""
+"A Dial Rule controls how calls will be dialed on this trunk. It can be used "
+"to add or remove prefixes. Numbers that don't match any patterns defined "
+"here will be dialed as-is. Note that a pattern without a + or | (to add or "
+"remove a prefix) is useless."
+msgstr ""
+"Uma regra de discagem que controla como as chamadas sao discadas em um canal. Pode ser usada "
+"para agregar ou remover prefixos. Os numeros que não combinam com nenhum padrão pre-definido "
+"aqui seram discados discados. Deve-se notar que um padrão que não contenha + ou | (para juntar ou "
+"remover um prefixo) é inutil."
+
+#: trunks.php:347
+msgid "matches any digit from 1-9"
+msgstr "combina qualquer digito entre 1-9"
+
+#: trunks.php:350
+msgid "wildcard, matches one or more characters (not allowed before a | or +)"
+msgstr "coringa, emparelha 1 ou mais caracteres (noo permitido antes de | ou +)"
+
+#: trunks.php:351
+msgid ""
+"removes a dialing prefix from the number (for example, 613|NXXXXXX would "
+"match when some dialed \"6135551234\" but would only pass \"5551234\" to the "
+"trunk)"
+msgstr ""
+"remove um prefixo discado do numero (ex, 613|NXXXXXX se "
+"mostrado quando alguem disca \"6135551234\" mas somente passaria \"5551234\" para o "
+"canal)"
+
+#: trunks.php:352
+msgid ""
+"adds a dialing prefix from the number (for example, 1613+NXXXXXX would match "
+"when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)"
+msgstr ""
+"adiciona um prefixo de discagem ao numero (exemplo, 1613+NXXXXXX se adequaria quando "
+"alguiem discar \"5551234\" mas passaria \"16135551234\" como canal)"
+
+#: trunks.php:362
+msgid "Dial rules wizards"
+msgstr "Assistente de regras de discagem"
+
+#: trunks.php:363 trunks.php:369
+msgid "Always add prefix to local numbers"
+msgstr "Adicionar um prefixo sempre com numeros locais"
+
+#: trunks.php:363
+msgid ""
+"is useful for VoIP trunks, where if a number is dialed as \"5551234\", it "
+"can be converted to \"16135551234\"."
+msgstr ""
+"é util para campos VoIP, quando um numero é discado com \"5551234\", pode "
+"ser convertido para \"16135551234\"."
+
+#: trunks.php:364 trunks.php:370
+msgid "Remove prefix from local numbers"
+msgstr "Remove um prefixo de numeros locais"
+
+#: trunks.php:364
+msgid ""
+"is useful for ZAP trunks, where if a local number is dialed as \"16135551234"
+"\", it can be converted to \"555-1234\"."
+msgstr ""
+"é util para campos ZAP, quando um numero local é discado como \"16135551234\", pode "
+"ser convertido para \"555-1234\"."
+
+#: trunks.php:365 trunks.php:371
+msgid "Lookup and remove local prefixes"
+msgstr "Buscar e remover prefixos locais"
+
+#: trunks.php:365
+msgid ""
+"is the same as Remove prefix from local numbers, but uses the database at "
+"http://members.dandy.net/~czg/search.html to find your local calling area "
+"(NA-only)"
+msgstr ""
+"é o mesmo que remover prefixos de numeros locais, mas usa o banco de dados de"
+"http://members.dandy.net/~czg/search.html para achar sua área de chamada local "
+"(solo NA)"
+
+#: trunks.php:368
+msgid "(pick one)"
+msgstr "(pick one)"
+
+#: trunks.php:402
+msgid ""
+"What is the local dialing pattern?\\n\\n(ie. NXXNXXXXXX for US/CAN 10-digit "
+"dialing, NXXXXXX for 7-digit)"
+msgstr ""
+"Qual é o parâmetro de discagem local?\\n\\n(Ex. NXXNXXXXXX para US/CAN de 10-digitos "
+"y NXXXXXX para 7-digitos)"
+
+#: trunks.php:404 trunks.php:427
+msgid "Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."
+msgstr "Parametros inválidos Somente 0-9, #, *, Z, N, X y . estão permitidos."
+
+#: trunks.php:407
+msgid ""
+"What prefix should be added to the dialing pattern?\\n\\n(ie. for US/CAN, 1"
+"+areacode, ie, '1613')?"
+msgstr ""
+"Que prefixo deveria ser agregado ao padrão de discagem?\\n\\n(Ex. para US/CAN, 1"
+"+codigo de area, Ex, '1613')"
+
+#: trunks.php:409
+msgid "Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."
+msgstr "Prefixo Inválido. Estão permitidos somente caracteres discáveis (0-9, #, y *)"
+
+#: trunks.php:420
+msgid ""
+"What prefix should be removed from the number?\\n\\n(ie. for US/CAN, 1"
+"+areacode, ie, '1613')"
+msgstr ""
+"Que prefixo deveria ser removido do numero?\\n\\n(Ex. para US/CAN, 1"
+"+codigo de area, Ex, '1613')"
+
+#: trunks.php:425
+msgid "What is the dialing pattern for local numbers after"
+msgstr "Qual é o padrao para os numeros locais anterioes"
+
+#: trunks.php:425
+msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
+msgstr "(EX. NXXNXXXXXX para discado de US/CAN de 10-digitos, NXXXXXX para 7-digitos)"
+
+#: trunks.php:547
+msgid "Outbound Dial Prefix"
+msgstr "Prefixo de chamadas externas"
+
+#: trunks.php:547
+msgid ""
+"The outbound dialing prefix is used to prefix a dialing string to all "
+"outbound calls placed on this trunk. For example, if this trunk is behind "
+"another PBX or is a Centrex line, then you would put 9 here to access an "
+"outbound line.<br><br>Most users should leave this option blank."
+msgstr ""
+"O prefixo de saída é usado para agregar o prefixo de strings de chamada para todos"
+"as chamadas que utilizem este campo. Por exemplo, se este campo está atraz "
+"de outra PBX ou é uma linha CENTREX, então se deveria adicionar 9 aqui para conceder acesso a uma "
+"linha de saída.<br><br>A maioria dos usuários deveriem deixar esta opçao em branco."
+
+#: trunks.php:554
+msgid "Outgoing Settings"
+msgstr "Parâmetros de saída"
+
+#: trunks.php:564
+msgid "Zap Identifier (trunk name)"
+msgstr "Identificador ZAP (nome do campo)"
+
+#: trunks.php:564
+msgid ""
+"ZAP channels are referenced either by a group number or channel number "
+"(which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> "
+"(group zero)."
+msgstr ""
+"os canais ZAP sao rerenciados por um numero de grupo ou por um numero de canal "
+"(o qual é definido em zapata.conf). <br><br>Por default esta opçao é <b>g0</b> "
+"(grupo zero)."
+
+#: trunks.php:578
+msgid "Custom Dial String"
+msgstr "String de chamada personalizada"
+
+#: trunks.php:578
+msgid "Define the custom Dial String.  Include the token"
+msgstr "Definir uma string de chamada personalizada."
+
+#: trunks.php:578
+msgid ""
+"wherever the number to dial should go.<br><br><b>examples:</b><br><br>CAPI/"
+"XXXXXXXX:b"
+msgstr ""
+"Para onde o numero discar.<br><br><b>examples:</b><br><br>CAPI/"
+"XXXXXXXX:b"
+
+#: trunks.php:578
+msgid ",30,r<br>H323/"
+msgstr ",30,r<br>H323/"
+
+#: trunks.php:590
+msgid "Trunk Name"
+msgstr "Nome do campo"
+
+#: trunks.php:590
+msgid "Give this trunk a unique name.  Example: myiaxtel"
+msgstr "Insira neste campo apenas um nome. Exemplo: miteliax"
+
+#: trunks.php:597
+msgid "PEER Details"
+msgstr "Detalhes PEER"
+
+#: trunks.php:597
+msgid ""
+"Modify the default PEER connection parameters for your VoIP provider."
+"<br><br>You may need to add to the default lines listed below, depending on "
+"your provider."
+msgstr ""
+"Modifique os parametro de conecção PEER para o seu provedor VoIP."
+"<br><br>Pode precisar adicionar algumas linhas padróes abaixo, dependendo "
+"do seu provedor."
+
+#: trunks.php:607
+msgid "Incoming Settings"
+msgstr "Informações de Entrada"
+
+#: trunks.php:612
+msgid "USER Context"
+msgstr "Contexto do USER"
+
+#: trunks.php:612
+msgid ""
+"This is most often the account name or number your provider expects."
+"<br><br>This USER Context will be used to define the below user details."
+msgstr ""
+"Este é, normalmente, o nome da conta e o numero assinalado pelo provedor."
+"<br><br>Este contexto USER sera usado para definir os detalhes de usuario aqui abaixo."
+
+#: trunks.php:619
+msgid "USER Details"
+msgstr "Detalhes do USER"
+
+#: trunks.php:619
+msgid "Modify the default USER connection parameters for your VoIP provider."
+msgstr "Modifica os parametros de conecção do USER para o provedor VoIP."
+
+#: trunks.php:619
+msgid ""
+"You may need to add to the default lines listed below, depending on your "
+"provider."
+msgstr ""
+"Pode precisar agragar dados nas linhas padrões, dependendo do seu "
+"provedor."
+
+#: trunks.php:629
+msgid "Registration"
+msgstr "Registro"
+
+#: trunks.php:634
+msgid "Register String"
+msgstr "Campo de Registro"
+
+#: trunks.php:634
+msgid ""
+"Most VoIP providers require your system to REGISTER with theirs. Enter the "
+"registration line here.<br><br>example:<br><br>username:password@switch."
+"voipprovider.com"
+msgstr ""
+"A maioria dos provedores VoIP precisam que seu sistema de REGISTRE com um servidor. Entre com os "
+"parametros de registro aqui.<br><br>exemplo:<br><br>username:password@switch."
+"voipprovider.com"
+
+#: common/script.js.php:48 common/script.js.php:50 common/script.js.php:69
+msgid "Please fill in all required fields."
+msgstr "Por favor preecha todos os campos requeridos"
+
+#: common/script.js.php:52
+msgid "Extensions numbers with more than one digit cannot begin with 0"
+msgstr "Os numeros de ramais com mais de um digito não podem começar por 0"
+" pueden empezar por 0"
+
+#: common/script.js.php:54
+msgid ""
+"There is something wrong with your extension number - it must be in integer"
+msgstr "Existe alguma coisa errada com o seu numero de ramal - deve ser um inteiro"
+
+#: common/script.js.php:56
+msgid ""
+"You have enabled Voicemail & Directory for this extension, but have not "
+"specified any options.  Please specify options, or disable Voicemail & "
+"Directory."
+msgstr "Voce tem ativado o voicemail & Diretorio para este ramal, mas não tem "
+"especificada nenhuma opção. Por favor especifique opições, ou desative o serviço de voicemail &o desactive el "
+"Diretorio"
+
+#: common/script.js.php:58
+msgid "A voicemail passsword can only contain digits"
+msgstr "Uma senha de voicemail deve conter somente numeros."
+
+#: common/script.js.php:79
+msgid "Please select where you would like to send incoming calls to."
+msgstr "Por favor selecione para onde desejas enviar as chamadas de entrada."
+
+#: common/script.js.php:101 common/script.js.php:152 common/script.js.php:194
+#: common/script.js.php:305
+msgid ""
+"Custom Goto contexts must contain the string \"custom\".  ie: custom-app,s,1"
+msgstr " Os contextos pedrões devem contar uma string \"custom\". Ex: custom-app,s,1"
+
+#: common/script.js.php:107
+msgid "Please enter an extension list."
+msgstr "Por favor insira uma lista de ramais."
+
+#: common/script.js.php:113
+msgid "Group numbers with more than one digit cannot begin with 0"
+msgstr "Os grupos de numeros com mais de um digito não podem começar por 0"
+
+#: common/script.js.php:119
+msgid "Invalid prefix. Valid characters: a-z A-Z 0-9 : _ -"
+msgstr "Prefixo inválido, Caracteres válidos: a-z A-Z 0-9 : _-"
+
+#: common/script.js.php:125
+msgid "Invalid time specified"
+msgstr "Tiempo especificado inv&aacute;lido"
+
+#: common/script.js.php:158
+msgid "Queue Number must not be blank"
+msgstr "O numero não pode estar em branco"
+
+#: common/script.js.php:162
+msgid "Queue numbers with more than one digit cannot begin with 0"
+msgstr "Os numeros de fila com mais de um digito não podem começar com 0"
+
+#: common/script.js.php:167
+msgid "Queue name must not be blank"
+msgstr "O nome da fila nao pode estar em branco"
+
+#: common/script.js.php:170
+msgid ""
+"Queue name cannot start with a number, and can only contain letters and "
+"numbers"
+msgstr "O nome da fila não pode começar com um número e deve conter somente letras e "
+"numeros"
+
+#: common/script.js.php:210
+msgid "Missing required field: trunk name"
+msgstr "Falta o campo requerido: Nome do canal principal."
+
+#: common/script.js.php:212
+msgid "Trunk Name and User Context cannot be set to the same value"
+msgstr "O nome do canal principal o contexto do usuário não podem ter o mesmo valor"
+
+#: common/script.js.php:235
+msgid "Route name must not be blank"
+msgstr "A rota não pode estar em branco"
+
+#: common/script.js.php:239
+msgid "Route name is invalid, please try again"
+msgstr "O nome da rona é invalido, por favor tente novamente"
+
+#: common/script.js.php:246
+msgid "Dial pattern cannot be blank"
+msgstr "Dial pattern cannot be blank"
+
+#: common/script.js.php:249
+msgid "At least one trunk must be picked"
+msgstr "Deve-se ser selecionado pelomenos um bloqueio principal"
+
+#: common/script.js.php:305
+msgid "There is a problem with option number"
+msgstr "Existe um problema com o numero escolhido"
+
+#: common/script.js.php:355
+msgid "Username must not be blank"
+msgstr "O nome do usuário não deve estar em branco"
+
+#: common/script.js.php:357
+msgid ""
+"Username cannot start with a number, and can only contain letters and numbers"
+msgstr "O nome do usuário não pode comçar por um numero e deverá conter somente letras e números"
+
+#: common/script.js.php:359
+msgid "For security reasons, you cannot use the department name default"
+msgstr "Por razões de segurança, não se pode usar o nome default/padrão"
+" para el departamento"
+
+#: common/script.js.php:361
+msgid "Department name cannot have a space"
+msgstr "O nome do departamento nao pode ter nenhum espaço"
+
+

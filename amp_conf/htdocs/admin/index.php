@@ -66,6 +66,7 @@ switch($display) {
 <option value="it_IT" <? echo ($_COOKIE['lang']=="it_IT" ? "selected" : "") ?> >Italiano</option>
 <option value="es_ES" <? echo ($_COOKIE['lang']=="es_ES" ? "selected" : "") ?> >Espa&ntilde;ol</option>
 <option value="ru_RU" <? echo ($_COOKIE['lang']=="ru_RU" ? "selected" : "") ?> >Russki</option>
+<option value="pt_PT" <? echo ($_COOKIE['lang']=="pt_PT" ? "selected" : "") ?> >Portuguese</option>
 </select>
 	<?php } ?>
     </p>
