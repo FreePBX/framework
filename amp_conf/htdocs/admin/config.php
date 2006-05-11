@@ -56,7 +56,7 @@ if(isset($_REQUEST['type']) && $_REQUEST['type'] == "tool") {
 }
 // get all enabled modules
 // active_modules array used below and in drawselects function and genConf function
-$active_modules = find_modules(2,$type);
+$active_modules = find_modules(2);
 
 // include any module global functions
 // add module sections to $amp_sections
@@ -67,9 +67,12 @@ if(is_array($active_modules)){
 			require_once("modules/{$key}/functions.inc.php");
 		}
 		//create an array of module sections to display
-		if (is_array($module['items'])) {
-			foreach($module['items'] as $itemKey => $itemName) {
-				$amp_sections[$itemKey] = $itemName;
+		// only of the type we are displaying though
+		if ($module['type'] == $type) {
+			if (is_array($module['items'])) {
+				foreach($module['items'] as $itemKey => $itemName) {
+					$amp_sections[$itemKey] = $itemName;
+				}
 			}
 		}
 		//sort it? probably not right but was getting in a mess to be honest

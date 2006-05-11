@@ -289,14 +289,12 @@ function find_allmodules() {
 ** array['module']['status']
 ** array['module']['items'][array(items)]
 */
-function find_modules($status,$type) {
+function find_modules($status) {
 	$modules = find_allmodules();
-	//$return_modules = $modules;
-	// add only modules of type=$status
 	if (isset($modules) && is_array($modules)) {	
 		foreach(array_keys($modules) as $key) {
-			//remove modules not matching status or type
-			if(isset($modules[$key]['status']) && $modules[$key]['status'] == $status && isset($modules[$key]['type']) && $modules[$key]['type'] == $type) {
+			//remove modules not matching status
+			if(isset($modules[$key]['status']) && $modules[$key]['status'] == $status ){
 				$return_modules[$key] = $modules[$key];
 			}
 		}
