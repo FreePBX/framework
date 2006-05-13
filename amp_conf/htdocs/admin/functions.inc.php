@@ -971,6 +971,32 @@ class moduleHook {
 	}
 }
 
+// Dragged this in from page.modules.php, so it can be used by install_amp. 
+function runModuleSQL($moddir,$type){
+	global $db;
+	global $amp_conf;
+	$data='';
+	// if there is an sql file, run it
+	if (is_file("modules/{$moddir}/{$type}.sql")) {
+		// run sql script
+		$fd = fopen("modules/{$moddir}/{$type}.sql","r");
+		while (!feof($fd)) { $data .= fread($fd, 1024); }
+		fclose($fd);
+		preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*);\s*\n/Us", $data, $matches);
+		foreach ($matches[1] as $sql) {
+			$result = $db->query($sql);
+			if(DB::IsError($result)) { return false; }
+		}
+	}
+	// if there is a php file, run it
+	if (is_file("modules/{$moddir}/{$type}.php")) {
+		include("modules/{$moddir}/{$type}.php");
+	}
+	return true;
+}
+
+
+
 /*
 // just for testing hooks, i'll delete it later
 function queues_hook_core($viewing_itemid, $target_menuid) {

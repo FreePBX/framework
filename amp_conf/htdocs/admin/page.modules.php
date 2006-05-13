@@ -463,40 +463,7 @@ function getModuleXml() {
 	return $xmlarray;
 }
 
-// executes the SQL found in a module install.sql or uninstall.sql
-function runModuleSQL($moddir,$type){
-	global $db;
-	global $amp_conf;
-	$data='';
-	$retval = false;
-	// if there is an sql file, run it
-	if (is_file("modules/{$moddir}/{$type}.sql")) {
-		// run sql script
-		$fd = fopen("modules/{$moddir}/{$type}.sql","r");
-		while (!feof($fd)) {
-			$data .= fread($fd, 1024);
-		}
-		fclose($fd);
-
-		preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*);\s*\n/Us", $data, $matches);
-		
-		foreach ($matches[1] as $sql) {
-				$result = $db->query($sql); 
-				if(DB::IsError($result)) {     
-					return false;
-				}
-		}
-		$retval = true;
-	}
-	
-	// if there is a php file, run it
-	if (is_file("modules/{$moddir}/{$type}.php")) {
-		include("modules/{$moddir}/{$type}.php");
-		$retval = true;
-	}
-	
-	return true;
-}
+// runModuleSQL moved to functions.inc.php
 
 function installModule($modname,$modversion) 
 {
