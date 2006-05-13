@@ -25,15 +25,15 @@ source /etc/amportal.conf
 
 chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
-	chown -R asterisk:asterisk /var/run/asterisk
+	chown -R asterisk:asterisk $ASTRUNDIR
 	chown -R asterisk:asterisk /etc/asterisk
 	chmod -R g+w /etc/asterisk
-	chown -R asterisk:asterisk /var/lib/asterisk
-	chmod -R g+w /var/lib/asterisk
-	chown -R asterisk:asterisk /var/log/asterisk
-	chmod -R g+w /var/log/asterisk
-	chown -R asterisk:asterisk /var/spool/asterisk
-	chmod -R g+w /var/spool/asterisk
+	chown -R asterisk:asterisk $ASTVARLIBDIR
+	chmod -R g+w $ASTVARLIBDIR
+	chown -R asterisk:asterisk $ASTLOGDIR
+	chmod -R g+w $ASTLOGDIR
+	chown -R asterisk:asterisk $ASTSPOOLDIR
+	chmod -R g+w $ASTSPOOLDIR
 	chown -R asterisk:asterisk $AMPWEBROOT/admin
 	chmod -R g+w $AMPWEBROOT/admin
 	chown -R asterisk:asterisk $FOPWEBROOT
@@ -42,8 +42,8 @@ chown_asterisk() {
 	chmod -R g+w $AMPWEBROOT/recordings
 	chown -R asterisk:asterisk $AMPWEBROOT/_asterisk
 	chown -R asterisk:asterisk $AMPCGIBIN/vmail.cgi
-	chmod u+x,g+x /var/lib/asterisk/bin/*
-	chmod u+x /var/lib/asterisk/agi-bin/*
+	chmod u+x,g+x $ASTVARLIBDIR/bin/*
+	chmod u+x $ASTVARLIBDIR/agi-bin/*
 	chmod u+x,g+x $AMPWEBROOT/admin/bounce_op.sh
 	chmod u+x,g+x $AMPCGIBIN/vmail.cgi
 	chmod u+x,g+x $FOPWEBROOT/*.pl
@@ -68,7 +68,7 @@ pid_length=`pidof asterisk|awk '{print length($0)}'`
 				echo
 				echo "-----------------------------------------------------"
 				echo "Asterisk could not start!"
-				echo "Use 'tail /var/log/asterisk/full' to find out why."
+				echo "Use 'tail $ASTLOGDIR/full' to find out why."
 				echo "-----------------------------------------------------"
 				exit 0
 		fi
@@ -195,13 +195,4 @@ case "$1" in
 		exit 1
 	;;
 esac
-	
-
-
-
-
-
-
-
-
 
