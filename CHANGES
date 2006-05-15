@@ -1,3 +1,16 @@
+2.1
+
+- Modules not packacked with FreePBX
+- Included interface used to download/install/upgrade modules
+- Inbound Routing based on (analog) zap channel (ie: no DID available)
+- Russian and Portuguese 
+- ModuleHooks system allows modules to interact with eachother
+- dialparties completely re-written in PHP - eliminating dep for asterisk-perl
+- General Option to allow unauthenticated SIP calls into the system
+- Define different "Dial()" options for outbound calls
+- Direct DID->Extension config
+- New modules, including FeatureCodes, Callback, PinSets, and others
+
 2.0
 
 - AMP is now "freePBX"
