@@ -69,6 +69,11 @@ switch($type['data']) {
 		
 		$options = $agi->database_get("AMPUSER","{$exten['data']}/recording");
 		
+		if ($options["result"] == "0") {
+			$agi->verbose("No AMPUSER db entry for ".$exten["data"].". Not recording");
+			exit(1);		
+		}
+
 		//explode recording vars
 		$recording = explode("|",$options["data"]);
 		$recout = substr($recording[0],4);
@@ -89,6 +94,10 @@ switch($type['data']) {
 		$exten = $agi->get_variable("ARG1");	
 		$options = $agi->database_get("AMPUSER","{$exten['data']}/recording");
 		
+		if ($options["result"] == "0") {
+			$agi->verbose("No AMPUSER db entry for ".$exten["data"].". Not recording");
+			exit(1);		
+		}
 		//explode recording vars
 		$recording = explode("|",$options["data"]);
 		$recout = substr($recording[0],4);
