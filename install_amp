@@ -196,6 +196,7 @@ function ask_overwrite($file1, $file2) {
 
 function amp_mkdir($directory, $mode = "0755", $recursive = false) {
 	debug("mkdir ".$directory.", ".$mode);
+	$ntmp = sscanf($mode,"%o",$modenum); //assumes all inputs are octal
 	if (version_compare(phpversion(), 5.0) < 0) {
 		// php <5 can't recursively create directories
 		if ($recursive) {
@@ -204,10 +205,10 @@ function amp_mkdir($directory, $mode = "0755", $recursive = false) {
 			exec("mkdir -m ".$mode." -p ".$directory,  $output, $return_value);
 			return ($return_value == 0);
 		} else {
-			return mkdir($directory, $mode);
+			return mkdir($directory, $modenum);
 		}
 	} else {
-		return mkdir($directory, $mode, $recursive);
+		return mkdir($directory, $modenum, $recursive);
 	}
 }
 
