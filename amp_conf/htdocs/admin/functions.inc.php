@@ -15,10 +15,14 @@ require_once('featurecodes.class.php');
 
 function parse_amportal_conf($filename) {
 	$file = file($filename);
-	foreach ($file as $line) {
-		if (preg_match("/^\s*([a-zA-Z0-9]+)=([a-zA-Z0-9 .&-@=_<>\"\']+)\s*$/",$line,$matches)) {
-			$conf[ $matches[1] ] = $matches[2];
+	if (is_array($file)) {
+		foreach ($file as $line) {
+			if (preg_match("/^\s*([a-zA-Z0-9]+)=([a-zA-Z0-9 .&-@=_<>\"\']+)\s*$/",$line,$matches)) {
+				$conf[ $matches[1] ] = $matches[2];
+			}
 		}
+	} else {
+		die("<h1>Missing or unreadable config file ($filename)...cannot continue</h1>");
 	}
 	
 	if ( !isset($conf["AMPDBENGINE"]) || ($conf["AMPDBENGINE"] == ""))
