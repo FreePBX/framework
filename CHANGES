@@ -1,3 +1,14 @@
+2.1.1
+- Rob Thomas (xrobau@gmail.com) takes over stewardship of freePBX project from Coalescent Systems
+- Clean up harmless warnings in recordingcheck (r1927 and r1940)
+- SIP Anonymous wasn't working when language was not set to 'en' (r1932)
+- Fixed unfortunate loop when more than 10 trunks defined (r1942)
+- Voicemail changes weren't immediately visible (r1945)
+- Various fixes to clean up parser errors in extensions.conf, and rewrite of a couple of macros (r1949, r1950, r1953, r1957)
+- Various minor text cleanups (r1960, r1962)
+- Show fatal error message when cannot read /etc/amportal.conf file (r1971)
+- Add simple script for A@H users to restore their non-standard modules (r1972)
+
 2.1
 
 - Modules not packacked with FreePBX
