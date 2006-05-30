@@ -49,7 +49,7 @@ switch($type['data']) {
 				if ($setting["result"] == 0) {
 					$agi->verbose("No DB Entry AMPUSER/$exten/recording - Not recording");
 					exit(1);
-				{
+				}
 				//explode recording vars
 				$recording = explode("|",$setting["data"]);
 				$recout = substr($recording[0],4);
