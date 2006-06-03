@@ -232,7 +232,7 @@ foreach ( $ext as $k )
 			// Update Caller ID for calltrace application
 			if ((strpos($k,"#")==0) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
 			{
-				if (isset($cidnum))
+				if ( isset($cidnum) && is_numeric($cidnum) )
 				{
 					$rc = $AGI->database_put('CALLTRACE', $k, $cidnum);
 					if ($rc['result'] == 1) 
