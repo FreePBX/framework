@@ -431,6 +431,29 @@ function isDialpattern (s) {
 }
 
 // ***************************************************
+// ** Must be a valid dial rule string              **
+// ***************************************************
+
+function isDialrule (s) {
+	var i;
+	
+	if (isEmpty(s)) 
+       if (isDialrule.arguments.length == 1) return defaultEmptyOK;
+       else return (isDialrule.arguments[1] == true);
+
+	for (i = 0; i < s.length; i++) {   
+		var c = s.charAt(i);
+		if ( !isDialruleChar(c) ) {
+			if (c.charCodeAt(0) != 13 && c.charCodeAt(0) != 10) {
+				return false;
+			}
+		}
+	}
+	
+	return true;
+}
+
+// ***************************************************
 // ** Valid dial identifier -- for Dial cmd         **
 // ***************************************************
 
@@ -551,7 +574,11 @@ function isCallerIDChar (c)
 }
 
 function isDialpatternChar (c)
-{   return ( ((c >= "0") && (c <= "9")) || (c == "[") || (c == "]") || (c == "-") || (c == "+") || (c == ".") || (c == "|") || (c == "Z" || c == "z") || (c == "X" || c == "x") || (c == "N" || c == "n") || (c == "*") || (c == "#" ) || (c == "_") || (c == "!"))
+{   return ( ((c >= "0") && (c <= "9")) || (c == "[") || (c == "]") || (c == "-") || (c == "+") || (c == ".") || (c == "|") || (c == "Z" || c == "z") || (c == "X" || c == "x") || (c == "N" || c == "n") || (c == "*") || (c == "#" ) || (c == "_") || (c == "!") )
+}
+
+function isDialruleChar (c)
+{   return ( ((c >= "0") && (c <= "9")) || (c == "[") || (c == "]") || (c == "-") || (c == "+") || (c == ".") || (c == "|") || (c == "Z" || c == "z") || (c == "X" || c == "x") || (c == "N" || c == "n") || (c == "*") || (c == "#" ) || (c == "_") || (c == "!") || (c == "w") || (c == "W") )
 }
 
 function isDialDigitChar (c)
