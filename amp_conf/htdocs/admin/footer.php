@@ -19,9 +19,6 @@
 	if(DB::IsError($need_reload)) {
 		die($need_reload->getMessage());
 	}
-?>
-<?php  
-
 //check to see if we are requesting an asterisk reload
 if (isset($_REQUEST['clk_reload'])) {
 	
@@ -108,6 +105,8 @@ if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
 		}
 	}
 }
+
+if (!$quietmode) {
 ?>
 		
     <span class="footer" style="text-align:center;">
@@ -133,6 +132,9 @@ if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
 		<br>
 		<br>
     </span>
+<?php 
+}
+?>
 </div>
 
 <br>
