@@ -244,7 +244,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 				$destination=str_replace("/htdocs",trim($amp_conf["AMPWEBROOT"]),$destination);
 			}
 			$destination=str_replace("/htdocs_panel",trim($amp_conf["FOPWEBROOT"]),$destination);
-			$destination=str_replace("/cgi-bin",trim($amp_conf["AMPCGIBIN"]),$destination);
+//			$destination=str_replace("/cgi-bin",trim($amp_conf["AMPCGIBIN"]),$destination);
 			$destination=str_replace("/bin",trim($amp_conf["AMPBIN"]),$destination);
 			$destination=str_replace("/sbin",trim($amp_conf["AMPSBIN"]),$destination);
 			
@@ -475,14 +475,14 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '') {
 		}
 	} while(1);
 	
-	do {
-		outn("Enter the path to your Apache cgi-bin:\n [/var/www/cgi-bin] ");
-		$key = trim(fgets(STDIN,1024));
-		if (preg_match('/^$/',$key)) $amp_conf["AMPCGIBIN"] = "/var/www/cgi-bin";
-		else $amp_conf["AMPCGIBIN"] = rtrim($key,'/');
-		if (is_dir($amp_conf["AMPCGIBIN"])) break;
-		else fatal($amp_conf["AMPCGIBIN"]." is not a directory!");
-	} while(1);
+//	do {
+//		outn("Enter the path to your Apache cgi-bin:\n [/var/www/cgi-bin] ");
+//		$key = trim(fgets(STDIN,1024));
+//		if (preg_match('/^$/',$key)) $amp_conf["AMPCGIBIN"] = "/var/www/cgi-bin";
+//		else $amp_conf["AMPCGIBIN"] = rtrim($key,'/');
+//		if (is_dir($amp_conf["AMPCGIBIN"])) break;
+//		else fatal($amp_conf["AMPCGIBIN"]." is not a directory!");
+//	} while(1);
 	
 	outn("Enter the IP ADDRESS or hostname used to access the AMP web-admin:\n [xx.xx.xx.xx] ");
 	$key = trim(fgets(STDIN,1024));
@@ -684,7 +684,7 @@ out("OK");
 if (!array_key_exists("FOPWEBROOT",$amp_conf) || 
 	!array_key_exists("AMPBIN",$amp_conf) || 
 	!array_key_exists("AMPSBIN",$amp_conf) || 
-	!array_key_exists("AMPCGIBIN",$amp_conf) || 
+//	!array_key_exists("AMPCGIBIN",$amp_conf) || 
 	!array_key_exists("AMPWEBROOT",$amp_conf)
 ) {
 
@@ -693,10 +693,10 @@ if (!array_key_exists("FOPWEBROOT",$amp_conf) ||
 		$amp_conf["AMPWEBROOT"] = "/var/www/html";
 	}
 	
-	if (!array_key_exists("AMPCGIBIN",$amp_conf)) {
-		out("Adding AMPCGIBIN option to amportal.conf - using AMP default");
-		$amp_conf["AMPCGIBIN"] = "/var/www/cgi-bin";
-	}
+//	if (!array_key_exists("AMPCGIBIN",$amp_conf)) {
+//		out("Adding AMPCGIBIN option to amportal.conf - using AMP default");
+//		$amp_conf["AMPCGIBIN"] = "/var/www/cgi-bin";
+//	}
 	
 	if (!array_key_exists("FOPWEBROOT",$amp_conf)) {
 		out("Adding FOPWEBROOT option to amportal.conf - using AMP default");
