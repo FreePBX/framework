@@ -51,6 +51,8 @@ $table_name = "Backup";
 $hostname = "localhost";
 # the name of the database our tables are kept
 $database = "asterisk";
+# scratch file to ftp results with
+$ftpfile = "/tmp/freepbx-backup.ftp";
 
 open(FILE, "/etc/amportal.conf") || die "Failed to open amportal.conf\n";
 while (<FILE>) {
@@ -71,12 +73,22 @@ $password = $User_Preferences{"AMPDBPASS"};
 # the WEB ROOT directory 
 $webroot = $User_Preferences{"AMPWEBROOT"};
 
+# If and where to send the backup file once created (still left on local machine as well)
+#
+$ftpbackup = uc $User_Preferences{"FTPBACKUP"};
+$ftpuser = $User_Preferences{"FTPUSER"};
+$ftppassword = $User_Preferences{"FTPPASSWORD"};
+$ftpsubdir = $User_Preferences{"FTPSUBDIR"};
+$ftpserver = $User_Preferences{"FTPSERVER"};
+
 ################### END OF CONFIGURATION #######################
 my $now = localtime time;
 my ($sec,$min,$hour,$mday,$mon,$year, $wday,$yday,$isdst) = localtime time;
 $year += 1900;
 $mon +=1;
-my $Stamp="$year$mon$mday.$hour.$min.$sec";
+#my $Stamp="$year$mon$mday.$hour.$min.$sec";
+my $Stamp=sprintf "%04d%02d%02d.%02d.%02d.%02d",$year,$mon,$mday,$hour,$min,$sec;
+
 
 if (scalar @ARGV > 1)
 {
@@ -142,5 +154,35 @@ else
 	system ("/bin/mkdir -p '/var/lib/asterisk/backups/$Backup_Name' > /dev/null  2>&1");
 	system ("/bin/tar -Pcz -f '/var/lib/asterisk/backups/$Backup_Name/$Stamp.tar.gz' /tmp/ampbackups.$Stamp");
 	system ("/bin/rm -rf /tmp/ampbackups.$Stamp > /dev/null  2>&1");
+#
+#
+# FTP Sucessfull Backup's to FTPSERVER
+#
+# leave $ftpbackup which gets overwritten next time but can be checked to see if there were errors.
+# IMPORTANT - if testing as root, delete files since backup runs as asterisk and will fail here since
+#             root leave the file around and asterisk can't overwrite it.
+#	      Note - the hardcoded full backup that cron does will overwrite each day at destination.
+#
+if ( $ftpbackup ne "YES" ) {
+	exit
+}
+
+open(FILE, ">$ftpfile") || die "Failed to open $ftpfile\n";
+ 
+        printf FILE "user $ftpuser $ftppassword \n";
+        printf FILE "binary\n";
+	if ( $ftpsubdir ne "" ) {
+        	printf FILE "cd $ftpsubdir \n";
+	}
+        printf FILE "lcd /var/lib/asterisk/backups/$Backup_Name/\n";
+        printf FILE "put $Stamp.tar.gz\n";
+        printf FILE "bye\n";
+        close(FILE);
+ 
+        system ("/usr/kerberos/bin/ftp -u $ftpserver < $ftpfile > /dev/null  2>&1");
+ 
+        #system ("/bin/rm -rf /tmp/ftp2cabana > /dev/null  2>&1");
+
+
 
 exit 0;
