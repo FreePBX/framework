@@ -179,7 +179,7 @@ open(FILE, ">$ftpfile") || die "Failed to open $ftpfile\n";
         printf FILE "bye\n";
         close(FILE);
  
-        system ("/usr/kerberos/bin/ftp -u $ftpserver < $ftpfile > /dev/null  2>&1");
+        system ("ftp -n $ftpserver < $ftpfile > /dev/null  2>&1");
  
         #system ("/bin/rm -rf /tmp/ftp2cabana > /dev/null  2>&1");
 
