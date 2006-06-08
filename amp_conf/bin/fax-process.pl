@@ -86,7 +86,7 @@ if ($buf eq "MM\x00\x2a" || $buf eq "II\x2a\x00") {
 	# Tiff magic - We need to convert it to pdf first
 	# Need to do some error testing here - what happens if tiff2pdf
 	# doesn't exist?
-	open PDF, "tiff2pdf -w8.5 -l11 $file|";
+	open PDF, "tiff2pdf $file|";
 	$buf = "";
 	while (read(PDF, $buf, 60*57))  {
   		$encoded .= encode_base64($buf);
