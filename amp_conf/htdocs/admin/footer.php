@@ -77,22 +77,22 @@ if (isset($_REQUEST['clk_reload'])) {
 		*/	
 		//reload asterisk
 		$astman->send_request('Command', array('Command'=>'reload'));	
+		$astman->disconnect();
+		
+		//bounce op_server.pl
+		$wOpBounce = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'bounce_op.sh';
+		exec($wOpBounce.'>/dev/null');
+		
+		//store asterisk reloaded status
+		$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'"; 
+		$result = $db->query($sql); 
+		if(DB::IsError($result)) {     
+			die($result->getMessage()); 
+		}
+		$need_reload[0] = 'false';
 	} else {
 		echo _("Cannot connect to Asterisk Manager with ").$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
 	}
-	$astman->disconnect();
-	
-	//bounce op_server.pl
-	$wOpBounce = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'bounce_op.sh';
-	exec($wOpBounce.'>/dev/null');
-	
-	//store asterisk reloaded status
-	$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'"; 
-	$result = $db->query($sql); 
-	if(DB::IsError($result)) {     
-		die($result->getMessage()); 
-	}
-	$need_reload[0] = 'false';
 }
 if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
 	if ($need_reload[0] == 'true') {
