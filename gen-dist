@@ -1,0 +1,20 @@
+#! /bin/sh
+
+#
+# a small script which exports this current directory and generates a 
+# release tarball
+#
+# public domain, Diego Iastrubni 
+
+
+set -e
+
+FREEPBX_VER=2.2.0-prealpha
+FILENAME=freepbx-$FREEPBX_VER.tar.gz
+TMPDIR=`mktemp -d -p /tmp/ freepbx-release-XXXXXX`
+
+svn export . $TMPDIR/freepbx-$FREEPBX_VER
+tar -czf  $FILENAME -C $TMPDIR .
+rm -fr $TMPDIR
+
+echo Used $TMPDIR, compressed image is $FILENAME
