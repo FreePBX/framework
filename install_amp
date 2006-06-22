@@ -564,32 +564,7 @@ if (! @ include("Console/Getopt.php")) {
 }
 out("OK");
 
-/* RC: WE SOULDN'T NEED THESE WITH NEW PHP DIALPARTIES
-// **** Make sure we have libasteriskperl
-$perl_test = "perl -e 'use Asterisk::AGI'";
-outn( "Checking for libasteriskperl (perl bindings for asterisk)..." );
-exec( " $perl_test &> /dev/null", $perl_output, $perl_result );
-if ( $perl_result != 0)
-{
-	out("FAILED\nReturn code from \"$perl_test\" is: " . $perl_result );
-	fatal( "Please install libasteriskperl from your vendor.\nThis perl module is needed for executing dialparties.agi." );
-}
-out("OK");
-
-// **** Make sure we have Net::Telnet
-$perl_test = "perl -e 'use Net::Telnet'";
-outn( "Checking for Net::Telnet (used by dialparties.agi)..." );
-exec( " $perl_test &> /dev/null", $perl_output, $perl_result );
-if ( $perl_result != 0)
-{
-	out("FAILED\nReturn code from \"$perl_test\" is: " . $perl_result );
-	fatal( "Please install Net::Telnet from your vendor or CPAN.\nThis perl module is needed for executing dialparties.agi." );
-}
-out("OK");
-*/
-
 // **** Parse out command-line options
-
 $shortopts = "h?u:p:";
 $longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files");
 
@@ -789,17 +764,55 @@ outn("Connecting to database..");
 $db_user = $amp_conf["AMPDBUSER"];
 $db_pass = $amp_conf["AMPDBPASS"];
 $db_host = $amp_conf["AMPDBHOST"];
+$db_engine = $amp_conf["AMPDBENGINE"];
 $db_name = 'asterisk';
-$db_engine = 'mysql';
 
-$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
-
-if (!function_exists($db_engine.'_connect')) {
-	out("FAILED");
-	fatal($db_engine." PHP libraries not installed");
+// we still support older configurations,  and fall back 
+// into mysql when no other engine is defined
+if ($db_engine == "")
+{
+	$db_engine = "mysql";
 }
-
-$db = DB::connect($datasource); // attempt connection
+	
+switch ($db_engine)
+{
+	case "pgsql":
+	case "mysql":
+		// datasource in in this style: dbengine://username:password@host/database 
+		if (!function_exists($db_engine.'_connect')) {
+			out("FAILED");
+			fatal($db_engine." PHP libraries not installed");
+		}
+	
+		$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
+		$db = DB::connect($datasource); // attempt connection
+		break;
+	
+	case "sqlite":
+		if (! @ include('DB/sqlite.php'))
+		{
+			out("FAILED");
+			fatal( "Your PHP installation lacks SQLite support" );
+		}
+	
+		if (!isset($amp_conf["AMPDBFILE"]))
+			die("You must setup properly AMPDBFILE in /etc/amportal.conf");
+	
+		if (isset($amp_conf["AMPDBFILE"]) == "")
+			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
+	
+		$DSN = array (
+			"database" => $amp_conf["AMPDBFILE"],
+			"mode" => 0666
+		);
+	
+		$db = new DB_sqlite();
+		$db->connect( $DSN );
+		break;
+	
+	default:
+		die( "Unknown SQL engine: [$db_engine]");
+}
 
 if(DB::isError($db)) {
 	out("FAILED");
