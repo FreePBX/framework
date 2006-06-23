@@ -208,8 +208,8 @@ if (isset($conf["trunk-$trunk"])) {
 					break;
 				}
 				
-				// note, because this matched, we exit even if we didn't change anything
-				exit(0);
+				// this used to exit here (pre-2.2), but now continues processing more rules
+				
 			} // else, it didn't match this rule
 		} // else, this isn't a rule
 	} 
