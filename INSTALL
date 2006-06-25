@@ -40,26 +40,11 @@ freePBX has several requirements, including the following packages (names may va
 	curl
 	sox
 
-### Install these Perl modules:
-	
-	perl -MCPAN -e "install Net::Telnet"
-	
-	perl -MCPAN -e "install IPC::Signal"
-	
-	perl -MCPAN -e "install Proc::WaitStat"
-
-###
-Mime-contruct is needed to generate emails with fax file attachments:
-
-
-	- download the latest mime-construct from http://search.cpan.org/~rosch/
-	- install it
-
-###
-Download asterisk-perl from http://asterisk.gnuinter.net and install it
 	
 ###
 freePBX requires the following changes to php and apache for uploading new MOH files:
+(Note: Thise are reasonably distro specifc. Check http://www.aussievoip.com/wiki/freePBX 
+for more documentation)
 
 
 	- vi +482 /etc/php.ini  (or /etc/php4/apache2/php.ini)
