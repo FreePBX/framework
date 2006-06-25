@@ -208,7 +208,10 @@ if (isset($conf["trunk-$trunk"])) {
 					break;
 				}
 				
-				// this used to exit here (pre-2.2), but now continues processing more rules
+				// reverted back form r2080 (r2081 on trac) so that any pattern match will end
+				// the loop. This needs to stay like this for backwards compatibility and often
+				// patterns are used to avoid matching substitution rules for exception cases.
+				exit(0);
 				
 			} // else, it didn't match this rule
 		} // else, this isn't a rule
