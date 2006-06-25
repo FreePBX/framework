@@ -197,4 +197,14 @@ function featurecodes_getAllFeaturesDetailed() {
 		return null;
 	}
 }
+
+function featurecodes_getFeatureCode($modulename, $featurename) {
+	$fc_code = '';
+	
+	$fcc = new featurecode($modulename, $featurename);
+	$fc_code = $fcc->getCodeActive();
+	unset($fcc);
+
+	return $fc_code != '' ? $fc_code : _('** MISSING FEATURE CODE **');
+}
 ?>
