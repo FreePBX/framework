@@ -50,7 +50,8 @@ $table_name = "Backup";
 # the name of the box the MySQL database is running on
 $hostname = "localhost";
 # the name of the database our tables are kept
-$database = "asterisk";
+# Now taken from $User_Preferences
+# $database = "asterisk";
 # scratch file to ftp results with
 $ftpfile = "/tmp/freepbx-backup.ftp";
 
@@ -70,6 +71,8 @@ close(FILE);
 $username = $User_Preferences{"AMPDBUSER"} ;
 # password to connect to the database
 $password = $User_Preferences{"AMPDBPASS"};
+# Database name
+$database = $User_Preferences{"AMPDBNAME"};
 # the WEB ROOT directory 
 $webroot = $User_Preferences{"AMPWEBROOT"};
 

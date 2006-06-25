@@ -25,7 +25,7 @@ switch ($db_engine)
 		$db_user = $amp_conf["AMPDBUSER"];
 		$db_pass = $amp_conf["AMPDBPASS"];
 		$db_host = $amp_conf["AMPDBHOST"];
-		$db_name = 'asterisk';
+		$db_name = $amp_conf["AMPDBNAME"];
 		
 		$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
 		$db = DB::connect($datasource); // attempt connection

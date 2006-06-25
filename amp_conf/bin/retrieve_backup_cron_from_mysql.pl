@@ -31,31 +31,20 @@ $table_name = "Backup";
 # the path to the extensions.conf file
 # WARNING: this file will be substituted by the output of this program
 $Backup_cron = "/etc/asterisk/backup.conf";
-# the name of the database our tables are kept
-$database = "asterisk";
 
 # cool hack by Julien BLACHE <jblache@debian.org>
 $ampconf = parse_amportal_conf( "/etc/amportal.conf" );
-# the name of the box the MySQL database is running on
-$hostname = $ampconf->{"AMPDBHOST"};
 
 ################### END OF CONFIGURATION #######################
-open(FILE, "/etc/amportal.conf") || die "Failed to open amportal.conf\n";
-while (<FILE>) {
-    chomp;                  # no newline
-    s/#.*//;                # no comments
-    s/^\s+//;               # no leading white
-    s/\s+$//;               # no trailing white
-    next unless length;     # anything left?
-    my ($var, $value) = split(/\s*=\s*/, $_, 2);
-    $User_Preferences{$var} = $value;
-} 
-close(FILE);
 
+# the name of the box the MySQL database is running on
+$hostname = $ampconf->{"AMPDBHOST"};
 # username to connect to the database
-$username = $User_Preferences{"AMPDBUSER"} ;
+$username = $ampconf->{"AMPDBUSER"} ;
 # password to connect to the database
-$password = $User_Preferences{"AMPDBPASS"}; 
+$password = $ampconf->{"AMPDBPASS"}; 
+# the name of the database our tables are kept
+$database = $ampconf->{"AMPDBNAME"};
 
 
 open EXTEN, ">$Backup_cron" or die "Cannot create\/overwrite cron file: $Backup_cron\n";

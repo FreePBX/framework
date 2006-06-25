@@ -100,10 +100,6 @@ sub parse_zapata{
 #@conferences=(@conferences,[ "810","Conf.10" ]);
 #@conferences=(@conferences,[ "811","Conf.11" ]);
 
-
-# the name of the database our tables are kept
-$database = "asterisk";
-
 # cool hack by Julien BLACHE <jblache@debian.org>
 $ampconf = parse_amportal_conf( "/etc/amportal.conf" );
 
@@ -115,6 +111,8 @@ $username = $ampconf->{"AMPDBUSER"};
 $password = $ampconf->{"AMPDBPASS"};
 # the name of the box the MySQL database is running on
 $hostname = $ampconf->{"AMPDBHOST"};
+# the name of the database our tables are kept
+$database = $ampconf->{"AMPDBNAME"};
 #sort option: extension or lastname
 $sortoption = $ampconf->{"FOPSORT"};
 

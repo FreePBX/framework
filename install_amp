@@ -73,6 +73,7 @@ function showHelp() {
 	out("  --dry-run                Don't actually do anything");
 	out("  --force-version <ver>    Force upgrade from version <ver>");
 	out("  --dbhost <ip address>    Use a remote database server");
+	out("  --dbname databasename    Use database name specified, instead of 'asterisk'");
 	out("  --no-files               Just run updates without installing files");
 }
 
@@ -417,20 +418,20 @@ function install_needreload() {
 
 /** Collect AMP settings
  */
-function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '') {
+function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $dbname = 'asterisk') {
 	out("Creating new /etc/amportal.conf");
 	
-	outn("Enter your USERNAME to connect to the 'asterisk' database:\n [".($dbuser ? $dbuser : "asteriskuser")."] ");
+	outn("Enter your USERNAME to connect to the '$dbname' database:\n [".($dbuser ? $dbuser : "asteriskuser")."] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) $amp_conf["AMPDBUSER"] = ($dbuser ? $dbuser : "asteriskuser");
 	else $amp_conf["AMPDBUSER"] = $key;
 	
-	outn("Enter your PASSWORD to connect to the 'asterisk' database:\n [".($dbpass ? $dbpass : "amp109")."] ");
+	outn("Enter your PASSWORD to connect to the '$dbname' database:\n [".($dbpass ? $dbpass : "amp109")."] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) $amp_conf["AMPDBPASS"] = ($dbpass ? $dbpass : "amp109");
 	else $amp_conf["AMPDBPASS"] = $key;
 	
-	outn("Enter the hostname of the 'asterisk' database:\n [".($dbhost ? $dbhost : "localhost")."] ");
+	outn("Enter the hostname of the '$dbname' database:\n [".($dbhost ? $dbhost : "localhost")."] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) $amp_conf["AMPDBHOST"] = ($dbhost ? $dbhost : "localhost");
 	else $amp_conf["AMPDBHOST"] = $key;
@@ -566,7 +567,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -581,6 +582,7 @@ $install_files = true;
 
 //initialize variables to avoid php notices
 $dbhost = null; 
+$dbname = null; 
 $new_username = null;
 $new_password = null;
 
@@ -614,6 +616,10 @@ foreach ($args[0] as $arg) {
 			$dbhost = $arg[1];
 			out("Using remote database server at ".$dbhost);
 		break;
+		case "--dbname":
+			$dbname = $arg[1];
+			out("Using database ".$dbname);
+		break;
 		case "--no-files":
 			$install_files = false;
 			out("Running upgrade only, without installing files.");
@@ -641,7 +647,7 @@ outn("Checking for ".AMP_CONF."..");
 if (!file_exists(AMP_CONF)) {
 	out(AMP_CONF." does not exist, copying default");
 	copy("amportal.conf", "/etc/amportal.conf");
-	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password);
+	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password, $dbname);
 }
 out("OK");
 
@@ -656,59 +662,53 @@ out("OK");
 
 // Ensure our "critical" variables are set.  We absolutely need these to copy in files.
 
-if (!array_key_exists("FOPWEBROOT",$amp_conf) || 
-	!array_key_exists("AMPBIN",$amp_conf) || 
-	!array_key_exists("AMPSBIN",$amp_conf) || 
-//	!array_key_exists("AMPCGIBIN",$amp_conf) || 
-	!array_key_exists("AMPWEBROOT",$amp_conf)
-) {
-
-	if (!array_key_exists("AMPWEBROOT",$amp_conf)) {
-		out("Adding AMPWEBROOT option to amportal.conf - using AMP default");
-		$amp_conf["AMPWEBROOT"] = "/var/www/html";
-	}
-	
-//	if (!array_key_exists("AMPCGIBIN",$amp_conf)) {
-//		out("Adding AMPCGIBIN option to amportal.conf - using AMP default");
-//		$amp_conf["AMPCGIBIN"] = "/var/www/cgi-bin";
-//	}
-	
-	if (!array_key_exists("FOPWEBROOT",$amp_conf)) {
-		out("Adding FOPWEBROOT option to amportal.conf - using AMP default");
-		$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"]."/panel";
-	}
-	
-	if (!array_key_exists("AMPBIN",$amp_conf)) {
-		out("Adding AMPBIN option to amportal.conf - using AMP default");
-		$amp_conf["AMPBIN"] = "/var/lib/asterisk/bin";
-	}
-	
-	if (!array_key_exists("AMPSBIN",$amp_conf)) {
-		out("Adding AMPSBIN option to amportal.conf - using AMP default");
-		$amp_conf["AMPSBIN"] = "/usr/sbin";
-	}
-	
-	// write amportal.conf
-	write_amportal_conf(AMP_CONF, $amp_conf);
+if (!array_key_exists("AMPWEBROOT",$amp_conf)) {
+	out("Adding AMPWEBROOT option to amportal.conf - using AMP default");
+	$amp_conf["AMPWEBROOT"] = "/var/www/html";
 }
 
-if (isset($new_username) || isset($new_password) || isset($dbhost)) {
-	// new username/pwd 
-	
-	if (isset($new_username)) {
-		$amp_conf["AMPDBUSER"] = $new_username;
-	}
-	if (isset($new_password)) {
-		$amp_conf["AMPDBPASS"] = $new_password;
-	}
-	
-	if (isset($dbhost)) {
-		$amp_conf["AMPDBHOST"] = $dbhost;
-	}
-	
-	// write amportal.conf
-	write_amportal_conf(AMP_CONF, $amp_conf);
+if (!array_key_exists("FOPWEBROOT",$amp_conf)) {
+	out("Adding FOPWEBROOT option to amportal.conf - using AMP default");
+	$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"]."/panel";
 }
+
+if (!array_key_exists("AMPBIN",$amp_conf)) {
+	out("Adding AMPBIN option to amportal.conf - using AMP default");
+	$amp_conf["AMPBIN"] = "/var/lib/asterisk/bin";
+}
+
+if (!array_key_exists("AMPSBIN",$amp_conf)) {
+	out("Adding AMPSBIN option to amportal.conf - using AMP default");
+	$amp_conf["AMPSBIN"] = "/usr/sbin";
+}
+
+if (!array_key_exists("AMPDBENGINE",$amp_conf)) {
+	out("Adding AMPDBENGINE option to amportal.conf - using AMP default");
+	$amp_conf["AMPDBENGINE"] = "mysql";
+}
+if (!array_key_exists("AMPDBNAME",$amp_conf)) {
+	out("Adding AMPDBNAME option to amportal.conf - using AMP default");
+	$amp_conf["AMPDBNAME"] = "asterisk";
+}
+
+if (isset($new_username)) {
+	$amp_conf["AMPDBUSER"] = $new_username;
+}
+
+if (isset($new_password)) {
+	$amp_conf["AMPDBPASS"] = $new_password;
+}
+
+if (isset($dbhost)) {
+	$amp_conf["AMPDBHOST"] = $dbhost;
+}
+
+if (isset($dbname)) {
+	$amp_conf["AMPDBNAME"] = $dbname;
+}
+	
+// write amportal.conf
+write_amportal_conf(AMP_CONF, $amp_conf);
 
 // **** Check for amportal.conf, create if necessary
 
@@ -716,8 +716,6 @@ outn("Checking for ".ASTERISK_CONF."..");
 if (!file_exists(ASTERISK_CONF)) {
 	out(ASTERISK_CONF." does not exist, copying default");
 	copy("asterisk.conf", "/etc/asterisk/asterisk.conf");
-	//TODO - need to prompt for asterisk specific directories - using * defaults for now
-	//collect_ast_settings(ASTERISK_CONF, $dbhost, $new_username, $new_password);
 }
 out("OK");
 
@@ -765,7 +763,7 @@ $db_user = $amp_conf["AMPDBUSER"];
 $db_pass = $amp_conf["AMPDBPASS"];
 $db_host = $amp_conf["AMPDBHOST"];
 $db_engine = $amp_conf["AMPDBENGINE"];
-$db_name = 'asterisk';
+$db_name = $amp_conf["AMPDBNAME"];
 
 // we still support older configurations,  and fall back 
 // into mysql when no other engine is defined

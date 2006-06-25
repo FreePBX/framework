@@ -19,8 +19,6 @@ $table_name = "iax";
 # the path to the extensions.conf file
 # WARNING: this file will be substituted by the output of this program
 $iax_conf = "/etc/asterisk/iax_additional.conf";
-# the name of the database our tables are kept
-$database = "asterisk";
 
 # cool hack by Julien BLACHE <jblache@debian.org>
 $ampconf = parse_amportal_conf( "/etc/amportal.conf" );
@@ -30,6 +28,8 @@ $username = $ampconf->{"AMPDBUSER"};
 $password = $ampconf->{"AMPDBPASS"};
 # the name of the box the MySQL database is running on
 $hostname = $ampconf->{"AMPDBHOST"};
+# the name of the database our tables are kept
+$database = $ampconf->{"AMPDBNAME"};
 
 # the engine to be used for the SQL queries,
 # if none supplied, backfall to mysql

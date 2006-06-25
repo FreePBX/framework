@@ -15,8 +15,6 @@ $table_name = "queues";
 # the path to the extensions.conf file
 # WARNING: this file will be substituted by the output of this program
 $queues_conf = "/etc/asterisk/queues_additional.conf";
-# the name of the database our tables are kept
-$database = "asterisk";
 
 # cool hack by Julien BLACHE <jblache@debian.org>
 $ampconf = parse_amportal_conf( "/etc/amportal.conf" );
@@ -24,6 +22,8 @@ $ampconf = parse_amportal_conf( "/etc/amportal.conf" );
 $username = $ampconf->{"AMPDBUSER"};
 # password to connect to the database
 $password = $ampconf->{"AMPDBPASS"};
+# the name of the database our tables are kept
+$database = $ampconf->{"AMPDBNAME"};
 # the name of the box the MySQL database is running on
 $hostname = $ampconf->{"AMPDBHOST"};
 
