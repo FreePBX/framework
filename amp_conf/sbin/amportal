@@ -23,6 +23,15 @@ if [ ! -e "/etc/amportal.conf" ]       # Check if file exists.
 fi
 source /etc/amportal.conf
 
+if [ $ASTRUNDIR = /var/run ]
+  then
+    echo "**** ERROR IN CONFIGURATION ****"
+    echo "astrundir in /etc/asterisk/asterisk.conf is set to '/var/run' - THIS IS WRONG."
+    echo "Please change it to something sensible (eg, '/var/run/asterisk') and re-run"
+    echo "install_amp"
+    exit;
+fi
+
 chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
 	chown -R asterisk:asterisk $ASTRUNDIR
