@@ -67,13 +67,21 @@ function debug($text) {
 function showHelp() {
 	out("Optional parameters:");
 	out("  --help, -h, -?           Show this help");
+	out("  --dbhost <ip address>    Use a remote database server");
+	out("  --dbname databasename    Use database name specified, instead of 'asterisk'");
 	out("  --username <user>        Use <user> to connect to db and write config");
 	out("  --password <pass>        Use <pass> to connect to db and write config");
+/*	out("  --fopwebroot <path>      Web path where fop will be installed");
+	out("  --webroot <path>         Web root where freepbx will be installed");
+	out("  --cgibin <path>          Path where cgi-bin's lives");
+	out("  --bin <path>             Path of asterisk binaries");
+	out("  --sbin <path>            Path of system admin binaries");
+	out("  --asteriskuser <user>    Asterisk Manager username");
+	out("  --asteriskpass <pass>    Asterisk Manager password");
+	out("  --systemconfig <path>    System config files"); */
 	out("  --debug                  Enable debug output");
 	out("  --dry-run                Don't actually do anything");
 	out("  --force-version <ver>    Force upgrade from version <ver>");
-	out("  --dbhost <ip address>    Use a remote database server");
-	out("  --dbname databasename    Use database name specified, instead of 'asterisk'");
 	out("  --no-files               Just run updates without installing files");
 }
 
@@ -419,7 +427,7 @@ function install_needreload() {
 /** Collect AMP settings
  */
 function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $dbname = 'asterisk') {
-	out("Creating new /etc/amportal.conf");
+	out("Creating new $filename");
 	
 	outn("Enter your USERNAME to connect to the '$dbname' database:\n [".($dbuser ? $dbuser : "asteriskuser")."] ");
 	$key = trim(fgets(STDIN,1024));
@@ -532,7 +540,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	
 	// write amportal.conf
 	write_amportal_conf($filename, $amp_conf);
-	outn("/etc/amportal.conf written");
+	outn(AMP_CONF." written");
 }
 
 /********************************************************************************************************************/
@@ -624,6 +632,39 @@ foreach ($args[0] as $arg) {
 			$install_files = false;
 			out("Running upgrade only, without installing files.");
 		break;
+/*		case "--fopwebroot":
+			$fopwebroot = $arg[1];
+			out("Using fop at ".$fopwebroot);
+		break;
+		case "--webroot":
+			$webroot = $arg[1];
+			out("Using Webroot at ".$webroot);
+		break;
+		case "--cgibin":
+			$cgibin = $arg[1];
+			out("Using CGI-BIN at ".$cgibin);
+		break;
+		case "--bin":
+			$bin = $arg[1];
+			out("Using bin at ".$bin);
+		break;
+		case "--sbin":
+			$sbin = $arg[1];
+			out("Using sbin ar ".$sbin);
+		break;
+		case "--asteriskuser":
+			$asteriskuser = $arg[1];
+			out("Using Asterisk user ".$asteriskuser);
+		break;
+		case "--asteriskpass":
+			$asteriskpass = $arg[1];
+			out("Using asteriskpass ".str_repeat("*",strlen($arg[1])));
+		break;
+		case "--systemconfig":
+			$systemconfig = $arg[1];
+			out("Using system config at ". $systemconfig);
+		break; */
+
 	}
 }
 
@@ -646,7 +687,7 @@ out("OK");
 outn("Checking for ".AMP_CONF."..");
 if (!file_exists(AMP_CONF)) {
 	out(AMP_CONF." does not exist, copying default");
-	copy("amportal.conf", "/etc/amportal.conf");
+	copy("amportal.conf", AMP_CONF);
 	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password, $dbname);
 }
 out("OK");
@@ -715,7 +756,7 @@ write_amportal_conf(AMP_CONF, $amp_conf);
 outn("Checking for ".ASTERISK_CONF."..");
 if (!file_exists(ASTERISK_CONF)) {
 	out(ASTERISK_CONF." does not exist, copying default");
-	copy("asterisk.conf", "/etc/asterisk/asterisk.conf");
+	copy("asterisk.conf", AMP_CONF);
 }
 out("OK");
 
@@ -794,10 +835,10 @@ switch ($db_engine)
 		}
 	
 		if (!isset($amp_conf["AMPDBFILE"]))
-			die("You must setup properly AMPDBFILE in /etc/amportal.conf");
+			die("You must setup properly AMPDBFILE in ".AMP_CONF);
 	
 		if (isset($amp_conf["AMPDBFILE"]) == "")
-			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
+			die("AMPDBFILE in ".AMP_CONF." cannot be blank");
 	
 		$DSN = array (
 			"database" => $amp_conf["AMPDBFILE"],
