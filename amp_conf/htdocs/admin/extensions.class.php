@@ -606,6 +606,11 @@ class ext_festival extends extension {
 		return "Festival(".$this->data.")";
 	}
 }
+class ext_pickup extends extension {
+	function output() {
+		return "Pickup(".$this->data.")";
+	}
+}
 /* example usage
 $ext = new extensions;
 
