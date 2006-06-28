@@ -952,7 +952,7 @@ function runModuleSQL($moddir,$type){
 			execSQL( $amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sql" );
 		}
 	}
-	elseif ($db_engine  == "sqlite")
+	elseif ($db_engine  == "sqlite"){
 		if (is_file($amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sqlite")) {
 			execSQL( $amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sqlite" );
 		}
