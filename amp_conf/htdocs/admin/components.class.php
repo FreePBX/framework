@@ -9,11 +9,12 @@ class component {
 	var $_guielems_bottom; // Array of guielements
 	
 	var $_jsfuncs; // Array of JavaScript functions
-
+	var $_guifuncs; // Array of gui functions
 	var $_processfuncs; // Array of process functions
 
 	var $_sorted_guielems;
 	var $_sorted_jsfuncs;
+	var $_sorted_guifuncs;
 	var $_sorted_processfuncs;
 
 	function component($compname) {
@@ -21,6 +22,7 @@ class component {
 		
 		$this->_sorted_guielems = true;
 		$this->_sorted_jsfuncs = true;
+		$this->_sorted_guifuncs = true;
 		$this->_sorted_processfuncs = true;
 	}
 	
@@ -56,11 +58,26 @@ class component {
 		$this->_sorted_jsfuncs = false;
 	}
 
+	function addguifunc($function, $sortorder = 5) {
+        if ( $sortorder < 0 || $sortorder > 9 ) {
+                trigger_error('$sortorder must be between 0 and 9 in component->addguifunc()');
+                return;
+        }
+		if ( !function_exists($function) ) {
+			trigger_error("$function does not exist");
+			return;
+		}
+
+		$this->_guifuncs[$sortorder][] = $function;
+
+		$this->_sorted_guifuncs = false;
+	}
+
 	function addprocessfunc($function, $sortorder = 5) {
-                if ( $sortorder < 0 || $sortorder > 9 ) {
-                        trigger_error('$sortorder must be between 0 and 9 in component->addprocessfunc()');
-                        return;
-                }
+        if ( $sortorder < 0 || $sortorder > 9 ) {
+                trigger_error('$sortorder must be between 0 and 9 in component->addprocessfunc()');
+                return;
+        }
 		if ( !function_exists($function) ) {
 			trigger_error("$function does not exist");
 			return;
@@ -102,6 +119,15 @@ class component {
 		}
 		
 		$this->_sorted_jsfuncs = true;	
+	}
+
+	function sortguifuncs() {
+		// sort process functions
+		if ( is_array($this->_guifuncs) ) {
+			ksort($this->_guifuncs);
+		}
+
+		$this->_sorted_guifuncs = true;
 	}
 
 	function sortprocessfuncs() {
@@ -236,6 +262,19 @@ class component {
 		if ( is_array($this->_processfuncs) ) {
 			foreach ( array_keys($this->_processfuncs) as $sortorder ) {
 				foreach ( $this->_processfuncs[$sortorder] as $func ) {
+					$func($this->_compname);
+				}
+			}
+		}
+	}
+	
+	function buildconfigpage() {
+		if ( !$this->_sorted_guifuncs )
+			$this->sortguifuncs();
+
+		if ( is_array($this->_guifuncs) ) {
+			foreach ( array_keys($this->_guifuncs) as $sortorder ) {
+				foreach ( $this->_guifuncs[$sortorder] as $func ) {
 					$func($this->_compname);
 				}
 			}

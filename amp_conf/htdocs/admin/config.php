@@ -147,10 +147,17 @@ if ( ($display != '') && !isset($amp_sections[$display]) ) {
 // load the component from the loaded modules
 if ( $display != '' && is_array($configpageinits) ) {
 	$currentcomponent = new component($display);
-	// call every modules _configpageinit function
+
+	// call every modules _configpageinit function which should just
+	// register the gui and process functions for each module, if relevent
+	// for this $display
 	foreach ($configpageinits as $func) {
 		$func($display);
 	}
+	
+	// now run each 'process' function and 'gui' function
+	$currentcomponent->processconfigpage();
+	$currentcomponent->buildconfigpage();
 }
 
 // show the approiate page
@@ -205,7 +212,6 @@ switch($display) {
 
 				// global component
 				if ( isset($currentcomponent) ) {
-					$currentcomponent->processconfigpage();
 					echo $currentcomponent->generateconfigpage();
 				}
 
