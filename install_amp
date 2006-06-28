@@ -756,7 +756,7 @@ write_amportal_conf(AMP_CONF, $amp_conf);
 outn("Checking for ".ASTERISK_CONF."..");
 if (!file_exists(ASTERISK_CONF)) {
 	out(ASTERISK_CONF." does not exist, copying default");
-	copy("asterisk.conf", AMP_CONF);
+	copy("asterisk.conf", ASTERISK_CONF);
 }
 out("OK");
 
