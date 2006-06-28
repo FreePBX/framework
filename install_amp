@@ -322,38 +322,53 @@ function run_included($file) {
 	include($file);
 }
 
+
+function install_sqlupdate( $file )
+{
+	global $db;
+	global $dryrun;
+
+	out("-> Running SQL script ".UPGRADE_DIR."/".$version."/".$file);
+	// run sql script
+	$fd = fopen(UPGRADE_DIR."/".$version."/".$file, "r");
+	$data = "";
+	while (!feof($fd)) {
+		$data .= fread($fd, 1024);
+	}
+	fclose($fd);
+
+	preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER).*);\s*\n/Us", $data, $matches);
+	
+	foreach ($matches[1] as $sql) {
+		debug($sql);
+		if (!$dryrun) {
+			$result = $db->query($sql); 
+			if(DB::IsError($result)) {     
+				fatal($result->getDebugInfo()."\" while running ".$file."\n"); 
+			}
+		}
+	}
+}
+
 /** Install a particular version
  */
 function install_upgrade($version) {
 	global $db;
 	global $dryrun;
+	global $amp_conf;
+	
+	$db_engine = $amp_conf["AMPDBENGINE"];
 	
 	if (is_dir(UPGRADE_DIR."/".$version)) {
 		// sql scripts first
 		$dir = opendir(UPGRADE_DIR."/".$version);
 		while ($file = readdir($dir)) {
 			if (($file[0] != ".") && is_file(UPGRADE_DIR."/".$version."/".$file)) {
-				if (strtolower(substr($file,-4)) == ".sql") {
-					out("-> Running SQL script ".UPGRADE_DIR."/".$version."/".$file);
-					// run sql script
-					$fd = fopen(UPGRADE_DIR."/".$version."/".$file, "r");
-					$data = "";
-					while (!feof($fd)) {
-						$data .= fread($fd, 1024);
-					}
-					fclose($fd);
-
-					preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER).*);\s*\n/Us", $data, $matches);
-					
-					foreach ($matches[1] as $sql) {
-						debug($sql);
-						if (!$dryrun) {
-							$result = $db->query($sql); 
-							if(DB::IsError($result)) {     
-								fatal($result->getDebugInfo()."\" while running ".$file."\n"); 
-							}
-						}
-					}
+				if ( (strtolower(substr($file,-4)) == ".sqlite") && ($db_engine == "sqlite") ) {
+					install_sqlupdate( $file );
+				}
+				elseif ((strtolower(substr($file,-4)) == ".sql") && ( ($db_engine  == "mysql")  ||  ($db_engine  == "pgsql")) ) {
+					install_sqlupdate( $file );
 				}
 			}
 		}
