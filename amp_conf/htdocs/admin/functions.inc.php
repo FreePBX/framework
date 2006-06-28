@@ -919,23 +919,49 @@ class moduleHook {
 	}
 }
 
+function execSQL( $file )
+{
+	global $db;
+	
+	// run sql script
+	$fd = fopen( $file ,"r" );
+	
+	while (!feof($fd)) { 
+		$data .= fread($fd, 1024); 
+	}
+	fclose($fd);
+	
+	preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*);\s*\n/Us", $data, $matches);
+	foreach ($matches[1] as $sql) {
+		$result = $db->query($sql);
+		if(DB::IsError($result)) { return false; }
+	}
+}
+
 // Dragged this in from page.modules.php, so it can be used by install_amp. 
 function runModuleSQL($moddir,$type){
-	global $db;
 	global $amp_conf;
+	$db_engine = $amp_conf["AMPDBENGINE"];
+
 	$data='';
+	
 	// if there is an sql file, run it
-	if (is_file($amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sql")) {
-		// run sql script
-		$fd = fopen($amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sql","r");
-		while (!feof($fd)) { $data .= fread($fd, 1024); }
-		fclose($fd);
-		preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP).*);\s*\n/Us", $data, $matches);
-		foreach ($matches[1] as $sql) {
-			$result = $db->query($sql);
-			if(DB::IsError($result)) { return false; }
+	// don't forget about our 2 sql syntaxes
+	if (($db_engine  == "mysql") || ($db_engine == "pgsql")) {
+		if (is_file($amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sql")) {
+			execSQL( $amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sql" );
 		}
 	}
+	elseif ($db_engine  == "sqlite")
+		if (is_file($amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sqlite")) {
+			execSQL( $amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sqlite" );
+		}
+	}
+	else{
+		// what to do here? 
+		// in general this should fail in earliers stages...
+	}
+	
 	// if there is a php file, run it
 	if (is_file($amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.php")) {
 		include($amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.php");
