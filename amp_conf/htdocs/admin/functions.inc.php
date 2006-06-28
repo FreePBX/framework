@@ -923,6 +923,7 @@ class moduleHook {
 function execSQL( $file )
 {
 	global $db;
+	$data = null;
 	
 	// run sql script
 	$fd = fopen( $file ,"r" );
