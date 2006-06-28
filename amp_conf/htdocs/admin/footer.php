@@ -24,13 +24,6 @@ if (isset($_REQUEST['clk_reload'])) {
 	
 	if (isset($amp_conf["POST_RELOAD"]))
 	{
-		echo "
-			<style>
-				.clsWait        { position: absolute; top:75px; left: 15%; width: 70%; text-align:center; border: red solid 1px; background:#f0d0d0; display: block; font-weight: bold }
-				.clsWaitFinishOK{ position: absolute; top:75px; left: 15%; width: 70%; text-align:center; border: blue solid 1px; background:#d0d0f0; display: block; }
-				.clsHidden      { display: none }
-			</style>
-		";
 		echo "<div id='idWaitBanner' class='clsWait'> Please wait while applyig configuration</div>";
 		
 		if (!isset($amp_conf["POST_RELOAD_DEBUG"]) || 
