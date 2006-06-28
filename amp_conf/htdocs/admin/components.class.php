@@ -431,6 +431,33 @@ class gui_selectbox extends guiinput {
 	}
 }
 
+class gui_radio extends guiinput {
+	function gui_radio($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '') {
+		if (!is_array($valarray)) {
+			trigger_error('$valarray must be a valid array in gui_radio');
+			return;
+		}
+
+		$parent_class = get_parent_class($this);
+		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext);
+
+		$this->html_input = $this->buildradiobuttons($valarray, $currentvalue);
+	}
+	
+	function buildradiobuttons($valarray, $currentvalue) {
+		$output = '';
+		
+		foreach ($valarray as $item) {
+			$itemvalue = (isset($item['value']) ? $item['value'] : '');
+			$itemtext = (isset($item['text']) ? _($item['text']) : '');
+			$itemchecked = ($currentvalue == $itemvalue) ? ' checked=checked' : '';
+			
+			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname\" value=\"$this->_elemname=$itemvalue\"$itemchecked/>$itemtext&nbsp;&nbsp;&nbsp;&nbsp;\n";
+		}
+		return $output;
+	}
+}
+
 /*
 ************************************************************
 ** guitext is the base class of all text fields (e.g. h1) **
@@ -519,7 +546,7 @@ class gui_subheading extends guitext {
 
 // URL / Link
 class gui_link extends guitext {
-	function gui_link($elemname, $text, $url, $incptag = false) {
+	function gui_link($elemname, $text, $url, $uselang = true) {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
