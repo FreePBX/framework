@@ -80,6 +80,11 @@ if(is_array($active_modules)){
 					}
 				}
 			}
+			//check for module level (rather than item as above) _configpageinit function
+			$initfuncname = $key . '_configpageinit';
+			if ( function_exists($initfuncname) ) {
+				$configpageinits[] = $initfuncname;
+			}
 		}
 		//sort it? probably not right but was getting in a mess to be honest
 		//so something better than nothing
@@ -142,7 +147,6 @@ if ( ($display != '') && !isset($amp_sections[$display]) ) {
 // load the component from the loaded modules
 if ( $display != '' && is_array($configpageinits) ) {
 	$currentcomponent = new component($display);
-	
 	// call every modules _configpageinit function
 	foreach ($configpageinits as $func) {
 		$func($display);
