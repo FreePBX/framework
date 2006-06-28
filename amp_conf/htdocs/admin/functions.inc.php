@@ -12,6 +12,7 @@
 //GNU General Public License for more details.
 
 require_once('featurecodes.class.php');
+require_once('components.class.php');
 
 function parse_amportal_conf($filename) {
 	$file = file($filename);

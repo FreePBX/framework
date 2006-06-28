@@ -72,6 +72,12 @@ if(is_array($active_modules)){
 			if (is_array($module['items'])) {
 				foreach($module['items'] as $itemKey => $itemName) {
 					$amp_sections[$itemKey] = $itemName;
+					
+					//list of potential _configpageinit functions
+					$initfuncname = $key . '_' . $itemKey . '_configpageinit';
+					if ( function_exists($initfuncname) ) {
+						$configpageinits[] = $initfuncname;
+					}
 				}
 			}
 		}
@@ -133,6 +139,15 @@ if ( ($display != '') && !isset($amp_sections[$display]) ) {
 	$display = "noaccess";
 }
 
+// load the component from the loaded modules
+if ( $display != '' && is_array($configpageinits) ) {
+	$currentcomponent = new component($display);
+	
+	// call every modules _configpageinit function
+	foreach ($configpageinits as $func) {
+		$func($display);
+	}
+}
 
 // show the approiate page
 switch($display) {
@@ -183,7 +198,13 @@ switch($display) {
 				
 				// include the module page
 				include "modules/{$modkey}/page.{$item}.php";
-				
+
+				// global component
+				if ( isset($currentcomponent) ) {
+					$currentcomponent->processconfigpage();
+					echo $currentcomponent->generateconfigpage();
+				}
+
 				// let hooking modules process the $_REQUEST
 				$module_hook->process_hooks($itemid,$modkey,$item,$_REQUEST);
 			}
