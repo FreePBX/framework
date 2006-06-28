@@ -138,47 +138,54 @@ if ( ($display != '') && !isset($amp_sections[$display]) ) {
 switch($display) {
 	default:
 		//display the appropriate module page
-		if (is_array($active_modules)) {
-			foreach ($active_modules as $modkey => $module) {
-				if (is_array($module['items'])){
-					foreach (array_keys($module['items']) as $item){
-						if ($display == $item)  {
-							// modules can use their own translation files
-							if (extension_loaded('gettext')) {
-								if(is_dir("./modules/{$modkey}/i18n")) {
-									bindtextdomain($modkey,"./modules/{$modkey}/i18n");
-									textdomain($modkey);
-								}
-							}
-							//TODO Determine which item is this module displaying. Currently this is over the place, we should standarize on a "itemid" request var for now, we'll just cover all possibilities :-(
-							$possibilites = array(
-								'userdisplay',
-								'extdisplay',
-								'id',
-								'itemid',
-								'category',
-								'selection'
-							);
-							$itemid = '';
-							foreach($possibilites as $possibility) {
-								if ( isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) 
-									$itemid = $_REQUEST[$possibility];
-							}
-
-							// create a module_hook object for this module's page
-							$module_hook = new moduleHook;
-							// populate object variables
-							$module_hook->install_hooks($itemid,$modkey,$item);
-							
-							// include the module page
-							include "modules/{$modkey}/page.{$item}.php";
-							
-							// let hooking modules process the $_REQUEST
-							$module_hook->process_hooks($itemid,$modkey,$item,$_REQUEST);
-
-						}
+		if (!is_array($active_modules)) {
+			break;
+		}
+		
+		foreach ($active_modules as $modkey => $module) {
+			if (!is_array($module['items'])){
+				continue;
+			}
+			
+			foreach (array_keys($module['items']) as $item){
+				if ($display != $item)  {
+					continue;
+				}
+				
+				// modules can use their own translation files
+				if (extension_loaded('gettext')) {
+					if(is_dir("./modules/{$modkey}/i18n")) {
+						bindtextdomain($modkey,"./modules/{$modkey}/i18n");
+						textdomain($modkey);
 					}
 				}
+				
+				//TODO Determine which item is this module displaying. Currently this is over the place, we should standarize on a "itemid" request var for now, we'll just cover all possibilities :-(
+				$possibilites = array(
+					'userdisplay',
+					'extdisplay',
+					'id',
+					'itemid',
+					'category',
+					'selection'
+				);
+				$itemid = '';
+				foreach($possibilites as $possibility) {
+					if ( isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) 
+						$itemid = $_REQUEST[$possibility];
+				}
+
+				// create a module_hook object for this module's page
+				$module_hook = new moduleHook;
+				
+				// populate object variables
+				$module_hook->install_hooks($itemid,$modkey,$item);
+				
+				// include the module page
+				include "modules/{$modkey}/page.{$item}.php";
+				
+				// let hooking modules process the $_REQUEST
+				$module_hook->process_hooks($itemid,$modkey,$item,$_REQUEST);
 			}
 		}
 	break;
