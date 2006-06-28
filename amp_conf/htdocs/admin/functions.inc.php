@@ -158,64 +158,6 @@ function checkDept($dept){
 ** array['module']['items'][array(items)]
 ** Use find_modules() to return only specific type or status
 */
-
-/*
-function find_allmodules() {
-	global $db;
-	global $amp_conf;
-
-	$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
-	//loop through each module directory, ensure there is a module.ini file
-	while ($file = readdir($dir)) {
-		if (($file != ".") && ($file != "..") && ($file != "CVS") && ($file != ".svn") && is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file) && is_file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.ini')) {
-			//open module.ini and read contents
-			$inifile = file($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file.'/module.ini');
-			foreach ($inifile as $line) {
-				// parse the module display name and version from module.ini
-				if (preg_match("/^\s*([a-zA-Z0-9]+)=([a-zA-Z0-9 .&-@=_<>\"\']+)\s*$/",$line,$matches)) { 
-					if (trim($matches[1]) == "name")
-						$mod[ $file ]['displayName'] = $matches[2];
-					else if (trim($matches[1]) == "version")
-						$mod[ $file ]['version'] = $matches[2];
-					else if (trim($matches[1]) == "type")
-						$mod[ $file ]['type'] = $matches[2];
-					else if (trim($matches[1]) == "category")
-						$mod[ $file ]['category'] = $matches[2];
-					else 
-						$mod[ $file ]['items'][ $matches[1] ] = $matches[2];
-				}
-				// determine details about this module from database
-				// modulename should match the directory name
-				$sql = "SELECT * FROM modules WHERE modulename = '".$file."'";
-				$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
-				if(DB::IsError($results)) {
-					die($results->getMessage());
-				}
-				//set status key based on results (0=not installed, 1=disabled, 2=enabled)
-				if ($results) {
-					if ($results['enabled'] != 0)
-						$mod[ $file ]["status"] = 2;
-					else
-						$mod[ $file ]["status"] = 1;
-				} else {
-					$mod[ $file ]["status"] = 0;
-				}
-			}
-		}
-	}
-	return $mod;
-} */
-
-
-/* look for all modules in modules dir.
-** returns array:
-** array['module']['displayName']
-** array['module']['version']
-** array['module']['type']
-** array['module']['status']
-** array['module']['items'][array(items)]
-** Use find_modules() to return only specific type or status
-*/
 function find_allmodules() {
 	global $db;
 	global $amp_conf;
@@ -386,48 +328,43 @@ function drawListMenu($results, $skip, $dispnum, $extdisplay, $description) {
  	echo "<li><a id=\"".($extdisplay=='' ? 'current':'')."\" href=\"config.php?display=".$dispnum."\">"._("Add")." ".$description."</a></li>";
 
 	if (isset($results)) {
-	 
-			foreach ($results AS $key=>$result) {
-				if ($index >= $perpage) {
-					$shownext= 1;
-					break;
-					}
-				if ($skipped<$skip && $skip!= 0) {
-					$skipped= $skipped + 1;
-					continue;
-					}
-				$index= $index + 1;
-	 
-				echo "<li><a id=\"".($extdisplay==$result[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$result[0]}&skip={$skip}\">{$result[1]} <{$result[0]}></a></li>";
-	 
-	 }
+		foreach ($results AS $key=>$result) {
+			if ($index >= $perpage) {
+				$shownext= 1;
+				break;
+			}
+			
+			if ($skipped<$skip && $skip!= 0) {
+				$skipped= $skipped + 1;
+				continue;
+			}
+			
+			$index= $index + 1;	
+			echo "<li><a id=\"".($extdisplay==$result[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$result[0]}&skip={$skip}\">{$result[1]} <{$result[0]}></a></li>";
+		}
 	}
 	 
-	 if ($index >= $perpage) {
+	if ($index >= $perpage) {
+		 print "<li><center>";
+	}
 	 
-	 print "<li><center>";
-	 
-	 }
-	 
-	 if ($skip) {
-	 
+	if ($skip) {
 		 $prevskip= $skip - $perpage;
 		 if ($prevskip<0) $prevskip= 0;
 		 $prevtag_pre= "<a href='?display=".$dispnum."&skip=$prevskip'>[PREVIOUS]</a>";
 		 print "$prevtag_pre";
-		 }
-		 if (isset($shownext)) {
-	 
-			 $nextskip= $skip + $index;
-			 if ($prevtag_pre) $prevtag .= " | ";
-			 print "$prevtag <a href='?display=".$dispnum."&skip=$nextskip'>[NEXT]</a>";
-			 }
-		 elseif ($skip) {
-			 print "$prevtag";
-	  }
+	}
+	
+	if (isset($shownext)) {
+		$nextskip= $skip + $index;
+		if ($prevtag_pre) $prevtag .= " | ";
+		print "$prevtag <a href='?display=".$dispnum."&skip=$nextskip'>[NEXT]</a>";
+	}
+	elseif ($skip) {
+		print "$prevtag";
+	}
 	 
 	 print "</center></li>";
-	
 }
 
 // this function simply makes a connection to the asterisk manager, and should be called by modules that require it (ie: dbput/dbget)
@@ -951,21 +888,21 @@ class moduleHook {
 	
 	function install_hooks($viewing_itemid,$target_module,$target_menuid = '') {
 		global $active_modules;
-        // loop through all active modules
-        foreach($active_modules as $this_module) {
-			// look for requested hooks for $module
-			// ie: findme_hook_extensions()
-			$funct = $this_module['rawname'] . '_hook_' . $target_module;
-			if( function_exists( $funct ) ) {
-				// execute the function, appending the 
-				// html output to that of other hooking modules
-				if ($hookReturn = $funct($viewing_itemid,$target_menuid))
-					$this->hookHtml .= $hookReturn;
-				// remember who installed hooks
-				// we need to know this for processing form vars
-				$this->arrHooks[] = $this_module['rawname'];
-			}
-        }
+		// loop through all active modules
+		foreach($active_modules as $this_module) {
+				// look for requested hooks for $module
+				// ie: findme_hook_extensions()
+				$funct = $this_module['rawname'] . '_hook_' . $target_module;
+				if( function_exists( $funct ) ) {
+					// execute the function, appending the 
+					// html output to that of other hooking modules
+					if ($hookReturn = $funct($viewing_itemid,$target_menuid))
+						$this->hookHtml .= $hookReturn;
+					// remember who installed hooks
+					// we need to know this for processing form vars
+					$this->arrHooks[] = $this_module['rawname'];
+				}
+		}
 	}
 	
 	// process the request from the module we hooked
@@ -1005,8 +942,6 @@ function runModuleSQL($moddir,$type){
 	}
 	return true;
 }
-
-
 
 /*
 // just for testing hooks, i'll delete it later
