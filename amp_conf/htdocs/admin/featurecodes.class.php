@@ -60,6 +60,13 @@ class featurecode
 
 		$s = "REPLACE INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled) ";
 		$s .= "VALUES (".sql_formattext($this->_modulename).", ".sql_formattext($this->_featurename).", ".sql_formattext($this->_description).", ".sql_formattext($this->_defaultcode).", ".sql_formattext($this->_customcode).", ".sql_formattext($this->_enabled).") ";
+		
+		// replace into is MYSQL only.
+		// pgsql should be checkedd. sqlite does not like this.
+		if ($amp_conf["AMPDBENGINE"] == "sqlite") {
+			$s = str_replace( "REPLACE", "INSERT", $s );
+		}
+
 		sql($s, "query");
 		
 		return true;
