@@ -16,6 +16,8 @@ class component {
 	var $_sorted_jsfuncs;
 	var $_sorted_guifuncs;
 	var $_sorted_processfuncs;
+	
+	var $_lists; // Array of lists
 
 	function component($compname) {
 		$this->_compname = $compname;
@@ -88,6 +90,52 @@ class component {
 		$this->_sorted_processfuncs = false;
 	}
 
+	function addoptlist($listname, $sort = true) {
+		if ( (isset($listname) ? $listname : '') == '') {
+			trigger_error('missing $listname in component->addoptlist()');
+			return;
+		}
+		
+		// does this list need sorting ?
+		$this->_lists[$listname]['sort'] = $sort;
+		// nothing really, but an array will be here after addlistitem
+		$this->_lists[$listname]['array'] = array();
+	}
+	
+	function setoptlistopts($listname, $opt, $val) {
+		$this->_lists[$listname][$opt] = $val;
+	}
+	
+	function addoptlistitem($listname, $value, $text, $uselang = true) {
+		// must add the list before using it
+		if ( !isset($this->_lists[$listname]) ) {
+			$this->addoptlist($listname);
+		}
+
+		// use i4l ?????
+		$text = ($uselang) ? _($text) : $text;
+		
+		// add the item
+		$this->_lists[$listname]['array'][] = array('text' => $text, 'value' => $value);
+	}
+	
+	function getoptlist($listname) {
+		if ( isset($this->_lists[$listname]['array']) ) {
+			$thisarray = $this->_lists[$listname]['array'];
+
+			// sort the array by text
+			if ( $this->_lists[$listname]['sort'] ) {
+				ksort($thisarray);
+			}
+
+			// and return it!
+			return $thisarray;
+		} else {
+			trigger_error("'$listname' does not exist in component->getoptlist()");
+			return null;
+		}
+	}
+	
 	function sortguielems() {
 		// sort top gui elements
 		if ( is_array($this->_guielems_top) )
