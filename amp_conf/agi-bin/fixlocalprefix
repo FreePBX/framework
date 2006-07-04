@@ -152,7 +152,7 @@ if (isset($conf["trunk-$trunk"])) {
 
 			// Remove all non-pattern characters from $regex except for '+' and '|'.
 			// Allow groups like "[0-9]" to remain.
-			$regex = preg_replace("/[^0-9XNZ#*\.\[\]\-\+\|]/", "", $regex);
+			$regex = preg_replace("/[^0-9XNZwW#*\.\[\]\-\+\|]/", "", $regex);
 			
 			// Also kill the '-' characters outside of groups
 			$regex = preg_replace("/((?:\[[^\]]*\])*)([^\[\]\-]*)-?/", "$1$2", $regex);
