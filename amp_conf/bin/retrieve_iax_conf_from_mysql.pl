@@ -14,11 +14,11 @@ require "retrieve_parse_amportal_conf.pl";
 
 ################### BEGIN OF CONFIGURATION ####################
 
-# the name of the extensions table
+# the name of the iax table
 $table_name = "iax";
-# the path to the extensions.conf file
-# WARNING: this file will be substituted by the output of this program
+# the path to the varous IAX conf files
 $iax_conf = "/etc/asterisk/iax_additional.conf";
+$iax_reg = "/etc/asterisk/iax_registrations.conf";
 
 # cool hack by Julien BLACHE <jblache@debian.org>
 $ampconf = parse_amportal_conf( "/etc/amportal.conf" );
@@ -56,6 +56,9 @@ elsif ( $db_engine eq "sqlite" ) {
 	$dbh = DBI->connect("dbi:SQLite2:dbname=$db_file","","");
 }
 
+# Load the 'register' lines into iax_registrations.conf
+
+
 # items with id=-1 get added for all users
 $statement = "SELECT keyword,data from $table_name where id=-1 and keyword <> 'account' and flags <> 1";
 my $result = $dbh->selectall_arrayref($statement);
@@ -67,7 +70,8 @@ unless ($result) {
   exit;
 }
 
-open EXTEN, ">$iax_conf" or die "Cannot create/overwrite extensions file: $iax_conf\n";
+open EXTEN, ">$iax_conf" or die "Cannot create/overwrite IAX file: $iax_conf\n";
+open REG, ">$iax_reg" or die "Cannot create/overwrite IAX Registration file: $iax_reg\n";
 $additional = "";
 my @resultSet = @{$result};
 if ( $#resultSet > -1 ) {
@@ -77,7 +81,7 @@ if ( $#resultSet > -1 ) {
 	}
 }
 
-# items with id like 9999999% get put at the top of the file
+# items with id like 9999999% get put at the top of the file - these are only registration strings, currently.
 $statement = "SELECT keyword,data from $table_name where id LIKE '9999999%' and keyword <> 'account' and flags <> 1";
 $result = $dbh->selectall_arrayref($statement);
 unless ($result) {
@@ -93,7 +97,7 @@ if ( $#resultSet > -1 ) {
 		my @result = @{ $row };
 		$top .= $result[0]."=".$result[1]."\n";
 	}
-	print EXTEN "$top\n";
+	print REG "$top\n";
 }
 
 
@@ -144,5 +148,7 @@ foreach my $row ( @{ $result } ) {
 	print EXTEN "$additional\n";
 }
 
+close EXTEN;
+close REG;
 exit 0;
 
