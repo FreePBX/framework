@@ -703,7 +703,7 @@ outn("Checking for ".AMP_CONF."..");
 if (!file_exists(AMP_CONF)) {
 	out(AMP_CONF." does not exist, copying default");
 	copy("amportal.conf", AMP_CONF);
-	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password, $dbname);
+	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password, 'asterisk');
 }
 out("OK");
 
