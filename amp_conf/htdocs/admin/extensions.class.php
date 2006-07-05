@@ -294,6 +294,48 @@ class extension {
 	}
 }
 
+class ext_gosub extends extension {
+	var $pri;
+	var $ext;
+	var $context;
+	
+	function ext_gosub($pri, $ext = false, $context = false) {
+		if ($context !== false && $ext === false) {
+			trigger_error(E_ERROR, "\$ext is required when passing \$context in ext_gosub::ext_gosub()");
+		}
+		
+		$this->pri = $pri;
+		$this->ext = $ext;
+		$this->context = $context;
+	}
+	
+	function incrementContents($value) {
+		$this->pri += $value;
+	}
+	
+	function output() {
+		return 'Gosub('.($this->context ? $this->context.',' : '').($this->ext ? $this->ext.',' : '').$this->pri.')' ;
+	}
+}
+
+class ext_gosubif extends extension {
+	var $true_priority;
+	var $false_priority;
+	var $condition;
+	function ext_gosubif($condition, $true_priority, $false_priority = false) {
+		$this->true_priority = $true_priority;
+		$this->false_priority = $false_priority;
+		$this->condition = $condition;
+	}
+	function output() {
+		return 'GosubIf(' .$this->condition. '?' .$this->true_priority.($this->false_priority ? ':' .$this->false_priority : '' ). ')' ;
+	}
+	function incrementContents($value) {
+		$this->true_priority += $value;
+		$this->false_priority += $value;
+	}
+}
+
 class ext_goto extends extension {
 	var $pri;
 	var $ext;
@@ -609,6 +651,123 @@ class ext_festival extends extension {
 class ext_pickup extends extension {
 	function output() {
 		return "Pickup(".$this->data.")";
+	}
+}
+class ext_lookupcidname extends extension {
+	function output() {
+		return "LookupCIDName";
+	}
+}
+
+class ext_txtcidname extends extension {
+	var $cidnum;
+	
+	function ext_txtcidname($cidnum) {
+		$this->cidnum = $cidnum;
+	}
+	
+	function output() {
+		return "TXTCIDName(".$this->cidnum.")";
+	}
+}
+
+class ext_mysql_connect extends extension {
+	var $connid;
+	var $dbhost;
+	var $dbuser;
+	var $dbpass;
+	var $dbname;
+	
+	function ext_mysql_connect($connid, $dbhost, $dbuser, $dbpass, $dbname) {
+		$this->connid = $connid;
+		$this->dbhost = $dbhost;
+		$this->dbuser = $dbuser;
+		$this->dbpass = $dbpass;
+		$this->dbname = $dbname;
+	}
+	
+	function output() {
+		return "MYSQL(Connect ".$this->connid." ".$this->dbhost." ".$this->dbuser." ".$this->dbpass." ".$this->dbname.")";
+	}
+}
+
+class ext_mysql_query extends extension {
+	var $resultid;
+	var $connid;
+	var $query;
+	
+	function ext_mysql_query($resultid, $connid, $query) {
+		$this->resultid = $resultid;
+		$this->connid = $connid;
+		$this->query = $query;
+		// Not escaping mysql query here, you may want to insert asterisk variables in it
+	}
+	
+	function output() {
+		return 'MYSQL(Query '.$this->resultid.' ${'.$this->connid.'} '.$this->query.')';
+	}
+}
+
+class ext_mysql_fetch extends extension {
+	var $fetchid;
+	var $resultid;
+	var $fars;
+	
+	function ext_mysql_fetch($fetchid, $resultid, $vars) {
+		$this->fetchid = $fetchid;
+		$this->resultid = $resultid;
+		$this->vars = $vars;
+	}
+	
+	function output() {
+		return 'MYSQL(Fetch '.$this->fetchid.' ${'.$this->resultid.'} '.$this->vars.')';
+	}
+}
+
+class ext_mysql_clear extends extension {
+	var $resultid;
+	
+	function ext_mysql_clear($resultid) {
+		$this->resultid = $resultid;
+	}
+	
+	function output() {
+		return 'MYSQL(Clear ${'.$this->resultid.'})';
+	}
+}
+
+class ext_mysql_disconnect extends extension {
+	var $connid;
+	
+	function ext_mysql_disconnect($connid) {
+		$this->connid = $connid;
+	}
+	
+	function output() {
+		return 'MYSQL(Disconnect ${'.$this->connid.'})';
+	}
+}
+
+
+class ext_return extends extension {
+	function output() {
+		return "Return()";
+	}
+}
+
+class ext_db_put extends extension {
+	var $family;
+	var $key;
+	var $value;
+	
+	function ext_db_put($family, $key, $value) {
+		$this->family = $family;
+		$this->key = $key;
+		$this->value = $value;
+	}
+	
+	function output() {
+		return 'Set(DB('.$this->family.'/'.$this->key.')='.$this->value.')';
 	}
 }
 /* example usage
