@@ -26,9 +26,12 @@ function parse_amportal_conf($filename) {
 		die("<h1>Missing or unreadable config file ($filename)...cannot continue</h1>");
 	}
 	
-	if ( !isset($conf["AMPDBENGINE"]) || ($conf["AMPDBENGINE"] == ""))
-	{
+	if ( !isset($conf["AMPDBENGINE"]) || ($conf["AMPDBENGINE"] == "")) {
 		$conf["AMPDBENGINE"] = "mysql";
+	}
+	
+	if ( !isset($conf["AMPDBNAME"]) || ($conf["AMPDBNAME"] == "")) {
+		$conf["AMPDBNAME"] = "asterisk";
 	}
 
 /*			
