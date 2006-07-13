@@ -281,7 +281,7 @@ class extensions {
 class extension { 
 	var $data;
 	
-	function extension($data) {
+	function extension($data = '') {
 		$this->data = $data;
 	}
 	
