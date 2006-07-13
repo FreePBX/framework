@@ -241,6 +241,7 @@ $ext = new extensions;
 // currently only 1 class can be declared per module, not sure if that will be an issue
 if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $active_module) { 
+		debug("Creating ".$active_module."_conf class");
 		$classname = $active_module."_conf";
 		if(class_exists($classname)) {
 			${$classname} = new $classname;
@@ -255,6 +256,7 @@ if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $module) {
 		$funcname = $module."_get_config";
 		if (function_exists($funcname)) { 
+			debug('Calling '.$funcname.'()');
 			$funcname($engine);
 		}
 	}
@@ -266,6 +268,7 @@ if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $module) {
 		$funcname = $module."_hookGet_config";
 		if (function_exists($funcname)) { 
+			debug('Calling '.$funcname.'()');
 			$funcname($engine);
 		}
 	}
@@ -303,6 +306,7 @@ if(isset($active_modules) && is_array($active_modules)){
 
 function write_file($filename,$contents) {
 	global $asterisk_conf;
+	debug('Writing '.$filename);
 	if (isset($filename) && !empty($filename)) {
 		if ($fd = fopen($asterisk_conf['astetcdir'].'/'.$filename, "w")) {
 			fwrite($fd, $contents);
