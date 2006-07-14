@@ -420,10 +420,11 @@ function run_upgrade($versions) {
 function generate_configs() {
 	global $amp_conf;
 	global $dryrun;
+	global $debug;
 	
 	out("Generating Configurations.conf..");
 	if (!$dryrun)
-		passthru("su - asterisk -c ".trim($amp_conf["AMPBIN"])."/retrieve_conf");
+		passthru("su - asterisk -c ".trim($amp_conf["AMPBIN"])."/retrieve_conf ".($debug ? ' --debug' : ''));
 }
 
 
