@@ -755,6 +755,12 @@ class ext_return extends extension {
 	}
 }
 
+class ext_ringing extends extension {
+	function output() {
+		return "Ringing()";
+	}
+}
+
 class ext_db_put extends extension {
 	var $family;
 	var $key;
