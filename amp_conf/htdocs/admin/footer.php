@@ -58,7 +58,7 @@ if (isset($_REQUEST['clk_reload'])) {
 	
 	//run retrieve script
 	$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf';
-	exec($retrieve.'>/dev/null');
+	exec($retrieve.'&>'.$amp_conf['ASTLOGDIR'].'/freepbx.log');
 	
 	require_once('common/php-asmanager.php');
 	$astman = new AGI_AsteriskManager();
