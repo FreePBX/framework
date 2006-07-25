@@ -343,7 +343,7 @@ class ext_goto extends extension {
 	
 	function ext_goto($pri, $ext = false, $context = false) {
 		if ($context !== false && $ext === false) {
-			trigger_error(E_ERROR, "\$ext is required when passing \$context in ext_goto::ext_goto()");
+			trigger_error("\$ext is required when passing \$context in ext_goto::ext_goto()", E_ERROR);
 		}
 		
 		$this->pri = $pri;
