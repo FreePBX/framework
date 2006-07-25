@@ -776,6 +776,30 @@ class ext_db_put extends extension {
 		return 'Set(DB('.$this->family.'/'.$this->key.')='.$this->value.')';
 	}
 }
+
+class ext_zapateller extends extension {
+	function output() {
+		return "Zapateller(".$this->data.")";
+	}
+}
+
+class ext_musiconhold extends extension {
+	function output() {
+		return "MusicOnHold(".$this->data.")";
+	}
+}
+
+class ext_congestion extends extension {
+	function output() {
+		return "Congestion";
+	}
+}
+
+class ext_busy extends extension {
+	function output() {
+		return "Busy";
+	}
+}
 /* example usage
 $ext = new extensions;
 
