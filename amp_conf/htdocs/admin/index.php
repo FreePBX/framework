@@ -22,6 +22,7 @@ require_once('functions.inc.php');
 
 // get settings
 $amp_conf = parse_amportal_conf("/etc/amportal.conf");
+$asterisk_conf = parse_asterisk_conf("/etc/asterisk/asterisk.conf");
 
 // connect to database
 require_once('common/db_connect.php'); //PEAR must be installed

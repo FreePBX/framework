@@ -58,7 +58,7 @@ if (isset($_REQUEST['clk_reload'])) {
 	
 	//run retrieve script
 	$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf';
-	exec($retrieve.'&>'.$amp_conf['ASTLOGDIR'].'/freepbx.log');
+	exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log');
 	
 	require_once('common/php-asmanager.php');
 	$astman = new AGI_AsteriskManager();
@@ -73,8 +73,9 @@ if (isset($_REQUEST['clk_reload'])) {
 		$astman->disconnect();
 		
 		//bounce op_server.pl
+		// TODO, should this file be on the web root? whats wrong with /var/lib/asterisk/bin?
 		$wOpBounce = rtrim($_SERVER['SCRIPT_FILENAME'],$currentFile).'bounce_op.sh';
-		exec($wOpBounce.'>/dev/null');
+		exec($wOpBounce.'&>'.$asterisk_conf['astlogdir'].'/freepbx-bounce_op.log');
 		
 		//store asterisk reloaded status
 		$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'"; 
