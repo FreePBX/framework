@@ -809,5 +809,57 @@
         $this->log("No event handler for event '$e'");
       return $ret;
     }
-  }
+
+	/** Show all entries in the asterisk database
+	 * @return Array associative array of key=>value
+	 */
+	function database_show() {
+		$r = $this->command("database show");
+		
+		$data = explode("\n",$r["data"]);
+		$db = array();
+		
+		foreach ($data as $line) {
+			$temp = explode(":",$line);
+			$db[ trim($temp[0]) ] = trim($temp[1]);
+		}
+		return $db;
+	}
+	
+	/** Add an entry to the asterisk database
+	 * @param string $family	The family name to use
+	 * @param string $key		The key name to use
+	 * @param mixed $value		The value to add
+	 * @return bool True if successful
+	 */
+	function database_put($family, $key, $value) {
+		$r = $this->command("database put ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key)." ".$value);
+		return (bool)strstr($r["data"], "success");
+	}
+	
+	/** Get an entry from the asterisk database
+	 * @param string $family	The family name to use
+	 * @param string $key		The key name to use
+	 * @return mixed Value of the key, or false if error
+	 */
+	function database_get($family, $key) {
+		$r = $this->command("database get ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
+		if (substr($r["data"],0,6) == "Value:") {
+			return trim(substr($r["data"],6));
+		} else {
+			return false;
+		}
+	}
+	
+	/** Delete an entry from the asterisk database
+	 * @param string $family	The family name to use
+	 * @param string $key		The key name to use
+	 * @return bool True if successful
+	 */
+	function database_del($family, $key) {
+		$r = $this->command("database del ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
+		return (bool)strstr($r["data"], "removed");
+	}
+
+}
 ?>
