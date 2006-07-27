@@ -55,6 +55,12 @@ function parse_asterisk_conf2($filename) {
 	return $conf;
 }
 
+/** Adds a trailing slash to a directory, if it doesn't already have one
+ */
+function addslash($dir) {
+	return (($dir[ strlen($dir)-1 ] == '/') ? $dir : $dir.'/');
+}
+
 
 /********************************************************************************************************************/
 
@@ -155,6 +161,13 @@ if (isset($amp_conf["AMPDBENGINE"])){
 	$db_engine = $amp_conf["AMPDBENGINE"];
 }
 
+// **** Create symlinks array
+$symlink_dirs = array();
+$symlink_dirs['agi-bin'] = (isset($amp_conf['ASTAGIDIR']) ? $amp_conf['ASTAGIDIR'] : '/var/lib/asterisk/agi-bin');
+$symlink_dirs['sounds'] = (isset($amp_conf['ASTVARLIBDIR']) ? $amp_conf['ASTVARLIBDIR'] : '/var/lib/asterisk').'/sounds';
+$symlink_dirs['bin'] = (isset($amp_conf['AMPBIN']) ? $amp_conf['AMPBIN'] : '/var/lib/asterisk/bin');
+$symlink_dirs['etc'] = (isset($amp_conf['ASTETCDIR']) ? $amp_conf['ASTETCDIR'] : '/etc/asterisk');
+
 switch ($db_engine)
 {
 	case "pgsql":
@@ -227,8 +240,12 @@ if(is_array($modules)){
 			$active_modules[] = $key;
 			//include module functions
 			if (is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
+				debug('Including '.$amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
 				require_once($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
 			}
+
+			// create symlinks for files in appropriate sub directories
+			symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
 		}
 	}
 }
@@ -301,16 +318,45 @@ if(isset($active_modules) && is_array($active_modules)){
 				write_file(${$classname}->get_filename(),${$classname}->generateConf());
 			}
 		}
-}
+	}
 }
 
 function write_file($filename,$contents) {
 	global $asterisk_conf;
 	debug('Writing '.$filename);
 	if (isset($filename) && !empty($filename)) {
-		if ($fd = fopen($asterisk_conf['astetcdir'].'/'.$filename, "w")) {
+		if ($fd = fopen(addslash($asterisk_conf['astetcdir']).$filename, "w")) {
 			fwrite($fd, $contents);
 			fclose($fd);
+		}
+	}
+}
+
+function symlink_subdirs($moduledir) {
+	global $symlink_dirs;
+
+	foreach ($symlink_dirs as $subdir => $targetdir) {
+		$dir = addslash($moduledir).$subdir;
+		if (is_dir($dir)) {
+			$d = opendir($dir);
+			while ($file = readdir($d)) {
+				if ($file[0] != '.') {
+					if (file_exists(addslash($targetdir).$file)) {
+						if (readlink(addslash($targetdir).$file) != addslash($dir).$file) {
+							error(addslash($targetdir).$file.' already exists!');
+						} else {
+							debug(addslash($targetdir).$file.' already points to '.addslash($dir).$file.' - OK');
+						}
+					} else {	
+						if (symlink(addslash($dir).$file, addslash($targetdir).$file)) {
+							debug('Symlinked '.addslash($dir).$file.' to '.addslash($targetdir).$file);
+						} else {
+							error('Cannot symlink '.addslash($dir).$file.' to '.addslash($targetdir).$file);
+						}
+					}
+				}
+			}
+			closedir($d);
 		}
 	}
 }
