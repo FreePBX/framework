@@ -666,6 +666,9 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 }
 
 function saveVoicemail($vmconf) {
+	// just in case someone tries to be sneaky and not call getVoicemail() first..
+	if ($vmconf == null) die('Error: Trying to write null voicemail file! I refuse to contiune!');
+	
 	// yes, this is hardcoded.. is this a bad thing?
 	write_voicemailconf("/etc/asterisk/voicemail.conf", $vmconf, $section);
 }
