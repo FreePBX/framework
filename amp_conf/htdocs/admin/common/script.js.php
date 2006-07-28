@@ -179,12 +179,16 @@ function isEmail (s) {
     if ((i >= sLength) || (s.charAt(i) != "@")) return false;
     else i += 2;
 
-    // look for .
-    while ((i < sLength) && (s.charAt(i) != ".")) {
-		i++;
-    }
-	if ((i >= sLength - 1) || (s.charAt(i) != ".")) return false;
-    else return true;
+    // make sure there is something after the '@'
+    if (i > sLength) return false;
+
+//    // look for .
+//    while ((i < sLength) && (s.charAt(i) != ".")) {
+//		i++;
+//    }
+//	if ((i >= sLength - 1) || (s.charAt(i) != ".")) return false;
+//    else 
+        return true;
 }
 
 // ***************************************************
