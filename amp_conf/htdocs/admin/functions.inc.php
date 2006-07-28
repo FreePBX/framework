@@ -612,7 +612,7 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 			}
 		}
 		
-		if ($iteration == 0) {
+		if (($iteration == 0) && (is_array($vmconf))) {
 			// we need to add any new entries here, since it's the end of the file
 			//DEBUG echo "END OF FILE!! <blockquote><i>";
 			//DEBUG var_dump($vmconf);
