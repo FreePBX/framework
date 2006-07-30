@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
 `emergency_cid` VARCHAR( 100 ) NULL
 ) TYPE = MYISAM ;
 
-CREATE TABLE IF NOT EXISTS users (extension VARCHAR( 20 ) NOT NULL , password VARCHAR( 20 ) , name VARCHAR( 50 ) , voicemail VARCHAR( 50 ) , ringtimer INT(3) , noanswer VARCHAR( 100 ) , recording VARCHAR( 50 ) ,  outboundcid VARCHAR( 50 ) , directdid VARCHAR( 50 ) NULL, didalert VARCHAR ( 50 ) NULL );
+CREATE TABLE IF NOT EXISTS users (extension VARCHAR( 20 ) NOT NULL , password VARCHAR( 20 ) , name VARCHAR( 50 ) , voicemail VARCHAR( 50 ) , ringtimer INT(3) , noanswer VARCHAR( 100 ) , recording VARCHAR( 50 ) ,  outboundcid VARCHAR( 50 ) , directdid VARCHAR( 50 ) NULL, didalert VARCHAR ( 50 ) NULL,  faxexten VARCHAR( 20 ) , faxemail VARCHAR( 50 ) , answer TINYINT( 1 ) , wait INT( 2 ) , privacyman TINYINT( 1 ) );
 
 --
 -- Needs to be changed to their new structure, comment out for now

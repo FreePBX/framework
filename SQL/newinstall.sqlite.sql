@@ -176,7 +176,8 @@ CREATE TABLE queues (
 
 CREATE TABLE devices (id VARCHAR( 20 ) NOT NULL , tech VARCHAR( 10 ) NOT NULL , dial VARCHAR( 50 ) NOT NULL , devicetype VARCHAR( 5 ) NOT NULL , user VARCHAR( 50 ) , description VARCHAR( 50 ), emergency_cid VARCHAR( 100 ));
 
-CREATE TABLE users (extension VARCHAR( 20 ) NOT NULL , password VARCHAR( 20 ) , name VARCHAR( 50 ) , voicemail VARCHAR( 50 ) , ringtimer INT(3) , noanswer VARCHAR( 100 ) , recording VARCHAR( 50 ) ,  outboundcid VARCHAR( 50 ) , directdid VARCHAR( 50 ) NULL , didalert VARCHAR ( 50 ) NULL );
+CREATE TABLE IF NOT EXISTS users (extension VARCHAR( 20 ) NOT NULL , password VARCHAR( 20 ) , name VARCHAR( 50 ) , voicemail VARCHAR( 50 ) , ringtimer INT(3) , noanswer VARCHAR( 100 ) , recording VARCHAR( 50 ) ,  outboundcid VARCHAR( 50 ) , directdid VARCHAR( 50 ) NULL, didalert VARCHAR ( 50 ) NULL,  faxexten VARCHAR( 20 ) , faxemail VARCHAR( 50 ) , answer TINYINT( 1 ) , wait INT( 2 ) , privacyman TINYINT( 1 ) );
+
 
 --
 -- Need to incorporate their changes, comment out for now
