@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
+source /etc/amportal.conf
+
 while true; do
-./op_server.pl
+$FOPWEBROOT/op_server.pl
 sleep 4
 done
