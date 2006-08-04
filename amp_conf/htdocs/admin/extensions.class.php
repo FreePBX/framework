@@ -426,6 +426,7 @@ class ext_setvar {
 		return "Set(".$this->var."=".$this->value.")";
 	}
 }
+class ext_set extends ext_setvar {} // alias, SetVar was renamed to Set in ast 1.2
 
 class ext_wait extends extension {
 	function output() {
@@ -528,16 +529,20 @@ class ext_read {
 	var $filename;
 	var $maxdigits;
 	var $option;
+	var $attempts; // added in ast 1.2
+	var $timeout;  // added in ast 1.2
 	
-	function ext_read($astvar, $filename='', $maxdigits='', $option='') {
+	function ext_read($astvar, $filename='', $maxdigits='', $option='', $attempts ='', $timeout ='') {
 		$this->astvar = $astvar;
 		$this->filename = $filename;
 		$this->maxdigits = $maxdigits;
 		$this->option = $option;
+		$this->attempts = $attempts;
+		$this->timeout = $timeout;
 	}
 	
 	function output() {
-		return "Read(".$this->astvar.",".$this->filename.",".$this->maxdigits.",".$this->option.")";
+		return "Read(".$this->astvar.",".$this->filename.",".$this->maxdigits.",".$this->option.",".$this->attempts.",".$this->timeout.")";
 	}
 }
 
@@ -590,6 +595,32 @@ class ext_agi extends extension {
 class ext_dbdel extends extension {
 	function output() {
 		return "dbDel(".$this->data.")";
+	}
+}
+class ext_dbdeltree extends extension {
+	function output() {
+		return "dbDeltree(".$this->data.")";
+	}
+}
+class ext_dbget extends extension {
+	var $varname;
+	var $key;
+	function ext_dbget($varname, $key) {
+		$this->varname = $varname;
+		$this->key = $key;
+	}
+	function output() {
+		return "dbGet(".$this->varname."=".$this->key.")";
+	}
+}
+class ext_dbput extends extension {
+	var $key;
+	function ext_dbput($key, $data) {
+		$this->key = $key;
+		$this->data = $data;
+	}
+	function output() {
+		return "dbDel(".$this->key."=".$this->data.")";
 	}
 }
 class ext_vmmain extends extension {
