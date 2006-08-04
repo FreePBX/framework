@@ -669,6 +669,21 @@ class ext_sayalpha extends extension {
 		return "SayAlpha(".$this->data.")";
 	}
 }
+class ext_saynumber extends extension {
+	var $gender;
+	function ext_saynumber($data, $gender = 'f') {
+		parent::extension($data);
+		$this->gender = $gender;
+	}
+	function output() {
+		return "SayNumber(".$this->data.",".$this->gender.")";
+	}
+}
+class ext_sayphonetic extends extension {
+	function output() {
+		return "SayPhonetic(".$this->data.")";
+	}
+}
 class ext_system extends extension {
 	function output() {
 		return "System(".$this->data.")";
