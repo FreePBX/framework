@@ -620,7 +620,7 @@ class ext_dbput extends extension {
 		$this->data = $data;
 	}
 	function output() {
-		return "dbDel(".$this->key."=".$this->data.")";
+		return "dbPut(".$this->key."=".$this->data.")";
 	}
 }
 class ext_vmmain extends extension {
