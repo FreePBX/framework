@@ -35,11 +35,11 @@ class extensions {
 		
 		if ($basetag || $addpriority) {
 			if (!is_int($addpriority) || ($addpriority < 1)) {
-				trigger_error(E_ERROR, "\$addpriority must be >= 1 in extensions::add()");
+				trigger_error("\$addpriority must be an integer >= 1 in extensions::add()");
 				return false;
 			}
 			if (empty($basetag)) {
-				trigger_error(E_ERROR, "\$basetag is required with \$addpriority in extensions::add()");
+				trigger_error("\$basetag is required with \$addpriority in extensions::add()");
 				return false;
 			}
 		}
@@ -301,7 +301,7 @@ class ext_gosub extends extension {
 	
 	function ext_gosub($pri, $ext = false, $context = false) {
 		if ($context !== false && $ext === false) {
-			trigger_error(E_ERROR, "\$ext is required when passing \$context in ext_gosub::ext_gosub()");
+			trigger_error("\$ext is required when passing \$context in ext_gosub::ext_gosub()");
 		}
 		
 		$this->pri = $pri;
@@ -343,7 +343,7 @@ class ext_goto extends extension {
 	
 	function ext_goto($pri, $ext = false, $context = false) {
 		if ($context !== false && $ext === false) {
-			trigger_error("\$ext is required when passing \$context in ext_goto::ext_goto()", E_ERROR);
+			trigger_error("\$ext is required when passing \$context in ext_goto::ext_goto()");
 		}
 		
 		$this->pri = $pri;
