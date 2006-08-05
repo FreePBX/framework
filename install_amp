@@ -323,7 +323,7 @@ function run_included($file) {
 }
 
 
-function install_sqlupdate( $file )
+function install_sqlupdate( $version, $file )
 {
 	global $db;
 	global $dryrun;
@@ -365,10 +365,10 @@ function install_upgrade($version) {
 		while ($file = readdir($dir)) {
 			if (($file[0] != ".") && is_file(UPGRADE_DIR."/".$version."/".$file)) {
 				if ( (strtolower(substr($file,-4)) == ".sqlite") && ($db_engine == "sqlite") ) {
-					install_sqlupdate( $file );
+					install_sqlupdate( $version, $file );
 				}
 				elseif ((strtolower(substr($file,-4)) == ".sql") && ( ($db_engine  == "mysql")  ||  ($db_engine  == "pgsql")) ) {
-					install_sqlupdate( $file );
+					install_sqlupdate( $version, $file );
 				}
 			}
 		}
