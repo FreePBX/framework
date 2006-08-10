@@ -323,7 +323,9 @@ function do_directory($type, &$directory, $dial_context, $say_exten, $operator) 
 				switch ($digit) {
 					case D_1: // dial this
 						if ($say_exten) {
-							$agi->stream_file("try-extension");
+							$agi->stream_file("pls-hold-while-try");
+							$agi->stream_file("to-extension");
+
 							$agi->say_digits($match["ext"]);
 						}
 						$agi->conlog("Dial ".$match["ext"]);
