@@ -94,4 +94,13 @@ if (!$nrows) {
 } else {
 	out("Already exists!");
 }
+
+outn("Checking for Global var VM_OPTS..");
+$nrows = $db->getOne("SELECT count(*) from globals where variable='VM_OPTS'");
+if (!$nrows) {
+	$db->query("insert into globals values ('VM_OPTS', '')");
+	out("Created");
+} else {
+	out("Already exists!");
+}
 ?>

@@ -97,6 +97,7 @@ INSERT INTO `globals` VALUES ('DIRECTORY_OPTS', '');
 INSERT INTO `globals` VALUES ('DIALOUTIDS', '1');
 INSERT INTO `globals` VALUES ('OUT_1', 'ZAP/g0');
 INSERT INTO `globals` VALUES ('VM_PREFIX', '*');
+INSERT INTO `globals` VALUES ('VM_OPTS', '');
 
 -- --------------------------------------------------------
 
