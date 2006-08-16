@@ -24,7 +24,7 @@ $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 require_once('functions.inc.php');
 
 // get settings
-$amp_conf = parse_amportal_conf("/etc/amportal.conf");
+$amp_conf = parse_amportal_conf("/etc/amportal-svn.conf");
 $asterisk_conf = parse_asterisk_conf("/etc/asterisk/asterisk.conf");
 
 include 'header_auth.php';
@@ -227,6 +227,27 @@ switch($display) {
 	case 'modules':
 		include 'page.modules.php';
 	break;
+	case '':
+		// on the main page, alert the user if asterisk is not running
+		// try to reuse as much strings as needed
+		require_once('common/php-asmanager.php');
+		$astman = new AGI_AsteriskManager();
+		if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+			$astman->disconnect();
+		}
+		else{
+			echo "<style>.clsError{ border: #BB0A0A 1px solid; background-color: #ffc0c0; }</style>\n";
+			echo "<p><div class='clsError'>\n";
+			echo "<b>" . _("Warning:") . "</b>\n";
+			echo "<br>";
+			echo "<br>\n";
+			echo _("Cannot connect to Asterisk Manager with ").$amp_conf["AMPMGRUSER"];
+			echo "<br>";
+			echo _("Asterisk may not be runnnig.");
+			echo "</div></p>\n";
+		}
+	break;
+	
 }
 
 //use main translation file for footer
