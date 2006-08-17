@@ -472,8 +472,16 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 	}
 	
 	$output = array();
+		
+	// if the file does not, copy if from the template.
+	// TODO: is this logical?
+	// TODO: don't use hardcoded path...? 
+	if (!file_exists($filename)) {
+		if (!copy( "/etc/asterisk/voicemail.conf.template", $filename )){
+			return;
+		}
+	}
 	
-	if (file_exists($filename)) {
 		$fd = fopen($filename, "r");
 		while ($line = fgets($fd, 1024)) {
 			if (preg_match("/^(\s*)(\d+)(\s*)=>(\s*)(\d*),(.*),(.*),(.*),(.*)(\s*[;#].*)?$/",$line,$matches)) {
@@ -662,7 +670,6 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 			fclose($fd);
 		}
 		
-	}
 }
 
 function saveVoicemail($vmconf) {
