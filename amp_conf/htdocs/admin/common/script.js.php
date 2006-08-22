@@ -25,6 +25,20 @@ if (!extension_loaded('gettext')) {
 Is_DOM = (document.getElementById) ? true : false;
 Is_NS4 = (document.layers) ? true : false;
 Is_IE = (document.all) ? true : false;
+
+// detect for konqueror, taken from
+// http://www.javascript-source.com/
+var detect = navigator.userAgent.toLowerCase();
+if (checkIt('konqueror'))
+        Is_IE = false;
+
+function checkIt(string)
+{
+	place = detect.indexOf(string) + 1;
+	thestring = string;
+	return place;
+}
+
 Is_IE4 = Is_IE && !Is_DOM;
 Is_Mac = (navigator.appVersion.indexOf("Mac") != -1);
 Is_IE4M = Is_IE4 && Is_Mac;
