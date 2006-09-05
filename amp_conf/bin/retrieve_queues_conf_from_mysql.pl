@@ -52,7 +52,7 @@ elsif ( $db_engine eq "sqlite" ) {
 	$dbh = DBI->connect("dbi:SQLite2:dbname=$db_file","","");
 }
 
-$statement = "SELECT keyword,data from $table_name where id=0 and keyword <> 'account' and flags <> 1";
+$statement = "SELECT keyword,data from $table_name where id=0 and keyword <> 'account'";
 my $result = $dbh->selectall_arrayref($statement);
 unless ($result) {
   # check for errors after every single database call
@@ -72,7 +72,7 @@ if ( $#resultSet > -1 ) {
 	}
 }
 
-$statement = "SELECT data,id from $table_name where keyword='account' and flags <> 1 group by data";
+$statement = "SELECT data,id from $table_name where keyword='account' group by data";
 
 $result = $dbh->selectall_arrayref($statement);
 unless ($result) {
@@ -92,7 +92,7 @@ foreach my $row ( @{ $result } ) {
 	my $account = @{ $row }[0];
 	my $id = @{ $row }[1];
 	print EXTEN "[$account]\n";
-	$statement = "SELECT keyword,data from $table_name where id=$id and keyword <> 'account' and flags <> 1 order by keyword DESC";
+	$statement = "SELECT keyword,data from $table_name where id=$id and keyword <> 'account' order by flags";
 	my $result = $dbh->selectall_arrayref($statement);
 	unless ($result) {
 		# check for errors after every single database call

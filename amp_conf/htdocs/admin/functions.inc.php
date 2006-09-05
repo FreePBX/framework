@@ -145,7 +145,7 @@ function checkRange($extension){
 
 // returns true if department string matches dept for this user
 function checkDept($dept){
-	$deptname = isset($_SESSION["AMP_user"])?$_SESSION["AMP_user"]:null;
+	$deptname = isset($_SESSION["AMP_user"])?$_SESSION["AMP_user"]->_deptname:null;
 	
 	if ( ($dept == null) || ($dept == $deptname) )
 		return true;
