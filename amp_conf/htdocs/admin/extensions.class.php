@@ -846,9 +846,21 @@ class ext_busy extends extension {
 		return "Busy";
 	}
 }
+
 class ext_flite extends extension {
 	function output() {
 		return "Flite('".$this->data."')";
+	}
+}
+class ext_chanspy extends extension {
+	var $prefix;
+	var $options;
+	function ext_chanspy($prefix = '', $options = '') {
+		$this->prefix = $prefix;
+		$this->options = $options;
+	}
+	function output() {
+		return "ChanSpy(".$this->prefix.($this->options?'|'.$this->options:'').")";
 	}
 }
 
