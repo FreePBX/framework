@@ -846,6 +846,12 @@ class ext_busy extends extension {
 		return "Busy";
 	}
 }
+class ext_flite extends extension {
+	function output() {
+		return "Flite('".$this->data."')";
+	}
+}
+
 /* example usage
 $ext = new extensions;
 
