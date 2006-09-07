@@ -428,19 +428,29 @@ End_of_Html;
 }
 
 function getModuleXml() {
+	global $amp_conf;
 	//this should be in an upgrade file ... putting here for now.
 	sql('CREATE TABLE IF NOT EXISTS module_xml (time INT NOT NULL , data BLOB NOT NULL) TYPE = MYISAM ;');
 	
 	$result = sql('SELECT * FROM module_xml','getRow',DB_FETCHMODE_ASSOC);
 	// if the epoch in the db is more than 2 hours old, or the xml is less than 100 bytes, then regrab xml
 	// Changed to 5 minutes while not in release. Change back for released version.
+	//
+	// used for debug, time set to 0 to always fall through
+	// if((time() - $result['time']) > 0 || strlen($result['data']) < 100 ) {
 	if((time() - $result['time']) > 300 || strlen($result['data']) < 100 ) {
 		$version = getversion();
 		$version = $version[0][0];
 		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		//echo "the result is ".$matches[1];
+		if (isset($amp_conf["AMPMODULEXML"])) {
+			$fn = $amp_conf["AMPMODULEXML"]."modules-".$matches[1].".xml";
+			// echo "(From amportal.conf)"; //debug
+		} else {
 		$fn = "http://amportal.sourceforge.net/modules-".$matches[1].".xml";
+			// echo "(From default)"; //debug
+		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
 		$data = file_get_contents($fn);
 		// remove the old xml
@@ -555,7 +565,13 @@ function fetchModule($name) {
 			unlink($filename);
 		}
 	}
+	if (isset($amp_conf['AMPMODULESVN'])) {
+		$url = $amp_conf['AMPMODULESVN'].$res['location'];
+		// echo "(From amportal.conf)"; // debug
+	} else {
 	$url = "https://svn.sourceforge.net/svnroot/amportal/modules/".$res['location'];
+		// echo "(From default)"; // debug
+	}
 	$fp = @fopen($filename,"w");
 	$filedata = file_get_contents($url);
 	fwrite($fp,$filedata);
