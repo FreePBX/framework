@@ -318,6 +318,12 @@ class ext_gosub extends extension {
 	}
 }
 
+class ext_return extends extension {
+	function output() {
+		return "Return()";
+	}
+}
+
 class ext_gosubif extends extension {
 	var $true_priority;
 	var $false_priority;
@@ -794,13 +800,6 @@ class ext_mysql_disconnect extends extension {
 	}
 }
 
-
-class ext_return extends extension {
-	function output() {
-		return "Return()";
-	}
-}
-
 class ext_ringing extends extension {
 	function output() {
 		return "Ringing()";
@@ -861,6 +860,12 @@ class ext_chanspy extends extension {
 	}
 	function output() {
 		return "ChanSpy(".$this->prefix.($this->options?'|'.$this->options:'').")";
+	}
+}
+
+class ext_lookupblacklist extends extension {
+	function output() {
+		return "LookupBlacklist(".$this->data.")";
 	}
 }
 
