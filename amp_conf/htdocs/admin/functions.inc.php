@@ -450,16 +450,6 @@ function parse_voicemailconf($filename, &$vmconf, &$section) {
 	}
 }
 
-function getVoicemail() {
-	$vmconf = null;
-	$section = null;
-	
-	// yes, this is hardcoded.. is this a bad thing?
-	parse_voicemailconf("/etc/asterisk/voicemail.conf", $vmconf, $section);
-	
-	return $vmconf;
-}
-
 /** Write the voicemail.conf file
  * This is called by saveVoicemail()
  * It's important to make a copy of $vmconf before passing it. Since this is a recursive function, has to
@@ -670,14 +660,6 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 			fclose($fd);
 		}
 		
-}
-
-function saveVoicemail($vmconf) {
-	// just in case someone tries to be sneaky and not call getVoicemail() first..
-	if ($vmconf == null) die('Error: Trying to write null voicemail file! I refuse to contiune!');
-	
-	// yes, this is hardcoded.. is this a bad thing?
-	write_voicemailconf("/etc/asterisk/voicemail.conf", $vmconf, $section);
 }
 
 
