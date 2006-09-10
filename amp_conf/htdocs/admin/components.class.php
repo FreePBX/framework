@@ -94,6 +94,8 @@ class component {
 		if ( (isset($listname) ? $listname : '') == '') {
 			trigger_error('missing $listname in component->addoptlist()');
 			return;
+		} elseif ( is_array($this->_lists[$listname]) ) {
+			trigger_error("list $listname already exists");
 		}
 		
 		// does this list need sorting ?
@@ -121,17 +123,53 @@ class component {
 	
 	function getoptlist($listname) {
 		if ( isset($this->_lists[$listname]['array']) ) {
-			$thisarray = $this->_lists[$listname]['array'];
-
 			// sort the array by text
 			if ( $this->_lists[$listname]['sort'] ) {
-				ksort($thisarray);
+				asort($this->_lists[$listname]['array']);
 			}
 
 			// and return it!
-			return $thisarray;
+			return $this->_lists[$listname]['array'];
 		} else {
 			trigger_error("'$listname' does not exist in component->getoptlist()");
+			return null;
+		}
+	}
+	
+	function addgeneralarray($arrayname) {
+		if ( (isset($arrayname) ? $arrayname : '') == '') {
+			trigger_error('missing $arrayname in component->addarray()');
+			return;
+		} elseif ( is_array($this->_lists[$arrayname]) ) {
+			trigger_error("array $arrayname already exists");
+		}
+		
+		// nothing really, but an array will be here after addlistitem
+		$this->_lists[$arrayname] = array();
+	}
+	
+	function addgeneralarrayitem($arrayname, $arraykey, $item) {
+		if ( !isset($this->_lists[$arrayname]) ) {
+			$this->addgeneralarray($arrayname);
+		}
+		
+		$this->_lists[$arrayname][$arraykey] = $item;
+	}
+	
+	function getgeneralarray($arrayname) {
+		if ( isset($this->_lists[$arrayname]) ) {
+			return $this->_lists[$arrayname];
+		} else {
+			trigger_error("'$arrayname' does not exist in component->getgeneralarray()");
+			return null;
+		}
+	}
+	
+	function getgeneralarrayitem($arrayname, $arraykey) {
+		if ( isset($this->_lists[$arrayname][$arraykey]) ) {
+			return $this->_lists[$arrayname][$arraykey];
+		} else {
+			trigger_error("'$arraykey' does not exist in array '$arrayname'");
 			return null;
 		}
 	}
@@ -287,7 +325,7 @@ class component {
 				}
 				if ( $function == 'onsubmit()' )
 					$htmlout .= "\treturn true;\n";
-				$htmlout .= "}\n";
+				$htmlout .= "\n}\n\n";
 			}			
 		}
 		
