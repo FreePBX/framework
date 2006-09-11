@@ -72,18 +72,7 @@ if(is_array($active_modules)){
 			if (is_array($module['items'])) {
 				foreach($module['items'] as $itemKey => $itemName) {
 					$amp_sections[$itemKey] = $itemName;
-					
-					//list of potential _configpageinit functions
-					$initfuncname = $key . '_' . $itemKey . '_configpageinit';
-					if ( function_exists($initfuncname) ) {
-						$configpageinits[] = $initfuncname;
-					}
 				}
-			}
-			//check for module level (rather than item as above) _configpageinit function
-			$initfuncname = $key . '_configpageinit';
-			if ( function_exists($initfuncname) ) {
-				$configpageinits[] = $initfuncname;
 			}
 		}
 		//sort it? probably not right but was getting in a mess to be honest
@@ -92,6 +81,28 @@ if(is_array($active_modules)){
 			asort($amp_sections);
 	}
 }
+
+// new gui hooks
+if(is_array($active_modules)){
+	foreach($active_modules as $key => $module) {
+		if (is_array($module['items'])) {
+			foreach($module['items'] as $itemKey => $itemName) {
+				//list of potential _configpageinit functions
+				$initfuncname = $key . '_' . $itemKey . '_configpageinit';
+				if ( function_exists($initfuncname) ) {
+					$configpageinits[] = $initfuncname;
+				}
+			}
+		}
+		//check for module level (rather than item as above) _configpageinit function
+		$initfuncname = $key . '_configpageinit';
+		if ( function_exists($initfuncname) ) {
+			$configpageinits[] = $initfuncname;
+		}
+	}
+}
+
+
 if (!$quietmode) {
 	echo "<table width=\"100%\" cellspacing='0' cellpadding='0'><tr><td>";
 	// show menu
