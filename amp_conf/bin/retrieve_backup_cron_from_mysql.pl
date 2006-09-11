@@ -51,7 +51,7 @@ open EXTEN, ">$Backup_cron" or die "Cannot create\/overwrite cron file: $Backup_
 
 $dbh = DBI->connect("dbi:mysql:dbname=$database;host=$hostname", "$username", "$password");
 
-$statement = "SELECT Command, ID from $table_name";
+$statement = "SELECT Command, ID from $table_name WHERE Method NOT LIKE 'now%'";
 
 $result = $dbh->selectall_arrayref($statement);
 unless ($result) {
