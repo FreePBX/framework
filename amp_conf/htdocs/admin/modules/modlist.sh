@@ -30,4 +30,9 @@ FREEPBX_MODLIST="
 	gabcast 
 	printextensions 
 	phpagiconf 
-	inventorydb"
+	inventorydb
+	blacklist
+	cidlookup
+	speeddial
+	parking
+	phonebook"
