@@ -131,11 +131,11 @@ if ($posted==1){
   if ($_POST['before']) {
     if (strpos($SQLcmd, 'WHERE') > 0) { 	$SQLcmd = "$SQLcmd AND ";
     }else{     								$SQLcmd = "$SQLcmd WHERE "; }
-    $SQLcmd = "$SQLcmd calldate<'".$_POST['before']."'";
+    $SQLcmd = "$SQLcmd calldate<'".mysql_real_escape_string($_POST['before'])."'";
   }
   if ($_POST['after']) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
   } else {      $SQLcmd = "$SQLcmd WHERE ";    }
-    $SQLcmd = "$SQLcmd calldate>'".$_POST['after']."'";
+    $SQLcmd = "$SQLcmd calldate>'".mysql_real_escape_string($_POST['after'])."'";
   }
   $SQLcmd = do_field($SQLcmd, 'clid');
   $SQLcmd = do_field($SQLcmd, 'src');
