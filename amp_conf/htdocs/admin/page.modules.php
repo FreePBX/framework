@@ -448,7 +448,7 @@ function getModuleXml() {
 			$fn = $amp_conf["AMPMODULEXML"]."modules-".$matches[1].".xml";
 			// echo "(From amportal.conf)"; //debug
 		} else {
-		$fn = "http://amportal.sourceforge.net/modules-".$matches[1].".xml";
+		$fn = "http://mirror.freepbx.org/modules-".$matches[1].".xml";
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
@@ -569,7 +569,7 @@ function fetchModule($name) {
 		$url = $amp_conf['AMPMODULESVN'].$res['location'];
 		// echo "(From amportal.conf)"; // debug
 	} else {
-	$url = "https://svn.sourceforge.net/svnroot/amportal/modules/".$res['location'];
+	$url = "http://mirror.freepbx.org/modules/".$res['location'];
 		// echo "(From default)"; // debug
 	}
 	$fp = @fopen($filename,"w");
