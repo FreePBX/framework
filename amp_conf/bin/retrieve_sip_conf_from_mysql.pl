@@ -126,17 +126,15 @@ foreach my $row ( @{ $result } ) {
 	}
 
 	my @resSet = @{$result};
-	if ( $#resSet == -1 ) {          
-		print "no results\n";
-		exit;
-	}
-	foreach my $row ( @{ $result } ) {
-		my @result = @{ $row };
-	        @opts=split("&",$result[1]);
-	        foreach $opt (@opts) {
-			print EXTEN "$result[0]=$opt\n";
+	if ( $#resSet != -1 ) {
+		foreach my $row ( @{ $result } ) {
+			my @result = @{ $row };
+	       	 @opts=split("&",$result[1]);
+	       	 foreach $opt (@opts) {
+				print EXTEN "$result[0]=$opt\n";
+			}
 		}
-	}                                         	
+	}
 	print EXTEN "$additional\n";
 }
 
