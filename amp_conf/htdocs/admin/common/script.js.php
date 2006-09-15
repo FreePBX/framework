@@ -572,6 +572,25 @@ function isFilename(s)
 }
 
 // ***************************************************
+// ** Check if string s contains char c             **
+// ***************************************************
+
+function isInside(s, c)
+{
+    var i;
+
+    if (isEmpty(s)) {
+	return false;
+    }
+    for (i = 0; i < s.length; i++)
+    {   
+        var t = s.charAt(i);
+	if (t == c)  return true;
+    }
+    return false;
+}
+
+// ***************************************************
 // ** HELPER FUNCTIONS FOR ABOVE VALIDATIONS        **
 // ***************************************************
 
