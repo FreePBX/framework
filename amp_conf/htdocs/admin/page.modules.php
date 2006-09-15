@@ -13,27 +13,32 @@ if (isset($_POST['submit']) && is_array($_POST['modules'])) { // if form has bee
 	foreach ($_POST['modules'] as $module) {
 		switch ($_POST['modaction']) {
 			case "install":
-				if (runModuleSQL($module,'install')) 
+				if (runModuleSQL($module,'install')) {
 					installModule($module,$_POST[$module.'_version']);
-				else
+					needreload();
+				} else
 					echo "<div class=\"error\">"._("Module install script failed to run")."</div>";
 			break;
 			case "uninstall":
-				if (runModuleSQL($module,'uninstall'))
+				if (runModuleSQL($module,'uninstall')) {
 					uninstallModule($module);
-				else
+					needreload();
+				} else
 					echo "<div class=\"error\">"._("Module uninstall script failed to run")."</div>";
 			break;
 			case "enable":
 				enableModule($module);
+				needreload();
 				echo pageReload();
 			break;
 			case "disable":
 				disableModule($module);
+				needreload();
 				echo pageReload();
 			break;
 			case "delete":
 				deleteModule($module);
+				needreload();
 				rmModule($module);
 			break;
 			case "download":
@@ -41,6 +46,7 @@ if (isset($_POST['submit']) && is_array($_POST['modules'])) { // if form has bee
 			break;
 			case "upgrade":
 				upgradeModule($module);
+				needreload();
 			break;
 			case "installenable": // install and enable a module
 				$boolInstall = true;
@@ -59,6 +65,7 @@ if (isset($_POST['submit']) && is_array($_POST['modules'])) { // if form has bee
 					enableModule($module);
 					echo pageReload();
 				}
+				needreload();
 			break;
 			case "downloadinstall": // download, install and enable
 				fetchModule($module);
@@ -67,10 +74,12 @@ if (isset($_POST['submit']) && is_array($_POST['modules'])) { // if form has bee
 				else
 					echo "<div class=\"error\">"._("Module install script failed to run")."</div>";
 				enableModule($module);
+				needreload();
 			break;
 			case "downloadupdate": //download and update
 				fetchModule($module);
 				upgradeModule($module);
+				needreload();
 			break;
 			case "uninstalldelete": //uninstall and delete
 				if (runModuleSQL($module,'uninstall'))
@@ -79,6 +88,7 @@ if (isset($_POST['submit']) && is_array($_POST['modules'])) { // if form has bee
 					echo "<div class=\"error\">"._("Module uninstall script failed to run")."</div>";
 				deleteModule($module);
 				rmModule($module);
+				needreload();
 			break;
 		}
 	}
