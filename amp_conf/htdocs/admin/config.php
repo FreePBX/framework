@@ -271,7 +271,7 @@ switch($display) {
 			echo "<br>\n";
 			echo _("Cannot connect to Asterisk Manager with ").$amp_conf["AMPMGRUSER"];
 			echo "<br>";
-			echo _("Asterisk may not be runnnig.");
+			echo _("Asterisk may not be running.");
 			echo "</div></p>\n";
 		}
 	break;
