@@ -245,6 +245,23 @@ switch($display) {
 		$astman = new AGI_AsteriskManager();
 		if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
 			$astman->disconnect();
+	?>
+	<h2>Welcome to freePBX.</h2>
+	<p>If you're new to freePBX, Welcome. Here are some quick instructions to get you started.</p>
+	<p>There are a large number of Plug-in modules available from the Online repostiory. This is
+	available by clicking on the <a href="config.php?type=tool">Tools menu</a> up the top, then
+	<a href="config.php?type=tool&display=modules">Module Admin</a>, then
+	<a href="config.php?display=modules&amp;type=tool&amp;extdisplay=online">Connect to Online Module Repository</a>.
+	Modules are updated and patched often, so if you are having a problem, it's worth checking there to see if there's
+	a new version of the module available.</p>
+	<p>If you're having any problems, you can also use the <a href="config.php?type=tool&amp;display=irc">Online Support</a>
+	module (<b>you need to install this through the <a href="config.php?display=modules&amp;type=tool&amp;extdisplay=online">Module Repository</a> first</b>)
+	to talk to other users and the devlopers in real time. Click on <a href="config.php?type=tool&amp;display=irc&amp;action=start">Start IRC</a>,
+	when the module is installed, to start a Java IRC client.</p>
+	<p>There is also a community based <a href="http://forums.freepbx.org" target="_new">freePBX Web Forum</a> where you can post
+	questions and search for answers for any problems you may be having.</p>
+	<p>We hope you enjoy using freePBX!</p>
+	<?php
 		}
 		else{
 			echo "<style>.clsError{ border: #BB0A0A 1px solid; background-color: #ffc0c0; }</style>\n";
