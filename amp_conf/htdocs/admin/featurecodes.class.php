@@ -55,7 +55,7 @@ class featurecode
 	
 	// UPDATE FUNCTION -- WRITES CURRENT STUFF BACK TO DATABASE
 	function update() {
-		global $amp_conf;
+		global $amp_conf; 
 		if (!$this->isReady())
 			die('FeatureCode: class function init never called...will not update');
 
