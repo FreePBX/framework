@@ -226,7 +226,7 @@ foreach my $pcontext ( @ampusers ) {
 #	#	next if ($account eq "");
 		$btn=get_next_btn($extenpos,$btn);
 		$icon='4';
-		print EXTEN "[$dial]\nPosition=$btn\nLabel=\"$id : $description\"\nExtension=$id\nContext=from-internal\nIcon=$icon\nVoicemail_Context=device\nPanel_Context=$panelcontext\n";
+		print EXTEN "[$dial]\nPosition=$btn\nLabel=\"$id : $description\"\nExtension=$id\nContext=from-internal\nIcon=$icon\nVoicemail_Context=device\nVoiceMailExt=*$id\@from-internal\nPanel_Context=$panelcontext\n";
 	}
 	
 	
