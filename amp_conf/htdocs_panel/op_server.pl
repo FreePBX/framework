@@ -371,11 +371,32 @@ sub read_language_config() {
     $/ = "\0";
 }
 
+sub parse_amportal_config($) {
+    my $filename = $_[0];
+    my %ampconf;
+
+    open(AMPCONF, $filename) || die "Cannot open $filename";
+
+    while (<AMPCONF>)
+      {
+	if ($_ =~ /^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/) {
+             $ampconf{$1} = $2;
+           }
+      }
+
+    close(AMPCONF);
+    return %ampconf;
+}
+
 sub read_server_config() {
     my $context = "";
     $counter_servers = -1;
 
     $/ = "\n";
+
+    # get some variables from the amportal config
+    my %ampconf;
+    %ampconf = parse_amportal_config("/etc/amportal.conf");
 
     open( CONFIG, "<$directorio/op_server.cfg" )
       or die("Could not open op_server.cfg. Aborting...");
@@ -411,11 +432,11 @@ sub read_server_config() {
                 }
 
                 if ( $variable_name eq "manager_user" ) {
-                    $manager_user[$counter_servers] = $value;
+                    $manager_user[$counter_servers] = $ampconf{"AMPMGRUSER"};
                 }
 
                 if ( $variable_name eq "manager_secret" ) {
-                    $manager_secret[$counter_servers] = $value;
+                    $manager_secret[$counter_servers] = $ampconf{"AMPMGRPASS"};
                 }
 
                 if ( $variable_name eq "manager_port" ) {
@@ -434,6 +455,11 @@ sub read_server_config() {
         }
     }
     close(CONFIG);
+
+    # replace some config values by the corresponding ones from amportal
+    $config->{"GENERAL"}{"web_hostname"} = $ampconf{"AMPWEBADDRESS"};
+    $config->{"GENERAL"}{"security_code"} = $ampconf{"FOPPASSWORD"};
+    $config->{"GENERAL"}{"flash_dir"} = $ampconf{"FOPWEBROOT"};
 
     $web_hostname     = $config->{GENERAL}{web_hostname};
     $listen_port      = $config->{GENERAL}{listen_port};

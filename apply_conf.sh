@@ -38,16 +38,16 @@ echo "/etc/asterisk/manager.conf"
 sed -r -i "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" /etc/asterisk/manager.conf
 sed -r -i "/\[general\]/!s/\[[a-zA-Z0-9]+\]/[$AMPMGRUSER]/" /etc/asterisk/manager.conf
 
-if [ -e $AMPWEBROOT"/panel/op_server.cfg" ]; then
-	echo $AMPWEBROOT"/panel/op_server.cfg"
-	sed -r -i "s/manager_user=[a-zA-Z0-9]*/manager_user=$AMPMGRUSER/" $FOPWEBROOT/op_server.cfg
-	sed -r -i "s/manager_secret=[a-zA-Z0-9]*/manager_secret=$AMPMGRPASS/" $FOPWEBROOT/op_server.cfg
-	sed -r -i "s/web_hostname=[a-zA-Z0-9_.-]*/web_hostname=$AMPWEBADDRESS/" $FOPWEBROOT/op_server.cfg
-	sed -r -i "s/security_code=[a-zA-Z0-9]*/security_code=$FOPPASSWORD/" $FOPWEBROOT/op_server.cfg
-	sed -r -i "s!flash_dir=[a-zA-Z0-9_./\-]*!flash_dir=$FOPWEBROOT!" $FOPWEBROOT/op_server.cfg
-	sed -r -i "s!web_hostname=[a-zA-Z0-9.-]*!web_hostname=$AMPWEBADDRESS!" $FOPWEBROOT/op_server.cfg
-	sed -r -i "s!web_hostname=[a-zA-Z0-9.-]*!web_hostname=$AMPWEBADDRESS!" $FOPWEBROOT/op_server.cfg
-fi
+#if [ -e $AMPWEBROOT"/panel/op_server.cfg" ]; then
+#	echo $AMPWEBROOT"/panel/op_server.cfg"
+#	sed -r -i "s/manager_user=[a-zA-Z0-9]*/manager_user=$AMPMGRUSER/" $FOPWEBROOT/op_server.cfg
+#	sed -r -i "s/manager_secret=[a-zA-Z0-9]*/manager_secret=$AMPMGRPASS/" $FOPWEBROOT/op_server.cfg
+#	sed -r -i "s/web_hostname=[a-zA-Z0-9_.-]*/web_hostname=$AMPWEBADDRESS/" $FOPWEBROOT/op_server.cfg
+#	sed -r -i "s/security_code=[a-zA-Z0-9]*/security_code=$FOPPASSWORD/" $FOPWEBROOT/op_server.cfg
+#	sed -r -i "s!flash_dir=[a-zA-Z0-9_./\-]*!flash_dir=$FOPWEBROOT!" $FOPWEBROOT/op_server.cfg
+#	sed -r -i "s!web_hostname=[a-zA-Z0-9.-]*!web_hostname=$AMPWEBADDRESS!" $FOPWEBROOT/op_server.cfg
+#	sed -r -i "s!web_hostname=[a-zA-Z0-9.-]*!web_hostname=$AMPWEBADDRESS!" $FOPWEBROOT/op_server.cfg
+#fi
 
 echo "/etc/asterisk/vm_email.inc"
 if [ "xx$AMPWEBADDRESS" = "xx" ]; then
