@@ -116,7 +116,7 @@ $agi = new AGI();
 if (file_exists(LOCALPREFIX_FILE)) {
 	parse_conf(LOCALPREFIX_FILE, $conf, $section);
 	if (count($conf) == 0) {
-		$agi->verbose("Could not parse ".LOCALPREFIX_FILE);
+//		$agi->verbose("Could not parse ".LOCALPREFIX_FILE);
 		exit(1);
 	}
 } else {
