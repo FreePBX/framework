@@ -356,10 +356,10 @@ class displayModules {
 				$rows = "";
 				foreach($modsBroken as $mod) {
 					$color = "#FFFFFF";
-					$rows .= $this->tableHtml($mod,$color);
+					$rows .= $this->tableHtmlBroken($mod,$color);
 				}
 				$this->options = "
-					<select name=\"modac
+					<select name=\"modaction\">
 						<option value=\"delete\">"._("Delete Selected")."
 					</select>
 					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
@@ -388,6 +388,7 @@ class displayModules {
 				$newallmods[$key]['asort'] = $category.$displayName;
 			
 				// copy the rest of the array
+				$newallmods[$key]['modname'] = $key;
 				$newallmods[$key]['displayName'] = $displayName;
 				$newallmods[$key]['category'] = $category;
 				$newallmods[$key]['rawname'] = $mod['rawname'];
@@ -412,6 +413,23 @@ class displayModules {
 					<input type="hidden" name="{$arrRow['rawname']}_version" value="{$arrRow['version']}">
 				</td>
 				<td><a target=_BLANK href={$arrRow['info']}>{$arrRow['displayName']} ({$arrRow['rawname']})</a></td>
+				<td>{$arrRow['version']}</td>
+				<td>{$arrRow['type']}</td>
+				<td>{$arrRow['category']}</td>
+			</tr>
+			
+End_of_Html;
+	}
+
+	function tableHtmlBroken($arrRow,$color) {
+		return <<< End_of_Html
+			
+			<tr bgcolor={$color}>
+				<td>
+					<input type="checkbox" name="modules[]" value="{$arrRow['modname']}">
+					<input type="hidden" name="{$arrRow['modname']}_version" value="{$arrRow['version']}">
+				</td>
+				<td><a target=_BLANK href={$arrRow['info']}>{$arrRow['displayName']} ({$arrRow['modname']})</a></td>
 				<td>{$arrRow['version']}</td>
 				<td>{$arrRow['type']}</td>
 				<td>{$arrRow['category']}</td>
