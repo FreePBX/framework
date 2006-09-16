@@ -308,11 +308,16 @@ else {
     $directorio = $confdir;
 }
 
+open STDIN, '/dev/null'   or die "Can't read /dev/null: $!";
+
 if ( $logdir ne "" ) {
     open( STDOUT, ">>$logdir/output.log" )
       or die "Can't open output log $logdir/error.log";
     open( STDERR, ">>$logdir/error.log" )
       or die "Can't open output log $logdir/error.log";
+} else {
+    open STDOUT, '>/dev/null' or die "Can't write to /dev/null: $!";
+    open STDERR, '>/dev/null' or die "Can't write to /dev/null: $!";
 }
 
 if ( $daemonized == 1 ) {
