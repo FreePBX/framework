@@ -486,29 +486,8 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		}
 	} while(1);
 	
-	do {
-		out("Enter the path to use for your FOP web root:\n [/var/www/html/panel] ");
-		$key = trim(fgets(STDIN,1024));
-		if (preg_match('/^$/',$key)) $amp_conf["FOPWEBROOT"] = "/var/www/html/panel";
-		else $amp_conf["FOPWEBROOT"] = rtrim($key,'/');
-		if (is_dir($amp_conf["FOPWEBROOT"])) {
-			break;
-		} else if (amp_mkdir($amp_conf["FOPWEBROOT"],"0755",true)){
-			out("Created ".$amp_conf["FOPWEBROOT"]);
-			break;
-		} else {
-			fatal("Cannot create ".$amp_conf["FOPWEBROOT"]."!");
-		}
-	} while(1);
-	
-//	do {
-//		outn("Enter the path to your Apache cgi-bin:\n [/var/www/cgi-bin] ");
-//		$key = trim(fgets(STDIN,1024));
-//		if (preg_match('/^$/',$key)) $amp_conf["AMPCGIBIN"] = "/var/www/cgi-bin";
-//		else $amp_conf["AMPCGIBIN"] = rtrim($key,'/');
-//		if (is_dir($amp_conf["AMPCGIBIN"])) break;
-//		else fatal($amp_conf["AMPCGIBIN"]." is not a directory!");
-//	} while(1);
+	// Really no need to ask, is there.
+	$amp_conf["FOPWEBROOT"]=$amp_conf["AMPWEBROOT"]."/panel";
 	
 	outn("Enter the IP ADDRESS or hostname used to access the AMP web-admin:\n [xx.xx.xx.xx] ");
 	$key = trim(fgets(STDIN,1024));
