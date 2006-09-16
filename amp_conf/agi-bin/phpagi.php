@@ -714,7 +714,8 @@
     {
       foreach(explode("\n", str_replace("\r\n", "\n", print_r($message, true))) as $msg)
       {
-        @syslog(LOG_WARNING, $msg);
+// Enable for extra logging.
+//        @syslog(LOG_WARNING, $msg);
         $ret = $this->evaluate("VERBOSE \"$msg\" $level");
       }
       return $ret;
