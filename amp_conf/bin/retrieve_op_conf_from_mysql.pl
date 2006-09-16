@@ -323,7 +323,7 @@ foreach my $pcontext ( @ampusers ) {
 		$queuename=@{$row}[0];
 		$queuedesc=@{$row}[1];
 		$icon='5';
-		print EXTEN "[$queuename]\nPosition=$btn\nLabel=\"$queuedesc\"\nExtension=-1\nContext=from-internal\nIcon=$icon\nPanel_Context=$panelcontext\n";
+		print EXTEN "[QUEUE/$queuename]\nPosition=$btn\nLabel=\"$queuedesc\"\nExtension=-1\nContext=from-internal\nIcon=$icon\nPanel_Context=$panelcontext\n";
 	}
 }
 
