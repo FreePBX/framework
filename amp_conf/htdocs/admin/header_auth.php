@@ -12,7 +12,7 @@ function check_login() {
 	global	$amp_conf;
 
 	if ($amp_conf['AUTHTYPE'] == 'database') {
-		$baselink = ($_SERVER['HTTPS']!=''?'https://':'http://').$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+		$baselink = (isset($_SERVER['HTTPS'])?'https://':'http://').$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 
 		// start a session and don't let it stop automatically
 		session_set_cookie_params(0);
@@ -20,7 +20,7 @@ function check_login() {
 		setcookie('PHPSESSID', session_id());
 
 		// check if the current loading of the page is the first loading after a logout
-		if ($_SESSION['logout'] != '') {
+		if (isset($_SESSION['logout'])) {
 			unset($_SESSION['logout']);
 			//
 			// initialize a relogin on Firefox
