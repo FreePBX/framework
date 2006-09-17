@@ -197,7 +197,8 @@ function featurecodes_getAllFeaturesDetailed() {
 	if (is_array($results)) {
 		$modules = find_allmodules();
 		foreach ($results as $key => $item) {
-			$results[$key]['moduledescription'] = $modules[$item['modulename']]['displayName'];
+			if (isset($modules[$item['modulename']]['displayName']))
+				$results[$key]['moduledescription'] = $modules[$item['modulename']]['displayName'];
 		}
 		
 		return $results;
