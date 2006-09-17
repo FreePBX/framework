@@ -728,6 +728,7 @@ class AGI_AsteriskManager
 		
 		foreach ($data as $line) {
 			$temp = explode(":",$line);
+			$temp[1] = isset($temp[1])?$temp[1]:null;
 			$db[ trim($temp[0]) ] = trim($temp[1]);
 		}
 		return $db;
