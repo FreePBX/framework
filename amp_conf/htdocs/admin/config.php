@@ -156,7 +156,7 @@ if ( ($display != '') && !isset($amp_sections[$display]) ) {
 }
 
 // load the component from the loaded modules
-if ( $display != '' && is_array($configpageinits) ) {
+if ( $display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 	$currentcomponent = new component($display);
 
 	// call every modules _configpageinit function which should just

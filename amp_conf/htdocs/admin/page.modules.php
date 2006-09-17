@@ -200,7 +200,7 @@ class displayModules {
 			/* 
 			 *  Available Module Updates
 			 */
-			if(is_array($modsOnlineUpdate)) {
+			if(isset($modsOnlineUpdate) && is_array($modsOnlineUpdate)) {
 				$rows = "";
 				foreach($modsOnlineUpdate as $mod) {
 					$color = "orange";
@@ -222,7 +222,7 @@ class displayModules {
 			/* 
 			 *  Online Modules
 			 */			
-			if(is_array($modsOnlineOnly)) {
+			if(isset($modsOnlineOnly) && is_array($modsOnlineOnly)) {
 				$rows = "";
 				foreach($modsOnlineOnly as $mod) {
 					$color = "white";
@@ -266,7 +266,7 @@ class displayModules {
 			/* 
 			 *  Modules Needing Update
 			 */
-			if(is_array($modsUpdate)) {
+			if(isset($modsUpdate) && is_array($modsUpdate)) {
 				$rows = "";
 				foreach($modsUpdate as $mod) {		
 					$color = "#CCFF00";
@@ -287,7 +287,7 @@ class displayModules {
 			/* 
 			 *  Enabled Modules
 			 */			
-			if(is_array($modsEnabled)) {
+			if(isset($modsEnabled) && is_array($modsEnabled)) {
 				$rows = "";
 				foreach($modsEnabled as $mod) {
 					$color = "white";
@@ -310,7 +310,7 @@ class displayModules {
 			/* 
 			 *  Disabled Modules
 			 */			
-			if(is_array($modsDisabled)) {
+			if(isset($modsDisabled) && is_array($modsDisabled)) {
 				$rows = "";
 				foreach($modsDisabled as $mod) {
 					$color = "white";
@@ -333,7 +333,7 @@ class displayModules {
 			/* 
 			 *  Local Modules Not Installed
 			 */			
-			if(is_array($modsNotinstalled)) {
+			if(isset($modsNotinstalled) && is_array($modsNotinstalled)) {
 				$rows = "";
 				foreach($modsNotinstalled as $mod) {
 					$color = "white";
@@ -352,7 +352,7 @@ class displayModules {
 				$this->html .= $this->formEnd($mod['status']);
 			}
 			
-			if(is_array($modsBroken)) {
+			if(isset($modsBroken) && is_array($modsBroken)) {
 				$rows = "";
 				foreach($modsBroken as $mod) {
 					$color = "#FFFFFF";
