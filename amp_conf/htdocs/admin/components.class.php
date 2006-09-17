@@ -94,7 +94,7 @@ class component {
 		if ( (isset($listname) ? $listname : '') == '') {
 			trigger_error('missing $listname in component->addoptlist()');
 			return;
-		} elseif ( is_array($this->_lists[$listname]) ) {
+		} elseif (isset($this->_lists[$listname]) && is_array($this->_lists[$listname]) ) {
 			trigger_error("list $listname already exists");
 		}
 		
@@ -140,7 +140,7 @@ class component {
 		if ( (isset($arrayname) ? $arrayname : '') == '') {
 			trigger_error('missing $arrayname in component->addarray()');
 			return;
-		} elseif ( is_array($this->_lists[$arrayname]) ) {
+		} elseif ( isset($this->_lists[$arrayname]) && is_array($this->_lists[$arrayname]) ) {
 			trigger_error("array $arrayname already exists");
 		}
 		
