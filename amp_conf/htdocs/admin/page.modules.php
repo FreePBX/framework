@@ -1,6 +1,7 @@
 <?php /* $Id$ */
 
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
+$refresh = isset($_REQUEST['refresh'])?$_REQUEST['refresh']:'';
 
 $installed = find_allmodules();
 
@@ -110,7 +111,12 @@ switch($extdisplay) {
 		echo "<h2>";
 		echo _("Module Administration (online)");
 		echo "</h2>";
-		echo "<a href='config.php?display=modules&type=tool&extdisplay=local'>"._("Terminate Connection to Online Module Repository")."</a>\n";
+		echo "<a href='config.php?display=modules&amp;type=tool&amp;extdisplay=local'>"._("Terminate Connection to Online Module Repository")."</a><br />\n";
+		echo "<a href='config.php?display=modules&amp;type=tool&amp;extdisplay=online&amp;refresh=true'>"._("Force Refresh of Local Module Cache")."</a>\n";
+		// If 'refresh' is set to 'true' then truncate the modules_xml table so it doesn't try to 
+		// use the cached XML file.
+		if (isset($refresh))
+			sql("truncate module_xml;");
 		// determine which modules we have installed already
 		$installed = find_allmodules();
 		// determine what modules are available
@@ -122,7 +128,7 @@ switch($extdisplay) {
 		echo "<h2>";
 		echo _("Module Administration");
 		echo "</h2>";
-		echo "<a href='config.php?display=modules&type=tool&extdisplay=online'>"._("Connect to Online Module Repository")."</a>\n";
+		echo "<a href='config.php?display=modules&amp;type=tool&amp;extdisplay=online'>"._("Connect to Online Module Repository")."</a>\n";
 		$installed = find_allmodules();
 		$dispMods = new displayModules($installed);
 		echo $dispMods->drawModules();
@@ -439,9 +445,10 @@ End_of_Html;
 	}
 	
 	function formStart($title = "") {
+		$uri = preg_replace("/&refresh=true/", "//", $_SERVER['REQUEST_URI']);
 		return "
 			<h4>{$title}</h4>
-			<form method=\"POST\" action=\"{$_SERVER['REQUEST_URI']}\">
+			<form method=\"POST\" action=\"{$uri}\">
 			<table border=1><tr><th>&nbsp;</th><th>". _("Module")."</th><th>". _("Version")."</th><th>". _("Type") ."</th><th>". _("Category") ."</th></tr>
 				";
 	}
