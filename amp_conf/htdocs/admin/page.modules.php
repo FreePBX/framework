@@ -188,7 +188,7 @@ class displayModules {
 				if(array_key_exists($arrkey,$installed)) {
 					//check if online version is newer
 					$newversion = $online[$arrkey]['version'];
-					$oldversion = $installed[$arrkey]['version'];
+					$oldversion = isset($installed[$arrkey]['version'])?$installed[$arrkey]['version']:'0';
 					// version_compare returns 1 if new > old
 					if (version_compare($newversion,$oldversion) == 1) {
 						$modsOnlineUpdate[] = $online[$arrkey];
@@ -397,9 +397,9 @@ class displayModules {
 				$newallmods[$key]['modname'] = $key;
 				$newallmods[$key]['displayName'] = $displayName;
 				$newallmods[$key]['category'] = $category;
-				$newallmods[$key]['rawname'] = $mod['rawname'];
-				$newallmods[$key]['info'] = $mod['info'];
-				$newallmods[$key]['location'] = $mod['location'];
+				$newallmods[$key]['rawname'] = isset($mod['rawname'])?$mod['rawname'] : null;
+				$newallmods[$key]['info'] = isset($mod['info'])?$mod['info'] : null;
+				$newallmods[$key]['location'] = isset($mod['location']) ? $mod['location'] : null ;
 				$newallmods[$key]['version'] = isset($mod['version']) ? $mod['version'] : 'unknown';
 				$newallmods[$key]['type'] = isset($mod['type']) ? $mod['type'] : 'unknown';
 				$newallmods[$key]['status'] = isset($mod['status']) ? $mod['status'] : 0;
