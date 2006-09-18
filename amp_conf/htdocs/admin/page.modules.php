@@ -115,7 +115,7 @@ switch($extdisplay) {
 		echo "<a href='config.php?display=modules&amp;type=tool&amp;extdisplay=online&amp;refresh=true'>"._("Force Refresh of Local Module Cache")."</a>\n";
 		// If 'refresh' is set to 'true' then truncate the modules_xml table so it doesn't try to 
 		// use the cached XML file.
-		if ($refresh === true)
+		if ($refresh !== false)
 			sql("truncate module_xml;");
 		// determine which modules we have installed already
 		$installed = find_allmodules();
