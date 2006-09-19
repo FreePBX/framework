@@ -705,6 +705,11 @@ class ext_pickup extends extension {
 		return "Pickup(".$this->data.")";
 	}
 }
+class ext_dpickup extends extension {
+	function output() {
+		return "DPickup(".$this->data.")";
+	}
+}				
 class ext_lookupcidname extends extension {
 	function output() {
 		return "LookupCIDName";
