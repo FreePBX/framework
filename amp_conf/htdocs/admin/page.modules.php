@@ -117,6 +117,12 @@ switch($extdisplay) {
 		// use the cached XML file.
 		if ($refresh !== false)
 			sql("truncate module_xml;");
+		// Check for a warning or text message at mirror.freepbx.org/version-$version.html
+		$version = getversion();
+		$version = $version[0][0];
+		$announcements = file_get_contents("http://mirror.freepbx.org/version-$version.html");
+		print "$announcements";
+
 		// determine which modules we have installed already
 		$installed = find_allmodules();
 		// determine what modules are available
