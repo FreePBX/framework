@@ -167,7 +167,7 @@ msgstr ""
 "Mettere in lista gli interni da chiamare, uno per riga.<br><br>E' possibile "
 "includere l'interno di un sistema remoto, o un numero esterno mettendo alla "
 "fine il simbolo cancelletto (#).Es.: 2448089# chiamer&agrave; 2448089 nel fascio "
-"appropriato (vedere Rotte in Uscita)."
+"appropriato (vedere Instradamento in Uscita)."
 
 #: callgroups.php:172 modules/ringgroups/page.ringgroups.php:168
 #: modules/ringgroups/page.ringgroups.php:186
@@ -212,7 +212,7 @@ msgstr "Fasci"
 
 #: config.php:97 config.php:113
 msgid "Outbound Routing"
-msgstr "Rotte in Uscita"
+msgstr "Instradamento in Uscita"
 
 msgid "DID Routes"
 msgstr "Selezione Passante"
@@ -253,7 +253,7 @@ msgid "Add DID"
 msgstr "Aggiungi Selezione Passante"
 
 msgid "DID Route"
-msgstr "Rotta Selezione Passante (DID)"
+msgstr "Selezione Passante (DID)"
 
 msgid "Delete DID"
 msgstr "Elimina Selezione Passante"
@@ -1258,8 +1258,8 @@ msgstr ""
 "agenti statici non hanno bisogno di effettuare un 'login in' nella coda, e "
 "non possono effettuare 'log-out' dalla coda.<br><br>Inserire gli interni da "
 "far trillare, uno per riga.<br><br>Si possono includere interni di un "
-"sistema remoto, o un numero esterno (Le rotte in uscita devono contenere "
-"uscite valide per i numeri esterni)"
+"sistema remoto, o un numero esterno (Le regole di instradamento in uscita "
+"devono contenere impostazioni valide per i numeri esterni)"
 
 #: modules/queues/page.queues.php:149
 #: modules/queues/page.queues.php:174 modules/queues/page.queues.php:175
@@ -1658,7 +1658,7 @@ msgstr "Carico Giornaliero"
 
 #: routing.php:134 modules/core/page.routing.php:119
 msgid "Error renaming route: duplicate name"
-msgstr "Errore nel rinominare la rotta: nome duplicato"
+msgstr "Errore nel rinominare la regola: nome duplicato"
 
 #: routing.php:172 trunks.php:153 modules/core/page.routing.php:156
 #: modules/core/page.trunks.php:120
@@ -1674,43 +1674,32 @@ msgstr ""
 #: routing.php:207 routing.php:260 modules/core/page.routing.php:191
 #: modules/core/page.routing.php:248
 msgid "Add Route"
-msgstr "Aggiungi Rotta"
+msgstr "Aggiungi Regola di Instradamento"
 
 #: routing.php:258 modules/core/page.routing.php:246
 msgid "Edit Route"
-msgstr "Modifica Rotta"
+msgstr "Modifica Regola di Instradamento"
 
 #: did.php:185 routing.php:270 modules/core/page.did.php:77
 #: modules/core/page.routing.php:258 modules/core/page.did.php:76
 msgid "Delete Route"
-msgstr "Elimina Rotta"
+msgstr "Elimina Regola di Instradamento"
 
 #: routing.php:280 modules/core/page.routing.php:268
 msgid "Route Name"
-msgstr "Nome Rotta"
+msgstr "Nome Regola"
 
 #: routing.php:280 modules/core/page.routing.php:268
 msgid ""
 "Name of this route. Should be used to describe what type of calls this route "
 "matches (for example, 'local' or 'longdistanc &egrave;)."
 msgstr ""
-"Nome della rotta. Descrizione sommaria per il tipo di chiamate effettuate "
-"attraverso questa rotta (es.: 'locali' o 'nazionali' o 'internazionali')."
+"Nome della regola. Descrizione sommaria per il tipo di chiamate effettuate "
+"attraverso questa regola (es.: 'locali' o 'nazionali' o 'internazionali')."
 
 #: routing.php:308 modules/core/page.routing.php:296
 msgid "Route Password"
-msgstr "Password Rotta"
-
-msgid ""
-"Optional: A route can prompt users for a password before allowing a calls to "
-"progress.  This is useful for restricing calls to international destinations "
-"or 1-900 numbers.<br><br>Leave this field blank to not prompt for password.</"
-"span>"
-msgstr ""
-"Opzionale: una rotta pu&ograve; richiedere all'utente di digitare una password "
-"prima di iniziare la chiamata. Questo &egrave; utile per limitare le chiamate "
-"internazionali o numeri ad alta tariffazione.<br><br>Lasciare vuoto per "
-"nessuna password.<span>"
+msgstr "Password"
 
 #: routing.php:314 modules/core/page.routing.php:306
 msgid "Dial Patterns"
@@ -1807,7 +1796,7 @@ msgid ""
 msgstr ""
 "La Sequenza Fasci controlla l'ordine in cui i modelli di chiamata saranno "
 "usati. <br><br>Per i modelli che corrispondono alle chiamate nazionali, per "
-"esempio, andranno inserite prima le rotte a minor costo (es. prima provider "
+"esempio, andranno inserite prima gli instradamenti a minor costo (es. prima provider "
 "VoIP) seguite da quelle pi&ugrave; care (linee PSTN)."
 
 #: schedule_functions.php:21 modules/backup/schedule_functions.php:21
@@ -2107,16 +2096,16 @@ msgstr "In uso da"
 
 #: trunks.php:275 modules/core/page.trunks.php:242
 msgid "route"
-msgstr "rotta"
+msgstr "regola di instradamento"
 
 #: trunks.php:275 modules/core/page.trunks.php:242
 msgid "routes"
-msgstr "rotte"
+msgstr "regole di instradamento"
 
 #: did.php:184 trunks.php:277 modules/core/page.did.php:76
 #: modules/core/page.trunks.php:244 modules/core/page.did.php:75
 msgid "Route"
-msgstr "Rotta"
+msgstr "Regola di Instradamento"
 
 #: trunks.php:277 modules/core/page.trunks.php:244
 msgid "Sequence"
@@ -2124,15 +2113,15 @@ msgstr "Sequenza"
 
 #: trunks.php:281 modules/core/page.trunks.php:248
 msgid "This trunk is not used by any routes!"
-msgstr "Questo fascio non &egrave; utilizzato da nessuna rotta!"
+msgstr "Questo fascio non &egrave; utilizzato da nessuna regola di instradamento!"
 
 #: trunks.php:282 modules/core/page.trunks.php:249
 msgid ""
 "This trunk will not be able to be used for outbound calls until a route is "
 "setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
 msgstr ""
-"Questo fascio non sar&agrave; utilizzato finch &egrave; una rotta non sar&agrave; impostata per "
-"il suo utilizzo. Vai su <b>Rotte in Uscita</b> per impostarne una."
+"Questo fascio non sar&agrave; utilizzato finch &egrave; una regola di instradamento non sar&agrave; impostata per "
+"il suo utilizzo. Vai su <b>Instradamento in Uscita</b> per impostarne una."
 
 #: trunks.php:326 modules/core/page.trunks.php:293
 msgid "Outbound Caller ID"
@@ -2542,13 +2531,13 @@ msgstr "Il Nome del Fascio e il Contesto Utente non possono essere uguali"
 
 #: common/script.js.php:229 common/script.js.php:235
 msgid "Route name must not be blank"
-msgstr "Il nome di una Rotta non pu&ograve; essere vuoto"
+msgstr "Il nome di una Regola di Instradamento non pu&ograve; essere vuoto"
 
 msgid ""
 "Route name cannot start with a number, and can only contain letters and "
 "numbers"
 msgstr ""
-"Il nome di una Rotta non pu&ograve; iniziare con un numero, e pu&ograve; contenere solo "
+"Il nome di una Regola di Instradamento non pu&ograve; iniziare con un numero, e pu&ograve; contenere solo "
 "lettere e numeri"
 
 #: common/script.js.php:240 common/script.js.php:246
@@ -2609,18 +2598,6 @@ msgstr "Pannello Operatore"
 msgid "Rapporto Chiamate (CDR)"
 msgstr "Rapporto Chiamate (CDR)"
 
-#: routing.php:308 modules/core/page.routing.php:296
-msgid ""
-"Optional: A route can prompt users for a password before allowing calls to "
-"progress.  This is useful for restricting calls to international "
-"destinations or 1-900 numbers.<br><br>Leave this field blank to not prompt "
-"for password.</span>"
-msgstr ""
-"Opzionale: una rotta pu&ograve; richiedere all'utente una password prima di "
-"inoltrare la chiamata. Questo pu&ograve; essere utile per restringere le chiamate "
-"a numeri Internazionli o ad alta tariffazione.<br><br>Lasciare questo campo "
-"vuoto per non richiedere alcuna password"
-
 #: callgroups.php:147 modules/ringgroups/page.ringgroups.php:143
 #: modules/ringgroups/page.ringgroups.php:157
 msgid "hunt"
@@ -2647,17 +2624,17 @@ msgstr ""
 
 #: config.php:96 config.php:112
 msgid "Inbound Routing"
-msgstr "Rotte in Entrata"
+msgstr "Instradamento in Entrata"
 
 #: did.php:112 modules/core/functions.inc.php:208
 #: modules/core/functions.inc.php:225
 msgid "A route for this DID/CID already exists!"
-msgstr "Una rotta per questa Selezione Passante/CID gi&agrave; esiste!"
+msgstr "Un instradamento per questa Selezione Passante/CID gi&agrave; esiste!"
 
 #: did.php:157 did.php:187 modules/core/page.did.php:47
 #: modules/core/page.did.php:79 modules/core/page.did.php:78
 msgid "Add Incoming Route"
-msgstr "Aggiungi Rotta in Entrata"
+msgstr "Aggiungi Instradamento in Entrata"
 
 #: did.php:200 modules/core/page.did.php:92 modules/core/page.did.php:91
 msgid "Caller ID Number"
@@ -2741,7 +2718,7 @@ msgstr "La password della Casella Vocale pu&ograve; contenere solo numeri"
 
 #: common/script.js.php:233 common/script.js.php:239
 msgid "Route name is invalid, please try again"
-msgstr "Nome Rotta non valido, prego riprovare"
+msgstr "Nome Instradamento non valido, prego riprovare"
 
 #: common/script.js.php:353 common/script.js.php:359 common/script.js.php:214
 #: modules/core/page.ampusers.php:207
@@ -3257,7 +3234,7 @@ msgid ""
 "as Emergency.  The Emergency CID overrides all other caller id settings."
 msgstr ""
 "Questo identificativo sar&agrave; forzato quando si passer&agrave; "
-"per una rotta precedentemente impostata come Emergenza. L'ID di emergenza "
+"per una regola di instradamento precedentemente impostata come Emergenza. L'ID di emergenza "
 "sovrascriver&agrave; tutti gli altri ID."
 
 #: modules/core/page.did.php:101 modules/core/page.did.php:100
@@ -3288,7 +3265,7 @@ msgid ""
 msgstr ""
 "Opzionale: selezionando questa casella si forzer&agrave; l'utilizzo dell'ID di "
 "emergenza (se impostato).Selezionare questa casella per utilizzare queste "
-"rotte come uscita per le chiamate di emergenza (es: 113).</span>"
+"regole di instradamento come uscita per le chiamate di emergenza (es: 113).</span>"
 
 #: modules/irc/page.irc.php:25
 msgid "Start IRC"
@@ -3769,8 +3746,8 @@ msgid ""
 "an Authenticate password file can be used.<br><br>Leave this field blank to "
 "not prompt for password.</span>"
 msgstr ""
-"Opzionale: una rotta pu&ograve; richiedere una password prima di inoltrare la "
-"chiamata. E' molto utile per chiamate internazionali o numeri a tariffazione "
+"Opzionale: un instradamento pu&ograve; richiedere una password prima di inoltrare la "
+"chiamata. E' molto utile per limitare le chiamate internazionali o a numeri a tariffazione "
 "speciale.<br><br>Si puo utilizzare una password numerica o il percorso del "
 "file di Autenticazione.<br><br>Lasciare vuoto per nessuna password.</span>"
 
@@ -4154,10 +4131,10 @@ msgid "Administrators"
 msgstr "Amministratori"
 
 msgid "Inbound Routes"
-msgstr "Rotte in entrata"
+msgstr "Instradamento in entrata"
 
 msgid "Outbound Routes"
-msgstr "Rotte in uscita"
+msgstr "Instradamento in uscita"
 
 msgid "Applications"
 msgstr "Applicazioni"
