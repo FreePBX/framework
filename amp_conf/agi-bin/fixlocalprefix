@@ -157,14 +157,14 @@ if (isset($conf["trunk-$trunk"])) {
 			// Also kill the '-' characters outside of groups
 			$regex = preg_replace("/((?:\[[^\]]*\])*)([^\[\]\-]*)-?/", "$1$2", $regex);
 
+			if (false !== ($pos = strpos($regex,"+"))) {
+				$prefix = substr($regex,0,$pos);
+				$regex  = substr($regex,$pos);
+			}
 			if (false !== ($pos = strpos($regex,"|"))) {
 				// we're removing digits
 				$type  = "remove";
 				$regex = substr($regex,0,$pos) . "(" . substr($regex, $pos) . ")";
-			} else if (false !== ($pos = strpos($regex,"+"))) {
-				$type   = "add";
-				$prefix = substr($regex,0,$pos);
-				$regex  = substr($regex,$pos);
 			} else {
 				$pos = 0;
 				$type = "asis";
@@ -194,18 +194,16 @@ if (isset($conf["trunk-$trunk"])) {
 			// $agi->conlog("Trying to match number '$number' with regex '$regex' ($rule)");
 			if (preg_match("/^$regex$/",$number)) {
 				// it matched
-				switch ($type) {
-					case "remove":
-						$number = preg_replace("/^$regex$/", "$1", $number);
-						$agi->verbose("Removed prefix.  New number: $number");
-						$agi->set_variable("DIAL_NUMBER", $number);
-					break;
-					case "add":
-						// we're adding digits
-						$number = $prefix . $number;
-						$agi->verbose("Added prefix.  New number: $number");
-						$agi->set_variable("DIAL_NUMBER", $number);
-					break;
+				if ($type == "remove") {
+					$number = preg_replace("/^$regex$/", "$1", $number);
+					$agi->verbose("Removed prefix.  New number: $number");
+					$agi->set_variable("DIAL_NUMBER", $number);
+				}
+				if ($prefix != '') {
+					// we're adding digits
+					$number = $prefix . $number;
+					$agi->verbose("Added prefix.  New number: $number");
+					$agi->set_variable("DIAL_NUMBER", $number);
 				}
 				
 				// reverted back form r2080 (r2081 on trac) so that any pattern match will end
