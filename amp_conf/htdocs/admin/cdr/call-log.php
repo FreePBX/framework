@@ -267,11 +267,10 @@ if ($posted==1){
 	
 	
 			$res = $DBHandle -> query($QUERY);
-			$num = $DBHandle -> num_rows();
+			$num = $res -> numRows();
 			for($i=0;$i<$num;$i++)
 				{				
-					$DBHandle -> next_record();
-					$list_total_day [] =$DBHandle -> Record;				 
+					$list_total_day [] = $res -> fetchRow();
 				}
 				
 	if ($FG_DEBUG == 3) echo "<br>Clause : $FG_TABLE_CLAUSE";

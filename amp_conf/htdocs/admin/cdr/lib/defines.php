@@ -1,5 +1,7 @@
 <?php /* $Id$ */
 
+require_once('DB.php'); // PEAR
+
 function parse_amportal_conf($filename) {
         $file = file($filename);
         foreach ($file as $line) {
@@ -43,22 +45,25 @@ $appli_list['*69']=array("Call_Trace");
 $appli_list['s']=array("Catch-All");
 
 
-include (FSROOT."lib/DB-modules/phplib_".DB_TYPE.".php");
-
-
 function DbConnect()
-  {
-	
-	$DBHandle = new DB_Sql();
-	$DBHandle -> Database = DBNAME;
-	$DBHandle -> Host = HOST;
-	$DBHandle -> User = USER;
-	$DBHandle -> Password = PASS;
+{
+  if (DB_TYPE == "postgres")
+    { 
+      $datasource = 'pgsql://'.USER.':'.PASS.'@'.HOST.'/'.DBNAME;
+    }
+  else
+    { 
+      $datasource = DB_TYPE.'://'.USER.':'.PASS.'@'.HOST.'/'.DBNAME;
+    }
 
-	$DBHandle -> connect ();
-
-
-	return $DBHandle;
+  $db = DB::connect($datasource); // attempt connection
+ 
+  if(DB::isError($db))
+    {
+      die($db->getDebugInfo()); 
+    }
+ 
+  return $db;
 }
 
 

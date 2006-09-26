@@ -82,7 +82,7 @@ class Table {
 		$res = $DBHandle -> query($QUERY);
 		
 
-		$num = $DBHandle -> num_rows();
+		$num = $res -> numRows();
 		
 		
 		if ($num==0) return 0;
@@ -91,8 +91,7 @@ class Table {
 		for($i=0;$i<$num;$i++)
 			{
 				//$row[]=DbFetch($res, $i);
-				$DBHandle -> next_record();
-				$row [] =$DBHandle -> Record;	
+				$row [] =$res -> fetchRow();
 			        //	print_r ($row);
 			}
 
@@ -126,8 +125,7 @@ class Table {
 		/////$num=DbCount($res);
 
 		//$row=DbFetch($res, $i);		
-		$DBHandle -> next_record();
-		$row =$DBHandle -> Record;
+		$row =$res -> fetchRow();
 		//print_r ($DBHandle -> Record);
 			
 		//return ($row[0]);
@@ -154,10 +152,12 @@ class Table {
 		$QUERY = "INSERT INTO \"".$this -> table."\" (".$this -> fields.") values (".trim ($value).")";
 		if ($this -> debug_st) echo "<br>QUERY:".$QUERY;
 
-		if (! $res = $DBHandle -> query($QUERY)){
+		$res = $DBHandle -> query($QUERY);
+
+		if (DB::isError($res)){
 		//if (! $res=DbExec($link, $QUERY)) {
 			//$this -> errstr = "Could not create a new instance in the table '".$this -> table."'";				
-			$this -> errstr = $DBHandle -> Error;																			
+		        $this -> errstr = $DBHandle -> getMessage();																			
 
 			
 			return (false);
@@ -173,8 +173,7 @@ class Table {
 
 				if (! $res = $DBHandle -> query($sql)) return (false);
 				
-				$DBHandle -> next_record();
-				$row [] =$DBHandle -> Record;
+				$row [] =$res -> fetchRow();
 
 				return $row[0][0]; 
 		}
