@@ -122,7 +122,7 @@ switch($extdisplay) {
 		$version = $version[0][0];
 
 		if (isset($amp_conf['AMPMODULEMSG'])) {
-			$announcements = file_get_contents("$amp_conf['AMPMODULEMSG']"."/version-$version.html");
+			$announcements = file_get_contents($amp_conf['AMPMODULEMSG']."/version-$version.html");
 		} else {
 			$announcements = file_get_contents("http://mirror.freepbx.org/version-$version.html");
 		}
