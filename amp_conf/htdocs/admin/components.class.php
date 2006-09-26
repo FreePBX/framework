@@ -2,7 +2,8 @@
 // TODO: * Test 'processfunctions'
 
 class component {
-	var $_compname; // Component name (e.g. users, devices, etc.etc.)
+	var $_compname; // Component name (e.g. users, devices, etc.)
+	var $_type; // Type name of this component ( e.g. setup, tool etc.)
 	
 	var $_guielems_top; // Array of guielements
 	var $_guielems_middle; // Array of guielements
@@ -19,8 +20,9 @@ class component {
 	
 	var $_lists; // Array of lists
 
-	function component($compname) {
+	function component($compname, $type = 'setup') {
 		$this->_compname = $compname;
+		$this->_type = $type;
 		
 		$this->_sorted_guielems = true;
 		$this->_sorted_jsfuncs = true;
@@ -235,7 +237,8 @@ class component {
 
 		// Start of form
 		$htmlout .= "<form name=\"$formname\" action=\"".$_SERVER['PHP_SELF']."\" method=\"post\" onsubmit=\"return ".$formname."_onsubmit();\">\n";
-		$htmlout .= "<input type=\"hidden\" name=\"display\" value=\"$this->_compname\">\n\n";
+		$htmlout .= "<input type=\"hidden\" name=\"display\" value=\"$this->_compname\">\n";
+		$htmlout .= "<input type=\"hidden\" name=\"type\" value=\"$this->_type\">\n\n";
 		
 		// Start of table
 		$htmlout .= "<table>\n\n";
@@ -365,6 +368,10 @@ class component {
 				}
 			}
 		}
+	}
+
+	function isequal($compname, $type) {
+		return $this->_compname == $compname && $this->_type == $type;
 	}
 }
 

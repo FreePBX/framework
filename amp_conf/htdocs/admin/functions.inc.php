@@ -323,13 +323,13 @@ function getversion() {
 }
 
 // draw list for users and devices with paging
-function drawListMenu($results, $skip, $dispnum, $extdisplay, $description) {
+function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $description) {
 	$perpage=20;
 	
 	$skipped = 0;
 	$index = 0;
 	if ($skip == "") $skip = 0;
- 	echo "<li><a id=\"".($extdisplay=='' ? 'current':'')."\" href=\"config.php?display=".$dispnum."\">"._("Add")." ".$description."</a></li>";
+ 	echo "<li><a id=\"".($extdisplay=='' ? 'current':'')."\" href=\"config.php?type=".$type."&display=".$dispnum."\">"._("Add")." ".$description."</a></li>";
 
 	if (isset($results)) {
 		foreach ($results AS $key=>$result) {
@@ -344,7 +344,7 @@ function drawListMenu($results, $skip, $dispnum, $extdisplay, $description) {
 			}
 			
 			$index= $index + 1;	
-			echo "<li><a id=\"".($extdisplay==$result[0] ? 'current':'')."\" href=\"config.php?display=".$dispnum."&extdisplay={$result[0]}&skip={$skip}\">{$result[1]} <{$result[0]}></a></li>";
+			echo "<li><a id=\"".($extdisplay==$result[0] ? 'current':'')."\" href=\"config.php?type=".$type."&display=".$dispnum."&extdisplay={$result[0]}&skip={$skip}\">{$result[1]} <{$result[0]}></a></li>";
 		}
 	}
 	 
@@ -355,14 +355,14 @@ function drawListMenu($results, $skip, $dispnum, $extdisplay, $description) {
 	if ($skip) {
 		 $prevskip= $skip - $perpage;
 		 if ($prevskip<0) $prevskip= 0;
-		 $prevtag_pre= "<a href='?display=".$dispnum."&skip=$prevskip'>[PREVIOUS]</a>";
+		 $prevtag_pre= "<a href='?type=".$type."&display=".$dispnum."&skip=$prevskip'>[PREVIOUS]</a>";
 		 print "$prevtag_pre";
 	}
 	
 	if (isset($shownext)) {
 		$nextskip= $skip + $index;
 		if ($prevtag_pre) $prevtag .= " | ";
-		print "$prevtag <a href='?display=".$dispnum."&skip=$nextskip'>[NEXT]</a>";
+		print "$prevtag <a href='?type=".$type."&display=".$dispnum."&skip=$nextskip'>[NEXT]</a>";
 	}
 	elseif ($skip) {
 		print "$prevtag";

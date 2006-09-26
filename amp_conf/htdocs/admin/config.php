@@ -13,14 +13,25 @@
 
 $title="freePBX administration";
 
+$type = isset($_REQUEST['type'])?$_REQUEST['type']:'setup';
+$display = isset($_REQUEST['display'])?$_REQUEST['display']:'';
+$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
+$skip = isset($_REQUEST['skip'])?$_REQUEST['skip']:0;
+$action = isset($_REQUEST['action'])?$_REQUEST['action']:null;
+$quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
+
 // determine module type to show, default to 'setup'
-if(isset($_REQUEST['type']) && $_REQUEST['type'] == "tool") {
+if($type == "tool") {
 	$message="Tools";
+	$amp_sections = array(
+		'modules'=>_("Module Admin")
+	);
+} elseif($type == "cdrcost") {
+	$message="Call Cost";
 } else {
 	$message="Setup";
 }
 
-$quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 require_once('functions.inc.php');
 
 // get settings
@@ -29,31 +40,12 @@ $asterisk_conf = parse_asterisk_conf("/etc/asterisk/asterisk.conf");
 
 include 'header_auth.php';
 
-if (isset($_REQUEST['display'])) {
-	$display=$_REQUEST['display'];
-} else {
-	$display='';
-}
-
-// if we are looking at tools, then show module admin
-if ($_REQUEST['type'] == "tool") {
-	$amp_sections = array(
-		'modules'=>_("Module Admin")
-	);
-}
-
 /*
 // only show AMP Users if they have authtype set approiately
 if (isset($amp_conf["AUTHTYPE"]) && ($amp_conf["AUTHTYPE"] != "none")) {
 	$amp_sections[10] = _("AMP Users");
 }*/
 
-// determine module type to show, default to 'setup'
-if(isset($_REQUEST['type']) && $_REQUEST['type'] == "tool") {
-	$type='tool';
-} else {
-	$type='setup';
-}
 // get all enabled modules
 // active_modules array used below and in drawselects function and genConf function
 $active_modules = find_modules(2);
@@ -139,7 +131,7 @@ foreach ($amp_sections as $key=>$value) {
 				if(preg_match("/^(<a.+>)(.+)(<\/a>)/",$value,$matches))
 					echo "<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
 				else
-				echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?".(isset($_REQUEST['type'])?"type={$_REQUEST['type']}&":"")."display=".$key."\">"._($value)."</a></li>\n";
+				echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?type=".$type."&display=".$key."\">"._($value)."</a></li>\n";
 			}
 		}
 	} else {
@@ -157,7 +149,8 @@ if ( ($display != '') && !isset($amp_sections[$display]) ) {
 
 // load the component from the loaded modules
 if ( $display != '' && isset($configpageinits) && is_array($configpageinits) ) {
-	$currentcomponent = new component($display);
+
+	$currentcomponent = new component($display,$type);
 
 	// call every modules _configpageinit function which should just
 	// register the gui and process functions for each module, if relevent

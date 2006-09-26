@@ -85,7 +85,7 @@ if (!isset($_REQUEST['type'])) { $_REQUEST['type'] = 'setup'; }
 	</a>
 <?php } ?>
 
-	<a id="<?php echo ($currentFile=='config.php' && $_REQUEST['type']!='tool' ? 'current':'') ?>" href="config.php?type=setup">
+	<a id="<?php echo ($currentFile=='config.php' && $_REQUEST['type']=='setup' ? 'current':'') ?>" href="config.php?type=setup">
 		&#8226;
 		<li><?php echo _("Setup") ?></li>
 	</a>
