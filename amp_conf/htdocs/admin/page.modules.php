@@ -120,7 +120,13 @@ switch($extdisplay) {
 		// Check for a warning or text message at mirror.freepbx.org/version-$version.html
 		$version = getversion();
 		$version = $version[0][0];
-		$announcements = file_get_contents("http://mirror.freepbx.org/version-$version.html");
+
+		if (isset($amp_conf['AMPMODULEMSG'])) {
+			$announcements = file_get_contents("$amp_conf['AMPMODULEMSG']"."/version-$version.html");
+		} else {
+			$announcements = file_get_contents("http://mirror.freepbx.org/version-$version.html");
+		}
+
 		print "$announcements";
 
 		// determine which modules we have installed already
