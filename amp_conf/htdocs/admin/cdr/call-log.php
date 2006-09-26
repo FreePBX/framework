@@ -86,7 +86,7 @@ $FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, dst, server
 $FG_TABLE_COL[]=array ("Calldate", "calldate", "18%", "center", "SORT", "19");
 $FG_TABLE_COL[]=array ("Channel", "channel", "13%", "center", "", "30", "", "", "", "", "", "display_acronym");
 $FG_TABLE_COL[]=array ("Source", "src", "14%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Clid", "clid", "26%", "center", "", "30");
+$FG_TABLE_COL[]=array ("Clid", "clid", "26%", "center", "", "80");
 
 $FG_TABLE_COL[]=array ("Dst", "dst", "14%", "center", "SORT", "30");
 
