@@ -121,7 +121,7 @@ foreach ($amp_sections as $key=>$value) {
 			if (extension_loaded('gettext')) {
 				if(is_dir("modules/{$key}/i18n")) {
 					bindtextdomain($key,"modules/{$key}/i18n");
-					bind_textdomain_codeset($key, 'utf8')
+					bind_textdomain_codeset($key, 'utf8');
 					textdomain($key);
 				} else {
 					bindtextdomain('amp','./i18n');
