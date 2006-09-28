@@ -121,6 +121,7 @@ foreach ($amp_sections as $key=>$value) {
 			if (extension_loaded('gettext')) {
 				if(is_dir("modules/{$key}/i18n")) {
 					bindtextdomain($key,"modules/{$key}/i18n");
+					bind_textdomain_codeset($key, 'utf8')
 					textdomain($key);
 				} else {
 					bindtextdomain('amp','./i18n');
@@ -186,6 +187,7 @@ switch($display) {
 				if (extension_loaded('gettext')) {
 					if(is_dir("./modules/{$modkey}/i18n")) {
 						bindtextdomain($modkey,"./modules/{$modkey}/i18n");
+						bind_textdomain_codeset($modkey, 'utf8');
 						textdomain($modkey);
 					}
 				}
@@ -274,6 +276,7 @@ switch($display) {
 //use main translation file for footer
 if (extension_loaded('gettext')) {
 	bindtextdomain('amp','./i18n');
+	bind_textdomain_codeset('amp', 'utf8');
 	textdomain('amp');
 }
 	

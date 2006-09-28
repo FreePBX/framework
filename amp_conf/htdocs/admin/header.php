@@ -54,7 +54,7 @@ if (!$quietmode) {
 	if (extension_loaded('gettext')) {
 		if (isset($_COOKIE['lang'])) {
 			setlocale(LC_MESSAGES,  $_COOKIE['lang']);
-			putenv("LANG=".$_COOKIE['lang']);
+			putenv("LANGUAGE=".$_COOKIE['lang']);
 		} else {
 			setlocale(LC_MESSAGES,  'en_US');
 		}
