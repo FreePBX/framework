@@ -66,7 +66,7 @@ function getAmpAdminUsers() {
 function getAmpUser($username) {
 	global $db;
 	
-	$sql = "SELECT username, password, extension_low, extension_high, deptname, sections FROM ampusers WHERE username = '".$username."'";
+	$sql = "SELECT username, password, extension_low, extension_high, deptname, sections FROM ampusers WHERE username = '".addslashes($username)."'";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 	   die($results->getMessage());
@@ -259,7 +259,7 @@ function find_modules($status) {
 function modules_getversion($modname) {
 	global $db;
 
-	$sql = "SELECT version FROM modules WHERE modulename = '$modname'";
+	$sql = "SELECT version FROM modules WHERE modulename = '".addslashes($modname)."'";
 	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
 	if (isset($results['version'])) 
 		return $results['version'];
@@ -271,7 +271,7 @@ function modules_getversion($modname) {
 function modules_setversion($modname, $vers) {
 	global $db;
 
-	return sql("UPDATE modules SET version='$vers' WHERE modulename = '$modname'");
+	return sql("UPDATE modules SET version='".addslashes($vers)."' WHERE modulename = '".addslashes($modname)."'");
 }
 
 
@@ -742,7 +742,7 @@ function drawselects($goto,$i) {
 	//delete extension from extensions table
 	function legacy_extensions_del($context,$exten) {
 		global $db;
-		$sql = "DELETE FROM extensions WHERE context = '".$context."' AND `extension` = '".$exten."'";
+		$sql = "DELETE FROM extensions WHERE context = '".addslashes($context)."' AND `extension` = '".addslashes($exten)."'";
 		$result = $db->query($sql);
 		if(DB::IsError($result)) {
 			die($result->getMessage());
@@ -754,7 +754,7 @@ function drawselects($goto,$i) {
 	//get args for specified exten and priority - primarily used to grab goto destination
 	function legacy_args_get($exten,$priority,$context) {
 		global $db;
-		$sql = "SELECT args FROM extensions WHERE extension = '".$exten."' AND priority = '".$priority."' AND context = '".$context."'";
+		$sql = "SELECT args FROM extensions WHERE extension = '".addslashes($exten)."' AND priority = '".addslashes($priority)."' AND context = '".addslashes($context)."'";
 		list($args) = $db->getRow($sql);
 		return $args;
 	}
