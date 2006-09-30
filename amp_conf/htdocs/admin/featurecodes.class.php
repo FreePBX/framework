@@ -6,8 +6,9 @@ class featurecode
 	var $_description;	// Description (i.e. what the user will see)
 	var $_defaultcode;	// Default code if user doesn't pick one
 	var $_customcode;	// Custom code
-	var $_enabled;		// Enabled/Disabled (0-disabled; 1-enabled)
-	
+	var $_enabled;		// Enabled/Disabled (0=disabled; 1=enabled; -1=unknown)
+	var $_loaded;		// If this feature code was succesfully loaded from the DB
+
 	// CONSTRUCTOR
 	function featurecode($modulename, $featurename) {
 		if ($modulename == '' || $featurename == '')
@@ -16,6 +17,7 @@ class featurecode
 		$this->_modulename = $modulename;
 		$this->_featurename = $featurename;
 		$this->_enabled = -1;  // -1 means not initialised
+		$this->_loaded = false;
 	}
 
 	// HAS BEEN INIT'D ????
@@ -44,10 +46,10 @@ class featurecode
 			$this->_customcode = $res[2];
 			$this->_enabled = $res[3];
 			
+			$this->_loaded = true;
+
 			return true;
 		} else {
-			// didn't find, but mark as 'enabled' by default ???
-			$this->_enabled = 1;
 			
 			return false;
 		}
@@ -55,20 +57,30 @@ class featurecode
 	
 	// UPDATE FUNCTION -- WRITES CURRENT STUFF BACK TO DATABASE
 	function update() {
-		global $amp_conf; 
+		global $amp_conf;
+		if ($this->_enabled == -1) {
+			// not explicitly set, old default was to enable by default, we will preserve that behaviour
+			$this->_enabled = 1;
+		}
+
 		if (!$this->isReady())
 			die('FeatureCode: class function init never called...will not update');
 
-		$s = "REPLACE INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled) ";
-		$s .= "VALUES (".sql_formattext($this->_modulename).", ".sql_formattext($this->_featurename).", ".sql_formattext($this->_description).", ".sql_formattext($this->_defaultcode).", ".sql_formattext($this->_customcode).", ".sql_formattext($this->_enabled).") ";
 		
-		// replace into is MYSQL only.
-		// pgsql should be checkedd. sqlite does not like this.
-		if ($amp_conf["AMPDBENGINE"] == "sqlite") {
-			$s = str_replace( "REPLACE", "INSERT", $s );
+		if ($this->_loaded) {
+			$sql = 'UPDATE featurecodes SET '.
+			       'description = '.sql_formattext($this->_description).', '.
+			       'defaultcode = '.sql_formattext($this->_defaultcode).', '.
+			       'customcode = '.sql_formattext($this->_customcode).', '.
+			       'enabled = '.sql_formattext($this->_enabled).' '.
+			       'WHERE modulename = '.sql_formattext($this->_modulename).
+			       ' AND featurename = '.sql_formattext($this->_featurename);
+		} else {
+			$sql = 'INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled) '.
+			       'VALUES ('.sql_formattext($this->_modulename).', '.sql_formattext($this->_featurename).', '.sql_formattext($this->_description).', '.sql_formattext($this->_defaultcode).', '.sql_formattext($this->_customcode).', '.sql_formattext($this->_enabled).') ';
 		}
 
-		sql($s, "query");
+		sql($sql, 'query');
 		
 		return true;
 	}
@@ -96,7 +108,7 @@ class featurecode
 	}
 	
 	// SET DEFAULT CODE
-	function setDefault($deafultcode) {
+	function setDefault($deafultcode, $defaultenabled = true) {
 		if (!$this->isReady())
 			$this->init(1);
 			
@@ -105,6 +117,8 @@ class featurecode
 		} else {
 			$this->_defaultcode = $deafultcode;			
 		}
+
+
 	}
 	
 	// GET DEFAULT CODE
