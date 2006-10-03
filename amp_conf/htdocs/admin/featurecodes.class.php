@@ -118,6 +118,10 @@ class featurecode
 			$this->_defaultcode = $deafultcode;			
 		}
 
+		if ($this->_enabled == -1) {
+			$this->_enabled = ($defaultenabled) ? 1 : 0;
+		}
+
 
 	}
 	
