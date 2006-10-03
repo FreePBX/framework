@@ -29,31 +29,20 @@ source $AMPCONFIG
 
 echo "Updating configuration..."
 
-echo "/etc/asterisk/cdr_mysql.conf"
-sed -r -i "s/user=[a-zA-Z0-9]*/user=$AMPDBUSER/" /etc/asterisk/cdr_mysql.conf
-sed -r -i "s/password=[a-zA-Z0-9]*/password=$AMPDBPASS/" /etc/asterisk/cdr_mysql.conf
-sed -r -i "s/hostname=[a-zA-Z0-9.-]*/hostname=$AMPDBHOST/" /etc/asterisk/cdr_mysql.conf
+echo "$ASTETCDIR/cdr_mysql.conf"
+sed -i.bak "s/user=[a-zA-Z0-9]*/user=$AMPDBUSER/" /etc/asterisk/cdr_mysql.conf
+sed -i.bak "s/password=[a-zA-Z0-9]*/password=$AMPDBPASS/" /etc/asterisk/cdr_mysql.conf
+sed -i.bak "s/hostname=[a-zA-Z0-9.-]*/hostname=$AMPDBHOST/" /etc/asterisk/cdr_mysql.conf
 
-echo "/etc/asterisk/manager.conf"
-sed -r -i "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" /etc/asterisk/manager.conf
-sed -r -i "/\[general\]/!s/\[[a-zA-Z0-9]+\]/[$AMPMGRUSER]/" /etc/asterisk/manager.conf
+echo "$ASTETCDIR/manager.conf"
+sed -i.bak "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" /etc/asterisk/manager.conf
+sed -i.bak "/\[general\]/!s/\[[a-zA-Z0-9]+\]/[$AMPMGRUSER]/" /etc/asterisk/manager.conf
 
-#if [ -e $AMPWEBROOT"/panel/op_server.cfg" ]; then
-#	echo $AMPWEBROOT"/panel/op_server.cfg"
-#	sed -r -i "s/manager_user=[a-zA-Z0-9]*/manager_user=$AMPMGRUSER/" $FOPWEBROOT/op_server.cfg
-#	sed -r -i "s/manager_secret=[a-zA-Z0-9]*/manager_secret=$AMPMGRPASS/" $FOPWEBROOT/op_server.cfg
-#	sed -r -i "s/web_hostname=[a-zA-Z0-9_.-]*/web_hostname=$AMPWEBADDRESS/" $FOPWEBROOT/op_server.cfg
-#	sed -r -i "s/security_code=[a-zA-Z0-9]*/security_code=$FOPPASSWORD/" $FOPWEBROOT/op_server.cfg
-#	sed -r -i "s!flash_dir=[a-zA-Z0-9_./\-]*!flash_dir=$FOPWEBROOT!" $FOPWEBROOT/op_server.cfg
-#	sed -r -i "s!web_hostname=[a-zA-Z0-9.-]*!web_hostname=$AMPWEBADDRESS!" $FOPWEBROOT/op_server.cfg
-#	sed -r -i "s!web_hostname=[a-zA-Z0-9.-]*!web_hostname=$AMPWEBADDRESS!" $FOPWEBROOT/op_server.cfg
-#fi
-
-echo "/etc/asterisk/vm_email.inc"
+echo "$ASTETCDIR/vm_email.inc"
 if [ "xx$AMPWEBADDRESS" = "xx" ]; then
 	echo "You might need to modify /etc/asterisk/vm_email.inc manually"
 else
-	sed -r -i "s!http://.*/recordings!http://$AMPWEBADDRESS/recordings!" /etc/asterisk/vm_email.inc
+	sed -i.bak "s!http://.*/recordings!http://$AMPWEBADDRESS/recordings!" /etc/asterisk/vm_email.inc
 fi
 
 
