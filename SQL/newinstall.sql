@@ -221,3 +221,11 @@ CREATE TABLE IF NOT EXISTS `featurecodes` (
   KEY `enabled` (`enabled`)
 ) TYPE=MyISAM;
 
+CREATE TABLE IF NOT EXISTS `freepbx_log` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `time` DATETIME NOT NULL ,
+  `section` VARCHAR( 50 ) NULL ,
+  `level` ENUM( 'error', 'warning', 'debug' ) NOT NULL ,
+  `message` TEXT NOT NULL ,
+  INDEX ( `time` , `level` )
+) ENGINE = MYISAM ;

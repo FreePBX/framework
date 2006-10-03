@@ -1,0 +1,9 @@
+CREATE TABLE `freepbx_log` (
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`time` DATETIME NOT NULL ,
+`section` VARCHAR( 50 ) NULL ,
+`level` ENUM( 'error', 'warning', 'debug' ) NOT NULL ,
+`message` TEXT NOT NULL ,
+INDEX ( `time` , `level` )
+) ENGINE = MYISAM ;
+
