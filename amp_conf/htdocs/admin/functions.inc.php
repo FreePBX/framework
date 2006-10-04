@@ -1004,4 +1004,13 @@ function queues_hookProcess_core($viewing_itemid, $request) {
 }
 */
 
+function freepbx_log($section, $level, $message) {
+	global $db;
+	global $debug; // This is used by retrieve_conf
+
+	$sth = $db->prepare("INSERT INTO freepbx_log (time, section, level, message) VALUES (NOW(),?,?,?)");
+	$db->execute($sth, array($section, $level, $message));
+	if (isset($debug) && ($debug != false))
+		print "[DEBUG-$section] ($level) $message\n";
+}
 ?>

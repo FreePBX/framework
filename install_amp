@@ -62,7 +62,7 @@ function fatal($text) {
 function debug($text) {
 	global $debug;
 	
-	if ($debug) echo "[DEBUG] ".$text."\n";
+	if ($debug) echo "[DEBUG-preDB] ".$text."\n";
 }
 
 function showHelp() {
@@ -425,7 +425,7 @@ function generate_configs() {
 	
 	out("Generating Configurations.conf..");
 	if (!$dryrun)
-		passthru("su - asterisk -c ".trim($amp_conf["AMPBIN"])."/retrieve_conf ".($debug ? ' --debug' : ''));
+		passthru("su - asterisk -c \"".trim($amp_conf["AMPBIN"])."/retrieve_conf ".($debug ? ' --debug' : '').'"');
 }
 
 

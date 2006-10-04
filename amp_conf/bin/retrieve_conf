@@ -24,7 +24,7 @@ function fatal($text) {
 function debug($text) {
 	global $debug;
 	
-	if ($debug) echo "[DEBUG] ".$text."\n";
+	if ($debug) echo "[DEBUG-preDB] ".$text."\n";
 }
 
 function showHelp() {
@@ -217,6 +217,7 @@ out("OK");
 //include common functions
 require_once($amp_conf['AMPWEBROOT']."/admin/extensions.class.php");
 require_once($amp_conf['AMPWEBROOT']."/admin/functions.inc.php");
+freepbx_log("retrieve_conf", "devel-debug", "Started retrieve_conf, DB Connection OK");
 
 // query for our modules
 $modules = find_allmodules();
@@ -240,8 +241,9 @@ if(is_array($modules)){
 			$active_modules[] = $key;
 			//include module functions
 			if (is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
-				debug('Including '.$amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
-				require_once($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
+				freepbx_log('retrieve_conf', 'devel-debug', 'Including '.$amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
+				include_once($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
+				freepbx_log('retrieve_conf', 'devel-debug', $amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php processed OK");
 			}
 
 			// create symlinks for files in appropriate sub directories
@@ -258,7 +260,7 @@ $ext = new extensions;
 // currently only 1 class can be declared per module, not sure if that will be an issue
 if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $active_module) { 
-		debug("Creating ".$active_module."_conf class");
+		freepbx_log('retrieve_conf', 'devel-debug', "Creating ".$active_module."_conf class");
 		$classname = $active_module."_conf";
 		if(class_exists($classname)) {
 			${$classname} = new $classname;
@@ -271,23 +273,17 @@ $engine = "asterisk";
 //Need a way to know exact asterisk path
 list ( , $version) = explode(' ',  exec("/usr/sbin/asterisk -V"), 2);
 
-// run all of the *_get_config functions, which will populate the appropriate objects
+// run all of the *_get_config and _hookGet_config functions, which will populate the appropriate objects
 if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $module) {
 		$funcname = $module."_get_config";
 		if (function_exists($funcname)) { 
-			debug('Calling '.$funcname.'()');
+			freepbx_log('retrieve_conf', 'devel-debug', 'Calling '.$funcname.'()');
 			$funcname($engine);
 		}
-	}
-}
-
-// now run all of the *_hookGet_config functions, which allows the generated dialplan to be modified (ie: $ext->splice())
-if(isset($active_modules) && is_array($active_modules)){
-	foreach($active_modules as $module) {
 		$funcname = $module."_hookGet_config";
 		if (function_exists($funcname)) { 
-			debug('Calling '.$funcname.'()');
+			freepbx_log('retrieve_conf', 'devel-debug', 'Calling '.$funcname.'()');
 			$funcname($engine);
 		}
 	}
@@ -314,9 +310,11 @@ if(isset($active_modules) && is_array($active_modules)){
 			// ** pinsets is an example of a module that does this
 			if (is_array(${$classname}->get_filename())) {
 				foreach(${$classname}->get_filename() as $modconf) {
+					freepbx_log('retrieve_conf', 'devel-debug', 'generateConf from '.$classname.'->'.$modconf.'');
 					write_file($modconf,${$classname}->generateConf($modconf));
 				}
 			} else {
+				freepbx_log('retrieve_conf', 'devel-debug', 'generateConf from '.$classname);
 				write_file(${$classname}->get_filename(),${$classname}->generateConf());
 			}
 		}
@@ -325,7 +323,7 @@ if(isset($active_modules) && is_array($active_modules)){
 
 function write_file($filename,$contents) {
 	global $asterisk_conf;
-	debug('Writing '.$filename);
+	freepbx_log('retrieve_conf', 'devel-debug', 'Writing '.$filename);
 	if (isset($filename) && !empty($filename)) {
 		if ($fd = fopen(addslash($asterisk_conf['astetcdir']).$filename, "w")) {
 			fwrite($fd, $contents);
@@ -345,15 +343,15 @@ function symlink_subdirs($moduledir) {
 				if ($file[0] != '.') {
 					if (file_exists(addslash($targetdir).$file)) {
 						if (readlink(addslash($targetdir).$file) != addslash($dir).$file) {
-							error(addslash($targetdir).$file.' already exists!');
+							freepbx_log('retrieve-conf', 'error', addslash($targetdir).$file.' already exists, and is linked to something else!');
 						} else {
-							debug(addslash($targetdir).$file.' already points to '.addslash($dir).$file.' - OK');
+							freepbx_log('retrieve-conf', 'devel-debug', addslash($targetdir).$file.' already points to '.addslash($dir).$file.' - OK');
 						}
 					} else {	
 						if (symlink(addslash($dir).$file, addslash($targetdir).$file)) {
-							debug('Symlinked '.addslash($dir).$file.' to '.addslash($targetdir).$file);
+							freepbx_log('retrieve-conf', 'devel-debug', 'Symlinked '.addslash($dir).$file.' to '.addslash($targetdir).$file);
 						} else {
-							error('Cannot symlink '.addslash($dir).$file.' to '.addslash($targetdir).$file);
+							freepbx_log('Cannot symlink '.addslash($dir).$file.' to '.addslash($targetdir).$file.'. Check Permissions?');
 						}
 					}
 				}
