@@ -226,6 +226,7 @@ CREATE TABLE IF NOT EXISTS `freepbx_log` (
   `time` DATETIME NOT NULL ,
   `section` VARCHAR( 50 ) NULL ,
   `level` ENUM( 'error', 'warning', 'debug' ) NOT NULL ,
+  `status` INT NOT NULL,
   `message` TEXT NOT NULL ,
   INDEX ( `time` , `level` )
 ) ENGINE = MYISAM ;
