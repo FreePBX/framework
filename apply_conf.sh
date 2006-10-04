@@ -30,19 +30,19 @@ source $AMPCONFIG
 echo "Updating configuration..."
 
 echo "$ASTETCDIR/cdr_mysql.conf"
-sed -i.bak "s/user=[a-zA-Z0-9]*/user=$AMPDBUSER/" /etc/asterisk/cdr_mysql.conf
-sed -i.bak "s/password=[a-zA-Z0-9]*/password=$AMPDBPASS/" /etc/asterisk/cdr_mysql.conf
-sed -i.bak "s/hostname=[a-zA-Z0-9.-]*/hostname=$AMPDBHOST/" /etc/asterisk/cdr_mysql.conf
+sed -i.bak "s/user=[a-zA-Z0-9]*/user=$AMPDBUSER/" $ASTETCDIR/cdr_mysql.conf
+sed -i.bak "s/password=[a-zA-Z0-9]*/password=$AMPDBPASS/" $ASTETCDIR/cdr_mysql.conf
+sed -i.bak "s/hostname=[a-zA-Z0-9.-]*/hostname=$AMPDBHOST/" $ASTETCDIR/cdr_mysql.conf
 
 echo "$ASTETCDIR/manager.conf"
-sed -i.bak "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" /etc/asterisk/manager.conf
-sed -i.bak "/\[general\]/!s/\[[a-zA-Z0-9]+\]/[$AMPMGRUSER]/" /etc/asterisk/manager.conf
+sed -i.bak "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" $ASTETCDIR/manager.conf
+sed -i.bak "s/\[AMPMGRUSER\]/\[$AMPMGRUSER\]/" $ASTETCDIR/manager.conf
 
 echo "$ASTETCDIR/vm_email.inc"
 if [ "xx$AMPWEBADDRESS" = "xx" ]; then
 	echo "You might need to modify /etc/asterisk/vm_email.inc manually"
 else
-	sed -i.bak "s!http://.*/recordings!http://$AMPWEBADDRESS/recordings!" /etc/asterisk/vm_email.inc
+	sed -i.bak "s!http://.*/recordings!http://$AMPWEBADDRESS/recordings!" $ASTETCDIR/vm_email.inc
 fi
 
 
