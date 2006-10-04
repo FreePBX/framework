@@ -288,3 +288,36 @@ div.inyourface a{
 .clsHidden{ 
 	display: none 
 }
+
+
+/* For modules page */
+#modulelist li {
+    list-style-type: none;
+}
+#modulelist ul {
+	padding-left:0;
+	position:relative;
+}
+#modulelist #modulelist-header {
+	position:relative;
+}
+#modulelist .modulename {
+	position:absolute;
+	left:0em;
+}
+#modulelist .moduletype {
+	position:absolute;
+	left: 20em;
+}
+#modulelist .moduleversion {
+	position:absolute;
+	left: 25em;
+}
+#modulelist .modulestatus {
+	position:absolute;
+	left: 30em;
+
+}
+#modulelist .clear {
+	clear:both;
+}

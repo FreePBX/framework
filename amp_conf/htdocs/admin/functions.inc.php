@@ -14,6 +14,12 @@
 require_once('featurecodes.class.php');
 require_once('components.class.php');
 
+define('MODULE_STATUS_NOTINSTALLED', 0);
+define('MODULE_STATUS_DISABLED', 1);
+define('MODULE_STATUS_ENABLED', 2);
+define('MODULE_STATUS_NEEDUPGRADE', 3);
+define('MODULE_STATUS_BROKEN', -1);
+
 function parse_amportal_conf($filename) {
 	$file = file($filename);
 	if (is_array($file)) {
@@ -803,7 +809,7 @@ class xml2Array {
 	function tagData($parser, $tagData) {
 		if(trim($tagData)) {
 			if(isset($this->arrOutput[count($this->arrOutput)-1]['tagData'])) {
-				$this->arrOutput[count($this->arrOutput)-1]['tagData'] .= $tagData;
+				$this->arrOutput[count($this->arrOutput)-1]['tagData'] .= "\n".$tagData;
 			} 
 			else {
 				$this->arrOutput[count($this->arrOutput)-1]['tagData'] = $tagData;
@@ -815,6 +821,46 @@ class xml2Array {
 		$this->arrOutput[count($this->arrOutput)-2]['children'][] = $this->arrOutput[count($this->arrOutput)-1];
 		array_pop($this->arrOutput);
 	}
+	
+	function recursive_parseLevel($items) {
+		$array = array();
+		foreach (array_keys($items) as $idx) {
+			$items[$idx]['name'] = strtolower($items[$idx]['name']);
+			
+			$multi = false;
+			if (isset($array[ $items[$idx]['name'] ])) {
+				// this child is already set, so we're adding multiple items to an array 
+				
+				if (!is_array($array[ $items[$idx]['name'] ]) || !isset($array[ $items[$idx]['name'] ][0])) {
+					// hasn't already been made into a numerically-indexed array, so do that now
+					// we're basically moving the current contents of this item into a 1-item array (at the 
+					// original location) so that we can add a second item in the code below
+					$array[ $items[$idx]['name'] ] = array( $array[ $items[$idx]['name'] ] );
+				}
+				$multi = true;
+			}
+			
+			if (isset($items[$idx]['children']) && is_array($items[$idx]['children'])) {
+				if ($multi) {
+					$array[ $items[$idx]['name'] ][] = $this->recursive_parseLevel($items[$idx]['children']);
+				} else {
+					$array[ $items[$idx]['name'] ] = $this->recursive_parseLevel($items[$idx]['children']);
+				}
+			} else if (isset($items[$idx]['tagData'])) {
+				if ($multi) {
+					$array[ $items[$idx]['name'] ][] = $items[$idx]['tagData'];
+				} else {
+					$array[ $items[$idx]['name'] ] = $items[$idx]['tagData'];
+				}
+			}
+		}
+		return $array;
+	}
+	
+	function parseAdvanced($strInputXML) {
+		$array = $this->parse($strInputXML);
+		return $this->recursive_parseLevel($array);
+	}
 }
 
 /*
@@ -822,7 +868,18 @@ class xml2Array {
 */
 class xml2ModuleArray extends xml2Array {
 	function parseModulesXML($strInputXML) {
-		$arrOutput = $this->parse($strInputXML);
+		$array = $this->parseAdvanced($strInputXML);
+		if (isset($array['xml'])) {
+			foreach ($array['xml'] as $key=>$module) {
+				if ($key == 'module') {
+					// copy the structure verbatim
+					$modules[ $module['name'] ] = $module;
+					// add in a couple that aren't normally there..
+					$modules[ $module['name'] ] = $module;
+				}
+			}
+		}
+		
 		// if you are confused about what's happening below, uncomment this why we do it
 		// echo "<pre>"; print_r($arrOutput); echo "</pre>";
 		
@@ -1004,13 +1061,454 @@ function queues_hookProcess_core($viewing_itemid, $request) {
 }
 */
 
-function freepbx_log($section, $level, $message) {
-	global $db;
-	global $debug; // This is used by retrieve_conf
+/** Module functions 
+ */
+ 
+/** Get the latest module.xml file for this freePBX version. 
+ * Caches in the database for 5 mintues.
+ * If $module is specified, only returns the data for that module
+ */
+function module_getonlinexml($module = false) { // was getModuleXml()
+	global $amp_conf;
+	//this should be in an upgrade file ... putting here for now.
+	sql('CREATE TABLE IF NOT EXISTS module_xml (time INT NOT NULL , data BLOB NOT NULL) TYPE = MYISAM ;');
+	
+	$result = sql('SELECT * FROM module_xml','getRow',DB_FETCHMODE_ASSOC);
+	// if the epoch in the db is more than 2 hours old, or the xml is less than 100 bytes, then regrab xml
+	// Changed to 5 minutes while not in release. Change back for released version.
+	//
+	// used for debug, time set to 0 to always fall through
+	// if((time() - $result['time']) > 0 || strlen($result['data']) < 100 ) {
+	if((time() - $result['time']) > 300 || strlen($result['data']) < 100 ) {
+		$version = getversion();
+		$version = $version[0][0];
+		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
+		preg_match('/(\d+\.\d+)/',$version,$matches);
+		//echo "the result is ".$matches[1];
+		if (isset($amp_conf["AMPMODULEXML"])) {
+			$fn = $amp_conf["AMPMODULEXML"]."modules-".$matches[1].".xml";
+			// echo "(From amportal.conf)"; //debug
+		} else {
+		$fn = "http://mirror.freepbx.org/modules-".$matches[1].".xml";
+			// echo "(From default)"; //debug
+		}
+		//$fn = "/usr/src/freepbx-modules/modules.xml";
+		$data = file_get_contents($fn);
+		// remove the old xml
+		sql('DELETE FROM module_xml');
+		// update the db with the new xml
+		$data4sql = (get_magic_quotes_gpc() ? $data : addslashes($data));
+		sql('INSERT INTO module_xml (time,data) VALUES ('.time().',"'.$data4sql.'")');
+	} else {
+//		echo "using cache";
+		$data = $result['data'];
+	}
+	//echo time() - $result['time'];
+	$parser = new xml2ModuleArray($data);
+	$xmlarray = $parser->parseAdvanced($data);
+	//$modules = $xmlarray['XML']['MODULE'];
+	
+	//echo "<hr>Raw XML Data<pre>"; print_r(htmlentities($data)); echo "</pre>";
+	//echo "<hr>XML2ARRAY<pre>"; print_r($xmlarray); echo "</pre>";
+	
+	
+	if (isset($xmlarray['xml']['module'])) {
+	
+		if ($module != false) {
+			foreach ($xmlarray['xml']['module'] as $mod) {
+				if ($module == $mod['rawname']) {
+					return $module;
+				}
+			}
+			return null;
+		} else {
+		
+		
+			$modules = array();
+			foreach ($xmlarray['xml']['module'] as $mod) {
+				$modules[ $mod['rawname'] ] = $mod;
+			}
+			return $modules;
+		}
+	}
+	return null;
+}
 
-	$sth = $db->prepare("INSERT INTO freepbx_log (time, section, level, message) VALUES (NOW(),?,?,?)");
-	$db->execute($sth, array($section, $level, $message));
-	if (isset($debug) && ($debug != false))
-		print "[DEBUG-$section] ($level) $message\n";
+/** Looks through the modules directory and modules database and returns all available
+ * information about one or all modules
+ * @param string  (optional) The module name to query, or false for all module
+ * @param mixed   (optional) The status(es) to show, using MODULE_STATUS_* constants. Can
+ *                either be one value, or an array of values.
+ */
+function module_getinfo($module = false, $status = false) {
+	global $amp_conf, $db;
+	$modules = array();
+	
+	if ($module) {
+		// get info on only one module
+		$modules[$module] = _module_readxml($module);
+		$sql = 'SELECT * FROM modules WHERE modulename = "'.$module.'"';
+	} else {
+		// get info on all modules
+		$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
+		while ($file = readdir($dir)) {
+			if (($file != ".") && ($file != "..") && ($file != "CVS") && 
+			    ($file != ".svn") && ($file != "_cache") && 
+				is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
+				
+				$modules[$file] = _module_readxml($file);
+				// if status is anything else, it will be updated below when we read the db
+				$modules[$file]['status'] = MODULE_STATUS_NOTINSTALLED;
+			}
+		}
+		$sql = 'SELECT * FROM modules';
+	}
+	
+	// determine details about this module from database
+	// modulename should match the directory name
+	
+	$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+	
+	if (is_array($results)) {
+		foreach($results as $row) {
+			if (isset($modules[ $row['modulename'] ])) {
+				if ($row['enabled'] != 0) {
+					
+					// check if file and registered versions are the same
+					// version_compare returns 0 if no difference
+					if (version_compare($row['version'], $modules[ $row['modulename'] ]['version']) == 0) {
+						$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_ENABLED;
+					} else {
+						$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_NEEDUPGRADE;
+					}
+					
+				} else {
+					$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_DISABLED;
+				}
+			} else {
+				// no directory for this db entry
+				$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_BROKEN;
+			}
+			$modules[ $row['modulename'] ]['dbversion'] = $row['version'];
+		}
+	}
+	
+	if ($status !== false) {
+		if (!is_array($status)) {
+			// make a one element array so we can use in_array below
+			$status = array($status);
+		}
+		
+		foreach (array_keys($modules) as $name) {
+			if (!in_array($modules[$name]['status'], $status)) {
+				// not found in the $status array, remove it
+				unset($modules[$name]);
+			}
+		}
+	}
+	
+	return $modules;
+}
+
+/** Check if a module meets dependencies. 
+ * @param string  The array from a parsed module.xml for this module.
+ * @return mixed  Returns true if dependencies are met, or an array 
+ *                containing a list of human-readable errors if not.
+ *                NOTE: you must use strict type checking (===) to test
+ *                for true, because  array() == true !
+ */
+function module_checkdepends($modulexml) {
+	$errors = array();
+	
+	if (isset($modulexml['depends'])) {
+		foreach ($modulexml['depends'] as $type => $requirements) {
+			// if only a single item, make it an array so we can use the same code as for multiple items
+			if (!is_array($requirements)) {
+				$requirements = array($requirements);
+			}
+			
+			foreach ($requirements as $value) {
+				switch ($type) {
+					case 'version':
+						if (preg_match('/^([a-zA-Z_]+)(\s+(>=|>|=|<|<=|!=)?(\d(\.\d)*))?$/i', $value, $matches)) {
+							// matches[1] = operator, [2] = version
+						}
+					break;
+					case 'module':
+						if (preg_match('/^([a-z_]+)(\s+(>=|>|=|<|<=|!=)?(\d(\.\d)*))?$/i', $value, $matches)) {
+							// matches[1] = modulename, [3]=comparison operator, [4] = version
+						}
+					break;
+					case 'file': // file exists
+						if (!file_exists($value)) {
+							$errors[] = 'File '.$value.' must exist.';
+						}
+					break;
+					case 'engine':
+						if (preg_match('/^([a-z_]+)(\s+(>=|>|=|<|<=|!=)?(\d(\.\d)*))?$/i', $value, $matches)) {
+							// matches[1] = engine, [3]=comparison operator, [4] = version
+						}
+					break;
+				}
+			}
+		}
+		
+	}
+}
+
+/** Downloads the latest version of a module
+ * and extracts it to the directory
+ */
+function module_download($modulename) { // was fetchModule 
+	function untar_module($filename, $target) {
+		global $amp_conf;
+		system("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($target));
+		return true;
+	}
+	
+	global $amp_conf;
+	$res = module_getonlinexml($modulename);
+	if ($res == null) {
+		echo "<div class=\"error\">"._("Unaware of module")." {$name}</div>";
+		return false;
+	}
+	
+	$file = basename($res['location']);
+	$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
+	if (file_exists($filename)) {
+		// We might already have it! Let's check the MD5.
+		$filedata = "";
+		if ( $fh = @ fopen($filename, "r") ) {
+			while (!feof($fh)) {
+				$filedata .= fread($fh, 8192);
+			}
+			fclose($fh);
+		}
+		
+		if (isset($res['md5sum']) && $res['md5sum'] == md5 ($filedata)) {
+			// Note, if there's no MD5 information, it will redownload
+			// every time. Otherwise theres no way to avoid a corrupt
+			// download
+			
+			return untar_module($filename, $amp_conf['AMPWEBROOT'].'/admin/modules/');
+		} else {
+			unlink($filename);
+		}
+	}
+	
+	if (isset($amp_conf['AMPMODULESVN'])) {
+		$url = $amp_conf['AMPMODULESVN'].$res['location'];
+		// echo "(From amportal.conf)"; // debug
+	} else {
+		$url = "http://mirror.freepbx.org/modules/".$res['location'];
+		// echo "(From default)"; // debug
+	}
+	
+	if ($fp = @fopen($filename,"w")) {
+		$filedata = file_get_contents($url);
+		fwrite($fp,$filedata);
+		fclose($fp);
+	}
+	
+	if (is_readable($filename) !== TRUE ) {
+		echo "<div class=\"error\">"._("Unable to save")." {$filename} - Check file/directory permissions</div>";
+		return false;
+	}
+	
+	// Check the MD5 info against what's in the module's XML
+	if (!isset($res['md5sum']) || empty($res['md5sum'])) {
+		echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
+	} elseif ($res['md5sum'] != md5 ($filedata)) {
+		echo "<div class=\"error\">"._("File Integrity FAILED for")." {$filename} - "._("Aborting")."</div>";
+		unlink($filename);
+		return false;
+	}
+	
+	return untar_module($filename, $amp_conf['AMPWEBROOT'].'/admin/modules/');
+	
+}
+
+function _module_readxml($modulename) {
+	global $amp_conf;
+	$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
+	if (is_dir($dir) && file_exists($dir.'/module.xml')) {
+		$data = file_get_contents($dir.'/module.xml');
+		//$parser = new xml2ModuleArray($data);
+		//$xmlarray = $parser->parseModulesXML($data);
+		$parser = new xml2Array($data);
+		$xmlarray = $parser->parseAdvanced($data);
+		if (isset($xmlarray['module'])) {
+			// add a couple fields first
+			$xmlarray['module']['displayname'] = $xmlarray['module']['name'];
+			if (isset($xmlarray['module']['menuitems'])) {
+				$xmlarray['module']['items'] = $xmlarray['module']['menuitems'];
+			}
+			return $xmlarray['module'];
+		}
+	}
+	return null;
+}
+
+/** Installs or upgrades a module from it's directory
+ * Checks dependencies, and enables
+ */
+function module_install($modulename) {
+	$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
+	if (is_dir($dir) && file_exists($dir.'/module.xml')) {
+	}
+	
+	
+}
+
+function module_enable($modulename) { // was enableModule
+}
+
+function module_disable($modulename) { // was disableModule
+	global $db;
+	$sql = 'UPDATE modules SET enabled = 0 WHERE modulename = "'.$modulename.'"';
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+}
+
+/** Totally deletes a module
+ */
+function module_delete($modulename) {
+}
+
+// runModuleSQL moved to functions.inc.php
+/*
+function installModule($modname,$modversion) 
+{
+	global $db;
+	global $amp_conf;
+	
+	switch ($amp_conf["AMPDBENGINE"])
+	{
+		case "sqlite":
+			// to support sqlite2, we are not using autoincrement. we need to find the 
+			// max ID available, and then insert it
+			$sql = "SELECT max(id) FROM modules;";
+			$results = $db->getRow($sql);
+			$new_id = $results[0];
+			$new_id ++;
+			$sql = "INSERT INTO modules (id,modulename, version,enabled) values ('{$new_id}','{$modname}','{$modversion}','0' );";
+			break;
+		
+		default:
+			$sql = "INSERT INTO modules (modulename, version) values ('{$modname}','{$modversion}');";
+		break;
+	}
+
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+}
+
+function uninstallModule($modname) {
+	global $db;
+	$sql = "DELETE FROM modules WHERE modulename = '{$modname}'";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
+}
+
+/** downloads a module, and extracts it into the module dir
+ * /
+function module_fetch($name) { // was fetchModule
+	global $amp_conf;
+	$res = module_getonlinexml($modulename);
+	if (!isset($res)) {
+		echo "<div class=\"error\">"._("Unaware of module")." {$name}</div>";
+		return false;
+	}
+	$file = basename($res['location']);
+	$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
+	if(file_exists($filename)) {
+		// We might already have it! Let's check the MD5.
+		$filedata = "";
+		$fh = @fopen($filename, "r");
+		while (!feof($fh)) {
+			$filedata .= fread($fh, 8192);
+		}
+		if (isset($res['md5sum']) && $res['md5sum'] == md5 ($filedata)) {
+			// Note, if there's no MD5 information, it will redownload
+			// every time. Otherwise theres no way to avoid a corrupt
+			// download
+			
+			return verifyAndInstall($filename);
+		} else {
+			unlink($filename);
+		}
+	}
+	if (isset($amp_conf['AMPMODULESVN'])) {
+		$url = $amp_conf['AMPMODULESVN'].$res['location'];
+		// echo "(From amportal.conf)"; // debug
+	} else {
+	$url = "http://mirror.freepbx.org/modules/".$res['location'];
+		// echo "(From default)"; // debug
+	}
+	$fp = @fopen($filename,"w");
+	$filedata = file_get_contents($url);
+	fwrite($fp,$filedata);
+	fclose($fp);
+	if (is_readable($filename) !== TRUE ) {
+		echo "<div class=\"error\">"._("Unable to save")." {$filename} - Check file/directory permissions</div>";
+		return false;
+	}
+	// Check the MD5 info against what's in the module's XML
+	if (!isset($res['md5sum']) || empty($res['md5sum'])) {
+		echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
+	} elseif ($res['md5sum'] != md5 ($filedata)) {
+		echo "<div class=\"error\">"._("File Integrity FAILED for")." {$filename} - "._("Aborting")."</div>";
+		unlink($filename);
+		return false;
+	}
+	// verifyAndInstall does the untar, and will do the signed-package check.
+	return verifyAndInstall($filename);
+
+}
+
+function upgradeModule($module, $allmods = NULL) {
+	if($allmods === NULL)
+		$allmods = find_allmodules();
+	// the install.php can set this to false if the upgrade fails.
+	$success = true;
+	if(is_file("modules/$module/install.php"))
+		include "modules/$module/install.php";
+	if ($success) {
+		sql('UPDATE modules SET version = "'.$allmods[$module]['version'].'" WHERE modulename = "'.$module.'"');
+		needreload();
+	}
+}
+
+function rmModule($module) {
+	global $amp_conf;
+	if($module != 'core') {
+		if (is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$module) && strstr($module, '.') === FALSE ) {
+			exec('/bin/rm -rf '.$amp_conf['AMPWEBROOT'].'/admin/modules/'.$module);
+		}
+	} else {
+		echo "<script language=\"Javascript\">alert('"._("You cannot delete the Core module")."');</script>";
+	}
+}
+
+*/
+
+
+function freepbx_log($section, $level, $message) {
+        global $db;
+        global $debug; // This is used by retrieve_conf
+
+        $sth = $db->prepare("INSERT INTO freepbx_log (time, section, level, message) VALUES (NOW(),?,?,?)");
+        $db->execute($sth, array($section, $level, $message));
+        if (isset($debug) && ($debug != false))
+                print "[DEBUG-$section] ($level) $message\n";
 }
 ?>

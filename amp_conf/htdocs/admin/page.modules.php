@@ -104,8 +104,106 @@ if (isset($_POST['submit']) && is_array($_POST['modules'])) { // if form has bee
 -->
 <div class="content">
 
-
 <?php
+$modules_local = module_getinfo();
+
+$modules_online = module_getonlinexml();
+
+$modules = $modules_local + $modules_online;
+
+function category_sort_callback($a, $b) {
+	// sort by category..
+	$catcomp = strcmp($a['category'], $b['category']);
+	if ($catcomp == 0) {
+		// .. then by name
+		return strcmp($a['name'], $b['name']);
+	} else
+		return $catcomp;
+}
+uasort($modules, 'category_sort_callback');
+
+echo "<div id=\"modulelist\">\n";
+
+echo "\t<div id=\"modulelist-header\">";
+echo "\t\t<span class=\"modulename\">Module</span>\n";
+echo "\t\t<span class=\"moduletype\">Type</span>\n";
+echo "\t\t<span class=\"moduleversion\">Version</span>\n";
+echo "\t\t<span class=\"clear\">&nbsp;</span>\n";
+echo "\t</div>";
+
+$category = false;
+foreach (array_keys($modules) as $name) {
+
+	if ($category != $modules[$name]['category']) {
+		// show category header
+		
+		if ($category !== false) {
+			// not the first one, so end the previous blocks
+			echo "\t</ul></div>\n";
+		}
+		
+		// start a new category header, and associated html blocks
+		$category = $modules[$name]['category'];
+		echo "\t<div class=\"category\" id=\"category_".$category."\"><h3>".$category."</h3>\n";
+		echo "\t<ul>";
+	}
+	
+	echo "\t\t<li>\n";
+	echo "\t\t<span class=\"modulename\">".$modules[$name]['name']."</span>\n";
+	echo "\t\t<span class=\"moduletype\">".$modules[$name]['type']."</span>\n";
+	echo "\t\t<span class=\"moduleversion\">".$modules[$name]['dbversion']."</span>\n";
+	
+	echo "\t\t<span class=\"modulestatus\">";
+	switch ($modules[$name]['status']) {
+		case MODULE_STATUS_NOTINSTALLED:
+			if (isset($modules_local[$name])) {
+				echo '<span class="alert">Not Installed (Locally available)</span>';
+			} else {
+				echo '<span class="alert">Not Installed (Available online: '.$modules_online[$name]['version'].')</span>';
+			}
+		break;
+		case MODULE_STATUS_DISABLED:
+			echo '<span class="alert">Disabled</span>';
+		break;
+		case MODULE_STATUS_NEEDUPGRADE:
+			echo '<span class="alert">Awaiting upgrade ('.$modules[$name]['version'].' ready)</span>';
+		break;
+		case MODULE_STATUS_BROKEN:
+			echo '<span class="alert">Broken</span>';
+		break;
+		default:
+			if (isset($modules_online[$name]['version'])) {
+				$vercomp = version_compare($modules[$name]['version'], $modules_online[$name]['version']);
+				if ($vercomp < 0) {
+					echo '<span class="alert">Online upgrade available ('.$modules_online[$name]['version'].')</span>';
+				} else if ($vercomp > 0) {
+					echo 'Newer than online version ('.$modules_online[$name]['version'].')';
+				}
+			}
+		break;
+	}
+	echo "</span>\n";
+	
+	echo "\t\t<span class=\"clear\">&nbsp;</span>\n";
+	
+	
+	echo "\t\t</li>\n";
+}
+echo "\t</ul></div>\n";
+echo "</div>";
+
+
+
+echo '<pre>';
+
+
+
+
+
+
+
+exit;
+
 switch($extdisplay) {
 	case "online": 
 		echo "<h2>";
@@ -132,7 +230,7 @@ switch($extdisplay) {
 		// determine which modules we have installed already
 		$installed = find_allmodules();
 		// determine what modules are available
-		$online = getModuleXml();
+		$online = module_getonlinexml();
 		$dispMods = new displayModules($installed,$online);
 		echo $dispMods->drawModules();
 	break;
@@ -219,11 +317,7 @@ class displayModules {
 			 *  Available Module Updates
 			 */
 			if(isset($modsOnlineUpdate) && is_array($modsOnlineUpdate)) {
-				$rows = "";
-				foreach($modsOnlineUpdate as $mod) {
-					$color = "orange";
-					$rows .= $this->tableHtml($mod,$color);
-				}
+				$color = "orange";
 				$this->options = "
 					<select name=\"modaction\">
 						<option value=\"downloadupdate\">"._("Download and Update selected")."
@@ -232,20 +326,14 @@ class displayModules {
 					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
 					";
 				// build the table
-				$this->html .= $this->formStart(_("Available Module Updates (online)"));
-				$this->html .= $rows;
-				$this->html .= $this->formEnd($mod['status']);
+				$this->html .= $this->buildTable(_("Available Module Updates (online)"), $modsOnlineUpdate, $color, $options);
 			}
 			
 			/* 
 			 *  Online Modules
 			 */			
 			if(isset($modsOnlineOnly) && is_array($modsOnlineOnly)) {
-				$rows = "";
-				foreach($modsOnlineOnly as $mod) {
-					$color = "white";
-					$rows .= $this->tableHtml($mod,$color);
-				}
+				$color = "white";
 				$this->options = "
 					<select name=\"modaction\">
 						<option value=\"downloadinstall\">"._("Download and Install selected")."
@@ -254,9 +342,7 @@ class displayModules {
 					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
 					";
 				// build the table
-				$this->html .= $this->formStart(_("Modules Available (online)"));
-				$this->html .= $rows;
-				$this->html .= $this->formEnd($mod['status']);
+				$this->html .= $this->buildTable(_("Modules Available (online)"), $modsOnlineOnly, $color, $options);
 			}			
 			
 		}
@@ -285,32 +371,22 @@ class displayModules {
 			 *  Modules Needing Update
 			 */
 			if(isset($modsUpdate) && is_array($modsUpdate)) {
-				$rows = "";
-				foreach($modsUpdate as $mod) {		
-					$color = "#CCFF00";
-					$rows .= $this->tableHtml($mod,$color);
-				}
-				$this->options = "
+				$color = "#CCFF00";
+				$options = "
 					<select name=\"modaction\">
 						<option value=\"upgrade\">"._("Upgrade Selected")."
 					</select>
 					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
 					";
 				// build the table
-				$this->html .= $this->formStart(_("Enabled Modules Requiring Upgrade"));
-				$this->html .= $rows;
-				$this->html .= $this->formEnd($mod['status']);
+				$this->html .= $this->buildTable(_("Enabled Modules Requiring Upgrade"), $modsUpdate, $color, $options);
 			}
 			
 			/* 
 			 *  Enabled Modules
 			 */			
 			if(isset($modsEnabled) && is_array($modsEnabled)) {
-				$rows = "";
-				foreach($modsEnabled as $mod) {
-					$color = "white";
-					$rows .= $this->tableHtml($mod,$color);
-				}
+				$color = "white";
 				$this->options = "
 					<select name=\"modaction\">
 						<option value=\"disable\">"._("Disable Selected")."
@@ -320,20 +396,14 @@ class displayModules {
 					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
 					";
 				// build the table
-				$this->html .= $this->formStart(_("Enabled Modules"));
-				$this->html .= $rows;
-				$this->html .= $this->formEnd($mod['status']);
+				$this->html .= $this->buildTable(_("Enabled Modules"), $modsEnabled, $color, $options);
 			}
 			
 			/* 
 			 *  Disabled Modules
 			 */			
 			if(isset($modsDisabled) && is_array($modsDisabled)) {
-				$rows = "";
-				foreach($modsDisabled as $mod) {
-					$color = "white";
-					$rows .= $this->tableHtml($mod,$color);
-				}
+				$color = "white";
 				$this->options = "
 					<select name=\"modaction\">
 						<option value=\"enable\">"._("Enable Selected")."
@@ -343,20 +413,14 @@ class displayModules {
 					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
 					";
 				// build the table
-				$this->html .= $this->formStart(_("Disabled Modules"));
-				$this->html .= $rows;
-				$this->html .= $this->formEnd($mod['status']);
+				$this->html .= $this->buildTable(_("Disabled Modules"), $modsDisabled, $color, $options);
 			}
 
 			/* 
 			 *  Local Modules Not Installed
 			 */			
 			if(isset($modsNotinstalled) && is_array($modsNotinstalled)) {
-				$rows = "";
-				foreach($modsNotinstalled as $mod) {
-					$color = "white";
-					$rows .= $this->tableHtml($mod,$color);
-				}
+				$color = "white";
 				$this->options = "
 					<select name=\"modaction\">
 						<option value=\"installenable\">"._("Enable Selected")."
@@ -365,17 +429,12 @@ class displayModules {
 					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
 					";
 				// build the table
-				$this->html .= $this->formStart(_("Not Installed Local Modules"));
-				$this->html .= $rows;
-				$this->html .= $this->formEnd($mod['status']);
+				$this->html .= $this->buildTable(_("Not Installed Local Modules"), $modsNotinstalled, $color, $options);
 			}
 			
 			if(isset($modsBroken) && is_array($modsBroken)) {
-				$rows = "";
-				foreach($modsBroken as $mod) {
-					$color = "#FFFFFF";
-					$rows .= $this->tableHtmlBroken($mod,$color);
-				}
+				$color = "#FFFFFF";
+					//$rows .= $this->tableHtmlBroken($mod,$color);
 				$this->options = "
 					<select name=\"modaction\">
 						<option value=\"delete\">"._("Delete Selected")."
@@ -383,9 +442,8 @@ class displayModules {
 					<input type=\"submit\" name=\"submit\" value=\""._("Submit")."\">
 					";
 				// build the table
-				$this->html .= $this->formStart(_('Broken'));
-				$this->html .= $rows;
-				$this->html .= $this->formEnd($mod['status']);
+				// BROKEN modname instead of rawname ?? 
+				$this->html .= $this->buildTable(_("Not Installed Local Modules"), $modsBroken, $color, $options);
 			}
 			
 		}
@@ -422,7 +480,16 @@ class displayModules {
 		}
 	}
 	
-	function tableHtml($arrRow,$color) {
+	// tableRow($color, $mod['rawname'], $mod['version'], $mod['type'], $mod['categrory'], $mod['displayName'], $mod['info']
+	function tableRow($color, $rawname, $version, $type, $category, $displayname, $infourl) {
+		$out = '<tr bgcolor="'.$color.'">';
+		$out .= '<td><input type="checkbox" name="modules[]" value="'.$rawname.'">'.
+		        '<input type="hidden" name="'.$rawname.'_version" value="'.$version.'"></td>';
+		$out .= '<td><a target="_BLANK" href="'.$infourl.'">'.$displayname.' ('.$rawname.')</a></td>';
+		$out .= '<td>'.$version.'</td>';
+		$out .= '<td>'.$type.'</td>';
+		$out .= '</tr>';
+		return $out;
 		return <<< End_of_Html
 			
 			<tr bgcolor={$color}>
@@ -472,210 +539,17 @@ End_of_Html;
 	function drawModules() {
 		return $this->html;
 	}
-}
-
-function getModuleXml() {
-	global $amp_conf;
-	//this should be in an upgrade file ... putting here for now.
-	sql('CREATE TABLE IF NOT EXISTS module_xml (time INT NOT NULL , data BLOB NOT NULL) TYPE = MYISAM ;');
 	
-	$result = sql('SELECT * FROM module_xml','getRow',DB_FETCHMODE_ASSOC);
-	// if the epoch in the db is more than 2 hours old, or the xml is less than 100 bytes, then regrab xml
-	// Changed to 5 minutes while not in release. Change back for released version.
-	//
-	// used for debug, time set to 0 to always fall through
-	// if((time() - $result['time']) > 0 || strlen($result['data']) < 100 ) {
-	if((time() - $result['time']) > 300 || strlen($result['data']) < 100 ) {
-		$version = getversion();
-		$version = $version[0][0];
-		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
-		preg_match('/(\d+\.\d+)/',$version,$matches);
-		//echo "the result is ".$matches[1];
-		if (isset($amp_conf["AMPMODULEXML"])) {
-			$fn = $amp_conf["AMPMODULEXML"]."modules-".$matches[1].".xml";
-			// echo "(From amportal.conf)"; //debug
-		} else {
-		$fn = "http://mirror.freepbx.org/modules-".$matches[1].".xml";
-			// echo "(From default)"; //debug
-		}
-		//$fn = "/usr/src/freepbx-modules/modules.xml";
-		$data = file_get_contents($fn);
-		// remove the old xml
-		sql('DELETE FROM module_xml');
-		// update the db with the new xml
-		$data4sql = (get_magic_quotes_gpc() ? $data : addslashes($data));
-		sql('INSERT INTO module_xml (time,data) VALUES ('.time().',"'.$data4sql.'")');
-	} else {
-//		echo "using cache";
-		$data = $result['data'];
-	}
-	//echo time() - $result['time'];
-	$parser = new xml2ModuleArray($data);
-	$xmlarray = $parser->parseModulesXML($data);
-	//$modules = $xmlarray['XML']['MODULE'];
 	
-	//echo "<hr>Raw XML Data<pre>"; print_r(htmlentities($data)); echo "</pre>";
-	//echo "<hr>XML2ARRAY<pre>"; print_r($xmlarray); echo "</pre>";
-	
-	return $xmlarray;
-}
-
-// runModuleSQL moved to functions.inc.php
-
-function installModule($modname,$modversion) 
-{
-	global $db;
-	global $amp_conf;
-	
-	switch ($amp_conf["AMPDBENGINE"])
-	{
-		case "sqlite":
-			// to support sqlite2, we are not using autoincrement. we need to find the 
-			// max ID available, and then insert it
-			$sql = "SELECT max(id) FROM modules;";
-			$results = $db->getRow($sql);
-			$new_id = $results[0];
-			$new_id ++;
-			$sql = "INSERT INTO modules (id,modulename, version,enabled) values ('{$new_id}','{$modname}','{$modversion}','0' );";
-			break;
-		
-		default:
-			$sql = "INSERT INTO modules (modulename, version) values ('{$modname}','{$modversion}');";
-		break;
-	}
-
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-}
-
-function uninstallModule($modname) {
-	global $db;
-	$sql = "DELETE FROM modules WHERE modulename = '{$modname}'";
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-}
-
-function enableModule($modname) {
-	global $db;
-	$sql = "UPDATE modules SET enabled = 1 WHERE modulename = '{$modname}'";
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-}
-
-function disableModule($modname) {
-	global $db;
-	$sql = "UPDATE modules SET enabled = 0 WHERE modulename = '{$modname}'";
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-}
-
-function deleteModule($modname) {
-	global $db;
-	$sql = "DELETE FROM modules WHERE modulename = '{$modname}' LIMIT 1";
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-}
-
-//downloads a module, and extracts it into the module dir
-function fetchModule($name) {
-	global $amp_conf;
-	$res = getThisModule($name);
-	if (!isset($res)) {
-		echo "<div class=\"error\">"._("Unaware of module")." {$name}</div>";
-		return false;
-	}
-	$file = basename($res['location']);
-	$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
-	if(file_exists($filename)) {
-		// We might already have it! Let's check the MD5.
-		$filedata = "";
-		$fh = @fopen($filename, "r");
-		while (!feof($fh)) {
-			$filedata .= fread($fh, 8192);
+	function buildTable($title, $rows, $color, $options) {
+		$out = $this->formStart($title);
+		foreach($rows as $mod) {
+			$out .= $this->tableRow($mod);
 		}
-		if (isset($res['md5sum']) && $res['md5sum'] == md5 ($filedata)) {
-			// Note, if there's no MD5 information, it will redownload
-			// every time. Otherwise theres no way to avoid a corrupt
-			// download
-			return verifyAndInstall($filename);
-		} else {
-			unlink($filename);
-		}
-	}
-	if (isset($amp_conf['AMPMODULESVN'])) {
-		$url = $amp_conf['AMPMODULESVN'].$res['location'];
-		// echo "(From amportal.conf)"; // debug
-	} else {
-	$url = "http://mirror.freepbx.org/modules/".$res['location'];
-		// echo "(From default)"; // debug
-	}
-	$fp = @fopen($filename,"w");
-	$filedata = file_get_contents($url);
-	fwrite($fp,$filedata);
-	fclose($fp);
-	if (is_readable($filename) !== TRUE ) {
-		echo "<div class=\"error\">"._("Unable to save")." {$filename} - Check file/directory permissions</div>";
-		return false;
-	}
-	// Check the MD5 info against what's in the module's XML
-	if (!isset($res['md5sum']) || empty($res['md5sum'])) {
-		echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
-	} elseif ($res['md5sum'] != md5 ($filedata)) {
-		echo "<div class=\"error\">"._("File Integrity FAILED for")." {$filename} - "._("Aborting")."</div>";
-		unlink($filename);
-		return false;
-	}
-	// verifyAndInstall does the untar, and will do the signed-package check.
-	return verifyAndInstall($filename);
-
-}
-
-function upgradeModule($module, $allmods = NULL) {
-	if($allmods === NULL)
-		$allmods = find_allmodules();
-	// the install.php can set this to false if the upgrade fails.
-	$success = true;
-	if(is_file("modules/$module/install.php"))
-		include "modules/$module/install.php";
-	if ($success) {
-		sql('UPDATE modules SET version = "'.$allmods[$module]['version'].'" WHERE modulename = "'.$module.'"');
-		needreload();
+		$out .= $this->formEnd();
+		return $out;
 	}
 }
 
-function rmModule($module) {
-	global $amp_conf;
-	if($module != 'core') {
-		if (is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$module) && strstr($module, '.') === FALSE ) {
-			exec('/bin/rm -rf '.$amp_conf['AMPWEBROOT'].'/admin/modules/'.$module);
-		}
-	} else {
-		echo "<script language=\"Javascript\">alert('"._("You cannot delete the Core module")."');</script>";
-	}
-}
-
-function getThisModule($modname) {
-	$xmlinfo = getModuleXml();
-	foreach($xmlinfo as $key => $mod) {
-		if (isset($mod['rawname']) && $mod['rawname'] == $modname) 
-			return $mod;
-	}
-}
-
-function verifyAndInstall($filename) {
-	global $amp_conf;
-	system("tar zxf {$filename} --directory={$amp_conf['AMPWEBROOT']}/admin/modules/");
-	return true;
-}
 ?>
 
