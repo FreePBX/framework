@@ -48,7 +48,7 @@ if (isset($amp_conf["AUTHTYPE"]) && ($amp_conf["AUTHTYPE"] != "none")) {
 
 // get all enabled modules
 // active_modules array used below and in drawselects function and genConf function
-$active_modules = find_modules(2);
+$active_modules = module_getinfo(false, MODULE_STATUS_ENABLED);
 
 // include any module global functions
 // add module sections to $amp_sections
