@@ -220,7 +220,7 @@ require_once($amp_conf['AMPWEBROOT']."/admin/functions.inc.php");
 freepbx_log("retrieve_conf", "devel-debug", "Started retrieve_conf, DB Connection OK");
 
 // query for our modules
-$modules = find_allmodules();
+$modules = module_getinfo();
 
 //Putting the core module last, to move outbound-allroutes 
 // last in from-internals-additional
@@ -234,7 +234,7 @@ if (array_key_exists('core', $modules)) {
 if(is_array($modules)){
 	foreach($modules as $key => $module) {
 		//only use this module if it's enabled (status=2)
-		if (isset($module['status']) && $module['status'] == 2) {
+		if (isset($module['status']) && $module['status'] == MODULE_STATUS_ENABLED) {
 			// Make sure the module is installed and up to date
 			runModuleSql($key, 'install');
 			// active_modules array used in genConf function

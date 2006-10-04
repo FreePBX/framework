@@ -213,10 +213,10 @@ function featurecodes_getAllFeaturesDetailed() {
 	$results = sql($s, "getAll", DB_FETCHMODE_ASSOC);
 	
 	if (is_array($results)) {
-		$modules = find_allmodules();
+		$modules = modules_getinfo(false, MODULE_STATUS_ENABLED);
 		foreach ($results as $key => $item) {
-			if (isset($modules[$item['modulename']]['displayName']))
-				$results[$key]['moduledescription'] = $modules[$item['modulename']]['displayName'];
+			if (isset($modules[$key]['displayName']))
+				$results[$key]['moduledescription'] = $modules[$key]['displayName'];
 		}
 		
 		return $results;
