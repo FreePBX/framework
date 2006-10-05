@@ -1,4 +1,4 @@
-CREATE TABLE `freepbx_log` (
+CREATE TABLE IF NOT EXISTS `freepbx_log` (
 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `time` DATETIME NOT NULL ,
 `section` VARCHAR( 50 ) NULL ,
