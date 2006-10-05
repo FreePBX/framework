@@ -24,7 +24,7 @@ function parse_amportal_conf($filename) {
 	$file = file($filename);
 	if (is_array($file)) {
 		foreach ($file as $line) {
-			if (preg_match("/^\s*([a-zA-Z0-9]+)=([a-zA-Z0-9 .&-@=_<>\"\']+)\s*$/",$line,$matches)) {
+			if (preg_match("/^\s*([a-zA-Z0-9_]+)=([a-zA-Z0-9 .&-@=_<>\"\']+)\s*$/",$line,$matches)) {
 				$conf[ $matches[1] ] = $matches[2];
 			}
 		}
