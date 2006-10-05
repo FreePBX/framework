@@ -1,3 +1,10 @@
+div.footer {
+	/** TODO !! nav is no longer a float, so footer doesn't stay below it! we need a way to fix this..
+	 * until then, I'm disabling footer
+	*/
+	display:none;
+}
+
 body {
 	margin-top: 0px;
     text-align:center;
@@ -7,6 +14,10 @@ body {
 	/*font-family: Geneva, Arial, Helvetica, sans-serif;*/
 	font-family: Verdana, Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
 	font-size: 13px;
+	position:relative;
+}
+.clear {
+	clear:both;
 }
 td {
 	font-size: 13px;
@@ -29,6 +40,7 @@ div#page {
     text-align:left;
     padding-left: 20px;
     padding-right: 20px;
+	position:relative;
    /* border-left: 1px solid #B97054;
     border-right: 1px solid #B97054;
     border-bottom: 1px solid #B97054;*/
@@ -83,8 +95,10 @@ div.message {
 }
 
 div.nav {
-    float:left;
-    width:150px;
+    /*float:left; */
+	position:absolute;
+	left:20px;
+	width:150px;
 	display: block;
 }
 div.nav a {
@@ -218,13 +232,13 @@ div.content input {
     margin-left:10px;
 }
 
-span.footer {
+div.footer {
 	margin-top: 10px;
     border-top: 1px dashed #808080;
     padding-top:5px;
-    display:block;
     text-align:left;
     font-size:xx-small;
+	clear:both;
 }
 
 span.footer img{
@@ -290,34 +304,102 @@ div.inyourface a{
 }
 
 
-/* For modules page */
-#modulelist li {
-    list-style-type: none;
-}
+/************************* For modules page *************************/
 #modulelist ul {
 	padding-left:0;
+	margin-left:0;
 	position:relative;
+}
+#modulelist li {
+    list-style-type: none;
+	border:1px solid #808080;
 }
 #modulelist #modulelist-header {
 	position:relative;
 }
+#modulelist #modulelist-header span {
+	font-size:120%;
+	font-weight:bold;
+	color:#4f3e73;
+}
+#modulelist .moduleheader {
+	background:#ccc;
+	padding:2px;
+}
 #modulelist .modulename {
 	position:absolute;
-	left:0em;
+	left:2px;
 }
 #modulelist .moduletype {
 	position:absolute;
-	left: 20em;
+	left: 230px;
 }
 #modulelist .moduleversion {
 	position:absolute;
-	left: 25em;
+	left: 290px;
 }
 #modulelist .modulestatus {
 	position:absolute;
-	left: 30em;
+	left: 360px;
 
 }
 #modulelist .clear {
 	clear:both;
 }
+
+/* for the tabber */
+#modulelist .tabber, #modulelist .tabberlive {
+	/* position:relative; */
+	/*margin-left:130px; */
+	
+}
+#modulelist div.moduleinfopane {
+	display:none; /* hide the information pane by default */
+	background: #eee;
+}
+#modulelist ul.tabbernav {
+	width:8em;
+	float:left;
+	margin-left:0em;
+	margin-bottom:1em;
+}
+#modulelist ul.tabbernav li {
+	text-align:right;
+	padding:2px 7px 2px 2px;
+	
+    border-right: 5px solid #808080;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+	
+}
+#modulelist ul.tabbernav li.tabberactive a {
+	color: #E87B41;
+	font-weight:bold;
+}
+#modulelist ul.tabbernav li a {
+	text-decoration : none;
+}
+#modulelist div.tabbertab {
+	margin-left:8.5em;
+}
+#modulelist h5 {
+	margin-top: 0;
+	margin-bottom: 0.5em;
+}
+#modulelist .alert {
+	color:#a00;
+}
+#modulelist div.moduleinfopane .actiontab {
+	padding-left:10px;
+}
+
+/************************* For tabber *************************/
+/*--------------------------------------------------
+  REQUIRED to hide the non-active tab content.
+  But do not hide them in the print stylesheet!
+  --------------------------------------------------*/
+.tabberlive .tabbertabhide {
+ display:none;
+}
+
+/**************************************************************/

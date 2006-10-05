@@ -96,7 +96,7 @@ if(is_array($active_modules)){
 
 
 if (!$quietmode) {
-	echo "<table width=\"100%\" cellspacing='0' cellpadding='0'><tr><td>";
+	//echo "<table width=\"100%\" cellspacing='0' cellpadding='0'><tr><td>";
 	// show menu
 	echo "<div class=\"nav\">\n";
 }
@@ -141,6 +141,7 @@ foreach ($amp_sections as $key=>$value) {
 	}
 }
 if (!$quietmode) {	
+	echo '<div class="clear"></div>';
 	echo "</div>\n<div class=\"content\">\n";
 }
 // check access
@@ -281,6 +282,6 @@ if (extension_loaded('gettext')) {
 }
 	
 ?>
-</div>
-</td></tr></table>
+</div> <!-- /content -->
+<?php // </td></tr></table> ?>
 <?php include 'footer.php' ?>

@@ -103,7 +103,7 @@ if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
 if (!$quietmode) {
 ?>
 		
-    <span class="footer" style="text-align:center;">
+    <div class="footer" style="text-align:center;">
 		<!--<a target="_blank" href="http://sourceforge.net/donate/index.php?group_id=121515"><img border="0" style="float:left;" alt="Donate to the Asterisk Management Portal project" src="http://images.sourceforge.net/images/project-support.jpg"></a>-->
  	<?php
  	if (isset($amp_conf["AMPFOOTERLOGO"])){
@@ -125,16 +125,13 @@ if (!$quietmode) {
 ?>
 		<br>
 		<br>
-    </span>
+    </div>
 <?php 
 }
 ?>
-</div>
 
-<br>
-<br>
-<br>
-<br>
+</div> <!-- /page -->
+
 </body>
 
 </html>
