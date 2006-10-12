@@ -1231,7 +1231,7 @@ function module_checkdepends($modulexml) {
 				return $module.' version below '.$reqversion.' is required, you have '.$version;
 			break;
 			case 'le': case '<=';
-				return $module.' version '.$reqversion.' or below is required, you have '.$version
+				return $module.' version '.$reqversion.' or below is required, you have '.$version;
 			break;
 			case 'gt': case '>';
 				return 'A version newer than '.$reqversion.' required, you have '.$version;
@@ -1295,7 +1295,7 @@ function module_checkdepends($modulexml) {
 										$errors[] = 'Module '.$matches[1].' is required, but yours is disabled because it needs to '.
 										            'be upgraded. Please upgrade '.$matches[1].' first, and then try again.';
 									default:
-									case MODULE_STATUS_NOTINSTALLED
+									case MODULE_STATUS_NOTINSTALLED:
 										$errors[] = 'Module '.$matches[1].' is required.';
 									break;
 								}
