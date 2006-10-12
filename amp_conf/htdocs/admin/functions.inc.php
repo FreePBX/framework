@@ -1147,6 +1147,8 @@ function module_getinfo($module = false, $status = false) {
 	if ($module) {
 		// get info on only one module
 		$modules[$module] = _module_readxml($module);
+		
+		// query to get just this one
 		$sql = 'SELECT * FROM modules WHERE modulename = "'.$module.'"';
 	} else {
 		// get info on all modules
@@ -1161,6 +1163,8 @@ function module_getinfo($module = false, $status = false) {
 				$modules[$file]['status'] = MODULE_STATUS_NOTINSTALLED;
 			}
 		}
+		
+		// query to get everything
 		$sql = 'SELECT * FROM modules';
 	}
 	
@@ -1221,6 +1225,29 @@ function module_getinfo($module = false, $status = false) {
  *                for true, because  array() == true !
  */
 function module_checkdepends($modulexml) {
+	function comparison_error_message($module, $reqversion, $version, $operator) {
+		switch ($operator) {
+			case 'lt': case '<':
+				return $module.' version below '.$reqversion.' is required, you have '.$version;
+			break;
+			case 'le': case '<=';
+				return $module.' version '.$reqversion.' or below is required, you have '.$version
+			break;
+			case 'gt': case '>';
+				return 'A version newer than '.$reqversion.' required, you have '.$version;
+			break;
+			case 'ne': case '!=': case '<>':
+				return 'Your '.$module.' version ('.$reqversion.') is incompatible.';
+			break;
+			case 'eq': case '==': case '=': 
+				return 'Only '.$module.' version '.$reqversion.' is compatible, you have '.$version;
+			break;
+			default:
+			case 'ge': case '>=':
+				return $module.' version '.$reqversion.' or higher is required, you have '.$version;
+		}
+	}
+	
 	$errors = array();
 	
 	if (isset($modulexml['depends'])) {
@@ -1233,13 +1260,46 @@ function module_checkdepends($modulexml) {
 			foreach ($requirements as $value) {
 				switch ($type) {
 					case 'version':
-						if (preg_match('/^([a-zA-Z_]+)(\s+(>=|>|=|<|<=|!=)?(\d(\.\d)*))?$/i', $value, $matches)) {
+						if (preg_match('/^([a-zA-Z_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?(\d(\.\d)*))?$/i', $value, $matches)) {
 							// matches[1] = operator, [2] = version
+							$ver = getversion();
+							$ver = $ver[0][0]; // dumb PEARDB thing
+							$operator = (!empty($matches[1]) ? $matches[1] : 'ge'); // default to >=
+							if (! version_compare($matches[2], $ver, $operator) ) {
+								$errors[] = comparison_error_message('FreePBX', $matches[2], $ver, $operator);
+							}
 						}
 					break;
 					case 'module':
 						if (preg_match('/^([a-z_]+)(\s+(>=|>|=|<|<=|!=)?(\d(\.\d)*))?$/i', $value, $matches)) {
 							// matches[1] = modulename, [3]=comparison operator, [4] = version
+							$modules = module_getinfo($matches[1]);
+							if (isset($modules[$matches[1]])) {
+								switch ($modules[$matches[1]]['status'] ) {
+									case MODULE_STATUS_ENABLED:
+										if (!empty($matches[4])) {
+											// also doing version checking
+											$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
+											if (! version_compare($matches[4], $modules[$matches[1]]['dbversion'], $operator) ) {
+												$errors[] = comparison_error_message($matches[1].' module', $matches[4], $modules[$matches[1]]['dbversion'], $operator);
+											}
+										}
+									break;
+									case MODULE_STATUS_BROKEN:
+										$errors[] = 'Module '.$matches[1].' is required, but yours is broken. You should reinstall '.
+										            'it and try again.';
+									break;
+									case MODULE_STATUS_DISABLED:
+										$errors[] = 'Module '.$matches[1].' is required, but yours is disabled. ';
+									case MODULE_STATUS_NEEDUPGRADE:
+										$errors[] = 'Module '.$matches[1].' is required, but yours is disabled because it needs to '.
+										            'be upgraded. Please upgrade '.$matches[1].' first, and then try again.';
+									default:
+									case MODULE_STATUS_NOTINSTALLED
+										$errors[] = 'Module '.$matches[1].' is required.';
+									break;
+								}
+							}
 						}
 					break;
 					case 'file': // file exists
@@ -1248,6 +1308,11 @@ function module_checkdepends($modulexml) {
 						}
 					break;
 					case 'engine':
+						/****************************
+						 *  NOTE: there is special handling for this check. We want to "OR" conditions, instead of
+						 *        "AND"ing like the rest of them. 
+						 */
+						 
 						if (preg_match('/^([a-z_]+)(\s+(>=|>|=|<|<=|!=)?(\d(\.\d)*))?$/i', $value, $matches)) {
 							// matches[1] = engine, [3]=comparison operator, [4] = version
 						}
@@ -1358,12 +1423,20 @@ function _module_readxml($modulename) {
 function module_install($modulename) {
 	$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
 	if (is_dir($dir) && file_exists($dir.'/module.xml')) {
+		$xml = _module_readxml($modulename);
+		
+		if (module_checkdepends($xml)) {
+			// run install script(s)
+			// enable module
+		}
 	}
 	
 	
 }
 
 function module_enable($modulename) { // was enableModule
+	// checkdepends
+	// enable module
 }
 
 function module_disable($modulename) { // was disableModule
@@ -1378,6 +1451,11 @@ function module_disable($modulename) { // was disableModule
 /** Totally deletes a module
  */
 function module_delete($modulename) {
+	// reverse-checkdepends
+	// -> // read each xml for enabled modules, concatenate, then parse
+		  // go through each, find any matches in depends for <module>$modulename (ignore version) 
+	module_disable($modulename);
+	// unlink() module directory
 }
 
 // runModuleSQL moved to functions.inc.php
