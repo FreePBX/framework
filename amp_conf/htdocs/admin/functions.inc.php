@@ -269,7 +269,7 @@ function engine_getinfo() {
 	global $amp_conf;
 	switch ($amp_conf['AMPENGINE']) {
 		case 'asterisk':
-			$verinfo = exec('asterisk -V');
+			$verinfo = file_get_contents($amp_conf['ASTETCDIR'].'/version');
 			if (preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) {
 				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4]);
 			}

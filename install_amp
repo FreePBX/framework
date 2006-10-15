@@ -1,6 +1,13 @@
 #!/usr/bin/php -q
 <?php
 
+define("AMP_CONF", "/etc/amportal.conf");
+
+define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
+
+define("UPGRADE_DIR", dirname(__FILE__)."/upgrades");
+
+
 // define versions. latest version must be last
 $versions = array(
 		'1.10.005',
@@ -34,11 +41,7 @@ $versions = array(
 		'2.2.0beta1'
 	);
 
-define("AMP_CONF", "/etc/amportal.conf");
-
-define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
-
-define("UPGRADE_DIR", dirname(__FILE__)."/upgrades");
+define("REQ_ASTERISK_VERSION", "1.2");
 
 /********************************************************************************************************************/
 
@@ -781,17 +784,42 @@ if (isset($asterisk_conf['astlogdir'])) { $amp_conf['ASTLOGDIR'] = $asterisk_con
 
 write_amportal_conf(AMP_CONF, $amp_conf);
 
-// **** Check for func_callerid.so - this is only in asterisk 1.2
 
-outn("Checking for Asterisk 1.2..");
-if (!file_exists($amp_conf["ASTMODDIR"]."/func_callerid.so")) {
-	fatal("Asterisk 1.2 is required for this version of freePBX");
+// **** Write asterisk version to ASTETCDIR/version
+
+$tmpoutput = '';
+$tmpout = exec("asterisk -V", $tmpoutput, $exitcode);
+if ($exitcode != 0) {
+	fatal("Error executing asterisk: be sure Asterisk is installed and in the path");
 }
-out("OK");
+if (!$fd = fopen($amp_conf['ASTETCDIR'].'/version','w')) {
+	fatal('Cannot open '.$amp_conf['ASTETCDIR'].'/version for writing');
+}
+fwrite($fd, $tmpout);
+fclose($fd);
+// change to read-only
+chmod($amp_conf['ASTETCDIR'].'/version',0444);
+
+
+// normally this would be the contents of ASTETCDIR/version, but this is for simplicity, as we just read it above
+$verinfo = $tmpout;
+
+// **** Check asterisk verison
+
+outn("Checking for Asterisk ".REQ_ASTERISK_VERSION."..");
+if (preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) {
+	if (version_compare($matches[1], REQ_ASTERISK_VERSION) < 0) {
+		fatal("Asterisk 1.2 is required for this version of freePBX");
+	}
+	out("OK");
+} else {
+	fatal("Could not determine asterisk version (got: \"".$verinfo."\" please report this)");
+}
 
 // **** Make sure selinux isn't enabled
 
 outn("Checking for selinux..");
+$tmpoutput = '';
 $tmpout = exec("selinuxenabled 2>&1", $tmpoutput, $sereturn);
 if ($sereturn == 0) {
 	fatal("selinux is ENABLED. This is not supported. Please disable selinux before using freePBX");
