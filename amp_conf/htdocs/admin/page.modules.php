@@ -465,7 +465,10 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "\t\t\t\t</div>\n";
 			
 			echo "\t\t\t\t<div class=\"tabbertab\" title=\"Description\">\n";
-			if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
+			if (isset($modules_online[$name]['description']) && !empty($modules_online[$name]['description'])) {
+				echo "<h5>Description for version ".$modules_online[$name]['version']."</h5>";
+				echo nl2br($modules_online[$name]['description']);
+			} else if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
 				echo nl2br($modules[$name]['description']);
 			} else {
 				echo "No description is available.";
@@ -478,8 +481,11 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			if (isset($modules_online[$name]['changelog']) && !empty($modules_online[$name]['changelog'])) {
 				echo "\t\t\t\t<div class=\"tabbertab\" title=\"Changelog\">\n";
 				echo "<h5>Change Log for version ".$modules_online[$name]['version']."</h5>";
-				// convert "1.x.x:" into bold, and do nl2br
-				echo preg_replace('/(\d+(\.\d+)+):/', '<strong>$0</strong>', nl2br($modules[$name]['changelog']));
+				// convert "1.x.x:" and "*1.x.x*" into bold, and do nl2br
+				$changelog = nl2br($modules_online[$name]['changelog']);
+				$changelog = preg_replace('/(\d+(\.\d+)+):/', '<strong>$0</strong>', $changelog);
+				$changelog = preg_replace('/\*(\d+(\.\d+)+)\*/', '<strong>$1:</strong>', $changelog);
+				echo $changelog;
 				echo "\t\t\t\t</div>\n";
 			}
 			
