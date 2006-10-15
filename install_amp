@@ -809,7 +809,7 @@ $verinfo = $tmpout;
 outn("Checking for Asterisk ".REQ_ASTERISK_VERSION."..");
 if (preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) {
 	if (version_compare($matches[1], REQ_ASTERISK_VERSION) < 0) {
-		fatal("Asterisk 1.2 is required for this version of freePBX");
+		fatal("Asterisk ".REQ_ASTERISK_VERSION." is required for this version of freePBX");
 	}
 	out("OK");
 } else {
