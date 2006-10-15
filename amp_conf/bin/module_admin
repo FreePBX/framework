@@ -356,6 +356,12 @@ function doUpgradeAll($force) {
 	out("Done all upgrades.");
 }
 
+function showEngine() {
+	$engine = engine_getinfo();
+	foreach ($engine as $key=>$value) {
+		out(str_pad($key,15,' ',STR_PAD_LEFT).': '.$value);
+	}
+}
 
 /****************************************************************************************************
  ****************************************************************************************************/
@@ -489,6 +495,9 @@ switch ($operation ) {
 	break;
 	case 'upgradeall':
 		doUpgradeAll($force);
+	break;
+	case 'showengine':
+		showEngine();
 	break;
 	default:
 	case 'help':
