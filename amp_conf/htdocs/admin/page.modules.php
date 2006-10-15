@@ -3,109 +3,23 @@
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
 $online = isset($_REQUEST['online'])?$_REQUEST['online']:false;
 $moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false;
-
-$installed = find_allmodules();
+/*
+	moduleaction is an array with the key as the module name, and possible values:
+	
+	downloadinstall - download and install (used when a module is not locally installed)
+	upgrade - download and install (used when a module is locally installed)
+	install - install/upgrade locally available module
+	enable - enable local module
+	disable - disable local module
+	uninstall - uninstall local module
+*/
 
 function pageReload(){
 return "";
 	//return "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=".rand()."'</script>";
 }
 
-/*
-if (isset($_POST['submit']) && is_array($_POST['modules'])) { // if form has been submitted
-	foreach ($_POST['modules'] as $module) {
-		switch ($_POST['modaction']) {
-			case "install":
-				if (runModuleSQL($module,'install')) {
-					installModule($module,$_POST[$module.'_version']);
-					needreload();
-				} else
-					echo "<div class=\"error\">"._("Module install script failed to run")."</div>";
-			break;
-			case "uninstall":
-				if (runModuleSQL($module,'uninstall')) {
-					uninstallModule($module);
-					needreload();
-				} else
-					echo "<div class=\"error\">"._("Module uninstall script failed to run")."</div>";
-			break;
-			case "enable":
-				enableModule($module);
-				needreload();
-				echo pageReload();
-			break;
-			case "disable":
-				disableModule($module);
-				needreload();
-				echo pageReload();
-			break;
-			case "delete":
-				deleteModule($module);
-				needreload();
-				rmModule($module);
-			break;
-			case "download":
-				fetchModule($module);
-			break;
-			case "upgrade":
-				upgradeModule($module);
-				needreload();
-			break;
-			case "installenable": // install and enable a module
-				$boolInstall = true;
-				// only run install if it's not installed
-				if ($installed[$module]['status'] == 0) {
-					// set to false on failed install
-					$boolInstall = runModuleSQL($module,'install');
-					if ($boolInstall) {
-						installModule($module,$_POST[$module.'_version']);
-						enableModule($module);
-						echo pageReload();
-					} else {
-						echo "<div class=\"error\">{$module}: "._("Module install script failed to run")."</div>";
-					}
-				} else { // it's already installed, so just enable it
-					enableModule($module);
-					echo pageReload();
-				}
-				needreload();
-			break;
-			case "downloadinstall": // download, install and enable
-				fetchModule($module);
-				if (runModuleSQL($module,'install')) 
-					installModule($module,$_POST[$module.'_version']);
-				else
-					echo "<div class=\"error\">"._("Module install script failed to run")."</div>";
-				enableModule($module);
-				needreload();
-			break;
-			case "downloadupdate": //download and update
-				fetchModule($module);
-				upgradeModule($module);
-				needreload();
-			break;
-			case "uninstalldelete": //uninstall and delete
-				if (runModuleSQL($module,'uninstall'))
-					uninstallModule($module);
-				else
-					echo "<div class=\"error\">"._("Module uninstall script failed to run")."</div>";
-				deleteModule($module);
-				rmModule($module);
-				needreload();
-			break;
-		}
-	}
-}
 
-*/
-/*
-downloadinstall - download and install (used when a module is not locally installed)
-upgrade - download and install (used when a module is locally installed)
-install - install/upgrade locally available module
-enable - enable local module
-disable - disable local module
-uninstall - uninstall local module
-*/
 
 ?>
 
