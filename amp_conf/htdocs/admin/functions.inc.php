@@ -269,8 +269,19 @@ function engine_getinfo() {
 	global $amp_conf;
 	switch ($amp_conf['AMPENGINE']) {
 		case 'asterisk':
-			$verinfo = file_get_contents($amp_conf['ASTETCDIR'].'/version');
-			if (preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) {
+			require_once('common/php-asmanager.php');
+			$astman = new AGI_AsteriskManager();
+			if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+				//get version
+				$response = $astman->send_request('Command', array('Command'=>'show version'));
+				$verinfo = $response['data'];
+				$astman->disconnect();
+			} else {
+				// could not connect to asterisk manager
+				return false;
+			}
+			
+			if (preg_match('/Asterisk (\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4]);
 			}
 		break;
