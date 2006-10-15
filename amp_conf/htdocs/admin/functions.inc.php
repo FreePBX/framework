@@ -1025,7 +1025,7 @@ function execSQL( $file )
 
 // Dragged this in from page.modules.php, so it can be used by install_amp. 
 function runModuleSQL($moddir,$type){
-	trigger_error("runModuleSQL() is depreciated - please use _module_runscripts(), or preferably module_install() or module_enable() instead", E_WARNING);
+	trigger_error("runModuleSQL() is depreciated - please use _module_runscripts(), or preferably module_install() or module_enable() instead", E_USER_WARNING);
 	_module_runscripts($moddir, $type);
 }
 
@@ -1867,15 +1867,6 @@ function _modules_setversion($modname, $vers) {
  * @return boolean  If the action was succesful
  */
 function _module_runscripts($modulename, $type) {
-	function doinclude($filename, $modulename) {
-		// we provide the following variables to the included file (as well as $filename and $modulename)
-		global $db, $amp_conf, $asterisk_conf;
-		
-		if (file_exists($filename) && is_file($filename)) {
-			include($filename);
-		}
-	}
-	
 	global $amp_conf;
 	$db_engine = $amp_conf["AMPDBENGINE"];
 	
@@ -1898,11 +1889,11 @@ function _module_runscripts($modulename, $type) {
 			}
 			
 			// then run .php scripts
-			doinclude($moduledir.'/install.php', $modulename);
+			_modules_doinclude($moduledir.'/install.php', $modulename);
 		break;
 		case 'uninstall':
 			// run uninstall .php scripts first
-			doinclude($moduledir.'/uninstall.php', $modulename);
+			_modules_doinclude($moduledir.'/uninstall.php', $modulename);
 			
 			if ($db_engine  == "sqlite") {
 				$sqlfilename = "uninstall.sqlite";
@@ -1922,6 +1913,15 @@ function _module_runscripts($modulename, $type) {
 	
 	return true;
 }
+function _modules_doinclude($filename, $modulename) {
+	// we provide the following variables to the included file (as well as $filename and $modulename)
+	global $db, $amp_conf, $asterisk_conf;
+	
+	if (file_exists($filename) && is_file($filename)) {
+		include($filename);
+	}
+}
+	
 
 /*
 function installModule($modname,$modversion) 
