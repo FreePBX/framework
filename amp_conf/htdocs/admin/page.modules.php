@@ -1,7 +1,15 @@
 <?php /* $Id$ */
 
+/** Controls if online module and install/uninstall options are available.
+ * This is meant for when using external packaging systems (eg, deb or rpm) to manage
+ * modules. Package mantainers should set this to 0 in their main freepbx package.
+ */
+define('EXTERNAL_PACKAGE_MANAGEMENT', 0);
+
+
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
-$online = isset($_REQUEST['online'])?$_REQUEST['online']:false;
+// can't go online if external management is on
+$online = (isset($_REQUEST['online']) && !EXTERNAL_PACKAGE_MANAGEMENT) ? $_REQUEST['online'] : false;
 $moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false;
 /*
 	moduleaction is an array with the key as the module name, and possible values:
@@ -130,13 +138,26 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			switch ($action) {
 				case 'upgrade':
 				case 'downloadinstall':
-					echo 'Downloading '.$modulename.' <span id="downloadprogress_'.$modulename.'"></span>';
-					if (is_array($errors = module_download($modulename, false, 'download_progress'))) {
-						echo '<span class="error">Error(s) downloading '.$modulename.': ';
-						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
-						echo '</span>';
-					} else {
-					
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						echo 'Downloading '.$modulename.' <span id="downloadprogress_'.$modulename.'"></span>';
+						if (is_array($errors = module_download($modulename, false, 'download_progress'))) {
+							echo '<span class="error">Error(s) downloading '.$modulename.': ';
+							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+							echo '</span>';
+						} else {
+						
+							if (is_array($errors = module_install($modulename))) {
+								echo '<span class="error">Error(s) installing '.$modulename.': ';
+								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+								echo '</span>';
+							} else {
+								echo '<span class="success">'.$modulename.' installed successfully</span>';
+							}
+						}
+					}
+				break;
+				case 'install':
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_install($modulename))) {
 							echo '<span class="error">Error(s) installing '.$modulename.': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
@@ -144,15 +165,6 @@ switch ($extdisplay) {  // process, confirm, or nothing
 						} else {
 							echo '<span class="success">'.$modulename.' installed successfully</span>';
 						}
-					}
-				break;
-				case 'install':
-					if (is_array($errors = module_install($modulename))) {
-						echo '<span class="error">Error(s) installing '.$modulename.': ';
-						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
-						echo '</span>';
-					} else {
-						echo '<span class="success">'.$modulename.' installed successfully</span>';
 					}
 				break;
 				case 'enable':
@@ -174,12 +186,14 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 				case 'uninstall':
-					if (is_array($errors = module_uninstall($modulename))) {
-						echo '<span class="error">Error(s) uninstalling '.$modulename.': ';
-						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
-						echo '</span>';
-					} else {
-						echo '<span class="success">'.$modulename.' uninstalled successfully</span>';
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						if (is_array($errors = module_uninstall($modulename))) {
+							echo '<span class="error">Error(s) uninstalling '.$modulename.': ';
+							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+							echo '</span>';
+						} else {
+							echo '<span class="success">'.$modulename.' uninstalled successfully</span>';
+						}
 					}
 				break;
 				default:
@@ -208,16 +222,22 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			$text = false;
 			switch ($action) {
 				case 'upgrade':
-					$actionstext[] = sprintf(_("%s %s will be upgraded to online verison %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						$actionstext[] = sprintf(_("%s %s will be upgraded to online verison %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+					}
 				break;
 				case 'downloadinstall':
-					$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), $modules[$module]['name'], $modules[$module]['version']);
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), $modules[$module]['name'], $modules[$module]['version']);
+					}
 				break;
 				case 'install':
-					if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
-						$actionstext[] =  sprintf(_("%s %s will be upgraded to %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules[$module]['version']);
-					} else {
-						$actionstext[] =  sprintf(_("%s %s will be installed and enabled"), $modules[$module]['name'], $modules[$module]['version']);
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
+							$actionstext[] =  sprintf(_("%s %s will be upgraded to %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules[$module]['version']);
+						} else {
+							$actionstext[] =  sprintf(_("%s %s will be installed and enabled"), $modules[$module]['name'], $modules[$module]['version']);
+						}
 					}
 				break;
 				case 'enable':
@@ -227,7 +247,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					$actionstext[] =  sprintf(_("%s %s will be disabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
 				break;
 				case 'uninstall':
-					$actionstext[] =  sprintf(_("%s %s will be uninstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						$actionstext[] =  sprintf(_("%s %s will be uninstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+					}
 				break;
 			}
 			echo "\t<input type=\"hidden\" name=\"moduleaction[".$module."]\" value=\"".$action."\" />\n";
@@ -269,7 +291,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				echo '<div class="announcements">$announcements</div>';
 			}
 		} else {
-			echo "<a href='config.php?display=modules&amp;type=tool&amp;online=1'>"._("Check for updates online")."</a>\n";
+			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+				echo "<a href='config.php?display=modules&amp;type=tool&amp;online=1'>"._("Check for updates online")."</a>\n";
+			}
 		}
 
 		echo "<form name=\"modulesGUI\" action=\"config.php\" method=\"post\">";
@@ -385,45 +409,57 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			switch ($modules[$name]['status']) {
 			
 				case MODULE_STATUS_NOTINSTALLED:
-					if (isset($modules_local[$name])) {
-						echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
-							 '<label for="install_'.prep_id($name).'">Install</label> <br />';
-					} else {
-						echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="downloadinstall" /> '.
-							 '<label for="upgrade_'.prep_id($name).'">Download and Install</label> <br />';
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						if (isset($modules_local[$name])) {
+							echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
+								 '<label for="install_'.prep_id($name).'">Install</label> <br />';
+						} else {
+							echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="downloadinstall" /> '.
+								 '<label for="upgrade_'.prep_id($name).'">Download and Install</label> <br />';
+						}
 					}
 				break;
 				case MODULE_STATUS_DISABLED:
 					echo '<input type="radio" id="enable_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="enable" /> '.
 						 '<label for="enable_'.prep_id($name).'">Enable</label> <br />';
-					echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-						 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
+							 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+					}
 				break;
 				case MODULE_STATUS_NEEDUPGRADE:
-					echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
-						 '<label for="install_'.prep_id($name).'">Upgrade to '.$modules_local[$name]['version'].' and Enable</label> <br />';
-					echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-						 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
+							 '<label for="install_'.prep_id($name).'">Upgrade to '.$modules_local[$name]['version'].' and Enable</label> <br />';
+						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
+							 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+					}
 				break;
 				case MODULE_STATUS_BROKEN:
-					echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
-						 '<label for="install_'.prep_id($name).'">Install</label> <br />';
-					echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-						 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
+							 '<label for="install_'.prep_id($name).'">Install</label> <br />';
+						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
+							 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+					}
 				break;
 				default:
 					// check for online upgrade
 					if (isset($modules_online[$name]['version'])) {
 						$vercomp = version_compare($modules[$name]['version'], $modules_online[$name]['version']);
 						if ($vercomp < 0) {
-							echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
-								 '<label for="upgrade_'.prep_id($name).'">Download and Upgrade to '.$modules_online[$name]['version'].'</label> <br />';
+							if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
+									 '<label for="upgrade_'.prep_id($name).'">Download and Upgrade to '.$modules_online[$name]['version'].'</label> <br />';
+							}
 						}
 					}
 					echo '<input type="radio" id="disable_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="disable" /> '.
 						 '<label for="disable_'.prep_id($name).'">Disable</label> <br />';
-					echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-						 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
+							 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+					}
 				break;
 			}
 			echo "\t\t\t\t</div>\n";
