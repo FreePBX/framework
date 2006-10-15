@@ -1258,28 +1258,6 @@ function module_getinfo($module = false, $status = false) {
  *                for true, because  array() == true !
  */
 function module_checkdepends($modulename) {
-	function comparison_error_message($module, $reqversion, $version, $operator) {
-		switch ($operator) {
-			case 'lt': case '<':
-				return sprintf(_('A %s version below %s is required, you have %s'), $module, $reqversion, $version);
-			break;
-			case 'le': case '<=';
-				return sprintf(_('%s version %s or below is required, you have %s'), $module, $reqversion, $version);
-			break;
-			case 'gt': case '>';
-				return sprintf(_('A %s version newer than %s required, you have %s'), $module, $reqversion, $version);
-			break;
-			case 'ne': case '!=': case '<>':
-				return sprintf(_('Your %s version (%s) is incompatible.'), $version, $reqversion);
-			break;
-			case 'eq': case '==': case '=': 
-				return sprintf(_('Only %s version %s is compatible, you have %s'), $module, $reqversion, $version);
-			break;
-			default:
-			case 'ge': case '>=':
-				return sprintf(_('%s version %s or higher is required, you have %s'), $module, $reqversion, $version);
-		}
-	}
 	
 	// check if we were passed a modulexml array, or a string (name)
 	// ensure $modulexml is the modules array, and $modulename is the name (as a string)
@@ -1314,7 +1292,7 @@ function module_checkdepends($modulename) {
 							$ver = $ver[0][0]; // dumb PEARDB thing
 							$operator = (!empty($matches[1]) ? $matches[1] : 'ge'); // default to >=
 							if (version_compare($matches[2], $ver, $operator) ) {
-								$errors[] = comparison_error_message('FreePBX', $matches[2], $ver, $operator);
+								$errors[] = _module_comparison_error_message('FreePBX', $matches[2], $ver, $operator);
 							}
 						}
 					break;
@@ -1329,7 +1307,7 @@ function module_checkdepends($modulename) {
 											// also doing version checking
 											$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
 											if (version_compare($matches[4], $modules[$matches[1]]['dbversion'], $operator) ) {
-												$errors[] = comparison_error_message($matches[1].' module', $matches[4], $modules[$matches[1]]['dbversion'], $operator);
+												$errors[] = _module_comparison_error_message($matches[1].' module', $matches[4], $modules[$matches[1]]['dbversion'], $operator);
 											}
 										}
 									break;
@@ -1418,6 +1396,29 @@ function module_checkdepends($modulename) {
 		return $errors;
 	} else {
 		return true;
+	}
+}
+
+function _module_comparison_error_message($module, $reqversion, $version, $operator) {
+	switch ($operator) {
+		case 'lt': case '<':
+			return sprintf(_('A %s version below %s is required, you have %s'), $module, $reqversion, $version);
+		break;
+		case 'le': case '<=';
+			return sprintf(_('%s version %s or below is required, you have %s'), $module, $reqversion, $version);
+		break;
+		case 'gt': case '>';
+			return sprintf(_('A %s version newer than %s required, you have %s'), $module, $reqversion, $version);
+		break;
+		case 'ne': case '!=': case '<>':
+			return sprintf(_('Your %s version (%s) is incompatible.'), $version, $reqversion);
+		break;
+		case 'eq': case '==': case '=': 
+			return sprintf(_('Only %s version %s is compatible, you have %s'), $module, $reqversion, $version);
+		break;
+		default:
+		case 'ge': case '>=':
+			return sprintf(_('%s version %s or higher is required, you have %s'), $module, $reqversion, $version);
 	}
 }
 
