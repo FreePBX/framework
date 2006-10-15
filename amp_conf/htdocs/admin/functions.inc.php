@@ -1839,6 +1839,12 @@ function _module_readxml($modulename) {
 	return null;
 }
 
+// Temporarily copied here, for people that haven't upgraded their
+// IVR module..
+
+function modules_getversion($modname) {
+	return _modules_getversion($modname); 
+}
 
 // This returns the version of a module
 function _modules_getversion($modname) {
