@@ -236,7 +236,7 @@ if(is_array($modules)){
 		//only use this module if it's enabled (status=2)
 		if (isset($module['status']) && $module['status'] == MODULE_STATUS_ENABLED) {
 			// Make sure the module is installed and up to date
-			runModuleSql($key, 'install');
+			module_install($key);
 			// active_modules array used in genConf function
 			$active_modules[] = $key;
 			//include module functions

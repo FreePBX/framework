@@ -206,7 +206,7 @@ function download_progress($action, $params) {
 
 switch ($extdisplay) {  // process, confirm, or nothing
 	case 'process':
-		echo "<h4>"._("Please wait well actions are performed")."</h4>\n";
+		echo "<h4>"._("Please wait while module actions are performed")."</h4>\n";
 		
 		echo "<div id=\"moduleprogress\">";
 		flush();
