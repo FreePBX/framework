@@ -1591,7 +1591,7 @@ function module_download($modulename, $force = false, $progress_callback = null)
 	while (!feof($dp)) {
 		$data = fread($dp, $download_chunk_size);
 		$filedata .= $data;
-		$totalread += strlen($filedata);
+		$totalread += strlen($data);
 		if (function_exists($progress_callback)) {
 			$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 		}
