@@ -131,7 +131,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'upgrade':
 				case 'downloadinstall':
 					echo 'Downloading '.$modulename.' <span id="downloadprogress_'.$modulename.'"></span>';
-					if (is_array($errors = module_download($modulename, true, 'download_progress'))) {
+					if (is_array($errors = module_download($modulename, false, 'download_progress'))) {
 						echo '<span class="error">Error(s) downloading '.$modulename.': ';
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 						echo '</span>';
