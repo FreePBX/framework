@@ -11,8 +11,8 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-require_once('featurecodes.class.php');
-require_once('components.class.php');
+require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'featurecodes.class.php');
+require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'components.class.php');
 
 define('MODULE_STATUS_NOTINSTALLED', 0);
 define('MODULE_STATUS_DISABLED', 1);
@@ -38,6 +38,10 @@ function parse_amportal_conf($filename) {
 	
 	if ( !isset($conf["AMPDBNAME"]) || ($conf["AMPDBNAME"] == "")) {
 		$conf["AMPDBNAME"] = "asterisk";
+	}
+	
+	if ( !isset($conf["AMPENGINE"]) || ($conf["AMPENGINE"] == "")) {
+		$conf["AMPENGINE"] = "asterisk";
 	}
 
 /*			
@@ -261,25 +265,18 @@ function find_modules($status) {
 }
 
 
-// This returns the version of a module
-function modules_getversion($modname) {
-	global $db;
-
-	$sql = "SELECT version FROM modules WHERE modulename = '".addslashes($modname)."'";
-	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
-	if (isset($results['version'])) 
-		return $results['version'];
-	else
-		return null;
+function engine_getinfo() {
+	global $amp_conf;
+	switch ($amp_conf['AMPENGINE']) {
+		case 'asterisk':
+			$verinfo = exec('asterisk -V');
+			if (preg_match('/^Asterisk (\d+(\.\d+)*)$/', $verinfo, $matches)) {
+				return array('engine'=>'asterisk', 'version' => $matches[1]);
+			}
+		break;
+	}
+	return false;
 }
-
-// I bet you can't guess what this one does.
-function modules_setversion($modname, $vers) {
-	global $db;
-
-	return sql("UPDATE modules SET version='".addslashes($vers)."' WHERE modulename = '".addslashes($modname)."'");
-}
-
 
 /* queries database using PEAR.
 *  $type can be query, getAll, getRow, getCol, getOne, etc
@@ -933,7 +930,41 @@ class xml2ModuleArray extends xml2Array {
 	}
 }
 
-
+// get_headers() for php4 (built in for php5)
+if (!function_existS('get_headers')) {
+	function get_headers($url ) {
+		$url_info=parse_url($url);
+		if (isset($url_info['scheme']) && $url_info['scheme'] == 'https') {
+			$port = isset($url_info['port']) ? $url_info['port'] : 443;
+			@$fp=fsockopen('ssl://'.$url_info['host'], $port, $errno, $errstr, 10);
+		} else {
+			$port = isset($url_info['port']) ? $url_info['port'] : 80;
+			@$fp=fsockopen($url_info['host'], $port, $errno, $errstr, 10);
+		}
+		if ($fp) {
+			stream_set_timeout($fp, 10);
+			$head = "HEAD ".@$url_info['path']."?".@$url_info['query'];
+			$head .= " HTTP/1.0\r\nHost: ".@$url_info['host']."\r\n\r\n";
+			fputs($fp, $head);
+			while(!feof($fp)) {
+				if($header=trim(fgets($fp, 1024))) {
+					$sc_pos = strpos($header, ':');
+					if ($sc_pos === false) {
+						$headers['status'] = $header;
+					} else {
+						$label = substr( $header, 0, $sc_pos );
+						$value = substr( $header, $sc_pos+1 );
+						$headers[strtolower($label)] = trim($value);
+					}
+				}
+			}
+			return $headers;
+		} else {
+			return false;
+		}
+	}
+}
+   
 
 class moduleHook {
 	var $hookHtml = '';
@@ -994,34 +1025,11 @@ function execSQL( $file )
 
 // Dragged this in from page.modules.php, so it can be used by install_amp. 
 function runModuleSQL($moddir,$type){
-	global $amp_conf;
-	$db_engine = $amp_conf["AMPDBENGINE"];
-
-	$data='';
-	
-	// if there is an sql file, run it
-	// don't forget about our 2 sql syntaxes
-	if (($db_engine  == "mysql") || ($db_engine == "pgsql")) {
-		if (is_file($amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sql")) {
-			execSQL( $amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sql" );
-		}
-	}
-	elseif ($db_engine  == "sqlite"){
-		if (is_file($amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sqlite")) {
-			execSQL( $amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.sqlite" );
-		}
-	}
-	else{
-		// what to do here? 
-		// in general this should fail in earliers stages...
-	}
-	
-	// if there is a php file, run it
-	if (is_file($amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.php")) {
-		include($amp_conf["AMPWEBROOT"]."/admin/modules/{$moddir}/{$type}.php");
-	}
-	return true;
+	trigger_error("runModuleSQL() is depreciated - please use _module_runscripts(), or preferably module_install() or module_enable() instead", E_WARNING);
+	_module_runscripts($moddir, $type);
 }
+
+
 
 /*
 // just for testing hooks, i'll delete it later
@@ -1061,8 +1069,26 @@ function queues_hookProcess_core($viewing_itemid, $request) {
 }
 */
 
-/** Module functions 
+/** Replaces variables in a string with the values from ampconf
+ * eg, "%AMPWEBROOT%/admin" => "/var/www/html/admin"
  */
+function ampconf_string_replace($string) {
+	global $amp_conf;
+	
+	$target = array();
+	$replace = array();
+	
+	foreach ($amp_conf as $key=>$value) {
+		$target[] = '%'.$key.'%';
+		$replace[] = $value;
+	}
+	
+	return str_replace($target, $replace, $string);
+}
+
+/***********************************************************************************************************
+                                       Module functions 
+************************************************************************************************************/
  
 /** Get the latest module.xml file for this freePBX version. 
  * Caches in the database for 5 mintues.
@@ -1117,7 +1143,7 @@ function module_getonlinexml($module = false) { // was getModuleXml()
 		if ($module != false) {
 			foreach ($xmlarray['xml']['module'] as $mod) {
 				if ($module == $mod['rawname']) {
-					return $module;
+					return $mod;
 				}
 			}
 			return null;
@@ -1146,7 +1172,12 @@ function module_getinfo($module = false, $status = false) {
 	
 	if ($module) {
 		// get info on only one module
-		$modules[$module] = _module_readxml($module);
+		$xml = _module_readxml($module);
+		if (!is_null($xml)) {
+			$modules[$module] = $xml;
+			// if status is anything else, it will be updated below when we read the db
+			$modules[$module]['status'] = MODULE_STATUS_NOTINSTALLED;
+		}
 		
 		// query to get just this one
 		$sql = 'SELECT * FROM modules WHERE modulename = "'.$module.'"';
@@ -1158,16 +1189,18 @@ function module_getinfo($module = false, $status = false) {
 			    ($file != ".svn") && ($file != "_cache") && 
 				is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
 				
-				$modules[$file] = _module_readxml($file);
-				// if status is anything else, it will be updated below when we read the db
-				$modules[$file]['status'] = MODULE_STATUS_NOTINSTALLED;
+				$xml = _module_readxml($file);
+				if (!is_null($xml)) {
+					$modules[$file] = $xml;
+					// if status is anything else, it will be updated below when we read the db
+					$modules[$file]['status'] = MODULE_STATUS_NOTINSTALLED;
+				}
 			}
 		}
 		
 		// query to get everything
 		$sql = 'SELECT * FROM modules';
 	}
-	
 	// determine details about this module from database
 	// modulename should match the directory name
 	
@@ -1218,41 +1251,56 @@ function module_getinfo($module = false, $status = false) {
 }
 
 /** Check if a module meets dependencies. 
- * @param string  The array from a parsed module.xml for this module.
+ * @param  mixed  The name of the module, or the modulexml Array
  * @return mixed  Returns true if dependencies are met, or an array 
  *                containing a list of human-readable errors if not.
  *                NOTE: you must use strict type checking (===) to test
  *                for true, because  array() == true !
  */
-function module_checkdepends($modulexml) {
+function module_checkdepends($modulename) {
 	function comparison_error_message($module, $reqversion, $version, $operator) {
 		switch ($operator) {
 			case 'lt': case '<':
-				return $module.' version below '.$reqversion.' is required, you have '.$version;
+				return sprintf(_('A %s version below %s is required, you have %s'), $module, $reqversion, $version);
 			break;
 			case 'le': case '<=';
-				return $module.' version '.$reqversion.' or below is required, you have '.$version;
+				return sprintf(_('%s version %s or below is required, you have %s'), $module, $reqversion, $version);
 			break;
 			case 'gt': case '>';
-				return 'A version newer than '.$reqversion.' required, you have '.$version;
+				return sprintf(_('A %s version newer than %s required, you have %s'), $module, $reqversion, $version);
 			break;
 			case 'ne': case '!=': case '<>':
-				return 'Your '.$module.' version ('.$reqversion.') is incompatible.';
+				return sprintf(_('Your %s version (%s) is incompatible.'), $version, $reqversion);
 			break;
 			case 'eq': case '==': case '=': 
-				return 'Only '.$module.' version '.$reqversion.' is compatible, you have '.$version;
+				return sprintf(_('Only %s version %s is compatible, you have %s'), $module, $reqversion, $version);
 			break;
 			default:
 			case 'ge': case '>=':
-				return $module.' version '.$reqversion.' or higher is required, you have '.$version;
+				return sprintf(_('%s version %s or higher is required, you have %s'), $module, $reqversion, $version);
 		}
+	}
+	
+	// check if we were passed a modulexml array, or a string (name)
+	// ensure $modulexml is the modules array, and $modulename is the name (as a string)
+	if (is_array($modulename)) {
+		$modulexml = $modulename;
+		$modulename = $modulename['rawname'];
+	} else {
+		$modulexml = module_getinfo($modulename);
 	}
 	
 	$errors = array();
 	
+	// special handling for engine
+	$engine_dependency = false; // if we've found ANY engine dependencies to check
+	$engine_matched = false; // if an engine dependency has matched
+	$engine_errors = array(); // the error strings for engines
+	
 	if (isset($modulexml['depends'])) {
 		foreach ($modulexml['depends'] as $type => $requirements) {
 			// if only a single item, make it an array so we can use the same code as for multiple items
+			// this is because if there is  <module>a</module><module>b</module>  we will get array('module' => array('a','b'))
 			if (!is_array($requirements)) {
 				$requirements = array($requirements);
 			}
@@ -1260,18 +1308,18 @@ function module_checkdepends($modulexml) {
 			foreach ($requirements as $value) {
 				switch ($type) {
 					case 'version':
-						if (preg_match('/^([a-zA-Z_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?(\d(\.\d)*))?$/i', $value, $matches)) {
+						if (preg_match('/^(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d(\.\d)*)$/i', $value, $matches)) {
 							// matches[1] = operator, [2] = version
 							$ver = getversion();
 							$ver = $ver[0][0]; // dumb PEARDB thing
 							$operator = (!empty($matches[1]) ? $matches[1] : 'ge'); // default to >=
-							if (! version_compare($matches[2], $ver, $operator) ) {
+							if (version_compare($matches[2], $ver, $operator) ) {
 								$errors[] = comparison_error_message('FreePBX', $matches[2], $ver, $operator);
 							}
 						}
 					break;
 					case 'module':
-						if (preg_match('/^([a-z_]+)(\s+(>=|>|=|<|<=|!=)?(\d(\.\d)*))?$/i', $value, $matches)) {
+						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d(\.\d)*))?$/i', $value, $matches)) {
 							// matches[1] = modulename, [3]=comparison operator, [4] = version
 							$modules = module_getinfo($matches[1]);
 							if (isset($modules[$matches[1]])) {
@@ -1280,31 +1328,39 @@ function module_checkdepends($modulexml) {
 										if (!empty($matches[4])) {
 											// also doing version checking
 											$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
-											if (! version_compare($matches[4], $modules[$matches[1]]['dbversion'], $operator) ) {
+											if (version_compare($matches[4], $modules[$matches[1]]['dbversion'], $operator) ) {
 												$errors[] = comparison_error_message($matches[1].' module', $matches[4], $modules[$matches[1]]['dbversion'], $operator);
 											}
 										}
 									break;
 									case MODULE_STATUS_BROKEN:
-										$errors[] = 'Module '.$matches[1].' is required, but yours is broken. You should reinstall '.
-										            'it and try again.';
+										$errors[] = sprintf(_('Module %s is required, but yours is broken. You should reinstall '.
+										                      'it and try again.'), $matches[1]);
 									break;
 									case MODULE_STATUS_DISABLED:
-										$errors[] = 'Module '.$matches[1].' is required, but yours is disabled. ';
+										$errors[] = sprintf(_('Module %s is required, but yours is disabled.'), $matches[1]);
+									break;
 									case MODULE_STATUS_NEEDUPGRADE:
-										$errors[] = 'Module '.$matches[1].' is required, but yours is disabled because it needs to '.
-										            'be upgraded. Please upgrade '.$matches[1].' first, and then try again.';
+										$errors[] = sprintf(_('Module %s is required, but yours is disabled because it needs to '.
+										                      'be upgraded. Please upgrade %s first, and then try again.'), 
+															$matches[1], $matches[1]);
+									break;
 									default:
 									case MODULE_STATUS_NOTINSTALLED:
-										$errors[] = 'Module '.$matches[1].' is required.';
+										$errors[] = sprintf(_('Module %s is required, yours is not installed.'), $matches[1]);
 									break;
 								}
+							} else {
+								$errors[] = sprintf(_('Module %s is required.'), $matches[1]);
 							}
 						}
 					break;
 					case 'file': // file exists
-						if (!file_exists($value)) {
-							$errors[] = 'File '.$value.' must exist.';
+						// replace embedded amp_conf %VARIABLES% in string
+						$file = ampconf_string_replace($value);
+						
+						if (!file_exists( $file )) {
+							$errors[] = sprintf(_('File %s must exist.'), $file);
 						}
 					break;
 					case 'engine':
@@ -1312,38 +1368,166 @@ function module_checkdepends($modulexml) {
 						 *  NOTE: there is special handling for this check. We want to "OR" conditions, instead of
 						 *        "AND"ing like the rest of them. 
 						 */
-						 
-						if (preg_match('/^([a-z_]+)(\s+(>=|>|=|<|<=|!=)?(\d(\.\d)*))?$/i', $value, $matches)) {
+						
+						// we found at least one engine, so mark that we're matching this 
+						$engine_dependency = true;
+						
+						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d(\.\d)*))?$/i', $value, $matches)) {
 							// matches[1] = engine, [3]=comparison operator, [4] = version
+							$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
+							
+							$engine = engine_getinfo();
+							if (($engine['engine'] == $matches[1]) &&
+							    (empty($matches[4]) || !version_compare($matches[4], $engine['version'], $operator))
+							   ) {
+							   
+								$engine_matched = true;
+							} else {
+								// add it to the error messages
+								if ($matches[4]) {
+									// version specified
+									$operator_friendly = str_replace(array('gt','ge','lt','le','eq','ne'), array('>','>=','<','<=','=','not ='), $operator);
+									$engine_errors[] = $matches[1].' ('.$operator_friendly.' '.$matches[4].')';
+								} else {
+									// no version
+									$engine_errors[] = $matches[1];
+								}
+							}
 						}
 					break;
 				}
 			}
 		}
 		
+		// special handling for engine
+		// if we've had at least one engine dependency check, and no engine dependencies matched, we have an error
+		if ($engine_dependency && !$engine_matched) {
+		
+			$engineinfo = engine_getinfo();
+			$yourengine = $engineinfo['engine'].' '.$engineinfo['version'];
+			// print it nicely
+			if (count($engine_errors) == 1) {
+				$errors[] = sprintf(_('Requires engine %s, you have: %s'),$engine_errors[0],$yourengine);
+			} else {
+				$errors[] = sprintf(_('Requires one of the following engines: %s; you have: %s'),implode(', ', $engine_errors),$yourengine);
+			}
+		}
 	}
+	
+	if (count($errors) > 0) {
+		return $errors;
+	} else {
+		return true;
+	}
+}
+
+/** Finds all the enabled modules that depend on a given module
+ * @param  mixed  The name of the module, or the modulexml Array
+ * @return array  Array containing the list of modules, or false if no dependencies
+ */
+function module_reversedepends($modulename) {
+	// check if we were passed a modulexml array, or a string (name)
+	// ensure $modulename is the name (as a string)
+	if (is_array($modulename)) {
+		$modulename = $modulename['rawname'];
+	}
+	
+	$modules = module_getinfo(false, MODULE_STATUS_ENABLED);
+	
+	$depends = array();
+	
+	foreach (array_keys($modules) as $name) {
+		if (isset($modules[$name]['depends'])) {
+			foreach ($modules[$name]['depends'] as $type => $requirements) {
+				if ($type == 'module') {
+					// if only a single item, make it an array so we can use the same code as for multiple items
+					// this is because if there is  <module>a</module><module>b</module>  we will get array('module' => array('a','b'))
+					if (!is_array($requirements)) {
+						$requirements = array($requirements);
+					}
+					
+					foreach ($requirements as $value) {
+						if (preg_match('/^([a-z0-9_]+)(\s+(>=|>|=|<|<=|!=)?\s*(\d(\.\d)*))?$/i', $value, $matches)) {
+							// matches[1] = modulename, [3]=comparison operator, [4] = version
+							
+							// note, we're not checking version here. Normally this function is used when
+							// uninstalling a module, so it doesn't really matter anyways, and version
+							// dependency should have already been checked when the module was installed
+							if ($matches[1] == $modulename) {
+								$depends[] = $name;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	return (count($depends) > 0) ? $depends : false;
+}
+
+
+/** Enables a module
+ * @param string    The name of the module to enable
+ * @param bool      If true, skips status and dependency checks
+ * @return  mixed   True if succesful, array of error messages if not succesful
+ */
+function module_enable($modulename, $force = false) { // was enableModule
+	$modules = module_getinfo($modulename);
+	
+	if ($modules[$modulename]['status'] == MODULE_STATUS_ENABLED) {
+		return array(_("Module is already enabled"));
+	}
+	
+	// doesn't make sense to skip this on $force - eg, we can't enable a non-installed or broken module
+	if ($modules[$modulename]['status'] != MODULE_STATUS_DISABLED) {
+		return array(_("Module cannot be enabled"));
+	}
+	
+	if (!$force) { 
+		if (($errors = module_checkdepends($modules[$modulename])) !== true) {
+			return $errors;
+		}
+	}
+	
+	// disabled (but doesn't needupgrade or need install), and meets dependencies
+	_module_setenabled($modulename, true);
+	return true;
 }
 
 /** Downloads the latest version of a module
  * and extracts it to the directory
+ * @param string    The name of the module to install
+ * @param bool      If true, skips status and dependency checks
+ * @param string    The name of a callback function to call with progress updates.
+                    function($action, $params). Possible actions:
+                      getinfo: while downloading modules.xml
+                      downloading: while downloading file; params include 'read' and 'total'
+                      untar: before untarring
+                      done: when complete
+ * @return  mixed   True if succesful, array of error messages if not succesful
  */
-function module_download($modulename) { // was fetchModule 
-	function untar_module($filename, $target) {
-		global $amp_conf;
-		system("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($target));
-		return true;
-	}
-	
+function module_download($modulename, $force = false, $progress_callback = null) { // was fetchModule 
 	global $amp_conf;
+	
+	// size of download blocks to fread()
+	// basically, this controls how often progress_callback is called
+	$download_chunk_size = 12*1024;
+	
+	// invoke progress callback
+	if (function_exists($progress_callback)) {
+		$progress_callback('getinfo', array('module'=>$modulename));
+	}
+			
 	$res = module_getonlinexml($modulename);
 	if ($res == null) {
-		echo "<div class=\"error\">"._("Unaware of module")." {$name}</div>";
-		return false;
+		return array(_("Module not found in repository"));
 	}
 	
 	$file = basename($res['location']);
 	$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
-	if (file_exists($filename)) {
+	// if we're not forcing the download, and a file with the target name exists..
+	if (!$force && file_exists($filename)) {
 		// We might already have it! Let's check the MD5.
 		$filedata = "";
 		if ( $fh = @ fopen($filename, "r") ) {
@@ -1358,7 +1542,22 @@ function module_download($modulename) { // was fetchModule
 			// every time. Otherwise theres no way to avoid a corrupt
 			// download
 			
-			return untar_module($filename, $amp_conf['AMPWEBROOT'].'/admin/modules/');
+			// invoke progress callback
+			if (function_exists($progress_callback)) {
+				$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+			}
+			
+			exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/'), $output, $exitcode);
+			if ($exitcode != 0) {
+				return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/'));
+			}
+			
+			// invoke progress_callback
+			if (function_exists($progress_callback)) {
+				$progress_callback('done', array('module'=>$modulename));
+			}
+			
+			return true;
 		} else {
 			unlink($filename);
 		}
@@ -1372,28 +1571,254 @@ function module_download($modulename) { // was fetchModule
 		// echo "(From default)"; // debug
 	}
 	
-	if ($fp = @fopen($filename,"w")) {
-		$filedata = file_get_contents($url);
-		fwrite($fp,$filedata);
-		fclose($fp);
+	if (!($fp = @fopen($filename,"w"))) {
+		return array(sprintf(_("Error opening %s for writing"), $filename));
 	}
 	
+	$headers = get_headers($url);
+	
+	$totalread = 0;
+	// invoke progress_callback
+	if (function_exists($progress_callback)) {
+		$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
+	}
+	
+	if (!$dp = @fopen($url,'r')) {
+		return array(sprintf(_("Error opening %s for reading"), $url));
+	}
+	
+	$filedata = '';
+	while (!feof($dp)) {
+		$data = fread($dp, $download_chunk_size);
+		$filedata .= $data;
+		$totalread += strlen($filedata);
+		if (function_exists($progress_callback)) {
+			$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
+		}
+	}
+	fwrite($fp,$filedata);
+	fclose($dp);
+	fclose($fp);
+	
+	
 	if (is_readable($filename) !== TRUE ) {
-		echo "<div class=\"error\">"._("Unable to save")." {$filename} - Check file/directory permissions</div>";
-		return false;
+		return array(sprintf(_('Unable to save %s'),$filename));
 	}
 	
 	// Check the MD5 info against what's in the module's XML
 	if (!isset($res['md5sum']) || empty($res['md5sum'])) {
-		echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
-	} elseif ($res['md5sum'] != md5 ($filedata)) {
-		echo "<div class=\"error\">"._("File Integrity FAILED for")." {$filename} - "._("Aborting")."</div>";
+		//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
+	} else if ($res['md5sum'] != md5 ($filedata)) {
 		unlink($filename);
-		return false;
+		return array(sprintf(_('File Integrity failed for %s - aborting'), $filename));
 	}
 	
-	return untar_module($filename, $amp_conf['AMPWEBROOT'].'/admin/modules/');
+	// invoke progress callback
+	if (function_exists($progress_callback)) {
+		$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+	}
+
+	exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/'), $output, $exitcode);
+	if ($exitcode != 0) {
+		return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/'));
+	}
 	
+	// invoke progress_callback
+	if (function_exists($progress_callback)) {
+		$progress_callback('done', array('module'=>$modulename));
+	}
+
+	return true;
+}
+
+/** Installs or upgrades a module from it's directory
+ * Checks dependencies, and enables
+ * @param string   The name of the module to install
+ * @param bool     If true, skips status and dependency checks
+ * @return mixed   True if succesful, array of error messages if not succesful
+ */
+function module_install($modulename, $force = false) {
+	$modules = module_getinfo($modulename);
+	if (($modules[$modulename]['status'] == MODULE_STATUS_NOTINSTALLED) || 
+	    ($modules[$modulename]['status'] == MODULE_STATUS_NEEDUPGRADE)) {
+	}
+	global $db, $amp_conf;
+	var_dump($force);
+	
+	// make sure we have a directory, to begin with
+	$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
+	if (!is_dir($dir)) {
+		return array(_("Cannot find module"));
+	}
+	
+	// read the module.xml file
+	$modules = module_getinfo($modulename);
+	if (!isset($modules[$modulename])) {
+		return array(_("Could not read module.xml"));
+	}
+	
+	// don't force this bit - we can't install a broken module (missing files) 
+	if ($modules[$modulename]['status'] == MODULE_STATUS_BROKEN) {
+		return array(_("This module is broken and cannot be installed. You should try to download it again."));
+	}
+	
+	if (!$force) {
+	
+		if (!in_array($modules[$modulename]['status'], array(MODULE_STATUS_NOTINSTALLED, MODULE_STATUS_NEEDUPGRADE))) {
+			return array(_("This module is already installed."));
+		}
+		
+		echo "checking deps..";
+		var_dump($xml);
+		// check dependencies
+		if (is_array($errors = module_checkdepends($modules[$modulename]))) {
+			return $errors;
+		}
+	}
+	
+	// run the scripts
+	if (!_module_runscripts($modulename, 'install')) {
+		return array(_("Failed to run installation scripts"));
+	}
+	
+	if ($modules[$modulename]['status'] == MODULE_STATUS_NOTINSTALLED) {
+		// customize INSERT query
+		switch ($amp_conf["AMPDBENGINE"]) {
+			case "sqlite":
+				// to support sqlite2, we are not using autoincrement. we need to find the 
+				// max ID available, and then insert it
+				$sql = "SELECT max(id) FROM modules;";
+				$results = $db->getRow($sql);
+				$new_id = $results[0];
+				$new_id ++;
+				$sql = "INSERT INTO modules (id,modulename, version,enabled) values ('".$new_id."','".addslashes($modules[$modulename]['rawname'])."','".addslashes($modules[$modulename]['version'])."','0' );";
+				break;
+			
+			default:
+				$sql = "INSERT INTO modules (modulename, version, enabled) values ('".addslashes($modules[$modulename]['rawname'])."','".addslashes($modules[$modulename]['version'])."', 1);";
+			break;
+		}
+	} else {
+		// just need to update the version
+		$sql = "UPDATE modules SET version='".addslashes($modules[$modulename]['version'])."' WHERE modulename = '".addslashes($modules[$modulename]['rawname'])."'";
+	}
+	
+	// run query
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+		return array(sprintf(_("Error updating database. Command was: %s; error was: %s "), $sql, $results->getMessage()));
+	}
+	
+	// module is now installed & enabled
+	return true;
+}
+
+/** Disable a module, but reqmains installed
+ * @param string   The name of the module to disable
+ * @param bool     If true, skips status and dependency checks
+ * @return mixed   True if succesful, array of error messages if not succesful
+*/
+function module_disable($modulename, $force = false) { // was disableModule
+	$modules = module_getinfo($modulename);
+	if (!isset($modules[$modulename])) {
+		return array(_("Specified module not found"));
+	}
+	
+	if (!$force) {
+		if ($modules[$modulename]['status'] != MODULE_STATUS_ENABLED) {
+			return array(_("Module not enabled: cannot disable"));
+		}
+		
+		if ( ($depmods = module_reversedepends($modulename)) !== false) {
+			return array(_("Cannot disable: The following modules depend on this one: ").implode(',',$depmods));
+		}
+	}
+	
+	_module_setenabled($modulename, false);
+	return true;
+}
+
+/** Uninstall a module, but files remain
+ * @param string   The name of the module to install
+ * @param bool     If true, skips status and dependency checks
+ * @return mixed   True if succesful, array of error messages if not succesful
+ */
+function module_uninstall($modulename, $force = false) {
+	global $db;
+	
+	$modules = module_getinfo($modulename);
+	if (!isset($modules[$modulename])) {
+		return array(_("Specified module not found"));
+	}
+	
+	if (!$force) {
+		if ($modules[$modulename]['status'] == MODULE_STATUS_NOTINSTALLED) {
+			return array(_("Module not installed: cannot uninstall"));
+		}
+		
+		if ( ($depmods = module_reversedepends($modulename)) !== false) {
+			return array(_("Cannot disable: The following modules depend on this one: ").implode(',',$depmods));
+		}
+	}
+	
+	$sql = "DELETE FROM modules WHERE modulename = '".addslashes($modulename)."'";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+		return array(_("Error updating database: ").$results->getMessage());
+	}
+	
+	if (!_module_runscripts($modulename, 'uninstall')) {
+		return array(_("Failed to run un-installation scripts"));
+	}
+	
+	return true;
+}
+
+/** Totally deletes a module
+ * @param string   The name of the module to install
+ * @param bool     If true, skips status and dependency checks
+ * @return mixed   True if succesful, array of error messages if not succesful
+ */
+function module_delete($modulename, $force = false) {
+	global $amp_conf;
+	
+	$modules = module_getinfo($modulename);
+	if (!isset($modules[$modulename])) {
+		return array(_("Specified module not found"));
+	}
+	
+	if ($modules[$modulename]['status'] != MODULE_STATUS_NOTINSTALLED) {
+		if (is_array($errors = module_uninstall($modulename, $force))) {
+			return $errors;
+		}
+	}
+	
+	// delete module directory
+	//TODO : do this in pure php
+	$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
+	if (!is_dir($dir)) {
+		return array(sprintf(_("Cannot delete directory %s"), $dir));
+	}
+	if (strpos($dir,"..") !== false) {
+		die("Security problem, denying delete");
+	}
+	exec("rm -r ".escapeshellarg($dir),$output, $exitcode);
+	if ($exitcode != 0) {
+		return array(sprintf(_("Error deleting directory %s (code %d)"), $dir, $exitcode));
+	}
+	
+	return true;
+}
+
+
+/** Internal use only */
+function _module_setenabled($modulename, $enabled) {
+	global $db;
+	$sql = 'UPDATE modules SET enabled = '.($enabled ? '1' : '0').' WHERE modulename = "'.addslashes($modulename).'"';
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+		die($results->getMessage());
+	}
 }
 
 function _module_readxml($modulename) {
@@ -1417,48 +1842,90 @@ function _module_readxml($modulename) {
 	return null;
 }
 
-/** Installs or upgrades a module from it's directory
- * Checks dependencies, and enables
+
+// This returns the version of a module
+function _modules_getversion($modname) {
+	global $db;
+
+	$sql = "SELECT version FROM modules WHERE modulename = '".addslashes($modname)."'";
+	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
+	if (isset($results['version'])) 
+		return $results['version'];
+	else
+		return null;
+}
+
+/** Updates the version field in the module table
+ * Should only be called internally
  */
-function module_install($modulename) {
-	$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
-	if (is_dir($dir) && file_exists($dir.'/module.xml')) {
-		$xml = _module_readxml($modulename);
+function _modules_setversion($modname, $vers) {
+	global $db;
+
+	return ;
+}
+
+/** Run the module install/uninstall scripts
+ * @param string  The name of the module
+ * @param string  The action to perform, either 'install' or 'uninstall'
+ * @return boolean  If the action was succesful
+ */
+function _module_runscripts($modulename, $type) {
+	function doinclude($filename, $modulename) {
+		// we provide the following variables to the included file (as well as $filename and $modulename)
+		global $db, $amp_conf, $asterisk_conf;
 		
-		if (module_checkdepends($xml)) {
-			// run install script(s)
-			// enable module
+		if (file_exists($filename) && is_file($filename)) {
+			include($filename);
 		}
 	}
 	
+	global $amp_conf;
+	$db_engine = $amp_conf["AMPDBENGINE"];
 	
-}
-
-function module_enable($modulename) { // was enableModule
-	// checkdepends
-	// enable module
-}
-
-function module_disable($modulename) { // was disableModule
-	global $db;
-	$sql = 'UPDATE modules SET enabled = 0 WHERE modulename = "'.$modulename.'"';
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
+	$moduledir = $amp_conf["AMPWEBROOT"]."/admin/modules/".$modulename;
+	if (!is_dir($moduledir)) {
+		return false;
 	}
+	
+	switch ($type) { 
+		case 'install':
+			// install sql files
+			if ($db_engine  == "sqlite") {
+				$sqlfilename = "install.sqlite";
+			} else {
+				$sqlfilename = "install.sql";
+			}
+			
+			if (is_file($moduledir.'/'.$sqlfilename)) {
+				execSQL($moduledir.'/'.$sqlfilename);
+			}
+			
+			// then run .php scripts
+			doinclude($moduledir.'/install.php', $modulename);
+		break;
+		case 'uninstall':
+			// run uninstall .php scripts first
+			doinclude($moduledir.'/uninstall.php', $modulename);
+			
+			if ($db_engine  == "sqlite") {
+				$sqlfilename = "uninstall.sqlite";
+			} else {
+				$sqlfilename = "uninstall.sql";
+			}
+			
+			// then uninstall sql files 
+			if (is_file($moduledir.'/'.$sqlfilename)) {
+				execSQL($moduledir.'/'.$sqlfilename);
+			}
+			
+		break;
+		default:
+			return false;
+	}
+	
+	return true;
 }
 
-/** Totally deletes a module
- */
-function module_delete($modulename) {
-	// reverse-checkdepends
-	// -> // read each xml for enabled modules, concatenate, then parse
-		  // go through each, find any matches in depends for <module>$modulename (ignore version) 
-	module_disable($modulename);
-	// unlink() module directory
-}
-
-// runModuleSQL moved to functions.inc.php
 /*
 function installModule($modname,$modversion) 
 {
