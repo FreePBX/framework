@@ -1643,7 +1643,6 @@ function module_install($modulename, $force = false) {
 	    ($modules[$modulename]['status'] == MODULE_STATUS_NEEDUPGRADE)) {
 	}
 	global $db, $amp_conf;
-	var_dump($force);
 	
 	// make sure we have a directory, to begin with
 	$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
@@ -1668,8 +1667,6 @@ function module_install($modulename, $force = false) {
 			return array(_("This module is already installed."));
 		}
 		
-		echo "checking deps..";
-		var_dump($xml);
 		// check dependencies
 		if (is_array($errors = module_checkdepends($modules[$modulename]))) {
 			return $errors;
