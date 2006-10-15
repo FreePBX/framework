@@ -193,7 +193,6 @@ function showCheckDepends($modulename) {
 		exit(1);
 	} else {
 		out("No enabled modules depend on this module.");
-		exit(0);
 	}
 }
 function showReverseDepends($modulename) {
@@ -207,7 +206,6 @@ function showReverseDepends($modulename) {
 		exit(1);
 	} else {
 		out("All dependencies met for this module.");
-		exit(0);
 	}
 }
 
@@ -255,7 +253,6 @@ function doDisable($modulename, $force) {
 		exit(2);
 	} else {
 		out("Module successfully disabled");
-		exit(0);
 	}
 }
 
@@ -266,7 +263,6 @@ function doEnable($modulename, $force) {
 		exit(2);
 	} else {
 		out("Module successfully enabled");
-		exit(0);
 	}
 }
 
@@ -277,7 +273,6 @@ function doInstall($modulename, $force) {
 		exit(2);
 	} else {
 		out("Module successfully installed");
-		exit(0);
 	}
 }
 
@@ -288,7 +283,6 @@ function doUninstall($modulename, $force) {
 		exit(2);
 	} else {
 		out("Module successfully uninstalled");
-		exit(0);
 	}
 }
 
@@ -299,7 +293,6 @@ function doDelete($modulename, $force) {
 		exit(2);
 	} else {
 		out("Module successfully deleted");
-		exit(0);
 	}
 }
 
@@ -310,7 +303,6 @@ function doDownload($modulename, $force) {
 		exit(2);
 	} else {
 		out("Module successfully downloaded");
-		exit(0);
 	}
 }
 
@@ -330,6 +322,40 @@ function download_progress($action, $params) {
 		break;
 	}
 }
+
+
+function doUpgrade($modulename, $force) {
+	// either will exit() if there's a problem
+	doDownload($modulename, $force);
+	doInstall($modulename, $force);
+}
+
+function getUpgradableModules() {
+	$modules_local = module_getinfo(false, MODULE_STATUS_ENABLED);
+	$modules_online = module_getonlinexml();
+	$modules_upgradable = array();
+	
+	foreach (array_keys($modules_local) as $name) {
+		if (isset($modules_online[$name])) {
+			if (version_compare($modules_local[$name]['version'], $modules_online[$name]['version']) < 0) {
+				$modules_upgradable[] = $name;
+			}
+		}
+	}
+	return $modules_upgradable;
+}
+
+function doUpgradeAll($force) {
+	$modules = getUpgradableModules();
+	out("Upgrading: ".implode(', ',$modules));
+	sleep(1); // a bit of time to ^C abort..
+	foreach ($modules as $modulename) {
+		out("Upgrading $modulename..");
+		doUpgrade($modulename, $force);
+	}
+	out("Done all upgrades.");
+}
+
 
 /****************************************************************************************************
  ****************************************************************************************************/
@@ -408,13 +434,13 @@ switch ($operation ) {
 		if (empty($param)) {
 			fatal("Missing module name");
 		}
-		showDepends($param);
+		showCheckDepends($param);
 	break;
 	case 'reversedepends':
 		if (empty($param)) {
 			fatal("Missing module name");
 		}
-		showCheckDepends($param);
+		showReverseDepends($param);
 	break;
 	case 'info':
 		if (empty($param)) {
@@ -429,7 +455,6 @@ switch ($operation ) {
 		doDownload($param, $force);
 	break;
 	case 'install':
-	case 'upgrade':
 		if (empty($param)) {
 			fatal("Missing module name");
 		}
@@ -459,11 +484,19 @@ switch ($operation ) {
 		}
 		doDelete($param, $force);
 	break;
+	case 'upgrade':
+		doUpgrade($param, $force);
+	break;
+	case 'upgradeall':
+		doUpgradeAll($force);
+	break;
 	default:
 	case 'help':
 		showhelp();
 		exit(10);
 	break;
 }
+
+exit(0);
 
 ?>
