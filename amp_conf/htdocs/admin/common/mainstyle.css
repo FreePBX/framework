@@ -346,16 +346,33 @@ div.inyourface a{
 #modulelist .clear {
 	clear:both;
 }
+div.modulebuttons {
+	margin:0.5em 0 0.5em 0;
+	text-align:right;
+	width:100%;
+}
+#moduleprogress .error {
+	color:red;
+	font-weight:bold;
+}
+#moduleprogress .success {
+	color:green;
+	font-weight:bold;
+}
+#moduleprogress hr {
+	width:40%;
+	color:#ccc;
+}
 
 /* for the tabber */
 #modulelist .tabber, #modulelist .tabberlive {
 	/* position:relative; */
 	/*margin-left:130px; */
-	
 }
 #modulelist div.moduleinfopane {
 	display:none; /* hide the information pane by default */
 	background: #eee;
+	height:9em;
 }
 #modulelist ul.tabbernav {
 	width:8em;
@@ -380,7 +397,9 @@ div.inyourface a{
 	text-decoration : none;
 }
 #modulelist div.tabbertab {
-	margin-left:8.5em;
+	margin-left:1.5em; 
+	height:8.5em;
+	overflow:auto;
 }
 #modulelist h5 {
 	margin-top: 0;
