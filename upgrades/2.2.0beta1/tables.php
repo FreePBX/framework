@@ -103,4 +103,13 @@ if (!$nrows) {
 } else {
 	out("Already exists!");
 }
+
+outn("Checking for Global var TIMEFORMAT..");
+$nrows = $db->getOne("SELECT count(*) from globals where variable='TIMEFORMAT'");
+if (!$nrows) {
+	$db->query("insert into globals values ('TIMEFORMAT', 'kM')");
+	out("Created");
+} else {
+	out("Already exists!");
+}
 ?>
