@@ -269,29 +269,6 @@ if(isset($active_modules) && is_array($active_modules)){
 }
 
 
-// Write out engine information
-
-switch ($amp_conf['AMPENGINE']) {
-	case 'asterisk':
-	default:
-		//  ***  Write to ASTETCDIR/version
-		outn('Writing '.$amp_conf['ASTETCDIR'].'/version..');
-		$tmpoutput = '';
-		$tmpout = exec("asterisk -V", $tmpoutput, $exitcode);
-		if ($exitcode != 0) {
-		        fatal("Error executing asterisk: be sure Asterisk is installed and in the path");
-		}
-		if (!$fd = fopen($amp_conf['ASTETCDIR'].'/version','w')) {
-		        fatal('Cannot open '.$amp_conf['ASTETCDIR'].'/version for writing');
-		}
-		fwrite($fd, $tmpout);
-		fclose($fd);
-		// change to read-only
-		chmod($amp_conf['ASTETCDIR'].'/version',0444);
-		out('OK');
-	break;
-}
-
 $engineinfo = engine_getinfo();
 // was setting these variables before, assume we still need them
 $engine = $engineinfo['engine'];
