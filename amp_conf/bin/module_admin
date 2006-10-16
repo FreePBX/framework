@@ -110,6 +110,8 @@ function showHelp() {
 	out("      List all local and repository modules and their current status");
 	out("  reversedepends <module>");
 	out("      Show all modules that depend on this one");
+	out("  showupgrades");
+	out("      Show a list of upgradable modules");
 	out("  uninstall <module>");
 	out("      Disable and uninstall the specified module");
 	out("  upgrade <module>");
@@ -330,7 +332,10 @@ function doUpgrade($modulename, $force) {
 	doInstall($modulename, $force);
 }
 
-function getUpgradableModules() {
+/** 
+ * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
+ */
+function getUpgradableModules($extarray = false) {
 	$modules_local = module_getinfo(false, MODULE_STATUS_ENABLED);
 	$modules_online = module_getonlinexml();
 	$modules_upgradable = array();
@@ -338,7 +343,15 @@ function getUpgradableModules() {
 	foreach (array_keys($modules_local) as $name) {
 		if (isset($modules_online[$name])) {
 			if (version_compare($modules_local[$name]['version'], $modules_online[$name]['version']) < 0) {
-				$modules_upgradable[] = $name;
+				if ($extarray) {
+					$modules_upgradable[] = array(
+						'name' => $name,
+						'local_version' => $modules_local[$name]['version'],
+						'online_version' => $modules_online[$name]['version'],
+					);
+				} else {
+					$modules_upgradable[] = $name;
+				}
 			}
 		}
 	}
@@ -347,13 +360,30 @@ function getUpgradableModules() {
 
 function doUpgradeAll($force) {
 	$modules = getUpgradableModules();
-	out("Upgrading: ".implode(', ',$modules));
-	sleep(1); // a bit of time to ^C abort..
-	foreach ($modules as $modulename) {
-		out("Upgrading $modulename..");
-		doUpgrade($modulename, $force);
+	if (count($modules) > 0) {
+		out("Upgrading: ".implode(', ',$modules));
+		sleep(1); // a bit of time to ^C abort..
+		foreach ($modules as $modulename) {
+			out("Upgrading $modulename..");
+			doUpgrade($modulename, $force);
+		}
+		out("Done all upgrades.");
+	} else {
+		out("Up to date.");
 	}
-	out("Done all upgrades.");
+}
+
+function showUpgrades() {
+	$modules = getUpgradableModules(true);
+	if (count($modules) > 0) {
+		out("Upgradable: ");
+		foreach ($modules as $mod) {
+			outn('   ');
+			out($mod['name'].' '.$mod['local_version'].' -> '.$mod['online_version']);
+		}
+	} else {
+		out("Up to date.");
+	}
 }
 
 function showEngine() {
@@ -397,6 +427,7 @@ if (is_object($args)) {
 
 $ampconfpath = AMP_CONF;
 
+// force operations
 $force = false;
 
 foreach ($args[0] as $arg) {
@@ -495,6 +526,10 @@ switch ($operation ) {
 	break;
 	case 'upgradeall':
 		doUpgradeAll($force);
+	break;
+	case 'showupgrade':
+	case 'showupgrades':
+		showUpgrades();
 	break;
 	case 'showengine':
 		showEngine();
