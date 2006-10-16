@@ -1,0 +1,262 @@
+# Hebrew version for FreePBX Administration.
+# Copyright (C) 2006
+# This file is distributed under the same license as the PACKAGE package.
+# Shimi <shimi@shimi.net>, 2006.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: FreePBX 2.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-09-28 17:20+0300\n"
+"PO-Revision-Date: 2006-09-28 17:30+0300\n"
+"Last-Translator: Shimi <shimi@shimi.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: components.class.php:305 page.modules.php:232 page.modules.php:254
+#: page.modules.php:297 page.modules.php:320 page.modules.php:343
+#: page.modules.php:365 page.modules.php:383
+msgid "Submit"
+msgstr "שלח"
+
+#: config.php:27
+msgid "Module Admin"
+msgstr "ניהול מודולים"
+
+#: config.php:114
+msgid "Apply Changes Bar"
+msgstr "באר החלת השינויים"
+
+#: config.php:230
+msgid "Not found"
+msgstr "לא נמצא"
+
+#: config.php:231
+msgid ""
+"The section you requested does not exist or you do not have access to it."
+msgstr "האיזור שביקשת אינו קיים, או שאין לך הרשאה אליו."
+
+#: config.php:264
+msgid "Warning:"
+msgstr "אזהרה:"
+
+#: config.php:267 footer.php:88
+msgid "Cannot connect to Asterisk Manager with "
+msgstr "לא מצליח להתחבר למנהל האסטריסק עם "
+
+#: config.php:269
+msgid "Asterisk may not be running."
+msgstr "ייתכן ואסטריסק אינו רץ."
+
+#: footer.php:95 footer.php:97
+msgid "You have made changes - when finished, click here to APPLY them"
+msgstr "ביצעת שינויים - ברגע שסיימת, לחץ כאן כדי להכניס אותם לתוקף"
+
+#: functions.inc.php:332
+msgid "Add"
+msgstr "הוסף"
+
+#: functions.inc.php:718
+msgid ""
+"Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to "
+"a custom context.<br><br>The context name <b>MUST</b> contain the word "
+"'custom' and should be in the format custom-context , extension , priority. "
+"Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</"
+"b> context would need to be created and included in extensions_custom.conf</"
+"span>"
+msgstr "אפליקציה מותאמת אישית<span><br /><b>למשתמשים מתקדמים בלבד</b><br /><br />משתמש בפונקציה Goto כדי לשלוח את המתקשר לקונטקסט מסויים.<br /><br />שם הקונטקסט<b>חייב</b> להכיל את המילה 'custom', וצריך להיות בצורה custom-context, extension, priority. לדוגמא:<br /><br /><b>custom-myapp,s,1</b><br /><br />את <b>[custom-myapp]</b> חייבים ליצור ולכלול בתוך extensions_custom.conf</span>"
+
+
+#: functions.php:2029
+msgid "This user extension is already in use"
+msgstr "שלוחת משתמש זאת כבר נמצאת בשימוש"
+
+#: functions.php:2170
+msgid "This device id is already in use"
+msgstr "מזהה התקן זה נמצא כבר בשימוש"
+
+#: header.php:90
+msgid "Management"
+msgstr "ניהול"
+
+#: header.php:96
+msgid "Setup"
+msgstr "הגדרות"
+
+#: header.php:101
+msgid "Tools"
+msgstr "כלים"
+
+#: header.php:107
+msgid "Reports"
+msgstr "דוחות"
+
+#: header.php:114
+msgid "Panel"
+msgstr "פאנל"
+
+#: header.php:121
+msgid "Recordings"
+msgstr "הקלטות"
+
+#: index.php:18 logout.php:16
+msgid "freePBX administration"
+msgstr "ניהול freePBX"
+
+#: index.php:19
+msgid "Administration"
+msgstr "ניהול"
+
+#: index.php:62
+msgid "Language:"
+msgstr "שפה:"
+
+#: index.php:77
+msgid "Welcome to the FreePBX Administration"
+msgstr "ברוכים הבאים לניהול FreePBX"
+
+#: logout.php:18
+msgid "Logged Out"
+msgstr "נותקת"
+
+#: page.modules.php:21 page.modules.php:63 page.modules.php:76
+msgid "Module install script failed to run"
+msgstr "הרצת סקריפט התקנת המודול נכשלה"
+
+#: page.modules.php:28 page.modules.php:89
+msgid "Module uninstall script failed to run"
+msgstr "הרצת סקריפט הסרת המודול נכשלה"
+
+#: page.modules.php:101
+msgid "Local Modules"
+msgstr "מודולים מקומיים"
+
+#: page.modules.php:102
+msgid "Online Modules"
+msgstr "מודולים מקוונים"
+
+#: page.modules.php:112
+msgid "Module Administration (online)"
+msgstr "ניהול מודולים (מקוונים)"
+
+#: page.modules.php:114
+msgid "Terminate Connection to Online Module Repository"
+msgstr "נתק חיבור אל מאגר המודולים המקוון"
+
+#: page.modules.php:115
+msgid "Force Refresh of Local Module Cache"
+msgstr "הכרח רענון של מטמון המודולים המקומי"
+
+#: page.modules.php:141
+msgid "Module Administration"
+msgstr "ניהול מודולים"
+
+#: page.modules.php:143
+msgid "Connect to Online Module Repository"
+msgstr "התחבר למאגר המודולים המקוון"
+
+#: page.modules.php:229
+msgid "Download and Update selected"
+msgstr "הורד ועדכן נבחרים"
+
+#: page.modules.php:230 page.modules.php:252
+msgid "Download selected"
+msgstr "הורד נבחרים"
+
+#: page.modules.php:235
+msgid "Available Module Updates (online)"
+msgstr "עדכוני מודולים זמינים (מקוונים)"
+
+#: page.modules.php:251
+msgid "Download and Install selected"
+msgstr "הורד והתקן נבחרים"
+
+#: page.modules.php:257
+msgid "Modules Available (online)"
+msgstr "מודולים זמינים (מקוונים)"
+
+#: page.modules.php:295
+msgid "Upgrade Selected"
+msgstr "עדכן נבחרים"
+
+#: page.modules.php:300
+msgid "Enabled Modules Requiring Upgrade"
+msgstr "מודולים מופעלים הדורשים עדכון"
+
+#: page.modules.php:316
+msgid "Disable Selected"
+msgstr "כבה נבחרים"
+
+#: page.modules.php:317 page.modules.php:340
+msgid "Uninstall Selected"
+msgstr "הסר נבחרים"
+
+#: page.modules.php:318 page.modules.php:341
+msgid "Uninstall and Delete Selected"
+msgstr "הסר ומחק נבחרים"
+
+#: page.modules.php:323
+msgid "Enabled Modules"
+msgstr "מודולים מופעלים"
+
+#: page.modules.php:339 page.modules.php:362
+msgid "Enable Selected"
+msgstr "הפעל נבחרים"
+
+#: page.modules.php:346
+msgid "Disabled Modules"
+msgstr "מודולים כבויים"
+
+#: page.modules.php:363 page.modules.php:381
+msgid "Delete Selected"
+msgstr "מחק נבחרים"
+
+#: page.modules.php:368
+msgid "Not Installed Local Modules"
+msgstr "מודולים מקומיים שאינם מותקנים"
+
+#: page.modules.php:594
+msgid "Unaware of module"
+msgstr "לא מודע למודול"
+
+#: page.modules.php:627
+msgid "Unable to save"
+msgstr "לא מצליח לשמור"
+
+#: page.modules.php:632
+msgid "Unable to Locate Integrity information for"
+msgstr "לא מצליח לאתר מידע שלמות עבור"
+
+#: page.modules.php:632
+msgid "Continuing Anyway"
+msgstr "ממשיך בכל זאת"
+
+#: page.modules.php:634
+msgid "File Integrity FAILED for"
+msgstr "אימות קובץ נכשל עבור"
+
+#: page.modules.php:634
+msgid "Aborting"
+msgstr "מבטל"
+
+#: page.modules.php:663
+msgid "You cannot delete the Core module"
+msgstr "אינך יכול למחוק את מודול הליבה"
+
+#: reports.php:44
+msgid "Call Logs"
+msgstr "רישומי שיחות"
+
+#: reports.php:45
+msgid "Compare Calls"
+msgstr "השווה שיחות"
+
+#: reports.php:46
+msgid "Monthly Traffic"
+msgstr "תעבורה חודשית"
+
+#: reports.php:47
+msgid "Daily load"
+msgstr "עומס יומי"
