@@ -31,7 +31,7 @@
   define('AST_TMP_DIR', AST_SPOOL_DIR . '/tmp/');
   define('DEFAULT_PHPAGI_CONFIG', AST_CONFIG_DIR . '/phpagi.conf');
 
-  define("AMP_CONF", "/etc/amportal.conf");
+  if(!defined("AMP_CONF")) { define("AMP_CONF", "/etc/amportal.conf"); }
 
   define('AST_DIGIT_ANY', '0123456789#*');
 
