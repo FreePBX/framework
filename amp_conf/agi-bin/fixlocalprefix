@@ -109,6 +109,60 @@ function parse_conf($filename, &$conf, &$section) {
 	}
 }
 
+function fixNumber($pattern, $number, &$agi) {
+	// valid chars in a pattern are 0-9XNZwW#*\.\[\]\-\+\|
+	$chars = '0-9XNZwW#*\.\[\]\-'; //escaped pcre-ready
+	
+	// sanitize the pattern - remove any non-pattern chars
+	$regex = preg_replace("/[^0-9XNZwW#*\.\[\]\-\+\|]/", "", $regex);
+	// Also kill the '-' characters outside of groups
+	$regex = preg_replace("/((?:\[[^\]]*\])*)([^\[\]\-]*)-?/", "$1$2", $regex);
+
+	// attempt to grab the pieces of the pattern
+	if (preg_match('/^(([0-9XNZwW#*\.\[\]\-]+)\|)?(([0-9XNZwW#*\.\[\]\-]+)\+)?([0-9XNZwW#*\.\[\]\-]+)$/', $pattern, $matches)) {
+		// one of NXXXXXX, 613|NXXXXXX   1+NXXXXXX    613|1+NXXXXXX,  
+		// matches[2] = drop (eg 613),  matches[4] = prefix (eg 1),  matches[5] = rest of number (eg NXXXXX)
+		
+		$drop = $matches[2];
+		$prefix = $matches[4];
+		$static = $matches[5];
+	} else if (preg_match('/^(([0-9XNZwW#*\.\[\]\-]+)\+)?(([0-9XNZwW#*\.\[\]\-]+)\|)?([0-9XNZwW#*\.\[\]\-]+)$/', $pattern, $matches)) {
+		// one of NXXXXXX,  613|NXXXXXX   1+NXXXXXX    1+613|NXXXXXX
+		// matches[2] = prefix (eg 1),  matches[4] = drop (eg 613),  matches[5] = rest of number (eg NXXXXX)
+		
+		$drop = $matches[4];
+		$prefix = $matches[2];
+		$static = $matches[5];
+	} else {
+		if (!is_null($agi)) {
+			$agi->verbose('Could not understand pattern "'.$pattern.'"', 3);
+		}
+		return $false;
+	}
+	
+	// convert asterisk pattern matching into perl regular expression
+	$regex = str_replace(
+			array(
+				"X",
+				"Z",
+				"N",
+				".",
+			),
+			array(
+				"[0-9]",
+				"[1-9]",
+				"[2-9]",
+				"[0-9#*]+",
+			),
+			// note, we're doing a subpattern match on the static portion so it can be extracted later
+			$drop.'('.$static.')');
+	
+	if (preg_match('/^'.$regex.'$/', $number, $matches)) {
+		return $prefix.$matches[1];
+	}
+	return false;
+}
+
 /**********************************************************************************************************************/
 
 $agi = new AGI();
@@ -147,70 +201,14 @@ if (isset($conf["trunk-$trunk"])) {
 		if (preg_match("/^rule\d+$/",$key)) {
 			// $rule is a dial rule
 			
-			$regex = $rule;
-			$prefix = "";
-
-			// Remove all non-pattern characters from $regex except for '+' and '|'.
-			// Allow groups like "[0-9]" to remain.
-			$regex = preg_replace("/[^0-9XNZwW#*\.\[\]\-\+\|]/", "", $regex);
-			
-			// Also kill the '-' characters outside of groups
-			$regex = preg_replace("/((?:\[[^\]]*\])*)([^\[\]\-]*)-?/", "$1$2", $regex);
-
-			if (false !== ($pos = strpos($regex,"+"))) {
-				$prefix = substr($regex,0,$pos);
-				$regex  = substr($regex,$pos);
-			}
-			if (false !== ($pos = strpos($regex,"|"))) {
-				// we're removing digits
-				$type  = "remove";
-				$regex = substr($regex,0,$pos) . "(" . substr($regex, $pos) . ")";
-			} else {
-				$pos = 0;
-				$type = "asis";
-			}
-
-			// Remove any remaining '+' and '|' characters from $regex.
-			// Note that there will be parenthesis in the regex if the type
-			// is "remove".
-			$regex = preg_replace("/[\+\|]/", "", $regex);
-
-			// convert asterisk pattern matching into perl regular expression
-			$regex = str_replace(
-					array(
-						"X",
-						"Z",
-						"N",
-						".",
-					),
-					array(
-						"[0-9]",
-						"[1-9]",
-						"[2-9]",
-						"[0-9#*]+",
-					),
-					$regex);
-
-			// $agi->conlog("Trying to match number '$number' with regex '$regex' ($rule)");
-			if (preg_match("/^$regex$/",$number)) {
-				// it matched
-				if ($type == "remove") {
-					$number = preg_replace("/^$regex$/", "$1", $number);
-					$agi->verbose("Removed prefix.  New number: $number");
-					$agi->set_variable("DIAL_NUMBER", $number);
-				}
-				if ($prefix != '') {
-					// we're adding digits
-					$number = $prefix . $number;
-					$agi->verbose("Added prefix.  New number: $number");
-					$agi->set_variable("DIAL_NUMBER", $number);
-				}
+			if ($newnum = fixNumber($rule, $number, $agi)) {
+				$agi->verbose('Dialpattern '.$rule.' matched. '.$number.' -> '.$newnum, 1);
+				$agi->set_variable("DIAL_NUMBER", $newnum);
 				
 				// reverted back form r2080 (r2081 on trac) so that any pattern match will end
 				// the loop. This needs to stay like this for backwards compatibility and often
 				// patterns are used to avoid matching substitution rules for exception cases.
 				exit(0);
-				
 			} // else, it didn't match this rule
 		} // else, this isn't a rule
 	} 
