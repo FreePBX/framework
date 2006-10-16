@@ -97,7 +97,7 @@ out("OK");
 // **** Parse out command-line options
 
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run");
+$longopts = array("help","debug","dry-run","run-install");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -108,6 +108,7 @@ if (is_object($args)) {
 
 $debug = false;
 $dryrun = false;
+$run_install = false;
 
 foreach ($args[0] as $arg) {
 	switch ($arg[0]) {
@@ -122,6 +123,10 @@ foreach ($args[0] as $arg) {
 		case "--debug":
 			$debug = true;
 			debug("Debug mode enabled");
+		break;
+		case "--run-install":
+			$run_install = true;
+			out("Running module install.php and install.sql scripts");
 		break;
 	}
 }
@@ -236,7 +241,7 @@ if(is_array($modules)){
 		//only use this module if it's enabled (status=2)
 		if (isset($module['status']) && $module['status'] == MODULE_STATUS_ENABLED) {
 			// Make sure the module is installed and up to date
-			module_install($key);
+			if ($run_install) module_install($key);
 			// active_modules array used in genConf function
 			$active_modules[] = $key;
 			//include module functions

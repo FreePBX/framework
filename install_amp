@@ -430,7 +430,8 @@ function generate_configs() {
 	
 	out("Generating Configurations.conf..");
 	if (!$dryrun)
-		passthru("su - asterisk -c \"".trim($amp_conf["AMPBIN"])."/retrieve_conf ".($debug ? ' --debug' : '').'"');
+		// added --run-install to make it work like it has been working since retrieve_conf changed to not run module install scripts by default
+		passthru("su - asterisk -c \"".trim($amp_conf["AMPBIN"])."/retrieve_conf --run-install ".($debug ? ' --debug' : '').'"');
 }
 
 
