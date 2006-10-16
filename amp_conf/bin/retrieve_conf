@@ -283,6 +283,8 @@ if(isset($active_modules) && is_array($active_modules)){
 			freepbx_log('retrieve_conf', 'devel-debug', 'Calling '.$funcname.'()');
 			$funcname($engine);
 		}
+	}
+	foreach($active_modules as $module) {
 		$funcname = $module."_hookGet_config";
 		if (function_exists($funcname)) { 
 			freepbx_log('retrieve_conf', 'devel-debug', 'Calling '.$funcname.'()');
