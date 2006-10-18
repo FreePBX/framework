@@ -61,7 +61,7 @@ if(is_array($active_modules)){
 		//create an array of module sections to display
 		// only of the type we are displaying though
 		if ($module['type'] == $type) {
-			if (is_array($module['items'])) {
+			if (isset($module['items']) && is_array($module['items'])) {
 				foreach($module['items'] as $itemKey => $itemName) {
 					$amp_sections[$itemKey] = $itemName;
 				}
@@ -77,7 +77,7 @@ if(is_array($active_modules)){
 // new gui hooks
 if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
-		if (is_array($module['items'])) {
+		if (isset($module['items']) && is_array($module['items'])) {
 			foreach($module['items'] as $itemKey => $itemName) {
 				//list of potential _configpageinit functions
 				$initfuncname = $key . '_' . $itemKey . '_configpageinit';
@@ -170,12 +170,12 @@ if ( $display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 switch($display) {
 	default:
 		//display the appropriate module page
-		if (!is_array($active_modules)) {
+		if (!isset($active_modules) || (isset($active_modules) && !is_array($active_modules))) {
 			break;
 		}
 		
 		foreach ($active_modules as $modkey => $module) {
-			if (!is_array($module['items'])){
+			if (!isset($module['items']) || (isset($module['items']) && !is_array($module['items']))){
 				continue;
 			}
 			
