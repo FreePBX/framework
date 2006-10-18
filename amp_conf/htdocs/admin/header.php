@@ -26,12 +26,7 @@ if (!$quietmode) {
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<html <?
-// Check if it's a RIGHT TO LEFT character set (eg, hebrew)
-
-if ($_COOKIE['lang']==="he_IL") 
-	echo "dir=rtl";
-?>>
+<html>
 
 <head>
     <title><?php  echo _($title) ?></title>
@@ -69,7 +64,13 @@ if ($_COOKIE['lang']==="he_IL")
 	}
 ?>
 
-<body onload="setAllInfoToHideSelects();">
+<body onload="setAllInfoToHideSelects();"  <?
+
+// Check if it's a RIGHT TO LEFT character set (eg, hebrew, arabic, whatever)
+//$_COOKIE['lang']="he_IL";
+if ($_COOKIE['lang']==="he_IL") 
+	echo "dir=\"rtl\"";
+?> >
 <div id="page">
 
 <div class="header">
