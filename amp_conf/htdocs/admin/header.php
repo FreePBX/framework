@@ -14,6 +14,7 @@
 //get the current file name
     $currentFile = $_SERVER["PHP_SELF"];
     $parts = Explode('/', $currentFile);
+    //header('Content-type: text/html; charset=utf-8');
     $currentFile = $parts[count($parts) - 1];
 
     if (!extension_loaded('gettext')) {
@@ -32,6 +33,7 @@ if (!$quietmode) {
     <title><?php  echo _($title) ?></title>
     <meta http-equiv="Content-Type" content="text/html">
     <link href="common/mainstyle.css" rel="stylesheet" type="text/css"> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <?php 
 	if (isset($display) && is_file("modules/{$display}/{$display}.css")) {
 	         echo "	<link href=\"modules/{$display}/{$display}.css\" rel=\"stylesheet\" type=\"text/css\">\n";
