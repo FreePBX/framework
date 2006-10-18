@@ -717,7 +717,7 @@ function drawselects($goto,$i) {
 				
 				$selectHtml .=	'<input type="radio" id="'.$radioid.'" name="goto_indicate'.$i.'" value="'.$mod.'" onclick="javascript:this.form.goto'.$i.'.value=\''.$mod.'\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$mod.'\';" '.($checked? 'CHECKED=CHECKED' : '').' /> '._($displayname['displayname']).': ';
 				if ($checked) { $goto = $mod; }
-				$selectHtml .=	'<select name="'.$mod.$i.'" onfocus="document.getElementById(\''.$radioid.'\').checked = true;">';
+				$selectHtml .=	'<select name="'.$mod.$i.'" onfocus="document.getElementById(\''.$radioid.'\').checked = true; this.form.goto'.$i.'.value=\''.$mod.'\';">';
 				$selectHtml .= $options;	
 				$selectHtml .=	"</select><br>\n";
 			}
