@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php 
-//
+
 // Copyright (C) 2003 Zac Sprackett <zsprackett-asterisk@sprackett.com>
 //
 // This program is free software; you can redistribute it and/or
@@ -17,7 +17,8 @@
 // to include support for DND, Call Waiting, and CF to external trunk
 // info@coalescentsystems.ca
 // 
-// This script has been ported to PHP by Diego Iastrubni <diego.iastrubni@xorcom.com>
+// This script has been ported to PHP by 
+// Diego Iastrubni <diego.iastrubni@xorcom.com> and the freePBX community
 
 $config = parse_amportal_conf( "/etc/amportal.conf" );
 
@@ -26,22 +27,22 @@ require_once "phpagi-asmanager.php";
 
 $debug = 4;
 
-$ext="";      // Hash that will contain our list of extensions to call
-$ext_hunt=""; // Hash that will contain our list of extensions to call used by huntgroup
-$cidnum="";   // Caller ID Number for this call
-$cidname="";  // Caller ID Name for this call
-$timer="";    // Call timer for Dial command
-$dialopts=""; // options for dialing
-$rc="";       // Catch return code
-$priority=""; // Next priority 
-$rgmethod=""; // If Ring Group what ringing method was chosen
-$dsarray = array(); // This will hold all the dial strings, used to check for duplicate extensions
+$ext		= "";		// Hash that will contain our list of extensions to call
+$ext_hunt	= "";		// Hash that will contain our list of extensions to call used by huntgroup
+$cidnum		= "";		// Caller ID Number for this call
+$cidname	= "";		// Caller ID Name for this call
+$timer		= "";		// Call timer for Dial command
+$dialopts	= "";		// options for dialing
+$rc		= "";		// Catch return code
+$priority	= "";		// Next priority 
+$rgmethod	= "";		// If Ring Group what ringing method was chosen
+$dsarray	= array();	// This will hold all the dial strings, used to check for duplicate extensions
 
 $AGI = new AGI();
-debug("Starting New Dialparties.agi", 0);
+debug("Starting New Dialparties.agi", 1);
 
 $priority = get_var( $AGI, "priority" ) + 1;
-debug( "priority is $priority" );
+debug( "priority is $priority", 1 );
 
 // Caller ID info is stored in $request in AGI class, passed from Asterisk
 $cidnum = $AGI->request['agi_callerid'];
@@ -50,46 +51,39 @@ debug("Caller ID name is '$cidname' number is '$cidnum'", 1);
 
 // From this point forward, Set KEEPCID in the channel so subsequent calls, CF, etc. retain the incoming
 // CID that get sent down channel local.
-//
-$AGI->set_variable('_KEEPCID','TRUE');						
+$AGI->set_variable('_KEEPCID','TRUE');
 
 $timer		= get_var( $AGI, "ARG1" );
 $dialopts	= get_var( $AGI, "ARG2" );
 $rgmethod	= get_var( $AGI, "RingGroupMethod" );
 
-$use_confirmation = get_var( $AGI, "USE_CONFIRMATION" );
-$ringgroup_index  = get_var( $AGI, "RINGGROUP_INDEX" );
+$use_confirmation	= get_var( $AGI, "USE_CONFIRMATION" );
+$ringgroup_index	= get_var( $AGI, "RINGGROUP_INDEX" );
 
 if (empty($timer))	$timer		= 0;
 if (empty($dialopts))	$dialopts	= "";
 if (empty($rgmethod))	$rgmethod	= "none";
 
-if (empty($use_confirmation))	$use_confirmation	= "FALSE";
+if (empty($use_confirmation))	$use_confirmation = "FALSE";
 
 debug("Methodology of ring is  '$rgmethod'", 1);
-
 debug("USE_CONFIRMATION:  '$use_confirmation'", 4);
 debug("RINGGROUP_INDEX:   '$ringgroup_index'", 4);
 
 // reset the ringgroup method to its fundamental algorithm and pull out if
 // master mode.
 
-if ($rgmethod == "ringall-prim") 
-{
-	$rgmethod = "ringall";
-	$mastermode = 1;
-} elseif ($rgmethod == "hunt-prim") 
-{
-	$rgmethod = "hunt";
-	$mastermode = 1;
-} elseif ($rgmethod == "memoryhunt-prim") 
-{
-	$rgmethod = "memoryhunt";
-	$mastermode = 1;
+if ($rgmethod == "ringall-prim") {
+	$rgmethod	= "ringall";
+	$mastermode	= 1;
+} elseif ($rgmethod == "hunt-prim") {
+	$rgmethod	= "hunt";
+	$mastermode	= 1;
+} elseif ($rgmethod == "memoryhunt-prim") {
+	$rgmethod	= "memoryhunt";
+	$mastermode	= 1;
 } else 
-{
-	$mastermode = 0;
-}
+	$mastermode	= 0;
 
 // call confirmation only works with ringall and ringall-prim. The javascripts in ringgroups
 // and follow-me should enforce this. If that has been overridden then force ringall.
@@ -101,13 +95,11 @@ if ( ($call_confirmation != "FALSE") && ($rgmethod != "ringall") ) {
 	$rgmethod	= "ringall";
 }
 
-
-
 // Start with Arg Count set to 3 as two args are used
 $arg_cnt = 3;
-while( ($arg = get_var($AGI,"ARG". $arg_cnt)) )
+while($arg = get_var($AGI,"ARG". $arg_cnt))
 {
-	if ($arg == '-') 
+	if ($arg == '-')
 	{  // not sure why, dialparties will get stuck in a loop if noresponse
 		debug("get_variable got a \"noresponse\"!  Exiting",3);
 		exit($arg_cnt);
@@ -136,7 +128,7 @@ foreach( $ext as $k)
 {
 	$cf  = $AGI->database_get('CF',$k);
 	$cf  = $cf['data'];
-	if (strlen($cf)) 
+	if (strlen($cf))
 	{
 		// append a hash sign so we can send out on chan_local below.
 		$ext[$count] = $cf.'#';  
@@ -150,11 +142,9 @@ foreach( $ext as $k)
 			$mastermode = 0;
 			debug("Primary ext is CF so disabling mastermode if it was set", 4);
 		}
-	} 
-	else 
-	{
-		debug("Extension $k cf is disabled", 3);
 	}
+	else
+		debug("Extension $k cf is disabled", 3);
 	$count++;
 }
 
@@ -163,16 +153,14 @@ foreach( $ext as $k)
 // sort of flag that says master mode DND so skip everything else below (set them all to "").
 //
 
-
 // Hacky.
 $count = 0;
 $dndprimary = 0;
 // Now check for DND
 foreach ( $ext as $k )
-{
-	//if ( !preg_match($k, "/\#/", $matches) )
+{	//if ( !preg_match($k, "/\#/", $matches) )
 	if ( (strpos($k,"#")==0) )
-	{   
+	{
 		// no point in doing if cf is enabled
 		$dnd = $AGI->database_get('DND',$k);
 		$dnd = $dnd['data'];
@@ -190,16 +178,13 @@ foreach ( $ext as $k )
 				
 			}
 		} 
-		else 
-		{
+		else
 			debug("Extension $k do not disturb is disabled", 3);
-		}
 	}
 	$count++;
 }
 
 // Main calling loop
-
 $skipremaining = 0; // used to allow primary to ring but skip the rest
 
 $ds = '';
@@ -216,18 +201,15 @@ foreach ( $ext as $k )
 	//
 	// if dnd was set on the primary then dndprimary will already be set resulting in a completly blanked out list
 	// since dnd on the primary means don't bother me on any.
-	//
-	//
-	//
 
 	// Don't bother checking these if we will be blanking the extnum anyhow
-	//
 	if ($skipremaining == 1)
 	{
 		$dndprimary = 1;
 	}
 	if ($dndprimary == 0)
 	{
+		// TODO what are these comments...? do we need to remove them...?
 		$extnum    = $k;
 		$exthascw  = $AGI->database_get('CW', $extnum);// ? 1 : 0;
 		$exthascw  = $exthascw['data']? 1:0;
@@ -250,7 +232,6 @@ foreach ( $ext as $k )
 		// the state is checked and a decision is made as to what to do. We have gotten all the cf variables
 		// above. If CF unconditional was set, we never get here because we alread reset mastermode. If DND
 		// were set then we never get here becasue didprimary was set
-
 		if ($mastermode == 1)
 		{
 			$mastermode = 0;
@@ -274,19 +255,15 @@ foreach ( $ext as $k )
 			// All other cases should act like normal. Unavailable, not busy, ringing, etc.
 			// should not be effected
 		}
-
-	}
-
-	// clear the current extension if dndprimary has been set. This will only be the case if in mastermode so no need to check
-	// that. Use this to skip remaining extensions also if just ringing the primary.
-	//
+	} // end if ($dndprimary == 0)
 	else // $dndprimary == 1 so clear the extension
 	{
+		// clear the current extension if dndprimary has been set. This will only be the case if in mastermode so no need to check
+		// that. Use this to skip remaining extensions also if just ringing the primary.
 		$extnum = '';
 	}
 
 	// if CF is not in use or $dndprimary is set so $extnum has been cleared and nothing to do
-	//
 	if ( (strpos($k,"#")==0) || $dndprimary == 1)
 	{
 		// CW is not in use or CFB is in use on this extension, then we need to check!
@@ -305,15 +282,15 @@ foreach ( $ext as $k )
 					debug("Extension $extnum has call forward on no answer set and is unavailable and is part of a Ring Group forwarding to '$extcfu'",1);
 						$extnum = $extcfu . '#';   # same method as the normal cf, i.e. send to Local
 				}
-				else 
+				else
 				{
 					debug("Extension $extnum has call forward on no answer set and is unavailable",1);
 					$extnum = '';
 					$AGI->set_variable('DIALSTATUS','NOANSWER');
 				}
 			}
-			elseif ( ($exthascw == 0) || ($exthascfb == 1) ) 
-			{	
+			elseif ( ($exthascw == 0) || ($exthascfb == 1) )
+			{
 				debug("Checking CW and CFB status for extension $extnum",3);
 			
 				if ($extstate > 0 && $extstate != 4)
@@ -325,24 +302,15 @@ foreach ( $ext as $k )
 						debug("Extension $extnum has call forward on busy set to $extcfb",1);
 						$extnum = $extcfb . '#';   # same method as the normal cf, i.e. send to Local
 					}
-					else
+					elseif ($exthascw == 0) 
+					{	// CW not in use
+						debug("Extension $extnum has call waiting disabled",1);
+						$extnum = '';
+						$AGI->set_variable('DIALSTATUS','BUSY');						
+					} 
+					else 
 					{
-						if ( ($extstate == 4) ) // Unavailable so CW options a bit pointless!
-						{
-							debug("Extension $extnum is Unavailable",1);
-							$extnum = '';
-							$AGI->set_variable('DIALSTATUS','CHANUNAVAIL');							
-						}
-						elseif ($exthascw == 0) 
-						{	// CW not in use
-							debug("Extension $extnum has call waiting disabled",1);
-							$extnum = '';
-							$AGI->set_variable('DIALSTATUS','BUSY');						
-						} 
-						else 
-						{
-							debug("Extension $extnum has call waiting enabled",1);
-						}
+						debug("Extension $extnum has call waiting enabled",1);
 					}
 				}
 			}
@@ -350,7 +318,7 @@ foreach ( $ext as $k )
 			{	// -1 means couldn't read status usually due to missing HINT
 				debug("ExtensionState for $extnum could not be read...assuming ok",3);
 			} 
-			else 
+			else
 			{
 				debug("Extension $extnum is available",1);
 			}
@@ -381,14 +349,14 @@ foreach ( $ext as $k )
 					$rc = $AGI->database_put('CALLTRACE', $k, $cidnum);
 					if ($rc['result'] == 1) 
 					{
-						debug("DbSet CALLTRACE/$k to $cidnum", 3);
-					} 
-					else 
+						debug("dbset CALLTRACE/$k to $cidnum", 3);
+					}
+					else
 					{
 						debug("Failed to DbSet CALLTRACE/$k to $cidnum ({$rc['result']})", 1);
 					}
-				} 
-				else 
+				}
+				else
 				{
 					// We don't care about retval, this key may not exist
 					$AGI->database_del('CALLTRACE', $k);
@@ -401,37 +369,32 @@ foreach ( $ext as $k )
 			}
 		}
 	}
-} // endforeach
+} // end foreach ( $ext as $k )
 
-$dshunt ='';
-$loops=0;
-$myhuntmember="";
-if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt")) 
+$dshunt		= '';
+$loops		= 0;
+$myhuntmember	= "";
+
+if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt"))
 {
-	if ($cidnum) 
+	if ($cidnum)
 		$AGI->set_variable(CALLTRACE_HUNT,$cidnum);
 		
 	foreach ($extarray as $k )
-	{ 
+	{
 		// we loop through the original array to get the extensions in order of importance
-		if ($ext_hunt[$k]) 
+		if ($ext_hunt[$k])
 		{
 			//If the original array is included in the extension hash then set variables
 			$myhuntmember="HuntMember"."$loops";
-			if ($rgmethod == "hunt") 
-			{
+			if ($rgmethod == "hunt")
 				$AGI->set_variable($myhuntmember,$ext_hunt[$k]);
-			} 
 			elseif ($rgmethod == "memoryhunt") 
 			{
 				if ($loops==0) 
-				{
 					$dshunt =$ext_hunt[$k];
-				} 
-				else 
-				{
+				else
 					$dshunt .='&'.$ext_hunt[$k];
-				}
 				$AGI->set_variable($myhuntmember,$dshunt);
 			}
 			$loops += 1;
@@ -439,10 +402,9 @@ if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt"))
 	}
 }
 
-// chop $ds if length($ds); - removes trailing "&"
 $ds = chop($ds," &");
 
-if (!strlen($ds)) 
+if (!strlen($ds))
 {
 	$AGI->noop('');
 } else {
@@ -455,7 +417,7 @@ if (!strlen($ds))
 		$AGI->set_variable('ds',$ds);
 		$AGI->set_variable("HuntMembers",$loops);
 		$AGI->set_priority(20); // dial command is at priority 20 where dialplan handles calling a ringgroup with strategy of "hunt" or "MemoryHunt"
-	} 
+	}
 	else
 	{
 		$ds .= '|';
@@ -463,15 +425,11 @@ if (!strlen($ds))
 		{
 			$ds .= $timer;
 			if (trim($use_confirmation) != "FALSE")
-			{
 				$AGI->set_variable('__RT',$timer);
-			}
 		}
 		$ds .= '|' . $dialopts; // pound to transfer, provide ringing
 		if (trim($use_confirmation) != "FALSE")
-		{
 			$AGI->set_variable('__RG_IDX',$ringgroup_index);
-		}
 		$AGI->set_variable('ds',$ds);
 		$AGI->set_priority(10); // dial command is at priority 10
 	}
@@ -480,9 +438,7 @@ if (!strlen($ds))
 // EOF dialparties.agi
 exit( 0 );
 
-
 // helper functions
-
 function get_var( $agi, $value)
 {
 	$r = $agi->get_variable( $value );
@@ -500,9 +456,8 @@ function get_dial_string( $agi, $extnum, $use_confirmation, $ringgroup_index )
 {
 	$dialstring = '';
 	
-// 	if ($extnum =~ s/#//)
- 	if (strpos($extnum,'#') != 0)
-	{                       
+	if (strpos($extnum,'#') != 0)
+	{
 		// "#" used to identify external numbers in forwards and callgourps
 		// If using call confirmation, need to put the # back into the new dialstring
 		// we then place all external calls (denoted with a # at the end) through
@@ -516,8 +471,8 @@ function get_dial_string( $agi, $extnum, $use_confirmation, $ringgroup_index )
 		else
 			$dialstring = 'Local/RG-'.$ringgroup_index.'-'.$extnum.'#@grps';
 		debug("Built External dialstring component for $extnum: $dialstring", 4);
-	} 
-	else 
+	}
+	else
 	{
 		$device_str = sprintf("%s/device", $extnum);
 		$device = $agi->database_get('AMPUSER',$device_str);
@@ -555,7 +510,7 @@ function mycallback( $rc )
 }
 
 function is_ext_avail( $extnum )
-{  
+{
 	global $config;
 		
 	$astman = new AGI_AsteriskManager( );	
@@ -578,7 +533,7 @@ function parse_amportal_conf($filename)
 	$file = file($filename);
 	$matches = array();
 	$matchpattern = '/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/';
-	foreach ($file as $line) 
+	foreach ($file as $line)
 	{
 		if (preg_match($matchpattern, $line, $matches)) 
 		{
