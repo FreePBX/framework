@@ -73,6 +73,12 @@ $modules_local = module_getinfo();
 if ($online) {
 	$modules_online = module_getonlinexml();
 	$modules = $modules_local + $modules_online;
+	// use online categories
+	foreach (array_keys($modules) as $modname) {
+		if (isset($modules_online[$modname]['category'])) {
+			$modules[$modname]['category'] = $modules_online[$modname]['category'];
+		}
+	}
 } else {
 	$modules = & $modules_local;
 }
