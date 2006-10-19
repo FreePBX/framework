@@ -112,8 +112,9 @@ if ( !(isset($result) ? $result : false) ) {
 include 'header.php';
 
 if ( !(isset($result) ? $result : false) ) {
-	echo '<br><br><br><br><h2><center>You must log in first before you can access this page.</center></h2><br><br><br><br>'; 
-
+	echo "\t<br><br><br><br><center><h2>";
+	echo _("You must log in first before you can access this page.");
+	echo "</h2></center><br><br><br><br>\n"; 
 	include 'footer.php';
 	exit;
 }

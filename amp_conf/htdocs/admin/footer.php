@@ -11,14 +11,15 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-	require_once('common/db_connect.php'); //PEAR must be installed
-	
-	//determine if asterisk reload is needed
-	$sql = "SELECT value FROM admin WHERE variable = 'need_reload'";
-	$need_reload = $db->getRow($sql);
-	if(DB::IsError($need_reload)) {
-		die($need_reload->getMessage());
-	}
+require_once('common/db_connect.php'); //PEAR must be installed
+
+//determine if asterisk reload is needed
+$sql = "SELECT value FROM admin WHERE variable = 'need_reload'";
+$need_reload = $db->getRow($sql);
+if(DB::IsError($need_reload)) {
+	die($need_reload->getMessage());
+}
+
 //check to see if we are requesting an asterisk reload
 if (isset($_REQUEST['clk_reload'])) {
 	
@@ -49,7 +50,7 @@ if (isset($_REQUEST['clk_reload'])) {
 					document.getElementById('idWaitBanner').className = 'clsHidden';
 				}
 
-				document.getElementById('idWaitBanner').innerHTML = 'Configuration applied';
+				document.getElementById('idWaitBanner').innerHTML = '" . _("Configuration applied") . "'
 				document.getElementById('idWaitBanner').className = 'clsWaitFinishOK';
 				setTimeout('hideWaitBanner()',3000);
 			</script>
@@ -79,54 +80,54 @@ if (isset($_REQUEST['clk_reload'])) {
 		
 		//store asterisk reloaded status
 		$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'"; 
-		$result = $db->query($sql); 
-		if(DB::IsError($result)) {     
-			die($result->getMessage()); 
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			die($result->getMessage());
 		}
 		$need_reload[0] = 'false';
 	} else {
 		echo _("Cannot connect to Asterisk Manager with ").$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
 	}
 }
+
 if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
 	if ($need_reload[0] == 'true') {
-		if (isset($_REQUEST['display'])) {
-	?>
-	<div class="inyourface"><a href="<?php  echo $_SERVER["PHP_SELF"]?>?<? echo (isset($_REQUEST['type']))?'type='.$_REQUEST['type'].'&amp;':''; ?>display=<?php  echo $_REQUEST['display'] ?>&amp;clk_reload=true"><?php echo _("You have made changes - when finished, click here to APPLY them") ?></a></div>
-	<?php } else { ?>
-	<div class="inyourface"><a href="<?php  echo $_SERVER["PHP_SELF"]?>?clk_reload=true"><?php echo _("You have made changes - when finished, click here to APPLY them") ?></a></div>
-	<?php 
-		}
+		$href =  $_SERVER["PHP_SELF"] . "?clk_reload=true";
+		if (isset($_REQUEST['display'])) 
+			$href .= '&amp;display='.$_REQUEST['display'];
+		if (isset($_REQUEST['type']))
+			$href .= '&amp;type='.$_REQUEST['type'];
+
+		echo "<div class='inyourface'><a href='$href' >";
+		echo _("You have made changes - when finished, click here to APPLY them");
+		echo "</a></div>\n";
 	}
 }
 
 if (!$quietmode) {
-?>
-		
-    <div class="footer" style="text-align:center;">
-		<!--<a target="_blank" href="http://sourceforge.net/donate/index.php?group_id=121515"><img border="0" style="float:left;" alt="Donate to the Asterisk Management Portal project" src="http://images.sourceforge.net/images/project-support.jpg"></a>-->
- 	<?php
- 	if (isset($amp_conf["AMPFOOTERLOGO"])){
- 		if (isset($amp_conf["AMPADMINHREF"])){?>
- 	        	<a target="_blank" href="http://<?php echo $amp_conf["AMPADMINHREF"] ?>"><img border="0" src="images/<?php echo $amp_conf["AMPFOOTERLOGO"] ?>"></a>
- 		<?php } else{ ?>
- 	        	<a target="_blank" href="http://www.freepbx.org"><img border="0" src="images/<?php echo $amp_conf["AMPFOOTERLOGO"] ?>"></a>
- 		<?php } ?>
- 	<?php } else{ ?>
-         	<a target="_blank" href="http://www.freepbx.org"><img border="0" src="images/freepbx_small.png"></a>
- 	<?php }  ?>        
- 	<a target="_blank" href="http://www.freepbx.org"><img border="0" style="float:left;" src="images/freepbx_small.png"></a>
-        <br>
-		<br>
-<?php
-	echo "Version ";
-	$ver=getversion(); echo $ver[0][0];
-	echo " on <b>".$_SERVER["SERVER_NAME"]."</b>";
-?>
-		<br>
-		<br>
-    </div>
-<?php 
+	echo "\n\t<div class='_footer' style='text-align:center;'>\n";
+
+	if (isset($amp_conf["AMPFOOTERLOGO"])) {
+		$AMPFOOTERLOGO = $amp_conf["AMPFOOTERLOGO"];
+		if (isset($amp_conf["AMPADMINHREF"]))
+			$AMPADMINHREF = $amp_conf["AMPADMINHREF"];
+		else 
+			$AMPADMINHREF = "http://www.freepbx.org";
+	} else {
+		$AMPADMINHREF = "http://www.freepbx.org";
+		$AMPFOOTERLOGO = "freepbx_small.png";
+	}
+	$ALT = $AMPADMINHREF;
+	
+	echo "\t\t<a target='_blank' href='$AMPADMINHREF'><img border='0' src='images/$AMPFOOTERLOGO' alt='$ALT' ></a>\n";
+	echo "\t\t<a target='_blank' href='http://www.freepbx.org'><img border='0' style='float:left;' src='images/freepbx_small.png' alt='$ALT'></a>\n";
+
+	$ver = getversion();
+	// TODO : i18n
+	// the string should be "Version $1, on <b>$2</b>", and the $1, $2 should be replaced
+	// in run time
+	echo "\t\tVersion " . $ver[0][0] . " on <b>".$_SERVER["SERVER_NAME"]."</b>";
+	echo "\n\t\t<br><br>\n\t</div>";
 }
 ?>
 

@@ -1,0 +1,71 @@
+/* 
+ * 
+ * 
+ *	override global deifinitons, when we are in alternative mode 
+ *	
+ *	
+ */
+
+
+a#current {
+	color: red;
+	font-weight:bold;
+}
+
+div.message {
+        text-align:right;
+        border-bottom: 1px solid red;
+}
+
+/* nagivation bars */
+div.rnav a, div.nav a {
+	color: #FF6C61;
+	text-decoration: none;
+	display: block;
+	padding:5px;
+	border:1px solid #FFF7F7;
+	background: #FFF7F7;
+}
+div.rnav a:hover, div.nav a:hover {
+	color: black;
+	background: #FFA178;
+	border:1px solid #F2AF1D;
+}
+div.rnav li,div.nav li {
+	border-right: 1px solid red;
+	border-left: 1px solid red;
+	border-bottom: 1px solid red;
+}
+
+
+/* info window */
+a.info {
+	border-bottom: 1px dotted red;
+}
+
+a.info:hover {
+	background-color: #FFA178;
+}
+
+a.info:hover span{
+	border: 1px solid red;
+	background-color: #ffa178;
+	color:#000000;
+}
+
+/* content modifications */
+div.content h2 {
+	color:#4f3e73;
+}
+div.content h3 {
+	color:#4f3e73;
+}
+div.content h4 {
+	color:#4f3e73;
+}
+div.content h5 {
+	color:#4f3e73;
+}
+div.content h6 {
+	border-top:1px solid red;
+}

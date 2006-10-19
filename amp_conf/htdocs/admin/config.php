@@ -246,7 +246,7 @@ switch($display) {
 	<p>If you're new to freePBX, Welcome. Here are some quick instructions to get you started.</p>
 	<p>There are a large number of Plug-in modules available from the Online Repository. This is
 	available by clicking on the <a href="config.php?type=tool">Tools menu</a> up the top, then
-	<a href="config.php?type=tool&display=modules">Module Admin</a>, then
+	<a href="config.php?display=modules&amp;type=tool">Module Admin</a>, then
 	<a href="config.php?display=modules&amp;type=tool&amp;extdisplay=online">Connect to Online Module Repository</a>.
 	Modules are updated and patched often, so if you are having a problem, it's worth checking there to see if there's
 	a new version of the module available.</p>

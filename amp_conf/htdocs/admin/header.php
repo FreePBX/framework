@@ -17,17 +17,18 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 	if (!is_file($page))
 		return;
 
-	$html = "<a ";
+	$html = "<b>&bull;</b> <span><a ";
 
 	if ($href == NULL)
 		$href .= $page;
 
 	if ($new_window != NULL)
-		$html .= " target=\"_blank\" ";
+		$html .= "target=\"_blank\" ";
 	
 	if ($is_current)
-		$html .= "id=current ";
-	$html .= "href=\"$href\"> &#8226; <li>$name</li></a>";
+		$html .= "id=\"current\" ";
+
+	$html .= "href=\"$href\">&nbsp; $name</a></span>";
 
 	print("\t\t$html\n");
 }
@@ -68,11 +69,22 @@ if (!$quietmode) {
 	<meta http-equiv="Content-Type" content="text/html">
 	<link href="common/mainstyle.css" rel="stylesheet" type="text/css"> 
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-	<?php 
-	if (isset($display) && is_file("modules/{$display}/{$display}.css")) {
-		echo "	<link href=\"modules/{$display}/{$display}.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+<?php 
+	// check if in the amp configuration the user has set that
+	// he wants to use an alternative style-sheet.
+	// on Xorcom's TS1, it's used when the system is in rescue mode.
+	if (isset($amp_conf["ALTERNATIVE_CSS"]))
+	{
+		if (($amp_conf["ALTERNATIVE_CSS"] == "1") ||
+			($amp_conf["ALTERNATIVE_CSS"] == "yes") ||
+			($amp_conf["ALTERNATIVE_CSS"] == "true"))
+			echo "\t<link href=\"common/mainstyle-alternative.css\" rel=\"stylesheet\" type=\"text/css\">";
 	}
-	?>
+
+	if (isset($display) && is_file("modules/{$display}/{$display}.css")) {
+		echo "\t<link href=\"modules/{$display}/{$display}.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+	}
+?>
 	
 	<script type="text/javascript" src="common/script.js.php"></script>
 	<script type="text/javascript"> 
@@ -95,8 +107,9 @@ if ($_COOKIE['lang']==="he_IL")
 <div id="page">
 	<div class="header">
 <?php
+		$freepbx_alt = _("freePBX");
 		if (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"]))
-			echo "\t\t<a href=\"index.php\"><img src=\"images/" . $amp_conf["AMPADMINLOGO"] . "\"/></a>\n";
+			echo "\t\t<a href=\"index.php\"><img src=\"images/" . $amp_conf["AMPADMINLOGO"] . "\" alt=\"$freepbx_alt\" /></a>\n";
 		else
 			echo "\t\t<a href=\"index.php\"><img src=\"images/freepbx.png\"/></a>\n";
 		
