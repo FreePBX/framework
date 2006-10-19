@@ -1137,7 +1137,7 @@ function module_getonlinexml($module = false) { // was getModuleXml()
 		// remove the old xml
 		sql('DELETE FROM module_xml');
 		// update the db with the new xml
-		$data4sql = (get_magic_quotes_gpc() ? $data : addslashes($data));
+		$data4sql = addslashes($data);
 		sql('INSERT INTO module_xml (time,data) VALUES ('.time().',"'.$data4sql.'")');
 	} else {
 //		echo "using cache";
