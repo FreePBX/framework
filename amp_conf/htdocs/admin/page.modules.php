@@ -285,6 +285,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		uasort($modules, 'category_sort_callback');
 		
 		if ($online) {
+			//echo "<a href='config.php?display=modules&amp;type=tool&amp;extdisplay=local'>"._("Terminate Connection to Online Module Repository")."</a><br />\n";
+			//echo "<a href='config.php?display=modules&amp;type=tool&amp;extdisplay=online&amp;refresh=true'>"._("Force Refresh of Local Module Cache")."</a>\n";
+			
 			if (isset($amp_conf['AMPMODULEMSG'])) {
 				$announcements = @ file_get_contents($amp_conf['AMPMODULEMSG']."/version-$version.html");
 			} else {
@@ -401,7 +404,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			if (isset($modules_online[$name]['attention']) && !empty($modules_online[$name]['attention'])) {
 				echo "\t\t\t\t<div class=\"tabbertab\" title=\"Attention\">\n";
-				echo nl2br($modules[$name]['attention']);
+				echo nl2br($modules_online[$name]['attention']);
 				echo "\t\t\t\t</div>\n";
 			}
 			
