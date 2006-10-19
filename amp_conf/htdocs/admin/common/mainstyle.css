@@ -16,6 +16,12 @@ body {
 	font-size: 13px;
 	position:relative;
 }
+
+.clsError{
+	border: #BB0A0A 1px solid; 
+	background-color: #ffc0c0; 
+}
+
 .clear {
 	clear:both;
 }
@@ -94,26 +100,28 @@ div.message {
 	padding-right: 5px;
 }
 
-div.nav {
-    /*float:left; */
+ul.nav {
 	position:absolute;
 	left:20px;
 	width:150px;
 	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
-div.nav a {
+ul.nav a {
 	color: #2E78A7;
 	text-decoration : none;
 	display: block;
     padding:5px;
     border:1px solid white;    
 }
-div.nav a:hover {
+ul.nav a:hover {
 	color: #ee9a47;
 	background: #FDF1D5;
 	border:1px solid #F2AF1D;	
 }
-div.nav li{
+ul.nav li{
     list-style-type: none;
     list-style-position: outside;
     border-right: 1px solid #808080;

@@ -11,7 +11,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$title="freePBX administration";
+$title = "freePBX administration";
 
 $type = isset($_REQUEST['type'])?$_REQUEST['type']:'setup';
 $display = isset($_REQUEST['display'])?$_REQUEST['display']:'';
@@ -98,7 +98,7 @@ if(is_array($active_modules)){
 if (!$quietmode) {
 	//echo "<table width=\"100%\" cellspacing='0' cellpadding='0'><tr><td>";
 	// show menu
-	echo "<div class=\"nav\">\n";
+	echo "\t<ul class=\"nav\">\n";
 }
 
 // extensions vs device/users ... this is a bad design, but hey, it works
@@ -119,7 +119,7 @@ foreach ($amp_sections as $key=>$value) {
 		if ($key != 99) {
 			// if the module has it's own translations, use them for displaying menu item
 			if (extension_loaded('gettext')) {
-				if(is_dir("modules/{$key}/i18n")) {
+				if (is_dir("modules/{$key}/i18n")) {
 					bindtextdomain($key,"modules/{$key}/i18n");
 					bind_textdomain_codeset($key, 'utf8');
 					textdomain($key);
@@ -129,10 +129,12 @@ foreach ($amp_sections as $key=>$value) {
 				}
 			}
 			if (!$quietmode) {
-				if(preg_match("/^(<a.+>)(.+)(<\/a>)/",$value,$matches))
-					echo "<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
+				if (preg_match("/^(<a.+>)(.+)(<\/a>)/",$value,$matches))
+					echo "\t\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
 				else
-				echo "<li><a id=\"".(($display==$key) ? 'current':'')."\" href=\"config.php?type=".$type."&display=".$key."\">"._($value)."</a></li>\n";
+					echo "\t\t<li><a" .
+						(($display==$key) ? ' id="current"':'') .
+						" href=\"config.php?type=".$type."&amp;display=".$key."\">"._($value)."</a></li>\n";
 			}
 		}
 	} else {
@@ -141,8 +143,10 @@ foreach ($amp_sections as $key=>$value) {
 	}
 }
 if (!$quietmode) {	
-	echo '<div class="clear"></div>';
-	echo "</div>\n<div class=\"content\">\n";
+//	TODO why do we need the <div class='clear'> here ...?
+// 	echo "\t\t\n";
+// 	echo "\t\t<div class='clear'></div>\n";
+	echo "\t</ul>\n\n<div class=\"content\">\n";
 }
 // check access
 if ( ($display != '') && !isset($amp_sections[$display]) ) {
@@ -242,7 +246,7 @@ switch($display) {
 		if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
 			$astman->disconnect();
 	?>
-	<h2>Welcome to freePBX.</h2>
+<!--	<h2>Welcome to freePBX.</h2>
 	<p>If you're new to freePBX, Welcome. Here are some quick instructions to get you started.</p>
 	<p>There are a large number of Plug-in modules available from the Online Repository. This is
 	available by clicking on the <a href="config.php?type=tool">Tools menu</a> up the top, then
@@ -256,11 +260,47 @@ switch($display) {
 	when the module is installed, to start a Java IRC client.</p>
 	<p>There is also a community based <a href="http://forums.freepbx.org" target="_new">freePBX Web Forum</a> where you can post
 	questions and search for answers for any problems you may be having.</p>
-	<p>We hope you enjoy using freePBX!</p>
+	<p>We hope you enjoy using freePBX!</p>-->
 	<?php
+			printf( "<h2>%s</h2>", dgettext("welcome page", "Welcome to freePBX.") );
+			printf( "<p>%s</p>"  , dgettext("welcome page", "If you're new to freePBX, Welcome. Here are some quick instructions to get you started") );
+			
+			echo "<p>";
+			printf( dgettext("welcome page", 
+"There are a large number of Plug-in modules available from the Online Repository. This is
+available by clicking on the <a href='$1'>Tools menu</a> up the top, then
+<a href='$2'>Module Admin</a>, then
+<a href='$3'>Connect to Online Module Repository</a>.
+Modules are updated and patched often, so if you are having a problem, it's worth checking there to see if there's
+a new version of the module available."), 
+				"config.php?type=tool",
+				"config.php?display=modules&amp;type=tool",
+				"config.php?display=modules&amp;type=tool&amp;extdisplay=online"
+			);
+			echo "</p>\n";
+
+			echo "<p>";
+			printf( dgettext( "welcome page",
+"If you're having any problems, you can also use the <a href='$1'>Online Support</a> 
+module (<b>you need to install this through the <a href='$2'>Module Repository</a> first</b>)
+to talk to other users and the devlopers in real time. Click on <a href='$3'>Start IRC</a>,
+when the module is installed, to start a Java IRC client." ),
+				"config.php?type=tool&amp;display=irc",
+				"config.php?display=modules&amp;type=tool&amp;extdisplay=online",
+				"config.php?type=tool&amp;display=irc&amp;action=start"
+			);
+			echo "</p>\n";
+
+			echo "<p>";
+			printf( dgettext( "welcome page",
+"There is also a community based <a href='$1' target='_new'>freePBX Web Forum</a> where you can post
+questions and search for answers for any problems you may be having."),
+"http://forums.freepbx.org"  );
+			echo "</p>\n";
+
+			print( "<p>" . _("We hope you enjoy using freePBX!") . "</p>\n" );
 		}
 		else{
-			echo "<style>.clsError{ border: #BB0A0A 1px solid; background-color: #ffc0c0; }</style>\n";
 			echo "<p><div class='clsError'>\n";
 			echo "<b>" . _("Warning:") . "</b>\n";
 			echo "<br>";
