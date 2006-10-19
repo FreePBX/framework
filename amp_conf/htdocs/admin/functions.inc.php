@@ -281,7 +281,7 @@ function engine_getinfo() {
 				return false;
 			}
 			
-			if (preg_match('/Asterisk SVN.+/')) {
+			if (preg_match('/Asterisk SVN.+/', $verinfo)) {
 				return array('engine'=>'asterisk', 'version' => '99', 'additional' => '99');
 			}
 			if (preg_match('/Asterisk (\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
