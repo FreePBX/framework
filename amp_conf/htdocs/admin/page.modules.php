@@ -361,7 +361,18 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 				case MODULE_STATUS_DISABLED:
-					echo 'Disabled';
+					if (isset($modules_online[$name]['version'])) {
+						$vercomp = version_compare($modules[$name]['version'], $modules_online[$name]['version']);
+						if ($vercomp < 0) {
+							echo '<span class="alert">Disabled; Online upgrade available ('.$modules_online[$name]['version'].')</span>';
+						} else if ($vercomp > 0) {
+							echo 'Disabled; Newer than online version ('.$modules_online[$name]['version'].')';
+						} else {
+							echo 'Disabled; up to date';
+						}
+					} else {
+						echo 'Disabled';
+					}
 				break;
 				case MODULE_STATUS_NEEDUPGRADE:
 					echo '<span class="alert">Disabled; Pending upgrade to '.$modules[$name]['version'].'</span>';
@@ -431,6 +442,13 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
 							 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+						if (isset($modules_online[$name]['version'])) {
+							$vercomp = version_compare($modules[$name]['version'], $modules_online[$name]['version']);
+							if ($vercomp < 0) {
+								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
+									 '<label for="upgrade_'.prep_id($name).'">Download and Upgrade to '.$modules_online[$name]['version'].', and Enable</label> <br />';
+							}
+						}
 					}
 				break;
 				case MODULE_STATUS_NEEDUPGRADE:
