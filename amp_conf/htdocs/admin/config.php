@@ -98,7 +98,7 @@ if(is_array($active_modules)){
 if (!$quietmode) {
 	//echo "<table width=\"100%\" cellspacing='0' cellpadding='0'><tr><td>";
 	// show menu
-	echo "\t<ul class=\"nav\">\n";
+	echo "\t<div id=\"nav\"><ul>\n";
 }
 
 // extensions vs device/users ... this is a bad design, but hey, it works
@@ -146,7 +146,8 @@ if (!$quietmode) {
 //	TODO why do we need the <div class='clear'> here ...?
 // 	echo "\t\t\n";
 // 	echo "\t\t<div class='clear'></div>\n";
-	echo "\t</ul>\n\n<div class=\"content\">\n";
+	echo "\t</ul></div>\n\n";
+	echo "<div id=\"wrapper\"><div class=\"content\">\n";
 }
 // check access
 if ( ($display != '') && !isset($amp_sections[$display]) ) {
@@ -324,4 +325,12 @@ if (extension_loaded('gettext')) {
 ?>
 </div> <!-- /content -->
 <?php // </td></tr></table> ?>
+</div> <!-- wrapper -->
+
 <?php include 'footer.php' ?>
+
+</div> <!-- /page -->
+
+</body>
+
+</html>

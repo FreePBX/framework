@@ -105,7 +105,7 @@ if ($_COOKIE['lang']==="he_IL")
 	echo "dir=\"rtl\"";
 ?> >
 <div id="page">
-	<div class="header">
+	<div id="header">
 <?php
 		$freepbx_alt = _("freePBX");
 		if (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"]))
