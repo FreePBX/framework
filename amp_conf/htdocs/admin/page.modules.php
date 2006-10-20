@@ -296,6 +296,10 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			if (isset($announcements) && !empty($announcements)) {
 				echo '<div class="announcements">$announcements</div>';
 			}
+			
+			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+				echo "<a href='config.php?display=modules&amp;type=tool&amp;online=0'>"._("Manage local modules")."</a>\n";
+			}
 		} else {
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 				echo "<a href='config.php?display=modules&amp;type=tool&amp;online=1'>"._("Check for updates online")."</a>\n";
@@ -327,8 +331,23 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "\t</div>";
 
 		$category = false;
+		$numdisplayed = 0;
 		foreach (array_keys($modules) as $name) {
-
+			
+			if (isset($modules_online)) {
+				// don't display up-to-date modules
+				if (!isset($modules_online[$name])) {
+					continue; // skip to next in loop
+				}
+				
+				$vercomp = version_compare($modules[$name]['version'], $modules_online[$name]['version']);
+				if ($vercomp >= 0) {
+					continue; // skip to next in loop
+				}
+			}
+			
+			$numdisplayed++;
+			
 			if ($category != $modules[$name]['category']) {
 				// show category header
 				
@@ -520,6 +539,15 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			echo "\t\t</li>\n";
 		}
+		
+		if ($numdisplayed == 0) {
+			if (isset($modules_online) && count($modules_online) > 0) {
+				echo "All available modules are up-to-date and installed.";
+			} else {
+				echo "No modules to display.";
+			}
+		}
+		
 		echo "\t</ul></div>\n";
 		echo "</div>";
 
