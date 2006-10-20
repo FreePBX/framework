@@ -105,7 +105,7 @@ if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
 }
 
 if (!$quietmode) {
-	echo "\n\t<div class='_footer' style='text-align:center;'>\n";
+	echo "\n\t<div class='footer' style='text-align:center;'>\n";
 
 	if (isset($amp_conf["AMPFOOTERLOGO"])) {
 		$AMPFOOTERLOGO = $amp_conf["AMPFOOTERLOGO"];
