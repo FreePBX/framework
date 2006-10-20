@@ -62,6 +62,49 @@ function check_upgrade_all() {
 	}
 }
 
+function showhide_upgrades() {
+	var upgradesonly = document.getElementById('show_upgradable_only').checked;
+	
+	var module_re = /^module_([a-z0-9_]+)$/;   // regex to match a module element id
+	var cat_re = /^category_([a-zA-Z0-9_]+)$/; // regex to match a category element id
+
+	var elements = document.getElementById('modulelist').getElementsByTagName('li');
+
+	// loop through all modules, check if there is an upgrade_<module> radio box 
+	for(i=0; i<elements.length; i++) {
+		if (match = elements[i].id.match(module_re)) {
+			if (!document.getElementById('upgrade_'+match[1])) {
+				// not upgradable
+				document.getElementById('module_'+match[1]).style.display = upgradesonly ? 'none' : 'block';
+			}
+		}
+	}
+	
+	
+	
+	// hide category headings that don't have any visible modules
+	
+	var elements = document.getElementById('modulelist').getElementsByTagName('div');
+	// loop through category items
+	for(i=0; i<elements.length; i++) {
+		if (elements[i].id.match(cat_re)) {
+			var subelements = elements[i].getElementsByTagName('li');
+			var display = false;
+			for(j=0; j<subelements.length; j++) {
+				// loop through children <li>'s, find names that are module element id's 
+				if (subelements[j].id.match(module_re) && subelements[j].style.display != 'none') {
+					// if at least one is visible, we're displaying this element
+					display = true;
+					break; // no need to go further
+				}
+			}
+			
+			document.getElementById(elements[i].id).style.display = display ? 'block' : 'none';
+		}
+	}
+	
+}
+
 </script>
 <?php
 
@@ -299,6 +342,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 				echo "<a href='config.php?display=modules&amp;type=tool&amp;online=0'>"._("Manage local modules")."</a>\n";
+				echo "<input type=\"checkbox\" id=\"show_upgradable_only\" onclick=\"showhide_upgrades();\" />Show only upgradable";
 			}
 		} else {
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
@@ -334,6 +378,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		$numdisplayed = 0;
 		foreach (array_keys($modules) as $name) {
 			
+			/*
 			if (isset($modules_online)) {
 				// don't display up-to-date modules
 				if (!isset($modules_online[$name])) {
@@ -346,6 +391,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				}
 			}
 			
+			*/
 			$numdisplayed++;
 			
 			if ($category != $modules[$name]['category']) {
