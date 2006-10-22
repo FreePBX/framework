@@ -114,7 +114,7 @@ if ($_COOKIE['lang']==="he_IL")
 			echo "\t\t<a href=\"index.php\"><img src=\"images/freepbx.png\"/></a>\n";
 		
 		print_sub_tool( _("Management"), "manage.php" , $currentFile=='manage.php' );
-		print_sub_tool( _("Setup")     , "config.php" , $currentFile=='config.php' && $_REQUEST['type']=='setup', "config.php?type=setup", false );
+		print_sub_tool( _("Setup")     , "config.php" , $currentFile=='config.php' && ($_REQUEST['type']=='setup' || $_REQUEST['type'] == ""), "config.php?type=setup", false );
 		print_sub_tool( _("Tools")     , "config.php" , $currentFile=='config.php' && $_REQUEST['type']=='tool' , "config.php?type=tool", false );
 		print_sub_tool( _("Reports")   , "reports.php", $currentFile=='reports.php' );
 		print_sub_tool( _("Panel")     , "panel.php"  , $currentFile=='panel.php' );
