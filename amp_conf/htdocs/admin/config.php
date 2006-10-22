@@ -255,9 +255,9 @@ switch($display) {
 			echo "<p>";
 			printf( dgettext("welcome page", 
 "There are a large number of Plug-in modules available from the Online Repository. This is
-available by clicking on the <a href='$1'>Tools menu</a> up the top, then
-<a href='$2'>Module Admin</a>, then
-<a href='$3'>Connect to Online Module Repository</a>.
+available by clicking on the <a href='%s'>Tools menu</a> up the top, then
+<a href='%s'>Module Admin</a>, then
+<a href='%s'>Connect to Online Module Repository</a>.
 Modules are updated and patched often, so if you are having a problem, it's worth checking there to see if there's
 a new version of the module available."), 
 				"config.php?type=tool",
@@ -268,9 +268,9 @@ a new version of the module available."),
 
 			echo "<p>";
 			printf( dgettext( "welcome page",
-"If you're having any problems, you can also use the <a href='$1'>Online Support</a> 
-module (<b>you need to install this through the <a href='$2'>Module Repository</a> first</b>)
-to talk to other users and the devlopers in real time. Click on <a href='$3'>Start IRC</a>,
+"If you're having any problems, you can also use the <a href='%s'>Online Support</a> 
+module (<b>you need to install this through the <a href='%s'>Module Repository</a> first</b>)
+to talk to other users and the devlopers in real time. Click on <a href='%s'>Start IRC</a>,
 when the module is installed, to start a Java IRC client." ),
 				"config.php?type=tool&amp;display=irc",
 				"config.php?display=modules&amp;type=tool&amp;extdisplay=online",
@@ -280,7 +280,7 @@ when the module is installed, to start a Java IRC client." ),
 
 			echo "<p>";
 			printf( dgettext( "welcome page",
-"There is also a community based <a href='$1' target='_new'>freePBX Web Forum</a> where you can post
+"There is also a community based <a href='%s' target='_new'>freePBX Web Forum</a> where you can post
 questions and search for answers for any problems you may be having."),
 "http://forums.freepbx.org"  );
 			echo "</p>\n";
