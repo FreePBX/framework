@@ -25,7 +25,9 @@ if (isset($_REQUEST['clk_reload'])) {
 	
 	if (isset($amp_conf["POST_RELOAD"]))
 	{
-		echo "<div id='idWaitBanner' class='clsWait'> Please wait while applyig configuration</div>";
+		echo "<div id='idWaitBanner' class='clsWait'>" .
+			 _("Please wait while applyig configuration") . 
+			"</div>";
 		
 		if (!isset($amp_conf["POST_RELOAD_DEBUG"]) || 
 		    (($amp_conf["POST_RELOAD_DEBUG"]!="1") && 
@@ -61,9 +63,7 @@ if (isset($_REQUEST['clk_reload'])) {
 	$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf';
 	exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log');
 	
-	require_once('common/php-asmanager.php');
-	$astman = new AGI_AsteriskManager();
-	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+	if ($astman) {
 		/*	Would be cool to do the following from here 
 			(to avoid permission problems when running apache as nobody).
 			Unfortunately, I can't make it work :-(
@@ -71,7 +71,6 @@ if (isset($_REQUEST['clk_reload'])) {
 		*/	
 		//reload asterisk
 		$astman->send_request('Command', array('Command'=>'reload'));	
-		$astman->disconnect();
 		
 		//bounce op_server.pl
 		// TODO, should this file be on the web root? whats wrong with /var/lib/asterisk/bin?

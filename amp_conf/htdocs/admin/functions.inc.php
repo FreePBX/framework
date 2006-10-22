@@ -267,15 +267,14 @@ function find_modules($status) {
 
 function engine_getinfo() {
 	global $amp_conf;
+	global $astman;
+
 	switch ($amp_conf['AMPENGINE']) {
 		case 'asterisk':
-			require_once('common/php-asmanager.php');
-			$astman = new AGI_AsteriskManager();
-			if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+			if ($astman) {
 				//get version
 				$response = $astman->send_request('Command', array('Command'=>'show version'));
 				$verinfo = $response['data'];
-				$astman->disconnect();
 			} else {
 				// could not connect to asterisk manager
 				return false;
@@ -390,11 +389,14 @@ function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $descriptio
 
 // this function simply makes a connection to the asterisk manager, and should be called by modules that require it (ie: dbput/dbget)
 function checkAstMan() {
-	require_once('common/php-asmanager.php');
 	global $amp_conf;
-	$astman = new AGI_AsteriskManager();
-	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
-		return $astman->disconnect();
+	global $astman;
+
+	if ($astman) {
+//		TODO old code was,
+// 		return $astman->disconnect();
+//		is this correct...?
+		return true;
 	} else {
 		echo "<h3>Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]."</h3>This module requires access to the Asterisk Manager.  Please ensure Asterisk is running and access to the manager is available.</div>";
 		exit;
