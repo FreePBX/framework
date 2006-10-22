@@ -122,7 +122,43 @@ if ($_COOKIE['lang']==="he_IL")
 ?>
 	</div>
 
-	<div class="message"><?php
+	<div class="message">
+<?php
+
+// TODO: this is ugly, need to code this better!
+//       mixing php + html is bad!
+	if (extension_loaded('gettext')) {
+		if (!isset($_COOKIE['lang'])) {
+			$_COOKIE['lang'] = "en_US";
+		} 
+?>
+&nbsp;&nbsp;&nbsp;<?php echo _("Language:") ?>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<select onchange="javascript:changeLang(this.value)">
+		<option value="en_US" <? echo ($_COOKIE['lang']=="en_US" ? "selected" : "") ?> >English</option>
+		<option value="fr_FR" <? echo ($_COOKIE['lang']=="fr_FR" ? "selected" : "") ?> >Fran&ccedil;ais</option>
+		<option value="de_DE" <? echo ($_COOKIE['lang']=="de_DE" ? "selected" : "") ?> >Deutsch</option>
+		<option value="it_IT" <? echo ($_COOKIE['lang']=="it_IT" ? "selected" : "") ?> >Italiano</option>
+		<option value="es_ES" <? echo ($_COOKIE['lang']=="es_ES" ? "selected" : "") ?> >Espa&ntilde;ol</option>
+		<option value="ru_RU" <? echo ($_COOKIE['lang']=="ru_RU" ? "selected" : "") ?> >Russki</option>
+		<option value="pt_PT" <? echo ($_COOKIE['lang']=="pt_PT" ? "selected" : "") ?> >Portuguese</option>
+		<option value="he_IL" <? echo ($_COOKIE['lang']=="he_IL" ? "selected" : "") ?> >Hebrew</option>
+		</select>
+	</p>
+<?php
+	}
+?>
+
+<script type="text/javascript">
+<!--
+function changeLang(lang) {
+	document.cookie='lang='+lang;
+	window.location.reload();
+}
+//-->
+</script>
+
+<?php
 	if ( isset($_SESSION['AMP_user']) &&  $amp_conf['AUTHTYPE'] != 'none' ) {
 		echo _('Logged in: ').$_SESSION['AMP_user']->username;
 		echo ' (<a href="http'.(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=''?'s':'').'://';
