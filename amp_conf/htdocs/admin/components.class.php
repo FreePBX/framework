@@ -237,11 +237,11 @@ class component {
 
 		// Start of form
 		$htmlout .= "<form name=\"$formname\" action=\"".$_SERVER['PHP_SELF']."\" method=\"post\" onsubmit=\"return ".$formname."_onsubmit();\">\n";
-		$htmlout .= "<input type=\"hidden\" name=\"display\" value=\"$this->_compname\">\n";
-		$htmlout .= "<input type=\"hidden\" name=\"type\" value=\"$this->_type\">\n\n";
+		$htmlout .= "<input type=\"hidden\" name=\"display\" value=\"$this->_compname\" />\n";
+		$htmlout .= "<input type=\"hidden\" name=\"type\" value=\"$this->_type\" />\n\n";
 		
 		// Start of table
-		$htmlout .= "<table>\n\n";
+		$htmlout .= "<table><!-- start of table $formname -->\n";
 		
 		// Gui Elements / JavaScript validation
 		// Top
@@ -261,11 +261,11 @@ class component {
 			$hasoutput = true;
 			foreach ( array_keys($this->_guielems_middle) as $section ) {
 				// Header for $section				
-				$htmlout .= "<tr>\n";
-				$htmlout .= "\t<td colspan=\"2\">";
-				$htmlout .= "<h5><br>" . _($section) . "<hr></h5>";
+				$htmlout .= "\t<tr>\n";
+				$htmlout .= "\t\t<td colspan=\"2\">";
+				$htmlout .= "<h5><br>" . _($section) . "</h5><hr>";
 				$htmlout .= "</td>\n";
-				$htmlout .= "<tr>\n";
+				$htmlout .= "\t</tr>\n";
 				
 				// Elements
 				foreach ( array_keys($this->_guielems_middle[$section]) as $sortorder ) {
@@ -278,11 +278,11 @@ class component {
 			}
 			// Spacer before bottom
 			if ( is_array($this->_guielems_bottom) ) {
-				$htmlout .= "<tr>\n";
-				$htmlout .= "\t<td colspan=\"2\">";
+				$htmlout .= "\t<tr>\n";
+				$htmlout .= "\t\t<td colspan=\"2\">";
 				$htmlout .= "&nbsp;";
 				$htmlout .= "</td>\n";
-				$htmlout .= "<tr>\n";
+				$htmlout .= "\t</tr>\n";
 			}
 		}
 
@@ -299,20 +299,20 @@ class component {
 		}
 		
 		// End of table
-		$htmlout .= "<tr>\n";
-		$htmlout .= "\t<td colspan=\"2\">";
+		$htmlout .= "\t<tr>\n";
+		$htmlout .= "\t\t<td colspan=\"2\">";
 		$htmlout .= "<br><br><h6>";
 		$htmlout .= "<input name=\"Submit\" type=\"submit\" value=\""._("Submit")."\">";
-		$htmlout .= "</h6>\n";
+		$htmlout .= "</h6>";
 		$htmlout .= "</td>\n";
-		$htmlout .= "<tr>\n";
-		$htmlout .= "\n</table>\n\n";
+		$htmlout .= "\t</tr>\n";
+		$htmlout .= "</table><!-- end of table $formname -->\n\n";
 
 		if ( !$this->_sorted_jsfuncs )
 			$this->sortjsfuncts();
 
 		// Javascript
-		$htmlout .= "<script language=\"javascript\">\n<!--\n\n";
+		$htmlout .= "<script type=\"text/javascript\">\n<!--\n";
 		$htmlout .= "var theForm = document.$formname;\n\n";
 		
 		// TODO:	* Create standard JS to go thru each text box looking for first one not hidden and set focus
@@ -328,14 +328,13 @@ class component {
 				}
 				if ( $function == 'onsubmit()' )
 					$htmlout .= "\treturn true;\n";
-				$htmlout .= "\n}\n\n";
-			}			
+				$htmlout .= "}\n";
+			}
 		}
-		
-		$htmlout .= "\n//-->\n</script>";
+		$htmlout .= "//-->\n</script>";
 		
 		// End of form
-		$htmlout .= "\n</form>\n";
+		$htmlout .= "\n</form>\n\n";
 		
 		if ( $hasoutput ) {
 			return $htmlout;
@@ -408,6 +407,9 @@ class gui_hidden extends guielement {
 		guielement::guielement($elemname, '', '');
 		
 		$this->_html = "<input type=\"hidden\" name=\"$this->_elemname\" id=\"$this->_elemname\" value=\"" . htmlentities($currentvalue) . "\">";
+		
+		// make it a new row
+		$this->_html = "\t<tr>\n\t\t<td>" . $this->_html . "</td>\n\t</tr>\n";
 	}
 }
 
@@ -476,10 +478,10 @@ class guiinput extends guielement {
 		$output = '';
 		
 		// start new row
-		$output .= "<tr>\n";
+		$output .= "\t<tr>\n";
 
 		// prompt in first column
-		$output .= "\t<td>";
+		$output .= "\t\t<td>";
 		if ($this->helptext != '') {
 			$output .= "<a href=\"#\" class=\"info\">$this->prompttext<span>$this->helptext</span></a>";
 		} else {
@@ -488,12 +490,12 @@ class guiinput extends guielement {
 		$output .= "</td>\n";
 		
 		// actual input in second row
-		$output .= "\t<td>";
+		$output .= "\t\t<td>";
 		$output .= $this->html_input;
 		$output .= "</td>\n";
 		
 		// end this row
-		$output .= "</tr>\n";
+		$output .= "\t</tr>\n";
 		
 		return $output;
 	}
@@ -544,7 +546,7 @@ class gui_selectbox extends guiinput {
 		$output = '';
 		$onchange = ($onchange != '') ? " onchange=\"$onchange\"" : '';
 		
-		$output .= "<select name=\"$this->_elemname\" id=\"$this->_elemname\"$onchange>\n";
+		$output .= "\n\t\t\t<select name=\"$this->_elemname\" id=\"$this->_elemname\"$onchange>\n";
 		// include blank option if required
 		if ($canbeempty)
 			$output .= "<option value=\"\">&nbsp;</option>";			
@@ -555,9 +557,9 @@ class gui_selectbox extends guiinput {
 			$itemtext = (isset($item['text']) ? _($item['text']) : '');
 			$itemselected = ($currentvalue == $itemvalue) ? ' selected' : '';
 			
-			$output .= "<option value=\"$itemvalue\"$itemselected>$itemtext</option>\n";
+			$output .= "\t\t\t\t<option value=\"$itemvalue\"$itemselected>$itemtext</option>\n";
 		}
-		$output .= "</select>\n";
+		$output .= "\t\t\t</select>\n\t\t";
 		
 		return $output;
 	}
@@ -613,15 +615,15 @@ class guitext extends guielement {
 		$output = '';
 		
 		// start new row
-		$output .= "<tr>\n";
+		$output .= "\t<tr>\n";
 
 		// actual input in second row
-		$output .= "\t<td colspan=\"2\">";
+		$output .= "\t\t<td colspan=\"2\">";
 		$output .= $this->html_text;
 		$output .= "</td>\n";
 		
 		// end this row
-		$output .= "</tr>\n";
+		$output .= "\t</tr>\n";
 		
 		return $output;
 	}	
