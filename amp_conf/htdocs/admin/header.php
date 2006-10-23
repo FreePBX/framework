@@ -144,7 +144,6 @@ if ($_COOKIE['lang']==="he_IL")
 		<option value="pt_PT" <? echo ($_COOKIE['lang']=="pt_PT" ? "selected" : "") ?> >Portuguese</option>
 		<option value="he_IL" <? echo ($_COOKIE['lang']=="he_IL" ? "selected" : "") ?> >Hebrew</option>
 		</select>
-	</p>
 <?php
 	}
 ?>
