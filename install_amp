@@ -98,6 +98,20 @@ function install_parse_amportal_conf($filename) {
 			$conf[ $matches[1] ] = $matches[2];
 		}
 	}
+
+	// use same defaults as function.inc.php
+	if ( !isset($conf["AMPDBENGINE"]) || ($conf["AMPDBENGINE"] == "")) {
+		$conf["AMPDBENGINE"] = "mysql";
+	}
+	
+	if ( !isset($conf["AMPDBNAME"]) || ($conf["AMPDBNAME"] == "")) {
+		$conf["AMPDBNAME"] = "asterisk";
+	}
+	
+	if ( !isset($conf["AMPENGINE"]) || ($conf["AMPENGINE"] == "")) {
+		$conf["AMPENGINE"] = "asterisk";
+	}
+
 	return $conf;
 }
 

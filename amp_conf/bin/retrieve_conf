@@ -43,6 +43,20 @@ function parse_amportal_conf2($filename) {
 			$conf[ $matches[1] ] = $matches[2];
 		}
 	}
+
+	// use same defaults as function.inc.php
+	if ( !isset($conf["AMPDBENGINE"]) || ($conf["AMPDBENGINE"] == "")) {
+		$conf["AMPDBENGINE"] = "mysql";
+	}
+	
+	if ( !isset($conf["AMPDBNAME"]) || ($conf["AMPDBNAME"] == "")) {
+		$conf["AMPDBNAME"] = "asterisk";
+	}
+	
+	if ( !isset($conf["AMPENGINE"]) || ($conf["AMPENGINE"] == "")) {
+		$conf["AMPENGINE"] = "asterisk";
+	}
+
 	return $conf;
 }
 
@@ -220,12 +234,14 @@ if(DB::isError($db)) {
 }
 out("OK");
 
+
 //include common functions
 require_once($amp_conf['AMPWEBROOT']."/admin/extensions.class.php");
 require_once($amp_conf['AMPWEBROOT']."/admin/functions.inc.php");
 freepbx_log("retrieve_conf", "devel-debug", "Started retrieve_conf, DB Connection OK");
 
 // query for our modules
+// var_dump( $db );
 $modules = module_getinfo();
 
 //Putting the core module last, to move outbound-allroutes 
