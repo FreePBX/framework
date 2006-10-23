@@ -77,7 +77,7 @@ CREATE TABLE globals (
 
 INSERT INTO globals VALUES ('CALLFILENAME', '""');
 INSERT INTO globals VALUES ('DIAL_OPTIONS', 'tr');
-INSERT INTO globals VALUES ('TRUNK_OPTIONS', 'r');
+INSERT INTO globals VALUES ('TRUNK_OPTIONS', '');
 INSERT INTO globals VALUES ('DIAL_OUT', '9');
 INSERT INTO globals VALUES ('FAX', '');
 INSERT INTO globals VALUES ('FAX_RX', 'system');
