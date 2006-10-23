@@ -23,7 +23,7 @@ if(DB::IsError($need_reload)) {
 //check to see if we are requesting an asterisk reload
 if (isset($_REQUEST['clk_reload'])) {
 	
-	if (isset($amp_conf["POST_RELOAD"]))
+	if (isset($amp_conf["POST_RELOAD"]) && $astman)
 	{
 		echo "<div id='idWaitBanner' class='clsWait'>" .
 			 _("Please wait while applyig configuration") . 
@@ -84,8 +84,6 @@ if (isset($_REQUEST['clk_reload'])) {
 			die($result->getMessage());
 		}
 		$need_reload[0] = 'false';
-	} else {
-		echo _("Cannot connect to Asterisk Manager with ").$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"];
 	}
 }
 

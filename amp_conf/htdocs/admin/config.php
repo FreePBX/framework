@@ -287,12 +287,12 @@ questions and search for answers for any problems you may be having."),
 
 			print( "<p>" . _("We hope you enjoy using freePBX!") . "</p>\n" );
 		} // no manager, no connection to asterisk
-		else{
+		else {
 			echo "<p><div class='clsError'>\n";
 			echo "<b>" . _("Warning:") . "</b>\n";
 			echo "<br>";
 			echo "<br>\n";
-			echo _("Cannot connect to Asterisk Manager with ").$amp_conf["AMPMGRUSER"];
+			echo _("Cannot connect to Asterisk Manager with "). "<i>" .$amp_conf["AMPMGRUSER"] . "</i>";
 			echo "<br>";
 			echo _("Asterisk may not be running.");
 			echo "</div></p>\n";
