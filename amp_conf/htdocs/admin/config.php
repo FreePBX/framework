@@ -69,6 +69,7 @@ if(is_array($active_modules)){
 			if (isset($module['items']) && is_array($module['items'])) {
 				foreach($module['items'] as $itemKey => $itemName) {
 					$amp_sections[$itemKey] = $itemName;
+					$amp_menu[ $module['category'] ][$itemKey] = $itemName;
 				}
 			}
 		}
@@ -100,12 +101,6 @@ if(is_array($active_modules)){
 }
 
 
-if (!$quietmode) {
-	//echo "<table width=\"100%\" cellspacing='0' cellpadding='0'><tr><td>";
-	// show menu
-	echo "\t<div id=\"nav\"><ul>\n";
-}
-
 // extensions vs device/users ... this is a bad design, but hey, it works
 if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
 	unset($amp_sections["extensions"]);
@@ -133,24 +128,33 @@ foreach ($amp_sections as $key=>$value) {
 					textdomain('amp');
 				}
 			}
-			if (!$quietmode) {
-				if (preg_match("/^(<a.+>)(.+)(<\/a>)/",$value,$matches))
-					echo "\t\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
-				else
-					echo "\t\t<li><a" .
-						(($display==$key) ? ' id="current"':'') .
-						" href=\"config.php?type=".$type."&amp;display=".$key."\">"._($value)."</a></li>\n";
-			}
 		}
 	} else {
 		// they don't have access to this, remove it completely
 		unset($amp_sections[$key]);
 	}
 }
-if (!$quietmode) {	
+
 //	TODO why do we need the <div class='clear'> here ...?
 // 	echo "\t\t\n";
 // 	echo "\t\t<div class='clear'></div>\n";
+
+if (!$quietmode) {
+	echo "\t<div id=\"nav\"><ul>\n";
+	ksort($amp_menu);
+	foreach ($amp_menu as $category => $items) {
+		echo "\t\t<li>".$category."</li>\n";
+		asort($items);
+		foreach ($items as $key=>$value) {
+			if (preg_match("/^(<a.+>)(.+)(<\/a>)/",$value,$matches)) {
+				echo "\t\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
+			} else {
+				echo "\t\t<li><a" .
+					(($display==$key) ? ' id="current"':'') .
+					" href=\"config.php?type=".$type."&amp;display=".$key."\">"._($value)."</a></li>\n";
+			}
+		}
+	}
 	echo "\t</ul></div>\n\n";
 	echo "<div id=\"wrapper\"><div class=\"content\">\n";
 }
