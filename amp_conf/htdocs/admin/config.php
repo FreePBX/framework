@@ -150,7 +150,7 @@ if (!$quietmode) {
 				echo "\t\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
 			} else {
 				echo "\t\t<li><a" .
-					(($display==$key) ? ' id="current"':'') .
+					(($display==$key) ? ' class="current"':'') .
 					" href=\"config.php?type=".$type."&amp;display=".$key."\">"._($value)."</a></li>\n";
 			}
 		}
