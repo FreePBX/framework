@@ -236,6 +236,17 @@ if(DB::isError($db)) {
 out("OK");
 
 
+//TODO : make this engine-neutral
+outn("Connecting to Asterisk manager interface..");
+// connect to asterisk manager
+require_once($amp_conf['AMPWEBROOT'].'/admin/common/php-asmanager.php');
+$astman = new AGI_AsteriskManager(); 
+if (! $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) { 
+	out("FAILED");
+	fatal("Cannot connect to manager interface");
+}
+out("OK");
+
 //include common functions
 require_once($amp_conf['AMPWEBROOT']."/admin/extensions.class.php");
 require_once($amp_conf['AMPWEBROOT']."/admin/functions.inc.php");
@@ -292,11 +303,13 @@ if(isset($active_modules) && is_array($active_modules)){
 }
 
 
-$engineinfo = engine_getinfo();
+if (!$engineinfo = engine_getinfo()) {
+	freepbx_log('retrive_conf', 'fatal', "Failed to get engine information (engine_getinfo)");
+	fatal("Failed to get engine_info");
+}
 // was setting these variables before, assume we still need them
 $engine = $engineinfo['engine'];
 $version = $engineinfo['version'];
-
 
 // run all of the *_get_config and _hookGet_config functions, which will populate the appropriate objects
 if(isset($active_modules) && is_array($active_modules)){
