@@ -26,7 +26,7 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 		$html .= "target=\"_blank\" ";
 	
 	if ($is_current)
-		$html .= "id=\"current\" ";
+		$html .= "class=\"current\" ";
 
 	$html .= "href=\"$href\">&nbsp; $name</a></span>";
 

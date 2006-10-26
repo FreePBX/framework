@@ -345,7 +345,8 @@ function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $descriptio
 	$skipped = 0;
 	$index = 0;
 	if ($skip == "") $skip = 0;
- 	echo "<li><a id=\"".($extdisplay=='' ? 'current':'')."\" href=\"config.php?type=".$type."&display=".$dispnum."\">"._("Add")." ".$description."</a></li>";
+	echo "<ul>\n";
+ 	echo "\t<li><a ".($extdisplay=='' ? 'class="current"':'')." href=\"config.php?type=".$type."&display=".$dispnum."\">"._("Add")." ".$description."</a></li>\n";
 
 	if (isset($results)) {
 		foreach ($results AS $key=>$result) {
@@ -359,32 +360,30 @@ function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $descriptio
 				continue;
 			}
 			
-			$index= $index + 1;	
-			echo "<li><a id=\"".($extdisplay==$result[0] ? 'current':'')."\" href=\"config.php?type=".$type."&display=".$dispnum."&extdisplay={$result[0]}&skip={$skip}\">{$result[1]} <{$result[0]}></a></li>";
+			$index= $index + 1;
+			echo "\t<li><a".($extdisplay==$result[0] ? ' class="current"':''). " href=\"config.php?type=".$type."&amp;display=".$dispnum."&amp;extdisplay={$result[0]}&amp;skip={$skip}\">{$result[1]} &lt;{$result[0]}&gt;</a></li>\n";
 		}
-	}
-	 
-	if ($index >= $perpage) {
-		 print "<li><center>";
 	}
 	 
 	if ($skip) {
 		 $prevskip= $skip - $perpage;
 		 if ($prevskip<0) $prevskip= 0;
-		 $prevtag_pre= "<a href='?type=".$type."&display=".$dispnum."&skip=$prevskip'>[PREVIOUS]</a>";
+		 $prevtag_pre= "<a href='?type=".$type."&amp;display=".$dispnum."&amp;skip=$prevskip'>" .
+			_("[PREVIOUS]") ."</a>";
+		 print "\t<li><center>";
 		 print "$prevtag_pre";
+		 print "</center></li>\n";
 	}
 	
 	if (isset($shownext)) {
 		$nextskip= $skip + $index;
 		if ($prevtag_pre) $prevtag .= " | ";
-		print "$prevtag <a href='?type=".$type."&display=".$dispnum."&skip=$nextskip'>[NEXT]</a>";
+		print "\t<li><center>";
+		print "$prevtag <a href='?type=".$type."&amp;display=".$dispnum."&amp;skip=$nextskip'>" . 
+			_("[NEXT]") . "</a>";
+		print "</center></li>\n";
 	}
-	elseif ($skip) {
-		print "$prevtag";
-	}
-	 
-	 print "</center></li>";
+	echo "</ul>\n";
 }
 
 // this function simply makes a connection to the asterisk manager, and should be called by modules that require it (ie: dbput/dbget)

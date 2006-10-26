@@ -62,10 +62,21 @@ div#page {
 #header a:hover {
 	color: #ee9a47;
 }
+#header a.current {
+	color: #E87B41;
+	font-weight:bold;
+}
+
 a.current {
 	color: #E87B41;
 	font-weight:bold;
 }
+
+ul.current {
+	color: #E87B41;
+	font-weight:bold;
+}
+
 #header img {
     margin-top:10px;
     margin-right:9px;
@@ -147,6 +158,14 @@ div.rnav a:hover {
 	background: #FDF1D5;
 	border:1px solid #F2AF1D;		
 }
+
+div.rnav ul {
+	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
 div.rnav li{
     list-style-type: none;
     list-style-position: outside;

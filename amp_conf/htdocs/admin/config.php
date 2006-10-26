@@ -22,14 +22,14 @@ $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 
 // determine module type to show, default to 'setup'
 if($type == "tool") {
-	$message="Tools";
+	$message = "Tools";
 	$amp_sections = array(
 		'modules'=>_("Module Admin")
 	);
 } elseif($type == "cdrcost") {
-	$message="Call Cost";
+	$message = "Call Cost";
 } else {
-	$message="Setup";
+	$message = "Setup";
 }
 
 require_once('common/php-asmanager.php');
@@ -44,12 +44,6 @@ if (! $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["
 }
 
 include 'header_auth.php';
-
-/*
-// only show AMP Users if they have authtype set approiately
-if (isset($amp_conf["AUTHTYPE"]) && ($amp_conf["AUTHTYPE"] != "none")) {
-	$amp_sections[10] = _("AMP Users");
-}*/
 
 // get all enabled modules
 // active_modules array used below and in drawselects function and genConf function
@@ -109,7 +103,6 @@ if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "devicea
 	unset($amp_sections["users"]);
 }
 
-
 // add the APPLY Changes bar as a section, so it shows in the Administrators module
 $amp_sections[99] = _("Apply Changes Bar");
 
@@ -135,27 +128,23 @@ foreach ($amp_sections as $key=>$value) {
 	}
 }
 
-//	TODO why do we need the <div class='clear'> here ...?
-// 	echo "\t\t\n";
-// 	echo "\t\t<div class='clear'></div>\n";
-
 if (!$quietmode) {
-	echo "\t<div id=\"nav\"><ul>\n";
+	echo "<div id=\"nav\"><ul>\n";
 	ksort($amp_menu);
 	foreach ($amp_menu as $category => $items) {
 		echo "\t\t<li>".$category."</li>\n";
 		asort($items);
 		foreach ($items as $key=>$value) {
 			if (preg_match("/^(<a.+>)(.+)(<\/a>)/",$value,$matches)) {
-				echo "\t\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
+				echo "\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
 			} else {
-				echo "\t\t<li><a" .
+				echo "\t<li><a" .
 					(($display==$key) ? ' class="current"':'') .
 					" href=\"config.php?type=".$type."&amp;display=".$key."\">"._($value)."</a></li>\n";
 			}
 		}
 	}
-	echo "\t</ul></div>\n\n";
+	echo "</ul></div>\n\n";
 	echo "<div id=\"wrapper\"><div class=\"content\">\n";
 }
 // check access
@@ -249,9 +238,6 @@ switch($display) {
 		include 'page.modules.php';
 	break;
 	case '':
-/*		$astman = new AGI_AsteriskManager();
-		if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
-			$astman->disconnect();*/
 		if ($astman) {
 			printf( "<h2>%s</h2>", dgettext("welcome page", "Welcome to freePBX.") );
 			printf( "<p>%s</p>"  , dgettext("welcome page", "If you're new to freePBX, Welcome. Here are some quick instructions to get you started") );
