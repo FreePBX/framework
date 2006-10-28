@@ -68,10 +68,6 @@ if(is_array($active_modules)){
 				}
 			}
 		}
-		//sort it? probably not right but was getting in a mess to be honest
-		//so something better than nothing
-		if (isset($amp_sections) && is_array($amp_sections))
-			asort($amp_sections);
 	}
 }
 
