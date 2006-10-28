@@ -132,12 +132,15 @@ if (!$quietmode) {
 		echo "\t\t<li>".$category."</li>\n";
 		asort($items);
 		foreach ($items as $key=>$value) {
-			if (preg_match("/^(<a.+>)(.+)(<\/a>)/",$value,$matches)) {
-				echo "\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
-			} else {
-				echo "\t<li><a" .
-					(($display==$key) ? ' class="current"':'') .
-					" href=\"config.php?type=".$type."&amp;display=".$key."\">"._($value)."</a></li>\n";
+			// Quick fix for #1224 and #1225 
+			if (isset($amp_sections[$key])) {
+				if (preg_match("/^(<a.+>)(.+)(<\/a>)/",$value,$matches)) {
+					echo "\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
+				} else {
+					echo "\t<li><a" .
+						(($display==$key) ? ' class="current"':'') .
+						" href=\"config.php?type=".$type."&amp;display=".$key."\">"._($value)."</a></li>\n";
+				}
 			}
 		}
 	}
