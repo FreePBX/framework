@@ -26,6 +26,7 @@ if($type == "tool") {
 	$amp_sections = array(
 		'modules'=>_("Module Admin")
 	);
+	$amp_menu['System Administration']['modules'] = _("Module Admin");
 } elseif($type == "cdrcost") {
 	$message = "Call Cost";
 } else {
