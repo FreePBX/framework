@@ -140,7 +140,7 @@ function category_sort_callback($a, $b) {
 /** preps a string to use as an HTML id element
  */
 function prep_id($name) {
-	return preg_replace("/[^a-z0-9]/i", "_", $name);
+	return preg_replace("/[^a-z0-9-]/i", "_", $name);
 }
 
 /** Progress callback used by module_download() 
