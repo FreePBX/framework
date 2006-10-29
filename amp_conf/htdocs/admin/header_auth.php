@@ -16,7 +16,7 @@ function check_login() {
 
 		// start a session and don't let it stop automatically
 		session_set_cookie_params(0);
-		session_start();
+		if (!session_id()) session_start();
 		setcookie('PHPSESSID', session_id());
 
 		// check if the current loading of the page is the first loading after a logout
