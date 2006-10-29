@@ -102,8 +102,9 @@ if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
 }
 
 if (!$quietmode) {
-	echo "\n\t<div id='footer' style='text-align:center;'>\n";
-
+	echo "\n\t<div id=\"footer\">\n";
+	echo "\t<hr />\n";
+	/*
 	if (isset($amp_conf["AMPFOOTERLOGO"])) {
 		$AMPFOOTERLOGO = $amp_conf["AMPFOOTERLOGO"];
 		if (isset($amp_conf["AMPADMINHREF"]))
@@ -118,12 +119,16 @@ if (!$quietmode) {
 	
 	echo "\t\t<a target='_blank' href='$AMPADMINHREF'><img border='0' src='images/$AMPFOOTERLOGO' alt='$ALT' ></a>\n";
 	echo "\t\t<a target='_blank' href='http://www.freepbx.org'><img border='0' style='float:left;' src='images/freepbx_small.png' alt='$ALT'></a>\n";
+*/
 
 	$ver = getversion();
-	// TODO : i18n
-	// the string should be "Version $1, on <b>$2</b>", and the $1, $2 should be replaced
-	// in run time
-	echo "\t\tVersion " . $ver[0][0] . " on <b>".$_SERVER["SERVER_NAME"]."</b>";
-	echo "\n\t\t<br><br>\n\t</div>";
+	echo "\t\t".sprintf(_("%s licensed under %s"), 
+		"<a href=\"http://www.freepbx.org\" target=\"_blank\">"._("freePBX")." ".$ver[0][0]."</a>",
+		"<a href=\"http://www.gnu.org/copyleft/gpl.html\" target=\"_blank\">GPL</a>"
+	);
+	echo " :: ".sprintf(_("UI Design %s, licenced under %s"), 
+		"&copy;2006 <a href=\"http://www.sfischerdesign.com\" target=\"_blank\">Fischer Design</a>", 
+		"<a href=\"http://creativecommons.org/licenses/by/2.5/\" target=\"_blank\">Creative Commons</a>"
+	);
 }
 ?>

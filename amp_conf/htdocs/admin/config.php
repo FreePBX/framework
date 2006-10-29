@@ -135,15 +135,20 @@ if (!$quietmode) {
 			$prev_category = $row['category'];
 		}
 		if (preg_match("/^(<a.+>)(.+)(<\/a>)/", $row['name'], $matches)) {
-					echo "\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
+			echo "\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
 		} else {
-			echo "\t<li><a" .
+			echo "\t<li" .
 				(($display==$key) ? ' class="current"':'') .
-				" href=\"config.php?type=".$type."&amp;display=".$key."\">"._($row['name'])."</a></li>\n";
+				"><a href=\"config.php?type=".$type."&amp;display=".$key."\">"._($row['name'])."</a></li>\n";
 		}
 	}
 	echo "</ul></div>\n\n";
-	echo "<div id=\"wrapper\"><div class=\"content\">\n";
+	echo "<div id=\"wrapper\">\n";
+	
+	echo "<div id=\"left-corner\"></div>\n";
+	echo "<div id=\"right-corner\"></div>\n";
+	
+	echo "<div class=\"content\">\n";
 }
 // check access
 if ( ($display != '') && !isset($fpbx_menu[$display]) ) {
@@ -289,12 +294,16 @@ questions and search for answers for any problems you may be having."),
 	
 }
 
-?>
-</div> <!-- /content -->
-<?php // </td></tr></table> ?>
-</div> <!-- wrapper -->
+if (!$quietmode) {
+	echo "\t</div> <!-- /content -->\n";
+}
 
-<?php include 'footer.php' ?>
+include('footer.php');
+
+if (!$quietmode) {
+	echo "</div> <!-- wrapper -->\n";
+}
+?>
 
 </div> <!-- /page -->
 

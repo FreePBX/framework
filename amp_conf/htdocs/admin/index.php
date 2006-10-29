@@ -39,6 +39,8 @@ include 'header.php';
 </div>
 
 <div id="wrapper">
+	<div id="left-corner"></div>
+	<div id="right-corner"></div>
 	<div class="content">
 		<h2>freePBX</h2>
 		<p>
@@ -46,13 +48,13 @@ include 'header.php';
 		<br><br><br><br><br><br>
 		</p>
 	</div>
-</div>
 
 
 <?
 include "footer.php";
 ?>
 
+</div> <!-- /wrapper -->
 
 </div> <!-- /page -->
 

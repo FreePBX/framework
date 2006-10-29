@@ -17,18 +17,19 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 	if (!is_file($page))
 		return;
 
-	$html = "<b>&bull;</b> <span><a ";
-
+	$html = "<li";
+	
+	if ($is_current)
+		$html .= " class=\"current\"";
+		
+	$html .= "><a ";
 	if ($href == NULL)
 		$href .= $page;
 
 	if ($new_window != NULL)
 		$html .= "target=\"_blank\" ";
-	
-	if ($is_current)
-		$html .= "class=\"current\" ";
 
-	$html .= "href=\"$href\">&nbsp; $name</a></span>";
+	$html .= "href=\"$href\">$name</a></li>";
 
 	print("\t\t$html\n");
 }
@@ -107,22 +108,31 @@ if (isset($_COOKIE['lang']) && $_COOKIE['lang']==="he_IL")
 <div id="page">
 	<div id="header">
 <?php
-		$freepbx_alt = _("freePBX");
-		if (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"]))
-			echo "\t\t<a href=\"index.php\"><img src=\"images/" . $amp_conf["AMPADMINLOGO"] . "\" alt=\"$freepbx_alt\" /></a>\n";
-		else
-			echo "\t\t<a href=\"index.php\"><img src=\"images/freepbx.png\"/></a>\n";
-		
+		$ver = getversion();
+		echo "\t\t<div id=\"version\">";
+		echo sprintf(_("%s %s on %s"), 
+			"<a href=\"index.php\">"._("freePBX")."</a>",
+			$ver[0][0],
+			"<a href=\"http".(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=''?'s':'')."://".$_SERVER['HTTP_HOST']."\">".$_SERVER["SERVER_NAME"]."</a>"
+		     );
+		echo "</div>\n";
+	
+		echo "\t\t<ul id=\"metanav\">\n";
 		print_sub_tool( _("Management"), "manage.php" , $currentFile=='manage.php' );
 		print_sub_tool( _("Setup")     , "config.php" , $currentFile=='config.php' && isset($_REQUEST['type']) && ($_REQUEST['type']=='setup' || $_REQUEST['type'] == ""), "config.php?type=setup", false );
 		print_sub_tool( _("Tools")     , "config.php" , $currentFile=='config.php' && isset($_REQUEST['type']) && $_REQUEST['type']=='tool' , "config.php?type=tool", false );
 		print_sub_tool( _("Reports")   , "reports.php", $currentFile=='reports.php' );
 		print_sub_tool( _("Panel")     , "panel.php"  , $currentFile=='panel.php' );
 		print_sub_tool( _("Recordings"), "../recordings/index.php"  ,0, NULL, true );
+		echo "\t\t</ul>\n";
+		
+		$freepbx_alt = _("freePBX");
+		$freepbx_logo = (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])) ? $amp_conf["AMPADMINLOGO"] : 'freepbx_small.png';
+		echo "\t\t<div id=\"logo\"><a href=\"http://www.freepbx.org\" target=\"_blank\" title=\"".$freepbx_alt."\"><img src=\"images/".$freepbx_logo."\" alt=\"".$freepbx_alt."\" /></a></div>\n";
 ?>
 	</div>
 
-	<div class="message">
+	<div id="message">
 <?php
 
 // TODO: this is ugly, need to code this better!
