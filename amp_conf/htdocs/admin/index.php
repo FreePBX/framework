@@ -10,13 +10,14 @@
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
-// start session
-session_start();
 
 $title=_("freePBX administration");
 $message=_("Administration");
 
 require_once('functions.inc.php');
+
+// start session
+session_start();
 
 // get settings
 $amp_conf      = parse_amportal_conf("/etc/amportal.conf");
