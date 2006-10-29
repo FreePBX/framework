@@ -128,6 +128,7 @@ if (!$quietmode) {
 
 	// Printing menu
 	echo "<div id=\"nav\"><ul>\n";
+	$prev_category = '';
 	foreach ($fpbx_menu as $key => $row) {
 		if ($row['category'] != $prev_category) {
 			echo "\t\t<li>"._($row['category'])."</li>\n";
