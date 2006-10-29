@@ -163,6 +163,7 @@ body {
 #footer {
 	margin-top:15px;
 	font-size:8pt;
+	text-align:left;
 }
 #footer, #footer a {
 	color:#999;
@@ -187,20 +188,20 @@ a.info span{
     display: none;
 }
 a.info:hover span{
-    display:block;
+	display:block;
 	position:absolute;
 	z-index:1;
-    top:2em;
-    left:-10em;
-    width:25em;
-    border:1px solid #F2AF1D;
-    background-color:#FDF1D5;
-    color:#000;
-    text-align:justify;
-    font-size:10px;
-    font-weight:normal;
-    padding:3px;
-    line-height:15px;
+	top:2em;
+	left:-10em;
+	width:25em;
+	border:1px solid #F2AF1D;
+	background-color:#FDF1D5;
+	color:#000;
+	text-align:justify;
+	font-size:10px;
+	font-weight:normal;
+	padding:3px;
+	line-height:15px;
 }
 
 /***** right nav's ********/
@@ -230,6 +231,7 @@ a.info:hover span{
 	
 	padding-left: 15px;
 	padding-right: 15px;
+	padding-top:10px;
 }
 #wrapper #left-corner {
 	position:absolute; /* absolute within #wrapper */
@@ -244,24 +246,13 @@ a.info:hover span{
 #wrapper #right-corner { /* Just a hack to make IE expand the content area 100% */
 	float: right;
 }
-
-/***** main content tables *****/
-#content table {
-	width:400px;
+.content {
+	padding:0;
 	margin:0;
-	border-collapse: collapse;
-}
-#content table tr {
-	border: 1px solid #999;
-}
-#content table th {
-	background: #ccc;
-}
-#content table td {
-	padding:2px;
 }
 
 
+/*********  reload bar *************/
 div.inyourface a{
 	position:fixed;
 	display:block;
