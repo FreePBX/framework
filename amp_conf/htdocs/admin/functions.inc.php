@@ -225,6 +225,16 @@ function needreload() {
 	}
 }
 
+function check_reload_needed() {
+	global $db;
+	$sql = "SELECT value FROM admin WHERE variable = 'need_reload'";
+	$row = $db->getRow($sql);
+	if(DB::IsError($row)) {
+		die($row->getMessage());
+	}
+	return ($row[0] == 'true');
+}
+
 //get the version number
 function getversion() {
 	global $db;

@@ -14,11 +14,7 @@
 require_once('common/db_connect.php'); //PEAR must be installed
 
 //determine if asterisk reload is needed
-$sql = "SELECT value FROM admin WHERE variable = 'need_reload'";
-$need_reload = $db->getRow($sql);
-if(DB::IsError($need_reload)) {
-	die($need_reload->getMessage());
-}
+$need_reload = check_reload_needed();
 
 //check to see if we are requesting an asterisk reload
 if (isset($_REQUEST['clk_reload'])) {
@@ -83,12 +79,12 @@ if (isset($_REQUEST['clk_reload'])) {
 		if(DB::IsError($result)) {
 			die($result->getMessage());
 		}
-		$need_reload[0] = 'false';
+		$need_reload = false;
 	}
 }
 
 if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
-	if ($need_reload[0] == 'true') {
+	if ($need_reload) {
 		$href =  $_SERVER["PHP_SELF"] . "?clk_reload=true";
 		if (isset($_REQUEST['display'])) 
 			$href .= '&amp;display='.$_REQUEST['display'];
