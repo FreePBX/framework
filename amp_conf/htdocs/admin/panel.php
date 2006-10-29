@@ -11,6 +11,8 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
+$quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
+
 $title="freePBX: Flash Operator Panel";
 $message="Flash Operator Panel";
 
