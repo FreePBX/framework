@@ -11,8 +11,10 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 // start session
-
 session_start();
+
+$quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
+
 $title=_("freePBX administration");
 
 $message=_("Logged Out");
