@@ -23,10 +23,9 @@ $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 // determine module type to show, default to 'setup'
 if($type == "tool") {
 	$message = "Tools";
-	$amp_sections = array(
-		'modules'=>_("Module Admin")
+	$fpbx_menu = array(
+		'modules' => array('category' => 'System Administration', 'name' => 'Module Admin')
 	);
-	$amp_menu['System Administration']['modules'] = _("Module Admin");
 } elseif($type == "cdrcost") {
 	$message = "Call Cost";
 } else {
@@ -51,7 +50,7 @@ include 'header_auth.php';
 $active_modules = module_getinfo(false, MODULE_STATUS_ENABLED);
 
 // include any module global functions
-// add module sections to $amp_sections
+// add module sections to $fpbx_menu
 if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
 		//include module functions
@@ -63,8 +62,7 @@ if(is_array($active_modules)){
 		if ($module['type'] == $type) {
 			if (isset($module['items']) && is_array($module['items'])) {
 				foreach($module['items'] as $itemKey => $itemName) {
-					$amp_sections[$itemKey] = $itemName;
-					$amp_menu[ $module['category'] ][$itemKey] = $itemName;
+					$fpbx_menu[$itemKey] = array('category' => $module['category'], 'name' => $itemName);
 				}
 			}
 		}
@@ -94,61 +92,60 @@ if(is_array($active_modules)){
 
 // extensions vs device/users ... this is a bad design, but hey, it works
 if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
-	unset($amp_sections["extensions"]);
+	unset($fpbx_menu["extensions"]);
 } else {
-	unset($amp_sections["devices"]);
-	unset($amp_sections["users"]);
+	unset($fpbx_menu["devices"]);
+	unset($fpbx_menu["users"]);
 }
 
-// add the APPLY Changes bar as a section, so it shows in the Administrators module
-$amp_sections[99] = _("Apply Changes Bar");
-
-foreach ($amp_sections as $key=>$value) {
+foreach ($fpbx_menu as $key => $value) {
 	// check access
 	if ($_SESSION["AMP_user"]->checkSection($key)) {
-		if ($key != 99) {
-			// if the module has it's own translations, use them for displaying menu item
-			if (extension_loaded('gettext')) {
-				if (is_dir("modules/{$key}/i18n")) {
-					bindtextdomain($key,"modules/{$key}/i18n");
-					bind_textdomain_codeset($key, 'utf8');
-					textdomain($key);
-				} else {
-					bindtextdomain('amp','./i18n');
-					textdomain('amp');
-				}
+		// if the module has it's own translations, use them for displaying menu item
+		if (extension_loaded('gettext')) {
+			if (is_dir("modules/{$key}/i18n")) {
+				bindtextdomain($key,"modules/{$key}/i18n");
+				bind_textdomain_codeset($key, 'utf8');
+				textdomain($key);
+			} else {
+				bindtextdomain('amp','./i18n');
+				textdomain('amp');
 			}
 		}
 	} else {
 		// they don't have access to this, remove it completely
-		unset($amp_sections[$key]);
+		unset($fpbx_menu[$key]);
 	}
 }
 
 if (!$quietmode) {
+	// Sorting menu by category and name
+	foreach ($fpbx_menu as $key => $row) {
+		$category[$key] = $row['category'];
+		$name[$key] = $row['name'];
+	}
+	array_multisort($category, SORT_ASC, $name, SORT_ASC, $fpbx_menu);
+
+	// Printing menu
 	echo "<div id=\"nav\"><ul>\n";
-	ksort($amp_menu);
-	foreach ($amp_menu as $category => $items) {
-		echo "\t\t<li>".$category."</li>\n";
-		asort($items);
-		foreach ($items as $key=>$value) {
-			// Quick fix for #1224 and #1225 
-			if (isset($amp_sections[$key])) {
-				if (preg_match("/^(<a.+>)(.+)(<\/a>)/",$value,$matches)) {
+	foreach ($fpbx_menu as $key => $row) {
+		if ($row['category'] != $prev_category) {
+			echo "\t\t<li>"._($row['category'])."</li>\n";
+			$prev_category = $row['category'];
+		}
+		if (preg_match("/^(<a.+>)(.+)(<\/a>)/", $row['name'], $matches)) {
 					echo "\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
-				} else {
-					echo "\t<li><a" .
-						(($display==$key) ? ' class="current"':'') .
-						" href=\"config.php?type=".$type."&amp;display=".$key."\">"._($value)."</a></li>\n";
-				}
-			}
+		} else {
+			echo "\t<li><a" .
+				(($display==$key) ? ' class="current"':'') .
+				" href=\"config.php?type=".$type."&amp;display=".$key."\">"._($row['name'])."</a></li>\n";
 		}
 	}
 	echo "</ul></div>\n\n";
 	echo "<div id=\"wrapper\"><div class=\"content\">\n";
 }
 // check access
-if ( ($display != '') && !isset($amp_sections[$display]) ) {
+if ( ($display != '') && !isset($fpbx_menu[$display]) ) {
 	$display = "noaccess";
 }
 
@@ -169,7 +166,7 @@ if ( $display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 	$currentcomponent->buildconfigpage();
 }
 
-// show the approiate page
+// show the appropriate page
 switch($display) {
 	default:
 		//display the appropriate module page
