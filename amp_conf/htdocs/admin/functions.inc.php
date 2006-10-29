@@ -229,11 +229,11 @@ function needreload() {
 function getversion() {
 	global $db;
 	$sql = "SELECT value FROM admin WHERE variable = 'version'";
-	$results = $db->getAll($sql);
+	$results = $db->getRow($sql);
 	if(DB::IsError($results)) {
 		die($results->getMessage());
 	}
-	return $results;
+	return $results[0];
 }
 
 // draw list for users and devices with paging

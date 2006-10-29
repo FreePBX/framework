@@ -121,9 +121,8 @@ if (!$quietmode) {
 	echo "\t\t<a target='_blank' href='http://www.freepbx.org'><img border='0' style='float:left;' src='images/freepbx_small.png' alt='$ALT'></a>\n";
 */
 
-	$ver = getversion();
 	echo "\t\t".sprintf(_("%s licensed under %s"), 
-		"<a href=\"http://www.freepbx.org\" target=\"_blank\">"._("freePBX")." ".$ver[0][0]."</a>",
+		"<a href=\"http://www.freepbx.org\" target=\"_blank\">"._("freePBX")." ".getversion()."</a>",
 		"<a href=\"http://www.gnu.org/copyleft/gpl.html\" target=\"_blank\">GPL</a>"
 	);
 	echo " :: ".sprintf(_("UI Design %s, licenced under %s"), 

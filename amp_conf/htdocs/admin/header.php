@@ -108,11 +108,11 @@ if (isset($_COOKIE['lang']) && $_COOKIE['lang']==="he_IL")
 <div id="page">
 	<div id="header">
 <?php
-		$ver = getversion();
+		
 		echo "\t\t<div id=\"version\">";
 		echo sprintf(_("%s %s on %s"), 
 			"<a href=\"index.php\">"._("freePBX")."</a>",
-			$ver[0][0],
+			getversion(),
 			"<a href=\"http".(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=''?'s':'')."://".$_SERVER['HTTP_HOST']."\">".$_SERVER["SERVER_NAME"]."</a>"
 		     );
 		echo "</div>\n";

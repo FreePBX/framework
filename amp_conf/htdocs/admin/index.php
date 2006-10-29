@@ -44,7 +44,7 @@ include 'header.php';
 	<div class="content">
 		<h2>freePBX</h2>
 		<p>
-		<?php echo _("Welcome to the FreePBX Administration") ?> <?php $ver=getversion(); echo $ver[0][0];?>
+		<?php echo _("Welcome to the FreePBX Administration") ?> <?php echo getversion(); ?>
 		<br><br><br><br><br><br>
 		</p>
 	</div>
