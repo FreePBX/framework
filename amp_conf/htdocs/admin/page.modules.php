@@ -414,7 +414,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "\t\t<div class=\"moduleheader\" onclick=\"toggleInfoPane('infopane_".prep_id($name)."');\" >\n";
 			echo "\t\t\t<span class=\"modulename\"><a href=\"javascript:void(null);\">".$modules[$name]['name']."</a></span>\n";
 			echo "\t\t\t<span class=\"moduletype\">".$modules[$name]['type']."</span>\n";
-			echo "\t\t\t<span class=\"moduleversion\">".$modules[$name]['dbversion']."</span>\n";
+			echo "\t\t\t<span class=\"moduleversion\">".(isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'&nbsp;')."</span>\n";
 			
 			echo "\t\t\t<span class=\"modulestatus\">";
 			switch ($modules[$name]['status']) {
