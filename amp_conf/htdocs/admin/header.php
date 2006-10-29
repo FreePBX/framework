@@ -101,7 +101,7 @@ if (!$quietmode) {
 <body onload="setAllInfoToHideSelects();"  <?
 // Check if it's a RIGHT TO LEFT character set (eg, hebrew, arabic, whatever)
 //$_COOKIE['lang']="he_IL";
-if ($_COOKIE['lang']==="he_IL") 
+if (isset($_COOKIE['lang']) && $_COOKIE['lang']==="he_IL") 
 	echo "dir=\"rtl\"";
 ?> >
 <div id="page">
