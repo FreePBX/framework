@@ -165,6 +165,10 @@ if (!$quietmode) {
 	
 	echo "<div class=\"content\">\n";
 }
+
+echo "<noscript><div class=\"attention\">"._("WARNING: Javascript is disabled in your browser. The freePBX administration interface requires Javascript to run properly. Please enable javascript or switch to another  browser that supports it.")."</div></noscript>";
+
+
 // check access
 if ( ($display != '') && !isset($fpbx_menu[$display]) ) {
 	$display = "noaccess";
