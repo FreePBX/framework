@@ -1034,7 +1034,6 @@ function module_getonlinexml($module = false) { // was getModuleXml()
 	// if((time() - $result['time']) > 0 || strlen($result['data']) < 100 ) {
 	if((time() - $result['time']) > 300 || strlen($result['data']) < 100 ) {
 		$version = getversion();
-		$version = $version[0][0];
 		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		//echo "the result is ".$matches[1];
@@ -1216,7 +1215,6 @@ function module_checkdepends($modulename) {
 						if (preg_match('/^(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d(\.\d)*)$/i', $value, $matches)) {
 							// matches[1] = operator, [2] = version
 							$ver = getversion();
-							$ver = $ver[0][0]; // dumb PEARDB thing
 							$operator = (!empty($matches[1]) ? $matches[1] : 'ge'); // default to >=
 							if (version_compare($matches[2], $ver, $operator) ) {
 								$errors[] = _module_comparison_error_message('FreePBX', $matches[2], $ver, $operator);
