@@ -98,51 +98,57 @@ if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "devicea
 	unset($fpbx_menu["users"]);
 }
 
-foreach ($fpbx_menu as $key => $value) {
-	// check access
-	if ($_SESSION["AMP_user"]->checkSection($key)) {
-		// if the module has it's own translations, use them for displaying menu item
-		if (extension_loaded('gettext')) {
-			if (is_dir("modules/{$key}/i18n")) {
-				bindtextdomain($key,"modules/{$key}/i18n");
-				bind_textdomain_codeset($key, 'utf8');
-				textdomain($key);
-			} else {
-				bindtextdomain('amp','./i18n');
-				textdomain('amp');
+if (is_array($fpbx_menu)) {
+	foreach ($fpbx_menu as $key => $value) {
+		// check access
+		if ($_SESSION["AMP_user"]->checkSection($key)) {
+			// if the module has it's own translations, use them for displaying menu item
+			if (extension_loaded('gettext')) {
+				if (is_dir("modules/{$key}/i18n")) {
+					bindtextdomain($key,"modules/{$key}/i18n");
+					bind_textdomain_codeset($key, 'utf8');
+					textdomain($key);
+				} else {
+					bindtextdomain('amp','./i18n');
+					textdomain('amp');
+				}
 			}
+		} else {
+			// they don't have access to this, remove it completely
+			unset($fpbx_menu[$key]);
 		}
-	} else {
-		// they don't have access to this, remove it completely
-		unset($fpbx_menu[$key]);
 	}
 }
 
 if (!$quietmode) {
-	// Sorting menu by category and name
-	foreach ($fpbx_menu as $key => $row) {
-		$category[$key] = $row['category'];
-		$name[$key] = $row['name'];
-	}
-	array_multisort($category, SORT_ASC, $name, SORT_ASC, $fpbx_menu);
+	if (is_array($fpbx_menu)) {
+		// Sorting menu by category and name
+		foreach ($fpbx_menu as $key => $row) {
+			$category[$key] = $row['category'];
+			$name[$key] = $row['name'];
+		}
 
-	// Printing menu
-	echo "<div id=\"nav\"><ul>\n";
-	$prev_category = '';
-	foreach ($fpbx_menu as $key => $row) {
-		if ($row['category'] != $prev_category) {
-			echo "\t\t<li>"._($row['category'])."</li>\n";
-			$prev_category = $row['category'];
+		array_multisort($category, SORT_ASC, $name, SORT_ASC, $fpbx_menu);
+
+		// Printing menu
+		echo "<div id=\"nav\"><ul>\n";
+		$prev_category = '';
+		foreach ($fpbx_menu as $key => $row) {
+			if ($row['category'] != $prev_category) {
+				echo "\t\t<li>"._($row['category'])."</li>\n";
+				$prev_category = $row['category'];
+			}
+			if (preg_match("/^(<a.+>)(.+)(<\/a>)/", $row['name'], $matches)) {
+				echo "\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
+			} else {
+				echo "\t<li" .
+					(($display==$key) ? ' class="current"':'') .
+					"><a href=\"config.php?type=".$type."&amp;display=".$key."\">"._($row['name'])."</a></li>\n";
+			}
 		}
-		if (preg_match("/^(<a.+>)(.+)(<\/a>)/", $row['name'], $matches)) {
-			echo "\t<li>".$matches[1]._($matches[2]).$matches[3]."</li>\n";
-		} else {
-			echo "\t<li" .
-				(($display==$key) ? ' class="current"':'') .
-				"><a href=\"config.php?type=".$type."&amp;display=".$key."\">"._($row['name'])."</a></li>\n";
-		}
+		echo "</ul></div>\n\n";
 	}
-	echo "</ul></div>\n\n";
+
 	echo "<div id=\"wrapper\">\n";
 	
 	echo "<div id=\"left-corner\"></div>\n";
