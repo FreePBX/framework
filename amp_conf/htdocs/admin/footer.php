@@ -85,15 +85,19 @@ if (isset($_REQUEST['clk_reload'])) {
 
 if (isset($_SESSION["AMP_user"]) && ($_SESSION["AMP_user"]->checkSection(99))) {
 	if ($need_reload) {
+		/*
 		$href =  $_SERVER["PHP_SELF"] . "?clk_reload=true";
 		if (isset($_REQUEST['display'])) 
 			$href .= '&amp;display='.$_REQUEST['display'];
 		if (isset($_REQUEST['type']))
 			$href .= '&amp;type='.$_REQUEST['type'];
-
+		
 		echo "<div class='inyourface'><a href='$href' >";
 		echo _("You have made changes - when finished, click here to APPLY them");
 		echo "</a></div>\n";
+		*/
+		
+		echo "<script type=\"text/javascript\">if (ele = document.getElementById('need_reload_block')) { ele.style.display = 'block'; }</script>";
 	}
 }
 

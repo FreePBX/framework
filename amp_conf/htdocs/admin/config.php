@@ -129,9 +129,18 @@ if (!$quietmode) {
 		}
 
 		array_multisort($category, SORT_ASC, $name, SORT_ASC, $fpbx_menu);
-
+		
 		// Printing menu
 		echo "<div id=\"nav\"><ul>\n";
+		
+		// need reload bar - hidden by default
+		echo "\n\t\t<li class=\"attention\" id=\"need_reload_block\" style=\"display:none;\"><a href=\"javascript:void(null);\" onclick=\"amp_apply_changes();\" class=\"info\">";
+		echo _("Apply Changes");
+		echo "<span>"._("You have made changes to the configuration that have not yet been applied. When you are ".
+		               "finished making all changes, click on <strong>Apply Changes</strong> to put them into effect.");
+		echo "</span></a></li>\n\n";
+		
+		
 		$prev_category = '';
 		foreach ($fpbx_menu as $key => $row) {
 			if ($row['category'] != $prev_category) {

@@ -204,6 +204,25 @@ a.info:hover span{
 	line-height:15px;
 }
 
+/** menu attention class **/
+
+#nav li.attention {
+	background:red;
+}
+#nav li.attention a {
+	color:white;
+	font-weight:bold;
+}
+#nav li.attention a.info {
+	border:none;
+}
+#nav li.attention a.info:hover span{
+	left:10em; 
+	border:1px solid black;
+	background: red;
+	color:white;
+}
+
 /***** right nav's ********/
 .rnav {
 	float:right;

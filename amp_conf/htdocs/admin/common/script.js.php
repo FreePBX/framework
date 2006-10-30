@@ -132,6 +132,17 @@ function setDestinations(theForm,numForms) {
 	}
 }
 
+function amp_apply_changes() {
+	if (confirm("About to reload backend configuration. This applies all outstanding changes to the live server.")) {
+		if (location.href.indexOf('?') == -1) {
+			location.href = location.href + '?clk_reload=true';
+		} else {
+			location.href = location.href + '&clk_reload=true';
+		}
+		
+		//location.href = '<?php echo $href; ?>';
+	}
+}
 
 // ***************************************************
 // ** CLIENT-SIDE FORM VALIDATION FUNCTIONS         **
