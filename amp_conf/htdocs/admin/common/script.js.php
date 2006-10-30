@@ -44,6 +44,17 @@ Is_Mac = (navigator.appVersion.indexOf("Mac") != -1);
 Is_IE4M = Is_IE4 && Is_Mac;
 
 
+// override getElementsByTagName with an IE-compatible function
+function ie_getElementsByTagName(str) {
+ if (str=="*")
+  return document.all
+ else
+  return document.all.tags(str)
+}
+if (document.all)
+ document.getElementsByTagName = ie_getElementsByTagName
+ 
+ 
 // ***************************************************
 // ** Client-side library functions                     **
 // ***************************************************
@@ -95,6 +106,16 @@ function setAllInfoToHideSelects()
                       }
               }
       }
+}
+
+function updateInfoTargets() {
+	links = document.getElementsByTagName('a');
+	var i, elem;
+	for (i = 0; elem = links[i]; i++) {
+		if (elem.className == 'info' && elem.href.charAt(elem.href.length-1) == '#') {
+			elem.href = 'javascript:void(null)';
+		}
+	}
 }
 
 //call this function from forms that include module destinations

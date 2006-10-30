@@ -99,7 +99,7 @@ if (!$quietmode) {
 <![endif]-->
 </head>
 
-<body onload="setAllInfoToHideSelects();"  <?
+<body onload="setAllInfoToHideSelects(); updateInfoTargets();"  <?
 // Check if it's a RIGHT TO LEFT character set (eg, hebrew, arabic, whatever)
 //$_COOKIE['lang']="he_IL";
 if (isset($_COOKIE['lang']) && $_COOKIE['lang']==="he_IL") 
