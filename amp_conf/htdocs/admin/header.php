@@ -68,7 +68,10 @@ if (!$quietmode) {
 <head>
 	<title><?php  echo _($title) ?></title>
 	<meta http-equiv="Content-Type" content="text/html">
-	<link href="common/mainstyle.css" rel="stylesheet" type="text/css"> 
+	<link href="common/mainstyle.css" rel="stylesheet" type="text/css">
+	<!--[if IE]>
+	<link href="common/ie.css" rel="stylesheet" type="text/css">
+	<![endif]-->	
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 <?php 
 	// check if in the amp configuration the user has set that
@@ -99,7 +102,7 @@ if (!$quietmode) {
 <![endif]-->
 </head>
 
-<body onload="setAllInfoToHideSelects(); updateInfoTargets();"  <?
+<body onload="body_loaded();"  <?
 // Check if it's a RIGHT TO LEFT character set (eg, hebrew, arabic, whatever)
 //$_COOKIE['lang']="he_IL";
 if (isset($_COOKIE['lang']) && $_COOKIE['lang']==="he_IL") 
@@ -108,32 +111,39 @@ if (isset($_COOKIE['lang']) && $_COOKIE['lang']==="he_IL")
 <div id="page">
 	<div id="header">
 <?php
-		
-		echo "\t\t<div id=\"version\">";
-		echo sprintf(_("%s %s on %s"), 
-			"<a href=\"index.php\">"._("freePBX")."</a>",
-			getversion(),
-			"<a href=\"http".(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=''?'s':'')."://".$_SERVER['HTTP_HOST']."\">".$_SERVER["SERVER_NAME"]."</a>"
-		     );
-		echo "</div>\n";
-	
-		echo "\t\t<ul id=\"metanav\">\n";
-		print_sub_tool( _("Management"), "manage.php" , $currentFile=='manage.php' );
-		print_sub_tool( _("Setup")     , "config.php" , $currentFile=='config.php' && isset($_REQUEST['type']) && ($_REQUEST['type']=='setup' || $_REQUEST['type'] == ""), "config.php?type=setup", false );
-		print_sub_tool( _("Tools")     , "config.php" , $currentFile=='config.php' && isset($_REQUEST['type']) && $_REQUEST['type']=='tool' , "config.php?type=tool", false );
-		print_sub_tool( _("Reports")   , "reports.php", $currentFile=='reports.php' );
-		print_sub_tool( _("Panel")     , "panel.php"  , $currentFile=='panel.php' );
-		print_sub_tool( _("Recordings"), "../recordings/index.php"  ,0, NULL, true );
-		echo "\t\t</ul>\n";
-		
-		$freepbx_alt = _("freePBX");
-		$freepbx_logo = (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])) ? $amp_conf["AMPADMINLOGO"] : 'freepbx_small.png';
-		echo "\t\t<div id=\"logo\"><a href=\"http://www.freepbx.org\" target=\"_blank\" title=\"".$freepbx_alt."\"><img src=\"images/".$freepbx_logo."\" alt=\"".$freepbx_alt."\" /></a></div>\n";
-?>
-	</div>
+			
+	echo "\t\t<div id=\"version\">";
+	echo sprintf(_("%s %s on %s"), 
+		"<a href=\"index.php\">"._("freePBX")."</a>",
+		getversion(),
+		"<a href=\"http".(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=''?'s':'')."://".$_SERVER['HTTP_HOST']."\">".$_SERVER["SERVER_NAME"]."</a>"
+		 );
+	echo "</div>\n";
 
-	<div id="message">
-<?php
+	echo "\t\t<ul id=\"metanav\">\n";
+	print_sub_tool( _("Management"), "manage.php" , $currentFile=='manage.php' );
+	print_sub_tool( _("Setup")     , "config.php" , $currentFile=='config.php' && isset($_REQUEST['type']) && ($_REQUEST['type']=='setup' || $_REQUEST['type'] == ""), "config.php?type=setup", false );
+	print_sub_tool( _("Tools")     , "config.php" , $currentFile=='config.php' && isset($_REQUEST['type']) && $_REQUEST['type']=='tool' , "config.php?type=tool", false );
+	print_sub_tool( _("Reports")   , "reports.php", $currentFile=='reports.php' );
+	print_sub_tool( _("Panel")     , "panel.php"  , $currentFile=='panel.php' );
+	print_sub_tool( _("Recordings"), "../recordings/index.php"  ,0, NULL, true );
+	echo "\t\t</ul>\n";
+
+	$freepbx_alt = _("freePBX");
+	$freepbx_logo = (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])) ? $amp_conf["AMPADMINLOGO"] : 'freepbx_small.png';
+	echo "\t\t<div id=\"logo\"><a href=\"http://www.freepbx.org\" target=\"_blank\" title=\"".$freepbx_alt."\"><img src=\"images/".$freepbx_logo."\" alt=\"".$freepbx_alt."\" /></a></div>\n";
+
+	echo "\t</div>";
+
+	// need reload bar - hidden by default
+	echo "\n\t\t<div class=\"attention\" id=\"need_reload_block\" style=\"display:none;\"><a href=\"javascript:void(null);\" onclick=\"amp_apply_changes();\" class=\"info\">";
+	echo _("Apply Configuration Changes");
+	echo "<span>".sprintf(_("You have made changes to the configuration that have not yet been applied. When you are ".
+				   "finished making all changes, click on %s to put them into effect."), "<strong>"._("Apply Configuration Changes")."</strong>");
+	echo "</span></a></div>\n\n";
+
+
+	echo "\t<div id=\"message\">";
 
 // TODO: this is ugly, need to code this better!
 //       mixing php + html is bad!

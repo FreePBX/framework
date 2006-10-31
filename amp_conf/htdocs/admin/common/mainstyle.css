@@ -3,7 +3,7 @@ body {
 	margin: 0;
 	padding: 0;
 	
-	font-family:Verdana, Ariel, Sans-serif;
+	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif, Verdana, "Trebuchet MS", SunSans-Regular;
 	font-size:12pt;
 }
 #header {
@@ -42,7 +42,7 @@ a:hover {
 	color:#ff8a00;
 }
 h1, h2, h3, h4, h5, h6 {
-	color: #999;
+	color: gray;
 }
 input {
 	border:1px solid #ccc;
@@ -79,7 +79,7 @@ div.attention {
 	top: 20px;
 	width:300px;
 	height:16px;
-	padding:0;
+	padding:3px 0 0 0;
 	text-align:center;
 	background:black;
 	color:#ccc;
@@ -87,7 +87,7 @@ div.attention {
 	
 	background-image: url('../images/background-triangle.png');
 	background-repeat: no-repeat;
-	background-position:  right; 
+	background-position: top right; 
 }
 #header #version a {
 	color:#ccc;
@@ -130,6 +130,20 @@ div.attention {
 	border:0;
 }
 
+#need_reload_block {
+	position: absolute;
+	top:50px;
+	height:15px;
+	margin:0;
+	left:5px;
+	width:300px;
+	padding:1px 5px;
+	text-align:center;
+}
+#need_reload_block a {
+	display:block;
+}
+
 #message {
 	position:absolute;
 	top:50px;
@@ -154,15 +168,14 @@ div.attention {
 	padding: 2px 0px 2px 5px;
 	border-top: 2px solid white;
 	
-	color: #333; /* header items */
-	font-size: 10pt;
-	font-weight: bold;
+	color: #999; /* header items */
+	font-size: 12px;
 }
 #nav ul li a { /* menu links */
 	padding-left:10px;
 	display: block;
 	text-decoration:none;
-	font-size: 12pt;
+	font-size: 13px;
 	font-weight: normal;
 	color: #095a9a;
 }
@@ -176,9 +189,11 @@ div.attention {
 
 /***** footer *****/
 #footer {
+	position:absolute;
 	margin-top:15px;
 	font-size:8pt;
 	text-align:left;
+	color: #ccc;
 }
 #footer, #footer a {
 	color:#999;
@@ -221,17 +236,17 @@ a.info:hover span{
 
 /** menu attention class **/
 
-#nav li.attention {
+.attention {
 	background:red;
 }
-#nav li.attention a {
+.attention a {
 	color:white;
-	font-weight:bold;
+	font-size:12px;
 }
-#nav li.attention a.info {
+.attention a.info {
 	border:none;
 }
-#nav li.attention a.info:hover span{
+.attention a.info:hover span{
 	left:10em; 
 	border:1px solid black;
 	background: red;
@@ -247,10 +262,14 @@ a.info:hover span{
 	margin:0;
 	padding:0;
 	margin-top:15px;
+	/* make it scroll */
+	max-height:20em;
+	overflow:auto;
 }
 .rnav ul li {
-	padding:2px;
+	padding:2px 10px;
 	margin:2px;
+	background: #eee;
 	border:1px solid #ccc;
 }
 .rnav ul li a.current {
@@ -259,13 +278,19 @@ a.info:hover span{
 
 /***** main content *********/
 #wrapper {
+	padding-left: 15px;
+	padding-right: 15px;
+	
 	background-image: url('../images/shadow-top.png');
 	background-repeat: repeat-x;
 	background-position: top; 
-	
-	padding-left: 15px;
-	padding-right: 15px;
-	padding-top:10px;
+}
+#background-wrapper {
+	padding:0;
+	margin:0;
+	background-image: url('../images/background-grid.png');
+	background-repeat: no-repeat;
+	background-position:bottom right;
 }
 #wrapper #left-corner {
 	position:absolute; /* absolute within #wrapper */
@@ -278,8 +303,9 @@ a.info:hover span{
 	height:11px;
 }
 #wrapper #right-corner { /* Just a hack to make IE expand the content area 100% */
-	float: right;
+	float: right; 
 }
+
 .content {
 	padding:0;
 	margin:0;
