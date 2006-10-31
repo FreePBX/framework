@@ -124,7 +124,7 @@ if (!$quietmode) {
 		"<a href=\"http://www.freepbx.org\" target=\"_blank\">"._("freePBX")." ".getversion()."</a>",
 		"<a href=\"http://www.gnu.org/copyleft/gpl.html\" target=\"_blank\">GPL</a>"
 	);
-	echo " :: ".sprintf(_("UI Design %s, licenced under %s"), 
+	echo " :: ".sprintf(_("UI Design %s, licensed under %s"), 
 		"&copy;2006 <a href=\"http://www.sfischerdesign.com\" target=\"_blank\">Fischer Design</a>", 
 		"<a href=\"http://creativecommons.org/licenses/by/2.5/\" target=\"_blank\">Creative Commons</a>"
 	);
