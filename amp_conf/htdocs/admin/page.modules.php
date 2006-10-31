@@ -394,7 +394,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			*/
 			$numdisplayed++;
 			
-			if ($category != $modules[$name]['category']) {
+			if ($category !== $modules[$name]['category']) {
 				// show category header
 				
 				if ($category !== false) {
@@ -412,7 +412,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			// ---- module header 
 			echo "\t\t<div class=\"moduleheader\" onclick=\"toggleInfoPane('infopane_".prep_id($name)."');\" >\n";
-			echo "\t\t\t<span class=\"modulename\"><a href=\"javascript:void(null);\">".$modules[$name]['name']."</a></span>\n";
+			echo "\t\t\t<span class=\"modulename\"><a href=\"javascript:void(null);\">".(!empty($modules[$name]['name']) ? $modules[$name]['name'] : $name)."</a></span>\n";
 			echo "\t\t\t<span class=\"moduletype\">".$modules[$name]['type']."</span>\n";
 			echo "\t\t\t<span class=\"moduleversion\">".(isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'&nbsp;')."</span>\n";
 			
@@ -575,6 +575,19 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				$changelog = preg_replace('/(\d+(\.\d+)+):/', '<strong>$0</strong>', $changelog);
 				$changelog = preg_replace('/\*(\d+(\.\d+)+)\*/', '<strong>$1:</strong>', $changelog);
 				echo $changelog;
+				echo "\t\t\t\t</div>\n";
+			}
+			
+			if (isset($amp_conf['AMPDEVEL']) && $amp_conf['AMPDEVEL'] == 'true') {
+				echo "\t\t\t\t<div class=\"tabbertab\" title=\"Debug\">\n";
+				echo "\t\t\t\t<h5>".$name."</h5><pre>\n";
+				print_r($modules_local[$name]);
+				echo "</pre>";
+				if (isset($modules_online)) {
+					echo "\t\t\t\t<h5>Online info</h5><pre>\n";
+					print_r($modules_online[$name]);
+					echo "</pre>\n";
+				}
 				echo "\t\t\t\t</div>\n";
 			}
 			
