@@ -156,9 +156,11 @@ if (!$quietmode) {
 	echo "<div id=\"right-corner\"></div>\n";
 	
 	echo "<div class=\"content\">\n";
+
+
+	echo "<noscript><div class=\"attention\">"._("WARNING: Javascript is disabled in your browser. The freePBX administration interface requires Javascript to run properly. Please enable javascript or switch to another  browser that supports it.")."</div></noscript>";
 }
 
-echo "<noscript><div class=\"attention\">"._("WARNING: Javascript is disabled in your browser. The freePBX administration interface requires Javascript to run properly. Please enable javascript or switch to another  browser that supports it.")."</div></noscript>";
 
 
 // check access
@@ -307,17 +309,12 @@ questions and search for answers for any problems you may be having."),
 
 if (!$quietmode) {
 	echo "\t</div> <!-- /content -->\n";
-}
-
-include('footer.php');
-
-if (!$quietmode) {
+	
+	include('footer.php');
 	echo "</div></div> <!-- /background-wrapper, /wrapper -->\n";
+
+	echo "</div> <!-- /page -->\n";
+	echo "</body>\n";
+	echo "</html>\n";
 }
 ?>
-
-</div> <!-- /page -->
-
-</body>
-
-</html>

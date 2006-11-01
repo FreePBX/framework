@@ -107,6 +107,7 @@ if (!$quietmode) {
 //$_COOKIE['lang']="he_IL";
 if (isset($_COOKIE['lang']) && $_COOKIE['lang']==="he_IL") 
 	echo "dir=\"rtl\"";
+
 ?> >
 <div id="page">
 	<div id="header">
