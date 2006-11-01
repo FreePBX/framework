@@ -145,7 +145,7 @@ function amp_apply_changes() {
 			location.href = location.href + '&clk_reload=true';
 		}
 		
-		//location.href = '<?php echo $href; ?>';
+		//location.href = '<?php // echo $href; ?>';
 	}
 }
 
