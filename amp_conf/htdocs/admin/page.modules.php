@@ -115,7 +115,26 @@ $modules_local = module_getinfo();
 
 if ($online) {
 	$modules_online = module_getonlinexml();
-	$modules = $modules_local + $modules_online;
+	
+	// combine online and local modules
+	$modules = $modules_online;
+	foreach (array_keys($modules) as $name) {
+		if (isset($modules_local[$name])) {
+			// combine in any other values in _local that aren't in _online
+			$modules[$name] += $modules_local[$name];
+			
+			// explicitly override these values with the _local ones
+			// - should never come from _online anyways, but this is just to be sure
+			$modules[$name]['status'] = $modules_local[$name]['status'];
+			$modules[$name]['dbversion'] = $modules_local[$name]['dbversion'];
+		} else {
+			// not local, so it's not installed
+			$modules[$name]['status'] = MODULE_STATUS_NOTINSTALLED;
+		}
+	}
+	// add any remaining local-only modules
+	$modules += $modules_local;
+	
 	// use online categories
 	foreach (array_keys($modules) as $modname) {
 		if (isset($modules_online[$modname]['category'])) {
@@ -378,20 +397,6 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		$numdisplayed = 0;
 		foreach (array_keys($modules) as $name) {
 			
-			/*
-			if (isset($modules_online)) {
-				// don't display up-to-date modules
-				if (!isset($modules_online[$name])) {
-					continue; // skip to next in loop
-				}
-				
-				$vercomp = version_compare($modules[$name]['version'], $modules_online[$name]['version']);
-				if ($vercomp >= 0) {
-					continue; // skip to next in loop
-				}
-			}
-			
-			*/
 			$numdisplayed++;
 			
 			if ($category !== $modules[$name]['category']) {
@@ -427,7 +432,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				break;
 				case MODULE_STATUS_DISABLED:
 					if (isset($modules_online[$name]['version'])) {
-						$vercomp = version_compare($modules[$name]['version'], $modules_online[$name]['version']);
+						$vercomp = version_compare($modules_local[$name]['version'], $modules_online[$name]['version']);
 						if ($vercomp < 0) {
 							echo '<span class="alert">Disabled; Online upgrade available ('.$modules_online[$name]['version'].')</span>';
 						} else if ($vercomp > 0) {
@@ -448,7 +453,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				default:
 					// check for online upgrade
 					if (isset($modules_online[$name]['version'])) {
-						$vercomp = version_compare($modules[$name]['version'], $modules_online[$name]['version']);
+						$vercomp = version_compare($modules_local[$name]['version'], $modules_online[$name]['version']);
 						if ($vercomp < 0) {
 							echo '<span class="alert">Online upgrade available ('.$modules_online[$name]['version'].')</span>';
 						} else if ($vercomp > 0) {
@@ -508,7 +513,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
 							 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
 						if (isset($modules_online[$name]['version'])) {
-							$vercomp = version_compare($modules[$name]['version'], $modules_online[$name]['version']);
+							$vercomp = version_compare($modules_local[$name]['version'], $modules_online[$name]['version']);
 							if ($vercomp < 0) {
 								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
 									 '<label for="upgrade_'.prep_id($name).'">Download and Upgrade to '.$modules_online[$name]['version'].', and Enable</label> <br />';
@@ -535,7 +540,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				default:
 					// check for online upgrade
 					if (isset($modules_online[$name]['version'])) {
-						$vercomp = version_compare($modules[$name]['version'], $modules_online[$name]['version']);
+						$vercomp = version_compare($modules_local[$name]['version'], $modules_online[$name]['version']);
 						if ($vercomp < 0) {
 							if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
@@ -554,12 +559,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "\t\t\t\t</div>\n";
 			
 			echo "\t\t\t\t<div class=\"tabbertab\" title=\"Description\">\n";
-			if (isset($modules_online[$name]['description']) && !empty($modules_online[$name]['description'])) {
-				echo "<h5>Description for version ".$modules_online[$name]['version']."</h5>";
-				echo nl2br($modules_online[$name]['description']);
-			} else if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
+			if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
+				echo "<h5>Description for version ".$modules[$name]['version']."</h5>";
 				echo nl2br($modules[$name]['description']);
-			} else {
 				echo "No description is available.";
 			}
 			if (isset($modules[$name]['info']) && !empty($modules[$name]['info'])) {
@@ -567,11 +569,11 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 			echo "\t\t\t\t</div>\n";
 			
-			if (isset($modules_online[$name]['changelog']) && !empty($modules_online[$name]['changelog'])) {
+			if (isset($modules[$name]['changelog']) && !empty($modules[$name]['changelog'])) {
 				echo "\t\t\t\t<div class=\"tabbertab\" title=\"Changelog\">\n";
-				echo "<h5>Change Log for version ".$modules_online[$name]['version']."</h5>";
+				echo "<h5>Change Log for version ".$modules[$name]['version']."</h5>";
 				// convert "1.x.x:" and "*1.x.x*" into bold, and do nl2br
-				$changelog = nl2br($modules_online[$name]['changelog']);
+				$changelog = nl2br($modules[$name]['changelog']);
 				$changelog = preg_replace('/(\d+(\.\d+)+):/', '<strong>$0</strong>', $changelog);
 				$changelog = preg_replace('/\*(\d+(\.\d+)+)\*/', '<strong>$1:</strong>', $changelog);
 				echo $changelog;
@@ -588,6 +590,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					print_r($modules_online[$name]);
 					echo "</pre>\n";
 				}
+					echo "\t\t\t\t<h5>combined</h5><pre>\n";
+					print_r($modules[$name]);
+					echo "</pre>\n";
 				echo "\t\t\t\t</div>\n";
 			}
 			
