@@ -361,6 +361,17 @@ if(isset($active_modules) && is_array($active_modules)){
 	}
 }
 
+// Finally, if this is an install, re-generate ASTDB entries, as they could be restoring from backup, 
+// just rebuilt the machine, blah blah. 
+if ($run_install) {
+	outn("Re-propogating internal device/extensions database...");
+	core_users2astdb();
+	core_devices2astdb();
+	out("OK");
+}
+	
+
+
 function write_file($filename,$contents) {
 	global $asterisk_conf;
 	freepbx_log('retrieve_conf', 'devel-debug', 'Writing '.$filename);
