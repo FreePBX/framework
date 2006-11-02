@@ -36,13 +36,6 @@ return "";
 
 
 ?>
-
-<!-- <div class="rnav">
-	<li><a id="<?php echo ($extdisplay=='' ? 'current':'') ?>" href="config.php?display=modules&type=tool&extdisplay="><?php echo _("Local Modules") ?></a></li>
-	<li><a id="<?php echo ($extdisplay=='online' ? 'current':'') ?>" href="config.php?display=modules&type=tool&extdisplay=online"><?php echo _("Online Modules") ?></a></li>
-</div>
--->
-
 <script type="text/javascript" src="common/tabber-minimized.js"></script>
 <script type="text/javascript">
 function toggleInfoPane(pane) {
@@ -217,19 +210,19 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'upgrade':
 				case 'downloadinstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						echo 'Downloading '.$modulename.' <span id="downloadprogress_'.$modulename.'"></span>';
+						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span>';
 						if (is_array($errors = module_download($modulename, false, 'download_progress'))) {
-							echo '<span class="error">Error(s) downloading '.$modulename.': ';
+							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
 						} else {
 						
 							if (is_array($errors = module_install($modulename))) {
-								echo '<span class="error">Error(s) installing '.$modulename.': ';
+								echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 								echo '</span>';
 							} else {
-								echo '<span class="success">'.$modulename.' installed successfully</span>';
+								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
 							}
 						}
 					}
@@ -237,40 +230,40 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'install':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_install($modulename))) {
-							echo '<span class="error">Error(s) installing '.$modulename.': ';
+							echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
 						} else {
-							echo '<span class="success">'.$modulename.' installed successfully</span>';
+							echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
 						}
 					}
 				break;
 				case 'enable':
 					if (is_array($errors = module_enable($modulename))) {
-						echo '<span class="error">Error(s) enabling '.$modulename.': ';
+						echo '<span class="error">'.sprintf(_("Error(s) enabling %s"),$modulename).': ';
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 						echo '</span>';
 					} else {
-						echo '<span class="success">'.$modulename.' enabled successfully</span>';
+						echo '<span class="success">'.sprintf(_("%s enabled successfully"),$modulename).'</span>';
 					}
 				break;
 				case 'disable':
 					if (is_array($errors = module_disable($modulename))) {
-						echo '<span class="error">Error(s) disabling '.$modulename.': ';
+						echo '<span class="error">'.sprintf(_("Error(s) disabling %s"),$modulename).': ';
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 						echo '</span>';
 					} else {
-						echo '<span class="success">'.$modulename.' disabled successfully</span>';
+						echo '<span class="success">'.sprintf(_("%s disabled successfully"),$modulename).'</span>';
 					}
 				break;
 				case 'uninstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_uninstall($modulename))) {
-							echo '<span class="error">Error(s) uninstalling '.$modulename.': ';
+							echo '<span class="error">'.sprintf(_("Error(s) uninstalling %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
 						} else {
-							echo '<span class="success">'.$modulename.' uninstalled successfully</span>';
+							echo '<span class="success">'.sprintf(_("%s uninstalled successfully"),$modulename).'</span>';
 						}
 					}
 				break;
@@ -346,7 +339,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
 		}
-		echo "\t<input type=\"button\" value=\"Cancel\" onclick=\"location.href = 'config.php?display=modules&amp;type=tool&amp;online=1';\" />";
+		echo "\t<input type=\"button\" value=\""._("Cancel")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=tool&amp;online=1';\" />";
 		
 		echo "</form>";
 		
@@ -371,7 +364,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 				echo "<a href='config.php?display=modules&amp;type=tool&amp;online=0'>"._("Manage local modules")."</a>\n";
-				echo "<input type=\"checkbox\" id=\"show_upgradable_only\" onclick=\"showhide_upgrades();\" />Show only upgradable";
+				echo "<input type=\"checkbox\" id=\"show_upgradable_only\" onclick=\"showhide_upgrades();\" /><label for=\"show_upgradable_only\">"._("Show only upgradable")."</label>";
 			}
 		} else {
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
@@ -388,18 +381,18 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "<div class=\"modulebuttons\">";
 		if ($online) {
 			//echo "\t<input type=\"button\" value=\"Upgrade all\" onClick=\"check_upgrade_all();\" />";
-			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_upgrade_all();\">Upgrade all</a>";
+			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_upgrade_all();\">"._("Upgrade all")."</a>";
 		}
-		echo "\t<input type=\"reset\" value=\"Reset\" />";
-		echo "\t<input type=\"submit\" value=\"Process\" name=\"process\" />";
+		echo "\t<input type=\"reset\" value=\""._("Reset")."\" />";
+		echo "\t<input type=\"submit\" value=\""._("Process")."\" name=\"process\" />";
 		echo "</div>";
 
 		echo "<div id=\"modulelist\">\n";
 
 		echo "\t<div id=\"modulelist-header\">";
-		echo "\t\t<span class=\"modulename\">Module</span>\n";
-		echo "\t\t<span class=\"moduletype\">Type</span>\n";
-		echo "\t\t<span class=\"moduleversion\">Version</span>\n";
+		echo "\t\t<span class=\"modulename\">"._("Module")."</span>\n";
+		echo "\t\t<span class=\"moduletype\">"._("Type")."</span>\n";
+		echo "\t\t<span class=\"moduleversion\">"._("Version")."</span>\n";
 		echo "\t\t<span class=\"clear\">&nbsp;</span>\n";
 		echo "\t</div>";
 
@@ -419,7 +412,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				
 				// start a new category header, and associated html blocks
 				$category = $modules[$name]['category'];
-				echo "\t<div class=\"category\" id=\"category_".prep_id($category)."\"><h3>".$category."</h3>\n";
+				echo "\t<div class=\"category\" id=\"category_".prep_id($category)."\"><h3>"._($category)."</h3>\n";
 				echo "\t<ul>";
 			}
 			
@@ -435,47 +428,47 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			switch ($modules[$name]['status']) {
 				case MODULE_STATUS_NOTINSTALLED:
 					if (isset($modules_local[$name])) {
-						echo '<span class="alert">Not Installed (Locally available)</span>';
+						echo '<span class="alert">'._('Not Installed (Locally available)').'</span>';
 					} else {
-						echo 'Not Installed (Available online: '.$modules_online[$name]['version'].')';
+						echo sprintf(_('Not Installed (Available online: %s)'), $modules_online[$name]['version']);
 					}
 				break;
 				case MODULE_STATUS_DISABLED:
 					if (isset($modules_online[$name]['version'])) {
 						$vercomp = version_compare($modules_local[$name]['version'], $modules_online[$name]['version']);
 						if ($vercomp < 0) {
-							echo '<span class="alert">Disabled; Online upgrade available ('.$modules_online[$name]['version'].')</span>';
+							echo '<span class="alert">'.sprintf(_('Disabled; Online upgrade available (%s)'),$modules_online[$name]['version']).'</span>';
 						} else if ($vercomp > 0) {
-							echo 'Disabled; Newer than online version ('.$modules_online[$name]['version'].')';
+							echo sprintf(_('Disabled; Newer than online version (%s)'), $modules_online[$name]['version']);
 						} else {
-							echo 'Disabled; up to date';
+							echo _('Disabled; up to date');
 						}
 					} else {
 						echo 'Disabled';
 					}
 				break;
 				case MODULE_STATUS_NEEDUPGRADE:
-					echo '<span class="alert">Disabled; Pending upgrade to '.$modules[$name]['version'].'</span>';
+					echo '<span class="alert">'.sprintf(_('Disabled; Pending upgrade to %s'),$modules[$name]['version']).'</span>';
 				break;
 				case MODULE_STATUS_BROKEN:
-					echo '<span class="alert">Broken</span>';
+					echo '<span class="alert">'._('Broken').'</span>';
 				break;
 				default:
 					// check for online upgrade
 					if (isset($modules_online[$name]['version'])) {
 						$vercomp = version_compare($modules_local[$name]['version'], $modules_online[$name]['version']);
 						if ($vercomp < 0) {
-							echo '<span class="alert">Online upgrade available ('.$modules_online[$name]['version'].')</span>';
+							echo '<span class="alert">'.sprintf(_('Online upgrade available (%s)'), $modules_online[$name]['version']).'</span>';
 						} else if ($vercomp > 0) {
-							echo 'Newer than online version ('.$modules_online[$name]['version'].')';
+							echo sprintf(_('Newer than online version (%s)'),$modules_online[$name]['version']);
 						} else {
-							echo 'Enabled and up to date';
+							echo _('Enabled and up to date');
 						}
 					} else if (isset($modules_online)) {
 						// we're connected to online, but didn't find this module
-						echo 'Enabled; Not available online';
+						echo _('Enabled; Not available online');
 					} else {
-						echo 'Enabled';
+						echo _('Enabled');
 					}
 				break;
 			}
@@ -494,39 +487,39 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "\t\t\t<div class=\"tabber\">\n";
 			
 			if (isset($modules_online[$name]['attention']) && !empty($modules_online[$name]['attention'])) {
-				echo "\t\t\t\t<div class=\"tabbertab\" title=\"Attention\">\n";
+				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Attention")."\">\n";
 				echo nl2br($modules_online[$name]['attention']);
 				echo "\t\t\t\t</div>\n";
 			}
 			
-			echo "\t\t\t\t<div class=\"tabbertab actiontab\" title=\"Action\">\n";
+			echo "\t\t\t\t<div class=\"tabbertab actiontab\" title=\""._("Action")."\">\n";
 			
 			echo '<input type="radio" checked="CHECKED" id="noaction_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="0" /> '.
-				 '<label for="noaction_'.prep_id($name).'">No Action</label> <br />';	
+				 '<label for="noaction_'.prep_id($name).'">'._('No Action').'</label> <br />';	
 			switch ($modules[$name]['status']) {
 			
 				case MODULE_STATUS_NOTINSTALLED:
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (isset($modules_local[$name])) {
 							echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
-								 '<label for="install_'.prep_id($name).'">Install</label> <br />';
+								 '<label for="install_'.prep_id($name).'">'._('Install').'</label> <br />';
 						} else {
 							echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="downloadinstall" /> '.
-								 '<label for="upgrade_'.prep_id($name).'">Download and Install</label> <br />';
+								 '<label for="upgrade_'.prep_id($name).'">'._('Download and Install').'</label> <br />';
 						}
 					}
 				break;
 				case MODULE_STATUS_DISABLED:
 					echo '<input type="radio" id="enable_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="enable" /> '.
-						 '<label for="enable_'.prep_id($name).'">Enable</label> <br />';
+						 '<label for="enable_'.prep_id($name).'">'._('Enable').'</label> <br />';
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-							 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+							 '<label for="uninstall_'.prep_id($name).'">'._('Uninstall').'</label> <br />';
 						if (isset($modules_online[$name]['version'])) {
 							$vercomp = version_compare($modules_local[$name]['version'], $modules_online[$name]['version']);
 							if ($vercomp < 0) {
 								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
-									 '<label for="upgrade_'.prep_id($name).'">Download and Upgrade to '.$modules_online[$name]['version'].', and Enable</label> <br />';
+									 '<label for="upgrade_'.prep_id($name).'">'.sprintf(_('Download and Upgrade to %s, and Enable'),$modules_online[$name]['version']).'</label> <br />';
 							}
 						}
 					}
@@ -534,17 +527,17 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case MODULE_STATUS_NEEDUPGRADE:
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
-							 '<label for="install_'.prep_id($name).'">Upgrade to '.$modules_local[$name]['version'].' and Enable</label> <br />';
+							 '<label for="install_'.prep_id($name).'">'.sprintf(_('Upgrade to %s and Enable'),$modules_local[$name]['version']).'</label> <br />';
 						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-							 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+							 '<label for="uninstall_'.prep_id($name).'">'._('Uninstall').'</label> <br />';
 					}
 				break;
 				case MODULE_STATUS_BROKEN:
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
-							 '<label for="install_'.prep_id($name).'">Install</label> <br />';
+							 '<label for="install_'.prep_id($name).'">'._('Install').'</label> <br />';
 						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-							 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+							 '<label for="uninstall_'.prep_id($name).'">'._('Uninstall').'</label> <br />';
 					}
 				break;
 				default:
@@ -554,35 +547,35 @@ switch ($extdisplay) {  // process, confirm, or nothing
 						if ($vercomp < 0) {
 							if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
-									 '<label for="upgrade_'.prep_id($name).'">Download and Upgrade to '.$modules_online[$name]['version'].'</label> <br />';
+									 '<label for="upgrade_'.prep_id($name).'">'.sprintf(_('Download and Upgrade to %s'), $modules_online[$name]['version']).'</label> <br />';
 							}
 						}
 					}
 					echo '<input type="radio" id="disable_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="disable" /> '.
-						 '<label for="disable_'.prep_id($name).'">Disable</label> <br />';
+						 '<label for="disable_'.prep_id($name).'">'._('Disable').'</label> <br />';
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-							 '<label for="uninstall_'.prep_id($name).'">Uninstall</label> <br />';
+							 '<label for="uninstall_'.prep_id($name).'">'._('Uninstall').'</label> <br />';
 					}
 				break;
 			}
 			echo "\t\t\t\t</div>\n";
 			
-			echo "\t\t\t\t<div class=\"tabbertab\" title=\"Description\">\n";
+			echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Description")."\">\n";
 			if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
-				echo "<h5>Description for version ".$modules[$name]['version']."</h5>";
+				echo "<h5>".sprintf(_("Description for version %s"),$modules[$name]['version'])."</h5>";
 				echo nl2br($modules[$name]['description']);
 			} else {
-				echo "No description is available.";
+				echo _("No description is available.");
 			}
 			if (isset($modules[$name]['info']) && !empty($modules[$name]['info'])) {
-				echo '<p>More info: <a href="'.$modules[$name]['info'].'" target="_new">'.$modules[$name]['info'].'</a></p>';
+				echo '<p>'._('More info').': <a href="'.$modules[$name]['info'].'" target="_new">'.$modules[$name]['info'].'</a></p>';
 			}
 			echo "\t\t\t\t</div>\n";
 			
 			if (isset($modules[$name]['changelog']) && !empty($modules[$name]['changelog'])) {
-				echo "\t\t\t\t<div class=\"tabbertab\" title=\"Changelog\">\n";
-				echo "<h5>Change Log for version ".$modules[$name]['version']."</h5>";
+				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Changelog")."\">\n";
+				echo "<h5>".sprintf(_("Change Log for version %s"), $modules[$name]['version'])."</h5>";
 				// convert "1.x.x:" and "*1.x.x*" into bold, and do nl2br
 				$changelog = nl2br($modules[$name]['changelog']);
 				$changelog = preg_replace('/(\d+(\.\d+)+):/', '<strong>$0</strong>', $changelog);
@@ -592,7 +585,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 			
 			if (isset($amp_conf['AMPDEVEL']) && $amp_conf['AMPDEVEL'] == 'true') {
-				echo "\t\t\t\t<div class=\"tabbertab\" title=\"Debug\">\n";
+				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Debug")."\">\n";
 				echo "\t\t\t\t<h5>".$name."</h5><pre>\n";
 				print_r($modules_local[$name]);
 				echo "</pre>";
@@ -617,9 +610,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		
 		if ($numdisplayed == 0) {
 			if (isset($modules_online) && count($modules_online) > 0) {
-				echo "All available modules are up-to-date and installed.";
+				echo _("All available modules are up-to-date and installed.");
 			} else {
-				echo "No modules to display.";
+				echo _("No modules to display.");
 			}
 		}
 		
@@ -629,10 +622,10 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "<div class=\"modulebuttons\">";
 		if ($online) {
 			//echo "\t<input type=\"button\" value=\"Upgrade all\" onClick=\"check_upgrade_all();\" />";
-			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_upgrade_all();\">Upgrade all</a>";
+			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_upgrade_all();\">"._("Upgrade all")."</a>";
 		}
-		echo "\t<input type=\"reset\" value=\"Reset\" />";
-		echo "\t<input type=\"submit\" value=\"Process\" name=\"process\" />";
+		echo "\t<input type=\"reset\" value=\""._("Reset")."\" />";
+		echo "\t<input type=\"submit\" value=\""._("Process")."\" name=\"process\" />";
 		echo "</div>";
 
 		echo "</form>";
