@@ -572,6 +572,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
 				echo "<h5>Description for version ".$modules[$name]['version']."</h5>";
 				echo nl2br($modules[$name]['description']);
+			} else {
 				echo "No description is available.";
 			}
 			if (isset($modules[$name]['info']) && !empty($modules[$name]['info'])) {
