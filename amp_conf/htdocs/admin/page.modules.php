@@ -2,9 +2,15 @@
 
 /** Controls if online module and install/uninstall options are available.
  * This is meant for when using external packaging systems (eg, deb or rpm) to manage
- * modules. Package mantainers should set this to 0 in their main freepbx package.
+ * modules. Package mantainers should set AMPEXTERNPACKAGES to true in /etc/amportal.conf.
+ * Optionally, the other way is to remove the below lines, and instead just define 
+ * EXTERNAL_PACKAGE_MANAGEMENT as 1. This prevents changing the setting from amportal.conf.
  */
-define('EXTERNAL_PACKAGE_MANAGEMENT', 0);
+if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] != 'true')) {
+	define('EXTERNAL_PACKAGE_MANAGEMENT', 0);
+} else {
+	define('EXTERNAL_PACKAGE_MANAGEMENT', 1);
+}
 
 
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
