@@ -397,8 +397,8 @@ function install_upgrade($version) {
                 $dir = opendir(UPGRADE_DIR."/".$version);
                 while ($file = readdir($dir)) {
                         if (($file[0] != ".") && is_file(UPGRADE_DIR."/".$version."/".$file)) {
-                                if (strtolower(substr($file,-4)) == ".sql") {
-					// sql scripts were dealt with first
+                                if ((strtolower(substr($file,-4)) == ".sql") || (strtolower(substr($file,-7)) == ".sqlite")) {
+                                        // sql scripts were dealt with first
                                 } else if (strtolower(substr($file,-4)) == ".php") {
                                         out("-> Running PHP script ".UPGRADE_DIR."/".$version."/".$file);
                                         if (!$dryrun) {
