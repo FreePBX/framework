@@ -167,7 +167,7 @@ function download_progress($action, $params) {
 	switch ($action) {
 		case 'untar':
 			echo '<script type="text/javascript">
-			        var txt = document.createTextNode("Untarring..");
+			        var txt = document.createTextNode("'._('Untarring..').'");
 			        var br = document.createElement(\'br\');
 			        document.getElementById(\'moduleprogress\').appendChild(br); 
 					document.getElementById(\'moduleprogress\').appendChild(txt); 
@@ -187,7 +187,7 @@ function download_progress($action, $params) {
 		break;
 		case 'done';
 			echo '<script type="text/javascript">
-			        var txt = document.createTextNode("Done.");
+			        var txt = document.createTextNode("'._('Done.').'");
 					var br = document.createElement(\'br\');
 			        document.getElementById(\'moduleprogress\').appendChild(txt); 
 					document.getElementById(\'moduleprogress\').appendChild(br); 
