@@ -491,7 +491,7 @@ function get_dial_string( $agi, $extnum, $use_confirmation, $ringgroup_index )
 				$dialstring .= 'Local/'.$adevice.'@ext-local-confirm&';
 			}
 		}
-		$dialstring = chop($dialstring," &");
+		$dialstring = trim($dialstring," &");
 	}
 	
 	return $dialstring;
