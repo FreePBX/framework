@@ -1979,9 +1979,12 @@ function rmModule($module) {
 function freepbx_log($section, $level, $message) {
         global $db;
         global $debug; // This is used by retrieve_conf
-
-        $sth = $db->prepare("INSERT INTO freepbx_log (time, section, level, message) VALUES (NOW(),?,?,?)");
-        $db->execute($sth, array($section, $level, $message));
+        global $amp_conf;
+        
+        if (!isset($amp_conf['AMPDISABLELOG']) || ($amp_conf['AMPDISABLELOG'] != 'true')) {
+            $sth = $db->prepare("INSERT INTO freepbx_log (time, section, level, message) VALUES (NOW(),?,?,?)");
+            $db->execute($sth, array($section, $level, $message));
+        }
         if (isset($debug) && ($debug != false))
                 print "[DEBUG-$section] ($level) $message\n";
 }
