@@ -211,12 +211,11 @@ function featurecodes_getAllFeaturesDetailed() {
 	$s .= "ORDER BY featurecodes.modulename, featurecodes.description ";
 	
 	$results = sql($s, "getAll", DB_FETCHMODE_ASSOC);
-	
 	if (is_array($results)) {
 		$modules = module_getinfo(false, MODULE_STATUS_ENABLED);
 		foreach ($results as $key => $item) {
-			if (isset($modules[$key]['displayName']))
-				$results[$key]['moduledescription'] = $modules[$key]['displayName'];
+			// get the module display name
+			$results[$key]['moduledescription'] = $modules[ $item['modulename'] ]['name'];
 		}
 		
 		return $results;
