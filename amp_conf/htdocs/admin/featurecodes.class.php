@@ -215,7 +215,7 @@ function featurecodes_getAllFeaturesDetailed() {
 		$modules = module_getinfo(false, MODULE_STATUS_ENABLED);
 		foreach ($results as $key => $item) {
 			// get the module display name
-			$results[$key]['moduledescription'] = $modules[ $item['modulename'] ]['name'];
+			$results[$key]['moduledescription'] = (!empty($modules[ $item['modulename'] ]['name']) ? $modules[ $item['modulename'] ]['name'] : ucfirst($item['modulename']));
 		}
 		
 		return $results;
