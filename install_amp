@@ -712,8 +712,14 @@ out("OK");
 
 outn("Checking for ".AMP_CONF."..");
 if (!file_exists(AMP_CONF)) {
-	out(AMP_CONF." does not exist, copying default");
-	copy("amportal.conf", AMP_CONF);
+	$distro = strtolower(exec('uname'));
+	if (empty($distro) || !file_exists('amportal.conf.'.$distro)) {
+		$distro = 'linux';
+	}
+	
+	out(AMP_CONF.' does not exist, copying default amportal.conf.'.$distro);
+	copy('amportal.conf.'.$distro, AMP_CONF);
+	
 	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password, 'asterisk');
 }
 out("OK");
