@@ -694,6 +694,18 @@ function drawselects($goto,$i) {
 /* Usage
 Grab some XML data, either from a file, URL, etc. however you want. Assume storage in $strYourXML;
 
+$xml = new xml2Array($strYourXML);
+xml array is in $xml->data;
+	This is basically an array version of the XML data (no attributes), striaght-up. If there are
+	multiple items with the same name, they are split into a numeric sub-array, 
+	eg, <items><item test="123">foo</item><item>bar</item></items>
+	becomes: array('item' => array(0=>array('item'=>'foo'), 1=>array('item'=>'foo'))
+attributes are in $xml->attributes;
+	These are stored with xpath type paths, as $xml->attributes['/items/item/0']["test"] == "123"
+	
+
+Other way (still works, but not as nice):
+
 $objXML = new xml2Array();
 $arrOutput = $objXML->parse($strYourXML);
 print_r($arrOutput); //print it out, or do whatever!
@@ -701,10 +713,18 @@ print_r($arrOutput); //print it out, or do whatever!
 */
 
 class xml2Array {
-	
 	var $arrOutput = array();
 	var $resParser;
 	var $strXmlData;
+	
+	var $attributes;
+	var $data;
+	
+	function xml2Array($strInputXML = false) {
+		if (!empty($strInputXML)) {
+			$this->data = $this->parseAdvanced($strInputXML);
+		}
+	}
 	
 	function parse($strInputXML) {
 	
@@ -746,7 +766,7 @@ class xml2Array {
 		array_pop($this->arrOutput);
 	}
 	
-	function recursive_parseLevel($items) {
+	function recursive_parseLevel($items, &$attrs, $path = "") {
 		$array = array();
 		foreach (array_keys($items) as $idx) {
 			$items[$idx]['name'] = strtolower($items[$idx]['name']);
@@ -764,17 +784,28 @@ class xml2Array {
 				$multi = true;
 			}
 			
+			if ($multi) {	
+				$newitem = &$array[ $items[$idx]['name'] ][];
+			} else {
+				$newitem = &$array[ $items[$idx]['name'] ];
+			}
+			
+			
 			if (isset($items[$idx]['children']) && is_array($items[$idx]['children'])) {
-				if ($multi) {
-					$array[ $items[$idx]['name'] ][] = $this->recursive_parseLevel($items[$idx]['children']);
-				} else {
-					$array[ $items[$idx]['name'] ] = $this->recursive_parseLevel($items[$idx]['children']);
-				}
+				$newitem = $this->recursive_parseLevel($items[$idx]['children'], $attrs, $path.'/'.$items[$idx]['name']);
 			} else if (isset($items[$idx]['tagData'])) {
+				$newitem = $items[$idx]['tagData'];
+			} else {
+				$newitem = false;
+			}
+			
+			if (isset($items[$idx]['attrs']) && is_array($items[$idx]['attrs']) && count($items[$idx]['attrs'])) {
+				$attrpath = $path.'/'.$items[$idx]['name'];
 				if ($multi) {
-					$array[ $items[$idx]['name'] ][] = $items[$idx]['tagData'];
-				} else {
-					$array[ $items[$idx]['name'] ] = $items[$idx]['tagData'];
+					$attrpath .= '/'.(count($array[ $items[$idx]['name'] ])-1);
+				}
+				foreach ($items[$idx]['attrs'] as $name=>$value) {
+					$attrs[ $attrpath ][ strtolower($name) ] = $value;
 				}
 			}
 		}
@@ -783,9 +814,11 @@ class xml2Array {
 	
 	function parseAdvanced($strInputXML) {
 		$array = $this->parse($strInputXML);
-		return $this->recursive_parseLevel($array);
+		$this->attributes = array();
+		return $this->data = $this->recursive_parseLevel($array, $this->attributes);
 	}
 }
+
 
 /*
 	Return a much more manageable assoc array with module data.
@@ -797,8 +830,6 @@ class xml2ModuleArray extends xml2Array {
 			foreach ($array['xml'] as $key=>$module) {
 				if ($key == 'module') {
 					// copy the structure verbatim
-					$modules[ $module['name'] ] = $module;
-					// add in a couple that aren't normally there..
 					$modules[ $module['name'] ] = $module;
 				}
 			}
@@ -858,7 +889,7 @@ class xml2ModuleArray extends xml2Array {
 }
 
 // get_headers() for php4 (built in for php5)
-if (!function_existS('get_headers')) {
+if (!function_exists('get_headers')) {
 	function get_headers($url ) {
 		$url_info=parse_url($url);
 		if (isset($url_info['scheme']) && $url_info['scheme'] == 'https') {
@@ -1752,13 +1783,37 @@ function _module_readxml($modulename) {
 		//$parser = new xml2ModuleArray($data);
 		//$xmlarray = $parser->parseModulesXML($data);
 		$parser = new xml2Array($data);
-		$xmlarray = $parser->parseAdvanced($data);
+		$xmlarray = $parser->data;
 		if (isset($xmlarray['module'])) {
 			// add a couple fields first
 			$xmlarray['module']['displayname'] = $xmlarray['module']['name'];
 			if (isset($xmlarray['module']['menuitems'])) {
+				// set the legacy "items" array
 				$xmlarray['module']['items'] = $xmlarray['module']['menuitems'];
+				
+				foreach ($xmlarray['module']['menuitems'] as $item=>$displayname) {
+					$path = '/module/menuitems/'.$item;
+					
+					if (isset($parser->attributes[$path]['category'])) {
+						$category = $parser->attributes[$path]['category'];
+					} else if (isset($xmlarray['module']['category'])) {
+						$category = $xmlarray['module']['category'];
+					} else {
+						$category = 'Basic';
+					}
+					
+					if (isset($parser->attributes[$path.'/type'])) {
+						$type = $parser->attributes[$path.'/type'];
+					} else if (isset($xmlarray['module']['type'])) {
+						$type = $xmlarray['module']['type'];
+					} else {
+						$type = 'setup';
+					}
+					
+					$xmlarray['module']['itemsbycat'][$type][$category][$item] = $displayname;
+				}
 			}
+			
 			return $xmlarray['module'];
 		}
 	}

@@ -59,13 +59,28 @@ if(is_array($active_modules)){
 		}
 		//create an array of module sections to display
 		// only of the type we are displaying though
-		if ($module['type'] == $type) {
-			if (isset($module['items']) && is_array($module['items'])) {
-				foreach($module['items'] as $itemKey => $itemName) {
-					$fpbx_menu[$itemKey] = array('category' => $module['category'], 'name' => $itemName);
+		
+		// stored as [itemsbycat][$type][$category][$name] = $displayvalue
+		if (isset($module['itemsbycat']) && is_array($module['itemsbycat'])) {
+			// loop through the types
+			foreach(array_keys($module['itemsbycat']) as $itemType) {
+				if ($itemType == $type) {
+					// if the type is the same as the current type (based on the page), then loop through categories
+					foreach (array_keys($module['itemsbycat'][$itemType]) as $itemCategory) {
+						// loop through actual items
+						foreach($module['itemsbycat'][$itemType][$itemCategory] as $itemKey => $itemName) {
+							$fpbx_menu[$itemKey] = array(
+								'category' => $itemCategory,
+								'name' => $itemName,
+							);
+						
+						}
+					}
 				}
 			}
+		
 		}
+		
 	}
 }
 
