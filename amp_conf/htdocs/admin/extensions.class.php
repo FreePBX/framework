@@ -874,6 +874,12 @@ class ext_lookupblacklist extends extension {
 	}
 }
 
+class ext_dictate extends extension {
+	function output() {
+		return "Dictate(".$this->data.")";
+	}
+}
+
 /* example usage
 $ext = new extensions;
 
