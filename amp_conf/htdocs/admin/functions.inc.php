@@ -1802,8 +1802,8 @@ function _module_readxml($modulename) {
 						$category = 'Basic';
 					}
 					
-					if (isset($parser->attributes[$path.'/type'])) {
-						$type = $parser->attributes[$path.'/type'];
+					if (isset($parser->attributes[$path]['type'])) {
+						$type = $parser->attributes[$path]['type'];
 					} else if (isset($xmlarray['module']['type'])) {
 						$type = $xmlarray['module']['type'];
 					} else {

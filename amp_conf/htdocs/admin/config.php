@@ -59,7 +59,7 @@ if(is_array($active_modules)){
 		}
 		//create an array of module sections to display
 		// only of the type we are displaying though
-		
+		var_dump($module);
 		// stored as [itemsbycat][$type][$category][$name] = $displayvalue
 		if (isset($module['itemsbycat']) && is_array($module['itemsbycat'])) {
 			// loop through the types
