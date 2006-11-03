@@ -780,6 +780,12 @@ class xml2Array {
 					// we're basically moving the current contents of this item into a 1-item array (at the 
 					// original location) so that we can add a second item in the code below
 					$array[ $items[$idx]['name'] ] = array( $array[ $items[$idx]['name'] ] );
+					
+					if (isset($attrs[ $path.'/'.$items[$idx]['name'] ])) {
+						// move the attributes to /0
+						$attrs[ $path.'/'.$items[$idx]['name'].'/0' ] = $attrs[ $path.'/'.$items[$idx]['name'] ];
+						unset($attrs[ $path.'/'.$items[$idx]['name'] ]);
+					}
 				}
 				$multi = true;
 			}
@@ -1788,11 +1794,12 @@ function _module_readxml($modulename) {
 			// add a couple fields first
 			$xmlarray['module']['displayname'] = $xmlarray['module']['name'];
 			if (isset($xmlarray['module']['menuitems'])) {
+				// set the legacy "items" array
+				$xmlarray['module']['items'] = $xmlarray['module']['menuitems'];
 				
 				foreach ($xmlarray['module']['menuitems'] as $item=>$displayname) {
 					$path = '/module/menuitems/'.$item;
 					
-					// find category
 					if (isset($parser->attributes[$path]['category'])) {
 						$category = $parser->attributes[$path]['category'];
 					} else if (isset($xmlarray['module']['category'])) {
@@ -1801,49 +1808,15 @@ function _module_readxml($modulename) {
 						$category = 'Basic';
 					}
 					
-					// find type
-					if (isset($parser->attributes[$path]['type'])) {
-						$type = $parser->attributes[$path]['type'];
+					if (isset($parser->attributes[$path.'/type'])) {
+						$type = $parser->attributes[$path.'/type'];
 					} else if (isset($xmlarray['module']['type'])) {
 						$type = $xmlarray['module']['type'];
 					} else {
 						$type = 'setup';
 					}
 					
-					// sort priority
-					if (isset($parser->attributes[$path]['sort'])) {
-						// limit to -10 to 10
-						if ($parser->attributes[$path]['sort'] > 10) {
-							$sort = 10;
-						} else if ($parser->attributes[$path]['sort'] < -10) {
-							$sort = -10;
-						} else {
-							$sort = $parser->attributes[$path]['sort'];
-						}
-					} else {
-						$sort = 0;
-					}
-					
-					// setup basic items array
-					$xmlarray['module']['items'][$item] = array(
-						'name' => $displayname,
-						'type' => $type,
-						'category' => $category,
-						'sort' => $sort,
-					);
-					
-					// add optional values:
-					
-					// custom href
-					if (isset($parser->attributes[$path]['href'])) {
-						$xmlarray['module']['items'][$item]['href'] = $parser->attributes[$path]['href'];
-					}
-					
-					// custom target
-					if (isset($parser->attributes[$path]['target'])) {
-						$xmlarray['module']['items'][$item]['target'] = $parser->attributes[$path]['target'];
-					}
-					
+					$xmlarray['module']['itemsbycat'][$type][$category][$item] = $displayname;
 				}
 			}
 			
