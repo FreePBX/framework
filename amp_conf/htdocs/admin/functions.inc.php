@@ -1788,12 +1788,11 @@ function _module_readxml($modulename) {
 			// add a couple fields first
 			$xmlarray['module']['displayname'] = $xmlarray['module']['name'];
 			if (isset($xmlarray['module']['menuitems'])) {
-				// set the legacy "items" array
-				$xmlarray['module']['items'] = $xmlarray['module']['menuitems'];
 				
 				foreach ($xmlarray['module']['menuitems'] as $item=>$displayname) {
 					$path = '/module/menuitems/'.$item;
 					
+					// find category
 					if (isset($parser->attributes[$path]['category'])) {
 						$category = $parser->attributes[$path]['category'];
 					} else if (isset($xmlarray['module']['category'])) {
@@ -1802,6 +1801,7 @@ function _module_readxml($modulename) {
 						$category = 'Basic';
 					}
 					
+					// find type
 					if (isset($parser->attributes[$path]['type'])) {
 						$type = $parser->attributes[$path]['type'];
 					} else if (isset($xmlarray['module']['type'])) {
@@ -1810,7 +1810,25 @@ function _module_readxml($modulename) {
 						$type = 'setup';
 					}
 					
-					$xmlarray['module']['itemsbycat'][$type][$category][$item] = $displayname;
+					// setup basic items array
+					$xmlarray['module']['items'][$item] = array(
+						'name' => $displayname,
+						'type' => $type,
+						'category' => $category,
+					);
+					
+					// add optional values:
+					
+					// custom href
+					if (isset($parser->attributes[$path]['href'])) {
+						$xmlarray['module']['items'][$item]['href'] = $parser->attributes[$path]['href'];
+					}
+					
+					// custom target
+					if (isset($parser->attributes[$path]['target'])) {
+						$xmlarray['module']['items'][$item]['target'] = $parser->attributes[$path]['target'];
+					}
+					
 				}
 			}
 			
