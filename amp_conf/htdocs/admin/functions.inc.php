@@ -1810,11 +1810,26 @@ function _module_readxml($modulename) {
 						$type = 'setup';
 					}
 					
+					// sort priority
+					if (isset($parser->attributes[$path]['sort'])) {
+						// limit to -10 to 10
+						if ($parser->attributes[$path]['sort'] > 10) {
+							$sort = 10;
+						} else if ($parser->attributes[$path]['sort'] < -10) {
+							$sort = -10;
+						} else {
+							$sort = $parser->attributes[$path]['sort'];
+						}
+					} else {
+						$sort = 0;
+					}
+					
 					// setup basic items array
 					$xmlarray['module']['items'][$item] = array(
 						'name' => $displayname,
 						'type' => $type,
 						'category' => $category,
+						'sort' => $sort,
 					);
 					
 					// add optional values:

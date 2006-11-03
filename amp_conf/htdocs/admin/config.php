@@ -131,10 +131,16 @@ if (!$quietmode) {
 		// Sorting menu by category and name
 		foreach ($fpbx_menu as $key => $row) {
 			$category[$key] = $row['category'];
+			$sort[$key] = $row['sort'];
 			$name[$key] = $row['name'];
 		}
 
-		array_multisort($category, SORT_ASC, $name, SORT_ASC, $fpbx_menu);
+		array_multisort(
+			$category, SORT_ASC, 
+			$sort, SORT_ASC, SORT_NUMERIC, 
+			$name, SORT_ASC, 
+			$fpbx_menu
+		);
 		
 		// Printing menu
 		echo "<div id=\"nav\"><ul>\n";
