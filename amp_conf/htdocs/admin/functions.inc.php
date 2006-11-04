@@ -1455,6 +1455,7 @@ function module_enable($modulename, $force = false) { // was enableModule
 	
 	// disabled (but doesn't needupgrade or need install), and meets dependencies
 	_module_setenabled($modulename, true);
+	needreload();
 	return true;
 }
 
@@ -1602,9 +1603,6 @@ function module_download($modulename, $force = false, $progress_callback = null)
  */
 function module_install($modulename, $force = false) {
 	$modules = module_getinfo($modulename);
-	if (($modules[$modulename]['status'] == MODULE_STATUS_NOTINSTALLED) || 
-	    ($modules[$modulename]['status'] == MODULE_STATUS_NEEDUPGRADE)) {
-	}
 	global $db, $amp_conf;
 	
 	// make sure we have a directory, to begin with
@@ -1670,6 +1668,7 @@ function module_install($modulename, $force = false) {
 	}
 	
 	// module is now installed & enabled
+	needreload();
 	return true;
 }
 
@@ -1695,6 +1694,7 @@ function module_disable($modulename, $force = false) { // was disableModule
 	}
 	
 	_module_setenabled($modulename, false);
+	needreload();
 	return true;
 }
 
@@ -1731,6 +1731,7 @@ function module_uninstall($modulename, $force = false) {
 		return array(_("Failed to run un-installation scripts"));
 	}
 	
+	needreload();
 	return true;
 }
 
@@ -1767,6 +1768,7 @@ function module_delete($modulename, $force = false) {
 		return array(sprintf(_("Error deleting directory %s (code %d)"), $dir, $exitcode));
 	}
 	
+	// uninstall will have called needreload() if necessary
 	return true;
 }
 
