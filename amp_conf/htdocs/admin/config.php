@@ -24,7 +24,7 @@ $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 if($type == "tool") {
 	$message = "Tools";
 	$fpbx_menu = array(
-		'modules' => array('category' => 'System Administration', 'name' => 'Module Admin')
+		'modules' => array('category' => 'System Administration', 'name' => 'Module Admin', 'sort' => 0)
 	);
 } elseif($type == "cdrcost") {
 	$message = "Call Cost";
