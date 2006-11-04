@@ -129,6 +129,8 @@ if (is_array($fpbx_menu)) {
 if (!$quietmode) {
 	if (is_array($fpbx_menu)) {
 		$category = Array();
+		$sort = Array();
+		$name = Array();
 		// Sorting menu by category and name
 		foreach ($fpbx_menu as $key => $row) {
 			$category[$key] = $row['category'];
