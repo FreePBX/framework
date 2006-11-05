@@ -248,6 +248,17 @@ if (!isset ($FG_TABLE_CLAUSE) || strlen($FG_TABLE_CLAUSE)==0){
 }
 //--$list_total = $instance_table_graph -> Get_list ($FG_TABLE_CLAUSE, null, null, null, null, null, null);
 
+/* --AMP BEGIN-- */
+//enforce restrictions for this AMP User
+session_start();
+$AMP_CLAUSE = $HTTP_SESSION_VARS['AMP_SQL'];
+if (!isset($AMP_CLAUSE)) {
+        $AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
+}
+$FG_TABLE_CLAUSE .= $AMP_CLAUSE;
+/* --AMP END-- */
+
+
 
 if ($posted==1){
 	
