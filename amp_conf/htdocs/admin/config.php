@@ -250,8 +250,6 @@ switch($display) {
 				// create a module_hook object for this module's page
 				$module_hook = new moduleHook;
 				
-				// let hooking modules process the $_REQUEST
-				$module_hook->process_hooks($itemid,$modkey,$item,$_REQUEST);
 				// populate object variables
 				$module_hook->install_hooks($itemid,$modkey,$item);
 				
@@ -262,6 +260,9 @@ switch($display) {
 				if ( isset($currentcomponent) ) {
 					echo $currentcomponent->generateconfigpage();
 				}
+
+				// let hooking modules process the $_REQUEST
+				$module_hook->process_hooks($itemid,$modkey,$item,$_REQUEST);
 
 			}
 		}
