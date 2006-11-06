@@ -283,7 +283,7 @@ switch($display) {
 			printf( "<p>%s</p>"  , dgettext("welcome page", "We urge to you report any bugs you find. Current known bugs are maintained on <a href='http://www.aussievoip.com/wiki/freePBX-2.2'>the users website</a>. If you find a bug, please <a href='http://www.freepbx.org/trac/newticket'>create a bug report</a> and update the information on the <a href='http://www.aussievoip.com/wiki/freePBX-2.2'>users website</a> so that it can be easily tracked by other users.") );
 			echo "</div>";
 
-			printf( "<p>%s</p>"  , dgettext("welcome page", "Note, presently, Microsoft's Internet Explorer is <b>not</b> a supported web browser, and you must use a standards compliant browser, such as Firefox. There is a link on the <a href='http://www.freepbx.org'>right hand side of freePBX.org</a> that will allow you to download Firefox easily. By using that link, Google will donate US$1 to the freePBX project.") );
+			printf( "<!--[if IE]><p>%s</p><![endif]-->"  , dgettext("welcome page", "Note, presently, Microsoft's Internet Explorer is <b>not</b> a supported web browser, and you must use a standards compliant browser, such as Firefox. There is a link on the <a href='http://www.freepbx.org'>right hand side of freePBX.org</a> that will allow you to download Firefox easily. By using that link, Google will donate US$1 to the freePBX project.") );
 			printf( "<p>%s</p>"  , dgettext("welcome page", "If you're new to freePBX, Welcome. Here are some quick instructions to get you started") );
 			
 			echo "<p>";
