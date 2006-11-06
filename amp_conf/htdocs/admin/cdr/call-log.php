@@ -867,10 +867,10 @@ foreach ($list_total_day as $data){
 
 <br/>
 <table width="60%"><tr><td>
-<a href="export_pdf.php" target="_blank"><img src="./images/pdf.gif	" border="0"/></a> <a href="export_pdf.php" target="_blank">Export PDF file</a>
+<a href="export_pdf.php" target="_blank"><img src="./images/pdf.png	" border="0"/></a> <a href="export_pdf.php" target="_blank">Export PDF file</a>
 </td>
 <td>
-<a href="export_csv.php" target="_blank" ><img src="./images/excel.gif" border="0"/></a> <a href="export_csv.php" target="_blank">Export CSV file</a>
+<a href="export_csv.php" target="_blank" ><img src="./images/excel.png" border="0"/></a> <a href="export_csv.php" target="_blank">Export CSV file</a>
 </td></tr></table>
 
 
