@@ -90,7 +90,7 @@ if ($rgmethod == "ringall-prim") {
 // Keep this code after the matermode check above, since they will at least get mastermode
 // if they set a -prim mode in one of the others
 //
-if ( ($call_confirmation != "FALSE") && ($rgmethod != "ringall") ) {
+if ( ($use_confirmation != "FALSE") && ($rgmethod != "ringall") ) {
 	debug("Unsupported RingMethod reset to: '$rgmethod'", 1);
 	$rgmethod	= "ringall";
 }
