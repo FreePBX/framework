@@ -894,40 +894,38 @@ class xml2ModuleArray extends xml2Array {
 	}
 }
 
-// get_headers() for php4 (built in for php5)
-if (!function_exists('get_headers')) {
-	function get_headers($url ) {
-		$url_info=parse_url($url);
-		if (isset($url_info['scheme']) && $url_info['scheme'] == 'https') {
-			$port = isset($url_info['port']) ? $url_info['port'] : 443;
-			@$fp=fsockopen('ssl://'.$url_info['host'], $port, $errno, $errstr, 10);
-		} else {
-			$port = isset($url_info['port']) ? $url_info['port'] : 80;
-			@$fp=fsockopen($url_info['host'], $port, $errno, $errstr, 10);
-		}
-		if ($fp) {
-			stream_set_timeout($fp, 10);
-			$head = "HEAD ".@$url_info['path']."?".@$url_info['query'];
-			$head .= " HTTP/1.0\r\nHost: ".@$url_info['host']."\r\n\r\n";
-			fputs($fp, $head);
-			while(!feof($fp)) {
-				if($header=trim(fgets($fp, 1024))) {
-					$sc_pos = strpos($header, ':');
-					if ($sc_pos === false) {
-						$headers['status'] = $header;
-					} else {
-						$label = substr( $header, 0, $sc_pos );
-						$value = substr( $header, $sc_pos+1 );
-						$headers[strtolower($label)] = trim($value);
-					}
+function get_headers_assoc($url ) {
+	$url_info=parse_url($url);
+	if (isset($url_info['scheme']) && $url_info['scheme'] == 'https') {
+		$port = isset($url_info['port']) ? $url_info['port'] : 443;
+		@$fp=fsockopen('ssl://'.$url_info['host'], $port, $errno, $errstr, 10);
+	} else {
+		$port = isset($url_info['port']) ? $url_info['port'] : 80;
+		@$fp=fsockopen($url_info['host'], $port, $errno, $errstr, 10);
+	}
+	if ($fp) {
+		stream_set_timeout($fp, 10);
+		$head = "HEAD ".@$url_info['path']."?".@$url_info['query'];
+		$head .= " HTTP/1.0\r\nHost: ".@$url_info['host']."\r\n\r\n";
+		fputs($fp, $head);
+		while(!feof($fp)) {
+			if($header=trim(fgets($fp, 1024))) {
+				$sc_pos = strpos($header, ':');
+				if ($sc_pos === false) {
+					$headers['status'] = $header;
+				} else {
+					$label = substr( $header, 0, $sc_pos );
+					$value = substr( $header, $sc_pos+1 );
+					$headers[strtolower($label)] = trim($value);
 				}
 			}
-			return $headers;
-		} else {
-			return false;
 		}
+		return $headers;
+	} else {
+		return false;
 	}
 }
+
    
 
 class moduleHook {
@@ -1539,7 +1537,7 @@ function module_download($modulename, $force = false, $progress_callback = null)
 		return array(sprintf(_("Error opening %s for writing"), $filename));
 	}
 	
-	$headers = get_headers($url);
+	$headers = get_headers_assoc($url);
 	
 	$totalread = 0;
 	// invoke progress_callback
