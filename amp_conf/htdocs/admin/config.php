@@ -276,6 +276,25 @@ switch($display) {
 	case '':
 		if ($astman) {
 			printf( "<h2>%s</h2>", dgettext("welcome page", "Welcome to freePBX.") );
+
+			$modules_needup = module_getinfo(false, MODULE_STATUS_NEEDUPGRADE);
+			$modules_broken = module_getinfo(false, MODULE_STATUS_BROKEN);
+			if (count($modules_needup) || count($modules_broken)) {
+				echo "<div class=\"warning\">";
+				if (count($modules_needup)) {
+					echo "<p>"._("Warning: The following modules are disabled because they need upgrading: ");
+					echo implode(", ",array_keys($modules_needup));
+					echo "</p>";
+				}
+				if (count($modules_broken)) {
+					echo "<p>"._("Warning: The following modules are disabled because they are broken: ");
+					echo implode(", ",array_keys($modules_broken));
+					echo "</p>";
+				}
+				echo "<p>", sprintf(dgettext("welcome page","You should go to the <a href='%s'>Module Admin</a> page to fix these.</p>"), "config.php?display=modules&amp;type=tool");
+				echo "</div>";
+			}
+			
 // BETA code - remove later.
 			echo "<div class=\"warning\">";
 			printf( "<p>%s</p>", dgettext("welcome page", "You are running a BETA VERSION of freePBX. This release probably has bugs, and the point of this release is to get as many of them fixed as possible.") );
