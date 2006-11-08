@@ -179,7 +179,7 @@ for ($i=0; $i<$months_compare+1; $i++){
 	/* --AMP BEGIN-- */
 	//enforce restrictions for this AMP User
 	session_start();
-	$AMP_CLAUSE = $HTTP_SESSION_VARS['AMP_SQL'];
+	$AMP_CLAUSE = $_SESSION['AMP_SQL'];
 	if (!isset($AMP_CLAUSE)) {
 		$AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
 	}

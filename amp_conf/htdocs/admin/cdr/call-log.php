@@ -251,7 +251,7 @@ if (!isset ($FG_TABLE_CLAUSE) || strlen($FG_TABLE_CLAUSE)==0){
 /* --AMP BEGIN-- */
 //enforce restrictions for this AMP User
 session_start();
-$AMP_CLAUSE = $HTTP_SESSION_VARS['AMP_SQL'];
+$AMP_CLAUSE = $_SESSION['AMP_SQL'];
 if (!isset($AMP_CLAUSE)) {
         $AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
 }
