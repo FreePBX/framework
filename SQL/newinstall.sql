@@ -82,9 +82,11 @@ INSERT INTO `globals` VALUES ('DIAL_OUT', '9');
 INSERT INTO `globals` VALUES ('FAX', '');
 INSERT INTO `globals` VALUES ('FAX_RX', 'system');
 INSERT INTO `globals` VALUES ('FAX_RX_EMAIL', 'fax@mydomain.com');
+INSERT INTO `globals` VALUES ('FAX_RX_FROM', 'freepbx@gmail.com');
 INSERT INTO `globals` VALUES ('INCOMING', 'group-all');
 INSERT INTO `globals` VALUES ('NULL', '""');
 INSERT INTO `globals` VALUES ('OPERATOR', '');
+INSERT INTO `globals` VALUES ('OPERATOR_XTN', '');
 INSERT INTO `globals` VALUES ('PARKNOTIFY', 'SIP/200');
 INSERT INTO `globals` VALUES ('RECORDEXTEN', '""');
 INSERT INTO `globals` VALUES ('RINGTIMER', '15');
@@ -98,7 +100,11 @@ INSERT INTO `globals` VALUES ('DIALOUTIDS', '1');
 INSERT INTO `globals` VALUES ('OUT_1', 'ZAP/g0');
 INSERT INTO `globals` VALUES ('VM_PREFIX', '*');
 INSERT INTO `globals` VALUES ('VM_OPTS', '');
+INSERT INTO `globals` VALUES ('VM_GAIN', '');
+INSERT INTO `globals` VALUES ('VM_DDTYPE', '');
 INSERT INTO `globals` VALUES ('TIMEFORMAT', 'kM');
+INSERT INTO `globals` VALUES ('TONEZONE', 'us');
+INSERT INTO `globals` VALUES ('ALLOW_SIP_ANON', 'no');
 
 -- --------------------------------------------------------
 

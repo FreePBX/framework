@@ -75,30 +75,36 @@ CREATE TABLE globals (
 -- Dumping data for table globals
 -- 
 
-INSERT INTO globals VALUES ('CALLFILENAME', '""');
-INSERT INTO globals VALUES ('DIAL_OPTIONS', 'tr');
-INSERT INTO globals VALUES ('TRUNK_OPTIONS', '');
-INSERT INTO globals VALUES ('DIAL_OUT', '9');
-INSERT INTO globals VALUES ('FAX', '');
-INSERT INTO globals VALUES ('FAX_RX', 'system');
-INSERT INTO globals VALUES ('FAX_RX_EMAIL', 'fax@mydomain.com');
-INSERT INTO globals VALUES ('INCOMING', 'group-all');
-INSERT INTO globals VALUES ('NULL', '""');
-INSERT INTO globals VALUES ('OPERATOR', '');
-INSERT INTO globals VALUES ('PARKNOTIFY', 'SIP/200');
-INSERT INTO globals VALUES ('RECORDEXTEN', '""');
-INSERT INTO globals VALUES ('RINGTIMER', '15');
-INSERT INTO globals VALUES ('DIRECTORY', 'last');
-INSERT INTO globals VALUES ('AFTER_INCOMING', '');
-INSERT INTO globals VALUES ('IN_OVERRIDE', 'forcereghours');
-INSERT INTO globals VALUES ('REGTIME', '7:55-17:05');
-INSERT INTO globals VALUES ('REGDAYS', 'mon-fri');
-INSERT INTO globals VALUES ('DIRECTORY_OPTS', '');
-INSERT INTO globals VALUES ('DIALOUTIDS', '1');
-INSERT INTO globals VALUES ('OUT_1', 'ZAP/g0');
-INSERT INTO globals VALUES ('VM_PREFIX', '*');
-INSERT INTO globals VALUES ('VM_OPTS', '');
-INSERT INTO globals VALUES ('TIMEFORMAT', 'kM');
+INSERT INTO `globals` VALUES ('CALLFILENAME', '""');
+INSERT INTO `globals` VALUES ('DIAL_OPTIONS', 'tr');
+INSERT INTO `globals` VALUES ('TRUNK_OPTIONS', '');
+INSERT INTO `globals` VALUES ('DIAL_OUT', '9');
+INSERT INTO `globals` VALUES ('FAX', '');
+INSERT INTO `globals` VALUES ('FAX_RX', 'system');
+INSERT INTO `globals` VALUES ('FAX_RX_EMAIL', 'fax@mydomain.com');
+INSERT INTO `globals` VALUES ('FAX_RX_FROM', 'freepbx@gmail.com');
+INSERT INTO `globals` VALUES ('INCOMING', 'group-all');
+INSERT INTO `globals` VALUES ('NULL', '""');
+INSERT INTO `globals` VALUES ('OPERATOR', '');
+INSERT INTO `globals` VALUES ('OPERATOR_XTN', '');
+INSERT INTO `globals` VALUES ('PARKNOTIFY', 'SIP/200');
+INSERT INTO `globals` VALUES ('RECORDEXTEN', '""');
+INSERT INTO `globals` VALUES ('RINGTIMER', '15');
+INSERT INTO `globals` VALUES ('DIRECTORY', 'last');
+INSERT INTO `globals` VALUES ('AFTER_INCOMING', '');
+INSERT INTO `globals` VALUES ('IN_OVERRIDE', 'forcereghours');
+INSERT INTO `globals` VALUES ('REGTIME', '7:55-17:05');
+INSERT INTO `globals` VALUES ('REGDAYS', 'mon-fri');
+INSERT INTO `globals` VALUES ('DIRECTORY_OPTS', '');
+INSERT INTO `globals` VALUES ('DIALOUTIDS', '1');
+INSERT INTO `globals` VALUES ('OUT_1', 'ZAP/g0');
+INSERT INTO `globals` VALUES ('VM_PREFIX', '*');
+INSERT INTO `globals` VALUES ('VM_OPTS', '');
+INSERT INTO `globals` VALUES ('VM_GAIN', '');
+INSERT INTO `globals` VALUES ('VM_DDTYPE', '');
+INSERT INTO `globals` VALUES ('TIMEFORMAT', 'kM');
+INSERT INTO `globals` VALUES ('TONEZONE', 'us');
+INSERT INTO `globals` VALUES ('ALLOW_SIP_ANON', 'no');
 
 -- --------------------------------------------------------
 
