@@ -55,11 +55,11 @@ if (isset($_REQUEST['clk_reload'])) {
 		";
 	}
 	
-	//run retrieve script
-	$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf';
-	exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log');
-	
 	if ($astman) {
+		//run retrieve script
+		$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf';
+		exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log');
+	
 		/*	Would be cool to do the following from here 
 			(to avoid permission problems when running apache as nobody).
 			Unfortunately, I can't make it work :-(
