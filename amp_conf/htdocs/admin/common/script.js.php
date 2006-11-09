@@ -139,13 +139,22 @@ function body_loaded() {
 
 function amp_apply_changes() {
 	if (confirm("About to reload backend configuration. This applies all outstanding changes to the live server.")) {
-		if (location.href.indexOf('?') == -1) {
-			location.href = location.href + '?clk_reload=true';
+		
+		if (document.all) {
+			// need this for IE : http://support.microsoft.com/kb/q190244/
+			window.event.returnValue = false;
+			// IE also uses window.location.href instead of location.href
+			location = window.location.href;
 		} else {
-			location.href = location.href + '&clk_reload=true';
+			location = location.href;
+		}
+
+		if (location.href.indexOf('?') == -1) {
+			location = location + '?clk_reload=true';
+		} else {
+			location = location + '&clk_reload=true';
 		}
 		
-		//location.href = '<?php // echo $href; ?>';
 	}
 }
 
