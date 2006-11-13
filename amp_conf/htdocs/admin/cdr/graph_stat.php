@@ -96,11 +96,11 @@ if ( is_null ($order) || is_null($sens) ){
   if ($_GET['before']) {
     if (strpos($SQLcmd, 'WHERE') > 0) { 	$SQLcmd = "$SQLcmd AND ";
     }else{     								$SQLcmd = "$SQLcmd WHERE "; }
-    $SQLcmd = "$SQLcmd calldate<'".mysql_real_escape_string($_GET['before'])."'";
+    $SQLcmd = "$SQLcmd calldate<'".addslashes($_GET['before'])."'";
   }
   if ($_GET['after']) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
   } else {      $SQLcmd = "$SQLcmd WHERE ";    }
-    $SQLcmd = "$SQLcmd calldate>'".mysql_real_escape_string($_GET['after'])."'";
+    $SQLcmd = "$SQLcmd calldate>'".addslashes($_GET['after'])."'";
   }
   $SQLcmd = do_field($SQLcmd, 'clid');
   $SQLcmd = do_field($SQLcmd, 'src');

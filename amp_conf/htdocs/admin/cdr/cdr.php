@@ -20,10 +20,10 @@ function cdrpage_getpost_ifset($test_vars)
 	foreach($test_vars as $test_var) { 
 		if (isset($_POST[$test_var])) { 
 			global $$test_var;
-			$$test_var = $_POST[$test_var]; 
+			$$test_var = addslashes($_POST[$test_var]); 
 		} elseif (isset($_GET[$test_var])) {
 			global $$test_var; 
-			$$test_var = $_GET[$test_var];
+			$$test_var = addslashes($_GET[$test_var]);
 		}
 	}
 }
