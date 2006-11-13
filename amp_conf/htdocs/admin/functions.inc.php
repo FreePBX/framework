@@ -273,6 +273,8 @@ function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $descriptio
 		}
 	}
 	 
+	$prevtag = "";
+	$prevtag_pre = "";
 	if ($skip) {
 		 $prevskip= $skip - $perpage;
 		 if ($prevskip<0) $prevskip= 0;
