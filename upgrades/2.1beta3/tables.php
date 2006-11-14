@@ -5,7 +5,7 @@ $sql = "SELECT value FROM globals WHERE variable = 'VM_DDTYPE' ";
 $asa = $db->getRow($sql, DB_FETCHMODE_ASSOC);
 if (!is_array($asa)) { // does not exist already
         // Default to ''
-        $sql = "INSERT INTO globals (variable, value) VALUES ('VM_DDTYPE', '') ";
+        $sql = "INSERT INTO globals (variable, value) VALUES ('VM_DDTYPE', 'u') ";
         $result = $db->query($sql);
         if(DB::IsError($result)) {
                 die($result->getDebugInfo());

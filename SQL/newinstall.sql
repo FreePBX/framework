@@ -101,7 +101,7 @@ INSERT INTO `globals` VALUES ('OUT_1', 'ZAP/g0');
 INSERT INTO `globals` VALUES ('VM_PREFIX', '*');
 INSERT INTO `globals` VALUES ('VM_OPTS', '');
 INSERT INTO `globals` VALUES ('VM_GAIN', '');
-INSERT INTO `globals` VALUES ('VM_DDTYPE', '');
+INSERT INTO `globals` VALUES ('VM_DDTYPE', 'u');
 INSERT INTO `globals` VALUES ('TIMEFORMAT', 'kM');
 INSERT INTO `globals` VALUES ('TONEZONE', 'us');
 INSERT INTO `globals` VALUES ('ALLOW_SIP_ANON', 'no');
