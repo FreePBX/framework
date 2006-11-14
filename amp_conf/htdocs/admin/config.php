@@ -137,13 +137,21 @@ if (!$quietmode) {
 			$sort[$key] = $row['sort'];
 			$name[$key] = $row['name'];
 		}
-
-		array_multisort(
-			$category, SORT_ASC, 
-			$sort, SORT_ASC, SORT_NUMERIC, 
-			$name, SORT_ASC, 
-			$fpbx_menu
-		);
+		
+		if ($amp_conf['USECATEGORIES']) {
+			array_multisort(
+				$category, SORT_ASC, 
+				$sort, SORT_ASC, SORT_NUMERIC, 
+				$name, SORT_ASC, 
+				$fpbx_menu
+			);
+		} else {
+			array_multisort(
+				$sort, SORT_ASC, SORT_NUMERIC, 
+				$name, SORT_ASC, 
+				$fpbx_menu
+			);
+		}
 		
 		// Printing menu
 		echo "<div id=\"nav\"><ul>\n";
@@ -151,7 +159,7 @@ if (!$quietmode) {
 		$prev_category = '';
 		
 		foreach ($fpbx_menu as $key => $row) {
-			if ($row['category'] != $prev_category) {
+			if ($amp_conf['USECATEGORIES'] && ($row['category'] != $prev_category)) {
 				echo "\t\t<li>"._($row['category'])."</li>\n";
 				$prev_category = $row['category'];
 			}
