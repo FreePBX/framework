@@ -21,6 +21,17 @@ define('MODULE_STATUS_NEEDUPGRADE', 3);
 define('MODULE_STATUS_BROKEN', -1);
 
 function parse_amportal_conf($filename) {
+	// defaults, if not specified in the file
+	$defaults = array(
+		'AMPDBENGINE' => 'mysql',
+		'AMPDBNAME' => 'asterisk',
+		'AMPENGINE' => 'asterisk',
+		'USECATEGORIES' => true,
+		);
+	// boolean values, will be converted to true/false
+	// "yes", "true", 1 (case-insensitive) will be treated as true, everything else is false
+	$booleans = array('USECATEGORIES');
+
 	$file = file($filename);
 	if (is_array($file)) {
 		foreach ($file as $line) {
@@ -32,16 +43,16 @@ function parse_amportal_conf($filename) {
 		die("<h1>Missing or unreadable config file ($filename)...cannot continue</h1>");
 	}
 	
-	if ( !isset($conf["AMPDBENGINE"]) || ($conf["AMPDBENGINE"] == "")) {
-		$conf["AMPDBENGINE"] = "mysql";
+	// set defaults
+	foreach ($defaults as $key=>$val) {
+		if (!isset($conf[$key]) || $conf[$key] == '') {
+			$conf[$key] = $val;
+		}
 	}
-	
-	if ( !isset($conf["AMPDBNAME"]) || ($conf["AMPDBNAME"] == "")) {
-		$conf["AMPDBNAME"] = "asterisk";
-	}
-	
-	if ( !isset($conf["AMPENGINE"]) || ($conf["AMPENGINE"] == "")) {
-		$conf["AMPENGINE"] = "asterisk";
+
+	// evaluate boolean values
+	foreach ($booleans as $key) {
+		$conf[$key] = isset($conf[$key]) && ($conf[$key] === true || strtolower($conf[$key]) == 'true' || $conf[$key] === 1 || $conf[$key] == '1' || strtolower($conf[$key]) == 'yes');
 	}
 
 /*			
