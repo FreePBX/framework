@@ -51,7 +51,7 @@ debug("Caller ID name is '$cidname' number is '$cidnum'", 1);
 
 // From this point forward, Set KEEPCID in the channel so subsequent calls, CF, etc. retain the incoming
 // CID that get sent down channel local.
-$AGI->set_variable('_KEEPCID','TRUE');
+$AGI->set_variable('__KEEPCID','TRUE');
 
 $timer		= get_var( $AGI, "ARG1" );
 $dialopts	= get_var( $AGI, "ARG2" );
