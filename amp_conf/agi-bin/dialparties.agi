@@ -430,6 +430,11 @@ if (!strlen($ds))
 		$ds .= '|' . $dialopts; // pound to transfer, provide ringing
 		if (trim($use_confirmation) != "FALSE")
 			$AGI->set_variable('__RG_IDX',$ringgroup_index);
+			if ( isset($cidnum) && is_numeric($cidnum) ) {
+			    $AGI->set_variable('__CALLCONFIRMCID',$cidnum);
+			} else {
+			    $AGI->set_variable('__CALLCONFIRMCID',"999");
+			}
 		$AGI->set_variable('ds',$ds);
 		$AGI->set_priority(10); // dial command is at priority 10
 	}
