@@ -175,7 +175,7 @@ function download_progress($action, $params) {
 			flush();
 		break;
 		case 'downloading':
-			if ($params['read']==0) {
+			if ($params['total']==0) {
 				$progress = $params['read'].' of '.$params['total'].' (0%)';
 			} else {
 				$progress = $params['read'].' of '.$params['total'].' ('.round($params['read']/$params['total']*100).'%)';
