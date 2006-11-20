@@ -280,6 +280,8 @@ class component {
 					
 					// Elements
 					foreach ( array_keys($this->_guielems_middle[$section]) as $sortorder ) {
+						if ($sortorder = 'placement') 
+							continue;
 						foreach ( array_keys($this->_guielems_middle[$section][$sortorder]) as $idx ) {
 							$elem = $this->_guielems_middle[$section][$sortorder][$idx];
 							$htmlout .= $elem->generatehtml();
