@@ -30,7 +30,7 @@ class component {
 		$this->_sorted_processfuncs = true;
 	}
 	
-	function addguielem($section, $guielem, $sortorder = 5, $placement) {
+	function addguielem($section, $guielem, $sortorder = 5, $placement = null) {
 		// Note that placement is only used in 'middle', eg, a named module
 		if ( $sortorder < 0 || $sortorder > 9 ) {
 			trigger_error('$sortorder must be between 0 and 9 in component->addguielem()');
@@ -47,7 +47,7 @@ class component {
 			default:
 				$this->_guielems_middle[$section][$sortorder][] = $guielem;
 				if (!isset($this->_guielems_middle[$section]['placement'])) {
-					if (!isset($placement)) {
+					if ($placement === null) {
 						$this->_guielems_middle[$section]['placement'] = $sortorder;
 					} else {
 						$this->_guielems_middle[$section]['placement'] = $placement;
