@@ -46,10 +46,12 @@ class component {
 				break;
 			default:
 				$this->_guielems_middle[$section][$sortorder][] = $guielem;
-				if (!isset($placement)) {
-					$this->_guielems_middle[$section]['placement'] = $sortorder;
-				} else {
-					$this->_guielems_middle[$section]['placement'] = $placement;
+				if (!isset($this->_guielems_middle[$section]['placement'])) {
+					if (!isset($placement)) {
+						$this->_guielems_middle[$section]['placement'] = $sortorder;
+					} else {
+						$this->_guielems_middle[$section]['placement'] = $placement;
+					}
 				}
 				break;
 		}
