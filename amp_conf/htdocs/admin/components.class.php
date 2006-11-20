@@ -263,9 +263,6 @@ class component {
 		}
 		
 		// Middle
-		print"<pre>";
-		print_r($this->_guielems_middle);
-		print"</pre>";
 		if ( is_array($this->_guielems_middle) ) {
 			$hasoutput = true;
 			for ($placement = 0; $placement < 10; $placement++) {
