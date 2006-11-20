@@ -30,7 +30,8 @@ class component {
 		$this->_sorted_processfuncs = true;
 	}
 	
-	function addguielem($section, $guielem, $sortorder = 5) {
+	function addguielem($section, $guielem, $sortorder = 5, $placement) {
+		// Note that placement is only used in 'middle', eg, a named module
 		if ( $sortorder < 0 || $sortorder > 9 ) {
 			trigger_error('$sortorder must be between 0 and 9 in component->addguielem()');
 			return;
@@ -45,6 +46,11 @@ class component {
 				break;
 			default:
 				$this->_guielems_middle[$section][$sortorder][] = $guielem;
+				if (!isset($placement)) {
+					$this->_guielems_middle[$section]['placement'] = $sortorder;
+				} else {
+					$this->_guielems_middle[$section]['placement'] = $placement;
+				}
 				break;
 		}
 		
@@ -232,7 +238,7 @@ class component {
 		$formname = "frm_$this->_compname";
 		$hasoutput = false;
 		
-		if ( !$this->_sorted_guielems )
+		if ( !$this->_sorted_guielems ) 
 			$this->sortguielems();
 
 		// Start of form
@@ -257,22 +263,29 @@ class component {
 		}
 		
 		// Middle
+		print"<pre>";
+		print_r($this->_guielems_middle);
+		print"</pre>";
 		if ( is_array($this->_guielems_middle) ) {
 			$hasoutput = true;
-			foreach ( array_keys($this->_guielems_middle) as $section ) {
-				// Header for $section				
-				$htmlout .= "\t<tr>\n";
-				$htmlout .= "\t\t<td colspan=\"2\">";
-				$htmlout .= "<h5><br>" . _($section) . "</h5><hr>";
-				$htmlout .= "</td>\n";
-				$htmlout .= "\t</tr>\n";
-				
-				// Elements
-				foreach ( array_keys($this->_guielems_middle[$section]) as $sortorder ) {
-					foreach ( array_keys($this->_guielems_middle[$section][$sortorder]) as $idx ) {
-						$elem = $this->_guielems_middle[$section][$sortorder][$idx];
-						$htmlout .= $elem->generatehtml();
-						$this->addjsfunc('onsubmit()', $elem->generatevalidation());
+			for ($placement = 0; $placement < 10; $placement++) {
+				foreach ( array_keys($this->_guielems_middle) as $section ) {
+					if ($this->_guielems_middle[$section]['placement'] !== $placement)
+						continue;
+					// Header for $section				
+					$htmlout .= "\t<tr>\n";
+					$htmlout .= "\t\t<td colspan=\"2\">";
+					$htmlout .= "<h5><br>" . _($section) . "</h5><hr>";
+					$htmlout .= "</td>\n";
+					$htmlout .= "\t</tr>\n";
+					
+					// Elements
+					foreach ( array_keys($this->_guielems_middle[$section]) as $sortorder ) {
+						foreach ( array_keys($this->_guielems_middle[$section][$sortorder]) as $idx ) {
+							$elem = $this->_guielems_middle[$section][$sortorder][$idx];
+							$htmlout .= $elem->generatehtml();
+							$this->addjsfunc('onsubmit()', $elem->generatevalidation());
+						}
 					}
 				}
 			}
