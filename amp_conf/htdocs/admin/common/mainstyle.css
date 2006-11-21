@@ -226,6 +226,11 @@ a.info {
 	color:black;
 	border-bottom:1px dashed #ccc;
 }
+/* Added to solve the z-order problem of IE */
+a.info:hover {
+    z-index:2;
+}
+/* End */
 a.info span{
     display: none;
 }
