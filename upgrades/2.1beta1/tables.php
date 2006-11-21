@@ -80,7 +80,7 @@ $sql = "SELECT value FROM globals WHERE variable = 'TRUNK_OPTIONS' ";
 $asa = $db->getRow($sql, DB_FETCHMODE_ASSOC);
 if (!is_array($asa)) { // does not exist already
 	// Default to 'r'
-	$sql = "INSERT INTO globals (variable, value) VALUES ('TRUNK_OPTIONS', 'r') ";
+	$sql = "INSERT INTO globals (variable, value) VALUES ('TRUNK_OPTIONS', '') ";
 	$result = $db->query($sql);
 	if(DB::IsError($result)) 
                 die($result->getDebugInfo());
