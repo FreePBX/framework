@@ -839,6 +839,12 @@ class ext_musiconhold extends extension {
 	}
 }
 
+class ext_setmusiconhold extends extension {
+	function output() {
+		return "SetMusicOnHold(".$this->data.")";
+	}
+}
+
 class ext_congestion extends extension {
 	function output() {
 		return "Congestion";
