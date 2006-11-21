@@ -35,6 +35,9 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 }
 
 
+// start output buffering
+ob_start();
+
 //get the current file name
 $currentFile = $_SERVER["PHP_SELF"];
 $parts = Explode('/', $currentFile);

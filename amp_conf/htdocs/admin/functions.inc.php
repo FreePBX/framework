@@ -2095,4 +2095,15 @@ function freepbx_log($section, $level, $message) {
         if (isset($debug) && ($debug != false))
                 print "[DEBUG-$section] ($level) $message\n";
 }
+
+/** Abort all output, and redirect the browser's location
+ * @param string   The url to go to
+ * @param bool     If execution should stop after the function
+ */
+function redirect($url, $stop_processing = true) {
+	ob_end_clean();
+	header('Location: '.$url);
+	if ($stop_processing) exit;
+}
+
 ?>

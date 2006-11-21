@@ -202,6 +202,10 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "<h4>"._("Please wait while module actions are performed")."</h4>\n";
 		
 		echo "<div id=\"moduleprogress\">";
+
+		// stop output buffering, and send output
+		@ ob_end_flush();
+
 		flush();
 		foreach ($moduleaction as $modulename => $action) {	
 			$didsomething = true; // set to false in default clause of switch() below..
