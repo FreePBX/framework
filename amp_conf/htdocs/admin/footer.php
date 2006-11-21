@@ -80,6 +80,11 @@ if (isset($_REQUEST['clk_reload'])) {
 			die($result->getMessage());
 		}
 		$need_reload = false;
+
+		// Strip the clk_reload bit, and redirect .. this way, pressing "refresh" won't cause
+		// a second reload
+		redirect( preg_replace('/(&amp;|&|\?)clk_reload=true/','',$_SERVER['REQUEST_URI']) );
+
 	}
 }
 
