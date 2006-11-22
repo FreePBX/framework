@@ -259,7 +259,10 @@ function getversion() {
 
 // draw list for users and devices with paging
 function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $description) {
-	$perpage=20;
+	// Dirty Fix to get rid of [NEXT/PREV] since I'm not sure what passing skip does and don't want to mess with it.
+	// When someone feels like looking closer at the below, probably should remove the code.
+	// I removed pagination cause of the new scroll box ticket #1415
+	$perpage=20000;
 	
 	$skipped = 0;
 	$index = 0;
