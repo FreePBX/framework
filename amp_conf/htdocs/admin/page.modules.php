@@ -48,7 +48,7 @@ function toggleInfoPane(pane) {
 }
 
 function check_upgrade_all() {
-	var re = /^moduleaction\[([a-z0-9_]+)\]$/;
+	var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
 	for(i=0; i<document.modulesGUI.elements.length; i++) {
 		if (document.modulesGUI.elements[i].value == 'upgrade') {
 			if (match = document.modulesGUI.elements[i].name.match(re)) {
@@ -452,7 +452,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 				case MODULE_STATUS_NEEDUPGRADE:
-					echo '<span class="alert">'.sprintf(_('Disabled; Pending upgrade to %s'),$modules[$name]['version']).'</span>';
+					echo '<span class="alert">'.sprintf(_('Disabled; Pending upgrade to %s'),$modules_local[$name]['version']).'</span>';
 				break;
 				case MODULE_STATUS_BROKEN:
 					echo '<span class="alert">'._('Broken').'</span>';
