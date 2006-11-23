@@ -1585,15 +1585,20 @@
         $in_token = false;
         foreach($parse as $token)
         {
-          if($in_token) // we previously hit a token starting with ')' but not ending in ')'
+          if($in_token) // we previously hit a token starting with '(' but not ending in ')'
           {
-            $ret['data'] .= ' ' . trim($token, '() ');
+	    $tmp = trim($token);
+	    $tmp = $tmp{0} == '(' ? substr($tmp,1):$tmp;
+	    $tmp = substr($tmp,-1) == ')' ? substr($tmp,0,strlen($tmp)-1):$tmp;
+	    $ret['data'] .= ' ' . trim($tmp);
             if($token{strlen($token)-1} == ')') $in_token = false;
           }
           elseif($token{0} == '(')
           {
             if($token{strlen($token)-1} != ')') $in_token = true;
-            $ret['data'] .= ' ' . trim($token, '() ');
+	    $tmp = trim(substr($token,1));
+	    $tmp = $in_token ? $tmp : substr($tmp,0,strlen($tmp)-1);
+	    $ret['data'] .= ' ' . trim($tmp);
           }
           elseif(strpos($token, '='))
           {
