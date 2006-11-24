@@ -1092,7 +1092,7 @@ function module_getonlinexml($module = false) { // was getModuleXml()
 			$fn = $amp_conf["AMPMODULEXML"]."modules-".$matches[1].".xml";
 			// echo "(From amportal.conf)"; //debug
 		} else {
-		$fn = "http://mirror.freepbx.org/modules-".$matches[1].".xml";
+			$fn = "http://mirror.freepbx.org/modules-".$matches[1].".xml";
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
@@ -2086,6 +2086,11 @@ function rmModule($module) {
 */
 
 
+/** Log an error to the (database-based) log
+ * @param  string   The section or script where the error occured
+ * @param  string   The level/severity of the error. Valid levels: 'error', 'warning', 'debug', 'devel-debug'
+ * @param  string   The error message
+ */
 function freepbx_log($section, $level, $message) {
         global $db;
         global $debug; // This is used by retrieve_conf
