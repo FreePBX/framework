@@ -328,7 +328,7 @@ switch($display) {
 "There are a large number of Plug-in modules available from the Online Repository. This is
 available by clicking on the <a href='%s'>Tools menu</a> up the top, then
 <a href='%s'>Module Admin</a>, then
-<a href='%s'>Connect to Online Module Repository</a>.
+<a href='%s'>Check for updates online</a>.
 Modules are updated and patched often, so if you are having a problem, it's worth checking there to see if there's
 a new version of the module available."), 
 				"config.php?type=tool",
