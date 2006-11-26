@@ -74,7 +74,7 @@ while (my $cmd = shift @ARGV) {
 # Lets make sure that we know about a file...
 die $usage unless $file;
 # and that the file exists...
-open FILE, $file or die "Error opening $file: $!"; 
+open( FILE, $file ) or die "Error opening $file: $!"; 
 # Oh, did we possibly not specify an attachment name?
 $attachment = $file unless ($attachment);
 

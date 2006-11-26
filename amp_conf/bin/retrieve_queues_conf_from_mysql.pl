@@ -67,7 +67,7 @@ unless ($result) {
   exit;
 }
 
-open EXTEN, ">$queues_conf" or die "Cannot create/overwrite extensions file: $queues_conf\n";
+open( EXTEN, ">$queues_conf" ) or die "Cannot create/overwrite extensions file: $queues_conf (!$)\n";
 print EXTEN $warning_banner;
 
 $additional = "";

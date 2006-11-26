@@ -75,8 +75,8 @@ unless ($result) {
   exit;
 }
 
-open EXTEN, ">$iax_conf" or die "Cannot create/overwrite IAX file: $iax_conf\n";
-open REG, ">$iax_reg" or die "Cannot create/overwrite IAX Registration file: $iax_reg\n";
+open( EXTEN, ">$iax_conf" ) or die "Cannot create/overwrite IAX file: $iax_conf (!$)\n";
+open( REG, ">$iax_reg" ) or die "Cannot create/overwrite IAX Registration file: $iax_reg (!$)\n";
 
 print EXTEN $warning_banner;
 print REG   $warning_banner;

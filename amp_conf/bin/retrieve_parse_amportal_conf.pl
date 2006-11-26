@@ -11,7 +11,7 @@ sub parse_amportal_conf
 	my $filename = $_[0];
 	my %ampconf;
 	
-	open(AMPCONF, $filename) || die "Cannot open $filename";
+	open(AMPCONF, $filename) or die "Cannot open $filename";
 	
 	while (<AMPCONF>)
 	{

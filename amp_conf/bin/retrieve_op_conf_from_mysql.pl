@@ -145,7 +145,7 @@ elsif ( $db_engine eq "sqlite" ) {
 	$dbh = DBI->connect("dbi:SQLite2:dbname=$db_file","","");
 }
 
-open EXTEN, ">$op_conf" || die "Cannot create/overwrite config file: $op_conf\n";
+open( EXTEN, ">$op_conf" ) or die "Cannot create/overwrite config file: $op_conf (!$)\n";
 print EXTEN $warning_banner;
 
 #First, populate extensions

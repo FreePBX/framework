@@ -71,7 +71,7 @@ unless ($result) {
 	exit;
 }
 
-open EXTEN, ">$sip_conf" or die "Cannot create/overwrite extensions file: $sip_conf\n";
+open( EXTEN, ">$sip_conf" ) or die "Cannot create/overwrite extensions file: $sip_conf (!$)\n";
 print EXTEN $warning_banner;
 
 $additional = "";
