@@ -94,12 +94,6 @@ if (!$quietmode) {
 ?>
 	
 	<script type="text/javascript" src="common/script.js.php"></script>
-	<script type="text/javascript"> 
-		<!--
-		// Disable browser's Back button on another pg being able to go back to this pg.
-		history.forward();
-		//-->
-	</script>
 <!--[if IE]>
     <style type="text/css">div.inyourface a{position:absolute;}</style>
 <![endif]-->
