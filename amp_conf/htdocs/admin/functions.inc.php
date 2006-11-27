@@ -2123,14 +2123,14 @@ function redirect($url, $stop_processing = true) {
 
 /** Abort all output, and redirect the browser's location using standard
  * freePBX user interface variables. By default, will take POST/GET variables
- * 'type', 'display', and 'extdisplay' and pass them along in the URL. 
+ * 'type' and 'display' and pass them along in the URL. 
  * Also accepts a variable number of parameters, each being the name of a variable
  * to pass on. 
  * 
- * For example, calling redirect_standard('id','test'); will take $_REQUEST['type'], 
- * $_REQUEST['display'], $_REQUEST['extdisplay'], $_REQUEST['id'], and $_REQUEST['test'],
+ * For example, calling redirect_standard('extdisplay','test'); will take $_REQUEST['type'], 
+ * $_REQUEST['display'], $_REQUEST['extdisplay'], and $_REQUEST['test'],
  * and if any are present, use them to build a GET string (eg, "config.php?type=setup&
- * display=somemodule&id=53&test=yes", which is then passed to redirect() to send the browser
+ * display=somemodule&extdisplay=53&test=yes", which is then passed to redirect() to send the browser
  * there.
  *
  * @param string  (optional, variable number) The name of a variable from $_REQUEST to 
@@ -2139,7 +2139,7 @@ function redirect($url, $stop_processing = true) {
 function redirect_standard() {
 	$args = func_get_Args();
 
-        foreach (array_merge(array('type','display','extdisplay'),$args) as $arg) {
+        foreach (array_merge(array('type','display'),$args) as $arg) {
                 if (isset($_REQUEST[$arg])) {
                         $urlopts[] = $arg.'='.urlencode($_REQUEST[$arg]);
                 }
