@@ -140,20 +140,22 @@ function body_loaded() {
 function amp_apply_changes() {
 	if (confirm("About to reload backend configuration. This applies all outstanding changes to the live server.")) {
 		
+		var newlocation;
 		if (document.all) {
 			// need this for IE : http://support.microsoft.com/kb/q190244/
 			window.event.returnValue = false;
 			// IE also uses window.location.href instead of location.href
-			location = window.location.href;
+			newlocation = window.location.href;
 		} else {
-			location = location.href;
+			newlocation = location.href;
 		}
 
 		if (location.href.indexOf('?') == -1) {
-			location = location + '?clk_reload=true';
+			newlocation = location + '?clk_reload=true';
 		} else {
-			location = location + '&clk_reload=true';
+			newlocation = location + '&clk_reload=true';
 		}
+		location = newlocation.replace(/action/,"var-disabled");
 		
 	}
 }
