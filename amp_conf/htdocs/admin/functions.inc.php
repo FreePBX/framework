@@ -2136,7 +2136,7 @@ function redirect($url, $stop_processing = true) {
  * @param string  (optional, variable number) The name of a variable from $_REQUEST to 
  *                pass on to a GET URL.
  */
-function redirect_standard() {
+function redirect_standard($continue=false) {
 	$args = func_get_Args();
 
         foreach (array_merge(array('type','display'),$args) as $arg) {
@@ -2145,7 +2145,7 @@ function redirect_standard() {
                 }
         }
         $url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
-        redirect($url);
+        redirect($url, $continue);
 }
 
 ?>
