@@ -2104,14 +2104,48 @@ function freepbx_log($section, $level, $message) {
                 print "[DEBUG-$section] ($level) $message\n";
 }
 
-/** Abort all output, and redirect the browser's location
+/** Abort all output, and redirect the browser's location.
+ *
+ * Useful for returning to the user to a GET location immediately after doing
+ * a successful POST operation. This avoids the "this page was sent via POST, resubmit?"
+ * message in the users browser, and also overwrites the POST page as a location in 
+ * the browser's URL history (eg, they can't press the back button and end up re-submitting
+ * the page).
+ *
  * @param string   The url to go to
- * @param bool     If execution should stop after the function
+ * @param bool     If execution should stop after the function. Defaults to true
  */
 function redirect($url, $stop_processing = true) {
 	ob_end_clean();
 	header('Location: '.$url);
 	if ($stop_processing) exit;
+}
+
+/** Abort all output, and redirect the browser's location using standard
+ * freePBX user interface variables. By default, will take POST/GET variables
+ * 'type', 'display', and 'extdisplay' and pass them along in the URL. 
+ * Also accepts a variable number of parameters, each being the name of a variable
+ * to pass on. 
+ * 
+ * For example, calling redirect_standard('id','test'); will take $_REQUEST['type'], 
+ * $_REQUEST['display'], $_REQUEST['extdisplay'], $_REQUEST['id'], and $_REQUEST['test'],
+ * and if any are present, use them to build a GET string (eg, "config.php?type=setup&
+ * display=somemodule&id=53&test=yes", which is then passed to redirect() to send the browser
+ * there.
+ *
+ * @param string  (optional, variable number) The name of a variable from $_REQUEST to 
+ *                pass on to a GET URL.
+ */
+function redirect_standard() {
+	$args = func_get_Args();
+
+        foreach (array_merge(array('type','display','extdisplay'),$args) as $arg) {
+                if (isset($_REQUEST[$arg])) {
+                        $urlopts[] = $arg.'='.urlencode($_REQUEST[$arg]);
+                }
+        }
+        $url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
+        redirect($url);
 }
 
 ?>
