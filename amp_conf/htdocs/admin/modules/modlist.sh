@@ -1,38 +1,43 @@
 #!/bin/sh
 
 FREEPBX_MODBRANCH=2.2
-FREEPBX_MODLIST="
-	asterisk-cli 
-	backup 
-	callforward 
-	callwaiting 
-	conferences 
-	disa 
-	donotdisturb 
-	featurecodeadmin 
-	infoservices 
-	irc 
-	ivr 
-	music 
-	paging 
-	queues 
-	recordings 
-	ringgroups 
-	timeconditions 
-	voicemail 
-	miscdests 
-	callback 
-	findmefollow 
-	javassh 
-	logfiles 
-	manager 
-	pinsets 
-	gabcast 
-	printextensions 
-	phpagiconf 
-	inventorydb
-	blacklist
-	cidlookup
-	speeddial
-	parking
-	phonebook"
+FREEPBX_MODLIST=" announcement
+asterisk-cli
+backup
+blacklist
+callback
+callforward
+callwaiting
+cidlookup
+conferences
+customerdb
+dictate
+disa
+donotdisturb
+featurecodeadmin
+findmefollow
+gabcast
+infoservices
+inventorydb
+irc
+ivr
+javassh
+logfiles
+manager
+miscdests
+music
+paging
+parking
+pbdirectory
+phonebook
+phpagiconf
+phpinfo
+pinsets
+printextensions
+queues
+recordings
+ringgroups
+speeddial
+timeconditions
+voicemail
+zoip"
