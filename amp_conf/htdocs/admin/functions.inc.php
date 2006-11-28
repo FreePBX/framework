@@ -2133,10 +2133,16 @@ function redirect($url, $stop_processing = true) {
  * display=somemodule&extdisplay=53&test=yes", which is then passed to redirect() to send the browser
  * there.
  *
+ * redirect_standard_continue does exactly the same thing but does NOT abort processing. This
+ * is used when you wish to do a redirect but there is a possibility of other hooks still needing
+ * to continue processing. Note that this is used in core when in 'extensions' mode, as both the
+ * users and devices modules need to hook into it together.
+ *
  * @param string  (optional, variable number) The name of a variable from $_REQUEST to 
  *                pass on to a GET URL.
+ *
  */
-function redirect_standard($continue=false) {
+function redirect_standard( /* Note. Read the next line. Varaible No of Paramas */ ) {
 	$args = func_get_Args();
 
         foreach (array_merge(array('type','display'),$args) as $arg) {
@@ -2145,7 +2151,18 @@ function redirect_standard($continue=false) {
                 }
         }
         $url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
-        redirect($url, $continue);
+        redirect($url);
 }
 
+function redirect_standard_continue( /* Note. Read the next line. Varaible No of Paramas */ ) {
+	$args = func_get_Args();
+
+        foreach (array_merge(array('type','display'),$args) as $arg) {
+                if (isset($_REQUEST[$arg])) {
+                        $urlopts[] = $arg.'='.urlencode($_REQUEST[$arg]);
+                }
+        }
+        $url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
+        redirect($url, true);
+}
 ?>
