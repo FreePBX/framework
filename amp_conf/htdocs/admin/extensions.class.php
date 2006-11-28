@@ -886,6 +886,19 @@ class ext_dictate extends extension {
 	}
 }
 
+class ext_chanisavail extends extension {
+	var $chan;
+	var $options;
+	function ext_chanisavail($chan, $options = '') {
+		$this->chan = $chan;
+		$this->options = $options;
+	}
+	
+	function output() {
+		return 'ChanIsAvail('.$this->chan.'|'.$this->options.')';
+	}
+}
+
 /* example usage
 $ext = new extensions;
 
