@@ -290,7 +290,7 @@ class extension {
 	}
 	
 	function output() {
-		return $data;
+		return $this->data;
 	}
 }
 
