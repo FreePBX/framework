@@ -306,9 +306,9 @@ switch($display) {
 			
 // BETA code - remove later.
 			echo "<div class=\"warning\">";
-			printf( "<p>%s</p>", dgettext("welcome page", "You are running a BETA VERSION of freePBX. This release probably has bugs, and the point of this release is to get as many of them fixed as possible.") );
+			printf( "<p>%s</p>", dgettext("welcome page", "You are running Release Candidate 1 of freePBX. This release is a final test before we make the official 2.2.0 freePBX release. We are unaware of any major bugs in this release, and urge users to report any that they find.") );
 			
-			printf( "<p>%s</p>"  , dgettext("welcome page", "We urge to you report any bugs you find. Current known bugs are maintained on <a href='http://www.aussievoip.com/wiki/freePBX-2.2'>the users website</a>. If you find a bug, please <a href='http://www.freepbx.org/trac/newticket'>create a bug report</a> and update the information on the <a href='http://www.aussievoip.com/wiki/freePBX-2.2'>users website</a> so that it can be easily tracked by other users.") );
+			printf( "<p>%s</p>"  , dgettext("welcome page", "Currently known bugs are maintained on <a href='http://www.freepbx.org/trac/wiki/2.2Beta'>this TRAC page</a>. If you find a bug, please <a href='http://www.freepbx.org/trac/newticket'>create a bug report</a> (you need to create an account - this is to avoid spammers) and the bug report will immediately appear on the <a href='http://www.freepbx.org/trac/wiki/2.2Beta'>TRAC page</a> so that it can be easily tracked by other users.") );
 			echo "</div>";
 
 			printf( "<!--[if IE]><p>%s</p><![endif]-->"  , dgettext("welcome page", "Note, presently, Microsoft's Internet Explorer is <b>not</b> a supported web browser, and you must use a standards compliant browser, such as Firefox. There is a link on the <a href='http://www.freepbx.org'>right hand side of freePBX.org</a> that will allow you to download Firefox easily. By using that link, Google will donate US$1 to the freePBX project.") );
