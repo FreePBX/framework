@@ -282,6 +282,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 		}
 		echo "</div>";
+		echo "\t<input type=\"button\" value=\""._("Return")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=tool&amp;online=".($_REUQEST['online']?1:0)."';\" />";
 	break;
 	case 'confirm':
 		ksort($moduleaction);
@@ -343,7 +344,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
 		}
-		echo "\t<input type=\"button\" value=\""._("Cancel")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=tool&amp;online=1';\" />";
+		echo "\t<input type=\"button\" value=\""._("Cancel")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=tool&amp;online=".($_REUQEST['online']?1:0)."';\" />";
 		
 		echo "</form>";
 		
