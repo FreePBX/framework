@@ -12,16 +12,23 @@
 - Added ability to 'lock' a trunk to only use a specified CID ('KEEPCID' patches)
 - Add support for Hebrew (RTL) text formatting
 - dialparties.agi now written in PHP
-- Went rummaging around through the old sourceforge forums and found some patches that had been lost in the move 
+- Went rummaging around through the old sourceforge forums and found some patches
+  that had been lost in the move 
 - FOP now using the latest version, .26
 - Huge number (200+) of minor bug fixes
-- Policy change with relation to releases. There is now a 'base' and a 'withmodules' package. The 'withmodules' pack
-  is useful for machine that don't have easy internet access, and contains all the modules currently available at
-  the time of the release. This is also useful for new installations, too.
+- Policy change with relation to releases. There is now a 'base' and a 'withmodules'
+  package. The 'withmodules' pack is useful for machine that don't have easy internet
+   access, and contains all the modules currently available at the time of the release. 
+  This is also useful for new installations, too.
+- Changed default '#' and '*' features (transfer and disconnect) to '##' and 
+  '**'. Note, bugs in asterisk prior to 1.2.13 cause this to misbehave.
+
 *KNOWN ISSUES*
+
 CID Lookup and Pinsets (both modules that hook into Inbound Routes) do not display their changes immediately. After
 you change a CID or Pinset, click on the route _again_ - the changes will then be displayed. This is due to how the
 old module hooks were being processed, and isn't easily fixable. 
+
 2.1.1
 - Rob Thomas (xrobau@gmail.com) takes over stewardship of freePBX project from Coalescent Systems
 - Clean up harmless warnings in recordingcheck (r1927 and r1940)
