@@ -2163,6 +2163,6 @@ function redirect_standard_continue( /* Note. Read the next line. Varaible No of
                 }
         }
         $url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
-        redirect($url, true);
+        redirect($url, false);
 }
 ?>
