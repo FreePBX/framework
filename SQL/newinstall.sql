@@ -169,7 +169,7 @@ CREATE TABLE `featurecodes` (
 
 /*!40000 ALTER TABLE `featurecodes` DISABLE KEYS */;
 LOCK TABLES `featurecodes` WRITE;
-INSERT INTO `featurecodes` VALUES ('core','userlogon','User Logon','*11',NULL,1),('core','userlogoff','User Logoff','*12',NULL,1),('core','zapbarge','ZapBarge','888',NULL,1),('core','simu_pstn','Simulate Incoming Call','7777',NULL,1),('core','simu_fax','Simulate Incoming FAX Call','666',NULL,1);
+INSERT INTO `featurecodes` VALUES ('core','userlogon','User Logon','*11',NULL,1),('core','userlogoff','User Logoff','*12',NULL,1),('core','zapbarge','ZapBarge','888',NULL,1),('core','simu_pstn','Simulate Incoming Call','7777',NULL,1),('core','simu_fax','Simulate Incoming FAX Call','666',NULL,1),('core','chanspy','ChanSpy','555',NULL,1),('core','pickup','Call Pickup (Can be used with GXP-2000)','**',NULL,1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `featurecodes` ENABLE KEYS */;
 
@@ -294,6 +294,7 @@ CREATE TABLE `modules` (
 
 /*!40000 ALTER TABLE `modules` DISABLE KEYS */;
 LOCK TABLES `modules` WRITE;
+INSERT INTO `modules` VALUES (1,'core','1.2',1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `modules` ENABLE KEYS */;
 
