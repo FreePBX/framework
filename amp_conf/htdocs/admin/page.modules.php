@@ -294,44 +294,90 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "<input type=\"hidden\" name=\"extdisplay\" value=\"process\" />";
 		
 		$actionstext = array();
+		$errorstext = array();
 		foreach ($moduleaction as $module => $action) {	
 			$text = false;
 			switch ($action) {
 				case 'upgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						$actionstext[] = sprintf(_("%s %s will be upgraded to online verison %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+						if (is_array($errors = module_checkdepends($modules_online[$module]))) {
+							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please correct this error first."),  
+							                        $modules[$module]['name'],
+							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						} else {
+							$actionstext[] = sprintf(_("%s %s will be upgraded to online verison %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+							
+						}
 					}
 				break;
 				case 'downloadinstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), $modules[$module]['name'], $modules[$module]['version']);
+						if (is_array($errors = module_checkdepends($modules_online[$module]))) {
+							$errorstext[] = sprintf(_("%s cannot be installed: %s Please correct this error first."),  
+							                        $modules[$module]['name'],
+							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						} else {
+							$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), $modules[$module]['name'], $modules_online[$module]['version']);
+						}
 					}
 				break;
 				case 'install':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
-							$actionstext[] =  sprintf(_("%s %s will be upgraded to %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules[$module]['version']);
+						if (is_array($errors = module_checkdepends($modules[$module]))) {
+							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please correct this error first.") : _("%s cannot be installed: %s Please correct this error first.") ),  
+							                        $modules[$module]['name'],
+							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
-							$actionstext[] =  sprintf(_("%s %s will be installed and enabled"), $modules[$module]['name'], $modules[$module]['version']);
+							if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
+								$actionstext[] =  sprintf(_("%s %s will be upgraded to %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules[$module]['version']);
+							} else {
+								$actionstext[] =  sprintf(_("%s %s will be installed and enabled"), $modules[$module]['name'], $modules[$module]['version']);
+							}
 						}
 					}
 				break;
 				case 'enable':
-					$actionstext[] =  sprintf(_("%s %s will be enabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+					if (is_array($errors = module_checkdepends($modules[$module]))) {
+						$errorstext[] = sprintf(_("%s cannot be enabled: %s Please correct this error first."),  
+						                        $modules[$module]['name'],
+						                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+					} else {
+						$actionstext[] =  sprintf(_("%s %s will be enabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+					}
 				break;
 				case 'disable':
-					$actionstext[] =  sprintf(_("%s %s will be disabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+					if (is_array($errors = module_reversedepends($modules[$module]))) {
+						$errorstext[] = sprintf(_("%s cannot be disabled because the following modules depend on it: %s Please correct this error first."),  
+						                        $modules[$module]['name'],
+						                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+					} else {
+						$actionstext[] =  sprintf(_("%s %s will be disabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+					}
 				break;
 				case 'uninstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						$actionstext[] =  sprintf(_("%s %s will be uninstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+						if (is_array($errors = module_reversedepends($modules[$module]))) {
+							$errorstext[] = sprintf(_("%s cannot be uninstalled because the following modules depend on it: %s Please correct this error first."),  
+							                        $modules[$module]['name'],
+							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						} else {
+							$actionstext[] =  sprintf(_("%s %s will be uninstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+						}
 					}
 				break;
 			}
 			echo "\t<input type=\"hidden\" name=\"moduleaction[".$module."]\" value=\"".$action."\" />\n";
 		}
 		
-		if (count($actionstext) > 0) {
+		if (count($errorstext) > 0) {
+			echo "<h4>"._("Errors with selection:")."</h4>\n";
+			echo "<ul>\n";
+			foreach ($errorstext as $text) {
+				echo "\t<li>".$text."</li>\n";
+			}
+			echo "</ul>";
+
+		} else if (count($actionstext) > 0) {
 			echo "<h4>"._("Please confirm the following actions:")."</h4>\n";
 			echo "<ul>\n";
 			foreach ($actionstext as $text) {
