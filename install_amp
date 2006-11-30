@@ -193,7 +193,8 @@ function ask_overwrite($file1, $file2) {
 			case "n": return false;
 			case "d": 
 				out("");
-				passthru("diff -u ".$file2." ".$file1);
+				// w = ignore whitespace, u = unified
+				passthru("diff -wu ".escapeshellarg($file2)." ".escapeshellarg($file1));
 			break;
 			case "s":
 				if (function_exists("pcntl_fork")) {
@@ -229,6 +230,12 @@ function ask_overwrite($file1, $file2) {
 		}
 		out("");
 	} while(1);
+}
+
+function checkDiff($file1, $file2) {
+	// diff, ignore whitespace and be quiet
+	exec("diff -wq ".escapeshellarg($file2)." ".escapeshellarg($file1), $output, $retVal);
+	return ($retVal != 0);
 }
 
 function amp_mkdir($directory, $mode = "0755", $recursive = false) {
@@ -296,7 +303,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 			$destination=str_replace("/astvarlib",trim($asterisk_conf["astvarlibdir"]),$destination);
 			$destination=str_replace("/agi-bin",trim($asterisk_conf["astagidir"]),$destination);
 			$destination=str_replace("/sounds",trim($asterisk_conf["astvarlibdir"])."/sounds",$destination);
-			
+
 			// if this is a directory, ensure destination exists
 			if (is_dir($source)) {
 				if (!file_exists($destination)) {
@@ -306,9 +313,22 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 				}
 			}
 			
+			//var_dump($md5sums);
 			if (!is_dir($source)) {
-				if ($check_md5s && file_exists($destination) && isset($md5sums[$destination]) && (md5_file($destination) != $md5sums[$destination])) {
-					$overwrite = ask_overwrite($source, $destination, $md5sums);
+				$md5_source = preg_replace("|^/?amp_conf/|", "/", $source);
+
+				if ($check_md5s && file_exists($destination) && isset($md5sums[$md5_source]) && (md5_file($destination) != $md5sums[$md5_source])) {
+					// double check using diff utility (and ignoring whitespace)
+					// This is a somewhat edge case (eg, the file doesn't match
+					// it's md5 sum from the previous version, but no substantial
+					// changes exist compared to the current version), but it 
+					// pervents a useless prompt to the user.
+					if (checkDiff($source, $destination)) {
+						$overwrite = ask_overwrite($source, $destination);
+					} else {
+						debug("NOTE: MD5 for ".$destination." was different, but `diff` did not detect any (non-whitespace) changes: overwriting");
+						$overwrite = true;
+					}
 				} else {
 					$overwrite = true;
 				}
