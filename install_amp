@@ -91,6 +91,8 @@ function showHelp() {
 	out("  --dry-run                Don't actually do anything");
 	out("  --force-version <ver>    Force upgrade from version <ver>");
 	out("  --no-files               Just run updates without installing files");
+	out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ");
+	out("                           it's a new installation)");
 	out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct");
 	out("  --engine <name>          Use the specified PBX Engine ('asterisk' or 'openpbx')");
 }
@@ -254,6 +256,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 	global $check_md5s;
 	global $amp_conf;
 	global $asterisk_conf;
+	global $install_moh;
 	
 	if ($dirsource && ($dirsource[0] != "/")) $dirsource = "/".$dirsource;
 	
@@ -269,6 +272,12 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 		if (($file!=".") && ($file!="..") && ($file != "CVS") && ($file != ".svn")) {
 			$source = $dirsourceparent.$dirsource."/".$file;
 			$destination =  $dirdest.$dirsource."/".$file;
+			
+			if ($dirsource == "" && $file == "mohmp3" && !$install_moh) {
+				// skip to the next dir
+				continue;
+			}
+
 			
 			// configurable in amportal.conf
 			if (strpos($destination,"htdocs_panel")) {
@@ -595,7 +604,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine","install-moh");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -608,6 +617,8 @@ $debug = false;
 $dryrun = false;
 $install_files = true;
 $override_astvers = false;
+
+$install_moh = false;
 
 //initialize variables to avoid php notices
 $dbhost = null; 
@@ -661,6 +672,9 @@ foreach ($args[0] as $arg) {
 			if ($pbx_engine != 'asterisk') {
 				fatal('Currently only "asterisk" is supported as a PBX engine');
 			}
+		break;
+		case "--install-moh":
+			$install_moh = true;
 		break;
 /*		case "--fopwebroot":
 			$fopwebroot = $arg[1];
@@ -719,6 +733,9 @@ if (!file_exists(AMP_CONF)) {
 	out(AMP_CONF." does not exist, copying default");
 	copy("amportal.conf", AMP_CONF);
 	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password, 'asterisk');
+
+	out("Assuming new install, --install-moh added to command line");
+	$install_moh = true;
 }
 out("OK");
 
