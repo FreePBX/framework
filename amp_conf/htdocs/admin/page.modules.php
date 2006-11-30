@@ -297,6 +297,12 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		$errorstext = array();
 		foreach ($moduleaction as $module => $action) {	
 			$text = false;
+
+			// make sure name is set. This is a problem for broken modules
+			if (!isset($modules[$module]['name'])) {
+				$modules[$module]['name'] = $module;
+			}
+
 			switch ($action) {
 				case 'upgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
