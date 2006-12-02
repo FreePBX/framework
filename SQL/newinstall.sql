@@ -261,7 +261,8 @@ CREATE TABLE `incoming` (
   `privacyman` tinyint(1) default NULL,
   `alertinfo` varchar(32) default NULL,
   `channel` varchar(20) default NULL,
-  `ringing` varchar(20) default NULL
+  `ringing` varchar(20) default NULL,
+  `mohclass` varchar(80) NOT NULL default 'default'
 ) ENGINE=MyISAM;
 
 --
@@ -364,7 +365,8 @@ CREATE TABLE `users` (
   `faxemail` varchar(50) default NULL,
   `answer` tinyint(1) default NULL,
   `wait` int(2) default NULL,
-  `privacyman` tinyint(1) default NULL
+  `privacyman` tinyint(1) default NULL,
+  `mohclass` varchar(80) NOT NULL default 'default'
 ) ENGINE=MyISAM;
 
 --
