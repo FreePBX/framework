@@ -73,7 +73,7 @@ function check_login() {
 
 				if (!$_SESSION['AMP_user']->checkPassword($_SERVER['PHP_AUTH_PW'])) {
 					// one last chance -- check admin user
-					if ( !(count(getAmpAdminUsers()) > 0) && ($_SERVER['PHP_AUTH_USER'] == $amp_conf['AMPDBUSER']) 
+					if ( (count(getAmpAdminUsers()) == 0) && ($_SERVER['PHP_AUTH_USER'] == $amp_conf['AMPDBUSER']) 
 						&& ($_SERVER['PHP_AUTH_PW'] == $amp_conf['AMPDBPASS'])) {
 
 						// set admin access
