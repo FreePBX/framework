@@ -1,3 +1,11 @@
+2.2 Final
+- Fixed trunk 'locking' (Never Override CallerID) checkbox to work properly. This allows a
+  trunk to restrict outbound CallerID settings to those of the trunk or defined in an
+  extensions outboundcid settings. WARNING: THIS WILL BREAK 2.2.0rc1 WORKAROUNDS. The logic
+  was reversed, you had to check the box in rc1 to get it to allow such foreign callerid's.
+  That was a bug (#1501). By fixing the logic, the behavior is now opposite and you may
+  need to go back to your trunks and change it.
+
 2.2
 - New Modules: phpagiconf, printextensions, customerdb, inventorydb, announcement, blacklist,
   cidlookup, customerdb, dictate, inventorydb, parking, pbdirectory, phonebook, printextensions,
