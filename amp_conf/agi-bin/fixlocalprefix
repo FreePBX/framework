@@ -113,20 +113,23 @@ function fixNumber($pattern, $number, &$agi) {
 	// valid chars in a pattern are 0-9XNZwW#*\.\[\]\-\+\|
 	$chars = '0-9XNZwW#*\.\[\]\-'; //escaped pcre-ready
 	
+	// convert x n and z to uppercase
+	$regex = str_replace(array('x','n','z'), array('X','N','Z'), $pattern);
 	// sanitize the pattern - remove any non-pattern chars
 	$regex = preg_replace("/[^0-9XNZwW#*\.\[\]\-\+\|]/", "", $regex);
 	// Also kill the '-' characters outside of groups
 	$regex = preg_replace("/((?:\[[^\]]*\])*)([^\[\]\-]*)-?/", "$1$2", $regex);
 
+	$agi->verbose('Using pattern '.$regex, 4);
 	// attempt to grab the pieces of the pattern
-	if (preg_match('/^(([0-9XNZwW#*\.\[\]\-]+)\|)?(([0-9XNZwW#*\.\[\]\-]+)\+)?([0-9XNZwW#*\.\[\]\-]+)$/', $pattern, $matches)) {
+	if (preg_match('/^(([0-9XNZwW#*\.\[\]\-]+)\|)?(([0-9XNZwW#*\.\[\]\-]+)\+)?([0-9XNZwW#*\.\[\]\-]+)$/', $regex, $matches)) {
 		// one of NXXXXXX, 613|NXXXXXX   1+NXXXXXX    613|1+NXXXXXX,  
 		// matches[2] = drop (eg 613),  matches[4] = prefix (eg 1),  matches[5] = rest of number (eg NXXXXX)
 		
 		$drop = $matches[2];
 		$prefix = $matches[4];
 		$static = $matches[5];
-	} else if (preg_match('/^(([0-9XNZwW#*\.\[\]\-]+)\+)?(([0-9XNZwW#*\.\[\]\-]+)\|)?([0-9XNZwW#*\.\[\]\-]+)$/', $pattern, $matches)) {
+	} else if (preg_match('/^(([0-9XNZwW#*\.\[\]\-]+)\+)?(([0-9XNZwW#*\.\[\]\-]+)\|)?([0-9XNZwW#*\.\[\]\-]+)$/', $regex, $matches)) {
 		// one of NXXXXXX,  613|NXXXXXX   1+NXXXXXX    1+613|NXXXXXX
 		// matches[2] = prefix (eg 1),  matches[4] = drop (eg 613),  matches[5] = rest of number (eg NXXXXX)
 		
@@ -135,7 +138,7 @@ function fixNumber($pattern, $number, &$agi) {
 		$static = $matches[5];
 	} else {
 		if (!is_null($agi)) {
-			$agi->verbose('Could not understand pattern "'.$pattern.'"', 3);
+			$agi->verbose('Could not understand pattern "'.$pattern.'" ('.$regex.')', 1);
 		}
 		return $false;
 	}
@@ -202,7 +205,7 @@ if (isset($conf["trunk-$trunk"])) {
 			// $rule is a dial rule
 			
 			if ($newnum = fixNumber($rule, $number, $agi)) {
-				$agi->verbose('Dialpattern '.$rule.' matched. '.$number.' -> '.$newnum, 1);
+				$agi->verbose('Dialpattern '.$rule.' matched. '.$number.' -> '.$newnum, 2);
 				$agi->set_variable("DIAL_NUMBER", $newnum);
 				
 				// reverted back form r2080 (r2081 on trac) so that any pattern match will end
