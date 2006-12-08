@@ -44,11 +44,23 @@ $parts = Explode('/', $currentFile);
 //header('Content-type: text/html; charset=utf-8');
 $currentFile = $parts[count($parts) - 1];
 
-if (!extension_loaded('gettext')) {
+// Emulate gettext extension functions if gettext is not available
+if (!function_exists('_')) {
 	function _($str) {
 		return $str;
 	}
 }
+if (!function_exists('gettext')) {
+	function gettext($message) {
+		return $message;
+	}
+}
+if (!function_exists('dgettext')) {
+	function dgettext($domain, $message) {
+		return $message;
+	}
+}
+
 
 if (extension_loaded('gettext')) {
 	if (isset($_COOKIE['lang'])) {
