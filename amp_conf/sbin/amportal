@@ -51,7 +51,13 @@ chown_asterisk() {
 	chmod -R g+w $AMPWEBROOT/recordings
 	chown -R asterisk:asterisk $AMPWEBROOT/_asterisk
 	chmod u+x,g+x $ASTVARLIBDIR/bin/*
-	chmod u+x $ASTVARLIBDIR/agi-bin/*
+
+	if [ "$ASTAGIDIR" != "" ]; then
+		chmod u+x $ASTAGIDIR/*
+	else
+		chmod u+x $ASTVARLIBDIR/agi-bin/*
+	fi
+
 	chmod u+x,g+x $AMPWEBROOT/admin/bounce_op.sh
 	chmod u+x,g+x $FOPWEBROOT/*.pl
 	chmod u+x $FOPWEBROOT/safe_opserver
