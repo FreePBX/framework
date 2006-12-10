@@ -476,7 +476,7 @@ function get_dial_string( $agi, $extnum, $use_confirmation, $ringgroup_index )
 		if (trim($use_confirmation) == "FALSE")
 			$dialstring = 'Local/'.$extnum.'@from-internal/n';
 		else
-			$dialstring = 'Local/RG-'.$ringgroup_index.'-'.$extnum.'#@grps';
+			$dialstring = 'Local/RG-'.$ringgroup_index.'-'.$extnum.'#@from-internal';
 		debug("Built External dialstring component for $extnum: $dialstring", 4);
 	}
 	else
@@ -495,7 +495,7 @@ function get_dial_string( $agi, $extnum, $use_confirmation, $ringgroup_index )
 				$dialstring .= $dds['data'];
 				$dialstring .= '&';
 			} else {
-				$dialstring .= 'Local/'.$adevice.'@ext-local-confirm&';
+				$dialstring .= 'Local/LC-'.$adevice.'@from-internal&';
 			}
 		}
 		$dialstring = trim($dialstring," &");
