@@ -170,7 +170,7 @@ foreach ( $ext as $k )
 		{
 			debug("Extension $k has do not disturb enabled, or followme pre-ring returned busy", 1);
 			unset($ext[$count]);
-			$AGI->set_variable('DIALSTATUS','NOANSWER');						
+			$AGI->set_variable('DIALSTATUS','BUSY');						
 			// if this is primary set dndprimary and figure out if needed below
 			//
 			if ($count == 0)
