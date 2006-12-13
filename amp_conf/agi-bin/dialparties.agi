@@ -177,7 +177,6 @@ foreach ( $ext as $k )
 			{
 				$dndprimary = 1;
 				debug("Primary extension is DND, so if mastermode, all should be dnd", 4);
-				
 			}
 		} 
 		else
@@ -237,22 +236,22 @@ foreach ( $ext as $k )
 		if ($mastermode == 1)
 		{
 			$mastermode = 0;
-        		$extstate = is_ext_avail($extnum);
-        		debug("Extension $extnum has ExtensionState: $extstate",1);
+			$extstate = is_ext_avail($extnum);
+			debug("Extension $extnum has ExtensionState: $extstate",1);
 
 			if ( ($exthascw == 1) && ($extstate == 1) )
 			{
 				// process this one extension but the remaining should be skipped since there is cw and
 				// the extension is occupied. This will try this extension but not the others.
 				$skipremaining = 1;
-        			debug("In mastermode with cw enabled so $extnum will be tried and others skipped",4);
+				debug("In mastermode with cw enabled so $extnum will be tried and others skipped",4);
 			}
 			elseif ( ($exthascw == 0) && ($extstate == 1) )
 			{
 				// no cw, ext is busy. So if cfb is set, it will forward there and if not, it will be
 				// ignored as normal behavior. In either case, we skip the remaining numbers.
 				$skipremaining = 1;
-        			debug("In mastermode with cw disabled so $extnum will be processed in case cfb set",4);
+				debug("In mastermode with cw disabled so $extnum will be processed in case cfb set",4);
 			}
 			// All other cases should act like normal. Unavailable, not busy, ringing, etc.
 			// should not be effected
@@ -273,7 +272,7 @@ foreach ( $ext as $k )
 		{
 			// get ExtensionState: 0-idle; 1-busy; 4-unavail; 8-ringing <--- these are unconfirmed
 			$extstate = is_ext_avail($extnum);
-                        debug("Extension $extnum has ExtensionState: $extstate",1);
+			debug("Extension $extnum has ExtensionState: $extstate",1);
 	
 			if ( ($exthascfu == 1) && ($extstate == 4) ) // Ext has CFU and is Unavailable
 			{
@@ -282,7 +281,7 @@ foreach ( $ext as $k )
 				if ($rgmethod != '' && $rgmethod != 'none')
 				{
 					debug("Extension $extnum has call forward on no answer set and is unavailable and is part of a Ring Group forwarding to '$extcfu'",1);
-						$extnum = $extcfu . '#';   # same method as the normal cf, i.e. send to Local
+					$extnum = $extcfu . '#';   # same method as the normal cf, i.e. send to Local
 				}
 				else
 				{
@@ -345,8 +344,7 @@ foreach ( $ext as $k )
 			// Update Caller ID for calltrace application
 			if ((strpos($k,"#")==0) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
 			{
-                                if ( isset($cidnum) && is_numeric($cidnum) )
-
+				if ( isset($cidnum) && is_numeric($cidnum) )
 				{
 					$rc = $AGI->database_put('CALLTRACE', $k, $cidnum);
 					if ($rc['result'] == 1) 
@@ -433,9 +431,9 @@ if (!strlen($ds))
 		if (trim($use_confirmation) != "FALSE")
 			$AGI->set_variable('__RG_IDX',$ringgroup_index);
 			if ( isset($cidnum) && is_numeric($cidnum) ) {
-			    $AGI->set_variable('__CALLCONFIRMCID',$cidnum);
+				$AGI->set_variable('__CALLCONFIRMCID',$cidnum);
 			} else {
-			    $AGI->set_variable('__CALLCONFIRMCID',"999");
+				$AGI->set_variable('__CALLCONFIRMCID',"999");
 			}
 		$AGI->set_variable('ds',$ds);
 		$AGI->set_priority(10); // dial command is at priority 10
