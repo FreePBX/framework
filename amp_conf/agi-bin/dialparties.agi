@@ -264,8 +264,9 @@ foreach ( $ext as $k )
 		$extnum = '';
 	}
 
-	// if CF is not in use or $dndprimary is set so $extnum has been cleared and nothing to do
-	if ( (strpos($k,"#")==0) || $dndprimary == 1)
+	// if CF is not in use and $dndprimary is not set otherwise $extnum has been cleared and nothing to do
+	//
+	if ( (strpos($k,"#")==0) && $dndprimary == 0)
 	{
 		// CW is not in use or CFB is in use on this extension, then we need to check!
 		if ( ($exthascw == 0) || ($exthascfb == 1) || ($exthascfu == 1) )
