@@ -61,6 +61,21 @@ function check_upgrade_all() {
 	}
 }
 
+function check_download_all() {
+	var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
+	for(i=0; i<document.modulesGUI.elements.length; i++) {
+		if (document.modulesGUI.elements[i].value == 'downloadinstall') {
+			if (match = document.modulesGUI.elements[i].name.match(re)) {
+				// check the box
+				document.modulesGUI.elements[i].checked = true;
+				// expand info pane
+				document.getElementById('infopane_'+match[1]).style.display = 'block';
+			}
+		}
+	}
+}
+
+
 function showhide_upgrades() {
 	var upgradesonly = document.getElementById('show_upgradable_only').checked;
 	
@@ -437,7 +452,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		
 		echo "<div class=\"modulebuttons\">";
 		if ($online) {
-			//echo "\t<input type=\"button\" value=\"Upgrade all\" onClick=\"check_upgrade_all();\" />";
+			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_download_all();\">"._("Download all")."</a>";
 			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_upgrade_all();\">"._("Upgrade all")."</a>";
 		}
 		echo "\t<input type=\"reset\" value=\""._("Reset")."\" />";
@@ -678,7 +693,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 
 		echo "<div class=\"modulebuttons\">";
 		if ($online) {
-			//echo "\t<input type=\"button\" value=\"Upgrade all\" onClick=\"check_upgrade_all();\" />";
+			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_download_all();\">"._("Download all")."</a>";
 			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_upgrade_all();\">"._("Upgrade all")."</a>";
 		}
 		echo "\t<input type=\"reset\" value=\""._("Reset")."\" />";
