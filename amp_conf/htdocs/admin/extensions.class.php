@@ -847,13 +847,13 @@ class ext_setmusiconhold extends extension {
 
 class ext_congestion extends extension {
 	function output() {
-		return "Congestion";
+		return "Congestion(20)";
 	}
 }
 
 class ext_busy extends extension {
 	function output() {
-		return "Busy";
+		return "Busy(20)";
 	}
 }
 
