@@ -614,57 +614,76 @@ function drawselects($goto,$i) {
 	/* --- MODULES BEGIN --- */
 	global $active_modules;
 	
-	// This is purely to remove a warning. 
-	if (!isset($selectHtml)) { $selectHtml=''; }
-	$selectHtml .= '<tr><td colspan=2>'; 
+	$all_destinations = array();
+
+	$selectHtml = '<tr><td colspan=2>'; 
 	
 	//check for module-specific destination functions
-	foreach ($active_modules as $mod => $displayname) {
-		$funct = strtolower($mod.'_destinations');
+	foreach ($active_modules as $rawmod => $module) {
+		$funct = strtolower($rawmod.'_destinations');
 	
 		//if the modulename_destinations() function exits, run it and display selections for it
 		if (function_exists($funct)) {
-			$options = "";
-			$destArray = $funct(); //returns an array with 'destination' and 'description'.
-			$checked = false;
-			if (isset($destArray)) {
-				//loop through each option returned by the module
+			$destArray = $funct(); //returns an array with 'destination' and 'description', and optionally 'category'
+			if (is_Array($destArray)) {
 				foreach ($destArray as $dest) {
-					// check to see if the currently selected goto matches one these destinations
-					if ($dest['destination'] == $goto)
-						$checked = true;  //there is a match, so we select the radio for this group
-
-					// create an select option for each destination 
-					$options .= '<option value="'.$dest['destination'].'" '.(strpos($goto,$dest['destination']) === false ? '' : 'SELECTED').'>'.($dest['description'] ? $dest['description'] : $dest['destination']);
+					$cat = (isset($dest['category']) ? $dest['category'] : $module['displayname']);
+					$all_destinations[$cat][] = $dest;
 				}
-				
-				// make a unique id to be used for the HTML id
-				// This allows us to have multiple drawselect() sets on the page without
-				// conflicting with each other
-				$radioid = uniqid("drawselect");
-				
-				$selectHtml .=	'<input type="radio" id="'.$radioid.'" name="goto_indicate'.$i.'" value="'.$mod.'" '.
-								'onclick="javascript:this.form.goto'.$i.'.value=\''.$mod.'\';" '.
-								'onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$mod.'\';" '.
-								($checked? 'CHECKED=CHECKED' : '').' /> ';
-				$selectHtml .= '<label for="'.$radioid.'">'._($displayname['displayname']).':</label> ';
-				if ($checked) { $gotomod = $mod; }
-				$selectHtml .=	'<select name="'.$mod.$i.'" onfocus="document.getElementById(\''.$radioid.'\').checked = true; this.form.goto'.$i.'.value=\''.$mod.'\';">';
-				$selectHtml .= $options;	
-				$selectHtml .=	"</select><br>\n";
 			}
-			
 		}
+	}
+//	var_dump($all_destinations);
+//	var_dump($goto);
+
+	$foundone = false;
+	foreach ($all_destinations as $cat=>$destination) {
+		// create a select option for each destination 
+		$options = "";
+		$checked = false;
+		foreach ($destination as $dest) {
+			$options .= '<option value="'.$dest['destination'].'" '.(strpos($goto,$dest['destination']) === false ? '' : 'SELECTED').'>'.($dest['description'] ? $dest['description'] : $dest['destination']);
+
+			// check to see if the currently selected goto matches one these destinations
+			if($dest['destination'] == $goto) $checked = true;
+		}
+
+		// make a unique id to be used for the HTML id
+		// This allows us to have multiple drawselect() sets on the page without
+		// conflicting with each other
+		$radioid = uniqid("drawselect");
+		//
+		$cat_identifier = preg_replace('/[^a-zA-Z0-9]/','_', $cat);
+			
+		$selectHtml .=	'<input type="radio" id="'.$radioid.'" name="goto'.$i.'" value="'.$cat_identifier.'" '.
+		                //'onclick="javascript:this.form.goto'.$i.'.value=\''.$cat.'\';" '.
+		                //'onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$cat.'\';" '.
+		                ($checked? 'CHECKED=CHECKED' : '').' /> ';
+		$selectHtml .= '<label for="'.$radioid.'">'._($cat).':</label> ';
+		
+		// set the 
+//		if ($checked) { $gotomod = $cat; } 
+
+		$selectHtml .=	'<select name="'.$cat_identifier.$i.'" onfocus="document.getElementById(\''.$radioid.'\').checked = true; this.form.goto'.$i.'.value=\''.$cat.'\';">';
+		$selectHtml .= $options;	
+		$selectHtml .=	"</select><br>\n";
+
+		if ($checked) $foundone = true;
 	}
 	/* --- MODULES END --- */
 	
+	// This is selected if $foundone is false (and goto is not blank) - basically, a fallback
+	// The ONLY time no radio box is selected is if $goto is empty
+	$custom_selected = !$foundone && !empty($goto);
+	
 	//display a custom goto field
 	$radioid = uniqid("drawselect");
-	$selectHtml .= '<input type="radio" id="'.$radioid.'" name="goto_indicate'.$i.'" value="custom" onclick="javascript:this.form.goto'.$i.'.value=\'custom\';" onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\'custom\';" '.(strpos($goto,'custom') === false ? '' : 'CHECKED=CHECKED').' />';
+	$selectHtml .= '<input type="radio" id="'.$radioid.'" name="goto'.$i.'" value="custom" '.
+	               //'onclick="javascript:this.form.goto'.$i.'.value=\'custom\';" '.
+		       //'onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\'custom\';" '.
+		       ($custom_selected ? 'CHECKED=CHECKED' : '').' />';
 	$selectHtml .= '<a href="#" class="info"> '._("Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word 'custom' and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf</span>").'</a>:';
-	$selectHtml .= '<input type="text" size="15" name="custom'.$i.'" value="'.(strpos($goto,'custom') === false ? '' : $goto).'" onfocus="document.getElementById(\''.$radioid.'\').checked = true;" />';
-	$gotomod = isset($gotomod)?$gotomod:'custom';
-	$selectHtml .= "\n<input type='hidden' name='goto$i' value='$gotomod'>";
+	$selectHtml .= '<input type="text" size="15" name="custom'.$i.'" value="'.($custom_selected ? $goto : '').'" onfocus="document.getElementById(\''.$radioid.'\').checked = true;" />';
 
 	//close off our row
 	$selectHtml .= '</td></tr>';
@@ -2166,4 +2185,5 @@ function redirect_standard_continue( /* Note. Read the next line. Varaible No of
         $url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
         redirect($url, false);
 }
+
 ?>
