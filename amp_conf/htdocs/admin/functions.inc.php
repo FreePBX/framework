@@ -682,7 +682,7 @@ function drawselects($goto,$i) {
 	               //'onclick="javascript:this.form.goto'.$i.'.value=\'custom\';" '.
 		       //'onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\'custom\';" '.
 		       ($custom_selected ? 'CHECKED=CHECKED' : '').' />';
-	$selectHtml .= '<a href="#" class="info"> '._("Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word 'custom' and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf</span>").'</a>:';
+	$selectHtml .= '<a href="#" class="info"> '._("Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name should start with \"custom-\", and be in the format custom-context,extension,priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf</span>").'</a>:';
 	$selectHtml .= '<input type="text" size="15" name="custom'.$i.'" value="'.($custom_selected ? $goto : '').'" onfocus="document.getElementById(\''.$radioid.'\').checked = true;" />';
 
 	//close off our row
