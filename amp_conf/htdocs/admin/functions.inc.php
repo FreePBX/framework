@@ -2186,4 +2186,32 @@ function redirect_standard_continue( /* Note. Read the next line. Varaible No of
         redirect($url, false);
 }
 
+function freepbx_get_contexts() {
+	$modules = module_getinfo(false, MODULE_STATUS_ENABLED);
+	
+	$contexts = array();
+	
+	foreach ($modules as $modname => $mod) {
+                $funct = strtolower($modname.'_contexts');
+		if (function_exists($funct)) {
+			// call the  modulename_contexts() function
+			$contextArray = $funct(); // returns array with 'context' and 'description'
+			if (is_array($contextArray)) {
+				foreach ($contextArray as $con) {
+					if (isset($con['context'])) {
+						if (!isset($con['description'])) {
+							$con['description'] = $con['context'];
+						}
+						if (!isset($con['module'])) {
+							$con['module'] = $modname;
+						}
+						$contexts[ $con['context'] ] = $con['description'];
+					}
+				}
+			}
+		}
+	}
+	return $contexts;
+}
+
 ?>
