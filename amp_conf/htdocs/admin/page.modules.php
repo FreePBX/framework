@@ -128,34 +128,44 @@ echo "<h2>" . _("Module Administration") . "</h2>";
 $modules_local = module_getinfo();
 
 if ($online) {
-	$modules_online = module_getonlinexml();
+	$modules_online = module_getonlinexml(false, $connect_error);
 	
-	// combine online and local modules
-	$modules = $modules_online;
-	foreach (array_keys($modules) as $name) {
-		if (isset($modules_local[$name])) {
-			// combine in any other values in _local that aren't in _online
-			$modules[$name] += $modules_local[$name];
-			
-			// explicitly override these values with the _local ones
-			// - should never come from _online anyways, but this is just to be sure
-			$modules[$name]['status'] = $modules_local[$name]['status'];
-			$modules[$name]['dbversion'] = $modules_local[$name]['dbversion'];
-		} else {
-			// not local, so it's not installed
-			$modules[$name]['status'] = MODULE_STATUS_NOTINSTALLED;
+	// $module_getonlinexml_error is a global set by module_getonlinexml()
+	if ($module_getonlinexml_error) {
+		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Cannot connect to online repository (%s). Online modules are not available."), "mirror.freepbx.org")."</p></div><br />";
+		$online = false;
+		unset($modules_online);
+	} else {
+	
+		// combine online and local modules
+		$modules = $modules_online;
+		foreach (array_keys($modules) as $name) {
+			if (isset($modules_local[$name])) {
+				// combine in any other values in _local that aren't in _online
+				$modules[$name] += $modules_local[$name];
+				
+				// explicitly override these values with the _local ones
+				// - should never come from _online anyways, but this is just to be sure
+				$modules[$name]['status'] = $modules_local[$name]['status'];
+				$modules[$name]['dbversion'] = $modules_local[$name]['dbversion'];
+			} else {
+				// not local, so it's not installed
+				$modules[$name]['status'] = MODULE_STATUS_NOTINSTALLED;
+			}
+		}
+		// add any remaining local-only modules
+		$modules += $modules_local;
+		
+		// use online categories
+		foreach (array_keys($modules) as $modname) {
+			if (isset($modules_online[$modname]['category'])) {
+				$modules[$modname]['category'] = $modules_online[$modname]['category'];
+			}
 		}
 	}
-	// add any remaining local-only modules
-	$modules += $modules_local;
-	
-	// use online categories
-	foreach (array_keys($modules) as $modname) {
-		if (isset($modules_online[$modname]['category'])) {
-			$modules[$modname]['category'] = $modules_online[$modname]['category'];
-		}
-	}
-} else {
+}
+
+if (!isset($modules)) {
 	$modules = & $modules_local;
 }
 

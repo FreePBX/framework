@@ -1090,14 +1090,28 @@ function ampconf_string_replace($string) {
  
 /** Get the latest module.xml file for this freePBX version. 
  * Caches in the database for 5 mintues.
- * If $module is specified, only returns the data for that module
+ * If $module is specified, only returns the data for that module.
+ * If the module is not found (or none are available for whatever reason),
+ * then null is returned.
+ *
+ * Sets the global variable $module_getonlinexml_error to true if an error
+ * occured getting the module from the repository, false if no error occured,
+ * or null if the repository wasn't checked. Note that this may change in the 
+ * future if we decide we need to return more error codes, but as long as it's
+ * a php zero-value (false, null, 0, etc) then no error happened.
  */
 function module_getonlinexml($module = false) { // was getModuleXml()
 	global $amp_conf;
+	
+	global $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
+	$module_getonlinexml_error = null;
+	
 	//this should be in an upgrade file ... putting here for now.
 	sql('CREATE TABLE IF NOT EXISTS module_xml (time INT NOT NULL , data BLOB NOT NULL) TYPE = MYISAM ;');
 	
 	$result = sql('SELECT * FROM module_xml','getRow',DB_FETCHMODE_ASSOC);
+	$data = $result['data'];
+	
 	// if the epoch in the db is more than 2 hours old, or the xml is less than 100 bytes, then regrab xml
 	// Changed to 5 minutes while not in release. Change back for released version.
 	//
@@ -1116,16 +1130,23 @@ function module_getonlinexml($module = false) { // was getModuleXml()
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
-		$data = file_get_contents($fn);
-		// remove the old xml
-		sql('DELETE FROM module_xml');
-		// update the db with the new xml
-		$data4sql = addslashes($data);
-		sql('INSERT INTO module_xml (time,data) VALUES ('.time().',"'.$data4sql.'")');
-	} else {
-//		echo "using cache";
-		$data = $result['data'];
+		$data = @ file_get_contents($fn);
+		$module_getonlinexml_error = empty($data);
+		
+		if (!empty($data)) {
+			// remove the old xml
+			sql('DELETE FROM module_xml');
+			// update the db with the new xml
+			$data4sql = addslashes($data);
+			sql('INSERT INTO module_xml (time,data) VALUES ('.time().',"'.$data4sql.'")');
+		}
 	}
+	
+	if (empty($data)) {
+		// no data, probably couldn't connect online, and nothing cached
+		return null;
+	}
+	
 	//echo time() - $result['time'];
 	$parser = new xml2ModuleArray($data);
 	$xmlarray = $parser->parseAdvanced($data);
