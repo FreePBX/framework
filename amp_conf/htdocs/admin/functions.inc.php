@@ -1650,6 +1650,72 @@ function module_download($modulename, $force = false, $progress_callback = null)
 	return true;
 }
 
+
+function module_handleupload($uploaded_file) {
+	global $amp_conf;
+	$errors = array();
+	
+	if (!isset($uploaded_file['tmp_name']) || !file_exists($uploaded_file['tmp_name'])) {
+		$errors[] = _("Error finding uploaded file - check your PHP and/or web server configuration");
+		return $errors;
+	}
+	
+	if (!preg_match('/\.(tar\.gz|tgz)$/', $uploaded_file['name'])) {
+		$errors[] = _("File must be in tar+gzip (.tgz or .tar.gz) format");
+		return $errors;
+	}
+	
+	if (!preg_match('/^([A-Za-z][A-Za-z0-9_]+)\-([0-9a-z]+(\.[0-9a-z]+)*)\.(tar\.gz|tgz)$/', $uploaded_file['name'], $matches)) {
+		$errors[] = _("Filename not in correct format: must be modulename-version.tar.gz (eg. custommodule-0.1.tar.gz)");
+		return $errors;
+	} else {
+		$modulename = $matches[1];
+		$moduleversion = $matches[2];
+	}
+	
+	$temppath = $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.uniqid("upload");
+	if (! @mkdir($temppath) ) {
+		return array(sprintf(_("Error creating temporary directory: %s"), $temppath));
+	}
+	$filename = $temppath.'/'.$uploaded_file['name'];
+	
+	move_uploaded_file($uploaded_file['tmp_name'], $filename);
+	
+	exec("tar ztf ".escapeshellarg($filename), $output, $exitcode);
+	if ($exitcode != 0) {
+		$errors[] = _("Error untaring uploaded file. Must be a tar+gzip file");
+		return $errors;
+	}
+	
+	foreach ($output as $line) {
+		// make sure all lines start with "modulename/"
+		if (!preg_match('/^'.$modulename.'\//', $line)) {
+			$errors[] = 'File extracting to invalid location: '.$line;
+		}
+	}
+	if (count($errors)) {
+		return $errors;
+	}
+	
+	exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/'), $output, $exitcode);
+	if ($exitcode != 0) {
+		$errors[] = _('Error untaring to modules directory.');
+	}
+	
+	exec("rm -rf ".$temppath, $output, $exitcode);
+	if ($exitcode != 0) {
+		$errors[] = sprintf(_('Error removing temporary directory: %s'), $temppath);
+	}
+	
+	if (count($errors)) {
+		return $errors;
+	}
+	
+	// finally, module installation is successful
+	return true;
+}
+
+
 /** Installs or upgrades a module from it's directory
  * Checks dependencies, and enables
  * @param string   The name of the module to install

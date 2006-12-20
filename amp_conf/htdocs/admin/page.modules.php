@@ -426,6 +426,47 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "</form>";
 		
 	break;
+	case 'upload':
+		// display links
+		echo "<a href='config.php?display=modules&amp;type=tool'>"._("Manage local modules")."</a>\n";
+		if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+			echo " | <a href='config.php?display=modules&amp;type=tool&amp;online=1'>"._("Check for updates online")."</a>\n";
+		}
+				
+		if (isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
+			// display upload link, only if they did upload something
+			echo " | <a href='config.php?display=modules&amp;type=tool&amp;extdisplay=upload'>"._("Upload module")."</a><br />\n";
+			
+			$res = module_handleupload($_FILES['uploadmod']);
+			if (is_array($res)) {
+				
+				echo '<div class="error"><p>';
+				echo sprintf(_('The following error(s) occured processing the uploaded file: %s'), 
+				     '<ul><li>'.implode('</li><li>',$res).'</li></ul>');
+				echo sprintf(_('You should fix the problem or select another file and %s.'), 
+				     "<a href='config.php?display=modules&amp;type=tool'>"._("try again")."</a>");
+				echo "</p></div>\n";
+			} else {
+				
+				echo "<p>".sprintf(_("Module uploaded successfully. You need to enable the module using %s to make it available."),
+				     "<a href='config.php?display=modules&amp;type=tool'>"._("local module administration")."</a>")
+					 ."</p>\n";
+			}
+			
+		} else {
+			echo "<p>"._('You can upload a tar gzip file containing a freePBX module from your local system. If a module with the same name already exists, it will be overwritten.')."</p>\n";
+		
+			echo "<form name=\"modulesGUI-upload\" action=\"config.php\" method=\"post\" enctype=\"multipart/form-data\">";
+			echo "<input type=\"hidden\" name=\"display\" value=\"".$display."\" />";
+			echo "<input type=\"hidden\" name=\"type\" value=\"".$type."\" />";
+			echo "<input type=\"hidden\" name=\"extdisplay\" value=\"upload\" />";
+			
+			echo "<input type=\"file\" name=\"uploadmod\" /> ";
+			echo "&nbsp;&nbsp; <input type=\"submit\" value=\"Upload\" />";
+			echo "</form>";
+		}
+		
+	break;
 	case 'online':
 	default:
 		
@@ -452,6 +493,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 				echo "<a href='config.php?display=modules&amp;type=tool&amp;online=1'>"._("Check for updates online")."</a>\n";
 			}
+			echo " | <a href='config.php?display=modules&amp;type=tool&amp;extdisplay=upload'>"._("Upload module")."</a><br />\n";
 		}
 
 		echo "<form name=\"modulesGUI\" action=\"config.php\" method=\"post\">";
