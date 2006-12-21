@@ -59,6 +59,9 @@ $rgmethod	= get_var( $AGI, "RingGroupMethod" );
 
 $pr_dialstatus	= get_var( $AGI, "PR_DIALSTATUS" );
 
+$nodest	= get_var( $AGI, "NODEST" );
+if (empty($nodest))	$nodest	= '';
+
 $use_confirmation	= get_var( $AGI, "USE_CONFIRMATION" );
 $ringgroup_index	= get_var( $AGI, "RINGGROUP_INDEX" );
 
@@ -404,6 +407,17 @@ if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt"))
 }
 
 $ds = chop($ds," &");
+
+if ($nodest != '' && $use_confirmation == 'FALSE') {
+	if (strpos($dialopts,"M(auto-blkvm)") > 0  || strpos($dialopts,"M(auto-blkvm)") === 0 ||
+	    strpos($dialopts,"M(auto-confirm") > 0 || strpos($dialopts,"M(auto-confirm") === 0 ||
+	    strpos($dialopts,"M(confirm") > 0      || strpos($dialopts,"M(confirm") === 0) {
+		debug("NODEST: $nodest blkvm enabled macro already in dialopts: $dialopts",4);
+	} else {
+		$dialopts .= "M(auto-blkvm)";
+		debug("NODEST: $nodest adding M(auto-blkvm) to dialopts: $dialopts",4);
+	}
+}
 
 if (!strlen($ds))
 {
