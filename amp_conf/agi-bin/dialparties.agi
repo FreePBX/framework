@@ -59,24 +59,27 @@ $rgmethod	= get_var( $AGI, "RingGroupMethod" );
 
 $pr_dialstatus	= get_var( $AGI, "PR_DIALSTATUS" );
 
+$fmgrp  = get_var( $AGI, "FMGRP" );
 $nodest	= get_var( $AGI, "NODEST" );
 if (empty($nodest))	$nodest	= '';
 
-$use_confirmation	= get_var( $AGI, "USE_CONFIRMATION" );
 $ringgroup_index	= get_var( $AGI, "RINGGROUP_INDEX" );
+$use_confirmation	= get_var( $AGI, "USE_CONFIRMATION" );
+if (empty($use_confirmation))	$use_confirmation = "FALSE";
+debug("USE_CONFIRMATION:  '$use_confirmation'", 4);
+debug("RINGGROUP_INDEX:   '$ringgroup_index'", 4);
 
 if (empty($timer))	$timer		= 0;
 if (empty($dialopts))	$dialopts	= "";
 if (empty($rgmethod))	$rgmethod	= "none";
 
-if (empty($use_confirmation))	$use_confirmation = "FALSE";
 
 debug("Methodology of ring is  '$rgmethod'", 1);
-debug("USE_CONFIRMATION:  '$use_confirmation'", 4);
-debug("RINGGROUP_INDEX:   '$ringgroup_index'", 4);
 
 // reset the ringgroup method to its fundamental algorithm and pull out if
 // master mode.
+
+$recall_mastermode=$rgmethod;
 
 if ($rgmethod == "ringall-prim") {
 	$rgmethod	= "ringall";
@@ -88,6 +91,10 @@ if ($rgmethod == "ringall-prim") {
 	$rgmethod	= "memoryhunt";
 	$mastermode	= 1;
 } else 
+} elseif ($rgmethod == "ringallv2-prim") 
+{
+	$rgmethod = "ringallv2";
+	$mastermode = 1;
 	$mastermode	= 0;
 
 // call confirmation only works with ringall and ringall-prim. The javascripts in ringgroups
@@ -95,8 +102,8 @@ if ($rgmethod == "ringall-prim") {
 // Keep this code after the matermode check above, since they will at least get mastermode
 // if they set a -prim mode in one of the others
 //
-if ( ($use_confirmation != "FALSE") && ($rgmethod != "ringall") ) {
-	debug("Unsupported RingMethod reset to: '$rgmethod'", 1);
+if ( ($use_confirmation != "FALSE") && (trim($rgmethod) != "ringall") && (trim($rgmethod) != "ringallv2") ) {
+	debug("Unsupported RingMethod: '$rgmethod' resetting to ringall", 1);
 	$rgmethod	= "ringall";
 }
 
@@ -118,6 +125,51 @@ while($arg = get_var($AGI,"ARG". $arg_cnt))
 	}
 	
 	$arg_cnt++;
+}
+
+// FollowMe Preparation for Pre-Ring:
+//
+// If the primary extension is in the ringgroup list, then it should be rung
+// during both the pre-ring time and the list time, so it's real prering time
+// is the entire time. If it is not in the list, then it should only ring
+// for the pre-ring time. This section determines the times and then adds it
+// to the list if not already there, so that the dialstring is computed
+// appropriately. This section also makes sure that the primary extension
+// is at the top of the list.
+//
+// Notes before I forget. The primary may have been in the list and screwed
+// above. So ... do I need to move this up, probably.
+//
+if ($rgmethod == "ringallv2" && $fmgrp != "") {
+
+	$fmgrp_primaryremoved = 0;
+
+	$fmgrp_prering  = $AGI->database_get('AMPUSER', $fmgrp."/followme/prering"); 
+	$fmgrp_prering  = $fmgrp_prering['data'] > 1 ? $fmgrp_prering['data'] : 2;
+		 
+	$fmgrp_grptime  = $AGI->database_get('AMPUSER', $fmgrp."/followme/grptime"); 
+	$fmgrp_grptime  = $fmgrp_grptime['data'];
+
+	debug("got fmgrp_prering: $fmgrp_prering, fmgrp_grptime: $fmgrp_grptime",4);
+
+	$fmgrp_totalprering = $fmgrp_grptime + $fmgrp_prering;
+
+	debug("fmgrp_totalprering: $fmgrp_totalprering",4);
+
+	if (in_array($fmgrp, $ext)) {
+		debug("found extension in pre-ring and array",4);
+		$fmgrp_realprering = $fmgrp_totalprering;
+		if ($ext[0] != $fmgrp) {
+			$tmpx=array_flip($ext);
+			unset($ext[$tmpx[$fmgrp]]);
+			array_unshift($ext,$fmgrp);
+		}
+	}	else {
+		debug("extension not in group list, ringging only during perring time",4);
+		$fmgrp_realprering = $fmgrp_prering;
+		array_unshift($ext,$fmgrp);
+	}
+debug("ringallv2 ring times: REALPRERING: $fmgrp_realprering, PRERING: $fmgrp_prering",4);
 }
 
 // IF THE FIRST EXTENSION IS CALL FORWARD ENABLED (put in logic) then we don't do master mode
@@ -163,7 +215,7 @@ $count = 0;
 $dndprimary = 0;
 // Now check for DND
 foreach ( $ext as $k )
-{	//if ( !preg_match($k, "/\#/", $matches) )
+{
 	if ( (strpos($k,"#")==0) )
 	{
 		// no point in doing if cf is enabled
@@ -179,6 +231,7 @@ foreach ( $ext as $k )
 			if ($count == 0)
 			{
 				$dndprimary = 1;
+				$fmgrp_primaryremoved = 1;
 				debug("Primary extension is DND, so if mastermode, all should be dnd", 4);
 			}
 		} 
@@ -189,8 +242,8 @@ foreach ( $ext as $k )
 }
 
 // Main calling loop
+//
 $skipremaining = 0; // used to allow primary to ring but skip the rest
-
 $ds = '';
 foreach ( $ext as $k )
 {
@@ -342,8 +395,9 @@ foreach ( $ext as $k )
 		else
 		{
 			$dsarray[$realext] = 1;  // could be dial string i suppose but currently only using for duplicate check
-			$extds = get_dial_string( $AGI, $extnum, $use_confirmation, $ringgroup_index);
-			if (strlen($extds)) $ds .= $extds . '&';
+
+				$extds = get_dial_string( $AGI, $extnum, $use_confirmation, $ringgroup_index);
+				if (strlen($extds)) $ds .= $extds . '&';
 		
 			// Update Caller ID for calltrace application
 			if ((strpos($k,"#")==0) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
@@ -421,6 +475,78 @@ if ($nodest != '' && $use_confirmation == 'FALSE') {
 
 if (!strlen($ds))
 {
+// FollowMe Changes:
+//
+// We need to determine if the generated dialstring can be dialed as is. This will be the case if there are no
+// or is only a single extension to dial. 
+//
+// First, unset any blank fields so we know how many extensions there are to call.
+//
+// If mastermode (skipremaining == 1) was triggered then we just set the ringtime to what the primary extension
+// should ring for and let this dialstring go.
+//
+// If there is only one extension in the list, then we need to determine how long to ring it (depending on if it
+// was the primary or another extension, then let the generated dialstring ring it.
+//
+// Otherwise, we need to re-create the dialstring to be processed by our special dialplan that will ring the
+// primary extension and hold the group list for the required delay. Also - if we are in a call confirmation mode
+// then we need to reset the call confirm variables with one level of inheritance so that they remain in the new
+// channels but don't get further propogated after that. We also clear it for the remainder of this instance since
+// we are not yet triggering further actions until the next call.
+//
+// Notes: $fmgrp_primaryremoved is set to 1 if the primary has been removed from the list so we know that it was dnd-ed.
+//        this only matters in non-prim mode, where we need to know if the remaining list contains the primary extension
+//        or not.
+//
+if ($rgmethod == 'ringallv2') {
+	$count = 0;
+	foreach ($ext as $x) {
+		if ($x == '') {
+			unset($ext[$count]);
+		}
+		$count++;
+	}
+
+	if (($skipremaining == 1) || (count($ext) == 1 && $fmgrp_primaryremoved == 0)) {
+		$timer = $fmgrp_realprering;
+	} elseif (count($ext) == 1 && $fmgrp_primaryremoved == 1) {
+		$timer = $fmgrp_grptime;
+	} elseif (count($ext) == 1) {
+		$timer = $fmgrp_totalprering; // not sure what would trigger this ?
+	} else {
+		$timer = $fmgrp_totalprering; 
+		$ds = "Local/FMPR-".array_shift($ext)."@from-internal&Local/FMGL-".implode('-',$ext)."@from-internal";
+
+		$fmgrp_fmunique = $AGI->request['agi_channel'];
+		$AGI->set_variable('_FMUNIQUE',$fmgrp_fmunique);						
+		$AGI->set_variable('_RingGroupMethod',"ringall");						
+		$fmgrp_prering -= 2;
+		$AGI->set_variable('_FMPRERING',$fmgrp_prering);						
+		$AGI->set_variable('_FMREALPRERING',$fmgrp_realprering);						
+		$AGI->set_variable('_FMGRPTIME',$fmgrp_grptime);						
+		$AGI->set_variable('_FMPRIME',($recall_mastermode == "ringallv2")?"FALSE":"TRUE");						
+
+		debug("FMUNIQUE: $fmgrp_fmunique, FMRERING: $fmgrp_prering, FMREALPRERING: $fmgrp_realprering, FMGRPTIME: $fmgrp_grptime",4);
+
+		if ($use_confirmation != 'FALSE') {
+			$AGI->set_variable('_USE_CONFIRMATION',$use_confirmation);						
+			$AGI->set_variable('_RINGGROUP_INDEX',$ringgroup_index);						
+			$use_confirmation = 'FALSE';
+		}
+	}
+}
+
+if ($nodest != '' && $use_confirmation == 'FALSE') {
+	if (strpos($dialopts,"M(auto-blkvm)") > 0  || strpos($dialopts,"M(auto-blkvm)") === 0 ||
+	    strpos($dialopts,"M(auto-confirm") > 0 || strpos($dialopts,"M(auto-confirm") === 0 ||
+	    strpos($dialopts,"M(confirm") > 0      || strpos($dialopts,"M(confirm") === 0) {
+		debug("NODEST: $nodest blkvm enabled macro already in dialopts: $dialopts",4);
+	} else {
+		$dialopts .= "M(auto-blkvm)";
+		debug("NODEST: $nodest adding M(auto-blkvm) to dialopts: $dialopts",4);
+	}
+}
+
 	$AGI->noop('');
 } else {
 	if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt"))
