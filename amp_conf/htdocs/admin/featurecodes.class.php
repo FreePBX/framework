@@ -224,6 +224,17 @@ function featurecodes_getAllFeaturesDetailed() {
 	}
 }
 
+// removes all features for a specific module
+function featurecodes_delModuleFeatures($modulename) {
+       $s = "DELETE ";
+       $s .= "FROM featurecodes ";
+       $s .= "WHERE modulename = ".sql_formattext($modulename);
+
+       sql($s, 'query');
+
+       return true;
+}
+
 function featurecodes_getFeatureCode($modulename, $featurename) {
 	$fc_code = '';
 	
@@ -233,4 +244,16 @@ function featurecodes_getFeatureCode($modulename, $featurename) {
 
 	return $fc_code != '' ? $fc_code : _('** MISSING FEATURE CODE **');
 }
+
+function featurecodes_delFeatureCode($modulename, $featurename) {
+       $s = "DELETE ";
+       $s .= "FROM featurecodes ";
+       $s .= "WHERE modulename = ".sql_formattext($modulename)." ";
+       $s .= "AND featurename = ".sql_formattext($featurename);
+
+       sql($s, 'query');
+
+       return true;
+}
+
 ?>
