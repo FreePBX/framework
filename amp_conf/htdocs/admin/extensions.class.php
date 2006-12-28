@@ -616,7 +616,7 @@ class ext_dbget extends extension {
 		$this->key = $key;
 	}
 	function output() {
-		return "dbGet(".$this->varname."=".$this->key.")";
+		return 'Set('.$this->varname.'=${DB('.$this->key.')})';
 	}
 }
 class ext_dbput extends extension {
@@ -626,7 +626,7 @@ class ext_dbput extends extension {
 		$this->data = $data;
 	}
 	function output() {
-		return "dbPut(".$this->key."=".$this->data.")";
+		return 'Set(DB('.$this->key.')='.$this->data.')';
 	}
 }
 class ext_vmmain extends extension {
