@@ -47,7 +47,6 @@ $versions = array(
 		'2.3.0alpha'
 	);
 
-define("REQ_ASTERISK_VERSION", "1.2");
 
 /********************************************************************************************************************/
 
@@ -96,7 +95,7 @@ function showHelp() {
 	out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ");
 	out("                           it's a new installation)");
 	out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct");
-	out("  --engine <name>          Use the specified PBX Engine ('asterisk' or 'openpbx')");
+	out("  --engine <name>          Use the specified PBX Engine ('asterisk', 'asterisk14' or 'openpbx')");
 }
 
 function install_parse_amportal_conf($filename) {
@@ -626,7 +625,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine","install-moh");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine=","install-moh");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -690,10 +689,10 @@ foreach ($args[0] as $arg) {
 			$override_astvers = true;
 		break;
 		case "--engine":
-			$pbx_engine = $arg[1];
-			if ($pbx_engine != 'asterisk') {
-				fatal('Currently only "asterisk" is supported as a PBX engine');
+			if ($arg[1] != 'asterisk' && $arg[1] != 'asterisk14' && $arg[1] != 'openpbx') {
+				fatal('Currently only "asterisk", "asterisk14" or "openpbx" are supported as a PBX engine');
 			}
+			$pbx_engine = $arg[1];
 		break;
 		case "--install-moh":
 			$install_moh = true;
@@ -879,12 +878,14 @@ chmod($amp_conf['ASTETCDIR'].'/version',0444);
 $verinfo = $tmpout;
 
 // **** Check asterisk verison
-
-outn("Checking for Asterisk ".REQ_ASTERISK_VERSION."..");
+//  Set the 'engine' to be 'asterisk14' if using asterisk 1.4, otherwise
+//  'asterisk'
+outn("Checking for Asterisk version..");
 if (preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) {
-	if (version_compare($matches[1], REQ_ASTERISK_VERSION) < 0) {
-		fatal("Asterisk ".REQ_ASTERISK_VERSION." is required for this version of freePBX");
+	if (version_compare($matches[1], "1.2") < 0) {
+		fatal("At least Asterisk 1.2 is required for this version of freePBX");
 	}
+	if (version_compare($matches[1], "1.4", "ge")) 
 	out("OK");
 } elseif (preg_match('/^Asterisk SVN.+/', $verinfo)) {
 	out("FAIL");
@@ -892,7 +893,7 @@ if (preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) {
 	out("You are not using a released version of Asterisk. We are unable to verify");
 	out("that your Asterisk version is compatible with FreePBX. Whilst this probably");
 	out("won't cause any problems, YOU NEED TO BE CERTAIN that it is compatible");
-	out("with at least the released Asterisk version ".REQ_ASTERISK_VERSION."." );
+	out("with at least the released Asterisk version 1.2" );
 	if ($override_astvers==false) {
 		out("If you are SURE that this is compatible, you can re-run ".$argv[0]." with");
 		out("the parameter --my-svn-is-correct");
