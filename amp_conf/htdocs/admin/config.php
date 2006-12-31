@@ -314,10 +314,10 @@ switch($display) {
 			printf( "<!--[if IE]><p>%s</p><![endif]-->"  , dgettext("welcome page", "Note, presently, Microsoft's Internet Explorer is <b>not</b> a supported web browser, and you must use a standards compliant browser, such as Firefox. There is a link on the <a href='http://www.freepbx.org'>right hand side of freePBX.org</a> that will allow you to download Firefox easily. By using that link, Google will donate US$1 to the freePBX project.") );
 			
 			if ($amp_conf['AMPMGRPASS'] == 'amp111') {
-				printf( "<div class=\"warning\"><p>%s</p></div>", dgettext("welcome text", "Warning: You are running freePBX and ").$amp_conf['AMPENGINE'].dgettext("welcome page", " with the default manager pass. You should consider changing this to something else.") );
+				printf( "<div class=\"warning\"><p>%s</p></div>", dgettext("welcome text", "Warning: You are running freePBX and ").$amp_conf['AMPENGINE'].dgettext("welcome page", " with the default manager pass. You should consider changing this to something else.")." ".sprintf('(<a href="http://aussievoip.com/wiki/index.php?page=freePBX-ManagerPass" target="_new">%s</a>)', _("Help")) );
 			}
 			if ($amp_conf['AMPDBPASS'] == 'amp109') {
-				printf( "<div class=\"warning\"><p>%s</p></div>", dgettext("welcome text", "Warning: You are running freePBX and ").$amp_conf['AMPDBENGINE'].dgettext("welcome page", " with the default password ") );
+				printf( "<div class=\"warning\"><p>%s</p></div>", dgettext("welcome text", "Warning: You are running freePBX and ").$amp_conf['AMPDBENGINE'].dgettext("welcome page", " with the default password ")." ".sprintf('(<a href="http://aussievoip.com/wiki/index.php?page=freePBX-MysqlPass" target="_new">%s</a>)', _("Help")) );
 			}
 
 
