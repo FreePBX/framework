@@ -69,6 +69,21 @@ sub parse_zapata{
 			$ampwildcard=0;
 			next;
 		}
+
+                # check if trunk or extension
+                if($line =~ /^context=from-pstn/) {
+                        $istrunk=1;
+                        next;
+                }
+                if($line =~ /^context=from-zaptel/) {
+                        $istrunk=1;
+                        next;
+                }
+                if($line =~ /^context=from-internal/) {
+                        $istrunk=0;
+                        next;
+                }
+
 		if($line =~ /^[b]?channel\s*=\s*[>]?\s*([\d\,-]+)\s*$/) {
 			$ampwildcard and next;
 			@ranges=split(/,/,$1);
@@ -83,8 +98,27 @@ sub parse_zapata{
 					$newlabel=~s/\%c/$c/;
 					$newlabel=~s/\%n/$lastlabelnum/;
 					$newlabel=~s/\%N/$lastlabelnum/;
+
+# only add if A) this is a trunk
+# and B) we haven't already defined any zaplines at the top of the file
+#        (I use this to customize it so instead of saying "Zap 1" it will
+#         say something more useful -- like the phone # of the line
+
+                                        if($istrunk) {
+                                                $inzaplines=0;
+                                                foreach my $row ( @zaplines ) {
+                                                        $tempvalue=@{$row}[0];
+                                                        if($tempvalue eq "Zap/$c") {
+                                                                $inzaplines=1;
+                                                        }
+                                                }
+
+                                                if ($inzaplines==0) {
+                                                        @zaplines=(@zaplines,[ "Zap/$c","$newlabel" ]);
+                                                }
+                                        }
+
 					
-					@zaplines=(@zaplines,[ "Zap/$c","$newlabel" ]);
 				}
 				
 			}
