@@ -124,7 +124,7 @@ check_fop() {
 	pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
 	if [ "$pid_length" == "0" -a "$pid_length" != "" ]
 		then
-				killall -9 safe_opserver
+				ps -ef | grep safe_opserver | grep -v grep | awk '{print $2}' | xargs kill -9
 				echo
 				echo "-----------------------------------------------------"
 				echo "The FOP's server (op_server.pl) could not start!"
@@ -156,8 +156,8 @@ stop_fop() {
 	pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
 		if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 			then
-				killall -9 safe_opserver
-				killall -9 op_server.pl
+				ps -ef | grep safe_opserver | grep -v grep | awk '{print $2}' | xargs kill
+				killall op_server.pl
 				echo "FOP Server Stopped"
 			fi
 }
@@ -168,7 +168,7 @@ kill_amp() {
 	killall -9 safe_asterisk
 	killall -9 asterisk
 	killall -9 mpg123
-	killall -9 safe_opserver
+	ps -ef | grep safe_opserver | grep -v grep | awk '{print $2}' | xargs kill -9
 	killall -9 op_server.pl
 }
 
