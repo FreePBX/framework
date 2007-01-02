@@ -183,6 +183,19 @@ class featurecode
 
 		return ($this->_enabled == 1);
 	}
+
+	function delete() {
+		$s = "DELETE ";
+		$s .= "FROM featurecodes ";
+		$s .= "WHERE modulename = ".sql_formattext($modulename)." ";
+		$s .= "AND featurename = ".sql_formattext($featurename);
+		
+		sql($s, 'query');
+		
+		$this->_enabled = -1; // = not ready
+		
+		return true;
+	}
 }
 
 // Helpers for eleswhere
