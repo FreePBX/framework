@@ -11,7 +11,7 @@
 require_once "phpagi.php";
 
 $AGI = new AGI();
-$lookup = get_var( $AGI, "ENUM" );
+$lookup = get_var( $AGI, "DIAL_NUMBER" );
 
 $enums = Array('e164.org', 'e164.arpa', 'e164.info');
 
@@ -48,8 +48,8 @@ foreach ($enums as $enum) {
 	}
 }
 
-$AGI->verbose("Setting DIALSTR to $dialstr", 3);
-$AGI->set_variable("DIALSTR", $dialstr);
+$AGI->verbose("Setting DIALARR to $dialstr", 3);
+$AGI->set_variable("DIALARR", $dialstr);
 
 function get_dig($lookup, $enum) {
 	global $AGI;
