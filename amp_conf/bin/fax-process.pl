@@ -52,6 +52,8 @@ while (my $cmd = shift @ARGV) {
 		# It's a single word
 		$subject = $tmp;
 	}
+  # Convert %20 to spaces, leave anythign else alone.
+  $subject =~ s/\%20/ /g;
   } elsif ($cmd eq "--type") {
 	my $tmp = shift @ARGV;
 	$ct = $tmp if (defined $tmp);
