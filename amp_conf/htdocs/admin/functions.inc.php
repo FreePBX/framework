@@ -186,7 +186,7 @@ function engine_getinfo() {
 				$verinfo = $response['data'];
 			} else {
 				// could not connect to asterisk manager
-				return false;
+				return array('engine'=>'ERROR-UNABLE-TO-CONNECT', 'version'=>'0', 'additional' => '0');
 			}
 			
 			if (preg_match('/Asterisk SVN.+/', $verinfo)) {
@@ -197,7 +197,7 @@ function engine_getinfo() {
 			}
 		break;
 	}
-	return false;
+	return array('engine'=>'ERROR-UNSUPPORTED-ENGINE-'.$amp_conf['AMPENGINE'], 'version'=>'0', 'additional' => '0');
 }
 
 /* queries database using PEAR.
