@@ -65,6 +65,10 @@ if (isset($_REQUEST['clk_reload'])) {
 			Unfortunately, I can't make it work :-(
 		$astman->send_request('Command', array('Command'=>'!/var/lib/asterisk/bin/retrieve_conf'));
 		*/	
+
+		//reload MOH to get around 'reload' not actually doing that.
+		$astman->send_request('Command', array('Command'=>'moh reload'));
+
 		//reload asterisk
 		$astman->send_request('Command', array('Command'=>'reload'));	
 		
