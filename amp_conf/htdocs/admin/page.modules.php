@@ -336,7 +336,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 							                        $modules[$module]['name'],
 							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
-							$actionstext[] = sprintf(_("%s %s will be upgraded to online verison %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+							$actionstext[] = sprintf(_("%s %s will be upgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
 							
 						}
 					}
