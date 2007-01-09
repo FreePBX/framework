@@ -90,12 +90,12 @@ if ($rgmethod == "ringall-prim") {
 } elseif ($rgmethod == "memoryhunt-prim") {
 	$rgmethod	= "memoryhunt";
 	$mastermode	= 1;
-} else 
-} elseif ($rgmethod == "ringallv2-prim") 
-{
+} elseif ($rgmethod == "ringallv2-prim") {
 	$rgmethod = "ringallv2";
 	$mastermode = 1;
+} else {
 	$mastermode	= 0;
+}
 
 // call confirmation only works with ringall and ringall-prim. The javascripts in ringgroups
 // and follow-me should enforce this. If that has been overridden then force ringall.
