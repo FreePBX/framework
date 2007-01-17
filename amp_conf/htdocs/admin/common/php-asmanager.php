@@ -290,6 +290,15 @@ class AGI_AsteriskManager
 		$this->logoff();
 		fclose($this->socket);
 	}
+
+	/** 
+	* Check if the socket is connected
+	*
+	*/
+	function connected() 
+	{
+		return (bool)$this->socket;
+	}
 	
 	/**
 	* Set Absolute Timeout
