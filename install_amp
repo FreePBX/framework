@@ -267,6 +267,9 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 	global $amp_conf;
 	global $asterisk_conf;
 	global $install_moh;
+
+	// total # files, # actually copied
+	$num_files = $num_copied = 0;
 	
 	if ($dirsource && ($dirsource[0] != "/")) $dirsource = "/".$dirsource;
 	
@@ -336,24 +339,28 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 					$overwrite = true;
 				}
 				
+				$num_files++;
 				if ($overwrite) {
 					debug("copy ".$source." -> ".$destination);
 					if (!$dryrun) {
 						copy($source, $destination);
+						$num_copied++;
 					}
 				} else {
 					debug("not overwriting ".$destination);
 				}
 			} else {
 				//echo "recursive_copy($dirsourceparent, $dirdest, $md5sums, $dirsource/$file)";
-				recursive_copy($dirsourceparent, $dirdest, $md5sums, $dirsource."/".$file);
+				list($tmp_num_files, $tmp_num_copied) = recursive_copy($dirsourceparent, $dirdest, $md5sums, $dirsource."/".$file);
+				$num_files += $tmp_num_files;
+				$num_copied += $tmp_num_copied;
 			}
 		}
 	}
 	
 	if (isset($dir_handle)) closedir($dir_handle);
 	
-	return true;
+	return array($num_files, $num_copied);
 }
 
 function read_md5_file($filename) {
@@ -1003,13 +1010,13 @@ if (!isset($version)) {
 
 if ($install_files)
 {
-	outn("Installing new AMP files..");
+	outn("Installing new freePBX files..");
 	$check_md5s=true;
 	$md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
-	recursive_copy("amp_conf", "", $md5sums);
+	list($num_files, $num_copied) = recursive_copy("amp_conf", "", $md5sums);
 	if (!is_file("/etc/asterisk/voicemail.conf")) copy("/etc/asterisk/voicemail.conf.template","/etc/asterisk/voicemail.conf");
 	if (!is_dir("/var/spool/asterisk/voicemail/device")) amp_mkdir("/var/spool/asterisk/voicemail/device", "0755", true);
-	out("OK");
+	out("OK (".$num_copied." files copied, ".($num_files-$num_copied)." skipped)");
 }
 
 // **** Apply amportal.conf configuration to files
