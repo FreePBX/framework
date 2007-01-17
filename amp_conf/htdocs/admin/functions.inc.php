@@ -1746,7 +1746,9 @@ function module_install($modulename, $force = false) {
 	if (!$force) {
 	
 		if (!in_array($modules[$modulename]['status'], array(MODULE_STATUS_NOTINSTALLED, MODULE_STATUS_NEEDUPGRADE))) {
-			return array(_("This module is already installed."));
+			//return array(_("This module is already installed."));
+			// This isn't really an error, we just exit
+			return true;
 		}
 		
 		// check dependencies
