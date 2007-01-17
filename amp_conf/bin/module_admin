@@ -52,7 +52,7 @@ function install_parse_amportal_conf($filename) {
 }
 
 function init_amportal_environment($ampconfpath) {
-	global $amp_conf, $asterisk_conf, $db;
+	global $amp_conf, $asterisk_conf, $db, $astman;
 	
 	if (!file_exists($ampconfpath)) {
 		fatal('Cannot find conf file: '.$ampconfpath);
@@ -68,6 +68,8 @@ function init_amportal_environment($ampconfpath) {
 	}	
 	// include the functions file from WEBROOT
 	include(AMP_BASE_INCLUDE_PATH.'/functions.inc.php');
+	// include astman api
+	include(AMP_BASE_INCLUDE_PATH.'/common/php-asmanager.php');
 	
 	// now apply the real parse function (this makes some default assumptions and does a bit more error checking)
 	$amp_conf = parse_amportal_conf($ampconfpath);
@@ -80,6 +82,10 @@ function init_amportal_environment($ampconfpath) {
 	}
 	require_once(AMP_BASE_INCLUDE_PATH.'/common/db_connect.php'); //PEAR must be installed
 
+	$astman= new AGI_AsteriskManager();
+	if (! $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		unset( $astman );
+	}
 }
 
 function showHelp() {
