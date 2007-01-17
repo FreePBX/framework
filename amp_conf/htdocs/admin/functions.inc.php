@@ -180,13 +180,13 @@ function engine_getinfo() {
 
 	switch ($amp_conf['AMPENGINE']) {
 		case 'asterisk':
-			if ($astman) {
+			if (isset($astman) && $astman->connected()) {
 				//get version
 				$response = $astman->send_request('Command', array('Command'=>'show version'));
 				$verinfo = $response['data'];
 			} else {
-				// could not connect to asterisk manager
-				return array('engine'=>'ERROR-UNABLE-TO-CONNECT', 'version'=>'0', 'additional' => '0');
+				// could not connect to asterisk manager, try console
+				$verinfo = exec('asterisk -V');
 			}
 			
 			if (preg_match('/Asterisk SVN.+/', $verinfo)) {
@@ -195,6 +195,8 @@ function engine_getinfo() {
 			if (preg_match('/Asterisk (\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4]);
 			}
+
+			return array('engine'=>'ERROR-UNABLE-TO-CONNECT', 'version'=>'0', 'additional' => '0');
 		break;
 	}
 	return array('engine'=>'ERROR-UNSUPPORTED-ENGINE-'.$amp_conf['AMPENGINE'], 'version'=>'0', 'additional' => '0');
