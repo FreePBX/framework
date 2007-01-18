@@ -750,6 +750,7 @@ class AGI_AsteriskManager
 	 * @return bool True if successful
 	 */
 	function database_put($family, $key, $value) {
+		$value = (trim($value) == '')?'"'.$value.'"':$value;
 		$r = $this->command("database put ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key)." ".$value);
 		return (bool)strstr($r["data"], "success");
 	}
