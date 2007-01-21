@@ -95,6 +95,7 @@ if ($rgmethod == "ringall-prim") {
 	$mastermode = 1;
 } else {
 	$mastermode	= 0;
+	$pr_dialstatus = ""; // not relevant if not mastermode, clear it so dnd doesn't propagate, and other
 }
 
 // call confirmation only works with ringall and ringall-prim. The javascripts in ringgroups
