@@ -220,7 +220,7 @@ if  (defined($sortoption) && ($sortoption eq "lastname")) {
 @trunklist=();
 foreach $table ("sip","iax") {
 	if (table_exists($dbh,$table)) {
-		$statement = "SELECT data,id,'$table' from $table where keyword='account' and flags <> 1 and id>9999 group by data order by id";
+		$statement = "SELECT data,id,'$table' from $table where keyword='account' and flags <> 1 and id>99990 group by data order by id";
 		$result = $dbh->selectall_arrayref($statement);
 		@resultSet = @{$result};
 		if ( $#resultSet == -1 ) {
