@@ -218,7 +218,50 @@ CREATE TABLE `globals` (
 
 /*!40000 ALTER TABLE `globals` DISABLE KEYS */;
 LOCK TABLES `globals` WRITE;
-INSERT INTO `globals` VALUES ('CALLFILENAME','\"\"'),('DIAL_OPTIONS','tr'),('TRUNK_OPTIONS',''),('DIAL_OUT','9'),('FAX',''),('FAX_RX','system'),('FAX_RX_EMAIL','fax@mydomain.com'),('FAX_RX_FROM','freepbx@gmail.com'),('INCOMING','group-all'),('NULL','\"\"'),('OPERATOR',''),('OPERATOR_XTN',''),('PARKNOTIFY','SIP/200'),('RECORDEXTEN','\"\"'),('RINGTIMER','15'),('DIRECTORY','last'),('AFTER_INCOMING',''),('IN_OVERRIDE','forcereghours'),('REGTIME','7:55-17:05'),('REGDAYS','mon-fri'),('DIRECTORY_OPTS',''),('DIALOUTIDS','1'),('OUT_1','ZAP/g0'),('VM_PREFIX','*'),('VM_OPTS',''),('VM_GAIN',''),('VM_DDTYPE','u'),('TIMEFORMAT','kM'),('TONEZONE','us'),('ALLOW_SIP_ANON','no');
+INSERT INTO `globals` VALUES 
+	 ('CALLFILENAME','\"\"')
+	,('DIAL_OPTIONS','tr')
+	,('TRUNK_OPTIONS','')
+	,('DIAL_OUT','9')
+	,('FAX','')
+	,('FAX_RX','system')
+	,('FAX_RX_EMAIL','fax@mydomain.com')
+	,('FAX_RX_FROM','freepbx@gmail.com')
+	,('INCOMING','group-all'),('NULL','\"\"')
+	,('OPERATOR',''),('OPERATOR_XTN','')
+	,('PARKNOTIFY','SIP/200')
+	,('RECORDEXTEN','\"\"')
+	,('RINGTIMER','15')
+	,('DIRECTORY','last')
+	,('AFTER_INCOMING','')
+	,('IN_OVERRIDE','forcereghours')
+	,('REGTIME','7:55-17:05')
+	,('REGDAYS','mon-fri')
+	,('DIRECTORY_OPTS','')
+	,('DIALOUTIDS','1')
+	,('OUT_1','ZAP/g0')
+	,('VM_PREFIX','*')
+	,('VM_OPTS','')
+	,('VM_GAIN','')
+	,('VM_DDTYPE','u')
+	,('TIMEFORMAT','kM')
+	,('TONEZONE','us')
+	,('ALLOW_SIP_ANON','no')
+	,('VMX_CONTEXT','from-internal')
+	,('VMX_PRI','1')
+	,('VMX_TIMEDEST_CONTEXT','')
+	,('VMX_TIMEDEST_EXT','dovm')
+	,('VMX_TIMEDEST_PRI','1')
+	,('VMX_LOOPDEST_CONTEXT','')
+	,('VMX_LOOPDEST_EXT','dovm')
+	,('VMX_LOOPDEST_PRI','1')
+	,('VMX_OPTS_TIMEOUT','')
+	,('VMX_OPTS_LOOP','')
+	,('VMX_OPTS_DOVM','')
+	,('VMX_TIMEOUT','2')
+	,('VMX_REPEAT','1')
+	,('VMX_LOOPS','1')
+	;
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `globals` ENABLE KEYS */;
 
