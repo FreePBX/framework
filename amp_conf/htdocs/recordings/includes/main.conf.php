@@ -223,26 +223,31 @@ $CONFERENCE_WEBMEETME_URL = "";
 #   list of handset options and their function
 #
 $ARI_HELP_FEATURE_CODES = array();
-$ARI_HELP_FEATURE_CODES['*411'] = _("Directory");
-$ARI_HELP_FEATURE_CODES['*43'] = _("Echo Test");
-$ARI_HELP_FEATURE_CODES['*60'] = _("Time");
-$ARI_HELP_FEATURE_CODES['*61'] = _("Weather");
-$ARI_HELP_FEATURE_CODES['*62'] = _("Schedule wakeup call");
-$ARI_HELP_FEATURE_CODES['*65'] = _("festival test (your extension is XXX)");
-$ARI_HELP_FEATURE_CODES['*70'] = _("Activate Call Waiting (deactivated by default)");
-$ARI_HELP_FEATURE_CODES['*71'] = _("Deactivate Call Waiting");
-$ARI_HELP_FEATURE_CODES['*72'] = _("Call Forwarding System");
-$ARI_HELP_FEATURE_CODES['*73'] = _("Disable Call Forwarding");
-$ARI_HELP_FEATURE_CODES['*77'] = _("IVR Recording");
-$ARI_HELP_FEATURE_CODES['*78'] = _("Enable Do-Not-Disturb");
-$ARI_HELP_FEATURE_CODES['*79'] = _("Disable Do-Not-Disturb");
-$ARI_HELP_FEATURE_CODES['*90'] = _("Call Forward on Busy");
-$ARI_HELP_FEATURE_CODES['*91'] = _("Disable Call Forward on Busy");
-$ARI_HELP_FEATURE_CODES['*97'] = _("Message Center (does not ask for extension)");
-$ARI_HELP_FEATURE_CODES['*98'] = _("Enter Message Center");
-$ARI_HELP_FEATURE_CODES['*99'] = _("Playback IVR Recording");
-$ARI_HELP_FEATURE_CODES['666'] = _("Test Fax");
-$ARI_HELP_FEATURE_CODES['7777'] = _("Simulate incoming call");
+//$ARI_HELP_FEATURE_CODES['*411'] = _("Directory");
+//$ARI_HELP_FEATURE_CODES['*43'] = _("Echo Test");
+//$ARI_HELP_FEATURE_CODES['*60'] = _("Time");
+//$ARI_HELP_FEATURE_CODES['*61'] = _("Weather");
+//$ARI_HELP_FEATURE_CODES['*62'] = _("Schedule wakeup call");
+//$ARI_HELP_FEATURE_CODES['*65'] = _("festival test (your extension is XXX)");
+//$ARI_HELP_FEATURE_CODES['*77'] = _("IVR Recording");
+//$ARI_HELP_FEATURE_CODES['*99'] = _("Playback IVR Recording");
+//$ARI_HELP_FEATURE_CODES['666'] = _("Test Fax");
+//$ARI_HELP_FEATURE_CODES['7777'] = _("Simulate incoming call");
+
+$ARI_HELP_FEATURE_CODES['*72'] = _("Call Forward All Activate");
+$ARI_HELP_FEATURE_CODES['*73'] = _("Call Forward All Deactivate");
+$ARI_HELP_FEATURE_CODES['*74'] = _("Call Forward All Prompting Deactivate");
+$ARI_HELP_FEATURE_CODES['*90'] = _("Call Forward Busy Activate");
+$ARI_HELP_FEATURE_CODES['*91'] = _("Call Forward Busy Deactivate");
+$ARI_HELP_FEATURE_CODES['*92'] = _("Call Forward Busy Prompting Deactivate");
+$ARI_HELP_FEATURE_CODES['*52'] = _("Call Forward No Answer/Unavailable Activate");
+$ARI_HELP_FEATURE_CODES['*53'] = _("Call Forward No Answer/Unavailable Deactivate");
+$ARI_HELP_FEATURE_CODES['*70'] = _("Call Waiting - Activate");
+$ARI_HELP_FEATURE_CODES['*71'] = _("Call Waiting - Deactivate");
+$ARI_HELP_FEATURE_CODES['*78'] = _("Do-Not-Disturb Activate");
+$ARI_HELP_FEATURE_CODES['*79'] = _("Do-Not-Disturb Deactivate");
+$ARI_HELP_FEATURE_CODES['*97'] = _("My Voicemail");
+$ARI_HELP_FEATURE_CODES['*98'] = _("Dial Voicemail");
 
 ###############################
 # settings page settings
@@ -259,11 +264,23 @@ $ASTERISK_PROTOCOLS['sip']['config_files'] = "/etc/asterisk/sip.conf;/etc/asteri
 $ASTERISK_PROTOCOLS['zap']['table'] = "zap";
 $ASTERISK_PROTOCOLS['zap']['config_files'] = "/etc/asterisk/zapata.conf;/etc/asterisk/zapata_additional.conf";
 
+# Settings for Follow-Me Select Boxes in seconds
+#
+
+$SETTINGS_PRERING_LOW = 4;
+$SETTINGS_PRERING_HIGH = 30;
+$SETTINGS_LISTRING_LOW = 6;
+$SETTINGS_LISTRING_HIGH = 60;
+
+$SETTINGS_FOLLOW_ME_LIST_MAX = 5;
+$SETTINGS_ALLOW_VMX_SETTINGS = true;
 #
 # For setting 
 #   option: 0 - do not show controls
 #           1 - show controls
 #
+$SETTINGS_ALLOW_CALLFORWARD_SETTINGS = 1;
+$SETTINGS_ALLOW_VOICEMAIL_SETTINGS = 1;
 $SETTINGS_ALLOW_VOICEMAIL_PASSWORD_SET = 1;
 
 #
@@ -303,7 +320,7 @@ $ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT = ".wav";
 #   option: 0 - do not show controls
 #           1 - show controls
 #
-$SETTINGS_ALLOW_CALL_RECORDING_SET = 1;
+$SETTINGS_ALLOW_CALL_RECORDING_SET = 0;
 
 
 ?>

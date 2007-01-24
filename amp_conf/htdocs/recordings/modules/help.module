@@ -82,17 +82,59 @@ class Help {
        </tr>";
 
     // handset feature code body
-    foreach($ARI_HELP_FEATURE_CODES as $key => $feature_code) {
+    if (isset($_SESSION['dbh_asterisk'])) {
 
-      $handset_feature_codes_body .= 
-        "<tr>
-           <td class='feature_codes'>
-             " . $key . "
-           </td>
-           <td>
-             " . $feature_code . "
-           </td>
-         </tr>";
+      $sql = "
+             SELECT keycode, description
+             FROM (
+               SELECT modulename, description, defaultcode keycode
+               FROM featurecodes 
+               WHERE customcode IS NULL 
+               AND enabled = '1'
+               UNION ALL SELECT modulename, description, customcode keycode
+               FROM featurecodes
+               WHERE customcode IS NOT NULL 
+               AND enabled = '1'
+             )c
+             WHERE modulename NOT 
+             IN ( 'core', 'recordings', 'infoservices', 'polycomreassign')
+             ORDER BY modulename, keycode
+             ";
+
+      $results = $_SESSION['dbh_asterisk']->getAll($sql, DB_FETCHMODE_ASSOC);
+      if(DB::IsError($results)) {
+        $_SESSION['ari_error'] = $results->getMessage();
+      }
+      else {
+        foreach ($results as $item ) {
+
+        $handset_feature_codes_body .= 
+          "<tr>
+             <td class='feature_codes'>
+               " . $item['keycode'] . "
+             </td>
+             <td>
+               " . $item['description'] . "
+             </td>
+           </tr>";
+        }
+      }
+    }
+    else {
+
+      // handset feature code body
+      foreach($ARI_HELP_FEATURE_CODES as $key => $feature_code) {
+
+        $handset_feature_codes_body .= 
+          "<tr>
+             <td class='feature_codes'>
+               " . $key . "
+             </td>
+             <td>
+               " . $feature_code . "
+             </td>
+           </tr>";
+      }
     }
 
     // build page content

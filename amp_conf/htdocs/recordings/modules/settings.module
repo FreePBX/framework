@@ -77,10 +77,13 @@ class Settings {
     global $STANDALONE;
     global $ARI_ADMIN_USERNAME;
     global $ASTERISK_VOICEMAIL_CONF;
+    global $SETTINGS_ALLOW_CALLFORWARD_SETTINGS;
+    global $SETTINGS_ALLOW_VOICEMAIL_SETTINGS;
     global $SETTINGS_ALLOW_VOICEMAIL_PASSWORD_SET;
     global $SETTINGS_VOICEMAIL_PASSWORD_LENGTH;
     global $SETTINGS_VOICEMAIL_PASSWORD_EXACT;
     global $SETTINGS_ALLOW_CALL_RECORDING_SET;
+    global $SETTINGS_ALLOW_VMX_SETTINGS;
 
     // args
     $m = getArgument($args,'m');
@@ -90,6 +93,27 @@ class Settings {
 
     $call_forward_enable  = getArgument($args,'call_forward_enable');
     $call_forward_number  = getArgument($args,'call_forward_number');
+
+    $call_forward_busy_enable  = getArgument($args,'call_forward_busy_enable');
+    $call_forward_busy_number  = getArgument($args,'call_forward_busy_number');
+
+    $call_forward_unavailable_enable  = getArgument($args,'call_forward_unavailable_enable');
+    $call_forward_unavailable_number  = getArgument($args,'call_forward_unavailable_number');
+
+    $follow_me_prering_time  = getArgument($args,'follow_me_prering_time');
+    $follow_me_listring_time  = getArgument($args,'follow_me_listring_time');
+    $follow_me_list  = getArgument($args,'follow_me_list');
+    $follow_me_confirm  = getArgument($args,'follow_me_confirm');
+    $follow_me_disabled = getArgument($args,'follow_me_disabled');
+
+		$vmx_option_0_number					= getArgument($args, 'vmx_option_0_number');
+		$vmx_option_0_system_default	= getArgument($args, 'vmx_option_0_system_default');
+		$vmx_option_1_number					= getArgument($args, 'vmx_option_1_number');
+		$vmx_option_2_number					= getArgument($args, 'vmx_option_2_number');
+		$vmx_unavail_enabled					= getArgument($args, 'vmx_unavail_enabled');
+		$vmx_busy_enabled							= getArgument($args, 'vmx_busy_enabled');
+		$vmx_play_instructions				= getArgument($args, 'vmx_play_instructions');
+    $vmx_disabled 								= getArgument($args,'vmx_disabled');
 
     $voicemail_password = getArgument($args,'voicemail_password');
     $voicemail_password_confirm = getArgument($args,'voicemail_password_confirm');
@@ -117,8 +141,9 @@ class Settings {
       if ($exten!=$ARI_ADMIN_USERNAME) {
 
         // update call forward number
-        if (!$STANDALONE['use']) {
+        if ($SETTINGS_ALLOW_CALLFORWARD_SETTINGS && !$STANDALONE['use']) {
 
+          // normal call forward
           $stripped_call_forward_number = preg_replace('/-|\(|\)|\s/','',$call_forward_number);
           if ($call_forward_enable && !is_numeric($stripped_call_forward_number)) {
             $_SESSION['ari_error'] = 
@@ -136,10 +161,283 @@ class Settings {
               setcookie("ari_call_forward_number", $call_forward_number, time()+365*24*60*60);
             }
           }
+
+          // call forward busy
+          $stripped_call_forward_busy_number = preg_replace('/-|\(|\)|\s/','',$call_forward_busy_number);
+          if ($call_forward_busy_enable && !is_numeric($stripped_call_forward_busy_number)) {
+            $_SESSION['ari_error'] = 
+              _("Call forward number not changed") . "<br>" .
+              sprintf(_("Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"),$call_forward_busy_number);
+          }
+          else {
+
+            // set database
+            $this->setCallForward($exten,$call_forward_busy_enable,$stripped_call_forward_busy_number, "CFB");
+
+            // store cookie
+            $stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_call_forward_busy_number']);
+            if ($call_forward_busy_number && $stripped!=$stripped_call_forward_busy_number) {
+              setcookie("ari_call_forward_busy_number", $call_forward_busy_number, time()+365*24*60*60);
+            }
+          }
+
+          // call forward unavailable
+          $stripped_call_forward_unavailable_number = preg_replace('/-|\(|\)|\s/','',$call_forward_unavailable_number);
+          if ($call_forward_unavailable_enable && !is_numeric($stripped_call_forward_unavailable_number)) {
+            $_SESSION['ari_error'] = 
+              _("Call forward number not changed") . "<br>" .
+              sprintf(_("Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"),$call_forward_unavailable_number);
+          }
+          else {
+
+            // set database
+            $this->setCallForward($exten,$call_forward_unavailable_enable,$stripped_call_forward_unavailable_number, "CFU");
+
+            // store cookie
+            $stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_call_forward_unavailable_number']);
+            if ($call_forward_unavailable_number && $stripped!=$stripped_call_forward_unavailable_number) {
+              setcookie("ari_call_forward_unavailable_number", $call_forward_unavailable_number, time()+365*24*60*60);
+            }
+          }
+
         }
 
+        // Make sure Follow-Me setup has not been deleted for this user since the last refresh
+        $follow_me_disabled_delayed = $_COOKIE['ari_follow_me_disabled'];
+
+        if (! $_COOKIE['ari_follow_me_disabled']) {
+
+          $follow_me_disabled = ($this->getFollowMeListRingTime($exten) > 0)?0:1;
+
+          if ($follow_me_disabled) {
+
+            setcookie("ari_follow_me_disabled", $follow_me_disabled, time()+365*24*60*60);
+            $follow_me_disabled_delayed = $follow_me_disabled;
+            $_SESSION['ari_error'] = 
+              _("Your Follow-Me has been disabled, REFRESH your browser to remove this message") . "<br>" .
+              sprintf(_("Check with your Telephone System Administrator if you think there is a problem"));
+          }
+				}
+
+        $vmx_disabled_delayed = $_COOKIE['ari_vmx_disabled'];
+        if (! $_COOKIE['ari_vmx_disabled']) {
+
+					$vmx_disabled = $this->getVmxState($exten,'unavail');
+					if ($vmx_disabled === false) {
+						$vmx_disabled = true;
+        		$SETTINGS_ALLOW_VMX_SETTINGS=false;
+					} else {
+						$vmx_disabled = false;
+					}
+          if ($vmx_disabled) {
+
+            setcookie("ari_vmx_disabled", $vmx_disabled, time()+365*24*60*60);
+            $vmx_disabled_delayed = $vmx_disabled;
+            $_SESSION['ari_error'] = 
+              _("Your Premium VmX Locator service has been disabled, REFRESH your browser to remove this message") . "<br>" .
+              sprintf(_("Check with your Telephone System Administrator if you think there is a problem"));
+          }
+				}
+
+				if (! $vmx_disabled_delayed) {
+          if (!$STANDALONE['use']) {
+  
+            // set database
+            $this->setVmxState($exten,'unavail',$vmx_unavail_enabled);
+            $this->setVmxState($exten,'busy',$vmx_busy_enabled);
+            $this->setVmxPlayInstructions($exten,'unavail',$vmx_play_instructions);
+            $this->setVmxPlayInstructions($exten,'busy',$vmx_play_instructions);
+  
+            // store cookie
+            setcookie("ari_vmx_unavail_enabled", $vmx_unavail_enabled, time()+365*24*60*60);
+            setcookie("ari_vmx_busy_enabled", $vmx_busy_enabled, time()+365*24*60*60);
+            setcookie("ari_vmx_play_instructions", $vmx_play_instructions, time()+365*24*60*60);
+
+          	$stripped_vmx_option_0_number = preg_replace('/-|\(|\)|\s/','',$vmx_option_0_number);
+						if ($vmx_option_0_system_default) {
+            	$this->setVmxOptionNumber($exten,'0','unavail',"");
+            	$this->setVmxOptionNumber($exten,'0','busy',"");
+            	setcookie("ari_vmx_option_0_system_default", $vmx_option_0_system_default, time()+365*24*60*60);
+          		if (is_numeric($stripped_vmx_option_0_number) || !$stripped_vmx_option_0_number) {
+            		$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_0_number']);
+            		if ($vmx_option_0_number && $stripped!=$stripped_vmx_option_0_number) {
+              		setcookie("ari_vmx_option_0_number", $call_vmx_option_0_number, time()+365*24*60*60);
+            		}
+							}
+						} else {
+          		if (!is_numeric($stripped_vmx_option_0_number) && $stripped_vmx_option_0_number) {
+           			$_SESSION['ari_error'] = 
+             			_("Option 0 not changed") . "<br>" .
+             			sprintf(_("Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"),$vmx_option_0_number);
+          		}
+          		else {
+
+           			// set database
+           			$this->setVmxOptionNumber($exten,'0','unavail',$stripped_vmx_option_0_number);
+           			$this->setVmxOptionNumber($exten,'0','busy',$stripped_vmx_option_0_number);
+
+           			// store cookie
+           			$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_0_number']);
+           			if ($vmx_option_0_number && $stripped!=$stripped_vmx_option_0_number) {
+             			setcookie("ari_vmx_option_0_number", $call_vmx_option_0_number, time()+365*24*60*60);
+           			}
+							}
+						}
+
+          	$stripped_vmx_option_1_number = preg_replace('/-|\(|\)|\s/','',$vmx_option_1_number);
+          	if (!is_numeric($stripped_vmx_option_1_number) && $stripped_vmx_option_1_number) {
+            	$_SESSION['ari_error'] = 
+              	_("Option 1 not changed") . "<br>" .
+              	sprintf(_("Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"),$vmx_option_1_number);
+          	}
+          	else {
+
+            	// set database
+            	$this->setVmxOptionNumber($exten,'1','unavail',$stripped_vmx_option_1_number);
+            	$this->setVmxOptionNumber($exten,'1','busy',$stripped_vmx_option_1_number);
+	
+            	// store cookie
+            	$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_1_number']);
+            	if ($vmx_option_1_number && $stripped!=$stripped_vmx_option_1_number) {
+              	setcookie("ari_vmx_option_1_number", $call_vmx_option_1_number, time()+365*24*60*60);
+            	}
+          	}
+
+          	$stripped_vmx_option_2_number = preg_replace('/-|\(|\)|\s/','',$vmx_option_2_number);
+          	if (!is_numeric($stripped_vmx_option_2_number) && $stripped_vmx_option_2_number) {
+            	$_SESSION['ari_error'] = 
+              	_("Option 2 not changed") . "<br>" .
+              	sprintf(_("Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"),$vmx_option_2_number);
+          	}
+          	else {
+
+            	// set database
+            	$this->setVmxOptionNumber($exten,'2','unavail',$stripped_vmx_option_2_number);
+            	$this->setVmxOptionNumber($exten,'2','busy',$stripped_vmx_option_2_number);
+
+            	// store cookie
+            	$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_2_number']);
+            	if ($vmx_option_2_number && $stripped!=$stripped_vmx_option_2_number) {
+              	setcookie("ari_vmx_option_2_number", $call_vmx_option_2_number, time()+365*24*60*60);
+            	}
+          	}
+          }
+				} // vmx_disabled_delayed false
+
+        if (! $follow_me_disabled_delayed) {
+
+          // assume no errors, don't update SQL if errors occured
+          $follow_me_update_succeeded=1;
+  
+          // update follow me pre-ring time
+          if (!$STANDALONE['use']) {
+  
+            $stripped_follow_me_prering_time = preg_replace('/-|\s/','',$follow_me_prering_time);
+            if (!is_numeric($stripped_follow_me_prering_time)) {
+              $_SESSION['ari_error'] = 
+                _("Follow-Me pre-ring time not changed") . "<br>" .
+                sprintf(_("Number %s must be an interger number of seconds"),$follow_me_prering_time);
+              $follow_me_update_succeeded=0;
+            }
+            else {
+  
+              // set database
+              $this->setFollowMePreRingTime($exten,$stripped_follow_me_prering_time);
+  
+              // store cookie
+              $stripped = preg_replace('/-|\s/','',$_COOKIE['ari_follow_me_prering_time']);
+              if ($follow_me_prering_time && $stripped!=$stripped_follow_me_prering_time) {
+                setcookie("ari_follow_me_prering_time", $follow_me_prering_time, time()+365*24*60*60);
+              }
+            }
+          }
+  
+          // update follow me list ring time
+          if (!$STANDALONE['use']) {
+  
+            $stripped_follow_me_listring_time = preg_replace('/-|\s/','',$follow_me_listring_time);
+            if (!is_numeric($stripped_follow_me_listring_time)) {
+              $_SESSION['ari_error'] = 
+                _("Follow-Me list ring time not changed") . "<br>" .
+                sprintf(_("Number %s must be an interger number of seconds"),$follow_me_listring_time);
+              $follow_me_update_succeeded=0;
+            }
+            else {
+  
+              // set database
+              $this->setFollowMeListRingTime($exten,$stripped_follow_me_listring_time);
+  
+              // store cookie
+              $stripped = preg_replace('/-|\s/','',$_COOKIE['ari_follow_me_listring_time']);
+              if ($follow_me_listring_time && $stripped!=$stripped_follow_me_listring_time) {
+                setcookie("ari_follow_me_listring_time", $follow_me_listring_time, time()+365*24*60*60);
+              }
+            }
+          }
+  
+          // update follow me list 
+          if (!$STANDALONE['use']) {
+  
+            $grplist = explode("\n", $follow_me_list);
+  
+            if (!$grplist) {
+                    $grplist = null;
+            }
+  
+            foreach (array_keys($grplist) as $key) {
+              //trim it
+              $grplist[$key] = trim($grplist[$key]);
+  
+							// Lookup the extension and append hash if not a user, and remove invalid chars
+							$grplist[$key] = $this->lookupSetExtensionFormat($grplist[$key]);
+  
+              // remove blanks
+              if ($grplist[$key] == "") unset($grplist[$key]);
+            }
+  
+            // check for duplicates, and re-sequence
+            $grplist = array_values(array_unique($grplist));
+
+            $stripped_follow_me_list = implode("-",$grplist);
+  
+            if ($stripped_follow_me_list == "") {
+              $_SESSION['ari_error'] = 
+                _("Follow-Me list must contain at least one valid number") . "<br>" .
+                sprintf(_("The following: %s is not valid"),$follow_me_list);
+              $follow_me_update_succeeded=0;
+            }
+            else {
+  
+              // set database
+              $this->setFollowMeList($exten,$stripped_follow_me_list);
+  
+              // store cookie
+              $stripped = preg_replace('/|\(|\)|\s/','',$_COOKIE['ari_follow_me_list']);
+              if ($follow_me_list && $stripped!=$stripped_follow_me_list) {
+                setcookie("ari_follow_me_list", $follow_me_list, time()+365*24*60*60);
+              }
+            }
+          }
+  
+          // update follow me confirm
+          if (!$STANDALONE['use']) {
+  
+            // set database
+            $this->setFollowMeConfirm($exten,$follow_me_confirm);
+  
+            // store cookie
+            setcookie("ari_follow_me_confirm", $follow_me_confirm, time()+365*24*60*60);
+          }
+  
+          //If no errors than update the SQL table to keep in sync
+          if ($follow_me_update_succeeded) {
+            $this->setFollowMeMySQL($exten, $follow_me_prering_time, $follow_me_listring_time, $follow_me_list, $follow_me_confirm);
+          }
+
+        } //if !follow_me_disabled
+
         // voicemail settings
-        if ($_SESSION['ari_user']['voicemail_enabled']==1) {
+        if ($SETTINGS_ALLOW_VOICEMAIL_SETTINGS && $_SESSION['ari_user']['voicemail_enabled']==1) {
 
 
           // update voicemail password
@@ -355,11 +653,20 @@ class Settings {
 
     global $STANDALONE;
     global $ARI_ADMIN_USERNAME;
+    global $SETTINGS_ALLOW_CALLFORWARD_SETTINGS;
+    global $SETTINGS_ALLOW_VOICEMAIL_SETTINGS;
     global $SETTINGS_ALLOW_VOICEMAIL_PASSWORD_SET;
     global $SETTINGS_VOICEMAIL_PASSWORD_LENGTH;
     global $SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS;
     global $ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT;
     global $SETTINGS_ALLOW_CALL_RECORDING_SET;
+    global $SETTINGS_PRERING_LOW;
+    global $SETTINGS_PRERING_HIGH;
+    global $SETTINGS_LISTRING_LOW;
+    global $SETTINGS_LISTRING_HIGH;
+
+    global $SETTINGS_FOLLOW_ME_LIST_MAX;
+    global $SETTINGS_ALLOW_VMX_SETTINGS;
 
     global $loaded_modules;
 
@@ -393,6 +700,7 @@ class Settings {
       // call forward settings
       if (!$STANDALONE['use']) {
 
+
         $call_forward_number = $this->getCallForwardNumber($exten);
         if ($call_forward_number) { 
           $call_forward_enable = 'checked';
@@ -402,288 +710,503 @@ class Settings {
           $call_forward_text_box_options = "disabled style='background: #DDD;'";
         }
 
-        $set_call_forward_text = "
-          <table class='settings'>
-	    <tr>
-              <td><h3>" . _("Call Routing") . "</h3></td>
-	    </tr>
-	    <tr>
-              <td>" . _("Call Forwarding:") . "</td>
-              <td>
-                <input " . $call_forward_text_box_options . " name='call_forward_number' type='text' size=24 value='" . $call_forward_number . "'>
-              </td>
-	    <tr>
-              <td></td>
-              <td>
-                <input " . $call_forward_enable . " type=checkbox name='call_forward_enable' value='checked' OnClick=\"disable_fields(); return true;\">
-                <small>" . _("Enable") . "</small>
-              </td>
-	    </tr>
-          </table>";
-      }
-
-      // voicemail settings
-      if ($_SESSION['ari_user']['voicemail_enabled']==1 && 
-            in_array('voicemail',array_keys($loaded_modules))) {
-        if ($SETTINGS_ALLOW_VOICEMAIL_PASSWORD_SET) {
-
-          if ($SETTINGS_VOICEMAIL_PASSWORD_EXACT) {
-            $voicemail_password_length_message = sprintf(_("Passwords must be all numbers and only %s digits"),$SETTINGS_VOICEMAIL_PASSWORD_LENGTH);
-          }
-          else {
-            $voicemail_password_length_message = sprintf(_("Passwords must be all numbers and at least %s digits"),$SETTINGS_VOICEMAIL_PASSWORD_LENGTH);
-          }
-
-          $set_voicemail_password_text = "
-	    <tr>
-              <td>" . _("Voicemail Password:") . "</td>
-              <td>
-                <input name='voicemail_password' type='password' size=16 value=" . $_SESSION['ari_user']['voicemail_password'] . ">
-              </td>
-	    </tr>
-	    <tr>
-              <td>" . _("Enter again to confirm:") . "</td>
-              <td>
-                <input name='voicemail_password_confirm' type='password' size=16 value=" . $_SESSION['ari_user']['voicemail_password'] . ">
-              </td>
-	    </tr>
-	    <tr>
-             <td class='note' colspan=2><small>" . $voicemail_password_length_message . "</small></td>
-	    </tr>";
+        $call_forward_busy_number = $this->getCallForwardNumber($exten, 'CFB');
+        if ($call_forward_busy_number) { 
+          $call_forward_busy_enable = 'checked';
+        }
+        else {
+          $call_forward_busy_number = $_COOKIE['ari_call_forward_busy_number'];
+          $call_forward_busy_text_box_options = "disabled style='background: #DDD;'";
         }
 
-        if (isset($_SESSION['ari_user']['voicemail_email'])) {
-
-          if ($_SESSION['ari_user']['voicemail_email_enable']) { 
-            $voicemail_email_address = $_SESSION['ari_user']['voicemail_email_address'];
-            $voicemail_pager_address = $_SESSION['ari_user']['voicemail_pager_address'];
-            $voicemail_email_enable = 'checked';
-
-            foreach (array_keys($_SESSION['ari_user']['voicemail_email']) as $key) {
-              $var = "voicemail_email_$key";
-              $var_enable = $var . "enable";
-              if ($_SESSION['ari_user']['voicemail_email'][$key]=='yes') {
-                $$var_enable = 'checked';
-              }
-            }
-          }
-          else {
-
-            $voicemail_email_address = $_COOKIE['ari_voicemail_email_address'];
-            $voicemail_email_text_box_options = "disabled style='background: #DDD;'";
-            $voicemail_pager_address = $_COOKIE['ari_voicemail_pager_address'];
-            $voicemail_pager_text_box_options = "disabled style='background: #DDD;'";
-
-            foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
-              $var = "voicemail_email_$key";
-              $var_cookie = "ari_" . $var;
-              $var_enable = $var . "enable";
-              $var_text_box_options = $var . "text_box_options";
-
-              $$var_text_box_options = "disabled";
-              if ($_COOKIE[$var_cookie]=='yes') {
-                $$var_enable = 'checked';
-              }
-            }
-          }
-
-          $set_voicemail_email_text = "
-	    <tr>
-              <td>" . _("Email Voicemail To:") . "</td>
-              <td>
-                <input " . $voicemail_email_text_box_options . " name='voicemail_email_address' type='text' size=48 value='" . $voicemail_email_address . "'>
-              </td>
-	    </tr>
-	    <tr>
-              <td>" . _("Pager Voicemail To:") . "</td>
-              <td>
-                <input " . $voicemail_pager_text_box_options . " name='voicemail_pager_address' type='text' size=48 value='" . $voicemail_pager_address . "'>
-              </td>
-	    </tr>
-            <tr>
-              <td></td>
-              <td>
-                <input " . $voicemail_email_enable . " type=checkbox name='voicemail_email_enable' value='1' OnClick=\"disable_fields(); return true;\">
-                <small>" . _("Enable") . "</small>
-              </td>
-           </tr>";
-
-          foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
-
-            $var = "voicemail_email_$key";
-            $var_enable = $var . "enable";
-            $var_text_box_options = $var . "text_box_options";
-            if ($SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS[$key]) {
-              $var_text = $SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS[$key];
-            }
-            else {
-              $var_text = $key;
-            }
-
-            if ($value != 'yes' && $value != 'no' && $value !='') {
-
-              $size = strlen($value) - 1;
-              $set_voicemail_email_text .= "
-                <tr>
-                  <td></td>
-                  <td>
-                    <input type=text size='" . $size . "' name='" . $var . "' value='" . $value . "' OnClick=\"disable_fields(); return true;\">
-                    <small>" . $var_text . "</small>
-                  </td>
-                </tr>";
-            } 
-            else {
-
-              $set_voicemail_email_text .= "
-                <tr>
-                  <td></td>
-                  <td>
-                    <input " . $$var_enable . " " . $$var_text_box_options . " type=checkbox name='" . $var . "' value='yes' OnClick=\"disable_fields(); return true;\">
-                    <small>" . $var_text . "</small>
-                  </td>
-                </tr>";
-            }
-          }
+        $call_forward_unavailable_number = $this->getCallForwardNumber($exten, 'CFU');
+        if ($call_forward_unavailable_number) { 
+          $call_forward_unavailable_enable = 'checked';
         }
- 
-        $wav_enable = 'selected';
-        if ($_COOKIE['ari_voicemail_audio_format']=='.gsm'|| 
-              ($_COOKIE['ari_voicemail_audio_format']=='' && $ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT='.gsm')) {
-          $wav_enable = '';
-          $gsm_enable = 'selected';
-        } 
-
-        $set_voicemail_audio_format_text = "
-	  <tr>
-            <td>" . _("Audio Format:") . "</td>
-            <td>
-              <select name='voicemail_audio_format'>
-                <option value='.wav' " . $wav_enable .  ">" . _("Best Quality") . " (.wav)</option>
-                <option value='.gsm' " . $gsm_enable .  ">" . _("Smallest Download") . " (.gsm)</option>
-              </select>
-            </td>
-          </tr>";
-
-        $set_voicemail_text = "
-          <table class='settings'>
-            <tr>
-              <td><h3>" . _("Voicemail Settings") . "</h3></td>
-	    </tr>
-            " . $set_voicemail_password_text . "
-            " . $set_voicemail_email_text . "
-            " . $set_voicemail_audio_format_text . "
-          </table>";
-      }
-
-      // call monitor settings
-      if ($this->getFreePBXVersion() &&
-            $SETTINGS_ALLOW_CALL_RECORDING_SET && 
-            in_array('callmonitor',array_keys($loaded_modules))) {
-
-        foreach($data as $key=>$value) {
-          if ($key=='record_in') {
-            if ($value=='Always') {
-              $ri_always = 'checked=checked';
-            }
-            elseif ($value=='Never') {
-              $ri_never = 'checked=checked';
-            }
-            elseif ($value=='Adhoc') {
-              $ri_on_demand = 'checked=checked';
-            }
-          }
-          if ($key=='record_out') {
-            if ($value=='Always') {
-              $ro_always = 'checked=checked';
-            }
-            elseif ($value=='Never') {
-              $ro_never = 'checked=checked';
-            }
-            elseif ($value=='Adhoc') {
-              $ro_on_demand = 'checked=checked';
-            }
-          }
+        else {
+          $call_forward_unavailable_number = $_COOKIE['ari_call_forward_unavailable_number'];
+          $call_forward_unavailable_text_box_options = "disabled style='background: #DDD;'";
         }
 
-        $set_callmonitor_text = "
-          <table class='settings'>
+        $follow_me_prering_time = $this->getFollowMePreRingTime($exten);
+        $follow_me_listring_time = $this->getFollowMeListRingTime($exten);
+        $follow_me_list =  explode("-", $this->getFollowMeList($exten) );
+        $follow_me_confirm = $this->getFollowMeConfirm($exten);
+
+				$FOLLOW_ME_LIST_MAX = (count($follow_me_list) > $SETTINGS_FOLLOW_ME_LIST_MAX) ? count($follow_me_list):$SETTINGS_FOLLOW_ME_LIST_MAX;
+
+				//TODO: Set this better than this?
+				$follow_me_disabled = ($follow_me_listring_time > 0)?0:1;
+        setcookie("ari_follow_me_disabled", $follow_me_disabled, time()+365*24*60*60);
+
+        $set_call_forward_text = "<table class='settings'>";
+
+        $set_call_forward_text .= (!$SETTINGS_ALLOW_CALLFORWARD_SETTINGS)?'':"
+		<table class='settings'>
 	    <tr>
-              <td><h3>" . _("Call Monitor Settings") . "</h3></td>
+				<td><h3>" . _("Call Forwarding") . "</h3></td>
 	    </tr>
 	    <tr>
-              <td>" . _("Record INCOMING:") . " </td>
-              <td>
-                <input type='radio' name='record_in' value='Always' " . $ri_always . "/> " . _("Always") . " 
-                <input type='radio' name='record_in' value='Never' " . $ri_never . "/> " . _("Never") . "				
-                <input type='radio' name='record_in' value='Adhoc' " . $ri_on_demand . "/> " . _("On-Demand") . "
-              </td>
-            </tr>
-            <tr>
-              <td>" . _("Record OUTGOING:") . " </td>
-              <td>
-                <input type='radio' name='record_out' value='Always' " . $ro_always . "/> " . _("Always") . "
-                <input type='radio' name='record_out' value='Never' " . $ro_never . "/> " . _("Never") . "				
-                <input type='radio' name='record_out' value='Adhoc' " . $ro_on_demand . "/> " . _("On-Demand") . "
-              </td>
-            </tr>
-          </table>";
-      }
-    }
+				<td>" . _("Unconditional:") . "</td>
+				<td>
+					<input " . $call_forward_text_box_options . " name='call_forward_number' type='text' size=24 value='" . $call_forward_number . "'>
+				</td>
+				<td>
+					<input " . $call_forward_enable . " type=checkbox name='call_forward_enable' value='checked' OnClick=\"disable_fields(); return true;\">
+					<small>" . _("Enable") . "</small>
+				</td>
+	    </tr>
+	    <tr>
+				<td>" . _("Unavailable:") . "</td>
+				<td>
+					<input " . $call_forward_unavailable_text_box_options . " name='call_forward_unavailable_number' type='text' size=24 value='" . $call_forward_unavailable_number . "'>
+				</td>
+				<td>
+					<input " . $call_forward_unavailable_enable . " type=checkbox name='call_forward_unavailable_enable' value='checked' OnClick=\"disable_fields(); return true;\">
+					<small>" . _("Enable") . "</small>
+				</td>
+	    </tr>
+	    <tr>
+				<td>" . _("Busy:") . "</td>
+				<td>
+					<input " . $call_forward_busy_text_box_options . " name='call_forward_busy_number' type='text' size=24 value='" . $call_forward_busy_number . "'>
+				</td>
+				<td>
+					<input " . $call_forward_busy_enable . " type=checkbox name='call_forward_busy_enable' value='checked' OnClick=\"disable_fields(); return true;\">
+					<small>" . _("Enable") . "</small>
+				</td>
+	    </tr>
 
-    // javascript enable options
-    if (isset($_SESSION['ari_user']['voicemail_email']) &&
-          in_array('voicemail',array_keys($loaded_modules))) {
-      foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
-        $var = "voicemail_email_$key";
-        $js_voicemail_email_disable .= "
-          document.ari_settings.$var.disabled = false;";
-        $js_voicemail_email_enable .= "
-          document.ari_settings.$var.disabled = true;";
-      }
+        ";
 
-      $js_voicemail_script = "
-          if (document.ari_settings.voicemail_email_enable.checked) {
-            document.ari_settings.voicemail_email_address.style.backgroundColor = '#FFF';
-            document.ari_settings.voicemail_email_address.disabled = false;
-            document.ari_settings.voicemail_email_address.value='" . $voicemail_email_address . "';
-            document.ari_settings.voicemail_pager_address.style.backgroundColor = '#FFF';
-            document.ari_settings.voicemail_pager_address.disabled = false;
-            document.ari_settings.voicemail_pager_address.value='" . $voicemail_pager_address . "';
-            " . $js_voicemail_email_disable . "
-          }
-          else {
-            document.ari_settings.voicemail_email_address.style.backgroundColor = '#DDD';
-            document.ari_settings.voicemail_email_address.disabled = true;
-            document.ari_settings.voicemail_pager_address.style.backgroundColor = '#DDD';
-            document.ari_settings.voicemail_pager_address.disabled = true;
-            " . $js_voicemail_email_enable . "
-          }";
-    }
+        $set_call_forward_text .= ($follow_me_disabled)?'':"
+	    <tr>
+				<td><h3><br>" . _("Follow Me") . "</h3></td>
+	    </tr>
+	    <tr>
+				<td>" . _("Initial Ring Time:") . "</td>
+				<td>
+					<select " . $follow_me_prering_time_text_box_options . " name='follow_me_prering_time'/>";
+	if (!$follow_me_disabled) {
+	  $default_prering = $follow_me_prering_time;
+	  for ($i=$SETTINGS_PRERING_LOW; $i <= $SETTINGS_PRERING_HIGH; $i++) {
+	    $set_call_forward_text .=  '<option value="'.$i.'" '.($i == $default_prering ? 'SELECTED' : '').'>'.$i.'</option>';
+	  }
+	}
+        $set_call_forward_text .= ($follow_me_disabled)?'':"
+	        </select>
+					<small>" . _("seconds") . "</small>
+				</td>
+	    <tr>
+				<td valign='top'>" . _("Follow Me List:") . "</td>
+				<td>
+					<textarea " . $follow_me_list_options . " id='follow_me_list' name='follow_me_list' type='text' cols='20' rows='".$FOLLOW_ME_LIST_MAX."' value='' onKeyUp='rowCounter(this.form.follow_me_list, ".$FOLLOW_ME_LIST_MAX.");' onKeyDown='rowCounter(this.form.follow_me_list, ".$FOLLOW_ME_LIST_MAX.");'>".implode("\n",$follow_me_list)."</textarea>
+				</td>
+			<tr>
+				<td>" . _("List Ring Time:") . "</td>
+				<td>
+					<select " . $follow_me_listring_time_text_box_options . " name='follow_me_listring_time'/>";
+	if (!$follow_me_disabled) {
+	  $default_listring = $follow_me_listring_time;
+	  for ($i=$SETTINGS_LISTRING_LOW; $i <= $SETTINGS_LISTRING_HIGH; $i++) {
+	    $set_call_forward_text .=  '<option value="'.$i.'" '.($i == $default_listring ? 'SELECTED' : '').'>'.$i.'</option>';
+	  }
+	}
+        $set_call_forward_text .= ($follow_me_disabled)?'':"
+					</select>
+					<small>" . _("seconds") . "</small>
+				</td>
+			<tr>
+				<td>" . _("Use Confirmation:") . "</td>
+				<td>
+					<input " . $follow_me_confirm . " type=checkbox name='follow_me_confirm' value='checked'>
+					<small>" . _("Enable") . "</small>
+				</td>
+        ";
 
-    // build page content
-    $ret .= checkErrorMessage();
+        $set_call_forward_text .= "
+			</tr>
+			</tr>
+		</table>
+        ";
 
-    if ($_SESSION['ari_user']['admin_settings']) {
-      $headerText = _("Settings");
-    } else {
-      $headerText = sprintf(_("Settings for %s (%s)"),$displayname,$exten);
-    }
+				$vmx_unavail_enabled=$this->getVmxState($exten,'unavail');
+				if ($vmx_unavail_enabled === false) {
+					$vmx_disabled = true;
+        	setcookie("ari_vmx_disabled", $vmx_disabled, time()+365*24*60*60);
+        	$SETTINGS_ALLOW_VMX_SETTINGS=false;
+				} else {
+					$vmx_disabled = false;
+        	setcookie("ari_vmx_disabled", false, time()+365*24*60*60);
+					$vmx_busy_enabled=$this->getVmxState($exten,'busy');
+					$vmx_play_instructions=$this->getVmxPlayInstructions($exten);
+					$vmx_option_0_number=$this->getVmxOptionNumber($exten,'0');;
+					$vmx_option_1_number=$this->getVmxOptionNumber($exten,'1');;
+					$vmx_option_2_number=$this->getVmxOptionNumber($exten,'2');;
 
-    $ret .= $display->displayHeaderText($headerText);
-    $ret .= $display->displayLine();
+					if (is_numeric($vmx_option_0_number)) {
+						$vmx_option_0_system_default='';
+						$vmx_option_0_number_text_box_options='';
+					} else {
+						$vmx_option_0_system_default='checked';
+						$vmx_option_0_number_text_box_options="disabled style='background: #DDD;'";
+					}
+				}
 
-    $ret .= "
-      <SCRIPT LANGUAGE='JavaScript'>
-      <!-- Begin
-        function disable_fields() {
-          if (document.ari_settings.call_forward_enable.checked) {
-            document.ari_settings.call_forward_number.style.backgroundColor = '#FFF';
-            document.ari_settings.call_forward_number.disabled = false;
-          }
-          else {
-            document.ari_settings.call_forward_number.style.backgroundColor = '#DDD';
-            document.ari_settings.call_forward_number.disabled = true;
-          }
+        $set_vmx_text .= (!$SETTINGS_ALLOW_VMX_SETTINGS)?'':"
+		<table class='settings'>
+	    <tr>
+				<td><h3>" . _("Voicemail VmX Locator") . "</h3></td>
+	    </tr>
+	    <tr>
+				<td>" . _("Enabled Modes:") . "</td>
+				<td>
+					<input " . $vmx_unavail_enabled . " type=checkbox name='vmx_unavail_enabled' value='checked'>
+					<small>" . _("unavailable") . "</small>
+				</td>
+				<td>
+					<input " . $vmx_busy_enabled . " type=checkbox name='vmx_busy_enabled' value='checked'>
+					<small>" . _("busy") . "</small>
+				</td>
+			</tr>
+	    <tr>
+				<td>" . _("Voicemail Instructions:") . "</td>
+				<td>
+					<input " . $vmx_play_instructions . " type=checkbox name='vmx_play_instructions' value='checked'>
+					<small>" . _("play instructions to caller") . "</small>
+				</td>
+			</tr>
+		</table>
+		<table class='settings'>
+			<tr>
+				<td>" . _("Option 0:") . "</td>
+				<td>
+					<input " . $vmx_option_0_number_text_box_options . " name='vmx_option_0_number' type='text' size=24 value='" . $vmx_option_0_number . "'>
+				</td>
+				<td>
+						<input " . $vmx_option_0_system_default . " type=checkbox name='vmx_option_0_system_default' value='checked' OnClick=\"disable_fields(); return true;\">
+						<small>" . _("Use System Default") . "</small>
+					</td>
+				</tr>
+				<tr>
+					<td>" . _("Option 1:") . "</td>
+					<td>
+						<input " . $vmx_option_1_number_text_box_options . " name='vmx_option_1_number' type='text' size=24 value='" . $vmx_option_1_number . "'>
+					</td>
+				</tr>
+				<tr>
+					<td>" . _("Option 2:") . "</td>
+					<td>
+						<input " . $vmx_option_2_number_text_box_options . " name='vmx_option_2_number' type='text' size=24 value='" . $vmx_option_2_number . "'>
+					</td>
+				</tr>
+			</table>
+			";
+
+
+				}
+
+				// voicemail settings
+				if ($SETTINGS_ALLOW_VOICEMAIL_SETTINGS && $_SESSION['ari_user']['voicemail_enabled']==1 && 
+							in_array('voicemail',array_keys($loaded_modules))) {
+					if ($SETTINGS_ALLOW_VOICEMAIL_PASSWORD_SET) {
+
+						if ($SETTINGS_VOICEMAIL_PASSWORD_EXACT) {
+							$voicemail_password_length_message = sprintf(_("Passwords must be all numbers and only %s digits"),$SETTINGS_VOICEMAIL_PASSWORD_LENGTH);
+						}
+						else {
+							$voicemail_password_length_message = sprintf(_("Passwords must be all numbers and at least %s digits"),$SETTINGS_VOICEMAIL_PASSWORD_LENGTH);
+						}
+
+						$set_voicemail_password_text = "
+				<tr>
+					<td>" . _("Voicemail Password:") . "</td>
+					<td>
+						<input name='voicemail_password' type='password' size=16 value=" . $_SESSION['ari_user']['voicemail_password'] . ">
+					</td>
+				</tr>
+				<tr>
+					<td>" . _("Enter again to confirm:") . "</td>
+					<td>
+						<input name='voicemail_password_confirm' type='password' size=16 value=" . $_SESSION['ari_user']['voicemail_password'] . ">
+					</td>
+				</tr>
+				<tr>
+					<td class='note' colspan=2><small>" . $voicemail_password_length_message . "</small></td>
+				</tr>";
+					}
+
+					if (isset($_SESSION['ari_user']['voicemail_email'])) {
+
+						if ($_SESSION['ari_user']['voicemail_email_enable']) { 
+							$voicemail_email_address = $_SESSION['ari_user']['voicemail_email_address'];
+							$voicemail_pager_address = $_SESSION['ari_user']['voicemail_pager_address'];
+							$voicemail_email_enable = 'checked';
+
+							foreach (array_keys($_SESSION['ari_user']['voicemail_email']) as $key) {
+								$var = "voicemail_email_$key";
+								$var_enable = $var . "enable";
+								if ($_SESSION['ari_user']['voicemail_email'][$key]=='yes') {
+									$$var_enable = 'checked';
+								}
+							}
+						}
+						else {
+
+							$voicemail_email_address = $_COOKIE['ari_voicemail_email_address'];
+							$voicemail_email_text_box_options = "disabled style='background: #DDD;'";
+							$voicemail_pager_address = $_COOKIE['ari_voicemail_pager_address'];
+							$voicemail_pager_text_box_options = "disabled style='background: #DDD;'";
+
+							foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
+								$var = "voicemail_email_$key";
+								$var_cookie = "ari_" . $var;
+								$var_enable = $var . "enable";
+								$var_text_box_options = $var . "text_box_options";
+
+								$$var_text_box_options = "disabled";
+								if ($_COOKIE[$var_cookie]=='yes') {
+									$$var_enable = 'checked';
+								}
+							}
+						}
+
+						$set_voicemail_email_text = "
+				<tr>
+					<td>" . _("Email Voicemail To:") . "</td>
+					<td>
+						<input " . $voicemail_email_text_box_options . " name='voicemail_email_address' type='text' size=48 value='" . $voicemail_email_address . "'>
+					</td>
+				</tr>
+				<tr>
+					<td>" . _("Pager Voicemail To:") . "</td>
+					<td>
+						<input " . $voicemail_pager_text_box_options . " name='voicemail_pager_address' type='text' size=48 value='" . $voicemail_pager_address . "'>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<input " . $voicemail_email_enable . " type=checkbox name='voicemail_email_enable' value='1' OnClick=\"disable_fields(); return true;\">
+						<small>" . _("Enable") . "</small>
+					</td>
+				</tr>";
+
+						foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
+
+							$var = "voicemail_email_$key";
+							$var_enable = $var . "enable";
+							$var_text_box_options = $var . "text_box_options";
+							if ($SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS[$key]) {
+								$var_text = $SETTINGS_VOICEMAIL_EMAIL_OPTION_DESCRIPTIONS[$key];
+							}
+							else {
+								$var_text = $key;
+							}
+
+							if ($value != 'yes' && $value != 'no' && $value !='') {
+
+								$size = strlen($value) - 1;
+								$set_voicemail_email_text .= "
+									<tr>
+										<td></td>
+										<td>
+											<input type=text size='" . $size . "' name='" . $var . "' value='" . $value . "' OnClick=\"disable_fields(); return true;\">
+											<small>" . $var_text . "</small>
+										</td>
+									</tr>";
+							} 
+							else {
+
+								$set_voicemail_email_text .= "
+									<tr>
+										<td></td>
+										<td>
+											<input " . $$var_enable . " " . $$var_text_box_options . " type=checkbox name='" . $var . "' value='yes' OnClick=\"disable_fields(); return true;\">
+											<small>" . $var_text . "</small>
+										</td>
+									</tr>";
+							}
+						}
+					}
+	 
+					$wav_enable = 'selected';
+					if ($_COOKIE['ari_voicemail_audio_format']=='.gsm'|| 
+								($_COOKIE['ari_voicemail_audio_format']=='' && $ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT='.gsm')) {
+						$wav_enable = '';
+						$gsm_enable = 'selected';
+					} 
+
+					$set_voicemail_audio_format_text = "
+						<tr>
+							<td>" . _("Audio Format:") . "</td>
+							<td>
+								<select name='voicemail_audio_format'>
+									<option value='.wav' " . $wav_enable .  ">" . _("Best Quality") . " (.wav)</option>
+									<option value='.gsm' " . $gsm_enable .  ">" . _("Smallest Download") . " (.gsm)</option>
+								</select>
+							</td>
+						</tr>";
+
+					$set_voicemail_text = "
+						<table class='settings'>
+							<tr>
+								<td><h3>" . _("Voicemail Settings") . "</h3></td>
+							</tr>
+							" . $set_voicemail_password_text . "
+							" . $set_voicemail_email_text . "
+							" . $set_voicemail_audio_format_text . "
+						</table>";
+				}
+
+				// call monitor settings
+				if ($this->getFreePBXVersion() &&
+							$SETTINGS_ALLOW_CALL_RECORDING_SET && 
+							in_array('callmonitor',array_keys($loaded_modules))) {
+
+					foreach($data as $key=>$value) {
+						if ($key=='record_in') {
+							if ($value=='Always') {
+								$ri_always = 'checked=checked';
+							}
+							elseif ($value=='Never') {
+								$ri_never = 'checked=checked';
+							}
+							elseif ($value=='Adhoc') {
+								$ri_on_demand = 'checked=checked';
+							}
+						}
+						if ($key=='record_out') {
+							if ($value=='Always') {
+								$ro_always = 'checked=checked';
+							}
+							elseif ($value=='Never') {
+								$ro_never = 'checked=checked';
+							}
+							elseif ($value=='Adhoc') {
+								$ro_on_demand = 'checked=checked';
+							}
+						}
+					}
+
+					$set_callmonitor_text = "
+						<table class='settings'>
+				<tr>
+								<td><h3>" . _("Call Monitor Settings") . "</h3></td>
+				</tr>
+				<tr>
+								<td>" . _("Record INCOMING:") . " </td>
+								<td>
+									<input type='radio' name='record_in' value='Always' " . $ri_always . "/> " . _("Always") . " 
+									<input type='radio' name='record_in' value='Never' " . $ri_never . "/> " . _("Never") . "				
+									<input type='radio' name='record_in' value='Adhoc' " . $ri_on_demand . "/> " . _("On-Demand") . "
+								</td>
+							</tr>
+							<tr>
+								<td>" . _("Record OUTGOING:") . " </td>
+								<td>
+									<input type='radio' name='record_out' value='Always' " . $ro_always . "/> " . _("Always") . "
+									<input type='radio' name='record_out' value='Never' " . $ro_never . "/> " . _("Never") . "				
+									<input type='radio' name='record_out' value='Adhoc' " . $ro_on_demand . "/> " . _("On-Demand") . "
+								</td>
+							</tr>
+						</table>";
+				}
+			}
+
+			// javascript enable options
+			if (isset($_SESSION['ari_user']['voicemail_email']) &&
+						in_array('voicemail',array_keys($loaded_modules))) {
+				foreach ($_SESSION['ari_user']['voicemail_email'] as $key => $value) {
+					$var = "voicemail_email_$key";
+					$js_voicemail_email_disable .= "
+						document.ari_settings.$var.disabled = false;";
+					$js_voicemail_email_enable .= "
+						document.ari_settings.$var.disabled = true;";
+				}
+
+				$js_voicemail_script = "
+						if (document.ari_settings.voicemail_email_enable.checked) {
+							document.ari_settings.voicemail_email_address.style.backgroundColor = '#FFF';
+							document.ari_settings.voicemail_email_address.disabled = false;
+							document.ari_settings.voicemail_email_address.value='" . $voicemail_email_address . "';
+							document.ari_settings.voicemail_pager_address.style.backgroundColor = '#FFF';
+							document.ari_settings.voicemail_pager_address.disabled = false;
+							document.ari_settings.voicemail_pager_address.value='" . $voicemail_pager_address . "';
+							" . $js_voicemail_email_disable . "
+						}
+						else {
+							document.ari_settings.voicemail_email_address.style.backgroundColor = '#DDD';
+							document.ari_settings.voicemail_email_address.disabled = true;
+							document.ari_settings.voicemail_pager_address.style.backgroundColor = '#DDD';
+							document.ari_settings.voicemail_pager_address.disabled = true;
+							" . $js_voicemail_email_enable . "
+						}";
+			}
+
+			// build page content
+			$ret .= checkErrorMessage();
+
+			if ($_SESSION['ari_user']['admin_settings']) {
+				$headerText = _("Settings");
+			} else {
+				$headerText = sprintf(_("Settings for %s (%s)"),$displayname,$exten);
+			}
+
+			$ret .= $display->displayHeaderText($headerText);
+			$ret .= $display->displayLine();
+
+			$ret .= "
+				<SCRIPT LANGUAGE='JavaScript'>
+				<!-- Begin
+		function rowCounter(field, maxlimit) {
+			temp = field.value.split('\u000A',maxlimit+1)
+			field.value = temp.join('\u000A')
+			if (temp.length == maxlimit+1) {
+				field.value = field.value.substring(0, field.value.length-1)
+			}
+		}
+
+					function disable_fields() {";
+			if ($SETTINGS_ALLOW_CALLFORWARD_SETTINGS) {
+				$ret .= "
+						if (document.ari_settings.call_forward_enable.checked) {
+							document.ari_settings.call_forward_number.style.backgroundColor = '#FFF';
+							document.ari_settings.call_forward_number.disabled = false;
+						}
+						else {
+							document.ari_settings.call_forward_number.style.backgroundColor = '#DDD';
+							document.ari_settings.call_forward_number.disabled = true;
+						}
+
+						if (document.ari_settings.call_forward_busy_enable.checked) {
+							document.ari_settings.call_forward_busy_number.style.backgroundColor = '#FFF';
+							document.ari_settings.call_forward_busy_number.disabled = false;
+						}
+						else {
+							document.ari_settings.call_forward_busy_number.style.backgroundColor = '#DDD';
+							document.ari_settings.call_forward_busy_number.disabled = true;
+						}
+
+						if (document.ari_settings.call_forward_unavailable_enable.checked) {
+							document.ari_settings.call_forward_unavailable_number.style.backgroundColor = '#FFF';
+							document.ari_settings.call_forward_unavailable_number.disabled = false;
+						}
+						else {
+							document.ari_settings.call_forward_unavailable_number.style.backgroundColor = '#DDD';
+							document.ari_settings.call_forward_unavailable_number.disabled = true;
+						}";
+				}
+				$ret .= "
+						if (document.ari_settings.vmx_option_0_system_default.checked) {
+							document.ari_settings.vmx_option_0_number.style.backgroundColor = '#DDD';
+							document.ari_settings.vmx_option_0_number.disabled = true;
+						} 
+						else {
+							document.ari_settings.vmx_option_0_number.style.backgroundColor = '#FFF';
+							document.ari_settings.vmx_option_0_number.disabled = false;
+						}
+
           " . $js_voicemail_script . "
         }
       // End -->
@@ -697,6 +1220,8 @@ class Settings {
         <input type=hidden name=a value='update'>
         <br>
         " . $set_call_forward_text . "
+        <br>
+        " . $set_vmx_text . "
         <br>
         " . $set_voicemail_text . "
         <br>
@@ -717,8 +1242,10 @@ class Settings {
    *   Call forward enable or disable
    * @param $call_forward_number
    *   Call forward number
+   * @param $variable_opt
+   *   Call forward type (CF, CFU, CFB)
    */
-  function setCallForward($exten,$state,$call_forward_number) {
+  function setCallForward($exten,$state,$call_forward_number, $variable_opt = "CF") {
 
     global $asterisk_manager_interface;
 
@@ -730,7 +1257,7 @@ class Settings {
       $type_opt = "del";
     }
 
-    $variable_opt = "CF";
+    //$variable_opt = "CF";
 
     $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt $variable_opt $exten $value_opt\r\n\r\n");
   }
@@ -742,14 +1269,16 @@ class Settings {
    *   Extension to get information about
    * @return $number
    *   call forward number returned if set
+   * @param $variable_opt
+   *   Call forward type (CF, CFU, CFB)
    */
-  function getCallForwardNumber($exten) {
+  function getCallForwardNumber($exten, $variable_opt = "CF") {
 
     global $asterisk_manager_interface;
 
     $number = '';
 
-    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get CF $exten\r\n\r\n");
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get $variable_opt $exten\r\n\r\n");
     if (is_numeric($response)) {
       $number = $response;
     }
@@ -761,6 +1290,344 @@ class Settings {
 
     return $number;
   }
+
+
+  /*
+   * Gets VMX option number
+   *
+   * @param $exten
+   *   Extension to get information about
+   * @param $digit
+   *   Option number to get
+   * @param $mode
+	 *  Mode to get (unavail/busy)
+   * @return $number
+   *   Number to use or blank if disabled
+   */
+  function getVmxOptionNumber($exten, $digit, $mode='unavail') {
+
+    global $asterisk_manager_interface;
+
+    $number = '';
+		$digit = trim($digit);
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/vmx/$mode/$digit/ext\r\n\r\n");
+    if (is_numeric($response)) {
+      $number = $response;
+    }
+
+    $stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE["ari_vmx_option_${digit}_number"]);
+    if ($stripped==$number) {
+      $number = $_COOKIE["ari_vmx_option_${digit}_number"];
+    }
+
+    return $number;
+  }
+
+  /*
+   * Sets VMX option number
+   *
+   * @param $exten
+   *   Extension to set information about
+   * @param $digit
+   *   Option number to set
+   * @param $mode
+	 *  Mode to set (unavail/busy)
+   * @param $number
+	 *  Number to set ext to (blank will delete it)
+   * @param $context
+	 *  Context to set ext to (default from-internal)
+   * @param $priority
+	 *  Priority to set ext to (default 1)
+   */
+  function setVmxOptionNumber($exten, $digit, $mode, $number, $context='from-internal', $priority='1') {
+
+    global $asterisk_manager_interface;
+
+    $value_opt = trim($number);
+
+		if (is_numeric($value_opt)) {
+    	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/vmx/$mode/$digit/ext $value_opt\r\n\r\n");
+    	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/vmx/$mode/$digit/context $context\r\n\r\n");
+    	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/vmx/$mode/$digit/pri $priority\r\n\r\n");
+		} else {
+    	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database deltree AMPUSER $exten/vmx/$mode/$digit\r\n\r\n");
+		}
+  }
+
+  /*
+   * Sets VMX State
+   *
+   * @param $exten
+   *   Extension to modify
+   * @param $mode
+	 *  Mode to set (unavail/busy)
+   * @param $vmx_state
+   *   enabled/disabled state based on check box value
+   */
+  function setVmxState($exten,$mode,$vmx_state) {
+
+    global $asterisk_manager_interface;
+
+    $value_opt = ($vmx_state)?'enabled':'disabled';
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/vmx/$mode/state $value_opt\r\n\r\n");
+  }
+
+  /*
+   * Gets VMX State
+   *
+   * @param $exten
+   *   Extension to get information about
+   * @param $mode
+	 *  Mode to get (unavail/busy)
+   * @return $data
+   *   state of variable (checked/blank) or false if no poper value
+   */
+  function getVmxState($exten, $mode='unavail') {
+
+    global $asterisk_manager_interface;
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/vmx/$mode/state\r\n\r\n");
+
+    if (preg_match("/enabled/",$response)) {
+			$response='checked';
+    } 
+    elseif (preg_match("/disabled/",$response)) {
+			$response='';
+    }
+		else {
+			$response = false;
+		}
+
+    //TODO: really need to check for a bogus response, see how other side does it
+    //
+    return $response;
+
+  }
+
+  /*
+   * Sets VMX Play Instructions
+   *
+   * @param $exten
+   *   Extension to modify
+   * @param $vmx_play_instructions
+   *   play instructions or just beep (checked, blank)
+   * @param $mode
+	 *  Mode to set (unavail/busy)
+   */
+  function setVmxPlayInstructions($exten,$mode,$vmx_play_instructions) {
+
+    global $asterisk_manager_interface;
+
+    $value_opt = ($vmx_play_instructions)?'""':'s';
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/vmx/$mode/vmxopts/timeout $value_opt\r\n\r\n");
+  }
+
+  /*
+   * Get VMX Play Instructions
+   *
+   * @param $exten
+   *   Extension to get information about
+   * @param $mode
+	 *  Mode to get (unavail/busy)
+   * @return $data
+   *   state of variable (checked/blank) or false if no poper value
+   */
+  function getVmxPlayInstructions($exten, $mode='unavail') {
+
+    global $asterisk_manager_interface;
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/vmx/$mode/vmxopts/timeout\r\n\r\n");
+
+    if (preg_match("/s/",$response)) {
+			$response='';
+    } 
+		else {
+			$response='checked';
+		}
+
+    //TODO: really need to check for a bogus response, see how other side does it
+    //
+    return $response;
+
+  }
+
+  /*
+   * Sets Follow Me Pre-Ring Time
+   *
+   * @param $exten
+   *   Extension to modify
+   * @param $follow_me_prering_time
+   *   Pre-Ring Time to ring
+   */
+  function setFollowMePreRingTime($exten,$follow_me_prering_time) {
+
+    global $asterisk_manager_interface;
+
+    $value_opt = $follow_me_prering_time;
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/followme/prering $value_opt\r\n\r\n");
+  }
+
+  /*
+   * Gets Follow Me Pre-Ring Time if set
+   *
+   * @param $exten
+   *   Extension to get information about
+   * @return $number
+   *   follow me pre-ring time returned if set
+   */
+  function getFollowMePreRingTime($exten) {
+
+    global $asterisk_manager_interface;
+
+    $number = '';
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/followme/prering\r\n\r\n");
+    if (is_numeric($response)) {
+      $number = $response;
+    }
+
+    $stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_follow_me_prering_time']);
+    if ($stripped==$number) {
+      $number = $_COOKIE['ari_follow_me_prering_time'];
+    }
+
+    return $number;
+  }
+
+  /*
+   * Sets Follow Me List Ring Time
+   *
+   * @param $exten
+   *   Extension to modify
+   * @param $follow_me_listring_time
+   *   List Ring Time to ring
+   */
+  function setFollowMeListRingTime($exten,$follow_me_listring_time) {
+
+    global $asterisk_manager_interface;
+
+    $value_opt = $follow_me_listring_time;
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/followme/grptime $value_opt\r\n\r\n");
+  }
+
+  /*
+   * Gets Follow Me List-Ring Time if set
+   *
+   * @param $exten
+   *   Extension to get information about
+   * @return $number
+   *   follow me list-ring time returned if set
+   */
+  function getFollowMeListRingTime($exten) {
+
+    global $asterisk_manager_interface;
+
+    $number = '';
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/followme/grptime\r\n\r\n");
+    if (is_numeric($response)) {
+      $number = $response;
+    }
+
+    $stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_follow_me_listring_time']);
+    if ($stripped==$number) {
+      $number = $_COOKIE['ari_follow_me_listring_time'];
+    }
+
+    return $number;
+  }
+
+  /*
+   * Sets Follow Me List
+   *
+   * @param $exten
+   *   Extension to modify
+   * @param $follow_me_list
+   *   Follow Me List
+   */
+  function setFollowMeList($exten,$follow_me_list) {
+
+    global $asterisk_manager_interface;
+
+    $value_opt = $follow_me_list;
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/followme/grplist $value_opt\r\n\r\n");
+  }
+
+  /*
+   * Gets Follow Me List if set
+   *
+   * @param $exten
+   *   Extension to get information about
+   * @return $data
+   *   follow me list if set
+   */
+  function getFollowMeList($exten) {
+
+    global $asterisk_manager_interface;
+
+    $number = '';
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/followme/grplist\r\n\r\n");
+
+    //TODO: really need to check for a bogus response, see how other side does it
+    //
+    return preg_replace("/[^0-9*\-]/", "", $response);
+  }
+
+  /*
+   * Sets Follow Confirmation Setting
+   *
+   * @param $exten
+   *   Extension to modify
+   * @param $follow_me_list
+   *   Follow Me Confirm Setting
+   */
+  function setFollowMeConfirm($exten,$follow_me_confirm) {
+
+    global $asterisk_manager_interface;
+
+    $value_opt = ($follow_me_confirm)?'ENABLED':'DISABLED';
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/followme/grpconf $value_opt\r\n\r\n");
+  }
+
+  /*
+   * Gets Follow Me Confirmation Setting
+   *
+   * @param $exten
+   *   Extension to get information about
+   * @return $data
+   *   follow me confirm setting
+   */
+  function getFollowMeConfirm($exten) {
+
+    global $asterisk_manager_interface;
+
+    $number = '';
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/followme/grpconf\r\n\r\n");
+
+    if (preg_match("/ENABLED/",$response)) {
+        $response='checked';
+    } 
+    else {
+        $response='';
+    }
+
+    //TODO: really need to check for a bogus response, see how other side does it
+    //
+    return $response;
+
+  }
+
+
+
 
   /*
    * Sets Asterisk call recording setting
@@ -921,8 +1788,57 @@ class Settings {
     }
   }
 
+  /*
+   * Sets Follow-Me Settings in FreePBX MySQL Database
+   *
+   * @param $exten
+   *   Extension to modify
+   * @param $follow_me_prering_time
+   *   Pre-Ring Time to ring
+   * @param $follow_me_listring_time
+   *   List Ring Time to ring
+   * @param $follow_me_list
+   *   Follow Me List
+   * @param $follow_me_list
+   *   Follow Me Confirm Setting
+   *
+   */
+  function setFollowMeMySQL($exten, $follow_me_prering_time, $follow_me_listring_time, $follow_me_list, $follow_me_confirm) {
 
-}
+    if (isset($_SESSION['dbh_asterisk'])) {
 
+      //format for SQL database
+      $follow_me_confirm = ($follow_me_confirm)?'CHECKED':'';
+
+      $sql = "UPDATE findmefollow SET grptime = '" . $follow_me_listring_time . "', grplist = '".
+           str_replace("'", "''", trim($follow_me_list)) . "', pre_ring = '" . $follow_me_prering_time .
+           "', needsconf = '" . $follow_me_confirm . "' WHERE grpnum = $exten LIMIT 1";
+      $results = $_SESSION['dbh_asterisk']->query($sql);
+
+      if(DB::IsError($results)) {
+        $_SESSION['ari_error'] = $results->getMessage();
+      }
+
+      return 1;
+    }
+  }
+
+  function lookupSetExtensionFormat($exten) {
+
+    if (trim($exten) == "") return $exten;
+
+    $exten = preg_replace("/[^0-9*]/", "", $exten);
+
+    $sql = "SELECT extension FROM users WHERE extension = '".$exten."'";
+    $asa = $_SESSION['dbh_asterisk']->getrow($sql, DB_FETCHMODE_ASSOC);
+    if (!is_array($asa)) { 
+      return $exten.'#';
+    } else {
+      return $exten;
+    }
+  }
+
+
+} // class
 
 ?>

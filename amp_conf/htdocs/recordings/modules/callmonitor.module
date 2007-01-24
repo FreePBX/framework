@@ -586,7 +586,9 @@ class Callmonitor {
 
       // allow entries to be viewed with users extension
       $searchText .= "(src = '" . $_SESSION['ari_user']['extension'] . "'
-                      OR dst = '" . $_SESSION['ari_user']['extension'] . "')";
+                      OR dst = '" . $_SESSION['ari_user']['extension'] . "'
+		      OR channel LIKE 'SIP/" . $_SESSION['ari_user']['extension'] ."-%'
+		      OR dstchannel LIKE 'SIP/" . $_SESSION['ari_user']['extension'] ."-%')";
 
       // allow entries to be viewed with users outbound CID
       if (isset($_SESSION['ari_user']['outboundCID'])) {
