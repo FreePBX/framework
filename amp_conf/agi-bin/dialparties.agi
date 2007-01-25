@@ -382,6 +382,17 @@ foreach ( $ext as $k )
 				debug("Extension $extnum is available",1);
 			}
 		}
+		elseif ( ($exthascw == 1) && ($rgmethod == 'firstnotonphone') )
+		{	// get ExtensionState: 0-idle; 1-busy; 4-unavail; 8-ringing <--- these are unconfirmed
+			$extstate = is_ext_avail($extnum);
+			debug("Extension $extnum has ExtensionState: $extstate",1);
+			if ($extstate == 1)
+			{	// CW in use - but blocked for hunt
+				debug("Extension $extnum has call waiting enabled but blocked for hunt",1);
+				$extnum = '';
+				$AGI->set_variable('DIALSTATUS','BUSY');	
+			}
+		}
 	}
 	
 	if ($extnum != '')
@@ -401,7 +412,7 @@ foreach ( $ext as $k )
 				if (strlen($extds)) $ds .= $extds . '&';
 		
 			// Update Caller ID for calltrace application
-			if ((strpos($k,"#")==0) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt")) )
+			if ((strpos($k,"#")==0) && (($rgmethod != "hunt") && ($rgmethod != "memoryhunt") && ($rgmethod != "firstavailable") && ($rgmethod != "firstnotonphone")) )
 			{
 				if ( isset($cidnum) && is_numeric($cidnum) )
 				{
@@ -434,7 +445,7 @@ $dshunt		= '';
 $loops		= 0;
 $myhuntmember	= "";
 
-if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt"))
+if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt") || ($rgmethod == "firstavailable") || ($rgmethod == "firstnotonphone"))
 {
 	if ($cidnum)
 		$AGI->set_variable(CALLTRACE_HUNT,$cidnum);
@@ -446,7 +457,7 @@ if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt"))
 		{
 			//If the original array is included in the extension hash then set variables
 			$myhuntmember="HuntMember"."$loops";
-			if ($rgmethod == "hunt")
+			if (($rgmethod == "hunt") || ($rgmethod == "firstavailable") || ($rgmethod == "firstnotonphone"))
 				$AGI->set_variable($myhuntmember,$ext_hunt[$k]);
 			elseif ($rgmethod == "memoryhunt") 
 			{
@@ -550,7 +561,7 @@ if ($nodest != '' && $use_confirmation == 'FALSE') {
 
 	$AGI->noop('');
 } else {
-	if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt"))
+	if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt") || ($rgmethod == "firstavailable") || ($rgmethod == "firstnotonphone"))
 	{
 		$ds = '|';
 		if ($timer)
