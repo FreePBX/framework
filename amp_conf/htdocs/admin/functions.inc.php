@@ -2286,7 +2286,7 @@ function redirect_standard_continue( /* Note. Read the next line. Varaible No of
 //'enabled' => can be used to flag a context as disabled and it won't be included, but will not have its settings removed.
 //	this defaults to false for disabled modules.
 function freepbx_get_contexts() {
-	$modules = module_getinfo(false, array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED, MODULE_STATUS_NEEDUPGRADE);
+	$modules = module_getinfo(false, array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED, MODULE_STATUS_NEEDUPGRADE));
 	
 	$contexts = array();
 	
