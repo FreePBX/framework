@@ -2277,8 +2277,16 @@ function redirect_standard_continue( /* Note. Read the next line. Varaible No of
         redirect($url, false);
 }
 
+//This function calls modulename_contexts()
+//expects a returned array which minimally includes 'context' => the actual context to include
+//can also define 'description' => the display for this context - if undefined will be set to 'context'
+//'module' => the display for the section this should be listed under defaults to modlue display (can be used to group subsets within one module)
+//'parent' => if including another context automatically includes this one, list the parent context
+//'priority' => default sort order for includes range -50 to +50, 0 is default
+//'enabled' => can be used to flag a context as disabled and it won't be included, but will not have its settings removed.
+//	this defaults to false for disabled modules.
 function freepbx_get_contexts() {
-	$modules = module_getinfo(false, MODULE_STATUS_ENABLED);
+	$modules = module_getinfo(false, array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED, MODULE_STATUS_NEEDUPGRADE);
 	
 	$contexts = array();
 	
@@ -2286,7 +2294,7 @@ function freepbx_get_contexts() {
                 $funct = strtolower($modname.'_contexts');
 		if (function_exists($funct)) {
 			// call the  modulename_contexts() function
-			$contextArray = $funct(); // returns array with 'context' and 'description'
+			$contextArray = $funct(); // returns array with 'context' and optionally 'description', 'module', 'priority', 'parent', 'enabled'
 			if (is_array($contextArray)) {
 				foreach ($contextArray as $con) {
 					if (isset($con['context'])) {
@@ -2294,9 +2302,22 @@ function freepbx_get_contexts() {
 							$con['description'] = $con['context'];
 						}
 						if (!isset($con['module'])) {
-							$con['module'] = $modname;
+							$con['module'] = $mod['displayName'];
 						}
-						$contexts[ $con['context'] ] = $con['description'];
+						if (!isset($con['priority'])) {
+							$con['priority'] = 0;
+						}
+						if (!isset($con['parent'])) {
+							$con['parent'] = '';
+						}
+						if ($mod['status'] == MODULE_STATUS_ENABLED) {
+							if (!isset($con['enabled'])) {
+								$con['enabled'] = true;
+							}
+						} else {
+							$con['enabled'] = false;
+						}
+						$contexts[ $con['context'] ] = $con;
 					}
 				}
 			}
