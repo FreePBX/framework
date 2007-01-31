@@ -467,6 +467,11 @@ if ($force) {
 	out('WARNING: "force" is enabled, it is possible to create problems');
 }
 
+// freepbx modules will include the unsintall scripts
+// using relative paths. why not modifiying the include dir...?
+// fix for ticket:1731
+chdir ( $amp_conf\["AMPWEBROOT"\] . "/admin/" );
+
 switch ($operation ) {
 	case 'list':
 		showList();
