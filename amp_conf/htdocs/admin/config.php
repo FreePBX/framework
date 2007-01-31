@@ -316,8 +316,11 @@ switch($display) {
 			if ($amp_conf['AMPMGRPASS'] == 'amp111') {
 				printf( "<div class=\"warning\"><p>%s</p></div>", dgettext("welcome text", "Warning: You are running freePBX and ").$amp_conf['AMPENGINE'].dgettext("welcome page", " with the default manager pass. You should consider changing this to something else.")." ".sprintf('(<a href="http://aussievoip.com/wiki/index.php?page=freePBX-ManagerPass" target="_new">%s</a>)', _("Help")) );
 			}
-			if ($amp_conf['AMPDBPASS'] == 'amp109') {
-				printf( "<div class=\"warning\"><p>%s</p></div>", dgettext("welcome text", "Warning: You are running freePBX and ").$amp_conf['AMPDBENGINE'].dgettext("welcome page", " with the default password ")." ".sprintf('(<a href="http://aussievoip.com/wiki/index.php?page=freePBX-MysqlPass" target="_new">%s</a>)', _("Help")) );
+			
+			if ( ($amp_conf["AMPDBENGINE"] == "mysql") || ($amp_conf["AMPDBENGINE"] == "pgsql")) {
+				if  ($amp_conf['AMPDBPASS'] == 'amp109') {
+					printf( "<div class=\"warning\"><p>%s</p></div>", dgettext("welcome text", "Warning: You are running freePBX and ").$amp_conf['AMPDBENGINE'].dgettext("welcome page", " with the default password ")." ".sprintf('(<a href="http://aussievoip.com/wiki/index.php?page=freePBX-MysqlPass" target="_new">%s</a>)', _("Help")) );
+				}
 			}
 
 
