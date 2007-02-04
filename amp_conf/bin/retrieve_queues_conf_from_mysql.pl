@@ -99,7 +99,7 @@ foreach my $row ( @{ $result } ) {
 	my $account = @{ $row }[0];
 	my $id = @{ $row }[1];
 	print EXTEN "[$account]\n";
-	$statement = "SELECT keyword,data from $table_name where id=$id and keyword <> 'account' order by flags";
+	$statement = "SELECT keyword,data from $table_name where id=$id and keyword <> 'account' and keyword <> 'rtone' order by flags";
 	my $result = $dbh->selectall_arrayref($statement);
 	unless ($result) {
 		# check for errors after every single database call
