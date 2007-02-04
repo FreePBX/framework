@@ -493,3 +493,29 @@ div.modulebuttons {
 }
 
 /**************************************************************/
+
+/*************************Reports Page***************************/
+#cdr ul#metanav {
+	position: absolute;
+	top: 45px;
+	left: 5px;
+	margin: 10px 0;
+	padding: 0 0 0 0;
+	list-style-type: none;
+	font-size:15px;
+}
+#cdr ul#metanav li {
+	display: inline;
+	border-right:1px solid black;
+	padding-left:6px;
+	padding-right:6px;
+}
+#cdr ul#metanav li.first {
+	border-left: 0;
+}
+#cdr ul#metanav li a {
+	text-decoration:none;
+}
+#cdr ul#metanav li.current a {
+	color: #ff8a00; 
+}

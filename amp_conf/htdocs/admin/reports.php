@@ -49,11 +49,11 @@ $amp_sections = array(
 		4=>_("Daily load"),
 	);
 
+echo "<div id=\"cdr\"><ul id=\"metanav\">";
 foreach ($amp_sections as $key=>$value) {
-	echo "<div class=\"nav\" style=\"width=25%;text-align:center;\">";
-	echo "<li><nobr><a id=\"".(($display==$key) ? 'current':'')."\" href=\"reports.php?display=".$key."\">".$value."</a><nobr></li>";
-	echo "</div>";
+	echo "<li class=\"".(($display==$key) ? 'current':'')."\"><a href=\"reports.php?display=".$key."\">".$value."</a></li>";
 }
+echo "</ul></div>";
 
 // CDR viewer from www.areski.net.  
 // Changes for -- AMP -- commented in:
