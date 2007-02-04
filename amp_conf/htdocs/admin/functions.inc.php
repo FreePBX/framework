@@ -2284,6 +2284,8 @@ function redirect_standard_continue( /* Note. Read the next line. Varaible No of
 //'parent' => if including another context automatically includes this one, list the parent context
 //'priority' => default sort order for includes range -50 to +50, 0 is default
 //'enabled' => can be used to flag a context as disabled and it won't be included, but will not have its settings removed.
+//'extension' => can be used to tag with an extension for checkRange($extension)
+//'dept' => can be used to tag with a department for checkDept($dept)
 //	this defaults to false for disabled modules.
 function freepbx_get_contexts() {
 	$modules = module_getinfo(false, array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED, MODULE_STATUS_NEEDUPGRADE));
@@ -2294,7 +2296,7 @@ function freepbx_get_contexts() {
                 $funct = strtolower($modname.'_contexts');
 		if (function_exists($funct)) {
 			// call the  modulename_contexts() function
-			$contextArray = $funct(); // returns array with 'context' and optionally 'description', 'module', 'priority', 'parent', 'enabled'
+			$contextArray = $funct();
 			if (is_array($contextArray)) {
 				foreach ($contextArray as $con) {
 					if (isset($con['context'])) {
@@ -2309,6 +2311,12 @@ function freepbx_get_contexts() {
 						}
 						if (!isset($con['parent'])) {
 							$con['parent'] = '';
+						}
+						if (!isset($con['extension'])) {
+							$con['extension'] = null;
+						}
+						if (!isset($con['dept'])) {
+							$con['dept'] = null;
 						}
 						if ($mod['status'] == MODULE_STATUS_ENABLED) {
 							if (!isset($con['enabled'])) {
