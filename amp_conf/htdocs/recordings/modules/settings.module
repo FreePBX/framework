@@ -104,11 +104,13 @@ class Settings {
     $follow_me_listring_time  = getArgument($args,'follow_me_listring_time');
     $follow_me_list  = getArgument($args,'follow_me_list');
     $follow_me_confirm  = getArgument($args,'follow_me_confirm');
+    $follow_me_ddial  = getArgument($args,'follow_me_ddial');
     $follow_me_disabled = getArgument($args,'follow_me_disabled');
 
 		$vmx_option_0_number					= getArgument($args, 'vmx_option_0_number');
 		$vmx_option_0_system_default	= getArgument($args, 'vmx_option_0_system_default');
 		$vmx_option_1_number					= getArgument($args, 'vmx_option_1_number');
+		$vmx_option_1_system_default	= getArgument($args, 'vmx_option_1_system_default');
 		$vmx_option_2_number					= getArgument($args, 'vmx_option_2_number');
 		$vmx_unavail_enabled					= getArgument($args, 'vmx_unavail_enabled');
 		$vmx_busy_enabled							= getArgument($args, 'vmx_busy_enabled');
@@ -285,23 +287,37 @@ class Settings {
 						}
 
           	$stripped_vmx_option_1_number = preg_replace('/-|\(|\)|\s/','',$vmx_option_1_number);
-          	if (!is_numeric($stripped_vmx_option_1_number) && $stripped_vmx_option_1_number) {
-            	$_SESSION['ari_error'] = 
-              	_("Option 1 not changed") . "<br>" .
-              	sprintf(_("Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"),$vmx_option_1_number);
-          	}
-          	else {
+						if ($vmx_option_1_system_default && !$follow_me_disabled) {
+            	$this->setVmxOptionFollowMe($exten,'1','unavail');
+            	$this->setVmxOptionFollowMe($exten,'1','busy');
+            	setcookie("ari_vmx_option_1_system_default", $vmx_option_1_system_default, time()+365*24*60*60);
+          		if (is_numeric($stripped_vmx_option_1_number) || !$stripped_vmx_option_1_number) {
+            		$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_1_number']);
+            		if ($vmx_option_1_number && $stripped!=$stripped_vmx_option_1_number) {
+              		setcookie("ari_vmx_option_1_number", $call_vmx_option_1_number, time()+365*24*60*60);
+            		}
+							}
+						}
+						else {
 
-            	// set database
-            	$this->setVmxOptionNumber($exten,'1','unavail',$stripped_vmx_option_1_number);
-            	$this->setVmxOptionNumber($exten,'1','busy',$stripped_vmx_option_1_number);
+          		if (!is_numeric($stripped_vmx_option_1_number) && $stripped_vmx_option_1_number) {
+            		$_SESSION['ari_error'] = 
+              		_("Option 1 not changed") . "<br>" .
+              		sprintf(_("Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"),$vmx_option_1_number);
+          		}
+          		else {
+
+            		// set database
+            		$this->setVmxOptionNumber($exten,'1','unavail',$stripped_vmx_option_1_number);
+            		$this->setVmxOptionNumber($exten,'1','busy',$stripped_vmx_option_1_number);
 	
-            	// store cookie
-            	$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_1_number']);
-            	if ($vmx_option_1_number && $stripped!=$stripped_vmx_option_1_number) {
-              	setcookie("ari_vmx_option_1_number", $call_vmx_option_1_number, time()+365*24*60*60);
-            	}
-          	}
+            		// store cookie
+            		$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_1_number']);
+            		if ($vmx_option_1_number && $stripped!=$stripped_vmx_option_1_number) {
+              		setcookie("ari_vmx_option_1_number", $call_vmx_option_1_number, time()+365*24*60*60);
+            		}
+          		}
+						}
 
           	$stripped_vmx_option_2_number = preg_replace('/-|\(|\)|\s/','',$vmx_option_2_number);
           	if (!is_numeric($stripped_vmx_option_2_number) && $stripped_vmx_option_2_number) {
@@ -424,9 +440,11 @@ class Settings {
   
             // set database
             $this->setFollowMeConfirm($exten,$follow_me_confirm);
+            $this->setFollowMeDDial($exten,$follow_me_ddial);
   
             // store cookie
             setcookie("ari_follow_me_confirm", $follow_me_confirm, time()+365*24*60*60);
+            setcookie("ari_follow_me_ddial", $follow_me_ddial, time()+365*24*60*60);
           }
   
           //If no errors than update the SQL table to keep in sync
@@ -732,6 +750,7 @@ class Settings {
         $follow_me_listring_time = $this->getFollowMeListRingTime($exten);
         $follow_me_list =  explode("-", $this->getFollowMeList($exten) );
         $follow_me_confirm = $this->getFollowMeConfirm($exten);
+        $follow_me_ddial = $this->getFollowMeDDial($exten);
 
 				$FOLLOW_ME_LIST_MAX = (count($follow_me_list) > $SETTINGS_FOLLOW_ME_LIST_MAX) ? count($follow_me_list):$SETTINGS_FOLLOW_ME_LIST_MAX;
 
@@ -783,8 +802,15 @@ class Settings {
 	    <tr>
 				<td><h3><br>" . _("Follow Me") . "</h3></td>
 	    </tr>
+			<tr>
+			<td><a href='#' class='info'>" . _("Send All Calls to Follow-Me:") . "<span>". _("If checked, all calls will be routed to this Follow-Me setting except specific ringgroups that may have been enabled by your administrator. If not checked, you can use the VmX Locater functionality if enabled to route calls to this Follow-Me group as an alternative option to ringing straight into your voicemail. The administrator may have routed other calls direct to this Follow-Me setting and this will have no effect on those specific cases.") . "<br></span></a></td>
+				<td>
+					<input " . $follow_me_ddial . " type=checkbox name='follow_me_ddial' value='checked'>
+					<small>" . _("Enable") . "</small>
+				</td>
+			</tr>
 	    <tr>
-				<td>" . _("Initial Ring Time:") . "</td>
+				<td><a href='#' class='info'>" . _("Initial Ring Time:") . "<span>" . _("How long to ring the primary extension before moving on to the 'Follow Me List' of extensions, which can still include your primary extension.") . "<br></span></a></td>
 				<td>
 					<select " . $follow_me_prering_time_text_box_options . " name='follow_me_prering_time'/>";
 	if (!$follow_me_disabled) {
@@ -798,12 +824,12 @@ class Settings {
 					<small>" . _("seconds") . "</small>
 				</td>
 	    <tr>
-				<td valign='top'>" . _("Follow Me List:") . "</td>
+			<td valign='top'><a href='#' class='info'>" . _("Follow Me List:") . "<span>" . _("List of extensions and or outside numbers to ring if not answered within the Initial Ring Time.") . "<br></span></a></td>
 				<td>
 					<textarea " . $follow_me_list_options . " id='follow_me_list' name='follow_me_list' type='text' cols='20' rows='".$FOLLOW_ME_LIST_MAX."' value='' onKeyUp='rowCounter(this.form.follow_me_list, ".$FOLLOW_ME_LIST_MAX.");' onKeyDown='rowCounter(this.form.follow_me_list, ".$FOLLOW_ME_LIST_MAX.");'>".implode("\n",$follow_me_list)."</textarea>
 				</td>
 			<tr>
-				<td>" . _("List Ring Time:") . "</td>
+				<td><a href='#' class='info'>" . _("List Ring Time:") . "<span>" . _("How long to ring the list of extensions in this group. If using confirmation, assure this is long enough to react to it. With cell phones, you may need this to be 25 seconds or longer.") . "<br></span></a></td>
 				<td>
 					<select " . $follow_me_listring_time_text_box_options . " name='follow_me_listring_time'/>";
 	if (!$follow_me_disabled) {
@@ -817,15 +843,15 @@ class Settings {
 					<small>" . _("seconds") . "</small>
 				</td>
 			<tr>
-				<td>" . _("Use Confirmation:") . "</td>
+			<td><a href='#' class='info'>" . _("Use Confirmation:") . "<span>". _("If checked, any outside lines that are part of the Follow Me List will not immediately answer the call. Upon answering, a recording will request that you press 1 to confirm the call or 2 to reject it. This keeps calls from going to the wrong place like a cell phone's voicemail. You should assure that the List Ring Time: is long enough to allow for you to hear and react to this message.") . "<br></span></a></td>
 				<td>
 					<input " . $follow_me_confirm . " type=checkbox name='follow_me_confirm' value='checked'>
 					<small>" . _("Enable") . "</small>
 				</td>
+			</tr>
         ";
 
         $set_call_forward_text .= "
-			</tr>
 			</tr>
 		</table>
         ";
@@ -851,15 +877,26 @@ class Settings {
 						$vmx_option_0_system_default='checked';
 						$vmx_option_0_number_text_box_options="disabled style='background: #DDD;'";
 					}
-				}
 
+					// if follow-me is enabled then the options are a numberic value (dial a phone number)
+					// or a followme target (FMnnn) which should not be displayed but means the box is checked
+					// or otherwise blank (or garbage in which case blank it)
+					//
+        	if (!$follow_me_disabled) {
+						$vmx_option_1_system_default=$this->getVmxOptionFollowMe($exten,'1');
+						if ($vmx_option_1_system_default) {
+							$vmx_option_1_number = '';
+							$vmx_option_1_number_text_box_options="disabled style='background: #DDD;'";
+						}
+					}
+				}
         $set_vmx_text .= (!$SETTINGS_ALLOW_VMX_SETTINGS)?'':"
 		<table class='settings'>
 	    <tr>
 				<td><h3>" . _("Voicemail VmX Locator") . "</h3></td>
 	    </tr>
 	    <tr>
-				<td>" . _("Enabled Modes:") . "</td>
+				<td><a href='#' class='info'>" . _("Enabled Modes:") . "<span>" . _("The voicemail systems can sometimes detect whether the line was busy or otherwise unavailable and provides for 2 greeting messages to be recorded. The options below can apply when the phone if unavailable only, busy only or always. In some cases the phone will never be busy, if you have a Follow Me feature, for example.") . "<br></span></a></td>
 				<td>
 					<input " . $vmx_unavail_enabled . " type=checkbox name='vmx_unavail_enabled' value='checked'>
 					<small>" . _("unavailable") . "</small>
@@ -870,7 +907,7 @@ class Settings {
 				</td>
 			</tr>
 	    <tr>
-				<td>" . _("Voicemail Instructions:") . "</td>
+				<td><a href='#' class='info'>" . _("Voicemail Instructions:") ."<span>" . _("After your message has been played, you can have the system play a single beep allowing them to leave a message, or you can choose the systems standard instructions informing them to leave a message and what they can do afterwards.") . "<br></span></a></td>
 				<td>
 					<input " . $vmx_play_instructions . " type=checkbox name='vmx_play_instructions' value='checked'>
 					<small>" . _("play instructions to caller") . "</small>
@@ -879,7 +916,7 @@ class Settings {
 		</table>
 		<table class='settings'>
 			<tr>
-				<td>" . _("Option 0:") . "</td>
+				<td><a href='#' class='info'>" . _("Option 0:") . "<span>" . _("Option 0 is unique in that it is what many people use to '0' out of voicemail. The system has been setup with default behavior for this so you typically want to use the system's default. If you would like something different, such as to ring a personal assistant or go to a ringgroup, you can set your own destination here.") . "<br></span></a></td>
 				<td>
 					<input " . $vmx_option_0_number_text_box_options . " name='vmx_option_0_number' type='text' size=24 value='" . $vmx_option_0_number . "'>
 				</td>
@@ -888,8 +925,31 @@ class Settings {
 						<small>" . _("Use System Default") . "</small>
 					</td>
 				</tr>
+				";
+
+        $set_vmx_text .= (!($SETTINGS_ALLOW_VMX_SETTINGS && !$follow_me_disabled))?'':"
 				<tr>
-					<td>" . _("Option 1:") . "</td>
+					<td><a href='#' class='info'>" . _("Option 1:") . "<span>" . _("If 'Use Follow-Me' is checked, then a caller who presses 1 will be directed to this extension's FollowMe configuration defined above. If not checked, then any number, ringgroup, or queue may be entered and this will function as Option 2 below. You should take the same precautions when entering phone numbers as described in Option 2") . "<br></span></a></td>
+					<td>
+						<input " . $vmx_option_1_number_text_box_options . " name='vmx_option_1_number' type='text' size=24 value='" . $vmx_option_1_number . "'>
+					</td>
+					<td>
+						<input " . $vmx_option_1_system_default . " type=checkbox name='vmx_option_1_system_default' value='checked' OnClick=\"disable_fields(); return true;\">
+						<small>" . _("Use Follow-Me") . "</small>
+					</td>
+				</tr>
+				<tr>
+					<td><a href='#' class='info'>" . _("Option 2:") . "<span>" . _("The remaining options can have internal extensions, ringgroups, queues and external numbers that may be rung. It is often used to include your cell phone. You should run a test to make sure that the number is functional any time a change is made so you don't leave a caller stranded or receiving invalid number messages.") . "<br></span></a></td>
+					<td>
+						<input " . $vmx_option_2_number_text_box_options . " name='vmx_option_2_number' type='text' size=24 value='" . $vmx_option_2_number . "'>
+					</td>
+				</tr>
+			</table>
+			";
+
+        $set_vmx_text .= (!($SETTINGS_ALLOW_VMX_SETTINGS && $follow_me_disabled))?'':"
+				<tr>
+					<td><a href='#' class='info'>" . _("Option 1:") . "<span>" . _("The remaining options can have internal extensions, ringgroups, queues and external numbers that may be rung. It is often used to include your cell phone. You should run a test to make sure that the number is functional any time a change is made so you don't leave a caller stranded or receiving invalid number messages.") . "<br></span></a></td>
 					<td>
 						<input " . $vmx_option_1_number_text_box_options . " name='vmx_option_1_number' type='text' size=24 value='" . $vmx_option_1_number . "'>
 					</td>
@@ -1197,6 +1257,7 @@ class Settings {
 							document.ari_settings.call_forward_unavailable_number.disabled = true;
 						}";
 				}
+			if ($SETTINGS_ALLOW_VMX_SETTINGS) {
 				$ret .= "
 						if (document.ari_settings.vmx_option_0_system_default.checked) {
 							document.ari_settings.vmx_option_0_number.style.backgroundColor = '#DDD';
@@ -1205,9 +1266,20 @@ class Settings {
 						else {
 							document.ari_settings.vmx_option_0_number.style.backgroundColor = '#FFF';
 							document.ari_settings.vmx_option_0_number.disabled = false;
-						}
-
-          " . $js_voicemail_script . "
+						}";
+				}
+			if ($SETTINGS_ALLOW_VMX_SETTINGS && !$follow_me_disabled) {
+				$ret .= "
+						if (document.ari_settings.vmx_option_1_system_default.checked) {
+							document.ari_settings.vmx_option_1_number.style.backgroundColor = '#DDD';
+							document.ari_settings.vmx_option_1_number.disabled = true;
+						} 
+						else {
+							document.ari_settings.vmx_option_1_number.style.backgroundColor = '#FFF';
+							document.ari_settings.vmx_option_1_number.disabled = false;
+						}";
+				}
+				$ret .= $js_voicemail_script . "
         }
       // End -->
       </script>";
@@ -1291,6 +1363,52 @@ class Settings {
     return $number;
   }
 
+  /*
+   * Gets VMX option FollowMe
+   *
+   * @param $exten
+   *   Extension to get information about
+   * @param $digit
+   *   Option number to get
+   * @param $mode
+	 *  Mode to get (unavail/busy)
+   * @return $response
+   *   checked if set to got to extesion's follow-me on this option
+   */
+  function getVmxOptionFollowMe($exten, $digit, $mode='unavail') {
+
+    global $asterisk_manager_interface;
+
+		$digit = trim($digit);
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/vmx/$mode/$digit/ext\r\n\r\n");
+    return (($response == 'FM'.$exten) ? 'checked':'');
+  }
+
+  /*
+   * Sets VMX option FollowMe
+   *
+   * @param $exten
+   *   Extension to set information about
+   * @param $digit
+   *   Option number to set
+   * @param $mode
+	 *  Mode to set (unavail/busy)
+   * @param $context
+	 *  Context to set ext to (default from-findmefollow)
+   * @param $priority
+	 *  Priority to set ext to (default 1)
+   */
+  function setVmxOptionFollowMe($exten, $digit, $mode, $context='ext-findmefollow', $priority='1') {
+
+    global $asterisk_manager_interface;
+
+    $value_opt = "FM$exten";
+
+   	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/vmx/$mode/$digit/ext $value_opt\r\n\r\n");
+  	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/vmx/$mode/$digit/context $context\r\n\r\n");
+   	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/vmx/$mode/$digit/pri $priority\r\n\r\n");
+  }
 
   /*
    * Gets VMX option number
@@ -1585,7 +1703,7 @@ class Settings {
    *
    * @param $exten
    *   Extension to modify
-   * @param $follow_me_list
+   * @param $follow_me_cofirm
    *   Follow Me Confirm Setting
    */
   function setFollowMeConfirm($exten,$follow_me_confirm) {
@@ -1618,6 +1736,50 @@ class Settings {
     } 
     else {
         $response='';
+    }
+
+    //TODO: really need to check for a bogus response, see how other side does it
+    //
+    return $response;
+
+  }
+
+  /*
+   * Sets Follow Ddial Setting
+   *
+   * @param $exten
+   *   Extension to modify
+   * @param $follow_me_ddial
+   *   Follow Me Ddial Setting
+   */
+  function setFollowMeDDial($exten,$follow_me_ddial) {
+
+    global $asterisk_manager_interface;
+
+    $value_opt = ($follow_me_ddial)?'DIRECT':'EXTENSION';
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/followme/ddial $value_opt\r\n\r\n");
+  }
+
+  /*
+   * Gets Follow Me Ddial Setting
+   *
+   * @param $exten
+   *   Extension to get information about
+   * @return $data
+   *   follow me ddial setting
+   */
+  function getFollowMeDDial($exten) {
+
+    global $asterisk_manager_interface;
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/followme/ddial\r\n\r\n");
+
+    if (preg_match("/EXTENSION/",$response)) {
+        $response='';
+    } 
+    else {
+        $response='checked';
     }
 
     //TODO: really need to check for a bogus response, see how other side does it

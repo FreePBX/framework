@@ -51,7 +51,37 @@ small small {
 
 
 
-
-
-
+/***** info popups *****/
+a.info {
+	position:relative;
+	color:black;
+	border-bottom:1px dashed #ccc;
+}
+/* Added to solve the z-order problem of IE 
+*/
+a.info:hover {
+	background-color: #FFA178;
+  z-index:2;
+}
+/* End */
+a.info span{
+  display: none;
+	background-color: #FFA178;
+}
+a.info:hover span{
+	display:block;
+	position:absolute;
+	z-index:1;
+	top:2em;
+	left:-10em;
+	width:25em;
+	border:1px solid #F2AF1D;
+	background-color:#FDF1D5;
+	color:#000;
+	text-align:justify;
+	font-size:10px;
+	font-weight:normal;
+	padding:3px;
+	line-height:15px;
+}
 
