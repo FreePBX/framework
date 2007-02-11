@@ -53,6 +53,10 @@ debug("Caller ID name is '$cidname' number is '$cidnum'", 1);
 // CID that get sent down channel local.
 $AGI->set_variable('__KEEPCID','TRUE');
 
+// Set to '' in case it was previously set
+//
+$AGI->set_variable('DIALSTATUS_CW','');						
+
 $timer		= get_var( $AGI, "ARG1" );
 $dialopts	= get_var( $AGI, "ARG2" );
 $rgmethod	= get_var( $AGI, "RingGroupMethod" );
@@ -380,6 +384,15 @@ foreach ( $ext as $k )
 			else
 			{
 				debug("Extension $extnum is available",1);
+			}
+		} elseif ($rgmethod == "none" && $exthascw == 1 && strtoupper(trim($config['CWINUSEBUSY'])) == "YES") {
+
+			$extstate = is_ext_avail($extnum);
+			if ($extstate == 1 || $extstate == 8) {
+
+				$AGI->set_variable('DIALSTATUS_CW','BUSY');						
+				debug("Extension $extnum has call waiting enabled with state: $extstate",1);
+
 			}
 		}
 		elseif ( ($exthascw == 1) && ($rgmethod == 'firstnotonphone') )
