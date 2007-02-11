@@ -388,7 +388,7 @@ foreach ( $ext as $k )
 		} elseif ($rgmethod == "none" && $exthascw == 1 && strtoupper(trim($config['CWINUSEBUSY'])) == "YES") {
 
 			$extstate = is_ext_avail($extnum);
-			if ($extstate == 1 || $extstate == 8) {
+			if ($extstate == 1) {
 
 				$AGI->set_variable('DIALSTATUS_CW','BUSY');						
 				debug("Extension $extnum has call waiting enabled with state: $extstate",1);
