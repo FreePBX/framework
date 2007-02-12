@@ -34,7 +34,7 @@ CREATE TABLE `Backup` (
   `Method` varchar(50) default NULL,
   `ID` int(11) NOT NULL auto_increment,
   PRIMARY KEY  (`ID`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `Backup`
@@ -42,8 +42,8 @@ CREATE TABLE `Backup` (
 
 
 /*!40000 ALTER TABLE `Backup` DISABLE KEYS */;
-LOCK TABLES `Backup` WRITE;
-UNLOCK TABLES;
+-- LOCK TABLES `Backup` WRITE;
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `Backup` ENABLE KEYS */;
 
 --
@@ -55,7 +55,7 @@ CREATE TABLE `admin` (
   `variable` varchar(20) NOT NULL default '',
   `value` varchar(80) NOT NULL default '',
   PRIMARY KEY  (`variable`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `admin`
@@ -63,9 +63,10 @@ CREATE TABLE `admin` (
 
 
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-LOCK TABLES `admin` WRITE;
-INSERT INTO `admin` VALUES ('need_reload','true'),('version','2.2.0beta3');
-UNLOCK TABLES;
+-- LOCK TABLES `admin` WRITE;
+INSERT INTO `admin` VALUES ('need_reload','true');
+INSERT INTO `admin` VALUES ('version','2.2.0beta3');
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 
 --
@@ -81,7 +82,7 @@ CREATE TABLE `ampusers` (
   `deptname` varchar(20) NOT NULL default '',
   `sections` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`username`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `ampusers`
@@ -89,9 +90,9 @@ CREATE TABLE `ampusers` (
 
 
 /*!40000 ALTER TABLE `ampusers` DISABLE KEYS */;
-LOCK TABLES `ampusers` WRITE;
+-- LOCK TABLES `ampusers` WRITE;
 INSERT INTO `ampusers` VALUES ('admin','admin','','','','*');
-UNLOCK TABLES;
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `ampusers` ENABLE KEYS */;
 
 --
@@ -107,7 +108,7 @@ CREATE TABLE `devices` (
   `user` varchar(50) default NULL,
   `description` varchar(50) default NULL,
   `emergency_cid` varchar(100) default NULL
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `devices`
@@ -115,8 +116,8 @@ CREATE TABLE `devices` (
 
 
 /*!40000 ALTER TABLE `devices` DISABLE KEYS */;
-LOCK TABLES `devices` WRITE;
-UNLOCK TABLES;
+-- LOCK TABLES `devices` WRITE;
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `devices` ENABLE KEYS */;
 
 --
@@ -133,7 +134,7 @@ CREATE TABLE `extensions` (
   `descr` text,
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`context`,`extension`,`priority`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `extensions`
@@ -141,9 +142,11 @@ CREATE TABLE `extensions` (
 
 
 /*!40000 ALTER TABLE `extensions` DISABLE KEYS */;
-LOCK TABLES `extensions` WRITE;
-INSERT INTO `extensions` VALUES ('outrt-001-9_outside','_9.','1','Macro','dialout-trunk,1,${EXTEN:1}',NULL,0),('outrt-001-9_outside','_9.','2','Macro','outisbusy','No available circuits',0),('outbound-allroutes','include','1','outrt-001-9_outside','','',2);
-UNLOCK TABLES;
+-- LOCK TABLES `extensions` WRITE;
+INSERT INTO `extensions` VALUES ('outrt-001-9_outside','_9.','1','Macro','dialout-trunk,1,${EXTEN:1}',NULL,0);
+INSERT INTO `extensions` VALUES ('outrt-001-9_outside','_9.','2','Macro','outisbusy','No available circuits',0);
+INSERT INTO `extensions` VALUES ('outbound-allroutes','include','1','outrt-001-9_outside','','',2);
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `extensions` ENABLE KEYS */;
 
 --
@@ -160,7 +163,7 @@ CREATE TABLE `featurecodes` (
   `enabled` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`modulename`,`featurename`),
   KEY `enabled` (`enabled`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `featurecodes`
@@ -168,9 +171,15 @@ CREATE TABLE `featurecodes` (
 
 
 /*!40000 ALTER TABLE `featurecodes` DISABLE KEYS */;
-LOCK TABLES `featurecodes` WRITE;
-INSERT INTO `featurecodes` VALUES ('core','userlogon','User Logon','*11',NULL,1),('core','userlogoff','User Logoff','*12',NULL,1),('core','zapbarge','ZapBarge','888',NULL,1),('core','simu_pstn','Simulate Incoming Call','7777',NULL,1),('core','simu_fax','Simulate Incoming FAX Call','666',NULL,1),('core','chanspy','ChanSpy','555',NULL,1),('core','pickup','Call Pickup (Can be used with GXP-2000)','**',NULL,1);
-UNLOCK TABLES;
+-- LOCK TABLES `featurecodes` WRITE;
+INSERT INTO `featurecodes` VALUES ('core','userlogon','User Logon','*11',NULL,1);
+INSERT INTO `featurecodes` VALUES ('core','userlogoff','User Logoff','*12',NULL,1);
+INSERT INTO `featurecodes` VALUES ('core','zapbarge','ZapBarge','888',NULL,1);
+INSERT INTO `featurecodes` VALUES ('core','simu_pstn','Simulate Incoming Call','7777',NULL,1);
+INSERT INTO `featurecodes` VALUES ('core','simu_fax','Simulate Incoming FAX Call','666',NULL,1);
+INSERT INTO `featurecodes` VALUES ('core','chanspy','ChanSpy','555',NULL,1);
+INSERT INTO `featurecodes` VALUES ('core','pickup','Call Pickup (Can be used with GXP-2000)','**',NULL,1);
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `featurecodes` ENABLE KEYS */;
 
 --
@@ -187,7 +196,7 @@ CREATE TABLE `freepbx_log` (
   `message` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `time` (`time`,`level`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `freepbx_log`
@@ -195,9 +204,10 @@ CREATE TABLE `freepbx_log` (
 
 
 /*!40000 ALTER TABLE `freepbx_log` DISABLE KEYS */;
-LOCK TABLES `freepbx_log` WRITE;
-INSERT INTO `freepbx_log` VALUES (1,'2006-11-06 01:55:36','retrieve_conf','devel-debug',0,'Started retrieve_conf, DB Connection OK'),(2,'2006-11-06 01:55:36','retrieve_conf','devel-debug',0,'Writing extensions_additional.conf');
-UNLOCK TABLES;
+-- LOCK TABLES `freepbx_log` WRITE;
+INSERT INTO `freepbx_log` VALUES (1,'2006-11-06 01:55:36','retrieve_conf','devel-debug',0,'Started retrieve_conf, DB Connection OK');
+INSERT INTO `freepbx_log` VALUES (2,'2006-11-06 01:55:36','retrieve_conf','devel-debug',0,'Writing extensions_additional.conf');
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `freepbx_log` ENABLE KEYS */;
 
 --
@@ -209,7 +219,7 @@ CREATE TABLE `globals` (
   `variable` char(20) NOT NULL default '',
   `value` char(50) NOT NULL default '',
   PRIMARY KEY  (`variable`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `globals`
@@ -217,7 +227,7 @@ CREATE TABLE `globals` (
 
 
 /*!40000 ALTER TABLE `globals` DISABLE KEYS */;
-LOCK TABLES `globals` WRITE;
+-- LOCK TABLES `globals` WRITE;
 INSERT INTO `globals` VALUES 
 	 ('CALLFILENAME','\"\"')
 	,('DIAL_OPTIONS','tr')
@@ -262,7 +272,7 @@ INSERT INTO `globals` VALUES
 	,('VMX_REPEAT','1')
 	,('VMX_LOOPS','1')
 	;
-UNLOCK TABLES;
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `globals` ENABLE KEYS */;
 
 --
@@ -276,7 +286,7 @@ CREATE TABLE `iax` (
   `data` varchar(150) NOT NULL default '',
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`,`keyword`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `iax`
@@ -284,8 +294,8 @@ CREATE TABLE `iax` (
 
 
 /*!40000 ALTER TABLE `iax` DISABLE KEYS */;
-LOCK TABLES `iax` WRITE;
-UNLOCK TABLES;
+-- LOCK TABLES `iax` WRITE;
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `iax` ENABLE KEYS */;
 
 --
@@ -306,7 +316,7 @@ CREATE TABLE `incoming` (
   `channel` varchar(20) default NULL,
   `ringing` varchar(20) default NULL,
   `mohclass` varchar(80) NOT NULL default 'default'
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `incoming`
@@ -314,8 +324,8 @@ CREATE TABLE `incoming` (
 
 
 /*!40000 ALTER TABLE `incoming` DISABLE KEYS */;
-LOCK TABLES `incoming` WRITE;
-UNLOCK TABLES;
+-- LOCK TABLES `incoming` WRITE;
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `incoming` ENABLE KEYS */;
 
 --
@@ -329,7 +339,7 @@ CREATE TABLE `modules` (
   `version` varchar(20) NOT NULL default '',
   `enabled` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `modules`
@@ -337,9 +347,9 @@ CREATE TABLE `modules` (
 
 
 /*!40000 ALTER TABLE `modules` DISABLE KEYS */;
-LOCK TABLES `modules` WRITE;
+-- LOCK TABLES `modules` WRITE;
 INSERT INTO `modules` VALUES (1,'core','1.2',1);
-UNLOCK TABLES;
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `modules` ENABLE KEYS */;
 
 --
@@ -353,7 +363,7 @@ CREATE TABLE `queues` (
   `data` varchar(150) NOT NULL default '',
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`,`keyword`,`data`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `queues`
@@ -361,8 +371,8 @@ CREATE TABLE `queues` (
 
 
 /*!40000 ALTER TABLE `queues` DISABLE KEYS */;
-LOCK TABLES `queues` WRITE;
-UNLOCK TABLES;
+-- LOCK TABLES `queues` WRITE;
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `queues` ENABLE KEYS */;
 
 --
@@ -376,7 +386,7 @@ CREATE TABLE `sip` (
   `data` varchar(150) NOT NULL default '',
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`,`keyword`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `sip`
@@ -384,8 +394,8 @@ CREATE TABLE `sip` (
 
 
 /*!40000 ALTER TABLE `sip` DISABLE KEYS */;
-LOCK TABLES `sip` WRITE;
-UNLOCK TABLES;
+-- LOCK TABLES `sip` WRITE;
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `sip` ENABLE KEYS */;
 
 --
@@ -410,7 +420,7 @@ CREATE TABLE `users` (
   `wait` int(2) default NULL,
   `privacyman` tinyint(1) default NULL,
   `mohclass` varchar(80) NOT NULL default 'default'
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `users`
@@ -418,8 +428,8 @@ CREATE TABLE `users` (
 
 
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-LOCK TABLES `users` WRITE;
-UNLOCK TABLES;
+-- LOCK TABLES `users` WRITE;
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 --
@@ -433,7 +443,7 @@ CREATE TABLE `zap` (
   `data` varchar(150) NOT NULL default '',
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`,`keyword`)
-) ENGINE=MyISAM;
+);
 
 --
 -- Dumping data for table `zap`
@@ -441,8 +451,8 @@ CREATE TABLE `zap` (
 
 
 /*!40000 ALTER TABLE `zap` DISABLE KEYS */;
-LOCK TABLES `zap` WRITE;
-UNLOCK TABLES;
+-- LOCK TABLES `zap` WRITE;
+-- UNLOCK TABLES;
 /*!40000 ALTER TABLE `zap` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
