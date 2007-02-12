@@ -29,30 +29,12 @@ switch ($db_engine)
 		
 		$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
 		$db = DB::connect($datasource); // attempt connection
-		break;
-		
-	case "sqlite":
-		require_once('DB/sqlite.php');
-		
-		if (!isset($amp_conf["AMPDBFILE"]))
-			die("You must setup properly AMPDBFILE in /etc/amportal.conf");
-			
-		if (isset($amp_conf["AMPDBFILE"]) == "")
-			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
-			
-		$DSN = array (
-			"database" => $amp_conf["AMPDBFILE"],
-			"mode" => 0666
-		);
-		
-		$db = new DB_sqlite();
-		$db->connect( $DSN );
-		break;
-
+		break;	
+	
 	case "sqlite3":
 		if (!isset($amp_conf["AMPDBFILE"]))
 			die("You must setup properly AMPDBFILE in /etc/amportal.conf");
-
+			
 		if (isset($amp_conf["AMPDBFILE"]) == "")
 			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
 
@@ -60,7 +42,7 @@ switch ($db_engine)
 		$datasource = "sqlite3:///" . $amp_conf["AMPDBFILE"] . "?mode=0666";
 		$db = DB::connect($datasource);
 		break;
-	
+
 	default:
 		die( "Unknown SQL engine: [$db_engine]");
 }

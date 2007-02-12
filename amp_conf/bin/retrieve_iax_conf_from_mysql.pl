@@ -51,14 +51,14 @@ if ( $db_engine eq "mysql" ) {
 elsif ( $db_engine eq "pgsql" ) {
 	$dbh = DBI->connect("dbi:pgsql:dbname=$database;host=$hostname", "$username", "$password");
 }
-elsif ( $db_engine eq "sqlite" ) {
+elsif ( $db_engine eq "sqlite3" ) {
 	if (!exists($ampconf->{"AMPDBFILE"})) {
 		print "No AMPDBFILE set in /etc/amportal.conf\n";
 		exit;
 	}
 	
 	my $db_file = $ampconf->{"AMPDBFILE"};
-	$dbh = DBI->connect("dbi:SQLite2:dbname=$db_file","","");
+	$dbh = DBI->connect("dbi:SQLite:dbname=$db_file","","");
 }
 
 # Load the 'register' lines into iax_registrations.conf

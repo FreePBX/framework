@@ -178,6 +178,15 @@ elsif ( $db_engine eq "sqlite" ) {
 	my $db_file = $ampconf->{"AMPDBFILE"};
 	$dbh = DBI->connect("dbi:SQLite2:dbname=$db_file","","");
 }
+elsif ( $db_engine eq "sqlite3" ) {
+	if (!exists($ampconf->{"AMPDBFILE"})) {
+		print "No AMPDBFILE set in /etc/amportal.conf\n";
+		exit;
+	}
+	
+	my $db_file = $ampconf->{"AMPDBFILE"};
+	$dbh = DBI->connect("dbi:SQLite:dbname=$db_file","","");
+}
 
 open( EXTEN, ">$op_conf" ) or die "Cannot create/overwrite config file: $op_conf (!$)\n";
 print EXTEN $warning_banner;

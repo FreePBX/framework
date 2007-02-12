@@ -430,7 +430,8 @@ function install_upgrade($version) {
 				if ( (strtolower(substr($file,-4)) == ".sqlite") && ($db_engine == "sqlite") ) {
 					install_sqlupdate( $version, $file );
 				}
-				elseif ((strtolower(substr($file,-4)) == ".sql") && ( ($db_engine  == "mysql")  ||  ($db_engine  == "pgsql")) ) {
+				elseif ((strtolower(substr($file,-4)) == ".sql") && 
+						( ($db_engine  == "mysql")  ||  ($db_engine  == "pgsql") || ($db_engine == "sqlite3") ) ) {
 					install_sqlupdate( $version, $file );
 				}
 			}
@@ -978,6 +979,18 @@ switch ($db_engine)
 		$db->connect( $DSN );
 		break;
 	
+	case "sqlite3":
+		if (!isset($amp_conf["AMPDBFILE"]))
+			die("You must setup properly AMPDBFILE in /etc/amportal.conf");
+			
+		if (isset($amp_conf["AMPDBFILE"]) == "")
+			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
+
+		require_once('DB/sqlite3.php');
+		$datasource = "sqlite3:///" . $amp_conf["AMPDBFILE"] . "?mode=0666";
+		$db = DB::connect($datasource);
+		break;
+
 	default:
 		die( "Unknown SQL engine: [$db_engine]");
 }
