@@ -9,8 +9,12 @@
 sub parse_amportal_conf
 {
 	my $filename = $_[0];
-	my %ampconf;
-	
+	my %ampconf = (
+		AMPDBENGINE => "mysql",
+		AMPDBNAME => "asterisk",
+		AMPENGINE => "asterisk",
+	);
+
 	open(AMPCONF, $filename) or die "Cannot open $filename";
 	
 	while (<AMPCONF>)
