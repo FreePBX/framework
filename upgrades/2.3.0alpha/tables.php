@@ -32,6 +32,18 @@ if (!DB::IsError($confs)) { // no error... Already done
 	out("Done");
 }
 
+$sql = "SELECT sipname FROM users";
+$confs = $db->getRow($sql, DB_FETCHMODE_ASSOC);
+if (!DB::IsError($confs)) { // no error... Already done
+	out("Not Required");
+} else {
+	$sql = "ALTER TABLE users ADD sipname VARCHAR ( 50 ) NULL ";
+	$results = $db->query($sql);
+	if(DB::IsError($results)) {
+	        die($results->getMessage());
+	}
+	out("Done");
+}
 
 outn("Checking for Global var VMX_CONTEXT..");
 $nrows = $db->getOne("SELECT count(*) from globals where variable='VMX_CONTEXT'");

@@ -419,7 +419,8 @@ CREATE TABLE `users` (
   `answer` tinyint(1) default NULL,
   `wait` int(2) default NULL,
   `privacyman` tinyint(1) default NULL,
-  `mohclass` varchar(80) NOT NULL default 'default'
+  `mohclass` varchar(80) NOT NULL default 'default',
+  `sipname` varchar(50) default NULL
 );
 
 --
