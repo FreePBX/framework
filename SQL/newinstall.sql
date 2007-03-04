@@ -228,50 +228,51 @@ CREATE TABLE `globals` (
 
 /*!40000 ALTER TABLE `globals` DISABLE KEYS */;
 -- LOCK TABLES `globals` WRITE;
-INSERT INTO `globals` VALUES 
-	 ('CALLFILENAME','\"\"')
-	,('DIAL_OPTIONS','tr')
-	,('TRUNK_OPTIONS','')
-	,('DIAL_OUT','9')
-	,('FAX','')
-	,('FAX_RX','system')
-	,('FAX_RX_EMAIL','fax@mydomain.com')
-	,('FAX_RX_FROM','freepbx@gmail.com')
-	,('INCOMING','group-all'),('NULL','\"\"')
-	,('OPERATOR',''),('OPERATOR_XTN','')
-	,('PARKNOTIFY','SIP/200')
-	,('RECORDEXTEN','\"\"')
-	,('RINGTIMER','15')
-	,('DIRECTORY','last')
-	,('AFTER_INCOMING','')
-	,('IN_OVERRIDE','forcereghours')
-	,('REGTIME','7:55-17:05')
-	,('REGDAYS','mon-fri')
-	,('DIRECTORY_OPTS','')
-	,('DIALOUTIDS','1')
-	,('OUT_1','ZAP/g0')
-	,('VM_PREFIX','*')
-	,('VM_OPTS','')
-	,('VM_GAIN','')
-	,('VM_DDTYPE','u')
-	,('TIMEFORMAT','kM')
-	,('TONEZONE','us')
-	,('ALLOW_SIP_ANON','no')
-	,('VMX_CONTEXT','from-internal')
-	,('VMX_PRI','1')
-	,('VMX_TIMEDEST_CONTEXT','')
-	,('VMX_TIMEDEST_EXT','dovm')
-	,('VMX_TIMEDEST_PRI','1')
-	,('VMX_LOOPDEST_CONTEXT','')
-	,('VMX_LOOPDEST_EXT','dovm')
-	,('VMX_LOOPDEST_PRI','1')
-	,('VMX_OPTS_TIMEOUT','')
-	,('VMX_OPTS_LOOP','')
-	,('VMX_OPTS_DOVM','')
-	,('VMX_TIMEOUT','2')
-	,('VMX_REPEAT','1')
-	,('VMX_LOOPS','1')
-	;
+INSERT INTO `globals` VALUES ('CALLFILENAME','\"\"');
+INSERT INTO `globals` VALUES ('DIAL_OPTIONS','tr');
+INSERT INTO `globals` VALUES ('TRUNK_OPTIONS','');
+INSERT INTO `globals` VALUES ('DIAL_OUT','9');
+INSERT INTO `globals` VALUES ('FAX','');
+INSERT INTO `globals` VALUES ('FAX_RX','system');
+INSERT INTO `globals` VALUES ('FAX_RX_EMAIL','fax@mydomain.com');
+INSERT INTO `globals` VALUES ('FAX_RX_FROM','freepbx@gmail.com');
+INSERT INTO `globals` VALUES ('INCOMING','group-all');
+INSERT INTO `globals` VALUES ('NULL','\"\"')
+INSERT INTO `globals` VALUES ('OPERATOR','');
+INSERT INTO `globals` VALUES ('OPERATOR_XTN','')
+INSERT INTO `globals` VALUES ('PARKNOTIFY','SIP/200');
+INSERT INTO `globals` VALUES ('RECORDEXTEN','\"\"');
+INSERT INTO `globals` VALUES ('RINGTIMER','15');
+INSERT INTO `globals` VALUES ('DIRECTORY','last');
+INSERT INTO `globals` VALUES ('AFTER_INCOMING','');
+INSERT INTO `globals` VALUES ('IN_OVERRIDE','forcereghours');
+INSERT INTO `globals` VALUES ('REGTIME','7:55-17:05');
+INSERT INTO `globals` VALUES ('REGDAYS','mon-fri');
+INSERT INTO `globals` VALUES ('DIRECTORY_OPTS','');
+INSERT INTO `globals` VALUES ('DIALOUTIDS','1');
+INSERT INTO `globals` VALUES ('OUT_1','ZAP/g0');
+INSERT INTO `globals` VALUES ('VM_PREFIX','*');
+INSERT INTO `globals` VALUES ('VM_OPTS','');
+INSERT INTO `globals` VALUES ('VM_GAIN','');
+INSERT INTO `globals` VALUES ('VM_DDTYPE','u');
+INSERT INTO `globals` VALUES ('TIMEFORMAT','kM');
+INSERT INTO `globals` VALUES ('TONEZONE','us');
+INSERT INTO `globals` VALUES ('ALLOW_SIP_ANON','no');
+INSERT INTO `globals` VALUES ('VMX_CONTEXT','from-internal');
+INSERT INTO `globals` VALUES ('VMX_PRI','1');
+INSERT INTO `globals` VALUES ('VMX_TIMEDEST_CONTEXT','');
+INSERT INTO `globals` VALUES ('VMX_TIMEDEST_EXT','dovm');
+INSERT INTO `globals` VALUES ('VMX_TIMEDEST_PRI','1');
+INSERT INTO `globals` VALUES ('VMX_LOOPDEST_CONTEXT','');
+INSERT INTO `globals` VALUES ('VMX_LOOPDEST_EXT','dovm');
+INSERT INTO `globals` VALUES ('VMX_LOOPDEST_PRI','1');
+INSERT INTO `globals` VALUES ('VMX_OPTS_TIMEOUT','');
+INSERT INTO `globals` VALUES ('VMX_OPTS_LOOP','');
+INSERT INTO `globals` VALUES ('VMX_OPTS_DOVM','');
+INSERT INTO `globals` VALUES ('VMX_TIMEOUT','2');
+INSERT INTO `globals` VALUES ('VMX_REPEAT','1');
+INSERT INTO `globals` VALUES ('VMX_LOOPS','1');
+
 -- UNLOCK TABLES;
 /*!40000 ALTER TABLE `globals` ENABLE KEYS */;
 
