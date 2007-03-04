@@ -237,9 +237,9 @@ INSERT INTO `globals` VALUES ('FAX_RX','system');
 INSERT INTO `globals` VALUES ('FAX_RX_EMAIL','fax@mydomain.com');
 INSERT INTO `globals` VALUES ('FAX_RX_FROM','freepbx@gmail.com');
 INSERT INTO `globals` VALUES ('INCOMING','group-all');
-INSERT INTO `globals` VALUES ('NULL','\"\"')
+INSERT INTO `globals` VALUES ('NULL','\"\"');
 INSERT INTO `globals` VALUES ('OPERATOR','');
-INSERT INTO `globals` VALUES ('OPERATOR_XTN','')
+INSERT INTO `globals` VALUES ('OPERATOR_XTN','');
 INSERT INTO `globals` VALUES ('PARKNOTIFY','SIP/200');
 INSERT INTO `globals` VALUES ('RECORDEXTEN','\"\"');
 INSERT INTO `globals` VALUES ('RINGTIMER','15');
