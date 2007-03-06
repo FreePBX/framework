@@ -73,6 +73,20 @@ function parse_asterisk_conf($filename) {
 	return $conf;
 }
 
+/** Expands variables from amportal.conf 
+ * Replaces any variables enclosed in percent (%) signs with their value
+ * eg, "%AMPWEBROOT%/admin/functions.inc.php"
+ */
+function expand_variables($string) {
+	global $amp_conf;
+	$search = $replace = array();
+	foreach ($amp_conf as $key=>$value) {
+		$search[] = '%'.$key.'%';
+		$replace[] = $value;
+	}
+	return str_replace($search, $replace, $string);
+}
+
 function getAmpAdminUsers() {
 	global $db;
 
