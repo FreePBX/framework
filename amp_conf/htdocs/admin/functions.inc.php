@@ -230,6 +230,19 @@ function sql($sql,$type="query",$fetchmode=null) {
 	return $results;
 }
 
+/**  Format input so it can be safely used as a literal in a query. 
+ * Literals are values such as strings or numbers which get utilized in places
+ * like WHERE, SET and VALUES clauses of SQL statements.
+ * The format returned depends on the PHP data type of input and the database 
+ * type being used. This simply calls PEAR's DB::smartQuote() function
+ * @param  mixed  The value to go into the database
+ * @return string  A value that can be safely inserted into an SQL query
+ */
+function q(&$value) {	
+	global $db;
+	return $db->quoteSmart($value);
+}
+
 // sql text formatting -- couldn't see that one was available already
 function sql_formattext($txt) {
 	if (isset($txt)) {
