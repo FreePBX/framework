@@ -321,7 +321,7 @@ function download_progress($action, $params) {
 			outn("\nUntaring..");
 		break;
 		case 'downloading':
-			outn("\rDownloading ".$params['read'].' of '.$params['total'].' ('.round($params['read']/$params['total']*100).'%)            ');
+			outn("\rDownloading ".$params['read'].' of '.$params['total'].' ('.($params['total'] ? round($params['read']/$params['total']*100) : '0').'%)            ');
 			if ($params['read'] == $params['total']) {
 				out('');
 			}
@@ -455,6 +455,12 @@ foreach ($args[0] as $arg) {
 // create $amp_conf, $db, etc
 init_amportal_environment($ampconfpath);
 
+require_once( $amp_conf["AMPWEBROOT"].'/admin/common/php-asmanager.php' );
+$astman = new AGI_AsteriskManager();
+if (! $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+	unset( $astman );
+}
+
 $operation = $args[1][0];
 $param = $args[1][1];
 
@@ -470,7 +476,7 @@ if ($force) {
 // freepbx modules will include the unsintall scripts
 // using relative paths. why not modifiying the include dir...?
 // fix for ticket:1731
-chdir ( $amp_conf\["AMPWEBROOT"\] . "/admin/" );
+chdir ( $amp_conf["AMPWEBROOT"] . "/admin/" );
 
 switch ($operation ) {
 	case 'list':

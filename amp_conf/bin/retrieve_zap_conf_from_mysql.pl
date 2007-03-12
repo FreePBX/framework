@@ -61,6 +61,15 @@ elsif ( $db_engine eq "sqlite3" ) {
 	my $db_file = $ampconf->{"AMPDBFILE"};
 	$dbh = DBI->connect("dbi:SQLite:dbname=$db_file","","");
 }
+elsif ( $db_engine eq "sqlite3" ) {
+	if (!exists($ampconf->{"AMPDBFILE"})) {
+		print "No AMPDBFILE set in /etc/amportal.conf\n";
+		exit;
+	}
+	
+	my $db_file = $ampconf->{"AMPDBFILE"};
+	$dbh = DBI->connect("dbi:SQLite:dbname=$db_file","","");
+}
 
 $statement = "SELECT keyword,data from $table_name where id=-1 and keyword <> 'account' and flags <> 1";
 my $result = $dbh->selectall_arrayref($statement);

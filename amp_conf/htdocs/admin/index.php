@@ -11,9 +11,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$title=_("freePBX administration");
-$message=_("Administration");
-
+require_once('common/php-asmanager.php');
 require_once('functions.inc.php');
 
 // start session
@@ -22,12 +20,19 @@ session_start();
 // get settings
 $amp_conf      = parse_amportal_conf("/etc/amportal.conf");
 $asterisk_conf = parse_asterisk_conf("/etc/asterisk/asterisk.conf");
+$astman		= new AGI_AsteriskManager();
+if (! $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+	unset( $astman );
+}
 
 // connect to database
 require_once('common/db_connect.php'); //PEAR must be installed
 
 $quietmode = false;
 include 'header.php';
+
+$title=_("freePBX administration");
+$message=_("Administration");
 
 ?>
 <div id="nav">

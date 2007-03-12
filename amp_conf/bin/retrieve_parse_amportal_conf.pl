@@ -14,7 +14,7 @@ sub parse_amportal_conf
 		AMPDBNAME => "asterisk",
 		AMPENGINE => "asterisk",
 	);
-
+	
 	open(AMPCONF, $filename) or die "Cannot open $filename";
 	
 	while (<AMPCONF>)

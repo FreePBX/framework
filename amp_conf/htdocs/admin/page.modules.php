@@ -135,8 +135,11 @@ if ($online) {
 		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Cannot connect to online repository (%s). Online modules are not available."), "mirror.freepbx.org")."</p></div><br />";
 		$online = false;
 		unset($modules_online);
+	} else if (!is_array($modules_online)) {
+		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Error retrieving updates from online repository (%s). Online modules are not available."), "mirror.freepbx.org")."</p></div><br />";
+		$online = false;
+		unset($modules_online);
 	} else {
-	
 		// combine online and local modules
 		$modules = $modules_online;
 		foreach (array_keys($modules) as $name) {
