@@ -461,7 +461,7 @@ $myhuntmember	= "";
 if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt") || ($rgmethod == "firstavailable") || ($rgmethod == "firstnotonphone"))
 {
 	if ($cidnum)
-		$AGI->set_variable(CALLTRACE_HUNT,$cidnum);
+		$AGI->set_variable('CALLTRACE_HUNT',$cidnum);
 		
 	foreach ($extarray as $k )
 	{
