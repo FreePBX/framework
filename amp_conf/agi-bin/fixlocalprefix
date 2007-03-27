@@ -109,6 +109,15 @@ function parse_conf($filename, &$conf, &$section) {
 	}
 }
 
+function sanitizeNumber($number) {
+	global $agi;
+	if (strpos($number,"-") !== false) {
+		$agi->verbose("Stripping hyphens");
+		$number = str_replace("-","",$number);
+	}
+	return $number;	
+}
+
 function fixNumber($pattern, $number, &$agi) {
 	// valid chars in a pattern are 0-9XNZwW#*\.\[\]\-\+\|
 	$chars = '0-9XNZwW#*\.\[\]\-'; //escaped pcre-ready
@@ -188,6 +197,7 @@ if ($r["result"] == 0) {
 }
 $number = $r["data"];
 
+$number = sanitizeNumber($number);
 
 $r = $agi->get_variable("DIAL_TRUNK");
 if ($r["result"] == 0) {
