@@ -803,7 +803,7 @@ class Settings {
 				<td><h3><br>" . _("Follow Me") . "</h3></td>
 	    </tr>
 			<tr>
-			<td><a href='#' class='info'>" . _("Send All Calls to Follow-Me:") . "<span>". _("If checked, all calls will be routed to this Follow-Me setting except specific ringgroups that may have been enabled by your administrator. If not checked, you can use the VmX Locater functionality if enabled to route calls to this Follow-Me group as an alternative option to ringing straight into your voicemail. The administrator may have routed other calls direct to this Follow-Me setting and this will have no effect on those specific cases.") . "<br></span></a></td>
+			<td><a href='#' class='info'>" . _("Enable as Default:") . "<span>". _("If checked, all calls will be routed to this Follow-Me setting except specific ringgroups that may have been enabled by your administrator. If not checked, you can use the VmX Locater functionality if enabled to route calls to this Follow-Me group as an alternative option to ringing straight into your voicemail. The administrator may have routed other calls direct to this Follow-Me setting and this will have no effect on those specific cases.") . "<br></span></a></td>
 				<td>
 					<input " . $follow_me_ddial . " type=checkbox name='follow_me_ddial' value='checked'>
 					<small>" . _("Enable") . "</small>
@@ -929,13 +929,13 @@ class Settings {
 
         $set_vmx_text .= (!($SETTINGS_ALLOW_VMX_SETTINGS && !$follow_me_disabled))?'':"
 				<tr>
-					<td><a href='#' class='info'>" . _("Option 1:") . "<span>" . _("If 'Use Follow-Me' is checked, then a caller who presses 1 will be directed to this extension's FollowMe configuration defined above. If not checked, then any number, ringgroup, or queue may be entered and this will function as Option 2 below. You should take the same precautions when entering phone numbers as described in Option 2") . "<br></span></a></td>
+					<td><a href='#' class='info'>" . _("Option 1:") . "<span>" . _("If 'Send to Follow-Me' is checked, then a caller who presses 1 will be directed to this extension's FollowMe configuration defined above. If not checked, then any number, ringgroup, or queue may be entered and this will function as Option 2 below. You should take the same precautions when entering phone numbers as described in Option 2") . "<br></span></a></td>
 					<td>
 						<input " . $vmx_option_1_number_text_box_options . " name='vmx_option_1_number' type='text' size=24 value='" . $vmx_option_1_number . "'>
 					</td>
 					<td>
 						<input " . $vmx_option_1_system_default . " type=checkbox name='vmx_option_1_system_default' value='checked' OnClick=\"disable_fields(); return true;\">
-						<small>" . _("Use Follow-Me") . "</small>
+						<small>" . _("Send to Follow-Me") . "</small>
 					</td>
 				</tr>
 				<tr>
