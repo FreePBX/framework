@@ -41,6 +41,12 @@ $dsarray	= array();	// This will hold all the dial strings, used to check for du
 $AGI = new AGI();
 debug("Starting New Dialparties.agi", 1);
 
+$astman = new AGI_AsteriskManager( );	
+if (!$astman->connect("127.0.0.1", $config["AMPMGRUSER"] , $config["AMPMGRPASS"])) {
+	exit (1);
+}
+	
+
 $priority = get_var( $AGI, "priority" ) + 1;
 debug( "priority is $priority", 1 );
 
@@ -606,6 +612,8 @@ if ($nodest != '' && $use_confirmation == 'FALSE') {
 	}
 }
 
+$astman->disconnect();
+
 // EOF dialparties.agi
 exit( 0 );
 
@@ -683,20 +691,13 @@ function mycallback( $rc )
 function is_ext_avail( $extnum )
 {
 	global $config;
-		
-	$astman = new AGI_AsteriskManager( );	
-	if (!$astman->connect("127.0.0.1", $config["AMPMGRUSER"] , $config["AMPMGRPASS"]))
-	{
-		return false;
-	}
+	global $astman;
 	
 	$status = $astman->ExtensionState( $extnum, 'from-internal' );
-	$astman->disconnect();
 		
 	$status = $status['Status'];
 	debug("ExtensionState: $status", 4);
 	return $status;
-	
 }
 
 function parse_amportal_conf($filename) 
