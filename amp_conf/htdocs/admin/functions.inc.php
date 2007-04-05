@@ -27,6 +27,8 @@ function parse_amportal_conf($filename) {
 		'AMPDBNAME' => 'asterisk',
 		'AMPENGINE' => 'asterisk',
 		'USECATEGORIES' => true,
+		'ASTETCDIR' => '/etc/asterisk',
+		'ASTMANAGERPORT' => '5038',
 		);
 	// boolean values, will be converted to true/false
 	// "yes", "true", 1 (case-insensitive) will be treated as true, everything else is false
@@ -428,6 +430,7 @@ function parse_voicemailconf($filename, &$vmconf, &$section) {
  * a copy, by the time it's done $vmconf will be empty.
 */
 function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
+	global $amp_conf;
 	if ($iteration == 0) {
 		$section = null;
 	}
@@ -438,7 +441,7 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 	// TODO: is this logical?
 	// TODO: don't use hardcoded path...? 
 	if (!file_exists($filename)) {
-		if (!copy( "/etc/asterisk/voicemail.conf.template", $filename )){
+		if (!copy( rtrim($amp_conf["ASTETCDIR"],"/")."/voicemail.conf.template", $filename )){
 			return;
 		}
 	}
