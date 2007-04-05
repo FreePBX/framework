@@ -37,7 +37,7 @@ require_once('functions.inc.php');
 
 // get settings
 $amp_conf	= parse_amportal_conf("/etc/amportal.conf");
-$asterisk_conf	= parse_asterisk_conf("/etc/asterisk/asterisk.conf");
+$asterisk_conf  = parse_asterisk_conf(rtrim($amp_conf["ASTETCDIR"],"/")."/asterisk.conf");
 $astman		= new AGI_AsteriskManager();
 if (! $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
 	unset( $astman );
