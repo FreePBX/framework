@@ -14,14 +14,28 @@ require "retrieve_parse_amportal_conf.pl";
 
 ################### BEGIN OF CONFIGURATION ####################
 
+if (scalar @ARGV == 2)
+{
+	$amportalconf = $ARGV[0];
+	# WARNING: this file will be substituted by the output of this program
+	$sip_conf = $ARGV[1]."/sip_additional.conf";
+	$sip_reg = $ARGV[1]."/sip_registrations.conf";
+
+} else
+{
+	$amportalconf = "/etc/amportal.conf";
+	# WARNING: this file will be substituted by the output of this program
+	$sip_conf = "/etc/asterisk/sip_additional.conf";
+	$sip_reg = "/etc/asterisk/sip_registrations.conf";
+
+}
+
 # the name of the extensions table
 $table_name = "sip";
 # the path to the extensions.conf file
-# WARNING: this file will be substituted by the output of this program
-$sip_conf = "/etc/asterisk/sip_additional.conf";
 
 # cool hack by Julien BLACHE <jblache@debian.org>
-$ampconf = parse_amportal_conf( "/etc/amportal.conf" );
+$ampconf = parse_amportal_conf( $amportalconf );
 # username to connect to the database
 $username = $ampconf->{"AMPDBUSER"};
 # password to connect to the database
@@ -80,8 +94,11 @@ unless ($result) {
 	exit;
 }
 
-open( EXTEN, ">$sip_conf" ) or die "Cannot create/overwrite extensions file: $sip_conf (!$)\n";
+open( EXTEN, ">$sip_conf" ) or die "Cannot create/overwrite SIP extensions file: $sip_conf (!$)\n";
+open( REG, ">$sip_reg" ) or die "Cannot create/overwrite SIP Registration file: $sip_reg (!$)\n";
+
 print EXTEN $warning_banner;
+print REG   $warning_banner;
 
 $additional = "";
 my @resultSet = @{$result};
@@ -108,7 +125,7 @@ if ( $#resultSet > -1 ) {
 		my @result = @{ $row };
 		$top .= $result[0]."=".$result[1]."\n";
 	}
-	print EXTEN "$top\n";
+	print REG "$top\n";
 }
 
 $statement = "SELECT data,id from $table_name where keyword='account' and flags <> 1 group by data";
@@ -154,5 +171,7 @@ foreach my $row ( @{ $result } ) {
 	print EXTEN "$additional\n";
 }
 
+close EXTEN;                                                                                                                                
+close REG;                                                                                                                                  
 exit 0;
 

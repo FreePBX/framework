@@ -10,14 +10,25 @@ require "retrieve_parse_amportal_conf.pl";
 
 ################### BEGIN OF CONFIGURATION ####################
 
+if (scalar @ARGV == 2)
+{
+	$amportalconf = $ARGV[0];
+	# WARNING: this file will be substituted by the output of this program
+	$queues_conf = $ARGV[1]."/queues_additional.conf";
+} else
+{
+	$amportalconf = "/etc/amportal.conf";
+	# WARNING: this file will be substituted by the output of this program
+	$queues_conf = "/etc/asterisk/queues_additional.conf";
+}
+
 # the name of the extensions table
 $table_name = "queues";
 # the path to the extensions.conf file
 # WARNING: this file will be substituted by the output of this program
-$queues_conf = "/etc/asterisk/queues_additional.conf";
 
 # cool hack by Julien BLACHE <jblache@debian.org>
-$ampconf = parse_amportal_conf( "/etc/amportal.conf" );
+$ampconf = parse_amportal_conf( $amportalconf );
 # username to connect to the database
 $username = $ampconf->{"AMPDBUSER"};
 # password to connect to the database

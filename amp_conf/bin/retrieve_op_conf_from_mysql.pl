@@ -14,6 +14,18 @@ require "retrieve_parse_amportal_conf.pl";
 
 ################### BEGIN OF CONFIGURATION ####################
 
+if (scalar @ARGV == 2)
+{
+	$amportalconf = $ARGV[0];
+	$zapataconf = $ARGV[1]."/zapata.conf";
+	$zapataautoconf = $ARGV[1]."/zapata-auto.conf";
+} else
+{
+	$amportalconf = "/etc/amportal.conf";
+	$zapataconf="/etc/asterisk/zapata.conf";
+	$zapataautoconf="/etc/asterisk/zapata-auto.conf";
+}
+
 ######## STYLE INFO #########
 $extenpos="2-40";
 $trunkpos="52-60,71-80";
@@ -30,8 +42,6 @@ $queuepos="42-50,61-70";
 #@zaplines=(@zaplines,[ "Zap/4","Zap 4" ]);
 
 
-$zapataconf="/etc/asterisk/zapata.conf";
-$zapataautoconf="/etc/asterisk/zapata-auto.conf";
 
 if (-e $zapataconf) {
 	@zaplines = parse_zapata($zapataconf);
@@ -135,7 +145,7 @@ sub parse_zapata{
 #@conferences=(@conferences,[ "811","Conf.11" ]);
 
 # cool hack by Julien BLACHE <jblache@debian.org>
-$ampconf = parse_amportal_conf( "/etc/amportal.conf" );
+$ampconf = parse_amportal_conf( $amportalconf );
 
 # WARNING: this file will be substituted by the output of this program
 $op_conf = $ampconf->{"AMPWEBROOT"}."/panel/op_buttons_additional.cfg";
@@ -171,7 +181,7 @@ elsif ( $db_engine eq "pgsql" ) {
 }
 elsif ( $db_engine eq "sqlite" ) {
 	if (!exists($ampconf->{"AMPDBFILE"})) {
-		print "No AMPDBFILE set in /etc/amportal.conf\n";
+		print "No AMPDBFILE set in $amportalconf\n";
 		exit;
 	}
 	
@@ -180,7 +190,7 @@ elsif ( $db_engine eq "sqlite" ) {
 }
 elsif ( $db_engine eq "sqlite3" ) {
 	if (!exists($ampconf->{"AMPDBFILE"})) {
-		print "No AMPDBFILE set in /etc/amportal.conf\n";
+		print "No AMPDBFILE set in $amportalconf\n";
 		exit;
 	}
 	

@@ -13,15 +13,26 @@ use DBI;
 require "retrieve_parse_amportal_conf.pl";
 
 ################### BEGIN OF CONFIGURATION ####################
+if (scalar @ARGV == 2)
+{
+	$amportalconf = $ARGV[0];
+	# WARNING: this file will be substituted by the output of this program
+	$iax_conf = $ARGV[1]."/iax_additional.conf";
+	$iax_reg = $ARGV[1]."/iax_registrations.conf";
+} else
+{
+	$amportalconf = "/etc/amportal.conf";
+	# WARNING: this file will be substituted by the output of this program
+	$iax_conf = "/etc/asterisk/iax_additional.conf";
+	$iax_reg = "/etc/asterisk/iax_registrations.conf";
+}
 
 # the name of the iax table
 $table_name = "iax";
 # the path to the varous IAX conf files
-$iax_conf = "/etc/asterisk/iax_additional.conf";
-$iax_reg = "/etc/asterisk/iax_registrations.conf";
 
 # cool hack by Julien BLACHE <jblache@debian.org>
-$ampconf = parse_amportal_conf( "/etc/amportal.conf" );
+$ampconf = parse_amportal_conf( $amportalconf );
 # username to connect to the database
 $username = $ampconf->{"AMPDBUSER"};
 # password to connect to the database
