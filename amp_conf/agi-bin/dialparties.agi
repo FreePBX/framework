@@ -208,6 +208,7 @@ foreach( $ext as $k)
 		if ($count == 0)
 		{
 			$mastermode = 0;
+			$pr_dialstatus = ""; // not relevant if not mastermode, clear it so dnd doesn't propagate, and other
 			debug("Primary ext is CF so disabling mastermode if it was set", 4);
 		}
 	}
@@ -239,11 +240,14 @@ foreach ( $ext as $k )
 			$AGI->set_variable('DIALSTATUS','BUSY');						
 			// if this is primary set dndprimary and figure out if needed below
 			//
-			if ($count == 0)
+			if ($count == 0 && $mastermode)
 			{
 				$dndprimary = 1;
-				$fmgrp_primaryremoved = 1;
 				debug("Primary extension is DND, so if mastermode, all should be dnd", 4);
+			}
+			if ($count == 0)
+			{
+				$fmgrp_primaryremoved = 1;
 			}
 		} 
 		else
