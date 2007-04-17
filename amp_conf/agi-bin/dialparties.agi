@@ -508,8 +508,6 @@ if ($nodest != '' && $use_confirmation == 'FALSE') {
 	}
 }
 
-if (!strlen($ds))
-{
 // FollowMe Changes:
 //
 // We need to determine if the generated dialstring can be dialed as is. This will be the case if there are no
@@ -582,6 +580,8 @@ if ($nodest != '' && $use_confirmation == 'FALSE') {
 	}
 }
 
+if (!strlen($ds))
+{
 	$AGI->noop('');
 } else {
 	if (($rgmethod == "hunt") || ($rgmethod == "memoryhunt") || ($rgmethod == "firstavailable") || ($rgmethod == "firstnotonphone"))
@@ -605,12 +605,14 @@ if ($nodest != '' && $use_confirmation == 'FALSE') {
 		}
 		$ds .= '|' . $dialopts; // pound to transfer, provide ringing
 		if (trim($use_confirmation) != "FALSE")
+		{
 			$AGI->set_variable('__RG_IDX',$ringgroup_index);
 			if ( isset($cidnum) && is_numeric($cidnum) ) {
 				$AGI->set_variable('__CALLCONFIRMCID',$cidnum);
 			} else {
 				$AGI->set_variable('__CALLCONFIRMCID',"999");
 			}
+		}
 		$AGI->set_variable('ds',$ds);
 		$AGI->set_priority(10); // dial command is at priority 10
 	}
