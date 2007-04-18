@@ -1,11 +1,21 @@
 #!/usr/bin/php -q
 <?php
 
+# constants
 define("AMP_CONF", "/etc/amportal.conf");
-
 define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
-
 define("UPGRADE_DIR", dirname(__FILE__)."/upgrades");
+
+# semi constants
+$webroot	= "/var/www/html/";
+$fopwebroot	= "";				// if blank, will use $webroot/panel
+$bin_dir	= "/var/lib/asterisk/bin/";
+$sbin_dir	= "/usr/sbin/";
+$asterisk_user	= "asteriskuser";
+$asterisk_pass	= "amp109";
+
+// WTF is this?
+$system_config	= ""; 
 
 
 // define versions. latest version must be last
@@ -83,14 +93,14 @@ function showHelp() {
 	out("  --dbname databasename    Use database name specified, instead of 'asterisk'");
 	out("  --username <user>        Use <user> to connect to db and write config");
 	out("  --password <pass>        Use <pass> to connect to db and write config");
-/*	out("  --fopwebroot <path>      Web path where fop will be installed");
+	out("  --fopwebroot <path>      Web path where fop will be installed");
 	out("  --webroot <path>         Web root where freepbx will be installed");
 	out("  --cgibin <path>          Path where cgi-bin's lives");
 	out("  --bin <path>             Path of asterisk binaries");
 	out("  --sbin <path>            Path of system admin binaries");
 	out("  --asteriskuser <user>    Asterisk Manager username");
 	out("  --asteriskpass <pass>    Asterisk Manager password");
-	out("  --systemconfig <path>    System config files"); */
+	out("  --systemconfig <path>    System config files");
 	out("  --debug                  Enable debug output");
 	out("  --dry-run                Don't actually do anything");
 	out("  --force-version <ver>    Force upgrade from version <ver>");
@@ -511,20 +521,26 @@ function install_needreload() {
 function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $dbname = 'asterisk') {
 	out("Creating new $filename");
 	
-	outn("Enter your USERNAME to connect to the '$dbname' database:\n [".($dbuser ? $dbuser : "asteriskuser")."] ");
+	outn("Enter your USERNAME to connect to the '$dbname' database:\n [".($dbuser ? $dbuser : $asterisk_user) . "] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPDBUSER"] = ($dbuser ? $dbuser : "asteriskuser");
-	else $amp_conf["AMPDBUSER"] = $key;
+	if (preg_match('/^$/',$key)) 
+		$amp_conf["AMPDBUSER"] = ($dbuser ? $dbuser : "asteriskuser");
+	else 
+		$amp_conf["AMPDBUSER"] = $key;
 	
-	outn("Enter your PASSWORD to connect to the '$dbname' database:\n [".($dbpass ? $dbpass : "amp109")."] ");
+	outn("Enter your PASSWORD to connect to the '$dbname' database:\n [".($dbpass ? $dbpass : $asterisk_pass)."] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPDBPASS"] = ($dbpass ? $dbpass : "amp109");
-	else $amp_conf["AMPDBPASS"] = $key;
+	if (preg_match('/^$/',$key)) 
+		$amp_conf["AMPDBPASS"] = ($dbpass ? $dbpass : $asterisk_pas);
+	else 
+		$amp_conf["AMPDBPASS"] = $key;
 	
 	outn("Enter the hostname of the '$dbname' database:\n [".($dbhost ? $dbhost : "localhost")."] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPDBHOST"] = ($dbhost ? $dbhost : "localhost");
-	else $amp_conf["AMPDBHOST"] = $key;
+	if (preg_match('/^$/',$key)) 
+		$amp_conf["AMPDBHOST"] = ($dbhost ? $dbhost : "localhost");
+	else 
+		$amp_conf["AMPDBHOST"] = $key;
 	
 	outn("Enter a USERNAME to connect to the Asterisk Manager interface:\n [admin] ");
 	$key = trim(fgets(STDIN,1024));
@@ -537,10 +553,13 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	else $amp_conf["AMPMGRPASS"] = $key;
 	
 	do {
-		out("Enter the path to use for your AMP web root:\n [/var/www/html] ");
+		out("Enter the path to use for your AMP web root:\n [$webroot] ");
 		$key = trim(fgets(STDIN,1024));
-		if (preg_match('/^$/',$key)) $amp_conf["AMPWEBROOT"] = "/var/www/html";
-		else $amp_conf["AMPWEBROOT"] = rtrim($key,'/');
+		if (preg_match('/^$/',$key)) 
+			$amp_conf["AMPWEBROOT"] = "$webroot";
+		else 
+			$amp_conf["AMPWEBROOT"] = rtrim($key,'/');
+
 		if (is_dir($amp_conf["AMPWEBROOT"])) {
 			break;
 		} else if (amp_mkdir($amp_conf["AMPWEBROOT"],"0755",true)){
@@ -552,7 +571,10 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	} while(1);
 	
 	// Really no need to ask, is there.
-	$amp_conf["FOPWEBROOT"]=$amp_conf["AMPWEBROOT"]."/panel";
+	if (is_empty($fopwebroot))
+		$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"];
+	else
+		$amp_conf["FOPWEBROOT"] = $fopwebroot;
 	
 	outn("Enter the IP ADDRESS or hostname used to access the AMP web-admin:\n [xx.xx.xx.xx] ");
 	$key = trim(fgets(STDIN,1024));
@@ -570,10 +592,13 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	else $amp_conf["AMPEXTENSIONS"] = $key;
 	
 	do {
-		out("Enter directory in which to store AMP executable scripts:\n [/var/lib/asterisk/bin] ");
+		out("Enter directory in which to store AMP executable scripts:\n [$ampbin_dir] ");
 		$key = trim(fgets(STDIN,1024));
-		if (preg_match('/^$/',$key)) $amp_conf["AMPBIN"] = "/var/lib/asterisk/bin";
-		else $amp_conf["AMPBIN"] = rtrim($key,'/');
+		if (preg_match('/^$/',$key)) 
+			$amp_conf["AMPBIN"] = $ampbin_di;
+		else 
+			$amp_conf["AMPBIN"] = rtrim($key,'/');
+
 		if (is_dir($amp_conf["AMPBIN"])) {
 			break;
 		} else if (amp_mkdir($amp_conf["AMPBIN"],"0755",true)){
@@ -585,10 +610,13 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	} while(1);
 	
 	do {
-		out("Enter directory in which to store super-user scripts:\n [/usr/sbin] ");
+		out("Enter directory in which to store super-user scripts:\n [$ampsbin_dir] ");
 		$key = trim(fgets(STDIN,1024));
-		if (preg_match('/^$/',$key)) $amp_conf["AMPSBIN"] = "/usr/sbin";
-		else $amp_conf["AMPSBIN"] = rtrim($key,'/');
+		if (preg_match('/^$/',$key)) 
+			$amp_conf["AMPSBIN"] = "$ampsbin_dir";
+		else 
+			$amp_conf["AMPSBIN"] = rtrim($key,'/');
+
 		if (is_dir($amp_conf["AMPSBIN"])) {
 			break;
 		} else if (amp_mkdir($amp_conf["AMPSBIN"],"0755",true)){
@@ -708,7 +736,7 @@ foreach ($args[0] as $arg) {
 		case "--install-moh":
 			$install_moh = true;
 		break;
-/*		case "--fopwebroot":
+		case "--fopwebroot":
 			$fopwebroot = $arg[1];
 			out("Using fop at ".$fopwebroot);
 		break;
@@ -721,25 +749,28 @@ foreach ($args[0] as $arg) {
 			out("Using CGI-BIN at ".$cgibin);
 		break;
 		case "--bin":
-			$bin = $arg[1];
-			out("Using bin at ".$bin);
+			$ampbin_dir = $arg[1];
+			out("Using bin at ".$ampbin_dir);
 		break;
 		case "--sbin":
-			$sbin = $arg[1];
-			out("Using sbin ar ".$sbin);
+			$ampsbin_dir = $arg[1];
+			out("Using sbin ar ".$ampsbin_dir);
 		break;
 		case "--asteriskuser":
-			$asteriskuser = $arg[1];
-			out("Using Asterisk user ".$asteriskuser);
+			$asterisk_user = $arg[1];
+			out("Using Asterisk user ".$asterisk_user);
 		break;
 		case "--asteriskpass":
-			$asteriskpass = $arg[1];
+			$asterisk_pass = $arg[1];
 			out("Using asteriskpass ".str_repeat("*",strlen($arg[1])));
 		break;
+
+/*		do we need this ?
 		case "--systemconfig":
 			$systemconfig = $arg[1];
 			out("Using system config at ". $systemconfig);
-		break; */
+		break; 
+*/
 
 	}
 }
