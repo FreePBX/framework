@@ -35,11 +35,6 @@ fi
 chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
 
-	# this file contains password and should not be a+r
-	# this addresses http://freepbx.org/trac/ticket/1878
-	chown asterisk:asterisk /etc/amportal.conf
-	chmod 640 /etc/amportal.conf
-	
 	chown -R asterisk:asterisk $ASTRUNDIR
 	chown -R asterisk:asterisk /etc/asterisk
 	chmod -R g+w /etc/asterisk

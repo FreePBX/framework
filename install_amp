@@ -795,7 +795,13 @@ outn("Checking for ".AMP_CONF."..");
 if (!file_exists(AMP_CONF)) {
 	out(AMP_CONF." does not exist, copying default");
 	copy("amportal.conf", AMP_CONF);
+
+	// this file contains password and should not be a+r
+	// this addresses http://freepbx.org/trac/ticket/1878
+	chown(AMP_CONF, "asterisk"); 
+	chgrp(AMP_CONF, "asterisk"); 
 	chmod(AMP_CONF, 0640); 
+
 	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password, 'asterisk');
 
 	out("Assuming new install, --install-moh added to command line");
