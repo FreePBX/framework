@@ -306,7 +306,11 @@ function doDelete($modulename, $force) {
 }
 
 function doDownload($modulename, $force) {
-	if (is_array($errors = module_download($modulename, $force, 'download_progress'))) {
+
+	global $modulexml_path;
+	global $modulerepository_path;
+
+	if (is_array($errors = module_download($modulename, $force, 'download_progress', $modulerepository_path, $modulexml_path))) {
 		out("The following error(s) occured:");
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
@@ -422,8 +426,8 @@ if (! @ include("Console/Getopt.php")) {
 }
 
 // **** Parse out command-line options
-$shortopts = "h?fc:";
-$longopts = array("help","debug","config=");
+$shortopts = "h?fc:x:r:";
+$longopts = array("help","debug","config=","modulexml-path=","modulerepository-path=");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -437,6 +441,12 @@ $ampconfpath = AMP_CONF;
 // force operations
 $force = false;
 
+// override xml and svn repository paths from hardcoded and amportal.conf defaults
+// currently only implemented for downloading (to facilitate automatic installations)
+//
+$modulexml_path = false;
+$modulerepository_path = false;
+
 foreach ($args[0] as $arg) {
 	switch ($arg[0]) {
 		case "--help": case "h": case "?":
@@ -448,6 +458,12 @@ foreach ($args[0] as $arg) {
 		break;
 		case "--config": case "c":
 			$ampconfpath = $arg[1];
+		break;
+		case "--modulexml-path": case "x":
+			$modulexml_path = rtrim($arg[1],DIRECTORY_SEPARATOR)."/";
+		break;
+		case "--modulerepository-path": case "r":
+			$modulerepository_path = rtrim($arg[1],DIRECTORY_SEPARATOR)."/";
 		break;
 	}
 }

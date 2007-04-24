@@ -1132,7 +1132,7 @@ function ampconf_string_replace($string) {
  * future if we decide we need to return more error codes, but as long as it's
  * a php zero-value (false, null, 0, etc) then no error happened.
  */
-function module_getonlinexml($module = false) { // was getModuleXml()
+function module_getonlinexml($module = false, $override_xml = false) { // was getModuleXml()
 	global $amp_conf;
 	
 	global $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
@@ -1154,7 +1154,9 @@ function module_getonlinexml($module = false) { // was getModuleXml()
 		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		//echo "the result is ".$matches[1];
-		if (isset($amp_conf["AMPMODULEXML"])) {
+		if ($override_xml) {
+			$fn = $override_xml."modules-".$matches[1].".xml";
+		} elseif (isset($amp_conf["AMPMODULEXML"])) {
 			$fn = $amp_conf["AMPMODULEXML"]."modules-".$matches[1].".xml";
 			// echo "(From amportal.conf)"; //debug
 		} else {
@@ -1558,7 +1560,9 @@ function module_enable($modulename, $force = false) { // was enableModule
                       done: when complete
  * @return  mixed   True if succesful, array of error messages if not succesful
  */
-function module_download($modulename, $force = false, $progress_callback = null) { // was fetchModule 
+
+// was fetchModule 
+function module_download($modulename, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) { 
 	global $amp_conf;
 	
 	// size of download blocks to fread()
@@ -1570,7 +1574,7 @@ function module_download($modulename, $force = false, $progress_callback = null)
 		$progress_callback('getinfo', array('module'=>$modulename));
 	}
 			
-	$res = module_getonlinexml($modulename);
+	$res = module_getonlinexml($modulename, $override_xml);
 	if ($res == null) {
 		return array(_("Module not found in repository"));
 	}
@@ -1614,12 +1618,12 @@ function module_download($modulename, $force = false, $progress_callback = null)
 		}
 	}
 	
-	if (isset($amp_conf['AMPMODULESVN'])) {
+	if ($override_svn) {
+		$url = $override_svn.$res['location'];
+	} elseif (isset($amp_conf['AMPMODULESVN'])) {
 		$url = $amp_conf['AMPMODULESVN'].$res['location'];
-		// echo "(From amportal.conf)"; // debug
 	} else {
 		$url = "http://mirror.freepbx.org/modules/".$res['location'];
-		// echo "(From default)"; // debug
 	}
 	
 	if (!($fp = @fopen($filename,"w"))) {
