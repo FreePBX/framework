@@ -918,7 +918,9 @@ $verinfo = $tmpout;
 //  Set the 'engine' to be 'asterisk14' if using asterisk 1.4, otherwise
 //  'asterisk'
 outn("Checking for Asterisk version..");
-if (preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) {
+if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
+    (preg_match('/^Asterisk SVN-(\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches))) {
+
 	if (version_compare($matches[1], "1.2") < 0) {
 		fatal("At least Asterisk 1.2 is required for this version of freePBX");
 	}
