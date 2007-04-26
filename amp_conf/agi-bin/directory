@@ -23,6 +23,9 @@ define("DIRECTORY_FILE", "/etc/asterisk/voicemail.conf");
 // where is voicemail stored?
 define("VOICEMAIL_DIR", "/var/spool/asterisk/voicemail/%s/%d");
 
+// where shold we store logs? (fixes #1912)
+define("LOG_DIR", "/var/log/asterisk/");
+
 // set to 1 to say "zed" instead of "zee"
 define("SAY_ZED",0);
 
@@ -385,7 +388,7 @@ function do_directory($type, &$directory, $dial_context, $say_exten, $operator) 
 
 $agi = new AGI;
 
-if (DEBUG) $logfile = fopen("/tmp/directory.log","w");
+if (DEBUG) $logfile = fopen( LOG_DIR . "directory.log","w");
 
 $vmconf = array();
 $null = null;
