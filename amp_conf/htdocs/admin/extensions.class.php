@@ -440,6 +440,20 @@ class ext_wait extends extension {
 	}
 }
 
+class ext_waitexten extends extension {
+	var $seconds;
+	var $options;
+	
+	function ext_waitexten($seconds = "", $options = "") {
+		$this->seconds = $seconds;
+		$this->options = $options;
+	}
+	
+	function output() {
+		return "WaitExten(".$this->seconds.",".$this->options.")";
+	}
+}
+
 class ext_answer extends extension {
 	function output() {
 		return "Answer";
