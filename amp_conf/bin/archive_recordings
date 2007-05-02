@@ -2,7 +2,7 @@
 <?php
 
 define("AMP_CONF", "/etc/amportal.conf");
-define("PHP_ASMANAGER", "/var/lib/asterisk/bin/php-asmanager.php");
+define("PHP_ASMANAGER", "php-asmanager.php");
 define("MONITOR_DIR", "/var/spool/asterisk/monitor");
 
 function out($text) {
@@ -39,12 +39,42 @@ function showHelp() {
 }
 
 function parse_amportal_conf($filename) {
+	// defaults, if not specified in the file
+	$defaults = array(
+		'AMPDBENGINE' => 'mysql',
+		'AMPDBNAME' => 'asterisk',
+		'AMPENGINE' => 'asterisk',
+		'USECATEGORIES' => true,
+		'ASTETCDIR' => '/etc/asterisk',
+		'ASTMANAGERPORT' => '5038',
+		);
+	// boolean values, will be converted to true/false
+	// "yes", "true", 1 (case-insensitive) will be treated as true, everything else is false
+	$booleans = array('USECATEGORIES');
+
 	$file = file($filename);
-	foreach ($file as $line) {
-		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) { 
-			$conf[ $matches[1] ] = $matches[2];
+	if (is_array($file)) {
+		foreach ($file as $line) {
+			if (preg_match("/^\s*([a-zA-Z0-9_]+)=([a-zA-Z0-9 .&-@=_<>\"\']+)\s*$/",$line,$matches)) {
+				$conf[ $matches[1] ] = $matches[2];
+			}
+		}
+	} else {
+		die("<h1>Missing or unreadable config file ($filename)...cannot continue</h1>");
+	}
+
+	// set defaults
+	foreach ($defaults as $key=>$val) {
+		if (!isset($conf[$key]) || $conf[$key] == '') {
+			$conf[$key] = $val;
 		}
 	}
+
+	// evaluate boolean values
+	foreach ($booleans as $key) {
+		$conf[$key] = isset($conf[$key]) && ($conf[$key] === true || strtolower($conf[$key]) == 'true' || $conf[$key] === 1 || $conf[$key] == '1' || strtolower($conf[$key]) == 'yes');
+	}
+
 	return $conf;
 }
 
@@ -234,12 +264,14 @@ function get_cdr($datetime,$uniqueid,$calltype) {
 
 function check_recording_option($extension) {
 	global $amp_conf;
-	$astman = new AGI_AsteriskManager();
-	if ($res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+	global $astman;
+
+	if ($astman) {
 		return $astman->database_get("RECORD-IN",$extension);
 	} else {
-		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
+		fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);	
 	}
+	
 }
 
 
@@ -315,14 +347,6 @@ if (! @ include("Console/Getopt.php")) {
 }
 out("OK");
 
-// **** Make sure we have php-asmanager.php, and include it
-
-outn("Checking for PHP_ASMANAGER..");
-if (! @ include(PHP_ASMANAGER)) {
-	out("FAILED");
-	fatal("Cannot include ".PHP_ASMANAGER);
-}
-out("OK");
 
 // **** Parse out command-line options
 
@@ -386,16 +410,34 @@ if (count($amp_conf) == 0) {
 }
 out("OK");
 
+// **** Make sure we have php-asmanager.php, and include it
+
+outn("Checking for PHP_ASMANAGER..");
+$myfile = $amp_conf['AMPWEBROOT'] . "/admin/common/" .  PHP_ASMANAGER ;
+if (! @ include( $myfile  ) ) {
+	out("FAILED");
+	fatal("Cannot include $myfile");
+}
+out("OK");
+
+// **** now make the global manager connection
+$astman = new AGI_AsteriskManager();
+$res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"] );
+if (!res) {
+	fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
+}
+
 
 // **** Connect to database
-
 outn("Connecting to database..");
 
+
+// note, sqlite3 not supported yet!
 $db_user = $amp_conf["AMPDBUSER"];
 $db_pass = $amp_conf["AMPDBPASS"];
-$db_host = 'localhost';
+$db_host = $amp_conf["AMPDBHOST"];
+$db_engine = $amp_conf["AMPDBENGINE"];
 $db_name = 'asteriskcdrdb';
-$db_engine = 'mysql';
 
 $datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
 
