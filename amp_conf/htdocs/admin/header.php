@@ -84,6 +84,7 @@ if (!$quietmode) {
 	<title><?php  echo _($title) ?></title>
 	<meta http-equiv="Content-Type" content="text/html">
 	<link href="common/mainstyle.css" rel="stylesheet" type="text/css">
+	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="favicon.ico" >
 	<!--[if IE]>
 	<link href="common/ie.css" rel="stylesheet" type="text/css">
 	<![endif]-->	
