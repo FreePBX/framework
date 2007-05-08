@@ -92,7 +92,7 @@ unless ($result) {
 	exit;
 }
 
-open( EXTEN, ">$zap_conf" ) or die "Cannot create/overwrite extensions file: $zap_conf (!$)\n";
+open( EXTEN, ">$zap_conf" ) or die "Cannot create/overwrite extensions file: $zap_conf ($!)\n";
 print EXTEN $warning_banner;
 
 $additional = "";

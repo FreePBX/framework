@@ -63,7 +63,7 @@ sub parse_zapata{
 
 	$zaplabel="Zap \%c";
 	$lastlabelnum=0;
-	open ZAPATA, "<$conffile" || die "Cannot open config file: $zapataconf\n";
+	open( ZAPATA, "<$conffile" ) or die "Cannot open config file: $zapataconf ($!)\n";
 	while( $line = <ZAPATA> ) {
 		next if $line =~ /^(\s)*$/;
 		chomp($line);
@@ -198,7 +198,7 @@ elsif ( $db_engine eq "sqlite3" ) {
 	$dbh = DBI->connect("dbi:SQLite:dbname=$db_file","","");
 }
 
-open( EXTEN, ">$op_conf" ) or die "Cannot create/overwrite config file: $op_conf (!$)\n";
+open( EXTEN, ">$op_conf" ) or die "Cannot create/overwrite config file: $op_conf ($!)\n";
 print EXTEN $warning_banner;
 
 #First, populate extensions
