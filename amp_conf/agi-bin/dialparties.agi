@@ -27,8 +27,8 @@ require_once "phpagi-asmanager.php";
 
 $debug = 4;
 
-$ext		= "";		// Hash that will contain our list of extensions to call
-$ext_hunt	= "";		// Hash that will contain our list of extensions to call used by huntgroup
+$ext			= array();		// Hash that will contain our list of extensions to call
+$ext_hunt	= array();		// Hash that will contain our list of extensions to call used by huntgroup
 $cidnum		= "";		// Caller ID Number for this call
 $cidname	= "";		// Caller ID Name for this call
 $timer		= "";		// Call timer for Dial command
