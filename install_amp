@@ -907,6 +907,18 @@ $amp_conf["AMPENGINE"]=$pbx_engine;
 write_amportal_conf(AMP_CONF, $amp_conf);
 
 
+// **** Write asterisk version to ASTETCDIR/version
+
+$tmpoutput = '';
+$tmpout = exec("asterisk -V", $tmpoutput, $exitcode);
+if ($exitcode != 0) {
+	fatal("Error executing asterisk: be sure Asterisk is installed and in the path");
+}
+if (!$fd = fopen($amp_conf['ASTETCDIR'].'/version','w')) {
+	fatal('Cannot open '.$amp_conf['ASTETCDIR'].'/version for writing');
+}
+fwrite($fd, $tmpout);
+fclose($fd);
 // change to read-only
 chmod($amp_conf['ASTETCDIR'].'/version',0444);
 
@@ -1127,6 +1139,16 @@ out("Generating AMP configs..OK");
 outn("Restarting Flash Operator Panel..");
 exec('su - asterisk -c "'.$amp_conf["AMPWEBROOT"].'/admin/bounce_op.sh"');
 out("OK");
+
+$version = install_getversion();
+$filename = $amp_conf["AMPWEBROOT"]."/admin/version.txt";
+if (!$fd = fopen($filename, "w")) {
+	fatal("Could not open ".$filename." for writing");
+}
+fwrite($fd, $version);
+fclose($fd);
+
+
 
 // **** Set reload flag for AMP admin
 install_needreload();
