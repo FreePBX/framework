@@ -1,4 +1,4 @@
-#!/usr/sh
+#!/usr/bin/env bash
 
 if [ "$1" == "-h" ]
 then
