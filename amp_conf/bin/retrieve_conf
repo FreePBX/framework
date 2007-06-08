@@ -454,5 +454,12 @@ exec($script);
 	
 // **** Set reload flag for AMP admin
 needreload();
-out("Please Reload Asterisk by visiting http://".$amp_conf["AMPWEBADDRESS"]."/admin");
+if ($amp_conf["AMPWEBADDRESS"])
+{
+        out("Please update your modules and reload Asterisk by visiting http://".$amp_conf["AMPWEBADDRESS"]."/admin");
+}
+else
+{
+        out("Please update your modules and reload Asterisk by browsing to your server.");
+}
 ?>
