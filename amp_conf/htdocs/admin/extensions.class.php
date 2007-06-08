@@ -653,6 +653,11 @@ class ext_vm extends extension {
 		return "VoiceMail(".$this->data.")";
 	}
 }
+class ext_vmexists extends extension {
+	function output() {
+		return "MailBoxExists(".$this->data.")";
+	}
+}
 class ext_saydigits extends extension {
 	function output() {
 		return "SayDigits(".$this->data.")";
