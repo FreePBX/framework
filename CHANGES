@@ -1,4 +1,67 @@
-2.2 Final
+2.2.2
+- To Get Full Details - look at the SVN logs of changes since the previous
+  release. These are only higlights.
+- WARNING:
+  merge ext-did and ext-did-direct all into ext-did context, and create
+  new context, ext-did-cacthall when creating an ANY/ANY route. The inclusion
+  of ext-did-catchall is in the extensions.conf file so if any customizations
+  have been done, make sure this is included.
+  The purpose of this change allows directdids specified with the extension
+  to properly co-exist with those create with inbound routing. In addition,
+  error checking has been added to keep the same did from being used two places.
+  However, you can use a did on an extension as a directdid, and then included
+  the same did+CID info on inbound routing and that is legal, and will now work
+  properly instead of being ignored as was the case in the past.
+- WARNING:
+  sip.conf file changes that MUST be adopted. The inclusion of sip_registrations.conf
+  and sip_registrations_custom.conf have been added to sip.conf. In the past the
+  registrations were put at the very top of sip_additional.conf which made it really
+  easy to break things if you put a custom sip context into sip_custom.conf.
+- javascript warning when users try to use the 'r' option in the
+  "Asterisk Outbound Dial command options" of the "General" tab.
+- allow the '=' character on the right side of an assignment in the trunk specification
+  section. This was a common error propblem if a secret included an '=' sign, for
+  instance. There are other settings that require '=' there also.
+- fix bug in ringgroups and followme when DND was enabled on the first extension of a
+  ringgoup, the others would not be tried. This behavior is correct if the ring
+  strategy includes the '-prim' postfix but was doing it to all strategies.
+- Added Israel and India Indications to General tab
+- Added MailBoxExists and WaitExten asterisk commands to extensions.class.php to enable
+  some bug fixes requiring those commands forthcoming to the IVR and Voicemail modules.
+
+2.2.1
+- Fix ENUM lookup bug in 2.2.0 - r3546
+- Convert MP3 MOH files to SLN (Asterisk Native) format - r3548
+- module_install() now returns true for already installed modules - r3569
+- Allow null and blank values to be put into astdb - r3576
+- don't propogate dnd behavior and not ring other phones if this was not
+  a prim mode strategy - r3580
+- Apply fix for #1361 (patch #1667), mailbox field not being propogated in in
+  deviceanduser mode. - r3584
+- Fix typo in extensions.conf, when pushing '0' for oper and not having an
+  opereration extension defined, would pass a bad Dial string. - r3585
+- added warning on save of trunk if user context left blank and user details
+  filled in that details will not be saved #1666 - r3631
+- limit rnav width #1647 
+  fixed panel displaying extensions over 9999 as trunks - ticket #1710 
+  List device technology on page when editing Ticket #1711 
+  fixed trunks stripping AMP: which removed ANY occurance of the letters 
+  A,M,P,: from the beginning of all trunks, also unified the display on 
+  the routing page - partially noted in #1713 
+  CFB when dialparties.agi decides not to - offhook, user hits ignore/reject,
+  etc. - patch #1681 - (Backport from trunk) r3643 naftali5
+- now module_admin works even for "broken" modules, running from every 
+  directory  - r3678
+- do not display warnings about password when not using mysql/pgsql - r3679 
+- make the cdr page links a bit nicer - r3689
+- fix typo in sip.conf - r3691
+- keep rtone from being set in queues_additional.conf #1635 - r3697
+- fix queues retrieve conf bug part of #1659 - r3744
+
+2.2
+- IMPORTANT CHANGE - Asterisk 'transfer' featurecode is now defaulted to '##', rather than '#'. 
+  This was changed to avoid issues with sending a '#' to an externally called party. Note
+  that this is a SIGNIFICANT CHANGE, and you should be aware of it.
 - Fixed trunk 'locking' (Never Override CallerID) checkbox to work properly. This allows a
   trunk to restrict outbound CallerID settings to those of the trunk or defined in an
   extensions outboundcid settings. WARNING: THIS WILL BREAK 2.2.0rc1 WORKAROUNDS. The logic
