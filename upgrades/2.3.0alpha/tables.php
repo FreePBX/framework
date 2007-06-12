@@ -171,4 +171,10 @@ if (!$nrows) {
 	out("Already exists!");
 }
 
+outn("Alter tables sip, iax, zap to increase field length ..");
+$db->query("ALTER TABLE sip CHANGE data data VARCHAR( 255 ) NOT NULL");
+$db->query("ALTER TABLE iax CHANGE data data VARCHAR( 255 ) NOT NULL");
+$db->query("ALTER TABLE zap CHANGE data data VARCHAR( 255 ) NOT NULL");
+out("Altered");
+
 ?>
