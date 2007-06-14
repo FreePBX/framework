@@ -479,11 +479,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			//echo "<a href='config.php?display=modules&amp;type=tool&amp;extdisplay=local'>"._("Terminate Connection to Online Module Repository")."</a><br />\n";
 			//echo "<a href='config.php?display=modules&amp;type=tool&amp;extdisplay=online&amp;refresh=true'>"._("Force Refresh of Local Module Cache")."</a>\n";
 			
-			if (isset($amp_conf['AMPMODULEMSG'])) {
-				$announcements = @ file_get_contents($amp_conf['AMPMODULEMSG']."/version-".getversion().".html");
-			} else {
-				$announcements = @ file_get_contents("http://mirror.freepbx.org/version-".getversion().".html");
-			}
+			// Check for annoucements such as security advisories, required updates, etc.
+			//
+			$announcements = module_get_annoucements();
 			if (isset($announcements) && !empty($announcements)) {
 				echo "<div class='announcements'>$announcements</div>";
 			}

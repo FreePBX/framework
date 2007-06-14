@@ -1139,9 +1139,11 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 	$module_getonlinexml_error = null;
 	
 	//this should be in an upgrade file ... putting here for now.
+	/*
 	sql('CREATE TABLE IF NOT EXISTS module_xml (time INT NOT NULL , data BLOB NOT NULL) TYPE = MYISAM ;');
+	*/
 	
-	$result = sql('SELECT * FROM module_xml','getRow',DB_FETCHMODE_ASSOC);
+	$result = sql('SELECT * FROM module_xml WHERE id = "xml"','getRow',DB_FETCHMODE_ASSOC);
 	$data = $result['data'];
 	
 	// if the epoch in the db is more than 2 hours old, or the xml is less than 100 bytes, then regrab xml
@@ -1169,10 +1171,10 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		
 		if (!empty($data)) {
 			// remove the old xml
-			sql('DELETE FROM module_xml');
+			sql('DELETE FROM module_xml WHERE id = "xml"');
 			// update the db with the new xml
 			$data4sql = addslashes($data);
-			sql('INSERT INTO module_xml (time,data) VALUES ('.time().',"'.$data4sql.'")');
+			sql('INSERT INTO module_xml (id,time,data) VALUES ("xml",'.time().',"'.$data4sql.'")');
 		}
 	}
 	
@@ -2109,6 +2111,167 @@ function _modules_doinclude($filename, $modulename) {
 	}
 }
 	
+
+/* module_get_annoucements()
+
+	Get's any annoucments, security warnings, etc. that may be related to the current freepbx version. Also
+	transmits a uniqueid to help track the number of installations using the online module admin system.
+	The uniqueid used is completely anonymous and not trackable.
+*/
+function module_get_annoucements() {
+	$firstinstall=false;
+	$type=null;
+
+	$sql = "SELECT * FROM module_xml WHERE id = 'installid'";
+	$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
+
+	// if not set so this is a first time install
+	// get a new hash to account for first time install
+	//
+	if (!isset($result['data']) || trim($result['data']) == "") {
+
+		$firstinstall=true;
+		$install_hash = _module_generate_unique_id();
+		$installid = $install_hash['uniqueid'];
+		$type = $install_hash['type'];
+
+		// save the hash so we remeber this is a first time install
+		//
+		$data4sql = addslashes($installid);
+		sql('INSERT INTO module_xml (id,time,data) VALUES ("installid",'.time().',"'.$data4sql.'")');
+		$data4sql = addslashes($type);
+		sql('INSERT INTO module_xml (id,time,data) VALUES ("type",'.time().',"'.$data4sql.'")');
+
+	// Not a first time so save the queried hash and check if there is a type set
+	//
+	} else {
+		$installid=$result['data'];
+		$sql = "SELECT * FROM module_xml WHERE id = 'type'";
+		$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
+
+		if (isset($result['data']) && trim($result['data']) != "") {
+			$type=$result['data'];
+		}
+	}
+
+	// Now we have the id and know if this is a firstime install so we can get the announcement
+	//
+	$options = "?installid=".$installid;
+
+	if (trim($type) != "") {
+		$options .= "&type=".$type;
+	}
+	if ($firstinstall) {
+		$options .= "&firstinstall=yes";
+	}
+
+	$announcement = @ file_get_contents("http://mirror.freepbx.org/version-".getversion().".html".$options);
+	return $announcement;
+}
+
+
+/* Assumes properly formated input, which is ok since
+   this is a private function and error checking is done
+	 through proper regex scanning above
+
+	 Returns: random md5 hash
+ */
+function _module_generate_random_id($type=null, $mac=null) {
+
+	if (trim($mac) == "") {
+		$id['uniqueid'] = md5(mt_rand());
+	} else {
+		// MD5 hash of the MAC so it is not identifiable
+		//
+		$id['uniqueid'] = md5($mac);
+	}
+	$id['type'] = $type;
+
+	return $id;
+}
+
+/* _module_generate_unique_id
+
+	The purpose of this function is to generate a unique id that will try
+	and regenerate the same unique id on a system if called multiple
+	times. The id is unique but is not in any way identifable so that
+	privacy is not compromised.
+
+	Returns:
+
+	Array: ["uniqueid"] => unique_md5_hash
+	       ["type"]     => type_passed_in
+  
+*/
+function _module_generate_unique_id($type=null) {
+
+	// Array of macs that require identification so we know these are not
+	// 'real' systems. Either home setups or test environments
+	//
+	$ids = array('000C29' => 'vmware',
+	             '000569' => 'vmware'
+	            ); 
+	$mac_address = array();
+	$chosen_mac = null;
+
+	// TODO: put proper path in places for ifconfig, try various locations where it may be if
+	//       non-0 return code.
+	//
+	exec('/sbin/ifconfig',$output, $return);
+
+	if ($return != '0') {
+
+		// OK try another path
+		//
+		exec('ifconfig',$output, $return);
+
+		if ($return != '0') {
+			// No seed available so return with random seed
+			echo "got return code of $return\n";
+			return _module_generate_random_id($type);
+		}
+	}
+
+	// parse the output of ifconfig to get list of MACs returned
+	//
+	foreach ($output as $str) {
+		// make sure each line contains a valid MAC and IP address and then
+		//
+		if (preg_match("/([0-9A-Fa-f]{2}(:[0-9A-Fa-f]{2}){5})/", $str, $mac)) {
+			$mac_address[] = strtoupper(preg_replace("/:/","",$mac[0]));
+		}
+	}
+
+	if (trim($type) == "") {
+		foreach ($mac_address as $mac) {
+			$id = substr($mac,0,6);
+
+			// If we care about this id, then choose it and set the type
+			// we only choose the first one we see
+			//
+			if (array_key_exists($id,$ids)) {
+				$chosen_mac = $mac;
+				$type = $ids[$id];
+				break;
+			}
+		}
+	}
+
+	// Now either we have a chosen_mac, we will use the first mac, or if something went wrong
+	// and there is nothing in the array (couldn't find a mac) then we will make it purely random
+	//
+	if ($chosen_mac != "") {
+		//echo "generating with: $chosen_mac\n";
+		return _module_generate_random_id($type, $chosen_mac);
+	} else if (isset($mac_address[0])) {
+		//echo "generating with: ".$mac_address[0]."\n";
+		return _module_generate_random_id($type, $mac_address[0]);
+	} else {
+		//echo "generating randomly\n";
+		return _module_generate_random_id($type);
+	}
+}
+
 
 /*
 function installModule($modname,$modversion) 
