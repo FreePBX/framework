@@ -225,6 +225,34 @@ function download_progress($action, $params) {
 	}
 }
 
+/* enable_option($module_name, $option)
+   This function will return false if the particular option, which is a module xml tag,
+	 is set to 'no'. It also provides for some hardcoded overrides on critical modules to
+	 keep people from editing the xml themselves and then breaking their the system.
+*/
+function enable_option($module_name, $option) {
+	global $modules;
+
+	$enable=true;
+	$override = array('core'      => array('candisable' => 'no',
+	                                       'canuninstall' => 'no',
+					                              ),
+	                  'framework' => array('candisable' => 'no',
+	                                       'canuninstall' => 'no',
+																			  ),
+	                 );
+
+	if (isset($modules[$module_name][$option]) && strtolower(trim($modules[$module_name][$option])) == 'no') {
+		$enable=false;
+	}
+	if (isset($override[$module_name][$option]) && strtolower(trim($override[$module_name][$option])) == 'no') {
+		$enable=false;
+	}
+
+	return $enable;
+}
+
+//--------------------------------------------------------------------------------------------------------
 switch ($extdisplay) {  // process, confirm, or nothing
 	case 'process':
 		echo "<h4>"._("Please wait while module actions are performed")."</h4>\n";
@@ -676,9 +704,11 @@ switch ($extdisplay) {  // process, confirm, or nothing
 							}
 						}
 					}
-					echo '<input type="radio" id="disable_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="disable" /> '.
-						 '<label for="disable_'.prep_id($name).'">'._('Disable').'</label> <br />';
-					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+					if (enable_option($name,'candisable')) {
+						echo '<input type="radio" id="disable_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="disable" /> '.
+						   '<label for="disable_'.prep_id($name).'">'._('Disable').'</label> <br />';
+					}
+					if (!EXTERNAL_PACKAGE_MANAGEMENT && enable_option($name,'canuninstall')) {
 						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
 							 '<label for="uninstall_'.prep_id($name).'">'._('Uninstall').'</label> <br />';
 					}

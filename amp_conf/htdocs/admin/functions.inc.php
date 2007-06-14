@@ -1158,9 +1158,6 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		//echo "the result is ".$matches[1];
 		if ($override_xml) {
 			$fn = $override_xml."modules-".$matches[1].".xml";
-		} elseif (isset($amp_conf["AMPMODULEXML"])) {
-			$fn = $amp_conf["AMPMODULEXML"]."modules-".$matches[1].".xml";
-			// echo "(From amportal.conf)"; //debug
 		} else {
 			$fn = "http://mirror.freepbx.org/modules-".$matches[1].".xml";
 			// echo "(From default)"; //debug
@@ -1622,8 +1619,6 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	
 	if ($override_svn) {
 		$url = $override_svn.$res['location'];
-	} elseif (isset($amp_conf['AMPMODULESVN'])) {
-		$url = $amp_conf['AMPMODULESVN'].$res['location'];
 	} else {
 		$url = "http://mirror.freepbx.org/modules/".$res['location'];
 	}
@@ -2260,7 +2255,11 @@ function _module_generate_unique_id($type=null) {
 	// Now either we have a chosen_mac, we will use the first mac, or if something went wrong
 	// and there is nothing in the array (couldn't find a mac) then we will make it purely random
 	//
-	if ($chosen_mac != "") {
+  if ($type == "vmware") {
+		//vmware machines will have repeated macs so make random
+		//echo "generating randomly\n";
+		return _module_generate_random_id($type);
+	} else if ($chosen_mac != "") {
 		//echo "generating with: $chosen_mac\n";
 		return _module_generate_random_id($type, $chosen_mac);
 	} else if (isset($mac_address[0])) {
@@ -2270,7 +2269,7 @@ function _module_generate_unique_id($type=null) {
 		//echo "generating randomly\n";
 		return _module_generate_random_id($type);
 	}
-}
+} 
 
 
 /*
@@ -2339,13 +2338,9 @@ function module_fetch($name) { // was fetchModule
 			unlink($filename);
 		}
 	}
-	if (isset($amp_conf['AMPMODULESVN'])) {
-		$url = $amp_conf['AMPMODULESVN'].$res['location'];
-		// echo "(From amportal.conf)"; // debug
-	} else {
+
 	$url = "http://mirror.freepbx.org/modules/".$res['location'];
-		// echo "(From default)"; // debug
-	}
+
 	$fp = @fopen($filename,"w");
 	$filedata = file_get_contents($url);
 	fwrite($fp,$filedata);
