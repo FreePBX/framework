@@ -199,6 +199,7 @@ $symlink_dirs['agi-bin'] = (isset($amp_conf['ASTAGIDIR']) ? $amp_conf['ASTAGIDIR
 $symlink_dirs['sounds'] = (isset($amp_conf['ASTVARLIBDIR']) ? $amp_conf['ASTVARLIBDIR'] : '/var/lib/asterisk').'/sounds';
 $symlink_dirs['bin'] = (isset($amp_conf['AMPBIN']) ? $amp_conf['AMPBIN'] : '/var/lib/asterisk/bin');
 $symlink_dirs['etc'] = (isset($amp_conf['ASTETCDIR']) ? $amp_conf['ASTETCDIR'] : '/etc/asterisk');
+$symlink_dirs['images'] = (isset($amp_conf['AMPWEBROOT']) ? addslash($amp_conf['AMPWEBROOT'])."images" : '/var/www/html/admin/images');
 
 switch ($db_engine)
 {
