@@ -138,6 +138,9 @@ if (isset($_COOKIE['lang']) && $_COOKIE['lang']==="he_IL")
 	print_sub_tool( _("Reports")   , "reports.php", $currentFile=='reports.php' );
 	print_sub_tool( _("Panel")     , "panel.php"  , $currentFile=='panel.php' );
 	print_sub_tool( _("Recordings"), "../recordings/index.php"  ,0, NULL, true );
+?>
+	<li class='current'><a href="http://support.freepbx.org" title="FreePBX Support" target="_blank">Help</a></li>
+<?php
 	echo "\t\t</ul>\n";
 
 	$freepbx_alt = _("freePBX");
