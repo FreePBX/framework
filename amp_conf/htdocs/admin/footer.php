@@ -55,7 +55,7 @@ if (isset($_REQUEST['clk_reload'])) {
 		";
 	}
 	
-	if ($astman) {
+	if (isset($astman) && $astman) {
 		//run retrieve script
 		$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf';
 		exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log');
