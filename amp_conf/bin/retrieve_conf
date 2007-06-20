@@ -419,7 +419,7 @@ function symlink_subdirs($moduledir) {
 						if (symlink(addslash($dir).$file, addslash($targetdir).$file)) {
 							freepbx_log('retrieve-conf', 'devel-debug', 'Symlinked '.addslash($dir).$file.' to '.addslash($targetdir).$file);
 						} else {
-							freepbx_log('Cannot symlink '.addslash($dir).$file.' to '.addslash($targetdir).$file.'. Check Permissions?');
+							freepbx_log('retreive-conf', 'devel-debug', 'Cannot symlink '.addslash($dir).$file.' to '.addslash($targetdir).$file.'. Check Permissions?');
 						}
 					}
 				}
