@@ -475,6 +475,79 @@ function install_upgrade($version) {
 	}
 }
 
+/** Set base of core and framework to the main release and make sure enabled
+ *
+ * TODO: CHANGE THIS, SET BASE VERSION BASED ON WHAT IS PACKAGED SINCE SVN INSTALLS WILL BE DIFFERENT
+ */
+function set_base_version() {
+	global $dryrun;
+
+	outn("Checking framework.. ");
+	if (!$dryrun) {
+		out(set_module_version('framework'));
+	} else {
+		out("Dry Run Not Updated");
+	}
+
+	outn("Checking core.. ");
+	if (!$dryrun) {
+		out(set_module_version('core'));
+	} else {
+		out("Dry Run Not Updated");
+	}
+
+}
+
+/** Set the module version number to the packaged version and enable
+ *  module must require not install.php or install.sql script
+ *  this is primarily to package core and framework with freepbx tarballs
+ *
+ */
+function set_module_version($module) {
+	global $db;
+
+	$module_dir = dirname(__FILE__)."/amp_conf/htdocs/admin/modules/";
+	$file_path = $module_dir.$module."/module.xml";
+	if (file_exists($file_path)) {
+		// TODO: this is bad, there are other version tags (depends on) but this
+		//       is equivalnet to what publish.pl does, so it expects this to be
+		//       at the top.
+		//
+		$module_xml = file_get_contents($file_path);
+		if (preg_match('/<version>(.+)<\/version>/', $module_xml, $matches)) {
+			$version = $matches[1];
+		} else {
+			die("ERROR: $file_path found but no verison information");
+		}
+	} else {
+		return  "not packaged, no updating needed";
+	}
+
+	// If we didn't return above, then we found the package as part of the install
+	// tarball and want to update the version info since this might be overwriting
+	// and existing install that has a newever version.
+	//
+	$sql = "SELECT version FROM modules WHERE modulename = '$module'";
+	$result = $db->getCol($sql); 
+	if(DB::IsError($result)) {     
+		die($result->getMessage()); 
+	}
+	$sql = "";
+	if (count($result) == 0) {
+		$sql = "INSERT INTO modules (modulename, version, enabled) VALUES ('$module', '$version', 1)";
+	} else if ($result[0] != $version) {
+		$sql = "UPDATE modules SET version = '$version', enabled = 1 WHERE modulename = '$module'";
+	}
+	if ($sql) {
+		debug($sql);
+		$result = $db->query($sql); 
+		if(DB::IsError($result)) {     
+			die($result->getMessage()); 
+		}
+	}
+	return "updated to $version";
+}
+
 /** Invoke upgrades
  * @param $versions array	The version upgrade scripts to run
  */
@@ -937,7 +1010,7 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
 	if (version_compare($matches[1], "1.2") < 0) {
 		fatal("Asterisk 1.2 or 1.4 is required for this version of freePBX. Detected version is: ".$matches[1]);
 	}
-	if (version_compare($matches[1], "1.4", "gt")) {
+	if (version_compare($matches[1], "1.5", "ge")) {
 		fatal("Asterisk 1.2 or 1.4 is required for this version of freePBX. Detected version is: ".$matches[1]);
 	}
 } elseif (preg_match('/^Asterisk SVN.+/', $verinfo)) {
@@ -1127,6 +1200,20 @@ if (false !== ($pos = array_search($version, $versions))) {
 	out(count($upgrades)." found");
 	
 	run_upgrade($upgrades);
+
+	/* Set the base version of key modules, currenlty core and framework, to the
+	 * Version packaged with this tarball, if any. The expectation is that the
+	 * packaging scripts will make these module version numbers the same as the
+	 * release plus a '.0' which can be incremented for bug fixes delivered through
+	 * the online system between main releases.
+	 *
+	 */
+
+	/*
+	 * COMMENT OUT UNTIL READY
+	set_base_version();
+	*/
+
 } else {
 	out("Current version not found");
 }
