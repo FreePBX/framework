@@ -125,6 +125,8 @@ function showHelp() {
 	out("      Equivalent to running download and install");
 	out("  upgradeall");
 	out("      Downloads and upgrades all modules with pending updates");
+	out("  showannounce");
+	out("      Shows any annoucements that maybe displayed at freepbx.org for this version");
 
 	out("  --help, -h, -?           Show this help");
 }
@@ -494,6 +496,10 @@ if ($force) {
 // fix for ticket:1731
 chdir ( $amp_conf["AMPWEBROOT"] . "/admin/" );
 
+// Get annoucment information to use if needed
+//
+$announcements = module_get_annoucements();
+
 switch ($operation ) {
 	case 'list':
 		showList();
@@ -567,6 +573,15 @@ switch ($operation ) {
 	break;
 	case 'showengine':
 		showEngine();
+	break;
+	case 'showannounce';
+		if (trim($announcements) == "") {
+			echo "No Annoucements Available\n";
+		} else {
+			echo "The following Annoucements are Available:\n";
+			echo $annoucements."\n";
+		}
+
 	break;
 	default:
 	case 'help':
