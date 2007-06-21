@@ -1337,7 +1337,7 @@ function module_checkdepends($modulename) {
 			foreach ($requirements as $value) {
 				switch ($type) {
 					case 'version':
-						if (preg_match('/^(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d(\.\d)*)$/i', $value, $matches)) {
+						if (preg_match('/^(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.[^\.]+)*)$/i', $value, $matches)) {
 							// matches[1] = operator, [2] = version
 							$ver = getversion();
 							$operator = (!empty($matches[1]) ? $matches[1] : 'ge'); // default to >=
@@ -1347,7 +1347,7 @@ function module_checkdepends($modulename) {
 						}
 					break;
 					case 'module':
-						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d(\.\d)*))?$/i', $value, $matches)) {
+						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.[^\.]+)*))?$/i', $value, $matches)) {
 							// matches[1] = modulename, [3]=comparison operator, [4] = version
 							$modules = module_getinfo($matches[1]);
 							if (isset($modules[$matches[1]])) {
@@ -1400,7 +1400,7 @@ function module_checkdepends($modulename) {
 						// we found at least one engine, so mark that we're matching this 
 						$engine_dependency = true;
 						
-						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d(\.\d)*))?$/i', $value, $matches)) {
+						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.[^\.]+)*))?$/i', $value, $matches)) {
 							// matches[1] = engine, [3]=comparison operator, [4] = version
 							$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
 							
