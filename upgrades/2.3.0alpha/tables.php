@@ -171,10 +171,11 @@ if (!$nrows) {
 	out("Already exists!");
 }
 
-outn("Alter tables sip, iax, zap to increase field length.. ");
+outn("Alter tables sip, iax, zap, incoming to increase field length.. ");
 $db->query("ALTER TABLE sip CHANGE data data VARCHAR( 255 ) NOT NULL");
 $db->query("ALTER TABLE iax CHANGE data data VARCHAR( 255 ) NOT NULL");
 $db->query("ALTER TABLE zap CHANGE data data VARCHAR( 255 ) NOT NULL");
+$db->query("ALTER TABLE incoming CHANGE alertinfo alertinfo VARCHAR( 255 ) NULL");
 out("Altered");
 
 // Create module_xml - this was done in the code before, needed to be pulled out

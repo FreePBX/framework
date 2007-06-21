@@ -268,7 +268,7 @@ CREATE TABLE `incoming` (
   `answer` tinyint(1) default NULL,
   `wait` int(2) default NULL,
   `privacyman` tinyint(1) default NULL,
-  `alertinfo` varchar(32) default NULL,
+  `alertinfo` varchar(255) default NULL,
   `channel` varchar(20) default NULL,
   `ringing` varchar(20) default NULL
 ) ;
