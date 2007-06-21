@@ -217,7 +217,7 @@ if (!DB::IsError($confs)) { // no error... Already done
 	if(DB::IsError($results)) {
 	        die($results->getMessage());
 	}
+	out("Altered");
 }
-out("Altered");
 
 ?>

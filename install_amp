@@ -143,6 +143,17 @@ function install_parse_asterisk_conf($filename) {
 			$conf[ $matches[1] ] = $matches[2];
 		}
 	}
+	// Now set defaults if not set (although asterisk should fail if not set but at least
+	// it will get the setup somewhat right
+	//
+	if (!isset($asterisk_conf['astetcdir']))    { $asterisk_conf['astetcdir']    = "/etc/asterisk"; }
+	if (!isset($asterisk_conf['astmoddir']))    { $asterisk_conf['astmoddir']    = "/usr/lib/asterisk/modules"; }
+	if (!isset($asterisk_conf['astvarlibdir'])) { $asterisk_conf['astvarlibdir'] = "/var/lib/asterisk"; }
+	if (!isset($asterisk_conf['astagidir']))    { $asterisk_conf['astagidir']    = "/var/lib/asterisk/agi-bin"; }
+	if (!isset($asterisk_conf['astspooldir']))  { $asterisk_conf['astspooldir']  = "/var/spool/asterisk"; }
+	if (!isset($asterisk_conf['astrundir']))    { $asterisk_conf['astrundir']    = "/var/run/asterisk"; }
+	if (!isset($asterisk_conf['astlogdir']))    { $asterisk_conf['astlogdir']    = "/var/log/asterisk"; }
+
 	return $conf;
 }
 
@@ -517,7 +528,7 @@ function set_module_version($module) {
 		if (preg_match('/<version>(.+)<\/version>/', $module_xml, $matches)) {
 			$version = $matches[1];
 		} else {
-			die("ERROR: $file_path found but no verison information");
+			fatal("ERROR: $file_path found but no verison information");
 		}
 	} else {
 		return  "not packaged, no updating needed";
@@ -544,8 +555,10 @@ function set_module_version($module) {
 		if(DB::IsError($result)) {     
 			die($result->getMessage()); 
 		}
+		return "updated to $version";
+	} else {
+		return "already at $version";
 	}
-	return "updated to $version";
 }
 
 /** Invoke upgrades
@@ -571,9 +584,14 @@ function generate_configs() {
 	global $dryrun;
 	global $debug;
 	
-	out("Generating Configurations.conf..");
+	out("Generating Configurations.conf, (if Asterisk is not running, you will get an error");
+	out("In case of error, start Asterisk and hit the red bar in the GUI to generate the Configuraions.conf files");
 	if (!$dryrun)
 		// added --run-install to make it work like it has been working since retrieve_conf changed to not run module install scripts by default
+
+		//
+		// TODO: Should check if Asterisk is running and/or try to start it.
+		//
 		passthru("su - asterisk -c \"".trim($amp_conf["AMPBIN"])."/retrieve_conf --run-install ".($debug ? ' --debug' : '').'"');
 }
 
@@ -1201,7 +1219,7 @@ if (false !== ($pos = array_search($version, $versions))) {
 	
 	run_upgrade($upgrades);
 
-	/* Set the base version of key modules, currenlty core and framework, to the
+	/* Set the base version of key modules, currently core and framework, to the
 	 * Version packaged with this tarball, if any. The expectation is that the
 	 * packaging scripts will make these module version numbers the same as the
 	 * release plus a '.0' which can be incremented for bug fixes delivered through
@@ -1209,10 +1227,7 @@ if (false !== ($pos = array_search($version, $versions))) {
 	 *
 	 */
 
-	/*
-	 * COMMENT OUT UNTIL READY
 	set_base_version();
-	*/
 
 } else {
 	out("Current version not found");

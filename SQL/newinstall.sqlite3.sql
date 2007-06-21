@@ -308,12 +308,6 @@ CREATE TABLE `module_xml` (
 );
 
 
-/*!40000 ALTER TABLE `modules` DISABLE KEYS */;
---  TABLES `modules` WRITE;
-INSERT INTO `modules` VALUES (1,'core','1.2',1);
---  TABLES;
-/*!40000 ALTER TABLE `modules` ENABLE KEYS */;
-
 --
 -- Table structure for table `queues`
 --
