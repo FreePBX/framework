@@ -1,8 +1,9 @@
 #!/bin/sh
 
-FREEPBX_MODBRANCH=2.2
+FREEPBX_MODBRANCH=2.3
 FREEPBX_MODLIST=" announcement
 asterisk-cli
+asteriskinfo
 backup
 blacklist
 callback
@@ -10,12 +11,14 @@ callforward
 callwaiting
 cidlookup
 conferences
+core
 customerdb
 dictate
 disa
 donotdisturb
 featurecodeadmin
 findmefollow
+framework
 gabcast
 infoservices
 inventorydb
@@ -24,6 +27,7 @@ ivr
 javassh
 logfiles
 manager
+miscapps
 miscdests
 music
 paging
@@ -39,5 +43,4 @@ recordings
 ringgroups
 speeddial
 timeconditions
-voicemail
-zoip"
+voicemail"
