@@ -11,7 +11,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$title = "freePBX administration";
+$title = "FreePBX administration";
 
 $type = isset($_REQUEST['type'])?$_REQUEST['type']:'setup';
 $display = isset($_REQUEST['display'])?$_REQUEST['display']:'';
@@ -186,7 +186,7 @@ if (!$quietmode) {
 	echo "<div class=\"content\">\n";
 
 
-	echo "<noscript><div class=\"attention\">"._("WARNING: Javascript is disabled in your browser. The freePBX administration interface requires Javascript to run properly. Please enable javascript or switch to another  browser that supports it.")."</div></noscript>";
+	echo "<noscript><div class=\"attention\">"._("WARNING: Javascript is disabled in your browser. The FreePBX administration interface requires Javascript to run properly. Please enable javascript or switch to another  browser that supports it.")."</div></noscript>";
 }
 
 
@@ -284,7 +284,7 @@ switch($display) {
 	break;
 	case '':
 		if ($astman) {
-			printf( "<h2>%s</h2>", dgettext("welcome page", "Welcome to freePBX.") );
+			printf( "<h2>%s</h2>", dgettext("welcome page", "Welcome to FreePBX.") );
 
 			$modules_needup = module_getinfo(false, MODULE_STATUS_NEEDUPGRADE);
 			$modules_broken = module_getinfo(false, MODULE_STATUS_BROKEN);
@@ -306,26 +306,26 @@ switch($display) {
 			
 // BETA code - remove later.
 			echo "<div class=\"warning\">";
-			printf( "<p>%s</p>", dgettext("welcome page", "You are running Release Candidate 1 of freePBX. This release is a final test before we make the official 2.2.0 freePBX release. We are unaware of any major bugs in this release, and urge users to report any that they find.") );
+			printf( "<p>%s</p>", dgettext("welcome page", "You are FreePBX 2.3 Beta 1. This release is the first release in prepartation for FreePBX Version 2.3.0.") );
 			
-			printf( "<p>%s</p>"  , dgettext("welcome page", "Currently known bugs are maintained on <a href='http://www.freepbx.org/trac/wiki/2.2Beta'>this TRAC page</a>. If you find a bug, please <a href='http://www.freepbx.org/trac/newticket'>create a bug report</a> (you need to create an account - this is to avoid spammers) and the bug report will immediately appear on the <a href='http://www.freepbx.org/trac/wiki/2.2Beta'>TRAC page</a> so that it can be easily tracked by other users.") );
+			printf( "<p>%s</p>"  , dgettext("welcome page", "Currently known bugs are maintained on <a href='http://www.freepbx.org/trac/wiki/2.3Beta'>this TRAC page</a>. If you find a bug, please <a href='http://www.freepbx.org/trac/newticket'>create a bug report</a> (you need to create an account - this is to avoid spammers) and the bug report will immediately appear on the <a href='http://www.freepbx.org/trac/wiki/2.3Beta'>TRAC page</a> so that it can be easily tracked by other users.") );
 			echo "</div>";
 
-			printf( "<!--[if IE]><p>%s</p><![endif]-->"  , dgettext("welcome page", "Note, presently, Microsoft's Internet Explorer is <b>not</b> a supported web browser, and you must use a standards compliant browser, such as Firefox. There is a link on the <a href='http://www.freepbx.org'>right hand side of freePBX.org</a> that will allow you to download Firefox easily. By using that link, Google will donate US$1 to the freePBX project.") );
+			printf( "<!--[if IE]><p>%s</p><![endif]-->"  , dgettext("welcome page", "Note, presently, Microsoft's Internet Explorer is <b>not</b> a supported web browser, and you must use a standards compliant browser, such as Firefox.") );
 			
 			if ($amp_conf['AMPMGRPASS'] == 'amp111') {
-				printf( "<div class=\"warning\"><p>%s</p></div>", dgettext("welcome text", "Warning: You are running freePBX and ").$amp_conf['AMPENGINE'].dgettext("welcome page", " with the default manager pass. You should consider changing this to something else.")." ".sprintf('(<a href="http://aussievoip.com/wiki/index.php?page=freePBX-ManagerPass" target="_new">%s</a>)', _("Help")) );
+				printf( "<div class=\"warning\"><p>%s</p></div>", dgettext("welcome text", "Warning: You are running FreePBX and ").$amp_conf['AMPENGINE'].dgettext("welcome page", " with the default manager pass. You should consider changing this to something else.")." ".sprintf('(<a href="http://aussievoip.com/wiki/index.php?page=FreePBX-ManagerPass" target="_new">%s</a>)', _("Help")) );
 			}
 			
 			if ( ($amp_conf["AMPDBENGINE"] == "mysql") || ($amp_conf["AMPDBENGINE"] == "pgsql")) {
 				if  ($amp_conf['AMPDBPASS'] == 'amp109') {
-					printf( "<div class=\"warning\"><p>%s</p></div>", dgettext("welcome text", "Warning: You are running freePBX and ").$amp_conf['AMPDBENGINE'].dgettext("welcome page", " with the default password ")." ".sprintf('(<a href="http://aussievoip.com/wiki/index.php?page=freePBX-MysqlPass" target="_new">%s</a>)', _("Help")) );
+					printf( "<div class=\"warning\"><p>%s</p></div>", dgettext("welcome text", "Warning: You are running FreePBX and ").$amp_conf['AMPDBENGINE'].dgettext("welcome page", " with the default password ")." ".sprintf('(<a href="http://aussievoip.com/wiki/index.php?page=FreePBX-MysqlPass" target="_new">%s</a>)', _("Help")) );
 				}
 			}
 
 
 
-			printf( "<p>%s</p>"  , dgettext("welcome page", "If you're new to freePBX, Welcome. Here are some quick instructions to get you started") );
+			printf( "<p>%s</p>"  , dgettext("welcome page", "If you're new to FreePBX, Welcome. Here are some quick instructions to get you started") );
 			
 			echo "<p>";
 			printf( dgettext("welcome page", 
@@ -355,12 +355,12 @@ when the module is installed, to start a Java IRC client." ),
 
 			echo "<p>";
 			printf( dgettext( "welcome page",
-"There is also a community based <a href='%s' target='_new'>freePBX Web Forum</a> where you can post
+"There is also a community based <a href='%s' target='_new'>FreePBX Web Forum</a> where you can post
 questions and search for answers for any problems you may be having."),
 "http://forums.freepbx.org"  );
 			echo "</p>\n";
 
-			print( "<p>" . _("We hope you enjoy using freePBX!") . "</p>\n" );
+			print( "<p>" . _("We hope you enjoy using FreePBX!") . "</p>\n" );
 		} // no manager, no connection to asterisk
 		else {
 			echo "<p><div class='clsError'>\n";
