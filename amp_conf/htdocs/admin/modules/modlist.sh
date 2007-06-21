@@ -11,14 +11,12 @@ callforward
 callwaiting
 cidlookup
 conferences
-core
 customerdb
 dictate
 disa
 donotdisturb
 featurecodeadmin
 findmefollow
-framework
 gabcast
 infoservices
 inventorydb
