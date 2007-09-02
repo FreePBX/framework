@@ -795,6 +795,29 @@
     }
 
    /**
+    * SIPAddHeader
+    *
+    * @param string $header SIP Header
+    * @param string $value SIP Header Value
+    * @return array, see evaluate for return information.
+    */
+    function exec_sipaddheader($header, $value)
+    {
+      return $this->exec('SIPAddHeader', $header.":".$value);
+    }
+
+   /**
+    * Alertinfo
+    *
+    * @param string $value SIP Alertinfo to set
+    * @return array, see evaluate for return information.
+    */
+    function set_alertinfo($value)
+    {
+      return $this->exec_sipaddheader('Alert-Info',$value);
+    }
+
+   /**
     * Do ENUM Lookup.
     *
     * Note: to retrieve the result, use

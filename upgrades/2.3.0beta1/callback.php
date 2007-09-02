@@ -1,4 +1,4 @@
-<?
+<?php
 
 global $asterisk_conf;
 out("Cleaning up leftover callback script that was distributed in core...");

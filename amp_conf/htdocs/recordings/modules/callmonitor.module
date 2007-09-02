@@ -33,8 +33,7 @@ class Callmonitor {
    */
   function navMenu($args) {
 
-    $ret .= "
-      <p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Callmonitor&f=display'>" . _("Call Monitor") . "</a></small></small></p>";
+    $ret .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Callmonitor&f=display'>" . _("Call Monitor") . "</a></small></small></p><br>";
 
     return $ret;
   }
@@ -249,7 +248,7 @@ class Callmonitor {
 
     // ajax page refresh script
     if ($AJAX_PAGE_REFRESH_ENABLE) {
-      $ret .= ajaxRefreshScript($args);
+ //     $ret .= ajaxRefreshScript($args);
     }
 
     // header
@@ -595,7 +594,7 @@ class Callmonitor {
 		      OR dstchannel LIKE 'SIP/" . $_SESSION['ari_user']['extension'] ."-%')";
 
       // allow entries to be viewed with users outbound CID
-      if (isset($_SESSION['ari_user']['outboundCID'])) {
+      if (isset($_SESSION['ari_user']['outboundCID']) && trim($_SESSION['ari_user']['outboundCID']) != '') {
         $searchText .= "OR (src = '" . $_SESSION['ari_user']['outboundCID'] . "'
                         OR dst = '" . $_SESSION['ari_user']['outboundCID'] . "')";
       }

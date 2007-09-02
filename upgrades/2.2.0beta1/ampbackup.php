@@ -1,4 +1,4 @@
-<?
+<?php
 
 global $asterisk_conf;
 out("Cleaning up leftover backup scripts that were distributed in core...");

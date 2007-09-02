@@ -1,0 +1,42 @@
+Build Tools:
+
+This directory contains tools that are used to build and package FreePBX.
+This document will describe the tools available, what they do and how you
+use them.
+
+WARNING: Some of these tools will do direct svn checkin's and should be used
+         with caution. Please review the scripts before doing a publish
+         and make sure they do no need to be updated. At this time they do
+         very little error checking and should evolve to improve over time.
+
+/--------------------------------------------------------------------------------------------
+pack_javascripts.sh, jsmin.rb:
+
+These two scripts are used to package the libfreebx.javascripts.js by taking
+all the javascript libraries that are used under the common directory and
+running them through jsmin.rb, a simple Ruby script that does a reasonable
+job of compressing the scripts.
+
+
+/--------------------------------------------------------------------------------------------
+generate-release.sh
+
+This script automates most of the process of generating the release tarballs and
+associated tags to do a release. It is oulined on the wiki and the key stages
+are listed here (from the wiki):
+
+ * Now run the "generate-release.sh <version-number>" script which will:
+   * package and checking libfreepbx.javascripts.js if needed
+   * generate the md5 hash for the new version and commit it
+   * create a tag from the current branch
+   * svn cp the core and framework modules into ~amp_conf/htdocs/admin/modules of the tag
+   * creates and cd to /usr/src/freepbx-release directory
+   * svn exports the tag to create a normal freepbx-''<version-number>''.tar.gz
+   * uses the modlist.sh list to export all the modules and creates a freepbx-''<version-number>''-withmodules.tar.gz 
+
+/--------------------------------------------------------------------------------------------
+md5-amp_conf.sh
+
+This script is not really used any longer as the functionality is incorporated into
+generate-release.sh. It's purpose is to generate the md5 sum files. It does not checkin
+files to svn.

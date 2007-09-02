@@ -41,8 +41,7 @@ class Voicemail {
     }
 
     if ($logout!='') { 
-      $ret .= "
-        <p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Voicemail&f=display'>" . _("Voicemail") . "</a></small></small></p>";
+      $ret .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Voicemail&f=display'>" . _("Voicemail") . "</a></small></small></p>";
     } 
 
     return $ret;
@@ -273,6 +272,7 @@ class Voicemail {
     // forward options
     if (is_readable($ASTERISK_VOICEMAIL_CONF)) {
       $lines = file($ASTERISK_VOICEMAIL_CONF);
+      $ext_array = array();
       foreach ($lines as $key => $line) {
 
         // get context for forward to mailbox
@@ -285,9 +285,26 @@ class Voicemail {
           list($username,$value) = split('=>',$line);
           $username = trim($username);
           if ($username!=$_SESSION['ari_user']['extension']) {
-            $forward_options .= "<option VALUE='" . $forwardContext . "/" . $username . "'>" . $username;
+            //$ext_array[] = $username . "|" . $forwardContext;
+            list(,$real_name,) = split(",",$value,3);
+            $ext_array[] = $real_name . "|" . $username . "|" . $forwardContext;
           }
         }
+      } //foreach
+      //sort the array
+      sort($ext_array);
+
+      //get the size of the array
+      $array_size = count($ext_array) - 1;
+
+      //loop through the array and build the drop down list
+      foreach ($ext_array as $item)
+      {
+         //split the values apart
+         list($real_name,$username,$context) = explode("|",$item);
+
+         //add it to the drop down
+         $forward_options .= "<option VALUE='" . $context . "/" . $username . "'>" . substr($real_name,0,15) . " <" . $username . ">";
       }
     }
     else {
@@ -421,7 +438,7 @@ class Voicemail {
 
     // ajax page refresh script
     if ($AJAX_PAGE_REFRESH_ENABLE) {
-      $ret .= ajaxRefreshScript($args);
+//      $ret .= ajaxRefreshScript($args);
     }
 
     // header

@@ -13,16 +13,13 @@
 
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 
-$title="freePBX: Call Detail Reports";
+$title="FreePBX: Call Detail Reports";
 $message="Call Detail Reports";
 
-require_once('functions.inc.php');
-
-// get settings
-$amp_conf = parse_amportal_conf("/etc/amportal.conf");
+include 'header.php';
 
 // BUILD an SQL clause for any AMP User restrictions
-session_register('AMP_SQL');
+//session_register('AMP_SQL');
 $low = $_SESSION["AMP_user"]->_extension_low;
 $high = $_SESSION["AMP_user"]->_extension_high;
 if ((!empty($low)) && (!empty($high))) {
@@ -34,15 +31,13 @@ if ((!empty($low)) && (!empty($high))) {
 	$_SESSION["AMP_SQL"] = "";
 }
 
-include 'header_auth.php';
-
 $display=1;
 if (isset($_REQUEST['display'])) {
 	$display=$_REQUEST['display'];
 }
 
 // setup menu 
-$amp_sections = array(
+$menu = array(
 		1=>_("Call Logs"),
 		2=>_("Compare Calls"),
 		3=>_("Monthly Traffic"),
@@ -50,7 +45,7 @@ $amp_sections = array(
 	);
 
 echo "<div id=\"cdr\"><ul id=\"metanav\">";
-foreach ($amp_sections as $key=>$value) {
+foreach ($menu as $key=>$value) {
 	echo "<li class=\"".(($display==$key) ? 'current':'')."\"><a href=\"reports.php?display=".$key."\">".$value."</a></li>";
 }
 echo "</ul></div>";
@@ -58,8 +53,10 @@ echo "</ul></div>";
 // CDR viewer from www.areski.net.  
 // Changes for -- AMP -- commented in:
 // cdr.php, defines.php, call-log.php, call-comp.php, graph_hourdetail.php, graph_statbar.php, graph_pie.php
+
+showview('reports', array('title'=>$title, 'display'=>$display, 'menu' => $menu));
 ?>
 </div>
 
-<iframe width="100%" height="600" frameborder="0" align="top" scrolling="yes" src="cdr/cdr.php?s=<?php echo $display; echo ($display=='1' ? '&posted=1' : '');?>"></iframe>
+<!-- iframe width="100%" height="2000" frameborder="0" align="top" scrolling="auto" src="cdr/cdr.php?s=<?php echo $display; echo ($display=='1' ? '&posted=1' : '');?>"></iframe> -->
 

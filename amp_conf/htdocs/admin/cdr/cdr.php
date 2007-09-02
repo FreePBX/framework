@@ -35,6 +35,7 @@ cdrpage_getpost_ifset(array('s', 't'));
 
 $array = array ("INTRO", "CDR REPORT", "CALLS COMPARE", "MONTHLY TRAFFIC","DAILY LOAD", "CONTACT");
 $s = $s ? $s : 0;
+$t = (isset($t))?$t:null;
 $section="section$s$t";
 
 $racine=$_SERVER['PHP_SELF'];

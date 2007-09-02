@@ -8,14 +8,14 @@
 /**
   * Class for help
   */
-class Help {
+class featurecodes {
 
   /*
    * rank (for prioritizing modules)
    */
   function rank() {
 
-    $rank = 4;
+    $rank = 7;
     return $rank;
   }
 
@@ -33,11 +33,7 @@ class Help {
    */
   function navMenu($args) {
 
-    // put if statement in return string, because do not know $logout until page is built
-    $ret .= "
-      <?php if ($logout !='') { ?>
-        <p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Help&f=display'>" . _("Help") . "</a></small></small></p>
-      <?php } ?>";
+    $ret .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=featurecodes&f=display'>" . _("Feature Codes") . "</a></small></small></p><br>";
 
     return $ret;
   }
@@ -64,11 +60,10 @@ class Help {
     // build page content
     $ret .= checkErrorMessage();
 
-    if ($_SESSION['ari_user']['admin_help']) {
-      $header_text = _("Help");
-    } else {
-      $header_text = sprintf(_("Help for %s (%s)"),$displayname,$extension);
-    }
+	$header_text = _("Feature Codes");
+	if (!$_SESSION['ari_user']['admin_help']) {
+		$header_text .= sprintf(_(" for %s (%s)"), $displayname, $extension);
+	}
 
     // handset feature code header
     $handset_feature_codes_header =
@@ -101,24 +96,23 @@ class Help {
              ORDER BY modulename, keycode
              ";
 
-      $results = $_SESSION['dbh_asterisk']->getAll($sql, DB_FETCHMODE_ASSOC);
-      if(DB::IsError($results)) {
-        $_SESSION['ari_error'] = $results->getMessage();
-      }
-      else {
-        foreach ($results as $item ) {
-
-        $handset_feature_codes_body .= 
-          "<tr>
-             <td class='feature_codes'>
-               " . $item['keycode'] . "
-             </td>
-             <td>
-               " . $item['description'] . "
-             </td>
-           </tr>";
-        }
-      }
+		$results = $_SESSION['dbh_asterisk']->getAll($sql, DB_FETCHMODE_ASSOC);
+		if(DB::IsError($results)) {
+			$_SESSION['ari_error'] = $results->getMessage();
+		}
+		else {
+			foreach ($results as $item ) {
+				$handset_feature_codes_body .= 
+					"<tr>
+					<td class='feature_codes'>
+					" . $item['keycode'] . "
+					</td>
+					<td>
+					" . $item['description'] . "
+					</td>
+					</tr>";
+			}
+		}
     }
     else {
 
@@ -154,6 +148,5 @@ class Help {
   }
 
 }
-
 
 ?>

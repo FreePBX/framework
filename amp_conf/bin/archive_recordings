@@ -60,7 +60,7 @@ function parse_amportal_conf($filename) {
 			}
 		}
 	} else {
-		die("<h1>Missing or unreadable config file ($filename)...cannot continue</h1>");
+		fatal("<h1>Missing or unreadable config file ($filename)...cannot continue</h1>");
 	}
 
 	// set defaults

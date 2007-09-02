@@ -11,38 +11,49 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-// helper function, to draw the upper links
-function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=false )
-{
-	if (!is_file($page))
-		return;
+@header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); 
+@header('Expires: Sat, 01 Jan 2000 00:00:00 GMT'); 
+@header('Cache-Control: post-check=0, pre-check=0',false); 
+@header('Pragma: no-cache'); 
+//session_cache_limiter('public, no-store'); 
 
-	$html = "<li";
-	
-	if ($is_current)
-		$html .= " class=\"current\"";
-		
-	$html .= "><a ";
-	if ($href == NULL)
-		$href .= $page;
-
-	if ($new_window != NULL)
-		$html .= "target=\"_blank\" ";
-
-	$html .= "href=\"$href\">$name</a></li>";
-
-	print("\t\t$html\n");
+/** Loads a view (from the views/ directory) with a number of named parameters created as local variables.
+ * @param  string   The name of the view.
+ * @param  array    The parameters to pass. Note that the key will be turned into a variable name for use by the view.
+ *                  For example, passing array('foo'=>'bar'); will create a variable $foo that can be used by
+ *                  the code in the view.
+ */
+function loadview($viewname, $parameters = false) {
+	ob_start();
+	showview($viewname, $parameters);
+	$contents = ob_get_contents();
+	ob_end_clean();
+	return $contents;
 }
-
-
-// start output buffering
-ob_start();
+/** Outputs the contents of a view.
+ * @param  string   The name of the view.
+ * @param  array    The parameters to pass. Note that the key will be turned into a variable name for use by the view.
+ *                  For example, passing array('foo'=>'bar'); will create a variable $foo that can be used by
+ *                  the code in the view.
+ */
+function showview($viewname, $parameters = false) {
+	if (is_array($parameters)) {
+		extract($parameters);
+	}
+	
+	$viewname = str_replace('..','.',$viewname); // protect against going to subdirectories
+	if (file_exists('views/'.$viewname.'.php')) {
+		include('views/'.$viewname.'.php');
+	}
+}
 
 //get the current file name
 $currentFile = $_SERVER["PHP_SELF"];
-$parts = Explode('/', $currentFile);
+$parts = explode('/', $currentFile);
 //header('Content-type: text/html; charset=utf-8');
 $currentFile = $parts[count($parts) - 1];
+//todo: can this be removed? what is it used for?
+
 
 // Emulate gettext extension functions if gettext is not available
 if (!function_exists('_')) {
@@ -61,154 +72,73 @@ if (!function_exists('dgettext')) {
 	}
 }
 
-
-if (extension_loaded('gettext')) {
-	if (isset($_COOKIE['lang'])) {
-		setlocale(LC_ALL,  $_COOKIE['lang']);
-		putenv("LANGUAGE=".$_COOKIE['lang']);
-	} else {
-		setlocale(LC_ALL,  'en_US');
-	}
-	bindtextdomain('amp','./i18n');
-	bind_textdomain_codeset('amp', 'utf8');
-	textdomain('amp');
-}
-
-if (!$quietmode) {
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<html>
-
-<head>
-	<title><?php  echo _($title) ?></title>
-	<meta http-equiv="Content-Type" content="text/html">
-	<link href="common/mainstyle.css" rel="stylesheet" type="text/css">
-	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="favicon.ico" >
-	<!--[if IE]>
-	<link href="common/ie.css" rel="stylesheet" type="text/css">
-	<![endif]-->	
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-<?php 
-	// check if in the amp configuration the user has set that
-	// he wants to use an alternative style-sheet.
-	// on Xorcom's TS1, it's used when the system is in rescue mode.
-	if (isset($amp_conf["ALTERNATIVE_CSS"]))
-	{
-		if (($amp_conf["ALTERNATIVE_CSS"] == "1") ||
-			($amp_conf["ALTERNATIVE_CSS"] == "yes") ||
-			($amp_conf["ALTERNATIVE_CSS"] == "true"))
-			echo "\t<link href=\"common/mainstyle-alternative.css\" rel=\"stylesheet\" type=\"text/css\">";
-	}
-
-	if (isset($display) && is_file("modules/{$display}/{$display}.css")) {
-		echo "\t<link href=\"modules/{$display}/{$display}.css\" rel=\"stylesheet\" type=\"text/css\">\n";
-	}
-?>
-	
-	<script type="text/javascript" src="common/script.js.php"></script>
-<!--[if IE]>
-    <style type="text/css">div.inyourface a{position:absolute;}</style>
-<![endif]-->
-</head>
-
-<body onload="body_loaded();"  <?
-// Check if it's a RIGHT TO LEFT character set (eg, hebrew, arabic, whatever)
-//$_COOKIE['lang']="he_IL";
-if (isset($_COOKIE['lang']) && $_COOKIE['lang']==="he_IL") 
-	echo "dir=\"rtl\"";
-
-?> >
-<div id="page">
-	<div id="header">
-<?php
-			
-	echo "\t\t<div id=\"version\">";
-	echo sprintf(_("%s %s on %s"), 
-		"<a href=\"index.php\">"._("freePBX")."</a>",
-		getversion(),
-		"<a href=\"http".(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=''?'s':'')."://".$_SERVER['HTTP_HOST']."\">".$_SERVER["SERVER_NAME"]."</a>"
-		 );
-	echo "</div>\n";
-
-	echo "\t\t<ul id=\"metanav\">\n";
-	print_sub_tool( _("Management"), "manage.php" , $currentFile=='manage.php' );
-	print_sub_tool( _("Setup")     , "config.php" , $currentFile=='config.php' && isset($_REQUEST['type']) && ($_REQUEST['type']=='setup' || $_REQUEST['type'] == ""), "config.php?type=setup", false );
-	print_sub_tool( _("Tools")     , "config.php" , $currentFile=='config.php' && isset($_REQUEST['type']) && $_REQUEST['type']=='tool' , "config.php?type=tool", false );
-	print_sub_tool( _("Reports")   , "reports.php", $currentFile=='reports.php' );
-	print_sub_tool( _("Panel")     , "panel.php"  , $currentFile=='panel.php' );
-	print_sub_tool( _("Recordings"), "../recordings/index.php"  ,0, NULL, true );
-?>
-	<li class='current'><a href="http://support.freepbx.org" title="FreePBX Support" target="_blank">Help</a></li>
-<?php
-	echo "\t\t</ul>\n";
-
-	$freepbx_alt = _("freePBX");
-	$freepbx_logo = (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])) ? $amp_conf["AMPADMINLOGO"] : 'freepbx_small.png';
-	echo "\t\t<div id=\"logo\"><a href=\"http://www.freepbx.org\" target=\"_blank\" title=\"".$freepbx_alt."\"><img src=\"images/".$freepbx_logo."\" alt=\"".$freepbx_alt."\" /></a></div>\n";
-
-	echo "\t</div>";
-
-	// need reload bar - hidden by default
-	echo "\n\t\t<div class=\"attention\" id=\"need_reload_block\" style=\"display:none;\"><a href=\"javascript:void(null);\" onclick=\"amp_apply_changes();\" class=\"info\">";
-	echo _("Apply Configuration Changes");
-	echo "<span>".sprintf(_("You have made changes to the configuration that have not yet been applied. When you are ".
-				   "finished making all changes, click on %s to put them into effect."), "<strong>"._("Apply Configuration Changes")."</strong>");
-	echo "</span></a></div>\n\n";
-
-
-	echo "\t<div id=\"message\">";
-
-// TODO: this is ugly, need to code this better!
-//       mixing php + html is bad!
+// setup locale
+function set_language() {
 	if (extension_loaded('gettext')) {
-		if (!isset($_COOKIE['lang'])) {
-			$_COOKIE['lang'] = "en_US";
-		} 
-?>
-&nbsp;&nbsp;&nbsp;<?php echo _("Language:") ?>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<select onchange="javascript:changeLang(this.value)">
-		<option value="en_US" <? echo ($_COOKIE['lang']=="en_US" ? "selected" : "") ?> >English</option>
-		<option value="fr_FR" <? echo ($_COOKIE['lang']=="fr_FR" ? "selected" : "") ?> >Fran&ccedil;ais</option>
-		<option value="de_DE" <? echo ($_COOKIE['lang']=="de_DE" ? "selected" : "") ?> >Deutsch</option>
-		<option value="it_IT" <? echo ($_COOKIE['lang']=="it_IT" ? "selected" : "") ?> >Italiano</option>
-		<option value="es_ES" <? echo ($_COOKIE['lang']=="es_ES" ? "selected" : "") ?> >Espa&ntilde;ol</option>
-		<option value="ru_RU" <? echo ($_COOKIE['lang']=="ru_RU" ? "selected" : "") ?> >Russki</option>
-		<option value="pt_PT" <? echo ($_COOKIE['lang']=="pt_PT" ? "selected" : "") ?> >Portuguese</option>
-		<option value="he_IL" <? echo ($_COOKIE['lang']=="he_IL" ? "selected" : "") ?> >Hebrew</option>
-		</select>
-<?php
-	}
-?>
-
-<script type="text/javascript">
-<!--
-function changeLang(lang) {
-	document.cookie='lang='+lang;
-	window.location.reload();
-}
-//-->
-</script>
-
-<?php
-	if ( isset($_SESSION['AMP_user']) &&  $amp_conf['AUTHTYPE'] != 'none' ) {
-		echo _('Logged in: ').$_SESSION['AMP_user']->username;
-		echo ' (<a href="http'.(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=''?'s':'').'://';
-
-		if (!ereg('MSIE', $_SERVER['HTTP_USER_AGENT'])) {
-			// use other logout for Firefox and other browsers 
-			echo 'logout:logout@';
+		if (isset($_COOKIE['lang'])) {
+			setlocale(LC_ALL,  $_COOKIE['lang']);
+			putenv("LANGUAGE=".$_COOKIE['lang']);
+		} else {
+			setlocale(LC_ALL,  'en_US');
 		}
-
-		$pathLength = strrpos($_SERVER['PHP_SELF'],'/');
-		$logoutPath = ($pathLength === false) ? '' : substr($_SERVER['PHP_SELF'],0,$pathLength);
-
-		echo $_SERVER['HTTP_HOST'].$logoutPath.'/logout.php">Logout</a>)&nbsp;::&nbsp;';
+		bindtextdomain('amp','./i18n');
+		bind_textdomain_codeset('amp', 'utf8');
+		textdomain('amp');
 	}
-	echo _($message);
-?></div>
+}
+set_language();
 
-<?php
-} // End 'quietmode' check
+
+// systems running on sqlite3 (or pgsql) this function is not available
+// instead of changing the whole code, lets hack our own version of this function.
+// according to the documentation found here: http://il2.php.net/mysql_real_escape_string
+// this shold be enough.
+// Fixes ticket: http://freepbx.org/trac/ticket/1963
+if (!function_exists('mysql_real_escape_string')) {
+	function mysql_real_escape_string($str) {
+		$str = str_replace( "\x00", "\\" . "\x00", $str );
+		$str = str_replace( "\x1a", "\\" . "\x1a", $str );
+		$str = str_replace( "\n" , "\\". "\n"    , $str );
+		$str = str_replace( "\r" , "\\". "\r"    , $str );
+		$str = str_replace( "\\" , "\\". "\\"    , $str );
+		$str = str_replace( "'" , "\\". "'"      , $str );
+		$str = str_replace( '"' , "\\". '"'      , $str );
+		return $str;
+	}
+}
+
+// include base functions
+require_once('functions.inc.php');
+require_once('common/php-asmanager.php');
+
+// get settings
+$amp_conf	= parse_amportal_conf("/etc/amportal.conf");
+$asterisk_conf  = parse_asterisk_conf($amp_conf["ASTETCDIR"]."/asterisk.conf");
+$astman		= new AGI_AsteriskManager();
+
+// attempt to connect to asterisk manager proxy
+if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+	// attempt to connect directly to asterisk, if no proxy or if proxy failed
+	if (!$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		// couldn't connect at all
+		unset( $astman );
+	}
+}
+// connect to database
+require_once('common/db_connect.php'); //PEAR must be installed
+
+// default password check
+$nt = notifications::create($db);
+if ($amp_conf['AMPMGRPASS'] == $amp_conf_defaults['AMPMGRPASS'][1]) {
+	$nt->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
+} else {
+	$nt->delete('core', 'AMPMGRPASS');
+}
+
+// always run a session
+@session_start();
+
+// do authentication - header_auth exits if unauthorized
+include('header_auth.php');
+
 ?>

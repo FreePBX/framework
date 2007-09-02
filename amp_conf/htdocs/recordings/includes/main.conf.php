@@ -320,7 +320,11 @@ $ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT = ".wav";
 #   option: 0 - do not show controls
 #           1 - show controls
 #
-$SETTINGS_ALLOW_CALL_RECORDING_SET = 0;
+$SETTINGS_ALLOW_CALL_RECORDING_SET = 1;
+
+
+$SETTINGS_ALLOW_PHONE_SETTINGS = 1;
+
 
 
 ?>

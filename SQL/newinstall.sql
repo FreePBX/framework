@@ -239,6 +239,7 @@ INSERT INTO `globals` VALUES ('VMX_OPTS_DOVM','');
 INSERT INTO `globals` VALUES ('VMX_TIMEOUT','2');
 INSERT INTO `globals` VALUES ('VMX_REPEAT','1');
 INSERT INTO `globals` VALUES ('VMX_LOOPS','1');
+INSERT INTO `globals` VALUES ('TRANSFER_CONTEXT','from-internal-xfer');
 
 -- UNLOCK TABLES;
 /*!40000 ALTER TABLE `globals` ENABLE KEYS */;
@@ -283,7 +284,9 @@ CREATE TABLE `incoming` (
   `alertinfo` varchar(255) default NULL,
   `channel` varchar(20) default NULL,
   `ringing` varchar(20) default NULL,
-  `mohclass` varchar(80) NOT NULL default 'default'
+  `mohclass` varchar(80) NOT NULL default 'default',
+  `description` varchar(80) default NULL,
+	`grppre` varchar (80) default NULL 
 );
 
 --
@@ -313,7 +316,7 @@ CREATE TABLE `modules` (
 -- Dumping data for table `modules`
 --
 
-DROP TABLE IF EXISTS `modules_xml`;
+DROP TABLE IF EXISTS `module_xml`;
 CREATE TABLE `module_xml` (
 	`id` varchar(20) NOT NULL default 'xml',
 	`time` int(11) NOT NULL default '0',
@@ -328,8 +331,8 @@ CREATE TABLE `module_xml` (
 
 DROP TABLE IF EXISTS `queues`;
 CREATE TABLE `queues` (
-  `id` bigint(11) NOT NULL default '-1',
-  `keyword` varchar(20) NOT NULL default '',
+  `id` varchar(45) NOT NULL default '-1',
+  `keyword` varchar(30) NOT NULL default '',
   `data` varchar(150) NOT NULL default '',
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`,`keyword`,`data`)
@@ -419,6 +422,34 @@ CREATE TABLE `zap` (
 --
 -- Dumping data for table `zap`
 --
+
+-- 
+-- Table structure for table `notifications`
+-- 
+
+DROP TABLE IF EXISTS notifications;
+CREATE TABLE notifications (
+  module varchar(24) NOT NULL default '',
+  id varchar(24) NOT NULL default '',
+  `level` int(11) NOT NULL default '0',
+  display_text varchar(255) NOT NULL default '',
+  extended_text blob NOT NULL,
+  link varchar(255) NOT NULL default '',
+  `reset` tinyint(4) NOT NULL default '0',
+	candelete tinyint(4) NOT NULL default '0',
+  `timestamp` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`module`,`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `cronmanager` (
+  `module` varchar(24) NOT NULL default '',
+  `id` varchar(24) NOT NULL default '',
+  `time` varchar(5) default NULL,
+  `freq` int(11) NOT NULL default '0',
+  `lasttime` int(11) NOT NULL default '0',
+  `command` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`module`,`id`)
+);
 
 
 /*!40000 ALTER TABLE `zap` DISABLE KEYS */;

@@ -31,24 +31,16 @@ switch ($db_engine)
 		$db = DB::connect($datasource); // attempt connection
 		break;	
 	
-	case "sqlite3":
-		if (!isset($amp_conf["AMPDBFILE"]))
-			die("You must setup properly AMPDBFILE in /etc/amportal.conf");
-			
-		if (isset($amp_conf["AMPDBFILE"]) == "")
-			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
-
-		require_once('DB/sqlite3.php');
-		$datasource = "sqlite3:///" . $amp_conf["AMPDBFILE"] . "?mode=0666";
-		$db = DB::connect($datasource);
+	case "sqlite":
+		die_freepbx("SQLite2 support is deprecated. Please use sqlite3 only.");
 		break;
 
 	case "sqlite3":
 		if (!isset($amp_conf["AMPDBFILE"]))
-			die("You must setup properly AMPDBFILE in /etc/amportal.conf");
+			die_freepbx("You must setup properly AMPDBFILE in /etc/amportal.conf");
 			
 		if (isset($amp_conf["AMPDBFILE"]) == "")
-			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
+			die_freepbx("AMPDBFILE in /etc/amportal.conf cannot be blank");
 
 		require_once('DB/sqlite3.php');
 		$datasource = "sqlite3:///" . $amp_conf["AMPDBFILE"] . "?mode=0666";
@@ -56,11 +48,22 @@ switch ($db_engine)
 		break;
 
 	default:
-		die( "Unknown SQL engine: [$db_engine]");
+		die_freepbx( "Unknown SQL engine: [$db_engine]");
 }
 
 // if connection failed show error
 // don't worry about this for now, we get to it in the errors section
 if(DB::isError($db)) {
-	die($db->getDebugInfo()); 
+	die_freepbx($db->getDebugInfo()); 
 }
+
+// Now send or delete warning wrt to default passwords:
+//
+$nt = notifications::create($db);
+
+if ($amp_conf['AMPDBPASS'] == $amp_conf_defaults['AMPDBPASS'][1]) {
+	$nt->add_warning('core', 'AMPDBPASS', _("Default SQL Password Used"), _("You are using the default SQL password that is widely known, you should set a secure password"));
+} else {
+	$nt->delete('core', 'AMPDBPASS');
+}
+

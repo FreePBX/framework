@@ -9,24 +9,31 @@
 module_url="https://amportal.svn.sourceforge.net/svnroot/amportal/modules/branches/2.3"
 core_url=${module_url}/core
 framework_url=${module_url}/framework
+dashboard_url=${module_url}/dashboard
+voicemail_url=${module_url}/voicemail
+recordings_url=${module_url}/recordings
+music_url=${module_url}/music
+featurecodeadmin_url=${module_url}/featurecodeadmin
+infoservices_url=${module_url}/infoservices
 
 case "$1" in
 	?*)
 
 ver=$1
 
-# Check to make sure install_amp had the new version added to the install array
-#
-grep "$ver" ../install_amp > /dev/null
-if [ $? -ne 0 ]; then 
-	echo No version $ver detected in the install_amp script, this should be added before building the release; 
-fi
-
 cd ..
+
+# Make sure everything is up-to-date
+svn update
+
+# Now make sure javascript library reflects all the changes
+cd buildtools
+./pack_javascripts.sh
+cd ..
+svn ci --message "Auto checkin packed libfreepbx.javascripts.js as part of build process" amp_conf/htdocs/admin/common/libfreepbx.javascripts.js
 
 # This adds the MD5 Sum for all the relevant files that gets checked in on the next steps below
 #
-svn update
 cd amp_conf
 find agi-bin  astetc  bin htdocs  htdocs_panel  mohmp3  sbin sounds -type f \! -name 'vm_email.inc' \! -name 'defines.php' \! -name 'op_server.cfg' \! -name 'dialparties.agi' \! -name 'manager.conf' \! -name '*.pl' \! -name 'cdr_mysql.conf' \! -name 'voicemail.conf' | xargs md5sum | grep -v .svn > ../upgrades/$ver.md5
 
@@ -57,8 +64,14 @@ svn cp -m "Automatic tag of $ver" $cur https://amportal.svn.sourceforge.net/svnr
 # Now that the tag is made, we want to add core and framework to the tag so that
 # the tag reflects the tarball. Then we will use the tag to generate the releases
 #
-svn cp -m "Automatic packaging of core with $ver" $core_url https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
-svn cp -m "Automatic packaging of framework with $ver" $framework_url https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of core with $ver"             $core_url             https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of framework with $ver"        $framework_url        https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of dashboard with $ver"        $dashboard_url        https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of voicemail with $ver"        $voicemail_url        https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of recordings with $ver"       $recordings_url       https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of music with $ver"            $music_url            https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of featurecodeadmin with $ver" $featurecodeadmin_url https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of infoservices with $ver"     $infoservices_url     https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 
 # Now clear out the release diretory where we will build the tarballs and grab it from the tag to get core and framework
 #

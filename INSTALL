@@ -1,18 +1,18 @@
 ###
-Installing freePBX
+Installing FreePBX
 
 ### 
 Important Warning!
-freePBX _will_ overwrite any exisiting asterisk configurations you may have. This project attempts
+FreePBX _will_ overwrite any exisiting asterisk configurations you may have. This project attempts
 to manage as much of asterisk as it can, and this means lots of automatically generated dialplans.
-Please visit both the Documentation wiki (http://www.aussievoip.com.au/wiki/freePBX) and the Dev
+Please visit both the Documentation wiki (http://www.aussievoip.com.au/wiki/FreePBX) and the Dev
 wiki (http://www.freepbx.org/wiki) for instructions, hints and tips. As a rule of thumb, any 
 existing sip, iax, or extensions files can be copied to the same name with _custom.conf appended,
 and things will continue to work as before.
 
 
 ###
-freePBX has several requirements, including the following packages (names may vary based on distro):
+FreePBX has several requirements, including the following packages (names may vary based on distro):
 
 	libxml2
 	libxml2-devel
@@ -42,8 +42,8 @@ freePBX has several requirements, including the following packages (names may va
 
 	
 ###
-freePBX requires the following changes to php and apache for uploading new MOH files:
-(Note: Thise are reasonably distro specifc. Check http://www.aussievoip.com/wiki/freePBX 
+FreePBX requires the following changes to php and apache for uploading new MOH files:
+(Note: Thise are reasonably distro specifc. Check http://www.aussievoip.com/wiki/FreePBX 
 for more documentation)
 
 
@@ -53,14 +53,14 @@ for more documentation)
 		LimitRequestBody 20000000
 
 ###
-Download the latest freePBX files:
+Download the latest FreePBX files:
 
-	- download the latest freePBX tarball to /usr/src
+	- download the latest FreePBX tarball to /usr/src
 	- tar -zxvf freepbx<version>.tar.gz
 
 ###
 Getting Asterisk and Zaptel from SVN or download the latest Asterisk and Zaptel source archives
-(freePBX uses the v2.0 branch)
+(FreePBX uses the v2.0 branch)
 
 	- cd /usr/src
 	- svn checkout http://svn.digium.com/svn/asterisk/branches/1.2 asterisk-1.2
@@ -125,7 +125,7 @@ Install asterisk-sounds
 	- make install
 	
 ###
-Setting up MySQL for CDR and freePBX web interface
+Setting up MySQL for CDR and FreePBX web interface
 
 	- /usr/bin/mysql_install_db
 	- /etc/init.d/mysqld start (or /etc/init.d/mysql start) 
@@ -155,9 +155,9 @@ Grant access to these two databases you just created
 		mysql> quit
 
 ###
-Run the "install" script to install all the freePBX files:  
+Run the "install" script to install all the FreePBX files:  
 
-	- /usr/src/freePBX/install_amp
+	- /usr/src/FreePBX/install_amp
 	
 ###
 Configure zaptel driver:
@@ -235,7 +235,7 @@ Configure zapata module in asterisk config.
 
 
 	Note: if your configuration is using zap channels as FXS endpoints, zapata.conf must
-	contain the following line in order to provision these endpoints in freePBX's Extensions admin:
+	contain the following line in order to provision these endpoints in FreePBX's Extensions admin:
 	#include zapata_additional.conf
 
 	Detailed information with regard to Asterisk's configuration files can be found here:
@@ -258,8 +258,8 @@ Chown the PHP session.save_path directory:
 ###
 Amportal Control Script
 
-	FreePBX's amportal control script starts, stops or kills services in the freePBX environment, and sets permissions on directories/files in the
-	freePBX environment:
+	FreePBX's amportal control script starts, stops or kills services in the FreePBX environment, and sets permissions on directories/files in the
+	FreePBX environment:
 
 	[root@pbx root]# amportal
 	

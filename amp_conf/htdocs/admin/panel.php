@@ -13,18 +13,10 @@
 
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 
-$title="freePBX: Flash Operator Panel";
+$title="FreePBX: Flash Operator Panel";
 $message="Flash Operator Panel";
 
-require_once('functions.inc.php');
+include 'header.php';
 
-// get settings
-$amp_conf = parse_amportal_conf("/etc/amportal.conf");
-
-include 'header_auth.php';
+showview('panel', array('title'=>$title, 'deptname' => $_SESSION["AMP_user"]->_deptname));
 ?>
-</div>
-<iframe width="97%" height="600" frameborder="0" align="top" src="../panel/index_amp.php?context=<?php echo $_SESSION["AMP_user"]->_deptname?>"></iframe>
-
-</body>
-</html>

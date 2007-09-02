@@ -354,11 +354,13 @@ class Login {
     global $asterisk_manager_interface;
 
     $ret = '';
-    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $extension/outboundcid\r\n\r\n");
+    $response = $asterisk_manager_interface->Command2("Action: Command\r\nCommand: database get AMPUSER $extension/outboundcid\r\n\r\n");
     if ($response) {
-      $ret = $response;
+    
+		$posLeft  = strpos( $response, "<")+strlen("<");
+		$posRight = strpos( $response, ">", $posLeft);
+		$ret = substr( $response,$posLeft,$posRight-$posLeft);
     }
-
     return $ret;
   }
 

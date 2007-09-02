@@ -1,25 +1,27 @@
 #!/usr/bin/php -q
 <?php
 
+require_once ("libfreepbx.install.php");
+
 # constants
 define("AMP_CONF", "/etc/amportal.conf");
 define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
 define("UPGRADE_DIR", dirname(__FILE__)."/upgrades");
+define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules/");
 
 # semi constants
-$webroot	= "/var/www/html/";
+$webroot	= "/var/www/html";
 $fopwebroot	= "";				// if blank, will use $webroot/panel
-$bin_dir	= "/var/lib/asterisk/bin/";
-$sbin_dir	= "/usr/sbin/";
+$ampsbin_dir = "/usr/local/sbin";	// default if not set
+$bin_dir	= "/var/lib/asterisk/bin";
+$ampbin_dir = $bin_dir;
+$sin_dir	= "/usr/sbin";
 $asterisk_user	= "asteriskuser";
 $asterisk_pass	= "amp109";
 
-// WTF is this?
-$system_config	= ""; 
 
-
-// define versions. latest version must be last
-$versions = array(
+/*
+freepbx versions
 		'1.10.005',
 		'1.10.006',
 		'1.10.007beta1',
@@ -58,9 +60,9 @@ $versions = array(
 		'2.2.0',
 		'2.2.1',
 		'2.2.2',
-		'2.3.0beta1'
-	);
-
+		'2.2.3',
+		'2.3.0beta1',
+*/
 
 /********************************************************************************************************************/
 
@@ -87,6 +89,12 @@ function debug($text) {
 	if ($debug) echo "[DEBUG-preDB] ".$text."\n";
 }
 
+function version_compare_freepbx($version1, $version2) {
+	$version1 = str_replace("rc","RC", strtolower($version1));
+	$version2 = str_replace("rc","RC", strtolower($version2));
+	return version_compare($version1, $version2);
+}
+
 function showHelp() {
 	out("Optional parameters:");
 	out("  --help, -h, -?           Show this help");
@@ -105,9 +113,13 @@ function showHelp() {
 	out("  --debug                  Enable debug output");
 	out("  --dry-run                Don't actually do anything");
 	out("  --force-version <ver>    Force upgrade from version <ver>");
+	out("  --skip-module-install    Don't run install scripts for packaged modules, the files are still loaded.");
+	out("                           In a development environment you may not want the install scripts run.");
 	out("  --no-files               Just run updates without installing files");
 	out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ");
 	out("                           it's a new installation)");
+	//out("  --make-links-devel       Make links to files in the source directory instead of copying");
+	//out("                           (intended for developers only)");
 	out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct");
 	out("  --engine <name>          Use the specified PBX Engine ('asterisk', 'asterisk14' or 'openpbx')");
 }
@@ -155,28 +167,6 @@ function install_parse_asterisk_conf($filename) {
 	if (!isset($asterisk_conf['astlogdir']))    { $asterisk_conf['astlogdir']    = "/var/log/asterisk"; }
 
 	return $conf;
-}
-
-//get the version number
-function install_getversion() {
-	global $db;
-	$sql = "SELECT value FROM admin WHERE variable = 'version'";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-		return false;
-	}
-	return $results[0][0];
-}
-
-//set the version number
-function setversion($version) {
-	global $db;
-	$sql = "UPDATE admin SET value = '".$version."' WHERE variable = 'version'";
-	debug($sql);
-	$result = $db->query($sql); 
-	if(DB::IsError($result)) {     
-		die($result->getMessage()); 
-	}
 }
 
 function write_amportal_conf($filename, $conf) {
@@ -258,325 +248,6 @@ function ask_overwrite($file1, $file2) {
 	} while(1);
 }
 
-function checkDiff($file1, $file2) {
-	// diff, ignore whitespace and be quiet
-	exec("diff -wq ".escapeshellarg($file2)." ".escapeshellarg($file1), $output, $retVal);
-	return ($retVal != 0);
-}
-
-function amp_mkdir($directory, $mode = "0755", $recursive = false) {
-	debug("mkdir ".$directory.", ".$mode);
-	$ntmp = sscanf($mode,"%o",$modenum); //assumes all inputs are octal
-	if (version_compare(phpversion(), 5.0) < 0) {
-		// php <5 can't recursively create directories
-		if ($recursive) {
-			$output = false;
-			$return_value = false;
-			exec("mkdir -m ".$mode." -p ".$directory,  $output, $return_value);
-			return ($return_value == 0);
-		} else {
-			return mkdir($directory, $modenum);
-		}
-	} else {
-		return mkdir($directory, $modenum, $recursive);
-	}
-}
-
-/** Recursively copy a directory
- */
-function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") {
-	global $dryrun;
-	global $check_md5s;
-	global $amp_conf;
-	global $asterisk_conf;
-	global $install_moh;
-
-	// total # files, # actually copied
-	$num_files = $num_copied = 0;
-	
-	if ($dirsource && ($dirsource[0] != "/")) $dirsource = "/".$dirsource;
-	
-	if (is_dir($dirsourceparent.$dirsource)) $dir_handle = opendir($dirsourceparent.$dirsource);
-	
-	/*
-	echo "dirsourceparent: "; var_dump($dirsourceparent);
-	echo "dirsource: "; var_dump($dirsource);
-	echo "dirdest: "; var_dump($dirdest);
-	*/
-	
-	while (isset($dir_handle) && ($file = readdir($dir_handle))) {
-		if (($file!=".") && ($file!="..") && ($file != "CVS") && ($file != ".svn")) {
-			$source = $dirsourceparent.$dirsource."/".$file;
-			$destination =  $dirdest.$dirsource."/".$file;
-			
-			if ($dirsource == "" && $file == "mohmp3" && !$install_moh) {
-				// skip to the next dir
-				continue;
-			}
-
-			
-			// configurable in amportal.conf
-			if (strpos($destination,"htdocs_panel")) {
-				$destination=str_replace("/htdocs_panel",trim($amp_conf["FOPWEBROOT"]),$destination);
-			} else {
-				$destination=str_replace("/htdocs",trim($amp_conf["AMPWEBROOT"]),$destination);
-			}
-			$destination=str_replace("/htdocs_panel",trim($amp_conf["FOPWEBROOT"]),$destination);
-//			$destination=str_replace("/cgi-bin",trim($amp_conf["AMPCGIBIN"]),$destination);
-			if(strpos($dirsource, 'modules') === false) $destination=str_replace("/bin",trim($amp_conf["AMPBIN"]),$destination);
-			$destination=str_replace("/sbin",trim($amp_conf["AMPSBIN"]),$destination);
-			
-			// the following are configurable in asterisk.conf
-			$destination=str_replace("/astetc",trim($asterisk_conf["astetcdir"]),$destination);
-			$destination=str_replace("/mohmp3",trim($asterisk_conf["astvarlibdir"])."/mohmp3",$destination);
-			$destination=str_replace("/astvarlib",trim($asterisk_conf["astvarlibdir"]),$destination);
-			if(strpos($dirsource, 'modules') === false) $destination=str_replace("/agi-bin",trim($asterisk_conf["astagidir"]),$destination);
-			if(strpos($dirsource, 'modules') === false) $destination=str_replace("/sounds",trim($asterisk_conf["astvarlibdir"])."/sounds",$destination);
-
-			// if this is a directory, ensure destination exists
-			if (is_dir($source)) {
-				if (!file_exists($destination)) {
-					if ((!$dryrun) && ($destination != "")) {
-						amp_mkdir($destination, "0750", true);
-					}
-				}
-			}
-			
-			//var_dump($md5sums);
-			if (!is_dir($source)) {
-				$md5_source = preg_replace("|^/?amp_conf/|", "/", $source);
-
-				if ($check_md5s && file_exists($destination) && isset($md5sums[$md5_source]) && (md5_file($destination) != $md5sums[$md5_source])) {
-					// double check using diff utility (and ignoring whitespace)
-					// This is a somewhat edge case (eg, the file doesn't match
-					// it's md5 sum from the previous version, but no substantial
-					// changes exist compared to the current version), but it 
-					// pervents a useless prompt to the user.
-					if (checkDiff($source, $destination)) {
-						$overwrite = ask_overwrite($source, $destination);
-					} else {
-						debug("NOTE: MD5 for ".$destination." was different, but `diff` did not detect any (non-whitespace) changes: overwriting");
-						$overwrite = true;
-					}
-				} else {
-					$overwrite = true;
-				}
-				
-				$num_files++;
-				if ($overwrite) {
-					debug("copy ".$source." -> ".$destination);
-					if (!$dryrun) {
-						copy($source, $destination);
-						$num_copied++;
-					}
-				} else {
-					debug("not overwriting ".$destination);
-				}
-			} else {
-				//echo "recursive_copy($dirsourceparent, $dirdest, $md5sums, $dirsource/$file)";
-				list($tmp_num_files, $tmp_num_copied) = recursive_copy($dirsourceparent, $dirdest, $md5sums, $dirsource."/".$file);
-				$num_files += $tmp_num_files;
-				$num_copied += $tmp_num_copied;
-			}
-		}
-	}
-	
-	if (isset($dir_handle)) closedir($dir_handle);
-	
-	return array($num_files, $num_copied);
-}
-
-function read_md5_file($filename) {
-	$md5 = array();
-	if (file_exists($filename)) {
-		foreach (file($filename) as $line) {
-			if (preg_match("/^([a-f0-9]{32})\s+(.*)$/", $line, $matches)) {
-				$md5[ "/".$matches[2] ] = $matches[1];
-			}
-		}
-	}
-	return $md5;
-}
-
-/** Include a .php file
- * This is a function just to keep a seperate context
- */
-function run_included($file) {
-	global $db;
-	global $amp_conf;
-	
-	include($file);
-}
-
-
-function install_sqlupdate( $version, $file )
-{
-	global $db;
-	global $dryrun;
-
-	out("-> Running SQL script ".UPGRADE_DIR."/".$version."/".$file);
-	// run sql script
-	$fd = fopen(UPGRADE_DIR."/".$version."/".$file, "r");
-	$data = "";
-	while (!feof($fd)) {
-		$data .= fread($fd, 1024);
-	}
-	fclose($fd);
-
-	preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER).*);\s*\n/Us", $data, $matches);
-	
-	foreach ($matches[1] as $sql) {
-		debug($sql);
-		if (!$dryrun) {
-			$result = $db->query($sql); 
-			if(DB::IsError($result)) {     
-				fatal($result->getDebugInfo()."\" while running ".$file."\n"); 
-			}
-		}
-	}
-}
-
-/** Install a particular version
- */
-function install_upgrade($version) {
-	global $db;
-	global $dryrun;
-	global $amp_conf;
-	
-	$db_engine = $amp_conf["AMPDBENGINE"];
-	
-	if (is_dir(UPGRADE_DIR."/".$version)) {
-		// sql scripts first
-		$dir = opendir(UPGRADE_DIR."/".$version);
-		while ($file = readdir($dir)) {
-			if (($file[0] != ".") && is_file(UPGRADE_DIR."/".$version."/".$file)) {
-				if ( (strtolower(substr($file,-4)) == ".sqlite") && ($db_engine == "sqlite") ) {
-					install_sqlupdate( $version, $file );
-				}
-				elseif ((strtolower(substr($file,-4)) == ".sql") && 
-						( ($db_engine  == "mysql")  ||  ($db_engine  == "pgsql") || ($db_engine == "sqlite3") ) ) {
-					install_sqlupdate( $version, $file );
-				}
-			}
-		}
-
-                // now non sql scripts
-                $dir = opendir(UPGRADE_DIR."/".$version);
-                while ($file = readdir($dir)) {
-                        if (($file[0] != ".") && is_file(UPGRADE_DIR."/".$version."/".$file)) {
-                                if ((strtolower(substr($file,-4)) == ".sql") || (strtolower(substr($file,-7)) == ".sqlite")) {
-                                        // sql scripts were dealt with first
-                                } else if (strtolower(substr($file,-4)) == ".php") {
-                                        out("-> Running PHP script ".UPGRADE_DIR."/".$version."/".$file);
-                                        if (!$dryrun) {
-                                                run_included(UPGRADE_DIR."/".$version."/".$file);
-                                        }
-
-                                } else if (is_executable(UPGRADE_DIR."/".$version."/".$file)) {
-                                        out("-> Executing ".UPGRADE_DIR."/".$version."/".$file);
-                                        if (!$dryrun) {
-                                                exec(UPGRADE_DIR."/".$version."/".$file);
-                                        }
-                                } else {
-                                        error("-> Don't know what to do with ".UPGRADE_DIR."/".$version."/".$file);
-                                }
-                        }
-                }
-
-	}
-}
-
-/** Set base of core and framework to the main release and make sure enabled
- *
- * TODO: CHANGE THIS, SET BASE VERSION BASED ON WHAT IS PACKAGED SINCE SVN INSTALLS WILL BE DIFFERENT
- */
-function set_base_version() {
-	global $dryrun;
-
-	outn("Checking framework.. ");
-	if (!$dryrun) {
-		out(set_module_version('framework'));
-	} else {
-		out("Dry Run Not Updated");
-	}
-
-	outn("Checking core.. ");
-	if (!$dryrun) {
-		out(set_module_version('core'));
-	} else {
-		out("Dry Run Not Updated");
-	}
-
-}
-
-/** Set the module version number to the packaged version and enable
- *  module must require not install.php or install.sql script
- *  this is primarily to package core and framework with freepbx tarballs
- *
- */
-function set_module_version($module) {
-	global $db;
-
-	$module_dir = dirname(__FILE__)."/amp_conf/htdocs/admin/modules/";
-	$file_path = $module_dir.$module."/module.xml";
-	if (file_exists($file_path)) {
-		// TODO: this is bad, there are other version tags (depends on) but this
-		//       is equivalnet to what publish.pl does, so it expects this to be
-		//       at the top.
-		//
-		$module_xml = file_get_contents($file_path);
-		if (preg_match('/<version>(.+)<\/version>/', $module_xml, $matches)) {
-			$version = $matches[1];
-		} else {
-			fatal("ERROR: $file_path found but no verison information");
-		}
-	} else {
-		return  "not packaged, no updating needed";
-	}
-
-	// If we didn't return above, then we found the package as part of the install
-	// tarball and want to update the version info since this might be overwriting
-	// and existing install that has a newever version.
-	//
-	$sql = "SELECT version FROM modules WHERE modulename = '$module'";
-	$result = $db->getCol($sql); 
-	if(DB::IsError($result)) {     
-		die($result->getMessage()); 
-	}
-	$sql = "";
-	if (count($result) == 0) {
-		$sql = "INSERT INTO modules (modulename, version, enabled) VALUES ('$module', '$version', 1)";
-	} else if ($result[0] != $version) {
-		$sql = "UPDATE modules SET version = '$version', enabled = 1 WHERE modulename = '$module'";
-	}
-	if ($sql) {
-		debug($sql);
-		$result = $db->query($sql); 
-		if(DB::IsError($result)) {     
-			die($result->getMessage()); 
-		}
-		return "updated to $version";
-	} else {
-		return "already at $version";
-	}
-}
-
-/** Invoke upgrades
- * @param $versions array	The version upgrade scripts to run
- */
-function run_upgrade($versions) {
-	global $dryrun;
-	
-	foreach ($versions as $version) {
-		out("Upgrading to ".$version."..");
-		install_upgrade($version);
-		if (!$dryrun) {
-			setversion($version);
-		}
-		out("Upgrading to ".$version."..OK");
-	}
-}
-
 /** Write AMP-generated configuration files
  */
 function generate_configs() {
@@ -611,19 +282,28 @@ function install_needreload() {
 /** Collect AMP settings
  */
 function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $dbname = 'asterisk') {
+	global $webroot;
+	global $fopwebroot;
+	global $ampsbin_dir;
+	global $bin_dir;
+	global $ampbin_dir;
+	global $sbin_dir;
+	global $asterisk_user;
+	global $asterisk_pass;
+
 	out("Creating new $filename");
 	
 	outn("Enter your USERNAME to connect to the '$dbname' database:\n [".($dbuser ? $dbuser : $asterisk_user) . "] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) 
-		$amp_conf["AMPDBUSER"] = ($dbuser ? $dbuser : "asteriskuser");
+		$amp_conf["AMPDBUSER"] = ($dbuser ? $dbuser : $asterisk_user);
 	else 
 		$amp_conf["AMPDBUSER"] = $key;
 	
 	outn("Enter your PASSWORD to connect to the '$dbname' database:\n [".($dbpass ? $dbpass : $asterisk_pass)."] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) 
-		$amp_conf["AMPDBPASS"] = ($dbpass ? $dbpass : $asterisk_pas);
+		$amp_conf["AMPDBPASS"] = ($dbpass ? $dbpass : $asterisk_pass);
 	else 
 		$amp_conf["AMPDBPASS"] = $key;
 	
@@ -663,8 +343,8 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	} while(1);
 	
 	// Really no need to ask, is there.
-	if (is_empty($fopwebroot))
-		$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"];
+	if (empty($fopwebroot))
+		$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"]."/panel";
 	else
 		$amp_conf["FOPWEBROOT"] = $fopwebroot;
 	
@@ -687,7 +367,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		out("Enter directory in which to store AMP executable scripts:\n [$ampbin_dir] ");
 		$key = trim(fgets(STDIN,1024));
 		if (preg_match('/^$/',$key)) 
-			$amp_conf["AMPBIN"] = $ampbin_di;
+			$amp_conf["AMPBIN"] = $ampbin_dir;
 		else 
 			$amp_conf["AMPBIN"] = rtrim($key,'/');
 
@@ -724,6 +404,123 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	outn(AMP_CONF." written");
 }
 
+/** Set base of packaged modules to the versions packaged in the tarball since they are
+ *  getting overwritten with the tarball from anything that may have been updated online.
+ *
+ */
+function set_base_version() {
+	global $dryrun;
+
+	// read modules list from MODULE_DIR
+	//
+	$included_modules = array();
+	$dir = opendir(MODULE_DIR);
+	while ($file = readdir($dir)) {
+		if ($file[0] != "." && $file[0] != "_" && is_dir(MODULE_DIR."/".$file)) {
+			$included_modules[] = $file;
+		}
+	}
+	closedir($dir);
+
+	foreach ($included_modules as $up_module) {
+		outn("Checking $up_module.. ");
+		if (!$dryrun) {
+			out(set_module_version($up_module));
+		} else {
+			out("Dry Run Not Updated");
+		}
+	}
+}
+
+/** Install all modules packaged with the install. We use the force flag because the
+ *  the assumption is that the dependencies are met and the package is able to have
+ *  the modules installed.
+ */
+function install_modules() {
+	global $dryrun;
+	global $amp_conf;
+
+	// read modules list from MODULE_DIR
+	//
+	$included_modules = array();
+	$dir = opendir(MODULE_DIR);
+	while ($file = readdir($dir)) {
+		if ($file[0] != "." && $file[0] != "_" && is_dir(MODULE_DIR."/".$file)) {
+			$included_modules[] = $file;
+		}
+	}
+	closedir($dir);
+
+	foreach ($included_modules as $up_module) {
+		outn("Checking $up_module.. ");
+		if (!$dryrun) {
+			// special case framework, it should not be installed just enabled.
+			//
+			if ($up_module != 'framework') {
+				system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+				out("installed");
+			} else {
+				system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
+				out("enabled");
+			}
+		} else {
+			out("Dry Run Not Installed");
+		}
+	}
+}
+
+/** Set the module version number to the packaged version and enable
+ *  module must require not install.php or install.sql script
+ *  this is primarily to package core and framework with freepbx tarballs
+ *
+ */
+function set_module_version($module) {
+	global $db;
+
+	$module_dir = MODULE_DIR;
+	$file_path = $module_dir.$module."/module.xml";
+	if (file_exists($file_path)) {
+		// TODO: this is bad, there are other version tags (depends on) but this
+		//       is equivalnet to what publish.pl does, so it expects this to be
+		//       at the top.
+		//
+		$module_xml = file_get_contents($file_path);
+		if (preg_match('/<version>(.+)<\/version>/', $module_xml, $matches)) {
+			$version = $matches[1];
+		} else {
+			fatal("ERROR: $file_path found but no verison information");
+		}
+	} else {
+		return  "not packaged, no updating needed";
+	}
+
+	// If we didn't return above, then we found the package as part of the install
+	// tarball and want to update the version info since this might be overwriting
+	// and existing install that has a newever version.
+	//
+	$sql = "SELECT version FROM modules WHERE modulename = '$module'";
+	$result = $db->getCol($sql); 
+	if(DB::IsError($result)) {     
+		fatal("error accessing version table: ".$result->getMessage()); 
+	}
+	$sql = "";
+	if (count($result) == 0) {
+		$sql = "INSERT INTO modules (modulename, version, enabled) VALUES ('$module', '$version', 1)";
+	} else if ($result[0] != $version) {
+		$sql = "UPDATE modules SET version = '$version', enabled = 1 WHERE modulename = '$module'";
+	}
+	if ($sql) {
+		debug($sql);
+		$result = $db->query($sql); 
+		if(DB::IsError($result)) {     
+			fatal("error writing to version table: ".$result->getMessage()); 
+		}
+		return "updated to $version";
+	} else {
+		return "already at $version";
+	}
+}
+
 /********************************************************************************************************************/
 
 // **** Make sure we have STDIN etc
@@ -756,7 +553,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine=","install-moh");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine=","install-moh","make-links-devel","skip-module-install");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -771,6 +568,8 @@ $install_files = true;
 $override_astvers = false;
 
 $install_moh = false;
+$make_links = false;
+$module_install = true;
 
 //initialize variables to avoid php notices
 $dbhost = null; 
@@ -828,6 +627,12 @@ foreach ($args[0] as $arg) {
 		case "--install-moh":
 			$install_moh = true;
 		break;
+		case "--make-links-devel":
+			$make_links = true;
+		break;
+		case "--skip-module-install":
+			$module_install = false;
+		break;
 		case "--fopwebroot":
 			$fopwebroot = $arg[1];
 			out("Using fop at ".$fopwebroot);
@@ -880,6 +685,14 @@ if ($current_user != "root"){
 }
 out("OK");
 
+
+outn("Checking if Asterisk is running..");
+exec("pidof asterisk", $pid_val, $ret);
+if ($ret) {
+	out("FAILED");
+	fatal($argv[0]."\n\tAsterisk must be running. If this is a first time install, you should start\n\tAsterisk by typing './start_asterisk start'\n\tFor upgrading, you should run 'amportal start'");
+}
+out("running with PID: ".$pid_val[0]."..OK");
 
 // **** Check for amportal.conf, create if necessary
 
@@ -1026,10 +839,10 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
     (preg_match('/^Asterisk SVN-(\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches))) {
 
 	if (version_compare($matches[1], "1.2") < 0) {
-		fatal("Asterisk 1.2 or 1.4 is required for this version of freePBX. Detected version is: ".$matches[1]);
+		fatal("Asterisk 1.2 or 1.4 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
 	if (version_compare($matches[1], "1.5", "ge")) {
-		fatal("Asterisk 1.2 or 1.4 is required for this version of freePBX. Detected version is: ".$matches[1]);
+		fatal("Asterisk 1.2 or 1.4 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
 } elseif (preg_match('/^Asterisk SVN.+/', $verinfo)) {
 	out("FAIL");
@@ -1055,7 +868,7 @@ outn("Checking for selinux..");
 $tmpoutput = '';
 $tmpout = exec("selinuxenabled 2>&1", $tmpoutput, $sereturn);
 if ($sereturn == 0) {
-	fatal("selinux is ENABLED. This is not supported. Please disable selinux before using freePBX");
+	fatal("selinux is ENABLED. This is not supported. Please disable selinux before using FreePBX");
 }
 out("OK");
 
@@ -1156,7 +969,7 @@ if (!isset($version)) {
 
 if ($install_files)
 {
-	outn("Installing new freePBX files..");
+	outn("Installing new FreePBX files..");
 	$check_md5s=true;
 	$md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
 	list($num_files, $num_copied) = recursive_copy("amp_conf", "", $md5sums);
@@ -1169,9 +982,29 @@ if ($install_files)
 debug("Running ".dirname(__FILE__)."/apply_conf.sh");
 outn("Configuring install for your environment..");
 if (!$dryrun) {
-	if (file_exists($amp_conf["AMPSBIN"]."/amportal"))
+	if (file_exists($amp_conf["AMPSBIN"]."/amportal")) {
 		exec("chmod u+x ".$amp_conf["AMPSBIN"]."/amportal");
+		outn("amportal..");
+	} else {
+		outn("no amportal..");
+	}
+	if (file_exists($amp_conf["AMPBIN"]."/freepbx_engine")) {
+		exec("chmod u+x ".$amp_conf["AMPBIN"]."/freepbx_engine");
+		outn("freepbx_engine..");
+	} else {
+		outn("no freepbx_engine..");
+	}
+	out("done");
+	// edit conf file passwords and then
+	// reload manager in asterisk if it is running:
+	//
+	outn("apply username/password changes to conf files..");
 	exec(dirname(__FILE__)."/apply_conf.sh");
+	out("done");
+
+	// reload manager in asterisk if it was running:
+	//
+	system("asterisk -rx 'reload manager'");
 }
 out("OK");
 
@@ -1193,56 +1026,14 @@ if ($install_files)
 	out("OK");
 }
 
-
-// **** Read upgrades/ directory
-
-outn("Checking for upgrades..");
-
-// read it from ugprades/ unless $version has already been defined
-if (!isset($versions)) {
-	$versions = array();
-	$dir = opendir(UPGRADE_DIR);
-	while ($file = readdir($dir)) {
-		if (($file[0] != ".") && is_dir(UPGRADE_DIR."/".$file)) {
-			$versions[] = $file;
-		}
-	}
-	closedir($dir);
-
-	// callback to use php's version_compare() to sort	
-	usort($versions, "version_compare");
-}
-
-if (false !== ($pos = array_search($version, $versions))) {
-	$upgrades = array_slice($versions, $pos+1);
-	out(count($upgrades)." found");
-	
-	run_upgrade($upgrades);
-
-	/* Set the base version of key modules, currently core and framework, to the
-	 * Version packaged with this tarball, if any. The expectation is that the
-	 * packaging scripts will make these module version numbers the same as the
-	 * release plus a '.0' which can be incremented for bug fixes delivered through
-	 * the online system between main releases.
-	 *
-	 */
-
-	set_base_version();
-
-} else {
-	out("Current version not found");
-}
-
+// Run through all the upgrade scripts starting at the specified version
+//
+upgrade_all($version);
 
 // **** Generate AMP configs
 out("Generating AMP configs..");
 generate_configs();
 out("Generating AMP configs..OK");
-
-// **** Bounce FOP
-outn("Restarting Flash Operator Panel..");
-exec('su - asterisk -c "'.$amp_conf["AMPWEBROOT"].'/admin/bounce_op.sh"');
-out("OK");
 
 $version = install_getversion();
 $filename = $amp_conf["AMPWEBROOT"]."/admin/version.txt";
@@ -1252,6 +1043,20 @@ if (!$fd = fopen($filename, "w")) {
 fwrite($fd, $version);
 fclose($fd);
 
+// **** Bounce FOP
+outn("Restarting Flash Operator Panel..");
+exec('su - asterisk -c "'.$amp_conf["AMPBIN"].'/bounce_op.sh"');
+out("OK");
+
+
+// Now force an install for all modules that are packaged with the tarball
+// directory.
+//
+if ($module_install) {
+	install_modules();
+} else {
+	out("bypassing packaged module installation because --skip-module-install flag");
+}
 
 
 // **** Set reload flag for AMP admin

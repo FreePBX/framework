@@ -284,7 +284,7 @@ foreach my $pcontext ( @ampusers ) {
 #	#	next if ($account eq "");
 		$btn=get_next_btn($extenpos,$btn);
 		$icon='4';
-		print EXTEN "[$dial]\nPosition=$btn\nLabel=\"$id : $description\"\nExtension=$id\nContext=from-internal\nIcon=$icon\nVoicemail_Context=device\nVoiceMailExt=*$id\@from-internal\nPanel_Context=$panelcontext\n";
+		print EXTEN "[$dial]\nPosition=$btn\nLabel=\"$id : $description\"\nExtension=$id\nContext=from-internal\nIcon=$icon\nVoicemail_Context=default\nVoiceMailExt=*$id\@from-internal\nPanel_Context=$panelcontext\n";
 	}
 	
 	
@@ -408,7 +408,7 @@ sub table_exists {
     if (@tables) {
         for (@tables) {
             next unless $_;
-            $_ =~ s/`//g;
+            $_ =~ s/(`.*`\.){0,1}`(.*)`/$2/g;
             return 1 if $_ eq $table
         }
     }
@@ -425,12 +425,13 @@ sub table_exists {
 
 sub by_lastname {
 	$a_var = $a->[0];
-	($a_firstname,$a_lastname)=$a_var=~/^\s*([0-9A-Za-z_.]*)\s+([0-9A-Za-z_.]*).*$/;
-	($b_firstname,$b_lastname)=$b_var=~/^\s*([0-9A-Za-z_.]*)\s+([0-9A-Za-z_.]*).*$/;
+	$b_var = $b->[0];
+	($a_firstname,$a_lastname)=$a_var=~/^\s*([0-9A-Za-z_\-\s.]*)\s+([^0-9][0-9A-Za-z_\-.]*).*$/;
+	($b_firstname,$b_lastname)=$b_var=~/^\s*([0-9A-Za-z_\-\s.]*)\s+([^0-9][0-9A-Za-z_\-.]*).*$/;
 	if (!$a_lastname) {$a_lastname=$a_var;}
 	if (!$b_lastname) {$b_lastname=$b_var;}
 	$sortResult=lc $a_lastname cmp lc $b_lastname;
-	if ($sortResult == 0) 
+	if ($sortResult == 0)
 	{ $sortResult=lc $a_firstname cmp lc $b_firstname }
 	return $sortResult;
 }

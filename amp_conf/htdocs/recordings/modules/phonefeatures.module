@@ -1,0 +1,342 @@
+<?php
+//*****************************************************************************
+class PhoneFeatures {
+//*****************************************************************************
+  function rank() {
+
+    $rank = 4;
+    return $rank;
+  }
+
+//*****************************************************************************
+  function init() {
+  }
+//*****************************************************************************
+  function navMenu($args) {
+
+    global $ARI_NO_LOGIN;
+    global $SETTINGS_ALLOW_PHONE_SETTINGS;
+    global $SETTINGS_ALLOW_CALLFORWARD_SETTINGS;
+
+	// If we're not allowing call forwarding AND PHONE SETTINGS get out of here
+	if (!$SETTINGS_ALLOW_PHONE_SETTINGS && !$SETTINGS_ALLOW_CALLFORWARD_SETTINGS) return "";
+
+      $ret .= "
+        <p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=PhoneFeatures&f=display'>" . _("Phone Features") . "</a></small></small></p>";
+
+    return $ret;
+  }
+//*****************************************************************************
+  function action($args) {
+
+    global $ARI_ADMIN_USERNAME;
+    global $SETTINGS_ALLOW_PHONE_SETTINGS;
+    global $SETTINGS_ALLOW_CALLFORWARD_SETTINGS;
+
+    // args
+    $m = getArgument($args,'m');
+    $a = getArgument($args,'a');
+    $lang_code = getArgument( $args,'lang_code');
+	$exten = $_SESSION['ari_user']['extension'];
+
+	if ($a=='update') {
+
+		if ($SETTINGS_ALLOW_PHONE_SETTINGS) {
+			if ($exten!=$ARI_ADMIN_USERNAME) {
+				$this->storePhoneSetting( $args, $exten, 'call_waiting', 'CW', 'ENABLED');
+				$this->storePhoneSetting( $args, $exten, 'do_not_disturb', 'DND', 'YES');
+			}
+		}
+		
+		if ($SETTINGS_ALLOW_CALLFORWARD_SETTINGS) {
+			if ($exten!=$ARI_ADMIN_USERNAME) {
+				$this->storeCallForwardNumber( $args, $exten, 'call_forward', 'CF');
+				$this->storeCallForwardNumber( $args, $exten, 'call_forward_busy', 'CFB');
+				$this->storeCallForwardNumber( $args, $exten, 'call_forward_unavailable', 'CFU');
+			}
+		}
+	}
+
+    // redirect to see updated page
+	$ret .= "
+	  <head>
+		<script>
+		<!--
+		  window.location = \"" . $_SESSION['ARI_ROOT'] . "?m=" . $m . "\"
+		// -->
+		</script>
+	</head>";
+  
+    return $ret;
+  }
+//*****************************************************************************
+function display($args) {
+	
+	global $STANDALONE;
+	global $ARI_ADMIN_USERNAME;
+	global $SETTINGS_ALLOW_PHONE_SETTINGS;
+    global $SETTINGS_ALLOW_CALLFORWARD_SETTINGS;
+
+    // args
+    $m = getArgument($args,'m');
+    $a = getArgument($args,'a');
+    $lang_code = getArgument( $args,'lang_code');
+	$exten = $_SESSION['ari_user']['extension'];
+	
+	$displayname = $_SESSION['ari_user']['displayname'];
+	$exten = $_SESSION['ari_user']['extension'];
+
+	$display = new DisplaySearch();
+
+	// build controls
+	if ($exten!=$ARI_ADMIN_USERNAME) {
+		
+		if ($SETTINGS_ALLOW_PHONE_SETTINGS) {
+			$dnd_cw_text = "<table class='settings'>";
+			$dnd_cw_text.= "<tr><td><h3>" . _("Phone Features") . "</h3></td></tr>";
+			
+			$dnd_cw_text.=  $this->displayPhoneControls( $exten, 'call_waiting', 'CW', "Call Waiting");
+			$dnd_cw_text.=  $this->displayPhoneControls( $exten, 'do_not_disturb', 'DND', "Do Not Disturb");
+			
+			$dnd_cw_text .= "</table>";
+		}
+		
+		if ($SETTINGS_ALLOW_CALLFORWARD_SETTINGS) {
+		
+			$set_call_forward_text .= "<SCRIPT LANGUAGE='JavaScript'>
+										<!-- Begin
+										function rowCounter(field, maxlimit) {
+											temp = field.value.split('\u000A',maxlimit+1)
+											field.value = temp.join('\u000A')
+											if (temp.length == maxlimit+1) {
+												field.value = field.value.substring(0, field.value.length-1)
+											}
+										}
+										
+										function disable_fields() {
+										
+											if (document.ari_settings.call_forward_enable.checked) {
+												document.ari_settings.call_forward_number.style.backgroundColor = '#FFF';
+												document.ari_settings.call_forward_number.disabled = false;
+											}
+											else {
+												document.ari_settings.call_forward_number.style.backgroundColor = '#DDD';
+												document.ari_settings.call_forward_number.disabled = true;
+											}
+											
+											if (document.ari_settings.call_forward_busy_enable.checked) {
+												document.ari_settings.call_forward_busy_number.style.backgroundColor = '#FFF';
+												document.ari_settings.call_forward_busy_number.disabled = false;
+											}
+											else {
+												document.ari_settings.call_forward_busy_number.style.backgroundColor = '#DDD';
+												document.ari_settings.call_forward_busy_number.disabled = true;
+											}
+											
+											if (document.ari_settings.call_forward_unavailable_enable.checked) {
+												document.ari_settings.call_forward_unavailable_number.style.backgroundColor = '#FFF';
+												document.ari_settings.call_forward_unavailable_number.disabled = false;
+											}
+											else {
+												document.ari_settings.call_forward_unavailable_number.style.backgroundColor = '#DDD';
+												document.ari_settings.call_forward_unavailable_number.disabled = true;
+											}
+										}
+										// End -->
+										</script>";
+		
+			$set_call_forward_text.= "<table class='settings'>";
+			$set_call_forward_text.= "<tr><td><h3>" . _("Call Forwarding") . "</h3></td></tr>";
+			
+			$set_call_forward_text.=  $this->displayCallForwardControls( $exten, 'call_forward', 'CF', "Unconditional:");
+			$set_call_forward_text.=  $this->displayCallForwardControls( $exten, 'call_forward_unavailable', 'CFU', "Unavailable:");
+			$set_call_forward_text.=  $this->displayCallForwardControls( $exten, 'call_forward_busy', 'CFB', "Busy:");
+			
+			$set_call_forward_text .= "</table>";		
+		}
+	}
+		
+	// build page content
+	$ret .= checkErrorMessage();
+	
+	if ($_SESSION['ari_user']['admin_settings']) {
+		$headerText = _("Phone Features");
+	} else {
+		$headerText = sprintf(_("Phone Features for %s (%s)"),$displayname,$exten);
+	}
+	
+	$ret .= $display->displayHeaderText($headerText);
+	$ret .= $display->displayLine();
+	$ret .= "
+	<form class='settings' name='ari_settings' action='' method='GET'>
+	<input type=hidden name=m value=" . $m . ">
+	<input type=hidden name=f value='action'>
+	<input type=hidden name=a value='update'>
+	<br>
+	" . $dnd_cw_text . "
+	<br>
+	" . $set_call_forward_text . "
+	<br>
+	<input name='submit' type='submit' value='" . _("Update") . "'>
+	</form>";
+	
+return $ret;
+}
+//*****************************************************************************
+  function setPhoneSetting( $databaseCallFwdType, $exten, $state_value) {
+
+    global $asterisk_manager_interface;
+
+	$type_opt = ($state_value != "") ? "put":"del";
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt $databaseCallFwdType $exten $state_value\r\n\r\n");
+  }
+
+//*****************************************************************************
+	function getPhoneSetting($exten, $databaseCallFwdType) {
+		
+		global $asterisk_manager_interface;
+		$number = '';
+		
+		$result = false;
+		$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get $databaseCallFwdType $exten\r\n\r\n");
+		if (stristr($response, 'ENABLED')) {
+			$result = true;
+		} 
+		elseif (stristr($response, 'YES')) {
+			$result = true;
+		}
+
+		return $result;
+	}
+//*****************************************************************************
+	function storePhoneSetting( $args, $exten, $settingType, $databaseCallFwdType, $state_value)
+	{
+		$setting_enable  = getArgument( $args, $settingType . '_enable');
+		
+		$this->setPhoneSetting( $databaseCallFwdType, $exten, ($setting_enable == 'checked')?$state_value:"");
+	}
+
+//*****************************************************************************
+	function displayPhoneControls( $exten, $callFwdType, $databaseCallFwdType, $title)
+	{
+
+		$phone_setting_enable = ($this->getPhoneSetting($exten, $databaseCallFwdType)) ? 'checked':'';
+
+		$ret = "\n<tr>";
+		$ret.= "<td>";
+		$ret.= "<label><input " . $phone_setting_enable . " type=checkbox name='" . $callFwdType . "_enable' value='checked' >";
+		$ret.= "<small>" . _($title) . "</small></label>";
+		$ret.= "</td>";
+		$ret.= "</tr>\n";
+		
+		return $ret;
+	}
+//*****************************************************************************
+  /*
+   * Sets Asterisk call forward setting
+   *
+   * @param $exten
+   *   Extension to modify
+   * @param $state
+   *   Call forward enable or disable
+   * @param $call_forward_number
+   *   Call forward number
+   * @param $variable_opt
+   *   Call forward type (CF, CFU, CFB)
+   */
+  function setCallForward($exten,$state,$call_forward_number, $variable_opt = "CF") {
+
+    global $asterisk_manager_interface;
+
+    if ($state) {
+      $type_opt = "put";
+      $value_opt = $call_forward_number;
+    }
+    else {
+      $type_opt = "del";
+    }
+
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt $variable_opt $exten $value_opt\r\n\r\n");
+  }
+
+  /*
+   * Gets call forward number if set
+   *
+   * @param $exten
+   *   Extension to get information about
+   * @return $number
+   *   call forward number returned if set
+   * @param $variable_opt
+   *   Call forward type (CF, CFU, CFB)
+   */
+	function getCallForwardNumber($exten, $variable_opt = "CF") {
+		
+		global $asterisk_manager_interface;
+		
+		$number = '';
+		
+		$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get $variable_opt $exten\r\n\r\n");
+		if (is_numeric($response)) {
+			$number = $response;
+		}
+		
+		$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_call_forward_number']);
+		if ($stripped==$number) {
+			$number = $_COOKIE['ari_call_forward_number'];
+		}
+		
+		return $number;
+	}
+
+
+	function storeCallForwardNumber( $args, $exten, $callFwdType, $databaseCallFwdType)
+	{
+		$call_forward_enable  = getArgument($args, $callFwdType . '_enable');
+		$call_forward_number  = getArgument($args, $callFwdType . '_number');
+	
+		$stripped_call_forward_number = preg_replace('/-|\(|\)|\s/','',$call_forward_number);
+		
+		if ($call_forward_enable && !is_numeric($stripped_call_forward_number)) {
+			$_SESSION['ari_error'] = _("Call forward number not changed") . "<br>" .
+			sprintf(_("Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"), $call_forward_number);
+		}
+		else {
+			$this->setCallForward( $exten, $call_forward_enable, $stripped_call_forward_number, $databaseCallFwdType);
+			
+			// store cookie
+			$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_' . $callFwdType]);
+			if ($call_forward_number && $stripped!=$stripped_call_forward_number) {
+				setcookie('ari_' . $callFwdType, $call_forward_number, time()+365*24*60*60);
+			}
+		}		
+	}
+
+	function displayCallForwardControls( $exten, $callFwdType, $databaseCallFwdType, $title)
+	{
+		$call_forward_number = $this->getCallForwardNumber($exten, $databaseCallFwdType);
+		
+		// If we have a value, we want the item checked
+		if ($call_forward_number) { 
+			$call_forward_enable = 'checked';
+		}
+		else {
+			$call_forward_number = $_COOKIE['ari_' . $callFwdType ];
+			$call_forward_text_box_options = "disabled style='background: #DDD;'";
+		}
+
+		$ret = "\n<tr>";
+		$ret.= "<td>" . _($title) . "</td>";
+		$ret.= "<td>";
+		$ret.= "<input " . $call_forward_text_box_options . " name='" . $callFwdType . "_number' type='text' size=24 value='" . $call_forward_number . "'>";
+		$ret.= "</td>";
+		$ret.= "<td>";
+		$ret.= "<input " . $call_forward_enable . " type=checkbox name='" . $callFwdType . "_enable' value='checked' OnClick=\"disable_fields(); return true;\">";
+		$ret.= "<small>" . _("Enable") . "</small>";
+		$ret.= "</td>";
+		$ret.= "</tr>\n";
+		
+		return $ret;
+	}
+} // class
+?>

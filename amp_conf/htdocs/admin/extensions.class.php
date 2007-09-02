@@ -276,6 +276,16 @@ class extensions {
 		
 		return $output;
 	}
+
+	/** Checks if a value used for a goto is empty
+	 * Basically the same as php's empty() function, except considers 0 to be
+	 * non-empty.
+	 * 
+	 * This function can be called statically
+	 */
+	function gotoEmpty($value) {
+		return ($value === "" || $value === null || $value === false);
+	}
 }
 
 class extension { 
@@ -362,7 +372,7 @@ class ext_goto extends extension {
 	}
 	
 	function output() {
-		return 'Goto('.($this->context ? $this->context.',' : '').($this->ext ? $this->ext.',' : '').$this->pri.')' ;
+		return 'Goto('.(!extensions::gotoEmpty($this->context) ? $this->context.',' : '').(!extensions::gotoEmpty($this->ext) ? $this->ext.',' : '').$this->pri.')' ;
 	}
 }
 
@@ -433,6 +443,46 @@ class ext_setvar {
 	}
 }
 class ext_set extends ext_setvar {} // alias, SetVar was renamed to Set in ast 1.2
+
+class ext_sipaddheader {
+	var $header;
+	var $value;
+	
+	function ext_sipaddheader($header, $value) {
+		$this->header = $header;
+		$this->value = $value;
+	}
+	
+	function output() {
+		return "SIPAddHeader(".$this->header.": ".$this->value.")";
+	}
+}
+
+class ext_sipgetheader {
+	var $header;
+	var $value;
+	
+	function ext_sipgetheader($value, $header) {
+		$this->value = $value;
+		$this->header = $header;
+	}
+	
+	function output() {
+		return "SIPGetHeader(".$this->value."=".$this->header.")";
+	}
+}
+
+class ext_alertinfo {
+	var $value;
+	
+	function ext_alertinfo($value) {
+		$this->value = $value;
+	}
+	
+	function output() {
+		return "SIPAddHeader(Alert-Info: ".$this->value.")";
+	}
+}
 
 class ext_wait extends extension {
 	function output() {
@@ -514,9 +564,9 @@ class ext_queue {
 		// for some reason the Queue cmd takes an empty last param (timeout) as being 0
 		// when really we want unlimited
 		if ($this->timeout != "")
-			return "Queue(".$this->queuename."|".$this->options."|".$this->optionalurl."|".$this->announceoverride."|".$this->timeout.")";
+			return "Queue(".$this->queuename.",".$this->options.",".$this->optionalurl.",".$this->announceoverride.",".$this->timeout.")";
 		else
-			return "Queue(".$this->queuename."|".$this->options."|".$this->optionalurl."|".$this->announceoverride.")";
+			return "Queue(".$this->queuename.",".$this->options.",".$this->optionalurl.",".$this->announceoverride.")";
 	}
 }
 
@@ -610,6 +660,11 @@ class ext_disa extends extension {
 class ext_agi extends extension {
 	function output() {
 		return "AGI(".$this->data.")";
+	}
+}
+class ext_deadagi extends extension {
+	function output() {
+		return "DeadAGI(".$this->data.")";
 	}
 }
 class ext_dbdel extends extension {
@@ -889,7 +944,7 @@ class ext_chanspy extends extension {
 		$this->options = $options;
 	}
 	function output() {
-		return "ChanSpy(".$this->prefix.($this->options?'|'.$this->options:'').")";
+		return "ChanSpy(".$this->prefix.($this->options?','.$this->options:'').")";
 	}
 }
 
@@ -914,7 +969,7 @@ class ext_chanisavail extends extension {
 	}
 	
 	function output() {
-		return 'ChanIsAvail('.$this->chan.'|'.$this->options.')';
+		return 'ChanIsAvail('.$this->chan.','.$this->options.')';
 	}
 }
 

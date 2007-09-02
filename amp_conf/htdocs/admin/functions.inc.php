@@ -20,20 +20,49 @@ define('MODULE_STATUS_ENABLED', 2);
 define('MODULE_STATUS_NEEDUPGRADE', 3);
 define('MODULE_STATUS_BROKEN', -1);
 
-function parse_amportal_conf($filename) {
-	// defaults, if not specified in the file
-	$defaults = array(
-		'AMPDBENGINE' => 'mysql',
-		'AMPDBNAME' => 'asterisk',
-		'AMPENGINE' => 'asterisk',
-		'USECATEGORIES' => true,
-		'ASTETCDIR' => '/etc/asterisk',
-		'ASTMANAGERPORT' => '5038',
-		);
-	// boolean values, will be converted to true/false
-	// "yes", "true", 1 (case-insensitive) will be treated as true, everything else is false
-	$booleans = array('USECATEGORIES');
+$amp_conf_defaults = array(
+	'AMPDBENGINE'    => array('std' , 'mysql'),
+	'AMPDBNAME'      => array('std' , 'asterisk'),
+	'AMPENGINE'      => array('std' , 'asterisk'),
+	'ASTMANAGERPORT' => array('std' , '5038'),
+	'AMPDBHOST'      => array('std' , 'localhost'),
+	'AMPDBUSER'      => array('std' , 'asteriskuser'),
+	'AMPDBPASS'      => array('std' , 'amp109'),
+	'AMPMGRUSER'     => array('std' , 'admin'),
+	'AMPMGRPASS'     => array('std' , 'amp111'),
+	'FOPPASSWORD'    => array('std' , 'passw0rd'),
+	'FOPSORT'        => array('std' , 'extension'),
 
+	'ASTETCDIR'      => array('dir' , '/etc/asterisk'),
+	'ASTMODDIR'      => array('dir' , '/usr/lib/asterisk/modules'),
+	'ASTVARLIBDIR'   => array('dir' , '/var/lib/asterisk'),
+	'ASTAGIDIR'      => array('dir' , '/var/lib/asterisk/agi-bin'),
+	'ASTSPOOLDIR'    => array('dir' , '/var/spool/asterisk/'),
+	'ASTRUNDIR'      => array('dir' , '/var/run/asterisk'),
+	'ASTLOGDIR'      => array('dir' , '/var/log/asterisk'),
+	'AMPBIN'         => array('dir' , '/var/lib/asterisk/bin'),
+	'AMPSBIN'        => array('dir' , '/usr/sbin'),
+	'AMPWEBROOT'     => array('dir' , '/var/www/html'),
+	'FOPWEBROOT'     => array('dir' , '/var/www/html/panel'),
+
+	'USECATEGORIES'  => array('bool' , true),
+	'ENABLECW'       => array('bool' , true),
+	'CWINUSEBUSY'    => array('bool' , true),
+	'FOPRUN'         => array('bool' , true),
+	'AMPBADNUMBER'   => array('bool' , true),
+	'DEVEL'          => array('bool' , false),
+	'DEVELRELOAD'    => array('bool' , false),
+);
+
+function parse_amportal_conf($filename) {
+	global $amp_conf_defaults;
+
+	/* defaults
+	 * This defines defaults and formating to assure consistency across the system so that
+	 * components don't have to keep being 'gun shy' about these variables.
+	 * 
+
+	 */
 	$file = file($filename);
 	if (is_array($file)) {
 		foreach ($file as $line) {
@@ -42,38 +71,428 @@ function parse_amportal_conf($filename) {
 			}
 		}
 	} else {
-		die("<h1>Missing or unreadable config file ($filename)...cannot continue</h1>");
+		die_freepbx("<h1>".sprintf(_("Missing or unreadable config file (%s)...cannot continue"), $filename)."</h1>");
 	}
 	
 	// set defaults
-	foreach ($defaults as $key=>$val) {
-		if (!isset($conf[$key]) || $conf[$key] == '') {
-			$conf[$key] = $val;
+	foreach ($amp_conf_defaults as $key=>$arr) {
+
+		switch ($arr[0]) {
+			// for type dir, make sure there is no trailing '/' to keep consistent everwhere
+			//
+			case 'dir':
+				if (!isset($conf[$key]) || trim($conf[$key]) == '') {
+					$conf[$key] = $arr[1];
+				} else {
+					$conf[$key] = rtrim($conf[$key],'/');
+				}
+				break;
+			// booleans:
+			// "yes", "true", "on", true, 1 (case-insensitive) will be treated as true, everything else is false
+			//
+			case 'bool':
+				if (!isset($conf[$key])) {
+					$conf[$key] = $arr[1];
+				} else {
+					$conf[$key] = ($conf[$key] === true || strtolower($conf[$key]) == 'true' || $conf[$key] === 1 || $conf[$key] == '1' 
+					                                    || strtolower($conf[$key]) == 'yes' ||  strtolower($conf[$key]) == 'on');
+				}
+				break;
+			default:
+				if (!isset($conf[$key])) {
+					$conf[$key] = $arr[1];
+				} else {
+					$conf[$key] = trim($conf[$key]);
+				}
 		}
 	}
 
-	// evaluate boolean values
-	foreach ($booleans as $key) {
-		$conf[$key] = isset($conf[$key]) && ($conf[$key] === true || strtolower($conf[$key]) == 'true' || $conf[$key] === 1 || $conf[$key] == '1' || strtolower($conf[$key]) == 'yes');
-	}
-
 /*			
+  TODO: what was this, should the comment be removed?
+
 	if (($amp_conf["AMPDBENGINE"] == "sqlite") && (!isset($amp_conf["AMPDBENGINE"])))
 		$amp_conf["AMPDBFILE"] = "/var/lib/freepbx/freepbx.sqlite";
 */
-	
+
 	return $conf;
 }
 
 function parse_asterisk_conf($filename) {
+	//TODO: Should the correction of $amp_conf be passed by refernce and optional?
+	//
+	global $amp_conf;
+		
+	$convert = array(
+		'astetcdir'    => 'ASTETCDIR',
+		'astmoddir'    => 'ASTMODDIR',
+		'astvarlibdir' => 'ASTVARLIBDIR',
+		'astagidir'    => 'ASTAGIDIR',
+		'astspooldir'  => 'ASTSPOOLDIR',
+		'astrundir'    => 'ASTRUNDIR',
+		'astlogdir'    => 'ASTLOGDIR'
+	);
+
 	$file = file($filename);
 	foreach ($file as $line) {
 		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
-			$conf[ $matches[1] ] = $matches[2];
+			$conf[ $matches[1] ] = rtrim($matches[2],'/');
+		}
+	}
+
+	// Now that we parsed asterisk.conf, we need to make sure $amp_conf is consistent
+	// so just set it to what we found, since this is what asterisk will use anyhow.
+	//
+	foreach ($convert as $ast_conf_key => $amp_conf_key) {
+		if (isset($conf[$ast_conf_key])) {
+			$amp_conf[$amp_conf_key] = $conf[$ast_conf_key];
 		}
 	}
 	return $conf;
 }
+
+
+define("NOTIFICATION_TYPE_CRITICAL", 100);
+define("NOTIFICATION_TYPE_SECURITY", 200);
+define("NOTIFICATION_TYPE_UPDATE",  300);
+define("NOTIFICATION_TYPE_ERROR",    400);
+define("NOTIFICATION_TYPE_WARNING" , 500);
+define("NOTIFICATION_TYPE_NOTICE",   600);
+
+class notifications {
+
+	var $not_loaded = true;
+	var $notification_table = array();
+	var $_db;
+		
+	function &create(&$db) {
+		static $obj;
+		if (!isset($obj)) {
+			$obj = new notifications($db);
+		}
+		return $obj;
+	}
+
+	function notifications(&$db) {
+		$this->_db =& $db;
+	}
+
+
+	function add_critical($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
+		$this->_add_type(NOTIFICATION_TYPE_CRITICAL, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+	}
+	function add_security($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
+		$this->_add_type(NOTIFICATION_TYPE_SECURITY, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+	}
+	function add_update($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
+		$this->_add_type(NOTIFICATION_TYPE_UPDATE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+	}
+	function add_error($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
+		$this->_add_type(NOTIFICATION_TYPE_ERROR, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+	}
+	function add_warning($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
+		$this->_add_type(NOTIFICATION_TYPE_WARNING, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+	}
+	function add_notice($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=true) {
+		$this->_add_type(NOTIFICATION_TYPE_NOTICE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+	}
+
+
+	function list_critical($show_reset=false) {
+		return $this->_list(NOTIFICATION_TYPE_CRITICAL, $show_reset);
+	}
+	function list_security($show_reset=false) {
+		return $this->_list(NOTIFICATION_TYPE_SECURITY, $show_reset);
+	}
+	function list_update($show_reset=false) {
+		return $this->_list(NOTIFICATION_TYPE_UPDATE, $show_reset);
+	}
+	function list_error($show_reset=false) {
+		return $this->_list(NOTIFICATION_TYPE_ERROR, $show_reset);
+	}
+	function list_warning($show_reset=false) {
+		return $this->_list(NOTIFICATION_TYPE_WARNING, $show_reset);
+	}
+	function list_notice($show_reset=false) {
+		return $this->_list(NOTIFICATION_TYPE_NOTICE, $show_reset);
+	}
+	function list_all($show_reset=false) {
+		return $this->_list("", $show_reset);
+	}
+
+
+	function reset($module, $id) {
+		$module        = q($module);
+		$id            = q($id);
+
+		$sql = "UPDATE notifications SET reset = 1 WHERE module = $module AND id = $id";
+		sql($sql);
+	}
+
+	function delete($module, $id) {
+		$module        = q($module);
+		$id            = q($id);
+
+		$sql = "DELETE FROM notifications WHERE module = $module AND id = $id";
+		sql($sql);
+	}
+
+	function safe_delete($module, $id) {
+		$module        = q($module);
+		$id            = q($id);
+
+		$sql = "DELETE FROM notifications WHERE module = $module AND id = $id AND candelete = 1";
+		sql($sql);
+	}
+
+	/* Internal functions
+	 */
+
+	function _add_type($level, $module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
+		if ($this->not_loaded) {
+			$this->notification_table = $this->_list("",true);
+			$this->not_loaded = false;
+		}
+
+		$existing_row = false;
+		foreach ($this->notification_table as $row) {
+			if ($row['module'] == $module && $row['id'] == $id ) {
+				$existing_row = $row;
+				break;
+			}
+		}
+		// Found an existing row - check if anything changed or if we are suppose to reset it
+		//
+		$candelete = $candelete ? 1 : 0;
+		if ($existing_row) {
+
+			if (($reset && $existing_row['reset'] == 1) || $existing_row['level'] != $level || $existing_row['display_text'] != $display_text || $existing_row['extended_text'] != $extended_text || $existing_row['link'] != $link || $existing_row['candelete'] == $candelete) {
+
+				// If $reset is set to the special case of PASSIVE then the updates will not change it's value in an update
+				//
+				$reset_value = ($reset == 'PASSIVE') ? $existing_row['reset'] : 0;
+
+				$module        = q($module);
+				$id            = q($id);
+				$level         = q($level);
+				$display_text  = q($display_text);
+				$extended_text = q($extended_text);
+				$link          = q($link);
+				$now = time();
+				$sql = "UPDATE notifications SET
+					level = $level,
+					display_text = $display_text,
+					extended_text = $extended_text,
+					link = $link,
+					reset = $reset_value,
+					candelete = $candelete,
+					timestamp = $now
+					WHERE module = $module AND id = $id
+				";
+				sql($sql);
+
+				// TODO: I should really just add this to the internal cache, but really
+				//       how often does this get called that if is a big deal.
+				$this->not_loaded = true;
+			}
+		} else {
+			// No existing row so insert this new one
+			//
+			$now           = time();
+			$module        = q($module);
+			$id            = q($id);
+			$level         = q($level);
+			$display_text  = q($display_text);
+			$extended_text = q($extended_text);
+			$link          = q($link);
+			$sql = "INSERT INTO notifications 
+				(module, id, level, display_text, extended_text, link, reset, candelete, timestamp)
+				VALUES 
+				($module, $id, $level, $display_text, $extended_text, $link, 0, $candelete, $now)
+			";
+			sql($sql);
+
+			// TODO: I should really just add this to the internal cache, but really
+			//       how often does this get called that if is a big deal.
+			$this->not_loaded = true;
+		}
+	}
+
+	function _list($level, $show_reset=false) {
+
+		$level = q($level);
+		$where = array();
+
+		if (!$show_reset) {
+			$where[] = "reset = 0";
+		}
+
+		switch ($level) {
+			case NOTIFICATION_TYPE_CRITICAL:
+			case NOTIFICATION_TYPE_SECURITY:
+			case NOTIFICATION_TYPE_UPDATE:
+			case NOTIFICATION_TYPE_ERROR:
+			case NOTIFICATION_TYPE_WARNING:
+			case NOTIFICATION_TYPE_NOTICE:
+				$where[] = "level = $level ";
+				break;
+			default:
+		}
+		$sql = "SELECT * FROM notifications ";
+		if (count($where)) {
+			$sql .= " WHERE ".implode(" AND ", $where);
+		}
+		$sql .= " ORDER BY level, module";
+
+		$list = sql($sql,"getAll",DB_FETCHMODE_ASSOC);
+		return $list;
+	}
+	/* Returns the number of active notifications
+	 */
+	function get_num_active() {
+		$sql = "SELECT COUNT(id) FROM notifications WHERE reset = 0";
+		return sql($sql,'getOne');
+	}
+}
+
+class cronmanager {
+	/**
+	 * note: time is the hour time of day a job should run, -1 indicates don't care
+	 */
+
+	function &create(&$db) {
+		static $obj;
+		if (!isset($obj)) {
+			$obj = new cronmanager($db);
+		}
+		return $obj;
+	}
+
+	function cronmanager(&$db) {
+		$this->_db =& $db;
+	}
+
+	function save_email($address) {
+		$address = q($address);
+		sql("DELETE FROM admin WHERE variable = 'email'");
+		sql("INSERT INTO admin (variable, value) VALUES ('email', $address)");
+	}
+
+	function get_email() {
+		$sql = "SELECT value FROM admin WHERE variable = 'email'";
+		return sql($sql, 'getOne');
+	}
+
+	function save_hash($id, &$string) {
+		$hash = md5($string);
+		$id = q($id);
+		sql("DELETE FROM admin WHERE variable = $id");
+		sql("INSERT INTO admin (variable, value) VALUE ($id, '$hash')");
+	}
+
+	function check_hash($id, &$string) {
+		$id = q($id);
+		$sql = "SELECT value FROM admin WHERE variable = $id LIMIT 1";
+		$hash = sql($sql, "getOne");
+		return ($hash == md5($string));
+	}
+
+	function enable_updates($freq=24) {
+		global $amp_conf;
+
+		$night_time = array(19,20,21,22,23,0,1,2,3,4,5);
+		$run_time = $night_time[rand(0,10)];
+		$command = $amp_conf['AMPBIN']."/module_admin listonline";
+		$lasttime = 0;
+
+		$sql = "SELECT * FROM cronmanager WHERE module = 'module_admin' AND id = 'UPDATES'";
+		$result = sql($sql, "getAll",DB_FETCHMODE_ASSOC);
+		if (count($result)) {
+			$sql = "UPDATE cronmanager SET
+			          freq = '$freq',
+							  command = '$command'
+						  WHERE
+						    module = 'module_admin' AND id = 'UPDATES'	
+			       ";
+		} else {
+			$sql = "INSERT INTO cronmanager 
+		        	(module, id, time, freq, lasttime, command)
+							VALUES
+							('module_admin', 'UPDATES', '$run_time', $freq, 0, '$command')
+						";
+		}
+		sql($sql);
+	}
+
+	function disable_updates() {
+		sql("DELETE FROM cronmanager WHERE module = 'module_admin' AND id = 'UPDATES'");
+	}
+
+	function updates_enabled() {
+		$results = sql("SELECT module, id FROM cronmanager WHERE module = 'module_admin' AND id = 'UPDATES'",'getAll');
+		return count($results);
+	}
+
+	/** run_jobs()
+	 *  select all entries that need to be run now and run them, then update the times.
+	 *  
+	 *  1. select all entries
+	 *  2. foreach entry, if its paramters indicate it should be run, then run it and
+	 *     update it was run in the time stamp.
+	 */
+	function run_jobs() {
+
+		$errors = 0;
+		$error_arr = array();
+
+		$now = time();
+		$jobs = sql("SELECT * FROM cronmanager","getAll", DB_FETCHMODE_ASSOC);
+		foreach ($jobs as $job) {
+			$nexttime = $job['lasttime'] + $job['freq']*3600; 
+			if ($nexttime <= $now) {
+				if ($job['time'] >= 0 && $job['time'] < 24) {
+					$date_arr = getdate($now);
+					// Now if lasttime is 0, then we want this kicked off at the proper hour
+					// after wich the frequencey will set the pace for same time each night
+					//
+					if (($date_arr['hours'] != $job['time']) && !$job['lasttime']) {
+						continue;
+					}
+				} 
+			} else {
+				// no need to run job, time is not up yet
+				continue;
+			}
+			// run the job
+			exec($job['command'],$job_out,$ret);
+			if ($ret) {
+				$errors++;
+				$error_arr[] = array($job['command'],$ret);
+
+				// If there where errors, let's print them out in case the script is being debugged or running
+				// from cron which will then put the errors out through the cron system.
+				//
+				foreach ($job_out as $line) {
+					echo $line."\n";
+				}
+			} else {
+				$module = $job['module'];
+				$id =     $job['id'];
+				$sql = "UPDATE cronmanager SET lasttime = $now WHERE module = '$module' AND id = '$id'";
+				sql($sql);
+			}
+		}
+		if ($errors) {
+			$nt =& notifications::create($db);
+			$text = sprintf(_("Cronmanager encountered %s Errors"),$errors);
+			$extext = _("The following commands failed with the listed error");
+			foreach ($error_arr as $item) {
+				$extext .= "<br>".$item[0]." (".$item[1].")";
+			}
+			$nt->add_error('cron_manager', 'EXECFAIL', $text, $extext, '', true, true);
+		}
+	}
+}
+
 
 /** Expands variables from amportal.conf 
  * Replaces any variables enclosed in percent (%) signs with their value
@@ -95,7 +514,7 @@ function getAmpAdminUsers() {
 	$sql = "SELECT username FROM ampusers WHERE sections='*'";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
-	   die($results->getMessage());
+	   die_freepbx($results->getMessage());
 	}
 	return $results;
 }
@@ -106,7 +525,7 @@ function getAmpUser($username) {
 	$sql = "SELECT username, password, extension_low, extension_high, deptname, sections FROM ampusers WHERE username = '".addslashes($username)."'";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
-	   die($results->getMessage());
+	   die_freepbx($results->getMessage());
 	}
 	
 	if (count($results) > 0) {
@@ -197,19 +616,26 @@ function engine_getinfo() {
 	switch ($amp_conf['AMPENGINE']) {
 		case 'asterisk':
 			if (isset($astman) && $astman->connected()) {
-				//get version
-				$response = $astman->send_request('Command', array('Command'=>'show version'));
+				//get version (1.4)
+				$response = $astman->send_request('Command', array('Command'=>'core show version'));
+				if (preg_match('/No such command/',$response['data'])) {
+					// get version (1.2)
+					$response = $astman->send_request('Command', array('Command'=>'show version'));
+				}
 				$verinfo = $response['data'];
 			} else {
 				// could not connect to asterisk manager, try console
 				$verinfo = exec('asterisk -V');
 			}
 			
-			if (preg_match('/Asterisk SVN.+/', $verinfo)) {
-				return array('engine'=>'asterisk', 'version' => '99', 'additional' => '99');
-			}
 			if (preg_match('/Asterisk (\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4]);
+			} elseif (preg_match('/Asterisk SVN-(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
+				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4]);
+			} elseif (preg_match('/Asterisk SVN-branch-(\d+(\.\d+)*)-r(-?(\S*))/', $verinfo, $matches)) {
+				return array('engine'=>'asterisk', 'version' => $matches[1].'.'.$matches[4], 'additional' => $matches[4]);
+			} elseif (preg_match('/Asterisk SVN-trunk-r(-?(\S*))/', $verinfo, $matches)) {
+				return array('engine'=>'asterisk', 'version' => '1.6', 'additional' => $matches[1]);
 			}
 
 			return array('engine'=>'ERROR-UNABLE-TO-CONNECT', 'version'=>'0', 'additional' => '0');
@@ -217,6 +643,20 @@ function engine_getinfo() {
 	}
 	return array('engine'=>'ERROR-UNSUPPORTED-ENGINE-'.$amp_conf['AMPENGINE'], 'version'=>'0', 'additional' => '0');
 }
+
+
+/* verison_compare that works with freePBX version numbers
+ */
+function version_compare_freepbx($version1, $version2, $op = null) {
+        $version1 = str_replace("rc","RC", strtolower($version1));
+        $version2 = str_replace("rc","RC", strtolower($version2));
+		if (!is_null($op)) {
+			return version_compare($version1, $version2, $op);
+		} else {
+			return version_compare($version1, $version2);
+		}
+}
+
 
 /* queries database using PEAR.
 *  $type can be query, getAll, getRow, getCol, getOne, etc
@@ -227,7 +667,7 @@ function sql($sql,$type="query",$fetchmode=null) {
 	global $db;
 	$results = $db->$type($sql,$fetchmode);
 	if(DB::IsError($results)) {
-		die($results->getDebugInfo());
+		die_freepbx($results->getDebugInfo());
 	}
 	return $results;
 }
@@ -257,24 +697,141 @@ function sql_formattext($txt) {
 	return $fmt;
 }
 
+
+function die_freepbx($text, $extended_text="", $type="FATAL") {
+	if (function_exists('fatal')) {
+		// "custom" error handler 
+		// fatal may only take one param, so we suppress error messages because it doesn't really matter
+		@fatal($text, $extended_text, $type);
+	} else if (isset($_SERVER['REQUEST_METHOD'])) {
+		// running in webserver
+		echo "<h1>".$type." ERROR</h1>\n";
+		echo "<h3>".$text."</h3>\n";
+		if (!empty($extended_text)) {
+			echo "<p>".$extended_text."</p>\n";
+		}
+	} else {
+		// CLI
+		echo "[$type] ".$text." ".$extended_text."\n";
+	}
+
+	// always ensure we exit at this point
+	exit(1);
+}
+
 //tell application we need to reload asterisk
 function needreload() {
 	global $db;
 	$sql = "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'"; 
 	$result = $db->query($sql); 
 	if(DB::IsError($result)) {     
-		die($result->getMessage()); 
+		die_freepbx($result->getMessage()); 
 	}
 }
 
 function check_reload_needed() {
 	global $db;
+	global $amp_conf;
 	$sql = "SELECT value FROM admin WHERE variable = 'need_reload'";
 	$row = $db->getRow($sql);
 	if(DB::IsError($row)) {
-		die($row->getMessage());
+		die_freepbx($row->getMessage());
 	}
-	return ($row[0] == 'true');
+	return ($row[0] == 'true' || $amp_conf['DEVELRELOAD']);
+}
+
+function do_reload() {
+	global $amp_conf, $asterisk_conf, $db, $astman;
+	
+	$notify =& notifications::create($db);
+	
+	$return = array('num_errors'=>0,'test'=>'abc');
+	$exit_val = null;
+	
+	if (isset($amp_conf["PRE_RELOAD"]) && !empty($amp_conf['PRE_RELOAD']))  {
+		exec( $amp_conf["PRE_RELOAD"], $output, $exit_val );
+		
+		if ($exit_val != 0) {
+			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
+			$notify->add_error('freepbx','reload_pre_script', sprintf(_('Could not run %s script.'), $amp_conf['PRE_RELOAD']), $desc);
+			
+			$return['num_errors']++;
+		} else {
+			$notify->delete('freepbx', 'reload_pre_script');
+		}
+	}
+	
+	$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf';
+	//exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log', $output, $exit_val);
+	exec($retrieve, $output, $exit_val);
+	
+	// retrive_conf html output
+	$return['retrieve_conf'] = 'exit: '.$exit_val.'<br/>'.implode('<br/>',$output);
+	
+	if ($exit_val != 0) {
+		$return['status'] = false;
+		$return['message'] = sprintf(_('Reload failed because retrieve_conf encountered an error: %s'),$exit_val);
+		$return['num_errors']++;
+		$notify->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), $return['message']);
+		return $return;
+	}
+	
+	if (!isset($astman) || !$astman) {
+		$return['status'] = false;
+		$return['message'] = _('Reload failed because FreePBX could not connect to the asterisk manager interface.');
+		$return['num_errors']++;
+		$notify->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), $return['message']);
+		return $return;
+	}
+	$notify->delete('freepbx', 'RCONFFAIL');
+	
+	//reload MOH to get around 'reload' not actually doing that.
+	$astman->send_request('Command', array('Command'=>'moh reload'));
+	
+	//reload asterisk
+	$astman->send_request('Command', array('Command'=>'reload'));	
+	
+	$return['status'] = true;
+	$return['message'] = _('Successfully reloaded');
+	
+	
+	if ($amp_conf['FOPRUN']) {
+		//bounce op_server.pl
+		$wOpBounce = $amp_conf['AMPBIN'].'/bounce_op.sh';
+		exec($wOpBounce.' &>'.$asterisk_conf['astlogdir'].'/freepbx-bounce_op.log', $output, $exit_val);
+		
+		if ($exit_val != 0) {
+			$desc = _('Could not reload the FOP operator panel server using the bounce_op.sh script. Configuration changes may not be reflected in the panel display.');
+			$notify->add_error('freepbx','reload_fop', _('Could not reload FOP server'), $desc);
+			
+			$return['num_errors']++;
+		} else {
+			$notify->delete('freepbx','reload_fop');
+		}
+	}
+	
+	//store asterisk reloaded status
+	$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'"; 
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		$return['message'] = _('Successful reload, but could not clear reload flag due to a database error: ').$db->getMessage();
+		$return['num_errors']++;
+	}
+	
+	if (isset($amp_conf["POST_RELOAD"]) && !empty($amp_conf['POST_RELOAD']))  {
+		exec( $amp_conf["POST_RELOAD"], $output, $exit_val );
+		
+		if ($exit_val != 0) {
+			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
+			$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), 'POST_RELOAD'), $desc);
+			
+			$return['num_errors']++;
+		} else {
+			$notify->delete('freepbx', 'reload_post_script');
+		}
+	}
+	
+	return $return;
 }
 
 //get the version number
@@ -283,9 +840,20 @@ function getversion() {
 	$sql = "SELECT value FROM admin WHERE variable = 'version'";
 	$results = $db->getRow($sql);
 	if(DB::IsError($results)) {
-		die($results->getMessage());
+		die_freepbx($results->getMessage());
 	}
 	return $results[0];
+}
+
+//get the version number
+function get_framework_version() {
+	global $db;
+	$sql = "SELECT version FROM modules WHERE modulename = 'framework' AND enabled = 1";
+	$version = $db->getOne($sql);
+	if(DB::IsError($version)) {
+		die_freepbx($version->getMessage());
+	}
+	return $version;
 }
 
 // draw list for users and devices with paging
@@ -341,19 +909,48 @@ function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $descriptio
 	echo "</ul>\n";
 }
 
-// this function simply makes a connection to the asterisk manager, and should be called by modules that require it (ie: dbput/dbget)
+// this function returns true if $astman is defined and set to something (implying a current connection, false otherwise.
+// this function no longer puts out an error message, it is up to the caller to handle the situation. 
+// Should probably be changed (at least name) to check if a connection is available to the current engine)
+//
 function checkAstMan() {
-	global $amp_conf;
 	global $astman;
 
-	if ($astman) {
-//		TODO old code was,
-// 		return $astman->disconnect();
-//		is this correct...?
-		return true;
+	return ($astman)?true:false;
+}
+
+/* merge_ext_followme($dest) {
+ * 
+ * The purpose of this function is to take a destination
+ * that was either a core extension OR a findmefollow-destination
+ * and convert it so that they are merged and handled just like
+ * direct-did routing
+ *
+ * Assuming an extension number of 222:
+ *
+ * The two formats that existed for findmefollow were:
+ *
+ * ext-findmefollow,222,1
+ * ext-findmefollow,FM222,1
+ *
+ * The one format that existed for core was:
+ *
+ * ext-local,222,1
+ *
+ * In all those cases they should be converted to:
+ *
+ * from-did-direct,222,1
+ *
+ */
+function merge_ext_followme($dest) {
+
+	if (preg_match("/^\s*ext-findmefollow,(FM)?(\d+),(\d+)/",$dest,$matches) ||
+	    preg_match("/^\s*ext-local,(FM)?(\d+),(\d+)/",$dest,$matches) ) {
+				// matches[2] => extn
+				// matches[3] => priority
+		return "from-did-direct,".$matches[2].",".$matches[3];
 	} else {
-		echo "<h3>Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]."</h3>This module requires access to the Asterisk Manager.  Please ensure Asterisk is running and access to the manager is available.</div>";
-		exit;
+		return $dest;
 	}
 }
 
@@ -732,7 +1329,7 @@ function drawselects($goto,$i) {
 		$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ('".$addarray[0]."', '".$addarray[1]."', '".$addarray[2]."', '".$addarray[3]."', '".$addarray[4]."', '".$addarray[5]."' , '".$addarray[6]."')";
 		$result = $db->query($sql);
 		if(DB::IsError($result)) {
-			die($result->getMessage().$sql);
+			die_freepbx($result->getMessage().$sql);
 		}
 		return $result;
 	}
@@ -743,7 +1340,7 @@ function drawselects($goto,$i) {
 		$sql = "DELETE FROM extensions WHERE context = '".addslashes($context)."' AND `extension` = '".addslashes($exten)."'";
 		$result = $db->query($sql);
 		if(DB::IsError($result)) {
-			die($result->getMessage());
+			die_freepbx($result->getMessage());
 		}
 		return $result;
 	}
@@ -804,7 +1401,7 @@ class xml2Array {
 		
 			$this->strXmlData = xml_parse($this->resParser,$strInputXML );
 			if(!$this->strXmlData) {
-				die(sprintf("XML error: %s at line %d",
+				die_freepbx(sprintf("XML error: %s at line %d",
 			xml_error_string(xml_get_error_code($this->resParser)),
 			xml_get_current_line_number($this->resParser)));
 			}
@@ -830,14 +1427,14 @@ class xml2Array {
 	}
 	
 	function tagClosed($parser, $name) {
-		$this->arrOutput[count($this->arrOutput)-2]['children'][] = $this->arrOutput[count($this->arrOutput)-1];
+		@$this->arrOutput[count($this->arrOutput)-2]['children'][] = $this->arrOutput[count($this->arrOutput)-1];
 		array_pop($this->arrOutput);
 	}
 	
 	function recursive_parseLevel($items, &$attrs, $path = "") {
 		$array = array();
 		foreach (array_keys($items) as $idx) {
-			$items[$idx]['name'] = strtolower($items[$idx]['name']);
+			@$items[$idx]['name'] = strtolower($items[$idx]['name']);
 			
 			$multi = false;
 			if (isset($array[ $items[$idx]['name'] ])) {
@@ -1010,8 +1607,9 @@ class moduleHook {
 				if( function_exists( $funct ) ) {
 					// execute the function, appending the 
 					// html output to that of other hooking modules
-					if ($hookReturn = $funct($viewing_itemid,$target_menuid))
+					if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
 						$this->hookHtml .= $hookReturn;
+					}
 					// remember who installed hooks
 					// we need to know this for processing form vars
 					$this->arrHooks[] = $this_module['rawname'];
@@ -1060,45 +1658,6 @@ function runModuleSQL($moddir,$type){
 }
 
 
-
-/*
-// just for testing hooks, i'll delete it later
-function queues_hook_core($viewing_itemid, $target_menuid) {
-	switch ($target_menuid) {
-		case 'did':
-			//get the current setting for this display (if any)
-			$alertinfo = $viewing_itemid;
-        	return '
-				<tr>
-					<td><a href="#" class="info">'._("Alert Info").'<span>'._('ALERT_INFO can be used for distinctive ring with SIP devices.').'</span></a>:</td>
-					<td><input type="text" name="alertinfo" size="10" value="'.(($alertinfo) ? $alertinfo : "") .'"></td>
-				</tr>
-			';
-		break;
-		default:
-			return false;
-		break;
-	}
-}
-
-function queues_hookProcess_core($viewing_itemid, $request) {
-	switch ($request['action']) {
-		case 'edtIncoming':
-			echo "<h1>HI</h1>";
-        	return '
-				<tr>
-					<td><a href="#" class="info">'._("Alert Info").'<span>'._('ALERT_INFO can be used for distinctive ring with SIP devices.').'</span></a>:</td>
-					<td><input type="text" name="alertinfo" size="10" value="'.(($alertinfo) ? $alertinfo : "") .'"></td>
-				</tr>
-			';
-		break;
-		default:
-			return false;
-		break;
-	}
-}
-*/
-
 /** Replaces variables in a string with the values from ampconf
  * eg, "%AMPWEBROOT%/admin" => "/var/www/html/admin"
  */
@@ -1120,7 +1679,7 @@ function ampconf_string_replace($string) {
                                        Module functions 
 ************************************************************************************************************/
  
-/** Get the latest module.xml file for this freePBX version. 
+/** Get the latest module.xml file for this FreePBX version. 
  * Caches in the database for 5 mintues.
  * If $module is specified, only returns the data for that module.
  * If the module is not found (or none are available for whatever reason),
@@ -1137,6 +1696,7 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 	
 	global $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
 	$module_getonlinexml_error = null;
+	$got_new = false;
 	
 	//this should be in an upgrade file ... putting here for now.
 	/*
@@ -1166,7 +1726,14 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		$data = @ file_get_contents($fn);
 		$module_getonlinexml_error = empty($data);
 		
+		$old_xml = array();
+		$got_new = false;
 		if (!empty($data)) {
+			// Compare the download to our current XML to see if anything changed for the notification system.
+			//
+			$sql = 'SELECT data FROM module_xml WHERE id = "xml"';
+			$old_xml = sql($sql, "getOne");
+			$got_new = true;
 			// remove the old xml
 			sql('DELETE FROM module_xml WHERE id = "xml"');
 			// update the db with the new xml
@@ -1185,6 +1752,11 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 	$xmlarray = $parser->parseAdvanced($data);
 	//$modules = $xmlarray['XML']['MODULE'];
 	
+	if ($got_new) {
+		module_update_notifications($old_xml, $xmlarray, ($old_xml == $data4sql));
+	}
+
+
 	//echo "<hr>Raw XML Data<pre>"; print_r(htmlentities($data)); echo "</pre>";
 	//echo "<hr>XML2ARRAY<pre>"; print_r($xmlarray); echo "</pre>";
 	
@@ -1209,6 +1781,93 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		}
 	}
 	return null;
+}
+
+/**  Determines if there are updates we don't already know about and posts to notification
+ *   server about those updates.
+ *
+ */
+function module_update_notifications(&$old_xml, &$xmlarray, $passive) {
+	global $db;
+
+	$notifications =& notifications::create($db); 
+
+	$reset_value = $passive ? 'PASSIVE' : false;
+	$old_parser = new xml2ModuleArray($old_xml);
+	$old_xmlarray = $old_parser->parseAdvanced($old_xml);
+
+	$new_modules = array();
+	if (count($xmlarray)) {
+		foreach ($xmlarray['xml']['module'] as $mod) {
+			$new_modules[$mod['rawname']] = $mod;
+		}
+	}
+	$old_modules = array();
+	if (count($old_xmlarray)) {
+		foreach ($old_xmlarray['xml']['module'] as $mod) {
+			$old_modules[$mod['rawname']] = $mod;
+		}
+	}
+
+	// If keys (rawnames) are different then there are new modules, create a notification.
+	// This will always be the case the first time it is run since the xml is empty.
+	//
+	// TODO: if old_modules is empty, should I populate it from getinfo to at find out what
+	//       is installed or otherwise, just skip it since it is the first time?
+	//
+	$diff_modules = array_diff_assoc($new_modules, $old_modules);
+	$cnt = count($diff_modules);
+	if ($cnt) {
+		$extext = _("The following new modules are available for download")."<br>";
+		foreach ($diff_modules as $mod) {
+			$extext .= $mod['rawname']." (".$mod['version'].")<br>";
+		}
+		$notifications->add_notice('freepbx', 'NEWMODS', sprintf(_('%s New modules are available'),$cnt), $extext, '', $reset_value, true);
+	}
+
+	// Now check if any of the installed modules need updating
+	//
+	module_upgrade_notifications($new_modules, $reset_value);
+}
+
+/** Compare installed (enabled or disabled) modules against the xml to generate or
+ *  update the noticiation table of which modules have available updates. If the list
+ *  is empty then delete the notification.
+ */
+function module_upgrade_notifications(&$new_modules, $passive_value) {
+	global $db;
+	$notifications =& notifications::create($db); 
+
+	$installed_status = array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED);
+	$modules_local = module_getinfo(false, $installed_status);
+
+	$modules_upgradable = array();
+	foreach (array_keys($modules_local) as $name) {
+		if (isset($new_modules[$name])) {
+			if (version_compare_freepbx($modules_local[$name]['version'], $new_modules[$name]['version']) < 0) {
+				$modules_upgradable[] = array(
+					'name' => $name,
+					'local_version' => $modules_local[$name]['version'],
+					'online_version' => $new_modules[$name]['version'],
+				);
+			}
+		}
+	}
+	$cnt = count($modules_upgradable);
+	if ($cnt) {
+		if ($cnt == 1) {
+			$text = _("There is 1 module available for online upgrade");
+		} else {
+			$text = sprintf(_("There are %s modules available for online upgrades"),$cnt);
+		}
+		$extext = "";
+		foreach ($modules_upgradable as $mod) {
+			$extext .= sprintf(_("%s (current: %s)"), $mod['name'].' '.$mod['online_version'], $mod['local_version'])."\n";
+		}
+		$notifications->add_update('freepbx', 'NEWUPDATES', $text, $extext, '', $passive_value);
+	} else {
+		$notifications->delete('freepbx', 'NEWUPDATES');
+	}
 }
 
 /** Looks through the modules directory and modules database and returns all available
@@ -1257,7 +1916,7 @@ function module_getinfo($module = false, $status = false) {
 	
 	$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
 	if(DB::IsError($results)) {
-		die($results->getMessage());
+		die_freepbx($results->getMessage());
 	}
 	
 	if (is_array($results)) {
@@ -1267,7 +1926,7 @@ function module_getinfo($module = false, $status = false) {
 					
 					// check if file and registered versions are the same
 					// version_compare returns 0 if no difference
-					if (version_compare($row['version'], $modules[ $row['modulename'] ]['version']) == 0) {
+					if (version_compare_freepbx($row['version'], $modules[ $row['modulename'] ]['version']) == 0) {
 						$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_ENABLED;
 					} else {
 						$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_NEEDUPGRADE;
@@ -1337,49 +1996,59 @@ function module_checkdepends($modulename) {
 			foreach ($requirements as $value) {
 				switch ($type) {
 					case 'version':
-						if (preg_match('/^(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.[^\.]+)*)$/i', $value, $matches)) {
+						if (preg_match('/^(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d*[beta|alpha|rc|RC]?\d+(\.[^\.]+)*)$/i', $value, $matches)) {
 							// matches[1] = operator, [2] = version
-							$ver = getversion();
+							$installed_ver = getversion();
 							$operator = (!empty($matches[1]) ? $matches[1] : 'ge'); // default to >=
-							if (version_compare($matches[2], $ver, $operator) ) {
-								$errors[] = _module_comparison_error_message('FreePBX', $matches[2], $ver, $operator);
+							$compare_ver = $matches[2];
+							if (version_compare_freepbx($installed_ver, $compare_ver, $operator) ) {
+								// version is good
+							} else {
+								$errors[] = _module_comparison_error_message('FreePBX', $compare_ver, $installed_ver, $operator);
 							}
 						}
 					break;
 					case 'module':
-						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.[^\.]+)*))?$/i', $value, $matches)) {
+						// Modify to allow versions such as 2.3.0beta1.2
+						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
 							// matches[1] = modulename, [3]=comparison operator, [4] = version
 							$modules = module_getinfo($matches[1]);
 							if (isset($modules[$matches[1]])) {
+								$needed_module = "<strong>".(isset($modules[$matches[1]]['name'])?$modules[$matches[1]]['name']:$matches[1])."</strong>";
 								switch ($modules[$matches[1]]['status'] ) {
 									case MODULE_STATUS_ENABLED:
 										if (!empty($matches[4])) {
 											// also doing version checking
+											$installed_ver = $modules[$matches[1]]['dbversion'];
+											$compare_ver = $matches[4];
 											$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
-											if (version_compare($matches[4], $modules[$matches[1]]['dbversion'], $operator) ) {
-												$errors[] = _module_comparison_error_message($matches[1].' module', $matches[4], $modules[$matches[1]]['dbversion'], $operator);
+											
+											if (version_compare_freepbx($installed_ver, $compare_ver, $operator) ) {
+												// version is good
+											} else {
+												$errors[] = _module_comparison_error_message($needed_module.' module', $compare_ver, $installed_ver, $operator);
 											}
 										}
 									break;
 									case MODULE_STATUS_BROKEN:
 										$errors[] = sprintf(_('Module %s is required, but yours is broken. You should reinstall '.
-										                      'it and try again.'), $matches[1]);
+										                      'it and try again.'), $needed_module);
 									break;
 									case MODULE_STATUS_DISABLED:
-										$errors[] = sprintf(_('Module %s is required, but yours is disabled.'), $matches[1]);
+										$errors[] = sprintf(_('Module %s is required, but yours is disabled.'), $needed_module);
 									break;
 									case MODULE_STATUS_NEEDUPGRADE:
 										$errors[] = sprintf(_('Module %s is required, but yours is disabled because it needs to '.
 										                      'be upgraded. Please upgrade %s first, and then try again.'), 
-															$matches[1], $matches[1]);
+															$needed_module, $needed_module);
 									break;
 									default:
 									case MODULE_STATUS_NOTINSTALLED:
-										$errors[] = sprintf(_('Module %s is required, yours is not installed.'), $matches[1]);
+										$errors[] = sprintf(_('Module %s is required, yours is not installed.'), $needed_module);
 									break;
 								}
 							} else {
-								$errors[] = sprintf(_('Module %s is required.'), $matches[1]);
+								$errors[] = sprintf(_('Module %s is required.'), $needed_module);
 							}
 						}
 					break;
@@ -1824,6 +2493,22 @@ function module_install($modulename, $force = false) {
 	}
 	
 	// module is now installed & enabled
+
+	// edit the notification table to list any remaining upgrades available or clear
+	// it if none are left. It requres a copy of the most recent module_xml to compare
+	// against the installed modules.
+	//
+	$sql = 'SELECT data FROM module_xml WHERE id = "xml"';
+	$data = sql($sql, "getOne");
+	$parser = new xml2ModuleArray($data);
+	$xmlarray = $parser->parseAdvanced($data);
+	$new_modules = array();
+	if (count($xmlarray)) {
+		foreach ($xmlarray['xml']['module'] as $mod) {
+			$new_modules[$mod['rawname']] = $mod;
+		}
+	}
+	module_upgrade_notifications($new_modules, 'PASSIVE');
 	needreload();
 	return true;
 }
@@ -1917,7 +2602,7 @@ function module_delete($modulename, $force = false) {
 		return array(sprintf(_("Cannot delete directory %s"), $dir));
 	}
 	if (strpos($dir,"..") !== false) {
-		die("Security problem, denying delete");
+		die_freepbx("Security problem, denying delete");
 	}
 	exec("rm -r ".escapeshellarg($dir),$output, $exitcode);
 	if ($exitcode != 0) {
@@ -1935,7 +2620,7 @@ function _module_setenabled($modulename, $enabled) {
 	$sql = 'UPDATE modules SET enabled = '.($enabled ? '1' : '0').' WHERE modulename = "'.addslashes($modulename).'"';
 	$results = $db->query($sql);
 	if(DB::IsError($results)) {
-		die($results->getMessage());
+		die_freepbx($results->getMessage());
 	}
 }
 
@@ -1987,7 +2672,7 @@ function _module_readxml($modulename) {
 					} else {
 						$sort = 0;
 					}
-					
+
 					// setup basic items array
 					$xmlarray['module']['items'][$item] = array(
 						'name' => $displayname,
@@ -1997,15 +2682,18 @@ function _module_readxml($modulename) {
 					);
 					
 					// add optional values:
-					
-					// custom href
-					if (isset($parser->attributes[$path]['href'])) {
-						$xmlarray['module']['items'][$item]['href'] = $parser->attributes[$path]['href'];
-					}
-					
-					// custom target
-					if (isset($parser->attributes[$path]['target'])) {
-						$xmlarray['module']['items'][$item]['target'] = $parser->attributes[$path]['target'];
+					$optional_attribs = array(
+						'href', // custom href
+						'target', // custom target frame
+						'display', // display= override
+						'needsenginedb', // set to true if engine db access required (e.g. astman access)
+						'needsenginerunning', // set to true if required to run
+						'access', // set to all if all users should always have access
+					);
+					foreach ($optional_attribs as $attrib) {
+						if (isset($parser->attributes[$path][ $attrib ])) {
+							$xmlarray['module']['items'][$item][ $attrib ] = $parser->attributes[$path][ $attrib ];
+						}
 					}
 					
 				}
@@ -2159,6 +2847,10 @@ function module_get_annoucements() {
 	if ($firstinstall) {
 		$options .= "&firstinstall=yes";
 	}
+	$engver=engine_getinfo();
+	if ($engver['engine'] == 'asterisk') {
+		$options .="&astver=".$engver['version'];
+	}
 
 	$announcement = @ file_get_contents("http://mirror.freepbx.org/version-".getversion().".html".$options);
 	return $announcement;
@@ -2204,7 +2896,8 @@ function _module_generate_unique_id($type=null) {
 	// 'real' systems. Either home setups or test environments
 	//
 	$ids = array('000C29' => 'vmware',
-	             '000569' => 'vmware'
+	             '000569' => 'vmware',
+	             '00163E' => 'xensource'
 	            ); 
 	$mac_address = array();
 	$chosen_mac = null;
@@ -2222,7 +2915,6 @@ function _module_generate_unique_id($type=null) {
 
 		if ($return != '0') {
 			// No seed available so return with random seed
-			echo "got return code of $return\n";
 			return _module_generate_random_id($type);
 		}
 	}
@@ -2255,139 +2947,41 @@ function _module_generate_unique_id($type=null) {
 	// Now either we have a chosen_mac, we will use the first mac, or if something went wrong
 	// and there is nothing in the array (couldn't find a mac) then we will make it purely random
 	//
-  if ($type == "vmware") {
-		//vmware machines will have repeated macs so make random
-		//echo "generating randomly\n";
+  if ($type == "vmware" || $type == "xensource") {
+		// vmware, xensource machines will have repeated macs so make random
 		return _module_generate_random_id($type);
 	} else if ($chosen_mac != "") {
-		//echo "generating with: $chosen_mac\n";
 		return _module_generate_random_id($type, $chosen_mac);
 	} else if (isset($mac_address[0])) {
-		//echo "generating with: ".$mac_address[0]."\n";
 		return _module_generate_random_id($type, $mac_address[0]);
 	} else {
-		//echo "generating randomly\n";
 		return _module_generate_random_id($type);
 	}
 } 
 
-
-/*
-function installModule($modname,$modversion) 
-{
+function module_run_notification_checks() {
 	global $db;
-	global $amp_conf;
+	$modules_needup = module_getinfo(false, MODULE_STATUS_NEEDUPGRADE);
+	$modules_broken = module_getinfo(false, MODULE_STATUS_BROKEN);
 	
-	switch ($amp_conf["AMPDBENGINE"])
-	{
-		case "sqlite":
-			// to support sqlite2, we are not using autoincrement. we need to find the 
-			// max ID available, and then insert it
-			$sql = "SELECT max(id) FROM modules;";
-			$results = $db->getRow($sql);
-			$new_id = $results[0];
-			$new_id ++;
-			$sql = "INSERT INTO modules (id,modulename, version,enabled) values ('{$new_id}','{$modname}','{$modversion}','0' );";
-			break;
-		
-		default:
-			$sql = "INSERT INTO modules (modulename, version) values ('{$modname}','{$modversion}');";
-		break;
-	}
-
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-}
-
-function uninstallModule($modname) {
-	global $db;
-	$sql = "DELETE FROM modules WHERE modulename = '{$modname}'";
-	$results = $db->query($sql);
-	if(DB::IsError($results)) {
-		die($results->getMessage());
-	}
-}
-
-/** downloads a module, and extracts it into the module dir
- * /
-function module_fetch($name) { // was fetchModule
-	global $amp_conf;
-	$res = module_getonlinexml($modulename);
-	if (!isset($res)) {
-		echo "<div class=\"error\">"._("Unaware of module")." {$name}</div>";
-		return false;
-	}
-	$file = basename($res['location']);
-	$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
-	if(file_exists($filename)) {
-		// We might already have it! Let's check the MD5.
-		$filedata = "";
-		$fh = @fopen($filename, "r");
-		while (!feof($fh)) {
-			$filedata .= fread($fh, 8192);
-		}
-		if (isset($res['md5sum']) && $res['md5sum'] == md5 ($filedata)) {
-			// Note, if there's no MD5 information, it will redownload
-			// every time. Otherwise theres no way to avoid a corrupt
-			// download
-			
-			return verifyAndInstall($filename);
-		} else {
-			unlink($filename);
-		}
-	}
-
-	$url = "http://mirror.freepbx.org/modules/".$res['location'];
-
-	$fp = @fopen($filename,"w");
-	$filedata = file_get_contents($url);
-	fwrite($fp,$filedata);
-	fclose($fp);
-	if (is_readable($filename) !== TRUE ) {
-		echo "<div class=\"error\">"._("Unable to save")." {$filename} - Check file/directory permissions</div>";
-		return false;
-	}
-	// Check the MD5 info against what's in the module's XML
-	if (!isset($res['md5sum']) || empty($res['md5sum'])) {
-		echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
-	} elseif ($res['md5sum'] != md5 ($filedata)) {
-		echo "<div class=\"error\">"._("File Integrity FAILED for")." {$filename} - "._("Aborting")."</div>";
-		unlink($filename);
-		return false;
-	}
-	// verifyAndInstall does the untar, and will do the signed-package check.
-	return verifyAndInstall($filename);
-
-}
-
-function upgradeModule($module, $allmods = NULL) {
-	if($allmods === NULL)
-		$allmods = find_allmodules();
-	// the install.php can set this to false if the upgrade fails.
-	$success = true;
-	if(is_file("modules/$module/install.php"))
-		include "modules/$module/install.php";
-	if ($success) {
-		sql('UPDATE modules SET version = "'.$allmods[$module]['version'].'" WHERE modulename = "'.$module.'"');
-		needreload();
-	}
-}
-
-function rmModule($module) {
-	global $amp_conf;
-	if($module != 'core') {
-		if (is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$module) && strstr($module, '.') === FALSE ) {
-			exec('/bin/rm -rf '.$amp_conf['AMPWEBROOT'].'/admin/modules/'.$module);
-		}
+	$notifications =& notifications::create($db);
+	if ($cnt = count($modules_needup)) {
+		$text = (($cnt > 1) ? sprintf(_('You have %s disabled modules'), $cnt) : _('You have a disabled module'));
+		$desc = _('The following modules are disabled because they need to be upgraded:')."\n".implode(", ",array_keys($modules_needup));
+		$desc .= "\n\n"._('You should go to the module admin page to fix these.');
+		$notifications->add_error('freepbx', 'modules_disabled', $text, $desc, '?type=tool&display=modules');
 	} else {
-		echo "<script language=\"Javascript\">alert('"._("You cannot delete the Core module")."');</script>";
+		$notifications->delete('freepbx', 'modules_disabled');
+	}
+	if ($cnt = count($modules_broken)) {
+		$text = (($cnt > 1) ? sprintf(_('You have %s broken modules'), $cnt) : _('You have a broken module'));
+		$desc = _('The following modules are disabled because they are broken:')."\n".implode(", ",array_keys($modules_broken));
+		$desc .= "\n\n"._('You should go to the module admin page to fix these.');
+		$notifications->add_critical('freepbx', 'modules_broken', $text, $desc, '?type=tool&display=modules', false);
+	} else {
+		$notifications->delete('freepbx', 'modules_broken');
 	}
 }
-
-*/
-
 
 /** Log an error to the (database-based) log
  * @param  string   The section or script where the error occured
@@ -2419,13 +3013,16 @@ function freepbx_log($section, $level, $message) {
  * @param bool     If execution should stop after the function. Defaults to true
  */
 function redirect($url, $stop_processing = true) {
-	ob_end_clean();
-	header('Location: '.$url);
+	// TODO: If I don't call ob_end_clean() then is output buffering still on? Do I need to run it off still?
+	//       (note ob_end_flush() results in the same php NOTICE so not sure how to turn it off. (?ob_implicit_flush(true)?)
+	//
+	@ob_end_clean();
+	@header('Location: '.$url);
 	if ($stop_processing) exit;
 }
 
 /** Abort all output, and redirect the browser's location using standard
- * freePBX user interface variables. By default, will take POST/GET variables
+ * FreePBX user interface variables. By default, will take POST/GET variables
  * 'type' and 'display' and pass them along in the URL. 
  * Also accepts a variable number of parameters, each being the name of a variable
  * to pass on. 

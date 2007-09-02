@@ -1,3 +1,117 @@
+2.3.0
+
+- Final release is almost all bug fixes, see change logs in framework
+- Changed several categories
+- Linked Help tab into online freepbx.org help system
+
+Added in Beta2:
+- WARNING:
+ amportal has been changed to call freepbx_engine so that the framework can update that
+ script if necessary. fop_start, fop_stop and fop_restart has also been added to freepbx_engine
+ as new commands. If you are upgrading through install_amp then you will receive all these
+ changes. If you were beta testing during Beta1 and were upgraded through the Framework updgade
+  you will have to manually update the amportal script that lives under /usr/sbin normally, 
+  or run an install_amp upgrade. You can do this by changing to root and copying the file from
+  amp_conf/sbin/amportal to /usr/sbin/amportal or where ever your AMPBIN directory is located.
+- WARNING:
+  ARI split out into several modules. There may be some old ARI modules that are left over since 
+  the install script does not to delete the previous modules if they are still there. You can
+  look in the install directory under amp_conf/htdocs/recordings/modules to see what gets packaged
+  with the install. You can safetly remove any modules not listed there from the install
+  directory, typically /var/www/html/recordings/modules is where they would be.
+- New Dashboard Index page - shows notifications from the system and vital system statistics
+- New Logos and styling
+- FOP 0.27 upgrade
+- Added CID prefix and description to inbound routes
+- Added CW enable/disable to core extensions/users
+- Segregated ARI into multiple ARI modules and added CW and DND.
+- Removed followme destinations, and changed Core destinations to Extensions, Voicemail and
+  Terminate Call. Extensions will go to followme if enabled and present consistent with normal
+  dialing behavior. Voicemail can choose busy or unavail. Terminate call included the Hangup and
+  related core destinations.
+- New notification framework added to allow all notifications and errors to be consolidated
+  and used by different systems like the dashboard.
+- New crontab manager added to allow modules to install crontab type entries run by the manager.
+  Checks hourly and modules can indicate how frequently they want something run. Initially created for
+  online update checking.
+- Automatic Online Update checks with notification through the dashboard or email.
+- Framework updates modified to handle full upgrades using the same upgrades directory to
+  apply schema changes. Shared by install_amp.
+- FOP upgrading added to Framework
+- New FOPRUN variable in amportal.conf, if set to false, FOP won't be started by default
+- Added support in amportal.conf for AMPMANAGERPROXY, to use if running with a astmanproxy style proxy
+- libfreepbx.install.php split out from install_amp to consolidate common functions needed by framework
+- version array removed from install_amp upgrade script, it will now derive the version from the last
+  upgrade direcotry and use the upgrade directories to run though the installs.
+- added 'hidden' make-links-devel flag to install_amp, to install with symbolic links if running
+  out of an svn tree
+- retrieve_conf instrumented to provide notifications to the dashboard on failures
+- fixed several dependency logic bugs in the online module infastructure
+- improved the amportal.conf parser and modified retrieve_conf to use the main parser
+
+Added in Beta1:
+
+- To Get Full Details - look at the SVN logs of changes since the previous
+  release. These are only higlights.
+- WARNING:
+  Removed Follow-Me destinations and changed how 'Core Extension' destinations
+  work. This has been an area of confusion and inconsistency. Under all calling
+  conditions, if you call someone and they have an enabled Follow-Me, that is
+  where the call goes. If not, it goes to their extension. Now the Core destination
+  of an extension works the same way. There is no longer a Follow-Me destination
+  to choose from. All settings should be migrated automatically.
+- WARNING:
+  Changed default behavior of Call Waiting state when extensions are created. It is
+  now enabled by default (r4175) and you must set ENABLECW=no to keep the preivous
+  behavior
+- MOVED CORE MODULES to the module repository, meaning they can now be updated online
+  like other modules.
+- ADDED Framework Module, which provides a facility to update all the rest of FreePBX
+  through the Online Module Admin System
+- VmX Locater and its intergration with FollowMe. This is a new feature that allows
+  each VoiceMail extension to have the option of having a 'personal' IVR so the caller
+  can have choices like call them on their cell, optionally try their Follow-Me (which
+  can otherwise be disabled), etc. You check the box down with Voicemail and then
+  the user controls the rest from the ARI.
+- Added enable/disable of Follow-Me without having to delete. In disabled mode, VmX
+  can still send calls to Follow-Me.
+- ARI control of Follow-Me, VmX Locater, all CF modes, and a handful of other
+  ARI bugs addressed. (ARI is still in EOL mode - but since no user portal is ready
+  yet, it still servers as a user interface).
+- Inbound MoH classes based on DID routing or Direct DID routing.
+- Outbound MoH clases based on the outbound route selected.
+- New ring strategies for FollowMe and Ringgroups (ringallv2, firstavalable, firstonphone)
+- Per-Extension Ring Times to override the global setting in General
+- Sipname alias (that can be non-numeric) to provide user friendly sip dialing
+  information if you accept annonymous sip calls.
+- Internal calling CID Number Masquerading, to allow your internal extension appear
+  as a different number when making internal calls. (For example, a support team can
+  all masquerade with the number of a queue so that people who call them back call the
+  queue instead of their personal extension.
+- CWINUSEBUSY=yes/no in amportal.conf, to have calls to an occupied multi-line phone (or
+  CW enabled phone) end up in the voicemail busy greeting instead of the unavailable
+  greeting.
+- Asterisk 1.4 support
+- Sqlite3 support (deprecate sqlite2)
+- Day/Night Control Module
+- Recording Module with playback ability
+- Re-Introduced bad-number context, to play friendly message if a bad number is dialed. Added
+  from-internal-xfer as TRANSFER_CONTEXT in global variables. This keeps the previous error
+  of transfering a user to a bad number and dropping the transfered user into the bad-number
+  context.
+
+2.2.3
+- #2025 fix bug that blocks the editing of an extension that has a directdid
+  with an alert box saying the directdid is already in use.
+- #1747 add South Africa indications.
+- changed from auto-symlink to auto-copy of agi-bin scripts packaged with a
+  module. The symlinks create issues on some systems. To keep the coying from
+  overwriting files in the real agi-bin, make them read only permission to
+  astersik.
+- Fixed several module version dependency checking bugs
+- #1841: don't strip '+' from directdid
+- added unique unidentifiable tracking id for online system auditing
+
 2.2.2
 - To Get Full Details - look at the SVN logs of changes since the previous
   release. These are only higlights.
@@ -101,7 +215,7 @@ you change a CID or Pinset, click on the route _again_ - the changes will then b
 old module hooks were being processed, and isn't easily fixable. 
 
 2.1.1
-- Rob Thomas (xrobau@gmail.com) takes over stewardship of freePBX project from Coalescent Systems
+- Rob Thomas (xrobau@gmail.com) takes over stewardship of FreePBX project from Coalescent Systems
 - Clean up harmless warnings in recordingcheck (r1927 and r1940)
 - SIP Anonymous wasn't working when language was not set to 'en' (r1932)
 - Fixed unfortunate loop when more than 10 trunks defined (r1942)
@@ -126,7 +240,7 @@ old module hooks were being processed, and isn't easily fixable.
 
 2.0
 
-- AMP is now "freePBX"
+- AMP is now "FreePBX"
 - New module system allows for drop-in functionality
 - Requires Asterisk 1.2.x
 - All previous AMP functionality ported to new module system
@@ -137,7 +251,7 @@ old module hooks were being processed, and isn't easily fixable.
 - Outbound Routes can now use an Authenticate Password File
 - Queue Static Agents can have penalties applied
 - Using native music on hold support - no more mpg123!!
-- Default is to use freePBX database authentication.  New installs create a new user.
+- Default is to use FreePBX database authentication.  New installs create a new user.
 - Initial sqlite support!
 - Much improved form validation for all modules
 - Inbound routes can set ALERT_INFO variable for SIP devices

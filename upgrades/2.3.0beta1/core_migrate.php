@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*  core_migrate.php
  *

@@ -53,6 +53,7 @@ function install_parse_amportal_conf($filename) {
 
 function init_amportal_environment($ampconfpath) {
 	global $amp_conf, $asterisk_conf, $db, $astman;
+	global $amp_conf_defaults;
 	
 	if (!file_exists($ampconfpath)) {
 		fatal('Cannot find conf file: '.$ampconfpath);
@@ -141,16 +142,17 @@ function showList($online = false) {
 	ksort($modules);
 	
 	outn(str_pad("Module", 20));
-	outn(str_pad("Version", 12));
+	outn(str_pad("Version", 18));
 	out("Status");
 	
 	outn(str_repeat('-', 19).' ');
-	outn(str_repeat('-', 11).' ');
+	outn(str_repeat('-', 17).' ');
 	out(str_repeat('-', 19).' ');
 	
 	foreach (array_keys($modules) as $name) {
 		
-		switch ($modules[$name]['status']) {
+		$status_index = isset($modules[$name]['status'])?$modules[$name]['status']:'';
+		switch ($status_index) {
 			case MODULE_STATUS_NOTINSTALLED:
 				if (isset($modules_local[$name])) {
 					$status = 'Not Installed (Locally available)';
@@ -170,7 +172,7 @@ function showList($online = false) {
 			default:
 				// check for online upgrade
 				if (isset($modules_online[$name]['version'])) {
-					$vercomp = version_compare($modules[$name]['version'], $modules_online[$name]['version']);
+					$vercomp = version_compare_freepbx($modules[$name]['version'], $modules_online[$name]['version']);
 					if ($vercomp < 0) {
 						$status = 'Online upgrade available ('.$modules_online[$name]['version'].')';
 					} else if ($vercomp > 0) {
@@ -188,12 +190,13 @@ function showList($online = false) {
 		}
 		
 		outn(str_pad($name, 20));
-		outn(str_pad($modules[$name]['dbversion'], 12));
+		$module_version = isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'';
+		outn(str_pad($module_version, 18));
 		out($status);
 	}
 }
 
-function showCheckDepends($modulename) {
+function showReverseDepends($modulename) {
 	$modules = module_getinfo($modulename);
 	if (!isset($modules[$modulename])) {
 		fatal($modulename.' not found');
@@ -206,7 +209,7 @@ function showCheckDepends($modulename) {
 		out("No enabled modules depend on this module.");
 	}
 }
-function showReverseDepends($modulename) {
+function showCheckDepends($modulename) {
 	$modules = module_getinfo($modulename);
 	if (!isset($modules[$modulename])) {
 		fatal($modulename.' not found');
@@ -355,7 +358,7 @@ function getUpgradableModules($extarray = false) {
 	
 	foreach (array_keys($modules_local) as $name) {
 		if (isset($modules_online[$name])) {
-			if (version_compare($modules_local[$name]['version'], $modules_online[$name]['version']) < 0) {
+			if (version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']) < 0) {
 				if ($extarray) {
 					$modules_upgradable[] = array(
 						'name' => $name,
@@ -429,7 +432,7 @@ if (! @ include("Console/Getopt.php")) {
 
 // **** Parse out command-line options
 $shortopts = "h?fc:x:r:";
-$longopts = array("help","debug","config=","modulexml-path=","modulerepository-path=");
+$longopts = array("help","debug","no-warnings","config=","modulexml-path=","modulerepository-path=");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -442,6 +445,7 @@ $ampconfpath = AMP_CONF;
 
 // force operations
 $force = false;
+$no_warnings = false;
 
 // override xml and svn repository paths from hardcoded and amportal.conf defaults
 // currently only implemented for downloading (to facilitate automatic installations)
@@ -457,6 +461,9 @@ foreach ($args[0] as $arg) {
 		break;
 		case 'f': 
 			$force = true;
+		break;
+		case '--no-warnings': 
+			$no_warnings = true;
 		break;
 		case "--config": case "c":
 			$ampconfpath = $arg[1];
@@ -480,14 +487,14 @@ if (! $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["
 }
 
 $operation = $args[1][0];
-$param = $args[1][1];
+$param = isset($args[1][1]) ? $args[1][1] : null;;
 
 if (!isset($argv[1])) {
 	showhelp();
 	exit(10);
 }
 
-if ($force) {
+if ($force && !$no_warnings) {
 	out('WARNING: "force" is enabled, it is possible to create problems');
 }
 

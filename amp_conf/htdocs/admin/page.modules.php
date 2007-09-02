@@ -16,6 +16,9 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
 // can't go online if external management is on
 $online = (isset($_REQUEST['online']) && !EXTERNAL_PACKAGE_MANAGEMENT) ? $_REQUEST['online'] : false;
+// fix php errors from undefined variable. Not sure if we can just change the reference below to use
+// online since it changes values so just setting to what we decided it is here.
+$_REQUEST['online'] = $online ? 1 : 0;
 $moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false;
 /*
 	moduleaction is an array with the key as the module name, and possible values:
@@ -28,107 +31,135 @@ $moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false
 	uninstall - uninstall local module
 */
 
+$freepbx_version = get_framework_version();
+$freepbx_version = $freepbx_version ? $freepbx_version : getversion();
+$freepbx_help_url = "http://www.freepbx.org/freepbx-help-system?freepbx_version=".urlencode($freepbx_version);
+
 function pageReload(){
 return "";
 	//return "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=".rand()."'</script>";
 }
 
 
-
-?>
-<script type="text/javascript" src="common/tabber-minimized.js"></script>
-<script type="text/javascript">
-function toggleInfoPane(pane) {
-	var style = document.getElementById(pane).style;
-	if (style.display == 'none' || style.display == '') {
-		style.display = 'block';
-	} else {
-		style.display = 'none';
-	}
-}
-
-function check_upgrade_all() {
-	var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
-	for(i=0; i<document.modulesGUI.elements.length; i++) {
-		if (document.modulesGUI.elements[i].value == 'upgrade' || document.modulesGUI.elements[i].value == 'install' ) {
-			if (match = document.modulesGUI.elements[i].name.match(re)) {
-				// check the box
-				document.modulesGUI.elements[i].checked = true;
-				// expand info pane
-				document.getElementById('infopane_'+match[1]).style.display = 'block';
-			}
+if (!$quietmode) {
+	?>
+	<script type="text/javascript" src="common/tabber-minimized.js"></script>
+	<script type="text/javascript">
+	function toggleInfoPane(pane) {
+		var style = document.getElementById(pane).style;
+		if (style.display == 'none' || style.display == '') {
+			style.display = 'block';
+		} else {
+			style.display = 'none';
 		}
 	}
-}
 
-function check_download_all() {
-	var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
-	for(i=0; i<document.modulesGUI.elements.length; i++) {
-		if (document.modulesGUI.elements[i].value == 'downloadinstall') {
-			if (match = document.modulesGUI.elements[i].name.match(re)) {
-				// check the box
-				document.modulesGUI.elements[i].checked = true;
-				// expand info pane
-				document.getElementById('infopane_'+match[1]).style.display = 'block';
-			}
-		}
-	}
-}
-
-
-function showhide_upgrades() {
-	var upgradesonly = document.getElementById('show_upgradable_only').checked;
-	
-	var module_re = /^module_([a-z0-9_]+)$/;   // regex to match a module element id
-	var cat_re = /^category_([a-zA-Z0-9_]+)$/; // regex to match a category element id
-
-	var elements = document.getElementById('modulelist').getElementsByTagName('li');
-
-	// loop through all modules, check if there is an upgrade_<module> radio box 
-	for(i=0; i<elements.length; i++) {
-		if (match = elements[i].id.match(module_re)) {
-			if (!document.getElementById('upgrade_'+match[1])) {
-				// not upgradable
-				document.getElementById('module_'+match[1]).style.display = upgradesonly ? 'none' : 'block';
-			}
-		}
-	}
-	
-	
-	
-	// hide category headings that don't have any visible modules
-	
-	var elements = document.getElementById('modulelist').getElementsByTagName('div');
-	// loop through category items
-	for(i=0; i<elements.length; i++) {
-		if (elements[i].id.match(cat_re)) {
-			var subelements = elements[i].getElementsByTagName('li');
-			var display = false;
-			for(j=0; j<subelements.length; j++) {
-				// loop through children <li>'s, find names that are module element id's 
-				if (subelements[j].id.match(module_re) && subelements[j].style.display != 'none') {
-					// if at least one is visible, we're displaying this element
-					display = true;
-					break; // no need to go further
+	function check_upgrade_all() {
+		var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
+		for(i=0; i<document.modulesGUI.elements.length; i++) {
+			if (document.modulesGUI.elements[i].value == 'upgrade' || document.modulesGUI.elements[i].value == 'install' ) {
+				if (match = document.modulesGUI.elements[i].name.match(re)) {
+					// check the box
+					document.modulesGUI.elements[i].checked = true;
+					// expand info pane
+					document.getElementById('infopane_'+match[1]).style.display = 'block';
 				}
 			}
-			
-			document.getElementById(elements[i].id).style.display = display ? 'block' : 'none';
 		}
 	}
-	
+
+	function check_download_all() {
+		var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
+		for(i=0; i<document.modulesGUI.elements.length; i++) {
+			if (document.modulesGUI.elements[i].value == 'downloadinstall') {
+				if (match = document.modulesGUI.elements[i].name.match(re)) {
+					// check the box
+					document.modulesGUI.elements[i].checked = true;
+					// expand info pane
+					document.getElementById('infopane_'+match[1]).style.display = 'block';
+				}
+			}
+		}
+	}
+
+
+	function showhide_upgrades() {
+		var upgradesonly = document.getElementById('show_upgradable_only').checked;
+		
+		var module_re = /^module_([a-z0-9_]+)$/;   // regex to match a module element id
+		var cat_re = /^category_([a-zA-Z0-9_]+)$/; // regex to match a category element id
+
+		var elements = document.getElementById('modulelist').getElementsByTagName('li');
+
+		// loop through all modules, check if there is an upgrade_<module> radio box 
+		for(i=0; i<elements.length; i++) {
+			if (match = elements[i].id.match(module_re)) {
+				if (!document.getElementById('upgrade_'+match[1])) {
+					// not upgradable
+					document.getElementById('module_'+match[1]).style.display = upgradesonly ? 'none' : 'block';
+				}
+			}
+		}
+		
+		
+		
+		// hide category headings that don't have any visible modules
+		
+		var elements = document.getElementById('modulelist').getElementsByTagName('div');
+		// loop through category items
+		for(i=0; i<elements.length; i++) {
+			if (elements[i].id.match(cat_re)) {
+				var subelements = elements[i].getElementsByTagName('li');
+				var display = false;
+				for(j=0; j<subelements.length; j++) {
+					// loop through children <li>'s, find names that are module element id's 
+					if (subelements[j].id.match(module_re) && subelements[j].style.display != 'none') {
+						// if at least one is visible, we're displaying this element
+						display = true;
+						break; // no need to go further
+					}
+				}
+				
+				document.getElementById(elements[i].id).style.display = display ? 'block' : 'none';
+			}
+		}
+		
+	}
+
+	function process_module_actions(actions) {
+		freepbx_modal_show('moduleBox');
+		urlStr = "config.php?type=tool&amp;display=modules&amp;extdisplay=process&amp;quietmode=1";
+		for (var i in actions) {
+			urlStr += "&amp;moduleaction["+i+"]="+actions[i];
+		}
+		$('#moduleBox').html('<iframe src="'+urlStr+'"></iframe>');
+	}
+	function close_module_actions(goback) {
+		//freepbx_modal_close('moduleBox');
+		freepbx_modal_hide('moduleBox');
+		if (goback) {
+			location.href = 'config.php?display=modules&amp;type=tool&amp;online=<?php echo ($_REQUEST['online']?1:0); ?>';
+		}
+	}
+
+	</script>
+	<?php
+
+	echo "<h2>" . _("Module Administration") . "</h2>";
+} else {
+	// $quietmode==true
+	?>
+	<html><head>
+		<link href="common/mainstyle.css" rel="stylesheet" type="text/css" />
+	</head><body>
+	<?php
 }
-
-</script>
-<?php
-
-echo "<h2>" . _("Module Administration") . "</h2>";
 
 
 $modules_local = module_getinfo();
 
 if ($online) {
-	$modules_online = module_getonlinexml(false, $connect_error);
+	$modules_online = module_getonlinexml(false);
 	
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
@@ -150,7 +181,7 @@ if ($online) {
 				// explicitly override these values with the _local ones
 				// - should never come from _online anyways, but this is just to be sure
 				$modules[$name]['status'] = $modules_local[$name]['status'];
-				$modules[$name]['dbversion'] = $modules_local[$name]['dbversion'];
+				$modules[$name]['dbversion'] = isset($modules_local[$name]['dbversion'])?$modules_local[$name]['dbversion']:'';
 			} else {
 				// not local, so it's not installed
 				$modules[$name]['status'] = MODULE_STATUS_NOTINSTALLED;
@@ -255,6 +286,7 @@ function enable_option($module_name, $option) {
 //--------------------------------------------------------------------------------------------------------
 switch ($extdisplay) {  // process, confirm, or nothing
 	case 'process':
+		echo "<div id=\"moduleBoxContents\">";
 		echo "<h4>"._("Please wait while module actions are performed")."</h4>\n";
 		
 		echo "<div id=\"moduleprogress\">";
@@ -338,7 +370,12 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 		}
 		echo "</div>";
-		echo "\t<input type=\"button\" value=\""._("Return")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=tool&amp;online=".($_REQUEST['online']?1:0)."';\" />";
+		if ($quietmode) {
+			echo "\t<a href=\"#\" onclick=\"parent.close_module_actions(true);\" />"._("Return")."</a>";
+		} else {
+			echo "\t<input type=\"button\" value=\""._("Return")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=tool&amp;online=".($_REQUEST['online']?1:0)."';\" />";
+		echo "</div>";
+		}
 	break;
 	case 'confirm':
 		ksort($moduleaction);
@@ -349,6 +386,8 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "<input type=\"hidden\" name=\"online\" value=\"".$online."\" />";
 		echo "<input type=\"hidden\" name=\"extdisplay\" value=\"process\" />";
 		
+		echo "\t<script type=\"text/javascript\"> var moduleActions = new Array(); </script>\n";
+		
 		$actionstext = array();
 		$errorstext = array();
 		foreach ($moduleaction as $module => $action) {	
@@ -358,7 +397,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			if (!isset($modules[$module]['name'])) {
 				$modules[$module]['name'] = $module;
 			}
-
+			
 			switch ($action) {
 				case 'upgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
@@ -428,7 +467,8 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 			}
-			echo "\t<input type=\"hidden\" name=\"moduleaction[".$module."]\" value=\"".$action."\" />\n";
+			//echo "\t<input type=\"hidden\" name=\"moduleaction[".$module."]\" value=\"".$action."\" />\n";
+			echo "\t<script type=\"text/javascript\"> moduleActions['".$module."'] = '".$action."'; </script>\n";
 		}
 		
 		if (count($errorstext) > 0) {
@@ -447,7 +487,8 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 			echo "</ul>";
 			
-			echo "\t<input type=\"submit\" value=\"Confirm\" name=\"process\" />";
+			//echo "\t<input type=\"submit\" value=\"Confirm\" name=\"process\" />";
+			echo "\t<input type=\"button\" value=\"Confirm\" name=\"process\" onclick=\"process_module_actions(moduleActions);\" />";
 		} else {
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
@@ -485,7 +526,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 			
 		} else {
-			echo "<p>"._('You can upload a tar gzip file containing a freePBX module from your local system. If a module with the same name already exists, it will be overwritten.')."</p>\n";
+			echo "<p>"._('You can upload a tar gzip file containing a FreePBX module from your local system. If a module with the same name already exists, it will be overwritten.')."</p>\n";
 		
 			echo "<form name=\"modulesGUI-upload\" action=\"config.php\" method=\"post\" enctype=\"multipart/form-data\">";
 			echo "<input type=\"hidden\" name=\"display\" value=\"".$display."\" />";
@@ -588,7 +629,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				break;
 				case MODULE_STATUS_DISABLED:
 					if (isset($modules_online[$name]['version'])) {
-						$vercomp = version_compare($modules_local[$name]['version'], $modules_online[$name]['version']);
+						$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
 						if ($vercomp < 0) {
 							echo '<span class="alert">'.sprintf(_('Disabled; Online upgrade available (%s)'),$modules_online[$name]['version']).'</span>';
 						} else if ($vercomp > 0) {
@@ -609,7 +650,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				default:
 					// check for online upgrade
 					if (isset($modules_online[$name]['version'])) {
-						$vercomp = version_compare($modules_local[$name]['version'], $modules_online[$name]['version']);
+						$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
 						if ($vercomp < 0) {
 							echo '<span class="alert">'.sprintf(_('Online upgrade available (%s)'), $modules_online[$name]['version']).'</span>';
 						} else if ($vercomp > 0) {
@@ -669,7 +710,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
 							 '<label for="uninstall_'.prep_id($name).'">'._('Uninstall').'</label> <br />';
 						if (isset($modules_online[$name]['version'])) {
-							$vercomp = version_compare($modules_local[$name]['version'], $modules_online[$name]['version']);
+							$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
 							if ($vercomp < 0) {
 								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
 									 '<label for="upgrade_'.prep_id($name).'">'.sprintf(_('Download and Upgrade to %s, and Enable'),$modules_online[$name]['version']).'</label> <br />';
@@ -696,7 +737,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				default:
 					// check for online upgrade
 					if (isset($modules_online[$name]['version'])) {
-						$vercomp = version_compare($modules_local[$name]['version'], $modules_online[$name]['version']);
+						$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
 						if ($vercomp < 0) {
 							if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
@@ -725,6 +766,8 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 			if (isset($modules[$name]['info']) && !empty($modules[$name]['info'])) {
 				echo '<p>'._('More info').': <a href="'.$modules[$name]['info'].'" target="_new">'.$modules[$name]['info'].'</a></p>';
+			} else {
+				echo '<p>'._('More info').': <a href="'."$freepbx_help_url&freepbx_module=".urlencode($name).'" target="help">Get help for '.$modules[$name]['name'].'</a></p>';
 			}
 			echo "\t\t\t\t</div>\n";
 			
@@ -739,7 +782,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				echo "\t\t\t\t</div>\n";
 			}
 			
-			if (isset($amp_conf['AMPDEVEL']) && $amp_conf['AMPDEVEL'] == 'true') {
+			if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL'] == 'true') {
 				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Debug")."\">\n";
 				echo "\t\t\t\t<h5>".$name."</h5><pre>\n";
 				print_r($modules_local[$name]);
@@ -785,6 +828,10 @@ switch ($extdisplay) {  // process, confirm, or nothing
 
 		echo "</form>";
 	break;
+}
+
+if ($quietmode) {
+	echo '</body></html>';
 }
 
 ?>

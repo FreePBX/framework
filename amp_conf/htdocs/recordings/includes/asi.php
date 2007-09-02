@@ -117,6 +117,39 @@ class AsteriskManagerInterface {
     return $response;
   }
 
+  function command2($command) {
+
+    $response = '';
+
+    fwrite($this->socket,$command);
+
+    $count = 0;
+    while (($buffer = fgets($this->socket)) && (!preg_match('/Response: Follows/i', $buffer))) {
+
+      if ($count>100) {
+        $_SESSION['ari_error'] =  _("Asterisk command not understood") . "<br />" . $buffer . "<br />\n";
+        return FALSE;
+      }
+      $count++;
+    }
+
+    $count = 0;
+    while (($buffer = fgets($this->socket)) && (!preg_match('/END COMMAND/i', $buffer))) {
+
+      if (preg_match('/Value:/',$buffer)) {
+        $parts = split('Value:',trim($buffer));
+        $response = $parts[1];
+      }
+      if ($count>100) {
+        $_SESSION['ari_error'] =  _("Asterisk command not understood") . "<br />" . $buffer . "<br />\n";
+        return;
+      }
+      $count++;
+    }
+
+    return $response;
+  }
+
 }  
 
 

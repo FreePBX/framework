@@ -113,6 +113,12 @@ function databaseLogon() {
 
   global $loaded_modules;
 
+	// This variable is a global in the FreePBX function.inc.php but needs to be
+	// declared here or the is not seen when parse_amprotaconf() is eventually called
+	// ?php bug?
+	//
+	global $amp_conf_defaults;
+
   // get user
   if ($STANDALONE['use']) {
 

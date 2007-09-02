@@ -5,6 +5,6 @@
  * version
  */
 
-$ARI_VERSION = '00.10.02';
+$ARI_VERSION = 'FreePBX 2.3b2';
 
 ?>

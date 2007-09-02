@@ -103,7 +103,7 @@ function getFiles($path,$filter,$recursive_max,$recursive_count) {
   if (@is_dir($path) && @is_readable($path)) {
     $dh = opendir($path);
     while (false!== ($item = readdir($dh))) {
-      if($item!="." && $item!="..") {
+      if($item[0]!=".") {
 
         $path = fixPathSlash($path);
         $msg_path = appendPath($path,$item);

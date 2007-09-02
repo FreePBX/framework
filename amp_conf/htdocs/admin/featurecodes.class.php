@@ -12,7 +12,7 @@ class featurecode
 	// CONSTRUCTOR
 	function featurecode($modulename, $featurename) {
 		if ($modulename == '' || $featurename == '')
-			die('feature code class must be called with ModuleName and FeatureName');
+			die_freepbx('feature code class must be called with ModuleName and FeatureName');
 
 		$this->_modulename = $modulename;
 		$this->_featurename = $featurename;
@@ -32,7 +32,7 @@ class featurecode
 	function init($opt = 0) {
 		if ($this->isReady()) {
 			if ($opt < 2)
-				die('FeatureCode: init already called!');
+				die_freepbx('FeatureCode: init already called!');
 		}
 			
 		$s = "SELECT description, defaultcode, customcode, enabled ";
@@ -64,7 +64,7 @@ class featurecode
 		}
 
 		if (!$this->isReady())
-			die('FeatureCode: class function init never called...will not update');
+			die_freepbx('FeatureCode: class function init never called...will not update');
 
 		
 		if ($this->_loaded) {
@@ -187,9 +187,8 @@ class featurecode
 	function delete() {
 		$s = "DELETE ";
 		$s .= "FROM featurecodes ";
-		$s .= "WHERE modulename = ".sql_formattext($modulename)." ";
-		$s .= "AND featurename = ".sql_formattext($featurename);
-		
+		$s .= "WHERE modulename = ".sql_formattext($this->_modulename)." ";
+		$s .= "AND featurename = ".sql_formattext($this->_featurename);
 		sql($s, 'query');
 		
 		$this->_enabled = -1; // = not ready

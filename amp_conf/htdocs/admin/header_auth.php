@@ -1,121 +1,85 @@
 <?php
-header('Expires: Sat, 01 Jan 2000 00:00:00 GMT'); 
-header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); 
-header('Cache-Control: post-check=0, pre-check=0',false); 
-header('Pragma: no-cache'); 
-session_cache_limiter('public, no-store'); 
 
-// connect to database
-require_once('common/db_connect.php'); //PEAR must be installed
+if (isset($_REQUEST['logout'])) {
+	// logging out..
+	// remove the user
+	unset($_SESSION['AMP_user']);
+	// flag to prompt for pw again
+	$_SESSION['logout'] = true; 
 
-function check_login() {
-	global	$amp_conf;
+	showview('loggedout');
+	exit;
+}
 
-	if ($amp_conf['AUTHTYPE'] == 'database') {
-		$baselink = (isset($_SERVER['HTTPS'])?'https://':'http://').$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
-
-		// start a session and don't let it stop automatically
-		session_set_cookie_params(0);
-		if (!session_id()) session_start();
-		setcookie('PHPSESSID', session_id());
-
-		// check if the current loading of the page is the first loading after a logout
-		if (isset($_SESSION['logout'])) {
-			unset($_SESSION['logout']);
-			//
-			// initialize a relogin on Firefox
-			// (request login with username 'relogin'):
-			//
-			// CAUTION: After that, relative hyperlinks like
-			//  <a href="{$_SERVER['PHP_SELF']}">Link</a>
-			// may be translated into an absolute hyperlink like
-			//  http://relogin:relogin@...
-			// which will lead to an error-message in Firefox.
-			//
-			// So you always have to use absolute hyperlinks like $baselink.
-			//
-			if (! preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) {
-				$link = preg_replace('/^(https{0,1}\/\/)(.*)$/', '$1relogin:relogin@$2', $baselink);
-				header("Location: $link");
-				exit;
-			}
-		}
-
-		// check if a new realm needs to be generated because
-		// it's the first loading of the page (or the first loading
-		// after a logout):
-		//
-		// Remark: The realm is generated with a random ID number
-		// because Internet Explorer will forget the username if the
-		// realm changes. Unfortunately Firefox doesn't do so.
-		if (! isset($_SESSION['realm'])) {
-			srand();
-			$_SESSION['realm'] = 'freePBX (SEQ'.mt_rand( 1, 1000000000 ).')'; 
-			$_SESSION['login'] = true;
-			header("WWW-Authenticate: Basic realm=\"{$_SESSION['realm']}\""); 
-			header('HTTP/1.0 401 Unauthorized'); 
-			return false;
-		}
-
-		// check if a user has already logged in before
-		if (isset($_SESSION['AMP_user'])) {
-			unset($_SESSION['login']);
-			return true;
-		}
-
-		// check if a user just entered a username and password
-		//
-		// is_authorized() has to return 'true' if and only if
-		// the username and the passwort given are correct.
-		if (isset($_SESSION['login'])) {
-			if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+switch (strtolower($amp_conf['AUTHTYPE'])) {
+	case 'database':
+		if (!isset($_SESSION['AMP_user']) && isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && !isset($_REQUEST['logout'])) {
+			if (isset($_SESSION['logout']) && $_SESSION['logout']) {
+				// workaround for HTTP-auth - just tried to logout, don't allow a log in (with the same credentials)
+				unset($_SESSION['logout']);
+				// afterwards, this falls through to the !AMP_user check below, and sends 401 header, which causes the browser to re-prompt the user
+			} else {
+				// not logged in, and have provided a user/pass
 				$_SESSION['AMP_user'] = new ampuser($_SERVER['PHP_AUTH_USER']);
-
+				
 				if (!$_SESSION['AMP_user']->checkPassword($_SERVER['PHP_AUTH_PW'])) {
-					// one last chance -- check admin user
+					// failed, one last chance -- fallback to amportal.conf db admin user
 					if ( (count(getAmpAdminUsers()) == 0) && ($_SERVER['PHP_AUTH_USER'] == $amp_conf['AMPDBUSER']) 
-						&& ($_SERVER['PHP_AUTH_PW'] == $amp_conf['AMPDBPASS'])) {
-
+					  && ($_SERVER['PHP_AUTH_PW'] == $amp_conf['AMPDBPASS'])) {
+	
+						// password succesfully matched amportal.conf db admin user 
+	
 						// set admin access
 						$_SESSION['AMP_user']->setAdmin();
-						unset($_SESSION['login']);
-						return true;
+					} else {
+						// password failed and admin user fall-back failed
+						unset($_SESSION['AMP_user']);
 					}
-				} else {
-					unset($_SESSION['login']);
-					return true;
+				} // else, succesfully logged in
+			} 
+		}
+
+		if (!isset($_SESSION['AMP_user'])) {
+			// not logged in, send headers
+			@header('WWW-Authenticate: Basic realm="FreePBX '._('Administration').'"');
+			@header('HTTP/1.0 401 Unauthorized');
+			showview("unauthorized");
+			exit;
+		}
+	break;
+	case 'webserver':
+		// handler for apache doing authentication
+		if ((!isset($_SESSION['AMP_user']) || ($_SESSION['AMP_user']->username != $_SERVER['PHP_AUTH_USER'])) && !isset($_REQUEST['logout'])) {
+			// not logged in, or username has changed;  and not trying to log out
+			
+			if (isset($_SESSION['logout']) && $_SESSION['logout']) {
+				// workaround for HTTP-auth - just tried to logout, don't allow a log in (with the same credentials)
+				unset($_SESSION['logout']);
+				// afterwards, this falls through to the !AMP_user check below, and sends 401 header, which causes the browser to re-prompt the user
+			} else {
+				$_SESSION['AMP_user'] = new ampuser($_SERVER['PHP_AUTH_USER']);
+				
+				if ($_SESSION['AMP_user']->username == $amp_conf['AMPDBUSER']) {
+					// admin user, grant full access
+					$_SESSION['AMP_user']->setAdmin();
 				}
 			}
 		}
 
-		// let the browser ask for a username and a password
-		$_SESSION['login'] = true;
-		header("WWW-Authenticate: Basic realm=\"{$_SESSION['realm']}\"");
-		header('HTTP/1.0 401 Unauthorized');
-		
-		return false;
-	} else {
+		if (!isset($_SESSION['AMP_user'])) {
+			// not logged in, send headers
+			@header('WWW-Authenticate: Basic realm="FreePBX '._('Administration').'"');
+			@header('HTTP/1.0 401 Unauthorized');
+			showview("unauthorized");
+			exit;
+		}
+	case 'none':
+	default:
 		if (!isset($_SESSION['AMP_user'])) {
 			$_SESSION['AMP_user'] = new ampuser($amp_conf['AMPDBUSER']);
+			$_SESSION['AMP_user']->setAdmin();
 		}
-		$_SESSION['AMP_user']->setAdmin();
-
-		return true;
-	}
+	break;
 }
 
-$result = check_login();
-if ( !(isset($result) ? $result : false) ) {
-	unset($_SESSION['AMP_user']);
-}
-
-include 'header.php';
-
-if ( !(isset($result) ? $result : false) ) {
-	echo "\t<br><br><br><br><center><h2>";
-	echo _("You must log in first before you can access this page.");
-	echo "</h2></center><br><br><br><br>\n"; 
-	include 'footer.php';
-	exit;
-}
 ?>

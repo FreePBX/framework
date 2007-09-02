@@ -7,7 +7,7 @@ include_once(dirname(__FILE__) . "/lib/Class.Table.php");
 //session_start();
 
 getpost_ifset(array('posted', 'Period', 'frommonth', 'fromstatsmonth', 'tomonth', 'tostatsmonth', 'fromday', 'fromstatsday_sday', 'fromstatsmonth_sday', 'today', 'tostatsday_sday', 'tostatsmonth_sday', 'dsttype', 'sourcetype', 'clidtype', 'channel', 'resulttype', 'stitle', 'atmenu', 'current_page', 'order', 'sens', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode', 'duration1', 'duration1type', 'duration2', 'duration2type'));
-if (($resulttype == null) || ($resulttype == "")) unset($resulttype);
+if (isset($resulttype) && (($resulttype == null) || ($resulttype == ""))) unset($resulttype);
 
 //echo "'posted=$posted', 'Period=$Period', 'frommonth=$frommonth', 'fromstatsmonth=$fromstatsmonth', 'tomonth=$tomonth', 'tostatsmonth=$tostatsmonth', 'fromday=$fromday', 'fromstatsday_sday=$fromstatsday_sday', 'fromstatsmonth_sday=$fromstatsmonth_sday', 'today=$today', 'tostatsday_sday=$tostatsday_sday', 'tostatsmonth_sday=$tostatsmonth_sday', 'dsttype=$dsttype', 'sourcetype=$sourcetype', 'clidtype=$clidtype', 'channel=$channel', 'resulttype=$resulttype', 'stitle=$stitle', 'atmenu=$atmenu', 'current_page=$current_page', 'order=$order', 'sens=$sens', 'dst=$dst', 'src=$src', 'clid=$clid', 'userfieldtype=$userfieldtype', 'userfield=$userfield', 'accountcodetype=$accountcodetype', 'accountcode=$accountcode', 'duration1=$duration1', 'duration1type=$duration1type', 'duration2=$duration2', 'duration2type=$duration2type'";
 
@@ -119,7 +119,7 @@ $FG_EDITION=true;
 
 //This variable will store the total number of column
 $FG_TOTAL_TABLE_COL = $FG_NB_TABLE_COL;
-if ($FG_DELETION || $FG_EDITION) $FG_TOTAL_TABLE_COL++;
+if ((isset($FG_DELETION) && $FG_DELETION) || $FG_EDITION) $FG_TOTAL_TABLE_COL++;
 
 //This variable define the Title of the HTML table
 $FG_HTML_TABLE_TITLE=" - Call Logs - ";
@@ -135,7 +135,7 @@ $instance_table = new Table($FG_TABLE_NAME, $FG_COL_QUERY);
 $instance_table_graph = new Table($FG_TABLE_NAME, $FG_COL_QUERY_GRAPH);
 
 
-if ( is_null ($order) || is_null($sens) ){
+if ( !isset($order) ||  is_null($order) || is_null($sens) ){
 	$order = $FG_TABLE_DEFAULT_ORDER;
 	$sens  = $FG_TABLE_DEFAULT_SENS;
 }
@@ -212,12 +212,12 @@ if (DB_TYPE == "postgres"){
 		$UNIX_TIMESTAMP = "UNIX_TIMESTAMP";
 }
 
-if ($Period=="Month"){
+if (isset($Period) && $Period=="Month"){
 		if ($frommonth && isset($fromstatsmonth)) $date_clause.=" AND $UNIX_TIMESTAMP(calldate) >= $UNIX_TIMESTAMP('$fromstatsmonth-01')";
 		if ($tomonth && isset($tostatsmonth)) $date_clause.=" AND $UNIX_TIMESTAMP(calldate) <= $UNIX_TIMESTAMP('$tostatsmonth-31 23:59:59')";
 }else{
-		if ($fromday && isset($fromstatsday_sday) && isset($fromstatsmonth_sday)) $date_clause.=" AND $UNIX_TIMESTAMP(calldate) >= $UNIX_TIMESTAMP('$fromstatsmonth_sday-$fromstatsday_sday')";
-		if ($today && isset($tostatsday_sday) && isset($tostatsmonth_sday)) $date_clause.=" AND $UNIX_TIMESTAMP(calldate) <= $UNIX_TIMESTAMP('$tostatsmonth_sday-".sprintf("%02d",intval($tostatsday_sday)/*+1*/)." 23:59:59')";
+		if ((isset($fromday) && $fromday) && isset($fromstatsday_sday) && isset($fromstatsmonth_sday)) $date_clause.=" AND $UNIX_TIMESTAMP(calldate) >= $UNIX_TIMESTAMP('$fromstatsmonth_sday-$fromstatsday_sday')";
+		if ((isset($today) && $today) && isset($tostatsday_sday) && isset($tostatsmonth_sday)) $date_clause.=" AND $UNIX_TIMESTAMP(calldate) <= $UNIX_TIMESTAMP('$tostatsmonth_sday-".sprintf("%02d",intval($tostatsday_sday)/*+1*/)." 23:59:59')";
 }
 //echo "<br>$date_clause<br>";
 /*
@@ -251,7 +251,7 @@ if (!isset ($FG_TABLE_CLAUSE) || strlen($FG_TABLE_CLAUSE)==0){
 
 /* --AMP BEGIN-- */
 //enforce restrictions for this AMP User
-session_start();
+@session_start();
 $AMP_CLAUSE = $_SESSION['AMP_SQL'];
 if (!isset($AMP_CLAUSE)) {
         $AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
@@ -330,12 +330,12 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 			<tbody><tr>
         		<td class="bar-search" align="left" bgcolor="#555577">
 
-					<input type="radio" name="Period" value="Month" <?php  if (($Period=="Month") || !isset($Period)){ ?>checked="checked" <?php  } ?>> 
+					<input type="radio" name="Period" value="Month" <?php  if (!isset($Period) || $Period=="Month"){ ?>checked="checked" <?php  } ?>> 
 					<font face="verdana" size="1" color="#ffffff"><b>Selection of the month</b></font>
 				</td>
       			<td class="bar-search" align="left" bgcolor="#cddeff">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#cddeff"><tr><td>
-	  				<input type="checkbox" name="frommonth" value="true" <?php  if ($frommonth){ ?>checked<?php }?>> 
+	  				<input type="checkbox" name="frommonth" value="true" <?php  if (isset($frommonth) && $frommonth){ ?>checked<?php }?>> 
 					From : <select name="fromstatsmonth">
 					<?php 	$year_actual = date("Y");  	
 						for ($i=$year_actual;$i >= $year_actual-1;$i--)
@@ -355,7 +355,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					?>		
 					</select>
 					</td><td>&nbsp;&nbsp;
-					<input type="checkbox" name="tomonth" value="true" <?php  if ($tomonth){ ?>checked<?php }?>> 
+					<input type="checkbox" name="tomonth" value="true" <?php  if (isset($tomonth) && $tomonth){ ?>checked<?php }?>> 
 					To : <select name="tostatsmonth">
 					<?php 	$year_actual = date("Y");  	
 						for ($i=$year_actual;$i >= $year_actual-1;$i--)
@@ -385,7 +385,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 				</td>
       			<td align="left" bgcolor="#acbdee">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#acbdee"><tr><td>
-	  				<input type="checkbox" name="fromday" value="true" <?php  if ($fromday){ ?>checked<?php }?>> From : 
+	  				<input type="checkbox" name="fromday" value="true" <?php  if (isset($fromday) && $fromday){ ?>checked<?php }?>> From : 
 					<select name="fromstatsday_sday">
 						<?php  
 							for ($i=1;$i<=31;$i++){
@@ -413,7 +413,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					?>
 					</select>
 					</td><td>&nbsp;&nbsp;
-					<input type="checkbox" name="today" value="true" <?php  if ($today){ ?>checked<?php }?>> To : 
+					<input type="checkbox" name="today" value="true" <?php  if (isset($today) && $today){ ?>checked<?php }?>> To : 
 					<select name="tostatsday_sday">
 					<?php  
 						for ($i=1;$i<=31;$i++){
@@ -462,9 +462,9 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 				<td class="bar-search" align="left" bgcolor="#acbdee">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#acbdee"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="src" value="<?php echo "$src";?>"></td>
 				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="1" <?php if((!isset($sourcetype))||($sourcetype==1)){?>checked<?php }?>>Exact</td>
-				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="2" <?php if($sourcetype==2){?>checked<?php }?>>Begins with</td>
-				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="3" <?php if($sourcetype==3){?>checked<?php }?>>Contains</td>
-				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="4" <?php if($sourcetype==4){?>checked<?php }?>>Ends with</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="2" <?php if(isset($sourcetype) && $sourcetype==2){?>checked<?php }?>>Begins with</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="3" <?php if(isset($sourcetype) && $sourcetype==3){?>checked<?php }?>>Contains</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="4" <?php if(isset($sourcetype) && $sourcetype==4){?>checked<?php }?>>Ends with</td>
 				</tr></table></td>
 			</tr>
 <!-- AMP			<tr>
@@ -543,7 +543,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 				<td class="bar-search" align="center" bgcolor="#acbdee">
 					<input type="image"  name="image16" align="top" border="0" src="images/button-search.gif" />
 					&nbsp;&nbsp;&nbsp;&nbsp;
-					Result : Minutes<input type="radio" NAME="resulttype" value="min" <?php if((!isset($resulttype))||($resulttype=="min")){?>checked<?php }?>> - Seconds <input type="radio" NAME="resulttype" value="sec" <?php if($resulttype=="sec"){?>checked<?php }?>>
+					Result : Minutes<input type="radio" NAME="resulttype" value="min" <?php if(!isset($resulttype) || $resulttype=="min"){?>checked<?php }?>> - Seconds <input type="radio" NAME="resulttype" value="sec" <?php if(isset($resulttype) && $resulttype=="sec"){?>checked<?php }?>>
 	  			</td>
     		</tr>
 		</tbody></table>
@@ -629,7 +629,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 							//$FG_TABLE_COL[]=array ("Name", "name", "20%");
 							
 							
-							if ($FG_TABLE_COL[$i][6]=="lie"){
+							if (isset($FG_TABLE_COL[$i][6]) && $FG_TABLE_COL[$i][6]=="lie"){
 
 
 									$instance_sub_table = new Table($FG_TABLE_COL[$i][7], $FG_TABLE_COL[$i][8]);
@@ -645,7 +645,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 										$record_display = str_replace("%$l", $select_list[0][$l-1], $record_display);	
 									}
 								
-							}elseif ($FG_TABLE_COL[$i][6]=="list"){
+							}elseif (isset($FG_TABLE_COL[$i][6]) && $FG_TABLE_COL[$i][6]=="list"){
 									$select_list = $FG_TABLE_COL[$i][7];
 									$record_display = $select_list[$recordset[$i]][0];
 							
@@ -757,7 +757,7 @@ foreach ($list_total as $recordset){
 
 
 $mmax=0;
-$totalcall==0;
+$totalcall=0;
 $totalminutes=0;
 foreach ($list_total_day as $data){	
 	if ($mmax < $data[1]) $mmax=$data[1];
