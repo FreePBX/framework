@@ -42,7 +42,15 @@ switch ($db_engine)
 		if (isset($amp_conf["AMPDBFILE"]) == "")
 			die_freepbx("AMPDBFILE in /etc/amportal.conf cannot be blank");
 
-		require_once('DB/sqlite3.php');
+		/* on centos this extension is not loaded by default */
+		if (! extension_loaded('sqlite3.so') )
+			dl('sqlite3.so');
+
+		if (! @require_once('DB/sqlite3.php') )
+		{
+			die_freepbx("Your PHP installation has no PEAR/SQLite3 support. Please install php-sqlite3 and php-pear.");
+		}
+
 		$datasource = "sqlite3:///" . $amp_conf["AMPDBFILE"] . "?mode=0666";
 		$db = DB::connect($datasource);
 		break;

@@ -24,10 +24,14 @@ function error($text) {
 }
 
 function fatal($text, $extended_text="", $type="FATAL") {
+	global $db;
+
 	echo "[$type] ".$text." ".$extended_text."\n";
 
-	$nt = notifications::create($db);
-	$nt->add_critical('cron_manager', $type, $text, $extended_text);
+	if(!DB::isError($db)) {
+		$nt = notifications::create($db);
+		$nt->add_critical('cron_manager', $type, $text, $extended_text);
+	}
 
 	exit(1);
 }

@@ -904,25 +904,7 @@ switch ($db_engine)
 		break;
 	
 	case "sqlite":
-		if (! @ include('DB/sqlite.php'))
-		{
-			out("FAILED");
-			fatal( "Your PHP installation lacks SQLite support" );
-		}
-	
-		if (!isset($amp_conf["AMPDBFILE"]))
-			die("You must setup properly AMPDBFILE in ".AMP_CONF);
-	
-		if (isset($amp_conf["AMPDBFILE"]) == "")
-			die("AMPDBFILE in ".AMP_CONF." cannot be blank");
-	
-		$DSN = array (
-			"database" => $amp_conf["AMPDBFILE"],
-			"mode" => 0666
-		);
-	
-		$db = new DB_sqlite();
-		$db->connect( $DSN );
+		die_freepbx("SQLite2 support is deprecated. Please use sqlite3 only.");
 		break;
 	
 	case "sqlite3":
@@ -932,7 +914,16 @@ switch ($db_engine)
 		if (isset($amp_conf["AMPDBFILE"]) == "")
 			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
 
-		require_once('DB/sqlite3.php');
+		/* on centos this extension is not loaded by default */
+		if (! extension_loaded('sqlite3.so') )
+			dl('sqlite3.so');
+
+		if (! @require_once('DB/sqlite3.php') )
+		{
+			out("FAILED");
+			fatal( "Your PHP installation has no PEAR/SQLite3 support. Please install php-sqlite3 and php-pear.");
+		}
+
 		$datasource = "sqlite3:///" . $amp_conf["AMPDBFILE"] . "?mode=0666";
 		$db = DB::connect($datasource);
 		break;

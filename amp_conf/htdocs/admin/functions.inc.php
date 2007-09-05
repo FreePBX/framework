@@ -667,7 +667,7 @@ function sql($sql,$type="query",$fetchmode=null) {
 	global $db;
 	$results = $db->$type($sql,$fetchmode);
 	if(DB::IsError($results)) {
-		die_freepbx($results->getDebugInfo());
+		die_freepbx($results->getDebugInfo() . "SQL - <br> $sql" );
 	}
 	return $results;
 }
