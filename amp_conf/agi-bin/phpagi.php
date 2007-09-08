@@ -803,6 +803,7 @@
     */
     function exec_sipaddheader($header, $value)
     {
+      $value = preg_replace("/\ /","\\\ ",$value);
       return $this->exec('SIPAddHeader', $header.":".$value);
     }
 
