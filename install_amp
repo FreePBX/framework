@@ -791,6 +791,20 @@ if (count($asterisk_conf) == 0) {
 }
 out("OK");
 
+/* deprecated on freepbx 2.2, from now pages need to read this information 
+   from $asterik_conf and not $amp_conf.
+   
+   this code will stay in 2.2, but in 2.3 it will be gone. developers - please
+   update your code
+ */
+if (isset($asterisk_conf['astetcdir'])) { $amp_conf['ASTETCDIR'] = $asterisk_conf['astetcdir']; }
+if (isset($asterisk_conf['astmoddir'])) { $amp_conf['ASTMODDIR'] = $asterisk_conf['astmoddir']; }
+if (isset($asterisk_conf['astvarlibdir'])) { $amp_conf['ASTVARLIBDIR'] = $asterisk_conf['astvarlibdir']; }
+if (isset($asterisk_conf['astagidir'])) { $amp_conf['ASTAGIDIR'] = $asterisk_conf['astagidir']; }
+if (isset($asterisk_conf['astspooldir'])) { $amp_conf['ASTSPOOLDIR'] = $asterisk_conf['astspooldir']; }
+if (isset($asterisk_conf['astrundir'])) { $amp_conf['ASTRUNDIR'] = $asterisk_conf['astrundir']; }
+if (isset($asterisk_conf['astlogdir'])) { $amp_conf['ASTLOGDIR'] = $asterisk_conf['astlogdir']; }
+
 if (!isset($pbx_engine)) { $pbx_engine='asterisk'; }
 out("Using $pbx_engine as PBX Engine");
 $amp_conf["AMPENGINE"]=$pbx_engine;
