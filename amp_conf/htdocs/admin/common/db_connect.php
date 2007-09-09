@@ -43,7 +43,7 @@ switch ($db_engine)
 			die_freepbx("AMPDBFILE in /etc/amportal.conf cannot be blank");
 
 		/* on centos this extension is not loaded by default */
-		if (! extension_loaded('sqlite3.so') )
+		if (! extension_loaded('sqlite3') )
 			dl('sqlite3.so');
 
 		if (! @require_once('DB/sqlite3.php') )
