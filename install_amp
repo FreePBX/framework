@@ -13,9 +13,7 @@ define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules/");
 $webroot	= "/var/www/html";
 $fopwebroot	= "";				// if blank, will use $webroot/panel
 $ampsbin_dir = "/usr/local/sbin";	// default if not set
-$bin_dir	= "/var/lib/asterisk/bin";
-$ampbin_dir = $bin_dir;
-$sin_dir	= "/usr/sbin";
+$ampbin_dir = "/var/lib/asterisk/bin";
 $asterisk_user	= "asteriskuser";
 $asterisk_pass	= "amp109";
 
@@ -285,9 +283,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	global $webroot;
 	global $fopwebroot;
 	global $ampsbin_dir;
-	global $bin_dir;
 	global $ampbin_dir;
-	global $sbin_dir;
 	global $asterisk_user;
 	global $asterisk_pass;
 
