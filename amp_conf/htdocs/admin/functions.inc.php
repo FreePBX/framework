@@ -2246,7 +2246,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	if ($res == null) {
 		return array(_("Module not found in repository"));
 	}
-	
+
 	$file = basename($res['location']);
 	$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
 	// if we're not forcing the download, and a file with the target name exists..
@@ -2270,9 +2270,26 @@ function module_download($modulename, $force = false, $progress_callback = null,
 				$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
 			}
 			
-			exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/'), $output, $exitcode);
+			/* We will explode the tarball in the cache directory and then once successful, remove the old module before before
+			 * moving the new one over. This way, things like removed files end up being removed instead of laying around
+			 *
+			 * TODO: save old module being replaced, if there is an old one.
+			 */
+			exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $output, $exitcode);
 			if ($exitcode != 0) {
-				return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/'));
+				return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulenam));
+			}
+			exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
+			if ($exitcode != 0) {
+				return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
+			}
+			exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
+			if ($exitcode != 0) {
+				return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulenam));
+			}
+			exec("mv ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
+			if ($exitcode != 0) {
+				return array(sprintf(_('Could not move %s to %s'), $amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $amp_conf['AMPWEBROOT'].'/admin/modules/'));
 			}
 			
 			// invoke progress_callback
@@ -2339,11 +2356,29 @@ function module_download($modulename, $force = false, $progress_callback = null,
 		$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
 	}
 
-	exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/'), $output, $exitcode);
+	/* We will explode the tarball in the cache directory and then once successful, remove the old module before before
+	 * moving the new one over. This way, things like removed files end up being removed instead of laying around
+	 *
+	 * TODO: save old module being replaced, if there is an old one.
+	 *
+	 */
+	exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $output, $exitcode);
 	if ($exitcode != 0) {
-		return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/'));
+		return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulenam));
 	}
-	
+	exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
+	if ($exitcode != 0) {
+		return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
+	}
+	exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
+	if ($exitcode != 0) {
+		return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulenam));
+	}
+	exec("mv ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
+	if ($exitcode != 0) {
+		return array(sprintf(_('Could not move %s to %s'), $amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $amp_conf['AMPWEBROOT'].'/admin/modules/'));
+	}
+
 	// invoke progress_callback
 	if (function_exists($progress_callback)) {
 		$progress_callback('done', array('module'=>$modulename));
@@ -2398,12 +2433,30 @@ function module_handleupload($uploaded_file) {
 	if (count($errors)) {
 		return $errors;
 	}
-	
-	exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/'), $output, $exitcode);
+
+	/* We will explode the tarball in the cache directory and then once successful, remove the old module before before
+	 * moving the new one over. This way, things like removed files end up being removed instead of laying around
+	 *
+	 * TODO: save old module being replaced, if there is an old one.
+	 *
+	 */
+	exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $output, $exitcode);
 	if ($exitcode != 0) {
-		$errors[] = _('Error untaring to modules directory.');
+		return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulenam));
 	}
-	
+	exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
+	if ($exitcode != 0) {
+		return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
+	}
+	exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
+	if ($exitcode != 0) {
+		return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulenam));
+	}
+	exec("mv ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
+	if ($exitcode != 0) {
+		return array(sprintf(_('Could not move %s to %s'), $amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $amp_conf['AMPWEBROOT'].'/admin/modules/'));
+	}
+
 	exec("rm -rf ".$temppath, $output, $exitcode);
 	if ($exitcode != 0) {
 		$errors[] = sprintf(_('Error removing temporary directory: %s'), $temppath);

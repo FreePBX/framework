@@ -414,6 +414,31 @@ function write_file($filename,$contents) {
 	}
 }
 
+/* file_exists_wrapper()
+ * wrapper for file_exists() with the following additonal functionality.
+ * if the file is a symlink, it will check if the link exists and if not
+ * it will try to remove this file. It returns a false (file does not exists)
+ * if the file is successfully removed, true if not. If not a symlink, just
+ * returns file_exists()
+ */
+function file_exists_wrapper($string) {
+	if (is_link($string)) {
+		$linkinfo = readlink($string);
+		if ($linkinfo === false) {
+			//TODO: throw error?
+			return !unlink($string);
+		} else {
+			if (file_exists($linkinfo)) {
+				return true;
+			} else {
+				return !unlink($string);
+			}
+		}
+	} else {
+		return file_exists($string);
+	}
+}
+
 function symlink_subdirs($moduledir) {
 	global $symlink_dirs;
 	$symlink_errors = false;
@@ -428,7 +453,7 @@ function symlink_subdirs($moduledir) {
 				if ($file[0] != '.') {
 					$src = addslash($dir).$file;
 					$dest = addslash($targetdir).$file;
-					if (file_exists($dest)) {
+					if (file_exists_wrapper($dest)) {
 						if (!is_link($dest)) {
 							freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is not a symlink!');
 							$nt->add_error('retrieve_conf', 'SYMLINK', _("symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link the %s file from modules"),$dest));
@@ -497,7 +522,7 @@ function cp_subdirs($moduledir) {
 					$sourcefile = addslash($dir).$file;
 					$targetfile = addslash($targetdir).$file;
 
-					if (file_exists($targetfile)) {
+					if (file_exists_wrapper($targetfile)) {
 						if (is_link($targetfile)) {
 							if (err_unlink($targetfile)) {
 								freepbx_log('retrieve-conf', 'devel-debug', "$targetfile was symbolic link, unlink successful");
