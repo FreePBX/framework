@@ -86,6 +86,7 @@ chown_asterisk() {
 	[ -e /dev/zap ] && chown -R asterisk:asterisk /dev/zap 
 	[ -e /dev/capi20 ] && chown -R asterisk:asterisk /dev/capi20
 	[ -e /dev/misdn ] && chown -R asterisk:asterisk /dev/misdn
+	[ -e /dev/mISDN ] && chown -R asterisk:asterisk /dev/mISDN
 	[ -e /dev/dsp ] && chown -R asterisk:asterisk /dev/dsp
 
 	echo Permissions OK
