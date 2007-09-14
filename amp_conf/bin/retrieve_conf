@@ -626,6 +626,18 @@ generate_configurations_queues($version);
 //
 install_cron_scheduler();
 
+// run retrieve_conf_post_custom
+// If the following file exists, it will be run. This allows customization to be run automatically after the normal
+// processing. Caution should be taken using this as it is only deisgned for expert usage. Errors in the code will
+// have bad consequences and can cripple the system.
+//
+$post_custom = $amp_conf['AMPBIN'].'/retrieve_conf_post_custom';
+if (file_exists($post_custom)) {
+	outn(sprintf(_("Found script %s, executing.."), $post_custom));
+	include($post_custom);
+	out(_("OK"));
+}
+
 // **** Set reload flag for AMP admin
 needreload();
 if (isset($amp_conf["AMPWEBADDRESS"]) && $amp_conf["AMPWEBADDRESS"])
