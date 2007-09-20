@@ -1892,22 +1892,30 @@ function module_getinfo($module = false, $status = false) {
 		// query to get just this one
 		$sql = 'SELECT * FROM modules WHERE modulename = "'.$module.'"';
 	} else {
-		// get info on all modules
+		// initialize list with "builtin" module
+		$module_list = array('builtin');
+
+		// read modules dir for module names
 		$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
 		while ($file = readdir($dir)) {
 			if (($file != ".") && ($file != "..") && ($file != "CVS") && 
 			    ($file != ".svn") && ($file != "_cache") && 
-				is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
-				
-				$xml = _module_readxml($file);
-				if (!is_null($xml)) {
-					$modules[$file] = $xml;
-					// if status is anything else, it will be updated below when we read the db
-					$modules[$file]['status'] = MODULE_STATUS_NOTINSTALLED;
-				}
+			    is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
+				$module_list[] = $file;
 			}
 		}
-		
+
+		// read the xml for each
+		foreach ($module_list as $file) {
+			$xml = _module_readxml($file);
+			if (!is_null($xml)) {
+				$modules[$file] = $xml;
+				// if status is anything else, it will be updated below when we read the db
+				$modules[$file]['status'] = MODULE_STATUS_NOTINSTALLED;
+			}
+		}
+		closedir($dir);
+
 		// query to get everything
 		$sql = 'SELECT * FROM modules';
 	}
@@ -1942,6 +1950,9 @@ function module_getinfo($module = false, $status = false) {
 			$modules[ $row['modulename'] ]['dbversion'] = $row['version'];
 		}
 	}
+
+	// "builtin" module is always enabled
+	$modules['builtin']['status'] = MODULE_STATUS_ENABLED;
 	
 	if ($status !== false) {
 		if (!is_array($status)) {
@@ -2246,7 +2257,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	if ($res == null) {
 		return array(_("Module not found in repository"));
 	}
-
+	
 	$file = basename($res['location']);
 	$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
 	// if we're not forcing the download, and a file with the target name exists..
@@ -2679,9 +2690,19 @@ function _module_setenabled($modulename, $enabled) {
 
 function _module_readxml($modulename) {
 	global $amp_conf;
-	$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
-	if (is_dir($dir) && file_exists($dir.'/module.xml')) {
-		$data = file_get_contents($dir.'/module.xml');
+	switch ($modulename) {
+		case 'builtin': // special handling
+			$dir = $amp_conf['AMPWEBROOT'];
+			$xmlfile = $dir.'/admin/module-builtin.xml';
+		break;
+		default:
+			$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
+			$xmlfile = $dir.'/module.xml';
+		break;
+	}
+
+	if (file_exists($xmlfile)) {
+		$data = file_get_contents($xmlfile);
 		//$parser = new xml2ModuleArray($data);
 		//$xmlarray = $parser->parseModulesXML($data);
 		$parser = new xml2Array($data);

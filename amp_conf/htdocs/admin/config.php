@@ -103,25 +103,12 @@ $framework_asterisk_running =  checkAstMan();
 // active_modules array used below and in drawselects function and genConf function
 $active_modules = module_getinfo(false, MODULE_STATUS_ENABLED);
 
-// initialize menu with module admin
-$fpbx_menu = array(
-	'modules1' => array('display'=>'modules', 'type'=>'tool', 'category' => 'Admin', 'name' => 'Module Admin', 'sort' => -9),
-	'modules2' => array('display'=>'modules', 'type'=>'setup', 'category' => 'Admin', 'name' => 'Module Admin', 'sort' => -9),
-);
+$fpbx_menu = array();
+
 
 // pointer to current item in $fpbx_menu, if applicable
 $cur_menuitem = null;
 
-// handler just to check hardcoded fpbx_menu items to see whats being displayed
-//   For non-hardcoded modules we check this below while looping through $active_modules.
-//   These are separate to avoid looping through $active_modules and then $fpbX_menu
-foreach ($fpbx_menu as $itemKey => $item) {
-	if ($item['display'] == $display) {
-		$cur_menuitem =& $fpbx_menu[$itemKey];
-	}
-}
-
-// include any module global functions
 // add module sections to $fpbx_menu
 $types = array();
 if(is_array($active_modules)){
@@ -245,6 +232,18 @@ ob_start();
 $module_name = "";
 $module_page = "";
 $module_file = "";
+
+
+
+// hack to have our default display handler show the "welcome" view 
+// Note: this probably isn't REALLY needed if there is no menu item for "Welcome"..
+// but it doesn't really hurt, and it provides a handler in case some page links
+// to "?display=index"
+if (($display == 'index') && ($cur_menuitem['module']['rawname'] == 'builtin')) {
+	$display = '';
+}
+
+
 
 // show the appropriate page
 switch($display) {
