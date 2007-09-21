@@ -490,6 +490,24 @@ class ext_wait extends extension {
 	}
 }
 
+class ext_resetcdr extends extension {
+	function output() {
+		return "ResetCDR(".$this->data.")";
+	}
+}
+
+class ext_nocdr extends extension {
+	function output() {
+		return "NoCDR()";
+	}
+}
+
+class ext_forkcdr extends extension {
+	function output() {
+		return "ForkCDR()";
+	}
+}
+
 class ext_waitexten extends extension {
 	var $seconds;
 	var $options;

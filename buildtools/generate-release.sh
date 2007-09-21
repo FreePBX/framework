@@ -6,7 +6,7 @@
 #
 # TODO: SHOULD CHECK THE VERSION OF THE MODULES BEFORE PROCEEDING
 #
-module_url="https://amportal.svn.sourceforge.net/svnroot/amportal/modules/branches/2.3"
+module_url="http://svn.freepbx.org/modules/branches/2.3"
 core_url=${module_url}/core
 framework_url=${module_url}/framework
 dashboard_url=${module_url}/dashboard
@@ -59,19 +59,19 @@ svn ci -m "Creating release $ver"
 #
 cd ..
 cur=`svn info | grep URL | awk ' { print $2 }'`
-svn cp -m "Automatic tag of $ver" $cur https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/$ver
+svn cp -m "Automatic tag of $ver" $cur http://svn.freepbx.org/freepbx/tags/$ver
 
 # Now that the tag is made, we want to add core and framework to the tag so that
 # the tag reflects the tarball. Then we will use the tag to generate the releases
 #
-svn cp -m "Automatic packaging of core with $ver"             $core_url             https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
-svn cp -m "Automatic packaging of framework with $ver"        $framework_url        https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
-svn cp -m "Automatic packaging of dashboard with $ver"        $dashboard_url        https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
-svn cp -m "Automatic packaging of voicemail with $ver"        $voicemail_url        https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
-svn cp -m "Automatic packaging of recordings with $ver"       $recordings_url       https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
-svn cp -m "Automatic packaging of music with $ver"            $music_url            https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
-svn cp -m "Automatic packaging of featurecodeadmin with $ver" $featurecodeadmin_url https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
-svn cp -m "Automatic packaging of infoservices with $ver"     $infoservices_url     https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of core with $ver"             $core_url             http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of framework with $ver"        $framework_url        http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of dashboard with $ver"        $dashboard_url        http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of voicemail with $ver"        $voicemail_url        http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of recordings with $ver"       $recordings_url       http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of music with $ver"            $music_url            http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of featurecodeadmin with $ver" $featurecodeadmin_url http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of infoservices with $ver"     $infoservices_url     http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 
 # Now clear out the release diretory where we will build the tarballs and grab it from the tag to get core and framework
 #
@@ -80,7 +80,7 @@ rm -rf /usr/src/freepbx-release/freepbx-$ver
 
 # Use the tag to build the tarball
 #
-svn export https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/tags/$ver /usr/src/freepbx-release/freepbx-$ver
+svn export http://svn.freepbx.org/freepbx/tags/$ver /usr/src/freepbx-release/freepbx-$ver
 
 cd /usr/src/freepbx-release
 tar zcvf freepbx-$ver.tar.gz freepbx-$ver
