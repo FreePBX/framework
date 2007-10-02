@@ -2059,7 +2059,7 @@ function module_checkdepends($modulename) {
 									break;
 								}
 							} else {
-								$errors[] = sprintf(_('Module %s is required.'), $needed_module);
+								$errors[] = sprintf(_('Module %s is required.'), $matches[1]);
 							}
 						}
 					break;
