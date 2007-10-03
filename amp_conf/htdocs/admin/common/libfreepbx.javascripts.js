@@ -29,7 +29,7 @@ function setAllInfoToHideSelects()
 {if(elem.className=='info'&&elem.onmouseover==null&&elem.onmouseout==null)
 {elem.onmouseover=doHideSelects;elem.onmouseout=doShowSelects;}}}}}
 function updateInfoTargets(){links=document.getElementsByTagName('a');var i,elem;for(i=0;elem=links[i];i++){if(elem.className=='info'&&elem.href.charAt(elem.href.length-1)=='#'){elem.href='javascript:void(null)';}}}
-function setDestinations(theForm,numForms){for(var formNum=0;formNum<numForms;formNum++){var whichitem=0;while(whichitem<theForm['goto_indicate'+formNum].length){if(theForm['goto_indicate'+formNum][whichitem].checked){theForm['goto'+formNum].value=theForm['goto_indicate'+formNum][whichitem].value;}
+function setDestinations(theForm,numForms){for(var formNum=0;formNum<numForms;formNum++){var whichitem=0;while(whichitem<theForm['goto'+formNum].length){if(theForm['goto'+formNum][whichitem].checked){theForm['goto'+formNum].value=theForm['goto'+formNum][whichitem].value;}
 whichitem++;}}}
 function body_loaded(){setAllInfoToHideSelects();updateInfoTargets();}
 function amp_apply_changes(){if(confirm("About to reload backend configuration. This applies all outstanding changes to the live server.")){var newlocation;if(document.all){window.event.returnValue=false;newlocation=window.location.href;}else{newlocation=location.href;}

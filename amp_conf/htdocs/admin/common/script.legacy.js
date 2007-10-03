@@ -115,9 +115,9 @@ function updateInfoTargets() {
 function setDestinations(theForm,numForms) {
 	for (var formNum = 0; formNum < numForms; formNum++) {
 		var whichitem = 0;
-		while (whichitem < theForm['goto_indicate'+formNum].length) {
-			if (theForm['goto_indicate'+formNum][whichitem].checked) {
-				theForm['goto'+formNum].value=theForm['goto_indicate'+formNum][whichitem].value;
+		while (whichitem < theForm['goto'+formNum].length) {
+			if (theForm['goto'+formNum][whichitem].checked) {
+				theForm['goto'+formNum].value=theForm['goto'+formNum][whichitem].value;
 			}
 			whichitem++;
 		}
