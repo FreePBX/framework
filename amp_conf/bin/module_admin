@@ -116,6 +116,8 @@ function showHelp() {
 	out("      List all local modules and their current status");
 	out("  listonline");
 	out("      List all local and repository modules and their current status");
+	out("  reload");
+	out("      Reload the configuration (same as pressing the reload bar)");
 	out("  reversedepends <module>");
 	out("      Show all modules that depend on this one");
 	out("  showupgrades");
@@ -258,6 +260,20 @@ function showInfo($modulename) {
 	
 	recursive_print($modules[$modulename]);
 	
+}
+
+function doReload() {
+	$result = do_reload();
+
+	if ($result['status'] != true) {
+		out("Error(s) have occured, the following is the retrieve_conf output:");
+		$retrieve_array = explode('<br/>',$result['retrieve_conf']);
+		foreach ($retrieve_array as $line) {
+			out($line);
+		};
+	} else {
+		out($result['message']);
+	}
 }
 
 function doDisable($modulename, $force) {
@@ -513,6 +529,9 @@ switch ($operation ) {
 	break;
 	case 'listonline':
 		showList(true);
+	break;
+	case 'reload':
+		doReload();
 	break;
 	case 'checkdepends':
 		if (empty($param)) {
