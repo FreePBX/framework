@@ -17,10 +17,10 @@
  *  modules sym-linked to their final place to make development easier.
  *
  */
-$VERSION = "2.3";
+$VERSION = "2.4";
 
-$NORMAL_URL =  "https://amportal.svn.sourceforge.net/svnroot/amportal/freepbx/branches/$VERSION/amp_conf/htdocs/admin/modules";
-$MODULE_URL  = "https://amportal.svn.sourceforge.net/svnroot/amportal/modules/branches/$VERSION";
+$NORMAL_URL =  "http://svn.freepbx.org/freepbx/branches/$VERSION/amp_conf/htdocs/admin/modules";
+$MODULE_URL  = "http://svn.freepbx.org/modules/branches/$VERSION";
 $MODULE_PATH = "./amp_conf/htdocs/admin/modules";
 
 if (isset($argv[1]) && strtolower($argv[1]) == "restore") {
