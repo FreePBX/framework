@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 if [ "$1" == "-h" ]
 then
@@ -30,13 +30,13 @@ source $AMPCONFIG
 echo "Updating configuration..."
 
 echo "$ASTETCDIR/cdr_mysql.conf"
-sed -i.bak "s/user=[a-zA-Z0-9]*/user=$AMPDBUSER/" $ASTETCDIR/cdr_mysql.conf
-sed -i.bak "s/password=[a-zA-Z0-9]*/password=$AMPDBPASS/" $ASTETCDIR/cdr_mysql.conf
-sed -i.bak "s/hostname=[a-zA-Z0-9.-]*/hostname=$AMPDBHOST/" $ASTETCDIR/cdr_mysql.conf
+sed -i.bak "s/user\s*=.*$/user = $AMPDBUSER/" $ASTETCDIR/cdr_mysql.conf
+sed -i.bak "s/password\s*=.*$/password = $AMPDBPASS/" $ASTETCDIR/cdr_mysql.conf
+sed -i.bak "s/hostname\s*=.*$/hostname = $AMPDBHOST/" $ASTETCDIR/cdr_mysql.conf
 
 echo "$ASTETCDIR/manager.conf"
-sed -i.bak "s/secret = [a-zA-Z0-9]*/secret = $AMPMGRPASS/" $ASTETCDIR/manager.conf
-sed -i.bak "s/\[AMPMGRUSER\]/\[$AMPMGRUSER\]/" $ASTETCDIR/manager.conf
+sed -i.bak "s/secret\s*=.*$/secret = $AMPMGRPASS/" $ASTETCDIR/manager.conf
+sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[$AMPMGRUSER\]/;s/^TEMPCONTEXT$/\[general\]/" $ASTETCDIR/manager.conf
 
 echo "$ASTETCDIR/vm_email.inc"
 if [ "xx$AMPWEBADDRESS" = "xx" ]; then
