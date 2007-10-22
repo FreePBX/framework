@@ -1,3 +1,20 @@
+2.3.1
+
+- Module Admin previously exploded new module tarball updates ontop of the existing earlier
+  versions. It has been changed to replace the entire module directory with the new tarball
+  contents. Removed files as well as any other files in the directory will be removed.
+- #2335 Module Admin can now be disabled in database mode.
+- module_admin (cli version) has new reload option (same as pressing orange bar)
+- FOPRUN now defaults to true in amportal.conf for new installs
+- retrieve_conf will look for and include a script called retrieve_conf_post_custom if found
+  in AMPLOCALBIN which must be defined in amportal.conf. This can be used for custom actions
+  and configuration upon reloads after dialpans and conf files have been generated.
+- macro-dialout-trunk has been enhanced with a call to macro-dialout-trunk-predial-hook that
+  can be used to make custom changes (e.g. add SIP header information) or even bypass the trunk
+  if a macro is defined by the user.
+- #2412 fixed by r5096 was creating javascript validation in several modules to fail
+- apply_conf.sh improved to handle all password formats and manager user login name changes
+
 2.3.0
 
 - Final release is almost all bug fixes, see change logs in framework
