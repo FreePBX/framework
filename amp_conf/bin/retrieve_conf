@@ -631,11 +631,13 @@ install_cron_scheduler();
 // processing. Caution should be taken using this as it is only deisgned for expert usage. Errors in the code will
 // have bad consequences and can cripple the system.
 //
-$post_custom = $amp_conf['AMPBIN'].'/retrieve_conf_post_custom';
-if (file_exists($post_custom)) {
-	outn(sprintf(_("Found script %s, executing.."), $post_custom));
-	include($post_custom);
-	out(_("OK"));
+if (isset($amp_conf['AMPLOCALBIN'])) {
+$post_custom = $amp_conf['AMPLOCALBIN'].'/retrieve_conf_post_custom';
+	if (file_exists($post_custom)) {
+		outn(sprintf(_("Found script %s, executing.."), $post_custom));
+		include($post_custom);
+		out(_("OK"));
+	}
 }
 
 // **** Set reload flag for AMP admin
