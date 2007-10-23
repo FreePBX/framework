@@ -184,7 +184,7 @@ if ($reload_needed) {
 
 	if ( isset($_SESSION['AMP_user']) &&  isset($amp_conf['AUTHTYPE']) && ($amp_conf['AUTHTYPE'] != 'none')) {
 		echo _('Logged in: ').$_SESSION['AMP_user']->username;
-		echo ' (<a href="'.$_SERVER['PHP_SELF'].'?logout">'._('Logout').')&nbsp;';
+		echo ' (<a href="'.$_SERVER['PHP_SELF'].'?logout">'._('Logout').'</a>)&nbsp;';
 	}
 	//echo '::&nbsp;'._($message);
 	
