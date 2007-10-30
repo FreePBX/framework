@@ -548,6 +548,22 @@ class ext_macro {
 	}
 }
 
+class ext_execif {
+	var $expr;
+	var $app;
+	var $data;
+	
+	function ext_execif($expr, $app, $data='') {
+		$this->expr = $expr;
+		$this->app = $app;
+		$this->data = $data;
+	}
+	
+	function output() {
+		return "ExecIf(".$this->expr.",".$this->app.",".$this->data.")";
+	}
+}
+
 class ext_setcidname extends extension {
 	function output() {
 		return "Set(CALLERID(name)=".$this->data.")";
