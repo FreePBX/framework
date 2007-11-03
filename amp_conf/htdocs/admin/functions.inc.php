@@ -1412,7 +1412,7 @@ class xml2Array {
 	}
 	function tagOpen($parser, $name, $attrs) {
 		$tag=array("name"=>$name,"attrs"=>$attrs); 
-		array_push($this->arrOutput,$tag);
+		@array_push($this->arrOutput,$tag);
 	}
 	
 	function tagData($parser, $tagData) {
