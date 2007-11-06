@@ -1818,7 +1818,7 @@ function module_update_notifications(&$old_xml, &$xmlarray, $passive) {
 	$diff_modules = array_diff_assoc($new_modules, $old_modules);
 	$cnt = count($diff_modules);
 	if ($cnt) {
-		$extext = _("The following new modules are available for download")."<br>";
+		$extext = _("The following new modules are available for download. Click delete icon on the right to remove this notice.")."<br>";
 		foreach ($diff_modules as $mod) {
 			$extext .= $mod['rawname']." (".$mod['version'].")<br>";
 		}
