@@ -444,6 +444,20 @@ class ext_setvar {
 }
 class ext_set extends ext_setvar {} // alias, SetVar was renamed to Set in ast 1.2
 
+class ext_setglobalvar {
+	var $var;
+	var $value;
+	
+	function ext_setglobalvar($var, $value) {
+		$this->var = $var;
+		$this->value = $value;
+	}
+	
+	function output() {
+		return "Set(".$this->var."=".$this->value.",g)";
+	}
+}
+
 class ext_sipaddheader {
 	var $header;
 	var $value;
@@ -771,6 +785,11 @@ class ext_nvfaxdetect extends extension {
 class ext_playtones extends extension {
 	function output() {
 		return "Playtones(".$this->data.")";
+	}
+}
+class ext_stopplaytones extends extension {
+	function output() {
+		return "StopPlaytones";
 	}
 }
 class ext_zapbarge extends extension {
