@@ -729,16 +729,21 @@ class AGI_AsteriskManager
 	/** Show all entries in the asterisk database
 	 * @return Array associative array of key=>value
 	 */
-	function database_show() {
-		$r = $this->command("database show");
+	function database_show($family='') {
+		$r = $this->command("database show $family");
 		
 		$data = explode("\n",$r["data"]);
 		$db = array();
 		
+		// Remove the Privilege => Command initial entry that comes from the heading
+		//
+		array_shift($data);
 		foreach ($data as $line) {
 			$temp = explode(":",$line);
-			$temp[1] = isset($temp[1])?$temp[1]:null;
-			$db[ trim($temp[0]) ] = trim($temp[1]);
+			if (trim($temp[0]) != '') {
+				$temp[1] = isset($temp[1])?$temp[1]:null;
+				$db[ trim($temp[0]) ] = trim($temp[1]);
+			}
 		}
 		return $db;
 	}
