@@ -493,6 +493,159 @@ class cronmanager {
 	}
 }
 
+/** check if a specific extension is being used, or get a list of all extensions that are being used
+ * @param mixed     an array of extension numbers to check against, or if boolean true then return list of all extensions
+ * @return array    returns an empty array if exten not in use, or any array with usage info, or of all usage 
+ *                  if exten is boolean true
+ * @description     Upon passing in an array of extension numbers, this api will query all modules to determine if any
+ *                  are using those extension numbers. If so, it will return an array with the usage information
+ *                  as described below, otherwise an empty array. If passed boolean true, it will return an array
+ *                  of the same format with all extensions on the system that are being used.
+ *
+ *                  $exten_usage[$module][$exten]['description'] // description of the extension
+ *                                               ['edit_url']    // a url that could be invoked to edit extension
+ *                                               ['status']      // Status: INUSE, RESERVED, RESTRICTED
+ */
+function framework_check_extension_usage($exten=true) {
+	global $active_modules;
+	$exten_usage = array();
+
+	if (!is_array($exten) && $exten !== true) {
+		$exten = array($exten);
+	}
+	foreach(array_keys($active_modules) as $mod) {
+		$function = $mod."_check_extensions";
+		if (function_exists($function)) {
+			$module_usage = $function($exten);
+			if (!empty($module_usage)) {
+				$exten_usage[$mod] = $module_usage;
+			}
+		}
+	}
+	if ($exten === true) {
+		return $exten_usage;
+	} else {
+		foreach (array_keys($exten_usage) as $mod) {
+			foreach ($exten as $test_exten) {
+				if (isset($exten_usage[$mod][$test_exten])) {
+					$exten_matches[$mod][$test_exten] = $exten_usage[$mod][$test_exten];
+				}
+			}
+		}
+	}
+	return $exten_matches;
+}
+
+/** check if a specific destination is being used, or get a list of all destinations that are being used
+ * @param mixed     an array of destinations to check against, or if boolean true then return list of all destinations in use
+ * @return array    returns an empty array if destination not in use, or any array with usage info, or of all usage 
+ *                  if dest is boolean true
+ * @description     Upon passing in an array of destinations, this api will query all modules to determine if any
+ *                  are using that destination. If so, it will return an array with the usage information
+ *                  as described below, otherwise an empty array. If passed boolean true, it will return an array
+ *                  of the same format with all destinations on the system that are being used.
+ *
+ *                  $dest_usage[$module][]['dest']        // The destination being used
+ *                                        ['description'] // Description of who is using it
+ *                                        ['edit_url']    // a url that could be invoked to edit the using entity
+ *                                               
+ */
+function framework_check_destination_usage($dest=true) {
+	global $active_modules;
+	$dest_usage = array();
+	$dest_matches = array();
+
+	if (!is_array($dest) && $dest !== true) {
+		$dest = array($dest);
+	}
+	foreach(array_keys($active_modules) as $mod) {
+		$function = $mod."_check_destinations";
+		if (function_exists($function)) {
+			$module_usage = $function($dest);
+			if (!empty($module_usage)) {
+				$dest_usage[$mod] = $module_usage;
+			}
+		}
+	}
+	if ($dest === true) {
+		return $dest_usage;
+	} else {
+		/*
+		$destlist[] = array(
+			'dest' => $thisdest,
+			'description' => 'Annoucement: '.$result['description'],
+			'edit_url' => 'config.php?display=announcement&type='.$type.'&extdisplay='.urlencode($thisid),
+		);
+		*/
+		foreach (array_keys($dest_usage) as $mod) {
+			foreach ($dest as $test_dest) {
+				foreach ($dest_usage[$mod] as $dest_item) {
+					if ($dest_item['dest'] == $test_dest) {
+						$dest_matches[$mod][] = $dest_item;
+					}
+				}
+			}
+		}
+	}
+	return $dest_matches;
+}
+
+/** provide optional alert() box and formatted url info for extension conflicts
+ * @param array     an array of extensions that are in conflict obtained from framework_check_extension_usage
+ * @param boolean   default false. True if url and descriptions should be split, false to combine (see return)
+ * @param boolean   default true. True to echo an alert() box, false to bypass the alert box
+ * @return array    returns an array of formatted URLs with descriptions. If $split is true, retuns an array
+ *                  of the URLs with each element an array in the format of array('label' => 'description, 'url' => 'a url')
+ * @description     This is used upon detecting conflicting extension numbers to provide an optional alert box of the issue
+ *                  by a module which should abort the attempt to create the extension. It also returns an array of
+ *                  URLs that can be displayed by the module to show the conflicting extension(s) and links to edit
+ *                  them or further interogate. The resulting URLs are returned in an array either formatted for immediate
+ *                  display or split into a description and the raw URL to provide more fine grained control (or use with guielements).
+ */
+function framework_display_extension_usage_alert($usage_arr=array(),$split=false,$alert=true) {
+	global $active_modules;
+	$url = array();
+	if (!empty($usage_arr)) {
+		$conflicts=0;
+		foreach($usage_arr as $rawmodule => $properties) {
+			//$str .=  "Module: ".$active_modules[$rawmodule]['name']." ";
+			foreach($properties as $exten => $details) {
+				$conflicts++;
+				if ($conflicts == 1) {
+					switch ($details['status']) {
+						case 'INUSE':
+							$str = "Extension $exten not available, it is currently used by ".htmlspecialchars($details['description']).".";
+							if ($split) {
+								$url[] =  array('label' => "Edit: ".htmlspecialchars($details['description']),
+								                 'url'  =>  $details['edit_url'],
+								               );
+							} else {
+								$url[] =  "<a href='".$details['edit_url']."'>Edit: ".htmlspecialchars($details['description'])."</a>";
+							}
+							break;
+						default:
+						$str = "This extension is not available: ".htmlspecialchars($details['description']).".";
+					}
+				} else {
+					if ($split) {
+						$url[] =  array('label' => "Edit: ".htmlspecialchars($details['description']),
+						                 'url'  =>  $details['edit_url'],
+													 );
+					} else {
+						$url[] =  "<a href='".$details['edit_url']."'>Edit: ".htmlspecialchars($details['description'])."</a>";
+					}
+				}
+			}
+		}
+		if ($conflicts > 1) {
+			$str .= sprintf(" There are %s additonal conflicts not listed",$conflicts-1);
+		}
+	}
+	if ($alert) {
+		echo "<script>javascript:alert('$str')</script>";
+	}
+	return($url);
+}
 
 /** Expands variables from amportal.conf 
  * Replaces any variables enclosed in percent (%) signs with their value
