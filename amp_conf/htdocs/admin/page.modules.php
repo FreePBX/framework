@@ -392,6 +392,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		$errorstext = array();
 		foreach ($moduleaction as $module => $action) {	
 			$text = false;
+			$skipaction = false;
 
 			// make sure name is set. This is a problem for broken modules
 			if (!isset($modules[$module]['name'])) {
@@ -402,18 +403,19 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'upgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_checkdepends($modules_online[$module]))) {
+							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please correct this error first."),  
 							                        $modules[$module]['name'],
 							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
 							$actionstext[] = sprintf(_("%s %s will be upgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
-							
 						}
 					}
 				break;
 				case 'downloadinstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_checkdepends($modules_online[$module]))) {
+							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be installed: %s Please correct this error first."),  
 							                        $modules[$module]['name'],
 							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
@@ -425,6 +427,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'install':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_checkdepends($modules[$module]))) {
+							$skipaction = true;
 							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please correct this error first.") : _("%s cannot be installed: %s Please correct this error first.") ),  
 							                        $modules[$module]['name'],
 							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
@@ -439,6 +442,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				break;
 				case 'enable':
 					if (is_array($errors = module_checkdepends($modules[$module]))) {
+						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be enabled: %s Please correct this error first."),  
 						                        $modules[$module]['name'],
 						                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
@@ -448,6 +452,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				break;
 				case 'disable':
 					if (is_array($errors = module_reversedepends($modules[$module]))) {
+						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be disabled because the following modules depend on it: %s Please correct this error first."),  
 						                        $modules[$module]['name'],
 						                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
@@ -458,6 +463,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'uninstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_reversedepends($modules[$module]))) {
+							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be uninstalled because the following modules depend on it: %s Please correct this error first."),  
 							                        $modules[$module]['name'],
 							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
@@ -467,10 +473,17 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 			}
-			//echo "\t<input type=\"hidden\" name=\"moduleaction[".$module."]\" value=\"".$action."\" />\n";
-			echo "\t<script type=\"text/javascript\"> moduleActions['".$module."'] = '".$action."'; </script>\n";
+
+			// If error above we skip this action so we can proceed with the others
+			//
+			if (!$skipaction) { //TODO
+				echo "\t<script type=\"text/javascript\"> moduleActions['".$module."'] = '".$action."'; </script>\n";
+			}
 		}
 		
+		// Write out the erros, if there are additional actions that can be accomplished list those next with the choice to
+		// process which will ignore the ones with errors but process the rest.
+		//
 		if (count($errorstext) > 0) {
 			echo "<h4>"._("Errors with selection:")."</h4>\n";
 			echo "<ul>\n";
@@ -478,23 +491,24 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				echo "\t<li>".$text."</li>\n";
 			}
 			echo "</ul>";
-
-		} else if (count($actionstext) > 0) {
-			echo "<h4>"._("Please confirm the following actions:")."</h4>\n";
+		} 
+		if (count($actionstext) > 0) {
+			if (count($errorstext) > 0) {
+				echo "<h4>"._("You may confirm the remaining selection (errors will be skipped):")."</h4>\n";
+			} else {
+				echo "<h4>"._("Please confirm the following actions:")."</h4>\n";
+			}
 			echo "<ul>\n";
 			foreach ($actionstext as $text) {
 				echo "\t<li>".$text."</li>\n";
 			}
 			echo "</ul>";
-			
-			//echo "\t<input type=\"submit\" value=\"Confirm\" name=\"process\" />";
 			echo "\t<input type=\"button\" value=\"Confirm\" name=\"process\" onclick=\"process_module_actions(moduleActions);\" />";
 		} else {
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
 		}
 		echo "\t<input type=\"button\" value=\""._("Cancel")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=tool&amp;online=".($_REQUEST['online']?1:0)."';\" />";
-		
 		echo "</form>";
 		
 	break;
