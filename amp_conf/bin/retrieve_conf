@@ -401,6 +401,57 @@ if(isset($active_modules) && is_array($active_modules)){
 	}
 }
 
+// Check for and report any extension conflicts
+//
+$nt = notifications::create($db);
+
+$my_hash = array_flip($active_modules);
+$my_prob_extens = framework_list_extension_conflicts($my_hash);
+
+if (empty($my_prob_extens)) {
+	$nt->delete('retrieve_conf', 'XTNCONFLICT');
+} else {
+	$previous = null;
+	$str = null;
+	$count = 0;
+	foreach ($my_prob_extens as $extens) {
+		foreach ($extens as $exten => $details) {
+			if ($exten != $previous) {
+				$str .=  "Extension: $exten:<br />";
+				$count++;
+			}
+			$str .= sprintf("%8s: %s<br />",$details['status'], $details['description']);
+			$previous = $exten;
+		}
+	}
+	$nt->add_error('retrieve_conf', 'XTNCONFLICT', sprintf(_("There are %s conflicting extensions"),$count), $str);
+}
+
+// Check for and report any bogus destinations
+//
+$my_probs = framework_list_problem_destinations($my_hash, !$amp_conf['CUSTOMASERROR']);
+
+if (empty($my_probs)) {
+	$nt->delete('retrieve_conf', 'BADDEST');
+} else {
+	$results = array();
+	$count = 0;
+	$str = null;
+	foreach ($my_probs as $problem) {
+		//print_r($problem);
+		$results[$problem['status']][] = $problem['description'];
+		$count++;
+	}
+	foreach ($results as $status => $subjects) {
+		$str .= sprintf(_("DEST STATUS: %s%s"),$status,"\n");
+		foreach ($subjects as $subject) {
+			//$str .= $subject."<br />";
+			$str .= "   ".$subject."\n";
+		}
+	}
+	$nt->add_error('retrieve_conf', 'BADDEST', sprintf(_("There are %s bad destinations"),$count), $str);
+}
+
 
 function write_file($filename,$contents) {
 	global $asterisk_conf;

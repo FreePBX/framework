@@ -52,6 +52,7 @@ $amp_conf_defaults = array(
 	'AMPBADNUMBER'   => array('bool' , true),
 	'DEVEL'          => array('bool' , false),
 	'DEVELRELOAD'    => array('bool' , false),
+	'CUSTOMASERROR'  => array('bool' , false),
 );
 
 function parse_amportal_conf($filename) {
@@ -495,6 +496,7 @@ class cronmanager {
 
 /** check if a specific extension is being used, or get a list of all extensions that are being used
  * @param mixed     an array of extension numbers to check against, or if boolean true then return list of all extensions
+ * @param array     a hash of module names to search for callbacks, otherwise global $active_modules is used
  * @return array    returns an empty array if exten not in use, or any array with usage info, or of all usage 
  *                  if exten is boolean true
  * @description     Upon passing in an array of extension numbers, this api will query all modules to determine if any
@@ -506,14 +508,18 @@ class cronmanager {
  *                                               ['edit_url']    // a url that could be invoked to edit extension
  *                                               ['status']      // Status: INUSE, RESERVED, RESTRICTED
  */
-function framework_check_extension_usage($exten=true) {
+function framework_check_extension_usage($exten=true, $module_hash=false) {
 	global $active_modules;
 	$exten_usage = array();
+
+	if (!is_array($module_hash)) {
+		$module_hash = $active_modules;
+	}
 
 	if (!is_array($exten) && $exten !== true) {
 		$exten = array($exten);
 	}
-	foreach(array_keys($active_modules) as $mod) {
+	foreach(array_keys($module_hash) as $mod) {
 		$function = $mod."_check_extensions";
 		if (function_exists($function)) {
 			$module_usage = $function($exten);
@@ -538,6 +544,7 @@ function framework_check_extension_usage($exten=true) {
 
 /** check if a specific destination is being used, or get a list of all destinations that are being used
  * @param mixed     an array of destinations to check against, or if boolean true then return list of all destinations in use
+ * @param array     a hash of module names to search for callbacks, otherwise global $active_modules is used
  * @return array    returns an empty array if destination not in use, or any array with usage info, or of all usage 
  *                  if dest is boolean true
  * @description     Upon passing in an array of destinations, this api will query all modules to determine if any
@@ -550,15 +557,19 @@ function framework_check_extension_usage($exten=true) {
  *                                        ['edit_url']    // a url that could be invoked to edit the using entity
  *                                               
  */
-function framework_check_destination_usage($dest=true) {
+function framework_check_destination_usage($dest=true, $module_hash=false) {
 	global $active_modules;
 	$dest_usage = array();
 	$dest_matches = array();
 
+	if (!is_array($module_hash)) {
+		$module_hash = $active_modules;
+	}
+
 	if (!is_array($dest) && $dest !== true) {
 		$dest = array($dest);
 	}
-	foreach(array_keys($active_modules) as $mod) {
+	foreach(array_keys($module_hash) as $mod) {
 		$function = $mod."_check_destinations";
 		if (function_exists($function)) {
 			$module_usage = $function($dest);
@@ -603,12 +614,10 @@ function framework_check_destination_usage($dest=true) {
  *                  display or split into a description and the raw URL to provide more fine grained control (or use with guielements).
  */
 function framework_display_extension_usage_alert($usage_arr=array(),$split=false,$alert=true) {
-	global $active_modules;
 	$url = array();
 	if (!empty($usage_arr)) {
 		$conflicts=0;
 		foreach($usage_arr as $rawmodule => $properties) {
-			//$str .=  "Module: ".$active_modules[$rawmodule]['name']." ";
 			foreach($properties as $exten => $details) {
 				$conflicts++;
 				if ($conflicts == 1) {
@@ -645,6 +654,232 @@ function framework_display_extension_usage_alert($usage_arr=array(),$split=false
 		echo "<script>javascript:alert('$str')</script>";
 	}
 	return($url);
+}
+
+/** check if a specific destination is being used, or get a list of all destinations that are being used
+ * @param mixed     an array of destinations to check against
+ * @param array     a hash of module names to search for callbacks, otherwise global $active_modules is used
+ * @return array    array with a message and tooltip to display usage of this destination
+ * @description     This is called to generate a label and tooltip which summarized the usage of this
+ *                  destination and a tooltip listing all the places that use it
+ *
+ */
+function framework_display_destination_usage($dest, $module_hash=false) {
+
+	if (!is_array($dest)) {
+		$dest = array($dest);
+	}
+	$usage_list = framework_check_destination_usage($dest, $module_hash);
+	if (!empty($usage_list)) {
+		$usage_count = 0;
+		$str = null;
+		foreach ($usage_list as $mod_list) {
+			foreach ($mod_list as $details) {
+				$usage_count++;
+				$str .= $details['description']."<br />";
+			}
+		}
+		$object = $usage_count > 1 ? "Objects":"Object";
+		return array('text' => sprintf(_("Used as Destination by %s %s"),$usage_count, $object),
+		             'tooltip' => $str,
+							 	);
+	} else {
+		return array();
+	}
+}
+
+/** determines which module a list of destinations belongs to, and if the destination object exists
+ * @param mixed     an array of destinations to check against
+ * @param array     a hash of module names to search for callbacks, otherwise global $active_modules is used
+ * @return array    an array structure with informaiton about the destinations (see code)
+ * @description     Mainly used by framework_list_problem_destinations. This function will find the module
+ *                  that a destination belongs to and determine if the object still exits. This allow it to
+ *                  either obtain the identify, identify it as an object that has been deleted, or identify
+ *                  it as an unknown destination, usually a custom destination.
+ *
+ */
+function framework_identify_destinations($dest, $module_hash=false) {
+	global $active_modules;
+	static $dest_cache = array();
+
+	$dest_results = array();
+
+	$dest_usage = array();
+	$dest_matches = array();
+
+	if (!is_array($module_hash)) {
+		$module_hash = $active_modules;
+	}
+
+	if (!is_array($dest)) {
+		$dest = array($dest);
+	}
+
+	foreach ($dest as $target) {
+		if (isset($dest_cache[$target])) {
+			$dest_results[$target] = $dest_cache[$target];
+		} else {
+
+			$found_owner = false;
+			foreach(array_keys($module_hash) as $mod) {
+				$function = $mod."_getdestinfo";
+				if (function_exists($function)) {
+					$check_module = $function($target);
+					if ($check_module !== false) {
+						$found_owner = true;
+						$dest_cache[$target] = array($mod => $check_module);
+						$dest_results[$target] = $dest_cache[$target];
+						break;
+					}
+				}
+			}
+			if (! $found_owner) {
+				//echo "Not Found: $target\n";
+				$dest_cache[$target] = false;
+				$dest_results[$target] = $dest_cache[$target];
+			}
+		}
+	}
+	return $dest_results;
+}
+
+/** create a comprehensive list of all destinations that are problematic
+ * @param array     an array of destinations to check against
+ * @param bool      set to true if custome (unknown) destinations should be reported
+ * @return array    an array of the destinations that are empty, orphaned or custom
+ * @description     This function will scan the entire system and identify destinations
+ *                  that are problematic. Either empty, orphaned or an unknow custom
+ *                  destinations. An orphaned destination is one that should belong
+ *                  to a module but the object it would have pointed to does not exist
+ *                  because it was probably deleted.
+ */
+function framework_list_problem_destinations($module_hash=false, $ignore_custom=false) {
+	global $active_modules;
+
+	if (!is_array($module_hash)) {
+		$module_hash = $active_modules;
+	}
+
+	$my_dest_arr = array();
+	$problem_dests = array();
+
+	$all_dests = framework_check_destination_usage(true, $module_hash);
+
+	foreach ($all_dests as $dests) {
+		foreach ($dests as $adest) {
+			if (!empty($adest['dest'])) {
+				$my_dest_arr[] = $adest['dest'];
+			}
+		}
+	}
+	$my_dest_arr = array_unique($my_dest_arr);
+
+	$identities = framework_identify_destinations($my_dest_arr, $module_hash);
+
+	foreach ($all_dests as $dests) {
+		foreach ($dests as $adest) {
+			if (empty($adest['dest'])) {
+				$problem_dests[] = array('status' => 'EMPTY', 
+					                       'dest' => $adest['dest'],
+					                       'description' => $adest['description'],
+					                       'edit_url' => $adest['edit_url'],
+															  );
+			} else if ($identities[$adest['dest']] === false){
+				if ($ignore_custom) {
+					continue;
+				}
+				$problem_dests[] = array('status' => 'CUSTOM', 
+					                       'dest' => $adest['dest'],
+					                       'description' => $adest['description'],
+					                       'edit_url' => $adest['edit_url'],
+															  );
+			} else if (is_array($identities[$adest['dest']])){
+				foreach ($identities[$adest['dest']] as $details) {
+					if (empty($details)) {
+						$problem_dests[] = array('status' => 'ORPHAN', 
+						                         'dest' => $adest['dest'],
+						                         'description' => $adest['description'],
+						                         'edit_url' => $adest['edit_url'],
+						                        );
+
+					}
+					break; // there is only one set per array
+				}
+			} else {
+				echo "ERROR?\n";
+				var_dump($adest);
+			}
+		}
+	}
+	return $problem_dests;
+}
+
+/** sort the hash based on the inner key
+ */
+function _framework_sort_exten($a, $b) {
+	$a_key = array_keys($a);
+	$a_key = $a_key[0];
+	$b_key = array_keys($b);
+	$b_key = $b_key[0];
+	if ($a_key == $b_key) {
+		return 0;
+	} else {
+		return ($a_key < $b_key) ? -1 : 1;
+	}
+}
+
+/** create a comprehensive list of all extensions conflicts
+ * @return array    an array of the destinations that are empty, orphaned or custom
+ * @description     This returns an array structure with information about all
+ *                  extension numbers that are in conflict. This means the same number
+ *                  is being used by 2 or more modules and the results will be ambiguous
+ *                  which one will be ignored when dialed. See the code for the
+ *                  structure of the retured array.
+ */
+function framework_list_extension_conflicts($module_hash=false) {
+	global $active_modules;
+
+	if (!is_array($module_hash)) {
+		$module_hash = $active_modules;
+	}
+
+	$exten_list = framework_check_extension_usage(true,$module_hash);
+
+	/** Bookkeeping hashes
+ 	*  full_hash[]     will contain the first extension encountered
+ 	*  conflict_hash[] will contain any subsequent extensions if conflicts
+ 	*
+ 	*  If there are conflicts, the full set is what is in conflict_hash + the
+ 	*  first extension encoutnered in full_hash[]
+ 	*/
+	$full_hash = array();
+	$conflict_hash = array();
+
+	foreach ($exten_list as $mod => $mod_extens) {
+		foreach ($mod_extens as $exten => $details) {
+			if (!isset($full_hash[$exten])) {
+				$full_hash[$exten] = $details;
+			} else {
+				$conflict_hash[] = array($exten => $details);
+			}
+		}
+	}
+
+	// extract conflicting remaining extension from full_hash but needs to be unique
+	//
+	if (!empty($conflict_hash)) {
+		$other_conflicts = array();
+		foreach ($conflict_hash as $item)  {
+			foreach (array_keys($item) as $exten) {
+				$other_conflicts[$exten] = $full_hash[$exten];
+			}
+		}
+		foreach ($other_conflicts as $exten => $details) {
+			$conflict_hash[] = array($exten => $details);
+		}
+		usort($conflict_hash, "_framework_sort_exten");
+		return $conflict_hash;
+	}
 }
 
 /** Expands variables from amportal.conf 
@@ -1459,6 +1694,7 @@ function drawselects($goto,$i) {
 	$custom_selected = !$foundone && !empty($goto);
 	
 	//display a custom goto field
+	if ($custom_selected) {
 	$radioid = uniqid("drawselect");
 	$selectHtml .= '<input type="radio" id="'.$radioid.'" name="goto'.$i.'" value="custom" '.
 	               //'onclick="javascript:this.form.goto'.$i.'.value=\'custom\';" '.
@@ -1468,6 +1704,7 @@ function drawselects($goto,$i) {
 	$selectHtml .= '<input type="text" size="15" name="custom'.$i.'" value="'.($custom_selected ? $goto : '').'" onfocus="document.getElementById(\''.$radioid.'\').checked = true;" />';
 
 	//close off our row
+	}
 	$selectHtml .= '</td></tr>';
 	
 	return $selectHtml;

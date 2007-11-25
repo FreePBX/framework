@@ -707,4 +707,18 @@ class gui_link extends guitext {
 		$this->html_text = "<a href=\"$url\" id=\"$this->_elemname\">$text</a>";
 	}
 }
+class gui_link_label extends guitext {
+	function gui_link_label($elemname, $text, $tooltip, $uselang = true) {
+		// call parent class contructor
+		$parent_class = get_parent_class($this);
+		parent::$parent_class($elemname, $text);
+
+		// Use languagues
+		if ( $uselang )
+			$text = _($text);
+			
+		// A tag
+		$this->html_text = "<a href=\"#\" class=\"info\" id=\"$this->_elemname\">$text:<span>$tooltip</span></a>";
+	}
+}
 ?>
