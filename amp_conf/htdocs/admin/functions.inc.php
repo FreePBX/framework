@@ -1626,7 +1626,7 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 // $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
 // esnure that any form that includes this calls the setDestinations() javascript function on submit.
 // ie: if the form name is "edit", and drawselects has been called with $i=2 then use onsubmit="setDestinations(edit,2)"
-function drawselects($goto,$i) {  
+function drawselects($goto,$i,$show_custom=false) {  
 	
 	/* --- MODULES BEGIN --- */
 	global $active_modules;
@@ -1694,7 +1694,7 @@ function drawselects($goto,$i) {
 	$custom_selected = !$foundone && !empty($goto);
 	
 	//display a custom goto field
-	if ($custom_selected) {
+	if ($custom_selected || $show_custom) {
 	$radioid = uniqid("drawselect");
 	$selectHtml .= '<input type="radio" id="'.$radioid.'" name="goto'.$i.'" value="custom" '.
 	               //'onclick="javascript:this.form.goto'.$i.'.value=\'custom\';" '.
