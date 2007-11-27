@@ -284,7 +284,6 @@ CREATE TABLE `incoming` (
   `wait` int(2) default NULL,
   `privacyman` tinyint(1) default NULL,
   `alertinfo` varchar(255) default NULL,
-  `channel` varchar(20) default NULL,
   `ringing` varchar(20) default NULL,
   `mohclass` varchar(80) NOT NULL default 'default',
   `description` varchar(80) default NULL,
@@ -292,9 +291,16 @@ CREATE TABLE `incoming` (
 ) ;
 
 --
--- Dumping data for table `incoming`
+-- Table structure for table `zapchandids`
 --
 
+DROP TABLE IF EXISTS `zapchandids`;
+CREATE TABLE `zapchandids` (
+	`channel` int(11) NOT NULL default '0',
+	`description` varchar(40) NOT NULL default '',
+	`did` varchar(60) NOT NULL default '',
+	PRIMARY KEY  (channel)
+);
 
 /*!40000 ALTER TABLE `incoming` DISABLE KEYS */;
 --  TABLES `incoming` WRITE;

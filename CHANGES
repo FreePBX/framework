@@ -1,3 +1,48 @@
+2.4.0
+
+- Implementation of a distributed Extension and Destination Registry through callbacks
+  in all modules and supporting APIs in framework. The Extension Registry provides the
+  needed information and APIs to detect and allow a module to block the creation of an
+  extension number that is used elsewhere. The Destination Registry provides a
+  mechanism for a module to detrmine if any of it's entities are being used as a
+  destination by other modules so it can provide warnings or feedback about the impact
+  of deleting such entities. Both registries are checked when reloading a configuration
+  and any inegrity issues are supplied to the notification panel. All supported modules
+  should be instrumented to use these once updated.
+- Module admin changed so that 'problem' modules that have dependency issues will not
+  block other modules from being downloaded and/or installed. A warning is still generated
+  but the action is allowed to proceed with any modules that have all their dependencies
+  met.
+- Custom destinations will no longer show up under the destination selections unless there
+  is already one configured or an unknown destination is detected (which are one and the
+  same). Misc Applications module will continue to support custom destinations. Users must create
+  a Misc Application for any required custom destinations, and then use Misc Dest to access
+  that destination so that it will appear as an option to other modules. This is more
+  cumbersome but ultimately less error prone and more supportable for the user.
+- Removed Channel Routing from 'Inbound Routes.' Added 'Zap Channel DIDs' to core modules
+  to assign DIDs to Zap Channels which can then use 'Inbound Routes' to route them with
+  all the same flexibility that is there today and without some of the issues that the
+  previous Channel routing implementation provided. Existing Channel routes will be
+  converted and entries inserted into the 'Zap Channel DIDs' tables.
+
+  WARNING: changes were made to some of the core_did_XXXX() API calls that could effect
+  any custom applications that were depending on these.
+
+- Several changes and enhancements have been made to improve the usability of Users/Devices
+  mode particularyly around Adhoc devices. Some highlights:
+  - Default user information is retained and the device returned to that user upon a logout
+  - Editing devices in FreePBX will no longer erase current logged in device information
+  - Hints are initially generated properly for Adhoc devices
+  - Hints are dynamically added/deleted as part of the logon/logoff process
+  - There are still issues if reloading from the CLI. A script and some instructions will
+    be supplied on ways to address this until a more permanent solution can be determined.
+- Pulled some agi scripts and macro calls out of dialout-trunk / dialout-enum into the outbound 
+  route code so they would only be called once when the call sequence has to try multiple
+  trunks.
+- Added reload option to CLI module_admin to peform same task as the reload bar.
+- Added support in macro-user-callerid to support per-user/extension language changes.
+- Misc other bug fixes and some feature requests that can be obtained through the SVN log.
+
 2.3.1
 
 - Module Admin previously exploded new module tarball updates ontop of the existing earlier
