@@ -69,7 +69,7 @@ function generate_configurations_sip($ast_version) {
 		$id = $result['id'];
 		fwrite($sip_conf_fh,"[$account]\n");
 
-		$sql = "SELECT keyword,data from $table_name where id=$id and keyword <> 'account' and flags <> 1 order by keyword DESC";
+		$sql = "SELECT keyword,data from $table_name where id='$id' and keyword <> 'account' and flags <> 1 order by keyword DESC";
 		$results2 = $db->getAll($sql, DB_FETCHMODE_ASSOC);
 		if(DB::IsError($results2)) {
    		die($results2->getMessage());
