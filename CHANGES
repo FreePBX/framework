@@ -41,6 +41,17 @@
   trunks.
 - Added reload option to CLI module_admin to peform same task as the reload bar.
 - Added support in macro-user-callerid to support per-user/extension language changes.
+- Significant changes within Paging & Intercom Module for 2.4 version of Module. Highlights:
+  - Intercom works properly when User is logged into multiple devices and will intercom them all
+  - Explicit Allow and Deny options to control who can/can't intercom you
+  - AstDB flag that can be set for a specific extension to block it from intercoming anyone
+  - Significant improvments in Auto-Answer ability for more phone support:
+    - Defaults pulled from database which can be changed by an advanced user
+    - Defaults can be overode for specific phone useragents based on information in
+      database, for advanced users and to allow new phones to be supported once details
+      are reported to the FreePBX team.
+    - Abilility to trigger custom macros for phones based on useragent info or on a per-device
+      basis with information stored in AstDB for that device, for advanced users.
 - Misc other bug fixes and some feature requests that can be obtained through the SVN log.
 
 2.3.1
