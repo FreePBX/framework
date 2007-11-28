@@ -94,6 +94,10 @@ class extensions {
 	function addInclude($section, $incsection) {
 		$this->_includes[$section][] = $incsection;
 	}
+
+	function addExec($section, $incsection) {
+		$this->_exec[$section][] = $incsection;
+	}
 	
 	/* This function allows new priorities to be injected into already generated dialplan
 	*  usage: $ext->splice($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
@@ -182,6 +186,13 @@ class extensions {
 				if (isset($this->_includes[$section])) {
 					foreach ($this->_includes[$section] as $include) {
 						$output .= "include => ".$include."\n";
+					}
+				}
+
+				//add requested #exec scripts for this context
+				if (isset($this->_exec[$section])) {
+					foreach ($this->_exec[$section] as $include) {
+						$output .= "#exec ".$include."\n";
 					}
 				}
 				
