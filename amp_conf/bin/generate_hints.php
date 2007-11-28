@@ -2,12 +2,7 @@
 <?php
 
 	$debug = -1;
-
-	if (isset($argv[1]) && is_numeric($argv[1])) {
-	 	sleep($argv[1]);
-	} else {
-		sleep(0);
-	}
+	$include_mode = true;
 
 	$amp_conf = parse_amportal_conf_bootstrap("/etc/amportal.conf");
 
@@ -60,11 +55,7 @@
 
 		if ($devices) {
 			$dial_string = get_dial_string($devices);
-			debug("Setting user $user hint to $dial_string",5);
-			$response = $astman->send_request('Command',array('Command'=>"add extension {$user},hint,{$dial_string} into ext-local replace"));
-		} else {
-			debug("Removing hint for user $user",5);
-			$response = $astman->send_request('Command',array('Command'=>"remove extension {$user}@ext-local hint"));
+			echo "exten => $user,hint,$dial_string\n";
 		}
 	}
 
