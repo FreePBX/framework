@@ -54,6 +54,8 @@ $amp_conf_defaults = array(
 	'DEVELRELOAD'    => array('bool' , false),
 	'CUSTOMASERROR'  => array('bool' , false),
 	'DYNAMICHINTS'   => array('bool' , false),
+	'BADDESTABORT'   => array('bool' , false),
+	'XTNCONFLICTABORT' => array('bool' , false),
 );
 
 function parse_amportal_conf($filename) {

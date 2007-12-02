@@ -341,7 +341,6 @@ if(isset($active_modules) && is_array($active_modules)){
 	}
 }
 
-
 $engineinfo = engine_getinfo();
 if($engineinfo['version'] == 0){
 	freepbx_log('retrieve_conf', 'fatal', "Failed to get engine information (engine_getinfo: {$engineinfo['engine']})");
@@ -350,6 +349,68 @@ if($engineinfo['version'] == 0){
 // was setting these variables before, assume we still need them
 $engine = $engineinfo['engine'];
 $version = $engineinfo['version'];
+
+// Check for and report any extension conflicts
+//
+
+$extens_ok = true;
+$dests_ok = true;
+
+$nt = notifications::create($db);
+
+$my_hash = array_flip($active_modules);
+$my_prob_extens = framework_list_extension_conflicts($my_hash);
+
+if (empty($my_prob_extens)) {
+	$nt->delete('retrieve_conf', 'XTNCONFLICT');
+} else {
+	$previous = null;
+	$str = null;
+	$count = 0;
+	foreach ($my_prob_extens as $extens) {
+		foreach ($extens as $exten => $details) {
+			if ($exten != $previous) {
+				$str .=  "Extension: $exten:<br />";
+				$count++;
+			}
+			$str .= sprintf("%8s: %s<br />",$details['status'], $details['description']);
+			$previous = $exten;
+		}
+	}
+	$nt->add_error('retrieve_conf', 'XTNCONFLICT', sprintf(_("There are %s conflicting extensions"),$count), $str);
+	$extens_ok = false;
+}
+
+// Check for and report any bogus destinations
+//
+$my_probs = framework_list_problem_destinations($my_hash, !$amp_conf['CUSTOMASERROR']);
+
+if (empty($my_probs)) {
+	$nt->delete('retrieve_conf', 'BADDEST');
+} else {
+	$results = array();
+	$count = 0;
+	$str = null;
+	foreach ($my_probs as $problem) {
+		//print_r($problem);
+		$results[$problem['status']][] = $problem['description'];
+		$count++;
+	}
+	foreach ($results as $status => $subjects) {
+		$str .= sprintf(_("DEST STATUS: %s%s"),$status,"\n");
+		foreach ($subjects as $subject) {
+			//$str .= $subject."<br />";
+			$str .= "   ".$subject."\n";
+		}
+	}
+	$nt->add_error('retrieve_conf', 'BADDEST', sprintf(_("There are %s bad destinations"),$count), $str);
+	$dests_ok = false;
+}
+
+if ((!$exten_ok && $amp_conf['XTNCONFLICTABORT']) || (!$dest_ok && $amp_conf['BADDESTABORT'])) {
+	out(_("Aborting reload because extension conflicts or bad destinations"));
+	exit(20);
+}
 
 // run all of the *_get_config and _hookGet_config functions, which will populate the appropriate objects
 if(isset($active_modules) && is_array($active_modules)){
@@ -399,57 +460,6 @@ if(isset($active_modules) && is_array($active_modules)){
 			}
 		}
 	}
-}
-
-// Check for and report any extension conflicts
-//
-$nt = notifications::create($db);
-
-$my_hash = array_flip($active_modules);
-$my_prob_extens = framework_list_extension_conflicts($my_hash);
-
-if (empty($my_prob_extens)) {
-	$nt->delete('retrieve_conf', 'XTNCONFLICT');
-} else {
-	$previous = null;
-	$str = null;
-	$count = 0;
-	foreach ($my_prob_extens as $extens) {
-		foreach ($extens as $exten => $details) {
-			if ($exten != $previous) {
-				$str .=  "Extension: $exten:<br />";
-				$count++;
-			}
-			$str .= sprintf("%8s: %s<br />",$details['status'], $details['description']);
-			$previous = $exten;
-		}
-	}
-	$nt->add_error('retrieve_conf', 'XTNCONFLICT', sprintf(_("There are %s conflicting extensions"),$count), $str);
-}
-
-// Check for and report any bogus destinations
-//
-$my_probs = framework_list_problem_destinations($my_hash, !$amp_conf['CUSTOMASERROR']);
-
-if (empty($my_probs)) {
-	$nt->delete('retrieve_conf', 'BADDEST');
-} else {
-	$results = array();
-	$count = 0;
-	$str = null;
-	foreach ($my_probs as $problem) {
-		//print_r($problem);
-		$results[$problem['status']][] = $problem['description'];
-		$count++;
-	}
-	foreach ($results as $status => $subjects) {
-		$str .= sprintf(_("DEST STATUS: %s%s"),$status,"\n");
-		foreach ($subjects as $subject) {
-			//$str .= $subject."<br />";
-			$str .= "   ".$subject."\n";
-		}
-	}
-	$nt->add_error('retrieve_conf', 'BADDEST', sprintf(_("There are %s bad destinations"),$count), $str);
 }
 
 
@@ -659,19 +669,24 @@ function install_cron_scheduler() {
 
 include("libfreepbx.confgen.php");
 
-// run legacy retrieve scripts
-// TODO these legacy retrieve scripts should be obsoleted, in favor of classes like extensions class
-
-//script to write op_server.cfg file from mysql 
+// script to write op_server.cfg file from mysql 
+//
 $script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.pl '.$amportalconf.' '.rtrim($asterisk_conf['astetcdir'],DIRECTORY_SEPARATOR);
 exec($script);
 
 // generate configuration files
 //
-generate_configurations_sip($version);
-generate_configurations_iax($version);
-generate_configurations_zap($version);
-generate_configurations_queues($version);
+// Leave the legacy scripts in for a little while to help with odd-ball upgrade scenarios if they haven't gotten
+// a module upgraded yet. In particular Queues
+//
+if (!isset($core_conf) || !is_a($core_conf, "core_conf")) {
+	generate_configurations_sip($version);
+	generate_configurations_iax($version);
+	generate_configurations_zap($version);
+}
+if (!isset($queues_conf) || !is_a($queues_conf, "queues_conf")) {
+	generate_configurations_queues($version);
+}
 	
 // Check and install the freepbx-cron-scheduler.php manager
 //
