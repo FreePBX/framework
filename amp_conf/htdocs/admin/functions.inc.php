@@ -55,6 +55,7 @@ $amp_conf_defaults = array(
 	'CUSTOMASERROR'  => array('bool' , false),
 	'DYNAMICHINTS'   => array('bool' , false),
 	'BADDESTABORT'   => array('bool' , false),
+	'SERVERINTITLE'  => array('bool' , false),
 	'XTNCONFLICTABORT' => array('bool' , false),
 );
 

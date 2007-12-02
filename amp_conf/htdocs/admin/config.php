@@ -346,7 +346,11 @@ if ($quietmode) {
 	// setup main template
 	$template['module_name'] = $module_name;
 	$template['module_page'] = $module_page;
-	$template['title'] = "FreePBX administration";
+	if ($amp_conf['SERVERINTITLE']) {
+		$template['title'] = $SERVER_NAME." FreePBX administration";
+	} else {
+		$template['title'] = "FreePBX administration";
+	}
 	$template['amp_conf'] = &$amp_conf;
 	$template['reload_needed'] = check_reload_needed();
 	$template['benchmark_starttime'] = $benchmark_starttime;
