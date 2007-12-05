@@ -68,4 +68,13 @@ if(!DB::IsError($results)) {
 	out("already exists, no conversion will be done");
 }
 
+outn("Converting ampusers sections table from varchar 255 to blob to handle large numbers of modules..");
+$sql = "ALTER TABLE `ampusers` CHANGE `sections` `sections` BLOB NOT NULL";
+$results = $db->query($sql);
+if(DB::IsError($results)) {
+	out("ERROR: failed to convert table ".$results->getMessage());
+} else {
+	out("OK");
+}
+
 ?>

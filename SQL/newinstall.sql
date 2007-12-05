@@ -335,30 +335,6 @@ CREATE TABLE `module_xml` (
   PRIMARY KEY  (`id`)
 );
 
-
---
--- Table structure for table `queues`
---
-
-DROP TABLE IF EXISTS `queues`;
-CREATE TABLE `queues` (
-  `id` varchar(45) NOT NULL default '-1',
-  `keyword` varchar(30) NOT NULL default '',
-  `data` varchar(150) NOT NULL default '',
-  `flags` int(1) NOT NULL default '0',
-  PRIMARY KEY  (`id`,`keyword`,`data`)
-);
-
---
--- Dumping data for table `queues`
---
-
-
-/*!40000 ALTER TABLE `queues` DISABLE KEYS */;
--- LOCK TABLES `queues` WRITE;
--- UNLOCK TABLES;
-/*!40000 ALTER TABLE `queues` ENABLE KEYS */;
-
 --
 -- Table structure for table `sip`
 --
