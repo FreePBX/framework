@@ -99,7 +99,7 @@ function process_files() {
 				if($debug) {
 						debug("Processing file ".$file);					
 				}
-				if ((strtolower(substr($file,-4)) == ".WAV") || (strtolower(substr($file,-4)) == ".wav") || (strtolower(substr($file,-4)) == ".gsm")) {
+				if ((strtolower(substr($file,-4)) == ".wav") || (strtolower(substr($file,-4)) == ".gsm")) {
 					// check if recording is from a queue, ringgroup or outbound
 					// queue recordings saved like q<queue#>-<date>-<time>-<uniqueid>.wav
 					// ringgroup recordings saved like g<rg#>-<date>-<time>-<uniqueid>.wav
@@ -301,7 +301,7 @@ function convert_files() {
 	outn("-> Converting files to mp3..");
 	$files = make_tree(MONITOR_DIR);
 	foreach ($files as $file) {
-		if ((substr($file,-4) == ".WAV")) {
+		if (strtolower((substr($file,-4)) == ".wav")) {
 			$newfile = substr($file,0,strlen($file)-3)."mp3";
 			$lamecmd="lame --cbr -m m -t -F \"".$file."\" \"".$newfile."\""; //this doesn't work
 			if($debug) debug($lamecmd);
@@ -351,7 +351,7 @@ out("OK");
 // **** Parse out command-line options
 
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","mp3");
+$longopts = array("help","debug","dry-run","mp3","delwav");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
