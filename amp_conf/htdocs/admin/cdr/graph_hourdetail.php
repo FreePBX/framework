@@ -10,7 +10,7 @@ include_once(dirname(__FILE__) . "/jpgraph_lib/jpgraph_bar.php");
 $FG_DEBUG = 0;
 
 
-getpost_ifset(array('typegraph', 'min_call', 'fromstatsday_sday', 'days_compare', 'fromstatsmonth_sday', 'dsttype', 'sourcetype', 'clidtype', 'channel', 'resulttype', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode', 'hourinterval'));
+getpost_ifset(array('typegraph', 'min_call', 'fromstatsday_sday', 'days_compare', 'fromstatsmonth_sday', 'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode', 'hourinterval'));
 
 //echo "posted=$posted 'accountcodetype=$accountcodetype', 'accountcode=$accountcode', 'fromstatsday_sday=$fromstatsday_sday', 'fromstatsmonth_sday=$fromstatsmonth_sday' hourinterval=$hourinterval ";
 //exit();
@@ -19,7 +19,7 @@ getpost_ifset(array('typegraph', 'min_call', 'fromstatsday_sday', 'days_compare'
 // hourinterval -- 1 to 23
 if (!($hourinterval>=0) && ($hourinterval<=23)) exit();
 
-// http://localhost/Asterisk/asterisk-stat-v1_4/graph_stat.php?min_call=0&fromstatsday_sday=11&days_compare=2&fromstatsmonth_sday=2005-02&dsttype=1&sourcetype=1&clidtype=1&channel=&resulttype=&dst=1649&src=&clid=&userfieldtype=1&userfield=&accountcodetype=1&accountcode=
+// http://localhost/Asterisk/asterisk-stat-v1_4/graph_stat.php?min_call=0&fromstatsday_sday=11&days_compare=2&fromstatsmonth_sday=2005-02&dsttype=1&srctype=1&clidtype=1&channel=&resulttype=&dst=1649&src=&clid=&userfieldtype=1&userfield=&accountcodetype=1&accountcode=
 
 // The variable FG_TABLE_NAME define the table name to use
 $FG_TABLE_NAME=DB_TABLENAME;

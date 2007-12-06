@@ -6,10 +6,10 @@ include_once(dirname(__FILE__) . "/lib/Class.Table.php");
 // correct 31 +1 = 32 for the date
 //session_start();
 
-getpost_ifset(array('posted', 'Period', 'frommonth', 'fromstatsmonth', 'tomonth', 'tostatsmonth', 'fromday', 'fromstatsday_sday', 'fromstatsmonth_sday', 'today', 'tostatsday_sday', 'tostatsmonth_sday', 'dsttype', 'sourcetype', 'clidtype', 'channel', 'resulttype', 'stitle', 'atmenu', 'current_page', 'order', 'sens', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode', 'duration1', 'duration1type', 'duration2', 'duration2type'));
+getpost_ifset(array('posted', 'Period', 'frommonth', 'fromstatsmonth', 'tomonth', 'tostatsmonth', 'fromday', 'fromstatsday_sday', 'fromstatsmonth_sday', 'today', 'tostatsday_sday', 'tostatsmonth_sday', 'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'stitle', 'atmenu', 'current_page', 'order', 'sens', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode', 'duration1', 'duration1type', 'duration2', 'duration2type'));
 if (isset($resulttype) && (($resulttype == null) || ($resulttype == ""))) unset($resulttype);
 
-//echo "'posted=$posted', 'Period=$Period', 'frommonth=$frommonth', 'fromstatsmonth=$fromstatsmonth', 'tomonth=$tomonth', 'tostatsmonth=$tostatsmonth', 'fromday=$fromday', 'fromstatsday_sday=$fromstatsday_sday', 'fromstatsmonth_sday=$fromstatsmonth_sday', 'today=$today', 'tostatsday_sday=$tostatsday_sday', 'tostatsmonth_sday=$tostatsmonth_sday', 'dsttype=$dsttype', 'sourcetype=$sourcetype', 'clidtype=$clidtype', 'channel=$channel', 'resulttype=$resulttype', 'stitle=$stitle', 'atmenu=$atmenu', 'current_page=$current_page', 'order=$order', 'sens=$sens', 'dst=$dst', 'src=$src', 'clid=$clid', 'userfieldtype=$userfieldtype', 'userfield=$userfield', 'accountcodetype=$accountcodetype', 'accountcode=$accountcode', 'duration1=$duration1', 'duration1type=$duration1type', 'duration2=$duration2', 'duration2type=$duration2type'";
+//echo "'posted=$posted', 'Period=$Period', 'frommonth=$frommonth', 'fromstatsmonth=$fromstatsmonth', 'tomonth=$tomonth', 'tostatsmonth=$tostatsmonth', 'fromday=$fromday', 'fromstatsday_sday=$fromstatsday_sday', 'fromstatsmonth_sday=$fromstatsmonth_sday', 'today=$today', 'tostatsday_sday=$tostatsday_sday', 'tostatsmonth_sday=$tostatsmonth_sday', 'dsttype=$dsttype', 'srctype=$srctype', 'clidtype=$clidtype', 'channel=$channel', 'resulttype=$resulttype', 'stitle=$stitle', 'atmenu=$atmenu', 'current_page=$current_page', 'order=$order', 'sens=$sens', 'dst=$dst', 'src=$src', 'clid=$clid', 'userfieldtype=$userfieldtype', 'userfield=$userfield', 'accountcodetype=$accountcodetype', 'accountcode=$accountcode', 'duration1=$duration1', 'duration1type=$duration1type', 'duration2=$duration2', 'duration2type=$duration2type'";
 
  
 
@@ -461,10 +461,10 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 				</td>				
 				<td class="bar-search" align="left" bgcolor="#acbdee">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#acbdee"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="src" value="<?php echo "$src";?>"></td>
-				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="1" <?php if((!isset($sourcetype))||($sourcetype==1)){?>checked<?php }?>>Exact</td>
-				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="2" <?php if(isset($sourcetype) && $sourcetype==2){?>checked<?php }?>>Begins with</td>
-				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="3" <?php if(isset($sourcetype) && $sourcetype==3){?>checked<?php }?>>Contains</td>
-				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="4" <?php if(isset($sourcetype) && $sourcetype==4){?>checked<?php }?>>Ends with</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="srctype" value="1" <?php if((!isset($srctype))||($srctype==1)){?>checked<?php }?>>Exact</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="srctype" value="2" <?php if(isset($srctype) && $srctype==2){?>checked<?php }?>>Begins with</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="srctype" value="3" <?php if(isset($srctype) && $srctype==3){?>checked<?php }?>>Contains</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="srctype" value="4" <?php if(isset($srctype) && $srctype==4){?>checked<?php }?>>Ends with</td>
 				</tr></table></td>
 			</tr>
 <!-- AMP			<tr>
@@ -588,7 +588,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                     <center><strong> 
                     <?php  if (strtoupper($FG_TABLE_COL[$i][4])=="SORT"){?>
                     <a href="<?php  echo $_SERVER['PHP_SELF']."?s=1&t=$t&stitle=$stitle&atmenu=$atmenu&current_page=$current_page&order=".$FG_TABLE_COL[$i][1]."&sens="; if ($sens=="ASC"){echo"DESC";}else{echo"ASC";} 
-					echo "&posted=$posted&Period=$Period&frommonth=$frommonth&fromstatsmonth=$fromstatsmonth&tomonth=$tomonth&tostatsmonth=$tostatsmonth&fromday=$fromday&fromstatsday_sday=$fromstatsday_sday&fromstatsmonth_sday=$fromstatsmonth_sday&today=$today&tostatsday_sday=$tostatsday_sday&tostatsmonth_sday=$tostatsmonth_sday&dsttype=$dsttype&sourcetype=$sourcetype&clidtype=$clidtype&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid";?>"> 
+					echo "&posted=$posted&Period=$Period&frommonth=$frommonth&fromstatsmonth=$fromstatsmonth&tomonth=$tomonth&tostatsmonth=$tostatsmonth&fromday=$fromday&fromstatsday_sday=$fromstatsday_sday&fromstatsmonth_sday=$fromstatsmonth_sday&today=$today&tostatsday_sday=$tostatsday_sday&tostatsmonth_sday=$tostatsmonth_sday&dsttype=$dsttype&srctype=$srctype&clidtype=$clidtype&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid";?>"> 
                     <span class="liens"><?php  } ?>
                     <?php echo $FG_TABLE_COL[$i][0]?> 
                     <?php if ($order==$FG_TABLE_COL[$i][1] && $sens=="ASC"){?>
@@ -714,13 +714,13 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                   <TD align="right"><SPAN style="COLOR: #ffffff; FONT-SIZE: 11px"><B> 
                     <?php if ($current_page>0){?>
                     <img src="images/fleche-g.gif" width="5" height="10"> <a href="<?php echo $_SERVER['PHP_SELF']?>?s=1&t=<?php echo $t?>&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php  echo ($current_page-1)?><?php  if (!is_null($letter) && ($letter!="")){ echo "&letter=$letter";} 
-					echo "&posted=$posted&Period=$Period&frommonth=$frommonth&fromstatsmonth=$fromstatsmonth&tomonth=$tomonth&tostatsmonth=$tostatsmonth&fromday=$fromday&fromstatsday_sday=$fromstatsday_sday&fromstatsmonth_sday=$fromstatsmonth_sday&today=$today&tostatsday_sday=$tostatsday_sday&tostatsmonth_sday=$tostatsmonth_sday&dsttype=$dsttype&sourcetype=$sourcetype&clidtype=$clidtype&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&userfieldtype=$userfieldtype&userfield=$userfield&accountcodetype=$accountcodetype&accountcode=$accountcode&duration1=$duration1&duration1type=$duration1type&duration2=$duration2&duration2type=$duration2type";?>"> 
+					echo "&posted=$posted&Period=$Period&frommonth=$frommonth&fromstatsmonth=$fromstatsmonth&tomonth=$tomonth&tostatsmonth=$tostatsmonth&fromday=$fromday&fromstatsday_sday=$fromstatsday_sday&fromstatsmonth_sday=$fromstatsmonth_sday&today=$today&tostatsday_sday=$tostatsday_sday&tostatsmonth_sday=$tostatsmonth_sday&dsttype=$dsttype&srctype=$srctype&clidtype=$clidtype&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&userfieldtype=$userfieldtype&userfield=$userfield&accountcodetype=$accountcodetype&accountcode=$accountcode&duration1=$duration1&duration1type=$duration1type&duration2=$duration2&duration2type=$duration2type";?>"> 
                     Previous </a> - 
                     <?php }?>
                     <?php echo ($current_page+1);?> / <?php  echo $nb_record_max;?> 
                     <?php if ($current_page<$nb_record_max-1){?>
                     - <a href="<?php echo $_SERVER['PHP_SELF']?>?s=1&t=<?php echo $t?>&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php  echo ($current_page+1)?><?php  if (!is_null($letter) && ($letter!="")){ echo "&letter=$letter";} 
-					echo "&posted=$posted&Period=$Period&frommonth=$frommonth&fromstatsmonth=$fromstatsmonth&tomonth=$tomonth&tostatsmonth=$tostatsmonth&fromday=$fromday&fromstatsday_sday=$fromstatsday_sday&fromstatsmonth_sday=$fromstatsmonth_sday&today=$today&tostatsday_sday=$tostatsday_sday&tostatsmonth_sday=$tostatsmonth_sday&dsttype=$dsttype&sourcetype=$sourcetype&clidtype=$clidtype&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&userfieldtype=$userfieldtype&userfield=$userfield&accountcodetype=$accountcodetype&accountcode=$accountcode&duration1=$duration1&duration1type=$duration1type&duration2=$duration2&duration2type=$duration2type";?>"> 
+					echo "&posted=$posted&Period=$Period&frommonth=$frommonth&fromstatsmonth=$fromstatsmonth&tomonth=$tomonth&tostatsmonth=$tostatsmonth&fromday=$fromday&fromstatsday_sday=$fromstatsday_sday&fromstatsmonth_sday=$fromstatsmonth_sday&today=$today&tostatsday_sday=$tostatsday_sday&tostatsmonth_sday=$tostatsmonth_sday&dsttype=$dsttype&srctype=$srctype&clidtype=$clidtype&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&userfieldtype=$userfieldtype&userfield=$userfield&accountcodetype=$accountcodetype&accountcode=$accountcode&duration1=$duration1&duration1type=$duration1type&duration2=$duration2&duration2type=$duration2type";?>"> 
                     Next </a> <img src="images/fleche-d.gif" width="5" height="10"> 
                     </B></SPAN> 
                     <?php }?>

@@ -4,7 +4,7 @@ include_once(dirname(__FILE__) . "/lib/Class.Table.php");
 
 
 
-getpost_ifset(array('current_page', 'fromstatsday_sday', 'fromstatsmonth_sday', 'days_compare', 'min_call', 'posted',  'dsttype', 'sourcetype', 'clidtype', 'channel', 'resulttype', 'stitle', 'atmenu', 'current_page', 'order', 'sens', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode'));
+getpost_ifset(array('current_page', 'fromstatsday_sday', 'fromstatsmonth_sday', 'days_compare', 'min_call', 'posted',  'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'stitle', 'atmenu', 'current_page', 'order', 'sens', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode'));
 
 
 if (!isset ($current_page) || ($current_page == "")){	
@@ -283,10 +283,10 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 				</td>				
 				<td class="bar-search" align="left" bgcolor="#acbdee">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#acbdee"><tr><td>&nbsp;&nbsp;<INPUT TYPE="text" NAME="src" value="<?php echo "$src";?>"></td>
-				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="1" <?php if((!isset($sourcetype))||($sourcetype==1)){?>checked<?php }?>>Exact</td>
-				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="2" <?php if($sourcetype==2){?>checked<?php }?>>Begins with</td>
-				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="3" <?php if($sourcetype==3){?>checked<?php }?>>Contains</td>
-				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="sourcetype" value="4" <?php if($sourcetype==4){?>checked<?php }?>>Ends with</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="srctype" value="1" <?php if((!isset($srctype))||($srctype==1)){?>checked<?php }?>>Exact</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="srctype" value="2" <?php if($srctype==2){?>checked<?php }?>>Begins with</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="srctype" value="3" <?php if($srctype==3){?>checked<?php }?>>Contains</td>
+				<td class="bar-search" align="center" bgcolor="#acbdee"><input type="radio" NAME="srctype" value="4" <?php if($srctype==4){?>checked<?php }?>>Ends with</td>
 				</tr></table></td>
 			</tr>
 <!-- AMP
@@ -476,7 +476,7 @@ foreach ($table_graph as $tkey => $data){
 
 </td></tr></tbody></table>
 	<br>
- 	<IMG SRC="graph_statbar.php?min_call=<?php echo $min_call?>&fromstatsday_sday=<?php echo $fromstatsday_sday?>&days_compare=<?php echo $days_compare?>&fromstatsmonth_sday=<?php echo $fromstatsmonth_sday?>&dsttype=<?php echo $dsttype?>&sourcetype=<?php echo $sourcetype?>&clidtype=<?php echo $clidtype?>&channel=<?php echo $channel?>&resulttype=<?php echo $resulttype?>&dst=<?php echo $dst?>&src=<?php echo $src?>&clid=<?php echo $clid?>&userfieldtype=<?php echo $userfieldtype?>&userfield=<?php echo $userfield?>&accountcodetype=<?php echo $accountcodetype?>&accountcode=<?php echo $accountcode?>" ALT="Stat Graph">
+ 	<IMG SRC="graph_statbar.php?min_call=<?php echo $min_call?>&fromstatsday_sday=<?php echo $fromstatsday_sday?>&days_compare=<?php echo $days_compare?>&fromstatsmonth_sday=<?php echo $fromstatsmonth_sday?>&dsttype=<?php echo $dsttype?>&srctype=<?php echo $srctype?>&clidtype=<?php echo $clidtype?>&channel=<?php echo $channel?>&resulttype=<?php echo $resulttype?>&dst=<?php echo $dst?>&src=<?php echo $src?>&clid=<?php echo $clid?>&userfieldtype=<?php echo $userfieldtype?>&userfield=<?php echo $userfield?>&accountcodetype=<?php echo $accountcodetype?>&accountcode=<?php echo $accountcode?>" ALT="Stat Graph">
 
 
 
@@ -484,7 +484,7 @@ foreach ($table_graph as $tkey => $data){
 &nbsp;
 <br/>
 	<center>Select the hour interval to see the details
-	<FORM METHOD=POST ACTION="graph_hourdetail.php?posted=<?php echo $posted?>&min_call=<?php echo $min_call?>&fromstatsday_sday=<?php echo $fromstatsday_sday?>&days_compare=<?php echo $days_compare?>&fromstatsmonth_sday=<?php echo $fromstatsmonth_sday?>&dsttype=<?php echo $dsttype?>&sourcetype=<?php echo $sourcetype?>&clidtype=<?php echo $clidtype?>&channel=<?php echo $channel?>&resulttype=<?php echo $resulttype?>&dst=<?php echo $dst?>&src=<?php echo $src?>&clid=<?php echo $clid?>&userfieldtype=<?php echo $userfieldtype?>&userfield=<?php echo $userfield?>&accountcodetype=<?php echo $accountcodetype?>&accountcode=<?php echo $accountcode?>" target="superframe">		
+	<FORM METHOD=POST ACTION="graph_hourdetail.php?posted=<?php echo $posted?>&min_call=<?php echo $min_call?>&fromstatsday_sday=<?php echo $fromstatsday_sday?>&days_compare=<?php echo $days_compare?>&fromstatsmonth_sday=<?php echo $fromstatsmonth_sday?>&dsttype=<?php echo $dsttype?>&srctype=<?php echo $srctype?>&clidtype=<?php echo $clidtype?>&channel=<?php echo $channel?>&resulttype=<?php echo $resulttype?>&dst=<?php echo $dst?>&src=<?php echo $src?>&clid=<?php echo $clid?>&userfieldtype=<?php echo $userfieldtype?>&userfield=<?php echo $userfield?>&accountcodetype=<?php echo $accountcodetype?>&accountcode=<?php echo $accountcode?>" target="superframe">		
 	<!-- ** ** ** ** ** HOURLY LOAD ** ** ** ** ** -->
 		<table class="bar-status" width="60%" border="0" cellspacing="1" cellpadding="2" align="center">
 			<tbody>		
@@ -533,7 +533,7 @@ foreach ($table_graph as $tkey => $data){
 </center>
 <br>
 <center>
-    <iframe name="superframe" src="graph_hourdetail.php?posted=<?php echo $posted?>&min_call=<?php echo $min_call?>&fromstatsday_sday=<?php echo $fromstatsday_sday?>&days_compare=<?php echo $days_compare?>&fromstatsmonth_sday=<?php echo $fromstatsmonth_sday?>&dsttype=<?php echo $dsttype?>&sourcetype=<?php echo $sourcetype?>&clidtype=<?php echo $clidtype?>&channel=<?php echo $channel?>&resulttype=<?php echo $resulttype?>&dst=<?php echo $dst?>&src=<?php echo $src?>&clid=<?php echo $clid?>&userfieldtype=<?php echo $userfieldtype?>&userfield=<?php echo $userfield?>&accountcodetype=<?php echo $accountcodetype?>&accountcode=<?php echo $accountcode?>" BGCOLOR=white	width=770 height=800 marginWidth=0 marginHeight=0  frameBorder=0  scrolling=yes>
+    <iframe name="superframe" src="graph_hourdetail.php?posted=<?php echo $posted?>&min_call=<?php echo $min_call?>&fromstatsday_sday=<?php echo $fromstatsday_sday?>&days_compare=<?php echo $days_compare?>&fromstatsmonth_sday=<?php echo $fromstatsmonth_sday?>&dsttype=<?php echo $dsttype?>&srctype=<?php echo $srctype?>&clidtype=<?php echo $clidtype?>&channel=<?php echo $channel?>&resulttype=<?php echo $resulttype?>&dst=<?php echo $dst?>&src=<?php echo $src?>&clid=<?php echo $clid?>&userfieldtype=<?php echo $userfieldtype?>&userfield=<?php echo $userfield?>&accountcodetype=<?php echo $accountcodetype?>&accountcode=<?php echo $accountcode?>" BGCOLOR=white	width=770 height=800 marginWidth=0 marginHeight=0  frameBorder=0  scrolling=yes>
 
     </iframe>
 </center>
