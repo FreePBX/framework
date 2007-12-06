@@ -1,5 +1,7 @@
 <?php
 
+$template['amp_conf'] = &$amp_conf;
+
 $template['title'] = $title;
 $template['content'] = '';
 
@@ -13,6 +15,7 @@ $template['content'] .=
 	'<div id="reportframe">'.
 	'<iframe width="97%" height="2000" frameborder="0" align="top" scrolling="auto" src="cdr/cdr.php?s='.$display.($display=='1' ? '&posted=1' : '').'"></iframe>'.
 	'</div>';
+
 showview('freepbx', $template);
 
 ?>

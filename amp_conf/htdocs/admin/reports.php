@@ -54,7 +54,7 @@ echo "</ul></div>";
 // Changes for -- AMP -- commented in:
 // cdr.php, defines.php, call-log.php, call-comp.php, graph_hourdetail.php, graph_statbar.php, graph_pie.php
 
-showview('reports', array('title'=>$title, 'display'=>$display, 'menu' => $menu));
+showview('reports', array('amp_conf'=>&$amp_conf, 'title'=>$title, 'display'=>$display, 'menu' => $menu));
 ?>
 </div>
 
