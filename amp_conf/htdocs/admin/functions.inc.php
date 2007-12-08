@@ -1699,13 +1699,20 @@ function drawselects($goto,$i,$show_custom=false) {
 	
 	//display a custom goto field
 	if ($custom_selected || $show_custom) {
-	$radioid = uniqid("drawselect");
-	$selectHtml .= '<input type="radio" id="'.$radioid.'" name="goto'.$i.'" value="custom" '.
+		if ($show_custom) {
+			$custom_style = "";
+			$custom_background = "";
+		} else {
+			$custom_style      = " style='color:red' ";
+			$custom_background = " style='background:red' readonly='yes' ";
+		}
+		$radioid = uniqid("drawselect");
+		$selectHtml .= '<input type="radio" id="'.$radioid.'" name="goto'.$i.'" value="custom" '.
 	               //'onclick="javascript:this.form.goto'.$i.'.value=\'custom\';" '.
 		       //'onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\'custom\';" '.
 		       ($custom_selected ? 'CHECKED=CHECKED' : '').' />';
-	$selectHtml .= '<a href="#" class="info"> '._("Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name should start with \"custom-\", and be in the format custom-context,extension,priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf</span>").'</a>:';
-	$selectHtml .= '<input type="text" size="15" name="custom'.$i.'" value="'.($custom_selected ? $goto : '').'" onfocus="document.getElementById(\''.$radioid.'\').checked = true;" />';
+		$selectHtml .= '<a href="#" class="info" '.$custom_style.'>'._("Unknown Destination").'&nbsp;<span>'._("ERROR: You have an unknown destination. If this was carried over as a Custom App from an earlier version, you must go register the destination in the Custom Destination tab provided by the Custom Applications module.<br />This will remain active until you change it but you can no longer edit or add a new one here.").'</span></a>:';
+		$selectHtml .= '<input '.$custom_background.' type="text" size="15" name="custom'.$i.'" value="'.($custom_selected ? $goto : '').'" onfocus="document.getElementById(\''.$radioid.'\').checked = true;" />';
 
 	//close off our row
 	}
