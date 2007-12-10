@@ -1,0 +1,1638 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: freepbx-2.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-25 10:41+0200\n"
+"PO-Revision-Date: 2007-10-09 16:16+0100\n"
+"Last-Translator: Lónyai Gergely <alephlg@gmail.com>\n"
+"Language-Team: Aleph <alephlg@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: amp_conf/htdocs/admin/common/script.js.php:146
+msgid "Please select a \"Destination\""
+msgstr "Válaszd ki a \"célpontot\""
+
+#: amp_conf/htdocs/admin/common/script.js.php:154
+msgid "Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
+msgstr "Az egyedi Goto kontextusnak muszály tartalmaznia a \"custom-\" szöveget. Pl. custom-sajat,s,1"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:55
+#: amp_conf/htdocs/admin/config.php:114
+msgid "Apply Changes Bar"
+msgstr "Változtatások érvényesítése gomb"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:93
+msgid "Add User"
+msgstr "Felhasználó hozzáadása"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:111
+msgid "Edit Administrator"
+msgstr "Adminisztrátor szerkesztése"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:123
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2282
+msgid "Delete User"
+msgstr "Felhasználó törlése"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:138
+msgid "Add Administrator"
+msgstr "Adminisztrátor hozzáadása"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:150
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:309
+msgid "General Settings"
+msgstr "Általános beállítások"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:162
+msgid "Username<span>Create a unique username for this new user</span>"
+msgstr "Felhasználónév<span>Egy egyedi felhasználónevet rendel az új felhysználóhoz</span>"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:170
+msgid "Password<span>Create a password for this new user</span>"
+msgstr "Jelszó<span>Egy jelszavat ad az új felhesználónak</span>"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:179
+msgid "Access Restrictions"
+msgstr "Hozzáférések"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:184
+msgid "Department Name<span>Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department.</span>"
+msgstr "Osztálynév<span>Lekorlátozza egy osztályra a felhasználót a Digitális recepciós és a Rendszerfelvételek menüben.</span>"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:191
+msgid "Extension Range<span>Restrict this user's view to only Extensions, Ring Groups, and Queues within this range.</span>"
+msgstr "Mellék tartomány<span>Lekorlátozza a felhasználót egy osztályra a Mellékek, Híváscsoportok és Hívósorok megnézésekor.</span>"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:200
+msgid "Admin Access<span>Select the Admin Sections this user should have access to.</span>"
+msgstr "Adminjogok<span>Válaszd ki azokat a területeket, ahol jogokad adnál ennek az adsminisztrátornak.</span>"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:212
+msgid "ALL SECTIONS"
+msgstr "MINDEN SZEKCIÓ"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:220
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:653
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:546
+#: amp_conf/htdocs/admin/modules/core/page.general.php:186
+msgid "Submit Changes"
+msgstr "Változtatások elküldése"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:234
+msgid "Username must not be blank"
+msgstr "A felhasználó neve nem lehet \"üres\""
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:236
+msgid "Username cannot start with a number, and can only contain letters and numbers"
+msgstr "A felhasználónév nem kezdődhet számmal, és csak betűket és számokat tartalmazhat"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:238
+msgid "For security reasons, you cannot use the department name default"
+msgstr "Biztonsági okokból az osztály nevének ne add meg a default-ot"
+
+#: amp_conf/htdocs/admin/modules/core/page.ampusers.php:240
+msgid "Department name cannot have a space"
+msgstr "Az osztály neve nem lehet \"üres\""
+
+#: amp_conf/htdocs/admin/modules/core/page.extensions.php:18
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2278
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2528
+msgid "Extension"
+msgstr "Mellék"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:47
+#: amp_conf/htdocs/admin/modules/core/page.did.php:82
+#: amp_conf/htdocs/admin/modules/core/page.did.php:89
+msgid "Add Incoming Route"
+msgstr "Bejövő útvonal hozzáadása"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:53
+msgid "any DID"
+msgstr "Minden DID"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:54
+msgid "any CID"
+msgstr "Minden CID"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:69
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2261
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2492
+msgid "deleted"
+msgstr "tötölt"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:79
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:265
+msgid "Route"
+msgstr "Útvonal"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:80
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:271
+msgid "Delete Route"
+msgstr "Útvonal törlése"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:89
+msgid "Edit Incoming Route"
+msgstr "Bejövő útvonal szerkesztése"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:91
+msgid "DID Number"
+msgstr "DID szám"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:91
+msgid "Define the expected DID Number if your trunk passes DID on incoming calls. <br><br>Leave this blank to match calls with any or no DID info.<br><br>You can also use a pattern match (eg _2[345]X) to match a range of numbers"
+msgstr "Határozd meg a kívánt DID számot, ha azt szeretnéd, hogy a trunk-ön bejövő hívás közvetlenül csörgögjön ezen a melléken. <br><br>Hagyd üresen, ha bármelyik hívásra illeszkedhet, vagy nincs DID információ.<br><br>Használhatsz tárcsázási mintákat (pl. _2[345]X), ha több hívást szeretnél ide irányítani. "
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:95
+msgid "Caller ID Number"
+msgstr "Hívószám (CID)"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:95
+msgid "Define the Caller ID Number to be matched on incoming calls.<br><br>Leave this field blank to match any or no CID info."
+msgstr "Határozd meg azokat a Hívó azonosító számokat, amikre illeszkedhet ez a bejövő hívás.<br><br>Hagyd üresen ha bármelyiikre illeszkedhet, vagy ha nincs CID információ."
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:98
+msgid "OR"
+msgstr "VAGY"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:100
+msgid "Zaptel Channel"
+msgstr "Zaptel csatorna"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:100
+msgid "Match calls that come in on this specific Zaptel channel number. zapata.conf must have \"context=from-zaptel\" rather than context=\"from-pstn\" to use this feature"
+msgstr "Illeszkedjen a hívás iránya egy speciális zaptel csatorna számához. A zapata.conf-ban muszály a \"context=from-zaptel\" változót \"context=from-pstn\"-re változtatnod."
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:106
+msgid "Fax Handling"
+msgstr "Fax-kezelés"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:109
+msgid "Fax Extension"
+msgstr "Fax-mellék"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:109
+msgid "Select 'system' to have the system receive and email faxes.<br><br>The FreePBX default is defined in General Settings."
+msgstr "Válaszd ki a 'rendszer'-t, ha azt szeretnéd, hogy a rendszer fogadja és továbbítsa email-ben a faxokat.<br><br>A FreePBX alapértelmezését az Általános beállítások menüben változtathatod meg."
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:124
+msgid "FreePBX default"
+msgstr "FreePBX alapértelmezés"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:125
+#: amp_conf/htdocs/admin/modules/core/page.general.php:135
+msgid "disabled"
+msgstr "tiltva"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:126
+#: amp_conf/htdocs/admin/modules/core/page.general.php:136
+msgid "system"
+msgstr "rendszer"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:141
+msgid "Fax Email"
+msgstr "Fax Email"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:141
+msgid "Email address is used if 'system' has been chosen for the fax extension above.<br><br>Leave this blank to use the FreePBX default in General Settings."
+msgstr "Erre az email címre lesz továbbítva, ha a 'rendszer'-t választottad a mellék fax beállításainál.<br><br>Hagyd üresen, ha a FreePBX alapértelmezés szerinti beállítását szeretnéd használni az Általános beállításokban."
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:148
+msgid "Fax Detection Type"
+msgstr "Faxdetekció típusa"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:148
+msgid "Selecting Zaptel or NVFax will immediately answer the call and play ringing tones to the caller for the number of seconds in Pause below. Use NVFax on SIP or IAX trunks."
+msgstr "A Zaptel vagy NVFax kiválasztásakor a hívás azonnal meg lesz válaszolva, és a továbbiakban a csörgés hangát játsza a rendszer a hívó félnek a Várakoztatás részben madott másodpercig. Az IAX és SIP trunk-ökön használd az NVFax-ot."
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:151
+msgid "None"
+msgstr "Nincs"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:152
+msgid "Zaptel"
+msgstr "Zaptel"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:153
+msgid "NVFax"
+msgstr "NVFax"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:158
+msgid "Pause after answer"
+msgstr "Várakoztatás után válasz"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:158
+msgid "The number of seconds we should wait after performing an Immediate Answer. The primary purpose of this is to pause and listen for a fax tone before allowing the call to proceed."
+msgstr "Ennyi másodperc után azonnal választ ad a rendszer. Az elsődleges célja a funkciónak, hogy a hívás fax tartalmának az ellenőrzését minél jobban kitoljuk, így a várakoztatás időtartama lecsökken."
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:168
+msgid "Privacy"
+msgstr "Jogosultság"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:170
+msgid "Privacy Manager"
+msgstr "Jogosultság-kezelő"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:170
+msgid "If no Caller ID is sent, Privacy Manager will asks the caller to enter their 10 digit phone number. The caller is given 3 attempts."
+msgstr "Ha a hívóazonosító nincs elküldve, a Jogosultságkezelő (Privacy Manager) egy 10 számjegyű telefonszámot akar neki adni. A hívó félnek 3 kísérlete van."
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:173
+msgid "No"
+msgstr "No"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:174
+msgid "Yes"
+msgstr "Yes"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:182
+msgid "Options"
+msgstr "Options"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:187
+msgid "Alert Info"
+msgstr "Figyelmeztetés"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:187
+msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
+msgstr "Az ALERT_INFO megkülönböztető csörgést használ a SIP készülékeken."
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:191
+msgid "Signal RINGING"
+msgstr "Csörgés-jelzés"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:191
+msgid "Some devices or providers require RINGING to be sent before ANSWER. You'll notice this happening if you can send calls directly to a phone, but if you send it to an IVR, it won't connect the call."
+msgstr "Néhány készüléken vagy szolgáltatónál megkövetelt, hogy VÁLASZ előtt KICSÖRGÉS is legyen.  Ezt nem szükséges beállítani, ha egy telefonszámot közvetlenül egy készülékre irányítassz, de egy IVR-re történő irányításnál nagyon hasznos."
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:206
+msgid "Set Destination"
+msgstr "Cél beállítása"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:215
+#: amp_conf/htdocs/admin/components.class.php:305
+msgid "Submit"
+msgstr "Elküld"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:228
+msgid "Please enter a valid DID Number"
+msgstr "Kérlek adj meg egy érvényes DID számot"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:229
+msgid "Please enter a valid Caller ID Number"
+msgstr "Kérlek érvényes Hívóazonosító számot adjál meg."
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:230
+msgid "DID number and CID number MUST be blank when used with zaptel channel routing"
+msgstr "A DID és CID értékeket a zaptel csatorna használata esetén üresen KELL hagyni"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:231
+msgid "Please enter a valid Fax Email or leave it empty to use the default"
+msgstr "Kérlek addj meg egy érvényes Fax-emailt, vagy hagyd üresen, ha az alapértelmezett email címet szeretnéd használni."
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:232
+msgid "Please enter a valid number for Pause after answer"
+msgstr "Kérlek adj meg egy érvényes számot a várakoztatás utáni válaszhoz"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:233
+msgid ""
+"Leaving the DID Number AND the Caller ID Number empty will match all incoming calls received not routed using any other defined Incoming Route.\\n"
+"\\n"
+"Are you sure?"
+msgstr ""
+"Ha a DID számot ÉS a Hívóazonozító számot üresen hagyod, akkor ez a szabály MINDEN bejövő hívásra érvényes lesz.\\n"
+"\\n"
+"Biztos, hogy ezt akarod?"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:234
+msgid ""
+"DID information is normally just an incoming telephone number or for advanced users, a valid Asterisk Dial Pattern\\n"
+"\\n"
+"You have entered a non standard DID pattern.\\n"
+"\\n"
+"Are you sure this is correct?"
+msgstr ""
+"A DID információ a hívott felet azonosítja.  Ez lehet egy telefonszám, vagy egy Asterisk tárcsázási minta.\\n"
+"\\n"
+"Te egy nem szabványos DID mintát adtál meg.\\n"
+"\\n"
+"Jó adatot adtál meg?"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:235
+msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
+msgstr "A perjel ('/') nem érvényes egy DID-ben. Kérlek töröld ki belőle, és próbálhozz ismét"
+
+#: amp_conf/htdocs/admin/modules/core/page.users.php:21
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2281
+msgid "User"
+msgstr "Felhasználó"
+
+#: amp_conf/htdocs/admin/modules/core/page.users.php:34
+msgid ""
+"You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc device.\\n"
+"\\n"
+"Are you sure you wish to leave the User Password empty?"
+msgstr ""
+"Nem adtál meg Felhasználó jelszót. Ha ezt elfogadod, akkor a felhasználó nem fog tudni bejelentkezni az ad-hoc készülékekre.\\n"
+"\\n"
+"Üresen akarod hagyni a Felhasználó jelszót?"
+
+#: amp_conf/htdocs/admin/modules/core/page.devices.php:18
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2512
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2526
+msgid "Device"
+msgstr "Eszköz"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:491
+msgid "A route for this DID/CID already exists!"
+msgstr "Egy útvonalban ez a DID/CID már meg lett adva!"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:534
+msgid "This device id is already in use"
+msgstr "Ez az eszköz már használatban van"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:732
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:760
+#: amp_conf/htdocs/admin/config.php:296
+msgid "Cannot connect to Asterisk Manager with "
+msgstr "Nem lehet csatlakozni az Asterisk Manager-hez"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1064
+msgid "This user"
+msgstr "Ez a felhasználó"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1064
+msgid "or extension"
+msgstr "vagy mellék"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1064
+msgid "is already in use"
+msgstr "már használatban van"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2279
+msgid "Delete Extension"
+msgstr "Mellék törlése"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2314
+msgid "A user will enter this password when logging onto a device."
+msgstr "A felhasználó ennek a jelszónak a megadásával tud bejelentkezni egy készülékbe."
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2314
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2561
+msgid "logs into a device."
+msgstr "napló fogadása egy eszközről."
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2314
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2561
+msgid "logs out of a device."
+msgstr "naplózás egy eszközre."
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2355
+msgid "Warning! Extension"
+msgstr "Figyelem! Mellék"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2355
+msgid "is not allowed for your account"
+msgstr "nincs elfogadva a hozzáférésed"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2515
+msgid "Delete Device"
+msgstr "Eszköz törlése"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2526
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2528
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:539
+#: amp_conf/htdocs/admin/functions.inc.php:348
+msgid "Add"
+msgstr "Hozzáadás"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2561
+msgid "Devices can be fixed or adhoc. Fixed devices are always associated to the same extension/user. Adhoc devices can be logged into and logged out of by users."
+msgstr "Egy készülék fix és ad-hoc is lehet. A fix eszközön a felhasznál/mellék állandóra van definiálva. Az ad-hoc eszközökön a felhasználók ki és be tudnak jelentkezni."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:138
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:165
+msgid "Error fetching prefix list for: "
+msgstr "Hiba az előtétlistának letöltése közben:"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:143
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:170
+msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
+msgstr "Érvénytelen formátumú NPA-NXX kód. A helyes formátum: NXXNXX"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:171
+msgid "Add Trunk"
+msgstr "Trunk hozzáadása"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:178
+msgid "Trunk"
+msgstr "Trunk"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:190
+msgid "Add a Trunk"
+msgstr "Egy trunk hozzáadása"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:191
+msgid "Add ZAP Trunk"
+msgstr "ZAP-trunk hozzáadása"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:192
+msgid "Add IAX2 Trunk"
+msgstr "IAX2-trunk hozzáadása"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:193
+msgid "Add SIP Trunk"
+msgstr "SIP-trunk hozzáadása"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:194
+msgid "Add ENUM Trunk"
+msgstr "ENUM-trunk hozzáadása"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:195
+msgid "Add Custom Trunk"
+msgstr "Egyéni trunk felvétele"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:254
+#, php-format
+msgid "Edit %s Trunk"
+msgstr "%s trunk szerkesztése"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:256
+msgid "Delete Trunk"
+msgstr "Trunk törlése"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:263
+msgid "In use by"
+msgstr "Használatban van:"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:263
+msgid "route"
+msgstr "útvonal"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:263
+msgid "routes"
+msgstr "útvonal"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:265
+msgid "Sequence"
+msgstr "Sorozat"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:269
+msgid "WARNING:"
+msgstr "FIGYELEM:"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:269
+msgid "This trunk is not used by any routes!"
+msgstr "Ezt a trunk-öt nem használja egy útvonal sem!"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:270
+msgid "This trunk will not be able to be used for outbound calls until a route is setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
+msgstr "Ez a trunk nincsen a kimenő hívások lebonyolításához felhasználva. Kattints a <b>Kimenő útvonalak</b>-ra, hogy beállítsd az útvonalválaszlást."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:314
+msgid "Outbound Caller ID"
+msgstr "Kimenő \"hívó száma\""
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:314
+msgid "Caller ID for calls placed out on this trunk<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b>. You can also use the magic string 'hidden' to hide the CallerID sent out over ISDN lines ONLY (E1/T1/J1/BRI)"
+msgstr "A hívás hívóazonosítójának a helye a trunk-ön<br><br>Formátum: <b>\"hívó neve\"&lt;########&lt;</b>. Jó ha tudod, hogy ez a 'rejtett' szöveg CSAK ISDN vonalon (E1/T1/J1/BRI) használható."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:321
+msgid "Maximum channels"
+msgstr "Maximális csatornák"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:321
+msgid "Controls the maximum number of channels (simultaneous calls) that can be used on this trunk, including both incoming and outgoing calls. Leave blank to specify no maximum."
+msgstr "A trunkön érvényes csatornák maximális számának (egyidejű hívások) kontrollja. Beleértendő mind a kimenő, mind a bejövő hívás. Hagyd üresen, ha ne legyen maximum."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:328
+msgid "Outgoing Dial Rules"
+msgstr "Kimenő tárcsázási szabályok"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:333
+msgid "Dial Rules"
+msgstr "Tárcsázási szabályok"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:333
+msgid "A Dial Rule controls how calls will be dialed on this trunk. It can be used to add or remove prefixes. Numbers that don't match any patterns defined here will be dialed as-is. Note that a pattern without a + or | (to add or remove a prefix) will not make any changes but will create a match. Only the first matched rule will be executed and the remaining rules will not be acted on."
+msgstr "A tárcsázási szabályok azt határozzák meg, hogy a trunk-ön milyen hívások mehetnek át. Előtárcsázást tudsz hozzátenni is, illetve levágni is. A számnak nem kell minden mintára illeszkedni. A megadott + vagy | utasítások csak az elfogadás után kerülnek alkalmazásra. Csak az első illeszkedés számít, a későbbi minták figyelmen kívül lesznek hagyva."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:333
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:328
+msgid "Rules:"
+msgstr "Szabályok:"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:334
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:329
+msgid "matches any digit from 0-9"
+msgstr "illeszkedik minden számra 0-9-ig"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:335
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:330
+msgid "matches any digit from 1-9"
+msgstr "illeszkedik minden számra 1-9-ig"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:336
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:331
+msgid "matches any digit from 2-9"
+msgstr "illeszkedik minden számra 2-9-ig"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:337
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:332
+msgid "matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
+msgstr "illeszkedik minden betűre, vagy számra, ami a zárőjelekben van (például 1, 2, 3, 7, 8, 9)"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:338
+msgid "wildcard, matches one or more characters (not allowed before a | or +)"
+msgstr "jolie-jocker, illeszkedik egy vagy több bármilyen karakterre (kivétel a | és a +)"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:339
+msgid "removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed \"6135551234\" but would only pass \"5551234\" to the trunk)"
+msgstr "eltávolítja az előtárcsázást a számról (például a 613|NXXXXXX illeszkedik a tárcsázott \"6135551234\" számra, de a trunk felé csak az \"5551234\" számot továbbítja)"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:340
+msgid "adds a dialing prefix from the number (for example, 1613+NXXXXXX would match when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)"
+msgstr "hozzáadja az előtárcsázási számot a tárcsázott számhoz (például a 1613+NXXXXXX illeskedik a \"5551234\" tárcsázott számra, de a trunk-ön továbbadva már \"16135551234\"-ként lesz)"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:351
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:371
+msgid "Clean & Remove duplicates"
+msgstr "Duplikátumok tisztítása & törlése"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:356
+msgid "Dial rules wizards"
+msgstr "Tárcsázási szabályok tündére"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:357
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:363
+msgid "Always add prefix to local numbers"
+msgstr "Mindig előtárcsázza a helyi számoknál"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:357
+msgid "is useful for VoIP trunks, where if a number is dialed as \"5551234\", it can be converted to \"16135551234\"."
+msgstr "nagyon előnyös a VoIP trunk-öknél, ha a tárcsázott szám \"5551234\", de át kell konvertálni \"16135551234\"-re."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:358
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:364
+msgid "Remove prefix from local numbers"
+msgstr "Levágja a helyi számoknál"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:358
+msgid "is useful for ZAP trunks, where if a local number is dialed as \"6135551234\", it can be converted to \"555-1234\"."
+msgstr "nagyon hasznos egy ZAP trunk-ön, ha a helyi hívásoknál a \"6135551234\" tárcsázott számot át kell konvertálni például \"5551234\"-é."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:359
+msgid "Setup dialing for local trunk"
+msgstr "Tárcsázás beállítása helyi trunk-höz"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:359
+msgid "This looks up your local number on www.localcallingguide.com (NA-only), and sets up so you can dial either 7 or 10 digits (regardless of what your PSTN is) on a local trunk (where you have to dial 1+areacode for long distance, but only 5551234 (7-digit dialing) or 6135551234 (10-digit dialing) for local calls"
+msgstr "Megszerzi a helyi számokat a www.localcallingguide.com (csak NA), és beállítja a 7 vagy 10 számjegy közül a megfelelőt (nem figyel a PSTN-re) a helyi trunk-ön (majd 1+területkóddal tudsz hívni, de csak az 5551234 (7 számjegy) vagy 6135551234 (10 számjegy) fog továbbítódni) a helyi hívásokhoz"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:362
+msgid "(pick one)"
+msgstr "(válassz egyet)"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:365
+msgid "Setup dialing for local trunk (7-digit dialing)"
+msgstr "A trunk helyi hívásokhoz beállítása (7 számjegy)"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:366
+msgid "Setup dialing for local trunk (10-digit dialing)"
+msgstr "A trunk helyi hívásokhoz beállítása (10 számjegy)"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:379
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:385
+msgid ""
+"What is your areacode + prefix (NPA-NXX)?\\n"
+"\\n"
+"(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\\n"
+"\\n"
+"This may take a few seconds."
+msgstr ""
+"Mi a területkódod, és az előtárcsázási szám (NPA-NXX)?\\n"
+"\\n"
+"(Megjegyzés: az adatbázis csak az észak-amerikai számokkal tud dolgozni, és az sem 100%-os. Nagy eséllyel utánna kell nézned, hogy az eredmény helyes-e.)\\n"
+"\\n"
+"Ez a művelet pár másodpercig fog tartani."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:379
+msgid "\")"
+msgstr "\")"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:381
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:387
+msgid "Invalid NPA-NXX. Must be of the format \\'NXX-NXX\\'"
+msgstr "Érvénytelen NPA-NXX. A helyes formátum: \\'NXX-NXX\\'"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:393
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:395
+msgid ""
+"Error: Cannot continue!\\n"
+"\\n"
+"Prefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information."
+msgstr ""
+"Hiba: Nem folytatható!\\n"
+"\\n"
+"Az előtárcsázási számhoz kötelező a szerveren lévő PHP cURL támogatása. Kérlek telepítsd fel, vagy engedélyezd a cURL támogatást a PHP-hez. Látogass el a http://www.php.net/curl oldalra bővebb információért."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:401
+msgid ""
+"What is the local dialing pattern?\\n"
+"\\n"
+"(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
+msgstr ""
+"Mi a helyi hívások mintája?\\n"
+"\\n"
+"(pl. NXXNXXXXXX az US/CAN 10 számjegyes, és NXXXXXX a 7 számjegyes tárcsázás)"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:403
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:426
+msgid "Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."
+msgstr "Hibás minta. Csak 0-9, #, *, Z, N, X és . az elfogadott."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:406
+msgid ""
+"What prefix should be added to the dialing pattern?\\n"
+"\\n"
+"(ie. for US/CAN, 1+areacode, ie, \\'1613\\')?"
+msgstr ""
+"Legyen egy előtárcsázási szám hozzáadva a tárcsázási mintához?\\n"
+"\\n"
+"(pl. egy US/CAN 1+területkód: \\'1613\\')"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:408
+msgid "Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."
+msgstr "Kibás előtárcsázási szám. Csak a tárcsázható karakterek (0-9,#, *) elfogadottak."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:419
+msgid ""
+"What prefix should be removed from the number?\\n"
+"\\n"
+"(ie. for US/CAN, 1+areacode, ie, \\'1613\\')"
+msgstr ""
+"Legyen egy előtárcsázási szám levágva a tárcsázási mintában?\\n"
+"\\n"
+"(pl. egy US/CAN 1+területkód: \\'1613\\')"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:421
+msgid "Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed."
+msgstr "Hibás minta. Csak 0-9, #, *, Z, N és X az elfogadott."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:424
+msgid "What is the dialing pattern for local numbers after"
+msgstr "Milyen tárcsázási minták legyenek a helyi számokhoz után"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:424
+msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
+msgstr "(pl. NXXNXXXXXX az US/CAN 10 számjegyes, és NXXXXXX a 7 számjegyes tárcsázás)"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:549
+msgid "Outbound Dial Prefix"
+msgstr "Kimenő tárcsázási előtag"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:549
+msgid "The outbound dialing prefix is used to prefix a dialing string to all outbound calls placed on this trunk. For example, if this trunk is behind another PBX or is a Centrex line, then you would put 9 here to access an outbound line.<br><br>Most users should leave this option blank."
+msgstr "A kimenő előtárcsázási számot a trunkon minden szám tárcsázása előtt tárcsázza. Például ha a trunk egy másik PBX-hez vagy egy Centrex vonalhoz csatlakozik, akkor egy 9-est kell előtáercsázni.<br><br>A lehtöbb felhasználó ezt üresen hagyhatja."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:557
+msgid "Outgoing Settings"
+msgstr "Kimenő beállítások"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:568
+msgid "Zap Identifier (trunk name)"
+msgstr "Zap azonosító (trunk neve)"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:568
+msgid "ZAP channels are referenced either by a group number or channel number (which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> (group zero)."
+msgstr "A ZAP azonosító a a csoport vagy csatornaszámot határozza meg (a zapata.conf-ban van meghatározva). <br><br>Az alapértelmezett érték: <b>g0</b> (group zero)."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:582
+msgid "Custom Dial String"
+msgstr "Egyedi tárcsázási karakterlánc"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:582
+msgid "Define the custom Dial String.  Include the token"
+msgstr "Egyedi tárcsázási karakterlánc megadása. Bármit tartalmazhat"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:582
+msgid "wherever the number to dial should go.<br><br><b>examples:</b><br><br>CAPI/XXXXXXXX/"
+msgstr "Bármilyen számot tárcsázhat.<br><br><b>például:</b><br><br>CAPI/XXXXXXXX/"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:582
+msgid "/b<br>H323/"
+msgstr "/b<br>H323/"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:594
+msgid "Trunk Name"
+msgstr "Trunk neve"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:594
+msgid "Give this trunk a unique name.  Example: myiaxtel"
+msgstr "Add meg a trunk egyedi nevét. Például: iaxtel"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:601
+msgid "PEER Details"
+msgstr "PEER részletek"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:601
+msgid "Modify the default PEER connection parameters for your VoIP provider.<br><br>You may need to add to the default lines listed below, depending on your provider."
+msgstr "Módosítsd az alapértelmezett PEER kapcsolat paramétereit a szolgáltatód szerint megfelelőre.<br><br>Lehet, hogy a szolgáltatód megköveteli, hogy kibővítsd ezeket az alapértelmezett sorokat."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:611
+msgid "Incoming Settings"
+msgstr "Bejövő beállítások"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:616
+msgid "USER Context"
+msgstr "USER kontextus"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:616
+msgid "This is most often the account name or number your provider expects.<br><br>This USER Context will be used to define the below user details."
+msgstr "Változtasd meg a hozzáférés nevét, vagy számát a szolgáltatódnak megfelelőre.<br><br>Ezt a USER kontextust fogod részletezni lejjebb."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:623
+msgid "USER Details"
+msgstr "USER részletek"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:623
+msgid "Modify the default USER connection parameters for your VoIP provider."
+msgstr "Módosítja az alapértelmezett USER kapcsolódási paramétereket a szolgáltatód felé."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:623
+msgid "You may need to add to the default lines listed below, depending on your provider."
+msgstr "Lehet, hogy ki kell bővítened a lenti sorok számát. Ez függ a szolgáltatódtól."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:633
+msgid "Registration"
+msgstr "Regisztráció"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:638
+msgid "Register String"
+msgstr "Regisztráló szöveg"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:638
+msgid "Most VoIP providers require your system to REGISTER with theirs. Enter the registration line here.<br><br>example:<br><br>username:password@switch.voipprovider.com.<br><br>Many providers will require you to provide a DID number, ex: username:password@switch.voipprovider.com/didnumber in order for any DID matching to work."
+msgstr "Néhány szolgáltató megköveteli, hogy beregisztrálj a rendszerükbe. Add meg itt a regisztrációs sort.<br><br>például:<br><br>felhasznalo:jelszo@szolgaltato.hu<br><br>Néhány szolgáltató még ennél is tovább megy. Megy kell adnod a DID számodat, ahol a DID szám a te telefonszámod: felhasznalo:jelszo@szolgaltato.hu/didszam"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:666
+msgid "Invalid Outbound Caller ID"
+msgstr "Érvénytelen kimenő hívószám (CID)"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:667
+msgid "Invalid Maximum Channels"
+msgstr "Érvénytelen maximális csatorna"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:668
+msgid "Invalid Dial Rules"
+msgstr "Érvénytelen tárcsázási szabályok"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:669
+msgid "Invalid Outbound Dial Prefix"
+msgstr "Érvénytelen kimenő tárcsázási előtét"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:670
+msgid "Invalid Trunk Name entered"
+msgstr "Érvénytelen trunk-név"
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:671
+msgid "Invalid Custom Dial String entered"
+msgstr "Érvénytelen Egyedi tárcsázási karakterláncot adtál meg."
+
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:672
+msgid "Trunk Name and User Context cannot be set to the same value"
+msgstr "A trunk neve, és a felhasználó kontextusa nem egyezhet meg"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:120
+msgid "Error renaming route: duplicate name"
+msgstr "Hiba az útvonal átnevezésekor: a név már létezik."
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:200
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:261
+msgid "Add Route"
+msgstr "Útvonal hozzáadása"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:213
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:495
+msgid "Move Up"
+msgstr "Feljebb helyezés"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:221
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:503
+msgid "Move Down"
+msgstr "Lejjebb helyezés"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:259
+msgid "Edit Route"
+msgstr "Útvonal szerkesztése"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:281
+msgid "Route Name"
+msgstr "Útvonal neve"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:281
+msgid "Name of this route. Should be used to describe what type of calls this route matches (for example, 'local' or 'longdistance')."
+msgstr "Az útvonal neve. Érdemes egy könnyen azonosítható nevet adni, amiből könnyen tudsz következtetni a hívás típusára (pl. 'helyi' vagy 'távolsági')"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:287
+msgid "Rename"
+msgstr "Átnevezés"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:292
+msgid "Rename route"
+msgstr "Útvonal átnevezése"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:292
+msgid "to:"
+msgstr "cél:"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:294
+msgid "Route name is invalid...please try again"
+msgstr "Az útvonal neve érvénytelen...Kérlek próbáld meg ismét"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:309
+msgid "Route Password"
+msgstr "Útvonaljelszó"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:309
+msgid "Optional: A route can prompt users for a password before allowing calls to progress.  This is useful for restricting calls to international destinations or 1-900 numbers.<br><br>A numerical password, or the path to an Authenticate password file can be used.<br><br>Leave this field blank to not prompt for password.</span>"
+msgstr "Opcionális: az útvonal be tud kérni egy jelszót a felhasználótól, mielőtt elkezdené a tárcsázási folyamatot. Nagyon hasznos, ha korlátozni szeretnénk a nemzetközi, vagy egyéb drágább helyek felé történő hívásokat.<br><br>Egy számokból álló jelszót, vagy egy jelszavakat tartalmazó fájlt lehet megadni.<br><br>Hagyd üresen, ha nem szeretnél jelszót bekérni.</span>"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:318
+msgid "Emergency Dialing"
+msgstr "Vészhívás"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:318
+msgid "Optional: Selecting this option will enforce the use of a device's Emergency CID setting (if set).  Select this option if this set of routes is used for emergency dialing (ie: 911).</span>"
+msgstr "Opcionális: ha ezt az opciót kiválasztod, akkor az eszköz Vészhelyzet-száma lesz beállítva (ha be van állítva). Akkor jelöld be ezt az opciót, ha az útvonal a vészhívások (pl. 211) kieresztésére szolgál.</span>"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:322
+msgid "Intra Company Route"
+msgstr "Belső útvonal"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:322
+msgid "Optional: Selecting this option will treat this route as a intra-company connection, preserving the internal Caller ID information and not use the outbound CID of either the extension or trunk.</span>"
+msgstr "Opcionális: válaszd ki ezt az opciót, ha egy cégen belüli kapcsolódásról van szó. Így a belső hívóazonosító lesz használva a trunk-n keresztül, nem pedig a kimenő hívóazonosító."
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:328
+msgid "Dial Patterns"
+msgstr "Tárcsázási minták"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:328
+msgid "A Dial Pattern is a unique set of digits that will select this trunk. Enter one dial pattern per line."
+msgstr "A tárcsázási minták kiválaszják, hogy mely hivások mehetnek át a trunk-ön. Egy sorba egy tárcsázási mintát írj."
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:333
+msgid "wildcard, matches one or more characters"
+msgstr "jolie-jocker, illeszkedik egy vagy több karakterre"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:334
+msgid "seperates a dialing prefix from the number (for example, 9|NXXXXXX would match when some dialed \"95551234\" but would only pass \"5551234\" to the trunks)"
+msgstr "Leválasztja az előtárcsázási számot (például a 9|NXXXXXX-ra illeszkedik a \"95551234\", de a trunk felé már az \"5551234\" lesz átadva)"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:375
+msgid "Insert:"
+msgstr "_Beszúrás:"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:452
+msgid "Pick pre-defined patterns"
+msgstr "Előre definiált minták"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:453
+msgid "Local 7 digit"
+msgstr "Helyi 7 számjegy"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:454
+msgid "Local 7/10 digit"
+msgstr "Helyi 7/10 számjegy"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:455
+msgid "Toll-free"
+msgstr "Szabad tárcsázás"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:456
+msgid "Long-distance"
+msgstr "Távolsági hívás"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:457
+msgid "International"
+msgstr "Nemzetközi"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:458
+msgid "Information"
+msgstr "Információ"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:459
+msgid "Emergency"
+msgstr "Vészhelyzet"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:460
+msgid "Lookup local prefixes"
+msgstr "Helyi előtét"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:467
+msgid "Trunk Sequence"
+msgstr "Trunk sorrend"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:467
+msgid "The Trunk Sequence controls the order of trunks that will be used when the above Dial Patterns are matched. <br><br>For Dial Patterns that match long distance numbers, for example, you'd want to pick the cheapest routes for long distance (ie, VoIP trunks first) followed by more expensive routes (POTS lines)."
+msgstr "A trunk sorozat kontrollálja a trunk-ök hívásbeli sorrendjét. A trunk-ökben meghatározott tárcsázási minták a trunk sorozatban meghatározott rendben lesz megvizsgálva.<br><br>Például ha egy távolsági hívást kezdeményeznek, akkor a fontossági sorrend elsőnek a VoIP szolgáltatók, hisz azok ilyen esetekben lényegesen alacsonyabb árakat tudnak felmutatni, lejebb viszont szerepelhetnek PSTN szolgáltatók arra az esetre, ha a hívást nem tudják fogadni, vagy továbbítani a trunk-ök."
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:564
+msgid "Route name is invalid, please try again"
+msgstr "Az útvonal neve nem érvényes, kérlek adj meg egy másikat"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:565
+msgid "Route password must be numberic or leave blank to disable"
+msgstr "Az útvonal jelszavának muszály számjegyekből állnia, vagy hagyd üresen, ha tiltani szeretnéd"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:566
+msgid "Dial pattern is invalid"
+msgstr "Érvénytelen tárcsázási minta"
+
+#: amp_conf/htdocs/admin/modules/core/page.routing.php:567
+msgid "At least one trunk must be picked"
+msgstr "Egy trunk-öt muszály megadnod"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:68
+msgid "Dialing Options"
+msgstr "Tárcsázási beállítások"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:70
+msgid "Asterisk Dial command options:"
+msgstr "Asterisk tárcsázási parancsopciók"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:71
+#: amp_conf/htdocs/admin/modules/core/page.general.php:80
+msgid "t: Allow the called user to transfer the call by hitting #"
+msgstr "t: elfogadja a hívott fél átirányítását a # lenyomására"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:72
+#: amp_conf/htdocs/admin/modules/core/page.general.php:81
+msgid "T: Allow the calling user to transfer the call by hitting #"
+msgstr "T: elfogadja a hívó fél átirányítását a # lenyomására"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:73
+#: amp_conf/htdocs/admin/modules/core/page.general.php:82
+msgid "r: Generate a ringing tone for the calling party"
+msgstr "r: Generál egy csörgésmintát a hívó félnek"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:74
+#: amp_conf/htdocs/admin/modules/core/page.general.php:83
+msgid "w: Allow the called user to start recording after pressing *1 (Asterisk v1.2)"
+msgstr "w: elfogadja a hívott féltől a rögzítést, ha megnyomja a *1-et (Asterisk v1.2)"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:75
+#: amp_conf/htdocs/admin/modules/core/page.general.php:84
+msgid "W: Allow the calling user to start recording after pressing *1 (Asterisk v1.2)"
+msgstr "W: elfogadja a hívó féltől a rögzítést, ha megnyomja a *1-et (Asterisk v1.2)"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:79
+msgid "Asterisk Outbound Dial command options:"
+msgstr "Asterisk kimenő tárcsázási parancs opciója:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:89
+msgid "Voicemail"
+msgstr "Hangposta"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:91
+msgid "Number of seconds to ring phones before sending callers to voicemail:"
+msgstr "Hány másodpercig csorogjön ki a hangposta előtt:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:94
+msgid "Extension prefix for dialing direct to voicemail:"
+msgstr "A közvetlen hangpostára tárcsázás előtárcsázási száma:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:97
+msgid "Direct Dial to Voicemail message type:"
+msgstr "A direkt hangpostára tárcsázás üzenettípusa:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:99
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:100
+#: amp_conf/htdocs/admin/modules/core/page.general.php:101
+msgid "Unavailable"
+msgstr "Nem elérhető"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:101
+#: amp_conf/htdocs/admin/modules/core/page.general.php:103
+msgid "no instructions"
+msgstr "nincs instrukció"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:102
+#: amp_conf/htdocs/admin/modules/core/page.general.php:103
+msgid "Busy"
+msgstr "Foglalt"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:107
+msgid "Use gain when recording the voicemail message (optional):"
+msgstr "Használjon erősítést a hanposta üzeneteinek rögzítésénél (opcionális):"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:108
+msgid "Use the specified amount of gain when recording the voicemail message."
+msgstr "Használjon egy meghatározott erősítést a hangposta üzeneteinek rögzítésénél."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:109
+msgid "The units are whole-number decibels (dB)."
+msgstr "Add meg egyész számokban az értéket (dB)."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:112
+msgid "Do Not Play"
+msgstr "Nem lejátszható"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:112
+msgid "Check this to remove the default message \"Please leave your message after the tone. When done, hang-up, or press the pound key.\" That is played after the voicemail greeting (the s option). This applies globally to all vm boxes."
+msgstr "Bejelölve eltávolítja az alapértelmezett \"Kérem hagyjon üzenetet a sípszó után. Ha kész van vele, akkor kérem nyomja meg a kettőskeresztet.\" üzenetet. Ezt minden hangposta bejelentkezése előtt lejátsza (s opció). Minden hangpostára érvényes beállítás."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:112
+msgid "please leave message after tone to caller"
+msgstr "kérem hagyjon üzenetet a sípszó után"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:115
+msgid "Company Directory"
+msgstr "Céges könyvtár"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:117
+msgid "Find users in the Company Directory by:"
+msgstr "Felhasználó keresése a Céges könyvtárban:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:119
+msgid "first name"
+msgstr "keresztnév"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:120
+msgid "last name"
+msgstr "vezetéknév"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:121
+msgid "first or last name"
+msgstr "kereszt vagy vezetéknév"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:124
+msgid "Play extension number"
+msgstr "Mellék bemondása"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:124
+msgid "Plays a message \"Please hold while I transfer you to extension xxx\" that lets the caller know what extension to use in the future."
+msgstr "Lejátssza a \"Kérem tartsa a vonalat, míg átirányítjuk az xxx mellékre\", hogy a hívó a későbbiekben már ismerje az új számot."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:124
+msgid "to caller before transferring call"
+msgstr "a hívót mielőtt átirányítják a hívást"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:125
+msgid "Operator Extension:"
+msgstr "Operátor melléke"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:126
+msgid "When users hit '0' in the directory, they are put through to this number. Note that it"
+msgstr "Amikor a felhasználó '0'-t találatot ér el a könyvtárban, akkor továbbítsd ide:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:127
+msgid " does NOT need to be an extension, it can be a Ring Group, or even an external number."
+msgstr "Nem melléket kell megadnod. Lehet Híváscsoport és külső szám is."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:130
+msgid "Fax Machine"
+msgstr "Faxgép"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:132
+msgid "Extension of"
+msgstr "melléke"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:132
+msgid "fax machine"
+msgstr "faxgép"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:132
+msgid "Select 'system' to have the system receive and email faxes.<br>Selecting 'disabled' will result in incoming calls being answered more quickly."
+msgstr "Válaszd ki a 'rendszer'-t, ha azt szeretnéd, hogy a rendszer fogadja az faxokat, és azokat emailben továbbítsa.<br>Válaszd a tiltva' opciót, ha azt szeretnéd, hogy a bejövő hívások még gyorsabban legyenek megválaszolva."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:132
+msgid "for receiving faxes:"
+msgstr "fax fogadása:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:150
+#: amp_conf/htdocs/admin/modules/core/page.general.php:154
+msgid "Email address"
+msgstr "E-mail cím"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:150
+msgid "Email address used if 'system' has been chosen for the fax extension above."
+msgstr "Email cím, amire a fax érkezni fog, ha a 'rendszer' faxtovábbítását választod majd a melléknél."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:150
+msgid "to have faxes emailed to:"
+msgstr "fax továbbítása emailként:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:154
+msgid "Email address that faxes appear to come from if 'system' has been chosen for the fax extension above."
+msgstr "Email cím, amiről a fax érkezni fog, ha a 'rendszer' faxtovábbítását választod majd a melléknél."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:154
+msgid "that faxes appear to come from:"
+msgstr "amiről a faxot kapni fogják:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:157
+msgid "International Settings"
+msgstr "Nemzetközi beállítások"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:159
+msgid "Country"
+msgstr "Ország"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:159
+msgid "Indications"
+msgstr "Jelölések"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:159
+msgid "Select which country you are in"
+msgstr "Válassz egy országot a listából"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:167
+msgid "24-hour format"
+msgstr "24 órás időalak használata"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:167
+msgid "Select Yes if you use 24-hour format or No if you are using 12-hour am/pm format"
+msgstr "Válassz Igent, ha 24 órás idóformát szeretnél, és válassz Nemet, ha jobban szereted a 12 órás am/pm formát"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:169
+#: amp_conf/htdocs/admin/modules/core/page.general.php:181
+msgid "no"
+msgstr "nem"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:170
+#: amp_conf/htdocs/admin/modules/core/page.general.php:182
+msgid "yes"
+msgstr "igen"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:173
+msgid "Security Settings"
+msgstr "Biztnsági beállítások"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:175
+msgid "Allow Anonymous Inbound SIP Calls?"
+msgstr "Fogadod a bejövő névtelen SIP hívásokat?"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:176
+msgid "** WARNING **"
+msgstr "**FIGYELMEZTETÉS**"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:177
+msgid "Setting this to 'yes' will potentially allow ANYBODY to call into your Asterisk server using the SIP protocol"
+msgstr "Ha ezt bejelölöd, akkor MINDEN bejövő SIP hívást elfogadsz, amivel az Asterisk szerveredet megkeresik."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:178
+msgid "It should only be used if you fully understand the impact of allowing anonymous calls into your server"
+msgstr "Csak akkor jelöld be, ha hajlandó vagy feltétel nélkül fogadni a névtelenül érkező hívásokat"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:194
+msgid "Please enter a valid Number of Seconds"
+msgstr "Kérlek adj meg egy érvényes \"Másodpercek számát\""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:195
+msgid "Please enter a valid Fax Email"
+msgstr "Kérlek adj meg egy érvényes \"Fax emailjét\""
+
+#: amp_conf/htdocs/admin/featurecodes.class.php:235
+msgid "** MISSING FEATURE CODE **"
+msgstr "**HIÁNYZÓ FEATURES KÓD**"
+
+#: amp_conf/htdocs/admin/components.class.php:557
+#: amp_conf/htdocs/admin/components.class.php:586
+msgid "text"
+msgstr "szöveg"
+
+#: amp_conf/htdocs/admin/footer.php:29
+msgid "Please wait while applyig configuration"
+msgstr "Kis türelmet, a beállítások alkalmazása"
+
+#: amp_conf/htdocs/admin/footer.php:55
+msgid "Configuration applied"
+msgstr "Konfiguráció alkalmazva"
+
+#: amp_conf/htdocs/admin/footer.php:99
+msgid "You have made changes - when finished, click here to APPLY them"
+msgstr "Változtass meg mindent nyugodtan - ha végeztél, akkor ezzel tudod ALKALMAZNI"
+
+#: amp_conf/htdocs/admin/reports.php:44
+msgid "Call Logs"
+msgstr "Hívásnaplók"
+
+#: amp_conf/htdocs/admin/reports.php:45
+msgid "Compare Calls"
+msgstr "Hívások összehasonlítása"
+
+#: amp_conf/htdocs/admin/reports.php:46
+msgid "Monthly Traffic"
+msgstr "Havi kimutatás"
+
+#: amp_conf/htdocs/admin/reports.php:47
+msgid "Daily load"
+msgstr "Napi használat"
+
+#: amp_conf/htdocs/admin/config.php:27
+msgid "Module Admin"
+msgstr "Modul adminisztrátor"
+
+#: amp_conf/htdocs/admin/config.php:245
+msgid "Not found"
+msgstr "Nincs találat"
+
+#: amp_conf/htdocs/admin/config.php:246
+msgid "The section you requested does not exist or you do not have access to it."
+msgstr "Az általad kért szekció nem létezik, vagy nincs jogod megnézni."
+
+#: amp_conf/htdocs/admin/config.php:253
+msgid "Welcome to FreePBX."
+msgstr "Ödvözöllek a FreePBX-ben"
+
+#: amp_conf/htdocs/admin/config.php:254
+msgid "If you're new to FreePBX, Welcome. Here are some quick instructions to get you started"
+msgstr "Ha új vagy itt a FreePBX-ben, akkor üdvözöllek, és bemutatnék neked néhány hasznos dolgot az elindulásodhoz"
+
+#: amp_conf/htdocs/admin/config.php:258
+#, php-format
+msgid ""
+"There are a large number of Plug-in modules available from the Online Repository. This is\n"
+"available by clicking on the <a href='%s'>Tools menu</a> up the top, then\n"
+"<a href='%s'>Module Admin</a>, then\n"
+"<a href='%s'>Connect to Online Module Repository</a>.\n"
+"Modules are updated and patched often, so if you are having a problem, it's worth checking there to see if there's\n"
+"a new version of the module available."
+msgstr ""
+"Nagy számú beépülő modul található az Online Repositoryban.\n"
+"Bármikor meglekintheted a teljes kínálatot, ha a fenti \n"
+"<a href='%s'>Segédeszközök menüben</a> a <a href='%s'>Modul Admin</a> fülön a\n"
+"<a href='%s'>Kapcsolódás az Online Module Repository</a> linkre kattintassz.\n"
+"Mivel a modulokat frissítik, funkciókkal egészítik ki, vagy egyes problémákat megoldanak benne, \n"
+"érdemes néha visszalátogatni, és újra leellenőrizni a tartalmukat."
+
+#: amp_conf/htdocs/admin/config.php:272
+#, php-format
+msgid ""
+"If you're having any problems, you can also use the <a href='%s'>Online Support</a> \n"
+"module (<b>you need to install this through the <a href='%s'>Module Repository</a> first</b>)\n"
+"to talk to other users and the devlopers in real time. Click on <a href='%s'>Start IRC</a>,\n"
+"when the module is installed, to start a Java IRC client."
+msgstr ""
+"Ha bármi problémád adódik, keresd meg az <a href='%s'>Online támogatás</a> \n"
+"modult (<b>elsőnek fel kell telepítened a <a href='%s'>Modul Repositoryból</a>),\n"
+"és ott más felhasználók, vagy akár a fejlesztők is segíthetnek a probléma azonnali megoldásában.\n"
+"Kattints az <a href='%s'>IRC indítására</a>, és azonnal a FreePBX közösségbe kerülsz."
+
+#: amp_conf/htdocs/admin/config.php:284
+#, php-format
+msgid ""
+"There is also a community based <a href='%s' target='_new'>FreePBX Web Forum</a> where you can post\n"
+"questions and search for answers for any problems you may be having."
+msgstr "A közözzég gyakran találkozik a <a href='%s' target='_new'>FreePBX Web Fórumon</a>, ahol a kérdéseket és válaszokat bár picit lassabban beszélik meg, de maradandóak, és bármikor segítségedre lehetnek."
+
+#: amp_conf/htdocs/admin/config.php:289
+msgid "We hope you enjoy using FreePBX!"
+msgstr "Remélem, hogy a FreePBX-et élvezettel használod!"
+
+#: amp_conf/htdocs/admin/config.php:293
+msgid "Warning:"
+msgstr "Figyelem:"
+
+#: amp_conf/htdocs/admin/config.php:298
+msgid "Asterisk may not be running."
+msgstr "Az Asterisk nem fut."
+
+#: amp_conf/htdocs/admin/index.php:16
+#: amp_conf/htdocs/admin/logout.php:16
+msgid "FreePBX administration"
+msgstr "FreePBX adminisztráció"
+
+#: amp_conf/htdocs/admin/index.php:17
+msgid "Administration"
+msgstr "Administration"
+
+#: amp_conf/htdocs/admin/index.php:35
+msgid "Welcome"
+msgstr "Welcome"
+
+#: amp_conf/htdocs/admin/index.php:44
+msgid "Welcome to the FreePBX Administration"
+msgstr "Üdvözöllek a FreePBX adminisztrációs felületén"
+
+#: amp_conf/htdocs/admin/logout.php:18
+msgid "Logged Out"
+msgstr "Kijelentkezve"
+
+#: amp_conf/htdocs/admin/logout.php:34
+msgid "You are now logged out."
+msgstr "Sikeresen kijelentkeztél."
+
+#: amp_conf/htdocs/admin/header_auth.php:116
+msgid "You must log in first before you can access this page."
+msgstr "Muszály belépned, hogy hozzáférj az oldalhoz."
+
+#: amp_conf/htdocs/admin/functions.inc.php:727
+msgid "displayname"
+msgstr "megjelenített név"
+
+#: amp_conf/htdocs/admin/functions.inc.php:741
+msgid "Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to a custom context.<br><br>The context name <b>MUST</b> contain the word 'custom' and should be in the format custom-context , extension , priority. Example entry:<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context would need to be created and included in extensions_custom.conf</span>"
+msgstr "Egyedi alk.<span><br>CSAK TAPASZTALT FELHASZNÁLÓKNAK<br><br>A Goto() parancsot haszálhatod, hogy egy egyedi kontextushoz írányitsd a hívót.<br><br>A kontextus nevének <b>MUSZÁLY</b> a 'custom' szót tartalmaznia, és a custom-kontextus,mellék,prioritás formával kell rendelkeznie. Ez például helyes: <br><br><b>custom-sajat,s,1</b><br><br>A<b>[custom-sajat]</b> kontextust pedig az extensions_custom.conf fájlban hozd létre.</span>"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1335
+#, php-format
+msgid "Module %s is required, but yours is broken. You should reinstall "
+msgstr "A %s modul követelmény, de neked ez törött. Kérlek telepítsd újra."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1336
+#, php-format
+msgid "it and try again."
+msgstr "...és próbáld meg újra."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1339
+#, php-format
+msgid "Module %s is required, but yours is disabled."
+msgstr "A %s modul követelmény, de neked ez le van tiltva."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1342
+#, php-format
+msgid "Module %s is required, but yours is disabled because it needs to "
+msgstr "A %s modul követelmény, de te ezt letiltottad."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1343
+#, php-format
+msgid "be upgraded. Please upgrade %s first, and then try again."
+msgstr "frissítve. Kérlek elősször frissítsd a %s-t, és utánna próbáld még egyszer."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1348
+#, php-format
+msgid "Module %s is required, yours is not installed."
+msgstr "A %s modul követelmény. Neked ez nincs feltelepítve."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1352
+#, php-format
+msgid "Module %s is required."
+msgstr "A %s modul kövelelmény."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1361
+#, php-format
+msgid "File %s must exist."
+msgstr "Muszály a(z) %s fájlnak léteznie."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1408
+#, php-format
+msgid "Requires engine %s, you have: %s"
+msgstr "A %s motornak követelménye a %s"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1410
+#, php-format
+msgid "Requires one of the following engines: %s; you have: %s"
+msgstr "A %s motor a követelmény. Neked a %s van meg."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1425
+#, php-format
+msgid "A %s version below %s is required, you have %s"
+msgstr "A %s %s verziójánál régebbi a követelmény. Neked a %s van meg."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1428
+#, php-format
+msgid "%s version %s or below is required, you have %s"
+msgstr "A %s %s verzió vagy régebbi a követelmény. Neked a %s van meg."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1431
+#, php-format
+msgid "A %s version newer than %s required, you have %s"
+msgstr "A %s verziónál újabb követelménye van a %s-nek. Neked a %s van meg."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1434
+#, php-format
+msgid "Your %s version (%s) is incompatible."
+msgstr "A te %s verziód inkompatibilis (%s)."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1437
+#, php-format
+msgid "Only %s version %s is compatible, you have %s"
+msgstr "Csak a %s %s verziója kompatibilis. Neked a %s verzió van meg."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1441
+#, php-format
+msgid "%s version %s or higher is required, you have %s"
+msgstr "%s legalább %s verziója követelménye a %s modulnak"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1500
+msgid "Module is already enabled"
+msgstr "A modul már engedélyezve van"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1505
+msgid "Module cannot be enabled"
+msgstr "A modul nem engedélyezhető"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1545
+msgid "Module not found in repository"
+msgstr "A modul nem található a repositoryban"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1573
+#: amp_conf/htdocs/admin/functions.inc.php:1644
+#, php-format
+msgid "Could not untar %s to %s"
+msgstr "Nem tudom a %s tart a %s helyre kibontani"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1596
+#, php-format
+msgid "Error opening %s for writing"
+msgstr "Hiba a %s írásra nyitásakor"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1608
+#, php-format
+msgid "Error opening %s for reading"
+msgstr "Hiba a %s olvasásra nyitásakor"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1626
+#, php-format
+msgid "Unable to save %s"
+msgstr "Nem menthető a(z) %s"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1634
+#, php-format
+msgid "File Integrity failed for %s - aborting"
+msgstr "Fájlintegritás-hiba %s-ben - megszakítás"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1671
+msgid "Cannot find module"
+msgstr "Nem található a modul"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1677
+msgid "Could not read module.xml"
+msgstr "A module.xml nem olvasható"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1682
+msgid "This module is broken and cannot be installed. You should try to download it again."
+msgstr "Ez a modul törött, és nem telepíthető. Kérlek töltsd le megint."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1688
+msgid "This module is already installed."
+msgstr "Ez a modul már telepítve van."
+
+#: amp_conf/htdocs/admin/functions.inc.php:1699
+msgid "Failed to run installation scripts"
+msgstr "Hiba a telepítőszkript futtatásakor"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1727
+#, php-format
+msgid "Error updating database. Command was: %s; error was: %s "
+msgstr "Hiba az adatbázis frissítésekor. Az parancs (%s) hibája: %s"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1742
+#: amp_conf/htdocs/admin/functions.inc.php:1769
+#: amp_conf/htdocs/admin/functions.inc.php:1805
+msgid "Specified module not found"
+msgstr "A megadott modul nem található"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1747
+msgid "Module not enabled: cannot disable"
+msgstr "A modul nem engedélyezhető: nincs letiltva"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1751
+#: amp_conf/htdocs/admin/functions.inc.php:1778
+msgid "Cannot disable: The following modules depend on this one: "
+msgstr "Nem tiltható. Az alábbi modulok függnek tőle:"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1774
+msgid "Module not installed: cannot uninstall"
+msgstr "A modul nem telepíthető: nincs uninstallálva"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1785
+msgid "Error updating database: "
+msgstr "Hiba az adatbázis frissítésekor:"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1789
+msgid "Failed to run un-installation scripts"
+msgstr "Az uninstalláló script futtatása sikertelen"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1818
+#, php-format
+msgid "Cannot delete directory %s"
+msgstr "Nem törölhető könyvtár: %s"
+
+#: amp_conf/htdocs/admin/functions.inc.php:1825
+#, php-format
+msgid "Error deleting directory %s (code %d)"
+msgstr "Hiba a %s könyvtár törlésekor (kód: %d)"
+
+#: amp_conf/htdocs/admin/page.modules.php:35
+msgid "Local Modules"
+msgstr "Helyi modulok"
+
+#: amp_conf/htdocs/admin/page.modules.php:36
+msgid "Online Modules"
+msgstr "Online modulok"
+
+#: amp_conf/htdocs/admin/page.modules.php:111
+msgid "Module Administration"
+msgstr "Moduladminisztráció"
+
+#: amp_conf/htdocs/admin/page.modules.php:180
+msgid "Please wait while module actions are performed"
+msgstr "Kérlek várj, hogy a kiadott utasítás lefusson"
+
+#: amp_conf/htdocs/admin/page.modules.php:275
+#, php-format
+msgid "%s %s will be upgraded to online verison %s"
+msgstr "A(z) %s %s frissítce a %s online verzióra"
+
+#: amp_conf/htdocs/admin/page.modules.php:280
+#, php-format
+msgid "%s %s will be downloaded and installed"
+msgstr "A(z) %s %s letöltve, telepítve"
+
+#: amp_conf/htdocs/admin/page.modules.php:286
+#, php-format
+msgid "%s %s will be upgraded to %s"
+msgstr "A(z) %s %s  frissítve %s-re"
+
+#: amp_conf/htdocs/admin/page.modules.php:288
+#, php-format
+msgid "%s %s will be installed and enabled"
+msgstr "A(z) %s %s telepítve, engedélyezve"
+
+#: amp_conf/htdocs/admin/page.modules.php:293
+#, php-format
+msgid "%s %s will be enabled"
+msgstr "A(z) %s %s engedélyezve"
+
+#: amp_conf/htdocs/admin/page.modules.php:296
+#, php-format
+msgid "%s %s will be disabled"
+msgstr "A(z) %s %s tiltva"
+
+#: amp_conf/htdocs/admin/page.modules.php:300
+#, php-format
+msgid "%s %s will be uninstalled"
+msgstr "A(z) %s %s uninstallálva"
+
+#: amp_conf/htdocs/admin/page.modules.php:308
+msgid "Please confirm the following actions:"
+msgstr "Kérlek hagyd jóvá a következő parancsokat:"
+
+#: amp_conf/htdocs/admin/page.modules.php:317
+msgid "No actions to perform"
+msgstr "Nincs elvégzendő feladat"
+
+#: amp_conf/htdocs/admin/page.modules.php:318
+msgid "Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab."
+msgstr "Kérlek egy akció kiválasztásához klikkelj egy modulra, és vválassz ki egy akciót az \"Akció\" fülre kattintva."
+
+#: amp_conf/htdocs/admin/page.modules.php:344
+msgid "Manage local modules"
+msgstr "Helyi modulok kezelése"
+
+#: amp_conf/htdocs/admin/page.modules.php:349
+msgid "Check for updates online"
+msgstr "Online frissítések ellenőrzése"
+
+#: amp_conf/htdocs/admin/header.php:110
+msgid "FreePBX"
+msgstr "FreePBX"
+
+#: amp_conf/htdocs/admin/header.php:116
+msgid "Management"
+msgstr "Menedzsment"
+
+#: amp_conf/htdocs/admin/header.php:117
+msgid "Setup"
+msgstr "Beállítás"
+
+#: amp_conf/htdocs/admin/header.php:118
+msgid "Tools"
+msgstr "Segédeszközök"
+
+#: amp_conf/htdocs/admin/header.php:119
+msgid "Reports"
+msgstr "Jelentések"
+
+#: amp_conf/htdocs/admin/header.php:120
+msgid "Panel"
+msgstr "Panel"
+
+#: amp_conf/htdocs/admin/header.php:121
+msgid "Recordings"
+msgstr "Felvételek"
+
+#: amp_conf/htdocs/admin/header.php:135
+msgid "Language:"
+msgstr "Nyelv:"
+
+#: amp_conf/htdocs/admin/header.php:162
+msgid "Logged in: "
+msgstr "Belépve:"
+
