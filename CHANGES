@@ -1,5 +1,18 @@
 2.4.0
 
+  WARNING: changes were made to some of the core_did_XXXX() API calls that could effect
+  any custom applications that were depending on these.
+
+  WARNING: changes were made to context ordering wrt to ext-did-catchall and
+  from-did-direct. Previously, if you had not ext-did-catchall you might be in a
+  situation where you were reveiving direct DID calls to your extensions even though
+  not configured since there was no catchall route. If you then made a catchall route
+  you would suddenly stop receiving those calls and would have to add the dids in a
+  route or as a direct did. With this change, it is now deterministic but the behavior
+  of an existing system could change (they could suddenly start receiving DIDs). This
+  can be easily corrected though by intercepting those DIDs with an inbound route (with
+  pattern matching if need be).
+
 - Implementation of a distributed Extension and Destination Registry through callbacks
   in all modules and supporting APIs in framework. The Extension Registry provides the
   needed information and APIs to detect and allow a module to block the creation of an
@@ -9,24 +22,35 @@
   of deleting such entities. Both registries are checked when reloading a configuration
   and any inegrity issues are supplied to the notification panel. All supported modules
   should be instrumented to use these once updated.
+
+- Addition of Custom Applications Module. Provides a place to register custom extension
+  numbers as well as custom destinations that are to be used in FreePBX. Replaces the
+  old Custom Destinations choice that was available in each module.
+
+- Moved vmblast form contributed modules to supported module after significant changes
+  and fixes as it never worked form the original contributor. Add additional features
+  to it and added a default vmblast group option to be used with extensions/user add
+  and edit.
+
+- Custom destinations will no longer show up under the destination selections unless there
+  is already one configured or an unknown destination is detected (which are one and the
+  same). To use a custom destination in FreePBX, it will have to be registered with this
+  module to appear as a choice to other modules. (Similar to adding a destination to the
+  Misc Dests module).
+
 - Module admin changed so that 'problem' modules that have dependency issues will not
   block other modules from being downloaded and/or installed. A warning is still generated
   but the action is allowed to proceed with any modules that have all their dependencies
   met.
-- Custom destinations will no longer show up under the destination selections unless there
-  is already one configured or an unknown destination is detected (which are one and the
-  same). Misc Applications module will continue to support custom destinations. Users must create
-  a Misc Application for any required custom destinations, and then use Misc Dest to access
-  that destination so that it will appear as an option to other modules. This is more
-  cumbersome but ultimately less error prone and more supportable for the user.
+
 - Removed Channel Routing from 'Inbound Routes.' Added 'Zap Channel DIDs' to core modules
   to assign DIDs to Zap Channels which can then use 'Inbound Routes' to route them with
   all the same flexibility that is there today and without some of the issues that the
   previous Channel routing implementation provided. Existing Channel routes will be
   converted and entries inserted into the 'Zap Channel DIDs' tables.
 
-  WARNING: changes were made to some of the core_did_XXXX() API calls that could effect
-  any custom applications that were depending on these.
+- Ringgroups, Queues and Follow-Me have been enhanced with a Quick Pick utilitlity that
+  allows extensions to be added into the the ring list.
 
 - Several changes and enhancements have been made to improve the usability of Users/Devices
   mode particularyly around Adhoc devices. Some highlights:
@@ -36,15 +60,20 @@
   - Hints are dynamically added/deleted as part of the logon/logoff process
   - There are still issues if reloading from the CLI. A script and some instructions will
     be supplied on ways to address this until a more permanent solution can be determined.
+
 - Pulled some agi scripts and macro calls out of dialout-trunk / dialout-enum into the outbound 
   route code so they would only be called once when the call sequence has to try multiple
   trunks.
+
 - Added reload option to CLI module_admin to peform same task as the reload bar.
+
 - Added support in macro-user-callerid to support per-user/extension language changes.
+
 - Significant changes within Paging & Intercom Module for 2.4 version of Module. Highlights:
   - Intercom works properly when User is logged into multiple devices and will intercom them all
   - Explicit Allow and Deny options to control who can/can't intercom you
   - AstDB flag that can be set for a specific extension to block it from intercoming anyone
+  - designate a group as default for add/edit at extension/device creation/edit time
   - Significant improvments in Auto-Answer ability for more phone support:
     - Defaults pulled from database which can be changed by an advanced user
     - Defaults can be overode for specific phone useragents based on information in
@@ -52,6 +81,13 @@
       are reported to the FreePBX team.
     - Abilility to trigger custom macros for phones based on useragent info or on a per-device
       basis with information stored in AstDB for that device, for advanced users.
+
+- Queues Module has been updated to remove its dependency from the old legacy extensions table
+  and the current queues table is replaced with queues_config and queues_details table.
+
+- Queues and the SIP, IAX2 and ZAP conf file generation has been replaced with proper queues_conf
+  and core_conf classes
+
 - Misc other bug fixes and some feature requests that can be obtained through the SVN log.
 
 2.3.1
