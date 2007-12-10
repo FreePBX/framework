@@ -59,6 +59,43 @@ class component {
 		$this->_sorted_guielems = false;
 	}
 
+	function delguielem($section, $elemname) {
+		switch ($section) {
+			case '_top':
+					foreach ($this->_guielems_top as $index1 => $elements) {
+						foreach ($elements as $index2 => $element) {
+							if ($element->_elemname == $elemname) {
+								unset($this->_guielems_top[$index1][$index2]);
+								return true;
+							}
+						}
+					}
+				break;
+			case '_bottom':
+					foreach ($this->_guielems_bottom as $index1 => $elements) {
+						foreach ($elements as $index2 => $element) {
+							if ($element->_elemname == $elemname) {
+								unset($this->_guielems_bottom[$index1][$index2]);
+								return true;
+							}
+						}
+					}
+				break;
+			default:
+					if (isset($this->_guielems_middle[$section])) {
+						foreach ($this->_guielems_middle[$section] as $index1 => $elements) {
+							foreach ($elements as $index2 => $element) {
+								if ($element->_elemname == $elemname) {
+									unset($this->_guielems_bottom[$index1][$index2]);
+									return true;
+								}
+							}
+						}
+					}
+			}
+		return false;
+	}
+
 	function addjsfunc($function, $jstext, $sortorder = 5) {
 		if ( $sortorder < 0 || $sortorder > 9 ) {
 			trigger_error('$sortorder must be between 0 and 9 in component->addjsfunc()');
@@ -274,7 +311,7 @@ class component {
 					// Header for $section				
 					$htmlout .= "\t<tr>\n";
 					$htmlout .= "\t\t<td colspan=\"2\">";
-					$htmlout .= "<h5><br>" . _($section) . "</h5><hr>";
+					$htmlout .= "<h5>" . _($section) . "</h5><hr>";
 					$htmlout .= "</td>\n";
 					$htmlout .= "\t</tr>\n";
 					
@@ -294,7 +331,6 @@ class component {
 			if ( is_array($this->_guielems_bottom) ) {
 				$htmlout .= "\t<tr>\n";
 				$htmlout .= "\t\t<td colspan=\"2\">";
-				$htmlout .= "&nbsp;";
 				$htmlout .= "</td>\n";
 				$htmlout .= "\t</tr>\n";
 			}
@@ -315,7 +351,7 @@ class component {
 		// End of table
 		$htmlout .= "\t<tr>\n";
 		$htmlout .= "\t\t<td colspan=\"2\">";
-		$htmlout .= "<br><br><h6>";
+		$htmlout .= "<h6>";
 		$htmlout .= "<input name=\"Submit\" type=\"submit\" value=\""._("Submit")."\">";
 		$htmlout .= "</h6>";
 		$htmlout .= "</td>\n";
