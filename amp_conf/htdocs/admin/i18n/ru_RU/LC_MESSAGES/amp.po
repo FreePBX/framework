@@ -1,15 +1,16 @@
-# Russian FreePBX ver. translation 
-# Copyright (C) 2006 PostMet Corporation
-# This file is distributed under the same license as the FreePBX package.
-# Alexander Kozyrev <ceo@postmet.com>, Sergey Nikolayev <sergey@postmet.com>, 2006.
+# Russian freePBX ver. translation 
+# Copyright (c) 2006-2007 PostMet Corporation
+# This file is distributed under the same license as the freePBX package.
+# Alexander Kozyrev <ceo@postmet.com>, Sergey Nikolayev <sergey@postmet.com>, 2006-2007.
 #
+# »спользовать iconv amp.new -f UTF-8 -t ISO-8859-5 -o amp.po
 # fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.2\n"
+"Project-Id-Version: 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-19 20:00+0200\n"
-"PO-Revision-Date: 2006-03-27 04:46+0200\n"
+"POT-Creation-Date: 2007-04-19 21:45+0100\n"
+"PO-Revision-Date: 2007-04-26 21:21+0100\n"
 "Last-Translator: Alexander Kozyrev <ceo@postmet.com>\n"
 "Language-Team: Russian <faq@postmet.com>\n"
 "MIME-Version: 1.0\n"
@@ -18,31 +19,31 @@ msgstr ""
 
 #: config.php:83
 msgid "Module Admin"
-msgstr "√яа–“џ’ЁЎ’ №ё‘гџп№Ў"
+msgstr "”правление модул€ми"
 
 #: config.php:190
 msgid "Not found"
-msgstr "љ’ Ё–ў‘’Ёё"
+msgstr "Ќе найдено"
 
 #: config.php:191
 msgid ""
 "The section you requested does not exist or you do not have access to it."
 msgstr ""
-"Ј–яа–и’“–’№лў а–„‘’џ Ё’ бгй’бв“г’в, ЎџЎ “л Ё’ Ў№’’в’ яа–“ ‘ёбвгя– “ Ё’”ё"
+"«апрашиваемый раздел не существует, или вы не имеете прав доступа в него"
 
 #: footer.php:84 modules/core/functions.inc.php:453
 #: modules/core/functions.inc.php:482
 msgid "Cannot connect to Asterisk Manager with "
-msgstr "љ’“ё„№ё÷Ёё бё’‘ЎЁЎвбп б Asterisk Manager"
+msgstr "Ќевозможно соединитс€ с Asterisk Manager"
 
 #: footer.php:104 footer.php:106
 msgid "You have made changes - when finished, click here to APPLY them"
-msgstr "≤л б‘’џ–џЎ Ў„№’Ё’ЁЎп “ ЏёЁдЎ”га–жЎЎ - Ё’ „–—г‘мв’ Ё–÷–вм \"њаЎ№’ЁЎвм\""
+msgstr "¬ы сделали изменени€ в конфигурации - не забудьте нажать \"ѕрименить\""
 
 #: functions.inc.php:263 modules/core/page.devices.php:86
 #: modules/core/page.extensions.php:145
 msgid "Add"
-msgstr "іё—–“Ўвм"
+msgstr "ƒобавить"
 
 #: functions.inc.php:654
 msgid ""
@@ -53,232 +54,232 @@ msgid ""
 "b> context would need to be created and included in extensions_custom.conf</"
 "span>"
 msgstr ""
-"Ѕё—бв“’ЁЁ–п яаё”а–№№–<span>іїѕ ЊњЋ¬љЋ≈ њЊїћЈЊ≤∞¬µїµє<br>Єбяёџм„г’вбп дгЁЏжЎп Goto() "
-"‘џп ёвблџЏЎ „“ёЁпйЎе Ё– яаёЎ„“ёџмЁл’ ЏёЁв’Џбвл.<br><br>ЇёЁв’Џбв "
-"<b>Њ±ѕЈ∞¬µїћљЊ</b> ‘ёџ÷’Ё бё‘’а÷–вм бџё“ё 'custom' Ў —лвм “ дёа№–в’: яаёЎ„“ёџмЁлў "
-"ЏёЁв’Џбв, “Ёгва’ЁЁЎў Ёё№’а, яаЎёаЎв’в. њаЎ№’а:<br><br><b>custom-myapp,s,1</b>"
-"<br><br>ЇёЁв’Џбв <b>[custom-myapp]</b> ‘ёџ÷’Ё —лвм бё„‘–Ё Ў “Џџоз’Ё “ ЏёЁдЎ”га–жЎо “ "
+"—обственна€ программа<span>ƒЋя ќѕџ“Ќџ’ ѕќЋ№«ќ¬ј“≈Ћ≈…<br>»спользуетс€ функци€ Goto() "
+"дл€ отсылки звон€щих на произвольные контексты.<br><br> онтекст "
+"<b>ќЅя«ј“≈Ћ№Ќќ</b> должен содержать слово 'custom' и быть в формате: произвольный "
+"контекст, внутренний номер, приоритет. ѕример:<br><br><b>custom-myapp,s,1</b>"
+"<br><br> онтекст <b>[custom-myapp]</b> должен быть создан и включен в конфигурацию в "
 "extensions_custom.conf</span>"
 
 
 #: functions.php:2029
 msgid "This user extension is already in use"
-msgstr "Ќвёв “Ёгва’ЁЁЎў Ёё№’а г÷’ Ўбяёџм„г’вбп"
+msgstr "Ётот внутренний номер уже используетс€"
 
 #: functions.php:2170 modules/core/functions.inc.php:263
 msgid "This device id is already in use"
-msgstr "Ќвёв Ёё№’а гбваёўбв“– г÷’ Ўбяёџм„г’вбп"
+msgstr "Ётот номер устройства уже используетс€"
 
 #: header.php:78
 msgid "Management"
-msgstr "√яа–“џ’ЁЎ’"
+msgstr "”правление"
 
 #: header.php:84
 msgid "Setup"
-msgstr "ЇёЁдЎ”га–жЎп"
+msgstr " онфигураци€"
 
 #: header.php:89
 msgid "Tools"
-msgstr "ЄЁбваг№’Ёвл"
+msgstr "»нструменты"
 
 #: header.php:95
 msgid "Reports"
-msgstr "Њвз’вл"
+msgstr "ќтчеты"
 
 #: header.php:102
 msgid "Panel"
-msgstr "њ–Ё’џм"
+msgstr "ѕанель"
 
 #: header.php:109
 msgid "Recordings"
-msgstr "Ј–яЎбм"
+msgstr "«апись"
 
 #: header.php:119
 msgid "Logged in"
-msgstr "њаёЎ„“’‘’Ё “её‘"
+msgstr "ѕроизведен вход"
 
 #: header.php:120
 msgid "logout"
-msgstr "“леё‘"
+msgstr "выход"
 
 #: index.php:25
-msgid "FreePBX administration"
-msgstr "∞‘№ЎЁЎбваЎаё“–ЁЎ’ FreePBX"
+msgid "freePBX administration"
+msgstr "јдминистрирование freePBX"
 
 #: index.php:26
 msgid "Administration"
-msgstr "∞‘№ЎЁЎбваЎаё“–ЁЎ’"
+msgstr "јдминистрирование"
 
 #: index.php:67
 msgid "Language:"
-msgstr "ѕ„лЏ:"
+msgstr "язык:"
 
 #: index.php:81
 msgid "Welcome to the FreePBX Administration"
-msgstr "іё—аё яё÷–џё“–вм “ FreePBX"
+msgstr "ƒобро пожаловать во freePBX"
 
 #: page.modules.php:89
 msgid "Module install script failed to run"
-msgstr "њаёЎ„ёиџ– ёиЎ—Џ– яаЎ „–ягбЏ’ бЏаЎяв– гбв–Ёё“ЏЎ №ё‘гџп"
+msgstr "ѕроизошла ошибка при запуске скрипта установки модул€"
 
 #: page.modules.php:95
 msgid "Module uninstall script failed to run"
-msgstr "њаёЎ„ёиџ– ёиЎ—Џ– яаЎ „–ягбЏ’ бЏаЎяв– ‘’ЎЁбв–џџпжЎЎ №ё‘гџп"
+msgstr "ѕроизошла ошибка при запуске скрипта деинсталл€ции модул€"
 
 #: page.modules.php:109
 msgid "Module Administration"
-msgstr "√яа–“џ’ЁЎ’ №ё‘гџп№Ў"
+msgstr "”правление модул€ми"
 
 #: page.modules.php:113
 msgid "Module"
-msgstr "Љё‘гџм"
+msgstr "ћодуль"
 
 #: page.modules.php:113
 msgid "Category"
-msgstr "Ї–в’”ёаЎп"
+msgstr " атегори€"
 
 #: page.modules.php:113
 msgid "Version"
-msgstr "≤’абЎп"
+msgstr "¬ерси€"
 
 #: page.modules.php:113
 msgid "Type"
-msgstr "¬Ўя"
+msgstr "“ип"
 
 #: page.modules.php:113
 msgid "Status"
-msgstr "ЅёбвёпЁЎ’"
+msgstr "—осто€ние"
 
 #: page.modules.php:113 modules/ivr/ivr.php:340
 msgid "Action"
-msgstr "і’ўбв“Ў’"
+msgstr "ƒействие"
 
 #: page.modules.php:141
 msgid "Not Installed"
-msgstr "љ’ гбв–Ёё“џ’Ё"
+msgstr "Ќе установлен"
 
 #: page.modules.php:147
 msgid "Install"
-msgstr "√бв–Ёё“Ўвм"
+msgstr "”становить"
 
 #: page.modules.php:150 modules/core/page.extensions.php:317
 #: modules/core/page.users.php:195
 msgid "Disabled"
-msgstr "≤лЏџоз’Ё"
+msgstr "¬ыключен"
 
 #: page.modules.php:155
 msgid "Enable"
-msgstr "≤ЏџозЎвм"
+msgstr "¬ключить"
 
 #: page.modules.php:161
 msgid "Uninstall"
-msgstr "і’ЎЁбв–џџЎаё“–вм"
+msgstr "ƒеинсталлировать"
 
 #: page.modules.php:165 modules/core/page.extensions.php:316
 #: modules/core/page.users.php:194
 msgid "Enabled"
-msgstr "≤Џџоз’Ё"
+msgstr "¬ключен"
 
 #: page.modules.php:170
 msgid "Disable"
-msgstr "≤лЏџозЎвм"
+msgstr "¬ыключить"
 
 #: panel.php:40 panel.php:53 reports.php:40 reports.php:53
 msgid "You are not authorized to use this resource"
-msgstr "≤л Ё’ –“вёаЎ„Ўаё“–ЁЁл ‘џп Ўбяёџм„ё“–ЁЎп нвё”ё а’бгаб–"
+msgstr "¬ы не авторизированны дл€ использовани€ этого ресурса"
 
 #: panel.php:41 panel.php:54 reports.php:41 reports.php:54
 msgid "Go Back"
-msgstr "≤’аЁгвбп Ё–„–‘"
+msgstr "¬ернутс€ назад"
 
 #: reports.php:85
 msgid "Call Logs"
-msgstr "ґгаЁ–џ бё’‘ЎЁ’ЁЎў"
+msgstr "∆урнал соединений"
 
 #: reports.php:86
 msgid "Compare Calls"
-msgstr "∞Ё–џЎ„ бё’‘ЎЁ’ЁЎў"
+msgstr "јнализ соединений"
 
 #: reports.php:87
 msgid "Monthly Traffic"
-msgstr "µ÷’№’бпзЁлў ва–дЎЏ"
+msgstr "≈жемес€чный трафик"
 
 #: reports.php:88
 msgid "Daily load"
-msgstr "µ÷’‘Ё’“Ё–п „–”аг„Џ–"
+msgstr "≈жедневна€ загрузка"
 
 #: modules/asterisk-cli/page.cli.php:29
 msgid "Asterisk CLI"
-msgstr "Їё№–Ё‘Ё–п бваёЏ– Asterisk"
+msgstr " омандна€ строка Asterisk"
 
 #: modules/asterisk-cli/page.cli.php:34
 msgid "Command:"
-msgstr "Їё№–Ё‘–:"
+msgstr " оманда:"
 
 #: modules/backup/page.backup.php:94
 msgid "Add Backup Schedule"
-msgstr "іё—–“Ўвм „–‘–ЁЎ’ яё а’„’а“Ёё№г ЏёяЎаё“–ЁЎо"
+msgstr "ƒобавить задание по резервному копированию"
 
 #: modules/backup/page.backup.php:95
 msgid "Restore from Backup"
-msgstr "≤ёббв–Ёё“Ўвмбп б бёеа–Ё’ЁЁёў ЏёяЎЎ"
+msgstr "¬осстановитьс€ с сохраненной копии"
 
 #: modules/backup/page.backup.php:116 modules/backup/page.backup.php:139
 #: modules/backup/page.backup.php:186
 msgid "System Backup"
-msgstr "ј’„’а“Ёё’ ЏёяЎаё“–ЁЎ’ бЎбв’№л"
+msgstr "–езервное копирование системы"
 
 #: modules/backup/page.backup.php:124 modules/backup/page.backup.php:149
 msgid "Run Schedule"
-msgstr "Ј–ягбвЎвм а–бяЎб–ЁЎ’"
+msgstr "«апустить расписание"
 
 #: modules/backup/page.backup.php:140
 msgid "Delete Backup Schedule"
-msgstr "√‘–џЎвм „–‘–ЁЎ’ яё а’„’а“Ёё№г ЏёяЎаё“–ЁЎо"
+msgstr "”далить задание по резервному копированию"
 
 #: modules/backup/page.backup.php:164
 msgid "System Restore"
-msgstr "≤ёббв–Ёё“џ’ЁЎ’ бЎбв’№л"
+msgstr "¬осстановление системы"
 
 #: modules/backup/schedule_functions.php:22
 msgid "DELETE ALL THE DATA IN THIS SET"
-msgstr "√і∞їЄ¬ћ ≤Ѕµ і∞љљЋµ ≤ Ќ¬Њє ЅµЇ∆ЄЄ"
+msgstr "”ƒјЋ»“№ ¬—≈ ƒјЌЌџ≈ ¬ Ё“ќ… —≈ ÷»»"
 
 #: modules/backup/schedule_functions.php:22
 msgid "Delete this backup set and all data associated with this backup set.."
-msgstr "√‘–џЎвм нвг б’ЏжЎо а’„’а“Ёё”ё ЏёяЎаё“–ЁЎп Ў “б’ ягЁЏвл “ЁгваЎ Ё’”ё"
+msgstr "”далить эту секцию резервного копировани€ и все пункты внутри него"
 
 #: modules/backup/schedule_functions.php:38
 msgid "Delete File Set"
-msgstr "√‘–џЎвм д–ўџё“го б’ЏжЎо"
+msgstr "”далить файловую секцию"
 
 #: modules/backup/schedule_functions.php:38
 msgid "Delete this backup set."
-msgstr "√‘–џЎвм б’ЏжЎо а’„’а“Ёё”ё ЏёяЎаё“–ЁЎп"
+msgstr "”далить секцию резервного копировани€"
 
 #: modules/backup/schedule_functions.php:43
 msgid "Restore Entire Backup Set"
-msgstr "≤ёббв–Ёё“Ўвм а’„’а“Ёго ЏёяЎо яёџЁёбвмо"
+msgstr "¬осстановить резервную копию полностью"
 
 #: modules/backup/schedule_functions.php:43
 msgid "Restore your Complete Backup set overwriting all files."
-msgstr "≤ёббв–Ёё“Ўвм д–ўџл Ў„ яёџЁёў а’„’а“Ёёў ЏёяЎЎ Ў я’а’яЎб–вм бгй’бв“гойЎ’"
+msgstr "¬осстановить файлы из полной резервной копии и переписать существующие"
 
 #: modules/backup/schedule_functions.php:47
 msgid "Restore VoiceMail Files"
-msgstr "≤ёббв–Ёё“Ўвм д–ўџл ”ёџёбё“ёў яёзвл"
+msgstr "¬осстановить файлы голосовой почты"
 
 #: modules/backup/schedule_functions.php:47
 msgid ""
 "Restore your Voicemail files from this backup set.  NOTE! This will delete "
 "any voicemail currently in the voicemail boxes."
 msgstr ""
-"≤ёббв–Ёё“Ўвм д–ўџл ”ёџёбё“ёў яёзвл Ў„ а’„’а“Ёёў ЏёяЎЎ. ња’‘гяа’÷‘’ЁЎ’: "
-"Ќв– ёя’а–жЎп г‘–џЎв “б’ ”ёџёбё“л’ бёё—й’ЁЎп Ў№’ойЎ’бп Ё– ‘–ЁЁлў №ё№’Ёв"
+"¬осстановить файлы голосовой почты из резервной копии. ѕредупреждение: "
+"Ёта операци€ удалит все голосовые сообщени€ имеющиес€ на данный момент"
 
 #: modules/backup/schedule_functions.php:54
 msgid "Restore System Recordings Files"
-msgstr "≤ёббв–Ёё“џ’ЁЎ’ д–ўџё“ „–яЎб’ў бёё—й’ЁЎў"
+msgstr "¬осстановление файлов записей сообщений"
 
 #: modules/backup/schedule_functions.php:54
 msgid ""
@@ -286,13 +287,13 @@ msgid ""
 "backup set.  NOTE! This will OVERWRITE any voicerecordings  currently on the "
 "system. It will NOT delete new files not currently in the backup set"
 msgstr ""
-"≤ёббв–Ёё“Ўвм д–ўџл „–яЎб’ў бёё—й’ЁЎў Ў„ а’„’а“Ёёў ЏёяЎЎ. "
-"ња’‘гяа’÷‘’ЁЎ’: Ќв– ёя’а–жЎп √і∞їЄ¬ „–яЎбЎ а–„”ё“ёаё“ Ў№’ойЎ’бп “ бЎбв’№’, Ёё љµ √і∞їЄ¬ "
-"Ёё“л’ д–ўџл, Џёвёале Ё’ —лџё “ а’„’а“Ёёў ЏёяЎЎ"
+"¬осстановить файлы записей сообщений из резервной копии. "
+"ѕредупреждение: Ёта операци€ ”ƒјЋ»“ записи разговоров имеющиес€ в системе, но Ќ≈ ”ƒјЋ»“ "
+"новые файлы, которых не было в резервной копии"
 
 #: modules/backup/schedule_functions.php:59
 msgid "Restore System Configuration"
-msgstr "≤ёббв–Ёё“Ўвм ЏёЁдЎ”га–жЎо бЎбв’№л"
+msgstr "¬осстановить конфигурацию системы"
 
 #: modules/backup/schedule_functions.php:59
 msgid ""
@@ -300,13 +301,13 @@ msgid ""
 "OVERWRITE any System changes you have made since this backup... ALL Itemes "
 "will be reset to what they were at the time of this backup set.."
 msgstr ""
-"≤ёббв–Ёё“Ўвм ё—йго ЏёЁдЎ”га–жЎо бЎбв’№л Ў„ а’„’а“Ёёў ЏёяЎЎ. ња’‘гяа’÷‘’ЁЎ’: "
-"Ќв– ёя’а–жЎп њµјµЈ∞њЄ»µ¬ џо—л’ Ў„№’Ё’ЁЎп “ бЎбв’№’ б‘’џ–ЁЁл’ б №ё№’Ёв– бё„‘–ЁЎп "
-"а’„’а“Ёёў ЏёяЎЎ"
+"¬осстановить общую конфигурацию системы из резервной копии. ѕредупреждение: "
+"Ёта операци€ ѕ≈–≈«јѕ»Ў≈“ любые изменени€ в системе сделанные с момента создани€ "
+"резервной копии"
 
 #: modules/backup/schedule_functions.php:64
 msgid "Restore Operator Panel"
-msgstr "≤ёббв–Ёё“Ўвм я–Ё’џм ёя’а–вёа–"
+msgstr "¬осстановить панель оператора"
 
 #: modules/backup/schedule_functions.php:64
 msgid ""
@@ -314,44 +315,44 @@ msgid ""
 "any Operator Panel Changes you have made since this backup... ALL Itemes "
 "will be reset to what they were at the time of this backup set.."
 msgstr ""
-"≤ёббв–Ёё“Ўвм я–Ё’џм ёя’а–вёа– Ў„ а’„’а“Ёёў ЏёяЎЎ. ња’‘гяа’÷‘’ЁЎ’: Ќв– ёя’а–жЎп "
-" њµјµЈ∞њЄ»µ¬ џо—л’ Ў„№’Ё’ЁЎп “ бЎбв’№’ б‘’џ–ЁЁл’ б №ё№’Ёв– бё„‘–ЁЎп "
-"а’„’а“Ёёў ЏёяЎЎ"
+"¬осстановить панель оператора из резервной копии. ѕредупреждение: Ёта операци€ "
+" ѕ≈–≈«јѕ»Ў≈“ любые изменени€ в системе сделанные с момента создани€ "
+"резервной копии"
 
 #: modules/backup/schedule_functions.php:69
 msgid "Restore Call Detail Report"
-msgstr "≤ёббв–Ёё“Ўвм ёвз’вл яё „“ёЁЏ–№"
+msgstr "¬осстановить отчеты по звонкам"
 
 #: modules/backup/schedule_functions.php:69
 msgid ""
 "Restore the Call Detail Records from this backup set.  NOTE! This will "
 "DELETE ALL CALL RECORDS that have been saved since this backup set.."
 msgstr ""
-"≤ёббв–Ёё“Ўвм ёвз’вл яё „“ёЁЏ–№ Ў„ а’„’а“Ёёў ЏёяЎЎ. ња’‘гяа’÷‘’ЁЎ’: Ќв– ёя’а–жЎп "
-"√і∞їЄ¬ б“’‘’ЁЎп ё “б’е „“ёЁЏ–е б‘’џ–Ёле б №ё№’Ёв– бё„‘–ЁЎп а’„’а“Ёёў ЏёяЎЎ"
+"¬осстановить отчеты по звонкам из резервной копии. ѕредупреждение: Ёта операци€ "
+"”ƒјЋ»“ сведени€ о всех звонках сделаных с момента создани€ резервной копии"
 
 #: modules/backup/schedule_functions.php:74
 msgid "ERROR its not a BACKUP SET file"
-msgstr "Њ»Є±Ї∞! Ќвё Ё’ д–ўџ а’„’а“Ёёў ЏёяЎЎ"
+msgstr "ќЎ»Ѕ ј! Ёто не файл резервной копии"
 
 #: modules/backup/schedule_functions.php:296
 msgid "Schedule Name:"
-msgstr "Є№п „–яЎбЎ:"
+msgstr "»м€ записи:"
 
 #: modules/backup/schedule_functions.php:296
 msgid "Give this Backup Schedule a brief name to help you identify it."
-msgstr "і–ўв’ Ў№п нвёў „–яЎбЎ ‘џп г‘ё—бв“– Ў‘’ЁвЎдЎЏ–жЎЎ"
+msgstr "ƒайте им€ этой записи дл€ удобства идентификации"
 
 #: modules/backup/schedule_functions.php:301
 msgid "VoiceMail"
-msgstr "≥ёџёбё“–п яёзв–"
+msgstr "√олосова€ почта"
 
 #: modules/backup/schedule_functions.php:301
 msgid ""
 "Backup the System VoiceMail Boxes... CAUTION: Could result in large file"
 msgstr ""
-"Ѕёеа–ЁЎвм бё‘’а÷–ЁЎ’ пйЎЏё“ ”ёџёбё“ёў яёзвл. ња’‘гяа’÷‘’ЁЎ’: ≤ а’„гџмв–в’ №ё÷’в "
-"яёџгзЎвбп д–ўџ а’„’а“Ёёў ЏёяЎЎ —ёџмиё”ё а–„№’а–"
+"—охранить содержание €щиков голосовой почты. ѕредупреждение: ¬ результате может "
+"получитс€ файл резервной копии большого размера"
 
 #: modules/backup/schedule_functions.php:303
 #: modules/backup/schedule_functions.php:305
@@ -372,7 +373,7 @@ msgstr ""
 #: modules/core/page.users.php:235 modules/core/page.users.php:237
 #: modules/core/page.users.php:244 modules/core/page.users.php:246
 msgid "yes"
-msgstr "‘–"
+msgstr "да"
 
 #: modules/backup/schedule_functions.php:303
 #: modules/backup/schedule_functions.php:305
@@ -393,45 +394,45 @@ msgstr "‘–"
 #: modules/core/page.users.php:235 modules/core/page.users.php:237
 #: modules/core/page.users.php:244 modules/core/page.users.php:246
 msgid "no"
-msgstr "Ё’в"
+msgstr "нет"
 
 #: modules/backup/schedule_functions.php:309
 #: modules/recordings/page.recordings.php:27
 msgid "System Recordings"
-msgstr "Ј–яЎбм бёё—й’ЁЎў"
+msgstr "«апись сообщений"
 
 #: modules/backup/schedule_functions.php:309
 msgid ""
 "Backup the System Recordings (AutoAttendent, Music On Hold, System "
 "Recordings)"
 msgstr ""
-"Ѕёеа–ЁЎвм „–яЎбЎ бёё—й’ЁЎў (∞“вёЅ’Џа’в–ам, Љг„лЏ– “ ё÷Ў‘–ЁЎЎ, ЅЎбв’№Ёл’ „–яЎбЎ)"
+"—охранить записи сообщений (јвто—екретарь, ћузыка в ожидании, —истемные записи)"
 
 #: modules/backup/schedule_functions.php:317
 msgid "System Configuration"
-msgstr "ЇёЁдЎ”га–жЎп бЎбв’№л"
+msgstr " онфигураци€ системы"
 
 #: modules/backup/schedule_functions.php:317
 msgid ""
 "Backup the System Configurations (Database, etc files, SQL Database, astdb)"
 msgstr ""
-"Ѕёеа–ЁЎвм ЏёЁдЎ”га–жЎо бЎбв’№л (±–„л ‘–ЁЁле, asdb, ‘аг”Ў’ д–ўџл)"
+"—охранить конфигурацию системы (Ѕазы данных, asdb, другие файлы)"
 
 #: modules/backup/schedule_functions.php:325
 msgid "CDR"
-msgstr "Ј–яЎбЎ ё бё’‘ЎЁ’ЁЎпе"
+msgstr "«аписи о соединени€х"
 
 #: modules/backup/schedule_functions.php:325
 msgid "Backup the System Call Detail Reporting (HTML and Database)"
-msgstr "Ѕёеа–ЁЎвм ёвз’вл ё бё’‘ЎЁ’ЁЎпе (HTML Ў —–„г ‘–ЁЁле)"
+msgstr "—охранить отчеты о соединени€х (HTML и базу данных)"
 
 #: modules/backup/schedule_functions.php:333
 msgid "Operator Panel"
-msgstr "њ–Ё’џм ёя’а–вёа–"
+msgstr "ѕанель оператора"
 
 #: modules/backup/schedule_functions.php:333
 msgid "Backup the Operator Panel (HTML and Database)"
-msgstr "Ѕёеа–ЁЎвм ЏёяЎо њ–Ё’џЎ ёя’а–вёа– (HTML Ў —–„г ‘–ЁЁле)"
+msgstr "—охранить копию ѕанели оператора (HTML и базу данных)"
 
 #: modules/backup/schedule_functions.php:384
 #: modules/backup/schedule_functions.php:388
@@ -440,7 +441,7 @@ msgstr "Ѕёеа–ЁЎвм ЏёяЎо њ–Ё’џЎ ёя’а–вёа– (HTML Ў —–„г ‘–ЁЁле)"
 #: modules/backup/schedule_functions.php:442
 #: modules/backup/schedule_functions.php:446
 msgid "All"
-msgstr "≤б’"
+msgstr "¬се"
 
 #: modules/backup/schedule_functions.php:385
 #: modules/backup/schedule_functions.php:389
@@ -449,152 +450,152 @@ msgstr "≤б’"
 #: modules/backup/schedule_functions.php:443
 #: modules/backup/schedule_functions.php:447
 msgid "Selected"
-msgstr "≤л—а–Ёл’"
+msgstr "¬ыбраные"
 
 #: modules/backup/schedule_functions.php:422
 msgid "January"
-msgstr "ѕЁ“–ам"
+msgstr "январь"
 
 #: modules/backup/schedule_functions.php:423
 msgid "February"
-msgstr "ƒ’“а–џм"
+msgstr "‘евраль"
 
 #: modules/backup/schedule_functions.php:424
 msgid "March"
-msgstr "Љ–ав"
+msgstr "ћарт"
 
 #: modules/backup/schedule_functions.php:425
 msgid "April"
-msgstr "∞яа’џм"
+msgstr "јпрель"
 
 #: modules/backup/schedule_functions.php:426
 msgid "May"
-msgstr "Љ–ў"
+msgstr "ћай"
 
 #: modules/backup/schedule_functions.php:427
 msgid "June"
-msgstr "ЄоЁм"
+msgstr "»юнь"
 
 #: modules/backup/schedule_functions.php:428
 msgid "July"
-msgstr "Єоџм"
+msgstr "»юль"
 
 #: modules/backup/schedule_functions.php:429
 msgid "August"
-msgstr "∞“”гбв"
+msgstr "јвгуст"
 
 #: modules/backup/schedule_functions.php:430
 msgid "September"
-msgstr "Ѕ’Ёвп—ам"
+msgstr "—ент€брь"
 
 #: modules/backup/schedule_functions.php:431
 msgid "October"
-msgstr "ЊЏвп—ам"
+msgstr "ќкт€брь"
 
 #: modules/backup/schedule_functions.php:432
 msgid "November"
-msgstr "љёп—ам"
+msgstr "Ќо€брь"
 
 #: modules/backup/schedule_functions.php:433
 msgid "December"
-msgstr "і’Џ–—ам"
+msgstr "ƒекабрь"
 
 #: modules/backup/schedule_functions.php:451
 msgid "Monday"
-msgstr "њёЁ’‘’џмЁЎЏ"
+msgstr "ѕонедельник"
 
 #: modules/backup/schedule_functions.php:452
 msgid "Tuesday"
-msgstr "≤вёаЁЎЏ"
+msgstr "¬торник"
 
 #: modules/backup/schedule_functions.php:453
 msgid "Wednesday"
-msgstr "Ѕа’‘–"
+msgstr "—реда"
 
 #: modules/backup/schedule_functions.php:454
 msgid "Thursday"
-msgstr "«’в“’а”"
+msgstr "„етверг"
 
 #: modules/backup/schedule_functions.php:455
 msgid "Friday"
-msgstr "њпвЁЎж–"
+msgstr "ѕ€тница"
 
 #: modules/backup/schedule_functions.php:456
 msgid "Saturday"
-msgstr "Ѕг——ёв–"
+msgstr "—уббота"
 
 #: modules/backup/schedule_functions.php:457
 msgid "Sunday"
-msgstr "≤ёбЏа’б’Ём’"
+msgstr "¬оскресенье"
 
 #: modules/backup/schedule_functions.php:465
 msgid "Run Backup"
-msgstr "ј’„’а“Ёё’ ЏёяЎаё“–ЁЎ’"
+msgstr "–езервное копирование"
 
 #: modules/backup/schedule_functions.php:467
 msgid "Follow Schedule Below"
-msgstr "Ѕџ’‘ё“–вм а–бяЎб–ЁЎо ЁЎ÷’"
+msgstr "—ледовать расписанию ниже"
 
 #: modules/backup/schedule_functions.php:468
 msgid "Now"
-msgstr "Ѕ’ўз–б"
+msgstr "—ейчас"
 
 #: modules/backup/schedule_functions.php:469
 msgid "Daily (at midnight)"
-msgstr "µ÷’‘Ё’“Ёё (“ яёџЁёзм)"
+msgstr "≈жедневно (в полночь)"
 
 #: modules/backup/schedule_functions.php:470
 msgid "Weekly (on Sunday)"
-msgstr "µ÷’Ё’‘’џмЁё(“ “ёбЏа’б’Ём’)"
+msgstr "≈женедельно(в воскресенье)"
 
 #: modules/backup/schedule_functions.php:471
 msgid "Monthly (on the 1st)"
-msgstr "µ÷’№’бпзЁё (1-”ё зЎбџ–)"
+msgstr "≈жемес€чно (1-го числа)"
 
 #: modules/backup/schedule_functions.php:472
 msgid "Yearly (on 1st Jan)"
-msgstr "µ÷’”ё‘Ёё (1-”ё пЁ“–ап)"
+msgstr "≈жегодно (1-го €нвар€)"
 
 #: modules/backup/schedule_functions.php:497
 msgid "Minutes"
-msgstr "ЉЎЁгвл"
+msgstr "ћинуты"
 
 #: modules/backup/schedule_functions.php:497
 msgid "Hours"
-msgstr "«–бл"
+msgstr "„асы"
 
 #: modules/backup/schedule_functions.php:497
 msgid "Days"
-msgstr "іЁЎ"
+msgstr "ƒни"
 
 #: modules/backup/schedule_functions.php:497
 msgid "Months"
-msgstr "Љ’бпжл"
+msgstr "ћес€цы"
 
 #: modules/backup/schedule_functions.php:497
 msgid "Weekdays"
-msgstr "іЁЎ Ё’‘’џЎ"
+msgstr "ƒни недели"
 
 #: modules/conferences/page.conferences.php:22
 #: modules/core/page.extensions.php:72 modules/core/page.users.php:64
 #: modules/queues/page.queues.php:72 modules/ringgroups/page.ringgroups.php:58
 msgid "Warning! Extension"
-msgstr "Њбвёаё÷Ёё! ≤Ёгва’ЁЁЎў Ёё№’а"
+msgstr "ќсторожно! ¬нутренний номер"
 
 #: modules/conferences/page.conferences.php:22
 #: modules/queues/page.queues.php:72
 msgid "is not allowed for your account."
-msgstr "Ё’ а–„а’и’Ёё ‘џп “–и’”ё яаёдЎџп"
+msgstr "не разрешено дл€ вашего профил€"
 
 #: modules/conferences/page.conferences.php:53
 #: modules/conferences/page.conferences.php:84
 #: modules/conferences/page.conferences.php:91
 msgid "Add Conference"
-msgstr "іё—–“Ўвм ЏёЁд’а’ЁжЎо"
+msgstr "ƒобавить конференцию"
 
 #: modules/conferences/page.conferences.php:67
 msgid "Conference"
-msgstr "ЇёЁд’а’ЁжЎп"
+msgstr " онференци€"
 
 #: modules/conferences/page.conferences.php:67
 #: modules/core/page.devices.php:64 modules/core/page.did.php:65
@@ -603,39 +604,39 @@ msgstr "ЇёЁд’а’ЁжЎп"
 #: modules/ringgroups/page.ringgroups.php:101
 #: modules/timeconditions/page.timeconditions.php:110
 msgid "deleted"
-msgstr "г‘–џ’Ёё"
+msgstr "удалено"
 
 #: modules/conferences/page.conferences.php:81
 msgid "Conference:"
-msgstr "ЇёЁд’а’ЁжЎп:"
+msgstr " онференци€:"
 
 #: modules/conferences/page.conferences.php:82
 msgid "Delete Conference"
-msgstr "√‘–џЎвм ЏёЁд’а’ЁжЎо"
+msgstr "”далить конференцию"
 
 #: modules/conferences/page.conferences.php:91
 msgid "Edit Conference"
-msgstr "Є„№’ЁЎвм ЏёЁд’а’ЁжЎо"
+msgstr "»зменить конференцию"
 
 #: modules/conferences/page.conferences.php:96
 msgid "conference number:"
-msgstr "Ёё№’а ЏёЁд’а’ЁжЎЎ:"
+msgstr "номер конференции:"
 
 #: modules/conferences/page.conferences.php:96
 msgid "Use this number to dial into the conference."
-msgstr "Єбяёџм„гўв’ нвёв Ёё№’а ‘џп яаЎбё’‘ЎЁ’ЁЎп Џ ЏёЁд’а’ЁжЎЎ"
+msgstr "»спользуйте этот номер дл€ присоединени€ к конференции"
 
 #: modules/conferences/page.conferences.php:101
 msgid "conference name:"
-msgstr "Ў№п ЏёЁд’а’ЁжЎЎ"
+msgstr "им€ конференции"
 
 #: modules/conferences/page.conferences.php:101
 msgid "Give this conference a brief name to help you identify it."
-msgstr "і–ўв’ Ў№п нвёў ЏёЁд’а’ЁжЎЎ ‘џп г‘ё—бв“– Ў‘’ЁвЎдЎЏ–жЎЎ"
+msgstr "ƒайте им€ этой конференции дл€ удобства идентификации"
 
 #: modules/conferences/page.conferences.php:105
 msgid "user PIN:"
-msgstr "PIN яёџм„ё“–в’џп:"
+msgstr "PIN пользовател€:"
 
 #: modules/conferences/page.conferences.php:105
 msgid ""
@@ -643,14 +644,14 @@ msgid ""
 "conference.<br><br>This setting is optional.<br><br>If either PIN is "
 "entered, the user will be prompted to enter a PIN."
 msgstr ""
-"≤л №ё÷’в’ ё—п„–вм „“ёЁпйЎе ““ё‘Ўвм я–аёџм, яа’÷‘’ з’№ ёЁЎ б№ё”гв яаЎбё’‘ЎЁЎвбп "
-"Џ ЏёЁд’а’ЁжЎЎ<br><br>Ќвё Ё’ ё—п„–в’џмЁлў я–а–№’ва.<br><br>µбџЎ PIN гЏ–„–Ё, ёЁ —г‘’в "
-"ё—п„–в’џ’Ё ‘џп ““ё‘– “б’№Ў гз–бвЁЎЏ–№Ў ЏёЁд’а’ЁжЎЎ."
+"¬ы можете об€зать звон€щих вводить пароль, прежде чем они смогут присоединитс€ "
+"к конференции<br><br>Ёто не об€зательный параметр.<br><br>≈сли PIN указан, он будет "
+"об€зателен дл€ ввода всеми участниками конференции."
 ""
 
 #: modules/conferences/page.conferences.php:109
 msgid "admin PIN:"
-msgstr "PIN –‘№ЎЁЎбва–вёа–:"
+msgstr "PIN администратора:"
 
 #: modules/conferences/page.conferences.php:109
 msgid ""
@@ -658,18 +659,18 @@ msgid ""
 "unless the 'leader wait' option is in use, then this PIN will identify the "
 "leader."
 msgstr ""
-"≤“’‘Ўв’ PIN ‘џп яёџм„ё“–в’џп, ё—џ–‘–ой’”ё –‘№ЎЁЎбва–вЎ“Ёл№Ў яёџЁё№ёзЎп№Ў.<br><br>"
-"Ќвёв я–а–№’ва Ё’ ё—п„–в’џ’Ё ‘ё вё”ё №ё№’Ёв–, яёЏ– Ўбяёџм„г’вбп ёяжЎп \"ё÷Ў‘–ЁЎ’ џЎ‘’а–\", "
-"яёбџ’ з’”ё нвёв PIN —г‘’в Ў‘’ЁвЎдЎжЎаё“–вм џЎ‘’а–"
+"¬ведите PIN дл€ пользовател€, обладающего административными полномочи€ми.<br><br>"
+"Ётот параметр не об€зателен до того момента, пока используетс€ опци€ \"ожидание лидера\", "
+"после чего этот PIN будет идентифицировать лидера"
 
 #: modules/conferences/page.conferences.php:118
 msgid "Conference Options"
-msgstr "љ–бваёўЏЎ ЏёЁд’а’ЁжЎЎ"
+msgstr "Ќастройки конференции"
 
 #: modules/conferences/page.conferences.php:121
 #: modules/conferences/page.conferences.php:140
 msgid "join message:"
-msgstr "бёё—й’ЁЎ’ яаЎ яаЎбё’‘ЎЁ’ЁЎЎ:"
+msgstr "сообщение при присоединении:"
 
 #: modules/conferences/page.conferences.php:121
 msgid ""
@@ -677,8 +678,8 @@ msgid ""
 "add additional recordings please use the \"System Recordings\" MENU to the "
 "left"
 msgstr ""
-"Ѕёё—й’ЁЎ’, Џёвёаё’ —г‘’в яаёЎ”ал“–вмбп “Ёё“м яаЎбё’‘ЎЁЎ“иЎ№бп Џ ЏёЁд’а’ЁжЎЎ гз–бвЁЎЏ–№.<br><br>"
-"іџп вё”ё, звё—л ‘ё—–“Ўвм ‘ёяёџЁЎв’џмЁго „–яЎбм “ёбяёџм„гўв’бм б’ЏжЎ’ў \"Ј–яЎбм бёё—й’ЁЎў\" “ №’Ёо бџ’“–"
+"—ообщение, которое будет проигрыватьс€ вновь присоединившимс€ к конференции участникам.<br><br>"
+"ƒл€ того, чтобы добавить дополнительную запись воспользуйтесь секцией \"«апись сообщений\" в меню слева"
 ""
 
 
@@ -687,26 +688,26 @@ msgstr ""
 #: modules/queues/page.queues.php:422
 #: modules/ringgroups/page.ringgroups.php:203
 msgid "None"
-msgstr "љ’в"
+msgstr "Ќет"
 
 #: modules/conferences/page.conferences.php:140
 msgid ""
 "Message to be played to the caller before joining the conference.<br><br>You "
 "must install and enable the \"Systems Recordings\" Module to edit this option"
 msgstr ""
-"Ѕёё—й’ЁЎ’, Џёвёаё’ —г‘’в яаёЎ”ал“–вмбп “Ёё“м яаЎбё’‘ЎЁЎ“иЎ№бп Џ ЏёЁд’а’ЁжЎЎ гз–бвЁЎЏ–№.<br><br>"
-"≤л ‘ёџ÷Ёл гбв–Ёё“Ўвм Ў “ЏџозЎвм №ё‘гџм \"ЅЎбв’№Ёл’ „–яЎбЎ\" ‘џп Ў„№’Ё’ЁЎп нвё”ё я–а–№’ва–"
+"—ообщение, которое будет проигрыватьс€ вновь присоединившимс€ к конференции участникам.<br><br>"
+"¬ы должны установить и включить модуль \"—истемные записи\" дл€ изменени€ этого параметра"
 
 #: modules/conferences/page.conferences.php:150
 msgid "leader wait:"
-msgstr "ё÷Ў‘–ЁЎ’ џЎ‘’а–:"
+msgstr "ожидание лидера:"
 
 #: modules/conferences/page.conferences.php:150
 msgid ""
 "wait until the conference leader (admin user) arrives before starting the "
 "conference"
 msgstr ""
-"ё÷Ў‘–вм яёЏ– џЎ‘’а ЏёЁд’а’ЁжЎЎ (–‘№ЎЁЎбва–вёа) яаЎбё’‘ЎЁЎвбп яа’÷‘’ з’№ Ё–зЎЁ–вм ЏёЁд’а’ЁжЎо"
+"ожидать пока лидер конференции (администратор) присоединитс€ прежде чем начинать конференцию"
 
 #: modules/conferences/page.conferences.php:155
 #: modules/conferences/page.conferences.php:167
@@ -718,7 +719,7 @@ msgstr ""
 #: modules/queues/page.queues.php:263 modules/queues/page.queues.php:344
 #: modules/queues/page.queues.php:370 modules/queues/page.queues.php:382
 msgid "No"
-msgstr "љ’в"
+msgstr "Ќет"
 
 #: modules/conferences/page.conferences.php:156
 #: modules/conferences/page.conferences.php:168
@@ -730,129 +731,129 @@ msgstr "љ’в"
 #: modules/queues/page.queues.php:263 modules/queues/page.queues.php:369
 #: modules/queues/page.queues.php:381
 msgid "Yes"
-msgstr "і–"
+msgstr "ƒа"
 
 #: modules/conferences/page.conferences.php:162
 msgid "quiet mode:"
-msgstr "а’÷Ў№ вЎиЎЁл:"
+msgstr "режим тишины:"
 
 #: modules/conferences/page.conferences.php:162
 msgid "quiet mode (do not play enter/leave sounds)"
-msgstr "а’÷Ў№ вЎиЎЁл (Ё’ ё„“гзЎ“–вм “её‘/“леё‘)"
+msgstr "режим тишины (не озвучивать вход/выход)"
 
 #: modules/conferences/page.conferences.php:174
 msgid "user count:"
-msgstr "ЏёџЎз’бв“ё яёџм„ё“–в’џ’ў:"
+msgstr "количество пользователей:"
 
 #: modules/conferences/page.conferences.php:174
 msgid "announce user(s) count on joining conference"
-msgstr "–ЁёЁбЎаё“–вм ЏёџЎз’бв“ё гз–бвЁЎЏё“ ЏёЁд’а’ЁжЎЎ яаЎ яаЎбё’‘ЎЁ’ЁЎЎ Џ Ё’ў"
+msgstr "анонсировать количество участников конференции при присоединении к ней"
 
 #: modules/conferences/page.conferences.php:186
 msgid "user join/leave:"
-msgstr "яёџм„ё“–в’џм яаЎбё’‘ЎЁЎџбп/ёвбё’‘ЎЁЎџбп"
+msgstr "пользователь присоединилс€/отсоединилс€"
 
 #: modules/conferences/page.conferences.php:186
 msgid "announce user join/leave"
-msgstr "–ЁёЁбЎаё“–вм яаЎбё’‘ЎЁ’ЁЎ’/ёвбё’‘ЎЁ’ЁЎ’ яёџм„ё“–в’џ’ў"
+msgstr "анонсировать присоединение/отсоединение пользователей"
 
 #: modules/conferences/page.conferences.php:198
 msgid "music on hold:"
-msgstr "№г„лЏ– “ ё÷Ў‘–ЁЎЎ:"
+msgstr "музыка в ожидании:"
 
 #: modules/conferences/page.conferences.php:198
 msgid "enable music on hold when the conference has a single caller"
-msgstr "“ЏџозЎвм №г„лЏг а’÷Ў№– ё÷Ў‘–ЁЎп Џё”‘– ЏёЁд’а’ЁжЎп Ў№’’в “б’”ё џЎим ё‘Ёё”ё гз–бвЁЎЏ–"
+msgstr "включить музыку режима ожидани€ когда конференци€ имеет всего лишь одного участника"
 
 #: modules/conferences/page.conferences.php:210
 msgid "allow menu:"
-msgstr "а–„а’иЎвм №’Ёо:"
+msgstr "разрешить меню:"
 
 #: modules/conferences/page.conferences.php:210
 msgid "present menu (user or admin) when '*' is received ('send' to menu)"
-msgstr "ёяа’‘’џЎвм №’Ёо (яёџм„ё“–в’џмбЏё’ ЎџЎ –‘№ЎЁЎбва–вёабЏё’) яаЎ Ё–÷–вЎЎ "
-"'*' ('ёвяа–“Ўвм' “ №’Ёо)"
+msgstr "определить меню (пользовательское или администраторское) при нажатии "
+"'*' ('отправить' в меню)"
 
 #: modules/core/functions.inc.php:225
 msgid "A route for this DID/CID already exists!"
-msgstr "Љ–аиагв ‘џп нвё”ё DID/CID г÷’ бгй’бв“г’в"
+msgstr "ћаршрут дл€ этого DID/CID уже существует"
 
 #: modules/core/functions.inc.php:736
 msgid "This user {$thisexten}/{$extension} extension is already in use"
-msgstr "Ќвёв яёџм„ё“–в’џм {$thisexten}/{$extension} “Ёгва’ЁЁЎў Ёё№’а г÷’ бгй’бв“г’в"
+msgstr "Ётот пользователь {$thisexten}/{$extension} внутренний номер уже существует"
 
 #: modules/core/page.ampusers.php:62
 msgid "Add User"
-msgstr "іё—–“Ўвм яёџм„ё“–в’џп"
+msgstr "ƒобавить пользовател€"
 
 #: modules/core/page.ampusers.php:80
 msgid "Edit AMP User"
-msgstr "Є„№’ЁЎвм яёџм„ё“–в’џп"
+msgstr "»зменить пользовател€"
 
 #: modules/core/page.ampusers.php:92 modules/core/page.users.php:108
 msgid "Delete User"
-msgstr "√‘–џЎвм яёџм„ё“–в’џп"
+msgstr "”далить пользовател€"
 
 #: modules/core/page.ampusers.php:107
 msgid "Add AMP User"
-msgstr "іё—–“Ўвм яёџм„ё“–в’џп AMP"
+msgstr "ƒобавить пользовател€ AMP"
 
 #: modules/core/page.ampusers.php:119 modules/core/page.trunks.php:288
 msgid "General Settings"
-msgstr "ЊбЁё“Ёл’ Ё–бваёўЏЎ"
+msgstr "ќсновные настройки"
 
 #: modules/core/page.ampusers.php:131
 msgid "Username<span>Create a unique username for this new user</span>"
-msgstr "Є№п яёџм„ё“–в’џп<span>Ѕё„‘–вм гЁЎЏ–џмЁё’ Ў№п ‘џп нвё”ё яёџм„ё“–в’џп</span>"
+msgstr "»м€ пользовател€<span>—оздать уникальное им€ дл€ этого пользовател€</span>"
 
 #: modules/core/page.ampusers.php:139
 msgid "Password<span>Create a password for this new user</span>"
-msgstr "њ–аёџм<span>Ѕё„‘–вм я–аёџм ‘џп Ёё“ё”ё яёџм„ё“–в’џп</span>"
+msgstr "ѕароль<span>—оздать пароль дл€ нового пользовател€</span>"
 
 #: modules/core/page.ampusers.php:148
 msgid "Access Restrictions"
-msgstr "Њ”а–ЁЎз’ЁЎ’ ‘ёбвгя–"
+msgstr "ќграничение доступа"
 
 #: modules/core/page.ampusers.php:153
 msgid ""
 "Department Name<span>Restrict this user's view of Digital Receptionist menus "
 "and System Recordings to only those for this department.</span>"
 msgstr ""
-"њё‘а–„‘’џ’ЁЎ’<span>Њ”а–ЁЎзЎвм нвё”ё яёџм„ё“–в’џп “ яаёб№ёва’ №’Ёо нџ’ЏваёЁЁё”ё б’Џа’в–ап "
-"Ў „–яЎб’ў бёё—й’ЁЎў вёџмЏё ‘џп в’Џгй’”ё яё‘а–„‘’џ’ЁЎп.</span>"
+"ѕодразделение<span>ќграничить этого пользовател€ в просмотре меню электронного секретар€ "
+"и записей сообщений только дл€ текущего подразделени€.</span>"
 
 #: modules/core/page.ampusers.php:160
 msgid ""
 "Extension Range<span>Restrict this user's view to only Extensions, Ring "
 "Groups, and Queues within this range.</span>"
 msgstr ""
-"іЎ–я–„ёЁ “Ёгва’ЁЁЎе Ёё№’аё“<span>Њ”а–ЁЎзЎвм нвё”ё яёџм„ё“–в’џп “ яаёб№ёва’ “Ёгва’ЁЁЎе Ёё№’аё“,"
-"бё’‘ЎЁ’ЁЎў, ”агяя Ў ёз’а’‘’ў “ЁгваЎ нвё”ё ‘Ў–я–„ёЁ–.</span>"
+"ƒиапазон внутренних номеров<span>ќграничить этого пользовател€ в просмотре внутренних номеров,"
+"соединений, групп и очередей внутри этого диапазона.</span>"
 
 #: modules/core/page.ampusers.php:169
 msgid ""
 "Admin Access<span>Select the Admin Sections this user should have access to."
 "</span>"
 msgstr""
-"∞‘№ЎЁЎбва–вЎ“Ёлў ‘ёбвгя<span>±г‘’в яа’‘ёбв–“џ’Ё ‘ёбвгя Џ –‘№ЎЁЎбва–вЎ“Ёё№г а–„‘’џг."
+"јдминистративный доступ<span>Ѕудет предоставлен доступ к административному разделу."
 "</span>"
 
 #: modules/core/page.ampusers.php:181
 msgid "ALL SECTIONS"
-msgstr "≤Ѕµ ЅµЇ∆ЄЄ"
+msgstr "¬—≈ —≈ ÷»»"
 
 #: modules/core/page.devices.php:56 modules/core/page.devices.php:83
 #: modules/core/page.devices.php:86
 msgid "Device"
-msgstr "√бваёўбв“ё"
+msgstr "”стройство"
 
 #: modules/core/page.devices.php:67
 msgid "Add a Device"
-msgstr "іё—–“Ўвм гбваёўбв“ё"
+msgstr "ƒобавить устройство"
 
 #: modules/core/page.devices.php:68 modules/core/page.extensions.php:125
 msgid "Select device technology:"
-msgstr "≤л—’аЎв’ яаёвёЏёџ"
+msgstr "¬ыберите протокол"
 
 #: modules/core/page.devices.php:69 modules/core/page.extensions.php:126
 msgid "SIP"
@@ -868,248 +869,240 @@ msgstr "ZAP"
 
 #: modules/core/page.devices.php:72 modules/core/page.extensions.php:129
 msgid "Custom"
-msgstr "іаг”ёў"
+msgstr "ƒругой"
 
 #: modules/core/page.devices.php:84
 msgid "Delete Device"
-msgstr "√‘–џЎвм гбваёўбв“ё"
+msgstr "”далить устройство"
 
 #: modules/core/page.devices.php:99
 msgid "Device ID"
-msgstr "Єі гбваёўбв“–"
+msgstr "»ƒ устройства"
 
 #: modules/core/page.devices.php:108
 msgid "Description"
-msgstr "ЊяЎб–ЁЎ’"
+msgstr "ќписание"
 
 #: modules/core/page.devices.php:108
 msgid ""
 "The caller id name for this device will be set to this description until it "
 "is logged into."
 msgstr ""
-"±г‘’в Ўбяёџм„ё“–вмбп нвё ёяЎб–ЁЎ’ “ Џ–з’бв“’ Ёё№’а– Єі "
-"‘џп нвё”ё гбваёўбв“–, яёЏ– ёЁё Ё’ „–а’”ЎбваЎаг’вбп “ яаёЏбЎ б’а“’а’"
+"Ѕудет использоватьс€ это описание в качестве номера »ƒ "
+"дл€ этого устройства, пока оно не зарегистрируетс€ в прокси сервере"
 
 #: modules/core/page.devices.php:116 modules/core/page.extensions.php:192
 msgid "Emergency CID"
-msgstr "љё№’а Єі нЏбва’ЁЁле бџг÷—"
+msgstr "Ќомер »ƒ экстренных служб"
 
 #: modules/core/page.devices.php:116 modules/core/page.extensions.php:192
 msgid ""
 "This caller id will always be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other caller id settings."
 msgstr ""
-"Ќвёв Ёё№’а Єі —г‘’в гбв–Ё–“џЎ“–вмбп яаЎ „“ёЁЏ–е Ё– Ўбеё‘пйЎ’ №–аиагвл яаё№–аЏЎаё“–Ёл’ "
-"Џ–Џ нЏбва’ЁЁл’. љё№’а Єі нЏбва’ЁЁле бџг÷— я’а’ёяа’‘’џп’в “б’ ёбв–џмЁл’ Ёё№’а– Ў‘"
+"Ётот номер »ƒ будет устанавливатьс€ при звонках на исход€щие маршруты промаркированые "
+"как экстренные. Ќомер »ƒ экстренных служб переопредел€ет все остальные номера ид"
 
 #: modules/core/page.devices.php:123
 msgid "Device Type"
-msgstr "¬Ўя гбваёўбв“–"
+msgstr "“ип устройства"
 
 #: modules/core/page.devices.php:126
 msgid "Fixed"
-msgstr "Ѕв–вЎз’бЏё’"
+msgstr "—татическое"
 
 #: modules/core/page.devices.php:127
 msgid "Adhoc"
-msgstr "њ’аЎё‘Ўз’бЏё’"
+msgstr "ѕериодическое"
 
 #: modules/core/page.devices.php:133
 msgid "Default User"
-msgstr "њёџм„ё“–в’џм яё г№ёџз–ЁЎо"
+msgstr "ѕользователь по умолчанию"
 
 #: modules/core/page.devices.php:136
 msgid "none"
-msgstr "Ё’в"
+msgstr "нет"
 
 #: modules/core/page.devices.php:137
 msgid "New User"
-msgstr "љё“лў яёџм„ё“–в’џм"
+msgstr "Ќовый пользователь"
 
 #: modules/core/page.did.php:47 modules/core/page.did.php:78
 msgid "Add Incoming Route"
-msgstr "іё—–“Ўвм “её‘пйЎў №–аиагв"
+msgstr "ƒобавить вход€щий маршрут"
 
 #: modules/core/page.did.php:53
 msgid "any DID"
-msgstr "џо—ёў DID"
+msgstr "любой DID"
 
 #: modules/core/page.did.php:54
 msgid "any CID"
-msgstr "џо—ёў CID"
+msgstr "любой CID"
 
 #: modules/core/page.did.php:75 modules/core/page.trunks.php:244
 msgid "Route"
-msgstr "Љ–аиагв"
+msgstr "ћаршрут"
 
 #: modules/core/page.did.php:76 modules/core/page.routing.php:258
 msgid "Delete Route"
-msgstr "√ЁЎзвё÷Ўвм №–аиагв"
+msgstr "”ничтожить маршрут"
 
 #: modules/core/page.did.php:87
 msgid "DID Number"
-msgstr "љё№’а DID"
+msgstr "Ќомер DID"
 
 #: modules/core/page.did.php:91
 msgid "Caller ID Number"
-msgstr "љё№’а Єі"
+msgstr "Ќомер »ƒ"
 
 #: modules/core/page.did.php:97
 msgid "Fax Handling"
-msgstr "њаЎ’№ д–Џбё“"
+msgstr "ѕрием факсов"
 
 #: modules/core/page.did.php:100
 msgid "Fax Extension"
-msgstr "≤Ёгва’ЁЁЎў Ёё№’а д–Џб–"
+msgstr "¬нутренний номер факса"
 
 #: modules/core/page.did.php:100
 msgid ""
 "Select 'system' to have the system receive and email faxes.<br><br>The "
-"FreePBX default is defined in General Settings."
+"freePBX default is defined in General Settings."
 msgstr ""
-"≤л—’аЎв’ 'бЎбв’№–' ‘џп –“вё№–вЎз’бЏё”ё яёџгз’ЁЎп д–Џбё“ Ў ‘–џмЁ’и’ў ёвблџЏЎ "
-"яёџгз’ЁЁё”ё Ё– нџ. яёзвг “ “Ў‘’ “џё÷’ЁЎп. <br>ЈЁ–з’ЁЎп яё г№ёџз–ЁЎо ёяа’‘’џ’Ёл "
-"“ 'ЊбЁё“Ёле Ё–бваёўЏ–е'."
+"¬ыберите 'система' дл€ автоматического получени€ факсов и дальнешей отсылки "
+"полученного на эл. почту в виде вложени€. <br>«начени€ по умолчанию определены "
+"в 'ќсновных настройках'."
 
 #: modules/core/page.did.php:114
-msgid "FreePBX default"
-msgstr "ЈЁ–з’ЁЎп яё г№ёџз–ЁЎо"
+msgid "freePBX default"
+msgstr "«начени€ по умолчанию"
 
 #: modules/core/page.did.php:115 modules/core/page.general.php:94
 msgid "disabled"
-msgstr "ёвЏџоз’Ёё"
+msgstr "отключено"
 
 #: modules/core/page.did.php:116 modules/core/page.general.php:95
 msgid "system"
-msgstr "бЎбв’№–"
+msgstr "система"
 
 #: modules/core/page.did.php:131
 msgid "Fax Email"
-msgstr "ƒ–Џб Ё– нџ. яёзвг"
+msgstr "‘акс на эл. почту"
 
 #: modules/core/page.did.php:131
 msgid ""
 "Email address is used if 'system' has been chosen for the fax extension "
 "above.<br><br>Leave this blank to use the AMP default in General Settings."
 msgstr ""
-"∞‘а’б нџ. яёзвл, Џёвёалў Ўбяёџм„г’вбп “ бџгз–пе, ’бџЎ “ли’ “л—а–Ё ягЁЏв 'бЎбв’№–' "
-" ‘џп “Ёгва’ЁЁ’”ё Ёё№’а– д–Џб–<br><br>Њбв–“в’ нвё яёџ’ Ё’„–яёџЁ’ЁЁл№, ’бџЎ еёвЎв’ "
-"Ўбяёџм„ё“–вм „Ё–з’ЁЎп яё г№ёџз–ЁЎо “ 'ЊбЁё“Ёле Ё–бваёўЏ–е'."
-
-#: modules/core/page.did.php:146
-msgid "Privacy"
-msgstr "±’„ёя–бЁёбвм"
-
-#: modules/core/page.did.php:148
-msgid "Privacy Manager"
-msgstr "Љ’Ё’‘÷’а —’„ёя–бЁёбвЎ"
+"јдрес эл. почты, который используетс€ в случа€х, если выше выбран пункт 'система' "
+" дл€ внутреннего номера факса<br><br>ќставте это поле незаполненным, если хотите "
+"использовать значени€ по умолчанию в 'ќсновных настройках'."
 
 #: modules/core/page.did.php:160
 msgid "Options"
-msgstr "ЊяжЎЎ"
+msgstr "ќпции"
 
 #: modules/core/page.did.php:162
 msgid "Immediate Answer"
-msgstr "љ’№’‘џ’ЁЁлў ёв“’в"
+msgstr "Ќемедленный ответ"
 
 #: modules/core/page.did.php:171
 msgid "Pause after answer"
-msgstr "њ–г„– яёбџ’ ёв“’в–"
+msgstr "ѕауза после ответа"
 
 #: modules/core/page.did.php:178
 msgid "Alert Info"
-msgstr "ЄЁдёа№–жЎп ё бЎ”Ё–џ’"
+msgstr "»нформаци€ о сигнале"
 
 #: modules/core/page.did.php:189
 msgid "Set Destination"
-msgstr "√бв–Ёё“Ўвм Ё–яа–“џ’ЁЎ’"
+msgstr "”становить направление"
 
 #: modules/core/page.extensions.php:72 modules/core/page.users.php:64
 #: modules/ringgroups/page.ringgroups.php:58
 msgid "is not allowed for your account"
-msgstr "Ё’ а–„а’и’Ёё ‘џп “–и’”ё яаёдЎџп"
+msgstr "не разрешено дл€ вашего профил€"
 
 #: modules/core/page.extensions.php:113 modules/core/page.extensions.php:142
 #: modules/core/page.extensions.php:145
 msgid "Extension"
-msgstr "≤Ёгва’ЁЁЎў Ёё№’а"
+msgstr "¬нутренний номер"
 
 #: modules/core/page.extensions.php:124
 msgid "Add an Extension"
-msgstr "іё—–“Ўвм “Ёгва’ЁЁЎў Ёё№’а"
+msgstr "ƒобавить внутренний номер"
 
 #: modules/core/page.extensions.php:143
 msgid "Delete Extension"
-msgstr "√‘–џЎвм “Ёгва’ЁЁЎў Ёё№’а"
+msgstr "”далить внутренний номер"
 
 #: modules/core/page.extensions.php:158
 msgid "Extension Number"
-msgstr "≤Ёгва’ЁЁЎў Ёё№’а"
+msgstr "¬нутренний номер"
 
 #: modules/core/page.extensions.php:167 modules/core/page.users.php:139
 msgid "Display Name"
-msgstr "Њвё—а–÷–’№ё’ Ў№п"
+msgstr "ќтображаемое им€"
 
 #: modules/core/page.extensions.php:167
 msgid "The caller id name for this device will be set to this."
-msgstr "±г‘’в Ўбяёџм„ё“–вмбп нвё ёяЎб–ЁЎ’ “ Џ–з’бв“’ Ёё№’а– Єі "
-"‘џп нвё”ё гбваёўбв“–"
+msgstr "Ѕудет использоватьс€ это описание в качестве номера »ƒ "
+"дл€ этого устройства"
 
 
 #: modules/core/page.extensions.php:178
 msgid "Extension Options"
-msgstr "ЊяжЎЎ “Ёгва’ЁЁ’”ё Ёё№’а–"
+msgstr "ќпции внутреннего номера"
 
 #: modules/core/page.extensions.php:184 modules/core/page.users.php:153
 msgid "Outbound CID"
-msgstr "Єбеё‘пйЎў Ёё№’а Єі"
+msgstr "»сход€щий номер »ƒ"
 
 #: modules/core/page.extensions.php:184
 msgid ""
 "Overrides the caller id when dialing out a trunk. Any setting here will "
 "override the common outbound caller id set in the Trunks admin."
-"<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this "
+"<br><br>Format: <b>\"caller name\" <#######></b><br><br>Leave this "
 "field blank to disable the outbound callerid feature for this extension."
 msgstr ""
-"љё№’а Єі Ў”ЁёаЎаг’вбп яаЎ „“ёЁЏ’ з’а’„ ва–ЁЏ. їо—ё’ „Ё–з’ЁЎ’ гбв–Ёё“џ’ЁЁё’ „‘’бм "
-"Ў„№’ЁЎвбп Ё– „Ё–з’ЁЎ’ Ёё№’а– Єі, гбв–Ёё“џ’ЁЁё’ “ а–„‘’џ’ –‘№ЎЁЎбваЎаё“–ЁЎп ва–ЁЏё“."
-"<br><br>ƒёа№–в: <b>\"Ў№п\" &lt;#######&gt;</b><br><br>Њбв–“мв’ нвё яёџ’ ягбвл№, "
-"звё—л Ё’ Ўбяёџм„ё“–вм нвг дгЁЏжЎо."
+"Ќомер »ƒ игнорируетс€ при звонке через транк. Ћюбое значение установленное здесь "
+"изменитс€ на значение номера »ƒ, установленное в разделе администрировани€ транков."
+"<br><br>‘ормат: <b>\"им€\" <#######></b><br><br>ќставьте это поле пустым, "
+"чтобы не использовать эту функцию."
 
 #: modules/core/page.extensions.php:200 modules/core/page.users.php:169
 msgid "Record Incoming"
-msgstr "Ј–яЎбм “её‘пйЎе"
+msgstr "«апись вход€щих"
 
 #: modules/core/page.extensions.php:200 modules/core/page.users.php:169
 msgid "Record all inbound calls received at this extension."
-msgstr "Ј–яЎбл“–вм “б’ “её‘пйЎ’ „“ёЁЏЎ Ё– нвёв “Ёгва’ЁЁЎў Ёё№’а"
+msgstr "«аписывать все вход€щие звонки на этот внутренний номер"
 
 #: modules/core/page.extensions.php:203 modules/core/page.extensions.php:215
 #: modules/core/page.users.php:172 modules/core/page.users.php:184
 msgid "On Demand"
-msgstr "њё „–яаёбг"
+msgstr "ѕо запросу"
 
 #: modules/core/page.extensions.php:204 modules/core/page.extensions.php:216
 #: modules/core/page.users.php:173 modules/core/page.users.php:185
 msgid "Always"
-msgstr "≤б’”‘–"
+msgstr "¬сегда"
 
 #: modules/core/page.extensions.php:205 modules/core/page.extensions.php:217
 #: modules/core/page.users.php:174 modules/core/page.users.php:186
 msgid "Never"
-msgstr "љЎЏё”‘–"
+msgstr "Ќикогда"
 
 #: modules/core/page.extensions.php:212 modules/core/page.users.php:181
 msgid "Record Outgoing"
-msgstr "Ј–яЎбм Ўбеё‘пйЎе"
+msgstr "«апись исход€щих"
 
 #: modules/core/page.extensions.php:212 modules/core/page.users.php:181
 msgid "Record all outbound calls received at this extension."
-msgstr "Ј–яЎбл“–вм “б’ Ўбеё‘пйЎ’ „“ёЁЏЎ б нвё”ё “Ёгва’ЁЁ’”ё Ёё№’а–"
+msgstr "«аписывать все исход€щие звонки с этого внутреннего номера"
 
 #: modules/core/page.extensions.php:224
 msgid "Device Options"
-msgstr "ЊяжЎЎ гбваёўбв“–"
+msgstr "ќпции устройства"
 
 #: modules/core/page.extensions.php:298 modules/core/page.extensions.php:301
 msgid "{$key}"
@@ -1117,11 +1110,11 @@ msgstr "{$key}"
 
 #: modules/core/page.extensions.php:314 modules/core/page.users.php:192
 msgid "Voicemail & Directory:"
-msgstr "≥ёџёбё“–п яёзв– Ў ¬’џ’дёЁЁлў бяа–“ёзЁЎЏ"
+msgstr "√олосова€ почта и “елефонный справочник"
 
 #: modules/core/page.extensions.php:325 modules/core/page.users.php:203
 msgid "voicemail password"
-msgstr "я–аёџм Ё– ”ёџёбё“го яёзвг"
+msgstr "пароль на голосовую почту"
 
 #: modules/core/page.extensions.php:325 modules/core/page.users.php:203
 msgid ""
@@ -1129,53 +1122,53 @@ msgid ""
 "password can only contain numbers.<br><br>A user can change the password you "
 "enter here after logging into the voicemail system (*98) with a phone."
 msgstr ""
-"Ќвё я–аёџм ‘џп ‘ёбвгя– Џ ”ёџёбё“ёў яёзв’.<br><br>њ–аёџм №ё÷’в бёбвёпвм "
-"вёџмЏё Ў„ жЎда.<br><br>њёџм„ё“–в’џм №ё÷’в б№’ЁЎвм гбв–Ёё“џ’ЁЁлў „‘’бм я–аёџм "
-"Ё–—а–“ (*98) бё б“ё’”ё в’џ’дёЁ– яёбџ’ “её‘– “ бЎбв’№г ”ёџёбё“ёў яёзвл."
+"Ёто пароль дл€ доступа к голосовой почте.<br><br>ѕароль может состо€ть "
+"только из цифр.<br><br>ѕользователь может сменить установленный здесь пароль "
+"набрав (*98) со своего телефона после входа в систему голосовой почты."
 
 #: modules/core/page.extensions.php:331 modules/core/page.users.php:209
 msgid "email address"
-msgstr "–‘а’б нџ. яёзвл"
+msgstr "адрес эл. почты"
 
 #: modules/core/page.extensions.php:331 modules/core/page.users.php:209
 msgid "The email address that voicemails are sent to."
-msgstr "∞‘а’б нџ. яёзвл, Ё– Џёвёалў —г‘гв яаЎеё‘Ўвм ”ёџёбё“л’ бёё—й’ЁЎп"
+msgstr "јдрес эл. почты, на который будут приходить голосовые сообщени€"
 
 #: modules/core/page.extensions.php:335 modules/core/page.users.php:213
 msgid "pager email address"
-msgstr "–‘а’б нџ. яёзвл я’ў‘÷’а–"
+msgstr "адрес эл. почты пейджера"
 
 #: modules/core/page.extensions.php:335 modules/core/page.users.php:213
 msgid ""
 "Pager/mobile email address that short voicemail notifcations are sent to."
 msgstr ""
-"∞‘а’б нџ. яёзвл я’ў‘÷’а–/№ё—ЎџмЁё”ё в’џ’дёЁ–, Ё– Џёвёалў —г‘гв ‘ёбв–“џпвмбп "
-"г“’‘ё№џ’ЁЎп ё ”ёџёбё“ле бёё—й’ЁЎпе."
+"јдрес эл. почты пейджера/мобильного телефона, на который будут доставл€тьс€ "
+"уведомлени€ о голосовых сообщени€х."
 
 #: modules/core/page.extensions.php:339 modules/core/page.users.php:217
 msgid "email attachment"
-msgstr "“џё÷’ЁЎп “ нџ. яёзвг"
+msgstr "вложени€ в эл. почту"
 
 #: modules/core/page.extensions.php:339 modules/core/page.users.php:217
 msgid "Option to attach voicemails to email."
-msgstr "ЊяжЎЎ “џё÷’ЁЎў “ нџ. яёзвг"
+msgstr "ќпции вложений в эл. почту"
 
 #: modules/core/page.extensions.php:347 modules/core/page.users.php:225
 msgid "Play CID"
-msgstr "≤ёбяаёЎ„“ё‘Ўвм Ёё№’а Єі"
+msgstr "¬оспроизводить номер »ƒ"
 
 #: modules/core/page.extensions.php:347 modules/core/page.users.php:225
 msgid ""
 "Read back caller's telephone number prior to playing the incoming message, "
 "and just after announcing the date and time the message was left."
 msgstr ""
-"ЅзЎвл“–вм в’џ’дёЁЁлў Ёё№’а –—ёЁ’Ёв– яа’÷‘’ з’№ "
-"“ёбяаёЎ„“’бвЎ “её‘пй’’ бёё—й’ЁЎ’ яёбџ’ бёё—й’ЁЎп ё ‘–в’ "
-"Ў “а’№’ЁЎ яёџгз’ЁЎп бёё—й’ЁЎп"
+"—читывать телефонный номер абонента прежде чем "
+"воспроизвести вход€щее сообщение после сообщени€ о дате "
+"и времени получени€ сообщени€"
 
 #: modules/core/page.extensions.php:355 modules/core/page.users.php:233
 msgid "Play Envelope"
-msgstr "≤ёбяаёЎ„“ё‘Ўвм „–”ёџё“ЏЎ"
+msgstr "¬оспроизводить заголовки"
 
 #: modules/core/page.extensions.php:355 modules/core/page.users.php:233
 msgid ""
@@ -1184,16 +1177,16 @@ msgid ""
 "not affect the operation of the envelope option in the advanced voicemail "
 "menu."
 msgstr ""
-"Єбяёџм„ё“–вм ёяжЎёЁ–џмЁё ‘ёяёџЁЎв’џмЁл’ “ё„№ё÷ЁёбвЎ "
-"“ бёё—й’ЁЎпе ”ёџёбё“ёў яёзвл, Ё–яаЎ№’а “ёбяаёЎ„“ё‘Ўвм "
-"‘–вг Ў “а’№п я’а’‘ “ёбяаёЎ„“’‘’ЁЎ’№ б–№ё”ё бёё—й’ЁЎп. "
-"ЌвЎ гбв–Ёё“ЏЎ Ё’ “џЎпов Ё– ‘ёяёџЁЎв’џмЁл’ “ё„№ё÷ЁёбвЎ "
-"“ а–биЎа’ЁЁё№ №’Ёо ”ёџёбё“ёў яёзвл."
+"»спользовать опционально дополнительные возможности "
+"в сообщени€х голосовой почты, например воспроизводить "
+"дату и врем€ перед воспроизведением самого сообщени€. "
+"Ёти установки не вли€ют на дополнительные возможности "
+"в расширенном меню голосовой почты."
 
 
 #: modules/core/page.extensions.php:363 modules/core/page.users.php:241
 msgid "Delete Vmail"
-msgstr "√‘–џпвм ”ёџёбё“го яёзвг"
+msgstr "”дал€ть голосовую почту"
 
 #: modules/core/page.extensions.php:363 modules/core/page.users.php:241
 msgid ""
@@ -1204,79 +1197,84 @@ msgid ""
 "HAVE attach voicemail to email SET TO YES OTHERWISE YOUR MESSAGES WILL BE "
 "LOST FOREVER."
 msgstr ""
-"µбџЎ нвёв дџ–” гбв–Ёё“џ’Ё “ '‘–' бёё—й’ЁЎ’ —г‘’в г‘–џпвмбп "
-"Ў„ яёзвё“ё”ё пйЎЏ– ”ёџёбё“ёў яёзвл яёбџ’ ‘ёбв–“ЏЎ ’”ё “  "
-"Џ–з’бв“’ “џё÷’ЁЎп нџ’ЏваёЁЁёў яёзвл. Њ—’бя’зЎ“–’в дгЁЏжЎёЁ–џмЁёбвм "
-"яё„“ёџпойго яёџм„ё“–в’џо яёџгз–вм бёё—й’ЁЎп ”ёџёбё“ёў яёзвл яёба’‘бв“ё№ "
-"“џё÷’ЁЎў нџ’ЏваёЁЁёў яёзвл, “№’бвё Ўбяёџм„ё“–ЁЎп “н— ЎЁв’ад’ўб– "
-"ЎџЎ в’џ’дёЁЁё”ё –яя–а–в– ‘џп яаёбџгиЎ“–ЁЎп бёё—й’ЁЎў. Њбвёаё÷Ёё: "
-"љ’ё—её‘Ў№ё гбв–Ёё“Ўвм дџ–÷ёЏ “ '‘–' Ё–  Ўбяёџм„ё“–ЁЎЎ бёё—й’ЁЎп “ "
-"Џ–з’бв“’ “џё÷’ЁЎп “ нџ. яёзвг, ЎЁ–з’ бёё—й’ЁЎп —г‘гв гв’апЁл."
+"≈сли этот флаг установлен в 'да' сообщение будет удал€тьс€ "
+"из почтового €щика голосовой почты после доставки его в  "
+"качестве вложени€ электронной почты. ќбеспечивает функциональность "
+"позвол€ющую пользователю получать сообщени€ голосовой почты посредством "
+"вложений электронной почты, вместо использовани€ вэб интерфейса "
+"или телефонного аппарата дл€ прослушивани€ сообщений. ќсторожно: "
+"Ќеобходимо установить флажок в 'да' на  использовании сообщени€ в "
+"качестве вложени€ в эл. почту, иначе сообщени€ будут утер€ны."
 
 #: modules/core/page.extensions.php:372
 msgid "vm options"
-msgstr "Ё–бваёўЏЎ ”ёџёбё“ёў яёзвл"
+msgstr "настройки голосовой почты"
 
 #: modules/core/page.extensions.php:372 modules/core/page.users.php:250
 msgid "Separate options with pipe ( | )"
-msgstr "ј–„‘’џпўв’ ёяжЎЎ „Ё–Џё№ ( | )"
+msgstr "–аздел€йте опции знаком ( | )"
 
 #: modules/core/page.extensions.php:372
 msgid "ie: review=yes|maxmessage=60"
-msgstr "Џ яаЎ№’аг: review=yes|maxmessage=60"
+msgstr "к примеру: review=yes|maxmessage=60"
 
 #: modules/core/page.extensions.php:376 modules/core/page.users.php:254
 msgid "vm context:"
-msgstr "ЏёЁв’Џбв ”ёџёбё“ёў яёзвл"
+msgstr "контекст голосовой почты"
 
 #: modules/core/page.general.php:58
 msgid "Dialing Options"
-msgstr "ЊяжЎЎ Ё–—ёа–"
+msgstr "ќпции набора"
 
 #: modules/core/page.general.php:60
 msgid "Number of seconds to ring phones before sending callers to voicemail:"
 msgstr ""
-"≤а’№п “ б’ЏгЁ‘–е, “ в’з’ЁЎ’ Џёвёаё’ —г‘гв „“ёЁЎвм в’џ’дёЁл, "
-"яа’÷‘’ з’№ „“ёЁёЏ гў‘’в Ё– ”ёџёбё“го яёзвг"
+"¬рем€ в секундах, в течение которое будут звонить телефоны, "
+"прежде чем звонок уйдет на голосовую почту"
 
 #: modules/core/page.general.php:63
 msgid "Extension prefix for dialing direct to voicemail:"
-msgstr "ња’дЎЏб “Ёгва’ЁЁ’”ё Ёё№’а– ‘џп яёя–‘–ЁЎп Ё’яёба’‘бв“’ЁЁё “ ”ёџёбё“го яёзвг"
+msgstr "ѕрефикс внутреннего номера дл€ попадани€ непосредственно в голосовую почту"
 
 #: modules/core/page.general.php:66
 msgid "Asterisk Dial command options:"
-msgstr "ЊяжЎЎ Џё№–Ё‘л Dial:"
+msgstr "ќпции команды Dial:"
 
 #: modules/core/page.general.php:67
 msgid "t: Allow the called user to transfer the call by hitting #"
-msgstr "t: ј–„а’и–’в яаЎЁЎ№–ой’№г „“ёЁёЏ –—ёЁ’Ёвг я’а’“’бвЎ ’”ё ‘аг”ё№г Ё–÷–вЎ’№ #"
+msgstr "t: –азрешает принимающему звонок абоненту перевести его другому нажатием #"
 
 #: modules/core/page.general.php:68
 msgid "T: Allow the calling user to transfer the call by hitting #"
-msgstr "T: ј–„а’и–’в “л„л“–ой’№г –—ёЁ’Ёвг я’а’“’бвЎ ’”ё ‘аг”ё№г –—ёЁ’Ёвг Ё–÷–вЎ’№ #"
+msgstr "T: –азрешает вызывающему абоненту перевести его другому абоненту нажатием #"
 
 #: modules/core/page.general.php:69
 msgid "r: Generate a ringing tone for the calling party"
-msgstr "r: і–’в бЎ”Ё–џ “л„ё“– ‘џп “л„л“–ой’”ё –—ёЁ’Ёв–"
+msgstr "r: ƒает сигнал вызова дл€ вызывающего абонента"
 
 #: modules/core/page.general.php:70
 msgid ""
 "w: Allow the called user to start recording after pressing *1 (Asterisk v1.2)"
-msgstr "w: ј–„а’и–’в яаЎЁЎ№–ой’№г „“ёЁёЏ –—ёЁ’Ёвг Ё–з–вм „–яЎбм а–„”ё“ёа– Ё–÷–вЎ’№ *1 (Asterisk v1.2)"
+msgstr "w: –азрешает принимающему звонок абоненту начать запись разговора нажатием *1 (Asterisk v1.2)"
 
 #: modules/core/page.general.php:71
 msgid ""
 "W: Allow the calling user to start recording after pressing *1 (Asterisk "
 "v1.2)"
-msgstr "W: ј–„а’и–’в “л„л“–ой’№г –—ёЁ’Ёвг Ё–з–вм „–яЎбм а–„”ё“ёа– Ё–÷–вЎ’№ *1 (Asterisk v1.2)"
+msgstr "W: –азрешает вызывающему абоненту начать запись разговора нажатием *1 (Asterisk v1.2)"
 
 #: modules/core/page.general.php:76 modules/core/page.general.php:78
 msgid "Company Directory"
-msgstr "¬’џ’дёЁЁ–п ЏЁЎ”– Џё№я–ЁЎЎ"
+msgstr "“елефонна€ книга компании"
+
+
+#: page.general.php:117
+msgid "Find users in the Company Directory by:"
+msgstr "Ќайти пользовател€ в “елефонной книге компании"
 
 #: modules/core/page.general.php:78
 msgid "Find users in the"
-msgstr "љ–ўвЎ яёџм„ё“–в’џп “"
+msgstr "Ќайти пользовател€ в"
 
 #: modules/core/page.general.php:79
 msgid ""
@@ -1284,117 +1282,135 @@ msgid ""
 "access the Company Directory.<br><br>Internal extensions can dial *411 to "
 "access the Company Directory."
 msgstr ""
-"њё„“ёЁЎ“иЎ’ Ё– “её‘пй’’ бёё—й’ЁЎ’ нџ’ЏваёЁЁё”ё б’Џа’в–ап №ё”гв ‘ёЁ–—а–вм „Ё–Џ а’и’вЏЎ (#) "
-"звё—л яёя–бвм “ в’џ’дёЁЁго ЏЁЎ”г Џё№я–ЁЎЎ.<br><br>≤Ёгва’ЁЁЎ’ яёџм„ё“–в’џЎ ‘ё„“–ЁЎ“–овбп "
-"‘ё в’џ’дёЁЁёў ЏЁЎ”Ў Џё№я–ЁЎЎ яё Ёё№’аг *411."
+"ѕозвонившие на вход€щее сообщение электронного секретар€ могут донабрать знак решетки (#) "
+"чтобы попасть в телефонную книгу компании.<br><br>¬нутренние пользователи дозваниваютс€ "
+"до телефонной книги компании по номеру *411."
 
 #: modules/core/page.general.php:79
 msgid "by:"
-msgstr "яё:"
+msgstr "по:"
 
 #: modules/core/page.general.php:81
 msgid "first name"
-msgstr "Ў№п"
+msgstr "им€"
 
 #: modules/core/page.general.php:82
 msgid "last name"
-msgstr "д–№ЎџЎп"
+msgstr "фамили€"
 
 #: modules/core/page.general.php:83
 msgid "first or last name"
-msgstr "Ў№п ЎџЎ д–№ЎџЎп"
+msgstr "им€ или фамили€"
 
 #: modules/core/page.general.php:86
 msgid "Play extension number"
-msgstr "њаёЎ”ал“–вм “Ёгва’ЁЁЎў Ёё№’а"
+msgstr "ѕроигрывать внутренний номер"
 
 #: modules/core/page.general.php:86
 msgid ""
 "Plays a message \"Please hold while I transfer you to extension xxx\" that "
 "lets the caller know what extension to use in the future."
 msgstr ""
-"њаёЎ”ал“–’в бёё—й’ЁЎ’ \"њё÷–џгўбв–, ёбв–“–ўв’бм Ё– џЎЁЎЎ. њаёЎбеё‘Ўв "
-"я’а’Ё–яа–“џ’ЁЎ’ “–и’”ё „“ёЁЏ– Ё– “Ёгва’ЁЁЎў Ёё№’а xxx\", звё яё„“ёџп’в „“ёЁпй’№г "
-"“ ‘–џмЁ’ўи’№ ‘ё„“–ЁЎ“–вмбп Ё’яёба’‘бв“’ЁЁё Ё– ЎЁв’а’бгойЎў ’”ё Ёё№’а."
+"ѕроигрывает сообщение \"ѕожалуйста, оставайтесь на линии. ѕроисходит "
+"перенаправление вашего звонка на внутренний номер xxx\", что позвол€ет звон€щему "
+"в дальнейшем дозваниватьс€ непосредственно на интересующий его номер."
 
 #: modules/core/page.general.php:86
 msgid "to caller before transferring call"
-msgstr "„“ёЁпй’№г я’а’‘ я’а’Ё–яа–“џ’ЁЎ’№ „“ёЁЏ–"
+msgstr "звон€щему перед перенаправлением звонка"
+
+#: page.general.php:125
+msgid "Operator Extension:"
+msgstr "¬нутренний номер ќператора"
+
+#: page.general.php:126
+msgid ""
+"When users hit '0' in the directory, they are put through to this number. "
+"Note that it"
+msgstr "≈сли пользователь нажмЄт '0' в директории, "
+"«аметьте, что это"
+
+#: page.general.php:127
+msgid ""
+" does NOT need to be an extension, it can be a Ring Group, or even an "
+"external number."
+msgstr " может быть совсем не об€зательно внутренний номер, а, например, "
+"√руппа ¬ызова, или даже какой-то внешний номер."
 
 #: modules/core/page.general.php:89
 msgid "Fax Machine"
-msgstr "ƒ–Џб –яя–а–в"
+msgstr "‘акс аппарат"
 
 #: modules/core/page.general.php:91
 msgid "Extension of"
-msgstr "≤Ёгва’ЁЁЎў Ёё№’а"
+msgstr "¬нутренний номер"
 
 #: modules/core/page.general.php:91
 msgid "fax machine"
-msgstr "д–Џб –яя–а–в"
+msgstr "факс аппарат"
 
 #: modules/core/page.general.php:91
 msgid ""
 "Select 'system' to have the system receive and email faxes.<br>Selecting "
 "'disabled' will result in incoming calls being answered more quickly."
 msgstr ""
-"≤л—’аЎв’ 'бЎбв’№–' ‘џп –“вё№–вЎз’бЏё”ё яёџгз’ЁЎп д–Џбё“ Ў ‘–џмЁ’ўи’ў ёвблџЏЎ "
-"яёџгз’ЁЁё”ё Ё– нџ. яёзвг “ “Ў‘’ “џё÷’ЁЎп. <br>≤л—’аЎв’ 'ёвЏџоз’Ёё' ‘џп "
-"бЏёа’ўи’”ё яёџгз’ЁЎп “её‘пйЎе „“ёЁЏё“."
+"¬ыберите 'система' дл€ автоматического получени€ факсов и дальнейшей отсылки "
+"полученного на эл. почту в виде вложени€. <br>¬ыберите 'отключено' дл€ "
+"скорейшего получени€ вход€щих звонков."
 
 #: modules/core/page.general.php:91
 msgid "for receiving faxes:"
-msgstr "‘џп яёџгз’ЁЎп д–Џбё“:"
+msgstr "дл€ получени€ факсов:"
 
 #: modules/core/page.general.php:109
 msgid "Email address"
-msgstr "∞‘а’б нџ. яёзвл"
+msgstr "јдрес эл. почты"
 
 #: modules/core/page.general.php:109
 msgid ""
 "Email address used if 'system' has been chosen for the fax extension above."
 msgstr ""
-"∞‘а’б нџ. яёзвл, Ё– Џёвёалў —г‘гв яаЎеё‘Ўвм д–Џбл, ’бџЎ “ли’ “л—а–Ё– ёяжЎп 'бЎбв’№–'."
+"јдрес эл. почты, на который будут приходить факсы, если выше выбрана опци€ 'система'."
 
 #: modules/core/page.general.php:109
 msgid "to have faxes emailed to:"
-msgstr "Ё– Џёвёалў —г‘гв яёблџ–вмбп д–Џбл:"
+msgstr "на который будут посылатьс€ факсы:"
 
 #: modules/core/page.routing.php:119
 msgid "Error renaming route: duplicate name"
-msgstr "ЊиЎ—Џ– “ я’а’Ў№’Ёё“–ЁЎЎ №–аиагв–: ‘г—џЎЏ–жЎп Ё–„“–ЁЎп"
+msgstr "ќшибка в переименовании маршрута: дубликаци€ названи€"
 
 #: modules/core/page.routing.php:156 modules/core/page.trunks.php:120
 msgid "Error fetching prefix list for: "
-msgstr "ЊиЎ—Џ– “л„ё“– бяЎбЏ– яа’дЎЏбё“ ‘џп:"
+msgstr "ќшибка вызова списка префиксов дл€:"
 
 #: modules/core/page.routing.php:161 modules/core/page.trunks.php:125
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
-msgstr "љ’“’аЁлў дёа№–в NPA-NXX (‘ёџ÷’Ё —лвм NXXNXX) "
+msgstr "Ќеверный формат NPA-NXX (должен быть NXXNXX) "
 
 #: modules/core/page.routing.php:191 modules/core/page.routing.php:248
 msgid "Add Route"
-msgstr "іё—–“Ўвм №–аиагв"
+msgstr "ƒобавить маршрут"
 
 #: modules/core/page.routing.php:246
 msgid "Edit Route"
-msgstr "ј’‘–ЏвЎаё“–вм №–аиагв"
+msgstr "–едактировать маршрут"
 
 #: modules/core/page.routing.php:268
 msgid "Route Name"
-msgstr "љ–„“–ЁЎ’ №–аиагв–"
+msgstr "Ќазвание маршрута"
 
 #: modules/core/page.routing.php:268
 msgid ""
 "Name of this route. Should be used to describe what type of calls this route "
 "matches (for example, 'local' or 'longdistance')."
 msgstr ""
-"љ–„“–ЁЎ’ №–аиагв–. ј’Џё№’Ё‘г’вбп Ўбяёџм„ё“–вм ‘џп гЏ–„–ЁЎп вЎя– "
-"№–аиагв–, Џг‘– ёЁ “’‘’в (Ё–яаЎ№’а - 'џёЏ–џмЁл’', ЎџЎ '№’÷”ёаё‘')."
+"Ќазвание маршрута. –екомендуетс€ использовать дл€ указани€ типа "
+"маршрута, куда он ведет (например - 'локальные', или 'межгород')."
 
 #: modules/core/page.routing.php:296
 msgid "Route Password"
-msgstr "њ–аёџм Ё– №–аиагв"
+msgstr "ѕароль на маршрут"
 
 #: modules/core/page.routing.php:296
 msgid ""
@@ -1404,14 +1420,14 @@ msgid ""
 "an Authenticate password file can be used.<br><br>Leave this field blank to "
 "not prompt for password.</span>"
 msgstr ""
-"ЊяжЎёЁ–џмЁё: Љ–аиагв №ё÷’в яа’‘џё÷Ўвм яёџм„ё“–в’џо Ё–—а–вм "
-"я–аёџм яа’÷‘’ з’№ б‘’џ–вм ‘ё„“ёЁ. Ќвё ё”а–ЁЎз’ЁЎ’ ё—лзЁё бв–“пв Ё– "
-"№’÷‘гЁ–аё‘Ёл’ Ё–яа–“џ’ЁЎп, ЎџЎ яџ–вЁл’ +1-900 Ёё№’а–.<br><br>Њбв–“мв’ нвё "
-"яёџ’ Ё’„–яёџЁЁ’Ёл№, ’бџЎ Ё’ еёвЎв’ ““ё‘Ўвм ё”а–ЁЎз’ЁЎп."
+"ќпционально: ћаршрут может предложить пользователю набрать "
+"пароль прежде чем сделать дозвон. Ёто ограничение обычно став€т на "
+"международные направлени€, или платные +1-900 номера.<br><br>ќставьте это "
+"поле незаполненым, если не хотите вводить ограничени€."
 
 #: modules/core/page.routing.php:300
 msgid "Emergency Dialing"
-msgstr "ЌЏбва’ЁЁл’ „“ёЁЏЎ"
+msgstr "Ёкстренные звонки"
 
 #: modules/core/page.routing.php:300
 msgid ""
@@ -1419,49 +1435,49 @@ msgid ""
 "CID setting (if set).  Select this option if this set of routes is used for "
 "emergency dialing (ie: 911).</span>"
 msgstr ""
-"љ’ ё—п„–в’џмЁлў я–а–№’ва: ≤л—ёа нвё”ё ягЁЏв– яё“џ’з’в „– бё—ёў Ўбяёџм„ё“–ЁЎ’ "
-"Ё–бваё’Џ Ёё№’а– Єі нЏбва’ЁЁле бџг÷— (’бџЎ ёЁЎ „–‘–Ёл). ≤л—’аЎв’ нвёв ягЁЏв "
-"’бџЎ нвёв Ё–—ёа №–аиагвё“ Ўбяёџм„г’вбп ‘џп „“ёЁЏё“ Ё– Ёё№’а– нЏбва’ЁЁёў яё№ёйЎ "
-"(Џ яаЎ№’аг 911)."
+"Ќе об€зательный параметр: ¬ыбор этого пункта повлечет за собой использование "
+"настроек номера »ƒ экстренных служб (если они заданы). ¬ыберите этот пункт "
+"если этот набор маршрутов используетс€ дл€ звонков на номера экстренной помощи "
+"(к примеру 911)."
 
 #: modules/core/page.routing.php:306
 msgid "Dial Patterns"
-msgstr "»–—џёЁ Ёё№’а–"
+msgstr "Ўаблон номера"
 
 #: modules/core/page.routing.php:306
 msgid ""
 "A Dial Pattern is a unique set of digits that will select this trunk. Enter "
 "one dial pattern per line."
 msgstr ""
-"»–—џёЁ Ёё№’а– - Ё–—ёа жЎда Ў бЎ№“ёџё“, яё Џёвёаё№г —г‘’в “л—а–Ё "
-"ва–ЁЏ. ≤“ё‘Ўв’ яё ё‘Ёё№г и–—џёЁг Ё– бваёЏг"
+"Ўаблон номера - набор цифр и символов, по которому будет выбран "
+"транк. ¬водите по одному шаблону на строку"
 
 #: modules/core/page.routing.php:306 modules/core/page.trunks.php:312
 msgid "Rules:"
-msgstr "ња–“Ўџ–:"
+msgstr "ѕравила:"
 
 #: modules/core/page.routing.php:307 modules/core/page.trunks.php:313
 msgid "matches any digit from 0-9"
-msgstr "бё“я–‘’ЁЎ’ џо—ёў жЎдал ёв 0 - 9"
+msgstr "совпадение любой цифры от 0 - 9"
 
 #: modules/core/page.routing.php:308
 msgid "matches any digit form 1-9"
-msgstr "бё“я–‘’ЁЎ’ џо—ёў жЎдал ёв 1 - 9"
+msgstr "совпадение любой цифры от 1 - 9"
 
 #: modules/core/page.routing.php:309 modules/core/page.trunks.php:315
 msgid "matches any digit from 2-9"
-msgstr "бё“я–‘’ЁЎ’ џо—ёў жЎдал ёв 2 - 9"
+msgstr "совпадение любой цифры от 2 - 9"
 
 #: modules/core/page.routing.php:310 modules/core/page.trunks.php:316
 msgid ""
 "matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
 msgstr ""
-"бё“я–‘’ЁЎ’ џо—ёў жЎдал ЎџЎ —гЏ“л “ бЏё—Џ–е (“ яаЎ“’‘’ЁЁё№ "
-"яаЎ№’а’ 1,2,3,7,8,9)"
+"совпадение любой цифры или буквы в скобках (в приведенном "
+"примере 1,2,3,7,8,9)"
 
 #: modules/core/page.routing.php:311
 msgid "wildcard, matches one or more characters"
-msgstr "≥агяяё“ёў бЎ№“ёџ, „–№’Ёп’в ё‘ЎЁ ЎџЎ Ё’бЏёџмЏё бЎ№“ёџё“"
+msgstr "√рупповой символ, замен€ет один или несколько символов"
 
 #: modules/core/page.routing.php:312
 msgid ""
@@ -1469,13 +1485,13 @@ msgid ""
 "match when some dialed \"95551234\" but would only pass \"5551234\" to the "
 "trunks)"
 msgstr ""
-"ёв‘’џп’в Ё–—а–ЁЁлў яа’дЎЏб ёв Ёё№’а– (Ё–яаЎ№’а, 9|NXXXXXX ё„Ё–з–’в, "
-"звё Ё–—а–ЁЁлў Ёё№’а '95551234' —г‘’в №ё‘ЎдЎжЎаё“–Ё “ '5551234' Ў “ в–Џё№ "
-"“Ў‘’ Ё–яа–“џ’Ё “ ва–ЁЏ"
+"отдел€ет набранный префикс от номера (например, 9|NXXXXXX означает, "
+"что набранный номер '95551234' будет модифицирован в '5551234' и в таком "
+"виде направлен в транк"
 
 #: modules/core/page.routing.php:353
 msgid "Insert:"
-msgstr "≤бв–“Џ–:"
+msgstr "¬ставка:"
 
 #: modules/core/page.routing.php:363 modules/core/page.trunks.php:351
 #, c-format
@@ -1485,14 +1501,14 @@ msgid ""
 "will still have the option of modifying results.)\\n\\nThis may take a few "
 "seconds."
 msgstr ""
-"Ї–Џёў Џё‘ “–и’ў ё—џ–бвЎ + яа’дЎЏб (NPA-NXX)?\\n\\n(ња’‘гяа’÷‘’ЁЎ’: "
-"‘–ЁЁ–п —–„– ‘–ЁЁле бё‘’а÷Ўв вёџмЏё Ёё№’а– Ѕ»∞ Ў Ї–Ё–‘л, Ў Ё’ "
-"”–а–ЁвЎаг’в 100% вёзЁёбвЎ. ≤л Ў№’’в’ “ё„№ё÷Ёёбвм Ў„№’ЁЎвм а’„гџмв–вл.)"
-"\\n\\nЌвё №ё÷’в „–Ёпвм Ё’бЏёџмЏё б’ЏгЁ‘"
+" акой код вашей области + префикс (NPA-NXX)?\\n\\n(ѕредупреждение: "
+"данна€ база данных содержит только номера —Ўј и  анады, и не "
+"гарантирует 100% точности. ¬ы имеете возможность изменить результаты.)"
+"\\n\\nЁто может зан€ть несколько секунд"
 
 #: modules/core/page.routing.php:365 modules/core/page.trunks.php:353
 msgid "Invalid NPA-NXX. Must be of the format 'NXX-NXX'"
-msgstr "љ’“’аЁлў Џё‘ NPA-NXX. іёџ÷’Ё —лвм “ дёа№–в’'NXX-NXX' "
+msgstr "Ќеверный код NPA-NXX. ƒолжен быть в формате'NXX-NXX' "
 
 #: modules/core/page.routing.php:373 modules/core/page.trunks.php:361
 msgid ""
@@ -1500,50 +1516,50 @@ msgid ""
 "the server. Please install or enable cURL support in your PHP installation "
 "to use this function. See http://www.php.net/curl for more information."
 msgstr ""
-"ЊиЎ—Џ–: љ’џм„п яаё‘ёџ÷Ўвм! \\n\\n іџп яёЎбЏ– яа’дЎЏб– ва’—г’вбп яё‘‘’а÷Џ– "
-"дгЁЏжЎў cURL “ PHP  Ё– б’а“’а’. њё÷–џгўбв– ЎЁбв–џџЎагўв’  ЎџЎ „–‘’ўбв“гўв’ "
-"яё‘‘’а÷Џг cURL “ ЎЁбв–џџпжЎЎ “–и’”ё јљј ‘џп Ўбяёџм„ё“–ЁЎп нвёў “ё„№ё÷ЁёбвЎ. "
-"Ѕ№. http://www.php.net/curl ‘џп ЎЁбвагЏжЎў."
+"ќшибка: Ќельз€ продолжить! \\n\\n ƒл€ поиска префикса требуетс€ поддержка "
+"функций cURL в PHP  на сервере. ѕожалуйста инсталлируйте  или задействуйте "
+"поддержку cURL в инсталл€ции вашего –Ќ– дл€ использовани€ этой возможности. "
+"—м. http://www.php.net/curl дл€ инструкций."
 
 #: modules/core/page.routing.php:430
 msgid "Pick pre-defined patterns"
-msgstr "≤л—’аЎв’ яа’‘гбв–Ёё“џ’ЁЁл’ и–—џёЁл"
+msgstr "¬ыберите предустановленные шаблоны"
 
 #: modules/core/page.routing.php:431
 msgid "Local 7 digit"
-msgstr "їёЏ–џмЁл’ 7 жЎда"
+msgstr "Ћокальные 7 цифр"
 
 #: modules/core/page.routing.php:432
 msgid "Local 7/10 digit"
-msgstr "їёЏ–џмЁл’ 7/10 жЎда"
+msgstr "Ћокальные 7/10 цифр"
 
 #: modules/core/page.routing.php:433
 msgid "Toll-free"
-msgstr "±’бяџ–вЁл’"
+msgstr "Ѕесплатные"
 
 #: modules/core/page.routing.php:434
 msgid "Long-distance"
-msgstr "Љ’÷‘г”ёаё‘Ёл’"
+msgstr "ћеждугородные"
 
 #: modules/core/page.routing.php:435
 msgid "International"
-msgstr "Љ’÷‘гЁ–аё‘Ёл’"
+msgstr "ћеждународные"
 
 #: modules/core/page.routing.php:436
 msgid "Information"
-msgstr "ЄЁдёа№–жЎёЁЁл’"
+msgstr "»нформационные"
 
 #: modules/core/page.routing.php:437
 msgid "Emergency"
-msgstr "ЌЏбва’ЁЁл’"
+msgstr "Ёкстренные"
 
 #: modules/core/page.routing.php:438
 msgid "Lookup local prefixes"
-msgstr "њаёб№ёва џёЏ–џмЁле яа’дЎЏбё“"
+msgstr "ѕросмотр локальных префиксов"
 
 #: modules/core/page.routing.php:445
 msgid "Trunk Sequence"
-msgstr "њёбџ’‘ё“–в’џмЁёбвм “л—ёа– ва–ЁЏ–"
+msgstr "ѕоследовательность выбора транка"
 
 #: modules/core/page.routing.php:445
 msgid ""
@@ -1553,103 +1569,103 @@ msgid ""
 "long distance (ie, VoIP trunks first) followed by more expensive routes "
 "(POTS lines)."
 msgstr ""
-"њёбџ’‘ё“–в’џмЁёбвм “л—ёа– ва–ЁЏ– ‘–’в яёап‘ёЏ я’а’—ёа– ва–ЁЏё“, "
-"яё‘ и–—џёЁ Џёвёале яёя–‘–’в Ё–—а–ЁЁлў Ёё№’а. <br><br>љ–яаЎ№’а, яаЎ Ё–—ёа’ "
-"№’÷‘г”ёаё‘Ё’”ё Ёё№’а– “л Ё–яа–“џп’в’ ’”ё “ я’а“го ёз’а’‘м яё —ёџ’’ "
-"‘’и’“ё№г №–аиагвг (VoIP ва–ЁЏ), „–в’№ яё —ёџ’’ ‘ёаё”Ў№ (џЎЁЎЎ ¬ƒЊњ)."
+"ѕоследовательность выбора транка дает пор€док перебора транков, "
+"под шаблон которых попадает набранный номер. <br><br>Ќапример, при наборе "
+"междугороднего номера вы направл€ете его в первую очередь по более "
+"дешевому маршруту (VoIP транк), затем по более дорогим (линии “‘ќѕ)."
 
 #: modules/core/page.trunks.php:153
 msgid "Add Trunk"
-msgstr "іё—–“Ўвм ва–ЁЏ"
+msgstr "ƒобавить транк"
 
 #: modules/core/page.trunks.php:160
 msgid "Trunk"
-msgstr "¬а–ЁЏ"
+msgstr "“ранк"
 
 #: modules/core/page.trunks.php:172
 msgid "Add a Trunk"
-msgstr "іё—–“Ўвм ва–ЁЏ"
+msgstr "ƒобавить транк"
 
 #: modules/core/page.trunks.php:173
 msgid "Add ZAP Trunk"
-msgstr "іё—–“Ўвм ZAP ва–ЁЏ"
+msgstr "ƒобавить ZAP транк"
 
 #: modules/core/page.trunks.php:174
 msgid "Add IAX2 Trunk"
-msgstr "іё—–“Ўвм IAX2 ва–ЁЏ"
+msgstr "ƒобавить IAX2 транк"
 
 #: modules/core/page.trunks.php:175
 msgid "Add SIP Trunk"
-msgstr "іё—–“Ўвм SIP ва–ЁЏ"
+msgstr "ƒобавить SIP транк"
 
 #: modules/core/page.trunks.php:176
 msgid "Add ENUM Trunk"
-msgstr "іё—–“Ўвм ENUM ва–ЁЏ"
+msgstr "ƒобавить ENUM транк"
 
 #: modules/core/page.trunks.php:177
 msgid "Add Custom Trunk"
-msgstr "іё—–“Ўвм бя’жЎ–џмЁлў ва–ЁЏ"
+msgstr "ƒобавить специальный транк"
 
 #: modules/core/page.trunks.php:233
 #, c-format
 msgid "Edit %s Trunk"
-msgstr "ј’‘–ЏвЎаё“–вм %s ва–ЁЏ"
+msgstr "–едактировать %s транк"
 
 #: modules/core/page.trunks.php:235
 msgid "Delete Trunk"
-msgstr "√‘–џЎвм ва–ЁЏ"
+msgstr "”далить транк"
 
 #: modules/core/page.trunks.php:242
 msgid "In use by"
-msgstr "Єбяёџм„г’вбп"
+msgstr "»спользуетс€"
 
 #: modules/core/page.trunks.php:242
 msgid "route"
-msgstr "№–аиагв"
+msgstr "маршрут"
 
 #: modules/core/page.trunks.php:242
 msgid "routes"
-msgstr "№–аиагвл"
+msgstr "маршруты"
 
 #: modules/core/page.trunks.php:244
 msgid "Sequence"
-msgstr "њёбџ’‘ё“–в’џмЁёбвм"
+msgstr "ѕоследовательность"
 
 #: modules/core/page.trunks.php:248
 msgid "WARNING:"
-msgstr "ЊЅ¬ЊјЊґљЊ:"
+msgstr "ќ—“ќ–ќ∆Ќќ:"
 
 #: modules/core/page.trunks.php:248
 msgid "This trunk is not used by any routes!"
-msgstr "Ќвёв ва–ЁЏ Ё’ Ўбяёџм„г’вбп ЁЎЏ–ЏЎ№Ў №–аиагв–№Ў!"
+msgstr "Ётот транк не используетс€ никакими маршрутами!"
 
 #: modules/core/page.trunks.php:249
 msgid ""
 "This trunk will not be able to be used for outbound calls until a route is "
 "setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
 msgstr ""
-"Ќвёв ва–ЁЏ Ё’ №ё÷’в Ўбяёџм„ё“–вмбп ‘џп бё’‘ЎЁ’ЁЎў, "
-"яёЏ– Ё’ —г‘’в „–‘’ўбв“ё“–Ё “ ё‘Ёё№ Ў„ №–аиагвё“. ЇџЎЏЁЎв’ "
-"Ё– <b>Єбеё‘пй–п №–аиагвЎ„–жЎп<b> ‘џп Ё–бваёўЏЎ №–аиагвё“."
+"Ётот транк не может использоватьс€ дл€ соединений, "
+"пока не будет задействован в одном из маршрутов.  ликните "
+"на <b>»сход€ща€ маршрутизаци€<b> дл€ настройки маршрутов."
 
 #: modules/core/page.trunks.php:293
 msgid "Outbound Caller ID"
-msgstr "Єбеё‘пйЎў Єі Ёё№’а"
+msgstr "»сход€щий »ƒ номер"
 
 #: modules/core/page.trunks.php:293
 msgid ""
 "Setting this option will override all clients' caller IDs for calls placed "
-"out this trunk<br><br>Format: <b>\"caller name\" &lt;#######&gt;</br></b>"
+"out this trunk<br><br>Format: <b>\"caller name\" <#######></br></b>"
 "<br><br>Leave this field blank to simply pass client caller IDs."
 msgstr ""
-"√бв–Ёё“Џ– нвёў ёяжЎЎ я’а’яЎбл“–’в „Ё–з’ЁЎ’ Єі Ўбеё‘пй’”ё "
-"Ёё№’а– ‘џп “б’е ‘џп “б’е –—ёЁ’Ёвё“, Ўбяёџм„гойЎе нвёв ва–ЁЏ. ƒёа№–в:"
-"<b>\"Є№п яёџм„ё“–в’џп\" &lt;#######&gt;</b><br><br>Њбв–“мв’ яёџ’ ягбвл№, ’бџЎ Ё’ "
-"еёвЎв’ Ў„№’Ёпвм нвё „Ё–з’ЁЎ’"
+"”становка этой опции переписывает значение »ƒ исход€щего "
+"номера дл€ всех дл€ всех абонентов, использующих этот транк. ‘ормат:"
+"<b>\"»м€ пользовател€\" <#######></b><br><br>ќставьте поле пустым, если не "
+"хотите измен€ть это значение"
 
 #: modules/core/page.trunks.php:300
 msgid "Maximum channels"
-msgstr "Љ–ЏбЎ№–џмЁё Џ–Ё–џё“"
+msgstr "ћаксимально каналов"
 
 #: modules/core/page.trunks.php:300
 msgid ""
@@ -1657,17 +1673,17 @@ msgid ""
 "used on this trunk, including both incoming and outgoing calls. Leave blank "
 "to specify no maximum."
 msgstr ""
-"√яа–“џп’в №–ЏбЎ№–џмЁл№ ЏёџЎз’бв“ё№ Џ–Ё–џё“ (ё‘Ёё“а’№’ЁЁле бё’‘ЎЁ’ЁЎў) "
-"Џёвёал’ —г‘гв Ўбяёџм„ё“–вмбп нвЎ№ ва–ЁЏё№, “Џџоз–п “её‘пйЎ’ Ў Ўбеё‘пйЎ’ "
-"„“ёЁЏЎ. Њбв–“мв’ нвё яёџ’ ягбвл№, звё—л Ўбяёџм„ё“–вм №–ЏбЎ№г№ “ё„№ё÷Ёле."
+"”правл€ет максимальным количеством каналов (одновременных соединений) "
+"которые будут использоватьс€ этим транком, включа€ вход€щие и исход€щие "
+"звонки. ќставьте это поле пустым, чтобы использовать максимум возможных."
 
 #: modules/core/page.trunks.php:307
 msgid "Outgoing Dial Rules"
-msgstr "ња–“Ўџ– Ё–—ёа– ‘џп Ўбеё‘пйЎе"
+msgstr "ѕравила набора дл€ исход€щих"
 
 #: modules/core/page.trunks.php:312
 msgid "Dial Rules"
-msgstr "ња–“Ўџ– Ё–—ёа–"
+msgstr "ѕравила набора"
 
 #: modules/core/page.trunks.php:312
 msgid ""
@@ -1676,18 +1692,18 @@ msgid ""
 "here will be dialed as-is. Note that a pattern without a + or | (to add or "
 "remove a prefix) is useless."
 msgstr ""
-"ња–“Ўџ– Ё–—ёа– ЏёЁваёџЎагов Џ–Џ „“ёЁЏЎ —г‘гв Ё–—Ўа–вмбп з’а’„ ва–ЁЏ. "
-"Љё÷Ёё ‘ё—–“џпвм Ў г—Ўа–вм яа’дЎЏбл. љё№’а–, Ё’ яёя–‘–ойЎ’ “ и–—џёЁл, "
-"ёяа’‘’џ’ЁЁл’ ЁЎ÷’, —г‘гв Ё–—Ўа–вмбп в–Џ Џ–Џ ’бвм.  »–—џёЁл —’„ + ЎџЎ | "
-"(‘ё—–“Ўвм/г—а–вм яа’дЎЏб) Ё’ Ўбяёџм„говбп."
+"ѕравила набора контролируют как звонки будут набиратьс€ через транк. "
+"ћожно добавл€ть и убирать префиксы. Ќомера, не попадающие в шаблоны, "
+"определенные ниже, будут набиратьс€ так как есть.  Ўаблоны без + или | "
+"(добавить/убрать префикс) не используютс€."
 
 #: modules/core/page.trunks.php:314
 msgid "matches any digit from 1-9"
-msgstr "џо—–п жЎда– ёв 1  ‘ё 9"
+msgstr "люба€ цифра от 1  до 9"
 
 #: modules/core/page.trunks.php:317
 msgid "wildcard, matches one or more characters (not allowed before a | or +)"
-msgstr "џо—ёў ё‘ЎЁ ЎџЎ —ёџ’’ бЎ№“ёџё“ (Ё’ а–„а’и–’вбп я’а’‘ | ЎџЎ +)"
+msgstr "любой один или более символов (не разрешаетс€ перед | или +)"
 
 #: modules/core/page.trunks.php:318
 msgid ""
@@ -1695,48 +1711,48 @@ msgid ""
 "match when some dialed \"6135551234\" but would only pass \"5551234\" to the "
 "trunk)"
 msgstr ""
-"г—Ўа–вм яа’дЎЏб Ў„ Ёё№’а– ( Џ яаЎ№’аг, ’бџЎ яё и–—џёЁг '613|NXXXXXX' "
-"Џвё-вё Ё–—’а’в '6135551234' Ў я–аёџм, „“ёЁёЏ Ё– '5551234'  яёў‘’в з’а’„ ва–ЁЏ"  
+"убирать префикс из номера ( к примеру, если по шаблону '613|NXXXXXX' "
+"кто-то наберет '6135551234' и пароль, звонок на '5551234'  пойдет через транк"  
 
 #: modules/core/page.trunks.php:319
 msgid ""
 "adds a dialing prefix from the number (for example, 1613+NXXXXXX would match "
 "when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)"
 msgstr ""
-"‘ё—–“џпвм яёџЁлў яа’дЎЏб Џ Ёё№’аг ( Џ яаЎ№’аг, ’бџЎ яё и–—џёЁг '1613+NXXXXXX' "
-"Џвё-вё Ё–—’а’в '5551234' Ў я–аёџм, „“ёЁёЏ Ё– '16135551234'  яёў‘’в з’а’„ ва–ЁЏ"  
+"добавл€ть полный префикс к номеру ( к примеру, если по шаблону '1613+NXXXXXX' "
+"кто-то наберет '5551234' и пароль, звонок на '16135551234'  пойдет через транк"  
 
 #: modules/core/page.trunks.php:329
 msgid "Dial rules wizards"
-msgstr "Ѕё„‘–вм яа–“Ўџ– Ё–—ёа–"
+msgstr "—оздать правила набора"
 
 #: modules/core/page.trunks.php:330 modules/core/page.trunks.php:336
 msgid "Always add prefix to local numbers"
-msgstr "≤б’”‘– ‘ё—–“џпвм яёџЁлў яа’дЎЏб Џ џёЏ–џмЁл№ Ёё№’а–№"
+msgstr "¬сегда добавл€ть полный префикс к локальным номерам"
 
 #: modules/core/page.trunks.php:330
 msgid ""
 "is useful for VoIP trunks, where if a number is dialed as \"5551234\", it "
 "can be converted to \"16135551234\"."
 msgstr ""
-"Ўбяёџм„г’вбп ё—лзЁё Ё– VoIP ва–ЁЏ–е, в ’ Ё–—Ўа–’№лў "
-"Ёё№’а '5551234' —г‘’в ЏёЁ“’авЎаё“–Ё “ '1-613-555-1234' "
+"используетс€ обычно на VoIP транках, т е набираемый "
+"номер '5551234' будет конвертирован в '1-613-555-1234' "
 
 #: modules/core/page.trunks.php:331 modules/core/page.trunks.php:337
 msgid "Remove prefix from local numbers"
-msgstr "√‘–џЎвм яа’дЎЏб Ў„ џёЏ–џмЁё”ё Ёё№’а–"
+msgstr "”далить префикс из локального номера"
 
 #: modules/core/page.trunks.php:331
 msgid ""
 "is useful for ZAP trunks, where if a local number is dialed as \"16135551234"
 "\", it can be converted to \"555-1234\"."
 msgstr ""
-"Ўбяёџм„г’вбп ё—лзЁё Ё– ва–ЁЏ–е ZAP Џ–Ё–џё“, в ’ Ё–—Ўа–’№лў "
-"Ёё№’а '16135551234' —г‘’в ЏёЁ“’авЎаё“–Ё “ '555-1234' "
+"используетс€ обычно на транках ZAP каналов, т е набираемый "
+"номер '16135551234' будет конвертирован в '555-1234' "
 
 #: modules/core/page.trunks.php:332 modules/core/page.trunks.php:338
 msgid "Lookup and remove local prefixes"
-msgstr "њёЎбЏЎ Ў г‘–џ’ЁЎ’ џёЏ–џмЁле яа’дЎЏбё“"
+msgstr "ѕоиски и удаление локальных префиксов"
 
 #: modules/core/page.trunks.php:332
 msgid ""
@@ -1744,60 +1760,60 @@ msgid ""
 "http://members.dandy.net/~czg/search.html to find your local calling area "
 "(NA-only)"
 msgstr ""
-"в–Џ ÷’, Џ–Џ яаЎ г‘–џ’ЁЎЎ/‘ё—–“џ’ЁЎЎ яа’дЎЏб– “ џёЏ–џмЁле Ёё№’а–е, "
-"Ёё Ўбяёџм„гп —–„г ‘–ЁЁле http://members.dandy.net/~czg/search.html ‘џп яёЎбЏ– "
-"“л„л“–’№ёў ё—џ–бвЎ "
+"так же, как при удалении/добавлении префикса в локальных номерах, "
+"но использу€ базу данных http://members.dandy.net/~czg/search.html дл€ поиска "
+"вызываемой области "
 
 #: modules/core/page.trunks.php:335
 msgid "(pick one)"
-msgstr "(“л—’аЎв’ ё‘ЎЁ)"
+msgstr "(выберите один)"
 
 #: modules/core/page.trunks.php:369
 msgid ""
 "What is the local dialing pattern?\\n\\n(ie. NXXNXXXXXX for US/CAN 10-digit "
 "dialing, NXXXXXX for 7-digit)"
 msgstr ""
-"«вё п“џп’вбп и–—џёЁё№ ‘џп џёЏ–џмЁё”ё Ё–—ёа– Ёё№’а–? \\n\\n( "
-"Ё–яаЎ№’а (NXXNXXXXXX ‘џп 10-вЎ „Ё–зЁле Ё–—ёаё“ яё Ѕ»∞ Ў Ї–Ё–‘’, "
-"NXXXXXX ‘џп 7-№Ў „Ё–зЁле)"
+"„то €вл€етс€ шаблоном дл€ локального набора номера? \\n\\n( "
+"например (NXXNXXXXXX дл€ 10-ти значных наборов по —Ўј и  анаде, "
+"NXXXXXX дл€ 7-ми значных)"
 
 #: modules/core/page.trunks.php:371 modules/core/page.trunks.php:394
 msgid "Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."
-msgstr "љ’“’аЁлў и–—џёЁ. ј–„а’и’Ёл вёџмЏё 0-9, #, *, Z, N, X Ў ..."
+msgstr "Ќеверный шаблон. –азрешены только 0-9, #, *, Z, N, X и ..."
 
 #: modules/core/page.trunks.php:374
 msgid ""
 "What prefix should be added to the dialing pattern?\\n\\n(ie. for US/CAN, 1"
 "+areacode, ie, '1613')?"
 msgstr ""
-"Їёвёалў яа’дЎЏб ‘ё—–“Ўвм я’а’‘ Ё–—ёаё№ Ёё№’а–? \\n\\n(Ё–яаЎ№’а "
-"‘џп Ѕ»∞ Ў Ї–Ё–‘л, 1 + Џё‘ ё—џ–бвЎ, вё ’бвм ‘ё—–“џп’вбп '1613'"
+" оторый префикс добавить перед набором номера? \\n\\n(например "
+"дл€ —Ўј и  анады, 1 + код области, то есть добавл€етс€ '1613'"
 
 #: modules/core/page.trunks.php:376
 msgid "Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."
-msgstr "љ’“’аЁлў яа’дЎЏб.  ј–„а’и’Ёл вёџмЏё бЎ№“ёџл(0-9, #,  Ў *) "
+msgstr "Ќеверный префикс.  –азрешены только символы(0-9, #,  и *) "
 
 #: modules/core/page.trunks.php:387
 msgid ""
 "What prefix should be removed from the number?\\n\\n(ie. for US/CAN, 1"
 "+areacode, ie, '1613')"
 msgstr ""
-"Їёвёалў яа’дЎЏб г‘–џЎвм я’а’‘ Ё–—ёаё№ Ёё№’а–? \\n\\n(Ё–яаЎ№’а "
-"‘џп Ѕ»∞ Ў Ї–Ё–‘л, 1 + Џё‘ ё—џ–бвЎ, вё ’бвм г—Ўа–’вбп '1613'"
+" оторый префикс удалить перед набором номера? \\n\\n(например "
+"дл€ —Ўј и  анады, 1 + код области, то есть убираетс€ '1613'"
 
 #: modules/core/page.trunks.php:392
 msgid "What is the dialing pattern for local numbers after"
-msgstr "»–—џёЁ Ё–—ёа– ‘џп џёЏ–џмЁле Ёё№’аё“"
+msgstr "Ўаблон набора дл€ локальных номеров"
 
 #: modules/core/page.trunks.php:392
 msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
 msgstr ""
-"Ё–яаЎ№’а (NXXNXXXXXX ‘џп 10-вЎ „Ё–зЁле Ё–—ёаё“ яё Ѕ»∞ Ў Ї–Ё–‘’, "
-"NXXXXXX ‘џп 7-№Ў „Ё–зЁле)"
+"например (NXXNXXXXXX дл€ 10-ти значных наборов по —Ўј и  анаде, "
+"NXXXXXX дл€ 7-ми значных)"
 
 #: modules/core/page.trunks.php:514
 msgid "Outbound Dial Prefix"
-msgstr "ња’дЎЏб “леё‘– Ё– џЎЁЎо"
+msgstr "ѕрефикс выхода на линию"
 
 #: modules/core/page.trunks.php:514
 msgid ""
@@ -1806,18 +1822,18 @@ msgid ""
 "another PBX or is a Centrex line, then you would put 9 here to access an "
 "outbound line.<br><br>Most users should leave this option blank."
 msgstr ""
-"ња’дЎЏб “леё‘– Ё– џЎЁЎо Ўбяёџм„г’вбп ‘џп ёв‘’џ’ЁЎп Ёё№’аё“ Ё–—а–ЁЁле "
-"Ўбеё‘пйЎе бё’‘ЎЁ’ЁЎў, б‘’џ–ЁЁле з’а’„ нвёв ва–ЁЏ. љ–яаЎ№’а, ’бџЎ нвёв "
-"ва–ЁЏ яё‘Џџоз’Ё Џ ∞¬Ѕ ЎџЎ Џ џЎЁЎЎ Centrex, вё ё—лзЁё Ўбяёџм„гов 9 ‘џп “леё‘–"
-"Ё– џЎЁЎо.<br><br>іџп —ёџмиЎЁбв“– яёџм„ё“–в’џ’ў яаёй’ ёбв–“Ўвм нвё яёџ’ ягбвл№"
+"ѕрефикс выхода на линию используетс€ дл€ отделени€ номеров набранных "
+"исход€щих соединений, сделанных через этот транк. Ќапример, если этот "
+"транк подключен к ј“— или к линии Centrex, то обычно используют 9 дл€ выхода"
+"на линию.<br><br>ƒл€ большинства пользователей проще оставить это поле пустым"
 
 #: modules/core/page.trunks.php:522
 msgid "Outgoing Settings"
-msgstr "Єбеё‘пйЎ’ Ё–бваёўЏЎ"
+msgstr "»сход€щие настройки"
 
 #: modules/core/page.trunks.php:533
 msgid "Zap Identifier (trunk name)"
-msgstr "Zap Ў‘’ЁвЎдЎЏ–вёа (Ё–„“–ЁЎ’ ва–ЁЏ–)"
+msgstr "Zap идентификатор (название транка)"
 
 #: modules/core/page.trunks.php:533
 msgid ""
@@ -1825,24 +1841,24 @@ msgid ""
 "(which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> "
 "(group zero)."
 msgstr ""
-"Џ–Ё–џл ZAP гЏ–„л“–овбп яё Ёё№’аг Џ–Ё–џ– ЎџЎ ”агяя’ Џ–Ё–џё“ "
-"(Џёвёал’ ёяа’‘’џ’Ёл “ zapata.conf). <br><br> √бв–Ёё“Џ– яё г№ёџз–ЁЎо <b>g0</b> "
-"(”агяя– 0)."
+"каналы ZAP указываютс€ по номеру канала или группе каналов "
+"(которые определены в zapata.conf). <br><br> ”становка по умолчанию <b>g0</b> "
+"(группа 0)."
 
 #: modules/core/page.trunks.php:547
 msgid "Custom Dial String"
-msgstr "Ѕя’жЎ–џмЁлў Ё–—ёа"
+msgstr "—пециальный набор"
 
 #: modules/core/page.trunks.php:547
 msgid "Define the custom Dial String.  Include the token"
-msgstr "√Џ–÷Ўв’ вЎя бя’жЎ–џмЁё”ё Ё–—ёа–"
+msgstr "”кажите тип специального набора"
 
 #: modules/core/page.trunks.php:547
 msgid ""
 "wherever the number to dial should go.<br><br><b>examples:</b><br><br>CAPI/"
 "XXXXXXXX:b"
 msgstr ""
-"бе’№– Ё–—ёа– Ёё№’а–.<br><br><b>яаЎ№’ал:</b><br><br>CAPI/XXXXXXXX:b,30,r<br> "
+"схема набора номера.<br><br><b>примеры:</b><br><br>CAPI/XXXXXXXX:b,30,r<br> "
 "mISDN/1/"
 
 #: modules/core/page.trunks.php:547
@@ -1851,15 +1867,15 @@ msgstr ",30,r<br>H323/"
 
 #: modules/core/page.trunks.php:559
 msgid "Trunk Name"
-msgstr "љ–„“–ЁЎ’ ва–ЁЏ–"
+msgstr "Ќазвание транка"
 
 #: modules/core/page.trunks.php:559
 msgid "Give this trunk a unique name.  Example: myiaxtel"
-msgstr "њаЎб“ёўв’ ва–ЁЏг гЁЎЏ–џмЁё’ Ў№п. љ–яаЎ№’а: MyIAXtel"
+msgstr "ѕрисвойте транку уникальное им€. Ќапример: MyIAXtel"
 
 #: modules/core/page.trunks.php:566
 msgid "PEER Details"
-msgstr "ёяжЎЎ ‘џп PEER"
+msgstr "опции дл€ PEER"
 
 #: modules/core/page.trunks.php:566
 msgid ""
@@ -1867,46 +1883,46 @@ msgid ""
 "<br><br>You may need to add to the default lines listed below, depending on "
 "your provider."
 msgstr ""
-"Є„№’ЁЎв’ гџё“Ёл’ „Ё–з’ЁЎп ‘џп PEER бё’‘ЎЁ’ЁЎп Џ “–и’№г VoIP яаё“–ў‘’аг"
-"<br><br>≤ё„№ё÷Ёё яёЁ–‘ё—Ўвмбп ‘ё—–“Ўвм бваёЏг „–яЎб–ЁЁго ЁЎ÷’, “ „–“ЎбЎ№ёбвЎ ёв “–и’”ё яаё“–ў‘’а–"
+"»змените уловные значени€ дл€ PEER соединени€ к вашему VoIP провайдеру"
+"<br><br>¬озможно понадобитьс€ добавить строку записанную ниже, в зависимости от вашего провайдера"
 
 #: modules/core/page.trunks.php:576
 msgid "Incoming Settings"
-msgstr "√бв–Ёё“ЏЎ ‘џп “её‘пйЎе бё’‘ЎЁ’ЁЎў"
+msgstr "”становки дл€ вход€щих соединений"
 
 #: modules/core/page.trunks.php:581
 msgid "USER Context"
-msgstr "ЇёЁв’Џбв USER"
+msgstr " онтекст USER"
 
 #: modules/core/page.trunks.php:581
 msgid ""
 "This is most often the account name or number your provider expects."
 "<br><br>This USER Context will be used to define the below user details."
 msgstr ""
-"Ј‘’бм - гяаёй’ЁЁё: яаёдЎџм, Ё–„“–ЁЎ’ ЎџЎ Ёё№’а “–и’”ё яаё“–ў‘’а–"
-"<br><br>Ќвёв USER ЏёЁв’Џбв —г‘’в Ўбяёџм„ё“–вм я–а–№’вал, ёяа’‘’џ’ЁЁл’ ЁЎ÷’."
+"«десь - упрощенно: профиль, название или номер вашего провайдера"
+"<br><br>Ётот USER контекст будет использовать параметры, определенные ниже."
 
 #: modules/core/page.trunks.php:588
 msgid "USER Details"
-msgstr "ёяжЎЎ USER"
+msgstr "опции USER"
 
 #: modules/core/page.trunks.php:588
 msgid "Modify the default USER connection parameters for your VoIP provider."
-msgstr "Є„№’ЁЎвм я–а–№’вал USER бё’‘ЎЁ’ЁЎп “её‘пйЎе бё’‘ЎЁ’ЁЎў ёв “–и’”ё VoIP яаё“–ў‘’а–"
+msgstr "»зменить параметры USER соединени€ вход€щих соединений от вашего VoIP провайдера"
 
 #: modules/core/page.trunks.php:588
 msgid ""
 "You may need to add to the default lines listed below, depending on your "
 "provider."
-msgstr "≤ё„№ё÷Ёё яёЁ–‘ё—Ўвмбп ‘ё—–“Ўвм бваёЏг „–яЎб–ЁЁго ЁЎ÷’, “ „–“ЎбЎ№ёбвЎ ёв “–и’”ё яаё“–ў‘’а–"
+msgstr "¬озможно понадобитьс€ добавить строку записанную ниже, в зависимости от вашего провайдера"
 
 #: modules/core/page.trunks.php:598
 msgid "Registration"
-msgstr "ј’”Ўбва–жЎп"
+msgstr "–егистраци€"
 
 #: modules/core/page.trunks.php:603
 msgid "Register String"
-msgstr "ЅваёЏ– а’”Ўбва–жЎЎ"
+msgstr "—трока регистрации"
 
 #: modules/core/page.trunks.php:603
 msgid ""
@@ -1914,72 +1930,72 @@ msgid ""
 "registration line here.<br><br>example:<br><br>username:password@switch."
 "voipprovider.com"
 msgstr ""
-"±ёџмиЎЁбв“ё VoIP яаё“–ў‘’аё“ ва’—гов, звё—л “–и– бЎбв’№– а’”ЎбваЎаё“–џ–бм. "
-"≤“’‘Ўв’ бваёЏг а’”Ўбва–жЎЎ.<br><br>њаЎ№’а: username:password@2iax2.postmet.com"
+"Ѕольшинство VoIP провайдеров требуют, чтобы ваша система регистрировалась. "
+"¬ведите строку регистрации.<br><br>ѕример: username:password@2iax2.postmet.com"
 
 #: modules/core/page.users.php:90 modules/core/page.users.php:107
 msgid "User"
-msgstr "њёџм„ё“–в’џм"
+msgstr "ѕользователь"
 
 #: modules/core/page.users.php:110
 msgid "Add User/Extension"
-msgstr "іё—–“Ўвм яёџм„ё“–в’џп/љё№’а"
+msgstr "ƒобавить пользовател€/Ќомер"
 
 #: modules/core/page.users.php:122
 msgid "User Extension"
-msgstr "≤Ёгва’ЁЁЎў Ёё№’а яёџм„ё“–в’џп"
+msgstr "¬нутренний номер пользовател€"
 
 #: modules/core/page.users.php:122
 msgid "The extension number to dial to reach this user."
-msgstr "≤Ёгва’ЁЁЎў Ёё№’а, яё Џёвёаё№г №ё÷Ёё Ё–ўвЎ яёџм„ё“–в’џп"
+msgstr "¬нутренний номер, по которому можно найти пользовател€"
 
 #: modules/core/page.users.php:131
 msgid "User Password"
-msgstr "њ–аёџм яёџм„ё“–в’џп"
+msgstr "ѕароль пользовател€"
 
 #: modules/core/page.users.php:131
 msgid ""
 "A user will enter this password when logging onto a device. *11 logs into a "
 "device.  *12 logs out of a device."
 msgstr ""
-"њ–аёџм, Џёвёалў —г‘’в Ўбяёџм„ё“–вм яёџм„ё“–в’џм ‘џп “её‘– “ гбваёўбв“ё "
-"*11 - “её‘, *12 - “леё‘"
+"ѕароль, который будет использовать пользователь дл€ входа в устройство "
+"*11 - вход, *12 - выход"
 
 #: modules/core/page.users.php:139
 msgid "The caller id name for calls from this user will be set to this name."
-msgstr "љё№’а Єі ‘џп бё’‘ЎЁ’ЁЎў ёв нвё”ё яёџм„ё“–в’џп —г‘’в гбв–Ёё“џ’Ё “ нвё „Ё–з’ЁЎ’"
+msgstr "Ќомер »ƒ дл€ соединений от этого пользовател€ будет установлен в это значение"
 
 #: modules/core/page.users.php:153
 msgid ""
 "Overrides the caller id when dialing out a trunk. Any setting here will "
 "override the common outbound caller id set in the Trunks admin."
-"<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this "
+"<br><br>Format: <b>\"caller name\" <#######></b><br><br>Leave this "
 "field blank to disable the outbound callerid feature for this user."
 msgstr ""
-"Є”ЁёаЎаё“–вм Ёё№’а Єі яаЎ „“ёЁЏ’ з’а’„ ва–ЁЏ. ≤б’ гбв–Ёё“ЏЎ —г‘гв "
-"Ў„№’Ё’Ёл Ё– ё—йЎў Ёё№’а Єі гбв–Ёё“џ’ЁЁлў ‘џп ва–ЁЏ–."
-"<br><br>ƒёа№–в: <b>\"Є№п\" &lt;#######&gt;</b><br><br>Њбв–“мв’ нвё яёџ’ "
-"ягбвл№ звё—л Ё’ Ўбяёџм„ё“–вм бяёбё— гЏ–„–ЁЎп 'Ёё№’а Єі' ‘џп нвё”ё “Ёгва’ЁЁ’”ё Ёё№’а–"
+"»гнорировать номер »ƒ при звонке через транк. ¬се установки будут "
+"изменены на общий номер »ƒ установленный дл€ транка."
+"<br><br>‘ормат: <b>\"»м€\" <#######></b><br><br>ќставьте это поле "
+"пустым чтобы не использовать способ указани€ 'номер »ƒ' дл€ этого внутреннего номера"
 
 #: modules/core/page.users.php:161
 msgid "Ring Timer"
-msgstr "¬–ў№’а “л„ё“–"
+msgstr "“аймер вызова"
 
 #: modules/core/page.users.php:161
 msgid "Number of seconds to ring the extension before giving up."
-msgstr "≤а’№п “л„ё“– “ б’ЏгЁ‘–е ‘џп –—ёЁ’Ёв–"
+msgstr "¬рем€ вызова в секундах дл€ абонента"
 
 #: modules/irc/page.irc.php:25
 msgid "Start IRC"
-msgstr "Ј–ягбвЎвм IRC"
+msgstr "«апустить IRC"
 
 #: modules/irc/page.irc.php:26
 msgid "Online Documentation"
-msgstr "іёЏг№’Ёв–жЎп ёЁџ–ўЁ"
+msgstr "ƒокументаци€ онлайн"
 
 #: modules/irc/page.irc.php:31
 msgid "Online Support"
-msgstr "њё‘‘’а÷Џ– ёЁџ–ўЁ"
+msgstr "ѕоддержка онлайн"
 
 #: modules/irc/page.irc.php:41
 msgid ""
@@ -1988,27 +2004,27 @@ msgid ""
 "nickname, you can type '<b>/nick yournickname</b>', and your nick will "
 "change. This is an ENGLISH ONLY support channel. Sorry."
 msgstr ""
-"≤ №ё№’Ёв бё’‘ЎЁ’ЁЎп “–№ —г‘’в яаЎб“ё’Ё– ЏџЎзЏ– 'Freepbx' Ў яаёЎ„“ёџмЁё’ "
-"зЎбџё Ў„ 4 бЎ№“ёџё“, Џ яаЎ№’аг: FreePBX3486. µбџЎ “л еёвЎв’ яё№’Ёпвм ’”ё Ё– "
-"яаЎ“лзЁго “–№ ЏџЎзЏг Ё–—’аЎв’ '<b>/nick yournickname</b>'. њаёбЎ№ яаёй’ЁЎп, "
-"Џ–Ё–џ яё‘‘’а÷ЏЎ –Ё”џё”ё“ёапйЎў."
+"¬ момент соединени€ вам будет присвоена кличка 'Freepbx' и произвольное "
+"число из 4 символов, к примеру: FreePBX3486. ≈сли вы хотите помен€ть его на "
+"привычную вам кличку наберите '<b>/nick yournickname</b>'. ѕросим прощени€, "
+"канал поддержки англоговор€щий."
 
 #: modules/irc/page.irc.php:60
 msgid "This allows you to contact the FreePBX channel on IRC."
-msgstr "Ќвё яё„“ёџп’в “–№ яё‘бё’‘ЎЁпвбп Џ Џ–Ё–џг FreePBX “ IRC"
+msgstr "Ёто позвол€ет вам подсоедин€тс€ к каналу FreePBX в IRC"
 
 #: modules/irc/page.irc.php:62
 msgid ""
 "Note that when you click anywhere else, you will close your IRC session."
-msgstr "Є№’ўв’ ““Ў‘г звё Џё”‘– “л ЏџЎЏ–’в’ “ Џ–Џго-џЎ—ё ‘аг”го б’ЏжЎо "
-"IRC бё’‘ЎЁ’ЁЎ’ яа’Џа–й–’вбп"
+msgstr "»мейте ввиду что когда вы кликаете в какую-либо другую секцию "
+"IRC соединение прекращаетс€"
 
 #: modules/irc/page.irc.php:64
 msgid ""
 "It's suggested to use <b>'Open Link in New Window'</b> or <b>'Open Link In "
 "New Tab'</b> with Mozilla or Firefox."
-msgstr "ј’Џё№’Ё‘г’вбп Ўбяёџм„ё“–вм <b>'Open Link in New Window'</b> ЎџЎ <b>'Open Link In "
-"New Tab'</b> “ —аёг„’а–е Mozilla ЎџЎ Firefox."
+msgstr "–екомендуетс€ использовать <b>'Open Link in New Window'</b> или <b>'Open Link In "
+"New Tab'</b> в броузерах Mozilla или Firefox."
 
 #: modules/irc/page.irc.php:66
 msgid ""
@@ -2016,65 +2032,65 @@ msgid ""
 "Systems, or any other party can not be held responsible for the actions or "
 "behaviour of other people on the network"
 msgstr ""
-"њёбЏёџмЏг IRC п“џп’вбп Ё’№ё‘’аЎаг’№л№ ба’‘бв“ё№ №–ббё“ёў ЎЁдёа№–жЎЎ AMP, FreePBX, "
-"Coalescent Systems Ў ЎЁл’ Џё№я–ЁЎЎ Ё’ Ё’бгв ёв“’вбв“’ЁЁёбвЎ „– ‘’ўбв“Ўп ЎџЎ "
-"яёбџ’‘бв“Ўп ‘аг”Ўе џо‘’ў “ нвёў б’вЎ"
+"ѕоскольку IRC €вл€етс€ немодерируемым средством массовой информации AMP, FreePBX, "
+"Coalescent Systems и иные компании не несут ответственности за действи€ или "
+"последстви€ других людей в этой сети"
 
 #: modules/irc/page.irc.php:68
 msgid ""
 "When you connect to IRC, to assist in support, the IRC client will "
-"automatically send the following information to everyone in the #FreePBX "
+"automatically send the following information to everyone in the #freePBX "
 "channel:"
 msgstr ""
-"њаЎ яаЎбё’‘ЎЁ’ЁЎЎ Џ б’вЎ IRC ‘џп яёџгз’ЁЎп ЏёЁбгџмв–жЎёЁЁёў яё‘‘’а÷ЏЎ, IRC ЏџЎ’Ёв "
-"–“вё№–вЎз’бЏЎ ёвёиџ’в нвг ЎЁдёа№–жЎо “б’№ Ё– Џ–Ё–џ’ #FreePBX:"
+"ѕри присоединении к сети IRC дл€ получени€ консультационной поддержки, IRC клиент "
+"автоматически отошлет эту информацию всем на канале #freePBX:"
 
 #: modules/irc/page.irc.php:71
 msgid "Your Linux Distribution:"
-msgstr "≤–и ‘ЎбваЎ—гвЎ“ Linux:"
+msgstr "¬аш дистрибутив Linux:"
 
 #: modules/irc/page.irc.php:74
 msgid "Your FreePBX version:"
-msgstr "≤’абЎп FreePBX:"
+msgstr "¬ерси€ freePBX:"
 
 #: modules/irc/page.irc.php:77
 msgid "Your Kernel version:"
-msgstr "≤’абЎп п‘а–:"
+msgstr "¬ерси€ €дра:"
 
 #: modules/irc/page.irc.php:81
 msgid ""
 "If you do not want this information to be made public, please use another "
 "IRC client, or contact a commercial support provider"
 msgstr ""
-"µбџЎ “л Ё’ еёвЎв’ звё—л нв– ЎЁдёа№–жЎп —лџ– яг—џЎзЁё ‘ёбвгяЁ– Ўбяёџм„гўв’, "
-"яё÷–џгўбв–, ‘аг”ёў IRC ЏџЎ’Ёв ЎџЎ ЏёЁв–ЏвЎагўв’ б Џё№№’аз’бЏЎ№Ў бџг÷—–№Ў яё‘‘’а÷ЏЎ"
+"≈сли вы не хотите чтобы эта информаци€ была публично доступна используйте, "
+"пожалуйста, другой IRC клиент или контактируйте с коммерческими службами поддержки"
 
 #: modules/ivr/ivr_action.php:119
 msgid "could not create /var/lib/asterisk/sounds/custom"
-msgstr "Ё’“ё„№ё÷Ёё бё„‘–вм /var/lib/asterisk/sounds/custom"
+msgstr "невозможно создать /var/lib/asterisk/sounds/custom"
 
 #: modules/ivr/ivr_action.php:122
 msgid ""
 "error: could not copy or rename the voice recording - please contact support"
 msgstr ""
-"ёиЎ—Џ–: Ё’“ё„№ё÷Ёё бЏёяЎаё“–вм ЎџЎ я’а’Ў№’Ёё“–вм ”ёџёбё“го „–яЎбм. б“п÷Ўв’бм "
-"бё бџг÷—ёў в’е. яё‘‘’а÷ЏЎ"
+"ошибка: невозможно скопировать или переименовать голосовую запись. св€житесь "
+"со службой тех. поддержки"
 
 #: modules/ivr/ivrmap.php:23
 msgid "Voice Menu Map"
-msgstr "Ї–ав– ”ёџёбё“ё”ё №’Ёо"
+msgstr " арта голосового меню"
 
 #: modules/ivr/ivrmap.php:52
 msgid "Modify this Menu"
-msgstr "Є„№’ЁЎвм нвё №’Ёо"
+msgstr "»зменить это меню"
 
 #: modules/ivr/ivrmap.php:53 modules/music/page.music.php:138
 msgid "Delete"
-msgstr "√‘–џЎвм"
+msgstr "”далить"
 
 #: modules/ivr/ivrmap.php:55
 msgid "Menu"
-msgstr "Љ’Ёо"
+msgstr "ћеню"
 
 #: modules/ivr/ivrmap.php:69 modules/ivr/ivrmap.php:72
 #: modules/ivr/ivrmap.php:75 modules/ivr/ivrmap.php:78
@@ -2082,157 +2098,157 @@ msgstr "Љ’Ёо"
 #: modules/ivr/ivrmap.php:91 modules/ivr/ivrmap.php:94
 #: modules/ivr/ivrmap.php:97
 msgid "dialing"
-msgstr "“л„ё“"
+msgstr "вызов"
 
 #: modules/ivr/ivrmap.php:69 modules/ivr/ivrmap.php:75
 msgid "dials extension #"
-msgstr "“л„ё“ “Ёгва’ЁЁ’”ё Ёё№’а– #"
+msgstr "вызов внутреннего номера #"
 
 #: modules/ivr/ivrmap.php:72
 msgid "sends to voicemail box #"
-msgstr "я’а’Ё–яа–“џ’ЁЎ’ “ ”ёџёбё“го яёзвг #"
+msgstr "перенаправление в голосовую почту #"
 
 #: modules/ivr/ivrmap.php:78
 msgid "goes to Menu ID"
-msgstr "я’а’её‘ Џ Єі №’Ёо"
+msgstr "переход к »ƒ меню"
 
 #: modules/ivr/ivrmap.php:82
 msgid "dials group #"
-msgstr "яаёЎбеё‘Ўв Ё–—ёа Ёё№’а– ”агяял #"
+msgstr "происходит набор номера группы #"
 
 #: modules/ivr/ivrmap.php:88
 msgid "goes to"
-msgstr "я’а’её‘ Џ"
+msgstr "переход к"
 
 #: modules/ivr/ivrmap.php:91
 msgid "goes to Queue #"
-msgstr "я’а’её‘ Џ ёз’а’‘Ў #"
+msgstr "переход к очереди #"
 
 #: modules/ivr/ivrmap.php:94
 msgid "goes to Time Condition "
-msgstr "я’а’её‘ Џ яа–“Ўџ–№ яё “а’№’ЁЎ"
+msgstr "переход к правилам по времени"
 
 #: modules/ivr/ivrmap.php:97
 msgid "goes to Conference "
-msgstr "я’а’её‘ Џ ЏёЁд’а’ЁжЎЎ"
+msgstr "переход к конференции"
 
 #: modules/ivr/ivrmap.php:103
 msgid "Menu notes:"
-msgstr "Ј–№’вЏЎ Џ №’Ёо:"
+msgstr "«аметки к меню:"
 
 #: modules/ivr/ivrmap.php:110
 msgid "Would you like to create another Menu?"
-msgstr "≈ёвЎв’ бё„‘–вм ’йс ё‘Ёё №’Ёо?"
+msgstr "’отите создать ещЄ одно меню?"
 
 #: modules/ivr/ivrmap.php:110
 msgid "Create a new Voice Menu"
-msgstr "Ѕё„‘–вм Ёё“ё’ ”ёџёбё“ё’ №’Ёо"
+msgstr "—оздать новое голосовое меню"
 
 #: modules/ivr/ivr.php:91
 msgid "Your User/Extension"
-msgstr "≤–и в’ЏгйЎў “Ёгва’ЁЁЎў Ёё№’а"
+msgstr "¬аш текущий внутренний номер"
 
 #: modules/ivr/ivr.php:97
 msgid ""
 "This Digital Receptionist wizard asks you to record and playback a greeting "
 "using your phone."
 msgstr ""
-"њё№ёйЁЎЏ нџ’ЏваёЁЁё”ё б’Џа’в–ап яа’‘џё÷Ўв “–№ бё„‘–вм „–яЎбм яаЎ“’вбв“’ЁЁё”ё бёё—й’ЁЎп  "
-"Ўбяёџм„гп “–и в’џ’дёЁ"
+"ѕомощник электронного секретар€ предложит вам создать запись приветственного сообщени€  "
+"использу€ ваш телефон"
 
 #: modules/ivr/ivr.php:98
 msgid "Please enter your user/extension:"
-msgstr "≤“’‘Ўв’ “–и “Ёгва’ЁЁЎў Ёё№’а:"
+msgstr "¬ведите ваш внутренний номер:"
 
 #: modules/ivr/ivr.php:130
 msgid "Record Menu"
-msgstr "Љ’Ёо „–яЎб’ў"
+msgstr "ћеню записей"
 
 #: modules/ivr/ivr.php:135
 msgid ""
 "Dial *99 to listen to your current recording - click continue if you wish to "
 "re-use it."
 msgstr ""
-"љ–—’аЎв’ *99 ‘џп вё”ё, звё—л яаёбџги–вм “–иг в’Џгйго „–яЎбм Ў Ё–÷№Ўв’ "
-"яаё‘ёџ÷Ўвм ’бџЎ “л еёвЎв’ Ўбяёџм„ё“–вм ’’ “ ‘–џмЁ’ўи’№"
+"Ќаберите *99 дл€ того, чтобы прослушать вашу текущую запись и нажмите "
+"продолжить если вы хотите использовать ее в дальнейшем"
 
 #: modules/ivr/ivr.php:138 modules/recordings/page.recordings.php:103
 msgid "Step 1: Record"
-msgstr "»–” 1: Ј–яЎбм"
+msgstr "Ўаг 1: «апись"
 
 #: modules/ivr/ivr.php:140 modules/recordings/page.recordings.php:105
 msgid "Using your phone,"
-msgstr "Єбяёџм„гп в’џ’дёЁ,"
+msgstr "»спользу€ телефон,"
 
 #: modules/ivr/ivr.php:140 modules/recordings/page.recordings.php:105
 msgid "dial *77"
-msgstr "Ё–—’аЎв’ *77"
+msgstr "наберите *77"
 
 #: modules/ivr/ivr.php:140 modules/recordings/page.recordings.php:105
 msgid "Start speaking at the tone. Hangup when finished."
 msgstr ""
-"љ–зЁЎв’ Ё–‘ЎЏвё“л“–вм бёё—й’ЁЎ’ яёбџ’ бЎ”Ё–џ–. њё“’бмв’ ваг—Џг яё ёЏёЁз–ЁЎЎ."
+"Ќачните надиктовывать сообщение после сигнала. ѕовесьте трубку по окончании."
 
 #: modules/ivr/ivr.php:140
 msgid "and record the message you wish to greet callers with."
-msgstr "Ў „–яЎиЎв’ бёё—й’ЁЎ’, яаЎ яё№ёйЎ Џёвёаё”ё “л еёв’џЎ —л яаЎ“’вбв“ё“–вм „“ёЁпйЎе."
+msgstr "и запишите сообщение, при помощи которого вы хотели бы приветствовать звон€щих."
 
 #: modules/ivr/ivr.php:144
 msgid "Alternatively, upload a recording in"
-msgstr "Ї–Џ “–аЎ–Ёв, „–Џ–з–ўв’ „–яЎбм “"
+msgstr " ак вариант, закачайте запись в"
 
 #: modules/ivr/ivr.php:144 modules/recordings/page.recordings.php:109
 msgid ".wav format"
-msgstr "“ дёа№–в’ .wav"
+msgstr "в формате .wav"
 
 #: modules/ivr/ivr.php:144 modules/recordings/page.recordings.php:109
 msgid "The .wav file _must_ have a sample rate of 8000Hz"
-msgstr ".wav д–ўџ ‘ёџ÷’Ё —лвм б з–бвёвёў —Ўва’ўв– 8000hz"
+msgstr ".wav файл должен быть с частотой битрейта 8000hz"
 
 #: modules/ivr/ivr.php:156 modules/recordings/page.recordings.php:121
 msgid "Successfully uploaded"
-msgstr "Ј–Џ–зЏ– гбя’иЁё „–“’аи’Ё–"
+msgstr "«акачка успешно завершена"
 
 #: modules/ivr/ivr.php:166 modules/recordings/page.recordings.php:130
 msgid "Step 2: Verify"
-msgstr "»–” 2: њаё“’аЏ–"
+msgstr "Ўаг 2: ѕроверка"
 
 #: modules/ivr/ivr.php:168
 msgid "After recording or uploading,"
-msgstr "њёбџ’ „–яЎбЎ ЎџЎ „–Џ–зЏЎ,"
+msgstr "ѕосле записи или закачки,"
 
 #: modules/ivr/ivr.php:168
 msgid "dial *99"
-msgstr "Ё–—’аЎв’ *99"
+msgstr "наберите *99"
 
 #: modules/ivr/ivr.php:168
 msgid "to listen to your message."
-msgstr "‘џп яаёбџгиЎ“–ЁЎп “–и’”ё яаЎ“’вбв“’ЁЁё”ё бёё—й’ЁЎп."
+msgstr "дл€ прослушивани€ вашего приветственного сообщени€."
 
 #: modules/ivr/ivr.php:171 modules/recordings/page.recordings.php:135
 msgid "If you wish to re-record your message, dial *77 again."
 msgstr ""
-"≤ бџгз–’, ’бџЎ “л еёвЎв’ я’а’„–яЎб–вм “–и’ бёё—й’ЁЎ’, Ё–—’аЎв’ *77 бЁё“–."
+"¬ случае, если вы хотите перезаписать ваше сообщение, наберите *77 снова."
 
 #: modules/ivr/ivr.php:173
 msgid "Step 3: Name & Describe"
-msgstr "»–” 3: Є№п Ў ЊяЎб–ЁЎ’"
+msgstr "Ўаг 3: »м€ и ќписание"
 
 #: modules/ivr/ivr.php:176
 msgid "Name this menu:"
-msgstr "Є№п нвё”ё №’Ёо:"
+msgstr "»м€ этого меню:"
 
 #: modules/ivr/ivr.php:180
 msgid "Describe the menu:"
-msgstr "ЊяЎб–ЁЎ’ №’Ёо:"
+msgstr "ќписание меню:"
 
 #: modules/ivr/ivr.php:184
 msgid "Click \"Continue\" when you are satisfied with your recording"
-msgstr "љ–÷№Ўв’ \"њаё‘ёџ÷Ўвм\" Џё”‘– “л —г‘’в’ г‘ё“џ’в“ёа’Ёл а’„гџмв–вё№"
+msgstr "Ќажмите \"ѕродолжить\" когда вы будете удовлетворены результатом"
 
 #: modules/ivr/ivr.php:186
 msgid "Consider including in your recording:"
-msgstr "њаё‘ёџ÷Ўвм бё„‘–ЁЎ’ “–и’ў „–яЎбЎ:"
+msgstr "ѕродолжить создание вашей записи:"
 
 #: modules/ivr/ivr.php:192
 msgid ""
@@ -2241,53 +2257,53 @@ msgid ""
 "extension of the party you are calling, dial it now.  To access the company "
 "directory, press pound now."
 msgstr ""
-"њаЎ№’а: Ѕя–бЎ—ё „– “–и „“ёЁёЏ. њё÷–џгўбв–, Ё–÷№Ўв’ 1, звё—л г„Ё–вм "
-"Ё–и’ №’бвёЁ–её÷‘’ЁЎ’, 2, звё—л г„Ё–вм “а’№п а–—ёвл, 0, звё—л яё”ё“ёаЎвм б –”’Ёвё№. "
-"µбџЎ “л „Ё–’в’ “Ёгва’ЁЁЎў Ёё№’а –—ёЁ’Ёв–, Ё–—’аЎв’ ’”ё. «вё—л яёя–бвм “ в’џ’дёЁЁлў "
-"бяа–“ёзЁЎЏ Џё№я–ЁЎЎ Ё–—’аЎв’ а’и’вЏг."
+"ѕример: —пасибо за ваш звонок. ѕожалуйста, нажмите 1, чтобы узнать "
+"наше местонахождение, 2, чтобы узнать врем€ работы, 0, чтобы поговорить с агентом. "
+"≈сли вы знаете внутренний номер абонента, наберите его. „тобы попасть в телефонный "
+"справочник компании наберите решетку."
 
 #: modules/ivr/ivr.php:229 modules/ivr/ivr.php:317
 msgid "Options for Menu:"
-msgstr "ЊяжЎЎ №’Ёо"
+msgstr "ќпции меню"
 
 #: modules/ivr/ivr.php:238
 msgid ""
 "Callers to this Menu can press the pound key (#) to access the user "
 "directory."
 msgstr ""
-"Ј“ёЁпйЎ’ “ нвё№ №’Ёо №ё”гв Ё–÷–вм а’и’вЏг (#) ‘џп ‘ёбвгя– Џ в’џ’дёЁЁё№г бяа–“ёзЁЎЏг Џё№я–ЁЎЎ."
+"«вон€щие в этом меню могут нажать решетку (#) дл€ доступа к телефонному справочнику компании."
 
 #: modules/ivr/ivr.php:239
 msgid "Directory context to be used:"
-msgstr "Єбяёџм„ё“–вм ЏёЁв’Џбв в’џ’дёЁЁё”ё бяа–“ёзЁЎЏ–:"
+msgstr "»спользовать контекст телефонного справочника:"
 
 #: modules/ivr/ivr.php:246
 msgid "Entire Directory"
-msgstr "¬’џ’дёЁЁлў бяа–“ёзЁЎЏ"
+msgstr "“елефонный справочник"
 
 #: modules/ivr/ivr.php:252
 msgid ""
 "Aside from local extensions and the pound key (#), how many other options "
 "should callers be able to dial during the playback of this menu prompt?"
 msgstr ""
-"њё№Ў№ё “ё„№ё÷Ёёбв’ў Ё–—а–вм “Ёгва’ЁЁЎў Ёё№’а ЎџЎ Ё–—а–вм а’и’вЏг (#), бЏёџмЏё "
-"‘аг”Ўе “ё„№ё÷Ёёбв’ў яа’‘ёбв–“џпвм „“ёЁпй’№г “ё “а’№п яаёЎ”ал“–ЁЎп нвё”ё №’Ёо?"
+"ѕомимо возможностей набрать внутренний номер или набрать решетку (#), сколько "
+"других возможностей предоставл€ть звон€щему во врем€ проигрывани€ этого меню?"
 
 #: modules/ivr/ivr.php:253
 msgid "Number of options for Menu:"
-msgstr "«Ўбџё ёяжЎў ‘џп №’Ёо:"
+msgstr "„исло опций дл€ меню:"
 
 #: modules/ivr/ivr.php:319
 msgid ""
 "Define the various options you expect your callers to dial after/during the "
 "playback of this recorded menu."
 msgstr ""
-"Њяа’‘’џЎв’ а–„џЎзЁл’ ёяжЎЎ, Џёвёал№Ў, Џ–Џ “л а–ббзЎвл“–’в’, —г‘гв яёџм„ё“–вмбп "
-"„“ёЁпйЎ’ “ё “а’№п яаёЎ”ал“–ЁЎп нвё”ё №’Ёо."
+"ќпределите различные опции, которыми, как вы рассчитываете, будут пользоватьс€ "
+"звон€щие во врем€ проигрывани€ этого меню."
 
 #: modules/ivr/ivr.php:322
 msgid "is the number you expect the caller to dial."
-msgstr "Ёё№’а, Џёвёалў яё “–иЎ№ а–бз’в–№ —г‘гв Ё–—Ўа–вм „“ёЁпйЎ’."
+msgstr "номер, который по вашим расчетам будут набирать звон€щие."
 
 #: modules/ivr/ivr.php:323
 msgid ""
@@ -2295,33 +2311,35 @@ msgid ""
 "to an internal extension, a voicemail box, ring group, queue, or to another "
 "recorded menu."
 msgstr ""
-"а’„гџмв–в вё”ё, звё „“ёЁпйЎў Ё–—а–џ Ё’Џёвёалў Ёё№’а #. Ќвё №ё÷’в я’а’Ё–яа–“Ўвм "
-"„“ёЁёЏ Ё– “Ёгва’ЁЁЎў Ёё№’а, пйЎЏ ”ёџёбё“ёў яёзвл, “ ”агяяг “л„ё“ё“, ёз’а’‘м ЎџЎ ‘аг”ё’ №’Ёо."
+"результат того, что звон€щий набрал некоторый номер #. Ёто может перенаправить "
+"звонок на внутренний номер, €щик голосовой почты, в группу вызовов, очередь или другое меню."
 
 #: modules/ivr/ivr.php:338
 msgid "Dialed Option #"
-msgstr "љ–—а–ЁЁ–п ёяжЎп #"
+msgstr "Ќабранна€ опци€ #"
 
 #: modules/music/page.music.php:49 modules/music/page.music.php:180
 msgid "Add Music Category"
-msgstr "іё—–“Ўвм Џ–в’”ёаЎо вЎя– №г„лЏЎ"
+msgstr "ƒобавить категорию типа музыки"
 
 #: modules/music/page.music.php:50 modules/music/page.music.php:215
 #: modules/queues/page.queues.php:202
 msgid "Default"
-msgstr "њё г№ёџз–ЁЎо"
+msgstr "ѕо умолчанию"
 
 #: modules/music/page.music.php:78
 msgid "Cannot write to file"
-msgstr "Ј–яЎбм “ д–ўџ Ё’“ё„№ё÷Ё–"
+msgstr "«апись в файл невозможна"
 
 #: modules/music/page.music.php:170
 msgid "On Hold Music"
-msgstr "Љг„лЏ– “ ё÷Ў‘–ЁЎЎ"
+msgstr "ћузыка в ожидании"
+msgid "Music on Hold "
+msgstr "ћузыка в ожидании"
 
 #: modules/music/page.music.php:182
 msgid "Category Name:"
-msgstr "Є№п Џ–в’”ёаЎЎ:"
+msgstr "»м€ категории:"
 
 #: modules/music/page.music.php:182
 msgid ""
@@ -2329,60 +2347,60 @@ msgid ""
 "if you would like to specify different Hold Music or Commercials for various "
 "ACD Queues."
 msgstr ""
-"њё„“ёџп’в “–№ Ё–бваёЎвм а–„џЎзЁл’ Џ–в’”ёаЎЎ ‘џп №г„лЏЎ “ а’÷Ў№’ ё÷Ў‘–ЁЎп. "
-"њаЎ№’ЁЎ№ё “ бџгз–пе, Џё”‘– “л еёвЎв’ Ўбяёџм„ё“–вм а–„џЎзЁго №г„лЏг ЎџЎ а’Џџ–№г "
-"яаЎ а–„џЎзЁле ACD ёз’а’‘пе."
+"ѕозвол€ет вам настроить различные категории дл€ музыки в режиме ожидани€. "
+"ѕрименимо в случа€х, когда вы хотите использовать различную музыку или рекламу "
+"при различных ACD очеред€х."
 
 #: modules/music/page.music.php:215
 msgid "Category:"
-msgstr "Ї–в’”ёаЎп:"
+msgstr " атегори€:"
 
 #: modules/music/page.music.php:217
 msgid "Delete Music Category"
-msgstr "√‘–џЎвм №г„лЏ–џмЁго Џ–в’”ёаЎо"
+msgstr "”далить музыкальную категорию"
 
 #: modules/music/page.music.php:220
 msgid "Upload a .wav or .mp3 file:"
-msgstr "Ј–Џ–з–ўв’ .wav ЎџЎ .mp3 д–ўџ:"
+msgstr "«акачайте .wav или .mp3 файл:"
 
 #: modules/music/page.music.php:236
 msgid "Error Processing"
-msgstr "ЊиЎ—Џ– яаёж’бб–"
+msgstr "ќшибка процесса"
 
 #: modules/music/page.music.php:238
 msgid "Completed processing"
-msgstr "Ј–ЏёЁз’Ёё яаёж’бб–"
+msgstr "«акончено процесса"
 
 #: modules/music/page.music.php:250
 msgid ""
 "You must have at least one file for On Hold Music.  Please upload one before "
 "deleting this one."
 msgstr ""
-"≤л ‘ёџ÷Ёл Ў№’вм Џ–Џ №ЎЁЎ№г№ ё‘ЎЁ д–ўџ ‘џп яаёЎ”ал“–ЁЎп “ а’÷Ў№’ ё÷Ў‘–ЁЎп. "
-"њё÷–џгўбв–, „–Џ–з–ўв’ еёвп —л ё‘ЎЁ яа’÷‘’ з’№ г‘–џЎвм нвёв."
+"¬ы должны иметь как минимум один файл дл€ проигрывани€ в режиме ожидани€. "
+"ѕожалуйста, закачайте хот€ бы один прежде чем удалить этот."
 
 #: modules/music/page.music.php:254 modules/recordings/page.recordings.php:61
 msgid "Deleted"
-msgstr "√‘–џ’Ёё"
+msgstr "”далено"
 
 #: modules/paging/functions.inc.php:23
 msgid ""
 "There is a problem with install.sql, cannot re-create databases. Contact "
 "support\n"
-msgstr "њаё—џ’№– б install.sql, Ё’“ё„№ё÷Ёё я’а’бё„‘–вм —–„г ‘–ЁЁле. Ѕ“п÷Ўв’бм "
-"бё бџг÷—ёў в’е. яё‘‘’а÷ЏЎ\n"
+msgstr "ѕроблема с install.sql, невозможно пересоздать базу данных. —в€житесь "
+"со службой тех. поддержки\n"
 
 #: modules/paging/functions.inc.php:26
 msgid "Database was deleted! Recreated successfully.<br>\n"
-msgstr "±–„– ‘–ЁЁле г‘–џ’Ё–! њ’а’бё„‘–Ё– гбя’иЁё.<br>\n"
+msgstr "Ѕаза данных удалена! ѕересоздана успешно.<br>\n"
 
 #: modules/paging/page.paging.php:39
 msgid "Paging Group Deleted<br>\n"
-msgstr "≥агяя– ёяё“’й’ЁЎп г‘–џ’Ё–<br>\n"
+msgstr "√руппа оповещени€ удалена<br>\n"
 
 #: modules/paging/page.paging.php:48
 msgid "<h5>Paging Group $pagenbr Modified</h5>\n"
-msgstr "<h5>≥агяя– ёяё“’й’ЁЎў $pagenbr Ў„№’Ё’Ё–</h5>\n"
+msgstr "<h5>√руппа оповещений $pagenbr изменена</h5>\n"
 
 #: modules/paging/page.paging.php:58
 msgid ""
@@ -2391,72 +2409,72 @@ msgid ""
 "current list of supported phones is GXP-2000 with firmware 1.0.13 or higher, "
 "Snom phones with 'recent' firmware, and a few various other phones."
 msgstr ""
-"Љё‘гџм ‘џп бя’жЎ–џЎ„Ўаё“–ЁЁле в’џ’дёЁЁле –яя–а–вё“, яё‘‘’а÷Ў“–ойЎе ёяё“’й’ЁЎп Ў ЎЁв’аЏё№. "
-"≤ ‘–ЁЁлў №ё№’Ёв дгЁЏжЎп ЎЁв’аЏё№ <b>Ё’ яё‘‘’а÷Ў“–’вбп</b>, вёџмЏё ”агяяё“ё’ ёяё“’й’ЁЎ’."
-"≤ Ё–бвёпй’’ “а’№п яё‘‘’а÷Ў“–’вбп –яя–а–в GXP-2000 б яаёиЎ“Џёў 1.0.13 ЎџЎ “ли’, –яя–а–вл "
-"Snom бё 'бв–ал№Ў' яаёиЎ“Џ–№Ў Ў Ё’Џёвёал’ ‘аг”Ў’ в’џ’дёЁЁл’ –яя–а–вл"
+"ћодуль дл€ специализированных телефонных аппаратов, поддерживающих оповещени€ и интерком. "
+"¬ данный момент функци€ интерком <b>не поддерживаетс€</b>, только групповое оповещение."
+"¬ насто€щее врем€ поддерживаетс€ аппарат GXP-2000 с прошивкой 1.0.13 или выше, аппараты "
+"Snom со 'старыми' прошивками и некоторые другие телефонные аппараты"
 
 #: modules/paging/page.paging.php:70
 #: modules/ringgroups/page.ringgroups.php:121
 msgid "Delete Group"
-msgstr "√‘–џЎвм ”агяяг"
+msgstr "”далить группу"
 
 #: modules/paging/page.paging.php:79
 msgid "Modify Paging Group"
-msgstr "Є„№’ЁЎвм ”агяяг ёяё“’й’ЁЎп"
+msgstr "»зменить группу оповещени€"
 
 #: modules/paging/page.paging.php:79 modules/paging/page.paging.php:119
 msgid "Add Paging Group"
-msgstr "іё—–“Ўвм ”агяяг ёяё“’й’ЁЎп"
+msgstr "ƒобавить группу оповещени€"
 
 #: modules/paging/page.paging.php:80
 msgid "Paging Extension"
-msgstr "≤Ёгва’ЁЁЎў Ёё№’а ёяё“’й’ЁЎў"
+msgstr "¬нутренний номер оповещений"
 
 #: modules/paging/page.paging.php:81
 msgid "The number users will dial to page this group"
-msgstr "≤Ёгва’ЁЁЎў Ёё№’а, Ё– Џёвёалў ‘ё„“–ЁЎ“–овбп ‘џп ёяё“’й’ЁЎп ”агяял"
+msgstr "¬нутренний номер, на который дозваниваютс€ дл€ оповещени€ группы"
 
 #: modules/paging/page.paging.php:84
 msgid "extension list:"
-msgstr "“Ёгва’ЁЁЎ’ Ёё№’а–:"
+msgstr "внутренние номера:"
 
 #: modules/paging/page.paging.php:84
 msgid "List extensions to page, one per line."
-msgstr "ЅяЎбёЏ “Ёгва’ЁЁЎе Ёё№’аё“ ‘џп ёяё“’й’ЁЎп, яё ё‘Ёё№г “ бваёЏг"
+msgstr "—писок внутренних номеров дл€ оповещени€, по одному в строку"
 
 #: modules/paging/page.paging.php:128
 msgid "Page Group"
-msgstr "≥агяя– ёяё“’й’ЁЎп"
+msgstr "√руппа оповещени€"
 
 #: modules/paging/page.paging.php:131
 msgid "Paging and Intercom"
-msgstr "Њяё“’й’ЁЎп Ў ЎЁв’аЏё№"
+msgstr "ќповещени€ и интерком"
 
 #: modules/queues/page.queues.php:101 modules/queues/page.queues.php:135
 #: modules/queues/page.queues.php:145
 msgid "Add Queue"
-msgstr "іё—–“Ўвм ёз’а’‘м"
+msgstr "ƒобавить очередь"
 
 #: modules/queues/page.queues.php:114
 msgid "Queue"
-msgstr "Њз’а’‘м"
+msgstr "ќчередь"
 
 #: modules/queues/page.queues.php:128
 msgid "Delete Queue"
-msgstr "√‘–џЎвм ёз’а’‘м"
+msgstr "”далить очередь"
 
 #: modules/queues/page.queues.php:133
 msgid "Queue:"
-msgstr "Њз’а’‘м:"
+msgstr "ќчередь:"
 
 #: modules/queues/page.queues.php:145
 msgid "Edit Queue"
-msgstr "Є„№’ЁЎвм ёз’а’‘м"
+msgstr "»зменить очередь"
 
 #: modules/queues/page.queues.php:150
 msgid "queue number:"
-msgstr "Ёё№’а ёз’а’‘Ў:"
+msgstr "номер очереди:"
 
 #: modules/queues/page.queues.php:150
 msgid ""
@@ -2466,33 +2484,33 @@ msgid ""
 "<br><br>For example, if the queue number is 123:<br><br><b>123* = log "
 "in<br>123** = log out</b>"
 msgstr ""
-"Єбяёџм„гўв’ нвёв Ёё№’а, звё—л ‘ё„“ёЁЎвмбп “ ёз’а’‘м ЎџЎ я’а’Ё–яа–“Ўвм „“ёЁёЏ “ нвг ёз’а’‘м. "
-"<br><br>∞”’Ёвл, яаЎЁЎ№–ойЎ’ „“ёЁЏЎ, Ё–—а–“ нвёв Ёё№’а бё „Ё–Џё№ „“’„‘ёзЏЎ (*) “ ЏёЁж’ яёя–‘–ов “ ёз’а’‘м, – Ё–—а–“ Ёё№’а б ‘“г№п „Ё–Џ–№Ў „“’„‘ёзЏЎ - “леё‘пв Ў„ ёз’а’‘Ў."
-"Ї яаЎ№’аг, ’бџЎ Ёё№’а ёз’а’‘Ў 123:<br><br><b>123* = “её‘<br>123** = “леё‘</b>"
+"»спользуйте этот номер, чтобы дозвонитьс€ в очередь или перенаправить звонок в эту очередь. "
+"<br><br>јгенты, принимающие звонки, набрав этот номер со знаком звездочки (*) в конце попадают в очередь, а набрав номер с двум€ знаками звездочки - выход€т из очереди."
+"  примеру, если номер очереди 123:<br><br><b>123* = вход<br>123** = выход</b>"
 
 #: modules/queues/page.queues.php:155
 msgid "queue name:"
-msgstr "љ–„“–ЁЎ’ ёз’а’‘Ў:"
+msgstr "Ќазвание очереди:"
 
 #: modules/queues/page.queues.php:155
 msgid "Give this queue a brief name to help you identify it."
-msgstr "і–ўв’ ёз’а’‘Ў Џа–вЏё’ Ў№п ‘џп г‘ё—бв“– Ў‘’ЁвЎдЎЏ–жЎЎ"
+msgstr "ƒайте очереди краткое им€ дл€ удобства идентификации"
 
 #: modules/queues/page.queues.php:159
 msgid "queue password:"
-msgstr "я–аёџм ёз’а’‘Ў:"
+msgstr "пароль очереди:"
 
 #: modules/queues/page.queues.php:159
 msgid ""
 "You can require agents to enter a password before they can log in to this "
 "queue.<br><br>This setting is optional."
 msgstr ""
-"≤л №ё÷’в’ яёва’—ё“–вм ёв –”’Ёвё“ ““ё‘Ўвм я–аёџм, яа’÷‘’ з’№ ёЁЎ б№ё”гв яёя–бвм "
-"“ ёз’а’‘м.<br><br>Ќвё Ё’ ё—п„–в’џмЁлў я–а–№’ва."
+"¬ы можете потребовать от агентов вводить пароль, прежде чем они смогут попасть "
+"в очередь.<br><br>Ёто не об€зательный параметр."
 
 #: modules/queues/page.queues.php:163
 msgid "CID name prefix:"
-msgstr "ња’дЎЏб Єі Ёё№’а–:"
+msgstr "ѕрефикс »ƒ номера:"
 
 #: modules/queues/page.queues.php:163
 msgid ""
@@ -2500,13 +2518,13 @@ msgid ""
 "you prefix with \"Sales:\", a call from John Doe would display as \"Sales:"
 "John Doe\" on the extensions that ring."
 msgstr ""
-"ЊяжЎёЁ–џмЁё, “л №ё÷’в’ гЏ–„–вм яа’дЎЏб Єі Ёё№’а– ёз’а’‘Ў. "
-"¬.’.: µбџЎ “–и Ў‘’ЁвЎдЎЏ–вёа \"Sales:\", Ј“ёЁёЏ ёв John Doe —г‘’в “л”џп‘’вм Џ–Џ "
-"\"Sales: John Doe\" Ё– „“ёЁпй’№ “Ёгва’ЁЁ’№ Ёё№’а’."
+"ќпционально, вы можете указать префикс »ƒ номера очереди. "
+"“.е.: ≈сли ваш идентификатор \"Sales:\", «вонок от John Doe будет выгл€деть как "
+"\"Sales: John Doe\" на звон€щем внутреннем номере."
 
 #: modules/queues/page.queues.php:167
 msgid "static agents"
-msgstr "бв–вЎзЁл’ –”’Ёвл"
+msgstr "статичные агенты"
 
 #: modules/queues/page.queues.php:167
 msgid ""
@@ -2516,20 +2534,20 @@ msgid ""
 "include an extension on a remote system, or an external number (Outbound "
 "Routing must contain a valid route for external numbers)"
 msgstr ""
-"Ѕв–вЎзЁл’ –”’Ёвл - “Ёгва’ЁЁЎ’ Ёё№’а–, яаЎ„“–ЁЁл’ “б’”‘– яёџгз–вм „“ёЁЏЎ Ў„ ёз’а’‘Ў. "
-"Ѕв–вЎзЁл№ –”’Ёвл Ё’ Ёг÷Ёё “её‘Ўвм “ ёз’а’‘м, Ў ёЁЎ Ё’ №ё”гв Ў„ Ё’’ “лўвЎ "
-"<br><br>ЅяЎбёЏ “Ёгва’ЁЁЎе Ёё№’аё“, Џёвёал’ —г‘гв яаЎЁЎ№–вм „“ёЁЏЎ, яё ё‘Ёё№г “ бваёЏг. "
-"<br><br>≤ бяЎбЏ’ №ё”гв яаЎбгвбв“ё“–вм Џ–Џ “Ёгва’ЁЁЎ’ Ёё№’а–, в–Џ Ў “Ё’иЁЎ’ "
-"(њаЎ гбџё“ЎЎ, звё б’ЏжЎп 'Єбеё‘пй–п №–аиагвЎ„–жЎп' бё‘’а÷Ўв а–—ёв–ойЎў №–аиагв ‘ё "
-"гЏ–„–ЁЁё”ё “Ё’иЁ’”ё Ёё№’а–)"
+"—татичные агенты - внутренние номера, призванные всегда получать звонки из очереди. "
+"—татичным агенты не нужно входить в очередь, и они не могут из нее выйти "
+"<br><br>—писок внутренних номеров, которые будут принимать звонки, по одному в строку. "
+"<br><br>¬ списке могут присутствовать как внутренние номера, так и внешние "
+"(ѕри условии, что секци€ '»сход€ща€ маршрутизаци€' содержит работающий маршрут до "
+"указанного внешнего номера)"
 
 #: modules/queues/page.queues.php:174
 msgid "Queue Options"
-msgstr "ЊяжЎЎ ёз’а’‘Ў"
+msgstr "ќпции очереди"
 
 #: modules/queues/page.queues.php:177
 msgid "Agent Announcement:"
-msgstr "∞ЁёЁбЎаё“–ЁЎ’ –”’Ёвё“:"
+msgstr "јнонсирование агентов:"
 
 #: modules/queues/page.queues.php:177
 msgid ""
@@ -2538,14 +2556,14 @@ msgid ""
 "from the Technical Support Queue\".<br><br>To add additional recordings "
 "please use the \"System Recordings\" MENU to the left"
 msgstr ""
-"њаёЎ”ал“–ЁЎ’ –ЁёЁб– яа’÷‘’ з’№ гбв–Ёё“Ўвм бё’‘ЎЁ’ЁЎ’. "
-"<br><br> њаЎ№’а: \"Ќвёв „“ёЁёЏ Ў„ ёз’а’‘Ў яё‘ Ё–„“–ЁЎ’№ Sales\" ЎџЎ \"Ќвёв "
-"„“ёЁёЏ Ў„ ёз’а’‘Ў Technical Support\".<br><br>іџп вё”ё, звё—л ‘ё—–“Ўвм ‘ёяёџЁЎв’џмЁл’ „–яЎбЎ "
-"“л—’аЎв’ б’ЏжЎо \"Ј–яЎбм бёё—й’ЁЎў\" “ №’Ёо бџ’“–"
+"ѕроигрывание анонса прежде чем установить соединение. "
+"<br><br> ѕример: \"Ётот звонок из очереди под названием Sales\" или \"Ётот "
+"звонок из очереди Technical Support\".<br><br>ƒл€ того, чтобы добавить дополнительные записи "
+"выберите секцию \"«апись сообщений\" в меню слева"
 
 #: modules/queues/page.queues.php:196
 msgid "Hold Music Category:"
-msgstr "Љг„лЏ–џмЁ–п Џ–в’”ёаЎп “ а’÷Ў№’ ё÷Ў‘–ЁЎп:"
+msgstr "ћузыкальна€ категори€ в режиме ожидани€:"
 
 #: modules/queues/page.queues.php:196
 msgid ""
@@ -2553,70 +2571,70 @@ msgid ""
 "available agent.<br><br>  This music is defined in the \"On Hold Music\" "
 "Menu to the left."
 msgstr ""
-"Љг„лЏ– (ЎџЎ а’Џџ–№–), яаёЎ”ал“–’№–п “б’ вё “а’№п, яёЏ– „“ёЁпйЎў ё÷Ў‘–’в Ё– џЎЁЎЎ б“ё—ё‘Ёё”ё –”’Ёв–."
-"<br><br>Њяа’‘’џп’вбп “ б’ЏжЎЎ \"Љг„лЏ– а’÷Ў№– ё÷Ў‘–ЁЎп\" “ №’Ёо бџ’“–."
+"ћузыка (или реклама), проигрываема€ все то врем€, пока звон€щий ожидает на линии свободного агента."
+"<br><br>ќпредел€етс€ в секции \"ћузыка режима ожидани€\" в меню слева."
 
 #: modules/queues/page.queues.php:215
 msgid "max wait time:"
-msgstr "№–ЏбЎ№–џмЁё’ “а’№п ё÷Ў‘–ЁЎп:"
+msgstr "максимальное врем€ ожидани€:"
 
 #: modules/queues/page.queues.php:215
 msgid ""
 "The maximum number of seconds a caller can wait in a queue before being "
 "pulled out.  (0 for unlimited)."
 msgstr ""
-"Љ–ЏбЎ№–џмЁё’ “а’№п “ б’ЏгЁ‘–е, яёЏ– „“ёЁёЏ —г‘’в Ё–её‘Ўвбп “ ёз’а’‘Ў яа’÷‘’ з’№ бё’‘ЎЁ’ЁЎ’ —г‘’в яа’а“–Ёё "
-"(0 ‘џп Ё’ё”а–ЁЎз’ЁЁё”ё)."
+"ћаксимальное врем€ в секундах, пока звонок будет находитс€ в очереди прежде чем соединение будет прервано "
+"(0 дл€ неограниченного)."
 
 #: modules/queues/page.queues.php:222
 msgid "Unlimited"
-msgstr "љ’ё”а–ЁЎз’Ёё"
+msgstr "Ќеограничено"
 
 #: modules/queues/page.queues.php:231
 msgid "max callers:"
-msgstr "№–ЏбЎ№–џмЁё’ ЏёџЎз’бв“ё “ ёз’а’‘Ў:"
+msgstr "максимальное количество в очереди:"
 
 #: modules/queues/page.queues.php:231
 msgid "Maximum number of people waiting in the queue (0 for unlimited)"
 msgstr ""
-"Љ–ЏбЎ№–џмЁё’ ЏёџЎз’бв“ё ё÷Ў‘–ойЎе “ ёз’а’‘Ў (0 ‘џп Ё’ё”а–ЁЎз’ЁЁё”ё)"
+"ћаксимальное количество ожидающих в очереди (0 дл€ неограниченного)"
 
 #: modules/queues/page.queues.php:244
 msgid "join empty:"
-msgstr "‘ё„“–ЁЎ“–вмбп “ —’„‘’ўбв“гойго:"
+msgstr "дозваниватьс€ в бездействующую:"
 
 #: modules/queues/page.queues.php:244
 msgid ""
 "If you wish to allow callers to join queues that currently have no agents, "
 "set this to yes"
-msgstr "µбџЎ “л еёвЎв’ а–„а’иЎвм ‘ё„“–ЁЎ“–вмбп “ ёз’а’‘Ў, Џёвёал’ “ ‘–ЁЁлў №ё№’Ёв Ё’ Ў№’ов –”’Ёвё“, "
-"гбв–Ёё“Ўв’ я–а–№’ва “ яёџё÷’ЁЎ’ '‘–'"
+msgstr "≈сли вы хотите разрешить дозваниватьс€ в очереди, которые в данный момент не имеют агентов, "
+"установите параметр в положение 'да'"
 
 #: modules/queues/page.queues.php:258
 msgid "leave when empty:"
-msgstr "яёЏЎ‘–вм ёз’а’‘м ’бџЎ Ё’в ё÷Ў‘–ойЎе:"
+msgstr "покидать очередь если нет ожидающих:"
 
 #: modules/queues/page.queues.php:258
 msgid ""
 "If you wish to remove callers from the queue if there are no agents present, "
 "set this to yes"
 msgstr ""
-"µбџЎ “л еёвЎв’ г‘–џпвм ё÷Ў‘–ойЎе Ў„ ёз’а’‘Ў, ’бџЎ Ё’ ёяа’‘’џ’Ёё ЁЎ ё‘Ёё”ё –”’Ёв–, "
-"гбв–Ёё“Ўв’ я–а–№’ва “ яёџё÷’ЁЎ’ '‘–'"
+"≈сли вы хотите удал€ть ожидающих из очереди, если не определено ни одного агента, "
+"установите параметр в положение 'да'"
 
 #: modules/queues/page.queues.php:273
 #: modules/ringgroups/page.ringgroups.php:154
 msgid "ring strategy:"
-msgstr "бва–в’”Ўп „“ёЁЏё“:"
+msgstr "стратеги€ звонков:"
 
 #: modules/queues/page.queues.php:275
 #: modules/ringgroups/page.ringgroups.php:156
 msgid "ringall"
-msgstr "„“ёЁпв “б’"
+msgstr "звон€т все"
 
 #: modules/queues/page.queues.php:275
 msgid "ring all available agents until one answers (default)"
-msgstr "„“ёЁпв “б’ ‘ёбвгяЁл’ “Ёгва’ЁЁЎ’ Ёё№’а– ‘ё в’е яёа, яёЏ– Ё– Ё’ —г‘’в яёџгз’Ё ёв“’в.(њё-ёяа’‘’џ’ЁЎо)"
+msgstr "звон€т все доступные внутренние номера до тех пор, пока на не будет получен ответ.(ѕо-определению)"
 
 #: modules/queues/page.queues.php:276
 msgid "roundrobin"
@@ -2624,7 +2642,7 @@ msgstr "roundrobin"
 
 #: modules/queues/page.queues.php:276
 msgid "take turns ringing each available agent"
-msgstr "„–бв–“џп’в „“ёЁЎвм “б’ ‘ёбвгяЁл’ ЎЁв’ад’ўбл"
+msgstr "заставл€ет звонить все доступные интерфейсы"
 
 #: modules/queues/page.queues.php:277
 msgid "leastrecent"
@@ -2632,7 +2650,7 @@ msgstr "leastrecent"
 
 #: modules/queues/page.queues.php:277
 msgid "ring agent which was least recently called by this queue"
-msgstr "„“ёЁёЏ яаЎеё‘Ўв Ё– ЎЁв’ад’ўб, Џёвёалў яёбџ’‘ЁЎ№ яаЎЁЎ№–џ „“ёЁёЏ Ў„ ёз’а’‘Ў"
+msgstr "звонок приходит на интерфейс, который последним принимал звонок из очереди"
 
 #: modules/queues/page.queues.php:278
 msgid "fewestcalls"
@@ -2640,7 +2658,7 @@ msgstr "fewestcalls"
 
 #: modules/queues/page.queues.php:278
 msgid "ring the agent with fewest completed calls from this queue"
-msgstr "„“ёЁЎв вёв, Џёвёалў яаЎЁпџ Ё–Ў№’Ёми’’ ЏёџЎз’бв“ё „“ёЁЏё“ Ў„ ёз’а’‘Ў"
+msgstr "звонит тот, который прин€л наименьшее количество звонков из очереди"
 
 #: modules/queues/page.queues.php:279
 msgid "random"
@@ -2648,7 +2666,7 @@ msgstr "random"
 
 #: modules/queues/page.queues.php:279
 msgid "ring random agent"
-msgstr "„“ёЁёЏ яаЎеё‘Ўв Ё– яаёЎ„“ёџмЁлў ЎЁв’ад’ўб"
+msgstr "звонок приходит на произвольный интерфейс"
 
 #: modules/queues/page.queues.php:280
 msgid "rrmemory"
@@ -2656,48 +2674,48 @@ msgstr "rrmemory"
 
 #: modules/queues/page.queues.php:280
 msgid "round robin with memory, remember where we left off last ring pass"
-msgstr "№’вё‘ round robin б я–№пвмо, ”‘’ яёЏЎЁгџ ёз’а’‘м яёбџ’‘ЁЎў „“ёЁёЏ"
+msgstr "метод round robin с пам€тью, где покинул очередь последний звонок"
 
 #: modules/queues/page.queues.php:297
 msgid "agent timeout:"
-msgstr "в–ў№–гв –”’Ёв–:"
+msgstr "таймаут агента:"
 
 #: modules/queues/page.queues.php:297
 msgid ""
 "The number of seconds an agents phone can ring before we consider it a "
 "timeout."
-msgstr "Ї–Џ ‘ёџ”ё —г‘’в „“ёЁЎвм в’џ’дёЁ –”’Ёв–, яёбџ’ з’”ё „“ёЁёЏ —г‘’в ёв“’а”Ёгв"
+msgstr " ак долго будет звонить телефон агента, после чего звонок будет отвергнут"
 
 #: modules/queues/page.queues.php:310
 msgid "retry:"
-msgstr "яё“вёапвм з’а’„:"
+msgstr "повтор€ть через:"
 
 #: modules/queues/page.queues.php:310
 msgid "The number of seconds we wait before trying all the phones again"
-msgstr "≤а’№п ё÷Ў‘–ЁЎп, яа’÷‘’ з’№ Ўбяёџм„ё“–вм ’йс ё‘Ёг яёялвЏг ‘ё„“ёЁЎвбп ‘ё б“ё—ё‘Ёё”ё –”’Ёв–"
+msgstr "¬рем€ ожидани€, прежде чем использовать ещЄ одну попытку дозвонитс€ до свободного агента"
 
 #: modules/queues/page.queues.php:323
 msgid "wrap-up-time:"
-msgstr "„–‘’а÷Џ– бё’‘ЎЁ’ЁЎп:"
+msgstr "задержка соединени€:"
 
 #: modules/queues/page.queues.php:323
 msgid ""
 "After a successful call, how many seconds to wait before sending a "
 "potentially free agent another call (default is 0, or no delay)"
 msgstr ""
-"њёбџ’ бё’‘ЎЁ’ЁЎп, Џ–Џ —лбваё я’а’Ё–яа–“џпвм ’”ё Ё– яёв’ЁжЎ–џмЁё б“ё—ё‘Ёё”ё –”’Ёв– "
-"(яё г№ёџз–ЁЎо 0, ЎџЎ —’„ „–‘’а÷ЏЎ)"
+"ѕосле соединени€, как быстро перенаправл€ть его на потенциально свободного агента "
+"(по умолчанию 0, или без задержки)"
 
 #: modules/queues/page.queues.php:336
 msgid "call recording:"
-msgstr "„–яЎбм а–„”ё“ёаё“:"
+msgstr "запись разговоров:"
 
 #: modules/queues/page.queues.php:336
 msgid ""
 "Incoming calls to agents can be recorded. (saved to /var/spool/asterisk/"
 "monitor)"
 msgstr ""
-"≤б’ “её‘пйЎ’ „“ёЁЏЎ Џ –”’Ёв–№ №ё”гв —лвм „–яЎб–Ёл (бёеа–Ёповбп “ /var/"
+"¬се вход€щие звонки к агентам могут быть записаны (сохран€ютс€ в /var/"
 "spool/asterisk/monitor)."
 
 #: modules/queues/page.queues.php:341
@@ -2714,47 +2732,47 @@ msgstr "gsm"
 
 #: modules/queues/page.queues.php:349
 msgid "Caller Announcements"
-msgstr "∞ЁёЁбЎаё“–ЁЎ’ „“ёЁпй’”ё"
+msgstr "јнонсирование звон€щего"
 
 #: modules/queues/page.queues.php:351
 msgid "Frequency:"
-msgstr "«–бвёв–:"
+msgstr "„астота:"
 
 #: modules/queues/page.queues.php:351
 msgid ""
 "How often to announce queue position, estimated holdtime, and/or voice menu "
 "to the caller (0 to Disable Announcements)."
 msgstr ""
-"Ї–Џ з–бвё –ЁёЁбЎаё“–вм „“ёЁпй’№г ’”ё яё„ЎжЎо “ ёз’а’‘Ў, ёаЎ’ЁвЎаё“ёзЁё’ “а’№п "
-"ё÷Ў‘–ЁЎп, Ў/ЎџЎ ”ёџёбё“ё’ №’Ёо (0 ‘џп “лЏџоз’ЁЎп –ЁёЁбё“)"
+" ак часто анонсировать звон€щему его позицию в очереди, ориентировочное врем€ "
+"ожидани€, и/или голосовое меню (0 дл€ выключени€ анонсов)"
 
 #: modules/queues/page.queues.php:364
 msgid "Announce Position:"
-msgstr "њё„ЎжЎп –ЁёЁб–:"
+msgstr "ѕозици€ анонса:"
 
 #: modules/queues/page.queues.php:364
 msgid "Announce position of caller in the queue?"
-msgstr "∞ЁёЁбЎаё“–вм яё„ЎжЎо „“ёЁпй’”ё “ ёз’а’‘Ў?"
+msgstr "јнонсировать позицию звон€щего в очереди?"
 
 #: modules/queues/page.queues.php:376
 msgid "Announce Hold Time:"
-msgstr "∞ЁёЁбЎаё“–вм “а’№п ё÷Ў‘–ЁЎп:"
+msgstr "јнонсировать врем€ ожидани€:"
 
 #: modules/queues/page.queues.php:376
 msgid ""
 "Should we include estimated hold time in position announcements?  Either "
 "yes, no, or only once; hold time will not be announced if <1 minute"
 msgstr ""
-"іёџ÷Ёё џЎ “Џџоз–вбп “ –ЁёЁб ёаЎ’ЁвЎаё“ёзЁё’ “а’№п ё÷Ў‘–ЁЎп? "
-"і–, Ё’в, ЎџЎ вёџмЏё ё‘ЎЁ а–„; “а’№п ё÷Ў‘–ЁЎп Ё’ —г‘’в –ЁёЁбЎаё“–вмбп ’бџЎ <1 №ЎЁгвл"
+"ƒолжно ли включатс€ в анонс ориентировочное врем€ ожидани€? "
+"ƒа, нет, или только один раз; врем€ ожидани€ не будет анонсироватьс€ если <1 минуты"
 
 #: modules/queues/page.queues.php:383
 msgid "Once"
-msgstr "µ‘ЎЁё÷‘л"
+msgstr "≈диножды"
 
 #: modules/queues/page.queues.php:390
 msgid "Voice Menu:"
-msgstr "≥ёџёбё“ё’ №’Ёо:"
+msgstr "√олосовое меню:"
 
 #: modules/queues/page.queues.php:390
 msgid ""
@@ -2762,17 +2780,17 @@ msgid ""
 "existing Digital Receptionist Voice Menu.<br><br>This voicemenu must only "
 "contain single-digit 'dialed options'."
 msgstr ""
-"њёбџ’ –ЁёЁбЎаё“–ЁЎп №’бв– “ ёз’а’‘Ў Ў “а’№’ЁЎ ё÷Ў‘–ЁЎп “л №ё÷’в’ ёяжЎёЁ–џмЁё "
-"“л—а–вм №’Ёо нџ’ЏваёЁЁё”ё б’Џа’в–ап.<br><br>Ќвё ЎЁв’а–ЏвЎ“Ёё’ №’Ёо ‘ёџ÷Ёё бё‘’а÷–вм "
-"вёџмЏё “–аЎ–Ёвл Ё–—ёа–, бёбвёпйЎ’ Ў„ ё‘Ёёў жЎдал."
+"ѕосле анонсировани€ места в очереди и времени ожидани€ вы можете опционально "
+"выбрать меню электронного секретар€.<br><br>Ёто интерактивное меню должно содержать "
+"только варианты набора, состо€щие из одной цифры."
 
 #: modules/queues/page.queues.php:405
 msgid "Menu ID "
-msgstr "Єі №’Ёо"
+msgstr "»ƒ меню"
 
 #: modules/queues/page.queues.php:416
 msgid "Join Announcement:"
-msgstr "Єбяёџм„ё“–вм г“’‘ё№џ’ЁЎ’:"
+msgstr "»спользовать уведомление:"
 
 #: modules/queues/page.queues.php:416
 msgid ""
@@ -2780,93 +2798,93 @@ msgid ""
 "add additional recordings please use the \"System Recordings\" MENU to the "
 "left"
 msgstr ""
-"√“’‘ё№џ’ЁЎ’ “ёбяаёЎ„“ё‘Ўвбп яа’÷‘’ з’№ яёбв–“Ўвм „“ёЁёЏ “ ёз’а’‘м.<br><br>іџп "
-"‘ёяёџЁЎв’џмЁёў „–яЎбЎ а–„”ё“ёаё“ Ўбяёџм„гўв’ \"Ј–яЎбм бёё—й’ЁЎў\" “ №’Ёо бџ’“–"
+"”ведомление воспроизводитс€ прежде чем поставить звонок в очередь.<br><br>ƒл€ "
+"дополнительной записи разговоров используйте \"«апись сообщений\" в меню слева"
 
 #: modules/queues/page.queues.php:435
 msgid "Fail Over Destination"
-msgstr "≤ бџгз–’, ’бџЎ бё’‘ЎЁ’ЁЎ’ Ё’ бёбвёпџёбм"
+msgstr "¬ случае, если соединение не состо€лось"
 
 #: modules/recordings/page.recordings.php:31
 msgid "You can use your extension to record and playback a System Recording."
-msgstr "≤л №ё÷’в’ Ўбяёџм„ё“–вм б“ёў “Ёгва’ЁЁЎў Ёё№’а ‘џп „–яЎбЎ Ў “ёбяаёЎ„“’‘’ЁЎп "
-"бЎбв’№Ёле „–яЎб’ў"
+msgstr "¬ы можете использовать свой внутренний номер дл€ записи и воспроизведени€ "
+"системных записей"
 
 #: modules/recordings/page.recordings.php:32
 msgid "Please enter your user/extension number:"
-msgstr "≤“’‘Ўв’ “–и “Ёгва’ЁЁЎў Ёё№’а:"
+msgstr "¬ведите ваш внутренний номер:"
 
 #: modules/recordings/page.recordings.php:56
 #: modules/recordings/page.recordings.php:61
 msgid "System Recording"
-msgstr "Ј–яЎбм бёё—й’ЁЎў"
+msgstr "«апись сообщений"
 
 #: modules/recordings/page.recordings.php:56
 msgid "Saved"
-msgstr "Ѕёеа–Ё’Ёё"
+msgstr "—охранено"
 
 #: modules/recordings/page.recordings.php:68
 #: modules/recordings/page.recordings.php:88
 msgid "Add Recording"
-msgstr "іё—–“Ўвм „–яЎбм"
+msgstr "ƒобавить запись"
 
 #: modules/recordings/page.recordings.php:86
 msgid "Recording"
-msgstr "Ј–яЎбм"
+msgstr "«апись"
 
 #: modules/recordings/page.recordings.php:95
 msgid "Delete Recording"
-msgstr "√‘–џЎвм „–яЎбм"
+msgstr "”далить запись"
 
 #: modules/recordings/page.recordings.php:105
 msgid "and speak the message you wish to record."
-msgstr "Ў яаё”ё“ёаЎв’ бёё—й’ЁЎ’, Џёвёаё’ еёвЎв’ „–яЎб–вм."
+msgstr "и проговорите сообщение, которое хотите записать."
 
 #: modules/recordings/page.recordings.php:132
 msgid ""
 "After recording or uploading, <em>dial *99</em> to listen to your recording."
 msgstr ""
-"њёбџ’ „–яЎбЎ ЎџЎ „–Џ–зЏЎ, <em>Ё–—’аЎв’ *99</em> ‘џп яаёбџгиЎ“–ЁЎп “–и’ў „–яЎбЎ."
+"ѕосле записи или закачки, <em>наберите *99</em> дл€ прослушивани€ вашей записи."
 
 #: modules/recordings/page.recordings.php:137
 msgid "Step 3: Name"
-msgstr "»–” 3: љ–„“–ЁЎ’"
+msgstr "Ўаг 3: Ќазвание"
 
 #: modules/recordings/page.recordings.php:140
 msgid "Name this Recording"
-msgstr "љ–„“–ЁЎ’ „–яЎбЎ"
+msgstr "Ќазвание записи"
 
 #: modules/recordings/page.recordings.php:144
 msgid "Click \"SAVE\" when you are satisfied with your recording"
-msgstr "ЇџЎЏЁ’в’ Ё– \"Ѕёеа–ЁЎвм\" Џё”‘– “л —г‘’в’ г‘ё“џ’в“ёа’Ёл а’„гџмв–вё№"
+msgstr " ликнете на \"—охранить\" когда вы будете удовлетворены результатом"
 
 #: modules/ringgroups/page.ringgroups.php:85
 #: modules/ringgroups/page.ringgroups.php:134
 #: modules/ringgroups/page.ringgroups.php:141
 msgid "Add Ring Group"
-msgstr "іё—–“Ўвм ”агяяг “л„ё“–"
+msgstr "ƒобавить группу вызова"
 
 #: modules/ringgroups/page.ringgroups.php:92
 #: modules/ringgroups/page.ringgroups.php:101
 #: modules/ringgroups/page.ringgroups.php:124
 msgid "Ring Group"
-msgstr "≥агяя– “л„ё“–"
+msgstr "√руппа вызова"
 
 #: modules/ringgroups/page.ringgroups.php:141
 msgid "Edit Ring Group"
-msgstr "ј’‘–ЏвЎаё“–вм ”агяяг “л„ё“–"
+msgstr "–едактировать группу вызова"
 
 #: modules/ringgroups/page.ringgroups.php:149
 msgid "group number"
-msgstr "Ёё№’а ”агяял"
+msgstr "номер группы"
 
 #: modules/ringgroups/page.ringgroups.php:149
 msgid "The number users will dial to ring extensions in this ring group"
-msgstr "љё№’а, Ё– Џёвёалў —г‘гв „“ёЁЎвм “б’№ яёџм„ё“–в’џп№ “ ”агяя’"
+msgstr "Ќомер, на который будут звонить всем пользовател€м в группе"
 
 #: modules/ringgroups/page.ringgroups.php:156
 msgid "ring all available channels until one answers (default)"
-msgstr "„“ёЁпв “б’ ‘ёбвгяЁл’ “Ёгва’ЁЁЎ’ Ёё№’а– ‘ё в’е яёа, яёЏ– Ё– Ё’ —г‘’в яёџгз’Ё ёв“’в.(њё-ёяа’‘’џ’ЁЎо)"
+msgstr "звон€т все доступные внутренние номера до тех пор, пока на не будет получен ответ.(ѕо-определению)"
 
 #: modules/ringgroups/page.ringgroups.php:157
 msgid "hunt"
@@ -2874,8 +2892,8 @@ msgstr "hunt"
 
 #: modules/ringgroups/page.ringgroups.php:157
 msgid "take turns ringing each available extension"
-msgstr "„“ёЁпв яё ёз’а’‘Ў “б’ ‘ёбвгяЁл’ ‘ё—–“ёзЁл’ Ёё№’а– ”агяял ‘ё в’е яёа, яёЏ– Ё’ "
-"—г‘’в яёџгз’Ё ёв“’в."
+msgstr "звон€т по очереди все доступные добавочные номера группы до тех пор, пока не "
+"будет получен ответ."
 
 #: modules/ringgroups/page.ringgroups.php:158
 msgid "memoryhunt"
@@ -2885,12 +2903,12 @@ msgstr "memoryhunt"
 msgid ""
 "ring first extension in the list, then ring the 1st and 2nd extension, then "
 "ring 1st 2nd and 3rd extension in the list.... etc."
-msgstr "„“ёЁЎв я’а“лў Ў„ ‘ё—–“ёзЁле Ёё№’аё“ ”агяял, яёбџ’ нвё”ё я’а“лў Ў “вёаёў “№’бв’, "
-"яёбџ’ нвё”ё я’а“лў, “вёаёў Ў ва’вЎў Ў в.‘."
+msgstr "звонит первый из добавочных номеров группы, после этого первый и второй вместе, "
+"после этого первый, второй и третий и т.д."
 
 #: modules/ringgroups/page.ringgroups.php:174
 msgid "extension list"
-msgstr "“Ёгва’ЁЁЎ’ Ёё№’а–"
+msgstr "внутренние номера"
 
 #: modules/ringgroups/page.ringgroups.php:174
 msgid ""
@@ -2899,274 +2917,277 @@ msgid ""
 "(#).  ex:  2448089# would dial 2448089 on the appropriate trunk (see "
 "Outbound Routing)."
 msgstr ""
-"≤Ёгва’ЁЁЎ’ Ёё№’а– яёџм„ё“–в’џ’ў, яё ё‘Ёё№г “ бваёЏ’.<br><br>≤л №ё÷’в’ гЏ–„–вм "
-"Ёё№’а Ё– г‘–џ’ЁЁёў бЎбв’№’, ЎџЎ џо—ёў “Ё’иЁЎў Ёё№’а Ўбяёџм„гп "
-"(#) “ Џ–з’бв“’ бгддЎЏб–. љ–яаЎ№’а: яаЎ 2448089# —г‘’в Ё–—а–Ё Ёё№’а 2448089 "
-"Ё– бёёв“’вбв“гой’№ ва–ЁЏ’ (б№. Єбеё‘пйЎ’ №–аиагвл)."
+"¬нутренние номера пользователей, по одному в строке.<br><br>¬ы можете указать "
+"номер на удаленной системе, или любой внешний номер использу€ "
+"(#) в качестве суффикса. Ќапример: при 2448089# будет набран номер 2448089 "
+"на соответствующем транке (см. »сход€щие маршруты)."
 
 #: modules/ringgroups/page.ringgroups.php:186
 msgid "CID name prefix"
-msgstr "ња’дЎЏб ‘џп Єі Ёё№’а–"
+msgstr "ѕрефикс дл€ »ƒ номера"
 
 #: modules/ringgroups/page.ringgroups.php:192
 msgid "ring time (max 60 sec)"
-msgstr "“а’№п “л„ё“– (№–Џб. 60 б’Џ)"
+msgstr "врем€ вызова (макс. 60 сек)"
 
 #: modules/ringgroups/page.ringgroups.php:197
 #: modules/ringgroups/page.ringgroups.php:216
 msgid "announcement:"
-msgstr "–ЁёЁб:"
+msgstr "анонс:"
 
 #: modules/ringgroups/page.ringgroups.php:197
 msgid ""
 "Message to be played to the caller before dialing this group.<br><br>To add "
 "additional recordings please use the \"System Recordings\" MENU to the left"
 msgstr ""
-"Ѕёё—й’ЁЎ’, Џёвёаё’ —г‘’в яаёЎ”ал“–вмбп „“ёЁпй’№г ‘ё яаЎеё‘– бЎ”Ё–џё“ “л„ё“– “ ”агяяг.<br><br>"
-"іџп вё”ё, звё—л ‘ё—–“Ўвм „–яЎбм Ўбяёџм„гўв’ б’ЏжЎо \"Ј–яЎбм бёё—й’ЁЎў\" “ №’Ёо бџ’“–"
+"—ообщение, которое будет проигрыватьс€ звон€щему до прихода сигналов вызова в группу.<br><br>"
+"ƒл€ того, чтобы добавить запись используйте секцию \"«апись сообщений\" в меню слева"
 
 #: modules/ringgroups/page.ringgroups.php:216
 msgid ""
 "Message to be played to the caller before dialing this group.<br><br>You "
 "must install and enable the \"Systems Recordings\" Module to edit this option"
 msgstr ""
-"Ѕёё—й’ЁЎ’, Џёвёаё’ —г‘’в яаёЎ”ал“–вмбп „“ёЁпй’№г ‘ё яаЎеё‘– бЎ”Ё–џё“ “л„ё“– “ ”агяяг.<br><br>"
-"≤л ‘ёџ÷Ёл гбв–Ёё“Ўвм Ў “ЏџозЎвм №ё‘гџм \"ЅЎбв’№Ёл’ „–яЎбЎ\" ‘џп вё”ё, звё—л Ў№’вм "
-"“ё„№ё÷Ёёбвм Ў„№’Ёпвм нвёв ягЁЏв"
+"—ообщение, которое будет проигрыватьс€ звон€щему до прихода сигналов вызова в группу.<br><br>"
+"¬ы должны установить и включить модуль \"—истемные записи\" дл€ того, чтобы иметь "
+"возможность измен€ть этот пункт"
 
 #: modules/ringgroups/page.ringgroups.php:226
 msgid "Destination if no answer"
-msgstr "њ’а’Ё–„Ё–з’ЁЎ’ ’бџЎ Ё’в ёв“’в–"
+msgstr "ѕереназначение если нет ответа"
 
 #: modules/timeconditions/page.timeconditions.php:45
 #: modules/timeconditions/page.timeconditions.php:120
 #: modules/timeconditions/page.timeconditions.php:129
 msgid "Add Time Condition"
-msgstr "іё—–“Ўвм яа–“Ўџё яё “а’№’ЁЎ"
+msgstr "ƒобавить правило по времени"
 
 #: modules/timeconditions/page.timeconditions.php:56
 msgid "Server time:"
-msgstr "≤а’№п Ё– б’а“’а’:"
+msgstr "¬рем€ на сервере:"
 
 #: modules/timeconditions/page.timeconditions.php:110
 msgid "Time Condition"
-msgstr "ња–“Ўџ– яё “а’№’ЁЎ"
+msgstr "ѕравила по времени"
 
 #: modules/timeconditions/page.timeconditions.php:120
 msgid "Time Condition:"
-msgstr "ња–“Ўџё яё “а’№’ЁЎ:"
+msgstr "ѕравило по времени:"
 
 #: modules/timeconditions/page.timeconditions.php:122
 msgid "Delete Time Condition"
-msgstr "√‘–џЎвм яа–“Ўџё яё “а’№’ЁЎ"
+msgstr "”далить правило по времени"
 
 #: modules/timeconditions/page.timeconditions.php:129
 msgid "Edit Time Condition"
-msgstr "Є„№’ЁЎвм яа–“Ўџё яё “а’№’ЁЎ"
+msgstr "»зменить правило по времени"
 
 #: modules/timeconditions/page.timeconditions.php:136
 msgid "Time Condition name:"
-msgstr "Є№п яа–“Ўџ– яё “а’№’ЁЎ"
+msgstr "»м€ правила по времени"
 
 #: modules/timeconditions/page.timeconditions.php:136
 msgid "Give this Time Condition a brief name to help you identify it."
-msgstr "і–ўв’ Ў№п нвё№г яа–“Ўџг яё “а’№’ЁЎ ‘џп г‘ё—бв“– Ў‘’ЁвЎдЎЏ–жЎЎ"
+msgstr "ƒайте им€ этому правилу по времени дл€ удобства идентификации"
 
 #: modules/timeconditions/page.timeconditions.php:140
 msgid "Time to match:"
-msgstr "≤а’№п бё“я–‘’ЁЎп:"
+msgstr "¬рем€ совпадени€:"
 
 #: modules/timeconditions/page.timeconditions.php:140
 msgid ""
 "time range|days of week|days of month|months<br><br>you can use an * as a "
 "wildcard.<br><br>ex: <b>9:00-17:00|mon-fri|*|*</b>"
 msgstr ""
-"іЎ–я–„ёЁ “а’№’ЁЎ|‘Ё’ў Ё’‘’џЎ|‘Ё’ў №’бпж–|№’бпж’“<br><br>ЈЁ–Џ "
-"„“’„‘ёзЏ– (*) яё‘её‘Ўв ‘џп џо—ле „Ё–з’ЁЎў.<br><br>яаЎ№’а: <b>9:00-17:00|mon-fri|*|*</b>"
+"ƒиапазон времени|дней недели|дней мес€ца|мес€цев<br><br>«нак "
+"звездочка (*) подходит дл€ любых значений.<br><br>пример: <b>9:00-17:00|mon-fri|*|*</b>"
 
 #: modules/timeconditions/page.timeconditions.php:143
 msgid "Destination if time matches"
-msgstr "њ’а’Ё–яа–“џ’ЁЎ’, ’бџЎ ёв“’з–’в яа–“Ўџг яё “а’№’ЁЎ"
+msgstr "ѕеренаправление, если отвечает правилу по времени"
 
 #: modules/timeconditions/page.timeconditions.php:154
 msgid "Destination if time does not match"
-msgstr "њ’а’Ё–яа–“џ’ЁЎ’, ’бџЎ Ё’ ёв“’з–’в яа–“Ўџг яё “а’№’ЁЎ"
+msgstr "ѕеренаправление, если не отвечает правилу по времени"
 
 #### GREP NE SRABOTAL
 #: modules/core/page.extensions.php:154
 msgid "Add Extension"
-msgstr "іё—–“Ўвм “Ёгва’ЁЁЎў Ёё№’а"
+msgstr "ƒобавить внутренний номер"
 
 #: modules/core/page.extensions.php:158
 msgid ""
 "Use a unique number.  The device will use this number to authenicate "
 "to the system, and users will dial it to ring the device."
-msgstr "Єбяёџм„гўв’ гЁЎЏ–џмЁлў Ёё№’а. √бваёўбв“ё —г‘’в Ўбяёџм„ё“–вм нвёв Ёё№’а "
-"‘џп –гв’ЁвЎдЎЏ–жЎЎ “ бЎбв’№’, Ў яёџм„ё“–в’џЎ —г‘гв Ё–—Ўа–вм нвёв Ёё№’а "
-"‘џп гбв–Ёё“џ’ЁЎп бё’‘ЎЁ’ЁЎп б нвЎ№ гбваёўбв“ё№"
+msgstr "»спользуйте уникальный номер. ”стройство будет использовать этот номер "
+"дл€ аутентификации в системе, и пользователи будут набирать этот номер "
+"дл€ установлени€ соединени€ с этим устройством"
 
 #: modules/core/page.extensions.php:268
 msgid "secret"
-msgstr "я–аёџм"
+msgstr "пароль"
 
 #: modules/core/page.extensions.php:269
 msgid "dtmfmode"
-msgstr "а’÷Ў№ DTMF"
+msgstr "режим DTMF"
 
 #: modules/core/page.extensions.php:385
 msgid "Submit"
-msgstr "Ѕёеа–ЁЎвм"
+msgstr "—охранить"
 
 #: modules/core/page.general.php:114
 msgid "Submit Changes"
-msgstr "Ѕёеа–ЁЎвм Ў„№’Ё’ЁЎп"
+msgstr "—охранить изменени€"
 
 #error in document
 #: modules/core/page.ampusers.php:125
 msgid "NOTE:</b> AUTHTYPE is not set to 'database' in /etc/amportal.conf - "
 "Module crippled."
-msgstr "ња’‘гяа’÷‘’ЁЎ’: AUTHTYPE Ё’ гбв–Ёё“џ’Ё “ яёџё÷’ЁЎ’ 'database' “ д–ўџ’ "
-"/etc/amportal.conf - №ё‘гџм “л“’‘’Ё Ў„ бваёп"
+msgstr "ѕредупреждение: AUTHTYPE не установлен в положение 'database' в файле "
+"/etc/amportal.conf - модуль выведен из стро€"
 
 #: modules/backup/module.ini:2
 msgid "Backup & Restore"
-msgstr "ј’„’а“Ёё’ ЏёяЎаё“–ЁЎ’"
+msgstr "–езервное копирование"
 
 #: modules/core/module.ini:2
 msgid "Core"
-msgstr "±–„–"
+msgstr "Ѕаза"
 #: modules/core/module.ini:8
 msgid "Extensions"
-msgstr "≤Ёгва’ЁЁЎ’ Ёё№’а–"
+msgstr "¬нутренние номера"
 
 #: modules/core/module.ini:9
 msgid "Users"
-msgstr "њёџм„ё“–в’џЎ"
+msgstr "ѕользователи"
 
 #: modules/core/module.ini:10
 msgid "Devices"
-msgstr "√бваёўбв“–"
+msgstr "”стройства"
 
 #: modules/core/module.ini:11
 msgid "Inbound Routes"
-msgstr "≤её‘пй–п №–аиагвЎ„–жЎп"
+msgstr "¬ход€ща€ маршрутизаци€"
 
 #: modules/core/module.ini:12
 msgid "Outbound Routes"
-msgstr "Єбеё‘пй–п №–аиагвЎ„–жЎп"
+msgstr "»сход€ща€ маршрутизаци€"
 
 #: modules/core/module.ini:13
 msgid "Trunks"
-msgstr "¬а–ЁЏЎ"
+msgstr "“ранки"
+
+msgid "Feature Codes"
+msgstr "—ервисные  оды"
 
 #: modules/core/module.ini:15
 msgid "Administrators"
-msgstr "∞‘№ЎЁЎбва–вёал"
+msgstr "јдминистраторы"
 
 #: modules/ivr/module.ini:2
 msgid "IVR"
-msgstr "ЄЁв’а–ЏвЎ“Ёё’ ≥ёџёбё“ё’ Љ’Ёо"
+msgstr "»нтерактивное √олосовое ћеню"
 
 #: modules/ivr/module.ini:8
 msgid "Digital Receptionist"
-msgstr "Ќџ’ЏваёЁЁлў б’Џа’в–ам"
+msgstr "Ёлектронный секретарь"
 
 #: modules/queues/module.ini:8
 msgid "Queues"
-msgstr "Њз’а’‘Ў"
+msgstr "ќчереди"
 
 #: modules/ringgroups/module.ini:8
 msgid "Ring Groups"
-msgstr "≥агяял “л„ё“–"
+msgstr "√руппы вызова"
 
 #: modules/timeconditions/module.ini:8
 msgid "Time Conditions"
-msgstr "ња–“Ўџ– яё “а’№’ЁЎ"
+msgstr "ѕравила по времени"
 
 #: modules/conferences/module.ini:8
 msgid "Conferences"
-msgstr "ЇёЁд’а’ЁжЎЎ"
+msgstr " онференции"
 
 #: modules/core/page.did.php:87
 msgid ""
 "Define the expected DID Number if your trunk passes DID on incoming calls. <br><br>"
 "Leave this blank to match calls with any or no DID info."
 msgstr ""
-"√Џ–÷Ўв’ ё÷Ў‘–’№лў Ёё№’а Ё– Џёвёалў —г‘гв яёбвгя–вм “её‘пйЎ’ „“ёЁЏЎ, ’бџЎ “–и ва–ЁЏ "
-"яё‘‘’а÷Ў“–’в Ё’бЏёџмЏё DID Ёё№’аё“.<br><br>Њбв–“мв’ нвё яёџ’ Ё’„–яёџЁ’ЁЁл№, ’бџЎ еёвЎв’ яаЎЁЎ№–вм Ё– џо—ёў"
+"”кажите ожидаемый номер на который будут поступать вход€щие звонки, если ваш транк "
+"поддерживает несколько DID номеров.<br><br>ќставьте это поле незаполненным, если хотите принимать на любой"
 
 #: modules/core/page.did.php:91
 msgid ""
 "Define the Caller ID Number to be matched on incoming calls.<br><br>"
 "Leave this field blank to match any or no CID info."
 msgstr ""
-"√Џ–÷Ўв’ Ёё№’а, Џёвёалў —г‘’в я’а’‘–“–вмбп “ Џ–з’бв“’ Ўбеё‘пй’”ё яаЎ "
-"„“ёЁЏ–е з’а’„ нвёв ва–ЁЏ, нвё №ё÷’в —лвм яёџ’„Ёл№ ‘џп “л„л“–’№ё”ё –—ёЁ’Ёв–.<br><br>"
-"Њбв–“мв’ нвё яёџ’ Ё’„–яёџЁ’ЁЁл№, ’бџЎ Ё’ еёвЎв’ Ў„№’Ёпвм Ёё№’а Єі"
+"”кажите номер, который будет передаватьс€ в качестве исход€щего при "
+"звонках через этот транк, это может быть полезным дл€ вызываемого абонента.<br><br>"
+"ќставьте это поле незаполненным, если не хотите измен€ть номер »ƒ"
 
 #: modules/core/page.did.php:148
 msgid ""
 "If no Caller ID is sent, Privacy Manager will asks the caller to enter their 10 digit phone number. "
 "The caller is given 3 attempts."
 msgstr ""
-"µбџЎ Ё’ а–бяё„Ё–Ё ЎџЎ ёвбгвбв“г’в Єі Ёё№’а “её‘пй’”ё „“ёЁЏ–, \"Љ’Ё’‘÷’а —’„ёя–бЁёбвЎ\" яа’‘џё÷Ўв Ё–—а–вм 10-вЎ "
-"„Ё–зЁлў Ёё№’а. і–свбп 3 яёялвЏЎ."
+"≈сли не распознан или отсутствует »ƒ номер вход€щего звонка, \"ћенеджер безопасности\" предложит набрать 10-ти "
+"значный номер. ƒаЄтс€ 3 попытки."
 
 #: modules/core/page.did.php:162
 msgid ""
 "Answer calls the moment they are detected?  Note: If using a \"Fax Extension\" (above) you may wish to enable "
 "this so that we can listen for a fax tone."
 msgstr ""
-"Њв“’з–вм Ё– „“ёЁёЏ Ё’№’‘џ’ЁЁё? ња’‘гяа’÷‘’ЁЎ’: µбџЎ Ўбяёџм„г’вбп \"≤Ёгва’ЁЁЎў Ёё№’а д–Џб–\" гЏ–„–ЁЁлў “ли’, "
-"“л №ё÷’в’ „–еёв’вм гбџли–вм вёЁл “л„ё“– д–Џб– звё—л я’а’ЏџозЎвм “агзЁго"
+"ќтвечать на звонок немедленно? ѕредупреждение: ≈сли используетс€ \"¬нутренний номер факса\" указанный выше, "
+"вы можете захотеть услышать тоны вызова факса чтобы переключить вручную"
 
 #: modules/core/page.did.php:171
 msgid ""
 "The number of seconds we should wait after performing an Immediate Answer. "
 "The primary purpose of this is to pause and listen for a fax tone before allowing the call to proceed."
 msgstr ""
-"≤а’№п я–г„л “ б’ЏгЁ‘–е, яёбџ’ Џёвёаёў —г‘’в гбв–Ёё“џ’Ёё бё’‘ЎЁ’ЁЎ’. љ–„Ё–з’ЁЎ’ нвёў я–г„л - гбџли–вм вёЁл “л„ё“– д–Џб– "
-"яа’÷‘’, з’№ —г‘’в яаё‘ёџ÷’Ёё гбв–Ёё“џ’ЁЎ’ бё’‘ЎЁ’ЁЎп."
+"¬рем€ паузы в секундах, после которой будет установлено соединение. Ќазначение этой паузы - услышать тоны вызова факса "
+"прежде, чем будет продолжено установление соединени€."
 
 #: modules/core/page.did.php:178
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
-msgstr "ЄЁдёа№–жЎп ё бЎ”Ё–џ’ №ё÷’в —лвм Ўбяёџм„ё“–Ё– ‘џп а–„џЎзЁле бЎ”Ё–џё“ “л„ё“– "
-"а–„џЎзЁле SIP гбваёўбв“"
+msgstr "»нформаци€ о сигнале может быть использована дл€ различных сигналов вызова "
+"различных SIP устройств"
 
 #: modules/core/page.routing.php:274
 msgid "Rename"
-msgstr "њ’а’Ў№’Ёё“–вм"
+msgstr "ѕереименовать"
 
 #: modules/core/page.routing.php:349
 msgid "Clean & Remove duplicates"
-msgstr "ЊзЎбвЎвм Ў г‘–џЎвм ‘г—џЎЏ–вл"
+msgstr "ќчистить и удалить дубликаты"
 
 #: modules/core/page.trunks.php:293
 msgid ""
 "Setting this option will override all clients' caller IDs for calls placed "
-"out this trunk<br><br>Format: <b>\"caller name\" &lt;#######&gt;</"
+"out this trunk<br><br>Format: <b>\"caller name\" <#######></"
 "b><br><br>Leave this field blank to simply pass client caller IDs."
 msgstr ""
-"√бв–Ёё“Џ– нвёў ёяжЎЎ я’а’яЎбл“–’в „Ё–з’ЁЎ’ Єі Ўбеё‘пй’”ё "
-"Ёё№’а– ‘џп “б’е ‘џп “б’е –—ёЁ’Ёвё“, Ўбяёџм„гойЎе нвёв ва–ЁЏ. ƒёа№–в:<br>"
-"<b>\"Є№п яёџм„ё“–в’џп\" &lt;#######&gt;</b><br><br>Њбв–“мв’ яёџ’ ягбвл№, ’бџЎ Ё’ "
-"еёвЎв’ Ў„№’Ёпвм нвё „Ё–з’ЁЎ’"
+"”становка этой опции переписывает значение »ƒ исход€щего "
+"номера дл€ всех дл€ всех абонентов, использующих этот транк. ‘ормат:<br>"
+"<b>\"»м€ пользовател€\" <#######></b><br><br>ќставьте поле пустым, если не "
+"хотите измен€ть это значение"
 
 #: modules/core/page.trunks.php:276
 msgid "Add %s Trunk"
-msgstr "іё—–“Ўвм %s ва–ЁЏ"
+msgstr "ƒобавить %s транк"
 
 #: modules/core/page.recordings.php:34
 msgid "Continue"
-msgstr "њаё‘ёџ÷Ўвм"
+msgstr "ѕродолжить"
 
 #: modules/core/page.recordings.php:144
 msgid "Save"
-msgstr "Ѕёеа–ЁЎвм"
+msgstr "—охранить"
 
 #: modules/core/page.recordings.php:116
 msgid "Upload"
-msgstr "Ј–”аг„Ўвм"
+msgstr "«агрузить"
 
 #: modules/core/page.ringgroups.php:186
 msgid ""
@@ -3174,16 +3195,751 @@ msgid ""
 "this group. ie: If you prefix with \"Sales:\", a call from John Doe would display "
 "as \"Sales:John Doe\" on the extensions that ring."
 msgstr ""
-"ЊяжЎёЁ–џмЁё, “л №ё÷’в’ гЏ–„–вм яа’дЎЏб Ёё№’а– Єі ”агяял. "
-"¬.’.: µбџЎ “–и Ў‘’ЁвЎдЎЏ–вёа \"Sales:\", Ј“ёЁёЏ ёв John Doe —г‘’в “л”џп‘’вм Џ–Џ "
-"\"Sales: John Doe\" Ё– „“ёЁпй’№ “Ёгва’ЁЁ’№ Ёё№’а’."
+"ќпционально, вы можете указать префикс номера »ƒ группы. "
+"“.е.: ≈сли ваш идентификатор \"Sales:\", «вонок от John Doe будет выгл€деть как "
+"\"Sales: John Doe\" на звон€щем внутреннем номере."
 
 msgid "Call Detail Reports"
-msgstr "Њвз’в ё бё’‘ЎЁ’ЁЎпе"
+msgstr "ќтчет о соединени€х"
 
 msgid "Flash Operator Panel"
-msgstr "њ–Ё’џм ёя’а–вёа– Ё– flash"
+msgstr "‘лэш ѕанель ќператора"
 
 #: index.php:46
 msgid "Welcome"
-msgstr "іё—аё яё÷–џё“–вм"
+msgstr "ƒобро пожаловать"
+
+msgid "Add Administrator"
+msgstr "ƒобавить јдминистратора"
+
+msgid "Edit Extension"
+msgstr "–едактировать внутренний номер"
+
+#: page.general.php:107
+msgid "Use gain when recording the voicemail message (optional):"
+msgstr ""
+"»спользуйте уровень громкости дл€ сообщений голосовой почты"
+
+#: page.general.php:108
+msgid "Use the specified amount of gain when recording the voicemail message."
+msgstr "”кажите уровень громкости дл€ записи сообщений голосовой почты."
+
+#: page.general.php:109
+msgid "The units are whole-number decibels (dB)."
+msgstr "÷елочисленное значение в децибеллах (dB)."
+
+msgid "Asterisk Outbound Dial command options:"
+msgstr "ќпции команды Dial:"
+
+#: page.general.php:112
+msgid "Do Not Play"
+msgstr "Ќе воспроизводить"
+
+#: page.general.php:112
+msgid ""
+"Check this to remove the default message \"Please leave your message after "
+"the tone. When done, hang-up, or press the pound key.\" That is played after "
+"the voicemail greeting (the s option). This applies globally to all vm boxes."
+msgstr ""
+"ѕоставте отметку дл€ удалени€ дежурного сообщени€ \"ѕожалуйста оставьте сообщение "
+"после звукового сигнала, после чего положите трубку или нажмите решЄтку. \" Ёто "
+"сообщение воспроизводитс€ после сообщени€ голосовой почты (опци€ s). Ёто распростран€етс€ "
+"на все €щики голосовой почты по умолчанию."
+
+#: page.general.php:112
+msgid "please leave message after tone to caller"
+msgstr "ќставте сообщение после звукового сигнала"
+
+#: page.trunks.php:324
+msgid ""
+"Caller ID for calls placed out on this trunk<br><br>Format: <b>\"caller name"
+"\" <#######></b>. You can also use the magic string \"hidden\" to hide "
+"the CallerID sent out over Digital lines ONLY (E1/T1/J1/BRI/SIP/IAX)"
+msgstr ""
+"»сход€щий номер дл€ соединений, который будет использоватьс€ этим транком<br><br>"
+"‘ормат:<b>\"CallerID\"<#######></b>. ¬ы можете также использовать опцию \"hidden\""
+" дл€ подавлени€ CallerID посылаемого только по цифровым лини€м (E1/T1/J1/BRI/SIP/IAX)"
+
+#: page.trunks.php:331
+msgid "Never Override CallerID"
+msgstr "Ќе измен€ть CallerID"
+
+#: page.trunks.php:331
+msgid ""
+"Some VoIP providers will drop the call if you try to send an invalid "
+"CallerID (one you don't 'own.' Use this to never send a CallerID that you "
+"haven't explicitly specified in this trunk or in the outbound callerid field "
+"of an extension/user. You might notice this problem if you discover that "
+"Follow-Me or RingGroups with external numbers don't work properly. Checking "
+"this box has the effect of disabling 'foreign' callerids from going out this "
+"trunk"
+msgstr ""
+"Ќекоторые VoIP провайдеры игнорируют звонок, если вы передаЄте неверный CallerID "
+"—тарайтесь не передавать CallerID который €вным образом не определЄн дл€ этого транка" 
+" или установленного в поле '»сход€щий CallerID'. ¬ы можете создать проблему, если "
+" определение Follow-Me или √руппы ¬ызова не будет работать корректно с внешними номерами. "
+" ”становка этой опции даст эффект отмены 'зарубежного' CallerID, при выходе из этого транка"
+
+#: page.trunks.php:331
+msgid "It's safe to leave this switched"
+msgstr "Ѕезопасней оставить это в положении"
+
+#: page.trunks.php:331
+msgid "off"
+msgstr "выключено"
+
+
+msgid "Feature Code Admin"
+msgstr "”правление —ервисными  одами"
+
+msgid "Call Pickup (Can be used with GXP-2000)"
+msgstr "ѕерехват звонка в группе"
+
+msgid "Simulate Incoming Call"
+msgstr "—имул€ци€ входного звонка"
+
+msgid "Simulate Incoming FAX Call"
+msgstr "—имул€ци€ вход€щего факса"
+
+msgid "Feature"
+msgstr "—ервис"
+
+msgid "Use"
+msgstr "»спользуетс€"
+
+msgid "Info Services"
+msgstr "»нфо сервис"
+
+msgid "Call Trace"
+msgstr "“рассировка звонка"
+
+msgid "Directory"
+msgstr "ƒиректори€"
+
+msgid "Echo Test"
+msgstr "Ёхо тест"
+
+msgid "Speak Your Exten Number"
+msgstr "¬аш внутренний номер..."
+
+msgid "Speaking Clock"
+msgstr "√овор€щие часы"
+
+msgid "Check Recording"
+msgstr "ѕроверить запись"
+
+msgid "Save Recording"
+msgstr "—охранить запись"
+
+msgid "Voicemail"
+msgstr "√олосова€ почта"
+
+msgid "Dial Voicemail"
+msgstr "¬ход в общую почту"
+
+msgid "My Voicemail"
+msgstr "ћо€ голосова€ почта"
+
+msgid "FreePBX System Status"
+msgstr "FreePBX —татус —истемы"
+
+msgid "FreePBX Statistics"
+msgstr "FreePBX —татистика"
+
+msgid "Total active calls"
+msgstr "јктивных звонков - всего"
+
+msgid "Internal calls"
+msgstr "¬нутренних звонков"
+
+msgid "External calls"
+msgstr "¬нешних звонков"
+
+msgid "Total active channels"
+msgstr "јктивных каналов - всего"
+
+msgid "Phones Online"
+msgstr "“елефонов в онлайне"
+
+msgid "FreePBX Notices"
+msgstr "FreePBX сообщени€"
+
+msgid "User Logoff"
+msgstr "–азлогинитьс€ пользователю"
+
+msgid "User Logon"
+msgstr "«алогинитьс€ пользователю"
+
+msgid "System Statistics"
+msgstr "—татистика —истемы"
+
+msgid "Processor"
+msgstr "ѕроцессор"
+
+msgid "Load Average"
+msgstr "—редн€€ загрузка"
+
+msgid "CPU"
+msgstr "÷ѕ”"
+
+msgid "Memory"
+msgstr "ѕам€ть"
+
+msgid "App Memory"
+msgstr "«ан€то приложени€ми"
+
+msgid "Swap"
+msgstr "‘айл подкачки"
+
+msgid "Disks"
+msgstr "ƒискова€ подсистема"
+
+msgid "Networks"
+msgstr "—еть"
+
+msgid "Server Status"
+msgstr "—татус служб"
+
+msgid "Asterisk"
+msgstr "јстериск"
+
+msgid "Op Panel"
+msgstr "ѕанель ќператора"
+
+msgid "Web Server"
+msgstr "¬эб сервер"
+
+msgid "SSH Server"
+msgstr "SSH сервер"
+
+msgid "Direct Dial to Voicemail message type:"
+msgstr "“ип сообщени€ при наборе в голосовую почту:"
+
+msgid "Unavailable"
+msgstr "Ќедоступен"
+
+msgid "Unavailable-no instructions"
+msgstr "Ќедоступен-без инструкций"
+
+msgid "Busy"
+msgstr "«ан€т"
+
+msgid "Busy-no instructions"
+msgstr "«ан€т-без инструкций"
+
+msgid "No Message"
+msgstr "Ќет сообщений"
+
+msgid "Voicemail VmX Locator"
+msgstr "VmX Ћокатор голосовой почты"
+
+msgid "Default Context & Pri:"
+msgstr " онтекст по умолчанию:"
+
+msgid "Timeout/#-press default:"
+msgstr "“аймаут по умолчанию дл€ нажати€ #:"
+
+#: page.general.php:164
+msgid ""
+"This is the default location that a caller will be sent if they don't press "
+"any key (timeout) or press # which is interpreted as a timeout. Set this to "
+"'dovm' to go to voicemail (default)."
+msgstr ""
+"Ёто дефолтное назначение, куда будет направлен звонок, если больше не нажато "
+"никаких цифр по таймауту, или нажата завершающа€ #. ”становите в 'dovm' чтобы "
+"направить звонок в голосовую почту"
+
+
+msgid "Loop Exceed default:"
+msgstr "¬ыход из повтор€ющихс€ сообщений:"
+
+#: page.general.php:173
+msgid ""
+"This is the default location that a caller will be sent if they press an "
+"invalid options too man times, as defined by the Maximum Loops count. Set "
+"this to 'dovm' to go to voicemail (default)."
+msgstr ""
+"Ёто дефолтное назначение, куда будет направлен звонок, если сделано слишком много "
+"ошибочных попыток набора, которое определено числом 'ѕопыток при неправильно набранном "
+"номере'. ”становите в 'dovm' чтобы направить звонок в голосовую почту"
+
+msgid "Timeout VM Msg:"
+msgstr "—ообщени€ голосовой почты по таймауту:"
+
+#: page.general.php:182 page.general.php:194
+msgid ""
+"If this destination is voicemail, select whether or not to play the standard "
+"voicemail instructions or just beep."
+msgstr ""
+"≈сли назначена голосова€ почта, то выбрать: использовать стандартные формы голосовой "
+"почты, или просто звуковой сигнал"
+
+msgid "Max Loop VM Msg:"
+msgstr "—ообщени€ голосовой почты после неправильных наборов:"
+
+msgid "Direct VM Option"
+msgstr "ѕр€мые опции голосовой почты:"
+
+#: page.general.php:206
+msgid ""
+"If a user defined option is to go to voicmail (using the 'dovm' extension) "
+"this is the default option if not specified by the user's settings."
+msgstr ""
+"≈сли выбрана опци€ голосовой почты (использу€ 'dovm' расширение) "
+"это значение по умолчанию, если не определено в настройках пользовател€"
+
+msgid "Msg Timeout:"
+msgstr "“аймаут между сообщени€ми:"
+
+#: page.general.php:218
+msgid ""
+"Time ot wait after message has played to timeout and/or repeat the message "
+"if no entry pressed."
+msgstr ""
+"¬рем€ ожидани€ между повторени€ми сообщени€, если нет донабора"
+
+msgid "Msg Play:"
+msgstr "¬оспроизвести сообщение:"
+
+#: page.general.php:236
+msgid ""
+"Number of times to play the recorded message if the caller does not press "
+"any options and it times out."
+msgstr ""
+"—колько раз воспроизвести записанное сообщение если абонент ничего не выбрал"
+
+msgid "Error Re-tries:"
+msgstr "ѕопыток при неправильно набранном номере:"
+
+#: page.general.php:254
+msgid ""
+"Number of times to play invalid options and repeat the message upon "
+"receiving an undefined option."
+msgstr ""
+" оличество раз воспроизведени€ сообщени€ о неверно набраном номере"
+
+msgid "seconds"
+msgstr "секунд"
+
+msgid "times"
+msgstr "раз"
+
+msgid "Std Instructions"
+msgstr "—тандартные"
+
+msgid "Beep Only"
+msgstr "“олько сигнал"
+
+msgid "Allow Anonymous Inbound SIP Calls?"
+msgstr "–азрешить вход€щие анонимные SIP звонки?"
+
+
+#: page.general.php:335
+msgid "** WARNING **"
+msgstr "** ¬нимание! **"
+
+#: page.general.php:336
+msgid ""
+"Setting this to 'yes' will potentially allow ANYBODY to call into your "
+"Asterisk server using the SIP protocol"
+msgstr ""
+"”становив значение 'ƒа' вы разрешаете всем звонить "
+"на ваш јстериск сервер использу€ протокол SIP."
+
+msgid ""
+"It should only be used if you fully understand the impact of "
+"allowing anonymous calls into your server"
+
+msgstr ""
+"Ёто можно использовать только если вы полнстью понимаете воздействие"
+"анонимных звонков к вам на сервер"
+
+msgid "that faxes appear to come from:"
+msgstr "с которой будут приходить факсы"
+
+#: page.general.php:313
+msgid ""
+"Email address that faxes appear to come from if 'system' has been chosen for "
+"the fax extension above."
+msgstr ""
+
+msgid "International Settings"
+msgstr "ћеждународные установки"
+
+msgid "Country Indications"
+msgstr "Ќациональна€ индикаци€"
+
+msgid "24-hour format"
+msgstr "24-х часовой формат"
+
+msgid ""
+"Select Yes if you use 24-hour format or No if you are using "
+"12-hour am/pm format"
+msgstr ""
+"”становить в 'ƒа' если вы используете 24-х часовой формат и 'Ќет' "
+"если используете 12-ти часовой am/pm формат"
+
+msgid "Security Settings"
+msgstr "”становки безопасности"
+
+msgid "Online Updates"
+msgstr "ќбновлени€ он-лайн"
+
+msgid "Check for Updates"
+msgstr "ѕровер€ть обновлени€"
+
+msgid ""
+"Choosing Yes will result in the system automatically "
+"checking for updates nighly. The resuling infomation will be displayed "
+"in the dashboard and will be optionally emailed to the address below if provided"
+msgstr ""
+"≈сли установлено в 'ƒа', то система автоматически провер€ет наличие обновлений "
+"каждую ночь. »тогова€ информаци€ будет отображатьс€ в —татусе —истемы и "
+"опционально высылатьс€ на адрес электронной почты указаной ниже"
+
+msgid "Update Email"
+msgstr "јдрес эл. почты дл€ обновлений"
+
+#: page.general.php:362
+msgid ""
+"Email address where online udpates will be sent. Leaving blank will result "
+"in no udpates being sent."
+msgstr "”казать адрес эл. почты куда будут посылатьс€ сообщени€ об обновлени€х. "
+"—ообщени€ не будут посылатьс€, если поле останетс€ пустым"
+
+msgid "Please select your Device below then click Submit"
+msgstr "¬ыберите тип вашего устройства ниже и нажмите '—охранить'"
+
+#: page.general.php:155
+msgid "Default to use if only an number/extension are provided."
+msgstr "»спользуетс€ по умолчанию, если существует внутренний номер"
+
+#: page.general.php:318
+msgid "Country"
+msgstr "Ќациональна€"
+
+#: page.general.php:318
+msgid "Indications"
+msgstr "»ндикаци€"
+
+#: page.general.php:318
+msgid "Select which country you are in"
+msgstr "¬ыбрать страну где вы находитесь"
+
+msgid "OR"
+msgstr "или"
+
+msgid "Zaptel Channel"
+msgstr " анал Zaptel"
+
+msgid ""
+"Match calls that come in on this specific Zaptel channel number. zapata.conf must "
+"have \"context=from-zaptel\" rather than context=\"from-pstn\" to use this feature:"
+msgstr "Ќаправл€ть звонки проход€щие по этому конкретному каналу Zaptel. ¬ конфигурации "
+"zapata.conf необходимо указать \"context=from-zaptel\" вместо \"context=from-pstn\" чтобы "
+"использовать эту опцию."
+
+msgid "Fax Detection Type"
+msgstr "ћетод определени€ факса"
+
+#: page.did.php:121
+msgid ""
+"Select 'system' to have the system receive and email faxes.<br><br>The "
+"FreePBX default is defined in General Settings."
+msgstr ""
+
+#: page.did.php:157
+msgid ""
+"Email address is used if 'system' has been chosen for the fax extension "
+"above.<br><br>Leave this blank to use the FreePBX default in General "
+"Settings."
+msgstr ""
+"јдрес эл. почты, если выбрано значение 'система' дл€ факсовых расширений.<br><br>"
+"ќставте это поле пустым чтобы использовать значение по умолчанию, определЄнное в "
+"'ќсновных настройках'"
+
+#: page.did.php:184
+msgid "Privacy"
+msgstr " онфиденциальность"
+
+#: page.did.php:186
+msgid "Privacy Manager"
+msgstr " онфиденциальный ћенеджер"
+
+#: page.did.php:212
+msgid "Music On Hold?"
+msgstr "ћузыку в ожидании?"
+
+#: page.did.php:212
+msgid ""
+"Set the MoH class that will be used for calls that come in on this route. "
+"For example, choose a type appropriate for routes coming in from a country "
+"which may have announcements in their language."
+msgstr ""
+"”становить категорию ћузыки в ожидании котора€ будет использоватьс€ при вход€щих "
+"звонках на этом маршруте. Ќапример - выберите маршрут дл€ вход€щих звонков "
+"из другой страны с соответствующим анонсом на соответствующем €зыке."
+
+#: page.did.php:218
+msgid "No Music"
+msgstr "Ѕез музыки"
+
+#: page.did.php:230
+msgid "Signal RINGING"
+msgstr "—игнализаци€ вызова ( ѕ¬)"
+
+msgid ""
+"Some devices or providers require RINGING to be sent before ANSWER. You'll notice "
+"this happening if you can send calls directly to a phone, but if you send it to an "
+"IVR, it won't connect the call.:"  	
+msgstr ""
+"Ќекоторые устройства или провайдеры требуют посылки сигнала  ѕ¬ перед ответом. Ёто "
+"происходит, например, если звонок идЄт пр€мо на телефон, но вы перенаправлете в "
+"»нтерактивное меню, соединение не будет установлено."
+
+#: functions.inc.php:609 functions.inc.php:636
+msgid "A directdid for this DID is already associated with extension:"
+msgstr "ѕ–€мой номер дл€ этого DID уже ассоциирован с внутренним номером:"
+
+#: functions.inc.php:1259
+msgid "This user"
+msgstr "Ётот пользователь"
+
+#: functions.inc.php:1259
+msgid "or extension"
+msgstr "или внутренний номер"
+
+#: functions.inc.php:1259
+msgid "is already in use"
+msgstr "уже используетс€"
+
+#: functions.inc.php:1273 functions.inc.php:1536
+msgid "A route with this DID already exists:"
+msgstr "ћаршрут с эти DID уже существует:"
+
+#: functions.inc.php:1275 functions.inc.php:1538
+msgid "This DID is already associated with extension:"
+msgstr "Ётот DID уже фссоциирован с внутренним номером:"
+
+#: functions.inc.php:1283
+msgid "This sipname: {$sipname} is already in use"
+msgstr "Ёто им€: {$sipname} уже используетс€"
+
+#: functions.inc.php:2750
+msgid "A user will enter this password when logging onto a device."
+msgstr "ѕользователь введЄт этот пароль когда будет логиниитьс€ в устройство"
+
+#: functions.inc.php:3039
+#, c-format
+msgid "This device uses %s technology."
+msgstr "”стройство использует %s технологию" 
+
+msgid "Terminate Call"
+msgstr "“ерминировать звонок"
+
+#: functions.inc.php:71
+#, c-format
+msgid "Missing or unreadable config file (%s)...cannot continue"
+msgstr "ќтсутствует или нечитаемый конфигурационный файл (%s)...невозможно продолжить"
+
+#: functions.inc.php:464
+#, c-format
+msgid "Cronmanager encountered %s Errors"
+msgstr " рон менеджер обнаружил %s ошибок"
+
+#: functions.inc.php:465
+msgid "The following commands failed with the listed error"
+msgstr "—ледующие команды завершились с ошибками"
+
+#: functions.inc.php:704 functions.inc.php:773
+#, c-format
+msgid "Exit code was %s and output was: %s"
+msgstr " од ошибки %s и вывод %s"
+
+#: functions.inc.php:843
+msgid "[PREVIOUS]"
+msgstr "[ѕ–≈ƒ»ƒ”ў»…]"
+
+#: functions.inc.php:854
+msgid "[NEXT]"
+msgstr "[—Ћ≈ƒ”ёў»…]"
+
+#: functions.inc.php:1268
+msgid ""
+"Custom App<span><br>ADVANCED USERS ONLY<br><br>Uses Goto() to send caller to "
+"a custom context.<br><br>The context name should start with \"custom-\", and "
+"be in the format custom-context,extension,priority. Example entry:"
+"<br><br><b>custom-myapp,s,1</b><br><br>The <b>[custom-myapp]</b> context "
+"would need to be created and included in extensions_custom.conf</span>"
+msgstr ""
+"—пециальный скрипт<span><br>“ќЋ№ ќ ќѕџ“Ќџћ ѕќЋ№«ќ¬ј“≈Ћяћ<br>»спользуетс€ перенаправление "
+"Goto() дл€ перенаправлени€ звонка в специальный скрипт.<br>»м€ скрипта "
+"должно начинатьс€ с \"custom-\" и быть в формате custom-context,extension,priority. ѕример:"
+"<br><br><b>custom-myapp,s,1</b><br> онтекст<b>[custom-myapp]</b>необходимо создать в "
+"extensions_custom.conf</span>"
+
+#: functions.inc.php:1812
+msgid "The following new modules are available for download"
+msgstr "—ледующие новые модули доступны дл€ скачивани€"
+
+#: functions.inc.php:1850
+msgid "There is 1 module available for online upgrade"
+msgstr "ќдин модуль можно обновить он-лайн"
+
+#: functions.inc.php:1852
+#, c-format
+msgid "There are %s modules available for online upgrades"
+msgstr "%s модулей можно обновить он-лайн"
+
+#: functions.inc.php:1856
+#, c-format
+msgid "%s (currently installed: %s)"
+msgstr "%s (уже установлено: %s)"
+
+#: functions.inc.php:2189
+msgid "Module is already enabled"
+msgstr "ћодуль уже задействован"
+
+#: functions.inc.php:2194
+msgid "Module cannot be enabled"
+msgstr "ћодуль не может быть задействован"
+
+#: functions.inc.php:2237
+msgid "Module not found in repository"
+msgstr "ћодуль не найден в репозитории"
+
+#: functions.inc.php:2286
+#, c-format
+msgid "Error opening %s for writing"
+msgstr "ќшибка в открытии %s дл€ записи"
+
+#: functions.inc.php:2298
+#, c-format
+msgid "Error opening %s for reading"
+msgstr "ќшибка в открытии %s дл€ чтени€"
+
+#: functions.inc.php:2351
+msgid ""
+"Error finding uploaded file - check your PHP and/or web server configuration"
+msgstr "ќбнаружена ошибка в скаченом файле - проверьте ваш –Ќ– и/или конфигурацию "
+"вэб сервера"
+
+#: functions.inc.php:2356
+msgid "File must be in tar+gzip (.tgz or .tar.gz) format"
+msgstr "‘айл должен быть в формате tar+gzip (.tgz or .tar.gz)"
+
+#: functions.inc.php:2361
+msgid ""
+"Filename not in correct format: must be modulename-version.tar.gz (eg. "
+"custommodule-0.1.tar.gz)"
+msgstr "»м€ файла не корректно: должно быть modulename-version.tar.gz (например "
+"custommodule-0.1.tar.gz)"
+
+#: functions.inc.php:2370
+#, c-format
+msgid "Error creating temporary directory: %s"
+msgstr "ќшибка при создании временной директории: %s"
+
+#: functions.inc.php:2378
+msgid "Error untaring uploaded file. Must be a tar+gzip file"
+msgstr "ќшибка при разархивации скаченного файла. ƒолжен быть файл tar+gzip"
+
+#: functions.inc.php:2424
+msgid "Cannot find module"
+msgstr "ћодуль не найден"
+
+#: functions.inc.php:2430
+msgid "Could not read module.xml"
+msgstr "Ќе чиаетс€ module.xml"
+
+#: functions.inc.php:2435
+msgid ""
+"This module is broken and cannot be installed. You should try to download it "
+"again."
+msgstr "Ётот модуль повреждЄн и не может быть инсталлирован. ¬ам надо попытатьс€"
+"скачать его ещЄ раз"
+
+#: functions.inc.php:2454
+msgid "Failed to run installation scripts"
+msgstr "ќшибка при исполнении скрипта инсталл€ции"
+
+#: functions.inc.php:2482
+#, c-format
+msgid "Error updating database. Command was: %s; error was: %s "
+msgstr "ќшибка при обновлении базы данных. ¬ызов команды: %s; ошибка: %s "
+
+#: functions.inc.php:2514 functions.inc.php:2542 functions.inc.php:2579
+msgid "Specified module not found"
+msgstr "”казаный модуль не найден"
+
+#: functions.inc.php:2519
+msgid "Module not enabled: cannot disable"
+msgstr "ћодуль не задействован: нельз€ отменить"
+
+#: functions.inc.php:2523 functions.inc.php:2551
+msgid "Cannot disable: The following modules depend on this one: "
+msgstr "Ќевозможно отменить: выбранный модуль зависит от:"
+
+#: functions.inc.php:2547
+msgid "Module not installed: cannot uninstall"
+msgstr "ћодуль не установлен: нельз€ удалить"
+
+#: functions.inc.php:2558
+msgid "Error updating database: "
+msgstr "ќшибка при обновлении базы данных: "
+
+#: functions.inc.php:2562
+msgid "Failed to run un-installation scripts"
+msgstr "ќшибка при выполнении скрипта удалени€"
+
+#: functions.inc.php:2592
+#, c-format
+msgid "Cannot delete directory %s"
+msgstr "Ќевозможно удалить директорию %s"
+
+#: functions.inc.php:2599
+#, c-format
+msgid "Error deleting directory %s (code %d)"
+msgstr "ќшибка при удалении директории %s (код %d)"
+
+msgid "Intra Company Route"
+msgstr "¬нутренний маршрут в компании"
+
+msgid ""
+"Optional: Selecting this option will treat this route as a intra-company "
+"connection, preserving the internal Caller ID information and not use the "
+"outbound CID of either the extension or trunk.</span>"
+msgstr ""
+"ќпционально: ”становка этой опции определ€ет это маршрут как внутрикорпоративный, "
+"при этом передаЄтс€ внутренний »ƒ номер и не используетс€ внешний »ƒ номер.</span>"
+
+msgid "Dial patterns wizards"  
+msgstr "ѕомощник создани€ шаблона номера"
+
+#: page.routing.php:399
+msgid ""
+"These options provide a quick way to add outbound dialing rules. Follow the "
+"prompts for each."
+msgstr ""
+"Ёта опци€ дает возможность наиболее легким путем добавить правило дл€ исход€щих наборов. "
+"—ледуйте предлагаемым шагам дл€ каждого нового правила."
+
+#: page.ampusers.php:228
+msgid "Apply Changes Bar"
+msgstr "ѕрименить изменени€"
+
+#: page.ampusers.php:255
+msgid "Username must not be blank"
+msgstr "»м€ пользовател€ не должно быть пустым"
+
+#: page.ampusers.php:257
+msgid "Username cannot start with a number, and can only contain letters and numbers"
+msgstr "»м€ пользовател€ не должно начинатьс€ с цифры и может содержать буквы и цифры"
+
+#: page.ampusers.php:259
+msgid "For security reasons, you cannot use the department name default"
+msgstr "ѕо причинам безопасности нельз€ оставить название департамента по умолчанию"
+
+#: page.ampusers.php:261
+msgid "Department name cannot have a space"
+msgstr "Ќазвание департамента не должно содержать пробелы "
