@@ -87,10 +87,18 @@ function debug($text) {
 	if ($debug) echo "[DEBUG-preDB] ".$text."\n";
 }
 
-function version_compare_freepbx($version1, $version2) {
-	$version1 = str_replace("rc","RC", strtolower($version1));
-	$version2 = str_replace("rc","RC", strtolower($version2));
-	return version_compare($version1, $version2);
+if (!function_exists('version_compare_freepbx')) {
+	/* verison_compare that works with freePBX version numbers
+ 	*/
+	function version_compare_freepbx($version1, $version2, $op = null) {
+        	$version1 = str_replace("rc","RC", strtolower($version1));
+        	$version2 = str_replace("rc","RC", strtolower($version2));
+			if (!is_null($op)) {
+				return version_compare($version1, $version2, $op);
+			} else {
+				return version_compare($version1, $version2);
+			}
+	}
 }
 
 function showHelp() {
@@ -454,6 +462,7 @@ function install_modules() {
 			//
 			if ($up_module != 'framework') {
 				system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+				system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
 				out("installed");
 			} else {
 				system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
@@ -492,7 +501,7 @@ function set_module_version($module) {
 
 	// If we didn't return above, then we found the package as part of the install
 	// tarball and want to update the version info since this might be overwriting
-	// and existing install that has a newever version.
+	// an existing install that has a newever version.
 	//
 	$sql = "SELECT version FROM modules WHERE modulename = '$module'";
 	$result = $db->getCol($sql); 
@@ -501,9 +510,19 @@ function set_module_version($module) {
 	}
 	$sql = "";
 	if (count($result) == 0) {
-		$sql = "INSERT INTO modules (modulename, version, enabled) VALUES ('$module', '$version', 1)";
+		// insert but disable as we have to first run install scripts which come later
+		$sql = "INSERT INTO modules (modulename, version, enabled) VALUES ('$module', '$version', 0)";
 	} else if ($result[0] != $version) {
-		$sql = "UPDATE modules SET version = '$version', enabled = 1 WHERE modulename = '$module'";
+		if (version_compare_freepbx($version, $result[0], "gt")) {
+			// if new verison is greater than old, then we disable the module and it will get enabled next when installed
+			//
+			$sql = "UPDATE modules SET version = '$version', enabled = 0 WHERE modulename = '$module'";
+		} else {
+			// if new version is equal to or less than old, then we leave it in the enable/disable state it was in but just
+			// reset the version number.
+			//
+			$sql = "UPDATE modules SET version = '$version', WHERE modulename = '$module'";
+		}
 	}
 	if ($sql) {
 		debug($sql);
@@ -549,7 +568,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine=","install-moh","make-links-devel","skip-module-install");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","make-links-devel","skip-module-install");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -837,9 +856,10 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
 	if (version_compare($matches[1], "1.2") < 0) {
 		fatal("Asterisk 1.2 or 1.4 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
-	if (version_compare($matches[1], "1.5", "ge")) {
-		fatal("Asterisk 1.2 or 1.4 is required for this version of FreePBX. Detected version is: ".$matches[1]);
+	if (version_compare($matches[1], "1.7", "ge")) {
+		fatal("Asterisk 1.2, 1.4, or 1.6 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
+	out("{$matches[1]}");
 } elseif (preg_match('/^Asterisk SVN.+/', $verinfo)) {
 	out("FAIL");
 	out("*** WARNING ***");

@@ -28,9 +28,17 @@ if (scalar @ARGV == 2)
 
 ######## STYLE INFO #########
 $extenpos="2-40";
-$trunkpos="52-60,71-80";
-$confepos="";
-$queuepos="42-50,61-70";
+#$trunkpos="52-60,71-80";
+#$confepos="";
+#$queuepos="42-50,61-70";
+
+## SME server changes
+$trunkpos="53-60,72-80";
+$parkingpos="50-51,69-71";
+$confepos="46-48,65-68";
+$queuepos="42-44,61-64";
+
+# End of changes
 
 # Remove or add Zap trunks as needed
 # Note: ZAP/* will match any ZAP channel that *is not referenced* in another button (ie: extensions)
@@ -225,8 +233,8 @@ if  (defined($sortoption) && ($sortoption eq "lastname")) {
 
 #Next, populate queues
 @queues=(); 
-	if (table_exists($dbh,"extensions")) {
-		$statement = "SELECT extension,descr from extensions where application='Queue' and flags <> 1 order by extension";
+	if (table_exists($dbh,"queues_config")) {
+		$statement = "SELECT extension,descr from queues_config order by extension";
 		$result = $dbh->selectall_arrayref($statement);
 		@resultSet = @{$result};
 		if ( $#resultSet == -1 ) {
@@ -235,6 +243,35 @@ if  (defined($sortoption) && ($sortoption eq "lastname")) {
 		push(@queues, @{ $result });
 	}
 
+
+## SME server chnges
+
+#Next, populate conferences
+@conferences=();
+	if(table_exists($dbh,"meetme")) {
+		$statement = "SELECT exten,description FROM meetme ORDER BY exten";
+		$result = $dbh->selectall_arrayref($statement);
+                @resultSet = @{$result};
+                if ( $#resultSet == -1 ) {
+                        print "Notice: no Conferences defined\n";
+                }
+                push(@conferences, @{ $result });
+        }
+
+
+#Next, populate parkings
+@parkings=();
+	if(table_exists($dbh,"parkinglot")) {
+		$statement = "SELECT keyword,data FROM parkinglot";
+		$result = $dbh->selectall_arrayref($statement);
+                @resultSet = @{$result};
+                if ( $#resultSet == -1 ) {
+                        print "Notice: no Parkings defined\n";
+                }
+                push(@parkings, @{ $result });
+	}
+
+## End of changes
 #Next, populate trunks (sip and iax)
 @trunklist=();
 foreach $table ("sip","iax") {
@@ -352,6 +389,39 @@ foreach my $pcontext ( @ampusers ) {
 	}
 	
 	
+	## SME server changes
+	
+		
+        ### Write Parkings lots
+	$btn=0;
+	my $parken ;
+	my $extpark ;
+	my $parkcontext ;
+	my $numberlots ;
+	foreach my $row ( @parkings ) {
+		if (@{$row}[0] eq "parkingenabled") {
+			$parken = @{$row}[1] ;
+		}
+		if (@{$row}[0] eq "parkext") {
+			$extpark = @{$row}[1] ;
+		}
+		if (@{$row}[0] eq "parkingcontext") {
+			$parkcontext = @{$row}[1] ;
+		}
+		if (@{$row}[0] eq "numslots") {
+			$numberlots = @{$row}[1] ;
+		}
+	}
+	if ($parken eq "s") {
+		for (my $i = 0 ; $i < $numberlots && $i < 5 ; $i++ ) {
+			$btn=get_next_btn($parkingpos,$btn);
+			$parknum = $extpark + $i ;
+			$icon='1';
+			print EXTEN "[PARK$parknum]\nPosition=$btn\nLabel=\"Parked ($parknum)\"\nExtension=$parknum\nContext=$parkcontext\nIcon=$icon\nPanel_Context=$panelcontext\n";
+		}
+	}
+	
+	## End of chagnes
 	### Write conferences (meetme)
 
 	$btn=0; 

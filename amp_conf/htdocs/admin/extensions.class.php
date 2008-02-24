@@ -95,6 +95,10 @@ class extensions {
 		$this->_includes[$section][] = $incsection;
 	}
 
+	function addSwitch($section, $incsection) {
+		$this->_switches[$section][] = $incsection;
+	}
+
 	function addExec($section, $incsection) {
 		$this->_exec[$section][] = $incsection;
 	}
@@ -186,6 +190,11 @@ class extensions {
 				if (isset($this->_includes[$section])) {
 					foreach ($this->_includes[$section] as $include) {
 						$output .= "include => ".$include."\n";
+					}
+				}
+				if (isset($this->_switches[$section])) {
+					foreach ($this->_switches[$section] as $include) {
+						$output .= "switch => ".$include."\n";
 					}
 				}
 
@@ -515,6 +524,13 @@ class ext_wait extends extension {
 	}
 }
 
+class ext_parkedcall extends extension {
+	function output() {
+		return "ParkedCall(".$this->data.")";
+	}
+}
+
+
 class ext_resetcdr extends extension {
 	function output() {
 		return "ResetCDR(".$this->data.")";
@@ -573,25 +589,46 @@ class ext_macro {
 	}
 }
 
+//      The app_false argument only works with asterisk 1.6
+//
 class ext_execif {
 	var $expr;
-	var $app;
-	var $data;
+	var $app_true;
+	var $data_true;
+	var $app_false;
+	var $data_false;
 	
-	function ext_execif($expr, $app, $data='') {
+	function ext_execif($expr, $app_true, $data_true='', $app_false = '', $data_false = '') {
 		$this->expr = $expr;
-		$this->app = $app;
-		$this->data = $data;
+		$this->app_true = $app_true;
+		$this->data_true = $data_true;
+		$this->app_false = $app_false;
+		$this->data_false = $data_false;
 	}
 	
 	function output() {
-		return "ExecIf(".$this->expr.",".$this->app.",".$this->data.")";
+		global $version;
+
+		if (version_compare($version, "1.6", "ge")) {
+			if ($app_false != '')
+				return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}):{$this->app_false}({$this->data_false}))";
+			else
+				return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}))";
+		} else {
+			return "ExecIf({$this->expr},{$this->app_true},{$this->data_true})";
+		}
 	}
 }
 
 class ext_setcidname extends extension {
 	function output() {
 		return "Set(CALLERID(name)=".$this->data.")";
+	}
+}
+
+class ext_setcallerpres extends extension {
+	function output() {
+		return "SetCallerPres({$this->data})";
 	}
 }
 
@@ -626,6 +663,57 @@ class ext_queue {
 			return "Queue(".$this->queuename.",".$this->options.",".$this->optionalurl.",".$this->announceoverride.",".$this->timeout.")";
 		else
 			return "Queue(".$this->queuename.",".$this->options.",".$this->optionalurl.",".$this->announceoverride.")";
+	}
+}
+
+class ext_addqueuemember extends extension {
+	var $queue;
+	var $channel;
+	
+	function ext_addqueuemember($queue, $channel){
+		$this->queue = $queue;
+		$this->channel = $channel;
+	}
+	
+	function output() {
+		return "AddQueueMember({$this->queue},{$this->channel})";
+	}
+}
+
+class ext_removequeuemember extends extension {
+	var $queue;
+	var $channel;
+	
+	function ext_removequeuemember($queue, $channel){
+		$this->queue = $queue;
+		$this->channel = $channel;
+	}
+	
+	function output() {
+		return "RemoveQueueMember({$this->queue},{$this->channel})";
+	}
+}
+
+class ext_userevent extends extension {
+	var $eventname;
+	var $body;
+	
+	function ext_userevent($eventname, $body=""){
+		$this->eventname = $eventname;
+		$this->body = $body;
+	}
+	
+	function output() {
+		if ($this->body == '')
+			return "UserEvent({$this->eventname})";
+		else
+			return "UserEvent({$this->eventname},{$this->body})";
+	}
+}
+
+class ext_macroexit extends extension {
+	function output() {
+		return "MacroExit()";
 	}
 }
 
@@ -1036,6 +1124,19 @@ class ext_chanisavail extends extension {
 		return 'ChanIsAvail('.$this->chan.','.$this->options.')';
 	}
 }
+
+class ext_setlanguage extends extension {
+	function output() {
+		global $version;
+
+		if (version_compare($version, "1.4", "ge")) {
+			return "Set(CHANNEL(language)={$this->data})";
+		} else {
+			return "Set(LANGUAGE()={$this->data})";
+		}
+	}
+}
+
 
 /* example usage
 $ext = new extensions;

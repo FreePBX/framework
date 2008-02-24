@@ -1028,6 +1028,8 @@ function engine_getinfo() {
 				return array('engine'=>'asterisk', 'version' => $matches[1].'.'.$matches[4], 'additional' => $matches[4]);
 			} elseif (preg_match('/Asterisk SVN-trunk-r(-?(\S*))/', $verinfo, $matches)) {
 				return array('engine'=>'asterisk', 'version' => '1.6', 'additional' => $matches[1]);
+			} elseif (preg_match('/Asterisk SVN-.+-(\d+(\.\d+)*)-r(-?(\S*))-(.+)/', $verinfo, $matches)) {
+				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[3]);
 			}
 
 			return array('engine'=>'ERROR-UNABLE-TO-CONNECT', 'version'=>'0', 'additional' => '0');
@@ -1037,16 +1039,18 @@ function engine_getinfo() {
 }
 
 
-/* verison_compare that works with freePBX version numbers
- */
-function version_compare_freepbx($version1, $version2, $op = null) {
-        $version1 = str_replace("rc","RC", strtolower($version1));
-        $version2 = str_replace("rc","RC", strtolower($version2));
-		if (!is_null($op)) {
-			return version_compare($version1, $version2, $op);
-		} else {
-			return version_compare($version1, $version2);
-		}
+if (!function_exists('version_compare_freepbx')) {
+	/* verison_compare that works with freePBX version numbers
+ 	*/
+	function version_compare_freepbx($version1, $version2, $op = null) {
+        	$version1 = str_replace("rc","RC", strtolower($version1));
+        	$version2 = str_replace("rc","RC", strtolower($version2));
+			if (!is_null($op)) {
+				return version_compare($version1, $version2, $op);
+			} else {
+				return version_compare($version1, $version2);
+			}
+	}
 }
 
 
@@ -1153,7 +1157,7 @@ function do_reload() {
 		}
 	}
 	
-	$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf';
+	$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf 2>&1';
 	//exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log', $output, $exit_val);
 	exec($retrieve, $output, $exit_val);
 	
@@ -3314,17 +3318,17 @@ function module_get_annoucements() {
 
 	// Now we have the id and know if this is a firstime install so we can get the announcement
 	//
-	$options = "?installid=".$installid;
+	$options = "?installid=".urlencode($installid);
 
 	if (trim($type) != "") {
-		$options .= "&type=".$type;
+		$options .= "&type=".urlencode($type);
 	}
 	if ($firstinstall) {
 		$options .= "&firstinstall=yes";
 	}
 	$engver=engine_getinfo();
 	if ($engver['engine'] == 'asterisk') {
-		$options .="&astver=".$engver['version'];
+		$options .="&astver=".urlencode($engver['version']);
 	}
 
 	$announcement = @ file_get_contents("http://mirror.freepbx.org/version-".getversion().".html".$options);

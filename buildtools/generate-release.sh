@@ -10,6 +10,7 @@ module_url="http://svn.freepbx.org/modules/branches/2.4"
 core_url=${module_url}/core
 framework_url=${module_url}/framework
 dashboard_url=${module_url}/dashboard
+customappsreg_url=${module_url}/customappsreg
 voicemail_url=${module_url}/voicemail
 recordings_url=${module_url}/recordings
 music_url=${module_url}/music
@@ -67,6 +68,7 @@ svn cp -m "Automatic tag of $ver" $cur http://svn.freepbx.org/freepbx/tags/$ver
 svn cp -m "Automatic packaging of core with $ver"             $core_url             http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of framework with $ver"        $framework_url        http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of dashboard with $ver"        $dashboard_url        http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of customappsreg with $ver"    $customappsreg_url    http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of voicemail with $ver"        $voicemail_url        http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of recordings with $ver"       $recordings_url       http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of music with $ver"            $music_url            http://svn.freepbx.org/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/

@@ -327,7 +327,7 @@ DROP TABLE IF EXISTS `modules_xml`;
 CREATE TABLE `module_xml` (
 	`id` varchar(20) NOT NULL default 'xml',
 	`time` int(11) NOT NULL default '0',
-	`data` blob NOT NULL,
+	`data` mediumblob NOT NULL,
   PRIMARY KEY  (`id`)
 );
 

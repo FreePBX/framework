@@ -516,7 +516,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		// display links
 		echo "<a href='config.php?display=modules&amp;type=tool'>"._("Manage local modules")."</a>\n";
 		if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-			echo " | <a href='config.php?display=modules&amp;type=tool&amp;online=1'>"._("Check for updates online")."</a>\n";
+			echo " | <a class='info' href='config.php?display=modules&amp;type=tool&amp;online=1'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
 		}
 				
 		if (isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
@@ -575,7 +575,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 		} else {
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				echo "<a href='config.php?display=modules&amp;type=tool&amp;online=1'>"._("Check for updates online")."</a>\n";
+				echo "<a class='info' href='config.php?display=modules&amp;type=tool&amp;online=1'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
 			}
 			echo " | <a href='config.php?display=modules&amp;type=tool&amp;extdisplay=upload'>"._("Upload module")."</a><br />\n";
 		}

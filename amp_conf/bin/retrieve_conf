@@ -706,6 +706,37 @@ $post_custom = $amp_conf['AMPLOCALBIN'].'/retrieve_conf_post_custom';
 	}
 }
 
+/* As of Asterisk 1.4.16 or there abouts, a missing #include file will make the reload fail. So
+   we need to make sure that we have such for everything that is in our configs. We will simply
+	 look for the #include statements and touch the files vs. trying to inventory everything we may
+	 need and then forgetting something.
+*/
+
+exec("grep '#include' ".$amp_conf['ASTETCDIR']."/*.conf | sed 's/;.*//; s/#include//'",$output,$retcode);
+if ($retcode != 0) {
+	error("Error code $retcode: trying to search for missing #include files");
+}
+
+foreach($output as $file) {
+	if (trim($file) == '') {
+		continue;
+	}
+	$parse1 = explode(':',$file);
+	$parse2 = explode(';',$parse1[1]);
+	$rawfile = trim($parse2[0]);
+	if ($rawfile == '') {
+		continue;
+	}
+
+	$target = ($rawfile[0] == '/') ? $rawfile : $amp_conf['ASTETCDIR']."/$rawfile";
+
+	if (!file_exists($target)) {
+		exec("touch $target", $output, $retcode);
+		error("Error code $retcode: trying to create empty file $target");
+	}
+}
+
+
 // **** Set reload flag for AMP admin
 needreload();
 if (isset($amp_conf["AMPWEBADDRESS"]) && $amp_conf["AMPWEBADDRESS"])
