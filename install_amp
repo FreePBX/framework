@@ -521,7 +521,7 @@ function set_module_version($module) {
 			// if new version is equal to or less than old, then we leave it in the enable/disable state it was in but just
 			// reset the version number.
 			//
-			$sql = "UPDATE modules SET version = '$version', WHERE modulename = '$module'";
+			$sql = "UPDATE modules SET version = '$version' WHERE modulename = '$module'";
 		}
 	}
 	if ($sql) {
