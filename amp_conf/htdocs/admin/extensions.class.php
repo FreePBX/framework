@@ -628,7 +628,13 @@ class ext_setcidname extends extension {
 
 class ext_setcallerpres extends extension {
 	function output() {
-		return "SetCallerPres({$this->data})";
+		global $version;
+
+		if (version_compare($version, "1.6", "lt")) {
+			return "SetCallerPres({$this->data})";
+		} else {
+			return "Set(CALLERPRES()={$this->data})";
+		}
 	}
 }
 
