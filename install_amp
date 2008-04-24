@@ -1009,8 +1009,50 @@ if (!$dryrun) {
 	exec(dirname(__FILE__)."/apply_conf.sh");
 	out("done");
 
+	/* As of Asterisk 1.4.16 or there abouts, a missing #include file will make the reload fail. So
+   	we need to make sure that we have such for everything that is in our configs. We will simply
+	 	look for the #include statements and touch the files vs. trying to inventory everything we may
+	 	need and then forgetting something.
+	*/
+
+	outn("creating missing #include files..");
+	$include_err = false;
+	exec("grep '#include' ".$amp_conf['ASTETCDIR']."/*.conf | sed 's/;.*//; s/#include//'",$output,$retcode);
+	if ($retcode != 0) {
+		out("Error code $retcode: trying to search for missing #include files");
+		$include_err = true;
+	}
+
+	foreach($output as $file) {
+		if (trim($file) == '') {
+			continue;
+		}
+		$parse1 = explode(':',$file);
+		$parse2 = explode(';',$parse1[1]);
+		$rawfile = trim($parse2[0]);
+		if ($rawfile == '') {
+			continue;
+		}
+
+		$target = ($rawfile[0] == '/') ? $rawfile : $amp_conf['ASTETCDIR']."/$rawfile";
+
+		if (!file_exists($target)) {
+			exec("touch $target", $output, $retcode);
+				if ($retcode != 0) {
+				out("Error code $retcode: trying to create empty file $target");
+				$include_err = true;
+			}
+		}
+	}
+	if (! $include_err) {
+		out("OK");
+	}
 	// reload manager in asterisk if it was running:
+	// Execute the 1.4+ syntax and the 1.2 syntax, it will reload twice on 1.4 and in the other cases
+	// it will simply ignore the command since it has been removed. (not worth trying to figure out what
+	// version they have...
 	//
+	system("asterisk -rx 'module reload manager'");
 	system("asterisk -rx 'reload manager'");
 }
 out("OK");
