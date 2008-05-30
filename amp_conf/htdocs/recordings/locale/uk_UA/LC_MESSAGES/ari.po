@@ -1,0 +1,606 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ARI\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-05-03 08:32-0400\n"
+"PO-Revision-Date: 2008-04-21 12:17+0300\n"
+"Last-Translator: \n"
+"Language-Team: Oleh Miniv <oleh@az.lviv.ua>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Ukrainian\n"
+"X-Poedit-Country: UKRAINE\n"
+
+#: ../includes/asi.php:46
+msgid "Asterisk Call Manager not responding"
+msgstr "Менеджер Дзвінків недоступний"
+
+#: ../includes/asi.php:54
+msgid "Asterisk authentication failed:"
+msgstr ""
+
+#: ../includes/asi.php:96
+#: ../includes/asi.php:111
+msgid "Asterisk command not understood"
+msgstr ""
+
+#: ../includes/bootstrap.php:123
+#, php-format
+msgid "To many directories in %s Not all files processed"
+msgstr ""
+
+#: ../includes/bootstrap.php:226
+msgid "ARI requires a version of PHP 4.3 or later"
+msgstr "ARI потребує PHP версії 4.3 або вище"
+
+#: ../includes/bootstrap.php:245
+msgid "PHP PEAR must be installed.  Visit http://pear.php.net for help with installation."
+msgstr "Пакет PHP PEAR повинен бути заінстальованим. Щоб отримати більше інформації відвідайте http://pear.php.net."
+
+#: ../includes/common.php:173
+msgid "ARI does not appear to have access to the Asterisk Manager."
+msgstr "ARI не має прав доступу до Asterisk Manager."
+
+#: ../includes/common.php:174
+msgid "Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager Account."
+msgstr ""
+
+#: ../includes/common.php:175
+msgid "Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account"
+msgstr ""
+
+#: ../includes/common.php:176
+msgid "make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver."
+msgstr ""
+
+#: ../includes/common.php:193
+#: ../includes/common.php:208
+msgid "Check AMP installation, asterisk, and ARI main.conf"
+msgstr ""
+
+#: ../includes/common.php:344
+msgid "Logout"
+msgstr "Вихід"
+
+#: ../includes/common.php:349
+msgid "Page Not Found."
+msgstr "Сторінку не знайдено."
+
+#: ../includes/display.php:92
+msgid "Search"
+msgstr "Пошук"
+
+#: ../includes/display.php:135
+msgid "Searched for"
+msgstr "Пошук для"
+
+#: ../includes/display.php:139
+#, php-format
+msgid "Results %d - %d of %d"
+msgstr "Результати з %d - %d по %d"
+
+#: ../includes/display.php:141
+#, php-format
+msgid "Results %d"
+msgstr "Результати %d"
+
+#: ../includes/display.php:195
+msgid "First"
+msgstr "Перша"
+
+#: ../includes/display.php:208
+msgid "Last"
+msgstr "Остання"
+
+#: ../includes/login.php:267
+msgid "Incorrect Password"
+msgstr "Невірний Пароль"
+
+#: ../includes/login.php:279
+msgid "Incorrect Username or Password"
+msgstr "Невірний Логін або Пароль"
+
+#: ../includes/login.php:402
+#: ../includes/login.php:411
+msgid "Login"
+msgstr "Логін"
+
+#: ../includes/login.php:419
+msgid "Password"
+msgstr "Пароль"
+
+#: ../includes/login.php:428
+msgid "Submit"
+msgstr "Підтвердити"
+
+#: ../includes/login.php:436
+msgid "Remember Password"
+msgstr "Запам'ятати Пароль"
+
+#: ../includes/login.php:451
+msgid "Use your <b>Voicemail Mailbox and Password</b>"
+msgstr "Використовуйте ваші <b>Номер Голосової Пошти та Пароль</b>"
+
+#: ../includes/login.php:452
+msgid "This is the same password used for the phone"
+msgstr "Пароль той самий, що й для перевірки голосової пошти на телефоні"
+
+#: ../includes/login.php:454
+msgid "For password maintenance or assistance, contact your Phone System Administrator."
+msgstr "Для отримання чи відновлення паролів зверніться до Адміністратора Телефонної Мережі"
+
+#: ../includes/main.conf.php:152
+msgid "INBOX"
+msgstr "ВХІДНІ"
+
+#: ../includes/main.conf.php:154
+msgid "Family"
+msgstr "Сім'я"
+
+#: ../includes/main.conf.php:156
+msgid "Friends"
+msgstr "Друзі"
+
+#: ../includes/main.conf.php:158
+msgid "Old"
+msgstr "Старі"
+
+#: ../includes/main.conf.php:160
+msgid "Work"
+msgstr "Робота"
+
+#: ../includes/main.conf.php:229
+msgid "Directory"
+msgstr ""
+
+#: ../includes/main.conf.php:230
+msgid "Echo Test"
+msgstr "Ехо Тест"
+
+#: ../includes/main.conf.php:231
+#: ../modules/callmonitor.module:161
+#: ../modules/voicemail.module:324
+msgid "Time"
+msgstr "Час"
+
+#: ../includes/main.conf.php:232
+msgid "Weather"
+msgstr "Погода"
+
+#: ../includes/main.conf.php:233
+msgid "Schedule wakeup call"
+msgstr ""
+
+#: ../includes/main.conf.php:234
+msgid "festival test (your extension is XXX)"
+msgstr ""
+
+#: ../includes/main.conf.php:235
+msgid "Activate Call Waiting (deactivated by default)"
+msgstr "Активувати Очікування Виклику (заборонено за-замовчуванням)"
+
+#: ../includes/main.conf.php:236
+msgid "Deactivate Call Waiting"
+msgstr "Деактивувати Очікування Виклику"
+
+#: ../includes/main.conf.php:237
+msgid "Call Forwarding System"
+msgstr "Система Переадресації Виклику"
+
+#: ../includes/main.conf.php:238
+msgid "Disable Call Forwarding"
+msgstr "Заборонити Переадресацію Виклику"
+
+#: ../includes/main.conf.php:239
+msgid "IVR Recording"
+msgstr "Запис IVR"
+
+#: ../includes/main.conf.php:240
+msgid "Enable Do-Not-Disturb"
+msgstr "Увімкнути Не Турбувати"
+
+#: ../includes/main.conf.php:241
+msgid "Disable Do-Not-Disturb"
+msgstr "Вимкнути Не Турбувати"
+
+#: ../includes/main.conf.php:242
+msgid "Call Forward on Busy"
+msgstr "Переадресація дзвінка коли Зайнято"
+
+#: ../includes/main.conf.php:243
+msgid "Disable Call Forward on Busy"
+msgstr "Заборонити Переадресація дзвінка коли Зайнято"
+
+#: ../includes/main.conf.php:244
+msgid "Message Center (does not ask for extension)"
+msgstr "Центр Повідомлень (не питає внутрішній номер)"
+
+#: ../includes/main.conf.php:245
+msgid "Enter Message Center"
+msgstr ""
+
+#: ../includes/main.conf.php:246
+msgid "Playback IVR Recording"
+msgstr "Відтворити Запис IVR"
+
+#: ../includes/main.conf.php:247
+msgid "Test Fax"
+msgstr "Тестування Факсу"
+
+#: ../includes/main.conf.php:248
+msgid "Simulate incoming call"
+msgstr "Симуляція вхідного дзвінка"
+
+#: ../includes/main.conf.php:289
+msgid "Email voicemail as attachment"
+msgstr "Прикріпляти повідомлення до листа"
+
+#: ../includes/main.conf.php:290
+msgid "Say caller id in recording emailed"
+msgstr "Говорити CallerId в надісланому повідомленні"
+
+#: ../includes/main.conf.php:291
+msgid "Say envelop (date/time) in recording emailed"
+msgstr "Говорити дату та час в надісланому повідомленні"
+
+#: ../includes/main.conf.php:292
+msgid "Delete voicemail when emailed"
+msgstr "Видаляти голосову пошту після відправки на email"
+
+#: ../includes/main.conf.php:293
+msgid "Play next message after deleting current message"
+msgstr "Після видалення поточного повідомлення відтворити наступне"
+
+#: ../includes/main.conf.php:294
+msgid "Ask caller to review their voicemail before sending"
+msgstr "Попросити абонента прослухати його повідомлення перед збереженням"
+
+#: ../includes/main.conf.php:295
+msgid "Maximum time in seconds a voicemail will record"
+msgstr "Максимальний час в секундах"
+
+#: ../modules/callmonitor.module:37
+#: ../modules/callmonitor.module:257
+msgid "Call Monitor"
+msgstr "Менеджер Дзвінків"
+
+#: ../modules/callmonitor.module:132
+#, php-format
+msgid "Path is not a directory: %s"
+msgstr "Шлях не є папкою: %s"
+
+#: ../modules/callmonitor.module:141
+#: ../modules/voicemail.module:301
+msgid "delete"
+msgstr "видалити"
+
+#: ../modules/callmonitor.module:147
+msgid "duration"
+msgstr "тривалість"
+
+#: ../modules/callmonitor.module:150
+msgid "ignore"
+msgstr "ігнорувати"
+
+#: ../modules/callmonitor.module:159
+#: ../modules/voicemail.module:322
+msgid "Date"
+msgstr "Дата"
+
+#: ../modules/callmonitor.module:163
+#: ../modules/voicemail.module:326
+msgid "Caller ID"
+msgstr "Caller ID"
+
+#: ../modules/callmonitor.module:165
+msgid "Source"
+msgstr "Джерело"
+
+#: ../modules/callmonitor.module:167
+msgid "Destination"
+msgstr "Призначення"
+
+#: ../modules/callmonitor.module:169
+msgid "Context"
+msgstr "Контекст"
+
+#: ../modules/callmonitor.module:171
+#: ../modules/voicemail.module:332
+msgid "Duration"
+msgstr "Тривалість"
+
+#: ../modules/callmonitor.module:202
+msgid "Monitor"
+msgstr "Монітор"
+
+#: ../modules/callmonitor.module:222
+#: ../modules/voicemail.module:373
+msgid "play"
+msgstr "відтворити"
+
+#: ../modules/callmonitor.module:259
+#, php-format
+msgid "Call Monitor for %s (%s)"
+msgstr "Менеджер Дзвінків для %s (%s)"
+
+#: ../modules/callmonitor.module:311
+#: ../modules/voicemail.module:475
+msgid "select"
+msgstr "вибрати"
+
+#: ../modules/callmonitor.module:312
+#: ../modules/voicemail.module:476
+msgid "all"
+msgstr "всі"
+
+#: ../modules/callmonitor.module:313
+#: ../modules/voicemail.module:477
+msgid "none"
+msgstr "жоден"
+
+#: ../modules/callmonitor.module:533
+msgid "Only deletes recording files, not cdr log"
+msgstr "Можна видалити звукові записи, але не логи дзвінків"
+
+#: ../modules/conference.module:55
+msgid "My Conference room"
+msgstr "Моя Конференц-кімната"
+
+#: ../modules/conference.module:78
+#, php-format
+msgid "Conference for %s (%s%s)"
+msgstr "Конференція для %s (%s%s)"
+
+#: ../modules/help.module:39
+#: ../modules/help.module:68
+msgid "Help"
+msgstr "Допомога"
+
+#: ../modules/help.module:70
+#, php-format
+msgid "Help for %s (%s)"
+msgstr "Допомога для %s (%s)"
+
+#: ../modules/help.module:77
+msgid "Handset Feature Code"
+msgstr "Номер"
+
+#: ../modules/help.module:80
+msgid "Action"
+msgstr "Дія"
+
+#: ../modules/settings.module:61
+#: ../modules/settings.module:667
+msgid "Settings"
+msgstr "Налаштування"
+
+#: ../modules/settings.module:125
+msgid "Call forward number not changed"
+msgstr "Ви не вказали куди переадресовувати дзвінок"
+
+#: ../modules/settings.module:126
+#, php-format
+msgid "Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"
+msgstr "Поле %s повинне містити телефоні номери (символи '(', '-', та ')' допускаються)"
+
+#: ../modules/settings.module:151
+#: ../modules/settings.module:156
+#: ../modules/settings.module:161
+#: ../modules/settings.module:166
+#: ../modules/settings.module:176
+#: ../modules/settings.module:181
+msgid "Voicemail password not changed"
+msgstr "Пароль Голосової Пошти не змінено"
+
+#: ../modules/settings.module:152
+msgid "Password and password confirm must not be blank"
+msgstr "Пароль та підтвердження пароля не повинні бути пустими"
+
+#: ../modules/settings.module:157
+#, php-format
+msgid "Passwords must be all numbers and greater than %d digits"
+msgstr "Паролі повинні бути цифрами і довшими %d символів"
+
+#: ../modules/settings.module:162
+#, php-format
+msgid "Passwords must be all numbers and only %d digits"
+msgstr "Паролі повинні бути цифрами і лише %d символів"
+
+#: ../modules/settings.module:167
+msgid "Password and password confirm do not match"
+msgstr "Паролі не співпадають"
+
+#: ../modules/settings.module:177
+#: ../modules/settings.module:182
+#: ../modules/settings.module:234
+#: ../modules/settings.module:239
+#, php-format
+msgid "%s does not exist or is not writable"
+msgstr "%s не існує або не доступний для запису"
+
+#: ../modules/settings.module:223
+msgid "Voicemail email and pager address not changed"
+msgstr "Адреси Email та Пейджера не змінено"
+
+#: ../modules/settings.module:233
+#: ../modules/settings.module:238
+msgid "Voicemail email settings not changed"
+msgstr "Налаштування Голосової Пошти не змінено"
+
+#: ../modules/settings.module:385
+msgid "Language:"
+msgstr "Мова:"
+
+#: ../modules/settings.module:408
+msgid "Call Routing"
+msgstr ""
+
+#: ../modules/settings.module:411
+msgid "Call Forwarding:"
+msgstr "Переадресація Виклику:"
+
+#: ../modules/settings.module:419
+#: ../modules/settings.module:507
+msgid "Enable"
+msgstr "Дозволити"
+
+#: ../modules/settings.module:431
+#, php-format
+msgid "Passwords must be all numbers and only %s digits"
+msgstr "Паролі повинні бути цифрами і лише %s символів"
+
+#: ../modules/settings.module:434
+#, php-format
+msgid "Passwords must be all numbers and at least %s digits"
+msgstr "Пароль повинен складатися з цифр і містити не менше %s символів"
+
+#: ../modules/settings.module:439
+msgid "Voicemail Password:"
+msgstr "Новий Пароль Голосової Пошти:"
+
+#: ../modules/settings.module:445
+msgid "Enter again to confirm:"
+msgstr "Підтвердіть пароль:"
+
+#: ../modules/settings.module:492
+msgid "Email Voicemail To:"
+msgstr "Надсилати Голосову Пошту На Email:"
+
+#: ../modules/settings.module:498
+msgid "Pager Voicemail To:"
+msgstr "Надсилати Голосову Пошту На Пейджер:"
+
+#: ../modules/settings.module:558
+msgid "Audio Format:"
+msgstr "Формат Аудіо:"
+
+#: ../modules/settings.module:561
+msgid "Best Quality"
+msgstr "Найкраща Якість"
+
+#: ../modules/settings.module:562
+msgid "Smallest Download"
+msgstr "Найменший Розмір"
+
+#: ../modules/settings.module:570
+msgid "Voicemail Settings"
+msgstr "Налаштування Голосової Пошти"
+
+#: ../modules/settings.module:611
+msgid "Call Monitor Settings"
+msgstr "Налаштування Менеджера Дзвінків"
+
+#: ../modules/settings.module:614
+msgid "Record INCOMING:"
+msgstr "Записувати ВХІДНІ:"
+
+#: ../modules/settings.module:616
+#: ../modules/settings.module:624
+msgid "Always"
+msgstr "Завжди"
+
+#: ../modules/settings.module:617
+#: ../modules/settings.module:625
+msgid "Never"
+msgstr "Ніколи"
+
+#: ../modules/settings.module:618
+#: ../modules/settings.module:626
+msgid "On-Demand"
+msgstr "На вимогу"
+
+#: ../modules/settings.module:622
+msgid "Record OUTGOING:"
+msgstr "Записувати ВИХІДНІ:"
+
+#: ../modules/settings.module:669
+#, php-format
+msgid "Settings for %s (%s)"
+msgstr "Налаштування для %s (%s)"
+
+#: ../modules/settings.module:705
+msgid "Update"
+msgstr "Зберегти"
+
+#: ../modules/voicemail.module:45
+msgid "Voicemail"
+msgstr "Голосова Пошта"
+
+#: ../modules/voicemail.module:164
+msgid "A folder must be selected before the message can be moved."
+msgstr "Перед переміщенням повідомлення виберіть папку."
+
+#: ../modules/voicemail.module:178
+msgid "An extension must be selected before the message can be forwarded."
+msgstr "Виберіть адресата, перш ніж, пересилати повідомлення"
+
+#: ../modules/voicemail.module:304
+msgid "move_to"
+msgstr "перемістити в"
+
+#: ../modules/voicemail.module:307
+msgid "Folder"
+msgstr "Папка"
+
+#: ../modules/voicemail.module:311
+msgid "forward_to"
+msgstr "переслати до"
+
+#: ../modules/voicemail.module:328
+msgid "Priority"
+msgstr "Пріоритет"
+
+#: ../modules/voicemail.module:330
+msgid "Orig Mailbox"
+msgstr ""
+
+#: ../modules/voicemail.module:362
+msgid "Message"
+msgstr "Повідомлення"
+
+#: ../modules/voicemail.module:377
+msgid "Voicemail recording(s) was not found."
+msgstr "Не знайдено жодних повідомлень."
+
+#: ../modules/voicemail.module:378
+#, php-format
+msgid "On settings page, change voicemail audio format.  It is currently set to %s"
+msgstr ""
+
+#: ../modules/voicemail.module:405
+msgid "Voicemail Login not found."
+msgstr "Логін до Голосової Пошти не знайдено."
+
+#: ../modules/voicemail.module:406
+msgid "No access to voicemail"
+msgstr "Немає доступу до голосової пошти"
+
+#: ../modules/voicemail.module:412
+msgid "No Voicemail Recordings for Admin"
+msgstr "Для користивача Admin немає повідомлень Голосової Пошти"
+
+#: ../modules/voicemail.module:428
+#, php-format
+msgid "Voicemail for %s (%s)"
+msgstr "Голосова пошта для %s (%s)"
+
+#: ../modules/voicemail.module:678
+#, php-format
+msgid "Could not create mailbox folder %s on the server"
+msgstr ""
+
+#: ../modules/voicemail.module:718
+#, php-format
+msgid "Permission denied on folder %s or %s"
+msgstr "Немає доступу до папки %s чи %s"
+
+#: ../misc/recording_popup.php:39
+msgid "download"
+msgstr "завантажити"
+
