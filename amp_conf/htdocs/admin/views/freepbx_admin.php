@@ -75,7 +75,7 @@ if (is_array($fpbx_menu)) {
 		}
 		
 		if ($fpbx_usecategories && ($row['category'] != $prev_category)) {
-			echo "\t\t<li class=\"category\">"._($row['category'])."</li>\n";
+			echo "\t\t<li class=\"category\">".htmlspecialchars(_($row['category']), ENT_QUOTES)."</li>\n";
 			$prev_category = $row['category'];
 		}
 		
