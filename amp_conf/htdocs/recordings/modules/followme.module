@@ -311,7 +311,7 @@ class followme {
 					$followme_text .= "<span>" . sprintf( _("Time to ring extension %s before ringing the %s Follow Me List %s"), "<strong>".$exten."</strong>","<strong>","</strong>");
 					$followme_text .= "<br></span></a></td><td>";
 					
-					$followme_text .= "<select " . $follow_me_prering_time_text_box_options . " name='follow_me_prering_time'/>";				
+					$followme_text .= "<select " . $follow_me_prering_time_text_box_options . " name='follow_me_prering_time'>";				
 					$default_prering = $follow_me_prering_time;
 					for ($i=$SETTINGS_PRERING_LOW; $i <= $SETTINGS_PRERING_HIGH; $i++) {
 						$followme_text .=  '<option value="'.$i.'" '.($i == $default_prering ? 'SELECTED' : '').'>'.$i.'</option>';
@@ -324,7 +324,7 @@ class followme {
 					$followme_text .= "<tr><td><a href='#' class='info'>" . _("Ring Followme List for:") . "<span>" . _("Time to ring the Follow Me List.") . "<br></span></a></td>";
 					$followme_text .= "<td>";
 					
-					$followme_text .= "<select " . $follow_me_listring_time_text_box_options . " name='follow_me_listring_time'/>";
+					$followme_text .= "<select " . $follow_me_listring_time_text_box_options . " name='follow_me_listring_time'>";
 					$default_listring = $follow_me_listring_time;
 					for ($i=$SETTINGS_LISTRING_LOW; $i <= $SETTINGS_LISTRING_HIGH; $i++) {
 						$followme_text .=  '<option value="'.$i.'" '.($i == $default_listring ? 'SELECTED' : '').'>'.$i.'</option>';
