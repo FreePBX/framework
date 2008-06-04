@@ -62,7 +62,7 @@ switch ($db_engine)
 // if connection failed show error
 // don't worry about this for now, we get to it in the errors section
 if(DB::isError($db)) {
-	die_freepbx($db->getDebugInfo()); 
+	die_freepbx($db->getMessage()); 
 }
 
 // Now send or delete warning wrt to default passwords:
