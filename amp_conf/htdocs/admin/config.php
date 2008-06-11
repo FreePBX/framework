@@ -347,7 +347,7 @@ if ($quietmode) {
 	$template['module_name'] = $module_name;
 	$template['module_page'] = $module_page;
 	if ($amp_conf['SERVERINTITLE']) {
-		$template['title'] = $SERVER_NAME." FreePBX administration";
+		$template['title'] = $_SERVER['SERVER_NAME']." FreePBX administration";
 	} else {
 		$template['title'] = "FreePBX administration";
 	}
