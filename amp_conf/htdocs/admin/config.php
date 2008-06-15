@@ -41,6 +41,7 @@ if (isset($_REQUEST['handler'])) {
 			include_once('common/json.inc.php');
 			$response = do_reload();
 			$json = new Services_JSON();
+			header("Content-type: application/json");
 			echo $json->encode($response);
 		break;
 		case 'file':

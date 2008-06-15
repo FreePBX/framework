@@ -102,6 +102,7 @@ define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
  *
  * // convert a complexe value to JSON notation, and send it to the browser
  * $value = array('foo', 'bar', array(1, 2, 'baz'), array(3, array(4)));
+ * header("Content-type: application/json"); 
  * $output = $json->encode($value);
  *
  * print($output);
