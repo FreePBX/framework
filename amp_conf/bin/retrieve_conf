@@ -452,23 +452,33 @@ if(isset($active_modules) && is_array($active_modules)){
 			if (is_array(${$classname}->get_filename())) {
 				foreach(${$classname}->get_filename() as $modconf) {
 					freepbx_log('retrieve_conf', 'devel-debug', 'generateConf from '.$classname.'->'.$modconf.'');
-					write_file($modconf,${$classname}->generateConf($modconf));
+					if (isset(${$classname}->use_warning_banner)) {
+						write_file($modconf,${$classname}->generateConf($modconf),${$classname}->use_warning_banner);
+					} else {
+						write_file($modconf,${$classname}->generateConf($modconf));
+					}
 				}
 			} else {
 				freepbx_log('retrieve_conf', 'devel-debug', 'generateConf from '.$classname);
-				write_file(${$classname}->get_filename(),${$classname}->generateConf());
+				if (isset(${$classname}->use_warning_banner)) {
+					write_file(${$classname}->get_filename(),${$classname}->generateConf(),${$classname}->use_nowarning_banner);
+				} else {
+					write_file(${$classname}->get_filename(),${$classname}->generateConf());
+				}
 			}
 		}
 	}
 }
 
 
-function write_file($filename,$contents) {
+function write_file($filename,$contents,$use_warning_banner=true) {
 	global $asterisk_conf;
 	freepbx_log('retrieve_conf', 'devel-debug', 'Writing '.$filename);
 	if (isset($filename) && !empty($filename)) {
 		if ($fd = fopen(addslash($asterisk_conf['astetcdir']).$filename, "w")) {
-			fwrite($fd, WARNING_BANNER );
+			if ($use_warning_banner) {
+				fwrite($fd, WARNING_BANNER );
+			}
 			fwrite($fd, $contents);
 			fclose($fd);
 		}
@@ -506,6 +516,7 @@ function symlink_subdirs($moduledir) {
 
 	$nt = notifications::create($db);
 
+	$error_modules = '';
 	foreach ($symlink_dirs as $subdir => $targetdir) {
 		$dir = addslash($moduledir).$subdir;
 		if (is_dir($dir)) {
@@ -517,12 +528,12 @@ function symlink_subdirs($moduledir) {
 					if (file_exists_wrapper($dest)) {
 						if (!is_link($dest)) {
 							freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is not a symlink!');
-							$nt->add_error('retrieve_conf', 'SYMLINK', _("symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link the %s file from modules"),$dest));
+							$error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
 							$symlink_errors = true;
 						} else if (readlink($dest) != $src) {
 							// TODO : is this the proper handling? should we just overwrite..?
 							freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is linked to something else!');
-							$nt->add_error('retrieve_conf', 'SYMLINK', _("symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link the %s file from modules"),$dest));
+							$error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
 							$symlink_errors = true;
 						} else {
 							freepbx_log('retrieve-conf', 'devel-debug', $dest.' already points to '.$src.' - OK');
@@ -543,7 +554,9 @@ function symlink_subdirs($moduledir) {
 			closedir($d);
 		}
 	}
-	if (!$symlink_errors) {
+	if ($error_modules) {
+		$nt->add_error('retrieve_conf', 'SYMLINK', _("Symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link: %s<br \>This can result in FATAL failures to your PBX"),$error_modules));
+	} else {
 		$nt->delete('retrieve_conf', 'SYMLINK');
 	}
 }
