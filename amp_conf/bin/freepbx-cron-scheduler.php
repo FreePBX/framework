@@ -231,7 +231,6 @@ if ($email) {
 			$text .= $item['extended_text']."\n\n";
 		}
 	}
-	$text = preg_replace("/<br>/","\n",$text);
 
 	if ($send_email && (! $cm->check_hash('update_email', $text))) {
 		$cm->save_hash('update_email', $text);
