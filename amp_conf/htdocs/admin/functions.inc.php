@@ -57,6 +57,7 @@ $amp_conf_defaults = array(
 	'BADDESTABORT'   => array('bool' , false),
 	'SERVERINTITLE'  => array('bool' , false),
 	'XTNCONFLICTABORT' => array('bool' , false),
+	'USEDEVSTATE'    => array('bool' , false),
 );
 
 function parse_amportal_conf($filename) {
@@ -2129,7 +2130,12 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
 		$data = @ file_get_contents($fn);
-		$module_getonlinexml_error = empty($data);
+
+		if (empty($data)) {
+			exec("wget -O - $fn 2> /dev/null", $data_arr, $retcode);
+			$data = implode("\n",$data_arr);
+			$module_getonlinexml_error = ($retcode == 0)?false:true;
+		}
 		
 		$old_xml = array();
 		$got_new = false;
