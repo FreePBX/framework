@@ -8,11 +8,20 @@ class featurecode
 	var $_customcode;	// Custom code
 	var $_enabled;		// Enabled/Disabled (0=disabled; 1=enabled; -1=unknown)
 	var $_loaded;		// If this feature code was succesfully loaded from the DB
+	var $_overridecodes;		// Overide defaults from featurecodes.conf
 
 	// CONSTRUCTOR
 	function featurecode($modulename, $featurename) {
+		global $amp_conf;
+
 		if ($modulename == '' || $featurename == '')
 			die_freepbx('feature code class must be called with ModuleName and FeatureName');
+
+		$fd = $amp_conf['ASTETCDIR'].'/freepbx_featurecodes.conf';
+		$this->_overridecodes = array();
+		if (file_exists($fd)) {
+			$this->_overridecodes = parse_ini_file($fd,true);
+		}
 
 		$this->_modulename = $modulename;
 		$this->_featurename = $featurename;
@@ -42,7 +51,16 @@ class featurecode
 		$res = sql($s, "getRow");
 		if (is_array($res)) { // found something, read it
 			$this->_description = $res[0];
-			$this->_defaultcode = $res[1];
+			if (isset($this->_overridecodes[$this->_modulename][$this->_featurename]) && trim($this->_overridecodes[$this->_modulename][$this->_featurename]) != '') {
+				$this->_defaultcode = $this->_overridecodes[$this->_modulename][$this->_featurename];
+				if ($this->_defaultcode != $res[1]) {
+					$sql = 'UPDATE featurecodes SET defaultcode = '.sql_formattext($this->_defaultcode). 
+						'WHERE modulename = '.sql_formattext($this->_modulename). ' AND featurename = '.sql_formattext($this->_featurename);
+					sql($sql, 'query');
+				}
+			} else {
+				$this->_defaultcode = $res[1];
+			}
 			$this->_customcode = $res[2];
 			$this->_enabled = $res[3];
 			
@@ -108,20 +126,23 @@ class featurecode
 	}
 	
 	// SET DEFAULT CODE
-	function setDefault($deafultcode, $defaultenabled = true) {
+	function setDefault($defaultcode, $defaultenabled = true) {
 		if (!$this->isReady())
 			$this->init(1);
 			
-		if ($deafultcode == '') {
+		if (isset($this->_overridecodes[$this->_modulename][$this->_featurename])) {
+			$defaultcode = $this->_overridecodes[$this->_modulename][$this->_featurename];
+		}
+
+		if (trim($defaultcode) == '') {
 			unset($this->_defaultcode);
 		} else {
-			$this->_defaultcode = $deafultcode;			
+			$this->_defaultcode = $defaultcode;			
 		}
 
 		if ($this->_enabled == -1) {
 			$this->_enabled = ($defaultenabled) ? 1 : 0;
 		}
-
 
 	}
 	
@@ -216,6 +237,13 @@ function featurecodes_getModuleFeatures($modulename) {
 }
 
 function featurecodes_getAllFeaturesDetailed() {
+	global $amp_conf;
+
+	$fd = $amp_conf['ASTETCDIR'].'/freepbx_featurecodes.conf';
+	$overridecodes = array();
+	if (file_exists($fd)) {
+		$overridecodes = parse_ini_file($fd,true);
+	}
 	$s = "SELECT featurecodes.modulename, featurecodes.featurename, featurecodes.description AS featuredescription, featurecodes.enabled AS featureenabled, featurecodes.defaultcode, featurecodes.customcode, ";
 	$s .= "modules.enabled AS moduleenabled ";
 	$s .= "FROM featurecodes ";
@@ -226,8 +254,12 @@ function featurecodes_getAllFeaturesDetailed() {
 	if (is_array($results)) {
 		$modules = module_getinfo(false, MODULE_STATUS_ENABLED);
 		foreach ($results as $key => $item) {
+
 			// get the module display name
 			$results[$key]['moduledescription'] = (!empty($modules[ $item['modulename'] ]['name']) ? $modules[ $item['modulename'] ]['name'] : ucfirst($item['modulename']));
+			if (isset($overridecodes[$item['modulename']][$item['featurename']]) && trim($overridecodes[$item['modulename']][$item['featurename']]) != '') {
+				$results[$key]['defaultcode'] = $overridecodes[$item['modulename']][$item['featurename']];
+			}
 		}
 		
 		return $results;
