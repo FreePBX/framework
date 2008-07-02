@@ -2,7 +2,11 @@
 <?php
 
 	$debug = -1;
-	$include_mode = true;
+
+	// If set to nointercom then don't generate any hints
+	//
+	$intercom_code = isset($argv[1]) ? $argv[1] : '';
+	$dnd_mode      = isset($argv[2]) ? $argv[2] : '';
 
 	$amp_conf = parse_amportal_conf_bootstrap("/etc/amportal.conf");
 
@@ -52,10 +56,22 @@
 	function set_hint($user, $devices) {
 		debug("set_hint: user: $user, devices: $devices",8);
 		global $astman;
+		global $dnd_mode;
+		global $intercom_code;
+
+		$dnd_string = ($dnd_mode == 'dnd')?"&Custom:DND$user":'';
 
 		if ($devices) {
 			$dial_string = get_dial_string($devices);
-			echo "exten => $user,hint,$dial_string\n";
+			echo "exten => $user,hint,$dial_string"."$dnd_string\n";
+			if ($intercom_code != 'nointercom' && $intercom_code != '') {
+				echo "exten => $intercom_code"."$user,hint,$dial_string"."$dnd_string\n";
+			}
+		} else if ($dnd_mode == 'dnd') {
+			echo "exten => $user,hint,Custom:DND$user\n";
+			if ($intercom_code != 'nointercom' && $intercom_code != '') {
+				echo "exten => $intercom_code"."$user,hint,Custom:DND$user\n";
+			}
 		}
 	}
 
