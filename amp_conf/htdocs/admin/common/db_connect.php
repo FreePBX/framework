@@ -75,3 +75,17 @@ if ($amp_conf['AMPDBPASS'] == $amp_conf_defaults['AMPDBPASS'][1]) {
 	$nt->delete('core', 'AMPDBPASS');
 }
 
+// Check and increase php memory_limit if needed and if allowed on the system
+//
+$current_memory_limit = rtrim(ini_get('memory_limit'),'M');
+$proper_memory_limit = '100';
+if ($current_memory_limit < $proper_memory_limit) {
+	if (ini_set('memory_limit',$proper_memory_limit.'M') !== false) {
+		$nt->add_notice('core', 'MEMLIMIT', _("Memory Limit Changed"), sprintf(_("Your memory_limit, %sM, is set too low and has been increased to %sM. You may want to change this in you php.ini config file"),$current_memory_limit,$proper_memory_limit));
+	} else {
+		$nt->add_warning('core', 'MEMERR', _("Low Memory Limit"), sprintf(_("Your memory_limit, %sM, is set too low and may cause problems. FreePBX is not able to change this on your system. You should increase this to %sM in you php.ini config file"),$current_memory_limit,$proper_memory_limit));
+	}
+} else {
+	$nt->delete('core', 'MEMLIMIT');
+}
+
