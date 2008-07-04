@@ -1,5 +1,7 @@
 <?php
-// TODO: * Test 'processfunctions'
+// This is a global to be used by gettabindex()
+//
+$_guielement_tabindex = 1;
 
 class component {
 	var $_compname; // Component name (e.g. users, devices, etc.)
@@ -273,6 +275,7 @@ class component {
 	}
 	
 	function generateconfigpage() {
+
 		$htmlout = '';
 		$formname = "frm_$this->_compname";
 		$hasoutput = false;
@@ -311,7 +314,7 @@ class component {
 					// Header for $section				
 					$htmlout .= "\t<tr>\n";
 					$htmlout .= "\t\t<td colspan=\"2\">";
-					$htmlout .= "<h5>" . _($section) . "</h5><hr>";
+					$htmlout .= "<h5>" . _($section) . "<hr></h5>";
 					$htmlout .= "</td>\n";
 					$htmlout .= "\t</tr>\n";
 					
@@ -447,6 +450,14 @@ class guielement {
 	function generatevalidation() {
 		return $this->_javascript;
 	}
+	function gettabindex() {
+		global $_guielement_tabindex;
+		return $_guielement_tabindex;
+	}
+	function settabindex($new_tab) {
+		global $_guielement_tabindex;
+		$_guielement_tabindex = $new_tab;
+	}
 }
 
 // Hidden field
@@ -559,7 +570,8 @@ class gui_textbox extends guiinput {
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
 		
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
-		$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" id=\"$this->_elemname\"$maxlength value=\"" . htmlentities($this->currentvalue) . "\">";
+		$tabindex = guielement::gettabindex();
+		$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" id=\"$this->_elemname\"$maxlength tabindex=$tabindex value=\"" . htmlentities($this->currentvalue) . "\">";
 	}
 }
 
@@ -571,7 +583,8 @@ class gui_password extends guiinput {
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
 		
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
-		$this->html_input = "<input type=\"password\" name=\"$this->_elemname\" id=\"$this->_elemname\"$maxlength value=\"" . htmlentities($this->currentvalue) . "\">";
+		$tabindex = guielement::gettabindex();
+		$this->html_input = "<input type=\"password\" name=\"$this->_elemname\" id=\"$this->_elemname\"$maxlength tabindex=$tabindex value=\"" . htmlentities($this->currentvalue) . "\">";
 	}
 }
 
@@ -596,7 +609,8 @@ class gui_selectbox extends guiinput {
 		$output = '';
 		$onchange = ($onchange != '') ? " onchange=\"$onchange\"" : '';
 		
-		$output .= "\n\t\t\t<select name=\"$this->_elemname\" id=\"$this->_elemname\"$onchange>\n";
+		$tabindex = guielement::gettabindex();
+		$output .= "\n\t\t\t<select name=\"$this->_elemname\" id=\"$this->_elemname\" tabindex=$tabindex  $onchange >\n";
 		// include blank option if required
 		if ($canbeempty)
 			$output .= "<option value=\"\">&nbsp;</option>";			
@@ -636,7 +650,8 @@ class gui_radio extends guiinput {
 			$itemtext = (isset($item['text']) ? _($item['text']) : '');
 			$itemchecked = ($currentvalue == $itemvalue) ? ' checked=checked' : '';
 			
-			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname\" value=\"$this->_elemname=$itemvalue\"$itemchecked/>$itemtext&nbsp;&nbsp;&nbsp;&nbsp;\n";
+			$tabindex = guielement::gettabindex();
+			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname\" tabindex=$tabindex value=\"$this->_elemname=$itemvalue\"$itemchecked/>$itemtext&nbsp;&nbsp;&nbsp;&nbsp;\n";
 		}
 		return $output;
 	}
@@ -661,7 +676,7 @@ class guitext extends guielement {
 	function generatehtml() {
 		// this effectivly creates the template using the html_text
 		// we would expect the $html_text to be set by the child class
-		
+
 		$output = '';
 		
 		// start new row
