@@ -227,7 +227,7 @@ class AGI_AsteriskManager
 	* @param string $secret
 	* @return boolean true on success
 	*/
-	function connect($server=NULL, $username=NULL, $secret=NULL)
+	function connect($server=NULL, $username=NULL, $secret=NULL, $events='on')
 	{
 		// use config if not specified
 		if(is_null($server)) $server = $this->config['asmanager']['server'];
@@ -270,7 +270,7 @@ class AGI_AsteriskManager
 		}
 		
 		// login
-		$res = $this->send_request('login', array('Username'=>$username, 'Secret'=>$secret));
+		$res = $this->send_request('login', array('Username'=>$username, 'Secret'=>$secret, 'Events'=>$events));
 		if($res['Response'] != 'Success')
 		{
 			$this->log("Failed to login.");
