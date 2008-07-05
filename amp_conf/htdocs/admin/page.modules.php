@@ -287,14 +287,14 @@ function enable_option($module_name, $option) {
 */
 function trac_replace_ticket($match) {
   $baseurl = 'http://freepbx.org/trac/ticket/';
-  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="ticket '.$match[0].'">'.$match[0].'</a>';
+  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="ticket '.$match[1].'">'.$match[0].'</a>';
 }
 
 /* Replace 'rnnn' changeset references to a link, taken from Greg's drupal filter
 */
 function trac_replace_changeset($match) {
   $baseurl = 'http://freepbx.org/trac/changeset/';
-  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="changeset '.$match[0].'">'.$match[0].'</a>';
+  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="changeset '.$match[1].'">'.$match[0].'</a>';
 }                                                                                                                                              
 
 //--------------------------------------------------------------------------------------------------------
