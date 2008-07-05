@@ -807,8 +807,8 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				// TODO: need to fix this to convert 1.x.xbetax.x, 1.x.xalphax.x, 1.x.xrcx.x, 1.x.xRCx.x formats as well
 				//
 				$changelog = nl2br($modules[$name]['changelog']);
-				$changelog = preg_replace('/(\d+(\.\d+)+):/', '<strong>$0</strong>', $changelog);
-				$changelog = preg_replace('/\*(\d+(\.\d+)+)\*/', '<strong>$1:</strong>', $changelog);
+				$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+):/', '<strong>$0</strong>', $changelog);
+				$changelog = preg_replace('/\*(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+)\*/', '<strong>$1:</strong>', $changelog);
 
 				// convert '#xxx', 'ticket xxx', 'bug xxx' to ticket links and rxxx to changeset links in trac
 				//
