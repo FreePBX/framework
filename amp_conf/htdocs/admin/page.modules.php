@@ -283,6 +283,20 @@ function enable_option($module_name, $option) {
 	return $enable;
 }
 
+/* Replace '#nnn', 'bug nnn', 'ticket nnn' type ticket numbers in changelog with a link, taken from Greg's drupal filter
+*/
+function trac_replace_ticket($match) {
+  $baseurl = 'http://freepbx.org/trac/ticket/';
+  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="ticket '.$match[0].'">'.$match[0].'</a>';
+}
+
+/* Replace 'rnnn' changeset references to a link, taken from Greg's drupal filter
+*/
+function trac_replace_changeset($match) {
+  $baseurl = 'http://freepbx.org/trac/changeset/';
+  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="changeset '.$match[0].'">'.$match[0].'</a>';
+}                                                                                                                                              
+
 //--------------------------------------------------------------------------------------------------------
 switch ($extdisplay) {  // process, confirm, or nothing
 	case 'process':
@@ -788,10 +802,20 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			if (isset($modules[$name]['changelog']) && !empty($modules[$name]['changelog'])) {
 				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Changelog")."\">\n";
 				echo "<h5>".sprintf(_("Change Log for version %s"), $modules[$name]['version'])."</h5>";
+
 				// convert "1.x.x:" and "*1.x.x*" into bold, and do nl2br
+				// TODO: need to fix this to convert 1.x.xbetax.x, 1.x.xalphax.x, 1.x.xrcx.x, 1.x.xRCx.x formats as well
+				//
 				$changelog = nl2br($modules[$name]['changelog']);
 				$changelog = preg_replace('/(\d+(\.\d+)+):/', '<strong>$0</strong>', $changelog);
 				$changelog = preg_replace('/\*(\d+(\.\d+)+)\*/', '<strong>$1:</strong>', $changelog);
+
+				// convert '#xxx', 'ticket xxx', 'bug xxx' to ticket links and rxxx to changeset links in trac
+				//
+				$changelog = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,4})(?!\w)/i', 'trac_replace_ticket', $changelog);
+				$changelog = preg_replace_callback('/(?<!\w)r(\d+)(?!\w)/', 'trac_replace_changeset', $changelog);
+				$changelog = preg_replace_callback('/(?<!\w)\[(\d+)\](?!\w)/', 'trac_replace_changeset', $changelog);
+
 				echo $changelog;
 				echo "\t\t\t\t</div>\n";
 			}
