@@ -1636,6 +1636,7 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 // esnure that any form that includes this calls the setDestinations() javascript function on submit.
 // ie: if the form name is "edit", and drawselects has been called with $i=2 then use onsubmit="setDestinations(edit,2)"
 function drawselects($goto,$i,$show_custom=false) {  
+global $tabindex;
 	
 	/* --- MODULES BEGIN --- */
 	global $active_modules;
@@ -1681,7 +1682,8 @@ function drawselects($goto,$i,$show_custom=false) {
 		//
 		$cat_identifier = preg_replace('/[^a-zA-Z0-9]/','_', $cat);
 			
-		$selectHtml .=	'<input type="radio" id="'.$radioid.'" name="goto'.$i.'" value="'.$cat_identifier.'" '.
+		$tabindex_txt = (isset($tabindex) && $tabindex != '') ? ' tabindex="'.++$tabindex.'" ':'';
+		$selectHtml .=	'<input type="radio" '.$tabindex_txt.'id="'.$radioid.'" name="goto'.$i.'" value="'.$cat_identifier.'" '.
 		                //'onclick="javascript:this.form.goto'.$i.'.value=\''.$cat.'\';" '.
 		                //'onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$cat.'\';" '.
 		                ($checked? 'CHECKED=CHECKED' : '').' /> ';
