@@ -6,7 +6,7 @@
 #
 # TODO: SHOULD CHECK THE VERSION OF THE MODULES BEFORE PROCEEDING
 #
-module_url="http://svn.freepbx.org/modules/branches/2.4"
+module_url="http://svn.freepbx.org/modules/branches/2.5"
 core_url=${module_url}/core
 framework_url=${module_url}/framework
 dashboard_url=${module_url}/dashboard
