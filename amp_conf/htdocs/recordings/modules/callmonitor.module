@@ -385,6 +385,7 @@ class Callmonitor {
     foreach($data as $data_key => $data_value) {
 
       $recording='';
+      $unique_file_key ='';
 
       $calldate = $data_value['calldate'];
       $duration = $data_value['duration'];
