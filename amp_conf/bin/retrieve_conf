@@ -760,7 +760,9 @@ foreach($output as $file) {
 
 	if (!file_exists($target)) {
 		exec("touch $target", $output, $retcode);
-		error("Error code $retcode: trying to create empty file $target");
+		if ($retcode != 0) {
+			error("Error code $retcode: trying to create empty file $target");
+		}
 	}
 }
 
