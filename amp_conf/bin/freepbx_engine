@@ -135,8 +135,7 @@ echo "STOPPING ASTERISK"
 pid_length=`pidof asterisk|awk '{print length($0)}'`
 	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 		then
-			/usr/sbin/asterisk -rx "stop gracefully" > /dev/null
-			/usr/sbin/asterisk -rx "core stop gracefully" > /dev/null
+			/usr/sbin/asterisk -rx "stop gracefully"
 			echo "Asterisk Stopped"
 		fi
 }
