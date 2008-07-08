@@ -12,7 +12,7 @@ if (!$nrows) {
 outn("Checking for Global var MIXMON_DIR..");
 $nrows = $db->getOne("SELECT count(*) from globals where variable='MIXMON_DIR'");
 if (!$nrows) {
-	$db->query("insert into globals values ('MIXMON_DIR', '1')");
+	$db->query("insert into globals values ('MIXMON_DIR', '')");
 	out("Created");
 } else {
 	out("Already exists!");
