@@ -685,7 +685,7 @@ function framework_display_destination_usage($dest, $module_hash=false) {
 			}
 		}
 		$object = $usage_count > 1 ? "Objects":"Object";
-		return array('text' => sprintf(_("Used as Destination by %s %s"),$usage_count, $object),
+		return array('text' => '&nbsp;'.sprintf(_("Used as Destination by %s %s"),$usage_count, $object),
 		             'tooltip' => $str,
 							 	);
 	} else {
