@@ -243,6 +243,10 @@ INSERT INTO `globals` VALUES ('VMX_TIMEOUT','2');
 INSERT INTO `globals` VALUES ('VMX_REPEAT','1');
 INSERT INTO `globals` VALUES ('VMX_LOOPS','1');
 INSERT INTO `globals` VALUES ('TRANSFER_CONTEXT','from-internal-xfer');
+INSERT INTO `globals` VALUES ('MIXMON_FORMAT','wav');
+INSERT INTO `globals` VALUES ('MIXMON_DIR','');
+INSERT INTO `globals` VALUES ('MIXMON_POST','');
+
 --  TABLES;
 /*!40000 ALTER TABLE `globals` ENABLE KEYS */;
 
@@ -369,13 +373,6 @@ CREATE TABLE `users` (
   `noanswer` varchar(100) default NULL,
   `recording` varchar(50) default NULL,
   `outboundcid` varchar(50) default NULL,
-  `directdid` varchar(50) default NULL,
-  `didalert` varchar(50) default NULL,
-  `faxexten` varchar(20) default NULL,
-  `faxemail` varchar(50) default NULL,
-  `answer` tinyint(1) default NULL,
-  `wait` int(2) default NULL,
-  `privacyman` tinyint(1) default NULL
 ) ;
 
 --
