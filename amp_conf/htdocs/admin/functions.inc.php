@@ -58,6 +58,7 @@ $amp_conf_defaults = array(
 	'SERVERINTITLE'  => array('bool' , false),
 	'XTNCONFLICTABORT' => array('bool' , false),
 	'USEDEVSTATE'    => array('bool' , false),
+	'MODULEADMINWGET'=> array('bool' , false),
 );
 
 function parse_amportal_conf($filename) {
@@ -2131,7 +2132,11 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
-		$data = @ file_get_contents($fn);
+		if (!$amp_conf['MODULEADMINWGET']) {
+			$data = @ file_get_contents($fn);
+		} else {
+			$data = "";
+		}
 
 		if (empty($data)) {
 			exec("wget -O - $fn 2> /dev/null", $data_arr, $retcode);
@@ -2745,8 +2750,17 @@ function module_download($modulename, $force = false, $progress_callback = null,
 		$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 	}
 	
-	if (!$dp = @fopen($url,'r')) {
-		return array(sprintf(_("Error opening %s for reading"), $url));
+	// Check MODULEADMINWGET first so we don't execute the fopen() if set
+	//
+	if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($url,'r')) {
+		exec("wget -O $filename $url 2> /dev/null", $filedata, $retcode);
+		if ($retcode != 0) {
+			return array(sprintf(_("Error opening %s for reading"), $url));
+		} else {
+			if (!$dp = @fopen($filename,'r')) {
+				return array(sprintf(_("Error opening %s for reading"), $url));
+			}
+		}
 	}
 	
 	$filedata = '';
@@ -3339,7 +3353,15 @@ function module_get_annoucements() {
 		$options .="&astver=".urlencode($engver['version']);
 	}
 
-	$announcement = @ file_get_contents("http://mirror.freepbx.org/version-".getversion().".html".$options);
+	if (!$amp_conf['MODULEADMINWGET']) {
+		$announcement = @ file_get_contents("http://mirror.freepbx.org/version-".getversion().".html".$options);
+	} else {
+		$announcement = '';
+	}
+	if (empty($announcement)) {
+		exec("wget -O - $fn 2> /dev/null", $data_arr, $retcode);
+		$announcement = implode("\n",$data_arr);
+	}
 	return $announcement;
 }
 
