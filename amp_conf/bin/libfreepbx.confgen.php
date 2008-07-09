@@ -255,7 +255,7 @@ function generate_configurations_queues($ast_version) {
 	$sql = "SELECT keyword,data from $table_name where id='-1' and keyword <> 'account'";
 	$results = $db->getAll($sql, DB_FETCHMODE_ASSOC);
 	if(DB::IsError($results)) {
-   	error("queues access failed, queueues may not be installed: ".$results->getMessage());
+   	error("queues access failed, Queues module may not be installed: ".$results->getMessage());
 		return true;
 	}
 	foreach ($results as $result) {
@@ -268,7 +268,7 @@ function generate_configurations_queues($ast_version) {
 	$sql = "SELECT data,id from $table_name where keyword='account' group by data";
 	$results = $db->getAll($sql, DB_FETCHMODE_ASSOC);
 	if(DB::IsError($results)) {
-   	error("queues access failed, queueues may not be installed: ".$results->getMessage());
+   	error("queues access failed, Queues module may not be installed: ".$results->getMessage());
 		return true;
 	}
 
@@ -280,7 +280,7 @@ function generate_configurations_queues($ast_version) {
 		$sql = "SELECT keyword,data from $table_name where id='$id' and keyword <> 'account' and keyword <> 'rtone' order by flags";
 		$results2 = $db->getAll($sql, DB_FETCHMODE_ASSOC);
 		if(DB::IsError($results2)) {
-   		error("queues access failed, queueues may not be installed: ".$results2->getMessage());
+   		error("queues access failed, Queues module may not be installed: ".$results2->getMessage());
 			return true;
 		}
 		$queueschannel="";
