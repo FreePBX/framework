@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <TITLE>User Portal</TITLE>
+    <TITLE>FreePBX User Portal</TITLE>
     <link rel="stylesheet" href="theme/main.css" type="text/css">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   </head>
@@ -9,6 +9,15 @@
   <div id="page">
   <div class="minwidth">
   <div class="container">
+    <h2 class="ariBlockHide">Header And Logo</h2>
+    <div id="ariHeader">
+      <div class="spacer"></div>
+      <span id="left">
+        <a href="<?php $_SERVER['PHP_SELF'] ?>" alt="FreePBX User Portal" title="FreePBX User Portal"><img src="../admin/images/logo.png" height="75" alt="" class/></a>
+      </span>
+      <span id="right"></span>
+      <div class="spacer"></div>
+    </div>
     <div id="topnav">
       <div class="spacer"></div>
       <span class="left">
@@ -64,8 +73,8 @@
     <!--begin footer-->
     <div id="ariFooter">
       <small>
-        &nbsp;&nbsp;<?php print($ari_version) ?> <?php echo _("Version")?><br>
-        &middot;&nbsp;<a href="http<?php print(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=''?'s':''); ?>://www.littlejohnconsulting.com">Based on ARI from Littlejohn Consulting</a>
+        <?php print($ari_version) ?><br />
+				<?php echo _("Original work based on ARI from Littlejohn Consulting") ?></a>
       </small>
     </div>
     <!-- end footer -->
