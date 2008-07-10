@@ -106,6 +106,9 @@ div.attention {
 	/*color: #ff9933; */
 	color: black; 
 }
+#header #version a:link {
+	background-color: transparent;
+}
 #header #version a:hover {
 	color: #ff9933; 
 	font-weight:bold;
@@ -192,6 +195,7 @@ div.attention {
 #header #freepbx img {
 	padding:0px;
 	border:0;
+	float:left;
 }
 
 #header #logo {
@@ -217,6 +221,8 @@ div.attention {
 }
 #need_reload_block a {
 	display:block;
+	background-color:#FF9933;
+	color:#FFFFFF;
 }
 #login_message {
 	position:absolute;
@@ -224,6 +230,10 @@ div.attention {
 	right:5px;
 	width: 180px;
 	font-size:12px;
+	background-color: none;
+}
+#login_message a:link {
+	background-color: transparent;
 }
 #message-old {
 	position:absolute;
