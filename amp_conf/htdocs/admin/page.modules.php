@@ -620,8 +620,16 @@ switch ($extdisplay) {  // process, confirm, or nothing
 
 		$category = false;
 		$numdisplayed = 0;
+		$fd = $amp_conf['ASTETCDIR'].'/freepbx_module_admin.conf';
+		if (file_exists($fd)) {
+			$module_filter = parse_ini_file($fd);
+		} else {
+			$module_filter = array();
+		}
 		foreach (array_keys($modules) as $name) {
-			
+			if (isset($module_filter[$name]) && strtolower(trim($module_filter[$name])) == 'hidden') {
+				continue;
+			}
 			$numdisplayed++;
 			
 			if ($category !== $modules[$name]['category']) {
