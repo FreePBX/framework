@@ -80,7 +80,12 @@ class Table {
 				
 		//$res=DbExec($link, $QUERY);
 		$res = $DBHandle -> query($QUERY);
-		
+  	if(DB::isError($res))
+    {
+			// don't know if this is the correct response but it should keep
+			// #2829 from happening
+			return 0;
+		}
 
 		$num = $res -> numRows();
 		
