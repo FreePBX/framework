@@ -454,7 +454,7 @@ class Settings {
 					<tr>
 					<td></td>
 					<td>
-					<input type=text size='" . $size . "' name='" . $var . "' value='" . $value . "' OnClick=\"disable_fields(); return true;\">
+					<input type=text size='" . $size . "' name='" . $var . "' value='" . $value . "'>
 					<small>" . $var_text . "</small>
 					</td>
 					</tr>";
@@ -465,7 +465,7 @@ class Settings {
 					<tr>
 					<td></td>
 					<td>
-					<input " . $$var_enable . " " . $$var_text_box_options . " type=checkbox name='" . $var . "' value='yes' OnClick=\"disable_fields(); return true;\">
+					<input " . $$var_enable . " " . $$var_text_box_options . " type=checkbox name='" . $var . "'>
 					<small>" . $var_text . "</small>
 					</td>
 					</tr>";
