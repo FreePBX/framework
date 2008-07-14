@@ -124,7 +124,7 @@ class extensions {
 		/* This little routine from http://ca.php.net/array_splice overcomes 
 		*  problems that array_splice has with multidmentional arrays
 		*/
-			$array = $this->_exts[$section][$extension];
+			$array = isset($this->_exts[$section][$extension]) ? $this->_exts[$section][$extension] : array();
 			$ky = $priority;
 			$val = $newcommand;
 			$n = $ky; 
@@ -793,11 +793,24 @@ class ext_authenticate {
 		$this->pass = $pass;
 		$this->options = $options;
 	}
-	
 	function output() {
 		return "Authenticate(".$this->pass.",".$this->options.")";
 	}
 }
+
+class ext_vmauthenticate {
+	var $mailbox; 
+	var $context; 
+	var $options;
+
+	function ext_vmauthenticate($mailbox='', $options='') {
+		$this->mailbox = $mailbox; 
+		$this->options = $options;
+	}
+	function output() {
+		return "VMAuthenticate(" .$this->mailbox . (($this->options != '') ? ','.$this->options : '' ) .")";
+	}
+} 
 
 class ext_page extends extension {
 	function output() {
