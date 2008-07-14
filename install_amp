@@ -881,9 +881,14 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
 // **** Make sure selinux isn't enabled
 
 outn("Checking for selinux..");
-$tmpoutput = '';
-$tmpout = exec("selinuxenabled 2>&1", $tmpoutput, $sereturn);
-if ($sereturn == 0) {
+$tmpoutput;
+$tmpout = exec("getenforce", $tmpoutput, $sereturn);
+if (strtolower($tmpoutput[0]) === "enabled") {
+        // this method seems better because disabled and premissive are the same
+        // if a user installs and realizes selinux is running the other method 
+        // requires a reboot to get selinuxenabled to work after editing the  selinux config
+        // this will allow you to use setenforce 0 which turns selinux into premissive mode which
+        // doesnt enforce, it just warns.
 	fatal("selinux is ENABLED. This is not supported. Please disable selinux before using FreePBX");
 }
 out("OK");
