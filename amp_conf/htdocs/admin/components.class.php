@@ -645,13 +645,15 @@ class gui_radio extends guiinput {
 	function buildradiobuttons($valarray, $currentvalue) {
 		$output = '';
 		
+		$count = 0;
 		foreach ($valarray as $item) {
 			$itemvalue = (isset($item['value']) ? $item['value'] : '');
 			$itemtext = (isset($item['text']) ? _($item['text']) : '');
 			$itemchecked = ($currentvalue == $itemvalue) ? ' checked=checked' : '';
 			
 			$tabindex = guielement::gettabindex();
-			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname\" tabindex=$tabindex value=\"$this->_elemname=$itemvalue\"$itemchecked/>$itemtext&nbsp;&nbsp;&nbsp;&nbsp;\n";
+			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname$count\" tabindex=$tabindex value=\"$this->_elemname=$itemvalue\"$itemchecked/>$itemtext&nbsp;&nbsp;&nbsp;&nbsp;\n";
+			$count++;
 		}
 		return $output;
 	}
