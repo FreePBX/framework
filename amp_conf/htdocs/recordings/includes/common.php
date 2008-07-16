@@ -166,6 +166,14 @@ function databaseLogon() {
       $asteriskcdr_dbhost = isset($amp_conf["AMPDBHOST"]) ? $amp_conf["AMPDBHOST"] : $ASTERISKCDR_DBHOST;
       $asteriskcdr_dbname = $ASTERISKCDR_DBNAME;
 
+			global $amp_usedevstate;
+			$amp_usedevstate = isset($amp_conf["USEDEVSTATE"]) ? strtolower(trim($amp_conf["USEDEVSTATE"])) : 0;
+			if ($amp_usedevstate == 'yes' || $amp_usedevstate == 'true' || $amp_usedevstate == 'on' || $amp_usedevstate == '1') {
+				$amp_usedevstate = 1;
+			} else {
+				$amp_usedevstate = 0;
+			}
+
       unset($amp_conf);
     } 
   }

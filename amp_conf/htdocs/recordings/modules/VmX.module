@@ -299,9 +299,7 @@ class VmX {
 			<tr>
 				<td><a href='#' class='info'>" . _("Use When:") . "<span>" . _("Menu options below are available during your personal voicemail greeting playback. <br/><br/>Check both to use at all times.") . "<br></span></a></td> <td>
 					<input " . $vmx_unavail_enabled . " type=checkbox name='vmx_unavail_enabled' value='checked'>
-					<small>" . _("unavailable") . "</small>
-				</td>
-				<td>
+					<small>" . _("unavailable") . "</small>&nbsp;&nbsp;
 					<input " . $vmx_busy_enabled . " type=checkbox name='vmx_busy_enabled' value='checked'>
 					<small>" . _("busy") . "</small>
 				</td>

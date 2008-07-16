@@ -567,12 +567,26 @@ class followme {
    *   Follow Me Ddial Setting
    */
   function setFollowMeDDial($exten,$follow_me_ddial) {
+		global $amp_usedevstate;
+		global $asterisk_manager_interface;
 
-	global $asterisk_manager_interface;
+		$value_opt = ($follow_me_ddial)?'DIRECT':'EXTENSION';
 
-	$value_opt = ($follow_me_ddial)?'DIRECT':'EXTENSION';
+		$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/followme/ddial $value_opt\r\n\r\n");
 
-	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/followme/ddial $value_opt\r\n\r\n");
+		// TODO only do this if in USEDEVSTATE MODE
+		// Now that we have set the state (DIRECT is enabled, EXTENSION is disabled)
+		// Get the devices associated with this user first and then we will set them all as needed
+		//
+
+		if ($amp_usedevstate) {
+			$value_opt = ($follow_me_ddial)?'BUSY':'NOT_INUSE';
+			$devices = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/device\r\n\r\n");
+			$device_arr = explode('&',$devices);
+			foreach ($device_arr as $device) {
+				$ret = $asterisk_manager_interface->Command("Action: Command\r\nCommand: core set global DEVSTATE(Custom:FOLLOWME$device) $value_opt\r\n\r\n");
+			}
+		}
   }
 
   /*

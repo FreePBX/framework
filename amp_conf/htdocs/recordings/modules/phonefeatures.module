@@ -184,12 +184,26 @@ return $ret;
 }
 //*****************************************************************************
   function setPhoneSetting( $databaseCallFwdType, $exten, $state_value) {
+		global $amp_usedevstate;
+		global $asterisk_manager_interface;
 
-    global $asterisk_manager_interface;
+		$type_opt = ($state_value != "") ? "put":"del";
 
-	$type_opt = ($state_value != "") ? "put":"del";
+		$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt $databaseCallFwdType $exten $state_value\r\n\r\n");
 
-    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt $databaseCallFwdType $exten $state_value\r\n\r\n");
+		// This is a kludge but ... check if the is DND and if so do additional processing
+		//
+		//if ($amp_usedevstate && ($databaseCallFwdType == 'DND')) {
+		if ($databaseCallFwdType == 'DND' && $amp_usedevstate) {
+			$value_opt = ($type_opt == 'put') ? 'BUSY' : 'NOT_INUSE';
+			$devices = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/device\r\n\r\n");
+			$device_arr = explode('&',$devices);
+			foreach ($device_arr as $device) {
+				$ret = $asterisk_manager_interface->Command("Action: Command\r\nCommand: core set global DEVSTATE(Custom:DEVDND$device) $value_opt\r\n\r\n");
+			}
+			// And also handle the state associated with the user
+			$ret = $asterisk_manager_interface->Command("Action: Command\r\nCommand: core set global DEVSTATE(Custom:DND$exten) $value_opt\r\n\r\n");
+		}
   }
 
 //*****************************************************************************
