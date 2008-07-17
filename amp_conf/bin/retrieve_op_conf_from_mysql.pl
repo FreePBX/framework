@@ -413,7 +413,7 @@ foreach my $pcontext ( @ampusers ) {
 		}
 	}
 	if ($parken eq "s") {
-		for (my $i = 0 ; $i < $numberlots && $i < 5 ; $i++ ) {
+		for (my $i = 1 ; $i <= $numberlots && $i <= 5 ; $i++ ) {
 			$btn=get_next_btn($parkingpos,$btn);
 			$parknum = $extpark + $i ;
 			$icon='1';
