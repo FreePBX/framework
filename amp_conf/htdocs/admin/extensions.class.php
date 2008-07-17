@@ -800,7 +800,6 @@ class ext_authenticate {
 
 class ext_vmauthenticate {
 	var $mailbox; 
-	var $context; 
 	var $options;
 
 	function ext_vmauthenticate($mailbox='', $options='') {
