@@ -398,6 +398,17 @@ foreach my $pcontext ( @ampusers ) {
 	my $extpark ;
 	my $parkcontext ;
 	my $numberlots ;
+	my $maxparkingslots ;
+	
+	$maxparkingslots = 0 ;
+	do
+	{
+		$btn=get_next_btn($parkingpos,$btn);
+		$maxparkingslots = $maxparkingslots - 1 ;
+	}
+	while ($btn != 0);
+	$maxparkingslots = $maxparkingslots + 1 ;
+
 	foreach my $row ( @parkings ) {
 		if (@{$row}[0] eq "parkingenabled") {
 			$parken = @{$row}[1] ;
