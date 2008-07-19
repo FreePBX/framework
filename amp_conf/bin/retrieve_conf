@@ -334,8 +334,13 @@ if(is_array($modules)){
 			}
 
 			// create symlinks for files in appropriate sub directories
-			symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-			cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+			// don't symlink framework files, it is a special case module that happens to have
+			// some conflicting names
+			//
+			if ($key != 'framework') {
+				symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+				cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+			}
 		}
 	}
 }
