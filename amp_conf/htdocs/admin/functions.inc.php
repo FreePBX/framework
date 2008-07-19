@@ -32,6 +32,7 @@ $amp_conf_defaults = array(
 	'AMPMGRPASS'     => array('std' , 'amp111'),
 	'FOPPASSWORD'    => array('std' , 'passw0rd'),
 	'FOPSORT'        => array('std' , 'extension'),
+	'AMPSYSLOGLEVEL '=> array('std' , 'LOG_ERR'),
 
 	'ASTETCDIR'      => array('dir' , '/etc/asterisk'),
 	'ASTMODDIR'      => array('dir' , '/usr/lib/asterisk/modules'),
@@ -59,6 +60,8 @@ $amp_conf_defaults = array(
 	'XTNCONFLICTABORT' => array('bool' , false),
 	'USEDEVSTATE'    => array('bool' , false),
 	'MODULEADMINWGET'=> array('bool' , false),
+	'AMPDISABLELOG'=> array('bool' , true),
+	'AMPENABLEDEVELDEBUG'=> array('bool' , false),
 );
 
 function parse_amportal_conf($filename) {
@@ -3504,16 +3507,52 @@ function module_run_notification_checks() {
  * @param  string   The error message
  */
 function freepbx_log($section, $level, $message) {
-        global $db;
-        global $debug; // This is used by retrieve_conf
-        global $amp_conf;
+	global $db;
+	global $debug; // This is used by retrieve_conf
+	global $amp_conf;
+
+	if (isset($debug) && ($debug != false)) {
+		print "[DEBUG-$section] ($level) $message\n";
+	}
+	if (!$amp_conf['AMPENABLEDEVELDEBUG'] && strtolower(trim($level)) == 'devel-debug') {
+		return true;
+	}
         
-        if (!isset($amp_conf['AMPDISABLELOG']) || ($amp_conf['AMPDISABLELOG'] != 'true')) {
-            $sth = $db->prepare("INSERT INTO freepbx_log (time, section, level, message) VALUES (NOW(),?,?,?)");
-            $db->execute($sth, array($section, $level, $message));
-        }
-        if (isset($debug) && ($debug != false))
-                print "[DEBUG-$section] ($level) $message\n";
+	if (!$amp_conf['AMPDISABLELOG']) {
+		switch (strtoupper($amp_conf['AMPSYSLOGLEVEL'])) {
+			case 'LOG_EMERG':
+				syslog(LOG_EMERG,"FreePBX-[$level][$section] $message");
+				break;
+			case 'LOG_ALERT':
+				syslog(LOG_ALERT,"FreePBX-[$level][$section] $message");
+				break;
+			case 'LOG_CRIT':
+				syslog(LOG_CRIT,"FreePBX-[$level][$section] $message");
+				break;
+			case 'LOG_ERR':
+				syslog(LOG_ERR,"FreePBX-[$level][$section] $message");
+				break;
+			case 'LOG_WARNING':
+				syslog(LOG_WARNING,"FreePBX-[$level][$section] $message");
+				break;
+			case 'LOG_NOTICE':
+				syslog(LOG_NOTICE,"FreePBX-[$level][$section] $message");
+				break;
+			case 'LOG_INFO':
+				syslog(LOG_INFO,"FreePBX-[$level][$section] $message");
+				break;
+			case 'LOG_DEBUG':
+				syslog(LOG_DEBUG,"FreePBX-[$level][$section] $message");
+				break;
+			case 'SQL':
+			case 'LOG_SQL':
+			default:
+				$sth = $db->prepare("INSERT INTO freepbx_log (time, section, level, message) VALUES (NOW(),?,?,?)");
+				$db->execute($sth, array($section, $level, $message));
+				break;
+		}
+
+	}
 }
 
 /** Abort all output, and redirect the browser's location.
