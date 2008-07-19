@@ -21,6 +21,14 @@ if [ ! -e "/etc/amportal.conf" ]       # Check if file exists.
 	echo "Have you installed the AMP configuration?";
 	exit;
 fi
+# Set some defaults which can be re-defined in amportal.conf
+AMPDEVUSER=asterisk
+AMPDEVGROUP=asterisk
+AMPASTERISKUSER=asterisk
+AMPASTERISKGROUP=asterisk
+AMPASTERISKWEBUSER=$AMPASTERISKUSER
+AMPASTERISKWEBGROUP=$AMPASTERISKGROUP
+
 . /etc/amportal.conf
 
 if [ $ASTRUNDIR = /var/run ]
@@ -52,25 +60,26 @@ fi
 chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
 
-	chown -R asterisk:asterisk $ASTRUNDIR
-	chown -R asterisk:asterisk /etc/asterisk
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTRUNDIR
+	chown -R $AMPASTERISKUSER:asterisk /etc/asterisk
 	chmod -R g+w /etc/asterisk
-	chown -R asterisk:asterisk $ASTVARLIBDIR
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTVARLIBDIR
 	chmod -R g+w $ASTVARLIBDIR
-	chown -R asterisk:asterisk $ASTLOGDIR
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTLOGDIR
 	chmod -R g+w $ASTLOGDIR
-	chown -R asterisk:asterisk $ASTSPOOLDIR
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTSPOOLDIR
 	chmod -R g+w $ASTSPOOLDIR
-	chown -R asterisk:asterisk $AMPWEBROOT/admin
+	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/admin
 	chmod -R g+w $AMPWEBROOT/admin
-	chown -R asterisk:asterisk $FOPWEBROOT
+	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FOPWEBROOT
 	chmod -R g+w $FOPWEBROOT
-	chown -R asterisk:asterisk $AMPWEBROOT/recordings
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $AMPWEBROOT/recordings
 	chmod -R g+w $AMPWEBROOT/recordings
-	chown -R asterisk:asterisk $AMPWEBROOT/_asterisk
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $AMPWEBROOT/_asterisk
 	chmod u+x,g+x $ASTVARLIBDIR/bin/*
-	chown -R asterisk:asterisk $ASTVARLIBDIR/bin/*
-	chown -R asterisk:asterisk $AMPBIN/*
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTVARLIBDIR/bin/*
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $AMPBIN/*
+
 
 	if [ "$ASTAGIDIR" != "" ]; then
 		chmod u+x $ASTAGIDIR/*
@@ -81,13 +90,14 @@ chown_asterisk() {
 	chmod u+x,g+x $AMPBIN/bounce_op.sh
 	chmod u+x,g+x $FOPWEBROOT/*.pl
 	chmod u+x $FOPWEBROOT/safe_opserver
-	chown asterisk /dev/tty9
+	chown $AMPASTERISKUSER /dev/tty9
+
 	# Ensure that various hardware devices are owned correctly.
-	[ -e /dev/zap ] && chown -R asterisk:asterisk /dev/zap 
-	[ -e /dev/capi20 ] && chown -R asterisk:asterisk /dev/capi20
-	[ -e /dev/misdn ] && chown -R asterisk:asterisk /dev/misdn
-	[ -e /dev/mISDN ] && chown -R asterisk:asterisk /dev/mISDN
-	[ -e /dev/dsp ] && chown -R asterisk:asterisk /dev/dsp
+	[ -e /dev/zap ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/zap 
+	[ -e /dev/capi20 ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/capi20
+	[ -e /dev/misdn ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/misdn
+	[ -e /dev/mISDN ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/mISDN
+	[ -e /dev/dsp ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/dsp
 
 	echo Permissions OK
 }
