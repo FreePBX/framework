@@ -564,33 +564,35 @@ class guiinput extends guielement {
 
 // Textbox
 class gui_textbox extends guiinput {
-	function gui_textbox($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0) {
+	function gui_textbox($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false) {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
 		
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 		$tabindex = guielement::gettabindex();
-		$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" id=\"$this->_elemname\"$maxlength tabindex=$tabindex value=\"" . htmlentities($this->currentvalue) . "\">";
+		$disable_state = $disable ? 'disabled="true"':'';
+		$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" id=\"$this->_elemname\" $disable_state $maxlength tabindex=$tabindex value=\"" . htmlentities($this->currentvalue) . "\">";
 	}
 }
 
 // Password
 class gui_password extends guiinput {
-	function gui_password($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0) {
+	function gui_password($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false) {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
 		
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 		$tabindex = guielement::gettabindex();
-		$this->html_input = "<input type=\"password\" name=\"$this->_elemname\" id=\"$this->_elemname\"$maxlength tabindex=$tabindex value=\"" . htmlentities($this->currentvalue) . "\">";
+		$disable_state = $disable ? 'disabled="true"':'';
+		$this->html_input = "<input type=\"password\" name=\"$this->_elemname\" id=\"$this->_elemname\" $disable_state $maxlength tabindex=$tabindex value=\"" . htmlentities($this->currentvalue) . "\">";
 	}
 }
 
 // Select box
 class gui_selectbox extends guiinput {
-	function gui_selectbox($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '') {
+	function gui_selectbox($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false) {
 		if (!is_array($valarray)) {
 			trigger_error('$valarray must be a valid array in gui_selectbox');
 			return;
@@ -601,16 +603,17 @@ class gui_selectbox extends guiinput {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext);
 
-		$this->html_input = $this->buildselectbox($valarray, $currentvalue, $canbeempty, $onchange);
+		$this->html_input = $this->buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable);
 	}
 	
 	// Build select box
-	function buildselectbox($valarray, $currentvalue, $canbeempty, $onchange) {
+	function buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable) {
 		$output = '';
 		$onchange = ($onchange != '') ? " onchange=\"$onchange\"" : '';
 		
 		$tabindex = guielement::gettabindex();
-		$output .= "\n\t\t\t<select name=\"$this->_elemname\" id=\"$this->_elemname\" tabindex=$tabindex  $onchange >\n";
+		$disable_state = $disable ? 'disabled="true"':'';
+		$output .= "\n\t\t\t<select name=\"$this->_elemname\" id=\"$this->_elemname\" tabindex=$tabindex $disable_state $onchange >\n";
 		// include blank option if required
 		if ($canbeempty)
 			$output .= "<option value=\"\">&nbsp;</option>";			
@@ -630,7 +633,7 @@ class gui_selectbox extends guiinput {
 }
 
 class gui_radio extends guiinput {
-	function gui_radio($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '') {
+	function gui_radio($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false) {
 		if (!is_array($valarray)) {
 			trigger_error('$valarray must be a valid array in gui_radio');
 			return;
@@ -639,10 +642,10 @@ class gui_radio extends guiinput {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext);
 
-		$this->html_input = $this->buildradiobuttons($valarray, $currentvalue);
+		$this->html_input = $this->buildradiobuttons($valarray, $currentvalue, $disable);
 	}
 	
-	function buildradiobuttons($valarray, $currentvalue) {
+	function buildradiobuttons($valarray, $currentvalue, $disable=false) {
 		$output = '';
 		
 		$count = 0;
@@ -652,7 +655,8 @@ class gui_radio extends guiinput {
 			$itemchecked = ($currentvalue == $itemvalue) ? ' checked=checked' : '';
 			
 			$tabindex = guielement::gettabindex();
-			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname$count\" tabindex=$tabindex value=\"$this->_elemname=$itemvalue\"$itemchecked/>$itemtext&nbsp;&nbsp;&nbsp;&nbsp;\n";
+			$disable_state = $disable ? 'disabled="true"':'';
+			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname$count\" $disable_state tabindex=$tabindex value=\"$this->_elemname=$itemvalue\"$itemchecked/>$itemtext&nbsp;&nbsp;&nbsp;&nbsp;\n";
 			$count++;
 		}
 		return $output;
