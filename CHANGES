@@ -1,3 +1,159 @@
+2.5.0	
+ WARNING: The separation of directdid and other incoming routes has been removed.
+ this has resulted in the obsoletion of the following API call:
+
+	function core_directdid_list()
+	function core_users_directdid_get($directdid="")
+
+ These API calls will now always return empty arrays. You should use the
+ core_did_list() and core_did_get() function calls in their place. See the source
+ code for specifics about these calls.
+
+ WARNING: MoH has been changed to convert MP3 into WAV format using mpg123 and
+ sox. If you do not have one or both of these installed you should install them.
+ You can revert to the previous behavior by setting: AMPMPG123=false in the
+ amportal.conf file.
+
+ AMPORTAL CONF NEW SETTINGS:
+
+ USEDEVSTATE = true|false 
+ DEFAULT VALUE: false
+ If this is set, it assumes that you are running Asterisk 1.4 or higher and want 
+ to take advantage of the func_devstate.c backport available from Asterisk 1.6 
+ which allows custom hints to be created to support BLF for server side feature 
+ codes such as daynight, followme, etc.
+
+ MODULEADMINWGET=true|false 
+ DEFAULT VALUE: false
+ Module Admin normally tries to get its online information through direct file 
+ open calls to URLs that go back to the freepbx.org server. If it fails, typically 
+ because of content filters in firewalls that don't like the way PHP formats the 
+ requests, the code will fall back and try a wget to pull the information.  This 
+ will often solve the problem. However, in such environemnts there can be a 
+ significant timeout before the failed file open calls to the URLs return and 
+ there are often 2-3 of these that occur. Setting this value will force FreePBX 
+ to avoid the attempt to open the URL and go straight to the wget calls.
+
+ AMPDISABLELOG=true|false 
+ DEFAULT VALUE: true
+ Whether or not to invoke the freepbx log facility
+
+ AMPSYSLOGLEVEL=LOG_EMERG|LOG_ALERT|LOG_CRIT|LOG_ERR|LOG_WARNING|LOG_NOTICE|
+                LOG_INFO|LOG_DEBUG|LOG_SQL|SQL 
+ DEFAULT VALUE: LOG_ERR
+ Where to log if enabled, SQL, LOG_SQL logs to old MySQL table, others are passed 
+ to syslog system to determine where to log
+
+ AMPENABLEDEVELDEBUG=true|false 
+ DEFAULT VALUE: false
+ Whether or not to include log messages marked as 'devel-debug' in the log system
+
+ AMPMPG123=true|false 
+ DEFAULT VALUE: true
+ When set to false, the old MoH behavior is adopted where MP3 files can be loaded 
+ and WAV files converted to MP3 The new default behavior assumes you have mpg123 
+ loaded as well as sox and will convert MP3 files to WAV. This is highly recommended 
+ as MP3 files heavily tax the system and can cause instability on a busy phone system.
+
+ HIGHLIGHTS:
+ A detailed list of changes is available on the 2.5 Mileston:
+
+ http://freepbx.org/trac/milestone/2.5
+
+ Where you can review the summmary as well as the link to all tickets associated
+ with this Milestone.
+
+- New module queueprio that allows priorities to be assigned to callers that will
+  effect their position in any queue they drop into.
+
+- New module dundicheck, allows the extension registry to detect duplicate
+  extension conflicts between DUNDi branch systems. Also provides a simple lookup
+  for extensions on the configured cluster.
+
+- Timecondition module changed with the addition of Time Groups to allow multiple
+  times to be considered in a single timecondition. The timegroups are abstracted
+  and available for other modules to take advantage of in the future. This was
+  a merge of the timegroups module in the contributed modules directory.
+
+- Day/Night Mode module modified to hook into Time Conditions and allow any Time
+  Condtion to be directly linked to the stated of a Day/Night mode feature code.
+  This avoids the need for adding a Day/Night mode module into the call flow and
+  allows a single Day/Night mode module to change multiple Time Conditions at once.
+
+- Direct DIDs have been merged with incoming routes. Any incoming route that goes
+  to an extension/user will appear under that user. New directdids can be added
+  on the user screen but all detailed configuration of that did must be configured
+  on its corresponding incoming route page. Conenient links are introduced to
+  navigate between a user/extension and the incoming routes quickly. Filters have
+  also been introduced on the incoming routes page to see directdids only, all but
+  direct dids only, or unassigned dids (with no destinations). Unassigned dids are
+  not generated in the dialplan. (So if there is a catchall defined they will end
+  there instead of a hangup because of the lack of a destination.
+
+- Users page (only viewable in devicesandusers mode) now has links to each fixed
+  device as well as each adhoc device who's default user is this user. And the
+  Device page has a direct link back to the fixed or default user if specified.
+
+- Introduced the optional usage of BLF on many feature codes. This requires the
+  inclusion of the Asterisk function func_devstate.c which is backported from
+  Asterisk 1.6 but available on Asterisk 1.4 and has been stable for a long time.
+  By setting the value "USEDEVSTATE=true" in amportal.conf, the dialplan will be
+  generated to take advantage of this. This allows functions like DND, Day/Night,
+  Follow-Me, Meetme and others to have BLF settings so phone buttons can recognize
+  the states.
+
+- Follow-Me feature code added to enable/disable Follow-Me as is available in 
+  the FreePBX GUI or ARI.
+
+- Caller screening configurable per user for external calls, requiring a caller 
+  to announce themselves and then providing the called user the option of 
+  listening to who the announced caller is and choosing whether or not to take 
+  the call, with options to send to voicemail, or other alternatives.
+
+- System Recordings has been enhanced so that recordings can have a dedicated
+  feature code assigned to them that allows them to re-record the specific recording.
+  Recordings that use built-in recordings or that are constructed from multiple
+  concatenated recording segments can not have a feature code created. This allows
+  a customer to easily modify a recording that may be associated with an IVR (or
+  anything else) without having to do anything with the GUI.
+
+- Queues have been modified with an optional filter to control what dynamic agent
+  callback numbers are acceptable to be entered when a user logs in. This is done
+  through the introduction of an optioal REGEX filter for each queue. This can
+  allow a queue to be limited to a range of extensions, block external numbers, or
+  any other filtering that can be expressed through a regex expression to test
+  the validity of the entered agent number.
+
+- Delete and Add icons have been added to many of the links on most modules that use
+  links instead of buttons for these actions.
+
+- Optional Module Admin configuration file has been added, freepbx_module_admin.conf,
+  that allows any module to be filtered out of the Module Admin GUI.
+
+- Module Admin Changelog displays have added auto-generated links to referenced
+  tickets or changesets.
+
+- Module Admin has been modified to fall back to using wget if it can't reach the
+  online server through direct file read commands that sometimes get blocked by
+  firewall content filters.
+
+- Optional Feature Codes configuration file has been added, freepbx_featurecodes.conf,
+  that allows the default values normally hardcoded by each module to be specified.
+  These default values can still be overridden in the Feature Code panel as usual.
+
+- We have tried to introduce logical 'tabindex' settings to all the pages so that
+  tabbing through a form logically progresses through the fields as one might hope.
+
+- Paging & Intercom control beep and more
+
+- Skip Busy Agents feature has been added to Ring Groups (was on Queues), as well
+  as Ignore CF Settings, allowing a Ring Group to ignore and block any agent's CF
+  settings (CF, CFU, CFB) whether they are server or device side settings.
+
+- Added VmX Locater GUI to FreePBX so admin and user can make changes, also enabled
+  0 option even with VmX disabled so it can be used by admin to redirect 0 out on
+  voicemail without requiring VmX to the user.
+
 2.4.1
  Mainly a maintenance release that is all available through the Framework update, the
  bugs addressed are listed below as per the Framework Changelog. The biggest change
