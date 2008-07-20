@@ -60,8 +60,9 @@ $amp_conf_defaults = array(
 	'XTNCONFLICTABORT' => array('bool' , false),
 	'USEDEVSTATE'    => array('bool' , false),
 	'MODULEADMINWGET'=> array('bool' , false),
-	'AMPDISABLELOG'=> array('bool' , true),
+	'AMPDISABLELOG'  => array('bool' , true),
 	'AMPENABLEDEVELDEBUG'=> array('bool' , false),
+	'AMPMPG123'      => array('bool' , true),
 );
 
 function parse_amportal_conf($filename) {
