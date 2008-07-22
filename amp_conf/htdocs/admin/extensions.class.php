@@ -105,8 +105,30 @@ class extensions {
 	
 	/* This function allows new priorities to be injected into already generated dialplan
 	*  usage: $ext->splice($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
+	*         if $priority is not numeric, it will interpret it as a tag and try to inject 
+	*         the command just prior to  the first instruction it finds with the specified tag
+	*         if it can't find the tag, it will inject it after the last instruction
 	*/
 	function splice($section, $extension, $priority, $command) {
+
+		// if the priority is a tag, then we look for the real priority to insert it before that
+		// tag. If the tag does not exists, then we put it at the very end which may not be
+		// desired but it puts it somewhere
+		//
+		if (!ctype_digit($priority)) {
+			$new_priority = false;
+			$count = 0;
+			if (isset($this->_exts[$section][$extension])) {
+				foreach($this->_exts[$section][$extension] as $pri => $curr_command) {
+					if ($curr_command['tag'] == $priority) {
+						$new_priority = $count;
+						break;
+					}
+					$count++;
+				}
+			}
+			$priority = ($new_priority === false) ? $count : $new_priority;
+		}
 		if($priority == 0) {
 			$basetag = '1';
 			// we'll be defining a new pri "1", so change existing "1" to "n"
@@ -124,34 +146,29 @@ class extensions {
 		/* This little routine from http://ca.php.net/array_splice overcomes 
 		*  problems that array_splice has with multidmentional arrays
 		*/
-			$array = isset($this->_exts[$section][$extension]) ? $this->_exts[$section][$extension] : array();
-			$ky = $priority;
-			$val = $newcommand;
-			$n = $ky; 
-			 foreach($array as $key => $value) 
-			   { 
-				$backup_array[$key] = $array[$key]; 
-			   } 
-			 $upper_limit = count($array); 
-			 while($n <= $upper_limit) 
-			   { 
-				if($n == $ky) 
-				  { 
-			 $array[$n] = $val; 
-			// echo $n; 
-				  } 
-				else 
-				  { 
-			 $i = $n - "1"; 
-			 $array[$n] = $backup_array[$i]; 
-				  } 
-				$n++; 
-			   } 
-		
+		$array = isset($this->_exts[$section][$extension]) ? $this->_exts[$section][$extension] : array();
+		$ky = $priority;
+		$val = $newcommand;
+		$n = $ky; 
+		foreach($array as $key => $value) { 
+			$backup_array[$key] = $array[$key]; 
+		} 
+		$upper_limit = count($array); 
+		while($n <= $upper_limit) { 
+			if($n == $ky) { 
+				$array[$n] = $val; 
+				// echo $n; 
+			} else { 
+				$i = $n - "1"; 
+				$array[$n] = $backup_array[$i]; 
+			} 
+			$n++; 
+		} 
+
 		// apply our newly modified array
 		//echo "Splicing [$section] $extension\n";
 		$this->_exts[$section][$extension] = $array;		
-		
+
 		//print_r($this->_exts[$section][$extension]);
 	}
 	
