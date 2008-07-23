@@ -214,7 +214,7 @@ print EXTEN $warning_banner;
 @extensionlist=();
 
 if (table_exists($dbh,"devices")) {
-	$statement = "SELECT description,id,dial from devices";
+	$statement = "SELECT description,id,dial,tech from devices";
 	$result = $dbh->selectall_arrayref($statement);
 	@resultSet = @{$result};
 	if ( $#resultSet == -1 ) {
@@ -318,10 +318,34 @@ foreach my $pcontext ( @ampusers ) {
 		my $description = @{ $row }[0];
 		my $id = @{ $row }[1];
 		my $dial = @{ $row }[2];
+		
+		
+		# Support for real mailbox settings -	
+		my $tech = @{ $row }[3];
+		# some sensible defaults for voicemail ext and context
+		my $vmext = @{ $row }[1];
+		my $vmcontext = "default";
+		# database table name for iax2 is just iax but sip and zap are ok
+		if ($tech eq "iax2") {$tech = "iax";}
+		# get mailbox setting from relevant tech table and split into ext and content
+		if (table_exists($dbh,$tech)) {
+			$statement = "SELECT data from $tech WHERE id = '$id' AND keyword = 'mailbox' ";
+			$result = $dbh->selectall_arrayref($statement);
+			@resultSet = @{$result};
+			if ( $#resultSet == -1 ) {print "Notice: no mailbox defined\n";}
+			my $mailbox = $resultSet[0][0]; 
+			my @values = split('@', $mailbox);
+			if (exists($values[0])) {$vmext = $values[0];}
+			if (exists($values[0])) {$vmcontext = $values[1];}
+		} else { print "Table does not exist: $tech\n"; }
+		# - Support for real mailbox settings
+		
+		
+		
 #	#	next if ($account eq "");
 		$btn=get_next_btn($extenpos,$btn);
 		$icon='4';
-		print EXTEN "[$dial]\nPosition=$btn\nLabel=\"$id : $description\"\nExtension=$id\nContext=from-internal\nIcon=$icon\nVoicemail_Context=default\nVoiceMailExt=*$id\@from-internal\nPanel_Context=$panelcontext\n";
+		print EXTEN "[$dial]\nPosition=$btn\nLabel=\"$id : $description\"\nExtension=$id\nContext=from-internal\nIcon=$icon\nVoicemail_Context=$vmcontext\nVoiceMailExt=*$vmext\@from-internal\nPanel_Context=$panelcontext\n";
 	}
 	
 	
