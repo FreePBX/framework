@@ -658,9 +658,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			switch ($modules[$name]['status']) {
 				case MODULE_STATUS_NOTINSTALLED:
 					if (isset($modules_local[$name])) {
-						echo _('Not Installed (Locally available)');
+						echo '<span class="notinstalled">'._('Not Installed (Locally available)').'</span>';
 					} else {
-						echo sprintf(_('Not Installed (Available online: %s)'), $modules_online[$name]['version']);
+						echo '<span class="notinstalled">'.sprintf(_('Not Installed (Available online: %s)'), $modules_online[$name]['version']).'</span>';
 					}
 				break;
 				case MODULE_STATUS_DISABLED:
