@@ -61,7 +61,7 @@ chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
 
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTRUNDIR
-	chown -R $AMPASTERISKUSER:asterisk /etc/asterisk
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP /etc/asterisk
 	chmod -R g+w /etc/asterisk
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTVARLIBDIR
 	chmod -R g+w $ASTVARLIBDIR
@@ -130,7 +130,7 @@ pid_length=`pidof asterisk|awk '{print length($0)}'`
 		else
 			# su - asterisk -c "export PATH=$PATH:/usr/sbin && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
 			export LD_LIBRARY_PATH=/usr/local/lib
-			/usr/sbin/safe_asterisk -U asterisk -G asterisk
+			/usr/sbin/safe_asterisk -U asterisk -G $AMPASTERISKGROUP
 			sleep 5
 			check_asterisk
 			sleep 1
@@ -175,7 +175,9 @@ pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
 		then
 			echo "FOP server is already running"
 		else
-			su - asterisk -c "cd $FOPWEBROOT && $FOPWEBROOT/safe_opserver &"
+			su - $AMPASTERISKUSER -c "cd $FOPWEBROOT && $FOPWEBROOT/safe_opserver &" > /dev/null 2>&1
+			# Check if su was successful, if not add a shell
+			[ "$?" -eq "0" ] || su -s /bin/bash $AMPASTERISKUSER -c "cd $FOPWEBROOT && $FOPWEBROOT/safe_opserver &" 
 			sleep 1
 			check_fop
 			echo "FOP Server Started"
