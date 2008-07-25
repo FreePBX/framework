@@ -1107,14 +1107,24 @@ class ext_setmusiconhold extends extension {
 }
 
 class ext_congestion extends extension {
+	var $time;
+
+	function ext_congestion($time = '20') {
+		$this->time = $time;
+	}
 	function output() {
-		return "Congestion(20)";
+		return "Congestion(".$this->time.")";
 	}
 }
 
 class ext_busy extends extension {
+	var $time;
+
+	function ext_busy($time = '20') {
+		$this->time = $time;
+	}
 	function output() {
-		return "Busy(20)";
+		return "Busy(".$this->time.")";
 	}
 }
 
