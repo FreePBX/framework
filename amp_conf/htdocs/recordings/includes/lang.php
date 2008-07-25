@@ -89,7 +89,7 @@ class Language {
         <form class='lang' name='lang' action=" . $_SESSION['ARI_ROOT'] . " method='POST'>
           <select class='lang_code' name='lang_code'  onChange=\"setCookie('ari_lang',document.lang.lang_code.value); window.location.reload();\">
             <option value='en_US' " . ($_COOKIE['ari_lang']=='en_US' ? 'selected' : '') .  ">English</option>
-           <option value='zh_TW' " . ($_COOKIE['ari_lang']=='zh_TW' ? 'selected' : '') .  ">Traditional Chinese</option>
+            <option value='zh_TW' " . ($_COOKIE['ari_lang']=='zh_TW' ? 'selected' : '') .  ">Traditional Chinese</option>
             <option value='es_ES' " . ($_COOKIE['ari_lang']=='es_ES' ? 'selected' : '') .  ">Espa&ntilde;ol</option>
             <option value='fr_FR' " . ($_COOKIE['ari_lang']=='fr_FR' ? 'selected' : '') .  ">French</option>
             <option value='de_DE' " . ($_COOKIE['ari_lang']=='de_DE' ? 'selected' : '') .  ">German</option>
@@ -99,6 +99,7 @@ class Language {
             <option value='it_IT' " . ($_COOKIE['ari_lang']=='it_IT' ? 'selected' : '') .  ">Italian</option>
             <option value='pt_BR' " . ($_COOKIE['ari_lang']=='pt_BR' ? 'selected' : '') .  ">Portuguese</option>
             <option value='sv_SE' " . ($_COOKIE['ari_lang']=='sv_SE' ? 'selected' : '') .  ">Swedish</option>
+            <option value='uk_UA' " . ($_COOKIE['ari_lang']=='uk_UA' ? 'selected' : '') .  ">Ukrainian</option>
           </select>
         </form>";
     } 
