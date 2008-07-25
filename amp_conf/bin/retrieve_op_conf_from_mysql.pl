@@ -26,6 +26,25 @@ if (scalar @ARGV == 2)
 	$zapataautoconf="/etc/asterisk/zapata-auto.conf";
 }
 
+######## LAYOUT INFO #########
+
+# This layout info should really be in a "panel" table in the freepbx database
+
+# structure is - Legend, startpos, stoppos, color1, color2
+@rectangle1 = ("Trunks", 53, 80, "10ff10", "009900");
+@rectangle2 = ("Extensions", 1, 40, "1010ff", "099cccc");
+@rectangle3 = ("Parking lots", 49, 72, "ffff10", "cc9933");
+@rectangle4 = ("Conferences", 45, 68, "006666", "a01000");
+@rectangle5 = ("Queues", 41, 64, "ff1010", "a01000");
+@rectangles = (\@rectangle1,\@rectangle2,\@rectangle3,\@rectangle4,\@rectangle5);
+
+######## BUTTON INFO #########
+$buttonsizex = 246; # 1+244+1 from information in op_style.cfg
+$buttonsizey = 28; # 1+26+1 from information in op_style.cfg
+$numbuttonsx = 4;
+$numbuttonsy = 20;
+
+
 ######## STYLE INFO #########
 $extenpos="2-40";
 #$trunkpos="52-60,71-80";
@@ -39,6 +58,14 @@ $confepos="46-48,65-68";
 $queuepos="42-44,61-64";
 
 # End of changes
+
+#automated generation of style-info
+$extenpos=styleinfo("Extensions");
+$trunkpos=styleinfo("Trunks");
+$parkingpos=styleinfo("Parking lots");
+$confepos=styleinfo("Conferences");
+$queuepos=styleinfo("Queues");
+
 
 # Remove or add Zap trunks as needed
 # Note: ZAP/* will match any ZAP channel that *is not referenced* in another button (ie: extensions)
@@ -325,6 +352,8 @@ foreach my $pcontext ( @ampusers ) {
 		# some sensible defaults for voicemail ext and context
 		my $vmext = @{ $row }[1];
 		my $vmcontext = "default";
+		# the device tech table should also have a dial context - if not assume from-internal
+		my $context = "from-internal";
 		# database table name for iax2 is just iax but sip and zap are ok
 		if ($tech eq "iax2") {$tech = "iax";}
 		# get mailbox setting from relevant tech table and split into ext and content
@@ -336,16 +365,33 @@ foreach my $pcontext ( @ampusers ) {
 			my $mailbox = $resultSet[0][0]; 
 			my @values = split('@', $mailbox);
 			if (exists($values[0])) {$vmext = $values[0];}
-			if (exists($values[0])) {$vmcontext = $values[1];}
+			if (exists($values[1])) {$vmcontext = $values[1];}
+			#while in this table lets get the dial context as well
+			$statement = "SELECT data from $tech WHERE id = '$id' AND keyword = 'context' ";
+			$result = $dbh->selectall_arrayref($statement);
+			@resultSet = @{$result};
+			if ( $#resultSet == -1 ) {print "Notice: no context defined\n";}
+			if (exists($resultSet[0][0])) {$context = $resultSet[0][0];} 			
 		} else { print "Table does not exist: $tech\n"; }
 		# - Support for real mailbox settings
 		
+
+		# Support for real VM_PREFIX -
+		my $vmprefix = "*";
+		if (table_exists($dbh,"globals")) {
+			$statement = "SELECT value from globals WHERE variable = 'VM_PREFIX' ";
+			$result = $dbh->selectall_arrayref($statement);
+			@resultSet = @{$result};
+			if ( $#resultSet == -1 ) {print "Notice: no VM_PREFIX defined\n";}
+			if (exists($resultSet[0][0])) {$vmprefix = $resultSet[0][0];} 			
+		} else { print "Table does not exist: global\n"; }		
+		# - Support for real VM_PREFIX
 		
 		
 #	#	next if ($account eq "");
 		$btn=get_next_btn($extenpos,$btn);
 		$icon='4';
-		print EXTEN "[$dial]\nPosition=$btn\nLabel=\"$id : $description\"\nExtension=$id\nContext=from-internal\nIcon=$icon\nVoicemail_Context=$vmcontext\nVoiceMailExt=*$vmext\@from-internal\nPanel_Context=$panelcontext\n";
+		print EXTEN "[$dial]\nPosition=$btn\nLabel=\"$id : $description\"\nExtension=$id\nContext=$context\nIcon=$icon\nVoicemail_Context=$vmcontext\nVoiceMailExt=$vmprefix$vmext\@$context\nPanel_Context=$panelcontext\n";
 	}
 	
 	
@@ -359,7 +405,10 @@ foreach my $pcontext ( @ampusers ) {
 		$zapdef=@{$row}[0];
 		$zapdesc=@{$row}[1];
 		$icon='3';
+		# zaplines and trunklist share the trunk positions so need to store previous btn on overflow from zaplines
+		my $previousbtn = $btn;
 		$btn=get_next_btn($trunkpos,$btn);
+		if ($btn eq 0) {$btn = $previousbtn; last;}
 		if ($zapdef eq "Zap/*") {
 			$numbuttons=@{$row}[2]-1;
 			print EXTEN "[$zapdef]\nLabel=\"$zapdesc\"\nExtension=-1\nIcon=$icon\nPanel_Context=$panelcontext\nPosition=".$btn;
@@ -381,6 +430,7 @@ foreach my $pcontext ( @ampusers ) {
 		my $table = @{ $row }[2];
 		next if ($account eq "");
 		$btn=get_next_btn($trunkpos,$btn);
+		if ($btn eq 0) {last;}
 		$statement = "SELECT keyword,data from $table where id=$id and keyword <> 'account' and flags <> 1 order by keyword";
 		my $result = $dbh->selectall_arrayref($statement);
 		unless ($result) {
@@ -418,21 +468,12 @@ foreach my $pcontext ( @ampusers ) {
 		
         ### Write Parkings lots
 	$btn=0;
-	my $parken ;
+	my $parken="" ;
 	my $extpark ;
 	my $parkcontext ;
 	my $numberlots ;
 	my $maxparkingslots ;
 	
-	$maxparkingslots = 0 ;
-	do
-	{
-		$btn=get_next_btn($parkingpos,$btn);
-		$maxparkingslots = $maxparkingslots - 1 ;
-	}
-	while ($btn != 0);
-	$maxparkingslots = $maxparkingslots + 1 ;
-
 	foreach my $row ( @parkings ) {
 		if (@{$row}[0] eq "parkingenabled") {
 			$parken = @{$row}[1] ;
@@ -448,8 +489,9 @@ foreach my $pcontext ( @ampusers ) {
 		}
 	}
 	if ($parken eq "s") {
-		for (my $i = 1 ; $i <= $numberlots && $i <= 5 ; $i++ ) {
+		for (my $i = 1 ; $i <= $numberlots ; $i++ ) {
 			$btn=get_next_btn($parkingpos,$btn);
+			if ($btn eq 0) {last;}
 			$parknum = $extpark + $i ;
 			$icon='1';
 			print EXTEN "[PARK$parknum]\nPosition=$btn\nLabel=\"Parked ($parknum)\"\nExtension=$parknum\nContext=$parkcontext\nIcon=$icon\nPanel_Context=$panelcontext\n";
@@ -467,6 +509,7 @@ foreach my $pcontext ( @ampusers ) {
 	}
 	foreach my $row ( @confrange ) {
 		$btn=get_next_btn($confepos,$btn);
+		if ($btn eq 0) {last;}
 		$confenum=@{$row}[0];
 		$confedesc=@{$row}[1];
 		$icon='6';
@@ -483,11 +526,50 @@ foreach my $pcontext ( @ampusers ) {
 	}
 	foreach my $row ( @queuerange ) {
 		$btn=get_next_btn($queuepos,$btn);
+		if ($btn eq 0) {last;}
 		$queuename=@{$row}[0];
 		$queuedesc=@{$row}[1];
 		$icon='5';
 		print EXTEN "[QUEUE/$queuename]\nPosition=$btn\nLabel=\"$queuedesc\"\nExtension=-1\nContext=from-internal\nIcon=$icon\nPanel_Context=$panelcontext\n";
 	}
+
+	### Write rectangles
+
+	foreach my $rect ( @rectangles ) {
+		my $comment = @{$rect}[0];
+		my $color1 = @{$rect}[3];
+		my $color2 = @{$rect}[4];
+		my $start = @{$rect}[1];
+		my $stop = @{$rect}[2];
+		
+		my $xposition = $buttonsizex * int(($start-1)/$numbuttonsy);
+		my $yposition = $buttonsizey * (($start-1)%$numbuttonsy);
+		my $xsize = $buttonsizex * (1 + int(($stop-1)/$numbuttonsy) - int(($start-1)/$numbuttonsy));
+		my $ysize = $buttonsizey * (1 + (($stop-1)%$numbuttonsy) - (($start-1)%$numbuttonsy));
+		
+		$xsize -= 2;
+		$ysize -= 2;
+		
+		$yposition += 32;
+	
+		print EXTEN "\n; $comment\n[rectangle]\nx=$xposition\ny=$yposition\nwidth=$xsize\nheight=$ysize\nline_width=0\nline_color=$color1\nfade_color1=$color1\nfade_color2=$color2\nrnd_border=2\nalpha=20\nlayer=bottom\n";
+	}
+
+	### Write legends
+
+	foreach my $legend ( @rectangles ) {
+		my $text = @{$legend}[0];
+		my $start = @{$legend}[1];
+		
+		my $xposition = $buttonsizex * int(($start-1)/$numbuttonsy);
+		my $yposition = $buttonsizey * (($start-1)%$numbuttonsy);
+
+		$xposition += 3;
+		$yposition += 32;
+	
+		print EXTEN "\n[LEGEND]\nx=$xposition\ny=$yposition\ntext=$text\nfont_size=18\nfont_family=Arial\nuse_embed_fonts=1\n";
+	}
+	
 }
 
 sub get_next_btn {
@@ -541,3 +623,38 @@ sub by_lastname {
 	return $sortResult;
 }
 
+
+sub styleinfo {
+	my $legend = shift;
+	foreach my $rect ( @rectangles ) {
+		if ($legend  eq @{$rect}[0]) {
+
+			my $start = @{$rect}[1];
+			my $stop = @{$rect}[2];
+			
+			my $xposition = int(($start-1)/$numbuttonsy);
+			my $yposition = (($start-1)%$numbuttonsy);
+			my $xsize = int(($stop-1)/$numbuttonsy) - int(($start-1)/$numbuttonsy);
+			my $ysize = (($stop-1)%$numbuttonsy) - (($start-1)%$numbuttonsy);
+	
+			$styleinfo = "";
+			if ($ysize > 2) {
+				$styleinfo .= ($start + 1) . "-" . ($start + $ysize) . ",";
+			} 
+			elsif ($ysize == 2) {
+				$styleinfo .= ($start + 1) . ",";
+			}
+			
+			for (my $i = 1 ; $i <= $xsize ; $i++ ) {
+				if ($ysize > 1) {
+					$styleinfo .= (($i + $xposition) * $numbuttonsy + $yposition + 1) . "-" . (($i + $xposition) * $numbuttonsy + $yposition + $ysize + 1) . ",";
+				} 
+				else {
+					$styleinfo .= (($i + $xposition) * $numbuttonsy + $yposition + 1) . ",";		
+				}	
+			}
+			last;
+		}
+	}
+	return $styleinfo;
+}
