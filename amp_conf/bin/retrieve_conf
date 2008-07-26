@@ -650,7 +650,18 @@ function cp_subdirs($moduledir) {
 
 function report_errors($errno, $errstr, $errfile, $errline) {
 	global $cp_errors;
-	freepbx_log('retrieve-conf', 'error', "php reported: '".mysql_real_escape_string($errstr)."' after copy or unlink attempt!");
+	switch($db_engine) {
+		case "sqlite3": 
+			$escaped_string = sqlite_real_escape($errstr);
+			break;
+		case "mysql":
+			$escaped_string = mysql_real_escape_string($errstr);
+			break;
+		case "pgsql":
+			$escaped_string = pgsql_escape_string($errstr);
+			break;
+	}
+	freepbx_log('retrieve-conf', 'error', "php reported: '$escaped_string' after copy or unlink attempt!");
 	$cp_errors .= $errstr."\n";
 }
 
