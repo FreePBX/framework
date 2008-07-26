@@ -207,10 +207,12 @@ class Voicemail {
     global $ASTERISK_VOICEMAIL_PATH;
     global $ASTERISK_VOICEMAIL_FOLDERS;
     global $AJAX_PAGE_REFRESH_ENABLE;
+    global $ARI_CRYPT_PASSWORD;
 
     $voicemail_audio_format = $_COOKIE['ari_voicemail_audio_format'];
 
     $display = new DisplaySearch();
+    $crypt = new Crypt();
 
     // args
     $m = getArgument($args,'m');
@@ -385,8 +387,15 @@ class Voicemail {
         // recording popup link
         $voicemail_audio_format = $voicemail_audio_format=='' ? '.wav' : $voicemail_audio_format;
         $recording = preg_replace('/.txt/', $voicemail_audio_format, $file);
+        $date = GetDateFormat($value['origtime']);
+        $time = GetTimeFormat($value['origtime']);
+        $from = $value[callerid];
+        $priority = $value[priority];
+        $to = $value[origmailbox];
+        $duration = $value[duration];
         if (is_file($recording)) {
-          $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recording . "&date=" . $date . "&time=" . $time . "'); return false;\">
+          $recordingCrypt = $crypt->encrypt($recording,$ARI_CRYPT_PASSWORD);
+	  $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recordingCrypt . "&date=" . $date . "&time=" . $time . "'); return false;\">
             " . _("play") . "
           </a>";
         } 
@@ -395,15 +404,17 @@ class Voicemail {
                                    sprintf(_("On settings page, change voicemail audio format.  It is currently set to %s"),$voicemail_audio_format);
         }
 
+        $fileCrypt = $crypt->encrypt($file,$ARI_CRYPT_PASSWORD);
+
         $tableText .= "
           <tr>
-            <td class='checkbox'><input type=checkbox name='selected" . ++$i . "' value=" . $file . "></td>
-            <td width=68>" . GetDateFormat($value['origtime']) . "</td>
-            <td>" . GetTimeFormat($value['origtime']) . "</td>
-            <td width=100>" . $value[callerid] . "</td>
+            <td class='checkbox'><input type=checkbox name='selected" . ++$i . "' value=" . $fileCrypt . "></td>
+            <td width=68>" . $date . "</td>
+            <td>" . $time . "</td>
+            <td width=100>" . $from . "</td>
             <td>" . $value[priority] . "</td>
-            <td width=90>" . $value[origmailbox] . "</td>
-            <td>" . $value[duration] . " sec</td>
+            <td width=90>" . $to . "</td>
+            <td>" . $duration . " sec</td>
             <td>" . $recordingLink . "</td>
           </tr>";
       }
@@ -607,7 +618,14 @@ class Voicemail {
    */
   function deleteVoicemailData($files) {
 
-    foreach($files as $key => $path) {
+    global $ARI_CRYPT_PASSWORD;
+
+    $crypt = new Crypt();
+
+    foreach($files as $key => $pathCrypt) {
+
+      // decrypt path
+      $path = $crypt->decrypt($pathCrypt,$ARI_CRYPT_PASSWORD);
 
       // get file parts for search
       $path_parts = pathinfo($path);
@@ -642,6 +660,9 @@ class Voicemail {
   function moveVoicemailData($files,$context_rx,$extension_rx,$folder_rx) {
 
     global $ASTERISK_VOICEMAIL_PATH;
+    global $ARI_CRYPT_PASSWORD;
+
+    $crypt = new Crypt();
 
     $perm = fileperms($ASTERISK_VOICEMAIL_PATH);
     $uid = fileowner($ASTERISK_VOICEMAIL_PATH);
@@ -696,9 +717,16 @@ class Voicemail {
       return;
     }
 
+    foreach($files as $key => $pathCrypt) {
+      // decrypt path
+      $pathPlain = $crypt->decrypt($pathCrypt,$ARI_CRYPT_PASSWORD);
+      // add plain path to new array
+      $filesPlain[] = $pathPlain;
+    }
+
     // copy files to new location, incrementing each message number 
-    asort($files);
-    foreach($files as $key => $path) {
+    asort($filesPlain);
+    foreach($filesPlain as $key => $path) {
 
       // get file parts for search
       $path_parts = pathinfo($path);

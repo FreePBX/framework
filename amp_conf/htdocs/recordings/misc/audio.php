@@ -16,7 +16,7 @@ if (isset($_GET['recording'])) {
 
   $crypt = new Crypt();
 
-  $path = $crypt->decrypt($_GET['recording'],$ARI_CRYPT_PASSWORD);
+  $path = $crypt->decrypt(urlencode($_GET['recording']),$ARI_CRYPT_PASSWORD);
 
   // strip ".." from path for security
   $path = preg_replace('/\.\./','',$path);

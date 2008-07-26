@@ -14,6 +14,7 @@ include_once("./includes/bootstrap.php");
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <TITLE>ARI</TITLE>
+    <link rel="stylesheet" href="../theme/main.css" type="text/css">
     <link rel="stylesheet" href="popup.css" type="text/css">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   </head>
@@ -21,21 +22,18 @@ include_once("./includes/bootstrap.php");
 
 <?php
 
-  global $ARI_CRYPT_PASSWORD;
-
-  $crypt = new Crypt();
-
-  $path = $crypt->encrypt($_GET['recording'],$ARI_CRYPT_PASSWORD);
+  $path = urlencode($_GET['recording']);
 
   if (isset($path)) {
     if (isset($_GET['date'])) {
-      echo($_GET['date'] . "<br>");
+      echo("<small>" . $_GET['date'] . "</small><br>");
     }
     if (isset($_GET['time'])) {
-      echo($_GET['time'] . "<br>");
+      echo("<small>" . $_GET['time'] . "</small><br>");
     }
+
     echo("<br>");
-    echo("<embed src='audio.php?recording=" . $path . "' width=300, height=20 autoplay=true loop=false></embed><br>");
+    echo("<embed src='audio.php?recording=" . $path . "' width=300, height=25 autoplay=true loop=false></embed><br>");
     echo("<a class='popup_download' href=/recordings/misc/audio.php?recording="  . $path . ">" . _("download") . "</a><br>");
   }
 
