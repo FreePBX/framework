@@ -115,7 +115,7 @@ class extensions {
 		// tag. If the tag does not exists, then we put it at the very end which may not be
 		// desired but it puts it somewhere
 		//
-		if (!ctype_digit($priority)) {
+		if (!ctype_digit(trim($priority))) {
 			$new_priority = false;
 			$count = 0;
 			if (isset($this->_exts[$section][$extension])) {
