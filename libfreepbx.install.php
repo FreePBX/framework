@@ -179,7 +179,7 @@ function checkDiff($file1, $file2) {
 function amp_mkdir($directory, $mode = "0755", $recursive = false) {
 	debug("mkdir ".$directory.", ".$mode);
 	$ntmp = sscanf($mode,"%o",$modenum); //assumes all inputs are octal
-	if (version_compare(phpversion(), 5.0) < 0) {
+	if (version_compare(phpversion(), '5.0') < 0) {
 		// php <5 can't recursively create directories
 		if ($recursive) {
 			$output = false;
