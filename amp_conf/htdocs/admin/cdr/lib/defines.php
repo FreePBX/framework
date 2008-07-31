@@ -28,7 +28,7 @@ define ("PORT", "5432");
 define ("USER", $amp_conf["AMPDBUSER"]);
 define ("PASS", $amp_conf["AMPDBPASS"]);
 define ("DBNAME", "asteriskcdrdb");
-define ("DB_TYPE", "mysql"); // mysql or postgres
+define ("DB_TYPE", $amp_conf["AMPDBENGINE"]); // mysql or postgres
 
 
 define ("DB_TABLENAME", "cdr");
@@ -51,13 +51,32 @@ function DbConnect()
     { 
       $datasource = 'pgsql://'.USER.':'.PASS.'@'.HOST.'/'.DBNAME;
     }
+  else if (DB_TYPE == "sqlite3")
+    {
+                /* on centos this extension is not loaded by default */
+                if (! extension_loaded('sqlite3')  && ! extension_loaded('SQLITE3'))
+                        dl('sqlite3.so');
+
+                if (! @require_once('DB/sqlite3.php') )
+                {
+                        die_freepbx("Your PHP installation has no PEAR/SQLite3 support. Please install php-sqlite3 and php-pear.");
+                }
+
+                $datasource = "sqlite3:///asteriskcdr.db?mode=0666";
+                $options = array(
+                        'debug'       => 4,
+                        'portability' => DB_PORTABILITY_NUMROWS
+                );
+    }
   else
     { 
       $datasource = DB_TYPE.'://'.USER.':'.PASS.'@'.HOST.'/'.DBNAME;
     }
+  if($options)
+    $db = DB::connect($datasource,$options); // attempt connection with options (sqlite3)
+   else
+    $db = DB::connect($datasource); // attempt connection
 
-  $db = DB::connect($datasource); // attempt connection
- 
   if(DB::isError($db))
     {
       die($db->getDebugInfo()); 
