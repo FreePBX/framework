@@ -74,7 +74,6 @@ if(DB::isError($db)) {
 $nt = notifications::create($db);
 
 if ($amp_conf['AMPDBPASS'] == $amp_conf_defaults['AMPDBPASS'][1]) {
-	print 
 	$nt->add_warning('core', 'AMPDBPASS', _("Default SQL Password Used"), _("You are using the default SQL password that is widely known, you should set a secure password"));
 } else {
 	$nt->delete('core', 'AMPDBPASS');
