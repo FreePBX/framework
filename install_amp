@@ -897,10 +897,12 @@ out("OK");
 
 outn("Connecting to database..");
 
-$db_user = $amp_conf["AMPDBUSER"];
-$db_pass = $amp_conf["AMPDBPASS"];
-$db_host = $amp_conf["AMPDBHOST"];
 $db_engine = $amp_conf["AMPDBENGINE"];
+if ($db_engine != "sqlite3") {
+	$db_user = $amp_conf["AMPDBUSER"];
+	$db_pass = $amp_conf["AMPDBPASS"];
+	$db_host = $amp_conf["AMPDBHOST"];
+}
 $db_name = $amp_conf["AMPDBNAME"];
 
 // we still support older configurations,  and fall back 
@@ -936,7 +938,7 @@ switch ($db_engine)
 			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
 
 		/* on centos this extension is not loaded by default */
-		if (! extension_loaded('sqlite3.so') )
+		if (! extension_loaded('sqlite3.so')  && ! extension_loaded('SQLITE3'))
 			dl('sqlite3.so');
 
 		if (! @require_once('DB/sqlite3.php') )

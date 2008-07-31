@@ -43,7 +43,7 @@ switch ($db_engine)
 			die_freepbx("AMPDBFILE in /etc/amportal.conf cannot be blank");
 
 		/* on centos this extension is not loaded by default */
-		if (! extension_loaded('sqlite3') )
+		if (! extension_loaded('sqlite3') && ! extension_loaded('SQLITE3'))
 			dl('sqlite3.so');
 
 		if (! @require_once('DB/sqlite3.php') )
@@ -52,7 +52,11 @@ switch ($db_engine)
 		}
 
 		$datasource = "sqlite3:///" . $amp_conf["AMPDBFILE"] . "?mode=0666";
-		$db = DB::connect($datasource);
+                $options = array(
+       	           	'debug'       => 4,
+			'portability' => DB_PORTABILITY_NUMROWS
+		);
+		$db = DB::connect($datasource, $options);
 		break;
 
 	default:
@@ -70,6 +74,7 @@ if(DB::isError($db)) {
 $nt = notifications::create($db);
 
 if ($amp_conf['AMPDBPASS'] == $amp_conf_defaults['AMPDBPASS'][1]) {
+	print 
 	$nt->add_warning('core', 'AMPDBPASS', _("Default SQL Password Used"), _("You are using the default SQL password that is widely known, you should set a secure password"));
 } else {
 	$nt->delete('core', 'AMPDBPASS');

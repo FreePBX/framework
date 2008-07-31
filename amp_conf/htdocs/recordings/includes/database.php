@@ -43,18 +43,25 @@ class Database {
     // connect string
     if ($dbfile) {
       // datasource mostly to support sqlite: dbengine://dbfile?mode=xxxx 
-      $dsn = $engine . '://' . $dbfile . '?mode=0666';
+      $datasource = $engine . ':///' . $dbfile . '?mode=0666';
+      $options = array(
+        'debug'       => 4
+      );
+      if (! extension_loaded('sqlite3') && ! extension_loaded('SQLITE3')) {
+        dl('sqlite3.so');
+      }
+
     } 
     else {
       // datasource in in this style: dbengine://username:password@host/database 
       $datasource = $engine . '://' . $username . ':' . $password . '@' . $host . '/' . $name;
-    }
 
-    // options
-    $options = array(
-      'debug'       => 2,
-      'portability' => DB_PORTABILITY_LOWERCASE|DB_PORTABILITY_RTRIM|DB_PORTABILITY_DELETE_COUNT|DB_PORTABILITY_NUMROWS|DB_PORTABILITY_ERRORS|DB_PORTABILITY_NULL_TO_EMPTY,
-    );
+      // options
+      $options = array(
+        'debug'       => 2,
+        'portability' => DB_PORTABILITY_LOWERCASE|DB_PORTABILITY_RTRIM|DB_PORTABILITY_DELETE_COUNT|DB_PORTABILITY_NUMROWS|DB_PORTABILITY_ERRORS|DB_PORTABILITY_NULL_TO_EMPTY,
+      );
+    }
     
     // attempt connection
     $dbh = DB::connect($datasource,$options); 
