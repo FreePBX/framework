@@ -5,6 +5,7 @@
 Is_DOM = (document.getElementById) ? true : false;
 Is_NS4 = (document.layers) ? true : false;
 Is_IE = (document.all) ? true : false;
+Is_IE7 = Is_IE && window.XMLHttpRequest ? true : false;
 
 // detect for konqueror, taken from
 // http://www.javascript-source.com/
@@ -82,7 +83,7 @@ function doShowSelects(event)
 // above functions
 function setAllInfoToHideSelects()
 {
-      if (Is_IE)
+      if (Is_IE && !Is_IE7)
       {
               var allelems = document.all.tags('A');
               if (allelems != null)

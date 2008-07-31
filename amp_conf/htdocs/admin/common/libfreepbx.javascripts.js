@@ -1,5 +1,5 @@
 
-Is_DOM=(document.getElementById)?true:false;Is_NS4=(document.layers)?true:false;Is_IE=(document.all)?true:false;var detect=navigator.userAgent.toLowerCase();if(checkIt('konqueror'))
+Is_DOM=(document.getElementById)?true:false;Is_NS4=(document.layers)?true:false;Is_IE=(document.all)?true:false;Is_IE7=Is_IE&&window.XMLHttpRequest?true:false;var detect=navigator.userAgent.toLowerCase();if(checkIt('konqueror'))
 Is_IE=false;function checkIt(string)
 {place=detect.indexOf(string)+1;thestring=string;return place;}
 Is_IE4=Is_IE&&!Is_DOM;Is_Mac=(navigator.appVersion.indexOf("Mac")!=-1);Is_IE4M=Is_IE4&&Is_Mac;function ie_getElementsByTagName(str){if(str=="*")
@@ -23,7 +23,7 @@ function doHideSelects(event)
 function doShowSelects(event)
 {hideSelects(false);}
 function setAllInfoToHideSelects()
-{if(Is_IE)
+{if(Is_IE&&!Is_IE7)
 {var allelems=document.all.tags('A');if(allelems!=null)
 {var i,elem;for(i=0;elem=allelems[i];i++)
 {if(elem.className=='info'&&elem.onmouseover==null&&elem.onmouseout==null)
