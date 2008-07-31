@@ -22,16 +22,13 @@ define ("FSROOT", $amp_conf["AMPWEBROOT"]."/admin/cdr/");
 
 define ("LIBDIR", FSROOT."lib/");
 
-
-define ("HOST", $amp_conf["AMPDBHOST"]);
-define ("PORT", "5432");
-define ("USER", $amp_conf["AMPDBUSER"]);
-define ("PASS", $amp_conf["AMPDBPASS"]);
-define ("DBNAME", "asteriskcdrdb");
-define ("DB_TYPE", $amp_conf["AMPDBENGINE"]); // mysql or postgres
-
-
-define ("DB_TABLENAME", "cdr");
+define ("HOST", (( $amp_conf["CDRDBHOST"] == NULL ? $amp_conf["AMPDBHOST"] : $amp_conf["CDRDBHOST"] )) );
+define ("PORT", (( $amp_conf["CDRDBPORT"] == NULL ? "5432" : $amp_conf["CDRDBPORT"] )) );
+define ("USER", (( $amp_conf["CDRDBUSER"] == NULL ? $amp_conf["AMPDBUSER"] : $amp_conf["CDRDBUSER"] )) );
+define ("PASS", (( $amp_conf["CDRDBPASS"] == NULL ? $amp_conf["AMPDBPASS"] : $amp_conf["CDRDBPASS"] )) );
+define ("DBNAME", (( $amp_conf["CDRDBNAME"] == NULL ? "asteriskcdrdb" : $amp_conf["CDRDBNAME"] )) );
+define ("DB_TYPE", (( $amp_conf["CDRDBTYPE"] == NULL ? $amp_conf["AMPDBENGINE"] : $amp_conf["CDRDBTYPE"] )) ); // mysql or postgres
+define ("DB_TABLENAME", (( $amp_conf["CDRDBTABLENAME"] == NULL ? "cdr" : $amp_conf["CDRDBTABLENAME"] )) );
  
 // Regarding to the dst you can setup an application name
 // Make more sense to have a text that just a number
