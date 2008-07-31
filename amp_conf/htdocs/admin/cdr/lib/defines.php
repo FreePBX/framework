@@ -44,6 +44,7 @@ $appli_list['s']=array("Catch-All");
 
 function DbConnect()
 {
+	$options = array();
   if (DB_TYPE == "postgres")
     { 
       $datasource = 'pgsql://'.USER.':'.PASS.'@'.HOST.'/'.DBNAME;
@@ -69,7 +70,7 @@ function DbConnect()
     { 
       $datasource = DB_TYPE.'://'.USER.':'.PASS.'@'.HOST.'/'.DBNAME;
     }
-  if($options)
+  if(!empty($options))
     $db = DB::connect($datasource,$options); // attempt connection with options (sqlite3)
    else
     $db = DB::connect($datasource); // attempt connection
