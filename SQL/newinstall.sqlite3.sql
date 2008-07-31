@@ -327,7 +327,7 @@ CREATE TABLE `modules` (
 -- Dumping data for table `modules`
 --
 
-DROP TABLE IF EXISTS `modules_xml`;
+DROP TABLE IF EXISTS `module_xml`;
 CREATE TABLE `module_xml` (
 	`id` varchar(20) NOT NULL default 'xml',
 	`time` int(11) NOT NULL default '0',
@@ -372,7 +372,7 @@ CREATE TABLE `users` (
   `ringtimer` int(3) default NULL,
   `noanswer` varchar(100) default NULL,
   `recording` varchar(50) default NULL,
-  `outboundcid` varchar(50) default NULL,
+  `outboundcid` varchar(50) default NULL
 ) ;
 
 --
