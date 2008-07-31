@@ -188,7 +188,7 @@ if ($reload_needed) {
 	}
 	//echo '::&nbsp;'._($message);
 	
-	echo "\t</div>"; // header
+	echo "\t</div>\t</div>"; // login_message, header
 ?>
 
 
