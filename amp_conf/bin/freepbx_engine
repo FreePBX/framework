@@ -28,6 +28,7 @@ AMPASTERISKUSER=asterisk
 AMPASTERISKGROUP=asterisk
 AMPASTERISKWEBUSER=$AMPASTERISKUSER
 AMPASTERISKWEBGROUP=$AMPASTERISKGROUP
+AMPVMUMASK=077
 
 . /etc/amportal.conf
 
@@ -130,6 +131,7 @@ pid_length=`pidof asterisk|awk '{print length($0)}'`
 		else
 			# su - asterisk -c "export PATH=$PATH:/usr/sbin && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
 			export LD_LIBRARY_PATH=/usr/local/lib
+			umask $AMPVMUMASK
 			/usr/sbin/safe_asterisk -U asterisk -G $AMPASTERISKGROUP
 			sleep 5
 			check_asterisk
