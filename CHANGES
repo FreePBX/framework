@@ -55,6 +55,22 @@
  loaded as well as sox and will convert MP3 files to WAV. This is highly recommended 
  as MP3 files heavily tax the system and can cause instability on a busy phone system.
 
+ AMPVMUMASK
+ DEFAULT VALUE: 077
+ Allows setting a umask for Asterisk to control the voicemail file permissions
+
+ Special Case configuration variables for the CDR reports to pull data from remote
+ databases:
+
+ CDRDBHOST: hostname of db server if not the same as AMPDBHOST
+ CDRDBPORT: Port number for db host 
+ CDRDBUSER: username to connect to db with if its not the same as AMPDBUSER
+ CDRDBPASS: password for connecting to db if its not the same as AMPDBPASS
+ CDRDBNAME: name of database used for cdr records
+ CDRDBTYPE: mysql or postgres mysql is default
+ CDRDBTABLENAME: Name of the table in the db where the cdr is stored cdr is default 
+
+
  HIGHLIGHTS:
  A detailed list of changes is available on the 2.5 Mileston:
 
@@ -123,6 +139,8 @@
   allow a queue to be limited to a range of extensions, block external numbers, or
   any other filtering that can be expressed through a regex expression to test
   the validity of the entered agent number.
+  Also added a CID prepend option to add the Queue Wait time for a caller to be
+  presneted to the agent when ringing their phone.
 
 - Delete and Add icons have been added to many of the links on most modules that use
   links instead of buttons for these actions.
@@ -153,6 +171,14 @@
 - Added VmX Locater GUI to FreePBX so admin and user can make changes, also enabled
   0 option even with VmX disabled so it can be used by admin to redirect 0 out on
   voicemail without requiring VmX to the user.
+
+- IVR enhanced to allow the annoucement message to be changed in the event of a
+  timeout or ivalid extension chosen.
+
+- Throughout the modules all references to system recordings by a module are done so
+  with an id so that recording changes are reflected with a relad.
+
+- Sqlite3 support has been added.
 
 2.4.1
  Mainly a maintenance release that is all available through the Framework update, the
