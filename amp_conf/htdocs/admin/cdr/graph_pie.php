@@ -138,10 +138,10 @@ if ($mymonth==13) {
 }
 
 
-for ($i=0; $i<$months_compare+1; $i++){
+for ($i=0; $i<=$months_compare; $i++){
 	// creer un table legende	
 	$current_mymonth = $mymonth -$i;
-	if ($current_mymonth<=0) {
+	if ($current_mymonth<=1) {
 		$current_mymonth=$current_mymonth+12;		
 		$minus_oneyar = 1;
 	}
@@ -207,7 +207,7 @@ $graph->title->Set("Traffic Last $months_compare Months");
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 
 $p1 = new PiePlot3D($data);
-$p1->ExplodeSlice(1);
+$p1->ExplodeSlice(0);
 $p1->SetCenter(0.35);
 //print_r($gDateLocale->GetShortMonth());
 //Array ( [0] => Jan [1] => Feb [2] => Mar [3] => Apr [4] => May [5] => Jun [6] => Jul [7] => Aug [8] => Sep [9] => Oct [10] => Nov [11] => Dec )
