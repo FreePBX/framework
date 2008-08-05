@@ -541,7 +541,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			if (is_array($res)) {
 				
 				echo '<div class="error"><p>';
-				echo sprintf(_('The following error(s) occured processing the uploaded file: %s'), 
+				echo sprintf(_('The following error(s) occurred processing the uploaded file: %s'), 
 				     '<ul><li>'.implode('</li><li>',$res).'</li></ul>');
 				echo sprintf(_('You should fix the problem or select another file and %s.'), 
 				     "<a href='config.php?display=modules&amp;type=tool'>"._("try again")."</a>");
