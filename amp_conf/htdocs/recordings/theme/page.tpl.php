@@ -13,7 +13,7 @@
     <div id="ariHeader">
       <div class="spacer"></div>
       <span id="left">
-        <a href="<?php $_SERVER['PHP_SELF'] ?>" alt="FreePBX User Portal" title="FreePBX User Portal"><img src="../admin/images/logo.png" height="75" alt="" class/></a>
+        <a href="<?php $_SERVER['PHP_SELF'] ?>" alt="FreePBX User Portal" title="FreePBX User Portal"><img src="theme/logo.png" height="75" alt="" class/></a>
       </span>
       <span id="right"></span>
       <div class="spacer"></div>
