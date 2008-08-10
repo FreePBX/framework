@@ -281,6 +281,9 @@ class Voicemail {
         if (preg_match("/\[.*\]/i",$line)) {
           $forwardContext = trim(preg_replace('/\[|\]/', '', $line));
         }
+				if ($forwardContext!=$_SESSION['ari_user']['context']) { 
+					continue; 
+				}
 
         // get username and add to options
         if (preg_match("/\=\>/i",$line)) {
