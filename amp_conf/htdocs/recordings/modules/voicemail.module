@@ -178,7 +178,7 @@ class Voicemail {
       }
       else {
         $folder_rx = $ASTERISK_VOICEMAIL_FOLDERS[0]['folder'];
-        $this->moveVoicemailData($files, $context_rx, $extension_rx, $folder_rx);
+        $this->moveVoicemailData($files, $context_rx, $extension_rx, $folder_rx, false);
       }
     }
 
@@ -659,8 +659,10 @@ class Voicemail {
    *   Mailbox to move message to
    * @param $folder_rx
    *   Folder to move the messages to
+   * @param $delete_moved
+   *   If original should be deleted, default true (otherwise it is a copy)
    */
-  function moveVoicemailData($files,$context_rx,$extension_rx,$folder_rx) {
+  function moveVoicemailData($files,$context_rx,$extension_rx,$folder_rx,$delete_moved=true) {
 
     global $ASTERISK_VOICEMAIL_PATH;
     global $ARI_CRYPT_PASSWORD;
@@ -760,7 +762,9 @@ class Voicemail {
                 chgrp($dst,intval($gid));
               }
 
-              unlink($src);
+							if ($delete_moved) {
+              	unlink($src);
+							}
             }
             else {
               $_SESSION['ari_error'] = sprintf(_("Permission denied on folder %s or %s"),$src,$path_rx);
