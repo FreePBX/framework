@@ -189,11 +189,11 @@ class extensions {
 		//take care of globals first
 		if(isset($this->_globals) && is_array($this->_globals)){
 			$output .= "[globals]\n";
-			$output .= "#include globals_custom.conf\n";
 			foreach (array_keys($this->_globals) as $global) {
 				$output .= $global." = ".$this->_globals[$global]."\n";
 			}
-			$output .= "\n\n;end of [globals]\n\n\n";
+			$output .= "#include globals_custom.conf\n";
+			$output .= "\n;end of [globals]\n\n";
 		}
 		
 		//now the rest of the contexts
