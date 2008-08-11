@@ -291,7 +291,8 @@ CREATE TABLE `incoming` (
   `ringing` varchar(20) default NULL,
   `mohclass` varchar(80) NOT NULL default 'default',
   `description` varchar(80) default NULL,
-	`grppre` varchar(80) default NULL 
+	`grppre` varchar(80) default NULL ,
+	`delay_answer` int (2) default NULL
 ) ;
 
 --
