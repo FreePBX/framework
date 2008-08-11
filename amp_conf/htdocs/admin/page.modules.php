@@ -418,7 +418,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_checkdepends($modules_online[$module]))) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please correct this error first."),  
+							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),  
 							                        $modules[$module]['name'],
 							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
@@ -430,7 +430,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_checkdepends($modules_online[$module]))) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be installed: %s Please correct this error first."),  
+							$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),  
 							                        $modules[$module]['name'],
 							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
@@ -442,7 +442,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_checkdepends($modules[$module]))) {
 							$skipaction = true;
-							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please correct this error first.") : _("%s cannot be installed: %s Please correct this error first.") ),  
+							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),  
 							                        $modules[$module]['name'],
 							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
@@ -457,7 +457,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'enable':
 					if (is_array($errors = module_checkdepends($modules[$module]))) {
 						$skipaction = true;
-						$errorstext[] = sprintf(_("%s cannot be enabled: %s Please correct this error first."),  
+						$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the dependencies have been installed."),  
 						                        $modules[$module]['name'],
 						                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 					} else {
@@ -467,7 +467,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'disable':
 					if (is_array($errors = module_reversedepends($modules[$module]))) {
 						$skipaction = true;
-						$errorstext[] = sprintf(_("%s cannot be disabled because the following modules depend on it: %s Please correct this error first."),  
+						$errorstext[] = sprintf(_("%s cannot be disabled because the following modules depend on it: %s Please disable those modules first then try again."),  
 						                        $modules[$module]['name'],
 						                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 					} else {
@@ -478,7 +478,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_reversedepends($modules[$module]))) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be uninstalled because the following modules depend on it: %s Please correct this error first."),  
+							$errorstext[] = sprintf(_("%s cannot be uninstalled because the following modules depend on it: %s Please disable those modules first then try again."),  
 							                        $modules[$module]['name'],
 							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
@@ -508,7 +508,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		} 
 		if (count($actionstext) > 0) {
 			if (count($errorstext) > 0) {
-				echo "<h4>"._("You may confirm the remaining selection (errors will be skipped):")."</h4>\n";
+				echo "<h4>"._("You may confirm the remaining selection and then try the again for the listed issues once the required dependencies have been met:")."</h4>\n";
 			} else {
 				echo "<h4>"._("Please confirm the following actions:")."</h4>\n";
 			}
