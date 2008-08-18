@@ -53,7 +53,7 @@ class Login {
     $data = '';
     $chksum = '';
     if (isset($_COOKIE['ari_auth'])) {
-      $buf = unserialize($_COOKIE['ari_auth']);
+      $buf = unserialize(stripslashes($_COOKIE['ari_auth']));
       list($data,$chksum) = $buf;
     }
     if (md5($data) == $chksum) {
