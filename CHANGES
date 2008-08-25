@@ -14,6 +14,11 @@
  You can revert to the previous behavior by setting: AMPMPG123=false in the
  amportal.conf file.
 
+ WARNING: If testing with sqlite3 prior to rc2, you will have to change the field
+ size for the globals table as there is no conversion script in the upgrades directory
+ since sqlite3 is a pain to do such schema changes and there is no existing installed
+ base to convert.
+
  AMPORTAL CONF NEW SETTINGS:
 
  USEDEVSTATE = true|false 

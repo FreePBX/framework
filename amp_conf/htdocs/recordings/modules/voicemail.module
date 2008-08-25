@@ -397,7 +397,7 @@ class Voicemail {
         $to = $value[origmailbox];
         $duration = $value[duration];
         if (is_file($recording)) {
-          $recordingCrypt = $crypt->encrypt($recording,$ARI_CRYPT_PASSWORD);
+          $recordingCrypt = urlencode($crypt->encrypt($recording,$ARI_CRYPT_PASSWORD));
 	  $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recordingCrypt . "&date=" . $date . "&time=" . $time . "'); return false;\">
             " . _("play") . "
           </a>";
@@ -407,7 +407,7 @@ class Voicemail {
                                    sprintf(_("On settings page, change voicemail audio format.  It is currently set to %s"),$voicemail_audio_format);
         }
 
-        $fileCrypt = $crypt->encrypt($file,$ARI_CRYPT_PASSWORD);
+        $fileCrypt = urlencode($crypt->encrypt($file,$ARI_CRYPT_PASSWORD));
 
         $tableText .= "
           <tr>

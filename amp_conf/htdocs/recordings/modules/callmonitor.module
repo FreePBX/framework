@@ -207,7 +207,7 @@ class Callmonitor {
 
       // recording file
       $recording = $recordings[$value['uniqueid'] . $value['calldate']];
-      $recordingCrypt = $crypt->encrypt($recording,$ARI_CRYPT_PASSWORD);
+      $recordingCrypt = urlencode($crypt->encrypt($recording,$ARI_CRYPT_PASSWORD));
 
       // date and time
       $buf = split(' ', $value[calldate]);

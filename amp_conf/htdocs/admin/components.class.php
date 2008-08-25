@@ -633,6 +633,20 @@ class gui_selectbox extends guiinput {
 	}
 }
 
+class gui_checkbox extends guiinput {
+	function gui_checkbox($elemname, $checked=false, $prompttext='', $helptext='', $value='on', $post_text = '', $jsonclick = '', $disable=false) {
+		$parent_class = get_parent_class($this);
+		parent::$parent_class($elemname, '', $prompttext, $helptext);
+
+		$itemchecked = $checked ? 'checked' : '';
+		$disable_state = $disable ? 'disabled="true"' : '';
+		$js_onclick_include = ($jsonclick != '') ? 'onclick="' . $jsonclick. '"' : '';
+		$tabindex = guielement::gettabindex();
+
+		$this->html_input = "<input type=\"checkbox\" name=\"$this->_elemname\" id=\"$this->_elemname\" $disable_state tabindex=$tabindex value=\"$value\" $js_onclick_include $itemchecked/>$post_text\n";
+	}
+}
+
 class gui_radio extends guiinput {
 	function gui_radio($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false) {
 		if (!is_array($valarray)) {

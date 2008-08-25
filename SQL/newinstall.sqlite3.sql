@@ -186,8 +186,8 @@ INSERT INTO `freepbx_log` VALUES (2,'2006-11-06 01:55:36','retrieve_conf','devel
 
 DROP TABLE IF EXISTS `globals`;
 CREATE TABLE `globals` (
-  `variable` char(20) NOT NULL default '',
-  `value` char(50) NOT NULL default '',
+  `variable` varchar(255) NOT NULL default '',
+  `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`variable`)
 ) ;
 
