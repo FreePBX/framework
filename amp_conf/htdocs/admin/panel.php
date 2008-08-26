@@ -13,8 +13,8 @@
 
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 
-$title="FreePBX: Flash Operator Panel";
-$message="Flash Operator Panel";
+$title=_("FreePBX: Flash Operator Panel");
+$message=_("Flash Operator Panel");
 
 include 'header.php';
 

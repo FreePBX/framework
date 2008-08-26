@@ -13,8 +13,8 @@
 
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 
-$title="FreePBX: Call Detail Reports";
-$message="Call Detail Reports";
+$title=_("FreePBX: Call Detail Reports");
+$message=_("Call Detail Reports");
 
 include 'header.php';
 
