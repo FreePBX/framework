@@ -163,7 +163,12 @@ if (!isset($months_compare)){
 if (DB_TYPE == "postgres"){	
 	if (isset($fromstatsday_sday) && isset($fromstatsmonth_sday)) $date_clause.=" AND calldate < date'$fromstatsmonth_sday-$fromstatsday_sday'+ INTERVAL '1 DAY' AND calldate >= date'$fromstatsmonth_sday-$fromstatsday_sday' - INTERVAL '$days_compare DAY'";
 }else{
-	if (isset($fromstatsday_sday) && isset($fromstatsmonth_sday)) $date_clause.=" AND calldate < ADDDATE('$fromstatsmonth_sday-$fromstatsday_sday',INTERVAL 1 DAY) AND calldate >= SUBDATE('$fromstatsmonth_sday-$fromstatsday_sday',INTERVAL $days_compare DAY)";  
+	if (isset($fromstatsday_sday) && isset($fromstatsmonth_sday))
+	    { //check for invalid start date
+	    $daysinamonth = date("t",strtotime($fromstatsmonth_sday."-01"));
+	    if ($fromstatsday_sday > $daysinamonth) $fromstatsday_sday = $daysinamonth;
+	    $date_clause.=" AND calldate < ADDDATE('$fromstatsmonth_sday-$fromstatsday_sday',INTERVAL 1 DAY) AND calldate >= SUBDATE('$fromstatsmonth_sday-$fromstatsday_sday',INTERVAL $days_compare DAY)";
+	    }
 }
 
 if ($FG_DEBUG == 3) echo "<br>$date_clause<br>";

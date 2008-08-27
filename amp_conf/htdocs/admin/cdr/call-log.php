@@ -211,13 +211,26 @@ if (DB_TYPE == "postgres"){
 }else{		
 		$UNIX_TIMESTAMP = "UNIX_TIMESTAMP";
 }
-
 if (isset($Period) && $Period=="Month"){
 		if ($frommonth && isset($fromstatsmonth)) $date_clause.=" AND $UNIX_TIMESTAMP(calldate) >= $UNIX_TIMESTAMP('$fromstatsmonth-01')";
-		if ($tomonth && isset($tostatsmonth)) $date_clause.=" AND $UNIX_TIMESTAMP(calldate) <= $UNIX_TIMESTAMP('$tostatsmonth-31 23:59:59')";
+		if ($tomonth && isset($tostatsmonth))
+                    {
+                    $daysinamonth = date("t",strtotime($tostatsmonth."-01"));
+                    $date_clause.=" AND $UNIX_TIMESTAMP(calldate) <= $UNIX_TIMESTAMP('$tostatsmonth-$daysinamonth 23:59:59')";
+                    }
 }else{
-		if ((isset($fromday) && $fromday) && isset($fromstatsday_sday) && isset($fromstatsmonth_sday)) $date_clause.=" AND $UNIX_TIMESTAMP(calldate) >= $UNIX_TIMESTAMP('$fromstatsmonth_sday-$fromstatsday_sday')";
-		if ((isset($today) && $today) && isset($tostatsday_sday) && isset($tostatsmonth_sday)) $date_clause.=" AND $UNIX_TIMESTAMP(calldate) <= $UNIX_TIMESTAMP('$tostatsmonth_sday-".sprintf("%02d",intval($tostatsday_sday)/*+1*/)." 23:59:59')";
+                if ((isset($fromday) && $fromday) && isset($fromstatsday_sday) && isset($fromstatsmonth_sday))
+                    { // check for invalid start date
+                    $daysinamonth =  date("t",strtotime($fromstatsmonth_sday."-01"));
+                    if ($fromstatsday_sday > $daysinamonth) $fromstatsday_sday = $daysinamonth;
+                    $date_clause.=" AND $UNIX_TIMESTAMP(calldate) >= $UNIX_TIMESTAMP('$fromstatsmonth_sday-$fromstatsday_sday')";
+                    }
+                if ((isset($today) && $today) && isset($tostatsday_sday) && isset($tostatsmonth_sday))
+                    { //check for invalid end date
+                    $daysinamonth =  date("t",strtotime($tostatsmonth_sday."-01"));
+                    if ($tostatsday_sday > $daysinamonth) $tostatsday_sday = $daysinamonth;
+                    $date_clause.=" AND $UNIX_TIMESTAMP(calldate) <= $UNIX_TIMESTAMP('$tostatsmonth_sday-".sprintf("%02d",intval($tostatsday_sday)/*+1*/)." 23:59:59')";
+                    }
 }
 //echo "<br>$date_clause<br>";
 /*
