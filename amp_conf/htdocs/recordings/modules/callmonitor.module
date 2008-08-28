@@ -207,7 +207,8 @@ class Callmonitor {
 
       // recording file
       $recording = $recordings[$value['uniqueid'] . $value['calldate']];
-      $recordingCrypt = urlencode($crypt->encrypt($recording,$ARI_CRYPT_PASSWORD));
+      $fileCrypt = $crypt->encrypt($recording,$ARI_CRYPT_PASSWORD);
+      $recordingCrypt = urlencode($fileCrypt);
 
       // date and time
       $buf = split(' ', $value[calldate]);
@@ -216,7 +217,7 @@ class Callmonitor {
 
       // recording delete checkbox
       if ($CALLMONITOR_ALLOW_DELETE) {
-        $recording_delete_checkbox = "<td class='checkbox'><input type=checkbox name='selected" . ++$i . "' value=" . $recordingCrypt . "></td>";
+        $recording_delete_checkbox = "<td class='checkbox'><input type=checkbox name='selected" . ++$i . "' value=" . $fileCrypt . "></td>";
       }
 
       $recordingLink = '';

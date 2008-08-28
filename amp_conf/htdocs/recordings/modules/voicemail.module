@@ -407,7 +407,7 @@ class Voicemail {
                                    sprintf(_("On settings page, change voicemail audio format.  It is currently set to %s"),$voicemail_audio_format);
         }
 
-        $fileCrypt = urlencode($crypt->encrypt($file,$ARI_CRYPT_PASSWORD));
+        $fileCrypt = $crypt->encrypt($file,$ARI_CRYPT_PASSWORD);
 
         $tableText .= "
           <tr>

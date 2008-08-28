@@ -75,13 +75,13 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 		if (is_file('modules/'.$module_name.'/'.$module_name.'.css')) {
 			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.css" rel="stylesheet" type="text/css">'."\n";
 		}
-		if (isset($module_page) && is_file('modules/'.$module_name.'/'.$module_page.'.css')) {
+		if (isset($module_page) && ($module_page != $module_name) && is_file('modules/'.$module_name.'/'.$module_page.'.css')) {
 			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.css" rel="stylesheet" type="text/css">'."\n";
 		}
 		if (is_file('modules/'.$module_name.'/'.$module_name.'.js')) {
 			echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.js"></script>'."\n";
 		}
-		if (isset($module_page) && is_file('modules/'.$module_name.'/'.$module_page.'.js')) {
+		if (isset($module_page) && ($module_page != $module_name) && is_file('modules/'.$module_name.'/'.$module_page.'.js')) {
 			echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.js"></script>'."\n";
 		}
 	}

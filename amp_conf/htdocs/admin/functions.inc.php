@@ -2671,6 +2671,10 @@ function module_enable($modulename, $force = false) { // was enableModule
 // was fetchModule 
 function module_download($modulename, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) { 
 	global $amp_conf;
+
+	if ($time_limit = ini_get('max_execution_time')) {
+		set_time_limit($time_limit);
+	}
 	
 	// size of download blocks to fread()
 	// basically, this controls how often progress_callback is called
@@ -2926,8 +2930,13 @@ function module_handleupload($uploaded_file) {
  * @return mixed   True if succesful, array of error messages if not succesful
  */
 function module_install($modulename, $force = false) {
-	$modules = module_getinfo($modulename);
 	global $db, $amp_conf;
+
+	if ($time_limit = ini_get('max_execution_time')) {
+		set_time_limit($time_limit);
+	}
+
+	$modules = module_getinfo($modulename);
 	
 	// make sure we have a directory, to begin with
 	$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;

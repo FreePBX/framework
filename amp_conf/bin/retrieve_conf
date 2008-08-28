@@ -575,7 +575,7 @@ function symlink_subdirs($moduledir) {
 		}
 	}
 	if ($error_modules) {
-		$nt->add_error('retrieve_conf', 'SYMLINK', _("Symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link: %s<br \>This can result in FATAL failures to your PBX"),$error_modules));
+		$nt->add_error('retrieve_conf', 'SYMLINK', _("Symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link: %s<br \>This can result in FATAL failures to your PBX. If the target file exists, the symlink will not occur and you should rename the target file to allow the automatic sym link to occur and remove this error, unless this is an intentional customization."),$error_modules));
 	} else {
 		$nt->delete('retrieve_conf', 'SYMLINK');
 	}

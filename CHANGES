@@ -1,4 +1,21 @@
-2.5.0	
+2.5.0 Added in rc2
+- Add queue weights setting and autfill setting per queue. Set persistentmember=yes
+  in queues general section to apply to all queues.
+
+- Added ability in IVR to have voicemail system return calls to the IVR after leaving
+  or checking messages as well as returning to the IVR if line is busy (and user has
+  not voicemail)
+
+- Added option to incoming routes allowing a CID only route to take priority over a
+  DID only route. This means that the CID route will route the call for calls that
+  come to that DID with the specified CID. Default behavior would always route the
+  call to the DID only route based on how Asterisk sorts routes.
+
+- Split the framework "module" into framework, fw_fop and fw_ari so that FOP and
+  ARI updates could be split from other framework updates in order to allow people
+  with highly customized FOP and ARI changes to pull framework updates easier.
+
+2.5.0	Added before rc1
  WARNING: The separation of directdid and other incoming routes has been removed.
  this has resulted in the obsoletion of the following API call:
 
