@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-27 19:56+0200\n"
+"POT-Creation-Date: 2008-09-01 20:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -330,6 +330,17 @@ msgid ""
 "you php.ini config file"
 msgstr ""
 
+#: amp_conf/htdocs/admin/common/db_connect.php:99
+msgid "Magic Quotes GPC"
+msgstr ""
+
+#: amp_conf/htdocs/admin/common/db_connect.php:99
+msgid ""
+"You have magic_quotes_gpc enabled in your php.ini, http or .htaccess file "
+"which will cause errors in some modules. FreePBX expects this to be off and "
+"runs under that assumption"
+msgstr ""
+
 #: amp_conf/htdocs/admin/common/script.js.php:36
 msgid "Please select a \"Destination\""
 msgstr ""
@@ -430,8 +441,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/functions.inc.php:1272
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:578
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4551
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4553
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4590
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4592
 msgid "Add"
 msgstr ""
 
@@ -569,176 +580,176 @@ msgstr ""
 msgid "Module cannot be enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2686
+#: amp_conf/htdocs/admin/functions.inc.php:2690
 msgid "Module not found in repository"
-msgstr ""
-
-#: amp_conf/htdocs/admin/functions.inc.php:2719
-#: amp_conf/htdocs/admin/functions.inc.php:2815
-#: amp_conf/htdocs/admin/functions.inc.php:2893
-#, php-format
-msgid "Could not remove %s to install new version"
 msgstr ""
 
 #: amp_conf/htdocs/admin/functions.inc.php:2723
 #: amp_conf/htdocs/admin/functions.inc.php:2819
 #: amp_conf/htdocs/admin/functions.inc.php:2897
 #, php-format
-msgid "Could not untar %s to %s"
+msgid "Could not remove %s to install new version"
 msgstr ""
 
 #: amp_conf/htdocs/admin/functions.inc.php:2727
 #: amp_conf/htdocs/admin/functions.inc.php:2823
 #: amp_conf/htdocs/admin/functions.inc.php:2901
 #, php-format
-msgid "Could not remove old module %s to install new version"
+msgid "Could not untar %s to %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/functions.inc.php:2731
 #: amp_conf/htdocs/admin/functions.inc.php:2827
 #: amp_conf/htdocs/admin/functions.inc.php:2905
 #, php-format
+msgid "Could not remove old module %s to install new version"
+msgstr ""
+
+#: amp_conf/htdocs/admin/functions.inc.php:2735
+#: amp_conf/htdocs/admin/functions.inc.php:2831
+#: amp_conf/htdocs/admin/functions.inc.php:2909
+#, php-format
 msgid "Could not move %s to %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2752
+#: amp_conf/htdocs/admin/functions.inc.php:2756
 #, php-format
 msgid "Error opening %s for writing"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2768
-#: amp_conf/htdocs/admin/functions.inc.php:2771
+#: amp_conf/htdocs/admin/functions.inc.php:2772
+#: amp_conf/htdocs/admin/functions.inc.php:2775
 #, php-format
 msgid "Error opening %s for reading"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2791
+#: amp_conf/htdocs/admin/functions.inc.php:2795
 #, php-format
 msgid "Unable to save %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2799
+#: amp_conf/htdocs/admin/functions.inc.php:2803
 #, php-format
 msgid "File Integrity failed for %s - aborting"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2844
+#: amp_conf/htdocs/admin/functions.inc.php:2848
 msgid ""
 "Error finding uploaded file - check your PHP and/or web server configuration"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2849
+#: amp_conf/htdocs/admin/functions.inc.php:2853
 msgid "File must be in tar+gzip (.tgz or .tar.gz) format"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2854
+#: amp_conf/htdocs/admin/functions.inc.php:2858
 msgid ""
 "Filename not in correct format: must be modulename-version.tar.gz (eg. "
 "custommodule-0.1.tar.gz)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2863
+#: amp_conf/htdocs/admin/functions.inc.php:2867
 #, php-format
 msgid "Error creating temporary directory: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2871
+#: amp_conf/htdocs/admin/functions.inc.php:2875
 msgid "Error untaring uploaded file. Must be a tar+gzip file"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2910
+#: amp_conf/htdocs/admin/functions.inc.php:2914
 #, php-format
 msgid "Error removing temporary directory: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2935
+#: amp_conf/htdocs/admin/functions.inc.php:2944
 msgid "Cannot find module"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2941
+#: amp_conf/htdocs/admin/functions.inc.php:2950
 msgid "Could not read module.xml"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2946
+#: amp_conf/htdocs/admin/functions.inc.php:2955
 msgid ""
 "This module is broken and cannot be installed. You should try to download it "
 "again."
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2965
+#: amp_conf/htdocs/admin/functions.inc.php:2974
 msgid "Failed to run installation scripts"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:2993
+#: amp_conf/htdocs/admin/functions.inc.php:3002
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3025
-#: amp_conf/htdocs/admin/functions.inc.php:3053
-#: amp_conf/htdocs/admin/functions.inc.php:3090
+#: amp_conf/htdocs/admin/functions.inc.php:3034
+#: amp_conf/htdocs/admin/functions.inc.php:3062
+#: amp_conf/htdocs/admin/functions.inc.php:3099
 msgid "Specified module not found"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3030
+#: amp_conf/htdocs/admin/functions.inc.php:3039
 msgid "Module not enabled: cannot disable"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3034
-#: amp_conf/htdocs/admin/functions.inc.php:3062
+#: amp_conf/htdocs/admin/functions.inc.php:3043
+#: amp_conf/htdocs/admin/functions.inc.php:3071
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3058
+#: amp_conf/htdocs/admin/functions.inc.php:3067
 msgid "Module not installed: cannot uninstall"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3069
+#: amp_conf/htdocs/admin/functions.inc.php:3078
 msgid "Error updating database: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3073
+#: amp_conf/htdocs/admin/functions.inc.php:3082
 msgid "Failed to run un-installation scripts"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3103
+#: amp_conf/htdocs/admin/functions.inc.php:3112
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3110
+#: amp_conf/htdocs/admin/functions.inc.php:3119
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3488
+#: amp_conf/htdocs/admin/functions.inc.php:3497
 #, php-format
 msgid "You have %s disabled modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3488
+#: amp_conf/htdocs/admin/functions.inc.php:3497
 msgid "You have a disabled module"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3489
+#: amp_conf/htdocs/admin/functions.inc.php:3498
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3490
-#: amp_conf/htdocs/admin/functions.inc.php:3498
+#: amp_conf/htdocs/admin/functions.inc.php:3499
+#: amp_conf/htdocs/admin/functions.inc.php:3507
 msgid "You should go to the module admin page to fix these."
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3496
+#: amp_conf/htdocs/admin/functions.inc.php:3505
 #, php-format
 msgid "You have %s broken modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3496
+#: amp_conf/htdocs/admin/functions.inc.php:3505
 msgid "You have a broken module"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:3497
+#: amp_conf/htdocs/admin/functions.inc.php:3506
 msgid "The following modules are disabled because they are broken:"
 msgstr ""
 
@@ -767,14 +778,14 @@ msgid "Daily load"
 msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.devices.php:18
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4519
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4529
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4551
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4558
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4568
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4590
 msgid "Device"
 msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.ampusers.php:100
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4226
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4265
 msgid "Add User"
 msgstr ""
 
@@ -848,7 +859,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.ampusers.php:242
 #: amp_conf/htdocs/admin/modules/core/page.trunks.php:765
-#: amp_conf/htdocs/admin/modules/core/page.general.php:399
+#: amp_conf/htdocs/admin/modules/core/page.general.php:451
 #: amp_conf/htdocs/admin/modules/core/page.zapchandids.php:108
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:584
 msgid "Submit Changes"
@@ -1037,8 +1048,8 @@ msgid "Check this to disable this trunk in all routes where it is used."
 msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.trunks.php:388
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4104
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4107
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4143
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4146
 #: amp_conf/htdocs/admin/page.modules.php:786
 msgid "Disable"
 msgstr ""
@@ -1055,7 +1066,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.trunks.php:397
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4103
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4142
 #: amp_conf/htdocs/admin/page.modules.php:744
 msgid "Enable"
 msgstr ""
@@ -1414,105 +1425,129 @@ msgid ""
 "You must define an Outbound Caller ID when Choosing Never Override CallerID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:105
+#: amp_conf/htdocs/admin/modules/core/page.general.php:106
 msgid "Dialing Options"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:107
+#: amp_conf/htdocs/admin/modules/core/page.general.php:109
 msgid "Asterisk Dial command options:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:108
-#: amp_conf/htdocs/admin/modules/core/page.general.php:117
+#: amp_conf/htdocs/admin/modules/core/page.general.php:110
+#: amp_conf/htdocs/admin/modules/core/page.general.php:121
 msgid "t: Allow the called user to transfer the call by hitting #"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:109
-#: amp_conf/htdocs/admin/modules/core/page.general.php:118
+#: amp_conf/htdocs/admin/modules/core/page.general.php:111
+#: amp_conf/htdocs/admin/modules/core/page.general.php:122
 msgid "T: Allow the calling user to transfer the call by hitting #"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:110
+#: amp_conf/htdocs/admin/modules/core/page.general.php:112
 msgid "r: Generate a ringing tone for the calling party"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:111
-#: amp_conf/htdocs/admin/modules/core/page.general.php:119
+#: amp_conf/htdocs/admin/modules/core/page.general.php:113
+#: amp_conf/htdocs/admin/modules/core/page.general.php:123
 msgid ""
 "w: Allow the called user to start recording after pressing *1 (Asterisk v1.2)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:112
-#: amp_conf/htdocs/admin/modules/core/page.general.php:120
+#: amp_conf/htdocs/admin/modules/core/page.general.php:114
+#: amp_conf/htdocs/admin/modules/core/page.general.php:124
 msgid ""
 "W: Allow the calling user to start recording after pressing *1 (Asterisk "
 "v1.2)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:116
+#: amp_conf/htdocs/admin/modules/core/page.general.php:120
 msgid "Asterisk Outbound Dial command options:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:121
+#: amp_conf/htdocs/admin/modules/core/page.general.php:125
 msgid "r: You SHOULD NOT use this option on outbound trunks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:126
+#: amp_conf/htdocs/admin/modules/core/page.general.php:132
 msgid "Call Recording"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:128
-msgid "Call recording format:"
-msgstr ""
-
-#: amp_conf/htdocs/admin/modules/core/page.general.php:129
-msgid "Pick the format in which to save recorded calls"
-msgstr ""
-
-#: amp_conf/htdocs/admin/modules/core/page.general.php:132
-msgid "WAV"
-msgstr ""
-
-#: amp_conf/htdocs/admin/modules/core/page.general.php:133
-msgid "wav"
-msgstr ""
-
-#: amp_conf/htdocs/admin/modules/core/page.general.php:134
-msgid "ulaw"
-msgstr ""
-
 #: amp_conf/htdocs/admin/modules/core/page.general.php:135
-msgid "alaw"
+msgid "Extension Recording Override:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.general.php:136
+msgid ""
+"This will override the recording settings of all extensions/users. If "
+"disabled, the system will ignore all Record Always settings of a user and "
+"will not turn on recording. This does not effect On Demand recording "
+"controlled by the dial options 'w' and 'W' above. It does not effect other "
+"recording settings in modules such as Queues and Conferences. If you don't "
+"use recordings, setting this is beneficial to system performance as it "
+"removes the check that is otherwise done on every single call."
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:139
+#: amp_conf/htdocs/admin/page.modules.php:701
+msgid "Enabled"
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:140
+msgid "Disabled"
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:144
+msgid "Call recording format:"
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:145
+msgid "Pick the format in which to save recorded calls"
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:149
+msgid "WAV"
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:150
+msgid "wav"
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:151
+msgid "ulaw"
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:152
+msgid "alaw"
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:153
 msgid "sln"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:137
+#: amp_conf/htdocs/admin/modules/core/page.general.php:154
 msgid "gsm"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:138
+#: amp_conf/htdocs/admin/modules/core/page.general.php:155
 msgid "g729"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:141
+#: amp_conf/htdocs/admin/modules/core/page.general.php:159
 msgid "Recording Location:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:142
+#: amp_conf/htdocs/admin/modules/core/page.general.php:160
 msgid ""
 "Override the default location where asterisk will store call recordings. "
 "Include the trailing /. Be sure to set proper permissions on the directory "
 "for the asterisk user."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:146
+#: amp_conf/htdocs/admin/modules/core/page.general.php:166
 msgid "Run after record:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:147
+#: amp_conf/htdocs/admin/modules/core/page.general.php:167
 msgid ""
 "An optional script to be run after the call is hungup. You can include "
 "channel and MixMon variables like ${CALLFILENAME}, ${MIXMON_FORMAT} and "
@@ -1520,370 +1555,380 @@ msgid ""
 "following notation: ^{MY_VAR}"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:153
+#: amp_conf/htdocs/admin/modules/core/page.general.php:174
 msgid "Voicemail"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:155
-msgid "Number of seconds to ring phones before sending callers to voicemail:"
+#: amp_conf/htdocs/admin/modules/core/page.general.php:177
+msgid "Ringtime Default:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:158
-msgid "Extension prefix for dialing direct to voicemail:"
+#: amp_conf/htdocs/admin/modules/core/page.general.php:178
+msgid ""
+"Default number of seconds to ring phones before sending callers to "
+"voicemail. This can be set per extension/user and will have no effect on "
+"phones with no voicemail."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:161
+#: amp_conf/htdocs/admin/modules/core/page.general.php:184
+msgid "Direct Dial Voicemail Prefix:"
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:185
+msgid ""
+"Prefix used to dial directly to someone's voicemail. Caution should be taken "
+"in choosing this prefix to avoid conflicts with featurecodes."
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:191
 msgid "Direct Dial to Voicemail message type:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:163
+#: amp_conf/htdocs/admin/modules/core/page.general.php:194
 msgid "Default"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:164
-#: amp_conf/htdocs/admin/modules/core/page.general.php:165
+#: amp_conf/htdocs/admin/modules/core/page.general.php:195
 msgid "Unavailable"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:165
-#: amp_conf/htdocs/admin/modules/core/page.general.php:167
-msgid "no instructions"
-msgstr ""
-
-#: amp_conf/htdocs/admin/modules/core/page.general.php:166
-#: amp_conf/htdocs/admin/modules/core/page.general.php:167
+#: amp_conf/htdocs/admin/modules/core/page.general.php:196
 msgid "Busy"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:171
-msgid "Use gain when recording the voicemail message (optional):"
+#: amp_conf/htdocs/admin/modules/core/page.general.php:201
+msgid "Optional Voicemail Recording Gain:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:172
+#: amp_conf/htdocs/admin/modules/core/page.general.php:202
 msgid "Use the specified amount of gain when recording the voicemail message."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:173
+#: amp_conf/htdocs/admin/modules/core/page.general.php:203
 msgid "The units are whole-number decibels (dB)."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:176
+#: amp_conf/htdocs/admin/modules/core/page.general.php:208
 msgid "Do Not Play"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:176
+#: amp_conf/htdocs/admin/modules/core/page.general.php:208
 msgid ""
 "Check this to remove the default message \"Please leave your message after "
 "the tone. When done, hang-up, or press the pound key.\" That is played after "
 "the voicemail greeting (the s option). This applies globally to all vm boxes."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:176
-msgid "please leave message after tone to caller"
+#: amp_conf/htdocs/admin/modules/core/page.general.php:208
+msgid "\"please leave message after tone to caller\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:179
+#: amp_conf/htdocs/admin/modules/core/page.general.php:214
 msgid "Voicemail VmX Locator"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:183
+#: amp_conf/htdocs/admin/modules/core/page.general.php:218
 msgid "Default Context & Pri:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:184
-msgid "Default to use if only an number/extension are provided."
+#: amp_conf/htdocs/admin/modules/core/page.general.php:219
+msgid "Default to use if only a number/extension are provided."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:186
-#: amp_conf/htdocs/admin/modules/core/page.general.php:195
-#: amp_conf/htdocs/admin/modules/core/page.general.php:204
+#: amp_conf/htdocs/admin/modules/core/page.general.php:221
+#: amp_conf/htdocs/admin/modules/core/page.general.php:229
+#: amp_conf/htdocs/admin/modules/core/page.general.php:238
 msgid "context"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:188
-#: amp_conf/htdocs/admin/modules/core/page.general.php:197
-#: amp_conf/htdocs/admin/modules/core/page.general.php:206
+#: amp_conf/htdocs/admin/modules/core/page.general.php:222
+#: amp_conf/htdocs/admin/modules/core/page.general.php:231
+#: amp_conf/htdocs/admin/modules/core/page.general.php:240
 msgid "pri"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:192
+#: amp_conf/htdocs/admin/modules/core/page.general.php:226
 msgid "Timeout/#-press default:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:193
+#: amp_conf/htdocs/admin/modules/core/page.general.php:227
 msgid ""
 "This is the default location that a caller will be sent if they don't press "
 "any key (timeout) or press # which is interpreted as a timeout. Set this to "
 "'dovm' to go to voicemail (default)."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:196
-#: amp_conf/htdocs/admin/modules/core/page.general.php:205
+#: amp_conf/htdocs/admin/modules/core/page.general.php:230
+#: amp_conf/htdocs/admin/modules/core/page.general.php:239
 msgid "exten"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:201
+#: amp_conf/htdocs/admin/modules/core/page.general.php:235
 msgid "Loop Exceed default:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:202
+#: amp_conf/htdocs/admin/modules/core/page.general.php:236
 msgid ""
 "This is the default location that a caller will be sent if they press an "
 "invalid options too man times, as defined by the Maximum Loops count. Set "
 "this to 'dovm' to go to voicemail (default)."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:210
+#: amp_conf/htdocs/admin/modules/core/page.general.php:244
 msgid "Timeout VM Msg:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:211
-#: amp_conf/htdocs/admin/modules/core/page.general.php:223
+#: amp_conf/htdocs/admin/modules/core/page.general.php:245
+#: amp_conf/htdocs/admin/modules/core/page.general.php:257
 msgid ""
 "If this destination is voicemail, select whether or not to play the standard "
 "voicemail instructions or just beep."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:215
-#: amp_conf/htdocs/admin/modules/core/page.general.php:227
-#: amp_conf/htdocs/admin/modules/core/page.general.php:239
+#: amp_conf/htdocs/admin/modules/core/page.general.php:249
+#: amp_conf/htdocs/admin/modules/core/page.general.php:261
+#: amp_conf/htdocs/admin/modules/core/page.general.php:273
 msgid "Std Instructions"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:216
-#: amp_conf/htdocs/admin/modules/core/page.general.php:228
-#: amp_conf/htdocs/admin/modules/core/page.general.php:240
+#: amp_conf/htdocs/admin/modules/core/page.general.php:250
+#: amp_conf/htdocs/admin/modules/core/page.general.php:262
+#: amp_conf/htdocs/admin/modules/core/page.general.php:274
 msgid "Beep Only"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:222
+#: amp_conf/htdocs/admin/modules/core/page.general.php:256
 msgid "Max Loop VM Msg:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:234
+#: amp_conf/htdocs/admin/modules/core/page.general.php:268
 msgid "Direct VM Option"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:235
+#: amp_conf/htdocs/admin/modules/core/page.general.php:269
 msgid ""
 "If a user defined option is to go to voicemail (using the 'dovm' extension) "
 "this is the default option if not specified by the user's settings."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:246
+#: amp_conf/htdocs/admin/modules/core/page.general.php:280
 msgid "Msg Timeout:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:247
+#: amp_conf/htdocs/admin/modules/core/page.general.php:281
 msgid ""
 "Time ot wait after message has played to timeout and/or repeat the message "
 "if no entry pressed."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:259
+#: amp_conf/htdocs/admin/modules/core/page.general.php:293
 msgid "seconds"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:264
+#: amp_conf/htdocs/admin/modules/core/page.general.php:298
 msgid "Msg Play:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:265
+#: amp_conf/htdocs/admin/modules/core/page.general.php:299
 msgid ""
 "Number of times to play the recorded message if the caller does not press "
 "any options and it times out."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:277
-#: amp_conf/htdocs/admin/modules/core/page.general.php:295
+#: amp_conf/htdocs/admin/modules/core/page.general.php:311
+#: amp_conf/htdocs/admin/modules/core/page.general.php:329
 msgid "times"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:282
+#: amp_conf/htdocs/admin/modules/core/page.general.php:316
 msgid "Error Re-tries:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:283
+#: amp_conf/htdocs/admin/modules/core/page.general.php:317
 msgid ""
 "Number of times to play invalid options and repeat the message upon "
 "receiving an undefined option."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:303
+#: amp_conf/htdocs/admin/modules/core/page.general.php:334
 msgid "Company Directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:305
+#: amp_conf/htdocs/admin/modules/core/page.general.php:337
 msgid "Find users in the Company Directory by:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:307
+#: amp_conf/htdocs/admin/modules/core/page.general.php:337
+msgid ""
+"The Company Directory allows a caller to spell the user's first name, last "
+"name, or both when searching for a user. This will select which of these "
+"modes are used."
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:340
 msgid "first name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:308
+#: amp_conf/htdocs/admin/modules/core/page.general.php:341
 msgid "last name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:309
+#: amp_conf/htdocs/admin/modules/core/page.general.php:342
 msgid "first or last name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:312
-msgid "Play extension number"
+#: amp_conf/htdocs/admin/modules/core/page.general.php:346
+msgid "Announce Extension:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:312
+#: amp_conf/htdocs/admin/modules/core/page.general.php:346
 msgid ""
 "Plays a message \"Please hold while I transfer you to extension xxx\" that "
-"lets the caller know what extension to use in the future."
+"lets the caller know what extension to use in the future when connecting "
+"from the company directory."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:312
-msgid "to caller before transferring call"
-msgstr ""
-
-#: amp_conf/htdocs/admin/modules/core/page.general.php:313
+#: amp_conf/htdocs/admin/modules/core/page.general.php:351
 msgid "Operator Extension:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:314
+#: amp_conf/htdocs/admin/modules/core/page.general.php:352
 msgid ""
 "When users hit '0' in the directory, they are put through to this number. "
 "Note that it"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:315
+#: amp_conf/htdocs/admin/modules/core/page.general.php:353
 msgid ""
 " does NOT need to be an extension, it can be a Ring Group, or even an "
 "external number."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:318
+#: amp_conf/htdocs/admin/modules/core/page.general.php:359
 msgid "Fax Machine"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:320
+#: amp_conf/htdocs/admin/modules/core/page.general.php:362
 msgid "Extension of"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:320
+#: amp_conf/htdocs/admin/modules/core/page.general.php:362
 msgid "fax machine"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:320
+#: amp_conf/htdocs/admin/modules/core/page.general.php:362
 msgid ""
 "Select 'system' to have the system receive and email faxes.<br>Selecting "
 "'disabled' will result in incoming calls being answered more quickly."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:320
+#: amp_conf/htdocs/admin/modules/core/page.general.php:362
 msgid "for receiving faxes:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:323
+#: amp_conf/htdocs/admin/modules/core/page.general.php:366
 #: amp_conf/htdocs/admin/modules/core/page.did.php:251
 msgid "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:324
+#: amp_conf/htdocs/admin/modules/core/page.general.php:367
 #: amp_conf/htdocs/admin/modules/core/page.did.php:252
 msgid "system"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:338
-#: amp_conf/htdocs/admin/modules/core/page.general.php:342
+#: amp_conf/htdocs/admin/modules/core/page.general.php:380
+#: amp_conf/htdocs/admin/modules/core/page.general.php:385
 msgid "Email address"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:338
+#: amp_conf/htdocs/admin/modules/core/page.general.php:380
 msgid ""
 "Email address used if 'system' has been chosen for the fax extension above."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:338
+#: amp_conf/htdocs/admin/modules/core/page.general.php:380
 msgid "to have faxes emailed to:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:342
+#: amp_conf/htdocs/admin/modules/core/page.general.php:385
 msgid ""
 "Email address that faxes appear to come from if 'system' has been chosen for "
 "the fax extension above."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:342
+#: amp_conf/htdocs/admin/modules/core/page.general.php:385
 msgid "that faxes appear to come from:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:345
+#: amp_conf/htdocs/admin/modules/core/page.general.php:390
 msgid "International Settings"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:347
+#: amp_conf/htdocs/admin/modules/core/page.general.php:393
 msgid "Country"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:347
+#: amp_conf/htdocs/admin/modules/core/page.general.php:393
 msgid "Indications"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:347
+#: amp_conf/htdocs/admin/modules/core/page.general.php:393
 msgid "Select which country you are in"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:355
+#: amp_conf/htdocs/admin/modules/core/page.general.php:402
 msgid "24-hour format"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:355
+#: amp_conf/htdocs/admin/modules/core/page.general.php:402
 msgid ""
 "Select Yes if you use 24-hour format or No if you are using 12-hour am/pm "
 "format"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:357
-#: amp_conf/htdocs/admin/modules/core/page.general.php:369
+#: amp_conf/htdocs/admin/modules/core/page.general.php:405
+#: amp_conf/htdocs/admin/modules/core/page.general.php:420
 msgid "no"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:358
-#: amp_conf/htdocs/admin/modules/core/page.general.php:370
+#: amp_conf/htdocs/admin/modules/core/page.general.php:406
+#: amp_conf/htdocs/admin/modules/core/page.general.php:421
 msgid "yes"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:361
+#: amp_conf/htdocs/admin/modules/core/page.general.php:410
 msgid "Security Settings"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:363
+#: amp_conf/htdocs/admin/modules/core/page.general.php:413
 msgid "Allow Anonymous Inbound SIP Calls?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:364
+#: amp_conf/htdocs/admin/modules/core/page.general.php:414
 msgid "** WARNING **"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:365
+#: amp_conf/htdocs/admin/modules/core/page.general.php:415
 msgid ""
 "Setting this to 'yes' will potentially allow ANYBODY to call into your "
 "Asterisk server using the SIP protocol"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:366
+#: amp_conf/htdocs/admin/modules/core/page.general.php:416
 msgid ""
 "It should only be used if you fully understand the impact of allowing "
 "anonymous calls into your server"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:374
+#: amp_conf/htdocs/admin/modules/core/page.general.php:426
 msgid "Online Updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:378
+#: amp_conf/htdocs/admin/modules/core/page.general.php:430
 msgid "Check for Updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:379
+#: amp_conf/htdocs/admin/modules/core/page.general.php:431
 msgid ""
 "Choosing Yes will result in the system automatically checking for updates "
 "nighly. The resulting infomation will be displayed in the dashboard and will "
@@ -1894,35 +1939,35 @@ msgid ""
 "information is trasmitted."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:383
+#: amp_conf/htdocs/admin/modules/core/page.general.php:435
 #: amp_conf/htdocs/admin/modules/core/page.did.php:237
 msgid "Yes"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:384
+#: amp_conf/htdocs/admin/modules/core/page.general.php:436
 #: amp_conf/htdocs/admin/modules/core/page.did.php:236
 msgid "No"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:390
+#: amp_conf/htdocs/admin/modules/core/page.general.php:442
 msgid "Update Email"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:391
+#: amp_conf/htdocs/admin/modules/core/page.general.php:443
 msgid ""
 "Email address where online updates will be sent. Leaving blank will result "
 "in no updates being sent."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:421
+#: amp_conf/htdocs/admin/modules/core/page.general.php:473
 msgid "Please enter a valid Number of Seconds"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:422
+#: amp_conf/htdocs/admin/modules/core/page.general.php:474
 msgid "Please enter a valid Fax Email"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/page.general.php:423
+#: amp_conf/htdocs/admin/modules/core/page.general.php:475
 msgid ""
 "You have selected the 'r' option for your trunks. This is highly discouraged "
 "and will create problems with calls on many PRI, VoIP, ISDN and other trunks "
@@ -1970,7 +2015,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.zapchandids.php:99
 #: amp_conf/htdocs/admin/modules/core/page.did.php:176
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4585
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4624
 #: amp_conf/htdocs/admin/page.modules.php:796
 msgid "Description"
 msgstr ""
@@ -1995,12 +2040,12 @@ msgid "Delete"
 msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.zapchandids.php:123
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2869
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2908
 msgid "Invalid Channel Number, must be numeric and not blank"
 msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.zapchandids.php:124
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2873
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2912
 msgid "Invalid DID, must be a non-blank DID"
 msgstr ""
 
@@ -2338,20 +2383,20 @@ msgid "any CID"
 msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:126
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4157
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4509
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4196
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4548
 msgid "deleted"
 msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:151
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4189
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4228
 #: amp_conf/htdocs/admin/modules/core/page.users.php:21
 msgid "User"
 msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:155
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4177
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4553
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4216
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4592
 #: amp_conf/htdocs/admin/modules/core/page.extensions.php:18
 msgid "Extension"
 msgstr ""
@@ -2607,177 +2652,177 @@ msgstr ""
 msgid "Invalid Caller ID prefix."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1816
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1834
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1852
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1871
 msgid "A route for this DID/CID already exists!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1900
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1938
 msgid "You must put in a device id"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1910
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1948
 msgid "This device id is already in use"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2485
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2524
 msgid "User Extension: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2548
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2587
 msgid "You must put in an extension (or user) number"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2557
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2596
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2585
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2834
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2624
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2873
 msgid "A route with this DID/CID already exists"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2885
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2924
 msgid "Error Duplicate Channel Entry"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4073
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4112
 #, php-format
 msgid ""
 "Failed to open %s for writing, aborting attempt to write the country "
 "indications. The file may be readonly or the permissions may be incorrect."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4074
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4113
 msgid "Failed to write indications.conf"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4098
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4137
 msgid "On Demand"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4099
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4138
 msgid "Always"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4100
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4139
 msgid "Never"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4108
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4147
 msgid "Screen Caller: No Memory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4109
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4148
 msgid "Screen Caller: Memory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4179
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4218
 #, php-format
 msgid "Delete Extension %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4191
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4230
 #, php-format
 msgid "Delete User %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4203
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4242
 msgid "Add User/Extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4210
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4572
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4249
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4611
 msgid "Please enter a valid extension number."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4211
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4250
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4212
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4251
 msgid "Please enter valid User Password using numbers only"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4213
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4252
 msgid "Please enter a valid Display Name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4214
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4253
 msgid "Please enter a valid Outbound CID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4215
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4254
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4216
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4255
 msgid ""
 "You have entered a non-standard dialpattern for your DID. You can only enter "
 "standard dialpatterns. You must use the inbound routing form to enter non-"
 "standard patterns"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4217
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4256
 msgid ""
 "Please enter a valid Caller ID Number or leave it blank for your Assigned "
 "DID/CID pair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4224
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4263
 msgid "Edit Extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4224
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4263
 msgid "Add Extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4226
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4265
 msgid "Edit User"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4231
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4270
 msgid "User Extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4231
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4270
 msgid "The extension number to dial to reach this user."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4234
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4273
 msgid "User Password"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4234
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4273
 msgid "A user will enter this password when logging onto a device."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4234
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4587
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4273
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4626
 msgid "logs into a device."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4234
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4587
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4273
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4626
 msgid "logs out of a device."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4238
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4277
 msgid "Display Name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4238
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4277
 msgid ""
 "The caller id name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4240
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4279
 msgid "CID Num Alias"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4240
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4279
 msgid ""
 "The CID Number to use for internal calls, if different from the extension "
 "number. This is used to masquerade as a different user. A common example is "
@@ -2786,35 +2831,35 @@ msgid ""
 "on external calls."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4241
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4280
 msgid "SIP Alias"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4241
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4280
 msgid ""
 "If you want to support direct sip dialing of users internally or through "
 "anonymous sip calls, you can supply a friendly name that can be used in "
 "addition to the users extension to call them."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4246
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4285
 msgid "User Devices"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4257
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4296
 msgid "Edit:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4269
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4590
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4308
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4629
 msgid "Extension Options"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4270
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4309
 msgid "Outbound CID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4270
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4309
 msgid ""
 "Overrides the caller id when dialing out a trunk. Any setting here will "
 "override the common outbound caller id set in the Trunks admin."
@@ -2822,30 +2867,30 @@ msgid ""
 "field blank to disable the outbound callerid feature for this user."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4272
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4311
 msgid "Ring Time"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4272
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4311
 msgid ""
 "Number of seconds to ring prior to going to voicemail. Default will use the "
 "value set in the General Tab. If no voicemail is configured this will be "
 "ignored."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4280
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4319
 msgid "Call Waiting"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4280
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4319
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4281
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4320
 msgid "Call Screening"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4281
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4320
 msgid ""
 "Call Screening requires external callers to say their name, which will be "
 "played back to the user and allow the user to accept or reject the call.  "
@@ -2858,23 +2903,23 @@ msgid ""
 "the caller's CallerId."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4283
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4322
 msgid "Assigned DID/CID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4284
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4323
 msgid "DID Description"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4284
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4323
 msgid "A description for this DID, such as \"Fax\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4285
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4324
 msgid "Add Inbound DID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4285
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4324
 msgid ""
 "A direct DID that is associated with this extension. The DID should be in "
 "the same format as provided by the provider (e.g. full number, 4 digits for "
@@ -2882,11 +2927,11 @@ msgid ""
 "CID can also be associated with this DID by setting the next box"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4286
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4325
 msgid "Add Inbound CID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4286
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4325
 msgid ""
 "Add a CID for more specific DID + CID routing. A DID must be specified in "
 "the above Add DID box. In addition to standard dial sequences, you can also "
@@ -2894,205 +2939,205 @@ msgid ""
 "these special cases if the Telco transmits them."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4294
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4333
 msgid "DID / CID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4314
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4353
 msgid "Recording Options"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4315
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4354
 msgid "Record Incoming"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4315
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4354
 msgid "Record all inbound calls received at this extension."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4316
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4355
 msgid "Record Outgoing"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4316
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4355
 msgid "Record all outbound calls received at this extension."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4334
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4373
 msgid "Warning! Extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4334
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4373
 msgid "is not allowed for your account"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4348
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4387
 msgid "Conflicting Extensions"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4348
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4387
 msgid ""
 "The following extension numbers are in conflict, you can click on the item"
 "(s) below to edit the conflicting entity."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4352
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4391
 msgid "Configure user again:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4352
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4391
 msgid "Configure extension again:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4399
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4438
 msgid "Please enter the dtmfmode for this device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4400
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4439
 msgid "Please enter the channel for this device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4401
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4440
 msgid ""
 "You have not entered a Secret for this device, although this is possible it "
 "is generally bad practice to not assign a Secret to a device. Are you sure "
 "you want to leave the Secret empty?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4402
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4441
 msgid "Please enter a Secret for this device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4469
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4508
 msgid "Generic SIP Device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4470
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4509
 msgid "Generic IAX2 Device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4471
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4510
 msgid "Generic ZAP Device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4472
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4511
 msgid "Other (Custom) Device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4477
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4516
 msgid "Fixed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4478
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4517
 msgid "Adhoc"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4481
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4520
 msgid "none"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4482
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4521
 msgid "New User"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4514
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4553
 msgid "Add Device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4516
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4555
 msgid "Add an Extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4518
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4557
 msgid "Please select your Device below then click Submit"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4532
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4571
 #, php-format
 msgid "Delete Device %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4538
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4577
 #, php-format
 msgid "Edit Default User: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4538
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4577
 #, php-format
 msgid "Edit Fixed User: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4569
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4608
 msgid "Please enter a device id."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4570
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4609
 msgid "Please enter a valid Description for this device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4571
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4610
 msgid "Please enter a valid Emergency CID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4579
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4618
 msgid "Device Info"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4583
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4622
 msgid "Device ID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4583
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4622
 msgid ""
 "Give your device a unique integer ID.  The device will use this ID to "
 "authenticate to the system."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4585
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4624
 msgid ""
 "The caller id name for this device will be set to this description until it "
 "is logged into."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4586
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4591
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4625
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4630
 msgid "Emergency CID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4586
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4591
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4625
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4630
 msgid ""
 "This caller id will always be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other caller id settings."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4587
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4626
 msgid "Device Type"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4587
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4626
 msgid ""
 "Devices can be fixed or adhoc. Fixed devices are always associated to the "
 "same extension/user. Adhoc devices can be logged into and logged out of by "
 "users."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4588
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4627
 msgid "Default User"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4588
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4627
 msgid ""
 "Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
 "to this user by default.<br><br>If selecting 'New User', a new User "
 "Extension of the same Device ID will be set as the Default User."
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4596
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4635
 msgid "Device Options"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4597
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4636
 #, php-format
 msgid "This device uses %s technology."
 msgstr ""
@@ -3427,10 +3472,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:699
 msgid "Enabled; Not available online"
-msgstr ""
-
-#: amp_conf/htdocs/admin/page.modules.php:701
-msgid "Enabled"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:720
