@@ -71,32 +71,34 @@ if(DB::isError($db)) {
 
 // Now send or delete warning wrt to default passwords:
 //
-$nt = notifications::create($db);
+if (!$quietmode) {
+	$nt = notifications::create($db);
 
-if ($amp_conf['AMPDBPASS'] == $amp_conf_defaults['AMPDBPASS'][1]) {
-	$nt->add_warning('core', 'AMPDBPASS', _("Default SQL Password Used"), _("You are using the default SQL password that is widely known, you should set a secure password"));
-} else {
-	$nt->delete('core', 'AMPDBPASS');
-}
-
-// Check and increase php memory_limit if needed and if allowed on the system
-//
-$current_memory_limit = rtrim(ini_get('memory_limit'),'M');
-$proper_memory_limit = '100';
-if ($current_memory_limit < $proper_memory_limit) {
-	if (ini_set('memory_limit',$proper_memory_limit.'M') !== false) {
-		$nt->add_notice('core', 'MEMLIMIT', _("Memory Limit Changed"), sprintf(_("Your memory_limit, %sM, is set too low and has been increased to %sM. You may want to change this in you php.ini config file"),$current_memory_limit,$proper_memory_limit));
+	if ($amp_conf['AMPDBPASS'] == $amp_conf_defaults['AMPDBPASS'][1]) {
+		$nt->add_warning('core', 'AMPDBPASS', _("Default SQL Password Used"), _("You are using the default SQL password that is widely known, you should set a secure password"));
 	} else {
-		$nt->add_warning('core', 'MEMERR', _("Low Memory Limit"), sprintf(_("Your memory_limit, %sM, is set too low and may cause problems. FreePBX is not able to change this on your system. You should increase this to %sM in you php.ini config file"),$current_memory_limit,$proper_memory_limit));
+		$nt->delete('core', 'AMPDBPASS');
 	}
-} else {
-	$nt->delete('core', 'MEMLIMIT');
-}
 
-// send error if magic_quotes_gpc is enabled on this system as much of the code base assumes not
-//
-if(get_magic_quotes_gpc()) {
-	$nt->add_error('core', 'MQGPC', _("Magic Quotes GPC"), _("You have magic_quotes_gpc enabled in your php.ini, http or .htaccess file which will cause errors in some modules. FreePBX expects this to be off and runs under that assumption"));
-} else {
-	$nt->delete('core', 'MQGPC');
+	// Check and increase php memory_limit if needed and if allowed on the system
+	//
+	$current_memory_limit = rtrim(ini_get('memory_limit'),'M');
+	$proper_memory_limit = '100';
+	if ($current_memory_limit < $proper_memory_limit) {
+		if (ini_set('memory_limit',$proper_memory_limit.'M') !== false) {
+			$nt->add_notice('core', 'MEMLIMIT', _("Memory Limit Changed"), sprintf(_("Your memory_limit, %sM, is set too low and has been increased to %sM. You may want to change this in you php.ini config file"),$current_memory_limit,$proper_memory_limit));
+		} else {
+			$nt->add_warning('core', 'MEMERR', _("Low Memory Limit"), sprintf(_("Your memory_limit, %sM, is set too low and may cause problems. FreePBX is not able to change this on your system. You should increase this to %sM in you php.ini config file"),$current_memory_limit,$proper_memory_limit));
+		}
+	} else {
+		$nt->delete('core', 'MEMLIMIT');
+	}
+
+	// send error if magic_quotes_gpc is enabled on this system as much of the code base assumes not
+	//
+	if(get_magic_quotes_gpc()) {
+		$nt->add_error('core', 'MQGPC', _("Magic Quotes GPC"), _("You have magic_quotes_gpc enabled in your php.ini, http or .htaccess file which will cause errors in some modules. FreePBX expects this to be off and runs under that assumption"));
+	} else {
+		$nt->delete('core', 'MQGPC');
+	}
 }

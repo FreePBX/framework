@@ -1182,6 +1182,29 @@ class ext_setlanguage extends extension {
 	}
 }
 
+class ext_mixmonitor extends extension {
+	var $file;
+	var $options;
+	var $postcommand;
+	
+	function ext_mixmonitor($file, $options = "", $postcommand = "") {
+		$this->file = $file;
+		$this->options = $options;
+		$this->postcommand = $postcommand;
+	}
+	
+	function output() {
+		return "MixMonitor(".$this->file.",".$this->options.",".$this->postcommand.")";
+	}
+}
+
+class ext_stopmonitor extends extension {
+	function output() {
+		return "StopMonitor(".$this->data.")";
+	}
+}
+
+
 
 /* example usage
 $ext = new extensions;

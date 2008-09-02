@@ -169,6 +169,45 @@ define("NOTIFICATION_TYPE_ERROR",    400);
 define("NOTIFICATION_TYPE_WARNING" , 500);
 define("NOTIFICATION_TYPE_NOTICE",   600);
 
+class modulelist {
+	var $_loaded = false;
+	var $module_array = array();
+	var $_db;
+
+	function &create(&$db) {
+		static $obj;
+		if (!isset($obj)) {
+			$obj = new modulelist($db);
+		}
+		return $obj;
+	}
+	function modulelist(&$db) {
+		$this->_db =& $db;
+		$module_serialized = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'mod_serialized'","getOne");
+		if (isset($module_serialized) && $module_serialized) {
+			$this->module_array = (unserialize($module_serialized));
+			$this->_loaded = true;
+		}
+	}
+	function is_loaded() {
+		return $this->_loaded;
+	}
+	function initialize(&$module_list) {
+		$this->module_array = $module_list;
+		$module_serialized = $this->_db->escapeSimple(serialize($this->module_array));
+		sql("DELETE FROM `module_xml` WHERE `id` = 'mod_serialized'");
+		sql("INSERT INTO `module_xml` (`id`, `time`, `data`) VALUES ('mod_serialized', '".time()."','".$module_serialized."')");
+		$this->_loaded = true;
+	}
+	function invalidate() {
+		unset($this->module_array);
+		sql("DELETE FROM `module_xml` WHERE `id` = 'mod_serialized'");
+		$this->_loaded = false;
+	}
+}
+
+
+
 class notifications {
 
 	var $not_loaded = true;
@@ -920,7 +959,7 @@ function getAmpAdminUsers() {
 function getAmpUser($username) {
 	global $db;
 	
-	$sql = "SELECT username, password, extension_low, extension_high, deptname, sections FROM ampusers WHERE username = '".addslashes($username)."'";
+	$sql = "SELECT username, password, extension_low, extension_high, deptname, sections FROM ampusers WHERE username = '".$db->escapeSimple($username)."'";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 	   die_freepbx($results->getMessage());
@@ -1027,21 +1066,21 @@ function engine_getinfo() {
 			}
 			
 			if (preg_match('/Asterisk (\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4]);
+				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
 			} elseif (preg_match('/Asterisk SVN-(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4]);
+				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
 			} elseif (preg_match('/Asterisk SVN-branch-(\d+(\.\d+)*)-r(-?(\S*))/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => $matches[1].'.'.$matches[4], 'additional' => $matches[4]);
+				return array('engine'=>'asterisk', 'version' => $matches[1].'.'.$matches[4], 'additional' => $matches[4], 'raw' => $verinfo);
 			} elseif (preg_match('/Asterisk SVN-trunk-r(-?(\S*))/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => '1.6', 'additional' => $matches[1]);
+				return array('engine'=>'asterisk', 'version' => '1.6', 'additional' => $matches[1], 'raw' => $verinfo);
 			} elseif (preg_match('/Asterisk SVN-.+-(\d+(\.\d+)*)-r(-?(\S*))-(.+)/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[3]);
+				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[3], 'raw' => $verinfo);
 			}
 
-			return array('engine'=>'ERROR-UNABLE-TO-CONNECT', 'version'=>'0', 'additional' => '0');
+			return array('engine'=>'ERROR-UNABLE-TO-CONNECT', 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
 		break;
 	}
-	return array('engine'=>'ERROR-UNSUPPORTED-ENGINE-'.$amp_conf['AMPENGINE'], 'version'=>'0', 'additional' => '0');
+	return array('engine'=>'ERROR-UNSUPPORTED-ENGINE-'.$amp_conf['AMPENGINE'], 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
 }
 
 
@@ -1756,7 +1795,7 @@ function drawselects($goto,$i,$show_custom=false) {
 	//delete extension from extensions table
 	function legacy_extensions_del($context,$exten) {
 		global $db;
-		$sql = "DELETE FROM extensions WHERE context = '".addslashes($context)."' AND `extension` = '".addslashes($exten)."'";
+		$sql = "DELETE FROM extensions WHERE context = '".$db->escapeSimple($context)."' AND `extension` = '".$db->escapeSimple($exten)."'";
 		$result = $db->query($sql);
 		if(DB::IsError($result)) {
 			die_freepbx($result->getMessage());
@@ -1768,7 +1807,7 @@ function drawselects($goto,$i,$show_custom=false) {
 	//get args for specified exten and priority - primarily used to grab goto destination
 	function legacy_args_get($exten,$priority,$context) {
 		global $db;
-		$sql = "SELECT args FROM extensions WHERE extension = '".addslashes($exten)."' AND priority = '".addslashes($priority)."' AND context = '".addslashes($context)."'";
+		$sql = "SELECT args FROM extensions WHERE extension = '".$db->escapeSimple($exten)."' AND priority = '".$db->escapeSimple($priority)."' AND context = '".$db->escapeSimple($context)."'";
 		list($args) = $db->getRow($sql);
 		return $args;
 	}
@@ -2112,6 +2151,7 @@ function ampconf_string_replace($string) {
  */
 function module_getonlinexml($module = false, $override_xml = false) { // was getModuleXml()
 	global $amp_conf;
+	global $db;
 	
 	global $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
 	$module_getonlinexml_error = null;
@@ -2122,7 +2162,7 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 	sql('CREATE TABLE IF NOT EXISTS module_xml (time INT NOT NULL , data BLOB NOT NULL) TYPE = MYISAM ;');
 	*/
 	
-	$result = sql('SELECT * FROM module_xml WHERE id = "xml"','getRow',DB_FETCHMODE_ASSOC);
+	$result = sql("SELECT * FROM module_xml WHERE id = 'xml'",'getRow',DB_FETCHMODE_ASSOC);
 	$data = $result['data'];
 	
 	// if the epoch in the db is more than 2 hours old, or the xml is less than 100 bytes, then regrab xml
@@ -2159,14 +2199,14 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		if (!empty($data)) {
 			// Compare the download to our current XML to see if anything changed for the notification system.
 			//
-			$sql = 'SELECT data FROM module_xml WHERE id = "xml"';
+			$sql = "SELECT data FROM module_xml WHERE id = 'xml'";
 			$old_xml = sql($sql, "getOne");
 			$got_new = true;
 			// remove the old xml
-			sql('DELETE FROM module_xml WHERE id = "xml"');
+			sql("DELETE FROM module_xml WHERE id = 'xml'");
 			// update the db with the new xml
-			$data4sql = addslashes($data);
-			sql('INSERT INTO module_xml (id,time,data) VALUES ("xml",'.time().',"'.$data4sql.'")');
+			$data4sql = $db->escapeSimple($data);
+			sql("INSERT INTO module_xml (id,time,data) VALUES ('xml',".time().",'".$data4sql."')");
 		}
 	}
 	
@@ -2304,7 +2344,8 @@ function module_upgrade_notifications(&$new_modules, $passive_value) {
  * @param mixed   (optional) The status(es) to show, using MODULE_STATUS_* constants. Can
  *                either be one value, or an array of values.
  */
-function module_getinfo($module = false, $status = false) {
+function module_getinfo($module = false, $status = false, $forceload = false) {
+
 	global $amp_conf, $db;
 	$modules = array();
 	
@@ -2320,83 +2361,104 @@ function module_getinfo($module = false, $status = false) {
 		// query to get just this one
 		$sql = 'SELECT * FROM modules WHERE modulename = "'.$module.'"';
 	} else {
-		// initialize list with "builtin" module
-		$module_list = array('builtin');
-
-		// read modules dir for module names
-		$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
-		while ($file = readdir($dir)) {
-			if (($file != ".") && ($file != "..") && ($file != "CVS") && 
-			    ($file != ".svn") && ($file != "_cache") && 
-			    is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
-				$module_list[] = $file;
-			}
+		// create the modulelist so it is static and does not need to be recreated
+		// in subsequent calls
+		//
+		$modulelist =& modulelist::create($db);
+		if ($forceload) {
+			$modulelist->invalidate();
 		}
+		if (!$modulelist->is_loaded()) {
+			// initialize list with "builtin" module
+			$module_list = array('builtin');
 
-		// read the xml for each
-		foreach ($module_list as $file) {
-			$xml = _module_readxml($file);
-			if (!is_null($xml)) {
-				$modules[$file] = $xml;
-				// if status is anything else, it will be updated below when we read the db
-				$modules[$file]['status'] = MODULE_STATUS_NOTINSTALLED;
+			// read modules dir for module names
+			$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
+			while ($file = readdir($dir)) {
+				if (($file != ".") && ($file != "..") && ($file != "CVS") && 
+			    	($file != ".svn") && ($file != "_cache") && 
+			    	is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
+					$module_list[] = $file;
+				}
 			}
-		}
-		closedir($dir);
 
-		// query to get everything
-		$sql = 'SELECT * FROM modules';
+			// read the xml for each
+			foreach ($module_list as $file) {
+				$xml = _module_readxml($file);
+				if (!is_null($xml)) {
+					$modules[$file] = $xml;
+					// if status is anything else, it will be updated below when we read the db
+					$modules[$file]['status'] = MODULE_STATUS_NOTINSTALLED;
+				}
+			}
+			closedir($dir);
+
+			// query to get everything
+			$sql = 'SELECT * FROM modules';
+		}
 	}
 	// determine details about this module from database
 	// modulename should match the directory name
 	
-	$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
-	if(DB::IsError($results)) {
-		die_freepbx($results->getMessage());
-	}
-	
-	if (is_array($results)) {
-		foreach($results as $row) {
-			if (isset($modules[ $row['modulename'] ])) {
-				if ($row['enabled'] != 0) {
-					
-					// check if file and registered versions are the same
-					// version_compare returns 0 if no difference
-					if (version_compare_freepbx($row['version'], $modules[ $row['modulename'] ]['version']) == 0) {
-						$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_ENABLED;
-					} else {
-						$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_NEEDUPGRADE;
-					}
-					
-				} else {
-					$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_DISABLED;
-				}
-			} else {
-				// no directory for this db entry
-				$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_BROKEN;
-			}
-			$modules[ $row['modulename'] ]['dbversion'] = $row['version'];
+	if ($module || !$modulelist->is_loaded()) {
+		$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+		if(DB::IsError($results)) {
+			die_freepbx($results->getMessage());
 		}
+	
+		if (is_array($results)) {
+			foreach($results as $row) {
+				if (isset($modules[ $row['modulename'] ])) {
+					if ($row['enabled'] != 0) {
+					
+						// check if file and registered versions are the same
+						// version_compare returns 0 if no difference
+						if (version_compare_freepbx($row['version'], $modules[ $row['modulename'] ]['version']) == 0) {
+							$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_ENABLED;
+						} else {
+							$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_NEEDUPGRADE;
+						}
+					
+					} else {
+						$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_DISABLED;
+					}
+				} else {
+					// no directory for this db entry
+					$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_BROKEN;
+				}
+				$modules[ $row['modulename'] ]['dbversion'] = $row['version'];
+			}
+		}
+
+		// "builtin" module is always enabled
+		$modules['builtin']['status'] = MODULE_STATUS_ENABLED;
+	} 
+	if (!$module && !$modulelist->is_loaded()) {
+		$modulelist->initialize($modules);
 	}
 
-	// "builtin" module is always enabled
-	$modules['builtin']['status'] = MODULE_STATUS_ENABLED;
-	
-	if ($status !== false) {
+	if ($status === false) {
+		if (!$module) {
+			return $modulelist->module_array;
+		} else {
+			return $modules;
+		}
+	} else {
+		if (!$module) {
+			$modules =  $modulelist->module_array;
+		}
 		if (!is_array($status)) {
 			// make a one element array so we can use in_array below
 			$status = array($status);
 		}
-		
 		foreach (array_keys($modules) as $name) {
 			if (!in_array($modules[$name]['status'], $status)) {
 				// not found in the $status array, remove it
 				unset($modules[$name]);
 			}
 		}
+		return $modules;
 	}
-	
-	return $modules;
 }
 
 /** Check if a module meets dependencies. 
@@ -2984,16 +3046,16 @@ function module_install($modulename, $force = false) {
 				$results = $db->getRow($sql);
 				$new_id = $results[0];
 				$new_id ++;
-				$sql = "INSERT INTO modules (id,modulename, version,enabled) values ('".$new_id."','".addslashes($modules[$modulename]['rawname'])."','".addslashes($modules[$modulename]['version'])."','0' );";
+				$sql = "INSERT INTO modules (id,modulename, version,enabled) values ('".$new_id."','".$db->escapeSimple($modules[$modulename]['rawname'])."','".$db->escapeSimple($modules[$modulename]['version'])."','0' );";
 				break;
 			
 			default:
-				$sql = "INSERT INTO modules (modulename, version, enabled) values ('".addslashes($modules[$modulename]['rawname'])."','".addslashes($modules[$modulename]['version'])."', 1);";
+				$sql = "INSERT INTO modules (modulename, version, enabled) values ('".$db->escapeSimple($modules[$modulename]['rawname'])."','".$db->escapeSimple($modules[$modulename]['version'])."', 1);";
 			break;
 		}
 	} else {
 		// just need to update the version
-		$sql = "UPDATE modules SET version='".addslashes($modules[$modulename]['version'])."' WHERE modulename = '".addslashes($modules[$modulename]['rawname'])."'";
+		$sql = "UPDATE modules SET version='".$db->escapeSimple($modules[$modulename]['version'])."' WHERE modulename = '".$db->escapeSimple($modules[$modulename]['rawname'])."'";
 	}
 	
 	// run query
@@ -3002,7 +3064,9 @@ function module_install($modulename, $force = false) {
 		return array(sprintf(_("Error updating database. Command was: %s; error was: %s "), $sql, $results->getMessage()));
 	}
 	
-	// module is now installed & enabled
+	// module is now installed & enabled, invalidate the modulelist class since it is now stale
+	$modulelist =& modulelist::create($db);
+	$modulelist->invalidate();
 
 	// edit the notification table to list any remaining upgrades available or clear
 	// it if none are left. It requres a copy of the most recent module_xml to compare
@@ -3072,7 +3136,7 @@ function module_uninstall($modulename, $force = false) {
 		}
 	}
 	
-	$sql = "DELETE FROM modules WHERE modulename = '".addslashes($modulename)."'";
+	$sql = "DELETE FROM modules WHERE modulename = '".$db->escapeSimple($modulename)."'";
 	$results = $db->query($sql);
 	if(DB::IsError($results)) {
 		return array(_("Error updating database: ").$results->getMessage());
@@ -3127,11 +3191,13 @@ function module_delete($modulename, $force = false) {
 /** Internal use only */
 function _module_setenabled($modulename, $enabled) {
 	global $db;
-	$sql = 'UPDATE modules SET enabled = '.($enabled ? '1' : '0').' WHERE modulename = "'.addslashes($modulename).'"';
+	$sql = 'UPDATE modules SET enabled = '.($enabled ? '1' : '0').' WHERE modulename = "'.$db->escapeSimple($modulename).'"';
 	$results = $db->query($sql);
 	if(DB::IsError($results)) {
 		die_freepbx($results->getMessage());
 	}
+	$modulelist =& modulelist::create($db);
+	$modulelist->invalidate();
 }
 
 function _module_readxml($modulename) {
@@ -3236,7 +3302,7 @@ function modules_getversion($modname) {
 function _modules_getversion($modname) {
 	global $db;
 
-	$sql = "SELECT version FROM modules WHERE modulename = '".addslashes($modname)."'";
+	$sql = "SELECT version FROM modules WHERE modulename = '".$db->escapeSimple($modname)."'";
 	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
 	if (isset($results['version'])) 
 		return $results['version'];
@@ -3322,6 +3388,7 @@ function _modules_doinclude($filename, $modulename) {
 	The uniqueid used is completely anonymous and not trackable.
 */
 function module_get_annoucements() {
+	global $db;
 	$firstinstall=false;
 	$type=null;
 
@@ -3340,10 +3407,10 @@ function module_get_annoucements() {
 
 		// save the hash so we remeber this is a first time install
 		//
-		$data4sql = addslashes($installid);
-		sql('INSERT INTO module_xml (id,time,data) VALUES ("installid",'.time().',"'.$data4sql.'")');
-		$data4sql = addslashes($type);
-		sql('INSERT INTO module_xml (id,time,data) VALUES ("type",'.time().',"'.$data4sql.'")');
+		$data4sql = $db->escapeSimple($installid);
+		sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
+		$data4sql = $db->escapeSimple($type);
+		sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
 
 	// Not a first time so save the queried hash and check if there is a type set
 	//

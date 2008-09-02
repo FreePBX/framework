@@ -135,7 +135,7 @@ function showHelp() {
 }
 
 function showList($online = false) {
-	$modules_local = module_getinfo();
+	$modules_local = module_getinfo(false,false,true);
 	$modules = $modules_local;
 	if ($online) {
 		$modules_online = module_getonlinexml();

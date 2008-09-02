@@ -97,6 +97,8 @@ function getDirectories($path,$filter) {
  *   files found
  */
 function getFiles($path,$filter,$recursive_max,$recursive_count) {
+	global $SETTINGS_MAX_FILES;
+	$SETTINGS_MAX_FILES = isset($SETTINGS_MAX_FILES) ? $SETTINGS_MAX_FILES : 3000;
 
   $files = array();
 
@@ -109,7 +111,7 @@ function getFiles($path,$filter,$recursive_max,$recursive_count) {
         $msg_path = appendPath($path,$item);
 
         $fileCount++;
-        if ($fileCount>3000) {
+        if ($fileCount>$SETTINGS_MAX_FILES) {
           $_SESSION['ari_error'] 
             .= _("To many files in $msg_path Not all files processed") . "<br>";
           return;

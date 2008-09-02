@@ -325,6 +325,10 @@ $SETTINGS_ALLOW_CALL_RECORDING_SET = 1;
 
 $SETTINGS_ALLOW_PHONE_SETTINGS = 1;
 
-
+#
+# Maximum number of sound files that will be read before an error is generated indicating issues since
+# too many files can be create problems but on some systems this may need to be increased.
+#
+$SETTINGS_MAX_FILES=3000;
 
 ?>

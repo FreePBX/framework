@@ -22,6 +22,12 @@ $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
 $skip = isset($_REQUEST['skip'])?$_REQUEST['skip']:0;
 $action = isset($_REQUEST['action'])?$_REQUEST['action']:null;
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
+if (isset($_REQUEST['restrictmods'])) {
+	$restrict_mods = explode('/',$_REQUEST['restrictmods']);
+	$restrict_mods = array_flip($restrict_mods);
+} else {
+	$restrict_mods = false;
+}
 
 // determine module type to show, default to 'setup'
 $type_names = array(
@@ -95,8 +101,9 @@ if (isset($_REQUEST['handler'])) {
 	exit();
 }
 
-
-module_run_notification_checks();
+if (!$quietmode) {
+	module_run_notification_checks();
+}
 
 $framework_asterisk_running =  checkAstMan();
 
@@ -115,13 +122,13 @@ $types = array();
 if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
 		//include module functions
-		if (is_file("modules/{$key}/functions.inc.php")) {
+		if ((!$restrict_mods || isset($restrict_mods[$key])) && is_file("modules/{$key}/functions.inc.php")) {
 			require_once("modules/{$key}/functions.inc.php");
 		}
 		
 		//create an array of module sections to display
 		// stored as [items][$type][$category][$name] = $displayvalue
-		if (isset($module['items']) && is_array($module['items'])) {
+		if (!$quitemode && isset($module['items']) && is_array($module['items'])) {
 			// loop through the types
 			foreach($module['items'] as $itemKey => $item) {
 
@@ -174,8 +181,9 @@ if(is_array($active_modules)){
 sort($types);
 
 // new gui hooks
-if(is_array($active_modules)){
+if(!$quietmode && is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
+
 		if (isset($module['items']) && is_array($module['items'])) {
 			foreach($module['items'] as $itemKey => $itemName) {
 				//list of potential _configpageinit functions
@@ -194,11 +202,13 @@ if(is_array($active_modules)){
 }
 
 // extensions vs device/users ... this is a bad design, but hey, it works
-if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
-	unset($fpbx_menu["extensions"]);
-} else {
-	unset($fpbx_menu["devices"]);
-	unset($fpbx_menu["users"]);
+if (!$quietmode) {
+	if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
+		unset($fpbx_menu["extensions"]);
+	} else {
+		unset($fpbx_menu["devices"]);
+		unset($fpbx_menu["users"]);
+	}
 }
 
 // check access

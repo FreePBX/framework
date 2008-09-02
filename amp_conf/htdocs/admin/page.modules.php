@@ -156,7 +156,7 @@ if (!$quietmode) {
 }
 
 
-$modules_local = module_getinfo();
+$modules_local = module_getinfo(false,false,true);
 
 if ($online) {
 	$modules_online = module_getonlinexml(false);

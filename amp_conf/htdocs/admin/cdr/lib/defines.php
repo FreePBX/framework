@@ -15,7 +15,9 @@ function parse_amportal_conf($filename) {
 $amp_conf = parse_amportal_conf("/etc/amportal.conf");
 
 
-define ("WEBROOT", "http://".$amp_conf["AMPWEBADDRESS"]."/admin/cdr/");
+if (isset($amp_conf["AMPWEBADDRESS"])) {
+	define ("WEBROOT", "http://".$amp_conf["AMPWEBADDRESS"]."/admin/cdr/");
+}
 define ("FSROOT", $amp_conf["AMPWEBROOT"]."/admin/cdr/");
 
 

@@ -1,4 +1,5 @@
 2.5.0 Added in rc2
+
 - Add queue weights setting and autfill setting per queue. Set persistentmember=yes
   in queues general section to apply to all queues.
 
@@ -91,6 +92,14 @@
  CDRDBNAME: name of database used for cdr records
  CDRDBTYPE: mysql or postgres mysql is default
  CDRDBTABLENAME: Name of the table in the db where the cdr is stored cdr is default 
+
+ DASHBOARD_STATS_UPDATE_TIME=integer_seconds
+ DEFAULT VALUE: 6
+ DASHBOARD_INFO_UPDATE_TIME=integer_seconds
+ DEFAULT VALUE: 20
+ These can be used to change the refresh rate of the System Status Panel. Most of
+ the stats are updated based on the STATS interval but a few items are checked
+ less frequently (such as Astersisk Uptime) based on the INFO value
 
 
  HIGHLIGHTS:
