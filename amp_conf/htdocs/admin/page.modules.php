@@ -803,7 +803,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			if (isset($modules[$name]['info']) && !empty($modules[$name]['info'])) {
 				echo '<p>'._('More info').': <a href="'.$modules[$name]['info'].'" target="_new">'.$modules[$name]['info'].'</a></p>';
 			} else {
-				echo '<p>'._('More info').': <a href="'."$freepbx_help_url&freepbx_module=".urlencode($name).'" target="help">Get help for '.$modules[$name]['name'].'</a></p>';
+				echo '<p>'._('More info').': <a href="'."$freepbx_help_url&freepbx_module=".urlencode($name).'" target="help">'._("Get help for ").$modules[$name]['name'].'</a></p>';
 			}
 			echo "\t\t\t\t</div>\n";
 			
