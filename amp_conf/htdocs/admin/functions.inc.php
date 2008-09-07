@@ -20,155 +20,6 @@ define('MODULE_STATUS_ENABLED', 2);
 define('MODULE_STATUS_NEEDUPGRADE', 3);
 define('MODULE_STATUS_BROKEN', -1);
 
-$amp_conf_defaults = array(
-	'AMPDBENGINE'    => array('std' , 'mysql'),
-	'AMPDBNAME'      => array('std' , 'asterisk'),
-	'AMPENGINE'      => array('std' , 'asterisk'),
-	'ASTMANAGERPORT' => array('std' , '5038'),
-	'AMPDBHOST'      => array('std' , 'localhost'),
-	'AMPDBUSER'      => array('std' , 'asteriskuser'),
-	'AMPDBPASS'      => array('std' , 'amp109'),
-	'AMPMGRUSER'     => array('std' , 'admin'),
-	'AMPMGRPASS'     => array('std' , 'amp111'),
-	'FOPPASSWORD'    => array('std' , 'passw0rd'),
-	'FOPSORT'        => array('std' , 'extension'),
-	'AMPSYSLOGLEVEL '=> array('std' , 'LOG_ERR'),
-
-	'ASTETCDIR'      => array('dir' , '/etc/asterisk'),
-	'ASTMODDIR'      => array('dir' , '/usr/lib/asterisk/modules'),
-	'ASTVARLIBDIR'   => array('dir' , '/var/lib/asterisk'),
-	'ASTAGIDIR'      => array('dir' , '/var/lib/asterisk/agi-bin'),
-	'ASTSPOOLDIR'    => array('dir' , '/var/spool/asterisk/'),
-	'ASTRUNDIR'      => array('dir' , '/var/run/asterisk'),
-	'ASTLOGDIR'      => array('dir' , '/var/log/asterisk'),
-	'AMPBIN'         => array('dir' , '/var/lib/asterisk/bin'),
-	'AMPSBIN'        => array('dir' , '/usr/sbin'),
-	'AMPWEBROOT'     => array('dir' , '/var/www/html'),
-	'FOPWEBROOT'     => array('dir' , '/var/www/html/panel'),
-
-	'USECATEGORIES'  => array('bool' , true),
-	'ENABLECW'       => array('bool' , true),
-	'CWINUSEBUSY'    => array('bool' , true),
-	'FOPRUN'         => array('bool' , true),
-	'AMPBADNUMBER'   => array('bool' , true),
-	'DEVEL'          => array('bool' , false),
-	'DEVELRELOAD'    => array('bool' , false),
-	'CUSTOMASERROR'  => array('bool' , true),
-	'DYNAMICHINTS'   => array('bool' , false),
-	'BADDESTABORT'   => array('bool' , false),
-	'SERVERINTITLE'  => array('bool' , false),
-	'XTNCONFLICTABORT' => array('bool' , false),
-	'USEDEVSTATE'    => array('bool' , false),
-	'MODULEADMINWGET'=> array('bool' , false),
-	'AMPDISABLELOG'  => array('bool' , true),
-	'AMPENABLEDEVELDEBUG'=> array('bool' , false),
-	'AMPMPG123'      => array('bool' , true),
-);
-
-function parse_amportal_conf($filename) {
-	global $amp_conf_defaults;
-
-	/* defaults
-	 * This defines defaults and formating to assure consistency across the system so that
-	 * components don't have to keep being 'gun shy' about these variables.
-	 * 
-
-	 */
-	$file = file($filename);
-	if (is_array($file)) {
-		foreach ($file as $line) {
-			if (preg_match("/^\s*([a-zA-Z0-9_]+)=([a-zA-Z0-9 .&-@=_<>\"\']+)\s*$/",$line,$matches)) {
-				$conf[ $matches[1] ] = $matches[2];
-			}
-		}
-	} else {
-		die_freepbx("<h1>".sprintf(_("Missing or unreadable config file (%s)...cannot continue"), $filename)."</h1>");
-	}
-	
-	// set defaults
-	foreach ($amp_conf_defaults as $key=>$arr) {
-
-		switch ($arr[0]) {
-			// for type dir, make sure there is no trailing '/' to keep consistent everwhere
-			//
-			case 'dir':
-				if (!isset($conf[$key]) || trim($conf[$key]) == '') {
-					$conf[$key] = $arr[1];
-				} else {
-					$conf[$key] = rtrim($conf[$key],'/');
-				}
-				break;
-			// booleans:
-			// "yes", "true", "on", true, 1 (case-insensitive) will be treated as true, everything else is false
-			//
-			case 'bool':
-				if (!isset($conf[$key])) {
-					$conf[$key] = $arr[1];
-				} else {
-					$conf[$key] = ($conf[$key] === true || strtolower($conf[$key]) == 'true' || $conf[$key] === 1 || $conf[$key] == '1' 
-					                                    || strtolower($conf[$key]) == 'yes' ||  strtolower($conf[$key]) == 'on');
-				}
-				break;
-			default:
-				if (!isset($conf[$key])) {
-					$conf[$key] = $arr[1];
-				} else {
-					$conf[$key] = trim($conf[$key]);
-				}
-		}
-	}
-
-/*			
-  TODO: what was this, should the comment be removed?
-
-	if (($amp_conf["AMPDBENGINE"] == "sqlite") && (!isset($amp_conf["AMPDBENGINE"])))
-		$amp_conf["AMPDBFILE"] = "/var/lib/freepbx/freepbx.sqlite";
-*/
-
-	return $conf;
-}
-
-function parse_asterisk_conf($filename) {
-	//TODO: Should the correction of $amp_conf be passed by refernce and optional?
-	//
-	global $amp_conf;
-		
-	$convert = array(
-		'astetcdir'    => 'ASTETCDIR',
-		'astmoddir'    => 'ASTMODDIR',
-		'astvarlibdir' => 'ASTVARLIBDIR',
-		'astagidir'    => 'ASTAGIDIR',
-		'astspooldir'  => 'ASTSPOOLDIR',
-		'astrundir'    => 'ASTRUNDIR',
-		'astlogdir'    => 'ASTLOGDIR'
-	);
-
-	$file = file($filename);
-	foreach ($file as $line) {
-		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
-			$conf[ $matches[1] ] = rtrim($matches[2],"/ \t");
-		}
-	}
-
-	// Now that we parsed asterisk.conf, we need to make sure $amp_conf is consistent
-	// so just set it to what we found, since this is what asterisk will use anyhow.
-	//
-	foreach ($convert as $ast_conf_key => $amp_conf_key) {
-		if (isset($conf[$ast_conf_key])) {
-			$amp_conf[$amp_conf_key] = $conf[$ast_conf_key];
-		}
-	}
-	return $conf;
-}
-
-
-define("NOTIFICATION_TYPE_CRITICAL", 100);
-define("NOTIFICATION_TYPE_SECURITY", 200);
-define("NOTIFICATION_TYPE_UPDATE",  300);
-define("NOTIFICATION_TYPE_ERROR",    400);
-define("NOTIFICATION_TYPE_WARNING" , 500);
-define("NOTIFICATION_TYPE_NOTICE",   600);
-
 class modulelist {
 	var $_loaded = false;
 	var $module_array = array();
@@ -206,7 +57,12 @@ class modulelist {
 	}
 }
 
-
+define("NOTIFICATION_TYPE_CRITICAL", 100);
+define("NOTIFICATION_TYPE_SECURITY", 200);
+define("NOTIFICATION_TYPE_UPDATE",  300);
+define("NOTIFICATION_TYPE_ERROR",    400);
+define("NOTIFICATION_TYPE_WARNING" , 500);
+define("NOTIFICATION_TYPE_NOTICE",   600);
 
 class notifications {
 
@@ -541,6 +397,425 @@ class cronmanager {
 			$nt->add_error('cron_manager', 'EXECFAIL', $text, $extext, '', true, true);
 		}
 	}
+}
+
+class ampuser {
+	var $username;
+	var $_password;
+	var $_extension_high;
+	var $_extension_low;
+	var $_deptname;
+	var $_sections;
+	
+	function ampuser($username) {
+		$this->username = $username;
+		if ($user = getAmpUser($username)) {
+			$this->_password = $user["password"];
+			$this->_extension_high = $user["extension_high"];
+			$this->_extension_low = $user["extension_low"];
+			$this->_deptname = $user["deptname"];
+			$this->_sections = $user["sections"];
+		} else {
+			// user doesn't exist
+			$this->_password = false;
+			$this->_extension_high = "";
+			$this->_extension_low = "";
+			$this->_deptname = "";
+			$this->_sections = array();
+		}
+	}
+	
+	/** Give this user full admin access
+	*/
+	function setAdmin() {
+		$this->_extension_high = "";
+		$this->_extension_low = "";
+		$this->_deptname = "";
+		$this->_sections = array("*");
+	}
+	
+	function checkPassword($password) {
+		// strict checking so false will never match
+		return ($this->_password === $password);
+	}
+	
+	function checkSection($section) {
+		// if they have * then it means all sections
+		return in_array("*", $this->_sections) || in_array($section, $this->_sections);
+	}
+}
+
+/* Usage
+Grab some XML data, either from a file, URL, etc. however you want. Assume storage in $strYourXML;
+
+$xml = new xml2Array($strYourXML);
+xml array is in $xml->data;
+	This is basically an array version of the XML data (no attributes), striaght-up. If there are
+	multiple items with the same name, they are split into a numeric sub-array, 
+	eg, <items><item test="123">foo</item><item>bar</item></items>
+	becomes: array('item' => array(0=>array('item'=>'foo'), 1=>array('item'=>'foo'))
+attributes are in $xml->attributes;
+	These are stored with xpath type paths, as $xml->attributes['/items/item/0']["test"] == "123"
+	
+
+Other way (still works, but not as nice):
+
+$objXML = new xml2Array();
+$arrOutput = $objXML->parse($strYourXML);
+print_r($arrOutput); //print it out, or do whatever!
+
+*/
+
+class xml2Array {
+	var $arrOutput = array();
+	var $resParser;
+	var $strXmlData;
+	
+	var $attributes;
+	var $data;
+	
+	function xml2Array($strInputXML = false) {
+		if (!empty($strInputXML)) {
+			$this->data = $this->parseAdvanced($strInputXML);
+		}
+	}
+	
+	function parse($strInputXML) {
+	
+			$this->resParser = xml_parser_create ();
+			xml_set_object($this->resParser,$this);
+			xml_set_element_handler($this->resParser, "tagOpen", "tagClosed");
+			
+			xml_set_character_data_handler($this->resParser, "tagData");
+		
+			$this->strXmlData = xml_parse($this->resParser,$strInputXML );
+			if(!$this->strXmlData) {
+				die_freepbx(sprintf("XML error: %s at line %d",
+			xml_error_string(xml_get_error_code($this->resParser)),
+			xml_get_current_line_number($this->resParser)));
+			}
+							
+			xml_parser_free($this->resParser);
+			
+			return $this->arrOutput;
+	}
+	function tagOpen($parser, $name, $attrs) {
+		$tag=array("name"=>$name,"attrs"=>$attrs); 
+		@array_push($this->arrOutput,$tag);
+	}
+	
+	function tagData($parser, $tagData) {
+		if(trim($tagData)) {
+			if(isset($this->arrOutput[count($this->arrOutput)-1]['tagData'])) {
+				$this->arrOutput[count($this->arrOutput)-1]['tagData'] .= "\n".$tagData;
+			} 
+			else {
+				$this->arrOutput[count($this->arrOutput)-1]['tagData'] = $tagData;
+			}
+		}
+	}
+	
+	function tagClosed($parser, $name) {
+		@$this->arrOutput[count($this->arrOutput)-2]['children'][] = $this->arrOutput[count($this->arrOutput)-1];
+		array_pop($this->arrOutput);
+	}
+	
+	function recursive_parseLevel($items, &$attrs, $path = "") {
+		$array = array();
+		foreach (array_keys($items) as $idx) {
+			@$items[$idx]['name'] = strtolower($items[$idx]['name']);
+			
+			$multi = false;
+			if (isset($array[ $items[$idx]['name'] ])) {
+				// this child is already set, so we're adding multiple items to an array 
+				
+				if (!is_array($array[ $items[$idx]['name'] ]) || !isset($array[ $items[$idx]['name'] ][0])) {
+					// hasn't already been made into a numerically-indexed array, so do that now
+					// we're basically moving the current contents of this item into a 1-item array (at the 
+					// original location) so that we can add a second item in the code below
+					$array[ $items[$idx]['name'] ] = array( $array[ $items[$idx]['name'] ] );
+
+					if (isset($attrs[ $path.'/'.$items[$idx]['name'] ])) {
+						// move the attributes to /0
+						$attrs[ $path.'/'.$items[$idx]['name'].'/0' ] = $attrs[ $path.'/'.$items[$idx]['name'] ];
+						unset($attrs[ $path.'/'.$items[$idx]['name'] ]);
+					}
+				}
+				$multi = true;
+			}
+			
+			if ($multi) {	
+				$newitem = &$array[ $items[$idx]['name'] ][];
+			} else {
+				$newitem = &$array[ $items[$idx]['name'] ];
+			}
+			
+			
+			if (isset($items[$idx]['children']) && is_array($items[$idx]['children'])) {
+				$newitem = $this->recursive_parseLevel($items[$idx]['children'], $attrs, $path.'/'.$items[$idx]['name']);
+			} else if (isset($items[$idx]['tagData'])) {
+				$newitem = $items[$idx]['tagData'];
+			} else {
+				$newitem = false;
+			}
+			
+			if (isset($items[$idx]['attrs']) && is_array($items[$idx]['attrs']) && count($items[$idx]['attrs'])) {
+				$attrpath = $path.'/'.$items[$idx]['name'];
+				if ($multi) {
+					$attrpath .= '/'.(count($array[ $items[$idx]['name'] ])-1);
+				}
+				foreach ($items[$idx]['attrs'] as $name=>$value) {
+					$attrs[ $attrpath ][ strtolower($name) ] = $value;
+				}
+			}
+		}
+		return $array;
+	}
+	
+	function parseAdvanced($strInputXML) {
+		$array = $this->parse($strInputXML);
+		$this->attributes = array();
+		return $this->data = $this->recursive_parseLevel($array, $this->attributes);
+	}
+}
+
+/*
+	Return a much more manageable assoc array with module data.
+*/
+class xml2ModuleArray extends xml2Array {
+	function parseModulesXML($strInputXML) {
+		$array = $this->parseAdvanced($strInputXML);
+		if (isset($array['xml'])) {
+			foreach ($array['xml'] as $key=>$module) {
+				if ($key == 'module') {
+					// copy the structure verbatim
+					$modules[ $module['name'] ] = $module;
+				}
+			}
+		}
+		
+		// if you are confused about what's happening below, uncomment this why we do it
+		// echo "<pre>"; print_r($arrOutput); echo "</pre>";
+		
+		// ignore the regular xml garbage ([0]['children']) & loop through each module
+		if(!is_array($arrOutput[0]['children'])) return false;
+		foreach($arrOutput[0]['children'] as $module) {
+			if(!is_array($module['children'])) return false;
+			// loop through each modules's tags
+			foreach($module['children'] as $modTags) {
+					if(isset($modTags['children']) && is_array($modTags['children'])) {
+						$$modTags['name'] = $modTags['children'];
+						// loop if there are children (menuitems and requirements)
+						foreach($modTags['children'] as $subTag) {
+							$subTags[strtolower($subTag['name'])] = $subTag['tagData'];
+						}
+						$$modTags['name'] = $subTags;
+						unset($subTags);
+					} else {
+						// create a variable for each tag we find
+						$$modTags['name'] = $modTags['tagData'];
+					}
+
+			}
+			// now build our return array
+			$arrModules[$RAWNAME]['rawname'] = $RAWNAME;    // This has to be set
+			$arrModules[$RAWNAME]['displayName'] = $NAME;    // This has to be set
+			$arrModules[$RAWNAME]['version'] = $VERSION;     // This has to be set
+			$arrModules[$RAWNAME]['type'] = isset($TYPE)?$TYPE:'setup';
+			$arrModules[$RAWNAME]['category'] = isset($CATEGORY)?$CATEGORY:'Unknown';
+			$arrModules[$RAWNAME]['info'] = isset($INFO)?$INFO:'http://www.freepbx.org/wiki/'.$RAWNAME;
+			$arrModules[$RAWNAME]['location'] = isset($LOCATION)?$LOCATION:'local';
+			$arrModules[$RAWNAME]['items'] = isset($MENUITEMS)?$MENUITEMS:null;
+			$arrModules[$RAWNAME]['requirements'] = isset($REQUIREMENTS)?$REQUIREMENTS:null;
+			$arrModules[$RAWNAME]['md5sum'] = isset($MD5SUM)?$MD5SUM:null;
+			//print_r($arrModules);
+			//unset our variables
+			unset($NAME);
+			unset($VERSION);
+			unset($TYPE);
+			unset($CATEGORY);
+			unset($AUTHOR);
+			unset($EMAIL);
+			unset($LOCATION);
+			unset($MENUITEMS);
+			unset($REQUIREMENTS);
+			unset($MD5SUM);
+		}
+		//echo "<pre>"; print_r($arrModules); echo "</pre>";
+
+		return $arrModules;
+	}
+}
+
+class moduleHook {
+	var $hookHtml = '';
+	var $arrHooks = array();
+	
+	function install_hooks($viewing_itemid,$target_module,$target_menuid = '') {
+		global $active_modules;
+		// loop through all active modules
+		foreach($active_modules as $this_module) {
+				// look for requested hooks for $module
+				// ie: findme_hook_extensions()
+				$funct = $this_module['rawname'] . '_hook_' . $target_module;
+				if( function_exists( $funct ) ) {
+					// execute the function, appending the 
+					// html output to that of other hooking modules
+					if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
+						$this->hookHtml .= $hookReturn;
+					}
+					// remember who installed hooks
+					// we need to know this for processing form vars
+					$this->arrHooks[] = $this_module['rawname'];
+				}
+		}
+	}
+	
+	// process the request from the module we hooked
+	function process_hooks($viewing_itemid, $target_module, $target_menuid, $request) {
+		if(is_array($this->arrHooks)) {
+			foreach($this->arrHooks as $hookingMod) {
+				// check if there is a processing function
+				$funct = $hookingMod . '_hookProcess_' . $target_module;
+				if( function_exists( $funct ) ) {
+					$funct($viewing_itemid, $request);
+				}
+			}
+		}
+	}
+}
+
+$amp_conf_defaults = array(
+	'AMPDBENGINE'    => array('std' , 'mysql'),
+	'AMPDBNAME'      => array('std' , 'asterisk'),
+	'AMPENGINE'      => array('std' , 'asterisk'),
+	'ASTMANAGERPORT' => array('std' , '5038'),
+	'AMPDBHOST'      => array('std' , 'localhost'),
+	'AMPDBUSER'      => array('std' , 'asteriskuser'),
+	'AMPDBPASS'      => array('std' , 'amp109'),
+	'AMPMGRUSER'     => array('std' , 'admin'),
+	'AMPMGRPASS'     => array('std' , 'amp111'),
+	'FOPPASSWORD'    => array('std' , 'passw0rd'),
+	'FOPSORT'        => array('std' , 'extension'),
+	'AMPSYSLOGLEVEL '=> array('std' , 'LOG_ERR'),
+
+	'ASTETCDIR'      => array('dir' , '/etc/asterisk'),
+	'ASTMODDIR'      => array('dir' , '/usr/lib/asterisk/modules'),
+	'ASTVARLIBDIR'   => array('dir' , '/var/lib/asterisk'),
+	'ASTAGIDIR'      => array('dir' , '/var/lib/asterisk/agi-bin'),
+	'ASTSPOOLDIR'    => array('dir' , '/var/spool/asterisk/'),
+	'ASTRUNDIR'      => array('dir' , '/var/run/asterisk'),
+	'ASTLOGDIR'      => array('dir' , '/var/log/asterisk'),
+	'AMPBIN'         => array('dir' , '/var/lib/asterisk/bin'),
+	'AMPSBIN'        => array('dir' , '/usr/sbin'),
+	'AMPWEBROOT'     => array('dir' , '/var/www/html'),
+	'FOPWEBROOT'     => array('dir' , '/var/www/html/panel'),
+
+	'USECATEGORIES'  => array('bool' , true),
+	'ENABLECW'       => array('bool' , true),
+	'CWINUSEBUSY'    => array('bool' , true),
+	'FOPRUN'         => array('bool' , true),
+	'AMPBADNUMBER'   => array('bool' , true),
+	'DEVEL'          => array('bool' , false),
+	'DEVELRELOAD'    => array('bool' , false),
+	'CUSTOMASERROR'  => array('bool' , true),
+	'DYNAMICHINTS'   => array('bool' , false),
+	'BADDESTABORT'   => array('bool' , false),
+	'SERVERINTITLE'  => array('bool' , false),
+	'XTNCONFLICTABORT' => array('bool' , false),
+	'USEDEVSTATE'    => array('bool' , false),
+	'MODULEADMINWGET'=> array('bool' , false),
+	'AMPDISABLELOG'  => array('bool' , true),
+	'AMPENABLEDEVELDEBUG'=> array('bool' , false),
+	'AMPMPG123'      => array('bool' , true),
+	'ZAP2DAHDICOMPAT' => array('bool' , false),
+);
+
+function parse_amportal_conf($filename) {
+	global $amp_conf_defaults;
+
+	/* defaults
+	 * This defines defaults and formating to assure consistency across the system so that
+	 * components don't have to keep being 'gun shy' about these variables.
+	 * 
+	 */
+	$file = file($filename);
+	if (is_array($file)) {
+		foreach ($file as $line) {
+			if (preg_match("/^\s*([a-zA-Z0-9_]+)=([a-zA-Z0-9 .&-@=_<>\"\']+)\s*$/",$line,$matches)) {
+				$conf[ $matches[1] ] = $matches[2];
+			}
+		}
+	} else {
+		die_freepbx("<h1>".sprintf(_("Missing or unreadable config file (%s)...cannot continue"), $filename)."</h1>");
+	}
+	
+	// set defaults
+	foreach ($amp_conf_defaults as $key=>$arr) {
+
+		switch ($arr[0]) {
+			// for type dir, make sure there is no trailing '/' to keep consistent everwhere
+			//
+			case 'dir':
+				if (!isset($conf[$key]) || trim($conf[$key]) == '') {
+					$conf[$key] = $arr[1];
+				} else {
+					$conf[$key] = rtrim($conf[$key],'/');
+				}
+				break;
+			// booleans:
+			// "yes", "true", "on", true, 1 (case-insensitive) will be treated as true, everything else is false
+			//
+			case 'bool':
+				if (!isset($conf[$key])) {
+					$conf[$key] = $arr[1];
+				} else {
+					$conf[$key] = ($conf[$key] === true || strtolower($conf[$key]) == 'true' || $conf[$key] === 1 || $conf[$key] == '1' 
+					                                    || strtolower($conf[$key]) == 'yes' ||  strtolower($conf[$key]) == 'on');
+				}
+				break;
+			default:
+				if (!isset($conf[$key])) {
+					$conf[$key] = $arr[1];
+				} else {
+					$conf[$key] = trim($conf[$key]);
+				}
+		}
+	}
+	return $conf;
+}
+
+function parse_asterisk_conf($filename) {
+	//TODO: Should the correction of $amp_conf be passed by refernce and optional?
+	//
+	global $amp_conf;
+		
+	$convert = array(
+		'astetcdir'    => 'ASTETCDIR',
+		'astmoddir'    => 'ASTMODDIR',
+		'astvarlibdir' => 'ASTVARLIBDIR',
+		'astagidir'    => 'ASTAGIDIR',
+		'astspooldir'  => 'ASTSPOOLDIR',
+		'astrundir'    => 'ASTRUNDIR',
+		'astlogdir'    => 'ASTLOGDIR'
+	);
+
+	$file = file($filename);
+	foreach ($file as $line) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+			$conf[ $matches[1] ] = rtrim($matches[2],"/ \t");
+		}
+	}
+
+	// Now that we parsed asterisk.conf, we need to make sure $amp_conf is consistent
+	// so just set it to what we found, since this is what asterisk will use anyhow.
+	//
+	foreach ($convert as $ast_conf_key => $amp_conf_key) {
+		if (isset($conf[$ast_conf_key])) {
+			$amp_conf[$amp_conf_key] = $conf[$ast_conf_key];
+		}
+	}
+	return $conf;
 }
 
 /** check if a specific extension is being used, or get a list of all extensions that are being used
@@ -945,6 +1220,17 @@ function expand_variables($string) {
 	return str_replace($search, $replace, $string);
 }
 
+// returns true if extension is within allowed range
+function checkRange($extension){
+	$low = isset($_SESSION["AMP_user"]->_extension_low)?$_SESSION["AMP_user"]->_extension_low:'';
+	$high = isset($_SESSION["AMP_user"]->_extension_high)?$_SESSION["AMP_user"]->_extension_high:'';
+	
+	if ((($extension >= $low) && ($extension <= $high)) || ($low == '' && $high == ''))
+		return true;
+	else
+		return false;
+}
+
 function getAmpAdminUsers() {
 	global $db;
 
@@ -979,63 +1265,6 @@ function getAmpUser($username) {
 	}
 }
 
-class ampuser {
-	var $username;
-	var $_password;
-	var $_extension_high;
-	var $_extension_low;
-	var $_deptname;
-	var $_sections;
-	
-	function ampuser($username) {
-		$this->username = $username;
-		if ($user = getAmpUser($username)) {
-			$this->_password = $user["password"];
-			$this->_extension_high = $user["extension_high"];
-			$this->_extension_low = $user["extension_low"];
-			$this->_deptname = $user["deptname"];
-			$this->_sections = $user["sections"];
-		} else {
-			// user doesn't exist
-			$this->_password = false;
-			$this->_extension_high = "";
-			$this->_extension_low = "";
-			$this->_deptname = "";
-			$this->_sections = array();
-		}
-	}
-	
-	/** Give this user full admin access
-	*/
-	function setAdmin() {
-		$this->_extension_high = "";
-		$this->_extension_low = "";
-		$this->_deptname = "";
-		$this->_sections = array("*");
-	}
-	
-	function checkPassword($password) {
-		// strict checking so false will never match
-		return ($this->_password === $password);
-	}
-	
-	function checkSection($section) {
-		// if they have * then it means all sections
-		return in_array("*", $this->_sections) || in_array($section, $this->_sections);
-	}
-}
-
-// returns true if extension is within allowed range
-function checkRange($extension){
-	$low = isset($_SESSION["AMP_user"]->_extension_low)?$_SESSION["AMP_user"]->_extension_low:'';
-	$high = isset($_SESSION["AMP_user"]->_extension_high)?$_SESSION["AMP_user"]->_extension_high:'';
-	
-	if ((($extension >= $low) && ($extension <= $high)) || ($low == '' && $high == ''))
-		return true;
-	else
-		return false;
-}
-
 // returns true if department string matches dept for this user
 function checkDept($dept){
 	$deptname = isset($_SESSION["AMP_user"])?$_SESSION["AMP_user"]->_deptname:null;
@@ -1044,6 +1273,36 @@ function checkDept($dept){
 		return true;
 	else
 		return false;
+}
+
+/**
+ * returns true if asterisk is running with chan_dahdi
+ *
+ * @return bool
+ */
+function ast_with_dahdi() {
+	global $version;
+	global $astman;
+	global $amp_conf;
+	
+	if (!$amp_conf['ZAP2DAHDICOMPAT']) {
+		return false;
+	}
+	
+	if (empty($version)) {
+		$engine_info = engine_getinfo();
+		$version = $engine_info['version'];
+	}
+		
+	if (version_compare($version, '1.4', 'ge') && $amp_conf['AMPENGINE'] == 'asterisk') {		
+		if (isset($astman) && $astman->connected()) {
+			$response = $astman->send_request('Command', array('Command' => 'module show like chan_dahdi'));
+			if (preg_match('/1 modules loaded/', $response['data'])) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 function engine_getinfo() {
@@ -1083,7 +1342,6 @@ function engine_getinfo() {
 	return array('engine'=>'ERROR-UNSUPPORTED-ENGINE-'.$amp_conf['AMPENGINE'], 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
 }
 
-
 if (!function_exists('version_compare_freepbx')) {
 	/* verison_compare that works with freePBX version numbers
  	*/
@@ -1097,7 +1355,6 @@ if (!function_exists('version_compare_freepbx')) {
 			}
 	}
 }
-
 
 /* queries database using PEAR.
 *  $type can be query, getAll, getRow, getCol, getOne, etc
@@ -1121,15 +1378,16 @@ function sql($sql,$type="query",$fetchmode=null) {
  * @param  mixed  The value to go into the database
  * @return string  A value that can be safely inserted into an SQL query
  */
-function q(&$value) {	
+function q(&$value) {
 	global $db;
 	return $db->quoteSmart($value);
 }
 
 // sql text formatting -- couldn't see that one was available already
 function sql_formattext($txt) {
+	global $db;
 	if (isset($txt)) {
-		$fmt = str_replace("'", "''", $txt);
+		$fmt = $db->escapeSimple($txt);
 		$fmt = "'" . $fmt . "'";
 	} else {
 		$fmt = 'null';
@@ -1137,7 +1395,6 @@ function sql_formattext($txt) {
 
 	return $fmt;
 }
-
 
 function die_freepbx($text, $extended_text="", $type="FATAL") {
 	if (function_exists('fatal')) {
@@ -1394,7 +1651,6 @@ function merge_ext_followme($dest) {
 		return $dest;
 	}
 }
-
 
 /** Recursively read voicemail.conf (and any included files)
  * This function is called by getVoicemailConf()
@@ -1671,15 +1927,13 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 			fwrite($fd, implode("\n",$output)."\n");
 			fclose($fd);
 		}
-		
 }
-
 
 // $goto is the current goto destination setting
 // $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
 // esnure that any form that includes this calls the setDestinations() javascript function on submit.
 // ie: if the form name is "edit", and drawselects has been called with $i=2 then use onsubmit="setDestinations(edit,2)"
-function drawselects($goto,$i,$show_custom=false) {  
+function drawselects($goto,$i,$show_custom=false) {
 	global $tabindex;
 	
 	/* --- MODULES BEGIN --- */
@@ -1778,7 +2032,6 @@ function drawselects($goto,$i,$show_custom=false) {
 	return $selectHtml;
 }
 
-
 /* below are legacy functions required to allow pre 2.0 modules to function (ie: interact with 'extensions' table) */
 
 	//add to extensions table - used in callgroups.php
@@ -1803,7 +2056,6 @@ function drawselects($goto,$i,$show_custom=false) {
 		return $result;
 	}
 	
-	
 	//get args for specified exten and priority - primarily used to grab goto destination
 	function legacy_args_get($exten,$priority,$context) {
 		global $db;
@@ -1814,208 +2066,6 @@ function drawselects($goto,$i,$show_custom=false) {
 
 /* end legacy functions */
 
-/* Usage
-Grab some XML data, either from a file, URL, etc. however you want. Assume storage in $strYourXML;
-
-$xml = new xml2Array($strYourXML);
-xml array is in $xml->data;
-	This is basically an array version of the XML data (no attributes), striaght-up. If there are
-	multiple items with the same name, they are split into a numeric sub-array, 
-	eg, <items><item test="123">foo</item><item>bar</item></items>
-	becomes: array('item' => array(0=>array('item'=>'foo'), 1=>array('item'=>'foo'))
-attributes are in $xml->attributes;
-	These are stored with xpath type paths, as $xml->attributes['/items/item/0']["test"] == "123"
-	
-
-Other way (still works, but not as nice):
-
-$objXML = new xml2Array();
-$arrOutput = $objXML->parse($strYourXML);
-print_r($arrOutput); //print it out, or do whatever!
-
-*/
-
-class xml2Array {
-	var $arrOutput = array();
-	var $resParser;
-	var $strXmlData;
-	
-	var $attributes;
-	var $data;
-	
-	function xml2Array($strInputXML = false) {
-		if (!empty($strInputXML)) {
-			$this->data = $this->parseAdvanced($strInputXML);
-		}
-	}
-	
-	function parse($strInputXML) {
-	
-			$this->resParser = xml_parser_create ();
-			xml_set_object($this->resParser,$this);
-			xml_set_element_handler($this->resParser, "tagOpen", "tagClosed");
-			
-			xml_set_character_data_handler($this->resParser, "tagData");
-		
-			$this->strXmlData = xml_parse($this->resParser,$strInputXML );
-			if(!$this->strXmlData) {
-				die_freepbx(sprintf("XML error: %s at line %d",
-			xml_error_string(xml_get_error_code($this->resParser)),
-			xml_get_current_line_number($this->resParser)));
-			}
-							
-			xml_parser_free($this->resParser);
-			
-			return $this->arrOutput;
-	}
-	function tagOpen($parser, $name, $attrs) {
-		$tag=array("name"=>$name,"attrs"=>$attrs); 
-		@array_push($this->arrOutput,$tag);
-	}
-	
-	function tagData($parser, $tagData) {
-		if(trim($tagData)) {
-			if(isset($this->arrOutput[count($this->arrOutput)-1]['tagData'])) {
-				$this->arrOutput[count($this->arrOutput)-1]['tagData'] .= "\n".$tagData;
-			} 
-			else {
-				$this->arrOutput[count($this->arrOutput)-1]['tagData'] = $tagData;
-			}
-		}
-	}
-	
-	function tagClosed($parser, $name) {
-		@$this->arrOutput[count($this->arrOutput)-2]['children'][] = $this->arrOutput[count($this->arrOutput)-1];
-		array_pop($this->arrOutput);
-	}
-	
-	function recursive_parseLevel($items, &$attrs, $path = "") {
-		$array = array();
-		foreach (array_keys($items) as $idx) {
-			@$items[$idx]['name'] = strtolower($items[$idx]['name']);
-			
-			$multi = false;
-			if (isset($array[ $items[$idx]['name'] ])) {
-				// this child is already set, so we're adding multiple items to an array 
-				
-				if (!is_array($array[ $items[$idx]['name'] ]) || !isset($array[ $items[$idx]['name'] ][0])) {
-					// hasn't already been made into a numerically-indexed array, so do that now
-					// we're basically moving the current contents of this item into a 1-item array (at the 
-					// original location) so that we can add a second item in the code below
-					$array[ $items[$idx]['name'] ] = array( $array[ $items[$idx]['name'] ] );
-
-					if (isset($attrs[ $path.'/'.$items[$idx]['name'] ])) {
-						// move the attributes to /0
-						$attrs[ $path.'/'.$items[$idx]['name'].'/0' ] = $attrs[ $path.'/'.$items[$idx]['name'] ];
-						unset($attrs[ $path.'/'.$items[$idx]['name'] ]);
-					}
-				}
-				$multi = true;
-			}
-			
-			if ($multi) {	
-				$newitem = &$array[ $items[$idx]['name'] ][];
-			} else {
-				$newitem = &$array[ $items[$idx]['name'] ];
-			}
-			
-			
-			if (isset($items[$idx]['children']) && is_array($items[$idx]['children'])) {
-				$newitem = $this->recursive_parseLevel($items[$idx]['children'], $attrs, $path.'/'.$items[$idx]['name']);
-			} else if (isset($items[$idx]['tagData'])) {
-				$newitem = $items[$idx]['tagData'];
-			} else {
-				$newitem = false;
-			}
-			
-			if (isset($items[$idx]['attrs']) && is_array($items[$idx]['attrs']) && count($items[$idx]['attrs'])) {
-				$attrpath = $path.'/'.$items[$idx]['name'];
-				if ($multi) {
-					$attrpath .= '/'.(count($array[ $items[$idx]['name'] ])-1);
-				}
-				foreach ($items[$idx]['attrs'] as $name=>$value) {
-					$attrs[ $attrpath ][ strtolower($name) ] = $value;
-				}
-			}
-		}
-		return $array;
-	}
-	
-	function parseAdvanced($strInputXML) {
-		$array = $this->parse($strInputXML);
-		$this->attributes = array();
-		return $this->data = $this->recursive_parseLevel($array, $this->attributes);
-	}
-}
-
-
-/*
-	Return a much more manageable assoc array with module data.
-*/
-class xml2ModuleArray extends xml2Array {
-	function parseModulesXML($strInputXML) {
-		$array = $this->parseAdvanced($strInputXML);
-		if (isset($array['xml'])) {
-			foreach ($array['xml'] as $key=>$module) {
-				if ($key == 'module') {
-					// copy the structure verbatim
-					$modules[ $module['name'] ] = $module;
-				}
-			}
-		}
-		
-		// if you are confused about what's happening below, uncomment this why we do it
-		// echo "<pre>"; print_r($arrOutput); echo "</pre>";
-		
-		// ignore the regular xml garbage ([0]['children']) & loop through each module
-		if(!is_array($arrOutput[0]['children'])) return false;
-		foreach($arrOutput[0]['children'] as $module) {
-			if(!is_array($module['children'])) return false;
-			// loop through each modules's tags
-			foreach($module['children'] as $modTags) {
-					if(isset($modTags['children']) && is_array($modTags['children'])) {
-						$$modTags['name'] = $modTags['children'];
-						// loop if there are children (menuitems and requirements)
-						foreach($modTags['children'] as $subTag) {
-							$subTags[strtolower($subTag['name'])] = $subTag['tagData'];
-						}
-						$$modTags['name'] = $subTags;
-						unset($subTags);
-					} else {
-						// create a variable for each tag we find
-						$$modTags['name'] = $modTags['tagData'];
-					}
-
-			}
-			// now build our return array
-			$arrModules[$RAWNAME]['rawname'] = $RAWNAME;    // This has to be set
-			$arrModules[$RAWNAME]['displayName'] = $NAME;    // This has to be set
-			$arrModules[$RAWNAME]['version'] = $VERSION;     // This has to be set
-			$arrModules[$RAWNAME]['type'] = isset($TYPE)?$TYPE:'setup';
-			$arrModules[$RAWNAME]['category'] = isset($CATEGORY)?$CATEGORY:'Unknown';
-			$arrModules[$RAWNAME]['info'] = isset($INFO)?$INFO:'http://www.freepbx.org/wiki/'.$RAWNAME;
-			$arrModules[$RAWNAME]['location'] = isset($LOCATION)?$LOCATION:'local';
-			$arrModules[$RAWNAME]['items'] = isset($MENUITEMS)?$MENUITEMS:null;
-			$arrModules[$RAWNAME]['requirements'] = isset($REQUIREMENTS)?$REQUIREMENTS:null;
-			$arrModules[$RAWNAME]['md5sum'] = isset($MD5SUM)?$MD5SUM:null;
-			//print_r($arrModules);
-			//unset our variables
-			unset($NAME);
-			unset($VERSION);
-			unset($TYPE);
-			unset($CATEGORY);
-			unset($AUTHOR);
-			unset($EMAIL);
-			unset($LOCATION);
-			unset($MENUITEMS);
-			unset($REQUIREMENTS);
-			unset($MD5SUM);
-		}
-		//echo "<pre>"; print_r($arrModules); echo "</pre>";
-
-		return $arrModules;
-	}
-}
 
 function get_headers_assoc($url ) {
 	$url_info=parse_url($url);
@@ -2049,48 +2099,7 @@ function get_headers_assoc($url ) {
 	}
 }
 
-   
-
-class moduleHook {
-	var $hookHtml = '';
-	var $arrHooks = array();
-	
-	function install_hooks($viewing_itemid,$target_module,$target_menuid = '') {
-		global $active_modules;
-		// loop through all active modules
-		foreach($active_modules as $this_module) {
-				// look for requested hooks for $module
-				// ie: findme_hook_extensions()
-				$funct = $this_module['rawname'] . '_hook_' . $target_module;
-				if( function_exists( $funct ) ) {
-					// execute the function, appending the 
-					// html output to that of other hooking modules
-					if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
-						$this->hookHtml .= $hookReturn;
-					}
-					// remember who installed hooks
-					// we need to know this for processing form vars
-					$this->arrHooks[] = $this_module['rawname'];
-				}
-		}
-	}
-	
-	// process the request from the module we hooked
-	function process_hooks($viewing_itemid, $target_module, $target_menuid, $request) {
-		if(is_array($this->arrHooks)) {
-			foreach($this->arrHooks as $hookingMod) {
-				// check if there is a processing function
-				$funct = $hookingMod . '_hookProcess_' . $target_module;
-				if( function_exists( $funct ) ) {
-					$funct($viewing_itemid, $request);
-				}
-			}
-		}
-	}
-}
-
-function execSQL( $file )
-{
+function execSQL( $file ) {
 	global $db;
 	$data = null;
 	
@@ -2114,7 +2123,6 @@ function runModuleSQL($moddir,$type){
 	trigger_error("runModuleSQL() is depreciated - please use _module_runscripts(), or preferably module_install() or module_enable() instead", E_USER_WARNING);
 	_module_runscripts($moddir, $type);
 }
-
 
 /** Replaces variables in a string with the values from ampconf
  * eg, "%AMPWEBROOT%/admin" => "/var/www/html/admin"
@@ -2156,11 +2164,6 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 	global $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
 	$module_getonlinexml_error = null;
 	$got_new = false;
-	
-	//this should be in an upgrade file ... putting here for now.
-	/*
-	sql('CREATE TABLE IF NOT EXISTS module_xml (time INT NOT NULL , data BLOB NOT NULL) TYPE = MYISAM ;');
-	*/
 	
 	$result = sql("SELECT * FROM module_xml WHERE id = 'xml'",'getRow',DB_FETCHMODE_ASSOC);
 	$data = $result['data'];
@@ -2215,20 +2218,13 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		return null;
 	}
 	
-	//echo time() - $result['time'];
 	$parser = new xml2ModuleArray($data);
 	$xmlarray = $parser->parseAdvanced($data);
-	//$modules = $xmlarray['XML']['MODULE'];
 	
 	if ($got_new) {
 		module_update_notifications($old_xml, $xmlarray, ($old_xml == $data4sql));
 	}
 
-
-	//echo "<hr>Raw XML Data<pre>"; print_r(htmlentities($data)); echo "</pre>";
-	//echo "<hr>XML2ARRAY<pre>"; print_r($xmlarray); echo "</pre>";
-	
-	
 	if (isset($xmlarray['xml']['module'])) {
 	
 		if ($module != false) {
@@ -2239,8 +2235,6 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 			}
 			return null;
 		} else {
-		
-		
 			$modules = array();
 			foreach ($xmlarray['xml']['module'] as $mod) {
 				$modules[ $mod['rawname'] ] = $mod;
@@ -2687,7 +2681,6 @@ function module_reversedepends($modulename) {
 	return (count($depends) > 0) ? $depends : false;
 }
 
-
 /** Enables a module
  * @param string    The name of the module to enable
  * @param bool      If true, skips status and dependency checks
@@ -2984,7 +2977,6 @@ function module_handleupload($uploaded_file) {
 	return true;
 }
 
-
 /** Installs or upgrades a module from it's directory
  * Checks dependencies, and enables
  * @param string   The name of the module to install
@@ -3187,7 +3179,6 @@ function module_delete($modulename, $force = false) {
 	return true;
 }
 
-
 /** Internal use only */
 function _module_setenabled($modulename, $enabled) {
 	global $db;
@@ -3221,17 +3212,23 @@ function _module_readxml($modulename) {
 		$xmlarray = $parser->data;
 		if (isset($xmlarray['module'])) {
 			// add a couple fields first
+			$xmlarray['module']['name'] = str_replace("\n&\n","&",$xmlarray['module']['name']);
 			$xmlarray['module']['displayname'] = $xmlarray['module']['name'];
+			if (isset($xmlarray['module']['description'])) {
+				$xmlarray['module']['description'] = trim(str_replace("\n","",$xmlarray['module']['description']));
+			}
 			if (isset($xmlarray['module']['menuitems'])) {
 				
 				foreach ($xmlarray['module']['menuitems'] as $item=>$displayname) {
+					$displayname = str_replace("\n&\n","&",$displayname);
+					$xmlarray['module']['menuitems'][$item] = $displayname;
 					$path = '/module/menuitems/'.$item;
 					
 					// find category
 					if (isset($parser->attributes[$path]['category'])) {
-						$category = $parser->attributes[$path]['category'];
+						$category = str_replace("\n&\n","&",$parser->attributes[$path]['category']);
 					} else if (isset($xmlarray['module']['category'])) {
-						$category = $xmlarray['module']['category'];
+						$category = str_replace("\n&\n","&",$xmlarray['module']['category']);
 					} else {
 						$category = 'Basic';
 					}
@@ -3284,7 +3281,6 @@ function _module_readxml($modulename) {
 					
 				}
 			}
-			
 			return $xmlarray['module'];
 		}
 	}
@@ -3371,6 +3367,7 @@ function _module_runscripts($modulename, $type) {
 	
 	return true;
 }
+
 function _modules_doinclude($filename, $modulename) {
 	// we provide the following variables to the included file (as well as $filename and $modulename)
 	global $db, $amp_conf, $asterisk_conf;
@@ -3379,7 +3376,6 @@ function _modules_doinclude($filename, $modulename) {
 		include($filename);
 	}
 }
-	
 
 /* module_get_annoucements()
 
@@ -3389,6 +3385,7 @@ function _modules_doinclude($filename, $modulename) {
 */
 function module_get_annoucements() {
 	global $db;
+	global $amp_conf;
 	$firstinstall=false;
 	$type=null;
 
@@ -3439,8 +3436,9 @@ function module_get_annoucements() {
 		$options .="&astver=".urlencode($engver['version']);
 	}
 
+	$fn = "http://mirror.freepbx.org/version-".getversion().".html".$options;
 	if (!$amp_conf['MODULEADMINWGET']) {
-		$announcement = @ file_get_contents("http://mirror.freepbx.org/version-".getversion().".html".$options);
+		$announcement = @ file_get_contents($fn);
 	} else {
 		$announcement = '';
 	}
@@ -3450,7 +3448,6 @@ function module_get_annoucements() {
 	}
 	return $announcement;
 }
-
 
 /* Assumes properly formated input, which is ok since
    this is a private function and error checking is done
@@ -3576,6 +3573,17 @@ function module_run_notification_checks() {
 	} else {
 		$notifications->delete('freepbx', 'modules_broken');
 	}
+}
+
+/** Log a debug message to a debug file
+ * @param  string   debug message to be printed
+ * @param  string   optional mode, default 'a'
+ * @param  string   optinal filename, default /tmp/freepbx_debug.log
+ */
+function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log') {
+	$fh = fopen($filename,$option);
+	fwrite($fh,$string."\n");
+	fclose($fh);
 }
 
 /** Log an error to the (database-based) log

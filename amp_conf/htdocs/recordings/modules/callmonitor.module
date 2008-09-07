@@ -114,10 +114,10 @@ class Callmonitor {
     $sort = getArgument($args,'sort');
     $duration_filter = getArgument($args,'duration_filter');
 
-    $start = $start=='' ? 0 : $start;
-    $span = $span=='' ? 15 : $span;
+    $start = ($start=='' || !ctype_digit($start)) ? 0 : $start;
+    $span = ($span=='' || !ctype_digit($span)) ? 15 : $span;
     $order = $order=='' ? 'calldate' : $order;
-    $sort = $sort=='' ? 'desc' : $sort;
+    $sort = ($sort=='' || strtolower($sort) == 'desc') ? 'desc' : 'asc';
 
     $displayname = $_SESSION['ari_user']['displayname'];
     $extension = $_SESSION['ari_user']['extension'];
@@ -204,7 +204,7 @@ class Callmonitor {
 
     // table body
     $playbackRow = 2;	// Index to keep track of where playback control rows should be inserted.
-    foreach($data as $key=>$value) {
+    if (is_array($data)) foreach($data as $key=>$value) {
 
       // recording file
       $recording = $recordings[$value['uniqueid'] . $value['calldate']];
@@ -406,7 +406,7 @@ class Callmonitor {
       rsort($files);
     }
 
-    foreach($data as $data_key => $data_value) {
+    if (is_array($data)) foreach($data as $data_key => $data_value) {
 
       $recording='';
       $unique_file_key ='';
@@ -572,10 +572,15 @@ class Callmonitor {
    */
   function getSearchText($q,$duration_filter) {
 
+    $duration_filter = ctype_digit($duration_filter) ? $duration_filter : 0;
+
     // search text
     if ($q!='*' && $q!=NULL) {
+
+      $dbh = $_SESSION['dbh_cdr'];
       $searchText .= "WHERE ";
       $tok = strtok($q," \n\t");
+      $tok = $dbh->escapeSimple($tok);
       while ($tok) {
         $searchText .= " (calldate regexp '" . $tok . "'
                          OR clid regexp '" . $tok . "'
@@ -589,6 +594,7 @@ class Callmonitor {
                          OR userfield regexp '" . $tok . "'
                        )";
         $tok = strtok(" \n\t");
+        $tok = $dbh->escapeSimple($tok);
         if ($tok) {
           $searchText .= " AND";
         }
@@ -683,6 +689,7 @@ class Callmonitor {
     $searchText = $this->getSearchText($q,$duration_filter);
 
     $dbh = $_SESSION['dbh_cdr'];
+    $order = $dbh->escapeSimple($order);
     $sql = "SELECT *
             FROM " . $ASTERISKCDR_DBTABLE . " 
             " . $searchText . "

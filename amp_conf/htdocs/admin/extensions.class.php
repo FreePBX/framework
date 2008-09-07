@@ -928,7 +928,15 @@ class ext_stopplaytones extends extension {
 }
 class ext_zapbarge extends extension {
 	function output() {
-		return "ZapBarge(".$this->data.")";
+		global $chan_dahdi;
+		
+		if ($chan_dahdi) {
+			$command = 'DAHDIBarge';
+		} else {
+			$command = 'ZapBarge';
+		}
+		
+		return "$command(".$this->data.")";
 	}
 }
 class ext_sayalpha extends extension {
@@ -973,8 +981,15 @@ class ext_dpickup extends extension {
 }				
 class ext_lookupcidname extends extension {
 	function output() {
-		return "LookupCIDName";
-	}
+		global $version;
+
+		if (version_compare($version, "1.6", "ge")) {
+			$outstr=addslashes('Set(CALLERID(name)=${DB(cidname/${CALLERID(num)})})');
+			return $outstr;
+		} else { 
+			return "LookupCIDName";
+		}
+	}		
 }
 
 class ext_txtcidname extends extension {

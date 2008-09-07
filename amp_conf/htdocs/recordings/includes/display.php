@@ -170,8 +170,8 @@ class DisplaySearch extends Display {
    */
   function displayNavigationBlock($m,$q,$url_opts,$start,$span,$total) {
 
-    $start = $start=='' ? 0 : $start ;
-    $span = $span=='' ? 15 : $span ;
+    $start = ($start=='' || !ctype_digit($start)) ? 0 : $start;
+    $span = ($span=='' || !ctype_digit($span)) ? 15 : $span;
 
     $total_pages = ceil($total/$span);
     $start_page = floor($start/$span);

@@ -12,12 +12,21 @@ if (is_array($fpbx_menu)) {
 	$sort = Array();
 	$sort_name = Array();
 	$sort_type = Array();
+	$framework_text_domain = Array();
 	// Sorting menu by category and name
 	foreach ($fpbx_menu as $key => $row) {
 		$category[$key] = $row['category'];
 		$sort[$key] = $row['sort'];
 		$sort_name[$key] = $row['name'];
 		$sort_type[$key] = $row['type'];
+
+		if (extension_loaded('gettext') && is_dir("modules/".$key."/i18n")) {
+			bindtextdomain($key,"modules/".$key."/i18n");
+			bind_textdomain_codeset($key, 'utf8');
+			$framework_text_domain[$key] = true;
+		} else {
+			$framework_text_domain[$key] = false;
+		}
 	}
 	
 	if ($fpbx_usecategories) {
@@ -94,10 +103,18 @@ if (is_array($fpbx_menu)) {
 		}
 
 		echo "\t<li class=\"".implode(' ',$li_classes)."\">";
-		if (isset($row['disabled']) && $row['disabled']) {
-			echo _($row['name']);
+		if ($framework_text_domain[$key]) {
+			$label_text = dgettext($key,$row['name']);
+			if ($label_text == $row['name']) {
+			 	$label_text = _($label_text);
+			}
 		} else {
-			echo '<a href="'.$href.'" '.$extra_attributes.' >'._($row['name'])."</a>";
+			$label_text = _($row['name']);
+		}
+		if (isset($row['disabled']) && $row['disabled']) {
+			echo $label_text;
+		} else {
+			echo '<a href="'.$href.'" '.$extra_attributes.' >'. $label_text . "</a>";
 		}
 		echo "</li>\n";
 	}

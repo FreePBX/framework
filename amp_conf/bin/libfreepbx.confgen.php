@@ -169,13 +169,18 @@ function generate_configurations_iax($ast_version) {
 }
 
 function generate_configurations_zap($ast_version) {
-
+	global $chan_dahdi;
 	global $amp_conf;
 	global $db;
 
 	$additional = "";
 
 	$zap_conf = $amp_conf['ASTETCDIR']."/zapata_additional.conf";
+	$channel_name = 'ZAP';
+	if ($chan_dahdi) {
+		$zap_conf = $amp_conf['ASTETCDIR']."/chan_dahdi_additional.conf";
+		$channel_name = 'DAHDI';
+	}
 
 	$table_name = "zap";
 
@@ -183,7 +188,7 @@ function generate_configurations_zap($ast_version) {
 
 	$zap_conf_fh = fopen($zap_conf,"w");
 	if ($zap_conf_fh === false) {
-		fatal(_("Cannot write ZAP configurations"),sprintf(_("Failed creating/overwriting Zapata extensions file: %s"),$zap_conf));
+		fatal(_("Cannot write $channel_name configurations"),sprintf(_("Failed creating/overwriting $channel_name extensions file: %s"),$zap_conf));
 	}
 
 	fwrite($zap_conf_fh, $warning_banner);

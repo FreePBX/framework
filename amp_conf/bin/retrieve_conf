@@ -369,6 +369,7 @@ if($engineinfo['version'] == 0){
 // was setting these variables before, assume we still need them
 $engine = $engineinfo['engine'];
 $version = $engineinfo['version'];
+$chan_dahdi = ast_with_dahdi();
 
 // Check for and report any extension conflicts
 //
@@ -481,7 +482,7 @@ if(isset($active_modules) && is_array($active_modules)){
 			} else {
 				freepbx_log('retrieve_conf', 'devel-debug', 'generateConf from '.$classname);
 				if (isset(${$classname}->use_warning_banner)) {
-					write_file(${$classname}->get_filename(),${$classname}->generateConf(),${$classname}->use_nowarning_banner);
+					write_file(${$classname}->get_filename(),${$classname}->generateConf(),${$classname}->use_warning_banner);
 				} else {
 					write_file(${$classname}->get_filename(),${$classname}->generateConf());
 				}
@@ -587,7 +588,7 @@ function err_copy($source, $dest) {
 	$ret = false;
 	set_error_handler("report_errors");
 	if (copy($source, $dest)) {
-		$ret = chmod($dest,'0754');
+		$ret = chmod($dest,0754);
 	}
 	restore_error_handler();
 	return $ret;

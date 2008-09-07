@@ -95,6 +95,7 @@ chown_asterisk() {
 
 	# Ensure that various hardware devices are owned correctly.
 	[ -e /dev/zap ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/zap 
+	[ -e /dev/dahdi ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/dahdi 
 	[ -e /dev/capi20 ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/capi20
 	[ -e /dev/misdn ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/misdn
 	[ -e /dev/mISDN ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/mISDN

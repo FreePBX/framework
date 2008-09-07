@@ -262,7 +262,7 @@ $ASTERISK_PROTOCOLS['iax']['config_files'] = "/etc/asterisk/iax.conf;/etc/asteri
 $ASTERISK_PROTOCOLS['sip']['table'] = "sip";
 $ASTERISK_PROTOCOLS['sip']['config_files'] = "/etc/asterisk/sip.conf;/etc/asterisk/sip_additional.conf";
 $ASTERISK_PROTOCOLS['zap']['table'] = "zap";
-$ASTERISK_PROTOCOLS['zap']['config_files'] = "/etc/asterisk/zapata.conf;/etc/asterisk/zapata_additional.conf";
+$ASTERISK_PROTOCOLS['zap']['config_files'] = "/etc/asterisk/zapata.conf;/etc/asterisk/zapata_additional.conf;/etc/asterisk/chan_dahdi.conf;/etc/asterisk/chan_dahdi_additional.conf";
 
 # Settings for Follow-Me Select Boxes in seconds
 #

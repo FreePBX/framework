@@ -654,12 +654,13 @@ class followme {
   function setFollowMeMySQL($exten, $follow_me_prering_time, $follow_me_listring_time, $follow_me_list, $follow_me_confirm) {
 
 	if (isset($_SESSION['dbh_asterisk'])) {
+	  $db = $_SESSION['dbh_asterisk'];
 
 	  //format for SQL database
 	  $follow_me_confirm = ($follow_me_confirm)?'CHECKED':'';
 
 	  $sql = "UPDATE findmefollow SET grptime = '" . $follow_me_listring_time . "', grplist = '".
-		   str_replace("'", "''", trim($follow_me_list)) . "', pre_ring = '" . $follow_me_prering_time .
+		   $db->escapeSimple(trim($follow_me_list)) . "', pre_ring = '" . $follow_me_prering_time .
 		   "', needsconf = '" . $follow_me_confirm . "' WHERE grpnum = $exten LIMIT 1";
 	  $results = $_SESSION['dbh_asterisk']->query($sql);
 

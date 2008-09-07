@@ -12,13 +12,15 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 	define('EXTERNAL_PACKAGE_MANAGEMENT', 1);
 }
 
-
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
+
 // can't go online if external management is on
 $online = (isset($_REQUEST['online']) && !EXTERNAL_PACKAGE_MANAGEMENT) ? $_REQUEST['online'] : false;
+
 // fix php errors from undefined variable. Not sure if we can just change the reference below to use
 // online since it changes values so just setting to what we decided it is here.
 $_REQUEST['online'] = $online ? 1 : 0;
+
 $moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false;
 /*
 	moduleaction is an array with the key as the module name, and possible values:
@@ -35,12 +37,6 @@ $freepbx_version = get_framework_version();
 $freepbx_version = $freepbx_version ? $freepbx_version : getversion();
 $freepbx_help_url = "http://www.freepbx.org/freepbx-help-system?freepbx_version=".urlencode($freepbx_version);
 
-function pageReload(){
-return "";
-	//return "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=".rand()."'</script>";
-}
-
-
 if (!$quietmode) {
 	?>
 	<script type="text/javascript" src="common/tabber-minimized.js"></script>
@@ -53,7 +49,6 @@ if (!$quietmode) {
 			style.display = 'none';
 		}
 	}
-
 	function check_upgrade_all() {
 		var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
 		for(i=0; i<document.modulesGUI.elements.length; i++) {
@@ -67,7 +62,6 @@ if (!$quietmode) {
 			}
 		}
 	}
-
 	function check_download_all() {
 		var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
 		for(i=0; i<document.modulesGUI.elements.length; i++) {
@@ -81,16 +75,11 @@ if (!$quietmode) {
 			}
 		}
 	}
-
-
 	function showhide_upgrades() {
 		var upgradesonly = document.getElementById('show_upgradable_only').checked;
-		
 		var module_re = /^module_([a-z0-9_]+)$/;   // regex to match a module element id
 		var cat_re = /^category_([a-zA-Z0-9_]+)$/; // regex to match a category element id
-
 		var elements = document.getElementById('modulelist').getElementsByTagName('li');
-
 		// loop through all modules, check if there is an upgrade_<module> radio box 
 		for(i=0; i<elements.length; i++) {
 			if (match = elements[i].id.match(module_re)) {
@@ -100,11 +89,7 @@ if (!$quietmode) {
 				}
 			}
 		}
-		
-		
-		
 		// hide category headings that don't have any visible modules
-		
 		var elements = document.getElementById('modulelist').getElementsByTagName('div');
 		// loop through category items
 		for(i=0; i<elements.length; i++) {
@@ -119,13 +104,10 @@ if (!$quietmode) {
 						break; // no need to go further
 					}
 				}
-				
 				document.getElementById(elements[i].id).style.display = display ? 'block' : 'none';
 			}
 		}
-		
 	}
-
 	function process_module_actions(actions) {
 		freepbx_modal_show('moduleBox');
 		urlStr = "config.php?type=tool&amp;display=modules&amp;extdisplay=process&amp;quietmode=1";
@@ -141,7 +123,6 @@ if (!$quietmode) {
 			location.href = 'config.php?display=modules&amp;type=tool&amp;online=<?php echo ($_REQUEST['online']?1:0); ?>';
 		}
 	}
-
 	</script>
 	<?php
 
@@ -154,7 +135,6 @@ if (!$quietmode) {
 	</head><body>
 	<?php
 }
-
 
 $modules_local = module_getinfo(false,false,true);
 
@@ -203,111 +183,15 @@ if (!isset($modules)) {
 	$modules = & $modules_local;
 }
 
-
-function category_sort_callback($a, $b) {
-	// sort by category..
-	$catcomp = strcmp($a['category'], $b['category']);
-	if ($catcomp == 0) {
-		// .. then by name
-		return strcmp($a['name'], $b['name']);
-	} else
-		return $catcomp;
-}
-
-/** preps a string to use as an HTML id element
- */
-function prep_id($name) {
-	return preg_replace("/[^a-z0-9-]/i", "_", $name);
-}
-
-/** Progress callback used by module_download() 
- */
-function download_progress($action, $params) {
-	switch ($action) {
-		case 'untar':
-			echo '<script type="text/javascript">
-			        var txt = document.createTextNode("'._('Untarring..').'");
-			        var br = document.createElement(\'br\');
-			        document.getElementById(\'moduleprogress\').appendChild(br); 
-					document.getElementById(\'moduleprogress\').appendChild(txt); 
-			     </script>';
-			flush();
-		break;
-		case 'downloading':
-			if ($params['total']==0) {
-				$progress = $params['read'].' of '.$params['total'].' (0%)';
-			} else {
-				$progress = $params['read'].' of '.$params['total'].' ('.round($params['read']/$params['total']*100).'%)';
-			}
-			echo '<script type="text/javascript">
-			        document.getElementById(\'downloadprogress_'.$params['module'].'\').innerHTML = \''.$progress.'\';
-			      </script>';
-			flush();
-		break;
-		case 'done';
-			echo '<script type="text/javascript">
-			        var txt = document.createTextNode("'._('Done.').'");
-					var br = document.createElement(\'br\');
-			        document.getElementById(\'moduleprogress\').appendChild(txt); 
-					document.getElementById(\'moduleprogress\').appendChild(br); 
-			     </script>';
-			flush();
-		break;
-	}
-}
-
-/* enable_option($module_name, $option)
-   This function will return false if the particular option, which is a module xml tag,
-	 is set to 'no'. It also provides for some hardcoded overrides on critical modules to
-	 keep people from editing the xml themselves and then breaking their the system.
-*/
-function enable_option($module_name, $option) {
-	global $modules;
-
-	$enable=true;
-	$override = array('core'      => array('candisable' => 'no',
-	                                       'canuninstall' => 'no',
-					                              ),
-	                  'framework' => array('candisable' => 'no',
-	                                       'canuninstall' => 'no',
-																			  ),
-	                 );
-
-	if (isset($modules[$module_name][$option]) && strtolower(trim($modules[$module_name][$option])) == 'no') {
-		$enable=false;
-	}
-	if (isset($override[$module_name][$option]) && strtolower(trim($override[$module_name][$option])) == 'no') {
-		$enable=false;
-	}
-
-	return $enable;
-}
-
-/* Replace '#nnn', 'bug nnn', 'ticket nnn' type ticket numbers in changelog with a link, taken from Greg's drupal filter
-*/
-function trac_replace_ticket($match) {
-  $baseurl = 'http://freepbx.org/trac/ticket/';
-  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="ticket '.$match[1].'">'.$match[0].'</a>';
-}
-
-/* Replace 'rnnn' changeset references to a link, taken from Greg's drupal filter
-*/
-function trac_replace_changeset($match) {
-  $baseurl = 'http://freepbx.org/trac/changeset/';
-  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="changeset '.$match[1].'">'.$match[0].'</a>';
-}                                                                                                                                              
-
 //--------------------------------------------------------------------------------------------------------
 switch ($extdisplay) {  // process, confirm, or nothing
 	case 'process':
 		echo "<div id=\"moduleBoxContents\">";
 		echo "<h4>"._("Please wait while module actions are performed")."</h4>\n";
-		
 		echo "<div id=\"moduleprogress\">";
 
 		// stop output buffering, and send output
 		@ ob_end_flush();
-
 		flush();
 		foreach ($moduleaction as $modulename => $action) {	
 			$didsomething = true; // set to false in default clause of switch() below..
@@ -322,7 +206,6 @@ switch ($extdisplay) {  // process, confirm, or nothing
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
 						} else {
-						
 							if (is_array($errors = module_install($modulename))) {
 								echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
@@ -560,7 +443,6 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "<input type=\"hidden\" name=\"display\" value=\"".$display."\" />";
 			echo "<input type=\"hidden\" name=\"type\" value=\"".$type."\" />";
 			echo "<input type=\"hidden\" name=\"extdisplay\" value=\"upload\" />";
-			
 			echo "<input type=\"file\" name=\"uploadmod\" /> ";
 			echo "&nbsp;&nbsp; <input type=\"submit\" value=\"Upload\" />";
 			echo "</form>";
@@ -573,9 +455,6 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		uasort($modules, 'category_sort_callback');
 		
 		if ($online) {
-			//echo "<a href='config.php?display=modules&amp;type=tool&amp;extdisplay=local'>"._("Terminate Connection to Online Module Repository")."</a><br />\n";
-			//echo "<a href='config.php?display=modules&amp;type=tool&amp;extdisplay=online&amp;refresh=true'>"._("Force Refresh of Local Module Cache")."</a>\n";
-			
 			// Check for annoucements such as security advisories, required updates, etc.
 			//
 			$announcements = module_get_annoucements();
@@ -645,12 +524,30 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				echo "\t<div class=\"category\" id=\"category_".prep_id($category)."\"><h3>"._($category)."</h3>\n";
 				echo "\t<ul>";
 			}
-			
+
+			// This will load any module's i18n translations that are available and try to use them when printing the
+			// module names with a fall back to using the amp.po master translations for a check if not available in
+			// the local module. For new modules of course, there will be no translations usually.
+			//
+			if (extension_loaded('gettext') && is_dir("modules/".$name."/i18n")) {
+				bindtextdomain($name,"modules/".$name."/i18n");
+				bind_textdomain_codeset($name, 'utf8');
+				$loc_domain = $name;
+
+				$name_text = dgettext($loc_domain,$modules[$name]['name']);
+				if ($name_text == $modules[$name]['name']) {
+			 		$name_text = _($name_text);
+				}
+			} else {
+			 	$name_text = _($modules[$name]['name']);
+				$loc_domain = false;
+			}
+
 			echo "\t\t<li id=\"module_".prep_id($name)."\">\n";
 			
 			// ---- module header 
 			echo "\t\t<div class=\"moduleheader\" onclick=\"toggleInfoPane('infopane_".prep_id($name)."');\" >\n";
-			echo "\t\t\t<span class=\"modulename\"><a href=\"javascript:void(null);\">".(!empty($modules[$name]['name']) ? $modules[$name]['name'] : $name)."</a></span>\n";
+			echo "\t\t\t<span class=\"modulename\"><a href=\"javascript:void(null);\">".(!empty($name_text) ? $name_text : $name)."</a></span>\n";
 			echo "\t\t\t<span class=\"moduletype\">".$modules[$name]['type']."</span>\n";
 			echo "\t\t\t<span class=\"moduleversion\">".(isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'&nbsp;')."</span>\n";
 			
@@ -710,7 +607,6 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			// ---- end of module header
 			
-			
 			// ---- drop-down tab box thingy:
 			
 			echo "\t\t<div class=\"moduleinfopane\" id=\"infopane_".prep_id($name)."\" >\n";
@@ -718,7 +614,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			if (isset($modules_online[$name]['attention']) && !empty($modules_online[$name]['attention'])) {
 				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Attention")."\">\n";
-				echo nl2br($modules_online[$name]['attention']);
+				echo nl2br( $loc_domain ? dgettext($loc_domain,$modules[$name]['attention']) : _($modules[$name]['attention']) );
 				echo "\t\t\t\t</div>\n";
 			}
 			
@@ -796,14 +692,14 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Description")."\">\n";
 			if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
 				echo "<h5>".sprintf(_("Description for version %s"),$modules[$name]['version'])."</h5>";
-				echo nl2br($modules[$name]['description']);
+				echo nl2br( $loc_domain ? dgettext($loc_domain,$modules[$name]['description']) : _($modules[$name]['description']) );
 			} else {
 				echo _("No description is available.");
 			}
 			if (isset($modules[$name]['info']) && !empty($modules[$name]['info'])) {
 				echo '<p>'._('More info').': <a href="'.$modules[$name]['info'].'" target="_new">'.$modules[$name]['info'].'</a></p>';
 			} else {
-				echo '<p>'._('More info').': <a href="'."$freepbx_help_url&freepbx_module=".urlencode($name).'" target="help">'._("Get help for ").$modules[$name]['name'].'</a></p>';
+				echo '<p>'._('More info').': <a href="'."$freepbx_help_url&freepbx_module=".urlencode($name).'" target="help">'.sprintf(_("Get help for %s"),$name_text).'</a></p>';
 			}
 			echo "\t\t\t\t</div>\n";
 			
@@ -828,7 +724,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				echo "\t\t\t\t</div>\n";
 			}
 			
-			if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL'] == 'true') {
+			if ($amp_conf['DEVEL']) {
 				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Debug")."\">\n";
 				echo "\t\t\t\t<h5>".$name."</h5><pre>\n";
 				print_r($modules_local[$name]);
@@ -880,4 +776,103 @@ if ($quietmode) {
 	echo '</body></html>';
 }
 
+//-------------------------------------------------------------------------------------------
+// Help functions
+//
+
+function category_sort_callback($a, $b) {
+	// sort by category..
+	$catcomp = strcmp($a['category'], $b['category']);
+	if ($catcomp == 0) {
+		// .. then by name
+		return strcmp($a['name'], $b['name']);
+	} else
+		return $catcomp;
+}
+
+/** preps a string to use as an HTML id element
+ */
+function prep_id($name) {
+	return preg_replace("/[^a-z0-9-]/i", "_", $name);
+}
+
+/** Progress callback used by module_download() 
+ */
+function download_progress($action, $params) {
+	switch ($action) {
+		case 'untar':
+			echo '<script type="text/javascript">
+			        var txt = document.createTextNode("'._('Untarring..').'");
+			        var br = document.createElement(\'br\');
+			        document.getElementById(\'moduleprogress\').appendChild(br); 
+					document.getElementById(\'moduleprogress\').appendChild(txt); 
+			     </script>';
+			flush();
+		break;
+		case 'downloading':
+			if ($params['total']==0) {
+				$progress = $params['read'].' of '.$params['total'].' (0%)';
+			} else {
+				$progress = $params['read'].' of '.$params['total'].' ('.round($params['read']/$params['total']*100).'%)';
+			}
+			echo '<script type="text/javascript">
+			        document.getElementById(\'downloadprogress_'.$params['module'].'\').innerHTML = \''.$progress.'\';
+			      </script>';
+			flush();
+		break;
+		case 'done';
+			echo '<script type="text/javascript">
+			        var txt = document.createTextNode("'._('Done.').'");
+					var br = document.createElement(\'br\');
+			        document.getElementById(\'moduleprogress\').appendChild(txt); 
+					document.getElementById(\'moduleprogress\').appendChild(br); 
+			     </script>';
+			flush();
+		break;
+	}
+}
+
+/* enable_option($module_name, $option)
+   This function will return false if the particular option, which is a module xml tag,
+	 is set to 'no'. It also provides for some hardcoded overrides on critical modules to
+	 keep people from editing the xml themselves and then breaking their the system.
+*/
+function enable_option($module_name, $option) {
+	global $modules;
+
+	$enable=true;
+	$override = array('core'      => array('candisable' => 'no',
+	                                       'canuninstall' => 'no',
+					                              ),
+	                  'framework' => array('candisable' => 'no',
+	                                       'canuninstall' => 'no',
+																			  ),
+	                 );
+	if (isset($modules[$module_name][$option]) && strtolower(trim($modules[$module_name][$option])) == 'no') {
+		$enable=false;
+	}
+	if (isset($override[$module_name][$option]) && strtolower(trim($override[$module_name][$option])) == 'no') {
+		$enable=false;
+	}
+	return $enable;
+}
+
+/* Replace '#nnn', 'bug nnn', 'ticket nnn' type ticket numbers in changelog with a link, taken from Greg's drupal filter
+*/
+function trac_replace_ticket($match) {
+  $baseurl = 'http://freepbx.org/trac/ticket/';
+  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="ticket '.$match[1].'">'.$match[0].'</a>';
+}
+
+/* Replace 'rnnn' changeset references to a link, taken from Greg's drupal filter
+*/
+function trac_replace_changeset($match) {
+  $baseurl = 'http://freepbx.org/trac/changeset/';
+  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="changeset '.$match[1].'">'.$match[0].'</a>';
+}                                                                                                                                              
+
+function pageReload(){
+	return "";
+	//return "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=".rand()."'</script>";
+}
 ?>

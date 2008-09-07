@@ -128,7 +128,7 @@ if(is_array($active_modules)){
 		
 		//create an array of module sections to display
 		// stored as [items][$type][$category][$name] = $displayvalue
-		if (!$quitemode && isset($module['items']) && is_array($module['items'])) {
+		if (isset($module['items']) && is_array($module['items'])) {
 			// loop through the types
 			foreach($module['items'] as $itemKey => $item) {
 

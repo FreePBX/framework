@@ -16,6 +16,8 @@
   ARI updates could be split from other framework updates in order to allow people
   with highly customized FOP and ARI changes to pull framework updates easier.
 
+- Added Streaming categories to MoH in addition to downloaded files
+
 2.5.0	Added before rc1
  WARNING: The separation of directdid and other incoming routes has been removed.
  this has resulted in the obsoletion of the following API call:
@@ -100,6 +102,14 @@
  These can be used to change the refresh rate of the System Status Panel. Most of
  the stats are updated based on the STATS interval but a few items are checked
  less frequently (such as Astersisk Uptime) based on the INFO value
+
+ ZAP2DAHDICOMPAT=true|false
+ DEFAULT VALUE: false
+ If set to true, FreePBX will check if you have chan_dadhi installed. If so, it will
+ automatically use all your ZAP configuration settings (devices and trunks) and
+ silently convert them, under the covers, to DAHDI so no changes are needed. The
+ GUI will continue to refer to these as ZAP but it will use the proper DAHDI channels.
+ This will also keep Zap Channel DIDs working.
 
 
  HIGHLIGHTS:
