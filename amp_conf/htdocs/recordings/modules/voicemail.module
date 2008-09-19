@@ -9,6 +9,7 @@
   * Class for voicemail
   */
 class Voicemail {
+
   /*
    * rank (for prioritizing modules)
    */
@@ -380,17 +381,13 @@ class Voicemail {
 
       $i++;
     }
-    $recording_header .= "<th>" . _("Playback") . "</th>";
+    $recording_header .= "<th>" . _("Message") . "</th>";
 
-    // Column to provide a download link for each message in voicemail.
-    $download_header .= "<th>" . _("Download"). "</th>";
     // table body
     if (isset($data)) {
-      $playbackRow = 2;	// Index for where playback control rows used by javascript playback() should appear in the table.  
-			// First control row would appear below row 1 (hence $playbackRow starts at 2); control rows are inserted/deleted as needed.
       foreach($data as $file=>$value) {
 
-        // Playback links
+        // recording popup link
         $voicemail_audio_format = $voicemail_audio_format=='' ? '.wav' : $voicemail_audio_format;
         $recording = preg_replace('/.txt/', $voicemail_audio_format, $file);
         $date = GetDateFormat($value['origtime']);
@@ -401,8 +398,9 @@ class Voicemail {
         $duration = $value[duration];
         if (is_file($recording)) {
           $recordingCrypt = urlencode($crypt->encrypt($recording,$ARI_CRYPT_PASSWORD));
-	  $recordingLink = "<a href='#' onClick=\"javascript:playback('play', $playbackRow, 'misc/play_page.php?recording=" . $recordingCrypt . "'); return false;\"><img src='theme/images/sound.png' title=" . _("Play") . "></img></a>";
-	  $downloadLink = "<a href=/recordings/misc/audio.php?recording='" . $recordingCrypt . "'><img src='theme/images/drive_go.png' title=" . _("Download") . "></img></a>";
+	  $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recordingCrypt . "&date=" . $date . "&time=" . $time . "'); return false;\">
+            " . _("play") . "
+          </a>";
         } 
         else {
           $_SESSION['ari_error'] = _("Voicemail recording(s) was not found.") . "<br>" .
@@ -421,10 +419,7 @@ class Voicemail {
             <td width=90>" . $to . "</td>
             <td>" . $duration . " sec</td>
             <td>" . $recordingLink . "</td>
-	    <td>" . $downloadLink . "</td>
           </tr>";
-
-	$playbackRow++;
       }
     }
 
@@ -464,12 +459,9 @@ class Voicemail {
     $ret .= $display->displayHeaderText(sprintf(_("Voicemail for %s (%s)"),$displayname,$extension));
     $ret .= $display->displaySearchBlock('left',$m,$q,$url_opts,true);
 
-    // pb_load_inprogress is a hidden element that is used by the javascript playback()
-    // as a boolean to keep track of whether or not a Playback from this page is in progress ("loading").
     // start form
     $ret .= "
       <form name='voicemail_form' action='" . $_SESSION['ARI_ROOT'] . "' method='GET'>
-	<input type=hidden id='pb_load_inprogress' value='false'>
         <input type=hidden name=m value=" . $m . ">	
         <input type=hidden name=f value=msgAction>
         <input type=hidden name=a value=''>
@@ -482,10 +474,14 @@ class Voicemail {
 
     $ret .= $display->displayInfoBarBlock($controls,$q,$start,$span,$record_count);
 
-    // add javascript for playback and message actions
+    // add javascript for popup and message actions
     $ret .= "
       <SCRIPT LANGUAGE='JavaScript'>
       <!-- Begin
+      function popUp(URL) {
+        popup = window.open(URL, 'play', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=324,height=110');
+      }
+
       function checkAll(form,set) {
         var elem = 0;
         var i = 0;
@@ -498,29 +494,6 @@ class Voicemail {
           i++;
         }
         return true;
-      }
-
-      // Playback function
-      function playback(mode, row_num, link) {
-	var playbackId = \"CURRENT__MSG\";
-	var i = 0;
-	var vmTable = document.getElementById('vmail_table');
-	// Only one Playback control row can be open at a time.
-	// If one is already open (e.g. a call that is now over or a message already loaded for playback), close it.
-	for (i = 0; i < vmTable.rows.length; i++) {
-		if (vmTable.rows[i].id == playbackId) {
-			// Delete the row; it's a Playback control row.
-			vmTable.deleteRow(vmTable.rows[i].rowIndex);
-		}
-	}
-	// Make our Playback row.
-	playback_src = \"<iframe width='100%' height='25px' marginheight='0' marginwidth='0' frameborder='0' scrolling='no' src=\" + link + \"></iframe>\";
-	document.getElementById('pb_load_inprogress').value = \"true\";
-	newRow = vmTable.insertRow(row_num);
-	newRow.id = playbackId;
-	cell_left = newRow.insertCell(0);
-	cell_left.colSpan = 9;
-	cell_left.innerHTML = playback_src;
       }
       // End -->
       </script>";
@@ -539,11 +512,10 @@ class Voicemail {
 
     // table
     $ret .= "
-      <table id='vmail_table' class='voicemail'>
+      <table class='voicemail'>
         <tr>
            " . $recording_delete_header . "
            " . $recording_header . "
-	   " . $download_header . "
         </tr>
         " . $tableText . "
       </table>";
