@@ -164,7 +164,9 @@ if ($reload_needed) {
 	print_sub_tool( _("Management"), "manage.php" , $currentFile=='manage.php' );
 	print_sub_tool( _("Admin")   , "config.php", $currentFile=='config.php' );
 	print_sub_tool( _("Reports")   , "reports.php", $currentFile=='reports.php' );
-	print_sub_tool( _("Panel")     , "panel.php"  , $currentFile=='panel.php' );
+	if(!$amp_conf["FOPDISABLE"])  {
+		print_sub_tool( _("Panel")     , "panel.php"  , $currentFile=='panel.php' );
+	}
 	print_sub_tool( _("Recordings"), "../recordings/index.php"  ,0, NULL, "ari" );
 	print_sub_tool( _("Help"), "http://www.freepbx.org/freepbx-help-system$help_args"  ,0, NULL, "help" );
 	echo "<li class=\"last\"><a >&nbsp</a></li>";

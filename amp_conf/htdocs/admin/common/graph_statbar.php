@@ -1,8 +1,8 @@
 <?php /* $Id$ */
-include_once(dirname(__FILE__) . "/lib/defines.php");
-include_once(dirname(__FILE__) . "/lib/Class.Table.php");
-include_once(dirname(__FILE__) . "/jpgraph_lib/jpgraph.php");
-include_once(dirname(__FILE__) . "/jpgraph_lib/jpgraph_bar.php");
+include_once(dirname(__FILE__) . "/../cdr/lib/defines.php");
+include_once(dirname(__FILE__) . "/../cdr/lib/Class.Table.php");
+include_once(dirname(__FILE__) . "/../cdr/jpgraph_lib/jpgraph.php");
+include_once(dirname(__FILE__) . "/../cdr/jpgraph_lib/jpgraph_bar.php");
 
 // this variable specifie the debug type (0 => nothing, 1 => sql result, 2 => boucle checking, 3 other value checking)
 $FG_DEBUG = 0;

@@ -2,6 +2,7 @@
 // This is a global to be used by gettabindex()
 //
 $_guielement_tabindex = 1;
+$_guielement_formfields = 0;
 
 class component {
 	var $_compname; // Component name (e.g. users, devices, etc.)
@@ -353,13 +354,18 @@ class component {
 		
 		$tabindex = guielement::gettabindex();
 		// End of table
-		$htmlout .= "\t<tr>\n";
-		$htmlout .= "\t\t<td colspan=\"2\">";
-		$htmlout .= "<h6>";
-		$htmlout .= "<input name=\"Submit\" type=\"submit\" tabindex=\"$tabindex\" value=\""._("Submit")."\">";
-		$htmlout .= "</h6>";
-		$htmlout .= "</td>\n";
-		$htmlout .= "\t</tr>\n";
+
+		// Don't put a submit button if there were not form fields generated
+		//
+		if (guielement::getformfields()) {
+			$htmlout .= "\t<tr>\n";
+			$htmlout .= "\t\t<td colspan=\"2\">";
+			$htmlout .= "<h6>";
+			$htmlout .= "<input name=\"Submit\" type=\"submit\" tabindex=\"$tabindex\" value=\""._("Submit")."\">";
+			$htmlout .= "</h6>";
+			$htmlout .= "</td>\n";
+			$htmlout .= "\t</tr>\n";
+		}
 		$htmlout .= "</table><!-- end of table $formname -->\n\n";
 
 		if ( !$this->_sorted_jsfuncs )
@@ -411,13 +417,26 @@ class component {
 	}
 	
 	function buildconfigpage() {
-		if ( !$this->_sorted_guifuncs )
+		if ( !$this->_sorted_guifuncs ) {
 			$this->sortguifuncs();
+		}
 
 		if ( is_array($this->_guifuncs) ) {
 			foreach ( array_keys($this->_guifuncs) as $sortorder ) {
 				foreach ( $this->_guifuncs[$sortorder] as $func ) {
-					$func($this->_compname);
+					$modparts = explode("_",$func,2);
+					$thismod = $modparts[0];
+					if (isset($_COOKIE['lang']) && is_dir("./modules/$thismod/i18n/".$_COOKIE['lang'])) {
+						bindtextdomain($thismod,"./modules/$thismod/i18n");
+						bind_textdomain_codeset($thismod, 'utf8');
+						textdomain($thismod);
+			
+						$func($this->_compname);
+
+						textdomain('amp');
+					} else {
+						$func($this->_compname);
+					}
 				}
 			}
 		}
@@ -458,6 +477,14 @@ class guielement {
 	function settabindex($new_tab) {
 		global $_guielement_tabindex;
 		$_guielement_tabindex = $new_tab;
+	}
+	function incrementfields() {
+		global $_guielement_formfields;
+		$_guielement_formfields++;
+	}
+	function getformfields() {
+		global $_guielement_formfields;
+		return $_guielement_formfields;
 	}
 }
 
@@ -510,6 +537,7 @@ class guiinput extends guielement {
 		
 		// this will be the html that makes up the input element
 		$this->html_input = '';
+		guielement::incrementfields();
 	}
 	
 	function generatevalidation() {

@@ -67,7 +67,7 @@ $STANDALONE['asteriskcdr_dbpass'] = "";
 $ARI_NO_LOGIN = 0;
 
 #
-# Admin only account
+# Admin only account - change defaults to prevent unauthorized access to call recordings
 #
 $ARI_ADMIN_USERNAME = "admin";
 $ARI_ADMIN_PASSWORD ="ari_password";
@@ -78,8 +78,9 @@ $ARI_ADMIN_PASSWORD ="ari_password";
 $ARI_ADMIN_EXTENSIONS = "";
 
 #
-# Authentication password to unlock cookie password
+# Authentication password to unlock cookie password and voicemail links
 #   This must be all continuous and only letters and numbers
+#   Change this password to prevent unauthorized access to voicemail and call recordings
 #
 $ARI_CRYPT_PASSWORD = "z1Mc6KRxA7Nw90dGjY5qLXhtrPgJOfeCaUmHvQT3yW8nDsI2VkEpiS4blFoBuZ";
 

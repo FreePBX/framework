@@ -148,13 +148,19 @@ class Voicemail {
     // get files
     $files = array();
     foreach($_REQUEST as $key => $value) {
-      if (preg_match('/selected/',$key)) {
-        array_push($files, $value);
+      if (preg_match('/selected/',$key) && isset($_SESSION['ari_user']['recfiles'][$value])) {
+        array_push($files, $_SESSION['ari_user']['recfiles'][$value]);
       }
     }
 
     if ($a=='delete') {
-      $this->deleteVoicemailData($files);
+      if (count($files) > 0) {
+        $this->deleteVoicemailData($files);
+      }
+      else {
+        $_SESSION['ari_error'] 
+          = _("One or more messages must be selected before clicking delete.");        
+      }
     }
     else if ($a=='move_to') {
       $folder_rx = getArgument($args,'folder_rx');
@@ -162,10 +168,14 @@ class Voicemail {
         $_SESSION['ari_error'] 
           = _("A folder must be selected before the message can be moved.");
       }
-      else {
+      else if (count($files) > 0) {
         $context = $_SESSION['ari_user']['context'];
         $extension = $_SESSION['ari_user']['extension'];
         $this->moveVoicemailData($files, $context, $extension, $folder_rx);
+      }
+      else {
+        $_SESSION['ari_error'] 
+          = _("One or more messages must be selected before clicking move_to.");        
       }
     } 
     else if ($a=='forward_to') {
@@ -176,9 +186,13 @@ class Voicemail {
         $_SESSION['ari_error'] 
           = _("An extension must be selected before the message can be forwarded.");
       }
-      else {
+      else if (count($files) > 0) {
         $folder_rx = $ASTERISK_VOICEMAIL_FOLDERS[0]['folder'];
         $this->moveVoicemailData($files, $context_rx, $extension_rx, $folder_rx, false);
+      }
+      else {
+        $_SESSION['ari_error'] 
+          = _("One or more messages must be selected before clicking forward_to.");        
       }
     }
 
@@ -207,12 +221,10 @@ class Voicemail {
     global $ASTERISK_VOICEMAIL_PATH;
     global $ASTERISK_VOICEMAIL_FOLDERS;
     global $AJAX_PAGE_REFRESH_ENABLE;
-    global $ARI_CRYPT_PASSWORD;
 
     $voicemail_audio_format = $_COOKIE['ari_voicemail_audio_format'];
 
     $display = new DisplaySearch();
-    $crypt = new Crypt();
 
     // args
     $m = getArgument($args,'m');
@@ -384,9 +396,10 @@ class Voicemail {
     $recording_header .= "<th>" . _("Message") . "</th>";
 
     // table body
+		unset($_SESSION['ari_user']['recfiles']);
     if (isset($data)) {
       foreach($data as $file=>$value) {
-
+				$i++;
         // recording popup link
         $voicemail_audio_format = $voicemail_audio_format=='' ? '.wav' : $voicemail_audio_format;
         $recording = preg_replace('/.txt/', $voicemail_audio_format, $file);
@@ -397,21 +410,22 @@ class Voicemail {
         $to = $value[origmailbox];
         $duration = $value[duration];
         if (is_file($recording)) {
-          $recordingCrypt = urlencode($crypt->encrypt($recording,$ARI_CRYPT_PASSWORD));
-	  $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recordingCrypt . "&date=" . $date . "&time=" . $time . "'); return false;\">
+					$_SESSION['ari_user']['recfiles'][$i] = $recording;
+					$recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recindex=$i&date=" . $date . "&time=" . $time . "'); return false;\">
             " . _("play") . "
           </a>";
         } 
         else {
           $_SESSION['ari_error'] = _("Voicemail recording(s) was not found.") . "<br>" .
                                    sprintf(_("On settings page, change voicemail audio format.  It is currently set to %s"),$voicemail_audio_format);
+					$recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recindex=$i&date=" . $date . "&time=" . $time . "'); return false;\">
+            " . _("play") . "
+          </a>";
         }
-
-        $fileCrypt = $crypt->encrypt($file,$ARI_CRYPT_PASSWORD);
 
         $tableText .= "
           <tr>
-            <td class='checkbox'><input type=checkbox name='selected" . ++$i . "' value=" . $fileCrypt . "></td>
+            <td class='checkbox'><input type=checkbox name='selected" . $i . "' value=" . $i . "></td>
             <td width=68>" . $date . "</td>
             <td>" . $time . "</td>
             <td width=100>" . $from . "</td>
@@ -421,8 +435,7 @@ class Voicemail {
             <td>" . $recordingLink . "</td>
           </tr>";
       }
-    }
-
+    } 
     // options
     $url_opts = array();
     $url_opts['folder'] = $folder;
@@ -621,14 +634,7 @@ class Voicemail {
    */
   function deleteVoicemailData($files) {
 
-    global $ARI_CRYPT_PASSWORD;
-
-    $crypt = new Crypt();
-
-    foreach($files as $key => $pathCrypt) {
-
-      // decrypt path
-      $path = $crypt->decrypt($pathCrypt,$ARI_CRYPT_PASSWORD);
+    foreach($files as $key => $path) {
 
       // get file parts for search
       $path_parts = pathinfo($path);
@@ -665,9 +671,6 @@ class Voicemail {
   function moveVoicemailData($files,$context_rx,$extension_rx,$folder_rx,$delete_moved=true) {
 
     global $ASTERISK_VOICEMAIL_PATH;
-    global $ARI_CRYPT_PASSWORD;
-
-    $crypt = new Crypt();
 
     $perm = fileperms($ASTERISK_VOICEMAIL_PATH);
     $uid = fileowner($ASTERISK_VOICEMAIL_PATH);
@@ -722,9 +725,7 @@ class Voicemail {
       return;
     }
 
-    foreach($files as $key => $pathCrypt) {
-      // decrypt path
-      $pathPlain = $crypt->decrypt($pathCrypt,$ARI_CRYPT_PASSWORD);
+    foreach($files as $key => $pathPlain) {
       // add plain path to new array
       $filesPlain[] = $pathPlain;
     }

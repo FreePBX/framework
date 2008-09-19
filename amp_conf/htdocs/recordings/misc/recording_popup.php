@@ -22,7 +22,9 @@ include_once("./includes/bootstrap.php");
 
 <?php
 
-  $path = urlencode($_GET['recording']);
+	if (isset($_GET['recindex'])) {
+		$path = $_SESSION['ari_user']['recfiles'][$_GET['recindex']];
+	}
 
   if (isset($path)) {
     if (isset($_GET['date'])) {
@@ -33,8 +35,8 @@ include_once("./includes/bootstrap.php");
     }
 
     echo("<br>");
-    echo("<embed src='audio.php?recording=" . $path . "' width=300, height=25 autoplay=true loop=false></embed><br>");
-    echo("<a class='popup_download' href=/recordings/misc/audio.php?recording="  . $path . ">" . _("download") . "</a><br>");
+    echo("<embed src='audio.php?recindex=".$_GET['recindex'] . "' width=300, height=25 autoplay=true loop=false></embed><br>");
+    echo("<a class='popup_download' href=/recordings/misc/audio.php?recindex="  . $_GET['recindex'] . ">" . _("download") . "</a><br>");
   }
 
 ?>

@@ -49,12 +49,12 @@ $paypal="NOK"; //OK || NOK
 	<head>		
 		<title>Asterisk CDR</title>
 		<meta http-equiv="Content-Type" content="text/html">
-		<link rel="stylesheet" type="text/css" media="print" href="/css/print.css">
-		<SCRIPT LANGUAGE="JavaScript" SRC="./encrypt.js"></SCRIPT>
+		<link rel="stylesheet" type="text/css" media="print" href="common/print.css">
+		<SCRIPT LANGUAGE="JavaScript" SRC="common/encrypt.js"></SCRIPT>
 		<style type="text/css" media="screen">
-			@import url("css/layout.css");
-			@import url("css/content.css");
-			@import url("css/docbook.css");
+			@import url("common/layout.css");
+			@import url("common/content.css");
+			@import url("common/docbook.css");
 		</style>
 		<meta name="MSSmartTagsPreventParsing" content="TRUE">
 	</head>

@@ -655,19 +655,35 @@ class moduleHook {
 		global $active_modules;
 		// loop through all active modules
 		foreach($active_modules as $this_module) {
-				// look for requested hooks for $module
-				// ie: findme_hook_extensions()
-				$funct = $this_module['rawname'] . '_hook_' . $target_module;
-				if( function_exists( $funct ) ) {
-					// execute the function, appending the 
-					// html output to that of other hooking modules
+			// look for requested hooks for $module
+			// ie: findme_hook_extensions()
+			$funct = $this_module['rawname'] . '_hook_' . $target_module;
+			if( function_exists( $funct ) ) {
+				// execute the function, appending the 
+				// html output to that of other hooking modules
+
+				$thismod = $this_module['rawname'];
+				if (isset($_COOKIE['lang']) && is_dir("./modules/$thismod/i18n/".$_COOKIE['lang'])) {
+					bindtextdomain($thismod,"./modules/$thismod/i18n");
+					bind_textdomain_codeset($thismod, 'utf8');
+					textdomain($thismod);
+			
+					freepbx_debug("applying hook for $thismod with domain: $saved_domain");
 					if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
 						$this->hookHtml .= $hookReturn;
 					}
-					// remember who installed hooks
-					// we need to know this for processing form vars
-					$this->arrHooks[] = $this_module['rawname'];
+
+					textdomain('amp');
+					freepbx_debug("returned to $thismod with domain: $saved_domain");
+				} else {
+					if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
+						$this->hookHtml .= $hookReturn;
+					}
 				}
+				// remember who installed hooks
+				// we need to know this for processing form vars
+				$this->arrHooks[] = $this_module['rawname'];
+			}
 		}
 	}
 	
@@ -728,6 +744,7 @@ $amp_conf_defaults = array(
 	'AMPDISABLELOG'  => array('bool' , true),
 	'AMPENABLEDEVELDEBUG'=> array('bool' , false),
 	'AMPMPG123'      => array('bool' , true),
+	'FOPDISABLE'      => array('bool' , false),
 	'ZAP2DAHDICOMPAT' => array('bool' , false),
 );
 
@@ -1493,7 +1510,7 @@ function do_reload() {
 	$return['message'] = _('Successfully reloaded');
 	
 	
-	if ($amp_conf['FOPRUN']) {
+	if ($amp_conf['FOPRUN'] && !$amp_conf['FOPDISABLE']) {
 		//bounce op_server.pl
 		$wOpBounce = $amp_conf['AMPBIN'].'/bounce_op.sh';
 		exec($wOpBounce.' &>'.$asterisk_conf['astlogdir'].'/freepbx-bounce_op.log', $output, $exit_val);
@@ -1555,54 +1572,19 @@ function get_framework_version() {
 }
 
 // draw list for users and devices with paging
-function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $description) {
-	// Dirty Fix to get rid of [NEXT/PREV] since I'm not sure what passing skip does and don't want to mess with it.
-	// When someone feels like looking closer at the below, probably should remove the code.
-	// I removed pagination cause of the new scroll box ticket #1415
-	$perpage=20000;
+// $skip has been dprecated, used to be used to page-enate
+function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $description=false) {
 	
-	$skipped = 0;
 	$index = 0;
-	if ($skip == "") $skip = 0;
 	echo "<ul>\n";
- 	echo "\t<li><a ".($extdisplay=='' ? 'class="current"':'')." href=\"config.php?type=".$type."&display=".$dispnum."\">"._("Add")." ".$description."</a></li>\n";
-
+	if ($description !== false) {
+ 		echo "\t<li><a ".($extdisplay=='' ? 'class="current"':'')." href=\"config.php?type=".$type."&display=".$dispnum."\">"._("Add")." ".$description."</a></li>\n";
+	}
 	if (isset($results)) {
-		foreach ($results AS $key=>$result) {
-			if ($index >= $perpage) {
-				$shownext= 1;
-				break;
-			}
-			
-			if ($skipped<$skip && $skip!= 0) {
-				$skipped= $skipped + 1;
-				continue;
-			}
-			
+		foreach ($results as $key=>$result) {
 			$index= $index + 1;
-			echo "\t<li><a".($extdisplay==$result[0] ? ' class="current"':''). " href=\"config.php?type=".$type."&amp;display=".$dispnum."&amp;extdisplay={$result[0]}&amp;skip={$skip}\">{$result[1]} &lt;{$result[0]}&gt;</a></li>\n";
+			echo "\t<li><a".($extdisplay==$result[0] ? ' class="current"':''). " href=\"config.php?type=".$type."&display=".$dispnum."&extdisplay={$result[0]}\">{$result[1]} &lt;{$result[0]}&gt;</a></li>\n";
 		}
-	}
-	 
-	$prevtag = "";
-	$prevtag_pre = "";
-	if ($skip) {
-		 $prevskip= $skip - $perpage;
-		 if ($prevskip<0) $prevskip= 0;
-		 $prevtag_pre= "<a href='?type=".$type."&amp;display=".$dispnum."&amp;skip=$prevskip'>" .
-			_("[PREVIOUS]") ."</a>";
-		 print "\t<li><center>";
-		 print "$prevtag_pre";
-		 print "</center></li>\n";
-	}
-	
-	if (isset($shownext)) {
-		$nextskip= $skip + $index;
-		if ($prevtag_pre) $prevtag .= " | ";
-		print "\t<li><center>";
-		print "$prevtag <a href='?type=".$type."&amp;display=".$dispnum."&amp;skip=$nextskip'>" . 
-			_("[NEXT]") . "</a>";
-		print "</center></li>\n";
 	}
 	echo "</ul>\n";
 }
@@ -3582,7 +3564,11 @@ function module_run_notification_checks() {
  */
 function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log') {
 	$fh = fopen($filename,$option);
-	fwrite($fh,$string."\n");
+	if (is_array($string)) {
+		fwrite($fh,print_r($string,true)."\n");
+	} else {
+		fwrite($fh,$string."\n");
+	}
 	fclose($fh);
 }
 

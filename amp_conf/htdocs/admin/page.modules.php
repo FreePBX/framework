@@ -645,7 +645,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 							$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
 							if ($vercomp < 0) {
 								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
-									 '<label for="upgrade_'.prep_id($name).'">'.sprintf(_('Download and Upgrade to %s, and Enable'),$modules_online[$name]['version']).'</label> <br />';
+									 '<label for="upgrade_'.prep_id($name).'">'.sprintf(_('Download %s, keep Disabled'),$modules_online[$name]['version']).'</label> <br />';
 							}
 						}
 					}

@@ -335,8 +335,11 @@ class Login {
         $_SESSION['ari_user']['admin_callmonitor'] = $admin_callmonitor;
         $_SESSION['ari_user']['default_page'] = $default_page;
 
-        // force the session data saved
-        session_write_close();
+				// Make sure nothing stale is here:
+				//
+				unset($_SESSION['ari_user']['recfiles']);
+
+        // don't force the session data saved, there may be voicemail or callmonitor files still
       } 
     }
   } 

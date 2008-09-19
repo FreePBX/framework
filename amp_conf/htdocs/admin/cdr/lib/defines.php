@@ -2,6 +2,7 @@
 
 require_once('DB.php'); // PEAR
 
+if (!function_exists('parse_amportal_conf')) {
 function parse_amportal_conf($filename) {
         $file = file($filename);
         foreach ($file as $line) {
@@ -10,6 +11,7 @@ function parse_amportal_conf($filename) {
                 }
         }
         return $conf;
+}
 }
 
 $amp_conf = parse_amportal_conf("/etc/amportal.conf");

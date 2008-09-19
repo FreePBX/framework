@@ -41,6 +41,15 @@ include('header.php');
 // handle special requests
 if (isset($_REQUEST['handler'])) {
 	switch ($_REQUEST['handler']) {
+		case 'cdr':
+			include('cdr/cdr.php');
+			break;
+		case 'cdr_export_csv':
+			include('cdr/export_csv.php');
+			break;
+		case 'cdr_export_pdf':
+			include('cdr/export_pdf.php');
+			break;
 		case 'reload':
 			/** AJAX handler for reload event
 			 */

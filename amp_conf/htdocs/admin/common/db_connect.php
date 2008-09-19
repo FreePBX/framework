@@ -71,7 +71,7 @@ if(DB::isError($db)) {
 
 // Now send or delete warning wrt to default passwords:
 //
-if (!$quietmode) {
+if (!isset($quietmode) || !$quietmode) {
 	$nt = notifications::create($db);
 
 	if ($amp_conf['AMPDBPASS'] == $amp_conf_defaults['AMPDBPASS'][1]) {

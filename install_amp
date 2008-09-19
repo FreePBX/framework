@@ -124,6 +124,7 @@ function showHelp() {
 	out("  --no-files               Just run updates without installing files");
 	out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ");
 	out("                           it's a new installation)");
+	out("  --install-fop=false      Don't install FOP and don't display it anywhere on the interface");
 	//out("  --make-links-devel       Make links to files in the source directory instead of copying");
 	//out("                           (intended for developers only)");
 	out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct");
@@ -568,7 +569,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","make-links-devel","skip-module-install");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop","make-links-devel","skip-module-install");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -583,6 +584,7 @@ $install_files = true;
 $override_astvers = false;
 
 $install_moh = false;
+$install_fop = true;
 $make_links = false;
 $module_install = true;
 
@@ -641,6 +643,17 @@ foreach ($args[0] as $arg) {
 		break;
 		case "--install-moh":
 			$install_moh = true;
+		break;
+		case "--install-fop":
+			if($arg[1] != "false")  {
+				$install_fop = true;
+				out("FOP will be installed and activated.");
+			}
+			else  {
+				out("FOP will be deactivated in the interface.  Set FOPDISABLE=false in amportal.conf to change later.");
+
+			}
+
 		break;
 		case "--make-links-devel":
 			$make_links = true;
@@ -784,7 +797,15 @@ if (isset($dbhost)) {
 if (isset($dbname)) {
 	$amp_conf["AMPDBNAME"] = $dbname;
 }
-	
+if(!$install_fop)  { // Set from --install-fop parameter; Add it to amportal.conf
+	out("Adding FOPDISABLE option to amportal.conf");
+	$amp_conf["FOPDISABLE"] = "true";
+}
+// If they pre-set this in their amportal.conf or this is an upgrade, we should honor it as well
+//
+if (isset($amp_conf['FOPDISABLE']) && (strtolower(trim($amp_conf['FOPDISABLE'])) == 'true' || strtolower(trim($amp_conf['FOPDISABLE'])) == 'yes' || strtolower(trim($amp_conf['FOPDISABLE'])) == 'y') )  {
+	$install_fop = false;
+}	
 // write amportal.conf
 write_amportal_conf(AMP_CONF, $amp_conf);
 
@@ -1093,11 +1114,12 @@ out("Generating AMP configs..OK");
 
 $version = install_getversion();
 
-// **** Bounce FOP
-outn("Restarting Flash Operator Panel..");
-exec('su - asterisk -c "'.$amp_conf["AMPBIN"].'/bounce_op.sh"');
-out("OK");
-
+if($install_fop && $amp_conf["FOPRUN"])  {
+	// **** Bounce FOP
+	outn("Restarting Flash Operator Panel..");
+	exec('su - asterisk -c "'.$amp_conf["AMPBIN"].'/bounce_op.sh"');
+	out("OK");
+}
 
 // Now force an install for all modules that are packaged with the tarball
 // directory.

@@ -344,6 +344,9 @@ if(is_array($modules)){
 		}
 	}
 }
+// Now also make sure to symlink the CDR images which is not a proper module
+//
+symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/cdr/');
 
 // create an object of the extensions class
 require_once($amp_conf['AMPWEBROOT']."/admin/extensions.class.php");
@@ -716,12 +719,13 @@ include("libfreepbx.confgen.php");
 
 // script to write op_server.cfg file from mysql 
 //
-$script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.pl '.$amportalconf.' '.rtrim($asterisk_conf['astetcdir'],DIRECTORY_SEPARATOR);
-exec($script, $output, $ret);
-if ($ret) {
-	fatal(sprintf(_("retrieve_op_conf_from_mysql.pl returned with an error code %s"),$ret));
+if(!$amp_conf['FOPDISABLE'])  {
+	$script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.pl '.$amportalconf.' '.rtrim($asterisk_conf['astetcdir'],DIRECTORY_SEPARATOR);
+	exec($script, $output, $ret);
+	if ($ret) {
+		fatal(sprintf(_("retrieve_op_conf_from_mysql.pl returned with an error code %s"),$ret));
+	}
 }
-
 // generate configuration files
 //
 // Leave the legacy scripts in for a little while to help with odd-ball upgrade scenarios if they haven't gotten

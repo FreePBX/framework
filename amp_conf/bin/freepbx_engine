@@ -215,7 +215,10 @@ case "$1" in
 		run_asterisk
 		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]
 		then
-			run_fop
+			if [ -z "$FOPDISABLE" -o "$FOPDISABLE" == "false" -o "$FOPDISABLE" == "FALSE" -o "$FOPDISABLE" == "False" -o "$FOPDISABLE" == "no" -o "$FOPDISABLE" == "NO" -o "$FOPDISABLE" == "No" ]
+			then
+				run_fop
+			fi
 		fi
 	;;
 	stop)
@@ -230,7 +233,10 @@ case "$1" in
 		run_asterisk
 		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]
 		then
-			run_fop
+			if [ -z "$FOPDISABLE" -o "$FOPDISABLE" == "false" -o "$FOPDISABLE" == "FALSE" -o "$FOPDISABLE" == "False" -o "$FOPDISABLE" == "no" -o "$FOPDISABLE" == "NO" -o "$FOPDISABLE" == "No" ]
+			then
+				run_fop
+			fi
 		fi
 	;;
 	stop_fop)
@@ -252,16 +258,31 @@ case "$1" in
 		kill_amp
 	;;
 	*)
+		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]
+		then
+			if [ -z "$FOPDISABLE" -o "$FOPDISABLE" == "false" -o "$FOPDISABLE" == "FALSE" -o "$FOPDISABLE" == "False" -o "$FOPDISABLE" == "no" -o "$FOPDISABLE" == "NO" -o "$FOPDISABLE" == "No" ]
+			then
+				FOPUSAGE="start_fop|stop_fop|restart_fop|"
+			fi
+		fi
+
 		echo "-------------FreePBX Control Script-----------------------------------------------"
 		echo
-		echo "Usage:       amportal start|stop|restart|start_fop|stop_fop|restart_fop|kill|chown"
+		echo "Usage:       amportal start|stop|restart|${FOPUSAGE}kill|chown"
 		echo
 		echo "start:       Starts Asterisk and Flash Operator Panel server if enabled"
 		echo "stop:        Gracefully stops Asterisk and the FOP server"
 		echo "restart:     Stop and Starts"
-		echo "start_fop:   Starts FOP server and Asterisk if not running"
-		echo "stop_fop:    Stops FOP serverg"
-		echo "restart_fop: Stops FOP server and Starts it and Asterisk if not running"
+		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]
+		then
+			if [ -z "$FOPDISABLE" -o "$FOPDISABLE" == "false" -o "$FOPDISABLE" == "FALSE" -o "$FOPDISABLE" == "False" -o "$FOPDISABLE" == "no" -o "$FOPDISABLE" == "NO" -o "$FOPDISABLE" == "No" ]
+			then
+
+				echo "start_fop:   Starts FOP server and Asterisk if not running"
+				echo "stop_fop:    Stops FOP serverg"
+				echo "restart_fop: Stops FOP server and Starts it and Asterisk if not running"
+			fi
+		fi
 		echo "kill:        Kills Asterisk and the FOP server"
 		echo "chown:       Sets appropriate permissions on files"
 		echo

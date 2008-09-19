@@ -13,7 +13,7 @@ $template['content'] .= "</ul></div>";
 
 $template['content'] .= 
 	'<div id="reportframe">'.
-	'<iframe width="97%" height="2000" frameborder="0" align="top" scrolling="auto" src="cdr/cdr.php?s='.$display.($display=='1' ? '&posted=1' : '').'"></iframe>'.
+	'<iframe width="97%" height="2000" frameborder="0" align="top" scrolling="auto" src="config.php?handler=cdr&s='.$display.($display=='1' ? '&posted=1' : '').'"></iframe>'.
 	'</div>';
 
 showview('freepbx', $template);

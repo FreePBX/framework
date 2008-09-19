@@ -59,13 +59,19 @@ class Callmonitor {
     // get files
     $files = array();
     foreach($_REQUEST as $key => $value) {
-      if (preg_match('/selected/',$key)) {
-        array_push($files, $value);
+      if (preg_match('/selected/',$key) && isset($_SESSION['ari_user']['recfiles'][$value])) {
+        array_push($files, $_SESSION['ari_user']['recfiles'][$value]);
       }
     }
 
     if ($a=='delete') {
-      $this->deleteRecData($files);
+      if (count($files) > 0) {
+        $this->deleteRecData($files);
+      }
+      else {
+        $_SESSION['ari_error']
+          = _("One or more messages must be selected before clicking delete.");
+      }
     }
 
     if ($a=='ignore') {
@@ -99,10 +105,8 @@ class Callmonitor {
     global $ASTERISK_CALLMONITOR_PATH;
     global $CALLMONITOR_ALLOW_DELETE;
     global $AJAX_PAGE_REFRESH_ENABLE;
-    global $ARI_CRYPT_PASSWORD;
 
     $display = new DisplaySearch();
-    $crypt = new Crypt();
 
     // get the search string
     $m = getArgument($args,'m');
@@ -137,8 +141,14 @@ class Callmonitor {
 
     // build controls
     if ($CALLMONITOR_ALLOW_DELETE) {
+      if (count($recordings) > 0) {
+        $controls .= "<button ";
+      }
+      else {
+        $controls .= "<button disabled='disabled' ";
+      }
       $controls .= "
-        <button class='infobar' type='submit' onclick=\"document.callmonitor_form.a.value='delete'\">
+        class='infobar' type='submit' onclick=\"document.callmonitor_form.a.value='delete'\">
         " . _("delete") . "
         </button>
         &nbsp;";
@@ -203,27 +213,32 @@ class Callmonitor {
     $recording_header .= "<th>" . _("Monitor") . "</th>";
 
     // table body
+		unset($_SESSION['ari_user']['recfiles']);
     if (is_array($data)) foreach($data as $key=>$value) {
+			$i++;
 
       // recording file
       $recording = $recordings[$value['uniqueid'] . $value['calldate']];
-      $fileCrypt = $crypt->encrypt($recording,$ARI_CRYPT_PASSWORD);
-      $recordingCrypt = urlencode($fileCrypt);
 
       // date and time
       $buf = split(' ', $value[calldate]);
       $date = $buf[0];
       $time = $buf[1];
 
-      // recording delete checkbox
-      if ($CALLMONITOR_ALLOW_DELETE) {
-        $recording_delete_checkbox = "<td class='checkbox'><input type=checkbox name='selected" . ++$i . "' value=" . $fileCrypt . "></td>";
-      }
 
       $recordingLink = '';
       if (is_file($recordings[$value['uniqueid'] . $value['calldate']])) {
-        $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recording=" . $recordingCrypt . "&date=" . $date . "&time=" . $time . "'); return false;\">" . _("play") . "</a>";
-      }
+				$_SESSION['ari_user']['recfiles'][$i] = $recording;
+        $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recindex=" . $i . "&date=" . $date . "&time=" . $time . "'); return false;\">" . _("play") . "</a>";
+      	// recording delete checkbox
+      	if ($CALLMONITOR_ALLOW_DELETE) {
+        	$recording_delete_checkbox = "<td class='checkbox'><input type=checkbox name='selected" . $i . "' value=" . $i . "></td>";
+      	}
+      } else {
+      	if ($CALLMONITOR_ALLOW_DELETE) {
+        	$recording_delete_checkbox = "<td class='checkbox'></td>";
+      	}
+			}
     
       $recording_body .= "<tr>
                        " . $recording_delete_checkbox . "
@@ -530,12 +545,7 @@ class Callmonitor {
    */
   function deleteRecData($files) {
 
-    global $ARI_CRYPT_PASSWORD;
-
-    $crypt = new Crypt();
-
-    foreach($files as $key => $fileCrypt) {
-      $file = $crypt->decrypt($fileCrypt,$ARI_CRYPT_PASSWORD);
+    foreach($files as $key => $file) {
       if (is_writable($file)) {
         unlink($file);
       } else {
