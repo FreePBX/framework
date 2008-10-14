@@ -9,6 +9,7 @@
   * Class for voicemail
   */
 class Voicemail {
+  var $callme_num = "";
 
   /*
    * rank (for prioritizing modules)
@@ -23,6 +24,12 @@ class Voicemail {
    * init
    */
   function init() {
+    $extension = $_SESSION['ari_user']['extension'];
+    $this->callme_num = callme_getnum($extension);
+    if (empty($this->callme_num)) {
+	$this->callme_num = $extension;		// callme_num defaults to user's extension.
+	callme_setnum($extension, $extension);
+    }
   }
 
   /*
@@ -393,14 +400,18 @@ class Voicemail {
 
       $i++;
     }
-    $recording_header .= "<th>" . _("Message") . "</th>";
+    $recording_header .= "<th>" . _("Playback") . "</th>";
 
+    // Column to provide a download link for each message in voicemail.
+    $download_header .= "<th>" . _("Download"). "</th>";
     // table body
-		unset($_SESSION['ari_user']['recfiles']);
+    unset($_SESSION['ari_user']['recfiles']);
     if (isset($data)) {
+      $playbackRow = 2;	// Index for where playback control rows used by javascript playback() should appear in the table.  
+			// First control row would appear below row 1 (hence $playbackRow starts at 2); control rows are inserted/deleted as needed.
       foreach($data as $file=>$value) {
-				$i++;
-        // recording popup link
+        $i++;
+        // Playback links
         $voicemail_audio_format = $voicemail_audio_format=='' ? '.wav' : $voicemail_audio_format;
         $recording = preg_replace('/.txt/', $voicemail_audio_format, $file);
         $date = GetDateFormat($value['origtime']);
@@ -410,17 +421,16 @@ class Voicemail {
         $to = $value[origmailbox];
         $duration = $value[duration];
         if (is_file($recording)) {
-					$_SESSION['ari_user']['recfiles'][$i] = $recording;
-					$recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recindex=$i&date=" . $date . "&time=" . $time . "'); return false;\">
-            " . _("play") . "
-          </a>";
+          $_SESSION['ari_user']['recfiles'][$i] = $recording;
+          $recordingLink = "<a href='#' onClick=\"javascript:playback('play', $playbackRow, 'misc/play_page.php?recindex=" . $i . "'); return false;\"><img src='theme/images/sound.png' title=" . _("Play") . "></img></a>";
+          $callmePage		= "'misc/callme_page.php?recindex=" . $i . "&callmenum=" . $this->callme_num . "&action=c&msgFrom=" . $extension . "'";
+          $callme_tooltip	= _("Play message at: ") . $this->callme_num;
+          $callmeLink = "<a href='#' onClick=\"javascript:playback('callme', $playbackRow, $callmePage); return false;\"><img src='theme/images/telephone.png' title='" . $callme_tooltip . "'></img></a>";
+          $downloadLink = "<a href=/recordings/misc/audio.php?recindex=" . $i . "><img src='theme/images/drive_go.png' title=" . _("Download") . "></img></a>";
         } 
         else {
           $_SESSION['ari_error'] = _("Voicemail recording(s) was not found.") . "<br>" .
                                    sprintf(_("On settings page, change voicemail audio format.  It is currently set to %s"),$voicemail_audio_format);
-					$recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recindex=$i&date=" . $date . "&time=" . $time . "'); return false;\">
-            " . _("play") . "
-          </a>";
         }
 
         $tableText .= "
@@ -432,8 +442,11 @@ class Voicemail {
             <td>" . $value[priority] . "</td>
             <td width=90>" . $to . "</td>
             <td>" . $duration . " sec</td>
-            <td>" . $recordingLink . "</td>
+            <td>" . $recordingLink . "&nbsp;&nbsp;" . $callmeLink . "</td>
+            <td>" . $downloadLink . "</td>
           </tr>";
+
+	$playbackRow++;
       }
     } 
     // options
@@ -472,9 +485,12 @@ class Voicemail {
     $ret .= $display->displayHeaderText(sprintf(_("Voicemail for %s (%s)"),$displayname,$extension));
     $ret .= $display->displaySearchBlock('left',$m,$q,$url_opts,true);
 
+    // pb_load_inprogress is a hidden element that is used by the javascript playback()
+    // as a boolean to keep track of whether or not a Playback (Call Me or Computer Play) from this page is in progress ("loading").
     // start form
     $ret .= "
       <form name='voicemail_form' action='" . $_SESSION['ARI_ROOT'] . "' method='GET'>
+        <input type=hidden id='pb_load_inprogress' value='false'>
         <input type=hidden name=m value=" . $m . ">	
         <input type=hidden name=f value=msgAction>
         <input type=hidden name=a value=''>
@@ -487,14 +503,14 @@ class Voicemail {
 
     $ret .= $display->displayInfoBarBlock($controls,$q,$start,$span,$record_count);
 
-    // add javascript for popup and message actions
+    // Variables used in generating playback() javascript.
+    $callme_status_msg0 = _("Calling: ");
+    $callme_status_msg1 = _(". Please wait patiently...");
+
+    // add javascript for playback and message actions
     $ret .= "
       <SCRIPT LANGUAGE='JavaScript'>
       <!-- Begin
-      function popUp(URL) {
-        popup = window.open(URL, 'play', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=324,height=110');
-      }
-
       function checkAll(form,set) {
         var elem = 0;
         var i = 0;
@@ -507,6 +523,44 @@ class Voicemail {
           i++;
         }
         return true;
+      }
+
+      // Playback function
+      function playback(mode, row_num, link) {
+	var playbackId = \"CURRENT__MSG\";
+	var i = 0;
+	var vmTable = document.getElementById('vmail_table');
+	var inprogress = document.getElementById('pb_load_inprogress').value;
+	// Only start a Playback control if another one is NOT in progress.
+	if (inprogress == \"false\") {
+		// Only one Playback control row can be open at a time.
+		// If one is already open (e.g. a call that is now over or a message already loaded for playback), close it.
+		for (i = 0; i < vmTable.rows.length; i++) {
+			if (vmTable.rows[i].id == playbackId) {
+				// Delete the row; it's a Playback control row.
+				vmTable.deleteRow(vmTable.rows[i].rowIndex);
+			}
+		}
+		// Make our Playback row.
+		playback_src = \"<iframe width='100%' height='25px' marginheight='0' marginwidth='0' frameborder='0' scrolling='no' src=\" + link + \"></iframe>\";
+		document.getElementById('pb_load_inprogress').value = \"true\";
+		newRow = vmTable.insertRow(row_num);
+		newRow.id = playbackId;
+		cell_left = newRow.insertCell(0);
+		if (mode == 'callme') {
+			cell_left.colSpan = 4;
+			cell_left.innerHTML = \"<div id='callme_status'>" . $callme_status_msg0 . $this->callme_num . $callme_status_msg1 . "</div>\";
+			cell_right = newRow.insertCell(1);
+			cell_right.colSpan = 5;
+			cell_right.innerHTML = playback_src;
+		} else {
+			cell_left.colSpan = 9;
+			cell_left.innerHTML = playback_src;
+		}
+	} else {
+		// Change background color of status cell to alert user that the playback is still loading.
+		document.getElementById(\"callme_status\").parentNode.style.backgroundColor = 'yellow';
+	}
       }
       // End -->
       </script>";
@@ -525,10 +579,11 @@ class Voicemail {
 
     // table
     $ret .= "
-      <table class='voicemail'>
+      <table id='vmail_table' class='voicemail'>
         <tr>
            " . $recording_delete_header . "
            " . $recording_header . "
+           " . $download_header . "
         </tr>
         " . $tableText . "
       </table>";

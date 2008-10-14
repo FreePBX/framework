@@ -78,9 +78,9 @@ $ARI_ADMIN_PASSWORD ="ari_password";
 $ARI_ADMIN_EXTENSIONS = "";
 
 #
-# Authentication password to unlock cookie password and voicemail links
+# Authentication password to unlock cookie password
 #   This must be all continuous and only letters and numbers
-#   Change this password to prevent unauthorized access to voicemail and call recordings
+#   Change this password to prevent unauthorized access to cookie contents
 #
 $ARI_CRYPT_PASSWORD = "z1Mc6KRxA7Nw90dGjY5qLXhtrPgJOfeCaUmHvQT3yW8nDsI2VkEpiS4blFoBuZ";
 

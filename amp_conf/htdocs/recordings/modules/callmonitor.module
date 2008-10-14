@@ -67,12 +67,12 @@ class Callmonitor {
     if ($a=='delete') {
       if (count($files) > 0) {
         $this->deleteRecData($files);
-      }
-      else {
+      } else {
         $_SESSION['ari_error']
           = _("One or more messages must be selected before clicking delete.");
       }
     }
+
 
     if ($a=='ignore') {
 
@@ -213,9 +213,11 @@ class Callmonitor {
     $recording_header .= "<th>" . _("Monitor") . "</th>";
 
     // table body
-		unset($_SESSION['ari_user']['recfiles']);
+    unset($_SESSION['ari_user']['recfiles']);
+    // Index to keep track of where playback control rows should be inserted.
+    $playbackRow = 2;
     if (is_array($data)) foreach($data as $key=>$value) {
-			$i++;
+      $i++;
 
       // recording file
       $recording = $recordings[$value['uniqueid'] . $value['calldate']];
@@ -225,21 +227,21 @@ class Callmonitor {
       $date = $buf[0];
       $time = $buf[1];
 
-
       $recordingLink = '';
-      if (is_file($recordings[$value['uniqueid'] . $value['calldate']])) {
-				$_SESSION['ari_user']['recfiles'][$i] = $recording;
-        $recordingLink = "<a href='#' onClick=\"javascript:popUp('misc/recording_popup.php?recindex=" . $i . "&date=" . $date . "&time=" . $time . "'); return false;\">" . _("play") . "</a>";
-      	// recording delete checkbox
-      	if ($CALLMONITOR_ALLOW_DELETE) {
-        	$recording_delete_checkbox = "<td class='checkbox'><input type=checkbox name='selected" . $i . "' value=" . $i . "></td>";
-      	}
+      $downloadLink = '';
+      if (is_file($recording)) {
+        $_SESSION['ari_user']['recfiles'][$i] = $recording;
+        $recordingLink = "<a href='#' onClick=\"javascript:play($playbackRow, 'misc/play_page.php?recindex=" . $i . "'); return false;\"><img src='theme/images/sound.png' title=" . _("Play") . "></img></a>";
+        $downloadLink = "<a href=/recordings/misc/audio.php?recindex=" . $i . "><img src='theme/images/drive_go.png' title=" . _("Download") . "></img></a>";
+        if ($CALLMONITOR_ALLOW_DELETE) {
+          $recording_delete_checkbox = "<td class='checkbox'><input type=checkbox name='selected" . $i . "' value=" . $i . "></td>";
+        }
       } else {
       	if ($CALLMONITOR_ALLOW_DELETE) {
         	$recording_delete_checkbox = "<td class='checkbox'></td>";
       	}
-			}
-    
+      }
+      $playbackRow++;
       $recording_body .= "<tr>
                        " . $recording_delete_checkbox . "
 	               <td width=70>" . $date . "</td>
@@ -249,7 +251,7 @@ class Callmonitor {
 	               <td>" . $value[dst] . "</td>
 	               <td>" . $value[dcontext] . "</td>
 	               <td width=90>" . $value[duration] . " sec</td>
-	               <td>" . $recordingLink . "</td>
+		       <td>" . $recordingLink . "&nbsp;&nbsp;" . $downloadLink . "</td>
 	             </tr>";
     }
     if (!count($data)) {
@@ -284,6 +286,7 @@ class Callmonitor {
 
       $ret .= "
         <form  name='callmonitor_form' action='" . $_SESSION['ARI_ROOT'] . "' method='GET'>
+          <input type=hidden id='pb_load_inprogress' value='false'>
           <input type=hidden name=m value=" . $m . ">	
           <input type=hidden name=f value=recAction>
           <input type=hidden name=a value=''>
@@ -296,14 +299,30 @@ class Callmonitor {
 
     $ret .= $display->displayInfoBarBlock($controls,$q,$start,$span,$record_count);
 
-    // javascript for popup and message actions
+    // javascript for message actions
     $ret .= "
       <SCRIPT LANGUAGE='JavaScript'>
       <!-- Begin
-      function popUp(URL) {
-        eval(\"page = window.open(URL, 'play', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=324,height=110');\");
+      function play(row_num, link) {
+	var i = 0;
+	var playbackId = \"CURRENT_MSG\";
+	var cmTable = document.getElementById('callmonitor_table');
+	// Only one playback row is allowed to be open at a time.
+	// If one is already open, close it.
+	for (i = 0; i < cmTable.rows.length; i++) {
+		if (cmTable.rows[i].id == playbackId) {
+			// Delete the row; it's a Playback control row.
+			cmTable.deleteRow(cmTable.rows[i].rowIndex);
+		}
+	}
+	// Make our Playback row.
+	playback_src = \"<iframe width='100%' height='25px' marginheight='0' marginwidth='0' frameborder='0' scrolling='no' src=\" + link + \"></iframe>\";
+        newRow = cmTable.insertRow(row_num);
+        newRow.id = playbackId;
+	cell_left = newRow.insertCell(0);
+	cell_left.colSpan = 9;
+        cell_left.innerHTML = playback_src;
       }
-
       function checkAll(form,set) {
         var elem = 0;
         var i = 0;
@@ -339,7 +358,7 @@ class Callmonitor {
 
     // table
     $ret .= "
-      <table class='callmonitor'>
+      <table id='callmonitor_table' class='callmonitor'>
         <tr>
           " . $recording_delete_header . "
           " . $recording_header . "
