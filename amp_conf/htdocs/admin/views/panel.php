@@ -1,5 +1,6 @@
 <?php
 
+$template['amp_conf'] = &$amp_conf;
 $template['title'] = $title;
 $template['content'] = 
 	'<div id="panelframe">'.

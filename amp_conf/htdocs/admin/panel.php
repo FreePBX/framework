@@ -13,10 +13,12 @@
 
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
 
+include 'header.php';
+
 $title=_("FreePBX: Flash Operator Panel");
 $message=_("Flash Operator Panel");
 
-include 'header.php';
+$template['amp_conf'] = &$amp_conf;
 
-showview('panel', array('title'=>$title, 'deptname' => $_SESSION["AMP_user"]->_deptname));
+showview('panel', array('title'=>$title, 'deptname' => $_SESSION["AMP_user"]->_deptname, 'amp_conf' => &$amp_conf));
 ?>

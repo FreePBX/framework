@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-19 21:45+0100\n"
-"PO-Revision-Date: 2008-01-16 16:38+0100\n"
+"PO-Revision-Date: 2008-10-12 11:16+0100\n"
 "Last-Translator: Alexander Kozyrev <ceo@postmet.com>\n"
 "Language-Team: Russian <faq@postmet.com>\n"
 "MIME-Version: 1.0\n"
@@ -343,6 +343,12 @@ msgstr "Имя записи:"
 msgid "Give this Backup Schedule a brief name to help you identify it."
 msgstr "Дайте имя этой записи для удобства идентификации"
 
+msgid "Custom Destinations"
+msgstr "Специальное назначение"
+
+msgid "Custom Extensions"
+msgstr "Особый номер"
+
 #: modules/backup/schedule_functions.php:301
 msgid "VoiceMail"
 msgstr "Голосовая почта"
@@ -354,49 +360,14 @@ msgstr ""
 "Сохранить содержание ящиков голосовой почты. Предупреждение: В результате может "
 "получится файл резервной копии большого размера"
 
-#: modules/backup/schedule_functions.php:303
-#: modules/backup/schedule_functions.php:305
-#: modules/backup/schedule_functions.php:311
-#: modules/backup/schedule_functions.php:313
-#: modules/backup/schedule_functions.php:319
-#: modules/backup/schedule_functions.php:321
-#: modules/backup/schedule_functions.php:327
-#: modules/backup/schedule_functions.php:329
-#: modules/backup/schedule_functions.php:335
-#: modules/backup/schedule_functions.php:337
-#: modules/core/page.extensions.php:341 modules/core/page.extensions.php:343
-#: modules/core/page.extensions.php:349 modules/core/page.extensions.php:351
-#: modules/core/page.extensions.php:357 modules/core/page.extensions.php:359
-#: modules/core/page.extensions.php:366 modules/core/page.extensions.php:368
-#: modules/core/page.users.php:219 modules/core/page.users.php:221
-#: modules/core/page.users.php:227 modules/core/page.users.php:229
-#: modules/core/page.users.php:235 modules/core/page.users.php:237
 #: modules/core/page.users.php:244 modules/core/page.users.php:246
 msgid "yes"
 msgstr "да"
 
-#: modules/backup/schedule_functions.php:303
-#: modules/backup/schedule_functions.php:305
-#: modules/backup/schedule_functions.php:311
-#: modules/backup/schedule_functions.php:313
-#: modules/backup/schedule_functions.php:319
-#: modules/backup/schedule_functions.php:321
-#: modules/backup/schedule_functions.php:327
-#: modules/backup/schedule_functions.php:329
-#: modules/backup/schedule_functions.php:335
-#: modules/backup/schedule_functions.php:337
-#: modules/core/page.extensions.php:341 modules/core/page.extensions.php:343
-#: modules/core/page.extensions.php:349 modules/core/page.extensions.php:351
-#: modules/core/page.extensions.php:357 modules/core/page.extensions.php:359
-#: modules/core/page.extensions.php:366 modules/core/page.extensions.php:368
-#: modules/core/page.users.php:219 modules/core/page.users.php:221
-#: modules/core/page.users.php:227 modules/core/page.users.php:229
-#: modules/core/page.users.php:235 modules/core/page.users.php:237
 #: modules/core/page.users.php:244 modules/core/page.users.php:246
 msgid "no"
 msgstr "нет"
 
-#: modules/backup/schedule_functions.php:309
 #: modules/recordings/page.recordings.php:27
 msgid "System Recordings"
 msgstr "Запись сообщений"
@@ -893,7 +864,7 @@ msgstr ""
 
 #: modules/core/page.devices.php:116 modules/core/page.extensions.php:192
 msgid "Emergency CID"
-msgstr "Номер ИД экстренных служб"
+msgstr "Номер ИД для экстренных служб"
 
 #: modules/core/page.devices.php:116 modules/core/page.extensions.php:192
 msgid ""
@@ -963,6 +934,10 @@ msgstr "Прием факсов"
 msgid "Fax Extension"
 msgstr "Внутренний номер факса"
 
+#: amp_conf/htdocs/admin/modules/core/page.general.php:364
+msgid "Extension of fax machine for receiving faxes:"
+msgstr "Внутренний номер факсимильного аппарата для приёма факса"
+
 #: modules/core/page.did.php:100
 msgid ""
 "Select 'system' to have the system receive and email faxes.<br><br>The "
@@ -988,6 +963,10 @@ msgstr "система"
 msgid "Fax Email"
 msgstr "Факс на эл. почту"
 
+#: amp_conf/htdocs/admin/modules/core/page.general.php:382
+msgid "Email address to have faxes emailed to:"
+msgstr "Адрес эл. почты для факса:"
+
 #: modules/core/page.did.php:131
 msgid ""
 "Email address is used if 'system' has been chosen for the fax extension "
@@ -996,6 +975,10 @@ msgstr ""
 "Адрес эл. почты, который используется в случаях, если выше выбран пункт 'система' "
 " для внутреннего номера факса<br><br>Оставте это поле незаполненным, если хотите "
 "использовать значения по умолчанию в 'Основных настройках'."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:387
+msgid "Email address that faxes appear to come from:"
+msgstr "Адрес эл. почты от имени которой будут приходить факсы:"
 
 #: modules/core/page.did.php:160
 msgid "Options"
@@ -1037,6 +1020,14 @@ msgstr "Добавить внутренний номер"
 #: modules/core/page.extensions.php:143
 msgid "Delete Extension"
 msgstr "Удалить внутренний номер"
+
+msgid "Delete Extension %s"
+msgstr "Удалить внутренний номер %s"
+
+#: functions.inc.php:1024
+#, c-format
+msgid "Used as Destination by %s %s"
+msgstr "Используется в качестве назначения в %s %s"
 
 #: modules/core/page.extensions.php:158
 msgid "Extension Number"
@@ -1314,10 +1305,32 @@ msgstr "W: Разрешает вызывающему абоненту начать запись разговора нажатием *1 (A
 msgid "Company Directory"
 msgstr "Телефонная книга компании"
 
-
 #: page.general.php:117
 msgid "Find users in the Company Directory by:"
 msgstr "Найти пользователя в Телефонной книге компании"
+
+#: page.general.php:339
+msgid ""
+"The Company Directory allows a caller to spell the user's first name, last "
+"name, or both when searching for a user. This will select which of these "
+"modes are used."
+msgstr ""
+"Телефонная книга компании позволяет позвонившему найти абонента по имени, фамилии, "
+"или тому и другому. Это зависит от выбранного режима выбора."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:348
+msgid "Announce Extension:"
+msgstr "Анонсировать внутренний номер:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:348
+msgid ""
+"Plays a message \"Please hold while I transfer you to extension xxx\" that "
+"lets the caller know what extension to use in the future when connecting "
+"from the company directory."
+msgstr ""
+"Опция воспроизводит дополнительное сообщение \"Пожалуйста оставайтесь на линии, пока ваш "
+"звонок будет перенаправлен на внутренний номер ххх\" которое помогает позвонившему "
+"понимать на какой номер он будет перенаправлен из Телефонной книги компании."
 
 #: modules/core/page.general.php:78
 msgid "Find users in the"
@@ -1986,15 +1999,12 @@ msgstr "Специальный набор"
 
 #: modules/core/page.trunks.php:547
 msgid "Define the custom Dial String.  Include the token"
-msgstr "Укажите тип специального набора"
+msgstr "Укажите тип специального набора,"
 
 #: modules/core/page.trunks.php:547
-msgid ""
-"wherever the number to dial should go.<br><br><b>examples:</b><br><br>CAPI/"
-"XXXXXXXX:b"
+msgid "wherever the number to dial should go.<br><br><b>examples:</b><br>"
 msgstr ""
-"схема набора номера.<br><br><b>примеры:</b><br><br>CAPI/XXXXXXXX:b,30,r<br> "
-"mISDN/1/"
+"схема набора номера.<br><br><b>примеры:</b><br>"
 
 #: modules/core/page.trunks.php:547
 msgid ",30,r<br>H323/"
@@ -2481,8 +2491,18 @@ msgstr "Запись в файл невозможна"
 #: modules/music/page.music.php:170
 msgid "On Hold Music"
 msgstr "Музыка в ожидании"
-msgid "Music on Hold "
+msgid "Music on Hold"
 msgstr "Музыка в ожидании"
+
+#: page.did.php:212
+msgid ""
+"Set the MoH class that will be used for calls that come in on this route. "
+"For example, choose a type appropriate for routes coming in from a country "
+"which may have announcements in their language."
+msgstr ""
+"Установить категорию Музыки в ожидании которая будет использоваться при входящих "
+"звонках на этом маршруте. Например - выберите маршрут для входящих звонков "
+"из другой страны с соответствующим анонсом на соответствующем языке."
 
 #: modules/music/page.music.php:182
 msgid "Category Name:"
@@ -3246,6 +3266,9 @@ msgstr "Электронный секретарь"
 msgid "Queues"
 msgstr "Очереди"
 
+msgid "Queue Priorities"
+msgstr "Приоритет в очереди"
+
 #: modules/ringgroups/module.ini:8
 msgid "Ring Groups"
 msgstr "Группы вызова"
@@ -3253,6 +3276,9 @@ msgstr "Группы вызова"
 #: modules/timeconditions/module.ini:8
 msgid "Time Conditions"
 msgstr "Правила по времени"
+
+msgid "Time Groups"
+msgstr "Временные группы"
 
 #: modules/conferences/module.ini:8
 msgid "Conferences"
@@ -3400,7 +3426,76 @@ msgid "The units are whole-number decibels (dB)."
 msgstr "Целочисленное значение в децибеллах (dB)."
 
 msgid "Asterisk Outbound Dial command options:"
-msgstr "Опции команды Dial:"
+msgstr "Опции команды Dial для исходящих:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:125
+msgid "r: You SHOULD NOT use this option on outbound trunks"
+msgstr "r: Вы НЕ ДОЛЖНЫ использовать эту опцию на исходящих транках"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:132
+msgid "Call Recording"
+msgstr "Запись разговоров"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:135
+msgid "Extension Recording Override:"
+msgstr "Не использовать запись разговоров:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:136
+msgid ""
+"This will override the recording settings of all extensions/users. If "
+"enabled, the system will ignore all Record Always settings of a user and "
+"will not turn on recording. This does not effect On Demand recording "
+"controlled by the dial options 'w' and 'W' above. It does not effect other "
+"recording settings in modules such as Queues and Conferences. If you don't "
+"use recordings, setting this is beneficial to system performance as it "
+"removes the check that is otherwise done on every single call."
+msgstr ""
+"Эта опция будет перевешивающей все другие установки у пользователей/"
+"внутренних номеров. Если отключено, система игнорирует все опции Записывать-всё, "
+"установленные у пользователей, и никакие записи не будут вестись. Но это "
+"не зависит от опций Записи-по-запросу, определяемых буквами 'w' и 'W' в команде "
+"'Dial'. Это также не затрагивает другие установки записи в таких модулях как "
+"Очереди и Конференции. Если запись разговоров не используется установка этого "
+"флага в Выключено существенно повышает производительность и быстродействие "
+"системы, убирая проверку на запись каждого звонка."
+
+#: page.general.php:144
+msgid "Call recording format:"
+msgstr "Формат записи разговоров:"
+
+#: page.general.php:145
+msgid "Pick the format in which to save recorded calls"
+msgstr "Укажите формат, в котором будут сохраняться записи разговоров"
+
+#: page.general.php:159
+msgid "Recording Location:"
+msgstr "Записи сохранять в:"
+
+#: page.general.php:160
+msgid ""
+"Override the default location where asterisk will store call recordings. "
+"Include the trailing /. Be sure to set proper permissions on the directory "
+"for the asterisk user."
+msgstr ""
+"Изменяет дефолтное значение директории, где астериск обычно сохраняет записы разговоров"
+"Укажите полный путь через /. Проверьте рарешение на запись файлов в эту директорию для "
+"аккаунта asterisk."
+
+#: page.general.php:166
+msgid "Run after record:"
+msgstr "Исполнить после записи:"
+
+#: page.general.php:167
+msgid ""
+"An optional script to be run after the call is hungup. You can include "
+"channel and MixMon variables like ${CALLFILENAME}, ${MIXMON_FORMAT} and "
+"${MIXMON_DIR}. To ensure that you variables are properly escaped, use the "
+"following notation: ^{MY_VAR}"
+msgstr ""
+"Опционально - скрипт, который должен выполняться после завершения звонка. "
+"Можно добавлять переменные канала и MixMon как например \\${CALLFILENAME}, "
+"\\${MIXMON_FORMAT} и \\${MIXMON_DIR}. Убедитесь, что ваши переменные "
+"вызываются правльно, используйте следующую нотацию: ^{MY_VAR}"
 
 #: page.general.php:112
 msgid "Do Not Play"
@@ -3416,6 +3511,31 @@ msgstr ""
 "после звукового сигнала, после чего положите трубку или нажмите решётку. \" Это "
 "сообщение воспроизводится после сообщения голосовой почты (опция s). Это распространяется "
 "на все ящики голосовой почты по умолчанию."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:177
+msgid "Ringtime Default:"
+msgstr "Время в секундах, в течение которое будут звонить телефоны, прежде чем звонок уйдет на голосовую почту:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:178
+msgid ""
+"Default number of seconds to ring phones before sending callers to "
+"voicemail. This can be set per extension/user and will have no effect on "
+"phones with no voicemail."
+msgstr ""
+"Стандартное время в секундах, в течение которого будет идти вызов на телефон, после чего он будет перенаправлен на голосовую почту. "
+"Этот параметр может быть переназначен отдельно для каждого внутреннего номера/пользователя и не влияет на внутренние номера, у которых "
+"не включена голосовая почта."
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:184
+msgid "Direct Dial Voicemail Prefix:"
+msgstr "Префикс прямого доступа в голосовую почту:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:185
+msgid ""
+"Prefix used to dial directly to someone's voicemail. Caution should be taken "
+"in choosing this prefix to avoid conflicts with featurecodes."
+msgstr "Префикс, используемый для прямого доступа в чью-либо голосовую почту. "
+"Выбор префикса должен быть максимально осторожен, чтобы не создавать конфликт с уже имеющимися сервисными кодами."
 
 #: page.general.php:112
 msgid "please leave message after tone to caller"
@@ -3605,8 +3725,22 @@ msgstr "Вэб сервер"
 msgid "SSH Server"
 msgstr "SSH сервер"
 
+#: amp_conf/htdocs/admin/modules/core/page.general.php:191
 msgid "Direct Dial to Voicemail message type:"
-msgstr "Тип сообщения при наборе в голосовую почту:"
+msgstr "Тип сообщения при доступе в голосовую почту:"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:192
+msgid ""
+"Default message type to use when dialing direct to an extensions voicemail"
+msgstr "Стандартное сообщение, которое будет воспроизводится при прямом доступе в голосовую почту"
+
+#: amp_conf/htdocs/admin/modules/core/page.general.php:283
+msgid ""
+"Time to wait after message has played to timeout and/or repeat the message "
+"if no entry pressed."
+msgstr ""
+"Таймаут после воспроизведения сообщения для повтора этого сообщения, если не выбрано никакого действия "
+"(ничего не нажато)."
 
 msgid "Unavailable"
 msgstr "Недоступен"
@@ -3642,6 +3776,13 @@ msgstr ""
 "никаких цифр по таймауту, или нажата завершающая #. Установите в 'dovm' чтобы "
 "направить звонок в голосовую почту"
 
+#: page.general.php:203
+msgid "Optional Voicemail Recording Gain:"
+msgstr "Опционально - уровень записи сообщений голосовой почты:"
+
+#: page.general.php:210
+msgid "Do Not Play \"please leave message after tone\" to caller"
+msgstr "Не воспроизводить \"Оставьте сообщение после звукового сигнала\" "
 
 msgid "Loop Exceed default:"
 msgstr "Выход из повторяющихся сообщений:"
@@ -3674,9 +3815,7 @@ msgid "Direct VM Option"
 msgstr "Прямые опции голосовой почты:"
 
 #: page.general.php:206
-msgid ""
-"If a user defined option is to go to voicmail (using the 'dovm' extension) "
-"this is the default option if not specified by the user's settings."
+msgid "If a user defined option is to go to voicemail (using the 'dovm' extension) this is the default option if not specified by the user's settings."
 msgstr ""
 "Если выбрана опция голосовой почты (используя 'dovm' расширение) "
 "это значение по умолчанию, если не определено в настройках пользователя"
@@ -3777,6 +3916,30 @@ msgstr ""
 msgid "Security Settings"
 msgstr "Установки безопасности"
 
+msgid "Check for updates online"
+msgstr "Проверить обновления он-лайн"
+
+#: page.modules.php:416 page.modules.php:471
+msgid ""
+"Checking for updates will transmit your FreePBX and Asterisk version numbers "
+"along with a unique but random identifier. This is used to provide proper "
+"update information and track version usage to focus development and "
+"maintenance efforts. No private information is transmitted."
+msgstr ""
+"Проверка обновлений передаст комбинацию из версий ваших FreePBX и Asterisk "
+"вместе с уникальным ИД системы. Это используется для наиболее полной информации "
+"по обновлениям в зависимости от версий, позволяет лучше сфокусировать усилия "
+"разработчиков в поддержке системы. Частная информация при  этом не передаётся."
+
+#: page.modules.php:421 page.modules.php:473
+msgid "Upload module"
+msgstr "Загрузить модуль"
+
+#: page.modules.php:430
+#, c-format
+msgid "try again"
+msgstr "пробуйте ещё"
+
 msgid "Online Updates"
 msgstr "Обновления он-лайн"
 
@@ -3784,21 +3947,30 @@ msgid "Check for Updates"
 msgstr "Проверять обновления"
 
 msgid ""
-"Choosing Yes will result in the system automatically "
-"checking for updates nighly. The resuling infomation will be displayed "
-"in the dashboard and will be optionally emailed to the address below if provided"
+"Choosing Yes will result in the system automatically checking for updates "
+"nighly. The resulting infomation will be displayed in the dashboard and will "
+"be optionally emailed to the address below if provided.<br />This will "
+"transmit your FreePBX and Asterisk version numbers along with a unique but "
+"random identifier. This is used to provide proper update information and to "
+"track version usage to focus development and maintenance efforts. No private "
+"information is transmitted."
+
 msgstr ""
 "Если установлено в 'Да', то система автоматически проверяет наличие обновлений "
 "каждую ночь. Итоговая информация будет отображаться в Статусе Системы и "
-"опционально высылаться на адрес электронной почты указаной ниже"
+"опционально высылаться на адрес электронной почты указаной ниже.<br />"
+"Проверка обновлений передаст комбинацию из версий ваших FreePBX и Asterisk "
+"вместе с уникальным ИД системы. Это используется для наиболее полной информации "
+"по обновлениям в зависимости от версий, позволяет лучше сфокусировать усилия "
+"разработчиков в поддержке системы. Частная информация при  этом не передаётся."
 
 msgid "Update Email"
 msgstr "Адрес эл. почты для обновлений"
 
 #: page.general.php:362
 msgid ""
-"Email address where online udpates will be sent. Leaving blank will result "
-"in no udpates being sent."
+"Email address where online updates will be sent. Leaving blank will result "
+"in no updates being sent."
 msgstr "Указать адрес эл. почты куда будут посылаться сообщения об обновлениях. "
 "Сообщения не будут посылаться, если поле останется пустым"
 
@@ -3806,8 +3978,8 @@ msgid "Please select your Device below then click Submit"
 msgstr "Выберите тип вашего устройства ниже и нажмите 'Сохранить'"
 
 #: page.general.php:155
-msgid "Default to use if only an number/extension are provided."
-msgstr "Используется по умолчанию, если существует внутренний номер"
+msgid "Default to use if only a number/extension are provided."
+msgstr "Установки, используемые по умолчанию только для внутренних номеров."
 
 #: page.general.php:318
 msgid "Country"
@@ -3875,13 +4047,13 @@ msgid "Language Code"
 msgstr "Код языка"
 
 msgid "CID Lookup Source"
-msgstr "Источник для поиска по номеру ИД"
+msgstr "Источник поиска по номеру ИД"
 
 msgid "Source"
 msgstr "Источник"
 
 msgid "Sources can be added in Caller Name Lookup Sources section."
-msgstr "Источники добавляются в секции Сервис поиска по номеру ИД"
+msgstr "Источники добавляются в секции Поиск по номеру ИД"
 
 msgid ""
 "The language code for this user. This will result in messages such as voiclangcode prompts "
@@ -3905,15 +4077,6 @@ msgstr "Формат файлов"
 msgid "The email address that completed dictations are sent to."
 msgstr "Адрес электронной почты, куда будут посылаться надиктованные файлы."
 
-#: page.did.php:212
-msgid ""
-"Set the MoH class that will be used for calls that come in on this route. "
-"For example, choose a type appropriate for routes coming in from a country "
-"which may have announcements in their language."
-msgstr ""
-"Установить категорию Музыки в ожидании которая будет использоваться при входящих "
-"звонках на этом маршруте. Например - выберите маршрут для входящих звонков "
-"из другой страны с соответствующим анонсом на соответствующем языке."
 
 #: page.did.php:218
 msgid "No Music"
@@ -4282,11 +4445,70 @@ msgstr "Прямой номер DID"
 msgid "DID Alert Info"
 msgstr "Предупреждение для DID"
 
-msgid "Music on Hold"
-msgstr "Музыка в ожидании"
+msgid "Assigned DID/CID"
+msgstr "Назначенные номера DID/ИД"
+
+#: functions.inc.php:4368
+msgid "DID Description"
+msgstr "Описание DID"
+
+#: functions.inc.php:4368
+msgid "A description for this DID, such as \"Fax\""
+msgstr "Описание этого DID, например - \"Факс\""
+
+#: functions.inc.php:4369
+msgid "Add Inbound DID"
+msgstr "Добавить входящий DID"
+
+#: functions.inc.php:4369
+msgid ""
+"A direct DID that is associated with this extension. The DID should be in "
+"the same format as provided by the provider (e.g. full number, 4 digits for "
+"10x4, etc).<br><br>Format should be: <b>XXXXXXXXXX</b><br><br>.An optional "
+"CID can also be associated with this DID by setting the next box"
+msgstr ""
+"Прямой номер DID ассоциированный с этим внутренним номером. DID должен "
+"быть в том же вормате, в котором приходит от провайдера (напр. полный номер, или "
+"4 последние цифры из полного номера, и т.д.)<br><br>То есть формат должен быть "
+"в виде :<b>ХХХХХХХХХХ<b><br><br>. Дополнительно можно указать и Номер ИД, который "
+"будет ассоциирован с этим номером DID - в следующем поле ниже."
+
+#: functions.inc.php:4370
+msgid "Add Inbound CID"
+msgstr "Добавить входящий Номер ИД"
+
+#: functions.inc.php:4370
+msgid ""
+"Add a CID for more specific DID + CID routing. A DID must be specified in "
+"the above Add DID box. In addition to standard dial sequences, you can also "
+"put Private, Blocked, Unknown, Restricted, Anonymous and Unavailable in "
+"order to catch these special cases if the Telco transmits them."
+msgstr ""
+"Добавьте Номер ИД для более детальной маршрутизации на основе DID и "
+"Номера ИД. DID должен быть указан методом Добавить DID. В дополнении к стандартным "
+"последовательностям набора номера вы сможете указывать назначения поступающих к вам "
+"звонков в Приватные, Заблокированные, Неизвестные, Ограниченные, Анонимные и "
+"Неизвестные."
+
+msgid "Music on Hold:"
+msgstr "Музыка в ожидании:"
 
 msgid "Ring Time"
 msgstr "Как долго звонит?"
+
+msgid "Pause Before Answer"
+msgstr "Пауза перед ответом"
+
+#: page.did.php:226
+msgid ""
+"An optional delay to wait before processing this route. Setting this value "
+"will delay the channel from answering the call. This may be handy if "
+"external fax equipment or security systems are installed in parallel and you "
+"would like them to be able to seize the line."
+msgstr ""
+"Опционально - задержка перед обработкой маршрута. Установка этого значения "
+"помогает дополнительному оборудованию, как факс-аппарат или система сигнализации, "
+"если оно подключено параллельно занять линию, по которой поступил звонок."
 
 #: functions.inc.php:3925
 msgid ""
@@ -4355,6 +4577,38 @@ msgstr "Ожидание звонка"
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr "Установить возможность приёма второго звонка (Call Waiting) для этого абонента"
 
+#: functions.inc.php:4365
+msgid "Call Screening"
+msgstr "Защита от звонков"
+
+#: functions.inc.php:4365
+msgid ""
+"Call Screening requires external callers to say their name, which will be "
+"played back to the user and allow the user to accept or reject the call.  "
+"Screening with memory only verifies a caller for their caller-id once. "
+"Screening without memory always requires a caller to say their name. Either "
+"mode will always announce the caller based on the last introduction saved "
+"with that callerid. If any user on the system uses the memory option, when "
+"that user is called, the caller will be required to re-introduce themselves "
+"and all users on the system will have that new introduction associated with "
+"the caller's CallerId."
+msgstr ""
+"Защита от звонков предложит позвонившему абоненту назвать своё имя, которое будет "
+"воспроизведено при вызове, что даёт возможность выбрать: ответить или нет на "
+"этот звонок. Защита с сохранением в памяти предложит абоненту назвать себя "
+"лишь первый раз, ассоциируя абонента с его Номером ИД. Защита без сохранения "
+"будет предлагать назвать себя абоненту при каждом звонке. Оба режима докладывают "
+"о поступившем звонке базируясь на последней записи, связаной с этим Номером ИД. "
+"Если хоть один пользователь FreePBX использует режим с сохранением в памяти, то "
+"абоненту будет предложено ещё раз назвать себя, и все другие пользователи FreePBX "
+"будут иметь возможность услышать имя при звонке этого абонента."
+
+msgid "Screen Caller: No Memory"
+msgstr "Защита от звонков: без сохранения"
+
+#: functions.inc.php:4190
+msgid "Screen Caller: Memory"
+msgstr "Защита от звонков: с сохранением"
 
 #: functions.inc.php:3949
 msgid ""
@@ -4588,7 +4842,7 @@ msgid "Custom Contexts Admin"
 msgstr "Специальный контекст Администратора"
 
 msgid "CallerID Lookup Sources"
-msgstr "Сервис поиска по Номеру ИД"
+msgstr "Поиск по Номеру ИД"
 
 msgid "Day/Night Control"
 msgstr "Дневной/ночной контроль"

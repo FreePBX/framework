@@ -668,13 +668,11 @@ class moduleHook {
 					bind_textdomain_codeset($thismod, 'utf8');
 					textdomain($thismod);
 			
-					freepbx_debug("applying hook for $thismod with domain: $saved_domain");
 					if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
 						$this->hookHtml .= $hookReturn;
 					}
 
 					textdomain('amp');
-					freepbx_debug("returned to $thismod with domain: $saved_domain");
 				} else {
 					if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
 						$this->hookHtml .= $hookReturn;
@@ -860,13 +858,24 @@ function framework_check_extension_usage($exten=true, $module_hash=false) {
 	if (!is_array($exten) && $exten !== true) {
 		$exten = array($exten);
 	}
+
 	foreach(array_keys($module_hash) as $mod) {
 		$function = $mod."_check_extensions";
 		if (function_exists($function)) {
-			$module_usage = $function($exten);
+			$prev_domain = textdomain(NULL);
+			if (isset($_COOKIE['lang']) && is_dir("./modules/$mod/i18n/".$_COOKIE['lang'])) {
+				bindtextdomain($mod,"./modules/$mod/i18n");
+				bind_textdomain_codeset($mod, 'utf8');
+				textdomain($mod);
+				$module_usage = $function($exten);
+			} else {
+				textdomain('amp');
+				$module_usage = $function($exten);
+			}
 			if (!empty($module_usage)) {
 				$exten_usage[$mod] = $module_usage;
 			}
+			textdomain($prev_domain);
 		}
 	}
 	if ($exten === true) {
@@ -900,6 +909,7 @@ function framework_check_extension_usage($exten=true, $module_hash=false) {
  */
 function framework_check_destination_usage($dest=true, $module_hash=false) {
 	global $active_modules;
+
 	$dest_usage = array();
 	$dest_matches = array();
 
@@ -910,13 +920,24 @@ function framework_check_destination_usage($dest=true, $module_hash=false) {
 	if (!is_array($dest) && $dest !== true) {
 		$dest = array($dest);
 	}
+
 	foreach(array_keys($module_hash) as $mod) {
 		$function = $mod."_check_destinations";
 		if (function_exists($function)) {
-			$module_usage = $function($dest);
+			$prev_domain = textdomain(NULL);
+			if (isset($_COOKIE['lang']) && is_dir("./modules/$mod/i18n/".$_COOKIE['lang'])) {
+				bindtextdomain($mod,"./modules/$mod/i18n");
+				bind_textdomain_codeset($mod, 'utf8');
+				textdomain($mod);
+				$module_usage = $function($dest);
+			} else {
+				textdomain('amp');
+				$module_usage = $function($dest);
+			}
 			if (!empty($module_usage)) {
 				$dest_usage[$mod] = $module_usage;
 			}
+			textdomain($prev_domain);
 		}
 	}
 	if ($dest === true) {
@@ -1020,8 +1041,8 @@ function framework_display_destination_usage($dest, $module_hash=false) {
 				$str .= $details['description']."<br />";
 			}
 		}
-		$object = $usage_count > 1 ? "Objects":"Object";
-		return array('text' => '&nbsp;'.sprintf(_("Used as Destination by %s %s"),$usage_count, $object),
+		$object = $usage_count > 1 ? _("Objects"):_("Object");
+		return array('text' => '&nbsp;'.sprintf(dgettext('amp',"Used as Destination by %s %s"),$usage_count, dgettext('amp',$object)),
 		             'tooltip' => $str,
 							 	);
 	} else {
@@ -1060,12 +1081,21 @@ function framework_identify_destinations($dest, $module_hash=false) {
 		if (isset($dest_cache[$target])) {
 			$dest_results[$target] = $dest_cache[$target];
 		} else {
-
 			$found_owner = false;
 			foreach(array_keys($module_hash) as $mod) {
 				$function = $mod."_getdestinfo";
 				if (function_exists($function)) {
-					$check_module = $function($target);
+					$prev_domain = textdomain(NULL);
+					if (isset($_COOKIE['lang']) && is_dir("./modules/$mod/i18n/".$_COOKIE['lang'])) {
+						bindtextdomain($mod,"./modules/$mod/i18n");
+						bind_textdomain_codeset($mod, 'utf8');
+						textdomain($mod);
+						$check_module = $function($target);
+					} else {
+						textdomain('amp');
+						$check_module = $function($target);
+					}
+					textdomain($prev_domain);
 					if ($check_module !== false) {
 						$found_owner = true;
 						$dest_cache[$target] = array($mod => $check_module);
@@ -1922,6 +1952,7 @@ function drawselects($goto,$i,$show_custom=false) {
 	global $active_modules;
 	
 	$all_destinations = array();
+	$module_hash = array();
 
 	$selectHtml = '<tr><td colspan=2>'; 
 	
@@ -1936,12 +1967,11 @@ function drawselects($goto,$i,$show_custom=false) {
 				foreach ($destArray as $dest) {
 					$cat = (isset($dest['category']) ? $dest['category'] : $module['displayname']);
 					$all_destinations[$cat][] = $dest;
+					$module_hash[$cat] = $rawmod;
 				}
 			}
 		}
 	}
-//	var_dump($all_destinations);
-//	var_dump($goto);
 
 	$foundone = false;
 	$tabindex_needed = true;
@@ -1960,8 +1990,22 @@ function drawselects($goto,$i,$show_custom=false) {
 		// This allows us to have multiple drawselect() sets on the page without
 		// conflicting with each other
 		$radioid = uniqid("drawselect");
-		//
+
 		$cat_identifier = preg_replace('/[^a-zA-Z0-9]/','_', $cat);
+
+		// We bind to the hosting module's domain. If we find the translation there we use it, if not
+		// we try the default 'amp' domain. If still no luck, we will try the _() which is the current
+		// module's display since some old translation code may have stored it localy but should migrate
+		//
+		bindtextdomain($module_hash[$cat],"modules/".$module_hash[$cat]."/i18n");
+		bind_textdomain_codeset($module_hash[$cat], 'utf8');
+		$label_text = dgettext($module_hash[$cat],$cat);
+		if ($label_text == $cat) {
+		 	$label_text = dgettext('amp',$label_text);
+		}
+		if ($label_text == $cat) {
+		 	$label_text = _($label_text);
+		}
 			
 		if ($tabindex_needed && ($checked || ! $goto)) {
 			$tabindex_txt = (isset($tabindex) && $tabindex != '') ? ' tabindex="'.++$tabindex.'" ':'';
@@ -1973,7 +2017,7 @@ function drawselects($goto,$i,$show_custom=false) {
 		                //'onclick="javascript:this.form.goto'.$i.'.value=\''.$cat.'\';" '.
 		                //'onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$cat.'\';" '.
 		                ($checked? 'CHECKED=CHECKED' : '').' /> ';
-		$selectHtml .= '<label for="'.$radioid.'">'._($cat).':</label> ';
+		$selectHtml .= '<label for="'.$radioid.'">'.$label_text.':</label> ';
 		
 		// set the 
 //		if ($checked) { $gotomod = $cat; } 
@@ -2759,7 +2803,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 			if ($exitcode != 0) {
 				return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulenam));
 			}
-			exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
+			exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 			if ($exitcode != 0) {
 				return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
 			}
@@ -2855,7 +2899,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	if ($exitcode != 0) {
 		return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulenam));
 	}
-	exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
+	exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 	if ($exitcode != 0) {
 		return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
 	}
@@ -2933,7 +2977,7 @@ function module_handleupload($uploaded_file) {
 	if ($exitcode != 0) {
 		return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulenam));
 	}
-	exec("tar zxf ".escapeshellarg($filename)." --directory=".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
+	exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 	if ($exitcode != 0) {
 		return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
 	}
@@ -3012,21 +3056,7 @@ function module_install($modulename, $force = false) {
 	
 	if ($modules[$modulename]['status'] == MODULE_STATUS_NOTINSTALLED) {
 		// customize INSERT query
-		switch ($amp_conf["AMPDBENGINE"]) {
-			case "sqlite":
-				// to support sqlite2, we are not using autoincrement. we need to find the 
-				// max ID available, and then insert it
-				$sql = "SELECT max(id) FROM modules;";
-				$results = $db->getRow($sql);
-				$new_id = $results[0];
-				$new_id ++;
-				$sql = "INSERT INTO modules (id,modulename, version,enabled) values ('".$new_id."','".$db->escapeSimple($modules[$modulename]['rawname'])."','".$db->escapeSimple($modules[$modulename]['version'])."','0' );";
-				break;
-			
-			default:
-				$sql = "INSERT INTO modules (modulename, version, enabled) values ('".$db->escapeSimple($modules[$modulename]['rawname'])."','".$db->escapeSimple($modules[$modulename]['version'])."', 1);";
-			break;
-		}
+		$sql = "INSERT INTO modules (modulename, version, enabled) values ('".$db->escapeSimple($modules[$modulename]['rawname'])."','".$db->escapeSimple($modules[$modulename]['version'])."', 1);";
 	} else {
 		// just need to update the version
 		$sql = "UPDATE modules SET version='".$db->escapeSimple($modules[$modulename]['version'])."' WHERE modulename = '".$db->escapeSimple($modules[$modulename]['rawname'])."'";
@@ -3314,11 +3344,7 @@ function _module_runscripts($modulename, $type) {
 	switch ($type) { 
 		case 'install':
 			// install sql files
-			if ($db_engine  == "sqlite") {
-				$sqlfilename = "install.sqlite";
-			} else {
-				$sqlfilename = "install.sql";
-			}
+			$sqlfilename = "install.sql";
 			
 			if (is_file($moduledir.'/'.$sqlfilename)) {
 				execSQL($moduledir.'/'.$sqlfilename);
@@ -3331,11 +3357,7 @@ function _module_runscripts($modulename, $type) {
 			// run uninstall .php scripts first
 			_modules_doinclude($moduledir.'/uninstall.php', $modulename);
 			
-			if ($db_engine  == "sqlite") {
-				$sqlfilename = "uninstall.sqlite";
-			} else {
-				$sqlfilename = "uninstall.sql";
-			}
+			$sqlfilename = "uninstall.sql";
 			
 			// then uninstall sql files 
 			if (is_file($moduledir.'/'.$sqlfilename)) {

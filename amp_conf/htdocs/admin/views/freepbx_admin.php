@@ -20,9 +20,9 @@ if (is_array($fpbx_menu)) {
 		$sort_name[$key] = $row['name'];
 		$sort_type[$key] = $row['type'];
 
-		if (extension_loaded('gettext') && is_dir("modules/".$key."/i18n")) {
-			bindtextdomain($key,"modules/".$key."/i18n");
-			bind_textdomain_codeset($key, 'utf8');
+		if (extension_loaded('gettext') && is_dir("modules/".$row['module']['rawname']."/i18n")) {
+			bindtextdomain($row['module']['rawname'],"modules/".$row['module']['rawname']."/i18n");
+			bind_textdomain_codeset($row['module']['rawname'], 'utf8');
 			$framework_text_domain[$key] = true;
 		} else {
 			$framework_text_domain[$key] = false;
@@ -104,7 +104,7 @@ if (is_array($fpbx_menu)) {
 
 		echo "\t<li class=\"".implode(' ',$li_classes)."\">";
 		if ($framework_text_domain[$key]) {
-			$label_text = dgettext($key,$row['name']);
+			$label_text = dgettext($row['module']['rawname'],$row['name']);
 			if ($label_text == $row['name']) {
 			 	$label_text = _($label_text);
 			}

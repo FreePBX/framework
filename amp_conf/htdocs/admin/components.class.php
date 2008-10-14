@@ -164,9 +164,6 @@ class component {
 			$this->addoptlist($listname);
 		}
 
-		// use i4l ?????
-		$text = ($uselang) ? _($text) : $text;
-		
 		// add the item
 		$this->_lists[$listname]['array'][] = array('text' => $text, 'value' => $value);
 	}
@@ -305,6 +302,7 @@ class component {
 			}
 		}
 		
+		// TODO: should _($section) have _() removed?
 		// Middle
 		if ( is_array($this->_guielems_middle) ) {
 			$hasoutput = true;
@@ -525,13 +523,13 @@ class guiinput extends guielement {
 		// current valid of the field
 		$this->currentvalue = $currentvalue;
 		// this will appear on the left column
-		$this->prompttext = _($prompttext);
+		$this->prompttext = $prompttext;
 		// tooltip over prompttext (optional)
 		$this->helptext = $helptext;
 		// JavaScript validation field on the element
 		$this->jsvalidation = $jsvalidation;
 		// Msg to use if above validation fails (forced to use gettext language stuff)
-		$this->failvalidationmsg = _($failvalidationmsg);
+		$this->failvalidationmsg = $failvalidationmsg;
 		// Can this field be empty ?
 		$this->canbeempty = $canbeempty;
 		
@@ -650,7 +648,7 @@ class gui_selectbox extends guiinput {
 		// build the options
 		foreach ($valarray as $item) {
 			$itemvalue = (isset($item['value']) ? $item['value'] : '');
-			$itemtext = (isset($item['text']) ? _($item['text']) : '');
+			$itemtext = (isset($item['text']) ? $item['text'] : '');
 			$itemselected = ($currentvalue == $itemvalue) ? ' selected' : '';
 			
 			$output .= "\t\t\t\t<option value=\"$itemvalue\"$itemselected>$itemtext</option>\n";
@@ -694,7 +692,7 @@ class gui_radio extends guiinput {
 		$count = 0;
 		foreach ($valarray as $item) {
 			$itemvalue = (isset($item['value']) ? $item['value'] : '');
-			$itemtext = (isset($item['text']) ? _($item['text']) : '');
+			$itemtext = (isset($item['text']) ? $item['text'] : '');
 			$itemchecked = ($currentvalue == $itemvalue) ? ' checked=checked' : '';
 			
 			$tabindex = guielement::gettabindex();
@@ -750,10 +748,6 @@ class gui_label extends guitext {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
 		
-		// Use languagues
-		if ( $uselang )
-			$text = _($text);
-			
 		// nothing really needed here as it's just whatever text was passed
 		// but suppose we should do something with the element name
 		$this->html_text = "<span id=\"$this->_elemname\">$text</span>";
@@ -767,10 +761,6 @@ class gui_pageheading extends guitext {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
 
-		// Use languagues
-		if ( $uselang )
-			$text = _($text);
-			
 		// H2
 		$this->html_text = "<h2 id=\"$this->_elemname\">$text</h2>";
 	}
@@ -783,10 +773,6 @@ class gui_subheading extends guitext {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
 
-		// Use languagues
-		if ( $uselang )
-			$text = _($text);
-			
 		// H3
 		$this->html_text = "<h3 id=\"$this->_elemname\">$text</h3>";		
 	}
@@ -799,10 +785,6 @@ class gui_link extends guitext {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
 
-		// Use languagues
-		if ( $uselang )
-			$text = _($text);
-			
 		// A tag
 		$this->html_text = "<a href=\"$url\" id=\"$this->_elemname\">$text</a>";
 	}
@@ -813,10 +795,6 @@ class gui_link_label extends guitext {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
 
-		// Use languagues
-		if ( $uselang )
-			$text = _($text);
-			
 		// A tag
 		$this->html_text = "<a href=\"#\" class=\"info\" id=\"$this->_elemname\">$text:<span>$tooltip</span></a>";
 	}

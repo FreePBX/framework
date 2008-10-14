@@ -423,7 +423,7 @@ out("OK");
 // **** now make the global manager connection
 $astman = new AGI_AsteriskManager();
 $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"] );
-if (!res) {
+if (!$res) {
 	fatal("Cannot connect to Asterisk Manager with ".$amp_conf["AMPMGRUSER"]."/".$amp_conf["AMPMGRPASS"]);
 }
 

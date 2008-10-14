@@ -720,10 +720,15 @@ include("libfreepbx.confgen.php");
 // script to write op_server.cfg file from mysql 
 //
 if(!$amp_conf['FOPDISABLE'])  {
-	$script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.pl '.$amportalconf.' '.rtrim($asterisk_conf['astetcdir'],DIRECTORY_SEPARATOR);
-	exec($script, $output, $ret);
-	if ($ret) {
-		fatal(sprintf(_("retrieve_op_conf_from_mysql.pl returned with an error code %s"),$ret));
+	$script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.pl';
+	if (is_executable($script)) {
+		$script .= ' '.$amportalconf.' '.rtrim($asterisk_conf['astetcdir'],DIRECTORY_SEPARATOR);
+		exec($script, $output, $ret);
+		if ($ret) {
+			error(sprintf(_("retrieve_op_conf_from_mysql.pl returned with an error code %s"),$ret));
+		}
+	} else {
+		error(_("retrieve_op_conf_from_mysql.pl does not exist or is not executable"));
 	}
 }
 // generate configuration files

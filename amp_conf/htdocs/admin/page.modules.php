@@ -400,7 +400,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				echo "\t<li>".$text."</li>\n";
 			}
 			echo "</ul>";
-			echo "\t<input type=\"button\" value=\"Confirm\" name=\"process\" onclick=\"process_module_actions(moduleActions);\" />";
+			echo "\t<input type=\"button\" value=\""._("Confirm")."\" name=\"process\" onclick=\"process_module_actions(moduleActions);\" />";
 		} else {
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
@@ -506,6 +506,10 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			$module_filter = array();
 		}
 		foreach (array_keys($modules) as $name) {
+				if (!isset($modules[$name]['category'])) {
+				$modules[$name]['category'] = _("Broken");
+				$modules[$name]['name'] = $name;
+				 }
 			if (isset($module_filter[$name]) && strtolower(trim($module_filter[$name])) == 'hidden') {
 				continue;
 			}

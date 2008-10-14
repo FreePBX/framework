@@ -39,7 +39,11 @@ class PiePlot3D extends PiePlot {
 	
     // Set label arrays
     function SetLegends($aLegend) {
-	$this->legends = array_reverse($aLegend);
+			if (version_compare(phpversion(),'5.0','lt')) {
+				$this->legends = array_reverse($aLegend);
+			} else {
+				$this->legends = $aLegend;
+			}
     }
 
     function SetSliceColors($aColors) {
