@@ -87,7 +87,7 @@ function callme_startcall($to, $from, $new_path)
 {
 	global $asm;
 	$channel	= "Local/$to@from-internal/n";
-	$context	= "custom-callme";
+	$context	= "vm-callme";
 	$extension	= "s";
 	$priority	= "1";
 	$callerid	= "VMAIL/$from";
