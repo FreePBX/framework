@@ -45,6 +45,7 @@ class PhoneFeatures {
 			if ($exten!=$ARI_ADMIN_USERNAME) {
 				$this->storePhoneSetting( $args, $exten, 'call_waiting', 'CW', 'ENABLED');
 				$this->storePhoneSetting( $args, $exten, 'do_not_disturb', 'DND', 'YES');
+				$this->storeCallScreen( $args, $exten);
 			}
 		}
 		
@@ -97,6 +98,7 @@ function display($args) {
 			
 			$dnd_cw_text.=  $this->displayPhoneControls( $exten, 'call_waiting', 'CW', "Call Waiting");
 			$dnd_cw_text.=  $this->displayPhoneControls( $exten, 'do_not_disturb', 'DND', "Do Not Disturb");
+			$dnd_cw_text.=  $this->displayCallScreenControls( $exten);
 			
 			$dnd_cw_text .= "</table>";
 		}
@@ -352,5 +354,73 @@ return $ret;
 		
 		return $ret;
 	}
+
+//*****************************************************************************
+	function storeCallScreen($args, $exten) {
+
+		global $asm;
+
+		$call_screen  = getArgument( $args, 'call_screen');
+		
+                switch ($call_screen) {
+                        case '0':
+                                $asm->database_del("AMPUSER",$exten."/screen");
+                                break;
+                        case 'nomemory':
+                                $asm->database_put("AMPUSER",$exten."/screen","\"nomemory\"");
+                                break;
+                        case 'memory':
+                                $asm->database_put("AMPUSER",$exten."/screen","\"memory\"");
+                                break;
+                        default:
+                }
+	}
+
+//*****************************************************************************
+	function getCallScreen($exten) {
+
+		global $asm;
+
+		$call_screen  = $asm->database_get("AMPUSER",$exten."/screen");
+		$call_screen  = (trim($call_screen) != "")?$call_screen:'0';
+
+		return $call_screen;
+	}
+
+//*****************************************************************************
+	function displayCallScreenControls($exten)
+	{
+
+		$call_screen = $this->getCallScreen($exten);
+                $disabled = "";
+                $nomemory = "";
+                $memory = "";
+
+                switch ($call_screen) {
+                        case '0':
+                                $disabled = "selected";
+                                break;
+                        case 'nomemory':
+                                $nomemory = "selected";
+                                break;
+                        case 'memory':
+                                $memory = "selected";
+                                break;
+                        default:
+                }
+
+		$ret = "\n<tr>";
+		$ret.= "<td>" . _("Call Screening:") . "</td>";
+		$ret.= "<td>";
+		$ret.= "<select name='call_screen'>";
+		$ret.= "<option value='0' " . $disabled .  ">" . _("Disable") . "</option>";
+		$ret.= "<option value='nomemory' " . $nomemory .  ">" . _("Screen Caller: No Memory") . "</option>";
+		$ret.= "<option value='memory' " . $memory .  ">" . _("Screen Caller: Memory") . "</option>";
+		$ret.= "</td>";
+		$ret.= "</tr>\n";
+		
+		return $ret;
+	}
+
 } // class
 ?>
