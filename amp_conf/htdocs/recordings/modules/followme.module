@@ -568,23 +568,27 @@ class followme {
    */
   function setFollowMeDDial($exten,$follow_me_ddial) {
 		global $amp_usedevstate;
-		global $asterisk_manager_interface;
+		global $astman;
 
 		$value_opt = ($follow_me_ddial)?'DIRECT':'EXTENSION';
+		$response = $astman->database_put('AMPUSER',"$exten/followme/ddial",$value_opt);
 
-		$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/followme/ddial $value_opt\r\n\r\n");
-
-		// TODO only do this if in USEDEVSTATE MODE
 		// Now that we have set the state (DIRECT is enabled, EXTENSION is disabled)
 		// Get the devices associated with this user first and then we will set them all as needed
 		//
-
 		if ($amp_usedevstate) {
+			$engine_info = engine_getinfo();
+			$version = $engine_info['version'];
+			if (version_compare($version, "1.6", "ge")) {
+			 	$DEVSTATE = "DEVICE_STATE";
+			} else {
+			 	$DEVSTATE = "DEVSTATE";
+			}
 			$value_opt = ($follow_me_ddial)?'BUSY':'NOT_INUSE';
-			$devices = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/device\r\n\r\n");
+			$devices = $astman->database_get("AMPUSER",$exten."/device");
 			$device_arr = explode('&',$devices);
 			foreach ($device_arr as $device) {
-				$ret = $asterisk_manager_interface->Command("Action: Command\r\nCommand: core set global DEVSTATE(Custom:FOLLOWME$device) $value_opt\r\n\r\n");
+				$ret = $astman->send_request('Command',array('Command'=>"core set global $DEVSTATE(Custom:FOLLOWME$device) $value_opt"));
 			}
 		}
   }
@@ -599,9 +603,9 @@ class followme {
    */
   function getFollowMeDDial($exten) {
 
-	global $asterisk_manager_interface;
+	global $astman;
 
-	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/followme/ddial\r\n\r\n");
+	$response = $astman->database_get("AMPUSER",$exten."/followme/ddial");
 
 	if (preg_match("/EXTENSION/",$response)) {
 		$response='';
@@ -615,10 +619,6 @@ class followme {
 	return $response;
 
   }
-
-
-
-
 
   /*
    * Gets FreePBX Version

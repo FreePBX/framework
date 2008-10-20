@@ -187,24 +187,33 @@ return $ret;
 //*****************************************************************************
   function setPhoneSetting( $databaseCallFwdType, $exten, $state_value) {
 		global $amp_usedevstate;
-		global $asterisk_manager_interface;
+		global $astman;
 
-		$type_opt = ($state_value != "") ? "put":"del";
-
-		$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database $type_opt $databaseCallFwdType $exten $state_value\r\n\r\n");
+		if ($state_value != "") {
+			$astman->database_put($databaseCallFwdType,$exten,$state_value);
+			$value_opt = 'BUSY';
+		} else {
+			$astman->database_del($databaseCallFwdType,$exten);
+			$value_opt = 'NOT_INUSE';
+		}
 
 		// This is a kludge but ... check if the is DND and if so do additional processing
 		//
-		//if ($amp_usedevstate && ($databaseCallFwdType == 'DND')) {
 		if ($databaseCallFwdType == 'DND' && $amp_usedevstate) {
-			$value_opt = ($type_opt == 'put') ? 'BUSY' : 'NOT_INUSE';
-			$devices = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/device\r\n\r\n");
+			$engine_info = engine_getinfo();
+			$version = $engine_info['version'];
+			if (version_compare($version, "1.6", "ge")) {
+			 	$DEVSTATE = "DEVICE_STATE";
+			} else {
+			 	$DEVSTATE = "DEVSTATE";
+			}
+			$devices = $astman->database_get("AMPUSER",$exten."/device");
 			$device_arr = explode('&',$devices);
 			foreach ($device_arr as $device) {
-				$ret = $asterisk_manager_interface->Command("Action: Command\r\nCommand: core set global DEVSTATE(Custom:DEVDND$device) $value_opt\r\n\r\n");
+				$ret = $astman->send_request('Command',array('Command'=>"core set global $DEVSTATE(Custom:DEVDND$device) $value_opt"));
 			}
 			// And also handle the state associated with the user
-			$ret = $asterisk_manager_interface->Command("Action: Command\r\nCommand: core set global DEVSTATE(Custom:DND$exten) $value_opt\r\n\r\n");
+			$ret = $astman->send_request('Command',array('Command'=>"core set global $DEVSTATE(Custom:DND$exten) $value_opt"));
 		}
   }
 
@@ -358,19 +367,19 @@ return $ret;
 //*****************************************************************************
 	function storeCallScreen($args, $exten) {
 
-		global $asm;
+		global $astman;
 
 		$call_screen  = getArgument( $args, 'call_screen');
 		
                 switch ($call_screen) {
                         case '0':
-                                $asm->database_del("AMPUSER",$exten."/screen");
+                                $astman->database_del("AMPUSER",$exten."/screen");
                                 break;
                         case 'nomemory':
-                                $asm->database_put("AMPUSER",$exten."/screen","\"nomemory\"");
+                                $astman->database_put("AMPUSER",$exten."/screen","\"nomemory\"");
                                 break;
                         case 'memory':
-                                $asm->database_put("AMPUSER",$exten."/screen","\"memory\"");
+                                $astman->database_put("AMPUSER",$exten."/screen","\"memory\"");
                                 break;
                         default:
                 }
