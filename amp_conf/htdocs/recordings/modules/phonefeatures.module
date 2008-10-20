@@ -379,9 +379,9 @@ return $ret;
 //*****************************************************************************
 	function getCallScreen($exten) {
 
-		global $asm;
+		global $astman;
 
-		$call_screen  = $asm->database_get("AMPUSER",$exten."/screen");
+		$call_screen  = $astman->database_get("AMPUSER",$exten."/screen");
 		$call_screen  = (trim($call_screen) != "")?$call_screen:'0';
 
 		return $call_screen;
