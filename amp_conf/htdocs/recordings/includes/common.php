@@ -145,6 +145,7 @@ function databaseLogon() {
     }
 
     if ($include) {
+      global $amp_conf;
       $amp_conf = parse_amportal_conf($AMPORTAL_CONF_FILE);
 
       $mgrhost = $ASTERISKMGR_DBHOST;
@@ -174,7 +175,6 @@ function databaseLogon() {
 				$amp_usedevstate = 0;
 			}
 
-      unset($amp_conf);
     } 
   }
 
@@ -190,6 +190,26 @@ function databaseLogon() {
       _("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account") . "<br>" .
       _("make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver.");
     return FALSE;
+  }
+
+  // php-agi asterisk manager interface proxy
+  global $astman;
+  $astman = new AGI_AsteriskManager();
+
+  // attempt to connect to asterisk manager proxy
+  if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off'))
+  {
+        // attempt to connect directly to asterisk, if no proxy or if proxy failed
+        if (!$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off'))
+        {
+                // couldn't connect at all
+                unset( $astman );
+                $_SESSION['ari_error'] =
+                _("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" .
+                _("Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager Account.") . "<br>" .
+                _("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account") . "<br>" .
+                _("make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver.");
+        }
   }
 
   // pear interface databases
@@ -234,8 +254,16 @@ function databaseLogon() {
 function databaseLogoff() {
 
   global $asterisk_manager_interface;
+  global $astman;
 
   $asterisk_manager_interface->Disconnect();
+
+  if (is_object($astman))
+  {
+    $astman->logoff();
+    $astman->disconnect();
+  }
+  unset($astman);
 }
 
 /*
@@ -437,6 +465,5 @@ include_once("./includes/database.php");
 include_once("./includes/display.php"); 
 include_once("./includes/ajax.php");
 include_once("./includes/callme.php");
-
 
 ?>

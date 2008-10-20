@@ -20,6 +20,10 @@ include_once("./includes/common.php");
   </head>
 
 <?php
+
+  // login to database
+  $success = databaseLogon();
+  if ($success) {
 	$path       = $_SESSION['ari_user']['recfiles'][$_REQUEST['recindex']];
 	$pageaction = $_REQUEST['action'];
 	$to         = $_REQUEST['callmenum'];
@@ -50,6 +54,14 @@ include_once("./includes/common.php");
 			echo("<script language='javascript'>parent.document.getElementById('callme_status').innerHTML = '" . _("The call was terminated.") . "';</script>");
 			break;
 	}
+  }
+  else {
+	echo("Unable to connect to Asterisk Manager Interface");
+  }
+
+  // log off any databases needed
+  databaseLogoff();
+
 ?>
   </body>
 </html>

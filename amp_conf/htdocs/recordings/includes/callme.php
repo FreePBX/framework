@@ -13,19 +13,21 @@ define("CALLME_ERROR", "System error.");
  * Include admin/common/php-asmanager.php to use the AGI_AsteriskManager class for accessing the AMI
  *
  */
-require_once('../admin/functions.inc.php');
-require_once('../admin/common/php-asmanager.php');
-
-$amp_conf 	= parse_amportal_conf("/etc/amportal.conf");
-$asm 		= new AGI_AsteriskManager();
+//require_once('../admin/functions.inc.php');
+//require_once('../admin/common/php-asmanager.php');
+//global $amp_conf;
+//global $astman;
+//$amp_conf       = parse_amportal_conf($AMPORTAL_CONF_FILE);
+//$astman 		= new AGI_AsteriskManager();
 // attempt to connect to asterisk manager proxy
-if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $asm->connect("127.0.0.1:".$amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off'))
+/*
+if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off'))
 {
 	// attempt to connect directly to asterisk, if no proxy or if proxy failed
-	if (!$res = $asm->connect("127.0.0.1:".$amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off'))
+	if (!$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off'))
 	{
 		// couldn't connect at all
-		unset( $asm );
+		unset( $astman );
 		$_SESSION['ari_error'] =
 		_("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" .
 		_("Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager Account.") . "<br>" .
@@ -33,16 +35,16 @@ if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $asm->connect("127.0.0.1
 		_("make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver.");
 	}
 }
-
+*/
 function callme_close()
 {
-	global $asm;
-	if (is_object($asm))
+	global $astman;
+	if (is_object($astman))
 	{
-		$asm->logoff();
-		$asm->disconnect();
+		$astman->logoff();
+		$astman->disconnect();
 	}
-	unset($asm);
+	unset($astman);
 }
 /*
  * Call Me functions
@@ -50,10 +52,10 @@ function callme_close()
  /* Return the call me number stored in the database. */
 function callme_getnum($exten)
 {
-        global $asm;
+        global $astman;
         $cmd 		= "database get AMPUSER $exten/callmenum";
 	$callme_num 	= '';
-        $results 	= $asm->Command($cmd);
+        $results 	= $astman->Command($cmd);
 
 	if (is_array($results))
 	{
@@ -74,10 +76,10 @@ function callme_getnum($exten)
 /* Set the call me number to a new value.  No return value. */
 function callme_setnum($exten, $callme_num)
 {
-        global $asm;
+        global $astman;
 
         $cmd = "database put AMPUSER $exten/callmenum $callme_num";
-        $asm->Command($cmd);
+        $astman->Command($cmd);
         return;
 }
 
@@ -85,7 +87,7 @@ function callme_setnum($exten, $callme_num)
 /* Return the result of the call (success/failure/error).                  */
 function callme_startcall($to, $from, $new_path)
 {
-	global $asm;
+	global $astman;
 	$channel	= "Local/$to@from-internal/n";
 	$context	= "vm-callme";
 	$extension	= "s";
@@ -93,7 +95,7 @@ function callme_startcall($to, $from, $new_path)
 	$callerid	= "VMAIL/$from";
 	$variable	= "MSG=$new_path|MBOX=$from";
 	/* Arguments to Originate: channel, extension, context, priority, timeout, callerid, variable, account, application, data */
-	$status = $asm->Originate($channel, $extension, $context, $priority, NULL, $callerid, $variable, NULL, NULL, NULL);
+	$status = $astman->Originate($channel, $extension, $context, $priority, NULL, $callerid, $variable, NULL, NULL, NULL);
 	if (is_array($status))
 	{
 		foreach ($status as $status_elem)
@@ -109,8 +111,8 @@ function callme_startcall($to, $from, $new_path)
 
 function callme_eventsoff()
 {
-	global $asm;
-	$asm->Events("off");
+	global $astman;
+	$astman->Events("off");
 	return;
 }
 
@@ -126,13 +128,13 @@ function callme_succeeded($status)
 /* Hangs up an existing channel $exten is associated with.  No return value. */
 function callme_hangup($exten)
 {
-	global $asm;
+	global $astman;
 	$cmd 		= "local show channels";
         $chan_pat 	= '/[\s]*Local\/' . trim($exten) . '@from\-internal\-[a-zA-Z0-9]*,(1|2)[\s]*/';
 	$matches[0] 	= "";
 	$response 	= "";
 	$channel 	= "";
-	$local_channels = $asm->Command($cmd);
+	$local_channels = $astman->Command($cmd);
 
 	/* Look for our local channel. */
 	if (is_array($local_channels))
@@ -154,7 +156,7 @@ function callme_hangup($exten)
 	/* If the channel was still up, hang it up. */ 
 	if ($channel != "")
 	{
-		$asm->Hangup(trim($channel));
+		$astman->Hangup(trim($channel));
 	}
 	return; 
 }
