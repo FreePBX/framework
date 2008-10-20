@@ -130,7 +130,7 @@ function callme_hangup($exten)
 {
 	global $astman;
 	$cmd 		= "local show channels";
-        $chan_pat 	= '/[\s]*Local\/' . trim($exten) . '@from\-internal\-[a-zA-Z0-9]*,(1|2)[\s]*/';
+        $chan_pat 	= '/[\s]*Local\/' . preg_quote(trim($exten)) . '@from\-internal\-[a-zA-Z0-9]*,(1|2)[\s]*/';
 	$matches[0] 	= "";
 	$response 	= "";
 	$channel 	= "";
