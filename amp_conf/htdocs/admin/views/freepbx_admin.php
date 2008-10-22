@@ -54,7 +54,7 @@ if (is_array($fpbx_menu)) {
 	$tab_num = 1;
 	foreach ($fpbx_types as $key=>$val) {
 		$type_name = (isset($fpbx_type_names[$val]) ? $fpbx_type_names[$val] : ucfirst($val));
-		echo '<li><a href="#nav-'.str_replace(' ','_',$val).'"><span>'.$type_name.'</span></a></li>';
+		echo '<li><a href="#nav-'.str_replace(' ','_',$val).'"><span>'._($type_name).'</span></a></li>';
 		if ($val == $fpbx_type) {
 			$tab_num = $key+1;
 		}
@@ -153,6 +153,7 @@ if (is_array($fpbx_menu)) {
 		<option value="pt_PT" <?php echo ($_COOKIE['lang']=="pt_PT" ? "selected" : "") ?> >Portuguese</option>
 		<option value="he_IL" <?php echo ($_COOKIE['lang']=="he_IL" ? "selected" : "") ?> >Hebrew</option>
 		<option value="sv_SE" <?php echo ($_COOKIE['lang']=="sv_SE" ? "selected" : "") ?> >Svenska</option>
+		<option value="hu_HU" <?php echo ($_COOKIE['lang']=="hu_HU" ? "selected" : "") ?> >Hungarian</option>
 		</select>
 <?php
 	}

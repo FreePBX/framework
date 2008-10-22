@@ -1381,6 +1381,10 @@ function engine_getinfo() {
 				return array('engine'=>'asterisk', 'version' => '1.6', 'additional' => $matches[1], 'raw' => $verinfo);
 			} elseif (preg_match('/Asterisk SVN-.+-(\d+(\.\d+)*)-r(-?(\S*))-(.+)/', $verinfo, $matches)) {
 				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[3], 'raw' => $verinfo);
+			} elseif (preg_match('/Asterisk [B].(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
+				return array('engine'=>'asterisk', 'version' => '1.2', 'additional' => $matches[3], 'raw' => $verinfo);
+			} elseif (preg_match('/Asterisk [C].(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
+				return array('engine'=>'asterisk', 'version' => '1.4', 'additional' => $matches[3], 'raw' => $verinfo);
 			}
 
 			return array('engine'=>'ERROR-UNABLE-TO-CONNECT', 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
@@ -3436,8 +3440,10 @@ function module_get_annoucements() {
 		$options .= "&firstinstall=yes";
 	}
 	$engver=engine_getinfo();
-	if ($engver['engine'] == 'asterisk') {
+	if ($engver['engine'] == 'asterisk' && trim($engver['engine']) != "") {
 		$options .="&astver=".urlencode($engver['version']);
+	} else {
+		$options .="&astver=".urlencode($engver['raw']);
 	}
 
 	$fn = "http://mirror.freepbx.org/version-".getversion().".html".$options;
@@ -3447,7 +3453,8 @@ function module_get_annoucements() {
 		$announcement = '';
 	}
 	if (empty($announcement)) {
-		exec("wget -O - $fn 2> /dev/null", $data_arr, $retcode);
+		$fn2 = str_replace('&','\\&',$fn);
+		exec("wget -O - $fn2 2>> /tmp/freepbx_debug.log", $data_arr, $retcode);
 		$announcement = implode("\n",$data_arr);
 	}
 	return $announcement;

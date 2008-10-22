@@ -926,6 +926,22 @@ msgstr "Номер DID"
 msgid "Caller ID Number"
 msgstr "Номер ИД"
 
+#: amp_conf/htdocs/admin/modules/core/page.did.php:78
+msgid "View All DIDs"
+msgstr "Посмотреть все номера DID"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:79
+msgid "View User DIDs"
+msgstr "Посмотреть пользовательские DID"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:80
+msgid "View General DIDs"
+msgstr "Посмотреть основные DID"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:81
+msgid "View Unused DIDs"
+msgstr "Посмотреть неиспользуемые DID"
+
 #: modules/core/page.did.php:97
 msgid "Fax Handling"
 msgstr "Прием факсов"
@@ -1734,6 +1750,11 @@ msgstr ""
 msgid "Add Trunk"
 msgstr "Добавить транк"
 
+#: amp_conf/htdocs/admin/modules/core/page.trunks.php:281
+#, php-format
+msgid "Delete Trunk %s"
+msgstr "Удалить транк %s"
+
 #: modules/core/page.trunks.php:160
 msgid "Trunk"
 msgstr "Транк"
@@ -1965,7 +1986,7 @@ msgid ""
 "outbound calls placed on this trunk. For example, if this trunk is behind "
 "another PBX or is a Centrex line, then you would put 9 here to access an "
 "outbound line. Another common use is to prefix calls with 'w' on a POTS line "
-"that need time to obtain dialtone to avoid eating digits.<br><br>Most users "
+"that need time to obtain dial tone to avoid eating digits.<br><br>Most users "
 "should leave this option blank."
 msgstr ""
 "Префикс выхода на линию используется для отделения номеров набранных "
@@ -2026,7 +2047,7 @@ msgstr "опции для PEER"
 msgid ""
 "Modify the default PEER connection parameters for your VoIP provider."
 "<br><br>You may need to add to the default lines listed below, depending on "
-"your provider.<br /><br />WARNING: Oreder is important as it will be "
+"your provider.<br /><br />WARNING: Order is important as it will be "
 "retained. For example, if you use the \"allow/deny\" directives make sure "
 "deny comes first."
 msgstr ""
@@ -2692,6 +2713,15 @@ msgstr ""
 "Т.е.: Если ваш идентификатор \"Sales:\", Звонок от John Doe будет выглядеть как "
 "\"Sales: John Doe\" на звонящем внутреннем номере."
 
+msgid ""
+"You can optionally prefix the Caller ID name. ie: If you prefix with \"Sales:"
+"\", a call from John Doe would display as \"Sales:John Doe\" on the "
+"extensions that ring."
+msgstr ""
+"Опционально, вы можете указать префикс для ИД номера. "
+"Т.е.: Если ваш идентификатор \"Sales:\", Звонок от John Doe будет выглядеть как "
+"\"Sales: John Doe\" на звонящем внутреннем номере."
+
 #: modules/queues/page.queues.php:167
 msgid "static agents"
 msgstr "статичные агенты"
@@ -3315,20 +3345,32 @@ msgstr ""
 
 #: modules/core/page.did.php:91
 msgid ""
-"Define the Caller ID Number to be matched on incoming calls.<br><br>"
-"Leave this field blank to match any or no CID info."
+"Define the Caller ID Number to be matched on incoming calls.<br><br>Leave "
+"this field blank to match any or no CID info. In addition to standard dial "
+"sequences, you can also put Private, Blocked, Unknown, Restricted, Anonymous "
+"and Unavailable in order to catch these special cases if the Telco transmits "
+"them."
 msgstr ""
 "Укажите номер, который будет передаваться в качестве исходящего при "
 "звонках через этот транк, это может быть полезным для вызываемого абонента.<br><br>"
-"Оставьте это поле незаполненным, если не хотите изменять номер ИД"
+"Оставьте это поле незаполненным, если не хотите изменять номер ИД. В дополнение к "
+"стандартным последовательностям набора можно также определить попадание в определёные "
+"назначения Частный, Заблокированный, Неизвестный, Ограниченный, Анонимный и Недоступный "
+"для принятия соответствующих действий."
 
 #: modules/core/page.did.php:148
 msgid ""
-"If no Caller ID is sent, Privacy Manager will asks the caller to enter their 10 digit phone number. "
-"The caller is given 3 attempts."
+"If no Caller ID is sent, Privacy Manager will asks the caller to enter their "
+"10 digit phone number. The caller is given 3 attempts. The number of digits "
+"and attempts can be defined in privacy.conf. If a user has Call Screening "
+"enabled, the incoming caller will be asked to enter their CallerId here if "
+"enabled, and then to say their name once determined that the called user "
+"requires it."
 msgstr ""
 "Если не распознан или отсутствует ИД номер входящего звонка, \"Менеджер безопасности\" предложит набрать 10-ти "
-"значный PIN код. Даётся 3 попытки."
+"значный PIN код. Даётся 3 попытки. Количество цифр и количество попыток указывается "
+"в файле privacy.conf. Если у пользователя установлена Защита от звонков, то позвонившему будет предложено "
+"указать своё имя, которое будет проговариваться каждый раз, когда будет распознан входящий звонок от него."  
 
 #: modules/core/page.did.php:162
 msgid ""
@@ -4040,6 +4082,10 @@ msgstr "Конфиденциальный Менеджер"
 msgid "Music On Hold?"
 msgstr "Музыку в ожидании?"
 
+#: page.did.php:212
+msgid "Music On Hold"
+msgstr "Музыку в ожидании"
+
 msgid "Language"
 msgstr "Язык"
 
@@ -4718,6 +4764,24 @@ msgstr "Редактировать входящий маршрут"
 msgid "Provide a meaningful description of what this incoming route is"
 msgstr "Внятное описание - что из себя представляет этот маршрут"
 
+#: amp_conf/htdocs/admin/modules/core/page.did.php:189
+msgid "CID Priority Route"
+msgstr "Маршрут по приоритету CID"
+
+#: amp_conf/htdocs/admin/modules/core/page.did.php:189
+msgid ""
+"This effects CID ONLY routes where no DID is specified. If checked, calls "
+"with this CID will be routed to this route, even if there is a route to the "
+"DID that was called. Normal behavior is for the DID route to take the calls. "
+"If there is a specific DID/CID route for this CID, that route will still "
+"take the call when that DID is called."
+msgstr ""
+"Определяет маршрут основываясь ТОЛЬКО на Номере ИД если даже не указан номер DID. "
+"Если отметить, то все звонки с этим Номером ИД будут направлены в этот маршрут, "
+"даже если маршрут идёт по признаку DID. Нормальный сценарий - создавать маршрут "
+"основываясь на DID. Если же установлен специфичный DID/CID маршрут для этого Номера ИД "
+"он будет выбран даже если идёт звонок на указанный DID."
+
 #: page.did.php:98
 msgid ""
 "Define the expected DID Number if your trunk passes DID on incoming calls. "
@@ -4822,6 +4886,9 @@ msgstr "Инвентаризация"
 
 msgid "Languages"
 msgstr "Языки"
+
+msgid "PIN Set"
+msgstr "Списки PIN-кодов"
 
 msgid "PIN Sets"
 msgstr "Списки PIN-кодов"

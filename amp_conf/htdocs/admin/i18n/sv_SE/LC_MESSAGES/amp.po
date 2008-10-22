@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX amp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-05 11:30+0200\n"
-"PO-Revision-Date: 2008-10-12 22:56+0100\n"
+"POT-Creation-Date: 2008-10-10 03:46+0200\n"
+"PO-Revision-Date: 2008-10-18 23:02+0100\n"
 "Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
 "Language-Team: Swedish\n"
 "MIME-Version: 1.0\n"
@@ -109,7 +109,7 @@ msgid "Reload Required"
 msgstr "Omladdning krävs"
 
 #: amp_conf/htdocs/admin/views/freepbx_reloadbar.php:4
-#: amp_conf/htdocs/admin/views/freepbx_reloadbar.php:6
+#: amp_conf/htdocs/admin/views/freepbx_reloadbar.php:5
 #: amp_conf/htdocs/admin/views/freepbx_reload.php:107
 msgid "Apply Configuration Changes"
 msgstr "Spara gjorda ändringar"
@@ -136,28 +136,28 @@ msgstr "kategori"
 #: amp_conf/htdocs/admin/views/freepbx_admin.php:112
 #: amp_conf/htdocs/admin/modules/core/page.ampusers.php:223
 #: amp_conf/htdocs/admin/modules/core/page.ampusers.php:227
-#: amp_conf/htdocs/admin/page.modules.php:537
-#: amp_conf/htdocs/admin/page.modules.php:542
+#: amp_conf/htdocs/admin/page.modules.php:541
+#: amp_conf/htdocs/admin/page.modules.php:546
 msgid "name"
 msgstr "namn"
 
-#: amp_conf/htdocs/admin/views/freepbx_admin.php:176
+#: amp_conf/htdocs/admin/views/freepbx_admin.php:177
 msgid "WARNING: Javascript is disabled in your browser. The FreePBX administration interface requires Javascript to run properly. Please enable javascript or switch to another  browser that supports it."
 msgstr "VARNING: Javaskript är avstängt i din webbläsare. Administrationsverktyget kräver javaskript för att fungera. Aktivera javaskript eller byt till en webbläsare som stöder det."
 
-#: amp_conf/htdocs/admin/views/freepbx_admin.php:190
+#: amp_conf/htdocs/admin/views/freepbx_admin.php:191
 #, php-format
 msgid "%s is a registered trademark of %s"
 msgstr "%s är ett registrerat varumärke av %s"
 
-#: amp_conf/htdocs/admin/views/freepbx_admin.php:191
-#: amp_conf/htdocs/admin/views/freepbx_admin.php:194
+#: amp_conf/htdocs/admin/views/freepbx_admin.php:192
+#: amp_conf/htdocs/admin/views/freepbx_admin.php:195
 #: amp_conf/htdocs/admin/views/freepbx.php:140
 #: amp_conf/htdocs/admin/views/freepbx.php:149
 msgid "FreePBX"
 msgstr "FreePBX"
 
-#: amp_conf/htdocs/admin/views/freepbx_admin.php:193
+#: amp_conf/htdocs/admin/views/freepbx_admin.php:194
 #, php-format
 msgid "%s is licensed under %s"
 msgstr "%s är licensierat under %s"
@@ -328,15 +328,10 @@ msgstr "Välj en \"Destination\""
 msgid "Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
 msgstr "Anpassade Gå-till sammanhang måste innehålla strängen \"custom\". T.ex. custom-app,s,1"
 
-#: amp_conf/htdocs/admin/components.class.php:364
+#: amp_conf/htdocs/admin/components.class.php:362
 #: amp_conf/htdocs/admin/modules/core/page.did.php:306
 msgid "Submit"
 msgstr "Spara"
-
-#: amp_conf/htdocs/admin/components.class.php:653
-#: amp_conf/htdocs/admin/components.class.php:697
-msgid "text"
-msgstr "text"
 
 #: amp_conf/htdocs/admin/header_auth.php:43
 #: amp_conf/htdocs/admin/header_auth.php:70
@@ -422,8 +417,8 @@ msgstr "Omladdning lyckades, men omladdningsflaggan kunde inte återställas på
 
 #: amp_conf/htdocs/admin/functions.inc.php:1611
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:578
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4668
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4670
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4696
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4698
 msgid "Add"
 msgstr "Lägg till"
 
@@ -739,9 +734,9 @@ msgid "Daily load"
 msgstr "Daglig last"
 
 #: amp_conf/htdocs/admin/modules/core/page.devices.php:18
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4629
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4646
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4668
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4657
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4674
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4696
 msgid "Device"
 msgstr "Enhet"
 
@@ -797,7 +792,7 @@ msgid "FreePBX Support"
 msgstr "FreePBX Support"
 
 #: amp_conf/htdocs/admin/modules/core/page.ampusers.php:101
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4335
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4362
 msgid "Add User"
 msgstr "Lägg till användare"
 
@@ -851,12 +846,12 @@ msgid "Apply Changes Bar"
 msgstr "Spara ändringar"
 
 #: amp_conf/htdocs/admin/modules/core/page.ampusers.php:239
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4624
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4652
 msgid "Add Device"
 msgstr "Lägg till enhet"
 
 #: amp_conf/htdocs/admin/modules/core/page.ampusers.php:239
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4333
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4360
 msgid "Add Extension"
 msgstr "Lägg till anknytning"
 
@@ -946,7 +941,7 @@ msgstr "Redigera %s trunken"
 
 #: amp_conf/htdocs/admin/modules/core/page.trunks.php:280
 msgid "DAHDI compatibility Mode"
-msgstr "DAHDI kompatibilietsläge"
+msgstr "DAHDI kompatibilitetsläge"
 
 #: amp_conf/htdocs/admin/modules/core/page.trunks.php:281
 #, php-format
@@ -1029,9 +1024,9 @@ msgid "Check this to disable this trunk in all routes where it is used."
 msgstr "Markera denna för att avaktivera denna trunk i alla vägar där den används."
 
 #: amp_conf/htdocs/admin/modules/core/page.trunks.php:390
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4210
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4213
-#: amp_conf/htdocs/admin/page.modules.php:682
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4237
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4240
+#: amp_conf/htdocs/admin/page.modules.php:686
 msgid "Disable"
 msgstr "Avaktivera"
 
@@ -1044,8 +1039,8 @@ msgid "If checked, supply the name of a custom AGI Script that will be called to
 msgstr "Om detta aktiveras, skriv in ett namn för ett anpassat AGI-skript som kommer att köras för att rapportera, logga, e-posta eller göra annan åtgärd vid fel på trunken som inte orsakas av NOANSWER eller AVBRYT."
 
 #: amp_conf/htdocs/admin/modules/core/page.trunks.php:399
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4209
-#: amp_conf/htdocs/admin/page.modules.php:640
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4236
+#: amp_conf/htdocs/admin/page.modules.php:644
 msgid "Enable"
 msgstr "Aktivera"
 
@@ -1135,7 +1130,7 @@ msgstr "Nummeruppslag för lokal trunk"
 
 #: amp_conf/htdocs/admin/modules/core/page.trunks.php:437
 msgid "This looks up your local number on www.localcallingguide.com (NA-only), and sets up so you can dial either 7 or 10 digits (regardless of what your PSTN is) on a local trunk (where you have to dial 1+area code for long distance, but only 5551234 (7-digit dialing) or 6135551234 (10-digit dialing) for local calls"
-msgstr "Detta slår upp ditt lokala nummer på www.localcallingguide.com (endast Nord-Amerka), och gör så att du kan slå antingen ditt 7 eller 10-siffriga nummer på en lokal trunk (där du måste slå 1+riktnnummer för rikssamtal, men endast 5551234 (7-siffrors nummerslagning) eller 6135551234 (10-siffors nummerslagning) för lokala samtal."
+msgstr "Detta slår upp ditt lokala nummer på www.localcallingguide.com (endast Nord-Amerka), och gör så att du kan slå antingen ditt 7 eller 10-siffriga nummer på en lokal trunk (där du måste slå 1+riktnnummer för rikssamtal, men endast 5551234 (7-siffrors nummerslagning) eller 6135551234 (10-siffrors nummerslagning) för lokala samtal."
 
 #: amp_conf/htdocs/admin/modules/core/page.trunks.php:440
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:482
@@ -1288,7 +1283,7 @@ msgstr "Trunknamn"
 
 #: amp_conf/htdocs/admin/modules/core/page.trunks.php:706
 msgid "Give this trunk a unique name.  Example: myiaxtel"
-msgstr "Ge denna trunk ett unikt namn. T.ex. miniaxtel"
+msgstr "Ge denna trunk ett unikt namn. T.ex. Till-Tele2"
 
 #: amp_conf/htdocs/admin/modules/core/page.trunks.php:713
 msgid "PEER Details"
@@ -1427,7 +1422,7 @@ msgid "This will override the recording settings of all extensions/users. If ena
 msgstr "Detta kommer att åsidosätta inspelningsvalet för alla anknytningar/användare. Om detta är aktiverat kommer systemet att ignorera alla Spela alltid in för en användare och kommer inte att starta inspelning. Detta påverkar inte Inspelning på begäran som kontrolleras med nummerslagningsvalen 'w' och 'W' ovan. Denna inställning har ingen effekt i moduler såsom Köer och Konferenser. Om du inte använder inspelningar, sätt detta till Avaktiverad, systemets prestanda ökar något då ingen inspelningskontroll kommer att göras vid varje samtal."
 
 #: amp_conf/htdocs/admin/modules/core/page.general.php:139
-#: amp_conf/htdocs/admin/page.modules.php:598
+#: amp_conf/htdocs/admin/page.modules.php:602
 msgid "Enabled"
 msgstr "Aktiverad"
 
@@ -1566,11 +1561,6 @@ msgstr "Standard väntetid/#-slag:"
 #: amp_conf/htdocs/admin/modules/core/page.general.php:229
 msgid "This is the default location that a caller will be sent if they don't press any key (timeout) or press # which is interpreted as a timeout. Set this to 'dovm' to go to voicemail (default)."
 msgstr "Detta är standardplatsen en uppringare kommer att skickas till om de inte trycker någon knapp (tidsutlösning) eller trycker # som kommer att behandlas som en tidsutlösning. Sätt detta till 'dovm' för att skicka till röstbrevlådan (förvalt). "
-
-#: amp_conf/htdocs/admin/modules/core/page.general.php:232
-#: amp_conf/htdocs/admin/modules/core/page.general.php:241
-msgid "exten"
-msgstr "anknytning"
 
 #: amp_conf/htdocs/admin/modules/core/page.general.php:237
 msgid "Loop Exceed default:"
@@ -1835,7 +1825,7 @@ msgstr "Lägg till Zap-kanal"
 
 #: amp_conf/htdocs/admin/modules/core/page.zapchandids.php:79
 msgid "Zap Channel DIDs allow you to assign a DID to specific Zap Channels. You can supply the same DID to multiple channels. This would be a common scenario if you have multiple POTS lines that are on a hunt group from your provider. You MUST assign the channel's context to from-zaptel for these settings to have effect. It will be a line that looks like:<br /><br />context = from-zaptel<br /><br />in your zapata.conf configuration effecting the specified channel(s). Once you have assigned DIDs you can use standard Inbound Routes with the specified DIDs to route your calls."
-msgstr ""
+msgstr "ZAP direktnummer ger dig möjlighet att tilldela direktnummer till specifika Zap kanaler. Du kan ange samma direktnummer till flera kanaler. Detta är vanligt om du har flera telefonlinjer som är grupperade av din operatör. Du MÅSTE ange sammanhanget för kanalerna till from-zaptel för att detta ska fungera. Raden kommer då att se ut så här:<br><br>context = from-zaptel<br><br>i din zapata.conf för dina kanaler. När du har tilldelat direktnummer kan du använda Inkommande vägar med dessa direktnummer för att fördela dina samtal."
 
 #: amp_conf/htdocs/admin/modules/core/page.zapchandids.php:87
 msgid "Edit Channel"
@@ -1851,8 +1841,8 @@ msgstr "Zap-numret att mappa mot ett direktnummer."
 
 #: amp_conf/htdocs/admin/modules/core/page.zapchandids.php:99
 #: amp_conf/htdocs/admin/modules/core/page.did.php:176
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4701
-#: amp_conf/htdocs/admin/page.modules.php:692
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4729
+#: amp_conf/htdocs/admin/page.modules.php:696
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -1873,12 +1863,12 @@ msgid "Delete"
 msgstr "Ta bort"
 
 #: amp_conf/htdocs/admin/modules/core/page.zapchandids.php:123
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2999
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:3026
 msgid "Invalid Channel Number, must be numeric and not blank"
 msgstr "Ogiltigt kanalnummer, det kan inte vara blankt och måste innehålla siffror"
 
 #: amp_conf/htdocs/admin/modules/core/page.zapchandids.php:124
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:3003
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:3030
 msgid "Invalid DID, must be a non-blank DID"
 msgstr "Ogiltigt direktnummer, kan inte vara tomt"
 
@@ -1898,7 +1888,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/modules/core/page.zapchandids.php:126
 msgid "You appear to be using a converted DID in the form of zapchanNN that was automatically generated during an upgrade. You should consider assigning the DID that is normally associated with this channel to take full advantage of the inbound routing abilities. Changing the DID here will require you to make changes in the Inbound Routes tab. Do you want to continue?"
-msgstr ""
+msgstr "Du verkar använda ett konverterat direktnummer i form av zapchanNN som automatiskt skapades vid en uppgradering. Du bör överväga att tilldela det direktnummer som normalt är associerat med denna kanal för att fullt utnyttja möjligheterna med inkommande vägar. Om du ändrar direktnumret här måste du ändra i Inkommade vägar. Vill du fortsätta?"
 
 #: amp_conf/htdocs/admin/modules/core/install.php:5
 msgid "User Logon"
@@ -1942,11 +1932,11 @@ msgstr "Asterisk övervakad vidarekoppling"
 
 #: amp_conf/htdocs/admin/modules/core/install.php:15
 msgid "In-Call Asterisk Toggle Call Recording"
-msgstr ""
+msgstr "Ställ om inspelning under samtal"
 
 #: amp_conf/htdocs/admin/modules/core/install.php:16
 msgid "In-Call Asterisk Disconnect Code"
-msgstr ""
+msgstr "Avsluta samtal"
 
 #: amp_conf/htdocs/admin/modules/core/install.php:43
 #, php-format
@@ -2099,7 +2089,7 @@ msgstr "Lösenord för väg"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:318
 msgid "Optional: A route can prompt users for a password before allowing calls to progress.  This is useful for restricting calls to international destinations or 1-900 numbers.<br><br>A numerical password, or the path to an Authenticate password file can be used.<br><br>Leave this field blank to not prompt for password.</span>"
-msgstr ""
+msgstr "Valfritt: En väg kan fråga efter ett lösenord innan samtalet skickas genom. Detta kan användas för att för att begränsa utlandssamtal eller betalnummer.<br><br>Ett numeriskt lösenord. eller en sökväg till en fil med lösenord kan användas.<br><br>Lämna detta fält tomt för att inte få fråga om lösenord.</span>"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:327
 msgid "Emergency Dialing"
@@ -2107,7 +2097,7 @@ msgstr "Nödsamtal"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:327
 msgid "Optional: Selecting this option will enforce the use of a device's Emergency CID setting (if set).  Select this option if this set of routes is used for emergency dialing (ie: 911).</span>"
-msgstr ""
+msgstr "Valfritt: Väljs detta kommer nummerpresentationen för nödsamtal att sättas till det som är angivet på en enhet eller anknytning. Välj detta om denna väg används för nödsamtal, t.ex. 112</span>"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:331
 msgid "Intra Company Route"
@@ -2123,7 +2113,7 @@ msgstr "Pausmusik?"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:336
 msgid "You can choose which music category to use. For example, choose a type appropriate for a destination country which may have announcements in the appropriate language."
-msgstr ""
+msgstr "Du kan välja vilken musikkategori som ska användas för denna väg. Kan användas för internationella samtal då engelsk musik kan vara lämplig."
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:354
 msgid "Dial Patterns"
@@ -2131,7 +2121,7 @@ msgstr "Nummerslagningsmönster"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:354
 msgid "A Dial Pattern is a unique set of digits that will select this trunk. Enter one dial pattern per line."
-msgstr ""
+msgstr "Ett nummermönster är ett antal siffror som matchar om denna trunk ska användas. Ett mönster per rad."
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:359
 msgid "wildcard, matches one or more characters"
@@ -2139,7 +2129,7 @@ msgstr "joker, matchar en eller flera tecken"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:360
 msgid "separates a dialing prefix from the number (for example, 9|NXXXXXX would match when some dialed \"95551234\" but would only pass \"5551234\" to the trunks)"
-msgstr ""
+msgstr "separerar ett prefix från numret (t.ex. 9|NXXXXXX matchar när någon slår \"95551234\" men kommer då att bara skicka \"5551234\" till trunken)"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:402
 msgid "Dial patterns wizards"
@@ -2156,7 +2146,7 @@ msgstr "Slå upp lokala prefix"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:404
 msgid "This looks up your local number on www.localcallingguide.com (NA-only), and sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, 16135551234) to access this route."
-msgstr ""
+msgstr "Detta slår upp ditt lokala nummer på www.localcallingguide.com (endast Nord-Amerika), om gör så att du kan slå 7, 10 eller 11 siffror  (5551234, 6135551234, 16135551234) för att få tillgång till denna väg."
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:483
 msgid "Local 7 digit"
@@ -2168,7 +2158,7 @@ msgstr "Lokala 7/10 siffror"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:485
 msgid "Toll-free"
-msgstr ""
+msgstr "Gratisnummer"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:486
 msgid "Long-distance"
@@ -2192,7 +2182,7 @@ msgstr "Trunksekvens"
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:496
 msgid "The Trunk Sequence controls the order of trunks that will be used when the above Dial Patterns are matched. <br><br>For Dial Patterns that match long distance numbers, for example, you'd want to pick the cheapest routes for long distance (ie, VoIP trunks first) followed by more expensive routes (POTS lines)."
-msgstr ""
+msgstr "Trunksekvensen kontrollerar i vilken ordning trunkarna kommer att användas när nummermönstret ovan matchas.<br><br>För nummermönster som matchar en viss typ av samtal skickas samtalen ut på den första trunken, om den är upptagen, skicka ut på nästa."
 
 #: amp_conf/htdocs/admin/modules/core/page.routing.php:618
 msgid "Route name is invalid, please try again"
@@ -2241,20 +2231,20 @@ msgid "any CID"
 msgstr "någon CID"
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:126
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4266
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4618
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4293
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4646
 msgid "deleted"
 msgstr "borttagen"
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:151
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4298
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4325
 #: amp_conf/htdocs/admin/modules/core/page.users.php:21
 msgid "User"
 msgstr "Användare"
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:155
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4286
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4670
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4313
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4698
 #: amp_conf/htdocs/admin/modules/core/page.extensions.php:18
 msgid "Extension"
 msgstr "Anknytning"
@@ -2295,11 +2285,11 @@ msgstr "Ange nummerpresentation som ska matcha inkommande samtal.<br><br>Lämna 
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:189
 msgid "CID Priority Route"
-msgstr "Prioritestväg för direktnummer"
+msgstr "Prioritetsväg för nummerpresentation"
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:189
 msgid "This effects CID ONLY routes where no DID is specified. If checked, calls with this CID will be routed to this route, even if there is a route to the DID that was called. Normal behavior is for the DID route to take the calls. If there is a specific DID/CID route for this CID, that route will still take the call when that DID is called."
-msgstr ""
+msgstr "Detta påverkar ENDAST vägar med nummerpresentation där inget direktnummer är angivet. Om detta väljs kommer samtal med denna nummerpresentation att skickas via denna väg även om det finns en väg med det direktnummer som ringdes upp. Normalt är det vägen med direktnumret som hanterar samtalet. Om det finns en specifik väg med direktnummer/nummerpresentation för denna nummerpresentation, kommer den vägen att väljas när direktnumret rings upp."
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:193
 msgid "Options"
@@ -2327,7 +2317,7 @@ msgstr "Pausmusik"
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:204
 msgid "Set the MoH class that will be used for calls that come in on this route. For example, choose a type appropriate for routes coming in from a country which may have announcements in their language."
-msgstr ""
+msgstr "Väljer klassen på pausmusiken som kommer att användas på samtal som kommer in via denna väg. Kan användas för internationella samtal då engelsk musik kan vara lämplig."
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:210
 msgid "No Music"
@@ -2451,6 +2441,9 @@ msgid ""
 "\\n"
 "Are you sure?"
 msgstr ""
+"Att ange en inkommande väg utan direktnummer eller nummerpresentation kommer att matcha alla samtal som inte hanteras av andra angivna inkommande vägar.\\n"
+"\\n"
+"Är du säker?"
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:325
 msgid ""
@@ -2460,6 +2453,11 @@ msgid ""
 "\\n"
 "Are you sure this is correct?"
 msgstr ""
+"`Direktnummer är normalt ett telefonnummer för ditt abbonnemang eller ett giltigt nummermönster för Astersk\\n"
+"\\n"
+"Du har skrivit in ett direktnummer som inte är standard.\\n"
+"\\n"
+"Är du säker på att detta är rätt?"
 
 #: amp_conf/htdocs/admin/modules/core/page.did.php:326
 msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
@@ -2469,445 +2467,454 @@ msgstr "Ett snedstreck ('/') är aldrig ett giltigt direktnummer. Ta bort det oc
 msgid "Invalid Caller ID prefix."
 msgstr "Ogiltigt prefix för nummerpresentation."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1956
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1975
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:554
+#, php-format
+msgid "User Extension %s: %s"
+msgstr "Användaranknytning %s: %s"
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:1983
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2002
 msgid "A route for this DID/CID already exists!"
 msgstr "En väg för detta direktnummer/nummerpresentation finns redan!"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2042
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2069
 msgid "You must put in a device id"
 msgstr "Du måste ange en enhets id"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2052
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2079
 msgid "This device id is already in use"
 msgstr "Denna enhets id använd redan"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2633
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2660
 msgid "User Extension: "
 msgstr "Användaranknytning: "
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2662
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2689
 #, php-format
 msgid "Inbound Route: %s (%s)"
 msgstr "Inkommande väg: %s (%s)"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2696
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2723
 msgid "You must put in an extension (or user) number"
 msgstr "Du måste ange ett nummer för anknytningen (eller användaren)"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2705
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2732
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Denna anknytning %s används redan"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2724
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2964
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2751
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:2991
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "En väg med detta direktnummer/nummerpresentation: %s/%s finns redan"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:3015
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:3042
 msgid "Error Duplicate Channel Entry"
 msgstr "Fel, kanalen är en dubblett"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4179
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4206
 #, php-format
 msgid "Failed to open %s for writing, aborting attempt to write the country indications. The file may be readonly or the permissions may be incorrect."
 msgstr "Kunde inte öppna %s för skrivning, avbryter försöket att skriva indikationer för länder. Filen är troligtvis skrivskyddad eller så är rättigheterna inte korrekta."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4180
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4207
 msgid "Failed to write indications.conf"
 msgstr "Kunde inte skriva till filen indications.conf"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4204
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4231
 msgid "On Demand"
 msgstr "På begäran"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4205
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4232
 msgid "Always"
 msgstr "Alltid"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4206
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4233
 msgid "Never"
 msgstr "Aldrig"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4214
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4241
 msgid "Screen Caller: No Memory"
 msgstr "Sålla samtal: Kom inte ihåg"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4215
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4242
 msgid "Screen Caller: Memory"
 msgstr "Sålla samtal: Kom ihåg"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4288
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4315
 #, php-format
 msgid "Delete Extension %s"
 msgstr "Ta bort anknytning %s"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4300
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4327
 #, php-format
 msgid "Delete User %s"
 msgstr "Ta bort användare %s"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4312
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4339
 msgid "Add User/Extension"
 msgstr "Lägg till användare/anknytning"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4319
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4688
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4346
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4716
 msgid "Please enter a valid extension number."
 msgstr "Ange ett giltigt anknytningsnummer"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4320
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4347
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
 msgstr "Ange ett giltigt CID alias (måste vara ett giltigt nummer)."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4321
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4348
 msgid "Please enter valid User Password using numbers only"
 msgstr "Ange ett giltigt användarlösenord, endast siffror"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4322
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4349
 msgid "Please enter a valid Display Name"
 msgstr "Ange ett giltigt namn"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4323
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4350
 msgid "Please enter a valid Outbound CID"
 msgstr "Ange ett giltigt nummer för utgående nummerpresentation"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4324
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4351
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr "Ange en giltig paustid i sekunder, endast siffror"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4325
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4352
 msgid "You have entered a non-standard dialpattern for your DID. You can only enter standard dialpatterns. You must use the inbound routing form to enter non-standard patterns"
 msgstr "Du har angett ett mönster som inte är standard för ditt direktnummer. Du kan bara ange standard mönster här. Du måste använda inkommande väg för att ange mönster utanför standard."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4326
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4353
 msgid "Please enter a valid Caller ID Number or leave it blank for your Assigned DID/CID pair"
 msgstr "Ange ett giltigt nummer för nummerpresentation eller lämna det blankt för ditt tilldelade direktnummer/nummerpresentation"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4333
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4360
 msgid "Edit Extension"
 msgstr "Redigera anknytning"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4335
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4362
 msgid "Edit User"
 msgstr "Redigera användare"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4340
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4367
 msgid "User Extension"
 msgstr "Användaranknytning: "
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4340
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4367
 msgid "The extension number to dial to reach this user."
-msgstr "Anknytningsnumret att slö för att nå denna användare."
+msgstr "Anknytningsnumret att slå för att nå denna användare."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4343
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4370
 msgid "User Password"
 msgstr "Användarlösenord"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4343
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4370
 msgid "A user will enter this password when logging onto a device."
 msgstr "En användare måste använda detta lösenord när han loggar in på sin enhet"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4343
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4703
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4370
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4731
 msgid "logs into a device."
 msgstr "loggar in på en enhet."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4343
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4703
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4370
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4731
 msgid "logs out of a device."
 msgstr "loggar ut ur en enhet."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4347
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4374
 msgid "Display Name"
 msgstr "Visningsnamn"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4347
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4374
 msgid "The caller id name for calls from this user will be set to this name. Only enter the name, NOT the number."
 msgstr "Nummerpresentationen för samtal från denna användare kommer att sättas till detta namn. Skriv endast namnet, INTE numret."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4349
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4376
 msgid "CID Num Alias"
 msgstr "Alias för nummerpresentation"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4349
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4376
 msgid "The CID Number to use for internal calls, if different from the extension number. This is used to masquerade as a different user. A common example is a team of support people who would like their internal callerid to display the general support number (a ringgroup or queue). There will be no effect on external calls."
 msgstr "Nummerpresentation att användas för interna samtal om det skiljer sig från anknytningsnumret. Detta används för att maskera nummerpresentationen. Ett exempel är att en grupp av telefoner kommer att visa samma nummer vid interna samtal, t.ex. Supportavdelningen."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4350
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4377
 msgid "SIP Alias"
 msgstr "Alias för SIP"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4350
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4377
 msgid "If you want to support direct sip dialing of users internally or through anonymous sip calls, you can supply a friendly name that can be used in addition to the users extension to call them."
 msgstr "Om du vill använda samtal via sip internt eller genom anonyma samtal, ange då ett namn här. Detta namn, eller anknytningen, kan användas för att ringa upp anknytningen."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4355
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4382
 msgid "User Devices"
 msgstr "Användarenhet"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4366
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4393
 msgid "Edit:"
 msgstr "Redigera:"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4378
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4706
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4405
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4734
 msgid "Extension Options"
 msgstr "Anknytningsval"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4379
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4406
 msgid "Outbound CID"
 msgstr "Utgående nummerpresentation"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4379
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4406
 msgid "Overrides the caller id when dialing out a trunk. Any setting here will override the common outbound caller id set in the Trunks admin.<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this field blank to disable the outbound callerid feature for this user."
 msgstr "Använd denna nummerpresentation för samtal. Denna inställning används i stället för den generella utgående nummerpresentationen satt för utgående samtal.<br><br>Format: <b>\"namn\" &lt;#######&gt;</b><br><br>Lämna detta fält tomt för att stänga av nummerpresentation för denna användare."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4381
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4408
 msgid "Ring Time"
 msgstr "Ringtid"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4381
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4408
 msgid "Number of seconds to ring prior to going to voicemail. Default will use the value set in the General Tab. If no voicemail is configured this will be ignored."
 msgstr "Antal sekunder att ringa före samtalet kopplas till röstbrevlåda. Standard är värdet som är satt i <b>Generella inställningar</b>. Om ingen röstbrevlåda är angiven har inställningen ingen funktion."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4389
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4416
 msgid "Call Waiting"
 msgstr "Samtal väntar"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4389
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4416
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr "Sätter valet för Samtal väntar för denna anknytning."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4390
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4417
 msgid "Call Screening"
 msgstr "Sålla samtal"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4390
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4417
 msgid "Call Screening requires external callers to say their name, which will be played back to the user and allow the user to accept or reject the call.  Screening with memory only verifies a caller for their caller-id once. Screening without memory always requires a caller to say their name. Either mode will always announce the caller based on the last introduction saved with that callerid. If any user on the system uses the memory option, when that user is called, the caller will be required to re-introduce themselves and all users on the system will have that new introduction associated with the caller's CallerId."
-msgstr ""
+msgstr "Sålla samtal kräver att externa uppringare måste ange sitt namn som kommer att spelas upp för den uppringde och ger denna då möjlighet att ta samtalet eller avböja det. Sålla samtal  - kom ihåg verifierar inkommande nummerpresentation endast första gången. Sålla samtal - kom inte ihåg kräver att uppringaren varje gång måste ange sitt namn. Bägge valen kommer att kommer att spela upp det sist inspelade namnet sparat med nummerpresentationen. "
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4392
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4419
 msgid "Assigned DID/CID"
 msgstr "Tilldela direktnummer/nummerpresentation"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4393
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4420
 msgid "DID Description"
 msgstr "Beskrivning för direktnummer"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4393
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4420
 msgid "A description for this DID, such as \"Fax\""
 msgstr "Ett kort namn för detta direktnummer, t.ex. \"Fax\""
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4394
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4421
 msgid "Add Inbound DID"
 msgstr "Lägg till inkommande direktnummer"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4394
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4421
 msgid "A direct DID that is associated with this extension. The DID should be in the same format as provided by the provider (e.g. full number, 4 digits for 10x4, etc).<br><br>Format should be: <b>XXXXXXXXXX</b><br><br>.An optional CID can also be associated with this DID by setting the next box"
-msgstr ""
+msgstr "Ett direktnummer som är knutet till denna anknytning. Direktnumret ska vara i samma format som det kommer ifrån din operatör.<br><br>Formatet ska vara: <b>XXXXXXXXXX</b><br><br>En nummerpresentation kan också anges för detta direktnummer genom att skriva in det i nästa fält."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4395
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4422
 msgid "Add Inbound CID"
 msgstr "Lägg till inkommande nummerpresentation"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4395
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4422
 msgid "Add a CID for more specific DID + CID routing. A DID must be specified in the above Add DID box. In addition to standard dial sequences, you can also put Private, Blocked, Unknown, Restricted, Anonymous and Unavailable in order to catch these special cases if the Telco transmits them."
 msgstr "Lägg till en nummerpresentation för en mer specifik väg för nummerpresentation + direktnummer. Ett direktnummer måste anges i ovanstående <b>Lägg till direktnummer</b>. Förutom telefonnummer kan du ange Private, Blocked, Unknown, Restricted, Anonymous eller Unavailable för att fånga dessa specialvarianter om din operatör skickar med dom."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4403
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4430
 msgid "DID / CID"
 msgstr "Direktnummer / Nummerpresentation"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4423
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4450
 msgid "Recording Options"
 msgstr "Inspelningsval"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4424
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4451
 msgid "Record Incoming"
 msgstr "Spela in inkommande samtal"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4424
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4451
 msgid "Record all inbound calls received at this extension."
 msgstr "Spela in alla inkommande samtal för denna anknytning."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4425
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4452
 msgid "Record Outgoing"
 msgstr "Spela in utgående samtal"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4425
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4452
 msgid "Record all outbound calls received at this extension."
 msgstr "Spela in alla utgående samtal för denna anknytning."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4443
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4470
 msgid "Warning! Extension"
 msgstr "Varning! Anknytning"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4443
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4470
 msgid "is not allowed for your account"
 msgstr "är inte tillåtet för din anknytning"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4457
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4484
 msgid "Conflicting Extensions"
 msgstr "Konfliktande anknytningar"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4457
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4484
 msgid "The following extension numbers are in conflict, you can click on the item(s) below to edit the conflicting entity."
 msgstr "Följande anknytningar är i konflikt, du kan klicka på valen nedan för att redigera lösa upp konflikten."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4461
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4488
 msgid "Configure user again:"
 msgstr "Konfigurera användare igen:"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4461
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4488
 msgid "Configure extension again:"
 msgstr "Konfigurera anknytningen igen:"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4508
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4535
 msgid "Please enter the dtmfmode for this device"
 msgstr "Skriv in enhetens dtmfläge"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4509
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4536
 msgid "Please enter the channel for this device"
 msgstr "Skriv in kanalen för denna enhet"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4510
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4537
 msgid "You have not entered a Secret for this device, although this is possible it is generally bad practice to not assign a Secret to a device. Are you sure you want to leave the Secret empty?"
 msgstr "Du har inte satt ett lösenord för denna enhet, i och för sig är detta inget fel, men det är dålig säkerhet att inte sätta lösenord. Är du säker på att du vill lämna lösenordsfältet tomt?"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4511
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4538
 msgid "Please enter a Secret for this device"
 msgstr "Skriv in ett lösen för denna enhet"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4578
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4539
+msgid "You have set your secret and device/extension to the same value. This can be a serious security vulnerability resulting in a hacker compromising your system to make free phone calls. There are many known instances where this has already occurred"
+msgstr "Du har satt secret till samma värde som din anknytning. Detta är en stor säkerhetsrisk, en hackare kan lätt koppla upp sig mot ditt system och ringa ett stort antal gratissamtal på din bekostnad. Det finns färdiga skript på Internet som gör detta."
+
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4606
 msgid "Generic SIP Device"
 msgstr "Generell SIP enhet"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4579
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4607
 msgid "Generic IAX2 Device"
 msgstr "Generell IAX2 enhet"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4580
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4608
 msgid "Generic ZAP Device"
 msgstr "Generell ZAP enhet"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4581
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4609
 msgid "Other (Custom) Device"
 msgstr "Annan (anpassad) enhet"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4586
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4614
 msgid "Fixed"
 msgstr "Fast"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4587
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4615
 msgid "Adhoc"
 msgstr "Ad-hoc"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4590
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4618
 msgid "none"
 msgstr "ingen"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4591
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4619
 msgid "New User"
 msgstr "Ny användare"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4626
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4654
 msgid "Add an Extension"
 msgstr "Lägg till en anknytning"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4628
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4656
 msgid "Please select your Device below then click Submit"
 msgstr "Välj din enhet nedan och klicka på Spara"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4632
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4660
 msgid "Edit existing Device"
 msgstr "Redigera existerande enheter"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4634
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4662
 msgid "Edit existing Extension"
 msgstr "Redigera existerande anknytning"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4649
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4677
 #, php-format
 msgid "Delete Device %s"
 msgstr "Ta bort enhet %s"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4655
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4683
 #, php-format
 msgid "Edit Default User: %s"
 msgstr "Redigera standard användare: %s"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4655
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4683
 #, php-format
 msgid "Edit Fixed User: %s"
 msgstr "Redigera fast användare: %s"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4685
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4713
 msgid "Please enter a device id."
 msgstr "Ange en giltig enhets id"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4686
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4714
 msgid "Please enter a valid Description for this device"
 msgstr "Ange en giltig benämning för denna enhet"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4687
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4715
 msgid "Please enter a valid Emergency CID"
 msgstr "Ange en giltig nummerpresentation för nödsamtal"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4695
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4723
 msgid "Device Info"
 msgstr "Enhetsinfo"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4699
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4727
 msgid "Device ID"
 msgstr "Enhetsid"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4699
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4727
 msgid "Give your device a unique integer ID.  The device will use this ID to authenticate to the system."
 msgstr "Ange en unik enhets id. Enheten kommer att använda denna för att autentisera till systemet."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4701
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4729
 msgid "The caller id name for this device will be set to this description until it is logged into."
 msgstr "Nummerpresentationsnamnet för denna enhet kommer att vara detta man tills någon logga in på enheten."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4702
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4707
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4730
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4735
 msgid "Emergency CID"
 msgstr "Nummerpresentation för nödsamtal"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4702
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4707
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4730
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4735
 msgid "This caller id will always be set when dialing out an Outbound Route flagged as Emergency.  The Emergency CID overrides all other caller id settings."
 msgstr "Nummerpresentationen kommer att sättas till detta när ett samtal markerat som ett nödsamtal ringer ut. Denna nummerpresentation skriver över all annan nummerpresentation."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4703
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4731
 msgid "Device Type"
 msgstr "Enhetstyp"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4703
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4731
 msgid "Devices can be fixed or adhoc. Fixed devices are always associated to the same extension/user. Adhoc devices can be logged into and logged out of by users."
 msgstr "Enheter kan vara fasta eller adhoc. Fasta enheter är alltid kopplade till samma anknytning/användare. På adhoc-enheter kan användare logga in eller logga ut på."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4704
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4732
 msgid "Default User"
 msgstr "Standardanvändare"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4704
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4732
 msgid "Fixed devices will always mapped to this user.  Adhoc devices will be mapped to this user by default.<br><br>If selecting 'New User', a new User Extension of the same Device ID will be set as the Default User."
 msgstr "Fasta enheter kommer alltid att vara kopplade till denna användare. Adhoc-enheter kommer som standard att kopplas till denna användare.<br><br>Om en 'Ny användare' väljs, kommer en ny anknytning med samma Device-id att sättas som Standard användare."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4712
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4740
 msgid "Device Options"
 msgstr "Enhetsval"
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4714
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4742
 #, php-format
 msgid "This device uses %s technology."
 msgstr "Denna enhet använder %s teknologi."
 
-#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4714
+#: amp_conf/htdocs/admin/modules/core/functions.inc.php:4742
 msgid "Via DAHDI compatibility mode"
 msgstr "Genom DAHDI kompatibilitetstläge"
 
@@ -3070,6 +3077,10 @@ msgstr "Du kan bekräfta de återstående valen för att sedan försöka igen f�
 msgid "Please confirm the following actions:"
 msgstr "Bekräfta följande val:"
 
+#: amp_conf/htdocs/admin/page.modules.php:403
+msgid "Confirm"
+msgstr "Bekräfta"
+
 #: amp_conf/htdocs/admin/page.modules.php:405
 msgid "No actions to perform"
 msgstr "Inga val att utföra"
@@ -3130,22 +3141,22 @@ msgid "Show only upgradable"
 msgstr "Visa endast uppgraderingsbara"
 
 #: amp_conf/htdocs/admin/page.modules.php:484
-#: amp_conf/htdocs/admin/page.modules.php:764
+#: amp_conf/htdocs/admin/page.modules.php:768
 msgid "Download all"
 msgstr "Ladda ner allt"
 
 #: amp_conf/htdocs/admin/page.modules.php:485
-#: amp_conf/htdocs/admin/page.modules.php:765
+#: amp_conf/htdocs/admin/page.modules.php:769
 msgid "Upgrade all"
 msgstr "Uppgradera allt"
 
 #: amp_conf/htdocs/admin/page.modules.php:487
-#: amp_conf/htdocs/admin/page.modules.php:767
+#: amp_conf/htdocs/admin/page.modules.php:771
 msgid "Reset"
 msgstr "Återställ"
 
 #: amp_conf/htdocs/admin/page.modules.php:488
-#: amp_conf/htdocs/admin/page.modules.php:768
+#: amp_conf/htdocs/admin/page.modules.php:772
 msgid "Process"
 msgstr "Utför"
 
@@ -3161,152 +3172,153 @@ msgstr "Typ"
 msgid "Version"
 msgstr "Version"
 
-#: amp_conf/htdocs/admin/page.modules.php:558
+#: amp_conf/htdocs/admin/page.modules.php:510
+#: amp_conf/htdocs/admin/page.modules.php:585
+msgid "Broken"
+msgstr "Felaktig/trasig"
+
+#: amp_conf/htdocs/admin/page.modules.php:562
 msgid "Not Installed (Locally available)"
 msgstr "Inte installerad (lokalt tillgänglig)"
 
-#: amp_conf/htdocs/admin/page.modules.php:560
+#: amp_conf/htdocs/admin/page.modules.php:564
 #, php-format
 msgid "Not Installed (Available online: %s)"
 msgstr "Inte installerad (tillgänglig on-line: %s"
 
-#: amp_conf/htdocs/admin/page.modules.php:567
+#: amp_conf/htdocs/admin/page.modules.php:571
 #, php-format
 msgid "Disabled; Online upgrade available (%s)"
 msgstr "Avaktiverad; On-lineuppgradering tillgänglig (%s)"
 
-#: amp_conf/htdocs/admin/page.modules.php:569
+#: amp_conf/htdocs/admin/page.modules.php:573
 #, php-format
 msgid "Disabled; Newer than online version (%s)"
 msgstr "Avaktiverad; Nyare än on-line (%s)"
 
-#: amp_conf/htdocs/admin/page.modules.php:571
+#: amp_conf/htdocs/admin/page.modules.php:575
 msgid "Disabled; up to date"
 msgstr "Avaktiverad; Senaste version"
 
-#: amp_conf/htdocs/admin/page.modules.php:578
+#: amp_conf/htdocs/admin/page.modules.php:582
 #, php-format
 msgid "Disabled; Pending upgrade to %s"
 msgstr "Avaktiverad; Väntar på att uppgraderas till %s"
 
-#: amp_conf/htdocs/admin/page.modules.php:581
-msgid "Broken"
-msgstr "Felaktig/trasig"
-
-#: amp_conf/htdocs/admin/page.modules.php:588
+#: amp_conf/htdocs/admin/page.modules.php:592
 #, php-format
 msgid "Online upgrade available (%s)"
 msgstr "On-line uppgradering tillgänglig (%s)"
 
-#: amp_conf/htdocs/admin/page.modules.php:590
+#: amp_conf/htdocs/admin/page.modules.php:594
 #, php-format
 msgid "Newer than online version (%s)"
 msgstr "Nyare än on-lineversionen (%s)"
 
-#: amp_conf/htdocs/admin/page.modules.php:592
+#: amp_conf/htdocs/admin/page.modules.php:596
 msgid "Enabled and up to date"
 msgstr "Aktiverad och senaste version"
 
-#: amp_conf/htdocs/admin/page.modules.php:596
+#: amp_conf/htdocs/admin/page.modules.php:600
 msgid "Enabled; Not available online"
 msgstr "Aktiverad; Inte tillgänglig on-line"
 
-#: amp_conf/htdocs/admin/page.modules.php:616
+#: amp_conf/htdocs/admin/page.modules.php:620
 msgid "Attention"
 msgstr "OBS"
 
-#: amp_conf/htdocs/admin/page.modules.php:617
+#: amp_conf/htdocs/admin/page.modules.php:621
 msgid "attention"
 msgstr "OBS"
 
-#: amp_conf/htdocs/admin/page.modules.php:621
+#: amp_conf/htdocs/admin/page.modules.php:625
 msgid "Action"
 msgstr "Val"
 
-#: amp_conf/htdocs/admin/page.modules.php:624
+#: amp_conf/htdocs/admin/page.modules.php:628
 msgid "No Action"
 msgstr "Inget val"
 
-#: amp_conf/htdocs/admin/page.modules.php:631
-#: amp_conf/htdocs/admin/page.modules.php:664
+#: amp_conf/htdocs/admin/page.modules.php:635
+#: amp_conf/htdocs/admin/page.modules.php:668
 msgid "Install"
 msgstr "Installera"
 
-#: amp_conf/htdocs/admin/page.modules.php:634
+#: amp_conf/htdocs/admin/page.modules.php:638
 msgid "Download and Install"
 msgstr "Ladda ner och installera"
 
-#: amp_conf/htdocs/admin/page.modules.php:643
-#: amp_conf/htdocs/admin/page.modules.php:658
-#: amp_conf/htdocs/admin/page.modules.php:666
-#: amp_conf/htdocs/admin/page.modules.php:686
+#: amp_conf/htdocs/admin/page.modules.php:647
+#: amp_conf/htdocs/admin/page.modules.php:662
+#: amp_conf/htdocs/admin/page.modules.php:670
+#: amp_conf/htdocs/admin/page.modules.php:690
 msgid "Uninstall"
 msgstr "Avinstallera"
 
-#: amp_conf/htdocs/admin/page.modules.php:648
+#: amp_conf/htdocs/admin/page.modules.php:652
 #, php-format
 msgid "Download %s, keep Disabled"
 msgstr "Ladda ner %s, behåll avaktiverad"
 
-#: amp_conf/htdocs/admin/page.modules.php:656
+#: amp_conf/htdocs/admin/page.modules.php:660
 #, php-format
 msgid "Upgrade to %s and Enable"
 msgstr "Uppgradera till %s och aktivera"
 
-#: amp_conf/htdocs/admin/page.modules.php:676
+#: amp_conf/htdocs/admin/page.modules.php:680
 #, php-format
 msgid "Download and Upgrade to %s"
 msgstr "Ladda ner och uppgradera till %s"
 
-#: amp_conf/htdocs/admin/page.modules.php:694
+#: amp_conf/htdocs/admin/page.modules.php:698
 #, php-format
 msgid "Description for version %s"
 msgstr "Beskrivning för version %s"
 
-#: amp_conf/htdocs/admin/page.modules.php:695
+#: amp_conf/htdocs/admin/page.modules.php:699
 msgid "description"
 msgstr "beskrivning"
 
-#: amp_conf/htdocs/admin/page.modules.php:697
+#: amp_conf/htdocs/admin/page.modules.php:701
 msgid "No description is available."
 msgstr "Ingen beskrivning tillgänglig."
 
-#: amp_conf/htdocs/admin/page.modules.php:700
-#: amp_conf/htdocs/admin/page.modules.php:702
+#: amp_conf/htdocs/admin/page.modules.php:704
+#: amp_conf/htdocs/admin/page.modules.php:706
 msgid "More info"
 msgstr "Mer information"
 
-#: amp_conf/htdocs/admin/page.modules.php:702
+#: amp_conf/htdocs/admin/page.modules.php:706
 #, php-format
 msgid "Get help for %s"
 msgstr "Hämta hjälp för %s"
 
-#: amp_conf/htdocs/admin/page.modules.php:707
+#: amp_conf/htdocs/admin/page.modules.php:711
 msgid "Changelog"
 msgstr "Ändringlogg"
 
-#: amp_conf/htdocs/admin/page.modules.php:708
+#: amp_conf/htdocs/admin/page.modules.php:712
 #, php-format
 msgid "Change Log for version %s"
 msgstr "Ändringslogg för version %s"
 
-#: amp_conf/htdocs/admin/page.modules.php:728
+#: amp_conf/htdocs/admin/page.modules.php:732
 msgid "Debug"
 msgstr "Avlusa"
 
-#: amp_conf/htdocs/admin/page.modules.php:753
+#: amp_conf/htdocs/admin/page.modules.php:757
 msgid "All available modules are up-to-date and installed."
 msgstr "Alla tillgängliga moduler är de senaste och de är installerade"
 
-#: amp_conf/htdocs/admin/page.modules.php:755
+#: amp_conf/htdocs/admin/page.modules.php:759
 msgid "No modules to display."
 msgstr "Inga moduler att visa"
 
-#: amp_conf/htdocs/admin/page.modules.php:805
+#: amp_conf/htdocs/admin/page.modules.php:809
 msgid "Untarring.."
 msgstr "Packar upp (untarring).."
 
-#: amp_conf/htdocs/admin/page.modules.php:825
+#: amp_conf/htdocs/admin/page.modules.php:829
 msgid "Done."
 msgstr "Klar."
 
@@ -3348,9 +3360,6 @@ msgstr "Systeminformation"
 
 msgid "A2Billing Admin"
 msgstr "Administrera A2Billing"
-
-msgid "Confirm"
-msgstr "Bekräfta"
 
 msgid "Time Groups"
 msgstr "Tidgrupper"

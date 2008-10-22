@@ -1,3 +1,3 @@
 #!/bin/bash
-killall op_server.pl
+killall -HUP op_server.pl
 
