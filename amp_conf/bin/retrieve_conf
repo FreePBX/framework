@@ -749,6 +749,11 @@ if (!isset($queues_conf) || !is_a($queues_conf, "queues_conf")) {
 //
 install_cron_scheduler();
 
+// check for and run backup_retrieve_backup_cron()
+if (function_exists('backup_retrieve_backup_cron')) {
+ backup_retrieve_backup_cron();
+}
+
 // run retrieve_conf_post_custom
 // If the following file exists, it will be run. This allows customization to be run automatically after the normal
 // processing. Caution should be taken using this as it is only deisgned for expert usage. Errors in the code will
