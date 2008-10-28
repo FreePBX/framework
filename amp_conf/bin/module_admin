@@ -110,6 +110,8 @@ function showHelp() {
 	out("      Enable the specified module");
 	out("  info <module>");
 	out("      Get information about a given module");
+	out("  i18n <module>");
+	out("      print out i18n required text for the given module");
 	out("  install <module>");
 	out("      Install the module (must exist in the modules directory)");
 	out("  list");
@@ -260,6 +262,28 @@ function showInfo($modulename) {
 	
 	recursive_print($modules[$modulename]);
 	
+}
+
+function showi18n($modulename) {
+	$modules = module_getinfo($modulename);
+	if (!isset($modules[$modulename])) {
+		fatal($modulename.' not found');
+	}
+
+	if (isset($modules[$modulename]['name'])) {
+		echo "# name:\n_(\"".$modules[$modulename]['name']."\")\n";
+	}
+	if (isset($modules[$modulename]['category'])) {
+		echo "# category:\n_(\"".$modules[$modulename]['category']."\")\n";
+	}
+	if (isset($modules[$modulename]['description'])) {
+		echo "# description:\n_(\"".trim(str_replace("\n","",$modules[$modulename]['description']))."\")\n";
+	}
+	if (isset($modules[$modulename]['menuitems'])) {
+		foreach ($modules[$modulename]['menuitems'] as $key => $menuitem) {
+			echo "# $key:\n_(\"$menuitem\")\n";
+		}
+	}
 }
 
 function doReload() {
@@ -550,6 +574,12 @@ switch ($operation ) {
 			fatal("Missing module name");
 		}
 		showInfo($param);
+	break;
+	case 'i18n':
+		if (empty($param)) {
+			fatal("Missing module name");
+		}
+		showi18n($param);
 	break;
 	case 'download':
 		if (empty($param)) {
