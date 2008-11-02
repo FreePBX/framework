@@ -545,13 +545,14 @@ chdir ( $amp_conf["AMPWEBROOT"] . "/admin/" );
 
 // Get annoucment information to use if needed
 //
-$announcements = module_get_annoucements();
+
 
 switch ($operation ) {
 	case 'list':
 		showList();
 	break;
 	case 'listonline':
+		$announcements = module_get_annoucements();
 		showList(true);
 	break;
 	case 'reload':
@@ -582,6 +583,7 @@ switch ($operation ) {
 		showi18n($param);
 	break;
 	case 'download':
+		$announcements = module_get_annoucements();
 		if (empty($param)) {
 			fatal("Missing module name");
 		}
@@ -625,12 +627,14 @@ switch ($operation ) {
 	break;
 	case 'showupgrade':
 	case 'showupgrades':
+		$announcements = module_get_annoucements();
 		showUpgrades();
 	break;
 	case 'showengine':
 		showEngine();
 	break;
 	case 'showannounce';
+		$announcements = module_get_annoucements();
 		if (trim($announcements) == "") {
 			echo "No Annoucements Available\n";
 		} else {
