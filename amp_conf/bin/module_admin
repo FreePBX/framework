@@ -627,7 +627,6 @@ switch ($operation ) {
 	break;
 	case 'showupgrade':
 	case 'showupgrades':
-		$announcements = module_get_annoucements();
 		showUpgrades();
 	break;
 	case 'showengine':
