@@ -47,9 +47,9 @@ class Voicemail {
       $logout = 1;
     }
 
-    if ($logout!='') { 
+    if ($logout!='') {
       $ret .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Voicemail&f=display'>" . _("Voicemail") . "</a></small></small></p>";
-    } 
+    }
 
     return $ret;
   }
@@ -91,14 +91,14 @@ class Voicemail {
 
         $path = appendPath($path,$context);
         $path = appendPath($path,$extension);
-  
+
         if (is_dir($path) && is_readable($path)) {
           $dh = opendir($path);
           while (false!== ($folder = readdir($dh))) {
 
             $folder_path = AppendPath($path,$folder);
 
-            if($folder!="." && $folder!=".." && 
+            if($folder!="." && $folder!=".." &&
                  filetype($folder_path)=='dir') {
 
               if ($f==$folder) {
@@ -110,7 +110,7 @@ class Voicemail {
 
                 // set current folder color
                 $class='';
-                if ($current_folder==$folder || 
+                if ($current_folder==$folder ||
                      ($current_folder=='' && $ASTERISK_VOICEMAIL_FOLDERS[0]['folder']==$folder)) {
                   $class = "class='current'";
                 }
@@ -123,8 +123,8 @@ class Voicemail {
                          </small></small></p>";
               }
             }
-          } 
-        } 
+          }
+        }
       }
       $i++;
     }
@@ -165,14 +165,14 @@ class Voicemail {
         $this->deleteVoicemailData($files);
       }
       else {
-        $_SESSION['ari_error'] 
-          = _("One or more messages must be selected before clicking delete.");        
+        $_SESSION['ari_error']
+          = _("One or more messages must be selected before clicking delete.");
       }
     }
     else if ($a=='move_to') {
       $folder_rx = getArgument($args,'folder_rx');
       if ($folder_rx=='') {
-        $_SESSION['ari_error'] 
+        $_SESSION['ari_error']
           = _("A folder must be selected before the message can be moved.");
       }
       else if (count($files) > 0) {
@@ -181,16 +181,16 @@ class Voicemail {
         $this->moveVoicemailData($files, $context, $extension, $folder_rx);
       }
       else {
-        $_SESSION['ari_error'] 
-          = _("One or more messages must be selected before clicking move_to.");        
+        $_SESSION['ari_error']
+          = _("One or more messages must be selected before clicking move_to.");
       }
-    } 
+    }
     else if ($a=='forward_to') {
 
       $mailbox_rx = getArgument($args,'mailbox_rx');
       list($context_rx,$extension_rx) = split('/',$mailbox_rx);
       if ($extension_rx=='') {
-        $_SESSION['ari_error'] 
+        $_SESSION['ari_error']
           = _("An extension must be selected before the message can be forwarded.");
       }
       else if (count($files) > 0) {
@@ -198,9 +198,134 @@ class Voicemail {
         $this->moveVoicemailData($files, $context_rx, $extension_rx, $folder_rx, false);
       }
       else {
-        $_SESSION['ari_error'] 
-          = _("One or more messages must be selected before clicking forward_to.");        
+        $_SESSION['ari_error']
+          = _("One or more messages must be selected before clicking forward_to.");
       }
+    }
+    else if ($a=='email_to') {
+        $em_to = getArgument($args,'email_to_addr');
+        if ($em_to=='') {
+	  $_SESSION['ari_error']
+            = _("You must enter one or more email addresses (comma-separated) before clicking email_to.");
+        }
+        else if (count($files) > 0) {
+		$_SESSION['ari_error'] = "";
+		$line_end = "\n";
+		// Check email address(es) and construct address list for TO field.
+		// TO
+		$email_list = split(",", $em_to);
+		foreach ($email_list as $list_elem) {
+			$list_elem = trim($list_elem);
+			if (preg_match("/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i", $list_elem)) {
+				$email_to .= $list_elem . ",";
+			} else {
+				$_SESSION['ari_error'] .= _("Warning: ") . $list_elem . _("is not a valid email address");
+			}
+		}
+		$email_to = trim($email_to, ","); // remove trailing comma
+		if ($email_to != "") {
+			$email_to = "To: " . $email_to;
+			// SUBJECT
+			$email_subject = "Subject: Voicemail forwarded from mailbox " . $_SESSION['ari_user']['extension'];
+			// DATE
+			$email_date = "Date: " . date("Y-m-d");
+			// MIME VERSION
+			$email_mime_ver = "MIME-Version: 1.0";
+
+			// HEADERS
+			$headers = $email_to . $line_end . $email_subject . $line_end . $email_date . $line_end;
+			$headers .= $email_mime_ver . $line_end;
+
+			$semi_rand = md5(time());
+			$boundary = "==VMAIL_MSG_Multipart_Boundary_x{$semi_rand}x";
+
+			$headers .= "Content-Type: multipart/mixed; boundary=\"{$boundary}\"" . $line_end;
+
+			$headers .= $line_end;	// end of headers
+
+			$body = "This is a MIME message.  Please use a MIME-capable email client." . $line_end;
+			$body .= "--{$boundary}" . $line_end;
+			$body .= "Content-Type: text/plain; charset=\"iso-8859-1\"" . $line_end;
+			$body .= $line_end;
+
+			if (count($files) == 1) {
+				$body .= "You have been forwarded a voicemail message from mailbox " . $_SESSION['ari_user']['extension'] . "." . $line_end;
+				$body .= "Please listen to the attached recording.  Thank you." . $line_end;
+			} else {
+				$body .= "You have been forwarded " . count($files) . " voicemail messages from mailbox " . $_SESSION['ari_user']['extension'] . "." . $line_end;
+				$body .= "Please listen to the attached recordings.  Thank you." . $line_end;
+			}
+			$body .= $line_end;
+
+			$body .= "--{$boundary}" . $line_end;
+			$wav_pat = '/wav$/i';
+			$gsm_pat = '/gsm$/i';
+			$att_counter = -1;
+			foreach ($files as $f) {
+				if (preg_match($wav_pat, $f)) {
+					$content_type_audio = "Content-Type: audio/x-wav";
+				} else if (preg_match($gsm_pat, $f)) {
+					$content_type_audio = "Content-Type: audio/gsm";
+				} else {
+					$content_type_audio = "Content-Type: application/octet-stream";	// binary file attachment
+					$_SESSION['ari_error'] .= $f . ": " . _("The file type was not recognized.");
+				}
+				// Read in the attachment(s)
+				$file = fopen($f, "rb");
+				$file_data = fread($file, filesize($f));
+				fclose($file);
+
+				$body .= "--" . $boundary . $line_end;
+				$body .= $content_type_audio . $line_end;
+
+				preg_match("/msg[\d]*\.[A-Za-z]*/", $f, $fname_matches);
+				$email_fname = $fname_matches[0];
+
+				$body .= "Content-Disposition: attachment; filename=\"$email_fname\"" . $line_end;
+				$body .= "Content-Transfer-Encoding: base64" . $line_end;
+				$body .= $line_end;
+
+				$att_data = chunk_split(base64_encode($file_data));
+
+				$body .= $attachments[$att_counter] .= $att_data;
+				$body .= $attachments[$att_counter] .= $line_end;
+			}
+
+			$body .= $line_end;
+			$body .= "--{$boundary}--";
+
+			$email_message = $headers . $body;
+
+			// If alternate mailer is defined in voicemail.conf, use it.
+			if (function_exists("parse_voicemailconf")) {
+				global $amp_conf;
+				$vmconf = null;
+				$section = null;
+				$vmail_path = rtrim($amp_conf["ASTETCDIR"],"/") . "/voicemail.conf";
+				parse_voicemailconf($vmail_path, $vmconf, $section);
+			} else {
+				$_SESSION['ari_error'] .= _("Warning: Could not access voicemail.conf.  Using default mailer.");
+			}
+			if (isset($vmconf["general"]["mailcmd"]) && $vmconf["general"]["mailcmd"] != "") {
+				$email_mailcmd = $vmconf["general"]["mailcmd"];
+			} else {
+				$email_mailcmd = "/usr/sbin/sendmail -t";
+			}
+			// Mail it!
+			if (($sendmail_pipe = popen($email_mailcmd, "w"))) {
+				fputs($sendmail_pipe, $email_message);
+				fclose($sendmail_pipe);
+			} else {
+				$_SESSION['ari_error'] .= _("Mail operation failed"); 
+			}
+
+		} else {
+			$_SESSION['ari_error'] = _("No valid email address given.  Please try again.");
+		}
+	}
+	else {
+		$_SESSION['ari_error'] = _("One or more messages must be selected before clicking email_to.");
+	}
     }
 
     // redirect to see updated page
@@ -300,8 +425,8 @@ class Voicemail {
         if (preg_match("/\[.*\]/i",$line)) {
           $forwardContext = trim(preg_replace('/\[|\]/', '', $line));
         }
-				if ($forwardContext!=$_SESSION['ari_user']['context']) { 
-					continue; 
+				if ($forwardContext!=$_SESSION['ari_user']['context']) {
+					continue;
 				}
 
         // get username and add to options
@@ -354,7 +479,11 @@ class Voicemail {
           <select name='mailbox_rx'>
             <option VALUE=''>
             " . $forward_options . "
-          </select>";
+	  </select>
+          <button class='infobar' type='submit' onclick=\"document.voicemail_form.a.value='email_to'\">
+          " . _("email_to") . "
+          </button>
+          <input type='text' name='email_to_addr'/>";
 
     // table header
     $recording_delete_header = "<th></th>";
@@ -376,7 +505,7 @@ class Voicemail {
 
       $field = $fields[$i]['field'];
       $text = $fields[$i]['text'];
-      if ($order==$field) { 
+      if ($order==$field) {
         if ($sort=='asc') {
           $currentSort = 'desc';
           $arrowImg = "<img src='theme/images/arrow-asc.gif' alt='sort'>";
@@ -384,11 +513,11 @@ class Voicemail {
         else {
           $currentSort = 'asc';
           $arrowImg = "<img src='theme/images/arrow-desc.gif' alt='sort'>";
-        }   
+        }
 
         if ($i==1) {
           $arrowImg = '';
-        }    
+        }
       }
       else {
         $arrowImg = '';
@@ -407,7 +536,7 @@ class Voicemail {
     // table body
     unset($_SESSION['ari_user']['recfiles']);
     if (isset($data)) {
-      $playbackRow = 2;	// Index for where playback control rows used by javascript playback() should appear in the table.  
+      $playbackRow = 2;	// Index for where playback control rows used by javascript playback() should appear in the table.
 			// First control row would appear below row 1 (hence $playbackRow starts at 2); control rows are inserted/deleted as needed.
       foreach($data as $file=>$value) {
         $i++;
@@ -422,12 +551,12 @@ class Voicemail {
         $duration = $value[duration];
         if (is_file($recording)) {
           $_SESSION['ari_user']['recfiles'][$i] = $recording;
-          $recordingLink = "<a href='#' onClick=\"javascript:playback('play', $playbackRow, 'misc/play_page.php?recindex=" . $i . "'); return false;\"><img src='theme/images/sound.png' title=" . _("Play") . "></img></a>";
-          $callmePage		= "'misc/callme_page.php?recindex=" . $i . "&callmenum=" . $this->callme_num . "&action=c&msgFrom=" . $extension . "'";
-          $callme_tooltip	= _("Play message at: ") . $this->callme_num;
-          $callmeLink = "<a href='#' onClick=\"javascript:playback('callme', $playbackRow, $callmePage); return false;\"><img src='theme/images/telephone.png' title='" . $callme_tooltip . "'></img></a>";
-          $downloadLink = "<a href=/recordings/misc/audio.php?recindex=" . $i . "><img src='theme/images/drive_go.png' title=" . _("Download") . "></img></a>";
-        } 
+	  $recordingLink = "<a href='#' onClick=\"javascript:playback('play', $playbackRow, 'misc/play_page.php?recindex=" . $i . "'); return false;\"><img src='theme/images/sound.png' title=" . _("Play") . "></img></a>";
+	  $callmePage		= "'misc/callme_page.php?recindex=" . $i . "&callmenum=" . $this->callme_num . "&action=c&msgFrom=" . $extension . "'";
+	  $callme_tooltip	= _("Play message at: ") . $this->callme_num;
+	  $callmeLink = "<a href='#' onClick=\"javascript:playback('callme', $playbackRow, $callmePage); return false;\"><img src='theme/images/telephone.png' title='" . $callme_tooltip . "'></img></a>";
+	  $downloadLink = "<a href=/recordings/misc/audio.php?recindex=" . $i . "><img src='theme/images/drive_go.png' title=" . _("Download") . "></img></a>";
+        }
         else {
           $_SESSION['ari_error'] = _("Voicemail recording(s) was not found.") . "<br>" .
                                    sprintf(_("On settings page, change voicemail audio format.  It is currently set to %s"),$voicemail_audio_format);
@@ -448,7 +577,8 @@ class Voicemail {
 
 	$playbackRow++;
       }
-    } 
+    }
+
     // options
     $url_opts = array();
     $url_opts['folder'] = $folder;
@@ -491,7 +621,7 @@ class Voicemail {
     $ret .= "
       <form name='voicemail_form' action='" . $_SESSION['ARI_ROOT'] . "' method='GET'>
         <input type=hidden id='pb_load_inprogress' value='false'>
-        <input type=hidden name=m value=" . $m . ">	
+        <input type=hidden name=m value=" . $m . ">
         <input type=hidden name=f value=msgAction>
         <input type=hidden name=a value=''>
         <input type=hidden name=q value=" . $q . ">
@@ -653,9 +783,9 @@ class Voicemail {
 
             $found = 0;
 
-            if (preg_match("/" . $q . "/", $origmailbox) || 
-                  preg_match("/" . $q . "/", $callerid) || 
-                  preg_match("/" . $q . "/", $date) || 
+            if (preg_match("/" . $q . "/", $origmailbox) ||
+                  preg_match("/" . $q . "/", $callerid) ||
+                  preg_match("/" . $q . "/", $date) ||
                   preg_match("/" . $q . "/", $time)) {
               $found = 1;
             }
@@ -675,7 +805,7 @@ class Voicemail {
         else {
           asort($indexes);
         }
-      } 
+      }
     }
 
     return $indexes;
@@ -735,19 +865,19 @@ class Voicemail {
     $paths = split(';',$ASTERISK_VOICEMAIL_PATH);
     $path_rx = appendPath($paths[0],$context_rx);
     if (!is_dir($path_rx)) {
-      mkdir($path_rx, $perm); 
+      mkdir($path_rx, $perm);
       chown($path_rx,intval($uid));
       chgrp($path_rx,intval($gid));
     }
     $path_rx = appendPath($path_rx,$extension_rx);
     if (!is_dir($path_rx)) {
-      mkdir($path_rx, $perm); 
+      mkdir($path_rx, $perm);
       chown($path_rx,intval($uid));
       chgrp($path_rx,intval($gid));
     }
     $path_rx = appendPath($path_rx,$folder_rx);
     if (!is_dir($path_rx)) {
-      mkdir($path_rx, $perm); 
+      mkdir($path_rx, $perm);
       chown($path_rx,intval($uid));
       chgrp($path_rx,intval($gid));
     }
@@ -771,9 +901,9 @@ class Voicemail {
               $lastNum = $num;
               $lastNumLen = strlen($lastNum);
             }
-          } 
+          }
         }
-      } 
+      }
     }
     else {
       $_SESSION['ari_error'] = sprintf(_("Could not create mailbox folder %s on the server"),$folder_rx);
@@ -785,7 +915,7 @@ class Voicemail {
       $filesPlain[] = $pathPlain;
     }
 
-    // copy files to new location, incrementing each message number 
+    // copy files to new location, incrementing each message number
     asort($filesPlain);
     foreach($filesPlain as $key => $path) {
 
@@ -813,7 +943,7 @@ class Voicemail {
               copy($src,$dst);
 
               if (is_writable($dst)) {
-                chmod($dst, $perm); 
+                chmod($dst, $perm);
                 chown($dst,intval($uid));
                 chgrp($dst,intval($gid));
               }
@@ -826,7 +956,7 @@ class Voicemail {
               $_SESSION['ari_error'] = sprintf(_("Permission denied on folder %s or %s"),$src,$path_rx);
               return;
             }
-          } 
+          }
         }
         closedir($hdl);
       }
@@ -868,7 +998,7 @@ class Voicemail {
       return;
     }
 
-    // populate array 
+    // populate array
     $i = 0;
     foreach ($indexes as $file => $index) {
       if ($i>$start-1+$span) {
