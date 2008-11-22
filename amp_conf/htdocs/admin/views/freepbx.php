@@ -169,7 +169,7 @@ if ($reload_needed) {
 	}
 	print_sub_tool( _("Recordings"), "../recordings/index.php"  ,0, NULL, "ari" );
 	print_sub_tool( _("Help"), "http://www.freepbx.org/freepbx-help-system$help_args"  ,0, NULL, "help" );
-	echo "<li class=\"last\"><a >&nbsp</a></li>";
+	echo "<li class=\"last\"><a >&nbsp;</a></li>";
 	echo "\t\t</ul>\n";
 
 	$freepbx_logo = (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])) ? $amp_conf["AMPADMINLOGO"] : 'logo.png';
