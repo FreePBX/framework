@@ -896,14 +896,19 @@ class Voicemail {
           $msg_path = appendPath($msg_path,$filename);
           if (is_file($msg_path)) {
             $path_parts = pathinfo($msg_path);
-            $num = preg_replace("/[a-zA-Z]|\./",'', $path_parts['basename']);
+            //fix for Serge Mankovski's "Voicemail RSS"
+            //split file basename into two pieces at the first '.'
+            //so that files like msg0000.7025f35d463ebbafa101db8a88c71b681aa8443d.mp3
+            //don't interfere with finding the true last file number
+            list($name,$ext) = split("\.",$path_parts['basename'],2);
+            $num = preg_replace("/[a-zA-Z]/",'', $name);
             if ($num > $lastNum) {
               $lastNum = $num;
               $lastNumLen = strlen($lastNum);
             }
-          }
+          } 
         }
-      }
+      } 
     }
     else {
       $_SESSION['ari_error'] = sprintf(_("Could not create mailbox folder %s on the server"),$folder_rx);
@@ -915,9 +920,9 @@ class Voicemail {
       $filesPlain[] = $pathPlain;
     }
 
-    // copy files to new location, incrementing each message number
-    asort($filesPlain);
-    foreach($filesPlain as $key => $path) {
+    // copy files to new location, incrementing each message number 
+    asort($files);
+    foreach($files as $key => $path) {
 
       // get file parts for search
       $path_parts = pathinfo($path);
@@ -932,7 +937,12 @@ class Voicemail {
           if (preg_match("/" . $name . "/",$fn)) {
             $src = $path . $fn;
             $path_parts = pathinfo($src);
-            $folder_rx = preg_replace("/\d+/",sprintf("%0" . $lastNumLen . "d",$lastNum),$path_parts['basename']);
+            //fix for Serge Mankovski's "Voicemail RSS"
+            //split file basename into two pieces at the first '.'
+            //so that files like msg0000.7025f35d463ebbafa101db8a88c71b681aa8443d.mp3
+            //don't get clobbered by preg_replace() of digits
+            list($name,$ext) = split("\.",$path_parts['basename'],2);
+            $folder_rx = preg_replace("/\d+/",sprintf("%0" . $lastNumLen . "d",$lastNum),$name) . "." . $ext; 
             $dst = appendPath($path_rx,$folder_rx);
             if (is_writable($src) && is_writable($path_rx)) {
 
@@ -948,9 +958,9 @@ class Voicemail {
                 chgrp($dst,intval($gid));
               }
 
-							if ($delete_moved) {
+              if ($delete_moved) {
               	unlink($src);
-							}
+              }
             }
             else {
               $_SESSION['ari_error'] = sprintf(_("Permission denied on folder %s or %s"),$src,$path_rx);
