@@ -50,7 +50,7 @@ function showview($viewname, $parameters = false) {
 //get the current file name
 $currentFile = $_SERVER["PHP_SELF"];
 $parts = explode('/', $currentFile);
-//header('Content-type: text/html; charset=utf-8');
+header('Content-type: text/html; charset=utf-8');
 $currentFile = $parts[count($parts) - 1];
 //todo: can this be removed? what is it used for?
 

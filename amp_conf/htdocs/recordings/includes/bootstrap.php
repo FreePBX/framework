@@ -282,7 +282,7 @@ function bootstrap() {
  * TODO: Figure out caching
  */
 function ariPageHeader() {
-
+header('Content-type: text/html; charset=utf-8');
   bootstrap();
 }
 
