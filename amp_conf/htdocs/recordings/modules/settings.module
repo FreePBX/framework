@@ -466,8 +466,8 @@ class Settings {
 					}
 					// voicemail email address
 					if (($voicemail_email_enable || $voicemail_pager_enable) &&
-					($voicemail_email_address && !preg_match('/@/',$voicemail_email_address) ||
-					($voicemail_pager_address && !preg_match('/@/',$voicemail_pager_address)))) {
+					($voicemail_email_address && !preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i',$voicemail_email_address) ||
+					($voicemail_pager_address && !preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i',$voicemail_pager_address)))) {
 						$_SESSION['ari_error'] =
 						_("Voicemail email and pager address not changed") . "<br>" .
 						("'$voicemail_email_address' and '$voicemail_pager_address' must be valid email addresses");
