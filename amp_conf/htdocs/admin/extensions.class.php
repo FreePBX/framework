@@ -109,7 +109,7 @@ class extensions {
 	*         the command just prior to  the first instruction it finds with the specified tag
 	*         if it can't find the tag, it will inject it after the last instruction
 	*/
-	function splice($section, $extension, $priority, $command) {
+	function splice($section, $extension, $priority, $command, $new_tag="")  {
 
 		// if the priority is a tag, then we look for the real priority to insert it before that
 		// tag. If the tag does not exists, then we put it at the very end which may not be
@@ -138,7 +138,7 @@ class extensions {
 		}
 		$newcommand = array(
 			'basetag' => $basetag,
-			'tag' => '',
+			'tag' => $new_tag,
 			'addpri' => '',
 			'cmd' => $command
 		);
@@ -171,7 +171,73 @@ class extensions {
 
 		//print_r($this->_exts[$section][$extension]);
 	}
+
+	/* This function allows dial plan to be replaced.  This is most useful for modules that
+	*  would like to hook into other modules and modify dialplan.
+	*  usage: $ext->replace($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
+	*         if $priority is not numeric, it will interpret it as a tag 
+	*/
+	function replace($section, $extension, $priority, $command) {
+
+		// if the priority is a tag, then we look for the real priority to replace it with
+		// If the tag does not exists, then we put it at the very end which may not be
+		// desired but it puts it somewhere
+		//
+		if (!ctype_digit(trim($priority))) {
+			$existing_priority = false;
+			$count = 0;
+			if (isset($this->_exts[$section][$extension])) {
+				foreach($this->_exts[$section][$extension] as $pri => $curr_command) {
+					if ($curr_command['tag'] == $priority) {
+						$existing_priority = $count;
+						break;
+					}
+					$count++;
+				}
+			}
+			$priority = ($new_priority === false) ? $count : $existing_priority;
+		}
+		$newcommand = array(
+			'basetag' => $this->_exts[$section][$extension][$priority]['basetag'],
+			'tag' => $this->_exts[$section][$extension][$priority]['tag'],
+			'addpri' => '',
+			'cmd' => $command
+		);
+		$this->_exts[$section][$extension][$priority] = $newcommand;
+
+	}
 	
+	/* This function allows dial plan to be removed.  This is most useful for modules that
+        *  would like to hook into other modules and delete dialplan.
+        *  usage: $ext->remove($context, $exten, $priority_number);
+        *         if $priority is not numeric, it will interpret it as a tag
+        */
+        function remove($section, $extension, $priority) {
+
+                // if the priority is a tag, then we look for the real priority to replace it with
+                // If the tag does not exists, then we put it at the very end which may not be
+                // desired but it puts it somewhere
+                //
+                if (!ctype_digit(trim($priority))) {
+                        $existing_priority = false;
+                        $count = 0;
+                        if (isset($this->_exts[$section][$extension])) {
+                                foreach($this->_exts[$section][$extension] as $pri => $curr_command) {
+                                        if ($curr_command['tag'] == $priority) {
+                                                $existing_priority = $count;
+                                                break;
+                                        }
+                                        $count++;
+                                }
+                        }
+                        $priority = ($existing_priority === false) ? false : $existing_priority;
+                }
+		if($priority != false)  {
+                	unset($this->_exts[$section][$extension][$priority]);
+		}
+
+        }
+
 	/** Generate the file
 	* @return A string containing the extensions.conf file
 	*/
@@ -1218,8 +1284,131 @@ class ext_stopmonitor extends extension {
 		return "StopMonitor(".$this->data.")";
 	}
 }
+// Speech recognition applications
+class ext_speechcreate extends extension {
+	var $engine;
+	
+	function ext_speechcreate($engine = null)  {
+		$this->engine = $engine;
+	}
+	
+	function output() {
+		return "SpeechCreate(".($this->engine?$this->engine:"").")";
+	}
+}
+class ext_speechloadgrammar extends extension {
+	var $grammar_name;
+	var $path_to_grammar;
 
+	function ext_speechloadgrammar($grammar_name,$path_to_grammar)  {
+		$this->grammar_name = $grammar_name;
+		$this->path_to_grammar = $path_to_grammar;
+	}
+	
+	function output() {
+		return "SpeechLoadGrammar(".$this->grammar_name.",".$this->path_to_grammar.")";
+	}
+}
+class ext_speechunloadgrammar extends extension {
+	var $grammar_name;
 
+	function ext_speechunloadgrammar($grammar_name)  {
+		$this->grammar_name = $grammar_name;
+	}
+	
+	function output() {
+		return "SpeechUnloadGrammar(".$this->grammar_name.")";
+	}
+}
+class ext_speechactivategrammar extends extension {
+	var $grammar_name;
+
+	function ext_speechactivategrammar($grammar_name)  {
+		$this->grammar_name = $grammar_name;
+	}
+	
+	function output() {
+		return "SpeechActivateGrammar(".$this->grammar_name.")";
+	}
+}
+
+class ext_speechstart extends extension {
+	
+	function output() {
+		return "SpeechStart()";
+	}
+}
+class ext_speechbackground extends extension {
+	var $sound_file;
+	var $timeout;
+
+	function ext_speechbackground($sound_file,$timeout=null)  {
+		$this->sound_file = $sound_file;
+		$this->timeout = $timeout;
+	}
+	
+	function output() {
+		return "SpeechBackground(".$this->sound_file.($this->timeout?",$this->timeout":"").")";
+	}
+}
+class ext_speechdeactivategrammar extends extension {
+	var $grammar_name;
+
+	function ext_speechdeactivategrammar($grammar_name)  {
+		$this->grammar_name = $grammar_name;
+	}
+	
+	function output() {
+		return "SpeechDeactivateGrammar(".$this->grammar_name.")";
+	}
+}
+class ext_speechprocessingsound extends extension {
+	var $sound_file;
+
+	function ext_speechprocessingsound($sound_file)  {
+		$this->sound_file = $sound_file;
+	}
+	
+	function output() {
+		return "SpeechProcessingSound(".$this->sound_file.")";
+	}
+}
+
+class ext_speechdestroy extends extension {
+	
+	function output() {
+		return "SpeechDestroy()";
+	}
+}
+
+// optionally call this before a ext_speechbackground and if the speech engine recognizes
+// DTMF, it will stop recognizing speech after $digits digits and return the recognized
+// DTMF in ${SPEECH_TEXT(0)}
+class ext_speechdtmfmaxdigits  extends extension { 
+	var $digits;
+	function ext_speechdtmfmaxdigits($digits)  {
+		$this->digits = $digits;
+	}
+	
+	function output()  {
+		return "Set(SPEECH_DTMF_MAXLEN=".$this->digits.")";
+	}
+}
+
+// optionally call this before ext_speechbackground and the speech engine will consider this
+// a terminator to dtmf entry.  It should be noted that despite a lack of documentation, # is
+// set by default for this behavior, so if you need to recognize # in a speech/dtmf application
+// You need to set this to some other terminator.
+class ext_speechdtmfterminator  extends extension {
+        var $digits;
+        function ext_speechdtmfterminator($terminator)  {
+                $this->terminator = $terminator;
+        }
+
+        function output()  {
+                return "Set(SPEECH_DTMF_TERMINATOR=".$this->terminator.")";
+        }
+}
 
 /* example usage
 $ext = new extensions;
