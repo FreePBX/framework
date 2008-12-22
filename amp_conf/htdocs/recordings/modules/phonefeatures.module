@@ -96,8 +96,8 @@ function display($args) {
 			$dnd_cw_text = "<table class='settings'>";
 			$dnd_cw_text.= "<tr><td><h3>" . _("Phone Features") . "</h3></td></tr>";
 			
-			$dnd_cw_text.=  $this->displayPhoneControls( $exten, 'call_waiting', 'CW', "Call Waiting");
-			$dnd_cw_text.=  $this->displayPhoneControls( $exten, 'do_not_disturb', 'DND', "Do Not Disturb");
+			$dnd_cw_text.=  $this->displayPhoneControls( $exten, 'call_waiting', 'CW', _("Call Waiting"));
+			$dnd_cw_text.=  $this->displayPhoneControls( $exten, 'do_not_disturb', 'DND', _("Do Not Disturb"));
 			$dnd_cw_text.=  $this->displayCallScreenControls( $exten);
 			
 			$dnd_cw_text .= "</table>";
@@ -150,9 +150,9 @@ function display($args) {
 			$set_call_forward_text.= "<table class='settings'>";
 			$set_call_forward_text.= "<tr><td><h3>" . _("Call Forwarding") . "</h3></td></tr>";
 			
-			$set_call_forward_text.=  $this->displayCallForwardControls( $exten, 'call_forward', 'CF', "Unconditional:");
-			$set_call_forward_text.=  $this->displayCallForwardControls( $exten, 'call_forward_unavailable', 'CFU', "Unavailable:");
-			$set_call_forward_text.=  $this->displayCallForwardControls( $exten, 'call_forward_busy', 'CFB', "Busy:");
+			$set_call_forward_text.=  $this->displayCallForwardControls( $exten, 'call_forward', 'CF', _("Unconditional:"));
+			$set_call_forward_text.=  $this->displayCallForwardControls( $exten, 'call_forward_unavailable', 'CFU', _("Unavailable:"));
+			$set_call_forward_text.=  $this->displayCallForwardControls( $exten, 'call_forward_busy', 'CFB', _("Busy:"));
 			
 			$set_call_forward_text .= "</table>";		
 		}
