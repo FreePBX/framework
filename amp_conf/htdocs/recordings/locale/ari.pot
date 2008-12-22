@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-22 14:26+0200\n"
+"POT-Creation-Date: 2008-12-22 17:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -320,6 +320,10 @@ msgstr ""
 msgid "Action"
 msgstr ""
 
+#: modules/featurecodes.module:111
+msgid "description"
+msgstr ""
+
 #: modules/followme.module:43
 msgid "Follow Me"
 msgstr ""
@@ -486,15 +490,28 @@ msgstr ""
 msgid "Call Screening:"
 msgstr ""
 
-#: modules/phonefeatures.module:425
+#: modules/phonefeatures.module:422
+msgid ""
+"Call Screening requires external callers to say their name, which will be "
+"played back to the user and allow the user to accept or reject the call.  "
+"Screening with memory only verifies a caller for their caller-id once. "
+"Screening without memory always requires a caller to say their name. Either "
+"mode will always announce the caller based on the last introduction saved "
+"with that callerid. If any user on the system uses the memory option, when "
+"that user is called, the caller will be required to re-introduce themselves "
+"and all users on the system will have that new introduction associated with "
+"the caller's CallerId."
+msgstr ""
+
+#: modules/phonefeatures.module:424
 msgid "Disable"
 msgstr ""
 
-#: modules/phonefeatures.module:426
+#: modules/phonefeatures.module:425
 msgid "Screen Caller: No Memory"
 msgstr ""
 
-#: modules/phonefeatures.module:427
+#: modules/phonefeatures.module:426
 msgid "Screen Caller: Memory"
 msgstr ""
 
