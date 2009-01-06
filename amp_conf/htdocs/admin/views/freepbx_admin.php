@@ -59,7 +59,7 @@ if (is_array($fpbx_menu)) {
 			$tab_num = $key+1;
 		}
 	}
-	echo "<li class=\"last\"><a><span> </span></a></li>";
+	echo "<li class=\"last\"><a><span>&nbsp;</span></a></li>";
 	echo "</ul>\n";
 	
 	// create tabs, and set the proper one active
@@ -145,15 +145,16 @@ if (is_array($fpbx_menu)) {
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<select onchange="javascript:changeLang(this.value)">
 		<option value="en_US" <?php echo ($_COOKIE['lang']=="en_US" ? "selected" : "") ?> >English</option>
-		<option value="fr_FR" <?php echo ($_COOKIE['lang']=="fr_FR" ? "selected" : "") ?> >Fran&ccedil;ais</option>
+		<option value="bg_BG" <?php echo ($_COOKIE['lang']=="bg_BG" ? "selected" : "") ?> >Bulgarian</option>
 		<option value="de_DE" <?php echo ($_COOKIE['lang']=="de_DE" ? "selected" : "") ?> >Deutsch</option>
-		<option value="it_IT" <?php echo ($_COOKIE['lang']=="it_IT" ? "selected" : "") ?> >Italiano</option>
 		<option value="es_ES" <?php echo ($_COOKIE['lang']=="es_ES" ? "selected" : "") ?> >Espa&ntilde;ol</option>
-		<option value="ru_RU" <?php echo ($_COOKIE['lang']=="ru_RU" ? "selected" : "") ?> >Russki</option>
-		<option value="pt_PT" <?php echo ($_COOKIE['lang']=="pt_PT" ? "selected" : "") ?> >Portuguese</option>
+		<option value="fr_FR" <?php echo ($_COOKIE['lang']=="fr_FR" ? "selected" : "") ?> >Fran&ccedil;ais</option>
 		<option value="he_IL" <?php echo ($_COOKIE['lang']=="he_IL" ? "selected" : "") ?> >Hebrew</option>
-		<option value="sv_SE" <?php echo ($_COOKIE['lang']=="sv_SE" ? "selected" : "") ?> >Svenska</option>
 		<option value="hu_HU" <?php echo ($_COOKIE['lang']=="hu_HU" ? "selected" : "") ?> >Hungarian</option>
+		<option value="it_IT" <?php echo ($_COOKIE['lang']=="it_IT" ? "selected" : "") ?> >Italiano</option>
+		<option value="pt_PT" <?php echo ($_COOKIE['lang']=="pt_PT" ? "selected" : "") ?> >Portuguese</option>
+		<option value="ru_RU" <?php echo ($_COOKIE['lang']=="ru_RU" ? "selected" : "") ?> >Russki</option>
+		<option value="sv_SE" <?php echo ($_COOKIE['lang']=="sv_SE" ? "selected" : "") ?> >Svenska</option>
 		</select>
 <?php
 	}
@@ -187,7 +188,7 @@ function changeLang(lang) {
 	<hr />
 	<?php
 	echo '<a target="_blank" href="http://www.freepbx.org"><img id="footer_logo" src="images/freepbx_small.png" alt="FreePBX&reg;"/></a>';
-	echo '<h3>'.'Freedom to Connect<sup>&reg</sup>'.'</h3>';
+	echo '<h3>'.'Freedom to Connect<sup>&reg;</sup>'.'</h3>';
 	echo "\t\t".sprintf(_('%s is a registered trademark of %s'),
 	     '<a href="http://www.freepbx.org" target="_blank">'._('FreePBX').'</a>',
 	     '<a href="http://www.freepbx.org/copyright.html" target="_blank">Atengo, LLC.</a>')."<br/>\n";

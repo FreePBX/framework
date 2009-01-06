@@ -1,6 +1,5 @@
-To create the .po (write your translations to this file):
-cd ..
-find *.php common/*.php | xargs xgettext -C -o amp.po --keyword=_ -
+To create a new language create the proper i18n/<lang_code>/LC_MESSAGES directory structure.
+Copy the amp.pot file to i18n/<lang_code>/LC_MESSAGES/amp.po
+Translate your text strings from this file then create the .mo file:
 
-To create the .mo:  
 msgfmt -v amp.po -o amp.mo

@@ -392,7 +392,7 @@ class cronmanager {
 			$text = sprintf(_("Cronmanager encountered %s Errors"),$errors);
 			$extext = _("The following commands failed with the listed error");
 			foreach ($error_arr as $item) {
-				$extext .= "<br>".$item[0]." (".$item[1].")";
+				$extext .= "<br />".$item[0]." (".$item[1].")";
 			}
 			$nt->add_error('cron_manager', 'EXECFAIL', $text, $extext, '', true, true);
 		}
@@ -1416,7 +1416,7 @@ function sql($sql,$type="query",$fetchmode=null) {
 	global $db;
 	$results = $db->$type($sql,$fetchmode);
 	if(DB::IsError($results)) {
-		die_freepbx($results->getDebugInfo() . "SQL - <br> $sql" );
+		die_freepbx($results->getDebugInfo() . "SQL - <br /> $sql" );
 	}
 	return $results;
 }
@@ -2028,7 +2028,7 @@ function drawselects($goto,$i,$show_custom=false) {
 
 		$selectHtml .=	'<select name="'.$cat_identifier.$i.'" onfocus="document.getElementById(\''.$radioid.'\').checked = true; this.form.goto'.$i.'.value=\''.$cat.'\';">';
 		$selectHtml .= $options;	
-		$selectHtml .=	"</select><br>\n";
+		$selectHtml .=	"</select><br />\n";
 
 		if ($checked) $foundone = true;
 	}
@@ -2310,9 +2310,9 @@ function module_update_notifications(&$old_xml, &$xmlarray, $passive) {
 	$diff_modules = array_diff_assoc($new_modules, $old_modules);
 	$cnt = count($diff_modules);
 	if ($cnt) {
-		$extext = _("The following new modules are available for download. Click delete icon on the right to remove this notice.")."<br>";
+		$extext = _("The following new modules are available for download. Click delete icon on the right to remove this notice.")."<br />";
 		foreach ($diff_modules as $mod) {
-			$extext .= $mod['rawname']." (".$mod['version'].")<br>";
+			$extext .= $mod['rawname']." (".$mod['version'].")<br />";
 		}
 		$notifications->add_notice('freepbx', 'NEWMODS', sprintf(_('%s New modules are available'),$cnt), $extext, '', $reset_value, true);
 	}
@@ -2813,7 +2813,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 			}
 			exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
 			if ($exitcode != 0) {
-				return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulenam));
+				return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename));
 			}
 			exec("mv ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
 			if ($exitcode != 0) {
@@ -2909,7 +2909,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	}
 	exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
 	if ($exitcode != 0) {
-		return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulenam));
+		return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename));
 	}
 	exec("mv ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
 	if ($exitcode != 0) {
@@ -2987,7 +2987,7 @@ function module_handleupload($uploaded_file) {
 	}
 	exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
 	if ($exitcode != 0) {
-		return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulenam));
+		return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename));
 	}
 	exec("mv ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
 	if ($exitcode != 0) {

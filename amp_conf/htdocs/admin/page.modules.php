@@ -575,7 +575,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 							echo _('Disabled; up to date');
 						}
 					} else {
-						echo 'Disabled';
+						echo _('Disabled');
 					}
 				break;
 				case MODULE_STATUS_NEEDUPGRADE:

@@ -2,7 +2,7 @@
 	function freepbx_show_reload() {
 		/*
 		$.blockUI($('#reloadBox')[0], { width: '400px' });
-		$(document.body).append('<div style="width:100%; height:100%; background:#ccc; opacity:50%;"></div>'); 
+		$(document.body).append("<div style=\"width:100%; height:100%; background:#ccc; opacity:50%;\"><\/div>"); 
 		*/
 		
 		$("#reload_confirm").show();
@@ -63,17 +63,17 @@
 							freepbx_stop_reload();
 						} else {
 							// there was a problem
-							var responsetext = '<h3>' + data.message + '</h3>  <div class="moreinfo">';
+							var responsetext = '<h3>' + data.message + "<\/h3>" + '<div class="moreinfo">';
 
-							responsetext += '<p><pre>' + data.retrieve_conf + '</pre></p>';
+							responsetext += '<p><pre>' + data.retrieve_conf + "<\/pre><\/p>";
 												
 							if (data.num_errors) {
-								responsetext += '<p>' + data.num_errors + ' <?php echo _(' error(s) occured, you should view the notification log on the dashboard or main screen to check for more details.'); ?></p>';
+								responsetext += '<p>' + data.num_errors + " <?php echo _(" error(s) occured, you should view the notification log on the dashboard or main screen to check for more details."); ?> " + "<\/p>";
 							}
 						
-							responsetext += '</div>' +
-							                '<div class="buttons"><a id="reload_response_close_btn" href="#" onclick="freepbx_stop_reload();"><img src="images/cancel.png" height="16" width="16" border="0" alt="<?php echo _('Close'); ?>" />&nbsp;<?php echo _('Close'); ?></a>'+
-							                '&nbsp;&nbsp;&nbsp;<a id="reload_retry_btn" href="#" onclick="run_reload();"><img src="images/arrow_rotate_clockwise.png" height="16" width="16" border="0" alt="<?php echo _('Retry'); ?>" />&nbsp;<?php echo _('Retry'); ?></a> </div>';
+							responsetext += "<\/div>" +
+							                '<div class="buttons"><a id="reload_response_close_btn" href="#" onclick="freepbx_stop_reload();"><img src="images/cancel.png" height="16" width="16" border="0" alt="<?php echo _('Close'); ?>" />&nbsp;<?php echo _('Close'); ?>' + "<\/a>" +
+							                '&nbsp;&nbsp;&nbsp;<a id="reload_retry_btn" href="#" onclick="run_reload();"><img src="images/arrow_rotate_clockwise.png" height="16" width="16" border="0" alt="<?php echo _('Retry'); ?>" />&nbsp;<?php echo _('Retry'); ?>' + "<\/a> <\/div>";
 
 							$('#reload_response').html(responsetext);
 	
@@ -85,8 +85,8 @@
 					},
 					error: function(reqObj, status) {
 						$('#reload_response').html(
-							'<p><?php echo _('Error: Did not receive valid response from server'); ?></p>' + 
-							'<div class="buttons"><a id="reload_response_close_btn" href="#" onclick="freepbx_stop_reload();"><img src="images/cancel.png" height="16" width="16" border="0" alt="<?php echo _('Close'); ?>" />&nbsp;<?php echo _('Close'); ?></a></div>'
+							'<p>' + "<?php echo _("Error: Did not receive valid response from server"); ?>" + "<\/p>" + 
+							'<div class="buttons"><a id="reload_response_close_btn" href="#" onclick="freepbx_stop_reload();"><img src="images/cancel.png" height="16" width="16" border="0" alt="<?php echo _('Close'); ?>" />&nbsp;<?php echo _('Close'); ?>' + "<\/a><\/div>"
 						);
 						$("#reload_reloading").slideUp(150, function() {
 							$("#reload_response").slideDown(150);

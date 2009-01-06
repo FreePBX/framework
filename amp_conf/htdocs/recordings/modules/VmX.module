@@ -109,7 +109,7 @@ class VmX {
 			}
 			if ($vmx_disabled) {
 			
-				setcookie("ari_vmx_disabled", $vmx_disabled, time()+365*24*60*60);
+				setcookie("ari_vmx_disabled", $vmx_disabled);
 				$vmx_disabled_delayed = $vmx_disabled;
 				$_SESSION['ari_error'] = 
 				_("Your Premium VmX Locator service has been disabled, REFRESH your browser to remove this message") . "<br>" .
@@ -125,20 +125,20 @@ class VmX {
 			$this->setVmxPlayInstructions($exten,'busy',$vmx_play_instructions);
 			
 			// store cookie
-			setcookie("ari_vmx_unavail_enabled", $vmx_unavail_enabled, time()+365*24*60*60);
-			setcookie("ari_vmx_busy_enabled", $vmx_busy_enabled, time()+365*24*60*60);
-			setcookie("ari_vmx_play_instructions", $vmx_play_instructions, time()+365*24*60*60);
+			setcookie("ari_vmx_unavail_enabled", $vmx_unavail_enabled);
+			setcookie("ari_vmx_busy_enabled", $vmx_busy_enabled);
+			setcookie("ari_vmx_play_instructions", $vmx_play_instructions);
 			
 			$stripped_vmx_option_0_number = preg_replace('/-|\(|\)|\s/','',$vmx_option_0_number);
 			
 			if ($vmx_option_0_system_default) {
 				$this->setVmxOptionNumber($exten,'0','unavail',"");
 				$this->setVmxOptionNumber($exten,'0','busy',"");
-				setcookie("ari_vmx_option_0_system_default", $vmx_option_0_system_default, time()+365*24*60*60);
+				setcookie("ari_vmx_option_0_system_default", $vmx_option_0_system_default);
 				if (is_numeric($stripped_vmx_option_0_number) || !$stripped_vmx_option_0_number) {
 					$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_0_number']);
 					if ($vmx_option_0_number && $stripped!=$stripped_vmx_option_0_number) {
-						setcookie("ari_vmx_option_0_number", $call_vmx_option_0_number, time()+365*24*60*60);
+						setcookie("ari_vmx_option_0_number", $call_vmx_option_0_number);
 					}
 				}
 			} else {
@@ -156,7 +156,7 @@ class VmX {
 					// store cookie
 					$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_0_number']);
 					if ($vmx_option_0_number && $stripped!=$stripped_vmx_option_0_number) {
-						setcookie("ari_vmx_option_0_number", $call_vmx_option_0_number, time()+365*24*60*60);
+						setcookie("ari_vmx_option_0_number", $call_vmx_option_0_number);
 					}
 				}
 			}
@@ -165,11 +165,11 @@ class VmX {
 			if ($vmx_option_1_system_default && !$follow_me_disabled) {
 				$this->setVmxOptionFollowMe($exten,'1','unavail');
 				$this->setVmxOptionFollowMe($exten,'1','busy');
-				setcookie("ari_vmx_option_1_system_default", $vmx_option_1_system_default, time()+365*24*60*60);
+				setcookie("ari_vmx_option_1_system_default", $vmx_option_1_system_default);
 				if (is_numeric($stripped_vmx_option_1_number) || !$stripped_vmx_option_1_number) {
 					$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_1_number']);
 					if ($vmx_option_1_number && $stripped!=$stripped_vmx_option_1_number) {
-						setcookie("ari_vmx_option_1_number", $call_vmx_option_1_number, time()+365*24*60*60);
+						setcookie("ari_vmx_option_1_number", $call_vmx_option_1_number);
 					}
 				}
 			}
@@ -189,7 +189,7 @@ class VmX {
 					// store cookie
 					$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_1_number']);
 					if ($vmx_option_1_number && $stripped!=$stripped_vmx_option_1_number) {
-						setcookie("ari_vmx_option_1_number", $call_vmx_option_1_number, time()+365*24*60*60);
+						setcookie("ari_vmx_option_1_number", $call_vmx_option_1_number);
 					}
 				}
 			}
@@ -209,7 +209,7 @@ class VmX {
 				// store cookie
 				$stripped = preg_replace('/-|\(|\)|\s/','',$_COOKIE['ari_vmx_option_2_number']);
 				if ($vmx_option_2_number && $stripped!=$stripped_vmx_option_2_number) {
-					setcookie("ari_vmx_option_2_number", $call_vmx_option_2_number, time()+365*24*60*60);
+					setcookie("ari_vmx_option_2_number", $call_vmx_option_2_number);
 				}
 			}
 		} // vmx_disabled false
@@ -254,17 +254,17 @@ class VmX {
 
 	//TODO: Set this better than this?
 	$follow_me_disabled = ($follow_me_listring_time > 0)?0:1;
-	setcookie("ari_follow_me_disabled", $follow_me_disabled, time()+365*24*60*60);
+	setcookie("ari_follow_me_disabled", $follow_me_disabled);
 
 
 	$vmx_unavail_enabled=$this->getVmxState($exten,'unavail');
 	if ($vmx_unavail_enabled === false) {
 		$vmx_disabled = true;
-		setcookie("ari_vmx_disabled", $vmx_disabled, time()+365*24*60*60);
+		setcookie("ari_vmx_disabled", $vmx_disabled);
 		$SETTINGS_ALLOW_VMX_SETTINGS=false;
 	} else {
 		$vmx_disabled = false;
-		setcookie("ari_vmx_disabled", false, time()+365*24*60*60);
+		setcookie("ari_vmx_disabled", false);
 		$vmx_busy_enabled=$this->getVmxState($exten,'busy');
 		$vmx_play_instructions=$this->getVmxPlayInstructions($exten);
 		$vmx_option_0_number=$this->getVmxOptionNumber($exten,'0');;
@@ -591,7 +591,7 @@ class VmX {
 
 	global $asterisk_manager_interface;
 
-	$value_opt = ($vmx_play_instructions)?'""':'s';
+	$value_opt = ($vmx_play_instructions)?'s':'""';
 
 	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/vmx/$mode/vmxopts/timeout $value_opt\r\n\r\n");
   }
@@ -613,10 +613,10 @@ class VmX {
 	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/vmx/$mode/vmxopts/timeout\r\n\r\n");
 
 	if (preg_match("/s/",$response)) {
-			$response='';
+			$response='checked';
 	} 
 		else {
-			$response='checked';
+			$response='';
 		}
 
 	//TODO: really need to check for a bogus response, see how other side does it

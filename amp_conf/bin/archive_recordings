@@ -47,6 +47,7 @@ function parse_amportal_conf($filename) {
 		'USECATEGORIES' => true,
 		'ASTETCDIR' => '/etc/asterisk',
 		'ASTMANAGERPORT' => '5038',
+		'CDRDBNAME' => 'asteriskcdrdb',
 		);
 	// boolean values, will be converted to true/false
 	// "yes", "true", 1 (case-insensitive) will be treated as true, everything else is false
@@ -437,7 +438,7 @@ $db_user = $amp_conf["AMPDBUSER"];
 $db_pass = $amp_conf["AMPDBPASS"];
 $db_host = $amp_conf["AMPDBHOST"];
 $db_engine = $amp_conf["AMPDBENGINE"];
-$db_name = 'asteriskcdrdb';
+$db_name = $amp_conf["CDRDBNAME"];
 
 $datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
 

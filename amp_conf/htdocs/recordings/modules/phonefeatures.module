@@ -419,7 +419,8 @@ return $ret;
                 }
 
 		$ret = "\n<tr>";
-$ret.= "<td><a href='#' Class='info'>" . _("Call Screening:") . "<span>" . _("Call Screening requires external callers to say their name, which will be played back to the user and allow the user to accept or reject the call.  Screening with memory only verifies a caller for their caller-id once. Screening without memory always requires a caller to say their name. Either mode will always announce the caller based on the last introduction saved with that callerid. If any user on the system uses the memory option, when that user is called, the caller will be required to re-introduce themselves and all users on the system will have that new introduction associated with the caller's CallerId.") . "</span></a></td>";		$ret.= "<td>";
+		$ret.= "<td><a href='#' class='info'>" . _("Call Screening:") . "<span>" . _("Call Screening requires external callers to say their name, which will be played back to the user and allow the user to accept or reject the call.  Screening with memory only verifies a caller for their caller-id once. Screening without memory always requires a caller to say their name. Either mode will always announce the caller based on the last introduction saved with that callerid. If any user on the system uses the memory option, when that user is called, the caller will be required to re-introduce themselves and all users on the system will have that new introduction associated with the caller's CallerId.") . " </span></a></td>";
+		$ret.= "<td>";
 		$ret.= "<select name='call_screen'>";
 		$ret.= "<option value='0' " . $disabled .  ">" . _("Disable") . "</option>";
 		$ret.= "<option value='nomemory' " . $nomemory .  ">" . _("Screen Caller: No Memory") . "</option>";

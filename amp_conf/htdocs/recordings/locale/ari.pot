@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-22 17:29+0200\n"
+"POT-Creation-Date: 2008-12-07 12:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,6 +216,34 @@ msgstr ""
 msgid "Dial Voicemail"
 msgstr ""
 
+#: includes/main.conf.php:304
+msgid "Email voicemail as attachment"
+msgstr ""
+
+#: includes/main.conf.php:305
+msgid "Say caller id in recording emailed"
+msgstr ""
+
+#: includes/main.conf.php:306
+msgid "Say envelop (date/time) in recording emailed"
+msgstr ""
+
+#: includes/main.conf.php:307
+msgid "Delete voicemail when emailed"
+msgstr ""
+
+#: includes/main.conf.php:308
+msgid "Play next message after deleting current message"
+msgstr ""
+
+#: includes/main.conf.php:309
+msgid "Ask caller to review their voicemail before sending"
+msgstr ""
+
+#: includes/main.conf.php:310
+msgid "Maximum time in seconds a voicemail will record"
+msgstr ""
+
 #: modules/callmonitor.module:36 modules/callmonitor.module:277
 msgid "Call Monitor"
 msgstr ""
@@ -229,7 +257,7 @@ msgstr ""
 msgid "Path is not a directory: %s"
 msgstr ""
 
-#: modules/callmonitor.module:152 modules/voicemail.module:467
+#: modules/callmonitor.module:152 modules/voicemail.module:342
 msgid "delete"
 msgstr ""
 
@@ -241,15 +269,15 @@ msgstr ""
 msgid "ignore"
 msgstr ""
 
-#: modules/callmonitor.module:170 modules/voicemail.module:492
+#: modules/callmonitor.module:170 modules/voicemail.module:363
 msgid "Date"
 msgstr ""
 
-#: modules/callmonitor.module:172 modules/voicemail.module:494
+#: modules/callmonitor.module:172 modules/voicemail.module:365
 msgid "Time"
 msgstr ""
 
-#: modules/callmonitor.module:174 modules/voicemail.module:496
+#: modules/callmonitor.module:174 modules/voicemail.module:367
 msgid "Caller ID"
 msgstr ""
 
@@ -265,7 +293,7 @@ msgstr ""
 msgid "Context"
 msgstr ""
 
-#: modules/callmonitor.module:182 modules/voicemail.module:502
+#: modules/callmonitor.module:182 modules/voicemail.module:373
 msgid "Duration"
 msgstr ""
 
@@ -273,12 +301,12 @@ msgstr ""
 msgid "Monitor"
 msgstr ""
 
-#: modules/callmonitor.module:234 modules/voicemail.module:554
+#: modules/callmonitor.module:234 modules/voicemail.module:425
 msgid "Play"
 msgstr ""
 
-#: modules/callmonitor.module:235 modules/voicemail.module:535
-#: modules/voicemail.module:558
+#: modules/callmonitor.module:235 modules/voicemail.module:406
+#: modules/voicemail.module:429
 msgid "Download"
 msgstr ""
 
@@ -287,15 +315,15 @@ msgstr ""
 msgid "Call Monitor for %s (%s)"
 msgstr ""
 
-#: modules/callmonitor.module:348 modules/voicemail.module:703
+#: modules/callmonitor.module:348 modules/voicemail.module:573
 msgid "select"
 msgstr ""
 
-#: modules/callmonitor.module:349 modules/voicemail.module:704
+#: modules/callmonitor.module:349 modules/voicemail.module:574
 msgid "all"
 msgstr ""
 
-#: modules/callmonitor.module:350 modules/voicemail.module:705
+#: modules/callmonitor.module:350 modules/voicemail.module:575
 msgid "none"
 msgstr ""
 
@@ -318,10 +346,6 @@ msgstr ""
 
 #: modules/featurecodes.module:75
 msgid "Action"
-msgstr ""
-
-#: modules/featurecodes.module:111
-msgid "description"
 msgstr ""
 
 #: modules/followme.module:43
@@ -363,8 +387,7 @@ msgid "The following: %s is not valid"
 msgstr ""
 
 #: modules/followme.module:291 modules/followme.module:342
-#: modules/phonefeatures.module:360 modules/settings.module:847
-#: modules/settings.module:858
+#: modules/phonefeatures.module:360 modules/settings.module:430
 msgid "Enable"
 msgstr ""
 
@@ -436,7 +459,7 @@ msgid "Followme Settings for %s (%s)"
 msgstr ""
 
 #: modules/followme.module:382 modules/phonefeatures.module:182
-#: modules/settings.module:1180 modules/VmX.module:413
+#: modules/settings.module:646 modules/VmX.module:413
 msgid "Update"
 msgstr ""
 
@@ -445,28 +468,8 @@ msgstr ""
 msgid "Phone Features"
 msgstr ""
 
-#: modules/phonefeatures.module:99
-msgid "Call Waiting"
-msgstr ""
-
-#: modules/phonefeatures.module:100
-msgid "Do Not Disturb"
-msgstr ""
-
 #: modules/phonefeatures.module:151
 msgid "Call Forwarding"
-msgstr ""
-
-#: modules/phonefeatures.module:153
-msgid "Unconditional:"
-msgstr ""
-
-#: modules/phonefeatures.module:154
-msgid "Unavailable:"
-msgstr ""
-
-#: modules/phonefeatures.module:155
-msgid "Busy:"
 msgstr ""
 
 #: modules/phonefeatures.module:167
@@ -503,301 +506,139 @@ msgid ""
 "the caller's CallerId."
 msgstr ""
 
-#: modules/phonefeatures.module:424
+#: modules/phonefeatures.module:425
 msgid "Disable"
 msgstr ""
 
-#: modules/phonefeatures.module:425
+#: modules/phonefeatures.module:426
 msgid "Screen Caller: No Memory"
 msgstr ""
 
-#: modules/phonefeatures.module:426
+#: modules/phonefeatures.module:427
 msgid "Screen Caller: Memory"
 msgstr ""
 
-#: modules/settings.module:44
-msgid "Attach voicemail to email"
-msgstr ""
-
-#: modules/settings.module:45
-msgid "Option to attach audio file to email."
-msgstr ""
-
-#: modules/settings.module:60
-msgid "Number of deleted messages to backup"
-msgstr ""
-
-#: modules/settings.module:61
-msgid ""
-"The maximum number of messages that are backed up in the Deleted folder. "
-"This may be 0-9999."
-msgstr ""
-
-#: modules/settings.module:76
-msgid "Delete voicemail after emailed"
-msgstr ""
-
-#: modules/settings.module:77
-msgid ""
-"When enabled the message will be deleted from the voicemailbox after the "
-"notification email is sent. This allows receiving voicemail via email alone, "
-"rather than having the voicemail available from the Web interface or by "
-"telephone. CAUTION: Attach voicemail to email must be enabled, OTHERWISE "
-"YOUR MESSAGES WILL BE LOST FOREVER."
-msgstr ""
-
-#: modules/settings.module:92
-msgid "Say envelope (date/time)"
-msgstr ""
-
-#: modules/settings.module:93
-msgid ""
-"When enabled the voicemail system will play the message envelope (date/time) "
-"before playing the voicemail message. This setting does not affect the "
-"operation of the envelope option in the advanced voicemail menu."
-msgstr ""
-
-#: modules/settings.module:161
-msgid "Maximum number of messages"
-msgstr ""
-
-#: modules/settings.module:162
-msgid ""
-"Maximum number of messages per folder. It may be up to 9999. The default "
-"value is 100."
-msgstr ""
-
-#: modules/settings.module:169
-msgid "Maximum message length"
-msgstr ""
-
-#: modules/settings.module:170
-msgid "Maximum length allowed for a voicemail message (in seconds)."
-msgstr ""
-
-#: modules/settings.module:176
-msgid "Move heard messages"
-msgstr ""
-
-#: modules/settings.module:177
-msgid "Automatically move heard messages to the Old folder."
-msgstr ""
-
-#: modules/settings.module:192
-msgid "Review recording"
-msgstr ""
-
-#: modules/settings.module:193
-msgid "Allow caller to review their voicemail before saving it."
-msgstr ""
-
-#: modules/settings.module:199
-msgid "Say caller ID"
-msgstr ""
-
-#: modules/settings.module:200
-msgid ""
-"After announcing the message date and time, play back the caller's telephone "
-"number before each message."
-msgstr ""
-
-#: modules/settings.module:206
-msgid "Say duration"
-msgstr ""
-
-#: modules/settings.module:207
-msgid "Announce the message duration before playing the message."
-msgstr ""
-
-#: modules/settings.module:213
-msgid "Say duration minimum"
-msgstr ""
-
-#: modules/settings.module:214
-msgid ""
-"Do not announce message duration for messages shorter than this number of "
-"minutes."
-msgstr ""
-
-#: modules/settings.module:229
-msgid "Email from"
-msgstr ""
-
-#: modules/settings.module:230
-msgid "Who the e-mail notification should appear to come from."
-msgstr ""
-
-#: modules/settings.module:236
-msgid "Temporary greeting warning"
-msgstr ""
-
-#: modules/settings.module:237
-msgid "Warn user when a temporary greeting is active."
-msgstr ""
-
-#: modules/settings.module:252
-msgid "Change attachment volume"
-msgstr ""
-
-#: modules/settings.module:253
-msgid ""
-"Change volume of message before attaching it to an email. Values less than "
-"1.0 decrease volume, greater than 1.0 increase volume."
-msgstr ""
-
-#: modules/settings.module:342
+#: modules/settings.module:56
 msgid "Settings"
 msgstr ""
 
-#: modules/settings.module:407 modules/settings.module:412
-#: modules/settings.module:417 modules/settings.module:422
-#: modules/settings.module:431 modules/settings.module:436
+#: modules/settings.module:125 modules/settings.module:130
+#: modules/settings.module:135 modules/settings.module:140
+#: modules/settings.module:150 modules/settings.module:155
 msgid "Voicemail password not changed"
 msgstr ""
 
-#: modules/settings.module:408
+#: modules/settings.module:126
 msgid "Password and password confirm must not be blank"
 msgstr ""
 
-#: modules/settings.module:413
+#: modules/settings.module:131
 #, php-format
 msgid "Passwords must be all numbers and greater than %d digits"
 msgstr ""
 
-#: modules/settings.module:418
+#: modules/settings.module:136
 #, php-format
 msgid "Passwords must be all numbers and only %d digits"
 msgstr ""
 
-#: modules/settings.module:423
+#: modules/settings.module:141
 msgid "Password and password confirm do not match"
 msgstr ""
 
-#: modules/settings.module:432 modules/settings.module:437
-#: modules/settings.module:482 modules/settings.module:487
+#: modules/settings.module:151 modules/settings.module:156
+#: modules/settings.module:207 modules/settings.module:212
 #, php-format
 msgid "%s does not exist or is not writable"
 msgstr ""
 
-#: modules/settings.module:472
+#: modules/settings.module:196
 msgid "Voicemail email and pager address not changed"
 msgstr ""
 
-#: modules/settings.module:481 modules/settings.module:486
+#: modules/settings.module:206 modules/settings.module:211
 msgid "Voicemail email settings not changed"
 msgstr ""
 
-#: modules/settings.module:745
+#: modules/settings.module:357
 msgid "Language:"
 msgstr ""
 
-#: modules/settings.module:755
+#: modules/settings.module:367
 #, php-format
 msgid "Passwords must be all numbers and only %s digits"
 msgstr ""
 
-#: modules/settings.module:758
+#: modules/settings.module:370
 #, php-format
 msgid "Passwords must be all numbers and at least %s digits"
 msgstr ""
 
-#: modules/settings.module:763
-msgid "Password Settings"
-msgstr ""
-
-#: modules/settings.module:767
+#: modules/settings.module:375
 msgid "Voicemail Password:"
 msgstr ""
 
-#: modules/settings.module:773
+#: modules/settings.module:381
 msgid "Enter again to confirm:"
 msgstr ""
 
-#: modules/settings.module:841
-msgid "Email Address:"
+#: modules/settings.module:429
+msgid "Email Notification"
 msgstr ""
 
-#: modules/settings.module:841
-msgid "Email a notification, including audio file if indicated below."
+#: modules/settings.module:433
+msgid "Email Voicemail To:"
 msgstr ""
 
-#: modules/settings.module:852
-msgid "Pager Email Address:"
+#: modules/settings.module:439
+msgid "Pager Email Notification To:"
 msgstr ""
 
-#: modules/settings.module:852
-msgid "Email a short notification"
-msgstr ""
-
-#: modules/settings.module:948
+#: modules/settings.module:488
 msgid "Call Me Number:"
 msgstr ""
 
-#: modules/settings.module:965
+#: modules/settings.module:505
 msgid "Audio Format:"
 msgstr ""
 
-#: modules/settings.module:968
+#: modules/settings.module:508
 msgid "Best Quality"
 msgstr ""
 
-#: modules/settings.module:969
+#: modules/settings.module:509
 msgid "Smallest Download"
 msgstr ""
 
-#: modules/settings.module:980
-msgid "Notification Settings"
+#: modules/settings.module:517
+msgid "Voicemail Settings"
 msgstr ""
 
-#: modules/settings.module:988
-msgid "Web Playback Settings"
-msgstr ""
-
-#: modules/settings.module:996
-msgid "Phone Playback Settings"
-msgstr ""
-
-#: modules/settings.module:1003
-msgid "Caller Settings"
-msgstr ""
-
-#: modules/settings.module:1010
-msgid "Mailbox Storage Settings"
-msgstr ""
-
-#: modules/settings.module:1017
-msgid "IMAP Mail Settings"
-msgstr ""
-
-#: modules/settings.module:1024
-msgid "Other Voicemail Settings"
-msgstr ""
-
-#: modules/settings.module:1065
+#: modules/settings.module:559
 msgid "Call Monitor Settings"
 msgstr ""
 
-#: modules/settings.module:1068
+#: modules/settings.module:562
 msgid "Record INCOMING:"
 msgstr ""
 
-#: modules/settings.module:1070 modules/settings.module:1078
+#: modules/settings.module:564 modules/settings.module:572
 msgid "Always"
 msgstr ""
 
-#: modules/settings.module:1071 modules/settings.module:1079
+#: modules/settings.module:565 modules/settings.module:573
 msgid "Never"
 msgstr ""
 
-#: modules/settings.module:1072 modules/settings.module:1080
+#: modules/settings.module:566 modules/settings.module:574
 msgid "On-Demand"
 msgstr ""
 
-#: modules/settings.module:1076
+#: modules/settings.module:570
 msgid "Record OUTGOING:"
 msgstr ""
 
-#: modules/settings.module:1137
+#: modules/settings.module:613
 #, php-format
 msgid "Settings for %s (%s)"
 msgstr ""
@@ -929,113 +770,75 @@ msgstr ""
 msgid "One or more messages must be selected before clicking forward_to."
 msgstr ""
 
-#: modules/voicemail.module:209
-msgid ""
-"You must enter one or more email addresses (comma-separated) before clicking "
-"email_to."
-msgstr ""
-
-#: modules/voicemail.module:222
-msgid "Warning: "
-msgstr ""
-
-#: modules/voicemail.module:222
-msgid "is not a valid email address"
-msgstr ""
-
-#: modules/voicemail.module:271
-msgid "The file type was not recognized."
-msgstr ""
-
-#: modules/voicemail.module:307
-msgid "Warning: Could not access voicemail.conf.  Using default mailer."
-msgstr ""
-
-#: modules/voicemail.module:319
-msgid "Mail operation failed"
-msgstr ""
-
-#: modules/voicemail.module:323
-msgid "No valid email address given.  Please try again."
-msgstr ""
-
-#: modules/voicemail.module:327
-msgid "One or more messages must be selected before clicking email_to."
-msgstr ""
-
-#: modules/voicemail.module:470
+#: modules/voicemail.module:345
 msgid "move_to"
 msgstr ""
 
-#: modules/voicemail.module:473
+#: modules/voicemail.module:348
 msgid "Folder"
 msgstr ""
 
-#: modules/voicemail.module:477
+#: modules/voicemail.module:352
 msgid "forward_to"
 msgstr ""
 
-#: modules/voicemail.module:484
-msgid "email_to"
-msgstr ""
-
-#: modules/voicemail.module:498
+#: modules/voicemail.module:369
 msgid "Priority"
 msgstr ""
 
-#: modules/voicemail.module:500
+#: modules/voicemail.module:371
 msgid "Orig Mailbox"
 msgstr ""
 
-#: modules/voicemail.module:532
+#: modules/voicemail.module:403
 msgid "Playback"
 msgstr ""
 
-#: modules/voicemail.module:556
+#: modules/voicemail.module:427
 msgid "Play message at: "
 msgstr ""
 
-#: modules/voicemail.module:561
+#: modules/voicemail.module:432
 msgid "Voicemail recording(s) was not found."
 msgstr ""
 
-#: modules/voicemail.module:562
+#: modules/voicemail.module:433
 #, php-format
 msgid ""
 "On settings page, change voicemail audio format.  It is currently set to %s"
 msgstr ""
 
-#: modules/voicemail.module:592
+#: modules/voicemail.module:462
 msgid "Voicemail Login not found."
 msgstr ""
 
-#: modules/voicemail.module:593
+#: modules/voicemail.module:463
 msgid "No access to voicemail"
 msgstr ""
 
-#: modules/voicemail.module:599
+#: modules/voicemail.module:469
 msgid "No Voicemail Recordings for Admin"
 msgstr ""
 
-#: modules/voicemail.module:615
+#: modules/voicemail.module:485
 #, php-format
 msgid "Voicemail for %s (%s)"
 msgstr ""
 
-#: modules/voicemail.module:637
+#: modules/voicemail.module:507
 msgid "Calling: "
 msgstr ""
 
-#: modules/voicemail.module:638
+#: modules/voicemail.module:508
 msgid ". Please wait patiently..."
 msgstr ""
 
-#: modules/voicemail.module:914
+#: modules/voicemail.module:779
 #, php-format
 msgid "Could not create mailbox folder %s on the server"
 msgstr ""
 
-#: modules/voicemail.module:966
+#: modules/voicemail.module:826
 #, php-format
 msgid "Permission denied on folder %s or %s"
 msgstr ""

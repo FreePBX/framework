@@ -39,12 +39,13 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 }
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- should also validate ok with DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/xhtml1-transitional.dtd" -->
 <html>
 
 <head>
 	<title><?php  echo _($title) ?></title>
-	<meta http-equiv="Content-Type" content="text/html">
-	<link href="common/mainstyle.css" rel="stylesheet" type="text/css">
+	<meta http-equiv="Content-Type" content="text/html" />
+	<link href="common/mainstyle.css" rel="stylesheet" type="text/css" />
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>
 	<style type="text/css">
 		body {
@@ -54,11 +55,11 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 		}
 	</style>
 <?php } ?>
-	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="favicon.ico">
+	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="favicon.ico" />
 	<!--[if IE]>
-	<link href="common/ie.css" rel="stylesheet" type="text/css">
+	<link href="common/ie.css" rel="stylesheet" type="text/css" />
 	<![endif]-->	
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <?php 
 	// check if in the amp configuration the user has set that
 	// he wants to use an alternative style-sheet.
@@ -68,15 +69,15 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 		if (($amp_conf["ALTERNATIVE_CSS"] == "1") ||
 			($amp_conf["ALTERNATIVE_CSS"] == "yes") ||
 			($amp_conf["ALTERNATIVE_CSS"] == "true"))
-			echo "\t<link href=\"common/mainstyle-alternative.css\" rel=\"stylesheet\" type=\"text/css\">";
+			echo "\t<link href=\"common/mainstyle-alternative.css\" rel=\"stylesheet\" type=\"text/css\" />";
 	}
 
 	if (isset($module_name)) {
 		if (is_file('modules/'.$module_name.'/'.$module_name.'.css')) {
-			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.css" rel="stylesheet" type="text/css">'."\n";
+			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.css" rel="stylesheet" type="text/css" />'."\n";
 		}
 		if (isset($module_page) && ($module_page != $module_name) && is_file('modules/'.$module_name.'/'.$module_page.'.css')) {
-			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.css" rel="stylesheet" type="text/css">'."\n";
+			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.css" rel="stylesheet" type="text/css" />'."\n";
 		}
 		if (is_file('modules/'.$module_name.'/'.$module_name.'.js')) {
 			echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.js"></script>'."\n";
@@ -156,7 +157,7 @@ if ($reload_needed) {
 
 	$help_args = "?freepbx_version=".urlencode($version);
 	if (isset($_REQUEST['display'])) {
-		$help_args .= "&freepbx_menuitem=".urlencode($_REQUEST['display']);
+		$help_args .= "&amp;freepbx_menuitem=".urlencode($_REQUEST['display']);
 	}
 	
 	echo "\t\t<ul id=\"metanav\">\n";
@@ -169,7 +170,7 @@ if ($reload_needed) {
 	}
 	print_sub_tool( _("Recordings"), "../recordings/index.php"  ,0, NULL, "ari" );
 	print_sub_tool( _("Help"), "http://www.freepbx.org/freepbx-help-system$help_args"  ,0, NULL, "help" );
-	echo "<li class=\"last\"><a >&nbsp;</a></li>";
+	echo "<li class=\"last\"><a>&nbsp;</a></li>";
 	echo "\t\t</ul>\n";
 
 	$freepbx_logo = (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])) ? $amp_conf["AMPADMINLOGO"] : 'logo.png';

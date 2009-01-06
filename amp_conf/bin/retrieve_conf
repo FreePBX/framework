@@ -737,11 +737,13 @@ if(!$amp_conf['FOPDISABLE'])  {
 // a module upgraded yet. In particular Queues
 //
 if (!isset($core_conf) || !is_a($core_conf, "core_conf")) {
+	include_once("libfreepbx.confgen.php");
 	generate_configurations_sip($version);
 	generate_configurations_iax($version);
 	generate_configurations_zap($version);
 }
 if (!isset($queues_conf) || !is_a($queues_conf, "queues_conf")) {
+	include_once("libfreepbx.confgen.php");
 	generate_configurations_queues($version);
 }
 	
