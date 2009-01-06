@@ -188,10 +188,10 @@ function changeLang(lang) {
 	<hr />
 	<?php
 	echo '<a target="_blank" href="http://www.freepbx.org"><img id="footer_logo" src="images/freepbx_small.png" alt="FreePBX&reg;"/></a>';
-	echo '<h3>'.'Freedom to Connect<sup>&reg;</sup>'.'</h3>';
+	echo '<h3>'.'Let Freedom Ring<sup>&#153;</sup>'.'</h3>';
 	echo "\t\t".sprintf(_('%s is a registered trademark of %s'),
 	     '<a href="http://www.freepbx.org" target="_blank">'._('FreePBX').'</a>',
-	     '<a href="http://www.freepbx.org/copyright.html" target="_blank">Atengo, LLC.</a>')."<br/>\n";
+	     '<a href="http://www.freepbx.org/copyright.html" target="_blank">Bandwidth.com</a>')."<br/>\n";
 	echo "\t\t".sprintf(_('%s is licensed under %s'),
 	     '<a href="http://www.freepbx.org" target="_blank">'._('FreePBX').' '.getversion().'</a>',
 	     '<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GPL</a>');
