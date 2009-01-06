@@ -128,7 +128,8 @@ if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $astman->connect("127.0.
 require_once('common/db_connect.php'); //PEAR must be installed
 
 // default password check
-if (!$quietmode) {
+
+if (!$quietmode && !isset($_REQUEST['handler'])) {
 	$nt = notifications::create($db);
 	if ($amp_conf['AMPMGRPASS'] == $amp_conf_defaults['AMPMGRPASS'][1]) {
 		$nt->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
