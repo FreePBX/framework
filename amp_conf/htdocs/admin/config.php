@@ -22,6 +22,7 @@ $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
 $skip = isset($_REQUEST['skip'])?$_REQUEST['skip']:0;
 $action = isset($_REQUEST['action'])?$_REQUEST['action']:null;
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
+$skip_astman = isset($_REQUEST['skip_astman'])?$_REQUEST['skip_astman']:false;
 if (isset($_REQUEST['restrictmods'])) {
 	$restrict_mods = explode('/',$_REQUEST['restrictmods']);
 	$restrict_mods = array_flip($restrict_mods);

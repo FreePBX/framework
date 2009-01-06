@@ -114,14 +114,17 @@ require_once('common/php-asmanager.php');
 // get settings
 $amp_conf	= parse_amportal_conf("/etc/amportal.conf");
 $asterisk_conf  = parse_asterisk_conf($amp_conf["ASTETCDIR"]."/asterisk.conf");
-$astman		= new AGI_AsteriskManager();
+if (!$skip_astman) {
+	require_once('common/php-asmanager.php');
+	$astman		= new AGI_AsteriskManager();
 
-// attempt to connect to asterisk manager proxy
-if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off')) {
-	// attempt to connect directly to asterisk, if no proxy or if proxy failed
-	if (!$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off')) {
-		// couldn't connect at all
-		unset( $astman );
+	// attempt to connect to asterisk manager proxy
+	if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off')) {
+		// attempt to connect directly to asterisk, if no proxy or if proxy failed
+		if (!$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off')) {
+			// couldn't connect at all
+			unset( $astman );
+		}
 	}
 }
 // connect to database
