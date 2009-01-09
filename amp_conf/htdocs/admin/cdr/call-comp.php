@@ -46,49 +46,48 @@ $FG_TABLE_COL = array();
 /*******
 Calldate Clid Src Dst Dcontext Channel Dstchannel Lastapp Lastdata Duration Billsec Disposition Amaflags Accountcode Uniqueid Serverid
 *******/
+if (!@include($amp_conf['ASTETCDIR'].'/call-comp-table.php')) {
 
-$FG_TABLE_COL[]=array ("Calldate", "calldate", "18%", "center", "SORT", "19");
-$FG_TABLE_COL[]=array ("Channel", "channel", "13%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Source", "src", "10%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Clid", "clid", "12%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Lastapp", "lastapp", "8%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Calldate", "calldate", "18%", "center", "SORT", "19");
+	$FG_TABLE_COL[]=array ("Channel", "channel", "13%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Source", "src", "10%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Clid", "clid", "12%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Lastapp", "lastapp", "8%", "center", "", "30");
 
-$FG_TABLE_COL[]=array ("Lastdata", "lastdata", "12%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Dst", "dst", "9%", "center", "SORT", "30");
-//$FG_TABLE_COL[]=array ("Serverid", "serverid", "10%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Disposition", "disposition", "9%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Duration", "duration", "6%", "center", "SORT", "30");
-
-
-$FG_TABLE_DEFAULT_ORDER = "calldate";
-$FG_TABLE_DEFAULT_SENS = "DESC";
-
-// This Variable store the argument for the SQL query
-$FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, disposition, duration';
-//$FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, serverid, disposition, duration';
-$FG_COL_QUERY_GRAPH='calldate, duration';
-
-// The variable LIMITE_DISPLAY define the limit of record to display by page
-$FG_LIMITE_DISPLAY=25;
-
-// Number of column in the html table
-$FG_NB_TABLE_COL=count($FG_TABLE_COL);
-
-// The variable $FG_EDITION define if you want process to the edition of the database record
-$FG_EDITION=true;
-
-//This variable will store the total number of column
-$FG_TOTAL_TABLE_COL = $FG_NB_TABLE_COL;
-if ($FG_DELETION || $FG_EDITION) $FG_TOTAL_TABLE_COL++;
-
-//This variable define the Title of the HTML table
-$FG_HTML_TABLE_TITLE=" - Call Logs - ";
-
-//This variable define the width of the HTML table
-$FG_HTML_TABLE_WIDTH="90%";
+	$FG_TABLE_COL[]=array ("Lastdata", "lastdata", "12%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Dst", "dst", "9%", "center", "SORT", "30");
+	//$FG_TABLE_COL[]=array ("Serverid", "serverid", "10%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Disposition", "disposition", "9%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Duration", "duration", "6%", "center", "SORT", "30");
 
 
+	$FG_TABLE_DEFAULT_ORDER = "calldate";
+	$FG_TABLE_DEFAULT_SENS = "DESC";
 
+	// This Variable store the argument for the SQL query
+	$FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, disposition, duration';
+	//$FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, serverid, disposition, duration';
+	$FG_COL_QUERY_GRAPH='calldate, duration';
+
+	// The variable LIMITE_DISPLAY define the limit of record to display by page
+	$FG_LIMITE_DISPLAY=25;
+
+	// Number of column in the html table
+	$FG_NB_TABLE_COL=count($FG_TABLE_COL);
+
+	// The variable $FG_EDITION define if you want process to the edition of the database record
+	$FG_EDITION=true;
+
+	//This variable will store the total number of column
+	$FG_TOTAL_TABLE_COL = $FG_NB_TABLE_COL;
+	if ($FG_DELETION || $FG_EDITION) $FG_TOTAL_TABLE_COL++;
+
+	//This variable define the Title of the HTML table
+	$FG_HTML_TABLE_TITLE=" - Call Logs - ";
+
+	//This variable define the width of the HTML table
+	$FG_HTML_TABLE_WIDTH="90%";
+}
 
 if ($FG_DEBUG == 3) echo "<br>Table : $FG_TABLE_NAME  	- 	Col_query : $FG_COL_QUERY";
 $instance_table = new Table($FG_TABLE_NAME, $FG_COL_QUERY);

@@ -83,50 +83,52 @@ $FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, dst, server
 */
 
 /* --AMP Begin-- */
+if (!@include($amp_conf['ASTETCDIR'].'/call-log-table.php')) {
 
-$FG_TABLE_COL[]=array ("Calldate", "calldate", "18%", "center", "SORT", "19");
-$FG_TABLE_COL[]=array ("Channel", "channel", "13%", "center", "", "30", "", "", "", "", "", "display_acronym");
-$FG_TABLE_COL[]=array ("Source", "src", "14%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Clid", "clid", "26%", "center", "", "80");
+	$FG_TABLE_COL[]=array ("Calldate", "calldate", "18%", "center", "SORT", "19");
+	$FG_TABLE_COL[]=array ("Channel", "channel", "13%", "center", "", "30", "", "", "", "", "", "display_acronym");
+	$FG_TABLE_COL[]=array ("Source", "src", "14%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Clid", "clid", "26%", "center", "", "80");
 
-$FG_TABLE_COL[]=array ("Dst", "dst", "14%", "center", "SORT", "30");
+	$FG_TABLE_COL[]=array ("Dst", "dst", "14%", "center", "SORT", "30");
 
-$FG_TABLE_COL[]=array ("Disposition", "disposition", "9%", "center", "", "30");
-if ((!isset($resulttype)) || ($resulttype=="min")) $minute_function= "display_minute";
-$FG_TABLE_COL[]=array ("Duration", "duration", "6%", "center", "SORT", "30", "", "", "", "", "", "$minute_function");
+	$FG_TABLE_COL[]=array ("Disposition", "disposition", "9%", "center", "", "30");
+	if ((!isset($resulttype)) || ($resulttype=="min")) $minute_function= "display_minute";
+	$FG_TABLE_COL[]=array ("Duration", "duration", "6%", "center", "SORT", "30", "", "", "", "", "", "$minute_function");
 
-$FG_TABLE_DEFAULT_ORDER = "calldate";
-$FG_TABLE_DEFAULT_SENS = "DESC";
+	$FG_TABLE_DEFAULT_ORDER = "calldate";
+	$FG_TABLE_DEFAULT_SENS = "DESC";
 
-// This Variable store the argument for the SQL query
-//$FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, dst, serverid, disposition, duration';
+	// This Variable store the argument for the SQL query
+	//$FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, dst, serverid, disposition, duration';
 
-$FG_COL_QUERY='calldate, channel, src, clid, dst, disposition, duration';
+	$FG_COL_QUERY='calldate, channel, src, clid, dst, disposition, duration';
 
-/* --AMP End -- */
+	/* --AMP End -- */
 
 
-$FG_COL_QUERY_GRAPH='calldate, duration';
+	$FG_COL_QUERY_GRAPH='calldate, duration';
 
-// The variable LIMITE_DISPLAY define the limit of record to display by page
-$FG_LIMITE_DISPLAY=25;
+	// The variable LIMITE_DISPLAY define the limit of record to display by page
+	$FG_LIMITE_DISPLAY=25;
 
-// Number of column in the html table
-$FG_NB_TABLE_COL=count($FG_TABLE_COL);
+	// Number of column in the html table
+	$FG_NB_TABLE_COL=count($FG_TABLE_COL);
 
-// The variable $FG_EDITION define if you want process to the edition of the database record
-$FG_EDITION=true;
+	// The variable $FG_EDITION define if you want process to the edition of the database record
+	$FG_EDITION=true;
 
-//This variable will store the total number of column
-$FG_TOTAL_TABLE_COL = $FG_NB_TABLE_COL;
-if ((isset($FG_DELETION) && $FG_DELETION) || $FG_EDITION) $FG_TOTAL_TABLE_COL++;
+	//This variable will store the total number of column
+	$FG_TOTAL_TABLE_COL = $FG_NB_TABLE_COL;
+	if ((isset($FG_DELETION) && $FG_DELETION) || $FG_EDITION) $FG_TOTAL_TABLE_COL++;
 
-//This variable define the Title of the HTML table
-$FG_HTML_TABLE_TITLE=" - Call Logs - ";
+	//This variable define the Title of the HTML table
+	$FG_HTML_TABLE_TITLE=" - Call Logs - ";
 
-//This variable define the width of the HTML table
-$FG_HTML_TABLE_WIDTH="100%";
+	//This variable define the width of the HTML table
+	$FG_HTML_TABLE_WIDTH="100%";
 
+} // include
 
 
 

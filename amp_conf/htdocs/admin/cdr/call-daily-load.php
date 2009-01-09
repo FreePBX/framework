@@ -38,55 +38,57 @@ $FG_TABLE_ALTERNATE_ROW_COLOR[] = "#F2F8FF";
 //$link = DbConnect();
 $DBHandle  = DbConnect();
 
-// The variable Var_col would define the col that we want show in your table
-// First Name of the column in the html page, second name of the field
 $FG_TABLE_COL = array();
 
-
-/*******
-Calldate Clid Src Dst Dcontext Channel Dstchannel Lastapp Lastdata Duration Billsec Disposition Amaflags Accountcode Uniqueid Serverid
-*******/
-
-$FG_TABLE_COL[]=array ("Calldate", "calldate", "18%", "center", "SORT", "19");
-$FG_TABLE_COL[]=array ("Channel", "channel", "13%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Source", "src", "10%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Clid", "clid", "12%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Lastapp", "lastapp", "8%", "center", "", "30");
-
-$FG_TABLE_COL[]=array ("Lastdata", "lastdata", "12%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Dst", "dst", "9%", "center", "SORT", "30");
-//$FG_TABLE_COL[]=array ("Serverid", "serverid", "10%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Disposition", "disposition", "9%", "center", "", "30");
-$FG_TABLE_COL[]=array ("Duration", "duration", "6%", "center", "SORT", "30");
+if (!@include($amp_conf['ASTETCDIR'].'/call-daily-load-table.php')) {
+	// The variable Var_col would define the col that we want show in your table
+	// First Name of the column in the html page, second name of the field
 
 
-$FG_TABLE_DEFAULT_ORDER = "calldate";
-$FG_TABLE_DEFAULT_SENS = "DESC";
+	/*******
+	Calldate Clid Src Dst Dcontext Channel Dstchannel Lastapp Lastdata Duration Billsec Disposition Amaflags Accountcode Uniqueid Serverid
+	*******/
 
-// This Variable store the argument for the SQL query
-$FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, disposition, duration';
-//$FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, serverid, disposition, duration';
-$FG_COL_QUERY_GRAPH='calldate, duration';
+	$FG_TABLE_COL[]=array ("Calldate", "calldate", "18%", "center", "SORT", "19");
+	$FG_TABLE_COL[]=array ("Channel", "channel", "13%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Source", "src", "10%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Clid", "clid", "12%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Lastapp", "lastapp", "8%", "center", "", "30");
 
-// The variable LIMITE_DISPLAY define the limit of record to display by page
-$FG_LIMITE_DISPLAY=25;
+	$FG_TABLE_COL[]=array ("Lastdata", "lastdata", "12%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Dst", "dst", "9%", "center", "SORT", "30");
+	//$FG_TABLE_COL[]=array ("Serverid", "serverid", "10%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Disposition", "disposition", "9%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Duration", "duration", "6%", "center", "SORT", "30");
 
-// Number of column in the html table
-$FG_NB_TABLE_COL=count($FG_TABLE_COL);
+	
+	$FG_TABLE_DEFAULT_ORDER = "calldate";
+	$FG_TABLE_DEFAULT_SENS = "DESC";
 
-// The variable $FG_EDITION define if you want process to the edition of the database record
-$FG_EDITION=true;
+	// This Variable store the argument for the SQL query
+	$FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, disposition, duration';
+	//$FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, serverid, disposition, duration';
+	$FG_COL_QUERY_GRAPH='calldate, duration';
 
-//This variable will store the total number of column
-$FG_TOTAL_TABLE_COL = $FG_NB_TABLE_COL;
-if ($FG_DELETION || $FG_EDITION) $FG_TOTAL_TABLE_COL++;
+	// The variable LIMITE_DISPLAY define the limit of record to display by page
+	$FG_LIMITE_DISPLAY=25;
 
-//This variable define the Title of the HTML table
-$FG_HTML_TABLE_TITLE=" - Call Logs - ";
+	// Number of column in the html table
+	$FG_NB_TABLE_COL=count($FG_TABLE_COL);
 
-//This variable define the width of the HTML table
-$FG_HTML_TABLE_WIDTH="90%";
+	// The variable $FG_EDITION define if you want process to the edition of the database record
+	$FG_EDITION=true;
 
+	//This variable will store the total number of column
+	$FG_TOTAL_TABLE_COL = $FG_NB_TABLE_COL;
+	if ($FG_DELETION || $FG_EDITION) $FG_TOTAL_TABLE_COL++;
+
+	//This variable define the Title of the HTML table
+	$FG_HTML_TABLE_TITLE=" - Call Logs - ";
+
+	//This variable define the width of the HTML table
+	$FG_HTML_TABLE_WIDTH="90%";
+}
 
 if ($FG_DEBUG == 3) echo "<br>Table : $FG_TABLE_NAME  	- 	Col_query : $FG_COL_QUERY";
 $instance_table = new Table($FG_TABLE_NAME, $FG_COL_QUERY);
