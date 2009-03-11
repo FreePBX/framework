@@ -13,6 +13,11 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 }
 
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
+$module_repo = isset($_REQUEST['module_repo'])?$_REQUEST['module_repo']:'supported';
+$repo = "http://mirror.freepbx.org/";
+if ($module_repo == "extended") {
+	$repo .= "extended-";
+}
 
 // can't go online if external management is on
 $online = (isset($_REQUEST['online']) && !EXTERNAL_PACKAGE_MANAGEMENT) ? $_REQUEST['online'] : false;
@@ -110,7 +115,7 @@ if (!$quietmode) {
 	}
 	function process_module_actions(actions) {
 		freepbx_modal_show('moduleBox');
-		urlStr = "config.php?type=tool&amp;display=modules&amp;extdisplay=process&amp;quietmode=1";
+		urlStr = "config.php?type=tool&amp;display=modules&amp;extdisplay=process&amp;quietmode=1&amp;module_repo=<?php echo $module_repo ?>";
 		for (var i in actions) {
 			urlStr += "&amp;moduleaction["+i+"]="+actions[i];
 		}
@@ -139,7 +144,7 @@ if (!$quietmode) {
 $modules_local = module_getinfo(false,false,true);
 
 if ($online) {
-	$modules_online = module_getonlinexml(false);
+	$modules_online = module_getonlinexml(false, $repo);
 	
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
@@ -201,7 +206,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'downloadinstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span>';
-						if (is_array($errors = module_download($modulename, false, 'download_progress'))) {
+						if (is_array($errors = module_download($modulename, false, 'download_progress', false, $repo))) {
 							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
@@ -411,14 +416,17 @@ switch ($extdisplay) {  // process, confirm, or nothing
 	break;
 	case 'upload':
 		// display links
-		echo "<a href='config.php?display=modules&amp;type=tool'>"._("Manage local modules")."</a>\n";
 		if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-			echo " | <a class='info' href='config.php?display=modules&amp;type=tool&amp;online=1'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
+			displayRepoSelect();
+		}
+		echo "| <a href='config.php?display=modules&amp;type=tool'>"._("Manage local modules")."</a>\n";
+		if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+			echo " | <a class='info check_updates' href='config.php?display=modules&type=tool&online=1&module_repo=$module_repo'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
 		}
 				
 		if (isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
 			// display upload link, only if they did upload something
-			echo " | <a href='config.php?display=modules&amp;type=tool&amp;extdisplay=upload'>"._("Upload module")."</a><br />\n";
+			echo " | <a href='config.php?display=modules&type=tool&extdisplay=upload'>"._("Upload module")."</a><br />\n";
 			
 			$res = module_handleupload($_FILES['uploadmod']);
 			if (is_array($res)) {
@@ -468,9 +476,10 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 		} else {
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				echo "<a class='info' href='config.php?display=modules&amp;type=tool&amp;online=1'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
+				displayRepoSelect();
+				echo " | <a class='info check_updates' href='config.php?display=modules&amp;type=tool&amp;online=1&amp;module_repo=$module_repo'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
 			}
-			echo " | <a href='config.php?display=modules&amp;type=tool&amp;extdisplay=upload'>"._("Upload module")."</a><br />\n";
+			echo " | <a href='config.php?display=modules&type=tool&extdisplay=upload'>"._("Upload module")."</a><br />\n";
 		}
 
 		echo "<form name=\"modulesGUI\" action=\"config.php\" method=\"post\">";
@@ -478,6 +487,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "<input type=\"hidden\" name=\"type\" value=\"".$type."\" />";
 		echo "<input type=\"hidden\" name=\"online\" value=\"".$online."\" />";
 		echo "<input type=\"hidden\" name=\"extdisplay\" value=\"confirm\" />";
+		echo "<input type=\"hidden\" name=\"module_repo\" value=\"".$module_repo."\" />";
 		
 		echo "<div class=\"modulebuttons\">";
 		if ($online) {
@@ -879,4 +889,27 @@ function pageReload(){
 	return "";
 	//return "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=".rand()."'</script>";
 }
+
+
+
+function displayRepoSelect() {
+?>
+	<select name="module_repo" id="module_repo">
+		<option value="supported"><?php echo _("Supported Modules") ?></option>
+		<option value="extended"><?php echo _("Include Unsupported Modules") ?></option>
+	</select>
+	<script language="javascript">
+	<!-- Begin
+
+	$(document).ready(function(){
+		$("#module_repo").change(function(){
+		$('.check_updates').attr('href','config.php?display=modules&type=tool&online=1&module_repo='+this.value);
+		});
+	});
+
+	// End -->
+	</script>
+<?php
+}
+
 ?>

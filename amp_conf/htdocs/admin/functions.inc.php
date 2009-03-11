@@ -2190,20 +2190,33 @@ function ampconf_string_replace($string) {
 function module_getonlinexml($module = false, $override_xml = false) { // was getModuleXml()
 	global $amp_conf;
 	global $db;
-	
 	global $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
 	$module_getonlinexml_error = null;
 	$got_new = false;
+	$skip_cache = false;
 	
 	$result = sql("SELECT * FROM module_xml WHERE id = 'xml'",'getRow',DB_FETCHMODE_ASSOC);
 	$data = $result['data'];
-	
+
+	// Check if the cached module xml is for the same repo as being requested
+	// if not, then we get it anyhow
+	//
+	$repo_url = ($override_xml === false) ? "http://mirror.freepbx.org/" : $override_xml;
+	$result2 = sql("SELECT * FROM module_xml WHERE id = 'module_repo'",'getRow',DB_FETCHMODE_ASSOC);
+	$last_repo = $result2['data'];
+	if ($last_repo !== $repo_url) {
+		sql("DELETE FROM module_xml WHERE id = 'module_repo'");
+		$data4sql = $db->escapeSimple($repo_url);
+		sql("INSERT INTO module_xml (id,time,data) VALUES ('module_repo',".time().",'".$data4sql."')");
+		$skip_cache = true;
+	}
+
 	// if the epoch in the db is more than 2 hours old, or the xml is less than 100 bytes, then regrab xml
 	// Changed to 5 minutes while not in release. Change back for released version.
 	//
 	// used for debug, time set to 0 to always fall through
 	// if((time() - $result['time']) > 0 || strlen($result['data']) < 100 ) {
-	if((time() - $result['time']) > 300 || strlen($result['data']) < 100 ) {
+	if((time() - $result['time']) > 300 || $skip_cache || strlen($data) < 100 ) {
 		$version = getversion();
 		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
 		preg_match('/(\d+\.\d+)/',$version,$matches);
@@ -3454,7 +3467,7 @@ function module_get_annoucements() {
 	}
 	if (empty($announcement)) {
 		$fn2 = str_replace('&','\\&',$fn);
-		exec("wget -O - $fn2 2>> /tmp/freepbx_debug.log", $data_arr, $retcode);
+		exec("wget -O - $fn2 2>> /dev/null", $data_arr, $retcode);
 		$announcement = implode("\n",$data_arr);
 	}
 	return $announcement;
