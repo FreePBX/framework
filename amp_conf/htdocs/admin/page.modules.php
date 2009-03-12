@@ -132,6 +132,9 @@ if (!$quietmode) {
 	<?php
 
 	echo "<h2>" . _("Module Administration") . "</h2>";
+	if ($module_repo == "extended") {
+	 	echo "<h4 align='center'>"._("NOTICE")."<br />"._("You have accessed the extended repository which includes un-supported and third party modules")."</h4>";
+	}
 } else {
 	// $quietmode==true
 	?>
@@ -895,8 +898,8 @@ function pageReload(){
 function displayRepoSelect() {
 ?>
 	<select name="module_repo" id="module_repo">
-		<option value="supported"><?php echo _("Supported Modules") ?></option>
-		<option value="extended"><?php echo _("Include Unsupported Modules") ?></option>
+		<option value="supported"><?php echo _("Standard Repository") ?></option>
+		<option value="extended"><?php echo _("Extended Repository") ?></option>
 	</select>
 	<script language="javascript">
 	<!-- Begin
@@ -904,6 +907,9 @@ function displayRepoSelect() {
 	$(document).ready(function(){
 		$("#module_repo").change(function(){
 		$('.check_updates').attr('href','config.php?display=modules&type=tool&online=1&module_repo='+this.value);
+		if (this.value == "extended") {
+			alert("<?php echo _("You have selected to access the Extended Repository. This repository contains some Third Party and un-supported modules. Although these modules are believed to work with FreePBX, they are either developed by third parties in conjunction with optional PBX components, or they are not directly sponsored by the core FreePBX team and may not receive the same level of responsiveness to issues as the main code base does.") ?>");
+		}
 		});
 	});
 
