@@ -945,7 +945,7 @@ class Settings {
 
 		$set_voicemail_callme_text = "
 			<tr>
-			<td><a href='#' class='info'>" . _("Call Me Number:") . "<span>" . ("Call Me Number can be any dialable number, such as an extension or a cellphone.") . " </span></a></td>
+			<td><a href='#' class='info'>" . _("Call Me Number:") . "<span>" . _("Call Me Number can be any dialable number, such as an extension or a cellphone.") . " </span></a></td>
 			<td colspan='2'>
 			<input type='text' id='callme_number' name='callme_number'
 			value='" . $callme_num . "'>

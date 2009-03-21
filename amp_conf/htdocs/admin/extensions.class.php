@@ -1050,8 +1050,7 @@ class ext_lookupcidname extends extension {
 		global $version;
 
 		if (version_compare($version, "1.6", "ge")) {
-			$outstr=addslashes('Set(CALLERID(name)=${DB(cidname/${CALLERID(num)})})');
-			return $outstr;
+			return 'ExecIf($["${DB(cidname/${CALLERID(num)})}" != ""]?Set(CALLERID(name)=${DB(cidname/${CALLERID(num)})}))';
 		} else { 
 			return "LookupCIDName";
 		}

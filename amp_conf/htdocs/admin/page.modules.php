@@ -284,6 +284,16 @@ switch ($extdisplay) {  // process, confirm, or nothing
 	break;
 	case 'confirm':
 		ksort($moduleaction);
+		/* if updating language packs, make sure they are the last thing to be done so that
+   		any modules currently being updated at the same time will be done so first and
+	 		language pack updates for those modules will be included.
+		*/
+		if (isset($moduleaction['fw_langpacks'])) {
+			$tmp = $moduleaction['fw_langpacks'];
+			unset($moduleaction['fw_langpacks']);
+			$moduleaction['fw_langpacks'] = $tmp;
+			unset($tmp);
+		}
 		
 		echo "<form name=\"modulesGUI\" action=\"config.php\" method=\"post\">";
 		echo "<input type=\"hidden\" name=\"display\" value=\"".$display."\" />";

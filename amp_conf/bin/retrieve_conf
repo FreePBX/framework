@@ -679,6 +679,7 @@ function install_cron_scheduler() {
 	// crontab appears to return an error when no entries, os only fail if error returned AND a list of entries.
 	// Don't know if this will ever happen, but a failure and a list could indicate something wrong.
 	//
+	$outlines = array();
 	exec("/usr/bin/crontab -l", $outlines, $ret);
 	if ($ret && count($outlines)) {
 		$nt->add_error('retrieve_conf', 'CRONMGR', _("Failed to check crontab for cron manager"), sprintf(_("crontab returned %s error code when checking for crontab entries to start freepbx-cron-scheduler.php crontab manager"),$ret));
@@ -723,6 +724,7 @@ if(!$amp_conf['FOPDISABLE'])  {
 	$script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.pl';
 	if (is_executable($script)) {
 		$script .= ' '.$amportalconf.' '.rtrim($asterisk_conf['astetcdir'],DIRECTORY_SEPARATOR);
+		$output = array();
 		exec($script, $output, $ret);
 		if ($ret) {
 			error(sprintf(_("retrieve_op_conf_from_mysql.pl returned with an error code %s"),$ret));
@@ -772,6 +774,7 @@ $post_custom = $amp_conf['AMPLOCALBIN'].'/retrieve_conf_post_custom';
 	 need and then forgetting something.
 */
 
+$output = array();
 exec("grep '#include' ".$amp_conf['ASTETCDIR']."/*.conf | sed 's/;.*//; s/#include//'",$output,$retcode);
 if ($retcode != 0) {
 	error("Error code $retcode: trying to search for missing #include files");
@@ -791,6 +794,7 @@ foreach($output as $file) {
 	$target = ($rawfile[0] == '/') ? $rawfile : $amp_conf['ASTETCDIR']."/$rawfile";
 
 	if (!file_exists($target)) {
+		$output = array();
 		exec("touch $target", $output, $retcode);
 		if ($retcode != 0) {
 			error("Error code $retcode: trying to create empty file $target");
