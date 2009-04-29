@@ -18,7 +18,12 @@ $benchmark_starttime = microtime_float();
 
 $type = isset($_REQUEST['type'])?$_REQUEST['type']:'setup';
 $display = isset($_REQUEST['display'])?$_REQUEST['display']:'';
-$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
+if (isset($_REQUEST['extdisplay'])) {
+	$extdisplay = htmlspecialchars($_REQUEST['extdisplay']);
+	$_REQUEST['extdisplay'] = $extdisplay;
+} else {
+	$extdisplay = null;
+}
 $skip = isset($_REQUEST['skip'])?$_REQUEST['skip']:0;
 $action = isset($_REQUEST['action'])?$_REQUEST['action']:null;
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
@@ -38,6 +43,21 @@ $type_names = array(
 );
 
 include('header.php');
+/* If there is an action request then some sort of update is usually being done.
+   This will protect from cross site request forgeries unless disabled.
+*/
+if ($action != '' && $amp_conf['CHECKREFERER']) {
+	if (isset($_SERVER['HTTP_REFERER'])) {
+		$referer = parse_url($_SERVER['HTTP_REFERER']);
+		$refererok = (trim($referer['host']) == trim($_SERVER['HTTP_HOST'])) ? true : false;
+	} else {
+		$refererok = false;
+	}
+
+	if (!$refererok) {
+		die_freepbx(_("POTENTIAL SECURITY BREACH: an attempt was made to modify settings from a URL that did not come from a FreePBX page. This action has been blocked because the HTTP_REFERER does not match your current SERVER. If you require this access, you can set CHECKREFERER=false in amportal.conf to disable this security check"));
+	}
+}
 
 // handle special requests
 if (isset($_REQUEST['handler'])) {
@@ -285,8 +305,10 @@ switch($display) {
 		);
 		$itemid = '';
 		foreach($possibilites as $possibility) {
-			if ( isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) 
-				$itemid = $_REQUEST[$possibility];
+			if ( isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) {
+				$itemid = htmlspecialchars($_REQUEST[$possibility]);
+				$_REQUEST[$possibility] = $itemid;
+			}
 		}
 
 		// create a module_hook object for this module's page

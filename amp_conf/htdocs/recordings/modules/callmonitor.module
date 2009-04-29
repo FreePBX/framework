@@ -86,7 +86,7 @@ class Callmonitor {
       <head>
         <script>
         <!--
-          window.location = \"" . $_SESSION['ARI_ROOT'] . "?m=" . $m . "&q=" . $q . "&start=" . $start . "&span=" . $span . "&order=" . $order . "&sort=" . $sort . "&duration_filter=" . $duration_filter . "\"
+          window.location = \"" . $_SESSION['ARI_ROOT'] . "?m=" . $m . "&q=" . urlencode($q) . "&start=" . $start . "&span=" . $span . "&order=" . $order . "&sort=" . $sort . "&duration_filter=" . $duration_filter . "\"
         // -->
         </script>
       </head>";
@@ -290,7 +290,7 @@ class Callmonitor {
           <input type=hidden name=m value=" . $m . ">	
           <input type=hidden name=f value=recAction>
           <input type=hidden name=a value=''>
-          <input type=hidden name=q value=" . $q . ">
+          <input type=hidden name=q value=" . urlencode($q) . ">
           <input type=hidden name=start value=" . $start . ">
           <input type=hidden name=span value=" . $span . ">
           <input type=hidden name=order value=" . $order . ">

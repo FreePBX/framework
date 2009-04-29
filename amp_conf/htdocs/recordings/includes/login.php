@@ -192,7 +192,7 @@ class Login {
                 }
               }
               else {
-                $_SESSION['ari_error'] = "Incorrect Password";
+                $_SESSION['ari_error'] = _("Incorrect Username or Password");
                 return;
               }
             }
@@ -264,7 +264,7 @@ class Login {
                   }
                   else if ($protocol_username==$username &&
                              $protocol_password!=$password) {
-                    $_SESSION['ari_error'] = _("Incorrect Password");
+                    $_SESSION['ari_error'] = _("Incorrect Username or Password");
                     return;
                   }
                 }

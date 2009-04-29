@@ -86,7 +86,7 @@ class DisplaySearch extends Display {
     $ret .= "<div " . $alignText . ">
                <form class='bar' action='" . $_SESSION['ARI_ROOT'] . "' method='GET' name='search'>
                  <input type=hidden name=m value=" . $m . ">	
-                 <input type=text name=q size=40 value='" . $q . "' maxlength=256>
+                 <input type=text name=q size=40 value='" . htmlspecialchars($q) . "' maxlength=256>
                  " . $option_text . " 
                  <input type=hidden name=start value=0>	
                  <input type=submit name=btnS value='" . _("Search") . "'>

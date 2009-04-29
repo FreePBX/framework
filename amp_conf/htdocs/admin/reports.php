@@ -31,11 +31,6 @@ if ((!empty($low)) && (!empty($high))) {
 	$_SESSION["AMP_SQL"] = "";
 }
 
-$display=1;
-if (isset($_REQUEST['display'])) {
-	$display=$_REQUEST['display'];
-}
-
 // setup menu 
 $menu = array(
 		1=>_("Call Logs"),
@@ -43,6 +38,12 @@ $menu = array(
 		3=>_("Monthly Traffic"),
 		4=>_("Daily load"),
 	);
+
+if (isset($_REQUEST['display']) && isset($menu[$_REQUEST['display']])) {
+	$display=$_REQUEST['display'];
+} else {
+	$display=1;
+}
 
 // CDR viewer from www.areski.net.  
 // Changes for -- AMP -- commented in:

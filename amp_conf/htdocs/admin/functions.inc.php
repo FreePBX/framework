@@ -744,6 +744,7 @@ $amp_conf_defaults = array(
 	'AMPMPG123'      => array('bool' , true),
 	'FOPDISABLE'      => array('bool' , false),
 	'ZAP2DAHDICOMPAT' => array('bool' , false),
+	'CHECKREFERER'    => array('bool' , true),
 );
 
 function parse_amportal_conf($filename) {

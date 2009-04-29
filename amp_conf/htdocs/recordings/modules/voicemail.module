@@ -117,7 +117,7 @@ class Voicemail {
 
                 // add folder to list
                 $ret .= "<p><small><small>
-                           <a " . $class . " href='" . $_SESSION['ARI_ROOT'] . "?m=Voicemail&q=" . $q . "&folder=" . $f. "'>
+                           <a " . $class . " href='" . $_SESSION['ARI_ROOT'] . "?m=Voicemail&q=" . urlencode($q) . "&folder=" . $f. "'>
                            " . $fn . " (" . $record_count . ")" . "
                            </a>
                          </small></small></p>";
@@ -333,7 +333,7 @@ class Voicemail {
       <head>
         <script>
         <!--
-          window.location = \"" . $_SESSION['ARI_ROOT'] . "?m=" . $m . "&folder=" . $folder . "&q=" . $q . "&start=" . $start . "&span=" . $span . "&order=" . $order . "&sort=" . $sort . "\"
+          window.location = \"" . $_SESSION['ARI_ROOT'] . "?m=" . $m . "&folder=" . $folder . "&q=" . urlencode($q) . "&start=" . $start . "&span=" . $span . "&order=" . $order . "&sort=" . $sort . "\"
         // -->
         </script>
       </head>";
@@ -370,7 +370,7 @@ class Voicemail {
     $start = $start=='' ? 0 : $start;
     $span = $span=='' ? 15 : $span;
     $order = $order=='' ? 'calldate' : $order;
-    $sort = $sort=='' ? 'desc' : $sort;
+    $sort = ($sort=='' || strtolower($sort) == 'desc') ? 'desc' : 'asc';
 
     $paths = split(';',$ASTERISK_VOICEMAIL_PATH);
 
@@ -624,7 +624,7 @@ class Voicemail {
         <input type=hidden name=m value=" . $m . ">
         <input type=hidden name=f value=msgAction>
         <input type=hidden name=a value=''>
-        <input type=hidden name=q value=" . $q . ">
+        <input type=hidden name=q value=" . urlencode($q) . ">
         <input type=hidden name=folder value=" . $folder . ">
         <input type=hidden name=start value=" . $start . ">
         <input type=hidden name=span value=" . $span . ">
