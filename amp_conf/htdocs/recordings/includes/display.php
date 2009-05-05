@@ -86,7 +86,7 @@ class DisplaySearch extends Display {
     $ret .= "<div " . $alignText . ">
                <form class='bar' action='" . $_SESSION['ARI_ROOT'] . "' method='GET' name='search'>
                  <input type=hidden name=m value=" . $m . ">	
-                 <input type=text name=q size=40 value='" . htmlspecialchars($q) . "' maxlength=256>
+                 <input type=text name=q size=40 value='" . htmlspecialchars($q,ENT_QUOTES) . "' maxlength=256>
                  " . $option_text . " 
                  <input type=hidden name=start value=0>	
                  <input type=submit name=btnS value='" . _("Search") . "'>
@@ -132,7 +132,7 @@ class DisplaySearch extends Display {
       $left_text = $controls;
     }
     elseif ($q != NULL) {
-      $left_text = "<small><small>" . _("Searched for") . " <u>" . $q . "</u></small></small>";
+      $left_text = "<small><small>" . _("Searched for") . " <u>" . htmlspecialchars($q,ENT_QUOTES) . "</u></small></small>";
     }
 
     if ($span<$total) {
