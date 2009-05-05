@@ -19,7 +19,7 @@ $benchmark_starttime = microtime_float();
 $type = isset($_REQUEST['type'])?$_REQUEST['type']:'setup';
 $display = isset($_REQUEST['display'])?$_REQUEST['display']:'';
 if (isset($_REQUEST['extdisplay'])) {
-	$extdisplay = htmlspecialchars($_REQUEST['extdisplay']);
+	$extdisplay = htmlspecialchars($_REQUEST['extdisplay'],ENT_QUOTES);
 	$_REQUEST['extdisplay'] = $extdisplay;
 } else {
 	$extdisplay = null;
@@ -306,7 +306,7 @@ switch($display) {
 		$itemid = '';
 		foreach($possibilites as $possibility) {
 			if ( isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) {
-				$itemid = htmlspecialchars($_REQUEST[$possibility]);
+				$itemid = htmlspecialchars($_REQUEST[$possibility], ENT_QUOTES);
 				$_REQUEST[$possibility] = $itemid;
 			}
 		}
