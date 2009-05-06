@@ -294,6 +294,10 @@ if ($posted==1){
 	
 	
 			$res = $DBHandle -> query($QUERY);
+			if(DB::isError($res)){
+				die($res->getDebugInfo());
+			}
+
 			$num = $res -> numRows();
 			for($i=0;$i<$num;$i++)
 				{				

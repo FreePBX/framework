@@ -1,0 +1,880 @@
+# This file is part of FreePBX.
+#
+#    FreePBX is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    FreePBX is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>.
+#
+# FreePBX language template for announcement
+# Copyright (C) 2009 daniel@estation.dk
+#
+# FIRST AUTHOR daniel@estation.dk, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: FreePBX ari\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-03-10 14:11+0100\n"
+"PO-Revision-Date: 2009-03-25 18:36+0100\n"
+"Last-Translator: Daniel <daniel@estation.dk>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Danish\n"
+"X-Poedit-Country: DENMARK\n"
+
+#: ../includes/asi.php:46
+msgid "Asterisk Call Manager not responding"
+msgstr "Asterisk Call Manager svarer ikke"
+
+#: ../includes/asi.php:54
+msgid "Asterisk authentication failed:"
+msgstr "Asterisk autentificering fejlet"
+
+#: ../includes/asi.php:96
+#: ../includes/asi.php:111
+#: ../includes/asi.php:130
+#: ../includes/asi.php:144
+msgid "Asterisk command not understood"
+msgstr "Asterisk kommando ikke forstået"
+
+#: ../includes/bootstrap.php:125
+#, php-format
+msgid "To many directories in %s Not all files processed"
+msgstr "For mange mapper i %s Ikke alle filer er behandlet"
+
+#: ../includes/bootstrap.php:228
+msgid "ARI requires a version of PHP 4.3 or later"
+msgstr "ARI kræver PHP version 4.3 eller nyere"
+
+#: ../includes/bootstrap.php:247
+msgid "PHP PEAR must be installed.  Visit http://pear.php.net for help with installation."
+msgstr "PHP PEAR skal være installeret. Se http://pear.php.net for hjælp med installationen."
+
+#: ../includes/common.php:188
+#: ../includes/common.php:208
+msgid "ARI does not appear to have access to the Asterisk Manager."
+msgstr "ARI ser ikke ud til at have adgang til Asterisk Manager"
+
+#: ../includes/common.php:189
+#: ../includes/common.php:209
+msgid "Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager Account."
+msgstr "Kontrollere konfigurations filen for ARI 'main.conf' for at opsætte Asterisk Managerkontoen."
+
+#: ../includes/common.php:190
+#: ../includes/common.php:210
+msgid "Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account"
+msgstr "Kontrollere /etc/asterisk/manager.conf for en gyldig Asterisk Manager konto"
+
+#: ../includes/common.php:191
+#: ../includes/common.php:211
+msgid "make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver."
+msgstr "Sikre dig at [general] enabled = yes og en 'permit=' linie for localhost eller webserveren."
+
+#: ../includes/common.php:228
+#: ../includes/common.php:243
+msgid "Check AMP installation, asterisk, and ARI main.conf"
+msgstr "Kontrollere AMP installationen, Asterisk og ARI´s main.conf"
+
+#: ../includes/common.php:387
+msgid "Logout"
+msgstr "Log ud"
+
+#: ../includes/common.php:392
+msgid "Page Not Found."
+msgstr "Siden ikke fundet"
+
+#: ../includes/display.php:92
+msgid "Search"
+msgstr "Søg"
+
+#: ../includes/display.php:135
+msgid "Searched for"
+msgstr "Søgt efter"
+
+#: ../includes/display.php:139
+#, php-format
+msgid "Results %d - %d of %d"
+msgstr "Resultater %d - %d af %d"
+
+#: ../includes/display.php:141
+#, php-format
+msgid "Results %d"
+msgstr "Resultater %d"
+
+#: ../includes/display.php:195
+msgid "First"
+msgstr "Første"
+
+#: ../includes/display.php:208
+msgid "Last"
+msgstr "Sidste"
+
+#: ../includes/login.php:267
+msgid "Incorrect Password"
+msgstr "Forkert kodeord"
+
+#: ../includes/login.php:279
+msgid "Incorrect Username or Password"
+msgstr "Forkert brugernavn eller kodeord"
+
+#: ../includes/login.php:411
+#: ../includes/login.php:420
+msgid "Login"
+msgstr "Brugernavn"
+
+#: ../includes/login.php:428
+msgid "Password"
+msgstr "Kodeord"
+
+#: ../includes/login.php:437
+msgid "Submit"
+msgstr "Log ind"
+
+#: ../includes/login.php:445
+msgid "Remember Password"
+msgstr "Husk Kodeord"
+
+#: ../includes/login.php:460
+msgid "Use your <b>Voicemail Mailbox and Password</b>"
+msgstr "Brug din <b>Voicemail Mailbox og kodeord</b>"
+
+#: ../includes/login.php:461
+msgid "This is the same password used for the phone"
+msgstr "Det er det samme kodeord som til din telefon"
+
+#: ../includes/login.php:463
+msgid "For password maintenance or assistance, contact your Phone System Administrator."
+msgstr "For assistance eller problemer med dit kodeord, kontakt venligst den ansvarlige for telefon systemet"
+
+#: ../includes/main.conf.php:150
+msgid "INBOX"
+msgstr "Indbakke"
+
+#: ../includes/main.conf.php:152
+msgid "Family"
+msgstr "Familie"
+
+#: ../includes/main.conf.php:154
+msgid "Friends"
+msgstr "Venner"
+
+#: ../includes/main.conf.php:156
+msgid "Old"
+msgstr "Gamle"
+
+#: ../includes/main.conf.php:158
+msgid "Work"
+msgstr "Arbejde"
+
+#: ../includes/main.conf.php:237
+msgid "Call Forward All Activate"
+msgstr "Aktivér viderestilling af alle opkald"
+
+#: ../includes/main.conf.php:238
+msgid "Call Forward All Deactivate"
+msgstr "Deaktivér viderestilling af alle opkald"
+
+#: ../includes/main.conf.php:239
+msgid "Call Forward All Prompting Deactivate"
+msgstr "Deaktivér viderestilling af alle opkald for valgfrit lokalnummer"
+
+#: ../includes/main.conf.php:240
+msgid "Call Forward Busy Activate"
+msgstr "Aktivér viderestilling af opkald hvis optaget"
+
+#: ../includes/main.conf.php:241
+msgid "Call Forward Busy Deactivate"
+msgstr "Deaktivér viderestilling af opkald hvis optaget"
+
+#: ../includes/main.conf.php:242
+msgid "Call Forward Busy Prompting Deactivate"
+msgstr "Deaktivér viderestilling af opkald hvis optaget for valgfrit lokalnummer"
+
+#: ../includes/main.conf.php:243
+msgid "Call Forward No Answer/Unavailable Activate"
+msgstr "Aktivér viderestilling af ubesvarede opkald"
+
+#: ../includes/main.conf.php:244
+msgid "Call Forward No Answer/Unavailable Deactivate"
+msgstr "Deaktivér viderestilling af ubesvarede opkald"
+
+#: ../includes/main.conf.php:245
+msgid "Call Waiting - Activate"
+msgstr "Aktivér Banke på"
+
+#: ../includes/main.conf.php:246
+msgid "Call Waiting - Deactivate"
+msgstr "Deaktivér Banke på"
+
+#: ../includes/main.conf.php:247
+msgid "Do-Not-Disturb Activate"
+msgstr "Aktivér Forstyr ikke"
+
+#: ../includes/main.conf.php:248
+msgid "Do-Not-Disturb Deactivate"
+msgstr "Deaktivér Forstyr ikke"
+
+#: ../includes/main.conf.php:249
+msgid "My Voicemail"
+msgstr "Min telefonsvarer"
+
+#: ../includes/main.conf.php:250
+msgid "Dial Voicemail"
+msgstr "Opkald til telefonsvarer"
+
+#: ../includes/main.conf.php:303
+msgid "Email voicemail as attachment"
+msgstr "Email telefonsvarer besked som vedhæftning"
+
+#: ../includes/main.conf.php:304
+msgid "Say caller id in recording emailed"
+msgstr "Oplys nummer i afsendt optagelse"
+
+#: ../includes/main.conf.php:305
+msgid "Say envelop (date/time) in recording emailed"
+msgstr "Oplys dato/tid i afsendt optagelse"
+
+#: ../includes/main.conf.php:306
+msgid "Delete voicemail when emailed"
+msgstr "Slet telefonsvarer besked efter afsendelse af email"
+
+#: ../includes/main.conf.php:307
+msgid "Play next message after deleting current message"
+msgstr "Afspil næste besked efter sletning af aktuelle besked"
+
+#: ../includes/main.conf.php:308
+msgid "Ask caller to review their voicemail before sending"
+msgstr "Spørg kalderen om at gennengå deres besked før afsendelse"
+
+#: ../includes/main.conf.php:309
+msgid "Maximum time in seconds a voicemail will record"
+msgstr "Maximum tid i sekunder en telefonsvarer besked må optage"
+
+#: ../modules/callmonitor.module:36
+#: ../modules/callmonitor.module:277
+msgid "Call Monitor"
+msgstr "Opkalds oversigt"
+
+#: ../modules/callmonitor.module:72
+#: ../modules/voicemail.module:169
+msgid "One or more messages must be selected before clicking delete."
+msgstr "En eller flere beskeder skal vælges før der klikkes på Slet"
+
+#: ../modules/callmonitor.module:137
+#, php-format
+msgid "Path is not a directory: %s"
+msgstr "Stien er ikke en mappe: %s"
+
+#: ../modules/callmonitor.module:152
+#: ../modules/voicemail.module:342
+msgid "delete"
+msgstr "slet"
+
+#: ../modules/callmonitor.module:158
+msgid "duration"
+msgstr "varighed"
+
+#: ../modules/callmonitor.module:161
+msgid "ignore"
+msgstr "ignorér"
+
+#: ../modules/callmonitor.module:170
+#: ../modules/voicemail.module:363
+msgid "Date"
+msgstr "Dato"
+
+#: ../modules/callmonitor.module:172
+#: ../modules/voicemail.module:365
+msgid "Time"
+msgstr "Tid"
+
+#: ../modules/callmonitor.module:174
+#: ../modules/voicemail.module:367
+msgid "Caller ID"
+msgstr "Nummer"
+
+#: ../modules/callmonitor.module:176
+msgid "Source"
+msgstr "Kilde"
+
+#: ../modules/callmonitor.module:178
+msgid "Destination"
+msgstr "Destination"
+
+#: ../modules/callmonitor.module:180
+msgid "Context"
+msgstr "Context"
+
+#: ../modules/callmonitor.module:182
+#: ../modules/voicemail.module:373
+msgid "Duration"
+msgstr "Varighed"
+
+#: ../modules/callmonitor.module:213
+msgid "Monitor"
+msgstr "Overvåg"
+
+#: ../modules/callmonitor.module:234
+#: ../modules/voicemail.module:425
+msgid "Play"
+msgstr "Afspil"
+
+#: ../modules/callmonitor.module:235
+#: ../modules/voicemail.module:406
+#: ../modules/voicemail.module:429
+msgid "Download"
+msgstr "Hent"
+
+#: ../modules/callmonitor.module:279
+#, php-format
+msgid "Call Monitor for %s (%s)"
+msgstr "Opkalds oversigt for %s (%s)"
+
+#: ../modules/callmonitor.module:348
+#: ../modules/voicemail.module:573
+msgid "select"
+msgstr "vælg"
+
+#: ../modules/callmonitor.module:349
+#: ../modules/voicemail.module:574
+msgid "all"
+msgstr "alle"
+
+#: ../modules/callmonitor.module:350
+#: ../modules/voicemail.module:575
+msgid "none"
+msgstr "ingen"
+
+#: ../modules/callmonitor.module:571
+msgid "Only deletes recording files, not cdr log"
+msgstr "Sletter kun optagede filer, ikke cdr log"
+
+#: ../modules/featurecodes.module:36
+#: ../modules/featurecodes.module:63
+msgid "Feature Codes"
+msgstr "Funktions koder"
+
+#: ../modules/featurecodes.module:65
+#, php-format
+msgid " for %s (%s)"
+msgstr " for %s (%s)"
+
+#: ../modules/featurecodes.module:72
+msgid "Handset Feature Code"
+msgstr "Håndsæt Funktions kode"
+
+#: ../modules/featurecodes.module:75
+msgid "Action"
+msgstr "Beskrivelse"
+
+#: ../modules/followme.module:43
+msgid "Follow Me"
+msgstr "Follow Me"
+
+#: ../modules/followme.module:100
+msgid "Your Follow-Me has been disabled, REFRESH your browser to remove this message"
+msgstr "Din Follow-Me er deaktiveret, opdatér din browser for at fjerne denne besked"
+
+#: ../modules/followme.module:101
+#: ../modules/VmX.module:116
+#, php-format
+msgid "Check with your Telephone System Administrator if you think there is a problem"
+msgstr "Kontakt den ansvarlige for dit telefon system hvis du tror der er et problem"
+
+#: ../modules/followme.module:118
+msgid "Follow-Me pre-ring time not changed"
+msgstr "Før-ring tiden for Follow-Me er ikke ændret"
+
+#: ../modules/followme.module:119
+#: ../modules/followme.module:142
+#, php-format
+msgid "Number %s must be an interger number of seconds"
+msgstr "Nummeret %s skal være et helt antal sekunder"
+
+#: ../modules/followme.module:141
+msgid "Follow-Me list ring time not changed"
+msgstr "Liste ringe tiden for Follow-Me er ikke ændret"
+
+#: ../modules/followme.module:185
+msgid "Follow-Me list must contain at least one valid number"
+msgstr "Follow-Me listen skal minimum indholde et gyldigt nummer"
+
+#: ../modules/followme.module:186
+#, php-format
+msgid "The following: %s is not valid"
+msgstr "Det følgende: %s er ikke gyldigt"
+
+#: ../modules/followme.module:291
+#: ../modules/followme.module:342
+#: ../modules/phonefeatures.module:360
+#: ../modules/settings.module:431
+msgid "Enable"
+msgstr "Aktivér"
+
+#: ../modules/followme.module:292
+msgid ""
+"Dial-by-name Directory, IVR, and internal \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\tcalls will ring the numbers in the FollowMe \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\tList. Any FreePBX routes that directly \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\treference a FollowMe are unaffected by this \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\tenable/disable setting."
+msgstr ""
+"Ring-med-navn basen, IVR, og interne \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\topkald vil ringe de numre i FollowMe \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\tListen. Enhver FreePBX route som direkte \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\trefererer en FollowMe bliver ikke påvirket af denne \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\taktivér/deaktivér opsætning."
+
+#: ../modules/followme.module:302
+msgid "Follow Me List:"
+msgstr "Follow Me Liste:"
+
+#: ../modules/followme.module:303
+#, php-format
+msgid "Extensions and outside numbers to ring next."
+msgstr "Lokalnumre og eksterne numre der efterflg. skal ringe."
+
+#: ../modules/followme.module:304
+#, php-format
+msgid "Include %s to keep it ringing."
+msgstr "Inkludér %s for at den forsat ringer."
+
+#: ../modules/followme.module:310
+#, php-format
+msgid "Ring %s First For:"
+msgstr "Ring %s først for:"
+
+#: ../modules/followme.module:311
+#, php-format
+msgid "Time to ring extension %s before ringing the %s Follow Me List %s"
+msgstr "Tid at ringe lokalnummer %s før de ringes på %s Follow Me liste %s"
+
+#: ../modules/followme.module:321
+#: ../modules/followme.module:334
+msgid "seconds"
+msgstr "sekunder"
+
+#: ../modules/followme.module:324
+msgid "Ring Followme List for:"
+msgstr "Ring Follow Me liste i:"
+
+#: ../modules/followme.module:324
+msgid "Time to ring the Follow Me List."
+msgstr "Tid at ringe Follow Me listen."
+
+#: ../modules/followme.module:339
+msgid "Use Confirmation:"
+msgstr "Brug konfirmation:"
+
+#: ../modules/followme.module:339
+msgid "Outside lines that are part of the Follow Me List will be called and offered a menu:<br/><br/> \"You have an incoming call. Press 1 to accept or 2 to decline.\"<br/><br/> This keeps calls from ending up in external voicemail. Make sure that the List Ring Time is long enough to allow for you to hear and react to this message."
+msgstr "Udgående linier som er en del af Follow Me listen vil blive ringet og præsenteret med en menu:<br/><br/> \"Du har et indkommende opkald. Tast 1 for at acceptere eller 2 for at afslå.\"<br/><br/> Dette forhindrer opkald i at ryge ud i en ekstern telefonsvarer. Kontrollere at listens ringe tid er lang nok til at kunne høre og reagere til denne besked."
+
+#: ../modules/followme.module:354
+msgid "Followme Settings"
+msgstr "Follow Me opsætning"
+
+#: ../modules/followme.module:356
+#, php-format
+msgid "Followme Settings for %s (%s)"
+msgstr "Follow Me opsætning for %s (%s)"
+
+#: ../modules/followme.module:382
+#: ../modules/phonefeatures.module:182
+#: ../modules/settings.module:669
+#: ../modules/VmX.module:413
+msgid "Update"
+msgstr "Opdatér"
+
+#: ../modules/phonefeatures.module:25
+#: ../modules/phonefeatures.module:97
+#: ../modules/phonefeatures.module:165
+msgid "Phone Features"
+msgstr "Telefon funktioner"
+
+#: ../modules/phonefeatures.module:151
+msgid "Call Forwarding"
+msgstr "Opkalds viderestilling"
+
+#: ../modules/phonefeatures.module:167
+#, php-format
+msgid "Phone Features for %s (%s)"
+msgstr "Telefon funktioner for %s (%s)"
+
+#: ../modules/phonefeatures.module:326
+msgid "Call forward number not changed"
+msgstr "Viderestillings nummeret ikke ændret"
+
+#: ../modules/phonefeatures.module:327
+#: ../modules/VmX.module:148
+#: ../modules/VmX.module:181
+#: ../modules/VmX.module:201
+#, php-format
+msgid "Number %s must contain dial numbers (characters like '(', '-', and ')' are ok)"
+msgstr "Nummeret %s skal indeholde opkalds numre (Tegn som '(', '-', og ')' er ok)"
+
+#: ../modules/phonefeatures.module:422
+msgid "Call Screening:"
+msgstr "Opkalds screening:"
+
+#: ../modules/phonefeatures.module:425
+msgid "Disable"
+msgstr "Deaktivér"
+
+#: ../modules/phonefeatures.module:426
+msgid "Screen Caller: No Memory"
+msgstr "Screen opkalder: Ingen hukommelse"
+
+#: ../modules/phonefeatures.module:427
+msgid "Screen Caller: Memory"
+msgstr "Screen opkalder: Hukommelse"
+
+#: ../modules/settings.module:57
+msgid "Settings"
+msgstr "Opsætning"
+
+#: ../modules/settings.module:126
+#: ../modules/settings.module:131
+#: ../modules/settings.module:136
+#: ../modules/settings.module:141
+#: ../modules/settings.module:151
+#: ../modules/settings.module:156
+msgid "Voicemail password not changed"
+msgstr "Telefonsvarer kodeord ikke ændret"
+
+#: ../modules/settings.module:127
+msgid "Password and password confirm must not be blank"
+msgstr "Kodeord og bekræftelse må ikke være blankt"
+
+#: ../modules/settings.module:132
+#, php-format
+msgid "Passwords must be all numbers and greater than %d digits"
+msgstr "Kodeord skal kun være numre og højere end %d cifre"
+
+#: ../modules/settings.module:137
+#, php-format
+msgid "Passwords must be all numbers and only %d digits"
+msgstr "Kodeord skal kun være numre og kun %d cifre"
+
+#: ../modules/settings.module:142
+msgid "Password and password confirm do not match"
+msgstr "Kodeord og bekræftelse matcher ikke"
+
+#: ../modules/settings.module:152
+#: ../modules/settings.module:157
+#: ../modules/settings.module:208
+#: ../modules/settings.module:213
+#, php-format
+msgid "%s does not exist or is not writable"
+msgstr "%s eksisterer ikke eller er ikke skrivbar"
+
+#: ../modules/settings.module:197
+msgid "Voicemail email and pager address not changed"
+msgstr "Telefonsvarer email og pager adresse ikke ændret"
+
+#: ../modules/settings.module:207
+#: ../modules/settings.module:212
+msgid "Voicemail email settings not changed"
+msgstr "Telefonsvarer email opsætning ikke ændret"
+
+#: ../modules/settings.module:358
+msgid "Language:"
+msgstr "Sprog:"
+
+#: ../modules/settings.module:368
+#, php-format
+msgid "Passwords must be all numbers and only %s digits"
+msgstr "Kodeord skal kun være numre og kun %s cifre"
+
+#: ../modules/settings.module:371
+#, php-format
+msgid "Passwords must be all numbers and at least %s digits"
+msgstr "Kodeord skal kun være numre og mindst %s cifre"
+
+#: ../modules/settings.module:376
+msgid "Voicemail Password:"
+msgstr "Telefonsvarer kodeord:"
+
+#: ../modules/settings.module:382
+msgid "Enter again to confirm:"
+msgstr "Indtast igen for at bekræfte:"
+
+#: ../modules/settings.module:430
+msgid "Email Notification"
+msgstr "Email notifikation"
+
+#: ../modules/settings.module:434
+msgid "Email Voicemail To:"
+msgstr "Email telefonsvarer til:"
+
+#: ../modules/settings.module:440
+msgid "Pager Email Notification To:"
+msgstr "Pager Email notifikation til:"
+
+#: ../modules/settings.module:489
+msgid "Call Me Number:"
+msgstr "Ring til mig nummer:"
+
+#: ../modules/settings.module:506
+msgid "Audio Format:"
+msgstr "Lyd format:"
+
+#: ../modules/settings.module:509
+msgid "Best Quality"
+msgstr "Bedst kvalitet"
+
+#: ../modules/settings.module:510
+msgid "Smallest Download"
+msgstr "Mindste download"
+
+#: ../modules/settings.module:518
+msgid "Voicemail Settings"
+msgstr "Telefonsvarer opsætning"
+
+#: ../modules/settings.module:560
+msgid "Call Monitor Settings"
+msgstr "Opkalds oversigt opsætning"
+
+#: ../modules/settings.module:563
+msgid "Record INCOMING:"
+msgstr "Optag Indkommende:"
+
+#: ../modules/settings.module:565
+#: ../modules/settings.module:573
+msgid "Always"
+msgstr "Altid"
+
+#: ../modules/settings.module:566
+#: ../modules/settings.module:574
+msgid "Never"
+msgstr "Aldrig"
+
+#: ../modules/settings.module:567
+#: ../modules/settings.module:575
+msgid "On-Demand"
+msgstr "På kommando"
+
+#: ../modules/settings.module:571
+msgid "Record OUTGOING:"
+msgstr "Optag Udgående:"
+
+#: ../modules/settings.module:616
+msgid "HUD3 Image"
+msgstr "HUD3 billede"
+
+#: ../modules/settings.module:636
+#, php-format
+msgid "Settings for %s (%s)"
+msgstr "Opsætning for %s (%s)"
+
+#: ../modules/VmX.module:58
+msgid "VmX&#8482 Locator"
+msgstr "VmX&#8482 lokator"
+
+#: ../modules/VmX.module:115
+msgid "Your Premium VmX Locator service has been disabled, REFRESH your browser to remove this message"
+msgstr "Din Premium VmX Lokator service er blevet deaktiveret, opdatér din browser for at fjerne denne besked"
+
+#: ../modules/VmX.module:147
+msgid "Option 0 not changed"
+msgstr "Option 0 ikke ændret"
+
+#: ../modules/VmX.module:180
+msgid "Option 1 not changed"
+msgstr "Option 1 ikke ændret"
+
+#: ../modules/VmX.module:200
+msgid "Option 2 not changed"
+msgstr "Option 2 ikke ændret"
+
+#: ../modules/VmX.module:300
+msgid "Use When:"
+msgstr "Brug når:"
+
+#: ../modules/VmX.module:300
+msgid "Menu options below are available during your personal voicemail greeting playback. <br/><br/>Check both to use at all times."
+msgstr "Menu optionerne nedenfor er tilgængelige under din personlige telefonsvarer besked afspilning. <br/><br/>Vælg begge for at bruge altid."
+
+#: ../modules/VmX.module:302
+msgid "unavailable"
+msgstr "utilgængelig"
+
+#: ../modules/VmX.module:304
+msgid "busy"
+msgstr "optaget"
+
+#: ../modules/VmX.module:308
+msgid "Voicemail Instructions:"
+msgstr "Telefonsvarer instruktioner:"
+
+#: ../modules/VmX.module:308
+msgid "Uncheck to play a beep after your personal voicemail greeting."
+msgstr "Fravælg for at afspille en beep tone efter din personlige telefonsvarer besked."
+
+#: ../modules/VmX.module:311
+msgid "Standard voicemail prompts."
+msgstr "Standard telefonsvarer beskeder."
+
+#: ../modules/VmX.module:319
+msgid "Press 0:"
+msgstr "Tast 0:"
+
+#: ../modules/VmX.module:319
+msgid ""
+"Pressing 0 during your personal voicemail greeing goes to the Operator. \n"
+"\t\t\t\t\tUncheck to enter another destination here."
+msgstr ""
+"Hvis du taster 0 under din personlige telefonsvarer besked, går kaldet til operatøren. \n"
+"\t\t\t\t\tFravælg denne for at vælge en anden destination her."
+
+#: ../modules/VmX.module:327
+msgid "Go To Operator"
+msgstr "Gå til operatøren"
+
+#: ../modules/VmX.module:331
+msgid "Press 1:"
+msgstr "Tast 1:"
+
+#: ../modules/VmX.module:334
+msgid "The remaining options can have internal extensions, ringgroups, queues and external numbers that may be rung. It is often used to include your cell phone. You should run a test to make sure that the number is functional any time a change is made so you don't leave a caller stranded or receiving invalid number messages."
+msgstr "De resterende optioner kan være interne lokalnumre, ringe grupper, køer og eksterne numre som der kan tilringes. Det er ofte brugt til inkludere din mobil telefon. Du burde lave en test for at sikre at nummeret er funktionelt enhver tid en ændring er lavet for at undgå at en opkalder bliver strandet eller får ugyldigt nummer beskeder."
+
+#: ../modules/VmX.module:336
+msgid "Enter an alternate number here, then change your personal voicemail greeting to let callers know to press 1 to reach that number. <br/><br/>If you'd like to use your Follow Me List, check \"Send to Follow Me\" and disable Follow Me above."
+msgstr "Indtast et alternativt nummer her, ændre derefter din personlige telefonsvarer besked for at lade tilringere vide at de skal taste 1 for til nå det nummer. <br/><br/>Hvis du vil bruge din Follow Me liste, vælg \"Send til Follow Me\" og deaktivér Follow Me ovenfor."
+
+#: ../modules/VmX.module:349
+msgid "Send to Follow-Me"
+msgstr "Send til Follow Me"
+
+#: ../modules/VmX.module:357
+msgid "Press 2:"
+msgstr "Tast 2:"
+
+#: ../modules/VmX.module:357
+msgid "Use any extensions, ringgroups, queues or external numbers. <br/><br/>Remember to re-record your personal voicemail greeting and include instructions. Run a test to make sure that the number is functional."
+msgstr "Brug valgfrit lokalnummer, ringe gruppe, køer eller eksterne numre. <br/><br/>Husk at genoptage din personlige telefonsvarer besked og inkludér instruktioner. Lav en test for at sikre at nummeret er funktionelt."
+
+#: ../modules/VmX.module:371
+#, php-format
+msgid "VmX Locator&#8482; Settings for %s (%s)"
+msgstr "VmX Locator&#8482; Opsætning for %s (%s)"
+
+#: ../modules/voicemail.module:51
+msgid "Voicemail"
+msgstr "Telefonsvarer"
+
+#: ../modules/voicemail.module:176
+msgid "A folder must be selected before the message can be moved."
+msgstr "En mappe skal være valgt før beskeden kan flyttes."
+
+#: ../modules/voicemail.module:185
+msgid "One or more messages must be selected before clicking move_to."
+msgstr "En eller flere beskeder skal være valgt før der klikkes på flyt_til"
+
+#: ../modules/voicemail.module:194
+msgid "An extension must be selected before the message can be forwarded."
+msgstr "Et lokalnummer skal være valgt før beskeden kan videresendes."
+
+#: ../modules/voicemail.module:202
+msgid "One or more messages must be selected before clicking forward_to."
+msgstr "En eller flere beskeder skal være valgt før der klikkes på videresend_til."
+
+#: ../modules/voicemail.module:345
+msgid "move_to"
+msgstr "flyt_til"
+
+#: ../modules/voicemail.module:348
+msgid "Folder"
+msgstr "Mappe"
+
+#: ../modules/voicemail.module:352
+msgid "forward_to"
+msgstr "videresend_til"
+
+#: ../modules/voicemail.module:369
+msgid "Priority"
+msgstr "Prioritet"
+
+#: ../modules/voicemail.module:371
+msgid "Orig Mailbox"
+msgstr "Oprindelig telefonsvarer"
+
+#: ../modules/voicemail.module:403
+msgid "Playback"
+msgstr "Afspil"
+
+#: ../modules/voicemail.module:427
+msgid "Play message at: "
+msgstr "Afspil besked ved: "
+
+#: ../modules/voicemail.module:432
+msgid "Voicemail recording(s) was not found."
+msgstr "Telefonsvarer optagelse(r) er ikke fundet."
+
+#: ../modules/voicemail.module:433
+#, php-format
+msgid "On settings page, change voicemail audio format.  It is currently set to %s"
+msgstr "På opsætnings siden, skal telefonsvarer lyd formatet ændres.  Det er nu sat til %s"
+
+#: ../modules/voicemail.module:462
+msgid "Voicemail Login not found."
+msgstr "Telefonsvarer brugernavn ikke fundet."
+
+#: ../modules/voicemail.module:463
+msgid "No access to voicemail"
+msgstr "Ingen adgang til telefonsvarer"
+
+#: ../modules/voicemail.module:469
+msgid "No Voicemail Recordings for Admin"
+msgstr "Ingen telefonsvarer optagelser for Admin"
+
+#: ../modules/voicemail.module:485
+#, php-format
+msgid "Voicemail for %s (%s)"
+msgstr "Telefonsvarer for %s (%s)"
+
+#: ../modules/voicemail.module:507
+msgid "Calling: "
+msgstr "Ringer til: "
+
+#: ../modules/voicemail.module:508
+msgid ". Please wait patiently..."
+msgstr ". Vent venligst..."
+
+#: ../modules/voicemail.module:779
+#, php-format
+msgid "Could not create mailbox folder %s on the server"
+msgstr "Kunne ikke oprette telefonsvarer mappen %s på serveren"
+
+#: ../modules/voicemail.module:826
+#, php-format
+msgid "Permission denied on folder %s or %s"
+msgstr "Adgang nægtet i mappen %s eller %s"
+
+#: ../misc/callme_page.php:54
+msgid "The call was terminated."
+msgstr "Opkaldet blev termineret."
+
+#: ../misc/recording_popup.php:39
+msgid "download"
+msgstr "hent"
+
+#: ../theme/page.tpl.php:47
+msgid "Folders"
+msgstr "Mapper"
+
+#: ../theme/page.tpl.php:77
+msgid "Original work based on ARI from Littlejohn Consulting"
+msgstr "Originalt arbejde baseret på ARI fra Littlejohn Consulting"
+

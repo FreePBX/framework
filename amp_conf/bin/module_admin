@@ -75,7 +75,7 @@ function init_amportal_environment($ampconfpath) {
 	// now apply the real parse function (this makes some default assumptions and does a bit more error checking)
 	$amp_conf = parse_amportal_conf($ampconfpath);
 	
-	$asterisk_conf = parse_asterisk_conf("/etc/asterisk/asterisk.conf");
+	$asterisk_conf = parse_asterisk_conf($amp_conf['ASTETCDIR']);
 
 	// connect to database
 	if (!file_exists(AMP_BASE_INCLUDE_PATH.'/common/db_connect.php')) {
@@ -141,7 +141,9 @@ function showList($online = false) {
 	$modules = $modules_local;
 	if ($online) {
 		$modules_online = module_getonlinexml();
-		$modules += $modules_online;
+		if (isset($modules_online)) {
+			$modules += $modules_online;
+		}
 	}
 	ksort($modules);
 	

@@ -1,669 +1,690 @@
+# This file is part of FreePBX.
+#
+#   This file is distributed under the same license as the PACKAGE package.
+#   FreePBX is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   FreePBX is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#
+# This is a pot file for creating new languages.
+# Copyright (C) 2008 EdwardBadBoy
 msgid ""
 msgstr ""
-"Project-Id-Version: FreePBX - Spanish translation\n"
+"Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-11-12 23:00+0100\n"
-"PO-Revision-Date: 2009-01-22 11:29+0100\n"
-"Last-Translator: Juan Asensio Sánchez <okelet@gmail.com>\n"
-"Language-Team: Juan Asensio Sánchez <okelet@gmail.com>\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
+"Language-Team: EdwardBadBoy <zhougongjizhe@163.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Spanish\n"
-"X-Poedit-Country: SPAIN\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 #: admin/components.class.php:362
 #: admin/modules/core/page.did.php:313
 msgid "Submit"
-msgstr "Enviar"
+msgstr "提交"
 
 #: admin/config.php:34
 msgid "Tools"
-msgstr "Herramientas"
+msgstr "工具"
 
 #: admin/config.php:35
 msgid "Setup"
-msgstr "Configuración"
+msgstr "设置"
 
 #: admin/config.php:36
 msgid "Call Cost"
-msgstr "Coste de la llamada"
+msgstr "呼叫费用"
 
 #: admin/featurecodes.class.php:289
 msgid "** MISSING FEATURE CODE **"
-msgstr "***NO EXISTE CÓDIGO DE CARACTERÍSTICA***"
+msgstr "** 功能代码丢失 **"
 
 #: admin/functions.inc.php:392
 #, php-format
 msgid "Cronmanager encountered %s Errors"
-msgstr "El gestor de tareas programados ha encontrado %s errores"
+msgstr "Cronmanager遇到了 %s 个错误"
 
 #: admin/functions.inc.php:393
 msgid "The following commands failed with the listed error"
-msgstr "Los siguientes comandos han fallado con los errores listados a continuación"
+msgstr "由于所列出的错误，以下命令执行失败"
 
 #: admin/functions.inc.php:765
 #, php-format
 msgid "Missing or unreadable config file (%s)...cannot continue"
-msgstr "El archivo de configuración no existe o no es legible (%s)... No se puede continuar"
+msgstr "配置文件（%s）丢失或读取失败，无法继续"
 
 #: admin/functions.inc.php:1044
 msgid "Objects"
-msgstr "objetos"
+msgstr "对象"
 
 #: admin/functions.inc.php:1044
 msgid "Object"
-msgstr "objeto"
+msgstr "对象"
 
 #: admin/functions.inc.php:1045
 #, php-format
 msgid "Used as Destination by %s %s"
-msgstr "Usado como destino por %s %s"
+msgstr "由 %s %s 用作目的地"
 
 #: admin/functions.inc.php:1504
 #: admin/functions.inc.php:1574
 #, php-format
 msgid "Exit code was %s and output was: %s"
-msgstr "El código de retorno fue %s y la salida fue: %s"
+msgstr "退出码为 %s ，输出为：%s"
 
 #: admin/functions.inc.php:1505
 #: admin/functions.inc.php:1575
 #, php-format
 msgid "Could not run %s script."
-msgstr "No se pudo ejecutar el guión %s."
+msgstr "无法运行 %s 脚本。"
 
 #: admin/functions.inc.php:1522
 #, php-format
 msgid "Reload failed because retrieve_conf encountered an error: %s"
-msgstr "La recarga falló porque el guión retrieve_conf encontró un error: %s"
+msgstr "由于retrieve_conf函数遇到了 %s 错误，重启失败"
 
 #: admin/functions.inc.php:1524
 #: admin/functions.inc.php:1532
 msgid "retrieve_conf failed, config not applied"
-msgstr "El guión retrieve_conf fallo, no se ha aplicado la configuración"
+msgstr "retrieve_conf 函数执行失败，配置未生效"
 
 #: admin/functions.inc.php:1530
 msgid "Reload failed because FreePBX could not connect to the asterisk manager interface."
-msgstr "La recarga falló porque FreePBX no ha podifo contactar con la interfaz de gestión de Asterisk"
+msgstr "由于FreePBX无法连接到Asterisk管理器，重启失败。"
 
 #: admin/functions.inc.php:1544
 msgid "Successfully reloaded"
-msgstr "Recargado correctamente"
+msgstr "重启成功"
 
 #: admin/functions.inc.php:1553
 msgid "Could not reload the FOP operator panel server using the bounce_op.sh script. Configuration changes may not be reflected in the panel display."
-msgstr "No se pudo recargar el servidor del panel de operador FOP  usando el guión bounce_op.sh. Los cambios en la configuración puede que no aparezcan reflejados en el panel."
+msgstr "无法用 bounce_op.sh 脚本重启FOP面板服务器程序。配置更改无法在面板上显示。"
 
 #: admin/functions.inc.php:1554
 msgid "Could not reload FOP server"
-msgstr "No se pudo recargar el servidor FOP"
+msgstr "无法重启FOP服务器"
 
 #: admin/functions.inc.php:1566
 msgid "Successful reload, but could not clear reload flag due to a database error: "
-msgstr "Recarga correcta, pero no se pudo establecer la marca de recarga debido a un error en la base de datos:"
+msgstr "重启成功，但是由于数据库发生错误，无法清除重启标志："
 
 #: admin/functions.inc.php:1615
 #: admin/modules/core/functions.inc.php:4721
 #: admin/modules/core/functions.inc.php:4723
 #: admin/modules/core/page.routing.php:578
 msgid "Add"
-msgstr "Añadir"
+msgstr "添加"
 
 #: admin/functions.inc.php:2055
 msgid "Unknown Destination"
-msgstr "Destino desconocido"
+msgstr "未知目的地"
 
 #: admin/functions.inc.php:2055
-#, fuzzy
 msgid "ERROR: You have an unknown destination. If this was carried over as a Custom App from an earlier version, you must go register the destination in the Custom Destination tab provided by the Custom Applications module.<br />This will remain active until you change it but you can no longer edit or add a new one here."
-msgstr "ERROR: Tiene un destino desconocido. "
+msgstr "错误：现在有一个未知目的地。如果这是由以前版本的“自定义应用”存储下来的，你必须在“自定义应用”里的“自定义目的地”栏里注册这个目的地。<br />除非你改正了错误，否则你无法编辑或者添加项。"
 
 #: admin/functions.inc.php:2313
 msgid "The following new modules are available for download. Click delete icon on the right to remove this notice."
-msgstr "Los siguientes nuevos módulos están disponibles para descarga. Pulse el botón de eliminar a la derecha para eliminar este mensaje."
+msgstr "现在提供了以下的新模块的下载。点击右侧的“删除”图标可以隐藏本提示。"
 
 #: admin/functions.inc.php:2317
 #, php-format
 msgid "%s New modules are available"
-msgstr "Hay disponibles %s nuevos módulos"
+msgstr "%s 个新模块可用"
 
 #: admin/functions.inc.php:2351
 msgid "There is 1 module available for online upgrade"
-msgstr "Hay un nuevo módulo disponible para su actualización online"
+msgstr "现在有1个模块可以进行在线更新"
 
 #: admin/functions.inc.php:2353
 #, php-format
 msgid "There are %s modules available for online upgrades"
-msgstr "Hay %s módulos disponibles para su actualización online"
+msgstr "现在有 %s 个模块可以进行在线更新"
 
 #: admin/functions.inc.php:2357
 #, php-format
 msgid "%s (current: %s)"
-msgstr "%s (actual: %s)"
+msgstr "%s （当前：%s）"
 
 #: admin/functions.inc.php:2559
 #, php-format
 msgid "Module %s is required, but yours is broken. You should reinstall "
-msgstr "Se requiere el módulo %s, pero está roto. Debe reinstalarlo"
+msgstr "需要模块 %s ，但此模块已损坏。请重新安装它。并再试一次。"
 
 #: admin/functions.inc.php:2560
 #, php-format
 msgid "it and try again."
-msgstr "e intentarlo de nuevo."
+msgstr "重试"
 
 #: admin/functions.inc.php:2563
 #, php-format
 msgid "Module %s is required, but yours is disabled."
-msgstr "Se requiere el módulo %s, pero está deshabilitado."
+msgstr "需要模块 %s ，但此模块已被禁用。"
 
 #: admin/functions.inc.php:2566
 #, php-format
 msgid "Module %s is required, but yours is disabled because it needs to "
-msgstr "Se requiere el módulo %s, pero está deshabilitado porque necesita"
+msgstr "需要模块 %s ，但此模块已被禁用。"
 
 #: admin/functions.inc.php:2567
 #, php-format
 msgid "be upgraded. Please upgrade %s first, and then try again."
-msgstr "ser actualizado. Por favor, actualice el módulo %s primero, e inténtelo de nuevo."
+msgstr "原因是该模块需要升级。请先为 %s 升级，然后再试一次。"
 
 #: admin/functions.inc.php:2572
 #, php-format
 msgid "Module %s is required, yours is not installed."
-msgstr "Se requiere el módulo %s, pero no está instalado."
+msgstr "需要模块 %s ，但此模块尚未安装。"
 
 #: admin/functions.inc.php:2576
 #, php-format
 msgid "Module %s is required."
-msgstr "Se requiere el módulo %s."
+msgstr "需要模块 %s 。"
 
 #: admin/functions.inc.php:2585
 #, php-format
 msgid "File %s must exist."
-msgstr "El archivo %s debe existir."
+msgstr "文件 %s 必须存在。"
 
 #: admin/functions.inc.php:2632
 #, php-format
 msgid "Requires engine %s, you have: %s"
-msgstr "Necesita el motor %s; el actual es %s"
+msgstr "需要引擎 %s ，已安装的是： %s"
 
 #: admin/functions.inc.php:2634
 #, php-format
 msgid "Requires one of the following engines: %s; you have: %s"
-msgstr "Requiere uno de los siguientes motores: %s; el actual es: %s"
+msgstr "需要以下的任一引擎： %s ，你安装的是： %s"
 
 #: admin/functions.inc.php:2649
 #, php-format
 msgid "A %s version below %s is required, you have %s"
-msgstr "Se necesita una versión menor de %s %s; la actual es %s"
+msgstr "需要一个 %s ，并且要求它比版本 %s 旧，你安装的是： %s"
 
 #: admin/functions.inc.php:2652
 #, php-format
 msgid "%s version %s or below is required, you have %s"
-msgstr "Se necesita una versión menor o igual de %s %s; la actual es %s"
+msgstr "需要 %s （版本为%s）或更低版本，你安装的是： %s "
 
 #: admin/functions.inc.php:2655
 #, php-format
 msgid "A %s version newer than %s required, you have %s"
-msgstr "Se necesita una versión mayor de %s %s; la actual es %s"
+msgstr "需要一个 %s ，并且要求它比版本 %s 新，你安装的是： %s"
 
 #: admin/functions.inc.php:2658
 #, php-format
 msgid "Your %s version (%s) is incompatible."
-msgstr "La versión de %s %s es incompatible."
+msgstr "你安装的 %s （版本为%s）不被兼容。"
 
 #: admin/functions.inc.php:2661
 #, php-format
 msgid "Only %s version %s is compatible, you have %s"
-msgstr "Sólo la versión %s %s es compatible; la actual es %s"
+msgstr "只兼容 %s （版本为 %s ），你安装的是 %s "
 
 #: admin/functions.inc.php:2665
 #, php-format
 msgid "%s version %s or higher is required, you have %s"
-msgstr "Se necesita una versión mayor o igual de %s %s; la actual es %s"
+msgstr "需要 %s ，并且要求它的版本比 %s 新，你安装的是 %s "
 
 #: admin/functions.inc.php:2723
 msgid "Module is already enabled"
-msgstr "El módulo ya está habilitado"
+msgstr "模块已经启用了"
 
 #: admin/functions.inc.php:2728
 msgid "Module cannot be enabled"
-msgstr "El módulo no puede ser habilitado"
+msgstr "无法启用模块"
 
 #: admin/functions.inc.php:2775
 msgid "Module not found in repository"
-msgstr "El módulo no ha sido encontrado en el repositorio"
+msgstr "现有的在线软件仓库中并未包含此模块"
 
 #: admin/functions.inc.php:2808
 #: admin/functions.inc.php:2904
 #: admin/functions.inc.php:2982
 #, php-format
 msgid "Could not remove %s to install new version"
-msgstr "No se pudo eliminar %s para instalar la nueva versión"
+msgstr "无法为安装 %s 的新版本而移除老版本"
 
 #: admin/functions.inc.php:2812
 #: admin/functions.inc.php:2908
 #: admin/functions.inc.php:2986
 #, php-format
 msgid "Could not untar %s to %s"
-msgstr "No se pudo descomprimir %s en %s"
+msgstr "无法把 %s 解压到 %s"
 
 #: admin/functions.inc.php:2816
 #: admin/functions.inc.php:2912
 #: admin/functions.inc.php:2990
 #, php-format
 msgid "Could not remove old module %s to install new version"
-msgstr "No se pudo eliminar %s para instalar la nueva versión"
+msgstr "无法为安装 %s 的新版本而移除老版本"
 
 #: admin/functions.inc.php:2820
 #: admin/functions.inc.php:2916
 #: admin/functions.inc.php:2994
 #, php-format
 msgid "Could not move %s to %s"
-msgstr "No se pudo mover de %s a %s"
+msgstr "无法把 %s 移动到 %s"
 
 #: admin/functions.inc.php:2841
 #, php-format
 msgid "Error opening %s for writing"
-msgstr "Error al abrir %s para escribir en él"
+msgstr "为执行写入操作而打开的 %s 文件失败"
 
 #: admin/functions.inc.php:2857
 #: admin/functions.inc.php:2860
 #, php-format
 msgid "Error opening %s for reading"
-msgstr "No se pudo abrir %s para leerlo"
+msgstr "为执行读取操作而打开的 %s 文件失败"
 
 #: admin/functions.inc.php:2880
 #, php-format
 msgid "Unable to save %s"
-msgstr "No se pudo guardar %s"
+msgstr "无法保存 %s"
 
 #: admin/functions.inc.php:2888
 #, php-format
 msgid "File Integrity failed for %s - aborting"
-msgstr "Ha fallado la comprobación de integridad del archivo %s; abortando"
+msgstr "文件完整性由于 %s 被破坏，操作取消"
 
 #: admin/functions.inc.php:2933
 msgid "Error finding uploaded file - check your PHP and/or web server configuration"
-msgstr "Se ha producido un error al buscar el archivo enviado; compruebe la configuración de PHP o de su servidor web"
+msgstr "找不到上传的文件，请检查你的PHP和Web服务器的配置文件是否有错误"
 
 #: admin/functions.inc.php:2938
 msgid "File must be in tar+gzip (.tgz or .tar.gz) format"
-msgstr "El archivo debe estar en formato TGZ o TAR.GZ"
+msgstr "文件必须被打包成tar+gzip（.tgz或者.tar.gz）格式"
 
 #: admin/functions.inc.php:2943
 msgid "Filename not in correct format: must be modulename-version.tar.gz (eg. custommodule-0.1.tar.gz)"
-msgstr "El nombre del archivo no tiene el formato correcto; debe ser nombredelmodulo-version.tar.gz (.p.e. mimodulo-0.1.tar.gz)"
+msgstr "文件名格式错误：文件名的格式必须是 模块名-版本.tar.gz（例如 custommodule-0.1.tar.gz）"
 
 #: admin/functions.inc.php:2952
 #, php-format
 msgid "Error creating temporary directory: %s"
-msgstr "Se ha producido un error al crear un directorio temporal: %s"
+msgstr "在创建临时目录时发生了错误：%s"
 
 #: admin/functions.inc.php:2960
 msgid "Error untaring uploaded file. Must be a tar+gzip file"
-msgstr "Se ha producido un error al descomprimir el archivo enviado. Debe estar en formato TGZ o TAR.GZ"
+msgstr "在为文件解包时发生错误，文件打包为tar+gzip的格式"
 
 #: admin/functions.inc.php:2999
 #, php-format
 msgid "Error removing temporary directory: %s"
-msgstr "Se ha producido un error al eliminar un directorio temporal: %s"
+msgstr "在删除临时目录时发生了错误：%s"
 
 #: admin/functions.inc.php:3028
 msgid "Cannot find module"
-msgstr "No se pudo encontrar el módulo"
+msgstr "无法找到模块"
 
 #: admin/functions.inc.php:3034
 msgid "Could not read module.xml"
-msgstr "No se pudo leer el archivo module.xml"
+msgstr "无法读取 module.xml"
 
 #: admin/functions.inc.php:3039
 msgid "This module is broken and cannot be installed. You should try to download it again."
-msgstr "Este módulo está roto y no puede ser instalado. Debería descargarlo de nuevo."
+msgstr "模块已被损坏，无法进行安装。请重新下载之。"
 
 #: admin/functions.inc.php:3058
 msgid "Failed to run installation scripts"
-msgstr "Se ha producido un error al ejecutar los guiones de instalación"
+msgstr "无法运行安装脚本"
 
 #: admin/functions.inc.php:3072
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
-msgstr "Se ha producido un error al actualizar la base de datos. El comando fue: %s; y el error fue: %s"
+msgstr "更新数据库时发生错误。执行的命令是：%s；错误是：%s"
 
 #: admin/functions.inc.php:3106
 #: admin/functions.inc.php:3134
 #: admin/functions.inc.php:3171
 msgid "Specified module not found"
-msgstr "No se ha encontrado el módulo especificado"
+msgstr "无法找到指定的模块"
 
 #: admin/functions.inc.php:3111
 msgid "Module not enabled: cannot disable"
-msgstr "No se pudo habilitar el módulo; no se pudo deshabilitar"
+msgstr "未曾启用模块：不能禁用"
 
 #: admin/functions.inc.php:3115
 #: admin/functions.inc.php:3143
 msgid "Cannot disable: The following modules depend on this one: "
-msgstr "No se pudo deshabilitar: los siguientes módulos dependen de éste:"
+msgstr "无法禁用：以下模块依赖于本模块："
 
 #: admin/functions.inc.php:3139
 msgid "Module not installed: cannot uninstall"
-msgstr "No se pudo instalar el módulo; no se pudo desinstalar"
+msgstr "模块未安装：无法卸载"
 
 #: admin/functions.inc.php:3150
 msgid "Error updating database: "
-msgstr "Se ha producido un error al actualizar la base de datos:"
+msgstr "更新数据库时发生错误："
 
 #: admin/functions.inc.php:3154
 msgid "Failed to run un-installation scripts"
-msgstr "Se ha producido un error al ejecutar los guiones de desinstalación"
+msgstr "无法运行卸载脚本"
 
 #: admin/functions.inc.php:3184
 #, php-format
 msgid "Cannot delete directory %s"
-msgstr "No se pudo eliminar el directorio %s"
+msgstr "无法删除目录 %s"
 
 #: admin/functions.inc.php:3191
 #, php-format
 msgid "Error deleting directory %s (code %d)"
-msgstr "Se ha producido un error al eliminar el directorio %s (código %d)"
+msgstr "无法删除目录 %s （错误代码 %d）"
 
 #: admin/functions.inc.php:3572
 #, php-format
 msgid "You have %s disabled modules"
-msgstr "Tiene %s módulos deshabilitados"
+msgstr "已禁用 %s 个模块"
 
 #: admin/functions.inc.php:3572
 msgid "You have a disabled module"
-msgstr "Tiene un módulo deshabilitado"
+msgstr "已禁用1个模块"
 
 #: admin/functions.inc.php:3573
 msgid "The following modules are disabled because they need to be upgraded:"
-msgstr "Los siguientes módulos están deshabilitados porque necesitan ser actualizados:"
+msgstr "下列模块需要升级，因此已被禁用"
 
 #: admin/functions.inc.php:3574
 #: admin/functions.inc.php:3582
 msgid "You should go to the module admin page to fix these."
-msgstr "Debe acceder a la página de administración de módulos para solucionarlo."
+msgstr "请在模块管理页面中更正这些错误。"
 
 #: admin/functions.inc.php:3580
 #, php-format
 msgid "You have %s broken modules"
-msgstr "Tiene %s módulos rotos"
+msgstr "有 %s 个损坏的模块"
 
 #: admin/functions.inc.php:3580
 msgid "You have a broken module"
-msgstr "Tiene un módulo roto"
+msgstr "有1个损坏的模块"
 
 #: admin/functions.inc.php:3581
 msgid "The following modules are disabled because they are broken:"
-msgstr "Los siguientes módulos están deshabilitados porque están rotos:"
+msgstr "下列模块已损坏，因此已被禁用"
 
 #: admin/header_auth.php:43
 #: admin/header_auth.php:70
 msgid "Administration"
-msgstr "Administración"
+msgstr "管理"
 
 #: admin/header.php:134
 msgid "Default Asterisk Manager Password Used"
-msgstr "Se está usando la contraseña del gestor de Asterisk por defecto"
+msgstr "Asterisk管理器使用了默认的密码"
 
 #: admin/header.php:134
 msgid "You are using the default Asterisk Manager password that is widely known, you should set a secure password"
-msgstr "Está usando la contraseña del gestor de Asterisk por defecto, que es ampliamente conocida. Debería cambiar esta contraseña a una más segura."
+msgstr "你的Asterisk管理器使用了众所周知的默认密码，出于安全考虑，请更改密码"
 
 #: admin/page.modules.php:129
 msgid "Module Administration"
-msgstr "Administración de módulos"
+msgstr "模块管理"
 
 #: admin/page.modules.php:146
 #, php-format
 msgid "Warning: Cannot connect to online repository (%s). Online modules are not available."
-msgstr "Atención: No se pudo conectar al repositorio online (%s). Los módulos online no estarán disponibles."
+msgstr "警告：无法连接到在线软件仓库（%s）。无法在线安装或升级模块。"
 
 #: admin/page.modules.php:150
 #, php-format
 msgid "Warning: Error retrieving updates from online repository (%s). Online modules are not available."
-msgstr "Atención: Se ha producido un error al obtener las actualizaciones del repositorio online (%s). Los módulos online no estarán disponibles."
+msgstr "警告：无法从线软件仓库（%s）中获取更新信息。无法在线安装或升级模块。"
 
 #: admin/page.modules.php:190
 msgid "Please wait while module actions are performed"
-msgstr "Por favor, espere mientras se ejecutan las acciones solicitadas..."
+msgstr "对模块的操作正在进行中，请等待"
 
 #: admin/page.modules.php:203
 #, php-format
 msgid "Downloading %s"
-msgstr "Descargando %s"
+msgstr "正在下载 %s "
 
 #: admin/page.modules.php:205
 #, php-format
 msgid "Error(s) downloading %s"
-msgstr "Se ha producido un error al descargar %s"
+msgstr "在下载 %s 时发生了一项或更多的错误"
 
 #: admin/page.modules.php:210
 #: admin/page.modules.php:222
 #, php-format
 msgid "Error(s) installing %s"
-msgstr "Se ha producido un error al instalar %s"
+msgstr "在安装 %s 时发生了一项或更多的错误"
 
 #: admin/page.modules.php:214
 #: admin/page.modules.php:226
 #, php-format
 msgid "%s installed successfully"
-msgstr "Se ha instalado correctamente %s"
+msgstr "成功安装 %s"
 
 #: admin/page.modules.php:232
 #, php-format
 msgid "Error(s) enabling %s"
-msgstr "Se ha producido un error al habilitar %s"
+msgstr "在启用 %s 时发生了一项或更多的错误"
 
 #: admin/page.modules.php:236
 #, php-format
 msgid "%s enabled successfully"
-msgstr "El módulo %s ha sido habilitado correctamente"
+msgstr "成功启用 %s"
 
 #: admin/page.modules.php:241
 #, php-format
 msgid "Error(s) disabling %s"
-msgstr "Se ha producido un error al deshabilitar el módulo %s"
+msgstr "在禁用 %s 时发生了一项或更多的错误"
 
 #: admin/page.modules.php:245
 #, php-format
 msgid "%s disabled successfully"
-msgstr "El módulo %s ha sido deshabilitado correctamente"
+msgstr "成功禁用 %s"
 
 #: admin/page.modules.php:251
 #, php-format
 msgid "Error(s) uninstalling %s"
-msgstr "Se ha producido un error al desinstalar el módulo %s"
+msgstr "在卸载 %s 时发生了一项或更多的错误"
 
 #: admin/page.modules.php:255
 #, php-format
 msgid "%s uninstalled successfully"
-msgstr "El módulo %s ha sido desinstalado correctamente"
+msgstr "成功卸载 %s"
 
 #: admin/page.modules.php:271
 #: admin/page.modules.php:273
 msgid "Return"
-msgstr "Volver"
+msgstr "返回"
 
 #: admin/page.modules.php:304
 #: admin/page.modules.php:328
 #, php-format
 msgid "%s cannot be upgraded: %s Please try again after the dependencies have been installed."
-msgstr "El módulo %s no puede ser actualizado: %s. Por favor, inténtelo de nuevo después de que las dependencias hayan sido instaladas."
+msgstr "无法升级 %s ：%s 请在安装好所有的依赖项后重试。"
 
 #: admin/page.modules.php:308
 #, php-format
 msgid "%s %s will be upgraded to online version %s"
-msgstr "El módulo %s %s será actualizado a la versión online %s"
+msgstr "%s %s 将被更新为在线版本 %s"
 
 #: admin/page.modules.php:316
 #: admin/page.modules.php:328
 #, php-format
 msgid "%s cannot be installed: %s Please try again after the dependencies have been installed."
-msgstr "El módulo %s no puede ser instalado: %s. Por favor, inténtelo de nuevo después de que las dependencias hayan sido instaladas."
+msgstr "无法安装 %s ：%s 请在安装好所有的依赖项后重试。"
 
 #: admin/page.modules.php:320
 #, php-format
 msgid "%s %s will be downloaded and installed"
-msgstr "El módulo %s %s será descargado e instalado"
+msgstr "%s %s 将被下载并安装"
 
 #: admin/page.modules.php:333
 #, php-format
 msgid "%s %s will be upgraded to %s"
-msgstr "El módulo %s %s será actualizado a la versión %s"
+msgstr "%s %s 将被更新为 %s"
 
 #: admin/page.modules.php:335
 #, php-format
 msgid "%s %s will be installed and enabled"
-msgstr "El módulo %s %s será instalado y habilitado"
+msgstr "%s %s 将被安装并启用"
 
 #: admin/page.modules.php:343
 #, php-format
 msgid "%s cannot be enabled: %s Please try again after the dependencies have been installed."
-msgstr "El módulo %s no puede ser habilitado: %s. Por favor inténtelo de nuevo después de que las dependencias hayan sido instaladas."
+msgstr "无法启用 %s ：%s 请在安装好所有的依赖项后重试。"
 
 #: admin/page.modules.php:347
 #, php-format
 msgid "%s %s will be enabled"
-msgstr "El módulo %s %s será habilitado"
+msgstr "%s %s 将被启用"
 
 #: admin/page.modules.php:353
 #, php-format
 msgid "%s cannot be disabled because the following modules depend on it: %s Please disable those modules first then try again."
-msgstr "El módulo %s no puede ser deshabilitado porque los siguientes módulos dependen de él: %s. Por favor, deshabilite antes esos módulos e inténtelo de nuevo."
+msgstr "无法禁用 %s ，因为以下模块依赖于此模块：%s 请先禁用这些模块后再重试。"
 
 #: admin/page.modules.php:357
 #, php-format
 msgid "%s %s will be disabled"
-msgstr "El módulo %s %s será deshabilitado"
+msgstr "%s %s 将被禁用"
 
 #: admin/page.modules.php:364
 #, php-format
 msgid "%s cannot be uninstalled because the following modules depend on it: %s Please disable those modules first then try again."
-msgstr "El módulo %s no puede ser desinstalado porque los siguientes módulos dependen de él: %s. Por favor, deshabilite antes esos módulos e inténtelo de nuevo."
+msgstr "无法卸载 %s ，以下模块依赖于本模块：%s 禁用这些模块后重试。"
 
 #: admin/page.modules.php:368
 #, php-format
 msgid "%s %s will be uninstalled"
-msgstr "El módulo %s %s será desinstalado"
+msgstr "%s %s 将被卸载"
 
 #: admin/page.modules.php:385
 msgid "Errors with selection:"
-msgstr "Se han producido errores con la selección:"
+msgstr "所选择项的错误："
 
 #: admin/page.modules.php:394
 msgid "You may confirm the remaining selection and then try the again for the listed issues once the required dependencies have been met:"
-msgstr "Puede confirmar la selección restante y volver a intentar los problemas indicados una vez que las dependencias hayan sido satisfechas:"
+msgstr "你可以确认余下的选择的项，然后在满足了依赖要求后，针对列出的有问题的地方，再重试一次："
 
 #: admin/page.modules.php:396
 msgid "Please confirm the following actions:"
-msgstr "Por favor, confirme las siguientes acciones:"
+msgstr "请确认以下操作："
 
 #: admin/page.modules.php:403
 msgid "Confirm"
-msgstr "Confirmar"
+msgstr "确认"
 
 #: admin/page.modules.php:405
 msgid "No actions to perform"
-msgstr "No hay acciones que realizar"
+msgstr "没有要执行的操作"
 
 #: admin/page.modules.php:406
 msgid "Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab."
-msgstr "Por favor, seleccione al menos una acción a realizar haciendo clic en el módulo, y seleccionando la acción en la pestaña \"Acción\"."
+msgstr "请点击某模块，以选择至少一项操作。在“操作”栏中选择操作。"
 
 #: admin/page.modules.php:408
 #: admin/views/freepbx_reload.php:111
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "取消"
 
 #: admin/page.modules.php:414
 #: admin/page.modules.php:466
 msgid "Manage local modules"
-msgstr "Gestionar módulos locales"
+msgstr "管理本地模块"
 
 #: admin/page.modules.php:416
 #: admin/page.modules.php:471
 msgid "Check for updates online"
-msgstr "Comprobar actualizaciones online"
+msgstr "检查在线更新"
 
 #: admin/page.modules.php:416
 #: admin/page.modules.php:471
 msgid "Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted."
-msgstr "La comprobación de actualizaciones enviará su versión de FreePBX y de Asterisk junto con un identificador aleatorio. Esto se usa para disponer de una información de actualización correcta y monitorizar el uso de las versiones, con el fin de enfocar los esfuerzos de desarrollo y mantenimiento. No se enviará información privada."
+msgstr "为了检查在线更新，你的FreePBX和Asterisk的版本号以及一个随机数将被发送到服务器。这么做是为了让开发团队更好的掌握各版本的使用情况，以更好的分配开发和维护力量。请放心，你的隐私不会被上传。"
 
 #: admin/page.modules.php:421
 #: admin/page.modules.php:473
 msgid "Upload module"
-msgstr "Enviar módulo"
+msgstr "上传模块"
 
 #: admin/page.modules.php:427
 #, php-format
 msgid "The following error(s) occurred processing the uploaded file: %s"
-msgstr "Se han producido los siguientes errores al procesar el archivo enviado: %s"
+msgstr "在处理上传的文件时发生了以下错误： %s"
 
 #: admin/page.modules.php:429
 #, php-format
 msgid "You should fix the problem or select another file and %s."
-msgstr "Debería solucionar el problema o seleccionar otro archivo y %s."
+msgstr "请更正此错误或者选择别的文件并 %s "
 
 #: admin/page.modules.php:430
 msgid "try again"
-msgstr "Intentar de nuevo"
+msgstr "重试"
 
 #: admin/page.modules.php:434
 #, php-format
 msgid "Module uploaded successfully. You need to enable the module using %s to make it available."
-msgstr "Módulo enviado correctamente. Debe activar ahora el módulo %s para poder usarlo."
+msgstr "成功上传模块。你需要启用此模块，用 %s 来启用它。"
 
 #: admin/page.modules.php:435
 msgid "local module administration"
-msgstr "Administración de módulos locales"
+msgstr "本地模块管理"
 
 #: admin/page.modules.php:440
 msgid "You can upload a tar gzip file containing a FreePBX module from your local system. If a module with the same name already exists, it will be overwritten."
-msgstr "Puede enviar un archivo TAR.GZ conteniendo un módulo de FreePBX desde su equipo. Si ya existiera un módulo con el mismo nombre, será sobreescrito."
+msgstr "你可以从本地系统上传包含了一个FreePBX模块的tar+gzip文件。如果有同名的模块存在，它将被覆盖。"
 
 #: admin/page.modules.php:467
 msgid "Show only upgradable"
-msgstr "Mostrar sólo actualizables"
+msgstr "只显示可更新项"
 
 #: admin/page.modules.php:484
 #: admin/page.modules.php:768
 msgid "Download all"
-msgstr "Descargar todos"
+msgstr "全部下载"
 
 #: admin/page.modules.php:485
 #: admin/page.modules.php:769
 msgid "Upgrade all"
-msgstr "Actualizar todos"
+msgstr "全部升级"
 
 #: admin/page.modules.php:487
 #: admin/page.modules.php:771
 msgid "Reset"
-msgstr "Restaurar"
+msgstr "重置"
 
 #: admin/page.modules.php:488
 #: admin/page.modules.php:772
 msgid "Process"
-msgstr "Procesar"
+msgstr "处理"
 
 #: admin/page.modules.php:494
 msgid "Module"
-msgstr "Módulo"
+msgstr "模块"
 
 #: admin/page.modules.php:495
 msgid "Type"
-msgstr "Tipo"
+msgstr "类型"
 
 #: admin/page.modules.php:496
 msgid "Version"
-msgstr "Versión"
+msgstr "版本"
 
 #: admin/page.modules.php:510
 #: admin/page.modules.php:585
 msgid "Broken"
-msgstr "Roto"
+msgstr "损坏"
 
 #: admin/page.modules.php:541
 #: admin/page.modules.php:546
@@ -672,117 +693,117 @@ msgstr "Roto"
 #: admin/modules/core/page.ampusers.php:223
 #: admin/modules/core/page.ampusers.php:227
 msgid "name"
-msgstr "Nombre"
+msgstr "名字"
 
 #: admin/page.modules.php:562
 msgid "Not Installed (Locally available)"
-msgstr "No instalado; disponible localmente"
+msgstr "未安装（在本地已可用）"
 
 #: admin/page.modules.php:564
 #, php-format
 msgid "Not Installed (Available online: %s)"
-msgstr "No instalado; disponible online (%s)"
+msgstr "未安装（在线可用： %s）"
 
 #: admin/page.modules.php:571
 #, php-format
 msgid "Disabled; Online upgrade available (%s)"
-msgstr "Deshabilitado; disponible actualización online (%s)"
+msgstr "已禁用；可在线升级（%s）"
 
 #: admin/page.modules.php:573
 #, php-format
 msgid "Disabled; Newer than online version (%s)"
-msgstr "Deshabilitado; versión local más reciente que versión online (%s)"
+msgstr "已禁用；比在线的版本（%s）还新"
 
 #: admin/page.modules.php:575
 msgid "Disabled; up to date"
-msgstr "Deshabilitado; actualizado"
+msgstr "已禁用：已升级到最新"
 
 #: admin/page.modules.php:578
 #: admin/modules/core/page.general.php:140
 msgid "Disabled"
-msgstr "Deshabilitado"
+msgstr "禁用"
 
 #: admin/page.modules.php:582
 #, php-format
 msgid "Disabled; Pending upgrade to %s"
-msgstr "Deshabilitado; pendiente de actualizar a %s"
+msgstr "已禁用；待升级到 %s"
 
 #: admin/page.modules.php:592
 #, php-format
 msgid "Online upgrade available (%s)"
-msgstr "Actualizaciones online disponibles (%s)"
+msgstr "可在线升级（%s）"
 
 #: admin/page.modules.php:594
 #, php-format
 msgid "Newer than online version (%s)"
-msgstr "Más reciente que la versión online (%s)"
+msgstr "比在线的版本（%s）还新"
 
 #: admin/page.modules.php:596
 msgid "Enabled and up to date"
-msgstr "Habilitado y actualizado"
+msgstr "已启用并已升级到最新版本"
 
 #: admin/page.modules.php:600
 msgid "Enabled; Not available online"
-msgstr "Habilitado; no hay actualización online"
+msgstr "已启用；不能在线升级"
 
 #: admin/page.modules.php:602
 #: admin/modules/core/page.general.php:139
 msgid "Enabled"
-msgstr "Habilitado"
+msgstr "启用"
 
 #: admin/page.modules.php:620
 msgid "Attention"
-msgstr "Atención"
+msgstr "注意"
 
 #: admin/page.modules.php:621
 msgid "attention"
-msgstr "Atención"
+msgstr "注意"
 
 #: admin/page.modules.php:625
 msgid "Action"
-msgstr "Acción"
+msgstr "操作"
 
 #: admin/page.modules.php:628
 msgid "No Action"
-msgstr "Sin acción"
+msgstr "无操作"
 
 #: admin/page.modules.php:635
 #: admin/page.modules.php:668
 msgid "Install"
-msgstr "Instalar"
+msgstr "安装"
 
 #: admin/page.modules.php:638
 msgid "Download and Install"
-msgstr "Descargar e instalar"
+msgstr "下载并安装"
 
 #: admin/page.modules.php:644
 #: admin/modules/core/functions.inc.php:4257
 #: admin/modules/core/functions.inc.php:4262
 #: admin/modules/core/page.trunks.php:399
 msgid "Enable"
-msgstr "Habilitar"
+msgstr "启用"
 
 #: admin/page.modules.php:647
 #: admin/page.modules.php:662
 #: admin/page.modules.php:670
 #: admin/page.modules.php:690
 msgid "Uninstall"
-msgstr "Desinstalar"
+msgstr "卸载"
 
 #: admin/page.modules.php:652
 #, php-format
 msgid "Download %s, keep Disabled"
-msgstr "Descargar %s, mantener deshabilitado"
+msgstr "下载 %s ，保持禁用"
 
 #: admin/page.modules.php:660
 #, php-format
 msgid "Upgrade to %s and Enable"
-msgstr "Actualizar a %s y habilitar"
+msgstr "升级到 %s 并启用"
 
 #: admin/page.modules.php:680
 #, php-format
 msgid "Download and Upgrade to %s"
-msgstr "Descargar y actualizar a %s"
+msgstr "下载并升级到 %s"
 
 #: admin/page.modules.php:686
 #: admin/modules/core/functions.inc.php:4258
@@ -790,298 +811,298 @@ msgstr "Descargar y actualizar a %s"
 #: admin/modules/core/functions.inc.php:4265
 #: admin/modules/core/page.trunks.php:390
 msgid "Disable"
-msgstr "Deshabilitar"
+msgstr "禁用"
 
 #: admin/page.modules.php:696
 #: admin/modules/core/functions.inc.php:4754
 #: admin/modules/core/page.did.php:186
 #: admin/modules/core/page.zapchandids.php:99
 msgid "Description"
-msgstr "Descripción"
+msgstr "描述"
 
 #: admin/page.modules.php:698
 #, php-format
 msgid "Description for version %s"
-msgstr "Descripción para la versión %s"
+msgstr "对版本 %s 的描述"
 
 #: admin/page.modules.php:699
 msgid "description"
-msgstr "Descripción"
+msgstr "描述"
 
 #: admin/page.modules.php:701
 msgid "No description is available."
-msgstr "Descripción no disponible."
+msgstr "没有可用的描述"
 
 #: admin/page.modules.php:704
 #: admin/page.modules.php:706
 msgid "More info"
-msgstr "Más información"
+msgstr "更多信息"
 
 #: admin/page.modules.php:706
 #, php-format
 msgid "Get help for %s"
-msgstr "Obtener ayuda para %s"
+msgstr "获取关于 %s 的帮助"
 
 #: admin/page.modules.php:711
 msgid "Changelog"
-msgstr "Lista de cambios"
+msgstr "更改日志"
 
 #: admin/page.modules.php:712
 #, php-format
 msgid "Change Log for version %s"
-msgstr "Lista de cambios para la versión %s"
+msgstr "关于版本 %s 的更改日志"
 
 #: admin/page.modules.php:732
 msgid "Debug"
-msgstr "Depuración"
+msgstr "调试"
 
 #: admin/page.modules.php:757
 msgid "All available modules are up-to-date and installed."
-msgstr "Todos los módulos disponibles están actualizados e instalados."
+msgstr "所有可用的模块都更新到了最新版本。"
 
 #: admin/page.modules.php:759
 msgid "No modules to display."
-msgstr "No hay módulos para mostrar."
+msgstr "没有可显示的模块"
 
 #: admin/page.modules.php:809
 msgid "Untarring.."
-msgstr "Descomprimiendo..."
+msgstr "正在解压缩。。"
 
 #: admin/page.modules.php:829
 msgid "Done."
-msgstr "Hecho."
+msgstr "完成。"
 
 #: admin/panel.php:18
 msgid "FreePBX: Flash Operator Panel"
-msgstr "FreePBX: Panel de operador en flash"
+msgstr "FreePBX：Flash 操作面版"
 
 #: admin/panel.php:19
 msgid "Flash Operator Panel"
-msgstr "Panel de operador en flash"
+msgstr "Flash 操作面版"
 
 #: admin/reports.php:18
 msgid "FreePBX: Call Detail Reports"
-msgstr "FreePBX: Informes de detalle de llamadas"
+msgstr "FreePBX：呼叫详细记录"
 
 #: admin/reports.php:19
 msgid "Call Detail Reports"
-msgstr "Informes de detalles de llamadas"
+msgstr "呼叫详细记录"
 
 #: admin/reports.php:41
 msgid "Call Logs"
-msgstr "Histórico de llamadas"
+msgstr "呼叫记录"
 
 #: admin/reports.php:42
 msgid "Compare Calls"
-msgstr "Comparar llamadas"
+msgstr "呼叫比较"
 
 #: admin/reports.php:43
 msgid "Monthly Traffic"
-msgstr "Tráfico mensual"
+msgstr "月度流量"
 
 #: admin/reports.php:44
 msgid "Daily load"
-msgstr "Carga diaria"
+msgstr "每日负载"
 
 #: admin/views/freepbx_admin.php:87
 #: admin/modules/core/page.ampusers.php:217
 msgid "category"
-msgstr "Categoría"
+msgstr "类别"
 
 #: admin/views/freepbx_admin.php:178
 msgid "WARNING: Javascript is disabled in your browser. The FreePBX administration interface requires Javascript to run properly. Please enable javascript or switch to another  browser that supports it."
-msgstr "ATENCIÓN: Javascript está deshabilitado en su navegador. La interfaz de administración de FreePBX necesita Javascript para funcionar correctamente. Por favor, habilite Javascript o utilice otro navegador que lo soporte."
+msgstr "警告：你的浏览器禁用了Javascript。PBX配置管理界面的正确运行需要Javacript。请启用Javascript或者更换成支持它的浏览器。"
 
 #: admin/views/freepbx_admin.php:192
 #, php-format
 msgid "%s is a registered trademark of %s"
-msgstr "%s es una marca registrada de %s"
+msgstr "%s 是 %s 的注册商标"
 
 #: admin/views/freepbx_admin.php:193
 #: admin/views/freepbx_admin.php:196
 #: admin/views/freepbx.php:141
 #: admin/views/freepbx.php:150
 msgid "FreePBX"
-msgstr "FreePBX"
+msgstr "PBX配置工具FreePBX"
 
 #: admin/views/freepbx_admin.php:195
 #, php-format
 msgid "%s is licensed under %s"
-msgstr "%s está publicado bajo la licencia %s"
+msgstr "%s 是在 %s 的保护下授权的"
 
 #: admin/views/freepbx.php:148
 #, php-format
 msgid "%s %s on %s"
-msgstr "%s %s en %s"
+msgstr "%s %s 在 %s 上"
 
 #: admin/views/freepbx.php:165
 msgid "Management"
-msgstr "Gestión"
+msgstr "管理"
 
 #: admin/views/freepbx.php:166
 msgid "Admin"
-msgstr "Administración"
+msgstr "管理"
 
 #: admin/views/freepbx.php:167
 msgid "Reports"
-msgstr "Informes"
+msgstr "报告"
 
 #: admin/views/freepbx.php:169
 msgid "Panel"
-msgstr "Panel"
+msgstr "面版"
 
 #: admin/views/freepbx.php:171
 msgid "Recordings"
-msgstr "Grabaciones"
+msgstr "录音"
 
 #: admin/views/freepbx.php:172
 msgid "Help"
-msgstr "Ayuda"
+msgstr "帮助"
 
 #: admin/views/freepbx.php:189
 msgid "Logged in: "
-msgstr "Identificado como:"
+msgstr "已登录："
 
 #: admin/views/freepbx.php:190
 msgid "Logout"
-msgstr "Cerrar sesión"
+msgstr "退出"
 
 #: admin/views/freepbx_reloadbar.php:3
 msgid "Reload Required"
-msgstr "Recarga necesaria"
+msgstr "需要重载"
 
 #: admin/views/freepbx_reloadbar.php:4
 #: admin/views/freepbx_reloadbar.php:5
 #: admin/views/freepbx_reload.php:107
 msgid "Apply Configuration Changes"
-msgstr "Aplicar cambios en la configuración"
+msgstr "应用配置改变"
 
 #: admin/views/freepbx_reloadbar.php:5
 #, php-format
 msgid "You have made changes to the configuration that have not yet been applied. When you are finished making all changes, click on %s to put them into effect."
-msgstr "Ha realizado cambios a la configuración que aún no han sido aplicados. Cuando haya terminado de realizar todos los cambios, haga clic en \"%s\" para aplicarlos."
+msgstr "你更改了配置，但是更改尚未应用。如果你完成了所有更改，请点击 %s 以让它们生效。"
 
 #: admin/views/freepbx_reload.php:71
 msgid " error(s) occured, you should view the notification log on the dashboard or main screen to check for more details."
-msgstr ""
+msgstr "发生了一项或多项错误，请查看操作面版或主屏幕上的通告日志以得到更多的信息。"
 
 #: admin/views/freepbx_reload.php:75
 #: admin/views/freepbx_reload.php:89
 msgid "Close"
-msgstr "Cerrar"
+msgstr "关闭"
 
 #: admin/views/freepbx_reload.php:76
 msgid "Retry"
-msgstr "Reintentar"
+msgstr "重试"
 
 #: admin/views/freepbx_reload.php:88
 msgid "Error: Did not receive valid response from server"
-msgstr "Error: No se ha recibido una respuesta válida del servidor"
+msgstr "错误：没有从服务器收到正确的响应"
 
 #: admin/views/freepbx_reload.php:108
 msgid "Reloading will apply all configuration changes made in FreePBX to your PBX engine and make them active."
-msgstr "La recarga aplicará los cambios hechos en FreePBX a su centralita y los activará."
+msgstr "重载会使所有对PBX引擎的配置的更改生效。"
 
 #: admin/views/freepbx_reload.php:110
 msgid "Accept"
-msgstr "Aceptar"
+msgstr "接受"
 
 #: admin/views/freepbx_reload.php:110
 msgid "Continue with reload"
-msgstr "Continuar con la recarga"
+msgstr "重载并继续"
 
 #: admin/views/freepbx_reload.php:111
 msgid "Cancel reload and go back to editing"
-msgstr "Cancelar recarga y volver a la edición"
+msgstr "取消重载并继续编辑"
 
 #: admin/views/freepbx_reload.php:116
 msgid "Please wait, reloading.."
-msgstr "Por favor, espere, recargando..."
+msgstr "请等待，正在重载。。"
 
 #: admin/views/freepbx_reload.php:117
 msgid "Loading..."
-msgstr "Cargando..."
+msgstr "装载中。。。"
 
 #: admin/views/loggedout.php:4
 msgid "Logged out"
-msgstr "Sesión cerrada"
+msgstr "已登出"
 
 #: admin/views/loggedout.php:5
 msgid "You have been succesfully logged out."
-msgstr "Ha cerrado su sesión correctamente."
+msgstr "你已成功登出。"
 
 #: admin/views/loggedout.php:6
 msgid "Log in"
-msgstr "Iniciar sesión"
+msgstr "登录"
 
 #: admin/views/menuitem_disabled.php:3
 #, php-format
 msgid "[WARNING]: Menu Item: %s is disabled because asterisk is not running"
-msgstr "[ATENCIÓN]: El elemento del menú %s está deshabilitado porque Asterisk no se está ejecutando"
+msgstr "[警告]：菜单项：%s 被禁用，原因是asterisk未运行"
 
 #: admin/views/menuitem_disabled.php:4
 msgid "Restart Asterisk and then refresh the browser in order to try accessing this menu item again."
-msgstr "Reinicie Asterisk y recargue después el navegador para volver a acceder a este elemento del menú de nuevo."
+msgstr "重启Asterisk并刷新浏览器以启用此菜单项"
 
 #: admin/views/noaccess.php:4
 msgid "Not found"
-msgstr "No encontrado"
+msgstr "不存在"
 
 #: admin/views/noaccess.php:5
 msgid "The section you requested does not exist or you do not have access to it."
-msgstr "La sección que ha solicitado no existe o no tiene acceso a ella."
+msgstr "你请求的区域不存在，或者你没有访问它的权限。"
 
 #: admin/views/unauthorized.php:4
 msgid "Unauthorized"
-msgstr "No autorizado"
+msgstr "权限不足，拒绝访问"
 
 #: admin/views/unauthorized.php:5
 msgid "You are not authorized to access this page."
-msgstr "No está autorizado a acceder a esta página."
+msgstr "你无权访问这个页面。"
 
 #: admin/views/welcome_nomanager.php:2
 msgid "Warning:"
-msgstr "Atención:"
+msgstr "警告："
 
 #: admin/views/welcome_nomanager.php:5
 msgid "Cannot connect to Asterisk Manager with "
-msgstr "No se pudo acceder al gestor de Asterisk con"
+msgstr "无法连接到Asterisk管理器"
 
 #: admin/views/welcome_nomanager.php:7
 msgid "Asterisk may not be running."
-msgstr "Puede que Asterisk no se esté ejecutando."
+msgstr "Asterisk可能没有运行。"
 
 #: admin/views/welcome.php:3
 msgid "Welcome to FreePBX."
-msgstr "Bienvenido a FreePBX."
+msgstr "欢迎来到PBX配置界面。"
 
 #: admin/views/welcome.php:9
 msgid "Critical"
-msgstr "Crítico"
+msgstr "严重"
 
 #: admin/views/welcome.php:10
 msgid "Security"
-msgstr "Seguridad"
+msgstr "安全"
 
 #: admin/views/welcome.php:11
 msgid "Update"
-msgstr "Actualización"
+msgstr "升级"
 
 #: admin/views/welcome.php:12
 msgid "Error"
-msgstr "Error"
+msgstr "错误"
 
 #: admin/views/welcome.php:13
 msgid "Warning"
-msgstr "Atención"
+msgstr "警告"
 
 #: admin/views/welcome.php:14
 msgid "Notice"
-msgstr "Noticia"
+msgstr "通知"
 
 #: admin/views/welcome.php:36
 msgid "If you're new to FreePBX, Welcome. Here are some quick instructions to get you started"
-msgstr "Si es nuevo con FreePBX, bienvenido. Aquí tiene algunas instrucciones rápidas para comenzar"
+msgstr "如果你刚刚接触FreePBX，请阅读这些快速上手的说明"
 
 #: admin/views/welcome.php:40
 #, php-format
@@ -1093,11 +1114,12 @@ msgid ""
 "Modules are updated and patched often, so if you are having a problem, it's worth checking there to see if there's\n"
 "a new version of the module available."
 msgstr ""
-"Hay un gran número de módulos disponibles en el repositorio online. Estos están disponibles haciendo click en el menú de <a href='%s'>Herramientas</a>en la parte superior,\n"
-"después en <a href='%s'>Administración de módulos</a>,\n"
-"y después en <a href='%s'>Comprobar actualizaciones online</a>.\n"
-"Los módulos son actualizados y arreglados frecuentemente, por lo que si tiene problemas con el uso de alguno de ellos, es recomendable comprobar\n"
-"si existen actualizaciones para ese módulo."
+"在线软件仓库中有非常多的插件模块。\n"
+"可以点击上方的<a href='%s'>工具菜单</a>，再点\n"
+"<a href='%s'>模块管理</a>，接着点\n"
+"<a href='%s'>检查在线更新</a>。\n"
+"开发人员会常常为模块升级打补丁，如果你在使用中遇到问题，最好检查一下在线更新，\n"
+"看看有没有新版本的模块可用了。"
 
 #: admin/views/welcome.php:54
 #, php-format
@@ -1107,10 +1129,11 @@ msgid ""
 "to talk to other users and the devlopers in real time. Click on <a href='%s'>Start IRC</a>,\n"
 "when the module is installed, to start a Java IRC client."
 msgstr ""
-"Si tiene problemas, también puede usar el módulo de <a href='%s'>Soporte online</a> \n"
-"(<b>debe instalarlo previamente a través del <a href='%s'>Repositorio de módulos</a></b>)\n"
-"para hablar con otros usuarios y desarrolladores en tiempo real. Haga clic en <a href='%s'>Iniciar IRC</a>,\n"
-"cuando el módulo esté instalado para iniciar un cliente IRC Java."
+"如果你遇到了任何问题，你可以使用 <a href='%s'>在线帮助</a> \n"
+"模块 (<b>你首先需要通过 <a href='%s'>模块在线仓库</a> 安装它</b>)\n"
+"来与其他用户或开发者实时交流。\n"
+"一旦此模块安装完毕，点击 <a href='%s'>启动 IRC</a>,\n"
+"以启动一个Java IRC客户端。"
 
 #: admin/views/welcome.php:66
 #, php-format
@@ -1118,1070 +1141,1074 @@ msgid ""
 "There is also a community based <a href='%s' target='_new'>FreePBX Web Forum</a> where you can post\n"
 "questions and search for answers for any problems you may be having."
 msgstr ""
-"También hay un <a href='%s' target='_new'>foro web de FreePBX</a> mantenido por la comunidad donde puede enviar\n"
-"sus consultas y buscar respuestas a cualquier problema que le surja."
+"同时，我们还建立了一个以 <a href='%s' target='_new'>FreePBX论坛</a> 为基础的社区，\n"
+"你可以在那里发表问题或者搜索你遇到的问题的答案。"
 
 #: admin/views/welcome.php:71
 msgid "We hope you enjoy using FreePBX!"
-msgstr "¡Esperamos que disfrute usando FreePBX!"
+msgstr "希望你能顺利的使用FreePBX！"
 
 #: admin/common/db_connect.php:78
 msgid "Default SQL Password Used"
-msgstr "Usando la contraseña SQL por defecto "
+msgstr "使用了默认的SQL密码"
 
 #: admin/common/db_connect.php:78
 msgid "You are using the default SQL password that is widely known, you should set a secure password"
-msgstr "Está usando la contraseña SQL por defecto, que es ampliamente conocida; debería cambiarla por una más segura."
+msgstr "你使用了众所周知的默认SQL密码，出于安全考虑，请更改密码"
 
 #: admin/common/db_connect.php:89
 msgid "Memory Limit Changed"
-msgstr "Límite de memoria cambiado"
+msgstr "内存上限改变"
 
 #: admin/common/db_connect.php:89
 #, php-format
 msgid "Your memory_limit, %sM, is set too low and has been increased to %sM. You may want to change this in you php.ini config file"
-msgstr "Su límite de memoria (memory_limit), %sM, es demasiado bajo y ha sido incrementado a %sM. Puede que desee cambiar este parámetro en su archivo de configuración de PHP (php.ini)."
+msgstr "你的内存上限（memory_limit）， %sM ，设置得太低，并且现在已经增长为 %sM 。你可以在你的php.ini文件中更改这个配置。"
 
 #: admin/common/db_connect.php:91
 msgid "Low Memory Limit"
-msgstr "Limite de memoria bajo"
+msgstr "内存上限太低"
 
 #: admin/common/db_connect.php:91
 #, php-format
 msgid "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is not able to change this on your system. You should increase this to %sM in you php.ini config file"
-msgstr "Su límite de memoria (memory_limit), %sM, es demasiado bajo y puede causar problemas. FreePBX no ha sido capaz de cambiar este parámetro en su sistema. Debería cambiar este parámetro a %sM en su archivo de configuración de PHP (php.ini)."
+msgstr "你的内存上限（memory_limit）， %sM ，被设置得太低，可能会引起问题。FreePBX无法更改这个设置。请修改你的php.ini，将内存上限增加到 %sM"
 
 #: admin/common/db_connect.php:100
 msgid "Magic Quotes GPC"
-msgstr ""
+msgstr "魔术引用 GPC"
 
 #: admin/common/db_connect.php:100
 msgid "You have magic_quotes_gpc enabled in your php.ini, http or .htaccess file which will cause errors in some modules. FreePBX expects this to be off and runs under that assumption"
-msgstr ""
+msgstr "你在php.ini、http或.htaccess文件中打开了魔术引用的开关（magic_quotes_gpc），这会在某些模块中引起错误。FreePBX的正确运行要求关闭此项设置"
 
 #: admin/common/script.js.php:36
 msgid "Please select a \"Destination\""
-msgstr "Por favor, selecciones un \"Destino\""
+msgstr "请选择一个目的地"
 
 #: admin/common/script.js.php:44
 msgid "Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
-msgstr ""
+msgstr "自定义的 Goto 上下文必须包含字符串“custom-”。例如：custom-app,s,1"
 
 #: admin/modules/core/core.i18n.php:5
 #: admin/modules/core/install.php:4
 msgid "Core"
-msgstr "Núcleo"
+msgstr "核心"
 
 #: admin/modules/core/core.i18n.php:7
 msgid "Basic"
-msgstr "Básico"
+msgstr "基本配置"
 
 #: admin/modules/core/core.i18n.php:9
 msgid "Extensions"
-msgstr "Extensiones"
+msgstr "分机"
 
 #: admin/modules/core/core.i18n.php:11
 msgid "Users"
-msgstr "Usuarios"
+msgstr "用户"
 
 #: admin/modules/core/core.i18n.php:13
 msgid "Devices"
-msgstr "Dispositivos"
+msgstr "设备"
 
 #: admin/modules/core/core.i18n.php:15
 msgid "Inbound Routes"
-msgstr "Rutas entrantes"
+msgstr "入局线路"
 
 #: admin/modules/core/core.i18n.php:17
 msgid "Zap Channel DIDs"
-msgstr "DIDs de canales Zap"
+msgstr "Zap频道DID设置"
 
 #: admin/modules/core/core.i18n.php:19
 msgid "Outbound Routes"
-msgstr "Rutas salientes"
+msgstr "出局线路"
 
 #: admin/modules/core/core.i18n.php:21
 msgid "Trunks"
-msgstr "Líneas"
+msgstr "中继"
 
 #: admin/modules/core/core.i18n.php:23
 #: admin/modules/core/page.ampusers.php:159
 #: admin/modules/core/page.trunks.php:351
 msgid "General Settings"
-msgstr "Opciones generales"
+msgstr "一般设置"
 
 #: admin/modules/core/core.i18n.php:25
 msgid "Administrators"
-msgstr "Administradores"
+msgstr "管理员"
 
 #: admin/modules/core/core.i18n.php:27
 msgid "FreePBX Support"
-msgstr "Soporte FreePBX"
+msgstr "FreePBX技术支持"
 
 #: admin/modules/core/functions.inc.php:477
 msgid "Terminate Call"
-msgstr "Terminar llamada"
+msgstr "结束呼叫"
 
 #: admin/modules/core/functions.inc.php:478
 msgid "Hangup"
-msgstr "Colgar"
+msgstr "挂断"
 
 #: admin/modules/core/functions.inc.php:479
 msgid "Congestion"
-msgstr "Congestión"
+msgstr "拥塞"
 
 #: admin/modules/core/functions.inc.php:480
 #: admin/modules/core/page.general.php:198
 msgid "Busy"
-msgstr "Ocupado"
+msgstr "忙"
 
 #: admin/modules/core/functions.inc.php:481
 msgid "Play SIT Tone (Zapateller)"
-msgstr ""
+msgstr "播放SIT提示音（Zapateller）"
 
 #: admin/modules/core/functions.inc.php:482
 msgid "Put caller on hold forever"
-msgstr "Poner al llamante es espera por siempre"
+msgstr "一直让主叫等待"
 
 #: admin/modules/core/functions.inc.php:483
 msgid "Play ringtones to caller until they hangup"
-msgstr "Reproducir tonos de llamada al llamante hasta que cuelgue"
+msgstr "向主叫方播放铃声直到他们挂断"
 
 #: admin/modules/core/functions.inc.php:554
 #, php-format
 msgid "User Extension %s: %s"
-msgstr "Extensión del usuario %s: %s"
+msgstr "用户分机 %s：%s"
 
 #: admin/modules/core/functions.inc.php:1993
 #: admin/modules/core/functions.inc.php:2012
 msgid "A route for this DID/CID already exists!"
-msgstr "¡Ya existe una ruta para este DID/CID!"
+msgstr "一条接收这个DID/CID的线路以存在。"
 
 #: admin/modules/core/functions.inc.php:2079
 msgid "You must put in a device id"
-msgstr "Debe introducir un identificador de dispositivo"
+msgstr "你必须输入设备id"
 
 #: admin/modules/core/functions.inc.php:2089
 msgid "This device id is already in use"
-msgstr "Este dispositivo ya está en uso"
+msgstr "设备id已存在"
 
 #: admin/modules/core/functions.inc.php:2670
 msgid "User Extension: "
-msgstr "Extensión del usuario:"
+msgstr "用户分机"
 
 #: admin/modules/core/functions.inc.php:2699
 #, php-format
 msgid "Inbound Route: %s (%s)"
-msgstr "Ruta entrante: %s (%s)"
+msgstr "入局线路：%s （%s）"
 
 #: admin/modules/core/functions.inc.php:2733
 msgid "You must put in an extension (or user) number"
-msgstr "Debe introducir el número de una extensión (o usuario)"
+msgstr "你必须输入一个分机（或用户）号码"
 
 #: admin/modules/core/functions.inc.php:2742
 #, php-format
 msgid "This user/extension %s is already in use"
-msgstr "El usuario/extensión %s ya está en uso"
+msgstr "此用户/分机 %s 已存在"
 
 #: admin/modules/core/functions.inc.php:2761
 #: admin/modules/core/functions.inc.php:3012
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
-msgstr "Ya existe una ruta con este DID/CID: %s/%s"
+msgstr "一条接收这个DID/CID（%s/%s）的线路以存在。"
 
 #: admin/modules/core/functions.inc.php:3047
 #: admin/modules/core/page.zapchandids.php:123
 msgid "Invalid Channel Number, must be numeric and not blank"
-msgstr "Número de canal no válido: debe ser numérico y no estar vacío"
+msgstr "无效的频道号，频道号必须为数字，并且不能为空"
 
 #: admin/modules/core/functions.inc.php:3051
 #: admin/modules/core/page.zapchandids.php:124
 msgid "Invalid DID, must be a non-blank DID"
-msgstr "DID no válido; debe ser un DID no vacío"
+msgstr "无效的DID，必须为非空的DID"
 
 #: admin/modules/core/functions.inc.php:3063
 msgid "Error Duplicate Channel Entry"
-msgstr "Error: Canal duplicado"
+msgstr "错误：有重复的频道项"
 
 #: admin/modules/core/functions.inc.php:4227
 #, php-format
 msgid "Failed to open %s for writing, aborting attempt to write the country indications. The file may be readonly or the permissions may be incorrect."
-msgstr "No se pudo abrir el archivo %s para leerlo, se va a cancelar la operación de guardar la configuración de indicaciones del país. El archivo puede ser de sólo lectura o los permisos pueden ser incorrectos."
+msgstr "无法为写入而打开 %s ，取消向文件写入国家信息的操作。文件可能具有只读属性或其访问权限没有被正确的设置。"
 
 #: admin/modules/core/functions.inc.php:4228
 msgid "Failed to write indications.conf"
-msgstr "No se pudo guardar el archivo indications.conf"
+msgstr "无法写入indications.conf"
 
 #: admin/modules/core/functions.inc.php:4252
 msgid "On Demand"
-msgstr "Bajo demanda"
+msgstr "需要时才录音"
 
 #: admin/modules/core/functions.inc.php:4253
 msgid "Always"
-msgstr "Siempre"
+msgstr "总是"
 
 #: admin/modules/core/functions.inc.php:4254
 msgid "Never"
-msgstr "Nunca"
+msgstr "从不"
 
 #: admin/modules/core/functions.inc.php:4266
 msgid "Screen Caller: No Memory"
-msgstr ""
+msgstr "来电显示：禁用记忆功能"
 
 #: admin/modules/core/functions.inc.php:4267
 msgid "Screen Caller: Memory"
-msgstr ""
+msgstr "来电显示：启用记忆功能"
 
 #: admin/modules/core/functions.inc.php:4270
 #: admin/modules/core/page.did.php:224
 #: admin/modules/core/page.general.php:196
 msgid "Default"
-msgstr "Por defecto"
+msgstr "默认"
 
 #: admin/modules/core/functions.inc.php:4318
 #: admin/modules/core/functions.inc.php:4671
 #: admin/modules/core/page.did.php:134
 msgid "deleted"
-msgstr "Eliminado"
+msgstr "已删除"
 
 #: admin/modules/core/functions.inc.php:4338
 #: admin/modules/core/functions.inc.php:4723
 #: admin/modules/core/page.did.php:163
 #: admin/modules/core/page.extensions.php:18
 msgid "Extension"
-msgstr "Extensión"
+msgstr "分机"
 
 #: admin/modules/core/functions.inc.php:4340
 #, php-format
 msgid "Delete Extension %s"
-msgstr "Eliminar extensión %s"
+msgstr "删除分机 %s"
 
 #: admin/modules/core/functions.inc.php:4350
 #: admin/modules/core/page.did.php:159
 #: admin/modules/core/page.users.php:21
 msgid "User"
-msgstr "Usuario"
+msgstr "用户"
 
 #: admin/modules/core/functions.inc.php:4352
 #, php-format
 msgid "Delete User %s"
-msgstr "Eliminar usuario %s"
+msgstr "删除用户 %s"
 
 #: admin/modules/core/functions.inc.php:4364
 msgid "Add User/Extension"
-msgstr "Añadir usuario/extensión"
+msgstr "添加用户/分机"
 
 #: admin/modules/core/functions.inc.php:4371
 #: admin/modules/core/functions.inc.php:4741
 msgid "Please enter a valid extension number."
-msgstr "Por favor, introduzca un número de extensión válido"
+msgstr "请输入有效的分机号码"
 
 #: admin/modules/core/functions.inc.php:4372
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
-msgstr ""
+msgstr "请输入有效的主叫ID（CID）号码（必须是数字）"
 
 #: admin/modules/core/functions.inc.php:4373
 msgid "Please enter valid User Password using numbers only"
-msgstr "Por favor, introduzca una contraseña para el usuario usando sólamente números"
+msgstr "请输入有效的只包含数字的密码"
 
 #: admin/modules/core/functions.inc.php:4374
 msgid "Please enter a valid Display Name"
-msgstr "Por favor, introduzca un nombre a mostrar válido"
+msgstr "请输入有效的显示名"
 
 #: admin/modules/core/functions.inc.php:4375
 msgid "Please enter a valid Outbound CID"
-msgstr ""
+msgstr "请输入有效的出局主叫ID（CID）"
 
 #: admin/modules/core/functions.inc.php:4376
 msgid "Please enter a valid pause time in seconds, using digits only"
-msgstr "Por favor, introduzca un tiempo de pausa válido en segundos, use sólo números"
+msgstr "请输入有效的暂停时间，只能输入数字，单位为秒"
 
 #: admin/modules/core/functions.inc.php:4377
 msgid "You have entered a non-standard dialpattern for your DID. You can only enter standard dialpatterns. You must use the inbound routing form to enter non-standard patterns"
-msgstr "Ha introducido una regla de marcación no válida para su DID. Sólo puede introducir reglas de marcación estándares. Debe usar el formulario de enrutamiento entrante para introducir reglas no estándares"
+msgstr "你输入的DID不是标准的拨号模式。你只能输入标准的拨号模式。非标准格式的拨号模式要以入局线路规则的形式输入。"
 
 #: admin/modules/core/functions.inc.php:4378
 msgid "Please enter a valid Caller ID Number or leave it blank for your Assigned DID/CID pair"
-msgstr ""
+msgstr "请输入一个有效的主叫ID号码，或者不填写此项以使用你被分配的 DID/CID。"
 
 #: admin/modules/core/functions.inc.php:4385
 msgid "Edit Extension"
-msgstr "Editar extensión"
+msgstr "编辑分机"
 
 #: admin/modules/core/functions.inc.php:4385
 #: admin/modules/core/page.ampusers.php:239
 msgid "Add Extension"
-msgstr "Añadir extensión"
+msgstr "添加分机"
 
 #: admin/modules/core/functions.inc.php:4387
 msgid "Edit User"
-msgstr "Editar usuario"
+msgstr "编辑用户"
 
 #: admin/modules/core/functions.inc.php:4387
 #: admin/modules/core/page.ampusers.php:101
 msgid "Add User"
-msgstr "Añadir usuario"
+msgstr "添加用户"
 
 #: admin/modules/core/functions.inc.php:4392
 msgid "User Extension"
-msgstr "Extensión del usuario"
+msgstr "用户分机号"
 
 #: admin/modules/core/functions.inc.php:4392
 msgid "The extension number to dial to reach this user."
-msgstr "El número de extensión que se debe marcar para contactar con este usuario."
+msgstr "这个用户的分机号码"
 
 #: admin/modules/core/functions.inc.php:4395
 msgid "User Password"
-msgstr "Contraseña del usuario"
+msgstr "用户密码"
 
 #: admin/modules/core/functions.inc.php:4395
 msgid "A user will enter this password when logging onto a device."
-msgstr "El usuario introducirá esta contraseña cuando inicie sesión en el dispositivo."
+msgstr "在登录设备时，用户需要输入的密码"
 
 #: admin/modules/core/functions.inc.php:4395
 #: admin/modules/core/functions.inc.php:4756
 msgid "logs into a device."
-msgstr "inicie sesión en el dispositivo."
+msgstr "登录设备。"
 
 #: admin/modules/core/functions.inc.php:4395
 #: admin/modules/core/functions.inc.php:4756
 msgid "logs out of a device."
-msgstr "cierre sesión en el dispositivo."
+msgstr "从设备注销"
 
 #: admin/modules/core/functions.inc.php:4399
 msgid "Display Name"
-msgstr "Nombre para mostrar"
+msgstr "显示名"
 
 #: admin/modules/core/functions.inc.php:4399
 msgid "The caller id name for calls from this user will be set to this name. Only enter the name, NOT the number."
-msgstr ""
+msgstr "显示名是来电显示上显示的名字。只需要输入名字，不需要输入号码。"
 
 #: admin/modules/core/functions.inc.php:4401
 msgid "CID Num Alias"
-msgstr ""
+msgstr "CID号码"
 
 #: admin/modules/core/functions.inc.php:4401
 msgid "The CID Number to use for internal calls, if different from the extension number. This is used to masquerade as a different user. A common example is a team of support people who would like their internal callerid to display the general support number (a ringgroup or queue). There will be no effect on external calls."
-msgstr ""
+msgstr "内线呼叫使用的CID号码，可以与分机号码不同。这可以用来伪装成其他用户。比如说，技术支持小组中的成员通常都希望他们的内线呼叫的CID被显示成同样的技术支持号码（以拨号小组或等待队列的形式工作）。这项设置对外线电话无影响。"
 
 #: admin/modules/core/functions.inc.php:4402
 msgid "SIP Alias"
-msgstr "Alias SIP"
+msgstr "SIP名称"
 
 #: admin/modules/core/functions.inc.php:4402
 msgid "If you want to support direct sip dialing of users internally or through anonymous sip calls, you can supply a friendly name that can be used in addition to the users extension to call them."
-msgstr ""
+msgstr "如果希望系统支持直接用SIP进行内线呼叫或者用匿名SIP进行呼叫，在呼叫别的用户的时候，你除了拨打分机号，还可以添加一个昵称。"
 
 #: admin/modules/core/functions.inc.php:4407
 msgid "User Devices"
-msgstr "Dispositivos del usuario"
+msgstr "用户设备"
 
 #: admin/modules/core/functions.inc.php:4418
 msgid "Edit:"
-msgstr "Editar:"
+msgstr "编辑："
 
 #: admin/modules/core/functions.inc.php:4430
 #: admin/modules/core/functions.inc.php:4759
 msgid "Extension Options"
-msgstr "Opciones de la extensión"
+msgstr "分机选项"
 
 #: admin/modules/core/functions.inc.php:4431
 msgid "Outbound CID"
-msgstr "CID saliente"
+msgstr "出局CID"
 
 #: admin/modules/core/functions.inc.php:4431
 msgid "Overrides the caller id when dialing out a trunk. Any setting here will override the common outbound caller id set in the Trunks admin.<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this field blank to disable the outbound callerid feature for this user."
-msgstr ""
+msgstr "通过某中继拨出电话时，此项设置会覆盖主叫的CID设置。在此处进行的任何设置都会覆盖在“中继管理”中对一般出局主叫ID的设置。<br /><br />格式是：<b>\"主叫名\" &lt;#######&gt;</b><br /><br />留空此项，可以禁用此用户的出局CID功能。"
 
 #: admin/modules/core/functions.inc.php:4433
 msgid "Ring Time"
-msgstr ""
+msgstr "振铃时间"
 
 #: admin/modules/core/functions.inc.php:4433
 msgid "Number of seconds to ring prior to going to voicemail. Default will use the value set in the General Tab. If no voicemail is configured this will be ignored."
-msgstr ""
+msgstr "在没有被接听的呼叫被转移到语音邮件之前，电话振铃的时间，单位为秒。默认使用的是“一般设置”标签中设置的值。如果没有启用语音邮件，这项设置会被忽略。"
 
 #: admin/modules/core/functions.inc.php:4441
 msgid "Call Waiting"
-msgstr "Llamada en espera"
+msgstr "呼叫等待"
 
 #: admin/modules/core/functions.inc.php:4441
 msgid "Set the initial/current Call Waiting state for this user's extension"
-msgstr ""
+msgstr "设置此用户的分机的初始/当前的呼叫等待状态"
 
 #: admin/modules/core/functions.inc.php:4442
 msgid "Call Screening"
-msgstr ""
+msgstr "来电显示"
 
 #: admin/modules/core/functions.inc.php:4442
 msgid "Call Screening requires external callers to say their name, which will be played back to the user and allow the user to accept or reject the call.  Screening with memory only verifies a caller for their caller-id once. Screening without memory always requires a caller to say their name. Either mode will always announce the caller based on the last introduction saved with that callerid. If any user on the system uses the memory option, when that user is called, the caller will be required to re-introduce themselves and all users on the system will have that new introduction associated with the caller's CallerId."
-msgstr ""
+msgstr "来电显示要求外线的主叫发送他们的姓名信息，这个信息会显示给被叫用户，被叫用户可以选择接听或挂断。有记忆功能的来电显示只验证一次主叫的CID。没有记忆功能的来电显示，总是要求主叫发送他们的姓名。两种模式都总是会把新主叫ID通告给用户。比如说，某个用户启用了有记忆的来电显示，记住了某主叫的信息，而局内的另一用户要求此主叫再次输入姓名信息，这次主叫方输入了不同的名字，这之后系统会向所有的用户显示最新的主叫信息。"
 
 #: admin/modules/core/functions.inc.php:4443
 msgid "Pinless Dialing"
-msgstr ""
+msgstr "拨号绑定"
 
 #: admin/modules/core/functions.inc.php:4443
 msgid "Enabling Pinless Dialing will allow this extension to bypass any pin codes normally required on outbound calls"
-msgstr ""
+msgstr "启用拨号绑定允许此分机忽略此出局线路上要求的任何PIN码"
 
 #: admin/modules/core/functions.inc.php:4445
 msgid "Assigned DID/CID"
-msgstr ""
+msgstr "分配的 DID/CID"
 
 #: admin/modules/core/functions.inc.php:4446
 msgid "DID Description"
-msgstr "Descripción del DID"
+msgstr "DID描述"
 
 #: admin/modules/core/functions.inc.php:4446
 msgid "A description for this DID, such as \"Fax\""
-msgstr "Una descripción para este DID, como \"Fax\""
+msgstr "对此DID的描述，比如“传真”"
 
 #: admin/modules/core/functions.inc.php:4447
 msgid "Add Inbound DID"
-msgstr "Añadir DID entrante"
+msgstr "添加入局DID"
 
 #: admin/modules/core/functions.inc.php:4447
 msgid "A direct DID that is associated with this extension. The DID should be in the same format as provided by the provider (e.g. full number, 4 digits for 10x4, etc).<br><br>Format should be: <b>XXXXXXXXXX</b><br><br>.An optional CID can also be associated with this DID by setting the next box"
-msgstr ""
+msgstr "设置与此分机直接相关的DID。这个DID必须与服务提供商提供的DID格式相同。<br /><br />格式必须为：<b>XXXXXXXXXX</b><br /><br />。可以在下面的设置中输入一个与此DID相关的可选的CID"
 
 #: admin/modules/core/functions.inc.php:4448
 msgid "Add Inbound CID"
-msgstr "Añadir CID saliente"
+msgstr "添加入局CID"
 
 #: admin/modules/core/functions.inc.php:4448
 msgid "Add a CID for more specific DID + CID routing. A DID must be specified in the above Add DID box. In addition to standard dial sequences, you can also put Private, Blocked, Unknown, Restricted, Anonymous and Unavailable in order to catch these special cases if the Telco transmits them."
-msgstr ""
+msgstr "添加一个CID以执行更精确的DID+CID线路规则。若填写了此项，上面的DID项必须填写。除了可以使用标准的拨号顺序，如果你的电信公司传输像私有（Private）、阻塞（Blocked）、未知（Unknown）、受限制（Restricted）、匿名（Anonymous）和不可用（Unavailable）这样的信息，你还可以使用以上选项来处理这些特殊情况。"
 
 #: admin/modules/core/functions.inc.php:4456
 msgid "DID / CID"
-msgstr "DID/CID"
+msgstr "DID / CID"
 
 #: admin/modules/core/functions.inc.php:4460
 msgid "Any DID"
-msgstr "Cualquier DID"
+msgstr "任何DID"
 
 #: admin/modules/core/functions.inc.php:4476
 msgid "Recording Options"
-msgstr "Opciones de grabación"
+msgstr "录音选项"
 
 #: admin/modules/core/functions.inc.php:4477
 msgid "Record Incoming"
-msgstr "Grabar llamadas entrantes"
+msgstr "入局录音"
 
 #: admin/modules/core/functions.inc.php:4477
 msgid "Record all inbound calls received at this extension."
-msgstr "Grabar todas las llamadas entrantes recibidas en esta extensión"
+msgstr "对此分机的所有入局呼叫录音"
 
 #: admin/modules/core/functions.inc.php:4478
 msgid "Record Outgoing"
-msgstr "Grabar llamadas salientes"
+msgstr "出局录音"
 
 #: admin/modules/core/functions.inc.php:4478
 msgid "Record all outbound calls received at this extension."
-msgstr "Grabar todas las llamadas salientes realizadas desde esta extensión"
+msgstr "对此分机的所有出局呼叫录音"
 
 #: admin/modules/core/functions.inc.php:4496
 msgid "Warning! Extension"
-msgstr "¡Atención! La extensión"
+msgstr "警告！你的帐号无权使用此分机号："
 
 #: admin/modules/core/functions.inc.php:4496
 msgid "is not allowed for your account"
-msgstr "no está permitida en su cuenta"
+msgstr " 。"
 
 #: admin/modules/core/functions.inc.php:4510
 msgid "Conflicting Extensions"
-msgstr "Extensiones en conflicto"
+msgstr "分机冲突"
 
 #: admin/modules/core/functions.inc.php:4510
 msgid "The following extension numbers are in conflict, you can click on the item(s) below to edit the conflicting entity."
-msgstr "Los siguientes números de extensión están en conflicto; puede hacer clic en cada elemento de los siguientes para editar la configuración de la extensión."
+msgstr "以下的分机号码有冲突，你可以点击下面的项目来更正错误。"
 
 #: admin/modules/core/functions.inc.php:4514
 msgid "Configure user again:"
-msgstr "Configurar usuario de nuevo;"
+msgstr "再次配置用户设置："
 
 #: admin/modules/core/functions.inc.php:4514
 msgid "Configure extension again:"
-msgstr "Configurar extensión de nuevo:"
+msgstr "再次配置分机设置："
 
 #: admin/modules/core/functions.inc.php:4561
 msgid "Please enter the dtmfmode for this device"
-msgstr "Por favor, introduzca el valor del parámetro \"dtmfmode\" para este dispositivo"
+msgstr "请输入此设备的dtmfmode"
 
 #: admin/modules/core/functions.inc.php:4562
 msgid "Please enter the channel for this device"
-msgstr "Por favor, introduzca el canal para este dispositivo"
+msgstr "请输入此设备的频道"
 
 #: admin/modules/core/functions.inc.php:4563
 msgid "You have not entered a Secret for this device, although this is possible it is generally bad practice to not assign a Secret to a device. Are you sure you want to leave the Secret empty?"
-msgstr "No ha introducido una contraseña para este dispositivo; aunque esto es posible, es, en general, una mala práctica el no asignar una contraseña al dispositivo. ¿Está seguro de que desea dejar la contraseña vacía?"
+msgstr "你还没有为此设备设置密码，虽然这也是允许的，但一般来说没有密码是不太好的。你确定不设置密码？"
 
 #: admin/modules/core/functions.inc.php:4564
 msgid "Please enter a Secret for this device"
-msgstr "Por favor, introduzca una contraseña para este dispositivo"
+msgstr "请为此设备设置密码"
 
 #: admin/modules/core/functions.inc.php:4631
 msgid "Generic SIP Device"
-msgstr "Dispositivo SIP genérico"
+msgstr "普通 SIP 设备"
 
 #: admin/modules/core/functions.inc.php:4632
 msgid "Generic IAX2 Device"
-msgstr "Dispositivo IAX2 genérico"
+msgstr "普通 IAX2 设备"
 
 #: admin/modules/core/functions.inc.php:4633
 msgid "Generic ZAP Device"
-msgstr "Dispositivo Zap genérico"
+msgstr "普通 ZAP 设备"
 
 #: admin/modules/core/functions.inc.php:4634
 msgid "Other (Custom) Device"
-msgstr "Otro dispositivo personalizado"
+msgstr "其他设备（自定义设备）"
 
 #: admin/modules/core/functions.inc.php:4639
 msgid "Fixed"
-msgstr "Fijo"
+msgstr "固定的"
 
 #: admin/modules/core/functions.inc.php:4640
 msgid "Adhoc"
-msgstr ""
+msgstr "自组织"
 
 #: admin/modules/core/functions.inc.php:4643
 msgid "none"
-msgstr "Ninguno"
+msgstr "无"
 
 #: admin/modules/core/functions.inc.php:4644
 msgid "New User"
-msgstr "Nuevo usuario"
+msgstr "新用户"
 
 #: admin/modules/core/functions.inc.php:4677
 #: admin/modules/core/page.ampusers.php:239
 msgid "Add Device"
-msgstr "Añadir un dispositivo"
+msgstr "添加设备"
 
 #: admin/modules/core/functions.inc.php:4679
 msgid "Add an Extension"
-msgstr "Añadir una extensión"
+msgstr "添加分机"
 
 #: admin/modules/core/functions.inc.php:4681
 msgid "Please select your Device below then click Submit"
-msgstr "Por favor, seleccione a continuación su dispositivo y haga clic después en Enviar"
+msgstr "请从下面选择你的设备并点击提交"
 
 #: admin/modules/core/functions.inc.php:4682
 #: admin/modules/core/functions.inc.php:4699
 #: admin/modules/core/functions.inc.php:4721
 #: admin/modules/core/page.devices.php:18
 msgid "Device"
-msgstr "Dispositivo"
+msgstr "设备"
 
 #: admin/modules/core/functions.inc.php:4685
 msgid "Edit existing Device"
-msgstr "Editar dispositivo existente"
+msgstr "编辑现有设备"
 
 #: admin/modules/core/functions.inc.php:4687
 msgid "Edit existing Extension"
-msgstr "Editar extensión existente"
+msgstr "编辑现有分机"
 
 #: admin/modules/core/functions.inc.php:4702
 #, php-format
 msgid "Delete Device %s"
-msgstr "Eliminar dispositivo %s"
+msgstr "删除设备 %s"
 
 #: admin/modules/core/functions.inc.php:4708
 #, php-format
 msgid "Edit Default User: %s"
-msgstr "Editar usuario por defecto: %s"
+msgstr "编辑默认用户：%s"
 
 #: admin/modules/core/functions.inc.php:4708
 #, php-format
 msgid "Edit Fixed User: %s"
-msgstr "Editar usuario fijo: %s"
+msgstr "编辑固定用户：%s"
 
 #: admin/modules/core/functions.inc.php:4738
 msgid "Please enter a device id."
-msgstr "Por favor, introduzca un identificador de dispositivo"
+msgstr "请输入一个设备id。"
 
 #: admin/modules/core/functions.inc.php:4739
 msgid "Please enter a valid Description for this device"
-msgstr "Por favor, introduzca una descripción válida para este dispositivo."
+msgstr "请为此设备输入有效的描述"
 
 #: admin/modules/core/functions.inc.php:4740
 msgid "Please enter a valid Emergency CID"
-msgstr "Por favor, introduzca un CID de emergencias válido"
+msgstr "请输入一个有效的紧急CID"
 
 #: admin/modules/core/functions.inc.php:4748
 msgid "Device Info"
-msgstr "Información del dispositivo"
+msgstr "设备信息"
 
 #: admin/modules/core/functions.inc.php:4752
 msgid "Device ID"
-msgstr "Identificador del dispositivo"
+msgstr "设备ID"
 
 #: admin/modules/core/functions.inc.php:4752
 msgid "Give your device a unique integer ID.  The device will use this ID to authenticate to the system."
-msgstr ""
+msgstr "为你的设备设置一个唯一的整数ID。这个设备会使用此ID来登录系统。"
 
 #: admin/modules/core/functions.inc.php:4754
 msgid "The caller id name for this device will be set to this description until it is logged into."
-msgstr ""
+msgstr "此设备的CID名会被设置成这个描述，直到设备登录到系统。"
 
 #: admin/modules/core/functions.inc.php:4755
 #: admin/modules/core/functions.inc.php:4760
 msgid "Emergency CID"
-msgstr "CID de emergencia"
+msgstr "紧急CID"
 
 #: admin/modules/core/functions.inc.php:4755
 #: admin/modules/core/functions.inc.php:4760
 msgid "This caller id will always be set when dialing out an Outbound Route flagged as Emergency.  The Emergency CID overrides all other caller id settings."
-msgstr ""
+msgstr "如果拨打了标记为紧急线路的出局线路，就会使用此CID。紧急CID设置会覆盖所有其他的CID设置。"
 
 #: admin/modules/core/functions.inc.php:4756
 msgid "Device Type"
-msgstr "Tipo de dispositivo"
+msgstr "设备类型"
 
 #: admin/modules/core/functions.inc.php:4756
 msgid "Devices can be fixed or adhoc. Fixed devices are always associated to the same extension/user. Adhoc devices can be logged into and logged out of by users."
-msgstr ""
+msgstr "设备可以是固定的或者自组织的。固定设备永远与同一个分机/用户关联。用户们可以让自组织的设备登录系统或从系统注销。"
 
 #: admin/modules/core/functions.inc.php:4757
 msgid "Default User"
-msgstr "Usuario por defecto"
+msgstr "默认用户"
 
 #: admin/modules/core/functions.inc.php:4757
 msgid "Fixed devices will always mapped to this user.  Adhoc devices will be mapped to this user by default.<br><br>If selecting 'New User', a new User Extension of the same Device ID will be set as the Default User."
-msgstr ""
+msgstr "固定设备总是映射到此用户上。自组织的设备在默认情况下映射到此用户。<br /><br />如果选择了“新用户”，该自组织设备（以相同的设备ID标识）的默认用户会被设置成一个新的用户分机号。"
 
 #: admin/modules/core/functions.inc.php:4765
 msgid "Device Options"
-msgstr "Opciones del dispositivo"
+msgstr "设备选项"
 
 #: admin/modules/core/functions.inc.php:4767
 #, php-format
 msgid "This device uses %s technology."
-msgstr "Este dispositivo usa la tecnología %s."
+msgstr "这个设备使用了 %s 技术。"
 
 #: admin/modules/core/functions.inc.php:4767
 msgid "Via DAHDI compatibility mode"
-msgstr ""
+msgstr "使用了DAHDI兼容模式"
 
 #: admin/modules/core/install.php:5
 msgid "User Logon"
-msgstr ""
+msgstr "用户登录"
 
 #: admin/modules/core/install.php:6
 msgid "User Logoff"
-msgstr ""
+msgstr "用户注销"
 
 #: admin/modules/core/install.php:7
 msgid "ZapBarge"
-msgstr ""
+msgstr "ZapBarge"
 
 #: admin/modules/core/install.php:8
 msgid "ChanSpy"
-msgstr ""
+msgstr "ChanSpy"
 
 #: admin/modules/core/install.php:9
 msgid "Simulate Incoming Call"
-msgstr "Simular llamada entrante"
+msgstr "模拟来电"
 
 #: admin/modules/core/install.php:10
 msgid "Dial System FAX"
-msgstr "Llamar al fax del sistema"
+msgstr "拨打系统传真号"
 
 #: admin/modules/core/install.php:11
 msgid "Directed Call Pickup"
-msgstr "Captura de llamada directa"
+msgstr "直接来电接听"
 
 #: admin/modules/core/install.php:12
 msgid "Asterisk General Call Pickup"
-msgstr "Captura de llamada general de Asterisk"
+msgstr "Asterisk一般来电接听"
 
 #: admin/modules/core/install.php:13
 msgid "In-Call Asterisk Blind Transfer"
-msgstr ""
+msgstr "In-Call Asterisk Blind Transfer"
 
 #: admin/modules/core/install.php:14
 msgid "In-Call Asterisk Attended Transfer"
-msgstr ""
+msgstr "In-Call Asterisk Attended Transfer"
 
 #: admin/modules/core/install.php:15
 msgid "In-Call Asterisk Toggle Call Recording"
-msgstr ""
+msgstr "In-Call Asterisk Toggle Call Recording"
 
 #: admin/modules/core/install.php:16
 msgid "In-Call Asterisk Disconnect Code"
-msgstr ""
+msgstr "In-Call Asterisk Disconnect Code"
 
 #: admin/modules/core/install.php:43
 #, php-format
 msgid "ERROR: trying to check if %s already in use"
-msgstr ""
+msgstr "错误：试图确认 %s 是否已经在使用中"
 
 #: admin/modules/core/install.php:130
 msgid "Checking if directdids need migrating.."
-msgstr ""
+msgstr "检查directdid是否需要转移"
 
 #: admin/modules/core/install.php:134
 msgid "starting migration"
-msgstr "Iniciando migración"
+msgstr "开始转移"
 
 #: admin/modules/core/install.php:151
 msgid "User: "
-msgstr "Usuario:"
+msgstr "用户"
 
 #: admin/modules/core/install.php:154
 #, php-format
 msgid "ERROR: failed to insert %s for user %s"
-msgstr "ERROR: no se pudo insertar %s para el usuario %s"
+msgstr "错误：无法插入 %s （用户 %s）"
 
 #: admin/modules/core/install.php:159
 #, php-format
 msgid "There were %s failures migrating directdids, users table not being changed"
-msgstr ""
+msgstr "在转移directdid时发生了 %s 错误，用户表没有进行更改"
 
 #: admin/modules/core/install.php:163
 #, php-format
 msgid "Removing field %s from users table.."
-msgstr "Eliminando el campo %s de la table de usuarios..."
+msgstr "从用户表删除域 %s 。。"
 
 #: admin/modules/core/install.php:167
 msgid "not present"
-msgstr "No presente"
+msgstr "没有出现"
 
 #: admin/modules/core/install.php:169
 msgid "removed"
-msgstr "Eliminado"
+msgstr "已移除"
 
 #: admin/modules/core/install.php:174
 msgid "ERROR: could not access user table to migrate directdids to incoming table, aborting"
-msgstr "ERROR: No se pudo acceder a la tabla de usuarios para migrar los DIDs directos a la tabla entrante, abortando"
+msgstr "错误：无法为转移directdid到入局来电表而访问用户表，正在中断操作"
 
 #: admin/modules/core/install.php:177
 msgid "already done"
-msgstr "Ya hecho"
+msgstr "已完成"
 
 #: admin/modules/core/install.php:182
 msgid "updating zap callgroup, pickupgroup.."
-msgstr "Actualizando grupo de llamadas Zap, grupos de captura..."
+msgstr "正在更新 zap 呼叫组和接听组。。"
 
 #: admin/modules/core/install.php:207
 #, php-format
 msgid "updated %s callgroups, %s pickupgroups"
-msgstr "Actualizados %s grupos de llamadas, %s grupos de captura"
+msgstr "更新了 %s 呼叫组和 %s 接听组。"
 
 #: admin/modules/core/install.php:209
 msgid "not needed"
-msgstr "No es necesario"
+msgstr "不需要"
 
 #: admin/modules/core/install.php:214
 msgid "checking for delay_answer field .."
-msgstr "Comprobando el campo delay_answer..."
+msgstr "正在检查 delay_answer 域。。"
 
 #: admin/modules/core/install.php:221
 #: admin/modules/core/install.php:237
 msgid "fatal error"
-msgstr "Error fatal"
+msgstr "致命错误"
 
 #: admin/modules/core/install.php:224
 #: admin/modules/core/install.php:240
 msgid "added"
-msgstr "Añadido"
+msgstr "已添加"
 
 #: admin/modules/core/install.php:227
 #: admin/modules/core/install.php:243
 msgid "already exists"
-msgstr "ya existe"
+msgstr "已存在"
 
 #: admin/modules/core/install.php:230
 msgid "checking for pricid field .."
-msgstr "Comprobando el campo pricid..."
+msgstr "正在检查 pricid 域"
 
 #: admin/modules/core/install.php:254
 msgid "Created"
-msgstr "Creado"
+msgstr "已创建"
 
 #: admin/modules/core/install.php:256
 msgid "Already exists!"
-msgstr "¡Ya existe!"
+msgstr "已存在！"
 
 #: admin/modules/core/page.ampusers.php:118
 msgid "Edit Administrator"
-msgstr "Editar administrador"
+msgstr "编辑管理员"
 
 #: admin/modules/core/page.ampusers.php:129
 #, php-format
 msgid "Delete User: %s"
-msgstr "Eliminar usuario: %s"
+msgstr "删除拥护： %s "
 
 #: admin/modules/core/page.ampusers.php:147
 msgid "Add Administrator"
-msgstr "Añadir administrador"
+msgstr "添加管理员"
 
 #: admin/modules/core/page.ampusers.php:165
 msgid "NOTE:"
-msgstr "NOTA:"
+msgstr "注意："
 
 #: admin/modules/core/page.ampusers.php:165
 msgid "AUTHTYPE is not set to 'database' in /etc/amportal.conf - note that this module is not currently providing access control, and changing passwords here or adding users will have no effect unless AUTHTYPE is set to 'database'."
-msgstr "El tipo de autentificación (AUTHTYPE) no está configurado coomo 'database' en el archivo de configuración 'amportal.conf'; tenga en cuenta que de esta manera no es posible tener un control de accesos, y el cambio de contraseña o la adición de usuarios no tendrán efecto hasta que se establezca el tipo de autentificación a 'database'."
+msgstr "在 /etc/amportal.conf 中的 AUTHTYPE 没有被配置为 'database' ——请注意，这导致此认证模块目前并未提供访问控制服务，在此更改密码或者添加用户都不会起作用，除非将 AUTHTYPE 设置为 'database'。"
 
 #: admin/modules/core/page.ampusers.php:171
 msgid "Username<span>Create a unique username for this new user</span>"
-msgstr "Usuario<span>Indique un nombre de usuario que no se esté utilizando ya para este nuevo usuario.</span>"
+msgstr "用户名<span>为新用户创建一个唯一的用户名</span>"
 
 #: admin/modules/core/page.ampusers.php:178
 msgid "Password<span>Create a password for this new user</span>"
-msgstr "Contraseña<span>Indique una contraseña para este nuevo usuario.</span>"
+msgstr "密码<span>为新用户创建密码</span>"
 
 #: admin/modules/core/page.ampusers.php:186
 msgid "Access Restrictions"
-msgstr "Restricciones de acceso"
+msgstr "访问范围限制"
 
 #: admin/modules/core/page.ampusers.php:191
 msgid "Department Name<span>Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department.</span>"
-msgstr "Departamento<span>Restringe los menús de recepcionista digital y grabaciones de sistema de este usuario a los usuarios de este departamento.</span>"
+msgstr "部门<span>在数字话务员的菜单和系统录音界面中，限制该用户只能访问关于此部门的信息。</span>"
 
 #: admin/modules/core/page.ampusers.php:198
 msgid "Extension Range<span>Restrict this user's view to only Extensions, Ring Groups, and Queues within this range.</span>"
-msgstr "Rango de extensiones<span>Restringe las extensiones, grupos de extensiones, y colas que puede ver este usuario a este rango de extensiones.</span>"
+msgstr "分机范围<span>限制用户只能访问这个范围内的分机、拨号小组和等待队列。</span>"
 
 #: admin/modules/core/page.ampusers.php:207
 msgid "Admin Access<span>Select the Admin Sections this user should have access to.</span>"
-msgstr "Privilegios<span>Seleccione las secciones a las que este usuario debería poder tener acceso.</span>"
+msgstr "管理权限<span>选择此用户可以访问的管理区域。</span>"
 
 #: admin/modules/core/page.ampusers.php:234
 msgid "Apply Changes Bar"
-msgstr "Barra de aplicación de cambios"
+msgstr "应用更改工具栏"
 
 #: admin/modules/core/page.ampusers.php:244
 msgid "ALL SECTIONS"
-msgstr "TODAS LAS SECCIONES"
+msgstr "所有区域"
 
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 #: admin/modules/core/page.ampusers.php:252
 #: admin/modules/core/page.general.php:453
 #: admin/modules/core/page.routing.php:584
 #: admin/modules/core/page.trunks.php:766
 #: admin/modules/core/page.zapchandids.php:108
 msgid "Submit Changes"
-msgstr "Enviar cambios"
+msgstr "提交更改"
 
 #: admin/modules/core/page.ampusers.php:266
 msgid "Username must not be blank"
-msgstr "El nombre de usuario no puede estar vacío"
+msgstr "用户名不能为空"
 
 #: admin/modules/core/page.ampusers.php:268
 msgid "Username cannot start with a number, and can only contain letters and numbers"
-msgstr "El nombre de usuario no puede empezar con un número, y sólo puede contener letras y números"
+msgstr "用户名不能以数字开始，只能以字母打头"
 
 #: admin/modules/core/page.ampusers.php:270
 msgid "For security reasons, you cannot use the department name default"
-msgstr "Por razones de seguridad, no puede usar el nombre de departamento \"default\""
+msgstr "出于安全考虑，你不能使用默认的部门名称"
 
 #: admin/modules/core/page.ampusers.php:272
 msgid "Department name cannot have a space"
-msgstr "El nombre del departamento no puede contener espacios"
+msgstr "部门名称不能包含空格"
 
 #: admin/modules/core/page.did.php:81
 msgid " (toggle sort)"
-msgstr "(cambiar orden)"
+msgstr "（切换是否排序）"
 
 #: admin/modules/core/page.did.php:85
 #: admin/modules/core/page.did.php:173
 #: admin/modules/core/page.did.php:184
 msgid "Add Incoming Route"
-msgstr "Añadir ruta entrante"
+msgstr "添加入局线路"
 
 #: admin/modules/core/page.did.php:86
 msgid "All DIDs"
-msgstr "Todos los DIDs"
+msgstr "所有的DID"
 
 #: admin/modules/core/page.did.php:87
 msgid "User DIDs"
-msgstr "DIDs de usuarios"
+msgstr "用户的DID"
 
 #: admin/modules/core/page.did.php:88
 msgid "General DIDs"
-msgstr "DISs generales"
+msgstr "一般DID"
 
 #: admin/modules/core/page.did.php:89
 msgid "Unused DIDs"
-msgstr "DISs sin usar"
+msgstr "未使用的DID"
 
 #: admin/modules/core/page.did.php:121
 msgid "any DID"
-msgstr "Cualquier DID"
+msgstr "任何DID"
 
 #: admin/modules/core/page.did.php:122
 msgid "any CID"
-msgstr "Cualquier CID"
+msgstr "任何CID"
 
 #: admin/modules/core/page.did.php:146
 #: admin/modules/core/page.trunks.php:293
 msgid "Route"
-msgstr "Ruta"
+msgstr "线路"
 
 #: admin/modules/core/page.did.php:149
 #: admin/modules/core/page.routing.php:275
 #, php-format
 msgid "Delete Route %s"
-msgstr "Eliminar ruta %s"
+msgstr "删除线路 %s"
 
 #: admin/modules/core/page.did.php:166
 #, php-format
 msgid "Edit %s"
-msgstr "Editar %s"
+msgstr "编辑 %s"
 
 #: admin/modules/core/page.did.php:166
 #, php-format
 msgid "Edit %s %s (%s)"
-msgstr "Editar %s %s (%s)"
+msgstr "编辑 %s %s （%s）"
 
 #: admin/modules/core/page.did.php:184
 msgid "Edit Incoming Route"
-msgstr "Editar ruta entrante"
+msgstr "编辑入局线路"
 
 #: admin/modules/core/page.did.php:186
 msgid "Provide a meaningful description of what this incoming route is"
-msgstr ""
+msgstr "填写关于入局线路的有意义的说明"
 
 #: admin/modules/core/page.did.php:190
 msgid "DID Number"
-msgstr "Número DID"
+msgstr "DID号码"
 
 #: admin/modules/core/page.did.php:190
 msgid "Define the expected DID Number if your trunk passes DID on incoming calls. <br><br>Leave this blank to match calls with any or no DID info.<br><br>You can also use a pattern match (eg _2[345]X) to match a range of numbers"
-msgstr ""
+msgstr "定义了在你的中继中允许通过的呼叫的DID范围。<br /><br />如果希望具有任何DID或没有DID的呼叫通过，就不填此项。<br /><br />你也可以使用模式匹配（比如 _2[345]X）来匹配一个范围内的DID号码。"
 
 #: admin/modules/core/page.did.php:194
 msgid "Caller ID Number"
-msgstr ""
+msgstr "主叫ID号码"
 
 #: admin/modules/core/page.did.php:194
 msgid "Define the Caller ID Number to be matched on incoming calls.<br><br>Leave this field blank to match any or no CID info. In addition to standard dial sequences, you can also put Private, Blocked, Unknown, Restricted, Anonymous and Unavailable in order to catch these special cases if the Telco transmits them."
-msgstr ""
+msgstr "定义了在你的中继中允许通过的呼叫的主叫ID（CID）范围。<br /><br />如果希望具有任何CID或没有CID的呼叫通过，就不填此项。除了可以使用标准的拨号顺序，如果你的电信公司传输像私有（Private）、阻塞（Blocked）、未知（Unknown）、受限制（Restricted）、匿名（Anonymous）和不可用（Unavailable）这样的信息，你还可以使用以上选项来处理这些特殊情况。"
 
 #: admin/modules/core/page.did.php:199
 msgid "CID Priority Route"
-msgstr ""
+msgstr "主叫ID（CID）优先线路"
 
 #: admin/modules/core/page.did.php:199
 msgid "This effects CID ONLY routes where no DID is specified. If checked, calls with this CID will be routed to this route, even if there is a route to the DID that was called. Normal behavior is for the DID route to take the calls. If there is a specific DID/CID route for this CID, that route will still take the call when that DID is called."
-msgstr ""
+msgstr "这个设置仅仅对没有指定DID的线路起作用。如果钩选，具有主叫ID（CID）的呼叫会被引导到这条线路，即使主叫原本呼叫的是某DID，同时也有线路通往此DID，其结果也一样。一般来说呼叫是送到DID线路上的。但是，如果对于此CID，有专门指定的DID/CID线路的话，当DID被呼叫时，呼叫就会传送到那条线路上。"
 
 #: admin/modules/core/page.did.php:203
 msgid "Options"
-msgstr "Opciones"
+msgstr "选项"
 
 #: admin/modules/core/page.did.php:205
 msgid "Alert Info"
-msgstr ""
+msgstr "警告信息"
 
 #: admin/modules/core/page.did.php:205
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
-msgstr ""
+msgstr "警告信息（ALERT_INFO）可以为SIP设备启用一种不同的振铃。"
 
 #: admin/modules/core/page.did.php:209
 msgid "CID name prefix"
-msgstr ""
+msgstr "CID名字前缀"
 
 #: admin/modules/core/page.did.php:209
 msgid "You can optionally prefix the Caller ID name. ie: If you prefix with \"Sales:\", a call from John Doe would display as \"Sales:John Doe\" on the extensions that ring."
-msgstr ""
+msgstr "你可以在主叫ID的名字上添加可选的前缀。比如，如果你希望添加“销售部：”前缀，那么从老王的分机打来的电话会被显示为“销售部：老王”。"
 
 #: admin/modules/core/page.did.php:214
 msgid "Music On Hold"
-msgstr "Música en espera"
+msgstr "等待时播放音乐"
 
 #: admin/modules/core/page.did.php:214
 msgid "Set the MoH class that will be used for calls that come in on this route. For example, choose a type appropriate for routes coming in from a country which may have announcements in their language."
-msgstr ""
+msgstr "为这条线路上的呼叫设置一个MoH（等待音乐）类。比如，考虑到某国家说特定的语言，为从某国家入局的线路选择合适的MoH类型以播放他们的语言的问候消息。"
 
 #: admin/modules/core/page.did.php:223
 msgid "No Music"
-msgstr "Sin música"
+msgstr "无音乐"
 
 #: admin/modules/core/page.did.php:234
 msgid "Signal RINGING"
-msgstr ""
+msgstr "振铃信号"
 
 #: admin/modules/core/page.did.php:234
 msgid "Some devices or providers require RINGING to be sent before ANSWER. You'll notice this happening if you can send calls directly to a phone, but if you send it to an IVR, it won't connect the call."
-msgstr ""
+msgstr "一些设备或服务提供商要求在应答（ANSWER）之前发送振铃（RINGING）信号。你会发现这发生在直接把呼叫发送到电话上的情况，但如果你把呼叫发送给自动语音应答（IVR），呼叫会无法连接。"
 
 #: admin/modules/core/page.did.php:238
 msgid "Pause Before Answer"
-msgstr "Pausa antes de contestar"
+msgstr "在应答前暂停"
 
 #: admin/modules/core/page.did.php:238
 msgid "An optional delay to wait before processing this route. Setting this value will delay the channel from answering the call. This may be handy if external fax equipment or security systems are installed in parallel and you would like them to be able to seize the line."
-msgstr ""
+msgstr "在处理这条线路的通话时，可以设置一个可选的等待时间。设置等待时间会延迟频道对呼叫的应答。这个设置对于并行安装的传真机或保安系统很实用，因为你可能希望他们有机会占有线路。"
 
 #: admin/modules/core/page.did.php:242
 msgid "Privacy"
-msgstr "Privacidad"
+msgstr "隐私"
 
 #: admin/modules/core/page.did.php:245
 msgid "Privacy Manager"
-msgstr "Gestor de privacidad"
+msgstr "隐私管理器"
 
 #: admin/modules/core/page.did.php:245
 msgid "If no Caller ID is sent, Privacy Manager will asks the caller to enter their 10 digit phone number. The caller is given 3 attempts. The number of digits and attempts can be defined in privacy.conf. If a user has Call Screening enabled, the incoming caller will be asked to enter their CallerId here if enabled, and then to say their name once determined that the called user requires it."
-msgstr ""
+msgstr "如果一个来电没有发送主叫ID，隐私管理器会让主叫用户输入10位的电话号码。主叫有3次机会。需要输入的号码位数和重试次数可以在privacy.conf配置文件中定义。如果一个用户启用了来电显示，入局的主叫会被要求输入他们的CID（如果在这里启用了此选项），若被叫用户还要求显示姓名，主叫方则会被要求输入他们的姓名。"
 
 #: admin/modules/core/page.did.php:248
 #: admin/modules/core/page.general.php:438
 msgid "No"
-msgstr "No"
+msgstr "否"
 
 #: admin/modules/core/page.did.php:249
 #: admin/modules/core/page.general.php:437
 msgid "Yes"
-msgstr "Sí"
+msgstr "是"
 
 #: admin/modules/core/page.did.php:254
 msgid "Fax Handling"
-msgstr "Gestión de fax"
+msgstr "传真处理"
 
 #: admin/modules/core/page.did.php:258
 msgid "Fax Extension"
-msgstr "Extensión de fax"
+msgstr "传真分机号"
 
 #: admin/modules/core/page.did.php:258
 msgid "Select 'system' to have the system receive and email faxes.<br><br>The FreePBX default is defined in General Settings."
-msgstr ""
+msgstr "选择“系统”（“system”）以让系统接受传真并发送统治邮件<br /><br />FreePBX的默认设置在“一般设置”中定义。"
 
 #: admin/modules/core/page.did.php:262
 msgid "FreePBX default"
-msgstr "Por defecto de FreePBX"
+msgstr "FreePBX默认设置"
 
 #: admin/modules/core/page.did.php:263
 #: admin/modules/core/page.general.php:368
 msgid "disabled"
-msgstr "Deshabilitado"
+msgstr "禁用"
 
 #: admin/modules/core/page.did.php:264
 #: admin/modules/core/page.general.php:369
 msgid "system"
-msgstr "Sistema"
+msgstr "系统"
 
 #: admin/modules/core/page.did.php:279
 msgid "Fax Email"
-msgstr ""
+msgstr "传真通知邮件"
 
 #: admin/modules/core/page.did.php:279
 msgid "Email address is used if 'system' has been chosen for the fax extension above.<br><br>Leave this blank to use the FreePBX default in General Settings."
-msgstr ""
+msgstr "如果你在上面的传真分机号中选择了“系统”（“system”），这就是通告邮件要发送的目的地址。<br /><br />如果选择的是FreePBX默认设置，此项就不填，以使用“一般设置”中的配置信息。"
 
 #: admin/modules/core/page.did.php:286
 msgid "Fax Detection Type"
-msgstr "Tipo de detección de fax"
+msgstr "传真检测类型"
 
 #: admin/modules/core/page.did.php:286
 msgid "Selecting Zaptel or NVFax will immediately answer the call and play ringing tones to the caller for the number of seconds in Pause below. Use NVFax on SIP or IAX trunks."
-msgstr ""
+msgstr "选择Zaptel或NVFax会立即接听来电，然后为主叫播放振铃，振铃将持续在暂停设置中的时间。请在SIP或IAX中继上使用NVFax设置。"
 
 #: admin/modules/core/page.did.php:289
 msgid "None"
-msgstr "Ninguno"
+msgstr "无"
 
 #: admin/modules/core/page.did.php:290
 msgid "Zaptel"
@@ -2193,39 +2220,39 @@ msgstr "NVFax"
 
 #: admin/modules/core/page.did.php:296
 msgid "Pause After Answer"
-msgstr "Pausa tras contestar"
+msgstr "接听后暂停"
 
 #: admin/modules/core/page.did.php:296
 msgid "The number of seconds we should wait after performing an Immediate Answer. The primary purpose of this is to pause and listen for a fax tone before allowing the call to proceed."
-msgstr ""
+msgstr "在立即接听呼叫后，系统等待的时间。主要目的是在处理呼叫前等待一个传真信号。"
 
 #: admin/modules/core/page.did.php:305
 msgid "Set Destination"
-msgstr "Establecer destino"
+msgstr "设置未知目的地"
 
 #: admin/modules/core/page.did.php:314
 msgid "Clear Destination & Submit"
-msgstr "Limpiar destino y enviar"
+msgstr "清除目的地并且提交"
 
 #: admin/modules/core/page.did.php:326
 msgid "Please enter a valid DID Number"
-msgstr ""
+msgstr "请输入一个有效的DID号码"
 
 #: admin/modules/core/page.did.php:327
 msgid "Please enter a valid Caller ID Number"
-msgstr ""
+msgstr "请输入一个有效的主叫ID号码"
 
 #: admin/modules/core/page.did.php:328
 msgid "Please enter a valid Fax Email or leave it empty to use the default"
-msgstr ""
+msgstr "请输入一个有效的传真通告邮件地址，或者不填以使用默认值"
 
 #: admin/modules/core/page.did.php:329
 msgid "Please enter a valid number for Pause after answer"
-msgstr ""
+msgstr "请输入有效的接听后等待的时间（数字形式）"
 
 #: admin/modules/core/page.did.php:330
 msgid "Please enter a valid number for Pause Before Answer field"
-msgstr ""
+msgstr "请输入一个有效的接听前等待时间（数字形式）"
 
 #: admin/modules/core/page.did.php:331
 msgid ""
@@ -2233,6 +2260,9 @@ msgid ""
 "\\n"
 "Are you sure?"
 msgstr ""
+"如果不填写DID号码和主叫ID号码，所有没有匹配其他定义好的入局线路的入局呼叫都将被匹配。\\n"
+"\\n"
+"你确定要这样设置吗？"
 
 #: admin/modules/core/page.did.php:332
 msgid ""
@@ -2242,74 +2272,79 @@ msgid ""
 "\\n"
 "Are you sure this is correct?"
 msgstr ""
+"DID信息一般只是一个来电号码，或者对于高级用户来说，只是一个有效的Asterisk拨号模式\\n"
+"\\n"
+"你输入的DID模式不是标准的拨号模式。\\n"
+"\\n"
+"你确定输入的拨号模式是正确的吗？"
 
 #: admin/modules/core/page.did.php:333
 msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
-msgstr ""
+msgstr "斜杠（“/”）不是有效的DID。请删除此字符后重试"
 
 #: admin/modules/core/page.did.php:334
 msgid "Invalid Caller ID prefix."
-msgstr ""
+msgstr "无效的主叫ID前缀。"
 
 #: admin/modules/core/page.general.php:106
 msgid "Dialing Options"
-msgstr "Opciones de marcación"
+msgstr "拨号选项"
 
 #: admin/modules/core/page.general.php:109
 msgid "Asterisk Dial command options:"
-msgstr "Opciones del comando de marcación de Asterisk:"
+msgstr "Asterisk拨号命令选项："
 
 #: admin/modules/core/page.general.php:110
 #: admin/modules/core/page.general.php:121
 msgid "t: Allow the called user to transfer the call by hitting #"
-msgstr "t: Permite al usuario llamado transferir la llamada pulsando la tecla #"
+msgstr "t：允许被叫用户按#键以转移呼叫"
 
 #: admin/modules/core/page.general.php:111
 #: admin/modules/core/page.general.php:122
 msgid "T: Allow the calling user to transfer the call by hitting #"
-msgstr "T: Permite al usuario llamante transferir la llamada pulsando la tecla #"
+msgstr "T：允许主叫用户按#键以转移呼叫"
 
 #: admin/modules/core/page.general.php:112
 msgid "r: Generate a ringing tone for the calling party"
-msgstr ""
+msgstr "r：为主叫方生成振铃音"
 
 #: admin/modules/core/page.general.php:113
 #: admin/modules/core/page.general.php:123
 msgid "w: Allow the called user to start recording after pressing *1 (Asterisk v1.2)"
-msgstr "w: Permite al usuario llamado empezar a grabar la conversación tras pulsar *1 (Asterisk 1.2)"
+msgstr "w：允许被叫用户按*1后开始录音（Asterisk v1.2）"
 
 #: admin/modules/core/page.general.php:114
 #: admin/modules/core/page.general.php:124
 msgid "W: Allow the calling user to start recording after pressing *1 (Asterisk v1.2)"
-msgstr "W: permite al usuario llamante empezar a grabar la conversación tras pulsar *1 (Asterisk v1.2)"
+msgstr "W：允许主叫用户按*1后开始录音（Asterisk v1.2）"
 
 #: admin/modules/core/page.general.php:120
 msgid "Asterisk Outbound Dial command options:"
-msgstr "Opciones del comando de marcación saliente de Asterisk"
+msgstr "Asterisk出局拨号选项："
 
 #: admin/modules/core/page.general.php:125
 msgid "r: You SHOULD NOT use this option on outbound trunks"
-msgstr "r: No debería usar esta opción en líneas troncales salientes"
+msgstr "r：你绝不能在出局中继上使用此选项"
 
 #: admin/modules/core/page.general.php:132
 msgid "Call Recording"
-msgstr "Grabación de llamadas"
+msgstr "电话录音"
 
 #: admin/modules/core/page.general.php:135
 msgid "Extension Recording Override:"
-msgstr "Sobreescribir opciones de grabación de la extensión:"
+msgstr "覆盖分机录音设定："
 
 #: admin/modules/core/page.general.php:136
 msgid "This will override the recording settings of all extensions/users. If enabled, the system will ignore all Record Always settings of a user and will not turn on recording. This does not effect On Demand recording controlled by the dial options 'w' and 'W' above. It does not effect other recording settings in modules such as Queues and Conferences. If you don't use recordings, setting this is beneficial to system performance as it removes the check that is otherwise done on every single call."
-msgstr "Esto sobreescribirá las opciones de grabación de todos los usuarios o extensiones. Si esta habilitado, el sistema ignorará todas las opciones de grabación del usuario y no activará ninguna grabación. Esto no afecta a las grabaciones bajo demanda controladas por las opciones de marcación 'w' y 'W' anteriores. Tampoco afecta a otras opciones de grabación de otros módulos como colas y conferencias. Si no desea utilizar las grabaciones, marcar esta opción beneficiará al rendimiento del sistema ya que elimina la comprobación realizada en cada llamada."
+msgstr "这会覆盖所有的分机、用户的录音设定。如果被启用，系统将忽略所有的录音，而无论用户如何设定。这项设置不会影响上面的由选项“w”和“W”设定的按需录音的功能。它也不会影响其他模块的录音设定，如等待队列和会议模块。如果你不使用录音，启用此项将使你的系统运行得更快，因为系统不再需要再在每个单独的呼叫中检查录音设置。"
 
 #: admin/modules/core/page.general.php:144
 msgid "Call recording format:"
-msgstr "Formato de grabación de llamadas:"
+msgstr "呼叫录音格式："
 
 #: admin/modules/core/page.general.php:145
 msgid "Pick the format in which to save recorded calls"
-msgstr "Seleccione el formato en el que se guardarán las conversaciones grabadas"
+msgstr "从各种格式中选择一项用于保存呼叫录音"
 
 #: admin/modules/core/page.general.php:149
 msgid "WAV"
@@ -2317,499 +2352,499 @@ msgstr "WAV"
 
 #: admin/modules/core/page.general.php:150
 msgid "wav"
-msgstr "WAV"
+msgstr "wav"
 
 #: admin/modules/core/page.general.php:151
 msgid "ulaw"
-msgstr "ULAW"
+msgstr "ulaw"
 
 #: admin/modules/core/page.general.php:152
 msgid "alaw"
-msgstr "ALAW"
+msgstr "alaw"
 
 #: admin/modules/core/page.general.php:153
 msgid "sln"
-msgstr "SLN"
+msgstr "sln"
 
 #: admin/modules/core/page.general.php:154
 msgid "gsm"
-msgstr "GSM"
+msgstr "gsm"
 
 #: admin/modules/core/page.general.php:155
 msgid "g729"
-msgstr "G729"
+msgstr "g729"
 
 #: admin/modules/core/page.general.php:159
 msgid "Recording Location:"
-msgstr "Lugar de las grabaciones:"
+msgstr "录音保存的位置"
 
 #: admin/modules/core/page.general.php:160
 msgid "Override the default location where asterisk will store call recordings. Include the trailing /. Be sure to set proper permissions on the directory for the asterisk user."
-msgstr "Sobreescribir la ruta por defecto donde Asterisk almacenará las conversaciones grabadas. Incluya la '/' final. Asegúrese de establecer los permisos necesarios en el directorio para el usuario que ejecute el proceso de Asterisk."
+msgstr "覆盖asterisk储存录音的默认位置设置。此设置要包含路径末尾的/，并对该路径为asterisk用户设置适当的权限。"
 
 #: admin/modules/core/page.general.php:166
 msgid "Run after record:"
-msgstr "Ejecutar tras la grabación:"
+msgstr "录音后要运行的脚本："
 
 #: admin/modules/core/page.general.php:167
 msgid "An optional script to be run after the call is hungup. You can include channel and MixMon variables like ${CALLFILENAME}, ${MIXMON_FORMAT} and ${MIXMON_DIR}. To ensure that you variables are properly escaped, use the following notation: ^{MY_VAR}"
-msgstr "Ruta a un guión opcional que será ejecutado cuando se termine la llamada. Puede incluir variables como ${CALLFILENAME}, ${MIXMON_FORMAT} y ${MIXMON_DIR}. Para asegurarse de que las variables son procesadas correctamente, use la siguiente forma de anotación: ^{MY_VAR}"
+msgstr "通话挂断后，此可选的脚本会被调用。你可以在脚本中包含频道和MixMon变量，例如${CALLFILENAME}、${MIXMON_FORMAT}和{MIXMON_DIR}。要确保你的变量不与原有变量相冲突，请使用以下语法：^{变量名}"
 
 #: admin/modules/core/page.general.php:174
 msgid "Voicemail"
-msgstr "Buzón de voz"
+msgstr "语音邮件"
 
 #: admin/modules/core/page.general.php:177
 msgid "Ringtime Default:"
-msgstr ""
+msgstr "默认振铃时间："
 
 #: admin/modules/core/page.general.php:178
 msgid "Default number of seconds to ring phones before sending callers to voicemail. This can be set per extension/user and will have no effect on phones with no voicemail."
-msgstr ""
+msgstr "在将无人接听的呼叫转发到语音邮件之前，默认的振铃时间。每个分机/用户可以单独设置自己的振铃时间，并且此设置不会影响没有语音邮件的电话。"
 
 #: admin/modules/core/page.general.php:184
 msgid "Direct Dial Voicemail Prefix:"
-msgstr ""
+msgstr "直接拨号到语音邮件的前缀："
 
 #: admin/modules/core/page.general.php:185
 msgid "Prefix used to dial directly to someone's voicemail. Caution should be taken in choosing this prefix to avoid conflicts with featurecodes."
-msgstr ""
+msgstr "此前缀用于直接拨打到某人的语音邮件信箱中。请小心设定此前缀以避免与功能代码相冲突。"
 
 #: admin/modules/core/page.general.php:191
 msgid "Direct Dial to Voicemail message type:"
-msgstr ""
+msgstr "直接拨号的语音邮件消息类型："
 
 #: admin/modules/core/page.general.php:192
 msgid "Default message type to use when dialing direct to an extensions voicemail"
-msgstr ""
+msgstr "当直接拨号到某人的语音邮件邮箱时，这项设定指示了消息的类型。"
 
 #: admin/modules/core/page.general.php:197
 msgid "Unavailable"
-msgstr "No disponible"
+msgstr "不可用"
 
 #: admin/modules/core/page.general.php:199
 msgid "No Message"
-msgstr "Sin mensaje"
+msgstr "无信息"
 
 #: admin/modules/core/page.general.php:203
 msgid "Optional Voicemail Recording Gain:"
-msgstr "Ganacia de grabación del buzón de voz opcional:"
+msgstr "可选的语音邮件录音增益："
 
 #: admin/modules/core/page.general.php:204
 msgid "Use the specified amount of gain when recording the voicemail message."
-msgstr "Usar el valor especificado de ganancia cuando se graben los mensajes del buzón de voz."
+msgstr "当为语音邮件录音时，使用指定的增益。"
 
 #: admin/modules/core/page.general.php:205
 msgid "The units are whole-number decibels (dB)."
-msgstr "Las unidades son números enteros en decibelios (dB)."
+msgstr "值为整数，单位为分贝（dB）。"
 
 #: admin/modules/core/page.general.php:210
 msgid "Do Not Play \"please leave message after tone\" to caller"
-msgstr ""
+msgstr "不要为主叫播放“请在听到提示音后留言”。"
 
 #: admin/modules/core/page.general.php:210
 msgid "Check this to remove the default message \"Please leave your message after the tone. When done, hang-up, or press the pound key.\" That is played after the voicemail greeting (the s option). This applies globally to all vm boxes."
-msgstr ""
+msgstr "钩选此项会移除“请在听到提示音后留言。留言结束后请挂断。”通常这句话在语音邮件的问候语（s选项）后播放。这个设置会影响所有的语音邮箱。"
 
 #: admin/modules/core/page.general.php:216
 msgid "Voicemail VmX Locator"
-msgstr "Buzón de voz del localizador VmX"
+msgstr "语音邮件的VmX定位器"
 
 #: admin/modules/core/page.general.php:220
 msgid "Default Context & Pri:"
-msgstr ""
+msgstr "默认的上下文和优先级："
 
 #: admin/modules/core/page.general.php:221
 msgid "Default to use if only a number/extension are provided."
-msgstr ""
+msgstr "在只提供一个号码/分机时使用的默认值。"
 
 #: admin/modules/core/page.general.php:228
 msgid "Timeout/#-press default:"
-msgstr ""
+msgstr "超时/#键设置："
 
 #: admin/modules/core/page.general.php:229
 msgid "This is the default location that a caller will be sent if they don't press any key (timeout) or press # which is interpreted as a timeout. Set this to 'dovm' to go to voicemail (default)."
-msgstr ""
+msgstr "这项设置定义了当主叫在规定时间内没有按下任何键（超时）或按下了#键后，呼叫会被发送到的地方。设置为'dovm'，则呼叫会被转移到语音邮件（默认值）。"
 
 #: admin/modules/core/page.general.php:237
 msgid "Loop Exceed default:"
-msgstr ""
+msgstr "超出循环次数设置："
 
 #: admin/modules/core/page.general.php:238
 msgid "This is the default location that a caller will be sent if they press an invalid options too man times, as defined by the Maximum Loops count. Set this to 'dovm' to go to voicemail (default)."
-msgstr ""
+msgstr "这项设置定义了当主叫在按下太多次（在最大循环次数中设置）的无效键后，呼叫会被发送到的地方。设置为'dovm'，则呼叫会被转移到语音邮件（默认值）。"
 
 #: admin/modules/core/page.general.php:246
 msgid "Timeout VM Msg:"
-msgstr ""
+msgstr "超时语音消息设置："
 
 #: admin/modules/core/page.general.php:247
 #: admin/modules/core/page.general.php:259
 msgid "If this destination is voicemail, select whether or not to play the standard voicemail instructions or just beep."
-msgstr ""
+msgstr "如果目的地是语音邮件，可以选择是播放一个标准的语音邮件说明还是仅仅响一声。"
 
 #: admin/modules/core/page.general.php:251
 #: admin/modules/core/page.general.php:263
 #: admin/modules/core/page.general.php:275
 msgid "Std Instructions"
-msgstr "Instrucciones estándar:"
+msgstr "标准说明"
 
 #: admin/modules/core/page.general.php:252
 #: admin/modules/core/page.general.php:264
 #: admin/modules/core/page.general.php:276
 msgid "Beep Only"
-msgstr ""
+msgstr "响一声"
 
 #: admin/modules/core/page.general.php:258
 msgid "Max Loop VM Msg:"
-msgstr ""
+msgstr "最大循环语音邮件消息设置："
 
 #: admin/modules/core/page.general.php:270
 msgid "Direct VM Option"
-msgstr ""
+msgstr "直接语音邮件选项"
 
 #: admin/modules/core/page.general.php:271
 msgid "If a user defined option is to go to voicemail (using the 'dovm' extension) this is the default option if not specified by the user's settings."
-msgstr ""
+msgstr "如果用户定义的选项是将呼叫转移到语音邮件（使用了'dovm'分机），这项这是定义了要执行的默认动作（如果用户没有定义专门的选项）。"
 
 #: admin/modules/core/page.general.php:282
 msgid "Msg Timeout:"
-msgstr ""
+msgstr "消息超时时间："
 
 #: admin/modules/core/page.general.php:283
 msgid "Time to wait after message has played to timeout and/or repeat the message if no entry pressed."
-msgstr ""
+msgstr "设置播放消息后并等待输入的超时时间或者设置为在无输入时一直播放消息。"
 
 #: admin/modules/core/page.general.php:295
 msgid "seconds"
-msgstr "segundos"
+msgstr "秒"
 
 #: admin/modules/core/page.general.php:300
 msgid "Msg Play:"
-msgstr ""
+msgstr "消息播放次数："
 
 #: admin/modules/core/page.general.php:301
 msgid "Number of times to play the recorded message if the caller does not press any options and it times out."
-msgstr ""
+msgstr "如果用户没有按任何键并且超时，这项设置定义了播放原来录好的消息的次数。"
 
 #: admin/modules/core/page.general.php:313
 #: admin/modules/core/page.general.php:331
 msgid "times"
-msgstr "veces"
+msgstr "次"
 
 #: admin/modules/core/page.general.php:318
 msgid "Error Re-tries:"
-msgstr ""
+msgstr "错误重试次数："
 
 #: admin/modules/core/page.general.php:319
 msgid "Number of times to play invalid options and repeat the message upon receiving an undefined option."
-msgstr ""
+msgstr "在收到无效的选项时的重试并播放消息的次数。"
 
 #: admin/modules/core/page.general.php:336
 msgid "Company Directory"
-msgstr "Directorio de empresa"
+msgstr "伙伴目录"
 
 #: admin/modules/core/page.general.php:339
 msgid "Find users in the Company Directory by:"
-msgstr ""
+msgstr "在伙伴目录中查找用户，通过以下方式："
 
 #: admin/modules/core/page.general.php:339
 msgid "The Company Directory allows a caller to spell the user's first name, last name, or both when searching for a user. This will select which of these modes are used."
-msgstr ""
+msgstr "伙伴目录可以让呼叫者通过姓、名或完整的姓名查找另一用户。这项设置定义了使用了哪种查找方法。"
 
 #: admin/modules/core/page.general.php:342
 msgid "first name"
-msgstr "Nombre"
+msgstr "名"
 
 #: admin/modules/core/page.general.php:343
 msgid "last name"
-msgstr "Apellido"
+msgstr "名字"
 
 #: admin/modules/core/page.general.php:344
 msgid "first or last name"
-msgstr "Nombre o apellido"
+msgstr "名或姓"
 
 #: admin/modules/core/page.general.php:348
 msgid "Announce Extension:"
-msgstr ""
+msgstr "通告分机："
 
 #: admin/modules/core/page.general.php:348
 msgid "Plays a message \"Please hold while I transfer you to extension xxx\" that lets the caller know what extension to use in the future when connecting from the company directory."
-msgstr ""
+msgstr "通过播放语音消息“请等待，正在将呼叫转移到某某分机。”，让主叫知道将来从伙伴目录连接时使用哪个分机。"
 
 #: admin/modules/core/page.general.php:353
 msgid "Operator Extension:"
-msgstr "Extensión del operador"
+msgstr "话务分机："
 
 #: admin/modules/core/page.general.php:354
 msgid "When users hit '0' in the directory, they are put through to this number. Note that it"
-msgstr ""
+msgstr "当用户在伙伴目录中按下“0”键时，他们将接通此号码。请注意，"
 
 #: admin/modules/core/page.general.php:355
 msgid " does NOT need to be an extension, it can be a Ring Group, or even an external number."
-msgstr ""
+msgstr "这并不要求号码必须是分机号，它可以是拨号小组，还可以是一个外部号码。"
 
 #: admin/modules/core/page.general.php:361
 msgid "Fax Machine"
-msgstr "Máquina de fax"
+msgstr "传真机"
 
 #: admin/modules/core/page.general.php:364
 msgid "Extension of fax machine for receiving faxes:"
-msgstr "Extensión de la máquina de faxes para la recepción de faxes:"
+msgstr "用于接收传真的机器的分机号："
 
 #: admin/modules/core/page.general.php:364
 msgid "Select 'system' to have the system receive and email faxes.<br>Selecting 'disabled' will result in incoming calls being answered more quickly."
-msgstr "Seleccione 'Sistema' para que el sistema reciba y envíe por correo los faxes.<br/>Seleccionando 'Deshabilitado' hará que las llamadas entrantes se contesten antes."
+msgstr "选择“系统”，以让系统负责接收传真，并将其内容作为邮件发送出去。<br />选择“禁用”可让入局呼叫更快的被接听。"
 
 #: admin/modules/core/page.general.php:382
 msgid "Email address to have faxes emailed to:"
-msgstr "Dirección de email a la que enviar los faxes:"
+msgstr "发送传真邮件的目的邮箱："
 
 #: admin/modules/core/page.general.php:382
 msgid "Email address used if 'system' has been chosen for the fax extension above."
-msgstr "Dirección de email si se ha seleccionado anteriormente 'Sistema' como la extensión de la máquina de faxes"
+msgstr "如果在用于接收传真的分机号中选择了“系统”，那么这就是发送邮件的目的邮箱地址。"
 
 #: admin/modules/core/page.general.php:387
 msgid "Email address that faxes appear to come from:"
-msgstr "Dirección de email que aparecerá como remitente de los faxes:"
+msgstr "发送传真邮件的源邮箱地址："
 
 #: admin/modules/core/page.general.php:387
 msgid "Email address that faxes appear to come from if 'system' has been chosen for the fax extension above."
-msgstr "Dirección de email que aparecerá como remitente si se ha seleccionado anteriormente 'Sistema' como la extensión de la máquina de faxes."
+msgstr "如果在用于接收传真的分机号中选择了“系统”，那么这就是发送传真邮件的源邮箱地址。"
 
 #: admin/modules/core/page.general.php:392
 msgid "International Settings"
-msgstr "Opciones internacionales"
+msgstr "国际设置"
 
 #: admin/modules/core/page.general.php:395
 msgid "Country Indications"
-msgstr "Indicaciones de país"
+msgstr "国家"
 
 #: admin/modules/core/page.general.php:395
 msgid "Select which country you are in"
-msgstr "Seleccione el país en el que se encuentra"
+msgstr "选择你所在的国家"
 
 #: admin/modules/core/page.general.php:404
 msgid "24-hour format"
-msgstr "Formato de 24 horas"
+msgstr "24小时格式"
 
 #: admin/modules/core/page.general.php:404
 msgid "Select Yes if you use 24-hour format or No if you are using 12-hour am/pm format"
-msgstr "Selecciones Sí si utiliza un formato de reloj de 24 horas o No si usa un formato de reloj de 12 horas (AM/PM)"
+msgstr "如果你使用24小时格式来显示时间，就选择“是”，选择“否”表示使用12小时格式"
 
 #: admin/modules/core/page.general.php:407
 #: admin/modules/core/page.general.php:422
 msgid "no"
-msgstr "No"
+msgstr "否"
 
 #: admin/modules/core/page.general.php:408
 #: admin/modules/core/page.general.php:423
 msgid "yes"
-msgstr "Sí"
+msgstr "是"
 
 #: admin/modules/core/page.general.php:412
 msgid "Security Settings"
-msgstr "Opciones de seguridad"
+msgstr "安全设置"
 
 #: admin/modules/core/page.general.php:415
 msgid "Allow Anonymous Inbound SIP Calls?"
-msgstr "¿Permitir llamadas entrantes SIP anónimas?"
+msgstr "允许匿名入局SIP呼叫"
 
 #: admin/modules/core/page.general.php:416
 msgid "** WARNING **"
-msgstr "**ATENCIÓN**"
+msgstr "** 警告 **"
 
 #: admin/modules/core/page.general.php:417
 msgid "Setting this to 'yes' will potentially allow ANYBODY to call into your Asterisk server using the SIP protocol"
-msgstr ""
+msgstr "设置此选项为“是”，会允许任何人用SIP协议从外部呼叫你的Asterisk服务器"
 
 #: admin/modules/core/page.general.php:418
 msgid "It should only be used if you fully understand the impact of allowing anonymous calls into your server"
-msgstr ""
+msgstr "除非你完全了解允许匿名呼叫进入你的服务器的影响，否则不要启用此项"
 
 #: admin/modules/core/page.general.php:428
 msgid "Online Updates"
-msgstr "Actualizaciones online"
+msgstr "在线升级"
 
 #: admin/modules/core/page.general.php:432
 msgid "Check for Updates"
-msgstr "Comprobar actualizaciones"
+msgstr "检查在线更新"
 
 #: admin/modules/core/page.general.php:433
 msgid "Choosing Yes will result in the system automatically checking for updates nighly. The resulting infomation will be displayed in the dashboard and will be optionally emailed to the address below if provided.<br />This will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and to track version usage to focus development and maintenance efforts. No private information is transmitted."
-msgstr ""
+msgstr "如果选择了“是”，系统将会为你自动检查在线更新。检查的结果会在操作面版上显示，或者可以选择发送通告邮件（发送到下面的邮件地址）。<br />为了检查在线更新，你的FreePBX和Asterisk的版本号以及一个随机标识符将被发送到服务器。这么做是为了让开发团队更好的掌握各版本的使用情况，以更好的分配开发和维护力量。请放心，你的隐私不会被上传。"
 
 #: admin/modules/core/page.general.php:444
 msgid "Update Email"
-msgstr "Dirección de email para actualizaciones"
+msgstr "升级邮箱"
 
 #: admin/modules/core/page.general.php:445
 msgid "Email address where online updates will be sent. Leaving blank will result in no updates being sent."
-msgstr "Dirección de email donde se enviarán las notificaciones de actualizaciones online. Dejando esta casilla en blanco no se enviarán notificaciones."
+msgstr "发送更新的目的电子邮件地址。此项留空则不会发送任何更新。"
 
 #: admin/modules/core/page.general.php:475
 msgid "Please enter a valid Number of Seconds"
-msgstr ""
+msgstr "请输入有效的秒数"
 
 #: admin/modules/core/page.general.php:476
 msgid "Please enter a valid Fax Email"
-msgstr ""
+msgstr "请输入有效的传真邮件地址"
 
 #: admin/modules/core/page.general.php:477
 msgid "You have selected the 'r' option for your trunks. This is highly discouraged and will create problems with calls on many PRI, VoIP, ISDN and other trunks that are capable of signaling. Asterisk will generate a ringing tone until the signalling indicates the line is answered. This will result in some external IVRs being inaccessible and other strange problems."
-msgstr ""
+msgstr "你在你的中继上选择了'r'选项。对于使用信号的如PRI、VoIP、ISDN等中继，这会引起问题，因此不推荐这样设置。Asterisk会一直生成振铃音，直到有信号表明线路接通。这会导致无法访问一些外部IVR（自动语音应答）和其他奇怪的问题。"
 
 #: admin/modules/core/page.routing.php:118
 msgid "Error renaming route: duplicate name"
-msgstr ""
+msgstr "在重命名线路时发生错误：发现了重复的名字"
 
 #: admin/modules/core/page.routing.php:164
 #: admin/modules/core/page.trunks.php:159
 msgid "Error fetching prefix list for: "
-msgstr ""
+msgstr "在获取前缀列表时发生错误："
 
 #: admin/modules/core/page.routing.php:169
 #: admin/modules/core/page.trunks.php:164
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
-msgstr ""
+msgstr "无效的 NPA-NXX 代码（正确格式是：NXXNXX）"
 
 #: admin/modules/core/page.routing.php:200
 #: admin/modules/core/page.routing.php:265
 msgid "Add Route"
-msgstr "Añadir ruta"
+msgstr "添加线路"
 
 #: admin/modules/core/page.routing.php:215
 #: admin/modules/core/page.routing.php:528
 msgid "Move Up"
-msgstr "Mover arriba"
+msgstr "上移"
 
 #: admin/modules/core/page.routing.php:222
 #: admin/modules/core/page.routing.php:536
 msgid "Move Down"
-msgstr "Mover abajo"
+msgstr "下移"
 
 #: admin/modules/core/page.routing.php:263
 msgid "Edit Route"
-msgstr "Editar ruta"
+msgstr "编辑线路"
 
 #: admin/modules/core/page.routing.php:290
 msgid "Route Name"
-msgstr "Nombre de la ruta"
+msgstr "线路名"
 
 #: admin/modules/core/page.routing.php:290
 msgid "Name of this route. Should be used to describe what type of calls this route matches (for example, 'local' or 'longdistance')."
-msgstr "Nombre de esta ruta. Debería ser usado para describir qué tipo de llamadas permite esta ruta (por ejemplo, 'locales' o 'larga-distancia')"
+msgstr "这条线路的名字。一般用来表示这条线路所匹配的呼叫的类型，例如（'local'或'longdistance'）。"
 
 #: admin/modules/core/page.routing.php:296
 msgid "Rename"
-msgstr "Renombrar"
+msgstr "重命名"
 
 #: admin/modules/core/page.routing.php:301
 msgid "Rename route"
-msgstr "Renombrar ruta"
+msgstr "重命名线路"
 
 #: admin/modules/core/page.routing.php:301
 msgid "to:"
-msgstr "a:"
+msgstr "为"
 
 #: admin/modules/core/page.routing.php:303
 msgid "Route name is invalid...please try again"
-msgstr "El nombre de la ruta no es válido; por favor, inténtelo de nuevo"
+msgstr "线路名无效。。请重试"
 
 #: admin/modules/core/page.routing.php:318
 msgid "Route Password"
-msgstr "Contraseña de la ruta"
+msgstr "线路密码"
 
 #: admin/modules/core/page.routing.php:318
 msgid "Optional: A route can prompt users for a password before allowing calls to progress.  This is useful for restricting calls to international destinations or 1-900 numbers.<br><br>A numerical password, or the path to an Authenticate password file can be used.<br><br>Leave this field blank to not prompt for password.</span>"
-msgstr ""
+msgstr "可选线路密码：一条线路可以在允许呼叫前，提示用户输入密码。这对于限制呼叫国际长途或者1-900号码的场合来说很有用。<br /><br />可填写一个数字形式的密码，或者指向认证密码文件的路径<br /><br />如果不希望提示用户输入密码，则此处留空</span>"
 
 #: admin/modules/core/page.routing.php:327
 msgid "Emergency Dialing"
-msgstr ""
+msgstr "紧急拨号"
 
 #: admin/modules/core/page.routing.php:327
 msgid "Optional: Selecting this option will enforce the use of a device's Emergency CID setting (if set).  Select this option if this set of routes is used for emergency dialing (ie: 911).</span>"
-msgstr ""
+msgstr "可选：选择此项将强制使用设备的紧急CID设置（若有设置）。如果线路被设置用户紧急呼叫（例如：110），就选择此项。</span>"
 
 #: admin/modules/core/page.routing.php:331
 msgid "Intra Company Route"
-msgstr ""
+msgstr "内线"
 
 #: admin/modules/core/page.routing.php:331
 msgid "Optional: Selecting this option will treat this route as a intra-company connection, preserving the internal Caller ID information and not use the outbound CID of either the extension or trunk.</span>"
-msgstr ""
+msgstr "可选：选择此项会将此线路视为内线连接，它保留内部的主叫ID信息，并且不会在分机或中继上使用外部CID。</span>"
 
 #: admin/modules/core/page.routing.php:336
 msgid "Music On Hold?"
-msgstr "¿Música en espera?"
+msgstr "等待时播放音乐："
 
 #: admin/modules/core/page.routing.php:336
 msgid "You can choose which music category to use. For example, choose a type appropriate for a destination country which may have announcements in the appropriate language."
-msgstr ""
+msgstr "你可以选择要使用的音乐分类。例如，为某些国家选择合适的语言类型和问候语。"
 
 #: admin/modules/core/page.routing.php:354
 msgid "Dial Patterns"
-msgstr "Reglas de marcación"
+msgstr "拨号模式"
 
 #: admin/modules/core/page.routing.php:354
 msgid "A Dial Pattern is a unique set of digits that will select this trunk. Enter one dial pattern per line."
-msgstr ""
+msgstr "拨号模式是一组唯一的数字，用来选择这个中继。请每行输入一个拨号模式。"
 
 #: admin/modules/core/page.routing.php:354
 #: admin/modules/core/page.trunks.php:410
 msgid "Rules:"
-msgstr "Reglas:"
+msgstr "规则"
 
 #: admin/modules/core/page.routing.php:355
 #: admin/modules/core/page.trunks.php:411
 msgid "matches any digit from 0-9"
-msgstr "Acepta cualquier dígito entre 0 y 9"
+msgstr "与0-9的数字相匹"
 
 #: admin/modules/core/page.routing.php:356
 #: admin/modules/core/page.trunks.php:412
 msgid "matches any digit from 1-9"
-msgstr "Acepta cualquier dígito entre 1 y 9"
+msgstr "与1-9的数字相匹"
 
 #: admin/modules/core/page.routing.php:357
 #: admin/modules/core/page.trunks.php:413
 msgid "matches any digit from 2-9"
-msgstr "Acepta cualquier dígito entre 2 y 9"
+msgstr "与2-9的数字相匹"
 
 #: admin/modules/core/page.routing.php:358
 #: admin/modules/core/page.trunks.php:414
 msgid "matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
-msgstr "Acepta cualquier dígito que se encuentre entre los corchetes (en este ejemplo, 1,2,3,7,8,9)"
+msgstr "匹配任何括号中的数字或字母（例如，1，2，3，7，8，9）"
 
 #: admin/modules/core/page.routing.php:359
 msgid "wildcard, matches one or more characters"
-msgstr "Asterisco, acepta uno o más dígitos"
+msgstr "通配符，匹配一个或多个字符"
 
 #: admin/modules/core/page.routing.php:360
 msgid "separates a dialing prefix from the number (for example, 9|NXXXXXX would match when some dialed \"95551234\" but would only pass \"5551234\" to the trunks)"
-msgstr "Separa un prefijo de marcación del número (por ejemplo, 9|NXXXXXX se cumpliría cuando alguien marcara \"95551234\" pero sólo pasaría \"5551234\" a las líneas troncales)"
+msgstr "将拨号前缀和号码分开（例如，9|NXXXXXX可以匹配拨号\"95551234\"，但只有\"5551234\"被发送到中继上）"
 
 #: admin/modules/core/page.routing.php:397
 #: admin/modules/core/page.trunks.php:429
 msgid "Clean & Remove duplicates"
-msgstr "Limpiar y eliminar duplicados"
+msgstr "清理重复项"
 
 #: admin/modules/core/page.routing.php:402
 msgid "Dial patterns wizards"
-msgstr "Asistente de reglas de marcación"
+msgstr "拨号模式向导"
 
 #: admin/modules/core/page.routing.php:403
 msgid "These options provide a quick way to add outbound dialing rules. Follow the prompts for each."
-msgstr "Estas opciones permiten de manera rápida añadir reglas de marcación salientes. Siga los siguientes pasos."
+msgstr "这些选项提供了快速配置出局拨号规则的途径。请按提示操作。"
 
 #: admin/modules/core/page.routing.php:404
 #: admin/modules/core/page.routing.php:490
 msgid "Lookup local prefixes"
-msgstr "Buscar prefijos locales"
+msgstr "查找本地前缀"
 
 #: admin/modules/core/page.routing.php:404
 msgid "This looks up your local number on www.localcallingguide.com (NA-only), and sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, 16135551234) to access this route."
-msgstr "Esto busca su número en la web www.localcallingguide.com (NA-only), y configura su centralita para que pueda marcar 7, 10 u 11 dígitos (5551234, 6135551234, 16135551234) para acceder a esta ruta."
+msgstr "系统为你在www.localcallingguid.com查找你的本地号码（仅限于NA），并且允许你拨打7位、10位和11位号码（如5551234、6135551234、16135551234）来访问这条线路。"
 
 #: admin/modules/core/page.routing.php:415
 #: admin/modules/core/page.trunks.php:479
@@ -2820,16 +2855,16 @@ msgid ""
 "\\n"
 "This may take a few seconds."
 msgstr ""
-"¿Cuál es su código de área + prefijo (NPA-NXX)?\\n"
+"请输入你的地区码+拨号前缀（NPA-NXX）\\n"
+"：\\n"
+"（请注意，本数据库只包含了北美的号码，且不保证它100%正确。你仍可以更改结果。）\\n"
 "\\n"
-"(Tenga en cuenta que esta base de datos contiene sólo número de Norteamérica, y no es 100% segura. De todas formas tendrá la opción de modificar el resultado.\\n"
-"\\n"
-"Esto puede llevar unos segundos..."
+"这需要几秒的时间"
 
 #: admin/modules/core/page.routing.php:417
 #: admin/modules/core/page.trunks.php:481
 msgid "Invalid NPA-NXX. Must be of the format \\'NXX-NXX\\'"
-msgstr "NPA-NXX no válido. Debe tener el formato \\'NXX-NXX\\'"
+msgstr "无效的 NPA-NXX 格式。正确的格式是 \\'NPA-NXX\\'"
 
 #: admin/modules/core/page.routing.php:425
 #: admin/modules/core/page.trunks.php:493
@@ -2838,273 +2873,273 @@ msgid ""
 "\\n"
 "Prefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information."
 msgstr ""
-"Error: ¡No se puede continuar!\\n"
+"错误：无法继续执行！\\n"
 "\\n"
-"La búsqueda de prefijos requiere tener PHP con soporte para cURL en el servidor. Por favor, instale o habilite el soporte para cURL en su instalación de PHP para usar esta función. Consulte la página web http://www.php.net/curl para obtener más información."
+"前缀查询需要服务器PHP对cURL的支持。为了使用这个功能，请安装并启用PHP的cURL支持。请参考http://www.php.net/curl，以获得更多的信息。"
 
 #: admin/modules/core/page.routing.php:482
 #: admin/modules/core/page.trunks.php:440
 msgid "(pick one)"
-msgstr "(seleccione uno)"
+msgstr "（选一个）"
 
 #: admin/modules/core/page.routing.php:483
 msgid "Local 7 digit"
-msgstr "Local de 7 dígitos"
+msgstr "本地7位数字"
 
 #: admin/modules/core/page.routing.php:484
 msgid "Local 7/10 digit"
-msgstr "Local de 7/10 dígitos"
+msgstr "本地7/10数字"
 
 #: admin/modules/core/page.routing.php:485
 msgid "Toll-free"
-msgstr "Gratuitas"
+msgstr "免费的"
 
 #: admin/modules/core/page.routing.php:486
 msgid "Long-distance"
-msgstr "Larga distancia"
+msgstr "长途"
 
 #: admin/modules/core/page.routing.php:487
 msgid "International"
-msgstr "Internacionales"
+msgstr "国际"
 
 #: admin/modules/core/page.routing.php:488
 msgid "Information"
-msgstr "Información"
+msgstr "信息"
 
 #: admin/modules/core/page.routing.php:489
 msgid "Emergency"
-msgstr "Emergencia"
+msgstr "紧急情况"
 
 #: admin/modules/core/page.routing.php:496
 msgid "Trunk Sequence"
-msgstr "Secuencia de troncales"
+msgstr "中继顺序"
 
 #: admin/modules/core/page.routing.php:496
 msgid "The Trunk Sequence controls the order of trunks that will be used when the above Dial Patterns are matched. <br><br>For Dial Patterns that match long distance numbers, for example, you'd want to pick the cheapest routes for long distance (ie, VoIP trunks first) followed by more expensive routes (POTS lines)."
-msgstr "La secuencia de líneas troncales controla el orden de las líneas troncales que serán usados cuando se cumplan las reglas de marcación anteriores.<br/><br/>Para las reglas de marcado que cumplan los números de larga distancia, por ejemplo, es probable que desee utilizar las rutas más baratas para llamadas de larga distancia (por ejemplo, las líneas troncales VoIP primero) seguidas de las siguientes rutas más caras (líneas RTC)."
+msgstr "中继顺序控制了拨号模式被匹配后，中继被使用的顺序。<br /><br />例如说，对于匹配长途通话的拨号模式来说，你会希望首先使用那些比较便宜的中继（比如VoIP），若不成功，才使用那些较贵的中继（比如一般的电话线）。"
 
 #: admin/modules/core/page.routing.php:618
 msgid "Route name is invalid, please try again"
-msgstr "El nombre de la ruta no es válido, inténtelo de nuevo"
+msgstr "线路名称无效，请重试"
 
 #: admin/modules/core/page.routing.php:619
 msgid "Route password must be numeric or leave blank to disable"
-msgstr "La contraseña de la ruta debe ser numérica, o dejarla en blanco para deshabilitar el uso de contraseñas"
+msgstr "线路密码要么只能是数字，要么就不填"
 
 #: admin/modules/core/page.routing.php:620
 msgid "Dial pattern is invalid"
-msgstr "La regla de marcación no es válida"
+msgstr "无效的拨号模式"
 
 #: admin/modules/core/page.routing.php:621
 msgid "At least one trunk must be picked"
-msgstr "Debe seleccionar al menos una línea troncal"
+msgstr "只要要选择一个中继"
 
 #: admin/modules/core/page.trunks.php:191
 msgid "Add Trunk"
-msgstr "Añadir línea troncal"
+msgstr "添加中继"
 
 #: admin/modules/core/page.trunks.php:198
 msgid "Trunk"
-msgstr "Línea troncal"
+msgstr "中继"
 
 #: admin/modules/core/page.trunks.php:210
 msgid "Add a Trunk"
-msgstr "Añadir línea troncal"
+msgstr "添加中继"
 
 #: admin/modules/core/page.trunks.php:214
 msgid "Add Zap Trunk"
-msgstr "Añadir línea troncal Zap"
+msgstr "添加Zap中继"
 
 #: admin/modules/core/page.trunks.php:214
 #: admin/modules/core/page.trunks.php:325
 msgid "DAHDI compatibility mode"
-msgstr "Modo de compatibilidad con DAHDI"
+msgstr "DAHDI兼容模式"
 
 #: admin/modules/core/page.trunks.php:215
 msgid "Add IAX2 Trunk"
-msgstr "Añadir línea troncal IAX2"
+msgstr "添加IAX2中继"
 
 #: admin/modules/core/page.trunks.php:216
 msgid "Add SIP Trunk"
-msgstr "Añadir línea troncal SIP"
+msgstr "添加SIP中继"
 
 #: admin/modules/core/page.trunks.php:217
 msgid "Add ENUM Trunk"
-msgstr "Añadir línea troncal ENUM"
+msgstr "添加ENUM中继"
 
 #: admin/modules/core/page.trunks.php:218
 msgid "Add DUNDi Trunk"
-msgstr "Añadir línea troncal DUNDi"
+msgstr "添加DUNDi中继"
 
 #: admin/modules/core/page.trunks.php:219
 msgid "Add Custom Trunk"
-msgstr "Añadir línea troncal personalizada"
+msgstr "添加自定义中继"
 
 #: admin/modules/core/page.trunks.php:280
 #, php-format
 msgid "Edit %s Trunk"
-msgstr "Editar línea troncal %s"
+msgstr "编辑 %s 中继"
 
 #: admin/modules/core/page.trunks.php:280
 msgid "DAHDI compatibility Mode"
-msgstr "Modo de compatibilidad con DAHDI"
+msgstr "DAHDI 兼容模式"
 
 #: admin/modules/core/page.trunks.php:281
 #, php-format
 msgid "Delete Trunk %s"
-msgstr "Eliminar línea troncal %s"
+msgstr "删除中继：%s"
 
 #: admin/modules/core/page.trunks.php:291
 msgid "In use by"
-msgstr "En uso por"
+msgstr "正在使用："
 
 #: admin/modules/core/page.trunks.php:291
 msgid "route"
-msgstr "ruta"
+msgstr "线路"
 
 #: admin/modules/core/page.trunks.php:291
 msgid "routes"
-msgstr "rutas"
+msgstr "线路"
 
 #: admin/modules/core/page.trunks.php:293
 msgid "Sequence"
-msgstr "Secuencia"
+msgstr "顺序"
 
 #: admin/modules/core/page.trunks.php:297
 msgid "WARNING:"
-msgstr "ATENCIÓN:"
+msgstr "警告："
 
 #: admin/modules/core/page.trunks.php:297
 msgid "This trunk is not used by any routes!"
-msgstr "¡Esta línea troncal no está siendo usada por ninguna ruta!"
+msgstr "此中继未被任何线路使用"
 
 #: admin/modules/core/page.trunks.php:298
 msgid "This trunk will not be able to be used for outbound calls until a route is setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
-msgstr "Esta línea troncal no está disponible para usar en llamadas salientes hasta que se configure una ruta que lo use. Haga click en <b>Rutas salientes</b> para configurar el enrutado."
+msgstr "除非建立使用此中继的线路，否则它无法用于出局呼叫。点击 <b>出局线路</b> 以配置线路参数。"
 
 #: admin/modules/core/page.trunks.php:329
 msgid "FreePBX offers limited support for DUNDi trunks and additional manual configuration is required. The trunk name should correspond to the [mappings] section of the remote dundi.conf systems. For example, you may have a mapping on the remote system, and corresponding configurations in dundi.conf locally, that looks as follows:<br /><br />[mappings]<br />priv => dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},noparital<br /><br />In this example, you would create this trunk and name it priv. You would then create the corresponding IAX2 trunk with proper settings to work with DUNDi. This can be done by making an IAX2 trunk in FreePBX or by using the iax_custom.conf file.<br />The dundi-extens context in this example must be created in extensions_custom.conf. This can simply include contexts such as ext-local, ext-intercom-users, ext-paging and so forth to provide access to the corresponding extensions and features provided by these various contexts and generated by FreePBX."
-msgstr ""
+msgstr "FreePBX仅对DUNDi中继提供有限的支持，你需要额外的手工配置。中继的名字要与配置文件中的 [mappings] 小节中的远程 dudi.conf 系统的有关设置相关联。比如说，你在本地的 dundi.conf 中进行了配置，对在远程系统作了映射。配置代码大致是这样的：<br /><br />[mappings]<br />priv => dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},noparital<br /><br />在这个例子中，你应该创建一个中继并命名为 priv 。你可以为配合 DUNDi 工作，而以适当的配置创建相关的IAX2中继。这个工作可在 FreePBX 中完成，或者也可以手动修改 iax_custom.conf 。<br />这个例子中的 dundi-extens 的上下文配置必须在 extensions_custom.conf 中创建。此配置可以仅包括类似于 ext-local, ext-intercom-users, ext-paging 等等的上下文，用来访问相关的分机和功能（无论是这些上下文提供的或 FreePBX 生成的）。"
 
 #: admin/modules/core/page.trunks.php:356
 msgid "Outbound Caller ID"
-msgstr "ID de llamante saliente"
+msgstr "出局呼叫ID"
 
 #: admin/modules/core/page.trunks.php:356
 msgid "Caller ID for calls placed out on this trunk<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b>. You can also use the magic string 'hidden' to hide the CallerID sent out over Digital lines ONLY (E1/T1/J1/BRI/SIP/IAX)"
-msgstr "Identificador del llamante en esta línea troncal.<br/><br/>Formato: <b>\"caller name\" &lt;#######&gt;</b>. Puede usar también la cadena 'hidden'(oculto) para ocultar el identificador del llamante enviado sobre líneas digitales solamente (E1/T1/J1/BRI/SIP/IAX)"
+msgstr "通过此中继出局的主叫ID<br><br>格式： <b>\"主叫姓名\" &lt;#######&gt;</b>。 你还可使用字符串'hidden'来隐藏你在数字线路（E1/T1/J1/BRI/SIP/IAX）上传送的主叫ID。"
 
 #: admin/modules/core/page.trunks.php:363
 msgid "Never Override CallerID"
-msgstr "Nunca sobreescribir el identificador de llamante"
+msgstr "从不覆盖主叫ID"
 
 #: admin/modules/core/page.trunks.php:363
 msgid "Some VoIP providers will drop the call if you try to send an invalid CallerID (one you don't 'own.' Use this to never send a CallerID that you haven't explicitly specified in this trunk or in the outbound callerid field of an extension/user. You might notice this problem if you discover that Follow-Me or RingGroups with external numbers don't work properly. Checking this box has the effect of disabling 'foreign' callerids from going out this trunk. You must define an Outbound Caller ID on the this trunk when checking this."
-msgstr "Algunos proveedores IP rechazarán la llamada si intenta enviar un identificador de llamante no válido (uno que no sea de su propiedad, por ejemplo). Use esto para no enviar nunca un identificador de llamante que no haya definido explícitamente en esta línea troncal o en el campo de identificador de llamante saliente de la extensión o el usuario. Puede notar este problema si descubre que los números de búsqueda (follow Me) o los grupos de extensiones con números externos no funcionan correctamente. Marcando esta casilla provoca que se deshabiliten los identificadores de llamantes 'externos'  que vayan a salir por esta línea troncal. Debe definir un identificador de llamante externo en esta línea troncal cuando se marque esta casilla."
+msgstr "如果你使用了无效的主叫ID（你并不“合法拥有”的那种主叫ID），一些 VoIP 提供商会挂断呼叫。若你在此中继或外线主叫ID域中并不是一个合法用户，可以利用这点来避免将你的主叫ID发送出去。如果你在“跟我来”或“拨号小组”中发现外线号码无法正常工作，你就其实已经遇到了这个问题。在此项上打钩，可以禁止在此中继上传送这样的“外地”主叫ID。而如果你打了钩，就必须定义一个出局主叫ID。"
 
 #: admin/modules/core/page.trunks.php:373
 #: admin/modules/core/page.trunks.php:377
 msgid "Maximum Channels"
-msgstr "Canales máximos"
+msgstr "最大频道数"
 
 #: admin/modules/core/page.trunks.php:373
 #, php-format
 msgid "Controls the maximum number of outbound channels (simultaneous calls) that can be used on this trunk. To count inbound calls against this maximum, use the auto-generated context: %s as the inbound trunk's context. (see extensions_additional.conf) Leave blank to specify no maximum."
-msgstr "Controla el número máximo de canales salientes (llamadas simultáneas) que se pueden usar en esta línea troncal. Para tener en cuenta las llamadas entrantes en este máximo, use el contexto autogenerado %s como el contexto de la línea troncal entrante (vea el archivo extensions_additional.conf). Deje esta casilla vacía para no especificar un máximo."
+msgstr "控制在这个中继上的出局频道的最大值（即同时呼叫数）。要对这个最大值统计入局呼叫数，可以使用自动生成的上下文：%s ，作为入局中继的上下文。（参考extensions_additional.conf。）此项不填内容表示无限制。"
 
 #: admin/modules/core/page.trunks.php:377
 msgid "Controls the maximum number of outbound channels (simultaneous calls) that can be used on this trunk. Inbound calls are not counted against the maximum. Leave blank to specify no maximum."
-msgstr "Controla el número máximo de canales salientes (llamadas simultáneas) que se pueden usar en esta línea troncal. Las llamadas entrantes no se tienen en cuenta en este máximo. Deje esta casilla vacía para no especificar ningún máximo."
+msgstr "控制在这个中继上的出局频道的最大值（即同时呼叫数）。不对这个最大值统计入局呼叫数。此项不填内容表示无限制。"
 
 #: admin/modules/core/page.trunks.php:387
 msgid "Disable Trunk"
-msgstr "Deshabilitar línea troncal"
+msgstr "禁用中继"
 
 #: admin/modules/core/page.trunks.php:387
 msgid "Check this to disable this trunk in all routes where it is used."
-msgstr "Marque esta casilla para deshabilitar esta línea troncal en todas las rutas en las que se use."
+msgstr "钩选此项会在所有使用了此中继的线路上禁用它"
 
 #: admin/modules/core/page.trunks.php:395
 msgid "Monitor Trunk Failures"
-msgstr "Monitorizar fallos de líneas troncales"
+msgstr "中继出错记录"
 
 #: admin/modules/core/page.trunks.php:395
 msgid "If checked, supply the name of a custom AGI Script that will be called to report, log, email or otherwise take some action on trunk failures that are not caused by either NOANSWER or CANCEL."
-msgstr "Si está marcada la casilla, indique el nombre de un guión AGI personalizado que será ejecutado para informar, guardar en una bitácora, enviar por email o cualquier otra operación cuando se produzcan fallos en líneas troncales que no sean causados por NOANSWER o CANCEL."
+msgstr "如果钩选此项，就提供一个自定义的AGI脚本的名字。在发生非 NOANSWER 或 CANCEL 引起的中继错误时，这个AGI脚本将被调用，它可以用来报告错误、记录错误、发送通知错误的邮件或做一些别的工作。"
 
 #: admin/modules/core/page.trunks.php:405
 msgid "Outgoing Dial Rules"
-msgstr "Reglas de marcación salientes"
+msgstr "出局拨号规则"
 
 #: admin/modules/core/page.trunks.php:410
 msgid "Dial Rules"
-msgstr "Reglas de marcación"
+msgstr "拨号规则"
 
 #: admin/modules/core/page.trunks.php:410
 msgid "A Dial Rule controls how calls will be dialed on this trunk. It can be used to add or remove prefixes. Numbers that don't match any patterns defined here will be dialed as-is. Note that a pattern without a + or | (to add or remove a prefix) will not make any changes but will create a match. Only the first matched rule will be executed and the remaining rules will not be acted on."
-msgstr "Una regla de marcación controla cómo se realizarán las llamadas por esta línea troncal. Puede ser usada para añadir o eliminar prefijos. Los números que no cumplan las reglas definidas aquí serán marcados tal cual. Note que una regla sin un signo \"+\" o \"|\" (para añadir o eliminar un prefijo) no será modificada pero cumplirá la regla. Sólo la primera regla encontrada será ejecutada y no se actuará sobre las demás reglas ."
+msgstr "用于控制呼叫如何在此中继上拨号的一种规则。它可以添加或删除拨号的前缀。如果号码不匹配任何一条拨号规则，就按原样拨出。请注意，即使一个拨号规则不包含 + 或 | （添加或删除前缀的符号），虽然不会改变所拨的号码，但还是会产生一个匹配规则。只有最先被匹配的规则会被执行，之后的将被忽略。"
 
 #: admin/modules/core/page.trunks.php:415
 msgid "wildcard, matches one or more characters (not allowed before a | or +)"
-msgstr "El asterisco hace que se cumpla la regla cuando se encuentren uno o más caracteres (no se permite delante de los símbolos | y +)"
+msgstr "通配符，匹配一个或多个字符（不允许在+或|前使用）"
 
 #: admin/modules/core/page.trunks.php:416
 msgid "removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed \"6135551234\" but would only pass \"5551234\" to the trunk)"
-msgstr "Elimina del número un prefijo (por ejemplo, 613|NXXXXXX se cumpliría cuando alguien marcara el número \"6135551234\" pero pasaría a la línea troncal sólo la parte \"5551234\")"
+msgstr "移除一个拨号的前缀（例如，“6135551234”将匹配613|NXXXXXX，但只有“5551234”被拨出去）"
 
 #: admin/modules/core/page.trunks.php:417
 msgid "adds a dialing prefix from the number (for example, 1613+NXXXXXX would match when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)"
-msgstr "Añade un prefijo al número (por ejemplo, 1613+NXXXXXX se cumpliría cuando alguien marcara el número \"5551234\" pero pasaría a la línea troncal el número \"16135551234\")"
+msgstr "增加一个拨号的前缀（例如，“5551234”将匹配1613+NXXXXXX，但“16135551234”被拨出去）"
 
 #: admin/modules/core/page.trunks.php:418
 msgid "You can also use both + and |, for example: 01+0|1ZXXXXXXXXX would match \"016065551234\" and dial it as \"0116065551234\" Note that the order does not matter, eg. 0|01+1ZXXXXXXXXX does the same thing."
-msgstr ""
+msgstr "你可以同时使用 + 和 | 。例如：01+0|1ZXXXXXXXXX匹配“016065551234”，然后会将“0116065551234”拨出。请注意，这与+和|的顺序是无关的，也即0|01+1ZXXXXXXXXX与例子中的拨号规则的是等效的。"
 
 #: admin/modules/core/page.trunks.php:434
 msgid "Dial Rules Wizards"
-msgstr "Asistente de reglas de marcación"
+msgstr "拨号规则向导"
 
 #: admin/modules/core/page.trunks.php:435
 #: admin/modules/core/page.trunks.php:441
 msgid "Always dial with prefix"
-msgstr "Marcar siempre con prefijo"
+msgstr "拨号时总是包含前缀"
 
 #: admin/modules/core/page.trunks.php:435
 msgid "is useful for VoIP trunks, where if a number is dialed as \"5551234\", it can be converted to \"16135551234\"."
-msgstr "es útil para líneas troncales de VoIP, donde un número marcado como \"5551234\", se convierte a \"16135551234\"."
+msgstr "对VoIP中继很有用。它可以把拨出的号码如“5551234”转换成“16135551234”。"
 
 #: admin/modules/core/page.trunks.php:436
 #: admin/modules/core/page.trunks.php:442
 msgid "Remove prefix from local numbers"
-msgstr "Eliminar prefijos de números locales"
+msgstr "从本地号码中移除前缀"
 
 #: admin/modules/core/page.trunks.php:436
 msgid "is useful for ZAP trunks, where if a local number is dialed as \"6135551234\", it can be converted to \"555-1234\"."
-msgstr "es útil para líneas troncales Zap, cuando un número local marcado como \"6135551234\", se convierte a \"555-1234\"."
+msgstr "对ZAP中继很有用。它可以把拨出的号码如“6135551234”转换成“555-1234”。"
 
 #: admin/modules/core/page.trunks.php:437
 msgid "Lookup numbers for local trunk"
-msgstr "Buscar números para la línea troncal local"
+msgstr "为本地中继查找号码"
 
 #: admin/modules/core/page.trunks.php:437
 msgid "This looks up your local number on www.localcallingguide.com (NA-only), and sets up so you can dial either 7 or 10 digits (regardless of what your PSTN is) on a local trunk (where you have to dial 1+area code for long distance, but only 5551234 (7-digit dialing) or 6135551234 (10-digit dialing) for local calls"
-msgstr "Esto busca su número local en la web www.localcallingguide.com (NA-only), y configura su centralita para que pueda marcar 7 o 10 dígitos (independientemente de la línea RTC) en una línea troncal local (donde tenga que marcar 1 + el código de área para llamadas de larga distancia, pero sólo 5551234 (marcando 7 dígitos) ó 6135551234 (marcando 10 dígitos) para llamadas locales)."
+msgstr "系统为你在www.localcallingguid.com查找你的本地号码，这使你可以在本地中继（即拨长途需要加拨1的区域）中，拨7或10位数字（而不管你的PSTN是什么），且只有5551234（7位拨号）或者6135551234（10位拨号）作为本地呼叫。"
 
 #: admin/modules/core/page.trunks.php:443
 msgid "Lookup numbers for local trunk (7-digit dialing)"
-msgstr "Buscar números para la línea troncal local (marcando 7 dígitos)"
+msgstr "为本地中继查找号码（7位拨号）"
 
 #: admin/modules/core/page.trunks.php:444
 msgid "Lookup numbers for local trunk (10-digit dialing)"
-msgstr "Buscar números para la línea troncal local (marcando 10 dígitos)"
+msgstr "为本地中继查找号码（10位拨号）"
 
 #: admin/modules/core/page.trunks.php:464
 msgid "Are you sure you want to disable this trunk in all routes it is used?"
-msgstr "¿Está seguro de que desea deshabilitar esta línea troncal en todas las rutas en las que se esté usando?"
+msgstr "你确定要在所有的线路上禁用该中继吗？"
 
 #: admin/modules/core/page.trunks.php:469
 msgid "You have enabled this trunk in all routes it is used"
-msgstr "Ha habilitado esta línea troncal en todas las rutas en las que se esté usando"
+msgstr "你已在所有使用此中继的线路上启用了它"
 
 #: admin/modules/core/page.trunks.php:479
 msgid "\")"
@@ -3116,11 +3151,14 @@ msgid ""
 "\\n"
 "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
 msgstr ""
+"请输入本地拨号模式：\\n"
+"\\n"
+"（例如，为美国/加拿大的10位拨号输入NXXNXXXXXX，或为7位拨号输入NXXXXXX）"
 
 #: admin/modules/core/page.trunks.php:503
 #: admin/modules/core/page.trunks.php:526
 msgid "Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."
-msgstr "Regla no válida. Sólo se permiten los caracteres 0-9, #, *, Z, N y X."
+msgstr "无效拨号模式。只能输入0-9、#、*、Z、N、X和.（小数点）。"
 
 #: admin/modules/core/page.trunks.php:506
 msgid ""
@@ -3128,10 +3166,13 @@ msgid ""
 "\\n"
 "(ie. for US/CAN, 1+areacode, ie, \\'1613\\')?"
 msgstr ""
+"请输入添加到此拨号模式的前缀：\\n"
+"\\n"
+"（例如，对于美国/加拿大拨号，需要输入1+地区码，那么请输入\\'1613\\'之类的前缀）"
 
 #: admin/modules/core/page.trunks.php:508
 msgid "Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."
-msgstr "Prefijo no válido. Sólo se permiten caracteres que se puedan marcar (0-9, # y *)."
+msgstr "无效的前缀。只能输入可拨号的字符（0-9、#和*）。"
 
 #: admin/modules/core/page.trunks.php:519
 msgid ""
@@ -3139,148 +3180,151 @@ msgid ""
 "\\n"
 "(ie. for US/CAN, 1+areacode, ie, \\'1613\\')"
 msgstr ""
+"请输入需要从拨号模式中移除的前缀：\\n"
+"\\n"
+"（例如，对于美国/加拿大拨号，需要输入1+地区码，那么请输入\\'1613\\'之类的前缀）"
 
 #: admin/modules/core/page.trunks.php:521
 msgid "Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed."
-msgstr "Prefijo no válido. Sólo se permiten los caracteres 0-9, #, *, Z, N y X."
+msgstr "无效拨号前缀。只能输入0-9、#、*、Z、N、X和.（小数点）。"
 
 #: admin/modules/core/page.trunks.php:524
 msgid "What is the dialing pattern for local numbers after"
-msgstr ""
+msgstr "请输入本地号码的拨号模式："
 
 #: admin/modules/core/page.trunks.php:524
 msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
-msgstr ""
+msgstr "（例如，对于美国/加拿大的10位拨号，输入NXXNXXXXXX，对于7位拨号，输入NXXXXXX）"
 
 #: admin/modules/core/page.trunks.php:649
 msgid "Outbound Dial Prefix"
-msgstr "Prefijo de marcación externa"
+msgstr "出局拨号前缀"
 
 #: admin/modules/core/page.trunks.php:649
 msgid "The outbound dialing prefix is used to prefix a dialing string to all outbound calls placed on this trunk. For example, if this trunk is behind another PBX or is a Centrex line, then you would put 9 here to access an outbound line. Another common use is to prefix calls with 'w' on a POTS line that need time to obtain dial tone to avoid eating digits.<br><br>Most users should leave this option blank."
-msgstr ""
+msgstr "出局拨号前缀会在从此中继拨出的号码前添加一个前缀。比如说，如果这个中继在另一个PBX之后或者是一条中央交换线路，就可以设置数字9为前缀以访问出局线路。另一个用途是为普通电话线路的呼叫添加“w”，因为普通电话线路需要一些时间来获取拨号音，这样就可以避免它“吃掉”某些拨号数字。<br /><br />大多数用户不需要填写此项，留空即可。"
 
 #: admin/modules/core/page.trunks.php:657
 msgid "Outgoing Settings"
-msgstr "Opciones salientes"
+msgstr "出局设置"
 
 #: admin/modules/core/page.trunks.php:668
 msgid "Zap Identifier (trunk name)"
-msgstr "Identificador Zap (nombre de línea troncal)"
+msgstr "Zap标识符（中继名）"
 
 #: admin/modules/core/page.trunks.php:668
 msgid "ZAP channels are referenced either by a group number or channel number (which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> (group zero)."
-msgstr ""
+msgstr "ZAP频道可以以一个组号或者频道号（在zapata.conf中定义）引用。<br /><br />默认设置是<b>g0</b>（第0组）。"
 
 #: admin/modules/core/page.trunks.php:682
 msgid "Custom Dial String"
-msgstr "Cadena de marcación personalizada"
+msgstr "自定义拨号字符串"
 
 #: admin/modules/core/page.trunks.php:682
 msgid "Define the custom Dial String.  Include the token"
-msgstr ""
+msgstr "输入自定义的拨号字符串，包括标识符"
 
 #: admin/modules/core/page.trunks.php:682
 msgid "wherever the number to dial should go.<br><br><b>examples:</b><br>"
-msgstr ""
+msgstr "，系统将向这个标识符拨号。<br /><br /><b>例如：</b><br />"
 
 #: admin/modules/core/page.trunks.php:694
 msgid "DUNDi Mapping"
-msgstr ""
+msgstr "DUNDi映射"
 
 #: admin/modules/core/page.trunks.php:694
 msgid "This is the name of the DUNDi mapping as defined in the [mappings] section of remote dundi.conf peers. This corresponds to the 'include' section of the peer details in the local dundi.conf file. This requires manual configuration of DUNDi to use this trunk."
-msgstr ""
+msgstr "这是DUNDi映射名，与dundi.conf的[mappings]小节中关于远程端点的定义有关。具体的说，DUNDi映射名应该与dundi.conf中'include'小节中的端点详细定义相关。要在此中继上使用DUNDi，需要进行手工配置。"
 
 #: admin/modules/core/page.trunks.php:706
 msgid "Trunk Name"
-msgstr "Nombre de la línea troncal"
+msgstr "中继名"
 
 #: admin/modules/core/page.trunks.php:706
 msgid "Give this trunk a unique name.  Example: myiaxtel"
-msgstr ""
+msgstr "为这个中继取一个唯一的名字。例如：myiaxtel"
 
 #: admin/modules/core/page.trunks.php:713
 msgid "PEER Details"
-msgstr "Detalles del par"
+msgstr "端点详细信息"
 
 #: admin/modules/core/page.trunks.php:713
 msgid "Modify the default PEER connection parameters for your VoIP provider.<br><br>You may need to add to the default lines listed below, depending on your provider.<br /><br />WARNING: Order is important as it will be retained. For example, if you use the \"allow/deny\" directives make sure deny comes first."
-msgstr ""
+msgstr "更改你的VoIP提供商的默认端点连接参数。<br /><br />根据你的提供商的情况，你可能需要把它添加到下面的默认线路中去。<br /><br />警告：添加的顺序很重要，因为在此显示顺序与实际执行处理的顺序是一样的。比如说，你使用了\"allow/deny\"指令，请确保deny指令被放在最前面。"
 
 #: admin/modules/core/page.trunks.php:723
 msgid "Incoming Settings"
-msgstr "Opciones entrantes"
+msgstr "入局设置"
 
 #: admin/modules/core/page.trunks.php:728
 msgid "USER Context"
-msgstr "Contexto del usuario"
+msgstr "用户上下文"
 
 #: admin/modules/core/page.trunks.php:728
 msgid "This is most often the account name or number your provider expects.<br><br>This USER Context will be used to define the below user details."
-msgstr ""
+msgstr "这通常是你在提供商那儿分配的账号名或号码。<br /><br />这段用户上下文将被用于定义下面的用户详细信息。"
 
 #: admin/modules/core/page.trunks.php:735
 msgid "USER Details"
-msgstr "Detalles del usuario"
+msgstr "用户详细信息"
 
 #: admin/modules/core/page.trunks.php:735
 msgid "Modify the default USER connection parameters for your VoIP provider."
-msgstr ""
+msgstr "更改到你的VoIP提供商的默认的用户连接参数。"
 
 #: admin/modules/core/page.trunks.php:735
 msgid ""
 "You may need to add to the default lines listed below, depending on your provider..<br /><br />WARNING: Order is important as it will be retained. For example, if you use the \"allow/deny\" directives make sure deny \n"
 "\t\t\t\tcomes first."
-msgstr ""
+msgstr "根据你的提供商的要求，你可能需要将它添加到下面的默认线路中去。<br /><br />警告：添加的顺序很重要，因为实际执行操作的顺序与在此添加的顺序是一样的。比如，如果你使用了\"allow/deny\"指令，请确保deny指令被放在了最前面。"
 
 #: admin/modules/core/page.trunks.php:746
 msgid "Registration"
-msgstr "Registro"
+msgstr "注册"
 
 #: admin/modules/core/page.trunks.php:751
 msgid "Register String"
-msgstr "Cadena de registro"
+msgstr "注册字符串"
 
 #: admin/modules/core/page.trunks.php:751
 msgid "Most VoIP providers require your system to REGISTER with theirs. Enter the registration line here.<br><br>example:<br><br>username:password@switch.voipprovider.com.<br><br>Many providers will require you to provide a DID number, ex: username:password@switch.voipprovider.com/didnumber in order for any DID matching to work."
-msgstr ""
+msgstr "大多数VoIP提供商要求你的系统在他们那里进行注册。在这里输入注册行。<br /><br />例如：<br /><br />用户名:密码@switch.voipprovider.com.<br />（所有标点都是英文标点）<br />许多提供商还要求你提供一个DID号码，例如：用户名:密码@switch.voipprovider.com/did号码。"
 
 #: admin/modules/core/page.trunks.php:779
 msgid "Invalid Outbound Caller ID"
-msgstr ""
+msgstr "无效的出局主叫ID"
 
 #: admin/modules/core/page.trunks.php:780
 msgid "Invalid Maximum Channels"
-msgstr "Canales máximos no válidos"
+msgstr "无效的最大频道数"
 
 #: admin/modules/core/page.trunks.php:781
 msgid "Invalid Dial Rules"
-msgstr "Reglas de marcación no válidas"
+msgstr "无效的拨号规则"
 
 #: admin/modules/core/page.trunks.php:782
 msgid "Invalid Outbound Dial Prefix"
-msgstr "Prefijo de marcación saliente no válido"
+msgstr "无效的出局拨号前缀"
 
 #: admin/modules/core/page.trunks.php:783
 msgid "Invalid Trunk Name entered"
-msgstr "Nombre de línea troncal no válido"
+msgstr "输入了无效的中继名"
 
 #: admin/modules/core/page.trunks.php:784
 msgid "Invalid Custom Dial String entered"
-msgstr "Cadena de marcación personalizada no válida"
+msgstr "输入了无效的自定义拨号字符串"
 
 #: admin/modules/core/page.trunks.php:785
 msgid "Trunk Name and User Context cannot be set to the same value"
-msgstr "El nombre de la línea troncal y el contexto del usuario no pueden tener el mismo valor"
+msgstr "中继名和用户上下文不能相同"
 
 #: admin/modules/core/page.trunks.php:786
 msgid "User Context was left blank and User Details will not be saved!"
-msgstr "El contexto del usuario se ha dejado vacíoy los detalles del usuario no serán guardados"
+msgstr "由于用户上下文为空，用户详细信息将不会被保存！"
 
 #: admin/modules/core/page.trunks.php:787
 msgid "You must define an Outbound Caller ID when Choosing Never Override CallerID"
-msgstr "Debe definir un identificador de llamante sliente cuando seleccione la opción \"Nunca sobreescribir el identificador de llamante\""
+msgstr "若你选择了“从不覆盖主叫ID”，你就必须定义一个出局主叫ID。"
 
 #: admin/modules/core/page.users.php:34
 msgid ""
@@ -3288,39 +3332,42 @@ msgid ""
 "\\n"
 "Are you sure you wish to leave the User Password empty?"
 msgstr ""
+"你尚未输入用户密码。虽然这也是允许的，但这个用户无法通过自组织设备登录系统。\\n"
+"\\n"
+"你确定不设置用户密码吗？"
 
 #: admin/modules/core/page.zapchandids.php:53
 #: admin/modules/core/page.zapchandids.php:87
 msgid "Add Channel"
-msgstr "Añadir canal"
+msgstr "添加中继"
 
 #: admin/modules/core/page.zapchandids.php:74
 msgid "Edit Zap Channel: "
-msgstr "Editar canal Zap:"
+msgstr "编辑Zap频道"
 
 #: admin/modules/core/page.zapchandids.php:76
 msgid "Add Zap Channel"
-msgstr "Añadir canal Zap:"
+msgstr "添加Zap中继"
 
 #: admin/modules/core/page.zapchandids.php:79
 msgid "Zap Channel DIDs allow you to assign a DID to specific Zap Channels. You can supply the same DID to multiple channels. This would be a common scenario if you have multiple POTS lines that are on a hunt group from your provider. You MUST assign the channel's context to from-zaptel for these settings to have effect. It will be a line that looks like:<br /><br />context = from-zaptel<br /><br />in your zapata.conf configuration effecting the specified channel(s). Once you have assigned DIDs you can use standard Inbound Routes with the specified DIDs to route your calls."
-msgstr ""
+msgstr "Zap频道的DID设置允许你为Zap频道分配一个DID。你可以在不同的频道上使用相同的DID。你可能拥有多条传统的电话线路，而这些线路在服务提供商处作为一个寻找群来看待，在此种场合下，就常用这种设置。你必须将频道的上下文分配为 from-zaptel ，以让这些设置生效。在 zapata.conf 文件中，对某频道的配置行看起来像这样：<br /><br />context = from-zaptel<br /><br />。一旦你分配好了DID，就可以使用标准的入局线路设置和指定的DID来引导你的呼叫。"
 
 #: admin/modules/core/page.zapchandids.php:87
 msgid "Edit Channel"
-msgstr "Editar canal"
+msgstr "编辑频道"
 
 #: admin/modules/core/page.zapchandids.php:92
 msgid "Channel"
-msgstr "Canal"
+msgstr "中继"
 
 #: admin/modules/core/page.zapchandids.php:92
 msgid "The Zap Channel number to map to a DID"
-msgstr ""
+msgstr "要映射到DID的Zap频道号"
 
 #: admin/modules/core/page.zapchandids.php:99
 msgid "A useful description describing this channel"
-msgstr ""
+msgstr "对这个频道的有意义的描述"
 
 #: admin/modules/core/page.zapchandids.php:103
 msgid "DID"
@@ -3328,11 +3375,11 @@ msgstr "DID"
 
 #: admin/modules/core/page.zapchandids.php:103
 msgid "The DID that this channel represents. The incoming call on this channel will be treated as if it came in with this DID and can be managed with Inbound Routing on DIDs"
-msgstr ""
+msgstr "设置这个频道的DID。通过这个频道入局的呼叫都会具有这个DID，并且将由关于此DID的入局线路设置来管理。"
 
 #: admin/modules/core/page.zapchandids.php:109
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "删除"
 
 #: admin/modules/core/page.zapchandids.php:125
 msgid ""
@@ -3342,53 +3389,58 @@ msgid ""
 "\\n"
 "Are you sure this is correct?"
 msgstr ""
+"DID信息一般只包含入局的电话的号码\\n"
+"\\n"
+"你输入了的DID模式不是标准的DID模式\\n"
+"\\n"
+"你确定自己的输入正确吗？"
 
 #: admin/modules/core/page.zapchandids.php:126
 msgid "You appear to be using a converted DID in the form of zapchanNN that was automatically generated during an upgrade. You should consider assigning the DID that is normally associated with this channel to take full advantage of the inbound routing abilities. Changing the DID here will require you to make changes in the Inbound Routes tab. Do you want to continue?"
-msgstr ""
+msgstr "你似乎使用了一种转换后的DID（类似于zapchanNN的形式），它可能是在升级中自动生成的。请考虑分配与此频道相联系的普通的DID，以让入局线路规则能更好的工作。改变此处的DID需要你在入局线路标签处进行相应的更改。继续吗？"
 
 msgid "Internal Options & Configuration"
-msgstr "Opciones internas y configuración"
+msgstr "内部选项和配置"
 
 msgid "Inbound Call Control"
-msgstr "Control de llamadas entrantes"
+msgstr "入局呼叫控制"
 
 msgid "Maintenance"
-msgstr "Mantenimiento"
+msgstr "维护"
 
 msgid "Support"
-msgstr "Soporte"
+msgstr "支持"
 
 msgid "System Administration"
-msgstr "Administración del sistema"
+msgstr "系统管理"
 
 msgid "Third Party Addon"
-msgstr "Complementos de terceros"
+msgstr "第三方插件"
 
 msgid "Module Admin"
-msgstr "Administración de módulos"
+msgstr "模块管理"
 
 msgid "FreePBX System Status"
-msgstr "Estado del sistema FreePBX"
+msgstr "FreePBX系统状态"
 
 msgid "Config Edit"
-msgstr "Editor de configuración"
+msgstr "编辑配置"
 
 msgid "Sys Info"
-msgstr "Información del sistema"
+msgstr "系统信息"
 
 msgid "A2Billing Admin"
-msgstr "Administración de A2Billing"
+msgstr "A2Billing计费系统管理"
 
 msgid "Time Groups"
-msgstr "Grupos horarios"
+msgstr "时间分组"
 
 msgid "Custom Destinations"
-msgstr "Destinos personalizados"
+msgstr "自定义目的地"
 
 msgid "Custom Extensions"
-msgstr "Extensiones personalizadas"
+msgstr "自定义分机"
 
 msgid "Custom Applications"
-msgstr "Aplicaciones personalizadas"
+msgstr "自定义应用"
 

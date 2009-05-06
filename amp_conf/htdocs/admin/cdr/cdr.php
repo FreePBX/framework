@@ -50,7 +50,7 @@ $paypal="NOK"; //OK || NOK
 		<title>Asterisk CDR</title>
 		<meta http-equiv="Content-Type" content="text/html">
 		<link rel="stylesheet" type="text/css" media="print" href="common/print.css">
-		<SCRIPT LANGUAGE="JavaScript" SRC="common/encrypt.js"></SCRIPT>
+		<script type="text/javascript" src="common/encrypt.js"></script>
 		<style type="text/css" media="screen">
 			@import url("common/layout.css");
 			@import url("common/content.css");
