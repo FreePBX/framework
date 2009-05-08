@@ -55,7 +55,8 @@ if ($action != '' && $amp_conf['CHECKREFERER']) {
 	}
 
 	if (!$refererok) {
-		die_freepbx(_("POTENTIAL SECURITY BREACH: an attempt was made to modify settings from a URL that did not come from a FreePBX page. This action has been blocked because the HTTP_REFERER does not match your current SERVER. If you require this access, you can set CHECKREFERER=false in amportal.conf to disable this security check"));
+		showview('bad_refferer');
+		exit;
 	}
 }
 
