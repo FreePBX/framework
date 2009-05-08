@@ -49,7 +49,7 @@ include('header.php');
 if ($action != '' && $amp_conf['CHECKREFERER']) {
 	if (isset($_SERVER['HTTP_REFERER'])) {
 		$referer = parse_url($_SERVER['HTTP_REFERER']);
-		$refererok = (trim($referer['host']) == trim($_SERVER['HTTP_HOST'])) ? true : false;
+		$refererok = (trim($referer['host']) == trim($_SERVER['SERVER_NAME'])) ? true : false;
 	} else {
 		$refererok = false;
 	}
