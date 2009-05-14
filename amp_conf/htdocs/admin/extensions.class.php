@@ -968,7 +968,15 @@ class ext_saydigits extends extension {
 }
 class ext_sayunixtime extends extension {
 	function output() {
-		return "SayUnixTime(".$this->data.")";
+		global $version; // Asterisk Version
+		if (version_compare($version, "1.6", ">=")) {
+			// SayUnixTime in 1.6 and greater does NOT require slashes. If they're 
+			// supplied, strip them out.
+			$fixed = str_replace("\\", "", $this->data);
+			return "SayUnixTime($fixed)";
+		} else {
+			return "SayUnixTime(".$this->data.")";
+		}
 	}
 }
 class ext_echo extends extension {
