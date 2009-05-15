@@ -410,7 +410,7 @@ class ampuser {
 	function ampuser($username) {
 		$this->username = $username;
 		if ($user = getAmpUser($username)) {
-			$this->_password = $user["password"];
+			$this->_password = $user["password_sha256"];
 			$this->_extension_high = $user["extension_high"];
 			$this->_extension_low = $user["extension_low"];
 			$this->_deptname = $user["deptname"];
@@ -1293,7 +1293,7 @@ function getAmpAdminUsers() {
 function getAmpUser($username) {
 	global $db;
 	
-	$sql = "SELECT username, password, extension_low, extension_high, deptname, sections FROM ampusers WHERE username = '".$db->escapeSimple($username)."'";
+	$sql = "SELECT username, password_sha256, extension_low, extension_high, deptname, sections FROM ampusers WHERE username = '".$db->escapeSimple($username)."'";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
 	   die_freepbx($results->getMessage());
@@ -1302,7 +1302,7 @@ function getAmpUser($username) {
 	if (count($results) > 0) {
 		$user = array();
 		$user["username"] = $results[0][0];
-		$user["password"] = $results[0][1];
+		$user["password_sha256"] = $results[0][1];
 		$user["extension_low"] = $results[0][2];
 		$user["extension_high"] = $results[0][3];
 		$user["deptname"] = $results[0][4];
