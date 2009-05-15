@@ -43,7 +43,9 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 <html>
 
 <head>
-	<title><?php  echo _($title) ?></title>
+<? // The "FreePBX" below was originally "$title", but no idea where it's meant to come //
+   //  from. It's not defined anywhere..  I set it to FreePBX manually. // ?>
+	<title><?php  echo _("FreePBX") ?></title>
 	<meta http-equiv="Content-Type" content="text/html" />
 	<link href="common/mainstyle.css" rel="stylesheet" type="text/css" />
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>
@@ -138,6 +140,7 @@ if ($reload_needed) {
 <div id="page">
 	<div id="header">
 <?php
+	global $amp_conf;
 	$freepbx_alt = _("FreePBX");
 	$freepbx_logo = 'freepbx_large.png';
 	echo "\t\t<div id=\"freepbx\"><a href=\"http://www.freepbx.org\" target=\"_blank\" title=\"".$freepbx_alt."\"><img src=\"images/".$freepbx_logo."\" alt=\"".$freepbx_alt."\" /></a></div>\n";
