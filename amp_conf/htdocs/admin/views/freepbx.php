@@ -43,9 +43,7 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 <html>
 
 <head>
-<? // The "FreePBX" below was originally "$title", but no idea where it's meant to come //
-   //  from. It's not defined anywhere..  I set it to FreePBX manually. // ?>
-	<title><?php  echo _("FreePBX") ?></title>
+	<title><?php  echo _($title) ?></title>
 	<meta http-equiv="Content-Type" content="text/html" />
 	<link href="common/mainstyle.css" rel="stylesheet" type="text/css" />
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>

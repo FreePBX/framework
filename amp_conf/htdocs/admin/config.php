@@ -398,6 +398,7 @@ if ($quietmode) {
 	$template['amp_conf'] = &$amp_conf;
 	$template['reload_needed'] = check_reload_needed();
 	$template['benchmark_starttime'] = $benchmark_starttime;
+	$template['title'] = "FreePBX";
 
 	showview('freepbx', $template);
 }
