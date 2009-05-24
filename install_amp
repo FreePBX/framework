@@ -586,7 +586,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop","make-links-devel","skip-module-install");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop","make-links-devel","dev-links","skip-module-install");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -673,6 +673,9 @@ foreach ($args[0] as $arg) {
 
 		break;
 		case "--make-links-devel":
+			$make_links = true;
+		break;
+		case "--dev-links":
 			$make_links = true;
 		break;
 		case "--skip-module-install":
