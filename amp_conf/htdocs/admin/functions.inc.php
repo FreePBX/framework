@@ -805,7 +805,8 @@ function parse_asterisk_conf($filename) {
 	//TODO: Should the correction of $amp_conf be passed by refernce and optional?
 	//
 	global $amp_conf;
-	 $conf = array(); 
+	$conf = array();
+		
 	$convert = array(
 		'astetcdir'    => 'ASTETCDIR',
 		'astmoddir'    => 'ASTMODDIR',

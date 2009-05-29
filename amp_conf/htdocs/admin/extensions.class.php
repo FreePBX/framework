@@ -1291,6 +1291,13 @@ class ext_stopmonitor extends extension {
 		return "StopMonitor(".$this->data.")";
 	}
 }
+
+class ext_stopmixmonitor extends extension {
+	function output() {
+		return "StopMixMonitor(".$this->data.")";
+	}
+}
+
 // Speech recognition applications
 class ext_speechcreate extends extension {
 	var $engine;

@@ -591,7 +591,7 @@ class VmX {
 
 	global $asterisk_manager_interface;
 
-	$value_opt = ($vmx_play_instructions)?'s':'""';
+	$value_opt = ($vmx_play_instructions)?'""':'"s"';
 
 	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database put AMPUSER $exten/vmx/$mode/vmxopts/timeout $value_opt\r\n\r\n");
   }
@@ -613,10 +613,10 @@ class VmX {
 	$response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: database get AMPUSER $exten/vmx/$mode/vmxopts/timeout\r\n\r\n");
 
 	if (preg_match("/s/",$response)) {
-			$response='checked';
+			$response='';
 	} 
 		else {
-			$response='';
+			$response='checked';
 		}
 
 	//TODO: really need to check for a bogus response, see how other side does it
