@@ -38,7 +38,7 @@ if (!DB::IsError($passfield)) { // no error... Already done
 		$sql = "ALTER TABLE ampusers ADD password_sha1 VARCHAR ( 40 ) NOT NULL AFTER password";
 		$results = $db->query($sql);
 		if (DB::IsError($results)) {
-			die($results->getMessage());
+			die($sql."\n".$results->getMessage());
 		} else {
 			out("Done.");
 			encrypt_passwords();
