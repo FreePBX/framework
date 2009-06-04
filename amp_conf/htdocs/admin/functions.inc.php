@@ -410,7 +410,7 @@ class ampuser {
 	function ampuser($username) {
 		$this->username = $username;
 		if ($user = getAmpUser($username)) {
-			$this->_password = $user["password_sha256"];
+			$this->_password = $user["password_sha1"];
 			$this->_extension_high = $user["extension_high"];
 			$this->_extension_low = $user["extension_low"];
 			$this->_deptname = $user["deptname"];
@@ -1286,7 +1286,7 @@ function getAmpAdminUsers() {
 	$sql = "SELECT username FROM ampusers WHERE sections='*'";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
-	   die_freepbx($results->getMessage());
+	   die_freepbx($sql."<br>\n".$results->getMessage());
 	}
 	return $results;
 }
@@ -1294,16 +1294,16 @@ function getAmpAdminUsers() {
 function getAmpUser($username) {
 	global $db;
 	
-	$sql = "SELECT username, password_sha256, extension_low, extension_high, deptname, sections FROM ampusers WHERE username = '".$db->escapeSimple($username)."'";
+	$sql = "SELECT username, password_sha1, extension_low, extension_high, deptname, sections FROM ampusers WHERE username = '".$db->escapeSimple($username)."'";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
-	   die_freepbx($results->getMessage());
+	   die_freepbx($sql."<br>\n".$results->getMessage());
 	}
 	
 	if (count($results) > 0) {
 		$user = array();
 		$user["username"] = $results[0][0];
-		$user["password_sha256"] = $results[0][1];
+		$user["password_sha1"] = $results[0][1];
 		$user["extension_low"] = $results[0][2];
 		$user["extension_high"] = $results[0][3];
 		$user["deptname"] = $results[0][4];
@@ -1476,7 +1476,7 @@ function needreload() {
 	$sql = "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'"; 
 	$result = $db->query($sql); 
 	if(DB::IsError($result)) {     
-		die_freepbx($result->getMessage()); 
+		die_freepbx($sql."<br>\n".$result->getMessage()); 
 	}
 }
 
@@ -1486,7 +1486,7 @@ function check_reload_needed() {
 	$sql = "SELECT value FROM admin WHERE variable = 'need_reload'";
 	$row = $db->getRow($sql);
 	if(DB::IsError($row)) {
-		die_freepbx($row->getMessage());
+		die_freepbx($sql."<br>\n".$row->getMessage());
 	}
 	return ($row[0] == 'true' || $amp_conf['DEVELRELOAD']);
 }
@@ -1591,7 +1591,7 @@ function getversion() {
 	$sql = "SELECT value FROM admin WHERE variable = 'version'";
 	$results = $db->getRow($sql);
 	if(DB::IsError($results)) {
-		die_freepbx($results->getMessage());
+		die_freepbx($sql."<br>\n".$results->getMessage());
 	}
 	return $results[0];
 }
@@ -1602,7 +1602,7 @@ function get_framework_version() {
 	$sql = "SELECT version FROM modules WHERE modulename = 'framework' AND enabled = 1";
 	$version = $db->getOne($sql);
 	if(DB::IsError($version)) {
-		die_freepbx($version->getMessage());
+		die_freepbx($sql."<br>\n".$version->getMessage());
 	}
 	return $version;
 }
@@ -2072,7 +2072,7 @@ function drawselects($goto,$i,$show_custom=false) {
 		$sql = "INSERT INTO extensions (context, extension, priority, application, args, descr, flags) VALUES ('".$addarray[0]."', '".$addarray[1]."', '".$addarray[2]."', '".$addarray[3]."', '".$addarray[4]."', '".$addarray[5]."' , '".$addarray[6]."')";
 		$result = $db->query($sql);
 		if(DB::IsError($result)) {
-			die_freepbx($result->getMessage().$sql);
+			die_freepbx($sql."<br>\n".$result->getMessage());
 		}
 		return $result;
 	}
@@ -2083,7 +2083,7 @@ function drawselects($goto,$i,$show_custom=false) {
 		$sql = "DELETE FROM extensions WHERE context = '".$db->escapeSimple($context)."' AND `extension` = '".$db->escapeSimple($exten)."'";
 		$result = $db->query($sql);
 		if(DB::IsError($result)) {
-			die_freepbx($result->getMessage());
+			die_freepbx($sql."<br>\n".$result->getMessage());
 		}
 		return $result;
 	}
@@ -2442,7 +2442,7 @@ function module_getinfo($module = false, $status = false, $forceload = false) {
 	if ($module || !$modulelist->is_loaded()) {
 		$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
 		if(DB::IsError($results)) {
-			die_freepbx($results->getMessage());
+			die_freepbx($sql."<br>\n".$results->getMessage());
 		}
 	
 		if (is_array($results)) {
@@ -3216,7 +3216,7 @@ function _module_setenabled($modulename, $enabled) {
 	$sql = 'UPDATE modules SET enabled = '.($enabled ? '1' : '0').' WHERE modulename = "'.$db->escapeSimple($modulename).'"';
 	$results = $db->query($sql);
 	if(DB::IsError($results)) {
-		die_freepbx($results->getMessage());
+		die_freepbx($sql."<br>\n".$results->getMessage());
 	}
 	$modulelist =& modulelist::create($db);
 	$modulelist->invalidate();
