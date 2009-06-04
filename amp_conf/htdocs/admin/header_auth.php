@@ -22,7 +22,7 @@ switch (strtolower($amp_conf['AUTHTYPE'])) {
 				// not logged in, and have provided a user/pass
 				$_SESSION['AMP_user'] = new ampuser($_SERVER['PHP_AUTH_USER']);
 				
-				if (!$_SESSION['AMP_user']->checkPassword(hash("sha256", $_SERVER['PHP_AUTH_PW']))) {
+				if (!$_SESSION['AMP_user']->checkPassword(sha1($_SERVER['PHP_AUTH_PW']))) {
 					// failed, one last chance -- fallback to amportal.conf db admin user
 					if (($_SERVER['PHP_AUTH_USER'] == $amp_conf['AMPDBUSER']) && ($_SERVER['PHP_AUTH_PW'] == $amp_conf['AMPDBPASS'])) {
 	
