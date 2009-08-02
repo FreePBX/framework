@@ -1799,7 +1799,7 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 				// leave it as-is (for now)
 				//DEBUG echo "\ndup mailbox";
 				$output[] = $line;
-			} else if (preg_match("/^(\s*)#include(\s+)(.*)(\s*[;#].*)?$/",$line,$matches)) {
+			} else if (preg_match('/^(\s*)#include(\s+)"{0,1}([^"]*)"{0,1}(\s*[;#].*)?$/',$line,$matches)) {
 				// include another file
 				//DEBUG echo "\ninclude ".$matches[3]."<blockquote>";
 				
