@@ -2548,6 +2548,60 @@ function module_checkdepends($modulename) {
 							}
 						}
 					break;
+					case 'phpversion':
+						/* accepted formats
+						   <depends>
+							   <phpversion>5.1.0<phpversion>       TRUE: if php is >= 5.1.0
+								 <phpversion>gt 5.1.0<phpversion>    TRUE: if php is > 5.1.0
+							</depends>
+						*/
+						if (preg_match('/^(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d*[beta|alpha|rc|RC]?\d+(\.[^\.]+)*)$/i', $value, $matches)) {
+							// matches[1] = operator, [2] = version
+							$installed_ver = phpversion();
+							$operator = (!empty($matches[1]) ? $matches[1] : 'ge'); // default to >=
+							$compare_ver = $matches[2];
+							if (version_compare($installed_ver, $compare_ver, $operator) ) {
+								// php version is good
+							} else {
+								$errors[] = _module_comparison_error_message('PHP', $compare_ver, $installed_ver, $operator);
+							}
+						} 
+					break;
+					case 'phpcomponent':
+						/* accepted formats
+						   <depends>
+							   <phpversion>zlib<phpversion>        TRUE: if extension zlib is loaded
+								 <phpversion>zlib 1.2<phpversion>    TRUE: if extension zlib is loaded and >= 1.2
+								 <phpversion>zlib gt 1.2<phpversion> TRUE: if extension zlib is loaded and > 1.2
+							</depends>
+						*/
+						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
+							// matches[1] = extension name, [3]=comparison operator, [4] = version
+							$compare_ver = isset($matches[4]) ? $matches[4] : '';
+							if (extension_loaded($matches[1])) {
+								if (empty($compare_ver)) {
+									// extension is loaded and no version specified
+								} else {
+									if (($installed_ver = phpversion($matches[1])) != '') {
+										$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
+										if (version_compare($installed_ver, $compare_ver, $operator) ) {
+											// version is good
+										} else {
+											$errors[] = _module_comparison_error_message("PHP Component ".$matches[1], $compare_ver, $installed_ver, $operator);
+										}
+									} else {
+										$errors[] = _module_comparison_error_message("PHP Component ".$matches[1], $compare_ver, "<no version info>", $operator);
+									}
+								}
+							} else {
+								if ($compare_version == '') {
+									$errors[] = sprintf(_('PHP Component %s is required but missing from you PHP installation.'), $matches[1]);
+								} else {
+									$errors[] = sprintf(_('PHP Component %s version %s is required but missing from you PHP installation.'), $matches[1], $compare_version);
+								}
+							}
+						}	
+					break;
 					case 'module':
 						// Modify to allow versions such as 2.3.0beta1.2
 						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {

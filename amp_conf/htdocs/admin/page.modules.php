@@ -515,8 +515,8 @@ switch ($extdisplay) {  // process, confirm, or nothing
 
 		echo "\t<div id=\"modulelist-header\">";
 		echo "\t\t<span class=\"modulename\">"._("Module")."</span>\n";
-		echo "\t\t<span class=\"moduletype\">"._("Type")."</span>\n";
 		echo "\t\t<span class=\"moduleversion\">"._("Version")."</span>\n";
+		echo "\t\t<span class=\"modulepublisher\">"._("Publisher")."</span>\n";
 		echo "\t\t<span class=\"clear\">&nbsp;</span>\n";
 		echo "\t</div>";
 
@@ -575,8 +575,8 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			// ---- module header 
 			echo "\t\t<div class=\"moduleheader\" onclick=\"toggleInfoPane('infopane_".prep_id($name)."');\" >\n";
 			echo "\t\t\t<span class=\"modulename\"><a href=\"javascript:void(null);\">".(!empty($name_text) ? $name_text : $name)."</a></span>\n";
-			echo "\t\t\t<span class=\"moduletype\">".$modules[$name]['type']."</span>\n";
 			echo "\t\t\t<span class=\"moduleversion\">".(isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'&nbsp;')."</span>\n";
+			echo "\t\t\t<span class=\"modulepublisher\">".(isset($modules[$name]['publisher'])?$modules[$name]['publisher']:'&nbsp;')."</span>\n";
 			
 			echo "\t\t\t<span class=\"modulestatus\">";
 			switch ($modules[$name]['status']) {
@@ -717,6 +717,10 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "\t\t\t\t</div>\n";
 			
 			echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Description")."\">\n";
+			if (isset($modules[$name]['publisher'])) {
+				echo "<h5>".sprintf(_("Publisher: %s"),$modules[$name]['publisher'])."</h5>";
+			}
+			echo "<h5>".sprintf(_("License: %s"), (isset($modules[$name]['license'])?$modules[$name]['license']:"GPLv2") )."</h5>";
 			if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
 				echo "<h5>".sprintf(_("Description for version %s"),$modules[$name]['version'])."</h5>";
 				echo nl2br( $loc_domain ? dgettext($loc_domain,$modules[$name]['description']) : _($modules[$name]['description']) );
