@@ -758,7 +758,7 @@ function parse_amportal_conf($filename) {
 	$file = file($filename);
 	if (is_array($file)) {
 		foreach ($file as $line) {
-			if (preg_match("/^\s*([a-zA-Z0-9_]+)=([a-zA-Z0-9 .&-@=_<>\"\']+)\s*$/",$line,$matches)) {
+			if (preg_match("/^\s*([a-zA-Z0-9_]+)=([a-zA-Z0-9 .&-@=_!<>\"\']+)\s*$/",$line,$matches)) {
 				$conf[ $matches[1] ] = $matches[2];
 			}
 		}
@@ -1709,7 +1709,7 @@ function parse_voicemailconf($filename, &$vmconf, &$section) {
 				// "mailbox=>dup,name"
 				// duplace name line
 				$vmconf[$section][ $matches[1] ]["dups"][] = $matches[2];
-			} else if (preg_match("/^\s*#include\s+(.*)\s*([;#].*)?/",$line,$matches)) {
+			} else if (preg_match('/^\s*#include\s+"{0,1}([^"]*)"{0,1}\s*([;#].*)?/',$line,$matches)) {
 				// include another file
 				
 				if ($matches[1][0] == "/") {
