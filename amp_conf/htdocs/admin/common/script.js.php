@@ -22,8 +22,9 @@ if (!extension_loaded('gettext')) {
     textdomain('amp');
 }
 
-?>
-
+/*
+NOTE: this js function should not be in the php block. It is here only as a 
+reference to the minifies version, located just out of the block
 //this is called from validateDestinations to check each set
 //you can call this directly if you have multiple sets and only
 //require one to be selected, for example.
@@ -50,3 +51,7 @@ function validateSingleDestination(theForm,formNum,bRequired) {
 	
 	return true;
 }
+*/
+?>
+function validateSingleDestination(theForm,formNum,bRequired){var gotoType=theForm.elements['goto'+formNum].value;if(bRequired&&gotoType==''){alert('<?php echo _("Please select a \"Destination\""); ?>');return false;}else{if(gotoType=='custom'){var gotoFld=theForm.elements['custom'+formNum];var gotoVal=gotoFld.value;if(gotoVal.indexOf('custom-')==-1){alert('<?php echo _("Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"); ?>');gotoFld.focus();return false;}}}
+return true;}
