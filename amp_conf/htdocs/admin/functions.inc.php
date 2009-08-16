@@ -3453,7 +3453,7 @@ function _modules_doinclude($filename, $modulename) {
 	global $db, $amp_conf, $asterisk_conf;
 	
 	if (file_exists($filename) && is_file($filename)) {
-		include($filename);
+		include_once($filename);
 	}
 }
 
