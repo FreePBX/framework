@@ -209,10 +209,10 @@ function showReverseDepends($modulename) {
 	}
 	
 	if (($depmods = module_reversedepends($modulename)) !== false) {
-		out("The following modules depend on this one: ".implode(', ',$depmods));
+		out("The following modules depend on ".$modulename.": ".implode(', ',$depmods));
 		exit(1);
 	} else {
-		out("No enabled modules depend on this module.");
+		out("No enabled modules depend on ".$modulename);
 	}
 }
 function showCheckDepends($modulename) {
@@ -225,7 +225,7 @@ function showCheckDepends($modulename) {
 		out(' - '.implode("\n - ",$errors));
 		exit(1);
 	} else {
-		out("All dependencies met for this module.");
+		out("All dependencies met for module: ".$modulename);
 	}
 }
 
@@ -308,7 +308,7 @@ function doDisable($modulename, $force) {
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
 	} else {
-		out("Module successfully disabled");
+		out("Module ".$modulename." successfully disabled");
 	}
 }
 
@@ -318,7 +318,7 @@ function doEnable($modulename, $force) {
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
 	} else {
-		out("Module successfully enabled");
+		out("Module ".$modulename." successfully enabled");
 	}
 }
 
@@ -328,7 +328,7 @@ function doInstall($modulename, $force) {
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
 	} else {
-		out("Module successfully installed");
+		out("Module ".$modulename." successfully installed");
 	}
 }
 
@@ -338,7 +338,7 @@ function doUninstall($modulename, $force) {
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
 	} else {
-		out("Module successfully uninstalled");
+		out("Module ".$modulename." successfully uninstalled");
 	}
 }
 
@@ -348,7 +348,7 @@ function doDelete($modulename, $force) {
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
 	} else {
-		out("Module successfully deleted");
+		out("Module ".$modulename." successfully deleted");
 	}
 }
 
@@ -362,7 +362,7 @@ function doDownload($modulename, $force) {
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
 	} else {
-		out("Module successfully downloaded");
+		out("Module ".$modulename." successfully downloaded");
 	}
 }
 
