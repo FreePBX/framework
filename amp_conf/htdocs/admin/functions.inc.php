@@ -3234,9 +3234,6 @@ function module_uninstall($modulename, $force = false) {
  */
 function module_delete($modulename, $force = false) {
 	global $amp_conf;
-	//include functions, as required by some modules uninstallers
-	$moduledir = $amp_conf["AMPWEBROOT"]."/admin/modules/".$modulename;
-	_modules_doinclude($moduledir.'/functions.inc.php', $modulename);
 	
 	$modules = module_getinfo($modulename);
 	if (!isset($modules[$modulename])) {
