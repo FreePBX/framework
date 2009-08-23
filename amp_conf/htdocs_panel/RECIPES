@@ -1,0 +1,104 @@
+RECIPE 1
+--------
+Set DND (Do not disturb) from your dialplan and 
+reflect the status on FOP:
+
+# Example on setting DND state from the dialplan
+# *78 Sets DND ON
+# *79 Sets DND OFF
+#
+# This example only sets the dnd db value and
+# signals FOP to display the status on the button
+# you might have to add a check in your stdexten
+# macro to honour the DND status
+
+in extensions.conf:
+
+exten => *78,1,Set(DB(dnd/${CUT(CHANNEL|-|1)})=Break)
+exten => *78,n,UserEvent(ASTDB|Channel: ${CHANNEL}^Family: dnd^Value: Break)
+exten => *78,n,Hangup
+
+exten => *79,1,Set(DB(dnd/${CUT(CHANNEL|-|1)})=)
+exten => *79,n,UserEvent(ASTDB|Channel: ${CHANNEL}^Family: dnd^Value: ^)
+exten => *79,n,Hangup
+
+in op_astdb.cfg:
+
+[dnd]
+settext=DND: ${value}|
+fopledcolor=0x001020^0|0x00A000^0
+
+in op_buttons.cfg
+
+[SIP/1234]
+..
+astdbkey=SIP/1234
+
+RECIPE 2
+--------
+How to monitor rxfax. This is just a barebones sample, you can 
+customize it for your needs. You have to Goto to the fax context
+from your dialplan:
+
+in extensions.conf:
+
+exten => fax,1,Goto(rxfax,s,1)
+
+[rxfax]
+exten => s,1,Set(FAXFILE=/var/spool/fax/fax-${TIMESTAMP}.tif)
+exten => s,2,Set(LOCALSTATIONID=My Company)
+exten => s,3,UserEvent(Newexten|Channel: FAX/FAX-${UNIQUEID}^State: Up^Uniqueid: 1234)
+exten => s,4,rxfax(${FAXFILE})
+exten => s,5,Hangup()
+exten => t,1,Hangup()
+exten => h,1,UserEvent(Hangup|Channel: FAX/FAX-${UNIQUEID}^State: Down^Uniqueid: 1234)
+
+in op_buttons.cfg:
+[FAX/FAX]
+Position=1
+Label="Fax"
+
+
+
+RECIPE 3
+--------
+How to monitor voicemailmain (users entering the voicemail application)
+You have to define a regular extensions that performs a 'Goto' to the
+vmail context (similar to the fax case above)
+
+in extensions.conf:
+
+[vmail]
+exten => s,1,SetLanguage(es)
+exten => s,2,UserEvent(Newexten|Channel: VMAIL/VMAIL-${UNIQUEID}^State: Up^Uniqueid: 4321)
+exten => s,3,VoicemailMain(${CALLERIDNUM}@internos)
+exten => t,1,Hangup
+exten => h,1,NoOp(Hangup en voicemail)
+exten => h,2,UserEvent(Hangup|Channel: VMAIL/VMAIL-${UNIQUEID}^State: Down^Uniqueid: 4321)
+exten => h,3,Hangup
+
+in op_buttons.cfg:
+
+[VMAIL/VMAIL]
+Position=1
+Label="Voicemail"
+
+RECIPE 4
+--------
+Show day/night mode based on an asterisk db value:
+
+in extensions.conf:
+
+exten => 80,1,DBPut(daymode/DAYMODE=Day);
+exten => 80,2,UserEvent(ASTDB|Family: daymode^Channel: daymode^Value: Day)
+exten => 80,3,Hangup
+;
+exten => 81,1,DBPut(daymode/DAYMODE=Night);
+exten => 81,2,UserEvent(ASTDB|Family: daymode^Channel: daymode^Value: Night)
+exten => 81,3,Hangup
+
+in op_astdb.cfg:
+
+[daymode]
+setlabel=${value}
+ 

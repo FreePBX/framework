@@ -1,0 +1,25 @@
+#
+# Example entry for setting a callerid text comming 
+# from the flash operator panel
+# You have to modify line 1 and 3 to match the channel
+# name for that extension: temp=clid should remain untouched.
+#
+# If the variable does not exist in the database
+# (if was not set by the operator panel) the line
+# 1 jumps to priority n+101, to perform a normal
+# dial without setting the CallerIDName
+
+exten => 11,1,DBget(temp=clid/SIP/11)
+exten => 11,2,SetCIDName(${temp})
+exten => 11,3,DBdel(clid/SIP/11)   
+exten => 11,4,Dial(SIP/11,30,TrH)
+exten => 11,5,Hangup
+
+; gets here if there was not 'info' provided
+exten => 11,102,Dial(SIP/11,30,TrH)
+
+; busy from the dial
+exten => 11,105,Busy
+exten => 11,203,Busy
+
+
