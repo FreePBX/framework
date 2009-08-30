@@ -1041,7 +1041,10 @@ if ($install_files)
 }
 
 // **** Apply amportal.conf configuration to files
-debug("Running ".dirname(__FILE__)."/apply_conf.sh");
+if (file_exists(dirname(__FILE__)."/apply_conf.sh")) { 
+	debug("Running ".dirname(__FILE__)."/apply_conf.sh");
+}
+
 outn("Configuring install for your environment..");
 if (!$dryrun) {
 	if (file_exists($amp_conf["AMPSBIN"]."/amportal")) {
@@ -1061,10 +1064,12 @@ if (!$dryrun) {
 	// reload manager in asterisk if it is running:
 	//
 	outn("apply username/password changes to conf files..");
-	exec(dirname(__FILE__)."/apply_conf.sh");
+	if (file_exists(dirname(__FILE__)."/apply_conf.sh")) { 
+		exec(dirname(__FILE__)."/apply_conf.sh");
+	}
 	out("done");
 
-	/* As of Asterisk 1.4.16 or there abouts, a missing #include file will make the reload fail. So
+	/* As of Asterisk 1.4.16 or there about, a missing #include file will make the reload fail. So
    	we need to make sure that we have such for everything that is in our configs. We will simply
 	 	look for the #include statements and touch the files vs. trying to inventory everything we may
 	 	need and then forgetting something.
