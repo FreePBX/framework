@@ -2789,12 +2789,12 @@ function module_enable($modulename, $force = false) { // was enableModule
 	$modules = module_getinfo($modulename);
 	
 	if ($modules[$modulename]['status'] == MODULE_STATUS_ENABLED) {
-		return array(_("Module is already enabled"));
+		return array(_("Module ".$modulename." is already enabled"));
 	}
 	
 	// doesn't make sense to skip this on $force - eg, we can't enable a non-installed or broken module
 	if ($modules[$modulename]['status'] != MODULE_STATUS_DISABLED) {
-		return array(_("Module cannot be enabled"));
+		return array(_("Module ".$modulename." cannot be enabled"));
 	}
 	
 	if (!$force) { 
@@ -3105,7 +3105,7 @@ function module_install($modulename, $force = false) {
 	
 	// don't force this bit - we can't install a broken module (missing files) 
 	if ($modules[$modulename]['status'] == MODULE_STATUS_BROKEN) {
-		return array(_("This module is broken and cannot be installed. You should try to download it again."));
+		return array(_("Module ".$modules[$modulename]['rawname']." is broken and cannot be installed. You should try to download it again."));
 	}
 	
 	if (!$force) {

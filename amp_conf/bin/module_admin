@@ -104,36 +104,40 @@ function doReload() {
 }
 
 function doDisable($modulename, $force) {
+	getIncludes();
 	if (is_array($errors = module_disable($modulename, $force))) {
 		out("The following error(s) occured:");
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
 	} else {
-		out("Module successfully disabled");
+		out("Module ".$modulename." successfully disabled");
 	}
 }
 
 function doEnable($modulename, $force) {
+	getIncludes();
 	if (is_array($errors = module_enable($modulename, $force))) {
 		out("The following error(s) occured:");
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
 	} else {
-		out("Module successfully enabled");
+		out("Module ".$modulename." successfully enabled");
 	}
 }
 
 function doInstall($modulename, $force) {
+	getIncludes();
 	if (is_array($errors = module_install($modulename, $force))) {
 		out("The following error(s) occured:");
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
 	} else {
-		out("Module successfully installed");
+		out("Module ".$modulename." successfully installed");
 	}
 }
 
 function doDelete($modulename, $force) {
+	getIncludes();
 	if (is_array($errors = module_delete($modulename, $force))) {
 		out("The following error(s) occured:");
 		out(' - '.implode("\n - ",$errors));
@@ -176,7 +180,7 @@ function doDownload($modulename, $force) {
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
 	} else {
-		out("Module successfully downloaded");
+		out("Module ".$modulename." successfully downloaded");
 	}
 }
 
@@ -199,12 +203,13 @@ function download_progress($action, $params) {
 }
 
 function doUninstall($modulename, $force) {
+	getIncludes();
 	if (is_array($errors = module_uninstall($modulename, $force))) {
 		out("The following error(s) occured:");
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
 	} else {
-		out("Module successfully uninstalled");
+		out("Module ".$modulename." successfully uninstalled");
 	}
 }
 
@@ -302,7 +307,7 @@ function doUpgradeAll($force) {
 			out("Upgrading $modulename..");
 			doUpgrade($modulename, $force);
 		}
-		out("Done all upgrades.");
+		out("All upgrades done!");
 	} else {
 		out("Up to date.");
 	}
@@ -352,7 +357,7 @@ function showCheckDepends($modulename) {
 		out(' - '.implode("\n - ",$errors));
 		exit(1);
 	} else {
-		out("All dependencies met for this module.");
+		out("All dependencies met for module ".$modulename);
 	}
 }
 
