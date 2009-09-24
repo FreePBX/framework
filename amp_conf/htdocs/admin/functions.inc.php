@@ -3662,12 +3662,18 @@ function module_run_notification_checks() {
  */
 function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log') {
 	$fh = fopen($filename,$option);
+	fwrite($fh,date("Y-M-d H:i:s")."\n");//add timestamp
 	if (is_array($string)) {
 		fwrite($fh,print_r($string,true)."\n");
 	} else {
 		fwrite($fh,$string."\n");
 	}
 	fclose($fh);
+}
+//lazy, I mean efficient, alias for function freepbx_debug
+function dbug(){
+	$args=func_get_args();
+	call_user_func_array(freepbx_debug,$args);
 }
 
 /** Log an error to the (database-based) log
