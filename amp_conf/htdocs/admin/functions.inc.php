@@ -3673,7 +3673,7 @@ function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log')
 //lazy, I mean efficient, alias for function freepbx_debug
 function dbug(){
 	$args=func_get_args();
-	call_user_func_array(freepbx_debug,$args);
+	call_user_func_array('freepbx_debug',$args);
 }
 
 /** Log an error to the (database-based) log
