@@ -212,8 +212,10 @@
         if($this->audio) stream_set_blocking($this->audio, 0);
       }
 
-      $this->conlog('PHPAGI internal configuration:');
-      $this->conlog(print_r($this->config, true));
+// Next two lines where removed 2009-08-25 due to unneccesary output when setting "core set verbose 3" or higher in Asterisk.
+//
+//    $this->conlog('PHPAGI internal configuration:');
+//    $this->conlog(print_r($this->config, true));
 
 // Enable for debuggin purposes
 //foreach(explode("\n", print_r($this, true)) as $line) syslog(LOG_WARNING, $line);

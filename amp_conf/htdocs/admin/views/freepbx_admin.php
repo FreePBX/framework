@@ -139,7 +139,9 @@ if (is_array($fpbx_menu)) {
 	if (extension_loaded('gettext')) {
 		if (!isset($_COOKIE['lang'])) {
 			$_COOKIE['lang'] = "en_US";
-		} 
+		} else {
+		    setcookie("lang", $_COOKIE['lang'], time()+365*24*60*60);
+		}
 ?>
 &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

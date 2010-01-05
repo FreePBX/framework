@@ -1396,7 +1396,7 @@ function engine_getinfo() {
 }
 
 if (!function_exists('version_compare_freepbx')) {
-	/* verison_compare that works with freePBX version numbers
+	/* version_compare that works with FreePBX version numbers
  	*/
 	function version_compare_freepbx($version1, $version2, $op = null) {
         	$version1 = str_replace("rc","RC", strtolower($version1));
@@ -2184,7 +2184,7 @@ function ampconf_string_replace($string) {
  * then null is returned.
  *
  * Sets the global variable $module_getonlinexml_error to true if an error
- * occured getting the module from the repository, false if no error occured,
+ * occurred getting the module from the repository, false if no error occurred,
  * or null if the repository wasn't checked. Note that this may change in the 
  * future if we decide we need to return more error codes, but as long as it's
  * a php zero-value (false, null, 0, etc) then no error happened.
@@ -3663,7 +3663,7 @@ function module_run_notification_checks() {
 function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log') {
 	$fh = fopen($filename,$option);
 	fwrite($fh,date("Y-M-d H:i:s")."\n");//add timestamp
-	if (is_array($string)) {
+	if (is_array($string) || is_object($string)) {
 		fwrite($fh,print_r($string,true)."\n");
 	} else {
 		fwrite($fh,$string."\n");
@@ -3677,7 +3677,7 @@ function dbug(){
 }
 
 /** Log an error to the (database-based) log
- * @param  string   The section or script where the error occured
+ * @param  string   The section or script where the error occurred
  * @param  string   The level/severity of the error. Valid levels: 'error', 'warning', 'debug', 'devel-debug'
  * @param  string   The error message
  */

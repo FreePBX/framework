@@ -396,7 +396,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 		}
 		
-		// Write out the erros, if there are additional actions that can be accomplished list those next with the choice to
+		// Write out the errors, if there are additional actions that can be accomplished list those next with the choice to
 		// process which will ignore the ones with errors but process the rest.
 		//
 		if (count($errorstext) > 0) {
@@ -476,7 +476,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		uasort($modules, 'category_sort_callback');
 		
 		if ($online) {
-			// Check for annoucements such as security advisories, required updates, etc.
+			// Check for announcements such as security advisories, required updates, etc.
 			//
 			$announcements = module_get_annoucements();
 			if (isset($announcements) && !empty($announcements)) {

@@ -13,14 +13,15 @@
 #    You should have received a copy of the GNU General Public License
 #    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>.
 #
-#    Copyright 2009, Oleh Miniv <oleg-min@ukr.net>
+# Copyright (C) 2009 Oleh Miniv <oleg-min@ukr.net>
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ARI\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-07 12:40+0100\n"
-"PO-Revision-Date: 2009-05-22 17:05+0300\n"
-"Last-Translator: CrabMan\n"
+"PO-Revision-Date: 2009-07-27 12:09+0300\n"
+"Last-Translator: Oleh Miniv <oleg-min@ukr.net>\n"
 "Language-Team: Oleh Miniv <oleg-min@ukr.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,19 +35,19 @@ msgstr "Менеджер Дзвінків недоступний"
 
 #: includes/asi.php:54
 msgid "Asterisk authentication failed:"
-msgstr ""
+msgstr "Помилка автентифікації в asterisk:"
 
 #: includes/asi.php:96
 #: includes/asi.php:111
 #: includes/asi.php:130
 #: includes/asi.php:144
 msgid "Asterisk command not understood"
-msgstr ""
+msgstr "Незрозуміла команда для asterisk"
 
 #: includes/bootstrap.php:125
 #, php-format
 msgid "To many directories in %s Not all files processed"
-msgstr ""
+msgstr "Занадто багато папок в %s. Оброблено не всі файли"
 
 #: includes/bootstrap.php:228
 msgid "ARI requires a version of PHP 4.3 or later"
@@ -193,9 +194,8 @@ msgid "Call Forward Busy Deactivate"
 msgstr "Вимкнути Переадресацію Виклику якщо Зайнято"
 
 #: includes/main.conf.php:243
-#, fuzzy
 msgid "Call Forward Busy Prompting Deactivate"
-msgstr "Система Переадресації Виклику"
+msgstr ""
 
 #: includes/main.conf.php:244
 msgid "Call Forward No Answer/Unavailable Activate"
@@ -203,7 +203,7 @@ msgstr "Увімкнути Переадресацію Виклику"
 
 #: includes/main.conf.php:245
 msgid "Call Forward No Answer/Unavailable Deactivate"
-msgstr ""
+msgstr "Вимкнути Переадресацію Виклику "
 
 #: includes/main.conf.php:246
 msgid "Call Waiting - Activate"
@@ -223,11 +223,11 @@ msgstr "Вимкнути Режим Не Турбувати"
 
 #: includes/main.conf.php:250
 msgid "My Voicemail"
-msgstr "Моя Голосова Пошта"
+msgstr "Голосова Пошта (з свого телефону)"
 
 #: includes/main.conf.php:251
 msgid "Dial Voicemail"
-msgstr "Набрати Голосову Пошту"
+msgstr "Голосова Пошта (з будь-якого телефону)"
 
 #: includes/main.conf.php:304
 msgid "Email voicemail as attachment"
@@ -265,7 +265,7 @@ msgstr "Список Дзвінків"
 #: modules/callmonitor.module:72
 #: modules/voicemail.module:169
 msgid "One or more messages must be selected before clicking delete."
-msgstr ""
+msgstr "Виберіть принаймні одне повідомлення перед тим як видаляти."
 
 #: modules/callmonitor.module:137
 #, php-format
@@ -330,7 +330,7 @@ msgstr "Відтворити"
 #: modules/voicemail.module:406
 #: modules/voicemail.module:429
 msgid "Download"
-msgstr "Завантажити"
+msgstr "Зберегти"
 
 #: modules/callmonitor.module:279
 #, php-format
@@ -376,22 +376,21 @@ msgstr "Дія"
 
 #: modules/followme.module:43
 msgid "Follow Me"
-msgstr ""
+msgstr "Follow Me"
 
 #: modules/followme.module:100
 msgid "Your Follow-Me has been disabled, REFRESH your browser to remove this message"
-msgstr "Ваш Follow-Me було заборонено, ОНОВІТЬ сторінку аби видалити це повідомлення"
+msgstr "Ваш Follow Me було заборонено, ОНОВІТЬ сторінку аби видалити це повідомлення"
 
 #: modules/followme.module:101
 #: modules/VmX.module:116
 #, php-format
 msgid "Check with your Telephone System Administrator if you think there is a problem"
-msgstr ""
+msgstr "Якщо ви вважаєте, що є проблема - зверніться до Адміністратора Телефонної Мережі."
 
 #: modules/followme.module:118
-#, fuzzy
 msgid "Follow-Me pre-ring time not changed"
-msgstr "Ви не вказали куди переадресовувати дзвінок"
+msgstr ""
 
 #: modules/followme.module:119
 #: modules/followme.module:142
@@ -401,23 +400,23 @@ msgstr "Число %s мусить бути цілим числом секунд
 
 #: modules/followme.module:141
 msgid "Follow-Me list ring time not changed"
-msgstr ""
+msgstr "Час виклику списку Follow Me не змінено"
 
 #: modules/followme.module:185
 msgid "Follow-Me list must contain at least one valid number"
-msgstr ""
+msgstr "Список Follow Me повинен містити принаймні один працюючий номер"
 
 #: modules/followme.module:186
 #, php-format
 msgid "The following: %s is not valid"
-msgstr ""
+msgstr "Наступне: %s не працюватиме"
 
 #: modules/followme.module:291
 #: modules/followme.module:342
 #: modules/phonefeatures.module:360
 #: modules/settings.module:430
 msgid "Enable"
-msgstr "Дозволити"
+msgstr "Активувати"
 
 #: modules/followme.module:292
 msgid ""
@@ -430,27 +429,27 @@ msgstr ""
 
 #: modules/followme.module:302
 msgid "Follow Me List:"
-msgstr "Список Follow Me"
+msgstr "Список Follow Me:"
 
 #: modules/followme.module:303
 #, php-format
 msgid "Extensions and outside numbers to ring next."
-msgstr ""
+msgstr "Наступні номери на які дзвонити."
 
 #: modules/followme.module:304
 #, php-format
 msgid "Include %s to keep it ringing."
-msgstr ""
+msgstr "Обов'язково залиште %s в цьому списку."
 
 #: modules/followme.module:310
 #, php-format
 msgid "Ring %s First For:"
-msgstr ""
+msgstr "Дзвонити %s протягом:"
 
 #: modules/followme.module:311
 #, php-format
 msgid "Time to ring extension %s before ringing the %s Follow Me List %s"
-msgstr ""
+msgstr "Час протягом якого дзвонитиме номер %s перед тим як перейти до списку %s Follow Me %s"
 
 #: modules/followme.module:321
 #: modules/followme.module:334
@@ -459,11 +458,11 @@ msgstr "секунд"
 
 #: modules/followme.module:324
 msgid "Ring Followme List for:"
-msgstr ""
+msgstr "Дзвонити списку Follow Me:"
 
 #: modules/followme.module:324
 msgid "Time to ring the Follow Me List."
-msgstr ""
+msgstr "Час, протягом якого дзвонитиме список Follow Me."
 
 #: modules/followme.module:339
 msgid "Use Confirmation:"
@@ -475,12 +474,12 @@ msgstr ""
 
 #: modules/followme.module:354
 msgid "Followme Settings"
-msgstr "Налаштування Followme"
+msgstr "Налаштування Follow Me"
 
 #: modules/followme.module:356
 #, php-format
 msgid "Followme Settings for %s (%s)"
-msgstr "Налаштування Followme для %s (%s)"
+msgstr "Налаштування Follow Me для %s (%s)"
 
 #: modules/followme.module:382
 #: modules/phonefeatures.module:182
@@ -517,9 +516,8 @@ msgid "Number %s must contain dial numbers (characters like '(', '-', and ')' ar
 msgstr "Поле %s повинне містити телефоні номери (символи '(', '-', та ')' допускаються)"
 
 #: modules/phonefeatures.module:422
-#, fuzzy
 msgid "Call Screening:"
-msgstr "Переадресація Виклику:"
+msgstr ""
 
 #: modules/phonefeatures.module:422
 msgid "Call Screening requires external callers to say their name, which will be played back to the user and allow the user to accept or reject the call.  Screening with memory only verifies a caller for their caller-id once. Screening without memory always requires a caller to say their name. Either mode will always announce the caller based on the last introduction saved with that callerid. If any user on the system uses the memory option, when that user is called, the caller will be required to re-introduce themselves and all users on the system will have that new introduction associated with the caller's CallerId."
@@ -621,7 +619,7 @@ msgstr "Надсилати Голосову Пошту На Пейджер:"
 
 #: modules/settings.module:488
 msgid "Call Me Number:"
-msgstr ""
+msgstr "Номер 'Подзвони мені'"
 
 #: modules/settings.module:505
 msgid "Audio Format:"
@@ -697,7 +695,7 @@ msgstr "Використовувати Коли:"
 
 #: modules/VmX.module:300
 msgid "Menu options below are available during your personal voicemail greeting playback. <br/><br/>Check both to use at all times."
-msgstr ""
+msgstr "Опції доступні під час відтворення повідомлення голосової пошти."
 
 #: modules/VmX.module:302
 msgid "unavailable"
@@ -728,6 +726,8 @@ msgid ""
 "Pressing 0 during your personal voicemail greeing goes to the Operator. \n"
 "\t\t\t\t\tUncheck to enter another destination here."
 msgstr ""
+"Натискання клавіші 0 під час привітання голосової пошти переведе виклик на Оператора. \n"
+"\t\t\t\t\tЗніміть виділення, щоб ввести інший номер."
 
 #: modules/VmX.module:327
 msgid "Go To Operator"
@@ -743,11 +743,11 @@ msgstr ""
 
 #: modules/VmX.module:336
 msgid "Enter an alternate number here, then change your personal voicemail greeting to let callers know to press 1 to reach that number. <br/><br/>If you'd like to use your Follow Me List, check \"Send to Follow Me\" and disable Follow Me above."
-msgstr ""
+msgstr "Введіть сюди номер та повідомте в привітанні голосової пошти, що потрібно натиснути 1 аби додзвонитися на цей номер.<br/><br/>If you'd like to use your Follow Me List, check \"Send to Follow Me\" and disable Follow Me above."
 
 #: modules/VmX.module:349
 msgid "Send to Follow-Me"
-msgstr "Відправити до Follow-Me"
+msgstr "Відправити до Follow Me"
 
 #: modules/VmX.module:357
 msgid "Press 2:"
@@ -755,12 +755,12 @@ msgstr "Натисніть 2:"
 
 #: modules/VmX.module:357
 msgid "Use any extensions, ringgroups, queues or external numbers. <br/><br/>Remember to re-record your personal voicemail greeting and include instructions. Run a test to make sure that the number is functional."
-msgstr ""
+msgstr "Використовуйте будь-який внутрішній номер, групу номерів, чергу або зовнішній номер. <br/><br/>Не забудьте записати нові інструкції в привітанні голосової пошти. Протестуйте чи введений вами номер працює."
 
 #: modules/VmX.module:371
 #, php-format
 msgid "VmX Locator&#8482; Settings for %s (%s)"
-msgstr "VmX Locator&#8482; Налаштування для %s (%s)"
+msgstr "Налаштування VmX Locator&#8482; для %s (%s)"
 
 #: modules/voicemail.module:51
 msgid "Voicemail"
@@ -771,18 +771,16 @@ msgid "A folder must be selected before the message can be moved."
 msgstr "Перед переміщенням повідомлення виберіть папку."
 
 #: modules/voicemail.module:185
-#, fuzzy
 msgid "One or more messages must be selected before clicking move_to."
-msgstr "Перед переміщенням повідомлення виберіть папку."
+msgstr "Виберіть принаймні одне повідомлення перед тим як переміщувати."
 
 #: modules/voicemail.module:194
 msgid "An extension must be selected before the message can be forwarded."
 msgstr "Виберіть адресата, перш ніж, пересилати повідомлення"
 
 #: modules/voicemail.module:202
-#, fuzzy
 msgid "One or more messages must be selected before clicking forward_to."
-msgstr "Виберіть адресата, перш ніж, пересилати повідомлення"
+msgstr "Виберіть принаймні одне повідомлення перед тим як пересилати."
 
 #: modules/voicemail.module:345
 msgid "move_to"
@@ -810,7 +808,7 @@ msgstr "Відтворити"
 
 #: modules/voicemail.module:427
 msgid "Play message at: "
-msgstr ""
+msgstr "Відтворити повідомлення на номері:"
 
 #: modules/voicemail.module:432
 msgid "Voicemail recording(s) was not found."
@@ -839,13 +837,12 @@ msgid "Voicemail for %s (%s)"
 msgstr "Голосова Пошта для %s (%s)"
 
 #: modules/voicemail.module:507
-#, fuzzy
 msgid "Calling: "
-msgstr "Переадресація Виклику:"
+msgstr "Набираю:"
 
 #: modules/voicemail.module:508
 msgid ". Please wait patiently..."
-msgstr ". Будь-ласка, зачекайте..."
+msgstr ". Будь-ласка, дочекайтеся дзвінка..."
 
 #: modules/voicemail.module:779
 #, php-format
