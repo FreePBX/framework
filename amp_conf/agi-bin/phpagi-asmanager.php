@@ -224,15 +224,17 @@
         $this->port = $this->config['asmanager']['port'];
       }
 
-      // connect the socket
+      // connect the socket, set a 10 second timeout for the connection, this gives us plenty of time to connect
       $errno = $errstr = NULL;
-      $this->socket = @fsockopen($this->server, $this->port, $errno, $errstr);
+      $this->socket = @fsockopen($this->server, $this->port, $errno, $errstr, 10);
       if($this->socket == false)
       {
         $this->log("Unable to connect to manager {$this->server}:{$this->port} ($errno): $errstr");
         return false;
-      }
-
+      } else
+      // Set a 2 second timeout for read/write commands
+      stream_set_timeout($this->socket, 2);
+	
       // read the header
       $str = fgets($this->socket);
       if($str == false)
@@ -251,7 +253,7 @@
       if($res['Response'] != 'Success')
       {
         $this->log("Failed to login.");
-        $this->disconnect();
+        $this->disconnect(TRUE);
         return false;
       }
       return true;
@@ -262,8 +264,9 @@
     *
     * @example examples/sip_show_peer.php Get information about a sip peer
     */
-    function disconnect()
+    function disconnect($dontlogoff=NULL)
     {
+      if (!$dontlogoff)
       $this->logoff();
       fclose($this->socket);
     }

@@ -236,7 +236,7 @@ function featurecodes_getModuleFeatures($modulename) {
 	}
 }
 
-function featurecodes_getAllFeaturesDetailed() {
+function featurecodes_getAllFeaturesDetailed($sort_module=true) {
 	global $amp_conf;
 
 	$fd = $amp_conf['ASTETCDIR'].'/freepbx_featurecodes.conf';
@@ -248,7 +248,7 @@ function featurecodes_getAllFeaturesDetailed() {
 	$s .= "modules.enabled AS moduleenabled ";
 	$s .= "FROM featurecodes ";
 	$s .= "INNER JOIN modules ON modules.modulename = featurecodes.modulename ";
-	$s .= "ORDER BY featurecodes.modulename, featurecodes.description ";
+	$s .= ($sort_module ? "ORDER BY featurecodes.modulename, featurecodes.description " : "ORDER BY featurecodes.description ");
 	
 	$results = sql($s, "getAll", DB_FETCHMODE_ASSOC);
 	if (is_array($results)) {

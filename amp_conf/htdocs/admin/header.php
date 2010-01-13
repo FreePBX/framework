@@ -119,9 +119,9 @@ if (!$skip_astman) {
 	$astman		= new AGI_AsteriskManager();
 
 	// attempt to connect to asterisk manager proxy
-	if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off')) {
+  if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
 		// attempt to connect directly to asterisk, if no proxy or if proxy failed
-		if (!$res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off')) {
+		if (!$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off')) {
 			// couldn't connect at all
 			unset( $astman );
 		}

@@ -10,7 +10,11 @@
 
 	$amp_conf = parse_amportal_conf_bootstrap("/etc/amportal.conf");
 
+	require_once($amp_conf['AMPWEBROOT'].'/admin/functions.inc.php');
 	require_once($amp_conf['AMPWEBROOT'].'/admin/common/php-asmanager.php');
+
+	$amp_conf = parse_amportal_conf("/etc/amportal.conf");
+
 	$astman         = new AGI_AsteriskManager();
 	if (! $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
 		exit;
@@ -32,68 +36,6 @@
 	}
 
 	//---------------------------------------------------------------------
-	function ast_with_dahdi() {
-		global $astman;
-		global $amp_conf;
-	
-		if (!$amp_conf['ZAP2DAHDICOMPAT']) {
-			return false;
-		}
-	
-		$engine_info = engine_getinfo();
-		$version = $engine_info['version'];
-		
-		if (version_compare($version, '1.4', 'ge') && $amp_conf['AMPENGINE'] == 'asterisk') {		
-			if (isset($astman) && $astman->connected()) {
-				$response = $astman->send_request('Command', array('Command' => 'module show like chan_dahdi'));
-				if (preg_match('/1 modules loaded/', $response['data'])) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	function engine_getinfo() {
-		global $amp_conf;
-		global $astman;
-
-		switch ($amp_conf['AMPENGINE']) {
-			case 'asterisk':
-				if (isset($astman) && $astman->connected()) {
-					//get version (1.4)
-					$response = $astman->send_request('Command', array('Command'=>'core show version'));
-					if (preg_match('/No such command/',$response['data'])) {
-						// get version (1.2)
-						$response = $astman->send_request('Command', array('Command'=>'show version'));
-					}
-					$verinfo = $response['data'];
-				} else {
-					// could not connect to asterisk manager, try console
-					$verinfo = exec('asterisk -V');
-				}
-			
-				if (preg_match('/Asterisk (\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
-					return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
-				} elseif (preg_match('/Asterisk SVN-(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
-					return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
-				} elseif (preg_match('/Asterisk SVN-branch-(\d+(\.\d+)*)-r(-?(\S*))/', $verinfo, $matches)) {
-					return array('engine'=>'asterisk', 'version' => $matches[1].'.'.$matches[4], 'additional' => $matches[4], 'raw' => $verinfo);
-				} elseif (preg_match('/Asterisk SVN-trunk-r(-?(\S*))/', $verinfo, $matches)) {
-					return array('engine'=>'asterisk', 'version' => '1.6', 'additional' => $matches[1], 'raw' => $verinfo);
-				} elseif (preg_match('/Asterisk SVN-.+-(\d+(\.\d+)*)-r(-?(\S*))-(.+)/', $verinfo, $matches)) {
-					return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[3], 'raw' => $verinfo);
-				} elseif (preg_match('/Asterisk [B].(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
-					return array('engine'=>'asterisk', 'version' => '1.2', 'additional' => $matches[3], 'raw' => $verinfo);
-				} elseif (preg_match('/Asterisk [C].(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
-					return array('engine'=>'asterisk', 'version' => '1.4', 'additional' => $matches[3], 'raw' => $verinfo);
-				}
-
-				return array('engine'=>'ERROR-UNABLE-TO-PARSE', 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
-			break;
-		}
-		return array('engine'=>'ERROR-UNSUPPORTED-ENGINE-'.$amp_conf['AMPENGINE'], 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
-	}
 
 	function parse_amportal_conf_bootstrap($filename) {
 		$file = file($filename);
@@ -107,23 +49,6 @@
 		} else {
 			$conf["AMPWEBROOT"] = rtrim($conf["AMPWEBROOT"],'/');
 		}
-		if (!isset($conf['ASTAGIDIR']) || $conf['ASTAGIDIR'] == '') {
-			$conf['ASTAGIDIR'] = '/var/lib/asterisk/agi-bin';
-		}
-		if (!isset($conf['ZAP2DAHDICOMPAT'])) {
-			$conf['ZAP2DAHDICOMPAT'] = false;
-		} else {
-			switch (strtoupper(trim($conf['ZAP2DAHDICOMPAT']))) {
-				case '1':
-				case 'TRUE':
-				case 'ON':
-					$conf['ZAP2DAHDICOMPAT'] = true;
-					break;
-				default:
-					$conf['ZAP2DAHDICOMPAT'] = false;
-			}
-		}
-
 		return $conf;
 	}
 

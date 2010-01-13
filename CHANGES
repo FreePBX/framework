@@ -1,7 +1,50 @@
-2.6
+2.6 Beta1 (Highlights)
+- Added Extended Repository to allow more contributed modules not part of main
+  project, some extended modules include:
+  - Bulk Extension Add/Delete/Edit
+  - Voicemail Admin
+  - Set CID
+  - Route Permissions
+
+- Moved the following modules to the extended repository:
+  - Customer DB
+  - Inventroy DB
+  - Gabcast
+
+- Added new modules:
+  - Asterisk SIP Settings
+  - Asterisk IAX Settings
+  - Outbound Route Messages
+  - Phone Restart
+  - Weak Password Checks (back ported to 2.5 also) 
+
+- Several Enhancements to Queue Module
+
+- Enhancements to Print Extensions
+
+- Performance Enhancements to Paging (helps large page groups)
+
+- Added Virtual Extension support
+
+- Added Pinless Dialing exception to Extension/User GUI
+
+- More improvemenmts to Directed Call Pickup for Asterisk 1.4+ systems
+
 - New version of mindTerm (used in Java SSH module); has new licensing 
   options (and restrictions). See 
   http://www.appgate.com/index/products/mindterm/ for more info.
+
+- Added fields for Publisher and License in module.xml
+
+- Added ability to put dependencies on PHP versions and PHP components in
+  module.xml
+
+- Changed database mode passwords form clear text to encrypted passwords
+
+- Changed internal schema of trunks to add proper sql tables
+
+- Eliminated dialparties.agi accessing AMI when EXTENSION_STATE() is avail
+
 2.5.1
 - Biggest changes from 2.5.0 to 2.5.1 were many loose ends to handle localization
   translations through out the code.

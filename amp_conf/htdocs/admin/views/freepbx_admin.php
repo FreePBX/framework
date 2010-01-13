@@ -112,9 +112,9 @@ if (is_array($fpbx_menu)) {
 			$label_text = _($row['name']);
 		}
 		if (isset($row['disabled']) && $row['disabled']) {
-			echo $label_text;
+			echo htmlspecialchars($label_text);
 		} else {
-			echo '<a href="'.$href.'" '.$extra_attributes.' >'. $label_text . "</a>";
+			echo '<a href="'.$href.'" '.$extra_attributes.' >'. htmlspecialchars($label_text) . "</a>";
 		}
 		echo "</li>\n";
 	}

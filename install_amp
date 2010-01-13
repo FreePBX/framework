@@ -105,7 +105,7 @@ function debug($text) {
 }
 
 if (!function_exists('version_compare_freepbx')) {
-	/* verison_compare that works with freePBX version numbers
+	/* version_compare that works with freePBX version numbers
  	*/
 	function version_compare_freepbx($version1, $version2, $op = null) {
         	$version1 = str_replace("rc","RC", strtolower($version1));
@@ -126,7 +126,7 @@ function showHelp() {
 	out("  --username <user>        Use <user> to connect to db and write config");
 	out("  --password <pass>        Use <pass> to connect to db and write config");
 	out("  --fopwebroot <path>      Web path where fop will be installed");
-	out("  --webroot <path>         Web root where freepbx will be installed");
+	out("  --webroot <path>         Web root where FreePBX will be installed");
 	out("  --cgibin <path>          Path where cgi-bin's lives");
 	out("  --bin <path>             Path of asterisk binaries");
 	out("  --sbin <path>            Path of system admin binaries");
@@ -280,7 +280,7 @@ function generate_configs() {
 	global $debug;
 	
 	out("Generating Configurations.conf, (if Asterisk is not running, you will get an error");
-	out("In case of error, start Asterisk and hit the red bar in the GUI to generate the Configuraions.conf files");
+	out("In case of error, start Asterisk and hit the red bar in the GUI to generate the Configurations.conf files");
 	if (!$dryrun)
 		// added --run-install to make it work like it has been working since retrieve_conf changed to not run module install scripts by default
 
@@ -494,7 +494,7 @@ function install_modules() {
 
 /** Set the module version number to the packaged version and enable
  *  module must require not install.php or install.sql script
- *  this is primarily to package core and framework with freepbx tarballs
+ *  this is primarily to package core and framework with FreePBX tarballs
  *
  */
 function set_module_version($module) {
@@ -511,7 +511,7 @@ function set_module_version($module) {
 		if (preg_match('/<version>(.+)<\/version>/', $module_xml, $matches)) {
 			$version = $matches[1];
 		} else {
-			fatal("ERROR: $file_path found but no verison information");
+			fatal("ERROR: $file_path found but no version information");
 		}
 	} else {
 		return  "not packaged, no updating needed";
@@ -519,7 +519,7 @@ function set_module_version($module) {
 
 	// If we didn't return above, then we found the package as part of the install
 	// tarball and want to update the version info since this might be overwriting
-	// an existing install that has a newever version.
+	// an existing install that has a newer version.
 	//
 	$sql = "SELECT version FROM modules WHERE modulename = '$module'";
 	$result = $db->getCol($sql); 
@@ -532,7 +532,7 @@ function set_module_version($module) {
 		$sql = "INSERT INTO modules (modulename, version, enabled) VALUES ('$module', '$version', 0)";
 	} else if ($result[0] != $version) {
 		if (version_compare_freepbx($version, $result[0], "gt")) {
-			// if new verison is greater than old, then we disable the module and it will get enabled next when installed
+			// if new version is greater than old, then we disable the module and it will get enabled next when installed
 			//
 			$sql = "UPDATE modules SET version = '$version', enabled = 0 WHERE modulename = '$module'";
 		} else {
@@ -847,7 +847,7 @@ if (count($asterisk_conf) == 0) {
 }
 out("OK");
 
-/* deprecated on freepbx 2.2, from now pages need to read this information 
+/* deprecated on FreePBX 2.2, from now pages need to read this information 
    from $asterik_conf and not $amp_conf.
    
    this code will stay in 2.2, but in 2.3 it will be gone. developers - please
@@ -887,7 +887,7 @@ chmod($amp_conf['ASTETCDIR'].'/version',0444);
 // normally this would be the contents of ASTETCDIR/version, but this is for simplicity, as we just read it above
 $verinfo = $tmpout;
 
-// **** Check asterisk verison
+// **** Check asterisk version
 //  Set the 'engine' to be 'asterisk14' if using asterisk 1.4, otherwise
 //  'asterisk'
 outn("Checking for Asterisk version..");
@@ -932,10 +932,10 @@ outn("Checking for selinux..");
 $tmpoutput;
 $tmpout = exec("getenforce", $tmpoutput, $sereturn);
 if (strtolower($tmpoutput[0]) === "enabled") {
-        // this method seems better because disabled and premissive are the same
+        // this method seems better because disabled and permissive are the same
         // if a user installs and realizes selinux is running the other method 
         // requires a reboot to get selinuxenabled to work after editing the  selinux config
-        // this will allow you to use setenforce 0 which turns selinux into premissive mode which
+        // this will allow you to use setenforce 0 which turns selinux into permissive mode which
         // doesnt enforce, it just warns.
 	fatal("selinux is ENABLED. This is not supported. Please disable selinux before using FreePBX");
 }
@@ -1052,6 +1052,12 @@ if (!$dryrun) {
 		outn("amportal..");
 	} else {
 		outn("no amportal..");
+	}
+	if (file_exists($amp_conf["AMPSBIN"]."/fpbx")) {
+		exec("chmod u+x ".$amp_conf["AMPSBIN"]."/fpbx");
+		outn("fpbx..");
+	} else {
+		outn("no fpbx..");
 	}
 	if (file_exists($amp_conf["AMPBIN"]."/freepbx_engine")) {
 		exec("chmod u+x ".$amp_conf["AMPBIN"]."/freepbx_engine");

@@ -704,6 +704,7 @@ $amp_conf_defaults = array(
 	'AMPDBNAME'      => array('std' , 'asterisk'),
 	'AMPENGINE'      => array('std' , 'asterisk'),
 	'ASTMANAGERPORT' => array('std' , '5038'),
+	'ASTMANAGERHOST' => array('std' , 'localhost'),
 	'AMPDBHOST'      => array('std' , 'localhost'),
 	'AMPDBUSER'      => array('std' , 'asteriskuser'),
 	'AMPDBPASS'      => array('std' , 'amp109'),
@@ -741,9 +742,10 @@ $amp_conf_defaults = array(
 	'MODULEADMINWGET'=> array('bool' , false),
 	'AMPDISABLELOG'  => array('bool' , true),
 	'AMPENABLEDEVELDEBUG'=> array('bool' , false),
-	'AMPMPG123'      => array('bool' , true),
+	'AMPMPG123'       => array('bool' , true),
 	'FOPDISABLE'      => array('bool' , false),
 	'ZAP2DAHDICOMPAT' => array('bool' , false),
+	'USEQUEUESTATE'   => array('bool' , false),
 	'CHECKREFERER'    => array('bool' , true),
 );
 
@@ -883,6 +885,7 @@ function framework_check_extension_usage($exten=true, $module_hash=false) {
 	if ($exten === true) {
 		return $exten_usage;
 	} else {
+    $exten_matches = array();
 		foreach (array_keys($exten_usage) as $mod) {
 			foreach ($exten as $test_exten) {
 				if (isset($exten_usage[$mod][$test_exten])) {
@@ -1492,7 +1495,12 @@ function check_reload_needed() {
 }
 
 function do_reload() {
-	global $amp_conf, $asterisk_conf, $db, $astman;
+	global $amp_conf, $asterisk_conf, $db, $astman, $version;
+
+	if (empty($version)) {
+		$engine_info = engine_getinfo();
+		$version = $engine_info['version'];
+	}
 	
 	$notify =& notifications::create($db);
 	
@@ -1540,7 +1548,11 @@ function do_reload() {
 	$astman->send_request('Command', array('Command'=>'moh reload'));
 	
 	//reload asterisk
-	$astman->send_request('Command', array('Command'=>'reload'));	
+  if (version_compare($version,'1.4','lt')) {
+	  $astman->send_request('Command', array('Command'=>'reload'));	
+  } else {
+	  $astman->send_request('Command', array('Command'=>'module reload'));	
+  }
 	
 	$return['status'] = true;
 	$return['message'] = _('Successfully reloaded');
@@ -1705,19 +1717,15 @@ function parse_voicemailconf($filename, &$vmconf, &$section) {
 						$vmconf[$section][ $matches[1] ]["options"][$key] = $value;
 					}
 				}
-			} else if (preg_match("/^\s*(\d+)\s*=>\s*dup,(.*)\s*([;#].*)?/",$line,$matches)) {
-				// "mailbox=>dup,name"
-				// duplace name line
-				$vmconf[$section][ $matches[1] ]["dups"][] = $matches[2];
-			} else if (preg_match("/^\s*#include\s+(.*)\s*([;#].*)?/",$line,$matches)) {
+			} else if (preg_match('/^(?:\s*)#include(?:\s+)["\']{0,1}([^"\']*)["\']{0,1}(\s*[;#].*)?$/',$line,$matches)) {
 				// include another file
 				
 				if ($matches[1][0] == "/") {
 					// absolute path
-					$filename = $matches[1];
+					$filename = trim($matches[1]);
 				} else {
 					// relative path
-					$filename =  dirname($filename)."/".$matches[1];
+					$filename =  dirname($filename)."/".trim($matches[1]);
 				}
 				
 				parse_voicemailconf($filename, $vmconf, $section);
@@ -1751,7 +1759,6 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 		
 	// if the file does not, copy if from the template.
 	// TODO: is this logical?
-	// TODO: don't use hardcoded path...? 
 	if (!file_exists($filename)) {
 		if (!copy( rtrim($amp_conf["ASTETCDIR"],"/")."/voicemail.conf.template", $filename )){
 			return;
@@ -1793,13 +1800,7 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 					// do nothing
 				}
 				
-			} else if (preg_match("/^(\s*)(\d+)(\s*)=>(\s*)dup,(.*)(\s*[;#].*)?$/",$line,$matches)) {
-				// "mailbox=>dup,name"
-				// duplace name line
-				// leave it as-is (for now)
-				//DEBUG echo "\ndup mailbox";
-				$output[] = $line;
-			} else if (preg_match("/^(\s*)#include(\s+)(.*)(\s*[;#].*)?$/",$line,$matches)) {
+			} else if (preg_match('/^(\s*)#include(\s+)["\']{0,1}([^"\']*)["\']{0,1}(\s*[;#].*)?$/',$line,$matches)) {
 				// include another file
 				//DEBUG echo "\ninclude ".$matches[3]."<blockquote>";
 				
@@ -1810,13 +1811,13 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 				
 				if ($matches[3][0] == "/") {
 					// absolute path
-					$include_filename = $matches[3];
+					$include_filename = trim($matches[3]);
 				} else {
 					// relative path
-					$include_filename =  dirname($filename)."/".$matches[3];
+					$include_filename =  dirname($filename)."/".trim($matches[3]);
 				}
 				
-				$output[] = $matches[1]."#include".$matches[2].$matches[3].$matches[4];
+				$output[] = trim($matches[0]);
 				write_voicemailconf($include_filename, $vmconf, $section, $iteration+1);
 				
 				//DEBUG echo "</blockquote>";
@@ -3008,7 +3009,7 @@ function module_handleupload($uploaded_file) {
 		return $errors;
 	}
 	
-	if (!preg_match('/^([A-Za-z][A-Za-z0-9_]+)\-([0-9a-z]+(\.[0-9a-z]+)*)\.(tar\.gz|tgz)$/', $uploaded_file['name'], $matches)) {
+	if (!preg_match('/^([A-Za-z][A-Za-z0-9_]+)\-([0-9a-zA-Z]+(\.[0-9a-zA-Z]+)*)\.(tar\.gz|tgz)$/', $uploaded_file['name'], $matches)) {
 		$errors[] = _("Filename not in correct format: must be modulename-version.tar.gz (eg. custommodule-0.1.tar.gz)");
 		return $errors;
 	} else {
@@ -3663,7 +3664,7 @@ function module_run_notification_checks() {
 function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log') {
 	$fh = fopen($filename,$option);
 	fwrite($fh,date("Y-M-d H:i:s")."\n");//add timestamp
-	if (is_array($string)) {
+	if (is_array($string) || is_object($string)) {
 		fwrite($fh,print_r($string,true)."\n");
 	} else {
 		fwrite($fh,$string."\n");

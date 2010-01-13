@@ -208,35 +208,35 @@ class extensions {
 	}
 	
 	/* This function allows dial plan to be removed.  This is most useful for modules that
-        *  would like to hook into other modules and delete dialplan.
-        *  usage: $ext->remove($context, $exten, $priority_number);
-        *         if $priority is not numeric, it will interpret it as a tag
-        */
-        function remove($section, $extension, $priority) {
+  *  would like to hook into other modules and delete dialplan.
+  *  usage: $ext->remove($context, $exten, $priority_number);
+  *         if $priority is not numeric, it will interpret it as a tag
+  */
+  function remove($section, $extension, $priority) {
 
-                // if the priority is a tag, then we look for the real priority to replace it with
-                // If the tag does not exists, then we put it at the very end which may not be
-                // desired but it puts it somewhere
-                //
-                if (!ctype_digit(trim($priority))) {
-                        $existing_priority = false;
-                        $count = 0;
-                        if (isset($this->_exts[$section][$extension])) {
-                                foreach($this->_exts[$section][$extension] as $pri => $curr_command) {
-                                        if ($curr_command['tag'] == $priority) {
-                                                $existing_priority = $count;
-                                                break;
-                                        }
-                                        $count++;
-                                }
-                        }
-                        $priority = ($existing_priority === false) ? false : $existing_priority;
-                }
-		if($priority != false)  {
-                	unset($this->_exts[$section][$extension][$priority]);
-		}
-
+    // if the priority is a tag, then we look for the real priority to replace it with
+    // If the tag does not exists, then we put it at the very end which may not be
+    // desired but it puts it somewhere
+    //
+    if (!ctype_digit(trim($priority))) {
+      $existing_priority = false;
+      $count = 0;
+      if (isset($this->_exts[$section][$extension])) {
+        foreach($this->_exts[$section][$extension] as $pri => $curr_command) {
+          if ($curr_command['tag'] == $priority) {
+            $existing_priority = $count;
+            break;
+          }
+          $count++;
         }
+      }
+      $priority = ($existing_priority === false) ? false : $existing_priority;
+    }
+		if($priority != false){
+	  	unset($this->_exts[$section][$extension][$priority]);
+	  	$this->_exts[$section][$extension]=array_values($this->_exts[$section][$extension]);
+		}
+  }
 
 	/** Generate the file
 	* @return A string containing the extensions.conf file
@@ -916,9 +916,15 @@ class ext_deadagi extends extension {
 	}
 }
 class ext_dbdel extends extension {
-	function output() {
-		return "dbDel(".$this->data.")";
-	}
+        function output() {
+            global $version; // Asterisk Version
+            if (version_compare($version, "1.6", "ge")) {
+                return 'Noop(Deleting: '.$this->data.' ${DB_DELETE('.$this->data.')})';
+                }
+            else {
+                return "dbDel(".$this->data.")";
+                }
+        }
 }
 class ext_dbdeltree extends extension {
 	function output() {
@@ -987,7 +993,25 @@ class ext_echo extends extension {
 // Thanks to agillis for the suggestion of the nvfaxdetect option
 class ext_nvfaxdetect extends extension {
 	function output() {
+	global $version; // Asterisk Version
+	    if (version_compare($version, "1.6", "ge")) {
+		// change from '|' to ','
+		$astdelimeter = str_replace("|", ",", $this->data);
+		return "NVFaxDetect($astdelimeter)";
+		}
+	    else {
 		return "NVFaxDetect(".$this->data.")";
+		}
+	}
+}
+class ext_receivefax extends extension {
+	function output() {
+		return "ReceiveFAX(".$this->data.")";
+	}
+}
+class ext_sendfax extends extension {
+	function output() {
+		return "SendFAX(".$this->data.")";
 	}
 }
 class ext_playtones extends extension {
@@ -1073,7 +1097,7 @@ class ext_txtcidname extends extension {
 	}
 	
 	function output() {
-		return "TXTCIDName(".$this->cidnum.")";
+		return 'Set(TXTCIDNAME=${TXTCIDNAME('.$this->cidnum.')})';
 	}
 }
 
@@ -1422,6 +1446,12 @@ class ext_speechdtmfterminator  extends extension {
         function output()  {
                 return "Set(SPEECH_DTMF_TERMINATOR=".$this->terminator.")";
         }
+}
+
+class ext_progress extends extension {
+ function output() {
+       return "Progress";
+ }
 }
 
 /* example usage

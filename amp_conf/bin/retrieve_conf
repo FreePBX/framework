@@ -716,22 +716,25 @@ function install_cron_scheduler() {
 	}
 }
 
-include("libfreepbx.confgen.php");
-
 // script to write op_server.cfg file from mysql 
 //
 if(!$amp_conf['FOPDISABLE'])  {
-	$script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.pl';
+  if (!@include("retrieve_op_conf_from_mysql.php")) {
+		error(_("error running retrieve_op_conf_from_mysql.php"));
+  }
+  /*
+	$script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.php';
 	if (is_executable($script)) {
 		$script .= ' '.$amportalconf.' '.rtrim($asterisk_conf['astetcdir'],DIRECTORY_SEPARATOR);
 		$output = array();
 		exec($script, $output, $ret);
 		if ($ret) {
-			error(sprintf(_("retrieve_op_conf_from_mysql.pl returned with an error code %s"),$ret));
+			error(sprintf(_("retrieve_op_conf_from_mysql.php returned with an error code %s"),$ret));
 		}
 	} else {
-		error(_("retrieve_op_conf_from_mysql.pl does not exist or is not executable"));
+		error(_("retrieve_op_conf_from_mysql.php does not exist or is not executable"));
 	}
+  */
 }
 // generate configuration files
 //

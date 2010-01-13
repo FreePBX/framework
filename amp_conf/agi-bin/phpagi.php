@@ -1223,13 +1223,13 @@
     }
 
    /**
-    * Goto - Set context, extension and priority.
+    * Goto_dest - Set context, extension and priority.
     *
     * @param string $context
     * @param string $extension
     * @param string $priority
     */
-    function goto($context, $extension='s', $priority=1)
+    function goto_dest($context, $extension='s', $priority=1)
     {
       $this->set_context($context);
       $this->set_extension($extension);

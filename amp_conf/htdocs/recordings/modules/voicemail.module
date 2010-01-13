@@ -555,7 +555,7 @@ class Voicemail {
 	  $callmePage		= "'misc/callme_page.php?recindex=" . $i . "&callmenum=" . $this->callme_num . "&action=c&msgFrom=" . $extension . "'";
 	  $callme_tooltip	= _("Play message at: ") . $this->callme_num;
 	  $callmeLink = "<a href='#' onClick=\"javascript:playback('callme', $playbackRow, $callmePage); return false;\"><img src='theme/images/telephone.png' title='" . $callme_tooltip . "'></img></a>";
-	  $downloadLink = "<a href=/recordings/misc/audio.php?recindex=" . $i . "><img src='theme/images/drive_go.png' title=" . _("Download") . "></img></a>";
+	  $downloadLink = "<a href=misc/audio.php?recindex=" . $i . "><img src='theme/images/drive_go.png' title=" . _("Download") . "></img></a>";
         }
         else {
           $_SESSION['ari_error'] = _("Voicemail recording(s) was not found.") . "<br>" .

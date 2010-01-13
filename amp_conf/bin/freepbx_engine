@@ -29,13 +29,18 @@ AMPASTERISKGROUP=asterisk
 AMPASTERISKWEBUSER=$AMPASTERISKUSER
 AMPASTERISKWEBGROUP=$AMPASTERISKGROUP
 AMPVMUMASK=077
+ASTETCDIR=/etc/asterisk
 
 . /etc/amportal.conf
+
+if [ -z $PIDOF ]; then
+    PIDOF=pidof
+fi
 
 if [ $ASTRUNDIR = /var/run ]
   then
     echo "**** ERROR IN CONFIGURATION ****"
-    echo "astrundir in /etc/asterisk/asterisk.conf is set to '/var/run' - THIS IS WRONG."
+    echo "astrundir in '$ASTETCDIR' is set to '/var/run' - THIS IS WRONG."
     echo "Please change it to something sensible (eg, '/var/run/asterisk') and re-run"
     echo "install_amp"
     exit;
@@ -44,7 +49,7 @@ fi
 if [ ! -d "$ASTRUNDIR" ]
   then
     echo "**** WARNING: ERROR IN CONFIGURATION ****"
-    echo "astrundir in /etc/asterisk/asterisk.conf is set to $ASTRUNDIR but the directory"
+    echo "astrundir in '$ASTETCDIR' is set to $ASTRUNDIR but the directory"
 		echo "does not exists. Attempting to create it with: 'mkdir -p $ASTRUNDIR'"
 		echo
 		mkdir -p $ASTRUNDIR
@@ -62,8 +67,8 @@ chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
 
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTRUNDIR
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP /etc/asterisk
-	chmod -R g+w /etc/asterisk
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTETCDIR
+	chmod -R g+w $ASTETCDIR
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTVARLIBDIR
 	chmod -R g+w $ASTVARLIBDIR
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTLOGDIR
@@ -106,8 +111,9 @@ chown_asterisk() {
 
 check_asterisk() {
 # check to see if asterisk is running
-# Note, this isn't fool-proof.  If safe_asterisk is constantly restarting a dying asterisk, then there is a chance pidof will return non zero.  We call this twice to reduce chances of this happening
-pid_length=`pidof asterisk|awk '{print length($0)}'`
+# Note, this isn't fool-proof.  If safe_asterisk is constantly restarting a dying asterisk,
+# then there is a chance pidof will return non zero.  We call this twice to reduce chances of this happening
+pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 	if [ "$pid_length" == "0" -a "$pid_length" != "" ]
 		then
 				killall -9 safe_asterisk
@@ -125,7 +131,7 @@ run_asterisk() {
 # check to see if asterisk is running
 echo
 echo "STARTING ASTERISK"
-pid_length=`pidof asterisk|awk '{print length($0)}'`
+pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 		then
 			echo "Asterisk is already running"
@@ -145,7 +151,7 @@ pid_length=`pidof asterisk|awk '{print length($0)}'`
 stop_asterisk() {
 echo
 echo "STOPPING ASTERISK"
-pid_length=`pidof asterisk|awk '{print length($0)}'`
+pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 		then
 			/usr/sbin/asterisk -rx "core stop gracefully" | grep -v "No such command"
@@ -156,7 +162,7 @@ pid_length=`pidof asterisk|awk '{print length($0)}'`
 
 check_fop() {
 #check to see if FOP is running
-	pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
+	pid_length=`$PIDOF -x op_server.pl|awk '{print length($0)}'`
 	if [ "$pid_length" == "0" -a "$pid_length" != "" ]
 		then
 				ps -ef | grep safe_opserver | grep -v grep | awk '{print $2}' | xargs kill -9
@@ -173,7 +179,7 @@ run_fop() {
 # check to see if FOP is running
 echo
 echo "STARTING FOP SERVER"
-pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
+pid_length=`$PIDOF -x op_server.pl|awk '{print length($0)}'`
 	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 		then
 			echo "FOP server is already running"
@@ -190,7 +196,7 @@ pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
 stop_fop() {
 	echo
 	echo "STOPPING FOP SERVER"
-	pid_length=`pidof -x op_server.pl|awk '{print length($0)}'`
+	pid_length=`$PIDOF -x op_server.pl|awk '{print length($0)}'`
 		if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 			then
 				ps -ef | grep safe_opserver | grep -v grep | awk '{print $2}' | xargs kill
@@ -251,11 +257,62 @@ case "$1" in
 		run_asterisk
 		run_fop
 	;;
+
+	reload)
+		killall -HUP asterisk
+		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]; then
+			if [ -z "$FOPDISABLE" -o "$FOPDISABLE" == "false" -o "$FOPDISABLE" == "FALSE" -o "$FOPDISABLE" == "False" -o "$FOPDISABLE" == "no" -o "$FOPDISABLE" == "NO" -o "$FOPDISABLE" == "No" ]; then
+				killall -HUP op_server.pl
+			else
+				stop_fop
+			fi
+		else
+			stop_fop
+		fi
+	;;
 	chown)
 		chown_asterisk
 	;;
 	kill)
 		kill_amp
+	;;
+	#Added some admin/dev oriented options:
+	#useage: amportal (admin|a)
+	#options: reload|r: 			does a full dialplan regeneration/reload (like clicking the orange bar)
+	#					context|cxt:	show's the specified context from the dialplan. This is extreamly usefull when
+	#												when developing dialplan on a system with many modules, where it is not fesable
+	#												look thru the whole extensions_additional every time to see how a specific context
+	#												was generate
+	#												When run with the 'list' or 'l' option, will list all avalible context's as they appear in
+	#												extensions* files
+	#					modadmin|ma:	runs the module_admin script with additional argument as passed
+	#					externalip|ip: returns the external ip from the default gateway
+	admin|a)
+		case $2 in
+			reload|r)
+				$ASTVARLIBDIR/bin/module_admin reload
+			;;
+			context|ctx)
+			case $3 in
+				list|l)
+				#asterisk -rx 'dialplan show'|grep Context|awk '{print $3}'|sed "s/'//g"|sort
+					cat $ASTETCDIR/extensions*|grep '^\['|sed 's/[][]//g'|sort
+				;;
+				contains|con)
+					awk -v var="[$4]" 'f && /^;/{exit} f{print} index($0,var){f=1}' /etc/asterisk/extensions_additional.conf
+				;;
+				*)
+					for i in $ASTETCDIR/extensions*; do	awk -v "var=$3" '$0 ~ "^\\[" var "\\]", /^;/ { print }'  $i; done
+				;;
+			esac
+			;;
+			modadmin|ma)
+				$ASTVARLIBDIR/bin/module_admin $3 $4
+			;;
+			externalip|extip)
+				echo `wget http://mirror.freepbx.org/whatismyip.php -O - -q|sed 's/<[^>]*>//g'`
+			;;
+		esac
 	;;
 	*)
 		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]

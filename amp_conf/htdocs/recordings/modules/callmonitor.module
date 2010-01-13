@@ -232,7 +232,7 @@ class Callmonitor {
       if (is_file($recording)) {
         $_SESSION['ari_user']['recfiles'][$i] = $recording;
         $recordingLink = "<a href='#' onClick=\"javascript:play($playbackRow, 'misc/play_page.php?recindex=" . $i . "'); return false;\"><img src='theme/images/sound.png' title=" . _("Play") . "></img></a>";
-        $downloadLink = "<a href=/recordings/misc/audio.php?recindex=" . $i . "><img src='theme/images/drive_go.png' title=" . _("Download") . "></img></a>";
+        $downloadLink = "<a href=misc/audio.php?recindex=" . $i . "><img src='theme/images/drive_go.png' title=" . _("Download") . "></img></a>";
         if ($CALLMONITOR_ALLOW_DELETE) {
           $recording_delete_checkbox = "<td class='checkbox'><input type=checkbox name='selected" . $i . "' value=" . $i . "></td>";
         }
@@ -430,6 +430,8 @@ class Callmonitor {
       $lastdata = $data_value['lastdata'];
       $uniqueid = $data_value['uniqueid'];
       $userfield = $data_value['userfield'];
+      $src = $data_value['src'];
+      $dst = $data_value['dst'];
 
       // timestamps
       $st = trim(strtotime($calldate));
@@ -508,15 +510,16 @@ class Callmonitor {
           }
         } 
 
-        // try and match a file using the calldate (if no unique number from database) 
+        // try and match a file using the calldate (if no unique number from database or no unique number in file) 
         if (!$recording) { 
 
           foreach($files as $key => $path) {
+            list($path,$filetype) = explode(".",$path,2);
             $parts = split("-", $path);
-            if (strlen($st)>1 && 
-                   (strpos($path,$st)!==FALSE) || 
-                   (strpos($path,"auto")!==FALSE && $parts[1] >= $st && $parts[1] <= $et)) {
-              $recording = $path;
+            if ((strlen($st)>1 && strpos($path,$st)!==FALSE && strlen($uniqueid)<=1) || 
+                    (strpos($path,"auto")!==FALSE && $parts[1] >= $st && $parts[1] <= $et && $parts[2] == $src && $parts[3] == $dst) || 
+                    (strpos($path,"auto")!==FALSE && $parts[1] >= $st && $parts[1] <= $et && $parts[2] == $dst && $parts[3] == $src)) {
+              $recording = $path . "." . $filetype;
               $files[$key] = '';  // remove it from the recording files so it will not be matched twice
               break;
             }
