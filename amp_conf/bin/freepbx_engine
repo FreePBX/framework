@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Formating variables
+# use like: ${b}text$bx - ${b} starts bold, $bx end it, etc.
+# you must use echo -e for formating to be valid
+b="\033[1m"
+bx="\033[0m"
+u="\e[4m"
+ux="\e[0m"
+
 ROOT_UID=0	 # root uid is 0
 E_NOTROOT=67	 # Non-root exit error
 
@@ -277,16 +285,7 @@ case "$1" in
 		kill_amp
 	;;
 	#Added some admin/dev oriented options:
-	#useage: amportal (admin|a)
-	#options: reload|r: 			does a full dialplan regeneration/reload (like clicking the orange bar)
-	#					context|cxt:	show's the specified context from the dialplan. This is extreamly usefull when
-	#												when developing dialplan on a system with many modules, where it is not fesable
-	#												look thru the whole extensions_additional every time to see how a specific context
-	#												was generate
-	#												When run with the 'list' or 'l' option, will list all avalible context's as they appear in
-	#												extensions* files
-	#					modadmin|ma:	runs the module_admin script with additional argument as passed
-	#					externalip|ip: returns the external ip from the default gateway
+	#see usage in help text below
 	admin|a)
 		case $2 in
 			reload|r)
@@ -312,7 +311,28 @@ case "$1" in
 			externalip|extip)
 				echo `wget http://mirror.freepbx.org/whatismyip.php -O - -q|sed 's/<[^>]*>//g'`
 			;;
-		esac
+		*)
+
+#formating variables defined at top of file
+echo -e "                         $b $u FPBX admin options menu$ux$bx
+
+
+useage: ${b}amportal$bx (${b}admin$bx|${b}a$bx) <option>
+
+options: 
+
+${b}reload$bx|${b}r$bx:      Does a full dialplan regeneration/reload (like clicking 
+               the orange bar)
+${b}context$bx|${b}cxt$bx:   Show's the specified context from the dialplan. This is extreamly
+               usefull when developing dialplan on a system with many modules, 
+               where it is not fesable look thru the whole extensions_additional
+               every time to see how a specific context was generate
+               When run with the 'list' or 'l' option, will list all avalible 
+               contexts as they appear in extensions* files
+${b}modadmin$bx|${b}ma$bx:   Runs the module_admin script with additional argument as passed
+${b}externalip$bx|${b}extip$bx: Returns the external ip from the default gateway    "
+		;;
+	esac
 	;;
 	*)
 		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]
