@@ -1009,6 +1009,11 @@ class ext_receivefax extends extension {
 		return "ReceiveFAX(".$this->data.")";
 	}
 }
+class ext_rxfax extends extension {
+	function output() {
+		return "rxfax(".$this->data.")";
+	}
+}
 class ext_sendfax extends extension {
 	function output() {
 		return "SendFAX(".$this->data.")";
