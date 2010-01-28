@@ -805,6 +805,17 @@ foreach($output as $file) {
 	}
 }
 
+// Some later versions of Aserisk require the existence of a cdr.conf file or no CDR
+// incuding MySQL logging will work (see #3940)
+//
+$target = $amp_conf['ASTETCDIR']."/cdr.conf";
+if (!file_exists($target)) {
+  $output = array();
+  exec("touch $target", $output, $retcode);
+  if ($retcode != 0) {
+	  error("Error code $retcode: trying to create empty file $target");
+  }
+}
 
 // **** Set reload flag for AMP admin
 needreload();
