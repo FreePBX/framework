@@ -145,7 +145,7 @@ CREATE TABLE `iax` (
 );
 CREATE TABLE `incoming` (
   `cidnum` varchar(20) default NULL,
-  `extension` varchar(20) default NULL,
+  `extension` varchar(50) default NULL,
   `destination` varchar(50) default NULL,
   `faxexten` varchar(20) default NULL,
   `faxemail` varchar(50) default NULL,
