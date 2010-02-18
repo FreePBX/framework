@@ -332,17 +332,17 @@ function showi18n($modulename) {
 	}
 
 	if (isset($modules[$modulename]['name'])) {
-		echo "# name:\n_(\"".$modules[$modulename]['name']."\")\n";
+		echo "# name:\n_(\"".$modules[$modulename]['name']."\");\n";
 	}
 	if (isset($modules[$modulename]['category'])) {
-		echo "# category:\n_(\"".$modules[$modulename]['category']."\")\n";
+		echo "# category:\n_(\"".$modules[$modulename]['category']."\");\n";
 	}
 	if (isset($modules[$modulename]['description'])) {
-		echo "# description:\n_(\"".trim(str_replace("\n","",$modules[$modulename]['description']))."\")\n";
+		echo "# description:\n_(\"".trim(str_replace("\n","",$modules[$modulename]['description']))."\");\n";
 	}
 	if (isset($modules[$modulename]['menuitems'])) {
 		foreach ($modules[$modulename]['menuitems'] as $key => $menuitem) {
-			echo "# $key:\n_(\"$menuitem\")\n";
+			echo "# $key:\n_(\"$menuitem\");\n";
 		}
 	}
 }
