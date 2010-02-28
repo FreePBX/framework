@@ -1,4 +1,33 @@
-2.6 Beta1 (Highlights)
+2.7.0 (Highlights)
+
+ * FAX module changes to support FFA and change the way FAX detection works
+ * Different CID Options for Follow-Me Module
+ * Different CID Options for Ring Group Module
+ * Some enhanced functionality in Queues and improved dynamic agent abilities
+   * Setting Penalties for Dynamic Agents
+   * Restricting a queue to only specific dynamic agents
+   * Advanced mode to specify static devices vs. extensions
+ * Some improvements to Backup
+   * per backup set FTP and SCP options for remote storage of backup sets
+   * per session additional directories to backup (and restore if needed)
+ * Language option for incoming routes
+ * Increased handling of HANGUPCAUSE codes
+ * Outbound Route Specific CIDs
+ * Force Trunk CIDs and remove CNAM option on trunks
+ * CF Unconditional add support for DEVSTATE
+   * per device hints created with BLF support
+   * toggle option created designed to work with BLF
+   * BEEPONLY support added to minimize messages played
+ * Advanced Outbound Route Selection
+   * allows routes to be chosen based on dialed number and CID/extension number or pattern
+ * Add MoH Class choice for Conferences
+ * Allow MoH directory to be specified in amportal.conf
+ * Add ability for Module Admin to reinstall the same version or and ''older'' version (with many caveats)
+ * Move all of ''recordingcheck'' AGI script into dialplan
+ * Add optional and experimental ''macro-dial-one'' that can be used to replace ''macro-dial'' for single 
+   extension only dialing (no ringgroups, followme, etc.). Requires special setup, see: #4068.
+
+2.6
 - Added Extended Repository to allow more contributed modules not part of main
   project, some extended modules include:
   - Bulk Extension Add/Delete/Edit

@@ -205,6 +205,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			$didsomething = true; // set to false in default clause of switch() below..
 			
 			switch ($action) {
+				case 'force_upgrade':
 				case 'upgrade':
 				case 'downloadinstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
@@ -304,6 +305,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "\t<script type=\"text/javascript\"> var moduleActions = new Array(); </script>\n";
 		
 		$actionstext = array();
+		$force_actionstext = array();
 		$errorstext = array();
 		foreach ($moduleaction as $module => $action) {	
 			$text = false;
@@ -316,6 +318,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			switch ($action) {
 				case 'upgrade':
+				case 'force_upgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = module_checkdepends($modules_online[$module]))) {
 							$skipaction = true;
@@ -323,7 +326,16 @@ switch ($extdisplay) {  // process, confirm, or nothing
 							                        $modules[$module]['name'],
 							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
-							$actionstext[] = sprintf(_("%s %s will be upgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+              switch ( version_compare_freepbx($modules[$module]['dbversion'], $modules_online[$module]['version'])) {
+              case '-1':
+							  $actionstext[] = sprintf(_("%s %s will be upgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+                break;
+              case '0':
+							  $force_actionstext[] = sprintf(_("%s %s will be re-installed to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+                break;
+              default:
+							  $force_actionstext[] = sprintf(_("%s %s will be downgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+              }
 						}
 					}
 				break;
@@ -407,17 +419,28 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 			echo "</ul>";
 		} 
-		if (count($actionstext) > 0) {
+    if (count($actionstext) > 0 || count($force_actionstext) > 0) {
 			if (count($errorstext) > 0) {
 				echo "<h4>"._("You may confirm the remaining selection and then try the again for the listed issues once the required dependencies have been met:")."</h4>\n";
 			} else {
 				echo "<h4>"._("Please confirm the following actions:")."</h4>\n";
 			}
-			echo "<ul>\n";
-			foreach ($actionstext as $text) {
-				echo "\t<li>".$text."</li>\n";
-			}
-			echo "</ul>";
+      if (count($actionstext)) {
+				echo "<h5>"._("Upgrades, installs, enables and disables:")."</h5>\n";
+			  echo "<ul>\n";
+			  foreach ($actionstext as $text) {
+				  echo "\t<li>".$text."</li>\n";
+			  }
+			  echo "</ul>";
+      }
+      if (count($force_actionstext)) {
+				echo "<h5>"._("Forced downgrades and re-installs:")."</h5>\n";
+			  echo "<ul>\n";
+			  foreach ($force_actionstext as $text) {
+          echo "\t<li>".$text."</li>\n";
+			  }
+			  echo "</ul>";
+      }
 			echo "\t<input type=\"button\" value=\""._("Confirm")."\" name=\"process\" onclick=\"process_module_actions(moduleActions);\" />";
 		} else {
 			echo "<h4>"._("No actions to perform")."</h4>\n";
@@ -697,11 +720,15 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					// check for online upgrade
 					if (isset($modules_online[$name]['version'])) {
 						$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
-						if ($vercomp < 0) {
-							if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						  if ($vercomp < 0) {
 								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
 									 '<label for="upgrade_'.prep_id($name).'">'.sprintf(_('Download and Upgrade to %s'), $modules_online[$name]['version']).'</label> <br />';
-							}
+							} else {
+                $force_msg = ($vercomp == 0 ? sprintf(_('Force Download and Install %s'), $modules_online[$name]['version']) : sprintf(_('Force Download and Downgrade to %s'), $modules_online[$name]['version']));
+								echo '<input type="radio" id="force_upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="force_upgrade" /> '.
+									 '<label for="force_upgrade_'.prep_id($name).'">'.$force_msg.'</label> <br />';
+              }
 						}
 					}
 					if (enable_option($name,'candisable')) {

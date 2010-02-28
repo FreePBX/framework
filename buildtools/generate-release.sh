@@ -36,7 +36,7 @@ svn ci --message "Auto checkin packed libfreepbx.javascripts.js as part of build
 # This adds the MD5 Sum for all the relevant files that gets checked in on the next steps below
 #
 cd amp_conf
-find agi-bin  astetc  bin htdocs  htdocs_panel  mohmp3  sbin sounds -type f | xargs md5sum | grep -v .svn > ../upgrades/$ver.md5
+find agi-bin  astetc  bin htdocs  htdocs_panel  moh sbin sounds -type f | xargs md5sum | grep -v .svn > ../upgrades/$ver.md5
 
 	;;
 	*)
@@ -86,12 +86,16 @@ svn export http://svn.freepbx.org/freepbx/tags/$ver /usr/src/freepbx-release/fre
 
 cd /usr/src/freepbx-release
 tar zcvf freepbx-$ver.tar.gz freepbx-$ver
-cd freepbx-$ver/amp_conf/htdocs/admin/modules/
-. ./import.sh
 
-# import should not bring in core and framework, those were removed from its list
+######################################################################################### 
+# We don't make a full version with modules anymore so comment this out
+# cd freepbx-$ver/amp_conf/htdocs/admin/modules/
+# . ./import.sh
+# 
+# # import should not bring in core and framework, those were removed from its list
+# #
+# find . -name .svn -exec rm -rf {} \;
+# cd /usr/src/freepbx-release
+# tar zcvf freepbx-$ver-withmodules.tar.gz freepbx-$ver
 #
-find . -name .svn -exec rm -rf {} \;
-cd /usr/src/freepbx-release
-tar zcvf freepbx-$ver-withmodules.tar.gz freepbx-$ver
-
+######################################################################################### 

@@ -7,7 +7,7 @@ case "$1" in
 
 cd ../amp_conf
 
-find agi-bin  astetc  bin  cgi-bin htdocs  htdocs_panel  mohmp3  sbin sounds -type f | xargs md5sum | grep -v .svn > ../upgrades/$1.md5
+find agi-bin  astetc  bin  cgi-bin htdocs  htdocs_panel  moh sbin sounds -type f | xargs md5sum | grep -v .svn > ../upgrades/$1.md5
 
 	;;
 	*)

@@ -16,7 +16,13 @@
 	$amp_conf = parse_amportal_conf("/etc/amportal.conf");
 
 	$astman         = new AGI_AsteriskManager();
-	if (! $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+
+  $astmanagerhost = (isset($amp_conf['ASTMANAGERHOST']) && trim($amp_conf['ASTMANAGERHOST']) != '')?$amp_conf['ASTMANAGERHOST']:'127.0.0.1';
+  if (isset($amp_conf['ASTMANAGERPORT']) && trim($amp_conf['ASTMANAGERPORT']) != '') {
+    $astmanagerhost .= ':'.$amp_conf['ASTMANAGERPORT'];
+  }
+
+	if (! $res = $astman->connect($astmanagerhost, $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
 		exit;
 	}
 	$ast_with_dahdi = ast_with_dahdi();

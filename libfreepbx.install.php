@@ -221,6 +221,8 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 	global $install_moh;
 	global $make_links;
 
+  $moh_subdir = isset($amp_conf['MOHDIR']) ? trim(trim($amp_conf['MOHDIR']),'/') : 'mohmp3';
+
 	// total # files, # actually copied
 	$num_files = $num_copied = 0;
 	
@@ -239,7 +241,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 			$source = $dirsourceparent.$dirsource."/".$file;
 			$destination =  $dirdest.$dirsource."/".$file;
 			
-			if ($dirsource == "" && $file == "mohmp3" && !$install_moh) {
+			if ($dirsource == "" && $file == "moh" && !$install_moh) {
 				// skip to the next dir
 				continue;
 			}
@@ -258,7 +260,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 			
 			// the following are configurable in asterisk.conf
 			$destination=str_replace("/astetc",trim($asterisk_conf["astetcdir"]),$destination);
-			$destination=str_replace("/mohmp3",trim($asterisk_conf["astvarlibdir"])."/mohmp3",$destination);
+			$destination=str_replace("/moh",trim($asterisk_conf["astvarlibdir"])."/$moh_subdir",$destination);
 			$destination=str_replace("/astvarlib",trim($asterisk_conf["astvarlibdir"]),$destination);
 			if(strpos($dirsource, 'modules') === false) $destination=str_replace("/agi-bin",trim($asterisk_conf["astagidir"]),$destination);
 			if(strpos($dirsource, 'modules') === false) $destination=str_replace("/sounds",trim($asterisk_conf["astvarlibdir"])."/sounds",$destination);

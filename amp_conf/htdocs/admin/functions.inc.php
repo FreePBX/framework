@@ -653,38 +653,41 @@ class moduleHook {
 	
 	function install_hooks($viewing_itemid,$target_module,$target_menuid = '') {
 		global $active_modules;
-		// loop through all active modules
+
+    /*  Loop though all active modules and find which ones have hooks.
+     *  Then process those hooks. Note we split this into two loops
+     *  because of #4057, if drawselects() is called from within a hook
+     *  it's interaction with the same $active_modules array renders the
+     *  foreach loop done after that module and execution ends.
+     */
+    $our_hooks = array();
 		foreach($active_modules as $this_module) {
 			// look for requested hooks for $module
 			// ie: findme_hook_extensions()
 			$funct = $this_module['rawname'] . '_hook_' . $target_module;
 			if( function_exists( $funct ) ) {
-				// execute the function, appending the 
-				// html output to that of other hooking modules
-
-				$thismod = $this_module['rawname'];
-				if (isset($_COOKIE['lang']) && is_dir("./modules/$thismod/i18n/".$_COOKIE['lang'])) {
-					bindtextdomain($thismod,"./modules/$thismod/i18n");
-					bind_textdomain_codeset($thismod, 'utf8');
-					textdomain($thismod);
-			
-					if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
-						$this->hookHtml .= $hookReturn;
-					}
-
-					textdomain('amp');
-				} else {
-					if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
-						$this->hookHtml .= $hookReturn;
-					}
+			  // remember who installed hooks
+			  // we need to know this for processing form vars
+			  $this->arrHooks[] = $this_module['rawname'];
+        $our_hooks[$this_module['rawname']] = $funct;
+      }
+    }
+    foreach($our_hooks as $thismod => $funct) {
+			if (isset($_COOKIE['lang']) && is_dir("./modules/$thismod/i18n/".$_COOKIE['lang'])) {
+				bindtextdomain($thismod,"./modules/$thismod/i18n");
+				bind_textdomain_codeset($thismod, 'utf8');
+				textdomain($thismod);
+				if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
+					$this->hookHtml .= $hookReturn;
 				}
-				// remember who installed hooks
-				// we need to know this for processing form vars
-				$this->arrHooks[] = $this_module['rawname'];
+				textdomain('amp');
+			} else {
+				if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
+					$this->hookHtml .= $hookReturn;
+				}
 			}
 		}
-	}
-	
+	} 
 	// process the request from the module we hooked
 	function process_hooks($viewing_itemid, $target_module, $target_menuid, $request) {
 		if(is_array($this->arrHooks)) {
@@ -725,6 +728,7 @@ $amp_conf_defaults = array(
 	'AMPSBIN'        => array('dir' , '/usr/sbin'),
 	'AMPWEBROOT'     => array('dir' , '/var/www/html'),
 	'FOPWEBROOT'     => array('dir' , '/var/www/html/panel'),
+	'MOHDIR'         => array('dir' , '/mohmp3'),
 
 	'USECATEGORIES'  => array('bool' , true),
 	'ENABLECW'       => array('bool' , true),
@@ -747,6 +751,7 @@ $amp_conf_defaults = array(
 	'ZAP2DAHDICOMPAT' => array('bool' , false),
 	'USEQUEUESTATE'   => array('bool' , false),
 	'CHECKREFERER'    => array('bool' , true),
+	'USEDIALONE'    => array('bool' , false),
 );
 
 function parse_amportal_conf($filename) {
