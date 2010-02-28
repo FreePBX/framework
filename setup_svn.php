@@ -34,7 +34,7 @@
  *  modules sym-linked to their final place to make development easier.
  *
  */
-$VERSION = "2.7";
+$VERSION = "2.8";
 
 $NORMAL_URL =  "http://svn.freepbx.org/freepbx/branches/$VERSION/amp_conf/htdocs/admin/modules";
 $MODULE_URL  = "http://svn.freepbx.org/modules/branches/$VERSION";
