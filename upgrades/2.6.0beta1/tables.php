@@ -338,7 +338,7 @@ if(DB::IsError($check) && $check->getCode() != DB_ERROR_ALREADY_EXISTS) {
 	out(_("created"));
 	outn(_("loading table from localprefixes.conf.."));
 	$localPrefixFile = $amp_conf['ASTETCDIR']."/localprefixes.conf";
-	$conf == array();
+	$conf = array();
 	__parse_DialRulesFile($localPrefixFile, $conf, $section);
 
 	$rules_arr = array();

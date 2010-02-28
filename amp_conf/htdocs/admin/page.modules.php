@@ -485,7 +485,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 				echo "<a href='config.php?display=modules&amp;type=tool&amp;online=0'>"._("Manage local modules")."</a>\n";
-				echo "<input type=\"checkbox\" id=\"show_upgradable_only\" onclick=\"showhide_upgrades();\" /><label for=\"show_upgradable_only\">"._("Show only upgradable")."</label>";
+				echo "<input type=\"checkbox\" id=\"show_upgradable_only\" onclick=\"showhide_upgrades();\" /><label for=\"show_upgradable_only\">"._("Show only upgradeable")."</label>";
 			}
 		} else {
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {

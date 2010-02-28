@@ -53,7 +53,7 @@ echo "<p>";
 printf( dgettext( "welcome page",
 "If you're having any problems, you can also use the <a href='%s'>Online Support</a> 
 module (<b>you need to install this through the <a href='%s'>Module Repository</a> first</b>)
-to talk to other users and the devlopers in real time. Click on <a href='%s'>Start IRC</a>,
+to talk to other users and the developers in real time. Click on <a href='%s'>Start IRC</a>,
 when the module is installed, to start a Java IRC client." ),
 	"config.php?type=tool&amp;display=irc",
 	"config.php?display=modules&amp;type=tool&amp;extdisplay=online",

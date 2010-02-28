@@ -68,7 +68,7 @@
 							responsetext += '<p><pre>' + data.retrieve_conf + "<\/pre><\/p>";
 												
 							if (data.num_errors) {
-								responsetext += '<p>' + data.num_errors + " <?php echo _(" error(s) occured, you should view the notification log on the dashboard or main screen to check for more details."); ?> " + "<\/p>";
+								responsetext += '<p>' + data.num_errors + " <?php echo _(" error(s) occurred, you should view the notification log on the dashboard or main screen to check for more details."); ?> " + "<\/p>";
 							}
 						
 							responsetext += "<\/div>" +
