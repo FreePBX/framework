@@ -751,7 +751,8 @@ $amp_conf_defaults = array(
 	'ZAP2DAHDICOMPAT' => array('bool' , false),
 	'USEQUEUESTATE'   => array('bool' , false),
 	'CHECKREFERER'    => array('bool' , true),
-	'USEDIALONE'    => array('bool' , false),
+	'USEDIALONE'      => array('bool' , false),
+	'RELOADCONFIRM'   => array('bool' , true),
 );
 
 function parse_amportal_conf($filename) {

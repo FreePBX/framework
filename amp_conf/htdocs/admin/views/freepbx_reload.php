@@ -1,11 +1,13 @@
 <script type="text/javascript">
-	function freepbx_show_reload() {
+	function freepbx_show_reload(confirm) {
 		/*
 		$.blockUI($('#reloadBox')[0], { width: '400px' });
 		$(document.body).append("<div style=\"width:100%; height:100%; background:#ccc; opacity:50%;\"><\/div>"); 
 		*/
 		
-		$("#reload_confirm").show();
+    if (confirm == 1) {
+		  $("#reload_confirm").show();
+    }
 		$("#reload_reloading").hide();
 		$("#reload_response").hide();
 		
@@ -14,6 +16,11 @@
 			$("#reload_confirm_continue_btn")[0].focus();
 		});
 		
+    if (confirm == 0) {
+		  $("#reload_confirm").hide();
+      run_reload();
+    }
+
 		// add keyboard handler
 		$('#reloadBox').keydown( function(e) {
 			if ( $('#reload_confirm').css('display') == 'block') {
