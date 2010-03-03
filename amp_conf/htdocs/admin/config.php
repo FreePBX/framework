@@ -11,6 +11,15 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
+// This is ugly, but it is the only way I can think of to get the menu sections localized. MC
+if (false) {
+_("Internal Options & Configuration");
+_("Inbound Call Control");
+_("Module Admin");
+_("System Administration");
+_("Third Party Addon");
+}
+
 /* benchmark */
 function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); }
 $benchmark_starttime = microtime_float();
@@ -37,9 +46,9 @@ if (isset($_REQUEST['restrictmods'])) {
 
 // determine module type to show, default to 'setup'
 $type_names = array(
-	'tool'=>'Tools',
-	'setup'=>'Setup',
-	'cdrcost'=>'Call Cost',
+	'tool'=>_('Tools'),
+	'setup'=>_('Setup'),
+	'cdrcost'=>_('Call Cost'),
 );
 
 include('header.php');

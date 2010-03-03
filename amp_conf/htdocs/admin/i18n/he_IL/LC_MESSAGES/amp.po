@@ -3,106 +3,109 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Shimi <shimi@shimi.net>, 2006.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-28 21:04+0200\n"
+"POT-Creation-Date: 2010-02-28 20:57+0100\n"
 "PO-Revision-Date: 2006-09-28 17:30+0300\n"
 "Last-Translator: Shimi <shimi@shimi.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin/components.class.php:362 admin/modules/core/page.did.php:332
 msgid "Submit"
 msgstr "שלח"
 
-#: admin/featurecodes.class.php:289
+msgid "Internal Options & Configuration"
+msgstr ""
+
+msgid "Inbound Call Control"
+msgstr ""
+
+msgid "Module Admin"
+msgstr "ניהול מודולים"
+
+msgid "System Administration"
+msgstr ""
+
+msgid "Third Party Addon"
+msgstr ""
+
+msgid "Tools"
+msgstr "כלים"
+
+msgid "Setup"
+msgstr "הגדרות"
+
+msgid "Call Cost"
+msgstr ""
+
 msgid "** MISSING FEATURE CODE **"
 msgstr ""
 
-#: admin/functions.inc.php:392
 #, php-format
 msgid "Cronmanager encountered %s Errors"
 msgstr ""
 
-#: admin/functions.inc.php:393
 msgid "The following commands failed with the listed error"
 msgstr ""
 
-#: admin/functions.inc.php:768
 #, php-format
 msgid "Missing or unreadable config file (%s)...cannot continue"
 msgstr ""
 
-#: admin/functions.inc.php:1049
 msgid "Objects"
 msgstr ""
 
-#: admin/functions.inc.php:1049
 msgid "Object"
 msgstr ""
 
-#: admin/functions.inc.php:1050
 #, php-format
 msgid "Used as Destination by %s %s"
 msgstr ""
 
-#: admin/functions.inc.php:1509 admin/functions.inc.php:1579
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr ""
 
-#: admin/functions.inc.php:1510 admin/functions.inc.php:1580
 #, php-format
 msgid "Could not run %s script."
 msgstr ""
 
-#: admin/functions.inc.php:1527
 #, php-format
 msgid "Reload failed because retrieve_conf encountered an error: %s"
 msgstr ""
 
-#: admin/functions.inc.php:1529 admin/functions.inc.php:1537
 msgid "retrieve_conf failed, config not applied"
 msgstr ""
 
-#: admin/functions.inc.php:1535
 msgid ""
 "Reload failed because FreePBX could not connect to the asterisk manager "
 "interface."
 msgstr ""
 
-#: admin/functions.inc.php:1549
 msgid "Successfully reloaded"
 msgstr ""
 
-#: admin/functions.inc.php:1558
 msgid ""
 "Could not reload the FOP operator panel server using the bounce_op.sh "
 "script. Configuration changes may not be reflected in the panel display."
 msgstr ""
 
-#: admin/functions.inc.php:1559
 msgid "Could not reload FOP server"
 msgstr ""
 
-#: admin/functions.inc.php:1571
 msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
 
-#: admin/functions.inc.php:1620 admin/modules/core/page.routing.php:586
 msgid "Add"
 msgstr "הוסף"
 
-#: admin/functions.inc.php:2050
 msgid "Unknown Destination"
 msgstr ""
 
-#: admin/functions.inc.php:2050
 msgid ""
 "ERROR: You have an unknown destination. If this was carried over as a Custom "
 "App from an earlier version, you must go register the destination in the "
@@ -111,507 +114,419 @@ msgid ""
 "new one here."
 msgstr ""
 
-#: admin/functions.inc.php:2321
 msgid ""
 "The following new modules are available for download. Click delete icon on "
 "the right to remove this notice."
 msgstr ""
 
-#: admin/functions.inc.php:2325
 #, php-format
 msgid "%s New modules are available"
 msgstr ""
 
-#: admin/functions.inc.php:2359
 msgid "There is 1 module available for online upgrade"
 msgstr ""
 
-#: admin/functions.inc.php:2361
 #, php-format
 msgid "There are %s modules available for online upgrades"
 msgstr ""
 
-#: admin/functions.inc.php:2365
 #, php-format
 msgid "%s (current: %s)"
 msgstr ""
 
-#: admin/functions.inc.php:2591
 #, php-format
 msgid "PHP Component %s is required but missing from you PHP installation."
 msgstr ""
 
-#: admin/functions.inc.php:2593
 #, php-format
 msgid ""
 "PHP Component %s version %s is required but missing from you PHP "
 "installation."
 msgstr ""
 
-#: admin/functions.inc.php:2621
 #, php-format
 msgid "Module %s is required, but yours is broken. You should reinstall "
 msgstr ""
 
-#: admin/functions.inc.php:2622
 #, php-format
 msgid "it and try again."
 msgstr ""
 
-#: admin/functions.inc.php:2625
 #, php-format
 msgid "Module %s is required, but yours is disabled."
 msgstr ""
 
-#: admin/functions.inc.php:2628
 #, php-format
 msgid "Module %s is required, but yours is disabled because it needs to "
 msgstr ""
 
-#: admin/functions.inc.php:2629
 #, php-format
 msgid "be upgraded. Please upgrade %s first, and then try again."
 msgstr ""
 
-#: admin/functions.inc.php:2634
 #, php-format
 msgid "Module %s is required, yours is not installed."
 msgstr ""
 
-#: admin/functions.inc.php:2638
 #, php-format
 msgid "Module %s is required."
 msgstr ""
 
-#: admin/functions.inc.php:2647
 #, php-format
 msgid "File %s must exist."
 msgstr ""
 
-#: admin/functions.inc.php:2694
 #, php-format
 msgid "Requires engine %s, you have: %s"
 msgstr ""
 
-#: admin/functions.inc.php:2696
 #, php-format
 msgid "Requires one of the following engines: %s; you have: %s"
 msgstr ""
 
-#: admin/functions.inc.php:2711
 #, php-format
 msgid "A %s version below %s is required, you have %s"
 msgstr ""
 
-#: admin/functions.inc.php:2714
 #, php-format
 msgid "%s version %s or below is required, you have %s"
 msgstr ""
 
-#: admin/functions.inc.php:2717
 #, php-format
 msgid "A %s version newer than %s required, you have %s"
 msgstr ""
 
-#: admin/functions.inc.php:2720
 #, php-format
 msgid "Your %s version (%s) is incompatible."
 msgstr ""
 
-#: admin/functions.inc.php:2723
 #, php-format
 msgid "Only %s version %s is compatible, you have %s"
 msgstr ""
 
-#: admin/functions.inc.php:2727
 #, php-format
 msgid "%s version %s or higher is required, you have %s"
 msgstr ""
 
-#: admin/functions.inc.php:2785
-msgid "Module is already enabled"
+msgid "Module "
 msgstr ""
 
-#: admin/functions.inc.php:2790
-msgid "Module cannot be enabled"
+msgid " is already enabled"
 msgstr ""
 
-#: admin/functions.inc.php:2837
+msgid " cannot be enabled"
+msgstr ""
+
 msgid "Module not found in repository"
 msgstr ""
 
-#: admin/functions.inc.php:2870 admin/functions.inc.php:2966
-#: admin/functions.inc.php:3044
 #, php-format
 msgid "Could not remove %s to install new version"
 msgstr ""
 
-#: admin/functions.inc.php:2874 admin/functions.inc.php:2970
-#: admin/functions.inc.php:3048
 #, php-format
 msgid "Could not untar %s to %s"
 msgstr ""
 
-#: admin/functions.inc.php:2878 admin/functions.inc.php:2974
-#: admin/functions.inc.php:3052
 #, php-format
 msgid "Could not remove old module %s to install new version"
 msgstr ""
 
-#: admin/functions.inc.php:2882 admin/functions.inc.php:2978
-#: admin/functions.inc.php:3056
 #, php-format
 msgid "Could not move %s to %s"
 msgstr ""
 
-#: admin/functions.inc.php:2903
 #, php-format
 msgid "Error opening %s for writing"
 msgstr ""
 
-#: admin/functions.inc.php:2919 admin/functions.inc.php:2922
 #, php-format
 msgid "Error opening %s for reading"
 msgstr ""
 
-#: admin/functions.inc.php:2942
 #, php-format
 msgid "Unable to save %s"
 msgstr ""
 
-#: admin/functions.inc.php:2950
 #, php-format
 msgid "File Integrity failed for %s - aborting"
 msgstr ""
 
-#: admin/functions.inc.php:2995
 msgid ""
 "Error finding uploaded file - check your PHP and/or web server configuration"
 msgstr ""
 
-#: admin/functions.inc.php:3000
 msgid "File must be in tar+gzip (.tgz or .tar.gz) format"
 msgstr ""
 
-#: admin/functions.inc.php:3005
 msgid ""
 "Filename not in correct format: must be modulename-version.tar.gz (eg. "
 "custommodule-0.1.tar.gz)"
 msgstr ""
 
-#: admin/functions.inc.php:3014
 #, php-format
 msgid "Error creating temporary directory: %s"
 msgstr ""
 
-#: admin/functions.inc.php:3022
 msgid "Error untaring uploaded file. Must be a tar+gzip file"
 msgstr ""
 
-#: admin/functions.inc.php:3061
 #, php-format
 msgid "Error removing temporary directory: %s"
 msgstr ""
 
-#: admin/functions.inc.php:3090
 msgid "Cannot find module"
 msgstr ""
 
-#: admin/functions.inc.php:3096
 msgid "Could not read module.xml"
 msgstr ""
 
-#: admin/functions.inc.php:3101
-msgid ""
-"This module is broken and cannot be installed. You should try to download it "
-"again."
+msgid "rawname"
 msgstr ""
 
-#: admin/functions.inc.php:3120
+msgid ""
+" is broken and cannot be installed. You should try to download it again."
+msgstr ""
+
 msgid "Failed to run installation scripts"
 msgstr ""
 
-#: admin/functions.inc.php:3134
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr ""
 
-#: admin/functions.inc.php:3168 admin/functions.inc.php:3196
-#: admin/functions.inc.php:3233
 msgid "Specified module not found"
 msgstr ""
 
-#: admin/functions.inc.php:3173
 msgid "Module not enabled: cannot disable"
 msgstr ""
 
-#: admin/functions.inc.php:3177 admin/functions.inc.php:3205
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr ""
 
-#: admin/functions.inc.php:3201
 msgid "Module not installed: cannot uninstall"
 msgstr ""
 
-#: admin/functions.inc.php:3212
 msgid "Error updating database: "
 msgstr ""
 
-#: admin/functions.inc.php:3216
 msgid "Failed to run un-installation scripts"
 msgstr ""
 
-#: admin/functions.inc.php:3246
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr ""
 
-#: admin/functions.inc.php:3253
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr ""
 
-#: admin/functions.inc.php:3634
 #, php-format
 msgid "You have %s disabled modules"
 msgstr ""
 
-#: admin/functions.inc.php:3634
 msgid "You have a disabled module"
 msgstr ""
 
-#: admin/functions.inc.php:3635
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr ""
 
-#: admin/functions.inc.php:3636 admin/functions.inc.php:3644
 msgid "You should go to the module admin page to fix these."
 msgstr ""
 
-#: admin/functions.inc.php:3642
 #, php-format
 msgid "You have %s broken modules"
 msgstr ""
 
-#: admin/functions.inc.php:3642
 msgid "You have a broken module"
 msgstr ""
 
-#: admin/functions.inc.php:3643
 msgid "The following modules are disabled because they are broken:"
 msgstr ""
 
-#: admin/header_auth.php:43 admin/header_auth.php:70
 msgid "Administration"
 msgstr "ניהול"
 
-#: admin/header.php:138
 msgid "Default Asterisk Manager Password Used"
 msgstr ""
 
-#: admin/header.php:138
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
 "you should set a secure password"
 msgstr ""
 
-#: admin/page.modules.php:134
 msgid "Module Administration"
 msgstr "ניהול מודולים"
 
-#: admin/page.modules.php:136
 msgid "NOTICE"
 msgstr ""
 
-#: admin/page.modules.php:136
 msgid ""
 "You have accessed the extended repository which includes un-supported and "
 "third party modules"
 msgstr ""
 
-#: admin/page.modules.php:154
 #, php-format
 msgid ""
 "Warning: Cannot connect to online repository (%s). Online modules are not "
 "available."
 msgstr ""
 
-#: admin/page.modules.php:158
 #, php-format
 msgid ""
 "Warning: Error retrieving updates from online repository (%s). Online "
 "modules are not available."
 msgstr ""
 
-#: admin/page.modules.php:198
 msgid "Please wait while module actions are performed"
 msgstr ""
 
-#: admin/page.modules.php:211
 #, php-format
 msgid "Downloading %s"
 msgstr ""
 
-#: admin/page.modules.php:213
 #, php-format
 msgid "Error(s) downloading %s"
 msgstr ""
 
-#: admin/page.modules.php:218 admin/page.modules.php:230
 #, php-format
 msgid "Error(s) installing %s"
 msgstr ""
 
-#: admin/page.modules.php:222 admin/page.modules.php:234
 #, php-format
 msgid "%s installed successfully"
 msgstr ""
 
-#: admin/page.modules.php:240
 #, php-format
 msgid "Error(s) enabling %s"
 msgstr ""
 
-#: admin/page.modules.php:244
 #, php-format
 msgid "%s enabled successfully"
 msgstr ""
 
-#: admin/page.modules.php:249
 #, php-format
 msgid "Error(s) disabling %s"
 msgstr ""
 
-#: admin/page.modules.php:253
 #, php-format
 msgid "%s disabled successfully"
 msgstr ""
 
-#: admin/page.modules.php:259
 #, php-format
 msgid "Error(s) uninstalling %s"
 msgstr ""
 
-#: admin/page.modules.php:263
 #, php-format
 msgid "%s uninstalled successfully"
 msgstr ""
 
-#: admin/page.modules.php:279 admin/page.modules.php:281
 msgid "Return"
 msgstr ""
 
-#: admin/page.modules.php:322 admin/page.modules.php:346
 #, php-format
 msgid ""
 "%s cannot be upgraded: %s Please try again after the dependencies have been "
 "installed."
 msgstr ""
 
-#: admin/page.modules.php:326
 #, php-format
 msgid "%s %s will be upgraded to online version %s"
 msgstr ""
 
-#: admin/page.modules.php:334 admin/page.modules.php:346
+#, php-format
+msgid "%s %s will be re-installed to online version %s"
+msgstr ""
+
+#, php-format
+msgid "%s %s will be downgraded to online version %s"
+msgstr ""
+
 #, php-format
 msgid ""
 "%s cannot be installed: %s Please try again after the dependencies have been "
 "installed."
 msgstr ""
 
-#: admin/page.modules.php:338
 #, php-format
 msgid "%s %s will be downloaded and installed"
 msgstr ""
 
-#: admin/page.modules.php:351
 #, php-format
 msgid "%s %s will be upgraded to %s"
 msgstr ""
 
-#: admin/page.modules.php:353
 #, php-format
 msgid "%s %s will be installed and enabled"
 msgstr ""
 
-#: admin/page.modules.php:361
 #, php-format
 msgid ""
 "%s cannot be enabled: %s Please try again after the dependencies have been "
 "installed."
 msgstr ""
 
-#: admin/page.modules.php:365
 #, php-format
 msgid "%s %s will be enabled"
 msgstr ""
 
-#: admin/page.modules.php:371
 #, php-format
 msgid ""
 "%s cannot be disabled because the following modules depend on it: %s Please "
 "disable those modules first then try again."
 msgstr ""
 
-#: admin/page.modules.php:375
 #, php-format
 msgid "%s %s will be disabled"
 msgstr ""
 
-#: admin/page.modules.php:382
 #, php-format
 msgid ""
 "%s cannot be uninstalled because the following modules depend on it: %s "
 "Please disable those modules first then try again."
 msgstr ""
 
-#: admin/page.modules.php:386
 #, php-format
 msgid "%s %s will be uninstalled"
 msgstr ""
 
-#: admin/page.modules.php:403
 msgid "Errors with selection:"
 msgstr ""
 
-#: admin/page.modules.php:412
 msgid ""
 "You may confirm the remaining selection and then try the again for the "
 "listed issues once the required dependencies have been met:"
 msgstr ""
 
-#: admin/page.modules.php:414
 msgid "Please confirm the following actions:"
 msgstr ""
 
-#: admin/page.modules.php:421
+msgid "Upgrades, installs, enables and disables:"
+msgstr ""
+
+msgid "Forced downgrades and re-installs:"
+msgstr ""
+
 msgid "Confirm"
 msgstr ""
 
-#: admin/page.modules.php:423
 msgid "No actions to perform"
 msgstr ""
 
-#: admin/page.modules.php:424
 msgid ""
 "Please select at least one action to perform by clicking on the module, and "
 "selecting an action on the \"Action\" tab."
 msgstr ""
 
-#: admin/page.modules.php:426 admin/views/freepbx_reload.php:111
 msgid "Cancel"
 msgstr ""
 
-#: admin/page.modules.php:435 admin/page.modules.php:487
 msgid "Manage local modules"
 msgstr ""
 
-#: admin/page.modules.php:437 admin/page.modules.php:493
 msgid "Check for updates online"
 msgstr ""
 
-#: admin/page.modules.php:437 admin/page.modules.php:493
 msgid ""
 "Checking for updates will transmit your FreePBX and Asterisk version numbers "
 "along with a unique but random identifier. This is used to provide proper "
@@ -619,272 +534,210 @@ msgid ""
 "maintenance efforts. No private information is transmitted."
 msgstr ""
 
-#: admin/page.modules.php:442 admin/page.modules.php:495
 msgid "Upload module"
 msgstr ""
 
-#: admin/page.modules.php:448
 #, php-format
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr ""
 
-#: admin/page.modules.php:450
 #, php-format
 msgid "You should fix the problem or select another file and %s."
 msgstr ""
 
-#: admin/page.modules.php:451
 msgid "try again"
 msgstr ""
 
-#: admin/page.modules.php:455
 #, php-format
 msgid ""
 "Module uploaded successfully. You need to enable the module using %s to make "
 "it available."
 msgstr ""
 
-#: admin/page.modules.php:456
 msgid "local module administration"
 msgstr ""
 
-#: admin/page.modules.php:461
 msgid ""
 "You can upload a tar gzip file containing a FreePBX module from your local "
 "system. If a module with the same name already exists, it will be "
 "overwritten."
 msgstr ""
 
-#: admin/page.modules.php:488
-msgid "Show only upgradable"
+msgid "Show only upgradeable"
 msgstr ""
 
-#: admin/page.modules.php:507 admin/page.modules.php:795
 msgid "Download all"
 msgstr ""
 
-#: admin/page.modules.php:508 admin/page.modules.php:796
 msgid "Upgrade all"
 msgstr ""
 
-#: admin/page.modules.php:510 admin/page.modules.php:798
 msgid "Reset"
 msgstr ""
 
-#: admin/page.modules.php:511 admin/page.modules.php:799
 msgid "Process"
 msgstr ""
 
-#: admin/page.modules.php:517
 msgid "Module"
 msgstr ""
 
-#: admin/page.modules.php:518
 msgid "Version"
 msgstr ""
 
-#: admin/page.modules.php:519
 msgid "Publisher"
 msgstr ""
 
-#: admin/page.modules.php:533 admin/page.modules.php:608
 msgid "Broken"
 msgstr ""
 
-#: admin/page.modules.php:564 admin/page.modules.php:569
-#: admin/views/freepbx_admin.php:107 admin/views/freepbx_admin.php:112
-#: admin/modules/core/page.ampusers.php:240
-#: admin/modules/core/page.ampusers.php:244
 msgid "name"
 msgstr ""
 
-#: admin/page.modules.php:585
 msgid "Not Installed (Locally available)"
 msgstr ""
 
-#: admin/page.modules.php:587
 #, php-format
 msgid "Not Installed (Available online: %s)"
 msgstr ""
 
-#: admin/page.modules.php:594
 #, php-format
 msgid "Disabled; Online upgrade available (%s)"
 msgstr ""
 
-#: admin/page.modules.php:596
 #, php-format
 msgid "Disabled; Newer than online version (%s)"
 msgstr ""
 
-#: admin/page.modules.php:598
 msgid "Disabled; up to date"
 msgstr ""
 
-#: admin/page.modules.php:601 admin/modules/core/page.general.php:147
 msgid "Disabled"
 msgstr ""
 
-#: admin/page.modules.php:605
 #, php-format
 msgid "Disabled; Pending upgrade to %s"
 msgstr ""
 
-#: admin/page.modules.php:615
 #, php-format
 msgid "Online upgrade available (%s)"
 msgstr ""
 
-#: admin/page.modules.php:617
 #, php-format
 msgid "Newer than online version (%s)"
 msgstr ""
 
-#: admin/page.modules.php:619
 msgid "Enabled and up to date"
 msgstr ""
 
-#: admin/page.modules.php:623
 msgid "Enabled; Not available online"
 msgstr ""
 
-#: admin/page.modules.php:625 admin/modules/core/page.general.php:146
 msgid "Enabled"
 msgstr ""
 
-#: admin/page.modules.php:643
 msgid "Attention"
 msgstr ""
 
-#: admin/page.modules.php:644
 msgid "attention"
 msgstr ""
 
-#: admin/page.modules.php:648
 msgid "Action"
 msgstr ""
 
-#: admin/page.modules.php:651
 msgid "No Action"
 msgstr ""
 
-#: admin/page.modules.php:658 admin/page.modules.php:691
 msgid "Install"
 msgstr ""
 
-#: admin/page.modules.php:661
 msgid "Download and Install"
 msgstr ""
 
-#: admin/page.modules.php:667 admin/modules/core/functions.inc.php:4880
-#: admin/modules/core/functions.inc.php:4885
-#: admin/modules/core/page.trunks.php:401
 msgid "Enable"
 msgstr ""
 
-#: admin/page.modules.php:670 admin/page.modules.php:685
-#: admin/page.modules.php:693 admin/page.modules.php:713
 msgid "Uninstall"
 msgstr ""
 
-#: admin/page.modules.php:675
 #, php-format
 msgid "Download %s, keep Disabled"
 msgstr ""
 
-#: admin/page.modules.php:683
 #, php-format
 msgid "Upgrade to %s and Enable"
 msgstr ""
 
-#: admin/page.modules.php:703
 #, php-format
 msgid "Download and Upgrade to %s"
 msgstr ""
 
-#: admin/page.modules.php:709 admin/modules/core/functions.inc.php:4881
-#: admin/modules/core/functions.inc.php:4884
-#: admin/modules/core/functions.inc.php:4888
-#: admin/modules/core/page.trunks.php:393
+#, php-format
+msgid "Force Download and Install %s"
+msgstr ""
+
+#, php-format
+msgid "Force Download and Downgrade to %s"
+msgstr ""
+
 msgid "Disable"
 msgstr ""
 
-#: admin/page.modules.php:719 admin/modules/core/functions.inc.php:5383
-#: admin/modules/core/page.did.php:205
-#: admin/modules/core/page.zapchandids.php:103
 msgid "Description"
 msgstr ""
 
-#: admin/page.modules.php:721
 #, php-format
 msgid "Publisher: %s"
 msgstr ""
 
-#: admin/page.modules.php:723
 #, php-format
 msgid "License: %s"
 msgstr ""
 
-#: admin/page.modules.php:725
 #, php-format
 msgid "Description for version %s"
 msgstr ""
 
-#: admin/page.modules.php:726
 msgid "description"
 msgstr ""
 
-#: admin/page.modules.php:728
 msgid "No description is available."
 msgstr ""
 
-#: admin/page.modules.php:731 admin/page.modules.php:733
 msgid "More info"
 msgstr ""
 
-#: admin/page.modules.php:733
 #, php-format
 msgid "Get help for %s"
 msgstr ""
 
-#: admin/page.modules.php:738
 msgid "Changelog"
 msgstr ""
 
-#: admin/page.modules.php:739
 #, php-format
 msgid "Change Log for version %s"
 msgstr ""
 
-#: admin/page.modules.php:759
 msgid "Debug"
 msgstr ""
 
-#: admin/page.modules.php:784
 msgid "All available modules are up-to-date and installed."
 msgstr ""
 
-#: admin/page.modules.php:786
 msgid "No modules to display."
 msgstr ""
 
-#: admin/page.modules.php:836
 msgid "Untarring.."
 msgstr ""
 
-#: admin/page.modules.php:856
 msgid "Done."
 msgstr ""
 
-#: admin/page.modules.php:915
 msgid "Standard Repository"
 msgstr ""
 
-#: admin/page.modules.php:916
 msgid "Extended Repository"
 msgstr ""
 
-#: admin/page.modules.php:925
 msgid ""
 "You have selected to access the Extended Repository. This repository "
 "contains some Third Party and un-supported modules. Although these modules "
@@ -894,43 +747,33 @@ msgid ""
 "level of responsiveness to issues as the main code base does."
 msgstr ""
 
-#: admin/panel.php:18
 msgid "FreePBX: Flash Operator Panel"
 msgstr ""
 
-#: admin/panel.php:19
 msgid "Flash Operator Panel"
 msgstr ""
 
-#: admin/reports.php:18
 msgid "FreePBX: Call Detail Reports"
 msgstr ""
 
-#: admin/reports.php:19
 msgid "Call Detail Reports"
 msgstr ""
 
-#: admin/reports.php:36
 msgid "Call Logs"
 msgstr "רישומי שיחות"
 
-#: admin/reports.php:37
 msgid "Compare Calls"
 msgstr "השווה שיחות"
 
-#: admin/reports.php:38
 msgid "Monthly Traffic"
 msgstr "תעבורה חודשית"
 
-#: admin/reports.php:39
 msgid "Daily load"
 msgstr "עומס יומי"
 
-#: admin/views/bad_refferer.php:16
 msgid "Potential Security Breach"
 msgstr ""
 
-#: admin/views/bad_refferer.php:17
 msgid ""
 "You are attempting to modify settings from a URL that does not appear to "
 "have come from a FreePBX page link or button. This can occur if you manually "
@@ -940,91 +783,70 @@ msgid ""
 "check"
 msgstr ""
 
-#: admin/views/bad_refferer.php:18
 msgid ""
 "The suspect URL is listed below. If this action is intended, you can click "
 "this link and your action will be processed. Do not proceed with this if you "
 "did not intended to execute this command as it may result in changes to your "
-"configuraiton."
+"configuration."
 msgstr ""
 
-#: admin/views/bad_refferer.php:19
 msgid "SUSPECT LINK:"
 msgstr ""
 
-#: admin/views/freepbx_admin.php:87 admin/modules/core/page.ampusers.php:234
 msgid "category"
 msgstr ""
 
-#: admin/views/freepbx_admin.php:179
 msgid ""
 "WARNING: Javascript is disabled in your browser. The FreePBX administration "
 "interface requires Javascript to run properly. Please enable javascript or "
 "switch to another  browser that supports it."
 msgstr ""
 
-#: admin/views/freepbx_admin.php:193
 #, php-format
 msgid "%s is a registered trademark of %s"
 msgstr ""
 
-#: admin/views/freepbx_admin.php:194 admin/views/freepbx_admin.php:197
-#: admin/views/freepbx.php:151 admin/views/freepbx.php:160
 msgid "FreePBX"
 msgstr ""
 
-#: admin/views/freepbx_admin.php:196
 #, php-format
 msgid "%s is licensed under %s"
 msgstr ""
 
-#: admin/views/freepbx.php:158
 #, php-format
 msgid "%s %s on %s"
 msgstr ""
 
-#: admin/views/freepbx.php:175
 msgid "Management"
 msgstr "ניהול"
 
-#: admin/views/freepbx.php:176
 msgid "Admin"
 msgstr ""
 
-#: admin/views/freepbx.php:177
 msgid "Reports"
 msgstr "דוחות"
 
-#: admin/views/freepbx.php:179
 msgid "Panel"
 msgstr "פאנל"
 
-#: admin/views/freepbx.php:181
 msgid "Recordings"
 msgstr "הקלטות"
 
-#: admin/views/freepbx.php:182
 msgid "Help"
 msgstr ""
 
-#: admin/views/freepbx.php:199
 msgid "Logged in: "
 msgstr ""
 
-#: admin/views/freepbx.php:200
 msgid "Logout"
 msgstr ""
 
-#: admin/views/freepbx_reloadbar.php:3
 msgid "Reload Required"
 msgstr ""
 
-#: admin/views/freepbx_reloadbar.php:4 admin/views/freepbx_reloadbar.php:5
-#: admin/views/freepbx_reload.php:107
 msgid "Apply Configuration Changes"
 msgstr ""
 
-#: admin/views/freepbx_reloadbar.php:5
 #, php-format
 msgid ""
 "You have made changes to the configuration that have not yet been applied. "
@@ -1032,137 +854,106 @@ msgid ""
 "effect."
 msgstr ""
 
-#: admin/views/freepbx_reload.php:71
 msgid ""
-" error(s) occured, you should view the notification log on the dashboard or "
+" error(s) occurred, you should view the notification log on the dashboard or "
 "main screen to check for more details."
 msgstr ""
 
-#: admin/views/freepbx_reload.php:75 admin/views/freepbx_reload.php:89
 msgid "Close"
 msgstr ""
 
-#: admin/views/freepbx_reload.php:76
 msgid "Retry"
 msgstr ""
 
-#: admin/views/freepbx_reload.php:88
 msgid "Error: Did not receive valid response from server"
 msgstr ""
 
-#: admin/views/freepbx_reload.php:108
 msgid ""
 "Reloading will apply all configuration changes made in FreePBX to your PBX "
 "engine and make them active."
 msgstr ""
 
-#: admin/views/freepbx_reload.php:110
 msgid "Accept"
 msgstr ""
 
-#: admin/views/freepbx_reload.php:110
 msgid "Continue with reload"
 msgstr ""
 
-#: admin/views/freepbx_reload.php:111
 msgid "Cancel reload and go back to editing"
 msgstr ""
 
-#: admin/views/freepbx_reload.php:116
 msgid "Please wait, reloading.."
 msgstr ""
 
-#: admin/views/freepbx_reload.php:117
 msgid "Loading..."
 msgstr ""
 
-#: admin/views/loggedout.php:4
 msgid "Logged out"
 msgstr ""
 
-#: admin/views/loggedout.php:5
-msgid "You have been succesfully logged out."
+msgid "You have been successfully logged out."
 msgstr ""
 
-#: admin/views/loggedout.php:7
 msgid "Log in"
 msgstr ""
 
-#: admin/views/menuitem_disabled.php:3
 #, php-format
 msgid "[WARNING]: Menu Item: %s is disabled because asterisk is not running"
 msgstr ""
 
-#: admin/views/menuitem_disabled.php:4
 msgid ""
 "Restart Asterisk and then refresh the browser in order to try accessing this "
 "menu item again."
 msgstr ""
 
-#: admin/views/noaccess.php:4
 msgid "Not found"
 msgstr "לא נמצא"
 
-#: admin/views/noaccess.php:5
 msgid ""
 "The section you requested does not exist or you do not have access to it."
 msgstr "האיזור שביקשת אינו קיים, או שאין לך הרשאה אליו."
 
-#: admin/views/unauthorized.php:4
 msgid "Unauthorized"
 msgstr ""
 
-#: admin/views/unauthorized.php:5
 msgid "You are not authorized to access this page."
 msgstr ""
 
-#: admin/views/welcome_nomanager.php:2
 msgid "Warning:"
 msgstr "אזהרה:"
 
-#: admin/views/welcome_nomanager.php:5
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "לא מצליח להתחבר למנהל האסטריסק עם "
 
-#: admin/views/welcome_nomanager.php:7
 msgid "Asterisk may not be running."
 msgstr "ייתכן ואסטריסק אינו רץ."
 
-#: admin/views/welcome.php:3
 msgid "Welcome to FreePBX."
 msgstr ""
 
-#: admin/views/welcome.php:9
 msgid "Critical"
 msgstr ""
 
-#: admin/views/welcome.php:10
 msgid "Security"
 msgstr ""
 
-#: admin/views/welcome.php:11
 msgid "Update"
 msgstr ""
 
-#: admin/views/welcome.php:12
 msgid "Error"
 msgstr ""
 
-#: admin/views/welcome.php:13
 msgid "Warning"
 msgstr ""
 
-#: admin/views/welcome.php:14
 msgid "Notice"
 msgstr ""
 
-#: admin/views/welcome.php:36
 msgid ""
 "If you're new to FreePBX, Welcome. Here are some quick instructions to get "
 "you started"
 msgstr ""
 
-#: admin/views/welcome.php:40
 #, php-format
 msgid ""
 "There are a large number of Plug-in modules available from the Online "
@@ -1175,19 +966,17 @@ msgid ""
 "a new version of the module available."
 msgstr ""
 
-#: admin/views/welcome.php:54
 #, php-format
 msgid ""
 "If you're having any problems, you can also use the <a href='%s'>Online "
 "Support</a> \n"
 "module (<b>you need to install this through the <a href='%s'>Module "
 "Repository</a> first</b>)\n"
-"to talk to other users and the devlopers in real time. Click on <a href='%"
+"to talk to other users and the developers in real time. Click on <a href='%"
 "s'>Start IRC</a>,\n"
 "when the module is installed, to start a Java IRC client."
 msgstr ""
 
-#: admin/views/welcome.php:66
 #, php-format
 msgid ""
 "There is also a community based <a href='%s' target='_new'>FreePBX Web "
@@ -1195,36 +984,29 @@ msgid ""
 "questions and search for answers for any problems you may be having."
 msgstr ""
 
-#: admin/views/welcome.php:71
 msgid "We hope you enjoy using FreePBX!"
 msgstr ""
 
-#: admin/common/db_connect.php:78
 msgid "Default SQL Password Used"
 msgstr ""
 
-#: admin/common/db_connect.php:78
 msgid ""
 "You are using the default SQL password that is widely known, you should set "
 "a secure password"
 msgstr ""
 
-#: admin/common/db_connect.php:89
 msgid "Memory Limit Changed"
 msgstr ""
 
-#: admin/common/db_connect.php:89
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and has been increased to %sM. You "
 "may want to change this in you php.ini config file"
 msgstr ""
 
-#: admin/common/db_connect.php:91
 msgid "Low Memory Limit"
 msgstr ""
 
-#: admin/common/db_connect.php:91
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
@@ -1232,2534 +1014,29 @@ msgid ""
 "you php.ini config file"
 msgstr ""
 
-#: admin/common/db_connect.php:100
 msgid "Magic Quotes GPC"
 msgstr ""
 
-#: admin/common/db_connect.php:100
 msgid ""
 "You have magic_quotes_gpc enabled in your php.ini, http or .htaccess file "
 "which will cause errors in some modules. FreePBX expects this to be off and "
 "runs under that assumption"
 msgstr ""
 
-#: admin/common/script.js.php:56
 msgid "Please select a \"Destination\""
 msgstr ""
 
-#: admin/common/script.js.php:56
 msgid ""
 "Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
 msgstr ""
 
-#: admin/common/script.js.php:72
 msgid "The secret must be at minimum six characters in length."
 msgstr ""
 
-#: admin/common/script.js.php:78
 msgid "The secret must contain at least two numbers and two letters."
 msgstr ""
 
-#: admin/modules/core/functions.inc.php:576
-msgid "Terminate Call"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:577
-msgid "Hangup"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:578
-msgid "Congestion"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:579
-#: admin/modules/core/page.general.php:205
-msgid "Busy"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:580
-msgid "Play SIT Tone (Zapateller)"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:581
-msgid "Put caller on hold forever"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:582
-msgid "Play ringtones to caller until they hangup"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:653
-#, php-format
-msgid "User Extension %s: %s"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:2549
-#: admin/modules/core/functions.inc.php:2638
-msgid "A route for this DID/CID already exists!"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:2705
-msgid "You must put in a device id"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:2715
-msgid "This device id is already in use"
-msgstr "מזהה התקן זה נמצא כבר בשימוש"
-
-#: admin/modules/core/functions.inc.php:3297
-msgid "User Extension: "
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:3326
-#, php-format
-msgid "Inbound Route: %s (%s)"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:3360
-msgid "You must put in an extension (or user) number"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:3369
-#, php-format
-msgid "This user/extension %s is already in use"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:3388
-#: admin/modules/core/functions.inc.php:3639
-#, php-format
-msgid "A route with this DID/CID: %s/%s already exists"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:3674
-#: admin/modules/core/page.zapchandids.php:127
-msgid "Invalid Channel Number, must be numeric and not blank"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:3678
-#: admin/modules/core/page.zapchandids.php:128
-msgid "Invalid DID, must be a non-blank DID"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:3690
-msgid "Error Duplicate Channel Entry"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4841
-#, php-format
-msgid ""
-"Failed to open %s for writing, aborting attempt to write the country "
-"indications. The file may be readonly or the permissions may be incorrect."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4842
-msgid "Failed to write indications.conf"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4875
-msgid "On Demand"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4876
-msgid "Always"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4877
-msgid "Never"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4889
-msgid "Screen Caller: No Memory"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4890
-msgid "Screen Caller: Memory"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4893
-#: admin/modules/core/page.did.php:243 admin/modules/core/page.general.php:203
-msgid "Default"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4941
-#: admin/modules/core/functions.inc.php:5308
-#: admin/modules/core/page.did.php:141
-msgid "deleted"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4961
-#: admin/modules/core/page.did.php:182
-#: admin/modules/core/page.extensions.php:23
-msgid "Extension"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4963
-#, php-format
-msgid "Delete Extension %s"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4973
-#: admin/modules/core/page.did.php:178 admin/modules/core/page.users.php:27
-msgid "User"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4975
-#, php-format
-msgid "Delete User %s"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4987
-msgid "Add User/Extension"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4994
-#: admin/modules/core/functions.inc.php:5370
-msgid "Please enter a valid extension number."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4995
-msgid "Please enter a valid CID Num Alias (must be a valid number)."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4996
-msgid "Please enter valid User Password using numbers only"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4997
-msgid "Please enter a valid Display Name"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4998
-msgid "Please enter a valid Outbound CID"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:4999
-msgid "Please enter a valid pause time in seconds, using digits only"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5000
-msgid ""
-"You have entered a non-standard dialpattern for your DID. You can only enter "
-"standard dialpatterns. You must use the inbound routing form to enter non-"
-"standard patterns"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5001
-msgid ""
-"Please enter a valid Caller ID Number or leave it blank for your Assigned "
-"DID/CID pair"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5008
-msgid "Edit Extension"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5008
-#: admin/modules/core/page.ampusers.php:256
-msgid "Add Extension"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5010
-msgid "Edit User"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5010
-#: admin/modules/core/page.ampusers.php:116
-msgid "Add User"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5015
-msgid "User Extension"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5015
-msgid "The extension number to dial to reach this user."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5018
-msgid "User Password"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5018
-msgid "A user will enter this password when logging onto a device."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5018
-#: admin/modules/core/functions.inc.php:5385
-msgid "logs into a device."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5018
-#: admin/modules/core/functions.inc.php:5385
-msgid "logs out of a device."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5022
-msgid "Display Name"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5022
-msgid ""
-"The caller id name for calls from this user will be set to this name. Only "
-"enter the name, NOT the number."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5024
-msgid "CID Num Alias"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5024
-msgid ""
-"The CID Number to use for internal calls, if different from the extension "
-"number. This is used to masquerade as a different user. A common example is "
-"a team of support people who would like their internal callerid to display "
-"the general support number (a ringgroup or queue). There will be no effect "
-"on external calls."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5025
-msgid "SIP Alias"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5025
-msgid ""
-"If you want to support direct sip dialing of users internally or through "
-"anonymous sip calls, you can supply a friendly name that can be used in "
-"addition to the users extension to call them."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5030
-msgid "User Devices"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5041
-msgid "Edit:"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5053
-#: admin/modules/core/functions.inc.php:5388
-msgid "Extension Options"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5054
-msgid "Outbound CID"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5054
-msgid ""
-"Overrides the caller id when dialing out a trunk. Any setting here will "
-"override the common outbound caller id set in the Trunks admin."
-"<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this "
-"field blank to disable the outbound callerid feature for this user."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5056
-msgid "Ring Time"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5056
-msgid ""
-"Number of seconds to ring prior to going to voicemail. Default will use the "
-"value set in the General Tab. If no voicemail is configured this will be "
-"ignored."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5064
-msgid "Call Waiting"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5064
-msgid "Set the initial/current Call Waiting state for this user's extension"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5065
-msgid "Call Screening"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5065
-msgid ""
-"Call Screening requires external callers to say their name, which will be "
-"played back to the user and allow the user to accept or reject the call.  "
-"Screening with memory only verifies a caller for their caller-id once. "
-"Screening without memory always requires a caller to say their name. Either "
-"mode will always announce the caller based on the last introduction saved "
-"with that callerid. If any user on the system uses the memory option, when "
-"that user is called, the caller will be required to re-introduce themselves "
-"and all users on the system will have that new introduction associated with "
-"the caller's CallerId."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5066
-msgid "Pinless Dialing"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5066
-msgid ""
-"Enabling Pinless Dialing will allow this extension to bypass any pin codes "
-"normally required on outbound calls"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5068
-msgid "Assigned DID/CID"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5069
-msgid "DID Description"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5069
-msgid "A description for this DID, such as \"Fax\""
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5070
-msgid "Add Inbound DID"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5070
-msgid ""
-"A direct DID that is associated with this extension. The DID should be in "
-"the same format as provided by the provider (e.g. full number, 4 digits for "
-"10x4, etc).<br><br>Format should be: <b>XXXXXXXXXX</b><br><br>.An optional "
-"CID can also be associated with this DID by setting the next box"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5071
-msgid "Add Inbound CID"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5071
-msgid ""
-"Add a CID for more specific DID + CID routing. A DID must be specified in "
-"the above Add DID box. In addition to standard dial sequences, you can also "
-"put Private, Blocked, Unknown, Restricted, Anonymous and Unavailable in "
-"order to catch these special cases if the Telco transmits them."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5079
-msgid "DID / CID"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5083
-msgid "Any DID"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5099
-msgid "Recording Options"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5100
-msgid "Record Incoming"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5100
-msgid "Record all inbound calls received at this extension."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5101
-msgid "Record Outgoing"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5101
-msgid "Record all outbound calls received at this extension."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5119
-msgid "Warning! Extension"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5119
-msgid "is not allowed for your account"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5133
-msgid "Conflicting Extensions"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5133
-msgid ""
-"The following extension numbers are in conflict, you can click on the item"
-"(s) below to edit the conflicting entity."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5137
-msgid "Configure user again:"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5137
-msgid "Configure extension again:"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5184
-msgid "Please enter the dtmfmode for this device"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5185
-msgid "Please enter the channel for this device"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5186
-msgid ""
-"You have not entered a Secret for this device, although this is possible it "
-"is generally bad practice to not assign a Secret to a device. Are you sure "
-"you want to leave the Secret empty?"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5187
-msgid "Please enter a Secret for this device"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5260
-msgid "Generic SIP Device"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5261
-msgid "Generic IAX2 Device"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5262
-msgid "Generic ZAP Device"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5263
-msgid "Other (Custom) Device"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5266
-msgid "None (virtual exten)"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5272
-msgid "Fixed"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5273
-msgid "Adhoc"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5276
-msgid "none"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5277
-msgid "New User"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5313
-#: admin/modules/core/page.ampusers.php:256
-msgid "Add Device"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5315
-msgid "Add an Extension"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5317
-msgid "Please select your Device below then click Submit"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5318
-#: admin/modules/core/functions.inc.php:5328
-#: admin/modules/core/page.devices.php:22
-msgid "Device"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5331
-#, php-format
-msgid "Delete Device %s"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5337
-#, php-format
-msgid "Edit Default User: %s"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5337
-#, php-format
-msgid "Edit Fixed User: %s"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5350
-#, php-format
-msgid "Add %s Device"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5352
-#, php-format
-msgid "Add %s Extension"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5367
-msgid "Please enter a device id."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5368
-msgid "Please enter a valid Description for this device"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5369
-msgid "Please enter a valid Emergency CID"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5377
-msgid "Device Info"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5381
-msgid "Device ID"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5381
-msgid ""
-"Give your device a unique integer ID.  The device will use this ID to "
-"authenticate to the system."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5383
-msgid ""
-"The caller id name for this device will be set to this description until it "
-"is logged into."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5384
-#: admin/modules/core/functions.inc.php:5389
-msgid "Emergency CID"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5384
-#: admin/modules/core/functions.inc.php:5389
-msgid ""
-"This caller id will always be set when dialing out an Outbound Route flagged "
-"as Emergency.  The Emergency CID overrides all other caller id settings."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5385
-msgid "Device Type"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5385
-msgid ""
-"Devices can be fixed or adhoc. Fixed devices are always associated to the "
-"same extension/user. Adhoc devices can be logged into and logged out of by "
-"users."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5386
-msgid "Default User"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5386
-msgid ""
-"Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
-"to this user by default.<br><br>If selecting 'New User', a new User "
-"Extension of the same Device ID will be set as the Default User."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5395
-msgid "Device Options"
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5397
-#, php-format
-msgid "This device uses %s technology."
-msgstr ""
-
-#: admin/modules/core/functions.inc.php:5397
-msgid "Via DAHDI compatibility mode"
-msgstr ""
-
-#: admin/modules/core/install.php:21
 msgid "Core"
-msgstr ""
-
-#: admin/modules/core/install.php:22
-msgid "User Logon"
-msgstr ""
-
-#: admin/modules/core/install.php:23
-msgid "User Logoff"
-msgstr ""
-
-#: admin/modules/core/install.php:24
-msgid "ZapBarge"
-msgstr ""
-
-#: admin/modules/core/install.php:25
-msgid "ChanSpy"
-msgstr ""
-
-#: admin/modules/core/install.php:26
-msgid "Simulate Incoming Call"
-msgstr ""
-
-#: admin/modules/core/install.php:27
-msgid "Dial System FAX"
-msgstr ""
-
-#: admin/modules/core/install.php:28
-msgid "Directed Call Pickup"
-msgstr ""
-
-#: admin/modules/core/install.php:29
-msgid "Asterisk General Call Pickup"
-msgstr ""
-
-#: admin/modules/core/install.php:30
-msgid "In-Call Asterisk Blind Transfer"
-msgstr ""
-
-#: admin/modules/core/install.php:31
-msgid "In-Call Asterisk Attended Transfer"
-msgstr ""
-
-#: admin/modules/core/install.php:32
-msgid "In-Call Asterisk Toggle Call Recording"
-msgstr ""
-
-#: admin/modules/core/install.php:33
-msgid "In-Call Asterisk Disconnect Code"
-msgstr ""
-
-#: admin/modules/core/install.php:60
-#, php-format
-msgid "ERROR: trying to check if %s already in use"
-msgstr ""
-
-#: admin/modules/core/install.php:147
-msgid "Checking if directdids need migrating.."
-msgstr ""
-
-#: admin/modules/core/install.php:151
-msgid "starting migration"
-msgstr ""
-
-#: admin/modules/core/install.php:168
-msgid "User: "
-msgstr ""
-
-#: admin/modules/core/install.php:171
-#, php-format
-msgid "ERROR: failed to insert %s for user %s"
-msgstr ""
-
-#: admin/modules/core/install.php:176
-#, php-format
-msgid ""
-"There were %s failures migrating directdids, users table not being changed"
-msgstr ""
-
-#: admin/modules/core/install.php:180
-#, php-format
-msgid "Removing field %s from users table.."
-msgstr ""
-
-#: admin/modules/core/install.php:184
-msgid "not present"
-msgstr ""
-
-#: admin/modules/core/install.php:186
-msgid "removed"
-msgstr ""
-
-#: admin/modules/core/install.php:191
-msgid ""
-"ERROR: could not access user table to migrate directdids to incoming table, "
-"aborting"
-msgstr ""
-
-#: admin/modules/core/install.php:194
-msgid "already done"
-msgstr ""
-
-#: admin/modules/core/install.php:199
-msgid "updating zap callgroup, pickupgroup.."
-msgstr ""
-
-#: admin/modules/core/install.php:224
-#, php-format
-msgid "updated %s callgroups, %s pickupgroups"
-msgstr ""
-
-#: admin/modules/core/install.php:226 admin/modules/core/install.php:521
-msgid "not needed"
-msgstr ""
-
-#: admin/modules/core/install.php:231
-msgid "checking for delay_answer field .."
-msgstr ""
-
-#: admin/modules/core/install.php:238 admin/modules/core/install.php:254
-msgid "fatal error"
-msgstr ""
-
-#: admin/modules/core/install.php:241 admin/modules/core/install.php:257
-msgid "added"
-msgstr ""
-
-#: admin/modules/core/install.php:244 admin/modules/core/install.php:260
-#: admin/modules/core/install.php:538
-msgid "already exists"
-msgstr ""
-
-#: admin/modules/core/install.php:247
-msgid "checking for pricid field .."
-msgstr ""
-
-#: admin/modules/core/install.php:267
-msgid "Checking for Global var RECORDING_STATE.."
-msgstr ""
-
-#: admin/modules/core/install.php:271
-msgid "Created"
-msgstr ""
-
-#: admin/modules/core/install.php:273
-msgid "Already exists!"
-msgstr ""
-
-#: admin/modules/core/install.php:480
-msgid "Checking if trunk table migration required.."
-msgstr ""
-
-#: admin/modules/core/install.php:483
-msgid "migrating.."
-msgstr ""
-
-#: admin/modules/core/install.php:501
-msgid "removing globals.."
-msgstr ""
-
-#: admin/modules/core/install.php:519
-msgid "done"
-msgstr ""
-
-#: admin/modules/core/install.php:533
-msgid "Checking if trunks_dialpatterns table exists.."
-msgstr ""
-
-#: admin/modules/core/install.php:540
-msgid "created"
-msgstr ""
-
-#: admin/modules/core/install.php:541
-msgid "loading table from localprefixes.conf.."
-msgstr ""
-
-#: admin/modules/core/install.php:561
-msgid "loaded"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:133
-msgid "Edit Administrator"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:145
-#, php-format
-msgid "Delete User: %s"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:163
-msgid "Add Administrator"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:176
-#: admin/modules/core/page.trunks.php:347
-msgid "General Settings"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:182
-msgid "NOTE:"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:182
-msgid ""
-"AUTHTYPE is not set to 'database' in /etc/amportal.conf - note that this "
-"module is not currently providing access control, and changing passwords "
-"here or adding users will have no effect unless AUTHTYPE is set to "
-"'database'."
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:188
-msgid "Username<span>Create a unique username for this new user</span>"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:195
-msgid "Password<span>Create a password for this new user</span>"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:203
-msgid "Access Restrictions"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:208
-msgid ""
-"Department Name<span>Restrict this user's view of Digital Receptionist menus "
-"and System Recordings to only those for this department.</span>"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:215
-msgid ""
-"Extension Range<span>Restrict this user's view to only Extensions, Ring "
-"Groups, and Queues within this range.</span>"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:224
-msgid ""
-"Admin Access<span>Select the Admin Sections this user should have access to."
-"</span>"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:251
-msgid "Apply Changes Bar"
-msgstr "באר החלת השינויים"
-
-#: admin/modules/core/page.ampusers.php:261
-msgid "ALL SECTIONS"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:269
-#: admin/modules/core/page.general.php:460
-#: admin/modules/core/page.routing.php:592
-#: admin/modules/core/page.trunks.php:768
-#: admin/modules/core/page.zapchandids.php:112
-msgid "Submit Changes"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:283
-msgid "Username must not be blank"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:285
-msgid ""
-"Username cannot start with a number, and can only contain letters and numbers"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:287
-msgid "For security reasons, you cannot use the department name default"
-msgstr ""
-
-#: admin/modules/core/page.ampusers.php:289
-msgid "Department name cannot have a space"
-msgstr ""
-
-#: admin/modules/core/page.did.php:88
-msgid " (toggle sort)"
-msgstr ""
-
-#: admin/modules/core/page.did.php:92 admin/modules/core/page.did.php:161
-#: admin/modules/core/page.did.php:192 admin/modules/core/page.did.php:203
-msgid "Add Incoming Route"
-msgstr ""
-
-#: admin/modules/core/page.did.php:93
-msgid "All DIDs"
-msgstr ""
-
-#: admin/modules/core/page.did.php:94
-msgid "User DIDs"
-msgstr ""
-
-#: admin/modules/core/page.did.php:95
-msgid "General DIDs"
-msgstr ""
-
-#: admin/modules/core/page.did.php:96
-msgid "Unused DIDs"
-msgstr ""
-
-#: admin/modules/core/page.did.php:128
-msgid "any DID"
-msgstr ""
-
-#: admin/modules/core/page.did.php:129
-msgid "any CID"
-msgstr ""
-
-#: admin/modules/core/page.did.php:153 admin/modules/core/page.trunks.php:286
-msgid "Route"
-msgstr ""
-
-#: admin/modules/core/page.did.php:167 admin/modules/core/page.routing.php:283
-#, php-format
-msgid "Delete Route %s"
-msgstr ""
-
-#: admin/modules/core/page.did.php:185
-#, php-format
-msgid "Edit %s"
-msgstr ""
-
-#: admin/modules/core/page.did.php:185
-#, php-format
-msgid "Edit %s %s (%s)"
-msgstr ""
-
-#: admin/modules/core/page.did.php:203
-msgid "Edit Incoming Route"
-msgstr ""
-
-#: admin/modules/core/page.did.php:205
-msgid "Provide a meaningful description of what this incoming route is"
-msgstr ""
-
-#: admin/modules/core/page.did.php:209
-msgid "DID Number"
-msgstr ""
-
-#: admin/modules/core/page.did.php:209
-msgid ""
-"Define the expected DID Number if your trunk passes DID on incoming calls. "
-"<br><br>Leave this blank to match calls with any or no DID info.<br><br>You "
-"can also use a pattern match (eg _2[345]X) to match a range of numbers"
-msgstr ""
-
-#: admin/modules/core/page.did.php:213
-msgid "Caller ID Number"
-msgstr ""
-
-#: admin/modules/core/page.did.php:213
-msgid ""
-"Define the Caller ID Number to be matched on incoming calls.<br><br>Leave "
-"this field blank to match any or no CID info. In addition to standard dial "
-"sequences, you can also put Private, Blocked, Unknown, Restricted, Anonymous "
-"and Unavailable in order to catch these special cases if the Telco transmits "
-"them."
-msgstr ""
-
-#: admin/modules/core/page.did.php:218
-msgid "CID Priority Route"
-msgstr ""
-
-#: admin/modules/core/page.did.php:218
-msgid ""
-"This effects CID ONLY routes where no DID is specified. If checked, calls "
-"with this CID will be routed to this route, even if there is a route to the "
-"DID that was called. Normal behavior is for the DID route to take the calls. "
-"If there is a specific DID/CID route for this CID, that route will still "
-"take the call when that DID is called."
-msgstr ""
-
-#: admin/modules/core/page.did.php:222
-msgid "Options"
-msgstr ""
-
-#: admin/modules/core/page.did.php:224
-msgid "Alert Info"
-msgstr ""
-
-#: admin/modules/core/page.did.php:224
-msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
-msgstr ""
-
-#: admin/modules/core/page.did.php:228
-msgid "CID name prefix"
-msgstr ""
-
-#: admin/modules/core/page.did.php:228
-msgid ""
-"You can optionally prefix the Caller ID name. ie: If you prefix with \"Sales:"
-"\", a call from John Doe would display as \"Sales:John Doe\" on the "
-"extensions that ring."
-msgstr ""
-
-#: admin/modules/core/page.did.php:233
-msgid "Music On Hold"
-msgstr ""
-
-#: admin/modules/core/page.did.php:233
-msgid ""
-"Set the MoH class that will be used for calls that come in on this route. "
-"For example, choose a type appropriate for routes coming in from a country "
-"which may have announcements in their language."
-msgstr ""
-
-#: admin/modules/core/page.did.php:242
-msgid "No Music"
-msgstr ""
-
-#: admin/modules/core/page.did.php:253
-msgid "Signal RINGING"
-msgstr ""
-
-#: admin/modules/core/page.did.php:253
-msgid ""
-"Some devices or providers require RINGING to be sent before ANSWER. You'll "
-"notice this happening if you can send calls directly to a phone, but if you "
-"send it to an IVR, it won't connect the call."
-msgstr ""
-
-#: admin/modules/core/page.did.php:257
-msgid "Pause Before Answer"
-msgstr ""
-
-#: admin/modules/core/page.did.php:257
-msgid ""
-"An optional delay to wait before processing this route. Setting this value "
-"will delay the channel from answering the call. This may be handy if "
-"external fax equipment or security systems are installed in parallel and you "
-"would like them to be able to seize the line."
-msgstr ""
-
-#: admin/modules/core/page.did.php:261
-msgid "Privacy"
-msgstr ""
-
-#: admin/modules/core/page.did.php:264
-msgid "Privacy Manager"
-msgstr ""
-
-#: admin/modules/core/page.did.php:264
-msgid ""
-"If no Caller ID is sent, Privacy Manager will asks the caller to enter their "
-"10 digit phone number. The caller is given 3 attempts. The number of digits "
-"and attempts can be defined in privacy.conf. If a user has Call Screening "
-"enabled, the incoming caller will be asked to enter their CallerId here if "
-"enabled, and then to say their name once determined that the called user "
-"requires it."
-msgstr ""
-
-#: admin/modules/core/page.did.php:267 admin/modules/core/page.general.php:445
-msgid "No"
-msgstr ""
-
-#: admin/modules/core/page.did.php:268 admin/modules/core/page.general.php:444
-msgid "Yes"
-msgstr ""
-
-#: admin/modules/core/page.did.php:273
-msgid "Fax Handling"
-msgstr ""
-
-#: admin/modules/core/page.did.php:277
-msgid "Fax Extension"
-msgstr ""
-
-#: admin/modules/core/page.did.php:277
-msgid ""
-"Select 'system' to have the system receive and email faxes.<br><br>The "
-"FreePBX default is defined in General Settings."
-msgstr ""
-
-#: admin/modules/core/page.did.php:281
-msgid "FreePBX default"
-msgstr ""
-
-#: admin/modules/core/page.did.php:282 admin/modules/core/page.general.php:375
-msgid "disabled"
-msgstr ""
-
-#: admin/modules/core/page.did.php:283 admin/modules/core/page.general.php:376
-msgid "system"
-msgstr ""
-
-#: admin/modules/core/page.did.php:298
-msgid "Fax Email"
-msgstr ""
-
-#: admin/modules/core/page.did.php:298
-msgid ""
-"Email address is used if 'system' has been chosen for the fax extension "
-"above.<br><br>Leave this blank to use the FreePBX default in General "
-"Settings."
-msgstr ""
-
-#: admin/modules/core/page.did.php:305
-msgid "Fax Detection Type"
-msgstr ""
-
-#: admin/modules/core/page.did.php:305
-msgid ""
-"Selecting Zaptel or NVFax will immediately answer the call and play ringing "
-"tones to the caller for the number of seconds in Pause below. Use NVFax on "
-"SIP or IAX trunks."
-msgstr ""
-
-#: admin/modules/core/page.did.php:308
-msgid "None"
-msgstr ""
-
-#: admin/modules/core/page.did.php:309
-msgid "Zaptel"
-msgstr ""
-
-#: admin/modules/core/page.did.php:310
-msgid "NVFax"
-msgstr ""
-
-#: admin/modules/core/page.did.php:315
-msgid "Pause After Answer"
-msgstr ""
-
-#: admin/modules/core/page.did.php:315
-msgid ""
-"The number of seconds we should wait after performing an Immediate Answer. "
-"The primary purpose of this is to pause and listen for a fax tone before "
-"allowing the call to proceed."
-msgstr ""
-
-#: admin/modules/core/page.did.php:324
-msgid "Set Destination"
-msgstr ""
-
-#: admin/modules/core/page.did.php:333
-msgid "Clear Destination & Submit"
-msgstr ""
-
-#: admin/modules/core/page.did.php:345
-msgid "Please enter a valid DID Number"
-msgstr ""
-
-#: admin/modules/core/page.did.php:346
-msgid "Please enter a valid Caller ID Number"
-msgstr ""
-
-#: admin/modules/core/page.did.php:347
-msgid "Please enter a valid Fax Email or leave it empty to use the default"
-msgstr ""
-
-#: admin/modules/core/page.did.php:348
-msgid "Please enter a valid number for Pause after answer"
-msgstr ""
-
-#: admin/modules/core/page.did.php:349
-msgid "Please enter a valid number for Pause Before Answer field"
-msgstr ""
-
-#: admin/modules/core/page.did.php:350
-msgid ""
-"Leaving the DID Number AND the Caller ID Number empty will match all "
-"incoming calls received not routed using any other defined Incoming Route.\\n"
-"\\nAre you sure?"
-msgstr ""
-
-#: admin/modules/core/page.did.php:351
-msgid ""
-"DID information is normally just an incoming telephone number or for "
-"advanced users, a valid Asterisk Dial Pattern\\n\\nYou have entered a non "
-"standard DID pattern.\\n\\nAre you sure this is correct?"
-msgstr ""
-
-#: admin/modules/core/page.did.php:352
-msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
-msgstr ""
-
-#: admin/modules/core/page.did.php:353
-msgid "Invalid Caller ID prefix."
-msgstr ""
-
-#: admin/modules/core/page.general.php:113
-msgid "Dialing Options"
-msgstr ""
-
-#: admin/modules/core/page.general.php:116
-msgid "Asterisk Dial command options:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:117
-#: admin/modules/core/page.general.php:128
-msgid "t: Allow the called user to transfer the call by hitting #"
-msgstr ""
-
-#: admin/modules/core/page.general.php:118
-#: admin/modules/core/page.general.php:129
-msgid "T: Allow the calling user to transfer the call by hitting #"
-msgstr ""
-
-#: admin/modules/core/page.general.php:119
-msgid "r: Generate a ringing tone for the calling party"
-msgstr ""
-
-#: admin/modules/core/page.general.php:120
-#: admin/modules/core/page.general.php:130
-msgid ""
-"w: Allow the called user to start recording after pressing *1 (Asterisk v1.2)"
-msgstr ""
-
-#: admin/modules/core/page.general.php:121
-#: admin/modules/core/page.general.php:131
-msgid ""
-"W: Allow the calling user to start recording after pressing *1 (Asterisk "
-"v1.2)"
-msgstr ""
-
-#: admin/modules/core/page.general.php:127
-msgid "Asterisk Outbound Dial command options:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:132
-msgid "r: You SHOULD NOT use this option on outbound trunks"
-msgstr ""
-
-#: admin/modules/core/page.general.php:139
-msgid "Call Recording"
-msgstr ""
-
-#: admin/modules/core/page.general.php:142
-msgid "Extension Recording Override:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:143
-msgid ""
-"This will override the recording settings of all extensions/users. If "
-"enabled, the system will ignore all Record Always settings of a user and "
-"will not turn on recording. This does not effect On Demand recording "
-"controlled by the dial options 'w' and 'W' above. It does not effect other "
-"recording settings in modules such as Queues and Conferences. If you don't "
-"use recordings, setting this is beneficial to system performance as it "
-"removes the check that is otherwise done on every single call."
-msgstr ""
-
-#: admin/modules/core/page.general.php:151
-msgid "Call recording format:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:152
-msgid "Pick the format in which to save recorded calls"
-msgstr ""
-
-#: admin/modules/core/page.general.php:156
-msgid "WAV"
-msgstr ""
-
-#: admin/modules/core/page.general.php:157
-msgid "wav"
-msgstr ""
-
-#: admin/modules/core/page.general.php:158
-msgid "ulaw"
-msgstr ""
-
-#: admin/modules/core/page.general.php:159
-msgid "alaw"
-msgstr ""
-
-#: admin/modules/core/page.general.php:160
-msgid "sln"
-msgstr ""
-
-#: admin/modules/core/page.general.php:161
-msgid "gsm"
-msgstr ""
-
-#: admin/modules/core/page.general.php:162
-msgid "g729"
-msgstr ""
-
-#: admin/modules/core/page.general.php:166
-msgid "Recording Location:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:167
-msgid ""
-"Override the default location where asterisk will store call recordings. "
-"Include the trailing /. Be sure to set proper permissions on the directory "
-"for the asterisk user."
-msgstr ""
-
-#: admin/modules/core/page.general.php:173
-msgid "Run after record:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:174
-msgid ""
-"An optional script to be run after the call is hungup. You can include "
-"channel and MixMon variables like ${CALLFILENAME}, ${MIXMON_FORMAT} and "
-"${MIXMON_DIR}. To ensure that you variables are properly escaped, use the "
-"following notation: ^{MY_VAR}"
-msgstr ""
-
-#: admin/modules/core/page.general.php:181
-msgid "Voicemail"
-msgstr ""
-
-#: admin/modules/core/page.general.php:184
-msgid "Ringtime Default:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:185
-msgid ""
-"Default number of seconds to ring phones before sending callers to "
-"voicemail. This can be set per extension/user and will have no effect on "
-"phones with no voicemail."
-msgstr ""
-
-#: admin/modules/core/page.general.php:191
-msgid "Direct Dial Voicemail Prefix:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:192
-msgid ""
-"Prefix used to dial directly to someone's voicemail. Caution should be taken "
-"in choosing this prefix to avoid conflicts with featurecodes."
-msgstr ""
-
-#: admin/modules/core/page.general.php:198
-msgid "Direct Dial to Voicemail message type:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:199
-msgid ""
-"Default message type to use when dialing direct to an extensions voicemail"
-msgstr ""
-
-#: admin/modules/core/page.general.php:204
-msgid "Unavailable"
-msgstr ""
-
-#: admin/modules/core/page.general.php:206
-msgid "No Message"
-msgstr ""
-
-#: admin/modules/core/page.general.php:210
-msgid "Optional Voicemail Recording Gain:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:211
-msgid "Use the specified amount of gain when recording the voicemail message."
-msgstr ""
-
-#: admin/modules/core/page.general.php:212
-msgid "The units are whole-number decibels (dB)."
-msgstr ""
-
-#: admin/modules/core/page.general.php:217
-msgid "Do Not Play \"please leave message after tone\" to caller"
-msgstr ""
-
-#: admin/modules/core/page.general.php:217
-msgid ""
-"Check this to remove the default message \"Please leave your message after "
-"the tone. When done, hang-up, or press the pound key.\" That is played after "
-"the voicemail greeting (the s option). This applies globally to all vm boxes."
-msgstr ""
-
-#: admin/modules/core/page.general.php:223
-msgid "Voicemail VmX Locator"
-msgstr ""
-
-#: admin/modules/core/page.general.php:227
-msgid "Default Context & Pri:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:228
-msgid "Default to use if only a number/extension are provided."
-msgstr ""
-
-#: admin/modules/core/page.general.php:235
-msgid "Timeout/#-press default:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:236
-msgid ""
-"This is the default location that a caller will be sent if they don't press "
-"any key (timeout) or press # which is interpreted as a timeout. Set this to "
-"'dovm' to go to voicemail (default)."
-msgstr ""
-
-#: admin/modules/core/page.general.php:244
-msgid "Loop Exceed default:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:245
-msgid ""
-"This is the default location that a caller will be sent if they press an "
-"invalid options too man times, as defined by the Maximum Loops count. Set "
-"this to 'dovm' to go to voicemail (default)."
-msgstr ""
-
-#: admin/modules/core/page.general.php:253
-msgid "Timeout VM Msg:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:254
-#: admin/modules/core/page.general.php:266
-msgid ""
-"If this destination is voicemail, select whether or not to play the standard "
-"voicemail instructions or just beep."
-msgstr ""
-
-#: admin/modules/core/page.general.php:258
-#: admin/modules/core/page.general.php:270
-#: admin/modules/core/page.general.php:282
-msgid "Std Instructions"
-msgstr ""
-
-#: admin/modules/core/page.general.php:259
-#: admin/modules/core/page.general.php:271
-#: admin/modules/core/page.general.php:283
-msgid "Beep Only"
-msgstr ""
-
-#: admin/modules/core/page.general.php:265
-msgid "Max Loop VM Msg:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:277
-msgid "Direct VM Option"
-msgstr ""
-
-#: admin/modules/core/page.general.php:278
-msgid ""
-"If a user defined option is to go to voicemail (using the 'dovm' extension) "
-"this is the default option if not specified by the user's settings."
-msgstr ""
-
-#: admin/modules/core/page.general.php:289
-msgid "Msg Timeout:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:290
-msgid ""
-"Time to wait after message has played to timeout and/or repeat the message "
-"if no entry pressed."
-msgstr ""
-
-#: admin/modules/core/page.general.php:302
-msgid "seconds"
-msgstr ""
-
-#: admin/modules/core/page.general.php:307
-msgid "Msg Play:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:308
-msgid ""
-"Number of times to play the recorded message if the caller does not press "
-"any options and it times out."
-msgstr ""
-
-#: admin/modules/core/page.general.php:320
-#: admin/modules/core/page.general.php:338
-msgid "times"
-msgstr ""
-
-#: admin/modules/core/page.general.php:325
-msgid "Error Re-tries:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:326
-msgid ""
-"Number of times to play invalid options and repeat the message upon "
-"receiving an undefined option."
-msgstr ""
-
-#: admin/modules/core/page.general.php:343
-msgid "Company Directory"
-msgstr ""
-
-#: admin/modules/core/page.general.php:346
-msgid "Find users in the Company Directory by:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:346
-msgid ""
-"The Company Directory allows a caller to spell the user's first name, last "
-"name, or both when searching for a user. This will select which of these "
-"modes are used."
-msgstr ""
-
-#: admin/modules/core/page.general.php:349
-msgid "first name"
-msgstr ""
-
-#: admin/modules/core/page.general.php:350
-msgid "last name"
-msgstr ""
-
-#: admin/modules/core/page.general.php:351
-msgid "first or last name"
-msgstr ""
-
-#: admin/modules/core/page.general.php:355
-msgid "Announce Extension:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:355
-msgid ""
-"Plays a message \"Please hold while I transfer you to extension xxx\" that "
-"lets the caller know what extension to use in the future when connecting "
-"from the company directory."
-msgstr ""
-
-#: admin/modules/core/page.general.php:360
-msgid "Operator Extension:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:361
-msgid ""
-"When users hit '0' in the directory, they are put through to this number. "
-"Note that it"
-msgstr ""
-
-#: admin/modules/core/page.general.php:362
-msgid ""
-" does NOT need to be an extension, it can be a Ring Group, or even an "
-"external number."
-msgstr ""
-
-#: admin/modules/core/page.general.php:368
-msgid "Fax Machine"
-msgstr ""
-
-#: admin/modules/core/page.general.php:371
-msgid "Extension of fax machine for receiving faxes:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:371
-msgid ""
-"Select 'system' to have the system receive and email faxes.<br>Selecting "
-"'disabled' will result in incoming calls being answered more quickly."
-msgstr ""
-
-#: admin/modules/core/page.general.php:389
-msgid "Email address to have faxes emailed to:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:389
-msgid ""
-"Email address used if 'system' has been chosen for the fax extension above."
-msgstr ""
-
-#: admin/modules/core/page.general.php:394
-msgid "Email address that faxes appear to come from:"
-msgstr ""
-
-#: admin/modules/core/page.general.php:394
-msgid ""
-"Email address that faxes appear to come from if 'system' has been chosen for "
-"the fax extension above."
-msgstr ""
-
-#: admin/modules/core/page.general.php:399
-msgid "International Settings"
-msgstr ""
-
-#: admin/modules/core/page.general.php:402
-msgid "Country Indications"
-msgstr ""
-
-#: admin/modules/core/page.general.php:402
-msgid "Select which country you are in"
-msgstr ""
-
-#: admin/modules/core/page.general.php:411
-msgid "24-hour format"
-msgstr ""
-
-#: admin/modules/core/page.general.php:411
-msgid ""
-"Select Yes if you use 24-hour format or No if you are using 12-hour am/pm "
-"format"
-msgstr ""
-
-#: admin/modules/core/page.general.php:414
-#: admin/modules/core/page.general.php:429
-msgid "no"
-msgstr ""
-
-#: admin/modules/core/page.general.php:415
-#: admin/modules/core/page.general.php:430
-msgid "yes"
-msgstr ""
-
-#: admin/modules/core/page.general.php:419
-msgid "Security Settings"
-msgstr ""
-
-#: admin/modules/core/page.general.php:422
-msgid "Allow Anonymous Inbound SIP Calls?"
-msgstr ""
-
-#: admin/modules/core/page.general.php:423
-msgid "** WARNING **"
-msgstr ""
-
-#: admin/modules/core/page.general.php:424
-msgid ""
-"Setting this to 'yes' will potentially allow ANYBODY to call into your "
-"Asterisk server using the SIP protocol"
-msgstr ""
-
-#: admin/modules/core/page.general.php:425
-msgid ""
-"It should only be used if you fully understand the impact of allowing "
-"anonymous calls into your server"
-msgstr ""
-
-#: admin/modules/core/page.general.php:435
-msgid "Online Updates"
-msgstr ""
-
-#: admin/modules/core/page.general.php:439
-msgid "Check for Updates"
-msgstr ""
-
-#: admin/modules/core/page.general.php:440
-msgid ""
-"Choosing Yes will result in the system automatically checking for updates "
-"nighly. The resulting infomation will be displayed in the dashboard and will "
-"be optionally emailed to the address below if provided.<br />This will "
-"transmit your FreePBX and Asterisk version numbers along with a unique but "
-"random identifier. This is used to provide proper update information and to "
-"track version usage to focus development and maintenance efforts. No private "
-"information is transmitted."
-msgstr ""
-
-#: admin/modules/core/page.general.php:451
-msgid "Update Email"
-msgstr ""
-
-#: admin/modules/core/page.general.php:452
-msgid ""
-"Email address where online updates will be sent. Leaving blank will result "
-"in no updates being sent."
-msgstr ""
-
-#: admin/modules/core/page.general.php:482
-msgid "Please enter a valid Number of Seconds"
-msgstr ""
-
-#: admin/modules/core/page.general.php:483
-msgid "Please enter a valid Fax Email"
-msgstr ""
-
-#: admin/modules/core/page.general.php:484
-msgid ""
-"You have selected the 'r' option for your trunks. This is highly discouraged "
-"and will create problems with calls on many PRI, VoIP, ISDN and other trunks "
-"that are capable of signaling. Asterisk will generate a ringing tone until "
-"the signalling indicates the line is answered. This will result in some "
-"external IVRs being inaccessible and other strange problems."
-msgstr ""
-
-#: admin/modules/core/page.routing.php:126
-msgid "Error renaming route: duplicate name"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:172
-#: admin/modules/core/page.trunks.php:144
-msgid "Error fetching prefix list for: "
-msgstr ""
-
-#: admin/modules/core/page.routing.php:177
-#: admin/modules/core/page.trunks.php:149
-msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:208
-#: admin/modules/core/page.routing.php:273
-msgid "Add Route"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:223
-#: admin/modules/core/page.routing.php:536
-msgid "Move Up"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:230
-#: admin/modules/core/page.routing.php:544
-msgid "Move Down"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:271
-msgid "Edit Route"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:298
-msgid "Route Name"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:298
-msgid ""
-"Name of this route. Should be used to describe what type of calls this route "
-"matches (for example, 'local' or 'longdistance')."
-msgstr ""
-
-#: admin/modules/core/page.routing.php:304
-msgid "Rename"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:309
-msgid "Rename route"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:309
-msgid "to:"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:311
-msgid "Route name is invalid...please try again"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:326
-msgid "Route Password"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:326
-msgid ""
-"Optional: A route can prompt users for a password before allowing calls to "
-"progress.  This is useful for restricting calls to international "
-"destinations or 1-900 numbers.<br><br>A numerical password, or the path to "
-"an Authenticate password file can be used.<br><br>Leave this field blank to "
-"not prompt for password.</span>"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:335
-msgid "Emergency Dialing"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:335
-msgid ""
-"Optional: Selecting this option will enforce the use of a device's Emergency "
-"CID setting (if set).  Select this option if this set of routes is used for "
-"emergency dialing (ie: 911).</span>"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:339
-msgid "Intra Company Route"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:339
-msgid ""
-"Optional: Selecting this option will treat this route as a intra-company "
-"connection, preserving the internal Caller ID information and not use the "
-"outbound CID of either the extension or trunk.</span>"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:344
-msgid "Music On Hold?"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:344
-msgid ""
-"You can choose which music category to use. For example, choose a type "
-"appropriate for a destination country which may have announcements in the "
-"appropriate language."
-msgstr ""
-
-#: admin/modules/core/page.routing.php:362
-msgid "Dial Patterns"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:362
-msgid ""
-"A Dial Pattern is a unique set of digits that will select this trunk. Enter "
-"one dial pattern per line."
-msgstr ""
-
-#: admin/modules/core/page.routing.php:362
-#: admin/modules/core/page.trunks.php:412
-msgid "Rules:"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:363
-#: admin/modules/core/page.trunks.php:413
-msgid "matches any digit from 0-9"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:364
-#: admin/modules/core/page.trunks.php:414
-msgid "matches any digit from 1-9"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:365
-#: admin/modules/core/page.trunks.php:415
-msgid "matches any digit from 2-9"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:366
-#: admin/modules/core/page.trunks.php:416
-msgid ""
-"matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:367
-msgid "wildcard, matches one or more characters"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:368
-msgid ""
-"separates a dialing prefix from the number (for example, 9|NXXXXXX would "
-"match when some dialed \"95551234\" but would only pass \"5551234\" to the "
-"trunks)"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:405
-#: admin/modules/core/page.trunks.php:431
-msgid "Clean & Remove duplicates"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:410
-msgid "Dial patterns wizards"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:411
-msgid ""
-"These options provide a quick way to add outbound dialing rules. Follow the "
-"prompts for each."
-msgstr ""
-
-#: admin/modules/core/page.routing.php:412
-#: admin/modules/core/page.routing.php:498
-msgid "Lookup local prefixes"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:412
-msgid ""
-"This looks up your local number on www.localcallingguide.com (NA-only), and "
-"sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, "
-"16135551234) to access this route."
-msgstr ""
-
-#: admin/modules/core/page.routing.php:423
-#: admin/modules/core/page.trunks.php:481
-msgid ""
-"What is your areacode + prefix (NPA-NXX)?\\n\\n(Note: this database contains "
-"North American numbers only, and is not guaranteed to be 100% accurate. You "
-"will still have the option of modifying results.)\\n\\nThis may take a few "
-"seconds."
-msgstr ""
-
-#: admin/modules/core/page.routing.php:425
-#: admin/modules/core/page.trunks.php:483
-msgid "Invalid NPA-NXX. Must be of the format \\'NXX-NXX\\'"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:433
-#: admin/modules/core/page.trunks.php:495
-msgid ""
-"Error: Cannot continue!\\n\\nPrefix lookup requires cURL support in PHP on "
-"the server. Please install or enable cURL support in your PHP installation "
-"to use this function. See http://www.php.net/curl for more information."
-msgstr ""
-
-#: admin/modules/core/page.routing.php:490
-#: admin/modules/core/page.trunks.php:442
-msgid "(pick one)"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:491
-msgid "Local 7 digit"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:492
-msgid "Local 7/10 digit"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:493
-msgid "Toll-free"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:494
-msgid "Long-distance"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:495
-msgid "International"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:496
-msgid "Information"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:497
-msgid "Emergency"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:504
-msgid "Trunk Sequence"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:504
-msgid ""
-"The Trunk Sequence controls the order of trunks that will be used when the "
-"above Dial Patterns are matched. <br><br>For Dial Patterns that match long "
-"distance numbers, for example, you'd want to pick the cheapest routes for "
-"long distance (ie, VoIP trunks first) followed by more expensive routes "
-"(POTS lines)."
-msgstr ""
-
-#: admin/modules/core/page.routing.php:626
-msgid "Route name is invalid, please try again"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:627
-msgid "Route password must be numeric or leave blank to disable"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:628
-msgid "Dial pattern is invalid"
-msgstr ""
-
-#: admin/modules/core/page.routing.php:629
-msgid "At least one trunk must be picked"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:164
-msgid "Add Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:206
-msgid "Add a Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:210
-msgid "Add Zap Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:210
-#: admin/modules/core/page.trunks.php:318
-msgid "DAHDI compatibility mode"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:211
-msgid "Add SIP Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:212
-msgid "Add IAX2 Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:213
-msgid "Add ENUM Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:214
-msgid "Add DUNDi Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:215
-msgid "Add Custom Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:272
-#, php-format
-msgid "Edit %s Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:272
-msgid "DAHDI compatibility Mode"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:274
-#, php-format
-msgid "Delete Trunk %s"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:284
-msgid "In use by"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:284
-msgid "route"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:284
-msgid "routes"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:286
-msgid "Sequence"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:290
-msgid "WARNING:"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:290
-msgid "This trunk is not used by any routes!"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:291
-msgid ""
-"This trunk will not be able to be used for outbound calls until a route is "
-"setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:318
-#, php-format
-msgid "Add %s Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:322
-msgid ""
-"FreePBX offers limited support for DUNDi trunks and additional manual "
-"configuration is required. The trunk name should correspond to the "
-"[mappings] section of the remote dundi.conf systems. For example, you may "
-"have a mapping on the remote system, and corresponding configurations in "
-"dundi.conf locally, that looks as follows:<br /><br />[mappings]<br />priv "
-"=> dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},noparital<br /"
-"><br />In this example, you would create this trunk and name it priv. You "
-"would then create the corresponding IAX2 trunk with proper settings to work "
-"with DUNDi. This can be done by making an IAX2 trunk in FreePBX or by using "
-"the iax_custom.conf file.<br />The dundi-extens context in this example must "
-"be created in extensions_custom.conf. This can simply include contexts such "
-"as ext-local, ext-intercom-users, ext-paging and so forth to provide access "
-"to the corresponding extensions and features provided by these various "
-"contexts and generated by FreePBX."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:352
-msgid "Trunk Description"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:352
-msgid "Descriptive Name for this Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:359
-msgid "Outbound Caller ID"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:359
-msgid ""
-"Caller ID for calls placed out on this trunk<br><br>Format: <b>&lt;"
-"#######&gt;</b>. You can also use the format: \"hidden\" <b>&lt;#######&gt;</"
-"b> to hide the CallerID sent out over Digital lines if supported (E1/T1/J1/"
-"BRI/SIP/IAX)."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:366
-msgid "Block Foreign CallerIDs"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:366
-msgid ""
-"Some VoIP providers will drop the call if you try to send an invalid "
-"CallerID (one you don't 'own.' Use this to never send a CallerID that you "
-"haven't explicitly specified in this trunk or in the outbound callerid field "
-"of an extension/user. You might notice this problem if you discover that "
-"Follow-Me or RingGroups with external numbers don't work properly. Checking "
-"this box has the effect of disabling 'foreign' callerids from going out this "
-"trunk. You must define an Outbound Caller ID on the this trunk when checking "
-"this."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:376
-#: admin/modules/core/page.trunks.php:380
-msgid "Maximum Channels"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:376
-#, php-format
-msgid ""
-"Controls the maximum number of outbound channels (simultaneous calls) that "
-"can be used on this trunk. To count inbound calls against this maximum, use "
-"the auto-generated context: %s as the inbound trunk's context. (see "
-"extensions_additional.conf) Leave blank to specify no maximum."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:380
-msgid ""
-"Controls the maximum number of outbound channels (simultaneous calls) that "
-"can be used on this trunk. Inbound calls are not counted against the "
-"maximum. Leave blank to specify no maximum."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:390
-msgid "Disable Trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:390
-msgid "Check this to disable this trunk in all routes where it is used."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:397
-msgid "Monitor Trunk Failures"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:397
-msgid ""
-"If checked, supply the name of a custom AGI Script that will be called to "
-"report, log, email or otherwise take some action on trunk failures that are "
-"not caused by either NOANSWER or CANCEL."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:407
-msgid "Outgoing Dial Rules"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:412
-msgid "Dial Rules"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:412
-msgid ""
-"A Dial Rule controls how calls will be dialed on this trunk. It can be used "
-"to add or remove prefixes. Numbers that don't match any patterns defined "
-"here will be dialed as-is. Note that a pattern without a + or | (to add or "
-"remove a prefix) will not make any changes but will create a match. Only the "
-"first matched rule will be executed and the remaining rules will not be "
-"acted on."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:417
-msgid "wildcard, matches one or more characters (not allowed before a | or +)"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:418
-msgid ""
-"removes a dialing prefix from the number (for example, 613|NXXXXXX would "
-"match when some dialed \"6135551234\" but would only pass \"5551234\" to the "
-"trunk)"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:419
-msgid ""
-"adds a dialing prefix from the number (for example, 1613+NXXXXXX would match "
-"when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:420
-msgid ""
-"You can also use both + and |, for example: 01+0|1ZXXXXXXXXX would match "
-"\"016065551234\" and dial it as \"0116065551234\" Note that the order does "
-"not matter, eg. 0|01+1ZXXXXXXXXX does the same thing."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:436
-msgid "Dial Rules Wizards"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:437
-#: admin/modules/core/page.trunks.php:443
-msgid "Always dial with prefix"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:437
-msgid ""
-"is useful for VoIP trunks, where if a number is dialed as \"5551234\", it "
-"can be converted to \"16135551234\"."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:438
-#: admin/modules/core/page.trunks.php:444
-msgid "Remove prefix from local numbers"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:438
-msgid ""
-"is useful for ZAP trunks, where if a local number is dialed as \"6135551234"
-"\", it can be converted to \"555-1234\"."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:439
-msgid "Lookup numbers for local trunk"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:439
-msgid ""
-"This looks up your local number on www.localcallingguide.com (NA-only), and "
-"sets up so you can dial either 7 or 10 digits (regardless of what your PSTN "
-"is) on a local trunk (where you have to dial 1+area code for long distance, "
-"but only 5551234 (7-digit dialing) or 6135551234 (10-digit dialing) for "
-"local calls"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:445
-msgid "Lookup numbers for local trunk (7-digit dialing)"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:446
-msgid "Lookup numbers for local trunk (10-digit dialing)"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:466
-msgid "Are you sure you want to disable this trunk in all routes it is used?"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:471
-msgid "You have enabled this trunk in all routes it is used"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:481
-msgid "\")"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:503
-msgid ""
-"What is the local dialing pattern?\\n\\n(ie. NXXNXXXXXX for US/CAN 10-digit "
-"dialing, NXXXXXX for 7-digit)"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:505
-#: admin/modules/core/page.trunks.php:528
-msgid "Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:508
-msgid ""
-"What prefix should be added to the dialing pattern?\\n\\n(ie. for US/CAN, 1"
-"+areacode, ie, \\'1613\\')?"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:510
-msgid "Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:521
-msgid ""
-"What prefix should be removed from the number?\\n\\n(ie. for US/CAN, 1"
-"+areacode, ie, \\'1613\\')"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:523
-msgid "Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:526
-msgid "What is the dialing pattern for local numbers after"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:526
-msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:651
-msgid "Outbound Dial Prefix"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:651
-msgid ""
-"The outbound dialing prefix is used to prefix a dialing string to all "
-"outbound calls placed on this trunk. For example, if this trunk is behind "
-"another PBX or is a Centrex line, then you would put 9 here to access an "
-"outbound line. Another common use is to prefix calls with 'w' on a POTS line "
-"that need time to obtain dial tone to avoid eating digits.<br><br>Most users "
-"should leave this option blank."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:659
-msgid "Outgoing Settings"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:670
-msgid "Zap Identifier (trunk name)"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:670
-msgid ""
-"ZAP channels are referenced either by a group number or channel number "
-"(which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> "
-"(group zero)."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:684
-msgid "Custom Dial String"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:684
-msgid "Define the custom Dial String.  Include the token"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:684
-msgid "wherever the number to dial should go.<br><br><b>examples:</b><br>"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:696
-msgid "DUNDi Mapping"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:696
-msgid ""
-"This is the name of the DUNDi mapping as defined in the [mappings] section "
-"of remote dundi.conf peers. This corresponds to the 'include' section of the "
-"peer details in the local dundi.conf file. This requires manual "
-"configuration of DUNDi to use this trunk."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:708
-msgid "Trunk Name"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:708
-msgid "Give this trunk a unique name.  Example: myiaxtel"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:715
-msgid "PEER Details"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:715
-msgid ""
-"Modify the default PEER connection parameters for your VoIP provider."
-"<br><br>You may need to add to the default lines listed below, depending on "
-"your provider.<br /><br />WARNING: Order is important as it will be "
-"retained. For example, if you use the \"allow/deny\" directives make sure "
-"deny comes first."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:725
-msgid "Incoming Settings"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:730
-msgid "USER Context"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:730
-msgid ""
-"This is most often the account name or number your provider expects."
-"<br><br>This USER Context will be used to define the below user details."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:737
-msgid "USER Details"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:737
-msgid "Modify the default USER connection parameters for your VoIP provider."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:737
-msgid ""
-"You may need to add to the default lines listed below, depending on your "
-"provider..<br /><br />WARNING: Order is important as it will be retained. "
-"For example, if you use the \"allow/deny\" directives make sure deny \n"
-"\t\t\t\tcomes first."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:748
-msgid "Registration"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:753
-msgid "Register String"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:753
-msgid ""
-"Most VoIP providers require your system to REGISTER with theirs. Enter the "
-"registration line here.<br><br>example:<br><br>username:password@switch."
-"voipprovider.com.<br><br>Many providers will require you to provide a DID "
-"number, ex: username:password@switch.voipprovider.com/didnumber in order for "
-"any DID matching to work."
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:781
-msgid "Invalid Outbound Caller ID"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:782
-msgid "Invalid Maximum Channels"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:783
-msgid "Invalid Dial Rules"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:784
-msgid "Invalid Outbound Dial Prefix"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:785
-msgid "Invalid Trunk Name entered"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:786
-msgid "Invalid Custom Dial String entered"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:787
-msgid "Trunk Name and User Context cannot be set to the same value"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:788
-msgid "User Context was left blank and User Details will not be saved!"
-msgstr ""
-
-#: admin/modules/core/page.trunks.php:789
-msgid ""
-"You must define an Outbound Caller ID when Choosing Never Override CallerID"
-msgstr ""
-
-#: admin/modules/core/page.users.php:40
-msgid ""
-"You have not entered a User Password.  While this is acceptable, this user "
-"will not be able to login to an AdHoc device.\\n\\nAre you sure you wish to "
-"leave the User Password empty?"
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:57
-#: admin/modules/core/page.zapchandids.php:91
-msgid "Add Channel"
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:78
-msgid "Edit Zap Channel: "
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:80
-msgid "Add Zap Channel"
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:83
-msgid ""
-"Zap Channel DIDs allow you to assign a DID to specific Zap Channels. You can "
-"supply the same DID to multiple channels. This would be a common scenario if "
-"you have multiple POTS lines that are on a hunt group from your provider. "
-"You MUST assign the channel's context to from-zaptel for these settings to "
-"have effect. It will be a line that looks like:<br /><br />context = from-"
-"zaptel<br /><br />in your zapata.conf configuration effecting the specified "
-"channel(s). Once you have assigned DIDs you can use standard Inbound Routes "
-"with the specified DIDs to route your calls."
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:91
-msgid "Edit Channel"
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:96
-msgid "Channel"
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:96
-msgid "The Zap Channel number to map to a DID"
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:103
-msgid "A useful description describing this channel"
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:107
-msgid "DID"
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:107
-msgid ""
-"The DID that this channel represents. The incoming call on this channel will "
-"be treated as if it came in with this DID and can be managed with Inbound "
-"Routing on DIDs"
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:113
-msgid "Delete"
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:129
-msgid ""
-"DID information is normally just an incoming telephone number.\\n\\nYou have "
-"entered a non standard DID pattern.\\n\\nAre you sure this is correct?"
-msgstr ""
-
-#: admin/modules/core/page.zapchandids.php:130
-msgid ""
-"You appear to be using a converted DID in the form of zapchanNN that was "
-"automatically generated during an upgrade. You should consider assigning the "
-"DID that is normally associated with this channel to take full advantage of "
-"the inbound routing abilities. Changing the DID here will require you to "
-"make changes in the Inbound Routes tab. Do you want to continue?"
-msgstr ""
-
-msgid "Tools"
-msgstr "כלים"
-
-msgid "Setup"
-msgstr "הגדרות"
-
-msgid "Call Cost"
-msgstr ""
-
-msgid "Type"
 msgstr ""
 
 msgid "Basic"
@@ -3786,65 +1063,1895 @@ msgstr ""
 msgid "Trunks"
 msgstr ""
 
+msgid "General Settings"
+msgstr ""
+
 msgid "Administrators"
 msgstr ""
 
 msgid "FreePBX Support"
 msgstr ""
 
-msgid "Edit existing Device"
+msgid "Terminate Call"
 msgstr ""
 
-msgid "Edit existing Extension"
+msgid "Hangup"
 msgstr ""
 
-msgid "Trunk"
+msgid "Congestion"
 msgstr ""
 
-msgid "Never Override CallerID"
+msgid "Busy"
 msgstr ""
 
-msgid "Internal Options & Configuration"
+msgid "Play SIT Tone (Zapateller)"
 msgstr ""
 
-msgid "Inbound Call Control"
+msgid "Put caller on hold forever"
 msgstr ""
 
-msgid "Maintenance"
+msgid "Play ringtones to caller until they hangup"
 msgstr ""
 
-msgid "Support"
+#, php-format
+msgid "User Extension %s: %s"
 msgstr ""
 
-msgid "System Administration"
+msgid "A route for this DID/CID already exists!"
 msgstr ""
 
-msgid "Third Party Addon"
+msgid "You must put in a device id"
 msgstr ""
 
-msgid "Module Admin"
-msgstr "ניהול מודולים"
+msgid "This device id is already in use"
+msgstr "מזהה התקן זה נמצא כבר בשימוש"
 
-msgid "FreePBX System Status"
+msgid "User Extension: "
 msgstr ""
 
-msgid "Config Edit"
+#, php-format
+msgid "Inbound Route: %s (%s)"
 msgstr ""
 
-msgid "Sys Info"
+msgid "You must put in an extension (or user) number"
 msgstr ""
 
-msgid "A2Billing Admin"
+#, php-format
+msgid "This user/extension %s is already in use"
 msgstr ""
 
-msgid "Time Groups"
+#, php-format
+msgid "A route with this DID/CID: %s/%s already exists"
 msgstr ""
 
-msgid "Custom Destinations"
+msgid "Invalid Channel Number, must be numeric and not blank"
 msgstr ""
 
-msgid "Custom Extensions"
+msgid "Invalid DID, must be a non-blank DID"
 msgstr ""
 
-msgid "Custom Applications"
+msgid "Error Duplicate Channel Entry"
+msgstr ""
+
+#, php-format
+msgid ""
+"Failed to open %s for writing, aborting attempt to write the country "
+"indications. The file may be readonly or the permissions may be incorrect."
+msgstr ""
+
+msgid "Failed to write indications.conf"
+msgstr ""
+
+msgid "On Demand"
+msgstr ""
+
+msgid "Always"
+msgstr ""
+
+msgid "Never"
+msgstr ""
+
+msgid "Screen Caller: No Memory"
+msgstr ""
+
+msgid "Screen Caller: Memory"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "deleted"
+msgstr ""
+
+msgid "Extension"
+msgstr ""
+
+#, php-format
+msgid "Delete Extension %s"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+#, php-format
+msgid "Delete User %s"
+msgstr ""
+
+msgid "Add User/Extension"
+msgstr ""
+
+msgid "Please enter a valid extension number."
+msgstr ""
+
+msgid "Please enter a valid CID Num Alias (must be a valid number)."
+msgstr ""
+
+msgid "Please enter valid User Password using numbers only"
+msgstr ""
+
+msgid "Please enter a valid Display Name"
+msgstr ""
+
+msgid "Please enter a valid Outbound CID"
+msgstr ""
+
+msgid "Please enter a valid pause time in seconds, using digits only"
+msgstr ""
+
+msgid ""
+"You have entered a non-standard dialpattern for your DID. You can only enter "
+"standard dialpatterns. You must use the inbound routing form to enter non-"
+"standard patterns"
+msgstr ""
+
+msgid ""
+"Please enter a valid Caller ID Number or leave it blank for your Assigned "
+"DID/CID pair"
+msgstr ""
+
+msgid "Edit Extension"
+msgstr ""
+
+msgid "Add Extension"
+msgstr ""
+
+msgid "Edit User"
+msgstr ""
+
+msgid "Add User"
+msgstr ""
+
+msgid "User Extension"
+msgstr ""
+
+msgid "The extension number to dial to reach this user."
+msgstr ""
+
+msgid "User Password"
+msgstr ""
+
+msgid "A user will enter this password when logging onto a device."
+msgstr ""
+
+msgid "logs into a device."
+msgstr ""
+
+msgid "logs out of a device."
+msgstr ""
+
+msgid "Display Name"
+msgstr ""
+
+msgid ""
+"The caller id name for calls from this user will be set to this name. Only "
+"enter the name, NOT the number."
+msgstr ""
+
+msgid "CID Num Alias"
+msgstr ""
+
+msgid ""
+"The CID Number to use for internal calls, if different from the extension "
+"number. This is used to masquerade as a different user. A common example is "
+"a team of support people who would like their internal callerid to display "
+"the general support number (a ringgroup or queue). There will be no effect "
+"on external calls."
+msgstr ""
+
+msgid "SIP Alias"
+msgstr ""
+
+msgid ""
+"If you want to support direct sip dialing of users internally or through "
+"anonymous sip calls, you can supply a friendly name that can be used in "
+"addition to the users extension to call them."
+msgstr ""
+
+msgid "User Devices"
+msgstr ""
+
+msgid "Edit:"
+msgstr ""
+
+msgid "Extension Options"
+msgstr ""
+
+msgid "Outbound CID"
+msgstr ""
+
+msgid ""
+"Overrides the caller id when dialing out a trunk. Any setting here will "
+"override the common outbound caller id set in the Trunks admin."
+"<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this "
+"field blank to disable the outbound callerid feature for this user."
+msgstr ""
+
+msgid "Ring Time"
+msgstr ""
+
+msgid ""
+"Number of seconds to ring prior to going to voicemail. Default will use the "
+"value set in the General Tab. If no voicemail is configured this will be "
+"ignored."
+msgstr ""
+
+msgid "Call Waiting"
+msgstr ""
+
+msgid "Set the initial/current Call Waiting state for this user's extension"
+msgstr ""
+
+msgid "Call Screening"
+msgstr ""
+
+msgid ""
+"Call Screening requires external callers to say their name, which will be "
+"played back to the user and allow the user to accept or reject the call.  "
+"Screening with memory only verifies a caller for their caller-id once. "
+"Screening without memory always requires a caller to say their name. Either "
+"mode will always announce the caller based on the last introduction saved "
+"with that callerid. If any user on the system uses the memory option, when "
+"that user is called, the caller will be required to re-introduce themselves "
+"and all users on the system will have that new introduction associated with "
+"the caller's CallerId."
+msgstr ""
+
+msgid "Pinless Dialing"
+msgstr ""
+
+msgid ""
+"Enabling Pinless Dialing will allow this extension to bypass any pin codes "
+"normally required on outbound calls"
+msgstr ""
+
+msgid "Assigned DID/CID"
+msgstr ""
+
+msgid "DID Description"
+msgstr ""
+
+msgid "A description for this DID, such as \"Fax\""
+msgstr ""
+
+msgid "Add Inbound DID"
+msgstr ""
+
+msgid ""
+"A direct DID that is associated with this extension. The DID should be in "
+"the same format as provided by the provider (e.g. full number, 4 digits for "
+"10x4, etc).<br><br>Format should be: <b>XXXXXXXXXX</b><br><br>.An optional "
+"CID can also be associated with this DID by setting the next box"
+msgstr ""
+
+msgid "Add Inbound CID"
+msgstr ""
+
+msgid ""
+"Add a CID for more specific DID + CID routing. A DID must be specified in "
+"the above Add DID box. In addition to standard dial sequences, you can also "
+"put Private, Blocked, Unknown, Restricted, Anonymous and Unavailable in "
+"order to catch these special cases if the Telco transmits them."
+msgstr ""
+
+msgid "DID / CID"
+msgstr ""
+
+msgid "Any DID"
+msgstr ""
+
+msgid "Recording Options"
+msgstr ""
+
+msgid "Record Incoming"
+msgstr ""
+
+msgid "Record all inbound calls received at this extension."
+msgstr ""
+
+msgid "Record Outgoing"
+msgstr ""
+
+msgid "Record all outbound calls received at this extension."
+msgstr ""
+
+msgid "Warning! Extension"
+msgstr ""
+
+msgid "is not allowed for your account"
+msgstr ""
+
+msgid "Conflicting Extensions"
+msgstr ""
+
+msgid ""
+"The following extension numbers are in conflict, you can click on the item"
+"(s) below to edit the conflicting entity."
+msgstr ""
+
+msgid "Configure user again:"
+msgstr ""
+
+msgid "Configure extension again:"
+msgstr ""
+
+msgid "Please enter the dtmfmode for this device"
+msgstr ""
+
+msgid "Please enter the channel for this device"
+msgstr ""
+
+msgid ""
+"You have not entered a Secret for this device, although this is possible it "
+"is generally bad practice to not assign a Secret to a device. Are you sure "
+"you want to leave the Secret empty?"
+msgstr ""
+
+msgid "Please enter a Secret for this device"
+msgstr ""
+
+msgid "Generic SIP Device"
+msgstr ""
+
+msgid "Generic IAX2 Device"
+msgstr ""
+
+msgid "Generic ZAP Device"
+msgstr ""
+
+msgid "Other (Custom) Device"
+msgstr ""
+
+msgid "None (virtual exten)"
+msgstr ""
+
+msgid "Fixed"
+msgstr ""
+
+msgid "Adhoc"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "New User"
+msgstr ""
+
+msgid "Add Device"
+msgstr ""
+
+msgid "Add an Extension"
+msgstr ""
+
+msgid "Please select your Device below then click Submit"
+msgstr ""
+
+msgid "Device"
+msgstr ""
+
+#, php-format
+msgid "Delete Device %s"
+msgstr ""
+
+#, php-format
+msgid "Edit Default User: %s"
+msgstr ""
+
+#, php-format
+msgid "Edit Fixed User: %s"
+msgstr ""
+
+#, php-format
+msgid "Add %s Device"
+msgstr ""
+
+#, php-format
+msgid "Add %s Extension"
+msgstr ""
+
+msgid "Please enter a device id."
+msgstr ""
+
+msgid "Please enter a valid Description for this device"
+msgstr ""
+
+msgid "Please enter a valid Emergency CID"
+msgstr ""
+
+msgid "Device Info"
+msgstr ""
+
+msgid "Device ID"
+msgstr ""
+
+msgid ""
+"Give your device a unique integer ID.  The device will use this ID to "
+"authenticate to the system."
+msgstr ""
+
+msgid ""
+"The caller id name for this device will be set to this description until it "
+"is logged into."
+msgstr ""
+
+msgid "Emergency CID"
+msgstr ""
+
+msgid ""
+"This caller id will always be set when dialing out an Outbound Route flagged "
+"as Emergency.  The Emergency CID overrides all other caller id settings."
+msgstr ""
+
+msgid "Device Type"
+msgstr ""
+
+msgid ""
+"Devices can be fixed or adhoc. Fixed devices are always associated to the "
+"same extension/user. Adhoc devices can be logged into and logged out of by "
+"users."
+msgstr ""
+
+msgid "Default User"
+msgstr ""
+
+msgid ""
+"Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
+"to this user by default.<br><br>If selecting 'New User', a new User "
+"Extension of the same Device ID will be set as the Default User."
+msgstr ""
+
+msgid "Device Options"
+msgstr ""
+
+#, php-format
+msgid "This device uses %s technology."
+msgstr ""
+
+msgid "Via DAHDI compatibility mode"
+msgstr ""
+
+msgid "User Logon"
+msgstr ""
+
+msgid "User Logoff"
+msgstr ""
+
+msgid "ZapBarge"
+msgstr ""
+
+msgid "ChanSpy"
+msgstr ""
+
+msgid "Simulate Incoming Call"
+msgstr ""
+
+msgid "Directed Call Pickup"
+msgstr ""
+
+msgid "Asterisk General Call Pickup"
+msgstr ""
+
+msgid "In-Call Asterisk Blind Transfer"
+msgstr ""
+
+msgid "In-Call Asterisk Attended Transfer"
+msgstr ""
+
+msgid "In-Call Asterisk Toggle Call Recording"
+msgstr ""
+
+msgid "In-Call Asterisk Disconnect Code"
+msgstr ""
+
+#, php-format
+msgid "ERROR: trying to check if %s already in use"
+msgstr ""
+
+msgid "Checking if directdids need migrating.."
+msgstr ""
+
+msgid "starting migration"
+msgstr ""
+
+msgid "User: "
+msgstr ""
+
+#, php-format
+msgid "ERROR: failed to insert %s for user %s"
+msgstr ""
+
+#, php-format
+msgid ""
+"There were %s failures migrating directdids, users table not being changed"
+msgstr ""
+
+#, php-format
+msgid "Removing field %s from users table.."
+msgstr ""
+
+msgid "not present"
+msgstr ""
+
+msgid "removed"
+msgstr ""
+
+msgid ""
+"ERROR: could not access user table to migrate directdids to incoming table, "
+"aborting"
+msgstr ""
+
+msgid "already done"
+msgstr ""
+
+msgid "updating zap callgroup, pickupgroup.."
+msgstr ""
+
+#, php-format
+msgid "updated %s callgroups, %s pickupgroups"
+msgstr ""
+
+msgid "not needed"
+msgstr ""
+
+msgid "checking for delay_answer field .."
+msgstr ""
+
+msgid "fatal error"
+msgstr ""
+
+msgid "added"
+msgstr ""
+
+msgid "already exists"
+msgstr ""
+
+msgid "checking for pricid field .."
+msgstr ""
+
+msgid "Checking for Global var RECORDING_STATE.."
+msgstr ""
+
+msgid "Created"
+msgstr ""
+
+msgid "Already exists!"
+msgstr ""
+
+msgid "Checking if trunk table migration required.."
+msgstr ""
+
+msgid "migrating.."
+msgstr ""
+
+msgid "removing globals.."
+msgstr ""
+
+msgid "done"
+msgstr ""
+
+msgid "Checking if trunks_dialpatterns table exists.."
+msgstr ""
+
+msgid "created"
+msgstr ""
+
+msgid "loading table from localprefixes.conf.."
+msgstr ""
+
+msgid "loaded"
+msgstr ""
+
+msgid "Checking if privacy manager options exists.."
+msgstr ""
+
+msgid "Added pmmaxretries and pmminlength"
+msgstr ""
+
+msgid "Edit Administrator"
+msgstr ""
+
+#, php-format
+msgid "Delete User: %s"
+msgstr ""
+
+msgid "Add Administrator"
+msgstr ""
+
+msgid "NOTE:"
+msgstr ""
+
+msgid ""
+"AUTHTYPE is not set to 'database' in /etc/amportal.conf - note that this "
+"module is not currently providing access control, and changing passwords "
+"here or adding users will have no effect unless AUTHTYPE is set to "
+"'database'."
+msgstr ""
+
+msgid "Username<span>Create a unique username for this new user</span>"
+msgstr ""
+
+msgid "Password<span>Create a password for this new user</span>"
+msgstr ""
+
+msgid "Access Restrictions"
+msgstr ""
+
+msgid ""
+"Department Name<span>Restrict this user's view of Digital Receptionist menus "
+"and System Recordings to only those for this department.</span>"
+msgstr ""
+
+msgid ""
+"Extension Range<span>Restrict this user's view to only Extensions, Ring "
+"Groups, and Queues within this range.</span>"
+msgstr ""
+
+msgid ""
+"Admin Access<span>Select the Admin Sections this user should have access to."
+"</span>"
+msgstr ""
+
+msgid "Apply Changes Bar"
+msgstr "באר החלת השינויים"
+
+msgid "ALL SECTIONS"
+msgstr ""
+
+msgid "Submit Changes"
+msgstr ""
+
+msgid "Username must not be blank"
+msgstr ""
+
+msgid ""
+"Username cannot start with a number, and can only contain letters and numbers"
+msgstr ""
+
+msgid "For security reasons, you cannot use the department name default"
+msgstr ""
+
+msgid "Department name cannot have a space"
+msgstr ""
+
+msgid " (toggle sort)"
+msgstr ""
+
+msgid "Add Incoming Route"
+msgstr ""
+
+msgid "All DIDs"
+msgstr ""
+
+msgid "User DIDs"
+msgstr ""
+
+msgid "General DIDs"
+msgstr ""
+
+msgid "Unused DIDs"
+msgstr ""
+
+msgid "any DID"
+msgstr ""
+
+msgid "any CID"
+msgstr ""
+
+msgid "Route"
+msgstr ""
+
+#, php-format
+msgid "Delete Route %s"
+msgstr ""
+
+#, php-format
+msgid "Edit %s"
+msgstr ""
+
+#, php-format
+msgid "Edit %s %s (%s)"
+msgstr ""
+
+msgid "Edit Incoming Route"
+msgstr ""
+
+msgid "Provide a meaningful description of what this incoming route is"
+msgstr ""
+
+msgid "DID Number"
+msgstr ""
+
+msgid ""
+"Define the expected DID Number if your trunk passes DID on incoming calls. "
+"<br><br>Leave this blank to match calls with any or no DID info.<br><br>You "
+"can also use a pattern match (eg _2[345]X) to match a range of numbers"
+msgstr ""
+
+msgid "Caller ID Number"
+msgstr ""
+
+msgid ""
+"Define the Caller ID Number to be matched on incoming calls.<br><br>Leave "
+"this field blank to match any or no CID info. In addition to standard dial "
+"sequences, you can also put Private, Blocked, Unknown, Restricted, Anonymous "
+"and Unavailable in order to catch these special cases if the Telco transmits "
+"them."
+msgstr ""
+
+msgid "CID Priority Route"
+msgstr ""
+
+msgid ""
+"This effects CID ONLY routes where no DID is specified. If checked, calls "
+"with this CID will be routed to this route, even if there is a route to the "
+"DID that was called. Normal behavior is for the DID route to take the calls. "
+"If there is a specific DID/CID route for this CID, that route will still "
+"take the call when that DID is called."
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Alert Info"
+msgstr ""
+
+msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
+msgstr ""
+
+msgid "CID name prefix"
+msgstr ""
+
+msgid ""
+"You can optionally prefix the Caller ID name. ie: If you prefix with \"Sales:"
+"\", a call from John Doe would display as \"Sales:John Doe\" on the "
+"extensions that ring."
+msgstr ""
+
+msgid "Music On Hold"
+msgstr ""
+
+msgid ""
+"Set the MoH class that will be used for calls that come in on this route. "
+"For example, choose a type appropriate for routes coming in from a country "
+"which may have announcements in their language."
+msgstr ""
+
+msgid "No Music"
+msgstr ""
+
+msgid "Signal RINGING"
+msgstr ""
+
+msgid ""
+"Some devices or providers require RINGING to be sent before ANSWER. You'll "
+"notice this happening if you can send calls directly to a phone, but if you "
+"send it to an IVR, it won't connect the call."
+msgstr ""
+
+msgid "Pause Before Answer"
+msgstr ""
+
+msgid ""
+"An optional delay to wait before processing this route. Setting this value "
+"will delay the channel from answering the call. This may be handy if "
+"external fax equipment or security systems are installed in parallel and you "
+"would like them to be able to seize the line."
+msgstr ""
+
+msgid "Privacy"
+msgstr ""
+
+msgid "Privacy Manager"
+msgstr ""
+
+msgid ""
+"If no Caller ID has been received, Privacy Manager will ask the caller to "
+"enter their phone number. If an user/extension has Call Screening enabled, "
+"the incoming caller will be be prompted to say their name when the call "
+"reaches the user/extension."
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "Max attempts"
+msgstr ""
+
+msgid "Number of attempts the caller has to enter a valid callerID"
+msgstr ""
+
+msgid "Min Length"
+msgstr ""
+
+msgid ""
+"Minimum amount of digits callerID needs to contain in order to be considered "
+"valid"
+msgstr ""
+
+msgid "Set Destination"
+msgstr ""
+
+msgid "Clear Destination & Submit"
+msgstr ""
+
+msgid "Please enter a valid DID Number"
+msgstr ""
+
+msgid "Please enter a valid Caller ID Number"
+msgstr ""
+
+msgid "Please enter a valid Fax Email or leave it empty to use the default"
+msgstr ""
+
+msgid "Please enter a valid number for Pause after answer"
+msgstr ""
+
+msgid "Please enter a valid number for Pause Before Answer field"
+msgstr ""
+
+msgid ""
+"Leaving the DID Number AND the Caller ID Number empty will match all "
+"incoming calls received not routed using any other defined Incoming Route.\\n"
+"\\nAre you sure?"
+msgstr ""
+
+msgid ""
+"DID information is normally just an incoming telephone number or for "
+"advanced users, a valid Asterisk Dial Pattern\\n\\nYou have entered a non "
+"standard DID pattern.\\n\\nAre you sure this is correct?"
+msgstr ""
+
+msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
+msgstr ""
+
+msgid "Invalid Caller ID prefix."
+msgstr ""
+
+msgid "Dialing Options"
+msgstr ""
+
+msgid "Asterisk Dial command options:"
+msgstr ""
+
+msgid "t: Allow the called user to transfer the call by hitting #"
+msgstr ""
+
+msgid "T: Allow the calling user to transfer the call by hitting #"
+msgstr ""
+
+msgid "r: Generate a ringing tone for the calling party"
+msgstr ""
+
+msgid ""
+"w: Allow the called user to start recording after pressing *1 (Asterisk v1.2)"
+msgstr ""
+
+msgid ""
+"W: Allow the calling user to start recording after pressing *1 (Asterisk "
+"v1.2)"
+msgstr ""
+
+msgid "Asterisk Outbound Dial command options:"
+msgstr ""
+
+msgid "r: You SHOULD NOT use this option on outbound trunks"
+msgstr ""
+
+msgid "Call Recording"
+msgstr ""
+
+msgid "Extension Recording Override:"
+msgstr ""
+
+msgid ""
+"This will override the recording settings of all extensions/users. If "
+"enabled, the system will ignore all Record Always settings of a user and "
+"will not turn on recording. This does not effect On Demand recording "
+"controlled by the dial options 'w' and 'W' above. It does not effect other "
+"recording settings in modules such as Queues and Conferences. If you don't "
+"use recordings, setting this is beneficial to system performance as it "
+"removes the check that is otherwise done on every single call."
+msgstr ""
+
+msgid "Call recording format:"
+msgstr ""
+
+msgid "Pick the format in which to save recorded calls"
+msgstr ""
+
+msgid "WAV"
+msgstr ""
+
+msgid "wav"
+msgstr ""
+
+msgid "ulaw"
+msgstr ""
+
+msgid "alaw"
+msgstr ""
+
+msgid "sln"
+msgstr ""
+
+msgid "gsm"
+msgstr ""
+
+msgid "g729"
+msgstr ""
+
+msgid "Recording Location:"
+msgstr ""
+
+msgid ""
+"Override the default location where asterisk will store call recordings. "
+"Include the trailing /. Be sure to set proper permissions on the directory "
+"for the asterisk user."
+msgstr ""
+
+msgid "Run after record:"
+msgstr ""
+
+msgid ""
+"An optional script to be run after the call is hungup. You can include "
+"channel and MixMon variables like ${CALLFILENAME}, ${MIXMON_FORMAT} and "
+"${MIXMON_DIR}. To ensure that you variables are properly escaped, use the "
+"following notation: ^{MY_VAR}"
+msgstr ""
+
+msgid "Voicemail"
+msgstr ""
+
+msgid "Ringtime Default:"
+msgstr ""
+
+msgid ""
+"Default number of seconds to ring phones before sending callers to "
+"voicemail. This can be set per extension/user and will have no effect on "
+"phones with no voicemail."
+msgstr ""
+
+msgid "Direct Dial Voicemail Prefix:"
+msgstr ""
+
+msgid ""
+"Prefix used to dial directly to someone's voicemail. Caution should be taken "
+"in choosing this prefix to avoid conflicts with featurecodes."
+msgstr ""
+
+msgid "Direct Dial to Voicemail message type:"
+msgstr ""
+
+msgid ""
+"Default message type to use when dialing direct to an extensions voicemail"
+msgstr ""
+
+msgid "Unavailable"
+msgstr ""
+
+msgid "No Message"
+msgstr ""
+
+msgid "Optional Voicemail Recording Gain:"
+msgstr ""
+
+msgid "Use the specified amount of gain when recording the voicemail message."
+msgstr ""
+
+msgid "The units are whole-number decibels (dB)."
+msgstr ""
+
+msgid "Do Not Play \"please leave message after tone\" to caller"
+msgstr ""
+
+msgid ""
+"Check this to remove the default message \"Please leave your message after "
+"the tone. When done, hang-up, or press the pound key.\" That is played after "
+"the voicemail greeting (the s option). This applies globally to all vm boxes."
+msgstr ""
+
+msgid "Voicemail VmX Locator"
+msgstr ""
+
+msgid "Default Context & Pri:"
+msgstr ""
+
+msgid "Default to use if only a number/extension are provided."
+msgstr ""
+
+msgid "Timeout/#-press default:"
+msgstr ""
+
+msgid ""
+"This is the default location that a caller will be sent if they don't press "
+"any key (timeout) or press # which is interpreted as a timeout. Set this to "
+"'dovm' to go to voicemail (default)."
+msgstr ""
+
+msgid "Loop Exceed default:"
+msgstr ""
+
+msgid ""
+"This is the default location that a caller will be sent if they press an "
+"invalid options too man times, as defined by the Maximum Loops count. Set "
+"this to 'dovm' to go to voicemail (default)."
+msgstr ""
+
+msgid "Timeout VM Msg:"
+msgstr ""
+
+msgid ""
+"If this destination is voicemail, select whether or not to play the standard "
+"voicemail instructions or just beep."
+msgstr ""
+
+msgid "Std Instructions"
+msgstr ""
+
+msgid "Beep Only"
+msgstr ""
+
+msgid "Max Loop VM Msg:"
+msgstr ""
+
+msgid "Direct VM Option"
+msgstr ""
+
+msgid ""
+"If a user defined option is to go to voicemail (using the 'dovm' extension) "
+"this is the default option if not specified by the user's settings."
+msgstr ""
+
+msgid "Msg Timeout:"
+msgstr ""
+
+msgid ""
+"Time to wait after message has played to timeout and/or repeat the message "
+"if no entry pressed."
+msgstr ""
+
+msgid "seconds"
+msgstr ""
+
+msgid "Msg Play:"
+msgstr ""
+
+msgid ""
+"Number of times to play the recorded message if the caller does not press "
+"any options and it times out."
+msgstr ""
+
+msgid "times"
+msgstr ""
+
+msgid "Error Re-tries:"
+msgstr ""
+
+msgid ""
+"Number of times to play invalid options and repeat the message upon "
+"receiving an undefined option."
+msgstr ""
+
+msgid "Company Directory"
+msgstr ""
+
+msgid "Find users in the Company Directory by:"
+msgstr ""
+
+msgid ""
+"The Company Directory allows a caller to spell the user's first name, last "
+"name, or both when searching for a user. This will select which of these "
+"modes are used."
+msgstr ""
+
+msgid "first name"
+msgstr ""
+
+msgid "last name"
+msgstr ""
+
+msgid "first or last name"
+msgstr ""
+
+msgid "Announce Extension:"
+msgstr ""
+
+msgid ""
+"Plays a message \"Please hold while I transfer you to extension xxx\" that "
+"lets the caller know what extension to use in the future when connecting "
+"from the company directory."
+msgstr ""
+
+msgid "Operator Extension:"
+msgstr ""
+
+msgid ""
+"When users hit '0' in the directory, they are put through to this number. "
+"Note that it"
+msgstr ""
+
+msgid ""
+" does NOT need to be an extension, it can be a Ring Group, or even an "
+"external number."
+msgstr ""
+
+msgid "International Settings"
+msgstr ""
+
+msgid "Country Indications"
+msgstr ""
+
+msgid "Select which country you are in"
+msgstr ""
+
+msgid "24-hour format"
+msgstr ""
+
+msgid ""
+"Select Yes if you use 24-hour format or No if you are using 12-hour am/pm "
+"format"
+msgstr ""
+
+msgid "no"
+msgstr ""
+
+msgid "yes"
+msgstr ""
+
+msgid "Security Settings"
+msgstr ""
+
+msgid "Allow Anonymous Inbound SIP Calls?"
+msgstr ""
+
+msgid "** WARNING **"
+msgstr ""
+
+msgid ""
+"Setting this to 'yes' will potentially allow ANYBODY to call into your "
+"Asterisk server using the SIP protocol"
+msgstr ""
+
+msgid ""
+"It should only be used if you fully understand the impact of allowing "
+"anonymous calls into your server"
+msgstr ""
+
+msgid "Online Updates"
+msgstr ""
+
+msgid "Check for Updates"
+msgstr ""
+
+msgid ""
+"Choosing Yes will result in the system automatically checking for updates "
+"nightly. The resulting information will be displayed in the dashboard and "
+"will be optionally emailed to the address below if provided.<br />This will "
+"transmit your FreePBX and Asterisk version numbers along with a unique but "
+"random identifier. This is used to provide proper update information and to "
+"track version usage to focus development and maintenance efforts. No private "
+"information is transmitted."
+msgstr ""
+
+msgid "Update Email"
+msgstr ""
+
+msgid ""
+"Email address where online updates will be sent. Leaving blank will result "
+"in no updates being sent."
+msgstr ""
+
+msgid "Please enter a valid Number of Seconds"
+msgstr ""
+
+msgid "Please enter a valid Fax Email"
+msgstr ""
+
+msgid ""
+"You have selected the 'r' option for your trunks. This is highly discouraged "
+"and will create problems with calls on many PRI, VoIP, ISDN and other trunks "
+"that are capable of signaling. Asterisk will generate a ringing tone until "
+"the signaling indicates the line is answered. This will result in some "
+"external IVRs being inaccessible and other strange problems."
+msgstr ""
+
+msgid "Error renaming route: duplicate name"
+msgstr ""
+
+msgid "Error fetching prefix list for: "
+msgstr ""
+
+msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
+msgstr ""
+
+msgid "Add Route"
+msgstr ""
+
+msgid "Move Up"
+msgstr ""
+
+msgid "Move Down"
+msgstr ""
+
+msgid "Edit Route"
+msgstr ""
+
+msgid "Route Name"
+msgstr ""
+
+msgid ""
+"Name of this route. Should be used to describe what type of calls this route "
+"matches (for example, 'local' or 'longdistance')."
+msgstr ""
+
+msgid "Rename"
+msgstr ""
+
+msgid "Rename route"
+msgstr ""
+
+msgid "to:"
+msgstr ""
+
+msgid "Route name is invalid...please try again"
+msgstr ""
+
+msgid "Route CID"
+msgstr ""
+
+msgid ""
+"Optional Route CID to be used for this route. If set, this will override all "
+"CIDS specified except:<ul><li>extension/device EMERGENCY CIDs if this route "
+"is checked as an EMERGENCY Route</li><li>trunk CID if trunk is set to force "
+"it's CID</li><li>Forwarded call CIDs (CF, Follow Me, Ring Groups, etc)</"
+"li><li>Extension/User CIDs if checked</li></ul>"
+msgstr ""
+
+msgid "Override Extension CID"
+msgstr ""
+
+msgid "Route Password"
+msgstr ""
+
+msgid ""
+"Optional: A route can prompt users for a password before allowing calls to "
+"progress.  This is useful for restricting calls to international "
+"destinations or 1-900 numbers.<br><br>A numerical password, or the path to "
+"an Authenticate password file can be used.<br><br>Leave this field blank to "
+"not prompt for password.</span>"
+msgstr ""
+
+msgid "Emergency Dialing"
+msgstr ""
+
+msgid ""
+"Optional: Selecting this option will enforce the use of a device's Emergency "
+"CID setting (if set).  Select this option if this set of routes is used for "
+"emergency dialing (ie: 911).</span>"
+msgstr ""
+
+msgid "Intra Company Route"
+msgstr ""
+
+msgid ""
+"Optional: Selecting this option will treat this route as a intra-company "
+"connection, preserving the internal Caller ID information and not use the "
+"outbound CID of either the extension or trunk.</span>"
+msgstr ""
+
+msgid "Music On Hold?"
+msgstr ""
+
+msgid ""
+"You can choose which music category to use. For example, choose a type "
+"appropriate for a destination country which may have announcements in the "
+"appropriate language."
+msgstr ""
+
+msgid "Dial Patterns"
+msgstr ""
+
+msgid ""
+"A Dial Pattern is a unique set of digits that will select this trunk. Enter "
+"one dial pattern per line."
+msgstr ""
+
+msgid "Rules:"
+msgstr ""
+
+msgid "matches any digit from 0-9"
+msgstr ""
+
+msgid "matches any digit from 1-9"
+msgstr ""
+
+msgid "matches any digit from 2-9"
+msgstr ""
+
+msgid ""
+"matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
+msgstr ""
+
+msgid "wildcard, matches one or more characters"
+msgstr ""
+
+msgid ""
+"separates a dialing prefix from the number (for example, 9|NXXXXXX would "
+"match when some dialed \"95551234\" but would only pass \"5551234\" to the "
+"trunks)"
+msgstr ""
+
+msgid ""
+"appended to a dial pattern, matches a callerid or callerid pattern (for "
+"example, NXXXXXX/104 would match only if dialed by extension \"104\")"
+msgstr ""
+
+msgid "Clean & Remove duplicates"
+msgstr ""
+
+msgid "Dial patterns wizards"
+msgstr ""
+
+msgid ""
+"These options provide a quick way to add outbound dialing rules. Follow the "
+"prompts for each."
+msgstr ""
+
+msgid "Lookup local prefixes"
+msgstr ""
+
+msgid ""
+"This looks up your local number on www.localcallingguide.com (NA-only), and "
+"sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, "
+"16135551234) to access this route."
+msgstr ""
+
+msgid ""
+"What is your areacode + prefix (NPA-NXX)?\\n\\n(Note: this database contains "
+"North American numbers only, and is not guaranteed to be 100% accurate. You "
+"will still have the option of modifying results.)\\n\\nThis may take a few "
+"seconds."
+msgstr ""
+
+msgid "Invalid NPA-NXX. Must be of the format \\'NXX-NXX\\'"
+msgstr ""
+
+msgid ""
+"Error: Cannot continue!\\n\\nPrefix lookup requires cURL support in PHP on "
+"the server. Please install or enable cURL support in your PHP installation "
+"to use this function. See http://www.php.net/curl for more information."
+msgstr ""
+
+msgid "(pick one)"
+msgstr ""
+
+msgid "Local 7 digit"
+msgstr ""
+
+msgid "Local 7/10 digit"
+msgstr ""
+
+msgid "Toll-free"
+msgstr ""
+
+msgid "Long-distance"
+msgstr ""
+
+msgid "International"
+msgstr ""
+
+msgid "Information"
+msgstr ""
+
+msgid "Emergency"
+msgstr ""
+
+msgid "Trunk Sequence"
+msgstr ""
+
+msgid ""
+"The Trunk Sequence controls the order of trunks that will be used when the "
+"above Dial Patterns are matched. <br><br>For Dial Patterns that match long "
+"distance numbers, for example, you'd want to pick the cheapest routes for "
+"long distance (ie, VoIP trunks first) followed by more expensive routes "
+"(POTS lines)."
+msgstr ""
+
+msgid "Route name is invalid, please try again"
+msgstr ""
+
+msgid "Route password must be numeric or leave blank to disable"
+msgstr ""
+
+msgid "Dial pattern is invalid"
+msgstr ""
+
+msgid "At least one trunk must be picked"
+msgstr ""
+
+msgid "Invalid Outbound Caller ID"
+msgstr ""
+
+msgid "Add Trunk"
+msgstr ""
+
+#, php-format
+msgid "Channel %s"
+msgstr ""
+
+msgid "Add a Trunk"
+msgstr ""
+
+msgid "Add Zap Trunk"
+msgstr ""
+
+msgid "DAHDI compatibility mode"
+msgstr ""
+
+msgid "Add SIP Trunk"
+msgstr ""
+
+msgid "Add IAX2 Trunk"
+msgstr ""
+
+msgid "Add ENUM Trunk"
+msgstr ""
+
+msgid "Add DUNDi Trunk"
+msgstr ""
+
+msgid "Add Custom Trunk"
+msgstr ""
+
+#, php-format
+msgid "%s Channel %s"
+msgstr ""
+
+#, php-format
+msgid "Edit %s Trunk"
+msgstr ""
+
+msgid "DAHDI compatibility Mode"
+msgstr ""
+
+#, php-format
+msgid "Delete Trunk %s"
+msgstr ""
+
+msgid "In use by"
+msgstr ""
+
+msgid "route"
+msgstr ""
+
+msgid "routes"
+msgstr ""
+
+msgid "Sequence"
+msgstr ""
+
+msgid "WARNING:"
+msgstr ""
+
+msgid "This trunk is not used by any routes!"
+msgstr ""
+
+msgid ""
+"This trunk will not be able to be used for outbound calls until a route is "
+"setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
+msgstr ""
+
+#, php-format
+msgid "Add %s Trunk"
+msgstr ""
+
+msgid ""
+"FreePBX offers limited support for DUNDi trunks and additional manual "
+"configuration is required. The trunk name should correspond to the "
+"[mappings] section of the remote dundi.conf systems. For example, you may "
+"have a mapping on the remote system, and corresponding configurations in "
+"dundi.conf locally, that looks as follows:<br /><br />[mappings]<br />priv "
+"=> dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},noparital<br /"
+"><br />In this example, you would create this trunk and name it priv. You "
+"would then create the corresponding IAX2 trunk with proper settings to work "
+"with DUNDi. This can be done by making an IAX2 trunk in FreePBX or by using "
+"the iax_custom.conf file.<br />The dundi-extens context in this example must "
+"be created in extensions_custom.conf. This can simply include contexts such "
+"as ext-local, ext-intercom-users, ext-paging and so forth to provide access "
+"to the corresponding extensions and features provided by these various "
+"contexts and generated by FreePBX."
+msgstr ""
+
+msgid "Trunk Description"
+msgstr ""
+
+msgid "Descriptive Name for this Trunk"
+msgstr ""
+
+msgid "Outbound Caller ID"
+msgstr ""
+
+msgid ""
+"Caller ID for calls placed out on this trunk<br><br>Format: <b>&lt;"
+"#######&gt;</b>. You can also use the format: \"hidden\" <b>&lt;#######&gt;</"
+"b> to hide the CallerID sent out over Digital lines if supported (E1/T1/J1/"
+"BRI/SIP/IAX)."
+msgstr ""
+
+msgid "CID Options"
+msgstr ""
+
+msgid ""
+"Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY "
+"CIDs defined on an extension/device will ALWAYS be used if this trunk is "
+"part of an EMERGENCY Route regardless of these settings.<br />Allow Any CID: "
+"all CIDs including foreign CIDS from forwarded external calls will be "
+"transmitted.<br />Block Foreign CIDs: blocks any CID that is the result of a "
+"forwarded call from off the system. CIDs defined for extensions/users are "
+"transmitted.<br />Remove CNAM: this will remove CNAM from any CID sent out "
+"this trunk<br />Force Trunk CID: Always use the CID defined for this trunk "
+"except if part of any EMERGENCY Route with an EMERGENCY CID defined for the "
+"extension/device."
+msgstr ""
+
+msgid "Allow Any CID"
+msgstr ""
+
+msgid "Block Foreign CIDs"
+msgstr ""
+
+msgid "Remove CNAM"
+msgstr ""
+
+msgid "Force Trunk CID"
+msgstr ""
+
+msgid "Maximum Channels"
+msgstr ""
+
+#, php-format
+msgid ""
+"Controls the maximum number of outbound channels (simultaneous calls) that "
+"can be used on this trunk. To count inbound calls against this maximum, use "
+"the auto-generated context: %s as the inbound trunk's context. (see "
+"extensions_additional.conf) Leave blank to specify no maximum."
+msgstr ""
+
+msgid ""
+"Controls the maximum number of outbound channels (simultaneous calls) that "
+"can be used on this trunk. Inbound calls are not counted against the "
+"maximum. Leave blank to specify no maximum."
+msgstr ""
+
+msgid "Disable Trunk"
+msgstr ""
+
+msgid "Check this to disable this trunk in all routes where it is used."
+msgstr ""
+
+msgid "Monitor Trunk Failures"
+msgstr ""
+
+msgid ""
+"If checked, supply the name of a custom AGI Script that will be called to "
+"report, log, email or otherwise take some action on trunk failures that are "
+"not caused by either NOANSWER or CANCEL."
+msgstr ""
+
+msgid "Outgoing Dial Rules"
+msgstr ""
+
+msgid "Dial Rules"
+msgstr ""
+
+msgid ""
+"A Dial Rule controls how calls will be dialed on this trunk. It can be used "
+"to add or remove prefixes. Numbers that don't match any patterns defined "
+"here will be dialed as-is. Note that a pattern without a + or | (to add or "
+"remove a prefix) will not make any changes but will create a match. Only the "
+"first matched rule will be executed and the remaining rules will not be "
+"acted on."
+msgstr ""
+
+msgid "wildcard, matches one or more characters (not allowed before a | or +)"
+msgstr ""
+
+msgid ""
+"removes a dialing prefix from the number (for example, 613|NXXXXXX would "
+"match when some dialed \"6135551234\" but would only pass \"5551234\" to the "
+"trunk)"
+msgstr ""
+
+msgid ""
+"adds a dialing prefix from the number (for example, 1613+NXXXXXX would match "
+"when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)"
+msgstr ""
+
+msgid ""
+"You can also use both + and |, for example: 01+0|1ZXXXXXXXXX would match "
+"\"016065551234\" and dial it as \"0116065551234\" Note that the order does "
+"not matter, eg. 0|01+1ZXXXXXXXXX does the same thing."
+msgstr ""
+
+msgid "Dial Rules Wizards"
+msgstr ""
+
+msgid "Always dial with prefix"
+msgstr ""
+
+msgid ""
+"is useful for VoIP trunks, where if a number is dialed as \"5551234\", it "
+"can be converted to \"16135551234\"."
+msgstr ""
+
+msgid "Remove prefix from local numbers"
+msgstr ""
+
+msgid ""
+"is useful for ZAP trunks, where if a local number is dialed as \"6135551234"
+"\", it can be converted to \"555-1234\"."
+msgstr ""
+
+msgid "Lookup numbers for local trunk"
+msgstr ""
+
+msgid ""
+"This looks up your local number on www.localcallingguide.com (NA-only), and "
+"sets up so you can dial either 7 or 10 digits (regardless of what your PSTN "
+"is) on a local trunk (where you have to dial 1+area code for long distance, "
+"but only 5551234 (7-digit dialing) or 6135551234 (10-digit dialing) for "
+"local calls"
+msgstr ""
+
+msgid "Lookup numbers for local trunk (7-digit dialing)"
+msgstr ""
+
+msgid "Lookup numbers for local trunk (10-digit dialing)"
+msgstr ""
+
+msgid "Are you sure you want to disable this trunk in all routes it is used?"
+msgstr ""
+
+msgid "You have enabled this trunk in all routes it is used"
+msgstr ""
+
+msgid "\")"
+msgstr ""
+
+msgid ""
+"What is the local dialing pattern?\\n\\n(ie. NXXNXXXXXX for US/CAN 10-digit "
+"dialing, NXXXXXX for 7-digit)"
+msgstr ""
+
+msgid "Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."
+msgstr ""
+
+msgid ""
+"What prefix should be added to the dialing pattern?\\n\\n(ie. for US/CAN, 1"
+"+areacode, ie, \\'1613\\')?"
+msgstr ""
+
+msgid "Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."
+msgstr ""
+
+msgid ""
+"What prefix should be removed from the number?\\n\\n(ie. for US/CAN, 1"
+"+areacode, ie, \\'1613\\')"
+msgstr ""
+
+msgid "Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed."
+msgstr ""
+
+msgid "What is the dialing pattern for local numbers after"
+msgstr ""
+
+msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
+msgstr ""
+
+msgid "Outbound Dial Prefix"
+msgstr ""
+
+msgid ""
+"The outbound dialing prefix is used to prefix a dialing string to all "
+"outbound calls placed on this trunk. For example, if this trunk is behind "
+"another PBX or is a Centrex line, then you would put 9 here to access an "
+"outbound line. Another common use is to prefix calls with 'w' on a POTS line "
+"that need time to obtain dial tone to avoid eating digits.<br><br>Most users "
+"should leave this option blank."
+msgstr ""
+
+msgid "Outgoing Settings"
+msgstr ""
+
+msgid "Zap Identifier (trunk name)"
+msgstr ""
+
+msgid ""
+"ZAP channels are referenced either by a group number or channel number "
+"(which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> "
+"(group zero)."
+msgstr ""
+
+msgid "Custom Dial String"
+msgstr ""
+
+msgid "Define the custom Dial String.  Include the token"
+msgstr ""
+
+msgid "wherever the number to dial should go.<br><br><b>examples:</b><br>"
+msgstr ""
+
+msgid "DUNDi Mapping"
+msgstr ""
+
+msgid ""
+"This is the name of the DUNDi mapping as defined in the [mappings] section "
+"of remote dundi.conf peers. This corresponds to the 'include' section of the "
+"peer details in the local dundi.conf file. This requires manual "
+"configuration of DUNDi to use this trunk."
+msgstr ""
+
+msgid "Trunk Name"
+msgstr ""
+
+msgid "Give this trunk a unique name.  Example: myiaxtel"
+msgstr ""
+
+msgid "PEER Details"
+msgstr ""
+
+msgid ""
+"Modify the default PEER connection parameters for your VoIP provider."
+"<br><br>You may need to add to the default lines listed below, depending on "
+"your provider.<br /><br />WARNING: Order is important as it will be "
+"retained. For example, if you use the \"allow/deny\" directives make sure "
+"deny comes first."
+msgstr ""
+
+msgid "Incoming Settings"
+msgstr ""
+
+msgid "USER Context"
+msgstr ""
+
+msgid ""
+"This is most often the account name or number your provider expects."
+"<br><br>This USER Context will be used to define the below user details."
+msgstr ""
+
+msgid "USER Details"
+msgstr ""
+
+msgid "Modify the default USER connection parameters for your VoIP provider."
+msgstr ""
+
+msgid ""
+"You may need to add to the default lines listed below, depending on your "
+"provider..<br /><br />WARNING: Order is important as it will be retained. "
+"For example, if you use the \"allow/deny\" directives make sure deny \n"
+"\t\t\t\tcomes first."
+msgstr ""
+
+msgid "Registration"
+msgstr ""
+
+msgid "Register String"
+msgstr ""
+
+msgid ""
+"Most VoIP providers require your system to REGISTER with theirs. Enter the "
+"registration line here.<br><br>example:<br><br>username:password@switch."
+"voipprovider.com.<br><br>Many providers will require you to provide a DID "
+"number, ex: username:password@switch.voipprovider.com/didnumber in order for "
+"any DID matching to work."
+msgstr ""
+
+msgid "Invalid Maximum Channels"
+msgstr ""
+
+msgid "Invalid Dial Rules"
+msgstr ""
+
+msgid "Invalid Outbound Dial Prefix"
+msgstr ""
+
+msgid "Invalid Trunk Name entered"
+msgstr ""
+
+msgid "Invalid Custom Dial String entered"
+msgstr ""
+
+msgid "Trunk Name and User Context cannot be set to the same value"
+msgstr ""
+
+msgid "User Context was left blank and User Details will not be saved!"
+msgstr ""
+
+msgid ""
+"You must define an Outbound Caller ID when Choosing Never Override CallerID"
+msgstr ""
+
+msgid ""
+"You have not entered a User Password.  While this is acceptable, this user "
+"will not be able to login to an AdHoc device.\\n\\nAre you sure you wish to "
+"leave the User Password empty?"
+msgstr ""
+
+msgid "Add Channel"
+msgstr ""
+
+msgid "Edit Zap Channel: "
+msgstr ""
+
+msgid "Add Zap Channel"
+msgstr ""
+
+msgid ""
+"Zap Channel DIDs allow you to assign a DID to specific Zap Channels. You can "
+"supply the same DID to multiple channels. This would be a common scenario if "
+"you have multiple POTS lines that are on a hunt group from your provider. "
+"You MUST assign the channel's context to from-zaptel for these settings to "
+"have effect. It will be a line that looks like:<br /><br />context = from-"
+"zaptel<br /><br />in your zapata.conf configuration effecting the specified "
+"channel(s). Once you have assigned DIDs you can use standard Inbound Routes "
+"with the specified DIDs to route your calls."
+msgstr ""
+
+msgid "Edit Channel"
+msgstr ""
+
+msgid "Channel"
+msgstr ""
+
+msgid "The Zap Channel number to map to a DID"
+msgstr ""
+
+msgid "A useful description describing this channel"
+msgstr ""
+
+msgid "DID"
+msgstr ""
+
+msgid ""
+"The DID that this channel represents. The incoming call on this channel will "
+"be treated as if it came in with this DID and can be managed with Inbound "
+"Routing on DIDs"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid ""
+"DID information is normally just an incoming telephone number.\\n\\nYou have "
+"entered a non standard DID pattern.\\n\\nAre you sure this is correct?"
+msgstr ""
+
+msgid ""
+"You appear to be using a converted DID in the form of zapchanNN that was "
+"automatically generated during an upgrade. You should consider assigning the "
+"DID that is normally associated with this channel to take full advantage of "
+"the inbound routing abilities. Changing the DID here will require you to "
+"make changes in the Inbound Routes tab. Do you want to continue?"
 msgstr ""
