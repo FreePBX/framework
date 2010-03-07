@@ -31,8 +31,9 @@ CREATE TABLE outbound_route_patterns (
 	`route_id` INTEGER NOT NULL,
 	`match_pattern_prefix` VARCHAR( 60 ),
 	`match_pattern_pass` VARCHAR( 60 ),
+	`match_cid` VARCHAR( 60 ),
 	`prepend_digits` VARCHAR( 100 ),
-  PRIMARY KEY (`route_id`, `match_pattern_prefix`, `match_pattern_pass`)
+  PRIMARY KEY (`route_id`, `match_pattern_prefix`, `match_pattern_pass`,`match_cid`,`prepend_digits`)
 )
 ";
 
@@ -134,12 +135,23 @@ if (DB::IsError($result) && $result->getCode() == DB_ERROR_ALREADY_EXISTS ) {
           foreach ($this_patterns as $pattern) {
             $parts = explode('|',$pattern,2);
             if (count($parts) == 1) {
-              $insert_patterns[] = array($route_id, '', $pattern);
+              $prepend = '';
+              $exten = $pattern;
             } else {
-              $insert_patterns[] = array($route_id, $parts[0], $parts[1]);
+              $prepend = $parts[0];
+              $exten = $parts[1];
+            }
+            $parts = explode('/',$exten,2);
+            if (count($parts) == 1) {
+              $insert_patterns[] = array($route_id, $prepend, $exten, '');
+            } else {
+              if ($parts[1][0] == "_") {
+                $parts[1] = substr($parts[1],1);
+              }
+              $insert_patterns[] = array($route_id, $prepend, $parts[0], $parts[1]);
             }
           }
-          $compiled = $db->prepare('INSERT INTO `outbound_route_patterns` (`route_id`, `match_pattern_prefix`, `match_pattern_pass`) values (?,?,?)');
+          $compiled = $db->prepare('INSERT INTO `outbound_route_patterns` (`route_id`, `match_pattern_prefix`, `match_pattern_pass`, `match_cid`) values (?,?,?,?)');
 	        $result = $db->executeMultiple($compiled,$insert_patterns);
 	        if(DB::IsError($result)) {
 		        out("FATAL: ".$result->getDebugInfo()."\n".'error inserting into outbound_route_patterns table');	
