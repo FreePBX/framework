@@ -3,7 +3,7 @@ global $amp_conf;
 global $db;
 
 // TODO: exit here for now. This will be migration code for new routes once the work is finished.
-exit;
+return true;
 
 //TODO: DEBUG remove and restart for testing
 //
