@@ -17,7 +17,7 @@ CREATE TABLE outbound_routes (
 	`route_id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`name` VARCHAR( 40 ),
 	`outcid` VARCHAR( 40 ),
-	`outcid_override_exten` VARCHAR( 20 ),
+	`outcid_mode` VARCHAR( 20 ),
 	`password` VARCHAR( 30 ),
 	`emergency_route` VARCHAR( 4 ),
 	`intracompany_route` VARCHAR( 4 ),
@@ -111,7 +111,7 @@ if (DB::IsError($result) && $result->getCode() == DB_ERROR_ALREADY_EXISTS ) {
           unset($accum);
         }
 
-        $compiled = $db->prepare('INSERT INTO `outbound_routes` (`name`, `outcid`, `outcid_override_exten`, `password`, `emergency_route`, `intracompany_route`, `mohclass`) values (?,?,?,?,?,?,?)');
+        $compiled = $db->prepare('INSERT INTO `outbound_routes` (`name`, `outcid`, `outcid_mode`, `password`, `emergency_route`, `intracompany_route`, `mohclass`) values (?,?,?,?,?,?,?)');
 	      $result = $db->executeMultiple($compiled,$routes);
 	      if(DB::IsError($result)) {
 		      out("FATAL: ".$result->getDebugInfo()."\n".'error inserting into outbound_routes table');	

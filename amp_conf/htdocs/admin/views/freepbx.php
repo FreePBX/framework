@@ -111,7 +111,8 @@ if (!isset($amp_conf)) {
 	<script type="text/javascript" src="common/jquery-1.3.2.js"></script>
 	<script type="text/javascript" src="common/jquery.tabs-2.7.4.js"></script> <!-- used by setup/tools menu tab -->
 	<script type="text/javascript" src="common/jquery.dimensions.js"></script> <!-- used by reload/module admin -->
-	<script type="text/javascript" src="common/jquery.cookie.js"></script> <!-- used by reload/module admin -->
+	<script type="text/javascript" src="common/jquery.cookie.js"></script>
+	<script type="text/javascript" src="common/jquery.toggleval.3.0.js"></script>
 	<script type="text/javascript" src="common/interface.dim.js"></script> <!-- used for interface blocking (reload, modadmin) -->
 <?php
 	}
