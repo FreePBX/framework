@@ -2,16 +2,6 @@
 global $amp_conf;
 global $db;
 
-// TODO: exit here for now. This will be migration code for new routes once the work is finished.
-return true;
-
-//TODO: DEBUG remove and restart for testing
-//
-$result = $db->query("DROP TABLE IF EXISTS `outbound_routes`");
-$result = $db->query("DROP TABLE IF EXISTS `outbound_route_patterns`");
-$result = $db->query("DROP TABLE IF EXISTS `outbound_route_trunks`");
-$result = $db->query("DROP TABLE IF EXISTS `outbound_route_sequence`");
-
 $outbound_routes = "
 CREATE TABLE outbound_routes (
 	`route_id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -121,7 +111,6 @@ if (DB::IsError($result) && $result->getCode() == DB_ERROR_ALREADY_EXISTS ) {
 		      out("FATAL: ".$route_ids->getDebugInfo()."\n".'error getting route_ids to create outbound_route_sequence');	
         }
         // assumption here is that routepriorities always return in order, I think that is correct, which means we inserted in order
-        // TODO: update existing pinsets here whether enabled or not
         $seq = 0;
         $outbound_route_sequence = array();
         foreach ($route_ids as $route_id) {
@@ -179,10 +168,16 @@ if (DB::IsError($result) && $result->getCode() == DB_ERROR_ALREADY_EXISTS ) {
           out("migrated");
         }
 
+        outn('Updating route sequence..');
         $compiled = $db->prepare('INSERT INTO `outbound_route_sequence` (`route_id`, `seq`) values (?,?)');
 	      $result = $db->executeMultiple($compiled,$outbound_route_sequence);
 	      if(DB::IsError($result)) {
 		      out("FATAL: ".$result->getDebugInfo()."\n".'error inserting into outbound_route_sequence table');	
+        } else {
+          out("ok");
+          outn('Removing old extenions table..');
+          //TODO: add removal code once thoroughly tested
+          out("not implemented until thouroghly tested");
         }
       }
     }
