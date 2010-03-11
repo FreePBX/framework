@@ -37,7 +37,7 @@ if(location.href.indexOf('?')==-1){newlocation=location+'?clk_reload=true';}else
 location=newlocation.replace(/action/,"var-disabled");}}
 var whitespace=" \t\n\r";var decimalPointDelimiter=".";var defaultEmptyOK=false;function validateDestinations(theForm,numForms,bRequired){var valid=true;for(var formNum=0;formNum<numForms&&valid==true;formNum++){valid=validateSingleDestination(theForm,formNum,bRequired);}
 return valid;}
-function warnInvalid(theField,s){theField.focus();theField.select();alert(s);return false;}
+function warnInvalid(theField,s){if(theField){theField.focus();theField.select();}alert(s);return false;}
 function isEmail(s){if(isEmpty(s))
 if(isEmail.arguments.length==1)return defaultEmptyOK;else return(isEmail.arguments[1]==true);if(isWhitespace(s))return false;var i=1;var sLength=s.length;while((i<sLength)&&(s.charAt(i)!="@")){i++;}
 if((i>=sLength)||(s.charAt(i)!="@"))return false;else i+=2;if(i>sLength)return false;return true;}

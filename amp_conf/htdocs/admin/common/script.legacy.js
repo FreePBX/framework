@@ -180,8 +180,10 @@ function validateDestinations(theForm,numForms,bRequired) {
 // NOTE: <select> boxes do not support the .select method, therefore you cannot
 // use this function on any <select> elements
 function warnInvalid (theField, s) {
-    theField.focus();
-    theField.select();
+    if(theField){ 
+			theField.focus();
+    	theField.select();
+    }
     alert(s);
     return false;
 }
