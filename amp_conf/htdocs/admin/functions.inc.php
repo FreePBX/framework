@@ -1460,10 +1460,11 @@ function sql_formattext($txt) {
 }
 
 function die_freepbx($text, $extended_text="", $type="FATAL") {
+  $trace = print_r(debug_backtrace(),true);
 	if (function_exists('fatal')) {
 		// "custom" error handler 
 		// fatal may only take one param, so we suppress error messages because it doesn't really matter
-		@fatal($text, $extended_text, $type);
+		@fatal($text."\n".$trace, $extended_text, $type);
 	} else if (isset($_SERVER['REQUEST_METHOD'])) {
 		// running in webserver
 		echo "<h1>".$type." ERROR</h1>\n";
@@ -1471,9 +1472,13 @@ function die_freepbx($text, $extended_text="", $type="FATAL") {
 		if (!empty($extended_text)) {
 			echo "<p>".$extended_text."</p>\n";
 		}
+    echo "<h4>Trace Back</h4>";
+    echo "<pre>$trace</pre>";
 	} else {
 		// CLI
 		echo "[$type] ".$text." ".$extended_text."\n";
+    echo "Trace Back:\n";
+    echo $trace;
 	}
 
 	// always ensure we exit at this point
