@@ -352,6 +352,10 @@ symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/cdr/');
 require_once($amp_conf['AMPWEBROOT']."/admin/extensions.class.php");
 $ext = new extensions;
 
+if ($amp_conf['DISABLECUSTOMCONTEXTS']) {
+  $ext->disableCustomContexts(true);
+}
+
 // create objects for any module classes
 // currently only 1 class can be declared per module, not sure if that will be an issue
 if(isset($active_modules) && is_array($active_modules)){

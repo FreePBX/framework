@@ -13,6 +13,12 @@ class extensions {
 	var $_hints;
 	
 	var $_sorted;
+
+  var $_section_comment = array();
+
+  var $_section_no_custom = array();
+
+  var $disable_custom_contexts = false;
 	
 	/** The filename to write this configuration to
 	*/
@@ -82,6 +88,17 @@ class extensions {
 		
 		$this->_sorted = true;
 	}
+  function addSectionComment($section, $comment) {
+    $this->_section_comment[$section] = $comment;
+  }
+
+  function addSectionNoCustom($section, $setting) {
+    $this->_section_no_custom[$section] = $setting ? true : false;
+  }
+
+  function disableCustomContexts($setting) {
+    $this->_disable_custom_contexts = $setting ? true : false;
+  }
 	
 	function addHint($section, $extension, $hintvalue) {
 		$this->_hints[$section][$extension][] = $hintvalue;
@@ -91,8 +108,8 @@ class extensions {
 		$this->_globals[$globvar] = $globval;
 	}
 	
-	function addInclude($section, $incsection) {
-		$this->_includes[$section][] = $incsection;
+	function addInclude($section, $incsection, $comment='') {
+    $this->_includes[$section][] = array('include' => $incsection, 'comment' => $comment);
 	}
 
 	function addSwitch($section, $incsection) {
@@ -265,14 +282,17 @@ class extensions {
 		//now the rest of the contexts
 		if(is_array($this->_exts)){
 			foreach (array_keys($this->_exts) as $section) {
-				$output .= "[".$section."]\n";
+        $comment = isset($this->_section_comment[$section]) ? ' ; '.$this->_section_comment[$section] : '';
+				$output .= "[$section]$comment\n";
 				
-				//automatically include a -custom context
-				$output .= "include => {$section}-custom\n";
+				//automatically include a -custom context unless no_custom is true
+        if (!$this->_disable_custom_contexts && (!isset($this->_section_no_custom[$section]) || $this->_section_no_custom[$section] == false)) {
+				  $output .= "include => {$section}-custom\n";
+        }
 				//add requested includes for this context
 				if (isset($this->_includes[$section])) {
 					foreach ($this->_includes[$section] as $include) {
-						$output .= "include => ".$include."\n";
+						$output .= "include => ".$include['include'] . ($include['comment'] != ''?' ; '.$include['comment']:'') . "\n";
 					}
 				}
 				if (isset($this->_switches[$section])) {

@@ -753,6 +753,7 @@ $amp_conf_defaults = array(
 	'CHECKREFERER'    => array('bool' , true),
 	'USEDIALONE'      => array('bool' , false),
 	'RELOADCONFIRM'   => array('bool' , true),
+	'DISABLECUSTOMCONTEXTS'   => array('bool' , false),
 );
 
 function parse_amportal_conf($filename) {
