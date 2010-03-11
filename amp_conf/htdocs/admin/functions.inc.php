@@ -1954,11 +1954,15 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 		}
 }
 
-// $goto is the current goto destination setting
-// $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
-// esnure that any form that includes this calls the setDestinations() javascript function on submit.
-// ie: if the form name is "edit", and drawselects has been called with $i=2 then use onsubmit="setDestinations(edit,2)"
-function drawselects($goto,$i,$show_custom=false) {
+/*
+ * $goto is the current goto destination setting
+ * $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
+ * esnure that any form that includes this calls the setDestinations() javascript function on submit.
+ * ie: if the form name is "edit", and drawselects has been called with $i=2 then use onsubmit="setDestinations(edit,2)"
+ * $table specifies if the destinations will be drawn in a new <tr> and <td>
+ * 
+ */   
+function drawselects($goto,$i,$show_custom=false, $table=true) {
 	global $tabindex;
 	
 	/* --- MODULES BEGIN --- */
@@ -1966,8 +1970,11 @@ function drawselects($goto,$i,$show_custom=false) {
 	
 	$all_destinations = array();
 	$module_hash = array();
+	$selectHtml='';
+	if($table){
+		$selectHtml.='<tr><td colspan=2>';
+	}
 
-	$selectHtml = '<tr><td colspan=2>'; 
 	
 	//check for module-specific destination functions
 	foreach ($active_modules as $rawmod => $module) {
@@ -2066,7 +2073,9 @@ function drawselects($goto,$i,$show_custom=false) {
 
 	//close off our row
 	}
-	$selectHtml .= '</td></tr>';
+	if($table){
+		$selectHtml.='</td></tr>';
+	}
 	
 	return $selectHtml;
 }

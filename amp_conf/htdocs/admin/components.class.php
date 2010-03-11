@@ -516,7 +516,7 @@ class guiinput extends guielement {
 	
 	var $html_input;
 	
-	function guiinput($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true) {
+	function guiinput($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $jsvalidationtest='') {
 		// call parent class contructor
 		guielement::guielement($elemname, '', '');
 		
@@ -528,6 +528,8 @@ class guiinput extends guielement {
 		$this->helptext = $helptext;
 		// JavaScript validation field on the element
 		$this->jsvalidation = $jsvalidation;
+		// JavaScript validation test
+		$this->jsvalidationtest = $jsvalidationtest;
 		// Msg to use if above validation fails (forced to use gettext language stuff)
 		$this->failvalidationmsg = $failvalidationmsg;
 		// Can this field be empty ?
@@ -541,9 +543,14 @@ class guiinput extends guielement {
 	function generatevalidation() {
 		$output = '';
 		
-		if ($this->jsvalidation != '') {
-			$thefld = "theForm." . $this->_elemname;
-			$thefldvalue = $thefld . ".value";
+		if ($this->jsvalidation != '' ) {
+			if(!$this->jsvalidationtest){
+				$thefld = "theForm." . $this->_elemname;
+				$thefldvalue = $thefld . ".value";
+			}else{
+				$thefld="theForm." . $this->_elemname;
+				$thefldvalue =$this->jsvalidationtest;
+			}
 		
 			if ($this->canbeempty) {
 				$output .= "\tdefaultEmptyOK = true;\n";
@@ -702,6 +709,20 @@ class gui_radio extends guiinput {
 		}
 		return $output;
 	}
+}
+
+class gui_drawselects extends guiinput {
+	function gui_drawselects($elemname, $index, $prompttext = '', $helptext = '', $canbeempty = true, $failvalidationmsg='') {
+		$parent_class = get_parent_class($this);
+		if(!$canbeempty){
+			$jsvalidation ='()';
+			$jsvalidationtest ='!$("input[name=goto'.$index.']:submit").val()';
+			$failvalidationmsg = _('Please select a valid destination.');
+		}
+		parent::$parent_class($elemname, '', $prompttext, $helptext, $jsvalidation, $failvalidationmsg, '', $jsvalidationtest);
+		
+		$this->html_input=drawselects($currentvalue, $index, false, false);
+	}		
 }
 
 /*
