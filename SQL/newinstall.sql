@@ -407,6 +407,44 @@ CREATE TABLE `zap` (
 -- Dumping data for table `zap`
 --
 
+DROP  TABLE IF EXISTS `outbound_routes`;
+CREATE TABLE `outbound_routes` (
+	`route_id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`name` VARCHAR( 40 ),
+	`outcid` VARCHAR( 40 ),
+	`outcid_mode` VARCHAR( 20 ),
+	`password` VARCHAR( 30 ),
+	`emergency_route` VARCHAR( 4 ),
+	`intracompany_route` VARCHAR( 4 ),
+	`mohclass` VARCHAR( 80 ),
+	`time_group_id` INTEGER DEFAULT NULL
+);
+
+DROP TABLE IF EXISTS `outbound_route_patterns`;
+CREATE TABLE `outbound_route_patterns` (
+	`route_id` INTEGER NOT NULL,
+	`match_pattern_prefix` VARCHAR( 60 ),
+	`match_pattern_pass` VARCHAR( 60 ),
+	`match_cid` VARCHAR( 60 ),
+	`prepend_digits` VARCHAR( 100 ),
+  PRIMARY KEY (`route_id`, `match_pattern_prefix`, `match_pattern_pass`,`match_cid`,`prepend_digits`)
+);
+
+DROP TABLE IF EXISTS `outbound_route_trunks`;
+CREATE TABLE `outbound_route_trunks` (
+	`route_id` INTEGER NOT NULL,
+	`trunk_id` INTEGER NOT NULL,
+	`seq` INTEGER NOT NULL,
+  PRIMARY KEY  (`route_id`, `trunk_id`, `seq`) 
+);
+
+DROP TABLE IF EXISTS `outbound_route_sequence`;
+CREATE TABLE `outbound_route_sequence` (
+	`route_id` INTEGER NOT NULL,
+	`seq` INTEGER NOT NULL,
+  PRIMARY KEY  (`route_id`, `seq`) 
+);
+
 -- 
 -- Table structure for table `notifications`
 -- 

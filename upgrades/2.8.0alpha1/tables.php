@@ -2,9 +2,11 @@
 global $amp_conf;
 global $db;
 
+$autoincrement = (($amp_conf["AMPDBENGINE"] == "sqlite") || ($amp_conf["AMPDBENGINE"] == "sqlite3")) ? "AUTOINCREMENT":"AUTO_INCREMENT";
+
 $outbound_routes = "
 CREATE TABLE outbound_routes (
-	`route_id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`route_id` INTEGER NOT NULL PRIMARY KEY $autoincrement,
 	`name` VARCHAR( 40 ),
 	`outcid` VARCHAR( 40 ),
 	`outcid_mode` VARCHAR( 20 ),
