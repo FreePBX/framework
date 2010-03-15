@@ -210,6 +210,13 @@ CREATE TABLE `zap` (
   `flags` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`,`keyword`)
 );
+CREATE TABLE `dadhi` (
+  `id` varchar(20) NOT NULL default '-1',
+  `keyword` varchar(30) NOT NULL default '',
+  `data` varchar(255) NOT NULL default '',
+  `flags` int(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`,`keyword`)
+);
 CREATE TABLE notifications (
   module varchar(24) NOT NULL default '',
   id varchar(24) NOT NULL default '',

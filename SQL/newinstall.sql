@@ -407,6 +407,23 @@ CREATE TABLE `zap` (
 -- Dumping data for table `zap`
 --
 
+--
+-- Table structure for table `dadhi`
+--
+
+DROP TABLE IF EXISTS `dadhi`;
+CREATE TABLE `dadhi` (
+  `id` varchar(20) NOT NULL default '-1',
+  `keyword` varchar(30) NOT NULL default '',
+  `data` varchar(255) NOT NULL default '',
+  `flags` int(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`,`keyword`)
+);
+
+--
+-- Dumping data for table `dadhi`
+--
+
 DROP  TABLE IF EXISTS `outbound_routes`;
 CREATE TABLE `outbound_routes` (
 	`route_id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
