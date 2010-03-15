@@ -1343,9 +1343,18 @@ function ast_with_dahdi() {
 	global $version;
 	global $astman;
 	global $amp_conf;
+	global $chan_dahdi_loaded;
+
+  // determine once, subsequent calls will use this
+  global $ast_with_dahdi;
+
+  if (isset($ast_with_dahdi)) {
+    return $ast_with_dahdi;
+  }
 	
 	if (!$amp_conf['ZAP2DAHDICOMPAT']) {
-		return false;
+    $ast_with_dahdi = false;
+    return $ast_with_dahdi;
 	}
 	
 	if (empty($version)) {
@@ -1357,11 +1366,16 @@ function ast_with_dahdi() {
 		if (isset($astman) && $astman->connected()) {
 			$response = $astman->send_request('Command', array('Command' => 'module show like chan_dahdi'));
 			if (preg_match('/1 modules loaded/', $response['data'])) {
-				return true;
+        $ast_with_dahdi = true;
+        $chan_dahdi_loaded = true;
+				return $ast_with_dahdi;
+			} else {
+        $chan_dahdi_loaded = false;
 			}
 		}
 	}
-	return false;
+  $ast_with_dahdi = false;
+  return $ast_with_dahdi;
 }
 
 function engine_getinfo() {
@@ -1973,35 +1987,48 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 	
 	/* --- MODULES BEGIN --- */
 	global $active_modules;
-	
-	$all_destinations = array();
-	$module_hash = array();
+
+  // this is global so we only populate it once and it is preserved afterwards
+	global $drawselect_destinations;
+	global $drawselects_module_hash;
+
 	$selectHtml='';
 	if($table){
 		$selectHtml.='<tr><td colspan=2>';
 	}
 
+	// check for module-specific destination functions
+  // if isset() then we called this once, so don't call again just use the data
+  // this can result in significant savings in IVRs and other pages that present
+  // multiple destinations
+  //
+  if (!isset($drawselect_destinations)) {
+    foreach ($active_modules as $rawmod => $module) {
+      $funct = strtolower($rawmod.'_destinations');
 	
-	//check for module-specific destination functions
-	foreach ($active_modules as $rawmod => $module) {
-		$funct = strtolower($rawmod.'_destinations');
-	
-		//if the modulename_destinations() function exits, run it and display selections for it
-		if (function_exists($funct)) {
-			$destArray = $funct(); //returns an array with 'destination' and 'description', and optionally 'category'
-			if (is_Array($destArray)) {
-				foreach ($destArray as $dest) {
-					$cat = (isset($dest['category']) ? $dest['category'] : $module['displayname']);
-					$all_destinations[$cat][] = $dest;
-					$module_hash[$cat] = $rawmod;
-				}
-			}
-		}
-	}
+      //if the modulename_destinations() function exits, run it and display selections for it
+      if (function_exists($funct)) {
+        $destArray = $funct(); //returns an array with 'destination' and 'description', and optionally 'category'
+        if (is_Array($destArray)) {
+          foreach ($destArray as $dest) {
+            $cat = (isset($dest['category']) ? $dest['category'] : $module['displayname']);
+            $drawselect_destinations[$cat][] = $dest;
+            $drawselects_module_hash[$cat] = $rawmod;
+          }
+        }
+      }
+    }
+    if (!isset($drawselect_destinations)) {
+      $drawselect_destinations = array();
+    }
+    if (!isset($drawselects_module_hash)) {
+      $drawselects_module_hash = array();
+    }
+  }
 
 	$foundone = false;
 	$tabindex_needed = true;
-	foreach ($all_destinations as $cat=>$destination) {
+	foreach ($drawselect_destinations as $cat=>$destination) {
 		// create a select option for each destination 
 		$options = "";
 		$checked = false;
@@ -2023,9 +2050,9 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 		// we try the default 'amp' domain. If still no luck, we will try the _() which is the current
 		// module's display since some old translation code may have stored it localy but should migrate
 		//
-		bindtextdomain($module_hash[$cat],"modules/".$module_hash[$cat]."/i18n");
-		bind_textdomain_codeset($module_hash[$cat], 'utf8');
-		$label_text = dgettext($module_hash[$cat],$cat);
+		bindtextdomain($drawselects_module_hash[$cat],"modules/".$drawselects_module_hash[$cat]."/i18n");
+		bind_textdomain_codeset($drawselects_module_hash[$cat], 'utf8');
+		$label_text = dgettext($drawselects_module_hash[$cat],$cat);
 		if ($label_text == $cat) {
 		 	$label_text = dgettext('amp',$label_text);
 		}
