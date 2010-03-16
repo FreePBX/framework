@@ -2057,7 +2057,7 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 		$style=(($cat==$destmod)?'':'display:none;');
 		if($cat=='Error'){$style.=' '.$errorstyle;}//add error style
 		$style=' style="'.(($cat=='Error')?'background-color:red;':$style).'"';
-		$html.='<select name="'.str_replace(' ','_',$cat).$i.'" '.$tabindexhtml.$style.'>';
+		$html.='<select name="'.str_replace(' ','_',$cat).$i.'" '.$tabindexhtml.$style.' class="destdropdown2">';
 		foreach($destination as $dest){
 			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
 			$style=' style="'.(($cat=='Error')?'background-color:red;':'background-color:white;').'"';

@@ -653,8 +653,8 @@ $(document).ready(function(){
 			var name=$(this).attr('name');
 			var id=name.replace('goto','');
 			var dest=$(this).val();
-			$('[name$='+id+']').not(this).hide();
-			$('[name='+dest+id+']').show();
+			$('[name$='+id+'].destdropdown2').hide();
+			$('[name='+dest+id+'].destdropdown2').show();
 	});
 		//hacky way to ensure destinations dropdown is the background-color as currently selected item
 		$('.destdropdown').bind('change', function(){
