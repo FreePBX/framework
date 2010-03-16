@@ -641,3 +641,27 @@ function isDialDigitChar (c)
 function isFilenameChar (c)
 {   return ( ((c >= "0") && (c <= "9")) || ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == "_") || (c == "-") )
 }
+
+/***************************************************
+ *             GLOBAL JQUERY CODE                  *
+ ***************************************************/
+
+$(document).ready(function(){
+
+		//destination double dropdown code
+		$('.destdropdown').bind('blur click change keypress', function(){
+			var name=$(this).attr('name');
+			var id=name.replace('goto','');
+			var dest=$(this).val();
+			$('[name$='+id+']').not(this).hide();
+			$('[name='+dest+id+']').show();
+	});
+		//hacky way to ensure destinations dropdown is the background-color as currently selected item
+		$('.destdropdown').bind('change', function(){
+			if($(this).find('option:selected').val()=='Error'){
+				$(this).css('background-color','red');
+			}else{
+				$(this).css('background-color','white');
+			}
+	});
+});
