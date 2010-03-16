@@ -1983,134 +1983,93 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
  * 
  */   
 function drawselects($goto,$i,$show_custom=false, $table=true) {
-	global $tabindex;
-	
-	/* --- MODULES BEGIN --- */
-	global $active_modules;
+	global $tabindex, $active_modules, $drawselect_destinations, $drawselects_module_hash; 
+	$html=$destmod=$errorclass=$errorstyle='';
 
-  // this is global so we only populate it once and it is preserved afterwards
-	global $drawselect_destinations;
-	global $drawselects_module_hash;
+	if($table){$html.='<tr><td colspan=2>';}//wrap in table tags if requested
 
-	$selectHtml='';
-	if($table){
-		$selectHtml.='<tr><td colspan=2>';
-	}
-
-	// check for module-specific destination functions
-  // if isset() then we called this once, so don't call again just use the data
-  // this can result in significant savings in IVRs and other pages that present
-  // multiple destinations
-  //
-  if (!isset($drawselect_destinations)) {
-    foreach ($active_modules as $rawmod => $module) {
-      $funct = strtolower($rawmod.'_destinations');
-	
-      //if the modulename_destinations() function exits, run it and display selections for it
-      if (function_exists($funct)) {
-        $destArray = $funct(); //returns an array with 'destination' and 'description', and optionally 'category'
-        if (is_Array($destArray)) {
-          foreach ($destArray as $dest) {
-            $cat = (isset($dest['category']) ? $dest['category'] : $module['displayname']);
-            $drawselect_destinations[$cat][] = $dest;
-            $drawselects_module_hash[$cat] = $rawmod;
-          }
-        }
-      }
-    }
-    if (!isset($drawselect_destinations)) {
-      $drawselect_destinations = array();
-    }
-    if (!isset($drawselects_module_hash)) {
-      $drawselects_module_hash = array();
-    }
-  }
-
-	$foundone = false;
-	$tabindex_needed = true;
-	foreach ($drawselect_destinations as $cat=>$destination) {
-		// create a select option for each destination 
-		$options = "";
-		$checked = false;
-		foreach ($destination as $dest) {
-			$options .= '<option value="'.$dest['destination'].'" '.(strpos($goto,$dest['destination']) === false ? '' : 'SELECTED').'>'.($dest['description'] ? $dest['description'] : $dest['destination']);
-
-			// check to see if the currently selected goto matches one these destinations
-			if($dest['destination'] == $goto) $checked = true;
-		}
-
-		// make a unique id to be used for the HTML id
-		// This allows us to have multiple drawselect() sets on the page without
-		// conflicting with each other
-		$radioid = uniqid("drawselect");
-
-		$cat_identifier = preg_replace('/[^a-zA-Z0-9]/','_', $cat);
-
-		// We bind to the hosting module's domain. If we find the translation there we use it, if not
-		// we try the default 'amp' domain. If still no luck, we will try the _() which is the current
-		// module's display since some old translation code may have stored it localy but should migrate
-		//
-		bindtextdomain($drawselects_module_hash[$cat],"modules/".$drawselects_module_hash[$cat]."/i18n");
-		bind_textdomain_codeset($drawselects_module_hash[$cat], 'utf8');
-		$label_text = dgettext($drawselects_module_hash[$cat],$cat);
-		if ($label_text == $cat) {
-		 	$label_text = dgettext('amp',$label_text);
-		}
-		if ($label_text == $cat) {
-		 	$label_text = _($label_text);
-		}
-			
-		if ($tabindex_needed && ($checked || ! $goto)) {
-			$tabindex_txt = (isset($tabindex) && $tabindex != '') ? ' tabindex="'.++$tabindex.'" ':'';
-			$tabindex_needed = false;
-		} else {
-			$tabindex_txt = '';
-		}
-		$selectHtml .=	'<input type="radio"'.$tabindex_txt.' id="'.$radioid.'" name="goto'.$i.'" value="'.$cat_identifier.'" '.
-		                //'onclick="javascript:this.form.goto'.$i.'.value=\''.$cat.'\';" '.
-		                //'onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\''.$cat.'\';" '.
-		                ($checked? 'CHECKED=CHECKED' : '').' /> ';
-		$selectHtml .= '<label for="'.$radioid.'">'.$label_text.':</label> ';
+	if(!isset($drawselect_destinations)){ 
+		//check for module-specific destination functions
+		foreach($active_modules as $rawmod => $module){
+			$funct = strtolower($rawmod.'_destinations');
 		
-		// set the 
-//		if ($checked) { $gotomod = $cat; } 
-
-		$selectHtml .=	'<select name="'.$cat_identifier.$i.'" onfocus="document.getElementById(\''.$radioid.'\').checked = true; this.form.goto'.$i.'.value=\''.$cat.'\';">';
-		$selectHtml .= $options;	
-		$selectHtml .=	"</select><br />\n";
-
-		if ($checked) $foundone = true;
-	}
-	/* --- MODULES END --- */
-	
-	// This is selected if $foundone is false (and goto is not blank) - basically, a fallback
-	// The ONLY time no radio box is selected is if $goto is empty
-	$custom_selected = !$foundone && !empty($goto);
-	
-	//display a custom goto field
-	if ($custom_selected || $show_custom) {
-		if ($show_custom) {
-			$custom_style = "";
-			$custom_background = "";
-		} else {
-			$custom_style      = " style='color:red' ";
-			$custom_background = " style='background:red' readonly='yes' ";
+			//if the modulename_destinations() function exits, run it and display selections for it
+			if (function_exists($funct)) {
+				$destArray = $funct(); //returns an array with 'destination' and 'description', and optionally 'category'
+				if(is_Array($destArray)) {
+					foreach($destArray as $dest){
+						$cat=(isset($dest['category'])?$dest['category']:$module['displayname']);
+						$drawselect_destinations[$cat][] = $dest;
+						$drawselects_module_hash[$cat] = $rawmod;
+					}
+				}
+			}
 		}
-		$radioid = uniqid("drawselect");
-		$selectHtml .= '<input type="radio" id="'.$radioid.'" name="goto'.$i.'" value="custom" '.
-	               //'onclick="javascript:this.form.goto'.$i.'.value=\'custom\';" '.
-		       //'onkeypress="javascript:if (event.keyCode == 0 || (document.all && event.keyCode == 13)) this.form.goto'.$i.'.value=\'custom\';" '.
-		       ($custom_selected ? 'CHECKED=CHECKED' : '').' />';
-		$selectHtml .= '<a href="#" class="info" '.$custom_style.'>'._("Unknown Destination").'&nbsp;<span>'._("ERROR: You have an unknown destination. If this was carried over as a Custom App from an earlier version, you must go register the destination in the Custom Destination tab provided by the Custom Applications module.<br />This will remain active until you change it but you can no longer edit or add a new one here.").'</span></a>:';
-		$selectHtml .= '<input '.$custom_background.' type="text" size="15" name="custom'.$i.'" value="'.($custom_selected ? $goto : '').'" onfocus="document.getElementById(\''.$radioid.'\').checked = true;" />';
+		//sort destination alphabeticaly		
+		ksort($drawselect_destinations);
+		ksort($drawselects_module_hash);
+	}
+	//set varibales as arrays for the rare (imposible?) case where there are none
+  if(!isset($drawselect_destinations)){$drawselect_destinations=array();}
+  if(!isset($drawselects_module_hash)){$drawselects_module_hash = array();}
 
-	//close off our row
+	$foundone=false;
+	$tabindex_needed=true;
+	//get the destination module name if we have a $goto, add custom if there is an issue
+	if($goto){
+		foreach($drawselects_module_hash as $mod => $description){
+			foreach($drawselect_destinations[$mod] as $destination){
+				if($goto==$destination['destination']){
+					$destmod=$mod;
+			}
+		}
 	}
-	if($table){
-		$selectHtml.='</td></tr>';
+	if($destmod==''){//if we havnt found a match, display error dest
+		$destmod='Error';
+		$drawselect_destinations['Error'][]=array('destination'=>$goto, 'description'=>'Bad Dest: '.$goto, 'class'=>'drawselect_error');
+		$drawselects_module_hash['Error']='error';
 	}
+}	
+
+	//draw "parent" select box
+	$style=' style="'.(($destmod=='Error')?'background-color:red;':'background-color:white;').'"';
+	$html.='<select name="goto'.$i.'" class="destdropdown" '.$style.' tabindex="'.++$tabindex.'">';
+	$html.='<option value="" style="background-color:white;">== '._('chose one').' ==</option>';
+	foreach($drawselects_module_hash as $mod => $disc){
+		/* We bind to the hosting module's domain. If we find the translation there we use it, if not
+		 * we try the default 'amp' domain. If still no luck, we will try the _() which is the current
+		 * module's display since some old translation code may have stored it localy but should migrate */
+		bindtextdomain($drawselects_module_hash[$mod],"modules/".$drawselects_module_hash[$mod]."/i18n");
+		bind_textdomain_codeset($drawselects_module_hash[$mod], 'utf8');
+		$label_text=dgettext($drawselects_module_hash[$mod],$mod);
+		if($label_text==$mod){$label_text=dgettext('amp',$label_text);}
+		if($label_text==$mod){$label_text=_($label_text);}
+		/* end i18n */
+		$selected=($mod==$destmod)?' SELECTED ':' ';
+		$style=' style="'.(($mod=='Error')?'background-color:red;':'background-color:white;').'"';
+		$html.='<option value="'.str_replace(' ','_',$mod).'"'.$selected.$style.'>'.$mod.'</option>';
+	}
+	$html.='</select> ';
 	
-	return $selectHtml;
+	//draw "children" select boxes
+	$tabindexhtml=' tabindex="'.++$tabindex.'"';//keep out of the foreach so that we dont increment it
+	foreach($drawselect_destinations as $cat=>$destination){
+		$style=(($cat==$destmod)?'':'display:none;');
+		if($cat=='Error'){$style.=' '.$errorstyle;}//add error style
+		$style=' style="'.(($cat=='Error')?'background-color:red;':$style).'"';
+		$html.='<select name="'.str_replace(' ','_',$cat).$i.'" '.$tabindexhtml.$style.'>';
+		foreach($destination as $dest){
+			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
+			$style=' style="'.(($cat=='Error')?'background-color:red;':'background-color:white;').'"';
+			$html.='<option value="'.$dest['destination'].'" '.$selected.$style.'>'.$dest['description'].'</option>';
+		}
+		$html.='</select>';
+	}
+	if(isset($drawselect_destinations['Error'])){unset($drawselect_destinations['Error']);}
+	if(isset($drawselects_module_hash['Error'])){unset($drawselects_module_hash['Error']);}
+	if($table){$html.='</td></tr>';}//wrap in table tags if requested
+	
+	return $html;
 }
 
 /* below are legacy functions required to allow pre 2.0 modules to function (ie: interact with 'extensions' table) */
