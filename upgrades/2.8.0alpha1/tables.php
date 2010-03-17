@@ -83,7 +83,7 @@ if (DB::IsError($result) && $result->getCode() == DB_ERROR_ALREADY_EXISTS ) {
       } else {
         out("ok");
 
-        $routepriority = core_routing_getroutenames();
+        $routepriority = __core_routing_getroutenames();
 
         $routes = array();
         $accum = array();
@@ -93,17 +93,17 @@ if (DB::IsError($result) && $result->getCode() == DB_ERROR_ALREADY_EXISTS ) {
 		      $extdisplay = $route[0];
 		      $accum[] = substr($extdisplay,4);
   
-		      $routecid_array = core_routing_getroutecid($extdisplay);
+		      $routecid_array = __core_routing_getroutecid($extdisplay);
           $accum[] = $routecid_array['routecid'];
           $accum[] = $routecid_array['routecid_mode'];
 
-		      $accum[] = core_routing_getroutepassword($extdisplay);
-		      $accum[] = core_routing_getrouteemergency($extdisplay);
-		      $accum[] = core_routing_getrouteintracompany($extdisplay);
-		      $accum[] = core_routing_getroutemohsilence($extdisplay);
+		      $accum[] = __core_routing_getroutepassword($extdisplay);
+		      $accum[] = __core_routing_getrouteemergency($extdisplay);
+		      $accum[] = __core_routing_getrouteintracompany($extdisplay);
+		      $accum[] = __core_routing_getroutemohsilence($extdisplay);
 
-		      $dialpattern[$extdisplay] = core_routing_getroutepatterns($extdisplay);
-		      $trunkpriority[$extdisplay] = core_routing_getroutetrunks($extdisplay);
+		      $dialpattern[$extdisplay] = __core_routing_getroutepatterns($extdisplay);
+		      $trunkpriority[$extdisplay] = __core_routing_getroutetrunks($extdisplay);
 
           $routes[$extdisplay] = $accum;
           unset($accum);
@@ -190,4 +190,151 @@ if (DB::IsError($result) && $result->getCode() == DB_ERROR_ALREADY_EXISTS ) {
       }
     }
   }
+}
+
+//----------  DEPRECATED functions added here so installs work from tarball --------------
+
+function __core_routing_getroutenames() 
+{
+	global $amp_conf;
+	
+	if ($amp_conf["AMPDBENGINE"] == "sqlite3") 
+	{
+		$results = sql("SELECT DISTINCT context FROM extensions WHERE context LIKE 'outrt-%' ORDER BY context ","getAll");
+		foreach( array_keys($results) as $idx )
+		{
+			 $results[$idx][0] = substr( $results[$idx][0], 6);
+		}
+	}
+	else
+	{
+		$results = sql("SELECT DISTINCT SUBSTRING(context,7) FROM extensions WHERE context LIKE 'outrt-%' ORDER BY context ","getAll");
+	}
+	return $results;
+}
+function __core_routing_getroutecid($route) {
+  global $db;
+
+  $sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'ROUTECID%' OR args LIKE 'EXTEN_ROUTE_CID%') ";
+  $results = $db->getOne($sql);
+  if(DB::IsError($results)) {
+    die_freepbx($results->getMessage());
+  }
+  if (preg_match('/^(.*)=(.*)/', $results, $matches)) {
+    $routecid = $matches[2];
+    $routecid_mode = $matches[1] == 'ROUTECID' ? 'override_extension':'';
+  } else {
+    $routecid = '';
+    $routecid_mode = '';
+  }
+  return array('routecid' => $routecid, 'routecid_mode' => $routecid_mode);
+}
+function __core_routing_getroutepassword($route) {
+	global $db;
+	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'dialout-trunk,%' OR args LIKE 'dialout-enum,%' OR args LIKE 'dialout-dundi,%') ORDER BY CAST(priority as UNSIGNED) ";
+	$results = $db->getOne($sql);
+	if(DB::IsError($results)) {
+		die_freepbx($results->getMessage());
+	}
+	if (preg_match('/^.*,.*,.*,(\d+|\/\S+)/', $results, $matches)) {
+		$password = $matches[1];
+	} else {
+		$password = "";
+	}
+	return $password;
+}
+function __core_routing_getrouteemergency($route) {
+	global $db;
+	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'EMERGENCYROUTE%') ";
+	$results = $db->getOne($sql);
+	if(DB::IsError($results)) {
+		die_freepbx($results->getMessage());
+	}
+	if (preg_match('/^.*=(.*)/', $results, $matches)) {
+		$emergency = $matches[1];
+	} else {
+		$emergency = "";
+	}
+	return $emergency;
+}
+function __core_routing_getrouteintracompany($route) {
+  global $db;
+  $sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'INTRACOMPANYROUTE%') ";
+  $results = $db->getOne($sql);
+  if(DB::IsError($results)) {
+    die_freepbx($results->getMessage());
+  }
+  if (preg_match('/^.*=(.*)/', $results, $matches)) {
+    $intracompany = $matches[1];
+  } else {
+    $intracompany = "";
+  }
+  return $intracompany;
+}
+function __core_routing_getroutemohsilence($route) {
+  global $db;
+  $sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'MOHCLASS%') ";
+  $results = $db->getOne($sql);
+  if(DB::IsError($results)) {
+    die_freepbx($results->getMessage());
+  }
+  if (preg_match('/^.*=(.*)/', $results, $matches)) {
+    $mohsilence = $matches[1];
+  } else {
+    $mohsilence = "";
+  }
+  return $mohsilence;
+}
+function __core_routing_getroutepatterns($route) {
+	global $db;
+	$sql = "SELECT extension, args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'dialout-trunk%' OR args LIKE 'dialout-enum%' OR args LIKE 'dialout-dundi%') ORDER BY extension ";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die_freepbx($results->getMessage());
+	}
+	
+	$patterns = array();
+	foreach ($results as $row) {
+		if ($row[0][0] == "_") {
+			// remove leading _
+			$pattern = substr($row[0],1);
+		} else {
+			$pattern = $row[0];
+		}
+		
+		if (preg_match("/{EXTEN:(\d+)}/", $row[1], $matches)) {
+			// this has a digit offset, we need to insert a |
+			$pattern = substr($pattern,0,$matches[1])."|".substr($pattern,$matches[1]);
+		}
+		
+		$patterns[] = $pattern;
+	}
+	return array_unique($patterns);
+}
+function __core_routing_getroutetrunks($route) {
+	global $db;
+	$sql = "SELECT DISTINCT args FROM extensions WHERE context = 'outrt-".$route."' AND (args LIKE 'dialout-trunk,%' OR args LIKE 'dialout-enum,%' OR args LIKE 'dialout-dundi,%') ORDER BY CAST(priority as UNSIGNED) ";
+	$results = $db->getAll($sql);
+	if(DB::IsError($results)) {
+		die_freepbx($results->getMessage());
+	}
+	$trunks = array();
+	foreach ($results as $row) {
+		if (preg_match('/^dialout-trunk,(\d+)/', $row[0], $matches)) {
+			// check in_array -- even though we did distinct
+			// we still might get ${EXTEN} and ${EXTEN:1} if they used | to split a pattern
+			if (!in_array("OUT_".$matches[1], $trunks)) {
+				$trunks[] = "OUT_".$matches[1];
+			}
+		} else if (preg_match('/^dialout-enum,(\d+)/', $row[0], $matches)) {
+			if (!in_array("OUT_".$matches[1], $trunks)) {
+				$trunks[] = "OUT_".$matches[1];
+			}
+		} else if (preg_match('/^dialout-dundi,(\d+)/', $row[0], $matches)) {
+			if (!in_array("OUT_".$matches[1], $trunks)) {
+				$trunks[] = "OUT_".$matches[1];
+			}
+		}
+	}
+	return $trunks;
 }
