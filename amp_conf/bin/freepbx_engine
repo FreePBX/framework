@@ -38,6 +38,7 @@ AMPASTERISKWEBUSER=$AMPASTERISKUSER
 AMPASTERISKWEBGROUP=$AMPASTERISKGROUP
 AMPVMUMASK=077
 ASTETCDIR=/etc/asterisk
+FPBXDBUGFILE=/tmp/freepbx_debug.log
 
 . /etc/amportal.conf
 
@@ -311,6 +312,15 @@ case "$1" in
 			externalip|extip)
 				echo `wget http://mirror.freepbx.org/whatismyip.php -O - -q|sed 's/<[^>]*>//g'`
 			;;
+			dbug)
+				if [ -f $FPBXDBUGFILE ]; then 
+					tail -f $FPBXDBUGFILE 
+				else 
+					touch tail -f $FPBXDBUGFILE
+					chown $AMPASTERISKUSER:$AMPASTERISKGROUP $FPBXDBUGFILE
+					tail -f $FPBXDBUGFILE
+				fi
+			;;
 		*)
 
 #formating variables defined at top of file
@@ -330,7 +340,9 @@ ${b}context$bx|${b}cxt$bx:   Show's the specified context from the dialplan. Thi
                When run with the 'list' or 'l' option, will list all avalible 
                contexts as they appear in extensions* files
 ${b}modadmin$bx|${b}ma$bx:   Runs the module_admin script with additional argument as passed
-${b}externalip$bx|${b}extip$bx: Returns the external ip from the default gateway    "
+${b}externalip$bx|${b}extip$bx: Returns the external ip for the default gateway    
+${b}dbug$bx: shows the freepbx debug log file and any updates     
+\n\n\n"
 		;;
 	esac
 	;;

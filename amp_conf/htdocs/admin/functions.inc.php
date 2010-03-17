@@ -729,6 +729,7 @@ $amp_conf_defaults = array(
 	'AMPWEBROOT'     => array('dir' , '/var/www/html'),
 	'FOPWEBROOT'     => array('dir' , '/var/www/html/panel'),
 	'MOHDIR'         => array('dir' , '/mohmp3'),
+	'FPBXDBUGFILE'	 => array('dir' , '/tmp/freepbx_debug.log'),
 
 	'USECATEGORIES'  => array('bool' , true),
 	'ENABLECW'       => array('bool' , true),
@@ -3678,12 +3679,68 @@ function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log')
 	}
 	fclose($fh);
 }
-//lazy, I mean efficient, alias for function freepbx_debug
+ /* 
+  * FreePBX Debuging function
+  * This function can be called as follows:
+  * dbug() - will just print a time stapm to the debug log file ($amp_conf['FPBXDBUGFILE'])
+  * dbug('string') - same as above + will print the string
+  * dbug('string',$array) - same as above + will print_r the array after the message
+  * dbug($array) - will print_r the array with no message (just a time stamp)  
+  * dbug('string',$array,1) - same as above + will var_dump the array
+  * dbug($array,1) - will var_dump the array with no message  (just a time stamp)
+  * 	 
+ 	*/  
 function dbug(){
-	$args=func_get_args();
-	call_user_func_array('freepbx_debug',$args);
+	$opts=func_get_args();
+	//call_user_func_array('freepbx_debug',$opts);
+	$dump=0;
+	//sort arguments
+	switch(count($opts)){
+		case 1:
+			$msg=$opts[0];
+		break;
+		case 2:
+			if(is_array($opts[0])||is_object($opts[0])){
+				$msg=$opts[0];
+				$dump=$opts[1];
+			}else{
+				$disc=$opts[0];
+				$msg=$opts[1];
+			}
+		break;
+		case 3:
+			$disc=$opts[0];
+			$msg=$opts[1];
+			$dump=$opts[2];
+		break;	
+	}
+	if($disc){$disc=' \''.$disc.'\':';}
+	$txt=date("Y-M-d H:i:s").$disc."\n"; //add timestamp
+	dbug_write($txt,1);
+	if($dump==1){//force output via var_dump
+		ob_start();
+		var_dump($msg);
+		$msg=ob_get_contents();
+		ob_end_clean();
+		dbug_write($msg."\n");
+	}elseif(is_array($msg)||is_object($msg)){
+		dbug_write(print_r($msg,true)."\n");
+	}else{
+		dbug_write($msg."\n");
+	}
 }
 
+function dbug_write($txt,$check){
+	global $amp_conf;
+	$append=FILE_APPEND;
+	//optionaly ensure that dbug file is smaller than $max_size
+	if($check){
+		$max_size=52428800;//hardcoded to 50MB. is that bad? not enough?
+		$size=filesize($amp_conf['FPBXDBUGFILE']);
+		$append=(($size > $max_size)?'':FILE_APPEND);
+	}
+	file_put_contents($amp_conf['FPBXDBUGFILE'],$txt, $append);
+}
 /** Log an error to the (database-based) log
  * @param  string   The section or script where the error occurred
  * @param  string   The level/severity of the error. Valid levels: 'error', 'warning', 'debug', 'devel-debug'
