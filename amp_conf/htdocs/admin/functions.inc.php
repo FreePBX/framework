@@ -3682,7 +3682,7 @@ function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log')
  /* 
   * FreePBX Debuging function
   * This function can be called as follows:
-  * dbug() - will just print a time stapm to the debug log file ($amp_conf['FPBXDBUGFILE'])
+  * dbug() - will just print a time stamp to the debug log file ($amp_conf['FPBXDBUGFILE'])
   * dbug('string') - same as above + will print the string
   * dbug('string',$array) - same as above + will print_r the array after the message
   * dbug($array) - will print_r the array with no message (just a time stamp)  
