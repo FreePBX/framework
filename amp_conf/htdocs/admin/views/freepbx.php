@@ -107,7 +107,7 @@ if (!isset($amp_conf)) {
 <?php
 	} else {
 ?>
-	<script type="text/javascript" src="common/jquery-1.3.2.js"></script>
+	<script type="text/javascript" src="common/jquery-1.4.2.js"></script>
 	<script type="text/javascript" src="common/script.legacy.js"></script> <!-- legacy script.js.php -->
 	<script type="text/javascript" src="common/jquery.tabs-2.7.4.js"></script> <!-- used by setup/tools menu tab -->
 	<script type="text/javascript" src="common/jquery.dimensions.js"></script> <!-- used by reload/module admin -->
