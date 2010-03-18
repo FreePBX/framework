@@ -3730,7 +3730,7 @@ function dbug(){
 	}
 }
 
-function dbug_write($txt,$check){
+function dbug_write($txt,$check=''){
 	global $amp_conf;
 	$append=FILE_APPEND;
 	//optionaly ensure that dbug file is smaller than $max_size
