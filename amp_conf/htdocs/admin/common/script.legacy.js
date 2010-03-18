@@ -666,7 +666,7 @@ $(document).ready(function(){
 	});
 	
 	//help tags. based on: http://www.dvq.co.nz/jquery/create-a-jquery-popup-bubble-effect/
-	$(".info,a").hover(function(){
+	$("a.info").hover(function(){
 		$(this).find("span").stop(true, true).delay(500).animate({opacity: "show"}, 750);
 		}, function() {
 		$(this).find("span").stop(true, true).animate({opacity: "hide"}, "fast");
