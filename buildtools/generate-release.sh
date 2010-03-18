@@ -29,7 +29,7 @@ svn update
 
 # Now make sure javascript library reflects all the changes
 cd buildtools
-./pack_javascripts.sh
+./pack_javascripts.php
 cd ..
 svn ci --message "Auto checkin packed libfreepbx.javascripts.js as part of build process" amp_conf/htdocs/admin/common/libfreepbx.javascripts.js
 
