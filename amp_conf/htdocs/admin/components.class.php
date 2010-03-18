@@ -712,17 +712,21 @@ class gui_radio extends guiinput {
 }
 
 class gui_drawselects extends guiinput {
-	function gui_drawselects($elemname, $index, $prompttext = '', $helptext = '', $canbeempty = true, $failvalidationmsg='') {
+	function gui_drawselects($elemname, $index, $dest, $prompttext = '', $helptext = '', $canbeempty = true, $failvalidationmsg='') {
+		global $currentcomponent;
 		$parent_class = get_parent_class($this);
 		if(!$canbeempty){
 			$jsvalidation ='()';
-			$jsvalidationtest ='!$("input[name=goto'.$index.']:submit").val()';
+			$jsvalidationtest ='!$("[name=goto'.$index.']").val()';
 			$failvalidationmsg = _('Please select a valid destination.');
 		}
 		parent::$parent_class($elemname, '', $prompttext, $helptext, $jsvalidation, $failvalidationmsg, '', $jsvalidationtest);
 		
-		$this->html_input=drawselects($currentvalue, $index, false, false);
-	}		
+		$this->html_input=drawselects($dest, $index, false, false);
+
+		//adttach a value to this element, so that we can find its value
+		$currentcomponent->addguielem('', new gui_hidden($elemname,'goto'.$index));
+	}	
 }
 
 /*
@@ -820,4 +824,5 @@ class gui_link_label extends guitext {
 		$this->html_text = "<a href=\"#\" class=\"info\" id=\"$this->_elemname\">$text:<span>$tooltip</span></a>";
 	}
 }
+
 ?>
