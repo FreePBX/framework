@@ -656,7 +656,7 @@ $(document).ready(function(){
 			$('[name$='+id+'].destdropdown2').hide();
 			$('[name='+dest+id+'].destdropdown2').show();
 	});
-		//hacky way to ensure destinations dropdown is the background-color as currently selected item
+		//hacky way to ensure destinations dropdown is the same background-color as currently selected item
 		$('.destdropdown').bind('change', function(){
 			if($(this).find('option:selected').val()=='Error'){
 				$(this).css('background-color','red');
@@ -664,4 +664,12 @@ $(document).ready(function(){
 				$(this).css('background-color','white');
 			}
 	});
+	
+	//help tags. based on: http://www.dvq.co.nz/jquery/create-a-jquery-popup-bubble-effect/
+	$(".info,a").hover(function(){
+		$(this).find("span").stop(true, true).delay(500).animate({opacity: "show"}, 750);
+		}, function() {
+		$(this).find("span").stop(true, true).animate({opacity: "hide"}, "fast");
+	});
+ 
 });

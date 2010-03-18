@@ -436,7 +436,7 @@ float:left;
 a.info {
 position:relative;
 color:black;
-      border-bottom:1px dashed #ccc;
+border-bottom:1px solid #FCE7CE;
 }
 /* Added to solve the z-order problem of IE */
 a.info:hover {
@@ -444,9 +444,25 @@ a.info:hover {
 }
 /* End */
 a.info span{
-    display: none;
+  display: none;
+  position:absolute;
+	z-index:1;
+	top:2em;
+	left:150px;
+	width:35em;
+	border:5px solid #F2AF1D;
+	background-color:#FCE7CE;
+	color:#000;
+	text-align:justify;
+	font-size:15px;
+	font-weight:normal;
+	padding:8px 12px;
+	line-height:15px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 }
-a.info:hover span{
+/* Legacy settings to show help text. this is now done with js
+	a.info:hover span{
 	display:block;
 	position:absolute;
 	z-index:1;
@@ -461,7 +477,7 @@ a.info:hover span{
 	font-weight:normal;
 	padding:3px;
 	line-height:15px;
-}
+}*/
 
 /** menu attention class **/
 .attention {
