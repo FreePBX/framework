@@ -408,11 +408,11 @@ CREATE TABLE `zap` (
 --
 
 --
--- Table structure for table `dadhi`
+-- Table structure for table `dahdi`
 --
 
-DROP TABLE IF EXISTS `dadhi`;
-CREATE TABLE `dadhi` (
+DROP TABLE IF EXISTS `dahdi`;
+CREATE TABLE `dahdi` (
   `id` varchar(20) NOT NULL default '-1',
   `keyword` varchar(30) NOT NULL default '',
   `data` varchar(255) NOT NULL default '',
@@ -421,7 +421,7 @@ CREATE TABLE `dadhi` (
 );
 
 --
--- Dumping data for table `dadhi`
+-- Dumping data for table `dahdi`
 --
 
 DROP  TABLE IF EXISTS `outbound_routes`;

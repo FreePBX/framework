@@ -11,7 +11,7 @@ exec('sed -i.2.8.0.bak "/^\['.$amp_conf['AMPMGRUSER'].'\]/,/^\[.*\]/s/^\(\s*read
 $autoincrement = (($amp_conf["AMPDBENGINE"] == "sqlite") || ($amp_conf["AMPDBENGINE"] == "sqlite3")) ? "AUTOINCREMENT":"AUTO_INCREMENT";
 
 $dahdi_table = "
-CREATE TABLE `dadhi` (
+CREATE TABLE `dahdi` (
   `id` varchar(20) NOT NULL default '-1',
   `keyword` varchar(30) NOT NULL default '',
   `data` varchar(255) NOT NULL default '',
