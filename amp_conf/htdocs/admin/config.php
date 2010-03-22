@@ -411,5 +411,5 @@ if ($quietmode) {
 
 	showview('freepbx', $template);
 }
-dbug($_REQUEST);
+
 ?>
