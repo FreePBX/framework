@@ -108,12 +108,13 @@ if (!isset($amp_conf)) {
 	} else {
 ?>
 	<script type="text/javascript" src="common/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="common/jquery-ui-1.8.custom.min.js"></script>
 	<script type="text/javascript" src="common/script.legacy.js"></script> <!-- legacy script.js.php -->
-	<script type="text/javascript" src="common/jquery.tabs-2.7.4.js"></script> <!-- used by setup/tools menu tab -->
 	<script type="text/javascript" src="common/jquery.dimensions.js"></script> <!-- used by reload/module admin -->
-	<script type="text/javascript" src="common/jquery.cookie.js"></script>
-	<script type="text/javascript" src="common/jquery.toggleval.3.0.js"></script>
+	<script type="text/javascript" src="common/jquery.cookie.js"></script> <!-- plugin for setting/reteiving cookies -->
+	<script type="text/javascript" src="common/jquery.toggleval.3.0.js"></script> <!-- plugin for adding help text to input boxes -->
 	<script type="text/javascript" src="common/interface.dim.js"></script> <!-- used for interface blocking (reload, modadmin) -->
+	<script type="text/javascript" src="common/tabber-minimized.js"></script> <!-- used for module admin (hiding content) -->
 <?php
 	}
 ?>

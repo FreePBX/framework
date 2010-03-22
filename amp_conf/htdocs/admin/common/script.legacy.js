@@ -673,5 +673,12 @@ $(document).ready(function(){
 		}, function() {
 		$(this).find("span").stop(true, true).animate({opacity: "hide"}, "fast");
 	});
+
+	
+	$('#nav').tabs({ 
+		cookie: { expires: 30 },
+		//event: 'mouseover',		 
+		});
  
+
 });

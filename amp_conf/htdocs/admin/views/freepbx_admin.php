@@ -62,13 +62,6 @@ if (is_array($fpbx_menu)) {
 	echo "<li class=\"last\"><a><span>&nbsp;</span></a></li>";
 	echo "</ul>\n";
 	
-	// create tabs, and set the proper one active
-	echo "<script type=\"text/javascript\">\n";
-	echo " $(function() {\n";
-	echo "   $('#nav').tabs(".$tab_num.");\n";
-	echo " });\n";
-	echo "</script>\n";
-	
 	// menu items
 	$prev_category = false;
 	$prev_type = false;

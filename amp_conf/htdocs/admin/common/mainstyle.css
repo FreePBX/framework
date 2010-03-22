@@ -851,25 +851,7 @@ div.modulebuttons {
 	color: #ff9933; 
 }
 
-/*******************  WAS: jquery.tabs.js *********************/
 
-/* Caution! Ensure accessibility in print and other media types... */
-@media projection, screen { /* Use class for showing/hiding tab content, so that visibility can be better controlled in different media types... */
-	.tabs-hide {
-		display: none;
-	}
-}
-#nav-tabs {
-	margin-bottom:0;
-}
-ul#nav-tabs li, ul#nav-tabs li a {
-	display:inline;
-}
-.tabs-container {
-	padding:0;
-	margin:0;
-}
-.tabs-loading em {
-	padding: 0 0 0 20px;
-	/* background: url(loading.gif) no-repeat 0 50%; */
-}
+/************** jQuery UI *************************/
+/* tabs() */
+.ui-tabs .ui-tabs-hide{display: none;}
