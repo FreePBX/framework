@@ -674,7 +674,7 @@ $(document).ready(function(){
 		$(this).find("span").stop(true, true).animate({opacity: "hide"}, "fast");
 	});
 
-	
+	//module setup/tools menu
 	$('#nav').tabs({ 
 		cookie: { expires: 30 },
 		//event: 'mouseover',		 
