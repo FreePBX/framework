@@ -1038,6 +1038,18 @@ if ($install_files)
 	if (!is_file("/etc/asterisk/voicemail.conf")) copy("/etc/asterisk/voicemail.conf.template","/etc/asterisk/voicemail.conf");
 	if (!is_dir("/var/spool/asterisk/voicemail/device")) amp_mkdir("/var/spool/asterisk/voicemail/device", "0755", true);
 	out("OK (".$num_copied." files copied, ".($num_files-$num_copied)." skipped)");
+
+  // link the packed js library for ARI, if there the error will indicate that
+  $libfreepbx = $amp_conf['AMPWEBROOT'].'/admin/common/libfreepbx.javascripts.js';
+  $dest_libfreepbx = $amp_conf['AMPWEBROOT'].'/recordings/theme/js/libfreepbx.javascripts.js'; 
+  if (file_exists($libfreepbx) && !file_exists($dest_libfreepbx)) {
+    outn(_("linking libfreepbx.javascripts.js to theme/js.."));
+    if (link($libfreepbx, $dest_libfreepbx)) {
+      out(_("ok"));
+    } else {
+      out(_("possible error - check warning message"));
+    }
+  }
 }
 
 // **** Apply amportal.conf configuration to files

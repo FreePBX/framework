@@ -4,7 +4,7 @@
     <TITLE>FreePBX User Portal</TITLE>
     <link rel="stylesheet" href="theme/main.css" type="text/css">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <script  type="text/javascript" src="../../admin/common/libfreepbx.javascripts.js"></script>
+    <script  type="text/javascript" src="theme/js/libfreepbx.javascripts.js"></script>
   </head>
   <body>
   <div id="page">

@@ -37,7 +37,7 @@ do
 	echo -e "}\n?>\n" >> $modules${modules%%/}.i18n.php
 	echo "Creating ${modules%%/}.pot file, extracting text strings"
 	# Save the file as a temp file
-	find ${modules%%/}/*.php | xargs xgettext -L PHP -o ${modules%%/}/i18n/${modules%%/}.tmp --keyword=_ -
+	find ${modules%%/}/*.php | xargs xgettext --no-location -L PHP -o ${modules%%/}/i18n/${modules%%/}.tmp --keyword=_ -
 	# Now add the copyright and the license info to the.pot file
 	# Again, could be done better, but I lack the time and really need this out now
 	echo "# This file is part of FreePBX." > ${modules%%/}/i18n/${modules%%/}.pot
@@ -70,7 +70,7 @@ cd ../..
 echo "Creating new POT template files for core"
 # spit out the module.xml for core to amp.i18.php so that we can grab it with the find
 /var/lib/asterisk/bin/module_admin i18n core > admin/modules/core/core.i18n.php
-find admin/*.php admin/cdr/*.php admin/views/*.php admin/common/*.php admin/modules/core/*.php -maxdepth 0 | xargs xgettext -L PHP -o admin/i18n/amp.pot --keyword=_ -
+find admin/*.php admin/cdr/*.php admin/views/*.php admin/common/*.php admin/modules/core/*.php -maxdepth 0 | xargs xgettext --no-location -L PHP -o admin/i18n/amp.pot --keyword=_ -
 # remove the <modulename>.i18.php
 rm admin/modules/core/core.i18n.php
 echo "Done, now don't forget to commit your work!"
