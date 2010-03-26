@@ -594,7 +594,10 @@ function symlink_subdirs($moduledir) {
 function err_copy($source, $dest) {
 	$ret = false;
 	set_error_handler("report_errors");
-	if (copy($source, $dest)) {
+	//if were copying a directory, just mkdir the directory
+	if(is_dir($source)){
+		$ret=mkdir($dest,0754);
+	}elseif(copy($source, $dest)) {
 		$ret = chmod($dest,0754);
 	}
 	restore_error_handler();
@@ -610,6 +613,30 @@ function err_unlink($dest) {
 	return $ret;
 }
 
+
+//based on: http://snippets.dzone.com/posts/show/155
+function listdir($directory, $recursive=true) {
+	$array_items = array();
+		if ($handle = opendir($directory)) {
+			while (false !== ($file = readdir($handle))) {
+				if ($file != "." && $file != "..") {
+					if (is_dir($directory. "/" . $file)) {
+						if($recursive) {
+							$array_items = array_merge($array_items, listdir($directory. "/" . $file, $recursive));
+						}
+					$file = $directory . "/" . $file;
+					$array_items[] = preg_replace("/\/\//si", "/", $file);
+				}else{
+					$file = $directory . "/" . $file;
+					$array_items[] = preg_replace("/\/\//si", "/", $file);
+				}
+			}
+		}
+		closedir($handle);
+	}
+	return array_reverse($array_items);//reverse so that we get directories BEFORE the files that are in them
+}
+
 function cp_subdirs($moduledir) {
 	global $cp_errors;
 	global $cp_dirs;
@@ -617,35 +644,32 @@ function cp_subdirs($moduledir) {
 	$cp_errors = "";
 	foreach ($cp_dirs as $subdir => $targetdir) {
 		$dir = addslash($moduledir).$subdir;
-		if (is_dir($dir)) {
-			$d = opendir($dir);
-			while ($file = readdir($d)) {
-				if ($file[0] != '.') {
-					$sourcefile = addslash($dir).$file;
-					$targetfile = addslash($targetdir).$file;
-
-					if (file_exists_wrapper($targetfile)) {
-						if (is_link($targetfile)) {
-							if (err_unlink($targetfile)) {
-								freepbx_log('retrieve-conf', 'devel-debug', "$targetfile was symbolic link, unlink successful");
-							} else {
-								freepbx_log('retrieve-conf', 'error', "$targetfile is a symblolic link, failed to unlink!");
-								break;
-							}
+		if(is_dir($dir)){
+			foreach(listdir($dir) as $idx => $file){
+				$sourcefile = $file;
+				$filesubdir=str_replace($dir.'/', '', $file);
+				$targetfile = addslash($targetdir).$filesubdir;
+	
+				if (file_exists_wrapper($targetfile)) {
+					if (is_link($targetfile)) {
+						if (err_unlink($targetfile)) {
+							freepbx_log('retrieve-conf', 'devel-debug', "$targetfile was symbolic link, unlink successful");
+						} else {
+							freepbx_log('retrieve-conf', 'error', "$targetfile is a symblolic link, failed to unlink!");
+							break;
 						}
 					}
-					// OK, now either the file is a regular file or isn't there, so proceed
-					//
-					if (err_copy($sourcefile,$targetfile)) {
-						freepbx_log('retrieve-conf', 'devel-debug', "$targetfile successfully copied");
-						// copy was successful, make sure it has execute permissions
-						chmod($targetfile,0754);
-					} else {
-						freepbx_log('retrieve-conf', 'error', "$targetfile failed to copy from module directory");
-					}
+				}
+				// OK, now either the file is a regular file or isn't there, so proceed
+				//
+				if (err_copy($sourcefile,$targetfile)) {
+					freepbx_log('retrieve-conf', 'devel-debug', "$targetfile successfully copied");
+					// copy was successful, make sure it has execute permissions
+					chmod($targetfile,0754);
+				} else {
+					freepbx_log('retrieve-conf', 'error', "$targetfile failed to copy from module directory");
 				}
 			}
-			closedir($d);
 		}
 	}
 	$nt = notifications::create($db);
