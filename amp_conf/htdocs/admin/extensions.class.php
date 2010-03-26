@@ -991,7 +991,12 @@ class ext_vm extends extension {
 }
 class ext_vmexists extends extension {
 	function output() {
-		return "MailBoxExists(".$this->data.")";
+		global $version; // Asterisk Version
+		if (version_compare($version, "1.6", ">=")) {
+      return 'Set(VMBOXEXISTSSTATUS=${IF(${MAILBOX_EXISTS('.$this->data.')}?SUCCESS:FAILED)})';
+    } else {
+		  return "MailBoxExists(".$this->data.")";
+    }
 	}
 }
 class ext_saydigits extends extension {
