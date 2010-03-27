@@ -2035,7 +2035,7 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 	//draw "parent" select box
 	$style=' style="'.(($destmod=='Error')?'background-color:red;':'background-color:white;').'"';
 	$html.='<select name="goto'.$i.'" class="destdropdown" '.$style.' tabindex="'.++$tabindex.'">';
-	$html.='<option value="" style="background-color:white;">== '._('chose one').' ==</option>';
+	$html.='<option value="" style="background-color:white;">== '._('choose one').' ==</option>';
 	foreach($drawselects_module_hash as $mod => $disc){
 		/* We bind to the hosting module's domain. If we find the translation there we use it, if not
 		 * we try the default 'amp' domain. If still no luck, we will try the _() which is the current
