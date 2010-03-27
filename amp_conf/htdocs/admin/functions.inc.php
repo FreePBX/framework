@@ -1487,7 +1487,7 @@ function die_freepbx($text, $extended_text="", $type="FATAL") {
 		if (!empty($extended_text)) {
 			echo "<p>".$extended_text."</p>\n";
 		}
-    echo "<h4>Trace Back</h4>";
+    echo "<h4>"._("Trace Back")."</h4>";
     echo "<pre>$trace</pre>";
 	} else {
 		// CLI
@@ -2048,7 +2048,7 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 		/* end i18n */
 		$selected=($mod==$destmod)?' SELECTED ':' ';
 		$style=' style="'.(($mod=='Error')?'background-color:red;':'background-color:white;').'"';
-		$html.='<option value="'.str_replace(' ','_',$mod).'"'.$selected.$style.'>'.$mod.'</option>';
+		$html.='<option value="'.str_replace(' ','_',$mod).'"'.$selected.$style.'>'.$label_text.'</option>';
 	}
 	$html.='</select> ';
 	
