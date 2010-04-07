@@ -52,7 +52,8 @@ if (!isset($amp_conf)) {
 
 <head>
 	<title><?php  echo _($title) ?></title>
-	<meta http-equiv="Content-Type" content="text/html" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
 	<link href="common/mainstyle.css" rel="stylesheet" type="text/css" />
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>
 	<style type="text/css">
@@ -67,7 +68,6 @@ if (!isset($amp_conf)) {
 	<!--[if IE]>
 	<link href="common/ie.css" rel="stylesheet" type="text/css" />
 	<![endif]-->	
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <?php 
 	// check if in the amp configuration the user has set that
 	// he wants to use an alternative style-sheet.

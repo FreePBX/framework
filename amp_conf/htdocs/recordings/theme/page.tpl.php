@@ -2,8 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <TITLE>FreePBX User Portal</TITLE>
-    <link rel="stylesheet" href="theme/main.css" type="text/css">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <link rel="stylesheet" href="theme/main.css" type="text/css" />
     <script  type="text/javascript" src="theme/js/libfreepbx.javascripts.js"></script>
   </head>
   <body>
