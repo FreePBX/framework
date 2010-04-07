@@ -1019,6 +1019,8 @@ class Voicemail {
         foreach ($lines as $key => $line) {
           unset($value);
           list($key,$value) = split('=',$line);
+          $key = trim($key);
+          $value = trim($value);
           if ($value) {
             $data[$file][$key] = $value;
           }
