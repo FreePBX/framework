@@ -2061,7 +2061,7 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 		$html.='<select name="'.str_replace(' ','_',$cat).$i.'" '.$tabindexhtml.$style.' class="destdropdown2">';
 		foreach($destination as $dest){
 			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
-		// This is but uggly, but I can't think of another way to do localization for this child object
+		// This is ugly, but I can't think of another way to do localization for this child object
 			if(isset($dest['category']) == "Terminate Call") {
 			    $child_label_text = dgettext('amp',$dest['description']);
 			    }
