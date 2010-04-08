@@ -953,20 +953,39 @@ class Settings {
 			</td>
 			</tr>";
 
-		$wav_enable = 'selected';
-		if ($_COOKIE['ari_voicemail_audio_format']=='.gsm'||
-		($_COOKIE['ari_voicemail_audio_format']=='' && $ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT=='.gsm')) {
+		$wav49_enable = 'selected';
+		if ($_COOKIE['ari_voicemail_audio_format']=='' && $ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT=='.WAV') {
+			$wav49_enable = 'selected';
 			$wav_enable = '';
-			$gsm_enable = 'selected';
+			$gsm_enable = '';
+		} else {
+    		    switch ($_COOKIE['ari_voicemail_audio_format']) {
+			case '.WAV':
+			    $wav49_enable = 'selected';
+			    $wav_enable = '';
+			    $gwm_enable = '';
+			    break;
+			case '.wav':
+			    $wav_enable = 'selected';
+		    	    $wav49_enable = '';
+			    $gwm_enable = '';
+			    break;
+			case '.gsm':
+			    $gsm_enable = 'selected';
+			    $wav49_enable = '';
+			    $wav_enable = '';
+			    break;
+			default:
+		    }
 		}
-
 		$set_voicemail_audio_format_text = "
 			<tr>
 			<td>" . _("Audio Format:") . "</td>
 			<td colspan=2>
 			<select name='voicemail_audio_format'>
-			<option value='.wav' " . $wav_enable .  ">" . _("Best Quality") . " (.wav)</option>
-			<option value='.gsm' " . $gsm_enable .  ">" . _("Smallest Download") . " (.gsm)</option>
+			<option value='.WAV' " . $wav49_enable .  ">" . _("Default") . " (.WAV)</option>
+			<option value='.wav' " . $wav_enable .    ">" . _("Best Quality") . " (.wav)</option>
+			<option value='.gsm' " . $gsm_enable .    ">" . _("Smallest Download") . " (.gsm)</option>
 			</select>
 			</td>
 			</tr>";
