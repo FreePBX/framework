@@ -17,8 +17,8 @@ class Login {
     */
   function Auth() {
 
-    global $ARI_ADMIN_USERNAME;
-    global $ARI_ADMIN_PASSWORD;
+    global $ariadminusername;
+    global $ariadminpassword;
     global $ARI_ADMIN_EXTENSIONS;
     global $ARI_CRYPT_PASSWORD;
     global $ASTERISK_VOICEMAIL_CONF;
@@ -75,11 +75,10 @@ class Login {
     if ($username && !$ARI_NO_LOGIN) {
 
       $auth = false;
-
       // check admin
       if (!$auth) {
-        if ($username==$ARI_ADMIN_USERNAME && 
-              $password==$ARI_ADMIN_PASSWORD) {
+        if ($username==$ariadminusername && 
+              $password==$ariadminpassword) {
 
           // authenticated
           $auth = true; 
@@ -411,7 +410,6 @@ class Login {
     $ret .= $display->DisplayHeaderText(_("Login"));
     $ret .= $display->DisplayLine();
     $ret .= checkErrorMessage();
-
     $ret .= "
       <table id='login'>
         <form id='login' name='login' action=" . $_SESSION['ARI_ROOT'] . " method='POST'>

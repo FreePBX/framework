@@ -110,6 +110,11 @@ function databaseLogon() {
   global $ASTERISKCDR_DBNAME;
 
   global $ARI_DISABLED_MODULES;
+  
+  global $ARI_ADMIN_USERNAME;
+  global $ARI_ADMIN_PASSWORD;
+  global $ariadminusername;
+  global $ariadminpassword;
 
   global $loaded_modules;
 
@@ -147,7 +152,8 @@ function databaseLogon() {
     if ($include) {
       global $amp_conf;
       $amp_conf = parse_amportal_conf($AMPORTAL_CONF_FILE);
-
+      $ariadminusername = isset($amp_conf["ARI_ADMIN_USERNAME"]) ? $amp_conf["ARI_ADMIN_USERNAME"] : $ARI_ADMIN_USERNAME;
+      $ariadminpassword = isset($amp_conf["ARI_ADMIN_PASSWORD"]) ? $amp_conf["ARI_ADMIN_PASSWORD"] : $ARI_ADMIN_PASSWORD;
       $mgrhost = $ASTERISKMGR_DBHOST;
       $mgruser = $amp_conf['AMPMGRUSER'];
       $mgrpass = $amp_conf['AMPMGRPASS'];
