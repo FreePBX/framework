@@ -130,7 +130,7 @@ if (!$skip_astman) {
 // connect to database
 require_once('common/db_connect.php'); //PEAR must be installed
 
-// default password check
+// default password check, first for Asterisk Manager, then for ARI
 
 if (!$quietmode && !isset($_REQUEST['handler'])) {
 	$nt = notifications::create($db);
@@ -138,6 +138,15 @@ if (!$quietmode && !isset($_REQUEST['handler'])) {
 		$nt->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
 	} else {
 		$nt->delete('core', 'AMPMGRPASS');
+	}
+}
+
+if (!$quietmode && !isset($_REQUEST['handler'])) {
+	$nt = notifications::create($db);
+	if ($amp_conf['ARI_ADMIN_PASSWORD'] == $amp_conf_defaults['ARI_ADMIN_PASSWORD'][1]) {
+		$nt->add_warning('ari', 'ARI_ADMIN_PASSWORD', _("Default ARI Admin password Used"), _("You are using the default ARI Admin password that is widely known, you should change to a new password. Do this in amportal.conf"));
+	} else {
+		$nt->delete('ari', 'ARI_ADMIN_PASSWORD');
 	}
 }
 

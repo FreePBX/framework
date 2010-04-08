@@ -716,6 +716,7 @@ $amp_conf_defaults = array(
 	'FOPPASSWORD'    => array('std' , 'passw0rd'),
 	'FOPSORT'        => array('std' , 'extension'),
 	'AMPSYSLOGLEVEL '=> array('std' , 'LOG_ERR'),
+	'ARI_ADMIN_PASSWORD' => array('std' , 'ari_password'),
 
 	'ASTETCDIR'      => array('dir' , '/etc/asterisk'),
 	'ASTMODDIR'      => array('dir' , '/usr/lib/asterisk/modules'),
@@ -755,6 +756,7 @@ $amp_conf_defaults = array(
 	'USEDIALONE'      => array('bool' , false),
 	'RELOADCONFIRM'   => array('bool' , true),
 	'DISABLECUSTOMCONTEXTS'   => array('bool' , false),
+
 );
 
 function parse_amportal_conf($filename) {
