@@ -299,10 +299,12 @@ $SETTINGS_VOICEMAIL_PASSWORD_EXACT = 0;
 
 #
 # Default
-#   option: ".wav" - wav format
+#   option: 
+#           ".WAV" - wav49 format
+#	    ".wav" - wav format
 #           ".gsm" - gsm format
 #
-$ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT = ".wav";
+$ARI_VOICEMAIL_AUDIO_FORMAT_DEFAULT = ".WAV";
 
 #
 # For setting 
