@@ -675,10 +675,7 @@ $(document).ready(function(){
 	});
 
 	//module setup/tools menu
-	$('#nav').tabs({ 
-		cookie: { expires: 30 },
-		//event: 'mouseover',		 
-		});
+	$('#nav').tabs({cookie:{expires:30}});
  
 
 });
