@@ -52,7 +52,7 @@ if (!@include($amp_conf['ASTETCDIR'].'/call-daily-load-table.php')) {
 	$FG_TABLE_COL[]=array ("Calldate", "calldate", "18%", "center", "SORT", "19");
 	$FG_TABLE_COL[]=array ("Channel", "channel", "13%", "center", "", "30");
 	$FG_TABLE_COL[]=array ("Source", "src", "10%", "center", "", "30");
-	$FG_TABLE_COL[]=array ("Clid", "clid", "12%", "center", "", "30");
+	$FG_TABLE_COL[]=array ("Clid", "clid", "12%", "center", "", "30",'','','','','','filter_html');
 	$FG_TABLE_COL[]=array ("Lastapp", "lastapp", "8%", "center", "", "30");
 
 	$FG_TABLE_COL[]=array ("Lastdata", "lastdata", "12%", "center", "", "30");
