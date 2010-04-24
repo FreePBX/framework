@@ -2249,6 +2249,7 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
 		if (!$amp_conf['MODULEADMINWGET']) {
+      ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
 			$data = @ file_get_contents($fn);
 		} else {
 			$data = "";
@@ -3308,6 +3309,7 @@ function _module_readxml($modulename) {
 	}
 
 	if (file_exists($xmlfile)) {
+    ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
 		$data = file_get_contents($xmlfile);
 		//$parser = new xml2ModuleArray($data);
 		//$xmlarray = $parser->parseModulesXML($data);
@@ -3535,6 +3537,7 @@ function module_get_annoucements() {
 
 	$fn = "http://mirror.freepbx.org/version-".getversion().".html".$options;
 	if (!$amp_conf['MODULEADMINWGET']) {
+    ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
 		$announcement = @ file_get_contents($fn);
 	} else {
 		$announcement = '';
@@ -3737,6 +3740,31 @@ function dbug(){
 	}else{
 		dbug_write($msg."\n");
 	}
+}
+
+// PHP 4 does not have file_put_contents so create an aproximation of what the real function does
+//
+if (!function_exists('file_put_contents')) {
+  function file_put_contents($filename, $data, $flags='', $context=null) {
+    $option = $flags == FILE_APPEND ? 'a' : 'w';
+    if ($context !== null) {
+      $fd = @fopen($filename, $option);
+    } else {
+      $fd = @fopen($filename, $option, false, $context);
+    }
+    if (!$fd) {
+      return false;
+    }
+    if (is_array($data)) {
+      $data = implode('',$data);
+    } else if (is_object($data)) {
+      $data = print_r($data,true);
+    }
+    $bytes = fwrite($fd,$data);
+    fclose($fd);
+
+    return $bytes;
+  }
 }
 
 function dbug_write($txt,$check=''){
