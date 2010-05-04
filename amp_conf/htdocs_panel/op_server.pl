@@ -34,7 +34,7 @@ use Pod::Usage;
 use Fcntl;
 use POSIX qw(setsid EWOULDBLOCK);
 
-my $FOP_VERSION    = "0.30";
+my $FOP_VERSION    = "SVNVERSION";
 my %datos          = ();
 my %chanvar        = ();
 my %monitoring     = ();
@@ -2424,7 +2424,7 @@ sub find_panel_buttons {
         if ( defined( $datos{$uniqueid}{CallerID} ) ) {
             $calleridnum = $datos{$uniqueid}{CallerID};
         }
-        if (   defined( $datos{$uniqueid}{Extension} )
+        if ( defined( $datos{$uniqueid}{Extension} )
             && defined( $datos{$uniqueid}{AppData} )
             && $datos{$uniqueid}{AppData} =~ m/^FROM_DID/ )
         {
@@ -3357,28 +3357,32 @@ sub procesa_bloque {
     elsif ( $evento eq "dial" ) {
 
         # We use this hashes to store the remote callerid for CVS-HEAD
-        my $key      = "$server^$hash_temporal{'Destination'}";
         my $dorigen  = "";
         my $ddestino = "";
-        $remote_callerid{$key}      = $hash_temporal{"CallerID"};
-        $remote_callerid_name{$key} = $hash_temporal{"CallerIDName"};
 
-        foreach my $var ( split( /\|/, $passvars ) ) {
-            if ( defined( $chanvar{ $hash_temporal{"SrcUniqueID"} }{$var} ) ) {
-                $passvar{ $hash_temporal{"DestUniqueID"} }{$var} = $chanvar{ $hash_temporal{"SrcUniqueID"} }{$var};
+        if ( $hash_temporal{Destination} ) {
+            my $key = "$server^$hash_temporal{Destination}";
+        }
+        $remote_callerid{$key}      = $hash_temporal{CallerID};
+        $remote_callerid_name{$key} = $hash_temporal{CallerIDName};
+
+        if ( $hash_temporal{SrcUniqueID} ) {
+            if ( $hash_temporal{DestUniqueID} ) { 
+               foreach my $var ( split( /\|/, $passvars ) ) {
+                 $passvar{$hash_temporal{DestUniqueID}}{$var} = $chanvar{$hash_temporal{SrcUniqueID}}{$var};
+               }
             }
+            $datos{"$hash_temporal{SrcUniqueID}-$server"}{Origin} = "true";
         }
 
-        $datos{"$hash_temporal{SrcUniqueID}-$server"}{'Origin'} = "true";
-
-        if ( $hash_temporal{'Source'} =~ m/^Local/i ) {
+        if (($hash_temporal{Source}) && ($hash_temporal{Source} =~ m/^Local/i)) {
 
             # We also look for Dial from Local/XX@context to TECH/XX for
             # matching agentcallbacklogins exten@context to real channels
             # so we can map outgoing calls to Agent buttons
             # It will only work after the agent receives at least one call
-            ( $dorigen,  undef ) = separate_session_from_channel( $hash_temporal{'Source'} );
-            ( $ddestino, undef ) = separate_session_from_channel( $hash_temporal{'Destination'} );
+            ( $dorigen,  undef ) = separate_session_from_channel( $hash_temporal{Source} );
+            ( $ddestino, undef ) = separate_session_from_channel( $hash_temporal{Destination} );
             if ( exists( $channel_to_agent{"$server^$dorigen"} ) ) {
                 my $agente = $channel_to_agent{"$server^$dorigen"};
 
