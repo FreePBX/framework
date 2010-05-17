@@ -676,6 +676,27 @@ $(document).ready(function(){
 
 	//module setup/tools menu
 	$('#nav').tabs({cookie:{expires:30}});
+	
+	//acrodian module setup menu
+	$("div#nav-setup").accordion(
+		{ header: '.category',
+		autoHeight: false,
+		active: parseInt($.cookie('lastMenuAccordionSetup'))}
+		);
  
+	$(".category.setup").click(function(){
+		$.cookie('lastMenuAccordionSetup', $(".category.setup").index(this));
+	})
+	
+	//acrodian module tools menu
+	$("div#nav-tool").accordion(
+		{ header: '.category',
+		autoHeight: false,
+		active: parseInt($.cookie('lastMenuAccordionTool'))}
+		);
+ 
+	$(".category.tool").click(function(){
+		$.cookie('lastMenuAccordionTool', $(".category.tool").index(this));
+	})
 
 });

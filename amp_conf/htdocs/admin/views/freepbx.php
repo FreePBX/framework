@@ -110,6 +110,7 @@ if (!isset($amp_conf)) {
 	<script type="text/javascript" src="common/jquery-1.4.2.js"></script>
 	<script type="text/javascript" src="common/jquery-ui-1.8.custom.min.js"></script>
 	<script type="text/javascript" src="common/script.legacy.js"></script> <!-- legacy script.js.php -->
+	<script type="text/javascript" src="common/jquery.ui.accordion.js"></script> <!--acordian menus -->
 	<script type="text/javascript" src="common/jquery.dimensions.js"></script> <!-- used by reload/module admin -->
 	<script type="text/javascript" src="common/jquery.cookie.js"></script> <!-- plugin for setting/reteiving cookies -->
 	<script type="text/javascript" src="common/jquery.toggleval.3.0.js"></script> <!-- plugin for adding help text to input boxes -->

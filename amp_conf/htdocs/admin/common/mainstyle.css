@@ -263,17 +263,16 @@ div.attention {
 #nav ul li.category {
 	background: #eee;
 	padding: 0px 2px 2px 5px;
-	
-
 	color: white; /* header items */
 	font-size: 12px;
 	font-weight: bold;
-        white-space: nowrap;
-        overflow: hidden;
-
+  white-space: nowrap;
+  overflow: hidden;
 	background-image: url(../images/category1.png);
 	background-repeat: no-repeat;
 	background-position: right; 
+	cursor:pointer;
+	height: auto;
 }
 #nav ul li.menuitem { /* menu links */
 	border-bottom: 2px solid #ABC9FF;
@@ -282,8 +281,8 @@ div.attention {
 	text-decoration:none;
 	font-size: 14px;
 	font-weight: normal;
-        white-space: nowrap;
-        overflow: hidden;
+  white-space: nowrap;
+  overflow: hidden;
 	color: #072966;
 	background-image: url(../images/modules1.png);
 	background-repeat: repeat-y;
