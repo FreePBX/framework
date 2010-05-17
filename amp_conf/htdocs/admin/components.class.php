@@ -729,6 +729,22 @@ class gui_drawselects extends guiinput {
 	}	
 }
 
+class gui_textarea extends guiinput {
+	function gui_textarea($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0) {
+		// call parent class contructor
+		$parent_class = get_parent_class($this);
+		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
+		
+		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
+	
+		$list = explode("\n",$this->currentvalue);
+		$rows = count($list); 
+		$rows = (($rows > 20) ? 20 : $rows);
+
+		$this->html_input = "<textarea rows=\"$rows\" cols=\"24\" name=\"$this->_elemname\" id=\"$this->_elemname\"$maxlength>" . htmlentities($this->currentvalue) . "</textarea>";
+	}
+}
+
 /*
 ************************************************************
 ** guitext is the base class of all text fields (e.g. h1) **
