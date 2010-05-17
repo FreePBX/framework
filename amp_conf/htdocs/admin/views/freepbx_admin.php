@@ -78,7 +78,7 @@ if (is_array($fpbx_menu)) {
 		
 		if ($fpbx_usecategories && ($row['category'] != $prev_category)) {
 			if ($row['category'] != 'Admin') {echo '</div>'; }
-			echo "\t\t<li class=\"category ".$row['type']."\">> ".htmlspecialchars(_($row['category']), ENT_QUOTES)."</li>\n<div>";
+			echo "\t\t<li class=\"category ".$row['type']."\">".htmlspecialchars(_($row['category']), ENT_QUOTES)."</li>\n<div>";
 			$prev_category = $row['category'];
 		}
 		
