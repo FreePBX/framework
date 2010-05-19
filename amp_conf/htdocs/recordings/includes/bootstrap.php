@@ -113,7 +113,7 @@ function getFiles($path,$filter,$recursive_max,$recursive_count) {
         $fileCount++;
         if ($fileCount>$SETTINGS_MAX_FILES) {
           $_SESSION['ari_error'] 
-            .= _("To many files in $msg_path Not all files processed") . "<br>";
+            .= sprintf(_("Too many files in %s. Not all files processed"),$msg_path) . "<br>";
           return;
         }
 
@@ -122,7 +122,7 @@ function getFiles($path,$filter,$recursive_max,$recursive_count) {
           $dirCount++;
           if ($dirCount>10) {
             $_SESSION['ari_error'] 
-              .= sprintf(_("To many directories in %s Not all files processed"),$msg_path) . "<br>";
+              .= sprintf(_("Too many directories in %s. Not all files processed"),$msg_path) . "<br>";
             return;
           }
 
@@ -308,6 +308,7 @@ checkDependencies();
 startARISession();
 setARIRoot();
 
+include_once("./includes/common.php");
 include_once("./includes/main.conf.php");
 include_once("./version.php");
 include_once("./includes/crypt.php"); 

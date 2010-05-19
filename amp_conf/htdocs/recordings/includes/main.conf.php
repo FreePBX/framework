@@ -14,6 +14,7 @@
 $AMP_FUNCTIONS_FILES = "../admin/functions.php;../admin/functions.inc.php";
 $AMPORTAL_CONF_FILE = "/etc/amportal.conf";
 
+$amp_conf = parse_amportal_conf($AMPORTAL_CONF_FILE);
 #
 # Host for Asterisk Manager Interface
 #
@@ -129,7 +130,7 @@ $AJAX_PAGE_REFRESH_TIME ="01:00";
 #
 # voicemail config.
 #
-$ASTERISK_VOICEMAIL_CONF = "/etc/asterisk/voicemail.conf";
+$ASTERISK_VOICEMAIL_CONF = $amp_conf["ASTETCDIR"]."/voicemail.conf";
 
 #
 # To set to a specific context.  
@@ -141,7 +142,8 @@ $ASTERISK_VOICEMAIL_CONTEXT = "";
 # Location of asterisk voicemail recordings on server
 #    Use semi-colon for multiple paths
 #
-$ASTERISK_VOICEMAIL_PATH = "/var/spool/asterisk/voicemail";
+
+$ASTERISK_VOICEMAIL_PATH = $amp_conf["ASTSPOOLDIR"]."/voicemail";
 
 #
 # valid mailbox folders
@@ -164,7 +166,7 @@ $ASTERISK_VOICEMAIL_FOLDERS[4]['name'] = _("Work");
 #
 # Location of asterisk call monitor recordings on server
 #
-$ASTERISK_CALLMONITOR_PATH = "/var/spool/asterisk/monitor";
+$ASTERISK_CALLMONITOR_PATH = $amp_conf["ASTSPOOLDIR"]."/monitor";
 
 #
 # Extensions with access to all call monitor recordings
@@ -259,12 +261,11 @@ $ARI_HELP_FEATURE_CODES['*98'] = _("Dial Voicemail");
 #
 $ASTERISK_PROTOCOLS = array();
 $ASTERISK_PROTOCOLS['iax']['table'] = "iax";
-$ASTERISK_PROTOCOLS['iax']['config_files'] = "/etc/asterisk/iax.conf;/etc/asterisk/iax_additional.conf";
+$ASTERISK_PROTOCOLS['iax']['config_files'] = $amp_conf["ASTETCDIR"]."/iax.conf;".$amp_conf["ASTETCDIR"]."/iax_additional.conf";
 $ASTERISK_PROTOCOLS['sip']['table'] = "sip";
-$ASTERISK_PROTOCOLS['sip']['config_files'] = "/etc/asterisk/sip.conf;/etc/asterisk/sip_additional.conf";
+$ASTERISK_PROTOCOLS['sip']['config_files'] = $amp_conf["ASTETCDIR"]."/sip.conf;".$amp_conf["ASTETCDIR"]."/sip_additional.conf";
 $ASTERISK_PROTOCOLS['zap']['table'] = "zap";
-$ASTERISK_PROTOCOLS['zap']['config_files'] = "/etc/asterisk/zapata.conf;/etc/asterisk/zapata_additional.conf;/etc/asterisk/chan_dahdi.conf;/etc/asterisk/chan_dahdi_additional.conf";
-
+$ASTERISK_PROTOCOLS['zap']['config_files'] = $amp_conf["ASTETCDIR"]."/zapata.conf;".$amp_conf["ASTETCDIR"]."/zapata_additional.conf;".$amp_conf["ASTETCDIR"]."/chan_dahdi.conf;".$amp_conf["ASTETCDIR"]."/chan_dahdi_additional.conf";
 # Settings for Follow-Me Select Boxes in seconds
 #
 
