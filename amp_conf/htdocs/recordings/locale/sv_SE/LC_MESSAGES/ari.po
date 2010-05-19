@@ -1,678 +1,1095 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# This file is part of FreePBX.
+#
+#    FreePBX is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    FreePBX is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>.
+#
+#    Copyright Niklas Larsson <pnsystem@comhem.se>
+#    Copyright 2010, Mikael Carlsson mickecamino@gmail.com
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-03 08:32-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Niklas Larsson <pnsystem@comhem.se>\n"
+"POT-Creation-Date: 2010-05-05 21:29+0200\n"
+"PO-Revision-Date: 2010-05-19 19:36+0200\n"
+"Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"First-Translator: Niklas Larsson <pnsystem@comhem.se>\n"
 
-#: ../includes/asi.php:46
+#: includes/asi.php:46
 msgid "Asterisk Call Manager not responding"
-msgstr "Asterisk Call Manager svara ej"
+msgstr "Asterisk Call Manager svarar inte"
 
-#: ../includes/asi.php:54
+#: includes/asi.php:54
 msgid "Asterisk authentication failed:"
-msgstr "Ej godk&auml;nd autentisering mot Asterisk:"
+msgstr "Autentiseringen mot Asterisk misslyckades:"
 
-#: ../includes/asi.php:96 ../includes/asi.php:111
-#, fuzzy
+#: includes/asi.php:96 includes/asi.php:111 includes/asi.php:130
+#: includes/asi.php:144
 msgid "Asterisk command not understood"
-msgstr "Asterisk f&ouml;rstod ej omladdningskommandot"
+msgstr "Asterisk förstod inte kommandot"
 
-#: ../includes/bootstrap.php:123
+#: includes/bootstrap.php:116
 #, php-format
-msgid "To many directories in %s Not all files processed"
-msgstr "F&ouml;r m&aring;nga mappar i %s Alla filer har inte behandlats"
+msgid "Too many files in %s. Not all files processed"
+msgstr "För många filer i %s. Alla filer har inte behandlats"
 
-#: ../includes/bootstrap.php:226
-#, fuzzy
+#: includes/bootstrap.php:125
+#, php-format
+msgid "Too many directories in %s. Not all files processed"
+msgstr "För många mappar i %s. Alla filer har inte behandlats"
+
+#: includes/bootstrap.php:228
 msgid "ARI requires a version of PHP 4.3 or later"
-msgstr "ARI kr&auml;ver version 4.0 eller h&ouml;gre av PHP"
+msgstr "ARI kräver version 4.3 eller högre av PHP"
 
-#: ../includes/bootstrap.php:245
+#: includes/bootstrap.php:247
 msgid ""
 "PHP PEAR must be installed.  Visit http://pear.php.net for help with "
 "installation."
 msgstr ""
-"PHP PEAR m&aring;ste installeras. G&aring; till http://pear.php.net, och "
-"installera."
+"PHP PEAR måste installeras. Gå till http://pear.php.net för hjälp med "
+"installationen."
 
-#: ../includes/common.php:173
-#, fuzzy
+#: includes/common.php:201 includes/common.php:221
 msgid "ARI does not appear to have access to the Asterisk Manager."
-msgstr "Kan ej ansluta till Asterisk Manager"
+msgstr "Kan inte ansluta till Asterisk Manager"
 
-#: ../includes/common.php:174
-#, fuzzy
+#: includes/common.php:202 includes/common.php:222
 msgid ""
 "Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager "
 "Account."
 msgstr ""
-"Kontrollera ARI 'main.conf' filen och inst&auml;llningarna f&ouml;r Asterisk "
+"Kontrollera ARI 'main.conf.php'-filen och inställningarna för Asterisk "
 "Manager kontot."
 
-#: ../includes/common.php:175
-#, fuzzy
+#: includes/common.php:203 includes/common.php:223
 msgid "Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account"
 msgstr ""
 "Kontrollera /etc/asterisk/manager.conf, se till att det finns ett korrekt "
 "Asterisk Manager konto"
 
-#: ../includes/common.php:176
-#, fuzzy
+#: includes/common.php:204 includes/common.php:224
 msgid ""
 "make sure [general] enabled = yes and a 'permit=' line for localhost or the "
 "webserver."
 msgstr ""
-" som bla har [general] enabled = yes och en 'permit=' f&ouml;r localhost "
-"eller ip nummret f&ouml;r webservern"
+" att det finns en sektion [general] enabled = yes och en 'permit=' för "
+"localhost eller ip-nummret för webservern"
 
-#: ../includes/common.php:193 ../includes/common.php:208
-#, fuzzy
+#: includes/common.php:241 includes/common.php:256
 msgid "Check AMP installation, asterisk, and ARI main.conf"
-msgstr "Kontrollera AMP installationen, asterisk databas eller ARI main.conf"
+msgstr "Kontrollera AMP-installationen, Asterisk och ARI main.conf"
 
-#: ../includes/common.php:344
+#: includes/common.php:400
 msgid "Logout"
 msgstr "Logga ut"
 
-#: ../includes/common.php:349
+#: includes/common.php:405
 msgid "Page Not Found."
 msgstr "Sidan hittas ej."
 
-#: ../includes/display.php:92
+#: includes/display.php:92
 msgid "Search"
-msgstr "S&ouml;k"
+msgstr "Sök"
 
-#: ../includes/display.php:135
+#: includes/display.php:135
 msgid "Searched for"
-msgstr "S&ouml;kte efter"
+msgstr "Sökte efter"
 
-#: ../includes/display.php:139
-#, fuzzy, php-format
+#: includes/display.php:139
+#, php-format
 msgid "Results %d - %d of %d"
-msgstr "Resultat %d av %d"
+msgstr "Resultat %d - %d av %d"
 
-#: ../includes/display.php:141
-#, fuzzy, php-format
+#: includes/display.php:141
+#, php-format
 msgid "Results %d"
 msgstr "Resultat %d"
 
-#: ../includes/display.php:195
+#: includes/display.php:195
 msgid "First"
-msgstr "F&ouml;rst"
+msgstr "Först"
 
-#: ../includes/display.php:208
+#: includes/display.php:208
 msgid "Last"
 msgstr "Sist"
 
-#: ../includes/login.php:267
-msgid "Incorrect Password"
-msgstr "Felaktigt l&ouml;senord"
-
-#: ../includes/login.php:279
+#: includes/login.php:194 includes/login.php:266 includes/login.php:278
 msgid "Incorrect Username or Password"
-msgstr "Felaktigt l&ouml;senord"
+msgstr "Felaktigt användarnamn eller lösenord"
 
-#: ../includes/login.php:402 ../includes/login.php:411
+#: includes/login.php:410 includes/login.php:418
 msgid "Login"
-msgstr "Anv&auml;ndarnamn"
+msgstr "Användarnamn"
 
-#: ../includes/login.php:419
+#: includes/login.php:426
 msgid "Password"
-msgstr "L&ouml;senord"
+msgstr "Lösenord"
 
-#: ../includes/login.php:428
+#: includes/login.php:435
 msgid "Submit"
 msgstr "Logga in"
 
-#: ../includes/login.php:436
+#: includes/login.php:443
 msgid "Remember Password"
-msgstr "Kom ih&aring;g l&ouml;senord"
+msgstr "Kom ihåg lösenord"
 
-#: ../includes/login.php:451
-#, fuzzy
+#: includes/login.php:458
 msgid "Use your <b>Voicemail Mailbox and Password</b>"
-msgstr ""
-"Anv&auml;nd din <b>R&ouml;stbrevl&aring;das nummer och l&ouml;senord</b>"
+msgstr "Använd din <b>Röstbrevlådas nummer och lösenord</b>"
 
-#: ../includes/login.php:452
+#: includes/login.php:459
 msgid "This is the same password used for the phone"
-msgstr "Det &auml;r samma l&ouml;senord som till din telefon"
+msgstr "Det är samma lösenord som till din telefon"
 
-#: ../includes/login.php:454
+#: includes/login.php:461
 msgid ""
 "For password maintenance or assistance, contact your Phone System "
 "Administrator."
 msgstr ""
-"Om du har problem med l&ouml;senord eller beh&ouml;ver hj&auml;lp ska du "
-"kontakta din v&auml;xel ansvarig"
+"Om du har problem med lösenord eller behöver hjälp ska du kontakta din "
+"systemoperatör"
 
-#: ../includes/main.conf.php:152
+#: includes/main.conf.php:151
 msgid "INBOX"
 msgstr "Inbox"
 
-#: ../includes/main.conf.php:154
+#: includes/main.conf.php:153
 msgid "Family"
 msgstr "Familj"
 
-#: ../includes/main.conf.php:156
+#: includes/main.conf.php:155
 msgid "Friends"
-msgstr "V&auml;nner"
+msgstr "Vänner"
 
-#: ../includes/main.conf.php:158
+#: includes/main.conf.php:157
 msgid "Old"
 msgstr "Gamla"
 
-#: ../includes/main.conf.php:160
+#: includes/main.conf.php:159
 msgid "Work"
 msgstr "Arbete"
 
-#: ../includes/main.conf.php:229
-msgid "Directory"
-msgstr "Katalog"
+#: includes/main.conf.php:238
+msgid "Call Forward All Activate"
+msgstr "Aktivera konstant vidarekoppling"
 
-#: ../includes/main.conf.php:230
-msgid "Echo Test"
-msgstr "Eko test"
+#: includes/main.conf.php:239
+msgid "Call Forward All Deactivate"
+msgstr "Avaktivera konstant vidarekoppling för din anknytning"
 
-#: ../includes/main.conf.php:231 ../modules/callmonitor.module:161
-#: ../modules/voicemail.module:324
-msgid "Time"
-msgstr "Tid"
+#: includes/main.conf.php:240
+msgid "Call Forward All Prompting Deactivate"
+msgstr "Avaktivera konstant vidarekoppling"
 
-#: ../includes/main.conf.php:232
-msgid "Weather"
-msgstr "V&auml;der"
+#: includes/main.conf.php:241
+msgid "Call Forward Busy Activate"
+msgstr "Aktivera vidarekoppling vid upptaget"
 
-#: ../includes/main.conf.php:233
-msgid "Schedule wakeup call"
-msgstr "Schemal&auml;gg v&auml;ckningssamtal"
+#: includes/main.conf.php:242
+msgid "Call Forward Busy Deactivate"
+msgstr "Avaktivera vidarekoppling vid upptaget för din anknytning"
 
-#: ../includes/main.conf.php:234
-msgid "festival test (your extension is XXX)"
-msgstr "Festival test (din anknytning &auml;r XXX)"
+#: includes/main.conf.php:243
+msgid "Call Forward Busy Prompting Deactivate"
+msgstr "Avaktivera vidarekoppling vid upptaget"
 
-#: ../includes/main.conf.php:235
-msgid "Activate Call Waiting (deactivated by default)"
-msgstr "Aktivera Samtal V&auml;ntar"
+#: includes/main.conf.php:244
+msgid "Call Forward No Answer/Unavailable Activate"
+msgstr "Aktivera vidarekoppling vid inget svar/otillgänglig"
 
-#: ../includes/main.conf.php:236
-msgid "Deactivate Call Waiting"
-msgstr "Avaktivera Samtal V&auml;ntar"
+#: includes/main.conf.php:245
+msgid "Call Forward No Answer/Unavailable Deactivate"
+msgstr "Avaktivera vidarekoppling vid inget svar/otillgänglig"
 
-#: ../includes/main.conf.php:237
-msgid "Call Forwarding System"
-msgstr "Vidarekoppla"
+#: includes/main.conf.php:246
+msgid "Call Waiting - Activate"
+msgstr "Aktivera samtal väntar"
 
-#: ../includes/main.conf.php:238
-msgid "Disable Call Forwarding"
-msgstr "Avaktivera vidarekoppling"
+#: includes/main.conf.php:247
+msgid "Call Waiting - Deactivate"
+msgstr "Avaktivera samtal väntar"
 
-#: ../includes/main.conf.php:239
-#, fuzzy
-msgid "IVR Recording"
-msgstr "R&ouml;stmeny inspelning"
+#: includes/main.conf.php:248
+msgid "Do-Not-Disturb Activate"
+msgstr "Aktivera Stör-ej"
 
-#: ../includes/main.conf.php:240
-msgid "Enable Do-Not-Disturb"
-msgstr "Aktivera St&ouml;r Ej"
+#: includes/main.conf.php:249
+msgid "Do-Not-Disturb Deactivate"
+msgstr "Avaktivera Stör-ej"
 
-#: ../includes/main.conf.php:241
-msgid "Disable Do-Not-Disturb"
-msgstr "Avaktivera St&ouml;r Ej"
+#: includes/main.conf.php:250
+msgid "My Voicemail"
+msgstr "Min röstbrevlåda"
 
-#: ../includes/main.conf.php:242
-msgid "Call Forward on Busy"
-msgstr "Vidarekoppla vid upptaget"
+#: includes/main.conf.php:251
+msgid "Dial Voicemail"
+msgstr "Ring en röstbrevlåda"
 
-#: ../includes/main.conf.php:243
-msgid "Disable Call Forward on Busy"
-msgstr "Avaktivera vidarekoppla vid upptaget"
+#: misc/callme_page.php:54
+msgid "The call was terminated."
+msgstr "Samtalet avslutades"
 
-#: ../includes/main.conf.php:244
-#, fuzzy
-msgid "Message Center (does not ask for extension)"
-msgstr "R&ouml;stbrevl&aring;da (fr&aring;ga ej efter anknytning)"
-
-#: ../includes/main.conf.php:245
-msgid "Enter Message Center"
-msgstr "G&aring; till r&ouml;stbrevl&aring;dan"
-
-#: ../includes/main.conf.php:246
-msgid "Playback IVR Recording"
-msgstr "Spela upp r&ouml;stmeny"
-
-#: ../includes/main.conf.php:247
-msgid "Test Fax"
-msgstr "Fax test"
-
-#: ../includes/main.conf.php:248
-msgid "Simulate incoming call"
-msgstr "Simulera inkommande samtal"
-
-#: ../includes/main.conf.php:289
-msgid "Email voicemail as attachment"
-msgstr "Bifoga meddeladen i E-Post"
-
-#: ../includes/main.conf.php:290
-msgid "Say caller id in recording emailed"
-msgstr "L&auml;ser upp nummret i meddelandet"
-
-#: ../includes/main.conf.php:291
-#, fuzzy
-msgid "Say envelop (date/time) in recording emailed"
-msgstr "L&auml;ser upp informationen i meddelandet"
-
-#: ../includes/main.conf.php:292
-msgid "Delete voicemail when emailed"
-msgstr "Radera meddelandet n&auml;r det e-postats"
-
-#: ../includes/main.conf.php:293
-msgid "Play next message after deleting current message"
-msgstr "Spelar upp n&auml;sta eftera att ha raderat nuvarande"
-
-#: ../includes/main.conf.php:294
-msgid "Ask caller to review their voicemail before sending"
-msgstr ""
-
-#: ../includes/main.conf.php:295
-msgid "Maximum time in seconds a voicemail will record"
-msgstr ""
-
-#: ../modules/callmonitor.module:37 ../modules/callmonitor.module:257
+#: modules/callmonitor.module:36 modules/callmonitor.module:276
 msgid "Call Monitor"
 msgstr "Samtalsregister"
 
-#: ../modules/callmonitor.module:132
+#: modules/callmonitor.module:72 modules/voicemail.module:169
+msgid "One or more messages must be selected before clicking delete."
+msgstr "Ett eller flera meddelanden måste väljas innan du klickar Ta bort"
+
+#: modules/callmonitor.module:136
 #, php-format
 msgid "Path is not a directory: %s"
-msgstr "S&oulm;kv&auml;gen leder ej till en mapp: %s"
+msgstr "Sökvägen leder ej till en mapp: %s"
 
-#: ../modules/callmonitor.module:141 ../modules/voicemail.module:301
+#: modules/callmonitor.module:151 modules/voicemail.module:467
 msgid "delete"
-msgstr "Radera"
+msgstr "Ta bort"
 
-#: ../modules/callmonitor.module:147
-#, fuzzy
+#: modules/callmonitor.module:157
 msgid "duration"
-msgstr "L&auml;ngd"
+msgstr "längd"
 
-#: ../modules/callmonitor.module:150
-#, fuzzy
+#: modules/callmonitor.module:160
 msgid "ignore"
 msgstr "ignorera"
 
-#: ../modules/callmonitor.module:159 ../modules/voicemail.module:322
+#: modules/callmonitor.module:169 modules/voicemail.module:492
 msgid "Date"
 msgstr "Datum"
 
-#: ../modules/callmonitor.module:163 ../modules/voicemail.module:326
+#: modules/callmonitor.module:171 modules/voicemail.module:494
+msgid "Time"
+msgstr "Tid"
+
+#: modules/callmonitor.module:173 modules/voicemail.module:496
 msgid "Caller ID"
 msgstr "Nummerpresentation"
 
-#: ../modules/callmonitor.module:165
+#: modules/callmonitor.module:175
 msgid "Source"
-msgstr "K&auml;lla"
+msgstr "Källa"
 
-#: ../modules/callmonitor.module:167
+#: modules/callmonitor.module:177
 msgid "Destination"
-msgstr "M&aring;l"
+msgstr "Mål"
 
-#: ../modules/callmonitor.module:169
+#: modules/callmonitor.module:179
 msgid "Context"
 msgstr "Sammanhang"
 
-#: ../modules/callmonitor.module:171 ../modules/voicemail.module:332
+#: modules/callmonitor.module:181 modules/voicemail.module:502
 msgid "Duration"
-msgstr "L&auml;ngd"
+msgstr "Längd"
 
-#: ../modules/callmonitor.module:202
+#: modules/callmonitor.module:212
 msgid "Monitor"
 msgstr "Inspelning"
 
-#: ../modules/callmonitor.module:222 ../modules/voicemail.module:373
-msgid "play"
-msgstr "spela"
+#: modules/callmonitor.module:233 modules/voicemail.module:554
+msgid "Play"
+msgstr "Spela upp"
 
-#: ../modules/callmonitor.module:259
-#, fuzzy, php-format
+#: modules/callmonitor.module:234 modules/voicemail.module:535
+#: modules/voicemail.module:558
+msgid "Download"
+msgstr "Ladda ner"
+
+#: modules/callmonitor.module:278
+#, php-format
 msgid "Call Monitor for %s (%s)"
-msgstr "Samtalsregister f&ouml;r %s (%s)"
+msgstr "Samtalsregister för %s (%s)"
 
-#: ../modules/callmonitor.module:311 ../modules/voicemail.module:475
+#: modules/callmonitor.module:347 modules/voicemail.module:703
 msgid "select"
-msgstr "Val"
+msgstr "välj"
 
-#: ../modules/callmonitor.module:312 ../modules/voicemail.module:476
+#: modules/callmonitor.module:348 modules/voicemail.module:704
 msgid "all"
 msgstr "alla"
 
-#: ../modules/callmonitor.module:313 ../modules/voicemail.module:477
+#: modules/callmonitor.module:349 modules/voicemail.module:705
 msgid "none"
 msgstr "inga"
 
-#: ../modules/callmonitor.module:533
+#: modules/callmonitor.module:573
 msgid "Only deletes recording files, not cdr log"
 msgstr "Raderar endast inspelade filer, inte samtalsloggen"
 
-#: ../modules/conference.module:55
-msgid "My Conference room"
+#: modules/featurecodes.module:36 modules/featurecodes.module:63
+msgid "Feature Codes"
+msgstr "Funktionskoder"
+
+#: modules/featurecodes.module:65
+#, php-format
+msgid " for %s (%s)"
+msgstr " för %s (%s)"
+
+#: modules/featurecodes.module:72
+msgid "Handset Feature Code"
+msgstr "Funktionskoder"
+
+#: modules/featurecodes.module:75
+msgid "Action"
+msgstr "Utför"
+
+#: modules/featurecodes.module:111
+msgid "description"
+msgstr "beskrivning"
+
+#: modules/followme.module:43
+msgid "Follow Me"
+msgstr "Följ-mig"
+
+#: modules/followme.module:100
+msgid ""
+"Your Follow-Me has been disabled, REFRESH your browser to remove this message"
+msgstr ""
+"Följ-mig har avaktiverats, uppdatera sidan för att ta bort detta meddelande"
+
+#: modules/followme.module:101 modules/VmX.module:116
+#, php-format
+msgid ""
+"Check with your Telephone System Administrator if you think there is a "
+"problem"
+msgstr "Kontrollera med systemansvarige om du tror detta är ett fel"
+
+#: modules/followme.module:118
+msgid "Follow-Me pre-ring time not changed"
+msgstr "Pre-ringtiden för Följ-mig ändrades inte"
+
+#: modules/followme.module:119 modules/followme.module:142
+#, php-format
+msgid "Number %s must be an interger number of seconds"
+msgstr "Talet %s måste vara sekunder och ett heltal "
+
+#: modules/followme.module:141
+msgid "Follow-Me list ring time not changed"
+msgstr "Listringtiden ändrades inte för Följ-mig"
+
+#: modules/followme.module:185
+msgid "Follow-Me list must contain at least one valid number"
+msgstr "Listan för Följ-mig måste minst innehålla ett giltigt nummer"
+
+#: modules/followme.module:186
+#, php-format
+msgid "The following: %s is not valid"
+msgstr "Följande: %s är inte giltigt"
+
+#: modules/followme.module:291 modules/followme.module:342
+#: modules/phonefeatures.module:360 modules/settings.module:847
+#: modules/settings.module:858
+msgid "Enable"
+msgstr "Aktivera"
+
+#: modules/followme.module:292
+msgid ""
+"Dial-by-name Directory, IVR, and internal \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\tcalls will ring the numbers in the FollowMe \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\tList. Any FreePBX routes that directly \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\treference a FollowMe are unaffected by this \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\tenable/disable setting."
+msgstr ""
+"Ring med namn från telefonkatalogen, IVR, och interna \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\tsamtal kommer att ringa nummerna i Följ-mig-"
+"listan \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\tAny FreePBX routes that directly \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\treference a FollowMe are unaffected by this \n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\tenable/disable setting."
+
+#: modules/followme.module:302
+msgid "Follow Me List:"
+msgstr "Följ-mig-lista:"
+
+#: modules/followme.module:303
+#, php-format
+msgid "Extensions and outside numbers to ring next."
 msgstr ""
 
-#: ../modules/conference.module:78
-#, fuzzy, php-format
-msgid "Conference for %s (%s%s)"
-msgstr "R&ouml;stbrevl&aring;da f&ouml;r %s (%s)"
-
-#: ../modules/help.module:39 ../modules/help.module:68
-msgid "Help"
-msgstr "Hj&auml;lp"
-
-#: ../modules/help.module:70
+#: modules/followme.module:304
 #, php-format
-msgid "Help for %s (%s)"
-msgstr "Hj&auml;lp f&ouml;r %s (%s)"
+msgid "Include %s to keep it ringing."
+msgstr ""
 
-#: ../modules/help.module:77
-msgid "Handset Feature Code"
-msgstr "Kortkoder"
+#: modules/followme.module:310
+#, php-format
+msgid "Ring %s First For:"
+msgstr ""
 
-#: ../modules/help.module:80
-msgid "Action"
-msgstr "Utf&ouml;r"
+#: modules/followme.module:311
+#, php-format
+msgid "Time to ring extension %s before ringing the %s Follow Me List %s"
+msgstr ""
 
-#: ../modules/settings.module:61 ../modules/settings.module:667
-msgid "Settings"
-msgstr "Inst&auml;llningar"
+#: modules/followme.module:321 modules/followme.module:334
+msgid "seconds"
+msgstr "sekunder"
 
-#: ../modules/settings.module:125
+#: modules/followme.module:324
+msgid "Ring Followme List for:"
+msgstr ""
+
+#: modules/followme.module:324
+msgid "Time to ring the Follow Me List."
+msgstr ""
+
+#: modules/followme.module:339
+msgid "Use Confirmation:"
+msgstr ""
+
+#: modules/followme.module:339
+msgid ""
+"Outside lines that are part of the Follow Me List will be called and offered "
+"a menu:<br/><br/> \"You have an incoming call. Press 1 to accept or 2 to "
+"decline.\"<br/><br/> This keeps calls from ending up in external voicemail. "
+"Make sure that the List Ring Time is long enough to allow for you to hear "
+"and react to this message."
+msgstr ""
+
+#: modules/followme.module:354
+msgid "Followme Settings"
+msgstr "Inställningar för Följ-mig"
+
+#: modules/followme.module:356
+#, php-format
+msgid "Followme Settings for %s (%s)"
+msgstr ""
+
+#: modules/followme.module:382 modules/phonefeatures.module:182
+#: modules/settings.module:1199 modules/VmX.module:413
+msgid "Update"
+msgstr "Uppdatera"
+
+#: modules/phonefeatures.module:25 modules/phonefeatures.module:97
+#: modules/phonefeatures.module:165
+msgid "Phone Features"
+msgstr "Samtalsfunktioner"
+
+#: modules/phonefeatures.module:99
+msgid "Call Waiting"
+msgstr "Samtal väntar"
+
+#: modules/phonefeatures.module:100
+msgid "Do Not Disturb"
+msgstr "Stör-ej"
+
+#: modules/phonefeatures.module:151
+msgid "Call Forwarding"
+msgstr "Vidarekoppling"
+
+#: modules/phonefeatures.module:153
+msgid "Unconditional:"
+msgstr "Konstant"
+
+#: modules/phonefeatures.module:154
+msgid "Unavailable:"
+msgstr "Otillgänglig"
+
+#: modules/phonefeatures.module:155
+msgid "Busy:"
+msgstr "Upptaget"
+
+#: modules/phonefeatures.module:167
+#, php-format
+msgid "Phone Features for %s (%s)"
+msgstr "Funktionskoder för %s (%s)"
+
+#: modules/phonefeatures.module:326
 msgid "Call forward number not changed"
-msgstr "Vidarekopplingsnummret ej &auml;ndrat"
+msgstr "Vidarekopplingsnummret ej ändrat"
 
-#: ../modules/settings.module:126
+#: modules/phonefeatures.module:327 modules/VmX.module:148
+#: modules/VmX.module:181 modules/VmX.module:201
 #, php-format
 msgid ""
 "Number %s must contain dial numbers (characters like '(', '-', and ')' are "
 "ok)"
-msgstr ""
-"Nummer %s ska inneh&aring;lla nummer (tecknen; '(', '-' och ')' &auml;r "
-"till&aring;tna"
+msgstr "Nummer %s ska innehålla nummer (tecknen; '(', '-' och ')' är tillåtna"
 
-#: ../modules/settings.module:151 ../modules/settings.module:156
-#: ../modules/settings.module:161 ../modules/settings.module:166
-#: ../modules/settings.module:176 ../modules/settings.module:181
+#: modules/phonefeatures.module:422
+msgid "Call Screening:"
+msgstr "Sålla samtal:"
+
+#: modules/phonefeatures.module:422
+msgid ""
+"Call Screening requires external callers to say their name, which will be "
+"played back to the user and allow the user to accept or reject the call.  "
+"Screening with memory only verifies a caller for their caller-id once. "
+"Screening without memory always requires a caller to say their name. Either "
+"mode will always announce the caller based on the last introduction saved "
+"with that callerid. If any user on the system uses the memory option, when "
+"that user is called, the caller will be required to re-introduce themselves "
+"and all users on the system will have that new introduction associated with "
+"the caller's CallerId."
+msgstr ""
+
+#: modules/phonefeatures.module:425
+msgid "Disable"
+msgstr "Avaktivera"
+
+#: modules/phonefeatures.module:426
+msgid "Screen Caller: No Memory"
+msgstr "Sålla samtal: Kom inte ihåg"
+
+#: modules/phonefeatures.module:427
+msgid "Screen Caller: Memory"
+msgstr "Sålla samtal: Kom ihåg"
+
+#: modules/settings.module:44
+msgid "Attach voicemail to email"
+msgstr "Bifoga röstbesked till epost"
+
+#: modules/settings.module:45
+msgid "Option to attach audio file to email."
+msgstr ""
+
+#: modules/settings.module:60
+msgid "Number of deleted messages to backup"
+msgstr ""
+
+#: modules/settings.module:61
+msgid ""
+"The maximum number of messages that are backed up in the Deleted folder. "
+"This may be 0-9999."
+msgstr ""
+
+#: modules/settings.module:76
+msgid "Delete voicemail after emailed"
+msgstr ""
+
+#: modules/settings.module:77
+msgid ""
+"When enabled the message will be deleted from the voicemailbox after the "
+"notification email is sent. This allows receiving voicemail via email alone, "
+"rather than having the voicemail available from the Web interface or by "
+"telephone. CAUTION: Attach voicemail to email must be enabled, OTHERWISE "
+"YOUR MESSAGES WILL BE LOST FOREVER."
+msgstr ""
+
+#: modules/settings.module:92
+msgid "Say envelope (date/time)"
+msgstr ""
+
+#: modules/settings.module:93
+msgid ""
+"When enabled the voicemail system will play the message envelope (date/time) "
+"before playing the voicemail message. This setting does not affect the "
+"operation of the envelope option in the advanced voicemail menu."
+msgstr ""
+
+#: modules/settings.module:161
+msgid "Maximum number of messages"
+msgstr ""
+
+#: modules/settings.module:162
+msgid ""
+"Maximum number of messages per folder. It may be up to 9999. The default "
+"value is 100."
+msgstr ""
+
+#: modules/settings.module:169
+msgid "Maximum message length"
+msgstr ""
+
+#: modules/settings.module:170
+msgid "Maximum length allowed for a voicemail message (in seconds)."
+msgstr ""
+
+#: modules/settings.module:176
+msgid "Move heard messages"
+msgstr ""
+
+#: modules/settings.module:177
+msgid "Automatically move heard messages to the Old folder."
+msgstr ""
+
+#: modules/settings.module:192
+msgid "Review recording"
+msgstr ""
+
+#: modules/settings.module:193
+msgid "Allow caller to review their voicemail before saving it."
+msgstr ""
+
+#: modules/settings.module:199
+msgid "Say caller ID"
+msgstr ""
+
+#: modules/settings.module:200
+msgid ""
+"After announcing the message date and time, play back the caller's telephone "
+"number before each message."
+msgstr ""
+
+#: modules/settings.module:206
+msgid "Say duration"
+msgstr ""
+
+#: modules/settings.module:207
+msgid "Announce the message duration before playing the message."
+msgstr ""
+
+#: modules/settings.module:213
+msgid "Say duration minimum"
+msgstr ""
+
+#: modules/settings.module:214
+msgid ""
+"Do not announce message duration for messages shorter than this number of "
+"minutes."
+msgstr ""
+
+#: modules/settings.module:229
+msgid "Email from"
+msgstr ""
+
+#: modules/settings.module:230
+msgid "Who the e-mail notification should appear to come from."
+msgstr ""
+
+#: modules/settings.module:236
+msgid "Temporary greeting warning"
+msgstr ""
+
+#: modules/settings.module:237
+msgid "Warn user when a temporary greeting is active."
+msgstr ""
+
+#: modules/settings.module:252
+msgid "Change attachment volume"
+msgstr ""
+
+#: modules/settings.module:253
+msgid ""
+"Change volume of message before attaching it to an email. Values less than "
+"1.0 decrease volume, greater than 1.0 increase volume."
+msgstr ""
+
+#: modules/settings.module:342
+msgid "Settings"
+msgstr "Inställningar"
+
+#: modules/settings.module:407 modules/settings.module:412
+#: modules/settings.module:417 modules/settings.module:422
+#: modules/settings.module:431 modules/settings.module:436
 msgid "Voicemail password not changed"
-msgstr "L&ouml;senord f&ouml;r r&ouml;stbrevl&aring;dan har inte &auml;ndrats"
+msgstr "Lösenord för röstbrevlådan har inte ändrats"
 
-#: ../modules/settings.module:152
+#: modules/settings.module:408
 msgid "Password and password confirm must not be blank"
-msgstr ""
-"L&ouml;senord och bekr&auml;fta l&ouml;senord f&aring;r inte vara tomma"
+msgstr "Lösenord och bekräfta lösenord får inte vara tomma"
 
-#: ../modules/settings.module:157
-#, fuzzy, php-format
+#: modules/settings.module:413
+#, php-format
 msgid "Passwords must be all numbers and greater than %d digits"
-msgstr "L&ouml;senordet m&aring;ste vara %d siffror"
+msgstr "Lösenordet måste vara ett heltal på minst %d siffror"
 
-#: ../modules/settings.module:162
-#, fuzzy, php-format
+#: modules/settings.module:418
+#, php-format
 msgid "Passwords must be all numbers and only %d digits"
-msgstr "L&ouml;senordet m&aring;ste vara %d siffror"
+msgstr "Lösenordet får endast innehålla %d siffror"
 
-#: ../modules/settings.module:167
+#: modules/settings.module:423
 msgid "Password and password confirm do not match"
-msgstr "L&ouml;senord och bekr&auml;ftat l&ouml;senord st&auml;mmer inte"
+msgstr "Lösenord och bekräftat lösenord stämmer inte"
 
-#: ../modules/settings.module:177 ../modules/settings.module:182
-#: ../modules/settings.module:234 ../modules/settings.module:239
-#, fuzzy, php-format
+#: modules/settings.module:432 modules/settings.module:437
+#: modules/settings.module:482 modules/settings.module:487
+#, php-format
 msgid "%s does not exist or is not writable"
-msgstr "%s finns ej eller &auml;r ej l&auml;sbar"
+msgstr "%s finns ej eller är ej läsbar"
 
-#: ../modules/settings.module:223
-#, fuzzy
+#: modules/settings.module:472
 msgid "Voicemail email and pager address not changed"
-msgstr "L&ouml;senord f&ouml;r r&ouml;stbrevl&aring;dan har inte &auml;ndrats"
+msgstr "Lösenord för röstbrevlådan har inte ändrats"
 
-#: ../modules/settings.module:233 ../modules/settings.module:238
-#, fuzzy
+#: modules/settings.module:481 modules/settings.module:486
 msgid "Voicemail email settings not changed"
-msgstr "L&ouml;senord f&ouml;r r&ouml;stbrevl&aring;dan har inte &auml;ndrats"
+msgstr "Lösenord för röstbrevlådan har inte ändrats"
 
-#: ../modules/settings.module:385
+#: modules/settings.module:745
 msgid "Language:"
-msgstr "Spr&aring;k:"
+msgstr "Språk:"
 
-#: ../modules/settings.module:408
-#, fuzzy
-msgid "Call Routing"
-msgstr "Inst&auml;llningar f&ouml;r Vidarekoppling"
-
-#: ../modules/settings.module:411
-#, fuzzy
-msgid "Call Forwarding:"
-msgstr "Vidarekoppling"
-
-#: ../modules/settings.module:419 ../modules/settings.module:507
-#, fuzzy
-msgid "Enable"
-msgstr "Aktivera"
-
-#: ../modules/settings.module:431
-#, fuzzy, php-format
+#: modules/settings.module:755
+#, php-format
 msgid "Passwords must be all numbers and only %s digits"
-msgstr "L&ouml;senordet m&aring;ste vara %s siffror"
+msgstr "Lösenordet måste vara %s siffror"
 
-#: ../modules/settings.module:434
-#, fuzzy, php-format
+#: modules/settings.module:758
+#, php-format
 msgid "Passwords must be all numbers and at least %s digits"
-msgstr "L&ouml;senordet m&aring;ste vara %s siffror"
+msgstr "Lösenordet måste vara %s siffror"
 
-#: ../modules/settings.module:439
-#, fuzzy
+#: modules/settings.module:763
+msgid "Password Settings"
+msgstr "Lösenordsinställningar"
+
+#: modules/settings.module:767
 msgid "Voicemail Password:"
-msgstr "L&ouml;senord f&ouml;r r&ouml;stbrevl&aring;da"
+msgstr "Lösenord för röstbrevlåda"
 
-#: ../modules/settings.module:445
+#: modules/settings.module:773
 msgid "Enter again to confirm:"
-msgstr "Bekr&auml;fta:"
+msgstr "Bekräfta:"
 
-#: ../modules/settings.module:492
-#, fuzzy
-msgid "Email Voicemail To:"
-msgstr "R&ouml;stbrevl&aring;da"
+#: modules/settings.module:841
+msgid "Email Address:"
+msgstr "E-postadress"
 
-#: ../modules/settings.module:498
-#, fuzzy
-msgid "Pager Voicemail To:"
-msgstr "R&ouml;stbrevl&aring;da"
+#: modules/settings.module:841
+msgid "Email a notification, including audio file if indicated below."
+msgstr ""
+"E-posta ett meddelande, inklusive röstbeskedet om detta är markerat nedan"
 
-#: ../modules/settings.module:558
+#: modules/settings.module:852
+msgid "Pager Email Address:"
+msgstr "SMS e-postadress"
+
+#: modules/settings.module:852
+msgid "Email a short notification"
+msgstr "S-post adress för SMS"
+
+#: modules/settings.module:948
+msgid "Call Me Number:"
+msgstr "Nummer för Ring-mig"
+
+#: modules/settings.module:948
+msgid ""
+"Call Me Number can be any dialable number, such as an extension or a "
+"cellphone."
+msgstr ""
+
+#: modules/settings.module:983
 msgid "Audio Format:"
-msgstr "Ljud format:"
+msgstr "Ljudformat:"
 
-#: ../modules/settings.module:561
+#: modules/settings.module:986
+msgid "Default"
+msgstr "Standard"
+
+#: modules/settings.module:987
 msgid "Best Quality"
-msgstr "B&auml;sta kvaliten"
+msgstr "Bäst kvalitet"
 
-#: ../modules/settings.module:562
+#: modules/settings.module:988
 msgid "Smallest Download"
 msgstr "Minsta storlek"
 
-#: ../modules/settings.module:570
-msgid "Voicemail Settings"
-msgstr "Inst&auml;llningar f&ouml;r R&ouml;stbrevl&aring;da"
+#: modules/settings.module:999
+msgid "Notification Settings"
+msgstr "Meddelandeinställningar"
 
-#: ../modules/settings.module:611
+#: modules/settings.module:1007
+msgid "Web Playback Settings"
+msgstr ""
+
+#: modules/settings.module:1015
+msgid "Phone Playback Settings"
+msgstr ""
+
+#: modules/settings.module:1022
+msgid "Caller Settings"
+msgstr ""
+
+#: modules/settings.module:1029
+msgid "Mailbox Storage Settings"
+msgstr ""
+
+#: modules/settings.module:1036
+msgid "IMAP Mail Settings"
+msgstr ""
+
+#: modules/settings.module:1043
+msgid "Other Voicemail Settings"
+msgstr ""
+
+#: modules/settings.module:1084
 msgid "Call Monitor Settings"
-msgstr "Inst&auml;llningar f&ouml;r Samtalsregister"
+msgstr "Inställningar för Samtalsregister"
 
-#: ../modules/settings.module:614
+#: modules/settings.module:1087
 msgid "Record INCOMING:"
 msgstr "Spela in inkommande samtal:"
 
-#: ../modules/settings.module:616 ../modules/settings.module:624
+#: modules/settings.module:1089 modules/settings.module:1097
 msgid "Always"
 msgstr "Alltid"
 
-#: ../modules/settings.module:617 ../modules/settings.module:625
+#: modules/settings.module:1090 modules/settings.module:1098
 msgid "Never"
 msgstr "Aldrig"
 
-#: ../modules/settings.module:618 ../modules/settings.module:626
+#: modules/settings.module:1091 modules/settings.module:1099
 msgid "On-Demand"
 msgstr "Vid behov"
 
-#: ../modules/settings.module:622
+#: modules/settings.module:1095
 msgid "Record OUTGOING:"
-msgstr "Spela in utg&aring;ende samtal:"
+msgstr "Spela in utgående samtal:"
 
-#: ../modules/settings.module:669
-#, fuzzy, php-format
+#: modules/settings.module:1156
+#, php-format
 msgid "Settings for %s (%s)"
-msgstr "Inst&auml;llningar f&ouml;r %s (%s)"
+msgstr "Inställningar för %s (%s)"
 
-#: ../modules/settings.module:705
-msgid "Update"
-msgstr "Uppdatera"
-
-#: ../modules/voicemail.module:45
-msgid "Voicemail"
-msgstr "R&ouml;stbrevl&aring;da"
-
-#: ../modules/voicemail.module:164
-msgid "A folder must be selected before the message can be moved."
-msgstr "En mapp m&aring;sta v&auml;ljas innan meddelandet kan flyttas."
-
-#: ../modules/voicemail.module:178
-msgid "An extension must be selected before the message can be forwarded."
+#: modules/VmX.module:58
+msgid "VmX&#8482 Locator"
 msgstr ""
-"En anknytning m&aring;ste v&auml;ljas innan meddelandet kan vidarebefodras."
 
-#: ../modules/voicemail.module:304
+#: modules/VmX.module:115
+msgid ""
+"Your Premium VmX Locator service has been disabled, REFRESH your browser to "
+"remove this message"
+msgstr ""
+
+#: modules/VmX.module:147
+msgid "Option 0 not changed"
+msgstr ""
+
+#: modules/VmX.module:180
+msgid "Option 1 not changed"
+msgstr ""
+
+#: modules/VmX.module:200
+msgid "Option 2 not changed"
+msgstr ""
+
+#: modules/VmX.module:300
+msgid "Use When:"
+msgstr ""
+
+#: modules/VmX.module:300
+msgid ""
+"Menu options below are available during your personal voicemail greeting "
+"playback. <br/><br/>Check both to use at all times."
+msgstr ""
+
+#: modules/VmX.module:302
+msgid "unavailable"
+msgstr ""
+
+#: modules/VmX.module:304
+msgid "busy"
+msgstr ""
+
+#: modules/VmX.module:308
+msgid "Voicemail Instructions:"
+msgstr ""
+
+#: modules/VmX.module:308
+msgid "Uncheck to play a beep after your personal voicemail greeting."
+msgstr ""
+
+#: modules/VmX.module:311
+msgid "Standard voicemail prompts."
+msgstr ""
+
+#: modules/VmX.module:319
+msgid "Press 0:"
+msgstr ""
+
+#: modules/VmX.module:319
+msgid ""
+"Pressing 0 during your personal voicemail greeing goes to the Operator. \n"
+"\t\t\t\t\tUncheck to enter another destination here."
+msgstr ""
+
+#: modules/VmX.module:327
+msgid "Go To Operator"
+msgstr ""
+
+#: modules/VmX.module:331
+msgid "Press 1:"
+msgstr ""
+
+#: modules/VmX.module:334
+msgid ""
+"The remaining options can have internal extensions, ringgroups, queues and "
+"external numbers that may be rung. It is often used to include your cell "
+"phone. You should run a test to make sure that the number is functional any "
+"time a change is made so you don't leave a caller stranded or receiving "
+"invalid number messages."
+msgstr ""
+
+#: modules/VmX.module:336
+msgid ""
+"Enter an alternate number here, then change your personal voicemail greeting "
+"to let callers know to press 1 to reach that number. <br/><br/>If you'd like "
+"to use your Follow Me List, check \"Send to Follow Me\" and disable Follow "
+"Me above."
+msgstr ""
+
+#: modules/VmX.module:349
+msgid "Send to Follow-Me"
+msgstr ""
+
+#: modules/VmX.module:357
+msgid "Press 2:"
+msgstr ""
+
+#: modules/VmX.module:357
+msgid ""
+"Use any extensions, ringgroups, queues or external numbers. <br/><br/"
+">Remember to re-record your personal voicemail greeting and include "
+"instructions. Run a test to make sure that the number is functional."
+msgstr ""
+
+#: modules/VmX.module:371
+#, php-format
+msgid "VmX Locator&#8482; Settings for %s (%s)"
+msgstr ""
+
+#: modules/voicemail.module:51
+msgid "Voicemail"
+msgstr "Röstbrevlåda"
+
+#: modules/voicemail.module:176
+msgid "A folder must be selected before the message can be moved."
+msgstr "En mapp måsta väljas innan meddelandet kan flyttas."
+
+#: modules/voicemail.module:185
+msgid "One or more messages must be selected before clicking move_to."
+msgstr ""
+
+#: modules/voicemail.module:194
+msgid "An extension must be selected before the message can be forwarded."
+msgstr "En anknytning måste väljas innan meddelandet kan vidarebefodras."
+
+#: modules/voicemail.module:202
+msgid "One or more messages must be selected before clicking forward_to."
+msgstr ""
+
+#: modules/voicemail.module:209
+msgid ""
+"You must enter one or more email addresses (comma-separated) before clicking "
+"email_to."
+msgstr ""
+
+#: modules/voicemail.module:222
+msgid "Warning: "
+msgstr ""
+
+#: modules/voicemail.module:222
+msgid "is not a valid email address"
+msgstr ""
+
+#: modules/voicemail.module:271
+msgid "The file type was not recognized."
+msgstr ""
+
+#: modules/voicemail.module:307
+msgid "Warning: Could not access voicemail.conf.  Using default mailer."
+msgstr ""
+
+#: modules/voicemail.module:319
+msgid "Mail operation failed"
+msgstr ""
+
+#: modules/voicemail.module:323
+msgid "No valid email address given.  Please try again."
+msgstr ""
+
+#: modules/voicemail.module:327
+msgid "One or more messages must be selected before clicking email_to."
+msgstr ""
+
+#: modules/voicemail.module:470
 msgid "move_to"
 msgstr "Flytta till"
 
-#: ../modules/voicemail.module:307
-#, fuzzy
+#: modules/voicemail.module:473
 msgid "Folder"
 msgstr "Mappar"
 
-#: ../modules/voicemail.module:311
+#: modules/voicemail.module:477
 msgid "forward_to"
 msgstr "Vidarebefodra till"
 
-#: ../modules/voicemail.module:328
+#: modules/voicemail.module:484
+msgid "email_to"
+msgstr ""
+
+#: modules/voicemail.module:498
 msgid "Priority"
 msgstr "Prioritet"
 
-#: ../modules/voicemail.module:330
+#: modules/voicemail.module:500
 msgid "Orig Mailbox"
-msgstr "Ursprunglig r&ouml;stbrevl&aring;da"
+msgstr "Ursprunglig röstbrevlåda"
 
-#: ../modules/voicemail.module:362
-msgid "Message"
-msgstr "Meddelande"
+#: modules/voicemail.module:532
+msgid "Playback"
+msgstr "Spela upp"
 
-#: ../modules/voicemail.module:377
+#: modules/voicemail.module:556
+msgid "Play message at: "
+msgstr ""
+
+#: modules/voicemail.module:561
 msgid "Voicemail recording(s) was not found."
-msgstr "R&ouml;stmeddelande hittades inte."
+msgstr "Röstmeddelande hittades inte."
 
-#: ../modules/voicemail.module:378
+#: modules/voicemail.module:562
 #, php-format
 msgid ""
 "On settings page, change voicemail audio format.  It is currently set to %s"
-msgstr ""
-"P&aring; inst&auml;llningssidan, &auml;ndra r&ouml;stbrevl&aring;dans "
-"ljudformat. Det &auml;r nu %s"
+msgstr "På inställningssidan, ändra röstbrevlådans ljudformat. Det är nu %s"
 
-#: ../modules/voicemail.module:405
-#, fuzzy
+#: modules/voicemail.module:592
 msgid "Voicemail Login not found."
-msgstr "Hittar inte r&ouml;stbrevl&aring;da."
+msgstr "Hittar inte röstbrevlåda."
 
-#: ../modules/voicemail.module:406
+#: modules/voicemail.module:593
 msgid "No access to voicemail"
-msgstr "Inget tilltr&auml;de till r&ouml;stbrevl&aring;dan"
+msgstr "Inget tillträde till röstbrevlådan"
 
-#: ../modules/voicemail.module:412
+#: modules/voicemail.module:599
 msgid "No Voicemail Recordings for Admin"
-msgstr "Inga r&ouml;stmeddelande f&ouml;r Admin"
+msgstr "Inga röstmeddelande för Admin"
 
-#: ../modules/voicemail.module:428
-#, fuzzy, php-format
+#: modules/voicemail.module:615
+#, php-format
 msgid "Voicemail for %s (%s)"
-msgstr "R&ouml;stbrevl&aring;da f&ouml;r %s (%s)"
+msgstr "Röstbrevlåda för %s (%s)"
 
-#: ../modules/voicemail.module:678
-#, fuzzy, php-format
+#: modules/voicemail.module:637
+msgid "Calling: "
+msgstr "Ringer: "
+
+#: modules/voicemail.module:638
+msgid ". Please wait patiently..."
+msgstr ". Var vänlig vänta..."
+
+#: modules/voicemail.module:914
+#, php-format
 msgid "Could not create mailbox folder %s on the server"
-msgstr "Kan inte skapa mapp f&ouml;r r&ouml;stbrevl&aring;da"
+msgstr "Kunde inte skapa mappen %s på servern"
 
-#: ../modules/voicemail.module:718
+#: modules/voicemail.module:966
 #, php-format
 msgid "Permission denied on folder %s or %s"
-msgstr "Saknar r&auml;ttigheter f&ouml;r mappen %s eller %s"
+msgstr "Saknar rättigheter för mappen %s eller %s"
 
-#: ../misc/recording_popup.php:39
-msgid "download"
-msgstr "ladda ner"
+#: theme/page.tpl.php:49
+msgid "Folders"
+msgstr "Mappar"
 
-#~ msgid "Folders"
-#~ msgstr "Mappar"
-
-#~ msgid "Version"
-#~ msgstr "Version"
-
-#~ msgid "Passwords must be all numbers and only 4 digits"
-#~ msgstr "L&ouml;senordet m&aring;ste vara 4 siffror"
-
-#~ msgid "Unable to connect to Asterisk Manager"
-#~ msgstr "Kan ej ansluta till Asterisk Manager"
-
-#, fuzzy
-#~ msgid "No Asterisk Manager Interface connection"
-#~ msgstr "Asterisk Call Manager svara ej"
-
-#~ msgid "of"
-#~ msgstr "av"
-
-#~ msgid "Login used"
-#~ msgstr "Anv&auml;nd Login"
-
-#~ msgid "help"
-#~ msgstr "hj&auml;lp"
-
-#~ msgid "not a directory or not readable"
-#~ msgstr "inte en mapp eller ej l&auml;sbar"
-
-#~ msgid "Use your"
-#~ msgstr "Anv&auml;nd din"
-
-#~ msgid "for"
-#~ msgstr "f&ouml;r"
-
-#~ msgid "Password must be all numbers and 4 digits"
-#~ msgstr "L&ouml;senordet m&aring;ste vara 4 siffror"
-
-#~ msgid "Check voicemail audio format on settings page to change from"
-#~ msgstr ""
-#~ "&Auml;ndra inst&auml;llningar f&ouml;r r&ouml;stbrevl&aring;dans ljud "
-#~ "format f&ouml;r att &auml;ndra fr&aring;n"
-
-#~ msgid "on the server"
-#~ msgstr "p&aring; servern"
-
-#~ msgid "No database connection"
-#~ msgstr "Ingen kontakt med databasen"
+#: theme/page.tpl.php:79
+msgid "Original work based on ARI from Littlejohn Consulting"
+msgstr ""
