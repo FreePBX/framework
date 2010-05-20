@@ -34,7 +34,7 @@ msgfmt -v he_IL/LC_MESSAGES/ari.po -o he_IL/LC_MESSAGES/ari.mo
 msgmerge -N hu_HU/LC_MESSAGES/ari.po ari.pot --output-file=hu_HU/LC_MESSAGES/ari.po
 msgfmt -v hu_HU/LC_MESSAGES/ari.po -o hu_HU/LC_MESSAGES/ari.mo
 msgmerge -N it_IT/LC_MESSAGES/ari.po ari.pot --output-file=it_IT/LC_MESSAGES/ari.po
-msgfmt -v ot_IT/LC_MESSAGES/ari.po -o it_IT/LC_MESSAGES/ari.mo
+msgfmt -v it_IT/LC_MESSAGES/ari.po -o it_IT/LC_MESSAGES/ari.mo
 msgmerge -N pt_BR/LC_MESSAGES/ari.po ari.pot --output-file=pt_BR/LC_MESSAGES/ari.po
 msgfmt -v pt_BR/LC_MESSAGES/ari.po -o pt_BR/LC_MESSAGES/ari.mo
 msgmerge -N sv_SE/LC_MESSAGES/ari.po ari.pot --output-file=sv_SE/LC_MESSAGES/ari.po

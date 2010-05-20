@@ -116,7 +116,7 @@ class followme {
 					if (!is_numeric($stripped_follow_me_prering_time)) {
 						$_SESSION['ari_error'] = 
 						_("Follow-Me pre-ring time not changed") . "<br>" .
-						sprintf(_("Number %s must be an interger number of seconds"),$follow_me_prering_time);
+						sprintf(_("Number %s must be an integer number of seconds"),$follow_me_prering_time);
 						$follow_me_update_succeeded=0;
 					}
 					else {
@@ -139,7 +139,7 @@ class followme {
 					if (!is_numeric($stripped_follow_me_listring_time)) {
 						$_SESSION['ari_error'] = 
 						_("Follow-Me list ring time not changed") . "<br>" .
-						sprintf(_("Number %s must be an interger number of seconds"),$follow_me_listring_time);
+						sprintf(_("Number %s must be an integer number of seconds"),$follow_me_listring_time);
 						$follow_me_update_succeeded=0;
 					}
 					else {
