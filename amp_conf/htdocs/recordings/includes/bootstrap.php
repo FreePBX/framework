@@ -231,7 +231,7 @@ function checkDependencies() {
 
   // check for PEAR
   $include_path = ini_get('include_path');
-  $buf = split(':|,',$include_path);
+  $buf = preg_split('/:|,/',$include_path);
 
   $found = 0;
   foreach ($buf as $path) {

@@ -105,7 +105,7 @@ class Login {
             if (preg_match("/include/i",$line)) {
 
               $include_filename = '';
-              $parts = split(' ',$line);
+              $parts = preg_split('/\s/',$line);
               if (isset($parts[1])) {
                 $include_filename = trim($parts[1]);
               }
@@ -135,7 +135,7 @@ class Login {
 
             // check for user and process
             unset($value);
-            $parts = split('=>',$line);
+            $parts = preg_split('/=>/',$line);
             if (isset($parts[0])) {
               $var = $parts[0];
             }
@@ -144,7 +144,7 @@ class Login {
             }
             $var = trim($var);
             if ($var==$username && $value) {
-              $buf = split(',',$value);
+              $buf = preg_split('/,/',$value);
               if ($buf[0]==$password) {  
 
                 // authenticated
@@ -162,15 +162,15 @@ class Login {
                   $voicemail_email_enable = 1;
                 }
 
-                $options = split('\|',$buf[4]);
+                $options = preg_split('/\|/',$buf[4]);
                 foreach ($options as $option) {
-                  $opt_buf = split('=',$option);
+                  $opt_buf = preg_split('/=/',$option);
                   $voicemail_email[$opt_buf[0]] = trim($opt_buf[1]);
                 }
 
                 $admin = 0;
                 if ($ARI_ADMIN_EXTENSIONS) {
-                  $extensions = split(',',$ARI_ADMIN_EXTENSIONS);
+                  $extensions = preg_split('/,/',$ARI_ADMIN_EXTENSIONS);
                   foreach ($extensions as $key => $value) {
                     if ($extension==$value) {
                       $admin = 1;
@@ -181,7 +181,7 @@ class Login {
   
                 $admin_callmonitor = 0;
                 if ($CALLMONITOR_ADMIN_EXTENSIONS) {
-                  $extensions = split(',',$CALLMONITOR_ADMIN_EXTENSIONS);
+                  $extensions = preg_split('/,/',$CALLMONITOR_ADMIN_EXTENSIONS);
                   foreach ($extensions as $key => $value) {
                     if ($value=='all' || $extension==$value) {
                       $admin_callmonitor = 1;
@@ -208,7 +208,7 @@ class Login {
 
         foreach($ASTERISK_PROTOCOLS as $protocol => $value) {
 
-          $config_files = split(';',$value['config_files']);
+          $config_files = preg_split('/;/',$value['config_files']);
           foreach ($config_files as $config_file) {
 
             if (is_readable($config_file)) {
@@ -217,7 +217,7 @@ class Login {
               foreach ($lines as $key => $line) {
 
                 unset($value);
-                $parts = split('=',$line);
+                $parts = preg_split('/=/',$line);
                 if (isset($parts[0])) {
                   $var = trim($parts[0]);
                 }
@@ -241,7 +241,7 @@ class Login {
   
                     $admin = 0;
                     if ($ARI_ADMIN_EXTENSIONS) {
-                      $extensions = split(',',$ARI_ADMIN_EXTENSIONS);
+                      $extensions = preg_split('/,/',$ARI_ADMIN_EXTENSIONS);
                       foreach ($extensions as $key => $value) {
                         if ($extension==$value) {
                           $admin = 1;
@@ -252,7 +252,7 @@ class Login {
 
                     $admin_callmonitor = 0;
                     if ($CALLMONITOR_ADMIN_EXTENSIONS) {
-                      $extensions = split(',',$CALLMONITOR_ADMIN_EXTENSIONS);
+                      $extensions = preg_split('/,/',$CALLMONITOR_ADMIN_EXTENSIONS);
                       foreach ($extensions as $key => $value) {
                         if ($value=='all' || $extension==$value) {
                           $admin_callmonitor = 1;

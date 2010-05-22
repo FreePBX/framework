@@ -443,11 +443,11 @@ class Settings {
 							$lines = file($ASTERISK_VOICEMAIL_CONF);
 							foreach ($lines as $key => $line) {
 								unset($value);
-								list($var,$value) = split('=>',$line);
+								list($var,$value) = preg_split('/=>/',$line);
 								$var = trim($var);
 								if ($var==$exten && $value) {
 									// write out line with password change
-									$buf = split(',',$value);
+									$buf = preg_split('/,/',$value);
 									$buf[0] = $voicemail_password;
 									$line = $var . " => " . join(',', $buf);
 									fwrite($fp, $line);
@@ -530,11 +530,11 @@ class Settings {
 							$lines = file($ASTERISK_VOICEMAIL_CONF);
 							foreach ($lines as $key => $line) {
 								unset($value);
-								list($var,$value) = split('=>',$line);
+								list($var,$value) = preg_split('/=>/',$line);
 								$var = trim($var);
 								if ($var==$exten && $value) {
 									// write out line with voicemail email change
-									$buf = split(',',$value);
+									$buf = preg_split('/,/',$value);
 									$buf[2] = $voicemail_email_address;
 									$buf[3] = $voicemail_pager_address;
 									foreach ($_SESSION['ari_user']['voicemail_options'] as $key => $value) {
@@ -605,7 +605,7 @@ class Settings {
 		  foreach ($lines as $key => $line) {
 			  if (preg_match("/include/i",$line)) {
 				  $include_filename = '';
-				  $parts = split(' ',$line);
+				  $parts = preg_split('/\s/',$line);
 				  if (isset($parts[1])) {
 					  $include_filename = trim($parts[1]);
 				  }
@@ -630,7 +630,7 @@ class Settings {
 			  }
 			  // check for user and process
 			  unset($value);
-			  $parts = split('=>',$line);
+			  $parts = preg_split('/=>/',$line);
 			  if (isset($parts[0])) {
 				  $var = $parts[0];
 			  }
@@ -639,7 +639,7 @@ class Settings {
 			  }
 			  $var = trim($var);
 			  if ($var==$exten && $value) {
-				  $buf = split(',',$value);
+				  $buf = preg_split('/,/',$value);
 				  //if ($buf[0]==$password) {
 					  // authenticated
 					  //$auth = true;
@@ -662,9 +662,9 @@ class Settings {
 					  } else {
 						  $voicemail_pager_enable = 0;
 					  }
-					  $options = split('\|',$buf[4]);
+					  $options = preg_split('/\|/',$buf[4]);
 					  foreach ($options as $option) {
-						  $opt_buf = split('=',$option);
+						  $opt_buf = preg_split('/=/',$option);
 						  $voicemail_opts[$opt_buf[0]] = trim($opt_buf[1]);
 					  }
 			  }

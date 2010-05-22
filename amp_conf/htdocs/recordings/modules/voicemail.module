@@ -80,7 +80,7 @@ class Voicemail {
     }
 
     // make folder list
-    $paths = split(';',$ASTERISK_VOICEMAIL_PATH);
+    $paths = preg_split('/;/',$ASTERISK_VOICEMAIL_PATH);
     $i = 0;
     while ($ASTERISK_VOICEMAIL_FOLDERS[$i]) {
 
@@ -188,7 +188,7 @@ class Voicemail {
     else if ($a=='forward_to') {
 
       $mailbox_rx = getArgument($args,'mailbox_rx');
-      list($context_rx,$extension_rx) = split('/',$mailbox_rx);
+      list($context_rx,$extension_rx) = preg_split('/\//',$mailbox_rx);
       if ($extension_rx=='') {
         $_SESSION['ari_error']
           = _("An extension must be selected before the message can be forwarded.");
@@ -213,7 +213,7 @@ class Voicemail {
 		$line_end = "\n";
 		// Check email address(es) and construct address list for TO field.
 		// TO
-		$email_list = split(",", $em_to);
+		$email_list = preg_split("/,/", $em_to);
 		foreach ($email_list as $list_elem) {
 			$list_elem = trim($list_elem);
 			if (preg_match("/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i", $list_elem)) {
@@ -372,7 +372,7 @@ class Voicemail {
     $order = $order=='' ? 'calldate' : $order;
     $sort = ($sort=='' || strtolower($sort) == 'desc') ? 'desc' : 'asc';
 
-    $paths = split(';',$ASTERISK_VOICEMAIL_PATH);
+    $paths = preg_split('/;/',$ASTERISK_VOICEMAIL_PATH);
 
     $displayname = $_SESSION['ari_user']['displayname'];
     $extension = $_SESSION['ari_user']['extension'];
@@ -431,11 +431,11 @@ class Voicemail {
 
         // get username and add to options
         if (preg_match("/\=\>/i",$line)) {
-          list($username,$value) = split('=>',$line);
+          list($username,$value) = preg_split('/=>/',$line);
           $username = trim($username);
           if ($username!=$_SESSION['ari_user']['extension']) {
             //$ext_array[] = $username . "|" . $forwardContext;
-            list(,$real_name,) = split(",",$value,3);
+            list(,$real_name,) = preg_split("/,/",$value,3);
             $ext_array[] = $real_name . "|" . $username . "|" . $forwardContext;
           }
         }
@@ -754,7 +754,7 @@ class Voicemail {
           $lines = file($file);
           foreach ($lines as $key => $line) {
             unset($value);
-            list($key,$value) = split('=',$line);
+            list($key,$value) = preg_split('/=/',$line);
             if ($value) {
 
               if ($key=="origtime") {
@@ -825,7 +825,7 @@ class Voicemail {
       $path_parts = pathinfo($path);
       $path = fixPathSlash($path_parts['dirname']);
 
-      list($name,$ext) = split("\.",$path_parts['basename']);
+      list($name,$ext) = preg_split("/\./",$path_parts['basename']);
 
       // delete all related files using a wildcard
       if (is_dir($path)) {
@@ -862,7 +862,7 @@ class Voicemail {
     $gid = filegroup($ASTERISK_VOICEMAIL_PATH);
 
     // recieving path
-    $paths = split(';',$ASTERISK_VOICEMAIL_PATH);
+    $paths = preg_split('/;/',$ASTERISK_VOICEMAIL_PATH);
     $path_rx = appendPath($paths[0],$context_rx);
     if (!is_dir($path_rx)) {
       mkdir($path_rx, $perm);
@@ -900,7 +900,7 @@ class Voicemail {
             //split file basename into two pieces at the first '.'
             //so that files like msg0000.7025f35d463ebbafa101db8a88c71b681aa8443d.mp3
             //don't interfere with finding the true last file number
-            list($name,$ext) = split("\.",$path_parts['basename'],2);
+            list($name,$ext) = preg_split("/\./",$path_parts['basename'],2);
             $num = preg_replace("/[a-zA-Z]/",'', $name);
             if ($num > $lastNum) {
               $lastNum = $num;
@@ -928,7 +928,7 @@ class Voicemail {
       $path_parts = pathinfo($path);
       $path = $path_parts['dirname'];
       $path = fixPathSlash($path);
-      list($name,$ext) = split("\.",$path_parts['basename']);
+      list($name,$ext) = preg_split("/\./",$path_parts['basename']);
       if (is_dir($path)) {
 
         $lastNum++;
@@ -941,7 +941,7 @@ class Voicemail {
             //split file basename into two pieces at the first '.'
             //so that files like msg0000.7025f35d463ebbafa101db8a88c71b681aa8443d.mp3
             //don't get clobbered by preg_replace() of digits
-            list($name,$ext) = split("\.",$path_parts['basename'],2);
+            list($name,$ext) = preg_split("/\./",$path_parts['basename'],2);
             $folder_rx = preg_replace("/\d+/",sprintf("%0" . $lastNumLen . "d",$lastNum),$name) . "." . $ext; 
             $dst = appendPath($path_rx,$folder_rx);
             if (is_writable($src) && is_writable($path_rx)) {
@@ -1018,7 +1018,7 @@ class Voicemail {
         $lines = file($file);
         foreach ($lines as $key => $line) {
           unset($value);
-          list($key,$value) = split('=',$line);
+          list($key,$value) = preg_split('/=/',$line);
           $key = trim($key);
           $value = trim($value);
           if ($value) {

@@ -44,7 +44,7 @@ function loadModules() {
       // build module object 
       include_once($path); 
       $path_parts = pathinfo($path);
-      list($name,$ext) = split("\.",$path_parts['basename']);
+      list($name,$ext) = preg_split("/\./",$path_parts['basename']);
 
       // check for module and get rank
       if (class_exists($name)) {
@@ -54,7 +54,7 @@ function loadModules() {
         // check if admin module
         $found = 0;
         if ($ARI_ADMIN_MODULES) {
-          $admin_modules = split(',',$ARI_ADMIN_MODULES);
+          $admin_modules = preg_split('/,/',$ARI_ADMIN_MODULES);
           foreach ($admin_modules as $key => $value) {
             if ($name==$value) {
               $found = 1;
@@ -66,7 +66,7 @@ function loadModules() {
         // check if disabled module
         $disabled = 0;
         if ($ARI_DISABLED_MODULES) {
-          $disabled_modules = split(',',$ARI_DISABLED_MODULES);
+          $disabled_modules = preg_split('/,/',$ARI_DISABLED_MODULES);
           foreach ($disabled_modules as $key => $value) {
             if ($name==$value) {
               $disabled = 1;
@@ -144,7 +144,7 @@ function databaseLogon() {
   else {
 
     $include = 0;
-    $files = split(';',$AMP_FUNCTIONS_FILES);
+    $files = preg_split('/;/',$AMP_FUNCTIONS_FILES);
     foreach ($files as $file) {
       if (is_file($file)) {
         include_once($file);

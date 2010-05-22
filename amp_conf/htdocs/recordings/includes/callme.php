@@ -63,7 +63,7 @@ function callme_getnum($exten)
 		{
 			if (preg_match('/Value: [^\s]*/', $results_elem, $matches) != 0)
 			{
-				$parts = split(' ', trim($matches[0]));
+				$parts = preg_split('/\s/', trim($matches[0]));
 				$callme_num = $parts[1];
 			}
 
