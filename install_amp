@@ -893,7 +893,6 @@ $verinfo = $tmpout;
 outn("Checking for Asterisk version..");
 if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
     (preg_match('/^Asterisk SVN-(\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches))) {
-
 	if ((version_compare($matches[1], "1.2") < 0)) {
 		fatal("Asterisk 1.2, 1.4, or 1.6 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
@@ -901,14 +900,16 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
 		fatal("Asterisk 1.2, 1.4, or 1.6 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
 	out("{$matches[1]}");
+  $asterisk_version = $matches[1];
 
 } elseif (preg_match('/^Asterisk ([ABC]\.\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) { 
 	if (substr($matches[1], 0, 1) == "A") {
 		fatal("Asterisk Business Edition B or C is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
 	out("{$matches[1]}");
+  $asterisk_version = '1.4'; //Not really, but this makes sure that proper execution occurs later on reload commands, etc.
 
-} elseif (preg_match('/^Asterisk SVN.+/', $verinfo)) {
+} elseif ($asterisk_version = preg_match('/^Asterisk SVN.+/', $verinfo)) {
 	out("FAIL");
 	out("*** WARNING ***");
 	out("You are not using a released version of Asterisk. We are unable to verify");
@@ -1126,12 +1127,12 @@ if (!$dryrun) {
 		out("OK");
 	}
 	// reload manager in asterisk if it was running:
-	// Execute the 1.4+ syntax and the 1.2 syntax, it will reload twice on 1.4 and in the other cases
-	// it will simply ignore the command since it has been removed. (not worth trying to figure out what
-	// version they have...
 	//
-	system("asterisk -rx 'module reload manager'");
-	system("asterisk -rx 'reload manager'");
+  if (version_compare($asterisk_version,'1.4','ge')) {
+	  system("asterisk -rx 'module reload manager'");
+  } else {
+	  system("asterisk -rx 'reload manager'"); //1.2 syntax
+  }
 }
 out("OK");
 
