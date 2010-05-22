@@ -2,6 +2,17 @@
 global $amp_conf;
 global $db;
 
+if (!function_exists('sql')) {
+  function sql($sql,$type="query",$fetchmode=null) {
+	  global $db;
+	  $results = $db->$type($sql,$fetchmode);
+	  if(DB::IsError($results)) {
+		  die($results->getDebugInfo() . "SQL - <br /> $sql" );
+	  }
+	  return $results;
+  }
+}
+
 /*  fix manager.conf settings for older manager.conf files being upgraded as new permissions are needed for later releases of Asterisk
  *  in english, this is limited to everything between the AMPMGRUSER section and any new section the user may have edited. It replaces
  *  everything to the right of a 'read =' or 'write =' permission line with the full set of permissoins Asterisk offers.
@@ -172,7 +183,7 @@ function __migrate_legacy_localprefix() {
 	  $rules_arr = array();
 	  foreach ($conf as $tname => $rules) {
 		  $tid = ltrim($tname,'trunk-');
-		uksort($rules,'__order_DialRules'); //make sure they are in order
+		uksort($rules,'__order_DialRules2'); //make sure they are in order
 		  $seq = 1;
 		  foreach ($rules as $rule) {
 			  $rules_arr[] = array($tid,$rule,$seq);
@@ -187,7 +198,7 @@ function __migrate_legacy_localprefix() {
 	  out(_("loaded"));
   }
 }
-function __order_DialRules($a, $b) {
+function __order_DialRules2($a, $b) {
   return substr($a,4) > substr($b,4);
 }
 // Get values from localprefix configuration file where values are stored
