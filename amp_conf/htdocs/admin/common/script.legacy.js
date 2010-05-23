@@ -685,7 +685,7 @@ $(document).ready(function(){
 		);
  
 	$(".category.setup").click(function(){
-		$.cookie('lastMenuAccordionSetup', $(".category.setup").index(this));
+		$.cookie('lastMenuAccordionSetup', $("div#nav-setup").accordion('option','active'));
 	})
 	
 	//acrodian module tools menu
@@ -696,7 +696,7 @@ $(document).ready(function(){
 		);
  
 	$(".category.tool").click(function(){
-		$.cookie('lastMenuAccordionTool', $(".category.tool").index(this));
+		$.cookie('lastMenuAccordionTool', $("div#nav-tool").accordion('option','active'));
 	})
 
 });
