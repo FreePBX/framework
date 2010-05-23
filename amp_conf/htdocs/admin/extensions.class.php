@@ -945,7 +945,7 @@ class ext_deadagi extends extension {
 class ext_dbdel extends extension {
         function output() {
             global $version; // Asterisk Version
-            if (version_compare($version, "1.6", "ge")) {
+            if (version_compare($version, "1.4", "ge")) {
                 return 'Noop(Deleting: '.$this->data.' ${DB_DELETE('.$this->data.')})';
                 }
             else {
