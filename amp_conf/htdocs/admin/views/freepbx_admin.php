@@ -65,6 +65,7 @@ if (is_array($fpbx_menu)) {
 	// menu items
 	$prev_category = false;
 	$prev_type = false;
+	$prev_tab = false;
 	$started_div = false;
 	foreach ($fpbx_menu as $key => $row) {
 		if ($prev_type != $row['type']) {
@@ -77,9 +78,10 @@ if (is_array($fpbx_menu)) {
 		}
 		
 		if ($fpbx_usecategories && ($row['category'] != $prev_category)) {
-			if ($row['category'] != 'Admin') {echo '</div>'; }
+			if ($prev_category != $row['category'] && $prev_tab == $row['type']) {echo '</div>'; }
 			echo "\t\t<li class=\"category ".$row['type']."\">".htmlspecialchars(_($row['category']), ENT_QUOTES)."</li>\n<div>";
 			$prev_category = $row['category'];
+			$prev_tab = $row['type'];
 		}
 		
 		$href = isset($row['href']) ? $row['href'] : "config.php?type=".$row['type']."&amp;display=".$row['display'];
