@@ -879,6 +879,22 @@ class ext_read {
 	}
 }
 
+class ext_confbridge {
+	var $confno;
+	var $options;
+	var $pin;
+	
+	function ext_confbridge($confno, $options='', $pin='') {
+		$this->confno = $confno;
+		$this->options = $options;
+		$this->pin = $pin;
+	}
+	
+	function output() {
+		return "ConfBridge(".$this->confno.",".$this->options.",".$this->pin.")";
+	}
+}
+
 class ext_meetme {
 	var $confno;
 	var $options;
