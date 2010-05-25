@@ -4997,7 +4997,9 @@ sub procesa_bloque {
             $datos{$unico_id}{State} = "Up";
             log_debug( "$heading POPULATES datos($unico_id){ State } = Up", 128 ) if DEBUG;
             ( $canal, $sesion ) = separate_session_from_channel( $hash_temporal{Channel} );
-            $texto = $hash_temporal{Extension};
+            if ( $hash_temporal{Extension} ) {
+                $texto = $hash_temporal{Extension};
+            }
             if ( $texto ne "s" ) {
                 $estado_final = "setclid";
             }
