@@ -54,7 +54,7 @@ if (is_array($fpbx_menu)) {
 	$tab_num = 1;
 	foreach ($fpbx_types as $key=>$val) {
 		$type_name = (isset($fpbx_type_names[$val]) ? $fpbx_type_names[$val] : ucfirst($val));
-		echo '<li><a href="#nav-'.str_replace(' ','_',$val).'"><span>'._($type_name).'</span></a></li>';
+		echo '<li data-nav-tab="'.$val.'"><a href="#nav-'.str_replace(' ','_',$val).'"><span>'._($type_name).'</span></a></li>';
 		if ($val == $fpbx_type) {
 			$tab_num = $key+1;
 		}
@@ -72,14 +72,14 @@ if (is_array($fpbx_menu)) {
 			if ($started_div) {
 				echo '</ul></div>';
 			}
-			echo '<div id="nav-'.$row['type'].'"><ul>';
+			echo '<div id="nav-'.$row['type'].'" class="accordion" data-nav-tab="'.$row['type'].'"><ul>';
 			$prev_type = $row['type'];	
 			$started_div = true;
 		}
 		
 		if ($fpbx_usecategories && ($row['category'] != $prev_category)) {
 			if ($prev_category != $row['category'] && $prev_tab == $row['type']) {echo '</div>'; }
-			echo "\t\t<li class=\"category ".$row['type']."\">".htmlspecialchars(_($row['category']), ENT_QUOTES)."</li>\n<div>";
+			echo "\t\t<li class=\"category\" data-nav-tab=\"".$row['type']."\">".htmlspecialchars(_($row['category']), ENT_QUOTES)."</li>\n<div>";
 			$prev_category = $row['category'];
 			$prev_tab = $row['type'];
 		}
@@ -114,7 +114,7 @@ if (is_array($fpbx_menu)) {
 		}
 		echo "</li>\n";
 	}
-	echo "</ul></div>\n</div>\n\n";
+	echo "</ul></div><span id=\"nav-showall\" style=\"cursor:pointer\" >"._(' + Show All')."</span>\n</div>\n\n";
 }
 
 

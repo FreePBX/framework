@@ -677,26 +677,69 @@ $(document).ready(function(){
 	//module setup/tools menu
 	$('#nav').tabs({cookie:{expires:30}});
 	
-	//acrodian module setup menu
-	$("div#nav-setup").accordion(
-		{ header: '.category',
-		autoHeight: false,
-		active: parseInt($.cookie('lastMenuAccordionSetup'))}
-		);
- 
-	$(".category.setup").click(function(){
-		$.cookie('lastMenuAccordionSetup', $("div#nav-setup").accordion('option','active'));
-	})
+	//initalize accoridans if the is no cookie set to keep them open (or if its set to false)
+	if($.cookie('leftNavShowAll')!='true'){
+		$('.accordion').each(function(){
+			accordInt($(this));
+		});
+	} else {
+		$('#nav-showall').html(' - Collapse All');
+	}
 	
-	//acrodian module tools menu
-	$("div#nav-tool").accordion(
-		{ header: '.category',
-		autoHeight: false,
-		active: parseInt($.cookie('lastMenuAccordionTool'))}
+	//function to initalize accoridans
+	function accordInt(i){
+		var tab = i.attr('data-nav-tab');
+		i.accordion({ 
+			header: '.category',
+			autoHeight: false,
+			active: parseInt($.cookie('lastMenu'+tab))}
 		);
- 
-	$(".category.tool").click(function(){
-		$.cookie('lastMenuAccordionTool', $("div#nav-tool").accordion('option','active'));
-	})
+	}
+		
+	//set cookie on currently open category
+	$(".category").click(function(){
+		var tab = $(this).attr('data-nav-tab');
+		$.cookie('lastMenu'+tab, $("div#nav-"+tab).accordion('option','active'));
+	});
+		
+	//link to show/hide accordian
+	$('#nav-showall').click(function(){ 
+		if($.cookie('leftNavShowAll') != 'true'){
+			//index of currently open tab
+			var opentab = $('#nav').tabs('option', 'selected');
+			//textual name of currently open tab
+			var tab = $('#nav').find('ul').find('li:eq('+opentab+')').attr('data-nav-tab');
+			//index of currently open catagorie
+			var cat = $('.accordion#nav-'+tab).accordion('option','active');
+			
+			//remove accordian
+			$('.ui-accordion').accordion("destroy");
+			
+			//hide ALL modules except for those in the currently open catagorie
+			$('.accordion#nav-'+tab).find('.category:not(.category:eq('+cat+'))').next('div').hide();
+			
+			//slide down all modules, one section at a time
+			var slide = $('#nav-'+tab).find('.category').next('div');
+			slidedivs(slide);
+			
+			function slidedivs(slide){
+				slide.eq(0).slideDown(400, function(){
+        (slide=slide.slice(1)).length && slidedivs(slide);
+    		});
+			};
+			
+			//change link text
+			$(this).html(' - Collapse All');
+			
+			//set preference cookie
+			$.cookie('leftNavShowAll', 'true');
+		} else {
+			$('.accordion').each(function(){
+				accordInt($(this));
+			});
+			$.cookie('leftNavShowAll', 'false');
+			$(this).html(' + Show All');
+		}
+	});
 
 });
