@@ -342,6 +342,10 @@ class followme {
 					$followme_text .= "<small>" . _("Enable") . "</small></td></tr>";
 					$followme_text .= "<tr><td>&nbsp;</td></tr>";	// Blank Line										
 					$followme_text .= "</table>";
+				} else {
+					$followme_text .= 'Warning - Follow Me has not been added for this extension yet.<br />';
+					$followme_text .= 'Please login to your FreePBX Admin Interface and enable Follow Me<br />';
+					$followme_text .= 'for this extension.<br />';
 				}
 			}
 			
@@ -377,10 +381,12 @@ class followme {
 		<input type=hidden name=m value=" . $m . ">
 		<input type=hidden name=f value='action'>
 		<input type=hidden name=a value='update'>
-		" . $followme_text . "
-		<br>
-		<input name='submit' type='submit' value='" . _("Update") . "'>
-		</form>";
+		" . $followme_text;
+		$ret .= "<br>";
+		if (!$follow_me_disabled) {
+			$ret .= "<input name='submit' type='submit' value='" . _("Update") . "'>";
+		}
+		$ret .= "</form>";
 		
 		return $ret;
 	}

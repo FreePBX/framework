@@ -194,7 +194,7 @@ if (DB::IsError($result) && $result->getCode() == DB_ERROR_ALREADY_EXISTS ) {
 		      out("FATAL: ".$result->getDebugInfo()."\n".'error inserting into outbound_route_sequence table');	
         } else {
           out("ok");
-          outn('Removing old extenions table..');
+          outn('Removing old extensions table..');
           //TODO: add removal code once thoroughly tested
           out("not implemented until thouroghly tested");
         }

@@ -1,0 +1,48 @@
+; This is an optional configuration file used to rearrange your left navigation 
+; bar in the FreePBX GUI. To enable it, change the name to freepbx_menu.conf and put
+; in the desired configuration. Lines starting with ";" are comments.
+;
+; It provdes the followming options:
+;
+; - Move menu items to different categories
+; - Create New Categories
+; - Rename the item
+; - Change the tab items appear in between setup and tool
+; - Remove menu items that you don't want displayed
+; - Change the sort order of items
+;
+; If you create a new cateogry called "Favorites" it will
+; be placed right under the Admin Category in the left navigation
+; bar.
+;
+; The following examples provide you with a demonstration of how you
+; might go about changing a setup.
+;
+; There is no 'permanent' change made by invoking this file, if the
+; system finds the file freepbx_menu.conf it will parse it as an
+; ini formated file and make the requested changes to the format
+;
+; [extensions]
+; type=setup
+; category=Favorites
+
+; [findmefollow]
+; type=setup
+; category=Favorites
+; name=Find-Me Follow
+
+; [fax]
+; type=setup
+; category=Media
+
+; [recordings]
+; type=setup
+; category=Media
+
+; [music]
+; type=setup
+; category=Media
+; sort=-9
+
+; [wiki]
+; remove=Yes

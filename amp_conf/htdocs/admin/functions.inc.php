@@ -1361,7 +1361,11 @@ function ast_with_dahdi() {
 	}
 		
 	if (version_compare($version, '1.4', 'ge') && $amp_conf['AMPENGINE'] == 'asterisk') {		
-		if (isset($astman) && $astman->connected()) {
+    if ($amp_conf['ZAP2DAHDICOMPAT']) {
+      $ast_with_dahdi = true;
+      $chan_dahdi_loaded = true;
+      return true;
+    } else if (isset($astman) && $astman->connected()) {
 			// earlier revisions of 1.4 ahd dadhi loaded but still running as zap, so if ZapScan is present, we assume
       // that is the mode it is running in.
 			$response = $astman->send_request('Command', array('Command' => 'show applications like ZapScan'));
@@ -2163,6 +2167,7 @@ function execSQL( $file ) {
 		$result = $db->query($sql);
 		if(DB::IsError($result)) { return false; }
 	}
+  return true;
 }
 
 // Dragged this in from page.modules.php, so it can be used by install_amp. 
@@ -3435,24 +3440,27 @@ function _module_runscripts($modulename, $type) {
 		case 'install':
 			// install sql files
 			$sqlfilename = "install.sql";
+      $rc = true;
 			
 			if (is_file($moduledir.'/'.$sqlfilename)) {
-				execSQL($moduledir.'/'.$sqlfilename);
+				$rc = execSQL($moduledir.'/'.$sqlfilename);
 			}
 			
 			// then run .php scripts
-			_modules_doinclude($moduledir.'/install.php', $modulename);
+			return (_modules_doinclude($moduledir.'/install.php', $modulename) && $rc);
 		break;
 		case 'uninstall':
 			// run uninstall .php scripts first
-			_modules_doinclude($moduledir.'/uninstall.php', $modulename);
+			$rc = _modules_doinclude($moduledir.'/uninstall.php', $modulename);
 			
 			$sqlfilename = "uninstall.sql";
 			
 			// then uninstall sql files 
 			if (is_file($moduledir.'/'.$sqlfilename)) {
-				execSQL($moduledir.'/'.$sqlfilename);
-			}
+				return ($rc && execSQL($moduledir.'/'.$sqlfilename));
+			} else {
+        return $rc;
+      }
 			
 		break;
 		default:
@@ -3467,8 +3475,10 @@ function _modules_doinclude($filename, $modulename) {
 	global $db, $amp_conf, $asterisk_conf;
 	
 	if (file_exists($filename) && is_file($filename)) {
-		include_once($filename);
-	}
+		return include_once($filename);
+	} else {
+    return true;
+  }
 }
 
 /* module_get_annoucements()

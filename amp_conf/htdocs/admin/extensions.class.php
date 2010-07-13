@@ -149,6 +149,9 @@ class extensions {
 		if($priority == 0) {
 			$basetag = '1';
 			// we'll be defining a new pri "1", so change existing "1" to "n"
+      if (!isset($this->_exts[$section][$extension][0])) {
+        die_freepbx("died in splice $section $extension");
+      }
 			$this->_exts[$section][$extension][0]['basetag'] = 'n';
 		} else {
 			$basetag = 'n';
@@ -892,6 +895,22 @@ class ext_confbridge {
 	
 	function output() {
 		return "ConfBridge(".$this->confno.",".$this->options.",".$this->pin.")";
+	}
+}
+
+class ext_meetmeadmin {
+	var $confno;
+	var $command;
+	var $user;
+
+	function ext_meetmeadmin($confno, $command, $user='') {
+		$this->confno = $confno;
+		$this->command = $command;
+		$this->user = $user;
+	}
+
+	function output() {
+		return "MeetMeAdmin(".$this->confno.",".$this->command.",".$this->user.")";
 	}
 }
 

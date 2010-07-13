@@ -313,7 +313,7 @@ class component {
 					// Header for $section				
 					$htmlout .= "\t<tr>\n";
 					$htmlout .= "\t\t<td colspan=\"2\">";
-					$htmlout .= "<h5>" . _($section) . "<hr></h5>";
+					$htmlout .= "<h5>" . $section . "<hr></h5>";
 					$htmlout .= "</td>\n";
 					$htmlout .= "\t</tr>\n";
 					

@@ -69,8 +69,32 @@ done
 cd ../..
 echo "Creating new POT template files for core"
 # spit out the module.xml for core to amp.i18.php so that we can grab it with the find
-/var/lib/asterisk/bin/module_admin i18n core > admin/modules/core/core.i18n.php
-find admin/*.php admin/cdr/*.php admin/views/*.php admin/common/*.php admin/modules/core/*.php -maxdepth 0 | xargs xgettext --no-location -L PHP -o admin/i18n/amp.pot --keyword=_ -
+echo -e "<?php \nif (false) {" >> admin/modules/core/core.i18n.php
+/var/lib/asterisk/bin/module_admin i18n core >> admin/modules/core/core.i18n.php
+echo -e "}\n?>\n" >> admin/modules/core/core.i18n.php
+find admin/*.php admin/cdr/*.php admin/views/*.php admin/common/*.php admin/modules/core/*.php -maxdepth 0 | xargs xgettext --no-location -L PHP -o admin/i18n/amp.tmp --keyword=_ -
+echo "# This file is part of FreePBX." > admin/i18n/amp.pot
+echo "#" >> admin/i18n/amp.pot
+echo "#    FreePBX is free software: you can redistribute it and/or modify" >> admin/i18n/amp.pot
+echo "#    it under the terms of the GNU General Public License as published by" >> admin/i18n/amp.pot
+echo "#    the Free Software Foundation, either version 2 of the License, or" >> admin/i18n/amp.pot
+echo "#    (at your option) any later version." >> admin/i18n/amp.pot
+echo "#" >> admin/i18n/amp.pot
+echo "#    FreePBX is distributed in the hope that it will be useful," >> admin/i18n/amp.pot
+echo "#    but WITHOUT ANY WARRANTY; without even the implied warranty of" >> admin/i18n/amp.pot
+echo "#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" >> admin/i18n/amp.pot
+echo "#    GNU General Public License for more details." >> admin/i18n/amp.pot
+echo "#" >> admin/i18n/amp.pot
+echo "#    You should have received a copy of the GNU General Public License" >> admin/i18n/amp.pot
+echo "#    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>." >> admin/i18n/amp.pot
+echo "#" >> admin/i18n/amp.pot
+echo "# FreePBX language template for amp" >> admin/i18n/amp.pot
+echo "# Copyright (C) 2008, 2009, 2010 Bandwith.com" >> admin/i18n/amp.pot
+echo "#" >> admin/i18n/amp.pot
 # remove the <modulename>.i18.php
 rm admin/modules/core/core.i18n.php
+# Remove the first six lines of the .tmp file and put it in the -pot file
+/bin/sed '1,6d' admin/i18n/amp.tmp >> admin/i18n/amp.pot
+echo "Removing temp files"
+rm admin/i18n/amp.tmp
 echo "Done, now don't forget to commit your work!"

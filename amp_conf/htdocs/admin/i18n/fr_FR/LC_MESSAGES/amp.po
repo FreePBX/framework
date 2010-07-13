@@ -1,14 +1,13 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# French translation for FreePBX amp
+# Copyright (C) 2010 Jouniaux <c.jouniaux@techtelecom.fr>
+# This file is distributed under the same license as the FreePBX package.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 20:57+0100\n"
-"PO-Revision-Date: 2008-12-10 19:28+0100\n"
+"POT-Creation-Date: 2010-06-27 12:16+0200\n"
+"PO-Revision-Date: 2010-04-16 18:39+0100\n"
 "Last-Translator: Jouniaux <c.jouniaux@techtelecom.fr>\n"
 "Language-Team: Francais <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +16,9 @@ msgstr ""
 
 msgid "Submit"
 msgstr "Soumettre"
+
+msgid "Please select a valid destination."
+msgstr ""
 
 msgid "Internal Options & Configuration"
 msgstr "Options  et configuration internes"
@@ -40,7 +42,7 @@ msgid "Setup"
 msgstr "Configuration"
 
 msgid "Call Cost"
-msgstr ""
+msgstr "Coût des appels"
 
 msgid "** MISSING FEATURE CODE **"
 msgstr "**CODE FONCTION MANQUANT**"
@@ -66,6 +68,9 @@ msgstr "Objet"
 #, php-format
 msgid "Used as Destination by %s %s"
 msgstr "Utilisé comme destination par %s %s"
+
+msgid "Trace Back"
+msgstr ""
 
 #, php-format
 msgid "Exit code was %s and output was: %s"
@@ -112,21 +117,14 @@ msgstr ""
 msgid "Add"
 msgstr "Ajout"
 
-msgid "Unknown Destination"
-msgstr "Destination inconnue"
-
-msgid ""
-"ERROR: You have an unknown destination. If this was carried over as a Custom "
-"App from an earlier version, you must go register the destination in the "
-"Custom Destination tab provided by the Custom Applications module.<br />This "
-"will remain active until you change it but you can no longer edit or add a "
-"new one here."
+msgid "choose one"
 msgstr ""
-"ERREUR: vous avez une destination inconnue. Si cela provient d'une "
-"application particulière d'une ancienne version, vous devez enregistrer la "
-"destination dans la tabulation Destination Personnalisée fourni par le "
-"module Applications Personnalisées.<br /> Cela restera actif jusqu'à ce que "
-"vous le changiez mais vous ne pouvez plus éditer ou ajouter ici. "
+
+msgid "Terminate Call"
+msgstr "Fin appel"
+
+msgid "description"
+msgstr "description"
 
 msgid ""
 "The following new modules are available for download. Click delete icon on "
@@ -152,13 +150,14 @@ msgstr "%s (actuellement: %s)"
 
 #, php-format
 msgid "PHP Component %s is required but missing from you PHP installation."
-msgstr ""
+msgstr "Le composant PHP %s est nécessaire mais n'a pas été installé"
 
 #, php-format
 msgid ""
 "PHP Component %s version %s is required but missing from you PHP "
 "installation."
 msgstr ""
+"Le composant PHP %s version %s  est nécessaire mais n'a pas été installé"
 
 #, php-format
 msgid "Module %s is required, but yours is broken. You should reinstall "
@@ -180,7 +179,7 @@ msgstr "Le module %s est requis mais le vôtre doit être"
 
 #, php-format
 msgid "be upgraded. Please upgrade %s first, and then try again."
-msgstr "mis à jour. Merci de mettre à jour %s puis essayez de nouveau."
+msgstr "mise à jour. Merci de mettre à jour %s puis essayez de nouveau."
 
 #, php-format
 msgid "Module %s is required, yours is not installed."
@@ -229,13 +228,13 @@ msgid "%s version %s or higher is required, you have %s"
 msgstr "La version %s %s ou plus est requise. Celle installée est %s"
 
 msgid "Module "
-msgstr ""
+msgstr "Module"
 
 msgid " is already enabled"
-msgstr ""
+msgstr "est déjà activé"
 
 msgid " cannot be enabled"
-msgstr ""
+msgstr "ne peut être activé"
 
 msgid "Module not found in repository"
 msgstr "Module non trouvé dans le dépôt"
@@ -308,11 +307,12 @@ msgid "Could not read module.xml"
 msgstr "Ne peut lire module.xml"
 
 msgid "rawname"
-msgstr ""
+msgstr "Nom"
 
 msgid ""
 " is broken and cannot be installed. You should try to download it again."
 msgstr ""
+"est incomplet et ne peut être installé. Vous devriez le télécharger à nouveau"
 
 msgid "Failed to run installation scripts"
 msgstr "Impossible d'exécuter les cripts d'installation"
@@ -384,16 +384,26 @@ msgstr ""
 "Vous utilisez le mot de passe Administrateur Asterisk qui est connu. Vous "
 "devriez utiliser un autre mot de passe"
 
+msgid "Default ARI Admin password Used"
+msgstr ""
+
+msgid ""
+"You are using the default ARI Admin password that is widely known, you "
+"should change to a new password. Do this in amportal.conf"
+msgstr ""
+
 msgid "Module Administration"
 msgstr "Administration des modules"
 
 msgid "NOTICE"
-msgstr ""
+msgstr "NOTE"
 
 msgid ""
 "You have accessed the extended repository which includes un-supported and "
 "third party modules"
 msgstr ""
+"Vous avez accédé au dépôt étendu qui inclut les modules non supportés et "
+"fournis par des parties tiers"
 
 #, php-format
 msgid ""
@@ -471,11 +481,11 @@ msgstr "%s %s sera mis à jour avec la version en ligne %s"
 
 #, php-format
 msgid "%s %s will be re-installed to online version %s"
-msgstr ""
+msgstr "%s %s sera mis à jour avec la version en ligne %s"
 
 #, php-format
 msgid "%s %s will be downgraded to online version %s"
-msgstr ""
+msgstr "%s %s sera mis à la version antérieure en ligne %s"
 
 #, php-format
 msgid ""
@@ -547,10 +557,10 @@ msgid "Please confirm the following actions:"
 msgstr "Merci de confirmer les actions suivantes:"
 
 msgid "Upgrades, installs, enables and disables:"
-msgstr ""
+msgstr "Met à jour, installe, actives et désactive"
 
 msgid "Forced downgrades and re-installs:"
-msgstr ""
+msgstr "Forcé la version antérieure et réinstallation"
 
 msgid "Confirm"
 msgstr "Confirmer"
@@ -619,13 +629,13 @@ msgstr ""
 "système local. Si un module ayant le même nom existe, il sera remplacé."
 
 msgid "Show only upgradeable"
-msgstr ""
+msgstr "Ne montrer que les mises à jour"
 
 msgid "Download all"
 msgstr "Téléchargements de tous"
 
 msgid "Upgrade all"
-msgstr "Mis à jour de tous"
+msgstr "Mise à jour de tous"
 
 msgid "Reset"
 msgstr "Remise à 0"
@@ -640,7 +650,7 @@ msgid "Version"
 msgstr "Version"
 
 msgid "Publisher"
-msgstr ""
+msgstr "Editeur"
 
 msgid "Broken"
 msgstr "Cassé"
@@ -742,11 +752,11 @@ msgstr "Téléchargement et mis à jour %s"
 
 #, php-format
 msgid "Force Download and Install %s"
-msgstr ""
+msgstr "Force le téléchargement et installe %s"
 
 #, php-format
 msgid "Force Download and Downgrade to %s"
-msgstr ""
+msgstr "Force le téléchargement et met à %s"
 
 msgid "Disable"
 msgstr "Désactivation"
@@ -756,18 +766,15 @@ msgstr "Description"
 
 #, php-format
 msgid "Publisher: %s"
-msgstr ""
+msgstr "Editeur: %s"
 
 #, php-format
 msgid "License: %s"
-msgstr ""
+msgstr "Licence: %s"
 
 #, php-format
 msgid "Description for version %s"
 msgstr "Description de la version %s"
-
-msgid "description"
-msgstr "description"
 
 msgid "No description is available."
 msgstr "Aucune description disponible"
@@ -802,10 +809,10 @@ msgid "Done."
 msgstr "exécutée"
 
 msgid "Standard Repository"
-msgstr ""
+msgstr "Dépôt standard"
 
 msgid "Extended Repository"
-msgstr ""
+msgstr "Dépôt étendu"
 
 msgid ""
 "You have selected to access the Extended Repository. This repository "
@@ -815,6 +822,12 @@ msgid ""
 "directly sponsored by the core FreePBX team and may not receive the same "
 "level of responsiveness to issues as the main code base does."
 msgstr ""
+"Vous avez choisi d'accéder au dépôt étendu. Ce dépôt contient des moduels "
+"tierces parties et non supportés. Bien que ces modules doivent fonctionner "
+"avec FreePBX, ils sont développés par des tierces parties en relation avec "
+"des composants optionnels de FreePBX ou ils ne sont pas directement suivis "
+"par l'équipe de FreePBX et peuvent ne pas recevoir le même niveau de réponse "
+"que pour les questions relatives au code FreePBX."
 
 msgid "FreePBX: Flash Operator Panel"
 msgstr "FreePBX: Flash Operator Panel"
@@ -845,7 +858,7 @@ msgid "Daily load"
 msgstr "Charge Journalière"
 
 msgid "Potential Security Breach"
-msgstr ""
+msgstr "Problème de sécurité potentielle"
 
 msgid ""
 "You are attempting to modify settings from a URL that does not appear to "
@@ -855,6 +868,12 @@ msgid ""
 "you can set CHECKREFERER=false in amportal.conf to disable this security "
 "check"
 msgstr ""
+"Vous essayé de modifier les paramètres d'une URL qui ne parait pas provenir "
+"d'un lien ou d'un bouton FreePBX. Cela peut arriver si vous tapez "
+"manuellement cette URL. Cette action a été bloquée car le HTTP_REFERER ne "
+"correspond pas à votre serveur actuel. Si vous avez besoin de cet accés, "
+"pouvez modifier le fichier amportal.conf en ajoutant set CHECKREFERER=false "
+"pour désactiver cette sécurité."
 
 msgid ""
 "The suspect URL is listed below. If this action is intended, you can click "
@@ -862,8 +881,14 @@ msgid ""
 "did not intended to execute this command as it may result in changes to your "
 "configuration."
 msgstr ""
+"Le lien suspect est listé ci-après. Si cette action est intentionnelle, vous "
+"pouvez cliquer sur ce lien et votre action sera exécutée. Ne le faites pas "
+"si vous ne voulez pas exécuter cette commande qui change votre configuration."
 
 msgid "SUSPECT LINK:"
+msgstr "LIEN SUSPECT:"
+
+msgid "click to expand/collapse section"
 msgstr ""
 
 msgid "category"
@@ -922,7 +947,7 @@ msgid "Reload Required"
 msgstr "Activation requise"
 
 msgid "Apply Configuration Changes"
-msgstr "Activer nouvelle configuration"
+msgstr "Activer Nouvelle Configuration"
 
 #, php-format
 msgid ""
@@ -931,12 +956,15 @@ msgid ""
 "effect."
 msgstr ""
 "Vous avez fait des changements de configuration qui n'ont pas été pris en "
-"compte. Quand vous avez fini, cliquez sur %s pour les activer."
+"compte. Quand vous avez fini ces changements, cliquez sur %s pour les "
+"activer."
 
 msgid ""
 " error(s) occurred, you should view the notification log on the dashboard or "
 "main screen to check for more details."
 msgstr ""
+"Une erreur est survenue. Vous devriez regarder dans le statut système ou "
+"l'écran principal pour plus d'information."
 
 msgid "Close"
 msgstr "Fermé"
@@ -973,7 +1001,7 @@ msgid "Logged out"
 msgstr "Déconnecté"
 
 msgid "You have been successfully logged out."
-msgstr ""
+msgstr "Vous avez été connecté avec succés"
 
 msgid "Log in"
 msgstr "Connecté"
@@ -1068,6 +1096,13 @@ msgid ""
 "s'>Start IRC</a>,\n"
 "when the module is installed, to start a Java IRC client."
 msgstr ""
+"Si vous avez des problèmes, vous pouvez aussi consulter <a href='%s'>Support "
+"Online</a> \n"
+"module (<b> vous devez l'installer via <a href='%s'>Dépôt des Modules</a> "
+"first</b>)\n"
+"pour parler avec d'autres utilisateurs ou les développeurs en temps réel. "
+"Cliquez sur <a href='%s'>Start IRC</a>,\n"
+"quand le module est installé pour lancer le client IRC Java."
 
 #, php-format
 msgid ""
@@ -1125,11 +1160,11 @@ msgid ""
 "runs under that assumption"
 msgstr ""
 "magic_quotes_gpc est activé dans le fichier php.ini, http ou .htaccess ce "
-"qui provoqera une erreur pour ceratins modules. FreePBX s'attend à ce que ce "
+"qui provoqera une erreur pour certains modules. FreePBX s'attend à ce que ce "
 "paramètre soit Off et fonctionne ainsi."
 
 msgid "Please select a \"Destination\""
-msgstr "Choix d'une destination"
+msgstr "Choix d\\'une destination"
 
 msgid ""
 "Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
@@ -1138,10 +1173,10 @@ msgstr ""
 "custom-app,s,1"
 
 msgid "The secret must be at minimum six characters in length."
-msgstr ""
+msgstr "Le mot de passe doit avoir une longueur d'au moins six caractères."
 
 msgid "The secret must contain at least two numbers and two letters."
-msgstr ""
+msgstr "Le mot de passe doit contenir au moins deux nombres et deux lettres."
 
 msgid "Core"
 msgstr "Coeur"
@@ -1182,30 +1217,35 @@ msgstr "Administrateurs"
 msgid "FreePBX Support"
 msgstr "Support FreePBX"
 
-msgid "Terminate Call"
-msgstr ""
-
 msgid "Hangup"
-msgstr ""
+msgstr "Décroché"
 
 msgid "Congestion"
-msgstr ""
+msgstr "Congestion"
 
 msgid "Busy"
 msgstr "Occupé"
 
 msgid "Play SIT Tone (Zapateller)"
-msgstr ""
+msgstr "Jouer son SIT (Zapateller)"
 
 msgid "Put caller on hold forever"
-msgstr ""
+msgstr "Mettre définitivement l'appelant sur occupation"
 
 msgid "Play ringtones to caller until they hangup"
-msgstr ""
+msgstr "Jouer sonnerie à l'appelant jusuq'à ce qu'il raccroche"
 
 #, php-format
 msgid "User Extension %s: %s"
 msgstr "Extension Utilisateur %s: %s"
+
+#, php-format
+msgid "Trunk: %s (%s)"
+msgstr ""
+
+#, php-format
+msgid "Calling Out Route: %s"
+msgstr ""
 
 msgid "A route for this DID/CID already exists!"
 msgstr "Une route pour ce DID/CID existe déjà!"
@@ -1224,11 +1264,11 @@ msgid "Inbound Route: %s (%s)"
 msgstr "Route Entrante: %s (%s)"
 
 msgid "You must put in an extension (or user) number"
-msgstr "Vous devez mettre un numéro d'extension ou d'utilisateur"
+msgstr "Vous devez mettre un numéro d\\'extension ou d\\'utilisateur"
 
 #, php-format
 msgid "This user/extension %s is already in use"
-msgstr "L'extension %s est déjà utilisée"
+msgstr "L\\'extension %s est déjà utilisée"
 
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
@@ -1242,7 +1282,11 @@ msgid "Invalid DID, must be a non-blank DID"
 msgstr "SDA invalide, ne peut être vide"
 
 msgid "Error Duplicate Channel Entry"
-msgstr "Erreur de copie de l'entrée du canal"
+msgstr "Erreur de copie de l\\'entrée du canal"
+
+#, php-format
+msgid "Outbound Route: %s"
+msgstr ""
 
 #, php-format
 msgid ""
@@ -1302,18 +1346,18 @@ msgstr "Ajout Utilisateur/Extension"
 
 # ATTENTION: Les messages suivants sont des alertes: pas d'accent, pas de caracteres de control sont admis... le fichier script.js est traite plus haut
 msgid "Please enter a valid extension number."
-msgstr "SVP, entrez un numéro d'extension valide."
+msgstr "SVP, entrez un numéro d\\'extension valide."
 
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
-msgstr "SVP, entrez un 'Numéro SDA' valide( uniquement des chiffres)."
+msgstr "SVP, entrez un \\'Numéro SDA\\' valide( uniquement des chiffres)."
 
 msgid "Please enter valid User Password using numbers only"
 msgstr ""
-"SVP, entrez un 'Mot de Passe Utilisateur' valide utilisant des chiffres "
+"SVP, entrez un \\'Mot de Passe Utilisateur\\' valide utilisant des chiffres "
 "uniquement."
 
 msgid "Please enter a valid Display Name"
-msgstr "SVP, entrez un 'Nom Affiché (CID)' valide."
+msgstr "SVP, entrez un \\'Nom Affiché (CID)\\' valide."
 
 msgid "Please enter a valid Outbound CID"
 msgstr "SVP, entrez un CID Sortant valide."
@@ -1471,12 +1515,14 @@ msgstr ""
 "nouvelle appel de cette personne. "
 
 msgid "Pinless Dialing"
-msgstr ""
+msgstr "Appel sans code Pin"
 
 msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
 "normally required on outbound calls"
 msgstr ""
+"Autoriser l'appel sans code Pin à cette extension pour ne pas taper les "
+"codes Pin normallement demandés pour les appels sortants"
 
 msgid "Assigned DID/CID"
 msgstr "SDA/CID associé"
@@ -1521,7 +1567,7 @@ msgid "DID / CID"
 msgstr "DID / CID"
 
 msgid "Any DID"
-msgstr ""
+msgstr "Tout SDA"
 
 msgid "Recording Options"
 msgstr "Option d'enregistrement"
@@ -1571,10 +1617,10 @@ msgid ""
 "is generally bad practice to not assign a Secret to a device. Are you sure "
 "you want to leave the Secret empty?"
 msgstr ""
-"Vous n'avez pas entré de mot de passe dans le champ 'secret' de ce "
+"Vous n\\'avez pas entré de mot de passe dans le champ \\'secret\\' de ce "
 "péripherique. Bien que cela soit possible, il est généralement déconseillé "
-"de ne pas saisir le champ 'secret' pour un périphérique. Etes vous certain "
-"de laisser ce champ vide?"
+"de ne pas saisir le champ \\'secret\\' pour un périphérique. Etes vous "
+"certain de laisser ce champ vide?"
 
 msgid "Please enter a Secret for this device"
 msgstr "SVP, entrez un mot de passe (secret) pour ce péripherique."
@@ -1588,11 +1634,14 @@ msgstr "Périphérique IAX2"
 msgid "Generic ZAP Device"
 msgstr "Périphérique ZAP"
 
+msgid "Generic DAHDI Device"
+msgstr ""
+
 msgid "Other (Custom) Device"
 msgstr "Périphérique autre"
 
 msgid "None (virtual exten)"
-msgstr ""
+msgstr "Aucun (extension virtuelle)"
 
 msgid "Fixed"
 msgstr "Fixe"
@@ -1639,11 +1688,11 @@ msgstr "Edition Utilisateur: %s"
 
 #, php-format
 msgid "Add %s Device"
-msgstr ""
+msgstr "Ajout terminal %s"
 
 #, php-format
 msgid "Add %s Extension"
-msgstr ""
+msgstr "Ajout Extension %s"
 
 msgid "Please enter a device id."
 msgstr "SVP, entrez un identifiant péripherique."
@@ -1652,7 +1701,7 @@ msgid "Please enter a valid Description for this device"
 msgstr "SVP, entrez une Description de Peripherique valide"
 
 msgid "Please enter a valid Emergency CID"
-msgstr "SVP, entrez un CID d'Urgence valide."
+msgstr "SVP, entrez un CID d\\'Urgence valide."
 
 msgid "Device Info"
 msgstr "Information périphérique"
@@ -1826,7 +1875,7 @@ msgid "checking for pricid field .."
 msgstr "vérification du champ pricid"
 
 msgid "Checking for Global var RECORDING_STATE.."
-msgstr ""
+msgstr "Vérification de Global var RECORDING_STATE.."
 
 msgid "Created"
 msgstr "Créé"
@@ -1835,34 +1884,22 @@ msgid "Already exists!"
 msgstr "Existe déjà!"
 
 msgid "Checking if trunk table migration required.."
-msgstr ""
+msgstr "Vérification de la nécessité de migration de la table des trunks"
 
 msgid "migrating.."
-msgstr ""
+msgstr "en cours de migration"
 
 msgid "removing globals.."
-msgstr ""
+msgstr "suppression globals..."
 
 msgid "done"
-msgstr ""
-
-msgid "Checking if trunks_dialpatterns table exists.."
-msgstr ""
-
-msgid "created"
-msgstr ""
-
-msgid "loading table from localprefixes.conf.."
-msgstr ""
-
-msgid "loaded"
-msgstr ""
+msgstr "fait"
 
 msgid "Checking if privacy manager options exists.."
-msgstr ""
+msgstr "Vérification de l'existence de l'option gestion privée..."
 
 msgid "Added pmmaxretries and pmminlength"
-msgstr ""
+msgstr "Ajout de pmmaxretries et pmminlength"
 
 msgid "Edit Administrator"
 msgstr "Edition Administrateur"
@@ -1932,12 +1969,12 @@ msgid "Submit Changes"
 msgstr "Soumettre Changements"
 
 msgid "Username must not be blank"
-msgstr "Un nom d'utilisateur ne peut être à blanc"
+msgstr "Un nom d\\'utilisateur ne peut être à blanc"
 
 msgid ""
 "Username cannot start with a number, and can only contain letters and numbers"
 msgstr ""
-"Un nom d'utilisateur doit commencer par une lettre et ne contenir que des "
+"Un nom d\\'utilisateur doit commencer par une lettre et ne contenir que des "
 "chiffres et des lettres"
 
 msgid "For security reasons, you cannot use the department name default"
@@ -1949,22 +1986,22 @@ msgid "Department name cannot have a space"
 msgstr "Un nom de département ne peut avoir un espace"
 
 msgid " (toggle sort)"
-msgstr ""
+msgstr "(Choix tri)"
 
 msgid "Add Incoming Route"
 msgstr "Ajout Route Entrante"
 
 msgid "All DIDs"
-msgstr ""
+msgstr "Tous les SDA"
 
 msgid "User DIDs"
-msgstr ""
+msgstr "SDA utilisateurs"
 
 msgid "General DIDs"
-msgstr ""
+msgstr "SDA généraux"
 
 msgid "Unused DIDs"
-msgstr ""
+msgstr "SDA non utilisés"
 
 msgid "any DID"
 msgstr "Tout SDA"
@@ -2115,6 +2152,10 @@ msgid ""
 "the incoming caller will be be prompted to say their name when the call "
 "reaches the user/extension."
 msgstr ""
+"Si l'appel est en numéro caché, le gestionnnaire de protection demandera à "
+"l'appelant d'entrer son numéro de téléphone. Si un utilisateur a l'option "
+"Call Screening activé, il sera demandé à l'appelant d'énoncer son nom quand "
+"l'appel arrivera à l'utilisateur/extension"
 
 msgid "No"
 msgstr "Non"
@@ -2123,18 +2164,19 @@ msgid "Yes"
 msgstr "Oui"
 
 msgid "Max attempts"
-msgstr ""
+msgstr "Nombre d'essais maximum"
 
 msgid "Number of attempts the caller has to enter a valid callerID"
-msgstr ""
+msgstr "Nombre d'essais qu'à l'appelant pour entrer un callerID valide"
 
 msgid "Min Length"
-msgstr ""
+msgstr "Longueur minimum"
 
 msgid ""
 "Minimum amount of digits callerID needs to contain in order to be considered "
 "valid"
 msgstr ""
+"Nombre minimum de digits pour que le callerID soit considéré comme valide"
 
 msgid "Set Destination"
 msgstr "Choix Destination"
@@ -2143,47 +2185,47 @@ msgid "Clear Destination & Submit"
 msgstr "Effacer Destination et Soumettre"
 
 msgid "Please enter a valid DID Number"
-msgstr "SVP, entrez un 'Numéro DID' valide."
+msgstr "SVP, entrez un \\'Numéro DID\\' valide."
 
 msgid "Please enter a valid Caller ID Number"
-msgstr "SVP, entrez un 'Numero CID' valide."
+msgstr "SVP, entrez un \\'Numero CID\\' valide."
 
 msgid "Please enter a valid Fax Email or leave it empty to use the default"
 msgstr ""
-"SVP, entrez une 'Adresse courriel du télécopieur' valide ou laissez ce champ "
-"vide pour utiliser la configuration Par Defaut."
+"SVP, entrez une \\'Adresse courriel du télécopieur\\' valide ou laissez ce "
+"champ vide pour utiliser la configuration Par Defaut."
 
 msgid "Please enter a valid number for Pause after answer"
-msgstr "SVP, entrez un nombre 'Pause après réponse' valide."
+msgstr "SVP, entrez un nombre \\'Pause après réponse\\' valide."
 
 msgid "Please enter a valid number for Pause Before Answer field"
-msgstr "SVP, entrez un nombre pour 'Pause avant réponse' valide."
+msgstr "SVP, entrez un nombre pour \\'Pause avant réponse\\' valide."
 
 msgid ""
 "Leaving the DID Number AND the Caller ID Number empty will match all "
 "incoming calls received not routed using any other defined Incoming Route.\\n"
 "\\nAre you sure?"
 msgstr ""
-"Laisser les champs 'numéro SDA' ET 'numéro CID' vides aura pour conséquence "
-"recevoir tous les appels entrants n'utilisant aucune autre route definie. "
-"Etes vous certain?"
+"Laisser les champs \\'numéro SDA\\' ET \\'numéro CID\\' vides aura pour "
+"conséquence recevoir tous les appels entrants n\\'utilisant aucune autre "
+"route definie. Etes vous certain?"
 
 msgid ""
 "DID information is normally just an incoming telephone number or for "
 "advanced users, a valid Asterisk Dial Pattern\\n\\nYou have entered a non "
 "standard DID pattern.\\n\\nAre you sure this is correct?"
 msgstr ""
-"L'information SDA est normalement juste un numéro d'appel entrant ou pour "
-"des utilisateurs experts un masque d'appel valide pour Asterisk.\\n\\nVous "
-"avez entré un numéro de SDA non standard.\\n\\nEtes vous sûr que c'est "
-"correct?"
+"L\\'information SDA est normalement juste un numéro d\\'appel entrant ou "
+"pour des utilisateurs experts un masque d\\'appel valide pour Asterisk.\\n"
+"\\nVous avez entré un numéro de SDA non standard.\\n\\nEtes vous sûr que c"
+"\\'est correct?"
 
 msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
 msgstr ""
 "Un slash ('/') n'est pas un SDA valide. SVP retirez le et essayez de nouveau"
 
 msgid "Invalid Caller ID prefix."
-msgstr " CID sortant' invalide"
+msgstr " CID sortant\\' invalide"
 
 # Deja dans functions.inc
 # msgid ""
@@ -2353,7 +2395,7 @@ msgid "Unavailable"
 msgstr "Indisponible"
 
 msgid "No Message"
-msgstr ""
+msgstr "Pas de message"
 
 msgid "Optional Voicemail Recording Gain:"
 msgstr "Augmentation du volume d'enregistrement"
@@ -2377,6 +2419,15 @@ msgstr ""
 "Pour retirer le message par défaut \"SVP, laisser votre message après le "
 "beep. Quand activé, raccrochez ou appuyez sur la touche #. C'est joué après "
 "le message d'accueil (option s). Cela s'applique à toutes les boîtes vocales."
+
+msgid "Operator Extension:"
+msgstr "Extension Opérateur"
+
+msgid ""
+"Default number to dial when callers hit '0' from voicemail or the built in "
+"IVR directory (it has no effect on the Directory Module). This does NOT need "
+"to be an extension, it can be a Ring Group, or even an external number."
+msgstr ""
 
 msgid "Voicemail VmX Locator"
 msgstr "Boîte vocale VmX Locator"
@@ -2476,8 +2527,8 @@ msgstr ""
 "Nombre de fois pour jouer le message 'option invalide' en cas d'option non "
 "définie."
 
-msgid "Company Directory"
-msgstr "Annuaire d'entreprise"
+msgid "Legacy Company Directory"
+msgstr ""
 
 msgid "Find users in the Company Directory by:"
 msgstr "Chercher les utilisateurs dans le répertoire de l'entreprise par"
@@ -2511,22 +2562,6 @@ msgstr ""
 "Joue un message: \"<strong>Veuillez patienter pendant que je vous transfère "
 "à l'extension XXXX</strong>\".<br>Permet d'informer l'appelant de "
 "l'extension à utiliser dans le futur."
-
-msgid "Operator Extension:"
-msgstr "Extension Opérateur"
-
-msgid ""
-"When users hit '0' in the directory, they are put through to this number. "
-"Note that it"
-msgstr ""
-"Quand un utilisateur presse le 0 dans l'annuaire, le numéro est composé. "
-
-msgid ""
-" does NOT need to be an extension, it can be a Ring Group, or even an "
-"external number."
-msgstr ""
-"Cela ne peut être une extension mais un appel de groupe ou même un numéro "
-"externe."
 
 msgid "International Settings"
 msgstr "Réglages internationaux"
@@ -2591,7 +2626,7 @@ msgid ""
 "track version usage to focus development and maintenance efforts. No private "
 "information is transmitted."
 msgstr ""
-"Le choix Oui amène le système a automatiquement rechercher une mise à jour "
+"Le choix Oui amène le système a automatiquement recherché une mise à jour "
 "toutes les nuits. Le résultat sera affiché sur l'écran et sera de façon "
 "optionnelle envoyé par courriel si l'adresse est renseignée.<br />Cela "
 "transmettra les numéros de version FreePBX et Asterisk avec un identifiant "
@@ -2626,12 +2661,7 @@ msgstr ""
 "car il crée des problèmes avec les appels sur beaucoup de T2, VoIP, Numeris "
 "et autres trunks. Asterisk va générer un sonnerie jusqu'à ce la "
 "signalisation indique que l'appel est répondu. Cela va rendre certains "
-"serveurs vocaux inacessibles et crée d'autres problèmes."
-
-# ######## DEBUT ANCIENS MESSAGES de REPORTS
-# ######## FIN ANCIENS MESSAGES de REPORTS
-msgid "Error renaming route: duplicate name"
-msgstr "Erreur: ce nom de route existe déjà"
+"serveurs vocaux inaccessibles et créer d'autres problèmes."
 
 msgid "Error fetching prefix list for: "
 msgstr "Erreur lors de la récupération de la liste des préfixes pour:"
@@ -2639,17 +2669,22 @@ msgstr "Erreur lors de la récupération de la liste des préfixes pour:"
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "Format invalide pour le code NPA-NXX (format doit être; <b>NXXNXX</b>)"
 
+msgid ""
+"An unknown error occurred repositioning routes, refresh your browser to see "
+"the current correct route positions"
+msgstr ""
+
 msgid "Add Route"
 msgstr "Ajout Route"
 
-msgid "Move Up"
-msgstr "Vers le Haut"
-
-msgid "Move Down"
-msgstr "Vers le Bas"
+msgid "Drag up or down to reposition, click to choose"
+msgstr ""
 
 msgid "Edit Route"
 msgstr "Edition Route"
+
+msgid "Route Settings"
+msgstr ""
 
 msgid "Route Name"
 msgstr "Nom de la Route"
@@ -2662,20 +2697,8 @@ msgstr ""
 "sur cette route (par exemple, <strong>local</strong> ou "
 "<strong>longuedistance</strong>)"
 
-msgid "Rename"
-msgstr "Renommer"
-
-msgid "Rename route"
-msgstr "Renommer la route"
-
-msgid "to:"
-msgstr "vers:"
-
-msgid "Route name is invalid...please try again"
-msgstr "Le 'Nom de la Route' est invalide... SVP réessayez."
-
 msgid "Route CID"
-msgstr ""
+msgstr "Route CID"
 
 msgid ""
 "Optional Route CID to be used for this route. If set, this will override all "
@@ -2684,8 +2707,19 @@ msgid ""
 "it's CID</li><li>Forwarded call CIDs (CF, Follow Me, Ring Groups, etc)</"
 "li><li>Extension/User CIDs if checked</li></ul>"
 msgstr ""
+"Route CID optionnelle à utiliser pour cette route. Cela change tous les CIDs "
+"spécifiés excepté :<ul><li>extension/terminal CIDS SECOURS si cette route "
+"est marquée comme route SECOURS</li><li>trunk CID si ce trunk peut forcer "
+"son CID</li><li>Appels transferrés CIDs (CF, Follow Me, groupement d'appels, "
+"etc)</li><li>Extension/Utilisateur CIDs si coché</li></ul>"
 
-msgid "Override Extension CID"
+msgid "Override Extension"
+msgstr ""
+
+msgid ""
+"If checked the extension's Outbound CID will be ignored in favor of this "
+"CID. The extension's Emergency CID will still be used if the route is an "
+"Emergency Route and the Extension has a defined Emergency CID."
 msgstr ""
 
 msgid "Route Password"
@@ -2696,39 +2730,29 @@ msgid ""
 "progress.  This is useful for restricting calls to international "
 "destinations or 1-900 numbers.<br><br>A numerical password, or the path to "
 "an Authenticate password file can be used.<br><br>Leave this field blank to "
-"not prompt for password.</span>"
+"not prompt for password."
 msgstr ""
-"Optionnel: Une route peut demander aux utilisateurs un mot de passe avant de "
-"permettre la progression des appels. Utile pour restreindre les appels "
-"internationaux ou les appels surtaxés.<br><br>Un mot de passe numérique ou "
-"un chemin vers un fichier d'authentification de mot de passe peuvent être "
-"utilisés.<br><br>Laissez ce champ vide si aucun mot de passe n'est requis.</"
-"span>"
 
-msgid "Emergency Dialing"
-msgstr "Numérotation d'Urgence"
+msgid "Route Type"
+msgstr ""
 
 msgid ""
-"Optional: Selecting this option will enforce the use of a device's Emergency "
-"CID setting (if set).  Select this option if this set of routes is used for "
-"emergency dialing (ie: 911).</span>"
+"Optional: Selecting Emergency will enforce the use of a device's Emergency "
+"CID setting (if set).  Select this option if this route is used for "
+"emergency dialing (ie: 911)."
 msgstr ""
-"Optionnel: Choisir cette option va forcer l'utilisation du param&egrave;"
-"trage (si d&eacute;fini) du CID d'Urgence d'un p&eacute;riph&eacute;rique. "
-"Choisir cette option si ces routes sont utilis&eacute;s pour la num&eacute;"
-"rotation des appels d'urgence (eg: 112).</span>"
-
-msgid "Intra Company Route"
-msgstr "Route intra-entreprise"
 
 msgid ""
-"Optional: Selecting this option will treat this route as a intra-company "
-"connection, preserving the internal Caller ID information and not use the "
-"outbound CID of either the extension or trunk.</span>"
+"Optional: Selecting Intra-Company will treat this route as an intra-company "
+"connection, preserving the internal Caller ID information instead of the "
+"outbound CID of either the extension or trunk."
 msgstr ""
-"Option: sélectionner cette option gèrera la route come une route intra-"
-"entreprise, conservant le CID et n'utilisera pas le CID ou l'extension ou le "
-"trunk sortant ."
+
+msgid "Emergency"
+msgstr "Urgence"
+
+msgid "Intra-Company"
+msgstr ""
 
 msgid "Music On Hold?"
 msgstr "Musique d'attente"
@@ -2742,15 +2766,56 @@ msgstr ""
 "un type pour un pays de destination qui comprendra une annonce dans la "
 "langue du pays."
 
-msgid "Dial Patterns"
-msgstr "Masque de numérotation:"
+msgid "default"
+msgstr ""
+
+msgid "Time Group:"
+msgstr ""
 
 msgid ""
-"A Dial Pattern is a unique set of digits that will select this trunk. Enter "
-"one dial pattern per line."
+"If this route should only be available during certain times then Select a "
+"Time Group created under Time Groups. The route will be ignored outside of "
+"times specified in that Time Group. If left as default of Permanent Route "
+"then it will always be available."
 msgstr ""
-"Un Masque de numérotation est une suite de chiffres qui vont sélectionner "
-"cette route.<br> Entrez un masque de numérotation par ligne."
+
+msgid "---Permanent Route---"
+msgstr ""
+
+msgid "Route Position"
+msgstr ""
+
+msgid "Where to insert this route or relocate it relative to the other routes."
+msgstr ""
+
+#, php-format
+msgid "First before %s"
+msgstr ""
+
+msgid "---No Change---"
+msgstr ""
+
+#, php-format
+msgid "Before %s"
+msgstr ""
+
+#, php-format
+msgid "Last after %s"
+msgstr ""
+
+msgid "Additional Settings"
+msgstr ""
+
+msgid "Dial Patterns that will use this Route"
+msgstr ""
+
+msgid ""
+"A Dial Pattern is a unique set of digits that will select this route and "
+"send the call to the designated trunks. If a dialed pattern matches this "
+"route, no subsequent routes will be tried. If Time Groups are enabled, "
+"subsequent routes will be checked for matches outside of the designated time"
+"(s)."
+msgstr ""
 
 msgid "Rules:"
 msgstr "Règles:"
@@ -2764,31 +2829,61 @@ msgstr "correspond à un chiffre de 1-9"
 msgid "matches any digit from 2-9"
 msgstr "correspond à un chiffre de 2-9"
 
-msgid ""
-"matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
-msgstr ""
-"correspond à n'importe quel chiffre ou lettre inclus dans les crochets (dans "
-"cet exemple, 1,2,3,7,8,9)"
-
-msgid "wildcard, matches one or more characters"
-msgstr "joker, correspond à un ou plusieurs caractères"
-
-msgid ""
-"separates a dialing prefix from the number (for example, 9|NXXXXXX would "
-"match when some dialed \"95551234\" but would only pass \"5551234\" to the "
-"trunks)"
-msgstr ""
-"Sépare un préfixe de numérotation du numéro composé.<br>Par exemple, 9|"
-"NXXXXXX aura l'effet suivant: si \"95551234\" est composé, seulement "
-"\"5551234\" sera transmis au trunk."
-
-msgid ""
-"appended to a dial pattern, matches a callerid or callerid pattern (for "
-"example, NXXXXXX/104 would match only if dialed by extension \"104\")"
+msgid "matches any digit in the brackets (example: 1,2,3,7,8,9)"
 msgstr ""
 
-msgid "Clean & Remove duplicates"
-msgstr "Nettoyer & Supprimer les duplicats"
+msgid "wildcard, matches one or more dialed digits"
+msgstr ""
+
+msgid "prepend:"
+msgstr ""
+
+msgid ""
+"Digits to prepend to a successful match. If the dialed number matches the "
+"patterns specified by the subsequent columns, then this will be prepended "
+"before sending to the trunks."
+msgstr ""
+
+msgid "prefix:"
+msgstr ""
+
+msgid ""
+"Prefix to remove on a successful match. The dialed number is compared to "
+"this and the subsequent columns for a match. Upon a match, this prefix is "
+"removed from the dialed number before sending it to the trunks."
+msgstr ""
+
+msgid "match pattern:"
+msgstr ""
+
+msgid ""
+"The dialed number will be compared against the  prefix + this match pattern. "
+"Upon a match, the match pattern portion of the dialed number will be sent to "
+"the trunks"
+msgstr ""
+
+msgid "CallerID:"
+msgstr ""
+
+msgid ""
+"If CallerID is supplied, the dialed number will only match the prefix + "
+"match pattern if the CallerID being transmitted matches this. When "
+"extensions make outbound calls, the CallerID will be their extension number "
+"and NOT their Outbound CID. The above special matching sequences can be used "
+"for CallerID matching similar to other number matches."
+msgstr ""
+
+msgid "prepend"
+msgstr ""
+
+msgid "prefix"
+msgstr ""
+
+msgid "match pattern"
+msgstr ""
+
+msgid "CallerId"
+msgstr ""
 
 msgid "Dial patterns wizards"
 msgstr "Masque de numérotation pré-défini"
@@ -2824,7 +2919,7 @@ msgstr ""
 "quelques secondes."
 
 msgid "Invalid NPA-NXX. Must be of the format \\'NXX-NXX\\'"
-msgstr "NPA-NXX invalide. Doit être au format \"NXX-NXX\""
+msgstr "NPA-NXX invalide. Doit être au format \\'NXX-NXX\\'"
 
 msgid ""
 "Error: Cannot continue!\\n\\nPrefix lookup requires cURL support in PHP on "
@@ -2834,7 +2929,28 @@ msgstr ""
 "Erreur: Impossible de continuer!\\n\\n La recherche du préfixe requiert le "
 "support cURL dans PHP sur le serveur. SVP, installez et activez le support "
 "cURL dans votre installation PHP pour utiliser cette fonction. Voir http://"
-"www.php.net/curl pour plus d'informations."
+"www.php.net/curl pour plus d\\'informations."
+
+msgid "NXXXXXX"
+msgstr ""
+
+msgid "NXXXXXX,NXXNXXXXXX"
+msgstr ""
+
+msgid "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX"
+msgstr ""
+
+msgid "1NXXNXXXXXX"
+msgstr ""
+
+msgid "011."
+msgstr ""
+
+msgid "411,311"
+msgstr ""
+
+msgid "911"
+msgstr ""
 
 msgid "(pick one)"
 msgstr "(choisir un)"
@@ -2857,11 +2973,8 @@ msgstr "International"
 msgid "Information"
 msgstr "Information"
 
-msgid "Emergency"
-msgstr "Urgence"
-
-msgid "Trunk Sequence"
-msgstr "Séquence Trunk"
+msgid "Trunk Sequence for Matched Routes"
+msgstr ""
 
 msgid ""
 "The Trunk Sequence controls the order of trunks that will be used when the "
@@ -2876,42 +2989,60 @@ msgstr ""
 "exemple choisir d'abord les routes les moins chères (trunks VoIP) et ensuite "
 "les lignes classiques."
 
+msgid "Move Up"
+msgstr "Vers le Haut"
+
+msgid "Move Down"
+msgstr "Vers le Bas"
+
+# ##########################################################
+msgid "Add Trunk"
+msgstr "Ajout Trunk"
+
+msgid "remove"
+msgstr ""
+
+msgid "Click here to remove this pattern"
+msgstr ""
+
 msgid "Route name is invalid, please try again"
-msgstr "Le 'Nom de la Route' est invalide, SVP réessayez."
+msgstr "Le \\'Nom de la Route\\' est invalide, SVP réessayez."
 
 msgid "Route password must be numeric or leave blank to disable"
 msgstr ""
 "Le mot de passe de la Route ne doit contenir que des chiffres ou laisser le "
 "champ vide."
 
-msgid "Dial pattern is invalid"
-msgstr "Le 'Masque de Numerotation' est invalide."
-
 msgid "At least one trunk must be picked"
 msgstr "Au moins un Trunk doit être choisi."
 
 msgid "Invalid Outbound Caller ID"
-msgstr "'CID sortant' invalide"
+msgstr "\\'CID sortant\\' invalide"
 
-# ##########################################################
-msgid "Add Trunk"
-msgstr "Ajout Trunk"
+msgid "No dial pattern, there must be at least one"
+msgstr ""
+
+msgid "Dial pattern is invalid"
+msgstr "Le \\'Masque de Numerotation\\' est invalide."
 
 #, php-format
 msgid "Channel %s"
-msgstr ""
+msgstr "Canal %s"
 
 msgid "Add a Trunk"
-msgstr "Ajout Trunk"
+msgstr "Ajout d'un Trunk"
+
+msgid "Add SIP Trunk"
+msgstr "Ajout Trunk SIP"
+
+msgid "Add DAHDI Trunk"
+msgstr ""
 
 msgid "Add Zap Trunk"
 msgstr "Ajout Trunk ZAP"
 
 msgid "DAHDI compatibility mode"
 msgstr "Mode compatibilité DAHDI"
-
-msgid "Add SIP Trunk"
-msgstr "Ajout Trunk SIP"
 
 msgid "Add IAX2 Trunk"
 msgstr "Ajout Trunk IAX2"
@@ -2927,7 +3058,7 @@ msgstr "Ajout Trunk Personnalisé"
 
 #, php-format
 msgid "%s Channel %s"
-msgstr ""
+msgstr "%s Canal %s"
 
 #, php-format
 msgid "Edit %s Trunk"
@@ -2967,7 +3098,7 @@ msgstr ""
 
 #, php-format
 msgid "Add %s Trunk"
-msgstr ""
+msgstr "Ajout d'un Trunk %s"
 
 msgid ""
 "FreePBX offers limited support for DUNDi trunks and additional manual "
@@ -2975,7 +3106,7 @@ msgid ""
 "[mappings] section of the remote dundi.conf systems. For example, you may "
 "have a mapping on the remote system, and corresponding configurations in "
 "dundi.conf locally, that looks as follows:<br /><br />[mappings]<br />priv "
-"=> dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},noparital<br /"
+"=> dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},nopartial<br /"
 "><br />In this example, you would create this trunk and name it priv. You "
 "would then create the corresponding IAX2 trunk with proper settings to work "
 "with DUNDi. This can be done by making an IAX2 trunk in FreePBX or by using "
@@ -3000,11 +3131,11 @@ msgstr ""
 "paging,... pour accéder aux extensions et fonctionnalités fournies par ces "
 "contextes nombreux et générées par FreePBX."
 
-msgid "Trunk Description"
-msgstr ""
+msgid "Trunk Name"
+msgstr "Nom du Trunk"
 
 msgid "Descriptive Name for this Trunk"
-msgstr ""
+msgstr "Nom descriptif de ce trunk"
 
 msgid "Outbound Caller ID"
 msgstr "CID Sortant"
@@ -3015,9 +3146,13 @@ msgid ""
 "b> to hide the CallerID sent out over Digital lines if supported (E1/T1/J1/"
 "BRI/SIP/IAX)."
 msgstr ""
+"CID pour les appels envoyé sur ce trunk<br><br>Format: <b>\"nom appelant"
+"\"&lt;#######&gt;</b>. Vous pouvez aussi utiliser la chaîne 'hidden' pour "
+"cacher le CID envoyé sur les lignes numériques seulement (E1/T1/J1/BRI/SIP/"
+"IAX)."
 
 msgid "CID Options"
-msgstr ""
+msgstr "Options CID"
 
 msgid ""
 "Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY "
@@ -3031,18 +3166,28 @@ msgid ""
 "except if part of any EMERGENCY Route with an EMERGENCY CID defined for the "
 "extension/device."
 msgstr ""
+"Détermine quels sont les CIDs autorisés sur ce trunk. IMPORTANT: les CIDS de "
+"SECOURS définis pour une extension/terminal seront TOUJOURS utilisés si ce "
+"trunk fait partie d'une route SECOURS indépendamment de ces paramètres.<br /"
+">Autorise tout CID: tous les CIDs incluant les CIDs étrangers d'appels "
+"extérieurs transferrés seront transmis.<br />Bloque les CIDs étrangers: "
+"bloque tout CID qui résulte d'un transfert d'appel du système. Les CIDs "
+"définis comme extensions/utilisateurs sont transmis.<br />Supprime le CNAM: "
+"cela retire le CNAM de tout CID envoyé sur ce trunk<br />Force le CID du "
+"trunk: utilise toujours le CID défini pour ce trunk sauf si faisant parti "
+"d'une route SECOURS avec un CID SECOURS défini pour cette extension/terminal."
 
 msgid "Allow Any CID"
-msgstr ""
+msgstr "Autorise tout SDA"
 
 msgid "Block Foreign CIDs"
-msgstr ""
+msgstr "Bloque les CIDs étrangers"
 
 msgid "Remove CNAM"
-msgstr ""
+msgstr "Supprime le CNAM"
 
 msgid "Force Trunk CID"
-msgstr ""
+msgstr "Force le CID du trunk"
 
 msgid "Maximum Channels"
 msgstr "Nombre maximal de canaux"
@@ -3090,55 +3235,51 @@ msgstr ""
 "qui ne proviennent pas des motifs : Pas de réponse (NOANSWER) ou Annulé "
 "(CANCEL)"
 
-msgid "Outgoing Dial Rules"
-msgstr "Règles de Composition de Sortie"
-
-msgid "Dial Rules"
-msgstr "Règles de Composition"
+msgid "Dialed Number Manipulation Rules"
+msgstr ""
 
 msgid ""
-"A Dial Rule controls how calls will be dialed on this trunk. It can be used "
-"to add or remove prefixes. Numbers that don't match any patterns defined "
-"here will be dialed as-is. Note that a pattern without a + or | (to add or "
-"remove a prefix) will not make any changes but will create a match. Only the "
-"first matched rule will be executed and the remaining rules will not be "
-"acted on."
+"These rules can manipulate the dialed number before sending it out this "
+"trunk. If no rule applies, the number is not changed. The original dialed "
+"number is passed down from the route where some manipulation may have "
+"already occurred. This trunk has the option to further manipulate the "
+"number. If the number matches the combined values in the <b>prefix</b> plus "
+"the <b>match pattern</b> boxes, the rule will be applied and all subsequent "
+"rules ignored.<br/> Upon a match, the <b>prefix</b>, if defined, will be "
+"stripped. Next the <b>prepend</b> will be inserted in front of the <b>match "
+"pattern</b> and the resulting number will be sent to the trunk. All fields "
+"are optional."
 msgstr ""
-"Une règle de composition contrôle comment les appels sont numérotés sur ce "
-"trunk. Utilisé pour ajouter ou supprimer des préfixes. Les numéros qui ne "
-"correspondent à aucune règle sont composés tels quels. Une règle qui ne "
-"contient ni <b>+</b> ni <b>|</b> (ajouter ou supprimer un préfixe) est "
-"inutile. Seule la première règle qui peut être appliquée sera exécutée et "
-"les autres règles seront ignorées."
-
-msgid "wildcard, matches one or more characters (not allowed before a | or +)"
-msgstr ""
-"joker, correspond à un ou plusieurs caractères (interdit avant un <b>|</b> "
-"ou <b>+</b>)"
 
 msgid ""
-"removes a dialing prefix from the number (for example, 613|NXXXXXX would "
-"match when some dialed \"6135551234\" but would only pass \"5551234\" to the "
-"trunk)"
+"Digits to prepend upon a successful match. If the dialed number matches the "
+"patterns in the <b>prefix</b> and <b>match pattern</b> boxes, this will be "
+"prepended before sending to the trunk."
 msgstr ""
-"supprime un préfixe du numéro (par exemple, la règle 613|NXXXXXX correspond "
-"à: si \"6135551234\" est composé, seulement \"5551234\" sera passé au trunk)"
 
 msgid ""
-"adds a dialing prefix from the number (for example, 1613+NXXXXXX would match "
-"when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)"
+"Prefix to remove upon a successful match. If the dialed number matches this "
+"plus the <b>match pattern</b> box, this prefix is removed before adding the "
+"optional <b>prepend</b> box and sending the results to the trunk."
 msgstr ""
-"ajoute un préfixe au numéro (par exemple, la règle 1613+NXXXXXX correspond "
-"à: si \"5551234\" est composé \"16135551234\" sera passé au trunk)"
 
 msgid ""
-"You can also use both + and |, for example: 01+0|1ZXXXXXXXXX would match "
-"\"016065551234\" and dial it as \"0116065551234\" Note that the order does "
-"not matter, eg. 0|01+1ZXXXXXXXXX does the same thing."
+"The dialed number will be compared against the <b>prefix</b> plus this "
+"pattern. Upon a match, this portion of the number will be sent to the trunks "
+"after removing the <b>prefix</b> and appending the <b>prepend</b> digits"
 msgstr ""
-"Vous pouvez aussi utiliser ensemble + et |, par exemple: 01+0|1ZXXXXXXXXX "
-"sera appliqué pour \"016065551234\" et sera appelé comme \"0116065551234\" "
-"Notez que l'ordre n'a pas d'importance : 0|01+1ZXXXXXXXXX a le même résultat."
+
+msgid ""
+"You can completely replace a number by matching on the <b>prefix</b> only, "
+"replacing it with a <b>prepend</b> and leaving the <b>match pattern</b> "
+"blank."
+msgstr ""
+
+msgid "+ Add More Dial Pattern Fields"
+msgstr ""
+
+msgid "Clear all Fields"
+msgstr ""
 
 msgid "Dial Rules Wizards"
 msgstr "Assistant règles d'appels"
@@ -3157,11 +3298,18 @@ msgid "Remove prefix from local numbers"
 msgstr "Supprime le préfixe des numéros locaux"
 
 msgid ""
-"is useful for ZAP trunks, where if a local number is dialed as \"6135551234"
-"\", it can be converted to \"555-1234\"."
+"is useful for ZAP and DAHDI trunks, where if a local number is dialed as "
+"\"6135551234\", it can be converted to \"555-1234\"."
 msgstr ""
-"est utile pour les trunks ZAP dans le cas où si un numéro est composé comme "
-"\"16135551234\", il peut être converti comme \"555-1234\"."
+
+msgid "Setup Google for directory assistance"
+msgstr ""
+
+msgid ""
+"is useful to translate a call to directory assistance (default: 411) to "
+"Google's toll free directory (default: 18004664411) or any other number of "
+"your choosing"
+msgstr ""
 
 msgid "Lookup numbers for local trunk"
 msgstr "Recherche nombre pour trunk local"
@@ -3187,11 +3335,11 @@ msgstr "Recherche nombre pour trunk local(10 chiffres)"
 
 msgid "Are you sure you want to disable this trunk in all routes it is used?"
 msgstr ""
-"Etes-vous sûre de vouloir désactiver ce trunk sur toutes les routes qui "
-"l'utilisent"
+"Etes-vous sûre de vouloir désactiver ce trunk sur toutes les routes qui l"
+"\\'utilisent"
 
 msgid "You have enabled this trunk in all routes it is used"
-msgstr "Vous avez autorisé ce Trunk pour toutes les routes qu'il utilise"
+msgstr "Vous avez autorisé ce Trunk pour toutes les routes qu\\'il utilise"
 
 msgid "\")"
 msgstr "\")"
@@ -3238,6 +3386,28 @@ msgstr ""
 "(ie. NXXNXXXXXX pour US/CAN composition pour 10 chiffres, NXXXXXX "
 "composition pour 7 chiffres)"
 
+msgid ""
+"What is the directory assistance number you will dial locally in the format "
+"that is passed to this trunk, ie 411"
+msgstr ""
+
+msgid "\"411\""
+msgstr ""
+
+msgid "Invalid pattern. Only 0-9, #, *"
+msgstr ""
+
+msgid ""
+"Google 411 number to dial, or alternative number you want dialed when "
+"calling directory assistance on this trunk"
+msgstr ""
+
+msgid "18004664411"
+msgstr ""
+
+msgid "Invalid number. Only 0-9, #,  and * are allowed."
+msgstr ""
+
 msgid "Outbound Dial Prefix"
 msgstr "Préfixe de Numérotation Externe"
 
@@ -3259,8 +3429,8 @@ msgstr ""
 msgid "Outgoing Settings"
 msgstr "Paramètres de Sortie"
 
-msgid "Zap Identifier (trunk name)"
-msgstr "Identifiant Zap (nom du trunk)"
+msgid "Zap Identifier"
+msgstr ""
 
 msgid ""
 "ZAP channels are referenced either by a group number or channel number "
@@ -3270,6 +3440,15 @@ msgstr ""
 "Les canaux ZAP sont référencés soit par un numéro de groupe ou un numéo de "
 "canal (défini dans zapata.conf).<br>Le paramètres par défaut est <b>g0</b> "
 "(groupe zéro)"
+
+msgid "DAHDI Identifier"
+msgstr ""
+
+msgid ""
+"DAHDI channels are referenced either by a group number or channel number "
+"(which is defined in chan_dahdi.conf).  <br><br>The default setting is "
+"<b>g0</b> (group zero)."
+msgstr ""
 
 msgid "Custom Dial String"
 msgstr "Chaîne de Numérotation Personnalisée"
@@ -3296,9 +3475,6 @@ msgstr ""
 "dans le fichier local dundi.conf. Cela nécessite une configuration manuelle "
 "de DUNDi pour utiliser ce trunk."
 
-msgid "Trunk Name"
-msgstr "Nom du Trunk"
-
 msgid "Give this trunk a unique name.  Example: myiaxtel"
 msgstr "Donnez un nom unique au trunk. Exemple: moniaxtel"
 
@@ -3319,7 +3495,7 @@ msgstr ""
 "assurez vous que deny vient en premier!"
 
 msgid "Incoming Settings"
-msgstr "Paramè;tres d'Entrée"
+msgstr "Paramètres d'Entrée"
 
 msgid "USER Context"
 msgstr "Contexte Utilisateur"
@@ -3371,24 +3547,24 @@ msgstr ""
 "voipprovider.com/didnumber pour que les DID correspondant fonctionnent."
 
 msgid "Invalid Maximum Channels"
-msgstr "'Nombre maximal de Canaux' invalide"
+msgstr "\\'Nombre maximal de Canaux\\' invalide"
 
 msgid "Invalid Dial Rules"
-msgstr "'Règles de Composition' invalide"
+msgstr "\\'Règles de Composition\\' invalide"
 
 msgid "Invalid Outbound Dial Prefix"
-msgstr "'Préfixe de Numérotation Externe' invalide"
+msgstr "\\'Préfixe de Numérotation Externe\\' invalide"
 
 msgid "Invalid Trunk Name entered"
-msgstr "'Nom de Trunk' invalide"
+msgstr "\\'Nom de Trunk\\' invalide"
 
 msgid "Invalid Custom Dial String entered"
 msgstr "Chaîne de Numérotation Personnalisée invalide"
 
 msgid "Trunk Name and User Context cannot be set to the same value"
 msgstr ""
-"Le 'Nom du Trunk' et le 'Contexte Utilisateur' ne peuvent pas avoir la même "
-"valeur."
+"Le \\'Nom du Trunk\\' et le \\'Contexte Utilisateur\\' ne peuvent pas avoir "
+"la même valeur."
 
 msgid "User Context was left blank and User Details will not be saved!"
 msgstr ""
@@ -3396,10 +3572,14 @@ msgstr ""
 "sauvegardés!"
 
 msgid ""
-"You must define an Outbound Caller ID when Choosing Never Override CallerID"
+"You must define an Outbound Caller ID when Choosing this CID Options value"
 msgstr ""
-"Vous devez définir un identifiant appel sortant quand vous choisissez "
-"l'option Ne jamais modifier le CID."
+
+msgid ""
+"It is highly recommended that you define an Outbound Caller ID on all "
+"trunks, undefined behavior can result when nothing is specified. The CID "
+"Options can control when this CID is used. Do you still want to continue?"
+msgstr ""
 
 # # le message suivant n'est pas traduit, il faut revoir le code dans page.users
 msgid ""
@@ -3472,9 +3652,9 @@ msgid ""
 "DID information is normally just an incoming telephone number.\\n\\nYou have "
 "entered a non standard DID pattern.\\n\\nAre you sure this is correct?"
 msgstr ""
-"L'information SDA est normalement juste un numéro d'appel entrant.\\n\\nVous "
-"avez entré un numéro de SDA non standard.\\n\\nEtes vous sûr que c'est "
-"correct?"
+"L\\'information SDA est normalement juste un numéro d\\'appel entrant.\\n"
+"\\nVous avez entré un numéro de SDA non standard.\\n\\nEtes vous sûr que c"
+"\\'est correct?"
 
 msgid ""
 "You appear to be using a converted DID in the form of zapchanNN that was "

@@ -1,6 +1,176 @@
 #!/usr/bin/php -q
-
 <?php
+
+class connectdirs {
+
+	var $nt;
+	var $symlink_dirs;
+  var $cp_dirs;
+
+  var $cp_errors = '';
+	var $symlink_error_modules = '';
+		
+	function &create() {
+		static $obj;
+		if (!isset($obj)) {
+			$obj = new connectdirs();
+		}
+		return $obj;
+	}
+
+	function connectdirs() {
+    global $amp_conf;
+    global $db;
+    $this->symlink_dirs['sounds'] = $amp_conf['ASTVARLIBDIR'].'/sounds';
+    $this->symlink_dirs['bin']    = $amp_conf['AMPBIN'];
+    $this->symlink_dirs['etc']    = $amp_conf['ASTETCDIR'];
+    $this->symlink_dirs['images'] = $amp_conf['AMPWEBROOT']."/admin/images"; 
+    $this->symlink_dirs['ari/modules'] = $amp_conf['AMPWEBROOT']."/recordings/modules"; 
+    $this->symlink_dirs['ari/theme'] = $amp_conf['AMPWEBROOT']."/recordings/theme"; 
+    $this->symlink_dirs['ari/js'] = $amp_conf['AMPWEBROOT']."/recordings/theme/js"; 
+    $this->symlink_dirs['ari/images'] = $amp_conf['AMPWEBROOT']."/recordings/theme/images"; 
+    
+    $this->cp_dirs['agi-bin'] = $amp_conf['ASTAGIDIR'];
+    $this->nt = notifications::create($db);
+	}
+
+  function symlink_subdirs($moduledir) {
+    foreach ($this->symlink_dirs as $subdir => $targetdir) {
+		  $dir = addslash($moduledir).$subdir;
+		  if (is_dir($dir)) {
+			  $d = opendir($dir);
+			  while ($file = readdir($d)) {
+				  if ($file[0] != '.') {
+					  $src = addslash($dir).$file;
+					  $dest = addslash($targetdir).$file;
+					  if (file_exists_wrapper($dest)) {
+						  if ((!is_link($dest) || readlink($dest) != $src) && (md5_file($src) == md5_file($dest))) {
+							  freepbx_log('retrieve-conf', 'devel-debug', "Can't symlink $src to $dest but files are the same so ignoring");
+              } else if (!is_link($dest)) {
+							  freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is not a symlink!');
+                $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
+						  } else if (readlink($dest) != $src) {
+							  // TODO : is this the proper handling? should we just overwrite..?
+							  freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is linked to something else!');
+                $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
+						  } else {
+							  freepbx_log('retrieve-conf', 'devel-debug', $dest.' already points to '.$src.' - OK');
+						  }
+					  } else {
+//						// symlink, unlike copy, doesn't overwrite - have to delete first
+//						if (is_link($dest) || file_exists($dest)) {
+//							unlink($dest);
+//						}
+						  if (symlink($src, $dest)) {
+							  freepbx_log('retrieve-conf', 'devel-debug', 'Symlinked '.$src.' to '.$dest);
+						  } else {
+							  freepbx_log('retreive-conf', 'devel-debug', 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
+						  }
+					  }
+				  }
+			  }
+			  closedir($d);
+		  }
+	  }
+  }
+
+  function symlink_check_errors() {
+    if ($this->symlink_error_modules) {
+      $this->nt->add_error('retrieve_conf', 'SYMLINK', _("Symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link: %s<br \>This can result in FATAL failures to your PBX. If the target file exists and not identical, the symlink will not occur and you should rename the target file to allow the automatic sym link to occur and remove this error, unless this is an intentional customization."),$this->symlink_error_modules));
+	  } else {
+      $this->nt->delete('retrieve_conf', 'SYMLINK');
+	  }
+  }
+
+  function cp_subdirs($moduledir) {
+    foreach ($this->cp_dirs as $subdir => $targetdir) {
+		  $dir = addslash($moduledir).$subdir;
+		  if(is_dir($dir)){
+			  foreach(listdir($dir) as $idx => $file){
+				  $sourcefile = $file;
+				  $filesubdir=str_replace($dir.'/', '', $file);
+				  $targetfile = addslash($targetdir).$filesubdir;
+	
+				  if (file_exists_wrapper($targetfile)) {
+					  if (is_link($targetfile)) {
+              if ($this->err_unlink($targetfile)) {
+							  freepbx_log('retrieve-conf', 'devel-debug', "$targetfile was symbolic link, unlink successful");
+						  } else {
+							  freepbx_log('retrieve-conf', 'error', "$targetfile is a symblolic link, failed to unlink!");
+							  break;
+						  }
+					  }
+				  }
+				  // OK, now either the file is a regular file or isn't there, so proceed
+				  //
+          if ($this->err_copy($sourcefile,$targetfile)) {
+					  freepbx_log('retrieve-conf', 'devel-debug', "$targetfile successfully copied");
+					  // copy was successful, make sure it has execute permissions
+					  chmod($targetfile,0754);
+				  } else {
+					  freepbx_log('retrieve-conf', 'error', "$targetfile failed to copy from module directory");
+				  }
+			  }
+		  }
+	  }
+  }
+  function cp_check_errors() {
+    if ($this->cp_errors) {
+      $this->nt->add_error('retrieve_conf', 'CPAGIBIN', _("Failed to copy from module agi-bin"), sprintf(_("Retrieve conf failed to copy file(s) from a module's agi-bin dir: %s"),$cp_errors));
+	  } else {
+      $this->nt->delete('retrieve_conf', 'CPAGIBIN');
+	  }
+  }
+  function add_cp_error($string) {
+    $this->cp_errors .= $string;
+  }
+
+  // wrap copy with error handler
+  //
+  function err_copy($source, $dest) {
+	  $ret = false;
+	  set_error_handler("report_errors");
+	  //if were copying a directory, just mkdir the directory
+	  if(is_dir($source)){
+		  $ret=mkdir($dest,0754);
+	  }elseif(copy($source, $dest)) {
+		  $ret = chmod($dest,0754);
+	  }
+	  restore_error_handler();
+	  return $ret;
+  }
+
+  // wrap unlink with error handler
+  //
+  function err_unlink($dest) {
+	  set_error_handler("report_errors");
+	  $ret = unlink($dest);
+	  restore_error_handler();
+	  return $ret;
+  }
+}
+
+// I don't think this can be part of the class since it is called by an
+// error function as a callback (otherwise, can move it into above).
+//
+function report_errors($errno, $errstr, $errfile, $errline) {
+	global $cp_errors;
+	switch($db_engine) {
+		case "sqlite3": 
+			$escaped_string = sqlite_real_escape($errstr);
+			break;
+		case "mysql":
+			$escaped_string = mysql_real_escape_string($errstr);
+			break;
+		case "pgsql":
+			$escaped_string = pgsql_escape_string($errstr);
+			break;
+	}
+	freepbx_log('retrieve-conf', 'error', "php reported: '$escaped_string' after copy or unlink attempt!");
+	$cp_errors .= $errstr."\n";
+  $conn_dirs = connectdirs::create();
+  $conn_dirs->add_cp_error($errstr."\n");
+}
 
 // Emulate gettext extension functions if gettext is not available
 if (! function_exists("_")) {
@@ -200,17 +370,6 @@ if (isset($amp_conf["AMPDBENGINE"])){
 	$db_engine = $amp_conf["AMPDBENGINE"];
 }
 
-// **** Create symlinks array
-$symlink_dirs = array();
-$symlink_dirs['sounds'] = $amp_conf['ASTVARLIBDIR'].'/sounds';
-$symlink_dirs['bin']    = $amp_conf['AMPBIN'];
-$symlink_dirs['etc']    = $amp_conf['ASTETCDIR'];
-$symlink_dirs['images'] = $amp_conf['AMPWEBROOT']."/admin/images"; 
-
-$cp_errors = "";
-$cp_dirs = array();
-$cp_dirs['agi-bin'] = $amp_conf['ASTAGIDIR'];
-
 switch ($db_engine)
 {
 	case "pgsql":
@@ -267,6 +426,7 @@ out(_("OK"));
 // Define the notification class for logging to the dashboard
 //
 $nt = notifications::create($db);
+$con_dirs = connectdirs::create();
 
 /*
 */
@@ -331,16 +491,28 @@ if(is_array($modules)){
 			// don't symlink framework files, it is a special case module that happens to have
 			// some conflicting names
 			//
-			if ($key != 'framework') {
-				symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-				cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+      switch ($key) {
+        case 'framework':
+        case 'fw_fop':
+        case 'fw_ari':
+        case 'fw_langpacks':
+          break;
+        default:
+        $con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+        $con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
 			}
 		}
 	}
 }
 // Now also make sure to symlink the CDR images which is not a proper module
 //
-symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/cdr/');
+$con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/cdr/');
+
+// Now that we have done all the symlinks and copies, we check and report if there were any errors
+//
+$con_dirs->symlink_check_errors();
+$con_dirs->cp_check_errors();
+
 
 // create an object of the extensions class
 require_once($amp_conf['AMPWEBROOT']."/admin/extensions.class.php");
@@ -532,82 +704,6 @@ function file_exists_wrapper($string) {
 	}
 }
 
-function symlink_subdirs($moduledir) {
-	global $symlink_dirs;
-	$symlink_errors = false;
-
-	$nt = notifications::create($db);
-
-	$error_modules = '';
-	foreach ($symlink_dirs as $subdir => $targetdir) {
-		$dir = addslash($moduledir).$subdir;
-		if (is_dir($dir)) {
-			$d = opendir($dir);
-			while ($file = readdir($d)) {
-				if ($file[0] != '.') {
-					$src = addslash($dir).$file;
-					$dest = addslash($targetdir).$file;
-					if (file_exists_wrapper($dest)) {
-						if (!is_link($dest)) {
-							freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is not a symlink!');
-							$error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
-							$symlink_errors = true;
-						} else if (readlink($dest) != $src) {
-							// TODO : is this the proper handling? should we just overwrite..?
-							freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is linked to something else!');
-							$error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
-							$symlink_errors = true;
-						} else {
-							freepbx_log('retrieve-conf', 'devel-debug', $dest.' already points to '.$src.' - OK');
-						}
-					} else {
-//						// symlink, unlike copy, doesn't overwrite - have to delete first
-//						if (is_link($dest) || file_exists($dest)) {
-//							unlink($dest);
-//						}
-						if (symlink($src, $dest)) {
-							freepbx_log('retrieve-conf', 'devel-debug', 'Symlinked '.$src.' to '.$dest);
-						} else {
-							freepbx_log('retreive-conf', 'devel-debug', 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
-						}
-					}
-				}
-			}
-			closedir($d);
-		}
-	}
-	if ($error_modules) {
-		$nt->add_error('retrieve_conf', 'SYMLINK', _("Symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link: %s<br \>This can result in FATAL failures to your PBX. If the target file exists, the symlink will not occur and you should rename the target file to allow the automatic sym link to occur and remove this error, unless this is an intentional customization."),$error_modules));
-	} else {
-		$nt->delete('retrieve_conf', 'SYMLINK');
-	}
-}
-
-// wrap copy with error handler
-//
-function err_copy($source, $dest) {
-	$ret = false;
-	set_error_handler("report_errors");
-	//if were copying a directory, just mkdir the directory
-	if(is_dir($source)){
-		$ret=mkdir($dest,0754);
-	}elseif(copy($source, $dest)) {
-		$ret = chmod($dest,0754);
-	}
-	restore_error_handler();
-	return $ret;
-}
-
-// wrap unlink with error handler
-//
-function err_unlink($dest) {
-	set_error_handler("report_errors");
-	$ret = unlink($dest);
-	restore_error_handler();
-	return $ret;
-}
-
-
 //based on: http://snippets.dzone.com/posts/show/155
 function listdir($directory, $recursive=true) {
 	$array_items = array();
@@ -629,66 +725,6 @@ function listdir($directory, $recursive=true) {
 		closedir($handle);
 	}
 	return array_reverse($array_items);//reverse so that we get directories BEFORE the files that are in them
-}
-
-function cp_subdirs($moduledir) {
-	global $cp_errors;
-	global $cp_dirs;
-
-	$cp_errors = "";
-	foreach ($cp_dirs as $subdir => $targetdir) {
-		$dir = addslash($moduledir).$subdir;
-		if(is_dir($dir)){
-			foreach(listdir($dir) as $idx => $file){
-				$sourcefile = $file;
-				$filesubdir=str_replace($dir.'/', '', $file);
-				$targetfile = addslash($targetdir).$filesubdir;
-	
-				if (file_exists_wrapper($targetfile)) {
-					if (is_link($targetfile)) {
-						if (err_unlink($targetfile)) {
-							freepbx_log('retrieve-conf', 'devel-debug', "$targetfile was symbolic link, unlink successful");
-						} else {
-							freepbx_log('retrieve-conf', 'error', "$targetfile is a symblolic link, failed to unlink!");
-							break;
-						}
-					}
-				}
-				// OK, now either the file is a regular file or isn't there, so proceed
-				//
-				if (err_copy($sourcefile,$targetfile)) {
-					freepbx_log('retrieve-conf', 'devel-debug', "$targetfile successfully copied");
-					// copy was successful, make sure it has execute permissions
-					chmod($targetfile,0754);
-				} else {
-					freepbx_log('retrieve-conf', 'error', "$targetfile failed to copy from module directory");
-				}
-			}
-		}
-	}
-	$nt = notifications::create($db);
-	if ($cp_errors) {
-		$nt->add_error('retrieve_conf', 'CPAGIBIN', _("Failed to copy from module agi-bin"), sprintf(_("Retrieve conf failed to copy file(s) from a module's agi-bin dir: %s"),$cp_errors));
-	} else {
-		$nt->delete('retrieve_conf', 'CPAGIBIN');
-	}
-}
-
-function report_errors($errno, $errstr, $errfile, $errline) {
-	global $cp_errors;
-	switch($db_engine) {
-		case "sqlite3": 
-			$escaped_string = sqlite_real_escape($errstr);
-			break;
-		case "mysql":
-			$escaped_string = mysql_real_escape_string($errstr);
-			break;
-		case "pgsql":
-			$escaped_string = pgsql_escape_string($errstr);
-			break;
-	}
-	freepbx_log('retrieve-conf', 'error', "php reported: '$escaped_string' after copy or unlink attempt!");
-	$cp_errors .= $errstr."\n";
 }
 
 /** Check if there is a job running, if one is found then all is good, if one is not found, it will be added and a

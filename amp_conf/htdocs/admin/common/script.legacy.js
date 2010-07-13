@@ -676,70 +676,31 @@ $(document).ready(function(){
 
 	//module setup/tools menu
 	$('#nav').tabs({cookie:{expires:30}});
-	
-	//initalize accoridans if the is no cookie set to keep them open (or if its set to false)
-	if($.cookie('leftNavShowAll')!='true'){
-		$('.accordion').each(function(){
-			accordInt($(this));
-		});
-	} else {
-		$('#nav-showall').html(' - Collapse All');
-	}
-	
-	//function to initalize accoridans
-	function accordInt(i){
-		var tab = i.attr('data-nav-tab');
-		i.accordion({ 
-			header: '.category',
-			autoHeight: false,
-			active: parseInt($.cookie('lastMenu'+tab))}
-		);
-	}
-		
-	//set cookie on currently open category
-	$(".category").click(function(){
-		var tab = $(this).attr('data-nav-tab');
-		$.cookie('lastMenu'+tab, $("div#nav-"+tab).accordion('option','active'));
-	});
-		
-	//link to show/hide accordian
-	$('#nav-showall').click(function(){ 
-		if($.cookie('leftNavShowAll') != 'true'){
-			//index of currently open tab
-			var opentab = $('#nav').tabs('option', 'selected');
-			//textual name of currently open tab
-			var tab = $('#nav').find('ul').find('li:eq('+opentab+')').attr('data-nav-tab');
-			//index of currently open catagorie
-			var cat = $('.accordion#nav-'+tab).accordion('option','active');
-			
-			//remove accordian
-			$('.ui-accordion').accordion("destroy");
-			
-			//hide ALL modules except for those in the currently open catagorie
-			$('.accordion#nav-'+tab).find('.category:not(.category:eq('+cat+'))').next('div').hide();
-			
-			//slide down all modules, one section at a time
-			var slide = $('#nav-'+tab).find('.category').next('div');
-			slidedivs(slide);
-			
-			function slidedivs(slide){
-				slide.eq(0).slideDown(400, function(){
-        (slide=slide.slice(1)).length && slidedivs(slide);
-    		});
-			};
-			
-			//change link text
-			$(this).html(' - Collapse All');
-			
-			//set preference cookie
-			$.cookie('leftNavShowAll', 'true');
+
+  // initialize the displayed/hidden nav bar categories
+	$(".category-header").each(function(){
+		if ($.cookie(this.id) == 'collapsed') {
+			$(".id-"+this.id).hide();
+			$(this).removeClass("toggle-minus").addClass("toggle-plus")
+      $.cookie(this.id,'collapsed', { expires: 365 });
 		} else {
-			$('.accordion').each(function(){
-				accordInt($(this));
-			});
-			$.cookie('leftNavShowAll', 'false');
-			$(this).html(' + Show All');
+			$(".id-"+this.id).show();
+			$(this).removeClass("toggle-plus").addClass("toggle-minus")
+      $.cookie(this.id,'expanded', { expires: 365 });
 		}
 	});
+
+  //slide open/closed each section
+	$(".category-header").click(function(){
+    if ($.cookie(this.id) == 'expanded') {
+			$(".id-"+this.id).slideUp();
+      $.cookie(this.id,'collapsed', { expires: 365 });
+      $(this).removeClass("toggle-minus").addClass("toggle-plus")
+    } else {
+			$(".id-"+this.id).slideDown();
+      $.cookie(this.id,'expanded', { expires: 365 });
+      $(this).removeClass("toggle-plus").addClass("toggle-minus")
+    }
+  });
 
 });

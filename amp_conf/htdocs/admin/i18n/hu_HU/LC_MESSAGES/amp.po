@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx-2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 20:57+0100\n"
+"POT-Creation-Date: 2010-06-27 12:16+0200\n"
 "PO-Revision-Date: 2007-10-09 16:16+0100\n"
 "Last-Translator: Lónyai Gergely <alephlg@gmail.com>\n"
 "Language-Team: Aleph <alephlg@gmail.com>\n"
@@ -20,6 +20,9 @@ msgstr ""
 
 msgid "Submit"
 msgstr "Elküld"
+
+msgid "Please select a valid destination."
+msgstr ""
 
 msgid "Internal Options & Configuration"
 msgstr ""
@@ -69,6 +72,9 @@ msgstr ""
 msgid "Used as Destination by %s %s"
 msgstr ""
 
+msgid "Trace Back"
+msgstr ""
+
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr ""
@@ -107,15 +113,13 @@ msgstr ""
 msgid "Add"
 msgstr "Hozzáadás"
 
-msgid "Unknown Destination"
+msgid "choose one"
 msgstr ""
 
-msgid ""
-"ERROR: You have an unknown destination. If this was carried over as a Custom "
-"App from an earlier version, you must go register the destination in the "
-"Custom Destination tab provided by the Custom Applications module.<br />This "
-"will remain active until you change it but you can no longer edit or add a "
-"new one here."
+msgid "Terminate Call"
+msgstr ""
+
+msgid "description"
 msgstr ""
 
 msgid ""
@@ -358,6 +362,14 @@ msgstr ""
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
 "you should set a secure password"
+msgstr ""
+
+msgid "Default ARI Admin password Used"
+msgstr ""
+
+msgid ""
+"You are using the default ARI Admin password that is widely known, you "
+"should change to a new password. Do this in amportal.conf"
 msgstr ""
 
 msgid "Module Administration"
@@ -704,9 +716,6 @@ msgstr ""
 msgid "Description for version %s"
 msgstr ""
 
-msgid "description"
-msgstr ""
-
 msgid "No description is available."
 msgstr ""
 
@@ -798,6 +807,9 @@ msgid ""
 msgstr ""
 
 msgid "SUSPECT LINK:"
+msgstr ""
+
+msgid "click to expand/collapse section"
 msgstr ""
 
 msgid "category"
@@ -1086,9 +1098,6 @@ msgstr ""
 msgid "FreePBX Support"
 msgstr ""
 
-msgid "Terminate Call"
-msgstr ""
-
 msgid "Hangup"
 msgstr ""
 
@@ -1109,6 +1118,14 @@ msgstr ""
 
 #, php-format
 msgid "User Extension %s: %s"
+msgstr ""
+
+#, php-format
+msgid "Trunk: %s (%s)"
+msgstr ""
+
+#, php-format
+msgid "Calling Out Route: %s"
 msgstr ""
 
 msgid "A route for this DID/CID already exists!"
@@ -1145,6 +1162,10 @@ msgid "Invalid DID, must be a non-blank DID"
 msgstr ""
 
 msgid "Error Duplicate Channel Entry"
+msgstr ""
+
+#, php-format
+msgid "Outbound Route: %s"
 msgstr ""
 
 #, php-format
@@ -1434,6 +1455,9 @@ msgstr ""
 msgid "Generic ZAP Device"
 msgstr ""
 
+msgid "Generic DAHDI Device"
+msgstr ""
+
 msgid "Other (Custom) Device"
 msgstr ""
 
@@ -1665,18 +1689,6 @@ msgid "removing globals.."
 msgstr ""
 
 msgid "done"
-msgstr ""
-
-msgid "Checking if trunks_dialpatterns table exists.."
-msgstr ""
-
-msgid "created"
-msgstr ""
-
-msgid "loading table from localprefixes.conf.."
-msgstr ""
-
-msgid "loaded"
 msgstr ""
 
 msgid "Checking if privacy manager options exists.."
@@ -2127,6 +2139,15 @@ msgstr ""
 "üzenetet. Ezt minden hangposta bejelentkezése előtt lejátsza (s opció). "
 "Minden hangpostára érvényes beállítás."
 
+msgid "Operator Extension:"
+msgstr "Operátor melléke"
+
+msgid ""
+"Default number to dial when callers hit '0' from voicemail or the built in "
+"IVR directory (it has no effect on the Directory Module). This does NOT need "
+"to be an extension, it can be a Ring Group, or even an external number."
+msgstr ""
+
 msgid "Voicemail VmX Locator"
 msgstr ""
 
@@ -2209,8 +2230,8 @@ msgid ""
 "receiving an undefined option."
 msgstr ""
 
-msgid "Company Directory"
-msgstr "Céges könyvtár"
+msgid "Legacy Company Directory"
+msgstr ""
 
 msgid "Find users in the Company Directory by:"
 msgstr "Felhasználó keresése a Céges könyvtárban:"
@@ -2238,21 +2259,6 @@ msgid ""
 "lets the caller know what extension to use in the future when connecting "
 "from the company directory."
 msgstr ""
-
-msgid "Operator Extension:"
-msgstr "Operátor melléke"
-
-msgid ""
-"When users hit '0' in the directory, they are put through to this number. "
-"Note that it"
-msgstr ""
-"Amikor a felhasználó '0'-t találatot ér el a könyvtárban, akkor továbbítsd "
-"ide:"
-
-msgid ""
-" does NOT need to be an extension, it can be a Ring Group, or even an "
-"external number."
-msgstr "Nem melléket kell megadnod. Lehet Híváscsoport és külső szám is."
 
 msgid "International Settings"
 msgstr "Nemzetközi beállítások"
@@ -2340,26 +2346,28 @@ msgid ""
 "external IVRs being inaccessible and other strange problems."
 msgstr ""
 
-msgid "Error renaming route: duplicate name"
-msgstr "Hiba az útvonal átnevezésekor: a név már létezik."
-
 msgid "Error fetching prefix list for: "
 msgstr "Hiba az előtétlistának letöltése közben:"
 
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "Érvénytelen formátumú NPA-NXX kód. A helyes formátum: NXXNXX"
 
+msgid ""
+"An unknown error occurred repositioning routes, refresh your browser to see "
+"the current correct route positions"
+msgstr ""
+
 msgid "Add Route"
 msgstr "Útvonal hozzáadása"
 
-msgid "Move Up"
-msgstr "Feljebb helyezés"
-
-msgid "Move Down"
-msgstr "Lejjebb helyezés"
+msgid "Drag up or down to reposition, click to choose"
+msgstr ""
 
 msgid "Edit Route"
 msgstr "Útvonal szerkesztése"
+
+msgid "Route Settings"
+msgstr ""
 
 msgid "Route Name"
 msgstr "Útvonal neve"
@@ -2370,18 +2378,6 @@ msgid ""
 msgstr ""
 "Az útvonal neve. Érdemes egy könnyen azonosítható nevet adni, amiből könnyen "
 "tudsz következtetni a hívás típusára (pl. 'helyi' vagy 'távolsági')"
-
-msgid "Rename"
-msgstr "Átnevezés"
-
-msgid "Rename route"
-msgstr "Útvonal átnevezése"
-
-msgid "to:"
-msgstr "cél:"
-
-msgid "Route name is invalid...please try again"
-msgstr "Az útvonal neve érvénytelen...Kérlek próbáld meg ismét"
 
 msgid "Route CID"
 msgstr ""
@@ -2394,7 +2390,13 @@ msgid ""
 "li><li>Extension/User CIDs if checked</li></ul>"
 msgstr ""
 
-msgid "Override Extension CID"
+msgid "Override Extension"
+msgstr ""
+
+msgid ""
+"If checked the extension's Outbound CID will be ignored in favor of this "
+"CID. The extension's Emergency CID will still be used if the route is an "
+"Emergency Route and the Extension has a defined Emergency CID."
 msgstr ""
 
 msgid "Route Password"
@@ -2405,37 +2407,29 @@ msgid ""
 "progress.  This is useful for restricting calls to international "
 "destinations or 1-900 numbers.<br><br>A numerical password, or the path to "
 "an Authenticate password file can be used.<br><br>Leave this field blank to "
-"not prompt for password.</span>"
+"not prompt for password."
 msgstr ""
-"Opcionális: az útvonal be tud kérni egy jelszót a felhasználótól, mielőtt "
-"elkezdené a tárcsázási folyamatot. Nagyon hasznos, ha korlátozni szeretnénk "
-"a nemzetközi, vagy egyéb drágább helyek felé történő hívásokat.<br><br>Egy "
-"számokból álló jelszót, vagy egy jelszavakat tartalmazó fájlt lehet megadni."
-"<br><br>Hagyd üresen, ha nem szeretnél jelszót bekérni.</span>"
 
-msgid "Emergency Dialing"
-msgstr "Vészhívás"
+msgid "Route Type"
+msgstr ""
 
 msgid ""
-"Optional: Selecting this option will enforce the use of a device's Emergency "
-"CID setting (if set).  Select this option if this set of routes is used for "
-"emergency dialing (ie: 911).</span>"
+"Optional: Selecting Emergency will enforce the use of a device's Emergency "
+"CID setting (if set).  Select this option if this route is used for "
+"emergency dialing (ie: 911)."
 msgstr ""
-"Opcionális: ha ezt az opciót kiválasztod, akkor az eszköz Vészhelyzet-száma "
-"lesz beállítva (ha be van állítva). Akkor jelöld be ezt az opciót, ha az "
-"útvonal a vészhívások (pl. 211) kieresztésére szolgál.</span>"
-
-msgid "Intra Company Route"
-msgstr "Belső útvonal"
 
 msgid ""
-"Optional: Selecting this option will treat this route as a intra-company "
-"connection, preserving the internal Caller ID information and not use the "
-"outbound CID of either the extension or trunk.</span>"
+"Optional: Selecting Intra-Company will treat this route as an intra-company "
+"connection, preserving the internal Caller ID information instead of the "
+"outbound CID of either the extension or trunk."
 msgstr ""
-"Opcionális: válaszd ki ezt az opciót, ha egy cégen belüli kapcsolódásról van "
-"szó. Így a belső hívóazonosító lesz használva a trunk-n keresztül, nem pedig "
-"a kimenő hívóazonosító."
+
+msgid "Emergency"
+msgstr "Vészhelyzet"
+
+msgid "Intra-Company"
+msgstr ""
 
 msgid "Music On Hold?"
 msgstr ""
@@ -2446,15 +2440,56 @@ msgid ""
 "appropriate language."
 msgstr ""
 
-msgid "Dial Patterns"
-msgstr "Tárcsázási minták"
+msgid "default"
+msgstr ""
+
+msgid "Time Group:"
+msgstr ""
 
 msgid ""
-"A Dial Pattern is a unique set of digits that will select this trunk. Enter "
-"one dial pattern per line."
+"If this route should only be available during certain times then Select a "
+"Time Group created under Time Groups. The route will be ignored outside of "
+"times specified in that Time Group. If left as default of Permanent Route "
+"then it will always be available."
 msgstr ""
-"A tárcsázási minták kiválaszják, hogy mely hivások mehetnek át a trunk-ön. "
-"Egy sorba egy tárcsázási mintát írj."
+
+msgid "---Permanent Route---"
+msgstr ""
+
+msgid "Route Position"
+msgstr ""
+
+msgid "Where to insert this route or relocate it relative to the other routes."
+msgstr ""
+
+#, php-format
+msgid "First before %s"
+msgstr ""
+
+msgid "---No Change---"
+msgstr ""
+
+#, php-format
+msgid "Before %s"
+msgstr ""
+
+#, php-format
+msgid "Last after %s"
+msgstr ""
+
+msgid "Additional Settings"
+msgstr ""
+
+msgid "Dial Patterns that will use this Route"
+msgstr ""
+
+msgid ""
+"A Dial Pattern is a unique set of digits that will select this route and "
+"send the call to the designated trunks. If a dialed pattern matches this "
+"route, no subsequent routes will be tried. If Time Groups are enabled, "
+"subsequent routes will be checked for matches outside of the designated time"
+"(s)."
+msgstr ""
 
 msgid "Rules:"
 msgstr "Szabályok:"
@@ -2468,28 +2503,61 @@ msgstr "illeszkedik minden számra 1-9-ig"
 msgid "matches any digit from 2-9"
 msgstr "illeszkedik minden számra 2-9-ig"
 
-msgid ""
-"matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
+msgid "matches any digit in the brackets (example: 1,2,3,7,8,9)"
 msgstr ""
-"illeszkedik minden betűre, vagy számra, ami a zárőjelekben van (például 1, "
-"2, 3, 7, 8, 9)"
 
-msgid "wildcard, matches one or more characters"
-msgstr "jolie-jocker, illeszkedik egy vagy több karakterre"
+msgid "wildcard, matches one or more dialed digits"
+msgstr ""
 
-msgid ""
-"separates a dialing prefix from the number (for example, 9|NXXXXXX would "
-"match when some dialed \"95551234\" but would only pass \"5551234\" to the "
-"trunks)"
+msgid "prepend:"
 msgstr ""
 
 msgid ""
-"appended to a dial pattern, matches a callerid or callerid pattern (for "
-"example, NXXXXXX/104 would match only if dialed by extension \"104\")"
+"Digits to prepend to a successful match. If the dialed number matches the "
+"patterns specified by the subsequent columns, then this will be prepended "
+"before sending to the trunks."
 msgstr ""
 
-msgid "Clean & Remove duplicates"
-msgstr "Duplikátumok tisztítása & törlése"
+msgid "prefix:"
+msgstr ""
+
+msgid ""
+"Prefix to remove on a successful match. The dialed number is compared to "
+"this and the subsequent columns for a match. Upon a match, this prefix is "
+"removed from the dialed number before sending it to the trunks."
+msgstr ""
+
+msgid "match pattern:"
+msgstr ""
+
+msgid ""
+"The dialed number will be compared against the  prefix + this match pattern. "
+"Upon a match, the match pattern portion of the dialed number will be sent to "
+"the trunks"
+msgstr ""
+
+msgid "CallerID:"
+msgstr ""
+
+msgid ""
+"If CallerID is supplied, the dialed number will only match the prefix + "
+"match pattern if the CallerID being transmitted matches this. When "
+"extensions make outbound calls, the CallerID will be their extension number "
+"and NOT their Outbound CID. The above special matching sequences can be used "
+"for CallerID matching similar to other number matches."
+msgstr ""
+
+msgid "prepend"
+msgstr ""
+
+msgid "prefix"
+msgstr ""
+
+msgid "match pattern"
+msgstr ""
+
+msgid "CallerId"
+msgstr ""
 
 msgid "Dial patterns wizards"
 msgstr ""
@@ -2532,6 +2600,27 @@ msgstr ""
 "támogatást a PHP-hez. Látogass el a http://www.php.net/curl oldalra bővebb "
 "információért."
 
+msgid "NXXXXXX"
+msgstr ""
+
+msgid "NXXXXXX,NXXNXXXXXX"
+msgstr ""
+
+msgid "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX"
+msgstr ""
+
+msgid "1NXXNXXXXXX"
+msgstr ""
+
+msgid "011."
+msgstr ""
+
+msgid "411,311"
+msgstr ""
+
+msgid "911"
+msgstr ""
+
 msgid "(pick one)"
 msgstr "(válassz egyet)"
 
@@ -2553,11 +2642,8 @@ msgstr "Nemzetközi"
 msgid "Information"
 msgstr "Információ"
 
-msgid "Emergency"
-msgstr "Vészhelyzet"
-
-msgid "Trunk Sequence"
-msgstr "Trunk sorrend"
+msgid "Trunk Sequence for Matched Routes"
+msgstr ""
 
 msgid ""
 "The Trunk Sequence controls the order of trunks that will be used when the "
@@ -2574,14 +2660,26 @@ msgstr ""
 "szerepelhetnek PSTN szolgáltatók arra az esetre, ha a hívást nem tudják "
 "fogadni, vagy továbbítani a trunk-ök."
 
+msgid "Move Up"
+msgstr "Feljebb helyezés"
+
+msgid "Move Down"
+msgstr "Lejjebb helyezés"
+
+msgid "Add Trunk"
+msgstr "Trunk hozzáadása"
+
+msgid "remove"
+msgstr ""
+
+msgid "Click here to remove this pattern"
+msgstr ""
+
 msgid "Route name is invalid, please try again"
 msgstr "Az útvonal neve nem érvényes, kérlek adj meg egy másikat"
 
 msgid "Route password must be numeric or leave blank to disable"
 msgstr ""
-
-msgid "Dial pattern is invalid"
-msgstr "Érvénytelen tárcsázási minta"
 
 msgid "At least one trunk must be picked"
 msgstr "Egy trunk-öt muszály megadnod"
@@ -2589,8 +2687,11 @@ msgstr "Egy trunk-öt muszály megadnod"
 msgid "Invalid Outbound Caller ID"
 msgstr "Érvénytelen kimenő hívószám (CID)"
 
-msgid "Add Trunk"
-msgstr "Trunk hozzáadása"
+msgid "No dial pattern, there must be at least one"
+msgstr ""
+
+msgid "Dial pattern is invalid"
+msgstr "Érvénytelen tárcsázási minta"
 
 #, php-format
 msgid "Channel %s"
@@ -2599,14 +2700,17 @@ msgstr ""
 msgid "Add a Trunk"
 msgstr "Egy trunk hozzáadása"
 
+msgid "Add SIP Trunk"
+msgstr "SIP-trunk hozzáadása"
+
+msgid "Add DAHDI Trunk"
+msgstr ""
+
 msgid "Add Zap Trunk"
 msgstr ""
 
 msgid "DAHDI compatibility mode"
 msgstr ""
-
-msgid "Add SIP Trunk"
-msgstr "SIP-trunk hozzáadása"
 
 msgid "Add IAX2 Trunk"
 msgstr "IAX2-trunk hozzáadása"
@@ -2670,7 +2774,7 @@ msgid ""
 "[mappings] section of the remote dundi.conf systems. For example, you may "
 "have a mapping on the remote system, and corresponding configurations in "
 "dundi.conf locally, that looks as follows:<br /><br />[mappings]<br />priv "
-"=> dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},noparital<br /"
+"=> dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},nopartial<br /"
 "><br />In this example, you would create this trunk and name it priv. You "
 "would then create the corresponding IAX2 trunk with proper settings to work "
 "with DUNDi. This can be done by making an IAX2 trunk in FreePBX or by using "
@@ -2681,8 +2785,8 @@ msgid ""
 "contexts and generated by FreePBX."
 msgstr ""
 
-msgid "Trunk Description"
-msgstr ""
+msgid "Trunk Name"
+msgstr "Trunk neve"
 
 msgid "Descriptive Name for this Trunk"
 msgstr ""
@@ -2757,52 +2861,50 @@ msgid ""
 "not caused by either NOANSWER or CANCEL."
 msgstr ""
 
-msgid "Outgoing Dial Rules"
-msgstr "Kimenő tárcsázási szabályok"
-
-msgid "Dial Rules"
-msgstr "Tárcsázási szabályok"
+msgid "Dialed Number Manipulation Rules"
+msgstr ""
 
 msgid ""
-"A Dial Rule controls how calls will be dialed on this trunk. It can be used "
-"to add or remove prefixes. Numbers that don't match any patterns defined "
-"here will be dialed as-is. Note that a pattern without a + or | (to add or "
-"remove a prefix) will not make any changes but will create a match. Only the "
-"first matched rule will be executed and the remaining rules will not be "
-"acted on."
+"These rules can manipulate the dialed number before sending it out this "
+"trunk. If no rule applies, the number is not changed. The original dialed "
+"number is passed down from the route where some manipulation may have "
+"already occurred. This trunk has the option to further manipulate the "
+"number. If the number matches the combined values in the <b>prefix</b> plus "
+"the <b>match pattern</b> boxes, the rule will be applied and all subsequent "
+"rules ignored.<br/> Upon a match, the <b>prefix</b>, if defined, will be "
+"stripped. Next the <b>prepend</b> will be inserted in front of the <b>match "
+"pattern</b> and the resulting number will be sent to the trunk. All fields "
+"are optional."
 msgstr ""
-"A tárcsázási szabályok azt határozzák meg, hogy a trunk-ön milyen hívások "
-"mehetnek át. Előtárcsázást tudsz hozzátenni is, illetve levágni is. A "
-"számnak nem kell minden mintára illeszkedni. A megadott + vagy | utasítások "
-"csak az elfogadás után kerülnek alkalmazásra. Csak az első illeszkedés "
-"számít, a későbbi minták figyelmen kívül lesznek hagyva."
-
-msgid "wildcard, matches one or more characters (not allowed before a | or +)"
-msgstr ""
-"jolie-jocker, illeszkedik egy vagy több bármilyen karakterre (kivétel a | és "
-"a +)"
 
 msgid ""
-"removes a dialing prefix from the number (for example, 613|NXXXXXX would "
-"match when some dialed \"6135551234\" but would only pass \"5551234\" to the "
-"trunk)"
+"Digits to prepend upon a successful match. If the dialed number matches the "
+"patterns in the <b>prefix</b> and <b>match pattern</b> boxes, this will be "
+"prepended before sending to the trunk."
 msgstr ""
-"eltávolítja az előtárcsázást a számról (például a 613|NXXXXXX illeszkedik a "
-"tárcsázott \"6135551234\" számra, de a trunk felé csak az \"5551234\" számot "
-"továbbítja)"
 
 msgid ""
-"adds a dialing prefix from the number (for example, 1613+NXXXXXX would match "
-"when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)"
+"Prefix to remove upon a successful match. If the dialed number matches this "
+"plus the <b>match pattern</b> box, this prefix is removed before adding the "
+"optional <b>prepend</b> box and sending the results to the trunk."
 msgstr ""
-"hozzáadja az előtárcsázási számot a tárcsázott számhoz (például a 1613"
-"+NXXXXXX illeskedik a \"5551234\" tárcsázott számra, de a trunk-ön "
-"továbbadva már \"16135551234\"-ként lesz)"
 
 msgid ""
-"You can also use both + and |, for example: 01+0|1ZXXXXXXXXX would match "
-"\"016065551234\" and dial it as \"0116065551234\" Note that the order does "
-"not matter, eg. 0|01+1ZXXXXXXXXX does the same thing."
+"The dialed number will be compared against the <b>prefix</b> plus this "
+"pattern. Upon a match, this portion of the number will be sent to the trunks "
+"after removing the <b>prefix</b> and appending the <b>prepend</b> digits"
+msgstr ""
+
+msgid ""
+"You can completely replace a number by matching on the <b>prefix</b> only, "
+"replacing it with a <b>prepend</b> and leaving the <b>match pattern</b> "
+"blank."
+msgstr ""
+
+msgid "+ Add More Dial Pattern Fields"
+msgstr ""
+
+msgid "Clear all Fields"
 msgstr ""
 
 msgid "Dial Rules Wizards"
@@ -2822,11 +2924,18 @@ msgid "Remove prefix from local numbers"
 msgstr "Levágja a helyi számoknál"
 
 msgid ""
-"is useful for ZAP trunks, where if a local number is dialed as \"6135551234"
-"\", it can be converted to \"555-1234\"."
+"is useful for ZAP and DAHDI trunks, where if a local number is dialed as "
+"\"6135551234\", it can be converted to \"555-1234\"."
 msgstr ""
-"nagyon hasznos egy ZAP trunk-ön, ha a helyi hívásoknál a \"6135551234\" "
-"tárcsázott számot át kell konvertálni például \"5551234\"-é."
+
+msgid "Setup Google for directory assistance"
+msgstr ""
+
+msgid ""
+"is useful to translate a call to directory assistance (default: 411) to "
+"Google's toll free directory (default: 18004664411) or any other number of "
+"your choosing"
+msgstr ""
 
 msgid "Lookup numbers for local trunk"
 msgstr ""
@@ -2893,6 +3002,28 @@ msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
 msgstr ""
 "(pl. NXXNXXXXXX az US/CAN 10 számjegyes, és NXXXXXX a 7 számjegyes tárcsázás)"
 
+msgid ""
+"What is the directory assistance number you will dial locally in the format "
+"that is passed to this trunk, ie 411"
+msgstr ""
+
+msgid "\"411\""
+msgstr ""
+
+msgid "Invalid pattern. Only 0-9, #, *"
+msgstr ""
+
+msgid ""
+"Google 411 number to dial, or alternative number you want dialed when "
+"calling directory assistance on this trunk"
+msgstr ""
+
+msgid "18004664411"
+msgstr ""
+
+msgid "Invalid number. Only 0-9, #,  and * are allowed."
+msgstr ""
+
 msgid "Outbound Dial Prefix"
 msgstr "Kimenő tárcsázási előtag"
 
@@ -2908,8 +3039,8 @@ msgstr ""
 msgid "Outgoing Settings"
 msgstr "Kimenő beállítások"
 
-msgid "Zap Identifier (trunk name)"
-msgstr "Zap azonosító (trunk neve)"
+msgid "Zap Identifier"
+msgstr ""
 
 msgid ""
 "ZAP channels are referenced either by a group number or channel number "
@@ -2919,6 +3050,15 @@ msgstr ""
 "A ZAP azonosító a a csoport vagy csatornaszámot határozza meg (a zapata.conf-"
 "ban van meghatározva). <br><br>Az alapértelmezett érték: <b>g0</b> (group "
 "zero)."
+
+msgid "DAHDI Identifier"
+msgstr ""
+
+msgid ""
+"DAHDI channels are referenced either by a group number or channel number "
+"(which is defined in chan_dahdi.conf).  <br><br>The default setting is "
+"<b>g0</b> (group zero)."
+msgstr ""
 
 msgid "Custom Dial String"
 msgstr "Egyedi tárcsázási karakterlánc"
@@ -2938,9 +3078,6 @@ msgid ""
 "peer details in the local dundi.conf file. This requires manual "
 "configuration of DUNDi to use this trunk."
 msgstr ""
-
-msgid "Trunk Name"
-msgstr "Trunk neve"
 
 msgid "Give this trunk a unique name.  Example: myiaxtel"
 msgstr "Add meg a trunk egyedi nevét. Például: iaxtel"
@@ -3025,7 +3162,13 @@ msgid "User Context was left blank and User Details will not be saved!"
 msgstr ""
 
 msgid ""
-"You must define an Outbound Caller ID when Choosing Never Override CallerID"
+"You must define an Outbound Caller ID when Choosing this CID Options value"
+msgstr ""
+
+msgid ""
+"It is highly recommended that you define an Outbound Caller ID on all "
+"trunks, undefined behavior can result when nothing is specified. The CID "
+"Options can control when this CID is used. Do you still want to continue?"
 msgstr ""
 
 msgid ""

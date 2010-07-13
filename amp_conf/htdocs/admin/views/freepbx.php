@@ -87,12 +87,6 @@ if (!isset($amp_conf)) {
 		if (isset($module_page) && ($module_page != $module_name) && is_file('modules/'.$module_name.'/'.$module_page.'.css')) {
 			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.css" rel="stylesheet" type="text/css" />'."\n";
 		}
-		if (is_file('modules/'.$module_name.'/'.$module_name.'.js')) {
-			echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.js"></script>'."\n";
-		}
-		if (isset($module_page) && ($module_page != $module_name) && is_file('modules/'.$module_name.'/'.$module_page.'.js')) {
-			echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.js"></script>'."\n";
-		}
 	}
 ?>
 
@@ -108,16 +102,55 @@ if (!isset($amp_conf)) {
 	} else {
 ?>
 	<script type="text/javascript" src="common/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="common/jquery.cookie.js"></script> <!-- plugin for setting/reteiving cookies -->
 	<script type="text/javascript" src="common/jquery-ui-1.8.custom.min.js"></script>
 	<script type="text/javascript" src="common/script.legacy.js"></script> <!-- legacy script.js.php -->
-	<script type="text/javascript" src="common/jquery.ui.accordion.js"></script> <!--acordian menus -->
 	<script type="text/javascript" src="common/jquery.dimensions.js"></script> <!-- used by reload/module admin -->
-	<script type="text/javascript" src="common/jquery.cookie.js"></script> <!-- plugin for setting/reteiving cookies -->
 	<script type="text/javascript" src="common/jquery.toggleval.3.0.js"></script> <!-- plugin for adding help text to input boxes -->
 	<script type="text/javascript" src="common/interface.dim.js"></script> <!-- used for interface blocking (reload, modadmin) -->
 	<script type="text/javascript" src="common/tabber-minimized.js"></script> <!-- used for module admin (hiding content) -->
 <?php
 	}
+if (isset($module_name) && $module_name != '') {
+	if (is_file('modules/'.$module_name.'/'.$module_name.'.js')) {
+		echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.js"></script>'."\n";
+	}
+	if (isset($module_page) && ($module_page != $module_name) && is_file('modules/'.$module_name.'/'.$module_page.'.js')) {
+		echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.js"></script>'."\n";
+	}
+
+	// Note - include all the module js files first, then the page specific files, in case a page specific file requires a module level file
+	$js_dir = "modules/$module_name/js";
+  if (is_dir($js_dir)) {
+    $d = opendir($js_dir);
+		$file_list = array();
+    while ($file = readdir($d)) {
+			$file_list[] = $file;
+		}
+		sort($file_list);
+		foreach ($file_list as $file) {
+			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
+				echo "\t<script type='text/javascript' src='{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_dir/$file'></script>\n";
+			}
+		}
+		unset($file_list);
+		$js_subdir ="$js_dir/$module_page";
+		if ($module_page != '' && is_dir($js_subdir)) {
+			$sd = opendir($js_subdir);
+
+			$file_list = array();
+			while ($p_file = readdir($sd)) {
+				$file_list[] = $p_file;
+			}
+			sort($file_list);
+			foreach ($file_list as $p_file) {
+				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
+					echo "\t<script type='text/javascript' src='{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_subdir/$p_file'></script>\n";
+				}
+			}
+		}
+  }
+}
 ?>
 	
 <!--[if IE]>

@@ -458,10 +458,19 @@ function showInfo($modulename) {
 }
 
 function showList($online = false) {
+  $repo = "http://mirror.freepbx.org/";
 	$modules_local = module_getinfo(false,false,true);
 	$modules = $modules_local;
+
 	if ($online) {
-		$modules_online = module_getonlinexml();
+    $has_extended_modules = false;
+    foreach ($modules as $rawname => $attribs) {
+      if ($attribs['category'] == 'Third Party Addon') {
+        $repo .= "extended-";
+        break;
+      }
+    }
+		$modules_online = module_getonlinexml(false, $repo);
 		if (isset($modules_online)) {
 			$modules += $modules_online;
 		}

@@ -130,7 +130,7 @@ class Callmonitor {
     $data = $this->getCdrData($q,$duration_filter,$start,$span,$order,$sort);
 
     // get the call monitor recording files
-    $paths = split(';',$ast_spool_dir);
+    $paths = explode(';',$ast_spool_dir);
     foreach($paths as $key => $path) {
       if (!is_dir($path)) {
         $_SESSION['ari_error'] .= sprintf(_("Path is not a directory: %s"),$path) . "<br>";
@@ -222,7 +222,7 @@ class Callmonitor {
       $recording = $recordings[$value['uniqueid'] . $value['calldate']];
 
       // date and time
-      $buf = split(' ', $value[calldate]);
+      $buf = explode(' ', $value[calldate]);
       $date = $buf[0];
       $time = $buf[1];
 
@@ -400,7 +400,7 @@ class Callmonitor {
 
     $extension = $_SESSION['ari_user']['extension'];
 
-    $paths = split(';',$asterisk_callmonitor_path);
+    $paths = explode(';',$asterisk_callmonitor_path);
     foreach($paths as $key => $path) {
       $paths[$key] = fixPathSlash($paths[$key]);
     }
@@ -514,7 +514,7 @@ class Callmonitor {
 
           foreach($files as $key => $path) {
             list($path,$filetype) = explode(".",$path,2);
-            $parts = split("-", $path);
+            $parts = explode("-", $path);
             if ((strlen($st)>1 && strpos($path,$st)!==FALSE && strlen($uniqueid)<=1) || 
                     (strpos($path,"auto")!==FALSE && $parts[1] >= $st && $parts[1] <= $et && $parts[2] == $src && $parts[3] == $dst) || 
                     (strpos($path,"auto")!==FALSE && $parts[1] >= $st && $parts[1] <= $et && $parts[2] == $dst && $parts[3] == $src)) {
@@ -631,6 +631,7 @@ class Callmonitor {
       }
 
       // allow entries to be viewed with users extension
+      $searchText .= "( ";
       $searchText .= "(src = '" . $_SESSION['ari_user']['extension'] . "'
                       OR dst = '" . $_SESSION['ari_user']['extension'] . "'
 
@@ -645,6 +646,7 @@ class Callmonitor {
         $searchText .= "OR (src = '" . $_SESSION['ari_user']['outboundCID'] . "'
                         OR dst = '" . $_SESSION['ari_user']['outboundCID'] . "')";
       }
+      $searchText .= ") ";
     }
 
     return $searchText;

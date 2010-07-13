@@ -191,7 +191,11 @@ function parse_zapata(&$zaplines,$conffile) {
 							}
 						}
 						if (!($inzaplines)) {
+						   if ($chan_dahdi) {
+							array_push($zaplines,array( "DAHDI/$i","$newlabel" ));
+						   } else {
 							array_push($zaplines,array( "Zap/$i","$newlabel" ));
+						   }
 						}
 					} //istrunk
 				} //for $i

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 20:57+0100\n"
+"POT-Creation-Date: 2010-06-27 12:16+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
 "Language-Team: EdwardBadBoy <zhougongjizhe@163.com>\n"
@@ -33,6 +33,9 @@ msgstr ""
 
 msgid "Submit"
 msgstr "提交"
+
+msgid "Please select a valid destination."
+msgstr ""
 
 msgid "Internal Options & Configuration"
 msgstr "内部选项和配置"
@@ -82,6 +85,9 @@ msgstr "对象"
 msgid "Used as Destination by %s %s"
 msgstr "由 %s %s 用作目的地"
 
+msgid "Trace Back"
+msgstr ""
+
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr "退出码为 %s ，输出为：%s"
@@ -121,19 +127,14 @@ msgstr "重启成功，但是由于数据库发生错误，无法清除重启标
 msgid "Add"
 msgstr "添加"
 
-msgid "Unknown Destination"
-msgstr "未知目的地"
-
-msgid ""
-"ERROR: You have an unknown destination. If this was carried over as a Custom "
-"App from an earlier version, you must go register the destination in the "
-"Custom Destination tab provided by the Custom Applications module.<br />This "
-"will remain active until you change it but you can no longer edit or add a "
-"new one here."
+msgid "choose one"
 msgstr ""
-"错误：现在有一个未知目的地。如果这是由以前版本的“自定义应用”存储下来的，你必"
-"须在“自定义应用”里的“自定义目的地”栏里注册这个目的地。<br />除非你改正了错"
-"误，否则你无法编辑或者添加项。"
+
+msgid "Terminate Call"
+msgstr "结束呼叫"
+
+msgid "description"
+msgstr "描述"
 
 msgid ""
 "The following new modules are available for download. Click delete icon on "
@@ -377,6 +378,14 @@ msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
 "you should set a secure password"
 msgstr "你的Asterisk管理器使用了众所周知的默认密码，出于安全考虑，请更改密码"
+
+msgid "Default ARI Admin password Used"
+msgstr ""
+
+msgid ""
+"You are using the default ARI Admin password that is widely known, you "
+"should change to a new password. Do this in amportal.conf"
+msgstr ""
 
 msgid "Module Administration"
 msgstr "模块管理"
@@ -727,9 +736,6 @@ msgstr ""
 msgid "Description for version %s"
 msgstr "对版本 %s 的描述"
 
-msgid "description"
-msgstr "描述"
-
 msgid "No description is available."
 msgstr "没有可用的描述"
 
@@ -821,6 +827,9 @@ msgid ""
 msgstr ""
 
 msgid "SUSPECT LINK:"
+msgstr ""
+
+msgid "click to expand/collapse section"
 msgstr ""
 
 msgid "category"
@@ -1122,9 +1131,6 @@ msgstr "管理员"
 msgid "FreePBX Support"
 msgstr "FreePBX技术支持"
 
-msgid "Terminate Call"
-msgstr "结束呼叫"
-
 msgid "Hangup"
 msgstr "挂断"
 
@@ -1146,6 +1152,14 @@ msgstr "向主叫方播放铃声直到他们挂断"
 #, php-format
 msgid "User Extension %s: %s"
 msgstr "用户分机 %s：%s"
+
+#, php-format
+msgid "Trunk: %s (%s)"
+msgstr ""
+
+#, php-format
+msgid "Calling Out Route: %s"
+msgstr ""
 
 msgid "A route for this DID/CID already exists!"
 msgstr "一条接收这个DID/CID的线路以存在。"
@@ -1182,6 +1196,10 @@ msgstr "无效的DID，必须为非空的DID"
 
 msgid "Error Duplicate Channel Entry"
 msgstr "错误：有重复的频道项"
+
+#, php-format
+msgid "Outbound Route: %s"
+msgstr ""
 
 #, php-format
 msgid ""
@@ -1497,6 +1515,9 @@ msgstr "普通 IAX2 设备"
 msgid "Generic ZAP Device"
 msgstr "普通 ZAP 设备"
 
+msgid "Generic DAHDI Device"
+msgstr ""
+
 msgid "Other (Custom) Device"
 msgstr "其他设备（自定义设备）"
 
@@ -1732,18 +1753,6 @@ msgid "removing globals.."
 msgstr ""
 
 msgid "done"
-msgstr ""
-
-msgid "Checking if trunks_dialpatterns table exists.."
-msgstr ""
-
-msgid "created"
-msgstr ""
-
-msgid "loading table from localprefixes.conf.."
-msgstr ""
-
-msgid "loaded"
 msgstr ""
 
 msgid "Checking if privacy manager options exists.."
@@ -2210,6 +2219,15 @@ msgstr ""
 "钩选此项会移除“请在听到提示音后留言。留言结束后请挂断。”通常这句话在语音邮件"
 "的问候语（s选项）后播放。这个设置会影响所有的语音邮箱。"
 
+msgid "Operator Extension:"
+msgstr "话务分机："
+
+msgid ""
+"Default number to dial when callers hit '0' from voicemail or the built in "
+"IVR directory (it has no effect on the Directory Module). This does NOT need "
+"to be an extension, it can be a Ring Group, or even an external number."
+msgstr ""
+
 msgid "Voicemail VmX Locator"
 msgstr "语音邮件的VmX定位器"
 
@@ -2299,8 +2317,8 @@ msgid ""
 "receiving an undefined option."
 msgstr "在收到无效的选项时的重试并播放消息的次数。"
 
-msgid "Company Directory"
-msgstr "伙伴目录"
+msgid "Legacy Company Directory"
+msgstr ""
 
 msgid "Find users in the Company Directory by:"
 msgstr "在伙伴目录中查找用户，通过以下方式："
@@ -2332,19 +2350,6 @@ msgid ""
 msgstr ""
 "通过播放语音消息“请等待，正在将呼叫转移到某某分机。”，让主叫知道将来从伙伴目"
 "录连接时使用哪个分机。"
-
-msgid "Operator Extension:"
-msgstr "话务分机："
-
-msgid ""
-"When users hit '0' in the directory, they are put through to this number. "
-"Note that it"
-msgstr "当用户在伙伴目录中按下“0”键时，他们将接通此号码。请注意，"
-
-msgid ""
-" does NOT need to be an extension, it can be a Ring Group, or even an "
-"external number."
-msgstr "这并不要求号码必须是分机号，它可以是拨号小组，还可以是一个外部号码。"
 
 msgid "International Settings"
 msgstr "国际设置"
@@ -2434,26 +2439,28 @@ msgstr ""
 "问题，因此不推荐这样设置。Asterisk会一直生成振铃音，直到有信号表明线路接通。"
 "这会导致无法访问一些外部IVR（自动语音应答）和其他奇怪的问题。"
 
-msgid "Error renaming route: duplicate name"
-msgstr "在重命名线路时发生错误：发现了重复的名字"
-
 msgid "Error fetching prefix list for: "
 msgstr "在获取前缀列表时发生错误："
 
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "无效的 NPA-NXX 代码（正确格式是：NXXNXX）"
 
+msgid ""
+"An unknown error occurred repositioning routes, refresh your browser to see "
+"the current correct route positions"
+msgstr ""
+
 msgid "Add Route"
 msgstr "添加线路"
 
-msgid "Move Up"
-msgstr "上移"
-
-msgid "Move Down"
-msgstr "下移"
+msgid "Drag up or down to reposition, click to choose"
+msgstr ""
 
 msgid "Edit Route"
 msgstr "编辑线路"
+
+msgid "Route Settings"
+msgstr ""
 
 msgid "Route Name"
 msgstr "线路名"
@@ -2464,18 +2471,6 @@ msgid ""
 msgstr ""
 "这条线路的名字。一般用来表示这条线路所匹配的呼叫的类型，例如"
 "（'local'或'longdistance'）。"
-
-msgid "Rename"
-msgstr "重命名"
-
-msgid "Rename route"
-msgstr "重命名线路"
-
-msgid "to:"
-msgstr "为"
-
-msgid "Route name is invalid...please try again"
-msgstr "线路名无效。。请重试"
 
 msgid "Route CID"
 msgstr ""
@@ -2488,7 +2483,13 @@ msgid ""
 "li><li>Extension/User CIDs if checked</li></ul>"
 msgstr ""
 
-msgid "Override Extension CID"
+msgid "Override Extension"
+msgstr ""
+
+msgid ""
+"If checked the extension's Outbound CID will be ignored in favor of this "
+"CID. The extension's Emergency CID will still be used if the route is an "
+"Emergency Route and the Extension has a defined Emergency CID."
 msgstr ""
 
 msgid "Route Password"
@@ -2499,34 +2500,29 @@ msgid ""
 "progress.  This is useful for restricting calls to international "
 "destinations or 1-900 numbers.<br><br>A numerical password, or the path to "
 "an Authenticate password file can be used.<br><br>Leave this field blank to "
-"not prompt for password.</span>"
+"not prompt for password."
 msgstr ""
-"可选线路密码：一条线路可以在允许呼叫前，提示用户输入密码。这对于限制呼叫国际"
-"长途或者1-900号码的场合来说很有用。<br /><br />可填写一个数字形式的密码，或者"
-"指向认证密码文件的路径<br /><br />如果不希望提示用户输入密码，则此处留空</"
-"span>"
 
-msgid "Emergency Dialing"
-msgstr "紧急拨号"
+msgid "Route Type"
+msgstr ""
 
 msgid ""
-"Optional: Selecting this option will enforce the use of a device's Emergency "
-"CID setting (if set).  Select this option if this set of routes is used for "
-"emergency dialing (ie: 911).</span>"
+"Optional: Selecting Emergency will enforce the use of a device's Emergency "
+"CID setting (if set).  Select this option if this route is used for "
+"emergency dialing (ie: 911)."
 msgstr ""
-"可选：选择此项将强制使用设备的紧急CID设置（若有设置）。如果线路被设置用户紧急"
-"呼叫（例如：110），就选择此项。</span>"
-
-msgid "Intra Company Route"
-msgstr "内线"
 
 msgid ""
-"Optional: Selecting this option will treat this route as a intra-company "
-"connection, preserving the internal Caller ID information and not use the "
-"outbound CID of either the extension or trunk.</span>"
+"Optional: Selecting Intra-Company will treat this route as an intra-company "
+"connection, preserving the internal Caller ID information instead of the "
+"outbound CID of either the extension or trunk."
 msgstr ""
-"可选：选择此项会将此线路视为内线连接，它保留内部的主叫ID信息，并且不会在分机"
-"或中继上使用外部CID。</span>"
+
+msgid "Emergency"
+msgstr "紧急情况"
+
+msgid "Intra-Company"
+msgstr ""
 
 msgid "Music On Hold?"
 msgstr "等待时播放音乐："
@@ -2538,13 +2534,56 @@ msgid ""
 msgstr ""
 "你可以选择要使用的音乐分类。例如，为某些国家选择合适的语言类型和问候语。"
 
-msgid "Dial Patterns"
-msgstr "拨号模式"
+msgid "default"
+msgstr ""
+
+msgid "Time Group:"
+msgstr ""
 
 msgid ""
-"A Dial Pattern is a unique set of digits that will select this trunk. Enter "
-"one dial pattern per line."
-msgstr "拨号模式是一组唯一的数字，用来选择这个中继。请每行输入一个拨号模式。"
+"If this route should only be available during certain times then Select a "
+"Time Group created under Time Groups. The route will be ignored outside of "
+"times specified in that Time Group. If left as default of Permanent Route "
+"then it will always be available."
+msgstr ""
+
+msgid "---Permanent Route---"
+msgstr ""
+
+msgid "Route Position"
+msgstr ""
+
+msgid "Where to insert this route or relocate it relative to the other routes."
+msgstr ""
+
+#, php-format
+msgid "First before %s"
+msgstr ""
+
+msgid "---No Change---"
+msgstr ""
+
+#, php-format
+msgid "Before %s"
+msgstr ""
+
+#, php-format
+msgid "Last after %s"
+msgstr ""
+
+msgid "Additional Settings"
+msgstr ""
+
+msgid "Dial Patterns that will use this Route"
+msgstr ""
+
+msgid ""
+"A Dial Pattern is a unique set of digits that will select this route and "
+"send the call to the designated trunks. If a dialed pattern matches this "
+"route, no subsequent routes will be tried. If Time Groups are enabled, "
+"subsequent routes will be checked for matches outside of the designated time"
+"(s)."
+msgstr ""
 
 msgid "Rules:"
 msgstr "规则"
@@ -2558,28 +2597,61 @@ msgstr "与1-9的数字相匹"
 msgid "matches any digit from 2-9"
 msgstr "与2-9的数字相匹"
 
-msgid ""
-"matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
-msgstr "匹配任何括号中的数字或字母（例如，1，2，3，7，8，9）"
-
-msgid "wildcard, matches one or more characters"
-msgstr "通配符，匹配一个或多个字符"
-
-msgid ""
-"separates a dialing prefix from the number (for example, 9|NXXXXXX would "
-"match when some dialed \"95551234\" but would only pass \"5551234\" to the "
-"trunks)"
-msgstr ""
-"将拨号前缀和号码分开（例如，9|NXXXXXX可以匹配拨号\"95551234\"，但只有"
-"\"5551234\"被发送到中继上）"
-
-msgid ""
-"appended to a dial pattern, matches a callerid or callerid pattern (for "
-"example, NXXXXXX/104 would match only if dialed by extension \"104\")"
+msgid "matches any digit in the brackets (example: 1,2,3,7,8,9)"
 msgstr ""
 
-msgid "Clean & Remove duplicates"
-msgstr "清理重复项"
+msgid "wildcard, matches one or more dialed digits"
+msgstr ""
+
+msgid "prepend:"
+msgstr ""
+
+msgid ""
+"Digits to prepend to a successful match. If the dialed number matches the "
+"patterns specified by the subsequent columns, then this will be prepended "
+"before sending to the trunks."
+msgstr ""
+
+msgid "prefix:"
+msgstr ""
+
+msgid ""
+"Prefix to remove on a successful match. The dialed number is compared to "
+"this and the subsequent columns for a match. Upon a match, this prefix is "
+"removed from the dialed number before sending it to the trunks."
+msgstr ""
+
+msgid "match pattern:"
+msgstr ""
+
+msgid ""
+"The dialed number will be compared against the  prefix + this match pattern. "
+"Upon a match, the match pattern portion of the dialed number will be sent to "
+"the trunks"
+msgstr ""
+
+msgid "CallerID:"
+msgstr ""
+
+msgid ""
+"If CallerID is supplied, the dialed number will only match the prefix + "
+"match pattern if the CallerID being transmitted matches this. When "
+"extensions make outbound calls, the CallerID will be their extension number "
+"and NOT their Outbound CID. The above special matching sequences can be used "
+"for CallerID matching similar to other number matches."
+msgstr ""
+
+msgid "prepend"
+msgstr ""
+
+msgid "prefix"
+msgstr ""
+
+msgid "match pattern"
+msgstr ""
+
+msgid "CallerId"
+msgstr ""
 
 msgid "Dial patterns wizards"
 msgstr "拨号模式向导"
@@ -2621,6 +2693,27 @@ msgstr ""
 "能，请安装并启用PHP的cURL支持。请参考http://www.php.net/curl，以获得更多的信"
 "息。"
 
+msgid "NXXXXXX"
+msgstr ""
+
+msgid "NXXXXXX,NXXNXXXXXX"
+msgstr ""
+
+msgid "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX"
+msgstr ""
+
+msgid "1NXXNXXXXXX"
+msgstr ""
+
+msgid "011."
+msgstr ""
+
+msgid "411,311"
+msgstr ""
+
+msgid "911"
+msgstr ""
+
 msgid "(pick one)"
 msgstr "（选一个）"
 
@@ -2642,11 +2735,8 @@ msgstr "国际"
 msgid "Information"
 msgstr "信息"
 
-msgid "Emergency"
-msgstr "紧急情况"
-
-msgid "Trunk Sequence"
-msgstr "中继顺序"
+msgid "Trunk Sequence for Matched Routes"
+msgstr ""
 
 msgid ""
 "The Trunk Sequence controls the order of trunks that will be used when the "
@@ -2659,14 +2749,26 @@ msgstr ""
 "配长途通话的拨号模式来说，你会希望首先使用那些比较便宜的中继（比如VoIP），若"
 "不成功，才使用那些较贵的中继（比如一般的电话线）。"
 
+msgid "Move Up"
+msgstr "上移"
+
+msgid "Move Down"
+msgstr "下移"
+
+msgid "Add Trunk"
+msgstr "添加中继"
+
+msgid "remove"
+msgstr ""
+
+msgid "Click here to remove this pattern"
+msgstr ""
+
 msgid "Route name is invalid, please try again"
 msgstr "线路名称无效，请重试"
 
 msgid "Route password must be numeric or leave blank to disable"
 msgstr "线路密码要么只能是数字，要么就不填"
-
-msgid "Dial pattern is invalid"
-msgstr "无效的拨号模式"
 
 msgid "At least one trunk must be picked"
 msgstr "只要要选择一个中继"
@@ -2674,8 +2776,11 @@ msgstr "只要要选择一个中继"
 msgid "Invalid Outbound Caller ID"
 msgstr "无效的出局主叫ID"
 
-msgid "Add Trunk"
-msgstr "添加中继"
+msgid "No dial pattern, there must be at least one"
+msgstr ""
+
+msgid "Dial pattern is invalid"
+msgstr "无效的拨号模式"
 
 #, php-format
 msgid "Channel %s"
@@ -2684,14 +2789,17 @@ msgstr ""
 msgid "Add a Trunk"
 msgstr "添加中继"
 
+msgid "Add SIP Trunk"
+msgstr "添加SIP中继"
+
+msgid "Add DAHDI Trunk"
+msgstr ""
+
 msgid "Add Zap Trunk"
 msgstr "添加Zap中继"
 
 msgid "DAHDI compatibility mode"
 msgstr "DAHDI兼容模式"
-
-msgid "Add SIP Trunk"
-msgstr "添加SIP中继"
 
 msgid "Add IAX2 Trunk"
 msgstr "添加IAX2中继"
@@ -2755,7 +2863,7 @@ msgid ""
 "[mappings] section of the remote dundi.conf systems. For example, you may "
 "have a mapping on the remote system, and corresponding configurations in "
 "dundi.conf locally, that looks as follows:<br /><br />[mappings]<br />priv "
-"=> dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},noparital<br /"
+"=> dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},nopartial<br /"
 "><br />In this example, you would create this trunk and name it priv. You "
 "would then create the corresponding IAX2 trunk with proper settings to work "
 "with DUNDi. This can be done by making an IAX2 trunk in FreePBX or by using "
@@ -2776,8 +2884,8 @@ msgstr ""
 "可以仅包括类似于 ext-local, ext-intercom-users, ext-paging 等等的上下文，用来"
 "访问相关的分机和功能（无论是这些上下文提供的或 FreePBX 生成的）。"
 
-msgid "Trunk Description"
-msgstr ""
+msgid "Trunk Name"
+msgstr "中继名"
 
 msgid "Descriptive Name for this Trunk"
 msgstr ""
@@ -2860,51 +2968,51 @@ msgstr ""
 "起的中继错误时，这个AGI脚本将被调用，它可以用来报告错误、记录错误、发送通知错"
 "误的邮件或做一些别的工作。"
 
-msgid "Outgoing Dial Rules"
-msgstr "出局拨号规则"
-
-msgid "Dial Rules"
-msgstr "拨号规则"
+msgid "Dialed Number Manipulation Rules"
+msgstr ""
 
 msgid ""
-"A Dial Rule controls how calls will be dialed on this trunk. It can be used "
-"to add or remove prefixes. Numbers that don't match any patterns defined "
-"here will be dialed as-is. Note that a pattern without a + or | (to add or "
-"remove a prefix) will not make any changes but will create a match. Only the "
-"first matched rule will be executed and the remaining rules will not be "
-"acted on."
+"These rules can manipulate the dialed number before sending it out this "
+"trunk. If no rule applies, the number is not changed. The original dialed "
+"number is passed down from the route where some manipulation may have "
+"already occurred. This trunk has the option to further manipulate the "
+"number. If the number matches the combined values in the <b>prefix</b> plus "
+"the <b>match pattern</b> boxes, the rule will be applied and all subsequent "
+"rules ignored.<br/> Upon a match, the <b>prefix</b>, if defined, will be "
+"stripped. Next the <b>prepend</b> will be inserted in front of the <b>match "
+"pattern</b> and the resulting number will be sent to the trunk. All fields "
+"are optional."
 msgstr ""
-"用于控制呼叫如何在此中继上拨号的一种规则。它可以添加或删除拨号的前缀。如果号"
-"码不匹配任何一条拨号规则，就按原样拨出。请注意，即使一个拨号规则不包含 + 或 "
-"| （添加或删除前缀的符号），虽然不会改变所拨的号码，但还是会产生一个匹配规"
-"则。只有最先被匹配的规则会被执行，之后的将被忽略。"
-
-msgid "wildcard, matches one or more characters (not allowed before a | or +)"
-msgstr "通配符，匹配一个或多个字符（不允许在+或|前使用）"
 
 msgid ""
-"removes a dialing prefix from the number (for example, 613|NXXXXXX would "
-"match when some dialed \"6135551234\" but would only pass \"5551234\" to the "
-"trunk)"
+"Digits to prepend upon a successful match. If the dialed number matches the "
+"patterns in the <b>prefix</b> and <b>match pattern</b> boxes, this will be "
+"prepended before sending to the trunk."
 msgstr ""
-"移除一个拨号的前缀（例如，“6135551234”将匹配613|NXXXXXX，但只有“5551234”被拨"
-"出去）"
 
 msgid ""
-"adds a dialing prefix from the number (for example, 1613+NXXXXXX would match "
-"when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)"
+"Prefix to remove upon a successful match. If the dialed number matches this "
+"plus the <b>match pattern</b> box, this prefix is removed before adding the "
+"optional <b>prepend</b> box and sending the results to the trunk."
 msgstr ""
-"增加一个拨号的前缀（例如，“5551234”将匹配1613+NXXXXXX，但“16135551234”被拨出"
-"去）"
 
 msgid ""
-"You can also use both + and |, for example: 01+0|1ZXXXXXXXXX would match "
-"\"016065551234\" and dial it as \"0116065551234\" Note that the order does "
-"not matter, eg. 0|01+1ZXXXXXXXXX does the same thing."
+"The dialed number will be compared against the <b>prefix</b> plus this "
+"pattern. Upon a match, this portion of the number will be sent to the trunks "
+"after removing the <b>prefix</b> and appending the <b>prepend</b> digits"
 msgstr ""
-"你可以同时使用 + 和 | 。例如：01+0|1ZXXXXXXXXX匹配“016065551234”，然后会"
-"将“0116065551234”拨出。请注意，这与+和|的顺序是无关的，也即0|01+1ZXXXXXXXXX与"
-"例子中的拨号规则的是等效的。"
+
+msgid ""
+"You can completely replace a number by matching on the <b>prefix</b> only, "
+"replacing it with a <b>prepend</b> and leaving the <b>match pattern</b> "
+"blank."
+msgstr ""
+
+msgid "+ Add More Dial Pattern Fields"
+msgstr ""
+
+msgid "Clear all Fields"
+msgstr ""
 
 msgid "Dial Rules Wizards"
 msgstr "拨号规则向导"
@@ -2921,9 +3029,18 @@ msgid "Remove prefix from local numbers"
 msgstr "从本地号码中移除前缀"
 
 msgid ""
-"is useful for ZAP trunks, where if a local number is dialed as \"6135551234"
-"\", it can be converted to \"555-1234\"."
-msgstr "对ZAP中继很有用。它可以把拨出的号码如“6135551234”转换成“555-1234”。"
+"is useful for ZAP and DAHDI trunks, where if a local number is dialed as "
+"\"6135551234\", it can be converted to \"555-1234\"."
+msgstr ""
+
+msgid "Setup Google for directory assistance"
+msgstr ""
+
+msgid ""
+"is useful to translate a call to directory assistance (default: 411) to "
+"Google's toll free directory (default: 18004664411) or any other number of "
+"your choosing"
+msgstr ""
 
 msgid "Lookup numbers for local trunk"
 msgstr "为本地中继查找号码"
@@ -2991,6 +3108,28 @@ msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
 msgstr ""
 "（例如，对于美国/加拿大的10位拨号，输入NXXNXXXXXX，对于7位拨号，输入NXXXXXX）"
 
+msgid ""
+"What is the directory assistance number you will dial locally in the format "
+"that is passed to this trunk, ie 411"
+msgstr ""
+
+msgid "\"411\""
+msgstr ""
+
+msgid "Invalid pattern. Only 0-9, #, *"
+msgstr ""
+
+msgid ""
+"Google 411 number to dial, or alternative number you want dialed when "
+"calling directory assistance on this trunk"
+msgstr ""
+
+msgid "18004664411"
+msgstr ""
+
+msgid "Invalid number. Only 0-9, #,  and * are allowed."
+msgstr ""
+
 msgid "Outbound Dial Prefix"
 msgstr "出局拨号前缀"
 
@@ -3011,8 +3150,8 @@ msgstr ""
 msgid "Outgoing Settings"
 msgstr "出局设置"
 
-msgid "Zap Identifier (trunk name)"
-msgstr "Zap标识符（中继名）"
+msgid "Zap Identifier"
+msgstr ""
 
 msgid ""
 "ZAP channels are referenced either by a group number or channel number "
@@ -3021,6 +3160,15 @@ msgid ""
 msgstr ""
 "ZAP频道可以以一个组号或者频道号（在zapata.conf中定义）引用。<br /><br />默认"
 "设置是<b>g0</b>（第0组）。"
+
+msgid "DAHDI Identifier"
+msgstr ""
+
+msgid ""
+"DAHDI channels are referenced either by a group number or channel number "
+"(which is defined in chan_dahdi.conf).  <br><br>The default setting is "
+"<b>g0</b> (group zero)."
+msgstr ""
 
 msgid "Custom Dial String"
 msgstr "自定义拨号字符串"
@@ -3043,9 +3191,6 @@ msgstr ""
 "这是DUNDi映射名，与dundi.conf的[mappings]小节中关于远程端点的定义有关。具体的"
 "说，DUNDi映射名应该与dundi.conf中'include'小节中的端点详细定义相关。要在此中"
 "继上使用DUNDi，需要进行手工配置。"
-
-msgid "Trunk Name"
-msgstr "中继名"
 
 msgid "Give this trunk a unique name.  Example: myiaxtel"
 msgstr "为这个中继取一个唯一的名字。例如：myiaxtel"
@@ -3134,8 +3279,14 @@ msgid "User Context was left blank and User Details will not be saved!"
 msgstr "由于用户上下文为空，用户详细信息将不会被保存！"
 
 msgid ""
-"You must define an Outbound Caller ID when Choosing Never Override CallerID"
-msgstr "若你选择了“从不覆盖主叫ID”，你就必须定义一个出局主叫ID。"
+"You must define an Outbound Caller ID when Choosing this CID Options value"
+msgstr ""
+
+msgid ""
+"It is highly recommended that you define an Outbound Caller ID on all "
+"trunks, undefined behavior can result when nothing is specified. The CID "
+"Options can control when this CID is used. Do you still want to continue?"
+msgstr ""
 
 msgid ""
 "You have not entered a User Password.  While this is acceptable, this user "

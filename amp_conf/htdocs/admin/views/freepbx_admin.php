@@ -5,6 +5,40 @@
 ?>
 <!-- begin menu -->
 <?php
+global $amp_conf;
+$fd = $amp_conf['ASTETCDIR'].'/freepbx_menu.conf';
+if ($fpbx_usecategories && file_exists($fd)) {
+  $favorites = parse_ini_file($fd,true);
+  if ($favorites !== false) foreach ($favorites as $menuitem => $setting) {
+    if (isset($fpbx_menu[$menuitem])) {
+      foreach($setting as $key => $value) {
+        switch ($key) {
+          case 'category':
+          case 'name':
+            $fpbx_menu[$menuitem][$key] = htmlspecialchars($value);
+          break;
+          case 'type':
+            if (strtolower($value)=='setup' || strtolower($value)=='tool') {
+              $fpbx_menu[$menuitem][$key] = strtolower($value);
+            }
+          break;
+          case 'sort':
+            if (is_numeric($value) && $value > -10 && $value < 10) {
+              $fpbx_menu[$menuitem][$key] = $value;
+            }
+          break;
+          case 'remove':
+            // parse_ini_file sets all forms of yes/true to 1 and no/false to nothing
+            if ($value == '1') {
+              unset($fpbx_menu[$menuitem]);
+            }
+          break;
+        }
+      }
+    }
+  }
+}
+
 $prev_category = '';
 
 if (is_array($fpbx_menu)) {
@@ -15,7 +49,8 @@ if (is_array($fpbx_menu)) {
 	$framework_text_domain = Array();
 	// Sorting menu by category and name
 	foreach ($fpbx_menu as $key => $row) {
-		$category[$key] = $row['category'];
+		// Fake name to have it follow after Admin in the sort order
+		$category[$key] = $row['category'] == 'Favorites'?'Admin Favorites':$row['category'];
 		$sort[$key] = $row['sort'];
 		$sort_name[$key] = $row['name'];
 		$sort_type[$key] = $row['type'];
@@ -50,17 +85,17 @@ if (is_array($fpbx_menu)) {
 	echo "<div id=\"nav\">\n";
 	
 	// tab menu
-	echo "<ul id=\"nav-tabs\">\n";
+	echo "\t<ul id=\"nav-tabs\">\n";
 	$tab_num = 1;
 	foreach ($fpbx_types as $key=>$val) {
 		$type_name = (isset($fpbx_type_names[$val]) ? $fpbx_type_names[$val] : ucfirst($val));
-		echo '<li data-nav-tab="'.$val.'"><a href="#nav-'.str_replace(' ','_',$val).'"><span>'._($type_name).'</span></a></li>';
+		echo "\t\t".'<li><a href="#nav-'.str_replace(' ','_',$val).'"><span>'._($type_name)."</span></a></li>\n";
 		if ($val == $fpbx_type) {
 			$tab_num = $key+1;
 		}
 	}
-	echo "<li class=\"last\"><a><span>&nbsp;</span></a></li>";
-	echo "</ul>\n";
+	echo "\t\t<li class=\"last\"><a><span>&nbsp;</span></a></li>\n";
+	echo "\t</ul>\n";
 	
 	// menu items
 	$prev_category = false;
@@ -70,16 +105,16 @@ if (is_array($fpbx_menu)) {
 	foreach ($fpbx_menu as $key => $row) {
 		if ($prev_type != $row['type']) {
 			if ($started_div) {
-				echo '</ul></div>';
+				echo "\t</ul></div>\n";
 			}
-			echo '<div id="nav-'.$row['type'].'" class="accordion" data-nav-tab="'.$row['type'].'"><ul>';
+			echo "\t".'<div id="nav-'.$row['type'].'"><ul>'."\n";
 			$prev_type = $row['type'];	
 			$started_div = true;
 		}
 		
 		if ($fpbx_usecategories && ($row['category'] != $prev_category)) {
-			if ($prev_category != $row['category'] && $prev_tab == $row['type']) {echo '</div>'; }
-			echo "\t\t<li class=\"category\" data-nav-tab=\"".$row['type']."\">".htmlspecialchars(_($row['category']), ENT_QUOTES)."</li>\n<div>";
+      $cat_id = $row['type'].'-'.md5($row['category']);
+			echo "\t\t<li title='"._("click to expand/collapse section")."' id='$cat_id' class=\"category category-header\">".htmlspecialchars(_($row['category']), ENT_QUOTES)."</li>\n";
 			$prev_category = $row['category'];
 			$prev_tab = $row['type'];
 		}
@@ -97,8 +132,11 @@ if (is_array($fpbx_menu)) {
 		if (isset($row['disabled']) && $row['disabled']) {
 			$li_classes[] = 'disabled';
 		}
+    if (isset($cat_id)) {
+			$li_classes[] = "id-$cat_id";
+    }
 
-		echo "\t<li class=\"".implode(' ',$li_classes)."\">";
+		echo "\t\t\t<li class=\"".implode(' ',$li_classes)."\">";
 		if ($framework_text_domain[$key]) {
 			$label_text = dgettext($row['module']['rawname'],$row['name']);
 			if ($label_text == $row['name']) {
@@ -114,7 +152,7 @@ if (is_array($fpbx_menu)) {
 		}
 		echo "</li>\n";
 	}
-	echo "</ul></div><span id=\"nav-showall\" style=\"cursor:pointer\" >"._(' + Show All')."</span>\n</div>\n\n";
+  echo "\t</ul></div>\n</div>\n\n";
 }
 
 

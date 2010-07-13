@@ -13,14 +13,14 @@
 #    You should have received a copy of the GNU General Public License
 #    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>.
 #
-# FreePBX language template for 
+# FreePBX language template for amp
 # Copyright (C) 2008, 2009, 2010 Bandwith.com
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-08 09:51+0200\n"
+"POT-Creation-Date: 2010-06-27 12:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -371,6 +371,14 @@ msgstr ""
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
 "you should set a secure password"
+msgstr ""
+
+msgid "Default ARI Admin password Used"
+msgstr ""
+
+msgid ""
+"You are using the default ARI Admin password that is widely known, you "
+"should change to a new password. Do this in amportal.conf"
 msgstr ""
 
 msgid "Module Administration"
@@ -806,6 +814,9 @@ msgid ""
 msgstr ""
 
 msgid "SUSPECT LINK:"
+msgstr ""
+
+msgid "click to expand/collapse section"
 msgstr ""
 
 msgid "category"
@@ -2087,6 +2098,15 @@ msgid ""
 "the voicemail greeting (the s option). This applies globally to all vm boxes."
 msgstr ""
 
+msgid "Operator Extension:"
+msgstr ""
+
+msgid ""
+"Default number to dial when callers hit '0' from voicemail or the built in "
+"IVR directory (it has no effect on the Directory Module). This does NOT need "
+"to be an extension, it can be a Ring Group, or even an external number."
+msgstr ""
+
 msgid "Voicemail VmX Locator"
 msgstr ""
 
@@ -2169,7 +2189,7 @@ msgid ""
 "receiving an undefined option."
 msgstr ""
 
-msgid "Company Directory"
+msgid "Legacy Company Directory"
 msgstr ""
 
 msgid "Find users in the Company Directory by:"
@@ -2197,19 +2217,6 @@ msgid ""
 "Plays a message \"Please hold while I transfer you to extension xxx\" that "
 "lets the caller know what extension to use in the future when connecting "
 "from the company directory."
-msgstr ""
-
-msgid "Operator Extension:"
-msgstr ""
-
-msgid ""
-"When users hit '0' in the directory, they are put through to this number. "
-"Note that it"
-msgstr ""
-
-msgid ""
-" does NOT need to be an extension, it can be a Ring Group, or even an "
-"external number."
 msgstr ""
 
 msgid "International Settings"
@@ -2382,6 +2389,9 @@ msgid ""
 "You can choose which music category to use. For example, choose a type "
 "appropriate for a destination country which may have announcements in the "
 "appropriate language."
+msgstr ""
+
+msgid "default"
 msgstr ""
 
 msgid "Time Group:"
@@ -2698,7 +2708,7 @@ msgid ""
 "[mappings] section of the remote dundi.conf systems. For example, you may "
 "have a mapping on the remote system, and corresponding configurations in "
 "dundi.conf locally, that looks as follows:<br /><br />[mappings]<br />priv "
-"=> dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},noparital<br /"
+"=> dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},nopartial<br /"
 "><br />In this example, you would create this trunk and name it priv. You "
 "would then create the corresponding IAX2 trunk with proper settings to work "
 "with DUNDi. This can be done by making an IAX2 trunk in FreePBX or by using "
@@ -3063,7 +3073,13 @@ msgid "User Context was left blank and User Details will not be saved!"
 msgstr ""
 
 msgid ""
-"You must define an Outbound Caller ID when Choosing Never Override CallerID"
+"You must define an Outbound Caller ID when Choosing this CID Options value"
+msgstr ""
+
+msgid ""
+"It is highly recommended that you define an Outbound Caller ID on all "
+"trunks, undefined behavior can result when nothing is specified. The CID "
+"Options can control when this CID is used. Do you still want to continue?"
 msgstr ""
 
 msgid ""

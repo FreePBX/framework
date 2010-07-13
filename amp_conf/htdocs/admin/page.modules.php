@@ -115,7 +115,7 @@ if (!$quietmode) {
 	}
 	function process_module_actions(actions) {
 		freepbx_modal_show('moduleBox');
-		urlStr = "config.php?type=tool&amp;display=modules&amp;extdisplay=process&amp;quietmode=1&amp;module_repo=<?php echo $module_repo ?>";
+    urlStr = "config.php?type=<?php echo $type ?>&amp;display=modules&amp;extdisplay=process&amp;quietmode=1&amp;module_repo=<?php echo $module_repo ?>";
 		for (var i in actions) {
 			urlStr += "&amp;moduleaction["+i+"]="+actions[i];
 		}
@@ -125,7 +125,7 @@ if (!$quietmode) {
 		//freepbx_modal_close('moduleBox');
 		freepbx_modal_hide('moduleBox');
 		if (goback) {
-			location.href = 'config.php?display=modules&amp;type=tool&amp;online=<?php echo ($_REQUEST['online']?1:0); ?>';
+      location.href = 'config.php?display=modules&amp;type=<?php echo $type ?>&amp;online=<?php echo ($_REQUEST['online']?1:0); ?>';
 		}
 	}
 	</script>
@@ -279,7 +279,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		if ($quietmode) {
 			echo "\t<a href=\"#\" onclick=\"parent.close_module_actions(true);\" />"._("Return")."</a>";
 		} else {
-			echo "\t<input type=\"button\" value=\""._("Return")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=tool&amp;online=".($_REQUEST['online']?1:0)."';\" />";
+			echo "\t<input type=\"button\" value=\""._("Return")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=$type&amp;online=".($_REQUEST['online']?1:0)."';\" />";
 		echo "</div>";
 		}
 	break;
@@ -446,7 +446,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
 		}
-		echo "\t<input type=\"button\" value=\""._("Cancel")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=tool&amp;online=".($_REQUEST['online']?1:0)."';\" />";
+		echo "\t<input type=\"button\" value=\""._("Cancel")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=$type&amp;online=".($_REQUEST['online']?1:0)."';\" />";
 		echo "</form>";
 		
 	break;
@@ -455,14 +455,14 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 			displayRepoSelect();
 		}
-		echo "| <a href='config.php?display=modules&amp;type=tool'>"._("Manage local modules")."</a>\n";
+		echo "| <a href='config.php?display=modules&amp;type=$type'>"._("Manage local modules")."</a>\n";
 		if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-			echo " | <a class='info check_updates' href='config.php?display=modules&type=tool&online=1&module_repo=$module_repo'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
+			echo " | <a class='info check_updates' href='config.php?display=modules&type=$type&online=1&module_repo=$module_repo'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
 		}
 				
 		if (isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
 			// display upload link, only if they did upload something
-			echo " | <a href='config.php?display=modules&type=tool&extdisplay=upload'>"._("Upload module")."</a><br />\n";
+			echo " | <a href='config.php?display=modules&type=$type&extdisplay=upload'>"._("Upload module")."</a><br />\n";
 			
 			$res = module_handleupload($_FILES['uploadmod']);
 			if (is_array($res)) {
@@ -471,12 +471,12 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				echo sprintf(_('The following error(s) occurred processing the uploaded file: %s'), 
 				     '<ul><li>'.implode('</li><li>',$res).'</li></ul>');
 				echo sprintf(_('You should fix the problem or select another file and %s.'), 
-				     "<a href='config.php?display=modules&amp;type=tool'>"._("try again")."</a>");
+				     "<a href='config.php?display=modules&amp;type=$type'>"._("try again")."</a>");
 				echo "</p></div>\n";
 			} else {
 				
 				echo "<p>".sprintf(_("Module uploaded successfully. You need to enable the module using %s to make it available."),
-				     "<a href='config.php?display=modules&amp;type=tool'>"._("local module administration")."</a>")
+				     "<a href='config.php?display=modules&amp;type=$type'>"._("local module administration")."</a>")
 					 ."</p>\n";
 			}
 			
@@ -507,15 +507,15 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 			
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				echo "<a href='config.php?display=modules&amp;type=tool&amp;online=0'>"._("Manage local modules")."</a>\n";
+				echo "<a href='config.php?display=modules&amp;type=$type&amp;online=0'>"._("Manage local modules")."</a>\n";
 				echo "<input type=\"checkbox\" id=\"show_upgradable_only\" onclick=\"showhide_upgrades();\" /><label for=\"show_upgradable_only\">"._("Show only upgradeable")."</label>";
 			}
 		} else {
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 				displayRepoSelect();
-				echo " | <a class='info check_updates' href='config.php?display=modules&amp;type=tool&amp;online=1&amp;module_repo=$module_repo'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
+				echo " | <a class='info check_updates' href='config.php?display=modules&amp;type=$type&amp;online=1&amp;module_repo=$module_repo'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
 			}
-			echo " | <a href='config.php?display=modules&type=tool&extdisplay=upload'>"._("Upload module")."</a><br />\n";
+			echo " | <a href='config.php?display=modules&type=$type&extdisplay=upload'>"._("Upload module")."</a><br />\n";
 		}
 
 		echo "<form name=\"modulesGUI\" action=\"config.php\" method=\"post\">";
@@ -544,6 +544,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "\t</div>";
 
 		$category = false;
+    $has_extended_modules = false;
 		$numdisplayed = 0;
 		$fd = $amp_conf['ASTETCDIR'].'/freepbx_module_admin.conf';
 		if (file_exists($fd)) {
@@ -602,6 +603,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "\t\t\t<span class=\"modulepublisher\">".(isset($modules[$name]['publisher'])?$modules[$name]['publisher']:'&nbsp;')."</span>\n";
 			
 			echo "\t\t\t<span class=\"modulestatus\">";
+      if (!$has_extended_modules && $category == 'Third Party Addon') {
+        $has_extended_modules = true;
+      }
 			switch ($modules[$name]['status']) {
 				case MODULE_STATUS_NOTINSTALLED:
 					if (isset($modules_local[$name])) {
@@ -827,6 +831,20 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "</div>";
 
 		echo "</form>";
+    if ($has_extended_modules) {
+?>
+	<script language="javascript">
+	<!-- Begin
+
+	$(document).ready(function(){
+		$("#module_repo").val('extended');
+    $('.check_updates').attr('href','config.php?display=modules&type=<?php echo $type ?>&online=1&module_repo=extended');
+	});
+
+	// End -->
+	</script>
+<?php
+    }
 	break;
 }
 
@@ -937,6 +955,7 @@ function pageReload(){
 
 
 function displayRepoSelect() {
+  global $type;
 ?>
 	<select name="module_repo" id="module_repo">
 		<option value="supported"><?php echo _("Standard Repository") ?></option>
@@ -947,7 +966,7 @@ function displayRepoSelect() {
 
 	$(document).ready(function(){
 		$("#module_repo").change(function(){
-		$('.check_updates').attr('href','config.php?display=modules&type=tool&online=1&module_repo='+this.value);
+    $('.check_updates').attr('href','config.php?display=modules&type=<?php echo $type ?>&online=1&module_repo='+this.value);
 		if (this.value == "extended") {
 			alert("<?php echo _("You have selected to access the Extended Repository. This repository contains some Third Party and un-supported modules. Although these modules are believed to work with FreePBX, they are either developed by third parties in conjunction with optional PBX components, or they are not directly sponsored by the core FreePBX team and may not receive the same level of responsiveness to issues as the main code base does.") ?>");
 		}

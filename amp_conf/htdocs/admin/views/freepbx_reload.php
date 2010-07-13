@@ -66,7 +66,14 @@
 					success: function(data) {
 						if (data.status) {
 							// successful reload
+<?php
+  global $amp_conf;
+  if (!$amp_conf['DEVELRELOAD']) {
+?>
 							$('#need_reload_block').fadeOut();
+<?php
+  }
+?>
 							freepbx_stop_reload();
 						} else {
 							// there was a problem

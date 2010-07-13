@@ -678,7 +678,9 @@ class Settings {
 	  // Load into $_SESSION
 	  if ($extension) {
 		  $_SESSION['ari_user']['extension']			= $extension;
-		  $_SESSION['ari_user']['outboundCID'] 			= $outboundCID;
+		  if (isset($outboundCID) && trim($outboundCID) != '') {
+			$_SESSION['ari_user']['outboundCID'] 			= $outboundCID;
+		  }
 		  $_SESSION['ari_user']['displayname'] 			= $displayname;
 		  $_SESSION['ari_user']['voicemail_password'] 		= $vm_password;
 		  $_SESSION['ari_user']['category'] 			= $category;
