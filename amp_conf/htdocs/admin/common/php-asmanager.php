@@ -112,6 +112,9 @@ class AGI_AsteriskManager
 	* @var array
 	*/
 	var $event_handlers;
+
+  var $useCaching = false;
+  var $memAstDB = null;
 	
 	/**
 	* Constructor
@@ -136,8 +139,15 @@ class AGI_AsteriskManager
 		if(!isset($this->config['asmanager']['port'])) $this->config['asmanager']['port'] = 5038;
 		if(!isset($this->config['asmanager']['username'])) $this->config['asmanager']['username'] = 'phpagi';
 		if(!isset($this->config['asmanager']['secret'])) $this->config['asmanager']['secret'] = 'phpagi';
+
+    if(isset($this->config['asmanager']['cachemode'])) $this->useCaching = $this->config['asmanager']['cachemode'];
 	}
-	
+
+  function LoadAstDB(){        
+    if ($this->memAstDB != null) unset($this->memAstDB);
+    $this->memAstDB = $this->database_show();
+  }
+
 	/**
 	* Send a request
 	*
@@ -734,6 +744,26 @@ class AGI_AsteriskManager
 	 * @return Array associative array of key=>value
 	 */
 	function database_show($family='') {
+    if ($this->useCaching && $this->memAstDB != null) {
+      if ($family == '') {
+        return $this->memAstDB;
+      } else {
+        $key = '/'.$family;
+        if (isset($this->memAstDB[$key])) {
+          return array($key => $this->memAstDB[$key]);
+        } else {
+          $key .= '/';
+          $len = strlen($key);
+          $fam_arr = array();
+          foreach ($this->memAstDB as $this_key => $value) {
+            if (substr($this_key,0,$len) ==  $key) {
+              $fam_arr[$this_key] = $value;
+            }
+          }
+          return $fam_arr;
+        }
+      }
+    }
 		$r = $this->command("database show $family");
 		
 		$data = explode("\n",$r["data"]);
@@ -761,6 +791,10 @@ class AGI_AsteriskManager
 	function database_put($family, $key, $value) {
 		$value = (trim($value) == '')?'"'.$value.'"':$value;
 		$r = $this->command("database put ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key)." ".$value);
+    if (!empty($this->memAstDB)){
+      $keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
+      $this->memAstDB[$keyUsed] = $value;
+    }
 		return (bool)strstr($r["data"], "success");
 	}
 	
@@ -769,6 +803,7 @@ class AGI_AsteriskManager
 	 * @param string $key		The key name to use
 	 * @return mixed Value of the key, or false if error
 	 */
+   /*
 	function database_get($family, $key) {
 		$r = $this->command("database get ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
 		$data = strpos($r["data"],"Value:");
@@ -778,6 +813,26 @@ class AGI_AsteriskManager
 			return false;
 		}
 	}
+  */
+  function database_get($family, $key) {
+    if ($this->useCaching) {
+      if ($this->memAstDB == null) {
+        $this->LoadAstDB();
+      }
+      $keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
+      if (array_key_exists($keyUsed,$this->memAstDB)){            
+        return $this->memAstDB[$keyUsed];
+      }
+    } else {
+		  $r = $this->command("database get ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
+		  $data = strpos($r["data"],"Value:");
+		  if ($data !== false) {
+			  return trim(substr($r["data"],6+$data));
+		  }
+    }
+    return false;
+  }
+
 	
 	/** Delete an entry from the asterisk database
 	 * @param string $family	The family name to use
@@ -785,6 +840,10 @@ class AGI_AsteriskManager
 	 * @return bool True if successful
 	 */
 	function database_del($family, $key) {
+    if (!empty($this->memAstDB)){
+      $keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
+      unset($this->memAstDB[$keyUsed]);
+    }
 		$r = $this->command("database del ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
 		return (bool)strstr($r["data"], "removed");
 	}
@@ -794,6 +853,10 @@ class AGI_AsteriskManager
 	 * @return bool True if successful
 	 */
 	function database_deltree($family) {
+    if (!empty($this->memAstDB)){
+      $keyUsed="/".str_replace(" ","/",$family);
+      unset($this->memAstDB[$keyUsed]);
+    }
 		$r = $this->command("database deltree ".str_replace(" ","/",$family));
 		return (bool)strstr($r["data"], "removed");
 	}
