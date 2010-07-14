@@ -803,17 +803,6 @@ class AGI_AsteriskManager
 	 * @param string $key		The key name to use
 	 * @return mixed Value of the key, or false if error
 	 */
-   /*
-	function database_get($family, $key) {
-		$r = $this->command("database get ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
-		$data = strpos($r["data"],"Value:");
-		if ($data !== false) {
-			return trim(substr($r["data"],6+$data));
-		} else {
-			return false;
-		}
-	}
-  */
   function database_get($family, $key) {
     if ($this->useCaching) {
       if ($this->memAstDB == null) {
