@@ -34,7 +34,7 @@ use Pod::Usage;
 use Fcntl;
 use POSIX qw(setsid EWOULDBLOCK);
 
-my $FOP_VERSION    = "SVNVERSION";
+my $FOP_VERSION    = "0.30";
 my %datos          = ();
 my %chanvar        = ();
 my %monitoring     = ();
