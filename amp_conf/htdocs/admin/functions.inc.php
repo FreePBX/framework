@@ -3379,6 +3379,7 @@ function _module_readxml($modulename) {
 						'needsenginedb', // set to true if engine db access required (e.g. astman access)
 						'needsenginerunning', // set to true if required to run
 						'access', // set to all if all users should always have access
+						'hidden', //keep hidden from the gui at all times - but accesable if you kknow how...
 					);
 					foreach ($optional_attribs as $attrib) {
 						if (isset($parser->attributes[$path][ $attrib ])) {

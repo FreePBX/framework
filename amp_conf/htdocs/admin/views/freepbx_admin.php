@@ -49,18 +49,23 @@ if (is_array($fpbx_menu)) {
 	$framework_text_domain = Array();
 	// Sorting menu by category and name
 	foreach ($fpbx_menu as $key => $row) {
-		// Fake name to have it follow after Admin in the sort order
-		$category[$key] = $row['category'] == 'Favorites'?'Admin Favorites':$row['category'];
-		$sort[$key] = $row['sort'];
-		$sort_name[$key] = $row['name'];
-		$sort_type[$key] = $row['type'];
+		if(!isset($row['hidden']) || !$row['hidden']) {
+			// Fake name to have it follow after Admin in the sort order
+			$category[$key] = $row['category'] == 'Favorites'?'Admin Favorites':$row['category'];
+			$sort[$key] = $row['sort'];
+			$sort_name[$key] = $row['name'];
+			$sort_type[$key] = $row['type'];
 
-		if (extension_loaded('gettext') && is_dir("modules/".$row['module']['rawname']."/i18n")) {
-			bindtextdomain($row['module']['rawname'],"modules/".$row['module']['rawname']."/i18n");
-			bind_textdomain_codeset($row['module']['rawname'], 'utf8');
-			$framework_text_domain[$key] = true;
+			if (extension_loaded('gettext') && is_dir("modules/".$row['module']['rawname']."/i18n")) {
+				bindtextdomain($row['module']['rawname'],"modules/".$row['module']['rawname']."/i18n");
+				bind_textdomain_codeset($row['module']['rawname'], 'utf8');
+				$framework_text_domain[$key] = true;
+			} else {
+				$framework_text_domain[$key] = false;
+			}
 		} else {
-			$framework_text_domain[$key] = false;
+			//dont include if page is set to be hidden
+			unset($fpbx_menu[$key]);
 		}
 	}
 	
