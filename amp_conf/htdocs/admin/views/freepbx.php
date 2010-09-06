@@ -58,16 +58,13 @@ if (!isset($amp_conf)) {
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>
 	<style type="text/css">
 		body {
-		  background-image: url(images/shadow-side-background.png);
-			background-repeat: repeat-y;
-			background-position: left;
+		background-image: url(images/shadow-side-background.png);
+		background-repeat: repeat-y;
+		background-position: left;
 		}
 	</style>
 <?php } ?>
-	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="favicon.ico" />
-	<!--[if IE]>
-	<link href="common/ie.css" rel="stylesheet" type="text/css" />
-	<![endif]-->	
+	<link rel="shortcut icon" href="images/favicon.ico" />
 <?php 
 	// check if in the amp configuration the user has set that
 	// he wants to use an alternative style-sheet.
