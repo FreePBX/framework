@@ -45,10 +45,6 @@ if (isset($_REQUEST['display']) && isset($menu[$_REQUEST['display']])) {
 	$display=1;
 }
 
-// CDR viewer from www.areski.net.  
-// Changes for -- AMP -- commented in:
-// cdr.php, defines.php, call-log.php, call-comp.php, graph_hourdetail.php, graph_statbar.php, graph_pie.php
-
 showview('reports', array('amp_conf'=>&$amp_conf, 'title'=>$title, 'display'=>$display, 'menu' => $menu));
 ?>
 </div>

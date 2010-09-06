@@ -1,9 +1,9 @@
-<?php /* $Id$ */
-include_once(dirname(__FILE__) . "/../cdr/lib/defines.php");
-include_once(dirname(__FILE__) . "/../cdr/lib/Class.Table.php");
-include_once(dirname(__FILE__) . "/../cdr/jpgraph_lib/jpgraph.php");
-include_once(dirname(__FILE__) . "/../cdr/jpgraph_lib/jpgraph_pie.php");
-include_once(dirname(__FILE__) . "/../cdr/jpgraph_lib/jpgraph_pie3d.php");
+<?php /* $Id: graph_pie.php 6816 2008-09-19 18:33:18Z p_lindheimer $ */
+include_once(dirname(__FILE__) . "/../lib/defines.php");
+include_once(dirname(__FILE__) . "/../lib/Class.Table.php");
+include_once(dirname(__FILE__) . "/../jpgraph_lib/jpgraph.php");
+include_once(dirname(__FILE__) . "/../jpgraph_lib/jpgraph_pie.php");
+include_once(dirname(__FILE__) . "/../jpgraph_lib/jpgraph_pie3d.php");
 
 
 /*

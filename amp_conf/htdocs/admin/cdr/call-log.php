@@ -560,7 +560,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
         		<td class="bar-search" align="left" bgcolor="#000033"> </td>
 
 				<td class="bar-search" align="center" bgcolor="#acbdee">
-					<input type="image"  name="image16" align="top" border="0" src="images/button-search.gif" />
+					<input type="image"  name="image16" align="top" border="0" src="cdr/images/button-search.gif" />
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					Result : Minutes<input type="radio" NAME="resulttype" value="min" <?php if(!isset($resulttype) || $resulttype=="min"){?>checked<?php }?>> - Seconds <input type="radio" NAME="resulttype" value="sec" <?php if(isset($resulttype) && $resulttype=="sec"){?>checked<?php }?>>
 	  			</td>
@@ -582,7 +582,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
               <TBODY>
                 <TR> 
                   <TD><SPAN style="COLOR: #ffffff; FONT-SIZE: 11px"><B><?php echo $FG_HTML_TABLE_TITLE?></B></SPAN></TD>
-                  <TD align=right> <IMG alt="Back to Top" border=0 height=12 src="images/btn_top_12x12.gif" width=12> 
+                  <TD align=right> <IMG alt="Back to Top" border=0 height=12 src="cdr/images/btn_top_12x12.gif" width=12> 
                   </TD>
                 </TR>
               </TBODY>
@@ -611,9 +611,9 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                     <span class="liens"><?php  } ?>
                     <?php echo $FG_TABLE_COL[$i][0]?> 
                     <?php if ($order==$FG_TABLE_COL[$i][1] && $sens=="ASC"){?>
-                    &nbsp;<img src="images/icon_up_12x12.GIF" width="12" height="12" border="0"> 
+                    &nbsp;<img src="cdr/images/icon_up_12x12.GIF" width="12" height="12" border="0"> 
                     <?php }elseif ($order==$FG_TABLE_COL[$i][1] && $sens=="DESC"){?>
-                    &nbsp;<img src="images/icon_down_12x12.GIF" width="12" height="12" border="0"> 
+                    &nbsp;<img src="cdr/images/icon_down_12x12.GIF" width="12" height="12" border="0"> 
                     <?php }?>
                     <?php  if (strtoupper($FG_TABLE_COL[$i][4])=="SORT"){?>
                     </span></a> 
@@ -625,7 +625,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                 <TR> 
                   <TD bgColor=#e1e1e1 colSpan=<?php echo $FG_TOTAL_TABLE_COL?> height=1><IMG 
                               height=1 
-                              src="images/clear.gif" 
+                              src="cdr/images/clear.gif" 
                               width=1></TD>
                 </TR>
 				<?php
@@ -714,12 +714,12 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 				 ?>
                 <TR> 
                   <TD class=tableDivider colSpan=<?php echo $FG_TOTAL_TABLE_COL?>><IMG height=1 
-                              src="images/clear.gif" 
+                              src="cdr/images/clear.gif" 
                               width=1></TD>
                 </TR>
                 <TR> 
                   <TD class=tableDivider colSpan=<?php echo $FG_TOTAL_TABLE_COL?>><IMG height=1 
-                              src="images/clear.gif" 
+                              src="cdr/images/clear.gif" 
                               width=1></TD>
                 </TR>
               </TBODY>
@@ -732,7 +732,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                 <TR> 
                   <TD align="right"><SPAN style="COLOR: #ffffff; FONT-SIZE: 11px"><B> 
                     <?php if ($current_page>0){?>
-                    <img src="images/fleche-g.gif" width="5" height="10"> <a href="<?php echo $_SERVER['PHP_SELF']?>?handler=cdr&s=1&t=<?php echo $t?>&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php  echo ($current_page-1)?><?php  if (!is_null($letter) && ($letter!="")){ echo "&letter=$letter";} 
+                    <img src="cdr/images/fleche-g.gif" width="5" height="10"> <a href="<?php echo $_SERVER['PHP_SELF']?>?handler=cdr&s=1&t=<?php echo $t?>&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php  echo ($current_page-1)?><?php  if (!is_null($letter) && ($letter!="")){ echo "&letter=$letter";} 
 					echo "&posted=$posted&Period=$Period&frommonth=$frommonth&fromstatsmonth=$fromstatsmonth&tomonth=$tomonth&tostatsmonth=$tostatsmonth&fromday=$fromday&fromstatsday_sday=$fromstatsday_sday&fromstatsmonth_sday=$fromstatsmonth_sday&today=$today&tostatsday_sday=$tostatsday_sday&tostatsmonth_sday=$tostatsmonth_sday&dsttype=$dsttype&srctype=$srctype&clidtype=$clidtype&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&userfieldtype=$userfieldtype&userfield=$userfield&accountcodetype=$accountcodetype&accountcode=$accountcode&duration1=$duration1&duration1type=$duration1type&duration2=$duration2&duration2type=$duration2type";?>"> 
                     Previous </a> - 
                     <?php }?>
@@ -740,7 +740,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                     <?php if ($current_page<$nb_record_max-1){?>
                     - <a href="<?php echo $_SERVER['PHP_SELF']?>?handler=cdr&s=1&t=<?php echo $t?>&order=<?php echo $order?>&sens=<?php echo $sens?>&current_page=<?php  echo ($current_page+1)?><?php  if (!is_null($letter) && ($letter!="")){ echo "&letter=$letter";} 
 					echo "&posted=$posted&Period=$Period&frommonth=$frommonth&fromstatsmonth=$fromstatsmonth&tomonth=$tomonth&tostatsmonth=$tostatsmonth&fromday=$fromday&fromstatsday_sday=$fromstatsday_sday&fromstatsmonth_sday=$fromstatsmonth_sday&today=$today&tostatsday_sday=$tostatsday_sday&tostatsmonth_sday=$tostatsmonth_sday&dsttype=$dsttype&srctype=$srctype&clidtype=$clidtype&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&channel=$channel&resulttype=$resulttype&dst=$dst&src=$src&clid=$clid&userfieldtype=$userfieldtype&userfield=$userfield&accountcodetype=$accountcodetype&accountcode=$accountcode&duration1=$duration1&duration1type=$duration1type&duration2=$duration2&duration2type=$duration2type";?>"> 
-                    Next </a> <img src="images/fleche-d.gif" width="5" height="10"> 
+                    Next </a> <img src="cdr/images/fleche-d.gif" width="5" height="10"> 
                     </B></SPAN> 
                     <?php }?>
                   </TD>
@@ -851,7 +851,7 @@ foreach ($list_total_day as $data){
 		<td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php echo $minutes?> </font></td>
         <td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="left" nowrap="nowrap" width="<?php echo $widthbar+60?>">
         <table cellspacing="0" cellpadding="0"><tbody><tr>
-        <td bgcolor="#e22424"><img src="images/spacer.gif" width="<?php echo $widthbar?>" height="6"></td>
+        <td bgcolor="#e22424"><img src="cdr/images/spacer.gif" width="<?php echo $widthbar?>" height="6"></td>
         </tr></tbody></table></td>
         <td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php echo $data[2]?></font></td>
         <td bgcolor="<?php echo $FG_TABLE_ALTERNATE_ROW_COLOR[$i]?>" align="right" nowrap="nowrap"><font face="verdana" color="#000000" size="1"><?php echo $tmc?> </font></td>
@@ -887,10 +887,10 @@ foreach ($list_total_day as $data){
 
 <br/>
 <table width="60%"><tr><td>
-<a href="config.php?handler=cdr_export_pdf" target="_blank"><img src="./images/pdf.png	" border="0"/></a> <a href="config.php?handler=cdr_export_pdf" target="_blank">Export PDF file</a>
+<a href="config.php?handler=cdr_export_pdf" target="_blank"><img src="./cdr/images/pdf.png	" border="0"/></a> <a href="config.php?handler=cdr_export_pdf" target="_blank">Export PDF file</a>
 </td>
 <td>
-<a href="config.php?handler=cdr_export_csv" target="_blank" ><img src="./images/excel.png" border="0"/></a> <a href="config.php?handler=cdr_export_csv" target="_blank">Export CSV file</a>
+<a href="config.php?handler=cdr_export_csv" target="_blank" ><img src="./cdr/images/excel.png" border="0"/></a> <a href="config.php?handler=cdr_export_csv" target="_blank">Export CSV file</a>
 </td></tr></table>
 
 
