@@ -456,7 +456,7 @@ if (! $res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPORT"], $amp_con
 out(_("OK"));
 
 //include common functions
-require_once($amp_conf['AMPWEBROOT']."/admin/extensions.class.php");
+require_once($amp_conf['AMPWEBROOT']."/admin/libraries/extensions.class.php");
 freepbx_log("retrieve_conf", "devel-debug", "Started retrieve_conf, DB Connection OK");
 
 // query for our modules
@@ -515,7 +515,7 @@ $con_dirs->cp_check_errors();
 
 
 // create an object of the extensions class
-require_once($amp_conf['AMPWEBROOT']."/admin/extensions.class.php");
+require_once($amp_conf['AMPWEBROOT']."/admin/libraries/extensions.class.php");
 $ext = new extensions;
 
 if ($amp_conf['DISABLECUSTOMCONTEXTS']) {
