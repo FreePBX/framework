@@ -1,5 +1,5 @@
 <?php /* $Id$ */
-
+include_once(dirname(__FILE__) . "/../header.php");
 session_start();
 
 
