@@ -14,6 +14,16 @@
 global $db;
 global $amp_conf;
 
+//this must go first so that we dont attempt to redefine the functions below
+if (!function_exists('modules_getversion')) {
+	$file = dirname(__FILE__).'/../../amp_conf/htdocs/admin/functions.inc.php';
+	if(file_exists($file)) {
+		include_once($file);
+	} else {
+		die('Fatal: Function modules_getversion() cannot be defined');
+	}
+}
+
 if (! function_exists("out")) {
 	function out($text) {
 		echo $text."<br />";
