@@ -15,15 +15,8 @@
 @header('Expires: Sat, 01 Jan 2000 00:00:00 GMT'); 
 @header('Cache-Control: post-check=0, pre-check=0',false); 
 @header('Pragma: no-cache'); 
-//session_cache_limiter('public, no-store'); 
-
-
-//get the current file name
-$currentFile = $_SERVER["PHP_SELF"];
-$parts = explode('/', $currentFile);
 header('Content-type: text/html; charset=utf-8');
-$currentFile = $parts[count($parts) - 1];
-//todo: can this be removed? what is it used for?
+//session_cache_limiter('public, no-store'); 
 
 // include base functions
 require_once('functions.inc.php');
