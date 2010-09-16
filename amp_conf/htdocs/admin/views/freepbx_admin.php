@@ -187,6 +187,7 @@ if (is_array($fpbx_menu)) {
 		<select onchange="javascript:changeLang(this.value)">
 		<option value="en_US" <?php echo ($_COOKIE['lang']=="en_US" ? "selected" : "") ?> >English</option>
 		<option value="bg_BG" <?php echo ($_COOKIE['lang']=="bg_BG" ? "selected" : "") ?> >Bulgarian</option>
+		<option value="zh_CN" <?php echo ($_COOKIE['lang']=="zh_CN" ? "selected" : "") ?> >Chinese</option>
 		<option value="de_DE" <?php echo ($_COOKIE['lang']=="de_DE" ? "selected" : "") ?> >Deutsch</option>
 		<option value="es_ES" <?php echo ($_COOKIE['lang']=="es_ES" ? "selected" : "") ?> >Espa&ntilde;ol</option>
 		<option value="fr_FR" <?php echo ($_COOKIE['lang']=="fr_FR" ? "selected" : "") ?> >Fran&ccedil;ais</option>

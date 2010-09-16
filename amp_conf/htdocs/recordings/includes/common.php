@@ -109,9 +109,6 @@ function databaseLogon() {
   global $ASTERISKCDR_DBHOST;
   global $ASTERISKCDR_DBNAME;
 
-  global $ASTERISK_CALLMONITOR_PATH;
-  global $ast_spool_dir;
-
   global $ARI_DISABLED_MODULES;
   
   global $ARI_ADMIN_USERNAME;
@@ -167,8 +164,6 @@ function databaseLogon() {
       $amp_dbpass = $amp_conf["AMPDBPASS"];
       $amp_dbhost = isset($amp_conf["AMPDBHOST"]) ? $amp_conf["AMPDBHOST"] : $LEGACY_AMP_DBHOST;
       $amp_dbname = isset($amp_conf["AMPDBNAME"]) ? $amp_conf["AMPDBNAME"] : $LEGACY_AMP_DBNAME;
-
-      $ast_spool_dir = isset($amp_conf["ASTSPOOLDIR"]) ? $amp_conf["ASTSPOOLDIR"] : $ASTERISK_CALLMONITOR_PATH;
 
       $asteriskcdr_dbengine = $ASTERISKCDR_DBENGINE;
       $asteriskcdr_dbfile = $ASTERISKCDR_DBFILE;

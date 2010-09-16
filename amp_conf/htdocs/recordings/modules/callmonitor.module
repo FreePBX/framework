@@ -102,11 +102,12 @@ class Callmonitor {
    */
   function display($args) {
 
-    global $ast_spool_dir;
+    global $ASTERISK_CALLMONITOR_PATH;
     global $CALLMONITOR_ALLOW_DELETE;
     global $AJAX_PAGE_REFRESH_ENABLE;
 
     $display = new DisplaySearch();
+
     // get the search string
     $m = getArgument($args,'m');
     $f = getArgument($args,'f');
@@ -130,13 +131,13 @@ class Callmonitor {
     $data = $this->getCdrData($q,$duration_filter,$start,$span,$order,$sort);
 
     // get the call monitor recording files
-    $paths = explode(';',$ast_spool_dir);
+    $paths = split(';',$ASTERISK_CALLMONITOR_PATH);
     foreach($paths as $key => $path) {
       if (!is_dir($path)) {
         $_SESSION['ari_error'] .= sprintf(_("Path is not a directory: %s"),$path) . "<br>";
       }
     }
-    $recordings = $this->getRecordings($ast_spool_dir,$data);
+    $recordings = $this->getRecordings($ASTERISK_CALLMONITOR_PATH,$data);
 
     // build controls
     if ($CALLMONITOR_ALLOW_DELETE) {

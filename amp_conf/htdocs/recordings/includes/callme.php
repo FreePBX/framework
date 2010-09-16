@@ -93,7 +93,7 @@ function callme_startcall($to, $from, $new_path)
 	$extension	= "s";
 	$priority	= "1";
 	$callerid	= "VMAIL/$from";
-	$variable	= "MSG=$new_path|MBOX=$from";
+	$variable	= "MSG=$new_path,MBOX=$from";
 	/* Arguments to Originate: channel, extension, context, priority, timeout, callerid, variable, account, application, data */
 	$status = $astman->Originate($channel, $extension, $context, $priority, NULL, $callerid, $variable, NULL, NULL, NULL);
 	if (is_array($status))

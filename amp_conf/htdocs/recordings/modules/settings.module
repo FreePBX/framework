@@ -1349,7 +1349,7 @@ class Settings {
 
     global $asterisk_manager_interface;
 
-    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: Reload app_voicemail.so\r\n\r\n");
+    $response = $asterisk_manager_interface->Command("Action: Command\r\nCommand: module reload app_voicemail.so\r\n\r\n");
   }
 
   /*
