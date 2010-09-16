@@ -98,14 +98,14 @@ if (!isset($amp_conf)) {
 <?php
 	} else {
 ?>
-	<script type="text/javascript" src="common/jquery-1.4.2.js"></script>
-	<script type="text/javascript" src="common/jquery.cookie.js"></script> <!-- plugin for setting/reteiving cookies -->
-	<script type="text/javascript" src="common/jquery-ui-1.8.custom.min.js"></script>
-	<script type="text/javascript" src="common/script.legacy.js"></script> <!-- legacy script.js.php -->
-	<script type="text/javascript" src="common/jquery.dimensions.js"></script> <!-- used by reload/module admin -->
-	<script type="text/javascript" src="common/jquery.toggleval.3.0.js"></script> <!-- plugin for adding help text to input boxes -->
-	<script type="text/javascript" src="common/interface.dim.js"></script> <!-- used for interface blocking (reload, modadmin) -->
-	<script type="text/javascript" src="common/tabber-minimized.js"></script> <!-- used for module admin (hiding content) -->
+	<script type="text/javascript" src="assets/js/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="assets/js/jquery.cookie.js"></script> <!-- plugin for setting/reteiving cookies -->
+	<script type="text/javascript" src="assets/js/jquery-ui-1.8.custom.min.js"></script>
+	<script type="text/javascript" src="assets/js/script.legacy.js"></script> <!-- legacy script.js.php -->
+	<script type="text/javascript" src="assets/js/jquery.dimensions.js"></script> <!-- used by reload/module admin -->
+	<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js"></script> <!-- plugin for adding help text to input boxes -->
+	<script type="text/javascript" src="assets/js/interface.dim.js"></script> <!-- used for interface blocking (reload, modadmin) -->
+	<script type="text/javascript" src="assets/js/tabber-minimized.js"></script> <!-- used for module admin (hiding content) -->
 <?php
 	}
 if (isset($module_name) && $module_name != '') {
