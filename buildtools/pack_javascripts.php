@@ -1,8 +1,8 @@
 #!/usr/bin/php -q
 <?php
 
-$libfreepbx = 'libfreepbx.javascripts.js';
-$dir="../amp_conf/htdocs/admin/common";
+$libfreepbx = '../amp_conf/htdocs/admin/common/libfreepbx.javascripts.js';
+$dir="../amp_conf/htdocs/admin/assets/js";
 $output=array();
 
 exec("ls $dir/*.js",$output,$ret);
@@ -27,7 +27,7 @@ foreach ($output as $file) {
 		case $file==$dir.'/script.legacy.js'://legacy script
 			$finalB[] = $file;
 		break;
-		case $file != $dir.'/'.$libfreepbx && $file != $dir.'/script.legacy.js'://default
+		case $file != $dir.'/script.legacy.js'://default
 			$final[] = $file;
 		break;
 	}
@@ -37,6 +37,6 @@ $final=array_merge($finalB,$final);
 
 echo "creating $libfreepbx with:\n\n";
 print_r($final);
-echo 'cat '.implode(' ',$final)." | ./jsmin.rb >  $dir/$libfreepbx\n\n";
+echo 'cat '.implode(' ',$final)." | ./jsmin.rb >  $libfreepbx\n\n";
 
-system('cat '.implode(' ',$final)." | ./jsmin.rb >  $dir/$libfreepbx");
+system('cat '.implode(' ',$final)." | ./jsmin.rb >  $libfreepbx");
