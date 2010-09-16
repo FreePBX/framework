@@ -7,21 +7,6 @@ $mtime = $fstats['mtime'];
 header('Etag: "00002-0003-00000000"');
 header('Expires: '.gmdate('D, d M Y H:i:s', time()+3600).' GMT', true);
 header ("Content-type: application/x-javascript");
-
-if (!extension_loaded('gettext')) {
-       function _($str) {
-               return $str;
-       }
-} else {
-    if (isset($_COOKIE['lang'])) {
-    	setlocale(LC_MESSAGES,  $_COOKIE['lang']);
-    } else { 
-    	setlocale(LC_MESSAGES,  'en_US');
-    }
-    bindtextdomain('amp','../i18n');
-    textdomain('amp');
-}
-
 /*
 NOTE: this js function should not be in the php block. It is here only as a 
 reference to the minifies version, located just out of the block
