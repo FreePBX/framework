@@ -17,6 +17,66 @@
 @header('Pragma: no-cache'); 
 //session_cache_limiter('public, no-store'); 
 
+
+//get the current file name
+$currentFile = $_SERVER["PHP_SELF"];
+$parts = explode('/', $currentFile);
+header('Content-type: text/html; charset=utf-8');
+$currentFile = $parts[count($parts) - 1];
+//todo: can this be removed? what is it used for?
+
+// include base functions
+require_once('functions.inc.php');
+
+// get settings
+$amp_conf	= parse_amportal_conf("/etc/amportal.conf");
+$asterisk_conf  = parse_asterisk_conf($amp_conf["ASTETCDIR"]."/asterisk.conf");
+if (!$skip_astman) {
+	require_once('common/php-asmanager.php');
+	$astman	= new AGI_AsteriskManager();
+
+	// attempt to connect to asterisk manager proxy
+  if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+		// attempt to connect directly to asterisk, if no proxy or if proxy failed
+		if (!$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off')) {
+			// couldn't connect at all
+			unset( $astman );
+		}
+	}
+}
+
+// connect to database
+require_once('common/db_connect.php'); //PEAR must be installed
+
+// setup locale
+set_language();
+
+// default password check, first for Asterisk Manager, then for ARI
+if (!$quietmode && !isset($_REQUEST['handler'])) {
+	$nt = notifications::create($db);
+	if ($amp_conf['AMPMGRPASS'] == $amp_conf_defaults['AMPMGRPASS'][1]) {
+		$nt->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
+	} else {
+		$nt->delete('core', 'AMPMGRPASS');
+	}
+}
+
+if (!$quietmode && !isset($_REQUEST['handler'])) {
+	$nt = notifications::create($db);
+	if ($amp_conf['ARI_ADMIN_PASSWORD'] == $amp_conf_defaults['ARI_ADMIN_PASSWORD'][1]) {
+		$nt->add_warning('ari', 'ARI_ADMIN_PASSWORD', _("Default ARI Admin password Used"), _("You are using the default ARI Admin password that is widely known, you should change to a new password. Do this in amportal.conf"));
+	} else {
+		$nt->delete('ari', 'ARI_ADMIN_PASSWORD');
+	}
+}
+
+// always run a session
+@session_start();
+
+// do authentication - header_auth exits if unauthorized
+include('header_auth.php');
+
+
 /** Loads a view (from the views/ directory) with a number of named parameters created as local variables.
  * @param  string   The name of the view.
  * @param  array    The parameters to pass. Note that the key will be turned into a variable name for use by the view.
@@ -47,31 +107,6 @@ function showview($viewname, $parameters = false) {
 	}
 }
 
-//get the current file name
-$currentFile = $_SERVER["PHP_SELF"];
-$parts = explode('/', $currentFile);
-header('Content-type: text/html; charset=utf-8');
-$currentFile = $parts[count($parts) - 1];
-//todo: can this be removed? what is it used for?
-
-
-// Emulate gettext extension functions if gettext is not available
-if (!function_exists('_')) {
-	function _($str) {
-		return $str;
-	}
-}
-if (!function_exists('gettext')) {
-	function gettext($message) {
-		return $message;
-	}
-}
-if (!function_exists('dgettext')) {
-	function dgettext($domain, $message) {
-		return $message;
-	}
-}
-
 // setup locale
 function set_language() {
 	if (extension_loaded('gettext')) {
@@ -86,7 +121,7 @@ function set_language() {
 		textdomain('amp');
 	}
 }
-set_language();
+
 
 
 // systems running on sqlite3 (or pgsql) this function is not available
@@ -106,54 +141,4 @@ if (!function_exists('mysql_real_escape_string')) {
 		return $str;
 	}
 }
-
-// include base functions
-require_once('functions.inc.php');
-require_once('common/php-asmanager.php');
-
-// get settings
-$amp_conf	= parse_amportal_conf("/etc/amportal.conf");
-$asterisk_conf  = parse_asterisk_conf($amp_conf["ASTETCDIR"]."/asterisk.conf");
-if (!$skip_astman) {
-	require_once('common/php-asmanager.php');
-	$astman		= new AGI_AsteriskManager();
-
-	// attempt to connect to asterisk manager proxy
-  if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
-		// attempt to connect directly to asterisk, if no proxy or if proxy failed
-		if (!$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off')) {
-			// couldn't connect at all
-			unset( $astman );
-		}
-	}
-}
-// connect to database
-require_once('common/db_connect.php'); //PEAR must be installed
-
-// default password check, first for Asterisk Manager, then for ARI
-
-if (!$quietmode && !isset($_REQUEST['handler'])) {
-	$nt = notifications::create($db);
-	if ($amp_conf['AMPMGRPASS'] == $amp_conf_defaults['AMPMGRPASS'][1]) {
-		$nt->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
-	} else {
-		$nt->delete('core', 'AMPMGRPASS');
-	}
-}
-
-if (!$quietmode && !isset($_REQUEST['handler'])) {
-	$nt = notifications::create($db);
-	if ($amp_conf['ARI_ADMIN_PASSWORD'] == $amp_conf_defaults['ARI_ADMIN_PASSWORD'][1]) {
-		$nt->add_warning('ari', 'ARI_ADMIN_PASSWORD', _("Default ARI Admin password Used"), _("You are using the default ARI Admin password that is widely known, you should change to a new password. Do this in amportal.conf"));
-	} else {
-		$nt->delete('ari', 'ARI_ADMIN_PASSWORD');
-	}
-}
-
-// always run a session
-@session_start();
-
-// do authentication - header_auth exits if unauthorized
-include('header_auth.php');
-
 ?>
