@@ -115,23 +115,4 @@ function set_language() {
 	}
 }
 
-
-
-// systems running on sqlite3 (or pgsql) this function is not available
-// instead of changing the whole code, lets hack our own version of this function.
-// according to the documentation found here: http://il2.php.net/mysql_real_escape_string
-// this shold be enough.
-// Fixes ticket: http://freepbx.org/trac/ticket/1963
-if (!function_exists('mysql_real_escape_string')) {
-	function mysql_real_escape_string($str) {
-		$str = str_replace( "\x00", "\\" . "\x00", $str );
-		$str = str_replace( "\x1a", "\\" . "\x1a", $str );
-		$str = str_replace( "\n" , "\\". "\n"    , $str );
-		$str = str_replace( "\r" , "\\". "\r"    , $str );
-		$str = str_replace( "\\" , "\\". "\\"    , $str );
-		$str = str_replace( "'" , "''"           , $str );
-		$str = str_replace( '"' , '""'           , $str );
-		return $str;
-	}
-}
 ?>
