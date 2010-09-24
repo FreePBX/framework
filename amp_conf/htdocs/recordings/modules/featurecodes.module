@@ -15,7 +15,7 @@ class featurecodes {
    */
   function rank() {
 
-    $rank = 7;
+    $rank = 5;
     return $rank;
   }
 
@@ -32,9 +32,7 @@ class featurecodes {
    *   Common arguments
    */
   function navMenu($args) {
-
-    $ret .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=featurecodes&f=display'>" . _("Feature Codes") . "</a></small></small></p><br>";
-
+    $ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=featurecodes&f=display'>" . _("Feature Codes") . "</a></small></small>";
     return $ret;
   }
 

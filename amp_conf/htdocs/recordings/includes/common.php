@@ -349,48 +349,61 @@ function handleBlock() {
       $rank = $module->$rank_function(); 
     }
 
-    $ranked_modules[$rank] = $module;
+    $ranked_modules[$rank][] = $module;
   }
   ksort($ranked_modules);
 
   // process modules
-  foreach ($ranked_modules as $module) {
+  foreach ($ranked_modules as $rank => $modules) {
+	$rankloaded = false; //wether this rank has any menu items
+	foreach ($modules as $module)     {
+		$nmenu = false; //text/link that goes in the menu
+    	// process module
+    	$name = get_class($module);    // note PHP4 returns all lowercase
+    	$module_methods = get_class_methods($module);    // note PHP4 returns all lowercase
+    	while (list($index, $value) = each($module_methods)) {
+      		$module_methods[strtolower($index)] = strtolower($value);
+    	}
+    	reset($module_methods);
 
-    // process module
-    $name = get_class($module);    // note PHP4 returns all lowercase
-    $module_methods = get_class_methods($module);    // note PHP4 returns all lowercase
-    while (list($index, $value) = each($module_methods)) {
-      $module_methods[strtolower($index)] = strtolower($value);
+    	// init module
+    	$module->init();
+
+    	// add nav menu items
+    	$nav_menu_function = "navMenu";
+    	if (in_array(strtolower($nav_menu_function), $module_methods)) {
+			$nmenu = $module->$nav_menu_function($args);
+      		//$nav_menu .= $module->$nav_menu_function($args); 
+			$nav_menu .= $nmenu;
+    	}      
+
+    	if (strtolower($m)==strtolower($name)) {
+
+      	// build sub menu 
+      	$subnav_menu_function = "navSubMenu";
+      	if (in_array(strtolower($subnav_menu_function), $module_methods)) {
+        	$subnav_menu .= $module->$subnav_menu_function($args); 
+      	}
+
+      	// execute function (usually to build content)
+      	if (in_array(strtolower($f), $module_methods)) {
+        	$content .= $module->$f($args);
+      	}
     }
-    reset($module_methods);
-
-    // init module
-    $module->init();
-
-    // add nav menu items
-    $nav_menu_function = "navMenu";
-    if (in_array(strtolower($nav_menu_function), $module_methods)) {
-      $nav_menu .= $module->$nav_menu_function($args); 
-    }      
-
-    if (strtolower($m)==strtolower($name)) {
-
-      // build sub menu 
-      $subnav_menu_function = "navSubMenu";
-      if (in_array(strtolower($subnav_menu_function), $module_methods)) {
-        $subnav_menu .= $module->$subnav_menu_function($args); 
-      }
-
-      // execute function (usually to build content)
-      if (in_array(strtolower($f), $module_methods)) {
-        $content .= $module->$f($args);
-      }
-    }
+	
+	 if ($nmenu != false){
+		$nav_menu .= '<br />';
+		$rankloaded = true;
+	}
+}
+	if ($rankloaded) {
+		$nav_menu .= '<br />';
+	}
   }
 
   // add logout link
   if ($logout != '') { 
-    $nav_menu .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?logout=1'>" . _("Logout") . "</a></small></small></p>";
+    $nav_menu .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?logout=1'>" . _("Logout") . "</a></small></small>";
   } 
 
   // error message if no content

@@ -339,7 +339,7 @@ class Settings {
 
 	// and we are not logged in as admin
 	if ($exten!=$ARI_ADMIN_USERNAME) {
-		$ret .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Settings&f=display'>" . _("Settings") . "</a></small></small></p><br>";
+		$ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Settings&f=display'>" . _("Settings") . "</a></small></small>";
 	}
 
     return $ret;

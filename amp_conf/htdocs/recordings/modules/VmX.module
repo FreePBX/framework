@@ -18,7 +18,7 @@ class VmX {
    */
   function rank() {
 
-	$rank = 6;
+	$rank = 9;
 	return $rank;
   }
 
@@ -55,11 +55,14 @@ class VmX {
 				
 				// and vmx is enabled for this user
 				if ($vmx_enabled !== false)
-					$ret .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] .  "?m=VmX&f=display'>" . _("VmX&#8482 Locator") . "</a></small></small></p>";
+					$ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] .  "?m=VmX&f=display'>" . _("Personal IVR") . "</a></small></small>"; 
+					return $ret;
+			} else {
+					return false;
 			}
 		}
 		
-		return $ret;
+		
 	}
 
   /*

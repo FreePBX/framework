@@ -16,7 +16,7 @@ class Voicemail {
    */
   function rank() {
 
-    $rank = 1;
+    $rank = 2;
     return $rank;
   }
 
@@ -48,7 +48,7 @@ class Voicemail {
     }
 
     if ($logout!='') {
-      $ret .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Voicemail&f=display'>" . _("Voicemail") . "</a></small></small></p>";
+      $ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Voicemail&f=display'>" . _("Voicemail") . "</a></small></small>";
     }
 
     return $ret;

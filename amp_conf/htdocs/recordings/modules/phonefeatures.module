@@ -4,7 +4,7 @@ class PhoneFeatures {
 //*****************************************************************************
   function rank() {
 
-    $rank = 4;
+    $rank = 5;
     return $rank;
   }
 
@@ -21,8 +21,7 @@ class PhoneFeatures {
 	// If we're not allowing call forwarding AND PHONE SETTINGS get out of here
 	if (!$SETTINGS_ALLOW_PHONE_SETTINGS && !$SETTINGS_ALLOW_CALLFORWARD_SETTINGS) return "";
 
-      $ret .= "
-        <p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=PhoneFeatures&f=display'>" . _("Phone Features") . "</a></small></small></p>";
+      $ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=PhoneFeatures&f=display'>" . _("Phone Features") . "</a></small></small>";
 
     return $ret;
   }

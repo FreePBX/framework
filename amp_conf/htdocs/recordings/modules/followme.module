@@ -40,7 +40,7 @@ class followme {
 	
 	$exten = $_SESSION['ari_user']['extension'];
 	if ($exten!=$ARI_ADMIN_USERNAME) {
-		$ret .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=followme&f=display'>" . _("Follow Me") . "</a></small></small></p>";
+		$ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=followme&f=display'>" . _("Follow Me") . "</a></small></small>";
 	}
 
 	return $ret;

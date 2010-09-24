@@ -33,7 +33,7 @@ class Callmonitor {
    */
   function navMenu($args) {
 
-    $ret .= "<p><small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Callmonitor&f=display'>" . _("Call Monitor") . "</a></small></small></p><br>";
+    $ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Callmonitor&f=display'>" . _("Call Monitor") . "</a></small></small>";
 
     return $ret;
   }
