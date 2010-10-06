@@ -770,8 +770,8 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 		$html.='<select name="'.str_replace(' ','_',$cat).$i.'" '.$tabindexhtml.$style.' class="destdropdown2">';
 		foreach($destination as $dest){
 			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
-			// This is ugly, but I can't think of another way to do localization for this child object
-		    if(isset($dest['category']) && dgettext('amp',"Terminate Call") == $dest['category']) {
+		// This is ugly, but I can't think of another way to do localization for this child object
+		    if(dgettext('amp',"Terminate Call") == $dest['category']) {
     			$child_label_text = dgettext('amp',$dest['description']);
 			}
 		    else {
@@ -931,19 +931,14 @@ function dbug(){
 
 function dbug_write($txt,$check=''){
 	global $amp_conf;
-	$append=true;
+	$append=FILE_APPEND;
 	//optionaly ensure that dbug file is smaller than $max_size
 	if($check){
 		$max_size=52428800;//hardcoded to 50MB. is that bad? not enough?
 		$size=filesize($amp_conf['FPBXDBUGFILE']);
-		$append=(($size > $max_size)?false:true);
+		$append=(($size > $max_size)?'':FILE_APPEND);
 	}
-	if($append) {
-		file_put_contents($amp_conf['FPBXDBUGFILE'],$txt, FILE_APPEND);
-	} else {
-		file_put_contents($amp_conf['FPBXDBUGFILE'],$txt);
-	}
-	
+	file_put_contents($amp_conf['FPBXDBUGFILE'],$txt, $append);
 }
 /** Log an error to the (database-based) log
  * @param  string   The section or script where the error occurred

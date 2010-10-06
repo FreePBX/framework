@@ -39,15 +39,6 @@ if ($fpbx_usecategories && file_exists($fd)) {
   }
 }
 
-// This is ugly, but it is the only way I can think of to get the menu sections localized. MC
-if (false) {
-_("Internal Options & Configuration");
-_("Inbound Call Control");
-_("Module Admin");
-_("System Administration");
-_("Third Party Addon");
-}
-
 $prev_category = '';
 
 if (is_array($fpbx_menu)) {
