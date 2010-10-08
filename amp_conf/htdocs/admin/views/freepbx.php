@@ -1,5 +1,5 @@
 <?php 
-/** Main freepbx view - sets up the base HTML page, and FreePBX header
+/** Main FreePBX view - sets up the base HTML page, and FreePBX header
  */
 
 // helper function, to draw the upper links
@@ -99,7 +99,7 @@ if (!isset($amp_conf)) {
 	} else {
 ?>
 	<script type="text/javascript" src="assets/js/jquery-1.4.2.js"></script>
-	<script type="text/javascript" src="assets/js/jquery.cookie.js"></script> <!-- plugin for setting/reteiving cookies -->
+	<script type="text/javascript" src="assets/js/jquery.cookie.js"></script> <!-- plugin for setting/retrieving cookies -->
 	<script type="text/javascript" src="assets/js/jquery-ui-1.8.custom.min.js"></script>
 	<script type="text/javascript" src="assets/js/script.legacy.js"></script> <!-- legacy script.js.php -->
 	<script type="text/javascript" src="assets/js/jquery.dimensions.js"></script> <!-- used by reload/module admin -->
