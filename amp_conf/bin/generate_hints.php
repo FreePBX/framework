@@ -22,10 +22,9 @@
     $astmanagerhost .= ':'.$amp_conf['ASTMANAGERPORT'];
   }
 
-	if (! $res = $astman->connect($astmanagerhost, $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
+	if (! $res = $astman->connect($astmanagerhost, $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], 'off')) {
 		exit;
 	}
-  $astman->Events('off');
 	$ast_with_dahdi = ast_with_dahdi();
 
 	$var = $astman->database_show('AMPUSER');
