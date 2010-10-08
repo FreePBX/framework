@@ -94,7 +94,7 @@ if (isset($_REQUEST['handler'])) {
 			/** Handler to pass-through file requests 
 			 * Looks for "module" and "file" variables, strips .. and only allows normal filename characters.
 			 * Accepts only files of the type listed in $allowed_exts below, and sends the corresponding mime-type, 
-			 * and always interprets files through the PHP interpreter. (Most of?) the freepbx environment is available,
+			 * and always interprets files through the PHP interpreter. (Most of?) the FreePBX environment is available,
 			 * including $db and $astman, and the user is authenticated.
 			 */
 			if (!isset($_REQUEST['module']) || !isset($_REQUEST['file'])) {
@@ -263,7 +263,7 @@ if ( $display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 	$currentcomponent = new component($display,$type);
 
 	// call every modules _configpageinit function which should just
-	// register the gui and process functions for each module, if relevent
+	// register the gui and process functions for each module, if relevant
 	// for this $display
 	foreach ($configpageinits as $func) {
 		$func($display);
@@ -304,7 +304,7 @@ switch($display) {
 		$module_page = $cur_menuitem['display'];
 		$module_file = 'modules/'.$module_name.'/page.'.$module_page.'.php';
 
-		//TODO Determine which item is this module displaying. Currently this is over the place, we should standarize on a "itemid" request var for now, we'll just cover all possibilities :-(
+		//TODO Determine which item is this module displaying. Currently this is over the place, we should standardize on a "itemid" request var for now, we'll just cover all possibilities :-(
 		$possibilites = array(
 			'userdisplay',
 			'extdisplay',
@@ -356,7 +356,7 @@ switch($display) {
 
 	break;
 	case 'modules':
-		// set these to avoide undefined variable warnings later
+		// set these to avoid undefined variable warnings later
 		//
 		$module_name = 'modules';
 		$module_page = $cur_menuitem['display'];
