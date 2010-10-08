@@ -54,7 +54,7 @@ $amp_conf_defaults = array(
 	'USEDIALONE'      => array('bool' , false),
 	'RELOADCONFIRM'   => array('bool' , true),
 	'DISABLECUSTOMCONTEXTS'   => array('bool' , false),
-
+	'DIVERSIONHEADER' => array('bool' , false),
 );
 
 function parse_amportal_conf($filename) {
