@@ -312,7 +312,7 @@ class extensions {
 				}
 				
 				foreach (array_keys($this->_exts[$section]) as $extension) {
-					foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
+          if (is_array($this->_exts[$section][$extension])) foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
 					
 						$ext = $this->_exts[$section][$extension][$idx];
 						
