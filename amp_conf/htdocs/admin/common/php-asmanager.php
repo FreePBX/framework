@@ -104,6 +104,38 @@ class AGI_AsteriskManager
 	* @var AGI
 	*/
 	var $pagi;
+
+	/**
+	* Username we connected with (for reconnect)
+	*
+	* @access public
+	* @var string
+	*/
+	var $username = NULL;
+
+	/**
+	* Secret we connected with (for reconnect)
+	*
+	* @access public
+	* @var string
+	*/
+	var $secret = NULL;
+
+	/**
+	* Current state of events (for reconnect)
+	*
+	* @access public
+	* @var string
+	*/
+	var $events = NULL;
+
+	/**
+	* Number of reconnect attempts per incident 
+	*
+	* @access public
+	* @var string
+	*/
+	var $reconnects = 2;
 	
 	/**
 	* Event Handlers
@@ -112,6 +144,14 @@ class AGI_AsteriskManager
 	* @var array
 	*/
 	var $event_handlers;
+
+ 	/**
+ 	* Log Level
+ 	*
+ 	* @access private
+ 	* @var integer
+ 	*/
+ 	var $log_level;
 
   var $useCaching = false;
   var $memAstDB = null;
@@ -141,6 +181,9 @@ class AGI_AsteriskManager
 		if(!isset($this->config['asmanager']['secret'])) $this->config['asmanager']['secret'] = 'phpagi';
 
     if(isset($this->config['asmanager']['cachemode'])) $this->useCaching = $this->config['asmanager']['cachemode'];
+ 
+ 		$this->log_level=(isset($this->config['asmanager']['log_level'])&&is_numeric($this->config['asmanager']['log_level']))?$this->config['asmanager']['log_level']:1;
+    $this->reconnects = isset($this->config['asmanager']['reconnects']) ? $this->config['asmanager']['reconnects'] : 2;
 	}
 
   function LoadAstDB(){        
@@ -155,14 +198,34 @@ class AGI_AsteriskManager
 	* @param array $parameters
 	* @return array of parameters
 	*/
-	function send_request($action, $parameters=array())
+	function send_request($action, $parameters=array(), $retry=true)
 	{
+    $reconnects = $this->reconnects;
+
 		$req = "Action: $action\r\n";
 		foreach($parameters as $var=>$val)
 			$req .= "$var: $val\r\n";
 		$req .= "\r\n";
+    $this->log("Sending Request down socket:",10);
+    $this->log($req,10);
 		fwrite($this->socket, $req);
-		return $this->wait_response();
+    $response = $this->wait_response();
+
+    // If we got a false back then something went wrong, we will try to reconnect the manager connection to try again
+    //
+    while ($response === false && $retry && $reconnects > 0) {
+      $this->log("Unexpected failure executing command: $action, reconnecting to manager and retrying: $reconnects");
+      $this->disconnect();
+      if ($this->connect($this->server.':'.$this->port, $this->username, $this->secret, $this->events) !== false) {
+		    fwrite($this->socket, $req);
+        $response = $this->wait_response();
+      } else {
+        $this->log("reconnect command failed, sleeping before next attempt");
+        sleep(1);
+      }
+      $reconnects--;
+    }
+		return $response;
 	}
 	
 	/**
@@ -182,8 +245,10 @@ class AGI_AsteriskManager
 			$type = NULL;
 			$parameters = array();
 		
-			if (feof($this->socket))
+			if (feof($this->socket)) {
+        $this->log("Got EOF in wait_response() from socket waiting for response, returning false",10);
 				return false;
+      }
 			$buffer = trim(fgets($this->socket, 4096));
 			while($buffer != '')
 			{
@@ -228,6 +293,10 @@ class AGI_AsteriskManager
 			break;
 			}
 		} while($type != 'response' && !$timeout);
+    $this->log("returning from wait_response with with type: $type",10);
+    $this->log('$parmaters: '.print_r($parameters,true),10);
+    $this->log('$buffer: '.print_r($buffer,true),10);
+    $this->log('$buff: '.print_r($buff,true),10);
 		return $parameters;
 	}
 	
@@ -243,23 +312,24 @@ class AGI_AsteriskManager
 	*/
 	function connect($server=NULL, $username=NULL, $secret=NULL, $events='on')
 	{
-		// use config if not specified
-		if(is_null($server)) $server = $this->config['asmanager']['server'];
-		if(is_null($username)) $username = $this->config['asmanager']['username'];
-		if(is_null($secret)) $secret = $this->config['asmanager']['secret'];
+	  // use config if not specified
+	  if(is_null($server)) $server = $this->config['asmanager']['server'];
+    $this->username = is_null($username) ? $this->config['asmanager']['username'] : $username;
+    $this->secret = is_null($secret) ? $this->config['asmanager']['secret'] : $secret;
+    $this->events = $events;
 		
-		// get port from server if specified
-		if(strpos($server, ':') !== false)
-		{
-			$c = explode(':', $server);
-			$this->server = $c[0];
-			$this->port = $c[1];
-		}
-		else
-		{
-			$this->server = $server;
-			$this->port = $this->config['asmanager']['port'];
-		}
+	  // get port from server if specified
+	  if(strpos($server, ':') !== false)
+	  {
+		  $c = explode(':', $server);
+		  $this->server = $c[0];
+		  $this->port = $c[1];
+	  }
+	  else
+	  {
+		  $this->server = $server;
+		  $this->port = $this->config['asmanager']['port'];
+	  }
 		
 		// connect the socket
 		$errno = $errstr = NULL;
@@ -284,7 +354,7 @@ class AGI_AsteriskManager
 		}
 		
 		// login
-		$res = $this->send_request('login', array('Username'=>$username, 'Secret'=>$secret, 'Events'=>$events));
+    $res = $this->send_request('login', array('Username'=>$this->username, 'Secret'=>$this->secret, 'Events'=>$this->events), false);
 		if($res['Response'] != 'Success')
 		{
 			$this->log("Failed to login.");
@@ -359,6 +429,7 @@ class AGI_AsteriskManager
 	*/
 	function Events($eventmask)
 	{
+    $this->events = $eventmask;
 		return $this->send_request('Events', array('EventMask'=>$eventmask));
 	}
 	
@@ -425,7 +496,7 @@ class AGI_AsteriskManager
 	*/
 	function Logoff()
 	{
-		return $this->send_request('Logoff');
+		return $this->send_request('Logoff',array(),false);
 	}
 	
 	/**
@@ -655,10 +726,11 @@ class AGI_AsteriskManager
 	*/
 	function log($message, $level=1)
 	{
-		if($this->pagi != false)
+		if($this->pagi != false) {
 			$this->pagi->conlog($message, $level);
-		else
+		} elseif ($level <= $this->log_level) {
 			error_log(date('r') . ' - ' . $message);
+		}
 	}
 	
 	/**
