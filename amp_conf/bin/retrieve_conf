@@ -454,6 +454,7 @@ if (! $res = $astman->connect("127.0.0.1:".$amp_conf["ASTMANAGERPORT"], $amp_con
 	fatal(_("Asterisk Manager Connection Failure"),sprintf(_("Failed to connect to the Asterisk manager through port: %s"), $amp_conf['ASTMANAGERPORT']));
 }
 out(_("OK"));
+$astman->Events('off');
 
 //include common functions
 require_once($amp_conf['AMPWEBROOT']."/admin/libraries/extensions.class.php");

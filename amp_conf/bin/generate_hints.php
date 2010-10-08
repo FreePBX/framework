@@ -15,7 +15,7 @@
 
 	$amp_conf = parse_amportal_conf("/etc/amportal.conf");
 
-	$astman         = new AGI_AsteriskManager();
+  $astman = new AGI_AsteriskManager(null, array('cachemode' => true));
 
   $astmanagerhost = (isset($amp_conf['ASTMANAGERHOST']) && trim($amp_conf['ASTMANAGERHOST']) != '')?$amp_conf['ASTMANAGERHOST']:'127.0.0.1';
   if (isset($amp_conf['ASTMANAGERPORT']) && trim($amp_conf['ASTMANAGERPORT']) != '') {
@@ -25,6 +25,7 @@
 	if (! $res = $astman->connect($astmanagerhost, $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
 		exit;
 	}
+  $astman->Events('off');
 	$ast_with_dahdi = ast_with_dahdi();
 
 	$var = $astman->database_show('AMPUSER');
