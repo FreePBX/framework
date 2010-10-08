@@ -2,7 +2,7 @@
 
 /** Controls if online module and install/uninstall options are available.
  * This is meant for when using external packaging systems (eg, deb or rpm) to manage
- * modules. Package mantainers should set AMPEXTERNPACKAGES to true in /etc/amportal.conf.
+ * modules. Package maintainers should set AMPEXTERNPACKAGES to true in /etc/amportal.conf.
  * Optionally, the other way is to remove the below lines, and instead just define 
  * EXTERNAL_PACKAGE_MANAGEMENT as 1. This prevents changing the setting from amportal.conf.
  */
@@ -408,7 +408,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 		}
 		
-		// Write out the erros, if there are additional actions that can be accomplished list those next with the choice to
+		// Write out the errors, if there are additional actions that can be accomplished list those next with the choice to
 		// process which will ignore the ones with errors but process the rest.
 		//
 		if (count($errorstext) > 0) {
@@ -499,7 +499,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		uasort($modules, 'category_sort_callback');
 		
 		if ($online) {
-			// Check for annoucements such as security advisories, required updates, etc.
+			// Check for announcements such as security advisories, required updates, etc.
 			//
 			$announcements = module_get_annoucements();
 			if (isset($announcements) && !empty($announcements)) {
