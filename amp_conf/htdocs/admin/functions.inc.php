@@ -11,7 +11,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-//include all nesesary classes TODO: inlcude them dynamicaly as needed
+//include all necessary classes TODO: include them dynamically as needed
 require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/config.functions.php');
 require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/featurecodes.class.php');
 require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/components.class.php');
@@ -112,7 +112,7 @@ function ast_with_dahdi() {
       $chan_dahdi_loaded = true;
       return true;
     } else if (isset($astman) && $astman->connected()) {
-			// earlier revisions of 1.4 ahd dadhi loaded but still running as zap, so if ZapScan is present, we assume
+			// earlier revisions of 1.4 and dahdi loaded but still running as zap, so if ZapScan is present, we assume
       // that is the mode it is running in.
 			$response = $astman->send_request('Command', array('Command' => 'show applications like ZapScan'));
 			if (!preg_match('/1 Applications Matching/', $response['data'])) {
@@ -170,7 +170,7 @@ function engine_getinfo() {
 }
 
 if (!function_exists('version_compare_freepbx')) {
-	/* verison_compare that works with freePBX version numbers
+	/* version_compare that works with FreePBX version numbers
  	*/
 	function version_compare_freepbx($version1, $version2, $op = null) {
         	$version1 = str_replace("rc","RC", strtolower($version1));
@@ -260,7 +260,7 @@ function do_reload() {
 	//exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log', $output, $exit_val);
 	exec($retrieve, $output, $exit_val);
 	
-	// retrive_conf html output
+	// retrieve_conf html output
 	$return['retrieve_conf'] = 'exit: '.$exit_val.'<br/>'.implode('<br/>',$output);
 	
 	if ($exit_val != 0) {
@@ -356,7 +356,7 @@ function get_framework_version() {
 }
 
 // draw list for users and devices with paging
-// $skip has been dprecated, used to be used to page-enate
+// $skip has been deprecated, used to be used to page-enate
 function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $description=false) {
 	
 	$index = 0;
@@ -687,7 +687,7 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
 /*
  * $goto is the current goto destination setting
  * $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
- * esnure that any form that includes this calls the setDestinations() javascript function on submit.
+ * ensure that any form that includes this calls the setDestinations() javascript function on submit.
  * ie: if the form name is "edit", and drawselects has been called with $i=2 then use onsubmit="setDestinations(edit,2)"
  * $table specifies if the destinations will be drawn in a new <tr> and <td>
  * 
@@ -715,11 +715,11 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 				}
 			}
 		}
-		//sort destination alphabeticaly		
+		//sort destination alphabetically		
 		ksort($drawselect_destinations);
 		ksort($drawselects_module_hash);
 	}
-	//set varibales as arrays for the rare (imposible?) case where there are none
+	//set variables as arrays for the rare (impossible?) case where there are none
   if(!isset($drawselect_destinations)){$drawselect_destinations=array();}
   if(!isset($drawselects_module_hash)){$drawselects_module_hash = array();}
 
@@ -734,7 +734,7 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 			}
 		}
 	}
-	if($destmod==''){//if we havnt found a match, display error dest
+	if($destmod==''){//if we haven't found a match, display error dest
 		$destmod='Error';
 		$drawselect_destinations['Error'][]=array('destination'=>$goto, 'description'=>'Bad Dest: '.$goto, 'class'=>'drawselect_error');
 		$drawselects_module_hash['Error']='error';
@@ -748,7 +748,7 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 	foreach($drawselects_module_hash as $mod => $disc){
 		/* We bind to the hosting module's domain. If we find the translation there we use it, if not
 		 * we try the default 'amp' domain. If still no luck, we will try the _() which is the current
-		 * module's display since some old translation code may have stored it localy but should migrate */
+		 * module's display since some old translation code may have stored it locally but should migrate */
 		bindtextdomain($drawselects_module_hash[$mod],"modules/".$drawselects_module_hash[$mod]."/i18n");
 		bind_textdomain_codeset($drawselects_module_hash[$mod], 'utf8');
 		$label_text=dgettext($drawselects_module_hash[$mod],$mod);
@@ -762,7 +762,7 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 	$html.='</select> ';
 	
 	//draw "children" select boxes
-	$tabindexhtml=' tabindex="'.++$tabindex.'"';//keep out of the foreach so that we dont increment it
+	$tabindexhtml=' tabindex="'.++$tabindex.'"';//keep out of the foreach so that we don't increment it
 	foreach($drawselect_destinations as $cat=>$destination){
 		$style=(($cat==$destmod)?'':'display:none;');
 		if($cat=='Error'){$style.=' '.$errorstyle;}//add error style
@@ -866,7 +866,7 @@ function runModuleSQL($moddir,$type){
 /** Log a debug message to a debug file
  * @param  string   debug message to be printed
  * @param  string   optional mode, default 'a'
- * @param  string   optinal filename, default /tmp/freepbx_debug.log
+ * @param  string   optional filename, default /tmp/freepbx_debug.log
  */
 function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log') {
 	$fh = fopen($filename,$option);
@@ -879,7 +879,7 @@ function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log')
 	fclose($fh);
 }
  /* 
-  * FreePBX Debuging function
+  * FreePBX Debugging function
   * This function can be called as follows:
   * dbug() - will just print a time stamp to the debug log file ($amp_conf['FPBXDBUGFILE'])
   * dbug('string') - same as above + will print the string
@@ -1035,7 +1035,7 @@ function redirect($url, $stop_processing = true) {
  *                pass on to a GET URL.
  *
  */
-function redirect_standard( /* Note. Read the next line. Varaible No of Paramas */ ) {
+function redirect_standard( /* Note. Read the next line. Variable No of Params */ ) {
 	$args = func_get_Args();
 
         foreach (array_merge(array('type','display'),$args) as $arg) {
@@ -1047,7 +1047,7 @@ function redirect_standard( /* Note. Read the next line. Varaible No of Paramas 
         redirect($url);
 }
 
-function redirect_standard_continue( /* Note. Read the next line. Varaible No of Paramas */ ) {
+function redirect_standard_continue( /* Note. Read the next line. Varaible No of Params */ ) {
 	$args = func_get_Args();
 
         foreach (array_merge(array('type','display'),$args) as $arg) {
@@ -1062,7 +1062,7 @@ function redirect_standard_continue( /* Note. Read the next line. Varaible No of
 //This function calls modulename_contexts()
 //expects a returned array which minimally includes 'context' => the actual context to include
 //can also define 'description' => the display for this context - if undefined will be set to 'context'
-//'module' => the display for the section this should be listed under defaults to modlue display (can be used to group subsets within one module)
+//'module' => the display for the section this should be listed under defaults to module display (can be used to group subsets within one module)
 //'parent' => if including another context automatically includes this one, list the parent context
 //'priority' => default sort order for includes range -50 to +50, 0 is default
 //'enabled' => can be used to flag a context as disabled and it won't be included, but will not have its settings removed.
