@@ -296,7 +296,7 @@ class AGI_AsteriskManager
     $this->log("returning from wait_response with with type: $type",10);
     $this->log('$parmaters: '.print_r($parameters,true),10);
     $this->log('$buffer: '.print_r($buffer,true),10);
-    $this->log('$buff: '.print_r($buff,true),10);
+    if (isset($buff)) $this->log('$buff: '.print_r($buff,true),10);
 		return $parameters;
 	}
 	
