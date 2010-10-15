@@ -220,8 +220,12 @@ class AGI_AsteriskManager
 		    fwrite($this->socket, $req);
         $response = $this->wait_response();
       } else {
-        $this->log("reconnect command failed, sleeping before next attempt");
-        sleep(1);
+        if ($reconnects > 1) {
+          $this->log("reconnect command failed, sleeping before next attempt");
+          sleep(1);
+        } else {
+          $this->log("FATAL: no reconnect attempts left, command permanently failed, returning to calling program with 'false' failure code");
+        }
       }
       $reconnects--;
     }
