@@ -204,6 +204,7 @@ function __order_DialRules2($a, $b) {
 // Get values from localprefix configuration file where values are stored
 // for fixlocalprefix macro
 //
+if (!function_exists('__parse_DialRulesFile')) {
 function __parse_DialRulesFile($filename, &$conf, &$section) {
 	if (is_null($conf)) {
 		$conf = array();
@@ -236,4 +237,5 @@ function __parse_DialRulesFile($filename, &$conf, &$section) {
 			}
 		}
 	}
+}
 }

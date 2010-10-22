@@ -265,7 +265,7 @@ function getInstallableModules($extarray = false) {
 	$modules_installable = array();
 
 	foreach ($modules_online as $name) {
-		if ((!isset($module_info[$name['rawname']]['status'])) || ($module_info[$name['rawname']]['status'] == MODULE_STATUS_NEEDUPGRADE)){
+		if ((!isset($module_info[$name['rawname']]['status'])) || ($module_info[$name['rawname']]['status'] == MODULE_STATUS_NEEDUPGRADE) || ($module_info[$name['rawname']]['status'] == MODULE_STATUS_NOTINSTALLED)){
 			$modules_installable[]=$name['rawname'];
 		}
 	}

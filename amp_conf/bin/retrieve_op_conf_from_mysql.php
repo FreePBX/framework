@@ -102,7 +102,10 @@ function parse_zapata(&$zaplines,$conffile) {
 	if (!isset($lastlabelnum)) {$lastlabelnum=0;}
 
 	@$filearray = file($conffile);
-	if ($filearray === false) {die("Cannot open config file: $conffile\n");}
+  if ($filearray === false) {
+    error("Cannot open config file: $conffile\n");
+    return $zaplines;
+  }
 	foreach ($filearray as $line) {
 		$line = trim($line);
 		if ($line == '') {continue;} //was next in perl version
