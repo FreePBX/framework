@@ -27,7 +27,7 @@ $amp_conf_defaults = array(
 	'AMPSBIN'        => array('dir' , '/usr/sbin'),
 	'AMPWEBROOT'     => array('dir' , '/var/www/html'),
 	'FOPWEBROOT'     => array('dir' , '/var/www/html/panel'),
-	'MOHDIR'         => array('dir' , '/mohmp3'),
+	'MOHDIR'         => array('dir' , 'mohmp3'),
 	'FPBXDBUGFILE'	 => array('dir' , '/tmp/freepbx_debug.log'),
 
 	'USECATEGORIES'  => array('bool' , true),
