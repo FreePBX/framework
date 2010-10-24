@@ -44,7 +44,7 @@ $freepbx_help_url = "http://www.freepbx.org/freepbx-help-system?freepbx_version=
 
 if (!$quietmode) {
 	?>
-	<script type="text/javascript" src="common/tabber-minimized.js"></script>
+	<script type="text/javascript" src="assets/js/tabber-minimized.js"></script>
 	<script type="text/javascript">
 	function toggleInfoPane(pane) {
 		var style = document.getElementById(pane).style;
