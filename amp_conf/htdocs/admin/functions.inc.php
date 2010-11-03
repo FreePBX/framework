@@ -771,7 +771,7 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 		foreach($destination as $dest){
 			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
 		// This is ugly, but I can't think of another way to do localization for this child object
-		    if(dgettext('amp',"Terminate Call") == $dest['category']) {
+		    if(isset( $dest['category']) && dgettext('amp',"Terminate Call") == $dest['category']) {
     			$child_label_text = dgettext('amp',$dest['description']);
 			}
 		    else {

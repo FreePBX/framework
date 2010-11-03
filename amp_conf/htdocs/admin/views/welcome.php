@@ -20,10 +20,11 @@ if (count($items)) {
 	foreach ($items as $item) {
 		echo '<li><strong>'.$notify_names[ $item['level'] ].':</strong>&nbsp;'.$item['display_text'];
 		if (!empty($item['extended_text'])) {
-			if ($_GET['item'] == $item['module'].'.'.$item['id']) {
+			if (isset($_GET['item']) && $_GET['item'] == $item['module'].'.'.$item['id']) {
 				echo '<p>'.nl2br($item['extended_text']).'</p>';
 			} else {
-				$link = $_SERVER['PHP_SELF'].'?display='.addslashes($_GET['display']).'&amp;item='.$item['module'].'.'.$item['id'];
+				$dis = isset($_GET['display']) ? addslashes($_GET['display']) : '';
+				$link = $_SERVER['PHP_SELF'].'?display='.$dis.'&amp;item='.$item['module'].'.'.$item['id'];
 				echo '&nbsp;&nbsp;<a href="'.$link.'"><i>more..</i></a>';
 			}
 		}
