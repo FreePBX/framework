@@ -289,7 +289,7 @@
     * @param string $secret
     * @return boolean true on success
     */
-    function connect($server=NULL, $username=NULL, $secret=NULL)
+    function connect($server=NULL, $username=NULL, $secret=NULL, $events='on')
     {
 	  // use config if not specified
 	  if(is_null($server)) $server = $this->config['asmanager']['server'];
