@@ -108,7 +108,7 @@ function set_language() {
 			putenv("LANGUAGE=".$_COOKIE['lang']);
 		} else {
 			setlocale(LC_ALL,  'en_US');
-			putenv("LANGUAGE=".$_COOKIE['lang']);
+			putenv("LANGUAGE=".'en_US');
 			// Make sure that we have a cookie from the start
 			setcookie("lang", 'en_US');
 		}
