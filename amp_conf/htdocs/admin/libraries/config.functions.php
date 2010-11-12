@@ -15,6 +15,7 @@ $amp_conf_defaults = array(
 	'FOPSORT'        => array('std' , 'extension'),
 	'AMPSYSLOGLEVEL '=> array('std' , 'LOG_ERR'),
 	'ARI_ADMIN_PASSWORD' => array('std' , 'ari_password'),
+	'TCINTERVAL      '=> array('std' , '60'),
 
 	'ASTETCDIR'      => array('dir' , '/etc/asterisk'),
 	'ASTMODDIR'      => array('dir' , '/usr/lib/asterisk/modules'),
@@ -55,6 +56,8 @@ $amp_conf_defaults = array(
 	'RELOADCONFIRM'   => array('bool' , true),
 	'DISABLECUSTOMCONTEXTS'   => array('bool' , false),
 	'DIVERSIONHEADER' => array('bool' , false),
+	'TCMAINT'         => array('bool' , true),
+	'DAYNIGHTTCHOOK'  => array('bool' , false),
 );
 
 function parse_amportal_conf($filename) {
