@@ -692,9 +692,12 @@ function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
  * $table specifies if the destinations will be drawn in a new <tr> and <td>
  * 
  */   
-function drawselects($goto,$i,$show_custom=false, $table=true) {
+function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='') {
 	global $tabindex, $active_modules, $drawselect_destinations, $drawselects_module_hash; 
 	$html=$destmod=$errorclass=$errorstyle='';
+  if ($nodest_msg == '') {
+	  $nodest_msg = '== '._('choose one').' ==';
+  }
 
 	if($table){$html.='<tr><td colspan=2>';}//wrap in table tags if requested
 
@@ -731,20 +734,20 @@ function drawselects($goto,$i,$show_custom=false, $table=true) {
 			foreach($drawselect_destinations[$mod] as $destination){
 				if($goto==$destination['destination']){
 					$destmod=$mod;
-			}
-		}
-	}
-	if($destmod==''){//if we haven't found a match, display error dest
-		$destmod='Error';
-		$drawselect_destinations['Error'][]=array('destination'=>$goto, 'description'=>'Bad Dest: '.$goto, 'class'=>'drawselect_error');
-		$drawselects_module_hash['Error']='error';
-	}
-}	
+			  }
+		  }
+	  }
+	  if($destmod==''){//if we haven't found a match, display error dest
+		  $destmod='Error';
+		  $drawselect_destinations['Error'][]=array('destination'=>$goto, 'description'=>'Bad Dest: '.$goto, 'class'=>'drawselect_error');
+		  $drawselects_module_hash['Error']='error';
+	  }
+  }	
 
 	//draw "parent" select box
 	$style=' style="'.(($destmod=='Error')?'background-color:red;':'background-color:white;').'"';
 	$html.='<select name="goto'.$i.'" class="destdropdown" '.$style.' tabindex="'.++$tabindex.'">';
-	$html.='<option value="" style="background-color:white;">== '._('choose one').' ==</option>';
+	$html.='<option value="" style="background-color:white;">'.$nodest_msg.'</option>';
 	foreach($drawselects_module_hash as $mod => $disc){
 		/* We bind to the hosting module's domain. If we find the translation there we use it, if not
 		 * we try the default 'amp' domain. If still no luck, we will try the _() which is the current
