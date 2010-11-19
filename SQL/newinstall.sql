@@ -377,7 +377,13 @@ CREATE TABLE `users` (
   `noanswer` varchar(100) default NULL,
   `recording` varchar(50) default NULL,
   `outboundcid` varchar(50) default NULL,
-  `sipname` varchar(50) default NULL
+  `sipname` varchar(50) default NULL,
+  `noanswer_cid` varchar(20) NOT NULL default '',
+  `busy_cid` varchar(20) NOT NULL default '',
+  `chanunavail_cid` varchar(20) NOT NULL default '',
+  `noanswer_dest` varchar(255) NOT NULL default '',
+  `busy_dest` varchar(255) NOT NULL default '',
+  `chanunavail_dest` varchar(255) NOT NULL default ''
 );
 
 --
