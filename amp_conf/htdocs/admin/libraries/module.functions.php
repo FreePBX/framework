@@ -1050,6 +1050,11 @@ function module_uninstall($modulename, $force = false) {
 	if (!_module_runscripts($modulename, 'uninstall')) {
 		return array(_("Failed to run un-installation scripts"));
 	}
+
+  // Now make sure all feature codes are uninstalled in case the module has not already done it
+  //
+  require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/featurecodes.class.php');
+  featurecodes_delModuleFeatures($modulename);
 	
 	needreload();
 	return true;
