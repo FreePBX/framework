@@ -45,6 +45,7 @@ CREATE TABLE `featurecodes` (
   `defaultcode` varchar(20) default NULL,
   `customcode` varchar(20) default NULL,
   `enabled` tinyint(4) NOT NULL default '0',
+  `providedest` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`modulename`,`featurename`)
 --   KEY `enabled` (`enabled`)
 );

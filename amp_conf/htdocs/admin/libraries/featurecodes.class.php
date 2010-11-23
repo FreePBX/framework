@@ -7,6 +7,7 @@ class featurecode
 	var $_defaultcode;	// Default code if user doesn't pick one
 	var $_customcode;	// Custom code
 	var $_enabled;		// Enabled/Disabled (0=disabled; 1=enabled; -1=unknown)
+	var $_providedest;		// 1=provide a featurecode destination for this code to modules
 	var $_loaded;		// If this feature code was succesfully loaded from the DB
 	var $_overridecodes;		// Overide defaults from featurecodes.conf
 
@@ -44,7 +45,7 @@ class featurecode
 				die_freepbx('FeatureCode: init already called!');
 		}
 			
-		$s = "SELECT description, defaultcode, customcode, enabled ";
+		$s = "SELECT description, defaultcode, customcode, enabled, providedest ";
 		$s .= "FROM featurecodes ";
 		$s .= "WHERE modulename = ".sql_formattext($this->_modulename)." AND featurename = ".sql_formattext($this->_featurename)." ";
 		
@@ -63,6 +64,7 @@ class featurecode
 			}
 			$this->_customcode = $res[2];
 			$this->_enabled = $res[3];
+			$this->_providedest = $res[4];
 			
 			$this->_loaded = true;
 
@@ -90,12 +92,13 @@ class featurecode
 			       'description = '.sql_formattext($this->_description).', '.
 			       'defaultcode = '.sql_formattext($this->_defaultcode).', '.
 			       'customcode = '.sql_formattext($this->_customcode).', '.
-			       'enabled = '.sql_formattext($this->_enabled).' '.
+			       'enabled = '.sql_formattext($this->_enabled).', '.
+			       'providedest = '.sql_formattext($this->_providedest).' '.
 			       'WHERE modulename = '.sql_formattext($this->_modulename).
 			       ' AND featurename = '.sql_formattext($this->_featurename);
 		} else {
-			$sql = 'INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled) '.
-			       'VALUES ('.sql_formattext($this->_modulename).', '.sql_formattext($this->_featurename).', '.sql_formattext($this->_description).', '.sql_formattext($this->_defaultcode).', '.sql_formattext($this->_customcode).', '.sql_formattext($this->_enabled).') ';
+			$sql = 'INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled, providedest) '.
+        'VALUES ('.sql_formattext($this->_modulename).', '.sql_formattext($this->_featurename).', '.sql_formattext($this->_description).', '.sql_formattext($this->_defaultcode).', '.sql_formattext($this->_customcode).', '.sql_formattext($this->_enabled).', '.sql_formattext($this->_providedest).') ';
 		}
 
 		sql($sql, 'query');
@@ -205,6 +208,22 @@ class featurecode
 		return ($this->_enabled == 1);
 	}
 
+	// SET to provide destinatinos
+	function setProvideDest($b = true) {
+		if (!$this->isReady())
+			$this->init(1);
+
+		$this->_providedest = ($b ? 1 : 0);
+	}
+	
+	// GET status if providing providedests
+	function isProvideDest() {
+		if (!$this->isReady())
+			$this->init(1);
+
+		return ($this->_providedest == 1);
+	}
+
 	function delete() {
 		$s = "DELETE ";
 		$s .= "FROM featurecodes ";
@@ -245,7 +264,7 @@ function featurecodes_getAllFeaturesDetailed($sort_module=true) {
 		$overridecodes = parse_ini_file($fd,true);
 	}
 	$s = "SELECT featurecodes.modulename, featurecodes.featurename, featurecodes.description AS featuredescription, featurecodes.enabled AS featureenabled, featurecodes.defaultcode, featurecodes.customcode, ";
-	$s .= "modules.enabled AS moduleenabled ";
+	$s .= "modules.enabled AS moduleenabled, featurecodes.providedest ";
 	$s .= "FROM featurecodes ";
 	$s .= "INNER JOIN modules ON modules.modulename = featurecodes.modulename ";
 	$s .= ($sort_module ? "ORDER BY featurecodes.modulename, featurecodes.description " : "ORDER BY featurecodes.description ");
