@@ -49,22 +49,6 @@ CREATE TABLE `featurecodes` (
   PRIMARY KEY  (`modulename`,`featurename`)
 --   KEY `enabled` (`enabled`)
 );
-INSERT INTO "featurecodes" VALUES('core', 'userlogon', 'User Logon', '*11', NULL, 1);
-INSERT INTO "featurecodes" VALUES('core', 'userlogoff', 'User Logoff', '*12', NULL, 1);
-INSERT INTO "featurecodes" VALUES('core', 'zapbarge', 'ZapBarge', '888', NULL, 1);
-INSERT INTO "featurecodes" VALUES('core', 'simu_pstn', 'Simulate Incoming Call', '7777', NULL, 1);
-INSERT INTO "featurecodes" VALUES('core', 'simu_fax', 'Dial System FAX', '666', NULL, 1);
-INSERT INTO "featurecodes" VALUES('core', 'chanspy', 'ChanSpy', '555', NULL, 1);
-INSERT INTO "featurecodes" VALUES('core', 'pickup', 'Directed Call Pickup', '**', NULL, 1);
-INSERT INTO "featurecodes" VALUES('core', 'pickupexten', 'Asterisk General Call Pickup', '*8', NULL, 1);
-INSERT INTO "featurecodes" VALUES('core', 'blindxfer', 'In-Call Asterisk Blind Transfer', '##', NULL, 1);
-INSERT INTO "featurecodes" VALUES('core', 'atxfer', 'In-Call Asterisk Attended Transfer', '*2', NULL, 1);
-INSERT INTO "featurecodes" VALUES('core', 'automon', 'In-Call Asterisk Toggle Call Recording', '*1', NULL, 1);
-INSERT INTO "featurecodes" VALUES('core', 'disconnect', 'In-Call Asterisk Disconnect Code', '**', NULL, 1);
-INSERT INTO "featurecodes" VALUES('voicemail', 'myvoicemail', 'My Voicemail', '*97', NULL, 1);
-INSERT INTO "featurecodes" VALUES('voicemail', 'dialvoicemail', 'Dial Voicemail', '*98', NULL, 1);
-INSERT INTO "featurecodes" VALUES('recordings', 'record_save', 'Save Recording', '*77', NULL, 1);
-INSERT INTO "featurecodes" VALUES('recordings', 'record_check', 'Check Recording', '*99', NULL, 1);
 CREATE TABLE `freepbx_log` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
   `time` datetime NOT NULL default '0000-00-00 00:00:00',

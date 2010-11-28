@@ -134,23 +134,6 @@ CREATE TABLE `featurecodes` (
 );
 
 --
--- Dumping data for table `featurecodes`
---
-
-
-/*!40000 ALTER TABLE `featurecodes` DISABLE KEYS */;
--- LOCK TABLES `featurecodes` WRITE;
-INSERT INTO `featurecodes` VALUES ('core','userlogon','User Logon','*11',NULL,1);
-INSERT INTO `featurecodes` VALUES ('core','userlogoff','User Logoff','*12',NULL,1);
-INSERT INTO `featurecodes` VALUES ('core','zapbarge','ZapBarge','888',NULL,1);
-INSERT INTO `featurecodes` VALUES ('core','simu_pstn','Simulate Incoming Call','7777',NULL,1);
-INSERT INTO `featurecodes` VALUES ('core','simu_fax','Simulate Incoming FAX Call','666',NULL,1);
-INSERT INTO `featurecodes` VALUES ('core','chanspy','ChanSpy','555',NULL,1);
-INSERT INTO `featurecodes` VALUES ('core','pickup','Call Pickup (Can be used with GXP-2000)','**',NULL,1);
--- UNLOCK TABLES;
-/*!40000 ALTER TABLE `featurecodes` ENABLE KEYS */;
-
---
 -- Table structure for table `freepbx_log`
 --
 
