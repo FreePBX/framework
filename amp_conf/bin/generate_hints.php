@@ -91,6 +91,7 @@
 		global $ast_with_dahdi;
 
 		$device_array = explode( '&', $devices );
+		$dialstring = '';
 		foreach ($device_array as $adevice) {
 			$dds = $astman->database_get('DEVICE',$adevice.'/dial');
 			$dialstring .= $dds.'&';

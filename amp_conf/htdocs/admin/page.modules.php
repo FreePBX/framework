@@ -13,18 +13,17 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 }
 
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
-$module_repo = isset($_REQUEST['module_repo'])?$_REQUEST['module_repo']:'supported';
+$module_repo = isset($_REQUEST['module_repo'])?htmlentities($_REQUEST['module_repo']):'supported';
 $repo = "http://mirror.freepbx.org/";
 if ($module_repo == "extended") {
 	$repo .= "extended-";
 }
 
 // can't go online if external management is on
-$online = (isset($_REQUEST['online']) && !EXTERNAL_PACKAGE_MANAGEMENT) ? $_REQUEST['online'] : false;
+$online = (isset($_REQUEST['online']) && !EXTERNAL_PACKAGE_MANAGEMENT) ? 1 : 0;
 
 // fix php errors from undefined variable. Not sure if we can just change the reference below to use
 // online since it changes values so just setting to what we decided it is here.
-$_REQUEST['online'] = $online ? 1 : 0;
 
 $moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false;
 /*
@@ -125,7 +124,7 @@ if (!$quietmode) {
 		//freepbx_modal_close('moduleBox');
 		freepbx_modal_hide('moduleBox');
 		if (goback) {
-      location.href = 'config.php?display=modules&amp;type=<?php echo $type ?>&amp;online=<?php echo ($_REQUEST['online']?1:0); ?>';
+      location.href = 'config.php?display=modules&amp;type=<?php echo $type ?>&amp;online=<?php echo $online; ?>';
 		}
 	}
 	</script>
@@ -152,11 +151,11 @@ if ($online) {
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
 		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Cannot connect to online repository (%s). Online modules are not available."), "mirror.freepbx.org")."</p></div><br />";
-		$online = false;
+		$online = 0;
 		unset($modules_online);
 	} else if (!is_array($modules_online)) {
 		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Error retrieving updates from online repository (%s). Online modules are not available."), "mirror.freepbx.org")."</p></div><br />";
-		$online = false;
+		$online = 0;
 		unset($modules_online);
 	} else {
 		// combine online and local modules
@@ -279,7 +278,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		if ($quietmode) {
 			echo "\t<a href=\"#\" onclick=\"parent.close_module_actions(true);\" />"._("Return")."</a>";
 		} else {
-			echo "\t<input type=\"button\" value=\""._("Return")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=$type&amp;online=".($_REQUEST['online']?1:0)."';\" />";
+			echo "\t<input type=\"button\" value=\""._("Return")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=$type&amp;online=".$online."';\" />";
 		echo "</div>";
 		}
 	break;
@@ -446,7 +445,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
 		}
-		echo "\t<input type=\"button\" value=\""._("Cancel")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=$type&amp;online=".($_REQUEST['online']?1:0)."';\" />";
+		echo "\t<input type=\"button\" value=\""._("Cancel")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=$type&amp;online=$online';\" />";
 		echo "</form>";
 		
 	break;
