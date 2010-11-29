@@ -27,6 +27,7 @@ class featurecode
 		$this->_modulename = $modulename;
 		$this->_featurename = $featurename;
 		$this->_enabled = -1;  // -1 means not initialised
+		$this->_providedest = 0;  // no destination by default
 		$this->_loaded = false;
 	}
 
