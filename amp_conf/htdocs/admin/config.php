@@ -399,9 +399,25 @@ if ($quietmode) {
 	$template['module_name'] = $module_name;
 	$template['module_page'] = $module_page;
 	if ($amp_conf['SERVERINTITLE']) {
-		$template['title'] = $_SERVER['SERVER_NAME']._(" FreePBX administration");
+		// set the servername
+		$server_hostname = '';
+		if (isset($_SESSION['session_hostname'])){
+			$server_hostname = $_SESSION['session_hostname'];
+		}else{
+			if (function_exists(gethostname)){
+				$server_hostname = trim(gethostname());
+			}else{
+				$server_hostname = trim(php_uname('n'));
+			}
+			if ($server_hostname != ''){
+				$server_hostname = ' (' . substr($server_hostname, 0, 30) . ')';
+			}
+			$_SESSION['session_hostname'] = $server_hostname;
+		}
+
+		$template['title'] = $_SERVER['SERVER_NAME'] . $server_hostname . ' - ' . _('FreePBX administration');
 	} else {
-		$template['title'] = _("FreePBX administration");
+		$template['title'] = _('FreePBX administration');
 	}
 	$template['amp_conf'] = &$amp_conf;
 	$template['reload_needed'] = check_reload_needed();
