@@ -45,6 +45,8 @@ class PhoneFeatures {
 				$this->storePhoneSetting( $args, $exten, 'call_waiting', 'CW', 'ENABLED');
 				$this->storePhoneSetting( $args, $exten, 'do_not_disturb', 'DND', 'YES');
 				$this->storeCallScreen( $args, $exten);
+				$this->storeRingtimer($args, $exten, 'ringtimer');
+				$this->storeRingtimer($args, $exten, 'cfringtimer');
 			}
 		}
 		
@@ -98,6 +100,9 @@ function display($args) {
 			$dnd_cw_text.=  $this->displayPhoneControls( $exten, 'call_waiting', 'CW', _("Call Waiting"));
 			$dnd_cw_text.=  $this->displayPhoneControls( $exten, 'do_not_disturb', 'DND', _("Do Not Disturb"));
 			$dnd_cw_text.=  $this->displayCallScreenControls( $exten);
+			
+			$dnd_cw_text.=  $this->displayRingTimerControls($exten, 'ringtimer');
+			$dnd_cw_text.=  $this->displayRingTimerControls($exten, 'cfringtimer');
 			
 			$dnd_cw_text .= "</table>";
 		}
@@ -430,5 +435,66 @@ return $ret;
 		return $ret;
 	}
 
+//*****************************************************************************
+	function storeRingtimer($args, $exten, $type) {
+
+		global $astman;
+		
+		$ringtimer = (int) getArgument( $args, $type);
+		
+		if ($ringtimer > 120)
+			$ringtimer = 120;
+			
+		switch($type){
+			case 'cfringtimer':
+				if ($ringtimer < -1)
+					$ringtimer = -1;
+					
+				$astman->database_put("AMPUSER", $exten . '/cfringtimer', $ringtimer);
+				break;
+			case 'ringtimer':
+				if ($ringtimer < 0)
+					$ringtimer = 0;
+					
+				$astman->database_put("AMPUSER", $exten . '/ringtimer', $ringtimer);
+				break;
+		}
+	}
+
+//*****************************************************************************
+	function getRingTimer($exten, $type) {
+
+		global $astman;
+
+		$ringtimer = (int) $astman->database_get("AMPUSER", $exten . '/' . $type);
+
+		return $ringtimer;
+	}
+
+//*****************************************************************************
+	function displayRingTimerControls($exten, $type)
+	{
+
+		$ringtimer = $this->getRingTimer($exten, $type);
+
+		$ret = "\n<tr>";
+		if($type == 'cfringtimer')
+			$ret.= "<td><a href='#' class='info'>" . _("CallForward Ringtimer:") . "<span>" . _("Number of seconds to ring prior to going to voicemail or other fail over destinations that may be setup by an administrator on this account. The Always setting will ring the call forward destinaiton until answered or the caller hangs up. The Default setting will use the value set in Ring Time. Your setting here will be forced to Always if there is no Voicemail or alternartive fail over destination for a call to go to.") . " </span></a></td>";
+		else
+			$ret.= "<td><a href='#' class='info'>" . _("Ringtimer:") . "<span>" . _("Number of seconds to ring prior to going to voicemail or ringing other numbers that may be configured such as a Call Forward Unavailabe or an Unavailable destination that may be configured by your administrator. The Default setting will use the value set for the PBX.") . " </span></a></td>";
+		$ret .= "<td>";
+		$ret .= "<select name='$type'>";
+		$ret .=  '<option value="0" ' . (0 == $ringtimer ? 'selected' : '') . '>' . _("Default") . '</option>';
+		if($type == 'cfringtimer')
+			$ret .=  '<option value="-1" ' . (-1 == $ringtimer ? 'selected' : '') . '>' . _("Always") . '</option>';
+		for ($i=1; $i <= 120; $i++) {
+			$ret .=  '<option value="' . $i . '" ' . ($i == $ringtimer ? 'selected' : '') . '>' . $i . '</option>';
+		}
+		$ret .= "</select>";
+		$ret .= "</td>";
+		$ret .= "</tr>\n";
+		
+		return $ret;
+	}
 } // class
 ?>
