@@ -831,13 +831,13 @@ function module_handleupload($uploaded_file) {
 		return $errors;
 	}
 	
-	if (!preg_match('/\.(tar\.gz|tgz)$/', $uploaded_file['name'])) {
-		$errors[] = _("File must be in tar+gzip (.tgz or .tar.gz) format");
+	if (!preg_match('/\.(tar\.gz|tgz|tar)$/', $uploaded_file['name'])) {
+		$errors[] = _("File must be in tar or tar+gzip (.tar, .tgz or .tar.gz) format");
 		return $errors;
 	}
 	
-	if (!preg_match('/^([A-Za-z][A-Za-z0-9_]+)\-([0-9a-zA-Z]+(\.[0-9a-zA-Z]+)*)\.(tar\.gz|tgz)$/', $uploaded_file['name'], $matches)) {
-		$errors[] = _("Filename not in correct format: must be modulename-version.tar.gz (eg. custommodule-0.1.tar.gz)");
+	if (!preg_match('/^([A-Za-z][A-Za-z0-9_]+)\-([0-9a-zA-Z]+(\.[0-9a-zA-Z]+)*)\.(tar\.gz|tgz|tar)$/', $uploaded_file['name'], $matches)) {
+		$errors[] = _("Filename not in correct format: must be modulename-version.[tar|tar.gz|tgz] (eg. custommodule-0.1.tgz)");
 		return $errors;
 	} else {
 		$modulename = $matches[1];
@@ -852,9 +852,10 @@ function module_handleupload($uploaded_file) {
 	
 	move_uploaded_file($uploaded_file['tmp_name'], $filename);
 	
-	exec("tar ztf ".escapeshellarg($filename), $output, $exitcode);
+  $tar_z_arg = substr($uploaded_file['name'],-4) == '.tar' ? '' : 'z';
+	exec("tar ".$tar_z_arg."tf ".escapeshellarg($filename), $output, $exitcode);
 	if ($exitcode != 0) {
-		$errors[] = _("Error untaring uploaded file. Must be a tar+gzip file");
+		$errors[] = _("Error untaring uploaded file. Must be a tar or tar+gzip file");
 		return $errors;
 	}
 	
@@ -878,7 +879,7 @@ function module_handleupload($uploaded_file) {
 	if ($exitcode != 0) {
 		return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulenam));
 	}
-	exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
+	exec("tar ".$tar_z_arg."xf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 	if ($exitcode != 0) {
 		return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
 	}
