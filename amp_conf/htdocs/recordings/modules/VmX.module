@@ -55,7 +55,7 @@ class VmX {
 				
 				// and vmx is enabled for this user
 				if ($vmx_enabled !== false)
-					$ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] .  "?m=VmX&f=display'>" . _("Personal IVR") . "</a></small></small>"; 
+					$ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] .  "?m=VmX&f=display'>" . _("VmX&#8482 Locator") . "</a></small></small>"; 
 					return $ret;
 			} else {
 					return false;
