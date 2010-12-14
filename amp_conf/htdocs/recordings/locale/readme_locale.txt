@@ -1,5 +1,5 @@
 // To create the .pot (this is done by the development team now):
-$ find ../includes/*.php ../modules/*.module ../misc/*.php ../theme/*.php | xargs xgettext -L PHP -o ../locale/ari.pot --keyword=_ -
+$ find ../includes/*.php ../modules/*.module ../misc/*.php ../theme/*.php | xargs xgettext --no-location -L PHP -o ../locale/ari.pot --keyword=_ -
 
 // To create the utf-8 .po  
 // This is only needed once as all new localization should be utf-8
@@ -37,6 +37,8 @@ msgmerge -N it_IT/LC_MESSAGES/ari.po ari.pot --output-file=it_IT/LC_MESSAGES/ari
 msgfmt -v it_IT/LC_MESSAGES/ari.po -o it_IT/LC_MESSAGES/ari.mo
 msgmerge -N pt_BR/LC_MESSAGES/ari.po ari.pot --output-file=pt_BR/LC_MESSAGES/ari.po
 msgfmt -v pt_BR/LC_MESSAGES/ari.po -o pt_BR/LC_MESSAGES/ari.mo
+msgmerge -N ru_RU/LC_MESSAGES/ari.po ari.pot --output-file=ru_RU/LC_MESSAGES/ari.po
+msgfmt -v ru_RU/LC_MESSAGES/ari.po -o ru_RU/LC_MESSAGES/ari.mo
 msgmerge -N sv_SE/LC_MESSAGES/ari.po ari.pot --output-file=sv_SE/LC_MESSAGES/ari.po
 msgfmt -v sv_SE/LC_MESSAGES/ari.po -o sv_SE/LC_MESSAGES/ari.mo
 msgmerge -N uk_UA/LC_MESSAGES/ari.po ari.pot --output-file=uk_UA/LC_MESSAGES/ari.po

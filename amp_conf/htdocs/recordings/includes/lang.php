@@ -99,6 +99,7 @@ class Language {
             <option value='hu_HU' " . ($_COOKIE['ari_lang']=='hu_HU' ? 'selected' : '') .  ">Hungarian</option>
             <option value='it_IT' " . ($_COOKIE['ari_lang']=='it_IT' ? 'selected' : '') .  ">Italian</option>
             <option value='pt_BR' " . ($_COOKIE['ari_lang']=='pt_BR' ? 'selected' : '') .  ">Portuguese</option>
+            <option value='ru_RU' " . ($_COOKIE['ari_lang']=='ru_RU' ? 'selected' : '') .  ">Russki</option>
             <option value='sv_SE' " . ($_COOKIE['ari_lang']=='sv_SE' ? 'selected' : '') .  ">Swedish</option>
             <option value='zh_TW' " . ($_COOKIE['ari_lang']=='zh_TW' ? 'selected' : '') .  ">Traditional Chinese</option>
             <option value='uk_UA' " . ($_COOKIE['ari_lang']=='uk_UA' ? 'selected' : '') .  ">Ukrainian</option>
