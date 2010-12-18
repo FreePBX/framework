@@ -155,6 +155,7 @@ class connectdirs {
 //
 function report_errors($errno, $errstr, $errfile, $errline) {
 	global $cp_errors;
+	global $db_engine;
 	switch($db_engine) {
 		case "sqlite3": 
 			$escaped_string = sqlite_real_escape($errstr);
