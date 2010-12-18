@@ -1286,7 +1286,12 @@ class ext_musiconhold extends extension {
 
 class ext_setmusiconhold extends extension {
 	function output() {
-		return "SetMusicOnHold(".$this->data.")";
+    global $version; // Asterisk Version
+    if (version_compare($version, "1.4", "lt")) {
+		  return "SetMusicOnHold(".$this->data.")";
+    } else {
+		  return "Set(CHANNEL(musicclass)=".$this->data.")";
+    }
 	}
 }
 
