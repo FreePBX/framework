@@ -523,6 +523,26 @@ if ($amp_conf['DISABLECUSTOMCONTEXTS']) {
   $ext->disableCustomContexts(true);
 }
 
+$engineinfo = engine_getinfo();
+if($engineinfo['version'] == 0){
+	freepbx_log('retrieve_conf', 'fatal', "Failed to get engine information (engine_getinfo: {$engineinfo['engine']})");
+	fatal(_("Failed to get engine_info"),_("retreive_conf failed to get engine information and cannot configure up a softwitch with out it. Error: {$engineinfo['engine']}"));
+}
+// was setting these variables before, assume we still need them
+$engine = $engineinfo['engine'];
+$version = $engineinfo['version'];
+$chan_dahdi = ast_with_dahdi();
+
+$has_func_shared = false;
+if (version_compare($version, '1.6', 'lt')) {
+  $response = $astman->send_request('Command', array('Command' => 'module show like func_shared'));
+  if (preg_match('/1 modules loaded/', $response['data'])) {
+    $has_func_shared = true;
+  }
+} else {
+  $has_func_shared = true;
+}
+
 // create objects for any module classes
 // currently only 1 class can be declared per module, not sure if that will be an issue
 if(isset($active_modules) && is_array($active_modules)){
@@ -535,19 +555,9 @@ if(isset($active_modules) && is_array($active_modules)){
 	}
 }
 
-$engineinfo = engine_getinfo();
-if($engineinfo['version'] == 0){
-	freepbx_log('retrieve_conf', 'fatal', "Failed to get engine information (engine_getinfo: {$engineinfo['engine']})");
-	fatal(_("Failed to get engine_info"),_("retreive_conf failed to get engine information and cannot configure up a softwitch with out it. Error: {$engineinfo['engine']}"));
-}
-// was setting these variables before, assume we still need them
-$engine = $engineinfo['engine'];
-$version = $engineinfo['version'];
-$chan_dahdi = ast_with_dahdi();
 
 // Check for and report any extension conflicts
 //
-
 $extens_ok = true;
 $dests_ok = true;
 
