@@ -404,7 +404,7 @@ if ($quietmode) {
 		if (isset($_SESSION['session_hostname'])){
 			$server_hostname = $_SESSION['session_hostname'];
 		}else{
-			if (function_exists(gethostname)){
+			if (function_exists('gethostname')){
 				$server_hostname = trim(gethostname());
 			}else{
 				$server_hostname = trim(php_uname('n'));
