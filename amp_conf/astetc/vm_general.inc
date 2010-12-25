@@ -18,7 +18,7 @@ nextaftercmd=yes		; Automagically play next message when current message is dele
 
 ; Asterisk post 1.6.2 options the minmessage and maxmessage are deprecated in favor of these
 ; which are per user settable also:
-;maxsecs=180          	; max length of vm message
+;maxsecs=180          		; max length of vm message
 ;minsecs=3			; Minimum length of a voicemail message in seconds
 
 ; If using Asterisk 1.6 and ARI or other sources for mail, you should set pollmailboxes to
@@ -29,8 +29,14 @@ nextaftercmd=yes		; Automagically play next message when current message is dele
 ; If using IMAP storage, the username and password are specified in the user/extension  
 ; configuration, while the global settings are here 
 ;  
-;imapserver=server.domain.com      ; Specify the IP address or hostname of the IMAP server 
-;imapflags=notls      ; Specify any IMAP flags needed here ("notls" for example) 
-;imapfolder=Inbox      ; Specify the IMAP folder where voicemails and/or greetings are stored 
-;expungeonhangup=yes      ; Mark messages for deletion on hangup 
-;imapgreetings=yes      ; Store greetings in IMAP as well 
+;imapserver=server.domain.com   ; Specify the IP address or hostname of the IMAP server 
+;imapflags=notls      		; Specify any IMAP flags needed here ("notls" for example) 
+;imapfolder=Inbox      		; Specify the IMAP folder where voicemails and/or greetings are stored 
+;expungeonhangup=yes      	; Mark messages for deletion on hangup 
+;imapgreetings=yes      	; Store greetings in IMAP as well 
+;
+;forcename=yes         		; Forces a new user to record their name.  A new user is
+                    		; determined by the password being the same as
+                    		; the mailbox number.  The default is "no".
+;forcegreetings=yes    		; This is the same as forcename, except for recording
+                    		; greetings.  The default is "no".
