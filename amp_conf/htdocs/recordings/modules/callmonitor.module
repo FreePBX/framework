@@ -131,7 +131,7 @@ class Callmonitor {
     $data = $this->getCdrData($q,$duration_filter,$start,$span,$order,$sort);
 
     // get the call monitor recording files
-    $paths = split(';',$ASTERISK_CALLMONITOR_PATH);
+    $paths = preg_split('/;/',$ASTERISK_CALLMONITOR_PATH);
     foreach($paths as $key => $path) {
       if (!is_dir($path)) {
         $_SESSION['ari_error'] .= sprintf(_("Path is not a directory: %s"),$path) . "<br>";
