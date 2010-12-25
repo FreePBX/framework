@@ -191,8 +191,13 @@ class DisplaySearch extends Display {
     $url = $_SESSION['ARI_ROOT'] . "?m=" . $m . "&q=" . $unicode_q . $option_text;
 
     // build
+
+    if ($total != 0){ //if there is at least one voicemail, label "Page" otherwise keep it blank
+       $start_page_text="<small>Page: </small>";
+       }
+
     if ($start_page!=0) {
-      $start_page_text = "<a href='" . $url . "&start=0'><small>" . _("First") . "</a>&nbsp;</small>
+      $start_page_text .= "<a href='" . $url . "&start=0'><small>" . _("First") . "</a>&nbsp;</small>
 			<a href=" . $url . "&start=" . ($start-$span) . "><small><</a>&nbsp;</small>";
     }
 
