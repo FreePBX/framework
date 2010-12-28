@@ -26,17 +26,6 @@ if (! function_exists("outn")) {
 	}
 }
 
-if (!function_exists('sql')) {
-  function sql($sql,$type="query",$fetchmode=null) {
-	  global $db;
-	  $results = $db->$type($sql,$fetchmode);
-	  if(DB::IsError($results)) {
-		  die($results->getDebugInfo() . "SQL - <br /> $sql" );
-	  }
-	  return $results;
-  }
-}
-
 //check if we have custom context installed, and migrate them if we do
 $sql = 'DESCRIBE customcontexts_includes_list';
 $test = $db->getAll($sql);
@@ -65,7 +54,10 @@ if(!DB::IsError($test)) {
 				 * oh well...
 				 */
 				$sql = "SELECT a.*, b.seq FROM `outbound_routes` a JOIN `outbound_route_sequence` b ON a.route_id = b.route_id ORDER BY `seq`";
-				$routes = sql($sql,"getAll",DB_FETCHMODE_ASSOC);
+				$routes = $db->getAll($sql,DB_FETCHMODE_ASSOC);
+				if(DB::IsError($routes)) {
+					die($routes->getDebugInfo() . "SQL - <br /> $sql" );
+				}
 				$newincludes = array();
 				foreach ($includes as $inc => $myinclude) {
 					$include = explode('-',$myinclude['include'],3);

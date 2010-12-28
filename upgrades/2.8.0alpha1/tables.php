@@ -2,17 +2,6 @@
 global $amp_conf;
 global $db;
 
-if (!function_exists('sql')) {
-  function sql($sql,$type="query",$fetchmode=null) {
-	  global $db;
-	  $results = $db->$type($sql,$fetchmode);
-	  if(DB::IsError($results)) {
-		  die($results->getDebugInfo() . "SQL - <br /> $sql" );
-	  }
-	  return $results;
-  }
-}
-
 /*  fix manager.conf settings for older manager.conf files being upgraded as new permissions are needed for later releases of Asterisk
  *  in english, this is limited to everything between the AMPMGRUSER section and any new section the user may have edited. It replaces
  *  everything to the right of a 'read =' or 'write =' permission line with the full set of permissoins Asterisk offers.
@@ -208,10 +197,16 @@ if (DB::IsError($result) && $result->getCode() == DB_ERROR_ALREADY_EXISTS ) {
 function __core_routing_getroutenames() 
 {
 	global $amp_conf;
+	global $db;
 	
 	if ($amp_conf["AMPDBENGINE"] == "sqlite3") 
 	{
-		$results = sql("SELECT DISTINCT context FROM extensions WHERE context LIKE 'outrt-%' ORDER BY context ","getAll");
+		$sql = "SELECT DISTINCT context FROM extensions WHERE context LIKE 'outrt-%' ORDER BY context ";
+		$results = $db->getAll($sql);
+		if(DB::IsError($results)) {
+			die($results->getDebugInfo() . "SQL - <br /> $sql" );
+		}
+
 		foreach( array_keys($results) as $idx )
 		{
 			 $results[$idx][0] = substr( $results[$idx][0], 6);
@@ -219,7 +214,11 @@ function __core_routing_getroutenames()
 	}
 	else
 	{
-		$results = sql("SELECT DISTINCT SUBSTRING(context,7) FROM extensions WHERE context LIKE 'outrt-%' ORDER BY context ","getAll");
+		$sql = "SELECT DISTINCT SUBSTRING(context,7) FROM extensions WHERE context LIKE 'outrt-%' ORDER BY context ";
+		$results = $db->getAll($sql);
+		if(DB::IsError($results)) {
+			die($results->getDebugInfo() . "SQL - <br /> $sql" );
+		}
 	}
 	return $results;
 }
