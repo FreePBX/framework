@@ -36,8 +36,8 @@
  */
 $VERSION = "2.9";
 
-$NORMAL_URL =  "http://svn.freepbx.org/freepbx/branches/$VERSION/amp_conf/htdocs/admin/modules";
-$MODULE_URL  = "http://svn.freepbx.org/modules/branches/$VERSION";
+$NORMAL_URL =  "http://www.freepbx.org/v2/svn/freepbx/branches/$VERSION/amp_conf/htdocs/admin/modules";
+$MODULE_URL  = "http://www.freepbx.org/v2/svn/modules/branches/$VERSION";
 $MODULE_PATH = "./amp_conf/htdocs/admin/modules";
 
 if (isset($argv[1]) && strtolower($argv[1]) == "restore") {
