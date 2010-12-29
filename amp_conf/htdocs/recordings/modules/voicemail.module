@@ -256,8 +256,6 @@ class Voicemail {
 				$body .= "Please listen to the attached recordings.  Thank you." . $line_end;
 			}
 			$body .= $line_end;
-
-			$body .= "--{$boundary}" . $line_end;
 			$wav_pat = '/wav$/i';
 			$gsm_pat = '/gsm$/i';
 			$att_counter = -1;
@@ -285,17 +283,14 @@ class Voicemail {
 				$body .= "Content-Transfer-Encoding: base64" . $line_end;
 				$body .= $line_end;
 
-				$att_data = chunk_split(base64_encode($file_data));
-
-				$body .= $attachments[$att_counter] .= $att_data;
-				$body .= $attachments[$att_counter] .= $line_end;
+				$body .= chunk_split(base64_encode($file_data));
+				$body .= $line_end;
 			}
 
 			$body .= $line_end;
 			$body .= "--{$boundary}--";
 
 			$email_message = $headers . $body;
-
 			// If alternate mailer is defined in voicemail.conf, use it.
 			if (function_exists("parse_voicemailconf")) {
 				global $amp_conf;
@@ -318,7 +313,6 @@ class Voicemail {
 			} else {
 				$_SESSION['ari_error'] .= _("Mail operation failed"); 
 			}
-
 		} else {
 			$_SESSION['ari_error'] = _("No valid email address given.  Please try again.");
 		}
@@ -333,7 +327,8 @@ class Voicemail {
       <head>
         <script>
         <!--
-          window.location = \"" . $_SESSION['ARI_ROOT'] . "?m=" . $m . "&folder=" . $folder . "&q=" . urlencode($q) . "&start=" . $start . "&span=" . $span . "&order=" . $order . "&sort=" . $sort . "\"
+          window.location = \"" . $_SESSION['ARI_ROOT'] . "?m=" . $m . "&folder=" . $folder . "&q=" . urlencode($q) . "&start=" . $start . "&span=" . $span . "&order=" . $order . "&sort=" . $sort . 
+"\"
         // -->
         </script>
       </head>";
@@ -525,7 +520,8 @@ class Voicemail {
       }
 
       $unicode_q = urlencode($q);
-      $recording_header .= "<th><a href=" .  $_SESSION['ARI_ROOT'] . "?m=" . $m . "&f=" . $f . "&q=" . $unicode_q . "&folder=" . $folder . "&order=" . $field . "&sort=" . $currentSort . ">" . $text . $arrowImg . "</a></th>";
+      $recording_header .= "<th><a href=" .  $_SESSION['ARI_ROOT'] . "?m=" . $m . "&f=" . $f . "&q=" . $unicode_q . "&folder=" . $folder . "&order=" . $field . "&sort=" . $currentSort . ">" . $text . 
+$arrowImg . "</a></th>";
 
       $i++;
     }
@@ -551,10 +547,12 @@ class Voicemail {
         $duration = $value[duration];
         if (is_file($recording)) {
           $_SESSION['ari_user']['recfiles'][$i] = $recording;
-	  $recordingLink = "<a href='#' onClick=\"javascript:playback('play', $playbackRow, 'misc/play_page.php?recindex=" . $i . "'); return false;\"><img src='theme/images/sound.png' title=" . _("Play") . "></img></a>";
+	  $recordingLink = "<a href='#' onClick=\"javascript:playback('play', $playbackRow, 'misc/play_page.php?recindex=" . $i . "'); return false;\"><img src='theme/images/sound.png' title=" . 
+_("Play") . "></img></a>";
 	  $callmePage		= "'misc/callme_page.php?recindex=" . $i . "&callmenum=" . $this->callme_num . "&action=c&msgFrom=" . $extension . "'";
 	  $callme_tooltip	= _("Play message at: ") . $this->callme_num;
-	  $callmeLink = "<a href='#' onClick=\"javascript:playback('callme', $playbackRow, $callmePage); return false;\"><img src='theme/images/telephone.png' title='" . $callme_tooltip . "'></img></a>";
+	  $callmeLink = "<a href='#' onClick=\"javascript:playback('callme', $playbackRow, $callmePage); return false;\"><img src='theme/images/telephone.png' title='" . $callme_tooltip . 
+"'></img></a>";
 	  $downloadLink = "<a href=misc/audio.php?recindex=" . $i . "><img src='theme/images/drive_go.png' title=" . _("Download") . "></img></a>";
         }
         else {
@@ -1033,6 +1031,5 @@ class Voicemail {
   }
 
 }
-
 
 ?>
