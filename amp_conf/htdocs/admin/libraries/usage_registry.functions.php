@@ -420,4 +420,38 @@ function framework_list_extension_conflicts($module_hash=false) {
 		return $conflict_hash;
 	}
 }
+
+/** check if a specific destination is being used, or get a list of all destinations that are being used
+ * @param string    the old destination that is being changed
+ * @param string    the new destination that is replacing the old
+ * @param array     a hash of module names to search for callbacks, otherwise global $active_modules is used
+ * @return integer  returns the number of records that were updated
+ * @description     has each module replace their destination information with another one, used if you are
+ *                  assigning a new number to something such as a conference room that may be used as a destination
+ *                                               
+ */
+function framework_change_destination($old_dest, $new_dest, $module_hash=false) {
+	global $db, $active_modules;
+
+	$old_dest = $db->escapeSimple($old_dest);
+	$new_dest = $db->escapeSimple($new_dest);
+
+	if (!is_array($module_hash)) {
+		$module_hash = $active_modules;
+	}
+
+	$total_updated = 0;
+	$mods = array_keys($module_hash);
+	unset($mods[array_search('framework',$mods)]);
+
+	foreach($mods as $mod) {
+		$function = $mod."_change_destination";
+		if (function_exists($function)) {
+			$total_updated += $function($old_dest, $new_dest);
+		}
+	}
+	return $total_update;
+}
+
+
 ?>

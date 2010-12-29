@@ -196,11 +196,11 @@ function fileRequestHandler($handler, $module = false, $file = false){
 					if (file_exists($fullpath)) {
 						// file exists, and is allowed extension
 
-						// image, css, js types - set Expires to an hour in advance so the client does
+						// image, css, js types - set Expires to 24hrs in advance so the client does
 						// not keep checking for them. Replace from header.php
 						if (!$amp_conf['DEVEL']) {
-							@header('Expires: '.gmdate('D, d M Y H:i:s', time()+3600).' GMT', true);
-							@header('Cache-Control: ',true); 
+							@header('Expires: '.gmdate('D, d M Y H:i:s', time() + 86400).' GMT', true);
+							@header('Cache-Control: max-age=86400, public, must-revalidate',true); 
 							@header('Pragma: ', true); 
 						}
 						@header("Content-type: ".$mimetype);

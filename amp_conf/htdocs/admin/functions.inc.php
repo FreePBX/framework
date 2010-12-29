@@ -868,18 +868,11 @@ function runModuleSQL($moddir,$type){
 
 /** Log a debug message to a debug file
  * @param  string   debug message to be printed
- * @param  string   optional mode, default 'a'
- * @param  string   optional filename, default /tmp/freepbx_debug.log
+ * @param  string   depreciated
+ * @param  string   depreciated
  */
-function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log') {
-	$fh = fopen($filename,$option);
-	fwrite($fh,date("Y-M-d H:i:s")."\n");//add timestamp
-	if (is_array($string) || is_object($string)) {
-		fwrite($fh,print_r($string,true)."\n");
-	} else {
-		fwrite($fh,$string."\n");
-	}
-	fclose($fh);
+function freepbx_debug($string, $option='', $filename='') {
+	dbug($string);
 }
  /* 
   * FreePBX Debugging function
@@ -893,55 +886,69 @@ function freepbx_debug($string, $option='a', $filename='/tmp/freepbx_debug.log')
   * 	 
  	*/  
 function dbug(){
-	$opts=func_get_args();
-	//call_user_func_array('freepbx_debug',$opts);
-	$dump=0;
+	$opts = func_get_args();
+
+	$dump = 0;
 	//sort arguments
-	switch(count($opts)){
+	switch (count($opts)) {
 		case 1:
-			$msg=$opts[0];
-		break;
+			$msg		= $opts[0];
+			break;
 		case 2:
-			if(is_array($opts[0])||is_object($opts[0])){
-				$msg=$opts[0];
-				$dump=$opts[1];
-			}else{
-				$disc=$opts[0];
-				$msg=$opts[1];
+			if ( is_array($opts[0]) || is_object($opts[0]) ) {
+				$msg	= $opts[0];
+				$dump	= $opts[1];
+			} else {
+				$disc	= $opts[0];
+				$msg	= $opts[1];
 			}
-		break;
+			break;
 		case 3:
-			$disc=$opts[0];
-			$msg=$opts[1];
-			$dump=$opts[2];
-		break;	
+			$disc		= $opts[0];
+			$msg		= $opts[1];
+			$dump		= $opts[2];
+			break;	
 	}
-	if($disc){$disc=' \''.$disc.'\':';}
-	$txt=date("Y-M-d H:i:s").$disc."\n"; //add timestamp
-	dbug_write($txt,1);
-	if($dump==1){//force output via var_dump
+	
+	if ($disc) {
+		$disc = ' \'' . $disc . '\':';
+	}
+	
+	$bt = debug_backtrace();
+	$txt = date("Y-M-d H:i:s") 
+		. "\t" . $bt[0]['file'] . ':' . $bt[0]['line'] 
+		. "\n\n"
+		. $disc 
+		. "\n"; //add timestamp + file info
+	dbug_write($txt);
+	if ($dump==1) {//force output via var_dump
 		ob_start();
 		var_dump($msg);
 		$msg=ob_get_contents();
 		ob_end_clean();
-		dbug_write($msg."\n");
-	}elseif(is_array($msg)||is_object($msg)){
-		dbug_write(print_r($msg,true)."\n");
-	}else{
-		dbug_write($msg."\n");
+		dbug_write($msg."\n\n\n");
+	} elseif(is_array($msg)||is_object($msg)) {
+		dbug_write(print_r($msg,true)."\n\n\n");
+	} else {
+		dbug_write($msg."\n\n\n");
 	}
 }
 
 function dbug_write($txt,$check=''){
 	global $amp_conf;
-	$append=FILE_APPEND;
+	$append=false;
 	//optionaly ensure that dbug file is smaller than $max_size
 	if($check){
-		$max_size=52428800;//hardcoded to 50MB. is that bad? not enough?
-		$size=filesize($amp_conf['FPBXDBUGFILE']);
-		$append=(($size > $max_size)?'':FILE_APPEND);
+		$max_size = 52428800;//hardcoded to 50MB. is that bad? not enough?
+		$size = filesize($amp_conf['FPBXDBUGFILE']);
+		$append = (($size > $max_size) ? false : true );
 	}
-	file_put_contents($amp_conf['FPBXDBUGFILE'],$txt, $append);
+	if ($append) {
+		file_put_contents($amp_conf['FPBXDBUGFILE'],$txt);
+	} else {
+		file_put_contents($amp_conf['FPBXDBUGFILE'],$txt, FILE_APPEND);
+	}
+	
 }
 /** Log an error to the (database-based) log
  * @param  string   The section or script where the error occurred
