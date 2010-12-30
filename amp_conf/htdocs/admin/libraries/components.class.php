@@ -720,6 +720,8 @@ class gui_drawselects extends guiinput {
 			$jsvalidationtest ='!$("[name=goto'.$index.']").val()';
 			if (!$failvalidationmsg) $failvalidationmsg = _('Please select a valid destination.');
 		}
+    $jsvalidation = isset($jsvalidation) ? $jsvalidation : '';
+    $jsvalidationtest = isset($jsvalidationtest) ? $jsvalidationtest : '';
 		parent::$parent_class($elemname, '', $prompttext, $helptext, $jsvalidation, $failvalidationmsg, '', $jsvalidationtest);
 		
 		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg);
