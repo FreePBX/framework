@@ -45,10 +45,6 @@ if (!isset($amp_conf)) {
   $amp_conf = array();
 }
 
-$base = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http");
-$base .= "://".$_SERVER['HTTP_HOST'];
-$base .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
-$base = trim($base, '/') . '/';
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- should also validate ok with DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/xhtml1-transitional.dtd" -->
@@ -58,7 +54,6 @@ $base = trim($base, '/') . '/';
 	<title><?php  echo _($title) ?></title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
-	<base href="<?php echo $base; ?>" />
 	<link href="common/mainstyle.css" rel="stylesheet" type="text/css" />
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>
 	<style type="text/css">
