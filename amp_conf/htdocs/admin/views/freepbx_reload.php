@@ -100,6 +100,7 @@
 					error: function(reqObj, status) {
 						$('#reload_response').html(
 							'<p>' + "<?php echo _("Error: Did not receive valid response from server"); ?>" + "<\/p>" + 
+              "<p>XHR response code: " + reqObj.status + " XHR responseText: " + reqObj.resonseText + " jQuery status: " + status  + "<\/p>" +
 							'<div class="buttons"><a id="reload_response_close_btn" href="#" onclick="freepbx_stop_reload();"><img src="images/cancel.png" height="16" width="16" border="0" alt="<?php echo _('Close'); ?>" />&nbsp;<?php echo _('Close'); ?>' + "<\/a><\/div>"
 						);
 						$("#reload_reloading").slideUp(150, function() {
