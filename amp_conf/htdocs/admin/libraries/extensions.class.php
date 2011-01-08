@@ -319,11 +319,14 @@ class extensions {
 						//echo "[$section] $extension $idx\n";
 						//var_dump($ext);
 							
-						$output .= "exten => ".$extension.",".
-							$ext['basetag'].
-							($ext['addpri'] ? '+'.$ext['addpri'] : '').
-							($ext['tag'] ? '('.$ext['tag'].')' : '').
-							",".$ext['cmd']->output()."\n";
+            $this_cmd = $ext['cmd']->output();
+            if ($this_cmd !== false) {
+						  $output .= "exten => ".$extension.",".
+							  $ext['basetag'].
+							  ($ext['addpri'] ? '+'.$ext['addpri'] : '').
+							  ($ext['tag'] ? '('.$ext['tag'].')' : '').
+							  ",". $this_cmd ."\n";
+            }
 					}
 					if (isset($this->_hints[$section][$extension])) {
 						foreach ($this->_hints[$section][$extension] as $hint) {
@@ -545,6 +548,24 @@ class ext_gotoiftime extends extension {
 class ext_noop extends extension {
 	function output() {
 		return "Noop(".$this->data.")";
+	}
+}
+
+class ext_noop_trace extends extension {
+  var $string;
+  var $level;
+  
+  function ext_noop_trace($string,$level=3) {
+    $this->string = $string;
+    $this->level = $level;
+  }
+	function output() {
+    global $amp_conf;
+    if ($amp_conf['NOOPTRACE'] != "" && ctype_digit($amp_conf['NOOPTRACE']) && $amp_conf['NOOPTRACE'] >= $this->level) {
+      return "Noop([TRACE](".$this->level.") ".$this->string.")";
+    } else {
+		  return false;
+    }
 	}
 }
 

@@ -15,8 +15,9 @@ $amp_conf_defaults = array(
 	'FOPSORT'        => array('std' , 'extension'),
 	'AMPSYSLOGLEVEL '=> array('std' , 'LOG_ERR'),
 	'ARI_ADMIN_PASSWORD' => array('std' , 'ari_password'),
-	'TCINTERVAL      '=> array('std' , '60'),
-        'CFRINGTIMERDEFAULT' => array('std' , '0'),
+	'TCINTERVAL'     => array('std' , '60'),
+  'CFRINGTIMERDEFAULT' => array('std' , '0'),
+	'NOOPTRACE'       => array('std' , '1'),
 
 	'ASTETCDIR'      => array('dir' , '/etc/asterisk'),
 	'ASTMODDIR'      => array('dir' , '/usr/lib/asterisk/modules'),
