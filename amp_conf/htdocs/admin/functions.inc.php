@@ -12,21 +12,24 @@
 //GNU General Public License for more details.
 
 //include all necessary classes TODO: include them dynamically as needed
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/config.functions.php');
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/featurecodes.class.php');
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/components.class.php');
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/notifications.class.php');
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/moduleHook.class.php');
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/modulelist.class.php');
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/cronmanager.class.php');
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/ampuser.class.php');
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/xml2Array.class.php');
+$dirname = dirname(__FILE__);
+
+require_once($dirname . '/libraries/components.class.php');
+require_once($dirname . '/libraries/xml2Array.class.php');
+require_once($dirname . '/libraries/cronmanager.class.php');
+require_once($dirname . '/libraries/moduleHook.class.php');
+require_once($dirname . '/libraries/notifications.class.php');
+require_once($dirname . '/libraries/ampuser.class.php');
+require_once($dirname . '/libraries/components.class.php');
+require_once($dirname . '/libraries/modulelist.class.php');
+require_once($dirname . '/libraries/config.functions.php');
+require_once($dirname . '/libraries/featurecodes.class.php');
 
 //include other files
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/module.functions.php');
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/usage_registry.functions.php');
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/php-upgrade.functions.php');
-require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/sql.functions.php');
+require_once($dirname . '/libraries/module.functions.php');
+require_once($dirname . '/libraries/usage_registry.functions.php');
+require_once($dirname . '/libraries/php-upgrade.functions.php');
+require_once($dirname . '/libraries/sql.functions.php');
 
 // returns true if extension is within allowed range
 function checkRange($extension){
@@ -887,6 +890,7 @@ function freepbx_debug($string, $option='', $filename='') {
  	*/  
 function dbug(){
 	$opts = func_get_args();
+	$disc = $msg = $dump = null;
 
 	$dump = 0;
 	//sort arguments
@@ -950,6 +954,18 @@ function dbug_write($txt,$check=''){
 	}
 	
 }
+
+//http://php.net/manual/en/function.set-error-handler.php
+function freepbx_error_handler($errno, $errstr, $errfile, $errline,  $errcontext) {
+	$txt = date("Y-M-d H:i:s")
+		. "\t" . $errfile . ':' . $errline 
+		. "\n\n"
+		. 'ERROR[' . $errno . ']: '
+		. $errstr
+		. "\n\n\n";
+	dbug_write($txt,$check='');
+}
+
 /** Log an error to the (database-based) log
  * @param  string   The section or script where the error occurred
  * @param  string   The level/severity of the error. Valid levels: 'error', 'warning', 'debug', 'devel-debug'

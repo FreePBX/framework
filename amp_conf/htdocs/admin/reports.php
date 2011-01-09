@@ -10,10 +10,12 @@
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
-
+$restrict_mods = true;
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	include_once('/etc/asterisk/freepbx.conf');
+}
+if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
-
-include 'header.php';
 
 $title=_("FreePBX: Call Detail Reports");
 $message=_("Call Detail Reports");

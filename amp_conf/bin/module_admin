@@ -15,8 +15,15 @@
  * GNU General Public License for more details.
  */
 
-define("AMP_CONF", "/etc/amportal.conf");
-
+$bootstrap_settings['freepbx_auth'] = false;
+// don't include any of the functions.inc.php files from modules, this CLI version of
+// module_admin is somtimes the only way to recover from a bad module being loaded into
+// a system.
+//
+$restrict_mods = true;
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	include_once('/etc/asterisk/freepbx.conf');
+}
 function out($text) {
 	echo $text."\n";
 }
@@ -40,54 +47,6 @@ function debug($text) {
 	if ($debug) echo "[DEBUG-preDB] ".$text."\n";
 }
 
-
-function install_parse_amportal_conf($filename) {
-	$file = file($filename);
-	foreach ($file as $line) {
-		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) { 
-			$conf[ $matches[1] ] = $matches[2];
-		}
-	}
-	return $conf;
-}
-
-function init_amportal_environment($ampconfpath) {
-	global $amp_conf, $asterisk_conf, $db, $astman;
-	global $amp_conf_defaults;
-	
-	if (!file_exists($ampconfpath)) {
-		fatal('Cannot find conf file: '.$ampconfpath);
-	}
-	
-	// primitive parse function, just to grab AMPWEBROOT
-	$inst_amp_conf = install_parse_amportal_conf(AMP_CONF);
-	
-	define('AMP_BASE_INCLUDE_PATH', $inst_amp_conf['AMPWEBROOT'].'/admin');
-	
-	if (!file_exists(AMP_BASE_INCLUDE_PATH.'/functions.inc.php')) {
-		fatal('Cannot locate '.AMP_BASE_INCLUDE_PATH.'/functions.inc.php');
-	}	
-	// include the functions file from WEBROOT
-	include(AMP_BASE_INCLUDE_PATH.'/functions.inc.php');
-	// include astman api
-	include(AMP_BASE_INCLUDE_PATH.'/common/php-asmanager.php');
-	
-	// now apply the real parse function (this makes some default assumptions and does a bit more error checking)
-	$amp_conf = parse_amportal_conf($ampconfpath);
-	
-	$asterisk_conf = parse_asterisk_conf($amp_conf['ASTETCDIR']);
-
-	// connect to database
-	if (!file_exists(AMP_BASE_INCLUDE_PATH.'/common/db_connect.php')) {
-		fatal('Cannot locate '.AMP_BASE_INCLUDE_PATH.'/common/db_connect.php');
-	}
-	require_once(AMP_BASE_INCLUDE_PATH.'/common/db_connect.php'); //PEAR must be installed
-
-	$astman= new AGI_AsteriskManager();
-	if (! $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
-		unset( $astman );
-	}
-}
 
 function doReload() {
 	$result = do_reload();
@@ -558,21 +517,8 @@ function showUpgrades() {
 		out("Up to date.");
 	}
 }
-/****************************************************************************************************
- ****************************************************************************************************/
+//****************************************************************************************************
 
-// from  ben-php dot net at efros dot com   at  php.net/install.unix.commandline
-if (version_compare(phpversion(),'4.3.0','<') || !defined("STDIN")) {
-	define('STDIN',fopen("php://stdin","r"));
-	define('STDOUT',fopen("php://stdout","r"));
-	define('STDERR',fopen("php://stderr","r"));
-	register_shutdown_function( create_function( '' , 'fclose(STDIN); fclose(STDOUT); fclose(STDERR); return true;' ) );
-}
-   
-// **** Make sure we have PEAR's DB.php, and include it
-if (! @ include('DB.php')) {
-	fatal("PEAR must be installed (requires DB.php). Include path: ".ini_get("include_path"));
-}
 
 // **** Make sure we have PEAR's GetOpts.php, and include it
 if (! @ include("Console/Getopt.php")) {
@@ -589,8 +535,6 @@ if (is_object($args)) {
 	out($args->message);
 	exit(255);
 }
-
-$ampconfpath = AMP_CONF;
 
 // force operations
 $force = false;
@@ -626,14 +570,6 @@ foreach ($args[0] as $arg) {
 	}
 }
 
-// create $amp_conf, $db, etc
-init_amportal_environment($ampconfpath);
-
-require_once( $amp_conf["AMPWEBROOT"].'/admin/common/php-asmanager.php' );
-$astman = new AGI_AsteriskManager();
-if (! $res = $astman->connect("127.0.0.1", $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"])) {
-	unset( $astman );
-}
 
 $operation = $args[1][0];
 $param = isset($args[1][1]) ? $args[1][1] : null;;

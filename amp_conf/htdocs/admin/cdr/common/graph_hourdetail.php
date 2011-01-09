@@ -1,4 +1,5 @@
 <?php /* $Id: graph_hourdetail.php 6816 2008-09-19 18:33:18Z p_lindheimer $ */
+if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 include_once(dirname(__FILE__) . "/../lib/defines.php");
 include_once(dirname(__FILE__) . "/../lib/Class.Table.php");
 include_once(dirname(__FILE__) . "/../jpgraph_lib/jpgraph.php");

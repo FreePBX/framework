@@ -1,5 +1,5 @@
 <?php /* $Id$ */
-include_once(dirname(__FILE__) . "/../header.php");
+if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 include_once(dirname(__FILE__) . "/lib/defines.php");
 include_once(dirname(__FILE__) . "/lib/Class.Table.php");
 
@@ -41,7 +41,7 @@ $DBHandle  = DbConnect();
 
 $FG_TABLE_COL = array();
 
-if (!@include($amp_conf['ASTETCDIR'].'/call-daily-load-table.php')) {
+if (!file_exists($amp_conf['ASTETCDIR'].'/call-log-table.php') || !@include($amp_conf['ASTETCDIR'].'/call-log-table.php')) {
 	// The variable Var_col would define the col that we want show in your table
 	// First Name of the column in the html page, second name of the field
 
@@ -183,7 +183,7 @@ if (strpos($SQLcmd, 'WHERE') > 0) {
 
 /* --AMP BEGIN-- */
 //enforce restrictions for this AMP User
-session_start();
+@session_start();
 $AMP_CLAUSE = $_SESSION['AMP_SQL'];
 if (!isset($AMP_CLAUSE)) {
         $AMP_CLAUSE = " AND src = 'NeverReturnAnything'";

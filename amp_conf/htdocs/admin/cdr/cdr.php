@@ -1,14 +1,26 @@
 <?php /* $Id$ */
-include_once(dirname(__FILE__) . "/../header.php");
-session_start();
+if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 
 
 /* -- AMP Begin -- */
+
+$low = $_SESSION["AMP_user"]->_extension_low;
+$high = $_SESSION["AMP_user"]->_extension_high;
+if ((!empty($low)) && (!empty($high))) {
+	$channelfilter="OR (FIELD( SUBSTRING_INDEX( channel, '/', 1 ) , 'SIP', 'IAX2' ) > 0 AND SUBSTRING_INDEX(SUBSTRING(channel,2+LENGTH(SUBSTRING_INDEX( channel, '/', 1 ))),'-',1) BETWEEN $low and $high)";
+	$channelfilter.="OR (dstchannel<>'' AND FIELD( SUBSTRING_INDEX( dstchannel, '/', 1 ) , 'SIP', 'IAX2' ) > 0 AND SUBSTRING_INDEX(SUBSTRING(dstchannel,2+LENGTH(SUBSTRING_INDEX( dstchannel, '/', 1 ))),'-',1) BETWEEN $low and $high)";
+
+        $_SESSION["AMP_SQL"] = " AND ((src+0 BETWEEN $low AND $high) OR (dst+0 BETWEEN $low AND $high) OR (dst+0 BETWEEN 8$low AND 8$high) $channelfilter)";
+} else {
+	$_SESSION["AMP_SQL"] = "";
+}
+
 $AMP_CLAUSE = $_SESSION['AMP_SQL'];
 if (!isset($AMP_CLAUSE)) {
 	$AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
 	echo "<font color=red>YOU MUST ACCESS THE CDR THROUGH THE ASTERISK MANAGEMENT PORTAL!</font>";
 }
+
 //echo 'AMP_CLAUSE='.$AMP_CLAUSE.'<hr>';
 /* -- AMP End -- */
 
@@ -28,13 +40,71 @@ function cdrpage_getpost_ifset($test_vars)
 	}
 }
 
-
-
 cdrpage_getpost_ifset(array('s', 't'));
 
+$get_vars = array(
+/*
+'accountcode',
+'accountcodetype',
+'after',
+'atmenu',
+'before',
+'channel',
+'clid',
+'clidtype',
+'duration1',
+'duration1type',
+'duration2',
+'duration2type',
+'dst',
+'dsttype',
+'fromday',
+'frommonth',
+'fromstatsday_sday',
+'fromstatsmonth',
+'fromstatsmonth_sday',
+'letter', 
+'list',
+'list_total',
+'list_total_day',
+'min_call',
+'name',
+'nb_record',
+'order',
+*/
+'posted',
+/*
+'resulttype',
+'s',
+'sens',
+'sql_limit',
+'src',
+'srctype',
+'stitle',
+'t',
+'today',
+'tomonth',
+'tostatsday_sday',
+'tostatsmonth_sday',
+'tostatsmonth',
+'totalcall',
+'userfield',
+'userfieldtype',
+'AMP_SQL',
+'FG_ACTION_SIZE_COLUMN',
+'FG_DELETION',
+'Period',
+'SQLcmd',
+*/
+);
 
+foreach ($get_vars as $gv) {
+	if (!isset($$gv) || !$$gv) {
+		$$gv = isset($_REQUEST[$gv]) ? $_REQUEST[$gv] : '';
+	}
+}
 $array = array ("INTRO", "CDR REPORT", "CALLS COMPARE", "MONTHLY TRAFFIC","DAILY LOAD", "CONTACT");
-$s = $s ? $s : 0;
+$s = $s ? $s : 1;
 $t = (isset($t))?$t:null;
 $section="section$s$t";
 
@@ -62,123 +132,17 @@ $paypal="NOK"; //OK || NOK
 	
 	
 
-	
-<?php /* --AMP--	
-		<!-- header BEGIN -->
-		<div id="fedora-header">
-			
-			<div id="fedora-header-logo">
-				 <table border="0" cellpadding="0" cellspacing="0"><tr><td><img src="images/asterisk.gif"  alt="CDR (Call Detail Records)"></td><td>
-				 <H1><font color=#990000>&nbsp;&nbsp;&nbsp;CDR (Call Detail Records)</font></H1></td></tr></table>
-			</div>
-
-		</div>
-		<div id="fedora-nav"></div>
-		<!-- header END -->
-		
-		<!-- leftside BEGIN -->
-		<div id="fedora-side-left">
-		<div id="fedora-side-nav-label">Site Navigation:</div>	<ul id="fedora-side-nav">
-		<?php  
-			$nkey=array_keys($array);
-    		$i=0;
-    		while($i<sizeof($nkey)){
-			
-				$op_strong = (($i==$s) && (!is_string($t))) ? '<strong>' : '';
-				$cl_strong = (($i==$s) && (!is_string($t))) ? '</strong>' : '';
-									
-        		if(is_array($array[$nkey[$i]])){
-					
-					
-					
-					echo "\n\t<li>$op_strong<a href=\"$racine?s=$i\">".$nkey[$i]."</a>$cl_strong";
-									
-					$j=0;
-					while($j<sizeof($array[$nkey[$i]] )){
-						$op_strong = (($i==$s) && (isset($t)) && ($j==intval($t))) ? '<strong>' : '';
-						$cl_strong = (($i==$s) && (isset($t))&& ($j==intval($t))) ? '</strong>' : '';						
-						echo "<ul>";						
-						echo "\n\t<li>$op_strong<a href=\"$racine?s=$i&t=$j\">".$array[$nkey[$i]][$j]."</a>$cl_strong";
-						echo "</ul>";
-						$j++;						
-					}
-						
-        		}else{					
-					echo "\n\t<li>$op_strong<a href=\"$racine?s=$i\">".$array[$nkey[$i]]."</a>$cl_strong";
-				}
-				echo "</li>\n";
-        		
-        		$i++;
-    		}
-			
-		?>
-
-			</ul>
-			
-		<?php  if ($paypal=="OK"){?>
-		<center>
-			<br><br>
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-<input type="hidden" name="cmd" value="_xclick">
-<input type="hidden" name="business" value="info@areski.net">
-<input type="hidden" name="no_note" value="1">
-<input type="hidden" name="currency_code" value="EUR">
-<input type="hidden" name="tax" value="0">
-<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but04.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
-</form>
-</center>
-			<?php  } ?>
-			
-		</div>
-
-		<!-- leftside END -->
-
-		<!-- content BEGIN -->
-		<div id="fedora-middle-two">
-			<div class="fedora-corner-tr">&nbsp;</div>
-			<div class="fedora-corner-tl">&nbsp;</div>
-			<div id="fedora-content">
-			
---AMP-- */?>
 
 
 <?php if ($section=="section0"){?>
-
-<h1>
- <center>ASTERISK : CDR ANALYSER</center>
-</h1>
-						<h3>Call data collection</h3>
-						<p>Regardless of their size, most telephone PBX (public branch exchange) and PMS (property management systems)
-						output <b>Call Detail Records (CDR)</b>. Generally, these get created at the end of a call but on some phone systems
-						the data is available during the call. This data is output from the phone system by a serial link known as the
-						Station Message Detail Recording port (SMDR). <b>Some of the details included in call records are: Time, Date, Call
-						Duration, Number dialed, Caller ID information, Extension, Line/trunk location, Cost, Call completion status.</b><br>
-						<br>
-						Call detail records, both local and long distance, can be used for usage verification, billing reconciliation,
-						network management and to monitor telephone usage to determine volume of phone usage, as well as abuse of the system. 
-						CDR's aid in the planning for future telecommunications needs. <br>
-						<br>
-						Control with CDR analysis:
-						<ul>
-
-							<li>review all CDR's for accuracy 
-							<li>verify usage 
-							<li>resolve discrepancies with vendors
-							<li>disconnect unused service 
-							<li>terminate leases on unused equipment 
-							<li>deter or detect fraud
-							<li>etc ...
-						</ul>
 
 <?php }elseif ($section=="section1"){?>
 
 	<?php require("call-log.php");?>
 
-
 <?php }elseif ($section=="section2"){?>
 
 	<?php require("call-comp.php");?>
-
 
 <?php }elseif ($section=="section3"){?>
 
@@ -187,24 +151,6 @@ $paypal="NOK"; //OK || NOK
 <?php }elseif ($section=="section4"){?>
 
 	<?php require("call-daily-load.php");?>
-
-
-<?php }elseif ($section=="section5"){?>
-		<h1>Contact</h1>        		
-        <table width="90%">
-          
-		  <tr> 
-            <td>
-				<h3>Arezqui Bela&iuml;d <br> <i>Barcelona - Belgium</i></h3>				
-				<br>
-				<a href='javascript:bite("3721 945 4728 2762 3565 3554 2008 1380 654 3721 3554 4468 3007 3877 4828 654",5123,2981)'>Click to email me</a>
-				<br><br><i>Feel free to send me your suggestions to improve the application ;)</i>
-            </td>
-          </tr>          
-          
-        </table>
-		<br><br><em><strong>Last update:</strong></em> <?php echo $update?><br>
-
 
 <?php }else{?>
 	<h1>Coming soon ...</h1>

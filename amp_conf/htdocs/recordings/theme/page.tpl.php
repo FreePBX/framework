@@ -35,7 +35,7 @@
         <div id="menu">
           <div><img height=4 src="theme/spacer.gif" alt=""></div> 
           <div class="nav">
-            <?php if ($nav_menu != '') { ?>
+            <?php if (isset($nav_menu) && $nav_menu != '') { ?>
               <b class='nav_b1'></b><b class='nav_b2'></b><b class='nav_b3'></b><b class='nav_b4'></b>
               <div id='nav_menu'>
                   <?php print($nav_menu) ?>
@@ -44,7 +44,7 @@
             <?php } ?>
           </div>
           <div><img height=14 src="theme/spacer.gif" alt=""></div> 
-          <?php if ($subnav_menu != '') { ?>
+          <?php if (isset($subnav_menu) && $subnav_menu != '') { ?>
             <div class="subnav">
               <div class="subnav_title"><?php echo _("Folders")?>:</div>
               <b class='subnav_b1'></b><b class='subnav_b2'></b><b class='subnav_b3'></b><b class='subnav_b4'></b>
@@ -58,7 +58,7 @@
       </span>
       <span class="right">
         <div id="center">
-          <?php if ($login != "") { ?>
+          <?php if (isset($login) && $login != "") { ?>
             <?php print($login) ?>
           <?php } ?>
           <div id="content">
@@ -85,4 +85,3 @@
   </div>
   </body>
 </html>
-

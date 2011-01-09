@@ -134,7 +134,6 @@ class xml2Array {
 	}
 }
 
-
 /*
 	Return a much more manageable assoc array with module data.
 */
@@ -202,5 +201,3 @@ class xml2ModuleArray extends xml2Array {
 		return $arrModules;
 	}
 }
-
-?>

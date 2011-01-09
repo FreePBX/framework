@@ -99,8 +99,8 @@ function getDirectories($path,$filter) {
 function getFiles($path,$filter,$recursive_max,$recursive_count) {
 	global $SETTINGS_MAX_FILES;
 	$SETTINGS_MAX_FILES = isset($SETTINGS_MAX_FILES) ? $SETTINGS_MAX_FILES : 3000;
-
-  $files = array();
+	$fileCount=0;
+	$files = array();
 
   if (@is_dir($path) && @is_readable($path)) {
     $dh = opendir($path);
@@ -261,6 +261,7 @@ function startARISession() {
     ini_set('session.gc_maxlifetime', '3900');  // make the session timeout a long time
     set_time_limit(360);
     session_start();
+	$_SESSION['ari_error'] = '';
   }
 }
 
@@ -273,7 +274,7 @@ function startARISession() {
 function bootstrap() {
 
   // set error reporting
-  error_reporting (E_ALL & ~ E_NOTICE);  
+//  error_reporting (E_ALL & ~ E_NOTICE);  
 }
 
 /**
@@ -313,6 +314,5 @@ include_once("./includes/main.conf.php");
 include_once("./version.php");
 include_once("./includes/crypt.php"); 
 include_once("./includes/login.php");
-
 
 ?>

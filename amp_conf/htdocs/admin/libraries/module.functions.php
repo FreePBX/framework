@@ -1054,7 +1054,7 @@ function module_uninstall($modulename, $force = false) {
 
   // Now make sure all feature codes are uninstalled in case the module has not already done it
   //
-  require_once( (defined('AMP_BASE_INCLUDE_PATH') ? AMP_BASE_INCLUDE_PATH.'/' : '').'libraries/featurecodes.class.php');
+  require_once(dirname(__FILE__) . '/featurecodes.class.php'); //TODO: do we need this, now that we have bootstrap? -MB
   featurecodes_delModuleFeatures($modulename);
 	
 	needreload();

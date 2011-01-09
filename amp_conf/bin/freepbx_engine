@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Formating variables
+# Visual formating variables
 # use like: ${b}text$bx - ${b} starts bold, $bx end it, etc.
 # you must use echo -e for formating to be valid
 b="\033[1m"
@@ -9,8 +9,11 @@ u="\e[4m"
 ux="\e[0m"
 
 ROOT_UID=0	 # root uid is 0
-E_NOTROOT=67	 # Non-root exit error
-
+E_NOTROOT=67 # Non-root exit error
+# define freepbx config file if not alreaddy set
+if [ ! -n "$FREEPBX_CONF" ]; then
+	FREEPBX_CONF="/etc/freepbx.conf"
+fi
 
 echo
 # check to see if we are root
@@ -21,15 +24,8 @@ then
 	exit $E_NOTROOT
 fi
 
-# make sure config file exists
-if [ ! -e "/etc/amportal.conf" ]       # Check if file exists.
-  then
-    echo;
-    echo "/etc/amportal.conf does not exist!";
-	echo "Have you installed the AMP configuration?";
-	exit;
-fi
-# Set some defaults which can be re-defined in amportal.conf
+
+# Set some defaults which can be re-defined from the config file/db
 AMPDEVUSER=asterisk
 AMPDEVGROUP=asterisk
 AMPASTERISKUSER=asterisk
@@ -40,13 +36,68 @@ AMPVMUMASK=077
 ASTETCDIR=/etc/asterisk
 FPBXDBUGFILE=/tmp/freepbx_debug.log
 
-. /etc/amportal.conf
+write_freepbxconf() {
+	if [ ! -e $FREEPBX_CONF  ]; then
+		cat > $FREEPBX_CONF <<-EOF
+		<?php
+		\$amp_conf['AMPDBUSER']	= '$AMPDBUSER';
+		\$amp_conf['AMPDBPASS']	= '$AMPDBPASS';
+		\$amp_conf['AMPDBHOST']	= '$AMPDBHOST';
+		\$amp_conf['AMPDBNAME']	= '$AMPENGINE';
+		\$amp_conf['AMPDBENGINE'] = '$AMPDBENGINE';
+		\$amp_conf['datasource']	= ''; //for sqlite3
+
+		require_once('${AMPWEBROOT}/admin/bootstrap.php');
+
+		EOF
+	fi
+	if [ -e /etc/asterisk/freepbx.conf ]; then
+		rm /etc/asterisk/freepbx.conf
+	fi
+}
+
+# get settings from db/config file
+if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" ]]; then 
+	# get the path of this file to call the gen_amp_conf.php script which will
+	# generate all the amp_conf variables that can be exported
+	#
+	progdir=`dirname $0`
+	sv_pwd=$PWD
+        cd $progdir
+        gen_path=$PWD
+        cd $sv_pwd
+	`$gen_path/gen_amp_conf.php`
+elif [ -e "/etc/amportal.conf" ]; then # Check if file exists, if it dose read it and then write out /etc/freepbx.conf
+	. /etc/amportal.conf
+	write_freepbxconf
+else 
+	echo;
+    echo "FreePBX config file not found!";
+	echo "Have you installed FreePBX?";
+	exit;
+fi
 
 if [ -z $PIDOF ]; then
     PIDOF=pidof
 fi
 
-if [ $ASTRUNDIR = /var/run ]
+if [ -e $AMPBIN/amportal ]; then
+  echo "new amportal script detected, moving it to $AMPSBIN and attempting to backup up old"
+  # just in case it isn't there though it should be
+  if [ -e $AMPSBIN/amportal ]; then
+    mv $AMPSBIN/amportal $AMPSBIN/amportal.bak
+  else
+    echo "no exiting $AMPSBIN/amportal to make a backup of"
+  fi
+  mv $AMPBIN/amportal $AMPSBIN/amportal
+  if [ "$?" -ne "0" ]; then
+    echo "unable to update to new amportal, check permissions and try again"
+  fi
+  chown root:root $AMPSBIN/amportal
+  chmod +x $AMPSBIN/amportal
+fi
+
+if [ "$ASTRUNDIR" = "/var/run" ]
   then
     echo "**** ERROR IN CONFIGURATION ****"
     echo "astrundir in '$ASTETCDIR' is set to '/var/run' - THIS IS WRONG."
@@ -74,7 +125,11 @@ fi
 
 chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
-
+	
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP /etc/amportal.conf
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $FREEPBX_CONF
+	chmod g+w /etc/amportal.conf
+	chmod g+w $FREEPBX_CONF
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTRUNDIR
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTETCDIR
 	chmod -R g+w $ASTETCDIR
@@ -225,6 +280,7 @@ kill_amp() {
 	killall -9 op_server.pl
 }
 
+
 case "$1" in
 	start)
 		chown_asterisk
@@ -245,6 +301,7 @@ case "$1" in
 		stop_asterisk
 		stop_fop
 		sleep 1
+		write_freepbxconf
 		chown_asterisk
 		run_asterisk
 		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]
@@ -314,13 +371,14 @@ case "$1" in
 				echo `wget http://mirror.freepbx.org/whatismyip.php -O - -q|sed 's/<[^>]*>//g'`
 			;;
 			dbug)
-				if [ -f $FPBXDBUGFILE ]; then 
-					tail -f $FPBXDBUGFILE 
-				else 
+				if [ ! -f $FPBXDBUGFILE ]; then 
 					touch tail -f $FPBXDBUGFILE
 					chown $AMPASTERISKUSER:$AMPASTERISKGROUP $FPBXDBUGFILE
-					tail -f $FPBXDBUGFILE
 				fi
+				if [ -f '/var/log/httpd/error_log' ]; then
+					httpd_error='/var/log/httpd/error_log'
+				fi 
+				tail -f $FPBXDBUGFILE $httpd_error
 			;;
 		*)
 
@@ -379,4 +437,3 @@ ${b}dbug$bx: shows the freepbx debug log file and any updates
 		exit 1
 	;;
 esac
-

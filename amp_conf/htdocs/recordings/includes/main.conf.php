@@ -14,7 +14,7 @@
 $AMP_FUNCTIONS_FILES = "../admin/functions.php;../admin/functions.inc.php";
 $AMPORTAL_CONF_FILE = "/etc/amportal.conf";
 
-$amp_conf = parse_amportal_conf($AMPORTAL_CONF_FILE);
+//$amp_conf = parse_amportal_conf($AMPORTAL_CONF_FILE);
 #
 # Host for Asterisk Manager Interface
 #

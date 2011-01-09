@@ -179,7 +179,7 @@
         set_error_handler('phpagi_error_handler');
         global $phpagi_error_handler_email;
         $phpagi_error_handler_email = $this->config['phpagi']['admin'];
-        error_reporting(E_ALL);
+//        error_reporting(E_ALL);
       }
 
       // make sure temp folder exists

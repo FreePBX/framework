@@ -1,7 +1,11 @@
 #!/usr/bin/php -q
 <?php
+//include bootstrap
+$bootstrap_settings['freepbx_auth'] = false;
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	include_once('/etc/asterisk/freepbx.conf');
+}
 
-define("AMP_CONF", "/etc/amportal.conf");
 define("MONITOR_DIR", "/var/spool/asterisk/monitor");
 
 function out($text) {
@@ -35,46 +39,6 @@ function showHelp() {
 	out("  --dry-run                Don't actually do anything");
 	out("  --mp3    				Recursively convert all .WAV to .mp3");
 	out("  --delwav					Use with --mp3 to delete orignal files after converting to .mp3");
-}
-
-function parse_amportal_conf($filename) {
-	// defaults, if not specified in the file
-	$defaults = array(
-		'AMPDBENGINE' => 'mysql',
-		'AMPDBNAME' => 'asterisk',
-		'AMPENGINE' => 'asterisk',
-		'USECATEGORIES' => true,
-		'ASTETCDIR' => '/etc/asterisk',
-		'CDRDBNAME' => 'asteriskcdrdb',
-		);
-	// boolean values, will be converted to true/false
-	// "yes", "true", 1 (case-insensitive) will be treated as true, everything else is false
-	$booleans = array('USECATEGORIES');
-
-	$file = file($filename);
-	if (is_array($file)) {
-		foreach ($file as $line) {
-			if (preg_match("/^\s*([a-zA-Z0-9_]+)=([a-zA-Z0-9 .&-@=_!<>\"\']+)\s*$/",$line,$matches)) {
-				$conf[ $matches[1] ] = $matches[2];
-			}
-		}
-	} else {
-		fatal("<h1>Missing or unreadable config file ($filename)...cannot continue</h1>");
-	}
-
-	// set defaults
-	foreach ($defaults as $key=>$val) {
-		if (!isset($conf[$key]) || $conf[$key] == '') {
-			$conf[$key] = $val;
-		}
-	}
-
-	// evaluate boolean values
-	foreach ($booleans as $key) {
-		$conf[$key] = isset($conf[$key]) && ($conf[$key] === true || strtolower($conf[$key]) == 'true' || $conf[$key] === 1 || $conf[$key] == '1' || strtolower($conf[$key]) == 'yes');
-	}
-
-	return $conf;
 }
 
 /** creates directory tree recursively
@@ -295,27 +259,6 @@ function convert_files() {
 }
 /********************************************************************************************************************/
 
-// **** Make sure we have STDIN etc
-
-// from  ben-php dot net at efros dot com   at  php.net/install.unix.commandline
-if (version_compare(phpversion(),'4.3.0','<') || !defined("STDIN")) {
-	define('STDIN',fopen("php://stdin","r"));
-	define('STDOUT',fopen("php://stdout","r"));
-	define('STDERR',fopen("php://stderr","r"));
-	register_shutdown_function( create_function( '' , 'fclose(STDIN); fclose(STDOUT); fclose(STDERR); return true;' ) );
-}
-   
-   
-// **** Make sure we have PEAR's DB.php, and include it
-
-outn("Checking for PEAR DB..");
-if (! @ include('DB.php')) {
-	out("FAILED");
-	fatal("PEAR must be installed (requires DB.php). Include path: ".ini_get("include_path"));
-}
-out("OK");
-
-
 // **** Make sure we have PEAR's GetOpts.php, and include it
 
 outn("Checking for PEAR Console::Getopt..");
@@ -378,38 +321,6 @@ if ($current_user != "root"){
 }
 out("OK");
 
-
-// **** read amportal.conf
-
-outn("Reading ".AMP_CONF."..");
-$amp_conf = parse_amportal_conf(AMP_CONF);
-if (count($amp_conf) == 0) {
-	fatal("FAILED");
-}
-out("OK");
-
-// **** Connect to database
-outn("Connecting to database..");
-
-
-// note, sqlite3 not supported yet!
-$db_user = $amp_conf["AMPDBUSER"];
-$db_pass = $amp_conf["AMPDBPASS"];
-$db_host = $amp_conf["AMPDBHOST"];
-$db_engine = $amp_conf["AMPDBENGINE"];
-$db_name = $amp_conf["CDRDBNAME"];
-
-$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
-
-$db = DB::connect($datasource); // attempt connection
-
-if(DB::isError($db)) {
-	out("FAILED");
-	debug($db->userinfo);
-	fatal("Cannot connect to database");
-	
-}
-out("OK");
 
 check_table();
 process_files();

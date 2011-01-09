@@ -11,9 +11,13 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
+$restrict_mods = true;
+$skip_astman = true;
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
-
-include 'header.php';
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	include_once('/etc/asterisk/freepbx.conf');
+}
+if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 
 $title=_("FreePBX: Flash Operator Panel");
 $message=_("Flash Operator Panel");

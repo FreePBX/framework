@@ -1,5 +1,5 @@
 <?php /* $Id$ */
-include_once(dirname(__FILE__) . "/../header.php");
+if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 include_once(dirname(__FILE__) . "/lib/defines.php");
 include_once(dirname(__FILE__) . "/lib/Class.Table.php");
 
@@ -47,7 +47,7 @@ $FG_TABLE_COL = array();
 /*******
 Calldate Clid Src Dst Dcontext Channel Dstchannel Lastapp Lastdata Duration Billsec Disposition Amaflags Accountcode Uniqueid Serverid
 *******/
-if (!@include($amp_conf['ASTETCDIR'].'/call-comp-table.php')) {
+if (!file_exists($amp_conf['ASTETCDIR'].'/call-log-table.php') || !@include($amp_conf['ASTETCDIR'].'/call-log-table.php')) {
 
 	$FG_TABLE_COL[]=array ("Calldate", "calldate", "18%", "center", "SORT", "19");
 	$FG_TABLE_COL[]=array ("Channel", "channel", "13%", "center", "", "30");
@@ -201,7 +201,7 @@ if (strpos($SQLcmd, 'WHERE') > 0) {
 
 /* --AMP BEGIN-- */
 //enforce restrictions for this AMP User
-session_start();
+@session_start();
 $AMP_CLAUSE = $_SESSION['AMP_SQL'];
 if (!isset($AMP_CLAUSE)) {
         $AMP_CLAUSE = " AND src = 'NeverReturnAnything'";

@@ -26,15 +26,17 @@
 * Gracias. :)
 *
 */
-  if(!defined("AMP_CONF")) { define("AMP_CONF", "/etc/amportal.conf"); }
-  if(!isset($amp_conf['ASTETCDIR'])) { 
-    if (function_exists('parse_amportal_conf')) {
-      $amp_conf = parse_amportal_conf(AMP_CONF);
-    } else {
-      $amp_conf['ASTETCDIR'] = '/etc/asterisk';
-    }
-  }
+ 
+$restrict_mods = false;
+$skip_astman = true;
+
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	include_once('/etc/asterisk/freepbx.conf');
+}
+
   define('AST_CONFIG_DIR', $amp_conf['ASTETCDIR']);
+  define('AST_SPOOL_DIR', $asterisk_conf['astspooldir']);
+  define('AST_TMP_DIR', AST_SPOOL_DIR . '/tmp/');
   define('DEFAULT_PHPAGI_CONFIG', AST_CONFIG_DIR . '/phpagi.conf');
 
   define('AST_DIGIT_ANY', '0123456789#*');

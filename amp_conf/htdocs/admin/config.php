@@ -14,20 +14,6 @@
  * GNU General Public License for more details.
 */
 
-// This is ugly, but it is the only way I can think of to get the menu sections localized. MC
-if (false) {
-_("Internal Options & Configuration");
-_("Inbound Call Control");
-_("Module Admin");
-_("System Administration");
-_("Third Party Addon");
-}
-
-/* benchmark */
-function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); }
-$benchmark_starttime = microtime_float();
-/*************/
-
 $type = isset($_REQUEST['type'])?$_REQUEST['type']:'setup';
 $display = isset($_REQUEST['display'])?$_REQUEST['display']:'';
 if (isset($_REQUEST['extdisplay'])) {
@@ -39,7 +25,7 @@ if (isset($_REQUEST['extdisplay'])) {
 $skip = isset($_REQUEST['skip'])?$_REQUEST['skip']:0;
 $action = isset($_REQUEST['action'])?$_REQUEST['action']:null;
 $quietmode = isset($_REQUEST['quietmode'])?$_REQUEST['quietmode']:'';
-$skip_astman = isset($_REQUEST['skip_astman'])?$_REQUEST['skip_astman']:false;
+$bootstrap_settings['skip_astman'] = isset($_REQUEST['skip_astman'])?$_REQUEST['skip_astman']:false;
 if (isset($_REQUEST['restrictmods'])) {
 	$restrict_mods = explode('/',$_REQUEST['restrictmods']);
 	$restrict_mods = array_flip($restrict_mods);
@@ -54,7 +40,23 @@ $type_names = array(
 	'cdrcost'=>_('Call Cost'),
 );
 
-include('header.php');
+@header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+@header('Expires: Sat, 01 Jan 2000 00:00:00 GMT');
+@header('Cache-Control: post-check=0, pre-check=0',false);
+@header('Pragma: no-cache');
+//session_cache_limiter('public, no-store');
+if (isset($_REQUEST['handler'])) {
+  $restrict_mods = true;
+  // I think reload is the only handler that requires astman, so skip it for others
+  switch ($_REQUEST['handler']) {
+  case 'reload':
+    break;
+  default:
+    $bootstrap_settings['skip_astman'] = true;
+  }
+}
+require('bootstrap.php');
+
 /* If there is an action request then some sort of update is usually being done.
    This will protect from cross site request forgeries unless disabled.
 */
@@ -74,101 +76,26 @@ if ($action != '' && $amp_conf['CHECKREFERER']) {
 
 // handle special requests
 if (isset($_REQUEST['handler'])) {
-	switch ($_REQUEST['handler']) {
-		case 'cdr':
-			include('cdr/cdr.php');
-			break;
-		case 'cdr_export_csv':
-			include('cdr/export_csv.php');
-			break;
-		case 'cdr_export_pdf':
-			include('cdr/export_pdf.php');
-			break;
-		case 'reload':
-			/** AJAX handler for reload event
-			 */
-			include_once('common/json.inc.php');
-			$response = do_reload();
-			$json = new Services_JSON();
-			header("Content-type: application/json");
-			echo $json->encode($response);
-		break;
-		case 'file':
-			/** Handler to pass-through file requests 
-			 * Looks for "module" and "file" variables, strips .. and only allows normal filename characters.
-			 * Accepts only files of the type listed in $allowed_exts below, and sends the corresponding mime-type, 
-			 * and always interprets files through the PHP interpreter. (Most of?) the FreePBX environment is available,
-			 * including $db and $astman, and the user is authenticated.
-			 */
-			if (!isset($_REQUEST['module']) || !isset($_REQUEST['file'])) {
-				die_freepbx("unknown");
-			}
-			//TODO: this could probably be more efficient
-			$module = str_replace('..','.', preg_replace('/[^a-zA-Z0-9-\_\.]/','',$_REQUEST['module']));
-			$file = str_replace('..','.', preg_replace('/[^a-zA-Z0-9-\_\.]/','',$_REQUEST['file']));
-			
-			$allowed_exts = array(
-				'.js' => 'text/javascript',
-				'.js.php' => 'text/javascript',
-				'.css' => 'text/css',
-				'.css.php' => 'text/css',
-				'.html.php' => 'text/html',
-				'.jpg.php' => 'image/jpeg',
-				'.jpeg.php' => 'image/jpeg',
-				'.png.php' => 'image/png',
-				'.gif.php' => 'image/gif',
-			);
-			foreach ($allowed_exts as $ext=>$mimetype) {
-				if (substr($file, -1*strlen($ext)) == $ext) {
-					$fullpath = 'modules/'.$module.'/'.$file;
-					if (file_exists($fullpath)) {
-						// file exists, and is allowed extension
-
-						// image, css, js types - set Expires to an hour in advance so the client does
-						// not keep checking for them. Replace from header.php
-						if (!$amp_conf['DEVEL']) {
-							@header('Expires: '.gmdate('D, d M Y H:i:s', time()+3600).' GMT', true);
-							@header('Cache-Control: ',true); 
-							@header('Pragma: ', true); 
-						}
-						@header("Content-type: ".$mimetype);
-						include($fullpath);
-						exit();
-					}
-					break;
-				}
-			}
-			die_freepbx("not allowed");
-		break;
-	}
-	exit();
+	$module = isset($_REQUEST['module'])	? $_REQUEST['module']	: '';
+	$file 	= isset($_REQUEST['file'])		? $_REQUEST['file']		: '';
+	fileRequestHandler($_REQUEST['handler'], $module, $file);
 }
-
+	
 if (!$quietmode) {
 	module_run_notification_checks();
 }
 
-$framework_asterisk_running =  checkAstMan();
-
-// get all enabled modules
-// active_modules array used below and in drawselects function and genConf function
-$active_modules = module_getinfo(false, MODULE_STATUS_ENABLED);
-
+//draw up freepbx menu
 $fpbx_menu = array();
-
-
 // pointer to current item in $fpbx_menu, if applicable
 $cur_menuitem = null;
 
 // add module sections to $fpbx_menu
 $types = array();
+
 if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
-		//include module functions
-		if ((!$restrict_mods || isset($restrict_mods[$key])) && is_file("modules/{$key}/functions.inc.php")) {
-			require_once("modules/{$key}/functions.inc.php");
-		}
-		
+	
 		//create an array of module sections to display
 		// stored as [items][$type][$category][$name] = $displayvalue
 		if (isset($module['items']) && is_array($module['items'])) {
@@ -176,21 +103,12 @@ if(is_array($active_modules)){
 			foreach($module['items'] as $itemKey => $item) {
 
 				// check access, unless module.xml defines all have access
+				//TODO: move this to bootstrap and make it work
 				if (!isset($item['access']) || strtolower($item['access']) != 'all') {
 					if (!$_SESSION["AMP_user"]->checkSection($itemKey)) {
 						// no access, skip to the next 
 						continue;
 					}
-				}
-
-				if (!$framework_asterisk_running && 
-					  ((isset($item['needsenginedb']) && strtolower($item['needsenginedb'] == 'yes')) || 
-					  (isset($item['needsenginerunning']) && strtolower($item['needsenginerunning'] == 'yes')))
-				   )
-				{
-					$item['disabled'] = true;
-				} else {
-					$item['disabled'] = false;
 				}
 
 				if (!in_array($item['type'], $types)) {
@@ -221,6 +139,7 @@ if(is_array($active_modules)){
 		}
 	}
 }
+
 sort($types);
 
 // new gui hooks

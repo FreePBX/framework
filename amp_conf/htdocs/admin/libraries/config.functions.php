@@ -63,24 +63,39 @@ $amp_conf_defaults = array(
 );
 
 function parse_amportal_conf($filename) {
-	global $amp_conf_defaults;
+	global $amp_conf_defaults, $db;
 
 	/* defaults
 	 * This defines defaults and formating to assure consistency across the system so that
 	 * components don't have to keep being 'gun shy' about these variables.
 	 * 
+	 * we will read these settings out of the db, but only when $filename is writeable
+	 * otherwise, we read the $filename
 	 */
-	$file = file($filename);
-	if (is_array($file)) {
-		foreach ($file as $line) {
-			if (preg_match("/^\s*([a-zA-Z0-9_]+)=([a-zA-Z0-9 .&-@=_!<>\"\']+)\s*$/",$line,$matches)) {
-				$conf[ $matches[1] ] = $matches[2];
+	if (!is_writable($filename)) {
+		$file = file($filename); 
+			if (is_array($file)) { 
+				foreach ($file as $line) { 
+					if (preg_match("/^\s*([a-zA-Z0-9_]+)=([a-zA-Z0-9 .&-@=_!<>\"\']+)\s*$/",$line,$matches)) { 
+						$conf[ $matches[1] ] = $matches[2]; 
+					} 
+ 				} 
+				$conf['amportal_canwrite'] = false;
+			} else { 
+				die_freepbx("<h1>".sprintf(_("Missing or unreadable config file (%s)...cannot continue"), $filename)."</h1>"); 
 			}
-		}
 	} else {
-		die_freepbx("<h1>".sprintf(_("Missing or unreadable config file (%s)...cannot continue"), $filename)."</h1>");
+		$sql = 'SELECT `key`, value FROM freepbx_settings';
+		$conf = $db->getAssoc($sql);
+		if(DB::IsError($conf)) {     
+			die_freepbx($conf->getMessage()); 
+		} else {
+			$conf['amportal_canwrite'] = true;
+		}
+		
 	}
 	
+
 	// set defaults
 	foreach ($amp_conf_defaults as $key=>$arr) {
 

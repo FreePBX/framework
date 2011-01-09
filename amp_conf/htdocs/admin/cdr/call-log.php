@@ -1,11 +1,10 @@
 <?php /* $Id$ */
-include_once(dirname(__FILE__) . "/../header.php");
+if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 include_once(dirname(__FILE__) . "/lib/defines.php");
 include_once(dirname(__FILE__) . "/lib/Class.Table.php");
 
-
 // correct 31 +1 = 32 for the date
-//session_start();
+@session_start();
 
 getpost_ifset(array('posted', 'Period', 'frommonth', 'fromstatsmonth', 'tomonth', 'tostatsmonth', 'fromday', 'fromstatsday_sday', 'fromstatsmonth_sday', 'today', 'tostatsday_sday', 'tostatsmonth_sday', 'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'stitle', 'atmenu', 'current_page', 'order', 'sens', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode', 'duration1', 'duration1type', 'duration2', 'duration2type'));
 if (isset($resulttype) && (($resulttype == null) || ($resulttype == ""))) unset($resulttype);
@@ -43,8 +42,7 @@ $FG_TABLE_ALTERNATE_ROW_COLOR[] = "#F2F8FF";
 
 
 
-//$link = DbConnect();
-$DBHandle  = DbConnect();
+$DBHandle = DbConnect();
 
 // The variable Var_col would define the col that we want show in your table
 // First Name of the column in the html page, second name of the field
@@ -84,7 +82,7 @@ $FG_COL_QUERY='calldate, channel, src, clid, lastapp, lastdata, dst, dst, server
 */
 
 /* --AMP Begin-- */
-if (!@include($amp_conf['ASTETCDIR'].'/call-log-table.php')) {
+if (!file_exists($amp_conf['ASTETCDIR'].'/call-log-table.php') || !@include($amp_conf['ASTETCDIR'].'/call-log-table.php')) {
 
 	$FG_TABLE_COL[]=array ("Calldate", "calldate", "18%", "center", "SORT", "19");
 	$FG_TABLE_COL[]=array ("Channel", "channel", "13%", "center", "", "30", "", "", "", "", "", "display_acronym");
@@ -267,7 +265,10 @@ if (!isset ($FG_TABLE_CLAUSE) || strlen($FG_TABLE_CLAUSE)==0){
 
 /* --AMP BEGIN-- */
 //enforce restrictions for this AMP User
-@session_start();
+if(!isset($_SESSION)) {
+	@session_start();
+}
+
 $AMP_CLAUSE = $_SESSION['AMP_SQL'];
 if (!isset($AMP_CLAUSE)) {
         $AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
