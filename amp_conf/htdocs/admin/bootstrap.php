@@ -1,7 +1,6 @@
 <?php
 /* Bootstrap Settings:
  *
- * bootstrap_settings['skip_db']               - legacy $skip_db, default false
  * bootstrap_settings['skip_astman']           - legacy $skip_astman, default false
  *
  * bootstrap_settings['astman_config']         - default null, config arguemnt when creating new Astman
@@ -18,9 +17,6 @@
  *                 e.g. $restrict_mods = array('core' => true, 'dashboard' => true)
  */
 
-if (!isset($bootstrap_settings['skip_db'])) {
-  $bootstrap_settings['skip_db'] = isset($skip_db) ? $skip_db : false;
-}
 if (!isset($bootstrap_settings['skip_astman'])) {
   $bootstrap_settings['skip_astman'] = isset($skip_astman) ? $skip_astman : false;
 }
@@ -43,6 +39,7 @@ $benchmark_starttime = microtime_float();
 
 // include base functions
 require_once(dirname(__FILE__) . '/functions.inc.php');
+$bootstrap_settings['framework_functions_included'] = true;
 
 //now that its been included, use our own error handler as it tends to be much more verbose.
 if ($bootstrap_settings['freepbx_error_handler']) {
@@ -58,13 +55,12 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 }
 
 // connect to database
-if (!$bootstrap_settings['skip_db']) {
-	require_once(dirname(__FILE__) . '/common/db_connect.php'); //PEAR must be installed
-	//keep old values as well so that we have the db settings handy
-	// get settings
-	$amp_conf = $amp_conf + parse_amportal_conf("/etc/amportal.conf");
-	$asterisk_conf = parse_asterisk_conf($amp_conf["ASTETCDIR"] . "/asterisk.conf");
-}
+require_once(dirname(__FILE__) . '/common/db_connect.php'); //PEAR must be installed
+//keep old values as well so that we have the db settings handy
+// get settings
+$amp_conf = $amp_conf + parse_amportal_conf("/etc/amportal.conf");
+$asterisk_conf = parse_asterisk_conf($amp_conf["ASTETCDIR"] . "/asterisk.conf");
+$bootstrap_settings['amportal_conf_initialized'] = true;
 
 //set error reporting level if set
 if (isset($amp_conf['php_error_reporting'])) {
@@ -80,8 +76,13 @@ if (!$bootstrap_settings['skip_astman']) {
 		if (!$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
 			// couldn't connect at all
 			unset( $astman );
+			$bootstrap_settings['astman_connected'] = false;
+		} else {
+			$bootstrap_settings['astman_connected'] = true;
 		}
 	}
+} else {
+	$bootstrap_settings['astman_connected'] = true;
 }
 
 //include gui functions + auth if nesesarry
@@ -134,6 +135,9 @@ if ($restrict_mods !== true) {
 			  }
 		  }
 	  }
+	  $bootstrap_settings['function_modules_included'] = true;
   }
+} else {
+	$bootstrap_settings['function_modules_included'] = false;
 }
 ?>

@@ -22,17 +22,16 @@
 
 /**
 * Written for PHP 4.3.4, should work with older PHP 4.x versions.  
-* Please submit bug reports, patches, etc to http://sourceforge.net/projects/phpagi/
-* Gracias. :)
 *
 */
  
-$restrict_mods = false;
-$skip_astman = true;
-
-if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-	include_once('/etc/asterisk/freepbx.conf');
-}
+  if (!isset($bootstrap_settings['amportal_conf_initialized']) || !$bootstrap_settings['amportal_conf_initialized']) {
+    $bootstrap_settings['skip_astman'] = true;
+    $restrict_mods = true;
+    if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+      include_once('/etc/asterisk/freepbx.conf');
+    }
+  }
 
   define('AST_CONFIG_DIR', $amp_conf['ASTETCDIR']);
   define('AST_SPOOL_DIR', $asterisk_conf['astspooldir']);

@@ -3,7 +3,6 @@
 //include bootstrap
 $restrict_mods = true;
 $bootstrap_settings['freepbx_auth'] = false;
-$bootstrap_settings['skip_db'] = true;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 	include_once('/etc/asterisk/freepbx.conf');
 }

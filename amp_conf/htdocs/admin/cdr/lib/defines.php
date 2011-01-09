@@ -1,9 +1,10 @@
 <?php /* $Id$ */
-$restrict_mods = true;
-$skip_db = true;
-$skip_astman = true;
-if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-	include_once('/etc/asterisk/freepbx.conf');
+if (!isset($bootstrap_settings['amportal_conf_initialized']) || !$bootstrap_settings['amportal_conf_initialized']) {
+  $restrict_mods = true;
+  $bootstrap_settings['skip_astman'] = true;
+  if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	  include_once('/etc/asterisk/freepbx.conf');
+  }
 }
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 require_once('DB.php'); // PEAR
