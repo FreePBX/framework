@@ -861,8 +861,13 @@ function category_sort_callback($a, $b) {
 	if ($catcomp == 0) {
 		// .. then by name
 		return strcmp($a['name'], $b['name']);
-	} else
+	} elseif ($a['category'] == 'Basic') {
+			return -1;
+	} elseif ($b['category'] == 'Basic') {
+		return 1;
+	} else {
 		return $catcomp;
+	}
 }
 
 /** preps a string to use as an HTML id element
