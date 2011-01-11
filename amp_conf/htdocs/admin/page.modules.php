@@ -15,12 +15,16 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
 $module_repo = isset($_REQUEST['module_repo'])?htmlentities($_REQUEST['module_repo']):'supported';
 $repo = "http://mirror.freepbx.org/";
-if ($module_repo == "extended") {
-	$repo .= "extended-";
-}
 
-// can't go online if external management is on
-$online = (isset($_REQUEST['online']) && !EXTERNAL_PACKAGE_MANAGEMENT) ? 1 : 0;
+global $active_repos;
+if (isset($_REQUEST['check_online'])) {
+  $online = 1;
+  $active_repos = $_REQUEST['active_repos'];
+  module_set_active_repos($active_repos);
+} else {
+  $online = (isset($_REQUEST['online']) && $_REQUEST['online'] && !EXTERNAL_PACKAGE_MANAGEMENT) ? 1 : 0;
+  $active_repos = module_get_active_repos();
+}
 
 // fix php errors from undefined variable. Not sure if we can just change the reference below to use
 // online since it changes values so just setting to what we decided it is here.
@@ -131,6 +135,7 @@ if (!$quietmode) {
 	<?php
 
 	echo "<h2>" . _("Module Administration") . "</h2>";
+  //TODO: decide if warnings of any sort need to be given, or just list of repos active?
 	if ($module_repo == "extended") {
 	 	echo "<h4 align='center'>"._("NOTICE")."<br />"._("You have accessed the extended repository which includes un-supported and third party modules")."</h4>";
 	}
@@ -452,17 +457,17 @@ switch ($extdisplay) {  // process, confirm, or nothing
 	case 'upload':
 		// display links
 		if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-			displayRepoSelect();
-		}
-		echo "| <a href='config.php?display=modules&amp;type=$type'>"._("Manage local modules")."</a>\n";
-		if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-			echo " | <a class='info check_updates' href='config.php?display=modules&type=$type&online=1&module_repo=$module_repo'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
+			$disp_buttons[] = 'local';
+			if (isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
+				// display upload button, only if they did upload something
+				$disp_buttons[] = 'upload';
+			}
+			displayRepoSelect($disp_buttons);
+		} else {
+			echo "<a href='config.php?display=modules&amp;type=$type'>"._("Manage local modules")."</a>\n";
 		}
 				
 		if (isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
-			// display upload link, only if they did upload something
-			echo " | <a href='config.php?display=modules&type=$type&extdisplay=upload'>"._("Upload module")."</a><br />\n";
-			
 			$res = module_handleupload($_FILES['uploadmod']);
 			if (is_array($res)) {
 				
@@ -511,10 +516,10 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 		} else {
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				displayRepoSelect();
-				echo " | <a class='info check_updates' href='config.php?display=modules&amp;type=$type&amp;online=1&amp;module_repo=$module_repo'>"._("Check for updates online")."<span>"._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.")."</span></a>\n";
+				displayRepoSelect(array('upload'));
+			} else {
+				echo " | <a href='config.php?display=modules&type=$type&extdisplay=upload'>"._("Upload module")."</a><br />\n";
 			}
-			echo " | <a href='config.php?display=modules&type=$type&extdisplay=upload'>"._("Upload module")."</a><br />\n";
 		}
 
 		echo "<form name=\"modulesGUI\" action=\"config.php\" method=\"post\">";
@@ -543,7 +548,6 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "\t</div>";
 
 		$category = false;
-    $has_extended_modules = false;
 		$numdisplayed = 0;
 		$fd = $amp_conf['ASTETCDIR'].'/freepbx_module_admin.conf';
 		if (file_exists($fd)) {
@@ -552,13 +556,22 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			$module_filter = array();
 		}
 		foreach (array_keys($modules) as $name) {
-				if (!isset($modules[$name]['category'])) {
+			if (!isset($modules[$name]['category'])) {
 				$modules[$name]['category'] = _("Broken");
 				$modules[$name]['name'] = $name;
-				 }
+			}
 			if (isset($module_filter[$name]) && strtolower(trim($module_filter[$name])) == 'hidden') {
 				continue;
 			}
+
+      // Theory: module is not in the defined repos, and since it is not local (meaning we loaded it at some point) then we
+      //         don't show it. Exception, if the status is BROKEN then we should show it because it was here once.
+      //
+      if ((!isset($active_repos[$modules[$name]['repo']]) || !$active_repos[$modules[$name]['repo']]) 
+        && $modules[$name]['status'] != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
+        continue;
+      }
+
 			$numdisplayed++;
 			
 			if ($category !== $modules[$name]['category']) {
@@ -602,9 +615,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "\t\t\t<span class=\"modulepublisher\">".(isset($modules[$name]['publisher'])?$modules[$name]['publisher']:'&nbsp;')."</span>\n";
 			
 			echo "\t\t\t<span class=\"modulestatus\">";
-      if (!$has_extended_modules && $category == 'Third Party Addon') {
-        $has_extended_modules = true;
-      }
+
 			switch ($modules[$name]['status']) {
 				case MODULE_STATUS_NOTINSTALLED:
 					if (isset($modules_local[$name])) {
@@ -830,20 +841,6 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "</div>";
 
 		echo "</form>";
-    if ($has_extended_modules) {
-?>
-	<script language="javascript">
-	<!-- Begin
-
-	$(document).ready(function(){
-		$("#module_repo").val('extended');
-    $('.check_updates').attr('href','config.php?display=modules&type=<?php echo $type ?>&online=1&module_repo=extended');
-	});
-
-	// End -->
-	</script>
-<?php
-    }
 	break;
 }
 
@@ -956,30 +953,70 @@ function pageReload(){
 	//return "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=".rand()."'</script>";
 }
 
+function displayRepoSelect($buttons) {
+  global $display, $type, $online, $tabindex;
+  global $active_repos;
 
+  $standard_repo = true;
+  $extended_repo = true;
+  $unsupported_repo = false;
+  $commercial_repo = true;
 
-function displayRepoSelect() {
-  global $type;
+  $button_display = '';
+  $href = "config.php?display=$display&type=$type";
+  $button_template = '<input type="button" value="%s" onclick="location.href=\'%s\';" />'."\n";
+
+  foreach ($buttons as $button) {
+    switch($button) {
+    case 'local':
+      $button_display .= sprintf($button_template, _("Manage local modules"), $href);
+    break;
+    case 'upload':
+      $button_display .= sprintf($button_template, _("Upload modules"), $href.'&extdisplay=upload');
+    break;
+    }
+  }
+
+  $tooltip  = _("Choose the repositories that you want to check for new modules. Any updates available for modules you have on your system will be detected even if the repository is not checked. If you are installing a new system, you may want to start with the Basic repository and upload all modules, then go back and review the others.").' ';
+  $tooltip .= _(" The modules in the Extended repository are less common and may receive lower levels of support. The Unsupported repository has modules that are not supported by the FreePBX team but may receive some level of support by the authors.").' ';
+  $tooltip .= _("The Commerical reposiotry is reserved for modules that are available for purchase and commercially supported.").' ';
+  $tooltip .= '<br /><br /><small><i>('._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.").')</i></small>';
 ?>
-	<select name="module_repo" id="module_repo">
-		<option value="supported"><?php echo _("Standard Repository") ?></option>
-		<option value="extended"><?php echo _("Extended Repository") ?></option>
-	</select>
-	<script language="javascript">
-	<!-- Begin
-
-	$(document).ready(function(){
-		$("#module_repo").change(function(){
-    $('.check_updates').attr('href','config.php?display=modules&type=<?php echo $type ?>&online=1&module_repo='+this.value);
-		if (this.value == "extended") {
-			alert("<?php echo _("You have selected to access the Extended Repository. This repository contains some Third Party and un-supported modules. Although these modules are believed to work with FreePBX, they are either developed by third parties in conjunction with optional PBX components, or they are not directly sponsored by the core FreePBX team and may not receive the same level of responsiveness to issues as the main code base does.") ?>");
-		}
-		});
-	});
-
-	// End -->
-	</script>
+  <form name="onlineRepo" action="config.php" method="post">
+    <input type="hidden" name="display" value="<?php echo $display ?>"/>
+    <input type="hidden" name="type" value="<?php echo $type ?>"/>
+    <input type="hidden" name="online" value="<?php echo $online ?>"/>
+    <table width="600px">
+      <tr>
+        <td>
+          <a href="#" class="info"><?php echo _("Repositories")?><span><?php echo $tooltip ?></span></a>
+        </td><td>
+          <table>
+            <tr>
+              <td width="25%">
+                <input id="standard_repo" type="checkbox" name="active_repos[standard]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['standard'])?"checked":""?>/>
+                <label for="active_repos[standard]"><?php echo _("Basic") ?></label>
+              </td>
+              <td width="25%">
+                <input id="extended_repo" type="checkbox" name="active_repos[extended]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['extended'])?"checked":""?>/>
+                <label for="active_repos[extended]"><?php echo _("Extended") ?></label>
+              </td>
+              <td width="25%">
+                <input id="unsupported_repo" type="checkbox" name="active_repos[unsupported]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['unsupported'])?"checked":""?>/>
+                <label for="active_repos[unsupported]"><?php echo _("Unsupported") ?></label>
+              </td>
+              <td width="25%">
+                <input id="commercial_repo" type="checkbox" name="active_repos[commercial]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['commercial'])?"checked":""?>/>
+                <label for="active_repos[commercial]"><?php echo _("Commercial") ?></label>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <input type="submit" value="<?php echo _("Check Online") ?>" name="check_online" />
+    <?php echo $button_display ?>
+  </form>
 <?php
 }
-
 ?>

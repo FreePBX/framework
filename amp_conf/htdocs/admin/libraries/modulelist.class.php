@@ -31,6 +31,37 @@ class modulelist{
 	}
 	function initialize(&$module_list) {
 		$this->module_array = $module_list;
+    // strip out extraneous fields (help especially when printing out debugs
+    //
+    foreach ($this->module_array as $mod_key => $mod) {
+      if (isset($mod['changelog'])) {
+        unset($this->module_array[$mod_key]['changelog']);
+      }
+      if (isset($mod['description'])) {
+        unset($this->module_array[$mod_key]['description']);
+      }
+      if (isset($mod['attention'])) {
+        unset($this->module_array[$mod_key]['attention']);
+      }
+      if (isset($mod['publisher'])) {
+        unset($this->module_array[$mod_key]['publisher']);
+      }
+      if (isset($mod['license'])) {
+        unset($this->module_array[$mod_key]['license']);
+      }
+      if (isset($mod['candisable'])) {
+        unset($this->module_array[$mod_key]['candisable']);
+      }
+      if (isset($mod['canuninstall'])) {
+        unset($this->module_array[$mod_key]['canuninstall']);
+      }
+      if (isset($mod['location'])) {
+        unset($this->module_array[$mod_key]['location']);
+      }
+      if (isset($mod['md5sum'])) {
+        unset($this->module_array[$mod_key]['md5sum']);
+      }
+    }
 		$module_serialized = $this->_db->escapeSimple(serialize($this->module_array));
 		sql("DELETE FROM `module_xml` WHERE `id` = 'mod_serialized'");
 		sql("INSERT INTO `module_xml` (`id`, `time`, `data`) VALUES ('mod_serialized', '".time()."','".$module_serialized."')");

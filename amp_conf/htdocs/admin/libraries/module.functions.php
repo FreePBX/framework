@@ -134,7 +134,7 @@ function module_update_notifications(&$old_xml, &$xmlarray, $passive) {
 	$new_modules = array();
 	if (count($xmlarray)) {
 		foreach ($xmlarray['xml']['module'] as $mod) {
-			$new_modules[$mod['rawname']] = $mod;
+      $new_modules[$mod['rawname']] = $mod;
 		}
 	}
 	$old_modules = array();
@@ -147,17 +147,22 @@ function module_update_notifications(&$old_xml, &$xmlarray, $passive) {
 	// If keys (rawnames) are different then there are new modules, create a notification.
 	// This will always be the case the first time it is run since the xml is empty.
 	//
-	// TODO: if old_modules is empty, should I populate it from getinfo to at find out what
-	//       is installed or otherwise, just skip it since it is the first time?
-	//
 	$diff_modules = array_diff_assoc($new_modules, $old_modules);
 	$cnt = count($diff_modules);
 	if ($cnt) {
+    $active_repos = module_get_active_repos();
 		$extext = _("The following new modules are available for download. Click delete icon on the right to remove this notice.")."<br />";
 		foreach ($diff_modules as $mod) {
-			$extext .= $mod['rawname']." (".$mod['version'].")<br />";
+      // If it's a new module in a repo we are not interested in, then don't send a notification.
+      if (isset($active_repos[$mod['repo']]) && $active_repos[$mod['repo']]) {
+        $extext .= $mod['rawname']." (".$mod['version'].")<br />";
+      } else {
+        $cnt--;
+      }
 		}
-		$notifications->add_notice('freepbx', 'NEWMODS', sprintf(_('%s New modules are available'),$cnt), $extext, '', $reset_value, true);
+    if ($cnt) {
+		  $notifications->add_notice('freepbx', 'NEWMODS', sprintf(_('%s New modules are available'),$cnt), $extext, '', $reset_value, true);
+    }
 	}
 
 	// Now check if any of the installed modules need updating
@@ -203,6 +208,30 @@ function module_upgrade_notifications(&$new_modules, $passive_value) {
 	} else {
 		$notifications->delete('freepbx', 'NEWUPDATES');
 	}
+}
+
+function module_get_active_repos() {
+  global $active_repos;
+  if (!isset($active_repos) || !$active_repos) {
+    $repos_serialized = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'repos_serialized'","getOne");
+    if (isset($repos_serialized) && $repos_serialized) {
+      $active_repos = unserialize($repos_serialized);
+    } else {
+      $active_repos = array('standard' => 1);
+      module_set_active_repos($active_repos);
+    }
+    return $active_repos;
+  } else {
+    return $active_repos;
+  }
+}
+
+function module_set_active_repos($repos) {
+  global $active_repos;
+  global $db;
+  $active_repos = $repos;
+  $repos_serialized = $db->escapeSimple(serialize($repos));
+  sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('repos_serialized', '".time()."','".$repos_serialized."')");
 }
 
 /** Looks through the modules directory and modules database and returns all available
@@ -256,6 +285,15 @@ function module_getinfo($module = false, $status = false, $forceload = false) {
 					$modules[$file] = $xml;
 					// if status is anything else, it will be updated below when we read the db
 					$modules[$file]['status'] = MODULE_STATUS_NOTINSTALLED;
+          // I think this is the source of reading every module from a file. The assumption is all modules
+          // from the online repo will always have a repo defined but local ones may not so we need to define
+          // them here.
+
+          //TODO: should we have a master list of supported repos and validate against that, or do it dynamically
+          //      we do with other stuff
+          if (!isset($modules[$file]['repo']) || !$modules[$file]['repo']) {
+            $modules[$file]['repo'] = 'local';
+          }
 				}
 			}
 			closedir($dir);
@@ -292,6 +330,7 @@ function module_getinfo($module = false, $status = false, $forceload = false) {
 				} else {
 					// no directory for this db entry
 					$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_BROKEN;
+					$modules[ $row['modulename'] ]['repo'] = 'broken';
 				}
 				$modules[ $row['modulename'] ]['dbversion'] = $row['version'];
 			}
