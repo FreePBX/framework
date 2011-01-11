@@ -71,14 +71,14 @@ class xml2Array {
 	}
 	
 	function tagClosed($parser, $name) {
-		@$this->arrOutput[count($this->arrOutput)-2]['children'][] = $this->arrOutput[count($this->arrOutput)-1];
+		@$this->arrOutput[count($this->arrOutput)-2]['children'][] = isset($this->arrOutput[count($this->arrOutput)-1]) ? $this->arrOutput[count($this->arrOutput)-1] : '';
 		array_pop($this->arrOutput);
 	}
 	
 	function recursive_parseLevel($items, &$attrs, $path = "") {
 		$array = array();
 		foreach (array_keys($items) as $idx) {
-			@$items[$idx]['name'] = strtolower($items[$idx]['name']);
+			@$items[$idx]['name'] = isset($items[$idx]['name']) ? strtolower($items[$idx]['name']) : '';
 			
 			$multi = false;
 			if (isset($array[ $items[$idx]['name'] ])) {
