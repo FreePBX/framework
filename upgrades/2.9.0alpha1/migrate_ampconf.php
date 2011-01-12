@@ -23,7 +23,7 @@ $result = $db->query($sql);
 unset($sql);
 if(DB::IsError($result)){
 	$sql[] = "CREATE TABLE `freepbx_settings` (
-	  `key` varchar(50) default NULL,
+	  `keyword` varchar(50) default NULL,
 	  `value` varchar(255) default NULL,
 	  `level` int(11) default '0',
 	  `description` text default NULL,
@@ -36,6 +36,7 @@ if(DB::IsError($result)){
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1";
 
 
+  // TODO: this needs field names if we keep this, also needs newsql file entry
 	$sql[] = "INSERT INTO `freepbx_settings` VALUES 
 		('AMPADMINLOGO','logo.png',0,'Defines the logo that is to be displayed at the TOP RIGHT of the admin screen. This enables you to customize the look of the administration screen. NOTE: images need to be saved in the ..../admin/images directory of your AMP install. This image should be 55px in height<br>Default = logo.png','text',NULL,NULL,NULL,NULL),
 		('AMPBADNUMBER','TRUE',0,'Generate the bad-number context which traps any bogus number or feature code and plays a message to the effect. If you use the Early Dial feature on some Grandstream phones, you will want to set this to false<br>Default = true','select','TRUE,FALSE','TRUE',NULL,NULL),
@@ -136,7 +137,7 @@ if(DB::IsError($result)){
 			$settings[] = array('key' => $key, 'value' => $val);
 	}
 
-	$query = $db->prepare("UPDATE freepbx_settings set value = ? WHERE `key` = ?");
+	$query = $db->prepare("UPDATE freepbx_settings set value = ? WHERE `keyword` = ?");
 	$result = $db->executeMultiple($query,$settings);
 	if(DB::IsError($result)){
 		die_freepbx($result->getDebugInfo());

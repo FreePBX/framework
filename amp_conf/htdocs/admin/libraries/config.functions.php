@@ -62,6 +62,7 @@ $amp_conf_defaults = array(
 	'DAYNIGHTTCHOOK'  => array('bool' , false),
 );
 
+// TODO: this becomes part of the class
 function parse_amportal_conf($filename) {
 	global $amp_conf_defaults, $db;
 
@@ -85,7 +86,7 @@ function parse_amportal_conf($filename) {
 				die_freepbx("<h1>".sprintf(_("Missing or unreadable config file (%s)...cannot continue"), $filename)."</h1>"); 
 			}
 	} else {
-		$sql = 'SELECT `key`, value FROM freepbx_settings';
+		$sql = 'SELECT `keyword`, value FROM freepbx_settings';
 		$conf = $db->getAssoc($sql);
 		if(DB::IsError($conf)) {     
 			die_freepbx($conf->getMessage()); 
