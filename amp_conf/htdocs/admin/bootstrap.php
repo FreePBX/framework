@@ -58,8 +58,13 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 require_once(dirname(__FILE__) . '/common/db_connect.php'); //PEAR must be installed
 //keep old values as well so that we have the db settings handy
 // get settings
-$amp_conf = $amp_conf + parse_amportal_conf("/etc/amportal.conf");
-$asterisk_conf = parse_asterisk_conf($amp_conf["ASTETCDIR"] . "/asterisk.conf");
+$freepbx_conf =& freepbx_conf::create();
+
+// passing by reference, this means that the $amp_conf available to everyone is the same one as present
+// within the class, which is probably a direction we want to go to use the class.
+//
+$amp_conf =& $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
+$asterisk_conf =& $freepbx_conf->get_asterisk_conf();
 $bootstrap_settings['amportal_conf_initialized'] = true;
 
 //set error reporting level if set

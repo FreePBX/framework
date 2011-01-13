@@ -90,7 +90,11 @@ switch (strtolower($amp_conf['AUTHTYPE'])) {
 
 
 function frameworkPasswordCheck() {
-	global $amp_conf, $amp_conf_defaults;
+	global $amp_conf;
+
+	$freepbx_conf =& freepbx_conf::create();
+  $amp_conf_defaults =& $freepbx_conf->conf_defaults;
+
 	$nt = notifications::create($db);
 	if ($amp_conf['AMPMGRPASS'] == $amp_conf_defaults['AMPMGRPASS'][1]) {
 		$nt->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
