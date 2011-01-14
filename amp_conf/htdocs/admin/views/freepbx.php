@@ -30,12 +30,20 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 			$html .= "target=\"_blank\" ";
 		} else {
 			$html .= "target=\"$new_window\" ";
-			//$html .= "onClick=\"return menu_popup(this, '$new_window')\" ";
 		}
 	}
 	$html .= "href=\"$href\">$name</a></li>";
 
 	print("\t\t$html\n");
+}
+
+// Original Code:
+// Copyright (c) 2007 Dave Stone & Danny Hope
+//
+function compress_css($buffer) {
+  $buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
+  $buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $buffer);
+  return $buffer;
 }
 
 if (!isset($title)) {
@@ -45,6 +53,109 @@ if (!isset($amp_conf)) {
   $amp_conf = array();
 }
 
+/*
+  TODO: Example for testing (delete later)
+$amp_conf['BRAND_HIDE_HEADER_VERSION'] = true;
+$amp_conf['BRAND_HIDE_HEADER_MENUS'] = true;
+$amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND'] = true;
+$amp_conf['BRAND_CSS_ALT_MAINSTYLE'] = 'common/mainstyle_tango.css'; 
+$amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] = 'images/tango_large.png';
+
+  TODO: need to generate all these settings somewhere
+*/
+
+// BRANDABLE COMPONENTS
+//
+if (isset($amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND']) && $amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND']) {
+  $use_nav_background = false;
+} else {
+  $shadow_side_background = isset($amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND']) ? $amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND'] : 'images/shadow-side-background.png';
+}
+// $freepbx_logo_r
+// AMPADMINLOGO takes precedence for backwards compatibility
+if (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."images/".$amp_conf["AMPADMINLOGO"])) {
+  $freepbx_logo_r = $amp_conf["AMPADMINLOGO"]; 
+} else {
+  $freepbx_logo_r = isset($amp_conf['BRAND_IMAGE_FREEPBX_LEFT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] : 'images/logo.png';
+}
+$freepbx_alt_l      = isset($amp_conf['BRAND_FREEPBX_ALT_LEFT']) ? $amp_conf['BRAND_FREEPBX_ALT_LEFT'] : _("FreePBX");
+$freepbx_alt_r      = isset($amp_conf['BRAND_FREEPBX_ALT_RIGHT']) ? $amp_conf['BRAND_FREEPBX_ALT_RIGHT'] : _("FreePBX");
+$freepbx_logo_l     = isset($amp_conf['BRAND_IMAGE_FREEPBX_LEFT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] : 'images/freepbx_large.png';
+$freepbx_link_l     = isset($amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] : 'http://www.freepbx.org';
+$freepbx_link_r     = isset($amp_conf['BRAND_IMAGE_FREEPBX_LINK_RIGHT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_RIGHT'] : 'http://www.freepbx.org';
+$use_freepbx_logo_r = isset($amp_conf['BRAND_HIDE_LOGO_RIGHT']) ? $amp_conf['BRAND_HIDE_LOGO_RIGHT'] : false;
+$hide_version       = isset($amp_conf['BRAND_HIDE_HEADER_VERSION']) ? $amp_conf['BRAND_HIDE_HEADER_VERSION'] : false;
+$hide_toolbar       = isset($amp_conf['BRAND_HIDE_HEADER_MENUS']) ? $amp_conf['BRAND_HIDE_HEADER_MENUS'] : false;
+
+$mainstyle_css      = isset($amp_conf['BRAND_CSS_ALT_MAINSTYLE']) ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] : 'common/mainstyle.css'; 
+$custom_css         = isset($amp_conf['BRAND_CSS_CUSTOM']) ? $amp_conf['BRAND_CSS_CUSTOM'] : false;
+
+//TODO: create DISABLE_CSS_AUTOGEN default false
+//
+$amp_conf['DISABLE_CSS_AUTOGEN'] = false;
+if (!$amp_conf['DEVEL'] && !$amp_conf['DISABLE_CSS_AUTOGEN']) {
+  $wwwroot = $amp_conf['AMPWEBROOT']."/admin";
+
+  // stat the css files and check if they have been modified since we last generated a css
+  //
+  $mainstyle_css_full_path = $wwwroot."/".$mainstyle_css;
+  $stat_mainstyle = stat($mainstyle_css_full_path);
+  $css_changed = isset($amp_conf['mainstyle_css_mtime']) ? ($stat_mainstyle['mtime'] != $amp_conf['mainstyle_css_mtime']) : true;
+
+  if (!$css_changed && file_exists($wwwroot.'/'.$amp_conf['mainstyle_css_generated'])) {
+    $mainstyle_css = $amp_conf['mainstyle_css_generated'];
+  } else {
+    $ms_path = dirname($mainstyle_css);
+
+    // If it's actually set and exists then delete it, we no it has changed
+    //
+    if (isset($amp_conf['mainstyle_css_generated']) && file_exists($wwwroot.'/'.$amp_conf['mainstyle_css_generated'])) {
+      unlink($wwwroot.'/'.$amp_conf['mainstyle_css_generated']);
+    }
+
+    // Now generate a new one using the mtime as part of the file name to make it fairly unique
+    // it's important to be unique because that will force browsers to reload vs. caching it
+    //
+    $mainstyle_css_generated = $ms_path.'/mstyle_autogen_'.$stat_mainstyle['mtime'].'.css';
+    $css_buff = file_get_contents($mainstyle_css_full_path);
+    $css_buff_compressed = compress_css($css_buff);
+    $ret = file_put_contents($wwwroot."/".$mainstyle_css_generated,$css_buff_compressed);
+    unset($css_buff);
+    unset($css_buff_compressed);
+
+    // Now assuming we write something reasonable, we need to save the generated file name and mtimes so
+    // next time through this ordeal, we see everything is setup and skip all of this.
+    // 
+    // we skip this all this if we get back false or 0 (nothing written) in which case we will use the original
+    // TOOD: maybe consider a number higher than 0 for sanity check, at least some number of bytes we know it will
+    //       always be bigger than?
+    //
+    // We need to set the value in addition to defining the setting since if already defined the value won't be reset.
+    if ($ret) {
+      $freepbx_conf =& freepbx_conf::create();
+
+      $settings['value'] = $mainstyle_css_generated;
+      $settings['description'] = 'internal use';
+      $settings['type'] = CONF_TYPE_TEXT;
+      $settings['defaultval'] = '';
+      $settings['category'] = 'Internal';
+      $settings['level'] = 10;
+      $settings['readonly'] = 1;
+      $settings['hidden'] = 1;
+      $freepbx_conf->define_conf_setting('mainstyle_css_generated',$settings);
+      $val_update['mainstyle_css_generated'] = $settings['value'];
+
+      $settings['value'] = $stat_mainstyle['mtime'];
+      $freepbx_conf->define_conf_setting('mainstyle_css_mtime',$settings);
+      $val_update['mainstyle_css_mtime'] = $settings['value'];
+
+      // Update the values (in case these are new) and commit
+      $freepbx_conf->set_conf_values($val_update,true);
+
+      $mainstyle_css = $mainstyle_css_generated;
+    }
+  }
+}
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- should also validate ok with DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/xhtml1-transitional.dtd" -->
@@ -54,11 +165,11 @@ if (!isset($amp_conf)) {
 	<title><?php  echo _($title) ?></title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
-	<link href="common/mainstyle.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo $mainstyle_css ?>" rel="stylesheet" type="text/css" />
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>
 	<style type="text/css">
 		body {
-		background-image: url(images/shadow-side-background.png);
+		background-image: url(<?php echo $shadow_side_background ?>);
 		background-repeat: repeat-y;
 		background-position: left;
 		}
@@ -66,17 +177,6 @@ if (!isset($amp_conf)) {
 <?php } ?>
 	<link rel="shortcut icon" href="images/favicon.ico" />
 <?php 
-	// check if in the amp configuration the user has set that
-	// he wants to use an alternative style-sheet.
-	// on Xorcom's TS1, it's used when the system is in rescue mode.
-	if (isset($amp_conf["ALTERNATIVE_CSS"]))
-	{
-		if (($amp_conf["ALTERNATIVE_CSS"] == "1") ||
-			($amp_conf["ALTERNATIVE_CSS"] == "yes") ||
-			($amp_conf["ALTERNATIVE_CSS"] == "true"))
-			echo "\t<link href=\"common/mainstyle-alternative.css\" rel=\"stylesheet\" type=\"text/css\" />";
-	}
-
 	if (isset($module_name)) {
 		if (is_file('modules/'.$module_name.'/'.$module_name.'.css')) {
 			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.css" rel="stylesheet" type="text/css" />'."\n";
@@ -85,7 +185,10 @@ if (!isset($amp_conf)) {
 			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.css" rel="stylesheet" type="text/css" />'."\n";
 		}
 	}
-?>
+  // Insert a custom CSS sheet if specified (this can change what is in the main CSS
+  if ($custom_css) { ?>
+  <link href="<?php echo $custom_css ?>" rel="stylesheet" type="text/css" />
+<?php } ?>
 
 	<script type="text/javascript" src="common/script.js.php"></script>
 <?php
@@ -97,6 +200,7 @@ if (!isset($amp_conf)) {
 	<script type="text/javascript" src="common/libfreepbx.javascripts.js" language="javascript"></script>
 <?php
 	} else {
+	// TODO: include this in some sort of meta-data or xml file for parsing? Order is important so can't just read the directory
 ?>
 	<script type="text/javascript" src="assets/js/jquery-1.4.2.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.cookie.js"></script> <!-- plugin for setting/retrieving cookies -->
@@ -180,20 +284,18 @@ if ($reload_needed) {
 <div id="page">
 	<div id="header">
 <?php
-	global $amp_conf;
-	$freepbx_alt = _("FreePBX");
-	$freepbx_logo = 'freepbx_large.png';
-	echo "\t\t<div id=\"freepbx\"><a href=\"http://www.freepbx.org\" target=\"_blank\" title=\"".$freepbx_alt."\"><img src=\"images/".$freepbx_logo."\" alt=\"".$freepbx_alt."\" /></a></div>\n";
+	echo "\t\t<div id=\"freepbx\"><a href=\"$freepbx_link_l\" target=\"_blank\" title=\"".$freepbx_alt_l."\"><img src=\"$freepbx_logo_l\" alt=\"".$freepbx_alt_l."\" /></a></div>\n";
 			
-	echo "\t\t<div id=\"version\">";
 	$version = get_framework_version();
 	$version = $version ? $version : getversion();
-	echo sprintf(_("%s %s on %s"), 
-		//TODO : make this go somewhere more useful? or no link?
-		"<a href=\"http://www.freepbx.org\" target=\"_blank\">"._("FreePBX")."</a>",
-		$version,
-		"<a href=\"http".(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=''?'s':'')."://".$_SERVER['HTTP_HOST']."\">".$_SERVER["SERVER_NAME"]."</a>"
-		 );
+	echo "\t\t<div id=\"version\">";
+	if (!$hide_version) {
+		echo sprintf(_("%s %s on %s"), 
+			"<a href=\"$freepbx_link_l\" target=\"_blank\">$freepbx_alt_l</a>",
+			$version,
+			"<a href=\"http".(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=''?'s':'')."://".$_SERVER['HTTP_HOST']."\">".$_SERVER["SERVER_NAME"]."</a>"
+		 	);
+		}
 	echo "</div>\n";
 
 	$currentFile = basename($_SERVER["SCRIPT_NAME"]);
@@ -203,28 +305,30 @@ if ($reload_needed) {
 		$help_args .= "&amp;freepbx_menuitem=".urlencode($_REQUEST['display']);
 	}
 	
-	echo "\t\t<ul id=\"metanav\">\n";
-	//print_sub_tool( _("Home"), "index.php"  ,$currentFile=='index.php');
-	print_sub_tool( _("Management"), "manage.php" , $currentFile=='manage.php' );
-	print_sub_tool( _("Admin")   , "config.php", $currentFile=='config.php' );
-	print_sub_tool( _("Reports")   , "reports.php", $currentFile=='reports.php' );
-	if(!$amp_conf["FOPDISABLE"]) {
-		print_sub_tool( _("Panel"), "panel.php", $currentFile=='panel.php' );
+  //TODO: really need to make this based out of some sort of XML which we can then have a module manage, or override it based on an optional file if exists
+	if (!$hide_toolbar) {
+		echo "\t\t<ul id=\"metanav\">\n";
+		//print_sub_tool( _("Home"), "index.php"  ,$currentFile=='index.php');
+		print_sub_tool( _("Management"), "manage.php" , $currentFile=='manage.php' );
+		print_sub_tool( _("Admin")   , "config.php", $currentFile=='config.php' );
+		print_sub_tool( _("Reports")   , "reports.php", $currentFile=='reports.php' );
+		if(!$amp_conf["FOPDISABLE"]) {
+			print_sub_tool( _("Panel"), "panel.php", $currentFile=='panel.php' );
+		}
+		print_sub_tool( _("Recordings"), "../recordings/index.php"  ,0, NULL, "ari" );
+		print_sub_tool( _("Help"), "http://www.freepbx.org/freepbx-help-system$help_args"  ,0, NULL, "help" );
+		echo "<li class=\"last\"><a>&nbsp;</a></li>";
+		echo "\t\t</ul>\n";
 	}
-	print_sub_tool( _("Recordings"), "../recordings/index.php"  ,0, NULL, "ari" );
-	print_sub_tool( _("Help"), "http://www.freepbx.org/freepbx-help-system$help_args"  ,0, NULL, "help" );
-	echo "<li class=\"last\"><a>&nbsp;</a></li>";
-	echo "\t\t</ul>\n";
 
-	$freepbx_logo = (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])) ? $amp_conf["AMPADMINLOGO"] : 'logo.png';
-	echo "\t\t<div id=\"logo\"><a href=\"http://www.freepbx.org\" target=\"_blank\" title=\"".$freepbx_alt."\"><img src=\"images/".$freepbx_logo."\" alt=\"".$freepbx_alt."\" /></a></div>\n";
-
+  if ($use_freepbx_logo_r) {
+	  echo "\t\t<div id=\"logo\"><a href=\"$freepbx_link_r\" target=\"_blank\" title=\"".$freepbx_alt_r."\"><img src=\"$freepbx_logo_right\" alt=\"".$freepbx_alt_r."\" /></a></div>\n";
+  }
 	
 	// need reload bar - hidden by default
 	if ($reload_needed) {
 		showview('freepbx_reloadbar');
 	}
-	
 	
 	echo "\t<div id=\"login_message\">";
 

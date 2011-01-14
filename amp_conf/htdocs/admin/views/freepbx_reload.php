@@ -68,6 +68,7 @@
 							// successful reload
 <?php
   global $amp_conf;
+  $loading_img = isset($amp_conf['BRAND_IMAGE_RELOAD_LOADING']) ? $amp_conf['BRAND_IMAGE_RELOAD_LOADING'] : 'images/loading.gif';
   if (!$amp_conf['DEVELRELOAD']) {
 ?>
 							$('#need_reload_block').fadeOut();
@@ -129,7 +130,7 @@
 	
 	<div id="reload_reloading" style="display:none;">
 		<h3><?php echo _('Please wait, reloading..'); ?></h3>
-		<img src="images/loading.gif" alt="<?php echo _('Loading...'); ?>" />
+    <img src="<?php echo $loading_img ?>" alt="<?php echo _('Loading...'); ?>" />
 	</div>
 	
 	<div id="reload_response" style="display:none;">

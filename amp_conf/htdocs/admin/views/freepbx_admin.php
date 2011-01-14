@@ -241,7 +241,13 @@ function changeLang(lang) {
 <div id="footer">
 	<hr />
 	<?php
-	echo '<a target="_blank" href="http://www.freepbx.org"><img id="footer_logo" src="images/freepbx_small.png" alt="FreePBX&reg;"/></a>';
+  // Brandable logos in footer
+  //
+  $freepbx_alt_f = isset($amp_conf['BRAND_FREEPBX_ALT_FOOT']) ? $amp_conf['BRAND_FREEPBX_ALT_FOOT'] : _("FreePBX&reg;");
+  $freepbx_logo_f = isset($amp_conf['BRAND_IMAGE_FREEPBX_FOOT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_FOOT'] : 'images/freepbx_small.png';
+  $freepbx_link_f = isset($amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT'] : 'http://www.freepbx.org';
+
+	echo '<a target="_blank" href="'.$freepbx_link_f.'"><img id="footer_logo" src="'.$freepbx_logo_f.'" alt="'.$freepbx_alt_f.'"/></a>';
 	echo '<h3>'.'Let Freedom Ring<sup>&#153;</sup>'.'</h3>';
 	echo "\t\t".sprintf(_('%s is a registered trademark of %s'),
 	     '<a href="http://www.freepbx.org" target="_blank">'._('FreePBX').'</a>',
