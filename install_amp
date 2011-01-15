@@ -34,51 +34,6 @@ $ampbin_dir = "/var/lib/asterisk/bin";
 $asterisk_user	= "asteriskuser";
 $asterisk_pass	= "amp109";
 
-
-/*
-freepbx versions
-		'1.10.005',
-		'1.10.006',
-		'1.10.007beta1',
-		'1.10.007beta2',
-		'1.10.007',
-		'1.10.007a',
-		'1.10.008beta1',
-		'1.10.008beta2',
-		'1.10.008beta3',
-		'1.10.008',
-		'1.10.009beta1',
-		'1.10.009beta2',
-		'1.10.009',
-		'1.10.010beta1',
-		'1.10.010',
-		'2.0beta1',
-		'2.0beta2',
-		'2.0beta3',
-		'2.0beta4',
-		'2.0beta5',
-		'2.0.0',
-		'2.0.1',
-		'2.1beta1',
-		'2.1beta2',
-		'2.1beta3',
-		'2.1.0',
-		'2.1.1',
-		'2.1.2',
-		'2.1.3',
-		'2.2.0beta1',
-		'2.2.0beta2',
-		'2.2.0beta3',
-		'2.2.0rc1',
-		'2.2.0rc2',
-		'2.2.0rc3',
-		'2.2.0',
-		'2.2.1',
-		'2.2.2',
-		'2.2.3',
-		'2.3.0beta1',
-*/
-
 /********************************************************************************************************************/
 
 function out($text) {
@@ -286,8 +241,10 @@ function generate_configs() {
 
 		//
 		// TODO: Should check if Asterisk is running and/or try to start it.
+    // TODO: test this
 		//
-		passthru("su - asterisk -c \"".trim($amp_conf["AMPBIN"])."/retrieve_conf --run-install ".($debug ? ' --debug' : '').'"');
+    $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
+		passthru("sudo -u $asteriskuser  ".trim($amp_conf["AMPBIN"])."/retrieve_conf --run-install ".($debug ? ' --debug' : ''));
 }
 
 
@@ -556,6 +513,21 @@ function set_module_version($module) {
 
 /********************************************************************************************************************/
 
+//
+// TODO: will this work, basically using bootstrap once installed if using to upgrade, etc?
+/*
+$bootstrap_settings['skip_astman']) = true;
+$bootstrap_settings['freepbx_auth'] = false;
+$restrict_mods = true;
+if (@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+  out(_("FreePBX already installed, bootstrapping"));
+} else if (@include_once('/etc/asterisk/freepbx.conf')) {
+  out(_("FreePBX already installed, bootstrapping"));
+} else {
+  // all the initialization here instead
+}
+*/
+
 // **** Make sure we have STDIN etc
 
 // from  ben-php dot net at efros dot com   at  php.net/install.unix.commandline
@@ -723,6 +695,8 @@ foreach ($args[0] as $arg) {
 
 // **** Look for user = root
 
+// TODO: if we bootstrap, do this first before even trying. Also, is their a problem boostraping as user root???
+//
 outn("Checking user..");
 //$current_user=(isset($_ENV["USER"]) ? $_ENV["USER"] : exec('whoami',$output));
 $euid = (posix_getpwuid(posix_geteuid()));
@@ -734,6 +708,8 @@ if ($current_user != "root"){
 out("OK");
 
 
+// TODO: if we bootstrap, do this first before even trying.
+//
 outn("Checking if Asterisk is running..");
 exec("pidof asterisk", $pid_val, $ret);
 if ($ret) {
@@ -764,10 +740,7 @@ out("OK");
 
 // **** read amportal.conf
 
-// TODO: should check for freepbx.conf first in case this is not a first
-//       time install?
-//       If it is successful, then do we bootsrap (otherwise we won't have
-//       these other parameters which are coming out of amportal.con
+// TODO: see comments above, have we already boostraped, if so, skip this?
 //
 outn("Reading ".AMP_CONF."..");
 $amp_conf = install_parse_amportal_conf(AMP_CONF);
@@ -776,28 +749,27 @@ if (count($amp_conf) == 0) {
 }
 out("OK");
 
+// TODO: if we boostrapped I think we can count on ALL of these being set but maybe it's
+//       fine to do a sanity check?
+//
 // Ensure our "critical" variables are set.  We absolutely need these to copy in files.
 
 if (!array_key_exists("AMPWEBROOT",$amp_conf)) {
 	out("Adding AMPWEBROOT option to amportal.conf - using AMP default");
 	$amp_conf["AMPWEBROOT"] = "/var/www/html";
 }
-
 if (!array_key_exists("FOPWEBROOT",$amp_conf)) {
 	out("Adding FOPWEBROOT option to amportal.conf - using AMP default");
 	$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"]."/panel";
 }
-
 if (!array_key_exists("AMPBIN",$amp_conf)) {
 	out("Adding AMPBIN option to amportal.conf - using AMP default");
 	$amp_conf["AMPBIN"] = "/var/lib/asterisk/bin";
 }
-
 if (!array_key_exists("AMPSBIN",$amp_conf)) {
 	out("Adding AMPSBIN option to amportal.conf - using AMP default");
 	$amp_conf["AMPSBIN"] = "/usr/sbin";
 }
-
 if (!array_key_exists("AMPDBENGINE",$amp_conf)) {
 	out("Adding AMPDBENGINE option to amportal.conf - using AMP default");
 	$amp_conf["AMPDBENGINE"] = "mysql";
@@ -807,18 +779,17 @@ if (!array_key_exists("AMPDBNAME",$amp_conf)) {
 	$amp_conf["AMPDBNAME"] = "asterisk";
 }
 
+// TODO: if we boostrapped do we ignore these? (Can they even be set?)
+//
 if (isset($new_username)) {
 	$amp_conf["AMPDBUSER"] = $new_username;
 }
-
 if (isset($new_password)) {
 	$amp_conf["AMPDBPASS"] = $new_password;
 }
-
 if (isset($dbhost)) {
 	$amp_conf["AMPDBHOST"] = $dbhost;
 }
-
 if (isset($dbname)) {
 	$amp_conf["AMPDBNAME"] = $dbname;
 }
@@ -828,12 +799,15 @@ if(!$install_fop)  { // Set from --install-fop parameter; Add it to amportal.con
 }
 // If they pre-set this in their amportal.conf or this is an upgrade, we should honor it as well
 //
+// TODO: if we boostrap, then this value could be normalized (1/0 I think?)
+//
 if (isset($amp_conf['FOPDISABLE']) && (strtolower(trim($amp_conf['FOPDISABLE'])) == 'true' || strtolower(trim($amp_conf['FOPDISABLE'])) == 'yes' || strtolower(trim($amp_conf['FOPDISABLE'])) == 'y') )  {
 	$install_fop = false;
 }	
 // write amportal.conf
-// TODO: What we do here may depend on if we bootsrapped, as well as how we set the
-//       other paramerts just above (e.g. we would want to use the define
+// TODO: if we boostrapped we don't want to write amportal.conf, or do we? e.g. if we are running out of the file vs. the
+//       database then we probably want to write, though there should be a freepbx_conf class to use that does that and knows
+//       how to make that decsion as well as what to write?
 //
 write_amportal_conf(AMP_CONF, $amp_conf);
 
@@ -848,6 +822,8 @@ out("OK");
 
 // **** read asterisk.conf
 
+// TODO: if we boostrapped don't do this
+//
 outn("Reading ".ASTERISK_CONF."..");
 $asterisk_conf = install_parse_asterisk_conf(ASTERISK_CONF);
 if (count($asterisk_conf) == 0) {
@@ -855,11 +831,7 @@ if (count($asterisk_conf) == 0) {
 }
 out("OK");
 
-/* deprecated on FreePBX 2.2, from now pages need to read this information 
-   from $asterik_conf and not $amp_conf.
-   
-   this code will stay in 2.2, but in 2.3 it will be gone. developers - please
-   update your code
+/* TODO: if we boostrapped this should have been done but doesn't hurt?
  */
 if (isset($asterisk_conf['astetcdir'])) { $amp_conf['ASTETCDIR'] = $asterisk_conf['astetcdir']; }
 if (isset($asterisk_conf['astmoddir'])) { $amp_conf['ASTMODDIR'] = $asterisk_conf['astmoddir']; }
@@ -873,13 +845,16 @@ if (!isset($pbx_engine)) { $pbx_engine='asterisk'; }
 out("Using $pbx_engine as PBX Engine");
 $amp_conf["AMPENGINE"]=$pbx_engine;
 
-// TODO: Again? didn't we just do that above?
+// TODO: I guess we have new variables set, of course see note above if we boostrapped. Probably
+//       this one stays?
 //
 write_amportal_conf(AMP_CONF, $amp_conf);
 
 
 // **** Write asterisk version to ASTETCDIR/version
 
+// TODO: does anything use this? What's the point? (other than we need the version for below)
+//
 $tmpoutput = '';
 $tmpout = exec("asterisk -V", $tmpoutput, $exitcode);
 if ($exitcode != 0) {
@@ -954,6 +929,8 @@ out("OK");
 
 // **** Connect to database
 
+// TODO: if we bootstrapped, we are already connected and this can all be skipped
+//
 outn("Connecting to database..");
 
 $db_engine = $amp_conf["AMPDBENGINE"];
@@ -1103,6 +1080,8 @@ if (!$dryrun) {
 	 	look for the #include statements and touch the files vs. trying to inventory everything we may
 	 	need and then forgetting something.
 	*/
+  
+  $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
 
 	outn("creating missing #include files..");
 	$include_err = false;
@@ -1126,7 +1105,7 @@ if (!$dryrun) {
 		$target = ($rawfile[0] == '/') ? $rawfile : $amp_conf['ASTETCDIR']."/$rawfile";
 
 		if (!file_exists($target)) {
-			exec("touch $target", $output, $retcode);
+			exec("sudo -u $asteriskuser touch $target", $output, $retcode);
 				if ($retcode != 0) {
 				out("Error code $retcode: trying to create empty file $target");
 				$include_err = true;
@@ -1147,10 +1126,10 @@ if (!$dryrun) {
 out("OK");
 
 // **** Create spool directories for monitor and fax
-if (!is_dir($asterisk_conf["astspooldir"]."/monitor"))
-	amp_mkdir($asterisk_conf["astspooldir"]."/monitor","0766",true);
-if (!is_dir($asterisk_conf["astspooldir"]."/fax"))
-	amp_mkdir($asterisk_conf["astspooldir"]."/fax","0766",true);
+if (!is_dir($amp_conf["ASTSPOOLDIR"]."/monitor"))
+	amp_mkdir($amp_conf["ASTSPOOLDIR"]."/monitor","0766",true);
+if (!is_dir($amp_conf["ASTSPOOLDIR"]."/fax"))
+	amp_mkdir($amp_conf["ASTSPOOLDIR"]."/fax","0766",true);
 
 
 // **** Set permissions all files
@@ -1170,6 +1149,11 @@ upgrade_all($version);
 
 // TODO: this is probably where we will put freepbx_settings_init
 //       to initialize/update all the possible settings
+/*
+outn("Creating or updating freepbx_conf settings..");
+freepbx_settings_init();
+out("..OK");
+*/
 
 // **** Generate AMP configs
 out("Generating AMP configs..");
@@ -1181,7 +1165,7 @@ $version = install_getversion();
 if($install_fop && $amp_conf["FOPRUN"])  {
 	// **** Bounce FOP
 	outn("Restarting Flash Operator Panel..");
-	exec('su - asterisk -c "'.$amp_conf["AMPBIN"].'/bounce_op.sh"');
+	exec("sudo -u $asteriskuser ".$amp_conf["AMPBIN"].'/bounce_op.sh');
 	out("OK");
 }
 

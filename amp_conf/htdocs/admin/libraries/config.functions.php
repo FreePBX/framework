@@ -136,23 +136,23 @@ class freepbx_conf {
     unset($db_raw);
   }
 
-  function parse_amportal_conf($filename, $bootstrap_conf = array()) {
+  function parse_amportal_conf($filename, $bootstrap_conf = array(), $file_is_authority=false) {
 	  global $db;
 
     // if we have loaded for the db, then just return what we already have
-    if ($this->parsed_from_db) {
+    if ($this->parsed_from_db && !$file_is_authority) {
 	    return $this->conf;
     }
 
 	  /* defaults
-	  * This defines defaults and formating to assure consistency across the system so that
+	  * This defines defaults and formatting to assure consistency across the system so that
 	  * components don't have to keep being 'gun shy' about these variables.
 	  * 
 	  * we will read these settings out of the db, but only when $filename is writeable
 	  * otherwise, we read the $filename
 	  */
     // If conf file is not writable, then we use it as the master so parse it.
-	  if (!is_writable($filename)) {
+	  if (!is_writable($filename) || $file_is_authority) {
 		  $file = file($filename); 
 		  if (is_array($file)) { 
         $write_back = false;
@@ -276,6 +276,12 @@ class freepbx_conf {
 	  return $this->asterisk_conf;
   }
 
+  // Check if a setting exists
+  //
+  function conf_setting_exists($keyword) {
+    return isset($this->db_conf_store[$keyword]);
+  }
+
   // TODO: no way to differentiate between a bad setting and boolean false
   //       but throwing an error on a bad keyword seems harsh? Maybe I should
   //       write out to the debug log or something?
@@ -372,7 +378,7 @@ class freepbx_conf {
     }
   }
 
-  function set_conf_values($update_arr, $commit=false) {
+  function set_conf_values($update_arr, $commit=false, $override_readonly=false) {
     $cnt = 0;
     if (!is_array($update_arr)) {
       die_freepbx(_("called set_conf_values with a non-array"));
@@ -382,7 +388,7 @@ class freepbx_conf {
         die_freepbx(sprintf(_("trying to set keyword %s to %s on unitialized setting",$keyword, $value)));
       } 
       $prep_value = $this->_prepare_conf_value($value, $this->db_conf_store[$keyword]['type']);
-      if ($prep_value != $this->db_conf_store[$keyword]['value'] && ($prep_value !== '' || $this->db_conf_store[$keyword]['emptyok'])) {
+      if ($prep_value != $this->db_conf_store[$keyword]['value'] && ($prep_value !== '' || $this->db_conf_store[$keyword]['emptyok']) && ($override_readonly || !$this->db_conf_store[$keyword]['readonly'])) {
         $this->db_conf_store[$keyword]['value'] = $prep_value;
         $this->db_conf_store[$keyword]['modified'] = true;
         $cnt++;
@@ -393,6 +399,8 @@ class freepbx_conf {
     }
   }
 
+  // TODO: need to address emptyok situation with INT and UINT at least
+  //
   function _prepare_conf_value($value, $type) {
     switch ($type) {
     case CONF_TYPE_BOOL:

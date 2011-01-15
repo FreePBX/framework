@@ -446,6 +446,53 @@ function freepbx_settings_init() {
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('ARI_ADMIN_PASSWORD',$set);
 
+  // AMPASTERISKUSER
+  $set['value'] = 'asterisk';
+  $set['description'] = 'The user Asterisk should be running as, used by freepbx_engine. Most systems should not change this.';
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['level'] = 4;
+  $freepbx_conf->define_conf_setting('AMPASTERISKUSER',$set);
+  $set['level'] = 0;
+
+  // AMPASTERISKGROUP
+  $set['value'] = 'asterisk';
+  $set['description'] = 'The user group Asterisk should be running as, used by freepbx_engine. Most systems should not change this.';
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['level'] = 4;
+  $freepbx_conf->define_conf_setting('AMPASTERISKGROUP',$set);
+  $set['level'] = 0;
+
+  // AMPASTERISKWEBUSER
+  $set['value'] = 'asterisk';
+  $set['description'] = 'The user your httpd should be running as, used by freepbx_engine. Most systems should not change this.';
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['level'] = 4;
+  $freepbx_conf->define_conf_setting('AMPASTERISKWEBUSER',$set);
+  $set['level'] = 0;
+
+  // AMPASTERISKWEBGROUP
+  $set['value'] = 'asterisk';
+  $set['description'] = 'The user group your httpd should be running as, used by freepbx_engine. Most systems should not change this.';
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['level'] = 4;
+  $freepbx_conf->define_conf_setting('AMPASTERISKWEBGROUP',$set);
+  $set['level'] = 0;
+
+  // AMPDEVUSER
+  $set['value'] = 'asterisk';
+  $set['description'] = 'The user that various device directories should be set to, used by freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/mISDN and /dev/dsp. Most systems should not change this.';
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['level'] = 4;
+  $freepbx_conf->define_conf_setting('AMPDEVUSER',$set);
+  $set['level'] = 0;
+
+  // AMPDEVGROUP
+  $set['value'] = 'asterisk';
+  $set['description'] = 'The user group that various device directories should be set to, used by freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/mISDN and /dev/dsp. Most systems should not change this.';
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['level'] = 4;
+  $freepbx_conf->define_conf_setting('AMPDEVGROUP',$set);
+  $set['level'] = 0;
 
   //
   // CATEGORY: Dialplan and Operational
@@ -970,31 +1017,139 @@ function freepbx_settings_init() {
   $freepbx_conf->commit_conf_settings();
 }
 
-/* TODO: These go in the modules
+// TODO: temporary, this is all going to be removed, just transitionary work
+function bogus_for_now() {
+// TODO: CODE FOR MODULES
 
-dashboard:
+/*
+  TODO: I think I need these
 
-('DASHBOARD_INFO_UPDATE_TIME','',0,'These can be used to change the refresh rate of the System Status Panel. Most of the stats are updated based on the STATS interval but a few items are','uint',NULL,NULL,NULL,NULL),
-('DASHBOARD_STATS_UPDATE_TIME','',0,'These can be used to change the refresh rate of the System Status Panel. Most of the stats are updated based on the STATS interval but a few items are','uint',NULL,NULL,NULL,NULL),
+  ASTMANAGERPROXYPORT
+  SSHPORT
 
-daynight:
+  TODO: Check what version we have the patch for? Possibly skip, possibly not.
 
-('DAYNIGHTTCHOOK','0',0,'By default, the Day/Night module will not hook Time Conditions allowing one to associate a daynight manual override with a time condition since now time conditions have their own feature code. If there is already an associaiton configured (on an upgraded system), this will have no affect for the Time Conditions that # are effected. Setting this to true reverts the previous behavior by allowing for the continued use of a daynight toggle to be associated with a time conditon. This can be useful for two scenarios. First, to override a Time Condition without the automatic resetting that occurs with the built in Time Condition overrides. The second use is the ability to associate a single daynight toggle with multiple time conditions thus creating a <b>master switch</b> that can be used to override several possible call flows through different time conditions.<br>Default = false','bool',NULL,'1',NULL,NULL), 		
+  PARKINGPATCH
 
-timeconditions:
+  TODO: Check these, probably skip
 
-('TCINTERVAL','60',0,'The polling interval used by the Time Conditions manintenace task, launched by an Asterisk call file used to update Time Conditions override states as well as keep custom device state hint values up-to-date when being used with BLF. This interval should be shorter than the shortest time condition true (open) or false (closed) interval to assure that an override is reset after the current time period has expired that it was set in.<br>Default value 60 seconds.','uint',NULL,'60',NULL,NULL),
-('TCMAINT','1',0,'If set to false, this will override the execution of the Time Conditons maintenace task launched by call files. If all the feature codes for time conditions are disabled, the maintenance task will not be launched so this is not needed for that condition. Setting this to false would be fairly un-common. On an extremely active system that has constant calls flowing throught all time conditions of interest that might be overriden one might set this to avoid the additional polling that would otherwise occur since calls traversing the time conditions contexts will also maintain all the necessary state information. You may also set this temporarily if debugging a system to avoid the periodic dialplan running through the CLI that the maintenance task otherwise creates.<br>Default = true','bool',NULL,'1',NULL,NULL), 
+  AMPBACKUPEMAILFROM
+  AMPBACKUPSUDO
+  AMPBACKUPADVANCED
+*/
 
-queues:
+  // TODO: skipping some of the BACKUP MIGRATION, IF THEY DIDN'T DO IT ALREADY, TOUCH LUCK!
 
-('USEQUEUESTATE','0',0,'Setting this flag will generate the required dialplan to integrate with the following Asterisk patch: <b>https://issues.asterisk.org/view.php?id=15168</b>. This feature is planned for a future 1.6 release but given the existence of the patch can be used prior. Once the release version is known, code will be added to automatically enable this format in versions of Asterisk that support it<br>Default = false','bool',NULL,'0',NULL,NULL),
+  // USEQUEUESTATE
+  //
+  $set['value'] = false;
+  $set['defaultval'] =& $set['value'];
+  $set['readonly'] = 0;
+  $set['hidden'] = 0;
+  $set['level'] = 3;
+  $set['module'] = 'queues';
+  $set['category'] = '';
+  $set['emptyok'] = 0;
+  $set['description'] = 'Setting this flag will generate the required dialplan to integrate with the following Asterisk patch: <b>https://issues.asterisk.org/view.php?id=15168</b>. This setting is obsolete on Asterisk 1.8+ systems where the hint state is now standard and always used. This asterisk patch is only available on Asterisk 1.4, trying to use this setting on Asterisk 1.6 will break some queue behavior and should be avoided';
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('USEQUEUESTATE',$set);
 
-music:
 
-('AMPMPG123','1',0,'When set to false, the old MoH behavior is adopted where MP3 files can be loaded and WAV files converted to MP3. The new default behavior assumes you have mpg123 loaded as well as sox and will convert MP3 files to WAV. This is highly recommended as MP3 files heavily tax the system and can cause instability on a busy phone system<br>Default = true','bool',NULL,'1',NULL,NULL),
+  // DASHBOARD_INFO_UPDATE_TIME
+  //
+  $set['value'] = 6;
+  $set['defaultval'] =& $set['value'];
+  $set['readonly'] = 0;
+  $set['hidden'] = 0;
+  $set['level'] = 0;
+  $set['module'] = 'dashboard';
+  $set['category'] = '';
+  $set['emptyok'] = 1;
+  $set['description'] = 'Update rate in seconds of all sections of the System Status panel except the Info box.';
+  $set['type'] = CONF_TYPE_UINT;
+  $freepbx_conf->define_conf_setting('DASHBOARD_INFO_UPDATE_TIME',$set);
+
+  // DASHBOARD_INFO_UPDATE_TIME
+  //
+  $set['value'] = 30;
+  $set['defaultval'] =& $set['value'];
+  $set['readonly'] = 0;
+  $set['hidden'] = 0;
+  $set['level'] = 0;
+  $set['module'] = 'dashboard';
+  $set['category'] = '';
+  $set['emptyok'] = 1;
+  $set['description'] = 'Update rate in seconds of the Info section of the System Status panel.';
+  $set['type'] = CONF_TYPE_UINT;
+  $freepbx_conf->define_conf_setting('DASHBOARD_INFO_UPDATE_TIME',$set);
 
 
+  // AMPMPG123
+  //
+  $set['value'] = true;
+  $set['defaultval'] =& $set['value'];
+  $set['readonly'] = 0;
+  $set['hidden'] = 0;
+  $set['level'] = 0;
+  $set['module'] = 'music';
+  $set['category'] = '';
+  $set['emptyok'] = 0;
+  $set['description'] = 'When set to false, the MP3 files can be loaded and WAV files converted to MP3 in the MoH module. The default behavior of true assumes you have mpg123 loaded as well as sox and will convert MP3 files to WAV. This is highly recommended as MP3 files heavily tax the system and can cause instability on a busy phone system';
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('AMPMPG123',$set);
+
+  
+  //
+  // NEW TO 2.9:
+  //
+
+
+  // DAYNIGHTTCHOOK
+  //
+  $set['value'] = false;
+  $set['defaultval'] =& $set['value'];
+  $set['readonly'] = 0;
+  $set['hidden'] = 0;
+  $set['level'] = 0;
+  $set['module'] = 'daynight';
+  $set['category'] = '';
+  $set['emptyok'] = 0;
+  $set['description'] = 'By default, the Day/Night module will not hook Time Conditions allowing one to associate a daynight manual override with a time condition since time conditions have their own feature code as of version 2.9. If there is already an associaiton configured (on an upgraded system), this will have no affect for the Time Conditions that are effected. Setting this to true reverts the 2.8 and prior behavior by allowing for the use of a daynight toggle to be associated with a time conditon. This can be useful for two scenarios. First, to override a Time Condition without the automatic resetting that occurs with the built in Time Condition overrides. The second use is the ability to associate a single daynight toggle with multiple time conditions thus creating a <b>master switch</b> that can be used to override several possible call flows through different time conditions.';
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('DAYNIGHTTCHOOK',$set);
+
+  // TCINTERVAL
+  //
+  $set['value'] = '60';
+  $set['defaultval'] =& $set['value'];
+  $set['readonly'] = 0;
+  $set['hidden'] = 0;
+  $set['level'] = 0;
+  $set['module'] = 'timeconditions';
+  $set['category'] = '';
+  $set['emptyok'] = 0;
+  $set['description'] = 'The polling interval in seconds used by the Time Conditions manintenace task, launched by an Asterisk call file used to update Time Conditions override states as well as keep custom device state hint values up-to-date when being used with BLF. A shorter interval will assure that BLF keys states are accurate. The interval should be less than the shortest configured span between two time condition states, so that a manual overide during such a period is properly reset when the new period starts.';
+  $set['type'] = CONF_TYPE_SELECT;
+  $set['options'] = '60, 120, 180, 240, 300, 600, 900';
+  $freepbx_conf->define_conf_setting('TCINTERVAL',$set);
+
+  // TCMAINT
+  //
+  $set['value'] = true;
+  $set['defaultval'] =& $set['value'];
+  $set['readonly'] = 0;
+  $set['hidden'] = 0;
+  $set['level'] = 0;
+  $set['module'] = 'timeconditions';
+  $set['category'] = '';
+  $set['emptyok'] = 0;
+  $set['description'] = 'If set to false, this will override the execution of the Time Conditons maintenace task launched by call files. If all the feature codes for time conditions are disabled, the maintenance task will not be launched anyhow. Setting this to false would be fairly un-common. You may want to set this temporarily if debugging a system to avoid the periodic dialplan running through the CLI that the maintenance task launches and can be distracting.';
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('TCMAINT',$set);
+}
+
+/* 
 // TODO: DON'T THINK WE NEED THIS ANYMORE
 ('AMPWEBADDRESS','',0,'The IP address or host name used to access the CDR<br>Default = not used','text',NULL,NULL,NULL,NULL),
- */
+*/
+
