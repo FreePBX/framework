@@ -110,14 +110,19 @@ class freepbx_conf {
   }
 
   // php4 constructor
-  function freepbx_conf($var) {
+  function freepbx_conf() {
     $this->__construct();
   }
   // TODO: do we stay 'super' effecient and not validate settings upon read (we protect them upon write), or do we
   //       re-massage them every time we read them? (which would protect us from someone on the outside changing
   //       a db value incorrectly.
   function __construct() {
-    $db_raw = sql('SELECT * from freepbx_settings', 'getAll', DB_FETCHMODE_ASSOC);
+    global $db;
+    $sql = 'SELECT * from freepbx_settings';
+    $db_raw = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+    if(DB::IsError($result)) {
+      die_freepbx(_('fatal error reading freepbx_settings'));	
+    }
     foreach($db_raw as $setting) {
       $this->db_conf_store[$setting['keyword']] = $setting;
       $this->db_conf_store[$setting['keyword']]['modified'] = false;
@@ -293,6 +298,7 @@ class freepbx_conf {
   //        different then the initial value???
   //
   function define_conf_setting($keyword,$vars,$commit=false) {
+    global $amp_conf;
     $attributes = array(
 	    'keyword' => '',
 	    'value' => '',
@@ -336,7 +342,7 @@ class freepbx_conf {
         $attributes[$atrib] = $vars[$atrib];
       }
     }
-    if ($attributes != $this->db_conf_store[$keyword]) {
+    if ($new_setting || $attributes != $this->db_conf_store[$keyword]) {
       if (!$new_setting) {
         unset($attributes['keyword']);
         unset($attributes['value']);
@@ -345,6 +351,10 @@ class freepbx_conf {
       }
       foreach ($attributes as $key => $val) {
         $this->db_conf_store[$keyword][$key] = $val;
+      }
+      if ($new_setting) {
+        $this->conf[$keyword] =& $this->db_conf_store[$keyword]['value'];
+        $amp_conf[$keyword] =& $this->conf[$keyword];
       }
       $this->db_conf_store[$keyword]['modified'] = true;
     }
@@ -407,7 +417,7 @@ class freepbx_conf {
   // uninstall script.
   //
   function remove_conf_settings($settings) {
-    global $amp_conf;
+    global $db,$amp_conf;
     if (!is_array($settings)) {
       $settings = array($settings);
     }
@@ -424,7 +434,10 @@ class freepbx_conf {
       }
     }
     $sql = "DELETE FROM freepbx_settings WHERE keyword in ('".implode("','",$settings)."')";
-    sql($sql);
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+      die_freepbx(_('fatal error deleting rows from freepbx_settings: ').$sql);	
+    }
   }
 
   // Commit back any dirty settings to the database, if they are not modified then
