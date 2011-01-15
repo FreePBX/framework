@@ -243,9 +243,9 @@ function changeLang(lang) {
 	<?php
   // Brandable logos in footer
   //
-  $freepbx_alt_f = isset($amp_conf['BRAND_FREEPBX_ALT_FOOT']) ? $amp_conf['BRAND_FREEPBX_ALT_FOOT'] : _("FreePBX&reg;");
-  $freepbx_logo_f = isset($amp_conf['BRAND_IMAGE_FREEPBX_FOOT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_FOOT'] : 'images/freepbx_small.png';
-  $freepbx_link_f = isset($amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT'] : 'http://www.freepbx.org';
+  $freepbx_alt_f = $amp_conf['BRAND_FREEPBX_ALT_FOOT'] ? $amp_conf['BRAND_FREEPBX_ALT_FOOT'] : _("FreePBX&reg;");
+  $freepbx_logo_f = $amp_conf['BRAND_IMAGE_FREEPBX_FOOT']; //'images/freepbx_small.png'
+  $freepbx_link_f = $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT'] : 'http://www.freepbx.org';
 
 	echo '<a target="_blank" href="'.$freepbx_link_f.'"><img id="footer_logo" src="'.$freepbx_logo_f.'" alt="'.$freepbx_alt_f.'"/></a>';
 	echo '<h3>'.'Let Freedom Ring<sup>&#153;</sup>'.'</h3>';

@@ -66,34 +66,31 @@ $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] = 'images/tango_large.png';
 
 // BRANDABLE COMPONENTS
 //
-if (isset($amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND']) && $amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND']) {
+if ($amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND']) {
   $use_nav_background = false;
 } else {
-  $shadow_side_background = isset($amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND']) ? $amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND'] : 'images/shadow-side-background.png';
+  $shadow_side_background = $amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND']; //'images/shadow-side-background.png';
 }
 // $freepbx_logo_r
 // AMPADMINLOGO takes precedence for backwards compatibility
-if (isset($amp_conf["AMPADMINLOGO"]) && is_file($amp_conf["AMPWEBROOT"]."images/".$amp_conf["AMPADMINLOGO"])) {
+if ($amp_conf["AMPADMINLOGO"] && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])) {
   $freepbx_logo_r = $amp_conf["AMPADMINLOGO"]; 
 } else {
-  $freepbx_logo_r = isset($amp_conf['BRAND_IMAGE_FREEPBX_LEFT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] : 'images/logo.png';
+  $freepbx_logo_r =  $amp_conf['BRAND_IMAGE_FREEPBX_RIGHT']; //'images/logo.png'
 }
-$freepbx_alt_l      = isset($amp_conf['BRAND_FREEPBX_ALT_LEFT']) ? $amp_conf['BRAND_FREEPBX_ALT_LEFT'] : _("FreePBX");
-$freepbx_alt_r      = isset($amp_conf['BRAND_FREEPBX_ALT_RIGHT']) ? $amp_conf['BRAND_FREEPBX_ALT_RIGHT'] : _("FreePBX");
-$freepbx_logo_l     = isset($amp_conf['BRAND_IMAGE_FREEPBX_LEFT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] : 'images/freepbx_large.png';
-$freepbx_link_l     = isset($amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] : 'http://www.freepbx.org';
-$freepbx_link_r     = isset($amp_conf['BRAND_IMAGE_FREEPBX_LINK_RIGHT']) ? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_RIGHT'] : 'http://www.freepbx.org';
-$use_freepbx_logo_r = isset($amp_conf['BRAND_HIDE_LOGO_RIGHT']) ? $amp_conf['BRAND_HIDE_LOGO_RIGHT'] : false;
-$hide_version       = isset($amp_conf['BRAND_HIDE_HEADER_VERSION']) ? $amp_conf['BRAND_HIDE_HEADER_VERSION'] : false;
-$hide_toolbar       = isset($amp_conf['BRAND_HIDE_HEADER_MENUS']) ? $amp_conf['BRAND_HIDE_HEADER_MENUS'] : false;
+$freepbx_alt_l      = $amp_conf['BRAND_FREEPBX_ALT_LEFT'] ? $amp_conf['BRAND_FREEPBX_ALT_LEFT'] : _("FreePBX");
+$freepbx_alt_r      = $amp_conf['BRAND_FREEPBX_ALT_RIGHT'] ? $amp_conf['BRAND_FREEPBX_ALT_RIGHT'] : _("FreePBX");
+$freepbx_logo_l     = $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] : 'images/freepbx_large.png';
+$freepbx_link_l     = $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] : 'http://www.freepbx.org';
+$freepbx_link_r     = $amp_conf['BRAND_IMAGE_FREEPBX_LINK_RIGHT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_RIGHT'] : 'http://www.freepbx.org';
+$use_freepbx_logo_r = ! $amp_conf['BRAND_HIDE_LOGO_RIGHT'];
+$hide_version       = $amp_conf['BRAND_HIDE_HEADER_VERSION'];
+$hide_toolbar       = $amp_conf['BRAND_HIDE_HEADER_MENUS'];
 
-$mainstyle_css      = isset($amp_conf['BRAND_CSS_ALT_MAINSTYLE']) ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] : 'common/mainstyle.css'; 
-$custom_css         = isset($amp_conf['BRAND_CSS_CUSTOM']) ? $amp_conf['BRAND_CSS_CUSTOM'] : false;
+$mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] : 'common/mainstyle.css'; 
+$custom_css         = $amp_conf['BRAND_CSS_CUSTOM'];
 
-//TODO: create DISABLE_CSS_AUTOGEN default false
-//
-$amp_conf['DISABLE_CSS_AUTOGEN'] = false;
-if (!$amp_conf['DEVEL'] && !$amp_conf['DISABLE_CSS_AUTOGEN']) {
+if (!$amp_conf['DISABLE_CSS_AUTOGEN']) {
   $wwwroot = $amp_conf['AMPWEBROOT']."/admin";
 
   // stat the css files and check if they have been modified since we last generated a css
