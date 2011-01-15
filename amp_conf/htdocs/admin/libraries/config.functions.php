@@ -336,7 +336,16 @@ class freepbx_conf {
         $attributes['options'] = implode(',',$vars['options']);
       }
     }
-    $optional = array('description', 'level', 'readonly', 'hidden', 'category', 'module', 'emptyok');
+    if (isset($vars['level'])) {
+      $attributes['level'] = (int) $vars['level'];
+    }
+    $optional = array('readonly', 'hidden', 'emptyok');
+    foreach ($optional as $atrib) {
+      if (isset($vars[$atrib])) {
+        $attributes[$atrib] = $vars[$atrib] ? '1' : '0';
+      }
+    }
+    $optional = array('description', 'category', 'module');
     foreach ($optional as $atrib) {
       if (isset($vars[$atrib])) {
         $attributes[$atrib] = $vars[$atrib];
