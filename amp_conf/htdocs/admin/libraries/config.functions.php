@@ -397,6 +397,7 @@ class freepbx_conf {
     if ($commit) {
       $this->commit_conf_settings();
     }
+    return $cnt;
   }
 
   // TODO: need to address emptyok situation with INT and UINT at least
