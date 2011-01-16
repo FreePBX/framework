@@ -77,7 +77,7 @@ foreach ($current_amp_conf as $key => $val) {
     $val = false;
     break;
   }
-  $update_arr['key'] = $val;
+  $update_arr[$key] = $val;
   out(_("preparing for update"));
 }
 unset($current_amp_conf);
