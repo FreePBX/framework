@@ -442,6 +442,16 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('AMPVMUMASK',$set);
 
+  // AMPWEBADDRESS
+  $set['value'] = '';
+  $set['description'] = 'This is the address of your Web Server. It is mostly obsolete and derived when not supplied and will be phased out, but there are still some areas expecting a variable to be set and if you are using it this will migrate your value.';
+  $set['emptyok'] = 1;
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['level'] = 4;
+  $freepbx_conf->define_conf_setting('AMPWEBADDRESS',$set);
+  $set['level'] = 0;
+  $set['emptyok'] = 0;
+
   // ARI_ADMIN_USERNAME
   $set['value'] = '';
   $set['description'] = 'This is the default admin name used to allow an administrator to login to ARI bypassing all security. Change this to whatever you want, dont forget to change the ARI_ADMIN_PASSWORD as well.Default = not set';
@@ -936,7 +946,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['description'] = 'Styling image.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
-  $freepbx_conf->define_conf_setting('BRAND_IMAGE_HIDE_NAV_BACKGROUND',$set);
+  $freepbx_conf->define_conf_setting('BRAND_IMAGE_SHADOW_SIDE_BACKGROUND',$set);
 
   // BRAND_IMAGE_FREEPBX_RIGHT
   $set['value'] = 'images/logo.png';
