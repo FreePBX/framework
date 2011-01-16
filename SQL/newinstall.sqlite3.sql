@@ -1,4 +1,21 @@
 BEGIN TRANSACTION;
+
+DROP TABLE IF EXISTS `freepbx_settings`;
+CREATE TABLE `freepbx_settings` (
+  `keyword` varchar(50) default NULL,
+  `value` varchar(255) default NULL,
+  `level` tinyint(1) default 0,
+  `description` text default NULL,
+  `type` varchar(25) default NULL,
+  `options` text default NULL,
+  `defaultval` varchar(255) default NULL,
+  `readonly` tinyint(1) default 0,
+  `hidden` tinyint(1) default 0,
+  `category` varchar(25) default NULL,
+  `module` varchar(25) default NULL,
+  `emptyok` tinyint(1) default 1,
+  PRIMARY KEY  (`keyword`)
+ );
 CREATE TABLE `admin` (
   `variable` varchar(20) NOT NULL default '',
   `value` varchar(80) NOT NULL default '',

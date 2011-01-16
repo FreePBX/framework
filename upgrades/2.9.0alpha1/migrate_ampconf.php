@@ -14,8 +14,6 @@ if (! function_exists("outn")) {
 
 global $db, $amp_conf;
 
-// TODO: add table to newinstall.sql
-//
 outn(_("Checking for freepbx_settings table.."));
 $sql = 'SELECT count(*) FROM freepbx_settings';
 $result = $db->query($sql);

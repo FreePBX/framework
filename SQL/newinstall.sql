@@ -14,6 +14,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `freepbx_settings`
+--
+
+DROP TABLE IF EXISTS `freepbx_settings`;
+CREATE TABLE `freepbx_settings` (
+  `keyword` varchar(50) default NULL,
+  `value` varchar(255) default NULL,
+  `level` tinyint(1) default 0,
+  `description` text default NULL,
+  `type` varchar(25) default NULL,
+  `options` text default NULL,
+  `defaultval` varchar(255) default NULL,
+  `readonly` tinyint(1) default 0,
+  `hidden` tinyint(1) default 0,
+  `category` varchar(25) default NULL,
+  `module` varchar(25) default NULL,
+  `emptyok` tinyint(1) default 1,
+  PRIMARY KEY  (`keyword`)
+ );
+
+--
 -- Table structure for table `admin`
 --
 
