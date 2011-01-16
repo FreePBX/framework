@@ -67,16 +67,11 @@ $amp_conf =& $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
 $asterisk_conf =& $freepbx_conf->get_asterisk_conf();
 $bootstrap_settings['amportal_conf_initialized'] = true;
 
-//set error reporting level if set
-if (isset($amp_conf['php_error_reporting'])) {
-	error_reporting($amp_conf['php_error_reporting']);
-}
-
 if (!$bootstrap_settings['skip_astman']) {
 	require_once(dirname(__FILE__) . '/libraries/php-asmanager.php');
   $astman	= new AGI_AsteriskManager($bootstrap_settings['astman_config'], $bootstrap_settings['astman_options']);
 	// attempt to connect to asterisk manager proxy
-	if (!isset($amp_conf["ASTMANAGERPROXYPORT"]) || !$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
+	if (!$amp_conf["ASTMANAGERPROXYPORT"] || !$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
 		// attempt to connect directly to asterisk, if no proxy or if proxy failed
 		if (!$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
 			// couldn't connect at all
