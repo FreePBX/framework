@@ -376,12 +376,22 @@ function install_sqlupdate( $version, $file )
 }
 
 /********************************************************************************************************************/
-
-// TODO: copy all descriptions into _() gettext at top to be picked up by localization tools
+/*                          FREEPBX SETTINGS (AMPORTAL.CONF) DEFINED HERE                                           */
+/********************************************************************************************************************/
+//
+// TODO: find a good way to extract the required localization strings for the tools to pickup
+//
+// freepbx_settings_init()
+// this is where we initialize all the freepbx_settings (amportal.conf). This will be run with install_amp and every
+// time we run the framework installer, so new settings can be added here that are framework wide. It may make send to
+// break this out separtely but for now we'll keep it here since this is already part of the ifrastructure that is
+// used by both install_amp and the framework install/upgrade script.
 //
 function freepbx_settings_init() {
   global $amp_conf;
+
   //TODO will probably change to freepbx_settings.class.php
+  //
   require_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/config.functions.php');
 
   $freepbx_conf =& freepbx_conf::create();
@@ -395,9 +405,9 @@ function freepbx_settings_init() {
   $set['emptyok'] = 0;
 
   //
-  // CATEGORY: Basic Setup
+  // CATEGORY: System Setup
   //
-  $set['category'] = 'Basic Setup';
+  $set['category'] = 'System Setup';
 
   // AMPENGINE
   $set['value'] = 'asterisk';
@@ -412,8 +422,8 @@ function freepbx_settings_init() {
 
   // AUTHTYPE
   $set['value'] = 'database';
-  $set['options'] = 'none,database,webserver';
-  $set['description'] = 'Authentication type to use for web admin. If type set to <b>database</b>, the primary AMP admin credentials will be the AMPDBUSER/AMPDBPASS above. Valid settings are: none, database.';
+  $set['options'] = 'database,none,webserver';
+  $set['description'] = 'Authentication type to use for web admin. If type set to <b>database</b>, the primary AMP admin credentials will be the AMPDBUSER/AMPDBPASS above. When using database you can create users that are restricted to only certain module pages. When set to none, you should make sure you have provided security at the apache level. When set to webserver, FreePBX will expect authentication to happen at the apache level, but will take the user credentials and apply any restrictions as if it were in database mode.';
   $set['level'] = 3;
   $set['type'] = CONF_TYPE_SELECT;
   $freepbx_conf->define_conf_setting('AUTHTYPE',$set);
@@ -493,6 +503,7 @@ function freepbx_settings_init() {
   $set['level'] = 4;
   $freepbx_conf->define_conf_setting('AMPDEVGROUP',$set);
   $set['level'] = 0;
+
 
   //
   // CATEGORY: Dialplan and Operational
@@ -613,12 +624,6 @@ function freepbx_settings_init() {
   $set['type'] = CONF_TYPE_DIR;
   $freepbx_conf->define_conf_setting('ASTRUNDIR',$set);
 
-  // ASTRUNDIR
-  $set['value'] = '/var/run/asterisk';
-  $set['description'] = 'This is the default directory for Asterisks run files.';
-  $set['type'] = CONF_TYPE_DIR;
-  $freepbx_conf->define_conf_setting('ASTRUNDIR',$set);
-
   // ASTVARLIBDIR
   $set['value'] = '/var/lib/asterisk';
   $set['description'] = 'This is the default directory for Asterisks lib files.';
@@ -636,6 +641,7 @@ function freepbx_settings_init() {
   $set['description'] = 'This is the subdirectory for the MoH files/directories which is located in ASTVARLIBDIR if not specified it will default to mohmp3 for backward compatibility.';
   $set['type'] = CONF_TYPE_DIR;
   $freepbx_conf->define_conf_setting('MOHDIR',$set);
+
 
   //
   // CATEGORY: GUI Behavior
@@ -704,19 +710,19 @@ function freepbx_settings_init() {
 
   // AMPMGRPASS
   $set['value'] = 'amp111';
-  $set['description'] = 'Password for accessing the Asterisk Manager Interface (AMI), you must change this in manager.conf if changed here.<br>Default = amp111';
+  $set['description'] = 'Password for accessing the Asterisk Manager Interface (AMI), you must change this in manager.conf if changed here.';
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('AMPMGRPASS',$set);
 
   // AMPMGRUSER
   $set['value'] = 'admin';
-  $set['description'] = 'Username for accessing the Asterisk Manager Interface (AMI), you must change this in manager.conf if changed here.<br>Default = admin';
+  $set['description'] = 'Username for accessing the Asterisk Manager Interface (AMI), you must change this in manager.conf if changed here.';
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('AMPMGRUSER',$set);
 
   // ASTMANAGERHOST
   $set['value'] = 'localhost';
-  $set['description'] = 'Hostname for the Asterisk Manager<br>Default = 5038';
+  $set['description'] = 'Hostname for the Asterisk Manager';
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('ASTMANAGERHOST',$set);
 
@@ -724,23 +730,24 @@ function freepbx_settings_init() {
 
   // ASTMANAGERPORT
   $set['value'] = '5038';
-  $set['description'] = 'Port for the Asterisk Manager<br>Default = 5038';
-  $set['type'] = CONF_TYPE_TEXT;
+  $set['description'] = 'Port for the Asterisk Manager';
+  $set['type'] = CONF_TYPE_UINT;
   $freepbx_conf->define_conf_setting('ASTMANAGERPORT',$set);
 
+  // ASTMANAGERPROXYPORT
+  $set['value'] = '';
+  $set['description'] = 'Optional port for an Asterisk Manager Proxy';
+  $set['type'] = CONF_TYPE_UINT;
+  $set['emptyok'] = 1;
+  $freepbx_conf->define_conf_setting('ASTMANAGERPROXYPORT',$set);
+  $set['emptyok'] = 0;
 
+
+  //
   // CATEGORY: Developer and Customization
   //
   $set['category'] = 'Developer and Customization';
   $set['level'] = 2;
-
-  // POST_RELOAD
-  $set['value'] = 
-  $set['description'] = 'Automatically execute a script after applying changes in the AMP admin. Set POST_RELOAD to the script you wish to execute after applying changes. If POST_RELOAD_DEBUG=true, you will see the output of the script in the web page.';
-  $set['emptyok'] = 0;
-  $set['type'] = CONF_TYPE_TEXT;
-  $freepbx_conf->define_conf_setting('POST_RELOAD',$set);
-  $set['emptyok'] = 1;
 
   // FPBXDBUGFILE
   $set['value'] = '/tmp/freepbx_debug.log';
@@ -760,11 +767,33 @@ function freepbx_settings_init() {
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('DEVELRELOAD',$set);
 
+  // PRE_RELOAD
+  $set['value'] = '';
+  $set['description'] = 'Optional script to run just prior to doing an extension reload to Asterisk through the manager after pressing Apply Configuration Changes in the GUI.';
+  $set['emptyok'] = 1;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('PRE_RELOAD',$set);
+  $set['emptyok'] = 0;
+
+  // POST_RELOAD
+  $set['value'] = '';
+  $set['description'] = 'Automatically execute a script after applying changes in the AMP admin. Set POST_RELOAD to the script you wish to execute after applying changes. If POST_RELOAD_DEBUG=true, you will see the output of the script in the web page.';
+  $set['emptyok'] = 1;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('POST_RELOAD',$set);
+  $set['emptyok'] = 0;
+
   // POST_RELOAD_DEBUG
   $set['value'] = false;
   $set['description'] = 'Display debug output for script used if POST_RELOAD is used.';
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('POST_RELOAD_DEBUG',$set);
+
+  // AMPLOCALBIN
+  $set['value'] = '';
+  $set['description'] = 'If this directory is defined, retrieve_conf will check for a file called <i>retrieve_conf_post_custom</i> and if that file exists, it will be included after other processing thus having full access to the current environment for addtional customization.';
+  $set['type'] = CONF_TYPE_DIR;
+  $freepbx_conf->define_conf_setting('AMPLOCALBIN',$set);
 
   // AMPDISABLELOG
   $set['value'] = true;
@@ -790,6 +819,7 @@ function freepbx_settings_init() {
   $set['description'] = 'Stops the automatic generation of a stripped CSS file that replaces the primary sheet, usually mainstyle.css.';
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('DISABLE_CSS_AUTOGEN',$set);
+
 
   //
   // CATEGORY: Flash Operator Panel
@@ -886,7 +916,6 @@ function freepbx_settings_init() {
   $set['category'] = 'Styling and Logos';
   $set['level'] = 1;
   $set['emptyok'] = 0;
-
 
   // AMPADMINLOGO
   $set['value'] = '';
@@ -1014,142 +1043,40 @@ function freepbx_settings_init() {
   $set['emptyok'] = 1;
   $freepbx_conf->define_conf_setting('BRAND_CSS_CUSTOM',$set);
 
+
+  // The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
+  // retain their values until the individual modules are updated and their install scripts run where a full
+  // configuration (descriptions, defaults, etc.) will be provided and maintained. This provides just enough to
+  // carry the setting through the migration since most upgrades will run framework or install_amp followed by the
+  // module install scripts.
+  //
+  $module_migrate['AMPPLAYKEY'] = CONF_TYPE_TEXT;
+  $module_migrate['AMPBACKUPEMAILFROM'] = CONF_TYPE_TEXT;
+  $module_migrate['AMPBACKUPSUDO'] = CONF_TYPE_BOOL;
+  $module_migrate['USEQUEUESTATE'] = CONF_TYPE_BOOL;
+  $module_migrate['DASHBOARD_INFO_UPDATE_TIME'] = CONF_TYPE_UINT;
+  $module_migrate['DASHBOARD_STATS_UPDATE_TIME'] = CONF_TYPE_UINT;
+  $module_migrate['SSHPORT'] = CONF_TYPE_UINT;
+  $module_migrate['MAXCALLS'] = CONF_TYPE_UINT;
+  $module_migrate['AMPMPG123'] = CONF_TYPE_BOOL;
+  $module_migrate['PARKINGPATCH'] = CONF_TYPE_BOOL;
+
+  $mod_set['value'] = '';
+  $mod_set['defaultval'] = '';
+  $mod_set['readonly'] = 0;
+  $mod_set['hidden'] = 1;
+  $mod_set['level'] = 10;
+  $mod_set['module'] = '';
+  $mod_set['category'] = 'Under Migration';
+  $mod_set['emptyok'] = 1;
+  $mod_set['description'] = 'This setting is being migrated and will be initialized by its module install script on upgrad.';
+  foreach ($module_migrate as $setting => $type) {
+    if (isset($amp_conf[$setting])  && !$freepbx_conf->conf_setting_exists($setting)) {
+      $mod_set['value'] = $amp_conf[$setting];
+      $mod_set['type'] = $type;
+      $freepbx_conf->define_conf_setting($setting,$mod_set);
+    }
+  }
+
   $freepbx_conf->commit_conf_settings();
 }
-
-// TODO: temporary, this is all going to be removed, just transitionary work
-function bogus_for_now() {
-// TODO: CODE FOR MODULES
-
-/*
-  TODO: I think I need these
-
-  ASTMANAGERPROXYPORT
-  SSHPORT
-
-  TODO: Check what version we have the patch for? Possibly skip, possibly not.
-
-  PARKINGPATCH
-
-  TODO: Check these, probably skip
-
-  AMPBACKUPEMAILFROM
-  AMPBACKUPSUDO
-  AMPBACKUPADVANCED
-*/
-
-  // TODO: skipping some of the BACKUP MIGRATION, IF THEY DIDN'T DO IT ALREADY, TOUCH LUCK!
-
-  // USEQUEUESTATE
-  //
-  $set['value'] = false;
-  $set['defaultval'] =& $set['value'];
-  $set['readonly'] = 0;
-  $set['hidden'] = 0;
-  $set['level'] = 3;
-  $set['module'] = 'queues';
-  $set['category'] = '';
-  $set['emptyok'] = 0;
-  $set['description'] = 'Setting this flag will generate the required dialplan to integrate with the following Asterisk patch: <b>https://issues.asterisk.org/view.php?id=15168</b>. This setting is obsolete on Asterisk 1.8+ systems where the hint state is now standard and always used. This asterisk patch is only available on Asterisk 1.4, trying to use this setting on Asterisk 1.6 will break some queue behavior and should be avoided';
-  $set['type'] = CONF_TYPE_BOOL;
-  $freepbx_conf->define_conf_setting('USEQUEUESTATE',$set);
-
-
-  // DASHBOARD_INFO_UPDATE_TIME
-  //
-  $set['value'] = 6;
-  $set['defaultval'] =& $set['value'];
-  $set['readonly'] = 0;
-  $set['hidden'] = 0;
-  $set['level'] = 0;
-  $set['module'] = 'dashboard';
-  $set['category'] = '';
-  $set['emptyok'] = 1;
-  $set['description'] = 'Update rate in seconds of all sections of the System Status panel except the Info box.';
-  $set['type'] = CONF_TYPE_UINT;
-  $freepbx_conf->define_conf_setting('DASHBOARD_INFO_UPDATE_TIME',$set);
-
-  // DASHBOARD_INFO_UPDATE_TIME
-  //
-  $set['value'] = 30;
-  $set['defaultval'] =& $set['value'];
-  $set['readonly'] = 0;
-  $set['hidden'] = 0;
-  $set['level'] = 0;
-  $set['module'] = 'dashboard';
-  $set['category'] = '';
-  $set['emptyok'] = 1;
-  $set['description'] = 'Update rate in seconds of the Info section of the System Status panel.';
-  $set['type'] = CONF_TYPE_UINT;
-  $freepbx_conf->define_conf_setting('DASHBOARD_INFO_UPDATE_TIME',$set);
-
-
-  // AMPMPG123
-  //
-  $set['value'] = true;
-  $set['defaultval'] =& $set['value'];
-  $set['readonly'] = 0;
-  $set['hidden'] = 0;
-  $set['level'] = 0;
-  $set['module'] = 'music';
-  $set['category'] = '';
-  $set['emptyok'] = 0;
-  $set['description'] = 'When set to false, the MP3 files can be loaded and WAV files converted to MP3 in the MoH module. The default behavior of true assumes you have mpg123 loaded as well as sox and will convert MP3 files to WAV. This is highly recommended as MP3 files heavily tax the system and can cause instability on a busy phone system';
-  $set['type'] = CONF_TYPE_BOOL;
-  $freepbx_conf->define_conf_setting('AMPMPG123',$set);
-
-  
-  //
-  // NEW TO 2.9:
-  //
-
-
-  // DAYNIGHTTCHOOK
-  //
-  $set['value'] = false;
-  $set['defaultval'] =& $set['value'];
-  $set['readonly'] = 0;
-  $set['hidden'] = 0;
-  $set['level'] = 0;
-  $set['module'] = 'daynight';
-  $set['category'] = '';
-  $set['emptyok'] = 0;
-  $set['description'] = 'By default, the Day/Night module will not hook Time Conditions allowing one to associate a daynight manual override with a time condition since time conditions have their own feature code as of version 2.9. If there is already an associaiton configured (on an upgraded system), this will have no affect for the Time Conditions that are effected. Setting this to true reverts the 2.8 and prior behavior by allowing for the use of a daynight toggle to be associated with a time conditon. This can be useful for two scenarios. First, to override a Time Condition without the automatic resetting that occurs with the built in Time Condition overrides. The second use is the ability to associate a single daynight toggle with multiple time conditions thus creating a <b>master switch</b> that can be used to override several possible call flows through different time conditions.';
-  $set['type'] = CONF_TYPE_BOOL;
-  $freepbx_conf->define_conf_setting('DAYNIGHTTCHOOK',$set);
-
-  // TCINTERVAL
-  //
-  $set['value'] = '60';
-  $set['defaultval'] =& $set['value'];
-  $set['readonly'] = 0;
-  $set['hidden'] = 0;
-  $set['level'] = 0;
-  $set['module'] = 'timeconditions';
-  $set['category'] = '';
-  $set['emptyok'] = 0;
-  $set['description'] = 'The polling interval in seconds used by the Time Conditions manintenace task, launched by an Asterisk call file used to update Time Conditions override states as well as keep custom device state hint values up-to-date when being used with BLF. A shorter interval will assure that BLF keys states are accurate. The interval should be less than the shortest configured span between two time condition states, so that a manual overide during such a period is properly reset when the new period starts.';
-  $set['type'] = CONF_TYPE_SELECT;
-  $set['options'] = '60, 120, 180, 240, 300, 600, 900';
-  $freepbx_conf->define_conf_setting('TCINTERVAL',$set);
-
-  // TCMAINT
-  //
-  $set['value'] = true;
-  $set['defaultval'] =& $set['value'];
-  $set['readonly'] = 0;
-  $set['hidden'] = 0;
-  $set['level'] = 0;
-  $set['module'] = 'timeconditions';
-  $set['category'] = '';
-  $set['emptyok'] = 0;
-  $set['description'] = 'If set to false, this will override the execution of the Time Conditons maintenace task launched by call files. If all the feature codes for time conditions are disabled, the maintenance task will not be launched anyhow. Setting this to false would be fairly un-common. You may want to set this temporarily if debugging a system to avoid the periodic dialplan running through the CLI that the maintenance task launches and can be distracting.';
-  $set['type'] = CONF_TYPE_BOOL;
-  $freepbx_conf->define_conf_setting('TCMAINT',$set);
-}
-
-/* 
-// TODO: DON'T THINK WE NEED THIS ANYMORE
-('AMPWEBADDRESS','',0,'The IP address or host name used to access the CDR<br>Default = not used','text',NULL,NULL,NULL,NULL),
-*/
-
