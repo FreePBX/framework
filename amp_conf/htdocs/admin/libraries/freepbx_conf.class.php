@@ -118,9 +118,9 @@ class freepbx_conf {
   //       a db value incorrectly.
   function __construct() {
     global $db;
-    $sql = 'SELECT * from freepbx_settings';
+    $sql = 'SELECT * FROM freepbx_settings ORDER BY category, module, level, keyword';
     $db_raw = $db->getAll($sql, DB_FETCHMODE_ASSOC);
-    if(DB::IsError($result)) {
+    if(DB::IsError($db_raw)) {
       die_freepbx(_('fatal error reading freepbx_settings'));	
     }
     foreach($db_raw as $setting) {
@@ -339,7 +339,7 @@ class freepbx_conf {
       if (!isset($vars['options']) || $vars['options'] == '') { 
         die_freepbx(sprintf(_("missing options for % required if type is select"),$keyword));
       } else {
-        $attributes['options'] = implode(',',$vars['options']);
+        $attributes['options'] = is_array($vars['options']) ? implode(',',$vars['options']) : $vars['options'];
       }
     }
     if (isset($vars['level'])) {
