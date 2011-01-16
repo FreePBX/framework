@@ -22,7 +22,7 @@ require_once($dirname . '/libraries/notifications.class.php');
 require_once($dirname . '/libraries/ampuser.class.php');
 require_once($dirname . '/libraries/components.class.php');
 require_once($dirname . '/libraries/modulelist.class.php');
-require_once($dirname . '/libraries/config.functions.php');
+require_once($dirname . '/libraries/freepbx_conf.class.php');
 require_once($dirname . '/libraries/featurecodes.class.php');
 
 //include other files

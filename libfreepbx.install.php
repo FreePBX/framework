@@ -392,7 +392,7 @@ function freepbx_settings_init() {
 
   //TODO will probably change to freepbx_settings.class.php
   //
-  require_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/config.functions.php');
+  require_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/freepbx_conf.class.php');
 
   $freepbx_conf =& freepbx_conf::create();
 
