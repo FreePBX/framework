@@ -69,14 +69,14 @@ $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] = 'images/tango_large.png';
 if ($amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND']) {
   $use_nav_background = false;
 } else {
-  $shadow_side_background = $amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND']; //'images/shadow-side-background.png';
+  $shadow_side_background = $amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND'] ? $amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND'] : 'images/shadow-side-background.png';
 }
 // $freepbx_logo_r
 // AMPADMINLOGO takes precedence for backwards compatibility
 if ($amp_conf["AMPADMINLOGO"] && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])) {
   $freepbx_logo_r = $amp_conf["AMPADMINLOGO"]; 
 } else {
-  $freepbx_logo_r =  $amp_conf['BRAND_IMAGE_FREEPBX_RIGHT']; //'images/logo.png'
+  $freepbx_logo_r =  $amp_conf['BRAND_IMAGE_FREEPBX_RIGHT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_RIGHT'] : 'images/logo.png';
 }
 $freepbx_alt_l      = $amp_conf['BRAND_FREEPBX_ALT_LEFT'] ? $amp_conf['BRAND_FREEPBX_ALT_LEFT'] : _("FreePBX");
 $freepbx_alt_r      = $amp_conf['BRAND_FREEPBX_ALT_RIGHT'] ? $amp_conf['BRAND_FREEPBX_ALT_RIGHT'] : _("FreePBX");
