@@ -385,7 +385,7 @@ class freepbx_conf {
     }
     foreach($update_arr as $keyword => $value) {
       if (!isset($this->db_conf_store[$keyword])) {
-        die_freepbx(sprintf(_("trying to set keyword %s to %s on unitialized setting",$keyword, $value)));
+        die_freepbx(sprintf(_("trying to set keyword %s to %s on unitialized setting"),$keyword, $value));
       } 
       $prep_value = $this->_prepare_conf_value($value, $this->db_conf_store[$keyword]['type']);
       if ($prep_value != $this->db_conf_store[$keyword]['value'] && ($prep_value !== '' || $this->db_conf_store[$keyword]['emptyok']) && ($override_readonly || !$this->db_conf_store[$keyword]['readonly'])) {
