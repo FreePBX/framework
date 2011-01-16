@@ -11,8 +11,14 @@ ux="\e[0m"
 ROOT_UID=0	 # root uid is 0
 E_NOTROOT=67 # Non-root exit error
 # define freepbx config file if not alreaddy set
-if [ ! -n "$FREEPBX_CONF" ]; then
-	FREEPBX_CONF="/etc/freepbx.conf"
+if [ -z "$FREEPBX_CONF" ]; then
+	if [ -e "/etc/freepbx.conf" ]; then
+		FREEPBX_CONF="/etc/freepbx.conf"
+	elif [ -e "/etc/asterisk/freepbx.conf" ]; then
+		FREEPBX_CONF="/etc/asterisk/freepbx.conf"
+	else
+		FREEPBX_CONF="/etc/freepbx.conf"
+	fi
 fi
 
 echo
@@ -57,7 +63,7 @@ write_freepbxconf() {
 }
 
 # get settings from db/config file
-if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" ]]; then 
+if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]]; then
 	# get the path of this file to call the gen_amp_conf.php script which will
 	# generate all the amp_conf variables that can be exported
 	#

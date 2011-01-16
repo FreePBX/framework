@@ -1132,13 +1132,31 @@ if (!is_dir($amp_conf["ASTSPOOLDIR"]."/fax"))
 	amp_mkdir($amp_conf["ASTSPOOLDIR"]."/fax","0766",true);
 
 
+// Check if freepbx_settings is there and has been initialized
+// if it has anything less than about 5 settings in it (and that
+// is probably quite low) then something is wrong so assume it
+// is not there.
+//
+$sql = "SELECT count(*) FROM freepbx_settings"; 
+$num_settings = $db->getOne($sql); 
+$force_amportal_conf = $DB::IsError($num_settings) || $num_settings < 5;
+
 // **** Set permissions all files
 
+// tell amportal/freepbx_engine to use amportal.conf and not bootstrap
+// if freepbx_settings has not been setup yet or you will get an error.
+//
 if ($install_files)
 {
 	outn("Setting permissions on files..");
 	if (!$dryrun) {
+    if ($force_amportal_conf) {
+      putenv('FORCE_AMPORTAL_CONF=1');
+    }
 		exec($amp_conf["AMPSBIN"]."/amportal chown");
+    if ($force_amportal_conf) {
+      putenv('FORCE_AMPORTAL_CONF=');
+    }
 	}
 	out("OK");
 }
