@@ -573,6 +573,31 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('DISABLECUSTOMCONTEXTS',$set);
 
 
+  // NOOPTRACE
+  $set['value'] = '0';
+  $set['options'] = '0,1,2,3,4,5,6,7,8,9,10';
+  $set['description'] = 'Some modules will generate lots of Noop() commands proceeded by a [TRACE](trace_level) that can be used during development or while trying to trace call flows. These Noop() commands serve no other purpose so if you do not want to see excessive Noop()s in your dialplan you can set this to 0. The higher the number the more detailed level of trace Noop()s will be generated';
+  $set['type'] = CONF_TYPE_SELECT;
+  $freepbx_conf->define_conf_setting('NOOPTRACE',$set);
+
+  // DIVERSIONHEADER
+  $set['value'] = false;
+  $set['description'] = 'If this value is set to true, then calls going out your outbound routes that originate from outside your PBX and were subsequently forwarded through a call forward, ring group, follow-me or other means, will have a SIP diversion header added to the call with the original incoming DID assuming there is a DID available. This is useful with some carriers that may require this under certain circumstances.';
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('DIVERSIONHEADER',$set);
+
+  // CFRINGTIMERDEFAULT
+  $opts = array();
+  for ($i=-1;$i<=120;$i++) {
+      $opts[]=$i;
+  }
+  $set['value'] = '0';
+  $set['options'] = $opts;
+  $set['description'] = 'This is the default time in seconds to try and connect a call that has been call forwaded by the server side CF, CFU and CFB options. (If your phones use client side CF such as SIP redirects, this will not have any affect) If set to the default of 0, it will use the standard ring timer. If set to -1 it will ring the forwarded number with no limit which is consistent with the behavior of some existing PBX systems. If set to any other value, it will ring for that duration before diverting the call to the users voicemail if they have one. This can be overriden for each extension.';
+  $set['type'] = CONF_TYPE_SELECT;
+  $freepbx_conf->define_conf_setting('CFRINGTIMERDEFAULT',$set);
+  unset($opts);  
+
   //
   // CATEGORY: Directory Layout
   //

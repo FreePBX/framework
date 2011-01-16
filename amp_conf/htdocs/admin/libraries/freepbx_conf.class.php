@@ -36,7 +36,7 @@ class freepbx_conf {
   'AMPSYSLOGLEVEL '=> array(CONF_TYPE_UINT, 'LOG_ERR'),
   'NOOPTRACE'      => array(CONF_TYPE_UINT, '1'),
   'ARI_ADMIN_PASSWORD' => array(CONF_TYPE_TEXT, 'ari_password'),
-  'CFRINGTIMERDEFAULT' => array(CONF_TYPE_UINT, '0'),
+  'CFRINGTIMERDEFAULT' => array(CONF_TYPE_SELECT, '0'),
 
   'ASTETCDIR'      => array(CONF_TYPE_DIR, '/etc/asterisk'),
   'ASTMODDIR'      => array(CONF_TYPE_DIR, '/usr/lib/asterisk/modules'),
@@ -68,7 +68,6 @@ class freepbx_conf {
   'AMPDISABLELOG'  => array(CONF_TYPE_BOOL, true),
   'FOPDISABLE'     => array(CONF_TYPE_BOOL, false),
   'CHECKREFERER'   => array(CONF_TYPE_BOOL, true),
-  'USEDIALONE'     => array(CONF_TYPE_BOOL, false), // TODO: check if obsolete
   'RELOADCONFIRM'  => array(CONF_TYPE_BOOL, true),
   'DIVERSIONHEADER' => array(CONF_TYPE_BOOL, false),
   'ZAP2DAHDICOMPAT' => array(CONF_TYPE_BOOL, false),
