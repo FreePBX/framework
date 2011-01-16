@@ -73,6 +73,32 @@ if (!function_exists('version_compare_freepbx')) {
 	}
 }
 
+if (!function_exists('die_freepbx')) {function die_freepbx($text, $extended_text="", $type="FATAL") {
+  $trace = print_r(debug_backtrace(),true);
+	if (function_exists('fatal')) {
+		// "custom" error handler 
+		// fatal may only take one param, so we suppress error messages because it doesn't really matter
+		@fatal($text."\n".$trace, $extended_text, $type);
+	} else if (isset($_SERVER['REQUEST_METHOD'])) {
+		// running in webserver
+		echo "<h1>".$type." ERROR</h1>\n";
+		echo "<h3>".$text."</h3>\n";
+		if (!empty($extended_text)) {
+			echo "<p>".$extended_text."</p>\n";
+		}
+    echo "<h4>"._("Trace Back")."</h4>";
+    echo "<pre>$trace</pre>";
+	} else {
+		// CLI
+		echo "[$type] ".$text." ".$extended_text."\n";
+    echo "Trace Back:\n";
+    echo $trace;
+	}
+
+	// always ensure we exit at this point
+	exit(1);
+}}
+
 function showHelp() {
 	out("Optional parameters:");
 	out("  --help, -h, -?           Show this help");
@@ -1165,13 +1191,9 @@ if ($install_files)
 //
 upgrade_all($version);
 
-// TODO: this is probably where we will put freepbx_settings_init
-//       to initialize/update all the possible settings
-/*
 outn("Creating or updating freepbx_conf settings..");
 freepbx_settings_init(true);
 out("..OK");
-*/
 
 // **** Generate AMP configs
 out("Generating AMP configs..");
