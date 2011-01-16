@@ -103,7 +103,7 @@ class freepbx_conf {
   function &create() {
     static $obj;
     global $db;
-    if (!isset($obj)) {
+    if (!isset($obj) || !is_object($obj)) {
       $obj = new freepbx_conf();
     }
     return $obj;
@@ -130,7 +130,7 @@ class freepbx_conf {
       // note the reference assignment, if it's actually the authoritative source
       $this->conf[$setting['keyword']] =& $this->db_conf_store[$setting['keyword']]['value'];
       if (!$setting['emptyok'] && $setting['value'] == '') {
-        $this->db_conf_store[$setting['keyword']]['value'] = $setting['defvalue'];
+        $this->db_conf_store[$setting['keyword']]['value'] = $setting['defaultval'];
       }
     }
     unset($db_raw);

@@ -390,9 +390,7 @@ function install_sqlupdate( $version, $file )
 function freepbx_settings_init($commit_to_db = false) {
   global $amp_conf;
 
-  //TODO will probably change to freepbx_settings.class.php
-  //
-  require_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/freepbx_conf.class.php');
+  include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/freepbx_conf.class.php');
 
   $freepbx_conf =& freepbx_conf::create();
 
