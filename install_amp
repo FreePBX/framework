@@ -991,7 +991,7 @@ switch ($db_engine)
 		die( "Unknown SQL engine: [$db_engine]");
 }
 
-if(DB::isError($db)) {
+if(DB::IsError($db)) {
 	out("FAILED");
 	debug($db->userinfo);
 	out("Try running ".$argv[0]." --username=user --password=pass  (using your own user and pass)");
@@ -1139,7 +1139,7 @@ if (!is_dir($amp_conf["ASTSPOOLDIR"]."/fax"))
 //
 $sql = "SELECT count(*) FROM freepbx_settings"; 
 $num_settings = $db->getOne($sql); 
-$force_amportal_conf = $DB::IsError($num_settings) || $num_settings < 5;
+$force_amportal_conf = DB::IsError($num_settings) || $num_settings < 5;
 
 // **** Set permissions all files
 
