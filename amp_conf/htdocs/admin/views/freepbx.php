@@ -147,7 +147,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN']) {
       $val_update['mainstyle_css_mtime'] = $settings['value'];
 
       // Update the values (in case these are new) and commit
-      $freepbx_conf->set_conf_values($val_update,true);
+      $freepbx_conf->set_conf_values($val_update,true,true);
 
       $mainstyle_css = $mainstyle_css_generated;
     }
