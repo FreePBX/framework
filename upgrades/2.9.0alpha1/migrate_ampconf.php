@@ -61,6 +61,7 @@ out(_("ok"));
 
 // Now we will set the current value of all settings
 //
+$freepbx_conf =& freepbx_conf::create();
 $update_arr = array();
 out(_("Migrate current values into freepbx_conf.."));
 foreach ($current_amp_conf as $key => $val) {
