@@ -1151,7 +1151,7 @@ upgrade_all($version);
 //       to initialize/update all the possible settings
 /*
 outn("Creating or updating freepbx_conf settings..");
-freepbx_settings_init();
+freepbx_settings_init(true);
 out("..OK");
 */
 

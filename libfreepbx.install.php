@@ -387,7 +387,7 @@ function install_sqlupdate( $version, $file )
 // break this out separtely but for now we'll keep it here since this is already part of the ifrastructure that is
 // used by both install_amp and the framework install/upgrade script.
 //
-function freepbx_settings_init() {
+function freepbx_settings_init($commit_to_db = false) {
   global $amp_conf;
 
   //TODO will probably change to freepbx_settings.class.php
@@ -1072,11 +1072,24 @@ function freepbx_settings_init() {
   $mod_set['description'] = 'This setting is being migrated and will be initialized by its module install script on upgrad.';
   foreach ($module_migrate as $setting => $type) {
     if (isset($amp_conf[$setting])  && !$freepbx_conf->conf_setting_exists($setting)) {
-      $mod_set['value'] = $amp_conf[$setting];
+      $val = $amp_conf[$setting];
+
+      // since this came from a conf file, change any 'false' that will otherwise turn to true
+      //
+      if ($type == CONF_TYPE_BOOL) switch (strtolower($val)) {
+      case 'false':
+      case 'no':
+      case 'off':
+        $val = false;
+      break;
+      }
+      $mod_set['value'] = $val;
       $mod_set['type'] = $type;
       $freepbx_conf->define_conf_setting($setting,$mod_set);
     }
   }
 
-  $freepbx_conf->commit_conf_settings();
+  if ($commit_to_db) {
+    $freepbx_conf->commit_conf_settings();
+  }
 }

@@ -54,10 +54,11 @@ $current_amp_conf = $amp_conf;
 
 // Now let's initialize all the settings, if they happen to already exist for
 // some reason, this is ok as the define_conf_settings() method does not save the
-// values back once defined, you must explicitly set them.
+// values back once defined, you must explicitly set them. Don't commit to db,
+// that is down a little further down anyhow.
 //
 outn(_("Initialize freepbx_conf settings.."));
-freepbx_settings_init();
+freepbx_settings_init(false);
 out(_("ok"));
 
 // Now we will set the current value of all settings
