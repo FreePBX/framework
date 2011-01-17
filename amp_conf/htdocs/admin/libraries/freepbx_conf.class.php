@@ -342,9 +342,6 @@ class freepbx_conf {
       $attributes['keyword'] = $keyword;
       $attributes['type'] = $vars['type'];
     }
-    if (isset($vars['category']) && $vars['category'] == '' && (!isset($vars['module']) || $vars['module'] == '')) {
-      die_freepbx(_("You must set either a category or a module attribute"));
-    }
     if ($vars['type'] == CONF_TYPE_SELECT) {
       if (!isset($vars['options']) || $vars['options'] == '') { 
         die_freepbx(sprintf(_("missing options for keyword [%] required if type is select"),$keyword));
@@ -355,13 +352,16 @@ class freepbx_conf {
     if (isset($vars['level'])) {
       $attributes['level'] = (int) $vars['level'];
     }
+    if (isset($vars['category']) && $vars['category']) {
+      $attributes['category'] = $vars['category'];
+    }
     $optional = array('readonly', 'hidden', 'emptyok');
     foreach ($optional as $atrib) {
       if (isset($vars[$atrib])) {
         $attributes[$atrib] = $vars[$atrib] ? '1' : '0';
       }
     }
-    $optional = array('description', 'category', 'module');
+    $optional = array('description', 'module');
     foreach ($optional as $atrib) {
       if (isset($vars[$atrib])) {
         $attributes[$atrib] = $vars[$atrib];
