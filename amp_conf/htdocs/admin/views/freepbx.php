@@ -66,21 +66,31 @@ $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] = 'images/tango_large.png';
 
 // BRANDABLE COMPONENTS
 //
+
+// get version info to be used to version images, css, etc.
+//
+$version = get_framework_version();
+$version = $version ? $version : getversion();
+$version_tag = '?load_version='.urlencode($version);
+
+// TODO: append ?load_version=$version (and for module specific $load_version=$view_module_version) to end of images, js, etc.
+//       to get these to load, per moshe's suggestion
+
 if ($amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND']) {
   $use_nav_background = false;
 } else {
-  $shadow_side_background = $amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND'] ? $amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND'] : 'images/shadow-side-background.png';
+  $shadow_side_background = ($amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND'] ? $amp_conf['BRAND_IMAGE_SHADOW_SIDE_BACKGROUND'] : 'images/shadow-side-background.png').$version_tag;
 }
 // $freepbx_logo_r
 // AMPADMINLOGO takes precedence for backwards compatibility
 if ($amp_conf["AMPADMINLOGO"] && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])) {
-  $freepbx_logo_r = $amp_conf["AMPADMINLOGO"]; 
+  $freepbx_logo_r = $amp_conf["AMPADMINLOGO"].$version_tag; 
 } else {
-  $freepbx_logo_r =  $amp_conf['BRAND_IMAGE_FREEPBX_RIGHT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_RIGHT'] : 'images/logo.png';
+  $freepbx_logo_r =  ($amp_conf['BRAND_IMAGE_FREEPBX_RIGHT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_RIGHT'] : 'images/logo.png').$version_tag;
 }
 $freepbx_alt_l      = $amp_conf['BRAND_FREEPBX_ALT_LEFT'] ? $amp_conf['BRAND_FREEPBX_ALT_LEFT'] : _("FreePBX");
 $freepbx_alt_r      = $amp_conf['BRAND_FREEPBX_ALT_RIGHT'] ? $amp_conf['BRAND_FREEPBX_ALT_RIGHT'] : _("FreePBX");
-$freepbx_logo_l     = $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] : 'images/freepbx_large.png';
+$freepbx_logo_l     = ($amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] : 'images/freepbx_large.png').$version_tag;
 $freepbx_link_l     = $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] : 'http://www.freepbx.org';
 $freepbx_link_r     = $amp_conf['BRAND_IMAGE_FREEPBX_LINK_RIGHT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_RIGHT'] : 'http://www.freepbx.org';
 $use_freepbx_logo_r = ! $amp_conf['BRAND_HIDE_LOGO_RIGHT'];
@@ -162,7 +172,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN']) {
 	<title><?php  echo _($title) ?></title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
-	<link href="<?php echo $mainstyle_css ?>" rel="stylesheet" type="text/css" />
+	<link href="<?php echo $mainstyle_css.$version_tag ?>" rel="stylesheet" type="text/css" />
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>
 	<style type="text/css">
 		body {
@@ -175,26 +185,31 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN']) {
 	<link rel="shortcut icon" href="images/favicon.ico" />
 <?php 
 	if (isset($module_name)) {
+
+    global $active_modules;
+    $view_module_version = $active_modules[$module_name]['version'];
+    $mod_version_tag = '&load_version='.urlencode($view_module_version);
+
 		if (is_file('modules/'.$module_name.'/'.$module_name.'.css')) {
-			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.css" rel="stylesheet" type="text/css" />'."\n";
+			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.css'.$mod_version_tag.'" rel="stylesheet" type="text/css" />'."\n";
 		}
 		if (isset($module_page) && ($module_page != $module_name) && is_file('modules/'.$module_name.'/'.$module_page.'.css')) {
-			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.css" rel="stylesheet" type="text/css" />'."\n";
+			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.css'.$mod_version_tag.'" rel="stylesheet" type="text/css" />'."\n";
 		}
 	}
   // Insert a custom CSS sheet if specified (this can change what is in the main CSS
   if ($custom_css) { ?>
-  <link href="<?php echo $custom_css ?>" rel="stylesheet" type="text/css" />
+  <link href="<?php echo $custom_css.$version_tag ?>" rel="stylesheet" type="text/css" />
 <?php } ?>
 
-	<script type="text/javascript" src="common/script.js.php"></script>
+  <script type="text/javascript" src="common/script.js.php<?php echo $version_tag ?>"></script>
 <?php
 	// Production versions should include the packed consolidated javascript library but if it
 	// is not present (useful for development, then include each individual library below
 	//
 	if (file_exists("common/libfreepbx.javascripts.js")) {
 ?>
-	<script type="text/javascript" src="common/libfreepbx.javascripts.js" language="javascript"></script>
+  <script type="text/javascript" src="common/libfreepbx.javascripts.js<?php echo $version_tag ?>" language="javascript"></script>
 <?php
 	} else {
 	// TODO: include this in some sort of meta-data or xml file for parsing? Order is important so can't just read the directory
@@ -211,10 +226,10 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN']) {
 	}
 if (isset($module_name) && $module_name != '') {
 	if (is_file('modules/'.$module_name.'/'.$module_name.'.js')) {
-		echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.js"></script>'."\n";
+		echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.js'.$mod_version_tag.'"></script>'."\n";
 	}
 	if (isset($module_page) && ($module_page != $module_name) && is_file('modules/'.$module_name.'/'.$module_page.'.js')) {
-		echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.js"></script>'."\n";
+		echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.js'.$mod_version_tag.'"></script>'."\n";
 	}
 
 	// Note - include all the module js files first, then the page specific files, in case a page specific file requires a module level file
@@ -228,7 +243,7 @@ if (isset($module_name) && $module_name != '') {
 		sort($file_list);
 		foreach ($file_list as $file) {
 			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
-				echo "\t<script type='text/javascript' src='{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_dir/$file'></script>\n";
+				echo "\t<script type='text/javascript' src='{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_dir/$file".$mod_version_tag."'></script>\n";
 			}
 		}
 		unset($file_list);
@@ -243,7 +258,7 @@ if (isset($module_name) && $module_name != '') {
 			sort($file_list);
 			foreach ($file_list as $p_file) {
 				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
-					echo "\t<script type='text/javascript' src='{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_subdir/$p_file'></script>\n";
+					echo "\t<script type='text/javascript' src='{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_subdir/$p_file".$mod_version_tag."'></script>\n";
 				}
 			}
 		}
@@ -283,8 +298,6 @@ if ($reload_needed) {
 <?php
 	echo "\t\t<div id=\"freepbx\"><a href=\"$freepbx_link_l\" target=\"_blank\" title=\"".$freepbx_alt_l."\"><img src=\"$freepbx_logo_l\" alt=\"".$freepbx_alt_l."\" /></a></div>\n";
 			
-	$version = get_framework_version();
-	$version = $version ? $version : getversion();
 	echo "\t\t<div id=\"version\">";
 	if (!$hide_version) {
 		echo sprintf(_("%s %s on %s"), 

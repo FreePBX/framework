@@ -68,7 +68,10 @@
 							// successful reload
 <?php
   global $amp_conf;
-  $loading_img = $amp_conf['BRAND_IMAGE_RELOAD_LOADING'] ? $amp_conf['BRAND_IMAGE_RELOAD_LOADING'] : 'images/loading.gif';
+  $version = get_framework_version();
+  $version = $version ? $version : getversion();
+  $version_tag = '?load_version='.urlencode($version);
+  $loading_img = ($amp_conf['BRAND_IMAGE_RELOAD_LOADING'] ? $amp_conf['BRAND_IMAGE_RELOAD_LOADING'] : 'images/loading.gif').$version_tag;
   if (!$amp_conf['DEVELRELOAD']) {
 ?>
 							$('#need_reload_block').fadeOut();

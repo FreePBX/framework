@@ -337,8 +337,12 @@ function do_reload() {
 }
 
 //get the version number
-function getversion() {
+function getversion($cached=true) {
 	global $db;
+  static $version;
+  if (isset($version) && $cached) {
+    return $version;
+  }
 	$sql = "SELECT value FROM admin WHERE variable = 'version'";
 	$results = $db->getRow($sql);
 	if(DB::IsError($results)) {
@@ -348,8 +352,12 @@ function getversion() {
 }
 
 //get the version number
-function get_framework_version() {
+function get_framework_version($cached=true) {
 	global $db;
+  static $version;
+  if (isset($version) && $cached) {
+    return $version;
+  }
 	$sql = "SELECT version FROM modules WHERE modulename = 'framework' AND enabled = 1";
 	$version = $db->getOne($sql);
 	if(DB::IsError($version)) {
