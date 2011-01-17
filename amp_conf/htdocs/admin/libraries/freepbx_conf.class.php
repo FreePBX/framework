@@ -129,7 +129,9 @@ class freepbx_conf {
       // note the reference assignment, if it's actually the authoritative source
       $this->conf[$setting['keyword']] =& $this->db_conf_store[$setting['keyword']]['value'];
       if (!$setting['emptyok'] && $setting['value'] == '') {
-        $this->db_conf_store[$setting['keyword']]['value'] = $setting['defaultval'];
+        $this->db_conf_store[$setting['keyword']]['value'] = $this->_prepare_conf_value($setting['value'], $setting['type'], $setting['defaultval']);
+      } else {
+        $this->db_conf_store[$setting['keyword']]['value'] = $this->_prepare_conf_value($setting['value'], $setting['type'], $setting['emptyok']);
       }
     }
     unset($db_raw);
@@ -198,7 +200,9 @@ class freepbx_conf {
     //
     // TODO: am I correct to NOT write these back to the database ?
     foreach ($bootstrap_conf as $key => $value) {
-      $this->conf[$key] = $value;
+      if (!isset($this->conf[$key])) {
+        $this->conf[$key] = $value;
+      }
     }
 
     // We set defaults above from the database so anything that needed a default
@@ -332,9 +336,9 @@ class freepbx_conf {
       die_freepbx(sprintf(_("missing value and/or defaultval required for [%s]"),$keyword));
     } else {
       // validate even if already set, catches coding errors early even though we don't use it
-      $value = $this->_prepare_conf_value($vars['value'], $vars['type']);
+      $value = $this->_prepare_conf_value($vars['value'], $vars['type'] ,$vars['emptyok']);
       $attributes['value'] = $new_setting ? $value : $this->db_conf_store[$keyword];
-      $attributes['defaultval'] = $this->_prepare_conf_value($vars['defaultval'], $vars['type']);
+      $attributes['defaultval'] = $this->_prepare_conf_value($vars['defaultval'], $vars['type'] ,$vars['emptyok']);
       $attributes['keyword'] = $keyword;
       $attributes['type'] = $vars['type'];
     }
@@ -394,7 +398,7 @@ class freepbx_conf {
       if (!isset($this->db_conf_store[$keyword])) {
         die_freepbx(sprintf(_("trying to set keyword [%s] to [%s] on unitialized setting"),$keyword, $value));
       } 
-      $prep_value = $this->_prepare_conf_value($value, $this->db_conf_store[$keyword]['type']);
+      $prep_value = $this->_prepare_conf_value($value, $this->db_conf_store[$keyword]['type'] ,$this->db_conf_store[$keyword]['emptyok']);
       if ($prep_value != $this->db_conf_store[$keyword]['value'] && ($prep_value !== '' || $this->db_conf_store[$keyword]['emptyok']) && ($override_readonly || !$this->db_conf_store[$keyword]['readonly'])) {
         $this->db_conf_store[$keyword]['value'] = $prep_value;
         $this->db_conf_store[$keyword]['modified'] = true;
@@ -407,9 +411,7 @@ class freepbx_conf {
     return $cnt;
   }
 
-  // TODO: need to address emptyok situation with INT and UINT at least
-  //
-  function _prepare_conf_value($value, $type) {
+  function _prepare_conf_value($value, $type, $emptyok) {
     switch ($type) {
     case CONF_TYPE_BOOL:
       $ret = $value ? 1 : 0;
@@ -422,10 +424,10 @@ class freepbx_conf {
       $ret = rtrim($value,'/');
       break;
     case CONF_TYPE_INT:
-      $ret = (int) $value;
+      $ret = $emptyok && $value == '' ? '' : (int) $value;
       break;
     case CONF_TYPE_UINT:
-      $ret = (int) $value < 0 ? 0 : (int) $value;
+      $ret = $emptyok && $value == '' ? '' : ((int) $value < 0 ? 0 : (int) $value);
       break;
     default:
       die_freepbx(sprintf(_("unknown type: [%s]"),$type));
