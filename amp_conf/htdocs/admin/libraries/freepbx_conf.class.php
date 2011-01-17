@@ -184,7 +184,7 @@ class freepbx_conf {
           $this->commit_conf_settings();
         }
 		  } else { 
-			  die_freepbx(sprintf(_("Missing or unreadable config file (%s)...cannot continue"), $filename)); 
+			  die_freepbx(sprintf(_("Missing or unreadable config file [%s]...cannot continue"), $filename)); 
 		  }
       // Need to handle transitionary period where modules are adding new settings. So once we parsed the file
       // we still go read from the database and add anything that isn't there from the conf file.
@@ -326,10 +326,10 @@ class freepbx_conf {
     // Got to have a type and value, if no type, _prepared_conf_value will throw an error
     $new_setting = !isset($this->db_conf_store[$keyword]);
     if (!$new_setting && $vars['type'] != $this->db_conf_store[$keyword]['type']) {
-      die_freepbx(sprintf(_("you can't convert an existing type, keyword %s"),$keyword));
+      die_freepbx(sprintf(_("you can't convert an existing type, keyword [%s]"),$keyword));
     }
     if (!isset($vars['value']) || !isset($vars['defaultval'])) {
-      die_freepbx(sprintf(_("missing value and/or defaultval required for %s"),$keyword));
+      die_freepbx(sprintf(_("missing value and/or defaultval required for [%s]"),$keyword));
     } else {
       // validate even if already set, catches coding errors early even though we don't use it
       $value = $this->_prepare_conf_value($vars['value'], $vars['type']);
@@ -343,7 +343,7 @@ class freepbx_conf {
     }
     if ($vars['type'] == CONF_TYPE_SELECT) {
       if (!isset($vars['options']) || $vars['options'] == '') { 
-        die_freepbx(sprintf(_("missing options for % required if type is select"),$keyword));
+        die_freepbx(sprintf(_("missing options for keyword [%] required if type is select"),$keyword));
       } else {
         $attributes['options'] = is_array($vars['options']) ? implode(',',$vars['options']) : $vars['options'];
       }
@@ -392,7 +392,7 @@ class freepbx_conf {
     }
     foreach($update_arr as $keyword => $value) {
       if (!isset($this->db_conf_store[$keyword])) {
-        die_freepbx(sprintf(_("trying to set keyword %s to %s on unitialized setting"),$keyword, $value));
+        die_freepbx(sprintf(_("trying to set keyword [%s] to [%s] on unitialized setting"),$keyword, $value));
       } 
       $prep_value = $this->_prepare_conf_value($value, $this->db_conf_store[$keyword]['type']);
       if ($prep_value != $this->db_conf_store[$keyword]['value'] && ($prep_value !== '' || $this->db_conf_store[$keyword]['emptyok']) && ($override_readonly || !$this->db_conf_store[$keyword]['readonly'])) {
@@ -428,7 +428,7 @@ class freepbx_conf {
       $ret = (int) $value < 0 ? 0 : (int) $value;
       break;
     default:
-      die_freepbx(sprintf(_("unknown type: %s"),$type));
+      die_freepbx(sprintf(_("unknown type: [%s]"),$type));
       break;
     }
     return $ret;
@@ -461,7 +461,7 @@ class freepbx_conf {
     $sql = "DELETE FROM freepbx_settings WHERE keyword in ('".implode("','",$settings)."')";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
-      die_freepbx(_('fatal error deleting rows from freepbx_settings: ').$sql);	
+      die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);	
     }
   }
 
