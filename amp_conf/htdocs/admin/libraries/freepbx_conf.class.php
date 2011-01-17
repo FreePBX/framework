@@ -292,6 +292,10 @@ class freepbx_conf {
     }
   }
 
+  function get_conf_settings() {
+    return $this->db_conf_store;
+  }
+
   // used to insert or update an existing setting such as in an install
   // script. $vars will include some required fields and we are strict
   // with a die_freebpx() if they are missing.
@@ -379,9 +383,6 @@ class freepbx_conf {
       $this->commit_conf_settings();
     }
 
-    function get_conf_settings() {
-      $this->db_conf_store;
-    }
   }
 
   function set_conf_values($update_arr, $commit=false, $override_readonly=false) {
