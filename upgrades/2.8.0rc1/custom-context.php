@@ -14,16 +14,6 @@
 global $db;
 global $amp_conf;
 
-//this must go first so that we dont attempt to redefine the functions below
-if (!function_exists('modules_getversion')) {
-	$file = dirname(__FILE__).'/../../amp_conf/htdocs/admin/functions.inc.php';
-	if(file_exists($file)) {
-		include_once($file);
-	} else {
-		die('Fatal: Function modules_getversion() cannot be defined');
-	}
-}
-
 if (! function_exists("out")) {
 	function out($text) {
 		echo $text."<br />";
@@ -40,8 +30,14 @@ if (! function_exists("outn")) {
 $sql = 'DESCRIBE customcontexts_includes_list';
 $test = $db->getAll($sql);
 if(!DB::IsError($test)) { 
-	$ver = modules_getversion('customcontexts');
 	outn(_("checking if Custom Context migration is required..."));
+	$sql = "SELECT version FROM modules WHERE modulename = 'customcontexts'";
+	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
+	if (isset($results['version'])) {
+		$ver = $results['version'];
+	} else {
+		$ver = null;
+	}
 	if ($ver !== null && version_compare($ver, "2.8.0beta1.0", "<")) {
 			outn(_("migrating.."));
 			/* 
