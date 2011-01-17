@@ -334,6 +334,9 @@ class freepbx_conf {
       $attributes['keyword'] = $keyword;
       $attributes['type'] = $vars['type'];
     }
+    if (isset($vars['category']) && $vars['category'] == '' && (!isset($vars['module']) || $vars['module'] == '')) {
+      die_freepbx(_("You must set either a category or a module attribute"));
+    }
     if ($vars['type'] == CONF_TYPE_SELECT) {
       if (!isset($vars['options']) || $vars['options'] == '') { 
         die_freepbx(sprintf(_("missing options for % required if type is select"),$keyword));
@@ -374,6 +377,10 @@ class freepbx_conf {
     }
     if ($commit) {
       $this->commit_conf_settings();
+    }
+
+    function get_conf_settings() {
+      $this->db_conf_store;
     }
   }
 
