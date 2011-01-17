@@ -319,7 +319,7 @@ if ($reload_needed) {
 	}
 
   if ($use_freepbx_logo_r) {
-	  echo "\t\t<div id=\"logo\"><a href=\"$freepbx_link_r\" target=\"_blank\" title=\"".$freepbx_alt_r."\"><img src=\"$freepbx_logo_right\" alt=\"".$freepbx_alt_r."\" /></a></div>\n";
+	  echo "\t\t<div id=\"logo\"><a href=\"$freepbx_link_r\" target=\"_blank\" title=\"".$freepbx_alt_r."\"><img src=\"$freepbx_logo_r\" alt=\"".$freepbx_alt_r."\" /></a></div>\n";
   }
 	
 	// need reload bar - hidden by default
