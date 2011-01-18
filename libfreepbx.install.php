@@ -402,6 +402,43 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['module'] = '';
   $set['emptyok'] = 0;
 
+
+  //
+  // CATEGORY: Advanced Settings Display
+  //
+  $set['category'] = 'Advanced Settings Details';
+
+  // AS_DISPLAY_DETAIL_LEVEL
+  $set['value'] = '0';
+  $set['options'] = '0,1,2,3,4,5,6,7,8,9,10';
+  $set['description'] = 'This will filter which settings that are displayed on this Advanced Settings page. The higher the level, the more obscure settings will be shown. Settings at higher levels are unlikely to be of interest to most users and could be more volatile to breaking your system if set wrong.';
+  $set['level'] = 0;
+  $set['readonly'] = 0;
+  $set['type'] = CONF_TYPE_SELECT;
+  $freepbx_conf->define_conf_setting('AS_DISPLAY_DETAIL_LEVEL',$set);
+  $set['readonly'] = 0;
+  $set['level'] = 0;
+
+  // AS_DISPLAY_HIDDEN_SETTINGS
+  $set['value'] = false;
+  $set['description'] = 'This will display settings that are normally hidden by the system. These settings are often internally used settings that are not of interest to most users.';
+  $set['level'] = 0;
+  $set['readonly'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('AS_DISPLAY_HIDDEN_SETTINGS',$set);
+  $set['readonly'] = 0;
+  $set['level'] = 0;
+
+  // AS_DISPLAY_READONLY_SETTINGS
+  $set['value'] = false;
+  $set['description'] = 'This will display settings that are readonly. These settings are often internally used settings that are not of interest to most users. Since they are readonly they can only be viewed.';
+  $set['level'] = 0;
+  $set['readonly'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('AS_DISPLAY_READONLY_SETTINGS',$set);
+  $set['readonly'] = 0;
+  $set['level'] = 0;
+
   //
   // CATEGORY: System Setup
   //
@@ -438,7 +475,9 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = '007';
   $set['description'] = 'Defaults to 077 allowing only the asterisk user to have any permission on VM files. If set to something like 007, it would allow the group to have permissions. This can be used if setting apache to a different user then asterisk, so that the apache user (and thus ARI) can have access to read/write/delete the voicemail files. If changed, some of the voicemail directory structures may have to be manually changed.';
   $set['type'] = CONF_TYPE_TEXT;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('AMPVMUMASK',$set);
+  $set['level'] = 0;
 
   // AMPWEBADDRESS
   $set['value'] = '';
@@ -522,7 +561,9 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = true;
   $set['description'] = 'Generate the bad-number context which traps any bogus number or feature code and plays a message to the effect. If you use the Early Dial feature on some Grandstream phones, you will want to set this to false.';
   $set['type'] = CONF_TYPE_BOOL;
+  $set['level'] = 2;
   $freepbx_conf->define_conf_setting('AMPBADNUMBER',$set);
+  $set['level'] = 0;
 
   // CWINUSEBUSY
   $set['value'] = true;
@@ -564,13 +605,17 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = false;
   $set['description'] = 'Setting this flag will generate the required global variable so that enumlookup.agi will use Google DNS 8.8.8.8 when performing an ENUM lookup. Not all DNS deals with NAPTR record, but Google does. There is a drawback to this as Google tracks every lookup. If you are not comfortable with this, do not enable this setting. Please read Google FAQ about this: <b>http://code.google.com/speed/public-dns/faq.html#privacy</b>.';
   $set['type'] = CONF_TYPE_BOOL;
+  $set['level'] = 2;
   $freepbx_conf->define_conf_setting('USEGOOGLEDNSFORENUM',$set);
+  $set['level'] = 0;
 
   // DISABLECUSTOMCONTEXTS
   $set['value'] = false;
   $set['description'] = 'Normally FreePBX auto-generates a custom context that may be usable for adding custom dialplan to modify the normal behavior of FreePBX. It takes a good understanding of how Asterisk processes these includes to use this and in many of the cases, there is no useful application. All includes will result in a WARNING in the Asterisk log if there is no context found to include though it results in no errors. If you know that you want the includes, you can set this to true. If you comment it out FreePBX will revert to legacy behavior and include the contexts.';
   $set['type'] = CONF_TYPE_BOOL;
+  $set['level'] = 2;
   $freepbx_conf->define_conf_setting('DISABLECUSTOMCONTEXTS',$set);
+  $set['level'] = 0;
 
 
   // NOOPTRACE
@@ -607,73 +652,86 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = '/var/lib/asterisk/bin';
   $set['description'] = 'Location of the FreePBX command line scripts.';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('AMPBIN',$set);
 
   // AMPSBIN
   $set['value'] = '/usr/sbin';
   $set['description'] = 'Where (root) command line scripts are located.';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('AMPSBIN',$set);
     
   // AMPWEBROOT
   $set['value'] = '/var/www/html';
   $set['description'] = 'The path to Apache webroot (leave off trailing slash).';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('AMPWEBROOT',$set);
 
   // ASTAGIDIR
   $set['value'] = '/var/lib/asterisk/agi-bin';
   $set['description'] = 'This is the default directory for Asterisks agi files.';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('ASTAGIDIR',$set);
 
   // ASTETCDIR
   $set['value'] = '/etc/asterisk';
   $set['description'] = 'This is the default directory for Asterisks configuration files.';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('ASTETCDIR',$set);
 
   // ASTLOGDIR
   $set['value'] = '/var/log/asterisk';
   $set['description'] = 'This is the default directory for Asterisks log files.';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('ASTLOGDIR',$set);
 
   // ASTMODDIR
   $set['value'] = '/usr/lib/asterisk/modules';
   $set['description'] = 'This is the default directory for Asterisks modules.';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('ASTMODDIR',$set);
 
   // ASTSPOOLDIR
   $set['value'] = '/var/spool/asterisk';
   $set['description'] = 'This is the default directory for Asterisks spool directory.';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('ASTSPOOLDIR',$set);
 
   // ASTRUNDIR
   $set['value'] = '/var/run/asterisk';
   $set['description'] = 'This is the default directory for Asterisks run files.';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('ASTRUNDIR',$set);
 
   // ASTVARLIBDIR
   $set['value'] = '/var/lib/asterisk';
   $set['description'] = 'This is the default directory for Asterisks lib files.';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('ASTVARLIBDIR',$set);
 
   // AMPCGIBIN
   $set['value'] = '/var/www/cgi-bin ';
   $set['description'] = 'The path to Apache cgi-bin dir (leave off trailing slash).';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('AMPCGIBIN',$set);
 
   // MOHDIR
   $set['value'] = 'moh';
   $set['description'] = 'This is the subdirectory for the MoH files/directories which is located in ASTVARLIBDIR if not specified it will default to mohmp3 for backward compatibility.';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('MOHDIR',$set);
+  $set['level'] = 0;
 
 
   //
@@ -745,19 +803,25 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = 'amp111';
   $set['description'] = 'Password for accessing the Asterisk Manager Interface (AMI), you must change this in manager.conf if changed here.';
   $set['type'] = CONF_TYPE_TEXT;
+  $set['level'] = 2;
   $freepbx_conf->define_conf_setting('AMPMGRPASS',$set);
+  $set['level'] = 0;
 
   // AMPMGRUSER
   $set['value'] = 'admin';
   $set['description'] = 'Username for accessing the Asterisk Manager Interface (AMI), you must change this in manager.conf if changed here.';
   $set['type'] = CONF_TYPE_TEXT;
+  $set['level'] = 2;
   $freepbx_conf->define_conf_setting('AMPMGRUSER',$set);
+  $set['level'] = 0;
 
   // ASTMANAGERHOST
   $set['value'] = 'localhost';
   $set['description'] = 'Hostname for the Asterisk Manager';
   $set['type'] = CONF_TYPE_TEXT;
+  $set['level'] = 2;
   $freepbx_conf->define_conf_setting('ASTMANAGERHOST',$set);
+  $set['level'] = 0;
 
   $set['type'] = CONF_TYPE_UINT;
 
@@ -765,14 +829,18 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = '5038';
   $set['description'] = 'Port for the Asterisk Manager';
   $set['type'] = CONF_TYPE_UINT;
+  $set['level'] = 2;
   $freepbx_conf->define_conf_setting('ASTMANAGERPORT',$set);
+  $set['level'] = 0;
 
   // ASTMANAGERPROXYPORT
   $set['value'] = '';
   $set['description'] = 'Optional port for an Asterisk Manager Proxy';
   $set['type'] = CONF_TYPE_UINT;
   $set['emptyok'] = 1;
+  $set['level'] = 2;
   $freepbx_conf->define_conf_setting('ASTMANAGERPROXYPORT',$set);
+  $set['level'] = 0;
   $set['emptyok'] = 0;
 
 
@@ -871,7 +939,9 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = '/var/www/html/panel';
   $set['description'] = 'Path to the Flash Operator Panel webroot (leave off trailing slash).';
   $set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
   $freepbx_conf->define_conf_setting('FOPWEBROOT',$set);
+  $set['level'] = 0;
 
   // FOPPASSWORD
   $set['value'] = 'passw0rd';

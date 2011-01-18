@@ -29,7 +29,7 @@ if(DB::IsError($result)){
 	  `defaultval` varchar(255) default NULL,
 	  `readonly` tinyint(1) default 0,
 	  `hidden` tinyint(1) default 0,
-	  `category` varchar(25) default NULL,
+	  `category` varchar(50) default NULL,
 	  `module` varchar(25) default NULL,
 	  `emptyok` tinyint(1) default 1,
 	  PRIMARY KEY  (`keyword`)

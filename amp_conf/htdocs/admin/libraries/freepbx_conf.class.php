@@ -350,7 +350,7 @@ class freepbx_conf {
       }
     }
     if (isset($vars['level'])) {
-      $attributes['level'] = (int) $vars['level'];
+      $attributes['level'] = (int) $vars['level'] > 0 ? ((int) $vars['level'] < 10 ? (int) $vars['level'] : 10)) : 0;
     }
     if (isset($vars['category']) && $vars['category']) {
       $attributes['category'] = $vars['category'];
