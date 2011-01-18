@@ -73,9 +73,6 @@ $version = get_framework_version();
 $version = $version ? $version : getversion();
 $version_tag = '?load_version='.urlencode($version);
 
-// TODO: append ?load_version=$version (and for module specific $load_version=$view_module_version) to end of images, js, etc.
-//       to get these to load, per moshe's suggestion
-
 if ($amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND']) {
   $use_nav_background = false;
 } else {
