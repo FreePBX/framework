@@ -958,6 +958,22 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('DEVEL',$set);
 
+  // USE_PACKAGED_JS
+  $set['value'] = true;
+  $set['options'] = '';
+  $set['description'] = 'FreePBX packages several javascript libraries and compoents into a compressed file called libfreepbx.javascript.js. By default this will be loaded instead of the individual uncompressed libraries. Setting this to false will force FreePBX to load all the libraries as individual uncompressed files. This is useful during development and debugging.';
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('USE_PACKAGED_JS',$set);
+
+  // FORCE_JS_CSS_IMG_DOWNLOAD
+  $set['value'] = false;
+  $set['options'] = '';
+  $set['description'] = 'FreePBX appends verisoning tags on the CSS and javascript files and some of the main logo images. The versioning will help force browsers to load new versions of the files when module versions are upgraded. Setting this value to true will try to force these to be loaded to the browser every page load by appending an additional timestamp in the version information. This is useful during development and debugging where changes are being made to javascript and CSS files.';
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('FORCE_JS_CSS_IMG_DOWNLOAD',$set);
+
   // DEVELRELOAD
   $set['value'] = false;
   $set['options'] = '';

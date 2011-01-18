@@ -71,6 +71,10 @@
   $version = get_framework_version();
   $version = $version ? $version : getversion();
   $version_tag = '?load_version='.urlencode($version);
+  if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
+    $this_time_append = '.'.time();
+    $version_tag .= $this_time_append;
+  }
   $loading_img = ($amp_conf['BRAND_IMAGE_RELOAD_LOADING'] ? $amp_conf['BRAND_IMAGE_RELOAD_LOADING'] : 'images/loading.gif').$version_tag;
   if (!$amp_conf['DEVELRELOAD']) {
 ?>

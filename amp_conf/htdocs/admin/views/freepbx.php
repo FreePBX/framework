@@ -72,6 +72,10 @@ $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] = 'images/tango_large.png';
 $version = get_framework_version();
 $version = $version ? $version : getversion();
 $version_tag = '?load_version='.urlencode($version);
+if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
+  $this_time_append = '.'.time();
+  $version_tag .= $this_time_append;
+}
 
 if ($amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND']) {
   $use_nav_background = false;
@@ -186,6 +190,9 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN']) {
     global $active_modules;
     $view_module_version = $active_modules[$module_name]['version'];
     $mod_version_tag = '&load_version='.urlencode($view_module_version);
+    if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
+      $mod_version_tag .= $this_time_append;
+    }
 
 		if (is_file('modules/'.$module_name.'/'.$module_name.'.css')) {
 			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.css'.$mod_version_tag.'" rel="stylesheet" type="text/css" />'."\n";
@@ -204,7 +211,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN']) {
 	// Production versions should include the packed consolidated javascript library but if it
 	// is not present (useful for development, then include each individual library below
 	//
-	if (file_exists("common/libfreepbx.javascripts.js")) {
+	if ($amp_conf['USE_PACKAGED_JS'] && file_exists("common/libfreepbx.javascripts.js")) {
 ?>
   <script type="text/javascript" src="common/libfreepbx.javascripts.js<?php echo $version_tag ?>" language="javascript"></script>
 <?php
