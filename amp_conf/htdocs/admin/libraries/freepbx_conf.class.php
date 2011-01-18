@@ -568,9 +568,9 @@ class freepbx_conf {
       break;
 
     case CONF_TYPE_INT:
-      $ret = $emptyok && $value == '' ? '' : (int) $value;
+      $ret = $emptyok && (string) $value === '' ? '' : (int) $value;
 
-      if ($options != '' && $ret != '') {
+      if ($options != '' && (string) $ret !== '') {
         $range = is_array($options) ? $options : explode(',',$options);
         switch ($ret) {
         case $ret < $range[0]:
