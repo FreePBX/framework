@@ -422,6 +422,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AS_DISPLAY_HIDDEN_SETTINGS
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'This will display settings that are normally hidden by the system. These settings are often internally used settings that are not of interest to most users.';
   $set['emptyok'] = 0;
   $set['level'] = 0;
@@ -433,6 +434,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AS_DISPLAY_READONLY_SETTINGS
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'This will display settings that are readonly. These settings are often internally used settings that are not of interest to most users. Since they are readonly they can only be viewed.';
   $set['emptyok'] = 0;
   $set['level'] = 0;
@@ -479,6 +481,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPVMUMASK
   $set['value'] = '007';
+  $set['options'] = '';
   $set['description'] = 'Defaults to 077 allowing only the asterisk user to have any permission on VM files. If set to something like 007, it would allow the group to have permissions. This can be used if setting apache to a different user then asterisk, so that the apache user (and thus ARI) can have access to read/write/delete the voicemail files. If changed, some of the voicemail directory structures may have to be manually changed.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -488,6 +491,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPWEBADDRESS
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'This is the address of your Web Server. It is mostly obsolete and derived when not supplied and will be phased out, but there are still some areas expecting a variable to be set and if you are using it this will migrate your value.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
@@ -497,6 +501,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ARI_ADMIN_USERNAME
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'This is the default admin name used to allow an administrator to login to ARI bypassing all security. Change this to whatever you want, dont forget to change the ARI_ADMIN_PASSWORD as well.Default = not set';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
@@ -504,6 +509,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ARI_ADMIN_PASSWORD
   $set['value'] = 'ari_password';
+  $set['options'] = '';
   $set['description'] = 'This is the default admin password to allow an administrator to login to ARI bypassing all security. Change this to a secure password.Default = not set';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -511,6 +517,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPASTERISKUSER
   $set['value'] = 'asterisk';
+  $set['options'] = '';
   $set['description'] = 'The user Asterisk should be running as, used by freepbx_engine. Most systems should not change this.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -520,6 +527,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPASTERISKGROUP
   $set['value'] = 'asterisk';
+  $set['options'] = '';
   $set['description'] = 'The user group Asterisk should be running as, used by freepbx_engine. Most systems should not change this.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -529,6 +537,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPASTERISKWEBUSER
   $set['value'] = 'asterisk';
+  $set['options'] = '';
   $set['description'] = 'The user your httpd should be running as, used by freepbx_engine. Most systems should not change this.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -538,6 +547,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPASTERISKWEBGROUP
   $set['value'] = 'asterisk';
+  $set['options'] = '';
   $set['description'] = 'The user group your httpd should be running as, used by freepbx_engine. Most systems should not change this.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -547,6 +557,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPDEVUSER
   $set['value'] = 'asterisk';
+  $set['options'] = '';
   $set['description'] = 'The user that various device directories should be set to, used by freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/mISDN and /dev/dsp. Most systems should not change this.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -556,6 +567,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPDEVGROUP
   $set['value'] = 'asterisk';
+  $set['options'] = '';
   $set['description'] = 'The user group that various device directories should be set to, used by freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/mISDN and /dev/dsp. Most systems should not change this.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -571,6 +583,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPBADNUMBER
   $set['value'] = true;
+  $set['options'] = '';
   $set['description'] = 'Generate the bad-number context which traps any bogus number or feature code and plays a message to the effect. If you use the Early Dial feature on some Grandstream phones, you will want to set this to false.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -580,6 +593,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // CWINUSEBUSY
   $set['value'] = true;
+  $set['options'] = '';
   $set['description'] = 'For extensions that have CW enabled, report unanswered CW calls as <b>busy</b> (resulting in busy voicemail greeting). If set to no, unanswered CW calls simply report as <b>no-answer</b>.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -587,6 +601,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ZAP2DAHDICOMPAT
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'If set to true, FreePBX will check if you have chan_dadhi installed. If so, it will automatically use all your ZAP configuration settings (devices and trunks) and silently convert them, under the covers, to DAHDI so no changes are needed. The GUI will continue to refer to these as ZAP but it will use the proper DAHDI channels. This will also keep Zap Channel DIDs working.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -594,6 +609,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // DYNAMICHINTS
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'If true, Core will not statically generate hints, but instead make a call to the AMPBIN php script, and generate_hints.php through an Asterisk #exec call. This requires Asterisk.conf to be configured with <b>execincludes=yes<b> set in the [options] section.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -601,6 +617,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ENABLECW
   $set['value'] = true;
+  $set['options'] = '';
   $set['description'] = 'Enable call waiting by default when an extension is created (Default is yes). Set to <b>no</b> to if you dont want phones to be commissioned with call waiting already enabled. The user would then be required to dial the CW feature code (*70 default) to enable their phone. Most installations should leave this alone. It allows multi-line phones to receive multiple calls on their line appearances.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -608,6 +625,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // FCBEEPONLY
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'When set to true, a beep is played instead of confirmation message when activating/de-activating: CallForward, CallWaiting, DayNight, DoNotDisturb and FindMeFollow.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -615,6 +633,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // USEDEVSTATE
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'If this is set, it assumes that you are running Asterisk 1.4 or higher and want to take advantage of the func_devstate.c backport available from Asterisk 1.6. This allows custom hints to be created to support BLF for server side feature codes such as daynight, followme, etc';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -622,6 +641,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // USEGOOGLEDNSFORENUM
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Setting this flag will generate the required global variable so that enumlookup.agi will use Google DNS 8.8.8.8 when performing an ENUM lookup. Not all DNS deals with NAPTR record, but Google does. There is a drawback to this as Google tracks every lookup. If you are not comfortable with this, do not enable this setting. Please read Google FAQ about this: <b>http://code.google.com/speed/public-dns/faq.html#privacy</b>.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -631,6 +651,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // DISABLECUSTOMCONTEXTS
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Normally FreePBX auto-generates a custom context that may be usable for adding custom dialplan to modify the normal behavior of FreePBX. It takes a good understanding of how Asterisk processes these includes to use this and in many of the cases, there is no useful application. All includes will result in a WARNING in the Asterisk log if there is no context found to include though it results in no errors. If you know that you want the includes, you can set this to true. If you comment it out FreePBX will revert to legacy behavior and include the contexts.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -649,6 +670,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // DIVERSIONHEADER
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'If this value is set to true, then calls going out your outbound routes that originate from outside your PBX and were subsequently forwarded through a call forward, ring group, follow-me or other means, will have a SIP diversion header added to the call with the original incoming DID assuming there is a DID available. This is useful with some carriers that may require this under certain circumstances.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -674,6 +696,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPBIN
   $set['value'] = '/var/lib/asterisk/bin';
+  $set['options'] = '';
   $set['description'] = 'Location of the FreePBX command line scripts.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -682,6 +705,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPSBIN
   $set['value'] = '/usr/sbin';
+  $set['options'] = '';
   $set['description'] = 'Where (root) command line scripts are located.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -690,6 +714,7 @@ function freepbx_settings_init($commit_to_db = false) {
     
   // AMPWEBROOT
   $set['value'] = '/var/www/html';
+  $set['options'] = '';
   $set['description'] = 'The path to Apache webroot (leave off trailing slash).';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -698,6 +723,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ASTAGIDIR
   $set['value'] = '/var/lib/asterisk/agi-bin';
+  $set['options'] = '';
   $set['description'] = 'This is the default directory for Asterisks agi files.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -706,6 +732,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ASTETCDIR
   $set['value'] = '/etc/asterisk';
+  $set['options'] = '';
   $set['description'] = 'This is the default directory for Asterisks configuration files.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -714,6 +741,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ASTLOGDIR
   $set['value'] = '/var/log/asterisk';
+  $set['options'] = '';
   $set['description'] = 'This is the default directory for Asterisks log files.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -722,6 +750,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ASTMODDIR
   $set['value'] = '/usr/lib/asterisk/modules';
+  $set['options'] = '';
   $set['description'] = 'This is the default directory for Asterisks modules.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -730,6 +759,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ASTSPOOLDIR
   $set['value'] = '/var/spool/asterisk';
+  $set['options'] = '';
   $set['description'] = 'This is the default directory for Asterisks spool directory.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -738,6 +768,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ASTRUNDIR
   $set['value'] = '/var/run/asterisk';
+  $set['options'] = '';
   $set['description'] = 'This is the default directory for Asterisks run files.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -746,6 +777,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ASTVARLIBDIR
   $set['value'] = '/var/lib/asterisk';
+  $set['options'] = '';
   $set['description'] = 'This is the default directory for Asterisks lib files.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -754,6 +786,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPCGIBIN
   $set['value'] = '/var/www/cgi-bin ';
+  $set['options'] = '';
   $set['description'] = 'The path to Apache cgi-bin dir (leave off trailing slash).';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -762,9 +795,10 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // MOHDIR
   $set['value'] = 'moh';
-  $set['description'] = 'This is the subdirectory for the MoH files/directories which is located in ASTVARLIBDIR if not specified it will default to mohmp3 for backward compatibility.';
+  $set['options'] = array('moh','mohmp3');
+  $set['description'] = 'This is the subdirectory for the MoH files/directories which is located in ASTVARLIBDIR. Older installation may be using mohmp3 which was the old Asterisk default and should be set to that value if the music files are located there relative to the ASTVARLIBDIR.';
   $set['emptyok'] = 0;
-  $set['type'] = CONF_TYPE_DIR;
+  $set['type'] = CONF_TYPE_SELECT;
   $set['level'] = 4;
   $freepbx_conf->define_conf_setting('MOHDIR',$set);
   $set['level'] = 0;
@@ -777,6 +811,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // CHECKREFERER
   $set['value'] = true;
+  $set['options'] = '';
   $set['description'] = 'When set to the default value of true, all requests into FreePBX that might possibly add/edit/delete settings will be validated to assure the request is coming from the server. This will protect the system from CSRF (cross site request forgery) attacks. It will have the effect of preventing legitimately entering URLs that could modify settings which can be allowed by changing this field to false.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -784,6 +819,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // MODULEADMINWGET
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Module Admin normally tries to get its online information through direct file open type calls to URLs that go back to the freepbx.org server. If it fails, typically because of content filters in firewalls that dont like the way PHP formats the requests, the code will fall back and try a wget to pull the information. This will often solve the problem. However, in such environment there can be a significant timeout before the failed file open calls to the URLs return and there are often 2-3 of these that occur. Setting this value will force FreePBX to avoid the attempt to open the URL and go straight to the wget calls.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -791,6 +827,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // USECATEGORIES
   $set['value'] = true;
+  $set['options'] = '';
   $set['description'] = 'Controls if the menu items in the admin interface are sorted by category (true) or sorted alphebetically with no categories shown (false). Defaults = true';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -798,6 +835,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // SERVERINTITLE
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Precede browser title with the server name.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -805,6 +843,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // RELOADCONFIRM
   $set['value'] = true;
+  $set['options'] = '';
   $set['description'] = 'When set to false, will bypass the confirm on Reload Box.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -812,6 +851,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BADDESTABORT
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Setting either of these to true will result in retrieve_conf aborting during a reload if an extension conflict is detected or a destination is detected. It is usually better to allow the reload to go through and then correct the problem but these can be set if a more strict behavior is desired.';
   $set['emptyok'] = 0;
   $set['level'] = 3;
@@ -821,6 +861,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // XTNCONFLICTABORT
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Setting either of these to true will result in retrieve_conf aborting during a reload if an extension conflict is detected or a destination is detected. It is usually better to allow the reload to go through and then correct the problem but these can be set if a more strict behavior is desired.';
   $set['emptyok'] = 0;
   $set['level'] = 3;
@@ -830,6 +871,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // CUSTOMASERROR
   $set['value'] = true;
+  $set['options'] = '';
   $set['description'] = 'If false, then the Destination Registry will not report unknown destinations as errors. This should be left to the default true and custom destinations should be moved into the new custom apps registry.';
   $set['emptyok'] = 0;
   $set['level'] = 2;
@@ -845,6 +887,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPMGRPASS
   $set['value'] = 'amp111';
+  $set['options'] = '';
   $set['description'] = 'Password for accessing the Asterisk Manager Interface (AMI), you must change this in manager.conf if changed here.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -854,6 +897,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPMGRUSER
   $set['value'] = 'admin';
+  $set['options'] = '';
   $set['description'] = 'Username for accessing the Asterisk Manager Interface (AMI), you must change this in manager.conf if changed here.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -863,6 +907,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // ASTMANAGERHOST
   $set['value'] = 'localhost';
+  $set['options'] = '';
   $set['description'] = 'Hostname for the Asterisk Manager';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -899,6 +944,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // FPBXDBUGFILE
   $set['value'] = '/tmp/freepbx_debug.log';
+  $set['options'] = '';
   $set['description'] = 'Full path and name of FreePBX debug file. Used by the dbug() funciton by developers.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -906,6 +952,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // DEVEL
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'This enables several debug features geared towards developers, including some page load timing information, some debug information in Module Admin, use of original CSS files and other future capabilities will be enabled.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -913,6 +960,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // DEVELRELOAD
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Forces the "Apply Configuration Changes" reload bar to always be present even when not necessary.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -920,6 +968,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // PRE_RELOAD
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'Optional script to run just prior to doing an extension reload to Asterisk through the manager after pressing Apply Configuration Changes in the GUI.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
@@ -927,6 +976,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // POST_RELOAD
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'Automatically execute a script after applying changes in the AMP admin. Set POST_RELOAD to the script you wish to execute after applying changes. If POST_RELOAD_DEBUG=true, you will see the output of the script in the web page.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
@@ -934,6 +984,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // POST_RELOAD_DEBUG
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Display debug output for script used if POST_RELOAD is used.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -941,6 +992,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPLOCALBIN
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'If this directory is defined, retrieve_conf will check for a file called <i>retrieve_conf_post_custom</i> and if that file exists, it will be included after other processing thus having full access to the current environment for addtional customization.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_DIR;
@@ -948,6 +1000,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPDISABLELOG
   $set['value'] = true;
+  $set['options'] = '';
   $set['description'] = 'Whether or not to invoke the FreePBX log facility.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -955,6 +1008,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPENABLEDEVELDEBUG
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Whether or not to include log messages marked as <b>devel-debug</b> in the log system.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -970,6 +1024,7 @@ function freepbx_settings_init($commit_to_db = false) {
   
   // DISABLE_CSS_AUTOGEN
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Stops the automatic generation of a stripped CSS file that replaces the primary sheet, usually mainstyle.css.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -992,6 +1047,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // FOPWEBROOT
   $set['value'] = '/var/www/html/panel';
+  $set['options'] = '';
   $set['description'] = 'Path to the Flash Operator Panel webroot (leave off trailing slash).';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_DIR;
@@ -1001,6 +1057,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // FOPPASSWORD
   $set['value'] = 'passw0rd';
+  $set['options'] = '';
   $set['description'] = 'Password for performing transfers and hangups in the Flash Operator Panel (FOP).';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -1008,6 +1065,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // FOPDISABLE
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Set to true to disable FOP in interface and retrieve_conf.  Useful for sqlite3 or if you do not want FOP.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -1015,6 +1073,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // FOPRUN
   $set['value'] = true;
+  $set['options'] = '';
   $set['description'] = 'Set to true if you want FOP started by freepbx_engine (amportal_start), false otherwise.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -1029,6 +1088,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // CDRDBHOST
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'DO NOT set this unless you know what you are doing. Only used if you dont use the default values provided by FreePBX.<br>Hostname of db server if not the same as AMPDBHOST.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
@@ -1036,6 +1096,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // CDRDBNAME
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'DO NOT set this unless you know what you are doing. Only used if you dont use the default values provided by FreePBX.<br>Name of database used for cdr records.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
@@ -1043,6 +1104,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // CDRDBPASS
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'DO NOT set this unless you know what you are doing. Only used if you dont use the default values provided by FreePBX.<br>Password for connecting to db if its not the same as AMPDBPASS.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
@@ -1050,13 +1112,15 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // CDRDBPORT
   $set['value'] = '';
+  $set['options'] = array(1024,65536);
   $set['description'] = 'DO NOT set this unless you know what you are doing. Only used if you dont use the default values provided by FreePBX.<br>Port number for db host.';
   $set['emptyok'] = 1;
-  $set['type'] = CONF_TYPE_TEXT;
+  $set['type'] = CONF_TYPE_INT;
   $freepbx_conf->define_conf_setting('CDRDBPORT',$set);
 
   // CDRDBTABLENAME
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'DO NOT set this unless you know what you are doing. Only used if you dont use the default values provided by FreePBX. Name of the table in the db where the cdr is stored. cdr is default.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
@@ -1072,6 +1136,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // CDRDBUSER
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'DO NOT set this unless you know what you are doing. Only used if you dont use the default values provided by FreePBX. Username to connect to db with if it is not the same as AMPDBUSER.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
@@ -1086,6 +1151,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // AMPADMINLOGO
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'Legacy setting, use BRAND_IMAGE_FREEPBX_RIGHT in the future. If set, this will override BRAND_IMAGE_FREEPBX_RIGHT. Overrides the standard logo that is to be displayed at the TOP RIGHT of the admin screen. This enables you to customize the look of the administration screen. NOTE: images need to be saved in the ..../admin/images directory of your AMP install. This image should be 55px in height.';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
@@ -1093,6 +1159,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_IMAGE_HIDE_NAV_BACKGROUND
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Hide the configured left navigation bar background.';
   $set['type'] = CONF_TYPE_BOOL;
   $set['emptyok'] = 0;
@@ -1100,6 +1167,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_IMAGE_SHADOW_SIDE_BACKGROUND
   $set['value'] = 'images/shadow-side-background.png';
+  $set['options'] = '';
   $set['description'] = 'Styling image.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
@@ -1107,6 +1175,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_IMAGE_FREEPBX_RIGHT
   $set['value'] = 'images/logo.png';
+  $set['options'] = '';
   $set['description'] = 'Right upper logo. Use this setting instead of AMPADMINLOGO. Path is relative to admin.';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 0;
@@ -1114,6 +1183,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_IMAGE_FREEPBX_LEFT
   $set['value'] = 'images/freepbx_large.png';
+  $set['options'] = '';
   $set['description'] = 'Left upper logo.  Path is relative to admin.';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 0;
@@ -1121,6 +1191,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_IMAGE_FREEPBX_FOOT
   $set['value'] = 'images/freepbx_small.png';
+  $set['options'] = '';
   $set['description'] = 'Logo in footer.  Path is relative to admin.';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
@@ -1128,6 +1199,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_IMAGE_RELOAD_LOADING
   $set['value'] = 'images/loading.gif';
+  $set['options'] = '';
   $set['description'] = 'Image used during a reload, default is animated GIF eating the * (asterisk).  Path is relative to admin.';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
@@ -1135,6 +1207,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_FREEPBX_ALT_LEFT
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'alt attribute to use in place of image and title hover value. Defaults to FreePBX';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
@@ -1142,6 +1215,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_FREEPBX_ALT_RIGHT
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'alt attribute to use in place of image and title hover value. Defaults to FreePBX';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
@@ -1149,6 +1223,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_FREEPBX_ALT_FOOT
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'alt attribute to use in place of image and title hover value. Defaults to FreePBX';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
@@ -1156,6 +1231,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_IMAGE_FREEPBX_LINK_LEFT
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'link to follow when clicking on logo, defaults to http://www.freepbx.org';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
@@ -1163,6 +1239,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_IMAGE_FREEPBX_LINK_RIGHT
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'link to follow when clicking on logo, defaults to http://www.freepbx.org';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
@@ -1170,6 +1247,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_IMAGE_FREEPBX_LINK_FOOT
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'link to follow when clicking on logo, defaults to http://www.freepbx.org';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
@@ -1177,6 +1255,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_HIDE_LOGO_RIGHT
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Setting to true will hide the upper right logo.';
   $set['type'] = CONF_TYPE_BOOL;
   $set['emptyok'] = 0;
@@ -1184,6 +1263,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_HIDE_HEADER_VERSION
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Setting to true will hide the FreePBX version information below the left upper header.';
   $set['type'] = CONF_TYPE_BOOL;
   $set['emptyok'] = 0;
@@ -1191,6 +1271,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_HIDE_HEADER_MENUS
   $set['value'] = false;
+  $set['options'] = '';
   $set['description'] = 'Setting to true will hide the complete horizontal menu bar in the header.';
   $set['type'] = CONF_TYPE_BOOL;
   $set['emptyok'] = 0;
@@ -1198,6 +1279,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_CSS_ALT_MAINSTYLE
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'Set this to replace the default mainstyle.css style sheet with your own, relative to admin.';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
@@ -1205,6 +1287,7 @@ function freepbx_settings_init($commit_to_db = false) {
 
   // BRAND_CSS_CUSTOM
   $set['value'] = '';
+  $set['options'] = '';
   $set['description'] = 'Optional custom CSS style sheet included after the primary one and any module specific ones are loaded, relative to admin.';
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
