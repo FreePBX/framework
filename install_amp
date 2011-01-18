@@ -1040,6 +1040,14 @@ if (!isset($version)) {
 	}
 }
 
+// Check if freepbx_settings is there and has been initialized
+// if it has anything less than about 5 settings in it (and that
+// is probably quite low) then something is wrong so assume it
+// is not there.
+//
+$sql = "SELECT count(*) FROM freepbx_settings"; 
+$num_settings = $db->getOne($sql); 
+$force_amportal_conf = DB::IsError($num_settings) || $num_settings < 5;
 
 // **** Copy files
 
@@ -1073,6 +1081,8 @@ if (file_exists(dirname(__FILE__)."/apply_conf.sh")) {
 
 outn("Configuring install for your environment..");
 if (!$dryrun) {
+  $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
+
 	if (file_exists($amp_conf["AMPSBIN"]."/amportal")) {
 		exec("chmod u+x ".$amp_conf["AMPSBIN"]."/amportal");
 		outn("amportal..");
@@ -1097,7 +1107,13 @@ if (!$dryrun) {
 	//
 	outn("apply username/password changes to conf files..");
 	if (file_exists(dirname(__FILE__)."/apply_conf.sh")) { 
-		exec(dirname(__FILE__)."/apply_conf.sh");
+    if ($force_amportal_conf) {
+      putenv('FORCE_AMPORTAL_CONF=1');
+		  exec(dirname(__FILE__)."/apply_conf.sh ".AMP_CONF);
+      putenv('FORCE_AMPORTAL_CONF=');
+    } else {
+		  exec(dirname(__FILE__)."/apply_conf.sh");
+    }
 	}
 	out("done");
 
@@ -1107,8 +1123,6 @@ if (!$dryrun) {
 	 	need and then forgetting something.
 	*/
   
-  $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
-
 	outn("creating missing #include files..");
 	$include_err = false;
 	exec("grep '#include' ".$amp_conf['ASTETCDIR']."/*.conf | sed 's/;.*//; s/#include//'",$output,$retcode);
@@ -1157,15 +1171,6 @@ if (!is_dir($amp_conf["ASTSPOOLDIR"]."/monitor"))
 if (!is_dir($amp_conf["ASTSPOOLDIR"]."/fax"))
 	amp_mkdir($amp_conf["ASTSPOOLDIR"]."/fax","0766",true);
 
-
-// Check if freepbx_settings is there and has been initialized
-// if it has anything less than about 5 settings in it (and that
-// is probably quite low) then something is wrong so assume it
-// is not there.
-//
-$sql = "SELECT count(*) FROM freepbx_settings"; 
-$num_settings = $db->getOne($sql); 
-$force_amportal_conf = DB::IsError($num_settings) || $num_settings < 5;
 
 // **** Set permissions all files
 
