@@ -1,11 +1,22 @@
 #!/bin/bash
 
+if [ -z "$FREEPBX_CONF" ]; then
+	if [ -e "/etc/freepbx.conf" ]; then
+		FREEPBX_CONF="/etc/freepbx.conf"
+	elif [ -e "/etc/asterisk/freepbx.conf" ]; then
+		FREEPBX_CONF="/etc/asterisk/freepbx.conf"
+	else
+		FREEPBX_CONF="/etc/freepbx.conf"
+	fi
+fi
+
 if [ "$1" == "-h" ]
 then
 	echo "Usage: "
 	echo "   "$0" [config]"
 	echo
-	echo "If config file is not specified, default is /etc/amportal.conf"
+	echo "If config file is not specified, FreePBX must be installed and"
+	echo "the script will bootstrap the information"
 	echo
 	exit
 fi
@@ -13,19 +24,37 @@ fi
 if [ -n "$1" ]
 then
 	AMPCONFIG=$1
+	if [ ! -e $AMPCONFIG ]
+	then
+		echo "Cannot find $AMPCONFIG"
+		exit
+	fi
+	# include config file
+	echo "Reading $AMPCONFIG"
 else
-	AMPCONFIG=/etc/amportal.conf
+	echo "Bootstrapping Configuration Settings"
 fi
 
-if [ ! -e $AMPCONFIG ]
-then
-	echo "Cannot find $AMPCONFIG"
-	exit
-fi
+# get settings from db/config file
+if [ -n "$AMPCONFIG" ]; then # If told to parse out of file, go for it
+	. $AMPCONFIG
+elif [[ -e $FREEPBX_CONF ]]; then
 
-# include config file
-echo "Reading $AMPCONFIG"
-source $AMPCONFIG
+	# get the path of this file to call the gen_amp_conf.php script which will
+	# generate all the amp_conf variables that can be exported
+	#
+	progdir=`dirname $0`
+	sv_pwd=$PWD
+        cd $progdir
+        gen_path=$PWD
+        cd $sv_pwd
+	`$gen_path/amp_conf/bin/gen_amp_conf.php`
+else 
+	echo;
+	echo "FreePBX config file not found!";
+	echo "specificy amportal.conf as argument if FreePBX is not yet installed";
+	exit;
+fi
 
 echo "Updating configuration..."
 
@@ -46,9 +75,9 @@ else
 fi
 
 
-if [ -x /usr/sbin/amportal ]; then 
+if [ -x $AMPSBIN/amportal ]; then 
 	echo "Adjusting File Permissions.."
-	/usr/sbin/amportal chown
+	$AMPSBIN/amportal chown
 fi
 
 echo "Done"
