@@ -330,6 +330,10 @@ class freepbx_conf {
     return $this->last_update_status;
   }
 
+  function amportal_canwrite() {
+    return $this->amportal_canwrite;
+  }
+
   // used to insert or update an existing setting such as in an install
   // script. $vars will include some required fields and we are strict
   // with a die_freebpx() if they are missing.
@@ -605,6 +609,15 @@ class freepbx_conf {
   function remove_conf_setting($setting) {
     return $this->remove_conf_settings($setting);
   }
+
+  function remove_module_settings($module) {
+    $sql = "DELETE FROM freepbx_settings WHERE module = '$module'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+      die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);	
+    }
+  }
+
   // Used to remove settings from the database that are no longer needed like with an
   // uninstall script.
   //
