@@ -294,11 +294,16 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 					$overwrite = true;
 				}
 				
+        // These are modified by apply_conf.sh, there may be others that fit in this category also. This keeps these from 
+        // being symlinked and then developers inadvertently checking in the changes when they should not have.
+        //
+        $never_symlink = array("cdr_mysql.conf", "manager.conf", "vm_email.inc");
+
 				$num_files++;
 				if ($overwrite) {
 					debug(($make_links ? "link" : "copy")." ".$source." -> ".$destination);
 					if (!$dryrun) {
-						if ($make_links) {
+						if ($make_links && !in_array(basename($source),$never_symlink)) {
 							// symlink, unlike copy, doesn't overwrite - have to delete first
 							if (is_link($destination) || file_exists($destination)) {
 								unlink($destination);
