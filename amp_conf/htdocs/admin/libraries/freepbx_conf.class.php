@@ -360,6 +360,7 @@ class freepbx_conf {
     $attributes = array(
 	    'keyword' => '',
 	    'value' => '',
+	    'name' => '',
 	    'level' => 0,
 	    'description' => 'No Description Provided', // Don't gettext this
 	    'type' => '',
@@ -427,11 +428,14 @@ class freepbx_conf {
         $attributes[$atrib] = $vars[$atrib] ? '1' : '0';
       }
     }
-    $optional = array('description', 'module');
+    $optional = array('name', 'description', 'module');
     foreach ($optional as $atrib) {
       if (isset($vars[$atrib])) {
         $attributes[$atrib] = $vars[$atrib];
       }
+    }
+    if ($attributes['name'] == '') {
+      $attributes['name'] = $attributes['keyword'];
     }
 
     // validate even if already set, catches coding errors early even though we don't use it
@@ -531,9 +535,6 @@ class freepbx_conf {
         $this->_last_update_status['msg'] = _("Invalid value supplied to select");
         $this->_last_update_status['saved_value'] = $ret;
         $this->_last_update_status['saved'] = false;
-	file_put_contents("/tmp/freepbx_debug.log","SELECT failed: [$value] ".print_r($val_arr,true),FILE_APPEND);
-        dbug($value);
-        dbug($val_arr);
         //
         // NOTE: returning from function early!
         return $ret;
@@ -658,6 +659,7 @@ class freepbx_conf {
       $update_array[] = array(
         $keyword,
         $atrib['value'],
+        $atrib['name'],
         $atrib['level'],
         $atrib['description'],
         $atrib['type'],
@@ -675,8 +677,8 @@ class freepbx_conf {
       return 0;
     }
     $sql = 'REPLACE INTO freepbx_settings 
-      (keyword, value, level, description, type, options, defaultval, readonly, hidden, category, module, emptyok)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?)';
+      (keyword, value, name, level, description, type, options, defaultval, readonly, hidden, category, module, emptyok)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
     $compiled = $db->prepare($sql);
     $result = $db->executeMultiple($compiled,$update_array);
     if(DB::IsError($result)) {

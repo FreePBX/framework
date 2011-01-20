@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS `freepbx_settings`;
 CREATE TABLE `freepbx_settings` (
   `keyword` varchar(50) default NULL,
   `value` varchar(255) default NULL,
+  `name` varchar(80) default NULL,
   `level` tinyint(1) default 0,
   `description` text default NULL,
   `type` varchar(25) default NULL,
