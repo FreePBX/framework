@@ -304,6 +304,16 @@ function showi18n($modulename) {
 			echo "# $key:\n_(\"$menuitem\");\n";
 		}
 	}
+
+  $freepbx_conf =& freepbx_conf::create();
+  $conf = $freepbx_conf->get_conf_settings();
+  foreach ($conf as $keyword => $settings) {
+    if (($modulename == 'framework' && $settings['module'] == '') || $settings['module'] == $modulename) {
+      echo "# Setting name - $keyword:\n_(\"".$settings['name']."\");\n";
+      echo "# Setting category - $keyword:\n_(\"".$settings['category']."\");\n";
+      echo "# Setting description - $keyword:\n_(\"".$settings['description']."\");\n";
+    }
+  }
 }
 
 function showCheckDepends($modulename) {
