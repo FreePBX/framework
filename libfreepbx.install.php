@@ -717,6 +717,20 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_SELECT;
   $freepbx_conf->define_conf_setting('CFRINGTIMERDEFAULT',$set);
   unset($opts);  
+ 
+  // CONCURRENCYLIMITDEFAULT
+  $opts = array();
+  for ($i=0;$i<=120;$i++) {
+      $opts[]=$i;
+  }
+  $set['value'] = '0';
+  $set['options'] = $opts;
+  $set['name'] = 'Extension Concurrency Limit';
+  $set['description'] = 'Default maximum number of outbound simultaneous calls that an extension can make. This is also very useful as a Security Protection against a system that has been compromised. It will limit the number of simultaneous calls that can be made on the compromised extension. This default is used when an extension is created. A default of 0 means no limit.';
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_SELECT;
+  $freepbx_conf->define_conf_setting('CONCURRENCYLIMITDEFAULT',$set);
+  unset($opts);  
 
   //
   // CATEGORY: Directory Layout
