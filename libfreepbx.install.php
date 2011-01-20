@@ -283,7 +283,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 					// This is a somewhat edge case (eg, the file doesn't match
 					// it's md5 sum from the previous version, but no substantial
 					// changes exist compared to the current version), but it 
-					// pervents a useless prompt to the user.
+					// prevents a useless prompt to the user.
 					if (checkDiff($source, $destination)) {
 						$overwrite = ask_overwrite($source, $destination);
 					} else {
@@ -339,7 +339,7 @@ function read_md5_file($filename) {
 }
 
 /** Include a .php file
- * This is a function just to keep a seperate context
+ * This is a function just to keep a separate context
  */
 function run_included($file) {
 	global $db;
@@ -384,7 +384,7 @@ function install_sqlupdate( $version, $file )
 // freepbx_settings_init()
 // this is where we initialize all the freepbx_settings (amportal.conf). This will be run with install_amp and every
 // time we run the framework installer, so new settings can be added here that are framework wide. It may make send to
-// break this out separtely but for now we'll keep it here since this is already part of the ifrastructure that is
+// break this out separately but for now we'll keep it here since this is already part of the infrastructure that is
 // used by both install_amp and the framework install/upgrade script.
 //
 function freepbx_settings_init($commit_to_db = false) {
@@ -480,7 +480,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = 'extensions';
   $set['options'] = 'extensions,deviceanduser';
   $set['name'] = 'User & Devices Mode';
-  $set['description'] = 'Sets the extension behavior in FreePBX.  If set to <b>extensions</b>, Devices and Users are administered together as a unified Extension, and appear on a single page. If set to <b>deviceanduser</b>, Devices and Users will be administered seperately. Devices (e.g. each individual line on a SIP phone) and Users (e.g. <b>101</b>) will be configured independent of each other, allowing association of one User to many Devices, or allowing Users to login and logout of Devices.';
+  $set['description'] = 'Sets the extension behavior in FreePBX.  If set to <b>extensions</b>, Devices and Users are administered together as a unified Extension, and appear on a single page. If set to <b>deviceanduser</b>, Devices and Users will be administered separately. Devices (e.g. each individual line on a SIP phone) and Users (e.g. <b>101</b>) will be configured independent of each other, allowing association of one User to many Devices, or allowing Users to login and logout of Devices.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_SELECT;
   $freepbx_conf->define_conf_setting('AMPEXTENSIONS',$set);
@@ -489,7 +489,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = '007';
   $set['options'] = '';
   $set['name'] = 'Asterisk VMU Mask';
-  $set['description'] = 'Sets the extension behavior in FreePBX.  If set to <b>extensions</b>, Devices and Users are administered together as a unified Extension, and appear on a single page. If set to <b>deviceanduser</b>, Devices and Users will be administered seperately. Devices (e.g. each individual line on a SIP phone) and Users (e.g. <b>101</b>) will be configured independent of each other, allowing association of one User to many Devices, or allowing Users to login and logout of Devices.';
+  $set['description'] = 'Sets the extension behavior in FreePBX.  If set to <b>extensions</b>, Devices and Users are administered together as a unified Extension, and appear on a single page. If set to <b>deviceanduser</b>, Devices and Users will be administered separately. Devices (e.g. each individual line on a SIP phone) and Users (e.g. <b>101</b>) will be configured independent of each other, allowing association of one User to many Devices, or allowing Users to login and logout of Devices.';
   $set['description'] = 'Defaults to 077 allowing only the asterisk user to have any permission on VM files. If set to something like 007, it would allow the group to have permissions. This can be used if setting apache to a different user then asterisk, so that the apache user (and thus ARI) can have access to read/write/delete the voicemail files. If changed, some of the voicemail directory structures may have to be manually changed.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
@@ -622,7 +622,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = false;
   $set['options'] = '';
   $set['name'] = 'Convert ZAP Settings to DAHDi';
-  $set['description'] = 'If set to true, FreePBX will check if you have chan_dadhi installed. If so, it will automatically use all your ZAP configuration settings (devices and trunks) and silently convert them, under the covers, to DAHDI so no changes are needed. The GUI will continue to refer to these as ZAP but it will use the proper DAHDI channels. This will also keep Zap Channel DIDs working.';
+  $set['description'] = 'If set to true, FreePBX will check if you have chan_dahdi installed. If so, it will automatically use all your ZAP configuration settings (devices and trunks) and silently convert them, under the covers, to DAHDI so no changes are needed. The GUI will continue to refer to these as ZAP but it will use the proper DAHDI channels. This will also keep Zap Channel DIDs working.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('ZAP2DAHDICOMPAT',$set);
@@ -712,7 +712,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = '0';
   $set['options'] = $opts;
   $set['name'] = 'Call Forward Ringtimer Default';
-  $set['description'] = 'This is the default time in seconds to try and connect a call that has been call forwaded by the server side CF, CFU and CFB options. (If your phones use client side CF such as SIP redirects, this will not have any affect) If set to the default of 0, it will use the standard ring timer. If set to -1 it will ring the forwarded number with no limit which is consistent with the behavior of some existing PBX systems. If set to any other value, it will ring for that duration before diverting the call to the users voicemail if they have one. This can be overriden for each extension.';
+  $set['description'] = 'This is the default time in seconds to try and connect a call that has been call forwarded by the server side CF, CFU and CFB options. (If your phones use client side CF such as SIP redirects, this will not have any affect) If set to the default of 0, it will use the standard ring timer. If set to -1 it will ring the forwarded number with no limit which is consistent with the behavior of some existing PBX systems. If set to any other value, it will ring for that duration before diverting the call to the users voicemail if they have one. This can be overridden for each extension.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_SELECT;
   $freepbx_conf->define_conf_setting('CFRINGTIMERDEFAULT',$set);
@@ -872,7 +872,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = true;
   $set['options'] = '';
   $set['name'] = 'Show Categories in Nav Menu';
-  $set['description'] = 'Controls if the menu items in the admin interface are sorted by category (true) or sorted alphebetically with no categories shown (false). Defaults = true';
+  $set['description'] = 'Controls if the menu items in the admin interface are sorted by category (true) or sorted alphabetically with no categories shown (false). Defaults = true';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('USECATEGORIES',$set);
@@ -1018,7 +1018,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = true;
   $set['options'] = '';
   $set['name'] = 'Use Packaged Javascript Library ';
-  $set['description'] = 'FreePBX packages several javascript libraries and compoents into a compressed file called libfreepbx.javascript.js. By default this will be loaded instead of the individual uncompressed libraries. Setting this to false will force FreePBX to load all the libraries as individual uncompressed files. This is useful during development and debugging.';
+  $set['description'] = 'FreePBX packages several javascript libraries and components into a compressed file called libfreepbx.javascript.js. By default this will be loaded instead of the individual uncompressed libraries. Setting this to false will force FreePBX to load all the libraries as individual uncompressed files. This is useful during development and debugging.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('USE_PACKAGED_JS',$set);
@@ -1027,7 +1027,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = false;
   $set['options'] = '';
   $set['name'] = 'Always Download Web Assets';
-  $set['description'] = 'FreePBX appends verisoning tags on the CSS and javascript files and some of the main logo images. The versioning will help force browsers to load new versions of the files when module versions are upgraded. Setting this value to true will try to force these to be loaded to the browser every page load by appending an additional timestamp in the version information. This is useful during development and debugging where changes are being made to javascript and CSS files.';
+  $set['description'] = 'FreePBX appends versioning tags on the CSS and javascript files and some of the main logo images. The versioning will help force browsers to load new versions of the files when module versions are upgraded. Setting this value to true will try to force these to be loaded to the browser every page load by appending an additional timestamp in the version information. This is useful during development and debugging where changes are being made to javascript and CSS files.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('FORCE_JS_CSS_IMG_DOWNLOAD',$set);
@@ -1072,7 +1072,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = '';
   $set['options'] = '';
   $set['name'] = 'AMPLOCALBIN Dir for retrieve_conf';
-  $set['description'] = 'If this directory is defined, retrieve_conf will check for a file called <i>retrieve_conf_post_custom</i> and if that file exists, it will be included after other processing thus having full access to the current environment for addtional customization.';
+  $set['description'] = 'If this directory is defined, retrieve_conf will check for a file called <i>retrieve_conf_post_custom</i> and if that file exists, it will be included after other processing thus having full access to the current environment for additional customization.';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_DIR;
   $freepbx_conf->define_conf_setting('AMPLOCALBIN',$set);
@@ -1432,7 +1432,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $mod_set['module'] = '';
   $mod_set['category'] = 'Under Migration';
   $mod_set['emptyok'] = 1;
-  $mod_set['description'] = 'This setting is being migrated and will be initialized by its module install script on upgrad.';
+  $mod_set['description'] = 'This setting is being migrated and will be initialized by its module install script on upgrade.';
   foreach ($module_migrate as $setting => $type) {
     if (isset($amp_conf[$setting])  && !$freepbx_conf->conf_setting_exists($setting)) {
       $val = $amp_conf[$setting];
