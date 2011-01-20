@@ -583,7 +583,8 @@ class freepbx_conf {
       break;
 
     case CONF_TYPE_INT:
-      $ret = $emptyok && (string) $value === '' ? '' : (int) $value;
+      $ret = !is_numeric($value) && $value != '' ? '' : $ret;
+      $ret = $emptyok && (string) trim($value) === '' ? '' : (int) $value;
 
       if ($options != '' && (string) $ret !== '') {
         $range = is_array($options) ? $options : explode(',',$options);
