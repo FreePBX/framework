@@ -411,7 +411,7 @@ function freepbx_settings_init($commit_to_db = false) {
   // AS_DISPLAY_DETAIL_LEVEL
   $set['value'] = '0';
   $set['options'] = '0,1,2,3,4,5,6,7,8,9,10';
-  $set['name'] = 'Display Detail level';
+  $set['name'] = 'Display Detail Level';
   $set['description'] = 'This will filter which settings that are displayed on this Advanced Settings page. The higher the level, the more obscure settings will be shown. Settings at higher levels are unlikely to be of interest to most users and could be more volatile to breaking your system if set wrong.';
   $set['emptyok'] = 0;
   $set['level'] = 0;
