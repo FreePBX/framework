@@ -322,6 +322,16 @@ class freepbx_conf {
     }
   }
 
+  function reset_all_conf_settings() {
+    foreach ($this->db_conf_store as $keyword => $atribs) {
+      $update_arr = array();
+      if (!$atribs['hidden']) {
+        $update_arr[$keyword] = $atribs['defaultval'];
+      }
+      return $this->set_conf_values($update_arr,true,true);
+    }
+  }
+
   function get_conf_settings() {
     return $this->db_conf_store;
   }
