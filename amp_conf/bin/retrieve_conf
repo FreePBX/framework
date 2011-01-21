@@ -27,7 +27,6 @@ class connectdirs {
 	function connectdirs() {
     global $amp_conf;
     global $db;
-    $this->symlink_dirs['sounds'] 		= $amp_conf['ASTVARLIBDIR'] . '/sounds';
     $this->symlink_dirs['bin']    		= $amp_conf['AMPBIN'];
     $this->symlink_dirs['etc']    		= $amp_conf['ASTETCDIR'];
     $this->symlink_dirs['images'] 		= $amp_conf['AMPWEBROOT'] . "/admin/images"; 
@@ -35,6 +34,8 @@ class connectdirs {
     $this->symlink_dirs['ari/theme'] 	= $amp_conf['AMPWEBROOT'] . "/recordings/theme"; 
     $this->symlink_dirs['ari/js']		= $amp_conf['AMPWEBROOT'] . "/recordings/theme/js"; 
     $this->symlink_dirs['ari/images']	= $amp_conf['AMPWEBROOT'] . "/recordings/theme/images"; 
+
+    $this->symlink_sound_dirs['sounds'] 		= $amp_conf['ASTVARLIBDIR'] . '/sounds';
 
     $this->symlink_assets = array('js','css','images');
 
@@ -99,6 +100,44 @@ class connectdirs {
     }
   }
 
+  function symlink_sound_dirs($moduledir) {
+    $language_dirs = array();
+    foreach ($this->symlink_sound_dirs as $subdir => $targetdir) {
+		  $dir = addslash($moduledir).$subdir;
+		  if (is_dir($dir)) {
+			  $d = opendir($dir);
+			  while ($file = readdir($d)) {
+				  if ($file[0] != '.') {
+            // If this is a directory, then put it on the list of language directories to process
+            // otherwise symlink it
+            //
+            if (is_dir(addslash($dir).$file)) {
+              $language_dirs[] = $file;
+            } else {
+              $this->do_symlink(addslash($dir).$file, addslash($targetdir).$file, $subdir, $moduledir);
+            }
+				  }
+			  }
+			  closedir($d);
+        // Now if we have any langauge directories, then check if they are installed on the target and
+        // if so symlink them over.
+        foreach ($language_dirs as $lang) {
+          if (is_dir(addslash($targetdir).$lang)) {
+			      $d = opendir(addslash($dir).$lang);
+            while ($file = readdir($d)) {
+				      if ($file[0] != '.') {
+                $this->do_symlink(addslash($dir).addslash($lang).$file, addslash($targetdir).addslash($lang).$file, $subdir, $moduledir);
+              }
+            }
+          } else {
+            freepbx_log('retrieve-conf', 'devel-debug', "found language dir $dir/$lang but not installed on system, skipping");
+            out("found language dir $dir/$lang but not installed on system, skipping");
+          }
+        }
+		  }
+	  }
+  }
+
   function symlink_subdirs($moduledir) {
     foreach ($this->symlink_dirs as $subdir => $targetdir) {
 		  $dir = addslash($moduledir).$subdir;
@@ -106,37 +145,39 @@ class connectdirs {
 			  $d = opendir($dir);
 			  while ($file = readdir($d)) {
 				  if ($file[0] != '.') {
-					  $src = addslash($dir).$file;
-					  $dest = addslash($targetdir).$file;
-					  if (file_exists_wrapper($dest)) {
-						  if ((!is_link($dest) || readlink($dest) != $src) && (md5_file($src) == md5_file($dest))) {
-							  freepbx_log('retrieve-conf', 'devel-debug', "Can't symlink $src to $dest but files are the same so ignoring");
-              } else if (!is_link($dest)) {
-							  freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is not a symlink!');
-                $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
-						  } else if (readlink($dest) != $src) {
-							  // TODO : is this the proper handling? should we just overwrite..?
-							  freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is linked to something else!');
-                $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
-						  } else {
-							  freepbx_log('retrieve-conf', 'devel-debug', $dest.' already points to '.$src.' - OK');
-						  }
-					  } else {
-//						// symlink, unlike copy, doesn't overwrite - have to delete first
-//						if (is_link($dest) || file_exists($dest)) {
-//							unlink($dest);
-//						}
-						  if (symlink($src, $dest)) {
-							  freepbx_log('retrieve-conf', 'devel-debug', 'Symlinked '.$src.' to '.$dest);
-						  } else {
-							  freepbx_log('retreive-conf', 'error', 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
-						  }
-					  }
+            $this->do_symlink(addslash($dir).$file, addslash($targetdir).$file, $subdir, $moduledir);
 				  }
 			  }
 			  closedir($d);
 		  }
 	  }
+  }
+
+  function do_symlink($src, $dest, $subdir, $moduledir) {
+    if (file_exists_wrapper($dest)) {
+      if ((!is_link($dest) || readlink($dest) != $src) && (md5_file($src) == md5_file($dest))) {
+        freepbx_log('retrieve-conf', 'devel-debug', "Can't symlink $src to $dest but files are the same so ignoring");
+      } else if (!is_link($dest)) {
+        freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is not a symlink!');
+        $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
+      } else if (readlink($dest) != $src) {
+        // TODO : is this the proper handling? should we just overwrite..?
+        freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is linked to something else!');
+        $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
+      } else {
+        freepbx_log('retrieve-conf', 'devel-debug', $dest.' already points to '.$src.' - OK');
+      }
+    } else {
+//    // symlink, unlike copy, doesn't overwrite - have to delete first
+//    if (is_link($dest) || file_exists($dest)) {
+//      unlink($dest);
+//    }
+      if (symlink($src, $dest)) {
+        freepbx_log('retrieve-conf', 'devel-debug', 'Symlinked '.$src.' to '.$dest);
+      } else {
+        freepbx_log('retreive-conf', 'error', 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
+      }
+    }
   }
 
   function symlink_check_errors() {
@@ -406,6 +447,7 @@ if(is_array($modules)){
           break;
         default:
         $con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+        $con_dirs->symlink_sound_dirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
         $con_dirs->symlink_assets($key);
         $con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
 			}
