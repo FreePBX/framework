@@ -37,32 +37,12 @@ function print_sub_tool( $name, $page, $is_current, $href=NULL, $new_window=fals
 	print("\t\t$html\n");
 }
 
-// Original Code:
-// Copyright (c) 2007 Dave Stone & Danny Hope
-//
-function compress_css($buffer) {
-  $buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
-  $buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $buffer);
-  return $buffer;
-}
-
 if (!isset($title)) {
   $title = 'FreePBX';
 }
 if (!isset($amp_conf)) {
   $amp_conf = array();
 }
-
-/*
-  TODO: Example for testing (delete later)
-$amp_conf['BRAND_HIDE_HEADER_VERSION'] = true;
-$amp_conf['BRAND_HIDE_HEADER_MENUS'] = true;
-$amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND'] = true;
-$amp_conf['BRAND_CSS_ALT_MAINSTYLE'] = 'common/mainstyle_tango.css'; 
-$amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] = 'images/tango_large.png';
-
-  TODO: need to generate all these settings somewhere
-*/
 
 // BRANDABLE COMPONENTS
 //
@@ -101,7 +81,7 @@ $hide_toolbar       = $amp_conf['BRAND_HIDE_HEADER_MENUS'];
 $mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] : 'common/mainstyle.css'; 
 $custom_css         = $amp_conf['BRAND_CSS_CUSTOM'];
 
-if (!$amp_conf['DISABLE_CSS_AUTOGEN']) {
+if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge')) {
   $wwwroot = $amp_conf['AMPWEBROOT']."/admin";
 
   // stat the css files and check if they have been modified since we last generated a css
@@ -113,6 +93,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN']) {
   if (!$css_changed && file_exists($wwwroot.'/'.$amp_conf['mainstyle_css_generated'])) {
     $mainstyle_css = $amp_conf['mainstyle_css_generated'];
   } else {
+    include_once('libraries/cssmin.class.php');
     $ms_path = dirname($mainstyle_css);
 
     // If it's actually set and exists then delete it, we no it has changed
@@ -126,7 +107,9 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN']) {
     //
     $mainstyle_css_generated = $ms_path.'/mstyle_autogen_'.$stat_mainstyle['mtime'].'.css';
     $css_buff = file_get_contents($mainstyle_css_full_path);
-    $css_buff_compressed = compress_css($css_buff);
+
+    $css_buff_compressed = CssMin::minify($css_buff);
+
     $ret = file_put_contents($wwwroot."/".$mainstyle_css_generated,$css_buff_compressed);
     unset($css_buff);
     unset($css_buff_compressed);
