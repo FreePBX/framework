@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-21 22:01+0100\n"
+"POT-Creation-Date: 2011-01-21 22:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -526,6 +526,396 @@ msgstr ""
 msgid "Daily load"
 msgstr ""
 
+msgid "Please select a \"Destination\""
+msgstr ""
+
+msgid ""
+"Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
+msgstr ""
+
+msgid "The secret must be at minimum six characters in length."
+msgstr ""
+
+msgid "The secret must contain at least two numbers and two letters."
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "Please select a valid destination."
+msgstr ""
+
+#, php-format
+msgid "Cronmanager encountered %s Errors"
+msgstr ""
+
+msgid "The following commands failed with the listed error"
+msgstr ""
+
+msgid "** MISSING FEATURE CODE **"
+msgstr ""
+
+msgid "FreePBX Administration"
+msgstr ""
+
+msgid "Default Asterisk Manager Password Used"
+msgstr ""
+
+msgid ""
+"You are using the default Asterisk Manager password that is widely known, "
+"you should set a secure password"
+msgstr ""
+
+msgid "Default ARI Admin password Used"
+msgstr ""
+
+msgid ""
+"You are using the default ARI Admin password that is widely known, you "
+"should change to a new password. Do this in Advanced Settings"
+msgstr ""
+
+msgid "Default SQL Password Used"
+msgstr ""
+
+msgid ""
+"You are using the default SQL password that is widely known, you should set "
+"a secure password"
+msgstr ""
+
+msgid "Memory Limit Changed"
+msgstr ""
+
+#, php-format
+msgid ""
+"Your memory_limit, %sM, is set too low and has been increased to %sM. You "
+"may want to change this in you php.ini config file"
+msgstr ""
+
+msgid "Low Memory Limit"
+msgstr ""
+
+#, php-format
+msgid ""
+"Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
+"not able to change this on your system. You should increase this to %sM in "
+"you php.ini config file"
+msgstr ""
+
+msgid "Magic Quotes GPC"
+msgstr ""
+
+msgid ""
+"You have magic_quotes_gpc enabled in your php.ini, http or .htaccess file "
+"which will cause errors in some modules. FreePBX expects this to be off and "
+"runs under that assumption"
+msgstr ""
+
+msgid "No Description Provided"
+msgstr ""
+
+msgid "Undefined Category"
+msgstr ""
+
+msgid "fatal error reading freepbx_settings"
+msgstr ""
+
+#, php-format
+msgid "Missing or unreadable config file [%s]...cannot continue"
+msgstr ""
+
+#, php-format
+msgid "you can't convert an existing type, keyword [%s]"
+msgstr ""
+
+#, php-format
+msgid "missing value and/or defaultval required for [%s]"
+msgstr ""
+
+msgid "missing options for keyword [%] required if type is select"
+msgstr ""
+
+#, php-format
+msgid "invalid validation options provided for keyword %s: %s"
+msgstr ""
+
+#, php-format
+msgid ""
+"method define_conf_setting() failed to pass validation for keyword [%s] "
+"setting value [%s], error msg if supplied [%s]"
+msgstr ""
+
+msgid "called set_conf_values with a non-array"
+msgstr ""
+
+#, php-format
+msgid "trying to set keyword [%s] to [%s] on unitialized setting"
+msgstr ""
+
+msgid "Invalid value supplied to select"
+msgstr ""
+
+msgid "Empty value not allowed for this field"
+msgstr ""
+
+#, php-format
+msgid "Invalid value supplied violates the validation regex: %s"
+msgstr ""
+
+#, php-format
+msgid "Value [%s] out of range, changed to [%s]"
+msgstr ""
+
+#, php-format
+msgid "unknown type: [%s]"
+msgstr ""
+
+#, php-format
+msgid "fatal error deleting rows from freepbx_settings, sql query: %s"
+msgstr ""
+
+msgid "fatal error updating freepbx_settings table"
+msgstr ""
+
+msgid ""
+"The following new modules are available for download. Click delete icon on "
+"the right to remove this notice."
+msgstr ""
+
+#, php-format
+msgid "%s New modules are available"
+msgstr ""
+
+msgid "There is 1 module available for online upgrade"
+msgstr ""
+
+#, php-format
+msgid "There are %s modules available for online upgrades"
+msgstr ""
+
+#, php-format
+msgid "%s (current: %s)"
+msgstr ""
+
+#, php-format
+msgid "PHP Component %s is required but missing from you PHP installation."
+msgstr ""
+
+#, php-format
+msgid ""
+"PHP Component %s version %s is required but missing from you PHP "
+"installation."
+msgstr ""
+
+#, php-format
+msgid "Module %s is required, but yours is broken. You should reinstall "
+msgstr ""
+
+#, php-format
+msgid "it and try again."
+msgstr ""
+
+#, php-format
+msgid "Module %s is required, but yours is disabled."
+msgstr ""
+
+#, php-format
+msgid "Module %s is required, but yours is disabled because it needs to "
+msgstr ""
+
+#, php-format
+msgid "be upgraded. Please upgrade %s first, and then try again."
+msgstr ""
+
+#, php-format
+msgid "Module %s is required, yours is not installed."
+msgstr ""
+
+#, php-format
+msgid "Module %s is required."
+msgstr ""
+
+#, php-format
+msgid "File %s must exist."
+msgstr ""
+
+#, php-format
+msgid "Requires engine %s, you have: %s"
+msgstr ""
+
+#, php-format
+msgid "Requires one of the following engines: %s; you have: %s"
+msgstr ""
+
+#, php-format
+msgid "A %s version below %s is required, you have %s"
+msgstr ""
+
+#, php-format
+msgid "%s version %s or below is required, you have %s"
+msgstr ""
+
+#, php-format
+msgid "A %s version newer than %s required, you have %s"
+msgstr ""
+
+#, php-format
+msgid "Your %s version (%s) is incompatible."
+msgstr ""
+
+#, php-format
+msgid "Only %s version %s is compatible, you have %s"
+msgstr ""
+
+#, php-format
+msgid "%s version %s or higher is required, you have %s"
+msgstr ""
+
+msgid "Module "
+msgstr ""
+
+msgid " is already enabled"
+msgstr ""
+
+msgid " cannot be enabled"
+msgstr ""
+
+msgid "Module not found in repository"
+msgstr ""
+
+#, php-format
+msgid "Could not remove %s to install new version"
+msgstr ""
+
+#, php-format
+msgid "Could not untar %s to %s"
+msgstr ""
+
+#, php-format
+msgid "Could not remove old module %s to install new version"
+msgstr ""
+
+#, php-format
+msgid "Could not move %s to %s"
+msgstr ""
+
+#, php-format
+msgid "Error opening %s for writing"
+msgstr ""
+
+#, php-format
+msgid "Error opening %s for reading"
+msgstr ""
+
+#, php-format
+msgid "Unable to save %s"
+msgstr ""
+
+#, php-format
+msgid "File Integrity failed for %s - aborting"
+msgstr ""
+
+msgid ""
+"Error finding uploaded file - check your PHP and/or web server configuration"
+msgstr ""
+
+msgid "File must be in tar or tar+gzip (.tar, .tgz or .tar.gz) format"
+msgstr ""
+
+msgid ""
+"Filename not in correct format: must be modulename-version.[tar|tar.gz|tgz] "
+"(eg. custommodule-0.1.tgz)"
+msgstr ""
+
+#, php-format
+msgid "Error creating temporary directory: %s"
+msgstr ""
+
+msgid "Error untaring uploaded file. Must be a tar or tar+gzip file"
+msgstr ""
+
+#, php-format
+msgid "Error removing temporary directory: %s"
+msgstr ""
+
+msgid "Cannot find module"
+msgstr ""
+
+msgid "Could not read module.xml"
+msgstr ""
+
+msgid "rawname"
+msgstr ""
+
+msgid ""
+" is broken and cannot be installed. You should try to download it again."
+msgstr ""
+
+msgid "Failed to run installation scripts"
+msgstr ""
+
+#, php-format
+msgid "Error updating database. Command was: %s; error was: %s "
+msgstr ""
+
+msgid "Specified module not found"
+msgstr ""
+
+msgid "Module not enabled: cannot disable"
+msgstr ""
+
+msgid "Cannot disable: The following modules depend on this one: "
+msgstr ""
+
+msgid "Module not installed: cannot uninstall"
+msgstr ""
+
+msgid "Error updating database: "
+msgstr ""
+
+msgid "Failed to run un-installation scripts"
+msgstr ""
+
+#, php-format
+msgid "Cannot delete directory %s"
+msgstr ""
+
+#, php-format
+msgid "Error deleting directory %s (code %d)"
+msgstr ""
+
+#, php-format
+msgid "You have %s disabled modules"
+msgstr ""
+
+msgid "You have a disabled module"
+msgstr ""
+
+msgid "The following modules are disabled because they need to be upgraded:"
+msgstr ""
+
+msgid "You should go to the module admin page to fix these."
+msgstr ""
+
+#, php-format
+msgid "You have %s broken modules"
+msgstr ""
+
+msgid "You have a broken module"
+msgstr ""
+
+msgid "The following modules are disabled because they are broken:"
+msgstr ""
+
+msgid "Objects"
+msgstr ""
+
+msgid "Object"
+msgstr ""
+
+#, php-format
+msgid "Used as Destination by %s %s"
+msgstr ""
+
 msgid "Potential Security Breach"
 msgstr ""
 
@@ -767,19 +1157,6 @@ msgid ""
 msgstr ""
 
 msgid "We hope you enjoy using FreePBX!"
-msgstr ""
-
-msgid "Please select a \"Destination\""
-msgstr ""
-
-msgid ""
-"Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
-msgstr ""
-
-msgid "The secret must be at minimum six characters in length."
-msgstr ""
-
-msgid "The secret must contain at least two numbers and two letters."
 msgstr ""
 
 msgid "Core"
@@ -2785,9 +3162,6 @@ msgid ""
 msgstr ""
 
 msgid "Set Destination"
-msgstr ""
-
-msgid "Submit"
 msgstr ""
 
 msgid "Clear Destination & Submit"
