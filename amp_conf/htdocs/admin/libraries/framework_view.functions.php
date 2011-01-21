@@ -103,7 +103,7 @@ function frameworkPasswordCheck() {
 	}
 	
 	if ($amp_conf['ARI_ADMIN_PASSWORD'] == $amp_conf_defaults['ARI_ADMIN_PASSWORD'][1]) {
-		$nt->add_warning('ari', 'ARI_ADMIN_PASSWORD', _("Default ARI Admin password Used"), _("You are using the default ARI Admin password that is widely known, you should change to a new password. Do this in General Settings/Advanced Settings"));
+		$nt->add_warning('ari', 'ARI_ADMIN_PASSWORD', _("Default ARI Admin password Used"), _("You are using the default ARI Admin password that is widely known, you should change to a new password. Do this in Advanced Settings"));
 	} else {
 		$nt->delete('ari', 'ARI_ADMIN_PASSWORD');
 	}
