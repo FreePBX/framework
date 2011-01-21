@@ -337,9 +337,9 @@ if ($quietmode) {
 			$_SESSION['session_hostname'] = $server_hostname;
 		}
 
-		$template['title'] = $_SERVER['SERVER_NAME'] . $server_hostname . ' - ' . _('FreePBX administration');
+		$template['title'] = $_SERVER['SERVER_NAME'] . $server_hostname . ' - ' . _('FreePBX Administration');
 	} else {
-		$template['title'] = _('FreePBX administration');
+		$template['title'] = _('FreePBX Administration');
 	}
 	$template['amp_conf'] = &$amp_conf;
 	$template['reload_needed'] = check_reload_needed();
