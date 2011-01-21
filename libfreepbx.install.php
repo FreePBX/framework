@@ -45,7 +45,7 @@ function upgrade_all($version) {
 
 	outn("Checking for upgrades..");
 
-	// read versions list from ugprades/
+	// read versions list from upgrades/
 	$versions = array();
 	$dir = opendir(UPGRADE_DIR);
 	while ($file = readdir($dir)) {
@@ -517,7 +517,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = '';
   $set['options'] = '';
   $set['name'] = 'User Portal Admin Username';
-  $set['description'] = 'This is the default admin name used to allow an administrator to login to ARI bypassing all security. Change this to whatever you want, dont forget to change the ARI_ADMIN_PASSWORD as well.Default = not set';
+  $set['description'] = 'This is the default admin name used to allow an administrator to login to ARI bypassing all security. Change this to whatever you want, dont forget to change the User Portal Admin Password as well. Default = not set';
   $set['emptyok'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('ARI_ADMIN_USERNAME',$set);
@@ -526,7 +526,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = 'ari_password';
   $set['options'] = '';
   $set['name'] = 'User Portal Admin Password';
-  $set['description'] = 'This is the default admin password to allow an administrator to login to ARI bypassing all security. Change this to a secure password.Default = not set';
+  $set['description'] = 'This is the default admin password to allow an administrator to login to ARI bypassing all security. Change this to a secure password. Default = not set';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('ARI_ADMIN_PASSWORD',$set);
@@ -636,7 +636,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = false;
   $set['options'] = '';
   $set['name'] = 'Dynamically Generate Hints';
-  $set['description'] = 'If true, Core will not statically generate hints, but instead make a call to the AMPBIN php script, and generate_hints.php through an Asterisk #exec call. This requires Asterisk.conf to be configured with <b>execincludes=yes<b> set in the [options] section.';
+  $set['description'] = 'If true, Core will not statically generate hints, but instead make a call to the AMPBIN php script, and generate_hints.php through an Asterisk #exec call. This requires asterisk.conf to be configured with <b>execincludes=yes<b> set in the [options] section.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('DYNAMICHINTS',$set);
@@ -695,7 +695,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = '0';
   $set['options'] = '0,1,2,3,4,5,6,7,8,9,10';
   $set['name'] = 'Noop Traces in Dialplan';
-  $set['description'] = 'Some modules will generate lots of Noop() commands proceeded by a [TRACE](trace_level) that can be used during development or while trying to trace call flows. These Noop() commands serve no other purpose so if you do not want to see excessive Noop()s in your dialplan you can set this to 0. The higher the number the more detailed level of trace Noop()s will be generated';
+  $set['description'] = 'Some modules will generate lots of Noop() commands proceeded by a [TRACE](trace_level) that can be used during development or while trying to trace call flows. These NoOp() commands serve no other purpose so if you do not want to see excessive NoOp()s in your dialplan you can set this to 0. The higher the number the more detailed level of trace NoOp()s will be generated';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_SELECT;
   $freepbx_conf->define_conf_setting('NOOPTRACE',$set);
@@ -759,7 +759,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = false;
   $set['options'] = '';
   $set['name'] = 'Block CNAM on External Trunks';
-  $set['description'] = 'Some carriers will reject a call if a CallerID Name (CNAM) is presented. This occurs in several areas when configuring CID on the PBX using the format of "CNAM" <CNUM>. To remove the CNAM part of CID on all external trunks, set this value to true. This WILL NOT remove CNAM when a trunk is called from an Intra-Company route. This can be done on each individucal trunk in addition to globaly if there are trunks where it is desirable to keep CNAM information, though most carriers ignore CNAM.';
+  $set['description'] = 'Some carriers will reject a call if a CallerID Name (CNAM) is presented. This occurs in several areas when configuring CID on the PBX using the format of "CNAM" <CNUM>. To remove the CNAM part of CID on all external trunks, set this value to true. This WILL NOT remove CNAM when a trunk is called from an Intra-Company route. This can be done on each individual trunk in addition to globally if there are trunks where it is desirable to keep CNAM information, though most carriers ignore CNAM.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('BLOCK_OUTBOUND_TRUNK_CNAM',$set);
@@ -899,7 +899,7 @@ function freepbx_settings_init($commit_to_db = false) {
   // CHECKREFERER
   $set['value'] = true;
   $set['options'] = '';
-  $set['name'] = 'Check Server Referer';
+  $set['name'] = 'Check Server Referrer';
   $set['description'] = 'When set to the default value of true, all requests into FreePBX that might possibly add/edit/delete settings will be validated to assure the request is coming from the server. This will protect the system from CSRF (cross site request forgery) attacks. It will have the effect of preventing legitimately entering URLs that could modify settings which can be allowed by changing this field to false.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -1046,7 +1046,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = '/tmp/freepbx_debug.log';
   $set['options'] = '';
   $set['name'] = 'Debug File';
-  $set['description'] = 'Full path and name of FreePBX debug file. Used by the dbug() funciton by developers.';
+  $set['description'] = 'Full path and name of FreePBX debug file. Used by the dbug() function by developers.';
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('FPBXDBUGFILE',$set);
