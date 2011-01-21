@@ -76,7 +76,7 @@ echo -e "<?php \nif (false) {" >> admin/modules/core/core.i18n.php
 /var/lib/asterisk/bin/module_admin i18n core >> admin/modules/core/core.i18n.php
 /var/lib/asterisk/bin/module_admin i18n framework >> admin/modules/core/core.i18n.php
 echo -e "}\n?>\n" >> admin/modules/core/core.i18n.php
-find admin/*.php admin/cdr/*.php admin/views/*.php admin/common/*.php admin/modules/core/*.php -maxdepth 0 | xargs xgettext --no-location -L PHP -o admin/i18n/amp.tmp --keyword=_ -
+find admin/*.php admin/cdr/*.php admin/common/*.php admin/libraries/*.php admin/views/*.php admin/modules/core/*.php -maxdepth 0 | xargs xgettext --no-location -L PHP -o admin/i18n/amp.tmp --keyword=_ -
 echo "# This file is part of FreePBX." > admin/i18n/amp.pot
 echo "#" >> admin/i18n/amp.pot
 echo "#    FreePBX is free software: you can redistribute it and/or modify" >> admin/i18n/amp.pot
