@@ -35,10 +35,67 @@ class connectdirs {
     $this->symlink_dirs['ari/theme'] 	= $amp_conf['AMPWEBROOT'] . "/recordings/theme"; 
     $this->symlink_dirs['ari/js']		= $amp_conf['AMPWEBROOT'] . "/recordings/theme/js"; 
     $this->symlink_dirs['ari/images']	= $amp_conf['AMPWEBROOT'] . "/recordings/theme/images"; 
+
+    $this->symlink_assets = array('js','css','images');
+
     $this->cp_dirs['agi-bin'] 			= $amp_conf['ASTAGIDIR'];
 
     $this->nt = notifications::create($db);
 	}
+
+  function symlink_assets($module) {
+    // e.g. /var/www/html/admin/modules/ringgroups/assets
+    //
+    $dir = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets';
+
+    // e.g. /var/www/html/admin/assets/ringgroups
+    //
+    $targetdir = $amp_conf['AMPWEBROOT'] . "/admin/assets/" . $module;
+
+    // If the target does not exist in the module, then remove anything that may be left over
+    // from some past situation. Use exec() so we can do a recursive and forced remove
+    //
+    if (!is_dir($dir) && is_dir($targetdir)) {
+      exec("rm -rf $targetdir", $output,$ret);
+      if ($ret) {
+        freepbx_log('retrieve-conf', 'error', "failed trying to remove leftover $targetdir");
+      }
+      return true;
+    }
+
+    // The assets dir exists in the module, if the module directory does not already exist
+    // under the framework assets, create the directory
+    //
+    if (!is_dir($targetdir)) {
+      if (mkdir($targetdir, 0754)) {
+        freepbx_log('retrieve-conf', 'error', "failed trying to create $targetdir");
+      }
+    }
+
+    // For each asset subdirectory, if there isn't one in the module (js, css, images) but
+    // there is already a link then unlink it, it means something changed.
+    //
+    foreach ($this->symlink_assets as $target) {
+      $src = "$dir/$target";
+      $dst = "$targetdir/$target";
+      if (!is_dir($src)) {
+        if (is_link($dst)) {
+          unlink($dst);
+        }
+        continue;
+      }
+
+      // We have a dir under the module assets (js, css, images) so symlink back to it.
+      //
+      if (!is_link($dst)) {
+        if (symlink($src, $dst)) {
+          freepbx_log('retrieve-conf', 'devel-debug', "Symlinked $src to $dst");
+        } else {
+          freepbx_log('retrieve-conf', 'error', "Can Not $src to $dst");
+        }
+      }
+    }
+  }
 
   function symlink_subdirs($moduledir) {
     foreach ($this->symlink_dirs as $subdir => $targetdir) {
@@ -70,7 +127,7 @@ class connectdirs {
 						  if (symlink($src, $dest)) {
 							  freepbx_log('retrieve-conf', 'devel-debug', 'Symlinked '.$src.' to '.$dest);
 						  } else {
-							  freepbx_log('retreive-conf', 'devel-debug', 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
+							  freepbx_log('retreive-conf', 'error', 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
 						  }
 					  }
 				  }
@@ -347,6 +404,7 @@ if(is_array($modules)){
           break;
         default:
         $con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+        $con_dirs->symlink_assets($key);
         $con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
 			}
 		}
@@ -668,7 +726,7 @@ install_cron_scheduler();
 // processing. Caution should be taken using this as it is only deisgned for expert usage. Errors in the code will
 // have bad consequences and can cripple the system.
 //
-if (isset($amp_conf['AMPLOCALBIN'])) {
+if ($amp_conf['AMPLOCALBIN']) {
 $post_custom = $amp_conf['AMPLOCALBIN'].'/retrieve_conf_post_custom';
 	if (file_exists($post_custom)) {
 		outn(sprintf(_("Found script %s, executing.."), $post_custom));
