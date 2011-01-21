@@ -723,6 +723,24 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('CFRINGTIMERDEFAULT',$set);
   unset($opts);  
  
+  // DEFAULT_INTERNAL_AUTO_ANSWER
+  $set['value'] = 'disabled';
+  $set['options'] = array('disabled','intercom');
+  $set['name'] = 'Internal Auto Answer Default';
+  $set['description'] = "Default setting for new extensions. When set to Intercom, calls to new extensions/users from other internal users act as if they were intercom calls meaning they will be auto-answered if the endpoint supports this feature and the system is configured to operate in this mode. All the normal white list and black list settings will be honored if they are set. External calls will still ring as normal, as will certain other circumstances such as blind transfers and when a Follow Me is configured and enabled. If Disabled, the phone rings as a normal phone.";
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_SELECT;
+  $freepbx_conf->define_conf_setting('DEFAULT_INTERNAL_AUTO_ANSWER',$set);
+
+  // FORCE_INTERNAL_AUTO_ANSWER_ALL
+  $set['value'] = false;
+  $set['options'] = '';
+  $set['name'] = 'Force All Internal Auto Answer';
+  $set['description'] = "Force all extensions to operate in the Internal Auto Answer mode regardless of their individual settings. See 'Internal Auto Answer Default' for more information.";
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('FORCE_INTERNAL_AUTO_ANSWER_ALL',$set);
+
   // CONCURRENCYLIMITDEFAULT
   $opts = array();
   for ($i=0;$i<=120;$i++) {
