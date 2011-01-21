@@ -755,6 +755,15 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('CONCURRENCYLIMITDEFAULT',$set);
   unset($opts);  
 
+  // BLOCK_OUTBOUND_TRUNK_CNAM
+  $set['value'] = false;
+  $set['options'] = '';
+  $set['name'] = 'Block CNAM on External Trunks';
+  $set['description'] = 'Some carriers will reject a call if a CallerID Name (CNAM) is presented. This occurs in several areas when configuring CID on the PBX using the format of "CNAM" <CNUM>. To remove the CNAM part of CID on all external trunks, set this value to true. This WILL NOT remove CNAM when a trunk is called from an Intra-Company route. This can be done on each individucal trunk in addition to globaly if there are trunks where it is desirable to keep CNAM information, though most carriers ignore CNAM.';
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('BLOCK_OUTBOUND_TRUNK_CNAM',$set);
+
   //
   // CATEGORY: Directory Layout
   //
