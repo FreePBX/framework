@@ -44,6 +44,7 @@ class connectdirs {
 	}
 
   function symlink_assets($module) {
+    global $amp_conf;
     // e.g. /var/www/html/admin/modules/ringgroups/assets
     //
     $dir = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets';
@@ -60,13 +61,14 @@ class connectdirs {
       if ($ret) {
         freepbx_log('retrieve-conf', 'error', "failed trying to remove leftover $targetdir");
       }
-      return true;
     }
+    if (!is_dir($dir)) {
+      return;
 
     // The assets dir exists in the module, if the module directory does not already exist
     // under the framework assets, create the directory
     //
-    if (!is_dir($targetdir)) {
+    } elseif (!is_dir($targetdir)) {
       if (mkdir($targetdir, 0754)) {
         freepbx_log('retrieve-conf', 'error', "failed trying to create $targetdir");
       }
