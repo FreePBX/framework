@@ -1,5 +1,5 @@
 <?php /* $Id$ */
-if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
+defined('FREEPBX_IS_AUTH') OR die('No direct script access allowed');
 
 
 /* -- AMP Begin -- */
@@ -43,7 +43,6 @@ function cdrpage_getpost_ifset($test_vars)
 cdrpage_getpost_ifset(array('s', 't'));
 
 $get_vars = array(
-/*
 'accountcode',
 'accountcodetype',
 'after',
@@ -51,7 +50,9 @@ $get_vars = array(
 'before',
 'channel',
 'clid',
+'current_page',
 'clidtype',
+'days_compare',
 'duration1',
 'duration1type',
 'duration2',
@@ -68,12 +69,11 @@ $get_vars = array(
 'list_total',
 'list_total_day',
 'min_call',
+'months_compare',
 'name',
 'nb_record',
 'order',
-*/
 'posted',
-/*
 'resulttype',
 's',
 'sens',
@@ -93,16 +93,18 @@ $get_vars = array(
 'AMP_SQL',
 'FG_ACTION_SIZE_COLUMN',
 'FG_DELETION',
+'FG_TABLE_CLAUSE',
 'Period',
 'SQLcmd',
-*/
 );
 
 foreach ($get_vars as $gv) {
 	if (!isset($$gv) || !$$gv) {
-		$$gv = isset($_REQUEST[$gv]) ? $_REQUEST[$gv] : '';
+		$$gv = isset($_REQUEST[$gv]) ? htmlspecialchars($_REQUEST[$gv]) : null;
+
 	}
 }
+
 $array = array ("INTRO", "CDR REPORT", "CALLS COMPARE", "MONTHLY TRAFFIC","DAILY LOAD", "CONTACT");
 $s = $s ? $s : 1;
 $t = (isset($t))?$t:null;
@@ -129,10 +131,6 @@ $paypal="NOK"; //OK || NOK
 		<meta name="MSSmartTagsPreventParsing" content="TRUE">
 	</head>
 	<body>
-	
-	
-
-
 
 <?php if ($section=="section0"){?>
 

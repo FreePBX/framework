@@ -6,7 +6,7 @@ if (!isset($bootstrap_settings['amportal_conf_initialized']) || !$bootstrap_sett
 	  include_once('/etc/asterisk/freepbx.conf');
   }
 }
-if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
+defined('FREEPBX_IS_AUTH') OR die('No direct script access allowed');
 require_once('DB.php'); // PEAR
 
 if (isset($amp_conf["AMPWEBADDRESS"])) {

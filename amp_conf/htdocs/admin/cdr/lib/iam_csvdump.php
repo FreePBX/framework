@@ -1,5 +1,5 @@
 <?php
-if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
+defined('FREEPBX_IS_AUTH') OR die('No direct script access allowed');
 /**
  *  IAM_CSVDump A class form performing a query dump and sending it to the browser or setting it or download.
  *  @package    iam_csvdump

@@ -1,11 +1,11 @@
 <?php /* $Id$ */
-if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
+defined('FREEPBX_IS_AUTH') OR die('No direct script access allowed');
 include_once(dirname(__FILE__) . "/lib/defines.php");
 include_once(dirname(__FILE__) . "/lib/Class.Table.php");
 
 
 
-getpost_ifset(array('months_compare', 'current_page', 'fromstatsday_sday', 'fromstatsmonth_sday', 'days_compare', 'min_call', 'posted',  'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'stitle', 'atmenu', 'current_page', 'order', 'sens', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode'));
+getpost_ifset(array('before', 'after', 'months_compare', 'current_page', 'fromstatsday_sday', 'fromstatsmonth_sday', 'days_compare', 'min_call', 'posted',  'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'stitle', 'atmenu', 'current_page', 'order', 'sens', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode'));
 
 
 if (!isset ($current_page) || ($current_page == "")){	
@@ -100,8 +100,7 @@ if ( is_null ($order) || is_null($sens) ){
 	$sens  = $FG_TABLE_DEFAULT_SENS;
 }
 
-
-if ($_POST['posted']==1){
+if ($posted == 1){
 	
   function do_field($sql,$fld){
   		$fldtype = $fld.'type';
@@ -127,12 +126,12 @@ if ($_POST['posted']==1){
   }  
   $SQLcmd = '';
 
-  if ($_POST['before']) {
+  if ($before) {
     if (strpos($SQLcmd, 'WHERE') > 0) { 	$SQLcmd = "$SQLcmd AND ";
     }else{     								$SQLcmd = "$SQLcmd WHERE "; }
     $SQLcmd = "$SQLcmd calldate<'".$_POST['before']."'";
   }
-  if ($_POST['after']) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
+  if ($after) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
   } else {      $SQLcmd = "$SQLcmd WHERE ";    }
     $SQLcmd = "$SQLcmd calldate>'".addslashes($_POST['after'])."'";
   }
@@ -184,8 +183,6 @@ tostatsday_sday
 tostatsmonth_sday
 */
 
-
-  
 if (strpos($SQLcmd, 'WHERE') > 0) { 
 	$FG_TABLE_CLAUSE = substr($SQLcmd,6).$date_clause; 
 }elseif (strpos($date_clause, 'AND') > 0){
@@ -194,7 +191,7 @@ if (strpos($SQLcmd, 'WHERE') > 0) {
 
 /* --AMP BEGIN-- */
 //enforce restrictions for this AMP User
-@session_start();
+//@session_start();
 $AMP_CLAUSE = $_SESSION['AMP_SQL'];
 if (!isset($AMP_CLAUSE)) {
         $AMP_CLAUSE = " AND src = 'NeverReturnAnything'";

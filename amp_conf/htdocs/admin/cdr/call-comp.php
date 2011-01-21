@@ -1,13 +1,11 @@
 <?php /* $Id$ */
-if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
+defined('FREEPBX_IS_AUTH') OR die('No direct script access allowed');
 include_once(dirname(__FILE__) . "/lib/defines.php");
 include_once(dirname(__FILE__) . "/lib/Class.Table.php");
 
 
 
-getpost_ifset(array('current_page', 'fromstatsday_sday', 'fromstatsmonth_sday', 'days_compare', 'min_call', 'posted',  'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'stitle', 'atmenu', 'current_page', 'order', 'sens', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode'));
-
-
+getpost_ifset(array('after', 'before', 'current_page', 'fromstatsday_sday', 'fromstatsmonth_sday', 'days_compare', 'min_call', 'posted',  'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'stitle', 'atmenu', 'current_page', 'order', 'sens', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode'));
 if (!isset ($current_page) || ($current_page == "")){	
 		$current_page=0; 
 	}
@@ -128,12 +126,12 @@ if ($posted==1){
   }  
   $SQLcmd = '';
 
-  if ($_POST['before']) {
+  if ($before) {
     if (strpos($SQLcmd, 'WHERE') > 0) { 	$SQLcmd = "$SQLcmd AND ";
     }else{     								$SQLcmd = "$SQLcmd WHERE "; }
     $SQLcmd = "$SQLcmd calldate<'".addslashes($_POST['before'])."'";
   }
-  if ($_POST['after']) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
+  if ($after) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
   } else {      $SQLcmd = "$SQLcmd WHERE ";    }
     $SQLcmd = "$SQLcmd calldate>'".addslashes($_POST['after'])."'";
   }
@@ -201,7 +199,7 @@ if (strpos($SQLcmd, 'WHERE') > 0) {
 
 /* --AMP BEGIN-- */
 //enforce restrictions for this AMP User
-@session_start();
+//@session_start();
 $AMP_CLAUSE = $_SESSION['AMP_SQL'];
 if (!isset($AMP_CLAUSE)) {
         $AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
@@ -211,7 +209,7 @@ $FG_TABLE_CLAUSE .= $AMP_CLAUSE;
 
 
 
-if ($_POST['posted']==1){
+if ($posted ==1){
 	
 	/* --AMP BEGIN-- */
 	//enforce restrictions for this AMP User
@@ -296,10 +294,11 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					</td><td>&nbsp;&nbsp;
 					<b>Laps of days to compare :</b> 
 				 	<select name="days_compare">
-					<option value="4" <?php if ($days_compare=="4"){ echo "selected";}?>>- 4 days</option>
-					<option value="3" <?php if ($days_compare=="3"){ echo "selected";}?>>- 3 days</option>
-					<option value="2" <?php if (($days_compare=="2")|| !isset($days_compare)){ echo "selected";}?>>- 2 days</option>
-					<option value="1" <?php if ($days_compare=="1"){ echo "selected";}?>>- 1 day</option>
+					<?php
+						for ($i=0; $i < 32; $i++) {
+							echo '<option value="' . $i . '"' . (($days_compare == $i) ? 'selected' : '') . '>-' . $i .' days</option>';
+						}
+					?>
 					</select>
 					</td></tr></table>
 	  			</td>
@@ -415,7 +414,7 @@ foreach ($list_total as $recordset){
 		$mydate= substr($recordset[0],0,10);
 		$mydate_hours= substr($recordset[0],0,13);
 		//echo "$mydate<br>";
-		if (is_array($table_graph_hours[$mydate_hours])){
+		if (isset($table_graph_hours[$mydate_hours]) && is_array($table_graph_hours[$mydate_hours])){
 			$table_graph_hours[$mydate_hours][0]++;
 			$table_graph_hours[$mydate_hours][1]=$table_graph_hours[$mydate_hours][1]+$recordset[1];
 		}else{
@@ -424,7 +423,7 @@ foreach ($list_total as $recordset){
 		}
 		
 		
-		if (is_array($table_graph[$mydate])){
+		if (isset($table_graph[$mydate]) && is_array($table_graph[$mydate])){
 			$table_graph[$mydate][0]++;
 			$table_graph[$mydate][1]=$table_graph[$mydate][1]+$recordset[1];
 		}else{

@@ -1,5 +1,5 @@
 <?php
-if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
+defined('FREEPBX_IS_AUTH') OR die('No direct script access allowed');
 class Table {
 
 	var $fields = "*"; // "id", "name", etc..
@@ -70,6 +70,8 @@ class Table {
 			}else{
 				$sql_limit = " LIMIT $current_record,$limite";			
 			}
+		} else {
+			$sql_limit = '';
 		}
 
 		$QUERY = $sql.$sql_clause.$sql_orderby.$sql_limit;		

@@ -1,5 +1,8 @@
 <?php /* $Id: graph_hourdetail.php 6816 2008-09-19 18:33:18Z p_lindheimer $ */
-if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	include_once('/etc/asterisk/freepbx.conf');
+}
+defined('FREEPBX_IS_AUTH') OR die('No direct script access allowed');
 include_once(dirname(__FILE__) . "/../lib/defines.php");
 include_once(dirname(__FILE__) . "/../lib/Class.Table.php");
 include_once(dirname(__FILE__) . "/../jpgraph_lib/jpgraph.php");
@@ -11,14 +14,16 @@ include_once(dirname(__FILE__) . "/../jpgraph_lib/jpgraph_bar.php");
 $FG_DEBUG = 0;
 
 
-getpost_ifset(array('typegraph', 'min_call', 'fromstatsday_sday', 'days_compare', 'fromstatsmonth_sday', 'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode', 'hourinterval'));
+getpost_ifset(array('before', 'after', 'typegraph', 'min_call', 'fromstatsday_sday', 'days_compare', 'fromstatsmonth_sday', 'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode', 'hourinterval'));
 
 //echo "posted=$posted 'accountcodetype=$accountcodetype', 'accountcode=$accountcode', 'fromstatsday_sday=$fromstatsday_sday', 'fromstatsmonth_sday=$fromstatsmonth_sday' hourinterval=$hourinterval ";
 //exit();
 
 //$hourinterval=12;
 // hourinterval -- 1 to 23
-if (!($hourinterval>=0) && ($hourinterval<=23)) exit();
+if (!isset($hourinterval) || (!($hourinterval>=0) && ($hourinterval<=23))) {
+	exit();
+} 
 
 // http://localhost/Asterisk/asterisk-stat-v1_4/graph_stat.php?min_call=0&fromstatsday_sday=11&days_compare=2&fromstatsmonth_sday=2005-02&dsttype=1&srctype=1&clidtype=1&channel=&resulttype=&dst=1649&src=&clid=&userfieldtype=1&userfield=&accountcodetype=1&accountcode=
 
@@ -47,7 +52,7 @@ if ($FG_DEBUG == 3) echo "<br>Table : $FG_TABLE_NAME  	- 	Col_query : $FG_COL_QU
 $instance_table_graph = new Table($FG_TABLE_NAME, $FG_COL_QUERY_GRAPH);
 
 
-if ( is_null ($order) || is_null($sens) ){
+if ( (isset($order) && is_null ($order)) || (isset($sens) && is_null($sens)) ){
 	$order = $FG_TABLE_DEFAULT_ORDER;
 	$sens  = $FG_TABLE_DEFAULT_SENS;
 }
@@ -81,12 +86,12 @@ if ( is_null ($order) || is_null($sens) ){
   }  
   $SQLcmd = '';
 
-  if ($_POST['before']) {
+  if (isset($_POST['before'])) {
     if (strpos($SQLcmd, 'WHERE') > 0) { 	$SQLcmd = "$SQLcmd AND ";
     }else{     								$SQLcmd = "$SQLcmd WHERE "; }
     $SQLcmd = "$SQLcmd calldate<'".addslashes($_POST['before'])."'";
   }
-  if ($_POST['after']) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
+  if (isset($_POST['after'])) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
   } else {      $SQLcmd = "$SQLcmd WHERE ";    }
     $SQLcmd = "$SQLcmd calldate>'".addslashes($_POST['after'])."'";
   }
@@ -136,7 +141,7 @@ if ($FG_DEBUG == 3) echo $FG_TABLE_CLAUSE;
 
 /* --AMP BEGIN-- */
 //enforce restrictions for this AMP User
-session_start();
+//session_start();
 $AMP_CLAUSE = $_SESSION['AMP_SQL'];
 if (!isset($AMP_CLAUSE)) {
 	$AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
@@ -189,23 +194,25 @@ print_r ($mycall_dur);
 echo count($mycall_minsec_start)."<br>";
 */
 
+if (isset($fluctuation) && is_array($fluctuation)) { //cant find if/where this is ever set... -MB
+	for ($k=0; $k<=count($mycall_minsec_start); $k++){
 
-for ($k=0; $k<=count($mycall_minsec_start); $k++){
-
-	if (is_numeric($fluctuation[$mycall_minsec_start[$k][0]])){
-		$fluctuation[$mycall_minsec_start[$k][0]]++; 
-	}else{
-		$fluctuation[$mycall_minsec_start[$k][0]]=1;
-	} 
-	if (is_numeric($fluctuation[$mycall_minsec_start[$k][1]])){
-		$fluctuation[$mycall_minsec_start[$k][1]]--; 
-	}else{
-		$fluctuation[$mycall_minsec_start[$k][1]]=-1;
+		if (is_numeric($fluctuation[$mycall_minsec_start[$k][0]])){
+			$fluctuation[$mycall_minsec_start[$k][0]]++; 
+		}else{
+			$fluctuation[$mycall_minsec_start[$k][0]]=1;
+		} 
+		if (is_numeric($fluctuation[$mycall_minsec_start[$k][1]])){
+			$fluctuation[$mycall_minsec_start[$k][1]]--; 
+		}else{
+			$fluctuation[$mycall_minsec_start[$k][1]]=-1;
+		}
 	}
+	ksort($fluctuation);
+	//print_r($fluctuation);
+} else {
+	$fluctuation = array();
 }
-
-ksort($fluctuation);
-//print_r($fluctuation);
 
 $maxload=1;
 $load=0;

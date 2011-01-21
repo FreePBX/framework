@@ -1,5 +1,8 @@
 <?php /* $Id: graph_pie.php 6816 2008-09-19 18:33:18Z p_lindheimer $ */
-if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	include_once('/etc/asterisk/freepbx.conf');
+}
+defined('FREEPBX_IS_AUTH') OR die('No direct script access allowed');
 include_once(dirname(__FILE__) . "/../lib/defines.php");
 include_once(dirname(__FILE__) . "/../lib/Class.Table.php");
 include_once(dirname(__FILE__) . "/../jpgraph_lib/jpgraph.php");
@@ -24,7 +27,7 @@ cdrasterisk=> SELECT sum(duration) FROM cdr WHERE calldate < date '2005-02-01'  
 (1 row)
 */
 
-getpost_ifset(array('months_compare', 'min_call', 'fromstatsday_sday', 'days_compare', 'fromstatsmonth_sday', 'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode'));
+getpost_ifset(array('before', 'after', 'months_compare', 'min_call', 'fromstatsday_sday', 'days_compare', 'fromstatsmonth_sday', 'dsttype', 'srctype', 'clidtype', 'channel', 'resulttype', 'dst', 'src', 'clid', 'userfieldtype', 'userfield', 'accountcodetype', 'accountcode'));
 
 $FG_DEBUG = 0;
 $months = Array ( 0 => 'Jan', 1 => 'Feb', 2 => 'Mar', 3 => 'Apr', 4 => 'May', 5 => 'Jun', 6 => 'Jul', 7 => 'Aug', 8 => 'Sep', 9 => 'Oct', 10 => 'Nov', 11 => 'Dec' );
@@ -66,7 +69,7 @@ if ($FG_DEBUG == 3) echo "<br>Table : $FG_TABLE_NAME  	- 	Col_query : $FG_COL_QU
 $instance_table_graph = new Table($FG_TABLE_NAME, $FG_COL_QUERY);
 
 
-if ( is_null ($order) || is_null($sens) ){
+if ((isset($order) && is_null ($order)) || isset($sens) && is_null($sens) ){
 	$order = $FG_TABLE_DEFAULT_ORDER;
 	$sens  = $FG_TABLE_DEFAULT_SENS;
 }
@@ -97,12 +100,12 @@ if ( is_null ($order) || is_null($sens) ){
   }  
   $SQLcmd = '';
 
-  if ($_GET['before']) {
+  if (isset($_GET['before'])) {
     if (strpos($SQLcmd, 'WHERE') > 0) { 	$SQLcmd = "$SQLcmd AND ";
     }else{     								$SQLcmd = "$SQLcmd WHERE "; }
     $SQLcmd = "$SQLcmd calldate<'".addslashes($_GET['before'])."'";
   }
-  if ($_GET['after']) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
+  if (isset($_GET['after'])) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
   } else {      $SQLcmd = "$SQLcmd WHERE ";    }
     $SQLcmd = "$SQLcmd calldate>'".addslashes($_GET['after'])."'";
   }
@@ -145,6 +148,8 @@ for ($i=0; $i<=$months_compare; $i++){
 	if ($current_mymonth<=1) {
 		$current_mymonth=$current_mymonth+12;		
 		$minus_oneyar = 1;
+	} else {
+		$minus_oneyar = 0;
 	}
 	$current_myyear = $myyear - $minus_oneyar;
 	
@@ -179,7 +184,7 @@ for ($i=0; $i<=$months_compare; $i++){
 	
 	/* --AMP BEGIN-- */
 	//enforce restrictions for this AMP User
-	session_start();
+//	session_start();
 	$AMP_CLAUSE = $_SESSION['AMP_SQL'];
 	if (!isset($AMP_CLAUSE)) {
 		$AMP_CLAUSE = " AND src = 'NeverReturnAnything'";

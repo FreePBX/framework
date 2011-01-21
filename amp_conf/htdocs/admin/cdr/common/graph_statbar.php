@@ -1,5 +1,8 @@
 <?php /* $Id: graph_statbar.php 6816 2008-09-19 18:33:18Z p_lindheimer $ */
-if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	include_once('/etc/asterisk/freepbx.conf');
+}
+defined('FREEPBX_IS_AUTH') OR die('No direct script access allowed');
 include_once(dirname(__FILE__) . "/../lib/defines.php");
 include_once(dirname(__FILE__) . "/../lib/Class.Table.php");
 include_once(dirname(__FILE__) . "/../jpgraph_lib/jpgraph.php");
@@ -63,7 +66,7 @@ $instance_table = new Table($FG_TABLE_NAME, $FG_COL_QUERY);
 $instance_table_graph = new Table($FG_TABLE_NAME, $FG_COL_QUERY_GRAPH);
 
 
-if ( is_null ($order) || is_null($sens) ){
+if ( (isset($order) && is_null ($order)) ||(isset($sens) &&  is_null($sens)) ){
 	$order = $FG_TABLE_DEFAULT_ORDER;
 	$sens  = $FG_TABLE_DEFAULT_SENS;
 }
@@ -94,12 +97,12 @@ if ( is_null ($order) || is_null($sens) ){
   }  
   $SQLcmd = '';
 
-  if ($_GET['before']) {
+  if (isset($_GET['before'])) {
     if (strpos($SQLcmd, 'WHERE') > 0) { 	$SQLcmd = "$SQLcmd AND ";
     }else{     								$SQLcmd = "$SQLcmd WHERE "; }
     $SQLcmd = "$SQLcmd calldate<'".addslashes($_GET['before'])."'";
   }
-  if ($_GET['after']) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
+  if (isset($_GET['after'])) {    if (strpos($SQLcmd, 'WHERE') > 0) {      $SQLcmd = "$SQLcmd AND ";
   } else {      $SQLcmd = "$SQLcmd WHERE ";    }
     $SQLcmd = "$SQLcmd calldate>'".addslashes($_GET['after'])."'";
   }
@@ -147,7 +150,7 @@ if ($FG_DEBUG == 3) echo $FG_TABLE_CLAUSE;
 
 /* --AMP BEGIN-- */
 //enforce restrictions for this AMP User
-session_start();
+//session_start();
 $AMP_CLAUSE = $_SESSION['AMP_SQL'];
 if (!isset($AMP_CLAUSE)) {
 	$AMP_CLAUSE = " AND src = 'NeverReturnAnything'";
@@ -169,7 +172,7 @@ foreach ($list_total as $recordset){
 		$mydate= substr($recordset[0],0,10);
 		$mydate_hours= substr($recordset[0],0,13);
 		//echo "$mydate<br>";
-		if (is_array($table_graph_hours[$mydate_hours])){
+		if (isset($table_graph_hours[$mydate_hours]) && is_array($table_graph_hours[$mydate_hours])){
 			$table_graph_hours[$mydate_hours][0]++;
 			$table_graph_hours[$mydate_hours][1]=$table_graph_hours[$mydate_hours][1]+$recordset[1];
 		}else{
@@ -178,7 +181,7 @@ foreach ($list_total as $recordset){
 		}
 		
 		
-		if (is_array($table_graph[$mydate])){
+		if (isset($table_graph[$mydate]) && is_array($table_graph[$mydate])){
 			$table_graph[$mydate][0]++;
 			$table_graph[$mydate][1]=$table_graph[$mydate][1]+$recordset[1];
 		}else{
@@ -191,7 +194,7 @@ foreach ($list_total as $recordset){
 //exit();
 
 $mmax=0;
-$totalcall==0;
+$totalcall=0;
 $totalminutes=0;
 foreach ($table_graph as $tkey => $data){	
 	if ($mmax < $data[1]) $mmax=$data[1];

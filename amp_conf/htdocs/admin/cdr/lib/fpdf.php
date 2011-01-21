@@ -8,7 +8,7 @@
 *                                                                              *
 * Vous pouvez utiliser et modifier ce logiciel comme vous le souhaitez.        *
 *******************************************************************************/
-if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
+defined('FREEPBX_IS_AUTH') OR die('No direct script access allowed');
 if(!class_exists('FPDF'))
 {
 define('FPDF_VERSION','1.52');
