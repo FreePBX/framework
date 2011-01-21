@@ -613,7 +613,13 @@ if(isset($active_modules) && is_array($active_modules)){
 		}
 	}
 }
-
+// Now we write on amportal.conf if it is writable, which allows legacy applications in the
+// eco-system to take advantage of the settings.
+//
+$freepbx_conf =& freepbx_conf::create();
+if ($freepbx_conf->amportal_canwrite()) {
+  file_put_contents('/etc/amportal.conf',$freepbx_conf->amportal_generate(true));
+}
 
 function write_file($filename,$contents,$use_warning_banner=true) {
 	global $asterisk_conf;
