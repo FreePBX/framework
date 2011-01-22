@@ -130,6 +130,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
       $settings['type'] = CONF_TYPE_TEXT;
       $settings['defaultval'] = '';
       $settings['category'] = 'Internal';
+      $settings['name'] = 'Auto Generated Copy of Main CSS';
       $settings['level'] = 10;
       $settings['readonly'] = 1;
       $settings['hidden'] = 1;
@@ -137,6 +138,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
       $val_update['mainstyle_css_generated'] = $settings['value'];
 
       $settings['value'] = $stat_mainstyle['mtime'];
+      $settings['name'] = 'Last Mod Time of Main CSS';
       $freepbx_conf->define_conf_setting('mainstyle_css_mtime',$settings);
       $val_update['mainstyle_css_mtime'] = $settings['value'];
 

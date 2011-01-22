@@ -6,6 +6,7 @@ $bootstrap_settings['freepbx_auth'] = false;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 	include_once('/etc/asterisk/freepbx.conf');
 }
+$freepbx_conf =& freepbx_conf::create();
 
 class connectdirs {
 
@@ -456,6 +457,100 @@ $engine = $engineinfo['engine'];
 $version = $engineinfo['version'];
 $chan_dahdi = ast_with_dahdi();
 
+// this is not initialized in the installer because I think there are scenarios where
+// Asterisk may not be running and we may some day not need it to be so just deal
+// with it here.
+//
+if (!$freepbx_conf->conf_setting_exists('ASTVERSION')) {
+  // ASTVERSION
+  //
+  $set['value'] = '';
+  $set['defaultval'] =& $set['value'];
+  $set['options'] = '';
+  $set['readonly'] = 1;
+  $set['hidden'] = 1;
+  $set['level'] = 10;
+  $set['module'] = '';
+  $set['category'] = 'Internal Use';
+  $set['emptyok'] = 1;
+  $set['name'] = 'Asterisk Version';
+  $set['description'] = "Asterisk Version used during last 'Apply Configuration Changes' when retrieve_conf is run";
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('ASTVERSION',$set);
+}
+if (!$freepbx_conf->conf_setting_exists('AST_FUNC_DEVICE_STATE')) {
+  // AST_FUNC_DEVICE_STATE
+  //
+  $set['value'] = '';
+  $set['defaultval'] =& $set['value'];
+  $set['options'] = '';
+  $set['readonly'] = 1;
+  $set['hidden'] = 1;
+  $set['level'] = 10;
+  $set['module'] = '';
+  $set['category'] = 'Internal Use';
+  $set['emptyok'] = 1;
+  $set['name'] = 'Asterisk Function DEVICE_STATE';
+  $set['description'] = "Set to the function name if the function is present in this Asterisk install";
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('AST_FUNC_DEVICE_STATE',$set);
+}
+if (!$freepbx_conf->conf_setting_exists('AST_FUNC_EXTENSION_STATE')) {
+  // AST_FUNC_EXTENSION_STATE
+  //
+  $set['value'] = '';
+  $set['defaultval'] =& $set['value'];
+  $set['options'] = '';
+  $set['readonly'] = 1;
+  $set['hidden'] = 1;
+  $set['level'] = 10;
+  $set['module'] = '';
+  $set['category'] = 'Internal Use';
+  $set['emptyok'] = 1;
+  $set['name'] = 'Asterisk Function EXTENSION_STATE';
+  $set['description'] = "Set to the function name if the function is present in this Asterisk install";
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('AST_FUNC_EXTENSION_STATE',$set);
+}
+if (!$freepbx_conf->conf_setting_exists('AST_FUNC_SHARED')) {
+  // AST_FUNC_SHARED
+  //
+  $set['value'] = '';
+  $set['defaultval'] =& $set['value'];
+  $set['options'] = '';
+  $set['readonly'] = 1;
+  $set['hidden'] = 1;
+  $set['level'] = 10;
+  $set['module'] = '';
+  $set['category'] = 'Internal Use';
+  $set['emptyok'] = 1;
+  $set['name'] = 'Asterisk Function SHARED';
+  $set['description'] = "Set to the function name if the function is present in this Asterisk install";
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('AST_FUNC_SHARED',$set);
+}
+if ($version != $freepbx_conf->get_conf_setting('ASTVERSION')) {
+  $update_arr['ASTVERSION'] = $version;
+}
+// Since modules can be loaded in a current version, we check these each time
+// DEVICE_STATE exists in two flavors, DEVSTATE and DEVICE_STATE, the latter is the official one
+// but back ports exists with the former with both.
+//
+if ($astman->func_exists('DEVICE_STATE')) {
+  $update_arr['AST_FUNC_DEVICE_STATE'] = 'DEVICE_STATE';
+} else {
+  $update_arr['AST_FUNC_DEVICE_STATE'] = $astman->func_exists('DEVSTATE') ? 'DEVSTATE' : '';
+  // If they don't have DEVICE_STATE loaded in some form, force USEDEVSTATE off
+  if ($amp_conf['USEDEVSTATE'] && !$update_arr['AST_FUNC_DEVICE_STATE']) {
+    $update_arr['USEDEVSTATE'] = false;
+  }
+}
+$func_arr = array('EXTENSION_STATE', 'SHARED');
+foreach ($func_arr as $func) {
+  $update_arr['AST_FUNC_'.$func] = $astman->func_exists($func) ? $func : '';
+}
+$freepbx_conf->set_conf_values($update_arr, true, true);
+
 // Check for and report any extension conflicts
 //
 
@@ -578,7 +673,6 @@ if(isset($active_modules) && is_array($active_modules)){
 // Now we write on amportal.conf if it is writable, which allows legacy applications in the
 // eco-system to take advantage of the settings.
 //
-$freepbx_conf =& freepbx_conf::create();
 if ($freepbx_conf->amportal_canwrite()) {
   file_put_contents('/etc/amportal.conf',$freepbx_conf->amportal_generate(true));
 }
