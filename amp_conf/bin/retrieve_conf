@@ -37,8 +37,6 @@ class connectdirs {
 
     $this->symlink_sound_dirs['sounds'] 		= $amp_conf['ASTVARLIBDIR'] . '/sounds';
 
-    $this->symlink_assets = array('js','css','images');
-
     $this->cp_dirs['agi-bin'] 			= $amp_conf['ASTAGIDIR'];
 
     $this->nt = notifications::create($db);
@@ -46,57 +44,31 @@ class connectdirs {
 
   function symlink_assets($module) {
     global $amp_conf;
-    // e.g. /var/www/html/admin/modules/ringgroups/assets
-    //
-    $dir = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets';
 
+    // e.g. /var/www/html/admin/modules/ringgroups/assets
     // e.g. /var/www/html/admin/assets/ringgroups
     //
+    $dir = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets';
     $targetdir = $amp_conf['AMPWEBROOT'] . "/admin/assets/" . $module;
 
-    // If the target does not exist in the module, then remove anything that may be left over
-    // from some past situation. Use exec() so we can do a recursive and forced remove
+    // if assets does not exists in the module then unlinkk it in assets had it
+    // been there already.
     //
-    if (!is_dir($dir) && is_dir($targetdir)) {
-      exec("rm -rf $targetdir", $output,$ret);
-      if ($ret) {
-        freepbx_log('retrieve-conf', 'error', "failed trying to remove leftover $targetdir");
-      }
-    }
     if (!is_dir($dir)) {
+      if (is_link($targetdir)) {
+        $this->err_unlink($targetdir);
+      }
       return;
-
-    // The assets dir exists in the module, if the module directory does not already exist
-    // under the framework assets, create the directory
-    //
-    } elseif (!is_dir($targetdir)) {
-      if (mkdir($targetdir, 0754)) {
-        freepbx_log('retrieve-conf', 'error', "failed trying to create $targetdir");
-      }
-    }
-
-    // For each asset subdirectory, if there isn't one in the module (js, css, images) but
-    // there is already a link then unlink it, it means something changed.
-    //
-    foreach ($this->symlink_assets as $target) {
-      $src = "$dir/$target";
-      $dst = "$targetdir/$target";
-      if (!is_dir($src)) {
-        if (is_link($dst)) {
-          unlink($dst);
-        }
-        continue;
-      }
-
-      // We have a dir under the module assets (js, css, images) so symlink back to it.
+    } elseif (!is_link($targetdir)) {
+      // The assets dir exists in the module but no symlink to it, so do that now
+      // e.g. ln -s /var/www/html/admin/modules/ringgroups/assets /var/www/html/admin/assets/ringgroups
       //
-      if (!is_link($dst)) {
-        if (symlink($src, $dst)) {
-          freepbx_log('retrieve-conf', 'devel-debug', "Symlinked $src to $dst");
-        } else {
-          freepbx_log('retrieve-conf', 'error', "Can Not $src to $dst");
-        }
+      if (symlink($dir, $targetdir)) {
+        freepbx_log('retrieve-conf', 'devel-debug', "Symlinked $dir to $targetdir");
+      } else {
+        freepbx_log('retrieve-conf', 'error', "Can Not $dir to $targetdir");
       }
+
     }
   }
 
@@ -261,18 +233,8 @@ class connectdirs {
 //
 function report_errors($errno, $errstr, $errfile, $errline) {
 	global $cp_errors;
-	global $db_engine;
-	switch($db_engine) {
-		case "sqlite3": 
-			$escaped_string = sqlite_real_escape($errstr);
-			break;
-		case "mysql":
-			$escaped_string = mysql_real_escape_string($errstr);
-			break;
-		case "pgsql":
-			$escaped_string = pgsql_escape_string($errstr);
-			break;
-	}
+  global $db;
+  $escaped_string = $db->escapeSimple($errstr);
 	freepbx_log('retrieve-conf', 'error', "php reported: '$escaped_string' after copy or unlink attempt!");
 	$cp_errors .= $errstr."\n";
   $conn_dirs = connectdirs::create();
