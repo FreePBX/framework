@@ -1065,6 +1065,7 @@ function module_disable($modulename, $force = false) { // was disableModule
  */
 function module_uninstall($modulename, $force = false) {
 	global $db;
+	global $amp_conf;
 	
 	$modules = module_getinfo($modulename);
 	if (!isset($modules[$modulename])) {
@@ -1095,6 +1096,13 @@ function module_uninstall($modulename, $force = false) {
   //
   require_once(dirname(__FILE__) . '/featurecodes.class.php'); //TODO: do we need this, now that we have bootstrap? -MB
   featurecodes_delModuleFeatures($modulename);
+
+  $freepbx_conf =& freepbx_conf::create();
+  $freepbx_conf->remove_module_settings($modulename);
+  $mod_asset_dir = $amp_conf['AMPWEBROOT'] . "/admin/assets/" . $modulename;
+  if (is_link($mod_asset_dir)) {
+    @unlink($mod_asset_dir);
+  }
 	
 	needreload();
 	return true;
