@@ -201,7 +201,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 	} else {
 	// TODO: include this in some sort of meta-data or xml file for parsing? Order is important so can't just read the directory
 ?>
-	<script type="text/javascript" src="assets/js/jquery-1.4.x.js"></script>
+	<script type="text/javascript" src="assets/js/jquery-1.4.x.min.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.cookie.js"></script> <!-- plugin for setting/retrieving cookies -->
 	<script type="text/javascript" src="assets/js/jquery-ui-1.8.x.min.js"></script>
 	<script type="text/javascript" src="assets/js/script.legacy.js"></script> <!-- legacy script.js.php -->
