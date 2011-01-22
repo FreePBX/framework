@@ -1,13 +1,44 @@
-<?php
+<?php /* $Id */
+/**
+ * Copyright (C) 2011 Philippe Lindheimer 
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+*/
+
+/** freepbx_conf class
+ * This class represents the evolution of $amp_conf settings that
+ * were originally parsed from the amportal.conf table. It is an
+ * integral part of the bootstrap ability of FreePBX which now relies
+ * on a very short freepbx.conf bootstrap file containing the database
+ * credentials and some basic path information necessary to get
+ * started.
+ *
+ * The class is used to help many of the advanced and detailed
+ * configuration paramters that can tweak all sorts of behavior in
+ * FreePBX as well as critical settings like directory path locations
+ * and credentials for the Asterisk manager.
+ *
+ * These settings can be viewed and changed by the Advanced Settings
+ * page in FreePBX Core.
+ */
+/**
+ * configuration types, constant should be used here
+ * and in all calling functions.
+ */
 define("CONF_TYPE_BOOL",   'bool');
 define("CONF_TYPE_TEXT",   'text');
 define("CONF_TYPE_DIR",    'dir');
 define("CONF_TYPE_INT",    'int');
 define("CONF_TYPE_SELECT", 'select');
 
-// TODO: remember to come back and replace the core functions being used (or have them go
-//       through this.
-//
 // For translation (need to be in english in the DB, translated when pulled out
 // TODO: is there a better place to put these like in install script?
 //
@@ -16,9 +47,11 @@ if (false) {
   _('Undefined Category');
 }
 
-// TODO: weed out some of these module only ones once modules updated
 class freepbx_conf {
-  // legacy until a better way
+  /** $legacy_conf_defaults are used by parse_amprotal_conf to
+   * assure that a system being migrated has all the expected $amp_conf
+   * settings defined as the code expects them to be there.
+   */
   var $legacy_conf_defaults = array(
   'AMPDBENGINE'    => array(CONF_TYPE_SELECT, 'mysql'),
   'AMPDBNAME'      => array(CONF_TYPE_TEXT, 'asterisk'),
@@ -88,31 +121,67 @@ class freepbx_conf {
   'AMPMPG123'      => array(CONF_TYPE_BOOL, true),
   );
 
-  // memory resident copy of freepbx_settings
+  /** $db_conf_store is the resident internal store for settings
+   * and is backed by the freepbx_settings SQL table.
+   * 
+   * hashed on keyword and fields include:
+   *
+   *                [keyword]     Setting
+   *                [value]       Value
+   *                [defaultval]  Default value
+   *                [type]        Type of setting, used defines above
+   *                [name]        Friendly Short Description
+   *                [description] Long description for tooltip
+   *                [category]    Category description of setting
+   *                [module]      Module setting belongs to, optional
+   *                [level]       Level of setting
+   *                [options]     select options, or validation options
+   *                [emptyok]     boolean if value can be blank
+   *                [readonly]    boolean for readonly
+   *                [hidden]      boolean for hidden fields
+   */
   var $db_conf_store;
-  // key=>value has equivalent to amp_conf and reference accessed into db_conf_store
-  var $conf = array();
-  // legacy $asterisk_conf that we need to obsolete
-  var $asterisk_conf = array();
-  var $parsed_from_db = false;
-  var $amportal_canwrite;
 
-  // This will be set with any update/define to provide feedback that can be optionally used inside or outside of
-  // the class. The structure should be:
-  // $last_update_status[$keyword]['validated']   true/false
-  // $last_update_status[$keyword]['saved']       true/false
-  // $last_update_status[$keyword]['orig_value']  value submitted
-  // $last_update_status[$keyword]['saved_value'] value submitted
-  // $last_update_status[$keyword]['msg']         error message
+  /** simple key => value store for settings. Also augmented with boostrap settings
+   * if provided which are not included in db_conf_store.
+   */
+  var $conf = array();
+
+  /** legacy $asterisk_conf that we need to obsolete
+   */
+  var $asterisk_conf = array();
+
+  /** This will be set with any update/define to provide feedback that can be optionally 
+   * used inside or outside of the class. The structure should be:
+   * $last_update_status[$keyword]['validated']   true/false
+   * $last_update_status[$keyword]['saved']       true/false
+   * $last_update_status[$keyword]['orig_value']  value submitted
+   * $last_update_status[$keyword]['saved_value'] value submitted
+   * $last_update_status[$keyword]['msg']         error message
+   */
   var $last_update_status;
 
-  // Internal reference pointer to the internal $last_update_status[$keyword]
-  // e.g. $this->_last_update_status =& $last_update_status[$keyword];
-  //
+  /** Internal reference pointer to the internal $last_update_status[$keyword]
+   * e.g. $this->_last_update_status =& $last_update_status[$keyword];
+   */
   var $_last_update_status;
 
+  // TODO: move to static var in method?
+  /** internal tracker used by parse_amportal_conf
+   */
+  var $parsed_from_db = false;
 
-  // access should always be through create so only one copy is ever running
+  /** status of the amportal.conf file passed in and if it can be written to
+   */
+  var $amportal_canwrite;
+
+
+  /** All access to this class should be done using the static method create
+   * so a single copy is created and used throughout.
+   *
+   * @return obj  returns an object to a new or the current instance of
+   *              a freepbx_conf class.
+   */
   function &create() {
     static $obj;
     global $db;
@@ -122,13 +191,23 @@ class freepbx_conf {
     return $obj;
   }
 
-  // php4 constructor
+  /** php4 constructor
+   */
   function freepbx_conf() {
     $this->__construct();
   }
-  // TODO: do we stay 'super' effecient and not validate settings upon read (we protect them upon write), or do we
-  //       re-massage them every time we read them? (which would protect us from someone on the outside changing
-  //       a db value incorrectly.
+
+  /** freepbx_conf constructor
+   * The class when initialized is filled populated from the SQL store
+   * along with some level of validation in case corrupted data has
+   * been put into the store form outside sources. It does not write back
+   * upon detecting corrupted data though.
+   *
+   * Along with populating the db_conf_store hash, it also populates the
+   * key => value conf hash by reference so that changes to db_conf_store
+   * will be reflected. (Since $amp_conf should be assigned as a reference
+   * to the conf hash).
+   */
   function __construct() {
     global $db;
     $sql = 'SELECT * FROM freepbx_settings ORDER BY category, module, level, keyword';
@@ -163,6 +242,32 @@ class freepbx_conf {
     unset($db_raw);
   }
 
+  /** This method returns a copy of the conf hash that is equivalent to the $amp_conf configuration
+   * hash that is used throughout FreePBX for many settings. The method will determine if it needs to
+   * parse the passed $filename to get authoritative information about the settings or if the
+   * information stored in the database is authoritative. The database is deemed to be the authority
+   * if the passed file is writeable, unless the $file_is_authority is set to true in which case it
+   * will force the file to be used as the correct information. In the event that the $filename is the
+   * authority, its values will be written back to the database.
+   *
+   * When it does read from the supplied amportal.conf file, it will also make sure that all the values
+   * from the $legacy_conf_defaults are present and if not, it will set those values. It will also scan
+   * the asterisk.conf file and set the corresponding values as well. This is done because there is an
+   * expectation throughout FreePBX that these legacy values are set and available since they used to
+   * be present through a similar default array.
+   *
+   * There is also an optional $bootstrap_conf array that can be passed in. This is used by FreePBX to
+   * supply the values found in the $amp_conf bootstrap array that is configured in /etc/freepbx.conf
+   * typically. These values are added to the $conf hash which is what is returned and otherwise used
+   * for $amp_conf. This is done so that FreePBX has access to these database credentials which it needs
+   * to configure and pass on in places like retrieve_conf when generating dialplan where some of these
+   * credentials are provided so that dialplan code such as AGI scripts can have access to these.
+   *
+   * @param string  The filename, amportal.conf, to potentially parse.
+   * @param array   The bootstrapped array of credentials, opptional
+   * @param bool    Can force the use of the file as authority if set true
+   * @return array  returns the hash which is used for $amp_conf.
+   */
   function parse_amportal_conf($filename, $bootstrap_conf = array(), $file_is_authority=false) {
 	  global $db;
 
@@ -189,10 +294,6 @@ class freepbx_conf {
             // if different from the db value then let's write it back to the db
             // TODO: massage any data we read from the conf file with _preapre_conf_value since it is
             //       written back to the DB here if different from the DB.
-            // TODO: investigate if this can be used for the actual migration code eliminating the need
-            //       to do it there (since I think a lot is missing there including validation that is
-            //       getting into the DB. Thinking more ... probably just translates into using the 
-            //       define_conf_setting method?
             //
             if (!isset($this->conf[$matches[1]]) || $this->conf[$matches[1]] != $matches[2]) {
               if (isset($this->db_conf_store[$matches[1]])) {
@@ -222,7 +323,8 @@ class freepbx_conf {
     }
     // If boostrap_conf settings are passed in, add them to the class
     //
-    // TODO: am I correct to NOT write these back to the database ?
+    // TODO: Make a method that can do this as well (and maybe use here) so parse_amportal_conf isn't the
+    //       only way to do this.
     foreach ($bootstrap_conf as $key => $value) {
       if (!isset($this->conf[$key])) {
         $this->conf[$key] = $value;
@@ -299,57 +401,11 @@ class freepbx_conf {
 	  return $this->conf;
   }
 
-  function get_asterisk_conf() {
-	  return $this->asterisk_conf;
-  }
-
-  // Check if a setting exists
-  //
-  function conf_setting_exists($keyword) {
-    return isset($this->db_conf_store[$keyword]);
-  }
-
-  // TODO: no way to differentiate between a bad setting and boolean false
-  //       but throwing an error on a bad keyword seems harsh? Maybe I should
-  //       write out to the debug log or something?
-  function get_conf_setting($keyword) {
-    if (isset($this->db_conf_store[$keyword])) {
-      return $this->db_conf_store[$keyword]['value'];
-    } else {
-      return false;
-    }
-  }
-
-  function reset_all_conf_settings($commit=false) {
-    $update_arr = array();
-    foreach ($this->db_conf_store as $keyword => $atribs) {
-      if (!$atribs['hidden']) {
-        $update_arr[$keyword] = $atribs['defaultval'];
-      }
-      return $this->set_conf_values($update_arr,$commit,true);
-    }
-  }
-
-  function reset_conf_settings($settings, $commit=false) {
-    $update_arr = array();
-    foreach ($settings as $keyword) {
-      $update_arr[$keyword] = $this->db_conf_store[$keyword]['defaultval'];
-    }
-    return $this->set_conf_values($update_arr,$commit,true);
-  }
-
-  function get_conf_settings() {
-    return $this->db_conf_store;
-  }
-
-  function get_last_update_status() {
-    return $this->last_update_status;
-  }
-
-  function amportal_canwrite() {
-    return $this->amportal_canwrite;
-  }
-
+  /** Generate an amportal.conf file from the db_conf_store settings loaded.
+   *
+   * @param bool    true if a verbose file should be written that includes some documentation.
+   * @return string returns the amportal.conf text that can be written out to a file.
+   */
   function amportal_generate($verbose=true) {
     // purposely lcoalized the '---------' lines, if someone translates this, theymay want to keep it 'neat'
     $conf_string  = _("#;--------------------------------------------------------------------------------;\n");
@@ -405,17 +461,188 @@ class freepbx_conf {
     return $conf_string;
   }
 
-  // used to insert or update an existing setting such as in an install
-  // script. $vars will include some required fields and we are strict
-  // with a die_freebpx() if they are missing.
-  //
-  // we will not change the value if it exists.
-  //
-  // TODO - should I remove (or ignore) need for value. Is it always the default value
-  //        or is there a scenario where this could be created with a default value set
-  //        different then the initial value???
-  //
 
+  /** Returns the detrmined status of if the amportal.conf file used to
+   * start up this session is writable. You must have called the
+   * parse_amportal_conf() for this setting to have meaning.
+   *
+   * @return bool   whether or not amortal.conf is writable if parse_amportal_conf()
+   *                was previously called.
+   */
+  function amportal_canwrite() {
+    return $this->amportal_canwrite;
+  }
+
+  /** Reset all the db_conf_store settings to their defaults and
+   * optionally commit them back to the database.
+   *
+   * @param bool    Resets all the settings to their default values.
+   */
+  function reset_all_conf_settings($commit=false) {
+    $update_arr = array();
+    foreach ($this->db_conf_store as $keyword => $atribs) {
+      if (!$atribs['hidden']) {
+        $update_arr[$keyword] = $atribs['defaultval'];
+      }
+      return $this->set_conf_values($update_arr,$commit,true);
+    }
+  }
+
+  /** Returns the the hash that is used in various parts of FreePBX as $asterisk_conf. This hash and its
+   * use should be deprecated and removed from FreePBX as all the information is available in the main
+   * $conf array as it has been in $amp_conf.
+   *
+   * @return array  returns the hash which is used for $asterisk_conf.
+   */
+  function get_asterisk_conf() {
+	  return $this->asterisk_conf;
+  }
+
+  /** Returns a hash of the full $db_conf_store, getter for that object.
+   *
+   * @return array   a copy of the db_conf_store
+   */
+  function get_conf_settings() {
+    return $this->db_conf_store;
+  }
+
+  /** Determines if a setting exists in the configuration database.
+   *
+   * @return bool   True if the setting exists.
+   */
+  function conf_setting_exists($keyword) {
+    return isset($this->db_conf_store[$keyword]);
+  }
+
+  /** Get's the current value of a configuration setting from the database store.
+   *
+   * @param string  The setting to fetch.
+   * @return mixed  returns the value of the setting, or boolean false if the
+   *                setting does not exist. Since configuration booleans are
+   *                returned as '0' and '1', they can be differentiated by a
+   *                true boolean false (use === operator) if a setting does
+   *                not exist.
+   */
+  function get_conf_setting($keyword) {
+    if (isset($this->db_conf_store[$keyword])) {
+      return $this->db_conf_store[$keyword]['value'];
+    } else {
+      return false;
+    }
+  }
+
+  /** Reset all conf settings specified int the passed in array to their defaults.
+   *
+   * @param array   An array of the settings that should be reset.
+   * @param array   Boolean set to true if the db_conf_store should be commited to
+   *                the database after reseting it.
+   * @return int    returns the number of settings that differed from the current
+   *                values.
+   */
+  function reset_conf_settings($settings, $commit=false) {
+    $update_arr = array();
+    foreach ($settings as $keyword) {
+      $update_arr[$keyword] = $this->db_conf_store[$keyword]['defaultval'];
+    }
+    return $this->set_conf_values($update_arr,$commit,true);
+  }
+
+  /** Set's configuration store values with an option to commit and an option to
+   * override readonly settings.
+   *
+   * @param array   A hash of key/value settings to update.
+   * @param bool    Boolean set to true if the db_conf_store should be commited to
+   *                the database after reseting it.
+   * @param bool    Boolean set to true if readonly settings should be allowed
+   *                to be changed.
+   * @return int    returns the number of settings that differed from the current
+   *                values and are marked dirty unless written out.
+   */
+  function set_conf_values($update_arr, $commit=false, $override_readonly=false) {
+    $cnt = 0;
+    if (!is_array($update_arr)) {
+      die_freepbx(_("called set_conf_values with a non-array"));
+    }
+    unset($this->last_update_status);
+    foreach($update_arr as $keyword => $value) {
+      if (!isset($this->db_conf_store[$keyword])) {
+        die_freepbx(sprintf(_("trying to set keyword [%s] to [%s] on unitialized setting"),$keyword, $value));
+      } 
+      $this->last_update_status[$keyword]['validated'] = false;
+      $this->last_update_status[$keyword]['saved'] = false;
+      $this->last_update_status[$keyword]['orig_value'] = $value;
+      $this->last_update_status[$keyword]['saved_value'] = $value;
+      $this->last_update_status[$keyword]['msg'] = '';
+      $this->_last_update_status =& $this->last_update_status[$keyword];
+
+      $prep_value = $this->_prepare_conf_value($value, $this->db_conf_store[$keyword]['type'], $this->db_conf_store[$keyword]['emptyok'], $this->db_conf_store[$keyword]['options']);
+
+      // If we reported saved then even if we didn't validate, we still were able to rectify
+      // it into something and therefore will use it. For example, if we set an integer out of
+      // range then we will still save the value. If the calling function wants to be strict
+      // they can not supply the commit flag and check the validation status and not save/commit
+      // the value based on their own decision criteria.
+      //
+      if ($this->_last_update_status['saved'] 
+        && $prep_value != $this->db_conf_store[$keyword]['value'] 
+        && ($prep_value !== '' || $this->db_conf_store[$keyword]['emptyok']) 
+        && ($override_readonly || !$this->db_conf_store[$keyword]['readonly'])) {
+
+        $this->db_conf_store[$keyword]['value'] = $prep_value;
+        $this->db_conf_store[$keyword]['modified'] = true;
+        $cnt++;
+      }
+    }
+    if ($commit) {
+      $this->commit_conf_settings();
+    }
+    return $cnt;
+  }
+
+  /** Get's the results of the last update and can be used to get errors,
+   * values if settings were altered from validation, etc.
+   *
+   * @return array  returns the last_update_status hash
+   */
+  function get_last_update_status() {
+    return $this->last_update_status;
+  }
+
+  // TODO should I remove (or ignore) need for value. Or should I provide the option
+  //      of setting the current and default values different as there are some migration
+  //      scenarios that would support this?
+  /** used to insert or update an existing setting such as in an install
+   * script. $vars will include some required fields and we are strict
+   * with a die_freebpx() if they are missing.
+   *
+   * the value parameter will not be altered in memory or in the database if
+   * the setting has already been defined, but most of the other settings can
+   * be changed with the exception of the type setting which must be the same
+   * once created, or you must remove the setting entirely if the type is to
+   * be changed.
+   *
+   * @param string  the setting keyword
+   * @param array   a parameter array with all the settings
+   *                [value]       required, value of the setting
+   *                [name]        required, Friendly Short Description
+   *                [level]       optional, default 0, level of setting
+   *                [description] required, long description for tooltip
+   *                [type]        required, type of setting
+   *                [options]     conditional, required for selects, optional
+   *                              for others. For INT a 2 place array
+   *                              indicates the allowed range, for others
+   *                              it is a REGEX validation, for BOOL, nothing
+   *                [emptyok]     optional, default true, if setting can be blank
+   *                [defaultval]  required and same as value
+   *                [readonly]    optional, default false, if readonly
+   *                [hidden]      optional, default false, if hidden
+   *                [category]    required, category of the setting
+   *                [module]      optional, module name that owns the setting
+   *                              and if the setting should only exist when
+   *                              the module is installed. If set, uninstalling
+   *                              the module will automatically remove this.
+   * @param bool    set to true if a commit back to the database should be done
+   */
   function define_conf_setting($keyword,$vars,$commit=false) {
     global $amp_conf;
 
@@ -546,47 +773,121 @@ class freepbx_conf {
 
   }
 
-  function set_conf_values($update_arr, $commit=false, $override_readonly=false) {
-    $cnt = 0;
-    if (!is_array($update_arr)) {
-      die_freepbx(_("called set_conf_values with a non-array"));
+  /** Removes a set of settings from the db_conf_store, used in functions like
+   * uninstall scripts if settings are no longer needed.
+   *
+   * @param  array  array of settings to be removed
+   */
+  function remove_conf_settings($settings) {
+    global $db,$amp_conf;
+    if (!is_array($settings)) {
+      $settings = array($settings);
     }
-    unset($this->last_update_status);
-    foreach($update_arr as $keyword => $value) {
-      if (!isset($this->db_conf_store[$keyword])) {
-        die_freepbx(sprintf(_("trying to set keyword [%s] to [%s] on unitialized setting"),$keyword, $value));
-      } 
-      $this->last_update_status[$keyword]['validated'] = false;
-      $this->last_update_status[$keyword]['saved'] = false;
-      $this->last_update_status[$keyword]['orig_value'] = $value;
-      $this->last_update_status[$keyword]['saved_value'] = $value;
-      $this->last_update_status[$keyword]['msg'] = '';
-      $this->_last_update_status =& $this->last_update_status[$keyword];
-
-      $prep_value = $this->_prepare_conf_value($value, $this->db_conf_store[$keyword]['type'], $this->db_conf_store[$keyword]['emptyok'], $this->db_conf_store[$keyword]['options']);
-
-      // If we reported saved then even if we didn't validate, we still were able to rectify
-      // it into something and therefore will use it. For example, if we set an integer out of
-      // range then we will still save the value. If the calling function wants to be strict
-      // they can not supply the commit flag and check the validation status and not save/commit
-      // the value based on their own decision criteria.
-      //
-      if ($this->_last_update_status['saved'] 
-        && $prep_value != $this->db_conf_store[$keyword]['value'] 
-        && ($prep_value !== '' || $this->db_conf_store[$keyword]['emptyok']) 
-        && ($override_readonly || !$this->db_conf_store[$keyword]['readonly'])) {
-
-        $this->db_conf_store[$keyword]['value'] = $prep_value;
-        $this->db_conf_store[$keyword]['modified'] = true;
-        $cnt++;
+    foreach ($settings as $setting) {
+      if (isset($this->db_conf_store[$setting]) ) {
+        unset($this->db_conf_store[$setting]);
+      }
+      if (isset($this->conf[$setting])) {
+        unset($this->conf[$setting]);
+      }
+      //for legacy sakes
+      if (isset($amp_conf[$setting])) {
+        unset($amp_conf[$setting]);
       }
     }
-    if ($commit) {
-      $this->commit_conf_settings();
+    $sql = "DELETE FROM freepbx_settings WHERE keyword in ('".implode("','",$settings)."')";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+      die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);	
     }
-    return $cnt;
   }
 
+  /** Exact same as remove_conf_setting() method, either can be
+   * used since they both detect a single or multiple settings.
+   *
+   * @param  array  array of settings to be removed
+   */
+  function remove_conf_setting($setting) {
+    return $this->remove_conf_settings($setting);
+  }
+
+  // TODO: modify to remove in memory settings also
+  //
+  /** Remove all settings with the indicated module ownership, used
+   * during functions like uninstalling modules.
+   *
+   * @param  array  array of settings to be removed
+   */
+  function remove_module_settings($module) {
+    $sql = "DELETE FROM freepbx_settings WHERE module = '$module'";
+    $result = $db->query($sql);
+    if(DB::IsError($result)) {
+      die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);	
+    }
+  }
+
+  /** Commit back to database all in memory settings that have been marked as modified.
+   *
+   * @return int    The number of modified settings it committed back.
+   */
+  function commit_conf_settings() {
+    global $db;
+    $update_array = array();
+    foreach ($this->db_conf_store as $keyword => $atrib) {
+      if (!$atrib['modified']) {
+        continue;
+      }
+      //TODO: confirm that prepare with ? does an escapeSimple() or equiv, the docs say so
+      $update_array[] = array(
+        $keyword,
+        $atrib['value'],
+        $atrib['name'],
+        $atrib['level'],
+        $atrib['description'],
+        $atrib['type'],
+        $atrib['options'],
+        $atrib['defaultval'],
+        $atrib['readonly'],
+        $atrib['hidden'],
+        $atrib['category'],
+        $atrib['module'],
+        $atrib['emptyok'],
+      );
+      $this->db_conf_store[$keyword]['modified'] = false;
+    }
+    if (empty($update_array)) {
+      return 0;
+    }
+    $sql = 'REPLACE INTO freepbx_settings 
+      (keyword, value, name, level, description, type, options, defaultval, readonly, hidden, category, module, emptyok)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    $compiled = $db->prepare($sql);
+    $result = $db->executeMultiple($compiled,$update_array);
+    if(DB::IsError($result)) {
+      die_freepbx(_('fatal error updating freepbx_settings table'));	
+    }
+    return count($update_array);
+  }
+
+  /**
+   *
+   * PRIVATE METHODS (not using php private so this remains compatible with php4
+   *
+   */
+
+  /** prepares a value to be inserted into the configuration settings using the
+   * type information and any provided validation rules. Integers that are out
+   * of range will be set to the lowest or highest values. Validation issues
+   * are recorded and can be examined with the get_last_update_status() method.
+   *
+   * @param mixed   integer, string or boolean to be prepared
+   * @param type    the type being validated
+   * @param bool    emptyok attribute of this setting
+   * @param mixed   options string or array used for validating the type
+   *
+   * @return string value to be inserted into the store
+   *                last_update_status is updated with any relevant issues
+   */
   function _prepare_conf_value($value, $type, $emptyok, $options = false) {
     switch ($type) {
 
@@ -677,94 +978,13 @@ class freepbx_conf {
     $this->_last_update_status['saved'] = true;
     return $ret;
   }
-
-  // same as remove_conf_settings
-  function remove_conf_setting($setting) {
-    return $this->remove_conf_settings($setting);
-  }
-
-  function remove_module_settings($module) {
-    $sql = "DELETE FROM freepbx_settings WHERE module = '$module'";
-    $result = $db->query($sql);
-    if(DB::IsError($result)) {
-      die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);	
-    }
-  }
-
-  // Used to remove settings from the database that are no longer needed like with an
-  // uninstall script.
-  //
-  function remove_conf_settings($settings) {
-    global $db,$amp_conf;
-    if (!is_array($settings)) {
-      $settings = array($settings);
-    }
-    foreach ($settings as $setting) {
-      if (isset($this->db_conf_store[$setting]) ) {
-        unset($this->db_conf_store[$setting]);
-      }
-      if (isset($this->conf[$setting])) {
-        unset($this->conf[$setting]);
-      }
-      //for legacy sakes
-      if (isset($amp_conf[$setting])) {
-        unset($amp_conf[$setting]);
-      }
-    }
-    $sql = "DELETE FROM freepbx_settings WHERE keyword in ('".implode("','",$settings)."')";
-    $result = $db->query($sql);
-    if(DB::IsError($result)) {
-      die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);	
-    }
-  }
-
-  // Commit back any dirty settings to the database, if they are not modified then
-  // don't bother.
-  function commit_conf_settings() {
-    global $db;
-    $update_array = array();
-    foreach ($this->db_conf_store as $keyword => $atrib) {
-      if (!$atrib['modified']) {
-        continue;
-      }
-      //TODO: confirm that prepare with ? does an escapeSimple() or equiv, the docs say so
-      $update_array[] = array(
-        $keyword,
-        $atrib['value'],
-        $atrib['name'],
-        $atrib['level'],
-        $atrib['description'],
-        $atrib['type'],
-        $atrib['options'],
-        $atrib['defaultval'],
-        $atrib['readonly'],
-        $atrib['hidden'],
-        $atrib['category'],
-        $atrib['module'],
-        $atrib['emptyok'],
-      );
-      $this->db_conf_store[$keyword]['modified'] = false;
-    }
-    if (empty($update_array)) {
-      return 0;
-    }
-    $sql = 'REPLACE INTO freepbx_settings 
-      (keyword, value, name, level, description, type, options, defaultval, readonly, hidden, category, module, emptyok)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
-    $compiled = $db->prepare($sql);
-    $result = $db->executeMultiple($compiled,$update_array);
-    if(DB::IsError($result)) {
-      die_freepbx(_('fatal error updating freepbx_settings table'));	
-    }
-    return count($update_array);
-  }
 }
 
-//TODO: if running in crippled mode, then at retrieve_conf time I think we should write to
-//      the notification systems that they need to make the file writable to us since
-//      we need to live with this transition at least for a while. (done by freepbx_engine)
 
-// LEFT OVER Legacy, only used in a few places, we could add them as class functions or ???
+/**
+ * These functions are LEFT OVER Legacy functions very minimally used and should probably be
+ * removed and the offending usage eliminated.
+ */
 
 /** Replaces variables in a string with the values from ampconf
  * eg, "%AMPWEBROOT%/admin" => "/var/www/html/admin"
