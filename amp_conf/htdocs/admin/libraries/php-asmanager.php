@@ -926,6 +926,14 @@ class AGI_AsteriskManager
 		$r = $this->command("database deltree ".str_replace(" ","/",$family));
 		return (bool)strstr($r["data"], "removed");
 	}
-	
+
+	/** Returns whether a give function exists in this Asterisk install
+	 * @param string $func	The case sensitve name of the function
+	 * @return bool True if if it exists
+	 */
+	function func_exists($func) {
+		$r = $this->command("core show function $func");
+		return (strpos($r['data'],"No function by that name registered") === false);
+	}
 }
 ?>
