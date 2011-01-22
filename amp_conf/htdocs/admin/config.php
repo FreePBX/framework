@@ -57,8 +57,6 @@ if (isset($_REQUEST['handler'])) {
 }
 require('bootstrap.php');
 
-// set the language so local module languages take
-set_language();
 
 /* If there is an action request then some sort of update is usually being done.
    This will protect from cross site request forgeries unless disabled.
@@ -219,7 +217,8 @@ if (($display == 'index') && ($cur_menuitem['module']['rawname'] == 'builtin')) 
 	$display = '';
 }
 
-
+// set the language so local module languages take
+set_language();
 
 // show the appropriate page
 switch($display) {
