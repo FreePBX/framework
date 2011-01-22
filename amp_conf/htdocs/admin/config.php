@@ -57,6 +57,9 @@ if (isset($_REQUEST['handler'])) {
 }
 require('bootstrap.php');
 
+// set the language so local module languages take
+set_language();
+
 /* If there is an action request then some sort of update is usually being done.
    This will protect from cross site request forgeries unless disabled.
 */
@@ -310,8 +313,6 @@ if ($quietmode) {
 	$admin_template['fpbx_type'] = $type;
 	$admin_template['display'] = $display;
 
-	// set the language so local module languages take
-	set_language();
 
 	// then load it and put it into the main freepbx interface
 	$template['content'] = loadview('freepbx_admin', $admin_template);
