@@ -129,7 +129,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
       $settings['description'] = 'internal use';
       $settings['type'] = CONF_TYPE_TEXT;
       $settings['defaultval'] = '';
-      $settings['category'] = 'Internal';
+      $settings['category'] = 'Internal Use';
       $settings['name'] = 'Auto Generated Copy of Main CSS';
       $settings['level'] = 10;
       $settings['readonly'] = 1;
