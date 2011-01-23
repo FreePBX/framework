@@ -50,6 +50,11 @@ foreach ($output as $line) {
   }
 }
 
+if ($path === false) {
+  echo "Failed parsing svn path\n";
+  exit(1);
+}
+
 echo "\nFound current svn path: \n$path\n\n";
 
 $NORMAL_URL =  $path . "/freepbx/branches/$VERSION/amp_conf/htdocs/admin/modules";
