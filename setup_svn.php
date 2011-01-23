@@ -36,9 +36,31 @@
  */
 $VERSION = "2.9";
 
-$NORMAL_URL =  "http://www.freepbx.org/v2/svn/freepbx/branches/$VERSION/amp_conf/htdocs/admin/modules";
-$MODULE_URL  = "http://www.freepbx.org/v2/svn/modules/branches/$VERSION";
+exec('svn info --xml .', $output, $ret);
+if ($ret) {
+  echo "Failed determining the reporistory path\n";
+  exit(1);
+}
+
+$path = false;
+foreach ($output as $line) {
+  if (strpos($line,'<root>') === 0) {
+    $path = trim(str_replace(array('<root>','</root>'),array('',''),$line));
+    break;
+  }
+}
+
+echo "\nFound current svn path: \n$path\n\n";
+
+$NORMAL_URL =  $path . "/freepbx/branches/$VERSION/amp_conf/htdocs/admin/modules";
+$MODULE_URL  = $path . "/modules/branches/$VERSION";
 $MODULE_PATH = "./amp_conf/htdocs/admin/modules";
+
+/*
+echo "NORMAL_URL: $NORMAL_URL\n";
+echo "MODULE_URL: $MODULE_URL\n";
+exit;
+ */
 
 if (isset($argv[1]) && strtolower($argv[1]) == "restore") {
 	system("svn switch $NORMAL_URL $MODULE_PATH");
@@ -61,5 +83,4 @@ if ($ret) {
 	}
 }
 */
-
 ?>
