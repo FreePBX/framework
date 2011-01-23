@@ -156,9 +156,9 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 
 <head>
 	<title><?php  echo _($title) ?></title>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
-	<link href="<?php echo $mainstyle_css.$version_tag ?>" rel="stylesheet" type="text/css" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<link href="<?php echo $mainstyle_css.$version_tag ?>" rel="stylesheet" type="text/css">
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>
 	<style type="text/css">
 		body {
@@ -168,7 +168,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 		}
 	</style>
 <?php } ?>
-	<link rel="shortcut icon" href="images/favicon.ico" />
+	<link rel="shortcut icon" href="images/favicon.ico">
 <?php 
 	if (isset($module_name)) {
 
@@ -188,7 +188,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 	}
   // Insert a custom CSS sheet if specified (this can change what is in the main CSS
   if ($custom_css) { ?>
-  <link href="<?php echo $custom_css.$version_tag ?>" rel="stylesheet" type="text/css" />
+  <link href="<?php echo $custom_css.$version_tag ?>" rel="stylesheet" type="text/css">
 <?php } ?>
 
   <script type="text/javascript" src="common/script.js.php<?php echo $version_tag ?>"></script>
