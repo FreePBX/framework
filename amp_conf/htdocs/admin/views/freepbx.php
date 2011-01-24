@@ -173,7 +173,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 	if (isset($module_name)) {
 
     global $active_modules;
-    $view_module_version = $active_modules[$module_name]['version'];
+    $view_module_version = isset($active_modules[$module_name]['version']) ? $active_modules[$module_name]['version'] : $version_tag;
     $mod_version_tag = '&load_version='.urlencode($view_module_version);
     if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
       $mod_version_tag .= $this_time_append;
