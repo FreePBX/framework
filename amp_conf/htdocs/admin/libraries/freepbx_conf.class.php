@@ -822,6 +822,7 @@ class freepbx_conf {
    * @param  array  array of settings to be removed
    */
   function remove_module_settings($module) {
+    global $db;
     $sql = "DELETE FROM freepbx_settings WHERE module = '$module'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
