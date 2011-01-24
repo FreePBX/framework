@@ -24,29 +24,6 @@ $restrict_mods = true;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 	include_once('/etc/asterisk/freepbx.conf');
 }
-function out($text) {
-	echo $text."\n";
-}
-
-function outn($text) {
-	echo $text;
-}
-
-function error($text) {
-	echo "[ERROR] ".$text."\n";
-}
-
-function fatal($text) {
-	echo "[FATAL] ".$text."\n";
-	exit(1);
-}
-
-function debug($text) {
-	global $debug;
-	
-	if ($debug) echo "[DEBUG-preDB] ".$text."\n";
-}
-
 
 function doReload() {
 	$result = do_reload();

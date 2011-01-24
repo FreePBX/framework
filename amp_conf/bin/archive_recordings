@@ -1,35 +1,16 @@
 #!/usr/bin/php -q
 <?php
+// TODO: no modules and no manager?
+//
 //include bootstrap
 $bootstrap_settings['freepbx_auth'] = false;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 	include_once('/etc/asterisk/freepbx.conf');
 }
 
+// TODO hard coded, get this out of bootstrap now?
+//
 define("MONITOR_DIR", "/var/spool/asterisk/monitor");
-
-function out($text) {
-	echo $text."\n";
-}
-
-function outn($text) {
-	echo $text;
-}
-
-function error($text) {
-	echo "[ERROR] ".$text."\n";
-}
-
-function fatal($text) {
-	echo "[FATAL] ".$text."\n";
-	exit(1);
-}
-
-function debug($text) {
-	global $debug;
-	
-	if ($debug) echo "[DEBUG] ".$text."\n";
-}
 
 function showHelp() {
 	out("This script will archive all monitor recordings in ".MONITOR_DIR."/.");

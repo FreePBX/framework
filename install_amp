@@ -19,6 +19,9 @@
 //    Copyright 2009, Bandwith.com
 //
 require_once ("libfreepbx.install.php");
+require_once(dirname(__FILE__) . '/amp_conf/htdocs/admin/libraries/php-upgrade.functions.php');
+require_once(dirname(__FILE__) . '/amp_conf/htdocs/admin/libraries/sql.functions.php');
+require_once(dirname(__FILE__) . '/amp_conf/htdocs/admin/libraries/utility.functions.php');
 
 # constants
 define("AMP_CONF", "/etc/amportal.conf");
@@ -35,69 +38,6 @@ $asterisk_user	= "asteriskuser";
 $asterisk_pass	= "amp109";
 
 /********************************************************************************************************************/
-
-function out($text) {
-	echo $text."\n";
-}
-
-function outn($text) {
-	echo $text;
-}
-
-function error($text) {
-	echo "[ERROR] ".$text."\n";
-}
-
-function fatal($text) {
-	echo "[FATAL] ".$text."\n";
-	exit(1);
-}
-
-function debug($text) {
-	global $debug;
-	
-	if ($debug) echo "[DEBUG-preDB] ".$text."\n";
-}
-
-if (!function_exists('version_compare_freepbx')) {
-	/* version_compare that works with freePBX version numbers
- 	*/
-	function version_compare_freepbx($version1, $version2, $op = null) {
-        	$version1 = str_replace("rc","RC", strtolower($version1));
-        	$version2 = str_replace("rc","RC", strtolower($version2));
-			if (!is_null($op)) {
-				return version_compare($version1, $version2, $op);
-			} else {
-				return version_compare($version1, $version2);
-			}
-	}
-}
-
-if (!function_exists('die_freepbx')) {function die_freepbx($text, $extended_text="", $type="FATAL") {
-  $trace = print_r(debug_backtrace(),true);
-	if (function_exists('fatal')) {
-		// "custom" error handler 
-		// fatal may only take one param, so we suppress error messages because it doesn't really matter
-		@fatal($text."\n".$trace, $extended_text, $type);
-	} else if (isset($_SERVER['REQUEST_METHOD'])) {
-		// running in webserver
-		echo "<h1>".$type." ERROR</h1>\n";
-		echo "<h3>".$text."</h3>\n";
-		if (!empty($extended_text)) {
-			echo "<p>".$extended_text."</p>\n";
-		}
-    echo "<h4>"._("Trace Back")."</h4>";
-    echo "<pre>$trace</pre>";
-	} else {
-		// CLI
-		echo "[$type] ".$text." ".$extended_text."\n";
-    echo "Trace Back:\n";
-    echo $trace;
-	}
-
-	// always ensure we exit at this point
-	exit(1);
-}}
 
 function showHelp() {
 	out("Optional parameters:");
@@ -271,18 +211,6 @@ function generate_configs() {
 		//
     $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
 		passthru("sudo -u $asteriskuser  ".trim($amp_conf["AMPBIN"])."/retrieve_conf --run-install ".($debug ? ' --debug' : ''));
-}
-
-
-/** Set reload flag for AMP admin
- */
-function install_needreload() {
-	global $db;
-	$sql = "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'"; 
-	$result = $db->query($sql); 
-	if(DB::IsError($result)) {     
-		die($result->getMessage()); 
-	}
 }
 
 
@@ -1225,7 +1153,7 @@ if ($module_install) {
 
 
 // **** Set reload flag for AMP admin
-install_needreload();
+needreload();
 
 if ($amp_conf["AMPWEBADDRESS"])
 {
