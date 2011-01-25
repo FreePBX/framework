@@ -1,5 +1,4 @@
 #!/usr/bin/php -q
-
 <?php 
 /** Command-line Module Administration script
  * (c) 2006 Greg MacLellan
@@ -316,54 +315,54 @@ function showEngine() {
 
 function showHelp() {
 	global $argv;
-	out("USAGE:");
-	out("  ".$argv[0]." [params] <operation> <module> [parameters.. ] ");
-	out("PARAMETERS: ");
-	out("  -f  Force operation (skips dependency and status checks)");
-	out("      WARNING: Use at your own risk, modules have dependencies for a reason!");
-	out("OPERATIONS:");
-	out("  checkdepends <module>");
-	out("      Check if module meets all dependencies");
-	out("  delete <module>");
-	out("      Disable, uninstall, and delete the specified module");
-	out("  deleteall");
-	out("      Disable, uninstall, and delete ALL MODULES");
-	out("      WARNING: Use at your own risk, this will remove ALL MODULES from your system!");
-	out("  disable <module>");
-	out("      Disable the specified module");
-	out("  download <module>");
-	out("      Download the module from the website");
-	out("      If -f is used, downloads even if there is already a copy.");
-	out("  enable <module>");
-	out("      Enable the specified module");
-	out("  info <module>");
-	out("      Get information about a given module");
-	out("  i18n <module>");
-	out("      print out i18n required text for the given module");
-	out("  install <module>");
-	out("      Install the module (must exist in the modules directory)");
-	out("  installall");
-	out("      Installs all module that exist in the repository");
-	out("  list");
-	out("      List all local modules and their current status");
-	out("  listonline");
-	out("      List all local and repository modules and their current status");
-	out("  reload");
-	out("      Reload the configuration (same as pressing the reload bar)");
-	out("  reversedepends <module>");
-	out("      Show all modules that depend on this one");
-	out("  showupgrades");
-	out("      Show a list of upgradable modules");
-	out("  showannounce");
-	out("      Shows any annoucements that maybe displayed at freepbx.org for this version");
-	out("  uninstall <module>");
-	out("      Disable and uninstall the specified module");
-	out("  upgrade <module>");
-	out("      Equivalent to running download and install");
-	out("  upgradeall");
-	out("      Downloads and upgrades all modules with pending updates");
+	out("USAGE:",false);
+	out("  ".$argv[0]." [params] <operation> <module> [parameters.. ] ",false);
+	out("PARAMETERS: ",false);
+	out("  -f  Force operation (skips dependency and status checks)",false);
+	out("      WARNING: Use at your own risk, modules have dependencies for a reason!",false);
+	out("OPERATIONS:",false);
+	out("  checkdepends <module>",false);
+	out("      Check if module meets all dependencies",false);
+	out("  delete <module>",false);
+	out("      Disable, uninstall, and delete the specified module",false);
+	out("  deleteall",false);
+	out("      Disable, uninstall, and delete ALL MODULES",false);
+	out("      WARNING: Use at your own risk, this will remove ALL MODULES from your system!",false);
+	out("  disable <module>",false);
+	out("      Disable the specified module",false);
+	out("  download <module>",false);
+	out("      Download the module from the website",false);
+	out("      If -f is used, downloads even if there is already a copy.",false);
+	out("  enable <module>",false);
+	out("      Enable the specified module",false);
+	out("  info <module>",false);
+	out("      Get information about a given module",false);
+	out("  i18n <module>",false);
+	out("      print out i18n required text for the given module",false);
+	out("  install <module>",false);
+	out("      Install the module (must exist in the modules directory)",false);
+	out("  installall",false);
+	out("      Installs all module that exist in the repository",false);
+	out("  list",false);
+	out("      List all local modules and their current status",false);
+	out("  listonline",false);
+	out("      List all local and repository modules and their current status",false);
+	out("  reload",false);
+	out("      Reload the configuration (same as pressing the reload bar)",false);
+	out("  reversedepends <module>",false);
+	out("      Show all modules that depend on this one",false);
+	out("  showupgrades",false);
+	out("      Show a list of upgradable modules",false);
+	out("  showannounce",false);
+	out("      Shows any annoucements that maybe displayed at freepbx.org for this version",false);
+	out("  uninstall <module>",false);
+	out("      Disable and uninstall the specified module",false);
+	out("  upgrade <module>",false);
+	out("      Equivalent to running download and install",false);
+	out("  upgradeall",false);
+	out("      Downloads and upgrades all modules with pending updates",false);
 	
-	out("  --help, -h, -?           Show this help");
+	out("  --help, -h, -?           Show this help",false);
 }
 
 function showInfo($modulename) {

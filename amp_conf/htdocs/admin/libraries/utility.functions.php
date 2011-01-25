@@ -205,12 +205,39 @@ function freepbx_log($section, $level, $message) {
 	global $debug; // This is used by retrieve_conf
 	global $amp_conf;
 
+  $log_file = '/tmp/freepbx.log';
+
 	if (isset($debug) && ($debug != false)) {
 		print "[DEBUG-$section] ($level) $message\n";
 	}
 	if (!$amp_conf['AMPENABLEDEVELDEBUG'] && strtolower(trim($level)) == 'devel-debug') {
 		return true;
 	}
+  // TODO: work in progress. Plan, will define freepbx_conf variable to determine log file. Will remove all support
+  //       for SQL log file which was never a good idea. Will discuss with other devs to determine if we should allow
+  //       it to optionaly use syslog() or restrict to our own. For now, check-in with current hardcode of
+  //       /tmp/freepbx.log until work is finished.
+  //
+  //-------- WORKING  -------------
+	$bt = debug_backtrace();
+	$tstamp = date("Y-M-d H:i:s");
+
+  if ($bt[1]['function'] == 'out') {
+    $file_full = $bt[1]['file'];
+    $line = $bt[1]['line'];
+  } else {
+    $file_full = $bt[0]['file'];
+    $line = $bt[0]['line'];
+  }
+  $file_base = basename($file_full);
+  $file_dir  = basename(dirname($file_full));
+
+  $txt = sprintf("[%s] [%s] (%s/%s:%s) - %s\n", $tstamp, $level, $file_dir, $file_base, $line, $message);
+  file_put_contents($log_file, $txt, FILE_APPEND);
+
+  return;
+
+  //-------- ORIGINAL -------------
         
 	if (!$amp_conf['AMPDISABLELOG']) {
 		switch (strtoupper($amp_conf['AMPSYSLOGLEVEL'])) {
@@ -258,9 +285,10 @@ $outn_function_buffer='';
 function out($text,$log=true) {
   global $outn_function_buffer;
   echo $text.EOL;
+  // TODO: add freepbx_conf option to NOT log here
   if ($log) {
-    $outn_function_buffer .= $text.PHP_EOL;
-    // TODO: log here:
+    $outn_function_buffer .= $text;
+    freepbx_log('out','info',$outn_function_buffer);
     $outn_function_buffer = '';
   }
 }
