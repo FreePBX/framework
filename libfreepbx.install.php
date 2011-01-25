@@ -452,6 +452,19 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['readonly'] = 0;
   $set['level'] = 0;
 
+  // AS_DISPLAY_FRIENDLY_NAME
+  $set['value'] = true;
+  $set['options'] = '';
+  $set['name'] = 'Display Friendly Name';
+  $set['description'] = 'Normally the friendly names will be displayed on this page and the internal freepbx_conf configuration names are shown in the tooltip. If you prefer to view the configuration variables, and the friendly name in the tooltip, set this to false..';
+  $set['emptyok'] = 0;
+  $set['level'] = 0;
+  $set['readonly'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('AS_DISPLAY_FRIENDLY_NAME',$set);
+  $set['readonly'] = 0;
+  $set['level'] = 0;
+
   //
   // CATEGORY: System Setup
   //
