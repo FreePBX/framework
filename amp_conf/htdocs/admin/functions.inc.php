@@ -181,17 +181,14 @@ function do_reload() {
 	$return['status'] = true;
 	$return['message'] = _('Successfully reloaded');
 	
-	
 	if ($amp_conf['FOPRUN'] && !$amp_conf['FOPDISABLE']) {
-		//bounce op_server.pl
-		$wOpBounce = $amp_conf['AMPBIN'].'/bounce_op.sh';
-
-    //TODO: get the output of this into the log if possible
-		exec($wOpBounce.' &>'.$asterisk_conf['astlogdir'].'/freepbx-bounce_op.log', $output, $exit_val);
-		
+    unset($output);
+		exec('killall -HUP op_server.pl 2>&1', $output, $exit_val);
 		if ($exit_val != 0) {
-			$desc = _('Could not reload the FOP operator panel server using the bounce_op.sh script. Configuration changes may not be reflected in the panel display.');
+			$desc = _('Could not reload the FOP operator panel server using killall -HUP op_server.pl. Configuration changes may not be reflected in the panel display.');
 			$notify->add_error('freepbx','reload_fop', _('Could not reload FOP server'), $desc);
+      // send the error output to dbug log if enabled.
+      dbug($output);
 			
 			$return['num_errors']++;
 		} else {
