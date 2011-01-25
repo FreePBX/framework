@@ -697,8 +697,8 @@ class freepbx_conf {
       if (!isset($vars['options'])) {
         $vars['options'] = $this->db_conf_store[$keyword]['options'];
       }
-      if (!isset($vars['readlonly'])) {
-        $vars['readlonly'] = $this->db_conf_store[$keyword]['readlonly'];
+      if (!isset($vars['readonly'])) {
+        $vars['readonly'] = $this->db_conf_store[$keyword]['readonly'];
       }
       if (!isset($vars['hidden'])) {
         $vars['hidden'] = $this->db_conf_store[$keyword]['hidden'];

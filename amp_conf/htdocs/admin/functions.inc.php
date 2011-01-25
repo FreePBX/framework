@@ -185,6 +185,8 @@ function do_reload() {
 	if ($amp_conf['FOPRUN'] && !$amp_conf['FOPDISABLE']) {
 		//bounce op_server.pl
 		$wOpBounce = $amp_conf['AMPBIN'].'/bounce_op.sh';
+
+    //TODO: get the output of this into the log if possible
 		exec($wOpBounce.' &>'.$asterisk_conf['astlogdir'].'/freepbx-bounce_op.log', $output, $exit_val);
 		
 		if ($exit_val != 0) {

@@ -652,6 +652,15 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('FPBX_LOG_FILE',$set);
 
+  // LOG_NOTIFICATIONS
+  $set['value'] = true;
+  $set['options'] = '';
+  $set['name'] = 'Send Dashboard Notifications to Log';
+  $set['description'] = 'When enabled all notification updates to the Dashboard notification panel will also be logged into the specified log file when enabled.';
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('LOG_NOTIFICATIONS',$set);
+
 
   //
   // CATEGORY: Dialplan and Operational

@@ -6,7 +6,7 @@ define("FPBX_LOG_FATAL",    "FATAL");
 define("FPBX_LOG_CRITICAL", "CRITICAL");
 define("FPBX_LOG_SECURITY", "SECURITY");
 define("FPBX_LOG_UPDATE",   "UPDATE");
-define("FPBX_LOG_ERROR",    "ERRO");
+define("FPBX_LOG_ERROR",    "ERROR");
 define("FPBX_LOG_WARNING",  "WARNING");
 define("FPBX_LOG_NOTICE",   "NOTICE");
 define("FPBX_LOG_INFO",     "INFO");
@@ -264,7 +264,8 @@ function out($text,$log=true) {
   global $outn_function_buffer;
   global $amp_conf;
   echo $text.EOL;
-  if ($log && $amp_conf['LOG_OUT_MESSAGES']) {
+  // if not set, could be bootstrapping so default to true
+  if ($log && (!isset($amp_conf['LOG_OUT_MESSAGES']) || $amp_conf['LOG_OUT_MESSAGES'])) {
     $outn_function_buffer .= $text;
     freepbx_log(FPBX_LOG_INFO,$outn_function_buffer);
     $outn_function_buffer = '';
@@ -275,7 +276,8 @@ function outn($text,$log=true) {
   global $outn_function_buffer;
   global $amp_conf;
   echo $text;
-  if ($log && $amp_conf['LOG_OUT_MESSAGES']) {
+  // if not set, could be bootstrapping so default to true
+  if ($log && (!isset($amp_conf['LOG_OUT_MESSAGES']) || $amp_conf['LOG_OUT_MESSAGES'])) {
     // Don't log, just accumualte until matching out() dumps the accumulated text
     $outn_function_buffer .= $text;
   }

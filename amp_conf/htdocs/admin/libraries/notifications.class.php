@@ -28,21 +28,27 @@ class notifications{
 
 	function add_critical($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_CRITICAL, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+    $this->_freepbx_log(FPBX_LOG_CRITICAL, $module, $id, $display_text);
 	}
 	function add_security($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_SECURITY, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+    $this->_freepbx_log(FPBX_LOG_SECURITY, $module, $id, $display_text);
 	}
 	function add_update($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_UPDATE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+    $this->_freepbx_log(FPBX_LOG_UPDATE, $module, $id, $display_text);
 	}
 	function add_error($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_ERROR, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+    $this->_freepbx_log(FPBX_LOG_ERROR, $module, $id, $display_text);
 	}
 	function add_warning($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_WARNING, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+    $this->_freepbx_log(FPBX_LOG_WARNING, $module, $id, $display_text);
 	}
 	function add_notice($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=true) {
 		$this->_add_type(NOTIFICATION_TYPE_NOTICE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+    $this->_freepbx_log(FPBX_LOG_NOTICE, $module, $id, $display_text);
 	}
 
 
@@ -195,6 +201,13 @@ class notifications{
 		$list = sql($sql,"getAll",DB_FETCHMODE_ASSOC);
 		return $list;
 	}
+
+  function _freepbx_log($level, $module, $id, $display_text) {
+    global $amp_conf;
+    if ($amp_conf['LOG_NOTIFICATIONS']) {
+      freepbx_log($level,"[NOTIFICATION]-[$module]-[$id] - $display_text");
+    }
+  }
 	/* Returns the number of active notifications
 	 */
 	function get_num_active() {
