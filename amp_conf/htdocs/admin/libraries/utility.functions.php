@@ -25,6 +25,9 @@ function freepbx_log($level, $message) {
   if ($bt[1]['function'] == 'out') {
     $file_full = $bt[1]['file'];
     $line = $bt[1]['line'];
+  } elseif (basename($bt[0]['file']) == 'notifications.class.php') {
+    $file_full = $bt[2]['file'];
+    $line = $bt[2]['line'];
   } else {
     $file_full = $bt[0]['file'];
     $line = $bt[0]['line'];
