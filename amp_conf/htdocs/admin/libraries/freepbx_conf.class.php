@@ -676,17 +676,20 @@ class freepbx_conf {
       );
     // Got to have a type and value, if no type, _prepared_conf_value will throw an error
     $new_setting = !isset($this->db_conf_store[$keyword]);
-    if (!$new_setting && $vars['type'] != $this->db_conf_store[$keyword]['type']) {
-      die_freepbx(sprintf(_("you can't convert an existing type, keyword [%s]"),$keyword));
-    }
     // If not a new setting, default appropriate values that have not been set for us
     //
     if (!$new_setting) {
+      if (!isset($vars['defaultval'])) {
+        $vars['defaultval'] = $this->db_conf_store[$keyword]['defaultval'];
+      }
       if (!isset($vars['name'])) {
         $vars['name'] = $this->db_conf_store[$keyword]['name'];
       }
       if (!isset($vars['level'])) {
         $vars['level'] = $this->db_conf_store[$keyword]['level'];
+      }
+      if (!isset($vars['type'])) {
+        $vars['type'] = $this->db_conf_store[$keyword]['type'];
       }
       if (!isset($vars['description'])) {
         $vars['description'] = $this->db_conf_store[$keyword]['description'];
@@ -703,6 +706,9 @@ class freepbx_conf {
       if (!isset($vars['category'])) {
         $vars['category'] = $this->db_conf_store[$keyword]['category'];
       }
+    }
+    if (!$new_setting && $vars['type'] != $this->db_conf_store[$keyword]['type']) {
+      die_freepbx(sprintf(_("you can't convert an existing type, keyword [%s]"),$keyword));
     }
     if (!isset($vars['value']) || !isset($vars['defaultval'])) {
       die_freepbx(sprintf(_("missing value and/or defaultval required for [%s]"),$keyword));
