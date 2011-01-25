@@ -180,7 +180,10 @@ function dbug(){
 	$opts = func_get_args();
 	$disc = $msg = $dump = null;
 
-  if ($amp_conf['FPBXDBUGDISABLE']) {
+  // Check if it is set to avoid un-defined errors if using in code portions that are
+  // not yet bootstrapped. Default to enabling it.
+  //
+  if (isset($amp_conf['FPBXDBUGDISABLE']) && $amp_conf['FPBXDBUGDISABLE']) {
     return;
   }
 
