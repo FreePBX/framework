@@ -65,7 +65,7 @@ class freepbx_conf {
   'AMPMGRPASS'     => array(CONF_TYPE_TEXT, 'amp111'),
   'FOPPASSWORD'    => array(CONF_TYPE_TEXT, 'passw0rd'),
   'FOPSORT'        => array(CONF_TYPE_SELECT, 'extension'),
-  'AMPSYSLOGLEVEL' => array(CONF_TYPE_INT, 'LOG_ERR'),
+  'AMPSYSLOGLEVEL' => array(CONF_TYPE_SELECT, 'FILE'),
   'NOOPTRACE'      => array(CONF_TYPE_INT, '1'),
   'ARI_ADMIN_PASSWORD' => array(CONF_TYPE_TEXT, 'ari_password'),
   'CFRINGTIMERDEFAULT' => array(CONF_TYPE_SELECT, '0'),
@@ -678,6 +678,31 @@ class freepbx_conf {
     $new_setting = !isset($this->db_conf_store[$keyword]);
     if (!$new_setting && $vars['type'] != $this->db_conf_store[$keyword]['type']) {
       die_freepbx(sprintf(_("you can't convert an existing type, keyword [%s]"),$keyword));
+    }
+    // If not a new setting, default appropriate values that have not been set for us
+    //
+    if (!$new_setting) {
+      if (!isset($vars['name'])) {
+        $vars['name'] = $this->db_conf_store[$keyword]['name'];
+      }
+      if (!isset($vars['level'])) {
+        $vars['level'] = $this->db_conf_store[$keyword]['level'];
+      }
+      if (!isset($vars['description'])) {
+        $vars['description'] = $this->db_conf_store[$keyword]['description'];
+      }
+      if (!isset($vars['options'])) {
+        $vars['options'] = $this->db_conf_store[$keyword]['options'];
+      }
+      if (!isset($vars['readlonly'])) {
+        $vars['readlonly'] = $this->db_conf_store[$keyword]['readlonly'];
+      }
+      if (!isset($vars['hidden'])) {
+        $vars['hidden'] = $this->db_conf_store[$keyword]['hidden'];
+      }
+      if (!isset($vars['category'])) {
+        $vars['category'] = $this->db_conf_store[$keyword]['category'];
+      }
     }
     if (!isset($vars['value']) || !isset($vars['defaultval'])) {
       die_freepbx(sprintf(_("missing value and/or defaultval required for [%s]"),$keyword));
