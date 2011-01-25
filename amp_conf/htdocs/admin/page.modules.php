@@ -993,19 +993,19 @@ function displayRepoSelect($buttons) {
         </td><td>
           <table>
             <tr>
-              <td width="25%">
+              <td>
                 <input id="standard_repo" type="checkbox" name="active_repos[standard]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['standard'])?"checked":""?>/>
                 <label for="active_repos[standard]"><?php echo _("Basic") ?></label>
               </td>
-              <td width="25%">
+              <td>
                 <input id="extended_repo" type="checkbox" name="active_repos[extended]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['extended'])?"checked":""?>/>
                 <label for="active_repos[extended]"><?php echo _("Extended") ?></label>
               </td>
-              <td width="25%">
+              <td>
                 <input id="unsupported_repo" type="checkbox" name="active_repos[unsupported]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['unsupported'])?"checked":""?>/>
                 <label for="active_repos[unsupported]"><?php echo _("Unsupported") ?></label>
               </td>
-              <td width="25%">
+              <td>
                 <input id="commercial_repo" type="checkbox" name="active_repos[commercial]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['commercial'])?"checked":""?>/>
                 <label for="active_repos[commercial]"><?php echo _("Commercial") ?></label>
               </td>
