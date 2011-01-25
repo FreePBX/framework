@@ -1064,6 +1064,15 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('FPBXDBUGFILE',$set);
 
+  // FPBXDBUGDISABLE
+  $set['value'] = true;
+  $set['options'] = '';
+  $set['name'] = 'Disable FreePBX dbug Logging';
+  $set['description'] = 'Set to true to stop all dbug() calls from writing to the Debug File (FPBXDBUGFILE)';
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('FPBXDBUGDISABLE',$set);
+
   // DEVEL
   $set['value'] = false;
   $set['options'] = '';

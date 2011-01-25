@@ -112,8 +112,14 @@ function freepbx_debug($string, $option='', $filename='') {
   * 	 
  	*/  
 function dbug(){
+  global $amp_conf;
+
 	$opts = func_get_args();
 	$disc = $msg = $dump = null;
+
+  if ($amp_conf['FPBXDBUGDISABLE']) {
+    return
+  }
 
 	$dump = 0;
 	//sort arguments
@@ -255,7 +261,6 @@ function out($text,$log=true) {
   if ($log) {
     $outn_function_buffer .= $text.PHP_EOL;
     // TODO: log here:
-    dbug($outn_function_buffer);
     $outn_function_buffer = '';
   }
 }
