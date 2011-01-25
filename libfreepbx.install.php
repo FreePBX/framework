@@ -610,6 +610,48 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('AMPDEVGROUP',$set);
   $set['level'] = 0;
 
+  // AMPDISABLELOG
+  $set['value'] = true;
+  $set['options'] = '';
+  $set['name'] = 'Disable FreePBX Log';
+  $set['description'] = 'Whether or not to invoke the FreePBX log facility.';
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('AMPDISABLELOG',$set);
+
+  // LOG_OUT_MESSAGES
+  $set['value'] = true;
+  $set['options'] = '';
+  $set['name'] = 'Log Verbose Messages';
+  $set['description'] = 'FreePBX has many verbose and useful messages displayed to users during module installation, system installations, loading configurations and other places. In order to accumulate these messages in the log files as well as the on screen display, set this to true.';
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('LOG_OUT_MESSAGES',$set);
+
+  // AMPSYSLOGLEVEL
+  $set['value'] = 'FILE';
+  $set['options'] = 'FILE, LOG_EMERG, LOG_ALERT, LOG_CRIT, LOG_ERR, LOG_WARNING, LOG_NOTICE, LOG_INFO, LOG_DEBUG';
+  // LOG_SQL, SQL are discontinued, they are removed during migration if the slipped in and in core if it were to persist because amportal.conf was not
+  // writeable for a while.
+  //
+  if (isset($amp_conf['AMPSYSLOGLEVEL']) && (strtoupper($amp_conf['AMPSYSLOGLEVEL']) == 'SQL' || strtoupper($amp_conf['AMPSYSLOGLEVEL']) == 'LOG_SQL')) {
+    $set['options'] .= ', LOG_SQL, SQL';
+  }
+  $set['name'] = 'Syslog Location';
+  $set['description'] = "Determine where to send log information if the log is enabled: 'Disable Freepbx Log' is false (AMPDISABLELOG). FILE will send all log messages to the defined 'FreePBX Log File' (FPBX_LOG_FILE). The other settings will send the logs to your System Logging system using the specified log level that can be configured on most systems to determine which system log file to write to.";
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_SELECT;
+  $freepbx_conf->define_conf_setting('AMPSYSLOGLEVEL',$set);
+
+  // FPBX_LOG_FILE
+  $set['value'] = '/tmp/freepbx.log';
+  $set['options'] = '';
+  $set['name'] = 'FreePBX Log File';
+  $set['description'] = 'Full path and name of the FreePBX Log File used in conjunction with the Syslog Level (AMPSYSLOGLEVEL) being set to FILE, not used otherwise. Initial installs may have some early logging sent to /tmp/freepbx_pre_install.log when it is first bootstrapping the installer.';
+  $set['emptyok'] = 0;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('FPBX_LOG_FILE',$set);
+
 
   //
   // CATEGORY: Dialplan and Operational
@@ -1145,32 +1187,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_DIR;
   $freepbx_conf->define_conf_setting('AMPLOCALBIN',$set);
 
-  // AMPDISABLELOG
-  $set['value'] = true;
-  $set['options'] = '';
-  $set['name'] = 'Disable FreePBX Log';
-  $set['description'] = 'Whether or not to invoke the FreePBX log facility.';
-  $set['emptyok'] = 0;
-  $set['type'] = CONF_TYPE_BOOL;
-  $freepbx_conf->define_conf_setting('AMPDISABLELOG',$set);
-
-  // AMPENABLEDEVELDEBUG
-  $set['value'] = false;
-  $set['options'] = '';
-  $set['name'] = 'Enable devel-debug Log Messages';
-  $set['description'] = 'Whether or not to include log messages marked as <b>devel-debug</b> in the log system.';
-  $set['emptyok'] = 0;
-  $set['type'] = CONF_TYPE_BOOL;
-  $freepbx_conf->define_conf_setting('AMPENABLEDEVELDEBUG',$set);
-
-  // AMPSYSLOGLEVEL
-  $set['value'] = 'LOG_ERR';
-  $set['options'] = 'LOG_EMERG, LOG_ALERT, LOG_CRIT, LOG_ERR, LOG_WARNING, LOG_NOTICE, LOG_INFO, LOG_DEBUG, LOG_SQL,SQL';
-  $set['name'] = 'Syslog Level';
-  $set['description'] = 'Where to log if enabled, SQL, LOG_SQL logs to old MySQL table, others are passed to syslog system to determine where to log.';
-  $set['emptyok'] = 0;
-  $set['type'] = CONF_TYPE_SELECT;
-  $freepbx_conf->define_conf_setting('AMPSYSLOGLEVEL',$set);
   
   // DISABLE_CSS_AUTOGEN
   $set['value'] = false;

@@ -2,6 +2,69 @@
 
 define('EOL', isset($_SERVER['REQUEST_METHOD']) ? "<br />" :  PHP_EOL);
 
+define("FPBX_LOG_FATAL",    "FATAL");
+define("FPBX_LOG_CRITICAL", "CRITICAL");
+define("FPBX_LOG_SECURITY", "SECURITY");
+define("FPBX_LOG_UPDATE",   "UPDATE");
+define("FPBX_LOG_ERROR",    "ERRO");
+define("FPBX_LOG_WARNING",  "WARNING");
+define("FPBX_LOG_NOTICE",   "NOTICE");
+define("FPBX_LOG_INFO",     "INFO");
+
+/** FreePBX Logging facility to FILE or syslog
+ * @param  string   The level/severity of the error. Valid levels use constants:
+ *                  FPBX_LOG_FATAL, FPBX_LOG_CRITICAL, FPBX_LOG_SECURITY, FPBX_LOG_UPDATE, 
+ *                  FPBX_LOG_ERROR, FPBX_LOG_WARNING, FPBX_LOG_NOTICE, FPBX_LOG_INFO.
+ * @param  string   The error message
+ */
+function freepbx_log($level, $message) {
+	global $amp_conf;
+
+	$bt = debug_backtrace();
+
+  if ($bt[1]['function'] == 'out') {
+    $file_full = $bt[1]['file'];
+    $line = $bt[1]['line'];
+  } else {
+    $file_full = $bt[0]['file'];
+    $line = $bt[0]['line'];
+  }
+  $file_base = basename($file_full);
+  $file_dir  = basename(dirname($file_full));
+
+  $txt = sprintf("[%s] (%s/%s:%s) - %s\n", $level, $file_dir, $file_base, $line, $message);
+
+  // if it is not set, it's probably an initial installation so we want to log something
+  //
+	if (!isset($amp_conf['AMPDISABLELOG']) || !$amp_conf['AMPDISABLELOG']) {
+		$log_type = isset($amp_conf['AMPSYSLOGLEVEL']) ? $amp_conf['AMPSYSLOGLEVEL'] : 'FILE';
+		switch ($log_type) {
+			case 'LOG_EMERG':
+			case 'LOG_ALERT':
+			case 'LOG_CRIT':
+			case 'LOG_ERR':
+			case 'LOG_WARNING':
+			case 'LOG_NOTICE':
+			case 'LOG_INFO':
+			case 'LOG_DEBUG':
+				syslog(constant($log_type),"FreePBX - $txt");
+				break;
+			case 'SQL':     // Core will remove these settings once migrated,
+			case 'LOG_SQL': // default to FILE during any interim steps.
+			case 'FILE':
+			default:
+        // during initial install, there may be no log file provided because the script has not fully bootstrapped
+        // so we will default to a pre-install log file name. We will make a file name mandatory with a proper
+        // default in FPBX_LOG_FILE
+        //
+        $log_file = isset($amp_conf['FPBX_LOG_FILE']) ? $amp_conf['FPBX_LOG_FILE'] : '/tmp/freepbx_pre_install.log';
+	      $tstamp = date("Y-M-d H:i:s");
+        file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
+				break;
+		}
+	}
+}
+
 /* version_compare that works with FreePBX version numbers
 */
 function version_compare_freepbx($version1, $version2, $op = null) {
@@ -195,108 +258,24 @@ function freepbx_error_handler($errno, $errstr, $errfile, $errline,  $errcontext
 	dbug_write($txt,$check='');
 }
 
-/** Log an error to the (database-based) log
- * @param  string   The section or script where the error occurred
- * @param  string   The level/severity of the error. Valid levels: 'error', 'warning', 'debug', 'devel-debug'
- * @param  string   The error message
- */
-function freepbx_log($section, $level, $message) {
-	global $db;
-	global $debug; // This is used by retrieve_conf
-	global $amp_conf;
-
-  $log_file = '/tmp/freepbx.log';
-
-	if (isset($debug) && ($debug != false)) {
-		print "[DEBUG-$section] ($level) $message\n";
-	}
-	if (!$amp_conf['AMPENABLEDEVELDEBUG'] && strtolower(trim($level)) == 'devel-debug') {
-		return true;
-	}
-  // TODO: work in progress. Plan, will define freepbx_conf variable to determine log file. Will remove all support
-  //       for SQL log file which was never a good idea. Will discuss with other devs to determine if we should allow
-  //       it to optionaly use syslog() or restrict to our own. For now, check-in with current hardcode of
-  //       /tmp/freepbx.log until work is finished.
-  //
-  //-------- WORKING  -------------
-	$bt = debug_backtrace();
-	$tstamp = date("Y-M-d H:i:s");
-
-  if ($bt[1]['function'] == 'out') {
-    $file_full = $bt[1]['file'];
-    $line = $bt[1]['line'];
-  } else {
-    $file_full = $bt[0]['file'];
-    $line = $bt[0]['line'];
-  }
-  $file_base = basename($file_full);
-  $file_dir  = basename(dirname($file_full));
-
-  $txt = sprintf("[%s] [%s] (%s/%s:%s) - %s\n", $tstamp, $level, $file_dir, $file_base, $line, $message);
-  file_put_contents($log_file, $txt, FILE_APPEND);
-
-  return;
-
-  //-------- ORIGINAL -------------
-        
-	if (!$amp_conf['AMPDISABLELOG']) {
-		switch (strtoupper($amp_conf['AMPSYSLOGLEVEL'])) {
-			case 'LOG_EMERG':
-				syslog(LOG_EMERG,"FreePBX-[$level][$section] $message");
-				break;
-			case 'LOG_ALERT':
-				syslog(LOG_ALERT,"FreePBX-[$level][$section] $message");
-				break;
-			case 'LOG_CRIT':
-				syslog(LOG_CRIT,"FreePBX-[$level][$section] $message");
-				break;
-			case 'LOG_ERR':
-				syslog(LOG_ERR,"FreePBX-[$level][$section] $message");
-				break;
-			case 'LOG_WARNING':
-				syslog(LOG_WARNING,"FreePBX-[$level][$section] $message");
-				break;
-			case 'LOG_NOTICE':
-				syslog(LOG_NOTICE,"FreePBX-[$level][$section] $message");
-				break;
-			case 'LOG_INFO':
-				syslog(LOG_INFO,"FreePBX-[$level][$section] $message");
-				break;
-			case 'LOG_DEBUG':
-				syslog(LOG_DEBUG,"FreePBX-[$level][$section] $message");
-				break;
-			case 'SQL':
-			case 'LOG_SQL':
-			default:
-				$sth = $db->prepare("INSERT INTO freepbx_log (time, section, level, message) VALUES (NOW(),?,?,?)");
-				$db->execute($sth, array($section, $level, $message));
-				break;
-		}
-	}
-}
-
-//  TODO: Tie in the out() / outn() and others into the chosen logging facility. Also add
-//        freepbx_conf setting to control if they should be or not.
-//  TODO: Go back to some of the CLI based utilities that have help message displays and
-//        modify to have log=false, these never need to be logged.
-//
 global $outn_function_buffer;
 $outn_function_buffer='';
 function out($text,$log=true) {
   global $outn_function_buffer;
+  global $amp_conf;
   echo $text.EOL;
-  // TODO: add freepbx_conf option to NOT log here
-  if ($log) {
+  if ($log && $amp_conf['LOG_OUT_MESSAGES']) {
     $outn_function_buffer .= $text;
-    freepbx_log('out','info',$outn_function_buffer);
+    freepbx_log(FPBX_LOG_INFO,$outn_function_buffer);
     $outn_function_buffer = '';
   }
 }
 
 function outn($text,$log=true) {
   global $outn_function_buffer;
+  global $amp_conf;
   echo $text;
-  if ($log) {
+  if ($log && $amp_conf['LOG_OUT_MESSAGES']) {
     // Don't log, just accumualte until matching out() dumps the accumulated text
     $outn_function_buffer .= $text;
   }
@@ -304,34 +283,31 @@ function outn($text,$log=true) {
 
 function error($text,$log=true) {
 	echo "[ERROR] ".$text.EOL;
+  if ($log) {
+    freepbx_log(FPBX_LOG_ERROR,$text);
+  }
 }
 
+// TODO: used in retrieve_conf, scan code base and remove if appropriate
+//       replacing with logging and die_freepbx (which should log also)
+//
 function fatal($text,$log=true) {
 	echo "[FATAL] ".$text.EOL;
+  if ($log) {
+    freepbx_log(FPBX_LOG_FATAL,$text);
+  }
 	exit(1);
 }
 
-/* TODO: this is fatal that was used by retrieve_conf, probably want to
- *       incorporate something like this back in. Get back to this.
- *
-function fatal($text, $extended_text="", $type="FATAL") {
-	global $db;
-
-	echo "[$type] ".$text." ".$extended_text."\n";
-
-	if(!DB::isError($db)) {
-		$nt = notifications::create($db);
-		$nt->add_critical('retrieve_conf', $type, $text, $extended_text);
-	}
-
-	exit(1);
-}
- */
-
+// TODO: used in retrieve_conf, scan code base and remove if appropriate
+//
 function debug($text,$log=true) {
 	global $debug;
 	
 	if ($debug) echo "[DEBUG-preDB] ".$text.EOL;
+  if ($log) {
+    dbug($text);
+  }
 }
 
 /** like file_get_contents designed to work with url only, will try

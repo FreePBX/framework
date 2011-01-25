@@ -65,9 +65,9 @@ class connectdirs {
       // e.g. ln -s /var/www/html/admin/modules/ringgroups/assets /var/www/html/admin/assets/ringgroups
       //
       if (symlink($dir, $targetdir)) {
-        freepbx_log('retrieve-conf', 'devel-debug', "Symlinked $dir to $targetdir");
+        dbug('retrieve-conf', "Symlinked $dir to $targetdir");
       } else {
-        freepbx_log('retrieve-conf', 'error', "Can Not $dir to $targetdir");
+        freepbx_log(FPBX_LOG_ERROR, "Can Not $dir to $targetdir");
       }
 
     }
@@ -103,7 +103,7 @@ class connectdirs {
               }
             }
           } else {
-            freepbx_log('retrieve-conf', 'devel-debug', "found language dir $dir/$lang but not installed on system, skipping");
+            dbug('retrieve-conf', "found language dir $dir/$lang but not installed on system, skipping");
             out("found language dir $dir/$lang but not installed on system, skipping");
           }
         }
@@ -129,16 +129,16 @@ class connectdirs {
   function do_symlink($src, $dest, $subdir, $moduledir) {
     if (file_exists_wrapper($dest)) {
       if ((!is_link($dest) || readlink($dest) != $src) && (md5_file($src) == md5_file($dest))) {
-        freepbx_log('retrieve-conf', 'devel-debug', "Can't symlink $src to $dest but files are the same so ignoring");
+        dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
       } else if (!is_link($dest)) {
-        freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is not a symlink!');
+        freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is not a symlink!');
         $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
       } else if (readlink($dest) != $src) {
         // TODO : is this the proper handling? should we just overwrite..?
-        freepbx_log('retrieve-conf', 'error', $dest.' already exists, and is linked to something else!');
+        freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is linked to something else!');
         $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
       } else {
-        freepbx_log('retrieve-conf', 'devel-debug', $dest.' already points to '.$src.' - OK');
+        dbug('retrieve-conf', $dest.' already points to '.$src.' - OK');
       }
     } else {
 //    // symlink, unlike copy, doesn't overwrite - have to delete first
@@ -146,9 +146,9 @@ class connectdirs {
 //      unlink($dest);
 //    }
       if (symlink($src, $dest)) {
-        freepbx_log('retrieve-conf', 'devel-debug', 'Symlinked '.$src.' to '.$dest);
+        dbug('retrieve-conf', 'Symlinked '.$src.' to '.$dest);
       } else {
-        freepbx_log('retreive-conf', 'error', 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
+        freepbx_log(FPBX_LOG_ERROR, 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
       }
     }
   }
@@ -173,9 +173,9 @@ class connectdirs {
 				  if (file_exists_wrapper($targetfile)) {
 					  if (is_link($targetfile)) {
               if ($this->err_unlink($targetfile)) {
-							  freepbx_log('retrieve-conf', 'devel-debug', "$targetfile was symbolic link, unlink successful");
+							  dbug('retrieve-conf', "$targetfile was symbolic link, unlink successful");
 						  } else {
-							  freepbx_log('retrieve-conf', 'error', "$targetfile is a symblolic link, failed to unlink!");
+							  freepbx_log(FPBX_LOG_ERROR, "$targetfile is a symblolic link, failed to unlink!");
 							  break;
 						  }
 					  }
@@ -183,11 +183,11 @@ class connectdirs {
 				  // OK, now either the file is a regular file or isn't there, so proceed
 				  //
           if ($this->err_copy($sourcefile,$targetfile)) {
-					  freepbx_log('retrieve-conf', 'devel-debug', "$targetfile successfully copied");
+					  dbug('retrieve-conf', "$targetfile successfully copied");
 					  // copy was successful, make sure it has execute permissions
 					  chmod($targetfile,0754);
 				  } else {
-					  freepbx_log('retrieve-conf', 'error', "$targetfile failed to copy from module directory");
+					  freepbx_log(FPBX_LOG_ERROR, "$targetfile failed to copy from module directory");
 				  }
 			  }
 		  }
@@ -236,7 +236,7 @@ function report_errors($errno, $errstr, $errfile, $errline) {
 	global $cp_errors;
   global $db;
   $escaped_string = $db->escapeSimple($errstr);
-	freepbx_log('retrieve-conf', 'error', "php reported: '$escaped_string' after copy or unlink attempt!");
+	freepbx_log(FPBX_LOG_ERROR, "php reported: '$escaped_string' after copy or unlink attempt!");
 	$cp_errors .= $errstr."\n";
   $conn_dirs = connectdirs::create();
   $conn_dirs->add_cp_error($errstr."\n");
@@ -261,7 +261,6 @@ function addslash($dir) {
 
 /********************************************************************************************************************/
 
-$debug = false;
 $dryrun = false;
 $run_install = false;
 
@@ -271,7 +270,7 @@ if ($argc > 1) {
   outn(_("Checking for PEAR Console::Getopt.."));
   if (! @ include("Console/Getopt.php")) {
 	  out(_("FAILED"));
-	  fatal(_("PEAR Getopt.php Missing"),sprintf(_("PEAR must be installed (requires Console/Getopt.php). Include path: %s"), ini_get("include_path")));
+	  fatal(sprintf(_("PEAR must be installed (requires Console/Getopt.php). Include path: %s"), ini_get("include_path")),true);
   }
   out(_("OK"));
 
@@ -297,8 +296,10 @@ if ($argc > 1) {
 			  $dryrun = true;
 		  break;
 		  case "--debug":
-			  $debug = true;
-			  debug(_("Debug mode enabled"));
+        // set to false temporarily, not with freepbx_conf as we don't want it subsequently committed
+        //
+        $amp_conf['FPBXDBUGDISABLE'] = false;
+			  debug(_("Debug mode enabled"),false);
 		  break;
 		  case "--run-install":
 			  $run_install = true;
@@ -356,9 +357,9 @@ if(is_array($modules)){
 			$active_modules[] = $key;
 			//include module functions
 			if (is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
-				freepbx_log('retrieve_conf', 'devel-debug', 'Including '.$amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
+				dbug('retrieve_conf', 'Including '.$amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
 				include_once($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
-				freepbx_log('retrieve_conf', 'devel-debug', $amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php processed OK");
+				dbug('retrieve_conf', $amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php processed OK");
 			}
 
 			// create symlinks for files in appropriate sub directories
@@ -402,7 +403,7 @@ if ($amp_conf['DISABLECUSTOMCONTEXTS']) {
 // currently only 1 class can be declared per module, not sure if that will be an issue
 if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $active_module) { 
-		freepbx_log('retrieve_conf', 'devel-debug', "Creating ".$active_module."_conf class");
+		dbug('retrieve_conf', "Creating ".$active_module."_conf class");
 		$classname = $active_module."_conf";
 		if(class_exists($classname)) {
 			${$classname} = new $classname;
@@ -412,8 +413,7 @@ if(isset($active_modules) && is_array($active_modules)){
 
 $engineinfo = engine_getinfo();
 if($engineinfo['version'] == 0){
-	freepbx_log('retrieve_conf', 'fatal', "Failed to get engine information (engine_getinfo: {$engineinfo['engine']})");
-	fatal(_("Failed to get engine_info"),_("retreive_conf failed to get engine information and cannot configure up a softwitch with out it. Error: {$engineinfo['engine']}"));
+	fatal(_("retreive_conf failed to get engine information and cannot configure up a softwitch with out it. Error: {$engineinfo['engine']}"),true);
 }
 // was setting these variables before, assume we still need them
 $engine = $engineinfo['engine'];
@@ -581,14 +581,14 @@ if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $module) {
 		$funcname = $module."_get_config";
 		if (function_exists($funcname)) { 
-			freepbx_log('retrieve_conf', 'devel-debug', 'Calling '.$funcname.'()');
+			dbug('retrieve_conf', 'Calling '.$funcname.'()');
 			$funcname($engine);
 		}
 	}
 	foreach($active_modules as $module) {
 		$funcname = $module."_hookGet_config";
 		if (function_exists($funcname)) { 
-			freepbx_log('retrieve_conf', 'devel-debug', 'Calling '.$funcname.'()');
+			dbug('retrieve_conf', 'Calling '.$funcname.'()');
 			$funcname($engine);
 		}
 	}
@@ -615,7 +615,7 @@ if(isset($active_modules) && is_array($active_modules)){
 			// ** pinsets is an example of a module that does this
 			if (is_array(${$classname}->get_filename())) {
 				foreach(${$classname}->get_filename() as $modconf) {
-					freepbx_log('retrieve_conf', 'devel-debug', 'generateConf from '.$classname.'->'.$modconf.'');
+					dbug('retrieve_conf', 'generateConf from '.$classname.'->'.$modconf.'');
 					if (isset(${$classname}->use_warning_banner)) {
 						write_file($modconf,${$classname}->generateConf($modconf),${$classname}->use_warning_banner);
 					} else {
@@ -623,7 +623,7 @@ if(isset($active_modules) && is_array($active_modules)){
 					}
 				}
 			} else {
-				freepbx_log('retrieve_conf', 'devel-debug', 'generateConf from '.$classname);
+				dbug('retrieve_conf', 'generateConf from '.$classname);
 				if (isset(${$classname}->use_warning_banner)) {
 					write_file(${$classname}->get_filename(),${$classname}->generateConf(),${$classname}->use_warning_banner);
 				} else {
@@ -642,7 +642,7 @@ if ($freepbx_conf->amportal_canwrite()) {
 
 function write_file($filename,$contents,$use_warning_banner=true) {
 	global $asterisk_conf;
-	freepbx_log('retrieve_conf', 'devel-debug', 'Writing '.$filename);
+	dbug('retrieve_conf', 'Writing '.$filename);
 	if (isset($filename) && !empty($filename)) {
 		if ($fd = fopen(addslash($asterisk_conf['astetcdir']).$filename, "w")) {
 			if ($use_warning_banner) {

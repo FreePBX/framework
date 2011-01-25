@@ -91,6 +91,22 @@ if (count($update_arr)) {
   out(_("There were no settings to update"));
 }
 
+// To get through migration in the intial install we allowed SQL and LOG_SQL even though they have been obsoleted. Here we will
+// convert if necessary and reset the value.
+//
+$log_level = strtoupper($amp_conf['AMPSYSLOGLEVEL']);
+if ($log_level == 'SQL' || $log_level == 'LOG_SQL') {
+  outn(sprintf(_("Discontinued logging type %s changing to %s.."),$log_level,'FILE'));
+  $freepbx_conf->set_conf_values(array('AMPSYSLOGLEVEL' => 'FILE'));
+  out(_("ok"));
+}
+// AMPSYSLOGLEVEL
+unset($set);
+$set['value'] = 'FILE';
+$set['options'] = 'FILE, LOG_EMERG, LOG_ALERT, LOG_CRIT, LOG_ERR, LOG_WARNING, LOG_NOTICE, LOG_INFO, LOG_DEBUG';
+$freepbx_conf->define_conf_setting('AMPSYSLOGLEVEL',$set,true);
+
+
 // build freepbx.conf if it doesnt already exists
 outn(_("checking for freepbx.conf.."));
 
