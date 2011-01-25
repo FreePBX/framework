@@ -255,6 +255,7 @@ function out($text,$log=true) {
   if ($log) {
     $outn_function_buffer .= $text.PHP_EOL;
     // TODO: log here:
+    dbug($outn_function_buffer);
     $outn_function_buffer = '';
   }
 }
@@ -298,4 +299,38 @@ function debug($text,$log=true) {
 	global $debug;
 	
 	if ($debug) echo "[DEBUG-preDB] ".$text.EOL;
+}
+
+/** like file_get_contents designed to work with url only, will try
+ * wget if fails or if MODULEADMINWGET set to true. If it detects
+ * failure, will set MODULEADMINWGET to true for future improvements.
+ *
+ * @param   string  url to be fetches
+ * @return  mixed   content of url, boolean false if it failed.
+ */
+function file_get_contents_url($fn) {
+  global $amp_conf;
+  $contents = '';
+
+  if (!$amp_conf['MODULEADMINWGET']) {
+    ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
+    $contents = @ file_get_contents($fn);
+  }
+  if (empty($contents)) {
+    $fn2 = str_replace('&','\\&',$fn);
+    exec("wget -O - $fn2 2>> /dev/null", $data_arr, $retcode);
+    if ($retcode) {
+      return false;
+    } elseif (!$amp_conf['MODULEADMINWGET']) {
+      $freepbx_conf =& freepbx_conf::create();
+      $freepbx_conf->set_conf_values(array('MODULEADMINWGET' => true),true);
+
+      $nt =& notifications::create($db); 
+      $text = sprintf(_("Forced %s to true"),'MODULEADMINWGET');
+      $extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
+      $nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
+    }
+    $contents = implode("\n",$data_arr);
+  }
+  return $contents;
 }

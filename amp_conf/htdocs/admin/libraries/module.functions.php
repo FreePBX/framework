@@ -57,18 +57,11 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
-		if (!$amp_conf['MODULEADMINWGET']) {
-      ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
-			$data = @ file_get_contents($fn);
-		} else {
-			$data = "";
-		}
 
-		if (empty($data)) {
-			exec("wget -O - $fn 2> /dev/null", $data_arr, $retcode);
-			$data = implode("\n",$data_arr);
-			$module_getonlinexml_error = ($retcode == 0)?false:true;
-		}
+
+    $data = file_get_contents_url($fn);
+    $module_getonlinexml_error = ($data === false)?true:false;
+
 		
 		$old_xml = array();
 		$got_new = false;
@@ -1404,17 +1397,7 @@ function module_get_annoucements() {
 	}
 
 	$fn = "http://mirror.freepbx.org/version-".getversion().".html".$options;
-	if (!$amp_conf['MODULEADMINWGET']) {
-    ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
-		$announcement = @ file_get_contents($fn);
-	} else {
-		$announcement = '';
-	}
-	if (empty($announcement)) {
-		$fn2 = str_replace('&','\\&',$fn);
-		exec("wget -O - $fn2 2>> /dev/null", $data_arr, $retcode);
-		$announcement = implode("\n",$data_arr);
-	}
+  $announcement = file_get_contents_url($fn);
 	return $announcement;
 }
 
