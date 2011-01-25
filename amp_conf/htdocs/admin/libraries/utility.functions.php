@@ -118,7 +118,7 @@ function dbug(){
 	$disc = $msg = $dump = null;
 
   if ($amp_conf['FPBXDBUGDISABLE']) {
-    return
+    return;
   }
 
 	$dump = 0;
