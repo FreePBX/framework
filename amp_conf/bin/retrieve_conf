@@ -206,18 +206,20 @@ class connectdirs {
 
   // wrap copy with error handler
   //
-  function err_copy($source, $dest) {
-	  $ret = false;
-	  set_error_handler("report_errors");
-	  //if were copying a directory, just mkdir the directory
-	  if(is_dir($source)){
-		  $ret=mkdir($dest,0754);
-	  }elseif(copy($source, $dest)) {
-		  $ret = chmod($dest,0754);
+	function err_copy($source, $dest) {
+		$ret = false;
+		set_error_handler("report_errors");
+		  //if were copying a directory, just mkdir the directory
+		if (!is_dir($dest) && !is_file($dest) && !is_link($dest)) {
+			if(is_dir($source)){
+				$ret = mkdir($dest,0754);
+			}elseif(copy($source, $dest)) {
+				$ret = chmod($dest,0754);
+			}
+		}
+		restore_error_handler();
+		return $ret;
 	  }
-	  restore_error_handler();
-	  return $ret;
-  }
 
   // wrap unlink with error handler
   //
