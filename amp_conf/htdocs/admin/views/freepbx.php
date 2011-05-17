@@ -65,7 +65,7 @@ if ($amp_conf['BRAND_IMAGE_HIDE_NAV_BACKGROUND']) {
 // $freepbx_logo_r
 // AMPADMINLOGO takes precedence for backwards compatibility
 if ($amp_conf["AMPADMINLOGO"] && is_file($amp_conf["AMPWEBROOT"]."/admin/images/".$amp_conf["AMPADMINLOGO"])) {
-  $freepbx_logo_r = $amp_conf["AMPADMINLOGO"].$version_tag; 
+  $freepbx_logo_r = 'images/'.$amp_conf["AMPADMINLOGO"].$version_tag; 
 } else {
   $freepbx_logo_r =  ($amp_conf['BRAND_IMAGE_FREEPBX_RIGHT'] ? $amp_conf['BRAND_IMAGE_FREEPBX_RIGHT'] : 'images/logo.png').$version_tag;
 }
@@ -179,6 +179,8 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
       $mod_version_tag .= $this_time_append;
     }
 
+    // DEPECRATED but still supported for a while, the assets directory is the new preferred mode
+    //
 		if (is_file('modules/'.$module_name.'/'.$module_name.'.css')) {
 			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.css'.$mod_version_tag.'" rel="stylesheet" type="text/css" />'."\n";
 		}
@@ -186,6 +188,41 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 			echo "\t".'<link href="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.css'.$mod_version_tag.'" rel="stylesheet" type="text/css" />'."\n";
 		}
 	}
+
+  // Check assets/css and then assets/css/page_name for any css files which will have been symlinked to
+  // assets/module_name/css/*
+  //
+	$css_dir = "modules/$module_name/assets/css";
+  if (is_dir($css_dir)) {
+    $d = opendir($css_dir);
+		$file_list = array();
+		while ($file = readdir($d)) {
+			$file_list[] = $file;
+		}
+		sort($file_list);
+		foreach ($file_list as $file) {
+			if (substr($file,-4) == '.css' && is_file("$css_dir/$file")) {
+			  echo "\t<link href=\"assets/$module_name/css/$file\" rel=\"stylesheet\" type=\"text/css\" />\n";
+			}
+		}
+		unset($file_list);
+		$css_subdir ="$css_dir/$module_page";
+		if ($module_page != '' && is_dir($css_subdir)) {
+			$sd = opendir($css_subdir);
+
+			$file_list = array();
+			while ($p_file = readdir($sd)) {
+				$file_list[] = $p_file;
+			}
+			sort($file_list);
+			foreach ($file_list as $p_file) {
+				if (substr($p_file,-4) == '.css' && is_file("$css_subdir/$p_file")) {
+			    echo "\t<link href=\"assets/$module_name/css/$module_page/$p_file\" rel=\"stylesheet\" type=\"text/css\" />\n";
+				}
+			}
+		}
+  }
+
   // Insert a custom CSS sheet if specified (this can change what is in the main CSS
   if ($custom_css) { ?>
   <link href="<?php echo $custom_css.$version_tag ?>" rel="stylesheet" type="text/css">
@@ -221,18 +258,20 @@ if (isset($module_name) && $module_name != '') {
 		echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.js'.$mod_version_tag.'"></script>'."\n";
 	}
 
-	// Note - include all the module js files first, then the page specific files, in case a page specific file requires a module level file
-	$js_dir = "modules/$module_name/js";
+  // Check assets/js and then assets/js/page_name for any js files which will have been symlinked to
+  // assets/module_name/js/*
+  //
+	$js_dir = "modules/$module_name/assets/js";
   if (is_dir($js_dir)) {
     $d = opendir($js_dir);
 		$file_list = array();
-    while ($file = readdir($d)) {
+		while ($file = readdir($d)) {
 			$file_list[] = $file;
 		}
 		sort($file_list);
 		foreach ($file_list as $file) {
 			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
-				echo "\t<script type='text/javascript' src='{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_dir/$file".$mod_version_tag."'></script>\n";
+				echo "\t<script type=\"text/javascript\" src=\"assets/$module_name/js/$file\"></script>\n";
 			}
 		}
 		unset($file_list);
@@ -247,7 +286,40 @@ if (isset($module_name) && $module_name != '') {
 			sort($file_list);
 			foreach ($file_list as $p_file) {
 				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
-					echo "\t<script type='text/javascript' src='{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_subdir/$p_file".$mod_version_tag."'></script>\n";
+				  echo "\t<script type=\"text/javascript\" src=\"assets/$module_name/js/$module_page/$p_file\"></script>\n";
+				}
+			}
+		}
+  }
+
+  // DEPCRETATED but still supported:
+	// Note - include all the module js files first, then the page specific files, in case a page specific file requires a module level file
+	$js_dir = "modules/$module_name/js";
+  if (is_dir($js_dir)) {
+    $d = opendir($js_dir);
+		$file_list = array();
+		while ($file = readdir($d)) {
+			$file_list[] = $file;
+		}
+		sort($file_list);
+		foreach ($file_list as $file) {
+			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
+				echo "\t<script type=\"text/javascript\" src=\"{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_dir/$file".$mod_version_tag."\"></script>\n";
+			}
+		}
+		unset($file_list);
+		$js_subdir ="$js_dir/$module_page";
+		if ($module_page != '' && is_dir($js_subdir)) {
+			$sd = opendir($js_subdir);
+
+			$file_list = array();
+			while ($p_file = readdir($sd)) {
+				$file_list[] = $p_file;
+			}
+			sort($file_list);
+			foreach ($file_list as $p_file) {
+				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
+					echo "\t<script type=\"text/javascript\" src=\"{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_subdir/$p_file".$mod_version_tag."\"></script>\n";
 				}
 			}
 		}
@@ -276,7 +348,7 @@ if (isset($_COOKIE['lang']) && $_COOKIE['lang']==="he_IL")
 $reload_needed = isset($reload_needed) ? $reload_needed : false;
 
 if ($reload_needed) {
-	showview('freepbx_reload');
+	show_view($amp_conf['VIEW_FREEPBX_RELOAD']);
 }
 ?>
 <!-- module process box, used by module admin (page.modules.php) - has to be here because of IE6's z-order stupidity -->
@@ -326,7 +398,7 @@ if ($reload_needed) {
 	
 	// need reload bar - hidden by default
 	if ($reload_needed) {
-		showview('freepbx_reloadbar');
+		show_view($amp_conf['VIEW_FREEPBX_RELOADBAR']);
 	}
 	
 	echo "\t<div id=\"login_message\">";

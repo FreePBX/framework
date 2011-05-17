@@ -11,26 +11,81 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-//include all necessary classes TODO: include them dynamically as needed
 $dirname = dirname(__FILE__);
+//PLEASE NOTE: for performance reasons, these are hardcoded 
+//and dont get included dynamically
 
+//TODO: include these dynamically as needed/use __autoload()
+
+
+//----------include classes----------
+
+
+//guieleemnts class for dynamicly generating gui
 require_once($dirname . '/libraries/components.class.php');
+
+//php4 parser for xml's
 require_once($dirname . '/libraries/xml2Array.class.php');
+
+//freepbx class to manage cron
 require_once($dirname . '/libraries/cronmanager.class.php');
+
+//hooks class
 require_once($dirname . '/libraries/moduleHook.class.php');
+
+//freepbx notification engine
 require_once($dirname . '/libraries/notifications.class.php');
+
+//class to enforce extension/view restrictions amongst freepbx admins
 require_once($dirname . '/libraries/ampuser.class.php');
-require_once($dirname . '/libraries/components.class.php');
+
+//module related class. TODO: update this line if you know what it dose
 require_once($dirname . '/libraries/modulelist.class.php');
+
+//class that handels freepbx global setting
 require_once($dirname . '/libraries/freepbx_conf.class.php');
+
+//class for handeling/hooking feature codes
 require_once($dirname . '/libraries/featurecodes.class.php');
 
-//include other files
+
+//----------include function files----------
+
+//freepbx helpers for debuggin/logging/comparing
 require_once($dirname . '/libraries/utility.functions.php');
+require_once($dirname . '/libraries/bootstrap-utility.functions.php');
+
+//module state manipulation functions
 require_once($dirname . '/libraries/module.functions.php');
+
+//dynamic registry of which exten's are in use and by whom
 require_once($dirname . '/libraries/usage_registry.functions.php');
+
+//emulated compatability for older versions of freepbx
 require_once($dirname . '/libraries/php-upgrade.functions.php');
+
+//lightweight query functions
 require_once($dirname . '/libraries/sql.functions.php');
+
+//functions for view related activities
+require_once($dirname . '/libraries/view.functions.php');
+
+//functions for reding writing voicemail files
+require_once($dirname . '/libraries/voicemail.function.php');
+
+
+//----------include helpers----------
+
+//freepbx specific gui helpers
+require_once($dirname . '/helpers/freepbx_helpers.php');
+
+//general html helpers
+require_once($dirname . '/helpers/html_helper.php');
+
+//table generation class
+function log_message(){} define('BASEPATH', '');//make upstream scripts happy
+require_once($dirname . '/helpers/Table.php');
+
 
 /**
  * returns true if asterisk is running with chan_dahdi
@@ -77,9 +132,16 @@ function ast_with_dahdi() {
   return $ast_with_dahdi;
 }
 
-function engine_getinfo() {
+function engine_getinfo($force_read=false) {
 	global $amp_conf;
 	global $astman;
+  static $engine_info;
+
+  $gotinfo = false;
+
+  if (!$force_read && isset($engine_info) && $engine_info != '') {
+    return $engine_info;
+  }
 
 	switch ($amp_conf['AMPENGINE']) {
 		case 'asterisk':
@@ -97,25 +159,72 @@ function engine_getinfo() {
 			}
 			
 			if (preg_match('/Asterisk (\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
+				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
+        $gotinfo = true;
 			} elseif (preg_match('/Asterisk SVN-(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
+				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
+        $gotinfo = true;
 			} elseif (preg_match('/Asterisk SVN-branch-(\d+(\.\d+)*)-r(-?(\S*))/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => $matches[1].'.'.$matches[4], 'additional' => $matches[4], 'raw' => $verinfo);
+				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1].'.'.$matches[4], 'additional' => $matches[4], 'raw' => $verinfo);
+        $gotinfo = true;
 			} elseif (preg_match('/Asterisk SVN-trunk-r(-?(\S*))/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => '1.8', 'additional' => $matches[1], 'raw' => $verinfo);
+				$engine_info = array('engine'=>'asterisk', 'version' => '1.8', 'additional' => $matches[1], 'raw' => $verinfo);
+        $gotinfo = true;
 			} elseif (preg_match('/Asterisk SVN-.+-(\d+(\.\d+)*)-r(-?(\S*))-(.+)/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[3], 'raw' => $verinfo);
+				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[3], 'raw' => $verinfo);
+        $gotinfo = true;
 			} elseif (preg_match('/Asterisk [B].(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => '1.2', 'additional' => $matches[3], 'raw' => $verinfo);
+				$engine_info = array('engine'=>'asterisk', 'version' => '1.2', 'additional' => $matches[3], 'raw' => $verinfo);
+        $gotinfo = true;
 			} elseif (preg_match('/Asterisk [C].(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
-				return array('engine'=>'asterisk', 'version' => '1.4', 'additional' => $matches[3], 'raw' => $verinfo);
+				$engine_info = array('engine'=>'asterisk', 'version' => '1.4', 'additional' => $matches[3], 'raw' => $verinfo);
+        $gotinfo = true;
 			}
 
-			return array('engine'=>'ERROR-UNABLE-TO-PARSE', 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
+      if (!$gotinfo) {
+			  $engine_info = array('engine'=>'ERROR-UNABLE-TO-PARSE', 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
+      }
+      if ($amp_conf['FORCED_ASTVERSION']) {
+        $engine_info['engine'] = $amp_conf['AMPENGINE'];
+        $engine_info['version'] = $amp_conf['FORCED_ASTVERSION'];
+      }
+
+      // Now we make sure the ASTVERSION freepbx_setting/amp_conf value is defined and set
+
+      // this is not initialized in the installer because I think there are scenarios where
+      // Asterisk may not be running and we may some day not need it to be so just deal
+      // with it here.
+      //
+      $freepbx_conf =& freepbx_conf::create();
+      if (!$freepbx_conf->conf_setting_exists('ASTVERSION')) {
+        // ASTVERSION
+        //
+        $set['value'] = $engine_info['version'];
+        $set['defaultval'] = '';
+        $set['options'] = '';
+        $set['readonly'] = 1;
+        $set['hidden'] = 1;
+        $set['level'] = 10;
+        $set['module'] = '';
+        $set['category'] = 'Internal Use';
+        $set['emptyok'] = 1;
+        $set['name'] = 'Asterisk Version';
+        $set['description'] = "Last Asterisk Version detected (or forced)";
+        $set['type'] = CONF_TYPE_TEXT;
+        $freepbx_conf->define_conf_setting('ASTVERSION',$set,true);
+        unset($set);
+        $amp_conf['ASTVERSION'] = $engine_info['version'];
+      }
+
+      if ($engine_info['version'] != $amp_conf['ASTVERSION']) {
+        $freepbx_conf->set_conf_values(array('ASTVERSION' => $engine_info['version']), true, true);
+      }
+
+      return $engine_info;
 		break;
 	}
-	return array('engine'=>'ERROR-UNSUPPORTED-ENGINE-'.$amp_conf['AMPENGINE'], 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
+	$engine_info = array('engine'=>'ERROR-UNSUPPORTED-ENGINE-'.$amp_conf['AMPENGINE'], 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
+  return $engine_info;
 }
 
 function do_reload() {
@@ -284,393 +393,21 @@ function merge_ext_followme($dest) {
 	}
 }
 
-/** Recursively read voicemail.conf (and any included files)
- * This function is called by getVoicemailConf()
- */
-function parse_voicemailconf($filename, &$vmconf, &$section) {
-	if (is_null($vmconf)) {
-		$vmconf = array();
-	}
-	if (is_null($section)) {
-		$section = "general";
-	}
-	
-	if (file_exists($filename)) {
-		$fd = fopen($filename, "r");
-		while ($line = fgets($fd, 1024)) {
-			if (preg_match("/^\s*(\d+)\s*=>\s*(\d*),(.*),(.*),(.*),(.*)\s*([;#].*)?/",$line,$matches)) {
-				// "mailbox=>password,name,email,pager,options"
-				// this is a voicemail line	
-				$vmconf[$section][ $matches[1] ] = array("mailbox"=>$matches[1],
-									"pwd"=>$matches[2],
-									"name"=>$matches[3],
-									"email"=>$matches[4],
-									"pager"=>$matches[5],
-									"options"=>array(),
-									);
-								
-				// parse options
-				//output($matches);
-				foreach (explode("|",$matches[6]) as $opt) {
-					$temp = explode("=",$opt);
-					//output($temp);
-					if (isset($temp[1])) {
-						list($key,$value) = $temp;
-						$vmconf[$section][ $matches[1] ]["options"][$key] = $value;
-					}
-				}
-			} else if (preg_match('/^(?:\s*)#include(?:\s+)["\']{0,1}([^"\']*)["\']{0,1}(\s*[;#].*)?$/',$line,$matches)) {
-				// include another file
-				
-				if ($matches[1][0] == "/") {
-					// absolute path
-					$filename = trim($matches[1]);
-				} else {
-					// relative path
-					$filename =  dirname($filename)."/".trim($matches[1]);
-				}
-				
-				parse_voicemailconf($filename, $vmconf, $section);
-				
-			} else if (preg_match("/^\s*\[(.+)\]/",$line,$matches)) {
-				// section name
-				$section = strtolower($matches[1]);
-			} else if (preg_match("/^\s*([a-zA-Z0-9-_]+)\s*=\s*(.*?)\s*([;#].*)?$/",$line,$matches)) {
-				// name = value
-				// option line
-				$vmconf[$section][ $matches[1] ] = $matches[2];
-			}
-		}
-		fclose($fd);
-	}
-}
-
-/** Write the voicemail.conf file
- * This is called by saveVoicemail()
- * It's important to make a copy of $vmconf before passing it. Since this is a recursive function, has to
- * pass by reference. At the same time, it removes entries as it writes them to the file, so if you don't have
- * a copy, by the time it's done $vmconf will be empty.
-*/
-function write_voicemailconf($filename, &$vmconf, &$section, $iteration = 0) {
-	global $amp_conf;
-	if ($iteration == 0) {
-		$section = null;
-	}
-	
-	$output = array();
-		
-	// if the file does not, copy if from the template.
-	// TODO: is this logical?
-	if (!file_exists($filename)) {
-		if (!copy( rtrim($amp_conf["ASTETCDIR"],"/")."/voicemail.conf.template", $filename )){
-			return;
-		}
-	}
-	
-		$fd = fopen($filename, "r");
-		while ($line = fgets($fd, 1024)) {
-			if (preg_match("/^(\s*)(\d+)(\s*)=>(\s*)(\d*),(.*),(.*),(.*),(.*)(\s*[;#].*)?$/",$line,$matches)) {
-				// "mailbox=>password,name,email,pager,options"
-				// this is a voicemail line
-				//DEBUG echo "\nmailbox";
-				
-				// make sure we have something as a comment
-				if (!isset($matches[10])) {
-					$matches[10] = "";
-				}
-				
-				// $matches[1] [3] and [4] are to preserve indents/whitespace, we add these back in
-				
-				if (isset($vmconf[$section][ $matches[2] ])) {	
-					// we have this one loaded
-					// repopulate from our version
-					$temp = & $vmconf[$section][ $matches[2] ];
-					
-					$options = array();
-					foreach ($temp["options"] as $key=>$value) {
-						$options[] = $key."=".$value;
-					}
-					
-					$output[] = $matches[1].$temp["mailbox"].$matches[3]."=>".$matches[4].$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options).$matches[10];
-					
-					// remove this one from $vmconf
-					unset($vmconf[$section][ $matches[2] ]);
-				} else {
-					// we don't know about this mailbox, so it must be deleted
-					// (and hopefully not JUST added since we did read_voiceamilconf)
-					
-					// do nothing
-				}
-				
-			} else if (preg_match('/^(\s*)#include(\s+)["\']{0,1}([^"\']*)["\']{0,1}(\s*[;#].*)?$/',$line,$matches)) {
-				// include another file
-				//DEBUG echo "\ninclude ".$matches[3]."<blockquote>";
-				
-				// make sure we have something as a comment
-				if (!isset($matches[4])) {
-					$matches[4] = "";
-				}
-				
-				if ($matches[3][0] == "/") {
-					// absolute path
-					$include_filename = trim($matches[3]);
-				} else {
-					// relative path
-					$include_filename =  dirname($filename)."/".trim($matches[3]);
-				}
-				
-				$output[] = trim($matches[0]);
-				write_voicemailconf($include_filename, $vmconf, $section, $iteration+1);
-				
-				//DEBUG echo "</blockquote>";
-				
-			} else if (preg_match("/^(\s*)\[(.+)\](\s*[;#].*)?$/",$line,$matches)) {
-				// section name
-				//DEBUG echo "\nsection";
-				
-				// make sure we have something as a comment
-				if (!isset($matches[3])) {
-					$matches[3] = "";
-				}
-				
-				// check if this is the first run (section is null)
-				if ($section !== null) {
-					// we need to add any new entries here, before the section changes
-					//DEBUG echo "<blockquote><i>";
-					//DEBUG var_dump($vmconf[$section]);
-					if (isset($vmconf[$section])){  //need this, or we get an error if we unset the last items in this section - should probably automatically remove the section/context from voicemail.conf
-						foreach ($vmconf[$section] as $key=>$value) {
-							if (is_array($value)) {
-								// mailbox line
-								
-								$temp = & $vmconf[$section][ $key ];
-								
-								$options = array();
-								foreach ($temp["options"] as $key1=>$value) {
-									$options[] = $key1."=".$value;
-								}
-								
-								$output[] = $temp["mailbox"]." => ".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
-								
-								// remove this one from $vmconf
-								unset($vmconf[$section][ $key ]);
-								
-							} else {
-								// option line
-								
-								$output[] = $key."=".$vmconf[$section][ $key ];
-								
-								// remove this one from $vmconf
-								unset($vmconf[$section][ $key ]);
-							}
-						}
-					} 
-					//DEBUG echo "</i></blockquote>";
-				}
-				
-				$section = strtolower($matches[2]);
-				$output[] = $matches[1]."[".$section."]".$matches[3];
-				$existing_sections[] = $section; //remember that this section exists
-
-			} else if (preg_match("/^(\s*)([a-zA-Z0-9-_]+)(\s*)=(\s*)(.*?)(\s*[;#].*)?$/",$line,$matches)) {
-				// name = value
-				// option line
-				//DEBUG echo "\noption line";
-				
-				
-				// make sure we have something as a comment
-				if (!isset($matches[6])) {
-					$matches[6] = "";
-				}
-				
-				if (isset($vmconf[$section][ $matches[2] ])) {
-					$output[] = $matches[1].$matches[2].$matches[3]."=".$matches[4].$vmconf[$section][ $matches[2] ].$matches[6];
-					
-					// remove this one from $vmconf
-					unset($vmconf[$section][ $matches[2] ]);
-				} 
-				// else it's been deleted, so we don't write it in
-				
-			} else {
-				// unknown other line -- probably a comment or whitespace
-				//DEBUG echo "\nother: ".$line;
-				
-				$output[] = str_replace(array("\n","\r"),"",$line); // str_replace so we don't double-space
-			}
-		}
-		
-		if (($iteration == 0) && (is_array($vmconf))) {
-			// we need to add any new entries here, since it's the end of the file
-			//DEBUG echo "END OF FILE!! <blockquote><i>";
-			//DEBUG var_dump($vmconf);
-			foreach (array_keys($vmconf) as $section) {
-				if (!in_array($section,$existing_sections))  // If this is a new section, write the context label
-					$output[] = "[".$section."]";
-				foreach ($vmconf[$section] as $key=>$value) {
-					if (is_array($value)) {
-						// mailbox line
-						
-						$temp = & $vmconf[$section][ $key ];
-						
-						$options = array();
-						foreach ($temp["options"] as $key=>$value) {
-							$options[] = $key."=".$value;
-						}
-						
-						$output[] = $temp["mailbox"]." => ".$temp["pwd"].",".$temp["name"].",".$temp["email"].",".$temp["pager"].",". implode("|",$options);
-						
-						// remove this one from $vmconf
-						unset($vmconf[$section][ $key ]);
-						
-					} else {
-						// option line
-						
-						$output[] = $key."=".$vmconf[$section][ $key ];
-						
-						// remove this one from $vmconf
-						unset($vmconf[$section][$key ]);
-					}
-				}
-			}
-			//DEBUG echo "</i></blockquote>";
-		}
-		
-		fclose($fd);
-		
-		//DEBUG echo "\n\nwriting ".$filename;
-		//DEBUG echo "\n-----------\n";
-		//DEBUG echo implode("\n",$output);
-		//DEBUG echo "\n-----------\n";
-		
-		// write this file back out
-		
-		if ($fd = fopen($filename, "w")) {
-			fwrite($fd, implode("\n",$output)."\n");
-			fclose($fd);
-		}
-}
-
-/*
- * $goto is the current goto destination setting
- * $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
- * ensure that any form that includes this calls the setDestinations() javascript function on submit.
- * ie: if the form name is "edit", and drawselects has been called with $i=2 then use onsubmit="setDestinations(edit,2)"
- * $table specifies if the destinations will be drawn in a new <tr> and <td>
- * 
- */   
-function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='') {
-	global $tabindex, $active_modules, $drawselect_destinations, $drawselects_module_hash; 
-	$html=$destmod=$errorclass=$errorstyle='';
-  if ($nodest_msg == '') {
-	  $nodest_msg = '== '._('choose one').' ==';
-  }
-
-	if($table){$html.='<tr><td colspan=2>';}//wrap in table tags if requested
-
-	if(!isset($drawselect_destinations)){ 
-		//check for module-specific destination functions
-		foreach($active_modules as $rawmod => $module){
-			$funct = strtolower($rawmod.'_destinations');
-		
-			//if the modulename_destinations() function exits, run it and display selections for it
-			if (function_exists($funct)) {
-				$destArray = $funct(); //returns an array with 'destination' and 'description', and optionally 'category'
-				if(is_Array($destArray)) {
-					foreach($destArray as $dest){
-						$cat=(isset($dest['category'])?$dest['category']:$module['displayname']);
-						$drawselect_destinations[$cat][] = $dest;
-						$drawselects_module_hash[$cat] = $rawmod;
-					}
-				}
-			}
-		}
-		//sort destination alphabetically		
-		ksort($drawselect_destinations);
-		ksort($drawselects_module_hash);
-	}
-	//set variables as arrays for the rare (impossible?) case where there are none
-  if(!isset($drawselect_destinations)){$drawselect_destinations=array();}
-  if(!isset($drawselects_module_hash)){$drawselects_module_hash = array();}
-
-	$foundone=false;
-	$tabindex_needed=true;
-	//get the destination module name if we have a $goto, add custom if there is an issue
-	if($goto){
-		foreach($drawselects_module_hash as $mod => $description){
-			foreach($drawselect_destinations[$mod] as $destination){
-				if($goto==$destination['destination']){
-					$destmod=$mod;
-			  }
-		  }
-	  }
-	  if($destmod==''){//if we haven't found a match, display error dest
-		  $destmod='Error';
-		  $drawselect_destinations['Error'][]=array('destination'=>$goto, 'description'=>'Bad Dest: '.$goto, 'class'=>'drawselect_error');
-		  $drawselects_module_hash['Error']='error';
-	  }
-  }	
-
-	//draw "parent" select box
-	$style=' style="'.(($destmod=='Error')?'background-color:red;':'background-color:white;').'"';
-	$html.='<select name="goto'.$i.'" class="destdropdown" '.$style.' tabindex="'.++$tabindex.'">';
-	$html.='<option value="" style="background-color:white;">'.$nodest_msg.'</option>';
-	foreach($drawselects_module_hash as $mod => $disc){
-		/* We bind to the hosting module's domain. If we find the translation there we use it, if not
-		 * we try the default 'amp' domain. If still no luck, we will try the _() which is the current
-		 * module's display since some old translation code may have stored it locally but should migrate */
-		bindtextdomain($drawselects_module_hash[$mod],"modules/".$drawselects_module_hash[$mod]."/i18n");
-		bind_textdomain_codeset($drawselects_module_hash[$mod], 'utf8');
-		$label_text=dgettext($drawselects_module_hash[$mod],$mod);
-		if($label_text==$mod){$label_text=dgettext('amp',$label_text);}
-		if($label_text==$mod){$label_text=_($label_text);}
-		/* end i18n */
-		$selected=($mod==$destmod)?' SELECTED ':' ';
-		$style=' style="'.(($mod=='Error')?'background-color:red;':'background-color:white;').'"';
-		$html.='<option value="'.str_replace(' ','_',$mod).'"'.$selected.$style.'>'.$label_text.'</option>';
-	}
-	$html.='</select> ';
-	
-	//draw "children" select boxes
-	$tabindexhtml=' tabindex="'.++$tabindex.'"';//keep out of the foreach so that we don't increment it
-	foreach($drawselect_destinations as $cat=>$destination){
-		$style=(($cat==$destmod)?'':'display:none;');
-		if($cat=='Error'){$style.=' '.$errorstyle;}//add error style
-		$style=' style="'.(($cat=='Error')?'background-color:red;':$style).'"';
-		$html.='<select name="'.str_replace(' ','_',$cat).$i.'" '.$tabindexhtml.$style.' class="destdropdown2">';
-		foreach($destination as $dest){
-			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
-		// This is ugly, but I can't think of another way to do localization for this child object
-		    if(isset( $dest['category']) && dgettext('amp',"Terminate Call") == $dest['category']) {
-    			$child_label_text = dgettext('amp',$dest['description']);
-			}
-		    else {
-			$child_label_text=$dest['description'];
-			}
-			$style=' style="'.(($cat=='Error')?'background-color:red;':'background-color:white;').'"';
-			$html.='<option value="'.$dest['destination'].'" '.$selected.$style.'>'.$child_label_text.'</option>';
-		}
-		$html.='</select>';
-	}
-	if(isset($drawselect_destinations['Error'])){unset($drawselect_destinations['Error']);}
-	if(isset($drawselects_module_hash['Error'])){unset($drawselects_module_hash['Error']);}
-	if($table){$html.='</td></tr>';}//wrap in table tags if requested
-	
-	return $html;
-}
-
 function get_headers_assoc($url) {
 	$url_info=parse_url($url);
+  $host = isset($url_info['host']) ? $url_info['host'] : '';
 	if (isset($url_info['scheme']) && $url_info['scheme'] == 'https') {
 		$port = isset($url_info['port']) ? $url_info['port'] : 443;
-		@$fp=fsockopen('ssl://'.$url_info['host'], $port, $errno, $errstr, 10);
+		@$fp=fsockopen('ssl://'.$host, $port, $errno, $errstr, 10);
 	} else {
 		$port = isset($url_info['port']) ? $url_info['port'] : 80;
-		@$fp=fsockopen($url_info['host'], $port, $errno, $errstr, 10);
+		@$fp=fsockopen($host, $port, $errno, $errstr, 10);
 	}
 	if ($fp) {
 		stream_set_timeout($fp, 10);
-		$head = "HEAD ".@$url_info['path']."?".@$url_info['query'];
-		$head .= " HTTP/1.0\r\nHost: ".@$url_info['host']."\r\n\r\n";
+    $query = isset($url_info['query']) ? $url_info['query'] : '';
+		$head = "HEAD ".@$url_info['path']."?".$query;
+		$head .= " HTTP/1.0\r\nHost: ".$host."\r\n\r\n";
 		fputs($fp, $head);
 		while(!feof($fp)) {
 			if($header=trim(fgets($fp, 1024))) {
@@ -695,71 +432,6 @@ function get_headers_assoc($url) {
 function runModuleSQL($moddir,$type){
 	trigger_error("runModuleSQL() is depreciated - please use _module_runscripts(), or preferably module_install() or module_enable() instead", E_USER_WARNING);
 	_module_runscripts($moddir, $type);
-}
-
-/** Abort all output, and redirect the browser's location.
- *
- * Useful for returning to the user to a GET location immediately after doing
- * a successful POST operation. This avoids the "this page was sent via POST, resubmit?"
- * message in the users browser, and also overwrites the POST page as a location in 
- * the browser's URL history (eg, they can't press the back button and end up re-submitting
- * the page).
- *
- * @param string   The url to go to
- * @param bool     If execution should stop after the function. Defaults to true
- */
-function redirect($url, $stop_processing = true) {
-	// TODO: If I don't call ob_end_clean() then is output buffering still on? Do I need to run it off still?
-	//       (note ob_end_flush() results in the same php NOTICE so not sure how to turn it off. (?ob_implicit_flush(true)?)
-	//
-	@ob_end_clean();
-	@header('Location: '.$url);
-	if ($stop_processing) exit;
-}
-
-/** Abort all output, and redirect the browser's location using standard
- * FreePBX user interface variables. By default, will take POST/GET variables
- * 'type' and 'display' and pass them along in the URL. 
- * Also accepts a variable number of parameters, each being the name of a variable
- * to pass on. 
- * 
- * For example, calling redirect_standard('extdisplay','test'); will take $_REQUEST['type'], 
- * $_REQUEST['display'], $_REQUEST['extdisplay'], and $_REQUEST['test'],
- * and if any are present, use them to build a GET string (eg, "config.php?type=setup&
- * display=somemodule&extdisplay=53&test=yes", which is then passed to redirect() to send the browser
- * there.
- *
- * redirect_standard_continue does exactly the same thing but does NOT abort processing. This
- * is used when you wish to do a redirect but there is a possibility of other hooks still needing
- * to continue processing. Note that this is used in core when in 'extensions' mode, as both the
- * users and devices modules need to hook into it together.
- *
- * @param string  (optional, variable number) The name of a variable from $_REQUEST to 
- *                pass on to a GET URL.
- *
- */
-function redirect_standard( /* Note. Read the next line. Variable No of Params */ ) {
-	$args = func_get_Args();
-
-        foreach (array_merge(array('type','display'),$args) as $arg) {
-                if (isset($_REQUEST[$arg])) {
-                        $urlopts[] = $arg.'='.urlencode($_REQUEST[$arg]);
-                }
-        }
-        $url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
-        redirect($url);
-}
-
-function redirect_standard_continue( /* Note. Read the next line. Varaible No of Params */ ) {
-	$args = func_get_Args();
-
-        foreach (array_merge(array('type','display'),$args) as $arg) {
-                if (isset($_REQUEST[$arg])) {
-                        $urlopts[] = $arg.'='.urlencode($_REQUEST[$arg]);
-                }
-        }
-        $url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
-        redirect($url, false);
 }
 
 //This function calls modulename_contexts()
@@ -817,34 +489,6 @@ function freepbx_get_contexts() {
 		}
 	}
 	return $contexts;
-}
-
-// TODO: should this be moved to modules.functions.php or usage_registry.functions.php
-//
-
-/**
- * Search through all active modules for a function that ends in $func.
- * Pass it $opts and return whatever is returned in to an array with the
- * retuning module name as the key
- * Takes:
- * @func variable	the function name that we are searching for. The module name
- * 					will be appened to this
- * @opts mixed		a variable or array that will be passed to the function being 
- * 					called , if its found
- *
- */
-function mod_func_iterator($func, $opts = '') {
-	global $active_modules;
-	$res = array();
-	
-	foreach ($active_modules as $active => $mod) {
-		$funct = $mod['rawname'] . '_' . $func;
-		if (function_exists($funct)) {
-			$res[$mod['rawname']] = $funct($opts);
-		}
-	}
-	
-	return $res;
 }
 
 ?>

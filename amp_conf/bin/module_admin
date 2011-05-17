@@ -126,13 +126,13 @@ function download_progress($action, $params) {
 			outn("\nUntaring..");
 		break;
 		case 'downloading':
-			outn("\rDownloading ".$params['read'].' of '.$params['total'].' ('.($params['total'] ? round($params['read']/$params['total']*100) : '0').'%)            ');
+			outn("\rDownloading ".$params['read'].' of '.$params['total'].' ('.($params['total'] ? round($params['read']/$params['total']*100) : '0').'%)            ',false);
 			if ($params['read'] == $params['total']) {
 				out('');
 			}
 		break;
 		case 'done';
-			out('Done');
+			out('Done',false);
 		break;
 	}
 }
@@ -154,6 +154,32 @@ function doUpgrade($modulename, $force) {
 	doInstall($modulename, $force);
 }
 
+function doInstallLocal($force) {
+  $module_info=module_getinfo(false, MODULE_STATUS_NOTINSTALLED);
+  foreach ($module_info as $module) {
+    if ($module['rawname'] != 'builtin') {
+      $modules[] = $module['rawname'];
+    }
+  }
+  if (in_array('core', $modules)){
+    out("Installing core...");
+    doInstall('core', $force);
+  }
+  if (count($modules) > 0) {
+    out("Installing: ".implode(', ',$modules));
+    foreach ($modules as $module => $name) {
+      if (($name != 'core')){//we dont want to reinstall core
+        getIncludes(); //get functions from other modules, in case we need them here
+        out("Installing $name...");
+        doInstall($name, $force);
+      }
+    }
+    out("Done. All modules installed.");
+  } else {
+    out("All modules up to date.");
+  }
+}
+
 function doInstallAll($force) {
 	doUpgradeAll(true);
 	$modules = getInstallableModules();
@@ -164,7 +190,6 @@ function doInstallAll($force) {
 	}
 	if (count($modules) > 0) {
 		out("Installing: ".implode(', ',$modules));
-		sleep(1); // a bit of time to ^C abort..
 		foreach ($modules as $module => $name) {
 			if (($name != 'core')){//we dont want to reinstall core
 				getIncludes(); //get functions from other modules, in case we need them here
@@ -198,11 +223,22 @@ function getInstallableModules($extarray = false) {
 	$modules_online = module_getonlinexml();
 	$module_info=module_getinfo(false);
 	$modules_installable = array();
+  global $active_repos;
+
+  check_active_repos();
 
 	foreach ($modules_online as $name) {
+
+    // Theory: module is not in the defined repos, and since it is not local (meaning we loaded it at some point) then we
+    //         don't show it. Exception, if the status is BROKEN then we should show it because it was here once.
+    //
+    if ((!isset($active_repos[$modules_online[$name['rawname']]['repo']]) || !$active_repos[$modules_online[$name['rawname']]['repo']]) && (!isset($module_info[$name['rawname']]) || $module_info[$name['rawname']]['status'] == MODULE_STATUS_NOTINSTALLED)) {
+      continue;
+    }
+
 		if ((!isset($module_info[$name['rawname']]['status'])) || ($module_info[$name['rawname']]['status'] == MODULE_STATUS_NEEDUPGRADE) || ($module_info[$name['rawname']]['status'] == MODULE_STATUS_NOTINSTALLED)){
 			$modules_installable[]=$name['rawname'];
-		}
+    }
 	}
 	return $modules_installable;
 }
@@ -214,7 +250,10 @@ function getUpgradableModules($extarray = false) {
 	$modules_local = module_getinfo(false, MODULE_STATUS_ENABLED);
 	$modules_online = module_getonlinexml();
 	$modules_upgradable = array();
+  global $active_repos;
 	
+  check_active_repos();
+
 	foreach (array_keys($modules_local) as $name) {
 		if (isset($modules_online[$name])) {
 			if (version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']) < 0) {
@@ -237,7 +276,6 @@ function doUpgradeAll($force) {
 	$modules = getUpgradableModules();
 	if (count($modules) > 0) {
 		out("Upgrading: ".implode(', ',$modules));
-		sleep(1); // a bit of time to ^C abort..
 		foreach ($modules as $modulename) {
 			out("Upgrading $modulename..");
 			doUpgrade($modulename, $force);
@@ -270,7 +308,7 @@ function showi18n($modulename) {
 		echo "# name:\n_(\"".$modules[$modulename]['name']."\");\n";
 	}
 	if (isset($modules[$modulename]['category'])) {
-		echo "# category:\n_(\"".$modules[$modulename]['category']."\");\n";
+		echo "# category:\n_(\"".str_replace("\n","",$modules[$modulename]['category'])."\");\n";
 	}
 	if (isset($modules[$modulename]['description'])) {
 		echo "# description:\n_(\"".trim(str_replace("\n","",$modules[$modulename]['description']))."\");\n";
@@ -313,6 +351,21 @@ function showEngine() {
 	}
 }
 
+function check_active_repos() {
+  global $no_warnings;
+  global $active_repos;
+
+  if (!isset($active_repos)) {
+    $active_repos = module_get_active_repos();
+    $list = implode(',',array_keys($active_repos));
+    if (!$no_warnings) {
+      out("no repos specified, using: [$list] from last GUI settings");
+      out("");
+    }
+  }
+}
+
+
 function showHelp() {
 	global $argv;
 	out("USAGE:",false);
@@ -320,6 +373,9 @@ function showHelp() {
 	out("PARAMETERS: ",false);
 	out("  -f  Force operation (skips dependency and status checks)",false);
 	out("      WARNING: Use at your own risk, modules have dependencies for a reason!",false);
+	out("  -R, --repo, --repos repo1,repo2,repo3...)",false);
+	out("      List of repositories to check, valid options: standard, extended, unsupported, commercial.)",false);
+	out("      Locally installed modules will be checked despite the repository list.)",false);
 	out("OPERATIONS:",false);
 	out("  checkdepends <module>",false);
 	out("      Check if module meets all dependencies",false);
@@ -341,6 +397,8 @@ function showHelp() {
 	out("      print out i18n required text for the given module",false);
 	out("  install <module>",false);
 	out("      Install the module (must exist in the modules directory)",false);
+	out("  installlocal",false);
+	out("      Installs any module not installed that is locally available",false);
 	out("  installall",false);
 	out("      Installs all module that exist in the repository",false);
 	out("  list",false);
@@ -406,15 +464,11 @@ function showList($online = false) {
   $repo = "http://mirror.freepbx.org/";
 	$modules_local = module_getinfo(false,false,true);
 	$modules = $modules_local;
+  global $active_repos;
+
+  check_active_repos();
 
 	if ($online) {
-    $has_extended_modules = false;
-    foreach ($modules as $rawname => $attribs) {
-      if ($attribs['category'] == 'Third Party Addon') {
-        $repo .= "extended-";
-        break;
-      }
-    }
 		$modules_online = module_getonlinexml(false, $repo);
 		if (isset($modules_online)) {
 			$modules += $modules_online;
@@ -433,6 +487,13 @@ function showList($online = false) {
 	foreach (array_keys($modules) as $name) {
 		
 		$status_index = isset($modules[$name]['status'])?$modules[$name]['status']:'';
+
+    // Don't include modules not in our repo unless they are locally installed already
+    //
+    if ((!isset($active_repos[$modules[$name]['repo']]) || !$active_repos[$modules[$name]['repo']]) && $status_index != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
+      continue;
+    }
+
 		switch ($status_index) {
 			case MODULE_STATUS_NOTINSTALLED:
 				if (isset($modules_local[$name])) {
@@ -512,8 +573,8 @@ if (! @ include("Console/Getopt.php")) {
 }
 
 // **** Parse out command-line options
-$shortopts = "h?fc:x:r:";
-$longopts = array("help","debug","no-warnings","config=","modulexml-path=","modulerepository-path=");
+$shortopts = "h?fc:x:r:R:";
+$longopts = array("help","debug","no-warnings","config=","modulexml-path=","modulerepository-path=","repos=","repo=");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -553,9 +614,25 @@ foreach ($args[0] as $arg) {
 		case "--modulerepository-path": case "r":
 			$modulerepository_path = rtrim($arg[1],DIRECTORY_SEPARATOR)."/";
 		break;
+    case "--repo": 
+    case "--repos": 
+    case "R":
+      $repo_args = explode(',',$arg[1]);
+      foreach ($repo_args as $repo) {
+        switch ($repo) {
+        case 'standard':
+        case 'extended':
+        case 'unsupported':
+        case 'commericial':
+          $active_repos[$repo] = 1;
+        break;
+        default:
+          out("No such repo: [$repo], skipping");
+        }
+      }
+		break;
 	}
 }
-
 
 $operation = $args[1][0];
 $param = isset($args[1][1]) ? $args[1][1] : null;;
@@ -627,6 +704,9 @@ switch ($operation ) {
 			fatal("Missing module name");
 		}
 		doInstall($param, $force);
+	break;
+	case 'installlocal':
+		doInstallLocal(true);
 	break;
 	case 'installall':
 		doInstallAll(true);

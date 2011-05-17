@@ -7,37 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx-2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-16 07:15+0200\n"
+"POT-Creation-Date: 2011-03-11 07:15+0100\n"
 "PO-Revision-Date: 2007-10-09 16:16+0100\n"
 "Last-Translator: Lónyai Gergely <alephlg@gmail.com>\n"
 "Language-Team: Aleph <alephlg@gmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 "X-Poedit-SourceCharset: utf-8\n"
-
-msgid "Submit"
-msgstr "Elküld"
-
-msgid "Please select a valid destination."
-msgstr ""
-
-msgid "Internal Options & Configuration"
-msgstr ""
-
-msgid "Inbound Call Control"
-msgstr ""
-
-msgid "Module Admin"
-msgstr "Modul adminisztrátor"
-
-msgid "System Administration"
-msgstr ""
-
-msgid "Third Party Addon"
-msgstr ""
 
 msgid "Tools"
 msgstr "Segédeszközök"
@@ -48,31 +27,7 @@ msgstr "Beállítás"
 msgid "Call Cost"
 msgstr ""
 
-msgid "** MISSING FEATURE CODE **"
-msgstr "**HIÁNYZÓ FEATURES KÓD**"
-
-#, php-format
-msgid "Cronmanager encountered %s Errors"
-msgstr ""
-
-msgid "The following commands failed with the listed error"
-msgstr ""
-
-#, php-format
-msgid "Missing or unreadable config file (%s)...cannot continue"
-msgstr ""
-
-msgid "Objects"
-msgstr ""
-
-msgid "Object"
-msgstr ""
-
-#, php-format
-msgid "Used as Destination by %s %s"
-msgstr ""
-
-msgid "Trace Back"
+msgid "FreePBX Administration"
 msgstr ""
 
 #, php-format
@@ -99,8 +54,8 @@ msgid "Successfully reloaded"
 msgstr ""
 
 msgid ""
-"Could not reload the FOP operator panel server using the bounce_op.sh "
-"script. Configuration changes may not be reflected in the panel display."
+"Could not reload the FOP operator panel server using killall -HUP op_server."
+"pl. Configuration changes may not be reflected in the panel display."
 msgstr ""
 
 msgid "Could not reload FOP server"
@@ -113,275 +68,8 @@ msgstr ""
 msgid "Add"
 msgstr "Hozzáadás"
 
-msgid "choose one"
-msgstr ""
-
-msgid "Terminate Call"
-msgstr ""
-
-msgid "description"
-msgstr ""
-
-msgid ""
-"The following new modules are available for download. Click delete icon on "
-"the right to remove this notice."
-msgstr ""
-
-#, php-format
-msgid "%s New modules are available"
-msgstr ""
-
-msgid "There is 1 module available for online upgrade"
-msgstr ""
-
-#, php-format
-msgid "There are %s modules available for online upgrades"
-msgstr ""
-
-#, php-format
-msgid "%s (current: %s)"
-msgstr ""
-
-#, php-format
-msgid "PHP Component %s is required but missing from you PHP installation."
-msgstr ""
-
-#, php-format
-msgid ""
-"PHP Component %s version %s is required but missing from you PHP "
-"installation."
-msgstr ""
-
-#, php-format
-msgid "Module %s is required, but yours is broken. You should reinstall "
-msgstr "A %s modul követelmény, de neked ez törött. Kérlek telepítsd újra."
-
-#, php-format
-msgid "it and try again."
-msgstr "...és próbáld meg újra."
-
-#, php-format
-msgid "Module %s is required, but yours is disabled."
-msgstr "A %s modul követelmény, de neked ez le van tiltva."
-
-#, php-format
-msgid "Module %s is required, but yours is disabled because it needs to "
-msgstr "A %s modul követelmény, de te ezt letiltottad."
-
-#, php-format
-msgid "be upgraded. Please upgrade %s first, and then try again."
-msgstr ""
-"frissítve. Kérlek elősször frissítsd a %s-t, és utánna próbáld még egyszer."
-
-#, php-format
-msgid "Module %s is required, yours is not installed."
-msgstr "A %s modul követelmény. Neked ez nincs feltelepítve."
-
-#, php-format
-msgid "Module %s is required."
-msgstr "A %s modul kövelelmény."
-
-#, php-format
-msgid "File %s must exist."
-msgstr "Muszály a(z) %s fájlnak léteznie."
-
-#, php-format
-msgid "Requires engine %s, you have: %s"
-msgstr "A %s motornak követelménye a %s"
-
-#, php-format
-msgid "Requires one of the following engines: %s; you have: %s"
-msgstr "A %s motor a követelmény. Neked a %s van meg."
-
-#, php-format
-msgid "A %s version below %s is required, you have %s"
-msgstr "A %s %s verziójánál régebbi a követelmény. Neked a %s van meg."
-
-#, php-format
-msgid "%s version %s or below is required, you have %s"
-msgstr "A %s %s verzió vagy régebbi a követelmény. Neked a %s van meg."
-
-#, php-format
-msgid "A %s version newer than %s required, you have %s"
-msgstr "A %s verziónál újabb követelménye van a %s-nek. Neked a %s van meg."
-
-#, php-format
-msgid "Your %s version (%s) is incompatible."
-msgstr "A te %s verziód inkompatibilis (%s)."
-
-#, php-format
-msgid "Only %s version %s is compatible, you have %s"
-msgstr "Csak a %s %s verziója kompatibilis. Neked a %s verzió van meg."
-
-#, php-format
-msgid "%s version %s or higher is required, you have %s"
-msgstr "%s legalább %s verziója követelménye a %s modulnak"
-
-msgid "Module "
-msgstr ""
-
-msgid " is already enabled"
-msgstr ""
-
-msgid " cannot be enabled"
-msgstr ""
-
-msgid "Module not found in repository"
-msgstr "A modul nem található a repositoryban"
-
-#, php-format
-msgid "Could not remove %s to install new version"
-msgstr ""
-
-#, php-format
-msgid "Could not untar %s to %s"
-msgstr "Nem tudom a %s tart a %s helyre kibontani"
-
-#, php-format
-msgid "Could not remove old module %s to install new version"
-msgstr ""
-
-#, php-format
-msgid "Could not move %s to %s"
-msgstr ""
-
-#, php-format
-msgid "Error opening %s for writing"
-msgstr "Hiba a %s írásra nyitásakor"
-
-#, php-format
-msgid "Error opening %s for reading"
-msgstr "Hiba a %s olvasásra nyitásakor"
-
-#, php-format
-msgid "Unable to save %s"
-msgstr "Nem menthető a(z) %s"
-
-#, php-format
-msgid "File Integrity failed for %s - aborting"
-msgstr "Fájlintegritás-hiba %s-ben - megszakítás"
-
-msgid ""
-"Error finding uploaded file - check your PHP and/or web server configuration"
-msgstr ""
-
-msgid "File must be in tar+gzip (.tgz or .tar.gz) format"
-msgstr ""
-
-msgid ""
-"Filename not in correct format: must be modulename-version.tar.gz (eg. "
-"custommodule-0.1.tar.gz)"
-msgstr ""
-
-#, php-format
-msgid "Error creating temporary directory: %s"
-msgstr ""
-
-msgid "Error untaring uploaded file. Must be a tar+gzip file"
-msgstr ""
-
-#, php-format
-msgid "Error removing temporary directory: %s"
-msgstr ""
-
-msgid "Cannot find module"
-msgstr "Nem található a modul"
-
-msgid "Could not read module.xml"
-msgstr "A module.xml nem olvasható"
-
-msgid "rawname"
-msgstr ""
-
-msgid ""
-" is broken and cannot be installed. You should try to download it again."
-msgstr ""
-
-msgid "Failed to run installation scripts"
-msgstr "Hiba a telepítőszkript futtatásakor"
-
-#, php-format
-msgid "Error updating database. Command was: %s; error was: %s "
-msgstr "Hiba az adatbázis frissítésekor. Az parancs (%s) hibája: %s"
-
-msgid "Specified module not found"
-msgstr "A megadott modul nem található"
-
-msgid "Module not enabled: cannot disable"
-msgstr "A modul nem engedélyezhető: nincs letiltva"
-
-msgid "Cannot disable: The following modules depend on this one: "
-msgstr "Nem tiltható. Az alábbi modulok függnek tőle:"
-
-msgid "Module not installed: cannot uninstall"
-msgstr "A modul nem telepíthető: nincs uninstallálva"
-
-msgid "Error updating database: "
-msgstr "Hiba az adatbázis frissítésekor:"
-
-msgid "Failed to run un-installation scripts"
-msgstr "Az uninstalláló script futtatása sikertelen"
-
-#, php-format
-msgid "Cannot delete directory %s"
-msgstr "Nem törölhető könyvtár: %s"
-
-#, php-format
-msgid "Error deleting directory %s (code %d)"
-msgstr "Hiba a %s könyvtár törlésekor (kód: %d)"
-
-#, php-format
-msgid "You have %s disabled modules"
-msgstr ""
-
-msgid "You have a disabled module"
-msgstr ""
-
-msgid "The following modules are disabled because they need to be upgraded:"
-msgstr ""
-
-msgid "You should go to the module admin page to fix these."
-msgstr ""
-
-#, php-format
-msgid "You have %s broken modules"
-msgstr ""
-
-msgid "You have a broken module"
-msgstr ""
-
-msgid "The following modules are disabled because they are broken:"
-msgstr ""
-
-msgid "Administration"
-msgstr "Administration"
-
-msgid "Default Asterisk Manager Password Used"
-msgstr ""
-
-msgid ""
-"You are using the default Asterisk Manager password that is widely known, "
-"you should set a secure password"
-msgstr ""
-
-msgid "Default ARI Admin password Used"
-msgstr ""
-
-msgid ""
-"You are using the default ARI Admin password that is widely known, you "
-"should change to a new password. Do this in amportal.conf"
-msgstr ""
-
 msgid "Module Administration"
 msgstr "Moduladminisztráció"
-
-msgid "NOTICE"
-msgstr ""
-
-msgid ""
-"You have accessed the extended repository which includes un-supported and "
-"third party modules"
-msgstr ""
 
 #, php-format
 msgid ""
@@ -543,19 +231,6 @@ msgstr ""
 msgid "Manage local modules"
 msgstr "Helyi modulok kezelése"
 
-msgid "Check for updates online"
-msgstr "Online frissítések ellenőrzése"
-
-msgid ""
-"Checking for updates will transmit your FreePBX and Asterisk version numbers "
-"along with a unique but random identifier. This is used to provide proper "
-"update information and track version usage to focus development and "
-"maintenance efforts. No private information is transmitted."
-msgstr ""
-
-msgid "Upload module"
-msgstr ""
-
 #, php-format
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr ""
@@ -583,6 +258,9 @@ msgid ""
 msgstr ""
 
 msgid "Show only upgradeable"
+msgstr ""
+
+msgid "Upload module"
 msgstr ""
 
 msgid "Download all"
@@ -716,6 +394,9 @@ msgstr ""
 msgid "Description for version %s"
 msgstr ""
 
+msgid "description"
+msgstr ""
+
 msgid "No description is available."
 msgstr ""
 
@@ -748,19 +429,52 @@ msgstr ""
 msgid "Done."
 msgstr ""
 
-msgid "Standard Repository"
-msgstr ""
-
-msgid "Extended Repository"
+msgid "Upload modules"
 msgstr ""
 
 msgid ""
-"You have selected to access the Extended Repository. This repository "
-"contains some Third Party and un-supported modules. Although these modules "
-"are believed to work with FreePBX, they are either developed by third "
-"parties in conjunction with optional PBX components, or they are not "
-"directly sponsored by the core FreePBX team and may not receive the same "
-"level of responsiveness to issues as the main code base does."
+"Choose the repositories that you want to check for new modules. Any updates "
+"available for modules you have on your system will be detected even if the "
+"repository is not checked. If you are installing a new system, you may want "
+"to start with the Basic repository and upload all modules, then go back and "
+"review the others."
+msgstr ""
+
+msgid ""
+" The modules in the Extended repository are less common and may receive "
+"lower levels of support. The Unsupported repository has modules that are not "
+"supported by the FreePBX team but may receive some level of support by the "
+"authors."
+msgstr ""
+
+msgid ""
+"The Commercial repository is reserved for modules that are available for "
+"purchase and commercially supported."
+msgstr ""
+
+msgid ""
+"Checking for updates will transmit your FreePBX, Distro, Asterisk and PHP "
+"version numbers along with a unique but random identifier. This is used to "
+"provide proper update information and track version usage to focus "
+"development and maintenance efforts. No private information is transmitted."
+msgstr ""
+
+msgid "Repositories"
+msgstr ""
+
+msgid "Basic"
+msgstr ""
+
+msgid "Extended"
+msgstr ""
+
+msgid "Unsupported"
+msgstr ""
+
+msgid "Commercial"
+msgstr ""
+
+msgid "Check Online"
 msgstr ""
 
 msgid "FreePBX: Flash Operator Panel"
@@ -787,6 +501,413 @@ msgstr "Havi kimutatás"
 msgid "Daily load"
 msgstr "Napi használat"
 
+msgid "Please select a \"Destination\""
+msgstr "Válaszd ki a \"célpontot\""
+
+msgid ""
+"Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
+msgstr ""
+"Az egyedi Goto kontextusnak muszály tartalmaznia a \"custom-\" szöveget. Pl. "
+"custom-sajat,s,1"
+
+msgid "The secret must be at minimum six characters in length."
+msgstr ""
+
+msgid "The secret must contain at least two numbers and two letters."
+msgstr ""
+
+msgid "Submit"
+msgstr "Elküld"
+
+msgid "Please select a valid destination."
+msgstr ""
+
+msgid "Online Updates are Disabled"
+msgstr ""
+
+msgid ""
+"Online updates are disabled on the General Settings page. When disabled, you "
+"will not be notified of bug fixes and Security issues without manually "
+"checking for updates online. You are advised to enable the update checking. "
+"Updates are never downloaded automatically, they are only checked and "
+"reported in the notification panel and log if enabled."
+msgstr ""
+
+#, php-format
+msgid "Cronmanager encountered %s Errors"
+msgstr ""
+
+msgid "The following commands failed with the listed error"
+msgstr ""
+
+msgid "** MISSING FEATURE CODE **"
+msgstr "**HIÁNYZÓ FEATURES KÓD**"
+
+msgid "No Description Provided"
+msgstr ""
+
+msgid "Undefined Category"
+msgstr ""
+
+msgid "fatal error reading freepbx_settings"
+msgstr ""
+
+#, php-format
+msgid "Missing or unreadable config file [%s]...cannot continue"
+msgstr ""
+
+msgid ""
+"Do NOT edit this file as it is auto-generated by FreePBX. All modifications "
+"to"
+msgstr ""
+
+msgid ""
+"this file must be done via the Web GUI. There are alternative files to make"
+msgstr ""
+
+msgid "custom modifications, details at:"
+msgstr ""
+
+msgid ""
+"All settings can be set from the Advanced Settings page accessible in FreePBX"
+msgstr ""
+
+msgid "called set_conf_values with a non-array"
+msgstr ""
+
+#, php-format
+msgid "trying to set keyword [%s] to [%s] on unitialized setting"
+msgstr ""
+
+#, php-format
+msgid "you can't convert an existing type, keyword [%s]"
+msgstr ""
+
+#, php-format
+msgid "missing value and/or defaultval required for [%s]"
+msgstr ""
+
+msgid "missing options for keyword [%] required if type is select"
+msgstr ""
+
+#, php-format
+msgid "invalid validation options provided for keyword %s: %s"
+msgstr ""
+
+#, php-format
+msgid ""
+"method define_conf_setting() failed to pass validation for keyword [%s] "
+"setting value [%s], error msg if supplied [%s]"
+msgstr ""
+
+#, php-format
+msgid "fatal error deleting rows from freepbx_settings, sql query: %s"
+msgstr ""
+
+msgid "fatal error updating freepbx_settings table"
+msgstr ""
+
+msgid "Invalid value supplied to select"
+msgstr ""
+
+msgid "Empty value not allowed for this field"
+msgstr ""
+
+#, php-format
+msgid "Invalid value supplied violates the validation regex: %s"
+msgstr ""
+
+#, php-format
+msgid "Value [%s] out of range, changed to [%s]"
+msgstr ""
+
+#, php-format
+msgid "unknown type: [%s]"
+msgstr ""
+
+msgid ""
+"The following new modules are available for download. Click delete icon on "
+"the right to remove this notice."
+msgstr ""
+
+#, php-format
+msgid "%s New modules are available"
+msgstr ""
+
+msgid "There is 1 module available for online upgrade"
+msgstr ""
+
+#, php-format
+msgid "There are %s modules available for online upgrades"
+msgstr ""
+
+#, php-format
+msgid "%s (current: %s)"
+msgstr ""
+
+#, php-format
+msgid "PHP Component %s is required but missing from you PHP installation."
+msgstr ""
+
+#, php-format
+msgid ""
+"PHP Component %s version %s is required but missing from you PHP "
+"installation."
+msgstr ""
+
+#, php-format
+msgid "Module %s is required, but yours is broken. You should reinstall "
+msgstr "A %s modul követelmény, de neked ez törött. Kérlek telepítsd újra."
+
+#, php-format
+msgid "it and try again."
+msgstr "...és próbáld meg újra."
+
+#, php-format
+msgid "Module %s is required, but yours is disabled."
+msgstr "A %s modul követelmény, de neked ez le van tiltva."
+
+#, php-format
+msgid "Module %s is required, but yours is disabled because it needs to "
+msgstr "A %s modul követelmény, de te ezt letiltottad."
+
+#, php-format
+msgid "be upgraded. Please upgrade %s first, and then try again."
+msgstr ""
+"frissítve. Kérlek elősször frissítsd a %s-t, és utánna próbáld még egyszer."
+
+#, php-format
+msgid "Module %s is required, yours is not installed."
+msgstr "A %s modul követelmény. Neked ez nincs feltelepítve."
+
+#, php-format
+msgid "Module %s is required."
+msgstr "A %s modul kövelelmény."
+
+#, php-format
+msgid "File %s must exist."
+msgstr "Muszály a(z) %s fájlnak léteznie."
+
+#, php-format
+msgid "Requires engine %s, you have: %s"
+msgstr "A %s motornak követelménye a %s"
+
+#, php-format
+msgid "Requires one of the following engines: %s; you have: %s"
+msgstr "A %s motor a követelmény. Neked a %s van meg."
+
+#, php-format
+msgid "A %s version below %s is required, you have %s"
+msgstr "A %s %s verziójánál régebbi a követelmény. Neked a %s van meg."
+
+#, php-format
+msgid "%s version %s or below is required, you have %s"
+msgstr "A %s %s verzió vagy régebbi a követelmény. Neked a %s van meg."
+
+#, php-format
+msgid "A %s version newer than %s required, you have %s"
+msgstr "A %s verziónál újabb követelménye van a %s-nek. Neked a %s van meg."
+
+#, php-format
+msgid "Your %s version (%s) is incompatible."
+msgstr "A te %s verziód inkompatibilis (%s)."
+
+#, php-format
+msgid "Only %s version %s is compatible, you have %s"
+msgstr "Csak a %s %s verziója kompatibilis. Neked a %s verzió van meg."
+
+#, php-format
+msgid "%s version %s or higher is required, you have %s"
+msgstr "%s legalább %s verziója követelménye a %s modulnak"
+
+msgid "Module "
+msgstr ""
+
+msgid " is already enabled"
+msgstr ""
+
+msgid " cannot be enabled"
+msgstr ""
+
+msgid "Module not found in repository"
+msgstr "A modul nem található a repositoryban"
+
+#, php-format
+msgid "Could not remove %s to install new version"
+msgstr ""
+
+#, php-format
+msgid "Could not untar %s to %s"
+msgstr "Nem tudom a %s tart a %s helyre kibontani"
+
+#, php-format
+msgid "Could not remove old module %s to install new version"
+msgstr ""
+
+#, php-format
+msgid "Could not move %s to %s"
+msgstr ""
+
+#, php-format
+msgid "Error opening %s for writing"
+msgstr "Hiba a %s írásra nyitásakor"
+
+#, php-format
+msgid "Error opening %s for reading"
+msgstr "Hiba a %s olvasásra nyitásakor"
+
+#, php-format
+msgid "Unable to save %s"
+msgstr "Nem menthető a(z) %s"
+
+#, php-format
+msgid "File Integrity failed for %s - aborting"
+msgstr "Fájlintegritás-hiba %s-ben - megszakítás"
+
+msgid ""
+"Error finding uploaded file - check your PHP and/or web server configuration"
+msgstr ""
+
+msgid "File must be in tar or tar+gzip (.tar, .tgz or .tar.gz) format"
+msgstr ""
+
+msgid ""
+"Filename not in correct format: must be modulename-version.[tar|tar.gz|tgz] "
+"(eg. custommodule-0.1.tgz)"
+msgstr ""
+
+#, php-format
+msgid "Error creating temporary directory: %s"
+msgstr ""
+
+msgid "Error untaring uploaded file. Must be a tar or tar+gzip file"
+msgstr ""
+
+#, php-format
+msgid "Error removing temporary directory: %s"
+msgstr ""
+
+msgid "Cannot find module"
+msgstr "Nem található a modul"
+
+msgid "Could not read module.xml"
+msgstr "A module.xml nem olvasható"
+
+msgid "rawname"
+msgstr ""
+
+msgid ""
+" is broken and cannot be installed. You should try to download it again."
+msgstr ""
+
+msgid "Failed to run installation scripts"
+msgstr "Hiba a telepítőszkript futtatásakor"
+
+#, php-format
+msgid "Error updating database. Command was: %s; error was: %s "
+msgstr "Hiba az adatbázis frissítésekor. Az parancs (%s) hibája: %s"
+
+msgid "Specified module not found"
+msgstr "A megadott modul nem található"
+
+msgid "Module not enabled: cannot disable"
+msgstr "A modul nem engedélyezhető: nincs letiltva"
+
+msgid "Cannot disable: The following modules depend on this one: "
+msgstr "Nem tiltható. Az alábbi modulok függnek tőle:"
+
+msgid "Module not installed: cannot uninstall"
+msgstr "A modul nem telepíthető: nincs uninstallálva"
+
+msgid "Error updating database: "
+msgstr "Hiba az adatbázis frissítésekor:"
+
+msgid "Failed to run un-installation scripts"
+msgstr "Az uninstalláló script futtatása sikertelen"
+
+#, php-format
+msgid "Cannot delete directory %s"
+msgstr "Nem törölhető könyvtár: %s"
+
+#, php-format
+msgid "Error deleting directory %s (code %d)"
+msgstr "Hiba a %s könyvtár törlésekor (kód: %d)"
+
+#, php-format
+msgid "You have %s disabled modules"
+msgstr ""
+
+msgid "You have a disabled module"
+msgstr ""
+
+msgid "The following modules are disabled because they need to be upgraded:"
+msgstr ""
+
+msgid "You should go to the module admin page to fix these."
+msgstr ""
+
+#, php-format
+msgid "You have %s broken modules"
+msgstr ""
+
+msgid "You have a broken module"
+msgstr ""
+
+msgid "The following modules are disabled because they are broken:"
+msgstr ""
+
+msgid "Objects"
+msgstr ""
+
+msgid "Object"
+msgstr ""
+
+#, php-format
+msgid "Used as Destination by %s %s"
+msgstr ""
+
+msgid "Trace Back"
+msgstr ""
+
+#, php-format
+msgid "Forced %s to true"
+msgstr ""
+
+#, php-format
+msgid ""
+"The system detected a problem trying to access external server data and "
+"changed internal setting %s (Use wget For Module Admin) to true, see the "
+"tooltip in Advanced Settings for more details."
+msgstr ""
+
+msgid "Memory Limit Changed"
+msgstr ""
+
+#, php-format
+msgid ""
+"Your memory_limit, %sM, is set too low and has been increased to %sM. You "
+"may want to change this in you php.ini config file"
+msgstr ""
+
+msgid "Low Memory Limit"
+msgstr ""
+
+#, php-format
+msgid ""
+"Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
+"not able to change this on your system. You should increase this to %sM in "
+"you php.ini config file"
+msgstr ""
+
+msgid "Magic Quotes GPC"
+msgstr ""
+
+msgid ""
+"You have magic_quotes_gpc enabled in your php.ini, http or .htaccess file "
+"which will cause errors in some modules. FreePBX expects this to be off and "
+"runs under that assumption"
+msgstr ""
+
 msgid "Potential Security Breach"
 msgstr ""
 
@@ -795,8 +916,8 @@ msgid ""
 "have come from a FreePBX page link or button. This can occur if you manually "
 "typed in the URL below. This action has been blocked because the "
 "HTTP_REFERER does not match your current SERVER. If you require this access, "
-"you can set CHECKREFERER=false in amportal.conf to disable this security "
-"check"
+"you can set Check Server Referrer=false in Advanced Settings to disable this "
+"security check"
 msgstr ""
 
 msgid ""
@@ -809,6 +930,21 @@ msgstr ""
 msgid "SUSPECT LINK:"
 msgstr ""
 
+msgid "Internal Options & Configuration"
+msgstr ""
+
+msgid "Inbound Call Control"
+msgstr ""
+
+msgid "Module Admin"
+msgstr "Modul adminisztrátor"
+
+msgid "System Administration"
+msgstr ""
+
+msgid "Third Party Addon"
+msgstr ""
+
 msgid "click to expand/collapse section"
 msgstr ""
 
@@ -819,6 +955,9 @@ msgid ""
 "WARNING: Javascript is disabled in your browser. The FreePBX administration "
 "interface requires Javascript to run properly. Please enable javascript or "
 "switch to another  browser that supports it."
+msgstr ""
+
+msgid "FreePBX&reg;"
 msgstr ""
 
 #, php-format
@@ -905,6 +1044,12 @@ msgid "Please wait, reloading.."
 msgstr ""
 
 msgid "Loading..."
+msgstr ""
+
+msgid "Close Browser to Log Out"
+msgstr ""
+
+msgid "You must close your browser to logout when using Chrome"
 msgstr ""
 
 msgid "Logged out"
@@ -1011,61 +1156,7 @@ msgstr ""
 msgid "We hope you enjoy using FreePBX!"
 msgstr "Remélem, hogy a FreePBX-et élvezettel használod!"
 
-msgid "Default SQL Password Used"
-msgstr ""
-
-msgid ""
-"You are using the default SQL password that is widely known, you should set "
-"a secure password"
-msgstr ""
-
-msgid "Memory Limit Changed"
-msgstr ""
-
-#, php-format
-msgid ""
-"Your memory_limit, %sM, is set too low and has been increased to %sM. You "
-"may want to change this in you php.ini config file"
-msgstr ""
-
-msgid "Low Memory Limit"
-msgstr ""
-
-#, php-format
-msgid ""
-"Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
-"not able to change this on your system. You should increase this to %sM in "
-"you php.ini config file"
-msgstr ""
-
-msgid "Magic Quotes GPC"
-msgstr ""
-
-msgid ""
-"You have magic_quotes_gpc enabled in your php.ini, http or .htaccess file "
-"which will cause errors in some modules. FreePBX expects this to be off and "
-"runs under that assumption"
-msgstr ""
-
-msgid "Please select a \"Destination\""
-msgstr "Válaszd ki a \"célpontot\""
-
-msgid ""
-"Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
-msgstr ""
-"Az egyedi Goto kontextusnak muszály tartalmaznia a \"custom-\" szöveget. Pl. "
-"custom-sajat,s,1"
-
-msgid "The secret must be at minimum six characters in length."
-msgstr ""
-
-msgid "The secret must contain at least two numbers and two letters."
-msgstr ""
-
 msgid "Core"
-msgstr ""
-
-msgid "Basic"
 msgstr ""
 
 msgid "Extensions"
@@ -1092,10 +1183,1351 @@ msgstr ""
 msgid "General Settings"
 msgstr "Általános beállítások"
 
+msgid "Advanced Settings"
+msgstr ""
+
 msgid "Administrators"
 msgstr ""
 
 msgid "FreePBX Support"
+msgstr ""
+
+msgid "FreePBX Framework"
+msgstr ""
+
+msgid ""
+"This module provides a facility to install bug fixes to the framework code "
+"that is not otherwise housed in a module"
+msgstr ""
+
+msgid "Display Friendly Name"
+msgstr ""
+
+msgid "Advanced Settings Details"
+msgstr ""
+
+msgid ""
+"Normally the friendly names will be displayed on this page and the internal "
+"freepbx_conf configuration names are shown in the tooltip. If you prefer to "
+"view the configuration variables, and the friendly name in the tooltip, set "
+"this to false.."
+msgstr ""
+
+msgid "Display Hidden Settings"
+msgstr ""
+
+msgid ""
+"This will display settings that are normally hidden by the system. These "
+"settings are often internally used settings that are not of interest to most "
+"users."
+msgstr ""
+
+msgid "Display Readonly Settings"
+msgstr ""
+
+msgid ""
+"This will display settings that are readonly. These settings are often "
+"internally used settings that are not of interest to most users. Since they "
+"are readonly they can only be viewed."
+msgstr ""
+
+msgid "Override Readonly Settings"
+msgstr ""
+
+msgid ""
+"Setting this to true will allow you to override un-hidden readonly setting "
+"to change them. Settings that are readonly may be extremely volatile and "
+"have a high chance of breaking your system if you change them. Take extreme "
+"caution when electing to make such changes."
+msgstr ""
+
+msgid "Asterisk Manager Host"
+msgstr ""
+
+msgid "Asterisk Manager"
+msgstr ""
+
+msgid "Hostname for the Asterisk Manager"
+msgstr ""
+
+msgid "Asterisk Manager Password"
+msgstr ""
+
+msgid ""
+"Password for accessing the Asterisk Manager Interface (AMI), you must change "
+"this in manager.conf if changed here."
+msgstr ""
+
+msgid "Asterisk Manager Port"
+msgstr ""
+
+msgid "Port for the Asterisk Manager"
+msgstr ""
+
+msgid "Asterisk Manager Proxy Port"
+msgstr ""
+
+msgid "Optional port for an Asterisk Manager Proxy"
+msgstr ""
+
+msgid "Asterisk Manager User"
+msgstr ""
+
+msgid ""
+"Username for accessing the Asterisk Manager Interface (AMI), you must change "
+"this in manager.conf if changed here."
+msgstr ""
+
+msgid "Always Download Web Assets"
+msgstr ""
+
+msgid "Developer and Customization"
+msgstr ""
+
+msgid ""
+"FreePBX appends versioning tags on the CSS and javascript files and some of "
+"the main logo images. The versioning will help force browsers to load new "
+"versions of the files when module versions are upgraded. Setting this value "
+"to true will try to force these to be loaded to the browser every page load "
+"by appending an additional timestamp in the version information. This is "
+"useful during development and debugging where changes are being made to "
+"javascript and CSS files."
+msgstr ""
+
+msgid "AMPLOCALBIN Dir for retrieve_conf"
+msgstr ""
+
+msgid ""
+"If this directory is defined, retrieve_conf will check for a file called "
+"<i>retrieve_conf_post_custom</i> and if that file exists, it will be "
+"included after other processing thus having full access to the current "
+"environment for additional customization."
+msgstr ""
+
+msgid "Debug File"
+msgstr ""
+
+msgid ""
+"Full path and name of FreePBX debug file. Used by the dbug() function by "
+"developers."
+msgstr ""
+
+msgid "Developer Mode"
+msgstr ""
+
+msgid ""
+"This enables several debug features geared towards developers, including "
+"some page load timing information, some debug information in Module Admin, "
+"use of original CSS files and other future capabilities will be enabled."
+msgstr ""
+
+msgid "Disable FreePBX dbug Logging"
+msgstr ""
+
+msgid ""
+"Set to true to stop all dbug() calls from writing to the Debug File "
+"(FPBXDBUGFILE)"
+msgstr ""
+
+msgid "Disable Mainstyle CSS Compression"
+msgstr ""
+
+msgid ""
+"Stops the automatic generation of a stripped CSS file that replaces the "
+"primary sheet, usually mainstyle.css."
+msgstr ""
+
+msgid "Disable Module Admin Caching"
+msgstr ""
+
+msgid ""
+"Module Admin caches a copy of the online XML document that describes what is "
+"available on the server. Subsequent online update checks will use the cached "
+"information if it is less than 5 minutes old. To bypass the cache and force "
+"it to go to the server each time, set this to True. This should normally be "
+"false but can be helpful during testing."
+msgstr ""
+
+msgid "Leave Reload Bar Up"
+msgstr ""
+
+msgid "Forces the "
+msgstr ""
+
+msgid " reload bar to always be present even when not necessary."
+msgstr ""
+
+msgid "POST_RELOAD Debug Mode"
+msgstr ""
+
+msgid "Display debug output for script used if POST_RELOAD is used."
+msgstr ""
+
+msgid "POST_RELOAD Script"
+msgstr ""
+
+msgid ""
+"Automatically execute a script after applying changes in the AMP admin. Set "
+"POST_RELOAD to the script you wish to execute after applying changes. If "
+"POST_RELOAD_DEBUG=true, you will see the output of the script in the web "
+"page."
+msgstr ""
+
+msgid "PRE_RELOAD Script"
+msgstr ""
+
+msgid ""
+"Optional script to run just prior to doing an extension reload to Asterisk "
+"through the manager after pressing Apply Configuration Changes in the GUI."
+msgstr ""
+
+msgid "Provide Verbose Tracebacks"
+msgstr ""
+
+msgid ""
+"Provides a very verbose traceback when die_freepbx() is called including "
+"extensive object details if present in the traceback."
+msgstr ""
+
+msgid "Use Packaged Javascript Library "
+msgstr ""
+
+msgid ""
+"FreePBX packages several javascript libraries and components into a "
+"compressed file called libfreepbx.javascript.js. By default this will be "
+"loaded instead of the individual uncompressed libraries. Setting this to "
+"false will force FreePBX to load all the libraries as individual "
+"uncompressed files. This is useful during development and debugging."
+msgstr ""
+
+msgid "Post Call Recording Script"
+msgstr ""
+
+msgid "Show all Device Setting on Add"
+msgstr ""
+
+msgid "Device Settings"
+msgstr ""
+
+msgid ""
+"When adding a new extension/device, setting this to true will show most "
+"available device settings that are displayed when you edit the same "
+"extension/device. Otherwise, just a few basic settings are displayed."
+msgstr ""
+
+msgid "Require Strong Secrets"
+msgstr ""
+
+msgid ""
+"Requires a strong secret on SIP and IAX devices requiring at least two "
+"numeric and non-numeric characters and 6 or more characters. This can be "
+"disabled if using devices that can not meet these needs, or you prefer to "
+"put other constraints including more rigid constraints that this rule "
+"actually considers weak when it may not be."
+msgstr ""
+
+msgid "SIP canrenivite (directmedia)"
+msgstr ""
+
+msgid ""
+"Default setting for SIP canreinvite (same as directmedia). See Asterisk "
+"documentation for details."
+msgstr ""
+
+msgid "SIP trustrpid"
+msgstr ""
+
+msgid ""
+"Default setting for SIP trustrpid. See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP sendrpid"
+msgstr ""
+
+msgid ""
+"Default setting for SIP sendrpid. A value of 'yes' is equivalent to 'rpid' "
+"and will send the 'Remote-Pary-ID' header. A value of 'pai' is only valid "
+"starting with Asterisk 1.8 and will send the 'P-Asserted-Identity' header. "
+"See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP nat"
+msgstr ""
+
+msgid ""
+"Default setting for SIP nat. A 'yes' will attempt to handle nat, also works "
+"for local (uses the network ports and address instead of the reported "
+"ports), 'no' follows the protocol, 'never' tries to block it, no RFC3581, "
+"'route' ignores the rport information. See Asterisk documentation for "
+"details."
+msgstr ""
+
+msgid "SIP encryption"
+msgstr ""
+
+msgid ""
+"Default setting for SIP encryption. Whether to offer SRTP encrypted media "
+"(and only SRTP encrypted media) on outgoing calls to a peer. Calls will fail "
+"with HANGUPCAUSE=58 if the peer does not support SRTP. See Asterisk "
+"documentation for details."
+msgstr ""
+
+msgid "SIP qualifyfreq"
+msgstr ""
+
+msgid ""
+"Default setting for SIP qualifyfreq. Only valid for Asterisk 1.6 and above. "
+"Frequency that 'qualify' OPTIONS messages will be sent to the device. Can "
+"help to keep NAT holes open but not dependable for remote client firewalls. "
+"See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP and IAX qualify"
+msgstr ""
+
+msgid ""
+"Default setting for SIP and IAX qualify. Whether to send periodic OPTIONS "
+"messages (for SIP) or otherwise monitor the channel, and at what point to "
+"consider the channel unavailable. A value of 'yes' is equivalent to 2000, "
+"time in msec. Can help to keep NAT holes open with SIP but not dependable "
+"for remote client firewalls. See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP and IAX allow"
+msgstr ""
+
+msgid ""
+"Default setting for SIP and IAX allow (for codecs). Codecs to allow in "
+"addition to those set in general settings unless explicitly 'disallowed' for "
+"the device. Values van be separated with '&' e.g. 'ulaw&g729&g729' where the "
+"preference order is preserved. See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP and IAX disallow"
+msgstr ""
+
+msgid ""
+"Default setting for SIP and IAX disallow (for codecs). Codecs to disallow, "
+"can help to reset from the general settings by setting a value of 'all' and "
+"then specifically including allowed codecs with the 'allow' directive. "
+"Values van be separated with '&' e.g. 'g729&g722'. See Asterisk "
+"documentation for details."
+msgstr ""
+
+msgid "SIP & DAHDI callgroup"
+msgstr ""
+
+msgid ""
+"Default setting for SIP, DAHDI (and Zap) callgroup. Callgroup(s) that the "
+"device is part of, can be one or more callgroups, e.g. '1,3-5' would be in "
+"groups 1,3,4,5. See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP & DAHDI pickupgroup"
+msgstr ""
+
+msgid ""
+"Default setting for SIP, DAHDI (and Zap) pickupgroup. Pickupgroups(s) that "
+"the device can pickup calls from, can be one or more groups, e.g. '1,3-5' "
+"would be in groups 1,3,4,5. Device does not have to be in a group to be able "
+"to pickup calls from that group. See Asterisk documentation for details."
+msgstr ""
+
+msgid "Block CNAM on External Trunks"
+msgstr ""
+
+msgid "Dialplan and Operational"
+msgstr ""
+
+msgid ""
+"Some carriers will reject a call if a CallerID Name (CNAM) is presented. "
+"This occurs in several areas when configuring CID on the PBX using the "
+"format of "
+msgstr ""
+
+msgid ""
+" <CNUM>. To remove the CNAM part of CID on all external trunks, set this "
+"value to true. This WILL NOT remove CNAM when a trunk is called from an "
+"Intra-Company route. This can be done on each individual trunk in addition "
+"to globally if there are trunks where it is desirable to keep CNAM "
+"information, though most carriers ignore CNAM."
+msgstr ""
+
+msgid "Call Forward Ringtimer Default"
+msgstr ""
+
+msgid ""
+"This is the default time in seconds to try and connect a call that has been "
+"call forwarded by the server side CF, CFU and CFB options. (If your phones "
+"use client side CF such as SIP redirects, this will not have any affect) If "
+"set to the default of 0, it will use the standard ring timer. If set to -1 "
+"it will ring the forwarded number with no limit which is consistent with the "
+"behavior of some existing PBX systems. If set to any other value, it will "
+"ring for that duration before diverting the call to the users voicemail if "
+"they have one. This can be overridden for each extension."
+msgstr ""
+
+msgid "Convert ZAP Settings to DAHDi"
+msgstr ""
+
+msgid ""
+"If set to true, FreePBX will check if you have chan_dahdi installed. If so, "
+"it will automatically use all your ZAP configuration settings (devices and "
+"trunks) and silently convert them, under the covers, to DAHDI so no changes "
+"are needed. The GUI will continue to refer to these as ZAP but it will use "
+"the proper DAHDI channels. This will also keep Zap Channel DIDs working."
+msgstr ""
+
+msgid "CW Enabled by Default"
+msgstr ""
+
+msgid ""
+"Enable call waiting by default when an extension is created (Default is "
+"yes). Set to <b>no</b> to if you do not want phones to be commissioned with "
+"call waiting already enabled. The user would then be required to dial the CW "
+"feature code (*70 default) to enable their phone. Most installations should "
+"leave this alone. It allows multi-line phones to receive multiple calls on "
+"their line appearances."
+msgstr ""
+
+msgid "Disable -custom Context Includes"
+msgstr ""
+
+msgid ""
+"Normally FreePBX auto-generates a custom context that may be usable for "
+"adding custom dialplan to modify the normal behavior of FreePBX. It takes a "
+"good understanding of how Asterisk processes these includes to use this and "
+"in many of the cases, there is no useful application. All includes will "
+"result in a WARNING in the Asterisk log if there is no context found to "
+"include though it results in no errors. If you know that you want the "
+"includes, you can set this to true. If you comment it out FreePBX will "
+"revert to legacy behavior and include the contexts."
+msgstr ""
+
+msgid "Dynamically Generate Hints"
+msgstr ""
+
+msgid ""
+"If true, Core will not statically generate hints, but instead make a call to "
+"the AMPBIN php script, and generate_hints.php through an Asterisk #exec "
+"call. This requires asterisk.conf to be configured with "
+"<b>execincludes=yes<b> set in the [options] section."
+msgstr ""
+
+msgid "Enable Custom Device States"
+msgstr ""
+
+msgid ""
+"If this is set, it assumes that you are running Asterisk 1.4 or higher and "
+"want to take advantage of the func_devstate.c backport available from "
+"Asterisk 1.6. This allows custom hints to be created to support BLF for "
+"server side feature codes such as daynight, followme, etc"
+msgstr ""
+
+msgid "Extension Concurrency Limit"
+msgstr ""
+
+msgid ""
+"Default maximum number of outbound simultaneous calls that an extension can "
+"make. This is also very useful as a Security Protection against a system "
+"that has been compromised. It will limit the number of simultaneous calls "
+"that can be made on the compromised extension. This default is used when an "
+"extension is created. A default of 0 means no limit."
+msgstr ""
+
+msgid "Feature Codes Beep Only"
+msgstr ""
+
+msgid ""
+"When set to true, a beep is played instead of confirmation message when "
+"activating/de-activating: CallForward, CallWaiting, DayNight, DoNotDisturb "
+"and FindMeFollow."
+msgstr ""
+
+msgid "Force All Internal Auto Answer"
+msgstr ""
+
+msgid ""
+"Force all extensions to operate in the Internal Auto Answer mode regardless "
+"of their individual settings. See 'Internal Auto Answer Default' for more "
+"information."
+msgstr ""
+
+msgid "Generate Diversion Headers"
+msgstr ""
+
+msgid ""
+"If this value is set to true, then calls going out your outbound routes that "
+"originate from outside your PBX and were subsequently forwarded through a "
+"call forward, ring group, follow-me or other means, will have a SIP "
+"diversion header added to the call with the original incoming DID assuming "
+"there is a DID available. This is useful with some carriers that may require "
+"this under certain circumstances."
+msgstr ""
+
+msgid "Internal Auto Answer Default"
+msgstr ""
+
+msgid ""
+"Default setting for new extensions. When set to Intercom, calls to new "
+"extensions/users from other internal users act as if they were intercom "
+"calls meaning they will be auto-answered if the endpoint supports this "
+"feature and the system is configured to operate in this mode. All the normal "
+"white list and black list settings will be honored if they are set. External "
+"calls will still ring as normal, as will certain other circumstances such as "
+"blind transfers and when a Follow Me is configured and enabled. If Disabled, "
+"the phone rings as a normal phone."
+msgstr ""
+
+msgid "NoOp Traces in Dialplan"
+msgstr ""
+
+msgid ""
+"Some modules will generate lots of NoOp() commands proceeded by a [TRACE]"
+"(trace_level) that can be used during development or while trying to trace "
+"call flows. These NoOp() commands serve no other purpose so if you do not "
+"want to see excessive NoOp()s in your dialplan you can set this to 0. The "
+"higher the number the more detailed level of trace NoOp()s will be generated"
+msgstr ""
+
+msgid "Occupied Lines CW Busy"
+msgstr ""
+
+msgid ""
+"For extensions that have CW enabled, report unanswered CW calls as <b>busy</"
+"b> (resulting in busy voicemail greeting). If set to no, unanswered CW calls "
+"simply report as <b>no-answer</b>."
+msgstr ""
+
+msgid "Polling Interval for Stopping Asterisk"
+msgstr ""
+
+msgid ""
+"When Asterisk is stopped or restarted with the 'amportal stop/restart' "
+"commands, it does a graceful stop waiting for active channels to hangup. "
+"This sets the polling interval to check if Asterisk is shutdown and update "
+"the countdown timer."
+msgstr ""
+
+msgid "Use bad-number Context"
+msgstr ""
+
+msgid ""
+"Generate the bad-number context which traps any bogus number or feature code "
+"and plays a message to the effect. If you use the Early Dial feature on some "
+"Grandstream phones, you will want to set this to false."
+msgstr ""
+
+msgid "Use Google DNS for Enum"
+msgstr ""
+
+msgid ""
+"Setting this flag will generate the required global variable so that "
+"enumlookup.agi will use Google DNS 8.8.8.8 when performing an ENUM lookup. "
+"Not all DNS deals with NAPTR record, but Google does. There is a drawback to "
+"this as Google tracks every lookup. If you are not comfortable with this, do "
+"not enable this setting. Please read Google FAQ about this: <b>http://code."
+"google.com/speed/public-dns/faq.html#privacy</b>."
+msgstr ""
+
+msgid "Waiting Period to Stop Asterisk"
+msgstr ""
+
+msgid ""
+"When Asterisk is stopped or restarted with the 'amportal stop/restart' "
+"commands, it does a graceful stop waiting for active channels to hangup. "
+"This sets the maximum time in seconds to wait prior to force stopping "
+"Asterisk"
+msgstr ""
+
+msgid "Use Automixmon for One-Touch Recording"
+msgstr ""
+
+msgid ""
+"Starting with Asterisk 1.6, one-touch-recording can be toggled on and off "
+"during a call if the dial options had 'x' and/or 'X' options set. When this "
+"is set to true, the 'In-Call Asterisk Toggle Call Recording' will use the "
+"asterisk 'automixmon' option instead of the 'automon' option to set this. "
+"Only one or the other can be set from the GUI. You need to set the proper "
+"options of 'x' and/or 'X' when using this, or 'w' and/or 'W' if using the "
+"older 'automon' version. Setting this to true will have no effect on systems "
+"running Asterisk 1.4 or earlier."
+msgstr ""
+
+msgid "Asterisk AGI Dir"
+msgstr ""
+
+msgid "Directory Layout"
+msgstr ""
+
+msgid "This is the default directory for Asterisks agi files."
+msgstr ""
+
+msgid "Asterisk bin Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks lib files."
+msgstr ""
+
+msgid "Asterisk etc Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks configuration files."
+msgstr ""
+
+msgid "Asterisk Log Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks log files."
+msgstr ""
+
+msgid "Asterisk Modules Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks modules."
+msgstr ""
+
+msgid "Asterisk Run Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks run files."
+msgstr ""
+
+msgid "Asterisk Spool Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks spool directory."
+msgstr ""
+
+msgid "CGI Dir"
+msgstr ""
+
+msgid "The path to Apache cgi-bin dir (leave off trailing slash)."
+msgstr ""
+
+msgid "FreePBX bin Dir"
+msgstr ""
+
+msgid "Location of the FreePBX command line scripts."
+msgstr ""
+
+msgid "FreePBX sbin Dir"
+msgstr ""
+
+msgid "Where (root) command line scripts are located."
+msgstr ""
+
+msgid "FreePBX Web Root Dir"
+msgstr ""
+
+msgid "The path to Apache webroot (leave off trailing slash)."
+msgstr ""
+
+msgid "MoH Subdirectory"
+msgstr ""
+
+msgid ""
+"This is the subdirectory for the MoH files/directories which is located in "
+"ASTVARLIBDIR. Older installation may be using mohmp3 which was the old "
+"Asterisk default and should be set to that value if the music files are "
+"located there relative to the ASTVARLIBDIR."
+msgstr ""
+
+msgid "Override Call Recording Location"
+msgstr ""
+
+msgid ""
+"Override the default location where asterisk will store call recordings. Be "
+"sure to set proper permissions on the directory for the asterisk user."
+msgstr ""
+
+msgid "Disable FOP"
+msgstr ""
+
+msgid ""
+"Set to true to disable FOP in interface and retrieve_conf.  Useful for "
+"sqlite3 or if you do not want FOP."
+msgstr ""
+
+msgid "FOP Password"
+msgstr ""
+
+msgid ""
+"Password for performing transfers and hangups in the Flash Operator Panel "
+"(FOP)."
+msgstr ""
+
+msgid "FOP Sort Mode"
+msgstr ""
+
+msgid ""
+"How FOP sort extensions. By Last Name [lastname] or by Extension [extension]."
+msgstr ""
+
+msgid "FOP Web Root Dir"
+msgstr ""
+
+msgid "Path to the Flash Operator Panel webroot (leave off trailing slash)."
+msgstr ""
+
+msgid "Start FOP with amportal"
+msgstr ""
+
+msgid ""
+"Set to true if you want FOP started by freepbx_engine (amportal_start), "
+"false otherwise."
+msgstr ""
+
+msgid "Abort Config Gen on Bad Dest"
+msgstr ""
+
+msgid "GUI Behavior"
+msgstr ""
+
+msgid ""
+"Setting either of these to true will result in retrieve_conf aborting during "
+"a reload if an extension conflict is detected or a destination is detected. "
+"It is usually better to allow the reload to go through and then correct the "
+"problem but these can be set if a more strict behavior is desired."
+msgstr ""
+
+msgid "Abort Config Gen on Exten Conflict"
+msgstr ""
+
+msgid "Check Server Referrer"
+msgstr ""
+
+msgid ""
+"When set to the default value of true, all requests into FreePBX that might "
+"possibly add/edit/delete settings will be validated to assure the request is "
+"coming from the server. This will protect the system from CSRF (cross site "
+"request forgery) attacks. It will have the effect of preventing legitimately "
+"entering URLs that could modify settings which can be allowed by changing "
+"this field to false."
+msgstr ""
+
+msgid "Include Server Name in Browser"
+msgstr ""
+
+msgid "Precede browser title with the server name."
+msgstr ""
+
+msgid "Report Unknown Dest as Error"
+msgstr ""
+
+msgid ""
+"If false, then the Destination Registry will not report unknown destinations "
+"as errors. This should be left to the default true and custom destinations "
+"should be moved into the new custom apps registry."
+msgstr ""
+
+msgid "Require Confirm with Apply Changes"
+msgstr ""
+
+msgid "When set to false, will bypass the confirm on Reload Box."
+msgstr ""
+
+msgid "Show Categories in Nav Menu"
+msgstr ""
+
+msgid ""
+"Controls if the menu items in the admin interface are sorted by category "
+"(true) or sorted alphabetically with no categories shown (false). Defaults = "
+"true"
+msgstr ""
+
+msgid "Use wget For Module Admin"
+msgstr ""
+
+msgid ""
+"Module Admin normally tries to get its online information through direct "
+"file open type calls to URLs that go back to the freepbx.org server. If it "
+"fails, typically because of content filters in firewalls that do not like "
+"the way PHP formats the requests, the code will fall back and try a wget to "
+"pull the information. This will often solve the problem. However, in such "
+"environment there can be a significant timeout before the failed file open "
+"calls to the URLs return and there are often 2-3 of these that occur. "
+"Setting this value will force FreePBX to avoid the attempt to open the URL "
+"and go straight to the wget calls."
+msgstr ""
+
+msgid "Asterisk Function CONNECTEDLINE"
+msgstr ""
+
+msgid "Internal Use"
+msgstr ""
+
+msgid ""
+"Set to the function name if the function is present in this Asterisk install"
+msgstr ""
+
+msgid "Asterisk Function DEVICE_STATE"
+msgstr ""
+
+msgid "Asterisk Function EXTENSION_STATE"
+msgstr ""
+
+msgid "Asterisk Function MASTER_CHANNEL"
+msgstr ""
+
+msgid "Asterisk Function SHARED"
+msgstr ""
+
+msgid "Asterisk Version"
+msgstr ""
+
+msgid ""
+"Asterisk Version used during last 'Apply Configuration Changes' when "
+"retrieve_conf is run"
+msgstr ""
+
+msgid "Auto Generated Copy of Main CSS"
+msgstr ""
+
+msgid "internal use"
+msgstr ""
+
+msgid "Last Mod Time of Main CSS"
+msgstr ""
+
+msgid "Remote CDR DB Host"
+msgstr ""
+
+msgid "Remote CDR Database"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX.<br>Hostname of db server if not "
+"the same as AMPDBHOST."
+msgstr ""
+
+msgid "Remote CDR DB Name"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX.<br>Name of database used for cdr "
+"records."
+msgstr ""
+
+msgid "Remote CDR DB Password"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX.<br>Password for connecting to db "
+"if its not the same as AMPDBPASS."
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX.<br>Port number for db host."
+msgstr ""
+
+msgid "Remote CDR DB Table"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX. Name of the table in the db "
+"where the cdr is stored. cdr is default."
+msgstr ""
+
+msgid "Remote CDR DB Type"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX. Defaults to your configured "
+"AMDBENGINE."
+msgstr ""
+
+msgid "Remote CDR DB User"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX. Username to connect to db with "
+"if it is not the same as AMPDBUSER."
+msgstr ""
+
+msgid "Legacy Right Logo"
+msgstr ""
+
+msgid "Styling and Logos"
+msgstr ""
+
+msgid ""
+"Legacy setting, use BRAND_IMAGE_FREEPBX_RIGHT in the future. If set, this "
+"will override BRAND_IMAGE_FREEPBX_RIGHT. The setting is the name of the "
+"image file and is always assumed to be present in the admin/images "
+"directory. Overrides the standard logo that is to be displayed at the TOP "
+"RIGHT of the admin screen. This enables you to customize the look of the "
+"administration screen. NOTE: images need to be saved in the ..../admin/"
+"images directory of your AMP install. This image should be 55px in height."
+msgstr ""
+
+msgid "Hide Nav Background"
+msgstr ""
+
+msgid "Hide the configured left navigation bar background."
+msgstr ""
+
+msgid "Image: shadow-side-background.png"
+msgstr ""
+
+msgid "Styling image."
+msgstr ""
+
+msgid "Image: Right Upper"
+msgstr ""
+
+msgid ""
+"Right upper logo. Use this setting instead of AMPADMINLOGO. Path is relative "
+"to admin."
+msgstr ""
+
+msgid "Image: Left Upper"
+msgstr ""
+
+msgid "Left upper logo.  Path is relative to admin."
+msgstr ""
+
+msgid "Image: Footer"
+msgstr ""
+
+msgid "Logo in footer.  Path is relative to admin."
+msgstr ""
+
+msgid "Image: Reload Screen"
+msgstr ""
+
+msgid ""
+"Image used during a reload, default is animated GIF eating the * "
+"(asterisk).  Path is relative to admin."
+msgstr ""
+
+msgid "Alt for Left Logo"
+msgstr ""
+
+msgid ""
+"alt attribute to use in place of image and title hover value. Defaults to "
+"FreePBX"
+msgstr ""
+
+msgid "Alt for Right Logo"
+msgstr ""
+
+msgid "Alt for Footer Logo"
+msgstr ""
+
+msgid "Link for Left Logo"
+msgstr ""
+
+msgid ""
+"link to follow when clicking on logo, defaults to http://www.freepbx.org"
+msgstr ""
+
+msgid "Link for Right Logo"
+msgstr ""
+
+msgid "Link for Footer Logo"
+msgstr ""
+
+msgid "Hide Right Logo"
+msgstr ""
+
+msgid "Setting to true will hide the upper right logo."
+msgstr ""
+
+msgid "Hide Left FreePBX Version"
+msgstr ""
+
+msgid ""
+"Setting to true will hide the FreePBX version information below the left "
+"upper header."
+msgstr ""
+
+msgid "Hide Header Menus"
+msgstr ""
+
+msgid ""
+"Setting to true will hide the complete horizontal menu bar in the header."
+msgstr ""
+
+msgid "Primary CSS Stylesheet"
+msgstr ""
+
+msgid ""
+"Set this to replace the default mainstyle.css style sheet with your own, "
+"relative to admin."
+msgstr ""
+
+msgid "Optional Additional CSS Stylesheet"
+msgstr ""
+
+msgid ""
+"Optional custom CSS style sheet included after the primary one and any "
+"module specific ones are loaded, relative to admin."
+msgstr ""
+
+msgid "View: freepbx_admin.php"
+msgstr ""
+
+msgid ""
+"freepbx_admin.php view. This should never be changed except for very "
+"advanced layout changes."
+msgstr ""
+
+msgid "View: freepbx.php"
+msgstr ""
+
+msgid ""
+"freepbx.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: freepbx_reload.php"
+msgstr ""
+
+msgid ""
+"freepbx_reload.php view. This should never be changed except for very "
+"advanced layout changes."
+msgstr ""
+
+msgid "View: freepbx_reloadbar.php"
+msgstr ""
+
+msgid ""
+"freepbx_reloadbar.php view. This should never be changed except for very "
+"advanced layout changes."
+msgstr ""
+
+msgid "View: welcome.php"
+msgstr ""
+
+msgid ""
+"welcome.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: welcome_nomanager.php"
+msgstr ""
+
+msgid ""
+"welcome_nomanager.php view. This should never be changed except for very "
+"advanced layout changes."
+msgstr ""
+
+msgid "View: menuitem_disabled.php"
+msgstr ""
+
+msgid ""
+"menuitem_disabled.php view. This should never be changed except for very "
+"advanced layout changes."
+msgstr ""
+
+msgid "View: noaccess.php"
+msgstr ""
+
+msgid ""
+"noaccess.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: unauthorized.php"
+msgstr ""
+
+msgid ""
+"unauthorized.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: bad_refferer.php"
+msgstr ""
+
+msgid ""
+"bad_refferer.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: loggedout.php"
+msgstr ""
+
+msgid ""
+"loggedout.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: panel.php"
+msgstr ""
+
+msgid ""
+"panel.php view. This should never be changed except for very advanced layout "
+"changes."
+msgstr ""
+
+msgid "View: reports.php"
+msgstr ""
+
+msgid ""
+"reports.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "FreePBX Log Routing"
+msgstr ""
+
+msgid "System Setup"
+msgstr ""
+
+msgid ""
+"Determine where to send log information if the log is enabled ('Disable "
+"FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log "
+"messages. 'FILE' will send all log messages to the defined 'FreePBX Log "
+"File' (FPBX_LOG_FILE). All the other settings will route the log messages to "
+"your System Logging subsystem (syslog) using the specified log level. Syslog "
+"can be configured to route different levels to different locations. See "
+"'syslog' documentation (man syslog) on your system for more details."
+msgstr ""
+
+msgid "Disable FreePBX Log"
+msgstr ""
+
+msgid "Whether or not to invoke the FreePBX log facility."
+msgstr ""
+
+msgid "Log Verbose Messages"
+msgstr ""
+
+msgid ""
+"FreePBX has many verbose and useful messages displayed to users during "
+"module installation, system installations, loading configurations and other "
+"places. In order to accumulate these messages in the log files as well as "
+"the on screen display, set this to true."
+msgstr ""
+
+msgid "Send Dashboard Notifications to Log"
+msgstr ""
+
+msgid ""
+"When enabled all notification updates to the Dashboard notification panel "
+"will also be logged into the specified log file when enabled."
+msgstr ""
+
+msgid "FreePBX Log File"
+msgstr ""
+
+msgid ""
+"Full path and name of the FreePBX Log File used in conjunction with the "
+"Syslog Level (AMPSYSLOGLEVEL) being set to FILE, not used otherwise. Initial "
+"installs may have some early logging sent to /tmp/freepbx_pre_install.log "
+"when it is first bootstrapping the installer."
+msgstr ""
+
+msgid "PHP Error Log Output"
+msgstr ""
+
+msgid ""
+"Where to send PHP errors, warnings and notices by the FreePBX PHP error "
+"handler. Set to 'dbug', they will go to the Debug File regardless of whether "
+"dbug Loggin is disalbed or not. Set to 'freepbxlog' will send them to the "
+"FreePBX Log. Set to 'off' and they will be ignored."
+msgstr ""
+
+msgid "User & Devices Mode"
+msgstr ""
+
+msgid ""
+"Sets the extension behavior in FreePBX.  If set to <b>extensions</b>, "
+"Devices and Users are administered together as a unified Extension, and "
+"appear on a single page. If set to <b>deviceanduser</b>, Devices and Users "
+"will be administered separately. Devices (e.g. each individual line on a SIP "
+"phone) and Users (e.g. <b>101</b>) will be configured independent of each "
+"other, allowing association of one User to many Devices, or allowing Users "
+"to login and logout of Devices."
+msgstr ""
+
+msgid "Authorization Type"
+msgstr ""
+
+msgid ""
+"Authentication type to use for web admin. If type set to <b>database</b>, "
+"the primary AMP admin credentials will be the AMPDBUSER/AMPDBPASS above. "
+"When using database you can create users that are restricted to only certain "
+"module pages. When set to none, you should make sure you have provided "
+"security at the apache level. When set to webserver, FreePBX will expect "
+"authentication to happen at the apache level, but will take the user "
+"credentials and apply any restrictions as if it were in database mode."
+msgstr ""
+
+msgid "Allow Login With DB Credentials"
+msgstr ""
+
+msgid ""
+"When Set to True, admin access to the FreePBX GUI will be allowed using the "
+"FreePBX configured AMPDBUSER and AMPDBPASS credentials. This only applies "
+"when Authorization Type is 'database' mode."
+msgstr ""
+
+msgid "User Portal Admin Username"
+msgstr ""
+
+msgid ""
+"This is the default admin name used to allow an administrator to login to "
+"ARI bypassing all security. Change this to whatever you want, do not forget "
+"to change the User Portal Admin Password as well. Default = not set"
+msgstr ""
+
+msgid "User Portal Admin Password"
+msgstr ""
+
+msgid ""
+"This is the default admin password to allow an administrator to login to ARI "
+"bypassing all security. Change this to a secure password. Default = not set"
+msgstr ""
+
+msgid "Asterisk VMU Mask"
+msgstr ""
+
+msgid ""
+"Defaults to 077 allowing only the asterisk user to have any permission on VM "
+"files. If set to something like 007, it would allow the group to have "
+"permissions. This can be used if setting apache to a different user then "
+"asterisk, so that the apache user (and thus ARI) can have access to read/"
+"write/delete the voicemail files. If changed, some of the voicemail "
+"directory structures may have to be manually changed."
+msgstr ""
+
+msgid "Force Asterisk Version"
+msgstr ""
+
+msgid ""
+"Normally FreePBX gets the current Asterisk version directly form Asterisk. "
+"This is required to generate proper dialplan for a given version. When using "
+"some custom Asterisk builds, the version may not be properly parsed and "
+"imporoper dialplan generated. Setting this to an equivalent Asterisk version "
+"will override what is read from Asterisk. This SHOULD be left blank unless "
+"you know what you are doing."
+msgstr ""
+
+msgid "FreePBX Web Address"
+msgstr ""
+
+msgid ""
+"This is the address of your Web Server. It is mostly obsolete and derived "
+"when not supplied and will be phased out, but there are still some areas "
+"expecting a variable to be set and if you are using it this will migrate "
+"your value."
+msgstr ""
+
+msgid "System Asterisk Group"
+msgstr ""
+
+msgid ""
+"The user group Asterisk should be running as, used by freepbx_engine. Most "
+"systems should not change this."
+msgstr ""
+
+msgid "System Asterisk User"
+msgstr ""
+
+msgid ""
+"The user Asterisk should be running as, used by freepbx_engine. Most systems "
+"should not change this."
+msgstr ""
+
+msgid "System Device Group"
+msgstr ""
+
+msgid ""
+"The user group that various device directories should be set to, used by "
+"freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
+"mISDN and /dev/dsp. Most systems should not change this."
+msgstr ""
+
+msgid "System Device User"
+msgstr ""
+
+msgid ""
+"The user that various device directories should be set to, used by "
+"freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
+"mISDN and /dev/dsp. Most systems should not change this."
+msgstr ""
+
+msgid "System Web Group"
+msgstr ""
+
+msgid ""
+"The user group your httpd should be running as, used by freepbx_engine. Most "
+"systems should not change this."
+msgstr ""
+
+msgid "System Web User"
+msgstr ""
+
+msgid ""
+"The user your httpd should be running as, used by freepbx_engine. Most "
+"systems should not change this."
+msgstr ""
+
+msgid "Telephony Engine"
+msgstr ""
+
+msgid ""
+"The telephony backend engine being used, asterisk is the only option "
+"currently."
+msgstr ""
+
+msgid "VMX Default Context"
+msgstr ""
+
+msgid "VmX Locater"
+msgstr ""
+
+msgid ""
+"Used to do extremely advanced and customized changes to the macro-vm VmX "
+"locater. Check the dialplan for a thorough understanding of how to use this."
+msgstr ""
+
+msgid "VMX Default Loop Exceed Context"
+msgstr ""
+
+msgid ""
+"Used to do extremely advanced and customized changes to the macro-vm VmX "
+"locater. Check the dialplan for a thorough understanding of how to use this. "
+"The default location that a caller will be sent if they press an invalid "
+"options too many times, as defined by the Maximum Loops count."
+msgstr ""
+
+msgid "VMX Default Loop Exceed Extension"
+msgstr ""
+
+msgid "VMX Default Loop Exceed Priority"
+msgstr ""
+
+msgid "VMX Default Priority"
+msgstr ""
+
+msgid "VMX Default Timeout Context"
+msgstr ""
+
+msgid ""
+"Used to do extremely advanced and customized changes to the macro-vm VmX "
+"locater. Check the dialplan for a thorough understanding of how to use this. "
+"The default location that a caller will be sent if they don't press any key "
+"(timeout) or press # which is interpreted as a timeout. Set this to 'dovm' "
+"to go to voicemail (default)."
+msgstr ""
+
+msgid "VMX Default Timeout Extension"
+msgstr ""
+
+msgid "VMX Default Timeout Priority"
+msgstr ""
+
+msgid "Terminate Call"
 msgstr ""
 
 msgid "Hangup"
@@ -1144,6 +2576,10 @@ msgstr ""
 msgid "Inbound Route: %s (%s)"
 msgstr ""
 
+#, php-format
+msgid "%s: %s (%s)"
+msgstr ""
+
 msgid "You must put in an extension (or user) number"
 msgstr ""
 
@@ -1186,6 +2622,9 @@ msgstr ""
 msgid "Never"
 msgstr ""
 
+msgid "Intercom"
+msgstr ""
+
 msgid "Screen Caller: No Memory"
 msgstr ""
 
@@ -1194,6 +2633,9 @@ msgstr ""
 
 msgid "Default"
 msgstr "Alapértelmezett"
+
+msgid "No Limit"
+msgstr ""
 
 msgid "deleted"
 msgstr "tötölt"
@@ -1290,7 +2732,7 @@ msgstr ""
 msgid ""
 "The CID Number to use for internal calls, if different from the extension "
 "number. This is used to masquerade as a different user. A common example is "
-"a team of support people who would like their internal callerid to display "
+"a team of support people who would like their internal CallerID to display "
 "the general support number (a ringgroup or queue). There will be no effect "
 "on external calls."
 msgstr ""
@@ -1320,7 +2762,7 @@ msgid ""
 "Overrides the caller id when dialing out a trunk. Any setting here will "
 "override the common outbound caller id set in the Trunks admin."
 "<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this "
-"field blank to disable the outbound callerid feature for this user."
+"field blank to disable the outbound CallerID feature for this user."
 msgstr ""
 
 msgid "Ring Time"
@@ -1332,10 +2774,44 @@ msgid ""
 "ignored."
 msgstr ""
 
+msgid "Call Forward Ring Time"
+msgstr ""
+
+msgid ""
+"Number of seconds to ring during a Call Forward, Call Forward Busy or Call "
+"Forward Unavailable call prior to continuing to voicemail or specified "
+"destination. Setting to Always will not return, it will just continue to "
+"ring. Default will use the current Ring Time. If voicemail is disabled and "
+"their is not destination specified, it will be forced into Always mode"
+msgstr ""
+
+msgid "Outbound Concurrency Limit"
+msgstr ""
+
+msgid ""
+"Maximum number of outbound simultaneous calls that an extension can make. "
+"This is also very useful as a Security Protection against a system that has "
+"been compromised. It will limit the number of simultaneous calls that can be "
+"made on the compromised extension."
+msgstr ""
+
 msgid "Call Waiting"
 msgstr ""
 
 msgid "Set the initial/current Call Waiting state for this user's extension"
+msgstr ""
+
+msgid "Internal Auto Answer"
+msgstr ""
+
+msgid ""
+"When set to Intercom, calls to this extension/user from other internal users "
+"act as if they were intercom calls meaning they will be auto-answered if the "
+"endpoint supports this feature and the system is configured to operate in "
+"this mode. All the normal white list and black list settings will be honored "
+"if they are set. External calls will still ring as normal, as will certain "
+"other circumstances such as blind transfers and when a Follow Me is "
+"configured and enabled. If Disabled, the phone rings as a normal phone."
 msgstr ""
 
 msgid "Call Screening"
@@ -1347,10 +2823,10 @@ msgid ""
 "Screening with memory only verifies a caller for their caller-id once. "
 "Screening without memory always requires a caller to say their name. Either "
 "mode will always announce the caller based on the last introduction saved "
-"with that callerid. If any user on the system uses the memory option, when "
+"with that CallerID. If any user on the system uses the memory option, when "
 "that user is called, the caller will be required to re-introduce themselves "
 "and all users on the system will have that new introduction associated with "
-"the caller's CallerId."
+"the caller's CallerID."
 msgstr ""
 
 msgid "Pinless Dialing"
@@ -1411,6 +2887,61 @@ msgstr ""
 msgid "Record all outbound calls received at this extension."
 msgstr ""
 
+msgid "Optional Destinations"
+msgstr ""
+
+msgid ""
+"Optional destination call is routed to when the call is not answered on an "
+"otherwise idle phone. If the phone is in use and the call is simply ignored, "
+"then the busy destination will be used."
+msgstr ""
+
+msgid "Optional destination call is routed to when the call is not answered."
+msgstr ""
+
+msgid "Unavail Voicemail if Enabled"
+msgstr ""
+
+msgid "No Answer"
+msgstr ""
+
+msgid "CID Prefix"
+msgstr ""
+
+msgid ""
+"Optional CID Prefix to add before sending to this no answer destination."
+msgstr ""
+
+msgid ""
+"Optional destination the call is routed to when the phone is busy or the "
+"call is rejected by the user. This destination is also used on an unanswered "
+"call if the phone is in use and the user chooses not to pickup the second "
+"call."
+msgstr ""
+
+msgid ""
+"Optional destination the call is routed to when the phone is busy or the "
+"call is rejected by the user."
+msgstr ""
+
+msgid "Busy Voicemail if Enabled"
+msgstr ""
+
+msgid "Optional CID Prefix to add before sending to this busy destination."
+msgstr ""
+
+msgid ""
+"Optional destination the call is routed to when the phone is offline, such "
+"as a softphone currently off or a phone unplugged."
+msgstr ""
+
+msgid "Not Reachable"
+msgstr ""
+
+msgid ""
+"Optional CID Prefix to add before sending to this not reachable destination."
+msgstr ""
+
 msgid "Warning! Extension"
 msgstr "Figyelem! Mellék"
 
@@ -1444,6 +2975,300 @@ msgid ""
 msgstr ""
 
 msgid "Please enter a Secret for this device"
+msgstr ""
+
+msgid "The Zap channel number for this port."
+msgstr ""
+
+msgid ""
+"Asterisk context this device will send calls to. Only change this is you "
+"know what you are doing."
+msgstr ""
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "No"
+msgstr "No"
+
+msgid "Zap immediate mode setting, see Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Zap signaling, usually fxo_ks when connected to an analog phone. Some "
+"special applications or channel bank connections may require fxs_ks or other "
+"valid settings. See Zap and card documentation for details."
+msgstr ""
+
+msgid "Zap echocancel setting, see Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Whether to turn on echo cancellation when bridging between Zap channels. See "
+"Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Echo training requirements of this card. See Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect a busy signal. See "
+"Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect a busy signal, number "
+"of iterations to conclude busy. See Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect call progress tones. "
+"See Zap documentation for details."
+msgstr ""
+
+msgid ""
+"How to dial this device, this should not be changed unless you know what you "
+"are doing."
+msgstr ""
+
+msgid "Accountcode for this device."
+msgstr ""
+
+msgid ""
+"Callgroup(s) that this device is part of, can be one or more callgroups, e."
+"g. '1,3-5' would be in groups 1,3,4,5."
+msgstr ""
+
+msgid ""
+"Pickupgroups(s) that this device can pickup calls from, can be one or more "
+"groups, e.g. '1,3-5' would be in groups 1,3,4,5. Device does not have to be "
+"in a group to be able to pickup calls from that group."
+msgstr ""
+
+msgid ""
+"Mailbox for this device. This should not be changed unless you know what you "
+"are doing."
+msgstr ""
+
+msgid "The DAHDi channel number for this port."
+msgstr ""
+
+msgid "DAHDi immediate mode setting, see DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"DAHDi signalling, usually fxo_ks when connected to an analog phone. Some "
+"special applications or channel bank connections may require fxs_ks or other "
+"valid settings. See DAHDi and card documentation for details."
+msgstr ""
+
+msgid "DAHDi echocancel setting, see DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Whether to turn on echo cancellation when bridging between DAHDi channels. "
+"See DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Echo training requirements of this card. See DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect a busy signal. See "
+"DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect a busy signal, number "
+"of iterations to conclude busy. See DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect call progress tones. "
+"See DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Password (secret) configured for the device. Should be alphanumeric with at "
+"least 2 letters and numbers to keep secure."
+msgstr ""
+
+msgid "Media Only"
+msgstr ""
+
+msgid "IAX transfer capabilities, see the Asterisk documentation for details."
+msgstr ""
+
+msgid "Host settings for this device, almost always dynamic for endpoints."
+msgstr ""
+
+msgid "Asterisk connection type, usually friend for endpoints."
+msgstr ""
+
+msgid "Endpoint port number to use, usually 4569."
+msgstr ""
+
+msgid ""
+"Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the "
+"endpoint periodically (default every minute). Used to monitor the health of "
+"the endpoint. If delays are longer then the qualify time, the endpoint will "
+"be taken offline and considered unreachable. Can be set to a value which is "
+"the msec threshold. Setting to no will turn this off. Can also be helpful to "
+"keep NAT pinholes open."
+msgstr ""
+
+msgid ""
+"Disallowed codecs. Set this to all to remove all codecs defined in the "
+"general settings and then specify specific codecs separated by '&' on the "
+"'allow' setting, or just disallow specific codecs separated by '&'."
+msgstr ""
+
+msgid ""
+"Allow specific codecs, separated by the '&' sign and in priority order. E.g. "
+"'ulaw&g729'. Codecs allowed in the general settings will also be allowed "
+"unless removed with the 'disallow' directive."
+msgstr ""
+
+msgid "IP Address range to deny access to, in the form of network/netmask."
+msgstr ""
+
+msgid ""
+"IP Address range to allow access to, in the form of network/netmask. This "
+"can be a very useful security option when dealing with remote extensions "
+"that are at a known location (such as a branch office) or within a known ISP "
+"range for some home office situations."
+msgstr ""
+
+msgid "Auto"
+msgstr ""
+
+msgid ""
+"IAX security setting. See IAX documentation and device compatibility for "
+"details."
+msgstr ""
+
+msgid "RFC 2833"
+msgstr ""
+
+msgid "In band audio"
+msgstr ""
+
+msgid "SIP INFO (application/dtmf-relay"
+msgstr ""
+
+msgid "SIP INFO (application/dtmf)"
+msgstr ""
+
+msgid ""
+"The DTMF signaling mode used by this device, usually rfc2833 for most phones."
+msgstr ""
+
+msgid ""
+"Re-Invite policy for this device, see Asterisk documentation for details."
+msgstr ""
+
+msgid ""
+"Whether Asterisk should trust the RPID settings from this device. Usually "
+"should be yes for CONNECTEDLINE() functionality to work if supported by the "
+"endpoint."
+msgstr ""
+
+msgid "Send Remote-Party-ID header"
+msgstr ""
+
+msgid "Send P-Asserted-Identity header"
+msgstr ""
+
+msgid ""
+"Whether Asterisk should send RPID (or PAI) info to the device. Usually "
+"should be enabled to the settings used by your device for CONNECTEDLINE() "
+"functionality to work if supported by the endpoint."
+msgstr ""
+
+msgid "No - RFC3581"
+msgstr ""
+
+msgid "never - no RFC3581"
+msgstr ""
+
+msgid "route - NAT no rport"
+msgstr ""
+
+msgid ""
+"NAT setting, see Asterisk documentation for details. Yes usually works for "
+"both internal and external devices. Set to No if the device will always be "
+"internal."
+msgstr ""
+
+msgid ""
+"Endpoint port number to use, usually 5060. Some 2 ports devices such as ATA "
+"may used 5061 for the second port."
+msgstr ""
+
+msgid ""
+"Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the "
+"endpoint periodically (default every minute). Used to monitor the health of "
+"the endpoint. If delays are longer then the qualify time, the endpoint will "
+"be taken offline and considered unreachable. Can be set to a value which is "
+"the msec threshhold. Setting to no will turn this off. Can also be helpful "
+"to keep NAT pinholes open."
+msgstr ""
+
+msgid "Frequency in seconds to send qualify messages to the endpoint."
+msgstr ""
+
+msgid "All - UDP Primary"
+msgstr ""
+
+msgid "All - TCP Primary"
+msgstr ""
+
+msgid "All - TLS Primary"
+msgstr ""
+
+msgid "UDP Only"
+msgstr ""
+
+msgid "TCP Only"
+msgstr ""
+
+msgid "TLS Only"
+msgstr ""
+
+msgid ""
+"This sets the allowed transport settings for this device and the default "
+"(Primary) transport for outgoing. The default transport is only used for "
+"outbound messages until a registration takes place.  During the peer "
+"registration the transport type may change to another supported type if the "
+"peer requests so. In most common cases, this does not have to be changed as "
+"most devices register in conjunction with the host=dynamic setting. If you "
+"are using TCP and/or TLS you need to make sure the general SIP Settings are "
+"configured for the system to operate in those modes and for TLS, proper "
+"certificates have been generated and configured."
+msgstr ""
+
+msgid "Yes (SRTP only)"
+msgstr ""
+
+msgid ""
+"Whether to offer SRTP encrypted media (and only SRTP encrypted media) on "
+"outgoing calls to a peer. Calls will fail with HANGUPCAUSE=58 if the peer "
+"does not support SRTP. Defaults to no."
+msgstr ""
+
+msgid ""
+"Asterisk dialplan extension to reach voicemail for this device. Some devices "
+"use this to auto-program the voicemail button on the endpoint. If left "
+"blank, the default vmexten setting is automatically configured by the "
+"voicemail module. Only change this on devices that may have special needs."
+msgstr ""
+
+msgid ""
+"How to dial this device. This will be device specific. For example, a custom "
+"device which is really a remote SIP URI might be configured such as SIP/"
+"joe@somedomain.com"
 msgstr ""
 
 msgid "Generic SIP Device"
@@ -1697,6 +3522,111 @@ msgstr ""
 msgid "Added pmmaxretries and pmminlength"
 msgstr ""
 
+#, php-format
+msgid "Checking for %s field.."
+msgstr ""
+
+msgid "Checking for General Setting migrations.."
+msgstr ""
+
+msgid "preparing"
+msgstr ""
+
+#, php-format
+msgid "%s prepared"
+msgstr ""
+
+msgid "General Settings migrated"
+msgstr ""
+
+msgid "Deleting migrated settings.."
+msgstr ""
+
+msgid "Fatal DB error trying to delete globals, trying to carry on"
+msgstr ""
+
+#, php-format
+msgid "Discontinued logging type %s changing to %s.."
+msgstr ""
+
+msgid "ok"
+msgstr ""
+
+msgid "Converting IAX notransfer to transfer if needed.."
+msgstr ""
+
+#, php-format
+msgid "updated %s records"
+msgstr ""
+
+msgid ""
+"You must run 'amportal restart' from the Linux command line before you can "
+"save setting here."
+msgstr ""
+
+msgid ""
+"You have un-saved changes, press OK to disregard changes and reload page or "
+"Cancel to abort."
+msgstr ""
+
+msgid ""
+"Your Display settings have been changed, click on 'Refresh Page' to view the "
+"affects of your changes once you have saved other outstanding changes that "
+"are still un-confirmed."
+msgstr ""
+
+msgid "FreePBX Advanced Settings"
+msgstr ""
+
+msgid "<b>IMPORTANT:</b> Use extreme caution when making changes!"
+msgstr ""
+
+msgid ""
+"Some of these settings can render your system inoperable. You are urged to "
+"backup before making any changes. Readonly settings are usually more "
+"volatile, they can be changed by changing 'Override Readonly Settings' to "
+"true. Once changed you must save the setting by checking the green check box "
+"that appears. You can restore the default setting by clicking on the icon to "
+"the right of the values if not set at default."
+msgstr ""
+
+msgid "True"
+msgstr ""
+
+msgid "False"
+msgstr ""
+
+msgid "No Default Provided"
+msgstr ""
+
+#, php-format
+msgid "Default Value: %s"
+msgstr ""
+
+msgid "field can be left blank"
+msgstr ""
+
+#, php-format
+msgid "Acceptable Values: %s - %s"
+msgstr ""
+
+#, php-format
+msgid "Internal Name: %s"
+msgstr ""
+
+#, php-format
+msgid "Friendly Name: %s"
+msgstr ""
+
+msgid "Revert to Default"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Refresh Page"
+msgstr ""
+
 msgid "Edit Administrator"
 msgstr "Adminisztrátor szerkesztése"
 
@@ -1711,10 +3641,10 @@ msgid "NOTE:"
 msgstr ""
 
 msgid ""
-"AUTHTYPE is not set to 'database' in /etc/amportal.conf - note that this "
-"module is not currently providing access control, and changing passwords "
-"here or adding users will have no effect unless AUTHTYPE is set to "
-"'database'."
+"Authorization Type is not set to 'database' in Advanced Setting - note that "
+"this module is not currently providing access control, and changing "
+"passwords here or adding users will have no effect unless Authorization Type "
+"is set to 'database'."
 msgstr ""
 
 msgid "Username<span>Create a unique username for this new user</span>"
@@ -1920,23 +3850,17 @@ msgid ""
 "reaches the user/extension."
 msgstr ""
 
-msgid "No"
-msgstr "No"
-
-msgid "Yes"
-msgstr "Yes"
-
 msgid "Max attempts"
 msgstr ""
 
-msgid "Number of attempts the caller has to enter a valid callerID"
+msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr ""
 
 msgid "Min Length"
 msgstr ""
 
 msgid ""
-"Minimum amount of digits callerID needs to contain in order to be considered "
+"Minimum amount of digits CallerID needs to contain in order to be considered "
 "valid"
 msgstr ""
 
@@ -2004,16 +3928,20 @@ msgid "r: Generate a ringing tone for the calling party"
 msgstr "r: Generál egy csörgésmintát a hívó félnek"
 
 msgid ""
-"w: Allow the called user to start recording after pressing *1 (Asterisk v1.2)"
+"x or w: Allow the called user to start recording using One-Touch Recording"
 msgstr ""
-"w: elfogadja a hívott féltől a rögzítést, ha megnyomja a *1-et (Asterisk "
-"v1.2)"
 
 msgid ""
-"W: Allow the calling user to start recording after pressing *1 (Asterisk "
-"v1.2)"
+"X or W: Allow the calling user to start recording using One-Touch Recording"
 msgstr ""
-"W: elfogadja a hívó féltől a rögzítést, ha megnyomja a *1-et (Asterisk v1.2)"
+
+msgid ""
+"Choose automixmon (x/X) or automon (w/W) for One-Touch Recording in Advanced "
+"Settings"
+msgstr ""
+
+msgid "See Asterisk documentation for other advanced options."
+msgstr ""
 
 msgid "Asterisk Outbound Dial command options:"
 msgstr "Asterisk kimenő tárcsázási parancs opciója:"
@@ -2062,25 +3990,6 @@ msgid "gsm"
 msgstr ""
 
 msgid "g729"
-msgstr ""
-
-msgid "Recording Location:"
-msgstr ""
-
-msgid ""
-"Override the default location where asterisk will store call recordings. "
-"Include the trailing /. Be sure to set proper permissions on the directory "
-"for the asterisk user."
-msgstr ""
-
-msgid "Run after record:"
-msgstr ""
-
-msgid ""
-"An optional script to be run after the call is hungup. You can include "
-"channel and MixMon variables like ${CALLFILENAME}, ${MIXMON_FORMAT} and "
-"${MIXMON_DIR}. To ensure that you variables are properly escaped, use the "
-"following notation: ^{MY_VAR}"
 msgstr ""
 
 msgid "Voicemail"
@@ -2149,30 +4058,6 @@ msgid ""
 msgstr ""
 
 msgid "Voicemail VmX Locator"
-msgstr ""
-
-msgid "Default Context & Pri:"
-msgstr ""
-
-msgid "Default to use if only a number/extension are provided."
-msgstr ""
-
-msgid "Timeout/#-press default:"
-msgstr ""
-
-msgid ""
-"This is the default location that a caller will be sent if they don't press "
-"any key (timeout) or press # which is interpreted as a timeout. Set this to "
-"'dovm' to go to voicemail (default)."
-msgstr ""
-
-msgid "Loop Exceed default:"
-msgstr ""
-
-msgid ""
-"This is the default location that a caller will be sent if they press an "
-"invalid options too man times, as defined by the Maximum Loops count. Set "
-"this to 'dovm' to go to voicemail (default)."
 msgstr ""
 
 msgid "Timeout VM Msg:"
@@ -2556,7 +4441,7 @@ msgstr ""
 msgid "match pattern"
 msgstr ""
 
-msgid "CallerId"
+msgid "CallerID"
 msgstr ""
 
 msgid "Dial patterns wizards"
@@ -2681,6 +4566,9 @@ msgstr "Lejjebb helyezés"
 msgid "Add Trunk"
 msgstr "Trunk hozzáadása"
 
+msgid "Duplicate Route"
+msgstr ""
+
 msgid "remove"
 msgstr ""
 
@@ -2726,6 +4614,9 @@ msgstr ""
 
 msgid "Add IAX2 Trunk"
 msgstr "IAX2-trunk hozzáadása"
+
+msgid "Add mISDN Trunk"
+msgstr ""
 
 msgid "Add ENUM Trunk"
 msgstr "ENUM-trunk hozzáadása"
@@ -2940,13 +4831,10 @@ msgid ""
 "\"6135551234\", it can be converted to \"555-1234\"."
 msgstr ""
 
-msgid "Setup Google for directory assistance"
+msgid "Setup directory assistance"
 msgstr ""
 
-msgid ""
-"is useful to translate a call to directory assistance (default: 411) to "
-"Google's toll free directory (default: 18004664411) or any other number of "
-"your choosing"
+msgid "is useful to translate a call to directory assistance"
 msgstr ""
 
 msgid "Lookup numbers for local trunk"
@@ -3025,21 +4913,13 @@ msgstr ""
 
 msgid ""
 "What is the directory assistance number you will dial locally in the format "
-"that is passed to this trunk, ie 411"
-msgstr ""
-
-msgid "\"411\""
+"that is passed to this trunk?"
 msgstr ""
 
 msgid "Invalid pattern. Only 0-9, #, *"
 msgstr ""
 
-msgid ""
-"Google 411 number to dial, or alternative number you want dialed when "
-"calling directory assistance on this trunk"
-msgstr ""
-
-msgid "18004664411"
+msgid "Number to dial when calling directory assistance on this trunk"
 msgstr ""
 
 msgid "Invalid number. Only 0-9, #,  and * are allowed."
@@ -3079,6 +4959,14 @@ msgid ""
 "DAHDI channels are referenced either by a group number or channel number "
 "(which is defined in chan_dahdi.conf).  <br><br>The default setting is "
 "<b>g0</b> (group zero)."
+msgstr ""
+
+msgid "mISDN Group/Port"
+msgstr ""
+
+msgid ""
+"mISDN channels are referenced either by a group name or channel number (use "
+"<i>mISDN Port Groups</i> to configure)."
 msgstr ""
 
 msgid "Custom Dial String"
@@ -3161,14 +5049,25 @@ msgstr ""
 "Megy kell adnod a DID számodat, ahol a DID szám a te telefonszámod: "
 "felhasznalo:jelszo@szolgaltato.hu/didszam"
 
+msgid "Duplicate Trunk"
+msgstr ""
+
+msgid "insert"
+msgstr ""
+
+msgid "Click here to insert a new pattern"
+msgstr ""
+
 msgid "Invalid Maximum Channels"
 msgstr "Érvénytelen maximális csatorna"
 
 msgid "Invalid Dial Rules"
 msgstr "Érvénytelen tárcsázási szabályok"
 
-msgid "Invalid Outbound Dial Prefix"
-msgstr "Érvénytelen kimenő tárcsázási előtét"
+msgid ""
+"The Outbound Dial Prefix contains non-standard characters. If these are "
+"intentional the press OK to continue."
+msgstr ""
 
 msgid "Invalid Trunk Name entered"
 msgstr "Érvénytelen trunk-név"

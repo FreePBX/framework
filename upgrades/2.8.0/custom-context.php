@@ -30,7 +30,13 @@ if (! function_exists("outn")) {
 $sql = 'DESCRIBE customcontexts_includes_list';
 $test = $db->getAll($sql);
 if(!DB::IsError($test)) { 
-	$ver = modules_getversion('customcontexts');
+	$sql = "SELECT version FROM modules WHERE modulename = 'customcontexts'";
+	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
+	if (isset($results['version'])) {
+		$ver = $results['version'];
+	} else {
+		$ver = null;
+	}
 	outn(_("checking if Custom Context migration is required..."));
 	if ($ver !== null && version_compare($ver, "2.8.0beta1.0", "<")) {
 			outn(_("migrating.."));

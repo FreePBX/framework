@@ -1,0 +1,5495 @@
+# This file is part of FreePBX.
+#
+#    FreePBX is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    FreePBX is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>.
+#
+# FreePBX language template for amp
+# Copyright (C) 2008, 2009, 2010 Bandwith.com
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-11 07:15+0100\n"
+"PO-Revision-Date: 2010-06-11 12:53+0300\n"
+"Last-Translator: Tiberiu Vicol <tiberiu.vicol@orange-ftgroup.com>\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Romanian\n"
+"X-Poedit-Country: Romania\n"
+
+msgid "Tools"
+msgstr "Instrumente"
+
+msgid "Setup"
+msgstr "Configurare"
+
+msgid "Call Cost"
+msgstr "Cost Apeluri"
+
+msgid "FreePBX Administration"
+msgstr ""
+
+#, php-format
+msgid "Exit code was %s and output was: %s"
+msgstr "Codul de eroare a fost %s cu output: %s"
+
+#, php-format
+msgid "Could not run %s script."
+msgstr "Nu pot executa urmatorul script %s."
+
+#, php-format
+msgid "Reload failed because retrieve_conf encountered an error: %s"
+msgstr "Reload esuat din cauza ca retrieve_conf a generat o eroare: %s"
+
+msgid "retrieve_conf failed, config not applied"
+msgstr "retrieve_conf esuat, configurarea nu a fost aplicata"
+
+msgid ""
+"Reload failed because FreePBX could not connect to the asterisk manager "
+"interface."
+msgstr "Reincarcare esuata, FreePBX nu se poate conecta la asterisk manager."
+
+msgid "Successfully reloaded"
+msgstr "Reincarcat cu succes"
+
+msgid ""
+"Could not reload the FOP operator panel server using killall -HUP op_server."
+"pl. Configuration changes may not be reflected in the panel display."
+msgstr ""
+"Nu se poate reincarca OFP panel operator server utilizand scriptul bounce_op."
+"sh. Modificarile de configuratie s-ar putea sa nu fie operate in panel "
+"display."
+
+msgid "Could not reload FOP server"
+msgstr "Nu pot reincarca server-ul OFP"
+
+msgid ""
+"Successful reload, but could not clear reload flag due to a database error: "
+msgstr ""
+"Reincarcare efectuata cu succes, dar nu se poate elimina flag-ul de "
+"reincarcare din cauza unei erori din baza de date: "
+
+msgid "Add"
+msgstr "Adauga"
+
+msgid "Module Administration"
+msgstr "Modul de Administrare"
+
+#, php-format
+msgid ""
+"Warning: Cannot connect to online repository (%s). Online modules are not "
+"available."
+msgstr ""
+"Atentie: Nu se poate conecta la repozitoriul online (%s). Nu exista module "
+"online disponibile."
+
+#, php-format
+msgid ""
+"Warning: Error retrieving updates from online repository (%s). Online "
+"modules are not available."
+msgstr ""
+"Atentie: Eroare la recuperarea updates dinspre repositoriul online. Nu sunt "
+"disponibile module online(%s)."
+
+msgid "Please wait while module actions are performed"
+msgstr "Asteptati ... proces in executie"
+
+#, php-format
+msgid "Downloading %s"
+msgstr "Descarcare %s"
+
+#, php-format
+msgid "Error(s) downloading %s"
+msgstr "Eroare(i) la descarcare %s"
+
+#, php-format
+msgid "Error(s) installing %s"
+msgstr "Eroare (i) la instalarea %s"
+
+#, php-format
+msgid "%s installed successfully"
+msgstr "%s instalat cu succes"
+
+#, php-format
+msgid "Error(s) enabling %s"
+msgstr "Eroare (i) la activarea %s"
+
+#, php-format
+msgid "%s enabled successfully"
+msgstr "%s activat cu succes"
+
+#, php-format
+msgid "Error(s) disabling %s"
+msgstr "Eroare (i) la dezactivarea %s"
+
+#, php-format
+msgid "%s disabled successfully"
+msgstr "%s dezactivat cu succes"
+
+#, php-format
+msgid "Error(s) uninstalling %s"
+msgstr "Eroare (i) la dezinstalare %s"
+
+#, php-format
+msgid "%s uninstalled successfully"
+msgstr "%s dezilstalat cu succes"
+
+msgid "Return"
+msgstr "Intoarcere"
+
+#, php-format
+msgid ""
+"%s cannot be upgraded: %s Please try again after the dependencies have been "
+"installed."
+msgstr ""
+"%s nu poate fi upgradat: %s Va rugam sa reincercati dupa instalarea "
+"dependintelor."
+
+#, php-format
+msgid "%s %s will be upgraded to online version %s"
+msgstr "%s %s urmeaza sa fie upgradat la versiunea online %s"
+
+#, php-format
+msgid "%s %s will be re-installed to online version %s"
+msgstr "%s %s va fi reinstalat la versiunea online %s"
+
+#, php-format
+msgid "%s %s will be downgraded to online version %s"
+msgstr "%s %s va fi downgradat la versiunea online %"
+
+#, php-format
+msgid ""
+"%s cannot be installed: %s Please try again after the dependencies have been "
+"installed."
+msgstr "%s nu poate fi instalat: %s Reincercati dupa instalarea dependintelor."
+
+#, php-format
+msgid "%s %s will be downloaded and installed"
+msgstr "%s %s va fi downloadat si instalat"
+
+#, php-format
+msgid "%s %s will be upgraded to %s"
+msgstr "%s %s va fi upgradat la %s"
+
+#, php-format
+msgid "%s %s will be installed and enabled"
+msgstr "%s %s va fi instalat si activat"
+
+#, php-format
+msgid ""
+"%s cannot be enabled: %s Please try again after the dependencies have been "
+"installed."
+msgstr "%s nnu poaet fi activat: %s Reincercati dupa instalarea dependintelor."
+
+#, php-format
+msgid "%s %s will be enabled"
+msgstr "%s %s va fi activat"
+
+#, php-format
+msgid ""
+"%s cannot be disabled because the following modules depend on it: %s Please "
+"disable those modules first then try again."
+msgstr ""
+"%s nu poate fi dezactivat deoarece urmatoarele module depind de acesta: %s "
+"Dezactivati intai aceste module si apoi incercati din nou."
+
+#, php-format
+msgid "%s %s will be disabled"
+msgstr "%s %s va fi dezactivat"
+
+#, php-format
+msgid ""
+"%s cannot be uninstalled because the following modules depend on it: %s "
+"Please disable those modules first then try again."
+msgstr ""
+"%s nu poate fi dezinstalat deoarece urmatoarele module depind de acesta: %s "
+"Dezinstalati intai aceste module si apoi incercati din nou."
+
+#, php-format
+msgid "%s %s will be uninstalled"
+msgstr "%s %s va fi dezinstalat"
+
+msgid "Errors with selection:"
+msgstr "Eroare (i) la selectarea:"
+
+msgid ""
+"You may confirm the remaining selection and then try the again for the "
+"listed issues once the required dependencies have been met:"
+msgstr ""
+"Puteti confirma selectiunea ramasa urmand sa reincercati in cazul "
+"problemelor listate dupa ce dependintele necesare dunt indeplinite: "
+
+msgid "Please confirm the following actions:"
+msgstr "Confirmati urmatoarele operatiuni:"
+
+msgid "Upgrades, installs, enables and disables:"
+msgstr "Upgrade, instalari, activari si dezactivari"
+
+msgid "Forced downgrades and re-installs:"
+msgstr "Downgrade fortat si reinstalari"
+
+msgid "Confirm"
+msgstr "Confirma"
+
+msgid "No actions to perform"
+msgstr "Nici o operatiune in derulare"
+
+msgid ""
+"Please select at least one action to perform by clicking on the module, and "
+"selecting an action on the \"Action\" tab."
+msgstr ""
+"Selectati cel putin o operatiune, prin click pe modul, si selectati o "
+"actiune din tab-ul \"Action\"."
+
+msgid "Cancel"
+msgstr "Anuleaza"
+
+msgid "Manage local modules"
+msgstr "Administrare module locale"
+
+#, php-format
+msgid "The following error(s) occurred processing the uploaded file: %s"
+msgstr "Urmatoarele erori au aparut la procesarea fisierului incarcat: %s"
+
+#, php-format
+msgid "You should fix the problem or select another file and %s."
+msgstr "Trebuie sa rezolvati problema sau sa selectati un alt fisier si %s."
+
+msgid "try again"
+msgstr "reincercati"
+
+#, php-format
+msgid ""
+"Module uploaded successfully. You need to enable the module using %s to make "
+"it available."
+msgstr ""
+"Modul incarcat cu succes. trebuie sa activati modulul utilizand %s pentru a-"
+"l face disponibil."
+
+msgid "local module administration"
+msgstr "Administrare locala module"
+
+msgid ""
+"You can upload a tar gzip file containing a FreePBX module from your local "
+"system. If a module with the same name already exists, it will be "
+"overwritten."
+msgstr ""
+"Puteti face upload unui fisier tar gzip continand un modul FreePBX al "
+"sistemului dumneavoastra.Daca exista deja un modul cu acelasi nume, va fi "
+"suprascris."
+
+msgid "Show only upgradeable"
+msgstr "Arata doar upgradabil"
+
+msgid "Upload module"
+msgstr "Incarca modul"
+
+msgid "Download all"
+msgstr "Descarca toate"
+
+msgid "Upgrade all"
+msgstr "Actualizeaza toate"
+
+msgid "Reset"
+msgstr "Reset"
+
+msgid "Process"
+msgstr "Proces"
+
+msgid "Module"
+msgstr "Modul"
+
+msgid "Version"
+msgstr "Versiune"
+
+msgid "Publisher"
+msgstr "Editor"
+
+msgid "Broken"
+msgstr "Nefunctional"
+
+msgid "name"
+msgstr "nume"
+
+msgid "Not Installed (Locally available)"
+msgstr "Nu este Instalat (disponibil local)"
+
+#, php-format
+msgid "Not Installed (Available online: %s)"
+msgstr "Nu este instalat (Disponibil online: %s)"
+
+#, php-format
+msgid "Disabled; Online upgrade available (%s)"
+msgstr "Dezactivat; Upgrade disponibil online (%s)"
+
+#, php-format
+msgid "Disabled; Newer than online version (%s)"
+msgstr "Dezactivat; Versiune mai noua decat cea online (%s)"
+
+msgid "Disabled; up to date"
+msgstr "Dezactivat: actualizat"
+
+msgid "Disabled"
+msgstr "Dezacticvat"
+
+#, php-format
+msgid "Disabled; Pending upgrade to %s"
+msgstr "Dezactivat; In asteptare pentru upgrade la %s"
+
+#, php-format
+msgid "Online upgrade available (%s)"
+msgstr "Uprade disponibil online (%s)"
+
+#, php-format
+msgid "Newer than online version (%s)"
+msgstr "Mai nou decat versiunea online (%s)"
+
+msgid "Enabled and up to date"
+msgstr "Activat si actualizat"
+
+msgid "Enabled; Not available online"
+msgstr "Activat; Nu e disponibil online"
+
+msgid "Enabled"
+msgstr "Activat"
+
+msgid "Attention"
+msgstr "Atentie"
+
+msgid "attention"
+msgstr "atentie"
+
+msgid "Action"
+msgstr "Actiune"
+
+msgid "No Action"
+msgstr "Nici o Actiune"
+
+msgid "Install"
+msgstr "Instaleaza"
+
+msgid "Download and Install"
+msgstr "Descarca si Instaleaza"
+
+msgid "Enable"
+msgstr "Activeaza"
+
+msgid "Uninstall"
+msgstr "Dezinstaleaza"
+
+#, php-format
+msgid "Download %s, keep Disabled"
+msgstr "Descarca %s, pastreaza Dezactivat"
+
+#, php-format
+msgid "Upgrade to %s and Enable"
+msgstr "Actualizeaza la %s si Activeaza"
+
+#, php-format
+msgid "Download and Upgrade to %s"
+msgstr "Descarca si Actualizeaza la %s"
+
+#, php-format
+msgid "Force Download and Install %s"
+msgstr "Forteaza Descarcare si Instalare %s"
+
+#, php-format
+msgid "Force Download and Downgrade to %s"
+msgstr "Forteaza Descarcare si Downgrade la %s"
+
+msgid "Disable"
+msgstr "Dizactivare"
+
+msgid "Description"
+msgstr "Descriere"
+
+#, php-format
+msgid "Publisher: %s"
+msgstr "Editor: %s"
+
+#, php-format
+msgid "License: %s"
+msgstr "Licenta: %s"
+
+#, php-format
+msgid "Description for version %s"
+msgstr "Descriere pentru versiunea %s"
+
+msgid "description"
+msgstr "descriere"
+
+msgid "No description is available."
+msgstr "Nici o descriere disponibila."
+
+msgid "More info"
+msgstr "Informatii aditionale"
+
+#, php-format
+msgid "Get help for %s"
+msgstr "Obtine ajutor pentru %s"
+
+msgid "Changelog"
+msgstr "Changelog"
+
+#, php-format
+msgid "Change Log for version %s"
+msgstr "Change Log pentru versiune %s"
+
+msgid "Debug"
+msgstr "Debug"
+
+msgid "All available modules are up-to-date and installed."
+msgstr "Toate modulele disponibile sunt actualizate si instalate."
+
+msgid "No modules to display."
+msgstr "Nici un modul de vizualizat."
+
+msgid "Untarring.."
+msgstr "Dezarhivare in curs.."
+
+msgid "Done."
+msgstr "Realizat."
+
+msgid "Upload modules"
+msgstr ""
+
+msgid ""
+"Choose the repositories that you want to check for new modules. Any updates "
+"available for modules you have on your system will be detected even if the "
+"repository is not checked. If you are installing a new system, you may want "
+"to start with the Basic repository and upload all modules, then go back and "
+"review the others."
+msgstr ""
+
+msgid ""
+" The modules in the Extended repository are less common and may receive "
+"lower levels of support. The Unsupported repository has modules that are not "
+"supported by the FreePBX team but may receive some level of support by the "
+"authors."
+msgstr ""
+
+msgid ""
+"The Commercial repository is reserved for modules that are available for "
+"purchase and commercially supported."
+msgstr ""
+
+msgid ""
+"Checking for updates will transmit your FreePBX, Distro, Asterisk and PHP "
+"version numbers along with a unique but random identifier. This is used to "
+"provide proper update information and track version usage to focus "
+"development and maintenance efforts. No private information is transmitted."
+msgstr ""
+
+msgid "Repositories"
+msgstr ""
+
+msgid "Basic"
+msgstr "Baza"
+
+msgid "Extended"
+msgstr ""
+
+msgid "Unsupported"
+msgstr ""
+
+msgid "Commercial"
+msgstr ""
+
+msgid "Check Online"
+msgstr ""
+
+msgid "FreePBX: Flash Operator Panel"
+msgstr "FreePBX: Operator Flash Panel"
+
+msgid "Flash Operator Panel"
+msgstr "Panel Operator"
+
+msgid "FreePBX: Call Detail Reports"
+msgstr "FreePBX: Raport delatiat Apeluri"
+
+msgid "Call Detail Reports"
+msgstr "Raport Detaliat Apeluri"
+
+msgid "Call Logs"
+msgstr "Lista Apeluri"
+
+msgid "Compare Calls"
+msgstr "Compara Apelurile"
+
+msgid "Monthly Traffic"
+msgstr "Trafic Lunar"
+
+msgid "Daily load"
+msgstr "Incarcare Zilnica"
+
+msgid "Please select a \"Destination\""
+msgstr "Selecteaza o \"Destinatie\""
+
+msgid ""
+"Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
+msgstr ""
+"Contextele Custom Goto trebuie sa contina sirul \"custom-\". Es.: custom-app,"
+"s,1"
+
+msgid "The secret must be at minimum six characters in length."
+msgstr "Parola trebuie sa aiba minim sase caractere"
+
+msgid "The secret must contain at least two numbers and two letters."
+msgstr "Parola trebuie sa contina cel putin doua cifre si doua litere"
+
+msgid "Submit"
+msgstr "Confirma"
+
+msgid "Please select a valid destination."
+msgstr ""
+
+msgid "Online Updates are Disabled"
+msgstr ""
+
+msgid ""
+"Online updates are disabled on the General Settings page. When disabled, you "
+"will not be notified of bug fixes and Security issues without manually "
+"checking for updates online. You are advised to enable the update checking. "
+"Updates are never downloaded automatically, they are only checked and "
+"reported in the notification panel and log if enabled."
+msgstr ""
+
+#, php-format
+msgid "Cronmanager encountered %s Errors"
+msgstr "Cronmanager a inregistrat %s Errori"
+
+msgid "The following commands failed with the listed error"
+msgstr "Urmatoarele comenzi au esuat cu urmatoarele erori"
+
+msgid "** MISSING FEATURE CODE **"
+msgstr "** LIPSA COD SERVICIU **"
+
+msgid "No Description Provided"
+msgstr ""
+
+msgid "Undefined Category"
+msgstr ""
+
+msgid "fatal error reading freepbx_settings"
+msgstr ""
+
+#, php-format
+msgid "Missing or unreadable config file [%s]...cannot continue"
+msgstr ""
+
+msgid ""
+"Do NOT edit this file as it is auto-generated by FreePBX. All modifications "
+"to"
+msgstr ""
+
+msgid ""
+"this file must be done via the Web GUI. There are alternative files to make"
+msgstr ""
+
+msgid "custom modifications, details at:"
+msgstr ""
+
+msgid ""
+"All settings can be set from the Advanced Settings page accessible in FreePBX"
+msgstr ""
+
+msgid "called set_conf_values with a non-array"
+msgstr ""
+
+#, php-format
+msgid "trying to set keyword [%s] to [%s] on unitialized setting"
+msgstr ""
+
+#, php-format
+msgid "you can't convert an existing type, keyword [%s]"
+msgstr ""
+
+#, php-format
+msgid "missing value and/or defaultval required for [%s]"
+msgstr ""
+
+msgid "missing options for keyword [%] required if type is select"
+msgstr ""
+
+#, php-format
+msgid "invalid validation options provided for keyword %s: %s"
+msgstr ""
+
+#, php-format
+msgid ""
+"method define_conf_setting() failed to pass validation for keyword [%s] "
+"setting value [%s], error msg if supplied [%s]"
+msgstr ""
+
+#, php-format
+msgid "fatal error deleting rows from freepbx_settings, sql query: %s"
+msgstr ""
+
+msgid "fatal error updating freepbx_settings table"
+msgstr ""
+
+msgid "Invalid value supplied to select"
+msgstr ""
+
+msgid "Empty value not allowed for this field"
+msgstr ""
+
+#, php-format
+msgid "Invalid value supplied violates the validation regex: %s"
+msgstr ""
+
+#, php-format
+msgid "Value [%s] out of range, changed to [%s]"
+msgstr ""
+
+#, php-format
+msgid "unknown type: [%s]"
+msgstr ""
+
+msgid ""
+"The following new modules are available for download. Click delete icon on "
+"the right to remove this notice."
+msgstr ""
+"Urmatoarele noi module sunt disponibile pentru download. Click pe iconul "
+"sterge din partea dreapta pentru a elimina acest mesaj."
+
+#, php-format
+msgid "%s New modules are available"
+msgstr "%s Noi module sunt disponibile"
+
+msgid "There is 1 module available for online upgrade"
+msgstr "Este disponibil online un modul pentru upgrade"
+
+#, php-format
+msgid "There are %s modules available for online upgrades"
+msgstr "Sunt disponibile online %s module actualizate"
+
+#, php-format
+msgid "%s (current: %s)"
+msgstr "%s (curent: %s)"
+
+#, php-format
+msgid "PHP Component %s is required but missing from you PHP installation."
+msgstr "Componenta PHP %s este necesara dar lipseste in instalarea dvs. PHP."
+
+#, php-format
+msgid ""
+"PHP Component %s version %s is required but missing from you PHP "
+"installation."
+msgstr ""
+"Componenta PHP %s versiune %s este necesara dar lipseste in instalarea dvs. "
+"PHP."
+
+#, php-format
+msgid "Module %s is required, but yours is broken. You should reinstall "
+msgstr "Modulul %s este necesar, dar versiunea dvs. este corupta. Reinstalati "
+
+#, php-format
+msgid "it and try again."
+msgstr "si incercati din nou."
+
+#, php-format
+msgid "Module %s is required, but yours is disabled."
+msgstr "Modulul %s este necesar, dar in acest moment este dezactivat."
+
+# msgid "Module %s is required, but yours is disabled."
+# msgstr "Modulul %s este necesar, dar in acest moment este dezactivat."
+#, php-format
+msgid "Module %s is required, but yours is disabled because it needs to "
+msgstr ""
+"Modulul %s este necesar, dar in acest moment este dezactivat pentru ca "
+"trebuie "
+
+#, php-format
+msgid "be upgraded. Please upgrade %s first, and then try again."
+msgstr "actualizat. Mai intai actualizati %s dupa care incercati din nou."
+
+#, php-format
+msgid "Module %s is required, yours is not installed."
+msgstr "Este necesar modulul %s, in acest moment nu este instalat."
+
+#, php-format
+msgid "Module %s is required."
+msgstr "Este necesar modulul %s."
+
+#, php-format
+msgid "File %s must exist."
+msgstr "Este necesar fisierul %s."
+
+#, php-format
+msgid "Requires engine %s, you have: %s"
+msgstr "Necesita motor %s, versiunea curenta este %s"
+
+#, php-format
+msgid "Requires one of the following engines: %s; you have: %s"
+msgstr ""
+"Necesita unul dintre urmatoarele motoare: %s; versiunea curenta este: %s"
+
+#, php-format
+msgid "A %s version below %s is required, you have %s"
+msgstr "O %s versiune inferioara a %s este necesara, aveti %s"
+
+#, php-format
+msgid "%s version %s or below is required, you have %s"
+msgstr "Versiunea %s sau inferior %s e necesar, aveti %s"
+
+#, php-format
+msgid "A %s version newer than %s required, you have %s"
+msgstr "O versiune %s mai redecenta decat %s e necesara, aveti %s"
+
+#, php-format
+msgid "Your %s version (%s) is incompatible."
+msgstr "%s versiunea (%s) este incompatibila."
+
+#, php-format
+msgid "Only %s version %s is compatible, you have %s"
+msgstr "Numai %s versionea %s e compatibila, aveti %s"
+
+#, php-format
+msgid "%s version %s or higher is required, you have %s"
+msgstr "este necesara %s versiunea %s sau superioara, aveti %s"
+
+msgid "Module "
+msgstr "Modulul "
+
+msgid " is already enabled"
+msgstr "este deja activat"
+
+msgid " cannot be enabled"
+msgstr "nu poate fi activat"
+
+msgid "Module not found in repository"
+msgstr "Modulul nu a fost gasit in repositoriu"
+
+#, php-format
+msgid "Could not remove %s to install new version"
+msgstr "Nu este posibila eliminarea %s pentru instalarea unei noi versiuni"
+
+#, php-format
+msgid "Could not untar %s to %s"
+msgstr "Nu pot dezarhiva (untar) %s in %s"
+
+#, php-format
+msgid "Could not remove old module %s to install new version"
+msgstr "Nu se poate dezinstala vechiul modul %s pentru a instala noua versiune"
+
+#, php-format
+msgid "Could not move %s to %s"
+msgstr "Nu se poate muta %s in %s"
+
+#, php-format
+msgid "Error opening %s for writing"
+msgstr "Eroare la deschiderea %s pentru scriere"
+
+#, php-format
+msgid "Error opening %s for reading"
+msgstr "Eroare la deschiderea %s pentru citire"
+
+#, php-format
+msgid "Unable to save %s"
+msgstr "Nu se poate salva %s"
+
+#, php-format
+msgid "File Integrity failed for %s - aborting"
+msgstr "Integritatea fisierului %s e compromisa - intrerup"
+
+msgid ""
+"Error finding uploaded file - check your PHP and/or web server configuration"
+msgstr ""
+"Eroare in gasirea fisierului de incarcat - verificati configuratia PHP si/"
+"sau a serverului web"
+
+msgid "File must be in tar or tar+gzip (.tar, .tgz or .tar.gz) format"
+msgstr ""
+
+msgid ""
+"Filename not in correct format: must be modulename-version.[tar|tar.gz|tgz] "
+"(eg. custommodule-0.1.tgz)"
+msgstr ""
+
+#, php-format
+msgid "Error creating temporary directory: %s"
+msgstr "Eroare la crearea directorului temporar: %s"
+
+msgid "Error untaring uploaded file. Must be a tar or tar+gzip file"
+msgstr ""
+
+#, php-format
+msgid "Error removing temporary directory: %s"
+msgstr "Eroare la stergerea directorului temporar: %s"
+
+msgid "Cannot find module"
+msgstr "Modulul nu a fost gasit"
+
+msgid "Could not read module.xml"
+msgstr "module.xml nu poate fi citit"
+
+msgid "rawname"
+msgstr "rawname"
+
+msgid ""
+" is broken and cannot be installed. You should try to download it again."
+msgstr ""
+" este corupt si nu poate fi instalat. Ar trebui sa-l descarcati din nou."
+
+msgid "Failed to run installation scripts"
+msgstr "Rularea scriptului de instalare a esuat"
+
+#, php-format
+msgid "Error updating database. Command was: %s; error was: %s "
+msgstr "Eroare la actualizarea bazei de date. Comanda a fost: %s, eroarea: %s"
+
+msgid "Specified module not found"
+msgstr "Modulul specificat nu a fost gasit"
+
+msgid "Module not enabled: cannot disable"
+msgstr "Modulul nu este activ: nu de poate dezactiva"
+
+msgid "Cannot disable: The following modules depend on this one: "
+msgstr "Nu se poate dezactiva: Urmatoarele module depind de acesta:"
+
+msgid "Module not installed: cannot uninstall"
+msgstr "Modul neinstalat: nu se poate dezinstala"
+
+msgid "Error updating database: "
+msgstr "Eroare la actualizarea bazei de date:"
+
+msgid "Failed to run un-installation scripts"
+msgstr "Eroare la executarea scriptului de dezinstalare"
+
+#, php-format
+msgid "Cannot delete directory %s"
+msgstr "Nu se poate sterge directorul %s"
+
+#, php-format
+msgid "Error deleting directory %s (code %d)"
+msgstr "Eroare la stergerea directorului %s (cod %d)"
+
+#, php-format
+msgid "You have %s disabled modules"
+msgstr "Urmatoarele %s module sunt dezactivate"
+
+msgid "You have a disabled module"
+msgstr "Aveti un modul dezactivat"
+
+msgid "The following modules are disabled because they need to be upgraded:"
+msgstr "Urmatoarele module au fost dezactivate deoarece necesita upgrade:"
+
+msgid "You should go to the module admin page to fix these."
+msgstr ""
+"Trebuie sa accesati pagina de administrare a modulelor pentru a repara "
+"acestea"
+
+#, php-format
+msgid "You have %s broken modules"
+msgstr "Aveti %s module corupte"
+
+msgid "You have a broken module"
+msgstr "Aveti un modul corupt"
+
+msgid "The following modules are disabled because they are broken:"
+msgstr "Urmatoarele module sunt dezactivate deoarece sunt corupte:"
+
+msgid "Objects"
+msgstr "Obiecte"
+
+msgid "Object"
+msgstr "Obiect"
+
+#, php-format
+msgid "Used as Destination by %s %s"
+msgstr "Utilizat ca destinatie de %s %s"
+
+msgid "Trace Back"
+msgstr ""
+
+#, php-format
+msgid "Forced %s to true"
+msgstr ""
+
+#, php-format
+msgid ""
+"The system detected a problem trying to access external server data and "
+"changed internal setting %s (Use wget For Module Admin) to true, see the "
+"tooltip in Advanced Settings for more details."
+msgstr ""
+
+msgid "Memory Limit Changed"
+msgstr "Limita de Memorie a fost schimbata"
+
+#, php-format
+msgid ""
+"Your memory_limit, %sM, is set too low and has been increased to %sM. You "
+"may want to change this in you php.ini config file"
+msgstr ""
+"Limita de memorie, %sM, este setata prea jos si a fost crescuta la %sM. "
+"Trebuie sa inregistrati aceasta schimbare in fisierul php.ini"
+
+msgid "Low Memory Limit"
+msgstr "Limita minima de Memorie"
+
+#, php-format
+msgid ""
+"Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
+"not able to change this on your system. You should increase this to %sM in "
+"you php.ini config file"
+msgstr ""
+"Limita de memorie, %sM, este setata prea jos si poate cauza probleme.FreePBX "
+"nu poate face schimbarea in sistemul dumneavoastra. Trebuie sa cresteti "
+"valoarea la &M in fisierul propriu php.ini. "
+
+msgid "Magic Quotes GPC"
+msgstr "Magic Quotes GPC"
+
+msgid ""
+"You have magic_quotes_gpc enabled in your php.ini, http or .htaccess file "
+"which will cause errors in some modules. FreePBX expects this to be off and "
+"runs under that assumption"
+msgstr ""
+"Aveti magic_quotes_gpc enablat in fisierele dumneavoastra php.ini, http sau ."
+"htaccess fapt care ar putea conduce la erori in anumite module. FreePBX "
+"porneste de la prezumtia ca aceasta setare este dezactivata si ruleaza in "
+"consecinta."
+
+msgid "Potential Security Breach"
+msgstr "Potentiala Problema de Securitate"
+
+msgid ""
+"You are attempting to modify settings from a URL that does not appear to "
+"have come from a FreePBX page link or button. This can occur if you manually "
+"typed in the URL below. This action has been blocked because the "
+"HTTP_REFERER does not match your current SERVER. If you require this access, "
+"you can set Check Server Referrer=false in Advanced Settings to disable this "
+"security check"
+msgstr ""
+
+msgid ""
+"The suspect URL is listed below. If this action is intended, you can click "
+"this link and your action will be processed. Do not proceed with this if you "
+"did not intended to execute this command as it may result in changes to your "
+"configuration."
+msgstr ""
+"Linkul suspect este prezentat mai jos. Daca aceasta actiune este "
+"intentionata, puteti da clickpe acest link iar actiunea va fi procesata. Nu "
+"continuati daca nu intentionati sa executati aceasta comanda care va avea ca "
+"rezultat schimbarea configuratiilor."
+
+msgid "SUSPECT LINK:"
+msgstr "LINK SUSPECT:"
+
+msgid "Internal Options & Configuration"
+msgstr "Diverse Optiuni & Configurare"
+
+msgid "Inbound Call Control"
+msgstr "Gestionare apeluri de intrare"
+
+msgid "Module Admin"
+msgstr "Modul de Administrare"
+
+msgid "System Administration"
+msgstr "Administrare Sistem"
+
+msgid "Third Party Addon"
+msgstr "Addon-uri terta parte"
+
+msgid "click to expand/collapse section"
+msgstr ""
+
+msgid "category"
+msgstr "categoria"
+
+msgid ""
+"WARNING: Javascript is disabled in your browser. The FreePBX administration "
+"interface requires Javascript to run properly. Please enable javascript or "
+"switch to another  browser that supports it."
+msgstr ""
+"Atentie: Javascript este dezactivat pentru browserul dumneavoastra. "
+"Interfata de administrare FreePBX necesita Javascript pentru a functiona in "
+"parametri. Activati Javascript sau utilizati alt browser care sa suporte "
+"aceasta cerinta."
+
+msgid "FreePBX&reg;"
+msgstr ""
+
+#, php-format
+msgid "%s is a registered trademark of %s"
+msgstr "%s este marca inregistrata %s"
+
+msgid "FreePBX"
+msgstr "FreePBX"
+
+#, php-format
+msgid "%s is licensed under %s"
+msgstr "%s este licentiat sub %s"
+
+#, php-format
+msgid "%s %s on %s"
+msgstr "%s %s la %s"
+
+msgid "Management"
+msgstr "Gestiune"
+
+msgid "Admin"
+msgstr "Administrare"
+
+msgid "Reports"
+msgstr "Rapoarte"
+
+msgid "Panel"
+msgstr "Panel"
+
+msgid "Recordings"
+msgstr "Înregistrãri"
+
+msgid "Help"
+msgstr "Ajutor"
+
+msgid "Logged in: "
+msgstr "Conectat:"
+
+msgid "Logout"
+msgstr "Deconectare"
+
+msgid "Reload Required"
+msgstr "Este necesar sa reincarcati"
+
+msgid "Apply Configuration Changes"
+msgstr "Aplicati Modificarile"
+
+#, php-format
+msgid ""
+"You have made changes to the configuration that have not yet been applied. "
+"When you are finished making all changes, click on %s to put them into "
+"effect."
+msgstr ""
+"Ati efectuat modificari ale configuratiei care nu au intrat inca in "
+"aplicare. Cand ati incheiat toate schimbarile, dati click pe %s pentru a le "
+"lansa in actiune."
+
+msgid ""
+" error(s) occurred, you should view the notification log on the dashboard or "
+"main screen to check for more details."
+msgstr ""
+" eroare (i) aparute, pentru mai multe detalii accesati logul de notificari "
+"pe dashboard sau ecranul principal. "
+
+msgid "Close"
+msgstr "Închide"
+
+msgid "Retry"
+msgstr "Reincearca"
+
+msgid "Error: Did not receive valid response from server"
+msgstr "Eroare: Raspuns invalid de la server"
+
+msgid ""
+"Reloading will apply all configuration changes made in FreePBX to your PBX "
+"engine and make them active."
+msgstr ""
+"Prin reincarcare se vor aplica si activa toate modificarile de configuratie "
+"facute in FreePBX pentru PBX-ul dumneavoastra."
+
+msgid "Accept"
+msgstr "Accepta"
+
+msgid "Continue with reload"
+msgstr "Continua cu reincarcare"
+
+msgid "Cancel reload and go back to editing"
+msgstr "Anuleaza reincarcarea si intoarce la editare "
+
+msgid "Please wait, reloading.."
+msgstr "Va rugam asteptati, reincarcare in desfasurare.."
+
+msgid "Loading..."
+msgstr "Incarcare..."
+
+msgid "Close Browser to Log Out"
+msgstr ""
+
+msgid "You must close your browser to logout when using Chrome"
+msgstr ""
+
+msgid "Logged out"
+msgstr "Deconectat"
+
+msgid "You have been successfully logged out."
+msgstr "Ati fost deconectat cu succes."
+
+msgid "Log in"
+msgstr "Conectat"
+
+#, php-format
+msgid "[WARNING]: Menu Item: %s is disabled because asterisk is not running"
+msgstr "[ATENTIE]: Menu Item: %s deactivata deoarce asterisk nu e operational"
+
+msgid ""
+"Restart Asterisk and then refresh the browser in order to try accessing this "
+"menu item again."
+msgstr ""
+"Restartati Asterisk si incercati broser refresh pentru a accesa din nou "
+"acest menu item."
+
+msgid "Not found"
+msgstr "Nu a fost gasit"
+
+msgid ""
+"The section you requested does not exist or you do not have access to it."
+msgstr "Sectiunea ceruta nu exista sau nu sunteti autorizat sa o accesati."
+
+msgid "Unauthorized"
+msgstr "Ne autorizat"
+
+msgid "You are not authorized to access this page."
+msgstr "Nu sunteti autorizat sa accesati aceasta pagina."
+
+msgid "Warning:"
+msgstr "Atentie: "
+
+msgid "Cannot connect to Asterisk Manager with "
+msgstr "Nu se poate conecta la Asterisk Manager cu "
+
+msgid "Asterisk may not be running."
+msgstr "Asterisk posibil neoperational"
+
+msgid "Welcome to FreePBX."
+msgstr "Bun venit la FreePBX."
+
+msgid "Critical"
+msgstr "Critic"
+
+msgid "Security"
+msgstr "Securitate"
+
+msgid "Update"
+msgstr "Actualizeaza"
+
+msgid "Error"
+msgstr "Eroare"
+
+msgid "Warning"
+msgstr "Atentie"
+
+msgid "Notice"
+msgstr "Notifica"
+
+msgid ""
+"If you're new to FreePBX, Welcome. Here are some quick instructions to get "
+"you started"
+msgstr ""
+"Bun venit noilor utilizatori FreePBX. Pentru inceput veti regasi mai jos "
+"cateva instructiuni rapide "
+
+#, php-format
+msgid ""
+"There are a large number of Plug-in modules available from the Online "
+"Repository. This is\n"
+"available by clicking on the <a href='%s'>Tools menu</a> up the top, then\n"
+"<a href='%s'>Module Admin</a>, then\n"
+"<a href='%s'>Check for updates online</a>.\n"
+"Modules are updated and patched often, so if you are having a problem, it's "
+"worth checking there to see if there's\n"
+"a new version of the module available."
+msgstr ""
+"In Repositoriul Online se regasesc un numar mare de module Plug-in. Pot fi "
+"accesate cu click <a href='%s'>Instrumente</a> in partea superioara apoi <a "
+"href='%s'>Administrare Modin</a> si in final <a href='%s'>Verificare updates "
+"online</a>. Modulele sunt updatate in mod curent prin urmare, daca "
+"intampinati probleme e indicat sa verificati daca sunt versiuni noi "
+"disponibile. "
+
+#, php-format
+msgid ""
+"If you're having any problems, you can also use the <a href='%s'>Online "
+"Support</a> \n"
+"module (<b>you need to install this through the <a href='%s'>Module "
+"Repository</a> first</b>)\n"
+"to talk to other users and the developers in real time. Click on <a href='%"
+"s'>Start IRC</a>,\n"
+"when the module is installed, to start a Java IRC client."
+msgstr ""
+"Daca intampinati probleme, puteti utiliza modulul <a href='%s'>Suport "
+"Online</a> \n"
+"(<b> intai trebuie sa il instalati via <a href='%s'>Repositoriu Module</a></"
+"b>)\n"
+"pentru a comunica in timp real cu alti utilizatori sau dezvoltatori. Dupa ce "
+"modulul este instalat, click pe <a href='%s'>Start IRC</a>,\n"
+"pentru a lansa un client Java IRC."
+
+#, php-format
+msgid ""
+"There is also a community based <a href='%s' target='_new'>FreePBX Web "
+"Forum</a> where you can post\n"
+"questions and search for answers for any problems you may be having."
+msgstr ""
+"Totodata exista forumul comunitatii <a href='%s' target='_new'> Web Forum "
+"FreePBX</a> unde puteti posta intrebari si puteti cauta raspunsuri pentru "
+"orice problema intampinati."
+
+msgid "We hope you enjoy using FreePBX!"
+msgstr "Speram ca FreePBX vine in intampinarea cerintelor dvs. de comunicare!"
+
+msgid "Core"
+msgstr "Sistem"
+
+msgid "Extensions"
+msgstr "Extensii"
+
+msgid "Users"
+msgstr "Utilizatori"
+
+msgid "Devices"
+msgstr "Dispozitive"
+
+msgid "Inbound Routes"
+msgstr "Rute de Intrare"
+
+msgid "Zap Channel DIDs"
+msgstr "DID-uri Canal Zap"
+
+msgid "Outbound Routes"
+msgstr "Rute de iesire"
+
+msgid "Trunks"
+msgstr "Trunchiuri"
+
+msgid "General Settings"
+msgstr "Setari Generale"
+
+msgid "Advanced Settings"
+msgstr ""
+
+msgid "Administrators"
+msgstr "Administratori"
+
+msgid "FreePBX Support"
+msgstr "Suport FreePBX"
+
+msgid "FreePBX Framework"
+msgstr ""
+
+msgid ""
+"This module provides a facility to install bug fixes to the framework code "
+"that is not otherwise housed in a module"
+msgstr ""
+
+msgid "Display Friendly Name"
+msgstr ""
+
+msgid "Advanced Settings Details"
+msgstr ""
+
+msgid ""
+"Normally the friendly names will be displayed on this page and the internal "
+"freepbx_conf configuration names are shown in the tooltip. If you prefer to "
+"view the configuration variables, and the friendly name in the tooltip, set "
+"this to false.."
+msgstr ""
+
+msgid "Display Hidden Settings"
+msgstr ""
+
+msgid ""
+"This will display settings that are normally hidden by the system. These "
+"settings are often internally used settings that are not of interest to most "
+"users."
+msgstr ""
+
+msgid "Display Readonly Settings"
+msgstr ""
+
+msgid ""
+"This will display settings that are readonly. These settings are often "
+"internally used settings that are not of interest to most users. Since they "
+"are readonly they can only be viewed."
+msgstr ""
+
+msgid "Override Readonly Settings"
+msgstr ""
+
+msgid ""
+"Setting this to true will allow you to override un-hidden readonly setting "
+"to change them. Settings that are readonly may be extremely volatile and "
+"have a high chance of breaking your system if you change them. Take extreme "
+"caution when electing to make such changes."
+msgstr ""
+
+msgid "Asterisk Manager Host"
+msgstr ""
+
+msgid "Asterisk Manager"
+msgstr ""
+
+msgid "Hostname for the Asterisk Manager"
+msgstr ""
+
+msgid "Asterisk Manager Password"
+msgstr ""
+
+msgid ""
+"Password for accessing the Asterisk Manager Interface (AMI), you must change "
+"this in manager.conf if changed here."
+msgstr ""
+
+msgid "Asterisk Manager Port"
+msgstr ""
+
+msgid "Port for the Asterisk Manager"
+msgstr ""
+
+msgid "Asterisk Manager Proxy Port"
+msgstr ""
+
+msgid "Optional port for an Asterisk Manager Proxy"
+msgstr ""
+
+msgid "Asterisk Manager User"
+msgstr ""
+
+msgid ""
+"Username for accessing the Asterisk Manager Interface (AMI), you must change "
+"this in manager.conf if changed here."
+msgstr ""
+
+msgid "Always Download Web Assets"
+msgstr ""
+
+msgid "Developer and Customization"
+msgstr ""
+
+msgid ""
+"FreePBX appends versioning tags on the CSS and javascript files and some of "
+"the main logo images. The versioning will help force browsers to load new "
+"versions of the files when module versions are upgraded. Setting this value "
+"to true will try to force these to be loaded to the browser every page load "
+"by appending an additional timestamp in the version information. This is "
+"useful during development and debugging where changes are being made to "
+"javascript and CSS files."
+msgstr ""
+
+msgid "AMPLOCALBIN Dir for retrieve_conf"
+msgstr ""
+
+msgid ""
+"If this directory is defined, retrieve_conf will check for a file called "
+"<i>retrieve_conf_post_custom</i> and if that file exists, it will be "
+"included after other processing thus having full access to the current "
+"environment for additional customization."
+msgstr ""
+
+msgid "Debug File"
+msgstr ""
+
+msgid ""
+"Full path and name of FreePBX debug file. Used by the dbug() function by "
+"developers."
+msgstr ""
+
+msgid "Developer Mode"
+msgstr ""
+
+msgid ""
+"This enables several debug features geared towards developers, including "
+"some page load timing information, some debug information in Module Admin, "
+"use of original CSS files and other future capabilities will be enabled."
+msgstr ""
+
+msgid "Disable FreePBX dbug Logging"
+msgstr ""
+
+msgid ""
+"Set to true to stop all dbug() calls from writing to the Debug File "
+"(FPBXDBUGFILE)"
+msgstr ""
+
+msgid "Disable Mainstyle CSS Compression"
+msgstr ""
+
+msgid ""
+"Stops the automatic generation of a stripped CSS file that replaces the "
+"primary sheet, usually mainstyle.css."
+msgstr ""
+
+msgid "Disable Module Admin Caching"
+msgstr ""
+
+msgid ""
+"Module Admin caches a copy of the online XML document that describes what is "
+"available on the server. Subsequent online update checks will use the cached "
+"information if it is less than 5 minutes old. To bypass the cache and force "
+"it to go to the server each time, set this to True. This should normally be "
+"false but can be helpful during testing."
+msgstr ""
+
+msgid "Leave Reload Bar Up"
+msgstr ""
+
+msgid "Forces the "
+msgstr ""
+
+msgid " reload bar to always be present even when not necessary."
+msgstr ""
+
+msgid "POST_RELOAD Debug Mode"
+msgstr ""
+
+msgid "Display debug output for script used if POST_RELOAD is used."
+msgstr ""
+
+msgid "POST_RELOAD Script"
+msgstr ""
+
+msgid ""
+"Automatically execute a script after applying changes in the AMP admin. Set "
+"POST_RELOAD to the script you wish to execute after applying changes. If "
+"POST_RELOAD_DEBUG=true, you will see the output of the script in the web "
+"page."
+msgstr ""
+
+msgid "PRE_RELOAD Script"
+msgstr ""
+
+msgid ""
+"Optional script to run just prior to doing an extension reload to Asterisk "
+"through the manager after pressing Apply Configuration Changes in the GUI."
+msgstr ""
+
+msgid "Provide Verbose Tracebacks"
+msgstr ""
+
+msgid ""
+"Provides a very verbose traceback when die_freepbx() is called including "
+"extensive object details if present in the traceback."
+msgstr ""
+
+msgid "Use Packaged Javascript Library "
+msgstr ""
+
+msgid ""
+"FreePBX packages several javascript libraries and components into a "
+"compressed file called libfreepbx.javascript.js. By default this will be "
+"loaded instead of the individual uncompressed libraries. Setting this to "
+"false will force FreePBX to load all the libraries as individual "
+"uncompressed files. This is useful during development and debugging."
+msgstr ""
+
+msgid "Post Call Recording Script"
+msgstr ""
+
+msgid "Show all Device Setting on Add"
+msgstr ""
+
+msgid "Device Settings"
+msgstr ""
+
+msgid ""
+"When adding a new extension/device, setting this to true will show most "
+"available device settings that are displayed when you edit the same "
+"extension/device. Otherwise, just a few basic settings are displayed."
+msgstr ""
+
+msgid "Require Strong Secrets"
+msgstr ""
+
+msgid ""
+"Requires a strong secret on SIP and IAX devices requiring at least two "
+"numeric and non-numeric characters and 6 or more characters. This can be "
+"disabled if using devices that can not meet these needs, or you prefer to "
+"put other constraints including more rigid constraints that this rule "
+"actually considers weak when it may not be."
+msgstr ""
+
+msgid "SIP canrenivite (directmedia)"
+msgstr ""
+
+msgid ""
+"Default setting for SIP canreinvite (same as directmedia). See Asterisk "
+"documentation for details."
+msgstr ""
+
+msgid "SIP trustrpid"
+msgstr ""
+
+msgid ""
+"Default setting for SIP trustrpid. See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP sendrpid"
+msgstr ""
+
+msgid ""
+"Default setting for SIP sendrpid. A value of 'yes' is equivalent to 'rpid' "
+"and will send the 'Remote-Pary-ID' header. A value of 'pai' is only valid "
+"starting with Asterisk 1.8 and will send the 'P-Asserted-Identity' header. "
+"See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP nat"
+msgstr ""
+
+msgid ""
+"Default setting for SIP nat. A 'yes' will attempt to handle nat, also works "
+"for local (uses the network ports and address instead of the reported "
+"ports), 'no' follows the protocol, 'never' tries to block it, no RFC3581, "
+"'route' ignores the rport information. See Asterisk documentation for "
+"details."
+msgstr ""
+
+msgid "SIP encryption"
+msgstr ""
+
+msgid ""
+"Default setting for SIP encryption. Whether to offer SRTP encrypted media "
+"(and only SRTP encrypted media) on outgoing calls to a peer. Calls will fail "
+"with HANGUPCAUSE=58 if the peer does not support SRTP. See Asterisk "
+"documentation for details."
+msgstr ""
+
+msgid "SIP qualifyfreq"
+msgstr ""
+
+msgid ""
+"Default setting for SIP qualifyfreq. Only valid for Asterisk 1.6 and above. "
+"Frequency that 'qualify' OPTIONS messages will be sent to the device. Can "
+"help to keep NAT holes open but not dependable for remote client firewalls. "
+"See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP and IAX qualify"
+msgstr ""
+
+msgid ""
+"Default setting for SIP and IAX qualify. Whether to send periodic OPTIONS "
+"messages (for SIP) or otherwise monitor the channel, and at what point to "
+"consider the channel unavailable. A value of 'yes' is equivalent to 2000, "
+"time in msec. Can help to keep NAT holes open with SIP but not dependable "
+"for remote client firewalls. See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP and IAX allow"
+msgstr ""
+
+msgid ""
+"Default setting for SIP and IAX allow (for codecs). Codecs to allow in "
+"addition to those set in general settings unless explicitly 'disallowed' for "
+"the device. Values van be separated with '&' e.g. 'ulaw&g729&g729' where the "
+"preference order is preserved. See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP and IAX disallow"
+msgstr ""
+
+msgid ""
+"Default setting for SIP and IAX disallow (for codecs). Codecs to disallow, "
+"can help to reset from the general settings by setting a value of 'all' and "
+"then specifically including allowed codecs with the 'allow' directive. "
+"Values van be separated with '&' e.g. 'g729&g722'. See Asterisk "
+"documentation for details."
+msgstr ""
+
+msgid "SIP & DAHDI callgroup"
+msgstr ""
+
+msgid ""
+"Default setting for SIP, DAHDI (and Zap) callgroup. Callgroup(s) that the "
+"device is part of, can be one or more callgroups, e.g. '1,3-5' would be in "
+"groups 1,3,4,5. See Asterisk documentation for details."
+msgstr ""
+
+msgid "SIP & DAHDI pickupgroup"
+msgstr ""
+
+msgid ""
+"Default setting for SIP, DAHDI (and Zap) pickupgroup. Pickupgroups(s) that "
+"the device can pickup calls from, can be one or more groups, e.g. '1,3-5' "
+"would be in groups 1,3,4,5. Device does not have to be in a group to be able "
+"to pickup calls from that group. See Asterisk documentation for details."
+msgstr ""
+
+msgid "Block CNAM on External Trunks"
+msgstr ""
+
+msgid "Dialplan and Operational"
+msgstr ""
+
+msgid ""
+"Some carriers will reject a call if a CallerID Name (CNAM) is presented. "
+"This occurs in several areas when configuring CID on the PBX using the "
+"format of "
+msgstr ""
+
+msgid ""
+" <CNUM>. To remove the CNAM part of CID on all external trunks, set this "
+"value to true. This WILL NOT remove CNAM when a trunk is called from an "
+"Intra-Company route. This can be done on each individual trunk in addition "
+"to globally if there are trunks where it is desirable to keep CNAM "
+"information, though most carriers ignore CNAM."
+msgstr ""
+
+msgid "Call Forward Ringtimer Default"
+msgstr ""
+
+msgid ""
+"This is the default time in seconds to try and connect a call that has been "
+"call forwarded by the server side CF, CFU and CFB options. (If your phones "
+"use client side CF such as SIP redirects, this will not have any affect) If "
+"set to the default of 0, it will use the standard ring timer. If set to -1 "
+"it will ring the forwarded number with no limit which is consistent with the "
+"behavior of some existing PBX systems. If set to any other value, it will "
+"ring for that duration before diverting the call to the users voicemail if "
+"they have one. This can be overridden for each extension."
+msgstr ""
+
+msgid "Convert ZAP Settings to DAHDi"
+msgstr ""
+
+msgid ""
+"If set to true, FreePBX will check if you have chan_dahdi installed. If so, "
+"it will automatically use all your ZAP configuration settings (devices and "
+"trunks) and silently convert them, under the covers, to DAHDI so no changes "
+"are needed. The GUI will continue to refer to these as ZAP but it will use "
+"the proper DAHDI channels. This will also keep Zap Channel DIDs working."
+msgstr ""
+
+msgid "CW Enabled by Default"
+msgstr ""
+
+msgid ""
+"Enable call waiting by default when an extension is created (Default is "
+"yes). Set to <b>no</b> to if you do not want phones to be commissioned with "
+"call waiting already enabled. The user would then be required to dial the CW "
+"feature code (*70 default) to enable their phone. Most installations should "
+"leave this alone. It allows multi-line phones to receive multiple calls on "
+"their line appearances."
+msgstr ""
+
+msgid "Disable -custom Context Includes"
+msgstr ""
+
+msgid ""
+"Normally FreePBX auto-generates a custom context that may be usable for "
+"adding custom dialplan to modify the normal behavior of FreePBX. It takes a "
+"good understanding of how Asterisk processes these includes to use this and "
+"in many of the cases, there is no useful application. All includes will "
+"result in a WARNING in the Asterisk log if there is no context found to "
+"include though it results in no errors. If you know that you want the "
+"includes, you can set this to true. If you comment it out FreePBX will "
+"revert to legacy behavior and include the contexts."
+msgstr ""
+
+msgid "Dynamically Generate Hints"
+msgstr ""
+
+msgid ""
+"If true, Core will not statically generate hints, but instead make a call to "
+"the AMPBIN php script, and generate_hints.php through an Asterisk #exec "
+"call. This requires asterisk.conf to be configured with "
+"<b>execincludes=yes<b> set in the [options] section."
+msgstr ""
+
+msgid "Enable Custom Device States"
+msgstr ""
+
+msgid ""
+"If this is set, it assumes that you are running Asterisk 1.4 or higher and "
+"want to take advantage of the func_devstate.c backport available from "
+"Asterisk 1.6. This allows custom hints to be created to support BLF for "
+"server side feature codes such as daynight, followme, etc"
+msgstr ""
+
+msgid "Extension Concurrency Limit"
+msgstr ""
+
+msgid ""
+"Default maximum number of outbound simultaneous calls that an extension can "
+"make. This is also very useful as a Security Protection against a system "
+"that has been compromised. It will limit the number of simultaneous calls "
+"that can be made on the compromised extension. This default is used when an "
+"extension is created. A default of 0 means no limit."
+msgstr ""
+
+msgid "Feature Codes Beep Only"
+msgstr ""
+
+msgid ""
+"When set to true, a beep is played instead of confirmation message when "
+"activating/de-activating: CallForward, CallWaiting, DayNight, DoNotDisturb "
+"and FindMeFollow."
+msgstr ""
+
+msgid "Force All Internal Auto Answer"
+msgstr ""
+
+msgid ""
+"Force all extensions to operate in the Internal Auto Answer mode regardless "
+"of their individual settings. See 'Internal Auto Answer Default' for more "
+"information."
+msgstr ""
+
+msgid "Generate Diversion Headers"
+msgstr ""
+
+msgid ""
+"If this value is set to true, then calls going out your outbound routes that "
+"originate from outside your PBX and were subsequently forwarded through a "
+"call forward, ring group, follow-me or other means, will have a SIP "
+"diversion header added to the call with the original incoming DID assuming "
+"there is a DID available. This is useful with some carriers that may require "
+"this under certain circumstances."
+msgstr ""
+
+msgid "Internal Auto Answer Default"
+msgstr ""
+
+msgid ""
+"Default setting for new extensions. When set to Intercom, calls to new "
+"extensions/users from other internal users act as if they were intercom "
+"calls meaning they will be auto-answered if the endpoint supports this "
+"feature and the system is configured to operate in this mode. All the normal "
+"white list and black list settings will be honored if they are set. External "
+"calls will still ring as normal, as will certain other circumstances such as "
+"blind transfers and when a Follow Me is configured and enabled. If Disabled, "
+"the phone rings as a normal phone."
+msgstr ""
+
+msgid "NoOp Traces in Dialplan"
+msgstr ""
+
+msgid ""
+"Some modules will generate lots of NoOp() commands proceeded by a [TRACE]"
+"(trace_level) that can be used during development or while trying to trace "
+"call flows. These NoOp() commands serve no other purpose so if you do not "
+"want to see excessive NoOp()s in your dialplan you can set this to 0. The "
+"higher the number the more detailed level of trace NoOp()s will be generated"
+msgstr ""
+
+msgid "Occupied Lines CW Busy"
+msgstr ""
+
+msgid ""
+"For extensions that have CW enabled, report unanswered CW calls as <b>busy</"
+"b> (resulting in busy voicemail greeting). If set to no, unanswered CW calls "
+"simply report as <b>no-answer</b>."
+msgstr ""
+
+msgid "Polling Interval for Stopping Asterisk"
+msgstr ""
+
+msgid ""
+"When Asterisk is stopped or restarted with the 'amportal stop/restart' "
+"commands, it does a graceful stop waiting for active channels to hangup. "
+"This sets the polling interval to check if Asterisk is shutdown and update "
+"the countdown timer."
+msgstr ""
+
+msgid "Use bad-number Context"
+msgstr ""
+
+msgid ""
+"Generate the bad-number context which traps any bogus number or feature code "
+"and plays a message to the effect. If you use the Early Dial feature on some "
+"Grandstream phones, you will want to set this to false."
+msgstr ""
+
+msgid "Use Google DNS for Enum"
+msgstr ""
+
+msgid ""
+"Setting this flag will generate the required global variable so that "
+"enumlookup.agi will use Google DNS 8.8.8.8 when performing an ENUM lookup. "
+"Not all DNS deals with NAPTR record, but Google does. There is a drawback to "
+"this as Google tracks every lookup. If you are not comfortable with this, do "
+"not enable this setting. Please read Google FAQ about this: <b>http://code."
+"google.com/speed/public-dns/faq.html#privacy</b>."
+msgstr ""
+
+msgid "Waiting Period to Stop Asterisk"
+msgstr ""
+
+msgid ""
+"When Asterisk is stopped or restarted with the 'amportal stop/restart' "
+"commands, it does a graceful stop waiting for active channels to hangup. "
+"This sets the maximum time in seconds to wait prior to force stopping "
+"Asterisk"
+msgstr ""
+
+msgid "Use Automixmon for One-Touch Recording"
+msgstr ""
+
+msgid ""
+"Starting with Asterisk 1.6, one-touch-recording can be toggled on and off "
+"during a call if the dial options had 'x' and/or 'X' options set. When this "
+"is set to true, the 'In-Call Asterisk Toggle Call Recording' will use the "
+"asterisk 'automixmon' option instead of the 'automon' option to set this. "
+"Only one or the other can be set from the GUI. You need to set the proper "
+"options of 'x' and/or 'X' when using this, or 'w' and/or 'W' if using the "
+"older 'automon' version. Setting this to true will have no effect on systems "
+"running Asterisk 1.4 or earlier."
+msgstr ""
+
+msgid "Asterisk AGI Dir"
+msgstr ""
+
+msgid "Directory Layout"
+msgstr ""
+
+msgid "This is the default directory for Asterisks agi files."
+msgstr ""
+
+msgid "Asterisk bin Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks lib files."
+msgstr ""
+
+msgid "Asterisk etc Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks configuration files."
+msgstr ""
+
+msgid "Asterisk Log Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks log files."
+msgstr ""
+
+msgid "Asterisk Modules Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks modules."
+msgstr ""
+
+msgid "Asterisk Run Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks run files."
+msgstr ""
+
+msgid "Asterisk Spool Dir"
+msgstr ""
+
+msgid "This is the default directory for Asterisks spool directory."
+msgstr ""
+
+msgid "CGI Dir"
+msgstr ""
+
+msgid "The path to Apache cgi-bin dir (leave off trailing slash)."
+msgstr ""
+
+msgid "FreePBX bin Dir"
+msgstr ""
+
+msgid "Location of the FreePBX command line scripts."
+msgstr ""
+
+msgid "FreePBX sbin Dir"
+msgstr ""
+
+msgid "Where (root) command line scripts are located."
+msgstr ""
+
+msgid "FreePBX Web Root Dir"
+msgstr ""
+
+msgid "The path to Apache webroot (leave off trailing slash)."
+msgstr ""
+
+msgid "MoH Subdirectory"
+msgstr ""
+
+msgid ""
+"This is the subdirectory for the MoH files/directories which is located in "
+"ASTVARLIBDIR. Older installation may be using mohmp3 which was the old "
+"Asterisk default and should be set to that value if the music files are "
+"located there relative to the ASTVARLIBDIR."
+msgstr ""
+
+msgid "Override Call Recording Location"
+msgstr ""
+
+msgid ""
+"Override the default location where asterisk will store call recordings. Be "
+"sure to set proper permissions on the directory for the asterisk user."
+msgstr ""
+
+msgid "Disable FOP"
+msgstr ""
+
+msgid ""
+"Set to true to disable FOP in interface and retrieve_conf.  Useful for "
+"sqlite3 or if you do not want FOP."
+msgstr ""
+
+msgid "FOP Password"
+msgstr ""
+
+msgid ""
+"Password for performing transfers and hangups in the Flash Operator Panel "
+"(FOP)."
+msgstr ""
+
+msgid "FOP Sort Mode"
+msgstr ""
+
+msgid ""
+"How FOP sort extensions. By Last Name [lastname] or by Extension [extension]."
+msgstr ""
+
+msgid "FOP Web Root Dir"
+msgstr ""
+
+msgid "Path to the Flash Operator Panel webroot (leave off trailing slash)."
+msgstr ""
+
+msgid "Start FOP with amportal"
+msgstr ""
+
+msgid ""
+"Set to true if you want FOP started by freepbx_engine (amportal_start), "
+"false otherwise."
+msgstr ""
+
+msgid "Abort Config Gen on Bad Dest"
+msgstr ""
+
+msgid "GUI Behavior"
+msgstr ""
+
+msgid ""
+"Setting either of these to true will result in retrieve_conf aborting during "
+"a reload if an extension conflict is detected or a destination is detected. "
+"It is usually better to allow the reload to go through and then correct the "
+"problem but these can be set if a more strict behavior is desired."
+msgstr ""
+
+msgid "Abort Config Gen on Exten Conflict"
+msgstr ""
+
+msgid "Check Server Referrer"
+msgstr ""
+
+msgid ""
+"When set to the default value of true, all requests into FreePBX that might "
+"possibly add/edit/delete settings will be validated to assure the request is "
+"coming from the server. This will protect the system from CSRF (cross site "
+"request forgery) attacks. It will have the effect of preventing legitimately "
+"entering URLs that could modify settings which can be allowed by changing "
+"this field to false."
+msgstr ""
+
+msgid "Include Server Name in Browser"
+msgstr ""
+
+msgid "Precede browser title with the server name."
+msgstr ""
+
+msgid "Report Unknown Dest as Error"
+msgstr ""
+
+msgid ""
+"If false, then the Destination Registry will not report unknown destinations "
+"as errors. This should be left to the default true and custom destinations "
+"should be moved into the new custom apps registry."
+msgstr ""
+
+msgid "Require Confirm with Apply Changes"
+msgstr ""
+
+msgid "When set to false, will bypass the confirm on Reload Box."
+msgstr ""
+
+msgid "Show Categories in Nav Menu"
+msgstr ""
+
+msgid ""
+"Controls if the menu items in the admin interface are sorted by category "
+"(true) or sorted alphabetically with no categories shown (false). Defaults = "
+"true"
+msgstr ""
+
+msgid "Use wget For Module Admin"
+msgstr ""
+
+msgid ""
+"Module Admin normally tries to get its online information through direct "
+"file open type calls to URLs that go back to the freepbx.org server. If it "
+"fails, typically because of content filters in firewalls that do not like "
+"the way PHP formats the requests, the code will fall back and try a wget to "
+"pull the information. This will often solve the problem. However, in such "
+"environment there can be a significant timeout before the failed file open "
+"calls to the URLs return and there are often 2-3 of these that occur. "
+"Setting this value will force FreePBX to avoid the attempt to open the URL "
+"and go straight to the wget calls."
+msgstr ""
+
+msgid "Asterisk Function CONNECTEDLINE"
+msgstr ""
+
+msgid "Internal Use"
+msgstr ""
+
+msgid ""
+"Set to the function name if the function is present in this Asterisk install"
+msgstr ""
+
+msgid "Asterisk Function DEVICE_STATE"
+msgstr ""
+
+msgid "Asterisk Function EXTENSION_STATE"
+msgstr ""
+
+msgid "Asterisk Function MASTER_CHANNEL"
+msgstr ""
+
+msgid "Asterisk Function SHARED"
+msgstr ""
+
+msgid "Asterisk Version"
+msgstr ""
+
+msgid ""
+"Asterisk Version used during last 'Apply Configuration Changes' when "
+"retrieve_conf is run"
+msgstr ""
+
+msgid "Auto Generated Copy of Main CSS"
+msgstr ""
+
+msgid "internal use"
+msgstr ""
+
+msgid "Last Mod Time of Main CSS"
+msgstr ""
+
+msgid "Remote CDR DB Host"
+msgstr ""
+
+msgid "Remote CDR Database"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX.<br>Hostname of db server if not "
+"the same as AMPDBHOST."
+msgstr ""
+
+msgid "Remote CDR DB Name"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX.<br>Name of database used for cdr "
+"records."
+msgstr ""
+
+msgid "Remote CDR DB Password"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX.<br>Password for connecting to db "
+"if its not the same as AMPDBPASS."
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX.<br>Port number for db host."
+msgstr ""
+
+msgid "Remote CDR DB Table"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX. Name of the table in the db "
+"where the cdr is stored. cdr is default."
+msgstr ""
+
+msgid "Remote CDR DB Type"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX. Defaults to your configured "
+"AMDBENGINE."
+msgstr ""
+
+msgid "Remote CDR DB User"
+msgstr ""
+
+msgid ""
+"DO NOT set this unless you know what you are doing. Only used if you do not "
+"use the default values provided by FreePBX. Username to connect to db with "
+"if it is not the same as AMPDBUSER."
+msgstr ""
+
+msgid "Legacy Right Logo"
+msgstr ""
+
+msgid "Styling and Logos"
+msgstr ""
+
+msgid ""
+"Legacy setting, use BRAND_IMAGE_FREEPBX_RIGHT in the future. If set, this "
+"will override BRAND_IMAGE_FREEPBX_RIGHT. The setting is the name of the "
+"image file and is always assumed to be present in the admin/images "
+"directory. Overrides the standard logo that is to be displayed at the TOP "
+"RIGHT of the admin screen. This enables you to customize the look of the "
+"administration screen. NOTE: images need to be saved in the ..../admin/"
+"images directory of your AMP install. This image should be 55px in height."
+msgstr ""
+
+msgid "Hide Nav Background"
+msgstr ""
+
+msgid "Hide the configured left navigation bar background."
+msgstr ""
+
+msgid "Image: shadow-side-background.png"
+msgstr ""
+
+msgid "Styling image."
+msgstr ""
+
+msgid "Image: Right Upper"
+msgstr ""
+
+msgid ""
+"Right upper logo. Use this setting instead of AMPADMINLOGO. Path is relative "
+"to admin."
+msgstr ""
+
+msgid "Image: Left Upper"
+msgstr ""
+
+msgid "Left upper logo.  Path is relative to admin."
+msgstr ""
+
+msgid "Image: Footer"
+msgstr ""
+
+msgid "Logo in footer.  Path is relative to admin."
+msgstr ""
+
+msgid "Image: Reload Screen"
+msgstr ""
+
+msgid ""
+"Image used during a reload, default is animated GIF eating the * "
+"(asterisk).  Path is relative to admin."
+msgstr ""
+
+msgid "Alt for Left Logo"
+msgstr ""
+
+msgid ""
+"alt attribute to use in place of image and title hover value. Defaults to "
+"FreePBX"
+msgstr ""
+
+msgid "Alt for Right Logo"
+msgstr ""
+
+msgid "Alt for Footer Logo"
+msgstr ""
+
+msgid "Link for Left Logo"
+msgstr ""
+
+msgid ""
+"link to follow when clicking on logo, defaults to http://www.freepbx.org"
+msgstr ""
+
+msgid "Link for Right Logo"
+msgstr ""
+
+msgid "Link for Footer Logo"
+msgstr ""
+
+msgid "Hide Right Logo"
+msgstr ""
+
+msgid "Setting to true will hide the upper right logo."
+msgstr ""
+
+msgid "Hide Left FreePBX Version"
+msgstr ""
+
+msgid ""
+"Setting to true will hide the FreePBX version information below the left "
+"upper header."
+msgstr ""
+
+msgid "Hide Header Menus"
+msgstr ""
+
+msgid ""
+"Setting to true will hide the complete horizontal menu bar in the header."
+msgstr ""
+
+msgid "Primary CSS Stylesheet"
+msgstr ""
+
+msgid ""
+"Set this to replace the default mainstyle.css style sheet with your own, "
+"relative to admin."
+msgstr ""
+
+msgid "Optional Additional CSS Stylesheet"
+msgstr ""
+
+msgid ""
+"Optional custom CSS style sheet included after the primary one and any "
+"module specific ones are loaded, relative to admin."
+msgstr ""
+
+msgid "View: freepbx_admin.php"
+msgstr ""
+
+msgid ""
+"freepbx_admin.php view. This should never be changed except for very "
+"advanced layout changes."
+msgstr ""
+
+msgid "View: freepbx.php"
+msgstr ""
+
+msgid ""
+"freepbx.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: freepbx_reload.php"
+msgstr ""
+
+msgid ""
+"freepbx_reload.php view. This should never be changed except for very "
+"advanced layout changes."
+msgstr ""
+
+msgid "View: freepbx_reloadbar.php"
+msgstr ""
+
+msgid ""
+"freepbx_reloadbar.php view. This should never be changed except for very "
+"advanced layout changes."
+msgstr ""
+
+msgid "View: welcome.php"
+msgstr ""
+
+msgid ""
+"welcome.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: welcome_nomanager.php"
+msgstr ""
+
+msgid ""
+"welcome_nomanager.php view. This should never be changed except for very "
+"advanced layout changes."
+msgstr ""
+
+msgid "View: menuitem_disabled.php"
+msgstr ""
+
+msgid ""
+"menuitem_disabled.php view. This should never be changed except for very "
+"advanced layout changes."
+msgstr ""
+
+msgid "View: noaccess.php"
+msgstr ""
+
+msgid ""
+"noaccess.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: unauthorized.php"
+msgstr ""
+
+msgid ""
+"unauthorized.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: bad_refferer.php"
+msgstr ""
+
+msgid ""
+"bad_refferer.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: loggedout.php"
+msgstr ""
+
+msgid ""
+"loggedout.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "View: panel.php"
+msgstr ""
+
+msgid ""
+"panel.php view. This should never be changed except for very advanced layout "
+"changes."
+msgstr ""
+
+msgid "View: reports.php"
+msgstr ""
+
+msgid ""
+"reports.php view. This should never be changed except for very advanced "
+"layout changes."
+msgstr ""
+
+msgid "FreePBX Log Routing"
+msgstr ""
+
+msgid "System Setup"
+msgstr ""
+
+msgid ""
+"Determine where to send log information if the log is enabled ('Disable "
+"FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log "
+"messages. 'FILE' will send all log messages to the defined 'FreePBX Log "
+"File' (FPBX_LOG_FILE). All the other settings will route the log messages to "
+"your System Logging subsystem (syslog) using the specified log level. Syslog "
+"can be configured to route different levels to different locations. See "
+"'syslog' documentation (man syslog) on your system for more details."
+msgstr ""
+
+msgid "Disable FreePBX Log"
+msgstr ""
+
+msgid "Whether or not to invoke the FreePBX log facility."
+msgstr ""
+
+msgid "Log Verbose Messages"
+msgstr ""
+
+msgid ""
+"FreePBX has many verbose and useful messages displayed to users during "
+"module installation, system installations, loading configurations and other "
+"places. In order to accumulate these messages in the log files as well as "
+"the on screen display, set this to true."
+msgstr ""
+
+msgid "Send Dashboard Notifications to Log"
+msgstr ""
+
+msgid ""
+"When enabled all notification updates to the Dashboard notification panel "
+"will also be logged into the specified log file when enabled."
+msgstr ""
+
+msgid "FreePBX Log File"
+msgstr ""
+
+msgid ""
+"Full path and name of the FreePBX Log File used in conjunction with the "
+"Syslog Level (AMPSYSLOGLEVEL) being set to FILE, not used otherwise. Initial "
+"installs may have some early logging sent to /tmp/freepbx_pre_install.log "
+"when it is first bootstrapping the installer."
+msgstr ""
+
+msgid "PHP Error Log Output"
+msgstr ""
+
+msgid ""
+"Where to send PHP errors, warnings and notices by the FreePBX PHP error "
+"handler. Set to 'dbug', they will go to the Debug File regardless of whether "
+"dbug Loggin is disalbed or not. Set to 'freepbxlog' will send them to the "
+"FreePBX Log. Set to 'off' and they will be ignored."
+msgstr ""
+
+msgid "User & Devices Mode"
+msgstr ""
+
+msgid ""
+"Sets the extension behavior in FreePBX.  If set to <b>extensions</b>, "
+"Devices and Users are administered together as a unified Extension, and "
+"appear on a single page. If set to <b>deviceanduser</b>, Devices and Users "
+"will be administered separately. Devices (e.g. each individual line on a SIP "
+"phone) and Users (e.g. <b>101</b>) will be configured independent of each "
+"other, allowing association of one User to many Devices, or allowing Users "
+"to login and logout of Devices."
+msgstr ""
+
+msgid "Authorization Type"
+msgstr ""
+
+msgid ""
+"Authentication type to use for web admin. If type set to <b>database</b>, "
+"the primary AMP admin credentials will be the AMPDBUSER/AMPDBPASS above. "
+"When using database you can create users that are restricted to only certain "
+"module pages. When set to none, you should make sure you have provided "
+"security at the apache level. When set to webserver, FreePBX will expect "
+"authentication to happen at the apache level, but will take the user "
+"credentials and apply any restrictions as if it were in database mode."
+msgstr ""
+
+msgid "Allow Login With DB Credentials"
+msgstr ""
+
+msgid ""
+"When Set to True, admin access to the FreePBX GUI will be allowed using the "
+"FreePBX configured AMPDBUSER and AMPDBPASS credentials. This only applies "
+"when Authorization Type is 'database' mode."
+msgstr ""
+
+msgid "User Portal Admin Username"
+msgstr ""
+
+msgid ""
+"This is the default admin name used to allow an administrator to login to "
+"ARI bypassing all security. Change this to whatever you want, do not forget "
+"to change the User Portal Admin Password as well. Default = not set"
+msgstr ""
+
+msgid "User Portal Admin Password"
+msgstr ""
+
+msgid ""
+"This is the default admin password to allow an administrator to login to ARI "
+"bypassing all security. Change this to a secure password. Default = not set"
+msgstr ""
+
+msgid "Asterisk VMU Mask"
+msgstr ""
+
+msgid ""
+"Defaults to 077 allowing only the asterisk user to have any permission on VM "
+"files. If set to something like 007, it would allow the group to have "
+"permissions. This can be used if setting apache to a different user then "
+"asterisk, so that the apache user (and thus ARI) can have access to read/"
+"write/delete the voicemail files. If changed, some of the voicemail "
+"directory structures may have to be manually changed."
+msgstr ""
+
+msgid "Force Asterisk Version"
+msgstr ""
+
+msgid ""
+"Normally FreePBX gets the current Asterisk version directly form Asterisk. "
+"This is required to generate proper dialplan for a given version. When using "
+"some custom Asterisk builds, the version may not be properly parsed and "
+"imporoper dialplan generated. Setting this to an equivalent Asterisk version "
+"will override what is read from Asterisk. This SHOULD be left blank unless "
+"you know what you are doing."
+msgstr ""
+
+msgid "FreePBX Web Address"
+msgstr ""
+
+msgid ""
+"This is the address of your Web Server. It is mostly obsolete and derived "
+"when not supplied and will be phased out, but there are still some areas "
+"expecting a variable to be set and if you are using it this will migrate "
+"your value."
+msgstr ""
+
+msgid "System Asterisk Group"
+msgstr ""
+
+msgid ""
+"The user group Asterisk should be running as, used by freepbx_engine. Most "
+"systems should not change this."
+msgstr ""
+
+msgid "System Asterisk User"
+msgstr ""
+
+msgid ""
+"The user Asterisk should be running as, used by freepbx_engine. Most systems "
+"should not change this."
+msgstr ""
+
+msgid "System Device Group"
+msgstr ""
+
+msgid ""
+"The user group that various device directories should be set to, used by "
+"freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
+"mISDN and /dev/dsp. Most systems should not change this."
+msgstr ""
+
+msgid "System Device User"
+msgstr ""
+
+msgid ""
+"The user that various device directories should be set to, used by "
+"freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
+"mISDN and /dev/dsp. Most systems should not change this."
+msgstr ""
+
+msgid "System Web Group"
+msgstr ""
+
+msgid ""
+"The user group your httpd should be running as, used by freepbx_engine. Most "
+"systems should not change this."
+msgstr ""
+
+msgid "System Web User"
+msgstr ""
+
+msgid ""
+"The user your httpd should be running as, used by freepbx_engine. Most "
+"systems should not change this."
+msgstr ""
+
+msgid "Telephony Engine"
+msgstr ""
+
+msgid ""
+"The telephony backend engine being used, asterisk is the only option "
+"currently."
+msgstr ""
+
+msgid "VMX Default Context"
+msgstr ""
+
+msgid "VmX Locater"
+msgstr ""
+
+msgid ""
+"Used to do extremely advanced and customized changes to the macro-vm VmX "
+"locater. Check the dialplan for a thorough understanding of how to use this."
+msgstr ""
+
+msgid "VMX Default Loop Exceed Context"
+msgstr ""
+
+msgid ""
+"Used to do extremely advanced and customized changes to the macro-vm VmX "
+"locater. Check the dialplan for a thorough understanding of how to use this. "
+"The default location that a caller will be sent if they press an invalid "
+"options too many times, as defined by the Maximum Loops count."
+msgstr ""
+
+msgid "VMX Default Loop Exceed Extension"
+msgstr ""
+
+msgid "VMX Default Loop Exceed Priority"
+msgstr ""
+
+msgid "VMX Default Priority"
+msgstr ""
+
+msgid "VMX Default Timeout Context"
+msgstr ""
+
+msgid ""
+"Used to do extremely advanced and customized changes to the macro-vm VmX "
+"locater. Check the dialplan for a thorough understanding of how to use this. "
+"The default location that a caller will be sent if they don't press any key "
+"(timeout) or press # which is interpreted as a timeout. Set this to 'dovm' "
+"to go to voicemail (default)."
+msgstr ""
+
+msgid "VMX Default Timeout Extension"
+msgstr ""
+
+msgid "VMX Default Timeout Priority"
+msgstr ""
+
+msgid "Terminate Call"
+msgstr "Termina Apel"
+
+msgid "Hangup"
+msgstr "Inchide"
+
+msgid "Congestion"
+msgstr "Congestie"
+
+msgid "Busy"
+msgstr "Ocupat"
+
+msgid "Play SIT Tone (Zapateller)"
+msgstr "Utilizeaza SIT Tone (Zapteller)"
+
+msgid "Put caller on hold forever"
+msgstr "Pune apelant on-hold permanent"
+
+msgid "Play ringtones to caller until they hangup"
+msgstr "Ruleaza tonuri de apel catre apelant pana cand acesta inchide"
+
+#, php-format
+msgid "User Extension %s: %s"
+msgstr "Extensie Utilizator %s: %s"
+
+#, php-format
+msgid "Trunk: %s (%s)"
+msgstr ""
+
+#, php-format
+msgid "Calling Out Route: %s"
+msgstr ""
+
+msgid "A route for this DID/CID already exists!"
+msgstr "Deja exista o ruta pentru acest DID/CID!"
+
+msgid "You must put in a device id"
+msgstr "Trebuie sa introduceti un ID de dispozitiv"
+
+msgid "This device id is already in use"
+msgstr "Dispozitivul este deja in uz"
+
+msgid "User Extension: "
+msgstr "Extensie Utilizator:"
+
+#, php-format
+msgid "Inbound Route: %s (%s)"
+msgstr "Ruta de intrare: %s (%s)"
+
+#, php-format
+msgid "%s: %s (%s)"
+msgstr ""
+
+msgid "You must put in an extension (or user) number"
+msgstr "Trebuie sa introduceti o extensie (sau utilizator)"
+
+#, php-format
+msgid "This user/extension %s is already in use"
+msgstr "Acest utilizator/ extensie este deja in uz"
+
+#, php-format
+msgid "A route with this DID/CID: %s/%s already exists"
+msgstr "Exista deja o ruta cu acest DID/CID: %s/%s "
+
+msgid "Invalid Channel Number, must be numeric and not blank"
+msgstr ""
+"Numar Canal invalid, trebuie sa fie in format numeric – nu lasati necompletat"
+
+msgid "Invalid DID, must be a non-blank DID"
+msgstr "DID invalid, nu trebuie sa fie necompletat"
+
+msgid "Error Duplicate Channel Entry"
+msgstr "Eroare Numar Canal duplicat"
+
+#, php-format
+msgid "Outbound Route: %s"
+msgstr ""
+
+#, php-format
+msgid ""
+"Failed to open %s for writing, aborting attempt to write the country "
+"indications. The file may be readonly or the permissions may be incorrect."
+msgstr ""
+"Deschidere %s esuata pentru scriere, incercarea de a modifica indicatiile de "
+"tara a fost anulata. Fisierul este read-only sau drepturile de scriere sunt "
+"incorect setate. "
+
+msgid "Failed to write indications.conf"
+msgstr "Actiunea de modificare indications.conf a esuat"
+
+msgid "On Demand"
+msgstr "La Cerere"
+
+msgid "Always"
+msgstr "Intotdeauna"
+
+msgid "Never"
+msgstr "Niciodata"
+
+msgid "Intercom"
+msgstr ""
+
+msgid "Screen Caller: No Memory"
+msgstr "Control Apelant: Fara Memorie"
+
+msgid "Screen Caller: Memory"
+msgstr "Control Apelant: Memorie"
+
+msgid "Default"
+msgstr "Predefinit"
+
+msgid "No Limit"
+msgstr ""
+
+msgid "deleted"
+msgstr "sters"
+
+msgid "Extension"
+msgstr "Extensie"
+
+#, php-format
+msgid "Delete Extension %s"
+msgstr "Sterge Extensie %s"
+
+msgid "User"
+msgstr "Utilizator"
+
+#, php-format
+msgid "Delete User %s"
+msgstr "Sterge Utilizator %s"
+
+msgid "Add User/Extension"
+msgstr "Adauga utilizator/Extensie"
+
+msgid "Please enter a valid extension number."
+msgstr "Va rugam sa introduceti un numar de extensie valid."
+
+msgid "Please enter a valid CID Num Alias (must be a valid number)."
+msgstr ""
+"Va rugam sa introduceti un Alias ID valid (trebuie sa fie un numar valid)."
+
+msgid "Please enter valid User Password using numbers only"
+msgstr "Va rugam sa introduceti o parola valida, utilizand doar cifre."
+
+msgid "Please enter a valid Display Name"
+msgstr "Va rugam sa introduceti un Nume valid"
+
+msgid "Please enter a valid Outbound CID"
+msgstr "Va rugam sa introduceti un ID de iesire valid"
+
+msgid "Please enter a valid pause time in seconds, using digits only"
+msgstr ""
+"Va rugam sa introduceti o perioada valida de pauza, in secunde, utilizand "
+"doar cifre"
+
+msgid ""
+"You have entered a non-standard dialpattern for your DID. You can only enter "
+"standard dialpatterns. You must use the inbound routing form to enter non-"
+"standard patterns"
+msgstr ""
+"Ati introdus un model de apelare non-standard pentru DID-ul dumneavoastra. "
+"Nu puteti introduce decat modele de apelare standard. Trebuie sa utilizati "
+"forma de rutare a apelurilor din exterior pentru a putea introduce modele "
+"non-standard.  "
+
+msgid ""
+"Please enter a valid Caller ID Number or leave it blank for your Assigned "
+"DID/CID pair"
+msgstr ""
+"Va rugam sa introduceti un ID numar apelant valid sau lasati spatiu gol "
+"pentru   perechea asignata DID/CID."
+
+msgid "Edit Extension"
+msgstr "Modifica Extensie"
+
+msgid "Add Extension"
+msgstr "Adauga Extensie"
+
+msgid "Edit User"
+msgstr "Modifica Utilizator"
+
+msgid "Add User"
+msgstr "Adauga Utilizator"
+
+msgid "User Extension"
+msgstr "Extensie Utilizator"
+
+msgid "The extension number to dial to reach this user."
+msgstr "Numarul de extensie utilizat pentru apelarea acestui utilizator."
+
+msgid "User Password"
+msgstr "Parola Utilizator"
+
+msgid "A user will enter this password when logging onto a device."
+msgstr ""
+"Utilizatorul va introduce aceasta parola cand se va conecta la un "
+"dispozitiv. "
+
+msgid "logs into a device."
+msgstr "se conecteaza la un dispozitiv."
+
+msgid "logs out of a device."
+msgstr "se deconecteaza de la un dispozitiv."
+
+msgid "Display Name"
+msgstr "Afiseaza Nume"
+
+msgid ""
+"The caller id name for calls from this user will be set to this name. Only "
+"enter the name, NOT the number."
+msgstr ""
+"Indicativul pentru apelurile de la acest utilizator vor fi setate pe numele "
+"acestuia. Introduceti doar numele, NU si interiorul"
+
+msgid "CID Num Alias"
+msgstr "Indicativ numar Alias"
+
+msgid ""
+"The CID Number to use for internal calls, if different from the extension "
+"number. This is used to masquerade as a different user. A common example is "
+"a team of support people who would like their internal CallerID to display "
+"the general support number (a ringgroup or queue). There will be no effect "
+"on external calls."
+msgstr ""
+"Numarul CID utlizat pentru apelurile interne, daca este diferit de numarul "
+"de extensie.  Acesta este utilizat pentru deghiza identitatea "
+"utilizatorului. De exemplu, grupul de suport poate avea ca indicativ pentru "
+"apelurile interne numarul general pentru asistenta (grup sau coada de "
+"apelare). Nu va avea nici un efect asupra apelurilor externe."
+
+msgid "SIP Alias"
+msgstr "Alias SIP"
+
+msgid ""
+"If you want to support direct sip dialing of users internally or through "
+"anonymous sip calls, you can supply a friendly name that can be used in "
+"addition to the users extension to call them."
+msgstr ""
+"Daca doriti sa sustineti apelarea sip directa a userilor interni sau via "
+"apeluri sip nenominalizate, puteti   furniza un nume care va fi utilizat "
+"impreuna cu interiorul utilizatorului pentru a-i apela."
+
+msgid "User Devices"
+msgstr "Dispozitive utilizator/aparate"
+
+msgid "Edit:"
+msgstr "Modifica:"
+
+msgid "Extension Options"
+msgstr "Optiuni Extensie"
+
+msgid "Outbound CID"
+msgstr "CID de iesire"
+
+msgid ""
+"Overrides the caller id when dialing out a trunk. Any setting here will "
+"override the common outbound caller id set in the Trunks admin."
+"<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this "
+"field blank to disable the outbound CallerID feature for this user."
+msgstr ""
+"Anuleaza ID-ul apelantului cand se formeaza printr-un trunchi catre "
+"exterior. Orice setare in acest punct va suprascrie  ID-ul apelantului "
+"normal stabilit in administrarea de trunchi <br><br>Formato: <b>\"Nume "
+"apelant\" &lt;#######&gt;</b><br><br> Lasati acest spatiu liber pentru a "
+"dezactiva optiunea de ID apelant de iesire pentru acest utilizator."
+
+msgid "Ring Time"
+msgstr "Durata sonerie"
+
+msgid ""
+"Number of seconds to ring prior to going to voicemail. Default will use the "
+"value set in the General Tab. If no voicemail is configured this will be "
+"ignored."
+msgstr ""
+"Numarul de secunde de sonerie inainte de a se activa casuta vocala. In mod "
+"predefinit va utiliza valoarea stabilita in Meniul General. Daca nu se "
+"configureaza casuta vocala aceasta setare va fi ignorata."
+
+msgid "Call Forward Ring Time"
+msgstr ""
+
+msgid ""
+"Number of seconds to ring during a Call Forward, Call Forward Busy or Call "
+"Forward Unavailable call prior to continuing to voicemail or specified "
+"destination. Setting to Always will not return, it will just continue to "
+"ring. Default will use the current Ring Time. If voicemail is disabled and "
+"their is not destination specified, it will be forced into Always mode"
+msgstr ""
+
+msgid "Outbound Concurrency Limit"
+msgstr ""
+
+msgid ""
+"Maximum number of outbound simultaneous calls that an extension can make. "
+"This is also very useful as a Security Protection against a system that has "
+"been compromised. It will limit the number of simultaneous calls that can be "
+"made on the compromised extension."
+msgstr ""
+
+msgid "Call Waiting"
+msgstr "Apel in asteptare"
+
+msgid "Set the initial/current Call Waiting state for this user's extension"
+msgstr ""
+"Stabiliti starea initiala/curenta de Apel in Asteptare pentru interiorul "
+"acestui utilizator"
+
+msgid "Internal Auto Answer"
+msgstr ""
+
+msgid ""
+"When set to Intercom, calls to this extension/user from other internal users "
+"act as if they were intercom calls meaning they will be auto-answered if the "
+"endpoint supports this feature and the system is configured to operate in "
+"this mode. All the normal white list and black list settings will be honored "
+"if they are set. External calls will still ring as normal, as will certain "
+"other circumstances such as blind transfers and when a Follow Me is "
+"configured and enabled. If Disabled, the phone rings as a normal phone."
+msgstr ""
+
+msgid "Call Screening"
+msgstr "Control Apelant"
+
+msgid ""
+"Call Screening requires external callers to say their name, which will be "
+"played back to the user and allow the user to accept or reject the call.  "
+"Screening with memory only verifies a caller for their caller-id once. "
+"Screening without memory always requires a caller to say their name. Either "
+"mode will always announce the caller based on the last introduction saved "
+"with that CallerID. If any user on the system uses the memory option, when "
+"that user is called, the caller will be required to re-introduce themselves "
+"and all users on the system will have that new introduction associated with "
+"the caller's CallerID."
+msgstr ""
+"Functia Control Apelant va cere apelantilor externi sa isi mentioneze "
+"numele, urmand sa fie reprodus catre utilizator, acordandu-i acestuia  "
+"posibilitatea de a accepta sau refuza apelul. Controlul Apelant cu memorare "
+"va verifica numele apelantului o singura data. Controlul Apelant fara "
+"memorare va cere intotdeauna apelantului sa isi spuna numele. In ambele "
+"situatii va anunta intotdeauna apelantul in functie de ultima inregistrare "
+"cu acel ID apelant. Daca oricare utilizator foloseste optiunea cu memorare, "
+"in momentul in care este apelat, apelantul va fi nevoit sa repete numele iar "
+"toti utilizatorii din sistem  vor beneficia de acea prezentareasociata cu ID "
+"Apelant."
+
+msgid "Pinless Dialing"
+msgstr "Apelare fara Pin"
+
+msgid ""
+"Enabling Pinless Dialing will allow this extension to bypass any pin codes "
+"normally required on outbound calls"
+msgstr ""
+"Prin activarea Apelarii fara Pin se va permite acestei extensii sa sara "
+"peste orice tip de cod pin cerunt in mod obisnuit pentru apelurile de iesire"
+
+msgid "Assigned DID/CID"
+msgstr "DID/CID Asignat"
+
+msgid "DID Description"
+msgstr "Descriere DID"
+
+msgid "A description for this DID, such as \"Fax\""
+msgstr "O descriere a acestui DID, de exemplu \"Fax\""
+
+msgid "Add Inbound DID"
+msgstr "Adauga DID intrare"
+
+msgid ""
+"A direct DID that is associated with this extension. The DID should be in "
+"the same format as provided by the provider (e.g. full number, 4 digits for "
+"10x4, etc).<br><br>Format should be: <b>XXXXXXXXXX</b><br><br>.An optional "
+"CID can also be associated with this DID by setting the next box"
+msgstr ""
+"Numarul direct DID asociat cu extensia prezenta. Trebuie sa fie in acelasi "
+"format cu cel oferit de furnizor  (ex: numar intreg, 4 cifre sau 10x4,etc) "
+"<br><br>Formatul ar trebui sa fie : <b>XXXXXXXXXX</b><br><br> Un CID "
+"optional se poate asocia cu acest DID prin setarea casutei urmatoare. "
+
+msgid "Add Inbound CID"
+msgstr "Adauga CID intrare"
+
+msgid ""
+"Add a CID for more specific DID + CID routing. A DID must be specified in "
+"the above Add DID box. In addition to standard dial sequences, you can also "
+"put Private, Blocked, Unknown, Restricted, Anonymous and Unavailable in "
+"order to catch these special cases if the Telco transmits them."
+msgstr ""
+"Adaugati un CID pentru rutare specifica DID + CIDDID trebuie specificat in "
+"casuta Adauga DID de mai sus. Suplimentar secventelor de apelare standard, "
+"puteti adauga Privat, Blocat, Necunoscut, Restrictionat, Anonim sau "
+"Indisponibil  pentru a acoperi toate situatiile, daca furnizorul de "
+"telefonie transmite acest tip de informatii."
+
+msgid "DID / CID"
+msgstr "DID / CID"
+
+msgid "Any DID"
+msgstr "Orice DID"
+
+msgid "Recording Options"
+msgstr "Optiuni Inregistrare"
+
+msgid "Record Incoming"
+msgstr "Inregistreaza Intrarile"
+
+msgid "Record all inbound calls received at this extension."
+msgstr "Inregistreaza toate apelurile din exterior catre aceasta extensie."
+
+msgid "Record Outgoing"
+msgstr "Inregistreaza Iesirile"
+
+msgid "Record all outbound calls received at this extension."
+msgstr "Inregistreaza toate apelurile catre exterior de la aceasta extensie."
+
+msgid "Optional Destinations"
+msgstr ""
+
+msgid ""
+"Optional destination call is routed to when the call is not answered on an "
+"otherwise idle phone. If the phone is in use and the call is simply ignored, "
+"then the busy destination will be used."
+msgstr ""
+
+msgid "Optional destination call is routed to when the call is not answered."
+msgstr ""
+
+msgid "Unavail Voicemail if Enabled"
+msgstr ""
+
+msgid "No Answer"
+msgstr ""
+
+msgid "CID Prefix"
+msgstr ""
+
+msgid ""
+"Optional CID Prefix to add before sending to this no answer destination."
+msgstr ""
+
+msgid ""
+"Optional destination the call is routed to when the phone is busy or the "
+"call is rejected by the user. This destination is also used on an unanswered "
+"call if the phone is in use and the user chooses not to pickup the second "
+"call."
+msgstr ""
+
+msgid ""
+"Optional destination the call is routed to when the phone is busy or the "
+"call is rejected by the user."
+msgstr ""
+
+msgid "Busy Voicemail if Enabled"
+msgstr ""
+
+msgid "Optional CID Prefix to add before sending to this busy destination."
+msgstr ""
+
+msgid ""
+"Optional destination the call is routed to when the phone is offline, such "
+"as a softphone currently off or a phone unplugged."
+msgstr ""
+
+msgid "Not Reachable"
+msgstr ""
+
+msgid ""
+"Optional CID Prefix to add before sending to this not reachable destination."
+msgstr ""
+
+msgid "Warning! Extension"
+msgstr "Atentie! Extensia"
+
+msgid "is not allowed for your account"
+msgstr "nu este permisa pentru acest cont "
+
+msgid "Conflicting Extensions"
+msgstr "Extensii in conflict"
+
+msgid ""
+"The following extension numbers are in conflict, you can click on the item"
+"(s) below to edit the conflicting entity."
+msgstr ""
+"Urmatoarele extensii sunt in conflict, dati click pe cheile de mai jos "
+"pentru a edita pe cea care le genereaza ."
+
+msgid "Configure user again:"
+msgstr "Reconfigurare utilizator:"
+
+msgid "Configure extension again:"
+msgstr "Reconfigurare extensie:"
+
+msgid "Please enter the dtmfmode for this device"
+msgstr "Va rugam sa introduceti dtmfmode pentru acest aparat"
+
+msgid "Please enter the channel for this device"
+msgstr "Va rugam sa introduceti canalul pentru acest aparat"
+
+msgid ""
+"You have not entered a Secret for this device, although this is possible it "
+"is generally bad practice to not assign a Secret to a device. Are you sure "
+"you want to leave the Secret empty?"
+msgstr ""
+"Nu ati introdus nici o parola (secret) pentru acest aparat , desi e posibil "
+"nu va sfatuim sa nu utilizati nici o parola pentru dispozitiv. Sunteti sigur "
+"ca vreti sa lasati campul Secret gol?"
+
+msgid "Please enter a Secret for this device"
+msgstr "Va rugam sa introduceti o parola (secret) pentru acest dispozitiv"
+
+msgid "The Zap channel number for this port."
+msgstr ""
+
+msgid ""
+"Asterisk context this device will send calls to. Only change this is you "
+"know what you are doing."
+msgstr ""
+
+msgid "Yes"
+msgstr "DA"
+
+msgid "No"
+msgstr "Nu"
+
+msgid "Zap immediate mode setting, see Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Zap signaling, usually fxo_ks when connected to an analog phone. Some "
+"special applications or channel bank connections may require fxs_ks or other "
+"valid settings. See Zap and card documentation for details."
+msgstr ""
+
+msgid "Zap echocancel setting, see Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Whether to turn on echo cancellation when bridging between Zap channels. See "
+"Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Echo training requirements of this card. See Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect a busy signal. See "
+"Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect a busy signal, number "
+"of iterations to conclude busy. See Zap documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect call progress tones. "
+"See Zap documentation for details."
+msgstr ""
+
+msgid ""
+"How to dial this device, this should not be changed unless you know what you "
+"are doing."
+msgstr ""
+
+msgid "Accountcode for this device."
+msgstr ""
+
+msgid ""
+"Callgroup(s) that this device is part of, can be one or more callgroups, e."
+"g. '1,3-5' would be in groups 1,3,4,5."
+msgstr ""
+
+msgid ""
+"Pickupgroups(s) that this device can pickup calls from, can be one or more "
+"groups, e.g. '1,3-5' would be in groups 1,3,4,5. Device does not have to be "
+"in a group to be able to pickup calls from that group."
+msgstr ""
+
+msgid ""
+"Mailbox for this device. This should not be changed unless you know what you "
+"are doing."
+msgstr ""
+
+msgid "The DAHDi channel number for this port."
+msgstr ""
+
+msgid "DAHDi immediate mode setting, see DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"DAHDi signalling, usually fxo_ks when connected to an analog phone. Some "
+"special applications or channel bank connections may require fxs_ks or other "
+"valid settings. See DAHDi and card documentation for details."
+msgstr ""
+
+msgid "DAHDi echocancel setting, see DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Whether to turn on echo cancellation when bridging between DAHDi channels. "
+"See DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Echo training requirements of this card. See DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect a busy signal. See "
+"DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect a busy signal, number "
+"of iterations to conclude busy. See DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Experimental and un-reliable setting to try and detect call progress tones. "
+"See DAHDi documentation for details."
+msgstr ""
+
+msgid ""
+"Password (secret) configured for the device. Should be alphanumeric with at "
+"least 2 letters and numbers to keep secure."
+msgstr ""
+
+msgid "Media Only"
+msgstr ""
+
+msgid "IAX transfer capabilities, see the Asterisk documentation for details."
+msgstr ""
+
+msgid "Host settings for this device, almost always dynamic for endpoints."
+msgstr ""
+
+msgid "Asterisk connection type, usually friend for endpoints."
+msgstr ""
+
+msgid "Endpoint port number to use, usually 4569."
+msgstr ""
+
+msgid ""
+"Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the "
+"endpoint periodically (default every minute). Used to monitor the health of "
+"the endpoint. If delays are longer then the qualify time, the endpoint will "
+"be taken offline and considered unreachable. Can be set to a value which is "
+"the msec threshold. Setting to no will turn this off. Can also be helpful to "
+"keep NAT pinholes open."
+msgstr ""
+
+msgid ""
+"Disallowed codecs. Set this to all to remove all codecs defined in the "
+"general settings and then specify specific codecs separated by '&' on the "
+"'allow' setting, or just disallow specific codecs separated by '&'."
+msgstr ""
+
+msgid ""
+"Allow specific codecs, separated by the '&' sign and in priority order. E.g. "
+"'ulaw&g729'. Codecs allowed in the general settings will also be allowed "
+"unless removed with the 'disallow' directive."
+msgstr ""
+
+msgid "IP Address range to deny access to, in the form of network/netmask."
+msgstr ""
+
+msgid ""
+"IP Address range to allow access to, in the form of network/netmask. This "
+"can be a very useful security option when dealing with remote extensions "
+"that are at a known location (such as a branch office) or within a known ISP "
+"range for some home office situations."
+msgstr ""
+
+msgid "Auto"
+msgstr ""
+
+msgid ""
+"IAX security setting. See IAX documentation and device compatibility for "
+"details."
+msgstr ""
+
+msgid "RFC 2833"
+msgstr ""
+
+msgid "In band audio"
+msgstr ""
+
+msgid "SIP INFO (application/dtmf-relay"
+msgstr ""
+
+msgid "SIP INFO (application/dtmf)"
+msgstr ""
+
+msgid ""
+"The DTMF signaling mode used by this device, usually rfc2833 for most phones."
+msgstr ""
+
+msgid ""
+"Re-Invite policy for this device, see Asterisk documentation for details."
+msgstr ""
+
+msgid ""
+"Whether Asterisk should trust the RPID settings from this device. Usually "
+"should be yes for CONNECTEDLINE() functionality to work if supported by the "
+"endpoint."
+msgstr ""
+
+msgid "Send Remote-Party-ID header"
+msgstr ""
+
+msgid "Send P-Asserted-Identity header"
+msgstr ""
+
+msgid ""
+"Whether Asterisk should send RPID (or PAI) info to the device. Usually "
+"should be enabled to the settings used by your device for CONNECTEDLINE() "
+"functionality to work if supported by the endpoint."
+msgstr ""
+
+msgid "No - RFC3581"
+msgstr ""
+
+msgid "never - no RFC3581"
+msgstr ""
+
+msgid "route - NAT no rport"
+msgstr ""
+
+msgid ""
+"NAT setting, see Asterisk documentation for details. Yes usually works for "
+"both internal and external devices. Set to No if the device will always be "
+"internal."
+msgstr ""
+
+msgid ""
+"Endpoint port number to use, usually 5060. Some 2 ports devices such as ATA "
+"may used 5061 for the second port."
+msgstr ""
+
+msgid ""
+"Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the "
+"endpoint periodically (default every minute). Used to monitor the health of "
+"the endpoint. If delays are longer then the qualify time, the endpoint will "
+"be taken offline and considered unreachable. Can be set to a value which is "
+"the msec threshhold. Setting to no will turn this off. Can also be helpful "
+"to keep NAT pinholes open."
+msgstr ""
+
+msgid "Frequency in seconds to send qualify messages to the endpoint."
+msgstr ""
+
+msgid "All - UDP Primary"
+msgstr ""
+
+msgid "All - TCP Primary"
+msgstr ""
+
+msgid "All - TLS Primary"
+msgstr ""
+
+msgid "UDP Only"
+msgstr ""
+
+msgid "TCP Only"
+msgstr ""
+
+msgid "TLS Only"
+msgstr ""
+
+msgid ""
+"This sets the allowed transport settings for this device and the default "
+"(Primary) transport for outgoing. The default transport is only used for "
+"outbound messages until a registration takes place.  During the peer "
+"registration the transport type may change to another supported type if the "
+"peer requests so. In most common cases, this does not have to be changed as "
+"most devices register in conjunction with the host=dynamic setting. If you "
+"are using TCP and/or TLS you need to make sure the general SIP Settings are "
+"configured for the system to operate in those modes and for TLS, proper "
+"certificates have been generated and configured."
+msgstr ""
+
+msgid "Yes (SRTP only)"
+msgstr ""
+
+msgid ""
+"Whether to offer SRTP encrypted media (and only SRTP encrypted media) on "
+"outgoing calls to a peer. Calls will fail with HANGUPCAUSE=58 if the peer "
+"does not support SRTP. Defaults to no."
+msgstr ""
+
+msgid ""
+"Asterisk dialplan extension to reach voicemail for this device. Some devices "
+"use this to auto-program the voicemail button on the endpoint. If left "
+"blank, the default vmexten setting is automatically configured by the "
+"voicemail module. Only change this on devices that may have special needs."
+msgstr ""
+
+msgid ""
+"How to dial this device. This will be device specific. For example, a custom "
+"device which is really a remote SIP URI might be configured such as SIP/"
+"joe@somedomain.com"
+msgstr ""
+
+msgid "Generic SIP Device"
+msgstr "Dispozitiv SIP generic"
+
+msgid "Generic IAX2 Device"
+msgstr "Dispozitiv IAX2 generic"
+
+msgid "Generic ZAP Device"
+msgstr "Dispozitiv ZAP generic"
+
+msgid "Generic DAHDI Device"
+msgstr ""
+
+msgid "Other (Custom) Device"
+msgstr "Alte tipuri de Dispozitive (personalizate)"
+
+msgid "None (virtual exten)"
+msgstr "Nici unul (extensie virtuala)"
+
+msgid "Fixed"
+msgstr "Fixed"
+
+msgid "Adhoc"
+msgstr "Adhoc"
+
+msgid "none"
+msgstr "nici unul"
+
+msgid "New User"
+msgstr "Utilizator Nou"
+
+msgid "Add Device"
+msgstr "Adauga Dispozitiv"
+
+msgid "Add an Extension"
+msgstr "Adauga o Extensie"
+
+msgid "Please select your Device below then click Submit"
+msgstr "Selectionati tipul Dispozitivului si apoi faceti click pe Confirma"
+
+msgid "Device"
+msgstr "Dispozitiv"
+
+#, php-format
+msgid "Delete Device %s"
+msgstr "Sterge Dispozitiv %s"
+
+#, php-format
+msgid "Edit Default User: %s"
+msgstr "Modifica User predefinit: %s"
+
+#, php-format
+msgid "Edit Fixed User: %s"
+msgstr "Modifica User Fix: %s"
+
+#, php-format
+msgid "Add %s Device"
+msgstr "Adauga %s Dispozitiv"
+
+#, php-format
+msgid "Add %s Extension"
+msgstr "Adauga %s Extensie"
+
+msgid "Please enter a device id."
+msgstr "Va rugam introduceti id-ul dispozitivului."
+
+msgid "Please enter a valid Description for this device"
+msgstr "Va rugam introduceti o Descriere valida pentru acest dispozitiv"
+
+msgid "Please enter a valid Emergency CID"
+msgstr "Va rugam introduceti un CID de Urgenta valid"
+
+msgid "Device Info"
+msgstr "Informatii Dispozitiv"
+
+msgid "Device ID"
+msgstr "ID Dispozitiv"
+
+msgid ""
+"Give your device a unique integer ID.  The device will use this ID to "
+"authenticate to the system."
+msgstr ""
+"Dati dispozitivului un ID unic. Dispozitivul va utiliza acest ID pentru a se "
+"autentifica in sistem."
+
+msgid ""
+"The caller id name for this device will be set to this description until it "
+"is logged into."
+msgstr ""
+"Indentificatorul pentru apelurie provenite de la acest dispozitiv vor fi "
+"stabilite conform acestei descrieri pana cand un utilizator se va conecta "
+
+msgid "Emergency CID"
+msgstr "CID de urgenta"
+
+msgid ""
+"This caller id will always be set when dialing out an Outbound Route flagged "
+"as Emergency.  The Emergency CID overrides all other caller id settings."
+msgstr ""
+"Va fi utilizat de fiecare data cand se va apela extern via o ruta desemnata "
+"de Urgenta CID-ul de Urgenta va suprascrie toate celelalte identificatoare "
+"stabilite."
+
+msgid "Device Type"
+msgstr "Tipul Dispozitivului"
+
+msgid ""
+"Devices can be fixed or adhoc. Fixed devices are always associated to the "
+"same extension/user. Adhoc devices can be logged into and logged out of by "
+"users."
+msgstr ""
+"Tipul dispozitivelor poate fi fix sau AdHoc. Dispozitivele fixe vor fi "
+"intotdeauna asociate aceluiasi interior/utilizator. La dispozitivele AdHoc "
+"utilizatorii se pot conecta sau deconecta in mod dinamic."
+
+msgid "Default User"
+msgstr "Utilizator predefinit"
+
+msgid ""
+"Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
+"to this user by default.<br><br>If selecting 'New User', a new User "
+"Extension of the same Device ID will be set as the Default User."
+msgstr ""
+"Dispozitivele fixe vor fi intotdeauna asociate acestui utilizator. "
+"Dispozitivele AdHoc vor fi associate userului in mod predefinit. <br><br> "
+"Daca se selectioneaza 'Utilizator Nou', se va crea un nou interior de "
+"utilizator pentru acelasi ID de dispozitiv ca Utilizator Predefinit. "
+
+msgid "Device Options"
+msgstr "Optiuni Dispozitiv"
+
+#, php-format
+msgid "This device uses %s technology."
+msgstr "Acest dispozitiv utilizeaza tehnologia %s"
+
+msgid "Via DAHDI compatibility mode"
+msgstr "Via mod compatibil DAHDI"
+
+msgid "User Logon"
+msgstr "Logon Utilizator"
+
+msgid "User Logoff"
+msgstr "Logoff  Utilizator "
+
+msgid "ZapBarge"
+msgstr "ZapBarge"
+
+msgid "ChanSpy"
+msgstr "Spioneaza Convorbire"
+
+msgid "Simulate Incoming Call"
+msgstr "Simuleaza Apel de Intrare"
+
+msgid "Directed Call Pickup"
+msgstr "Ridicare Apel Direct"
+
+msgid "Asterisk General Call Pickup"
+msgstr "Asterisk Ridicare Apel General"
+
+msgid "In-Call Asterisk Blind Transfer"
+msgstr "Trasfer direct al Apelului"
+
+msgid "In-Call Asterisk Attended Transfer"
+msgstr "Trasfer de Apel asistat"
+
+msgid "In-Call Asterisk Toggle Call Recording"
+msgstr "Inregistrare durata apel"
+
+msgid "In-Call Asterisk Disconnect Code"
+msgstr "Cod de deconectare apel"
+
+#, php-format
+msgid "ERROR: trying to check if %s already in use"
+msgstr "EROARE: tentativa de verificare daca %s e deja in uz"
+
+msgid "Checking if directdids need migrating.."
+msgstr "Verificare daca DID directe necesita migrare.."
+
+msgid "starting migration"
+msgstr "initializare migrare"
+
+msgid "User: "
+msgstr "Utilizator:"
+
+#, php-format
+msgid "ERROR: failed to insert %s for user %s"
+msgstr "EROARE: introducere %s pentru utilizator %s esuata"
+
+#, php-format
+msgid ""
+"There were %s failures migrating directdids, users table not being changed"
+msgstr ""
+"S-au inregistrat %s erori la migrarea DID directe, lista de utilizatori nu a "
+"fost modificata "
+
+#, php-format
+msgid "Removing field %s from users table.."
+msgstr "Stergere camp %s din lista utilizatori.."
+
+msgid "not present"
+msgstr "nu e prezent"
+
+msgid "removed"
+msgstr "sters"
+
+msgid ""
+"ERROR: could not access user table to migrate directdids to incoming table, "
+"aborting"
+msgstr ""
+"EROARE: nu se poate accesa lista de utilizatori pentru a migra directdids "
+"catre lista incoming, se anuleaza"
+
+msgid "already done"
+msgstr "deja indeplinit"
+
+msgid "updating zap callgroup, pickupgroup.."
+msgstr "updatare grupurile zap de apel si de pickup .."
+
+#, php-format
+msgid "updated %s callgroups, %s pickupgroups"
+msgstr "au fost updatate %s grupuri de apel, %s grupuri de pickup"
+
+msgid "not needed"
+msgstr "nu e necesar"
+
+msgid "checking for delay_answer field .."
+msgstr "verificare camp delay_answer .."
+
+msgid "fatal error"
+msgstr "eroare fatala"
+
+msgid "added"
+msgstr "adaugat"
+
+msgid "already exists"
+msgstr "deja existent"
+
+msgid "checking for pricid field .."
+msgstr "verificare camp pricid .."
+
+msgid "Checking for Global var RECORDING_STATE.."
+msgstr "Verificare Global var RECORDING_STATE.."
+
+msgid "Created"
+msgstr "Creat"
+
+msgid "Already exists!"
+msgstr "Deja exista!"
+
+msgid "Checking if trunk table migration required.."
+msgstr "Verificare daca migrarea listei de trunchi a necesitat.."
+
+msgid "migrating.."
+msgstr "migreaza.."
+
+msgid "removing globals.."
+msgstr "stergere globals"
+
+msgid "done"
+msgstr "realizat"
+
+msgid "Checking if privacy manager options exists.."
+msgstr "Verificare existenta optiuni privacy manager"
+
+msgid "Added pmmaxretries and pmminlength"
+msgstr "Adaugat pmmaxretires si pmminlength"
+
+#, php-format
+msgid "Checking for %s field.."
+msgstr ""
+
+msgid "Checking for General Setting migrations.."
+msgstr ""
+
+msgid "preparing"
+msgstr ""
+
+#, php-format
+msgid "%s prepared"
+msgstr ""
+
+msgid "General Settings migrated"
+msgstr ""
+
+msgid "Deleting migrated settings.."
+msgstr ""
+
+msgid "Fatal DB error trying to delete globals, trying to carry on"
+msgstr ""
+
+#, php-format
+msgid "Discontinued logging type %s changing to %s.."
+msgstr ""
+
+msgid "ok"
+msgstr ""
+
+msgid "Converting IAX notransfer to transfer if needed.."
+msgstr ""
+
+#, php-format
+msgid "updated %s records"
+msgstr ""
+
+msgid ""
+"You must run 'amportal restart' from the Linux command line before you can "
+"save setting here."
+msgstr ""
+
+msgid ""
+"You have un-saved changes, press OK to disregard changes and reload page or "
+"Cancel to abort."
+msgstr ""
+
+msgid ""
+"Your Display settings have been changed, click on 'Refresh Page' to view the "
+"affects of your changes once you have saved other outstanding changes that "
+"are still un-confirmed."
+msgstr ""
+
+msgid "FreePBX Advanced Settings"
+msgstr ""
+
+msgid "<b>IMPORTANT:</b> Use extreme caution when making changes!"
+msgstr ""
+
+msgid ""
+"Some of these settings can render your system inoperable. You are urged to "
+"backup before making any changes. Readonly settings are usually more "
+"volatile, they can be changed by changing 'Override Readonly Settings' to "
+"true. Once changed you must save the setting by checking the green check box "
+"that appears. You can restore the default setting by clicking on the icon to "
+"the right of the values if not set at default."
+msgstr ""
+
+msgid "True"
+msgstr ""
+
+msgid "False"
+msgstr ""
+
+msgid "No Default Provided"
+msgstr ""
+
+#, php-format
+msgid "Default Value: %s"
+msgstr ""
+
+msgid "field can be left blank"
+msgstr ""
+
+#, php-format
+msgid "Acceptable Values: %s - %s"
+msgstr ""
+
+#, php-format
+msgid "Internal Name: %s"
+msgstr ""
+
+#, php-format
+msgid "Friendly Name: %s"
+msgstr ""
+
+msgid "Revert to Default"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Refresh Page"
+msgstr ""
+
+msgid "Edit Administrator"
+msgstr "Modifica Administrator"
+
+#, php-format
+msgid "Delete User: %s"
+msgstr "Elimina Utilizator: %s"
+
+msgid "Add Administrator"
+msgstr "Adauga Administrator"
+
+msgid "NOTE:"
+msgstr "NOTA:"
+
+msgid ""
+"Authorization Type is not set to 'database' in Advanced Setting - note that "
+"this module is not currently providing access control, and changing "
+"passwords here or adding users will have no effect unless Authorization Type "
+"is set to 'database'."
+msgstr ""
+
+msgid "Username<span>Create a unique username for this new user</span>"
+msgstr ""
+"Nume utilizator<span>Creare un nume unic pentru acest utilizator</span>"
+
+msgid "Password<span>Create a password for this new user</span>"
+msgstr "Parola<span>Creare parola pentru acest utilizator</span>"
+
+msgid "Access Restrictions"
+msgstr "Restrictii de acces"
+
+msgid ""
+"Department Name<span>Restrict this user's view of Digital Receptionist menus "
+"and System Recordings to only those for this department.</span>"
+msgstr ""
+"Nume Departament<span>Restrange gradul de vizualizare pentru acest "
+"utilizator la meniurile Digital Receptionist si Inregistrari de Sistem doar "
+"la nivelul acestui departament.</span>"
+
+msgid ""
+"Extension Range<span>Restrict this user's view to only Extensions, Ring "
+"Groups, and Queues within this range.</span>"
+msgstr ""
+"Gama Extensii<span>Restrange gradul de vizualizare pentru acest utilizator "
+"la Extensiile, Soneriile, Grupurile si Listele din aceasta gama.</span>"
+
+msgid ""
+"Admin Access<span>Select the Admin Sections this user should have access to."
+"</span>"
+msgstr ""
+"Acces Admin<span>Selectioneaza sectiunile Admin la care utilizatorul are "
+"acces.</span>"
+
+msgid "Apply Changes Bar"
+msgstr "Aplica Bara de Schimbari"
+
+msgid "ALL SECTIONS"
+msgstr "TOATE SECTIUNILE"
+
+msgid "Submit Changes"
+msgstr "Lanseaza Schimbari"
+
+msgid "Username must not be blank"
+msgstr "Numele utilizatorului nu poate fi spatiu liber"
+
+msgid ""
+"Username cannot start with a number, and can only contain letters and numbers"
+msgstr ""
+"Numele utilizatorului nu poate incepe cu o cifra si poate contine doar "
+"litere si cifre "
+
+msgid "For security reasons, you cannot use the department name default"
+msgstr ""
+"Din motive de securitate, nu puteti utiliza numele de departament predefinit"
+
+msgid "Department name cannot have a space"
+msgstr "Numele de department nu poate contine spatii"
+
+msgid " (toggle sort)"
+msgstr " (comuta sortarile)"
+
+msgid "Add Incoming Route"
+msgstr "Adauga Ruta de Intrare"
+
+msgid "All DIDs"
+msgstr "Toate DID-urile"
+
+msgid "User DIDs"
+msgstr "DID-uri Utilizator"
+
+msgid "General DIDs"
+msgstr "DID-uri Generale"
+
+msgid "Unused DIDs"
+msgstr "DID-uri Neutilizate"
+
+msgid "any DID"
+msgstr "orice DID"
+
+msgid "any CID"
+msgstr "orice CID"
+
+msgid "Route"
+msgstr "Ruta"
+
+#, php-format
+msgid "Delete Route %s"
+msgstr "Sterge Ruta %s"
+
+#, php-format
+msgid "Edit %s"
+msgstr "Modifica %s"
+
+#, php-format
+msgid "Edit %s %s (%s)"
+msgstr "Modifica %s %s (%s)"
+
+msgid "Edit Incoming Route"
+msgstr "Modifica Ruta de Intrare"
+
+msgid "Provide a meaningful description of what this incoming route is"
+msgstr "Furnizati o descriere explicita a acestei Rute de Intrare"
+
+msgid "DID Number"
+msgstr "Numar DID"
+
+msgid ""
+"Define the expected DID Number if your trunk passes DID on incoming calls. "
+"<br><br>Leave this blank to match calls with any or no DID info.<br><br>You "
+"can also use a pattern match (eg _2[345]X) to match a range of numbers"
+msgstr ""
+"Definiti numarul DID daca trunchiul transmite DID la apelurile de intrare. "
+"<br><br>Lasati spatiu liber pentru a putea asocia apelurile cu oricare DID "
+"sau fara.<br><br>Dealtfel puteti utiliza un model de asociere (ex _2[345]X) "
+"pentru a corespunde unui intervalde numere"
+
+msgid "Caller ID Number"
+msgstr "Numar ID Apelant"
+
+msgid ""
+"Define the Caller ID Number to be matched on incoming calls.<br><br>Leave "
+"this field blank to match any or no CID info. In addition to standard dial "
+"sequences, you can also put Private, Blocked, Unknown, Restricted, Anonymous "
+"and Unavailable in order to catch these special cases if the Telco transmits "
+"them."
+msgstr ""
+"Definiti numarul ID Apelant care va fi asociat la apelurile de "
+"intrare<br><br>Lasati campul liber pentru a se asocial cu oricare tipuri de "
+"informatie CID. Aditional secventelor de apelare standard, puteti insera "
+"Privat, Blocat, Necunoscut, Restrictionat, Anonim sau Nu e Valabil pentru a "
+"lua in calcul cazurile speciale, daca furnizorul de telefonie le transmite."
+
+msgid "CID Priority Route"
+msgstr "Ruta cu Prioritate CID"
+
+msgid ""
+"This effects CID ONLY routes where no DID is specified. If checked, calls "
+"with this CID will be routed to this route, even if there is a route to the "
+"DID that was called. Normal behavior is for the DID route to take the calls. "
+"If there is a specific DID/CID route for this CID, that route will still "
+"take the call when that DID is called."
+msgstr ""
+"Acesta afecteaza DOAR rutele CID care nu au DID specificat.  Daca e bifat, "
+"apelurile cu acest CID vor fi directionate pe aceasta ruta chiar daca exista "
+"o ruta catre DID apelat. Comportamentul normal este ca ruta DID sa preia "
+"apelurile. Daca exista o ruta specifica DID/CID pentru acest CID, aceasta va "
+"continua sa preia apelul cand DID respectiv este apelat. "
+
+msgid "Options"
+msgstr "Optiuni"
+
+msgid "Alert Info"
+msgstr "Alert Info"
+
+msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
+msgstr ""
+"ALERT_INFO poate fi utilizat pentru a distinge soneriile dispozitivelor SIP. "
+
+msgid "CID name prefix"
+msgstr "Prefix ID Apelant"
+
+msgid ""
+"You can optionally prefix the Caller ID name. ie: If you prefix with \"Sales:"
+"\", a call from John Doe would display as \"Sales:John Doe\" on the "
+"extensions that ring."
+msgstr ""
+
+msgid "Music On Hold"
+msgstr "Muzica in Asteptare"
+
+msgid ""
+"Set the MoH class that will be used for calls that come in on this route. "
+"For example, choose a type appropriate for routes coming in from a country "
+"which may have announcements in their language."
+msgstr ""
+"Stabiliti clasa  Muzica in Asteptare ce va fi utilizata pentru apelurile "
+"sosite pe aceasta ruta. De exemplu, pentru apelurile venite dintr-o alta "
+"tara puteti selectiona un anunt in limba specifica. "
+
+msgid "No Music"
+msgstr "Fara Muzica"
+
+msgid "Signal RINGING"
+msgstr "Semnal de  Apel"
+
+msgid ""
+"Some devices or providers require RINGING to be sent before ANSWER. You'll "
+"notice this happening if you can send calls directly to a phone, but if you "
+"send it to an IVR, it won't connect the call."
+msgstr ""
+"Anumite aparate sau furnizori impun ca  tonul de APEL (RINGING) sa fie "
+"transmis inainte de RASPUNS (ANSWER)Acest lucru se observa daca puteti "
+"transmite apeluri direct catre un telefon dar nu se va conecta daca "
+"transmiteti catre un IVR."
+
+msgid "Pause Before Answer"
+msgstr "Pauza inainte de Raspuns"
+
+msgid ""
+"An optional delay to wait before processing this route. Setting this value "
+"will delay the channel from answering the call. This may be handy if "
+"external fax equipment or security systems are installed in parallel and you "
+"would like them to be able to seize the line."
+msgstr ""
+"Intarziere optionala inainte de procesarea acestei rute. Stabilind aceasta "
+"valoare va intarzia raspunsul canalului la apel cu perioada specifica. "
+"Aceasta se poate dovedi util cand sunt instalate in paralel aparate de fax "
+"sau sisteme de securitate care ar trebui sa preia linia."
+
+msgid "Privacy"
+msgstr "Privacy"
+
+msgid "Privacy Manager"
+msgstr "Gestione Privacy"
+
+msgid ""
+"If no Caller ID has been received, Privacy Manager will ask the caller to "
+"enter their phone number. If an user/extension has Call Screening enabled, "
+"the incoming caller will be be prompted to say their name when the call "
+"reaches the user/extension."
+msgstr ""
+"Daca nu primeste un ID Apelant, Privacy Manager va cere ca apelantului sa "
+"introduca numarul de telefon. Cand un utilizator/extensie are optiunea "
+"Control Apeluri activata, apelantul va trebui sa isi spuna numele cand "
+"apelul ajunge la utilizator/extensie. "
+
+msgid "Max attempts"
+msgstr "Numar maxim de incercari"
+
+msgid "Number of attempts the caller has to enter a valid CallerID"
+msgstr ""
+"Numarul de incercari in care apelantul poate introduce un ID Apelant valid"
+
+msgid "Min Length"
+msgstr "Lungime minima"
+
+msgid ""
+"Minimum amount of digits CallerID needs to contain in order to be considered "
+"valid"
+msgstr ""
+"Numarul minim de caractere pe care trebuie sa il contina ID Apelant pentru a "
+"fi considerat valabil. "
+
+msgid "Set Destination"
+msgstr "Stabileste Destinatie"
+
+msgid "Clear Destination & Submit"
+msgstr "Sterge Destinatie si Confirma"
+
+msgid "Please enter a valid DID Number"
+msgstr "Va rugam sa introduceti un numar DID valabil"
+
+msgid "Please enter a valid Caller ID Number"
+msgstr "Va rugam sa introduceti un numar CID valabil"
+
+msgid "Please enter a valid Fax Email or leave it empty to use the default"
+msgstr ""
+"Va rugam sa introduceti un FAX Email valabil sau lasati campul liber pentru "
+"a utiliza cel predefinit. "
+
+msgid "Please enter a valid number for Pause after answer"
+msgstr "Va rugam sa introduceti un numar valid pentru Pauza dupa raspuns"
+
+msgid "Please enter a valid number for Pause Before Answer field"
+msgstr ""
+"Va rugam sa introduceti un numar valid pentru campul Pauza inainte de Raspuns"
+
+msgid ""
+"Leaving the DID Number AND the Caller ID Number empty will match all "
+"incoming calls received not routed using any other defined Incoming Route.\\n"
+"\\nAre you sure?"
+msgstr ""
+"Lasand necompletate numerele DID si ID Apelant va face ca toate apelurile "
+"neasociate unei rute sa utilizeze orice Ruta de intrare definita. \\n"
+"\\nSunteti sigur?"
+
+msgid ""
+"DID information is normally just an incoming telephone number or for "
+"advanced users, a valid Asterisk Dial Pattern\\n\\nYou have entered a non "
+"standard DID pattern.\\n\\nAre you sure this is correct?"
+msgstr ""
+"Informatia DID reprezinta in mod obisnuit doar un numar de telefon  dinspre "
+"care vine apelul sau,  pentru utilizatorii avansati, un model de apelare "
+"valid pentru Asterisk\\nAti introdusun model DID nonstandard.\\n\\nSunteti "
+"siguri ca este cel corect?"
+
+msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
+msgstr ""
+"Bara (Slash '/') nu reprezinta un DID valid. Va rugam sa o eliminati si sa "
+"incercati din nou."
+
+msgid "Invalid Caller ID prefix."
+msgstr "Prefix ID Apelant invalid"
+
+msgid "Dialing Options"
+msgstr "Optiuni de Apelare"
+
+msgid "Asterisk Dial command options:"
+msgstr "Optiuni Asterisk pentru apeluri:"
+
+msgid "t: Allow the called user to transfer the call by hitting #"
+msgstr "t: Permite utilizatorului apelat sa transfere apelul apasand #"
+
+msgid "T: Allow the calling user to transfer the call by hitting #"
+msgstr "T: Permite apelantului sa transfere apelul apasand #"
+
+msgid "r: Generate a ringing tone for the calling party"
+msgstr "r: Genereaza un ton de apel pentru partea care apeleaza"
+
+msgid ""
+"x or w: Allow the called user to start recording using One-Touch Recording"
+msgstr ""
+
+msgid ""
+"X or W: Allow the calling user to start recording using One-Touch Recording"
+msgstr ""
+
+msgid ""
+"Choose automixmon (x/X) or automon (w/W) for One-Touch Recording in Advanced "
+"Settings"
+msgstr ""
+
+msgid "See Asterisk documentation for other advanced options."
+msgstr ""
+
+msgid "Asterisk Outbound Dial command options:"
+msgstr "Optiuni Asterisk pentru apelurile de iesire"
+
+msgid "r: You SHOULD NOT use this option on outbound trunks"
+msgstr ""
+"r: NU E RECOMANDAT sa utilizati aceasta optiune pentru trunchiurile de "
+"iesire "
+
+msgid "Call Recording"
+msgstr "Inregistrare Apel"
+
+msgid "Extension Recording Override:"
+msgstr "Suprascriere Inregistrare Extensii:"
+
+msgid ""
+"This will override the recording settings of all extensions/users. If "
+"enabled, the system will ignore all Record Always settings of a user and "
+"will not turn on recording. This does not effect On Demand recording "
+"controlled by the dial options 'w' and 'W' above. It does not effect other "
+"recording settings in modules such as Queues and Conferences. If you don't "
+"use recordings, setting this is beneficial to system performance as it "
+"removes the check that is otherwise done on every single call."
+msgstr ""
+"Aceasta functionalitate va suprascrie toate setarile utilizatorilor/"
+"extensiilor. Daca este activata sistemul va ignora toate setarile de "
+"utilizator tip Inregistreaza Intotdeauna si nu va porni inregistrarea. Acest "
+"lucru nu afecteaza Inregistrarea la Comanda, controlata de optiunile 'w' si "
+"'W' de mai sus. Nu afecteaza nici alte setari de inregistrare din alte "
+"module cum ar fi Lista in Asteptare sau Conferinta. Daca nu folositi "
+"functionalitatea de inregistrare, stabilirea acestei functionalitati va fi "
+"benefica performantei sistemului deoarece nu mai face verificarea la fiecare "
+"apel."
+
+msgid "Call recording format:"
+msgstr "Format inregistrare Apel:"
+
+msgid "Pick the format in which to save recorded calls"
+msgstr "Selectionati formatul in care inregistrarea apelurilor va fi salvata"
+
+msgid "WAV"
+msgstr "WAV"
+
+msgid "wav"
+msgstr "wav"
+
+msgid "ulaw"
+msgstr "ulaw"
+
+msgid "alaw"
+msgstr "alaw"
+
+msgid "sln"
+msgstr "sln"
+
+msgid "gsm"
+msgstr "gsm"
+
+msgid "g729"
+msgstr "g729"
+
+msgid "Voicemail"
+msgstr "Casuta Vocala"
+
+msgid "Ringtime Default:"
+msgstr "Durata predefinita pentru Sonerie:"
+
+msgid ""
+"Default number of seconds to ring phones before sending callers to "
+"voicemail. This can be set per extension/user and will have no effect on "
+"phones with no voicemail."
+msgstr ""
+"Numarul predefinit de secunde pentru sonerie pana cand apelantul este "
+"transferat la Casuta Vocala. Aceasta optiune poate fi stabilita pentru "
+"fiecare utilizator/extensie si nu are nici un efect in cazul aparatelor fara "
+"Casuta Vocala."
+
+msgid "Direct Dial Voicemail Prefix:"
+msgstr "Prefix apel direct Casuta Vocala"
+
+msgid ""
+"Prefix used to dial directly to someone's voicemail. Caution should be taken "
+"in choosing this prefix to avoid conflicts with featurecodes."
+msgstr ""
+"Prefix utilizat pentru a apela direct casuta vocala a unui utilizator. "
+"Prefixul trebuie ales cu atentie pentru a evita conflicte cu alte coduri de "
+"serviciu."
+
+msgid "Direct Dial to Voicemail message type:"
+msgstr "Tip de mesaj pentru apelarea directa a Casutei Vocale"
+
+msgid ""
+"Default message type to use when dialing direct to an extensions voicemail"
+msgstr ""
+"Tip predefinit de mesaj pentru apelarea directa a Casutei Vocale a unei "
+"extensii"
+
+msgid "Unavailable"
+msgstr "Nu este disponibil"
+
+msgid "No Message"
+msgstr "Nici un mesaj"
+
+msgid "Optional Voicemail Recording Gain:"
+msgstr "Castig optional Inregistrari Casuta Vocala:"
+
+msgid "Use the specified amount of gain when recording the voicemail message."
+msgstr ""
+"Utilizeaza castigul specificat la inregistrarea mesajului casutei vocale."
+
+msgid "The units are whole-number decibels (dB)."
+msgstr "Unitatile reprezinta numere intregi, in decibeli (dB)."
+
+msgid "Do Not Play \"please leave message after tone\" to caller"
+msgstr ""
+"Nu va reproduce \"va rog sa lasati mesaj dupa semnalul sonor\" catre apelant"
+
+msgid ""
+"Check this to remove the default message \"Please leave your message after "
+"the tone. When done, hang-up, or press the pound key.\" That is played after "
+"the voicemail greeting (the s option). This applies globally to all vm boxes."
+msgstr ""
+"Selectati aceasta optiune pentru a elimina mesajul predefinit \"Va rog sa "
+"lasati mesaj dupa semnalul sonor. Cand ati terminat inchideti telefonul sau "
+"apasati tasta grila.\" care e reprodus dupa mesajul de intampinare al "
+"casutei vocale  (optiunea s). Aceasta se aplica global tuturor casutelor "
+"vocale. "
+
+msgid "Operator Extension:"
+msgstr "Extensie Operator:"
+
+msgid ""
+"Default number to dial when callers hit '0' from voicemail or the built in "
+"IVR directory (it has no effect on the Directory Module). This does NOT need "
+"to be an extension, it can be a Ring Group, or even an external number."
+msgstr ""
+
+msgid "Voicemail VmX Locator"
+msgstr "Locator VmX  pentru Casuta Vocala"
+
+msgid "Timeout VM Msg:"
+msgstr "Mesaj dupa Timeout:"
+
+msgid ""
+"If this destination is voicemail, select whether or not to play the standard "
+"voicemail instructions or just beep."
+msgstr ""
+"Daca aceasta destinatie este Casuta Vocala, selectati daca va reproduce "
+"instructiunile standard sau doar un semnal acustic (beep). "
+
+msgid "Std Instructions"
+msgstr "Instructiuni Standard"
+
+msgid "Beep Only"
+msgstr "Doar semnale acustice (beep)"
+
+msgid "Max Loop VM Msg:"
+msgstr "Mesaj la finalul repetitiilor:"
+
+msgid "Direct VM Option"
+msgstr "Optiune Apelare Directa CV:"
+
+msgid ""
+"If a user defined option is to go to voicemail (using the 'dovm' extension) "
+"this is the default option if not specified by the user's settings."
+msgstr ""
+"Daca un utilizator a definit optiunea de apelare directa a casutei vocale "
+"(utilizand 'dovm' al extensiei) aceasta va fi optiunea predefinita, daca nu "
+"sunt  stabilite alte setari de catre utilizator."
+
+msgid "Msg Timeout:"
+msgstr "Timeout/Timp expirare Mesaj :"
+
+msgid ""
+"Time to wait after message has played to timeout and/or repeat the message "
+"if no entry pressed."
+msgstr ""
+"Perioada de timp alocata de la reproducerea mesajului pana la timeout/"
+"repetare mesaj, in cazul in care nu a fost selestata nici o optiune."
+
+msgid "seconds"
+msgstr "secunde"
+
+msgid "Msg Play:"
+msgstr "Reproduce Mesajul:"
+
+msgid ""
+"Number of times to play the recorded message if the caller does not press "
+"any options and it times out."
+msgstr ""
+"Numarul de repetari ale mesajului daca apelantul nu selecteaza nici o "
+"optiune pana cand expira timpul alocat."
+
+msgid "times"
+msgstr "incercari"
+
+msgid "Error Re-tries:"
+msgstr "Numarul de repetari in caz de eroare:"
+
+msgid ""
+"Number of times to play invalid options and repeat the message upon "
+"receiving an undefined option."
+msgstr ""
+"Numarul de incercari cu optiuni invalide si repetari ale mesajului la "
+"primirea unor optiuni nedefinite"
+
+msgid "Legacy Company Directory"
+msgstr ""
+
+msgid "Find users in the Company Directory by:"
+msgstr "Cauta utilizatori in Lista contacte Companie prin:"
+
+msgid ""
+"The Company Directory allows a caller to spell the user's first name, last "
+"name, or both when searching for a user. This will select which of these "
+"modes are used."
+msgstr ""
+"Lista de contacte permite apelantului sa caute un utilizator via nume, "
+"prenume sau ambele. Acesta va selecta care dintre moduri sunt utilizate."
+
+msgid "first name"
+msgstr "Nume"
+
+msgid "last name"
+msgstr "Prenume"
+
+msgid "first or last name"
+msgstr "Nume sau Prenume"
+
+msgid "Announce Extension:"
+msgstr "Anunta Extensia:"
+
+msgid ""
+"Plays a message \"Please hold while I transfer you to extension xxx\" that "
+"lets the caller know what extension to use in the future when connecting "
+"from the company directory."
+msgstr ""
+"Reproduce mesajul \"Va rugam asteptati sa va transferam apelul catre "
+"extensia xxx\" permitand astfel utilizatorului sa afle ce extensie poate "
+"folosi pe viitor din lista de contacte."
+
+msgid "International Settings"
+msgstr "Configurari Internationale"
+
+msgid "Country Indications"
+msgstr "Indicator tara"
+
+msgid "Select which country you are in"
+msgstr "Selecteaza tara"
+
+msgid "24-hour format"
+msgstr "Format orar 24 ore"
+
+msgid ""
+"Select Yes if you use 24-hour format or No if you are using 12-hour am/pm "
+"format"
+msgstr ""
+"Selectati 'Da' daca utilizati formatul de 24-ore sau NU pentru cel de 12-ore "
+"(am/pm)"
+
+msgid "no"
+msgstr "Nu"
+
+msgid "yes"
+msgstr "Da"
+
+msgid "Security Settings"
+msgstr "Setari de Securitate"
+
+msgid "Allow Anonymous Inbound SIP Calls?"
+msgstr "Intentionati sa permiteti apeluri de intrare cu SIP anonim?"
+
+msgid "** WARNING **"
+msgstr "** ATENTIE **"
+
+msgid ""
+"Setting this to 'yes' will potentially allow ANYBODY to call into your "
+"Asterisk server using the SIP protocol"
+msgstr ""
+"Stabilind optiunea ‘Da’ va permite TUTUTOR apelurilor sa sune in serverul "
+"Asterisk utilizand protocolul SIP"
+
+msgid ""
+"It should only be used if you fully understand the impact of allowing "
+"anonymous calls into your server"
+msgstr ""
+"Poate fi utilizat numai daca apreciati precis impactul reprezentat de "
+"permisiunea acordata apelurilor anonime catre serverul dumneavoastra. "
+
+msgid "Online Updates"
+msgstr "Actualizari Online"
+
+msgid "Check for Updates"
+msgstr "Cauta actualizari"
+
+msgid ""
+"Choosing Yes will result in the system automatically checking for updates "
+"nightly. The resulting information will be displayed in the dashboard and "
+"will be optionally emailed to the address below if provided.<br />This will "
+"transmit your FreePBX and Asterisk version numbers along with a unique but "
+"random identifier. This is used to provide proper update information and to "
+"track version usage to focus development and maintenance efforts. No private "
+"information is transmitted."
+msgstr ""
+"La selectarea optiunii Da, sistemul va face verificari pentru update in "
+"fiecare noapte. Informatia rezultata va fi afisata pe ecran si, optional, va "
+"fi transmisa prin mail catre adresa furnizata mai jos. <br/>Se vor transmite "
+"versiunile in uz FreePBX si Asterisk  precum si un numar idenfiticator unic "
+"ales in mod aleator. Acestea sunt folosite pentru a oferi informatii despre "
+"actualizari si versiunea utilizata pentru a venit in ajutorul actiunilor de "
+"dezvoltare si mentenanta. Nici o informatie privata nu va fi transmisa."
+
+msgid "Update Email"
+msgstr "Actualizare Email"
+
+msgid ""
+"Email address where online updates will be sent. Leaving blank will result "
+"in no updates being sent."
+msgstr ""
+"Adresa de email unde vor fi transmise actualizarile online. Daca lasati "
+"necompletat,  nu va fi transmisa nici o actualizare."
+
+msgid "Please enter a valid Number of Seconds"
+msgstr "Va rugam sa introduceti un numar valid de secunde"
+
+msgid "Please enter a valid Fax Email"
+msgstr "Va rugam sa introduceti o adresa de Fax Email valida"
+
+msgid ""
+"You have selected the 'r' option for your trunks. This is highly discouraged "
+"and will create problems with calls on many PRI, VoIP, ISDN and other trunks "
+"that are capable of signaling. Asterisk will generate a ringing tone until "
+"the signaling indicates the line is answered. This will result in some "
+"external IVRs being inaccessible and other strange problems."
+msgstr ""
+"Ati selectionat optiunea  'r' pentru trunchiuri. Aceasta optiune este "
+"absolut nerecomandata  si va genera probleme cu multe trunchiuri PRI, VoIP, "
+"ISDN, sau alte tipuri capabile de semnalizare. Asterisk va genera un ton de "
+"apel pana cand semnalizarea anunta raspuns pe linie. Aceasta va face ca "
+"anumite IVR externe sa fie inaccesibile si diverse alte tipuri de probleme."
+
+msgid "Error fetching prefix list for: "
+msgstr "Eroare in prezentare lista de prefixe pentru:"
+
+msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
+msgstr ""
+"Format invalid pentru codul NPA-NXX (trebuie sa fie in formatul: NXXNXX)"
+
+msgid ""
+"An unknown error occurred repositioning routes, refresh your browser to see "
+"the current correct route positions"
+msgstr ""
+
+msgid "Add Route"
+msgstr "Adauga Ruta"
+
+msgid "Drag up or down to reposition, click to choose"
+msgstr ""
+
+msgid "Edit Route"
+msgstr "Modifica Ruta"
+
+msgid "Route Settings"
+msgstr ""
+
+msgid "Route Name"
+msgstr "Nume Ruta"
+
+msgid ""
+"Name of this route. Should be used to describe what type of calls this route "
+"matches (for example, 'local' or 'longdistance')."
+msgstr ""
+"Numele rutei. Trebuie utilizat pentru a descrie ce tipuri de apel vor fi "
+"asociate rutei  (ex:  'local' sau 'interurban')."
+
+msgid "Route CID"
+msgstr "Ruta CID"
+
+msgid ""
+"Optional Route CID to be used for this route. If set, this will override all "
+"CIDS specified except:<ul><li>extension/device EMERGENCY CIDs if this route "
+"is checked as an EMERGENCY Route</li><li>trunk CID if trunk is set to force "
+"it's CID</li><li>Forwarded call CIDs (CF, Follow Me, Ring Groups, etc)</"
+"li><li>Extension/User CIDs if checked</li></ul>"
+msgstr ""
+"Ruta CID optionala pentru a fi utilizata pentru aceasta ruta. Odata "
+"stabilita, va sterge  toate celelate rute CID cu exceptia <ul><li>extension/"
+"device EMERGENCY CIDs daca ruta  este confirmata ca Ruta de URGENTA </"
+"li><li> trunk CID daca trunchiul este setat  sa forteze CID</"
+"li><li>Forwarded call CIDs (CF, Follow Me, Ring Groups, etc)</"
+"li><li>Extension/User CIDs if checked</li></ul>"
+
+msgid "Override Extension"
+msgstr ""
+
+msgid ""
+"If checked the extension's Outbound CID will be ignored in favor of this "
+"CID. The extension's Emergency CID will still be used if the route is an "
+"Emergency Route and the Extension has a defined Emergency CID."
+msgstr ""
+
+msgid "Route Password"
+msgstr "Parola Ruta"
+
+msgid ""
+"Optional: A route can prompt users for a password before allowing calls to "
+"progress.  This is useful for restricting calls to international "
+"destinations or 1-900 numbers.<br><br>A numerical password, or the path to "
+"an Authenticate password file can be used.<br><br>Leave this field blank to "
+"not prompt for password."
+msgstr ""
+
+msgid "Route Type"
+msgstr ""
+
+msgid ""
+"Optional: Selecting Emergency will enforce the use of a device's Emergency "
+"CID setting (if set).  Select this option if this route is used for "
+"emergency dialing (ie: 911)."
+msgstr ""
+
+msgid ""
+"Optional: Selecting Intra-Company will treat this route as an intra-company "
+"connection, preserving the internal Caller ID information instead of the "
+"outbound CID of either the extension or trunk."
+msgstr ""
+
+msgid "Emergency"
+msgstr "Urgenta"
+
+msgid "Intra-Company"
+msgstr ""
+
+msgid "Music On Hold?"
+msgstr "Muzica in Asteptare"
+
+msgid ""
+"You can choose which music category to use. For example, choose a type "
+"appropriate for a destination country which may have announcements in the "
+"appropriate language."
+msgstr ""
+"Puteti opta pentru o categorie de muzica in asteptare. De exemplu, puteti "
+"utiliza un tip de melodie specific tarii de destinatie, care poate contine  "
+"anunturi in limba specifica."
+
+msgid "default"
+msgstr ""
+
+msgid "Time Group:"
+msgstr ""
+
+msgid ""
+"If this route should only be available during certain times then Select a "
+"Time Group created under Time Groups. The route will be ignored outside of "
+"times specified in that Time Group. If left as default of Permanent Route "
+"then it will always be available."
+msgstr ""
+
+msgid "---Permanent Route---"
+msgstr ""
+
+msgid "Route Position"
+msgstr ""
+
+msgid "Where to insert this route or relocate it relative to the other routes."
+msgstr ""
+
+#, php-format
+msgid "First before %s"
+msgstr ""
+
+msgid "---No Change---"
+msgstr ""
+
+#, php-format
+msgid "Before %s"
+msgstr ""
+
+#, php-format
+msgid "Last after %s"
+msgstr ""
+
+msgid "Additional Settings"
+msgstr ""
+
+msgid "Dial Patterns that will use this Route"
+msgstr ""
+
+msgid ""
+"A Dial Pattern is a unique set of digits that will select this route and "
+"send the call to the designated trunks. If a dialed pattern matches this "
+"route, no subsequent routes will be tried. If Time Groups are enabled, "
+"subsequent routes will be checked for matches outside of the designated time"
+"(s)."
+msgstr ""
+
+msgid "Rules:"
+msgstr "Reguli:"
+
+msgid "matches any digit from 0-9"
+msgstr "corespunde oricarui numar de la  0-9"
+
+msgid "matches any digit from 1-9"
+msgstr "corespunde oricarui numar de la 1-9"
+
+msgid "matches any digit from 2-9"
+msgstr "corespunde oricarui numar de la 2-9"
+
+msgid "matches any digit in the brackets (example: 1,2,3,7,8,9)"
+msgstr ""
+
+msgid "wildcard, matches one or more dialed digits"
+msgstr ""
+
+msgid "prepend:"
+msgstr ""
+
+msgid ""
+"Digits to prepend to a successful match. If the dialed number matches the "
+"patterns specified by the subsequent columns, then this will be prepended "
+"before sending to the trunks."
+msgstr ""
+
+msgid "prefix:"
+msgstr ""
+
+msgid ""
+"Prefix to remove on a successful match. The dialed number is compared to "
+"this and the subsequent columns for a match. Upon a match, this prefix is "
+"removed from the dialed number before sending it to the trunks."
+msgstr ""
+
+msgid "match pattern:"
+msgstr ""
+
+msgid ""
+"The dialed number will be compared against the  prefix + this match pattern. "
+"Upon a match, the match pattern portion of the dialed number will be sent to "
+"the trunks"
+msgstr ""
+
+msgid "CallerID:"
+msgstr ""
+
+msgid ""
+"If CallerID is supplied, the dialed number will only match the prefix + "
+"match pattern if the CallerID being transmitted matches this. When "
+"extensions make outbound calls, the CallerID will be their extension number "
+"and NOT their Outbound CID. The above special matching sequences can be used "
+"for CallerID matching similar to other number matches."
+msgstr ""
+
+msgid "prepend"
+msgstr ""
+
+msgid "prefix"
+msgstr ""
+
+msgid "match pattern"
+msgstr ""
+
+msgid "CallerID"
+msgstr ""
+
+msgid "Dial patterns wizards"
+msgstr "Wizard Modele de Apel"
+
+msgid ""
+"These options provide a quick way to add outbound dialing rules. Follow the "
+"prompts for each."
+msgstr ""
+"Optiunile de fata furnizeaza o metoda rapida de a aduga reguli de apelare "
+"catre exterior. Urmati instructiunile/pasii pentru fiecare dintre ele."
+
+msgid "Lookup local prefixes"
+msgstr "Cauta prefixe locale (US)"
+
+msgid ""
+"This looks up your local number on www.localcallingguide.com (NA-only), and "
+"sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, "
+"16135551234) to access this route."
+msgstr ""
+"Doar pentru Statele Unite – Cauta numarul dvs local in www.localcallingguide."
+"comsi stabileste incat sa puteti forma 7, 10 sau 11 cifre (5551234, "
+"6135551234, 16135551234) pentru a accesa aceasta ruta."
+
+msgid "Upload from CSV"
+msgstr ""
+
+#, php-format
+msgid ""
+"Upload patterns from a CSV file replacing existing entries. If there are no "
+"headers then the file must have 4 columns of patterns in the same order as "
+"in the GUI. You can also supply headers: %s, %s, %s and %s in the first row. "
+"If there are less then 4 recognized headers then the remaining columns will "
+"be blank"
+msgstr ""
+
+msgid ""
+"What is your areacode + prefix (NPA-NXX)?\\n\\n(Note: this database contains "
+"North American numbers only, and is not guaranteed to be 100% accurate. You "
+"will still have the option of modifying results.)\\n\\nThis may take a few "
+"seconds."
+msgstr ""
+"Care sunt areacode + prefix (NPA-NXX)?\\n\\n(Nota: baza de date prezenta "
+"contine doar numere nord-americane, si nu este garantata 100% ca fiind "
+"actualizata. Totusi aveti optiunea sa modificati rezultatul.)\\n\\n Actiunea "
+"ar putea dura cateva secunde . "
+
+msgid "Invalid NPA-NXX. Must be of the format \\'NXX-NXX\\'"
+msgstr "NPA-NXX invalid. Trebuie sa fie in formatul  \\'NXX-NXX\\'"
+
+msgid ""
+"Error: Cannot continue!\\n\\nPrefix lookup requires cURL support in PHP on "
+"the server. Please install or enable cURL support in your PHP installation "
+"to use this function. See http://www.php.net/curl for more information."
+msgstr ""
+"Errore: Continuare imposibila!\\n\\n Verificarea prefixului necesita suport "
+"cURL in PHPpe server. Va rugam sa activati sau sa instalati suportul cURL "
+"pentru a putea utiliza aceasta functie. Pentru mai multe informatii "
+"accesati  http://www.php.net/curl  "
+
+msgid "NXXXXXX"
+msgstr ""
+
+msgid "NXXXXXX,NXXNXXXXXX"
+msgstr ""
+
+msgid "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX"
+msgstr ""
+
+msgid "1NXXNXXXXXX"
+msgstr ""
+
+msgid "011."
+msgstr ""
+
+msgid "411,311"
+msgstr ""
+
+msgid "911"
+msgstr ""
+
+msgid "(pick one)"
+msgstr "(selecteaza unul)"
+
+msgid "Local 7 digit"
+msgstr "Local 7 cifre (US)"
+
+msgid "Local 7/10 digit"
+msgstr "Local 7/10 cifre (US)"
+
+msgid "Toll-free"
+msgstr "Numar-verde"
+
+msgid "Long-distance"
+msgstr "National"
+
+msgid "International"
+msgstr "International"
+
+msgid "Information"
+msgstr "Informatii"
+
+msgid "Trunk Sequence for Matched Routes"
+msgstr ""
+
+msgid ""
+"The Trunk Sequence controls the order of trunks that will be used when the "
+"above Dial Patterns are matched. <br><br>For Dial Patterns that match long "
+"distance numbers, for example, you'd want to pick the cheapest routes for "
+"long distance (ie, VoIP trunks first) followed by more expensive routes "
+"(POTS lines)."
+msgstr ""
+"Secventa Trunchi controleaza ordinea in care vor fi utilizate trunchiurile "
+"cand  modele de apel prezentate mai jos corespund. <br><br> Pentru modele de "
+"apel corespunzatoare apelurilor nationale, de exemplu, este indicat sa "
+"alegeti rutele cu cel mai mic cost interurban (ex. Trunchiurile VoIP au "
+"intaietate) urmate de rutele mai scumpe (liniile PSTN)."
+
+msgid "Move Up"
+msgstr "Muta Sus"
+
+msgid "Move Down"
+msgstr "Muta Jos"
+
+msgid "Add Trunk"
+msgstr "Adauga Trunchi"
+
+msgid "Duplicate Route"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+msgid "Click here to remove this pattern"
+msgstr ""
+
+msgid "Route name is invalid, please try again"
+msgstr "Nume ruta invalid, incercati din nou"
+
+msgid "Route password must be numeric or leave blank to disable"
+msgstr ""
+"Parola rutei trebuie sa fie numerica sau lasata necompletata, pentru a o "
+"dezactiva"
+
+msgid "At least one trunk must be picked"
+msgstr "Trebuie selectionat cel putin un trunchi"
+
+msgid "Invalid Outbound Caller ID"
+msgstr "ID Apelant de iesire invalid"
+
+msgid "No dial pattern, there must be at least one"
+msgstr ""
+
+msgid "Dial pattern is invalid"
+msgstr "Modul de Apel este invalid"
+
+#, php-format
+msgid "Channel %s"
+msgstr "Canal %s"
+
+msgid "Add a Trunk"
+msgstr "Adauga Trunchi"
+
+msgid "Add SIP Trunk"
+msgstr "Adauga Trunchi SIP"
+
+msgid "Add DAHDI Trunk"
+msgstr ""
+
+msgid "Add Zap Trunk"
+msgstr "Adauga Trunchi Zap"
+
+msgid "DAHDI compatibility mode"
+msgstr "Mod compatibil DADHI"
+
+msgid "Add IAX2 Trunk"
+msgstr "Adauga Trunchi IAX2"
+
+msgid "Add mISDN Trunk"
+msgstr ""
+
+msgid "Add ENUM Trunk"
+msgstr "Adauga Trunchi ENUM"
+
+msgid "Add DUNDi Trunk"
+msgstr "Adauga Trunchi DUNDi"
+
+msgid "Add Custom Trunk"
+msgstr "Adauga Trunchi Personalizat"
+
+#, php-format
+msgid "%s Channel %s"
+msgstr "%s Canal %s"
+
+#, php-format
+msgid "Edit %s Trunk"
+msgstr "Modifica Trunchi %s"
+
+msgid "DAHDI compatibility Mode"
+msgstr "Mod Compatibil DADHI"
+
+#, php-format
+msgid "Delete Trunk %s"
+msgstr "Sterge Trunchi %s"
+
+msgid "In use by"
+msgstr "Utilizat de catre"
+
+msgid "route"
+msgstr "ruta"
+
+msgid "routes"
+msgstr "rute"
+
+msgid "Sequence"
+msgstr "Secventa"
+
+msgid "WARNING:"
+msgstr "ATENTIE:"
+
+msgid "This trunk is not used by any routes!"
+msgstr "Acest trunchi nu este utilizat de catre nici o ruta!"
+
+msgid ""
+"This trunk will not be able to be used for outbound calls until a route is "
+"setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
+msgstr ""
+"Trunchiul de fata nu va putea fi utilizat pentru apeluri de iesire cat timp "
+"nu este stabilita o ruta care sa il foloseasca. Mergeti la  <b>Rute de "
+"iesire<b> pentru rutare. "
+
+#, php-format
+msgid "Add %s Trunk"
+msgstr "Adauga Trunchi %s"
+
+msgid ""
+"FreePBX offers limited support for DUNDi trunks and additional manual "
+"configuration is required. The trunk name should correspond to the "
+"[mappings] section of the remote dundi.conf systems. For example, you may "
+"have a mapping on the remote system, and corresponding configurations in "
+"dundi.conf locally, that looks as follows:<br /><br />[mappings]<br />priv "
+"=> dundi-extens,0,IAX2,priv:${SECRET}@218.23.42.26/${NUMBER},nopartial<br /"
+"><br />In this example, you would create this trunk and name it priv. You "
+"would then create the corresponding IAX2 trunk with proper settings to work "
+"with DUNDi. This can be done by making an IAX2 trunk in FreePBX or by using "
+"the iax_custom.conf file.<br />The dundi-extens context in this example must "
+"be created in extensions_custom.conf. This can simply include contexts such "
+"as ext-local, ext-intercom-users, ext-paging and so forth to provide access "
+"to the corresponding extensions and features provided by these various "
+"contexts and generated by FreePBX."
+msgstr ""
+
+msgid "Trunk Name"
+msgstr "Nume Trunchi"
+
+msgid "Descriptive Name for this Trunk"
+msgstr "Descriere nume pentru acest Trunchi"
+
+msgid "Outbound Caller ID"
+msgstr "ID-ul Apelantului"
+
+msgid ""
+"Caller ID for calls placed out on this trunk<br><br>Format: <b>&lt;"
+"#######&gt;</b>. You can also use the format: \"hidden\" <b>&lt;#######&gt;</"
+"b> to hide the CallerID sent out over Digital lines if supported (E1/T1/J1/"
+"BRI/SIP/IAX)."
+msgstr ""
+"ID Apelant pentru apelurile de iesire din acest trunchi <br><br>Format: "
+"<b>&lt;#######&gt;</b>. Deasemenea puteti utiliza formatul: \"hidden\" "
+"<b>&lt;#######&gt;</b> pentru a ascunde ID Apelant transmis pe liniile "
+"digitale, daca optiunea este activa (E1/T1/J1/BRI/SIP/IAX)."
+
+msgid "CID Options"
+msgstr "Optiuni CID"
+
+msgid ""
+"Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY "
+"CIDs defined on an extension/device will ALWAYS be used if this trunk is "
+"part of an EMERGENCY Route regardless of these settings.<br />Allow Any CID: "
+"all CIDs including foreign CIDS from forwarded external calls will be "
+"transmitted.<br />Block Foreign CIDs: blocks any CID that is the result of a "
+"forwarded call from off the system. CIDs defined for extensions/users are "
+"transmitted.<br />Remove CNAM: this will remove CNAM from any CID sent out "
+"this trunk<br />Force Trunk CID: Always use the CID defined for this trunk "
+"except if part of any EMERGENCY Route with an EMERGENCY CID defined for the "
+"extension/device."
+msgstr ""
+"Determina ce categorii de CID vor fi premise pe acest trunchi. IMPORTANT: "
+"CID-urile de URGENTA definite pe o extensie/echipament vor fi utilizate "
+"INTOTDEAUNA, daca acest trunchi este parte a unei rute de URGENTA indiferent "
+"de setarile de fata.<br />Permite orice CID:  toate CID, inclusive cele "
+"straine din apelurile externe transferate vor fi transmise. <br />Blocheaza "
+"CID strain: blocheaza orice CID rezultat din transferul unui apel din afara "
+"sistemului  CID-uri definite pentru extensii/utilizatori sunt transmise. "
+"<br />Elimina CNAM: aceasta optiune va elimina CNAM de la orice CID transmis "
+"prin acest trunchi<br />Forteaza Trunchi CID: Utilizeaza intotdeauna CID "
+"definit pentru acest trunchi cu exceptia cazurilor cand e parte din ruta de "
+"URGENTA avand CID de URGENTA definit pentru extensie/echipament."
+
+msgid "Allow Any CID"
+msgstr "Accepta orice CID"
+
+msgid "Block Foreign CIDs"
+msgstr "Blocheaza CID-urile distante"
+
+msgid "Remove CNAM"
+msgstr "Elimina CNAM"
+
+msgid "Force Trunk CID"
+msgstr "Forteaza CID Trunchi"
+
+msgid "Maximum Channels"
+msgstr "Numar Maxim de Canale"
+
+#, php-format
+msgid ""
+"Controls the maximum number of outbound channels (simultaneous calls) that "
+"can be used on this trunk. To count inbound calls against this maximum, use "
+"the auto-generated context: %s as the inbound trunk's context. (see "
+"extensions_additional.conf) Leave blank to specify no maximum."
+msgstr ""
+"Controleaza numarul maxim de canale de iesire (apeluri simultane) care pot "
+"fi utilizate de trunchiul prezent. Pentru a limita numarul de apeluri de "
+"intrare in acest numar utilizati contextual auto-generat: %s ca fiind "
+"contextual de intrare al trunchiului.(vezi extensions_additional.conf). "
+"Lasati necompletat daca nu doriti sa specificati o limita maxima."
+
+msgid ""
+"Controls the maximum number of outbound channels (simultaneous calls) that "
+"can be used on this trunk. Inbound calls are not counted against the "
+"maximum. Leave blank to specify no maximum."
+msgstr ""
+"Controleaza numarul maxim de canale de iesire (apeluri simultane) care pot "
+"fi utilizate de trunchiul prezent. Apelurile de intrare nu sunt contorizate. "
+"Lasati necompletat daca nu doriti sa specificati o limita maxima."
+
+msgid "Disable Trunk"
+msgstr "Dezactiveaza Trunchi"
+
+msgid "Check this to disable this trunk in all routes where it is used."
+msgstr ""
+"Optiunea prezenta dezactiveaza trunchiul prezent de pe toate rutele unde "
+"este utilizat."
+
+msgid "Monitor Trunk Failures"
+msgstr "Monitorizeaza starea trunchiurilor"
+
+msgid ""
+"If checked, supply the name of a custom AGI Script that will be called to "
+"report, log, email or otherwise take some action on trunk failures that are "
+"not caused by either NOANSWER or CANCEL."
+msgstr ""
+"Daca optiunea este aleasa, introduceti numele scriptului personalizat AGI "
+"care va fi apelat pentru raportare, log, email sau care actioneaza cand apar "
+"intreruperi ale trunchiului care nu sunt produse de NOANSWER sau CANCEL."
+
+msgid "Dialed Number Manipulation Rules"
+msgstr ""
+
+msgid ""
+"These rules can manipulate the dialed number before sending it out this "
+"trunk. If no rule applies, the number is not changed. The original dialed "
+"number is passed down from the route where some manipulation may have "
+"already occurred. This trunk has the option to further manipulate the "
+"number. If the number matches the combined values in the <b>prefix</b> plus "
+"the <b>match pattern</b> boxes, the rule will be applied and all subsequent "
+"rules ignored.<br/> Upon a match, the <b>prefix</b>, if defined, will be "
+"stripped. Next the <b>prepend</b> will be inserted in front of the <b>match "
+"pattern</b> and the resulting number will be sent to the trunk. All fields "
+"are optional."
+msgstr ""
+
+msgid ""
+"Digits to prepend upon a successful match. If the dialed number matches the "
+"patterns in the <b>prefix</b> and <b>match pattern</b> boxes, this will be "
+"prepended before sending to the trunk."
+msgstr ""
+
+msgid ""
+"Prefix to remove upon a successful match. If the dialed number matches this "
+"plus the <b>match pattern</b> box, this prefix is removed before adding the "
+"optional <b>prepend</b> box and sending the results to the trunk."
+msgstr ""
+
+msgid ""
+"The dialed number will be compared against the <b>prefix</b> plus this "
+"pattern. Upon a match, this portion of the number will be sent to the trunks "
+"after removing the <b>prefix</b> and appending the <b>prepend</b> digits"
+msgstr ""
+
+msgid ""
+"You can completely replace a number by matching on the <b>prefix</b> only, "
+"replacing it with a <b>prepend</b> and leaving the <b>match pattern</b> "
+"blank."
+msgstr ""
+
+msgid "+ Add More Dial Pattern Fields"
+msgstr ""
+
+msgid "Clear all Fields"
+msgstr ""
+
+msgid "Dial Rules Wizards"
+msgstr "Wizard Reguli de Apel"
+
+msgid "Always dial with prefix"
+msgstr "Intotdeauna formeaza cu prefix"
+
+msgid ""
+"is useful for VoIP trunks, where if a number is dialed as \"5551234\", it "
+"can be converted to \"16135551234\"."
+msgstr ""
+"este util pentru trunchiurile VoIP, unde un numar format ca \"5551234\", va "
+"ficonvertit la \"16135551234\"."
+
+msgid "Remove prefix from local numbers"
+msgstr "Elimina prefixul din numerele locale"
+
+msgid ""
+"is useful for ZAP and DAHDI trunks, where if a local number is dialed as "
+"\"6135551234\", it can be converted to \"555-1234\"."
+msgstr ""
+
+msgid "Setup directory assistance"
+msgstr ""
+
+msgid "is useful to translate a call to directory assistance"
+msgstr ""
+
+msgid "Lookup numbers for local trunk"
+msgstr "Numere de verificare pentru trunchiul local (valabil US)"
+
+msgid ""
+"This looks up your local number on www.localcallingguide.com (NA-only), and "
+"sets up so you can dial either 7 or 10 digits (regardless of what your PSTN "
+"is) on a local trunk (where you have to dial 1+area code for long distance, "
+"but only 5551234 (7-digit dialing) or 6135551234 (10-digit dialing) for "
+"local calls"
+msgstr ""
+"Aceasta functie verifica numerele locale in  www.localcallingguide.com "
+"(valabil doar US) si seteaza  incat sa se poata forma 7 sau 10 cifre "
+"(indifferent de furnizorul PSTN local) pe un trunchi local(in situatiile in "
+"care trebuie format 1+areacode pentru apelurile interurbane dar numai  "
+"5551234 (formare pe 7 cifre) sau 6135551234 (formare pe 10 cifre) pentru "
+"apelurile locale."
+
+#, php-format
+msgid ""
+"Upload patterns from a CSV file replacing existing entries. If there are no "
+"headers then the file must have 3 columns of patterns in the same order as "
+"in the GUI. You can also supply headers: %s, %s and %s in the first row. If "
+"there are less then 3 recognized headers then the remaining columns will be "
+"blank"
+msgstr ""
+
+msgid "Lookup numbers for local trunk (7-digit dialing)"
+msgstr " Numere de verificare pentru trunchiul local (formare pe 7 cifre – US)"
+
+msgid "Lookup numbers for local trunk (10-digit dialing)"
+msgstr "Numere de verificare pentru trunchiul local (format 10 cifre – US)"
+
+msgid "Are you sure you want to disable this trunk in all routes it is used?"
+msgstr ""
+"Sunteti sigur ca vreti sa dezactivati prezentul trunchi din toate rutele in "
+"care este utilizat?"
+
+msgid "You have enabled this trunk in all routes it is used"
+msgstr "Ati activat prezentul trunchi pe toate rutele in care este utilizat"
+
+msgid "\")"
+msgstr "\")"
+
+msgid ""
+"What is the local dialing pattern?\\n\\n(ie. NXXNXXXXXX for US/CAN 10-digit "
+"dialing, NXXXXXX for 7-digit)"
+msgstr ""
+"Care este regula pentru apelurile locale?\\n\\n(ex: NXXNXXXXXX pentru "
+"numerele de 10 cifre US/CAN,  NXXXXXX pentrucele de 7 cifre)"
+
+msgid "Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."
+msgstr "Model invalid. Sunt premise doar 0-9, #, *, Z, N, X si . ."
+
+msgid ""
+"What prefix should be added to the dialing pattern?\\n\\n(ie. for US/CAN, 1"
+"+areacode, ie, \\'1613\\')?"
+msgstr ""
+"Ce prefix trebuie utilizat pentru modelul de apel? \\n\\n(ex. Pentru US/CAN, "
+"1+areacode, de ex \\’1613\\’)?"
+
+msgid "Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."
+msgstr "Prefix invalid. Sunt premise doar caractere de formare (0-9, # e *)."
+
+msgid ""
+"What prefix should be removed from the number?\\n\\n(ie. for US/CAN, 1"
+"+areacode, ie, \\'1613\\')"
+msgstr ""
+"Ce prefix trebuie eliminat din numar?\\n\\n(ex., pentru US/CAN, 1+areacode, "
+"ex \\’1613\\’)"
+
+msgid "Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed."
+msgstr ""
+"Prefix invalidSunt premise doar caractere de tipul 0-9, #, *, Z, N si X "
+
+msgid "What is the dialing pattern for local numbers after"
+msgstr "Care este modelul de apelare pentru numerele locale dupa"
+
+msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
+msgstr ""
+"(ex.: NXXNXXXXXX pentru numere de 10 cifre US/CAN, NXXXXXX pentru cele de 7 "
+"cifre US/CAN)"
+
+msgid ""
+"What is the directory assistance number you will dial locally in the format "
+"that is passed to this trunk?"
+msgstr ""
+
+msgid "Invalid pattern. Only 0-9, #, *"
+msgstr ""
+
+msgid "Number to dial when calling directory assistance on this trunk"
+msgstr ""
+
+msgid "Invalid number. Only 0-9, #,  and * are allowed."
+msgstr ""
+
+msgid "Outbound Dial Prefix"
+msgstr "Prefix Apeluri"
+
+msgid ""
+"The outbound dialing prefix is used to prefix a dialing string to all "
+"outbound calls placed on this trunk. For example, if this trunk is behind "
+"another PBX or is a Centrex line, then you would put 9 here to access an "
+"outbound line. Another common use is to prefix calls with 'w' on a POTS line "
+"that need time to obtain dial tone to avoid eating digits.<br><br>Most users "
+"should leave this option blank."
+msgstr ""
+"Prefixul de iesire al apelurilor este utilizat ca prefix pentru toate "
+"apelurilede iesire de pe prezentul trunchi. De exemplu, daca trunchiul se "
+"afla in spatele unui PBX sau a unei linii Centrex, atunci daca se formeaza "
+"9, se acceseaza o linie de iesire. O alta utilizare comuna este sa se "
+"initieze apeluri cu  'w' pe liniile POTS care au nevoie de timp pentru  a "
+"obtine ton de apel incat sa nu manance primele cifre formate. "
+"<br><br>Majoritatea utilizatorilor ar trebui sa lase aceasta optiune "
+"necompletata."
+
+msgid "Outgoing Settings"
+msgstr "Setari de Iesire"
+
+msgid "Zap Identifier"
+msgstr ""
+
+msgid ""
+"ZAP channels are referenced either by a group number or channel number "
+"(which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> "
+"(group zero)."
+msgstr ""
+"Canalele ZAP au ca referinta un numar de grup sau de canal  (definit in "
+"zapata.conf) <br><br>Setarea predefinita este <b>g0</b> (grup zero)."
+
+msgid "DAHDI Identifier"
+msgstr ""
+
+msgid ""
+"DAHDI channels are referenced either by a group number or channel number "
+"(which is defined in chan_dahdi.conf).  <br><br>The default setting is "
+"<b>g0</b> (group zero)."
+msgstr ""
+
+msgid "mISDN Group/Port"
+msgstr ""
+
+msgid ""
+"mISDN channels are referenced either by a group name or channel number (use "
+"<i>mISDN Port Groups</i> to configure)."
+msgstr ""
+
+msgid "Custom Dial String"
+msgstr "String de apel Personalizat"
+
+msgid "Define the custom Dial String.  Include the token"
+msgstr "Definiti string de apel personalizat. Introduceti"
+
+msgid "wherever the number to dial should go.<br><br><b>examples:</b><br>"
+msgstr "unde va trebui sa ajunga numarul de apelat.<br><br><b>Exemple:</b><br>"
+
+msgid "DUNDi Mapping"
+msgstr "Mapare DUNDi"
+
+msgid ""
+"This is the name of the DUNDi mapping as defined in the [mappings] section "
+"of remote dundi.conf peers. This corresponds to the 'include' section of the "
+"peer details in the local dundi.conf file. This requires manual "
+"configuration of DUNDi to use this trunk."
+msgstr ""
+"Reprezinta numele maparii DUNDi asa cum e definit in sectiunea [mappings] "
+"din fisierul dundi.conf distant in peers. Aceasta corespunde sectiunii  "
+"'include' din detaliile  peer in fisierul local dundi.conf. Necesita "
+"configurare manuala DUNDi pentru a utiliza acest trunchi."
+
+msgid "Give this trunk a unique name.  Example: myiaxtel"
+msgstr "Dati un nume unic trunchiului. Exemplu: myiaxtel"
+
+msgid "PEER Details"
+msgstr "Detalii PEER"
+
+msgid ""
+"Modify the default PEER connection parameters for your VoIP provider."
+"<br><br>You may need to add to the default lines listed below, depending on "
+"your provider.<br /><br />WARNING: Order is important as it will be "
+"retained. For example, if you use the \"allow/deny\" directives make sure "
+"deny comes first."
+msgstr ""
+"Modificati parametrii predefiniti ai conexiunii PEER pentru furnizorul de "
+"VoIP. <br><br>In functie de furnizor e s-ar putea sa fie nevoie sa adaugati "
+"urmatoarele linii predefinite. <br /><br />ATENTIE: ordinea in care sunt "
+"definiti e importanta deoarece se va pastra.De exemplu, daca utilitzati "
+"directive \"allow/deny\" asigurati-va ca ‘deny’ este trecuta prima."
+
+msgid "Incoming Settings"
+msgstr "Setari de intrare"
+
+msgid "USER Context"
+msgstr "Context UTILIZATOR"
+
+msgid ""
+"This is most often the account name or number your provider expects."
+"<br><br>This USER Context will be used to define the below user details."
+msgstr ""
+"De cele mai multe ori acesta este numele sau numarul de cont pe care il cere "
+"furnizorul. <br><br>Contextul UTILIZATOR prezent va fi utilizat pentru a "
+"defini urmatoarele detalii de utilizator."
+
+msgid "USER Details"
+msgstr "Detalii UTILIZATOR"
+
+msgid "Modify the default USER connection parameters for your VoIP provider."
+msgstr ""
+"Modificati parametrii de conectare predefiniti UTILIZATOR pentru furnizorul "
+"dumneavoastra VoIP."
+
+msgid ""
+"You may need to add to the default lines listed below, depending on your "
+"provider..<br /><br />WARNING: Order is important as it will be retained. "
+"For example, if you use the \"allow/deny\" directives make sure deny \n"
+"\t\t\t\tcomes first."
+msgstr ""
+"In functie de furnizor, e posibil sa trebuiasca sa adaugati liniile "
+"predefinite de mai jos..<br /><br />ATENTIE: Ordinea este importanta si va "
+"fi retinuta. De exemplu, daca utilizati directive \"allow/deny\" asigurati-"
+"va ca deny\n"
+"\t\t\t\t e trecuta prima."
+
+msgid "Registration"
+msgstr "Inregistrare"
+
+msgid "Register String"
+msgstr "Sir de inregistrare"
+
+msgid ""
+"Most VoIP providers require your system to REGISTER with theirs. Enter the "
+"registration line here.<br><br>example:<br><br>username:password@switch."
+"voipprovider.com.<br><br>Many providers will require you to provide a DID "
+"number, ex: username:password@switch.voipprovider.com/didnumber in order for "
+"any DID matching to work."
+msgstr ""
+"Majoritatea furnizorilor VoIP necesita INREGISTRAREA sistemului "
+"dumneavoastra la al lor. Introduceti aici linia de inregistrare."
+"<br><br>exemplu:<br><br>username:password@switch.voipprovider.com."
+"<br><br>Multi furnizori pot cere sa le furnizati un numar DID, ex. username:"
+"password@switch.voipprovider.com/numardid pentru ca toate corespondentele "
+"DID sa fie functionale."
+
+msgid "Duplicate Trunk"
+msgstr ""
+
+msgid "insert"
+msgstr ""
+
+msgid "Click here to insert a new pattern"
+msgstr ""
+
+msgid "Invalid Maximum Channels"
+msgstr "Numar Maxim de Canale invalid"
+
+msgid "Invalid Dial Rules"
+msgstr "Regula de apelare invalida"
+
+msgid ""
+"The Outbound Dial Prefix contains non-standard characters. If these are "
+"intentional the press OK to continue."
+msgstr ""
+
+msgid "Invalid Trunk Name entered"
+msgstr "Nume de Trunchi invalid"
+
+msgid "Invalid Custom Dial String entered"
+msgstr "String de apel personalizat invalid"
+
+msgid "Trunk Name and User Context cannot be set to the same value"
+msgstr ""
+"Numele Trunchiului si Contextul Utilizator nu pot fi setate la aceeasi "
+"valoare"
+
+msgid "User Context was left blank and User Details will not be saved!"
+msgstr ""
+"Contextul Utilizator a fost lasat necompletat iar Detaliile Utilizator nu "
+"vor fi salvate!"
+
+msgid ""
+"You must define an Outbound Caller ID when Choosing this CID Options value"
+msgstr ""
+
+msgid ""
+"It is highly recommended that you define an Outbound Caller ID on all "
+"trunks, undefined behavior can result when nothing is specified. The CID "
+"Options can control when this CID is used. Do you still want to continue?"
+msgstr ""
+
+msgid ""
+"You have not entered a User Password.  While this is acceptable, this user "
+"will not be able to login to an AdHoc device.\\n\\nAre you sure you wish to "
+"leave the User Password empty?"
+msgstr ""
+"Nu ati introdus o Parola Utilizator. Desi este o situatie acceptata, acest "
+"utilizator nu se va mai putea conecta la echipamente AdHoc.\\n\\n Sunteti "
+"sigur ca vreti sa lasati Parola Utilizator necompletata? "
+
+msgid "Add Channel"
+msgstr "Adauga un Canal"
+
+msgid "Edit Zap Channel: "
+msgstr "Editeaza Canal Zap:"
+
+msgid "Add Zap Channel"
+msgstr "Adauga un Canal Zap"
+
+msgid ""
+"Zap Channel DIDs allow you to assign a DID to specific Zap Channels. You can "
+"supply the same DID to multiple channels. This would be a common scenario if "
+"you have multiple POTS lines that are on a hunt group from your provider. "
+"You MUST assign the channel's context to from-zaptel for these settings to "
+"have effect. It will be a line that looks like:<br /><br />context = from-"
+"zaptel<br /><br />in your zapata.conf configuration effecting the specified "
+"channel(s). Once you have assigned DIDs you can use standard Inbound Routes "
+"with the specified DIDs to route your calls."
+msgstr ""
+"DID pt Canale Zap va permite sa asignati un DID la canale Zap specifice.  "
+"Puteti furniza  acelasi DID pentru canale multiple. Acesta este un scenariu "
+"comun cand aveti mai multe linii POTS  pe un hunt group al furnizorului. "
+"TREBUIE sa asignati contextele canalelor to from-zaptel  pentru aceste "
+"setari pentru a avea efect. Va fi o linie care va arata astfel <br /><br /"
+">context = from-zaptel<br /><br />  in configuratia zapata.conf afectand "
+"canalele specificate. Odata asignate DID puteti folosi rutele de intrare "
+"standard cu DID specificat pentru rutarea apelurilor. "
+
+msgid "Edit Channel"
+msgstr "Editeaza Canal"
+
+msgid "Channel"
+msgstr "Canal"
+
+msgid "The Zap Channel number to map to a DID"
+msgstr "Numarul de Canal Zap de mapat la un DID"
+
+msgid "A useful description describing this channel"
+msgstr "O descriere utila a acestui canal "
+
+msgid "DID"
+msgstr "Selezione Passante"
+
+msgid ""
+"The DID that this channel represents. The incoming call on this channel will "
+"be treated as if it came in with this DID and can be managed with Inbound "
+"Routing on DIDs"
+msgstr ""
+"DID reprezentat de acest canal. Apelul intrat prin acest canal va fi tratat "
+"ca si cum ar avea acest DID si poate fi administrat cu Rutare de Intrare"
+
+msgid "Delete"
+msgstr "Sterge"
+
+msgid ""
+"DID information is normally just an incoming telephone number.\\n\\nYou have "
+"entered a non standard DID pattern.\\n\\nAre you sure this is correct?"
+msgstr ""
+"Informatia DID este in mod normal doar un numar de telefon de intrare.\\n"
+"\\nAti introdus un model DID non-standard.\\n\\nSunteti sigur ca e corect?"
+
+msgid ""
+"You appear to be using a converted DID in the form of zapchanNN that was "
+"automatically generated during an upgrade. You should consider assigning the "
+"DID that is normally associated with this channel to take full advantage of "
+"the inbound routing abilities. Changing the DID here will require you to "
+"make changes in the Inbound Routes tab. Do you want to continue?"
+msgstr ""
+"Se pare ca utilizati un DID convertit in forma zapchanNN, generata automat "
+"in timpul unui upgrade. Ar trebui sa asignati DID asociat in mod normal "
+"acestui canal pentru a putea beneficia deplin de abilitatile de rutare la "
+"intrare. Schimbarea DID in aceasta sectiune va  necesita sa aduceti "
+"modificari in tabelul Rute de Intrare. Doriti sa continuati?"
+

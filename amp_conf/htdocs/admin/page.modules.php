@@ -13,7 +13,6 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 }
 
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
-$module_repo = isset($_REQUEST['module_repo'])?htmlentities($_REQUEST['module_repo']):'supported';
 $repo = "http://mirror.freepbx.org/";
 
 global $active_repos;
@@ -118,7 +117,7 @@ if (!$quietmode) {
 	}
 	function process_module_actions(actions) {
 		freepbx_modal_show('moduleBox');
-    urlStr = "config.php?type=<?php echo $type ?>&amp;display=modules&amp;extdisplay=process&amp;quietmode=1&amp;module_repo=<?php echo $module_repo ?>";
+    urlStr = "config.php?type=<?php echo $type ?>&amp;display=modules&amp;extdisplay=process&amp;quietmode=1";
 		for (var i in actions) {
 			urlStr += "&amp;moduleaction["+i+"]="+actions[i];
 		}
@@ -136,9 +135,6 @@ if (!$quietmode) {
 
 	echo "<h2>" . _("Module Administration") . "</h2>";
   //TODO: decide if warnings of any sort need to be given, or just list of repos active?
-	if ($module_repo == "extended") {
-	 	echo "<h4 align='center'>"._("NOTICE")."<br />"._("You have accessed the extended repository which includes un-supported and third party modules")."</h4>";
-	}
 } else {
 	// $quietmode==true
 	?>
@@ -527,7 +523,6 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "<input type=\"hidden\" name=\"type\" value=\"".$type."\" />";
 		echo "<input type=\"hidden\" name=\"online\" value=\"".$online."\" />";
 		echo "<input type=\"hidden\" name=\"extdisplay\" value=\"confirm\" />";
-		echo "<input type=\"hidden\" name=\"module_repo\" value=\"".$module_repo."\" />";
 		
 		echo "<div class=\"modulebuttons\">";
 		if ($online) {
@@ -572,6 +567,13 @@ switch ($extdisplay) {  // process, confirm, or nothing
         continue;
       }
 
+      // If versionupgrade module is present then allow it to skip modules that should not be presented
+      // because an upgrade is in process. This can help assure only safe modules are present and
+      // force the user to upgrade in the proper order.
+      //
+      if (function_exists('versionupgrade_allowed_modules') && !versionupgrade_allowed_modules($modules[$name])) {
+        continue;
+      }
 			$numdisplayed++;
 			
 			if ($category !== $modules[$name]['category']) {
@@ -718,6 +720,14 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
 							 '<label for="install_'.prep_id($name).'">'.sprintf(_('Upgrade to %s and Enable'),$modules_local[$name]['version']).'</label> <br />';
+
+						if (isset($modules_online[$name]['version'])) {
+							$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
+							if ($vercomp < 0) {
+								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
+									 '<label for="upgrade_'.prep_id($name).'">'.sprintf(_('Download and Upgrade to %s'), $modules_online[$name]['version']).'</label> <br />';
+              }
+            }
 						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
 							 '<label for="uninstall_'.prep_id($name).'">'._('Uninstall').'</label> <br />';
 					}
@@ -980,7 +990,7 @@ function displayRepoSelect($buttons) {
   $tooltip  = _("Choose the repositories that you want to check for new modules. Any updates available for modules you have on your system will be detected even if the repository is not checked. If you are installing a new system, you may want to start with the Basic repository and upload all modules, then go back and review the others.").' ';
   $tooltip .= _(" The modules in the Extended repository are less common and may receive lower levels of support. The Unsupported repository has modules that are not supported by the FreePBX team but may receive some level of support by the authors.").' ';
   $tooltip .= _("The Commercial repository is reserved for modules that are available for purchase and commercially supported.").' ';
-  $tooltip .= '<br /><br /><small><i>('._("Checking for updates will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.").')</i></small>';
+  $tooltip .= '<br /><br /><small><i>('._("Checking for updates will transmit your FreePBX, Distro, Asterisk and PHP version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.").')</i></small>';
 ?>
   <form name="onlineRepo" action="config.php" method="post">
     <input type="hidden" name="display" value="<?php echo $display ?>"/>

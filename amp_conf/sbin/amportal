@@ -28,7 +28,7 @@ if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]
 
 	php -r > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
-		echo "running php"
+		echo "Please wait..."
   		`php -r '
 		$bootstrap_settings["freepbx_auth"] = false;
 		$bootstrap_settings["skip_astman"] = true;
@@ -45,14 +45,14 @@ if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]
 		}
 		'`
 	elif [ -e "/var/lib/asterisk/bin/gen_amp_conf.php" ]; then
-		echo "running gen_amp_conf.php"
+		echo "Fetching FreePBX settings with gen_amp_conf.php.."
 		`/var/lib/asterisk/bin/gen_amp_conf.php`
 	elif [ -e "/etc/amportal.conf" ]; then # Check if file exists.
-		echo "running amportal.conf"
+		echo "Fetching settings from amportal.conf file.."
 		. /etc/amportal.conf
 	else
 		echo;
-		echo "FreePBX config file not found!";
+		echo "FreePBX settings could not be fetched and no backup config file found!";
 		echo "Have you installed FreePBX?";
 		exit;
 	fi

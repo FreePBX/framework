@@ -18,7 +18,7 @@ class extensions {
 
   var $_section_no_custom = array();
 
-  var $disable_custom_contexts = false;
+  var $_disable_custom_contexts = false;
 	
 	/** The filename to write this configuration to
 	*/
@@ -311,6 +311,10 @@ class extensions {
 					}
 				}
 				
+        // probably a better way to do this. But ... if an extension happens to be the pri 1 extension, and then
+        // it outputs false (e.g. noop_trace), we need a pri 1 extension as the next one.
+        //
+        $last_base_tag = false;
 				foreach (array_keys($this->_exts[$section]) as $extension) {
           if (is_array($this->_exts[$section][$extension])) foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
 					
@@ -319,6 +323,10 @@ class extensions {
 						//echo "[$section] $extension $idx\n";
 						//var_dump($ext);
 							
+            if ($last_base_tag && $ext['basetag'] = 'n') {
+              $ext['basetag'] = $last_base_tag;
+              $last_base_tag = false;
+            }
             $this_cmd = $ext['cmd']->output();
             if ($this_cmd !== false) {
 						  $output .= "exten => ".$extension.",".
@@ -326,6 +334,8 @@ class extensions {
 							  ($ext['addpri'] ? '+'.$ext['addpri'] : '').
 							  ($ext['tag'] ? '('.$ext['tag'].')' : '').
 							  ",". $this_cmd ."\n";
+            } else {
+              $last_base_tag = $ext['basetag'] == 1 ? 1 : false;
             }
 					}
 					if (isset($this->_hints[$section][$extension])) {
@@ -459,7 +469,13 @@ class ext_gosub extends extension {
 
 class ext_return extends extension {
 	function output() {
-		return "Return()";
+		return "Return(".$this->data.")";
+	}
+}
+
+class ext_stackpop extends extension {
+	function output() {
+		return "StackPop()";
 	}
 }
 
@@ -652,6 +668,12 @@ class ext_alertinfo {
 	}
 }
 
+class ext_sipremoveheader extends extension {
+	function output() {
+		return "SIPRemoveHeader(".$this->data.")";
+	}
+}
+
 class ext_wait extends extension {
 	function output() {
 		return "Wait(".$this->data.")";
@@ -744,7 +766,7 @@ class ext_execif {
 		global $version;
 
 		if (version_compare($version, "1.6", "ge")) {
-			if ($app_false != '')
+			if ($this->app_false != '')
 				return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}):{$this->app_false}({$this->data_false}))";
 			else
 				return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}))";
@@ -1420,6 +1442,18 @@ class ext_stopmixmonitor extends extension {
 	}
 }
 
+class ext_callcompletionrequest extends extension {
+	function output() {
+		return "CallCompletionRequest(".$this->data.")";
+	}
+}
+
+class ext_callcompletioncancel extends extension {
+	function output() {
+		return "CallCompletionCancel(".$this->data.")";
+	}
+}
+
 // Speech recognition applications
 class ext_speechcreate extends extension {
 	var $engine;
@@ -1498,6 +1532,24 @@ class ext_speechdeactivategrammar extends extension {
 		return "SpeechDeactivateGrammar(".$this->grammar_name.")";
 	}
 }
+
+class ext_backgrounddetect extends extension {
+        var $filename;
+        var $silence;
+        var $min;
+        var $max;
+        function ext_backgrounddetect($filename,$silence=null,$min=null,$max=null)  {
+                $this->filename = $filename;
+                $this->silence = $silence;
+                $this->min = $min; 
+                $this->max = $max;
+        }
+        function output() {
+                return 'BackgroundDetect(' .$this->filename.($this->silence ? ',' .$this->silence : '' )
+						.($this->min ? ',' .$this->min : '' ).($this->max ? ',' .$this->max : '' ). ')' ;
+        }
+}
+
 class ext_speechprocessingsound extends extension {
 	var $sound_file;
 
@@ -1550,6 +1602,12 @@ class ext_progress extends extension {
  function output() {
        return "Progress";
  }
+}
+
+class ext_vqa extends extension {
+	function output() {
+		return "VQA(".$this->data.")";
+	}
 }
 
 /* example usage

@@ -154,7 +154,6 @@ function databaseLogon() {
 		$asteriskcdr_dbfile = $ASTERISKCDR_DBFILE;
 		$asteriskcdr_dbuser = $amp_conf["AMPDBUSER"];
 		$asteriskcdr_dbpass = $amp_conf["AMPDBPASS"];
-		$asteriskcdr_dbhost = $ASTERISKCDR_DBHOST;
 		$asteriskcdr_dbhost = isset($amp_conf["AMPDBHOST"]) ? $amp_conf["AMPDBHOST"] : $ASTERISKCDR_DBHOST;
 		$asteriskcdr_dbname = $ASTERISKCDR_DBNAME;
 		

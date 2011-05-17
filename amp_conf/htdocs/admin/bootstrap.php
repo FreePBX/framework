@@ -15,6 +15,13 @@
  * $restrict_mods: false means include all modules functions.inc.php, true skip all modules
  *                 array of hashes means each module where there is a hash
  *                 e.g. $restrict_mods = array('core' => true, 'dashboard' => true)
+ *
+ * Settings that are set by bootstrap to indicate the results of what was setup and not:
+ *
+ * $bootstrap_settings['framework_functions_included'] = true/false;
+ * $bootstrap_settings['amportal_conf_initialized'] = true/false;
+ * $bootstrap_settings['astman_connected'] = false/false;
+ * $bootstrap_settings['function_modules_included'] = true/false true if one or more were included, false if all were skipped;
  */
 
 if (!isset($bootstrap_settings['skip_astman'])) {
@@ -26,22 +33,19 @@ $bootstrap_settings['astman_events'] = isset($bootstrap_settings['astman_events'
 
 $bootstrap_settings['freepbx_error_handler'] = isset($bootstrap_settings['freepbx_error_handler']) ? $bootstrap_settings['freepbx_error_handler'] : true;
 $bootstrap_settings['freepbx_auth'] = isset($bootstrap_settings['freepbx_auth']) ? $bootstrap_settings['freepbx_auth'] : true;
+$bootstrap_settings['cdrdb'] = isset($bootstrap_settings['cdrdb']) ? $bootstrap_settings['cdrdb'] : false;
 
 
 $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 
-
+//include freepbx conifguration
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	include_once('/etc/asterisk/freepbx.conf');
+}
 
 //enable error reporting and start benchmarking
-error_reporting(1);
-function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); }
-$benchmark_starttime = microtime_float();
-
-// include base functions
-require_once(dirname(__FILE__) . '/functions.inc.php');
-$bootstrap_settings['framework_functions_included'] = true;
-
-//now that its been included, use our own error handler as it tends to be much more verbose.
+error_reporting(E_ALL & ~E_STRICT);
+require_once(dirname(__FILE__) . '/libraries/bootstrap-utility.functions.php');
 if ($bootstrap_settings['freepbx_error_handler']) {
   $error_handler = $bootstrap_settings['freepbx_error_handler'] === true ? 'freepbx_error_handler' : $bootstrap_settings['freepbx_error_handler'];
   if (function_exists($error_handler)) {
@@ -49,13 +53,19 @@ if ($bootstrap_settings['freepbx_error_handler']) {
   }
 }
 
-//include database conifguration
-if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-	include_once('/etc/asterisk/freepbx.conf');
-}
+function microtime_float() { list($usec,$sec) = explode(' ', microtime()); return ((float)$usec+(float)$sec); }
+$benchmark_starttime = microtime_float();
+
+// include base functions
+$bootstrap_settings['framework_functions_included'] = false;
+require_once(dirname(__FILE__) . '/functions.inc.php');
+$bootstrap_settings['framework_functions_included'] = true;
 
 // connect to database
 require_once(dirname(__FILE__) . '/common/db_connect.php'); //PEAR must be installed
+
+
+
 //keep old values as well so that we have the db settings handy
 // get settings
 $freepbx_conf =& freepbx_conf::create();
@@ -63,10 +73,26 @@ $freepbx_conf =& freepbx_conf::create();
 // passing by reference, this means that the $amp_conf available to everyone is the same one as present
 // within the class, which is probably a direction we want to go to use the class.
 //
+$bootstrap_settings['amportal_conf_initialized'] = false;
 $amp_conf =& $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
 $asterisk_conf =& $freepbx_conf->get_asterisk_conf();
 $bootstrap_settings['amportal_conf_initialized'] = true;
 
+//connect to cdrdb if requestes
+if ($bootstrap_settings['cdrdb']) {
+	$dsn = array(
+		'phptype'  => $amp_conf['CDRDBTYPE'] ? $amp_conf['CDRDBTYPE'] : $amp_conf['AMPDBENGINE'],
+		'hostspec' => $amp_conf['CDRDBHOST'] ? $amp_conf['CDRDBHOST'] : $amp_conf['AMPDBHOST'],
+		'username' => $amp_conf['CDRDBUSER'] ? $amp_conf['CDRDBUSER'] : $amp_conf['AMPDBUSER'],
+		'password' => $amp_conf['CDRDBPASS'] ? $amp_conf['CDRDBPASS'] : $amp_conf['AMPDBPASS'],
+		'port'     => $amp_conf['CDRDBPORT'] ? $amp_conf['CDRDBPORT'] : '3306',
+		//'socket'   => $amp_conf['CDRDBTYPE'] ? $amp_conf['CDRDBTYPE'] : 'mysql',
+		'database' => $amp_conf['CDRDBNAME'] ? $amp_conf['CDRDBNAME'] : 'asteriskcdrdb',
+	);
+	$cdrdb = DB::connect($dsn);
+}
+
+$bootstrap_settings['astman_connected'] = false;
 if (!$bootstrap_settings['skip_astman']) {
 	require_once(dirname(__FILE__) . '/libraries/php-asmanager.php');
   $astman	= new AGI_AsteriskManager($bootstrap_settings['astman_config'], $bootstrap_settings['astman_options']);
@@ -76,7 +102,6 @@ if (!$bootstrap_settings['skip_astman']) {
 		if (!$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
 			// couldn't connect at all
 			unset( $astman );
-			$bootstrap_settings['astman_connected'] = false;
 		} else {
 			$bootstrap_settings['astman_connected'] = true;
 		}
@@ -96,13 +121,13 @@ if (!$bootstrap_settings['freepbx_auth'] || (php_sapi_name() == 'cli')) {
 		define('FREEPBX_IS_AUTH', 'TRUE');
 	}
 } else {
-	require(dirname(__FILE__) . '/libraries/framework_view.functions.php');
+	require(dirname(__FILE__) . '/libraries/gui_auth.php');
 	frameworkPasswordCheck();
 }
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }//we should never need this, just another line of defence
 
 // I'm pretty sure if this is == true then there is no need to even pull all the module info as we are going down a path
-// such as an ajax path that this is just overhead. (We'll no soon enough if this is too restrcitive).
+// such as an ajax path that this is just overhead. (We'll know soon enough if this is too restrcitive).
 //
 if ($restrict_mods !== true) {
   $active_modules = module_getinfo(false, MODULE_STATUS_ENABLED);
@@ -114,7 +139,6 @@ if ($restrict_mods !== true) {
       if ((!$restrict_mods || (is_array($restrict_mods) && isset($restrict_mods[$key]))) && is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
         require_once($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
       } 
-		
 		  //create an array of module sections to display
 		  // stored as [items][$type][$category][$name] = $displayvalue
 		  if (isset($module['items']) && is_array($module['items'])) {
@@ -128,10 +152,6 @@ if ($restrict_mods !== true) {
 						  $active_modules[$key]['items'][$itemKey]['disabled'] = true;
 					  }
 				  }
-				
-				  // reference to the actual module
-				  //$active_modules[$key][$itemKey]['module'] =& $active_modules[$key];
-
 			  }
 		  }
 	  }

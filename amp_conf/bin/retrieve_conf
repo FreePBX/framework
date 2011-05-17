@@ -6,6 +6,11 @@ $bootstrap_settings['freepbx_auth'] = false;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 	include_once('/etc/asterisk/freepbx.conf');
 }
+
+if (!$bootstrap_settings['astman_connected']) {
+  fatal(sprintf(_("Unable to connect to Asterisk Manager from %s, aborting"),__FILE__));
+}
+
 $freepbx_conf =& freepbx_conf::create();
 
 class connectdirs {
@@ -64,9 +69,7 @@ class connectdirs {
       // The assets dir exists in the module but no symlink to it, so do that now
       // e.g. ln -s /var/www/html/admin/modules/ringgroups/assets /var/www/html/admin/assets/ringgroups
       //
-      if (symlink($dir, $targetdir)) {
-        dbug('retrieve-conf', "Symlinked $dir to $targetdir");
-      } else {
+      if (!symlink($dir, $targetdir)) {
         freepbx_log(FPBX_LOG_ERROR, "Can Not $dir to $targetdir");
       }
 
@@ -103,8 +106,7 @@ class connectdirs {
               }
             }
           } else {
-            dbug('retrieve-conf', "found language dir $dir/$lang but not installed on system, skipping");
-            out("found language dir $dir/$lang but not installed on system, skipping");
+            out("found language dir $lang for ".basename($moduledir).", not installed on system, skipping");
           }
         }
 		  }
@@ -129,7 +131,7 @@ class connectdirs {
   function do_symlink($src, $dest, $subdir, $moduledir) {
     if (file_exists_wrapper($dest)) {
       if ((!is_link($dest) || readlink($dest) != $src) && (md5_file($src) == md5_file($dest))) {
-        dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
+        // dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
       } else if (!is_link($dest)) {
         freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is not a symlink!');
         $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
@@ -137,17 +139,13 @@ class connectdirs {
         // TODO : is this the proper handling? should we just overwrite..?
         freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is linked to something else!');
         $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
-      } else {
-        dbug('retrieve-conf', $dest.' already points to '.$src.' - OK');
       }
     } else {
 //    // symlink, unlike copy, doesn't overwrite - have to delete first
 //    if (is_link($dest) || file_exists($dest)) {
 //      unlink($dest);
 //    }
-      if (symlink($src, $dest)) {
-        dbug('retrieve-conf', 'Symlinked '.$src.' to '.$dest);
-      } else {
+      if (!symlink($src, $dest)) {
         freepbx_log(FPBX_LOG_ERROR, 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
       }
     }
@@ -172,9 +170,7 @@ class connectdirs {
 	
 				  if (file_exists_wrapper($targetfile)) {
 					  if (is_link($targetfile)) {
-              if ($this->err_unlink($targetfile)) {
-							  dbug('retrieve-conf', "$targetfile was symbolic link, unlink successful");
-						  } else {
+              if (!$this->err_unlink($targetfile)) {
 							  freepbx_log(FPBX_LOG_ERROR, "$targetfile is a symblolic link, failed to unlink!");
 							  break;
 						  }
@@ -183,7 +179,6 @@ class connectdirs {
 				  // OK, now either the file is a regular file or isn't there, so proceed
 				  //
           if ($this->err_copy($sourcefile,$targetfile)) {
-					  dbug('retrieve-conf', "$targetfile successfully copied");
 					  // copy was successful, make sure it has execute permissions
 					  chmod($targetfile,0754);
 				  } else {
@@ -195,7 +190,7 @@ class connectdirs {
   }
   function cp_check_errors() {
     if ($this->cp_errors) {
-      $this->nt->add_error('retrieve_conf', 'CPAGIBIN', _("Failed to copy from module agi-bin"), sprintf(_("Retrieve conf failed to copy file(s) from a module's agi-bin dir: %s"),$cp_errors));
+      $this->nt->add_error('retrieve_conf', 'CPAGIBIN', _("Failed to copy from module agi-bin"), sprintf(_("Retrieve conf failed to copy file(s) from a module's agi-bin dir: %s"),$this->cp_errors));
 	  } else {
       $this->nt->delete('retrieve_conf', 'CPAGIBIN');
 	  }
@@ -235,11 +230,9 @@ class connectdirs {
 // error function as a callback (otherwise, can move it into above).
 //
 function report_errors($errno, $errstr, $errfile, $errline) {
-	global $cp_errors;
   global $db;
   $escaped_string = $db->escapeSimple($errstr);
 	freepbx_log(FPBX_LOG_ERROR, "php reported: '$escaped_string' after copy or unlink attempt!");
-	$cp_errors .= $errstr."\n";
   $conn_dirs = connectdirs::create();
   $conn_dirs->add_cp_error($errstr."\n");
 }
@@ -305,7 +298,7 @@ if ($argc > 1) {
 		  break;
 		  case "--run-install":
 			  $run_install = true;
-			  out(_("Running module install.php and install.sql scripts"),false);
+			  out(_("Running module install.php and install.sql scripts"),true);
 		  break;
 		  case "--amportalconf":
 			  $amportalconf = $arg[1];
@@ -336,50 +329,46 @@ if ($current_memory_limit < $proper_memory_limit) {
 	$nt->delete('core', 'MEMLIMIT');
 }
 
-// query for our modules
-// var_dump( $db );
-$modules = module_getinfo();
-
 //Putting the core module last, to move outbound-allroutes 
 // last in from-internals-additional
-if (array_key_exists('core', $modules)) {
-        $core_tmp = $modules['core'];
-        unset($modules['core']);
-        $modules['core'] = $core_tmp;
+if (array_key_exists('core', $active_modules)) {
+        $core_tmp = $active_modules['core'];
+        unset($active_modules['core']);
+        $active_modules['core'] = $core_tmp;
 }
 
 // include any module global functions
-if(is_array($modules)){
-	foreach($modules as $key => $module) {
-		//only use this module if it's enabled (status=2)
-		if (isset($module['status']) && $module['status'] == MODULE_STATUS_ENABLED) {
-			// Make sure the module is installed and up to date
-			if ($run_install) module_install($key);
-			// active_modules array used in genConf function
-			$active_modules[] = $key;
-			//include module functions
-			if (is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
-				dbug('retrieve_conf', 'Including '.$amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
-				include_once($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
-				dbug('retrieve_conf', $amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php processed OK");
-			}
+// $active_modules is provided by bootstrap now
+//
+if(is_array($active_modules)){
+	foreach($active_modules as $key => $module) {
 
-			// create symlinks for files in appropriate sub directories
-			// don't symlink framework files, it is a special case module that happens to have
-			// some conflicting names
-			//
-      switch ($key) {
-        case 'framework':
-        case 'fw_fop':
-        case 'fw_ari':
-        case 'fw_langpacks':
+		$module_list[] = $key;
+
+		if ($run_install) module_install($key);
+
+		// create symlinks for files in appropriate sub directories
+		// don't symlink framework files, it is a special case module that happens to have
+		// some conflicting names
+		//
+    switch ($key) {
+      // TODO: these will go away once repositories are up-to-date but leave until 2.10
+      //       at that time the modtype tag will determine this
+      case 'framework':
+      case 'fw_fop':
+      case 'fw_ari':
+      case 'fw_langpacks':
+      break;
+      default:
+        if (isset($module['modtype']) && $module['modtype'] == 'framework') {
+          // don't copy or symlink from framework type modules as they are not real modules
           break;
-        default:
+        }
         $con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
         $con_dirs->symlink_sound_dirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
         $con_dirs->symlink_assets($key);
         $con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-			}
+      break;
 		}
 	}
 }
@@ -403,9 +392,8 @@ if ($amp_conf['DISABLECUSTOMCONTEXTS']) {
 
 // create objects for any module classes
 // currently only 1 class can be declared per module, not sure if that will be an issue
-if(isset($active_modules) && is_array($active_modules)){
-	foreach($active_modules as $active_module) { 
-		dbug('retrieve_conf', "Creating ".$active_module."_conf class");
+if(isset($module_list) && is_array($module_list)){
+	foreach($module_list as $active_module) { 
 		$classname = $active_module."_conf";
 		if(class_exists($classname)) {
 			${$classname} = new $classname;
@@ -422,27 +410,6 @@ $engine = $engineinfo['engine'];
 $version = $engineinfo['version'];
 $chan_dahdi = ast_with_dahdi();
 
-// this is not initialized in the installer because I think there are scenarios where
-// Asterisk may not be running and we may some day not need it to be so just deal
-// with it here.
-//
-if (!$freepbx_conf->conf_setting_exists('ASTVERSION')) {
-  // ASTVERSION
-  //
-  $set['value'] = '';
-  $set['defaultval'] =& $set['value'];
-  $set['options'] = '';
-  $set['readonly'] = 1;
-  $set['hidden'] = 1;
-  $set['level'] = 10;
-  $set['module'] = '';
-  $set['category'] = 'Internal Use';
-  $set['emptyok'] = 1;
-  $set['name'] = 'Asterisk Version';
-  $set['description'] = "Asterisk Version used during last 'Apply Configuration Changes' when retrieve_conf is run";
-  $set['type'] = CONF_TYPE_TEXT;
-  $freepbx_conf->define_conf_setting('ASTVERSION',$set);
-}
 if (!$freepbx_conf->conf_setting_exists('AST_FUNC_DEVICE_STATE')) {
   // AST_FUNC_DEVICE_STATE
   //
@@ -494,8 +461,56 @@ if (!$freepbx_conf->conf_setting_exists('AST_FUNC_SHARED')) {
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('AST_FUNC_SHARED',$set);
 }
-if ($version != $freepbx_conf->get_conf_setting('ASTVERSION')) {
-  $update_arr['ASTVERSION'] = $version;
+if (!$freepbx_conf->conf_setting_exists('AST_FUNC_CONNECTEDLINE')) {
+  // AST_FUNC_CONNECTEDLINE
+  //
+  $set['value'] = '';
+  $set['defaultval'] =& $set['value'];
+  $set['options'] = '';
+  $set['readonly'] = 1;
+  $set['hidden'] = 1;
+  $set['level'] = 10;
+  $set['module'] = '';
+  $set['category'] = 'Internal Use';
+  $set['emptyok'] = 1;
+  $set['name'] = 'Asterisk Function CONNECTEDLINE';
+  $set['description'] = "Set to the function name if the function is present in this Asterisk install";
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('AST_FUNC_CONNECTEDLINE',$set);
+}
+if (!$freepbx_conf->conf_setting_exists('AST_FUNC_MASTER_CHANNEL')) {
+  // AST_FUNC_MASTER_CHANNEL
+  //
+  $set['value'] = '';
+  $set['defaultval'] =& $set['value'];
+  $set['options'] = '';
+  $set['readonly'] = 1;
+  $set['hidden'] = 1;
+  $set['level'] = 10;
+  $set['module'] = '';
+  $set['category'] = 'Internal Use';
+  $set['emptyok'] = 1;
+  $set['name'] = 'Asterisk Function MASTER_CHANNEL';
+  $set['description'] = "Set to the function name if the function is present in this Asterisk install";
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('AST_FUNC_MASTER_CHANNEL',$set);
+}
+if (!$freepbx_conf->conf_setting_exists('AST_APP_VQA')) {
+  // AST_APP_VQA
+  //
+  $set['value'] = '';
+  $set['defaultval'] =& $set['value'];
+  $set['options'] = '';
+  $set['readonly'] = 1;
+  $set['hidden'] = 1;
+  $set['level'] = 10;
+  $set['module'] = '';
+  $set['category'] = 'Internal Use';
+  $set['emptyok'] = 1;
+  $set['name'] = 'Asterisk Application VQA';
+  $set['description'] = "Set to the application name if the application is present in this Asterisk install";
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('AST_APP_VQA',$set);
 }
 // Since modules can be loaded in a current version, we check these each time
 // DEVICE_STATE exists in two flavors, DEVSTATE and DEVICE_STATE, the latter is the official one
@@ -510,9 +525,14 @@ if ($astman->func_exists('DEVICE_STATE')) {
     $update_arr['USEDEVSTATE'] = false;
   }
 }
-$func_arr = array('EXTENSION_STATE', 'SHARED');
+$func_arr = array('EXTENSION_STATE', 'SHARED', 'CONNECTEDLINE', 'MASTER_CHANNEL');
 foreach ($func_arr as $func) {
   $update_arr['AST_FUNC_'.$func] = $astman->func_exists($func) ? $func : '';
+}
+
+$app_arr = array('VQA');
+foreach ($app_arr as $app) {
+  $update_arr['AST_APP_'.$app] = $astman->app_exists($app) ? $app : '';
 }
 $freepbx_conf->set_conf_values($update_arr, true, true);
 
@@ -524,7 +544,7 @@ $dests_ok = true;
 
 $nt = notifications::create($db);
 
-$my_hash = array_flip($active_modules);
+$my_hash = array_flip($module_list);
 $my_prob_extens = framework_list_extension_conflicts($my_hash);
 
 if (empty($my_prob_extens)) {
@@ -573,32 +593,31 @@ if (empty($my_probs)) {
 	$dests_ok = false;
 }
 
-if ((!$exten_ok && $amp_conf['XTNCONFLICTABORT']) || (!$dest_ok && $amp_conf['BADDESTABORT'])) {
+if ((!$extens_ok && $amp_conf['XTNCONFLICTABORT']) || (!$dests_ok && $amp_conf['BADDESTABORT'])) {
 	out(_("Aborting reload because extension conflicts or bad destinations"));
 	exit(20);
 }
 
 // run all of the *_get_config and _hookGet_config functions, which will populate the appropriate objects
-if(isset($active_modules) && is_array($active_modules)){
-	foreach($active_modules as $module) {
+if(isset($module_list) && is_array($module_list)){
+	foreach($module_list as $module) {
 		$funcname = $module."_get_config";
 		if (function_exists($funcname)) { 
-			dbug('retrieve_conf', 'Calling '.$funcname.'()');
 			$funcname($engine);
 		}
 	}
-	foreach($active_modules as $module) {
+	foreach($module_list as $module) {
 		$funcname = $module."_hookGet_config";
 		if (function_exists($funcname)) { 
-			dbug('retrieve_conf', 'Calling '.$funcname.'()');
 			$funcname($engine);
 		}
 	}
 }
 
 // extensions_additional.conf
-// create the from-internal-additional context so other can add to it
+// create the from-internal-additional contexts so other can add to it
 $ext->add('from-internal-additional', 'h', '', new ext_hangup(''));
+$ext->add('from-internal-noxfer-additional', 'h', '', new ext_hangup(''));
 //echo $ext->get_filename();
 //echo $ext->generateConf();
 write_file($ext->get_filename(),$ext->generateConf());
@@ -606,8 +625,8 @@ write_file($ext->get_filename(),$ext->generateConf());
 // now we write out our conf files for modules
 // check for any objects for each of the active modules
 // ** conferences is an example of a module that write a conf
-if(isset($active_modules) && is_array($active_modules)){
-	foreach($active_modules as $active_module) { 
+if(isset($module_list) && is_array($module_list)){
+	foreach($module_list as $active_module) { 
 		$classname = $active_module."_conf";
 		if(class_exists($classname) && get_class(${$classname}) !== false) {
 			//echo ${$classname}->get_filename();
@@ -617,7 +636,6 @@ if(isset($active_modules) && is_array($active_modules)){
 			// ** pinsets is an example of a module that does this
 			if (is_array(${$classname}->get_filename())) {
 				foreach(${$classname}->get_filename() as $modconf) {
-					dbug('retrieve_conf', 'generateConf from '.$classname.'->'.$modconf.'');
 					if (isset(${$classname}->use_warning_banner)) {
 						write_file($modconf,${$classname}->generateConf($modconf),${$classname}->use_warning_banner);
 					} else {
@@ -625,7 +643,6 @@ if(isset($active_modules) && is_array($active_modules)){
 					}
 				}
 			} else {
-				dbug('retrieve_conf', 'generateConf from '.$classname);
 				if (isset(${$classname}->use_warning_banner)) {
 					write_file(${$classname}->get_filename(),${$classname}->generateConf(),${$classname}->use_warning_banner);
 				} else {
@@ -637,14 +654,60 @@ if(isset($active_modules) && is_array($active_modules)){
 }
 // Now we write on amportal.conf if it is writable, which allows legacy applications in the
 // eco-system to take advantage of the settings.
+// we write out the error message here instead of in freepbx_settings so that we don't hit the db every single page load
 //
 if ($freepbx_conf->amportal_canwrite()) {
   file_put_contents('/etc/amportal.conf',$freepbx_conf->amportal_generate(true));
+  $nt->delete('framework', 'AMPORTAL_NO_WRITE');
+} elseif (!$nt->exists('framework', 'AMPORTAL_NO_WRITE')) {
+  $nt->add_error('framework', 'AMPORTAL_NO_WRITE', _("amportal.conf not writeable"), _("Your amportal.conf file is not writeable. FreePBX is running in a crippled mode until changed. You can run 'amportal chown' from the Linux command line to rectify this."),true);
+}
+
+// Let's move some more of our checks to retrieve_conf so that we are not constantly checking these on page loads
+//
+
+// Warn about default Manager Interface Password
+//
+if ($amp_conf['AMPMGRPASS'] == $freepbx_conf->get_conf_default_setting('AMPMGRPASS')) {
+  if (!$nt->exists('core', 'AMPMGRPASS')) {
+	  $nt->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
+  }
+} else {
+	$nt->delete('core', 'AMPMGRPASS');
+}
+	
+// Warn about default ARI Admin Password
+//
+if ($amp_conf['ARI_ADMIN_PASSWORD'] == $freepbx_conf->get_conf_default_setting('ARI_ADMIN_PASSWORD')) {
+  if (!$nt->exists('ari', 'ARI_ADMIN_PASSWORD')) {
+	  $nt->add_warning('ari', 'ARI_ADMIN_PASSWORD', _("Default ARI Admin password Used"), _("You are using the default ARI Admin password that is widely known, you should change to a new password. Do this in Advanced Settings"));
+  }
+} else {
+	$nt->delete('ari', 'ARI_ADMIN_PASSWORD');
+}
+	
+// Warn about default Database Password
+//
+if ($amp_conf['AMPDBPASS'] == $freepbx_conf->get_conf_default_setting('AMPDBPASS')) {
+  if (!$nt->exists('core', 'AMPDBPASS')) {
+	  $nt->add_warning('core', 'AMPDBPASS', _("Default SQL Password Used"), _("You are using the default SQL password that is widely known, you should set a secure password"));
+  }
+} else {
+	$nt->delete('core', 'AMPDBPASS');
+}
+
+// Warn if in deviceanduser mode and not using DYNAMICHINTS
+//
+if ($amp_conf['AMPEXTENSIONS'] == 'deviceanduser' && !$amp_conf['DYNAMICHINTS']) {
+  if (!$nt->exists('framework', 'NO_DYNAMICHINTS')) {
+	  $nt->add_warning('framework', 'NO_DYNAMICHINTS', _("Device & User Hints Issue"), _("You are set to Device and User mode but are not set to 'Dynamically Generate Hints' which can result in improper phone state behavior. This can be changed on the Advanced Settings page, check the tooltip for specific configuration details."));
+  }
+} else {
+	$nt->delete('framework', 'NO_DYNAMICHINTS');
 }
 
 function write_file($filename,$contents,$use_warning_banner=true) {
 	global $asterisk_conf;
-	dbug('retrieve_conf', 'Writing '.$filename);
 	if (isset($filename) && !empty($filename)) {
 		if ($fd = fopen(addslash($asterisk_conf['astetcdir']).$filename, "w")) {
 			if ($use_warning_banner) {
@@ -782,7 +845,7 @@ if (!isset($core_conf) || !is_a($core_conf, "core_conf")) {
 	generate_configurations_iax($version);
 	generate_configurations_zap($version);
 }
-if (!isset($queues_conf) || !is_a($queues_conf, "queues_conf")) {
+if (isset($modules['queues']['status']) && $modules['queues']['status'] == MODULE_STATUS_ENABLED && (!isset($queues_conf) || !is_a($queues_conf, "queues_conf"))) {
 	include_once("libfreepbx.confgen.php");
 	generate_configurations_queues($version);
 }

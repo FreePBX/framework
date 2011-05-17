@@ -40,33 +40,34 @@ $asterisk_pass	= "amp109";
 /********************************************************************************************************************/
 
 function showHelp() {
-	out("Optional parameters:");
-	out("  --help, -h, -?           Show this help");
-	out("  --dbhost <ip address>    Use a remote database server");
-	out("  --dbname databasename    Use database name specified, instead of 'asterisk'");
-	out("  --username <user>        Use <user> to connect to db and write config");
-	out("  --password <pass>        Use <pass> to connect to db and write config");
-	out("  --fopwebroot <path>      Web path where fop will be installed");
-	out("  --webroot <path>         Web root where FreePBX will be installed");
-	out("  --cgibin <path>          Path where cgi-bin's lives");
-	out("  --bin <path>             Path of asterisk binaries");
-	out("  --sbin <path>            Path of system admin binaries");
-	out("  --asteriskuser <user>    Asterisk Manager username");
-	out("  --asteriskpass <pass>    Asterisk Manager password");
-	out("  --systemconfig <path>    System config files");
-	out("  --debug                  Enable debug output");
-	out("  --dry-run                Don't actually do anything");
-	out("  --force-version <ver>    Force upgrade from version <ver>");
-	out("  --skip-module-install    Don't run install scripts for packaged modules, the files are still loaded.");
-	out("                           In a development environment you may not want the install scripts run.");
-	out("  --no-files               Just run updates without installing files");
-	out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ");
-	out("                           it's a new installation)");
-	out("  --install-fop=false      Don't install FOP and don't display it anywhere on the interface");
-	//out("  --make-links-devel       Make links to files in the source directory instead of copying");
-	//out("                           (intended for developers only)");
-	out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct");
-	out("  --engine <name>          Use the specified PBX Engine ('asterisk', 'asterisk14' or 'openpbx')");
+	out("Optional parameters:",false);
+	out("  --help, -h, -?           Show this help",false);
+	out("  --dbhost <ip address>    Use a remote database server",false);
+	out("  --dbname databasename    Use database name specified, instead of 'asterisk'",false);
+	out("  --username <user>        Use <user> to connect to db and write config",false);
+	out("  --password <pass>        Use <pass> to connect to db and write config",false);
+	out("  --fopwebroot <path>      Web path where fop will be installed",false);
+	out("  --webroot <path>         Web root where FreePBX will be installed",false);
+	out("  --cgibin <path>          Path where cgi-bin's lives",false);
+	out("  --bin <path>             Path of asterisk binaries",false);
+	out("  --sbin <path>            Path of system admin binaries",false);
+	out("  --asteriskuser <user>    Asterisk Manager username",false);
+	out("  --asteriskpass <pass>    Asterisk Manager password",false);
+	out("  --systemconfig <path>    System config files",false);
+	out("  --debug                  Enable debug output",false);
+	out("  --dry-run                Don't actually do anything",false);
+	out("  --force-version <ver>    Force upgrade from version <ver>",false);
+	out("  --skip-module-install    Don't run install scripts for packaged modules, the files are still loaded.",false);
+	out("                           In a development environment you may not want the install scripts run.",false);
+	out("  --no-files               Just run updates without installing files",false);
+	out("  --force-overwrite        Don't ask if it is ok to overwrite modified files, assume yes for all.",false);
+	out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ",false);
+	out("                           it's a new installation)",false);
+	out("  --install-fop false      Don't install FOP and don't display it anywhere on the interface",false);
+	out("  --dev-links              Make links to files in the source directory instead of copying",false);
+	out("                           (intended for developers only)",false);
+	out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct",false);
+	out("  --engine <name>          Use the specified PBX Engine ('asterisk')",false);
 }
 
 function install_parse_amportal_conf($filename) {
@@ -384,23 +385,47 @@ function install_modules() {
 	}
 	closedir($dir);
 
-	foreach ($included_modules as $up_module) {
-		outn("Checking $up_module.. ");
-		if (!$dryrun) {
-			// special case framework, it should not be installed just enabled.
-			//
-			if ($up_module != 'framework') {
-				system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
-				system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
-				out("installed");
-			} else {
-				system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
-				out("enabled");
-			}
-		} else {
-			out("Dry Run Not Installed");
-		}
-	}
+  $output = array();
+  $keep_checking = true;
+  $num_modules = false;
+  while ($keep_checking && count($included_modules)) {
+    if ($num_modules === count($included_modules)) {
+      $keep_checking = false;
+    } else {
+      $num_modules = count($included_modules);
+    }
+    foreach ($included_modules as $id => $up_module) {
+		  outn("Checking $up_module.. ");
+		  if (!$dryrun) {
+        // if $keep_checking then check dependencies first and skip if not met
+        // otherwise we will install anyhow even if some dependencies are not met
+        // since it is included. (TODO: should we not?)
+        //
+        if ($keep_checking) {
+          exec($amp_conf['AMPBIN']."/module_admin --no-warnings checkdepends $up_module",$output,$retval);
+          unset($output);
+          if ($retval) {
+            out("dependencies pending");
+            continue;
+          }
+        }
+
+			  // special case framework, it should not be installed just enabled.
+			  //
+			  if ($up_module != 'framework') {
+				  system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+				  system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
+				  out("installed");
+			  } else {
+				  system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
+				  out("enabled");
+			  }
+        unset($included_modules[$id]);
+		  } else {
+			  out("Dry Run Not Installed");
+		  }
+	  }
+  }
 }
 
 /** Set the module version number to the packaged version and enable
@@ -512,7 +537,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop","make-links-devel","dev-links","skip-module-install");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","force-overwrite","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop=","make-links-devel","dev-links","skip-module-install");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -575,12 +600,16 @@ foreach ($args[0] as $arg) {
 			$install_files = false;
 			out("Running upgrade only, without installing files.");
 		break;
+		case "--force-overwrite":
+	    $check_md5s = false;
+			out("Overwriting all files including modified ones.");
+		break;
 		case "--my-svn-is-correct":
 			$override_astvers = true;
 		break;
 		case "--engine":
-			if ($arg[1] != 'asterisk' && $arg[1] != 'asterisk14' && $arg[1] != 'openpbx') {
-				fatal('Currently only "asterisk", "asterisk14" or "openpbx" are supported as a PBX engine');
+			if ($arg[1] != 'asterisk') {
+				fatal('Currently only "asterisk" is supported as a PBX engine');
 			}
 			$pbx_engine = $arg[1];
 		break;
@@ -588,19 +617,14 @@ foreach ($args[0] as $arg) {
 			$install_moh = true;
 		break;
 		case "--install-fop":
-			if($arg[1] != "false")  {
-				$install_fop = true;
+			if(strtolower($arg[1]) == "false")  {
+				$install_fop = false;
+				out("FOP will be deactivated in the interface.  Set FOPDISABLE=false in Advanced Settings to change later.");
+			} else  {
 				out("FOP will be installed and activated.");
 			}
-			else  {
-				out("FOP will be deactivated in the interface.  Set FOPDISABLE=false in amportal.conf to change later.");
-
-			}
-
 		break;
 		case "--make-links-devel":
-			$make_links = true;
-		break;
 		case "--dev-links":
 			$make_links = true;
 		break;
@@ -869,8 +893,8 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
 // **** Make sure selinux isn't enabled
 
 outn("Checking for selinux..");
-$tmpoutput;
-$tmpout = exec("getenforce", $tmpoutput, $sereturn);
+$tmpoutput = array();
+$tmpout = exec("getenforce 2>/dev/null", $tmpoutput, $sereturn);
 if (strtolower($tmpoutput[0]) === "enabled") {
         // this method seems better because disabled and permissive are the same
         // if a user installs and realizes selinux is running the other method 

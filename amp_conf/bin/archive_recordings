@@ -4,6 +4,7 @@
 //
 //include bootstrap
 $bootstrap_settings['freepbx_auth'] = false;
+$bootstrap_settings['cdrdb'] = true;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 	include_once('/etc/asterisk/freepbx.conf');
 }
@@ -104,13 +105,13 @@ function process_files() {
 }
 
 function check_table() {
-	global $db;
+	global $cdrdb;
 	global $debug;
 	outn("Verifying CDR 'uniqueid' field exisits..");
 	$sql = "SELECT uniqueid FROM cdr WHERE NOT uniqueid=\"\"";
 	if ($debug) {out(""); debug("Query: ".$sql);}
-	$result = $db->query($sql); 
-	if(DB::IsError($result)) {     
+	$result = $cdrdb->query($sql); 
+	if($cdrdb->IsError($result)) {     
 		fatal($result->getDebugInfo()."\" while running ".$sql."\n"); 
 	}
 	if (count($result) > 0) {
@@ -142,13 +143,13 @@ function fix_datetime($datetime) {
 }
 
 function get_cdr($datetime,$uniqueid,$calltype) {
-	global $db;
+	global $cdrdb;
 	global $debug;
 	$datetimes = fix_datetime($datetime);
 	$sql = "SELECT * FROM cdr WHERE uniqueid = '$uniqueid' AND calldate BETWEEN '".$datetimes['allow']."' AND '".$datetimes['exact']."'";
 	if ($debug) {out(""); debug("Query: ".$sql);}
-	$result = $db->getRow($sql); 
-	if(DB::IsError($result)) {     
+	$result = $cdrdb->getRow($sql); 
+	if($cdrdb->IsError($result)) {     
 		fatal($result->getDebugInfo()."\" while running ".$sql."\n"); 
 	}
 	if (count($result) > 0) {

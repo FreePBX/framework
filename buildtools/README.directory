@@ -10,12 +10,11 @@ WARNING: Some of these tools will do direct svn checkin's and should be used
          very little error checking and should evolve to improve over time.
 
 /--------------------------------------------------------------------------------------------
-pack_javascripts.php, jsmin.rb:
+pack_javascripts.php:
 
-These two scripts are used to package the libfreebx.javascripts.js by taking
+This script is used to package the libfreebx.javascripts.js by taking
 all the javascript libraries that are used under the common directory and
-running them through jsmin.rb, a simple Ruby script that does a reasonable
-job of compressing the scripts.
+running them through the jsmin class included with pack_javascripts.php. 
 
 
 /--------------------------------------------------------------------------------------------

@@ -46,6 +46,7 @@ if (isset($_GET['recindex'])) {
     header("Content-Disposition: attachment; filename=" . $name);
     header("Content-Transfer-Encoding: binary");
     header("Content-length: " . $size);
+    ob_clean();
     fpassthru($fp);
   } 
 }

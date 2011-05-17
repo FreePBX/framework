@@ -21,7 +21,6 @@ $title=_("FreePBX: Call Detail Reports");
 $message=_("Call Detail Reports");
 
 // BUILD an SQL clause for any AMP User restrictions
-//session_register('AMP_SQL');
 $low = $_SESSION["AMP_user"]->_extension_low;
 $high = $_SESSION["AMP_user"]->_extension_high;
 if ((!empty($low)) && (!empty($high))) {
@@ -47,6 +46,6 @@ if (isset($_REQUEST['display']) && isset($menu[$_REQUEST['display']])) {
 	$display=1;
 }
 
-showview('reports', array('amp_conf'=>&$amp_conf, 'title'=>$title, 'display'=>$display, 'menu' => $menu));
+show_view($amp_conf['VIEW_REPORTS'], array('amp_conf'=>&$amp_conf, 'title'=>$title, 'display'=>$display, 'menu' => $menu));
 ?>
 </div>

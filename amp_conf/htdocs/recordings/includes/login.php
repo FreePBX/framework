@@ -388,7 +388,8 @@ class Login {
   function GetForm() {
 
     global $ARI_NO_LOGIN;
-
+	$ret = '';
+	
     if ($ARI_NO_LOGIN) {
       $ret = '';
       return;

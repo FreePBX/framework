@@ -645,30 +645,34 @@ function isFilenameChar (c)
 /***************************************************
  *             GLOBAL JQUERY CODE                  *
  ***************************************************/
+//weird name, but should be self explanitor
+function bind_dests_double_selects() {
+	//destination double dropdown code
+	$('.destdropdown').bind('blur click change keypress', function(){
+		var name=$(this).attr('name');
+		var id=name.replace('goto','');
+		var dest=$(this).val();
+		$('[name$='+id+'].destdropdown2').hide();
+		$('[name='+dest+id+'].destdropdown2').show();
+	});
+	
+	//hacky way to ensure destinations dropdown is the same background-color as currently selected item
+	$('.destdropdown').bind('change', function(){
+		if($(this).find('option:selected').val()=='Error'){
+			$(this).css('background-color','red');
+		}else{
+			$(this).css('background-color','white');
+		}
+	});
+}
 
 $(document).ready(function(){
-
-		//destination double dropdown code
-		$('.destdropdown').bind('blur click change keypress', function(){
-			var name=$(this).attr('name');
-			var id=name.replace('goto','');
-			var dest=$(this).val();
-			$('[name$='+id+'].destdropdown2').hide();
-			$('[name='+dest+id+'].destdropdown2').show();
-	});
-		//hacky way to ensure destinations dropdown is the same background-color as currently selected item
-		$('.destdropdown').bind('change', function(){
-			if($(this).find('option:selected').val()=='Error'){
-				$(this).css('background-color','red');
-			}else{
-				$(this).css('background-color','white');
-			}
-	});
+	bind_dests_double_selects();
 	
 	//help tags. based on: http://www.dvq.co.nz/jquery/create-a-jquery-popup-bubble-effect/
 	$("a.info").hover(function(){
 		var pos = $(this).offset();
-    var left = (200 - pos.left)+"px";
+    	var left = (200 - pos.left)+"px";
 		$(this).find("span").css("left",left).stop(true, true).delay(500).animate({opacity: "show"}, 750);
 		}, function() {
 		$(this).find("span").stop(true, true).animate({opacity: "hide"}, "fast");
@@ -677,30 +681,30 @@ $(document).ready(function(){
 	//module setup/tools menu
 	$('#nav').tabs({cookie:{expires:30}});
 
-  // initialize the displayed/hidden nav bar categories
+	// initialize the displayed/hidden nav bar categories
 	$(".category-header").each(function(){
 		if ($.cookie(this.id) == 'collapsed') {
 			$(".id-"+this.id).hide();
 			$(this).removeClass("toggle-minus").addClass("toggle-plus")
-      $.cookie(this.id,'collapsed', { expires: 365 });
+			$.cookie(this.id,'collapsed', { expires: 365 });
 		} else {
 			$(".id-"+this.id).show();
 			$(this).removeClass("toggle-plus").addClass("toggle-minus")
-      $.cookie(this.id,'expanded', { expires: 365 });
+			$.cookie(this.id,'expanded', { expires: 365 });
 		}
 	});
 
   //slide open/closed each section
 	$(".category-header").click(function(){
-    if ($.cookie(this.id) == 'expanded') {
+		if ($.cookie(this.id) == 'expanded') {
 			$(".id-"+this.id).slideUp();
-      $.cookie(this.id,'collapsed', { expires: 365 });
-      $(this).removeClass("toggle-minus").addClass("toggle-plus")
-    } else {
+			$.cookie(this.id,'collapsed', { expires: 365 });
+			$(this).removeClass("toggle-minus").addClass("toggle-plus")
+	    } else {
 			$(".id-"+this.id).slideDown();
-      $.cookie(this.id,'expanded', { expires: 365 });
-      $(this).removeClass("toggle-plus").addClass("toggle-minus")
-    }
-  });
+			$.cookie(this.id,'expanded', { expires: 365 });
+			$(this).removeClass("toggle-plus").addClass("toggle-minus")
+		}
+	});
 
 });

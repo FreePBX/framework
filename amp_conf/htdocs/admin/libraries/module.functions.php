@@ -45,6 +45,7 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 	//
 	// used for debug, time set to 0 to always fall through
 	// if((time() - $result['time']) > 0 || strlen($result['data']) < 100 ) {
+  $skip_cache |= $amp_conf['MODULEADMIN_SKIP_CACHE'];
 	if((time() - $result['time']) > 300 || $skip_cache || strlen($data) < 100 ) {
 		$version = getversion();
 		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
@@ -430,12 +431,12 @@ function module_checkdepends($modulename) {
 					case 'phpcomponent':
 						/* accepted formats
 						   <depends>
-							   <phpversion>zlib<phpversion>        TRUE: if extension zlib is loaded
-								 <phpversion>zlib 1.2<phpversion>    TRUE: if extension zlib is loaded and >= 1.2
-								 <phpversion>zlib gt 1.2<phpversion> TRUE: if extension zlib is loaded and > 1.2
+							   <phpcomponent>zlib<phpversion>        TRUE: if extension zlib is loaded
+								 <phpcomponent>zlib 1.2<phpversion>    TRUE: if extension zlib is loaded and >= 1.2
+								 <phpcomponent>zlib gt 1.2<phpversion> TRUE: if extension zlib is loaded and > 1.2
 							</depends>
 						*/
-						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
+						if (preg_match('/^([a-z0-9_]+|Zend Optimizer)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
 							// matches[1] = extension name, [3]=comparison operator, [4] = version
 							$compare_ver = isset($matches[4]) ? $matches[4] : '';
 							if (extension_loaded($matches[1])) {
@@ -508,7 +509,12 @@ function module_checkdepends($modulename) {
 					break;
 					case 'file': // file exists
 						// replace embedded amp_conf %VARIABLES% in string
-						$file = ampconf_string_replace($value);
+
+
+
+
+
+						$file = _module_ampconf_string_replace($value);
 						
 						if (!file_exists( $file )) {
 							$errors[] = sprintf(_('File %s must exist.'), $file);
@@ -529,7 +535,7 @@ function module_checkdepends($modulename) {
 							
 							$engine = engine_getinfo();
 							if (($engine['engine'] == $matches[1]) &&
-							    (empty($matches[4]) || !version_compare($matches[4], $engine['version'], $operator))
+                (empty($matches[4]) || version_compare($engine['version'], $matches[4], $operator))
 							   ) {
 							   
 								$engine_matched = true;
@@ -738,8 +744,14 @@ function module_download($modulename, $force = false, $progress_callback = null,
 			}
 			exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 			if ($exitcode != 0) {
+        freepbx_log(FPBX_LOG_ERROR,sprintf(_("failed to open %s module archive into _cache directory."),$filename));
 				return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
-			}
+      } else {
+        // since untarring was successful, remvove the tarball so they do not accumulate
+        if (unlink($filename) === false) {
+          freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to delete %s from cache directory after opening module archive."),$filename));
+        }
+      }
 			exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
 			if ($exitcode != 0) {
 				return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename));
@@ -834,8 +846,14 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	}
 	exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 	if ($exitcode != 0) {
+    freepbx_log(FPBX_LOG_ERROR,sprintf(_("failed to open %s module archive into _cache directory."),$filename));
 		return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
-	}
+	} else {
+    // since untarring was successful, remvove the tarball so they do not accumulate
+    if (unlink($filename) === false) {
+      freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to delete %s from cache directory after opening module archive."),$filename));
+    }
+  }
 	exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
 	if ($exitcode != 0) {
 		return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename));
@@ -913,7 +931,13 @@ function module_handleupload($uploaded_file) {
 	}
 	exec("tar ".$tar_z_arg."xf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 	if ($exitcode != 0) {
+    freepbx_log(FPBX_LOG_ERROR,sprintf(_("failed to open %s module archive into _cache directory."),$filename));
 		return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
+	} else {
+    // since untarring was successful, remvove the tarball so they do not accumulate
+    if (unlink($filename) === false) {
+      freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to delete %s from cache directory after opening module archive."),$filename));
+    }
 	}
 	exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
 	if ($exitcode != 0) {
@@ -1395,6 +1419,11 @@ function module_get_annoucements() {
 	} else {
 		$options .="&astver=".urlencode($engver['raw']);
 	}
+  $options .= "&phpver=".urlencode(phpversion());
+
+  $distro_info = _module_distro_id();
+  $options .= "&distro=".urlencode($distro_info['pbx_type']);
+  $options .= "&distrover=".urlencode($distro_info['pbx_version']);
 
 	$fn = "http://mirror.freepbx.org/version-".getversion().".html".$options;
   $announcement = file_get_contents_url($fn);
@@ -1527,4 +1556,108 @@ function module_run_notification_checks() {
 	}
 }
 
-?>
+/** Replaces variables in a string with the values from ampconf
+ * eg, "%AMPWEBROOT%/admin" => "/var/www/html/admin"
+ */
+function _module_ampconf_string_replace($string) {
+	$freepbx_conf =& freepbx_conf::create();
+	
+	$target = array();
+	$replace = array();
+	
+	foreach ($freepbx_conf->conf as $key=>$value) {
+		$target[] = '%'.$key.'%';
+		$replace[] = $value;
+	}
+	
+	return str_replace($target, $replace, $string);
+}
+
+function _module_distro_id() {
+  static $pbx_type;
+  static $pbx_version;
+
+  if (isset($pbx_type)) {
+    return array('pbx_type' => $pbx_type, 'pbx_version' => $pbx_version);
+  }
+
+  // FreePBX Distro
+  if (file_exists('/etc/asterisk/freepbxdistro-version')) {
+    $pbx_type = 'freepbxdistro';
+    $pbx_version = trim(file_get_contents('/etc/asterisk/freepbxdistro-version'));
+
+  // Trixbox
+  } elseif (file_exists('/etc/trixbox/trixbox-version')) {
+    $pbx_type = 'trixbox';
+    $pbx_version = trim(file_get_contents('/etc/trixbox/trixbox-version'));
+
+  // AsteriskNOW
+  } elseif (file_exists('/etc/asterisknow-version')) {
+    $pbx_type = 'asterisknow';
+    $pbx_version = trim(file_get_contents('/etc/asterisknow-version'));
+  
+  // Elastix
+  } elseif (is_dir('/usr/share/elastix') || file_exists('/usr/share/elastix/pre_elastix_version.info')) {
+    $pbx_type = 'elastix';
+    $pbx_version = '';
+    if (class_exists('PDO') && file_exists('/var/www/db/settings.db')) {
+      $elastix_db = new PDO('sqlite:/var/www/db/settings.db');
+      $result = $elastix_db->query("SELECT value FROM settings WHERE key='elastix_version_release'");
+      if ($result !== false) foreach ($result as $row) {
+        if (isset($row['value'])) {
+          $pbx_version = $row['value'];
+          break;
+        }
+      }
+    }
+    if (!$pbx_version && file_exists('/usr/share/elastix/pre_elastix_version.info')) {
+      $pbx_version = trim(file_get_contents('/usr/share/elastix/pre_elastix_version.info'));
+    }
+    if (!$pbx_version) {
+      $pbx_version = '2.X+';
+    }
+
+  // PIAF
+  } elseif (file_exists('/etc/pbx/.version') || file_exists('/etc/pbx/.color')) {
+    $pbx_type = 'piaf';
+    $pbx_version = '';
+    if (file_exists('/etc/pbx/.version')) {
+      $pbx_version = trim(file_get_contents('/etc/pbx/.version'));
+    }
+    if (file_exists('/etc/pbx/.color')) {
+      $pbx_version .= '.' . trim(file_get_contents('/etc/pbx/.color'));
+    }
+    if (!$pbx_version) {
+      if (file_exists('/etc/pbx/ISO-Version')) {
+        $pbx_ver_raw = trim(file_get_contents('/etc/pbx/ISO-Version'));
+        $pbx_arr = explode('=',$pbx_ver_raw);
+        $pbx_version = $pbx_arr[count($pbx_arr)-1];
+      } else {
+        $pbx_version = 'unknown';
+      }
+    }
+
+  // Old PIAF or Fonica
+  } elseif (file_exists('/etc/pbx/version') || file_exists('/etc/pbx/ISO-Version')) {
+    $pbx_type = 'fonica';
+    if (file_exists('/etc/pbx/ISO-Version')) {
+      $pbx_ver_raw = trim(file_get_contents('/etc/pbx/ISO-Version'));
+      $pbx_arr = explode('=',$pbx_ver_raw);
+      $pbx_version = $pbx_arr[count($pbx_arr)-1];
+      if (stristr($pbx_arr[0],'foncordiax') !== false) {
+        $pbx_version .= '.pro';
+      } else {
+        $pbx_version = str_replace(' ','.',$pbx_version);
+        if ($pbx_version != '1.0.standard') {
+          $pbx_type = 'piaf';
+        }
+      }
+    } else {
+      $pbx_version = 'unknown';
+    }
+  } else {
+    $pbx_type = 'unknown';
+    $pbx_version = 'unknown';
+  }
+  return array('pbx_type' => $pbx_type, 'pbx_version' => $pbx_version);
+}

@@ -49,6 +49,9 @@ if (isset($_REQUEST['handler'])) {
   $restrict_mods = true;
   // I think reload is the only handler that requires astman, so skip it for others
   switch ($_REQUEST['handler']) {
+  case 'api':
+    $restrict_mods = false;
+    break;
   case 'reload':
     break;
   default:
@@ -70,7 +73,7 @@ if ($action != '' && $amp_conf['CHECKREFERER']) {
 	}
 
 	if (!$refererok) {
-		showview('bad_refferer');
+		show_view($amp_conf['VIEW_BAD_REFFERER'], array('amp_conf'=>&$amp_conf));
 		exit;
 	}
 }
@@ -164,6 +167,7 @@ if(!$quietmode && is_array($active_modules)){
 	}
 }
 
+
 // extensions vs device/users ... this is a bad design, but hey, it works
 if (!$quietmode) {
 	if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
@@ -176,7 +180,7 @@ if (!$quietmode) {
 
 // check access
 if (!is_array($cur_menuitem) && $display != "") {
-	showview("noaccess");
+	show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf'=>&$amp_conf));
 	exit;
 }
 
@@ -217,8 +221,6 @@ if (($display == 'index') && ($cur_menuitem['module']['rawname'] == 'builtin')) 
 	$display = '';
 }
 
-// set the language so local module languages take
-set_language();
 
 // show the appropriate page
 switch($display) {
@@ -256,7 +258,7 @@ switch($display) {
 
 		// include the module page
 		if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {
-			showview("menuitem_disabled",$cur_menuitem);
+			show_view($amp_conf['VIEW_MENUITEM_DISABLED'],$cur_menuitem);
 			break; // we break here to avoid the generateconfigpage() below
 		} else if (file_exists($module_file)) {
 			// load language info if available
@@ -269,7 +271,7 @@ switch($display) {
 			}
 			include($module_file);
 		} else {
-			// TODO: make this a showview()
+			// TODO: make this a load_view()
 			echo "404 Not found";
 		}
 		
@@ -288,10 +290,10 @@ switch($display) {
 	break;
 	case '':
 		if ($astman) {
-			showview('welcome', array('AMP_CONF' => &$amp_conf));
+			show_view($amp_conf['VIEW_WELCOME'], array('AMP_CONF' => &$amp_conf));
 		} else {
 			// no manager, no connection to asterisk
-			showview('welcome_nomanager', array('mgruser' => $amp_conf["AMPMGRUSER"]));
+			show_view($amp_conf['VIEW_WELCOME_NOMANAGER'], array('mgruser' => $amp_conf["AMPMGRUSER"]));
 		}
 	break;
 }
@@ -311,10 +313,13 @@ if ($quietmode) {
 	$admin_template['fpbx_usecategories'] = $amp_conf['USECATEGORIES'];
 	$admin_template['fpbx_type'] = $type;
 	$admin_template['display'] = $display;
-
+	$admin_template['reload_needed'] = check_reload_needed();
+	$admin_template['reload_confirm'] = $amp_conf['RELOADCONFIRM'];
+	// set the language so local module languages take
+	set_language();
 
 	// then load it and put it into the main freepbx interface
-	$template['content'] = loadview('freepbx_admin', $admin_template);
+	$template['content'] = load_view($amp_conf['VIEW_FREEPBX_ADMIN'], $admin_template) . load_view('views/freepbx_footer.php',$admin_template) ;
 	$template['use_nav_background'] = true;
 
 	// setup main template
@@ -345,7 +350,7 @@ if ($quietmode) {
 	$template['reload_needed'] = check_reload_needed();
 	$template['benchmark_starttime'] = $benchmark_starttime;
 
-	showview('freepbx', $template);
+	show_view($amp_conf['VIEW_FREEPBX'], $template);
 }
 
 ?>

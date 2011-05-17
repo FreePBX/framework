@@ -10,16 +10,6 @@ ux="\e[0m"
 
 ROOT_UID=0	 # root uid is 0
 E_NOTROOT=67 # Non-root exit error
-# define freepbx config file if not alreaddy set
-if [ -z "$FREEPBX_CONF" ]; then
-	if [ -e "/etc/freepbx.conf" ]; then
-		FREEPBX_CONF="/etc/freepbx.conf"
-	elif [ -e "/etc/asterisk/freepbx.conf" ]; then
-		FREEPBX_CONF="/etc/asterisk/freepbx.conf"
-	else
-		FREEPBX_CONF="/etc/freepbx.conf"
-	fi
-fi
 
 echo
 # check to see if we are root
@@ -28,6 +18,32 @@ then
 	echo "Sorry, you must be root to run this script."
 	echo
 	exit $E_NOTROOT
+fi
+
+# function to eventually get freepbx.conf to /etc 
+move_freepbxconf() {
+	if [ -e /etc/asterisk/freepbx.conf -a ! -e /etc/freepbx.conf ]; then
+		echo moving /etc/asterisk/freepbx.conf to /etc/freepbx.conf
+		mv /etc/asterisk/freepbx.conf /etc/
+	  	if [ "$?" -ne "0" ]; then
+				echo "unable to move, FreePBX will function fine but you will" 
+				echo "get this error until the file can be successfully moved" 
+			else
+				FREEPBX_CONF="/etc/freepbx.conf"
+	  	fi
+	fi
+}
+
+# define freepbx config file if not already set
+if [ -z "$FREEPBX_CONF" ]; then
+	if [ -e "/etc/freepbx.conf" ]; then
+		FREEPBX_CONF="/etc/freepbx.conf"
+	elif [ -e "/etc/asterisk/freepbx.conf" ]; then
+		FREEPBX_CONF="/etc/asterisk/freepbx.conf"
+		 move_freepbxconf
+	else
+		FREEPBX_CONF="/etc/freepbx.conf"
+	fi
 fi
 
 
@@ -41,6 +57,8 @@ AMPASTERISKWEBGROUP=$AMPASTERISKGROUP
 AMPVMUMASK=077
 ASTETCDIR=/etc/asterisk
 FPBXDBUGFILE=/tmp/freepbx_debug.log
+ASTSTOPTIMEOUT=120
+ASTSTOPPOLLINT=2
 
 write_freepbxconf() {
 	if [ ! -e $FREEPBX_CONF  ]; then
@@ -57,8 +75,13 @@ write_freepbxconf() {
 
 		EOF
 	fi
-	if [ -e /etc/asterisk/freepbx.conf ]; then
-		rm /etc/asterisk/freepbx.conf
+	if [ -e /etc/asterisk/freepbx.conf -a ! -e /etc/freepbx.conf ]; then
+		echo moving /etc/asterisk/freepbx.conf to /etc/freepbx.conf
+		mv /etc/asterisk/freepbx.conf /etc/
+  	if [ "$?" -ne "0" ]; then
+			echo "unable to move, FreePBX will function fine but you will"
+			echo "get this error until the file can be successfully moved"
+  	fi
 	fi
 }
 
@@ -132,8 +155,8 @@ fi
 chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
 	
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP /etc/amportal.conf
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $FREEPBX_CONF
+	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/amportal.conf
+	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FREEPBX_CONF
 	chmod g+w /etc/amportal.conf
 	chmod g+w $FREEPBX_CONF
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTRUNDIR
@@ -150,21 +173,31 @@ chown_asterisk() {
 	chmod -R g+w $AMPWEBROOT/admin
 	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FOPWEBROOT
 	chmod -R g+w $FOPWEBROOT
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $AMPWEBROOT/recordings
+	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/recordings
 	chmod -R g+w $AMPWEBROOT/recordings
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $AMPWEBROOT/_asterisk
-	chmod u+x,g+x $ASTVARLIBDIR/bin/*
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTVARLIBDIR/bin/*
+	chown -R $AMPASTERISKWEBUSER:$AAMPASTERISKWEBGROUP $AMPWEBROOT/_asterisk
+	chmod u+x,g+x $AMPBIN/*
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $AMPBIN/*
 
+	if [ "$FPBXDBUGFILE" != "" -a -e "$FPBXDBUGFILE" ]; then
+		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FPBXDBUGFILE
+	fi
 
+	if [ "$FPBX_LOG_FILE" != "" -a -e "$FPBX_LOG_FILE" ]; then
+		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FPBX_LOG_FILE
+	fi
+		
 	if [ "$ASTAGIDIR" != "" ]; then
 		chmod u+x $ASTAGIDIR/*
 	else
 		chmod u+x $ASTVARLIBDIR/agi-bin/*
 	fi
 
-	chmod u+x,g+x $AMPBIN/bounce_op.sh
+	# make sure MOHDIR folder has x permission
+	if [ "$MOHDIR" != "" ]; then
+		chmod u+x $ASTVARLIBDIR/$MOHDIR
+	fi
+
 	chmod u+x,g+x $FOPWEBROOT/*.pl
 	chmod u+x $FOPWEBROOT/safe_opserver
 	chown $AMPASTERISKUSER /dev/tty9
@@ -210,7 +243,7 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 			# su - asterisk -c "export PATH=$PATH:/usr/sbin && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
 			export LD_LIBRARY_PATH=/usr/local/lib
 			umask $AMPVMUMASK
-			/usr/sbin/safe_asterisk -U asterisk -G $AMPASTERISKGROUP
+			/usr/sbin/safe_asterisk -U $AMPASTERISKUSER -G $AMPASTERISKGROUP
 			sleep 5
 			check_asterisk
 			sleep 1
@@ -222,12 +255,78 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 stop_asterisk() {
 echo
 echo "STOPPING ASTERISK"
+echo "All calls will be dropped once the timer hits 0. To cancel, press CTL-C"
 pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 		then
 			/usr/sbin/asterisk -rx "core stop gracefully" | grep -v "No such command"
-			/usr/sbin/asterisk -rx "stop gracefully" | grep -v -E "No such command|deprecated"
+			/usr/sbin/asterisk -rx "stop gracefully" | grep -v -E "No such command|deprecated|Unable to connect to remote"
+
+			ast_not_stopped=true
+			time_to_wait=$ASTSTOPTIMEOUT
+
+			while [ $time_to_wait -gt 0 ];
+			do
+				echo -ne "Waiting for Asterisk to Stop" $time_to_wait "\r"
+				sleep $ASTSTOPPOLLINT
+				let time_to_wait=time_to_wait-ASTSTOPPOLLINT
+				pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
+				if [ "$pid_length" = "0" -o "$pid_length" = "" ]
+				then
+					ast_not_stopped=false
+					break
+				fi
+			done
+			if $ast_not_stopped ;
+			then
+				echo "Waiting for Asterisk to Stop"
+			fi
+
+			if $ast_not_stopped ;
+			then
+				echo "Force stopping Asterisk and hanging up active channels"
+				/usr/sbin/asterisk -rx "core stop now" | grep -v "No such command"
+				/usr/sbin/asterisk -rx "stop now" | grep -v -E "No such command|deprecated|Unable to connect to remote"
+				pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
+				if [ "$pid_length" != "0" -a "$pid_length" != "" ]
+				then
+					time_to_wait=20
+					while [ $time_to_wait -gt 0 ];
+					do
+						echo -ne "Waiting for Asterisk to Stop" $time_to_wait "\r"
+						sleep 1
+						let time_to_wait=time_to_wait-1
+						pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
+						if [ "$pid_length" = "0" -o "$pid_length" = "" ]
+						then
+							ast_not_stopped=false
+							break
+						fi
+					done
+					if $ast_not_stopped ;
+					then
+						echo "Waiting for Asterisk to Stop"
+					fi
+				else
+					ast_not_stopped=false
+				fi
+
+				if $ast_not_stopped ;
+				then
+					echo "Asterisk has still not stopped, killing Asterisk processes"
+					killall -9 safe_asterisk
+					killall -9 asterisk
+
+					pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
+					if [ "$pid_length" != "0" -a "$pid_length" != "" ]
+					then
+						echo "[FATAL] Could not kill Asterisk process, exiting"
+						exit 1
+					fi
+				fi
+			fi
 			echo "Asterisk Stopped"
+
 		fi
 }
 
@@ -307,7 +406,6 @@ case "$1" in
 		stop_asterisk
 		stop_fop
 		sleep 1
-		write_freepbxconf
 		chown_asterisk
 		run_asterisk
 		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]
@@ -373,6 +471,15 @@ case "$1" in
 			modadmin|ma)
 				$ASTVARLIBDIR/bin/module_admin $3 $4
 			;;
+			freepbx_setting|fs)
+				$ASTVARLIBDIR/bin/freepbx_setting $3 $4
+			;;
+			auth_database|ad)
+				$ASTVARLIBDIR/bin/freepbx_setting AUTHTYPE database 
+			;;
+			auth_none|an)
+				$ASTVARLIBDIR/bin/freepbx_setting AUTHTYPE none 
+			;;
 			externalip|extip)
 				echo `wget http://mirror.freepbx.org/whatismyip.php -O - -q|sed 's/<[^>]*>//g'`
 			;;
@@ -386,6 +493,9 @@ case "$1" in
 				fi 
 				tail -f $FPBXDBUGFILE $httpd_error
 			;;
+			mysql|m)
+				mysql -u$AMPDBUSER -D$AMPDBNAME -p$AMPDBPASS
+			;;
 		*)
 
 #formating variables defined at top of file
@@ -396,17 +506,18 @@ useage: ${b}amportal$bx (${b}admin$bx|${b}a$bx) <option>
 
 options: 
 
-${b}reload$bx|${b}r$bx:      Does a full dialplan regeneration/reload (like clicking 
-               the orange bar)
+${b}externalip$bx|${b}extip$bx: Returns the external ip for the default gateway    
+${b}dbug$bx:		Shows the freepbx debug log file and any update
 ${b}context$bx|${b}cxt$bx:   Show's the specified context from the dialplan. This is extreamly
                usefull when developing dialplan on a system with many modules, 
                where it is not fesable look thru the whole extensions_additional
                every time to see how a specific context was generate
                When run with the 'list' or 'l' option, will list all avalible 
                contexts as they appear in extensions* files
-${b}modadmin$bx|${b}ma$bx:   Runs the module_admin script with additional argument as passed
-${b}externalip$bx|${b}extip$bx: Returns the external ip for the default gateway    
-${b}dbug$bx: shows the freepbx debug log file and any updates     
+${b}modadmin$bx|${b}ma$bx:  Runs the module_admin script with additional argument as passed
+${b}mysql$bx|${b}m$bx:	Connect to freebx's mysql connection (assumes server is on localhost) s 
+${b}reload$bx|${b}r$bx:      Does a full dialplan regeneration/reload (like clicking 
+               the orange bar)     
 \n\n\n"
 		;;
 	esac

@@ -76,7 +76,7 @@ echo -e "<?php \nif (false) {" >> admin/modules/core/core.i18n.php
 /var/lib/asterisk/bin/module_admin i18n core >> admin/modules/core/core.i18n.php
 /var/lib/asterisk/bin/module_admin i18n framework >> admin/modules/core/core.i18n.php
 echo -e "}\n?>\n" >> admin/modules/core/core.i18n.php
-find admin/*.php admin/cdr/*.php admin/common/*.php admin/libraries/*.php admin/views/*.php admin/modules/core/*.php -maxdepth 0 | xargs xgettext --no-location -L PHP -o admin/i18n/amp.tmp --keyword=_ -
+find admin/*.php admin/cdr/*.php admin/common/*.php admin/libraries/*.php admin/helpers/*.php admin/views/*.php admin/modules/core/*.php -maxdepth 0 | xargs xgettext --no-location -L PHP -o admin/i18n/amp.tmp --keyword=_ -
 echo "# This file is part of FreePBX." > admin/i18n/amp.pot
 echo "#" >> admin/i18n/amp.pot
 echo "#    FreePBX is free software: you can redistribute it and/or modify" >> admin/i18n/amp.pot
@@ -92,7 +92,7 @@ echo "#" >> admin/i18n/amp.pot
 echo "#    You should have received a copy of the GNU General Public License" >> admin/i18n/amp.pot
 echo "#    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>." >> admin/i18n/amp.pot
 echo "#" >> admin/i18n/amp.pot
-echo "# FreePBX language template for amp" >> admin/i18n/amp.pot
+echo "# FreePBX language template for framework" >> admin/i18n/amp.pot
 echo "# Copyright (C) 2008, 2009, 2010, 2011 Bandwith.com" >> admin/i18n/amp.pot
 echo "#" >> admin/i18n/amp.pot
 # remove the <modulename>.i18.php

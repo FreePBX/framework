@@ -129,18 +129,19 @@ function parse_zapata(&$zaplines,$conffile) {
 		}
 
 		# remove comments
-		list($line,$comment) = explode(";",$line,2);
-        $line = trim($line);
+		$line_arr = explode(";",$line,2);
+    $line = trim($line_arr[0]);
 		if ($line == "") {continue;}
 
 		#normalize whitespace
 		$line = str_replace("\t"," ",$line);
 		$line = preg_replace("/(\040)+/", " ", $line);
 
-        # check if an include declaration
-		@list($command,$include) = explode("#include ",$line,2);
-		if (isset($include))  {
-			parse_zapata($zaplines,$zapataconfdir.trim($include));
+    // check if an include declaration
+    $include = explode("#include ",$line,2);
+
+		if (isset($include[1]))  {
+			parse_zapata($zaplines,$zapataconfdir.trim($include[1]));
 			continue;
         }
 

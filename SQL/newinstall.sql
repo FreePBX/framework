@@ -32,6 +32,7 @@ CREATE TABLE `freepbx_settings` (
   `category` varchar(50) default NULL,
   `module` varchar(25) default NULL,
   `emptyok` tinyint(1) default 1,
+	`sortorder` int(11) default 0,
   PRIMARY KEY  (`keyword`)
  );
 

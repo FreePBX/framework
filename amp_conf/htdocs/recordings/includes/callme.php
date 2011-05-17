@@ -93,7 +93,14 @@ function callme_startcall($to, $from, $new_path)
 	$extension	= "s";
 	$priority	= "1";
 	$callerid	= "VMAIL/$from";
-	$variable	= "MSG=$new_path,MBOX=$from";
+	$engine_info = engine_getinfo();
+        $version = $engine_info['version'];
+        if (version_compare($version, "1.6", "ge")) {
+                $variable       = "MSG=$new_path,MBOX=$from";
+        } else {
+                $variable       = "MSG=$new_path|MBOX=$from";
+        }
+
 	/* Arguments to Originate: channel, extension, context, priority, timeout, callerid, variable, account, application, data */
 	$status = $astman->Originate($channel, $extension, $context, $priority, NULL, $callerid, $variable, NULL, NULL, NULL);
 	if (is_array($status))
@@ -130,7 +137,7 @@ function callme_hangup($exten)
 {
 	global $astman;
 	$cmd 		= "local show channels";
-        $chan_pat 	= '/[\s]*Local\/' . preg_quote(trim($exten)) . '@from\-internal\-[a-zA-Z0-9]*,(1|2)[\s]*/';
+  $chan_pat = '/[\s]*Local\/' . preg_quote(trim($exten)) . '@from\-internal\-[a-zA-Z0-9]*(,|;)(1|2)[\s]*/';
 	$matches[0] 	= "";
 	$response 	= "";
 	$channel 	= "";

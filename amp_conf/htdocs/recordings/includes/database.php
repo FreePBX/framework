@@ -48,7 +48,7 @@ class Database {
         'debug'       => 4
       );
       if (! extension_loaded('sqlite3') && ! extension_loaded('SQLITE3')) {
-        dl('sqlite3.so');
+			  die_freepbx('sqlite3.so extension must be loaded to run with sqlite3');
       }
 
     } 

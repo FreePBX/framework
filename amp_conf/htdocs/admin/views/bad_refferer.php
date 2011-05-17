@@ -18,6 +18,6 @@ $template['content'] =
 	"<p>"._("The suspect URL is listed below. If this action is intended, you can click this link and your action will be processed. Do not proceed with this if you did not intended to execute this command as it may result in changes to your configuration.")."</p>\n".
 	"<p>"._("SUSPECT LINK:")." &nbsp;<b><a href='".$_SERVER['REQUEST_URI']."'>"."$rtype://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].$port."</a></b>"."</p>\n".
 	"</div>\n";
-showview('freepbx', $template);
+show_view($amp_conf['VIEW_FREEPBX'], $template);
 
 ?>

@@ -25,6 +25,10 @@ class notifications{
 		$this->_db =& $db;
 	}
 
+  function exists($module, $id) {
+    $count = sql("SELECT count(*) FROM notifications WHERE `module` = '$module' AND `id` = '$id'", 'getOne');
+    return ($count);
+  }
 
 	function add_critical($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_CRITICAL, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);

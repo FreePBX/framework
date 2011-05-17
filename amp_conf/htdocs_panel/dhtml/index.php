@@ -10,9 +10,9 @@ if(isset($_GET['context'])) {
 }
 
 $pepe = file_get_contents($archivo);
-$partes = split("&",$pepe);
+$partes = preg_split("/&/",$pepe);
 foreach ($partes as $elemento) {
-	$otri = split("=",$elemento);
+	$otri = preg_split("/=/",$elemento);
 	if(substr($otri[0],0,5)=="texto") {
 		$numero = substr($otri[0],5);
 		if($numero > $buttoncount) {$buttoncount = $numero;}

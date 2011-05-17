@@ -91,6 +91,7 @@ class Language {
             <option value='en_US' " . ($_COOKIE['ari_lang']=='en_US' ? 'selected' : '') .  ">English</option>
             <option value='bg_BG' " . ($_COOKIE['ari_lang']=='bg_BG' ? 'selected' : '') .  ">Bulgarian</option>
             <option value='da_DK' " . ($_COOKIE['ari_lang']=='da_DK' ? 'selected' : '') .  ">Danish</option>
+            <option value='nl_NL' " . ($_COOKIE['ari_lang']=='nl_NL' ? 'selected' : '') .  ">Dutch</option>
             <option value='es_ES' " . ($_COOKIE['ari_lang']=='es_ES' ? 'selected' : '') .  ">Espa&ntilde;ol</option>
             <option value='fr_FR' " . ($_COOKIE['ari_lang']=='fr_FR' ? 'selected' : '') .  ">French</option>
             <option value='de_DE' " . ($_COOKIE['ari_lang']=='de_DE' ? 'selected' : '') .  ">German</option>

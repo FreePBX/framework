@@ -695,6 +695,7 @@ class gui_radio extends guiinput {
 	
 	function buildradiobuttons($valarray, $currentvalue, $disable=false) {
 		$output = '';
+		$output .= '<span class="radioset">';
 		
 		$count = 0;
 		foreach ($valarray as $item) {
@@ -704,9 +705,10 @@ class gui_radio extends guiinput {
 			
 			$tabindex = guielement::gettabindex();
 			$disable_state = $disable ? 'disabled="true"':'';
-			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname$count\" $disable_state tabindex=$tabindex value=\"$this->_elemname=$itemvalue\"$itemchecked/>$itemtext&nbsp;&nbsp;&nbsp;&nbsp;\n";
+			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname$count\" $disable_state tabindex=$tabindex value=\"$this->_elemname=$itemvalue\"$itemchecked/><label for=\"$this->_elemname$count\">$itemtext</label>\n";
 			$count++;
 		}
+		$output .= '</span>';
 		return $output;
 	}
 }

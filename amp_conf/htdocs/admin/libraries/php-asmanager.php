@@ -250,7 +250,7 @@ class AGI_AsteriskManager
 			$type = NULL;
 			$parameters = array();
 		
-			if (feof($this->socket)) {
+      if (feof($this->socket) || !$this->socket) {
         $this->log("Got EOF in wait_response() from socket waiting for response, returning false",10);
 				return false;
       }
@@ -934,6 +934,15 @@ class AGI_AsteriskManager
 	function func_exists($func) {
 		$r = $this->command("core show function $func");
 		return (strpos($r['data'],"No function by that name registered") === false);
+	}
+
+	/** Returns whether a give application exists in this Asterisk install
+	 * @param string $app	The case in-sensitve name of the application
+	 * @return bool True if if it exists
+	 */
+	function app_exists($app) {
+		$r = $this->command("core show application $app");
+		return (strpos($r['data'],"Your application(s) is (are) not registered") === false);
 	}
 }
 ?>

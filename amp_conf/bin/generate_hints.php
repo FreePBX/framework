@@ -6,12 +6,12 @@ $bootstrap_settings['freepbx_auth'] = false;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 	include_once('/etc/asterisk/freepbx.conf');
 }
-$debug = -1;
 
 // If set to nointercom then don't generate any hints
 //
 $intercom_code = isset($argv[1]) ? $argv[1] : '';
-$dnd_mode      = isset($argv[2]) ? $argv[2] : '';
+$campon_toggle = isset($argv[2]) ? $argv[2] : '';
+$dnd_mode      = isset($argv[3]) ? $argv[3] : '';
 
 $ast_with_dahdi = ast_with_dahdi();
 
@@ -38,6 +38,7 @@ function set_hint($user, $devices) {
 	global $astman;
 	global $dnd_mode;
 	global $intercom_code;
+	global $campon_toggle;
 
 	$dnd_string = ($dnd_mode == 'dnd')?"&Custom:DND$user":'';
 
@@ -46,6 +47,12 @@ function set_hint($user, $devices) {
 		echo "exten => $user,hint,$dial_string"."$dnd_string\n";
 		if ($intercom_code != 'nointercom' && $intercom_code != '') {
 			echo "exten => $intercom_code"."$user,hint,$dial_string"."$dnd_string\n";
+		}
+		if ($campon_toggle != 'nocampon' && $campon_toggle != '') {
+
+      $dev_arr = explode('&',$dial_string);
+      $hint_val = 'ccss:'.implode('&ccss:',$dev_arr);
+			echo "exten => $campon_toggle"."$user,hint,$hint_val"."\n";
 		}
 	} else if ($dnd_mode == 'dnd') {
 		echo "exten => $user,hint,Custom:DND$user\n";
@@ -83,11 +90,4 @@ function get_devices($user) {
 
 	$devices = $astman->database_get('AMPUSER',$user.'/device');
 	return trim($devices);
-}
-
-function debug($string, $level=3) {
-	global $debug;
-	if ($debug >= $level) {
-		echo $string."\n";
-	}
 }

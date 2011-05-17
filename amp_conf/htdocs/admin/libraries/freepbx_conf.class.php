@@ -139,6 +139,7 @@ class freepbx_conf {
    *                [emptyok]     boolean if value can be blank
    *                [readonly]    boolean for readonly
    *                [hidden]      boolean for hidden fields
+   *                [sortorder]   'primary' sort key for presentation
    */
   var $db_conf_store;
 
@@ -210,7 +211,7 @@ class freepbx_conf {
    */
   function __construct() {
     global $db;
-    $sql = 'SELECT * FROM freepbx_settings ORDER BY category, module, level, keyword';
+    $sql = 'SELECT * FROM freepbx_settings ORDER BY category, sortorder, name';
     $db_raw = $db->getAll($sql, DB_FETCHMODE_ASSOC);
     if(DB::IsError($db_raw)) {
       die_freepbx(_('fatal error reading freepbx_settings'));	
@@ -534,6 +535,23 @@ class freepbx_conf {
     }
   }
 
+  /** Get's the default value of a configuration setting from the database store.
+   *
+   * @param string  The setting to fetch.
+   * @return mixed  returns the default of the setting, or boolean false if the
+   *                setting does not exist. Since configuration booleans are
+   *                returned as '0' and '1', they can be differentiated by a
+   *                true boolean false (use === operator) if a setting does
+   *                not exist.
+   */
+  function get_conf_default_setting($keyword) {
+    if (isset($this->db_conf_store[$keyword])) {
+      return $this->db_conf_store[$keyword]['defaultval'];
+    } else {
+      return false;
+    }
+  }
+
   /** Reset all conf settings specified int the passed in array to their defaults.
    *
    * @param array   An array of the settings that should be reset.
@@ -569,7 +587,7 @@ class freepbx_conf {
     unset($this->last_update_status);
     foreach($update_arr as $keyword => $value) {
       if (!isset($this->db_conf_store[$keyword])) {
-        die_freepbx(sprintf(_("trying to set keyword [%s] to [%s] on unitialized setting"),$keyword, $value));
+        die_freepbx(sprintf(_("trying to set keyword [%s] to [%s] on uninitialized setting"),$keyword, $value));
       } 
       $this->last_update_status[$keyword]['validated'] = false;
       $this->last_update_status[$keyword]['saved'] = false;
@@ -644,6 +662,7 @@ class freepbx_conf {
    *                              and if the setting should only exist when
    *                              the module is installed. If set, uninstalling
    *                              the module will automatically remove this.
+   *                [sortorder]   'primary' sort order key for presentation
    * @param bool    set to true if a commit back to the database should be done
    */
   function define_conf_setting($keyword,$vars,$commit=false) {
@@ -672,6 +691,7 @@ class freepbx_conf {
 	    'category' => 'Undefined Category', // Don't gettext this
 	    'module' => '',
 	    'emptyok' => 1,
+	    'sortorder' => 0,
 	    'modified' => false, // set to false to compare against existing array
       );
     // Got to have a type and value, if no type, _prepared_conf_value will throw an error
@@ -705,6 +725,9 @@ class freepbx_conf {
       }
       if (!isset($vars['category'])) {
         $vars['category'] = $this->db_conf_store[$keyword]['category'];
+      }
+      if (!isset($vars['sortorder'])) {
+        $vars['sortorder'] = $this->db_conf_store[$keyword]['sortorder'];
       }
     }
     if (!$new_setting && $vars['type'] != $this->db_conf_store[$keyword]['type']) {
@@ -760,7 +783,7 @@ class freepbx_conf {
         $attributes[$atrib] = $vars[$atrib] ? '1' : '0';
       }
     }
-    $optional = array('name', 'description', 'module');
+    $optional = array('name', 'description', 'module', 'sortorder');
     foreach ($optional as $atrib) {
       if (isset($vars[$atrib])) {
         $attributes[$atrib] = $vars[$atrib];
@@ -887,6 +910,7 @@ class freepbx_conf {
         $atrib['category'],
         $atrib['module'],
         $atrib['emptyok'],
+        $atrib['sortorder'],
       );
       $this->db_conf_store[$keyword]['modified'] = false;
     }
@@ -894,8 +918,8 @@ class freepbx_conf {
       return 0;
     }
     $sql = 'REPLACE INTO freepbx_settings 
-      (keyword, value, name, level, description, type, options, defaultval, readonly, hidden, category, module, emptyok)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+      (keyword, value, name, level, description, type, options, defaultval, readonly, hidden, category, module, emptyok, sortorder)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
     $compiled = $db->prepare($sql);
     $result = $db->executeMultiple($compiled,$update_array);
     if(DB::IsError($result)) {
@@ -1015,35 +1039,31 @@ class freepbx_conf {
   }
 }
 
-
-/**
- * These functions are LEFT OVER Legacy functions very minimally used and should probably be
- * removed and the offending usage eliminated.
+/** DEPRECATED: $amp_conf provided by bootstrap or use freepbx_conf class.
+ * this must be in a if (!function_exists('parse_amportal_conf')) because during
+ * upgrading from 2.8 to 2.9, the old functions.inc.php is currently loaded
+ * and calls functions which include this.
+ *
+ * @param string  filename of amportal.conf to pass to parse_amportal_conf method
+ *
+ * @return array  $amp_conf array
  */
+if (!function_exists('parse_amportal_conf')) {
+  function parse_amportal_conf($conf) {
+    global $db;
 
-/** Replaces variables in a string with the values from ampconf
- * eg, "%AMPWEBROOT%/admin" => "/var/www/html/admin"
- */
-function ampconf_string_replace($string) {
-	$freepbx_conf =& freepbx_conf::create();
-	
-	$target = array();
-	$replace = array();
-	
-	foreach ($freepbx_conf->conf as $key=>$value) {
-		$target[] = '%'.$key.'%';
-		$replace[] = $value;
-	}
-	
-	return str_replace($target, $replace, $string);
-}
+    if (!is_object($db)) {
+      $restrict_mods = true;
+      $bootstrap_settings['skip_astman'] = true;
+      if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	      include_once('/etc/asterisk/freepbx.conf');
+      }
+    }
 
-/** Expands variables from amportal.conf 
- * Replaces any variables enclosed in percent (%) signs with their value
- * eg, "%AMPWEBROOT%/admin/functions.inc.php"
- */
-//TODO: seems this the exact same as the above function. Should either be removed?
-function expand_variables($string) {
-	return ampconf_string_replace($string);
+    $freepbx_conf =& freepbx_conf::create();
+
+    freepbx_log(FPBX_LOG_ERROR,'parse_amportal_conf() is deprecated. Use of bootstrap.php creates $amp_conf');
+    return $freepbx_conf->parse_amportal_conf($conf);
+  }
 }
 ?>

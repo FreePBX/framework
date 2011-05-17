@@ -658,7 +658,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 									$select_list = $instance_sub_table -> Get_list ($sub_clause, null, null, null, null, null, null);
 									
 									
-									$field_list_sun = split(',',$FG_TABLE_COL[$i][8]);
+									$field_list_sun = preg_split('/,/',$FG_TABLE_COL[$i][8]);
 									$record_display = $FG_TABLE_COL[$i][10];
 									//echo $record_display;
 									

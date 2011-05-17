@@ -43,7 +43,7 @@ function DbConnect() {
 	} else if (DB_TYPE == "sqlite3") {
                 /* on centos this extension is not loaded by default */
                 if (! extension_loaded('sqlite3')  && ! extension_loaded('SQLITE3'))
-                        dl('sqlite3.so');
+                        die_freepbx('sqlite3.so extension must be loaded to run with sqlite3');
 
                 if (! @require_once('DB/sqlite3.php') )
                 {

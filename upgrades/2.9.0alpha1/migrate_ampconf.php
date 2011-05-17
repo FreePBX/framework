@@ -1,5 +1,7 @@
 <?php
 
+
+//TODO: canwe remove these as there included by install_amp?
 if (! function_exists("out")) {
 	function out($text) {
 		echo $text."<br />";
@@ -33,6 +35,7 @@ if(DB::IsError($result)){
 	  `category` varchar(50) default NULL,
 	  `module` varchar(25) default NULL,
 	  `emptyok` tinyint(1) default 1,
+	  `sortorder` int(11) default 0,
 	  PRIMARY KEY  (`keyword`)
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1";
 
@@ -45,6 +48,19 @@ if(DB::IsError($result)){
   out(_("created"));
 } else {
   out(_("exists"));
+}
+outn("Add field sortorder to freepbx_settings..");
+$sql = "SELECT sortorder FROM freepbx_settings";
+$confs = $db->getRow($sql, DB_FETCHMODE_ASSOC);
+if (!DB::IsError($confs)) { // no error... Already done
+  out("Not Required");
+} else {
+  $sql = "ALTER TABLE freepbx_settings ADD sortorder INT ( 11 ) NOT NULL DEFAULT 0";
+  $results = $db->query($sql);
+  if(DB::IsError($results)) {
+    die($results->getMessage());
+  }
+  out("Done");
 }
 	
 // Make sure we save the settings as they are currenlty parsed
@@ -64,31 +80,71 @@ out(_("ok"));
 //
 $freepbx_conf =& freepbx_conf::create();
 $update_arr = array();
+
+/* Previously 'none' was the default. If migrating from old system, and it was
+ * not set, then it was in 'none' mode. We need to retain this as part of the
+ * migration or we may lock out admins after the migration.
+ */
+if (!isset($current_amp_conf['AUTHTYPE']) || ($current_amp_conf['AUTHTYPE'] !='database' && $current_amp_conf['AUTHTYPE'] !='webserver')) {
+  out(_("Setting AUTHTYPE to none consistent with old default"));
+  $current_amp_conf['AUTHTYPE'] = 'none';
+}
+
+if (!isset($current_amp_conf['MOHDIR']) || $current_amp_conf['MOHDIR'] == '') {
+  out(_("Setting MOHDIR to mohmp3 consistent with old default"));
+  $current_amp_conf['MOHDIR'] = 'mohmp3';
+} else {
+  $current_amp_conf['MOHDIR'] = trim($current_amp_conf['MOHDIR'],'/');
+}
+
+/* FreePBX has a 'back door' option that allows loging into the GUI with the dababase username/password as
+ * admin user. We have disabled this ability by default but it has the potential to lock people out of
+ * their systems on upgrade. Check to see if they have ANY admin users defined. If not, then set
+ * AMP_ACCESS_DB_CREDS to true overriding the default so they can still access their GUI.
+ */
+if ($current_amp_conf['AUTHTYPE'] !='none') {
+  outn(_("Checking number of admin users.."));
+  $sql = "SELECT count(*) FROM ampusers WHERE sections = '*'";
+  $admin_users = $db->getOne($sql);
+  if (DB::IsError($admin_users)) {
+    out(_("error reading ampusers table"));
+  } elseif (!$admin_users) {
+    out(_("0 admins"));
+  }
+  if (DB::IsError($admin_users) || !$admin_users) {
+    out(_("setting AMP_ACCESS_DB_CREDS to true"));
+    out(_("[WARNING] this is a security risk, you should create an admin user and disable this vulnerability."));
+    $current_amp_conf['AMP_ACCESS_DB_CREDS'] = true;
+  } else {
+    out(sprintf(_("%s admins"),$admin_users));
+  }
+}
+
 out(_("Migrate current values into freepbx_conf.."));
 foreach ($current_amp_conf as $key => $val) {
-  outn(sprintf(_("checking %s .."),$key));
-  if (!$freepbx_conf->conf_setting_exists($key)) {
-    out(_("not in freepbx_conf, skipping"));
-    continue;
-  }
-  // Make sure that all "false" values are going to be interpreted as false, the trues will be converted.
-  switch (strtolower($val)) {
-  case 'false':
-  case 'no':
-  case 'off':
-    $val = false;
-    break;
-  }
-  $update_arr[$key] = $val;
-  out(_("preparing for update"));
+	outn(sprintf(_("checking %s .."),$key));
+	if (!$freepbx_conf->conf_setting_exists($key)) {
+		out(_("not in freepbx_conf, skipping"));
+		continue;
+	}
+	// Make sure that all "false" values are going to be interpreted as false, the trues will be converted.
+	switch (strtolower($val)) {
+		case 'false':
+		case 'no':
+		case 'off':
+		$val = false;
+		break;
+	}
+	$update_arr[$key] = $val;
+	out(_("preparing for update"));
 }
 unset($current_amp_conf);
 if (count($update_arr)) {
-  outn(_("Updating prepared settings.."));
-  $ret = $freepbx_conf->set_conf_values($update_arr, true, true);
-  out(sprintf(_("changed %s settings"),$ret));
+	outn(_("Updating prepared settings.."));
+	$ret = $freepbx_conf->set_conf_values($update_arr, true, true);
+	out(sprintf(_("changed %s settings"),$ret));
 } else {
-  out(_("There were no settings to update"));
+	out(_("There were no settings to update"));
 }
 
 // To get through migration in the intial install we allowed SQL and LOG_SQL even though they have been obsoleted. Here we will
@@ -96,9 +152,9 @@ if (count($update_arr)) {
 //
 $log_level = strtoupper($amp_conf['AMPSYSLOGLEVEL']);
 if ($log_level == 'SQL' || $log_level == 'LOG_SQL') {
-  outn(sprintf(_("Discontinued logging type %s changing to %s.."),$log_level,'FILE'));
-  $freepbx_conf->set_conf_values(array('AMPSYSLOGLEVEL' => 'FILE'));
-  out(_("ok"));
+	outn(sprintf(_("Discontinued logging type %s changing to %s.."),$log_level,'FILE'));
+	$freepbx_conf->set_conf_values(array('AMPSYSLOGLEVEL' => 'FILE'));
+	out(_("ok"));
 }
 // AMPSYSLOGLEVEL
 unset($set);
@@ -112,18 +168,18 @@ outn(_("checking for freepbx.conf.."));
 
 $freepbx_conf = getenv('FREEPBX_CONF');
 if ($freepbx_conf && file_exists($freepbx_conf)) {
-  out(sprintf(_("%s already exists"),$freepbx_conf));
+	out(sprintf(_("%s already exists"),$freepbx_conf));
 } else if (file_exists('/etc/freepbx.conf')) {
-  out(_("/etc/freepbx.conf already exists"));
+	out(_("/etc/freepbx.conf already exists"));
 } else if (file_exists('/etc/asterisk/freepbx.conf')) {
-  out(_("/etc/asterisk/freepbx.conf already exists"));
+	out(_("/etc/asterisk/freepbx.conf already exists"));
 } else {
 
-  if ($freepbx_conf) {
-    $filename = $freepbx_conf;
-  } else {
-	  $filename = is_writable('/etc') ? '/etc/freepbx.conf' : '/etc/asterisk/freepbx.conf';
-  }
+if ($freepbx_conf) {
+	$filename = $freepbx_conf;
+} else {
+	$filename = is_writable('/etc') ? '/etc/freepbx.conf' : '/etc/asterisk/freepbx.conf';
+}
 	
 	$txt = '';
 	$txt .= '<?php' . "\n";
@@ -135,15 +191,12 @@ if ($freepbx_conf && file_exists($freepbx_conf)) {
 	$txt .= '$amp_conf[\'datasource\']	= "' . $amp_conf['datasource'] . '";' . "\n";
 	$txt .= 'require_once(\'' . $amp_conf['AMPWEBROOT'] . '/admin/bootstrap.php\');' . "\n";
 
-  // don't use file_put_contents re php4 compatibility for framework/core
-  // or TODO: do we have install_amp include the compatibility library which we have installed by now?
-  //
-  $fh = fopen($filename,'w');
-  if ($fh === false || (fwrite($fh,$txt) === false)) {
-    out(sprintf(_("FATAL error writing  %s"),$filename));
-    die_freepbx(_("You must have a proper freepbx.conf file to proceed"));
-  }
-  fclose($fh);
-  out(sprintf(_("created %s"),$filename));
+	$fh = fopen($filename,'w');
+	if ($fh === false || (fwrite($fh,$txt) === false)) {
+		out(sprintf(_("FATAL error writing  %s"),$filename));
+		die_freepbx(_("You must have a proper freepbx.conf file to proceed"));
+	}
+	fclose($fh);
+	out(sprintf(_("created %s"),$filename));
 }
 ?>

@@ -22,7 +22,5 @@ if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 $title=_("FreePBX: Flash Operator Panel");
 $message=_("Flash Operator Panel");
 
-$template['amp_conf'] = &$amp_conf;
-
-showview('panel', array('title'=>$title, 'deptname' => $_SESSION["AMP_user"]->_deptname, 'amp_conf' => &$amp_conf));
+show_view($amp_conf['VIEW_PANEL'], array('title'=>$title, 'deptname' => $_SESSION["AMP_user"]->_deptname, 'amp_conf' => &$amp_conf));
 ?>

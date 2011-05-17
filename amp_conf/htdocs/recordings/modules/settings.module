@@ -47,14 +47,14 @@ class Settings {
 		"input_size" => null
 		),
 /* until some parsing of available formats is enabled, hide this option
+*/
 	"attachfmt" => array(
 		"type" => "email",
 		"label" => _("Email attachment format"),
 		"tooltip" => _("Audio format of message to attach to email."),
-		"input_type" => "text",
+		"input_type" => "hidden",
 		"input_size" => 20
 		),
-*/
 	"backupdeleted" => array(
 		"type" => "files",
 		"label" => _("Number of deleted messages to backup"),
@@ -63,14 +63,14 @@ class Settings {
 		"input_size" => 4
 		),
 /* allowing users to specify context is security issue, hide this option
+*/
 	"callback" => array(
 		"type" => "phone",
 		"label" => _("Call back context"),
 		"tooltip" => _("Dialing context used for calling back the caller that left a message."),
-		"input_type" => "text",
+		"input_type" => "hidden",
 		"input_size" => 80
 		),
-*/
 	"delete" => array(
 		"type" => "email",
 		"label" => _("Delete voicemail after emailed"),
@@ -79,14 +79,14 @@ class Settings {
 		"input_size" => null
 		),
 /* allowing users to specify context is security issue, hide this option
+*/
 	"dialout" => array(
 		"type" => "phone",
 		"label" => _("Dial out context"),
 		"tooltip" => _("Dialing context used to dial out from voicemail."),
-		"input_type" => "text",
+		"input_type" => "hidden",
 		"input_size" => 80
 		),
-*/
 	"envelope" => array(
 		"type" => "phone",
 		"label" => _("Say envelope (date/time)"),
@@ -95,30 +95,30 @@ class Settings {
 		"input_size" => null
 		),
 /* allowing users to specify context is security issue, hide this option
+*/
 	"exitcontext" => array(
 		"type" => "phone",
 		"label" => _("Operator context"),
 		"tooltip" => _("Dialing context for handling * or 0 calls to operator from voicemail."),
-		"input_type" => "text",
+		"input_type" => "hidden",
 		"input_size" => 80
 		),
-*/
 /* forcegreetings and forcename should only be modified by voicemail admin, hide these options
+*/
 	"forcegreetings" => array(
 		"type" => "phone",
 		"label" => _("Force greeting recording"),
 		"tooltip" => _("Forces a new user to record a greeting. A new user is determined by the password being the same as the mailbox number."),
-		"input_type" => "checkbox",
+		"input_type" => "hidden",
 		"input_size" => null
 		),
 	"forcename" => array(
 		"type" => "phone",
 		"label" => _("Force name recording"),
 		"tooltip" => _("Forces a new user to record their name. A new user is determined by the password being the same as the mailbox number."),
-		"input_type" => "checkbox",
+		"input_type" => "hidden",
 		"input_size" => null
 		),
-*/
 /* this option is not used by app_voicemail.c, but by app_directory.c
    FreePBX does not use app_directory.c, so hide this option
 	"hidefromdir" => array(
@@ -131,31 +131,31 @@ class Settings {
 */
 /* imap options are only effective if using imap voicemail storage
    FreePBX does not support imap voiceemail storage, so hide these options
+*/
 	"imappassword" => array(
 		"type" => "imap",
 		"label" => _("IMAP email account password"),
 		"tooltip" => _("Password for the IMAP email account used to store voicemail messages."),
-		"input_type" => "text",
+		"input_type" => "hidden",
 		"input_size" => 80
 		),
 	"imapuser" => array(
 		"type" => "imap",
 		"label" => _("IMAP email user name"),
 		"tooltip" => _("User name for the IMAP email account used to store voicemail messages."),
-		"input_type" => "text",
+		"input_type" => "hidden",
 		"input_size" => 80
 		),
-*/
 /* user can break voicemail for self by switching to a language the server
    is not configured for, so hide this option
+*/
 	"language" => array(
 		"type" => "phone",
 		"label" => _("Voice prompt language"),
 		"tooltip" => _("Enter language code to use for voice prompts. Before non-English languages can be used, the voice prompts must be installed by the system administrator."),
-		"input_type" => "text",
+		"input_type" => "hidden",
 		"input_size" => 20
 		),
-*/
 	"maxmsg" => array(
 		"type" => "files",
 		"label" => _("Maximum number of messages"),
@@ -179,14 +179,14 @@ class Settings {
 		"input_size" => null
 		),
 /* operator destination may not be available on a system, so hide this option
+*/
 	"operator" => array(
 		"type" => "caller",
 		"label" => _("Dial 0 for Operator"),
 		"tooltip" => _("Allow caller to reach an operator by pressing 0 before, after, or while leaving a voicemail."),
-		"input_type" => "checkbox",
+		"input_type" => "hidden",
 		"input_size" => null
 		),
-*/
 	"review" => array(
 		"type" => "caller",
 		"label" => _("Review recording"),
@@ -216,14 +216,14 @@ class Settings {
 		"input_size" => 2
 		),
 /* administrator may not want user to be able to change this, so hide this option
+*/
 	"sendvoicemail" => array(
 		"type" => "phone",
 		"label" => _("Send internal voicemail"),
 		"tooltip" => _("Allow a user logged into voicemail to compose and send voicemail messages to other voicemail users."),
-		"input_type" => "checkbox",
+		"input_type" => "hidden",
 		"input_size" => null
 		),
-*/
 	"serveremail" => array(
 		"type" => "email",
 		"label" => _("Email from"),
@@ -239,14 +239,14 @@ class Settings {
 		"input_size" => null
 		),
 /* timezone names are custom per installtion, so hide this option
+*/
 	"tz" => array(
 		"type" => "phone",
 		"label" => _("Timezone"),
 		"tooltip" => _("Timezone from zonemessages context. Irrelevant if Envelope is disabled."),
-		"input_type" => "text",
+		"input_type" => "hidden",
 		"input_size" => 80
 		),
-*/
 	"volgain" => array(
 		"type" => "email",
 		"label" => _("Change attachment volume"),
@@ -307,6 +307,13 @@ class Settings {
   }
   function is_textbox($opt) {
 	  if ($this->voicemail_options_table[$opt]["input_type"] == "text") {
+		  return true;
+	  } else {
+		  return false;
+	  }
+  }
+  function is_hidden($opt) {
+	  if ($this->voicemail_options_table[$opt]["input_type"] == "hidden") {
 		  return true;
 	  } else {
 		  return false;
@@ -904,6 +911,10 @@ class Settings {
 						$other_opts_text .= "<tr><td>" . $current_option_text_label . "</td><td colspan='2'><" . $current_option_text_input . "></td></tr>";
 					}
 				}
+				else if ($this->is_hidden($key)) {
+					$current_option_text_input = "input type=hidden name='" . $var . "' value='" . $value . "' ";
+					$other_opts_text .= "<tr><td colspan='3'><" . $current_option_text_input . "></td></tr>";
+        }
 				else if ($this->is_checkbox($key)) {
 					$current_option_text_input = "input " . $$var_enable . " " . $$var_text_box_options . " type=checkbox name='" . $var . "' value='yes'";
 					if ($this->is_email_option($key)) {
