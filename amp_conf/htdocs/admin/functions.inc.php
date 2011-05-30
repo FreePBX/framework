@@ -80,7 +80,7 @@ function fpbx_framework_autoloader($class) {
 			if (!class_exisits('ci_lan_def')) {
 				class ci_lan_def {function load(){return false;} function line(){return false;}} 
 			}
-			if (!defined('BASEPATH')){define('BASEPATH', '')}
+			if (!defined('BASEPATH')){define('BASEPATH', '');}
 			require_once($dirname . '/helpers/Email.php');
 			break;
 		case 'CI_Table':
@@ -88,7 +88,7 @@ function fpbx_framework_autoloader($class) {
 			if (!function_exists('log_message')) {
 				function log_message(){};
 			}
-			if (!defined('BASEPATH')){define('BASEPATH', '')}
+			if (!defined('BASEPATH')){define('BASEPATH', '');}
 			require_once($dirname . '/helpers/Table.php');
 			break;
 		case 'component':
