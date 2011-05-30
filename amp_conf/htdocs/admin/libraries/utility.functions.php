@@ -362,3 +362,92 @@ function file_get_contents_url($fn) {
 	}
 	return $contents;
 }
+
+/**
+ * function edit crontab
+ * short Add/removes stuff rom conrtab
+ * long Use this function to programmatically add/remove data from the crontab
+ * will always run as the asterisk user
+ *
+ * @pram string
+ * @pram mixed
+ * @returns bool
+ */
+
+function edit_crontab($remove = '', $add = '') {
+	global $amp_conf;
+	$cron_out = array();
+	$cron_add = false;
+
+	//if were running as root (i.e. uid === 0), use the asterisk users crontab. If were running as the asterisk user, 
+	//that will happen automatically. If were anyone else, this cron entry will go the current user
+	//and run as them
+	$current_user = posix_getpwuid(posix_geteuid());
+	if ($current_user['uid'] === 0) {
+		$cron_user = '-u' . $amp_conf['AMPASTERISKWEBUSER'] . ' ';
+	} else {
+		$cron_user = '';
+	}
+
+	//get all crontabs
+	$exec = '/usr/bin/crontab -l ' . $cron_user;
+	exec($exec, $cron_out, $ret);
+
+	//make sure the command was executed successfully before continuing
+	if ($ret > 0) {
+		return false;
+	}
+
+	//remove anythign that nteeds to be removed
+	foreach ($cron_out as $my => $c) {
+		//ignore comments
+		if (substr($c, 0, 1) == '#') {
+			continue;
+		}
+
+		//remove blank lines
+		if (!$c) {
+			unset($cron_out[$my]);
+		}
+
+		//remove $remove
+		if ($remove) {
+			if (strpos($c, $remove)) {
+				unset($cron_out[$my]);
+			}
+		}
+	}
+
+	//if we have $add and its an array, parse it & fill in the missing options
+	//if its a string, add it as is
+	if($add) {
+		if (is_array($add)) {
+			if (isset($add['command'])) {
+				$cron_add['minute']		= isset($add['minute'])	? $add['minute']	: '*';
+				$cron_add['hour']		= isset($add['hour'])	? $add['hour']		: '*';
+				$cron_add['dom']		= isset($add['dom'])	? $add['dom']		: '*';
+				$cron_add['month']		= isset($add['month'])	? $add['month']		: '*';
+				$cron_add['dow']		= isset($add['dow'])	? $add['dow']		: '*';
+				$cron_add['command']	= $add['command'];
+				$cron_add = implode(' ', $cron_add);
+			} else {
+				//no command? No cron!
+				$cron_add = '';
+			}
+		} else {
+			//no array? Just use the string
+			$cron_add = $add;
+		}
+	}
+
+	//if we have soemthing to add
+	if ($cron_add) {
+		$cron_out[] = $cron_add;
+	}
+
+	//write out crontab
+	$exec = '/bin/echo "' . implode("\n", $cron_out) . '" | /usr/bin/crontab ' . $cron_user . '-';
+	exec($exec, $out_arr, $ret);
+
+	return ($ret > 0 ? false : true);
+}
