@@ -219,5 +219,3 @@ class notifications{
 		return sql($sql,'getOne');
 	}
 }
-
-?>

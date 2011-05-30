@@ -12,37 +12,39 @@
 //GNU General Public License for more details.
 
 $dirname = dirname(__FILE__);
-//PLEASE NOTE: for performance reasons, these are hardcoded 
-//and dont get included dynamically
+define('MODULE_STATUS_NOTINSTALLED', 0);
+define('MODULE_STATUS_DISABLED', 1);
+define('MODULE_STATUS_ENABLED', 2);
+define('MODULE_STATUS_NEEDUPGRADE', 3);
+define('MODULE_STATUS_BROKEN', -1);
 
-//TODO: include these dynamically as needed/use __autoload()
-
-
+spl_autoload_register('fpbx__autoload');
 //----------include classes----------
 
 
 //guieleemnts class for dynamicly generating gui
-require_once($dirname . '/libraries/components.class.php');
+//require_once($dirname . '/libraries/components.class.php');
 
 //php4 parser for xml's
-require_once($dirname . '/libraries/xml2Array.class.php');
+//require_once($dirname . '/libraries/xml2Array.class.php');
 
 //freepbx class to manage cron
-require_once($dirname . '/libraries/cronmanager.class.php');
+//require_once($dirname . '/libraries/cronmanager.class.php');
 
 //hooks class
-require_once($dirname . '/libraries/moduleHook.class.php');
+//require_once($dirname . '/libraries/moduleHook.class.php');
 
 //freepbx notification engine
-require_once($dirname . '/libraries/notifications.class.php');
+//require_once($dirname . '/libraries/notifications.class.php');
 
 //class to enforce extension/view restrictions amongst freepbx admins
 require_once($dirname . '/libraries/ampuser.class.php');
 
 //module related class. TODO: update this line if you know what it dose
-require_once($dirname . '/libraries/modulelist.class.php');
+//require_once($dirname . '/libraries/modulelist.class.php');
 
 //class that handels freepbx global setting
+//dont autoload - we ALWAYS need this
 require_once($dirname . '/libraries/freepbx_conf.class.php');
 
 //class for handeling/hooking feature codes
@@ -83,10 +85,43 @@ require_once($dirname . '/helpers/freepbx_helpers.php');
 require_once($dirname . '/helpers/html_helper.php');
 
 //table generation class
-function log_message(){} define('BASEPATH', '');//make upstream scripts happy
-require_once($dirname . '/helpers/Table.php');
+//function log_message(){} define('BASEPATH', '');//make upstream scripts happy
+//require_once($dirname . '/helpers/Table.php');
 
-
+//freepbx autoloader
+function fpbx__autoload($class) {
+	$dirname = dirname(__FILE__);
+	if (substr($class, 0, 3) == 'gui') {
+		$class = 'component';
+	}
+	switch($class){
+		case 'component':
+    		require_once($dirname . '/libraries/components.class.php');
+    		break;
+    case 'xml2Array':
+    	require_once($dirname . '/libraries/xml2Array.class.php');
+    	break;
+	case 'cronmanager':
+		require_once($dirname . '/libraries/cronmanager.class.php');
+		break;
+	case 'moduleHook':
+		require_once($dirname . '/libraries/moduleHook.class.php');
+		break;
+	case 'notifications':
+		require_once($dirname . '/libraries/notifications.class.php');
+		break;
+	case 'modulelist':
+		require_once($dirname . '/libraries/modulelist.class.php');
+		break;
+	case 'CI_Table':
+		//make upstream scripts happy
+		if (!function_exists('log_message')) {
+			function log_message(){} define('BASEPATH', '');
+		}
+		require_once($dirname . '/helpers/Table.php');
+		break;
+    }
+}
 /**
  * returns true if asterisk is running with chan_dahdi
  *

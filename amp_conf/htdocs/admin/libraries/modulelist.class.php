@@ -1,11 +1,5 @@
 <?php
 
-define('MODULE_STATUS_NOTINSTALLED', 0);
-define('MODULE_STATUS_DISABLED', 1);
-define('MODULE_STATUS_ENABLED', 2);
-define('MODULE_STATUS_NEEDUPGRADE', 3);
-define('MODULE_STATUS_BROKEN', -1);
-
 class modulelist{
 	var $_loaded = false;
 	var $module_array = array();
@@ -73,4 +67,3 @@ class modulelist{
 		$this->_loaded = false;
 	}
 }
-?>

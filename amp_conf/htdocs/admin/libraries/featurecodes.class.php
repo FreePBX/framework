@@ -1,6 +1,5 @@
 <?php
-class featurecode
-{
+class featurecode {
 	var $_modulename;	// Module name
 	var $_featurename;	// Feature name
 	var $_description;	// Description (i.e. what the user will see)
