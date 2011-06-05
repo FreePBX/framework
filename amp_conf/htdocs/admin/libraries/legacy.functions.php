@@ -15,6 +15,7 @@ function checkRange($extension){
 		return false;
 }
 
+//never used, this has been moved in to the ampuser class
 function getAmpAdminUsers() {
 	global $db;
 
