@@ -509,6 +509,19 @@ msgstr ""
 msgid "Daily load"
 msgstr ""
 
+msgid "Please select a \"Destination\""
+msgstr ""
+
+msgid ""
+"Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
+msgstr ""
+
+msgid "The secret must be at minimum six characters in length."
+msgstr ""
+
+msgid "The secret must contain at least two numbers and two letters."
+msgstr ""
+
 msgid "Submit"
 msgstr ""
 
@@ -729,7 +742,15 @@ msgid "Could not remove %s to install new version"
 msgstr ""
 
 #, php-format
+msgid "failed to open %s module archive into _cache directory."
+msgstr ""
+
+#, php-format
 msgid "Could not untar %s to %s"
+msgstr ""
+
+#, php-format
+msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 
 #, php-format
@@ -1610,6 +1631,24 @@ msgid ""
 "revert to legacy behavior and include the contexts."
 msgstr ""
 
+msgid "Ditech VQA Inbound Setting"
+msgstr ""
+
+msgid ""
+"If Ditech's VQA, Voice Quality application is installed, this setting will "
+"be used for all inbound calls. For more information 'core show application "
+"VQA' at the Asterisk CLI will show the different settings."
+msgstr ""
+
+msgid "Ditech VQA Outbound Setting"
+msgstr ""
+
+msgid ""
+"If Ditech's VQA, Voice Quality application is installed, this setting will "
+"be used for all outbound calls. For more information 'core show application "
+"VQA' at the Asterisk CLI will show the different settings."
+msgstr ""
+
 msgid "Dynamically Generate Hints"
 msgstr ""
 
@@ -1967,6 +2006,17 @@ msgid ""
 "and go straight to the wget calls."
 msgstr ""
 
+msgid "Asterisk Application VQA"
+msgstr ""
+
+msgid "Internal Use"
+msgstr ""
+
+msgid ""
+"Set to the application name if the application is present in this Asterisk "
+"install"
+msgstr ""
+
 msgid "Asterisk Function CONNECTEDLINE"
 msgstr ""
 
@@ -2034,6 +2084,9 @@ msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX.<br>Password for connecting to db "
 "if its not the same as AMPDBPASS."
+msgstr ""
+
+msgid "Remote CDR DB Port"
 msgstr ""
 
 msgid ""
@@ -2729,6 +2782,12 @@ msgstr ""
 msgid "logs out of a device."
 msgstr ""
 
+msgid "Conflicting Extensions"
+msgstr ""
+
+msgid "Extension number conflict, please choose another."
+msgstr ""
+
 msgid "Display Name"
 msgstr ""
 
@@ -3321,6 +3380,12 @@ msgstr ""
 msgid "Please select your Device below then click Submit"
 msgstr ""
 
+msgid "Licensed Extensions"
+msgstr ""
+
+msgid "Remaining"
+msgstr ""
+
 msgid "Device"
 msgstr ""
 
@@ -3362,6 +3427,9 @@ msgstr ""
 msgid ""
 "Give your device a unique integer ID.  The device will use this ID to "
 "authenticate to the system."
+msgstr ""
+
+msgid "Description"
 msgstr ""
 
 msgid ""

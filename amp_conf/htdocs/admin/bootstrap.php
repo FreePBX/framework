@@ -24,6 +24,20 @@
  * $bootstrap_settings['function_modules_included'] = true/false true if one or more were included, false if all were skipped;
  */
 
+// we should never re-run this file, something is wrong if we do.
+//
+//enable error reporting and start benchmarking
+error_reporting(E_ALL & ~E_STRICT); 
+function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); } 
+$benchmark_starttime = microtime_float();
+
+if (isset($bootstrap_settings['bootstrapped'])) {
+  freepbx_log(FPBX_LOG_ERROR,"Bootstrap has already been called once, bad code somewhere");
+  return;
+} else {
+  $bootstrap_settings['bootstrapped'] = true;
+}
+
 if (!isset($bootstrap_settings['skip_astman'])) {
   $bootstrap_settings['skip_astman'] = isset($skip_astman) ? $skip_astman : false;
 }
@@ -38,14 +52,15 @@ $bootstrap_settings['cdrdb'] = isset($bootstrap_settings['cdrdb']) ? $bootstrap_
 
 $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 
-//include freepbx conifguration
-if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-	include_once('/etc/asterisk/freepbx.conf');
-}
 
-//enable error reporting and start benchmarking
-error_reporting(E_ALL & ~E_STRICT);
-require_once(dirname(__FILE__) . '/libraries/bootstrap-utility.functions.php');
+	 	 
+// include base functions
+require_once(dirname(__FILE__) . '/libraries/utility.functions.php'); 
+$bootstrap_settings['framework_functions_included'] = false; 
+require_once(dirname(__FILE__) . '/functions.inc.php'); 
+$bootstrap_settings['framework_functions_included'] = true; 
+	 	 
+//now that its been included, use our own error handler as it tends to be much more verbose. 
 if ($bootstrap_settings['freepbx_error_handler']) {
   $error_handler = $bootstrap_settings['freepbx_error_handler'] === true ? 'freepbx_error_handler' : $bootstrap_settings['freepbx_error_handler'];
   if (function_exists($error_handler)) {
@@ -53,13 +68,10 @@ if ($bootstrap_settings['freepbx_error_handler']) {
   }
 }
 
-function microtime_float() { list($usec,$sec) = explode(' ', microtime()); return ((float)$usec+(float)$sec); }
-$benchmark_starttime = microtime_float();
-
-// include base functions
-$bootstrap_settings['framework_functions_included'] = false;
-require_once(dirname(__FILE__) . '/functions.inc.php');
-$bootstrap_settings['framework_functions_included'] = true;
+//include database conifguration 
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) { 
+	 	  include_once('/etc/asterisk/freepbx.conf'); 
+} 
 
 // connect to database
 require_once(dirname(__FILE__) . '/common/db_connect.php'); //PEAR must be installed
@@ -126,17 +138,18 @@ if (!$bootstrap_settings['freepbx_auth'] || (php_sapi_name() == 'cli')) {
 }
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }//we should never need this, just another line of defence
 
+$restrict_mods_local = $restrict_mods;
 // I'm pretty sure if this is == true then there is no need to even pull all the module info as we are going down a path
 // such as an ajax path that this is just overhead. (We'll know soon enough if this is too restrcitive).
 //
-if ($restrict_mods !== true) {
+if ($restrict_mods_local !== true) {
   $active_modules = module_getinfo(false, MODULE_STATUS_ENABLED);
 
   if(is_array($active_modules)){
 
 	  foreach($active_modules as $key => $module) {
 		  //include module functions if there not dissabled
-      if ((!$restrict_mods || (is_array($restrict_mods) && isset($restrict_mods[$key]))) && is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
+      if ((!$restrict_mods_local || (is_array($restrict_mods_local) && isset($restrict_mods_local[$key]))) && is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
         require_once($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
       } 
 		  //create an array of module sections to display
