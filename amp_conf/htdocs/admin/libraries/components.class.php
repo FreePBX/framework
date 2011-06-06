@@ -606,7 +606,7 @@ class gui_textbox extends guiinput {
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 		$tabindex = guielement::gettabindex();
 		$disable_state = $disable ? 'disabled="true"':'';
-		$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=$tabindex value=\"" . htmlentities($this->currentvalue) . "\">";
+		$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlentities($this->currentvalue) . "\">";
 	}
 }
 
