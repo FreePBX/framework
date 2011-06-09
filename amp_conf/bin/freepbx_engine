@@ -452,7 +452,7 @@ case "$1" in
 	admin|a)
 		case $2 in
 			reload|r)
-				$ASTVARLIBDIR/bin/module_admin reload
+				$AMPBIN/module_admin reload
 			;;
 			context|ctx)
 			case $3 in
@@ -469,16 +469,16 @@ case "$1" in
 			esac
 			;;
 			modadmin|ma)
-				$ASTVARLIBDIR/bin/module_admin $3 $4
+				$AMPBIN/module_admin $3 $4
 			;;
 			freepbx_setting|fs)
-				$ASTVARLIBDIR/bin/freepbx_setting $3 $4
+				$AMPBIN/freepbx_setting $3 $4
 			;;
 			auth_database|ad)
-				$ASTVARLIBDIR/bin/freepbx_setting AUTHTYPE database 
+				$AMPBIN/freepbx_setting AUTHTYPE database 
 			;;
 			auth_none|an)
-				$ASTVARLIBDIR/bin/freepbx_setting AUTHTYPE none 
+				$AMPBIN/freepbx_setting AUTHTYPE none 
 			;;
 			externalip|extip)
 				echo `wget http://mirror.freepbx.org/whatismyip.php -O - -q|sed 's/<[^>]*>//g'`
