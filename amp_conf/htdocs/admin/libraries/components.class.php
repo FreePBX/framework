@@ -22,6 +22,8 @@ class component {
 	var $_sorted_processfuncs;
 	
 	var $_lists; // Array of lists
+	
+	var $_opts; //array of configurable options
 
 	function component($compname, $type = 'setup') {
 		$this->_compname = $compname;
@@ -282,7 +284,9 @@ class component {
 			$this->sortguielems();
 
 		// Start of form
-		$htmlout .= "<form name=\"$formname\" action=\"".$_SERVER['PHP_SELF']."\" method=\"post\" onsubmit=\"return ".$formname."_onsubmit();\">\n";
+		
+		$form_action = isset($this->_opts['form_action']) ? $this->_opts['form_action'] : $_SERVER['PHP_SELF'];
+		$htmlout .= "<form name=\"$formname\" action=\"".$form_action."\" method=\"post\" onsubmit=\"return ".$formname."_onsubmit();\">\n";
 		$htmlout .= "<input type=\"hidden\" name=\"display\" value=\"$this->_compname\" />\n";
 		$htmlout .= "<input type=\"hidden\" name=\"type\" value=\"$this->_type\" />\n\n";
 		
@@ -302,7 +306,6 @@ class component {
 			}
 		}
 		
-		// TODO: should _($section) have _() removed?
 		// Middle
 		if ( is_array($this->_guielems_middle) ) {
 			$hasoutput = true;
@@ -311,9 +314,19 @@ class component {
 					if ($this->_guielems_middle[$section]['placement'] !== $placement)
 						continue;
 					// Header for $section				
-					$htmlout .= "\t<tr>\n";
+					$htmlout .= "\t<tr class=\"guielToggle\" data-toggleClass=\"".preg_replace('/[^A-Za-z]/', '' ,$section)."\">\n";
 					$htmlout .= "\t\t<td colspan=\"2\">";
-					$htmlout .= "<h5>" . $section . "<hr></h5>";
+					if ($section) {
+						$state = isset($this_opts[$section]['guielToggle']) && $this_opts[$section]['guielToggle'] == true 
+								? '+' : '-  ';
+						$htmlout .= "<h5>" 
+								. "<span class=\"guielToggleBut\">$state</span>" 
+								. $section 
+								. "</h5><hr>";
+					} else {
+						$htmlout .= '<hr>';
+					}
+
 					$htmlout .= "</td>\n";
 					$htmlout .= "\t</tr>\n";
 					
@@ -323,7 +336,7 @@ class component {
 							continue;
 						foreach ( array_keys($this->_guielems_middle[$section][$sortorder]) as $idx ) {
 							$elem = $this->_guielems_middle[$section][$sortorder][$idx];
-							$htmlout .= $elem->generatehtml();
+							$htmlout .= $elem->generatehtml(preg_replace('/[^A-Za-z]/', '' ,$section));
 							$this->addjsfunc('onsubmit()', $elem->generatevalidation());
 						}
 					}
@@ -566,19 +579,24 @@ class guiinput extends guielement {
 		return $output;
 	}
 	
-	function generatehtml() {
+	function generatehtml($section = '') {
 		// this effectivly creates the template using the prompttext and html_input
 		// we would expect the $html_input to be set by the child class
 		
 		$output = '';
 		
 		// start new row
-		$output .= "\t<tr>\n";
+		if ($section) {
+			$output .= "\t<tr class=\"$section\">\n";
+		} else {
+			$output .= "\t<tr>\n";
+		}
+		
 
 		// prompt in first column
 		$output .= "\t\t<td>";
 		if ($this->helptext != '') {
-			$output .= "<a href=\"#\" class=\"info\">$this->prompttext<span>$this->helptext</span></a>";
+			$output .= fpbx_label($this->prompttext,$this->helptext);
 		} else {
 			$output .= $this->prompttext;
 		}
@@ -765,14 +783,19 @@ class guitext extends guielement {
 		$this->html_text = $html_text;
 	}
 	
-	function generatehtml() {
+	function generatehtml($section = '') {
 		// this effectivly creates the template using the html_text
 		// we would expect the $html_text to be set by the child class
 
 		$output = '';
 		
 		// start new row
-		$output .= "\t<tr>\n";
+		if ($section) {
+			$output .= "\t<tr class=\"$section\">\n";
+		} else {
+			$output .= "\t<tr>\n";
+		}
+		
 
 		// actual input in second row
 		$output .= "\t\t<td colspan=\"2\">";
