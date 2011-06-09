@@ -27,7 +27,6 @@ require_once($dirname . '/libraries/freepbx_conf.class.php');
 
 //freepbx helpers for debuggin/logging/comparing
 require_once($dirname . '/libraries/utility.functions.php');
-require_once($dirname . '/libraries/bootstrap-utility.functions.php');
 
 //module state manipulation functions
 require_once($dirname . '/libraries/module.functions.php');
@@ -47,6 +46,9 @@ require_once($dirname . '/libraries/view.functions.php');
 //functions for reding writing voicemail files
 require_once($dirname . '/libraries/voicemail.function.php');
 
+//legacy functions
+require_once($dirname . '/libraries/legacy.functions.php');
+
 //feature code related functions - not sure why these arent part of the class
 require_once($dirname . '/libraries/featurecodes.functions.php');
 
@@ -58,6 +60,9 @@ require_once($dirname . '/helpers/freepbx_helpers.php');
 //general html helpers
 require_once($dirname . '/helpers/html_helper.php');
 
+//form generation
+if (!defined('BASEPATH')){define('BASEPATH', '');}
+require_once($dirname . '/helpers/form_helper.php');
 
 //freepbx autoloader
 function fpbx_framework_autoloader($class) {

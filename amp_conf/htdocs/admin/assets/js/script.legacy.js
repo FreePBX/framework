@@ -707,4 +707,21 @@ $(document).ready(function(){
 		}
 	});
 
+	$('.guielToggle').click(function() {
+		var txt = $(this).find('.guielToggleBut');
+		var el = $(this).data('toggleClass')
+		switch(txt.text().replace(/ /g,'')) {
+			case '-':
+				txt.text('+ ');
+				$('.'+el).hide()
+				console.log('hiding', el)
+				break;
+			case '+':
+				txt.text('-  ');
+				$('.'+el).show();
+				console.log('showing', el)
+				break;
+		}
+	})
+
 });
