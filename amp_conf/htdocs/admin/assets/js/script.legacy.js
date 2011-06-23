@@ -648,7 +648,7 @@ function isFilenameChar (c)
 //weird name, but should be self explanitor
 function bind_dests_double_selects() {
 	//destination double dropdown code
-	$('.destdropdown').bind('blur click change keypress', function(){
+	$('.destdropdown').unbind().bind('blur click change keypress', function(){
 		var name=$(this).attr('name');
 		var id=name.replace('goto','');
 		var dest=$(this).val();
@@ -707,6 +707,7 @@ $(document).ready(function(){
 		}
 	});
 
+	//show/hide a gui_eleements section
 	$('.guielToggle').click(function() {
 		var txt = $(this).find('.guielToggleBut');
 		var el = $(this).data('toggleClass')
