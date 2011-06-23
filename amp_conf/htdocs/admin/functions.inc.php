@@ -76,16 +76,24 @@ function fpbx_framework_autoloader($class) {
 			break;
 		case 'CI_Email':
 			//make upstream scripts happy - for $CI_Email->_set_error_message()
-			if (!function_exits('get_instance')) {
+			if (!function_exists('log_message')) {
+				function log_message(){};
+			}
+			if (!function_exists('get_instance')) {
 				function get_instance(){return new ci_def();}
 			}
 			if (!class_exists('ci_def')) {
 				class ci_def {function __construct(){$this->lang = new ci_lan_def();}}
 			}
-			if (!class_exisits('ci_lan_def')) {
+			if (!class_exists('ci_lan_def')) {
 				class ci_lan_def {function load(){return false;} function line(){return false;}} 
 			}
-			if (!defined('BASEPATH')){define('BASEPATH', '');}
+			if (!defined('BASEPATH')){
+				define('BASEPATH', '');
+			}
+			if (!defined('FOPEN_READ')) {
+				define('FOPEN_READ', 'rb');
+			}
 			require_once($dirname . '/helpers/Email.php');
 			break;
 		case 'CI_Table':
