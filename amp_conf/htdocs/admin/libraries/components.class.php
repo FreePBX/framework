@@ -674,7 +674,7 @@ class gui_selectbox extends guiinput {
 		foreach ($valarray as $item) {
 			$itemvalue = (isset($item['value']) ? $item['value'] : '');
 			$itemtext = (isset($item['text']) ? $item['text'] : '');
-			$itemselected = ($currentvalue === $itemvalue) ? ' selected' : '';
+			$itemselected = ((string) $currentvalue == (string) $itemvalue) ? ' selected' : '';
 			
 			$output .= "\t\t\t\t<option value=\"$itemvalue\"$itemselected>$itemtext</option>\n";
 		}
@@ -719,7 +719,7 @@ class gui_radio extends guiinput {
 		foreach ($valarray as $item) {
 			$itemvalue = (isset($item['value']) ? $item['value'] : '');
 			$itemtext = (isset($item['text']) ? $item['text'] : '');
-			$itemchecked = ($currentvalue === $itemvalue) ? ' checked=checked' : '';
+			$itemchecked = ((string) $currentvalue == (string) $itemvalue) ? ' checked=checked' : '';
 			
 			$tabindex = guielement::gettabindex();
 			$disable_state = $disable ? 'disabled="true"':'';
@@ -732,19 +732,14 @@ class gui_radio extends guiinput {
 }
 
 class gui_drawselects extends guiinput {
-	function gui_drawselects($elemname, $index, $dest, $prompttext = '', $helptext = '', $canbeempty = true, $failvalidationmsg='', $nodest_msg='') {
+	function gui_drawselects($elemname, $index, $dest, $prompttext = '', $helptext = '', $canbeempty = true, $failvalidationmsg='', $nodest_msg='', $required = true) {
 		global $currentcomponent;
 		$parent_class = get_parent_class($this);
-		if(!$canbeempty){
-			$jsvalidation ='()';
-			$jsvalidationtest ='!$("[name=goto'.$index.']").val()';
-			if (!$failvalidationmsg) $failvalidationmsg = _('Please select a valid destination.');
-		}
-    $jsvalidation = isset($jsvalidation) ? $jsvalidation : '';
-    $jsvalidationtest = isset($jsvalidationtest) ? $jsvalidationtest : '';
+		$jsvalidation = isset($jsvalidation) ? $jsvalidation : '';
+		$jsvalidationtest = isset($jsvalidationtest) ? $jsvalidationtest : '';
 		parent::$parent_class($elemname, '', $prompttext, $helptext, $jsvalidation, $failvalidationmsg, '', $jsvalidationtest);
 		
-		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg);
+		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $required);
 
 		//adttach a value to this element, so that we can find its value
 		$currentcomponent->addguielem('', new gui_hidden($elemname,'goto'.$index));
