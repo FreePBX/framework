@@ -674,7 +674,7 @@ class gui_selectbox extends guiinput {
 		foreach ($valarray as $item) {
 			$itemvalue = (isset($item['value']) ? $item['value'] : '');
 			$itemtext = (isset($item['text']) ? $item['text'] : '');
-			$itemselected = ($currentvalue == $itemvalue) ? ' selected' : '';
+			$itemselected = ($currentvalue === $itemvalue) ? ' selected' : '';
 			
 			$output .= "\t\t\t\t<option value=\"$itemvalue\"$itemselected>$itemtext</option>\n";
 		}
@@ -719,7 +719,7 @@ class gui_radio extends guiinput {
 		foreach ($valarray as $item) {
 			$itemvalue = (isset($item['value']) ? $item['value'] : '');
 			$itemtext = (isset($item['text']) ? $item['text'] : '');
-			$itemchecked = ($currentvalue == $itemvalue) ? ' checked=checked' : '';
+			$itemchecked = ($currentvalue === $itemvalue) ? ' checked=checked' : '';
 			
 			$tabindex = guielement::gettabindex();
 			$disable_state = $disable ? 'disabled="true"':'';
