@@ -35,7 +35,7 @@ function fpbx_label($text, $help = '') {
  * $table specifies if the destinations will be drawn in a new <tr> and <td>
  * 
  */   
-function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='') {
+function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='', $required = true) {
 	global $tabindex, $active_modules, $drawselect_destinations, $drawselects_module_hash; 
 	$html=$destmod=$errorclass=$errorstyle='';
   if ($nodest_msg == '') {
@@ -89,7 +89,8 @@ function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='') {
 
 	//draw "parent" select box
 	$style=' style="'.(($destmod=='Error')?'background-color:red;':'background-color:white;').'"';
-	$html.='<select name="goto'.$i.'" class="destdropdown" '.$style.' tabindex="'.++$tabindex.'">';
+	$html.='<select name="goto'.$i.'" class="destdropdown" '.$style.' tabindex="'.++$tabindex.'"'
+			. ($required ? ' required ' : '') . '>';//html5 validation
 	$html.='<option value="" style="background-color:white;">'.$nodest_msg.'</option>';
 	foreach($drawselects_module_hash as $mod => $disc){
 		/* We bind to the hosting module's domain. If we find the translation there we use it, if not
