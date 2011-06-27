@@ -715,12 +715,10 @@ $(document).ready(function(){
 			case '-':
 				txt.text('+ ');
 				$('.'+el).hide()
-				console.log('hiding', el)
 				break;
 			case '+':
 				txt.text('-  ');
 				$('.'+el).show();
-				console.log('showing', el)
 				break;
 		}
 	})
