@@ -34,7 +34,7 @@
  *  modules sym-linked to their final place to make development easier.
  *
  */
-$VERSION = "2.9";
+$VERSION = "2.10";
 
 exec('svn info --xml .', $output, $ret);
 if ($ret) {
