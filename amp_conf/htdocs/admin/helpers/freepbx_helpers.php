@@ -35,7 +35,7 @@ function fpbx_label($text, $help = '') {
  * $table specifies if the destinations will be drawn in a new <tr> and <td>
  * 
  */   
-function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='', $required = true) {
+function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='', $required = false) {
 	global $tabindex, $active_modules, $drawselect_destinations, $drawselects_module_hash; 
 	$html=$destmod=$errorclass=$errorstyle='';
   if ($nodest_msg == '') {
