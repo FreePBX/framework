@@ -732,7 +732,7 @@ class gui_radio extends guiinput {
 }
 
 class gui_drawselects extends guiinput {
-	function gui_drawselects($elemname, $index, $dest, $prompttext = '', $helptext = '', $canbeempty = true, $failvalidationmsg='', $nodest_msg='', $required = true) {
+	function gui_drawselects($elemname, $index, $dest, $prompttext = '', $helptext = '', $canbeempty = true, $failvalidationmsg='', $nodest_msg='', $required = false) {
 		global $currentcomponent;
 		$parent_class = get_parent_class($this);
 		$jsvalidation = isset($jsvalidation) ? $jsvalidation : '';

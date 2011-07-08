@@ -153,6 +153,7 @@ function load_view($view_filename_protected, $vars = array()) {
 	
 	//return false if we cant find the file or if we cant open it
 	if ( ! $view_filename_protected OR ! file_exists($view_filename_protected) OR ! is_readable($view_filename_protected) ) {
+		dbug('load_view failed to load view for inclusion:', $view_filename_protected);
 		return false;
 	}
 
