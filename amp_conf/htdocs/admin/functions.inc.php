@@ -62,6 +62,24 @@ require_once($dirname . '/helpers/html_helper.php');
 
 //form generation
 if (!defined('BASEPATH')){define('BASEPATH', '');}
+if (!function_exists('get_instance')) {
+	function get_instance(){return new ci_def();}
+}
+if (!class_exists('ci_def')) {
+	class ci_def {function __construct(){$this->lang = new ci_lan_def(); $this->config = new ci_config(); $this->uri = new ci_uri_string();}}
+}
+if (!class_exists('ci_lan_def')) {
+	class ci_lan_def {function load(){return false;} function line(){return false;}} 
+}
+if (!class_exists('ci_config')) {
+	class ci_config {function __construct(){return false;} function site_url($v){return $v;} function item(){return false;}} 
+}
+if (!class_exists('ci_uri_string')) {
+	class ci_uri_string {function  uri_string(){return false;}} 
+}
+if (!function_exists('config_item')) {
+	function config_item(){}
+}
 require_once($dirname . '/helpers/form_helper.php');
 
 //freepbx autoloader
