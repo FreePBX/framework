@@ -15,7 +15,7 @@
  */
 function fpbx_label($text, $help = '') {
 	if ($help) {
-		$ret = '<a href="#" class="info">'
+		$ret = '<a href="#" class="info" tabindex="-1">'
 				. $text
 				. '<span>'
 				. $help
