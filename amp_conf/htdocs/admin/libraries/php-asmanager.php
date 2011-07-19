@@ -925,14 +925,13 @@ class AGI_AsteriskManager {
 		$ret = false;
 		$handlers = array();
 		$e = strtolower($parameters['Event']);
-		$this->log("Got event.. $e");		
+		$this->log("Got event... $e");		
 		
-		$handler = '';
 		if(isset($this->event_handlers[$e])) {
-			$handlers = $this->event_handlers[$e];	
+			$handlers = array_merge($handlers, $this->event_handlers[$e]);	
 		}
 		if(isset($this->event_handlers['*'])) {
-			$handlers[] = $this->event_handlers['*'];	
+			$handlers = array_merge($handlers, $this->event_handlers['*']);
 		}
 		
 		foreach ($handlers as $handler) {
