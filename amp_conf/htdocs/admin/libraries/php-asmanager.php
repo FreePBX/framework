@@ -9,52 +9,41 @@
 *
 * This software is released under the terms of the GNU Public License v2
 *  A copy of which is available from http://www.fsf.org/licenses/gpl.txt
-* 
-*
-*  You are requested to drop me an Email letting me know that you're 
-*  using it.  This is more of a courtesy than anything else, but I am 
-*  interested to know how it is being used.
 *
 * @package phpAGI
-* @version 2.0
 */
 
-
-/**
-* Written for PHP 4.3.4, should work with older PHP 4.x versions.  
-*
-*/
  
-  if (!isset($bootstrap_settings['amportal_conf_initialized']) || !$bootstrap_settings['amportal_conf_initialized']) {
-    $bootstrap_settings['skip_astman'] = true;
-    $restrict_mods = true;
-    if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-      include_once('/etc/asterisk/freepbx.conf');
-    }
-  }
+if (!isset($bootstrap_settings['amportal_conf_initialized']) || !$bootstrap_settings['amportal_conf_initialized']) {
+	$bootstrap_settings['skip_astman'] = true;
+	$restrict_mods = true;
+	if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+		include_once('/etc/asterisk/freepbx.conf');
+	}
+}
 
-  define('AST_CONFIG_DIR', $amp_conf['ASTETCDIR']);
-  define('AST_SPOOL_DIR', $asterisk_conf['astspooldir']);
-  define('AST_TMP_DIR', AST_SPOOL_DIR . '/tmp/');
-  define('DEFAULT_PHPAGI_CONFIG', AST_CONFIG_DIR . '/phpagi.conf');
+define('AST_CONFIG_DIR', $amp_conf['ASTETCDIR']);
+define('AST_SPOOL_DIR', $asterisk_conf['astspooldir']);
+define('AST_TMP_DIR', AST_SPOOL_DIR . '/tmp/');
+define('DEFAULT_PHPAGI_CONFIG', AST_CONFIG_DIR . '/phpagi.conf');
 
-  define('AST_DIGIT_ANY', '0123456789#*');
+define('AST_DIGIT_ANY', '0123456789#*');
 
-  define('AGI_PORT', 4573);
+define('AGI_PORT', 4573);
 
-  define('AGIRES_OK', 200);
+define('AGIRES_OK', 200);
 
 
-  define('AST_STATE_DOWN', 0);
-  define('AST_STATE_RESERVED', 1);
-  define('AST_STATE_OFFHOOK', 2);
-  define('AST_STATE_DIALING', 3);
-  define('AST_STATE_RING', 4);
-  define('AST_STATE_RINGING', 5);
-  define('AST_STATE_UP', 6);
-  define('AST_STATE_BUSY', 7);
-  define('AST_STATE_DIALING_OFFHOOK', 8);
-  define('AST_STATE_PRERING', 9);
+define('AST_STATE_DOWN', 0);
+define('AST_STATE_RESERVED', 1);
+define('AST_STATE_OFFHOOK', 2);
+define('AST_STATE_DIALING', 3);
+define('AST_STATE_RING', 4);
+define('AST_STATE_RINGING', 5);
+define('AST_STATE_UP', 6);
+define('AST_STATE_BUSY', 7);
+define('AST_STATE_DIALING_OFFHOOK', 8);
+define('AST_STATE_PRERING', 9);
 
 
 /**
@@ -65,46 +54,45 @@
 * @example examples/sip_show_peer.php Get information about a sip peer
 * @package phpAGI
 */
-class AGI_AsteriskManager
-{
+class AGI_AsteriskManager {
 	/**
 	* Config variables
 	*
 	* @var array
 	* @access public
 	*/
-	var $config;
-	
+	public $config;
+
 	/**
 	* Socket
 	*
 	* @access public
 	*/
-	var $socket = NULL;
-	
+	public $socket = NULL;
+
 	/**
 	* Server we are connected to
 	*
 	* @access public
 	* @var string
 	*/
-	var $server;
-	
+	public $server;
+
 	/**
 	* Port on the server we are connected to
 	*
 	* @access public
 	* @var integer
 	*/
-	var $port;
-	
+	public $port;
+
 	/**
 	* Parent AGI
 	*
 	* @access private
 	* @var AGI
 	*/
-	var $pagi;
+	public $pagi;
 
 	/**
 	* Username we connected with (for reconnect)
@@ -112,7 +100,7 @@ class AGI_AsteriskManager
 	* @access public
 	* @var string
 	*/
-	var $username = NULL;
+	public $username = NULL;
 
 	/**
 	* Secret we connected with (for reconnect)
@@ -120,7 +108,7 @@ class AGI_AsteriskManager
 	* @access public
 	* @var string
 	*/
-	var $secret = NULL;
+	public $secret = NULL;
 
 	/**
 	* Current state of events (for reconnect)
@@ -128,7 +116,7 @@ class AGI_AsteriskManager
 	* @access public
 	* @var string
 	*/
-	var $events = NULL;
+	public $events = NULL;
 
 	/**
 	* Number of reconnect attempts per incident 
@@ -136,26 +124,26 @@ class AGI_AsteriskManager
 	* @access public
 	* @var string
 	*/
-	var $reconnects = 2;
-	
+	public $reconnects = 2;
+
 	/**
 	* Event Handlers
 	*
 	* @access private
 	* @var array
 	*/
-	var $event_handlers;
+	public $event_handlers;
 
- 	/**
- 	* Log Level
- 	*
- 	* @access private
- 	* @var integer
- 	*/
- 	var $log_level;
+	/**
+	* Log Level
+	*
+	* @access private
+	* @var integer
+	*/
+	public $log_level;
 
-  var $useCaching = false;
-  var $memAstDB = null;
+	public $useCaching = false;
+	public $memAstDB = null;
 	
 	/**
 	* Constructor
@@ -163,34 +151,48 @@ class AGI_AsteriskManager
 	* @param string $config is the name of the config file to parse or a parent agi from which to read the config
 	* @param array $optconfig is an array of configuration vars and vals, stuffed into $this->config['asmanager']
 	*/
-	function AGI_AsteriskManager($config=NULL, $optconfig=array())
-	{
+	function AGI_AsteriskManager($config=NULL, $optconfig=array()) {
 		// load config
-		if(!is_null($config) && file_exists($config))
+		if(!is_null($config) && file_exists($config)) {
 			$this->config = parse_ini_file($config, true);
-		elseif(file_exists(DEFAULT_PHPAGI_CONFIG))
+		} elseif(file_exists(DEFAULT_PHPAGI_CONFIG)) {
 			$this->config = parse_ini_file(DEFAULT_PHPAGI_CONFIG, true);
+		}
 		
 		// If optconfig is specified, stuff vals and vars into 'asmanager' config array.
-		foreach($optconfig as $var=>$val)
+		foreach($optconfig as $var=>$val) {
 			$this->config['asmanager'][$var] = $val;
+		}
+			
 		
 		// add default values to config for uninitialized values
-		if(!isset($this->config['asmanager']['server'])) $this->config['asmanager']['server'] = 'localhost';
-		if(!isset($this->config['asmanager']['port'])) $this->config['asmanager']['port'] = 5038;
-		if(!isset($this->config['asmanager']['username'])) $this->config['asmanager']['username'] = 'phpagi';
-		if(!isset($this->config['asmanager']['secret'])) $this->config['asmanager']['secret'] = 'phpagi';
-
-    if(isset($this->config['asmanager']['cachemode'])) $this->useCaching = $this->config['asmanager']['cachemode'];
+		if (!isset($this->config['asmanager']['server'])) {
+			$this->config['asmanager']['server'] = 'localhost';
+		}
+		if (!isset($this->config['asmanager']['port'])) {
+			$this->config['asmanager']['port'] = 5038;
+		}
+		if (!isset($this->config['asmanager']['username'])) {
+			$this->config['asmanager']['username'] = 'phpagi';
+		}
+		if (!isset($this->config['asmanager']['secret'])) {
+			$this->config['asmanager']['secret'] = 'phpagi';
+		}
+		if (isset($this->config['asmanager']['cachemode'])) {
+			$this->useCaching = $this->config['asmanager']['cachemode'];
+		}
  
- 		$this->log_level=(isset($this->config['asmanager']['log_level'])&&is_numeric($this->config['asmanager']['log_level']))?$this->config['asmanager']['log_level']:1;
-    $this->reconnects = isset($this->config['asmanager']['reconnects']) ? $this->config['asmanager']['reconnects'] : 2;
+		$this->log_level = (isset($this->config['asmanager']['log_level']) && is_numeric($this->config['asmanager']['log_level']))
+						? $this->config['asmanager']['log_level'] : false;
+		$this->reconnects = isset($this->config['asmanager']['reconnects']) ? $this->config['asmanager']['reconnects'] : 2;
 	}
 
-  function LoadAstDB(){        
-    if ($this->memAstDB != null) unset($this->memAstDB);
-    $this->memAstDB = $this->database_show();
-  }
+	function LoadAstDB(){        
+		if ($this->memAstDB != null) {
+			unset($this->memAstDB);
+		} 
+		$this->memAstDB = $this->database_show();
+	}
 
 	/**
 	* Send a request
@@ -199,37 +201,37 @@ class AGI_AsteriskManager
 	* @param array $parameters
 	* @return array of parameters
 	*/
-	function send_request($action, $parameters=array(), $retry=true)
-	{
-    $reconnects = $this->reconnects;
+	function send_request($action, $parameters=array(), $retry=true) {
+		$reconnects = $this->reconnects;
 
 		$req = "Action: $action\r\n";
-		foreach($parameters as $var=>$val)
+		foreach($parameters as $var=>$val) {
 			$req .= "$var: $val\r\n";
+		}	
 		$req .= "\r\n";
-    $this->log("Sending Request down socket:",10);
-    $this->log($req,10);
+		$this->log("Sending Request down socket:",10);
+		$this->log($req,10);
 		fwrite($this->socket, $req);
-    $response = $this->wait_response();
-
-    // If we got a false back then something went wrong, we will try to reconnect the manager connection to try again
-    //
-    while ($response === false && $retry && $reconnects > 0) {
-      $this->log("Unexpected failure executing command: $action, reconnecting to manager and retrying: $reconnects");
-      $this->disconnect();
-      if ($this->connect($this->server.':'.$this->port, $this->username, $this->secret, $this->events) !== false) {
-		    fwrite($this->socket, $req);
-        $response = $this->wait_response();
-      } else {
-        if ($reconnects > 1) {
-          $this->log("reconnect command failed, sleeping before next attempt");
-          sleep(1);
-        } else {
-          $this->log("FATAL: no reconnect attempts left, command permanently failed, returning to calling program with 'false' failure code");
-        }
-      }
-      $reconnects--;
-    }
+		$response = $this->wait_response();
+		
+	    // If we got a false back then something went wrong, we will try to reconnect the manager connection to try again
+	    //
+		while ($response === false && $retry && $reconnects > 0) {
+			$this->log("Unexpected failure executing command: $action, reconnecting to manager and retrying: $reconnects");
+			$this->disconnect();
+			if ($this->connect($this->server.':'.$this->port, $this->username, $this->secret, $this->events) !== false) {
+				fwrite($this->socket, $req);
+				$response = $this->wait_response();
+			} else {
+				if ($reconnects > 1) {
+					$this->log("reconnect command failed, sleeping before next attempt");
+					sleep(1);
+				} else {
+					$this->log("FATAL: no reconnect attempts left, command permanently failed, returning to calling program with 'false' failure code");
+				}
+			}
+			$reconnects--;
+		}
 		return $response;
 	}
 	
@@ -242,66 +244,60 @@ class AGI_AsteriskManager
 	* @param boolean $allow_timeout if the socket times out, return an empty array
 	* @return array of parameters, empty on timeout
 	*/
-	function wait_response($allow_timeout=false)
-	{
+	function wait_response($allow_timeout = false) {
 		$timeout = false;
-		do
-		{
+		do {
 			$type = NULL;
 			$parameters = array();
 		
-      if (feof($this->socket) || !$this->socket) {
-        $this->log("Got EOF in wait_response() from socket waiting for response, returning false",10);
+			if (feof($this->socket) || !$this->socket) {
+				$this->log("Got EOF in wait_response() from socket waiting for response, returning false",10);
 				return false;
-      }
+			}
 			$buffer = trim(fgets($this->socket, 4096));
-			while($buffer != '')
-			{
-			$a = strpos($buffer, ':');
-			if($a)
-			{
-			if(!count($parameters)) // first line in a response?
-			{
-			$type = strtolower(substr($buffer, 0, $a));
-			if(substr($buffer, $a + 2) == 'Follows')
-			{
-				// A follows response means there is a miltiline field that follows.
-				$parameters['data'] = '';
-				$buff = fgets($this->socket, 4096);
-				while(substr($buff, 0, 6) != '--END ')
-				{
-				$parameters['data'] .= $buff;
-				$buff = fgets($this->socket, 4096);
-				}
-			}
-			}
+			while($buffer != '') {
+				$a = strpos($buffer, ':');
+				if($a) {
+					if(!count($parameters)) {// first line in a response?
+						$type = strtolower(substr($buffer, 0, $a));
+						if(substr($buffer, $a + 2) == 'Follows') {
+							// A follows response means there is a miltiline field that follows.
+							$parameters['data'] = '';
+							$buff = fgets($this->socket, 4096);
+							while(substr($buff, 0, 6) != '--END ') {
+								$parameters['data'] .= $buff;
+								$buff = fgets($this->socket, 4096);
+							}
+						}
+					}
 		
-			// store parameter in $parameters
-			$parameters[substr($buffer, 0, $a)] = substr($buffer, $a + 2);
-			}
-			$buffer = trim(fgets($this->socket, 4096));
+					// store parameter in $parameters
+					$parameters[substr($buffer, 0, $a)] = substr($buffer, $a + 2);
+				}
+				$buffer = trim(fgets($this->socket, 4096));
 			}
 		
 			// process response
-			switch($type)
-			{
-			case '': // timeout occured
-			$timeout = $allow_timeout;
-			break;
-			case 'event':
-			$this->process_event($parameters);
-			break;
-			case 'response':
-			break;
-			default:
-			$this->log('Unhandled response packet from Manager: ' . print_r($parameters, true));
-			break;
+			switch($type) {
+				case '': // timeout occured
+				$timeout = $allow_timeout;
+					break;
+				case 'event':
+					$this->process_event($parameters);
+					break;
+				case 'response':
+					break;
+				default:
+					$this->log('Unhandled response packet from Manager: ' . print_r($parameters, true));
+					break;
 			}
 		} while($type != 'response' && !$timeout);
-    $this->log("returning from wait_response with with type: $type",10);
-    $this->log('$parmaters: '.print_r($parameters,true),10);
-    $this->log('$buffer: '.print_r($buffer,true),10);
-    if (isset($buff)) $this->log('$buff: '.print_r($buff,true),10);
+		$this->log("returning from wait_response with with type: $type",10);
+		$this->log('$parmaters: '.print_r($parameters,true),10);
+		$this->log('$buffer: '.print_r($buffer,true),10);
+		if (isset($buff)) {
+			$this->log('$buff: '.print_r($buff,true),10);
+		}
 		return $parameters;
 	}
 	
@@ -315,53 +311,48 @@ class AGI_AsteriskManager
 	* @param string $secret
 	* @return boolean true on success
 	*/
-	function connect($server=NULL, $username=NULL, $secret=NULL, $events='on')
-	{
-	  // use config if not specified
-	  if(is_null($server)) $server = $this->config['asmanager']['server'];
-    $this->username = is_null($username) ? $this->config['asmanager']['username'] : $username;
-    $this->secret = is_null($secret) ? $this->config['asmanager']['secret'] : $secret;
-    $this->events = $events;
+	function connect($server=NULL, $username=NULL, $secret=NULL, $events='on') {
+		// use config if not specified
+		if(is_null($server)) {
+			$server = $this->config['asmanager']['server'];
+		}
+		$this->username = is_null($username) ? $this->config['asmanager']['username'] : $username;
+		$this->secret = is_null($secret) ? $this->config['asmanager']['secret'] : $secret;
+		$this->events = $events;
 		
-	  // get port from server if specified
-	  if(strpos($server, ':') !== false)
-	  {
-		  $c = explode(':', $server);
-		  $this->server = $c[0];
-		  $this->port = $c[1];
-	  }
-	  else
-	  {
-		  $this->server = $server;
-		  $this->port = $this->config['asmanager']['port'];
-	  }
+		// get port from server if specified
+		if(strpos($server, ':') !== false) {
+			$c = explode(':', $server);
+			$this->server = $c[0];
+			$this->port = $c[1];
+		} else {
+			$this->server = $server;
+			$this->port = $this->config['asmanager']['port'];
+		}
 		
 		// connect the socket
 		$errno = $errstr = NULL;
 		$this->socket = @fsockopen($this->server, $this->port, $errno, $errstr);
-		if(!$this->socket)
-		{
+		if(!$this->socket) {
 			$this->log("Unable to connect to manager {$this->server}:{$this->port} ($errno): $errstr");
 			return false;
 		}
 		
 		// read the header
 		$str = fgets($this->socket);
-		if($str == false)
-		{
+		if($str == false) {
 			// a problem.
 			$this->log("Asterisk Manager header not received.");
 			return false;
-		}
-		else
-		{
+		} else {
 			// note: don't $this->log($str) until someone looks to see why it mangles the logging
 		}
 		
 		// login
-    $res = $this->send_request('login', array('Username'=>$this->username, 'Secret'=>$this->secret, 'Events'=>$this->events), false);
-		if($res['Response'] != 'Success')
-		{
+		$res = $this->send_request('login', 
+							array('Username'=>$this->username, 'Secret'=>$this->secret, 'Events'=>$this->events), 
+							false);
+		if($res['Response'] != 'Success') {
 			$this->log("Failed to login.");
 			$this->disconnect();
 			return false;
@@ -374,8 +365,7 @@ class AGI_AsteriskManager
 	*
 	* @example examples/sip_show_peer.php Get information about a sip peer
 	*/
-	function disconnect()
-	{
+	function disconnect() {
 		$this->logoff();
 		fclose($this->socket);
 	}
@@ -384,8 +374,7 @@ class AGI_AsteriskManager
 	* Check if the socket is connected
 	*
 	*/
-	function connected() 
-	{
+	function connected() {
 		return (bool)$this->socket;
 	}
 	
@@ -396,8 +385,7 @@ class AGI_AsteriskManager
 	* @param string $channel
 	* @param integer $timeout
 	*/
-	function AbsoluteTimeout($channel, $timeout)
-	{
+	function AbsoluteTimeout($channel, $timeout) {
 		return $this->send_request('AbsoluteTimeout', array('Channel'=>$channel, 'Timeout'=>$timeout));
 	}
 	
@@ -408,8 +396,7 @@ class AGI_AsteriskManager
 	* @param string $channel
 	* @param string $file
 	*/
-	function ChangeMonitor($channel, $file)
-	{
+	function ChangeMonitor($channel, $file) {
 		return $this->send_request('ChangeMontior', array('Channel'=>$channel, 'File'=>$file));
 	}
 	
@@ -419,11 +406,15 @@ class AGI_AsteriskManager
 	* @example examples/sip_show_peer.php Get information about a sip peer
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+Command
 	* @link http://www.voip-info.org/wiki-Asterisk+CLI
-	* @param string $commadn
+	* @param string $command
+	* @param string $actionid message matching variable
 	*/
-	function Command($command)
-	{	
-		return $this->send_request('Command', array('Command'=>$command));
+	function Command($command, $actionid=NULL) {
+		$parameters = array('Command'=>$command);
+		if($actionid) {
+			$parameters['ActionID'] = $actionid;
+		}	
+		return $this->send_request('Command', $parameters);
 	}
 	
 	/**
@@ -432,8 +423,7 @@ class AGI_AsteriskManager
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+Events
 	* @param string $eventmask is either 'on', 'off', or 'system,call,log'
 	*/
-	function Events($eventmask)
-	{
+	function Events($eventmask) {
     $this->events = $eventmask;
 		return $this->send_request('Events', array('EventMask'=>$eventmask));
 	}
@@ -442,35 +432,41 @@ class AGI_AsteriskManager
 	* Check Extension Status
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+ExtensionState
-	* @param string $exten
-	* @param string $context
-	* @param string $actionid
+	* @param string $exten Extension to check state on
+	* @param string $context Context for extension
+	* @param string $actionid message matching variable
 	*/
-	function ExtensionState($exten, $context, $actionid)
-	{
-		return $this->send_request('ExtensionState', array('Exten'=>$exten, 'Context'=>$context, 'ActionID'=>$actionid));
+	function ExtensionState($exten, $context, $actionid = NULL) {
+		$parameters = array('Exten'=>$exten, 'Context'=>$context);
+		if($actionid) {
+			$parameters['ActionID'] = $actionid;
+		}
+      		return $this->send_request('ExtensionState', $parameters);
 	}
 	
 	/**
 	* Gets a Channel Variable
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+GetVar
-	* @param string $channel
+	* @param string $channel  Channel to read variable from
 	* @param string $variable
+	* @param string $actionid message matching variable
 	*/
-	function GetVar($channel, $variable)
-	{
-		return $this->send_request('GetVar', array('Channel'=>$channel, 'Variable'=>$variable));
+	function GetVar($channel, $variable, $actionid=NULL) {
+		$parameters = array('Channel'=>$channel, 'Variable'=>$variable);
+		if($actionid) {
+			$parameters['ActionID'] = $actionid;
+		}
+		return $this->send_request('GetVar', $parameters);
 	}
 	
 	/**
 	* Hangup Channel
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+Hangup
-	* @param string $channel
+	* @param string $channel The channel name to be hungup
 	*/
-	function Hangup($channel)
-	{
+	function Hangup($channel) {
 		return $this->send_request('Hangup', array('Channel'=>$channel));
 	}
 	
@@ -479,8 +475,7 @@ class AGI_AsteriskManager
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+IAXpeers
 	*/
-	function IAXPeers()
-	{
+	function IAXPeers() {
 		return $this->send_request('IAXPeers');
 	}
 	
@@ -488,10 +483,14 @@ class AGI_AsteriskManager
 	* List available manager commands
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+ListCommands
+	* @param string $actionid message matching variable
 	*/
-	function ListCommands()
-	{
-		return $this->send_request('ListCommands');
+	function ListCommands($actionid=NULL) {
+		if($actionid) {
+			return $this->send_request('ListCommands', array('ActionID'=>$actionid));
+		} else {
+			return $this->send_request('ListCommands');
+		}
 	}
 	
 	/**
@@ -499,31 +498,48 @@ class AGI_AsteriskManager
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+Logoff
 	*/
-	function Logoff()
-	{
+	function Logoff() {
 		return $this->send_request('Logoff',array(),false);
 	}
 	
 	/**
 	* Check Mailbox Message Count
 	*
+	* Returns number of new and old messages.
+	*   Message: Mailbox Message Count
+	*   Mailbox: <mailboxid>
+	*   NewMessages: <count>
+	*   OldMessages: <count>
+	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+MailboxCount
-	* @param string $mailbox
+	* @param string $mailbox Full mailbox ID <mailbox>@<vm-context>
 	*/
-	function MailboxCount($mailbox)
-	{
-		return $this->send_request('MailboxCount', array('Mailbox'=>$mailbox));
+	function MailboxCount($mailbox, $actionid=NULL) {
+		$parameters = array('Mailbox'=>$mailbox);
+		if($actionid) {
+			$parameters['ActionID'] = $actionid;
+		}
+		return $this->send_request('MailboxCount', $parameters);
 	}
 	
 	/**
 	* Check Mailbox
 	*
+	* Returns number of messages.
+	*   Message: Mailbox Status
+	*   Mailbox: <mailboxid>
+	*   Waiting: <count>
+	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+MailboxStatus
-	* @param string $mailbox
+	* @param string $mailbox Full mailbox ID <mailbox>@<vm-context>
+	* @param string $actionid message matching variable
 	*/
-	function MailboxStatus($mailbox)
-	{	
-		return $this->send_request('MailboxStatus', array('Mailbox'=>$mailbox));
+	function MailboxStatus($mailbox, $actionid=NULL) {
+		$parameters = array('Mailbox'=>$mailbox);
+		if($actionid) {
+			$parameters['ActionID'] = $actionid;
+		}	
+		return $this->send_request('MailboxStatus', $parameters);
 	}
 	
 	/**
@@ -532,10 +548,21 @@ class AGI_AsteriskManager
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+Monitor
 	* @param string $channel
 	* @param string $file
+	* @param string $format
+	* @param boolean $mix
 	*/
-	function Monitor($channel, $file)
-	{
-		return $this->send_request('Monitor', array('Channel'=>$channel, 'File'=>$file));
+	function Monitor($channel, $file=NULL, $format=NULL, $mix=NULL) {
+		$parameters = array('Channel'=>$channel);
+		if($file) {
+			$parameters['File'] = $file;
+		}
+		if($format) {
+			$parameters['Format'] = $format;
+		} 
+		if(!is_null($file)) {
+			$parameters['Mix'] = ($mix) ? 'true' : 'false';
+		} 
+		return $this->send_request('Monitor', $parameters);
 	}
 	
 	/**
@@ -552,20 +579,40 @@ class AGI_AsteriskManager
 	* @param string $account
 	* @param string $application
 	* @param string $data
+	* TODO: THIS NEEDS TO BE UPDATED
 	*/
-	function Originate($channel, $exten, $context, $priority, $timeout, $callerid, $variable, $account, $application, $data)
-	{
+	function Originate($channel, $exten, $context, $priority, $timeout, $callerid, $variable, $account, $application, $data) {
 		$parameters = array();
-		if($channel) $parameters['Channel'] = $channel;
-		if($exten) $parameters['Exten'] = $exten;
-		if($context) $parameters['Context'] = $context;
-		if($priority) $parameters['Priority'] = $priority;
-		if($timeout) $parameters['Timeout'] = $timeout;
-		if($callerid) $parameters['CallerID'] = $callerid;
-		if($variable) $parameters['Variable'] = $variable;
-		if($account) $parameters['Account'] = $account;
-		if($application) $parameters['Application'] = $application;
-		if($data) $parameters['Data'] = $data;
+		if ($channel) {
+			$parameters['Channel'] = $channel;
+		}
+		if ($exten) {
+			$parameters['Exten'] = $exten;
+		}
+		if ($context) {
+			$parameters['Context'] = $context;
+		}
+		if ($priority) {
+			$parameters['Priority'] = $priority;
+		}
+		if ($timeout) {
+			$parameters['Timeout'] = $timeout;
+		}
+		if ($callerid) {
+			$parameters['CallerID'] = $callerid;
+		}
+		if ($variable) {
+			$parameters['Variable'] = $variable;
+		}
+		if ($account) {
+			$parameters['Account'] = $account;
+		}
+		if ($application) {
+			$parameters['Application'] = $application;
+		}
+		if ($data) {
+			$parameters['Data'] = $data;
+		}
 		return $this->send_request('Originate', $parameters);
 	}	
 	
@@ -574,9 +621,12 @@ class AGI_AsteriskManager
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+ParkedCalls
 	*/
-	function ParkedCalls()
-	{
+	function ParkedCalls($actionid=NULL) {
+		if($actionid) {
+			return $this->send_request('ParkedCalls', array('ActionID'=>$actionid));
+		} else {
 		return $this->send_request('ParkedCalls');
+		}
 	}
 	
 	/**
@@ -584,18 +634,42 @@ class AGI_AsteriskManager
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+Ping
 	*/
-	function Ping()
-	{
+	function Ping() {
 		return $this->send_request('Ping');
 	}
 	
+	   /**
+	* Queue Add
+	*
+	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+QueueAdd
+	* @param string $queue
+	* @param string $interface
+	* @param integer $penalty
+	*/
+	function QueueAdd($queue, $interface, $penalty=0) {
+		$parameters = array('Queue'=>$queue, 'Interface'=>$interface);
+		if($penalty) {
+			$parameters['Penalty'] = $penalty;
+		}
+		return $this->send_request('QueueAdd', $parameters);
+	}
+
+	/**
+	* Queue Remove
+	*
+	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+QueueRemove
+	* @param string $queue
+	* @param string $interface
+	*/
+	function QueueRemove($queue, $interface) {
+	 	return $this->send_request('QueueRemove', array('Queue'=>$queue, 'Interface'=>$interface));
+	}
 	/**
 	* Queues
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+Queues
 	*/
-	function Queues()
-	{
+	function Queues() {
 		return $this->send_request('Queues');
 	}
 	
@@ -603,10 +677,14 @@ class AGI_AsteriskManager
 	* Queue Status
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+QueueStatus
+	* @param string $actionid message matching variable
 	*/
-	function QueueStatus()
-	{
-		return $this->send_request('QueueStatus');
+	function QueueStatus($actionid=NULL) {
+		if($actionid) {
+			return $this->send_request('QueueStatus', array('ActionID'=>$actionid));
+		} else {
+			return $this->send_request('QueueStatus');
+		}
 	}
 	
 	/**
@@ -619,52 +697,59 @@ class AGI_AsteriskManager
 	* @param string $context
 	* @param string $priority
 	*/
-	function Redirect($channel, $extrachannel, $exten, $context, $priority)
-	{
+	function Redirect($channel, $extrachannel, $exten, $context, $priority) {
 		return $this->send_request('Redirect', array('Channel'=>$channel, 'ExtraChannel'=>$extrachannel, 'Exten'=>$exten,
 								'Context'=>$context, 'Priority'=>$priority));
 	}
 	
 	/**
 	* Set the CDR UserField
-	*/
-	function SetCDRUserField()
-	{
-		// XXX need to look at source to find this function...
-		return $this->send_request('SetCDRUserField');
+	*
+	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+SetCDRUserField
+	* @param string $userfield
+	* @param string $channel
+	* @param string $append
+*/
+	function SetCDRUserField($userfield, $channel, $append=NULL) {
+		$parameters = array('UserField'=>$userfield, 'Channel'=>$channel);
+		if($append) {
+			$parameters['Append'] = $append;
+		}
+		return $this->send_request('SetCDRUserField', $parameters);
 	}
 	
 	/**
 	* Set Channel Variable
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+SetVar
-	* @param string $channel
-	* @param string $variable
+	* @param string $channel Channel to set variable for
+	* @param string $variable name
 	* @param string $value
 	*/
-	function SetVar($channel, $variable, $value)
-	{
+	function SetVar($channel, $variable, $value) {
 		return $this->send_request('SetVar', array('Channel'=>$channel, 'Variable'=>$variable, 'Value'=>$value));
 	}
 	
 	/**
 	* List SIP Peers
 	*/
-	function SIPpeers()
-	{
+	function SIPpeers() {
 	// XXX need to look at source to find this function...
 		return $this->send_request('SIPpeers');
 	}
 	
-	/**
-	* Channel Status
+	/* Channel Status
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+Status
 	* @param string $channel
-	*/
-	function Status($channel)
-	{	
-		return $this->send_request('Status', array('Channel'=>$channel));
+	* @param string $actionid message matching variable
+*/
+	function Status($channel, $actionid=NULL) {
+		$parameters = array('Channel'=>$channel);
+		if ($actionid) {
+			$parameters['ActionID'] = $actionid;
+		}
+		return $this->send_request('Status', $parameters);
 	}
 	
 	/**
@@ -673,55 +758,97 @@ class AGI_AsteriskManager
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+StopMonitor
 	* @param string $channel
 	*/
-	function StopMontor($channel)
-	{
+	function StopMonitor($channel) {
 		return $this->send_request('StopMonitor', array('Channel'=>$channel));
 	}
 	
 	/**
 	* Dial over Zap channel while offhook
+	*
+	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+ZapDialOffhook
+	* @param string $zapchannel
+	* @param string $number
 	*/
-	function ZapDialOffhook()
-	{
+	function ZapDialOffhook($zapchannel = '', $number = '') {
 		// XXX need to look at source to find this function...
-		return $this->send_request('ZapDialOffhook');
+		if ($zapchannel && $number) {
+			return $this->send_request('ZapDialOffhook', array('ZapChannel'=>$zapchannel, 'Number'=>$number));
+		} else {
+			return $this->send_request('ZapDialOffhook');
+		}
+		
 	}
 	
 	/**
 	* Toggle Zap channel Do Not Disturb status OFF
+	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+ZapDNDoff
+	* @param string $zapchannel
 	*/
-	function ZapDNDoff()
-	{
+	function ZapDNDoff($zapchannel = '') {
 		// XXX need to look at source to find this function...
-		return $this->send_request('ZapDNDoff');
+		if ($zapchannel) {
+			return $this->send_request('ZapDNDoff', array('ZapChannel'=>$zapchannel));
+		} else {
+			return $this->send_request('ZapDNDoff');
+		}
 	}
 	
 	/**
 	* Toggle Zap channel Do Not Disturb status ON
+	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+ZapDNDon
+	* @param string $zapchannel
 	*/
-	function ZapDNDon()
-	{
+	function ZapDNDon($zapchannel = '') {
 		// XXX need to look at source to find this function...
-		return $this->send_request('ZapDNDon');
+		if ($zapchannel) {
+			return $this->send_request('ZapDNDon', array('ZapChannel'=>$zapchannel));
+		} else {
+			return $this->send_request('ZapDNDon');
+		}
 	}
 	
 	/**
 	* Hangup Zap Channel
+	*
+	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+ZapHangup
+	* @param string $zapchannel
 	*/
-	function ZapHangup()
-	{
+	function ZapHangup($zapchannel = '') {
 		// XXX need to look at source to find this function...
-		return $this->send_request('ZapHangup');
+		if ($zapchannel) {
+			return $this->send_request('ZapHangup', array('ZapChannel'=>$zapchannel));
+		} else {
+			return $this->send_request('ZapHangup');
+		}
 	}
 	
 	/**
 	* Transfer Zap Channel
+	*
+	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+ZapTransfer
+	* @param string $zapchannel
 	*/
-	function ZapTransfer()
-	{
+	function ZapTransfer($zapchannel = '') {
 		// XXX need to look at source to find this function...
-		return $this->send_request('ZapTransfer');
+		if ($zapchannel) {
+			return $this->send_request('ZapTransfer', array('ZapChannel'=>$zapchannel));
+		} else {
+			return $this->send_request('ZapTransfer');
+		}
 	}
+	/**
+	* Zap Show Channels
+	*
+	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+ZapShowChannels
+	* @param string $actionid message matching variable
+	*/
+	function ZapShowChannels($actionid=NULL) {
+		if($actionid) {
+			return $this->send_request('ZapShowChannels', array('ActionID'=>$actionid));
+		} else {
+			return $this->send_request('ZapShowChannels');
+		}
+    }
 	
 	/*
 	* Log a message
@@ -729,12 +856,15 @@ class AGI_AsteriskManager
 	* @param string $message
 	* @param integer $level from 1 to 4
 	*/
-	function log($message, $level=1)
-	{
+	function log($message, $level = 1) {
 		if($this->pagi != false) {
 			$this->pagi->conlog($message, $level);
-		} elseif ($level <= $this->log_level) {
-			error_log(date('r') . ' - ' . $message);
+		} elseif ($this->log_level === false && $level <= $this->log_level) {
+			if (function_exists('dbug')) {
+				dbug('php-asmanager log', $message);
+			} else {
+				error_log(date('r') . ' - ' . $message);
+			}
 		}
 	}
 	
@@ -763,7 +893,7 @@ class AGI_AsteriskManager
 	*   join -
 	*   leave -
 	*   AgentCalled -
-	*   ParkedCall -
+	*   ParkedCall - Fired after ParkedCalls
 	*   Cdr -
 	*   ParkedCallsComplete -
 	*   QueueParams -
@@ -771,22 +901,16 @@ class AGI_AsteriskManager
 	*   QueueStatusEnd -
 	*   Status -
 	*   StatusComplete -
-	*   ZapShowChannels -
+	*   ZapShowChannels -  Fired after ZapShowChannels
 	*   ZapShowChannelsComplete -
 	*
 	* @param string $event type or * for default handler
 	* @param string $callback function
 	* @return boolean sucess
 	*/
-	function add_event_handler($event, $callback)
-	{
+	function add_event_handler($event, $callback) {
 		$event = strtolower($event);
-		if(isset($this->event_handlers[$event]))
-		{
-			$this->log("$event handler is already defined, not over-writing.");
-			return false;
-		}
-		$this->event_handlers[$event] = $callback;
+		$this->event_handlers[$event][] = $callback;
 		return true;
 	}
 	
@@ -797,50 +921,60 @@ class AGI_AsteriskManager
 	* @param array $parameters
 	* @return mixed result of event handler or false if no handler was found
 	*/
-	function process_event($parameters)
-	{
+	function process_event($parameters) {
 		$ret = false;
+		$handlers = array();
 		$e = strtolower($parameters['Event']);
 		$this->log("Got event.. $e");		
 		
 		$handler = '';
-		if(isset($this->event_handlers[$e])) $handler = $this->event_handlers[$e];
-		elseif(isset($this->event_handlers['*'])) $handler = $this->event_handlers['*'];
-		
-		if(function_exists($handler))
-		{
-			$this->log("Execute handler $handler");
-			$ret = $handler($e, $parameters, $this->server, $this->port);
+		if(isset($this->event_handlers[$e])) {
+			$handlers = $this->event_handlers[$e];	
 		}
-		else
-			$this->log("No event handler for event '$e'");
+		if(isset($this->event_handlers['*'])) {
+			$handlers[] = $this->event_handlers['*'];	
+		}
+		
+		foreach ($handlers as $handler) {
+			if(is_callable($handler)){
+				if (is_array($handler)) {
+					$this->log('Execute handler ' . get_class($handler[0]) . '::' . $handler[1]);
+					$ret = $handler[0]->$handler[1]($e, $parameters, $this->server, $this->port);
+				} else {
+					$this->log("Execute handler $handler");
+					$ret = $handler($e, $parameters, $this->server, $this->port);
+				}
+			}
+		}
+		
+
 		return $ret;
 	}
 	
 	/** Show all entries in the asterisk database
-	 * @return Array associative array of key=>value
-	 */
+	* @return Array associative array of key=>value
+	*/
 	function database_show($family='') {
-    if ($this->useCaching && $this->memAstDB != null) {
-      if ($family == '') {
-        return $this->memAstDB;
-      } else {
-        $key = '/'.$family;
-        if (isset($this->memAstDB[$key])) {
-          return array($key => $this->memAstDB[$key]);
-        } else {
-          $key .= '/';
-          $len = strlen($key);
-          $fam_arr = array();
-          foreach ($this->memAstDB as $this_key => $value) {
-            if (substr($this_key,0,$len) ==  $key) {
-              $fam_arr[$this_key] = $value;
-            }
-          }
-          return $fam_arr;
-        }
-      }
-    }
+		if ($this->useCaching && $this->memAstDB != null) {
+			if ($family == '') {
+				return $this->memAstDB;
+			} else {
+ 				$key = '/'.$family;
+				if (isset($this->memAstDB[$key])) {
+					return array($key => $this->memAstDB[$key]);
+				} else {
+					$key .= '/';
+					$len = strlen($key);
+					$fam_arr = array();
+					foreach ($this->memAstDB as $this_key => $value) {
+						if (substr($this_key,0,$len) ==  $key) {
+							$fam_arr[$this_key] = $value;
+						}
+					}
+					return $fam_arr;
+				}
+			}
+		}
 		$r = $this->command("database show $family");
 		
 		$data = explode("\n",$r["data"]);
@@ -851,7 +985,7 @@ class AGI_AsteriskManager
 		array_shift($data);
 		foreach ($data as $line) {
 			$temp = explode(":",$line,2);
-      if (trim($temp[0]) != '' && count($temp) == 2) {
+			if (trim($temp[0]) != '' && count($temp) == 2) {
 				$temp[1] = isset($temp[1])?$temp[1]:null;
 				$db[ trim($temp[0]) ] = trim($temp[1]);
 			}
@@ -868,10 +1002,10 @@ class AGI_AsteriskManager
 	function database_put($family, $key, $value) {
 		$value = (trim($value) == '')?'"'.$value.'"':$value;
 		$r = $this->command("database put ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key)." ".$value);
-    if (!empty($this->memAstDB)){
-      $keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
-      $this->memAstDB[$keyUsed] = $value;
-    }
+		if (!empty($this->memAstDB)){
+			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
+			$this->memAstDB[$keyUsed] = $value;
+		}
 		return (bool)strstr($r["data"], "success");
 	}
 	
@@ -880,24 +1014,24 @@ class AGI_AsteriskManager
 	 * @param string $key		The key name to use
 	 * @return mixed Value of the key, or false if error
 	 */
-  function database_get($family, $key) {
-    if ($this->useCaching) {
-      if ($this->memAstDB == null) {
-        $this->LoadAstDB();
-      }
-      $keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
-      if (array_key_exists($keyUsed,$this->memAstDB)){            
-        return $this->memAstDB[$keyUsed];
-      }
-    } else {
-		  $r = $this->command("database get ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
-		  $data = strpos($r["data"],"Value:");
-		  if ($data !== false) {
-			  return trim(substr($r["data"],6+$data));
-		  }
-    }
-    return false;
-  }
+	function database_get($family, $key) {
+		if ($this->useCaching) {
+			if ($this->memAstDB == null) {
+				$this->LoadAstDB();
+			}
+			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
+			if (array_key_exists($keyUsed,$this->memAstDB)){            
+				return $this->memAstDB[$keyUsed];
+			}
+		} else {
+			$r = $this->command("database get ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
+			$data = strpos($r["data"],"Value:");
+			if ($data !== false) {
+				return trim(substr($r["data"],6+$data));
+			}
+		}
+		return false;
+	}
 
 	
 	/** Delete an entry from the asterisk database
@@ -906,10 +1040,10 @@ class AGI_AsteriskManager
 	 * @return bool True if successful
 	 */
 	function database_del($family, $key) {
-    if (!empty($this->memAstDB)){
-      $keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
-      unset($this->memAstDB[$keyUsed]);
-    }
+ 		if (!empty($this->memAstDB)){
+			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
+			unset($this->memAstDB[$keyUsed]);
+		}
 		$r = $this->command("database del ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
 		return (bool)strstr($r["data"], "removed");
 	}
@@ -919,10 +1053,10 @@ class AGI_AsteriskManager
 	 * @return bool True if successful
 	 */
 	function database_deltree($family) {
-    if (!empty($this->memAstDB)){
-      $keyUsed="/".str_replace(" ","/",$family);
-      unset($this->memAstDB[$keyUsed]);
-    }
+		if (!empty($this->memAstDB)){
+			$keyUsed="/".str_replace(" ","/",$family);
+			unset($this->memAstDB[$keyUsed]);
+		}
 		$r = $this->command("database deltree ".str_replace(" ","/",$family));
 		return (bool)strstr($r["data"], "removed");
 	}
