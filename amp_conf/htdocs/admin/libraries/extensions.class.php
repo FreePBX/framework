@@ -447,8 +447,9 @@ class ext_gosub extends extension {
 	var $pri;
 	var $ext;
 	var $context;
+	var $args;
 	
-	function ext_gosub($pri, $ext = false, $context = false) {
+	function ext_gosub($pri, $ext = false, $context = false, $args='') {
 		if ($context !== false && $ext === false) {
 			trigger_error("\$ext is required when passing \$context in ext_gosub::ext_gosub()");
 		}
@@ -456,6 +457,7 @@ class ext_gosub extends extension {
 		$this->pri = $pri;
 		$this->ext = $ext;
 		$this->context = $context;
+		$this->args = $args;
 	}
 	
 	function incrementContents($value) {
@@ -463,7 +465,7 @@ class ext_gosub extends extension {
 	}
 	
 	function output() {
-		return 'Gosub('.($this->context ? $this->context.',' : '').($this->ext ? $this->ext.',' : '').$this->pri.')' ;
+		return 'Gosub('.($this->context ? $this->context.',' : '').($this->ext ? $this->ext.',' : '').$this->pri.'('.$this->args.'))' ;
 	}
 }
 
@@ -483,13 +485,15 @@ class ext_gosubif extends extension {
 	var $true_priority;
 	var $false_priority;
 	var $condition;
-	function ext_gosubif($condition, $true_priority, $false_priority = false) {
+	function ext_gosubif($condition, $true_priority, $false_priority = false, $true_args = '', $false_args = '') {
 		$this->true_priority = $true_priority;
 		$this->false_priority = $false_priority;
+		$this->true_args = $true_args;
+		$this->false_args = $false_args;
 		$this->condition = $condition;
 	}
 	function output() {
-		return 'GosubIf(' .$this->condition. '?' .$this->true_priority.($this->false_priority ? ':' .$this->false_priority : '' ). ')' ;
+		return 'GosubIf(' .$this->condition. '?' .$this->true_priority.'('.$this->true_args.')'.($this->false_priority ? ':' .$this->false_priority.'('.$this->false_args.')' : '' ). ')' ;
 	}
 	function incrementContents($value) {
 		$this->true_priority += $value;
