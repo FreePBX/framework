@@ -423,11 +423,16 @@ function edit_crontab($remove = '', $add = '') {
 	if($add) {
 		if (is_array($add)) {
 			if (isset($add['command'])) {
-				$cron_add['minute']		= isset($add['minute'])	? $add['minute']	: '*';
-				$cron_add['hour']		= isset($add['hour'])	? $add['hour']		: '*';
-				$cron_add['dom']		= isset($add['dom'])	? $add['dom']		: '*';
-				$cron_add['month']		= isset($add['month'])	? $add['month']		: '*';
-				$cron_add['dow']		= isset($add['dow'])	? $add['dow']		: '*';
+				//see if we have a one word event such as daily, weekly, anually, etc
+				if (isset($add['event'])) {
+					$cron_add['event'] = '@' . trim($add['event'], '@');
+				} else {
+					$cron_add['minute']		= isset($add['minute'])	? $add['minute']	: '*';
+					$cron_add['hour']		= isset($add['hour'])	? $add['hour']		: '*';
+					$cron_add['dom']		= isset($add['dom'])	? $add['dom']		: '*';
+					$cron_add['month']		= isset($add['month'])	? $add['month']		: '*';
+					$cron_add['dow']		= isset($add['dow'])	? $add['dow']		: '*';
+				}
 				$cron_add['command']	= $add['command'];
 				$cron_add = implode(' ', $cron_add);
 			} else {
@@ -447,6 +452,7 @@ function edit_crontab($remove = '', $add = '') {
 
 	//write out crontab
 	$exec = '/bin/echo "' . implode("\n", $cron_out) . '" | /usr/bin/crontab ' . $cron_user . '-';
+	//dbug('writing crontab', $exec);
 	exec($exec, $out_arr, $ret);
 
 	return ($ret > 0 ? false : true);
@@ -523,4 +529,50 @@ function freepbx_error_handler($errno, $errstr, $errfile, $errline,  $errcontext
 				dbug_write($txt, $check='');
 				break;
 			}
+}
+
+//this function can print a json object in a "pretty" (i.e. human-readbale) format
+function json_print_pretty($json, $indent = "\t") {
+	$f			= '';
+	$len		= strlen($json);
+	$depth		= 0;
+	$newline	= false;
+
+	for ($i = 0; $i < $len; ++$i) {
+		if ($newline) {
+			$f .= "\n";
+			$f .= str_repeat($indent, $depth);
+			$newline = false;
+		}
+
+		$c = $json[$i];
+		if ($c == '{' || $c == '[') {
+			$f .= $c;
+			$depth++;
+			$newline = true;
+		} else if ($c == '}' || $c == ']') {
+			$depth--;
+			$f .= "\n";
+			$f .= str_repeat($indent, $depth);
+			$f .= $c;
+		} else if ($c == '"') {
+			$s = $i;
+			do {
+				$c = $json[++$i];
+				if ($c == '\\') {
+					$i += 2;
+					$c = $json[$i];
+				}
+			} while ($c != '"');
+			$f .= substr($json, $s, $i-$s+1);
+		} else if ($c == ':') {
+			$f .= ': ';
+		} else if ($c == ',') {
+			$f .= ',';
+			$newline = true;
+		} else {
+			$f .= $c;
+		}
+	}
+	return $f;
 }
