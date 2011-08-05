@@ -674,7 +674,7 @@ function dbug_printtree($dir, $indent = "\t") {
 /**
  * returns the absolute path to a system application
  * 
- * @auther Moshe Brevda mbrevda => gmail ~ com
+ * @author Moshe Brevda mbrevda => gmail ~ com
  * @pram string
  * @retruns string
  */
@@ -722,7 +722,7 @@ function fpbx_which($app) {
 			);
 			$freepbx_conf->define_conf_setting('WHICH_' . $app, $set);
 			$freepbx_conf->commit_conf_settings();
-			print_r($set);
+			
 			//return the path
 			return $path[0];
 		} else {
