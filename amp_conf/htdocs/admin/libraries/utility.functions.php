@@ -576,3 +576,162 @@ function json_print_pretty($json, $indent = "\t") {
 	}
 	return $f;
 }
+
+function astdb_get($exclude = array()) {
+	global $astman;
+	$db			= $astman->database_show();
+	$astdb		= array();
+	
+	foreach ($db as $k => $v) {
+		if (!in_array($k, $exclude)) {
+			$key = explode('/', trim($k, '/'), 2);
+			//dbug($k, $key[1]);
+			$astdb[$key[0]][$key[1]] = $v;
+		}
+	}
+	
+	return $astdb;
+}
+
+function astdb_put($astdb, $exclude = array()) {
+	global $astman;
+	$db	= $astman->database_show();
+
+	foreach ($astdb as $family => $key) {
+		
+		if ($family && !in_array($family, $exclude)) {
+			$astman->database_deltree($family);
+		}
+
+		foreach($key as $k => $v) {
+			//if ($k == 'Array' && $v == '<bad value>') continue;
+			$astman->database_put($family, $k, $v);
+		}
+		
+	}
+	return true;
+}
+
+/**
+ * function scandirr
+ * scans a directory just like scandir(), only recursively
+ * returns a hierarchical array representing the directory structure
+ *
+ * @pram string
+ * @returns array
+ *
+ * @TODO: there is much that can be done to make this more useful
+ * for example, as option to return absolute paths
+ */
+function scandirr($dir) {
+	$list = array();
+	
+	//get directory contents
+	foreach (scandir($dir) as $d) {
+		
+		//ignore any of the files in the array
+		if (in_array($d, array('.', '..'))) {
+			continue;
+		}
+		
+		//if current file ($d) is a directory, call scandirr
+		if (is_dir($dir . '/' . $d)) {
+			$list[$d] = scandirr($dir . '/' . $d);
+		
+			//otherwise, add the file to the list
+		} elseif (is_file($dir . '/' . $d) || is_link($dir . '/' . $d)) {
+			$list[] = $d;
+		}
+	}
+	
+	return $list;
+}
+
+function dbug_printtree($dir, $indent = "\t") {
+	static $t = 0;
+	$foo = '';
+	foreach ($dir as $key => $val) {
+		//if this item is an array, its probobly a direcotry
+		if (is_array($val)) {
+			for ($i = 0; $i < $t; $i++) {
+				$foo .= $indent;
+			}
+			//return the directory name
+			$foo .= '[' . $key . ']' . "\n";
+			++$t;
+			printtree($val, $indent);
+			--$t;
+		} else {
+			for ($i = 0; $i < $t; $i++) {
+				$foo .= $indent;
+			}
+			//return file name
+			$foo .= $val . "\n";
+		}
+	}
+}
+
+/**
+ * returns the absolute path to a system application
+ * 
+ * @auther Moshe Brevda mbrevda => gmail ~ com
+ * @pram string
+ * @retruns string
+ */
+function fpbx_which($app) {
+	global $amp_conf, $freepbx_conf;
+	
+	//if we have the location cached return it
+	if (isset($amp_conf['WHICH_' . $app]) && $amp_conf['WHICH_' . $app]) {
+		return $amp_conf['WHICH_' . $app];
+		
+	//otherwise, search for it
+	} else {
+		//ist of posible plases to find which
+		
+		$which = array(
+				'which',
+				'/usr/bin/which' //centos/mac osx
+		);
+		
+		foreach ($which as $w) {
+			exec($w . ' ' . $app, $path, $ret);
+			
+			//exit if we have a posotive find
+			if ($ret === 0) {
+				break;
+			}
+		}
+		
+		if($path[0]) {
+			//if we have a path add it to freepbx settings
+			$set = array(
+					'value'			=> $path[0],
+					'defaultval'	=> $path[0],
+					'readonly'		=> 0,
+					'hidden'		=> 0,
+					'level'			=> 2,
+					'module'		=> '',
+					'category'		=> 'System Apps',
+					'emptyok'		=> 1,
+					'name'			=> 'Path for ' . $app,
+					'description'	=> 'The path to ' . $app 
+									. ' as auto-determined by the system.'
+									. ' Overwrite as necessary.',
+					'type'			=> CONF_TYPE_TEXT
+			);
+			$freepbx_conf->define_conf_setting('WHICH_' . $app, $set);
+			$freepbx_conf->commit_conf_settings();
+			print_r($set);
+			//return the path
+			return $path[0];
+		} else {
+			return false;
+		}
+	}
+}
+
+
+
+
+
