@@ -153,7 +153,7 @@ function getversion($cached=true) {
 	}
 	$sql		= "SELECT value FROM admin WHERE variable = 'version'";
 	$results	= $db->getRow($sql);
-	if(DB::IsError($results)) {
+	if($db->IsError($results)) {
 		die_freepbx($sql."<br>\n".$results->getMessage());
 	}
 	return $results[0];
@@ -168,7 +168,7 @@ function get_framework_version($cached=true) {
 	}
 	$sql		= "SELECT version FROM modules WHERE modulename = 'framework' AND enabled = 1";
 	$version	= $db->getOne($sql);
-	if(DB::IsError($version)) {
+	if($db->IsError($version)) {
 		die_freepbx($sql."<br>\n".$version->getMessage());
 	}
 	return $version;
@@ -179,7 +179,7 @@ function needreload() {
 	global $db;
 	$sql	= "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'"; 
 	$result	= $db->query($sql); 
-	if(DB::IsError($result)) {     
+	if($db->IsError($result)) {     
 		die_freepbx($sql.$result->getMessage()); 
 	}
 }
@@ -189,7 +189,7 @@ function check_reload_needed() {
 	global $amp_conf;
 	$sql = "SELECT value FROM admin WHERE variable = 'need_reload'";
 	$row = $db->getRow($sql);
-	if(DB::IsError($row)) {
+	if($db->IsError($row)) {
 		die_freepbx($sql.$row->getMessage());
 	}
 	return ($row[0] == 'true' || $amp_conf['DEVELRELOAD']);
@@ -204,17 +204,18 @@ function freepbx_debug($string, $option='', $filename='') {
 	dbug($string);
 }
 
- /* 
-  * FreePBX Debugging function
-  * This function can be called as follows:
-  * dbug() - will just print a time stamp to the debug log file ($amp_conf['FPBXDBUGFILE'])
-  * dbug('string') - same as above + will print the string
-  * dbug('string',$array) - same as above + will print_r the array after the message
-  * dbug($array) - will print_r the array with no message (just a time stamp)  
-  * dbug('string',$array,1) - same as above + will var_dump the array
-  * dbug($array,1) - will var_dump the array with no message  (just a time stamp)
-  * 	 
- 	*/  
+/**
+ * FreePBX Debugging function
+ * This function can be called as follows:
+ * dbug() - will just print a time stamp to the debug log file ($amp_conf['FPBXDBUGFILE'])
+ * dbug('string') - same as above + will print the string
+ * dbug('string',$array) - same as above + will print_r the array after the message
+ * dbug($array) - will print_r the array with no message (just a time stamp)  
+ * dbug('string',$array,1) - same as above + will var_dump the array
+ * dbug($array,1) - will var_dump the array with no message  (just a time stamp)
+ * 	 
+ * @author Moshe Brevda mbrevda => gmail ~ com
+ */  
 function dbug(){
 	global $amp_conf;
 
@@ -267,7 +268,7 @@ function dbug(){
 		$msg=ob_get_contents();
 		ob_end_clean();
 		dbug_write($msg."\n\n\n");
-	} elseif(is_array($msg)||is_object($msg)) {
+	} elseif(is_array($msg) || is_object($msg)) {
 		dbug_write(print_r($msg,true)."\n\n\n");
 	} else {
 		dbug_write($msg."\n\n\n");
@@ -368,6 +369,7 @@ function file_get_contents_url($fn) {
  * short Add/removes stuff rom conrtab
  * long Use this function to programmatically add/remove data from the crontab
  * will always run as the asterisk user
+ * @author Moshe Brevda mbrevda => gmail ~ com
  *
  * @pram string
  * @pram mixed
@@ -458,6 +460,10 @@ function edit_crontab($remove = '', $add = '') {
 	return ($ret > 0 ? false : true);
 }
 
+/**
+ *
+ * @author Moshe Brevda mbrevda => gmail ~ com
+ */
 function dbug_write($txt,$check=''){
 	global $amp_conf;
 
@@ -531,7 +537,10 @@ function freepbx_error_handler($errno, $errstr, $errfile, $errline,  $errcontext
 			}
 }
 
-//this function can print a json object in a "pretty" (i.e. human-readbale) format
+/**
+ * this function can print a json object in a "pretty" (i.e. human-readbale) format
+ * @author Moshe Brevda mbrevda => gmail ~ com
+ */
 function json_print_pretty($json, $indent = "\t") {
 	$f			= '';
 	$len		= strlen($json);
@@ -577,6 +586,10 @@ function json_print_pretty($json, $indent = "\t") {
 	return $f;
 }
 
+/**
+ *
+ * @author Moshe Brevda mbrevda => gmail ~ com
+ */
 function astdb_get($exclude = array()) {
 	global $astman;
 	$db			= $astman->database_show();
@@ -593,6 +606,10 @@ function astdb_get($exclude = array()) {
 	return $astdb;
 }
 
+/**
+ *
+ * @author Moshe Brevda mbrevda => gmail ~ com
+ */
 function astdb_put($astdb, $exclude = array()) {
 	global $astman;
 	$db	= $astman->database_show();
@@ -620,6 +637,7 @@ function astdb_put($astdb, $exclude = array()) {
  * @pram string
  * @returns array
  *
+ * @author Moshe Brevda mbrevda => gmail ~ com
  * @TODO: there is much that can be done to make this more useful
  * for example, as option to return absolute paths
  */
@@ -732,6 +750,231 @@ function fpbx_which($app) {
 }
 
 
+/**
+ * http://php.net/manual/en/function.getopt.php
+ * temporary polyfill for proper working of getopt()
+ * will revert to the native function if php >= 5.3.0
+ * 
+ *
+ * ===============================================================
+ * THIS FUNCTION SHOULD NOT BE RELIED UPON AS IT WILL REMOVED 
+ * ONCE THE PROJECT REQUIRES PHP 5.3.0
+ * if you must, call like:
+ * $getopts = (function_exists('_getopt') ? '_' : '') . 'getopt';
+ * $vars = $getopts($short = '', $long = array('id::'));
+ * ===============================================================
+ * 
+ *
+ * http://www.ntu.beautifulworldco.com/weblog/?p=526
+ */
+function _getopt() {
+	if (func_num_args() == 1) {
+		$flag = $flag_array = $GLOBALS['argv'];
+		$short_option		= func_get_arg(0);
+		$long_option		= array();
+	} elseif (func_num_args() == 2) {
+		if (is_array(func_get_arg(1))) {
+			$flag = $GLOBALS['argv'];
+			$short_option	= func_get_arg(0);
+			$long_option	= func_get_arg(1);
+		} else {
+			$flag			= func_get_arg(0);
+			$short_option	= func_get_arg(1);
+			$long_option	= array ();
+		}
+	} else if ( func_num_args() == 3 ) {
+		$flag				= func_get_arg(0);
+		$short_option		= func_get_arg(1);
+		$long_option		= func_get_arg(2);
+	} else {
+		exit ( "wrong options\n" );
+	}
+	if (PHP_VERSION_ID >= 50300) {
+		return getopt($short_option, $long_option);
+	}
+	$short_option			= trim ( $short_option );
+	$short_no_value			= array();
+	$short_required_value	= array();
+	$short_optional_value	= array();
+	$long_no_value			= array();
+	$long_required_value	= array();
+	$long_optional_value	= array();
+	$options				= array();
 
+	for ($i = 0; $i < strlen ($short_option);) {
+		if ($short_option{$i} != ":") {
+			if ($i == strlen ($short_option) - 1) {
+				$short_no_value[] = $short_option{$i};
+				break;
+			} else if ($short_option{$i+1} != ":") {
+				$short_no_value[] = $short_option{$i};
+				$i++;
+				continue;
+			} elseif ($short_option{$i+1} == ":" && $short_option{$i+2} != ":") {
+				$short_required_value[] = $short_option{$i};
+				$i += 2;
+				continue;
+				} elseif ($short_option{$i+1} == ":" && $short_option{$i+2} == ":") {
+				$short_optional_value[] = $short_option{$i};
+				$i += 3;
+				continue;
+			}
+		} else {
+			continue;
+		}
+	}
 
+	foreach ($long_option as $a) {
+		if ( substr( $a, -2 ) == "::" ) {
+			$long_optional_value[] = substr($a, 0, -2);
+			continue;
+		} elseif (substr( $a, -1 ) == ":") {
+			$long_required_value[] = substr($a, 0, -1 );
+			continue;
+		} else {
+			$long_no_value[] = $a;
+			continue;
+		}
+	}
 
+	if (is_array ($flag)) {
+		$flag_array = $flag;
+	} else {
+		$flag = "- $flag";
+		$flag_array = split_para($flag);
+	}
+
+	for ($i = 0; $i < count($flag_array);) {
+
+		if ($i >= count ($flag_array) )
+			break;
+
+		if (!$flag_array[$i] || $flag_array[$i] == "-") {
+			$i++;
+			continue;
+		}
+
+		if ($flag_array[$i]{0} != "-") {
+			$i++;
+			continue;
+		}
+
+		if (substr( $flag_array[$i], 0, 2 ) == "--") {
+			if (strpos($flag_array[$i], '=') != false) {
+				list($key, $value) = explode('=', substr($flag_array[$i], 2), 2);
+				if (in_array($key, $long_required_value) || in_array($key, $long_optional_value)) {
+					$options[$key][] = $value;
+				}
+				$i++;
+				continue;
+			}
+			if (strpos($flag_array[$i], '=') == false) {
+				$key = substr( $flag_array[$i], 2 );
+				if ( in_array( substr( $flag_array[$i], 2 ), $long_required_value ) ) {
+					$options[$key][] = $flag_array[$i+1];
+					$i += 2;
+					continue;
+				} elseif (in_array(substr($flag_array[$i], 2), $long_optional_value)) {
+					if ($flag_array[$i+1] != "" && $flag_array[$i+1]{0} != "-") {
+						$options[$key][] = $flag_array[$i+1];
+						$i += 2;
+					} else {
+						$options[$key][] = FALSE;
+						$i ++;
+					}
+					continue;
+				} else if (in_array(substr( $flag_array[$i], 2 ), $long_no_value ) ) {
+					$options[$key][] = FALSE;
+					$i++;
+					continue;
+				} else {
+					$i++;
+					continue;
+				}
+			}
+		} else if ( $flag_array[$i]{0} == "-" && $flag_array[$i]{1} != "-" ) {
+			for ( $j=1; $j < strlen($flag_array[$i]); $j++ ) {
+				if ( in_array( $flag_array[$i]{$j}, $short_required_value ) || in_array( $flag_array[$i]{$j}, $short_optional_value )) {
+
+					if ( $j == strlen($flag_array[$i]) - 1  ) {
+						if ( in_array( $flag_array[$i]{$j}, $short_required_value ) ) {
+							$options[$flag_array[$i]{$j}][] = $flag_array[$i+1];
+							$i += 2;
+						} else if (in_array($flag_array[$i]{$j}, $short_optional_value ) && $flag_array[$i+1] != "" && $flag_array[$i+1]{0} != "-" ) {
+							$options[$flag_array[$i]{$j}][] = $flag_array[$i+1];
+							$i += 2;
+						} else {
+							$options[$flag_array[$i]{$j}][] = FALSE;
+							$i ++;
+						}
+						$plus_i = 0;
+						break;
+					} else {
+						$options[$flag_array[$i]{$j}][] = substr ( $flag_array[$i], $j + 1 );
+							$i ++;
+						$plus_i = 0;
+						break;
+					}
+				} else if(in_array($flag_array[$i]{$j}, $short_no_value)) {
+					$options[$flag_array[$i]{$j}][] = FALSE;
+					$plus_i = 1;
+					continue;
+				}
+			}
+			$i += $plus_i;
+			continue;
+		}
+		$i++;
+		continue;
+	}
+
+	foreach ($options as $key => $value) {
+		if (count ( $value ) == 1) {
+			$options[ $key ] = $value[0];
+		}
+	}
+
+	return $options;
+
+}
+
+/**
+ * returns a rounded string representation of a byte size
+ * 
+ * @author http://us2.php.net/manual/en/function.memory-get-usage.php#96280
+ * @pram int
+ * @retruns string
+ */
+function bytes2string($size){
+    $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+    return round($size / pow(1024, ($i = floor(log($size, 1024))))) . ' ' . $unit[$i];
+ }
+
+/**
+ * returns the absolute path to a system application
+ * 
+ * @author Moshe Brevda mbrevda => gmail ~ com
+ * @pram string
+ * @pram string, optional
+ * @returns string
+ */
+function string2bytes($str, $type = ''){
+	if (!$type) {
+		$str	= explode(' ', $str);
+		$type	= strtolower($str[1]);
+		$str	= $str[0];
+	}
+	
+    $units	= array(
+					'b'		=> 1,
+					'kb'	=> 1024,
+					'mb'	=> 1024 * 1024,
+					'gb'	=> 1024 * 1024 * 1024,
+					'tb'	=> 1024 * 1024 * 1024 * 1024,
+					'pb'	=> 1024 * 1024 * 1024 * 1024 * 1024
+			);
+	
+    return isset($str, $units[$type]) 
+			? round($str * $units[$type]) 
+			: false;
+ }
