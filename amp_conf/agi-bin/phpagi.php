@@ -334,7 +334,7 @@
     */
     function exec($application, $options)
     {
-      if(is_array($options)) $options = join('|', $options);
+      if(is_array($options)) $options = join(',', $options);
       return $this->evaluate("EXEC $application $options");
     }
 
@@ -851,7 +851,7 @@
     */
     function exec_dial($type, $identifier, $timeout=NULL, $options=NULL, $url=NULL)
     {
-      return $this->exec('Dial', trim("$type/$identifier|$timeout|$options|$url", '|'));
+      return $this->exec('Dial', trim("$type/$identifier,$timeout,$options,$url", ','));
     }
 
    /**
@@ -867,7 +867,7 @@
     */
     function exec_goto($a, $b=NULL, $c=NULL)
     {
-      return $this->exec('Goto', trim("$a|$b|$c", '|'));
+      return $this->exec('Goto', trim("$a,$b,$c", ','));
     }
 
 
