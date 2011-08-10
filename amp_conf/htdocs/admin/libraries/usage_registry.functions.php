@@ -464,7 +464,7 @@ function framework_change_destination($old_dest, $new_dest, $module_hash=false) 
  * 					called , if its found
  *
  */
-function mod_func_iterator($func, $opts = '') {
+function mod_func_iterator($func, &$opts = '') {
 	global $active_modules;
 	$res = array();
 	
