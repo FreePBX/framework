@@ -978,3 +978,32 @@ function string2bytes($str, $type = ''){
 			? round($str * $units[$type]) 
 			: false;
  }
+
+/**
+ * downloads a file to the browser (i.e. sends the file to the browser)
+ * 
+ * @author Moshe Brevda mbrevda => gmail ~ com
+ * @pram string
+ * @pram string, optional
+ * @pram string, optional
+ */
+function download_file($file, $name = '', $type = '') {
+	if (file_exists($file)) {
+		$name = $name ? $name : basename($file);
+		$type = $type ? $type : 'application/octet-stream';
+		header('Content-Description: File Transfer');
+		header('Content-Type: ' . $type);
+		header('Content-Disposition: attachment; filename=' . $name);
+		header('Content-Transfer-Encoding: binary');
+		header('Expires: 0');
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Pragma: public');
+		header('Content-Length: ' . filesize($file));
+		ob_clean();
+		flush();
+		readfile($file);
+		exit;
+	} else {
+		return false;
+	}
+}
