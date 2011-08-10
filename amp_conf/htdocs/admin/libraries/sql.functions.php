@@ -59,4 +59,65 @@ function execSQL( $file ) {
 	}
   return true;
 }
+
+/**
+ * test if a pear::db object is an error
+ * 
+ * ====================================
+ * THIS FUNCTION IS EXPERIMENTAL
+ * ====================================
+ *
+ * @pram object - the results of a query
+ * @pram mixed function or an array($object, 'method') to call on error
+ * @pram int - desired debug level
+ * @pram array an array of variables to pass to the action function
+ *
+ * @returns true if the object is an error and false if the query was successful
+ *
+ * @example $q = $db->getOne('select foo from bar'); db_e($q);
+ * @example $q = $db->getOne('select foo from bar'); 
+ * if (db_e($q, '')) {
+ *	//do error handling here
+ * }
+ */
+function db_e($obj, $action = 'die_freepbx', $debug_level = 4, $args = '') {
+	global $db;
+	if ($db->isError($obj)) {
+		if ($action) {
+			switch ($debug_level) {
+				case 1:
+					$db_dbug = 'getMessage';
+					break;
+				case 2:
+					$db_dbug = 'getCode';
+					break;
+				case 3:
+					$db_dbug = 'getUserInfo';
+					break;
+				case 4:
+					$db_dbug = 'getDebugInfo';
+					break;
+			}
+			
+			if (is_array($args)) {
+				$args['error'] = $obj->$db_dbug();
+				if (is_array($action)) {
+					call_user_func_array($action[0]->$action[1], $args);
+				} else {
+					call_user_func_array($action, $args);
+				}
+			} else {
+				if (is_array($action)) {
+					call_user_func($action[0]->$action[1], $obj->$db_dbug());
+				} else {
+					call_user_func($action, $obj->$db_dbug());
+				}
+
+			}
+		}
+		return true;
+	} else {
+		return false;
+	}
+}
 ?>
