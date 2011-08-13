@@ -70,6 +70,13 @@ class freepbx_conf {
   'ARI_ADMIN_PASSWORD' => array(CONF_TYPE_TEXT, 'ari_password'),
   'CFRINGTIMERDEFAULT' => array(CONF_TYPE_SELECT, '0'),
 
+  'AMPASTERISKWEBUSER'	=> array(CONF_TYPE_TEXT, 'asterisk'),
+  'AMPASTERISKWEBGROUP'	=> array(CONF_TYPE_TEXT, 'asterisk'),
+  'AMPASTERISKUSER'	=> array(CONF_TYPE_TEXT, 'asterisk'),
+  'AMPASTERISKGROUP'	=> array(CONF_TYPE_TEXT, 'asterisk'),
+  'AMPDEVUSER'	   => array(CONF_TYPE_TEXT, 'apache'),
+  'AMPDEVGROUP'    => array(CONF_TYPE_TEXT, 'apache'),
+
   'ASTETCDIR'      => array(CONF_TYPE_DIR, '/etc/asterisk'),
   'ASTMODDIR'      => array(CONF_TYPE_DIR, '/usr/lib/asterisk/modules'),
   'ASTVARLIBDIR'   => array(CONF_TYPE_DIR, '/var/lib/asterisk'),

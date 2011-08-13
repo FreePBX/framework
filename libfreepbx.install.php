@@ -194,6 +194,8 @@ function checkDiff($file1, $file2) {
 }
 
 function amp_mkdir($directory, $mode = "0755", $recursive = false) {
+	global $runas_uid;
+	global $runas_gid;
 	debug("mkdir ".$directory.", ".$mode);
 	$ntmp = sscanf($mode,"%o",$modenum); //assumes all inputs are octal
 	if (version_compare(phpversion(), '5.0') < 0) {
@@ -202,12 +204,17 @@ function amp_mkdir($directory, $mode = "0755", $recursive = false) {
 			$output = false;
 			$return_value = false;
 			exec("mkdir -m ".$mode." -p ".$directory,  $output, $return_value);
+			exec("chown -R $runas_uid:$runas_gid $directory");
 			return ($return_value == 0);
 		} else {
-			return mkdir($directory, $modenum);
+			$ret=mkdir($directory, $modenum);
+			exec("chown -R $runas_uid:$runas_gid $directory");
+			return $ret;
 		}
 	} else {
-		return mkdir($directory, $modenum, $recursive);
+		$ret=mkdir($directory, $modenum, $recursive);
+		exec("chown -R $runas_uid:$runas_gid $directory");
+		return $ret;
 	}
 }
 

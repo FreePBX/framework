@@ -53,7 +53,6 @@ function showHelp() {
 	out("  --sbin <path>            Path of system admin binaries",false);
 	out("  --asteriskuser <user>    Asterisk Manager username",false);
 	out("  --asteriskpass <pass>    Asterisk Manager password",false);
-	out("  --systemconfig <path>    System config files",false);
 	out("  --debug                  Enable debug output",false);
 	out("  --dry-run                Don't actually do anything",false);
 	out("  --force-version <ver>    Force upgrade from version <ver>",false);
@@ -68,6 +67,10 @@ function showHelp() {
 	out("                           (intended for developers only)",false);
 	out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct",false);
 	out("  --engine <name>          Use the specified PBX Engine ('asterisk')",false);
+	out("  --uid <user>             Set ownership of files to user",false);
+	out("  --gid <group>            Set ownership of files to group",false);
+	out("  --scripted               Scripted install. Do not ask any questions.",false);
+	out("                           (Intended for unattended installers only)",false);
 }
 
 function install_parse_amportal_conf($filename) {
@@ -200,6 +203,7 @@ function generate_configs() {
 	global $amp_conf;
 	global $dryrun;
 	global $debug;
+	global $runas_uid;
 	
 	out("Generating Configurations.conf, (if Asterisk is not running, you will get an error");
 	out("In case of error, start Asterisk and hit the red bar in the GUI to generate the Configurations.conf files");
@@ -208,10 +212,8 @@ function generate_configs() {
 
 		//
 		// TODO: Should check if Asterisk is running and/or try to start it.
-    // TODO: test this
 		//
-    $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
-		passthru("sudo -u $asteriskuser  ".trim($amp_conf["AMPBIN"])."/retrieve_conf --run-install ".($debug ? ' --debug' : ''));
+		passthru("sudo -u $runas_uid ".trim($amp_conf["AMPBIN"])."/retrieve_conf --run-install ".($debug ? ' --debug' : ''));
 }
 
 
@@ -224,9 +226,42 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	global $ampbin_dir;
 	global $asterisk_user;
 	global $asterisk_pass;
+	global $scripted;
+	global $freepbxip;
+	global $asteriskip;
+	global $runas_uid;
+	global $runas_gid;
 
 	out("Creating new $filename");
 	
+	if ($scripted == true) {
+		# Scripted install. Everything should have been set for us, don't ask questions.
+		out("Scripted install. Accepting command line params.");
+		$amp_conf["AMPDBUSER"] = $dbuser;
+		$amp_conf["AMPDBPASS"] = $dbpass;
+		$amp_conf["AMPDBHOST"] = $dbhost;
+		$amp_conf["AMPDBNAME"] = $dbname;
+		$amp_conf["AMPMGRUSER"] = "admin";
+		$amp_conf["AMPMGRPASS"] = "unset";
+		$amp_conf["AMPWEBROOT"] = $webroot;
+		$amp_conf["FOPWEBROOT"] = ($fopwebroot ? $fopwebroot : $webroot."/panel");
+		$amp_conf["AMPWEBADDRESS"] = $freepbxip;
+		$amp_conf["ASTMANAGERHOST"] = $asteriskip;
+		$amp_conf["FOPPASSWORD"] = "passw0rd";
+		$amp_conf["AMPEXTENSIONS"] = "extensions";
+		$amp_conf["AMPBIN"] = $ampbin_dir;
+		$amp_conf["AMPSBIN"] = "$ampsbin_dir";
+		$amp_conf["AMPASTERISKWEBUSER"] = $runas_uid;
+		$amp_conf["AMPASTERISKWEBGROUP"] = $runas_gid;
+		$amp_conf["AMPASTERISKUSER"] = $runas_uid;
+		$amp_conf["AMPASTERISKGROUP"] = $runas_gid;
+		$amp_conf["AMPDEVUSER"] = $runas_uid;
+		$amp_conf["AMPDEVGROUP"] = $runas_gid;
+		write_amportal_conf($filename, $amp_conf);
+		outn(AMP_CONF." written");
+		return;
+	}
+		
 	outn("Enter your USERNAME to connect to the '$dbname' database:\n [".($dbuser ? $dbuser : $asterisk_user) . "] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) 
@@ -282,9 +317,9 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	else
 		$amp_conf["FOPWEBROOT"] = $fopwebroot;
 	
-	outn("Enter the IP ADDRESS or hostname used to access the AMP web-admin:\n [xx.xx.xx.xx] ");
+	outn("Enter the IP ADDRESS or hostname used to access the AMP web-admin:\n [$freepbxip] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPWEBADDRESS"] = "xx.xx.xx.xx";
+	if (preg_match('/^$/',$key)) $amp_conf["AMPWEBADDRESS"] = $freepbxip;
 	else $amp_conf["AMPWEBADDRESS"] = $key;
 	
 	outn("Enter a PASSWORD to perform call transfers with the Flash Operator Panel:\n [passw0rd] ");
@@ -537,7 +572,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","force-overwrite","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop=","make-links-devel","dev-links","skip-module-install");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","force-overwrite","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop=","make-links-devel","dev-links","skip-module-install","uid=","gid=","scripted","freepbxip=","asteriskip=");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -550,6 +585,7 @@ $debug = false;
 $dryrun = false;
 $install_files = true;
 $override_astvers = false;
+$scripted = false;
 
 $install_moh = false;
 $install_fop = true;
@@ -558,9 +594,14 @@ $module_install = true;
 
 //initialize variables to avoid php notices
 $dbhost = null; 
-$dbname = null; 
+$dbname = 'asterisk'; 
 $new_username = null;
 $new_password = null;
+
+$runas_uid = "asterisk";
+$runas_gid = "asterisk";
+$freepbxip = "192.168.1.1";
+$asteriskip = "localhost";
 
 foreach ($args[0] as $arg) {
 	switch ($arg[0]) {
@@ -649,7 +690,7 @@ foreach ($args[0] as $arg) {
 		break;
 		case "--sbin":
 			$ampsbin_dir = $arg[1];
-			out("Using sbin ar ".$ampsbin_dir);
+			out("Using sbin at ".$ampsbin_dir);
 		break;
 		case "--asteriskuser":
 			$asterisk_user = $arg[1];
@@ -659,13 +700,27 @@ foreach ($args[0] as $arg) {
 			$asterisk_pass = $arg[1];
 			out("Using asteriskpass ".str_repeat("*",strlen($arg[1])));
 		break;
+		case "--uid":
+			$runas_uid = $arg[1];
+			out("Setting ownership (user) to ".$runas_uid);
+		break;
+		case "--gid":
+			$runas_gid = $arg[1];
+			out("Setting ownership (group) to ".$runas_gid);
+		break;
+		case "--scripted":
+			$scripted = true;
+			out("Unattended installation. No questions will be asked");
+		break;
+		case "--freepbxip":
+			$freepbxip = $arg[1]; 
+			out("Setting IP address of web interface to $freepbxip");
+		break;
+		case "--asteriskip":
+			$asteriskip = $arg[1]; 
+			out("Setting IP address of asterisk to $asteriskip");
+		break;
 
-/*		do we need this ?
-		case "--systemconfig":
-			$systemconfig = $arg[1];
-			out("Using system config at ". $systemconfig);
-		break; 
-*/
 
 	}
 }
@@ -705,11 +760,11 @@ if (!file_exists(AMP_CONF)) {
 
 	// this file contains password and should not be a+r
 	// this addresses http://freepbx.org/trac/ticket/1878
-	chown(AMP_CONF, "asterisk"); 
-	chgrp(AMP_CONF, "asterisk"); 
+	chown(AMP_CONF, $runas_uid); 
+	chgrp(AMP_CONF, $runas_gid); 
 	chmod(AMP_CONF, 0640); 
 
-	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password, 'asterisk');
+	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password, $dbname);
 
 	out("Assuming new install, --install-moh added to command line");
 	$install_moh = true;
@@ -1016,6 +1071,9 @@ if ($install_files)
   // link the packed js library for ARI, if there the error will indicate that
   $libfreepbx = $amp_conf['AMPWEBROOT'].'/admin/common/libfreepbx.javascripts.js';
   $dest_libfreepbx = $amp_conf['AMPWEBROOT'].'/recordings/theme/js/libfreepbx.javascripts.js'; 
+  if (!file_exists($amp_conf['AMPWEBROOT'].'/recordings/theme/js')) {
+	mkdir($amp_conf['AMPWEBROOT'].'/recordings/theme/js',0755, true);
+  }
   if (file_exists($libfreepbx) && !file_exists($dest_libfreepbx)) {
     outn(_("linking libfreepbx.javascripts.js to theme/js.."));
     if (link($libfreepbx, $dest_libfreepbx)) {
@@ -1036,24 +1094,46 @@ if (!$dryrun) {
   $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
 
 	if (file_exists($amp_conf["AMPSBIN"]."/amportal")) {
-		exec("chmod u+x ".$amp_conf["AMPSBIN"]."/amportal");
+		exec("chmod 755 ".$amp_conf["AMPSBIN"]."/amportal");
 		outn("amportal..");
 	} else {
 		outn("no amportal..");
 	}
 	if (file_exists($amp_conf["AMPSBIN"]."/fpbx")) {
-		exec("chmod u+x ".$amp_conf["AMPSBIN"]."/fpbx");
+		exec("chmod 755 ".$amp_conf["AMPSBIN"]."/fpbx");
 		outn("fpbx..");
 	} else {
 		outn("no fpbx..");
 	}
 	if (file_exists($amp_conf["AMPBIN"]."/freepbx_engine")) {
-		exec("chmod u+x ".$amp_conf["AMPBIN"]."/freepbx_engine");
+		exec("chmod 755 ".$amp_conf["AMPBIN"]."/freepbx_engine");
 		outn("freepbx_engine..");
 	} else {
 		outn("no freepbx_engine..");
 	}
+	if (file_exists($amp_conf["AMPBIN"]."/freepbx_setting")) {
+		exec("chmod 755 ".$amp_conf["AMPBIN"]."/freepbx_setting");
+		outn("freepbx_setting..");
+	} else {
+		outn("no freepbx_setting..");
+	}
+	if (file_exists($amp_conf["AMPBIN"]."/gen_amp_conf.php")) {
+		exec("chmod 755 ".$amp_conf["AMPBIN"]."/gen_amp_conf.php");
+		outn("gen_amp_conf.php..");
+	} else {
+		outn("no gen_amp_conf..");
+	}
 	out("done");
+	// Note - freepbx_engine must be run to ensure that freepbx.conf exists.
+	exec($amp_conf["AMPBIN"]."/freepbx_engine error > /dev/null");
+	// Ensure UIDs are set correctly before any chowns happen
+	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKWEBGROUP $runas_gid");
+	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKWEBUSER $runas_uid");
+	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKGROUP $runas_gid");
+	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKUSER $runas_uid");
+	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPDEVGROUP $runas_gid");
+	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPDEVUSER $runas_uid");
+	exec($amp_conf["AMPBIN"]."/freepbx_setting ASTMANAGERHOST $asteriskip");
 	// edit conf file passwords and then
 	// reload manager in asterisk if it is running:
 	//
