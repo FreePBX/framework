@@ -134,11 +134,11 @@ class connectdirs {
         // dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
       } else if (!is_link($dest)) {
         freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is not a symlink!');
-        $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
+        $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir." (Already exists, not a link)";
       } else if (readlink($dest) != $src) {
         // TODO : is this the proper handling? should we just overwrite..?
         freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is linked to something else!');
-        $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir;
+        $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir." (Already exists, linked to something else)";
       }
     } else {
 //    // symlink, unlike copy, doesn't overwrite - have to delete first
