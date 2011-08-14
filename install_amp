@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-//This file is part of FreePBX.
+//  This file is part of FreePBX.
 //
 //    FreePBX is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 //    You should have received a copy of the GNU General Public License
 //    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>.
 //
-//    Copyright 2006, qldrob
+//    Copyright 2006, Rob Thomas <xrobau@gmail.com>
 //    Copyright 2009, Bandwith.com
 //
 require_once ("libfreepbx.install.php");
@@ -420,47 +420,50 @@ function install_modules() {
 	}
 	closedir($dir);
 
-  $output = array();
-  $keep_checking = true;
-  $num_modules = false;
-  while ($keep_checking && count($included_modules)) {
-    if ($num_modules === count($included_modules)) {
-      $keep_checking = false;
-    } else {
-      $num_modules = count($included_modules);
-    }
-    foreach ($included_modules as $id => $up_module) {
-		  outn("Checking $up_module.. ");
-		  if (!$dryrun) {
-        // if $keep_checking then check dependencies first and skip if not met
-        // otherwise we will install anyhow even if some dependencies are not met
-        // since it is included. (TODO: should we not?)
-        //
-        if ($keep_checking) {
-          exec($amp_conf['AMPBIN']."/module_admin --no-warnings checkdepends $up_module",$output,$retval);
-          unset($output);
-          if ($retval) {
-            out("dependencies pending");
-            continue;
-          }
-        }
-
-			  // special case framework, it should not be installed just enabled.
-			  //
-			  if ($up_module != 'framework') {
-				  system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
-				  system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
-				  out("installed");
-			  } else {
-				  system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
-				  out("enabled");
-			  }
-        unset($included_modules[$id]);
-		  } else {
-			  out("Dry Run Not Installed");
-		  }
-	  }
-  }
+	$output = array();
+	$keep_checking = true;
+	$num_modules = false;
+	while ($keep_checking && count($included_modules)) {
+		if ($num_modules === count($included_modules)) {
+			$keep_checking = false;
+		} else {
+			$num_modules = count($included_modules);
+		}
+		foreach ($included_modules as $id => $up_module) {
+			outn("Checking $up_module.. ");
+			if (!$dryrun) {
+				// if $keep_checking then check dependencies first and skip if not met
+				// otherwise we will install anyhow even if some dependencies are not met
+				// since it is included. (TODO: should we not?)
+				//
+				if ($keep_checking) {
+					exec($amp_conf['AMPBIN']."/module_admin --no-warnings checkdepends $up_module",$output,$retval);
+					unset($output);
+					if ($retval) {
+						out("dependencies pending");
+						continue;
+					}
+				}
+				// Framework modules cannot be enabled, only installed.
+				//
+				switch ($up_module) {
+				case 'framework':
+				case 'fw_ari':
+				case 'fw_fop':
+					system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+					out("installed");
+					break;
+				default:
+					system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+					system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
+					out("installed");
+				}
+				unset($included_modules[$id]);
+			} else {
+				out("Dry Run Not Installed");
+			}
+		}
+  	}
 }
 
 /** Set the module version number to the packaged version and enable
@@ -1276,4 +1279,6 @@ out("* that all modules are up to date BEFORE YOU CLICK THE RED BAR. As long *",
 out("* as this is observed, your machine will be fully functional whilst the *",false);
 out("* upgrade is in progress.                                               *",false);
 out("*************************************************************************",false);
+// vim: set ts=4 sw=4 : //
+// Ensure you 'set modeline' in your ~/.vimrc to activate this //
 ?>
