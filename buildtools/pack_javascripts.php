@@ -16,13 +16,13 @@ $final=$finalB=array();
 foreach ($output as $file) {
 	switch(true){
 		case preg_match("|$dir/jquery-.*\.js|",$file)://jquery
-			 $finalB[] = $file;
+			 //$finalB[] = $file;
 		break;
 		case preg_match("|$dir/jquery.cookie.js$|",$file)://jquery ui
 			$finalB[] = $file;
 		break;
 		case preg_match("|$dir/jquery-ui-.*\.js$|",$file)://jquery ui
-			$finalB[] = $file;
+			//$finalB[] = $file;
 		break;
 		case $file==$dir.'/script.legacy.js'://legacy script
 			$finalB[] = $file;
