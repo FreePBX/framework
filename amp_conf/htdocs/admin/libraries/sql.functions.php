@@ -85,22 +85,25 @@ function db_e($obj, $action = 'die_freepbx', $debug_level = 4, $args = '') {
 	if ($db->isError($obj)) {
 		if ($action) {
 			switch ($debug_level) {
+				case 0:
+					$db_dbug = $args;
+					break;
 				case 1:
-					$db_dbug = 'getMessage';
+					$db_dbug = $obj->getMessage();
 					break;
 				case 2:
-					$db_dbug = 'getCode';
+					$db_dbug = $obj->getCode();
 					break;
 				case 3:
-					$db_dbug = 'getUserInfo';
+					$db_dbug = $obj->getUserInfo();
 					break;
 				case 4:
-					$db_dbug = 'getDebugInfo';
+					$db_dbug = $obj->getDebugInfo();
 					break;
 			}
 			
 			if (is_array($args)) {
-				$args['error'] = $obj->$db_dbug();
+				$args['error'] = $db_dbug;
 				if (is_array($action)) {
 					call_user_func_array($action[0]->$action[1], $args);
 				} else {
@@ -110,7 +113,7 @@ function db_e($obj, $action = 'die_freepbx', $debug_level = 4, $args = '') {
 				if (is_array($action)) {
 					call_user_func($action[0]->$action[1], $obj->$db_dbug());
 				} else {
-					call_user_func($action, $obj->$db_dbug());
+					call_user_func($action, $db_dbug);
 				}
 
 			}

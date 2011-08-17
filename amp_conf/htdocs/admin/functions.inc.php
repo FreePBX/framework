@@ -18,6 +18,12 @@ define('MODULE_STATUS_ENABLED', 2);
 define('MODULE_STATUS_NEEDUPGRADE', 3);
 define('MODULE_STATUS_BROKEN', -1);
 
+//http://php.net/manual/en/function.phpversion.php
+if (!defined('PHP_VERSION_ID')) {
+    $version = explode('.', PHP_VERSION);
+    define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+}
+
 spl_autoload_register('fpbx_framework_autoloader');
 
 //class that handels freepbx global setting. Dont autoload - we ALWAYS need this anyway

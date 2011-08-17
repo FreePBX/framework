@@ -261,7 +261,7 @@ function dbug(){
 		. "\n\n"
 		. $disc 
 		. "\n"; //add timestamp + file info
-	dbug_write($txt);
+	dbug_write($txt, true);
 	if ($dump==1) {//force output via var_dump
 		ob_start();
 		var_dump($msg);
@@ -464,7 +464,7 @@ function edit_crontab($remove = '', $add = '') {
  *
  * @author Moshe Brevda mbrevda => gmail ~ com
  */
-function dbug_write($txt,$check=''){
+function dbug_write($txt, $check = false){
 	global $amp_conf;
 
 	// dbug can be used prior to bootstrapping and initialization, so we set
@@ -474,11 +474,12 @@ function dbug_write($txt,$check=''){
 		$amp_conf['FPBXDBUGFILE'] = '/tmp/freepbx_debug.log';
 	}
 	$append=false;
+
 	//optionaly ensure that dbug file is smaller than $max_size
 	if($check){
 		$max_size = 52428800;//hardcoded to 50MB. is that bad? not enough?
-		$size = filesize($amp_conf['FPBXDBUGFILE']);
-		$append = (($size > $max_size) ? false : true );
+		$size = sprintf("%u", filesize($amp_conf['FPBXDBUGFILE']));
+		$append = ($size > $max_size ? true : false);
 	}
 	if ($append) {
 		file_put_contents($amp_conf['FPBXDBUGFILE'], $txt);

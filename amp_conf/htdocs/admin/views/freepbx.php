@@ -158,6 +158,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 	<title><?php  echo _($title) ?></title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<meta name="robots" content="noindex" />
 	<link href="<?php echo $mainstyle_css.$version_tag ?>" rel="stylesheet" type="text/css">
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>
 	<style type="text/css">
@@ -240,14 +241,19 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 	} else {
 	// TODO: include this in some sort of meta-data or xml file for parsing? Order is important so can't just read the directory
 ?>
-	<script type="text/javascript" src="assets/js/jquery-1.4.x.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="assets/js/jquery-1.4.x.min.js"><\/script>')</script>
+	<!--script type="text/javascript" src=""></script-->
 	<script type="text/javascript" src="assets/js/jquery.cookie.js"></script> <!-- plugin for setting/retrieving cookies -->
-	<script type="text/javascript" src="assets/js/jquery-ui-1.8.x.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+	<script>window.jQuery.ui || document.write('<script src="assets/js/jquery-ui-1.8.x.min.js"><\/script>')</script>
+	<!--script type="text/javascript" src="assets/js/jquery-ui-1.8.x.min.js"></script-->
 	<script type="text/javascript" src="assets/js/script.legacy.js"></script> <!-- legacy script.js.php -->
-	<script type="text/javascript" src="assets/js/jquery.dimensions.js"></script> <!-- used by reload/module admin -->
 	<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js"></script> <!-- plugin for adding help text to input boxes -->
 	<script type="text/javascript" src="assets/js/interface.dim.js"></script> <!-- used for interface blocking (reload, modadmin) -->
 	<script type="text/javascript" src="assets/js/tabber-minimized.js"></script> <!-- used for module admin (hiding content) -->
+	<script type="text/javascript" src="assets/js/jquery.eventsource.js"></script> <!-- polyfill+jquery functions for streamevent -->
+	<script type="text/javascript" src="assets/js/jquery.jstree.js"></script> <!-- jquery tree plugin -->
 <?php
 	}
 if (isset($module_name) && $module_name != '') {
