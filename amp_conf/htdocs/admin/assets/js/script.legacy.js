@@ -1,71 +1,16 @@
 // ***************************************************
-// ** Client-side Browser Detection                 **
-// ***************************************************
-
-Is_DOM = (document.getElementById) ? true : false;
-Is_NS4 = (document.layers) ? true : false;
-Is_IE = (document.all) ? true : false;
-Is_IE7 = Is_IE && window.XMLHttpRequest ? true : false;
-
-// detect for konqueror, taken from
-// http://www.javascript-source.com/
-var detect = navigator.userAgent.toLowerCase();
-if (checkIt('konqueror'))
-        Is_IE = false;
-
-function checkIt(string)
-{
-	place = detect.indexOf(string) + 1;
-	thestring = string;
-	return place;
-}
-
-Is_IE4 = Is_IE && !Is_DOM;
-Is_Mac = (navigator.appVersion.indexOf("Mac") != -1);
-Is_IE4M = Is_IE4 && Is_Mac;
-
-
-// override getElementsByTagName with an IE-compatible function
-function ie_getElementsByTagName(str) {
- if (str=="*")
-  return document.all
- else
-  return document.all.tags(str)
-}
-if (document.all)
- document.getElementsByTagName = ie_getElementsByTagName
- 
- 
-// ***************************************************
 // ** Client-side library functions                     **
 // ***************************************************
 
-function menu_popup(mylink, windowname)
-{
-	if (! window.focus)return true;
-	var href;
-	if (typeof(mylink) == 'string')
-		href=mylink;
-	else
-		href=mylink.href;
-		window.open(href, windowname, 'scrollbars=yes, resizable');
-		return false;
-	}
-
-function decision(message, url) {
-	if (confirm(message))
-		location.href = url;
-}
-
 //this will hide or show all the <select> elements on a page
-function hideSelects(b)
-{
+function hideSelects(b) {
       var allelems = document.all.tags('SELECT');
-      if (allelems != null)
-      {
+      if (allelems != null) {
               var i;
-              for (i = 0; i < allelems.length; i++)
-                      allelems[i].style.visibility = (b ? 'hidden' : 'inherit');
+              for (i = 0; i < allelems.length; i++) {
+	 			allelems[i].style.visibility = (b ? 'hidden' : 'inherit');
+			}
+                     
       }
 }
 
@@ -74,41 +19,8 @@ function doHideSelects(event)
 {
       hideSelects(true);
 }
-function doShowSelects(event)
-{
+function doShowSelects(event) {
       hideSelects(false);
-}
-
-// this will setup all the 'A' tags on a page, with the 'info' class, with the
-// above functions
-function setAllInfoToHideSelects()
-{
-      if (Is_IE && !Is_IE7)
-      {
-              var allelems = document.all.tags('A');
-              if (allelems != null)
-              {
-                      var i, elem;
-                      for (i = 0; elem = allelems[i]; i++)
-                      {
-                              if (elem.className=='info' && elem.onmouseover == null && elem.onmouseout == null)
-                              {
-                                      elem.onmouseover = doHideSelects;
-                                      elem.onmouseout = doShowSelects;
-                              }
-                      }
-              }
-      }
-}
-
-function updateInfoTargets() {
-	links = document.getElementsByTagName('a');
-	var i, elem;
-	for (i = 0; elem = links[i]; i++) {
-		if (elem.className == 'info' && elem.href.charAt(elem.href.length-1) == '#') {
-			elem.href = 'javascript:void(null)';
-		}
-	}
 }
 
 //call this function from forms that include module destinations
@@ -122,34 +34,6 @@ function setDestinations(theForm,numForms) {
 			}
 			whichitem++;
 		}
-	}
-}
-
-function body_loaded() {
-	setAllInfoToHideSelects(); 
-	updateInfoTargets();
-}
-
-function amp_apply_changes() {
-	if (confirm("About to reload backend configuration. This applies all outstanding changes to the live server.")) {
-		
-		var newlocation;
-		if (document.all) {
-			// need this for IE : http://support.microsoft.com/kb/q190244/
-			window.event.returnValue = false;
-			// IE also uses window.location.href instead of location.href
-			newlocation = window.location.href;
-		} else {
-			newlocation = location.href;
-		}
-
-		if (location.href.indexOf('?') == -1) {
-			newlocation = location + '?clk_reload=true';
-		} else {
-			newlocation = location + '&clk_reload=true';
-		}
-		location = newlocation.replace(/action/,"var-disabled");
-		
 	}
 }
 
@@ -181,63 +65,11 @@ function validateDestinations(theForm,numForms,bRequired) {
 // use this function on any <select> elements
 function warnInvalid (theField, s) {
     if(theField){ 
-			theField.focus();
+		theField.focus();
     	theField.select();
     }
     alert(s);
     return false;
-}
-
-
-// ***************************************************
-// ** Checks for a valid Email address              **
-// ***************************************************
-
-function isEmail (s) {
-	if (isEmpty(s)) 
-       if (isEmail.arguments.length == 1) return defaultEmptyOK;
-       else return (isEmail.arguments[1] == true);
-
-    if (isWhitespace(s)) return false;
-    var i = 1;
-    var sLength = s.length;
-    // look for @
-    while ((i < sLength) && (s.charAt(i) != "@")) {
-		i++;
-    }
-
-    if ((i >= sLength) || (s.charAt(i) != "@")) return false;
-    else i += 2;
-
-    // make sure there is something after the '@'
-    if (i > sLength) return false;
-
-//    // look for .
-//    while ((i < sLength) && (s.charAt(i) != ".")) {
-//		i++;
-//    }
-//	if ((i >= sLength - 1) || (s.charAt(i) != ".")) return false;
-//    else 
-        return true;
-}
-
-// ***************************************************
-// ** String must contain Alphabetic letters ONLY   **
-// ***************************************************
-
-function isAlphabetic (s) {
-	var i;
-    if (isEmpty(s)) 
-       if (isAlphabetic.arguments.length == 1) return defaultEmptyOK;
-       else return (isAlphabetic.arguments[1] == true);
-    for (i = 0; i < s.length; i++) {   
-        var c = s.charAt(i);
-
-        if (!isLetter(c))
-        return false;
-    }
-
-    return true;
 }
 
 // ***************************************************
@@ -269,11 +101,12 @@ function isInteger (s) {
        if (isInteger.arguments.length == 1) return defaultEmptyOK;
        else return (isInteger.arguments[1] == true);
 
-    for (i = 0; i < s.length; i++)
-    {   
+    for (i = 0; i < s.length; i++) {   
         var c = s.charAt(i);
 
-        if (!isDigit(c)) return false;
+        if (!isDigit(c)) {
+			return false;
+		}
     }
 
     return true;
@@ -306,7 +139,7 @@ function isFloat (s) {
 // ***************************************************
 // ** General number check                          **
 // ***************************************************
-
+//is this ever used?
 function checkNumber(object_value) {
     
     if (object_value.length == 0)
@@ -355,24 +188,25 @@ function checkNumber(object_value) {
 // ** Simply check if there is nothing in the str   **
 // ***************************************************
 
-function isEmpty(s)
-{   return ((s == null) || (s.length == 0));
+function isEmpty(s) {
+	return ((s == null) || (s.length == 0));
 }
 
 // ***************************************************
 // ** Checks for all known whitespace               **
 // ***************************************************
 
-function isWhitespace (s)
-{   var i;
+function isWhitespace (s) {
+	var i;
 
     if (isEmpty(s)) return true;
 
-    for (i = 0; i < s.length; i++)
-    {   
+    for (i = 0; i < s.length; i++) {   
         var c = s.charAt(i);
 
-        if (whitespace.indexOf(c) == -1) return false;
+        if (whitespace.indexOf(c) == -1) {
+			return false;
+		}
     }
 
     return true;
@@ -381,7 +215,6 @@ function isWhitespace (s)
 // ***************************************************
 // ** Valid URL check                               **
 // ***************************************************
-
 function isURL (s) {
 	var i;
     if (isEmpty(s)) 
@@ -499,10 +332,8 @@ function isDialIdentifier (s)
        if (isDialIdentifier.arguments.length == 1) return defaultEmptyOK;
        else return (isDialIdentifier.arguments[1] == true);
 
-    for (i = 0; i < s.length; i++)
-    {   
+    for (i = 0; i < s.length; i++) {   
         var c = s.charAt(i);
-
         if ( !isDialDigitChar(c) && (c != "w") && (c != "W") ) return false;
     }
 
@@ -513,18 +344,15 @@ function isDialIdentifier (s)
 // ** Valid dialable digit (i.e. on a keypad)       **
 // ***************************************************
 
-function isDialDigits(s)
-{
+function isDialDigits(s) {
     var i;
 
     if (isEmpty(s)) 
        if (isDialDigits.arguments.length == 1) return defaultEmptyOK;
        else return (isDialDigits.arguments[1] == true);
 
-    for (i = 0; i < s.length; i++)
-    {   
+    for (i = 0; i < s.length; i++) {   
         var c = s.charAt(i);
-
         if (!isDialDigitChar(c)) return false;
     }
 
@@ -535,7 +363,7 @@ function isDialDigits(s)
 // ** Valid IVR input, any keypad char plus some    **
 // ** priority i or t if specified by themself's    **
 // ***************************************************
-
+//used by legecy ivr, not sure that we need to reimplement this
 function isIVROption(s)
 {
     var i;
@@ -568,7 +396,7 @@ function isIVROption(s)
 // ***************************************************
 // ** Valid filename                                **
 // ***************************************************
-
+//used by recordings page.recordings.php:486
 function isFilename(s)
 {
     var i;
@@ -610,36 +438,36 @@ function isInside(s, c)
 // ** HELPER FUNCTIONS FOR ABOVE VALIDATIONS        **
 // ***************************************************
 
-function isDigit (c)
-{   return ((c >= "0") && (c <= "9"))
+function isDigit (c) {   
+	return new RegExp(/[0-9]/).test(c);
 }
 
-function isLetter (c)
-{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == " ") || (c == "&") || (c == "'") || (c == "(") || (c == ")") || (c == "-") || (c == "/"))
+function isLetter (c) {   
+	return new RegExp(/[a-zA-Z'\&\(\)\-\/]/).test(c);
 }
 
-function isURLChar (c)
-{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == ":") || (c == ",") || (c == ".") || (c == "%") || (c == "#") || (c == "-") || (c == "/") || (c == "?") || (c == "&") || (c == "=") )
+function isURLChar (c) {
+	return new RegExp(/[a-zA-Z=:,%#\.\-\/\?\&]/).test(c);
 }
 
-function isCallerIDChar (c)
-{   return ( ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || ((c >= "0") && (c <= "9")) || (c == ":") || (c == "_") || (c == ",") || (c == "-") || (c == "<") || (c == ">") || (c == "(") || (c == ")") || (c == " ") || (c == "\"") || (c == "&") || (c == "@") || (c == ".") || (c == "+") )
+function isCallerIDChar (c) {   
+	return new RegExp(/[ a-zA-Z0-9:_,-<>\(\)\"&@\.\+]/).test(c);
 }
 
-function isDialpatternChar (c)
-{   return ( ((c >= "0") && (c <= "9")) || (c == "[") || (c == "]") || (c == "-") || (c == "+") || (c == ".") || (c == "|") || (c == "Z" || c == "z") || (c == "X" || c == "x") || (c == "N" || c == "n") || (c == "*") || (c == "#" ) || (c == "_") || (c == "!") || (c == "/") )
+function isDialpatternChar (c) {
+	return new RegExp(/[-0-9\[\]\+\.\|ZzXxNn\*\#_!\/]/).test(c);
 }
 
-function isDialruleChar (c)
-{   return ( ((c >= "0") && (c <= "9")) || (c == "[") || (c == "]") || (c == "-") || (c == "+") || (c == ".") || (c == "|") || (c == "Z" || c == "z") || (c == "X" || c == "x") || (c == "N" || c == "n") || (c == "*") || (c == "#" ) || (c == "_") || (c == "!") || (c == "w") || (c == "W") )
+function isDialruleChar (c) {   
+	return new RegExp(/[0-9\[\]\+\.\|ZzXxNnWw\*\#\_\/]/).test(c);
 }
 
-function isDialDigitChar (c)
-{   return ( ((c >= "0") && (c <= "9")) || (c == "*") || (c == "#" ) )
+function isDialDigitChar (c) {
+	return new RegExp(/[0-9\*#]/).test(c);
 }
 
-function isFilenameChar (c)
-{   return ( ((c >= "0") && (c <= "9")) || ((c >= "a") && (c <= "z")) || ((c >= "A") && (c <= "Z")) || (c == "_") || (c == "-") )
+function isFilenameChar (c) { 
+	return new RegExp(/[-0-9a-zA-Z\_]/).test(c);
 }
 
 /***************************************************

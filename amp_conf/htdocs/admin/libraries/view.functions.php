@@ -84,15 +84,15 @@ function fileRequestHandler($handler, $module = false, $file = false){
 			$file = str_replace('..','.', preg_replace('/[^a-zA-Z0-9-\_\.]/','',$file));
 			
 			$allowed_exts = array(
-				'.js' => 'text/javascript',
-				'.js.php' => 'text/javascript',
-				'.css' => 'text/css',
-				'.css.php' => 'text/css',
-				'.html.php' => 'text/html',
-				'.jpg.php' => 'image/jpeg',
-				'.jpeg.php' => 'image/jpeg',
-				'.png.php' => 'image/png',
-				'.gif.php' => 'image/gif',
+				'.js'		=> 'text/javascript',
+				'.js.php'	=> 'text/javascript',
+				'.css'		=> 'text/css',
+				'.css.php'	=> 'text/css',
+				'.html.php'	=> 'text/html',
+				'.jpg.php'	=> 'image/jpeg',
+				'.jpeg.php'	=> 'image/jpeg',
+				'.png.php'	=> 'image/png',
+				'.gif.php'	=> 'image/gif',
 			);
 			foreach ($allowed_exts as $ext=>$mimetype) {
 				if (substr($file, -1*strlen($ext)) == $ext) {
@@ -103,12 +103,13 @@ function fileRequestHandler($handler, $module = false, $file = false){
 						// image, css, js types - set Expires to 24hrs in advance so the client does
 						// not keep checking for them. Replace from header.php
 						if (!$amp_conf['DEVEL']) {
-							@header('Expires: '.gmdate('D, d M Y H:i:s', time() + 86400).' GMT', true);
-							@header('Cache-Control: max-age=86400, public, must-revalidate',true); 
-							@header('Pragma: ', true); 
+							header('Expires: '.gmdate('D, d M Y H:i:s', time() + 86400).' GMT', true);
+							header('Cache-Control: max-age=86400, public, must-revalidate',true); 
 						}
-						@header("Content-type: ".$mimetype);
+						header("Content-type: ".$mimetype);
+						ob_start($amp_conf['buffering_callback']);
 						include($fullpath);
+						ob_end_flush();
 						exit();
 					}
 					break;

@@ -86,31 +86,34 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 
   // stat the css files and check if they have been modified since we last generated a css
   //
-  $mainstyle_css_full_path = $wwwroot."/".$mainstyle_css;
-  $stat_mainstyle = stat($mainstyle_css_full_path);
-  $css_changed = isset($amp_conf['mainstyle_css_mtime']) ? ($stat_mainstyle['mtime'] != $amp_conf['mainstyle_css_mtime']) : true;
+  $mainstyle_css_full_path	= $wwwroot."/".$mainstyle_css;
+  $stat_mainstyle			= stat($mainstyle_css_full_path);
+  $css_changed				= isset($amp_conf['mainstyle_css_mtime']) 
+							? ($stat_mainstyle['mtime'] != $amp_conf['mainstyle_css_mtime']) 
+							: true;
 
-  if (!$css_changed && file_exists($wwwroot.'/'.$amp_conf['mainstyle_css_generated'])) {
+  if (!$css_changed && file_exists($wwwroot . '/' . $amp_conf['mainstyle_css_generated'])) {
     $mainstyle_css = $amp_conf['mainstyle_css_generated'];
   } else {
     include_once('libraries/cssmin.class.php');
     $ms_path = dirname($mainstyle_css);
 
-    // If it's actually set and exists then delete it, we no it has changed
-    //
-    if (isset($amp_conf['mainstyle_css_generated']) && file_exists($wwwroot.'/'.$amp_conf['mainstyle_css_generated'])) {
-      unlink($wwwroot.'/'.$amp_conf['mainstyle_css_generated']);
-    }
-
-    // Now generate a new one using the mtime as part of the file name to make it fairly unique
+    // Generate a new one using the mtime as part of the file name to make it fairly unique
     // it's important to be unique because that will force browsers to reload vs. caching it
     //
-    $mainstyle_css_generated = $ms_path.'/mstyle_autogen_'.$stat_mainstyle['mtime'].'.css';
+    $mainstyle_css_generated = $ms_path.'/mstyle_autogen_'.$stat_mainstyle['mtime'].'.css.php';
     $css_buff = file_get_contents($mainstyle_css_full_path);
 
     $css_buff_compressed = CssMin::minify($css_buff);
-
-    $ret = file_put_contents($wwwroot."/".$mainstyle_css_generated,$css_buff_compressed);
+	$header = "<?php 
+	header('Content-type: text/css');
+	header('Cache-Control: public, max-age=3153600');
+	header('Expires: ' . date('r', strtotime('+1 year')));
+	header('Last-Modified: ' . date('r', strtotime('-1 year')));
+	ob_start('ob_gzhandler');
+	?>
+	";
+    $ret = file_put_contents($wwwroot."/".$mainstyle_css_generated, $header . $css_buff_compressed);
     unset($css_buff);
     unset($css_buff_compressed);
 
@@ -159,6 +162,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">
 	<meta name="robots" content="noindex" />
+	<link rel="shortcut icon" href="images/favicon.ico">
 	<link href="<?php echo $mainstyle_css.$version_tag ?>" rel="stylesheet" type="text/css">
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>
 	<style type="text/css">
@@ -169,7 +173,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 		}
 	</style>
 <?php } ?>
-	<link rel="shortcut icon" href="images/favicon.ico">
+	
 <?php 
 	if (isset($module_name)) {
 
@@ -194,8 +198,8 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
   // assets/module_name/css/*
   //
 	$css_dir = "modules/$module_name/assets/css";
-  if (is_dir($css_dir)) {
-    $d = opendir($css_dir);
+	if (is_dir($css_dir)) {
+		$d = opendir($css_dir);
 		$file_list = array();
 		while ($file = readdir($d)) {
 			$file_list[] = $file;
@@ -235,109 +239,10 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 	<script>window.jQuery.ui || document.write('<script src="assets/js/jquery-ui-1.8.x.min.js"><\/script>')</script>
 	
  	<script type="text/javascript" src="common/script.js.php<?php echo $version_tag ?>"></script>
-<?php
-	// Production versions should include the packed consolidated javascript library but if it
-	// is not present (useful for development, then include each individual library below
-	//
-	if ($amp_conf['USE_PACKAGED_JS'] && file_exists("common/libfreepbx.javascripts.js")) {
-?>
-  <script type="text/javascript" src="common/libfreepbx.javascripts.js<?php echo $version_tag ?>" language="javascript"></script>
-<?php
-	} else {
-	// TODO: include this in some sort of meta-data or xml file for parsing? Order is important so can't just read the directory
-?>
-	<script type="text/javascript" src="assets/js/jquery.cookie.js"></script> <!-- plugin for setting/retrieving cookies -->
-	<script type="text/javascript" src="assets/js/script.legacy.js"></script> <!-- legacy script.js.php -->
-	<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js"></script> <!-- plugin for adding help text to input boxes -->
-	<script type="text/javascript" src="assets/js/interface.dim.js"></script> <!-- used for interface blocking (reload, modadmin) -->
-	<script type="text/javascript" src="assets/js/tabber-minimized.js"></script> <!-- used for module admin (hiding content) -->
-	<!--script type="text/javascript" src="assets/js/jquery.eventsource.js"></script--> <!-- polyfill+jquery functions for streamevent -->
-	<script type="text/javascript" src="assets/js/jquery.jstree.js"></script> <!-- jquery tree plugin -->
-<?php
-	}
-if (isset($module_name) && $module_name != '') {
-	if (is_file('modules/'.$module_name.'/'.$module_name.'.js')) {
-		echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.js'.$mod_version_tag.'"></script>'."\n";
-	}
-	if (isset($module_page) && ($module_page != $module_name) && is_file('modules/'.$module_name.'/'.$module_page.'.js')) {
-		echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.js'.$mod_version_tag.'"></script>'."\n";
-	}
 
-  // Check assets/js and then assets/js/page_name for any js files which will have been symlinked to
-  // assets/module_name/js/*
-  //
-	$js_dir = "modules/$module_name/assets/js";
-  if (is_dir($js_dir)) {
-    $d = opendir($js_dir);
-		$file_list = array();
-		while ($file = readdir($d)) {
-			$file_list[] = $file;
-		}
-		sort($file_list);
-		foreach ($file_list as $file) {
-			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
-				echo "\t<script type=\"text/javascript\" src=\"assets/$module_name/js/$file\"></script>\n";
-			}
-		}
-		unset($file_list);
-		$js_subdir ="$js_dir/$module_page";
-		if ($module_page != '' && is_dir($js_subdir)) {
-			$sd = opendir($js_subdir);
-
-			$file_list = array();
-			while ($p_file = readdir($sd)) {
-				$file_list[] = $p_file;
-			}
-			sort($file_list);
-			foreach ($file_list as $p_file) {
-				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
-				  echo "\t<script type=\"text/javascript\" src=\"assets/$module_name/js/$module_page/$p_file\"></script>\n";
-				}
-			}
-		}
-  }
-
-  // DEPCRETATED but still supported:
-	// Note - include all the module js files first, then the page specific files, in case a page specific file requires a module level file
-	$js_dir = "modules/$module_name/js";
-  if (is_dir($js_dir)) {
-    $d = opendir($js_dir);
-		$file_list = array();
-		while ($file = readdir($d)) {
-			$file_list[] = $file;
-		}
-		sort($file_list);
-		foreach ($file_list as $file) {
-			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
-				echo "\t<script type=\"text/javascript\" src=\"{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_dir/$file".$mod_version_tag."\"></script>\n";
-			}
-		}
-		unset($file_list);
-		$js_subdir ="$js_dir/$module_page";
-		if ($module_page != '' && is_dir($js_subdir)) {
-			$sd = opendir($js_subdir);
-
-			$file_list = array();
-			while ($p_file = readdir($sd)) {
-				$file_list[] = $p_file;
-			}
-			sort($file_list);
-			foreach ($file_list as $p_file) {
-				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
-					echo "\t<script type=\"text/javascript\" src=\"{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_subdir/$p_file".$mod_version_tag."\"></script>\n";
-				}
-			}
-		}
-  }
-}
-?>
-	
-<!--[if IE]>
-    <style type="text/css">div.inyourface a{position:absolute;}</style>
-<![endif]-->
 </head>
 
-<body onload="body_loaded();"  <?php
+<body <?php
 // Check if it's a RIGHT TO LEFT character set (eg, hebrew, arabic, whatever)
 //$_COOKIE['lang']="he_IL";
 if (isset($_COOKIE['lang']) && $_COOKIE['lang']==="he_IL") 
@@ -436,6 +341,101 @@ echo $content;
 if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
        $benchmark_time = number_format(microtime_float() - $benchmark_starttime, 4);
        echo '<div id="benchmark_time">Page loaded in '.$benchmark_time.'s</div>';
+}
+	
+	// Production versions should include the packed consolidated javascript library but if it
+	// is not present (useful for development, then include each individual library below
+	//
+	if ($amp_conf['USE_PACKAGED_JS'] && file_exists("common/pbxlib.js.php")) {
+?>
+  <script type="text/javascript" src="common/pbxlib.js.php<?php echo $version_tag ?>" language="javascript"></script>
+<?php
+	} else {
+	// TODO: include this in some sort of meta-data or xml file for parsing? Order is important so can't just read the directory
+?>
+	<script type="text/javascript" src="assets/js/jquery.cookie.js"></script> <!-- plugin for setting/retrieving cookies -->
+	<script type="text/javascript" src="assets/js/script.legacy.js"></script> <!-- legacy script.js.php -->
+	<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js"></script> <!-- plugin for adding help text to input boxes -->
+	<script type="text/javascript" src="assets/js/interface.dim.js"></script> <!-- used for interface blocking (reload, modadmin) -->
+	<script type="text/javascript" src="assets/js/tabber-minimized.js"></script> <!-- used for module admin (hiding content) -->
+	<!--script type="text/javascript" src="assets/js/jquery.eventsource.js"></script--> <!-- polyfill+jquery functions for streamevent -->
+	<script type="text/javascript" src="assets/js/jquery.jstree.js"></script> <!-- jquery tree plugin -->
+<?php
+	}
+if (isset($module_name) && $module_name != '') {
+	if (is_file('modules/'.$module_name.'/'.$module_name.'.js')) {
+		echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_name.'.js'.$mod_version_tag.'"></script>'."\n";
+	}
+	if (isset($module_page) && ($module_page != $module_name) && is_file('modules/'.$module_name.'/'.$module_page.'.js')) {
+		echo "\t".'<script type="text/javascript" src="'.$_SERVER['PHP_SELF'].'?handler=file&amp;module='.$module_name.'&amp;file='.$module_page.'.js'.$mod_version_tag.'"></script>'."\n";
+	}
+
+  // Check assets/js and then assets/js/page_name for any js files which will have been symlinked to
+  // assets/module_name/js/*
+  //
+	$js_dir = "modules/$module_name/assets/js";
+  if (is_dir($js_dir)) {
+    $d = opendir($js_dir);
+		$file_list = array();
+		while ($file = readdir($d)) {
+			$file_list[] = $file;
+		}
+		sort($file_list);
+		foreach ($file_list as $file) {
+			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
+				echo "\t<script type=\"text/javascript\" src=\"assets/$module_name/js/$file\"></script>\n";
+			}
+		}
+		unset($file_list);
+		$js_subdir ="$js_dir/$module_page";
+		if ($module_page != '' && is_dir($js_subdir)) {
+			$sd = opendir($js_subdir);
+
+			$file_list = array();
+			while ($p_file = readdir($sd)) {
+				$file_list[] = $p_file;
+			}
+			sort($file_list);
+			foreach ($file_list as $p_file) {
+				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
+				  echo "\t<script type=\"text/javascript\" src=\"assets/$module_name/js/$module_page/$p_file\"></script>\n";
+				}
+			}
+		}
+  }
+
+  // DEPCRETATED but still supported:
+	// Note - include all the module js files first, then the page specific files, in case a page specific file requires a module level file
+	$js_dir = "modules/$module_name/js";
+  if (is_dir($js_dir)) {
+    $d = opendir($js_dir);
+		$file_list = array();
+		while ($file = readdir($d)) {
+			$file_list[] = $file;
+		}
+		sort($file_list);
+		foreach ($file_list as $file) {
+			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
+				echo "\t<script type=\"text/javascript\" src=\"{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_dir/$file".$mod_version_tag."\"></script>\n";
+			}
+		}
+		unset($file_list);
+		$js_subdir ="$js_dir/$module_page";
+		if ($module_page != '' && is_dir($js_subdir)) {
+			$sd = opendir($js_subdir);
+
+			$file_list = array();
+			while ($p_file = readdir($sd)) {
+				$file_list[] = $p_file;
+			}
+			sort($file_list);
+			foreach ($file_list as $p_file) {
+				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
+					echo "\t<script type=\"text/javascript\" src=\"{$_SERVER['PHP_SELF']}?handler=file&module=$module_name&file=$js_subdir/$p_file".$mod_version_tag."\"></script>\n";
+				}
+			}
+		}
+  }
 }
 ?>
 </body>

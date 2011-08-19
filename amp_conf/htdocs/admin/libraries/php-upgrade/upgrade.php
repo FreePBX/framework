@@ -185,6 +185,15 @@ if (!function_exists("gzdecode")) {
  */
 
 
+/**
+ * gethostname
+ */
+
+if (!function_exists("gethostname")) {
+	function gethostname() {
+		return trim(php_uname('n'));
+	}
+}
 
 /**
  * preg_replace() variant, which filters out any unmatched $subject.

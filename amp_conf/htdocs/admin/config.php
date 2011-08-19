@@ -58,10 +58,11 @@ $type_names = array(
 	'cdrcost'=>_('Call Cost'),
 );
 
-@header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-@header('Expires: Sat, 01 Jan 2000 00:00:00 GMT');
-@header('Cache-Control: post-check=0, pre-check=0',false);
-@header('Pragma: no-cache');
+header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+header('Expires: Sat, 01 Jan 2000 00:00:00 GMT');
+header('Cache-Control: post-check=0, pre-check=0',false);
+header('Pragma: no-cache');
+header('Content-Type: text/html; charset=utf-8');
 //session_cache_limiter('public, no-store');
 if (isset($_REQUEST['handler'])) {
 	$restrict_mods = true;
@@ -329,13 +330,14 @@ if ($quietmode) {
 	ob_start($amp_conf['buffering_callback']);
 	
 	// build the admin interface (with menu)
+	$reload_needed							= check_reload_needed();
 	$admin_template['fpbx_types']			= $types;
 	$admin_template['fpbx_type_names']		= $type_names;
 	$admin_template['fpbx_menu']			= $fpbx_menu;
 	$admin_template['fpbx_usecategories']	= $amp_conf['USECATEGORIES'];
 	$admin_template['fpbx_type']			= $type;
 	$admin_template['display']				= $display;
-	$admin_template['reload_needed']		= check_reload_needed();
+	$admin_template['reload_needed']		= $reload_needed;
 	$admin_template['reload_confirm']		= $amp_conf['RELOADCONFIRM'];
 	// set the language so local module languages take
 	set_language();
@@ -348,18 +350,15 @@ if ($quietmode) {
 	// setup main template
 	$template['module_name'] 				= $module_name;
 	$template['module_page'] 				= $module_page;
+	
 	if ($amp_conf['SERVERINTITLE']) {
 		// set the servername
 		$server_hostname 					= '';
 		if (isset($_SESSION['session_hostname'])){
 			$server_hostname 				= $_SESSION['session_hostname'];
 		} else {
-			if (function_exists('gethostname')){
-				$server_hostname 			= trim(gethostname());
-			} else {
-				$server_hostname 			= trim(php_uname('n'));
-			}
-			if ($server_hostname != ''){
+			$server_hostname 				= trim(gethostname());
+			if ($server_hostname) {
 				$server_hostname 			= ' (' . substr($server_hostname, 0, 30) . ')';
 			}
 			$_SESSION['session_hostname'] 	= $server_hostname;
@@ -371,8 +370,9 @@ if ($quietmode) {
 	} else {
 		$template['title'] 					= _('FreePBX Administration');
 	}
+	
 	$template['amp_conf'] 					= &$amp_conf;
-	$template['reload_needed'] 				= check_reload_needed();
+	$template['reload_needed'] 				= $reload_needed;
 	$template['benchmark_starttime']		= $benchmark_starttime;
 
 	show_view($amp_conf['VIEW_FREEPBX'], $template);
