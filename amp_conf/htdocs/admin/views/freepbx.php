@@ -164,6 +164,8 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
 	<meta name="robots" content="noindex" />
 	<link rel="shortcut icon" href="images/favicon.ico">
 	<link href="<?php echo $mainstyle_css.$version_tag ?>" rel="stylesheet" type="text/css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="assets/js/jquery-1.4.x.min.js"><\/script>')</script>
 <?php if (isset($use_nav_background) && $use_nav_background) { ?>
 	<style type="text/css">
 		body {
@@ -232,13 +234,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge'
   if ($custom_css) { ?>
   <link href="<?php echo $custom_css.$version_tag ?>" rel="stylesheet" type="text/css">
 <?php } ?>
-	
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="assets/js/jquery-1.4.x.min.js"><\/script>')</script>
-	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-	<script>window.jQuery.ui || document.write('<script src="assets/js/jquery-ui-1.8.x.min.js"><\/script>')</script>
-	
- 	<script type="text/javascript" src="common/script.js.php<?php echo $version_tag ?>"></script>
+
 
 </head>
 
@@ -337,6 +333,10 @@ echo $content;
 ?>
 </div> <!-- content -->
 </div> <!-- page -->
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+	<script>window.jQuery.ui || document.write('<script src="assets/js/jquery-ui-1.8.x.min.js"><\/script>')</script>
+	
+ 	<script type="text/javascript" src="common/script.js.php<?php echo $version_tag ?>"></script>
 <?php
 if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
        $benchmark_time = number_format(microtime_float() - $benchmark_starttime, 4);
@@ -358,8 +358,6 @@ if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
 	<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js"></script> <!-- plugin for adding help text to input boxes -->
 	<script type="text/javascript" src="assets/js/interface.dim.js"></script> <!-- used for interface blocking (reload, modadmin) -->
 	<script type="text/javascript" src="assets/js/tabber-minimized.js"></script> <!-- used for module admin (hiding content) -->
-	<!--script type="text/javascript" src="assets/js/jquery.eventsource.js"></script--> <!-- polyfill+jquery functions for streamevent -->
-	<script type="text/javascript" src="assets/js/jquery.jstree.js"></script> <!-- jquery tree plugin -->
 <?php
 	}
 if (isset($module_name) && $module_name != '') {
