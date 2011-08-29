@@ -128,6 +128,9 @@ function fpbx_framework_autoloader($class) {
 			if (!defined('BASEPATH')){define('BASEPATH', '');}
 			require_once($dirname . '/helpers/Table.php');
 			break;
+		case 'CssMin':
+			require_once('libraries/cssmin.class.php');
+			break;
 		case 'component':
     		require_once($dirname . '/libraries/components.class.php');
     		break;
@@ -135,7 +138,7 @@ function fpbx_framework_autoloader($class) {
 			require_once($dirname . '/libraries/featurecodes.class.php');
 			break;
 		case 'cronmanager':
-			require_once($dirname . '/libraries/cronmanager.class.php');
+			require($dirname . '/libraries/cronmanager.class.php');
 			break;
 		case 'moduleHook':
 			require_once($dirname . '/libraries/moduleHook.class.php');
@@ -334,7 +337,7 @@ function do_reload() {
 		$notify->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), $return['message']);
 		return $return;
 	}
-	
+
 	if (!isset($astman) || !$astman) {
 		$return['status'] = false;
 		$return['message'] = _('Reload failed because FreePBX could not connect to the asterisk manager interface.');

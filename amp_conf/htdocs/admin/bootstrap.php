@@ -74,7 +74,7 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 } 
 
 // connect to database
-require_once(dirname(__FILE__) . '/common/db_connect.php'); //PEAR must be installed
+require_once(dirname(__FILE__) . '/libraries/db_connect.php'); //PEAR must be installed
 
 
 
@@ -136,7 +136,7 @@ if (!$bootstrap_settings['freepbx_auth'] || (php_sapi_name() == 'cli')) {
 	require(dirname(__FILE__) . '/libraries/gui_auth.php');
 	frameworkPasswordCheck();
 }
-if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }//we should never need this, just another line of defence
+if (!isset($no_auth) && !defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }//we should never need this, just another line of defence
 
 $restrict_mods_local = $restrict_mods;
 // I'm pretty sure if this is == true then there is no need to even pull all the module info as we are going down a path

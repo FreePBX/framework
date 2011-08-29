@@ -286,12 +286,12 @@ class component {
 		// Start of form
 		
 		$form_action = isset($this->_opts['form_action']) ? $this->_opts['form_action'] : $_SERVER['PHP_SELF'];
-		$htmlout .= "<form name=\"$formname\" action=\"".$form_action."\" method=\"post\" onsubmit=\"return ".$formname."_onsubmit();\">\n";
-		$htmlout .= "<input type=\"hidden\" name=\"display\" value=\"$this->_compname\" />\n";
-		$htmlout .= "<input type=\"hidden\" name=\"type\" value=\"$this->_type\" />\n\n";
+		$htmlout .= "<form name=\"$formname\" action=\"".$form_action."\" method=\"post\" onsubmit=\"return ".$formname."_onsubmit();\">";
+		$htmlout .= "<input type=\"hidden\" name=\"display\" value=\"$this->_compname\" />";
+		$htmlout .= "<input type=\"hidden\" name=\"type\" value=\"$this->_type\" />";
 		
 		// Start of table
-		$htmlout .= "<table><!-- start of table $formname -->\n";
+		$htmlout .= "<table><!-- start of table $formname -->";
 		
 		// Gui Elements / JavaScript validation
 		// Top
@@ -314,8 +314,8 @@ class component {
 					if ($this->_guielems_middle[$section]['placement'] !== $placement)
 						continue;
 					// Header for $section				
-					$htmlout .= "\t<tr class=\"guielToggle\" data-toggleClass=\"".preg_replace('/[^A-Za-z]/', '' ,$section)."\">\n";
-					$htmlout .= "\t\t<td colspan=\"2\">";
+					$htmlout .= "<tr class=\"guielToggle\" data-toggleClass=\"".preg_replace('/[^A-Za-z]/', '' ,$section)."\">";
+					$htmlout .= "<td colspan=\"2\">";
 					if ($section) {
 						$state = isset($this_opts[$section]['guielToggle']) && $this_opts[$section]['guielToggle'] == true 
 								? '+' : '-  ';
@@ -327,8 +327,8 @@ class component {
 						$htmlout .= '<hr>';
 					}
 
-					$htmlout .= "</td>\n";
-					$htmlout .= "\t</tr>\n";
+					$htmlout .= "</td>";
+					$htmlout .= "</tr>";
 					
 					// Elements
 					foreach ( array_keys($this->_guielems_middle[$section]) as $sortorder ) {
@@ -344,10 +344,10 @@ class component {
 			}
 			// Spacer before bottom
 			if ( is_array($this->_guielems_bottom) ) {
-				$htmlout .= "\t<tr>\n";
-				$htmlout .= "\t\t<td colspan=\"2\">";
-				$htmlout .= "</td>\n";
-				$htmlout .= "\t</tr>\n";
+				$htmlout .= "<tr>";
+				$htmlout .= "<td colspan=\"2\">";
+				$htmlout .= "</td>";
+				$htmlout .= "</tr>";
 			}
 		}
 
@@ -369,28 +369,28 @@ class component {
 		// Don't put a submit button if there were not form fields generated
 		//
 		if (guielement::getformfields()) {
-			$htmlout .= "\t<tr>\n";
-			$htmlout .= "\t\t<td colspan=\"2\">";
+			$htmlout .= "<tr>";
+			$htmlout .= "<td colspan=\"2\">";
 			$htmlout .= "<h6>";
 			$htmlout .= "<input name=\"Submit\" type=\"submit\" tabindex=\"$tabindex\" value=\""._("Submit")."\">";
 			$htmlout .= "</h6>";
-			$htmlout .= "</td>\n";
-			$htmlout .= "\t</tr>\n";
+			$htmlout .= "</td>";
+			$htmlout .= "</tr>";
 		}
-		$htmlout .= "</table><!-- end of table $formname -->\n\n";
+		$htmlout .= "</table><!-- end of table $formname -->";
 
 		if ( !$this->_sorted_jsfuncs )
 			$this->sortjsfuncts();
 
 		// Javascript
-		$htmlout .= "<script type=\"text/javascript\">\n<!--\n";
-		$htmlout .= "var theForm = document.$formname;\n\n";
+		$htmlout .= "<script type=\"text/javascript\"><!--";
+		$htmlout .= "var theForm = document.$formname;";
 		
 		// TODO:	* Create standard JS to go thru each text box looking for first one not hidden and set focus
 		if ( is_array($this->_jsfuncs) ) {
 			foreach ( array_keys($this->_jsfuncs) as $function ) {
 				// Functions
-				$htmlout .= "function ".$formname."_$function {\n";
+				$htmlout .= "function ".$formname."_$function {";
 				foreach ( array_keys($this->_jsfuncs[$function]) as $sortorder ) {
 					foreach ( array_keys($this->_jsfuncs[$function][$sortorder]) as $idx ) {
 						$func = $this->_jsfuncs[$function][$sortorder][$idx];
@@ -398,14 +398,14 @@ class component {
 					}
 				}
 				if ( $function == 'onsubmit()' )
-					$htmlout .= "\treturn true;\n";
-				$htmlout .= "}\n";
+					$htmlout .= "return true;";
+				$htmlout .= "}";
 			}
 		}
-		$htmlout .= "//-->\n</script>";
+		$htmlout .= "//--></script>";
 		
 		// End of form
-		$htmlout .= "\n</form>\n\n";
+		$htmlout .= "</form>";
 		
 		if ( $hasoutput ) {
 			return $htmlout;
@@ -509,7 +509,7 @@ class gui_hidden extends guielement {
 		$this->_html = "<input type=\"hidden\" name=\"$this->_elemname\" id=\"$this->_elemname\" value=\"" . htmlentities($currentvalue) . "\">";
 		
 		// make it a new row
-		$this->_html = "\t<tr>\n\t\t<td>" . $this->_html . "</td>\n\t</tr>\n";
+		$this->_html = "<tr><td>" . $this->_html . "</td></tr>";
 	}
 }
 
@@ -566,14 +566,14 @@ class guiinput extends guielement {
 			}
 		
 			if ($this->canbeempty) {
-				$output .= "\tdefaultEmptyOK = true;\n";
+				$output .= "defaultEmptyOK = true;";
 			} else {
-				$output .= "\tdefaultEmptyOK = false;\n";
+				$output .= "defaultEmptyOK = false;";
 			}
 
-			$output .= "\tif (" . str_replace("()", "(" . $thefldvalue . ")", $this->jsvalidation) . ") \n";
-			$output .= "\t\treturn warnInvalid(" . $thefld . ", \"" . $this->failvalidationmsg . "\");\n";
-			$output .= "\n";
+			$output .= "if (" . str_replace("()", "(" . $thefldvalue . ")", $this->jsvalidation) . ") ";
+			$output .= "return warnInvalid(" . $thefld . ", \"" . $this->failvalidationmsg . "\");";
+			$output .= "";
 		}
 		
 		return $output;
@@ -587,28 +587,28 @@ class guiinput extends guielement {
 		
 		// start new row
 		if ($section) {
-			$output .= "\t<tr class=\"$section\">\n";
+			$output .= "<tr class=\"$section\">";
 		} else {
-			$output .= "\t<tr>\n";
+			$output .= "<tr>";
 		}
 		
 
 		// prompt in first column
-		$output .= "\t\t<td>";
+		$output .= "<td>";
 		if ($this->helptext != '') {
 			$output .= fpbx_label($this->prompttext,$this->helptext);
 		} else {
 			$output .= $this->prompttext;
 		}
-		$output .= "</td>\n";
+		$output .= "</td>";
 		
 		// actual input in second row
-		$output .= "\t\t<td>";
+		$output .= "<td>";
 		$output .= $this->html_input;
-		$output .= "</td>\n";
+		$output .= "</td>";
 		
 		// end this row
-		$output .= "\t</tr>\n";
+		$output .= "</tr>";
 		
 		return $output;
 	}
@@ -665,7 +665,7 @@ class gui_selectbox extends guiinput {
 		
 		$tabindex = guielement::gettabindex();
 		$disable_state = $disable ? 'disabled="true"':'';
-		$output .= "\n\t\t\t<select name=\"$this->_elemname\" id=\"$this->_elemname\" tabindex=$tabindex $disable_state $onchange >\n";
+		$output .= "<select name=\"$this->_elemname\" id=\"$this->_elemname\" tabindex=$tabindex $disable_state $onchange >";
 		// include blank option if required
 		if ($canbeempty)
 			$output .= "<option value=\"\">&nbsp;</option>";			
@@ -676,9 +676,9 @@ class gui_selectbox extends guiinput {
 			$itemtext = (isset($item['text']) ? $item['text'] : '');
 			$itemselected = ((string) $currentvalue == (string) $itemvalue) ? ' selected' : '';
 			
-			$output .= "\t\t\t\t<option value=\"$itemvalue\"$itemselected>$itemtext</option>\n";
+			$output .= "<option value=\"$itemvalue\"$itemselected>$itemtext</option>";
 		}
-		$output .= "\t\t\t</select>\n\t\t";
+		$output .= "</select>";
 		
 		return $output;
 	}
@@ -694,7 +694,7 @@ class gui_checkbox extends guiinput {
 		$js_onclick_include = ($jsonclick != '') ? 'onclick="' . $jsonclick. '"' : '';
 		$tabindex = guielement::gettabindex();
 
-		$this->html_input = "<input type=\"checkbox\" name=\"$this->_elemname\" id=\"$this->_elemname\" $disable_state tabindex=$tabindex value=\"$value\" $js_onclick_include $itemchecked/>$post_text\n";
+		$this->html_input = "<input type=\"checkbox\" name=\"$this->_elemname\" id=\"$this->_elemname\" $disable_state tabindex=$tabindex value=\"$value\" $js_onclick_include $itemchecked/>$post_text";
 	}
 }
 
@@ -723,7 +723,7 @@ class gui_radio extends guiinput {
 			
 			$tabindex = guielement::gettabindex();
 			$disable_state = $disable ? 'disabled="true"':'';
-			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname$count\" $disable_state tabindex=$tabindex value=\"$this->_elemname=$itemvalue\"$itemchecked/><label for=\"$this->_elemname$count\">$itemtext</label>\n";
+			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname$count\" $disable_state tabindex=$tabindex value=\"$this->_elemname=$itemvalue\"$itemchecked/><label for=\"$this->_elemname$count\">$itemtext</label>";
 			$count++;
 		}
 		$output .= '</span>';
@@ -754,7 +754,7 @@ class gui_textarea extends guiinput {
 		
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 	
-		$list = explode("\n",$this->currentvalue);
+		$list = explode("",$this->currentvalue);
 		$rows = count($list); 
 		$rows = (($rows > 20) ? 20 : $rows);
 
@@ -786,19 +786,19 @@ class guitext extends guielement {
 		
 		// start new row
 		if ($section) {
-			$output .= "\t<tr class=\"$section\">\n";
+			$output .= "<tr class=\"$section\">";
 		} else {
-			$output .= "\t<tr>\n";
+			$output .= "<tr>";
 		}
 		
 
 		// actual input in second row
-		$output .= "\t\t<td colspan=\"2\">";
+		$output .= "<td colspan=\"2\">";
 		$output .= $this->html_text;
-		$output .= "</td>\n";
+		$output .= "</td>";
 		
 		// end this row
-		$output .= "\t</tr>\n";
+		$output .= "</tr>";
 		
 		return $output;
 	}	

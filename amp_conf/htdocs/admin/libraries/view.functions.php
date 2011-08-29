@@ -153,13 +153,13 @@ function fileRequestHandler($handler, $module = false, $file = false){
 function load_view($view_filename_protected, $vars = array()) {
 	
 	//return false if we cant find the file or if we cant open it
-	if ( ! $view_filename_protected OR ! file_exists($view_filename_protected) OR ! is_readable($view_filename_protected) ) {
+	if (!$view_filename_protected || !file_exists($view_filename_protected) || !is_readable($view_filename_protected) ) {
 		dbug('load_view failed to load view for inclusion:', $view_filename_protected);
 		return false;
 	}
 
 	// Import the view variables to local namespace
-	extract($vars, EXTR_SKIP);
+	extract( (array) $vars, EXTR_SKIP);
 	
 	// Capture the view output
 	ob_start();
@@ -171,7 +171,7 @@ function load_view($view_filename_protected, $vars = array()) {
 	$buffer = ob_get_contents();
 	
 	//Flush & close the buffer
-	@ob_end_clean();
+	ob_end_clean();
 	
 	//Return captured output
 	return $buffer;
@@ -195,7 +195,7 @@ function load_view($view_filename_protected, $vars = array()) {
  * 
  */
 function show_view($view_filename_protected, $vars = array()) {
-  $buffer = load_view($view_filename_protected, $vars );
+  $buffer = load_view($view_filename_protected, $vars);
   if ($buffer !== false) {
     echo $buffer;
   }
@@ -266,4 +266,284 @@ function redirect_standard_continue( /* Note. Read the next line. Varaible No of
         }
         $url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
         redirect($url, false);
+}
+
+function framework_css() {
+	global $amp_conf;
+	$mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
+						? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
+						: 'assets/css/mainstyle.css'; 
+
+	if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge')) {
+		$wwwroot 					= $amp_conf['AMPWEBROOT']
+									. "/admin";
+
+		// stat the css files and check if they have been modified since we last generated a css
+		$mainstyle_css_full_path	= $wwwroot . '/' . $mainstyle_css;
+		$stat_mainstyle				= stat($mainstyle_css_full_path);
+		$css_changed				= isset($amp_conf['mainstyle_css_mtime']) 
+									? ($stat_mainstyle['mtime'] != $amp_conf['mainstyle_css_mtime']) 
+									: true;
+
+		if (!$css_changed && file_exists($wwwroot . '/' . $amp_conf['mainstyle_css_generated'])) {
+			$mainstyle_css = $amp_conf['mainstyle_css_generated'];
+		} else {
+			////TODO: isnt this autoloaded?
+			$ms_path = dirname($mainstyle_css);
+
+			// Generate a new one using the mtime as part of the file name to make it fairly unique
+			// it's important to be unique because that will force browsers to reload vs. caching it
+			$mainstyle_css_generated = $ms_path.'/mstyle_autogen_'.$stat_mainstyle['mtime'].'.css.php';
+
+			$ret = file_put_contents($wwwroot . '/' . $mainstyle_css_generated, 
+									"<?php 
+									header('Content-type: text/css');
+									header('Cache-Control: public, max-age=3153600');
+									header('Expires: ' . date('r', strtotime('+1 year')));
+									header('Last-Modified: ' . date('r', strtotime('-1 year')));
+									ob_start('". $amp_conf['buffering_callback'] . "');
+									?>\n" 
+									. CssMin::minify(file_get_contents($mainstyle_css_full_path)));
+
+
+			// Now assuming we write something reasonable, we need to save the generated file name and mtimes so
+			// next time through this ordeal, we see everything is setup and skip all of this.
+			// 
+			// we skip this all this if we get back false or 0 (nothing written) in which case we will use the original
+			// TOOD: maybe consider a number higher than 0 for sanity check, at least some number of bytes we know it will
+			//       always be bigger than?
+			//
+			// We need to set the value in addition to defining the setting 
+			//since if already defined the value won't be reset.
+			if ($ret) {
+				$freepbx_conf =& freepbx_conf::create();
+
+				$settings['value'] = $mainstyle_css_generated;
+				$settings['description'] = 'internal use';
+				$settings['type'] = CONF_TYPE_TEXT;
+				$settings['defaultval'] = '';
+				$settings['category'] = 'Internal Use';
+				$settings['name'] = 'Auto Generated Copy of Main CSS';
+				$settings['level'] = 10;
+				$settings['readonly'] = 1;
+				$settings['hidden'] = 1;
+				$freepbx_conf->define_conf_setting('mainstyle_css_generated', $settings);
+				$val_update['mainstyle_css_generated'] = $settings['value'];
+
+				$settings['value'] = $stat_mainstyle['mtime'];
+				$settings['name'] = 'Last Mod Time of Main CSS';
+				$freepbx_conf->define_conf_setting('mainstyle_css_mtime', $settings);
+				$val_update['mainstyle_css_mtime'] = $settings['value'];
+
+				// Update the values (in case these are new) and commit
+				$freepbx_conf->set_conf_values($val_update, true, true);
+
+				$mainstyle_css = $mainstyle_css_generated;
+			}
+		}
+	}
+	
+	return $mainstyle_css;
+}
+
+function framework_include_css() {
+	global $active_modules, $module_name, $module_page, $amp_conf;
+	
+	$version			= get_framework_version();
+	$version_tag		= '?load_version=' . urlencode($version);
+	if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
+	  $this_time_append	= '.' . time();
+	  $version_tag 		.= $this_time_append;
+	} else {
+		$this_time_append = '';
+	}
+	
+	$html = '';
+	$view_module_version	= isset($active_modules[$module_name]['version']) 
+							? $active_modules[$module_name]['version'] 
+							: $version_tag;
+	$mod_version_tag		= '&load_version=' . urlencode($view_module_version);
+	if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
+		$mod_version_tag	.= $this_time_append;
+	}
+
+	// DEPECRATED but still supported for a while, the assets directory is the new preferred mode
+	if (is_file('modules/' . $module_name . '/' . $module_name . '.css')) {
+		$html .= '<link href="' . $_SERVER['PHP_SELF'] 
+				. '?handler=file&amp;module=' . $module_name 
+				. '&amp;file=' . $module_name . '.css' . $mod_version_tag 
+				. '" rel="stylesheet" type="text/css" />';
+	}
+	if (isset($module_page) 
+		&& ($module_page != $module_name) 
+		&& is_file('modules/' . $module_name . '/' . $module_page . '.css')
+	) {
+			$html .= '<link href="' . $_SERVER['PHP_SELF'] 
+					. '?handler=file&amp;module=' . $module_name 
+					. '&amp;file=' . $module_page . '.css' . $mod_version_tag 
+					. '" rel="stylesheet" type="text/css" />';
+	}
+
+
+	// Check assets/css and then assets/css/page_name for any css files which will have been symlinked to
+	// assets/module_name/css/*
+	$css_dir = 'modules/' . $module_name . '/assets/css';
+	if (is_dir($css_dir)) {
+		$d = opendir($css_dir);
+		$file_list = array();
+		while ($file = readdir($d)) {
+			$file_list[] = $file;
+		}
+		sort($file_list);
+		foreach ($file_list as $file) {
+			if (substr($file,-4) == '.css' && is_file($css_dir . '/' . $file)) {
+			  $html .= '<link href="assets/' . $module_name . '/css/' . $file 
+						. '" rel="stylesheet" type="text/css" />';
+			}
+		}
+		unset($file_list);
+		$css_subdir = $css_dir . '/' . $module_page;
+		if ($module_page != '' && is_dir($css_subdir)) {
+			$sd = opendir($css_subdir);
+
+			$file_list = array();
+			while ($p_file = readdir($sd)) {
+				$file_list[] = $p_file;
+			}
+			sort($file_list);
+			foreach ($file_list as $p_file) {
+				if (substr($p_file,-4) == '.css' && is_file($css_subdir . '/' . $p_file)) {
+			    $html .= '<link href="assets/$module_name/css/' . $module_page . '/' . $p_file 
+						. '" rel="stylesheet" type="text/css" />';
+				}
+			}
+		}
+	}
+	
+	return $html;
+}
+
+function framework_include_js($module_name, $module_page) {
+	dbug('mod', $module_name);
+	dbug('page', $module_name);
+	global $amp_conf, $active_modules;
+	$version			= get_framework_version();
+	$version_tag		= '?load_version=' . urlencode($version);
+	if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
+	  $this_time_append	= '.' . time();
+	  $version_tag 		.= $this_time_append;
+	} else {
+		$this_time_append = '';
+	}
+	
+	$html = '';
+	
+	if (is_file('modules/' . $module_name . '/' . $module_name . '.js')) {
+		$html .= '<script type="text/javascript" src="'
+				. $_SERVER['PHP_SELF'] . '?handler=file&amp;module=' 
+				. $module_name . '&amp;file=' . $module_name . '.js' 
+				. $mod_version_tag . '"></script>';
+	}
+	if (isset($module_page) 
+		&& ($module_page != $module_name) 
+		&& is_file('modules/' . $module_name . '/' . $module_page . '.js')
+	) {
+		$html .= '<script type="text/javascript" src="' 
+				. $_SERVER['PHP_SELF'] . '?handler=file&amp;module=' 
+				. $module_name . '&amp;file=' . $module_page . '.js' 
+				. $mod_version_tag . '"></script>';
+	}
+
+	// Check assets/js and then assets/js/page_name for any js files which will have been symlinked to
+	// assets/module_name/js/*
+	//
+	$js_dir = 'modules/' . $module_name . '/assets/js';
+	if (is_dir($js_dir)) {
+		$file_list = scandir($js_dir);
+		foreach ($file_list as $file) {
+			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
+				$html .= '<script type="text/javascript"'
+						. ' src="assets/' . $module_name . '/js/' . $file . '"></script>';
+			}
+		}
+		unset($file_list);
+		$js_subdir ="$js_dir/$module_page";
+		if ($module_page != '' && is_dir($js_subdir)) {
+			$file_list = scandir($js_subdir);
+			foreach ($file_list as $p_file) {
+				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
+				  $html .= '<script type="text/javascript" ' 
+							. ' src="assets/$module_name/js/' 
+							. $module_page . '/' . $p_file 
+							. '"></script>';
+				}
+			}
+		}
+  }
+
+	// DEPCRETATED but still supported:
+	// Note - include all the module js files first, then the page specific files, 
+	//in case a page specific file requires a module level file
+	$js_dir = "modules/$module_name/js";
+	if (is_dir($js_dir)) {
+		$file_list = scandir($js_dir);
+		foreach ($file_list as $file) {
+			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
+				$html .= '<script type="text/javascript"' 
+				. ' src="' . $_SERVER['PHP_SELF'] . '?handler=file&module=' 
+				. $module_name . '&file=' 
+				. $js_dir . '/' . $file . $mod_version_tag 
+				. '"></script>';
+			}
+		}
+		unset($file_list);
+		$js_subdir ="$js_dir/$module_page";
+		if ($module_page != '' && is_dir($js_subdir)) {
+			$sd = opendir($js_subdir);
+
+			$file_list = array();
+			while ($p_file = readdir($sd)) {
+				$file_list[] = $p_file;
+			}
+			sort($file_list);
+			foreach ($file_list as $p_file) {
+				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
+					$html .= '<script type="text/javascript" src="' 
+							. $_SERVER['PHP_SELF'] . '?handler=file&module='
+							. $module_name . '&file=' 
+							. $js_subdir . '/' . $p_file . $mod_version_tag 
+							. '"></script>';
+				}
+			}
+		}
+	}
+
+	return $html;
+
+}
+
+
+function framework_server_name() {
+	global $amp_conf;
+	if ($amp_conf['SERVERINTITLE']) {
+		// set the servername
+		$server_hostname 					= '';
+		if (isset($_SESSION['session_hostname'])){
+			$server_hostname 				= $_SESSION['session_hostname'];
+		} else {
+			$server_hostname 				= trim(gethostname());
+			if ($server_hostname) {
+				$server_hostname 			= ' (' . substr($server_hostname, 0, 30) . ')';
+			}
+			$_SESSION['session_hostname'] 	= $server_hostname;
+		}
+
+		$title								= $_SERVER['SERVER_NAME'] 
+											. $server_hostname . ' - ' 
+											. _('FreePBX Administration');
+	} else {
+		$title								= _('FreePBX Administration');
+	}
+	
+	return $title;
 }

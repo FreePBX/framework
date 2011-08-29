@@ -461,10 +461,11 @@ function showInfo($modulename) {
 }
 
 function showList($online = false) {
-  $repo = "http://mirror.freepbx.org/";
+	global $amp_conf;
+	$repo = $amp_conf['MODULE_REPO'];
 	$modules_local = module_getinfo(false,false,true);
 	$modules = $modules_local;
-  global $active_repos;
+	global $active_repos;
 
   check_active_repos();
 

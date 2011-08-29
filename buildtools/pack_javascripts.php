@@ -1,7 +1,14 @@
 #!/usr/bin/php -q
 <?php
 
-$libfreepbx = '../amp_conf/htdocs/admin/common/pbxlib.js.php';
+//include database conifguration 
+$bootstrap_settings['skip_astman'] = true;
+$restrict_mods = true;
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) { 
+	 	  include_once('/etc/asterisk/freepbx.conf'); 
+}
+
+$libfreepbx = '../amp_conf/htdocs/admin/assets/js/pbxlib.js.php';
 $dir="../amp_conf/htdocs/admin/assets/js";
 $output=array();
 
@@ -43,7 +50,7 @@ header('Content-type: text/javascript');
 header('Cache-Control: public, max-age=3153600');
 header('Expires: ' . date('r', strtotime('+1 year')));
 header('Last-Modified: ' . date('r', strtotime('-1 year')));
-ob_start('ob_gzhandler');
+ob_start('" . $amp_conf['buffering_callback'] . "');
 ?>
 ";
 

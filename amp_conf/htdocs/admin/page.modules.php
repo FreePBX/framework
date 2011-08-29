@@ -13,7 +13,7 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 }
 
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
-$repo = "http://mirror.freepbx.org/";
+$repo = $amp_conf['MODULE_REPO'];
 
 global $active_repos;
 if (isset($_REQUEST['check_online'])) {
@@ -46,7 +46,6 @@ $freepbx_help_url = "http://www.freepbx.org/freepbx-help-system?freepbx_version=
 
 if (!$quietmode) {
 	?>
-	<script type="text/javascript" src="assets/js/tabber-minimized.js"></script>
 	<script type="text/javascript">
 	function toggleInfoPane(pane) {
 		var style = document.getElementById(pane).style;
@@ -115,19 +114,28 @@ if (!$quietmode) {
 			}
 		}
 	}
+	var box;
 	function process_module_actions(actions) {
-		freepbx_modal_show('moduleBox');
-    urlStr = "config.php?type=<?php echo $type ?>&amp;display=modules&amp;extdisplay=process&amp;quietmode=1";
+		urlStr = "config.php?type=<?php echo $type ?>&amp;display=modules&amp;extdisplay=process&amp;quietmode=1";
 		for (var i in actions) {
 			urlStr += "&amp;moduleaction["+i+"]="+actions[i];
 		}
-		$('#moduleBox').html('<iframe src="'+urlStr+'"></iframe>');
+		 box = $('<div></div>')
+			.html('<iframe frameBorder="0" src="'+urlStr+'"></iframe>')
+			.dialog({
+				title: 'Confirm reload',
+				resizable: false,
+				modal: true,
+				position: ['center', 50],
+				close: function (e) {
+					$(e.target).dialog("destroy").remove();
+				}
+			});
 	}
 	function close_module_actions(goback) {
-		//freepbx_modal_close('moduleBox');
-		freepbx_modal_hide('moduleBox');
+		box.dialog("destroy").remove();
 		if (goback) {
-      location.href = 'config.php?display=modules&amp;type=<?php echo $type ?>&amp;online=<?php echo $online; ?>';
+      		location.href = 'config.php?display=modules&amp;type=<?php echo $type ?>&amp;online=<?php echo $online; ?>';
 		}
 	}
 	</script>
@@ -151,11 +159,11 @@ if ($online) {
 	
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
-		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Cannot connect to online repository (%s). Online modules are not available."), "mirror.freepbx.org")."</p></div><br />";
+		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Cannot connect to online repository (%s). Online modules are not available."), $amp_conf['MODULE_REPO'])."</p></div><br />";
 		$online = 0;
 		unset($modules_online);
 	} else if (!is_array($modules_online)) {
-		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Error retrieving updates from online repository (%s). Online modules are not available."), "mirror.freepbx.org")."</p></div><br />";
+		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Error retrieving updates from online repository (%s). Online modules are not available."), $amp_conf['MODULE_REPO'])."</p></div><br />";
 		$online = 0;
 		unset($modules_online);
 	} else {

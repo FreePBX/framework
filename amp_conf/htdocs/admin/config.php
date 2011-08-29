@@ -19,10 +19,13 @@ $vars = array(
 		'action'		=> null,
 		'display'		=> '',
 		'extdisplay'	=> null,
+		'logout'		=> false,
+		'password'		=> '',
 		'quietmode'		=> '',
 		'restrictmods'	=> false,
 		'skip'			=> 0,
 		'skip_astman'	=> false,
+		'username'		=> '',
 		'type'			=> ''
 		);
 
@@ -49,20 +52,25 @@ foreach ($vars as $k => $v) {
 			break;
 	}
 }
-				
-
-// determine module type to show, default to 'setup'
-$type_names = array(
-	'tool'=>_('Tools'),
-	'setup'=>_('Setup'),
-	'cdrcost'=>_('Call Cost'),
-);
 
 header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
 header('Expires: Sat, 01 Jan 2000 00:00:00 GMT');
 header('Cache-Control: post-check=0, pre-check=0',false);
 header('Pragma: no-cache');
 header('Content-Type: text/html; charset=utf-8');
+
+require_once(dirname(__FILE__) . '/libraries/ampuser.class.php');
+//start a session if we need one
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+//unset the ampuser if the user logged out
+if ($logout == 'true') {
+	unset($_SESSION['AMP_user']);
+	exit();
+}
+
 //session_cache_limiter('public, no-store');
 if (isset($_REQUEST['handler'])) {
 	$restrict_mods = true;
@@ -70,6 +78,8 @@ if (isset($_REQUEST['handler'])) {
 	switch ($_REQUEST['handler']) {
 		case 'api':
 			$restrict_mods = false;
+			break;
+		case 'reload';
 			break;
 		default:
 			$bootstrap_settings['skip_astman'] = true;
@@ -79,11 +89,10 @@ if (isset($_REQUEST['handler'])) {
 
 require('bootstrap.php');
 
-
 /* If there is an action request then some sort of update is usually being done.
    This will protect from cross site request forgeries unless disabled.
 */
-if ($action != '' && $amp_conf['CHECKREFERER']) {
+if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 	if (isset($_SERVER['HTTP_REFERER'])) {
 		$referer = parse_url($_SERVER['HTTP_REFERER']);
 		$refererok = (trim($referer['host']) == trim($_SERVER['SERVER_NAME'])) ? true : false;
@@ -98,15 +107,34 @@ if ($action != '' && $amp_conf['CHECKREFERER']) {
 }
 
 // handle special requests
-if (isset($_REQUEST['handler'])) {
+if (!isset($no_auth) && isset($_REQUEST['handler'])) {
 	$module = isset($_REQUEST['module'])	? $_REQUEST['module']	: '';
 	$file 	= isset($_REQUEST['file'])		? $_REQUEST['file']		: '';
 	fileRequestHandler($_REQUEST['handler'], $module, $file);
+	exit();
 }
+
+$html = '';
+//buffer & compress our responce
+ob_start($amp_conf['buffering_callback']);
+
+if (!$quietmode) {	
+	//send header
+	$header['title']	= framework_server_name();
+	$header['amp_conf']	= $amp_conf;
+	$html .=			load_view(dirname(__FILE__) . '/views/header.php', $header);
 	
-if (!$quietmode) {
+	if (isset($no_auth)) {
+		$html .= load_view(dirname(__FILE__) . '/views/menu.php', $header);
+		$html .= $no_auth;
+		$html .= load_view('views/freepbx_footer.php');
+		echo $html;
+		exit();
+	}
 	module_run_notification_checks();
 }
+$html .= ob_get_contents();
+ob_end_clean();
 
 //draw up freepbx menu
 $fpbx_menu = array();
@@ -115,7 +143,6 @@ $fpbx_menu = array();
 $cur_menuitem = null;
 
 // add module sections to $fpbx_menu
-$types = array();
 
 if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
@@ -129,14 +156,10 @@ if(is_array($active_modules)){
 				// check access, unless module.xml defines all have access
 				//TODO: move this to bootstrap and make it work
 				if (!isset($item['access']) || strtolower($item['access']) != 'all') {
-					if (!$_SESSION["AMP_user"]->checkSection($itemKey)) {
+					if (is_object($_SESSION["AMP_user"]) && !$_SESSION["AMP_user"]->checkSection($itemKey)) {
 						// no access, skip to the next 
 						continue;
 					}
-				}
-
-				if (!in_array($item['type'], $types)) {
-					$types[] = $item['type'];
 				}
 				
 				if (!isset($item['display'])) {
@@ -164,7 +187,6 @@ if(is_array($active_modules)){
 	}
 }
 
-sort($types);
 
 // new gui hooks
 if(!$quietmode && is_array($active_modules)){
@@ -205,7 +227,7 @@ if (!is_array($cur_menuitem) && $display != "") {
 }
 
 // load the component from the loaded modules
-if ( $display != '' && isset($configpageinits) && is_array($configpageinits) ) {
+if ($display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 
 	$currentcomponent = new component($display,$type);
 
@@ -220,14 +242,7 @@ if ( $display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 	$currentcomponent->processconfigpage();
 	$currentcomponent->buildconfigpage();
 }
-
-//  note: we buffer all the output from the 'page' being loaded..
-// This may change in the future, with proper returns, but for now, it's a simple 
-// way to support the old page.item.php include module format.
-
-//try to compress our data when posible
 ob_start($amp_conf['buffering_callback']);
-
 $module_name = "";
 $module_page = "";
 $module_file = "";
@@ -242,7 +257,6 @@ if ($display == 'index' && ($cur_menuitem['module']['rawname'] == 'builtin')) {
 	$display = '';
 }
 
-
 // show the appropriate page
 switch($display) {
 	default:
@@ -251,7 +265,9 @@ switch($display) {
 		$module_page = $cur_menuitem['display'];
 		$module_file = 'modules/'.$module_name.'/page.'.$module_page.'.php';
 
-		//TODO Determine which item is this module displaying. Currently this is over the place, we should standardize on a "itemid" request var for now, we'll just cover all possibilities :-(
+		//TODO Determine which item is this module displaying. 
+		//Currently this is over the place, we should standardize on a "itemid" request var 
+		//for now, we'll just cover all possibilities :-(
 		$possibilites = array(
 			'userdisplay',
 			'extdisplay',
@@ -297,7 +313,7 @@ switch($display) {
 		
 		// global component
 		if ( isset($currentcomponent) ) {
-			echo $currentcomponent->generateconfigpage();
+			echo  $currentcomponent->generateconfigpage();
 		}
 
 		break;
@@ -322,59 +338,44 @@ if ($quietmode) {
 	// send the output buffer
 	ob_end_flush();
 } else {
-	$admin_template 						= $template = array();
-	$admin_template['content'] 				= ob_get_contents();
+	$admin_template 				= $template = array();
+	$content		 				= ob_get_contents();
 	ob_end_clean();
-
 	//now restart buffering so that our data is compressed again
 	ob_start($amp_conf['buffering_callback']);
 	
-	// build the admin interface (with menu)
-	$reload_needed							= check_reload_needed();
-	$admin_template['fpbx_types']			= $types;
-	$admin_template['fpbx_type_names']		= $type_names;
-	$admin_template['fpbx_menu']			= $fpbx_menu;
-	$admin_template['fpbx_usecategories']	= $amp_conf['USECATEGORIES'];
-	$admin_template['fpbx_type']			= $type;
-	$admin_template['display']				= $display;
-	$admin_template['reload_needed']		= $reload_needed;
-	$admin_template['reload_confirm']		= $amp_conf['RELOADCONFIRM'];
+	//if we have a module loaded, load its css
+	if (isset($module_name)) {
+		$html .= framework_include_css();
+	}
+
+	// send menu
+	$menu['fpbx_menu']				= $fpbx_menu; //array of modules & settings
+	$menu['display']				= $display; //currently displayed item
+	$menu['authtype']				= $amp_conf['AUTHTYPE'];
+	$menu['reload_confirm']			= $amp_conf['RELOADCONFIRM'];
+
 	// set the language so local module languages take
 	set_language();
 
-	// then load it and put it into the main freepbx interface
-	$template['content'] 					= load_view($amp_conf['VIEW_FREEPBX_ADMIN'], $admin_template) 
-											. load_view('views/freepbx_footer.php',$admin_template) ;
-	$template['use_nav_background'] 		= true;
-
-	// setup main template
-	$template['module_name'] 				= $module_name;
-	$template['module_page'] 				= $module_page;
+	// menu + page content + footer
 	
-	if ($amp_conf['SERVERINTITLE']) {
-		// set the servername
-		$server_hostname 					= '';
-		if (isset($_SESSION['session_hostname'])){
-			$server_hostname 				= $_SESSION['session_hostname'];
-		} else {
-			$server_hostname 				= trim(gethostname());
-			if ($server_hostname) {
-				$server_hostname 			= ' (' . substr($server_hostname, 0, 30) . ')';
-			}
-			$_SESSION['session_hostname'] 	= $server_hostname;
-		}
-
-		$template['title'] 					= $_SERVER['SERVER_NAME'] 
-											. $server_hostname . ' - ' 
-											. _('FreePBX Administration');
-	} else {
-		$template['title'] 					= _('FreePBX Administration');
-	}
+	$html .=						load_view($amp_conf['VIEW_MENU'], $menu);
 	
-	$template['amp_conf'] 					= &$amp_conf;
-	$template['reload_needed'] 				= $reload_needed;
-	$template['benchmark_starttime']		= $benchmark_starttime;
+	//send actual page content
+	$html .=						$content;
+		 
+	//send footer
+	$footer['module_name']			= $module_name;
+	$footer['module_page']			= $module_page;
+	$footer['benchmark_starttime']	= $benchmark_starttime;
+	$footer['reload_needed']		= check_reload_needed();
+	$html .=						load_view($amp_conf['VIEW_FOOTER'], $footer);
 
-	show_view($amp_conf['VIEW_FREEPBX'], $template);
+
+	//$template['benchmark_starttime']	= $benchmark_starttime;
+
 }
+
+echo $html;
 ?>

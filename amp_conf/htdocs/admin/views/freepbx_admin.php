@@ -1,10 +1,4 @@
 <?php
-// admin interface
-
-// Printing menu
-?>
-<!-- begin menu -->
-<?php
 
 // This is ugly, but it is the only way I can think of to get the menu sections localized. MC
 if (false) {
@@ -170,19 +164,7 @@ if (is_array($fpbx_menu)) {
 	}
   echo "\t</ul></div>\n</div>\n\n";
 }
-
-
-?>
-<!-- end menu -->
-
-<div id="wrapper"><div id="background-wrapper">
-
-<div id="left-corner"></div>
-<div id="right-corner"></div>
-
-
-<div id="language">
-	
+?><div id="language">
 <?php	
 // TODO: this is ugly, need to code this better!
 //       mixing php + html is bad!
@@ -193,8 +175,6 @@ if (is_array($fpbx_menu)) {
 		    setcookie("lang", $_COOKIE['lang'], time()+365*24*60*60);
 		    }
 ?>
-&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<select onchange="javascript:changeLang(this.value)">
 		<option value="en_US" <?php echo ($_COOKIE['lang']=="en_US" ? "selected" : "") ?> >English</option>
 		<option value="bg_BG" <?php echo ($_COOKIE['lang']=="bg_BG" ? "selected" : "") ?> >Bulgarian</option>
@@ -224,17 +204,11 @@ function changeLang(lang) {
 //-->
 </script>
 
-	</div>
-	
-	
-<div class="content">
+</div>
 
 <noscript>
-	<div class="attention"><?php _("WARNING: Javascript is disabled in your browser. The FreePBX administration interface requires Javascript to run properly. Please enable javascript or switch to another  browser that supports it.") ?></div>
+<div class="attention"><?php _("WARNING: Javascript is disabled in your browser. The FreePBX administration interface requires Javascript to run properly. Please enable javascript or switch to another  browser that supports it.") ?></div>
 </noscript>
 
-<!-- begin generated page content  -->
 <?php  echo $content; ?>
-<!-- end generated page content -->
 
-</div> <!-- .content -->

@@ -10,7 +10,7 @@ $set = array(
 		'hidden'		=> 1,
 		'level'			=> 6,
 		'module'		=> '',
-		'category'		=> 'Internal Use',
+		'category'		=> 'Developer and Customization',
 		'emptyok'		=> 1,
 		'name'			=> 'ob_start callback',
 		'description'	=> 'This is the callback that will be passed to ob_start.'
@@ -22,4 +22,109 @@ $set = array(
 $freepbx_conf->define_conf_setting('buffering_callback', $set);
 $freepbx_conf->commit_conf_settings();
 
+$set = array(
+		'value'			=> 'http://mirror.freepbx.org',
+		'defaultval'	=> 'http://mirror.freepbx.org',
+		'readonly'		=> 1,
+		'hidden'		=> 1,
+		'level'			=> 10,
+		'module'		=> '',
+		'category'		=> 'Internal Use',
+		'emptyok'		=> 1,
+		'name'			=> 'repo server',
+		'description'	=> 'repo server',
+		'type'			=> CONF_TYPE_TEXT
+);
+$freepbx_conf->define_conf_setting('MODULE_REPO', $set);
+$freepbx_conf->commit_conf_settings();
+
+//login view
+$set = array(
+		'value'			=> 'views/login.php',
+		'defaultval'	=> 'views/login.php',
+		'readonly'		=> 1,
+		'hidden'		=> 1,
+		'level'			=> 10,
+		'module'		=> '',
+		'category'		=> 'Styling and Logos',
+		'emptyok'		=> 0,
+		'name'			=> 'View: login.php',
+		'description'	=> 'login.php view. This should never be changed except for very advanced layout changes',
+		'type'			=> CONF_TYPE_TEXT
+);
+$freepbx_conf->define_conf_setting('VIEW_LOGIN', $set);
+$freepbx_conf->commit_conf_settings();
+
+
+//menu
+$set = array(
+		'value'			=> 'views/menu.php',
+		'defaultval'	=> 'views/menu.php',
+		'readonly'		=> 1,
+		'hidden'		=> 1,
+		'level'			=> 10,
+		'module'		=> '',
+		'category'		=> 'Styling and Logos',
+		'emptyok'		=> 0,
+		'name'			=> 'View: menu.php',
+		'description'	=> 'menu.php view. This should never be changed except for very advanced layout changes',
+		'type'			=> CONF_TYPE_TEXT
+);
+$freepbx_conf->define_conf_setting('VIEW_MENU', $set);
+$freepbx_conf->commit_conf_settings();
+
+
+//footer
+$set = array(
+		'value'			=> 'views/footer.php',
+		'defaultval'	=> 'views/footer.php',
+		'readonly'		=> 1,
+		'hidden'		=> 1,
+		'level'			=> 10,
+		'module'		=> '',
+		'category'		=> 'Styling and Logos',
+		'emptyok'		=> 0,
+		'name'			=> 'View: freepbx.php',
+		'description'	=> 'footer.php view. This should never be changed except for very advanced layout changes',
+		'type'			=> CONF_TYPE_TEXT
+);
+$freepbx_conf->define_conf_setting('VIEW_FOOTER', $set);
+$freepbx_conf->commit_conf_settings();
+
+//depreciated
+//views
+$freepbx_conf->remove_conf_settings('VIEW_FREEPBX');
+$freepbx_conf->remove_conf_settings('VIEW_FREEPBX_ADMIN');
+$freepbx_conf->remove_conf_settings('VIEW_FREEPBX_RELOAD');
+$freepbx_conf->remove_conf_settings('VIEW_FREEPBX_RELOADBAR');
+$freepbx_conf->remove_conf_settings('VIEW_FREEPBX_RELOADBAR');
+$freepbx_conf->remove_conf_settings('VIEW_UNAUTHORIZED');
+$freepbx_conf->remove_conf_settings('VIEW_LOGGEDOUT');
+
+//settings
+$freepbx_conf->remove_conf_settings('BRAND_IMAGE_HIDE_NAV_BACKGROUND');
+
+global $amp_conf;
+
+$outdated = array(
+	$amp_conf['AMPWEBROOT'].'/admin/common',
+	$amp_conf['AMPWEBROOT'].'/admin/views/freepbx.php',
+	$amp_conf['AMPWEBROOT'].'/admin/views/freepbx_admin.php',
+	$amp_conf['AMPWEBROOT'].'/admin/views/freepbx_reload.php',
+	$amp_conf['AMPWEBROOT'].'/admin/views/freepbx_reloadbar.php',
+	$amp_conf['AMPWEBROOT'].'/admin/views/freepbx_footer.php',
+	$amp_conf['AMPWEBROOT'].'/admin/views/unauthorized.php',
+	$amp_conf['AMPWEBROOT'].'/admin/views/loggedout.php',	
+);
+
+out("Cleaning up deprecated or moved files:");
+
+foreach ($outdated as $file) {
+	outn("Checking $file..");
+	if (file_exists($file) && !is_link($file)) {
+		unlink($file) ? out("removed") : out("failed to remove");
+	} else {
+		out("Not Required");
+	}
+}
 ?>

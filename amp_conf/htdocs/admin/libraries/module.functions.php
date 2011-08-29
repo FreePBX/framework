@@ -17,9 +17,7 @@
  * a php zero-value (false, null, 0, etc) then no error happened.
  */
 function module_getonlinexml($module = false, $override_xml = false) { // was getModuleXml()
-	global $amp_conf;
-	global $db;
-	global $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
+	global $amp_conf, $db, $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
 	$module_getonlinexml_error = null;
 	$got_new = false;
 	$skip_cache = false;
@@ -30,7 +28,7 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 	// Check if the cached module xml is for the same repo as being requested
 	// if not, then we get it anyhow
 	//
-	$repo_url = ($override_xml === false) ? "http://mirror.freepbx.org/" : $override_xml;
+	$repo_url = ($override_xml === false) ? $amp_conf['MODULE_REPO'] : $override_xml;
 	$result2 = sql("SELECT * FROM module_xml WHERE id = 'module_repo'",'getRow',DB_FETCHMODE_ASSOC);
 	$last_repo = $result2['data'];
 	if ($last_repo !== $repo_url) {
@@ -54,7 +52,7 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		if ($override_xml) {
 			$fn = $override_xml."modules-".$matches[1].".xml";
 		} else {
-			$fn = "http://mirror.freepbx.org/modules-".$matches[1].".xml";
+			$fn = $amp_conf['MODULE_REPO'] . "/modules-".$matches[1].".xml";
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
@@ -775,7 +773,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	if ($override_svn) {
 		$url = $override_svn.$res['location'];
 	} else {
-		$url = "http://mirror.freepbx.org/modules/".$res['location'];
+		$url = $amp_conf['MODULE_REPO'] . "/modules/".$res['location'];
 	}
 	
 	if (!($fp = @fopen($filename,"w"))) {
@@ -1425,7 +1423,7 @@ function module_get_annoucements() {
   $options .= "&distro=".urlencode($distro_info['pbx_type']);
   $options .= "&distrover=".urlencode($distro_info['pbx_version']);
 
-	$fn = "http://mirror.freepbx.org/version-".getversion().".html".$options;
+	$fn = $amp_conf['MODULE_REPO'] . "/version-".getversion().".html".$options;
   $announcement = file_get_contents_url($fn);
 	return $announcement;
 }

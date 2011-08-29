@@ -470,9 +470,48 @@ function isFilenameChar (c) {
 	return new RegExp(/[-0-9a-zA-Z\_]/).test(c);
 }
 
-/***************************************************
- *             GLOBAL JQUERY CODE                  *
- ***************************************************/
+function validateSingleDestination(theForm,formNum,bRequired) {
+	var gotoType = theForm.elements[ 'goto'+formNum ].value;
+	
+	if (bRequired && gotoType == '') {
+		alert(fpbx.msg.framework.validateSingleDestination.required);
+		return false;
+	} else {
+		// check the 'custom' goto, if selected
+		if (gotoType == 'custom') {
+			var gotoFld = theForm.elements[ 'custom'+formNum ];
+			var gotoVal = gotoFld.value;
+			if (gotoVal.indexOf('custom-') == -1) {
+				alert(fpbx.msg.framework.validateSingleDestination.error);
+				gotoFld.focus();
+				return false;
+			}
+		}
+	}
+	
+	return true;
+}
+
+function weakSecret() {
+  var password = document.getElementById('devinfo_secret').value;
+  var origional_password = document.getElementById('devinfo_secret_origional').value;
+
+  if (password == origional_password) {
+    return false;
+  }
+
+  if (password.length <= 5) {
+    alert(fpbx.msg.framework.weakSecret.length);
+    return true;
+  }
+
+  if (password.match(/[a-z].*[a-z]/i) == null || password.match(/\d\D*\d/) == null) {
+    alert(fpbx.msg.framework.weakSecret.types);
+    return true;
+  }
+  return false;
+}
+
 //weird name, but should be self explanitor
 function bind_dests_double_selects() {
 	//destination double dropdown code
@@ -494,20 +533,174 @@ function bind_dests_double_selects() {
 	});
 }
 
+/***************************************************
+ *             FREEPBX RELOAD                      *
+ ***************************************************/
+/*
+ * were using jquery-ui to show the reload dialod
+ * we position all dialog boxes at the center (x) and 50px from the top (y)
+ * were also carefull to cleanup all/any remaning dom eelemens that we created
+ * while in most situations cleanup wont matter much (the dom will be cleared next
+ * time the user click submit, and there is, arguable at least a 1:1 ratio of 
+ * submit's vs Apply Config's), nevertheless, certain wonkyness seems to be exhibited
+ * if we dont cleanup, specificaly when showing the 'more info' of an error
+ *
+ */
+
+//confirm reload if requested, otherwise just call fpbx_reload
+function fpbx_reload_confirm() {
+	if (!fpbx.conf.RELOADCONFIRM) {
+		fpbx_reload();
+	}
+	
+	$('<div></div>')
+		.html('Reloading will apply all configuration changes made '
+		+ 'in FreePBX to your PBX engine and make them active.')
+		.dialog({
+			title: 'Confirm reload',
+			resizable: false,
+			modal: true,
+			position: ['center', 50],
+			close: function (e) {
+				$(e.target).dialog("destroy").remove();
+			},
+			buttons: [
+				{
+					text: fpbx.msg.framework.continue,
+					click: function() {
+							$(this).dialog("destroy").remove();
+							fpbx_reload();
+					}
+					
+				},
+				{
+					text: fpbx.msg.framework.cancel,
+					click: function() {
+							$(this).dialog("destroy").remove();
+						}
+				}
+				]
+		});
+}
+
+//do the actual reload
+function fpbx_reload() {
+	$('<div></div>').progressbar({value: 100})
+	var box = $('<div></div>')
+		.html('<progress style="width: 100%">'
+			+ 'Please wait...'
+			+ '</progress>')
+		.dialog({
+			title: 'Reloading...',
+			resizable: false,
+			modal: true,
+			height: 50,
+			position: ['center', 50],
+			close: function (e) {
+				$(e.target).dialog("destroy").remove();
+			}
+		});
+	$.ajax({
+		type: 'POST',
+		url: document.location.pathname, 
+		data: "handler=reload",
+		dataType: 'json',
+		success: function(data) {
+			box.dialog('destroy').remove();
+			if (!data.status) {
+				// there was a problem				
+				var r = '<h3>' + data.message + '<\/h3>'
+						+ '<a href="#" id="error_more_info">click here for more info</a>'
+						+ '<pre style="display:none">' + data.retrieve_conf + "<\/pre>";					
+				if (data.num_errors) {
+					r += '<p>' + data.num_errors + fpbx.msg.framework.reload_unidentified_error + "<\/p>";
+				}
+				freepbx_reload_error(r);
+			} else {
+				//unless fpbx.conf.DEVELRELOAD is true, hide the reload button
+				if (fpbx.conf.DEVELRELOAD != 'true') {
+					toggle_reload_button('hide');
+				}
+			}
+		},
+		error: function(reqObj, status) {
+			box.dialog("destroy").remove();
+				var r = '<p>' + fpbx.msg.framework.invalid_responce + '<\/p>'
+					+ "<p>XHR response code: " + reqObj.status 
+					+ " XHR responseText: " + reqObj.resonseText 
+					+ " jQuery status: " + status  + "<\/p>";
+					freepbx_reload_error(r);
+		}
+	});
+}
+
+//show reload error messages
+function freepbx_reload_error(txt) {
+	var box = $('<div></div>')
+		.html(txt)
+		.dialog({
+			title: 'Error!',
+			resizable: false,
+			modal: true,
+			minWidth: 600,
+			position: ['center', 50],
+			close: function (e) {
+				$(e.target).dialog("destroy").remove();
+			},
+			buttons: [
+					{
+						text: fpbx.msg.framework.retry,
+						click: function() {
+								$(this).dialog("destroy").remove();
+								fpbx_reload();
+						}
+					},
+					{
+						text: fpbx.msg.framework.cancel,
+						click: function() {
+								$(this).dialog("destroy").remove();
+							}
+					}
+				]
+		});
+	$('#error_more_info').click(function(){
+		$(this).next('pre').show();
+		$(this).hide();
+		return false;
+	})
+}
+
+//show reload button if needed
+function toggle_reload_button(action) {
+	switch (action) {
+		case 'show':
+			$('#button_reload').show();
+			break;
+		case 'hide':
+			$('#button_reload').hide();
+			break;
+	}
+}
+
+/***************************************************
+ *             GLOBAL JQUERY CODE                  *
+ ***************************************************/
 $(document).ready(function(){
 	bind_dests_double_selects();
 	
 	//help tags. based on: http://www.dvq.co.nz/jquery/create-a-jquery-popup-bubble-effect/
-	$("a.info").hover(function(){
+	$("a.info").each(function(){
+		$(this).after('<span class="help">?<span>' + $(this).find('span').text() + '</span></span>');
+	})
+	$(".help").live('mouseenter', function(){
 		var pos = $(this).offset();
     	var left = (200 - pos.left)+"px";
+		//left = left > 0 ? left : 0;
 		$(this).find("span").css("left",left).stop(true, true).delay(500).animate({opacity: "show"}, 750);
-		}, function() {
+	}).live('mouseleave', function(){
 		$(this).find("span").stop(true, true).animate({opacity: "hide"}, "fast");
 	});
 
-	//module setup/tools menu
-	$('#nav').tabs({cookie:{expires:30}});
 
 	// initialize the displayed/hidden nav bar categories
 	$(".category-header").each(function(){
@@ -550,5 +743,92 @@ $(document).ready(function(){
 				break;
 		}
 	})
-
+	
+	//set language on click
+	$('#fpbx_lang > li').click(function(){
+		$.cookie('lang', $(this).data('lang'));
+		window.location.reload();
+	})
+	
+	//new skin - work in progres!
+	$('.rnav > ul').menu();
+	$('.radioset').buttonset();
+	$('.menubar').show().menubar();
+	
+	//show reload button if neede
+	if (fpbx.conf.reload_needed) {
+		toggle_reload_button('show');
+	}
+	
+	//style all sortables as menu's
+	$('.sortable').menu();
+	
+	//Links are disabled in menu for now. Final release will remove that
+	$('.ui-menu-item').click(function(){
+		go = $(this).find('a').attr('href');
+		if(go && !$(this).find('a').hasClass('ui-state-disabled')) {
+			document.location.href = go;
+		}
+	})
+	
+	//reload
+	$('#button_reload').click(function(){
+		if (fpbx.conf.RELOADCONFIRM) {
+			fpbx_reload_confirm();
+		} else {
+			fpbx_reload();
+		}
+		
+	});
+	
+	//pluck icons out of the markup - no need for js to add them (for buttons)
+	$('input[type=submit],input[type=button], button, input[type=reset]').each(function(){
+		var prim = (typeof $(this).data('button-icon-primary') == 'undefined') 
+					? ''
+					: ($(this).data('button-icon-primary'));
+		var sec  = (typeof $(this).data('button-icon-secondary') == 'undefined') 
+					? '' 
+					: ($(this).data('button-icon-secondary'));
+		var txt = 	(typeof $(this).data('button-text') == 'undefined') 
+					? 'true' 
+					: ($(this).data('button-text'));
+		var txt = (txt == 'true') ? true : false;
+		$(this).button({ icons: {primary: prim, secondary: sec}, text: txt});
+	});
+	
+	//show modules. shmz only??
+	$('#modules_button').next('ul').remove();
+	$('#modules_button').toggle(
+		function(){
+			$('#module_list').show();
+		},
+		function(){
+			$('#module_list').hide();
+		}
+	)
+	
+	//shortcut keys
+	//show modules
+	$(document).bind('keydown', 'meta+shift+a', function(){
+		$('#modules_button').trigger('click');
+	});
+	
+	//submit button
+	$(document).bind('keydown', 'meta+shift+s', function(){
+		//$('input[type=submit][name=Submit]').click();
+	});
+	
+	//reload
+	$(document).bind('keydown', 'meta+shift+x', function(){
+		//freepbx_show_reload(false);
+	});
+	
+	$('#user_logout').click(function(){
+		url = window.location.origin + window.location.pathname;
+		$.get(url + '?logout=true', function(){
+			$.cookie('PHPSESSID', null);
+			window.location = url;
+		});
+		
+	})
 });
