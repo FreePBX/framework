@@ -174,8 +174,7 @@ function ast_with_dahdi() {
   if (isset($ast_with_dahdi)) {
     return $ast_with_dahdi;
   }
-	
-	if (empty($version)) {
+	if (!isset($version) || !$version || !is_string($version)) {
 		$engine_info = engine_getinfo();
 		$version = $engine_info['version'];
 	}

@@ -424,8 +424,6 @@ function framework_include_css() {
 }
 
 function framework_include_js($module_name, $module_page) {
-	dbug('mod', $module_name);
-	dbug('page', $module_name);
 	global $amp_conf, $active_modules;
 	$version			= get_framework_version();
 	$version_tag		= '?load_version=' . urlencode($version);

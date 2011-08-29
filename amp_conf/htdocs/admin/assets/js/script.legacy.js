@@ -701,37 +701,10 @@ $(document).ready(function(){
 		$(this).find("span").stop(true, true).animate({opacity: "hide"}, "fast");
 	});
 
-
-	// initialize the displayed/hidden nav bar categories
-	$(".category-header").each(function(){
-		if ($.cookie(this.id) == 'collapsed') {
-			$(".id-"+this.id).hide();
-			$(this).removeClass("toggle-minus").addClass("toggle-plus")
-			$.cookie(this.id,'collapsed', { expires: 365 });
-		} else {
-			$(".id-"+this.id).show();
-			$(this).removeClass("toggle-plus").addClass("toggle-minus")
-			$.cookie(this.id,'expanded', { expires: 365 });
-		}
-	});
-
-  //slide open/closed each section
-	$(".category-header").click(function(){
-		if ($.cookie(this.id) == 'expanded') {
-			$(".id-"+this.id).slideUp();
-			$.cookie(this.id,'collapsed', { expires: 365 });
-			$(this).removeClass("toggle-minus").addClass("toggle-plus")
-	    } else {
-			$(".id-"+this.id).slideDown();
-			$.cookie(this.id,'expanded', { expires: 365 });
-			$(this).removeClass("toggle-plus").addClass("toggle-minus")
-		}
-	});
-
 	//show/hide a gui_eleements section
 	$('.guielToggle').click(function() {
 		var txt = $(this).find('.guielToggleBut');
-		var el = $(this).data('toggleClass')
+		var el = $(this).data('toggle_class');
 		switch(txt.text().replace(/ /g,'')) {
 			case '-':
 				txt.text('+ ');
