@@ -566,7 +566,7 @@ function fpbx_reload_confirm() {
 			},
 			buttons: [
 				{
-					text: fpbx.msg.framework.continue,
+					text: fpbx.msg.framework.continuemsg,
 					click: function() {
 							$(this).dialog("destroy").remove();
 							fpbx_reload();

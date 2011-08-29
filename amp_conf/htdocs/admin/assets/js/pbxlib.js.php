@@ -110,7 +110,7 @@ return false;}
 function bind_dests_double_selects(){$('.destdropdown').unbind().bind('blur click change keypress',function(){var name=$(this).attr('name');var id=name.replace('goto','');var dest=$(this).val();$('[name$='+id+'].destdropdown2').hide();$('[name='+dest+id+'].destdropdown2').show();});$('.destdropdown').bind('change',function(){if($(this).find('option:selected').val()=='Error'){$(this).css('background-color','red');}else{$(this).css('background-color','white');}});}
 function fpbx_reload_confirm(){if(!fpbx.conf.RELOADCONFIRM){fpbx_reload();}
 $('<div></div>').html('Reloading will apply all configuration changes made '
-+'in FreePBX to your PBX engine and make them active.').dialog({title:'Confirm reload',resizable:false,modal:true,position:['center',50],close:function(e){$(e.target).dialog("destroy").remove();},buttons:[{text:fpbx.msg.framework.continue,click:function(){$(this).dialog("destroy").remove();fpbx_reload();}},{text:fpbx.msg.framework.cancel,click:function(){$(this).dialog("destroy").remove();}}]});}
++'in FreePBX to your PBX engine and make them active.').dialog({title:'Confirm reload',resizable:false,modal:true,position:['center',50],close:function(e){$(e.target).dialog("destroy").remove();},buttons:[{text:fpbx.msg.framework.continuemsg,click:function(){$(this).dialog("destroy").remove();fpbx_reload();}},{text:fpbx.msg.framework.cancel,click:function(){$(this).dialog("destroy").remove();}}]});}
 function fpbx_reload(){$('<div></div>').progressbar({value:100})
 var box=$('<div></div>').html('<progress style="width: 100%">'
 +'Please wait...'
