@@ -54,6 +54,7 @@ if (!isset($_SESSION['AMP_user'])) {
 				} else {
 					// password failed and admin user fall-back failed
 					unset($_SESSION['AMP_user']);
+					$no_auth = 	load_view($amp_conf['VIEW_LOGIN']);
 				}
 			} 
 			break;
