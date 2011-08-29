@@ -22,6 +22,9 @@ $html .= form_submit('submit', _('Login'));
 $html .= br(2);
 $html .= form_close();
 $html .= '</div></div>';
+$html .= br(5) . '<div style="color: white;font-size:small">'
+	  . session_id()
+	  . '</div>';
 echo $html;
 
 ?>

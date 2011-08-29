@@ -496,7 +496,7 @@ case "$1" in
 			mysql|m)
 				mysql -u$AMPDBUSER -D$AMPDBNAME -p$AMPDBPASS
 			;;
-			ulock)
+			unlock|u)
 				`php -r '
 				$bootstrap_settings["freepbx_auth"] = false;
 				$bootstrap_settings["skip_astman"] = true;
@@ -530,7 +530,7 @@ ${b}context$bx|${b}cxt$bx:   Show's the specified context from the dialplan. Thi
                contexts as they appear in extensions* files
 ${b}modadmin$bx|${b}ma$bx:  Runs the module_admin script with additional argument as passed
 ${b}mysql$bx|${b}m$bx:	Connect to freebx's mysql connection (assumes server is on localhost) s 
-${b}ulock$bx:	Unlock the web gui from the cli (requires root) 
+${b}unlock$bx|${b}u$bx:	Unlock the web gui from the cli (requires root) 
 ${b}reload$bx|${b}r$bx:      Does a full dialplan regeneration/reload (like clicking 
                the orange bar)     
 \n\n\n"

@@ -127,7 +127,7 @@ if (!$quietmode) {
 	if (isset($no_auth)) {
 		$html .= load_view(dirname(__FILE__) . '/views/menu.php', $header);
 		$html .= $no_auth;
-		$html .= load_view('views/freepbx_footer.php');
+		$html .= load_view($amp_conf['VIEW_FOOTER']);
 		echo $html;
 		exit();
 	}
