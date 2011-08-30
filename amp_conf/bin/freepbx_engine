@@ -506,9 +506,16 @@ case "$1" in
 				}
 				session_id("'$3'");
 				session_start();
-				$_SESSION["AMP_user"] = new ampuser($amp_conf["AMPDBUSER"]);
-				$_SESSION["AMP_user"]->setAdmin();
+				if (!isset($_SESSION["AMP_user"])) {
+					$_SESSION["AMP_user"] = new ampuser($amp_conf["AMPDBUSER"]);
+					$_SESSION["AMP_user"]->setAdmin();
+				}
 				'`
+				if [[ $? = 0 ]]; then
+					echo 'session unlocked!'
+				else
+					echo 'um, something went wrong...'
+				fi
 			;;
 		*)
 
