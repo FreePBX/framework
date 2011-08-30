@@ -76,7 +76,7 @@ function showHelp() {
 function install_parse_amportal_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
-		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) {
 			$conf[ $matches[1] ] = $matches[2];
 		}
 	}
@@ -85,11 +85,11 @@ function install_parse_amportal_conf($filename) {
 	if ( !isset($conf["AMPDBENGINE"]) || ($conf["AMPDBENGINE"] == "")) {
 		$conf["AMPDBENGINE"] = "mysql";
 	}
-	
+
 	if ( !isset($conf["AMPDBNAME"]) || ($conf["AMPDBNAME"] == "")) {
 		$conf["AMPDBNAME"] = "asterisk";
 	}
-	
+
 	if ( !isset($conf["AMPENGINE"]) || ($conf["AMPENGINE"] == "")) {
 		$conf["AMPENGINE"] = "asterisk";
 	}
@@ -100,7 +100,7 @@ function install_parse_amportal_conf($filename) {
 function install_parse_asterisk_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
-		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) {
 			$conf[ $matches[1] ] = $matches[2];
 		}
 	}
@@ -132,12 +132,11 @@ function write_amportal_conf($filename, $conf) {
 			}
 		}
 	}
-	
 	// add new entries
 	foreach ($conf as $key=>$val) {
 		$file[] = $key."=".$val."\n";
 	}
-	
+
 	// write the file
 	if (!$fd = fopen($filename, "w")) {
 		fatal("Could not open ".$filename." for writing");
@@ -153,10 +152,10 @@ function ask_overwrite($file1, $file2) {
 		outn("Overwrite (y=yes/a=all/n=no/d=diff/s=shell/x=exit)? ");
 		$key = fgets(STDIN,1024);
 		switch (strtolower($key[0])) {
-			case "y": return true; 
+			case "y": return true;
 			case "a": $check_md5s=false; return true;
 			case "n": return false;
-			case "d": 
+			case "d":
 				out("");
 				// w = ignore whitespace, u = unified
 				passthru("diff -wu ".escapeshellarg($file2)." ".escapeshellarg($file1));
@@ -168,7 +167,6 @@ function ask_overwrite($file1, $file2) {
 					out("Dropping to shell. Type 'exit' to return");
 					out("-> Original file:  ".$file2);
 					out("-> New file:       ".$file1);
-					
 					$pid = pcntl_fork();
 					if ($pid == -1) {
 						out("[ERROR] cannot fork");
@@ -179,14 +177,12 @@ function ask_overwrite($file1, $file2) {
 					} else {
 						pcntl_exec($shell, array(), $_ENV);
 					}
-					
 					out("Returned from shell");
 				} else {
 					out("[ERROR] PHP not built with process control (--enable-pcntl) support: cannot spawn shell");
 				}
-				
 			break;
-			case "x": 
+			case "x":
 				out("-> Original file:  ".$file2);
 				out("-> New file:       ".$file1);
 				out("Exiting install program.");
@@ -204,7 +200,7 @@ function generate_configs() {
 	global $dryrun;
 	global $debug;
 	global $runas_uid;
-	
+
 	out("Generating Configurations.conf, (if Asterisk is not running, you will get an error");
 	out("In case of error, start Asterisk and hit the red bar in the GUI to generate the Configurations.conf files");
 	if (!$dryrun)
@@ -233,7 +229,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	global $runas_gid;
 
 	out("Creating new $filename");
-	
+
 	if ($scripted == true) {
 		# Scripted install. Everything should have been set for us, don't ask questions.
 		out("Scripted install. Accepting command line params.");
@@ -261,44 +257,44 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		outn(AMP_CONF." written");
 		return;
 	}
-		
+
 	outn("Enter your USERNAME to connect to the '$dbname' database:\n [".($dbuser ? $dbuser : $asterisk_user) . "] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) 
+	if (preg_match('/^$/',$key))
 		$amp_conf["AMPDBUSER"] = ($dbuser ? $dbuser : $asterisk_user);
-	else 
+	else
 		$amp_conf["AMPDBUSER"] = $key;
-	
+
 	outn("Enter your PASSWORD to connect to the '$dbname' database:\n [".($dbpass ? $dbpass : $asterisk_pass)."] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) 
+	if (preg_match('/^$/',$key))
 		$amp_conf["AMPDBPASS"] = ($dbpass ? $dbpass : $asterisk_pass);
-	else 
+	else
 		$amp_conf["AMPDBPASS"] = $key;
-	
+
 	outn("Enter the hostname of the '$dbname' database:\n [".($dbhost ? $dbhost : "localhost")."] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) 
+	if (preg_match('/^$/',$key))
 		$amp_conf["AMPDBHOST"] = ($dbhost ? $dbhost : "localhost");
-	else 
+	else
 		$amp_conf["AMPDBHOST"] = $key;
-	
+
 	outn("Enter a USERNAME to connect to the Asterisk Manager interface:\n [admin] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRUSER"] = "admin";
 	else $amp_conf["AMPMGRUSER"] = $key;
-	
+
 	outn("Enter a PASSWORD to connect to the Asterisk Manager interface:\n [amp111] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRPASS"] = "amp111";
 	else $amp_conf["AMPMGRPASS"] = $key;
-	
+
 	do {
 		out("Enter the path to use for your AMP web root:\n [$webroot] ");
 		$key = trim(fgets(STDIN,1024));
-		if (preg_match('/^$/',$key)) 
+		if (preg_match('/^$/',$key))
 			$amp_conf["AMPWEBROOT"] = "$webroot";
-		else 
+		else
 			$amp_conf["AMPWEBROOT"] = rtrim($key,'/');
 
 		if (is_dir($amp_conf["AMPWEBROOT"])) {
@@ -310,34 +306,34 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 			fatal("Cannot create ".$amp_conf["AMPWEBROOT"]."!");
 		}
 	} while(1);
-	
+
 	// Really no need to ask, is there.
 	if (empty($fopwebroot))
 		$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"]."/panel";
 	else
 		$amp_conf["FOPWEBROOT"] = $fopwebroot;
-	
+
 	outn("Enter the IP ADDRESS or hostname used to access the AMP web-admin:\n [$freepbxip] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) $amp_conf["AMPWEBADDRESS"] = $freepbxip;
 	else $amp_conf["AMPWEBADDRESS"] = $key;
-	
+
 	outn("Enter a PASSWORD to perform call transfers with the Flash Operator Panel:\n [passw0rd] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) $amp_conf["FOPPASSWORD"] = "passw0rd";
 	else $amp_conf["FOPPASSWORD"] = $key;
-	
+
 	outn("Use simple Extensions [extensions] admin or separate Devices and Users [deviceanduser]?\n [extensions] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) $amp_conf["AMPEXTENSIONS"] = "extensions";
 	else $amp_conf["AMPEXTENSIONS"] = $key;
-	
+
 	do {
 		out("Enter directory in which to store AMP executable scripts:\n [$ampbin_dir] ");
 		$key = trim(fgets(STDIN,1024));
-		if (preg_match('/^$/',$key)) 
+		if (preg_match('/^$/',$key))
 			$amp_conf["AMPBIN"] = $ampbin_dir;
-		else 
+		else
 			$amp_conf["AMPBIN"] = rtrim($key,'/');
 
 		if (is_dir($amp_conf["AMPBIN"])) {
@@ -349,13 +345,13 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 			fatal("Cannot create ".$amp_conf["AMPBIN"]."!");
 		}
 	} while(1);
-	
+
 	do {
 		out("Enter directory in which to store super-user scripts:\n [$ampsbin_dir] ");
 		$key = trim(fgets(STDIN,1024));
-		if (preg_match('/^$/',$key)) 
+		if (preg_match('/^$/',$key))
 			$amp_conf["AMPSBIN"] = "$ampsbin_dir";
-		else 
+		else
 			$amp_conf["AMPSBIN"] = rtrim($key,'/');
 
 		if (is_dir($amp_conf["AMPSBIN"])) {
@@ -367,7 +363,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 			fatal("Cannot create ".$amp_conf["AMPSBIN"]."!");
 		}
 	} while(1);
-	
+
 	// write amportal.conf
 	write_amportal_conf($filename, $amp_conf);
 	outn(AMP_CONF." written");
@@ -447,23 +443,23 @@ function install_modules() {
 				// Framework modules cannot be enabled, only installed.
 				//
 				switch ($up_module) {
-				case 'framework':
-				case 'fw_ari':
-				case 'fw_fop':
-					system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
-					out("installed");
+					case 'framework':
+					case 'fw_ari':
+					case 'fw_fop':
+						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+						out("installed");
 					break;
-				default:
-					system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
-					system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
-					out("installed");
+					default:
+						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
+						out("installed");
 				}
 				unset($included_modules[$id]);
 			} else {
 				out("Dry Run Not Installed");
 			}
 		}
-  	}
+	}
 }
 
 /** Set the module version number to the packaged version and enable
@@ -496,9 +492,9 @@ function set_module_version($module) {
 	// an existing install that has a newer version.
 	//
 	$sql = "SELECT version FROM modules WHERE modulename = '$module'";
-	$result = $db->getCol($sql); 
-	if(DB::IsError($result)) {     
-		fatal("error accessing version table: ".$result->getMessage()); 
+	$result = $db->getCol($sql);
+	if(DB::IsError($result)) {
+		fatal("error accessing version table: ".$result->getMessage());
 	}
 	$sql = "";
 	if (count($result) == 0) {
@@ -518,9 +514,9 @@ function set_module_version($module) {
 	}
 	if ($sql) {
 		debug($sql);
-		$result = $db->query($sql); 
-		if(DB::IsError($result)) {     
-			fatal("error writing to version table: ".$result->getMessage()); 
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			fatal("error writing to version table: ".$result->getMessage());
 		}
 		return "updated to $version";
 	} else {
@@ -554,7 +550,7 @@ if (version_compare(phpversion(),'4.3.0','<') || !defined("STDIN")) {
 	define('STDERR',fopen("php://stderr","r"));
 	register_shutdown_function( create_function( '' , 'fclose(STDIN); fclose(STDOUT); fclose(STDERR); return true;' ) );
 }
-   
+
 // **** Make sure we have PEAR's DB.php, and include it
 
 outn("Checking for PEAR DB..");
@@ -596,8 +592,8 @@ $make_links = false;
 $module_install = true;
 
 //initialize variables to avoid php notices
-$dbhost = null; 
-$dbname = 'asterisk'; 
+$dbhost = null;
+$dbname = 'asterisk';
 $new_username = null;
 $new_password = null;
 
@@ -611,55 +607,55 @@ foreach ($args[0] as $arg) {
 		case "--help": case "h": case "?":
 			showHelp();
 			exit(10);
-		break;
+			break;
 		case "--dry-run":
 			out("Dry-run only, nothing will be changed");
 			$dryrun = true;
-		break;
+			break;
 		case "--debug":
 			$debug = true;
 			debug("Debug mode enabled");
-		break;
+			break;
 		case "--username": case "u":
 			out("Using username: ".$arg[1]);
 			$new_username = $arg[1];
-		break;
+			break;
 		case "--password": case "p":
 			out("Using password: ".str_repeat("*",strlen($arg[1])));
 			$new_password = $arg[1];
-		break;
+			break;
 		case "--force-version":
 			$version = $arg[1];
 			out("Forcing upgrade from version ".$version);
-		break;
+			break;
 		case "--dbhost":
 			$dbhost = $arg[1];
 			out("Using remote database server at ".$dbhost);
-		break;
+			break;
 		case "--dbname":
 			$dbname = $arg[1];
 			out("Using database ".$dbname);
-		break;
+			break;
 		case "--no-files":
 			$install_files = false;
 			out("Running upgrade only, without installing files.");
-		break;
+			break;
 		case "--force-overwrite":
-	    $check_md5s = false;
+			$check_md5s = false;
 			out("Overwriting all files including modified ones.");
-		break;
+			break;
 		case "--my-svn-is-correct":
 			$override_astvers = true;
-		break;
+			break;
 		case "--engine":
 			if ($arg[1] != 'asterisk') {
 				fatal('Currently only "asterisk" is supported as a PBX engine');
 			}
 			$pbx_engine = $arg[1];
-		break;
+			break;
 		case "--install-moh":
 			$install_moh = true;
-		break;
+			break;
 		case "--install-fop":
 			if(strtolower($arg[1]) == "false")  {
 				$install_fop = false;
@@ -667,63 +663,62 @@ foreach ($args[0] as $arg) {
 			} else  {
 				out("FOP will be installed and activated.");
 			}
-		break;
+			break;
 		case "--make-links-devel":
 		case "--dev-links":
 			$make_links = true;
-		break;
+			break;
 		case "--skip-module-install":
 			$module_install = false;
-		break;
+			break;
 		case "--fopwebroot":
 			$fopwebroot = $arg[1];
 			out("Using fop at ".$fopwebroot);
-		break;
+			break;
 		case "--webroot":
 			$webroot = $arg[1];
 			out("Using Webroot at ".$webroot);
-		break;
+			break;
 		case "--cgibin":
 			$cgibin = $arg[1];
 			out("Using CGI-BIN at ".$cgibin);
-		break;
+			break;
 		case "--bin":
 			$ampbin_dir = $arg[1];
 			out("Using bin at ".$ampbin_dir);
-		break;
+			break;
 		case "--sbin":
 			$ampsbin_dir = $arg[1];
 			out("Using sbin at ".$ampsbin_dir);
-		break;
+			break;
 		case "--asteriskuser":
 			$asterisk_user = $arg[1];
 			out("Using Asterisk user ".$asterisk_user);
-		break;
+			break;
 		case "--asteriskpass":
 			$asterisk_pass = $arg[1];
 			out("Using asteriskpass ".str_repeat("*",strlen($arg[1])));
-		break;
+			break;
 		case "--uid":
 			$runas_uid = $arg[1];
 			out("Setting ownership (user) to ".$runas_uid);
-		break;
+			break;
 		case "--gid":
 			$runas_gid = $arg[1];
 			out("Setting ownership (group) to ".$runas_gid);
-		break;
+			break;
 		case "--scripted":
 			$scripted = true;
 			out("Unattended installation. No questions will be asked");
-		break;
+			break;
 		case "--freepbxip":
-			$freepbxip = $arg[1]; 
+			$freepbxip = $arg[1];
 			out("Setting IP address of web interface to $freepbxip");
-		break;
+			break;
 		case "--asteriskip":
-			$asteriskip = $arg[1]; 
+			$asteriskip = $arg[1];
 			out("Setting IP address of asterisk to $asteriskip");
-		break;
-
+			break;
 
 	}
 }
@@ -763,9 +758,9 @@ if (!file_exists(AMP_CONF)) {
 
 	// this file contains password and should not be a+r
 	// this addresses http://freepbx.org/trac/ticket/1878
-	chown(AMP_CONF, $runas_uid); 
-	chgrp(AMP_CONF, $runas_gid); 
-	chmod(AMP_CONF, 0640); 
+	chown(AMP_CONF, $runas_uid);
+	chgrp(AMP_CONF, $runas_gid);
+	chmod(AMP_CONF, 0640);
 
 	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password, $dbname);
 
@@ -839,7 +834,7 @@ if(!$install_fop)  { // Set from --install-fop parameter; Add it to amportal.con
 //
 if (isset($amp_conf['FOPDISABLE']) && (strtolower(trim($amp_conf['FOPDISABLE'])) == 'true' || strtolower(trim($amp_conf['FOPDISABLE'])) == 'yes' || strtolower(trim($amp_conf['FOPDISABLE'])) == 'y') )  {
 	$install_fop = false;
-}	
+}
 // write amportal.conf
 // TODO: if we boostrapped we don't want to write amportal.conf, or do we? e.g. if we are running out of the file vs. the
 //       database then we probably want to write, though there should be a freepbx_conf class to use that does that and knows
@@ -923,7 +918,7 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
 	out("{$matches[1]}");
   $asterisk_version = $matches[1];
 
-} elseif (preg_match('/^Asterisk ([ABC]\.\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) { 
+} elseif (preg_match('/^Asterisk ([ABC]\.\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) {
 	if (substr($matches[1], 0, 1) == "A") {
 		fatal("Asterisk Business Edition B or C is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
@@ -955,7 +950,7 @@ $tmpoutput = array();
 $tmpout = exec("getenforce 2>/dev/null", $tmpoutput, $sereturn);
 if (strtolower($tmpoutput[0]) === "enabled") {
         // this method seems better because disabled and permissive are the same
-        // if a user installs and realizes selinux is running the other method 
+        // if a user installs and realizes selinux is running the other method
         // requires a reboot to get selinuxenabled to work after editing the  selinux config
         // this will allow you to use setenforce 0 which turns selinux into permissive mode which
         // doesnt enforce, it just warns.
@@ -977,52 +972,42 @@ if ($db_engine != "sqlite3") {
 }
 $db_name = $amp_conf["AMPDBNAME"];
 
-// we still support older configurations,  and fall back 
+// we still support older configurations,  and fall back
 // into mysql when no other engine is defined
 if ($db_engine == "")
 {
 	$db_engine = "mysql";
 }
-	
 switch ($db_engine)
 {
 	case "pgsql":
 	case "mysql":
-		// datasource in in this style: dbengine://username:password@host/database 
+		// datasource in in this style: dbengine://username:password@host/database
 		if (!function_exists($db_engine.'_connect')) {
 			out("FAILED");
 			fatal($db_engine." PHP libraries not installed");
 		}
-	
 		$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
 		$db = DB::connect($datasource); // attempt connection
 		break;
-	
 	case "sqlite":
 		die_freepbx("SQLite2 support is deprecated. Please use sqlite3 only.");
 		break;
-	
 	case "sqlite3":
 		if (!isset($amp_conf["AMPDBFILE"]))
 			die("You must setup properly AMPDBFILE in /etc/amportal.conf");
-			
 		if (isset($amp_conf["AMPDBFILE"]) == "")
 			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
-
 		/* on centos this extension is not loaded by default */
 		if (! extension_loaded('sqlite3.so')  && ! extension_loaded('SQLITE3'))
 			dl('sqlite3.so');
-
-		if (! @require_once('DB/sqlite3.php') )
-		{
+		if (! @require_once('DB/sqlite3.php') ) {
 			out("FAILED");
 			fatal( "Your PHP installation has no PEAR/SQLite3 support. Please install php-sqlite3 and php-pear.");
 		}
-
 		$datasource = "sqlite3:///" . $amp_conf["AMPDBFILE"] . "?mode=0666";
 		$db = DB::connect($datasource);
 		break;
-
 	default:
 		die( "Unknown SQL engine: [$db_engine]");
 }
@@ -1032,7 +1017,7 @@ if(DB::IsError($db)) {
 	debug($db->userinfo);
 	out("Try running ".$argv[0]." --username=user --password=pass  (using your own user and pass)");
 	fatal("Cannot connect to database");
-	
+
 }
 out("OK");
 
@@ -1055,8 +1040,8 @@ if (!isset($version)) {
 // is probably quite low) then something is wrong so assume it
 // is not there.
 //
-$sql = "SELECT count(*) FROM freepbx_settings"; 
-$num_settings = $db->getOne($sql); 
+$sql = "SELECT count(*) FROM freepbx_settings";
+$num_settings = $db->getOne($sql);
 $force_amportal_conf = DB::IsError($num_settings) || $num_settings < 5;
 
 // **** Copy files
@@ -1073,7 +1058,7 @@ if ($install_files)
 
   // link the packed js library for ARI, if there the error will indicate that
   $libfreepbx = $amp_conf['AMPWEBROOT'].'/admin/common/libfreepbx.javascripts.js';
-  $dest_libfreepbx = $amp_conf['AMPWEBROOT'].'/recordings/theme/js/libfreepbx.javascripts.js'; 
+  $dest_libfreepbx = $amp_conf['AMPWEBROOT'].'/recordings/theme/js/libfreepbx.javascripts.js';
   if (!file_exists($amp_conf['AMPWEBROOT'].'/recordings/theme/js')) {
 	mkdir($amp_conf['AMPWEBROOT'].'/recordings/theme/js',0755, true);
   }
@@ -1088,8 +1073,8 @@ if ($install_files)
 }
 
 // **** Apply amportal.conf configuration to files
-if (file_exists(dirname(__FILE__)."/apply_conf.sh")) { 
-	debug("Running ".dirname(__FILE__)."/apply_conf.sh");
+if (file_exists(dirname(__FILE__)."/apply_conf.sh")) {
+		debug("Running ".dirname(__FILE__)."/apply_conf.sh");
 }
 
 outn("Configuring install for your environment..");
@@ -1141,23 +1126,23 @@ if (!$dryrun) {
 	// reload manager in asterisk if it is running:
 	//
 	outn("apply username/password changes to conf files..");
-	if (file_exists(dirname(__FILE__)."/apply_conf.sh")) { 
+	if (file_exists(dirname(__FILE__)."/apply_conf.sh")) {
     if ($force_amportal_conf) {
       putenv('FORCE_AMPORTAL_CONF=1');
-		  exec(dirname(__FILE__)."/apply_conf.sh ".AMP_CONF);
+	  exec(dirname(__FILE__)."/apply_conf.sh ".AMP_CONF);
       putenv('FORCE_AMPORTAL_CONF=');
     } else {
-		  exec(dirname(__FILE__)."/apply_conf.sh");
+	  exec(dirname(__FILE__)."/apply_conf.sh");
     }
 	}
 	out("done");
 
 	/* As of Asterisk 1.4.16 or there about, a missing #include file will make the reload fail. So
-   	we need to make sure that we have such for everything that is in our configs. We will simply
-	 	look for the #include statements and touch the files vs. trying to inventory everything we may
-	 	need and then forgetting something.
+	we need to make sure that we have such for everything that is in our configs. We will simply
+	look for the #include statements and touch the files vs. trying to inventory everything we may
+	need and then forgetting something.
 	*/
-  
+
 	outn("creating missing #include files..");
 	$include_err = false;
 	exec("grep '#include' ".$amp_conf['ASTETCDIR']."/*.conf | sed 's/;.*//; s/#include//'",$output,$retcode);
@@ -1181,7 +1166,7 @@ if (!$dryrun) {
 
 		if (!file_exists($target)) {
 			exec("sudo -u $asteriskuser touch $target", $output, $retcode);
-				if ($retcode != 0) {
+			if ($retcode != 0) {
 				out("Error code $retcode: trying to create empty file $target");
 				$include_err = true;
 			}
@@ -1216,13 +1201,13 @@ if ($install_files)
 {
 	outn("Setting permissions on files..");
 	if (!$dryrun) {
-    if ($force_amportal_conf) {
-      putenv('FORCE_AMPORTAL_CONF=1');
-    }
+		if ($force_amportal_conf) {
+		putenv('FORCE_AMPORTAL_CONF=1');
+		}
 		exec($amp_conf["AMPSBIN"]."/amportal chown");
-    if ($force_amportal_conf) {
-      putenv('FORCE_AMPORTAL_CONF=');
-    }
+		if ($force_amportal_conf) {
+			putenv('FORCE_AMPORTAL_CONF=');
+		}
 	}
 	out("OK");
 }
@@ -1279,6 +1264,4 @@ out("* that all modules are up to date BEFORE YOU CLICK THE RED BAR. As long *",
 out("* as this is observed, your machine will be fully functional whilst the *",false);
 out("* upgrade is in progress.                                               *",false);
 out("*************************************************************************",false);
-// vim: set ts=4 sw=4 : //
-// Ensure you 'set modeline' in your ~/.vimrc to activate this //
 ?>
