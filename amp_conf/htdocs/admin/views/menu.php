@@ -24,27 +24,18 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {
 		$count = 0;
 		foreach($menu as $t => $cat) { //catagories
 			$mods[$t] = '<a href="#">'
-					. ucwords($t)
+					. _(ucwords($t))
 					. '</a><ul>';
 			foreach ($cat as $c => $mod) { //modules
 				if (isset($mod['hidden']) && $mod['hidden'] == 'true') {
 					continue;
 				}
 				$classes = array();
+				
 				//build defualt module url
 				$href = isset($mod['href'])
 						? $mod['href']
 						: "config.php?display=" . $mod['display'];
-				
-				//i18n for module name
-				if (isset($framework_text_domain) && $framework_text_domain[$key]) {
-					$label_text = dgettext($mod['module']['rawname'], $mod['name']);
-					if ($label_text == $mod['name']) {
-					 	$label_text = _($label_text);
-					}
-				} else {
-					$label_text = _($mod['name']);
-				}
 				
 				//highlight currently in-use module
 				if ($display == $mod['display']) {
@@ -57,9 +48,10 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {
 					$classes[] = 'ui-state-disabled';
 					$classes[] = 'ui-corner-all';
 				}
+				
 				$items[$label_text] = '<li><a href="' . $href . '"'
 						. 'class="' . implode(' ', $classes) . '">'
-						. ucwords($label_text)
+						. _(ucwords($label_text))
 						. '</a></li>';
 						
 			}
