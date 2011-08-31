@@ -50,7 +50,7 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		//echo "the result is ".$matches[1];
 		if ($override_xml) {
-			$fn = $override_xml."modules-".$matches[1].".xml";
+			$fn = $override_xml."/modules-".$matches[1].".xml";
 		} else {
 			$fn = $amp_conf['MODULE_REPO'] . "/modules-".$matches[1].".xml";
 			// echo "(From default)"; //debug
