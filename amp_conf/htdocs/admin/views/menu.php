@@ -49,9 +49,9 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {
 					$classes[] = 'ui-corner-all';
 				}
 				
-				$items[$label_text] = '<li><a href="' . $href . '"'
+				$items[$mod['name']] = '<li><a href="' . $href . '"'
 						. 'class="' . implode(' ', $classes) . '">'
-						. _(ucwords($label_text))
+						. _(ucwords($mod['name']))
 						. '</a></li>';
 						
 			}
