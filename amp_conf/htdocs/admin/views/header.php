@@ -27,23 +27,25 @@ $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 //css
 $html .= '<link href="' . framework_css().$version_tag . '" rel="stylesheet" type="text/css">';
 
-//it seems extremely difficult to put jquery in the footer with the other scripts
-$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/' . $jquery . '/jquery.min.js"></script>';
-$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-' 
-		. $jquery . '.min.js"><\/script>\')</script>';
-
-
+//include rtl stylesheet if using a rtl langauge
+if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))) {
+	$html .= '<link href="assets/css/mainstyle-rtl.css" rel="stylesheet" type="text/css" />';
+}
 // Insert a custom CSS sheet if specified (this can change what is in the main CSS)
 if ($amp_conf['BRAND_CSS_CUSTOM']) {
 	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM'] 
 			. $version_tag . '" rel="stylesheet" type="text/css">';
 }
+
+//it seems extremely difficult to put jquery in the footer with the other scripts
+$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/' . $jquery . '/jquery.min.js"></script>';
+$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-' 
+		. $jquery . '.min.js"><\/script>\')</script>';
+		
 $html .= '</head>';
 
 //open body
-$html .= '<body'
-		. (isset($_COOKIE['lang']) && $_COOKIE['lang'] == "he_IL" ? ' dir="rtl"' : '')
-		. '>';
+$html .= '<body>';
 
 $html .= '<div id="page">';//open page
 

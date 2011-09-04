@@ -674,7 +674,8 @@ function freepbx_reload_error(txt) {
 function toggle_reload_button(action) {
 	switch (action) {
 		case 'show':
-			$('#button_reload').show();
+			//weird css is needed to keep the bitton from "juming" a bit out of place
+			$('#button_reload').show().css('display', 'inline-block');
 			break;
 		case 'hide':
 			$('#button_reload').hide();

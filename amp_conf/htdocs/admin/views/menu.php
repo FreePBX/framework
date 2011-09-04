@@ -4,17 +4,8 @@ $out .= '<div id="header">';
 $out .= '<div class="menubar ui-widget-header ui-corner-all">';
 
 if (isset($fpbx_menu) && is_array($fpbx_menu)) {	
-	//set roduct type for use in the logo. Default to pbxact
-/*	if (function_exists('sysadmin_get_license')) {
-		$lic = sysadmin_get_license();
-		if (isset($lic['Product-Name']) && $lic['Product-Name'] == 'PBXtended') {
-			$logo = '<a id="fpbx_link_button" href="http://www.pbxtended.com" target="_blank" data-button-icon-secondary="ui-icon-extlink"><img src="/admin/modules/shmzskin/assets/images/pbxtended-logo.png" alt="PBXtended" style="float:left"/></a>';
-		} else {
-			$logo = '<a id="fpbx_link_button" href="http://www.pbxact.com" target="_blank" data-button-icon-secondary="ui-icon-extlink"><img src="/admin/modules/shmzskin/assets/images/pbxact-logo.png" alt="PBXact" style="float:left"/></a>';
-		}
-	} else {
-		$logo = '<a id="fpbx_link_button" href="http://www.pbxact.com" target="_blank" data-button-icon-secondary="ui-icon-extlink"><img src="/admin/modules/shmzskin/assets/images/pbxact-logo.png" alt="PBXact" style="float:left"/></a>';
-	}*/
+/* $logo = '<a id="fpbx_link_button" href="http://www.pbxact.com" target="_blank" data-button-icon-secondary="ui-icon-extlink"><img src="/admin/modules/shmzskin/assets/images/pbxact-logo.png" alt="PBXact" style="float:left"/></a>';
+*/
 
 	foreach ($fpbx_menu as $mod => $deets) {
 		$menu[$deets['type']][$deets['category']][] = $deets;
@@ -81,16 +72,16 @@ $out .= '<ul id="fpbx_lang" style="display:none;">';
 $out .= '</ul>';
 
 if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) {
-	$out .= '<button id="user_logout"'
+	$out .= '<a id="user_logout" href="#"'
 			. ' class="button-right ui-widget-content ui-state-default" title="logout">'
 			. _('Logout: ') . (isset($_SESSION['AMP_user']->username) ? $_SESSION['AMP_user']->username : 'ERROR')
-			. '</button>';
+			. '</a>';
 }
 
-$out .= '<button id="button_reload" data-button-icon-primary="ui-icon-gear" class="ui-state-error ">'
-		. _("Apply Config") .'</button>';
+$out .= '<a id="button_reload" href="#" data-button-icon-primary="ui-icon-gear" class="ui-state-error ">'
+		. _("Apply Config") .'</a>';
 
-$out .= '</div>';//'<div style="width:100%;height:0px;clear:both"></div>';
+$out .= '</div>';
 $out .= '</div>';//header
 $out .= '<div id="page_body">';
 echo $out;

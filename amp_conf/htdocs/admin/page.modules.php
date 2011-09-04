@@ -47,6 +47,9 @@ $freepbx_help_url = "http://www.freepbx.org/freepbx-help-system?freepbx_version=
 if (!$quietmode) {
 	?>
 	<script type="text/javascript">
+	$(document).ready(function(){
+		$('.repo_boxes').find('input[type=checkbox]').button()
+	})
 	function toggleInfoPane(pane) {
 		var style = document.getElementById(pane).style;
 		if (style.display == 'none' || style.display == '') {
@@ -1007,25 +1010,25 @@ function displayRepoSelect($buttons) {
     <table width="600px">
       <tr>
         <td>
-          <a href="#" class="info"><?php echo _("Repositories")?><span><?php echo $tooltip ?></span></a>
+          <?php echo fpbx_label(_("Repositories"), $tooltip); ?>
         </td><td>
           <table>
-            <tr>
+            <tr class="repo_boxes">
               <td>
                 <input id="standard_repo" type="checkbox" name="active_repos[standard]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['standard'])?"checked":""?>/>
-                <label for="active_repos[standard]"><?php echo _("Basic") ?></label>
+                <label for="standard_repo"><?php echo _("Basic") ?></label>
               </td>
               <td>
                 <input id="extended_repo" type="checkbox" name="active_repos[extended]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['extended'])?"checked":""?>/>
-                <label for="active_repos[extended]"><?php echo _("Extended") ?></label>
+                <label for="extended_repo"><?php echo _("Extended") ?></label>
               </td>
               <td>
                 <input id="unsupported_repo" type="checkbox" name="active_repos[unsupported]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['unsupported'])?"checked":""?>/>
-                <label for="active_repos[unsupported]"><?php echo _("Unsupported") ?></label>
+                <label for="unsupported_repo"><?php echo _("Unsupported") ?></label>
               </td>
               <td>
                 <input id="commercial_repo" type="checkbox" name="active_repos[commercial]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['commercial'])?"checked":""?>/>
-                <label for="active_repos[commercial]"><?php echo _("Commercial") ?></label>
+                <label for="commercial_repo"><?php echo _("Commercial") ?></label>
               </td>
             </tr>
           </table>
