@@ -53,28 +53,28 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {
 		ksort($mods);
 		$out .= implode($mods);
 }
-$out .= '<a href="/recordings" target="_blank">User Panel</a>';
-$out .= '<a id="language-menu-button" class="button-right ui-widget-content ui-state-default">Language</a>';
+$out .= '<a href="/recordings" target="_blank">' . _('User Panel') . '</a>';
+$out .= '<a id="language-menu-button" class="button-right ui-widget-content ui-state-default">' . _('Language') . '</a>';
 $out .= '<ul id="fpbx_lang" style="display:none;">';
-	$out .= '<li data-lang="en_US"><a href="#">English</a></li>';
-	$out .= '<li data-lang="bg_BG"><a href="#">Bulgarian</a></li>';
-	$out .= '<li data-lang="zh_CN"><a href="#">Chinese</a></li>';
-	$out .= '<li data-lang="de_DE"><a href="#">Deutsch</a></li>';
-	$out .= '<li data-lang="es_ES"><a href="#">Espa&ntilde;ol</a></li>';
-	$out .= '<li data-lang="fr_FR"><a href="#">Fran&ccedil;ais</a></li>';
-	$out .= '<li data-lang="he_IL"><a href="#">Hebrew</a></li>';
-	$out .= '<li data-lang="hu_HU"><a href="#">Hungarian</a></li>';
-	$out .= '<li data-lang="it_IT"><a href="#">Italiano</a></li>';
-	$out .= '<li data-lang="pt_PT"><a href="#">Portuguese</a></li>';
-	$out .= '<li data-lang="pt_BR"><a href="#">Portuguese (Brasil)</a></li>';
-	$out .= '<li data-lang="ru_RU"><a href="#">Russki</a></li>';
-	$out .= '<li data-lang="sv_SE"><a href="#">Svenska</a></li>';
+	$out .= '<li data-lang="en_US"><a href="#">'. _('English') . '</a></li>';
+	$out .= '<li data-lang="bg_BG"><a href="#">' . _('Bulgarian') . '</a></li>';
+	$out .= '<li data-lang="zh_CN"><a href="#">' . _('Chinese') . '</a></li>';
+	$out .= '<li data-lang="de_DE"><a href="#">' . _('German') . '</a></li>';
+	$out .= '<li data-lang="fr_FR"><a href="#">' . _('French') . '</a></li>';
+	$out .= '<li data-lang="he_IL"><a href="#">' . _('Hebrew') . '</a></li>';
+	$out .= '<li data-lang="hu_HU"><a href="#">' . _('Hungarian') . '</a></li>';
+	$out .= '<li data-lang="it_IT"><a href="#">' . _('Italian') . '</a></li>';
+	$out .= '<li data-lang="pt_PT"><a href="#">' . _('Portuguese') . '</a></li>';
+	$out .= '<li data-lang="pt_BR"><a href="#">' . _('Portuguese (Brasil)') . '</a></li>';
+	$out .= '<li data-lang="ru_RU"><a href="#">' . _('Russian') . '</a></li>';
+	$out .= '<li data-lang="sv_SE"><a href="#">' . _('Swedish') . '</a></li>';
+	$out .= '<li data-lang="es_ES"><a href="#">' . _('Spanish') . '</a></li>';
 $out .= '</ul>';
 
 if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) {
 	$out .= '<a id="user_logout" href="#"'
 			. ' class="button-right ui-widget-content ui-state-default" title="logout">'
-			. _('Logout: ') . (isset($_SESSION['AMP_user']->username) ? $_SESSION['AMP_user']->username : 'ERROR')
+			. _('Logout') . ': ' . (isset($_SESSION['AMP_user']->username) ? $_SESSION['AMP_user']->username : 'ERROR')
 			. '</a>';
 }
 
