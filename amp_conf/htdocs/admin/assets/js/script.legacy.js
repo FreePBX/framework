@@ -694,12 +694,19 @@ $(document).ready(function(){
 		$(this).after('<span class="help">?<span>' + $(this).find('span').text() + '</span></span>');
 	})
 	$(".help").live('mouseenter', function(){
-		var pos = $(this).offset();
-    	var left = (200 - pos.left)+"px";
-		//left = left > 0 ? left : 0;
-		$(this).find("span").css("left",left).stop(true, true).delay(500).animate({opacity: "show"}, 750);
-	}).live('mouseleave', function(){
-		$(this).find("span").stop(true, true).animate({opacity: "hide"}, "fast");
+			side = fpbx.conf.text_dir == 'lrt' ? 'left' : 'right';
+			var pos = $(this).offset();
+	    	var offset = (200 - pos.side)+"px";
+			//left = left > 0 ? left : 0;
+			$(this).find("span")
+					.css(side, offset)
+					.stop(true, true)
+					.delay(500)
+					.animate({opacity: "show"}, 750);
+		}).live('mouseleave', function(){
+			$(this).find("span")
+					.stop(true, true)
+					.animate({opacity: "hide"}, "fast");
 	});
 
 	//show/hide a gui_eleements section

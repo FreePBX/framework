@@ -52,6 +52,8 @@ $html .= '</div>'; //page
 $fpbx['conf']['RELOADCONFIRM']	= $amp_conf["RELOADCONFIRM"]? 'true' : 'false';
 $fpbx['conf']['DEVELRELOAD']	= $amp_conf["DEVELRELOAD"]? 'true' : 'false';
 $fpbx['conf']['reload_needed']	= $reload_needed;
+$fpbx['conf']['text_dir']		= isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))
+									? 'rtl' : 'ltr';
 $fpbx['msg']['framework']['reload_unidentified_error'] = _(" error(s) occurred, you should view the notification log on the dashboard or main screen to check for more details.");
 $fpbx['msg']['framework']['close'] = _("Close");
 $fpbx['msg']['framework']['continuemsg'] = _("Continue");//continue is a resorved word!
