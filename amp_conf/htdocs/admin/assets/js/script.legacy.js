@@ -691,7 +691,7 @@ $(document).ready(function(){
 	
 	//help tags. based on: http://www.dvq.co.nz/jquery/create-a-jquery-popup-bubble-effect/
 	$("a.info").each(function(){
-		$(this).after('<span class="help">?<span>' + $(this).find('span').text() + '</span></span>');
+		$(this).after('<span class="help">?<span>' + $(this).find('span').html() + '</span></span>');
 	})
 	$(".help").live('mouseenter', function(){
 			side = fpbx.conf.text_dir == 'lrt' ? 'left' : 'right';
@@ -804,6 +804,7 @@ $(document).ready(function(){
 		//freepbx_show_reload(false);
 	});
 	
+	//logout button
 	$('#user_logout').click(function(){
 		url = window.location.origin + window.location.pathname;
 		$.get(url + '?logout=true', function(){
