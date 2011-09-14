@@ -114,7 +114,7 @@ if (!isset($no_auth) && isset($_REQUEST['handler'])) {
 	exit();
 }
 
-$html = '';
+$fw_gui_html = '';
 //buffer & compress our responce
 ob_start($amp_conf['buffering_callback']);
 
@@ -122,18 +122,18 @@ if (!$quietmode) {
 	//send header
 	$header['title']	= framework_server_name();
 	$header['amp_conf']	= $amp_conf;
-	$html .=			load_view(dirname(__FILE__) . '/views/header.php', $header);
+	$fw_gui_html .=			load_view(dirname(__FILE__) . '/views/header.php', $header);
 	
 	if (isset($no_auth)) {
-		$html .= load_view(dirname(__FILE__) . '/views/menu.php', $header);
-		$html .= $no_auth;
-		$html .= load_view($amp_conf['VIEW_FOOTER']);
-		echo $html;
+		$fw_gui_html .= load_view(dirname(__FILE__) . '/views/menu.php', $header);
+		$fw_gui_html .= $no_auth;
+		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER']);
+		echo $fw_gui_html;
 		exit();
 	}
 	module_run_notification_checks();
 }
-$html .= ob_get_contents();
+$fw_gui_html .= ob_get_contents();
 ob_end_clean();
 
 //draw up freepbx menu
@@ -346,7 +346,7 @@ if ($quietmode) {
 	
 	//if we have a module loaded, load its css
 	if (isset($module_name)) {
-		$html .= framework_include_css();
+		$fw_gui_html .= framework_include_css();
 	}
 
 	// send menu
@@ -360,22 +360,22 @@ if ($quietmode) {
 
 	// menu + page content + footer
 	
-	$html .=						load_view($amp_conf['VIEW_MENU'], $menu);
+	$fw_gui_html .=						load_view($amp_conf['VIEW_MENU'], $menu);
 	
 	//send actual page content
-	$html .=						$content;
+	$fw_gui_html .=						$content;
 		 
 	//send footer
 	$footer['module_name']			= $module_name;
 	$footer['module_page']			= $module_page;
 	$footer['benchmark_starttime']	= $benchmark_starttime;
 	$footer['reload_needed']		= check_reload_needed();
-	$html .=						load_view($amp_conf['VIEW_FOOTER'], $footer);
+	$fw_gui_html .=						load_view($amp_conf['VIEW_FOOTER'], $footer);
 
 
 	//$template['benchmark_starttime']	= $benchmark_starttime;
 
 }
 
-echo $html;
+echo $fw_gui_html;
 ?>
