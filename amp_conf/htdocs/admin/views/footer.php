@@ -62,6 +62,7 @@ $fpbx['conf']['text_dir']		= isset($_COOKIE['lang']) && in_array($_COOKIE['lang'
 $fpbx['conf']['uniqueid']		= sql('SELECT data FROM module_xml WHERE id = "installid"', 'getOne');
 $fpbx['conf']['dist']			= _module_distro_id();
 $fpbx['conf']['ver']			= get_framework_version();
+$fpbx['conf']['reload_needed']  = $reload_needed; 
 $fpbx['msg']['framework']['reload_unidentified_error'] = _(" error(s) occurred, you should view the notification log on the dashboard or main screen to check for more details.");
 $fpbx['msg']['framework']['close'] = _("Close");
 $fpbx['msg']['framework']['continuemsg'] = _("Continue");//continue is a resorved word!
