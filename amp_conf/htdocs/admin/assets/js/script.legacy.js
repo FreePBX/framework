@@ -512,6 +512,12 @@ function weakSecret() {
   return false;
 }
 
+//set up query retreiver
+$.urlParam = function(name){
+    var match = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
 //weird name, but should be self explanitor
 function bind_dests_double_selects() {
 	//destination double dropdown code
@@ -754,7 +760,7 @@ $(document).ready(function(){
 	
 	//reload
 	$('#button_reload').click(function(){
-		if (fpbx.conf.RELOADCONFIRM) {
+		if (fpbx.conf.RELOADCONFIRM == 'true') {
 			fpbx_reload_confirm();
 		} else {
 			fpbx_reload();

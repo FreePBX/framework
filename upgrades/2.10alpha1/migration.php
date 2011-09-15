@@ -30,7 +30,7 @@ $set = array(
 		'level'			=> 10,
 		'module'		=> '',
 		'category'		=> 'Internal Use',
-		'emptyok'		=> 1,
+		'emptyok'		=> 0,
 		'name'			=> 'repo server',
 		'description'	=> 'repo server',
 		'type'			=> CONF_TYPE_TEXT
@@ -91,6 +91,24 @@ $set = array(
 $freepbx_conf->define_conf_setting('VIEW_FOOTER', $set);
 $freepbx_conf->commit_conf_settings();
 
+//browser stats
+$set = array(
+		'value'			=> true,
+		'defaultval'	=> true,
+		'readonly'		=> 0,
+		'hidden'		=> 1,
+		'level'			=> 10,
+		'module'		=> '',
+		'category'		=> 'System Setup',
+		'emptyok'		=> 0,
+		'name'			=> 'Browser Stats',
+		'description'	=> 'Anonymous browser stat collection utiltiy for improved visuals '
+						. 'and browser targeted devlopment foucus',
+		'type'			=> CONF_TYPE_BOOL
+);
+$freepbx_conf->define_conf_setting('BROWSER_STATS', $set);
+$freepbx_conf->commit_conf_settings();
+
 //depreciated
 //views
 $freepbx_conf->remove_conf_settings('VIEW_FREEPBX');
@@ -100,10 +118,9 @@ $freepbx_conf->remove_conf_settings('VIEW_FREEPBX_RELOADBAR');
 $freepbx_conf->remove_conf_settings('VIEW_FREEPBX_RELOADBAR');
 $freepbx_conf->remove_conf_settings('VIEW_UNAUTHORIZED');
 $freepbx_conf->remove_conf_settings('VIEW_LOGGEDOUT');
+$freepbx_conf->remove_conf_settings('VIEW_LOGGEDOUT');
 
 //settings
-$freepbx_conf->remove_conf_settings('BRAND_IMAGE_HIDE_NAV_BACKGROUND');
-
 global $amp_conf;
 
 $outdated = array(

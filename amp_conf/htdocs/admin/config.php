@@ -127,7 +127,7 @@ if (!$quietmode) {
 	if (isset($no_auth)) {
 		$fw_gui_html .= load_view(dirname(__FILE__) . '/views/menu.php', $header);
 		$fw_gui_html .= $no_auth;
-		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER']);
+		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], array('no_auth' => $no_auth));
 		echo $fw_gui_html;
 		exit();
 	}

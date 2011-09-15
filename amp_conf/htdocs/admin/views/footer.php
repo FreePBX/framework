@@ -49,11 +49,19 @@ $html .= '</div>'; //page
 
 //localized strings and other javascript values that need to be set dynamically
 //TODO: this should be dove via callbacks so that all modules can hook in to it
-$fpbx['conf']['RELOADCONFIRM']	= $amp_conf["RELOADCONFIRM"]? 'true' : 'false';
-$fpbx['conf']['DEVELRELOAD']	= $amp_conf["DEVELRELOAD"]? 'true' : 'false';
-$fpbx['conf']['reload_needed']	= $reload_needed;
+if (!isset($no_auth)) {
+	$fpbx['conf']				= $amp_conf;
+	unset($fpbx['conf']['AMPMGRPASS'], 
+		$fpbx['conf']['AMPMGRUSER'], 
+		$fpbx['conf']['AMPDBUSER'], 
+		$fpbx['conf']['AMPDBPASS']);
+}
+
 $fpbx['conf']['text_dir']		= isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))
 									? 'rtl' : 'ltr';
+$fpbx['conf']['uniqueid']		= sql('SELECT data FROM module_xml WHERE id = "installid"', 'getOne');
+$fpbx['conf']['dist']			= _module_distro_id();
+$fpbx['conf']['ver']			= get_framework_version();
 $fpbx['msg']['framework']['reload_unidentified_error'] = _(" error(s) occurred, you should view the notification log on the dashboard or main screen to check for more details.");
 $fpbx['msg']['framework']['close'] = _("Close");
 $fpbx['msg']['framework']['continuemsg'] = _("Continue");//continue is a resorved word!
@@ -98,6 +106,28 @@ if (isset($module_name) && $module_name != '') {
 	$html .= framework_include_js($module_name, $module_page);
 }
 
+if ($amp_conf['BROWSER_STATS']) {
+	$ga = "<script type=\"text/javascript\">
+			var cp=0;
+			var _gaq=_gaq||[];
+			_gaq.push(['_setAccount','UA-25724109-1'],
+					['_setCustomVar',cp++,'uniqueid',fpbx.conf.uniqueid,2],
+					['_setCustomVar',cp++,'type',fpbx.conf.dist.pbx_type,2],
+					['_setCustomVar',cp++,'typever',fpbx.conf.dist.pbx_version,2],
+					['_setCustomVar',cp++,'astver',fpbx.conf.ASTVERSION,2],
+					['_setCustomVar',cp++,'fpbxver',fpbx.conf.ver,2],
+					['_setCustomVar',cp++,'display',$.urlParam('display'),3],
+					['_setCustomVar',cp++,'lang',$.cookie('lang')||'en_US',2],
+					['_trackPageview']);
+			(function(){
+				var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;
+				ga.src=('https:'==document.location.protocol
+							?'https://ssl':'http://www') 
+							+'.google-analytics.com/ga.js';
+				var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);
+			})();</script>";
+	$html .= str_replace(array("\t", "\n"), '', $ga);
+}
 echo $html;
 ?>
 </body>
