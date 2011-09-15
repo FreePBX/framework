@@ -126,7 +126,7 @@ if (!$quietmode) {
 		 box = $('<div></div>')
 			.html('<iframe frameBorder="0" src="'+urlStr+'"></iframe>')
 			.dialog({
-				title: 'Confirm reload',
+				title: 'Status',
 				resizable: false,
 				modal: true,
 				position: ['center', 50],
@@ -210,7 +210,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "<div id=\"moduleprogress\">";
 
 		// stop output buffering, and send output
-		@ ob_end_flush();
+		@ ob_flush();
 		flush();
 		foreach ($moduleaction as $modulename => $action) {	
 			$didsomething = true; // set to false in default clause of switch() below..
