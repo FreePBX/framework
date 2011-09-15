@@ -832,6 +832,28 @@ class ext_queue {
 	}
 }
 
+class ext_queuelog extends extension {
+
+	function __construct($queue, $uniqueid, $agent, $event, $additionalinfo = ''){
+		$this->queue			= $queue;
+		$this->uniqueid			= $uniqueid;
+		$this->agent			= $agent;
+		$this->event			= $event;
+		$this->additionalinfo	= $additionalinfo;
+	}
+	
+	function output() {
+
+		return 'QueueLog('
+					. $this->queue . ','
+					. $this->uniqueid . ','
+					. $this->agent . ','
+					. $this->event . ','
+					. $this->additionalinfo
+					. ')';
+	}
+}
+
 class ext_addqueuemember extends extension {
 	var $queue;
 	var $channel;
