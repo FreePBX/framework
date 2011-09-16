@@ -213,7 +213,7 @@ function generate_configs() {
 		//
 		// TODO: Should check if Asterisk is running and/or try to start it.
 		//
-		passthru("sudo -u $runas_uid ".trim($amp_conf["AMPBIN"])."/retrieve_conf --run-install ".($debug ? ' --debug' : ''));
+		passthru("sudo -u $runas_uid ".trim($amp_conf["AMPBIN"])."/retrieve_conf --run-install --skip-registry-checks ".($debug ? ' --debug' : ''));
 }
 
 
