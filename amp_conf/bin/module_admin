@@ -24,6 +24,10 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 	include_once('/etc/asterisk/freepbx.conf');
 }
 
+// Force autoloader to load all the includes since Zend issues can break and make this fail when this is run
+//
+fpbx_framework_autoloader(true);
+
 function doReload() {
 	$result = do_reload();
 

@@ -94,7 +94,20 @@ function fpbx_framework_autoloader($class) {
 	if (substr($class, 0, 3) == 'gui') {
 		$class = 'component';
 	}
-	switch($class){
+
+  /* Special case of TRUE forces all classes to be loaded. Make sure to add new classes to this array
+   * as they are added to the autoloader. This was added because the presence of Zend enabled modules
+   * can result in the autoloader function failing.
+   *
+   * Basically, every 'case' below should have a corresponding entry in the $class array below.
+   */
+  if ($class === true) {
+    $class = array('ampuser','CI_Email','CI_Table','CssMin','component','featurecode','cronmanager','moduleHook','modulelist','notifications','xml2Array');
+  } else {
+    $class = array($class);
+  }
+
+	foreach ($class as $this_class) switch($this_class){
 		case 'ampuser':
 			require_once($dirname . '/libraries/ampuser.class.php');
 			break;
@@ -129,7 +142,7 @@ function fpbx_framework_autoloader($class) {
 			require_once($dirname . '/helpers/Table.php');
 			break;
 		case 'CssMin':
-			require_once('libraries/cssmin.class.php');
+			require_once($dirname . '/libraries/cssmin.class.php');
 			break;
 		case 'component':
     		require_once($dirname . '/libraries/components.class.php');
