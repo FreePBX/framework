@@ -18,12 +18,16 @@ body {
 #page {
 	min-height: 100%;
 	position: relative;
+	max-width: 1920px;
+	margin-right: auto;
+	margin-left: auto;
 
 }
 #header {
    position: fixed;
 	z-index: 1000;
-	width: 100%;
+	min-width: 100%;
+	max-width: 1920px;
 }
 #page_body {
 	padding:10px;
