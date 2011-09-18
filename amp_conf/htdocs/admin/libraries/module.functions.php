@@ -1430,7 +1430,9 @@ function module_get_annoucements() {
   $distro_info = _module_distro_id();
   $options .= "&distro=".urlencode($distro_info['pbx_type']);
   $options .= "&distrover=".urlencode($distro_info['pbx_version']);
-
+  if (function_exists('core_users_list')) {
+	$options .= "&ucount=".urlencode(count(core_users_list()));	
+}
 	$fn = $amp_conf['MODULE_REPO'] . "/version-".getversion().".html".$options;
   $announcement = file_get_contents_url($fn);
 	return $announcement;

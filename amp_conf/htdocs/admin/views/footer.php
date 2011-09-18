@@ -112,13 +112,13 @@ if ($amp_conf['BROWSER_STATS']) {
 			var cp=0;
 			var _gaq=_gaq||[];
 			_gaq.push(['_setAccount','UA-25724109-1'],
-					['_setCustomVar',cp++,'uniqueid',fpbx.conf.uniqueid,2],
+					//['_setCustomVar',cp++,'uniqueid',fpbx.conf.uniqueid,2],
 					['_setCustomVar',cp++,'type',fpbx.conf.dist.pbx_type,2],
 					['_setCustomVar',cp++,'typever',fpbx.conf.dist.pbx_version,2],
 					['_setCustomVar',cp++,'astver',fpbx.conf.ASTVERSION,2],
 					['_setCustomVar',cp++,'fpbxver',fpbx.conf.ver,2],
 					['_setCustomVar',cp++,'display',$.urlParam('display'),3],
-					['_setCustomVar',cp++,'lang',$.cookie('lang')||'en_US',2],
+					//['_setCustomVar',cp++,'lang',$.cookie('lang')||'en_US',2],
 					['_trackPageview']);
 			(function(){
 				var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;
