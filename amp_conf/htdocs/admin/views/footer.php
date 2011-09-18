@@ -129,6 +129,12 @@ if ($amp_conf['BROWSER_STATS']) {
 			})();</script>";
 	$html .= str_replace(array("\t", "\n"), '', $ga);
 }
+
+//add ie specifc syling polyfills
+$html .= '<!--[if lte IE 10]>';
+$html .= '<link rel="stylesheet" href="assets/css/progress-polyfill.css" type="text/css">';
+$html .= '<script type="text/javascript" src="assets/js/progress-polyfill.min.js"></script>';
+$html .= '<![endif]-->';
 echo $html;
 ?>
 </body>
