@@ -1044,6 +1044,14 @@ function module_install($modulename, $force = false) {
 	}
 	module_upgrade_notifications($new_modules, 'PASSIVE');
 	needreload();
+	
+	//If were running as root, atempt to set proper permissions 
+	//on the freshly installed files. For simplicity, we run the 
+	// freepbx defualt utility for setting freepbx perms
+	$current_user = posix_getpwuid(posix_geteuid());
+	if ($current_user['uid'] === 0) {
+		system($amp_conf['AMPBIN'] . '/freepbx_engine chown');
+	}
 	return true;
 }
 
