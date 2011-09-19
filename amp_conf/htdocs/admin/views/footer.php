@@ -109,16 +109,15 @@ if (isset($module_name) && $module_name != '') {
 
 if ($amp_conf['BROWSER_STATS']) {
 	$ga = "<script type=\"text/javascript\">
-			var cp=0;
 			var _gaq=_gaq||[];
 			_gaq.push(['_setAccount','UA-25724109-1'],
-					//['_setCustomVar',cp++,'uniqueid',fpbx.conf.uniqueid,2],
-					['_setCustomVar',cp++,'type',fpbx.conf.dist.pbx_type,2],
-					['_setCustomVar',cp++,'typever',fpbx.conf.dist.pbx_version,2],
-					['_setCustomVar',cp++,'astver',fpbx.conf.ASTVERSION,2],
-					['_setCustomVar',cp++,'fpbxver',fpbx.conf.ver,2],
-					['_setCustomVar',cp++,'display',$.urlParam('display'),3],
-					//['_setCustomVar',cp++,'lang',$.cookie('lang')||'en_US',2],
+					['_setCustomVar',1,'type',fpbx.conf.dist.pbx_type,2],
+					['_setCustomVar',1,'typever',fpbx.conf.dist.pbx_version,3],
+					['_setCustomVar',1,'astver',fpbx.conf.ASTVERSION,3],
+					['_setCustomVar',1,'fpbxver',fpbx.conf.ver,3],
+					['_setCustomVar',1,'display',$.urlParam('display'),3],
+					['_setCustomVar',1,'uniqueid',fpbx.conf.uniqueid,1],
+					['_setCustomVar',1,'lang',$.cookie('lang')||'en_US',3],
 					['_trackPageview']);
 			(function(){
 				var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;
@@ -130,7 +129,7 @@ if ($amp_conf['BROWSER_STATS']) {
 	$html .= str_replace(array("\t", "\n"), '', $ga);
 }
 
-//add ie specifc syling polyfills
+//add IE specifc styling polyfills
 $html .= '<!--[if lte IE 10]>';
 $html .= '<link rel="stylesheet" href="assets/css/progress-polyfill.css" type="text/css">';
 $html .= '<script type="text/javascript" src="assets/js/progress-polyfill.min.js"></script>';

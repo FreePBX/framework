@@ -130,6 +130,7 @@ if (!$quietmode) {
 				resizable: false,
 				modal: true,
 				position: ['center', 50],
+				width: '400px',
 				close: function (e) {
 					$(e.target).dialog("destroy").remove();
 				}
@@ -149,9 +150,7 @@ if (!$quietmode) {
 } else {
 	// $quietmode==true
 	?>
-	<html><head>
-		<link href="common/mainstyle.css" rel="stylesheet" type="text/css" />
-	</head><body>
+	<html><head></head><body>
 	<?php
 }
 
