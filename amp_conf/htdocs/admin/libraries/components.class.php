@@ -739,7 +739,7 @@ class gui_drawselects extends guiinput {
 		$jsvalidationtest = isset($jsvalidationtest) ? $jsvalidationtest : '';
 		parent::$parent_class($elemname, '', $prompttext, $helptext, $jsvalidation, $failvalidationmsg, '', $jsvalidationtest);
 		
-		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $required);
+		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $canbeempty);
 
 		//adttach a value to this element, so that we can find its value
 		$currentcomponent->addguielem('', new gui_hidden($elemname,'goto'.$index));
