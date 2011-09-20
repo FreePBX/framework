@@ -23,6 +23,7 @@ $final=$finalB=array();
 foreach ($output as $file) {
 	switch(true){
 		case preg_match("|$dir/jquery-.*\.js|",$file)://jquery
+		case 'progress-polyfill.min.js'://no need to minimize - for ie only
 			 //$finalB[] = $file;
 		break;
 		case preg_match("|$dir/jquery.cookie.js$|",$file)://jquery ui

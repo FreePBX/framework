@@ -29,13 +29,15 @@ $freepbx_link_f = $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT']
 $html .= '<a target="_blank" href="' . $freepbx_link_f . '">';
 $html .= '<img id="footer_logo" src="'.$freepbx_logo_f.'" alt="'.$freepbx_alt_f.'"/></a>';
 $html .= '<span class="footer-float-left">';
-$html .= '<h3>'.'Let Freedom Ring<sup>&#153;</sup>'.'</h3>';
+//$html .= '<h3>'.'Let Freedom Ring<sup>&#153;</sup>'.'</h3>';
 $html .= "\t\t".sprintf(_('%s is a registered trademark of %s'),
      '<a href="http://www.freepbx.org" target="_blank">' . _('FreePBX') . '</a>',
      '<a href="http://www.freepbx.org/copyright.html" target="_blank">Bandwidth.com</a>') . "<br/>\n";
-$html .= "\t\t".sprintf(_('%s is licensed under %s, current module licensed under %s'),
+$html .= "\t\t".sprintf(_('%s is licensed under %s'),
      '<a href="http://www.freepbx.org" target="_blank">' . _('FreePBX') . ' ' . $version . '</a>',
-     '<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GPL</a>', trim($active_modules[$module_name]['license']));
+     '<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GPL</a>');
+$html .= br() . sprintf(_('Current module licensed under %s'),
+				trim($active_modules[$module_name]['license']));
 //echo benchmarking
 if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
 	$benchmark_time = number_format(microtime_float() - $benchmark_starttime, 4);

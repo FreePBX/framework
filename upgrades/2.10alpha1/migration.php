@@ -109,6 +109,11 @@ $set = array(
 $freepbx_conf->define_conf_setting('BROWSER_STATS', $set);
 $freepbx_conf->commit_conf_settings();
 
+//logo url
+$freepbx_conf->set_conf_values(
+			array('BRAND_IMAGE_FREEPBX_LINK_LEFT' => 'http://www.freepbx.org'),
+			true, true);
+			
 //depreciated
 //views
 $freepbx_conf->remove_conf_settings('VIEW_FREEPBX');

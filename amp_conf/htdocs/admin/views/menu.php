@@ -1,12 +1,17 @@
 <?php
+global $amp_conf;
+
 $out = '';
 $out .= '<div id="header">';
 $out .= '<div class="menubar ui-widget-header ui-corner-all">';
-
-if (isset($fpbx_menu) && is_array($fpbx_menu)) {	
-/* $logo = '<a id="fpbx_link_button" href="http://www.pbxact.com" target="_blank" data-button-icon-secondary="ui-icon-extlink"><img src="/admin/modules/shmzskin/assets/images/pbxact-logo.png" alt="PBXact" style="float:left"/></a>';
+/*$out .= '<a href="http://www.freepbx.org" target="_blank"'
+	. 'data-button-icon-secondary="ui-icon-extlink">'
+	. '<img src="' . $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] . '" alt="FreePBX" style="float:left;height:21px"/></a>';
 */
-
+$out .= '<img src="' . $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] 
+		. '" alt="FreePBX" id="BRAND_IMAGE_FREEPBX_LEFT" />';
+		
+if (isset($fpbx_menu) && is_array($fpbx_menu)) {	
 	foreach ($fpbx_menu as $mod => $deets) {
 		switch(strtolower($deets['category'])) {
 			case 'admin':

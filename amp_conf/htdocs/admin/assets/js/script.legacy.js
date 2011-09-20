@@ -768,6 +768,11 @@ $(document).ready(function(){
 		
 	});
 	
+	//logo icon
+	$('#BRAND_IMAGE_FREEPBX_LEFT').click(function(){
+		window.open(fpbx.conf.BRAND_IMAGE_FREEPBX_LINK_LEFT,'_newtab');
+	});
+	
 	//pluck icons out of the markup - no need for js to add them (for buttons)
 	$('input[type=submit],input[type=button], button, input[type=reset]').each(function(){
 		var prim = (typeof $(this).data('button-icon-primary') == 'undefined') 
@@ -818,5 +823,5 @@ $(document).ready(function(){
 			window.location = url;
 		});
 		
-	})
+	});
 });
