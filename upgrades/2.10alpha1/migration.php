@@ -131,14 +131,14 @@ global $amp_conf;
 
 $outdated = array(
 	$amp_conf['AMPWEBROOT'] . '_asterisk',
-	$amp_conf['AMPWEBROOT'].'/admin/common',
-	$amp_conf['AMPWEBROOT'].'/admin/views/freepbx.php',
-	$amp_conf['AMPWEBROOT'].'/admin/views/freepbx_admin.php',
-	$amp_conf['AMPWEBROOT'].'/admin/views/freepbx_reload.php',
-	$amp_conf['AMPWEBROOT'].'/admin/views/freepbx_reloadbar.php',
-	$amp_conf['AMPWEBROOT'].'/admin/views/freepbx_footer.php',
-	$amp_conf['AMPWEBROOT'].'/admin/views/unauthorized.php',
-	$amp_conf['AMPWEBROOT'].'/admin/views/loggedout.php',	
+	$amp_conf['AMPWEBROOT'] . '/admin/common',
+	$amp_conf['AMPWEBROOT'] . '/admin/views/freepbx.php',
+	$amp_conf['AMPWEBROOT'] . '/admin/views/freepbx_admin.php',
+	$amp_conf['AMPWEBROOT'] . '/admin/views/freepbx_reload.php',
+	$amp_conf['AMPWEBROOT'] . '/admin/views/freepbx_reloadbar.php',
+	$amp_conf['AMPWEBROOT'] . '/admin/views/freepbx_footer.php',
+	$amp_conf['AMPWEBROOT'] . '/admin/views/unauthorized.php',
+	$amp_conf['AMPWEBROOT'] . '/admin/views/loggedout.php',	
 );
 
 out("Cleaning up deprecated or moved files:");
