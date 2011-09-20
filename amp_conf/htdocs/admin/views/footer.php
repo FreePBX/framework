@@ -36,8 +36,10 @@ $html .= "\t\t".sprintf(_('%s is a registered trademark of %s'),
 $html .= "\t\t".sprintf(_('%s is licensed under %s'),
      '<a href="http://www.freepbx.org" target="_blank">' . _('FreePBX') . ' ' . $version . '</a>',
      '<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GPL</a>');
-$html .= br() . sprintf(_('Current module licensed under %s'),
-				trim($active_modules[$module_name]['license']));
+if (!empty($active_modules[$module_name]['license'])) {
+  $html .= br() . sprintf(_('Current module licensed under %s'),
+  trim($active_modules[$module_name]['license']));
+}
 //echo benchmarking
 if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
 	$benchmark_time = number_format(microtime_float() - $benchmark_starttime, 4);
