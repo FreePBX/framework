@@ -205,7 +205,7 @@ class connectdirs {
 		$ret = false;
 		set_error_handler("report_errors");
 		  //if were copying a directory, just mkdir the directory
-		if (!is_dir($dest) && !is_file($dest) && !is_link($dest)) {
+    if (!is_link($dest)) {
 			if(is_dir($source)){
 				$ret = mkdir($dest,0754);
 			}elseif(copy($source, $dest)) {

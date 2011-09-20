@@ -67,7 +67,7 @@ write_freepbxconf() {
 		\$amp_conf['AMPDBUSER']	= '$AMPDBUSER';
 		\$amp_conf['AMPDBPASS']	= '$AMPDBPASS';
 		\$amp_conf['AMPDBHOST']	= '$AMPDBHOST';
-		\$amp_conf['AMPDBNAME']	= '$AMPENGINE';
+		\$amp_conf['AMPDBNAME']	= '$AMPDBNAME';
 		\$amp_conf['AMPDBENGINE'] = '$AMPDBENGINE';
 		\$amp_conf['datasource']	= ''; //for sqlite3
 
@@ -155,42 +155,46 @@ fi
 chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
 	
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/amportal.conf
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FREEPBX_CONF
-	chmod g+w /etc/amportal.conf
-	chmod g+w $FREEPBX_CONF
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTRUNDIR
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTETCDIR
-	chmod -R g+w $ASTETCDIR
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTVARLIBDIR
-	chmod g+w $ASTVARLIBDIR
-	chmod -R g+w $ASTVARLIBDIR/*
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTLOGDIR
-	chmod -R g+w $ASTLOGDIR
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTSPOOLDIR
-	chmod -R g+w $ASTSPOOLDIR
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/admin
-	chmod -R g+w $AMPWEBROOT/admin
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FOPWEBROOT
-	chmod -R g+w $FOPWEBROOT
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/recordings
-	chmod -R g+w $AMPWEBROOT/recordings
-	chown -R $AMPASTERISKWEBUSER:$AAMPASTERISKWEBGROUP $AMPWEBROOT/_asterisk
-	chmod u+x,g+x $AMPBIN/*
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $AMPBIN/*
+	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/amportal.conf
+	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FREEPBX_CONF
+	chmod 640 /etc/amportal.conf
+	chmod 640 $FREEPBX_CONF
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTRUNDIR)
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTETCDIR)
+	chmod -R g+w $(readlink -f $ASTETCDIR)
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTVARLIBDIR)
+	chmod -R g+w $(readlink -f $ASTVARLIBDIR)
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTLOGDIR)
+	chmod -R g+w $(readlink -f $ASTLOGDIR)
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTSPOOLDIR)
+	chmod -R g+w $(readlink -f $ASTSPOOLDIR)
+	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/admin)
+	chmod -R g+w $(readlink -f $AMPWEBROOT/admin)
+	if [ "$(readlink -f $FOPWEBROOT)" != "" ]; then
+		chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $FOPWEBROOT)
+		chmod -R g+w $(readlink -f $FOPWEBROOT)
+		chmod u+x,g+x $FOPWEBROOT/*.pl
+		chmod u+x $FOPWEBROOT/safe_opserver
+	fi
+	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/recordings)
+	chmod -R g+w $(readlink -f $AMPWEBROOT/recordings)
+	chown -R $AMPASTERISKWEBUSER:$AAMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/_asterisk)
+	chmod u+x,g+x $(readlink -f $AMPBIN)/*
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $AMPBIN)
 
 	if [ "$FPBXDBUGFILE" != "" -a -e "$FPBXDBUGFILE" ]; then
-		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FPBXDBUGFILE
+		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $FPBXDBUGFILE)
 	fi
 
 	if [ "$FPBX_LOG_FILE" != "" -a -e "$FPBX_LOG_FILE" ]; then
-		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FPBX_LOG_FILE
+		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $FPBX_LOG_FILE)
 	fi
 		
 	if [ "$ASTAGIDIR" != "" ]; then
 		chmod u+x $ASTAGIDIR/*
+		chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTAGIDIR)
 	else
-		chmod u+x $ASTVARLIBDIR/agi-bin/*
+		chmod u+x $(readlink -f $ASTVARLIBDIR/agi-bin)
 	fi
 
 	# make sure MOHDIR folder has x permission
@@ -198,8 +202,6 @@ chown_asterisk() {
 		chmod u+x $ASTVARLIBDIR/$MOHDIR
 	fi
 
-	chmod u+x,g+x $FOPWEBROOT/*.pl
-	chmod u+x $FOPWEBROOT/safe_opserver
 	chown $AMPASTERISKUSER /dev/tty9
 
 	# Ensure that various hardware devices are owned correctly.

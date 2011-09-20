@@ -723,8 +723,6 @@ foreach ($args[0] as $arg) {
 			$asteriskip = $arg[1]; 
 			out("Setting IP address of asterisk to $asteriskip");
 		break;
-
-
 	}
 }
 
@@ -1092,7 +1090,15 @@ if (file_exists(dirname(__FILE__)."/apply_conf.sh")) {
 	debug("Running ".dirname(__FILE__)."/apply_conf.sh");
 }
 
+// Ensure executables are executable
+chmod($amp_conf["AMPBIN"]."/freepbx_setting", 0755);
 outn("Configuring install for your environment..");
+exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKWEBGROUP $runas_gid");
+exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKWEBUSER $runas_uid");
+exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKGROUP $runas_gid");
+exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKUSER $runas_uid");
+exec($amp_conf["AMPBIN"]."/freepbx_setting AMPDEVGROUP $runas_gid");
+exec($amp_conf["AMPBIN"]."/freepbx_setting AMPDEVUSER $runas_uid");
 if (!$dryrun) {
   $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
 

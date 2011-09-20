@@ -6,9 +6,11 @@
 #
 # TODO: SHOULD CHECK THE VERSION OF THE MODULES BEFORE PROCEEDING
 #
-module_url="http://www.freepbx.org/v2/svn/modules/branches/2.8"
+module_url="http://www.freepbx.org/v2/svn/modules/branches/2.10"
 core_url=${module_url}/core
 framework_url=${module_url}/framework
+fw_ari_url=${module_url}/fw_ari
+fw_fop_url=${module_url}/fw_fop
 dashboard_url=${module_url}/dashboard
 customappsreg_url=${module_url}/customappsreg
 voicemail_url=${module_url}/voicemail
@@ -67,6 +69,8 @@ svn cp -m "Automatic tag of $ver" $cur http://www.freepbx.org/v2/svn/freepbx/tag
 #
 svn cp -m "Automatic packaging of core with $ver"             $core_url             http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of framework with $ver"        $framework_url        http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of fw_ari with $ver"           $fw_ari_url        http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of fw_fop with $ver"           $fw_fop_url        http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of dashboard with $ver"        $dashboard_url        http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of customappsreg with $ver"    $customappsreg_url    http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of voicemail with $ver"        $voicemail_url        http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
