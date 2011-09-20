@@ -40,8 +40,8 @@ class modulelist{
       if (isset($mod['publisher'])) {
         unset($this->module_array[$mod_key]['publisher']);
       }
-      if (isset($mod['license'])) {
-        unset($this->module_array[$mod_key]['license']);
+      if (!isset($mod['license']) || $mod['license'] == '') {
+        $this->module_array[$mod_key]['license'] = 'GPLv2+';
       }
       if (isset($mod['candisable'])) {
         unset($this->module_array[$mod_key]['candisable']);
