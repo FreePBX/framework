@@ -10,8 +10,8 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {
 	foreach ($fpbx_menu as $mod => $deets) {
 		switch(strtolower($deets['category'])) {
 			case 'admin':
-			case 'apps':
-			case 'call flow':
+			case 'applications':
+			case 'connectivity':
 			case 'reports':
 			case 'settings':
 				$menu[$deets['type']][strtolower($deets['category'])][] = $deets;
