@@ -109,9 +109,10 @@ $set = array(
 $freepbx_conf->define_conf_setting('BROWSER_STATS', $set);
 $freepbx_conf->commit_conf_settings();
 
-//logo url
+//logo
 $freepbx_conf->set_conf_values(
-			array('BRAND_IMAGE_FREEPBX_LINK_LEFT' => 'http://www.freepbx.org'),
+			array('BRAND_IMAGE_FREEPBX_LEFT' 		=> 'images/tango.png'),
+			array('BRAND_IMAGE_FREEPBX_LINK_LEFT'	=> 'http://www.freepbx.org'),
 			true, true);
 			
 //depreciated
