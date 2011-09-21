@@ -1,13 +1,6 @@
 #!/usr/bin/php -q
 <?php
 
-//include database conifguration 
-$bootstrap_settings['skip_astman'] = true;
-$restrict_mods = true;
-if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) { 
-	 	  include_once('/etc/asterisk/freepbx.conf'); 
-}
-
 $libfreepbx = '../amp_conf/htdocs/admin/assets/js/pbxlib.js.php';
 $dir="../amp_conf/htdocs/admin/assets/js";
 $output=array();
@@ -20,17 +13,25 @@ $final=$finalB=array();
  * add it to the $finalB array. All other files will be appended to the $final array.
  * $finalB is then merged with $final, with $finalB being put first
  */  
+
+$skip = array(
+		"|$dir/progress-polyfill.min.js|",
+		"|$dir/jquery-.*\.js|",
+		"|$dir/jquery-ui-.*\.js$|"
+);
 foreach ($output as $file) {
+	
+	//skip the files in the skip array
+	foreach ($skip as $s) {
+		if (preg_match($s, $file)) {
+			continue 2;
+		}
+	}
+	
+	//add files
 	switch(true){
-		case preg_match("|$dir/jquery-.*\.js|",$file)://jquery
-		case 'progress-polyfill.min.js'://no need to minimize - for ie only
-			 //$finalB[] = $file;
-		break;
 		case preg_match("|$dir/jquery.cookie.js$|",$file)://jquery ui
 			$finalB[] = $file;
-		break;
-		case preg_match("|$dir/jquery-ui-.*\.js$|",$file)://jquery ui
-			//$finalB[] = $file;
 		break;
 		case $file==$dir.'/script.legacy.js'://legacy script
 			$finalB[] = $file;
@@ -51,7 +52,7 @@ header('Content-type: text/javascript');
 header('Cache-Control: public, max-age=3153600');
 header('Expires: ' . date('r', strtotime('+1 year')));
 header('Last-Modified: ' . date('r', strtotime('-1 year')));
-ob_start('" . $amp_conf['buffering_callback'] . "');
+ob_start(ob_gzhandler);
 ?>
 ";
 
