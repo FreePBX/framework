@@ -69,7 +69,13 @@ function freepbx_log($level, $message) {
 				// default in FPBX_LOG_FILE
 				$log_file	= isset($amp_conf['FPBX_LOG_FILE']) ? $amp_conf['FPBX_LOG_FILE'] : '/tmp/freepbx_pre_install.log';
 				$tstamp		= date("Y-M-d H:i:s");
-        		file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
+
+        // Don't append if the file is greater than ~2G since some systems fail
+        //
+        $size = sprintf("%u", filesize($log_file)) + strlen($txt);
+        if ($size < 2000000000) {
+          file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
+        }
 				break;
 		}
 	}
@@ -521,20 +527,18 @@ function dbug_write($txt, $check = false){
 	if (!isset($amp_conf['FPBXDBUGFILE'])) {
 		$amp_conf['FPBXDBUGFILE'] = '/tmp/freepbx_debug.log';
 	}
-	$append=false;
 
+	// $max_size = 52428800;//hardcoded to 50MB. is that bad? not enough?
+  // If not check set max size just under 2G which is the php limit before it gets upset
+  //
+  $max_size == $check ? 52428800 : 2000000000;
 	//optionaly ensure that dbug file is smaller than $max_size
-	if($check){
-		$max_size = 52428800;//hardcoded to 50MB. is that bad? not enough?
-		$size = sprintf("%u", filesize($amp_conf['FPBXDBUGFILE']));
-		$append = ($size > $max_size ? true : false);
-	}
-	if ($append) {
+	$size = sprintf("%u", filesize($amp_conf['FPBXDBUGFILE'])) + strlen($txt);
+	if ($size > $max_size) {
 		file_put_contents($amp_conf['FPBXDBUGFILE'], $txt);
 	} else {
 		file_put_contents($amp_conf['FPBXDBUGFILE'], $txt, FILE_APPEND);
 	}
-	
 }
 
 /**
