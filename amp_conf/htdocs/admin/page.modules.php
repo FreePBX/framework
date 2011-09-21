@@ -132,6 +132,7 @@ if (!$quietmode) {
 				position: ['center', 50],
 				width: '400px',
 				close: function (e) {
+					parent.close_module_actions(true);
 					$(e.target).dialog("destroy").remove();
 				}
 			});
