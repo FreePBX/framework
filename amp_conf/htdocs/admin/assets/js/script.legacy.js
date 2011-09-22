@@ -443,7 +443,7 @@ function isDigit (c) {
 }
 
 function isLetter (c) {   
-	return new RegExp(/[a-zA-Z'\&\(\)\-\/]/).test(c);
+	return new RegExp(/[ a-zA-Z'\&\(\)\-\/]/).test(c);
 }
 
 function isURLChar (c) {

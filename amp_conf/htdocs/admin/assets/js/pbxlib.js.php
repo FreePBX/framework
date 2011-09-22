@@ -94,7 +94,7 @@ for(i=0;i<s.length;i++)
 {var t=s.charAt(i);if(t==c)return true;}
 return false;}
 function isDigit(c){return new RegExp(/[0-9]/).test(c);}
-function isLetter(c){return new RegExp(/[a-zA-Z'\&\(\)\-\/]/).test(c);}
+function isLetter(c){return new RegExp(/[ a-zA-Z'\&\(\)\-\/]/).test(c);}
 function isURLChar(c){return new RegExp(/[a-zA-Z=:,%#\.\-\/\?\&]/).test(c);}
 function isCallerIDChar(c){return new RegExp(/[ a-zA-Z0-9:_,-<>\(\)\"&@\.\+]/).test(c);}
 function isDialpatternChar(c){return new RegExp(/[-0-9\[\]\+\.\|ZzXxNn\*\#_!\/]/).test(c);}
