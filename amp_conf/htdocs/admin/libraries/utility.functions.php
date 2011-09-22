@@ -528,10 +528,8 @@ function dbug_write($txt, $check = false){
 		$amp_conf['FPBXDBUGFILE'] = '/tmp/freepbx_debug.log';
 	}
 
-	// $max_size = 52428800;//hardcoded to 50MB. is that bad? not enough?
-  // If not check set max size just under 2G which is the php limit before it gets upset
-  //
-  $max_size == $check ? 52428800 : 2000000000;
+// If not check set max size just under 2G which is the php limit before it gets upset
+	if($check) { $max_size = 52428800; } else { $max_size = 2000000000; }
 	//optionaly ensure that dbug file is smaller than $max_size
 	$size = sprintf("%u", filesize($amp_conf['FPBXDBUGFILE'])) + strlen($txt);
 	if ($size > $max_size) {
