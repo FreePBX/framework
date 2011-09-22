@@ -56,8 +56,8 @@ $html .= '<a target="_blank" href="http://www.schmoozecom.com">'
 $html .= '<span class="footer-float-left">';
 $html .= _('The FreePBX project is sponsored in part by:') . br();
 $html .= '<a href="http://www.schmoozecom.com" target="_blank">Schmooze Com., Inc.</a>' . br();
-$html .= 'Proud Sponsor, contributor, ' . br()
-		. _('and provider of') 
+$html .= 'Proud sponsors, contributors, ' . br()
+		. _('and providers of') 
 		. ' <a href="http://www.freepbx.org/support-and-professional-services">'
 		. _('Professional Support & Services') . '</a>';
 //$html .= _('All Rights Reserved');
