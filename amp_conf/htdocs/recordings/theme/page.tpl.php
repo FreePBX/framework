@@ -72,14 +72,6 @@
     </div>
     </div>
     </div>
-    <!--begin footer-->
-    <div id="ariFooter">
-      <small>
-        <?php print($ari_version) ?><br />
-				<?php echo _("Original work based on ARI from Littlejohn Consulting") ?></a>
-      </small>
-    </div>
-    <!-- end footer -->
   </div>
   </div>
   </div>
