@@ -43,6 +43,8 @@ if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
 	$benchmark_time = number_format(microtime_float() - $benchmark_starttime, 4);
 	$html .= '<br><span id="benchmark_time">Page loaded in ' . $benchmark_time . 's</span>';
 }
+$html .= br() . _('Sponsored by:');
+$html .= '<a href="http://www.bandwidth.com" target="_blank">Bandwidth.com</a>' . br();
 $html .= '</span>';
 $html .= '</div>'; //footer_content_fpbx
 
