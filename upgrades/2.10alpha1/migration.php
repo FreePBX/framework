@@ -115,7 +115,7 @@ $freepbx_alt_f	= $fpbx_conf->get_conf_setting('BRAND_FREEPBX_ALT_FOOT')
 				: _("FreePBX&reg;");
 $freepbx_logo_f = $fpbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_FOOT')
 				? $fpbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_FOOT') 
-				: 'images/freepbx_small.png');
+				: 'images/freepbx_small.png';
 $freepbx_link_f = $fpbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_LINK_FOOT')
 				? $fpbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_LINK_FOOT') 
 				: 'http://www.freepbx.org';
