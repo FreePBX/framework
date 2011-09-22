@@ -9,7 +9,7 @@ $out .= '<div class="menubar ui-widget-header ui-corner-all">';
 	. '<img src="' . $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] . '" alt="FreePBX" style="float:left;height:21px"/></a>';
 */
 $out .= '<img src="' . $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] 
-		. '" alt="FreePBX" id="BRAND_IMAGE_FREEPBX_LEFT" />';
+		. '" alt="FreePBX" title="FreePBX" id="BRAND_IMAGE_FREEPBX_LEFT" />';
 		
 if (isset($fpbx_menu) && is_array($fpbx_menu)) {	
 	foreach ($fpbx_menu as $mod => $deets) {
