@@ -3,7 +3,7 @@ header('Content-type: text/javascript');
 header('Cache-Control: public, max-age=3153600');
 header('Expires: ' . date('r', strtotime('+1 year')));
 header('Last-Modified: ' . date('r', strtotime('-1 year')));
-ob_start(ob_gzhandler);
+ob_start('ob_gzhandler');
 ?>
 
 jQuery.cookie=function(key,value,options){if(arguments.length>1&&String(value)!=="[object Object]"){options=jQuery.extend({},options);if(value===null||value===undefined){options.expires=-1;}

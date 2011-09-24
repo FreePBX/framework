@@ -52,7 +52,7 @@ header('Content-type: text/javascript');
 header('Cache-Control: public, max-age=3153600');
 header('Expires: ' . date('r', strtotime('+1 year')));
 header('Last-Modified: ' . date('r', strtotime('-1 year')));
-ob_start(ob_gzhandler);
+ob_start('ob_gzhandler');
 ?>
 ";
 

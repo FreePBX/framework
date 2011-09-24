@@ -113,11 +113,19 @@ $freepbx_conf->commit_conf_settings();
 $freepbx_alt_f	= $freepbx_conf->get_conf_setting('BRAND_FREEPBX_ALT_FOOT')
 				? $freepbx_conf->get_conf_setting('BRAND_FREEPBX_ALT_FOOT')
 				: _("FreePBX&reg;");
+<<<<<<< .mine
+$freepbx_logo_f = $fpbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_FOOT')
+				? $fpbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_FOOT') 
+				: 'images/freepbx_small.png';
+$freepbx_link_f = $fpbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_LINK_FOOT')
+				? $fpbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_LINK_FOOT') 
+=======
 $freepbx_logo_f = $freepbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_FOOT')
 				? $freepbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_FOOT') 
 				: 'images/freepbx_small.png';
 $freepbx_link_f = $freepbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_LINK_FOOT')
 				? $freepbx_conf->get_conf_setting('BRAND_IMAGE_FREEPBX_LINK_FOOT') 
+>>>>>>> .r12687
 				: 'http://www.freepbx.org';
 				
 $freepbx_conf->set_conf_values(
