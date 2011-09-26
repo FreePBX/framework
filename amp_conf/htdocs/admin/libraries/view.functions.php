@@ -273,11 +273,12 @@ function framework_css() {
 	$mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
 						? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
 						: 'assets/css/mainstyle.css'; 
-
+					
+		
 	if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge')) {
 		$wwwroot 					= $amp_conf['AMPWEBROOT']
 									. "/admin";
-
+		
 		// stat the css files and check if they have been modified since we last generated a css
 		$mainstyle_css_full_path	= $wwwroot . '/' . $mainstyle_css;
 		$stat_mainstyle				= stat($mainstyle_css_full_path);
@@ -294,7 +295,7 @@ function framework_css() {
 			// Generate a new one using the mtime as part of the file name to make it fairly unique
 			// it's important to be unique because that will force browsers to reload vs. caching it
 			$mainstyle_css_generated = $ms_path.'/mstyle_autogen_'.$stat_mainstyle['mtime'].'.css.php';
-
+			$raw = file_get_contents($mainstyle_css_full_path) . file_get_contents($amp_conf['JQUERY_CSS']);
 			$ret = file_put_contents($wwwroot . '/' . $mainstyle_css_generated, 
 									"<?php 
 									header('Content-type: text/css');
@@ -303,7 +304,7 @@ function framework_css() {
 									header('Last-Modified: ' . date('r', strtotime('-1 year')));
 									ob_start('". $amp_conf['buffering_callback'] . "');
 									?>\n" 
-									. CssMin::minify(file_get_contents($mainstyle_css_full_path)));
+									. CssMin::minify($raw));
 
 
 			// Now assuming we write something reasonable, we need to save the generated file name and mtimes so

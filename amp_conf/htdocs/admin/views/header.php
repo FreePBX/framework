@@ -26,7 +26,10 @@ $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 		. '<link rel="shortcut icon" href="images/favicon.ico">';
 //css
 $html .= '<link href="' . framework_css().$version_tag . '" rel="stylesheet" type="text/css">';
-
+//include jquery-ui css
+if ($amp_conf['DISABLE_CSS_AUTOGEN'] == true) {
+	$html .= '<link href="' . $amp_conf['JQUERY_CSS'].$version_tag . '" rel="stylesheet" type="text/css">';
+}
 //include rtl stylesheet if using a rtl langauge
 if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))) {
 	$html .= '<link href="assets/css/mainstyle-rtl.css" rel="stylesheet" type="text/css" />';

@@ -770,7 +770,7 @@ $(document).ready(function(){
 	
 	//logo icon
 	$('#BRAND_IMAGE_FREEPBX_LEFT').click(function(){
-		window.open(fpbx.conf.BRAND_IMAGE_FREEPBX_LINK_LEFT,'_newtab');
+		window.open($(this).data('brand_image_freepbx_link_left'),'_newtab');
 	});
 	
 	//pluck icons out of the markup - no need for js to add them (for buttons)
@@ -787,17 +787,6 @@ $(document).ready(function(){
 		var txt = (txt == 'true') ? true : false;
 		$(this).button({ icons: {primary: prim, secondary: sec}, text: txt});
 	});
-	
-	//show modules. shmz only??
-	$('#modules_button').next('ul').remove();
-	$('#modules_button').toggle(
-		function(){
-			$('#module_list').show();
-		},
-		function(){
-			$('#module_list').hide();
-		}
-	)
 	
 	//shortcut keys
 	//show modules

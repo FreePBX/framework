@@ -222,8 +222,7 @@ if (!$quietmode) {
 
 // check access
 if (!is_array($cur_menuitem) && $display != "") {
-	show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf'=>&$amp_conf));
-	exit;
+	$fw_gui_html .= show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf'=>&$amp_conf));
 }
 
 // load the component from the loaded modules

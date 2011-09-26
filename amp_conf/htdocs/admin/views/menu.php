@@ -9,7 +9,8 @@ $out .= '<div class="menubar ui-widget-header ui-corner-all">';
 	. '<img src="' . $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] . '" alt="FreePBX" style="float:left;height:21px"/></a>';
 */
 $out .= '<img src="' . $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] 
-		. '" alt="FreePBX" title="FreePBX" id="BRAND_IMAGE_FREEPBX_LEFT" />';
+		. '" alt="FreePBX" title="FreePBX" id="BRAND_IMAGE_FREEPBX_LEFT" '
+		. 'data-BRAND_IMAGE_FREEPBX_LINK_LEFT="' . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] . '"/ />';
 		
 if (isset($fpbx_menu) && is_array($fpbx_menu)) {	
 	foreach ($fpbx_menu as $mod => $deets) {
@@ -19,56 +20,54 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {
 			case 'connectivity':
 			case 'reports':
 			case 'settings':
-				$menu[$deets['type']][strtolower($deets['category'])][] = $deets;
+				$menu[strtolower($deets['category'])][] = $deets;
 				break;
 			default:
-				$menu[$deets['type']]['other'][] = $deets;
+				$menu['other'][] = $deets;
 				break;
 		}
 		
 	}
-	$menu = $menu['setup'] + $menu['tool'];
-	
-		$count = 0;
-		foreach($menu as $t => $cat) { //catagories
-			$mods[$t] = '<a href="#">'
-					. _(ucwords($t))
-					. '</a><ul>';
-			foreach ($cat as $c => $mod) { //modules
-				if (isset($mod['hidden']) && $mod['hidden'] == 'true') {
-					continue;
-				}
-				$classes = array();
-				
-				//build defualt module url
-				$href = isset($mod['href'])
-						? $mod['href']
-						: "config.php?display=" . $mod['display'];
-				
-				//highlight currently in-use module
-				if ($display == $mod['display']) {
-					$classes[] = 'ui-state-highlight';
-					$classes[] = 'ui-corner-all';
-				}
-				
-				//highlight disabled modules
-				if (isset($mod['disabled']) && $mod['disabled']) {
-					$classes[] = 'ui-state-disabled';
-					$classes[] = 'ui-corner-all';
-				}
-				
-				$items[$mod['name']] = '<li><a href="' . $href . '"'
-						. 'class="' . implode(' ', $classes) . '">'
-						. _(ucwords($mod['name']))
-						. '</a></li>';
-						
+
+	foreach($menu as $t => $cat) { //catagories
+		$mods[$t] = '<a href="#">'
+				. _(ucwords($t))
+				. '</a><ul>';
+		foreach ($cat as $c => $mod) { //modules
+			if (isset($mod['hidden']) && $mod['hidden'] == 'true') {
+				continue;
 			}
-			ksort($items);
-			$mods[$t] .= implode($items) . '</ul>';
-			unset($items);
+			$classes = array();
+		
+			//build defualt module url
+			$href = isset($mod['href'])
+					? $mod['href']
+					: "config.php?display=" . $mod['display'];
+		
+			//highlight currently in-use module
+			if ($display == $mod['display']) {
+				$classes[] = 'ui-state-highlight';
+				$classes[] = 'ui-corner-all';
+			}
+		
+			//highlight disabled modules
+			if (isset($mod['disabled']) && $mod['disabled']) {
+				$classes[] = 'ui-state-disabled';
+				$classes[] = 'ui-corner-all';
+			}
+		
+			$items[$mod['name']] = '<li><a href="' . $href . '"'
+					. 'class="' . implode(' ', $classes) . '">'
+					. _(ucwords($mod['name']))
+					. '</a></li>';
+				
 		}
-		ksort($mods);
-		$out .= implode($mods);
+		ksort($items);
+		$mods[$t] .= implode($items) . '</ul>';
+		unset($items);
+	}
+	ksort($mods);
+	$out .= implode($mods);
 }
 $out .= '<a href="/recordings" target="_blank">' . _('User Panel') . '</a>';
 $out .= '<a id="language-menu-button" class="button-right ui-widget-content ui-state-default">' . _('Language') . '</a>';

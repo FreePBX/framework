@@ -73,6 +73,22 @@ $set = array(
 $freepbx_conf->define_conf_setting('VIEW_MENU', $set);
 $freepbx_conf->commit_conf_settings();
 
+//jquery ui css
+$set = array(
+		'value'			=> 'assets/css/jquery-ui.css',
+		'defaultval'	=> 'assets/css/jquery-ui.css',
+		'readonly'		=> 1,
+		'hidden'		=> 1,
+		'level'			=> 10,
+		'module'		=> '',
+		'category'		=> 'Styling and Logos',
+		'emptyok'		=> 0,
+		'name'			=> 'jQuery UI css',
+		'description'	=> 'css file for jquery ui',
+		'type'			=> CONF_TYPE_TEXT
+);
+$freepbx_conf->define_conf_setting('JQUERY_CSS', $set);
+$freepbx_conf->commit_conf_settings();
 
 //footer
 $set = array(
