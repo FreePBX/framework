@@ -695,10 +695,13 @@ function toggle_reload_button(action) {
 $(document).ready(function(){
 	bind_dests_double_selects();
 	
-	//help tags. based on: http://www.dvq.co.nz/jquery/create-a-jquery-popup-bubble-effect/
+	//help tags
 	$("a.info").each(function(){
 		$(this).after('<span class="help">?<span>' + $(this).find('span').html() + '</span></span>');
+		$(this).find('span').remove();
+		$(this).replaceWith($(this).text())
 	})
+	
 	$(".help").live('mouseenter', function(){
 			side = fpbx.conf.text_dir == 'lrt' ? 'left' : 'right';
 			var pos = $(this).offset();

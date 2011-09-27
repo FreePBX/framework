@@ -20,7 +20,6 @@ $set = array(
 		'type'			=> CONF_TYPE_TEXT
 );
 $freepbx_conf->define_conf_setting('buffering_callback', $set);
-$freepbx_conf->commit_conf_settings();
 
 $set = array(
 		'value'			=> 'http://mirror.freepbx.org',
@@ -36,7 +35,6 @@ $set = array(
 		'type'			=> CONF_TYPE_TEXT
 );
 $freepbx_conf->define_conf_setting('MODULE_REPO', $set);
-$freepbx_conf->commit_conf_settings();
 
 //login view
 $set = array(
@@ -53,8 +51,6 @@ $set = array(
 		'type'			=> CONF_TYPE_TEXT
 );
 $freepbx_conf->define_conf_setting('VIEW_LOGIN', $set);
-$freepbx_conf->commit_conf_settings();
-
 
 //menu
 $set = array(
@@ -71,7 +67,6 @@ $set = array(
 		'type'			=> CONF_TYPE_TEXT
 );
 $freepbx_conf->define_conf_setting('VIEW_MENU', $set);
-$freepbx_conf->commit_conf_settings();
 
 //jquery ui css
 $set = array(
@@ -88,7 +83,22 @@ $set = array(
 		'type'			=> CONF_TYPE_TEXT
 );
 $freepbx_conf->define_conf_setting('JQUERY_CSS', $set);
-$freepbx_conf->commit_conf_settings();
+
+//header
+$set = array(
+		'value'			=> 'views/header.php',
+		'defaultval'	=> 'views/header.php',
+		'readonly'		=> 1,
+		'hidden'		=> 1,
+		'level'			=> 10,
+		'module'		=> '',
+		'category'		=> 'Styling and Logos',
+		'emptyok'		=> 0,
+		'name'			=> 'View: header.php',
+		'description'	=> 'header.php view. This should never be changed except for very advanced layout changes',
+		'type'			=> CONF_TYPE_TEXT
+);
+$freepbx_conf->define_conf_setting('VIEW_HEADER', $set);
 
 //footer
 $set = array(
@@ -105,7 +115,22 @@ $set = array(
 		'type'			=> CONF_TYPE_TEXT
 );
 $freepbx_conf->define_conf_setting('VIEW_FOOTER', $set);
-$freepbx_conf->commit_conf_settings();
+
+//footer content
+$set = array(
+		'value'			=> 'views/footer_content.php',
+		'defaultval'	=> 'views/footer_content.php',
+		'readonly'		=> 1,
+		'hidden'		=> 1,
+		'level'			=> 10,
+		'module'		=> '',
+		'category'		=> 'Styling and Logos',
+		'emptyok'		=> 0,
+		'name'			=> 'View: footer_content.php',
+		'description'	=> 'footer_content.php view. This should never be changed except for very advanced layout changes',
+		'type'			=> CONF_TYPE_TEXT
+);
+$freepbx_conf->define_conf_setting('VIEW_FOOTER_CONTENT', $set);
 
 //browser stats
 $set = array(
@@ -123,7 +148,22 @@ $set = array(
 		'type'			=> CONF_TYPE_BOOL
 );
 $freepbx_conf->define_conf_setting('BROWSER_STATS', $set);
-$freepbx_conf->commit_conf_settings();
+
+//alt js
+$set = array(
+		'value'			=> '',
+		'defaultval'	=> '',
+		'readonly'		=> 1,
+		'hidden'		=> 1,
+		'level'			=> 10,
+		'module'		=> '',
+		'category'		=> 'Styling and Logos',
+		'emptyok'		=> 1,
+		'name'			=> 'Alternate JS',
+		'description'	=> 'Alternate JS file, to supplement legacy.script.js',
+		'type'			=> CONF_TYPE_TEXT
+);
+$freepbx_conf->define_conf_setting('BRAND_ALT_JS', $set);
 
 //set some settings
 $freepbx_alt_f	= $freepbx_conf->get_conf_setting('BRAND_FREEPBX_ALT_FOOT')
@@ -150,11 +190,20 @@ $freepbx_conf->remove_conf_settings('VIEW_FREEPBX');
 $freepbx_conf->remove_conf_settings('VIEW_FREEPBX_ADMIN');
 $freepbx_conf->remove_conf_settings('VIEW_FREEPBX_RELOAD');
 $freepbx_conf->remove_conf_settings('VIEW_FREEPBX_RELOADBAR');
-$freepbx_conf->remove_conf_settings('VIEW_FREEPBX_RELOADBAR');
 $freepbx_conf->remove_conf_settings('VIEW_UNAUTHORIZED');
 $freepbx_conf->remove_conf_settings('VIEW_LOGGEDOUT');
 $freepbx_conf->remove_conf_settings('VIEW_LOGGEDOUT');
+$freepbx_conf->remove_conf_settings('BRAND_FREEPBX_ALT_RIGHT');
+$freepbx_conf->remove_conf_settings('BRAND_IMAGE_FREEPBX_LINK_RIGHT');
+$freepbx_conf->remove_conf_settings('BRAND_IMAGE_HIDE_NAV_BACKGROUND');
+$freepbx_conf->remove_conf_settings('BRAND_HIDE_LOGO_RIGHT');
+$freepbx_conf->remove_conf_settings('BRAND_HIDE_HEADER_MENUS');
+$freepbx_conf->remove_conf_settings('BRAND_HIDE_HEADER_VERSION');
+$freepbx_conf->remove_conf_settings('VIEW_REPORTS');
+$freepbx_conf->remove_conf_settings('VIEW_PANEL');
 
+//commit all settings
+$freepbx_conf->commit_conf_settings();
 //settings
 global $amp_conf;
 

@@ -122,12 +122,14 @@ if (!$quietmode) {
 	//send header
 	$header['title']	= framework_server_name();
 	$header['amp_conf']	= $amp_conf;
-	$fw_gui_html .=			load_view(dirname(__FILE__) . '/views/header.php', $header);
+	$fw_gui_html .=			load_view($amp_conf['VIEW_HEADER'], $header);
 	
 	if (isset($no_auth)) {
-		$fw_gui_html .= load_view(dirname(__FILE__) . $amp_conf['VIEW_MENU'], $header);
+		$fw_gui_html .= load_view($amp_conf['VIEW_MENU'], $header);
 		$fw_gui_html .= $no_auth;
-		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], array('no_auth' => $no_auth));
+		$footer['footer_content']	= load_view($amp_conf['VIEW_FOOTER_CONTENT']);
+		$footer['no_auth']	= $no_auth;
+		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
 		echo $fw_gui_html;
 		exit();
 	}
@@ -369,7 +371,8 @@ if ($quietmode) {
 	$footer['module_page']			= $module_page;
 	$footer['benchmark_starttime']	= $benchmark_starttime;
 	$footer['reload_needed']		= check_reload_needed();
-	$fw_gui_html .=						load_view($amp_conf['VIEW_FOOTER'], $footer);
+	$footer['footer_content']		= load_view($amp_conf['VIEW_FOOTER_CONTENT'], $footer);
+	$fw_gui_html 					.= load_view($amp_conf['VIEW_FOOTER'], $footer);
 
 
 	//$template['benchmark_starttime']	= $benchmark_starttime;

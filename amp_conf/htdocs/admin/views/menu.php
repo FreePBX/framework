@@ -4,10 +4,7 @@ global $amp_conf;
 $out = '';
 $out .= '<div id="header">';
 $out .= '<div class="menubar ui-widget-header ui-corner-all">';
-/*$out .= '<a href="http://www.freepbx.org" target="_blank"'
-	. 'data-button-icon-secondary="ui-icon-extlink">'
-	. '<img src="' . $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] . '" alt="FreePBX" style="float:left;height:21px"/></a>';
-*/
+//left hand logo
 $out .= '<img src="' . $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] 
 		. '" alt="FreePBX" title="FreePBX" id="BRAND_IMAGE_FREEPBX_LEFT" '
 		. 'data-BRAND_IMAGE_FREEPBX_LINK_LEFT="' . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] . '"/ />';
