@@ -159,6 +159,8 @@ $ASTERISK_VOICEMAIL_FOLDERS[3]['folder'] = "Old";
 $ASTERISK_VOICEMAIL_FOLDERS[3]['name'] = _("Old");
 $ASTERISK_VOICEMAIL_FOLDERS[4]['folder'] = "Work";
 $ASTERISK_VOICEMAIL_FOLDERS[4]['name'] = _("Work");
+$ASTERISK_VOICEMAIL_FOLDERS[4]['folder'] = "Urgent";
+$ASTERISK_VOICEMAIL_FOLDERS[4]['name'] = _("Urgent");
 
 ###############################
 # call monitor settings
