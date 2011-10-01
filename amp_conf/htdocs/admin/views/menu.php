@@ -69,7 +69,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 		}
   }
 
-	$menu = $menu['setup'] + $menu['tool'];
+//	$menu = $menu['setup'] + $menu['tool'];
 	
 	$count = 0;
 	foreach($menu as $t => $cat) { //catagories
