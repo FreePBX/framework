@@ -1,5 +1,6 @@
 <?php
 global $amp_conf;
+global $_item_sort;
 
 $out = '';
 $out .= '<div id="header">';
@@ -9,8 +10,47 @@ $out .= '<img src="' . $amp_conf['BRAND_IMAGE_FREEPBX_LEFT']
 		. '" alt="FreePBX" title="FreePBX" id="BRAND_IMAGE_FREEPBX_LEFT" '
 		. 'data-BRAND_IMAGE_FREEPBX_LINK_LEFT="' . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] . '"/ />';
 		
-if (isset($fpbx_menu) && is_array($fpbx_menu)) {	
-	foreach ($fpbx_menu as $mod => $deets) {
+// If freepbx_menu.conf exists then use it to define/redefine categories
+//
+$fd = $amp_conf['ASTETCDIR'].'/freepbx_menu.conf';
+if (file_exists($fd)) {
+  $favorites = parse_ini_file($fd,true);
+  if ($favorites !== false) foreach ($favorites as $menuitem => $setting) {
+    if (isset($fpbx_menu[$menuitem])) {
+      foreach($setting as $key => $value) {
+        switch ($key) {
+          case 'category':
+          case 'name':
+            $fpbx_menu[$menuitem][$key] = htmlspecialchars($value);
+          break;
+          case 'type':
+            // this is really deprecated but ???
+            if (strtolower($value)=='setup' || strtolower($value)=='tool') {
+              $fpbx_menu[$menuitem][$key] = strtolower($value);
+            }
+          break;
+          case 'sort':
+            if (is_numeric($value) && $value > -10 && $value < 10) {
+              $fpbx_menu[$menuitem][$key] = $value;
+            }
+          break;
+          case 'remove':
+            // parse_ini_file sets all forms of yes/true to 1 and no/false to nothing
+            if ($value == '1') {
+              unset($fpbx_menu[$menuitem]);
+            }
+          break;
+        }
+      }
+    }
+  }
+}
+
+
+// TODO: these categories are not localizable
+//
+if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not defined
+	if (empty($favorites)) foreach ($fpbx_menu as $mod => $deets) {
 		switch(strtolower($deets['category'])) {
 			case 'admin':
 			case 'applications':
@@ -23,10 +63,20 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {
 				$menu['other'][] = $deets;
 				break;
 		}
-		
-	}
+  } else {
+	  foreach ($fpbx_menu as $mod => $deets) {
+			$menu[$deets['type']][strtolower($deets['category'])][] = $deets;
+		}
+  }
 
+	$menu = $menu['setup'] + $menu['tool'];
+	
+	$count = 0;
 	foreach($menu as $t => $cat) { //catagories
+    //TODO: this is broken, not getting translation from modules
+    //      see old code from freepbx_admin as to how to get it, requires a lot of hoops
+    //      first checking in the module owner's i18n, then in the core i18n
+    //
 		$mods[$t] = '<a href="#">'
 				. _(ucwords($t))
 				. '</a><ul>';
@@ -35,35 +85,37 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {
 				continue;
 			}
 			$classes = array();
-		
+				
 			//build defualt module url
 			$href = isset($mod['href'])
 					? $mod['href']
 					: "config.php?display=" . $mod['display'];
-		
+
 			//highlight currently in-use module
 			if ($display == $mod['display']) {
 				$classes[] = 'ui-state-highlight';
 				$classes[] = 'ui-corner-all';
 			}
-		
+
 			//highlight disabled modules
 			if (isset($mod['disabled']) && $mod['disabled']) {
 				$classes[] = 'ui-state-disabled';
 				$classes[] = 'ui-corner-all';
 			}
-		
+
 			$items[$mod['name']] = '<li><a href="' . $href . '"'
 					. 'class="' . implode(' ', $classes) . '">'
 					. _(ucwords($mod['name']))
 					. '</a></li>';
-				
+
+       $_item_sort[$mod['name']] = $mod['sort'];
 		}
-		ksort($items);
+		uksort($items,'_item_sort');
 		$mods[$t] .= implode($items) . '</ul>';
 		unset($items);
+		unset($_item_sort);
 	}
-	ksort($mods);
+	uksort($mods,'_menu_sort');
 	$out .= implode($mods);
 }
 $out .= '<a href="/recordings" target="_blank">' . _('User Panel') . '</a>';
@@ -99,4 +151,27 @@ $out .= '</div>';//header
 $out .= '<div id="page_body">';
 echo $out;
 
+// key sort but keep Favorites on the far left, Other on the far right
+//
+function _menu_sort($a, $b) {
+  if ($a == 'favorites')
+    return false;
+  else if ($b == 'favorites')
+    return true;
+  else if ($a == 'other')
+    return true;
+  else if ($b == 'other')
+    return false;
+  else
+    return $a > $b;
+}
+
+function _item_sort($a, $b) {
+  global $_item_sort;
+
+  if ($_item_sort[$a] != $_item_sort[$b])
+    return $_item_sort[$a] > $_item_sort[$b];
+  else
+    return $a > $b;
+}
 ?>
