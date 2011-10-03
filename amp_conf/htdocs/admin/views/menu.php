@@ -102,7 +102,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 					: "config.php?display=" . $mod['display'];
 
       $target = isset($mod['target']) 
-          ? ' target="' . $cat[0]['target'] . '" '  : '';
+          ? ' target="' . $mod['target'] . '" '  : '';
 
 			//highlight currently in-use module
 			if ($display == $mod['display']) {
@@ -182,7 +182,7 @@ function _menu_sort($a, $b) {
 function _item_sort($a, $b) {
   global $_item_sort;
 
-  if ($_item_sort[$a] != $_item_sort[$b])
+  if (!empty($_item_sort[$a]) && !empty($_item_sort[$a]) && $_item_sort[$a] != $_item_sort[$b])
     return $_item_sort[$a] > $_item_sort[$b];
   else
     return $a > $b;
