@@ -65,11 +65,9 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 		}
   } else {
 	  foreach ($fpbx_menu as $mod => $deets) {
-			$menu[$deets['type']][strtolower($deets['category'])][] = $deets;
+			$menu[strtolower($deets['category'])][] = $deets;
 		}
   }
-
-//	$menu = $menu['setup'] + $menu['tool'];
 	
 	$count = 0;
 	foreach($menu as $t => $cat) { //catagories
