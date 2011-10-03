@@ -257,8 +257,10 @@ function dbug(){
 			break;	
 	}
 	
-	if ($disc) {
+	if (isset($disc) && $disc) {
 		$disc = ' \'' . $disc . '\':';
+	} else {
+		$disc = '';
 	}
 	
 	$bt = debug_backtrace();
