@@ -57,6 +57,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			case 'connectivity':
 			case 'reports':
 			case 'settings':
+			case 'user panel':
 				$menu[strtolower($deets['category'])][] = $deets;
 				break;
 			default:
@@ -65,7 +66,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 		}
   } else {
 	  foreach ($fpbx_menu as $mod => $deets) {
-			$menu[strtolower($deets['category'])][] = $deets;
+			$menu[$deets['category']][] = $deets;
 		}
   }
 	
@@ -75,6 +76,17 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
     //      see old code from freepbx_admin as to how to get it, requires a lot of hoops
     //      first checking in the module owner's i18n, then in the core i18n
     //
+
+    if (count($cat) == 1) {
+			if (isset($cat[0]['hidden']) && $cat[0]['hidden'] == 'true') {
+				continue;
+			}
+      $href = isset($cat[0]['href']) ? $cat[0]['href'] : 'config.php?display=' . $cat[0]['display'];
+      $target = isset($cat[0]['target']) ? ' target="' . $cat[0]['target'] . '"'  : '';
+      $class = $cat[0]['display'] == $display ? 'class="ui-state-highlight"' : '';
+      $mods[$t] = '<a href="' . $href . '" ' . $target . $class . '>' . _(ucwords($t)) . '</a>';
+      continue;
+    }
 		$mods[$t] = '<a href="#">'
 				. _(ucwords($t))
 				. '</a><ul>';
@@ -89,6 +101,9 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 					? $mod['href']
 					: "config.php?display=" . $mod['display'];
 
+      $target = isset($mod['target']) 
+          ? ' target="' . $cat[0]['target'] . '" '  : '';
+
 			//highlight currently in-use module
 			if ($display == $mod['display']) {
 				$classes[] = 'ui-state-highlight';
@@ -102,6 +117,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			}
 
 			$items[$mod['name']] = '<li><a href="' . $href . '"'
+          . $target
 					. 'class="' . implode(' ', $classes) . '">'
 					. _(ucwords($mod['name']))
 					. '</a></li>';
@@ -116,7 +132,6 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 	uksort($mods,'_menu_sort');
 	$out .= implode($mods);
 }
-$out .= '<a href="/recordings" target="_blank">' . _('User Panel') . '</a>';
 $out .= '<a id="language-menu-button" class="button-right ui-widget-content ui-state-default">' . _('Language') . '</a>';
 $out .= '<ul id="fpbx_lang" style="display:none;">';
 	$out .= '<li data-lang="en_US"><a href="#">'. _('English') . '</a></li>';
