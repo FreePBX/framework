@@ -76,7 +76,6 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
     //      see old code from freepbx_admin as to how to get it, requires a lot of hoops
     //      first checking in the module owner's i18n, then in the core i18n
     //
-
     if (count($cat) == 1) {
 			if (isset($cat[0]['hidden']) && $cat[0]['hidden'] == 'true') {
 				continue;
@@ -87,7 +86,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
       $mods[$t] = '<a href="' . $href . '" ' . $target . $class . '>' . _(ucwords($t)) . '</a>';
       continue;
     }
-		$mods[$t] = '<a href="#">'
+		$mods[$t] = '<a href="#" class="module_menu_button">'
 				. _(ucwords($t))
 				. '</a><ul>';
 		foreach ($cat as $c => $mod) { //modules

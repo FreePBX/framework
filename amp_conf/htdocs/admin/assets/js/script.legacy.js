@@ -745,6 +745,16 @@ $(document).ready(function(){
 	$('.radioset').buttonset();
 	$('.menubar').show().menubar();
 	
+	//show menu on hover
+	//this is far from perfect, and will hopefully be depreciated soon
+	$('.module_menu_button').hover(
+		function(){
+			$(this).click()
+		},
+		function(){
+			
+		});
+		
 	//show reload button if neede
 	if (fpbx.conf.reload_needed) {
 		toggle_reload_button('show');
