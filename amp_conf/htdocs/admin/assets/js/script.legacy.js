@@ -819,7 +819,7 @@ $(document).ready(function(){
 	
 	//logout button
 	$('#user_logout').click(function(){
-		url = window.location.origin + window.location.pathname;
+		url = window.location.pathname;
 		$.get(url + '?logout=true', function(){
 			$.cookie('PHPSESSID', null);
 			window.location = url;
