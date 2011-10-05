@@ -6,40 +6,42 @@ $out = '';
 $out .= '<div id="header">';
 $out .= '<div class="menubar ui-widget-header ui-corner-all">';
 //left hand logo
-$out .= '<img src="' . $amp_conf['BRAND_IMAGE_FREEPBX_LEFT'] 
-		. '" alt="FreePBX" title="FreePBX" id="BRAND_IMAGE_FREEPBX_LEFT" '
+$out .= '<img src="' . $amp_conf['BRAND_IMAGE_TANGO_LEFT'] 
+		. '" alt="FreePBX" title="FreePBX" id="BRAND_IMAGE_TANGO_LEFT" '
 		. 'data-BRAND_IMAGE_FREEPBX_LINK_LEFT="' . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] . '"/ />';
 		
 // If freepbx_menu.conf exists then use it to define/redefine categories
 //
-$fd = $amp_conf['ASTETCDIR'].'/freepbx_menu.conf';
-if (file_exists($fd)) {
-  $favorites = parse_ini_file($fd,true);
-  if ($favorites !== false) foreach ($favorites as $menuitem => $setting) {
-    if (isset($fpbx_menu[$menuitem])) {
-      foreach($setting as $key => $value) {
-        switch ($key) {
-          case 'category':
-          case 'name':
-            $fpbx_menu[$menuitem][$key] = htmlspecialchars($value);
-          break;
-          case 'type':
-            // this is really deprecated but ???
-            if (strtolower($value)=='setup' || strtolower($value)=='tool') {
-              $fpbx_menu[$menuitem][$key] = strtolower($value);
-            }
-          break;
-          case 'sort':
-            if (is_numeric($value) && $value > -10 && $value < 10) {
-              $fpbx_menu[$menuitem][$key] = $value;
-            }
-          break;
-          case 'remove':
-            // parse_ini_file sets all forms of yes/true to 1 and no/false to nothing
-            if ($value == '1') {
-              unset($fpbx_menu[$menuitem]);
-            }
-          break;
+if ($amp_conf['USE_FREEPBX_MENU_CONF']) {
+  $fd = $amp_conf['ASTETCDIR'].'/freepbx_menu.conf';
+  if (file_exists($fd)) {
+    $favorites = parse_ini_file($fd,true);
+    if ($favorites !== false) foreach ($favorites as $menuitem => $setting) {
+      if (isset($fpbx_menu[$menuitem])) {
+        foreach($setting as $key => $value) {
+          switch ($key) {
+            case 'category':
+            case 'name':
+              $fpbx_menu[$menuitem][$key] = htmlspecialchars($value);
+            break;
+            case 'type':
+              // this is really deprecated but ???
+              if (strtolower($value)=='setup' || strtolower($value)=='tool') {
+                $fpbx_menu[$menuitem][$key] = strtolower($value);
+              }
+            break;
+            case 'sort':
+              if (is_numeric($value) && $value > -10 && $value < 10) {
+                $fpbx_menu[$menuitem][$key] = $value;
+              }
+            break;
+            case 'remove':
+              // parse_ini_file sets all forms of yes/true to 1 and no/false to nothing
+              if ($value == '1') {
+                unset($fpbx_menu[$menuitem]);
+              }
+            break;
+          }
         }
       }
     }

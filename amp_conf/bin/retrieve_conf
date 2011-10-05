@@ -334,6 +334,7 @@ if ($current_memory_limit < $proper_memory_limit) {
 	$nt->delete('core', 'MEMLIMIT');
 }
 
+
 //Putting the core module last, to move outbound-allroutes 
 // last in from-internals-additional
 if (array_key_exists('core', $active_modules)) {
@@ -414,6 +415,14 @@ if($engineinfo['version'] == 0){
 $engine = $engineinfo['engine'];
 $version = $engineinfo['version'];
 $chan_dahdi = ast_with_dahdi();
+
+// If BROWSER_STATS is set to true (default) and we have never provided a notice (NOTICE_BROWSER_STATS false) then do so one time only so
+// they are aware and can choose to opt out.
+if (!$amp_conf['NOTICE_BROWSER_STATS'] && $amp_conf['BROWSER_STATS']) {
+  $nt->add_notice('framework', 'BROWSER_STATS', _("Collecting Anonymous Browser Stats"), _("The FreePBX project is collecting anonymous browser statistics using google analytics. These are used to focus development efforts based on real user input. All information is anonymous. You can disable this in Advanced Settings with the Browser Stats setting."));
+  $freepbx_conf->set_conf_values(array('NOTICE_BROWSER_STATS' => true), true, true);
+}
+
 
 if (!$freepbx_conf->conf_setting_exists('AST_FUNC_DEVICE_STATE')) {
   // AST_FUNC_DEVICE_STATE

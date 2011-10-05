@@ -782,7 +782,7 @@ $(document).ready(function(){
 	});
 	
 	//logo icon
-	$('#BRAND_IMAGE_FREEPBX_LEFT').click(function(){
+	$('#BRAND_IMAGE_TANGO_LEFT').click(function(){
 		window.open($(this).data('brand_image_freepbx_link_left'),'_newtab');
 	});
 	

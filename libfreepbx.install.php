@@ -742,6 +742,18 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('AMPDEVGROUP',$set);
   $set['level'] = 0;
 
+  // BROWSER_STATS
+  $set['value'] = true;
+  $set['options'] = '';
+  $set['name'] = 'Browser Stats';
+  $set['description'] = 'Setting this to true will allow the development team to use google analytics to anonymously analyze browser information to help make better development decision.';
+  $set['emptyok'] = 0;
+  $set['readonly'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('BROWSER_STATS',$set);
+
+
+
   //
   // CATEGORY: Dialplan and Operational
   //
@@ -1219,6 +1231,19 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('ALWAYS_SHOW_DEVICE_DETAILS',$set);
   $set['level'] = 0;
 
+// USE_FREEPBX_MENU_CONF
+  $set['value'] = false;
+  $set['options'] = '';
+  $set['name'] = 'Use freepbx_menu.conf Configuration';
+  $set['description'] = 'When set to true, the system will check for a freepbx_menu.conf file amongst the normal configuraiton files and if found, it will be used to define and remap the menu tabs and contents. See the template supplied with FreePBX for details on how to do this.';
+  $set['emptyok'] = 0;
+  $set['level'] = 0;
+  $set['readonly'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('USE_FREEPBX_MENU_CONF',$set);
+  $set['level'] = 0;
+
+
   //
   // CATEGORY: Asterisk Manager
   //
@@ -1423,6 +1448,17 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('MODULEADMIN_SKIP_CACHE',$set);
 
+  // buffering_callback
+  $set['value'] = 'ob_gzhandler';
+  $set['options'] = '';
+  $set['name'] = 'ob_start callback';
+  $set['description'] = 'This is the callback that will be passed to ob_start. In its default state, ob_gzhandler will be passed which will case all data passed directly by the system to be compressed set this to be blank or something else if this creates issues.';
+  $set['emptyok'] = 1;
+  $set['readonly'] = 1;
+  $set['hidden'] = 1;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('buffering_callback',$set);
+
 
   //
   // CATEGORY: Flash Operator Panel
@@ -1610,8 +1646,8 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['emptyok'] = 0;
   $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_RIGHT',$set);
 
-  // BRAND_IMAGE_FREEPBX_LEFT
-  $set['value'] = 'images/freepbx_large.png';
+  // BRAND_IMAGE_TANGO_LEFT
+  $set['value'] = 'images/tango.png';
   $set['options'] = '';
   $set['name'] = 'Image: Left Upper';
   $set['description'] = 'Left upper logo.  Path is relative to admin.';
@@ -1619,7 +1655,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['sortorder'] = 40;
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 0;
-  $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_LEFT',$set);
+  $freepbx_conf->define_conf_setting('BRAND_IMAGE_TANGO_LEFT',$set);
 
   // BRAND_IMAGE_FREEPBX_FOOT
   $set['value'] = 'images/freepbx_small.png';
@@ -1666,7 +1702,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('BRAND_FREEPBX_ALT_RIGHT',$set);
 
   // BRAND_FREEPBX_ALT_FOOT
-  $set['value'] = '';
+  $set['value'] = 'FreePBX&reg;';
   $set['options'] = '';
   $set['name'] = 'Alt for Footer Logo';
   $set['description'] = 'alt attribute to use in place of image and title hover value. Defaults to FreePBX';
@@ -1677,7 +1713,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('BRAND_FREEPBX_ALT_FOOT',$set);
 
   // BRAND_IMAGE_FREEPBX_LINK_LEFT
-  $set['value'] = '';
+  $set['value'] = 'http://www.freepbx.org';
   $set['options'] = '';
   $set['name'] = 'Link for Left Logo';
   $set['description'] = 'link to follow when clicking on logo, defaults to http://www.freepbx.org';
@@ -1699,7 +1735,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_LINK_RIGHT',$set);
 
   // BRAND_IMAGE_FREEPBX_LINK_FOOT
-  $set['value'] = '';
+  $set['value'] = 'http://www.freepbx.org';
   $set['options'] = '';
   $set['name'] = 'Link for Footer Logo';
   $set['description'] = 'link to follow when clicking on logo, defaults to http://www.freepbx.org';
@@ -1933,6 +1969,90 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('VIEW_REPORTS',$set);
   $set['hidden'] = 0;
 
+  // VIEW_MENU
+  $set['value']	= 'views/menu.php';
+  $set['options'] = '';
+  $set['name'] = 'View: menu.php';
+  $set['description'] = 'menu.php view. This should never be changed except for very advanced layout changes';
+  $set['readonly'] = 1;
+  $set['emptyok'] = 0;
+  $set['hidden'] = 1;
+  $set['sortorder'] = 310;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('VIEW_MENU', $set);
+
+  // JQUERY_CSS
+  $set['value']	= 'assets/css/jquery-ui.css';
+  $set['options'] = '';
+  $set['name'] = 'jQuery UI css';
+  $set['description'] = 'css file for jquery ui';
+  $set['readonly'] = 1;
+  $set['emptyok'] = 0;
+  $set['hidden'] = 1;
+  $set['sortorder'] = 320;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('JQUERY_CSS', $set);
+
+  // VIEW_LOGIN
+  $set['value']	= 'views/login.php';
+  $set['options'] = '';
+  $set['name'] = 'View: login.php';
+  $set['description'] = 'login.php view. This should never be changed except for very advanced layout changes';
+  $set['readonly'] = 1;
+  $set['emptyok'] = 0;
+  $set['hidden'] = 1;
+  $set['sortorder'] = 330;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('VIEW_LOGIN', $set);
+
+  // VIEW_HEADER
+  $set['value']	= 'views/header.php';
+  $set['options'] = '';
+  $set['name'] = 'View: header.php';
+  $set['description'] = 'header.php view. This should never be changed except for very advanced layout changes';
+  $set['readonly'] = 1;
+  $set['emptyok'] = 0;
+  $set['hidden'] = 1;
+  $set['sortorder'] = 340;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('VIEW_HEADER', $set);
+
+  // VIEW_FOOTER
+  $set['value']	= 'views/footer.php';
+  $set['options'] = '';
+  $set['name'] = 'View: freepbx.php';
+  $set['description'] = 'footer.php view. This should never be changed except for very advanced layout changes';
+  $set['readonly'] = 1;
+  $set['emptyok'] = 0;
+  $set['hidden'] = 1;
+  $set['sortorder'] = 350;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('VIEW_FOOTER', $set);
+
+  // VIEW_FOOTER_CONTENT
+  $set['value']	= 'views/footer_content.php';
+  $set['options'] = '';
+  $set['name'] = 'View: footer_content.php';
+  $set['description'] = 'footer_content.php view. This should never be changed except for very advanced layout changes';
+  $set['readonly'] = 1;
+  $set['emptyok'] = 0;
+  $set['hidden'] = 1;
+  $set['sortorder'] = 360;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('VIEW_FOOTER_CONTENT', $set);
+
+  // BRAND_ALT_JS
+  $set['value']	= '';
+  $set['options'] = '';
+  $set['name'] = 'Alternate JS';
+  $set['description'] = 'Alternate JS file, to supplement legacy.script.js';
+  $set['readonly'] = 1;
+  $set['emptyok'] = 1;
+  $set['hidden'] = 1;
+  $set['sortorder'] = 360;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('BRAND_ALT_JS', $set);
+
 
   //
   // CATEGORY: Device Setting Defaults
@@ -2082,6 +2202,36 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['emptyok'] = 1;
   $set['sortorder'] = 110;
   $freepbx_conf->define_conf_setting('DEVICE_PICKUPGROUP',$set);
+
+
+  //
+  // CATEGORY: Internal Use
+  //
+  $set['category'] = 'Internal Use';
+  $set['level'] = 10;
+
+  // MODULE_REPO
+  $set['value'] = 'http://mirror.freepbx.org';
+  $set['options'] = '';
+  $set['name'] = 'Repo Server';
+  $set['description'] = 'repo server';
+  $set['readonly'] = 1;
+  $set['hidden'] = 1;
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['emptyok'] = 0;
+  $freepbx_conf->define_conf_setting('MODULE_REPO',$set);
+
+  // NOTICE_BROWSER_STATS
+  $set['value'] = false;
+  $set['options'] = '';
+  $set['name'] = 'Browser Stats Notice';
+  $set['description'] = 'Internal use to track if notice has been given that anonyous browser stats are being collected.';
+  $set['emptyok'] = 0;
+  $set['readonly'] = 1;
+  $set['hidden'] = 1;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('NOTICE_BROWSER_STATS',$set);
+
 
   // The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
   // retain their values until the individual modules are updated and their install scripts run where a full
