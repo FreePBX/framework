@@ -168,6 +168,8 @@ echo $out;
 // key sort but keep Favorites on the far left, Other on the far right
 //
 function _menu_sort($a, $b) {
+  $a = strtolower($a);
+  $b = strtolower($b);
   if ($a == 'favorites')
     return false;
   else if ($b == 'favorites')
