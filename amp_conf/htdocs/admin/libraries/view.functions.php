@@ -472,7 +472,7 @@ function framework_include_js($module_name, $module_page) {
 			foreach ($file_list as $p_file) {
 				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
 				  $html .= '<script type="text/javascript" ' 
-							. ' src="assets/$module_name/js/' 
+							. ' src="assets/' . $module_name . '/js/' 
 							. $module_page . '/' . $p_file 
 							. '"></script>';
 				}
