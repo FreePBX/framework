@@ -752,6 +752,15 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('BROWSER_STATS',$set);
 
+  // USE_GOOGLE_CDN_JS
+  $set['value'] = false;
+  $set['options'] = '';
+  $set['name'] = 'Use Google Distribution Network for js Downloads';
+  $set['description'] = 'Setting this to true will fetch system javascript libraries such as jQuery and jQuery-ui from ajax.googleapis.com. This can be advantageous if accessing remote or multiple different FreePBX systems since the libraries are only cached once in your browser. If external internet connections are problematic, setting this true could result in slow systems. FreePBX will always fallback to the locally available libraries if the CDN is not available.';
+  $set['emptyok'] = 0;
+  $set['readonly'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('USE_GOOGLE_CDN_JS',$set);
 
 
   //

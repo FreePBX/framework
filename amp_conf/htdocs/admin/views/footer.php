@@ -53,9 +53,12 @@ $html .= "\n" . '<script type="text/javascript">'
 		. json_encode($fpbx)
  		. '</script>';
 
-$html .= '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>';
-$html .= '<script type="text/javascript" >window.jQuery.ui '
-		. '|| document.write(\'<script src="assets/js/jquery-ui-1.8.x.min.js"><\/script>\')</script>';
+if ($amp_conf['USE_GOOGLE_CDN_JS']) {
+	$html .= '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>';
+	$html .= '<script type="text/javascript" >window.jQuery.ui || document.write(\'<script src="assets/js/jquery-ui-1.8.x.min.js"><\/script>\')</script>';
+} else {
+	$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.8.x.min.js"></script>';
+}
 
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below

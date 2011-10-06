@@ -41,9 +41,12 @@ if ($amp_conf['BRAND_CSS_CUSTOM']) {
 }
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
-$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/' . $jquery . '/jquery.min.js"></script>';
-$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-' 
-		. $jquery . '.min.js"><\/script>\')</script>';
+if ($amp_conf['USE_GOOGLE_CDN_JS']) {
+	$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/' . $jquery . '/jquery.min.js"></script>';
+	$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-' . $jquery . '.min.js"><\/script>\')</script>';
+} else {
+	$html .= '<script type="text/javascript" src="assets/js/jquery-' . $jquery . '.min.js"></script>';
+}
 		
 $html .= '</head>';
 
