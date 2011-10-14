@@ -31,7 +31,9 @@ define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules/");
 
 # semi constants
 $webroot	= "/var/www/html";
+/* should be deprecated and only under proramatic control
 $fopwebroot	= "";				// if blank, will use $webroot/panel
+ */
 $ampsbin_dir = "/usr/local/sbin";	// default if not set
 $ampbin_dir = "/var/lib/asterisk/bin";
 $asterisk_user	= "asteriskuser";
@@ -46,7 +48,7 @@ function showHelp() {
 	out("  --dbname databasename    Use database name specified, instead of 'asterisk'",false);
 	out("  --username <user>        Use <user> to connect to db and write config",false);
 	out("  --password <pass>        Use <pass> to connect to db and write config",false);
-	out("  --fopwebroot <path>      Web path where fop will be installed",false);
+	out("  --fopwebroot <path>      Depricated Web path where fop will be installed, ignored should be under module control",false);
 	out("  --webroot <path>         Web root where FreePBX will be installed",false);
 	out("  --cgibin <path>          Path where cgi-bin's lives",false);
 	out("  --bin <path>             Path of asterisk binaries",false);
@@ -62,7 +64,7 @@ function showHelp() {
 	out("  --force-overwrite        Don't ask if it is ok to overwrite modified files, assume yes for all.",false);
 	out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ",false);
 	out("                           it's a new installation)",false);
-	out("  --install-fop false      Don't install FOP and don't display it anywhere on the interface",false);
+	out("  --install-fop false      depricated, does nothing",false);
 	out("  --dev-links              Make links to files in the source directory instead of copying",false);
 	out("                           (intended for developers only)",false);
 	out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct",false);
@@ -221,7 +223,9 @@ function generate_configs() {
  */
 function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $dbname = 'asterisk') {
 	global $webroot;
+	/* should be deprecated and only under proramatic control
 	global $fopwebroot;
+	 */
 	global $ampsbin_dir;
 	global $ampbin_dir;
 	global $asterisk_user;
@@ -244,7 +248,9 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		$amp_conf["AMPMGRUSER"] = "admin";
 		$amp_conf["AMPMGRPASS"] = "unset";
 		$amp_conf["AMPWEBROOT"] = $webroot;
+		/* should be deprecated and only under proramatic control
 		$amp_conf["FOPWEBROOT"] = ($fopwebroot ? $fopwebroot : $webroot."/panel");
+		 */
 		$amp_conf["AMPWEBADDRESS"] = $freepbxip;
 		$amp_conf["ASTMANAGERHOST"] = $asteriskip;
 		$amp_conf["FOPPASSWORD"] = "passw0rd";
@@ -312,10 +318,12 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	} while(1);
 	
 	// Really no need to ask, is there.
+	/* should be deprecated and only under proramatic control
 	if (empty($fopwebroot))
 		$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"]."/panel";
 	else
 		$amp_conf["FOPWEBROOT"] = $fopwebroot;
+	 */
 	
 	outn("Enter the IP ADDRESS or hostname used to access the AMP web-admin:\n [$freepbxip] ");
 	$key = trim(fgets(STDIN,1024));
@@ -591,7 +599,6 @@ $override_astvers = false;
 $scripted = false;
 
 $install_moh = false;
-$install_fop = true;
 $make_links = false;
 $module_install = true;
 
@@ -661,12 +668,7 @@ foreach ($args[0] as $arg) {
 			$install_moh = true;
 		break;
 		case "--install-fop":
-			if(strtolower($arg[1]) == "false")  {
-				$install_fop = false;
-				out("FOP will be deactivated in the interface.  Set FOPDISABLE=false in Advanced Settings to change later.");
-			} else  {
-				out("FOP will be installed and activated.");
-			}
+			out("install-fop: depricated setting, does nothing.");
 		break;
 		case "--make-links-devel":
 		case "--dev-links":
@@ -676,8 +678,10 @@ foreach ($args[0] as $arg) {
 			$module_install = false;
 		break;
 		case "--fopwebroot":
+			/* should be deprecated and only under proramatic control
 			$fopwebroot = $arg[1];
 			out("Using fop at ".$fopwebroot);
+			 */
 		break;
 		case "--webroot":
 			$webroot = $arg[1];
@@ -792,10 +796,6 @@ if (!array_key_exists("AMPWEBROOT",$amp_conf)) {
 	out("Adding AMPWEBROOT option to amportal.conf - using AMP default");
 	$amp_conf["AMPWEBROOT"] = "/var/www/html";
 }
-if (!array_key_exists("FOPWEBROOT",$amp_conf)) {
-	out("Adding FOPWEBROOT option to amportal.conf - using AMP default");
-	$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"]."/panel";
-}
 if (!array_key_exists("AMPBIN",$amp_conf)) {
 	out("Adding AMPBIN option to amportal.conf - using AMP default");
 	$amp_conf["AMPBIN"] = "/var/lib/asterisk/bin";
@@ -827,17 +827,10 @@ if (isset($dbhost)) {
 if (isset($dbname)) {
 	$amp_conf["AMPDBNAME"] = $dbname;
 }
-if(!$install_fop)  { // Set from --install-fop parameter; Add it to amportal.conf
-	out("Adding FOPDISABLE option to amportal.conf");
-	$amp_conf["FOPDISABLE"] = "true";
-}
 // If they pre-set this in their amportal.conf or this is an upgrade, we should honor it as well
 //
 // TODO: if we boostrap, then this value could be normalized (1/0 I think?)
 //
-if (isset($amp_conf['FOPDISABLE']) && (strtolower(trim($amp_conf['FOPDISABLE'])) == 'true' || strtolower(trim($amp_conf['FOPDISABLE'])) == 'yes' || strtolower(trim($amp_conf['FOPDISABLE'])) == 'y') )  {
-	$install_fop = false;
-}	
 // write amportal.conf
 // TODO: if we boostrapped we don't want to write amportal.conf, or do we? e.g. if we are running out of the file vs. the
 //       database then we probably want to write, though there should be a freepbx_conf class to use that does that and knows
@@ -1247,13 +1240,6 @@ generate_configs();
 out("Generating AMP configs..OK");
 
 $version = install_getversion();
-
-if($install_fop && $amp_conf["FOPRUN"])  {
-	// **** Bounce FOP
-	outn("Restarting Flash Operator Panel..");
-	exec("sudo -u $asteriskuser ".$amp_conf["AMPBIN"].'/bounce_op.sh');
-	out("OK");
-}
 
 // Now force an install for all modules that are packaged with the tarball
 // directory.
