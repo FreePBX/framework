@@ -372,21 +372,6 @@ function do_reload() {
 	$return['status'] = true;
 	$return['message'] = _('Successfully reloaded');
 	
-	if ($amp_conf['FOPRUN'] && !$amp_conf['FOPDISABLE']) {
-    unset($output);
-		exec('killall -HUP op_server.pl 2>&1', $output, $exit_val);
-		if ($exit_val != 0) {
-			$desc = _('Could not reload the FOP operator panel server using killall -HUP op_server.pl. Configuration changes may not be reflected in the panel display.');
-			$notify->add_error('freepbx','reload_fop', _('Could not reload FOP server'), $desc);
-      // send the error output to dbug log if enabled.
-      dbug($output);
-			
-			$return['num_errors']++;
-		} else {
-			$notify->delete('freepbx','reload_fop');
-		}
-	}
-	
 	//store asterisk reloaded status
 	$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'"; 
 	$result = $db->query($sql);

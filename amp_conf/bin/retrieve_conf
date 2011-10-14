@@ -828,42 +828,6 @@ function install_cron_scheduler() {
 	}
 }
 
-// script to write op_server.cfg file from mysql 
-//
-if(!$amp_conf['FOPDISABLE'])  {
-  if (!@include("retrieve_op_conf_from_mysql.php")) {
-		error(_("error running retrieve_op_conf_from_mysql.php"));
-  }
-  /*
-	$script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.php';
-	if (is_executable($script)) {
-		$script .= ' '.$amportalconf.' '.rtrim($asterisk_conf['astetcdir'],DIRECTORY_SEPARATOR);
-		$output = array();
-		exec($script, $output, $ret);
-		if ($ret) {
-			error(sprintf(_("retrieve_op_conf_from_mysql.php returned with an error code %s"),$ret));
-		}
-	} else {
-		error(_("retrieve_op_conf_from_mysql.php does not exist or is not executable"));
-	}
-  */
-}
-// generate configuration files
-//
-// Leave the legacy scripts in for a little while to help with odd-ball upgrade scenarios if they haven't gotten
-// a module upgraded yet. In particular Queues
-//
-if (!isset($core_conf) || !is_a($core_conf, "core_conf")) {
-	include_once("libfreepbx.confgen.php");
-	generate_configurations_sip($version);
-	generate_configurations_iax($version);
-	generate_configurations_zap($version);
-}
-if (isset($modules['queues']['status']) && $modules['queues']['status'] == MODULE_STATUS_ENABLED && (!isset($queues_conf) || !is_a($queues_conf, "queues_conf"))) {
-	include_once("libfreepbx.confgen.php");
-	generate_configurations_queues($version);
-}
-	
 // Check and install the freepbx-cron-scheduler.php manager
 //
 install_cron_scheduler();

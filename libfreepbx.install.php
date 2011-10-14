@@ -255,13 +255,6 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 
 			
 			// configurable in amportal.conf
-			if (strpos($destination,"htdocs_panel")) {
-				$destination=str_replace("/htdocs_panel",trim($amp_conf["FOPWEBROOT"]),$destination);
-			} else {
-				$destination=str_replace("/htdocs",trim($amp_conf["AMPWEBROOT"]),$destination);
-			}
-			$destination=str_replace("/htdocs_panel",trim($amp_conf["FOPWEBROOT"]),$destination);
-//			$destination=str_replace("/cgi-bin",trim($amp_conf["AMPCGIBIN"]),$destination);
 			if(strpos($dirsource, 'modules') === false) $destination=str_replace("/bin",trim($amp_conf["AMPBIN"]),$destination);
 			$destination=str_replace("/sbin",trim($amp_conf["AMPSBIN"]),$destination);
 			
@@ -1475,57 +1468,19 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['category'] = 'Flash Operator Panel';
   $set['level'] = 0;
 
-  // FOPSORT
-  $set['value'] = 'extension';
-  $set['options'] = 'extension,lastname';
-  $set['name'] = 'FOP Sort Mode';
-  $set['description'] = 'How FOP sort extensions. By Last Name [lastname] or by Extension [extension].';
-  $set['emptyok'] = 0;
-  $set['readonly'] = 0;
-  $set['type'] = CONF_TYPE_SELECT;
-  $freepbx_conf->define_conf_setting('FOPSORT',$set);
-
+	// FOPWEBROOT also used by FOP2 and iSymphony modules
   // FOPWEBROOT
-  $set['value'] = '/var/www/html/panel';
+  $set['value'] = '';
   $set['options'] = '';
   $set['name'] = 'FOP Web Root Dir';
-  $set['description'] = 'Path to the Flash Operator Panel webroot (leave off trailing slash).';
-  $set['emptyok'] = 0;
+  $set['description'] = 'Path to the Flash Operator Panel webroot or other modules providing such functionality (leave off trailing slash).';
+  $set['emptyok'] = 1;
   $set['readonly'] = 1;
+  $set['hidden'] = 1;
   $set['type'] = CONF_TYPE_DIR;
   $set['level'] = 4;
   $freepbx_conf->define_conf_setting('FOPWEBROOT',$set);
   $set['level'] = 0;
-
-  // FOPPASSWORD
-  $set['value'] = 'passw0rd';
-  $set['options'] = '';
-  $set['name'] = 'FOP Password';
-  $set['description'] = 'Password for performing transfers and hangups in the Flash Operator Panel (FOP).';
-  $set['emptyok'] = 0;
-  $set['readonly'] = 0;
-  $set['type'] = CONF_TYPE_TEXT;
-  $freepbx_conf->define_conf_setting('FOPPASSWORD',$set);
-
-  // FOPDISABLE
-  $set['value'] = false;
-  $set['options'] = '';
-  $set['name'] = 'Disable FOP';
-  $set['description'] = 'Set to true to disable FOP in interface and retrieve_conf.  Useful for sqlite3 or if you do not want FOP.';
-  $set['emptyok'] = 0;
-  $set['readonly'] = 0;
-  $set['type'] = CONF_TYPE_BOOL;
-  $freepbx_conf->define_conf_setting('FOPDISABLE',$set);
-
-  // FOPRUN
-  $set['value'] = true;
-  $set['options'] = '';
-  $set['name'] = 'Start FOP with amportal';
-  $set['description'] = 'Set to true if you want FOP started by freepbx_engine (amportal_start), false otherwise.';
-  $set['emptyok'] = 0;
-  $set['readonly'] = 0;
-  $set['type'] = CONF_TYPE_BOOL;
-  $freepbx_conf->define_conf_setting('FOPRUN',$set);
 
 
   //
