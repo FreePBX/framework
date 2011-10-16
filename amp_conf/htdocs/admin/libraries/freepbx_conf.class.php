@@ -434,7 +434,6 @@ class freepbx_conf {
     // Note, No localization of the name field, this is a conf file! DON'T MESS WITH THIS!
     $category = '';
     foreach ($this->conf as $keyword => $value) {
-      echo "processing $keyword => $value\n";
       if ($this->conf_setting_exists($keyword)) {
         if ($this->db_conf_store[$keyword]['hidden']) {
           continue;
@@ -461,7 +460,6 @@ class freepbx_conf {
         } else {
           $comments = "#\n";
           if ($category != 'Bootstrapped or Legacy Settings') {
-            echo "setting category old value $category\n";
             $category = 'Bootstrapped or Legacy Settings';
             $comments = "#\n# --- CATEGORY: $category ---\n#\n\n#\n";
           }
