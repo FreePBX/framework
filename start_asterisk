@@ -108,9 +108,9 @@ case "$1" in
 		echo "Usage:       amportal start|stop|restart|start_fop|stop_fop|restart_fop|kill|chown"
 		echo
 		echo "start:       Starts Asterisk and Flash Operator Panel server if enabled"
-		echo "stop:        Gracefully stops Asterisk and the FOP server"
+		echo "stop:        Gracefully stops Asterisk"
 		echo "restart:     Stop and Starts"
-		echo "kill:        Kills Asterisk and the FOP server"
+		echo "kill:        Kills Asterisk"
 		echo
 		exit 1
 	;;
