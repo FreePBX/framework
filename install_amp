@@ -253,7 +253,6 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		 */
 		$amp_conf["AMPWEBADDRESS"] = $freepbxip;
 		$amp_conf["ASTMANAGERHOST"] = $asteriskip;
-		$amp_conf["FOPPASSWORD"] = "passw0rd";
 		$amp_conf["AMPEXTENSIONS"] = "extensions";
 		$amp_conf["AMPBIN"] = $ampbin_dir;
 		$amp_conf["AMPSBIN"] = "$ampsbin_dir";
@@ -329,11 +328,6 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) $amp_conf["AMPWEBADDRESS"] = $freepbxip;
 	else $amp_conf["AMPWEBADDRESS"] = $key;
-	
-	outn("Enter a PASSWORD to perform call transfers with the Flash Operator Panel:\n [passw0rd] ");
-	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["FOPPASSWORD"] = "passw0rd";
-	else $amp_conf["FOPPASSWORD"] = $key;
 	
 	outn("Use simple Extensions [extensions] admin or separate Devices and Users [deviceanduser]?\n [extensions] ");
 	$key = trim(fgets(STDIN,1024));
@@ -457,7 +451,6 @@ function install_modules() {
 				switch ($up_module) {
 				case 'framework':
 				case 'fw_ari':
-				case 'fw_fop':
 					system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
 					out("installed");
 					break;
@@ -667,6 +660,7 @@ foreach ($args[0] as $arg) {
 		case "--install-moh":
 			$install_moh = true;
 		break;
+		case "--fopwebroot":
 		case "--install-fop":
 			out("install-fop: depricated setting, does nothing.");
 		break;
