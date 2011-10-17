@@ -1461,6 +1461,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['hidden'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('buffering_callback',$set);
+  $set['hidden'] = 0;
 
 
   //
@@ -1477,7 +1478,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['description'] = 'Path to the Flash Operator Panel webroot or other modules providing such functionality (leave off trailing slash).';
   $set['emptyok'] = 1;
   $set['readonly'] = 1;
-  $set['hidden'] = 1;
   $set['type'] = CONF_TYPE_DIR;
   $set['level'] = 4;
   $freepbx_conf->define_conf_setting('FOPWEBROOT',$set);
@@ -1945,6 +1945,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['sortorder'] = 310;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('VIEW_MENU', $set);
+  $set['hidden'] = 0;
 
   // JQUERY_CSS
   $set['value']	= 'assets/css/jquery-ui.css';
@@ -1957,6 +1958,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['sortorder'] = 320;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('JQUERY_CSS', $set);
+  $set['hidden'] = 0;
 
   // VIEW_LOGIN
   $set['value']	= 'views/login.php';
@@ -1969,6 +1971,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['sortorder'] = 330;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('VIEW_LOGIN', $set);
+  $set['hidden'] = 0;
 
   // VIEW_HEADER
   $set['value']	= 'views/header.php';
@@ -1981,6 +1984,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['sortorder'] = 340;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('VIEW_HEADER', $set);
+  $set['hidden'] = 0;
 
   // VIEW_FOOTER
   $set['value']	= 'views/footer.php';
@@ -1993,6 +1997,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['sortorder'] = 350;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('VIEW_FOOTER', $set);
+  $set['hidden'] = 0;
 
   // VIEW_FOOTER_CONTENT
   $set['value']	= 'views/footer_content.php';
@@ -2005,6 +2010,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['sortorder'] = 360;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('VIEW_FOOTER_CONTENT', $set);
+  $set['hidden'] = 0;
 
   // BRAND_ALT_JS
   $set['value']	= '';
@@ -2017,6 +2023,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['sortorder'] = 360;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('BRAND_ALT_JS', $set);
+  $set['hidden'] = 0;
 
 
   //
@@ -2185,6 +2192,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 0;
   $freepbx_conf->define_conf_setting('MODULE_REPO',$set);
+  $set['hidden'] = 0;
 
   // NOTICE_BROWSER_STATS
   $set['value'] = false;
@@ -2196,6 +2204,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['hidden'] = 1;
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('NOTICE_BROWSER_STATS',$set);
+  $set['hidden'] = 0;
 
 
   // The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
