@@ -152,6 +152,53 @@ if [ ! -d "$ASTRUNDIR" ]
 		fi
 fi
 
+############ freepbx_engine_hooks #########################
+#
+# Look for any file in THIS directory (bin) that is of the format of
+#
+# freepbx_engine_hook_*
+#
+# If we find it then source it. That file should provide any required
+# code that may need to be initialized and then functions that are
+# called by call_hook below
+#
+##########################################################
+
+CURDIR="$( cd -P "$( dirname "$0" )" && pwd )"
+for VAR in `ls ${CURDIR}/freepbx_engine_hook_*`
+do
+	. ${VAR}
+done
+
+
+# call_hook
+#
+# takes as argument the name of a function and checks if there are any hooks declared
+# in the form of NAME_hook_* and if so will execute those. This is used in conjunction
+# with the various operaitonal built in commands  such as start, stop, restart, etc.
+# for functions such as a module that may need a daemon started and stopped when Asterisk
+# is started and stopped, such as FOP with op_server.pl
+#
+call_hook() {
+
+	HOOKPRE=${1}_hook_;
+	HOOKLEN=${#HOOKPRE}
+	RETCODE=1
+	# echo "LOOKING FOR:  ${HOOKPRE}* LEN: ${HOOKLEN}"
+	
+	for VAR in `typeset -F`
+	do
+		HOOKBASE=${VAR:0:${HOOKLEN}}
+		if [ "${HOOKBASE}" == "${HOOKPRE}" ]
+		then
+			# echo "GOT ONE ${VAR} now trying to call it"	
+			${VAR}
+			RETCODE=0
+		fi
+	done
+	return ${RETCODE}
+}
+
 chown_asterisk() {
 	echo SETTING FILE PERMISSIONS
 	
@@ -170,12 +217,6 @@ chown_asterisk() {
 	chmod -R g+w $(readlink -f $ASTSPOOLDIR)
 	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/admin)
 	chmod -R g+w $(readlink -f $AMPWEBROOT/admin)
-	if [ "$(readlink -f $FOPWEBROOT)" != "" ]; then
-		chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $FOPWEBROOT)
-		chmod -R g+w $(readlink -f $FOPWEBROOT)
-		chmod u+x,g+x $FOPWEBROOT/*.pl
-		chmod u+x $FOPWEBROOT/safe_opserver
-	fi
 	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/recordings)
 	chmod -R g+w $(readlink -f $AMPWEBROOT/recordings)
 	chown -R $AMPASTERISKWEBUSER:$AAMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/_asterisk)
@@ -213,6 +254,7 @@ chown_asterisk() {
 	[ -e /dev/dsp ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/dsp
 
 	echo Permissions OK
+	call_hook chown_asterisk
 }
 
 check_asterisk() {
@@ -231,6 +273,7 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 				echo "-----------------------------------------------------"
 				exit 0
 		fi
+	call_hook check_asterisk
 }
 
 run_asterisk() {
@@ -252,6 +295,7 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 			check_asterisk
 			echo "Asterisk Started"
 		fi
+	call_hook run_asterisk
 }
 
 stop_asterisk() {
@@ -330,51 +374,14 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 			echo "Asterisk Stopped"
 
 		fi
+	call_hook stop_asterisk
 }
 
-check_fop() {
-#check to see if FOP is running
-	pid_length=`$PIDOF -x op_server.pl|awk '{print length($0)}'`
-	if [ "$pid_length" == "0" -a "$pid_length" != "" ]
-		then
-				ps -ef | grep safe_opserver | grep -v grep | awk '{print $2}' | xargs kill -9
-				echo
-				echo "-----------------------------------------------------"
-				echo "The FOP's server (op_server.pl) could not start!"
-				echo "Please correct this problem"
-				echo "-----------------------------------------------------"
-				exit 0
-		fi
-}
 
-run_fop() {
-# check to see if FOP is running
-echo
-echo "STARTING FOP SERVER"
-pid_length=`$PIDOF -x op_server.pl|awk '{print length($0)}'`
-	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
-		then
-			echo "FOP server is already running"
-		else
-			su - $AMPASTERISKUSER -c "cd $FOPWEBROOT && $FOPWEBROOT/safe_opserver &" > /dev/null 2>&1
-			# Check if su was successful, if not add a shell
-			[ "$?" -eq "0" ] || su -s /bin/bash $AMPASTERISKUSER -c "cd $FOPWEBROOT && $FOPWEBROOT/safe_opserver &" 
-			sleep 1
-			check_fop
-			echo "FOP Server Started"
-		fi
-}
 
-stop_fop() {
+no_fop() {
 	echo
-	echo "STOPPING FOP SERVER"
-	pid_length=`$PIDOF -x op_server.pl|awk '{print length($0)}'`
-		if [ "$pid_length" != "0" -a "$pid_length" != "" ]
-			then
-				ps -ef | grep safe_opserver | grep -v grep | awk '{print $2}' | xargs kill
-				killall op_server.pl
-				echo "FOP Server Stopped"
-			fi
+	echo "FOP no longer supported"
 }
 
 kill_amp() {
@@ -385,6 +392,7 @@ kill_amp() {
 	killall -9 mpg123
 	ps -ef | grep safe_opserver | grep -v grep | awk '{print $2}' | xargs kill -9
 	killall -9 op_server.pl
+	call_hook kill_amp
 }
 
 
@@ -392,56 +400,28 @@ case "$1" in
 	start)
 		chown_asterisk
 		run_asterisk
-		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]
-		then
-			if [ -z "$FOPDISABLE" -o "$FOPDISABLE" == "false" -o "$FOPDISABLE" == "FALSE" -o "$FOPDISABLE" == "False" -o "$FOPDISABLE" == "no" -o "$FOPDISABLE" == "NO" -o "$FOPDISABLE" == "No" ]
-			then
-				run_fop
-			fi
-		fi
 	;;
 	stop)
 		stop_asterisk
-		stop_fop
 	;;
 	restart)
 		stop_asterisk
-		stop_fop
 		sleep 1
 		chown_asterisk
 		run_asterisk
-		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]
-		then
-			if [ -z "$FOPDISABLE" -o "$FOPDISABLE" == "false" -o "$FOPDISABLE" == "FALSE" -o "$FOPDISABLE" == "False" -o "$FOPDISABLE" == "no" -o "$FOPDISABLE" == "NO" -o "$FOPDISABLE" == "No" ]
-			then
-				run_fop
-			fi
-		fi
 	;;
 	stop_fop)
-		stop_fop
+		no_fop
 	;;
 	start_fop)
-		run_asterisk
-		run_fop
+		no_fop
 	;;
 	restart_fop)
-		stop_fop
-		run_asterisk
-		run_fop
+		no_fop
 	;;
 
 	reload)
 		killall -HUP asterisk
-		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]; then
-			if [ -z "$FOPDISABLE" -o "$FOPDISABLE" == "false" -o "$FOPDISABLE" == "FALSE" -o "$FOPDISABLE" == "False" -o "$FOPDISABLE" == "no" -o "$FOPDISABLE" == "NO" -o "$FOPDISABLE" == "No" ]; then
-				killall -HUP op_server.pl
-			else
-				stop_fop
-			fi
-		else
-			stop_fop
-		fi
 	;;
 	chown)
 		chown_asterisk
@@ -547,34 +527,20 @@ ${b}reload$bx|${b}r$bx:      Does a full dialplan regeneration/reload (like clic
 	esac
 	;;
 	*)
-		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]
-		then
-			if [ -z "$FOPDISABLE" -o "$FOPDISABLE" == "false" -o "$FOPDISABLE" == "FALSE" -o "$FOPDISABLE" == "False" -o "$FOPDISABLE" == "no" -o "$FOPDISABLE" == "NO" -o "$FOPDISABLE" == "No" ]
-			then
-				FOPUSAGE="start_fop|stop_fop|restart_fop|"
-			fi
-		fi
 
-		echo "-------------FreePBX Control Script-----------------------------------------------"
-		echo
-		echo "Usage:       amportal start|stop|restart|${FOPUSAGE}kill|chown"
-		echo
-		echo "start:       Starts Asterisk and Flash Operator Panel server if enabled"
-		echo "stop:        Gracefully stops Asterisk and the FOP server"
-		echo "restart:     Stop and Starts"
-		if [ -z "$FOPRUN" -o "$FOPRUN" == "true" -o "$FOPRUN" == "TRUE" -o "$FOPRUN" == "True" -o "$FOPRUN" == "yes" -o "$FOPRUN" == "YES" -o "$FOPRUN" == "Yes" ]
-		then
-			if [ -z "$FOPDISABLE" -o "$FOPDISABLE" == "false" -o "$FOPDISABLE" == "FALSE" -o "$FOPDISABLE" == "False" -o "$FOPDISABLE" == "no" -o "$FOPDISABLE" == "NO" -o "$FOPDISABLE" == "No" ]
-			then
-
-				echo "start_fop:   Starts FOP server and Asterisk if not running"
-				echo "stop_fop:    Stops FOP serverg"
-				echo "restart_fop: Stops FOP server and Starts it and Asterisk if not running"
-			fi
+		call_hook $1
+		if [ "$?" -ne "0" ]; then
+			echo "-------------FreePBX Control Script-----------------------------------------------"
+			echo
+			echo "Usage:       amportal start|stop|restart|kill|chown"
+			echo
+			echo "start:       Starts Asterisk and Flash Operator Panel server if enabled"
+			echo "stop:        Gracefully stops Asterisk"
+			echo "restart:     Stop and Starts"
+			echo "kill:        Kills Asterisk"
+			echo "chown:       Sets appropriate permissions on files"
+			echo
+			exit 1
 		fi
-		echo "kill:        Kills Asterisk and the FOP server"
-		echo "chown:       Sets appropriate permissions on files"
-		echo
-		exit 1
 	;;
 esac
