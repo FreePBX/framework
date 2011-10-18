@@ -165,7 +165,7 @@ fi
 ##########################################################
 
 CURDIR="$( cd -P "$( dirname "$0" )" && pwd )"
-for VAR in `ls ${CURDIR}/freepbx_engine_hook_*`
+for VAR in `ls ${CURDIR}/freepbx_engine_hook_* 2>/dev/null`
 do
 	. ${VAR}
 done
