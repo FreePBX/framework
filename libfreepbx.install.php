@@ -1452,10 +1452,10 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('MODULEADMIN_SKIP_CACHE',$set);
 
   // buffering_callback
-  $set['value'] = 'ob_gzhandler';
+  $set['value'] = '';
   $set['options'] = '';
   $set['name'] = 'ob_start callback';
-  $set['description'] = 'This is the callback that will be passed to ob_start. In its default state, ob_gzhandler will be passed which will case all data passed directly by the system to be compressed set this to be blank or something else if this creates issues.';
+  $set['description'] = 'This is an optional callback passed to ob_start that will allow freepbx page loads and some assets to be compressed when served out. The standard php callback to set this to would normally be "ob_gzhandler" though this coudl also be used in debugging situations with custom handlers. Since apache is better suited to gzip page loads and can thus handle all assets as well, that is the prefered place to do this.';
   $set['emptyok'] = 1;
   $set['readonly'] = 1;
   $set['hidden'] = 1;
