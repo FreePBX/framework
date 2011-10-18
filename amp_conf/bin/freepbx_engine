@@ -540,6 +540,7 @@ ${b}reload$bx|${b}r$bx:      Does a full dialplan regeneration/reload (like clic
 			echo "kill:        Kills Asterisk"
 			echo "chown:       Sets appropriate permissions on files"
 			echo
+			call_hook help
 			exit 1
 		fi
 	;;
