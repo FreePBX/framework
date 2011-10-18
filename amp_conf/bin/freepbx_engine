@@ -377,13 +377,6 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 	call_hook stop_asterisk
 }
 
-
-
-no_fop() {
-	echo
-	echo "FOP no longer supported"
-}
-
 kill_amp() {
 	echo
 	echo "KILLING AMP PROCESSES"
@@ -409,15 +402,6 @@ case "$1" in
 		sleep 1
 		chown_asterisk
 		run_asterisk
-	;;
-	stop_fop)
-		no_fop
-	;;
-	start_fop)
-		no_fop
-	;;
-	restart_fop)
-		no_fop
 	;;
 
 	reload)
