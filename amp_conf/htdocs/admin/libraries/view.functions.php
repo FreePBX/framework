@@ -268,6 +268,9 @@ function redirect_standard_continue( /* Note. Read the next line. Varaible No of
         redirect($url, false);
 }
 
+//TODO: suggestion to move this to retrieve_conf. Downside, potential relics when first upgrading a framework
+//      though possible solutions is calling form framework install script as well.
+//
 function framework_css() {
 	global $amp_conf;
 	$mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
@@ -286,7 +289,8 @@ function framework_css() {
 									? ($stat_mainstyle['mtime'] != $amp_conf['mainstyle_css_mtime']) 
 									: true;
 
-		if (!$css_changed && file_exists($wwwroot . '/' . $amp_conf['mainstyle_css_generated'])) {
+		$mainstyle_css_generated_full_path = $wwwroot . '/' . $amp_conf['mainstyle_css_generated'];
+		if (!$css_changed && is_file($mainstyle_css_generated_full_path)) {
 			$mainstyle_css = $amp_conf['mainstyle_css_generated'];
 		} else {
 			////TODO: isnt this autoloaded?
@@ -294,18 +298,9 @@ function framework_css() {
 
 			// Generate a new one using the mtime as part of the file name to make it fairly unique
 			// it's important to be unique because that will force browsers to reload vs. caching it
-			$mainstyle_css_generated = $ms_path.'/mstyle_autogen_'.$stat_mainstyle['mtime'].'.css.php';
+			$mainstyle_css_generated = $ms_path.'/mstyle_autogen_'.$stat_mainstyle['mtime'].'.css';
 			$raw = file_get_contents($mainstyle_css_full_path) . file_get_contents($amp_conf['JQUERY_CSS']);
-			$ret = file_put_contents($wwwroot . '/' . $mainstyle_css_generated, 
-									"<?php 
-									header('Content-type: text/css');
-									header('Cache-Control: public, max-age=3153600');
-									header('Expires: ' . date('r', strtotime('+1 year')));
-									header('Last-Modified: ' . date('r', strtotime('-1 year')));
-									ob_start('". $amp_conf['buffering_callback'] . "');
-									?>\n" 
-									. CssMin::minify($raw));
-
+			$ret = file_put_contents($wwwroot . '/' . $mainstyle_css_generated, CssMin::minify($raw));
 
 			// Now assuming we write something reasonable, we need to save the generated file name and mtimes so
 			// next time through this ordeal, we see everything is setup and skip all of this.
@@ -340,6 +335,12 @@ function framework_css() {
 				$freepbx_conf->set_conf_values($val_update, true, true);
 
 				$mainstyle_css = $mainstyle_css_generated;
+
+				// If it is a regular file (could have been first time and previous was blank then delete old
+				//
+				if (is_file($mainstyle_css_generated_full_path) && !unlink($mainstyle_css_generated_full_path)) {
+					freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to delete %s from assets/css directory after creating updates CSS file."),$mainstyle_css_generated_full_path));
+				}
 			}
 		}
 	}
