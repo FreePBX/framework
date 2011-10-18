@@ -62,8 +62,8 @@ if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
-if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js.php")) {
-	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js.php' 
+if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
+	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js' 
 			. $version_tag . '"></script>';
 } else {
 	/*

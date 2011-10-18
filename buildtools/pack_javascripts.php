@@ -1,7 +1,7 @@
 #!/usr/bin/php -q
 <?php
 
-$libfreepbx = '../amp_conf/htdocs/admin/assets/js/pbxlib.js.php';
+$libfreepbx = '../amp_conf/htdocs/admin/assets/js/pbxlib.js';
 $dir="../amp_conf/htdocs/admin/assets/js";
 $output=array();
 
@@ -46,15 +46,6 @@ $final=array_merge($finalB,$final);
 
 echo "creating $libfreepbx with:\n\n";
 print_r($final);
-
-$js[] = "<?php 
-header('Content-type: text/javascript');
-header('Cache-Control: public, max-age=3153600');
-header('Expires: ' . date('r', strtotime('+1 year')));
-header('Last-Modified: ' . date('r', strtotime('-1 year')));
-ob_start('ob_gzhandler');
-?>
-";
 
 foreach ($final as $f) {
 	echo "\npacking " . $f ."...";
