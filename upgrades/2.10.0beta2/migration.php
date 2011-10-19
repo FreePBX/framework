@@ -14,9 +14,9 @@ $notify = notifications::create($db);
 //
 $notify->delete('freepbx','reload_fop');
 
-// Remove FOP settings no longer used
+// Remove FOP settings no longer used, and buffering_callback
 //
-$remove_settings = array('FOPDISABLE', 'FOPRUN');
+$remove_settings = array('FOPDISABLE', 'FOPRUN', 'buffering_callback');
 $freepbx_conf->remove_conf_settings($remove_settings);
 unset($remove_settings);
 
@@ -29,9 +29,6 @@ if ($freepbx_conf->conf_setting_exists('FOPPASSWORD')) {
 	$set['value'] = $freepbx_conf->get_conf_setting('FOPPASSWORD');
 	$freepbx_conf->define_conf_setting('FOPPASSWORD',$set); // comitted below
 }
-
-out(_("Clearning buffering_callback so apache can handle it"));
-$freepbx_conf->set_conf_values(array('buffering_callback' => ''), true, true);
 
 $outdated = array(
 	$amp_conf['AMPWEBROOT'] . '/admin/reports.php',
