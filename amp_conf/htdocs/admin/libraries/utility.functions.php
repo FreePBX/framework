@@ -701,11 +701,15 @@ function dbug_printtree($dir, $indent = "\t") {
  * @retruns string
  */
 function fpbx_which($app) {
-	global $amp_conf, $freepbx_conf;
-	
+	// don't know if we will always have an open class and not even sure if
+	// $amp_conf will be set so to be safe deal with it all here.
+	//
+	$freepbx_conf =& freepbx_conf::create();
+  $which = $freepbx_conf->get_conf_setting('WHICH_' . $app);
+
 	//if we have the location cached return it
-	if (isset($amp_conf['WHICH_' . $app]) && $amp_conf['WHICH_' . $app]) {
-		return $amp_conf['WHICH_' . $app];
+	if ($which) {
+		return $which;
 		
 	//otherwise, search for it
 	} else {
@@ -730,7 +734,7 @@ function fpbx_which($app) {
 			$set = array(
 					'value'			=> $path[0],
 					'defaultval'	=> $path[0],
-					'readonly'		=> 0,
+					'readonly'		=> 1,
 					'hidden'		=> 0,
 					'level'			=> 2,
 					'module'		=> '',
