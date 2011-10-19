@@ -17,7 +17,8 @@ $final=$finalB=array();
 $skip = array(
 		"|$dir/progress-polyfill.min.js|",
 		"|$dir/jquery-.*\.js|",
-		"|$dir/jquery-ui-.*\.js$|"
+		"|$dir/jquery-ui-.*\.js$|",
+		"|$libfreepbx|"
 );
 foreach ($output as $file) {
 	
