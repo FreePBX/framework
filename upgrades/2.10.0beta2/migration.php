@@ -20,11 +20,19 @@ $remove_settings = array('FOPDISABLE', 'FOPRUN');
 $freepbx_conf->remove_conf_settings($remove_settings);
 unset($remove_settings);
 
+// FOPPASSWORD was set hidden at some point which breaks things, so fix it here
+// if it is present
+//
+if ($freepbx_conf->conf_setting_exists('FOPPASSWORD')) {
+	unset($set);
+	$set['hidden'] = 0;
+	$set['value'] = $freepbx_conf->get_conf_setting('FOPPASSWORD');
+	$freepbx_conf->define_conf_setting('FOPPASSWORD',$set); // comitted below
+}
+
 out(_("Clearning buffering_callback so apache can handle it"));
 $freepbx_conf->set_conf_values(array('buffering_callback' => ''), true, true);
 
-/*
- */
 $outdated = array(
 	$amp_conf['AMPWEBROOT'] . '/admin/reports.php',
 	$amp_conf['AMPWEBROOT'] . '/admin/assets/js/pbxlib.js.php',
