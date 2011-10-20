@@ -65,7 +65,7 @@ foreach ($outdated as $file) {
 	}
 }
 
-$rm_command = function_exists(fpbx_which('rm')) ? fpbx_which('rm') : 'rm';
+$rm_command = function_exists('fpbx_which') ? fpbx_which('rm') : 'rm';
 
 $common_dir =  $amp_conf['AMPWEBROOT'] . '/admin/common';
 exec($rm_command . ' -rf ' . $common_dir . '/mstyle_autogen_*.css');
