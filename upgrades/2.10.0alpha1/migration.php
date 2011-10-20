@@ -34,7 +34,6 @@ global $amp_conf;
 
 $outdated = array(
 	$amp_conf['AMPWEBROOT'] . '_asterisk',
-	$amp_conf['AMPWEBROOT'] . '/admin/common',
 	$amp_conf['AMPWEBROOT'] . '/admin/views/freepbx.php',
 	$amp_conf['AMPWEBROOT'] . '/admin/views/freepbx_admin.php',
 	$amp_conf['AMPWEBROOT'] . '/admin/views/freepbx_reload.php',
