@@ -38,7 +38,7 @@ svn ci --message "Auto checkin packed libfreepbx.javascripts.js as part of build
 # This adds the MD5 Sum for all the relevant files that gets checked in on the next steps below
 #
 cd amp_conf
-find agi-bin  astetc  bin htdocs  htdocs_panel  moh sbin sounds -type f | xargs md5sum | grep -v .svn > ../upgrades/$ver.md5
+find agi-bin  astetc  bin htdocs moh sbin sounds -type f | xargs md5sum | grep -v .svn > ../upgrades/$ver.md5
 
 	;;
 	*)
