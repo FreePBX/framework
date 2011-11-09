@@ -579,40 +579,57 @@ class AGI_AsteriskManager {
 	* @param string $account
 	* @param string $application
 	* @param string $data
-	* TODO: THIS NEEDS TO BE UPDATED
+	* == exactly 11 values required ==
+	*
+	* -- OR --
+	*
+	* @pram array a key => value array of what ever you want to pass in
 	*/
-	function Originate($channel, $exten, $context, $priority, $timeout, $callerid, $variable, $account, $application, $data) {
-		$parameters = array();
-		if ($channel) {
-			$parameters['Channel'] = $channel;
+	function Originate() {
+		$num_args = func_num_args();
+
+		if ($num_args === 11) {
+			$args = func_get_args();
+			
+			$parameters = array();
+			if ($args[0]) {
+				$parameters['Channel'] = $args[0];
+			}
+			if ($args[1]) {
+				$parameters['Exten'] = $args[1];
+			}
+			if ($args[2]) {
+				$parameters['Context'] = $args[2];
+			}
+			if ($args[3]) {
+				$parameters['Priority'] = $args[3];
+			}
+			if ($args[4]) {
+				$parameters['Timeout'] = $args[4];
+			}
+			if ($args[5]) {
+		 		$parameters['CallerID'] = $args[5];
+			}
+			if ($args[6]) {
+				$parameters['Variable'] = $args[6];
+			}
+			if ($args[7]) {
+				$parameters['Account'] = $args[7];
+			}
+			if ($args[8]) {
+				$parameters['Application'] = $args[8];
+			}
+			if ($args[9]) {
+				$parameters['Data'] = $args[9];
+			}
+		} else {
+			$args = func_get_args();
+			$args = $args[0];
+			foreach ($args as $key => $val) {
+				$parameters[$key] = $val;
+			}
 		}
-		if ($exten) {
-			$parameters['Exten'] = $exten;
-		}
-		if ($context) {
-			$parameters['Context'] = $context;
-		}
-		if ($priority) {
-			$parameters['Priority'] = $priority;
-		}
-		if ($timeout) {
-			$parameters['Timeout'] = $timeout;
-		}
-		if ($callerid) {
-			$parameters['CallerID'] = $callerid;
-		}
-		if ($variable) {
-			$parameters['Variable'] = $variable;
-		}
-		if ($account) {
-			$parameters['Account'] = $account;
-		}
-		if ($application) {
-			$parameters['Application'] = $application;
-		}
-		if ($data) {
-			$parameters['Data'] = $data;
-		}
+
 		return $this->send_request('Originate', $parameters);
 	}	
 	

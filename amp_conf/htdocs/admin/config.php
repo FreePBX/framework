@@ -116,7 +116,7 @@ if (!isset($no_auth) && isset($_REQUEST['handler'])) {
 
 $fw_gui_html = '';
 //buffer & compress our responce
-ob_start();
+ob_start($amp_conf['buffering_callback']);
 
 if (!$quietmode) {	
 	//send header
@@ -243,7 +243,7 @@ if ($display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 	$currentcomponent->processconfigpage();
 	$currentcomponent->buildconfigpage();
 }
-ob_start();
+ob_start($amp_conf['buffering_callback']);
 $module_name = "";
 $module_page = "";
 $module_file = "";
@@ -343,7 +343,7 @@ if ($quietmode) {
 	$content		 				= ob_get_contents();
 	ob_end_clean();
 	//now restart buffering so that our data is compressed again
-	ob_start();
+	ob_start($amp_conf['buffering_callback']);
 	
 	//if we have a module loaded, load its css
 	if (isset($module_name)) {

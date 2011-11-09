@@ -699,7 +699,7 @@ $(document).ready(function(){
 	$("a.info").each(function(){
 		$(this).after('<span class="help">?<span>' + $(this).find('span').html() + '</span></span>');
 		$(this).find('span').remove();
-		$(this).replaceWith($(this).text())
+		$(this).replaceWith($(this).html())
 	})
 	
 	$(".help").live('mouseenter', function(){
@@ -808,13 +808,13 @@ $(document).ready(function(){
 	});
 	
 	//submit button
-	$(document).bind('keydown', 'meta+shift+s', function(){
-		//$('input[type=submit][name=Submit]').click();
+	$(document).bind('keydown', 'ctrl+shift+s', function(){
+		$('input[type=submit][name=Submit]').click();
 	});
 	
 	//reload
-	$(document).bind('keydown', 'meta+shift+x', function(){
-		//freepbx_show_reload(false);
+	$(document).bind('keydown', 'ctrl+shift+a', function(){
+		fpbx_reload();
 	});
 	
 	//logout button

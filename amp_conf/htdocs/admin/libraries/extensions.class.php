@@ -338,14 +338,15 @@ class extensions {
               $last_base_tag = $ext['basetag'] == 1 ? 1 : false;
             }
 					}
+					$output .= "\n";
 					if (isset($this->_hints[$section][$extension])) {
 						foreach ($this->_hints[$section][$extension] as $hint) {
 							$output .= "exten => ".$extension.",hint,".$hint."\n";
 						}
 					}
 				}
-				
-				$output .= "\n; end of [".$section."]\n\n\n";
+
+				$output .= ";--== end of [".$section."] ==--;\n\n\n";
 			}
 		}
 		
@@ -600,6 +601,30 @@ class ext_dial extends extension {
 	
 	function output() {
 		return "Dial(".$this->number.",".$this->options.")";
+	}
+}
+
+class ext_originate extends extension {
+	var $tech_data;
+	var $type;
+	var $arg1;
+	var $arg2;
+	var $arg3;
+	
+	function ext_originate($tech_data, $type, $arg1, $arg2, $arg3 = '') {
+		$this->tech_data = $tech_data;
+		$this->type = $type;
+		$this->arg1 = $arg1;
+		$this->arg2 = $arg2;
+		$this->arg3 = $arg3;
+	}
+	function output() {
+		return 'Originate(' . $this->tech_data 
+							. ',' . $this->type 
+							. ',' . $this->arg1 
+							. ',' . $this->arg2 
+							. ',' . $this->arg3 
+							. ')' ;
 	}
 }
 
