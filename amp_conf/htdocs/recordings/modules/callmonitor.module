@@ -32,10 +32,7 @@ class Callmonitor {
    *   Common arguments
    */
   function navMenu($args) {
-
-    $ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Callmonitor&f=display'>" . _("Call Monitor") . "</a></small></small>";
-
-    return $ret;
+    return "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Callmonitor&f=display'>" . _("Call Monitor") . "</a></small></small>";
   }
 
   /*
@@ -105,6 +102,12 @@ class Callmonitor {
     global $ASTERISK_CALLMONITOR_PATH;
     global $CALLMONITOR_ALLOW_DELETE;
     global $AJAX_PAGE_REFRESH_ENABLE;
+		global $amp_conf;
+
+    $recording_header = '';
+		$recording_body = '';
+		$ret = '';
+		$controls = '';
 
     $display = new DisplaySearch();
 
@@ -154,9 +157,10 @@ class Callmonitor {
         &nbsp;";
     }
 
+		$ari_duration_filter = isset($_COOKIE['ari_duration_filter']) ? $_COOKIE['ari_duration_filter'] : '';
     $controls .= " 
       <small>" . _("duration") . "</small>
-      <input name='duration_filter' type='text' size=4 maxlength=8 value='" . $_COOKIE['ari_duration_filter'] . "'>
+      <input name='duration_filter' type='text' size=4 maxlength=8 value='" . $ari_duration_filter . "'>
       <button class='infobar' type='submit' onclick=\"document.callmonitor_form.a.value='ignore'\">
       " . _("ignore") . "
       </button>";
@@ -176,16 +180,14 @@ class Callmonitor {
     $fields[3]['text'] = _("Source");
     $fields[4]['field'] = "dst";
     $fields[4]['text'] = _("Destination");
-    $fields[5]['field'] = "dcontext";
-    $fields[5]['text'] = _("Context");
-    $fields[6]['field'] = "duration";
-    $fields[6]['text'] = _("Duration");
+    $fields[5]['field'] = "duration";
+    $fields[5]['text'] = _("Duration");
 
     $i = 0;
-    while ($fields[$i]) {
+		foreach ($fields as $col) {
 
-      $field = $fields[$i]['field'];
-      $text = $fields[$i]['text'];
+      $field = $col['field'];
+      $text = $col['text'];
       if ($order==$field) { 
         if ($sort=='asc') {
           $currentSort = 'desc';
@@ -206,6 +208,7 @@ class Callmonitor {
       }
 
       $unicode_q = urlencode($q);
+			if (!isset($folder)) $folder = '';
       $recording_header .= "<th><a href=" .  $_SESSION['ARI_ROOT'] . "?m=" . $m . "&f=" . $f . "&q=" . $unicode_q . "&folder=" . $folder . "&order=" . $field . "&sort=" . $currentSort . ">" . $text . $arrowImg . "</a></th>";
 
       $i++;
@@ -219,11 +222,33 @@ class Callmonitor {
     if (is_array($data)) foreach($data as $key=>$value) {
       $i++;
 
+			// check if CDR has recording file in it
+			//
+			if ($value['recordingfile']) {
+				$rec_parts = explode('-',$value['recordingfile']);
+				$fyear = substr($rec_parts[3],0,4);
+				$fmonth = substr($rec_parts[3],4,2);
+				$fday = substr($rec_parts[3],6,2);
+				$monitor_base = $amp_conf['MIXMON_DIR'] ? $amp_conf['MIXMON_DIR'] : $amp_conf['ASTSPOOLDIR'] . '/monitor'; 
+				$recordingfile = "$monitor_base/$fyear/$fmonth/$fday/" . $value['recordingfile'];
+				if (!file_exists($recordingfile)) {
+					$recordingfile = '';
+				}
+			} else {
+				$recordingfile = '';
+			}
+
       // recording file
-      $recording = $recordings[$value['uniqueid'] . $value['calldate']];
+			//
+			if ($recordingfile) {
+      	$recording = $recordingfile;
+			} else {
+				// for legacy systems ...
+				$recording = isset($recordings[$value['uniqueid'] . $value['calldate']]) ? $recordings[$value['uniqueid'] . $value['calldate']] : '';
+			}
 
       // date and time
-      $buf = explode(' ', $value[calldate]);
+      $buf = explode(' ', $value['calldate']);
       $date = $buf[0];
       $time = $buf[1];
 
@@ -246,11 +271,10 @@ class Callmonitor {
                        " . $recording_delete_checkbox . "
 	               <td width=70>" . $date . "</td>
 	               <td>" . $time . "</td>
-	               <td>" . $value[clid] . "</td>
-	               <td>" . $value[src] . "</td>
-	               <td>" . $value[dst] . "</td>
-	               <td>" . $value[dcontext] . "</td>
-	               <td width=90>" . $value[duration] . " sec</td>
+	               <td>" . $value['clid'] . "</td>
+	               <td>" . $value['src'] . "</td>
+	               <td>" . $value['dst'] . "</td>
+	               <td width=90>" . $value['duration'] . " sec</td>
 		       <td>" . $recordingLink . "&nbsp;&nbsp;" . $downloadLink . "</td>
 	             </tr>";
     }
@@ -406,19 +430,29 @@ class Callmonitor {
       $paths[$key] = fixPathSlash($paths[$key]);
     }
 
-    $files = array();
-    if (!$CALLMONITOR_ONLY_EXACT_MATCHING) {
-      $filter = '';
-      $recursiveMax = 6;
-      $recursiveCount = 0;
-      foreach($paths as $key => $path) {
-        $path_files = getFiles($path,$filter,$recursiveMax,$recursiveCount);
-        if ($path_files) {
-          $files = array_merge($files,$path_files);
-        }
-      }
-      rsort($files);
-    }
+		// Once we've done the heavy lifting of searching for all file
+		// we don't need to do it again, if there are new recordings
+		// they will be found through the DB and a call to here
+		// won't be needed
+		//
+		if (isset($_SESSION['ari_user']['recordings_files'])) {
+    	$files = $_SESSION['ari_user']['recordings_files'];
+		} else {
+    	$files = array();
+    	if (!$CALLMONITOR_ONLY_EXACT_MATCHING) {
+      	$filter = '';
+      	$recursiveMax = 6;
+      	$recursiveCount = 0;
+      	foreach($paths as $key => $path) {
+        	$path_files = getFiles($path,$filter,$recursiveMax,$recursiveCount);
+        	if ($path_files) {
+          	$files = array_merge($files,$path_files);
+        	}
+      	}
+      	rsort($files);
+    	}
+			$_SESSION['ari_user']['recordings_files'] = $files;
+		}
 
     if (is_array($data)) foreach($data as $data_key => $data_value) {
 
@@ -514,7 +548,9 @@ class Callmonitor {
         if (!$recording) { 
 
           foreach($files as $key => $path) {
-            list($path,$filetype) = explode(".",$path,2);
+						$tmp_arr = explode(".",$path,2);
+						$path = $tmp_arr[0];
+						$filetype = isset($tmp_arr[1]) ? $tmp_arr[1] : '';
             $parts = explode("-", $path);
             if ((strlen($st)>1 && strpos($path,$st)!==FALSE && strlen($uniqueid)<=1) || 
                     (strpos($path,"auto")!==FALSE && $parts[1] >= $st && $parts[1] <= $et && $parts[2] == $src && $parts[3] == $dst) || 
@@ -599,7 +635,6 @@ class Callmonitor {
                          OR src regexp '" . $tok . "'
                          OR dst regexp '" . $tok . "'
                          OR dstchannel regexp '" . $tok . "'
-                         OR dcontext regexp '" . $tok . "'
                          OR duration regexp '" . $tok . "'
                          OR disposition regexp '" . $tok . "'
                          OR uniqueid regexp '" . $tok . "'
@@ -625,8 +660,8 @@ class Callmonitor {
 
     // admin
     if (!$_SESSION['ari_user']['admin_callmonitor']) {
-      if (!$searchText) {
-        $searchText .= "WHERE ";
+      if (empty($searchText)) {
+        $searchText = "WHERE ";
       } else {
         $searchText .= "AND ";
       }
