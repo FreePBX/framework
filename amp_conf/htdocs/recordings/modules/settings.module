@@ -30,6 +30,7 @@ class Settings {
     // determine what protocol user is using
     global $ASTERISK_PROTOCOLS;
 
+		/*
     foreach ($ASTERISK_PROTOCOLS as $protocol => $value) {
       $data = $this->getProtocolRecordSettings($value['table'],$_SESSION['ari_user']['extension']);
       if (count($data)) {
@@ -38,6 +39,7 @@ class Settings {
         break;
       }
     }
+		 */
     $this->voicemail_options_table = array(
 	"attach" => array(
 		"type" => "email",
@@ -340,14 +342,15 @@ class Settings {
    *   Common arguments
    */
   function navMenu($args) {
+		global $amp_conf;
 
-	$ret = "";
-	$exten = $_SESSION['ari_user']['extension'];
+		$ret = '';
+		$exten = $_SESSION['ari_user']['extension'];
 
-	// and we are not logged in as admin
-	if ($exten!=$ARI_ADMIN_USERNAME) {
-		$ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Settings&f=display'>" . _("Settings") . "</a></small></small>";
-	}
+		// and we are not logged in as admin
+		if ($exten!=$amp_conf['ARI_ADMIN_USERNAME']) {
+			$ret = "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=Settings&f=display'>" . _("Settings") . "</a></small></small>";
+		}
 
     return $ret;
   }
@@ -741,7 +744,9 @@ class Settings {
     $display = new DisplaySearch();
 
     // get data
+		/*
     $data = $this->getRecordSettings($_SESSION['ari_user']['extension']);
+		 */
 
     // get voicemail settings from voicemail.conf (reload appropriate $_SESSION entries)
     $this->reloadSettings($_SESSION['ari_user']['extension']);
@@ -1062,6 +1067,7 @@ class Settings {
 	}
 
 	// call monitor settings
+	/*
 	if ($this->getFreePBXVersion() &&
 	$SETTINGS_ALLOW_CALL_RECORDING_SET &&
 	in_array('callmonitor',array_keys($loaded_modules))) {
@@ -1114,6 +1120,7 @@ class Settings {
 			</tr>
 			</table>";
 	}
+	*/
 
 	// javascript enable options
 	if (isset($_SESSION['ari_user']['voicemail_options']) &&
@@ -1281,6 +1288,7 @@ class Settings {
    * @return $data
    *   call monitor record settings
    */
+	/*
   function getProtocolRecordSettings($table,$exten) {
 
     global $asterisk_manager_interface;
@@ -1336,6 +1344,7 @@ class Settings {
 
     return $data;
   }
+	 */
 
   /*
    * Gets record settings
@@ -1345,6 +1354,7 @@ class Settings {
    * @param $data
    *   Reference to the variable to store the data in
    */
+	/*
   function getRecordSettings($exten) {
 
     // check protocol tables first
@@ -1352,6 +1362,7 @@ class Settings {
 
     return $data;
   }
+	 */
 
   /*
    * Reloads Asterisk Configuration
