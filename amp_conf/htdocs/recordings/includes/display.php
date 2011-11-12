@@ -68,6 +68,8 @@ class DisplaySearch extends Display {
    *   whether to focus control on this block
    */
   function displaySearchBlock($align,$m,$q,$url_opts,$focus) {
+		$option_text = '';
+		$ret = '';
 
     // align
     if ($align=='center') {
@@ -121,6 +123,7 @@ class DisplaySearch extends Display {
    *   total number of records found by current search
    */
   function displayInfoBarBlock($controls,$q,$start,$span,$total) {
+		$ret = '';
 
     if ($total<$span) { 
       $span = $total; 
@@ -169,6 +172,9 @@ class DisplaySearch extends Display {
    *   total number of records found by current search
    */
   function displayNavigationBlock($m,$q,$url_opts,$start,$span,$total) {
+		$ret = '';
+		$middle_page_text = '';
+		$option_text = '';
 
     $start = ($start=='' || !ctype_digit($start)) ? 0 : $start;
     $span = ($span=='' || !ctype_digit($span)) ? 15 : $span;
