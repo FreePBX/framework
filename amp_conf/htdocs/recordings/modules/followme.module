@@ -37,10 +37,11 @@ class followme {
    */
   function navMenu($args) {
 	global $ARI_ADMIN_USERNAME;
+	$ret = '';
 	
 	$exten = $_SESSION['ari_user']['extension'];
 	if ($exten!=$ARI_ADMIN_USERNAME) {
-		$ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=followme&f=display'>" . _("Follow Me") . "</a></small></small>";
+		$ret = "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=followme&f=display'>" . _("Follow Me") . "</a></small></small>";
 	}
 
 	return $ret;
