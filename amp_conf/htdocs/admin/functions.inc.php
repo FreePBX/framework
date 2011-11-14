@@ -151,7 +151,7 @@ function fpbx_framework_autoloader($class) {
 			require_once($dirname . '/libraries/featurecodes.class.php');
 			break;
 		case 'cronmanager':
-			require($dirname . '/libraries/cronmanager.class.php');
+			require_once($dirname . '/libraries/cronmanager.class.php');
 			break;
 		case 'moduleHook':
 			require_once($dirname . '/libraries/moduleHook.class.php');
