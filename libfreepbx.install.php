@@ -2206,7 +2206,21 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('NOTICE_BROWSER_STATS',$set);
   $set['hidden'] = 0;
 
-
+	// ASTCONFAPP
+	$set['value'] = 'app_meetme';
+	$set['options'] = 'app_meetme, app_confbridge';
+	$set['defaultval'] =& $set['value'];
+	$set['readonly'] = 0;
+	$set['hidden'] = 0;
+	$set['level'] = 0;
+	$set['module'] = '';
+	$set['category'] = 'Dialplan and Operational';
+	$set['emptyok'] = 1;
+	$set['name'] = 'Conference Room App';
+	$set['description'] = 'The asterisk application to use for conferencing.';
+	$set['type'] = CONF_TYPE_SELECT;
+	$freepbx_conf->define_conf_setting('ASTCONFAPP', $set);
+	
   // The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
   // retain their values until the individual modules are updated and their install scripts run where a full
   // configuration (descriptions, defaults, etc.) will be provided and maintained. This provides just enough to

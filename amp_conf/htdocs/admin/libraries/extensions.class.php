@@ -1012,15 +1012,35 @@ class ext_meetme {
 	var $confno;
 	var $options;
 	var $pin;
+	var $app;
 	
 	function ext_meetme($confno, $options='', $pin='') {
+		global $amp_conf;
 		$this->confno = $confno;
 		$this->options = $options;
-		$this->pin = $pin;
+		$this->pin = $pin ? $pin : ',';
+		
+		//use confbridge if requested, pruning meetme only options
+		switch ($amp_conf['ASTCONFAPP']) {
+			case 'app_meetme':
+				$this->app = 'MeetMe';
+				break;
+			case 'app_confbridge':
+				$this->app = 'ConfBridge';
+				//remove invalid options
+				$this->options = str_replace(array('b', 'C', 'd', 'D', 
+													'e', 'E', 'F', 'i', 
+													'I', 'l', 'o', 'P', 
+													'r', 's', 't', 'T', 
+													'x', 'X'), '', $this->options);
+				$this->options = preg_replace('/[GpSL]\(.*\)/', '', $this->options);
+				$this->options = preg_replace('/w\(.*\)/', 'w', $this->options);
+				break;
+		}
 	}
-	
+
 	function output() {
-		return "MeetMe(".$this->confno.",".$this->options.",".$this->pin.")";
+		return $this->app . "(".$this->confno.",".$this->options.",".$this->pin.")";
 	}
 }
 
