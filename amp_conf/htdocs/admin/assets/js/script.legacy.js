@@ -761,7 +761,9 @@ $(document).ready(function(){
 	}
 	
 	//style all sortables as menu's
-	$('.sortable').menu();
+	$('.sortable').menu().find('input[type="checkbox"]').click(function(event) { 
+		event.stopPropagation(); 
+	});
 	
 	//Links are disabled in menu for now. Final release will remove that
 	$('.ui-menu-item').click(function(){

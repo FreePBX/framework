@@ -638,15 +638,18 @@ function astdb_put($astdb, $exclude = array()) {
  * scans a directory just like scandir(), only recursively
  * returns a hierarchical array representing the directory structure
  *
- * @pram string
+ * @pram string - directory to scan
+ * @pram strin - retirn absolute paths
  * @returns array
  *
  * @author Moshe Brevda mbrevda => gmail ~ com
- * @TODO: there is much that can be done to make this more useful
- * for example, as option to return absolute paths
  */
-function scandirr($dir) {
+function scandirr($dir, $absolute = false) {
 	$list = array();
+	if ($absolute) {
+		global $list;
+	}
+	
 	
 	//get directory contents
 	foreach (scandir($dir) as $d) {
@@ -658,14 +661,24 @@ function scandirr($dir) {
 		
 		//if current file ($d) is a directory, call scandirr
 		if (is_dir($dir . '/' . $d)) {
-			$list[$d] = scandirr($dir . '/' . $d);
+			if ($absolute) {
+				scandirr($dir . '/' . $d, $absolute);
+			} else {
+				$list[$d] = scandirr($dir . '/' . $d, $absolute);
+			}
+			
 		
 			//otherwise, add the file to the list
 		} elseif (is_file($dir . '/' . $d) || is_link($dir . '/' . $d)) {
-			$list[] = $d;
+			if ($absolute) {
+				$list[] = $dir . '/' . $d;
+			} else {
+				$list[] = $d;
+			}
+			
 		}
 	}
-	
+
 	return $list;
 }
 
