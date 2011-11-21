@@ -215,7 +215,7 @@ class extensions {
 					$count++;
 				}
 			}
-			$priority = ($new_priority === false) ? $count : $existing_priority;
+			$priority = ($existing_priority === false) ? $count : $existing_priority;
 		}
 		$newcommand = array(
 			'basetag' => $this->_exts[$section][$extension][$priority]['basetag'],
@@ -632,7 +632,7 @@ class ext_setvar {
 	var $var;
 	var $value;
 	
-	function ext_setvar($var, $value) {
+	function ext_setvar($var, $value = '') {
 		$this->var = $var;
 		$this->value = $value;
 	}
