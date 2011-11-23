@@ -46,6 +46,7 @@
 //
 //enable error reporting and start benchmarking
 error_reporting(E_ALL & ~E_STRICT); 
+date_default_timezone_set(@date_default_timezone_get());
 function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); } 
 $benchmark_starttime = microtime_float();
 
