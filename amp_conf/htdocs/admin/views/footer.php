@@ -93,13 +93,13 @@ if ($amp_conf['BROWSER_STATS']) {
 			var _gaq=_gaq||[];
 			_gaq.push(['_setAccount','UA-25724109-1'],
 					['_setCustomVar',1,'type',fpbx.conf.dist.pbx_type,2],
-					['_setCustomVar',1,'typever',fpbx.conf.dist.pbx_version,3],
-					['_setCustomVar',1,'astver',fpbx.conf.ASTVERSION,3],
-					['_setCustomVar',1,'fpbxver',fpbx.conf.ver,3],
-					['_setCustomVar',1,'display',$.urlParam('display'),3],
-					['_setCustomVar',1,'uniqueid',fpbx.conf.uniqueid,1],
+					['_setCustomVar',2,'typever',fpbx.conf.dist.pbx_version,3],
+					['_setCustomVar',3,'astver',fpbx.conf.ASTVERSION,3],
+					['_setCustomVar',4,'fpbxver',fpbx.conf.ver,3],
+					['_setCustomVar',5,'display',$.urlParam('display'),3],
+					/*['_setCustomVar',1,'uniqueid',fpbx.conf.uniqueid,1],
 					['_setCustomVar',1,'lang',$.cookie('lang')||'en_US',3],
-					['_trackPageview']);
+					*/['_trackPageview']);
 			(function(){
 				var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;
 				ga.src=('https:'==document.location.protocol
