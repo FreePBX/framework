@@ -828,4 +828,13 @@ $(document).ready(function(){
 		});
 		
 	});
+	
+	//ajax spinner
+	$(document).ajaxStart(function(){
+		$('#ajax_spinner').show()
+	});
+	
+	$(document).ajaxStop(function(){
+		$('#ajax_spinner').hide()
+	});
 });

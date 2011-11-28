@@ -60,8 +60,10 @@ header('Pragma: no-cache');
 header('Content-Type: text/html; charset=utf-8');
 
 require_once(dirname(__FILE__) . '/libraries/ampuser.class.php');
-//start a session if we need one
+
+session_set_cookie_params(60 * 60 * 24 * 30);//(re)set session cookie to 30 days
 if (!isset($_SESSION)) {
+	//start a session if we need one
     session_start();
 }
 

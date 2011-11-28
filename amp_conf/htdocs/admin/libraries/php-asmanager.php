@@ -206,7 +206,14 @@ class AGI_AsteriskManager {
 
 		$req = "Action: $action\r\n";
 		foreach($parameters as $var=>$val) {
-			$req .= "$var: $val\r\n";
+			if (is_array($val)) {
+				foreach($val as $item) {
+					$req .= "$var: $item\r\n";
+				}
+			} else {
+				$req .= "$var: $val\r\n";
+			}
+			
 		}	
 		$req .= "\r\n";
 		$this->log("Sending Request down socket:",10);

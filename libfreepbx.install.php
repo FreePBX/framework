@@ -1452,12 +1452,12 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('MODULEADMIN_SKIP_CACHE',$set);
 
   // buffering_callback
-  $set['value'] = '';
+  $set['value'] = 'sprintf';
   $set['options'] = '';
   $set['name'] = 'ob_start callback';
   $set['description'] = 'This is the callback that will be passed to ob_start. In its default state, ob_gzhandler will be passed which will case all data passed directly by the system to be compressed set this to be blank or something else if this creates issues.';
-  $set['emptyok'] = 1;
-  $set['readonly'] = 1;
+  $set['emptyok'] = 0;
+  $set['readonly'] = 0;
   $set['hidden'] = 1;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('buffering_callback',$set);
