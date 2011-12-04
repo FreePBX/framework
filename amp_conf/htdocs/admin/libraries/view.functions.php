@@ -107,7 +107,7 @@ function fileRequestHandler($handler, $module = false, $file = false){
 							header('Cache-Control: max-age=86400, public, must-revalidate',true); 
 						}
 						header("Content-type: ".$mimetype);
-						ob_start($amp_conf['buffering_callback']);
+						ob_start();
 						include($fullpath);
 						ob_end_flush();
 						exit();
