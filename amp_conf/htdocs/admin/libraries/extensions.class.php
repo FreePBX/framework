@@ -1022,9 +1022,6 @@ class ext_meetme {
 		
 		//use confbridge if requested, pruning meetme only options
 		switch ($amp_conf['ASTCONFAPP']) {
-			case 'app_meetme':
-				$this->app = 'MeetMe';
-				break;
 			case 'app_confbridge':
 				$this->app = 'ConfBridge';
 				//remove invalid options
@@ -1035,6 +1032,10 @@ class ext_meetme {
 													'x', 'X'), '', $this->options);
 				$this->options = preg_replace('/[GpSL]\(.*\)/', '', $this->options);
 				$this->options = preg_replace('/w\(.*\)/', 'w', $this->options);
+				break;
+			default:
+			case 'app_meetme':
+				$this->app = 'MeetMe';
 				break;
 		}
 	}
