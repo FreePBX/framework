@@ -13,7 +13,6 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 }
 
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
-$repo = $amp_conf['MODULE_REPO'];
 
 global $active_repos;
 if (isset($_REQUEST['check_online'])) {
@@ -158,15 +157,15 @@ if (!$quietmode) {
 $modules_local = module_getinfo(false,false,true);
 
 if ($online) {
-	$modules_online = module_getonlinexml(false, $repo);
+	$modules_online = module_getonlinexml();
 	
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
-		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Cannot connect to online repository (%s). Online modules are not available."), $amp_conf['MODULE_REPO'])."</p></div><br />";
+		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Cannot connect to online repository(s) (%s). Online modules are not available."), $amp_conf['MODULE_REPO'])."</p></div><br />";
 		$online = 0;
 		unset($modules_online);
 	} else if (!is_array($modules_online)) {
-		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Error retrieving updates from online repository (%s). Online modules are not available."), $amp_conf['MODULE_REPO'])."</p></div><br />";
+		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Error retrieving updates from online repository(s) (%s). Online modules are not available."), $amp_conf['MODULE_REPO'])."</p></div><br />";
 		$online = 0;
 		unset($modules_online);
 	} else {
@@ -221,7 +220,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'downloadinstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span>';
-						if (is_array($errors = module_download($modulename, false, 'download_progress', false, $repo))) {
+						if (is_array($errors = module_download($modulename, false, 'download_progress'))) {
 							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
