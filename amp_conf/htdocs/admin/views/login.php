@@ -22,9 +22,18 @@ $html .= form_submit('submit', _('Login'));
 $html .= br(2);
 $html .= form_close();
 $html .= '</div></div>';
-$html .= br(5) . '<div style="color: white;font-size:small">'
+$html .= br(5) . '<div id="key" style="color: white;font-size:small">'
 	  . session_id()
 	  . '</div>';
+/*$html .= '<script type="text/javascript">';
+$html .= '$(document).ready(function(){
+		$("#key").click(function(){
+			dest = "ssh://" + window.location.hostname + " \"/usr/sbin/amportal a u ' . session_id() . '\"";
+			console.log(dest)
+			window.open(dest).close(); setTimeout(\'window.location.reload()\', 3000);
+		});
+})';
+$html .= '</script>';*/
 echo $html;
 
 ?>

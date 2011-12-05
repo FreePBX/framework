@@ -1033,8 +1033,8 @@ class ext_meetme {
 				$this->options = preg_replace('/[GpSL]\(.*\)/', '', $this->options);
 				$this->options = preg_replace('/w\(.*\)/', 'w', $this->options);
 				break;
-			default:
 			case 'app_meetme':
+			default:
 				$this->app = 'MeetMe';
 				break;
 		}

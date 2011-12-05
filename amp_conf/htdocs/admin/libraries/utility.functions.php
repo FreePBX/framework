@@ -1052,13 +1052,15 @@ function download_file($file, $name = '', $type = '') {
 		$type = $type ? $type : 'application/octet-stream';
 		header('Content-Description: File Transfer');
 		header('Content-Type: ' . $type);
-		header('Content-Disposition: attachment; filename=' . $name);
+		header('Content-Disposition: attachment; filename="' . $name . '"');
 		header('Content-Transfer-Encoding: binary');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
 		header('Content-Length: ' . filesize($file));
-		ob_clean();
+		while (ob_get_level()) {
+			ob_end_clean();
+		}
 		flush();
 		readfile($file);
 		exit;
