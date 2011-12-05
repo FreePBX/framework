@@ -355,6 +355,15 @@ function showEngine() {
 	}
 }
 
+function setPerms() {
+	//If were running as root, attempt to set proper permissions 
+	//on the freshly installed files. For simplicity, we run the 
+	// freepbx defualt utility for setting freepbx perms
+	$current_user = posix_getpwuid(posix_geteuid());
+	if ($current_user['uid'] === 0) {
+		system($amp_conf['AMPBIN'] . '/freepbx_engine chown');
+	}
+}
 function check_active_repos() {
   global $no_warnings;
   global $active_repos;
@@ -684,6 +693,7 @@ switch ($operation ) {
 			fatal("Missing module name");
 		}
 		doDownload($param, $force);
+		setPerms();
 	break;
 	case 'enable':
 		if (empty($param)) {
@@ -708,12 +718,15 @@ switch ($operation ) {
 			fatal("Missing module name");
 		}
 		doInstall($param, $force);
+		setPerms();
 	break;
 	case 'installlocal':
 		doInstallLocal(true);
+		setPerms();
 	break;
 	case 'installall':
 		doInstallAll(true);
+		setPerms();
 	break;	
 	case 'list':
 		showList();
@@ -724,6 +737,7 @@ switch ($operation ) {
 	break;
 	case 'mirrorrepo': case 'mirrorrepro':
 		mirrorrepo();
+		setPerms();
 	break;
 	case 'reload':
 		doReload();
@@ -759,9 +773,11 @@ switch ($operation ) {
 	break;
 	case 'upgrade':
 		doUpgrade($param, $force);
+		setPerms();
 	break;
 	case 'upgradeall':
 		doUpgradeAll($force);
+		setPerms();
 	break;
 	default:
 	case 'help':

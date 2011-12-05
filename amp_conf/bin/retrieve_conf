@@ -676,16 +676,20 @@ if(isset($module_list) && is_array($module_list)){
 			if (is_array(${$classname}->get_filename())) {
 				foreach(${$classname}->get_filename() as $modconf) {
 					if (isset(${$classname}->use_warning_banner)) {
-						write_file($modconf,${$classname}->generateConf($modconf),${$classname}->use_warning_banner);
+						write_file($modconf, 
+									${$classname}->generateConf($modconf), 
+									${$classname}->use_warning_banner);
 					} else {
 						write_file($modconf,${$classname}->generateConf($modconf));
 					}
 				}
 			} else {
 				if (isset(${$classname}->use_warning_banner)) {
-					write_file(${$classname}->get_filename(),${$classname}->generateConf(),${$classname}->use_warning_banner);
+					write_file(${$classname}->get_filename(),
+								${$classname}->generateConf(),
+								${$classname}->use_warning_banner);
 				} else {
-					write_file(${$classname}->get_filename(),${$classname}->generateConf());
+					write_file(${$classname}->get_filename(), ${$classname}->generateConf());
 				}
 			}
 		}

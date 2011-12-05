@@ -565,7 +565,7 @@ function dbug_write($txt, $check = false){
 	// it if not defined here to a default.
 	//
 	if (!isset($amp_conf['FPBXDBUGFILE'])) {
-		$amp_conf['FPBXDBUGFILE'] = '/tmp/freepbx_debug.log';
+		$amp_conf['FPBXDBUGFILE'] = '/var/log/asterisk/freepbx_debug';
 	}
 
 // If not check set max size just under 2G which is the php limit before it gets upset
@@ -720,6 +720,9 @@ function scandirr($dir, $absolute = false) {
 	return $list;
 }
 
+/**
+ * Prints an array as a "tree" of data
+ */
 function dbug_printtree($dir, $indent = "\t") {
 	static $t = 0;
 	$foo = '';

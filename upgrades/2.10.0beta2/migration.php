@@ -30,6 +30,9 @@ if ($freepbx_conf->conf_setting_exists('FOPPASSWORD')) {
 	$freepbx_conf->define_conf_setting('FOPPASSWORD',$set); // comitted below
 }
 
+//move freepbx debug log
+$freepbx_conf->set_conf_values(array('FPBXDBUGFILE' => '/var/log/asterisk/freepbx_debug'), true);
+
 $outdated = array(
 	$amp_conf['AMPWEBROOT'] . '/admin/reports.php',
 	$amp_conf['AMPWEBROOT'] . '/admin/assets/js/pbxlib.js.php',
