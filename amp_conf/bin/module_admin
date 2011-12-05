@@ -466,7 +466,6 @@ function showInfo($modulename) {
 
 function showList($online = false) {
 	global $amp_conf;
-	$repo = $amp_conf['MODULE_REPO'];
 	$modules_local = module_getinfo(false,false,true);
 	$modules = $modules_local;
 	global $active_repos;
@@ -474,7 +473,7 @@ function showList($online = false) {
   check_active_repos();
 
 	if ($online) {
-		$modules_online = module_getonlinexml(false, $repo);
+		$modules_online = module_getonlinexml();
 		if (isset($modules_online)) {
 			$modules += $modules_online;
 		}
