@@ -390,34 +390,72 @@ function debug($text,$log=true) {
  * wget if fails or if MODULEADMINWGET set to true. If it detects
  * failure, will set MODULEADMINWGET to true for future improvements.
  *
- * @param   string  url to be fetches
- * @return  mixed   content of url, boolean false if it failed.
+ * @param   mixed   url to be fetches or array of multiple urls to try
+ * @return  mixed   content of first successful url, boolean false if it failed.
  */
-function file_get_contents_url($fn) {
+function file_get_contents_url($file_url) {
 	global $amp_conf;
 	$contents = '';
 
-	if (!$amp_conf['MODULEADMINWGET']) {
-		ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
-		$contents = @ file_get_contents($fn);
+	if (!is_array($file_url)) {
+		$file_url = array($file_url);
 	}
-	if (empty($contents)) {
-		$fn2 = str_replace('&','\\&',$fn);
-		exec("wget -O - $fn2 2>> /dev/null", $data_arr, $retcode);
-		if ($retcode) {
-			return false;
-	} elseif (!$amp_conf['MODULEADMINWGET']) {
-		$freepbx_conf =& freepbx_conf::create();
-		$freepbx_conf->set_conf_values(array('MODULEADMINWGET' => true),true);
 
-		$nt =& notifications::create($db); 
-		$text = sprintf(_("Forced %s to true"),'MODULEADMINWGET');
-		$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
-		$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
+	foreach ($file_url as $fn) {
+		if (!$amp_conf['MODULEADMINWGET']) {
+			ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
+			$contents = @ file_get_contents($fn);
+		}
+		if (empty($contents)) {
+			$fn2 = str_replace('&','\\&',$fn);
+			exec("wget -O - $fn2 2>> /dev/null", $data_arr, $retcode);
+			if ($retcode) {
+				// if server isn't available for some reason should return non-zero
+				// so we return and we don't set the flag below
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed to get remote file, mirror site may be down: %s'),$fn));
+				continue;
+
+				// We are here if contents were blank. It's possible that whatever we were getting were suppose to be blank
+				// so we only auto set the WGET var if we received something so as to not false trigger. If there are issues
+				// with content filters that this is designed to get around, we will eventually get a non-empty file which
+				// will trigger this for now and the future.
+			} elseif (!empty($data_arr) && !$amp_conf['MODULEADMINWGET']) {
+				$freepbx_conf =& freepbx_conf::create();
+				$freepbx_conf->set_conf_values(array('MODULEADMINWGET' => true),true);
+
+				$nt =& notifications::create($db); 
+				$text = sprintf(_("Forced %s to true"),'MODULEADMINWGET');
+				$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
+				$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
+			}
+			$contents = implode("\n",$data_arr);
+			return $contents;
+		} else {
+			return $contents;
+		}
+		// we get here if all wget's fail
+		return false;
 	}
-	$contents = implode("\n",$data_arr);
+}
+
+/**
+ * function generate_module_repo_url
+ * short create array of full URLs to get a file from repo
+ * use this function to generate an array of URLs for all configured REPOs
+ * @author Philippe Lindheimer
+ *
+ * @pram string
+ * @returns string
+ */
+function generate_module_repo_url($path) {
+	global $amp_conf;
+	$urls = array();
+
+	$repos = explode(',', $amp_conf['MODULE_REPO']);
+	foreach ($repos as $repo) {
+		$urls[] = $repo . $path;
 	}
-	return $contents;
+	return $urls;
 }
 
 /**

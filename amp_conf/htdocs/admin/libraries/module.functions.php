@@ -52,7 +52,7 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		if ($override_xml) {
 			$fn = $override_xml."/modules-".$matches[1].".xml";
 		} else {
-			$fn = $amp_conf['MODULE_REPO'] . "/modules-".$matches[1].".xml";
+			$fn = generate_module_repo_url("/modules-".$matches[1].".xml");
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
@@ -777,18 +777,38 @@ function module_download($modulename, $force = false, $progress_callback = null,
 		}
 	}
 	
-	if ($override_svn) {
-		$url = $override_svn.$res['location'];
-	} else {
-		$url = $amp_conf['MODULE_REPO'] . "/modules/".$res['location'];
-	}
-	
 	if (!($fp = @fopen($filename,"w"))) {
 		return array(sprintf(_("Error opening %s for writing"), $filename));
 	}
+
+	if ($override_svn) {
+		$url_list = array($override_svn.$res['location']);
+	} else {
+		$url_list = generate_module_repo_url("/modules/".$res['location']);
+	}
 	
-	$headers = get_headers_assoc($url);
+	// Check each URL until get_headers_assoc() returns something intelligible. We then use
+	// that URL and hope the file is there, we won't check others.
+	//
+	$headers = false;
+	foreach ($url_list as $u) {
+		$headers = get_headers_assoc($u);
+		if (!empty($headers)) {
+			$url = $u;
+			break;
+		}
+		freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed download module tarball from %s, server may be down'),$u));
+	}
+	if (!$headers || !$url) {
+		return array(sprintf(_("Unable to connect to servers from URLs provided: %s"), implode(',',$url_list)));
+	}
 	
+	// TODO: do we want to make more robust past this point:
+	// At this point we have settled on a specific URL that we can reach, if the file isn't there we won't try
+	// other servers to check for it. The assumption is that no backup server will have it either at this point
+	// If we wanted to make this more robust we could go back and try other servers. This code is a bit tangled
+	// so some better factoring might help.
+	//
 	$totalread = 0;
 	// invoke progress_callback
 	if (function_exists($progress_callback)) {
@@ -1440,7 +1460,7 @@ function module_get_annoucements() {
   if (function_exists('core_users_list')) {
 	$options .= "&ucount=".urlencode(count(core_users_list()));	
 }
-	$fn = $amp_conf['MODULE_REPO'] . "/version-".getversion().".html".$options;
+	$fn = generate_module_repo_url("/version-".getversion().".html".$options);
   $announcement = file_get_contents_url($fn);
 	return $announcement;
 }
