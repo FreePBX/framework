@@ -537,7 +537,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('LOG_NOTIFICATIONS',$set);
 
   // FPBX_LOG_FILE
-  $set['value'] = '/var/log/asterisk/freepbx.log';
+  $set['value'] = $amp_conf['ASTLOGDIR'] . '/freepbx.log';
   $set['options'] = '';
   $set['name'] = 'FreePBX Log File';
   $set['description'] = 'Full path and name of the FreePBX Log File used in conjunction with the Syslog Level (AMPSYSLOGLEVEL) being set to FILE, not used otherwise. Initial installs may have some early logging sent to /tmp/freepbx_pre_install.log when it is first bootstrapping the installer.';
