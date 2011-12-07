@@ -437,17 +437,10 @@ class component {
 				foreach ( $this->_guifuncs[$sortorder] as $func ) {
 					$modparts = explode("_",$func,2);
 					$thismod = $modparts[0];
-					if (isset($_COOKIE['lang']) && is_dir("./modules/$thismod/i18n/".$_COOKIE['lang'])) {
-						bindtextdomain($thismod,"./modules/$thismod/i18n");
-						bind_textdomain_codeset($thismod, 'utf8');
-						textdomain($thismod);
-			
-						$func($this->_compname);
 
-						textdomain('amp');
-					} else {
-						$func($this->_compname);
-					}
+					modgettext::push_textdomain($thismod);
+					$func($this->_compname);
+					modgettext::pop_textdomain();
 				}
 			}
 		}

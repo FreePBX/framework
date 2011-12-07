@@ -102,7 +102,7 @@ function fpbx_framework_autoloader($class) {
    * Basically, every 'case' below should have a corresponding entry in the $class array below.
    */
   if ($class === true) {
-    $class = array('ampuser','CI_Email','CI_Table','CssMin','component','featurecode','cronmanager','moduleHook','modulelist','notifications','xml2Array');
+    $class = array('ampuser','CI_Email','CI_Table','CssMin','component','featurecode','cronmanager','moduleHook','modulelist','notifications','xml2Array','modgettext');
   } else {
     $class = array($class);
   }
@@ -158,6 +158,9 @@ function fpbx_framework_autoloader($class) {
 			break;
 		case 'modulelist':
 			require_once($dirname . '/libraries/modulelist.class.php');
+			break;
+		case 'modgettext':
+			require_once($dirname . '/libraries/modgettext.class.php');
 			break;
 		case 'notifications':
 			require_once($dirname . '/libraries/notifications.class.php');

@@ -74,10 +74,6 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 	
 	$count = 0;
 	foreach($menu as $t => $cat) { //catagories
-    //TODO: this is broken, not getting translation from modules
-    //      see old code from freepbx_admin as to how to get it, requires a lot of hoops
-    //      first checking in the module owner's i18n, then in the core i18n
-    //
     if (count($cat) == 1) {
 			if (isset($cat[0]['hidden']) && $cat[0]['hidden'] == 'true') {
 				continue;
@@ -85,9 +81,10 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
       $href = isset($cat[0]['href']) ? $cat[0]['href'] : 'config.php?display=' . $cat[0]['display'];
       $target = isset($cat[0]['target']) ? ' target="' . $cat[0]['target'] . '"'  : '';
       $class = $cat[0]['display'] == $display ? 'class="ui-state-highlight"' : '';
-      $mods[$t] = '<a href="' . $href . '" ' . $target . $class . '>' . _(ucwords($t)) . '</a>';
+      $mods[$t] = '<a href="' . $href . '" ' . $target . $class . '>' . modgettext::_(ucwords($t),$cat[0]['module']['rawname']) . '</a>';
       continue;
     }
+		// $t is a heading so can't be isolated to a module, translation must come from amp
 		$mods[$t] = '<a href="#" class="module_menu_button">'
 				. _(ucwords($t))
 				. '</a><ul>';
@@ -117,10 +114,11 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 				$classes[] = 'ui-corner-all';
 			}
 
+			// try the module's translation domain first
 			$items[$mod['name']] = '<li><a href="' . $href . '"'
           . $target
 					. 'class="' . implode(' ', $classes) . '">'
-					. _(ucwords($mod['name']))
+					. modgettext::_(ucwords($mod['name']), $mod['module']['rawname'])
 					. '</a></li>';
 
        $_item_sort[$mod['name']] = $mod['sort'];

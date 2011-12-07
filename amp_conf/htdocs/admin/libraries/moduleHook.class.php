@@ -26,19 +26,11 @@ class moduleHook {
       }
     }
     foreach($our_hooks as $thismod => $funct) {
-			if (isset($_COOKIE['lang']) && is_dir("./modules/$thismod/i18n/".$_COOKIE['lang'])) {
-				bindtextdomain($thismod,"./modules/$thismod/i18n");
-				bind_textdomain_codeset($thismod, 'utf8');
-				textdomain($thismod);
-				if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
-					$this->hookHtml .= $hookReturn;
-				}
-				textdomain('amp');
-			} else {
-				if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
-					$this->hookHtml .= $hookReturn;
-				}
+			modgettext::push_textdomain($thismod);
+			if ($hookReturn = $funct($target_menuid, $viewing_itemid)) {
+				$this->hookHtml .= $hookReturn;
 			}
+			modgettext::pop_textdomain();
 		}
 	} 
 	// process the request from the module we hooked

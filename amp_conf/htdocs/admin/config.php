@@ -195,7 +195,7 @@ if(is_array($active_modules)){
 // new gui hooks
 if(!$quietmode && is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
-
+		modgettext::push_textdomain($module['rawname']);
 		if (isset($module['items']) && is_array($module['items'])) {
 			foreach($module['items'] as $itemKey => $itemName) {
 				//list of potential _configpageinit functions
@@ -210,6 +210,7 @@ if(!$quietmode && is_array($active_modules)){
 		if ( function_exists($initfuncname) ) {
 			$configpageinits[] = $initfuncname;
 		}
+		modgettext::pop_textdomain();
 	}
 }
 
@@ -302,13 +303,7 @@ switch($display) {
 			break; // we break here to avoid the generateconfigpage() below
 		} else if (file_exists($module_file)) {
 			// load language info if available
-			if (extension_loaded('gettext')) {
-				if (is_dir("modules/{$module_name}/i18n")) {
-					bindtextdomain($module_name,"modules/{$module_name}/i18n");
-					bind_textdomain_codeset($module_name, 'utf8');
-					textdomain($module_name);
-				}
-			}
+			modgettext::textdomain($module_name);
 			include($module_file);
 		} else {
 			echo "404 Not found (" . $module_file  . ')';

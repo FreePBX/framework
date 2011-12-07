@@ -15,6 +15,7 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
 
 global $active_repos;
+$loc_domain = 'amp';
 if (isset($_REQUEST['check_online'])) {
   $online = 1;
   $active_repos = $_REQUEST['active_repos'];
@@ -600,23 +601,8 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				echo "\t<ul>";
 			}
 
-			// This will load any module's i18n translations that are available and try to use them when printing the
-			// module names with a fall back to using the amp.po master translations for a check if not available in
-			// the local module. For new modules of course, there will be no translations usually.
-			//
-			if (extension_loaded('gettext') && is_dir("modules/".$name."/i18n")) {
-				bindtextdomain($name,"modules/".$name."/i18n");
-				bind_textdomain_codeset($name, 'utf8');
-				$loc_domain = $name;
-
-				$name_text = dgettext($loc_domain,$modules[$name]['name']);
-				if ($name_text == $modules[$name]['name']) {
-			 		$name_text = _($name_text);
-				}
-			} else {
-			 	$name_text = _($modules[$name]['name']);
-				$loc_domain = false;
-			}
+			$loc_domain = $name;
+			$name_text = modgettext::_($modules[$name]['name'], $loc_domain);
 
 			echo "\t\t<li id=\"module_".prep_id($name)."\">\n";
 			
@@ -690,7 +676,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			if (isset($modules_online[$name]['attention']) && !empty($modules_online[$name]['attention'])) {
 				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Attention")."\">\n";
-				echo nl2br( $loc_domain ? dgettext($loc_domain,$modules[$name]['attention']) : _($modules[$name]['attention']) );
+				echo nl2br(modgettext::_($modules[$name]['attention']), $loc_domain);
 				echo "\t\t\t\t</div>\n";
 			}
 			
@@ -784,7 +770,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "<h5>".sprintf(_("License: %s"), (isset($modules[$name]['license'])?$modules[$name]['license']:"GPLv2") )."</h5>";
 			if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
 				echo "<h5>".sprintf(_("Description for version %s"),$modules[$name]['version'])."</h5>";
-				echo nl2br( $loc_domain ? dgettext($loc_domain,$modules[$name]['description']) : _($modules[$name]['description']) );
+				echo nl2br(modgettext::_($modules[$name]['description']), $loc_domain);
 			} else {
 				echo _("No description is available.");
 			}
