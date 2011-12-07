@@ -33,7 +33,7 @@ svn update
 cd buildtools
 ./pack_javascripts.php
 cd ..
-svn ci --message "Auto checkin packed libfreepbx.javascripts.js as part of build process" amp_conf/htdocs/admin/assets/js/pbxlib.js.php
+svn ci --message "Auto checkin packed libfreepbx.javascripts.js as part of build process" amp_conf/htdocs/admin/assets/js/pbxlib.js
 
 # This adds the MD5 Sum for all the relevant files that gets checked in on the next steps below
 #
