@@ -11,7 +11,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$dirname = dirname(__FILE__);
+$dirname = $amp_conf['AMPWEBROOT'] . '/admin';
 define('MODULE_STATUS_NOTINSTALLED', 0);
 define('MODULE_STATUS_DISABLED', 1);
 define('MODULE_STATUS_ENABLED', 2);
