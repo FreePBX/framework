@@ -79,7 +79,24 @@ function install_parse_amportal_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
 		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) { 
-			$conf[ $matches[1] ] = $matches[2];
+
+			// TODO: force booleans into 0/1 this should be ok given the limited number of configuration values
+			//
+      switch (trim(strtolower($matches[2]))) {
+      case 'false':
+      case 'no':
+      case 'off':
+			case '0':
+        $conf[$matches[1]] = '0';
+			case 'true':
+			case 'yes':
+			case 'on':
+			case '1':
+        $conf[$matches[1]] = '1';
+			default:
+				$conf[$matches[1]] = $matches[2];
+      break;
+      }
 		}
 	}
 
@@ -94,6 +111,10 @@ function install_parse_amportal_conf($filename) {
 	
 	if ( !isset($conf["AMPENGINE"]) || ($conf["AMPENGINE"] == "")) {
 		$conf["AMPENGINE"] = "asterisk";
+	}
+	out("parsed amp_conf variables from $filename:");
+	foreach ($conf as $keyword => $value) {
+		out("amp_conf [$keyword] => [$value]");
 	}
 
 	return $conf;
@@ -576,7 +597,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","force-overwrite","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop=","make-links-devel","dev-links","skip-module-install","uid=","gid=","scripted","freepbxip=","asteriskip=");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","force-overwrite","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop=","make-links-devel","dev-links","skip-module-install","uid=","gid=","scripted","freepbxip=","asteriskip=","set-freepbx-settings");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -594,6 +615,7 @@ $scripted = false;
 $install_moh = false;
 $make_links = false;
 $module_install = true;
+$set_freepbx_settings = false;
 
 //initialize variables to avoid php notices
 $dbhost = null; 
@@ -659,6 +681,9 @@ foreach ($args[0] as $arg) {
 		break;
 		case "--install-moh":
 			$install_moh = true;
+		break;
+		case "--set-freepbx-settings":
+			$set_freepbx_settings = true;
 		break;
 		case "--fopwebroot":
 		case "--install-fop":
@@ -752,6 +777,9 @@ out("running with PID: ".$pid_val[0]."..OK");
 
 // **** Check for amportal.conf, create if necessary
 
+// TODO: Check if freepbx_settings has been setup, if so then we don't even want to mess with ampportal.conf, that
+//       should only be first time install.
+//
 outn("Checking for ".AMP_CONF."..");
 if (!file_exists(AMP_CONF)) {
 	out(AMP_CONF." does not exist, copying default");
@@ -1072,10 +1100,6 @@ if ($install_files)
   }
 }
 
-// **** Apply amportal.conf configuration to files
-if (file_exists(dirname(__FILE__)."/apply_conf.sh")) { 
-	debug("Running ".dirname(__FILE__)."/apply_conf.sh");
-}
 
 // Ensure executables are executable
 chmod($amp_conf["AMPBIN"]."/freepbx_setting", 0755);
@@ -1107,6 +1131,7 @@ if (!$dryrun) {
 	} else {
 		outn("no freepbx_engine..");
 	}
+	// TODO: we just did this above
 	if (file_exists($amp_conf["AMPBIN"]."/freepbx_setting")) {
 		exec("chmod 755 ".$amp_conf["AMPBIN"]."/freepbx_setting");
 		outn("freepbx_setting..");
@@ -1133,17 +1158,25 @@ if (!$dryrun) {
 	// edit conf file passwords and then
 	// reload manager in asterisk if it is running:
 	//
-	outn("apply username/password changes to conf files..");
 	if (file_exists(dirname(__FILE__)."/apply_conf.sh")) { 
+		out("apply username/password changes to conf files:");
+		debug("Running ".dirname(__FILE__)."/apply_conf.sh");
+		$apply_conf_out = array();
     if ($force_amportal_conf) {
+			out("running apply_conf.sh from " . AMP_CONF);
       putenv('FORCE_AMPORTAL_CONF=1');
-		  exec(dirname(__FILE__)."/apply_conf.sh ".AMP_CONF);
+		  exec(dirname(__FILE__)."/apply_conf.sh ".AMP_CONF, $apply_conf_out);
       putenv('FORCE_AMPORTAL_CONF=');
     } else {
-		  exec(dirname(__FILE__)."/apply_conf.sh");
+			out("running apply_conf.sh from freepbx_settings");
+		  exec(dirname(__FILE__)."/apply_conf.sh", $apply_conf_out);
     }
+		foreach ($apply_conf_out as $line) {
+			out($line);
+		}
+		unset($apply_conf_out);
+		out("done with apply_conf.sh");
 	}
-	out("done");
 
 	/* As of Asterisk 1.4.16 or there about, a missing #include file will make the reload fail. So
    	we need to make sure that we have such for everything that is in our configs. We will simply
@@ -1227,6 +1260,22 @@ upgrade_all($version);
 outn("Creating or updating freepbx_conf settings..");
 freepbx_settings_init(true);
 out("..OK");
+
+// TODO: if file is $force_amportal_conf let's go set any settings in freepbx_settings,
+//       question is, should we do this further up???
+//
+if ($set_freepbx_settings && $force_amportal_conf) {
+	out("Setting freepbx settings form " . AMP_CONF);
+	$freepbx_conf =& freepbx_conf::create();
+	foreach ($amp_conf as $keyword => $value) {
+		if ($freepbx_conf->conf_setting_exists($keyword)) {
+			$freepbx_conf->set_conf_values(array($keyword => $value),true,true);
+			out("freepbx setting [$keyword] set to [$value]");
+		} else {
+			out("freepbx setting [$keyword] DOES NOT EXIST, can't set to [$value]");
+		}
+	}
+}
 
 // **** Generate AMP configs
 out("Generating AMP configs..");
