@@ -120,7 +120,7 @@ class modgettext {
 				bind_textdomain_codeset('amp', 'utf8');
 				self::$tdhash[$module] = 'amp';
 			}
-			if (is_dir('modules/' . $module . '/i18n/' . $_COOKIE['lang'])) {
+			if (isset($_COOKIE['lang']) && is_dir('modules/' . $module . '/i18n/' . $_COOKIE['lang'])) {
 				bindtextdomain($module, 'modules/'. $module . '/i18n');
 				bind_textdomain_codeset($module, 'utf8');
 				self::$tdhash[$module] = $module;
