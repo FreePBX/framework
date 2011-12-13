@@ -1257,6 +1257,10 @@ if ($install_files)
 //
 upgrade_all($version);
 
+// Save $amp_conf variables so we can set the configured values
+if ($set_freepbx_settings && $force_amportal_conf) {
+	$amp_conf_file = $amp_conf;
+}
 outn("Creating or updating freepbx_conf settings..");
 freepbx_settings_init(true);
 out("..OK");
@@ -1267,7 +1271,7 @@ out("..OK");
 if ($set_freepbx_settings && $force_amportal_conf) {
 	out("Setting freepbx settings form " . AMP_CONF);
 	$freepbx_conf =& freepbx_conf::create();
-	foreach ($amp_conf as $keyword => $value) {
+	foreach ($amp_conf_file as $keyword => $value) {
 		if ($freepbx_conf->conf_setting_exists($keyword)) {
 			$freepbx_conf->set_conf_values(array($keyword => $value),true,true);
 			out("freepbx setting [$keyword] set to [$value]");
