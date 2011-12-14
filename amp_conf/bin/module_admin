@@ -358,8 +358,9 @@ function showEngine() {
 function setPerms() {
 	//If were running as root, attempt to set proper permissions 
 	//on the freshly installed files. For simplicity, we run the 
-	// freepbx defualt utility for setting freepbx perms
-	$current_user = posix_getpwuid(posix_geteuid());
+	// freepbx default utility for setting freepbx perms
+    global $amp_conf;
+    $current_user = posix_getpwuid(posix_geteuid());
 	if ($current_user['uid'] === 0) {
 		system($amp_conf['AMPBIN'] . '/freepbx_engine chown');
 	}
