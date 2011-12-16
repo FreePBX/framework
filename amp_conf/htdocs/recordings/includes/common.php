@@ -456,7 +456,5 @@ include_once("./includes/database.php");
 include_once("./includes/display.php"); 
 include_once("./includes/ajax.php");
 include_once("./includes/callme.php");
-include_once("../admin/functions.inc.php");
-include_once("../admin/libraries/php-asmanager.php");
 
 ?>
