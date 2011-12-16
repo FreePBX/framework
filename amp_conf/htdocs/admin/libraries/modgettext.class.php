@@ -109,10 +109,8 @@ class modgettext {
 	 */
 	static private function _bindtextdomain($module) {
 		if (isset(self::$tdhash[$module])) {
-			dbug("$module set so returning the value");
 			return self::$tdhash[$module];
 		} else {
-			dbug("$module not set so setting it");
 			// We special case core and assume it is there since that is assumed throughout
 			//
 			if ($module == 'core') {
