@@ -170,6 +170,14 @@ if ($restrict_mods_local !== true) {
 		  //include module functions if there not dissabled
       if ((!$restrict_mods_local || (is_array($restrict_mods_local) && isset($restrict_mods_local[$key]))) && is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
         require_once($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
+
+				// Zend appears to break class auto-loading. Therefore, if we detect there is a module that requires Zend 
+				// we will include all the potential classes at this point.
+				//
+				if (!$force_autoload && isset($module['depends']['phpcomponent']) && stristr($module['depends']['phpcomponent'], 'zend')) {
+					fpbx_framework_autoloader(true);
+					$force_autoload = true;
+				}
       } 
 		  //create an array of module sections to display
 		  // stored as [items][$type][$category][$name] = $displayvalue
