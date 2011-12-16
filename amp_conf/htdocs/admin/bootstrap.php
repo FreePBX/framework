@@ -166,6 +166,7 @@ if ($restrict_mods_local !== true) {
 
   if(is_array($active_modules)){
 
+		$force_autoload = false;
 	  foreach($active_modules as $key => $module) {
 		  //include module functions if there not dissabled
       if ((!$restrict_mods_local || (is_array($restrict_mods_local) && isset($restrict_mods_local[$key]))) && is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
