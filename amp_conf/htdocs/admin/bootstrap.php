@@ -50,6 +50,13 @@ date_default_timezone_set(@date_default_timezone_get());
 function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); } 
 $benchmark_starttime = microtime_float();
 
+global $amp_conf;
+if (empty($amp_conf['AMPWEBROOT'])) {
+	$amp_conf['AMPWEBROOT'] = dirname(dirname(__FILE__));
+}
+$dirname = $amp_conf['AMPWEBROOT'] . '/admin';
+
+
 if (isset($bootstrap_settings['bootstrapped'])) {
   freepbx_log(FPBX_LOG_ERROR,"Bootstrap has already been called once, bad code somewhere");
   return;
@@ -68,15 +75,13 @@ $bootstrap_settings['freepbx_error_handler'] = isset($bootstrap_settings['freepb
 $bootstrap_settings['freepbx_auth'] = isset($bootstrap_settings['freepbx_auth']) ? $bootstrap_settings['freepbx_auth'] : true;
 $bootstrap_settings['cdrdb'] = isset($bootstrap_settings['cdrdb']) ? $bootstrap_settings['cdrdb'] : false;
 
-
 $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
-
 
 	 	 
 // include base functions
-require_once(dirname(__FILE__) . '/libraries/utility.functions.php'); 
+require_once($dirname . '/libraries/utility.functions.php'); 
 $bootstrap_settings['framework_functions_included'] = false; 
-require_once(dirname(__FILE__) . '/functions.inc.php'); 
+require_once($dirname . '/functions.inc.php'); 
 $bootstrap_settings['framework_functions_included'] = true; 
 	 	 
 //now that its been included, use our own error handler as it tends to be much more verbose. 
@@ -87,17 +92,11 @@ if ($bootstrap_settings['freepbx_error_handler']) {
   }
 }
 
-//include database conifguration 
-if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) { 
-	 	  include_once('/etc/asterisk/freepbx.conf'); 
-} 
+// bootstrap.php should always be called from freepbx.conf so 
+// database conifguration already included, connect to database:
+//
+require_once($dirname . '/libraries/db_connect.php'); //PEAR must be installed
 
-// connect to database
-require_once(dirname(__FILE__) . '/libraries/db_connect.php'); //PEAR must be installed
-
-
-
-//keep old values as well so that we have the db settings handy
 // get settings
 $freepbx_conf =& freepbx_conf::create();
 
@@ -125,7 +124,7 @@ if ($bootstrap_settings['cdrdb']) {
 
 $bootstrap_settings['astman_connected'] = false;
 if (!$bootstrap_settings['skip_astman']) {
-	require_once(dirname(__FILE__) . '/libraries/php-asmanager.php');
+	require_once($dirname . '/libraries/php-asmanager.php');
   $astman	= new AGI_AsteriskManager($bootstrap_settings['astman_config'], $bootstrap_settings['astman_options']);
 	// attempt to connect to asterisk manager proxy
 	if (!$amp_conf["ASTMANAGERPROXYPORT"] || !$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
@@ -152,7 +151,7 @@ if (!$bootstrap_settings['freepbx_auth'] || (php_sapi_name() == 'cli')) {
 		define('FREEPBX_IS_AUTH', 'TRUE');
 	}
 } else {
-	require(dirname(__FILE__) . '/libraries/gui_auth.php');
+	require($dirname . '/libraries/gui_auth.php');
 	frameworkPasswordCheck();
 }
 if (!isset($no_auth) && !defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }//we should never need this, just another line of defence

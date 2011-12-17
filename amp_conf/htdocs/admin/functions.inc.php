@@ -11,7 +11,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$dirname = dirname(__FILE__);
+$dirname = $amp_conf['AMPWEBROOT'] . '/admin';
 define('MODULE_STATUS_NOTINSTALLED', 0);
 define('MODULE_STATUS_DISABLED', 1);
 define('MODULE_STATUS_ENABLED', 2);
@@ -90,7 +90,8 @@ require_once($dirname . '/helpers/form_helper.php');
 
 //freepbx autoloader
 function fpbx_framework_autoloader($class) {
-	$dirname = dirname(__FILE__);
+	global $amp_conf;
+	$dirname = $amp_conf['AMPWEBROOT'] . '/admin';
 	if (substr($class, 0, 3) == 'gui') {
 		$class = 'component';
 	}

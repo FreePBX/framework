@@ -59,6 +59,9 @@ header('Cache-Control: post-check=0, pre-check=0',false);
 header('Pragma: no-cache');
 header('Content-Type: text/html; charset=utf-8');
 
+// This needs to be included BEFORE the session_start or we fail so
+// we can't do it in bootstrap and thus we have to depend on the
+// __FILE__ path here.
 require_once(dirname(__FILE__) . '/libraries/ampuser.class.php');
 
 session_set_cookie_params(60 * 60 * 24 * 30);//(re)set session cookie to 30 days
@@ -89,7 +92,10 @@ if (isset($_REQUEST['handler'])) {
 	}
 }
 
-require('bootstrap.php');
+// call bootstrap.php through freepbx.conf
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) { 
+	 	  include_once('/etc/asterisk/freepbx.conf'); 
+} 
 
 /* If there is an action request then some sort of update is usually being done.
    This will protect from cross site request forgeries unless disabled.
