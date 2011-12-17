@@ -1101,5 +1101,20 @@ class AGI_AsteriskManager {
 		$r = $this->command("core show application $app");
 		return (strpos($r['data'],"Your application(s) is (are) not registered") === false);
 	}
+
+	/** Sets a global var or function to the provided value
+	 * @param string $var	The variable or function to set
+	 * @param string $val	the value to set it to
+	 * @return array returns the array value from the send_request
+	 */
+	function set_global($var, $val) {
+		global $amp_conf;
+		static $pre = '';
+
+		if (! $pre) {
+			$pre = version_compare($amp_conf['ASTVERSION'], "1.6", "ge") ? 'dialplan' : 'core';
+		}
+		return $this->command($pre . ' set global ' . $var . ' ' . $val);
+	}
 }
 ?>

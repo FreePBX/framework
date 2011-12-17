@@ -194,6 +194,7 @@ return $ret;
   function setPhoneSetting( $databaseCallFwdType, $exten, $state_value) {
 		global $amp_usedevstate;
 		global $astman;
+		global $amp_conf;
 
 		if ($state_value != "") {
 			$astman->database_put($databaseCallFwdType,$exten,$state_value);
@@ -216,10 +217,10 @@ return $ret;
 			$devices = $astman->database_get("AMPUSER",$exten."/device");
 			$device_arr = explode('&',$devices);
 			foreach ($device_arr as $device) {
-				$ret = $astman->send_request('Command',array('Command'=>"core set global $DEVSTATE(Custom:DEVDND$device) $value_opt"));
+				$ret = $astman->set_global($amp_conf['AST_FUNC_DEVICE_STATE'] . "(Custom:DEVDND$device)", $value_opt);
 			}
 			// And also handle the state associated with the user
-			$ret = $astman->send_request('Command',array('Command'=>"core set global $DEVSTATE(Custom:DND$exten) $value_opt"));
+			$ret = $astman->set_global($amp_conf['AST_FUNC_DEVICE_STATE'] . "(Custom:DND$exten)", $value_opt);
 		}
   }
 

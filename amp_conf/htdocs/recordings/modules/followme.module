@@ -576,6 +576,7 @@ class followme {
   function setFollowMeDDial($exten,$follow_me_ddial) {
 		global $amp_usedevstate;
 		global $astman;
+		global $amp_conf;
 
 		$value_opt = ($follow_me_ddial)?'DIRECT':'EXTENSION';
 		$response = $astman->database_put('AMPUSER',"$exten/followme/ddial",$value_opt);
@@ -584,18 +585,11 @@ class followme {
 		// Get the devices associated with this user first and then we will set them all as needed
 		//
 		if ($amp_usedevstate) {
-			$engine_info = engine_getinfo();
-			$version = $engine_info['version'];
-			if (version_compare($version, "1.6", "ge")) {
-			 	$DEVSTATE = "DEVICE_STATE";
-			} else {
-			 	$DEVSTATE = "DEVSTATE";
-			}
 			$value_opt = ($follow_me_ddial)?'BUSY':'NOT_INUSE';
 			$devices = $astman->database_get("AMPUSER",$exten."/device");
 			$device_arr = explode('&',$devices);
 			foreach ($device_arr as $device) {
-				$ret = $astman->send_request('Command',array('Command'=>"core set global $DEVSTATE(Custom:FOLLOWME$device) $value_opt"));
+				$ret = $astman->set_global($amp_conf['AST_FUNC_DEVICE_STATE'] . "(Custom:FOLLOWME$device)", $value_opt);
 			}
 		}
   }
