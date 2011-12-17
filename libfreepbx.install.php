@@ -89,7 +89,7 @@ function upgrade_all($version) {
 		}
 
 	} else {
-		out("No upgrades found");
+		out("No further upgrades necessary");
 	}
 
 }
@@ -2170,7 +2170,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['level'] = 10;
 
   // MODULE_REPO
-  $set['value'] = 'http://mirror.freepbx.org';
+  $set['value'] = 'http://mirror1.freepbx.org,http://mirror2.freepbx.org';
   $set['options'] = '';
   $set['name'] = 'Repo Server';
   $set['description'] = 'repo server';
