@@ -1112,7 +1112,7 @@ class AGI_AsteriskManager {
 		static $pre = '';
 
 		if (! $pre) {
-			$pre = version_compare($amp_conf['ASTVERSION'], "1.6", "ge") ? 'dialplan' : 'core';
+			$pre = version_compare($amp_conf['ASTVERSION'], "1.6.1", "ge") ? 'dialplan' : 'core';
 		}
 		return $this->command($pre . ' set global ' . $var . ' ' . $val);
 	}
