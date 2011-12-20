@@ -1,0 +1,13 @@
+# Disallow all file access first
+#
+<FilesMatch ".*">
+	Order allow,deny
+	Deny from all
+</FilesMatch>
+
+# Now allow /recordings, /recordings/index.php as well as the various assets
+#
+<FilesMatch "(^$|index\.php|play_page\.php|audio\.php|callme_page\.php|\.(gif|GIF|jpg|jpeg|png|css|js)$)">
+	Order allow,deny
+	Allow from all
+</FilesMatch>

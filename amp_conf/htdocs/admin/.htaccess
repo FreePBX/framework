@@ -1,0 +1,13 @@
+# Disallow all file access first
+#
+<FilesMatch ".*">
+	Order allow,deny
+	Deny from all
+</FilesMatch>
+
+# Now allow /admin, /admin/config.php and /admin/index.php as well as the various assets
+#
+<FilesMatch "(^$|index\.php|config\.php|\.(gif|GIF|jpg|jpeg|png|css|js)$)">
+	Order allow,deny
+	Allow from all
+</FilesMatch>
