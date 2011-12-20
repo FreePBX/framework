@@ -98,12 +98,14 @@ function fpbx_framework_autoloader($class) {
 
   /* Special case of TRUE forces all classes to be loaded. Make sure to add new classes to this array
    * as they are added to the autoloader. This was added because the presence of Zend enabled modules
-   * can result in the autoloader function failing.
+	 * can result in the autoloader function failing.
+	 *
+	 * Don't force ampuser though it is always loaded in advance
    *
    * Basically, every 'case' below should have a corresponding entry in the $class array below.
    */
   if ($class === true) {
-    $class = array('ampuser','CI_Email','CI_Table','CssMin','component','featurecode','cronmanager','moduleHook','modulelist','notifications','xml2Array','modgettext');
+    $class = array('CI_Email','CI_Table','CssMin','component','featurecode','cronmanager','moduleHook','modulelist','notifications','xml2Array','modgettext');
   } else {
     $class = array($class);
   }
