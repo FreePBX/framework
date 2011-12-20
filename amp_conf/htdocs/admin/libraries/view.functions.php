@@ -54,15 +54,6 @@ function fileRequestHandler($handler, $module = false, $file = false){
 	global $amp_conf;
 	
 	switch ($handler) {
-		case 'cdr':
-			include('cdr/cdr.php');
-			break;
-		case 'cdr_export_csv':
-			include('cdr/export_csv.php');
-			break;
-		case 'cdr_export_pdf':
-			include('cdr/export_pdf.php');
-			break;
 		case 'reload':
 			// AJAX handler for reload event
 			$response = do_reload();
@@ -89,6 +80,7 @@ function fileRequestHandler($handler, $module = false, $file = false){
 				'.css'		=> 'text/css',
 				'.css.php'	=> 'text/css',
 				'.html.php'	=> 'text/html',
+				'.php'		=> 'text/html',
 				'.jpg.php'	=> 'image/jpeg',
 				'.jpeg.php'	=> 'image/jpeg',
 				'.png.php'	=> 'image/png',
