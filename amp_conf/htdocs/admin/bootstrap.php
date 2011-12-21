@@ -160,7 +160,7 @@ $restrict_mods_local = $restrict_mods;
 // I'm pretty sure if this is == true then there is no need to even pull all the module info as we are going down a path
 // such as an ajax path that this is just overhead. (We'll know soon enough if this is too restrcitive).
 //
-if ($restrict_mods_local !== true) {
+if ($restrict_mods_local !== true && !isset($no_auth)) {
   $active_modules = module_getinfo(false, MODULE_STATUS_ENABLED);
 
   if(is_array($active_modules)){
