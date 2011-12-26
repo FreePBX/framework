@@ -1,11 +1,9 @@
 <?php
-$jquery				= '1.6.2';
-$jqueryui			= '1.8.9';
 $version			= get_framework_version();
 $version_tag		= '?load_version=' . urlencode($version);
 if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
-  $this_time_append	= '.' . time();
-  $version_tag 		.= $this_time_append;
+	$this_time_append	= '.' . time();
+	$version_tag 		.= $this_time_append;
 } else {
 	$this_time_append = '';
 }
@@ -28,7 +26,7 @@ $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 $html .= '<link href="' . framework_css().$version_tag . '" rel="stylesheet" type="text/css">';
 //include jquery-ui css
 if ($amp_conf['DISABLE_CSS_AUTOGEN'] == true) {
-	$html .= '<link href="' . $amp_conf['JQUERY_CSS'].$version_tag . '" rel="stylesheet" type="text/css">';
+	$html .= '<link href="' . $amp_conf['JQUERY_CSS'] . $version_tag . '" rel="stylesheet" type="text/css">';
 }
 //include rtl stylesheet if using a rtl langauge
 if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))) {
@@ -42,10 +40,10 @@ if ($amp_conf['BRAND_CSS_CUSTOM']) {
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
 if ($amp_conf['USE_GOOGLE_CDN_JS']) {
-	$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/' . $jquery . '/jquery.min.js"></script>';
-	$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-' . $jquery . '.min.js"><\/script>\')</script>';
+	$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/' . $amp_conf['JQUERY_VER'] . '/jquery.min.js"></script>';
+	$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-' . $amp_conf['JQUERY_VER'] . '.min.js"><\/script>\')</script>';
 } else {
-	$html .= '<script type="text/javascript" src="assets/js/jquery-' . $jquery . '.min.js"></script>';
+	$html .= '<script type="text/javascript" src="assets/js/jquery-' . $amp_conf['JQUERY_VER'] . '.min.js"></script>';
 }
 		
 $html .= '</head>';

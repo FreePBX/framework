@@ -305,6 +305,7 @@ function handleBlock() {
 
   // set rank
   $ranked_modules = array();
+	ksort($loaded_modules);
   foreach ($loaded_modules as $module) {
 
     $module_methods = get_class_methods($module);    // note that PHP4 returns all lowercase
@@ -389,7 +390,7 @@ function handleBlock() {
  */
 function handler() {
 
-  global $ARI_VERSION;
+  global $ARI_VERSION, $amp_conf;
 
   // version
   $ari_version = $ARI_VERSION;

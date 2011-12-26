@@ -1320,7 +1320,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['level'] = 2;
 
   // FPBXDBUGFILE
-  $set['value'] = '/tmp/freepbx_debug.log';
+  $set['value'] = $amp_conf['ASTLOGDIR'] . '/freepbx_debug.log';
   $set['options'] = '';
   $set['name'] = 'Debug File';
   $set['description'] = 'Full path and name of FreePBX debug file. Used by the dbug() function by developers.';
@@ -2207,6 +2207,36 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['description'] = 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong.';
 	$set['type'] = CONF_TYPE_SELECT;
 	$freepbx_conf->define_conf_setting('ASTCONFAPP', $set);
+	
+	//JQUERY_VER
+	$set['value'] = '1.7.1';
+	$set['options'] = '';
+	$set['defaultval'] =& $set['value'];
+	$set['readonly'] = 0;
+	$set['hidden'] = 1;
+	$set['level'] = 0;
+	$set['module'] = '';
+	$set['category'] = 'System Setup';
+	$set['emptyok'] = 0;
+	$set['name'] = 'jQuery Version';
+	$set['description'] = 'The version of jQuery that we wish to use.';
+	$set['type'] = CONF_TYPE_TEXT;
+	$freepbx_conf->define_conf_setting('JQUERY_VER', $set);
+	
+	//JQUERYUI_VER
+	$set['value'] = '1.8.9';
+	$set['options'] = '';
+	$set['defaultval'] =& $set['value'];
+	$set['readonly'] = 0;
+	$set['hidden'] = 1;
+	$set['level'] = 0;
+	$set['module'] = '';
+	$set['category'] = 'System Setup';
+	$set['emptyok'] = 0;
+	$set['name'] = 'jQuery UI Version';
+	$set['description'] = 'The version of jQuery UI that we wish to use.';
+	$set['type'] = CONF_TYPE_TEXT;
+	$freepbx_conf->define_conf_setting('JQUERYUI_VER', $set);
 	
   // The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
   // retain their values until the individual modules are updated and their install scripts run where a full

@@ -154,7 +154,7 @@ if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) {
 			. _('Logout') . ': ' . (isset($_SESSION['AMP_user']->username) ? $_SESSION['AMP_user']->username : 'ERROR')
 			. '</a>';
 }
-$out .= '<progress class="button-right" id="ajax_spinner">' . _('Please wait...') . '</progress>';
+$out .= '<progress class="button-right" id="ajax_spinner"></progress>';
 
 $out .= '<a id="button_reload" href="#" data-button-icon-primary="ui-icon-gear" class="ui-state-error ">'
 		. _("Apply Config") .'</a>';

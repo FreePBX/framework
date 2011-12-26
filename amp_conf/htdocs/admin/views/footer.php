@@ -54,10 +54,12 @@ $html .= "\n" . '<script type="text/javascript">'
  		. '</script>';
 
 if ($amp_conf['USE_GOOGLE_CDN_JS']) {
-	$html .= '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>';
-	$html .= '<script type="text/javascript" >window.jQuery.ui || document.write(\'<script src="assets/js/jquery-ui-1.8.x.min.js"><\/script>\')</script>';
+	$html .= '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/' 
+			. $amp_conf['JQUERYUI_VER'] . '/jquery-ui.min.js"></script>';
+	$html .= '<script type="text/javascript" >window.jQuery.ui || document.write(\'<script src="assets/js/jquery-ui-' 
+			. $amp_conf['JQUERYUI_VER'] . '.min.js"><\/script>\')</script>';
 } else {
-	$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.8.x.min.js"></script>';
+	$html .= '<script type="text/javascript" src="assets/js/jquery-ui-' . $amp_conf['JQUERYUI_VER'] . '.min.js"></script>';
 }
 
 // Production versions should include the packed consolidated javascript library but if it

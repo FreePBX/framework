@@ -207,8 +207,8 @@ class AGI_AsteriskManager {
 		$req = "Action: $action\r\n";
 		foreach($parameters as $var=>$val) {
 			if (is_array($val)) {
-				foreach($val as $item) {
-					$req .= "$var: $item\r\n";
+				foreach($val as $k => $v) {
+					$req .= "$var: $k=$v\r\n";
 				}
 			} else {
 				$req .= "$var: $val\r\n";

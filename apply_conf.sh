@@ -81,4 +81,5 @@ if [ -x $AMPSBIN/amportal ]; then
 	$AMPSBIN/amportal chown
 fi
 
+asterisk -rx'manager reload'
 echo "Done"
