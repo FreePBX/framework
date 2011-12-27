@@ -372,7 +372,7 @@ function fatal($text,$log=true) {
 	if ($log) {
 		freepbx_log(FPBX_LOG_FATAL,$text);
 	}
-exit(1);
+	exit(1);
 }
 
 // TODO: used in retrieve_conf, scan code base and remove if appropriate
@@ -759,13 +759,13 @@ function fpbx_which($app) {
 	// $amp_conf will be set so to be safe deal with it all here.
 	//
 	$freepbx_conf =& freepbx_conf::create();
-  $which = $freepbx_conf->get_conf_setting('WHICH_' . $app);
+ 	$which = $freepbx_conf->get_conf_setting('WHICH_' . $app);
 
 	//if we have the location cached return it
 	if ($which) {
 		return $which;
 		
-	//otherwise, search for it
+		//otherwise, search for it
 	} else {
 		//ist of posible plases to find which
 		
@@ -1045,27 +1045,58 @@ function string2bytes($str, $type = ''){
  * downloads a file to the browser (i.e. sends the file to the browser)
  * 
  * @author Moshe Brevda mbrevda => gmail ~ com
- * @pram string
- * @pram string, optional
- * @pram string, optional
+ * @pram string - absolute path to file
+ * @pram string, optional - file name as it will be downloaded
+ * @pram string, optional - content mime type
+ * @pram bool, optional - true will force the file to be download. 
+ *						False allows the browser to attempt to display the file
+ * 						Correct mime type ($type) snesesary for proper broswer interpretation!
+ *
  */
-function download_file($file, $name = '', $type = '') {
+function download_file($file, $name = '', $type = '', $force_download = false) {
 	if (file_exists($file)) {
+		//set the filename to the current filename if no name is specified
 		$name = $name ? $name : basename($file);
+		
+		//sanitize filename
+		$name = preg_replace('/[^A-Za-z0-9_\.-]/', '', $name);
+		
+		//attempt to set file mime type if it isn't already set
+		if (!$type) {
+			if (class_exists('finfo')) {
+				$finfo = new finfo(FILEINFO_MIME);
+				$type = $finfo->file($file);
+			} else {
+				exec(fpbx_which('file') . ' -ib ' . $file, $res);
+				$type = $res[0];
+			}	
+		}
+
+		//failsafe for false or blank results
 		$type = $type ? $type : 'application/octet-stream';
+		
+		$disposition = $force_download ? 'attachment' : 'inline';
+		
+		//send headers
 		header('Content-Description: File Transfer');
 		header('Content-Type: ' . $type);
-		header('Content-Disposition: attachment; filename="' . $name . '"');
+		header('Content-Disposition: ' . $disposition . '; filename=' . $name);
 		header('Content-Transfer-Encoding: binary');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
 		header('Content-Length: ' . filesize($file));
+		
+		//clear all buffers
 		while (ob_get_level()) {
 			ob_end_clean();
 		}
 		flush();
+		
+		//send the file!
 		readfile($file);
+		
+		//return immediately
 		exit;
 	} else {
 		return false;
