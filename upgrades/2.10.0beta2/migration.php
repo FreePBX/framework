@@ -32,7 +32,7 @@ if ($freepbx_conf->conf_setting_exists('FOPPASSWORD')) {
 
 //move freepbx debug log
 if ($freepbx_conf->conf_setting_exists('FPBXDBUGFILE')) {
-	$freepbx_conf->set_conf_values(array('FPBXDBUGFILE' => '/var/log/asterisk/freepbx_debug'), true);
+	$freepbx_conf->set_conf_values(array('FPBXDBUGFILE' => $amp_conf['ASTLOGDIR'] . '/freepbx_dbug'), true);
 }
 
 $outdated = array(

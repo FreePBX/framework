@@ -1320,7 +1320,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['level'] = 2;
 
   // FPBXDBUGFILE
-  $set['value'] = $amp_conf['ASTLOGDIR'] . '/freepbx_debug.log';
+  $set['value'] = $amp_conf['ASTLOGDIR'] . '/freepbx_dbug';
   $set['options'] = '';
   $set['name'] = 'Debug File';
   $set['description'] = 'Full path and name of FreePBX debug file. Used by the dbug() function by developers.';
