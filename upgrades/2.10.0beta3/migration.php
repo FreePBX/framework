@@ -6,7 +6,6 @@ if (!class_exists('freepbx_conf')) {
 }
 
 $freepbx_conf =& freepbx_conf::create();
-$notify = notifications::create($db);
 
 //move freepbx debug log
 if ($freepbx_conf->conf_setting_exists('FPBXDBUGFILE')) {
