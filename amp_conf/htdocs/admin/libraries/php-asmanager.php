@@ -1106,7 +1106,7 @@ class AGI_AsteriskManager {
 	 * @param string $app	The case in-sensitve name of the application
 	 * @return bool True if if it exists
 	 */
-	function mod_exists($mod) {
+	function mod_loaded($mod) {
 		$r = $this->command("module show like $mod");
 		return (preg_match('/1 modules loaded/', $r['data']) > 0);
 	}
