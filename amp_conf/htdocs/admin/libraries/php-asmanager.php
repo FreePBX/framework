@@ -1102,6 +1102,15 @@ class AGI_AsteriskManager {
 		return (strpos($r['data'],"Your application(s) is (are) not registered") === false);
 	}
 
+	/** Returns whether a give asterisk module is loaded in this Asterisk install
+	 * @param string $app	The case in-sensitve name of the application
+	 * @return bool True if if it exists
+	 */
+	function mod_exists($mod) {
+		$r = $this->command("module show like $mod");
+		return (preg_match('/1 modules loaded/', $r['data']) > 0);
+	}
+
 	/** Sets a global var or function to the provided value
 	 * @param string $var	The variable or function to set
 	 * @param string $val	the value to set it to
