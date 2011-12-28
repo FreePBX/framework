@@ -198,23 +198,10 @@ function ast_with_dahdi() {
 		$version = $engine_info['version'];
 	}
 		
-	if (version_compare($version, '1.4', 'ge') && $amp_conf['AMPENGINE'] == 'asterisk') {		
-    if ($amp_conf['ZAP2DAHDICOMPAT']) {
-      $ast_with_dahdi = true;
-      $chan_dahdi_loaded = true;
-      return true;
-    } else if (isset($astman) && $astman->connected()) {
-			// earlier revisions of 1.4 and dahdi loaded but still running as zap, so if ZapScan is present, we assume
-      // that is the mode it is running in.
-			$response = $astman->send_request('Command', array('Command' => 'show applications like ZapScan'));
-			if (!preg_match('/1 Applications Matching/', $response['data'])) {
-        $ast_with_dahdi = true;
-        $chan_dahdi_loaded = true;
-				return $ast_with_dahdi;
-			} else {
-        $chan_dahdi_loaded = false;
-			}
-		}
+	if ($amp_conf['ZAP2DAHDICOMPAT']) {
+		$ast_with_dahdi = true;
+		$chan_dahdi_loaded = true;
+		return true;
 	}
   $ast_with_dahdi = false;
   return $ast_with_dahdi;
