@@ -42,12 +42,10 @@ class modgettext {
 		// get the domain that we should use for this module and translate with that
 		$domain = self::_bindtextdomain($module);
 		$tstring = dgettext($domain,$string);
-		dbug("trying $string with $domain got $tstring");
 
 		// if our translation didn't change and we aren't already using 'amp' then try with amp
 		if ($tstring == $string && $domain != 'amp') {
 			$tstring = dgettext('amp',$string);
-			dbug("no go so trying $string with default got $tstring");
 		}
 		return $tstring;
 	}
