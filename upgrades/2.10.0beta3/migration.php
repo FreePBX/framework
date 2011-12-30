@@ -27,19 +27,7 @@ if (is_dir($cdr_dir) && !is_link($cdr_dir)) {
 	out("Not Required");
 }
 
-// added again here for alpha testerd uprgrading
-$sql = "SELECT sortorder FROM freepbx_settings";
-$confs = $db->getRow($sql, DB_FETCHMODE_ASSOC);
-if (DB::IsError($confs)) { // no error... Already done
-  $sql = "ALTER TABLE freepbx_settings ADD sortorder INT ( 11 ) NOT NULL DEFAULT 0";
-  $results = $db->query($sql);
-  if(DB::IsError($results)) {
-    die($results->getMessage());
-  }
-  out("Added field sortorder to freepbx_settings");
-}
-
-// Need to migrate the CDR table adding the recordingfile field. We get the creds from cdr_mysql.conf
+// Need to migrate the CDR table adding the recordingfile and did field. We get the creds from cdr_mysql.conf
 // since $amp_conf is not really authoritative.
 //
 $db_creds = parse_ini_file($amp_conf['ASTETCDIR'] . '/cdr_mysql.conf');
@@ -57,20 +45,30 @@ if ($db_creds === false) {
 		. $db_creds['dbname'];
 	$db_cdr = DB::connect($datasource); // attempt connection
 
-	$sql = "desc cdr";
-	$sql = "select * from cdr";
-  	//$results = $db_cdr->query($sql);
-  	$results = $db_cdr->getAll($sql);
-
 	$sql = "SELECT recordingfile FROM cdr";
 	$confs = $db_cdr->getRow($sql, DB_FETCHMODE_ASSOC);
 	outn(_("checking if recordingfile file field needed in cdr.."));
 	if (DB::IsError($confs)) { // no error... Already done
-  		$sql = "ALTER TABLE cdr ADD recordingfile VARCHAR ( 255 )";
+		$sql = "ALTER TABLE cdr ADD recordingfile VARCHAR ( 255 ) NOT NULL default ''";
 		$results = $db_cdr->query($sql);
 		if(DB::IsError($results)) {
 			out(_("failed"));
-			freepbx_log(FPBX_LOG_ERROR,"failed to add recordingfile filed to cdr table during migration");
+			freepbx_log(FPBX_LOG_ERROR,"failed to add recordingfile fieled to cdr table during migration");
+		}
+		out(_("added"));
+	} else {
+		out(_("already there"));
+	}
+
+	$sql = "SELECT did FROM cdr";
+	$confs = $db_cdr->getRow($sql, DB_FETCHMODE_ASSOC);
+	outn(_("checking if did file field needed in cdr.."));
+	if (DB::IsError($confs)) { // no error... Already done
+		$sql = "ALTER TABLE cdr ADD did VARCHAR ( 50 ) NOT NULL default ''";
+		$results = $db_cdr->query($sql);
+		if(DB::IsError($results)) {
+			out(_("failed"));
+			freepbx_log(FPBX_LOG_ERROR,"failed to add did fieled to cdr table during migration");
 		}
 		out(_("added"));
 	} else {
