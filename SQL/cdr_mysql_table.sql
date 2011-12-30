@@ -15,6 +15,8 @@ CREATE TABLE cdr (
    accountcode varchar(20) NOT NULL default '', 
    uniqueid varchar(32) NOT NULL default '', 
    userfield varchar(255) NOT NULL default '', 
+   did varchar(50) NOT NULL default '', 
+   recordingfile varchar(255) NOT NULL default '', 
    KEY `calldate` (`calldate`),
    KEY `dst` (`dst`),
    KEY `accountcode` (`accountcode`)
