@@ -23,7 +23,7 @@ $html .= '</div>'; //page
 //add javascript
 
 //localized strings and other javascript values that need to be set dynamically
-//TODO: this should be dove via callbacks so that all modules can hook in to it
+//TODO: this should be done via callbacks so that all modules can hook in to it
 if (!isset($no_auth)) {
 	$fpbx['conf']				= $amp_conf;
 	unset($fpbx['conf']['AMPMGRPASS'], 
@@ -51,7 +51,8 @@ $fpbx['msg']['framework']['weakSecret']['types'] = _("The secret must contain at
 $html .= "\n" . '<script type="text/javascript">'
 		. 'var fpbx='
 		. json_encode($fpbx)
- 		. '</script>';
+        . ';$(document).click();' //TODO: this should be cleaned up eventually as right now it prevents the nav bar from not being fully displayed
+        . '</script>';
 
 if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 	$html .= '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/' 
