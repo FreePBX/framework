@@ -2210,6 +2210,17 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['type'] = CONF_TYPE_SELECT;
 	$freepbx_conf->define_conf_setting('ASTCONFAPP', $set);
 	
+	//mainstyle_css_generated
+	$set['value'] = $amp_conf['mainstyle_css_generated'] ? $amp_conf['mainstyle_css_generated'] : '';
+	$set['description'] = 'internal use';
+	$set['type'] = CONF_TYPE_TEXT;
+	$set['defaultval'] = '';
+	$set['name'] = 'Compressed Copy of Main CSS';
+	$set['readonly'] = 1;
+	$set['hidden'] = 1;
+	$set['emptyok'] = 1;
+	$freepbx_conf->define_conf_setting('mainstyle_css_generated', $set);
+	
 	//JQUERY_VER
 	$set['value'] = '1.7.1';
 	$set['options'] = '';

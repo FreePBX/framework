@@ -51,8 +51,8 @@ $fpbx['msg']['framework']['weakSecret']['types'] = _("The secret must contain at
 $html .= "\n" . '<script type="text/javascript">'
 		. 'var fpbx='
 		. json_encode($fpbx)
-        . ';$(document).click();' //TODO: this should be cleaned up eventually as right now it prevents the nav bar from not being fully displayed
-        . '</script>';
+		. ';$(document).click();' //TODO: this should be cleaned up eventually as right now it prevents the nav bar from not being fully displayed
+ 		. '</script>';
 
 if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 	$html .= '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/' 

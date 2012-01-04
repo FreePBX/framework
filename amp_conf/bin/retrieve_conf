@@ -386,6 +386,10 @@ $con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/cdr/');
 $con_dirs->symlink_check_errors();
 $con_dirs->cp_check_errors();
 
+//once we have all the connected files in place, lets compress the css
+if ($amp_conf['DISABLE_CSS_AUTOGEN'] != true) {
+	//compress_framework_css();
+}
 
 // create an object of the extensions class
 require_once($amp_conf['AMPWEBROOT']."/admin/libraries/extensions.class.php");
