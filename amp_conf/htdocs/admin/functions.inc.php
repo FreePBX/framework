@@ -202,6 +202,16 @@ function ast_with_dahdi() {
 		$ast_with_dahdi = true;
 		$chan_dahdi_loaded = true;
 		return true;
+	} elseif (version_compare($version,'1.4.21','ge')) {
+		// we only had dahdi at this point so force the setting
+		//
+		$freepbx_conf =& freepbx_conf::create();
+		$freepbx_conf->set_conf_values(array('ZAP2DAHDICOMPAT' => true, true, true);
+		freepbx_log(FPBX_LOG_NOTICE, _("Auto set ZAP2DAHDICOMPAT to true because we are running a version of Asterisk greater than 1.4.21"));
+
+		$ast_with_dahdi = true;
+		$chan_dahdi_loaded = true;
+		return true;
 	}
   $ast_with_dahdi = false;
   return $ast_with_dahdi;
