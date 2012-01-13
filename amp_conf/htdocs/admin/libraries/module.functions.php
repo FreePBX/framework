@@ -437,7 +437,7 @@ function module_checkdepends($modulename) {
 						$phpcomponents = explode('||',$value);
 						$newerrors = array();
 						foreach($phpcomponents as $value) {
-							if (preg_match('/^([a-z0-9_]+|Zend (Optimizer|Guard))(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
+							if (preg_match('/^([a-z0-9_]+|Zend (Optimizer|Guard Loader))(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
 								// matches[1] = extension name, [3]=comparison operator, [4] = version
 								$compare_ver = isset($matches[4]) ? $matches[4] : '';
 								if (extension_loaded($matches[1])) {
