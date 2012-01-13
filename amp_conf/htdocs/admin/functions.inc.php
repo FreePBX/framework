@@ -207,7 +207,7 @@ function ast_with_dahdi() {
 		//
 		$freepbx_conf =& freepbx_conf::create();
 		if ($freepbx_conf->conf_setting_exists('ZAP2DAHDICOMPAT')) {
-			$freepbx_conf->set_conf_values(array('ZAP2DAHDICOMPAT' => true, true, true));
+			$freepbx_conf->set_conf_values(array('ZAP2DAHDICOMPAT' => true), true, true);
 			freepbx_log(FPBX_LOG_NOTICE, _("Auto set ZAP2DAHDICOMPAT to true because we are running a version of Asterisk greater than 1.4.21"));
 		} else {
 			freepbx_log(FPBX_LOG_ERROR, _("freepbx setting  ZAP2DAHDICOMPAT not found, somethng is corrupt in the conf database?"));
