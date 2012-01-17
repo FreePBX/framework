@@ -377,9 +377,6 @@ if(is_array($active_modules)){
 		}
 	}
 }
-// Now also make sure to symlink the CDR images which is not a proper module
-//
-$con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/cdr/');
 
 // Now that we have done all the symlinks and copies, we check and report if there were any errors
 //
