@@ -56,7 +56,7 @@ if ($db_creds === false) {
 			$results = $db_cdr->query($sql);
 			if(DB::IsError($results)) {
 				out(_("failed"));
-				freepbx_log(FPBX_LOG_ERROR,"failed to add recordingfile fieled to cdr table during migration");
+				freepbx_log(FPBX_LOG_ERROR,"failed to add recordingfile field to cdr table during migration");
 			}
 			out(_("added"));
 		} else {
@@ -71,7 +71,7 @@ if ($db_creds === false) {
 			$results = $db_cdr->query($sql);
 			if(DB::IsError($results)) {
 				out(_("failed"));
-				freepbx_log(FPBX_LOG_ERROR,"failed to add did fieled to cdr table during migration");
+				freepbx_log(FPBX_LOG_ERROR,"failed to add did field to cdr table during migration");
 		}
 			out(_("added"));
 		} else {
