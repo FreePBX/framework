@@ -37,7 +37,7 @@ function frameworkPasswordCheck() {
 // setup locale
 function set_language() {
 	if (extension_loaded('gettext')) {
-		if (isset($_COOKIE['lang'])) {
+		if (isset($_COOKIE['lang']) && $_COOKIE['lang'] != '') {
 			setlocale(LC_ALL,  $_COOKIE['lang']);
 			putenv("LANGUAGE=".$_COOKIE['lang']);
 		} else {
