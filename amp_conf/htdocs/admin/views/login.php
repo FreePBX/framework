@@ -25,6 +25,7 @@ $html .= '</div></div>';
 $html .= br(5) . '<div id="key" style="color: white;font-size:small">'
 	  . session_id()
 	  . '</div>';
+
 /*$html .= '<script type="text/javascript">';
 $html .= '$(document).ready(function(){
 		$("#key").click(function(){
