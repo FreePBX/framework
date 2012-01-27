@@ -385,7 +385,7 @@ $con_dirs->cp_check_errors();
 
 //once we have all the connected files in place, lets compress the css
 if ($amp_conf['DISABLE_CSS_AUTOGEN'] != true) {
-	//compress_framework_css();
+	compress_framework_css();
 }
 
 // create an object of the extensions class

@@ -18,7 +18,13 @@
 	} else {
 		$this_time_append = '';
 	}
-	$html .= '<link href="/admin/' . framework_css().$version_tag . '" rel="stylesheet" type="text/css">';
+    
+    $mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
+                            ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
+                            : 'assets/css/mainstyle.css';
+    $framework_css = $amp_conf['DISABLE_CSS_AUTOGEN'] ? $mainstyle_css : $amp_conf['mainstyle_css_generated'];
+    $html .= '<link href="/admin/' . $framework_css.$version_tag . '" rel="stylesheet" type="text/css">';
+
 	if ($amp_conf['DISABLE_CSS_AUTOGEN'] == true) {
 		$html .= '<link href="/admin/' . $amp_conf['JQUERY_CSS'].$version_tag . '" rel="stylesheet" type="text/css">';
 	} 
