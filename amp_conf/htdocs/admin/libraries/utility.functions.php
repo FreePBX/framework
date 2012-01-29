@@ -370,10 +370,13 @@ function freepbx_error_handler($errno, $errstr, $errfile, $errline,  $errcontext
                         break;
                 case 'dbug':
                         default:
+						$errormsg = isset($errortype[$errno])
+									? $errortype[$errno]
+									: 'Undefined Error';
                         $txt = date("Y-M-d H:i:s")
                                 . "\t" . $errfile . ':' . $errline
                                 . "\n"
-                                . '[' . $errortype[$errno] . ']: '
+                                . '[' . $errormsg . ']: '
                                 . $errstr
                                 . "\n\n";
                                 dbug_write($txt, $check='');
