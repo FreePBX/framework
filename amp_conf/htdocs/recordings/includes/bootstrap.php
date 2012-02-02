@@ -2,325 +2,409 @@
 
 /**
  * @file
- * Functions that need to be loaded on every request.
+ * common functions - core handler
  */
-
-/**
- * Sets doc root
- */
-function setARIRoot() {
-
-  $found = 0;
-  if (isset($_SERVER['PHP_SELF'])) {
-    if ($_SERVER['PHP_SELF']!='') {
-      $_SESSION['ARI_ROOT'] = $_SERVER['PHP_SELF'];
-    }
-  }
-  
-  if (!$found) {
-    $_SESSION['ARI_ROOT'] = "index.php";
-  }
-}
-
-/**
- * Return a arguments.
- *
- * @param $args
- *   The name of the array being acted upon.
- * @param $name
- *   The name of the variable to return.
- * @return
- *   The value of the variable.
- */
-function getArgument($args, $name) {
-
-  return isset($args[$name]) ? $args[$name] : '';
-}
 
 /*
- * Gets top level directory names 
- *
- * @param $path
- *   directory to search
- * @param $filter
- *   string to use as a filter to match files to return
- * @return $directories
- *   directories found
+ * Checks if user is set and sets
  */
-function getDirectories($path,$filter) {
+function checkErrorMessage() {
+	$ret = '';
 
-  $directories = array();
-
-  if (is_dir($path)) {
-
-    $dh = opendir($path);
-    while (false!== ($item = readdir($dh))) {
-      if($item!="." && $item!="..") {
-
-        $path = fixPathSlash($path);
-        $directory = $path;
-        $directory = appendPath($directory,$item);
-
-        if (is_dir($directory)) {
-
-          $found = 0;
-          if ($filter) {
-            if (strpos($directory,$filter)) {
-              $found = 1;
-            }
-          } else {
-            $found = 1;
-          }
-          if ($found) {
-            $directories[count($directories) + 1] = $directory;
-          }
-        }
-      }
-    } 
+  if ($_SESSION['ari_error']) {
+    $ret = "<div class='error'>
+               " . $_SESSION['ari_error'] . "
+             </div>
+             <br>";
+    unset($_SESSION['ari_error']);
   }
-
-  return $directories;
-}
-
-/*
- * Gets file names recursively 6 folders deep
- *
- * @param $path
- *   directory to search
- * @param $filter
- *   string to use as a filter to match files to return
- * @param $recursive_max
- *   max number of sub folders to search
- * @param $recursive_count
- *   current sub folder count
- * @return $files
- *   files found
- */
-function getFiles($path,$filter,$recursive_max,$recursive_count) {
-	global $SETTINGS_MAX_FILES;
-	$SETTINGS_MAX_FILES = isset($SETTINGS_MAX_FILES) ? $SETTINGS_MAX_FILES : 3000;
-	$fileCount=0;
-	$files = array();
-
-  if (@is_dir($path) && @is_readable($path)) {
-    $dh = opendir($path);
-    while (false!== ($item = readdir($dh))) {
-      if($item[0]!=".") {
-
-        $path = fixPathSlash($path);
-        $msg_path = appendPath($path,$item);
-
-        $fileCount++;
-        if ($fileCount>$SETTINGS_MAX_FILES) {
-          $_SESSION['ari_error'] 
-            .= sprintf(_("Too many files in %s. Not all files processed"),$msg_path) . "<br>";
-          return;
-        }
-
-        if ($recursive_count<$recursive_max && is_dir($msg_path)) {
-
-          $dirCount++;
-          if ($dirCount>40) {
-            $_SESSION['ari_error'] 
-              .= sprintf(_("Too many directories in %s. Not all files processed"),$msg_path) . "<br>";
-            return;
-          }
-
-          $count = $recursive_count + 1;
-          $path_files = getFiles($msg_path,$filter,$recursive_max,$count);
-          $files = array_merge($files,$path_files);
-        } 
-        else {
-          $found = 0;
-          if ($filter) {
-            if (strpos($msg_path,$filter)) {
-              $found = 1;
-            }
-          } else {
-            $found = 1;
-          }
-          if ($found) {
-            $files[count($files) + 1] = $msg_path;
-          }
-        }
-      }
-    } 
-  }
-
-  return $files;
-}
-
-/* Utilities */
-
-/**
- * Fixes the path for a trailing slash
- *
- * @param $path
- *   path to append
- * @return $ret
- *   path to returned
- */
-function fixPathSlash($path) {
-
-  $ret = $path;
-
-  $slash = '';
-  if (!preg_match('/\/$/',$path)) {
-    $slash = '/';
-  } 
-  $ret .= $slash;
-
-  return $ret; 
-}
-
-/**
- * Appends folder to end of path
- *
- * @param $path
- *   path to append
- * @param $folder
- *   folder to append to path
- * @return $ret
- *   path to returned
- */
-function appendPath($path,$folder) {
-
-  $ret = $path;
-
-  $m = '';
-  if (!preg_match('/\/$/',$path)) {
-    $m = '/';
-  } 
-  $ret .= $m . $folder; 
 
   return $ret;
 }
 
-/**
- * Get Date format 
- *
- * @param $timestamp
- *   timestamp to be converted
+/*
+ * Checks modules directory, and configuration, and loaded modules 
  */
-function getDateFormat($timestamp) {
-  return date('Y-m-d', $timestamp);
-}
+function loadModules() {
 
-/**
- * Get time format 
- *
- * @param $timestamp
- *   timestamp to be converted
- */
-function getTimeFormat($timestamp) {   
-  return date('G:i:s', $timestamp);
-}
+  global $ARI_ADMIN_MODULES;
+  global $ARI_DISABLED_MODULES;
 
-/* */
+  global $loaded_modules;
 
-/**
- * Checks ARI dependencies
- */
-function checkDependencies() {
+  $modules_path = "./modules";
+  if (is_dir($modules_path)) {
 
-  // check for PHP
-  if (!version_compare(phpversion(), '4.3', '>=')) {
-    echo _("ARI requires a version of PHP 4.3 or later");
-    exit();
-  }
+    $filter = ".module";
+    $recursive_max = 1;
+    $recursive_count = 0;
+    $files = getFiles($modules_path,$filter,$recursive_max,$recursive_count);
 
-  // check for PEAR
-  $include_path = ini_get('include_path');
-  $buf = preg_split('/:|,/',$include_path);
+    foreach($files as $key => $path) {
 
-  $found = 0;
-  foreach ($buf as $path) {
-    $path = fixPathSlash($path);
-    $pear_check_path = $path . "DB.php";
-    if (is_file($pear_check_path)) {
-      $found = 1;
-      break;
+      // build module object 
+      include_once($path); 
+      $path_parts = pathinfo($path);
+      list($name,$ext) = preg_split("/\./",$path_parts['basename']);
+
+      // check for module and get rank
+      if (class_exists($name)) {
+
+        $module = new $name();
+
+        // check if admin module
+        $found = 0;
+        if ($ARI_ADMIN_MODULES) {
+          $admin_modules = preg_split('/,/',$ARI_ADMIN_MODULES);
+          foreach ($admin_modules as $key => $value) {
+            if ($name==$value) {
+              $found = 1;
+              break;
+            }
+          }
+        }
+
+        // check if disabled module
+        $disabled = 0;
+        if ($ARI_DISABLED_MODULES) {
+          $disabled_modules = preg_split('/,/',$ARI_DISABLED_MODULES);
+          foreach ($disabled_modules as $key => $value) {
+            if ($name==$value) {
+              $disabled = 1;
+              break;
+            }
+          }
+        }
+
+        // if not admin module or admin user add to module name to array
+        if (!$disabled && (!$found || $_SESSION['ari_user']['admin'])) {
+          $loaded_modules[$name] = $module;
+        }
+      }
     }
   }
-
-  if (!$found) {
-    echo _("PHP PEAR must be installed.  Visit http://pear.php.net for help with installation.");
-    exit();
+  else {
+    $_SESSION['ari_error'] = _("$path not a directory or not readable");
   }
 }
 
 /**
- * Starts the session
+ * Builds database connections
  */
-function startARISession() {
+function databaseLogon() {
+	global $AMPORTAL_CONF_FILE,
+			$AMP_FUNCTIONS_FILES,
+			$ARI_ADMIN_PASSWORD,
+			$ARI_ADMIN_USERNAME,
+			$ARI_DISABLED_MODULES,
+			$ASTERISKMGR_DBHOST,
+			$LEGACY_AMP_DBENGINE,
+			$LEGACY_AMP_DBFILE,
+			$LEGACY_AMP_DBHOST,
+			$LEGACY_AMP_DBNAME,
+			$amp_conf, 
+			$amp_conf_defaults, 
+			$amp_usedevstate,
+			$ariadminpassword,
+			$ariadminusername,
+			$asterisk_manager_interface, 
+			$astman, 
+			$cdrdb, 
+			$db, 
+			$loaded_modules,
+			$STANDALONE;
 
-  if (!isset($_SESSION['ari_user']) ) {
 
-    // start a new session for the user 
-    ini_set('session.name', 'ARI');             // prevent session name clashes
-    ini_set('session.gc_maxlifetime', '3900');  // make the session timeout a long time
-    set_time_limit(360);
-    session_start();
-	$_SESSION['ari_error'] = '';
+  // get user
+	if ($STANDALONE['use']) {
+		$mgrhost = $ASTERISKMGR_DBHOST;
+		$mgruser = $STANDALONE['asterisk_mgruser'];
+		$mgrpass = $STANDALONE['asterisk_mgrpass'];
+	} else {
+
+		$ariadminusername = isset($amp_conf["ARI_ADMIN_USERNAME"]) ? $amp_conf["ARI_ADMIN_USERNAME"] : $ARI_ADMIN_USERNAME;
+		$ariadminpassword = isset($amp_conf["ARI_ADMIN_PASSWORD"]) ? $amp_conf["ARI_ADMIN_PASSWORD"] : $ARI_ADMIN_PASSWORD;
+		$mgrhost = $ASTERISKMGR_DBHOST;
+		$mgruser = $amp_conf['AMPMGRUSER'];
+		$mgrpass = $amp_conf['AMPMGRPASS'];
+		
+		$amp_usedevstate = isset($amp_conf["USEDEVSTATE"]) ? strtolower(trim($amp_conf["USEDEVSTATE"])) : 0;
+		if ($amp_usedevstate == 'yes' || $amp_usedevstate == 'true' || $amp_usedevstate == 'on' || $amp_usedevstate == '1') {
+			$amp_usedevstate = 1;
+		} else {
+			$amp_usedevstate = 0;
+		}
+
+ 	}
+
+	$asterisk_manager_interface = new AsteriskManagerInterface();
+
+	$success = $asterisk_manager_interface->Connect($mgrhost,$mgruser,$mgrpass);
+	if (!$success) {
+		$_SESSION['ari_error'] =  
+			_("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" . 
+			_("Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager Account.") . "<br>" . 
+			_("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account") . "<br>" .
+			_("make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver.");
+		return FALSE;
+	}
+
+	if (!isset($astman) || !$astman) {
+		// couldn't connect to astman
+		$_SESSION['ari_error'] =
+			_("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" .
+			_("Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager Account.") . "<br>" .
+			_("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account") . "<br>" .
+			_("make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver.");
+	}
+
+	if (isset($db) && $db) {
+	 	$_SESSION['dbh_asterisk'] = $db;
+	}
+
+  // cdr database
+	if (isset($cdrdb) && $cdrdb) {
+		$_SESSION['dbh_cdr'] = $cdrdb;
+	}
+	
+	return TRUE;
+}
+
+/**
+ * Logout if needed for any databases
+ */
+function databaseLogoff() {
+
+  global $asterisk_manager_interface;
+  global $astman;
+
+  $asterisk_manager_interface->Disconnect();
+
+  if (is_object($astman))
+  {
+    $astman->logoff();
+    $astman->disconnect();
+  }
+  unset($astman);
+}
+
+/*
+ * Checks if user is set and sets
+ */
+function loginBlock() {
+
+  $login = new Login();
+
+  if (isset($_REQUEST['logout'])) {
+    $login->Unauth();
+  }
+
+  if (!isset($_SESSION['ari_user'])) {
+    $login->Auth();
+
+  }
+
+  if (!isset($_SESSION['ari_user'])) {
+
+    // login form
+    $ret .= $login->GetForm();
+
+    return $ret;
   }
 }
 
-/**
- * Bootstrap
- *
- * Loads critical variables needed for every page request
- *
+/*
+ * Main handler for website
  */
-function bootstrap() {
+function handleBlock() {
 
-  // set error reporting
-//  error_reporting (E_ALL & ~ E_NOTICE);  
+  global $ARI_NO_LOGIN;
+
+  global $loaded_modules;
+
+	$nav_menu = '';
+	$subnav_menu = '';
+
+  // check errors here and in login block
+  $content = checkErrorMessage();
+
+  // check logout
+  if ($_SESSION['ari_user'] && !$ARI_NO_LOGIN) {
+    $logout = 1;
+  }
+
+  // if nothing set goto user default page
+  if (!isset($_REQUEST['m'])) {
+    $_REQUEST['m'] = $_SESSION['ari_user']['default_page'];
+  }
+  // if not function specified then use display page function
+  if (!isset($_REQUEST['f'])) {
+    $_REQUEST['f'] = 'display';
+  }
+
+  $m = $_REQUEST['m'];     // module
+  $f = $_REQUEST['f'];     // function
+  $a = isset($_REQUEST['a']) ? $_REQUEST['a'] : '';     // action
+
+  // set arguments
+  $args = array();
+  foreach($_REQUEST as $key => $value) {
+    $args[$key] = $value;
+  }
+
+  // set rank
+  $ranked_modules = array();
+	ksort($loaded_modules);
+  foreach ($loaded_modules as $module) {
+
+    $module_methods = get_class_methods($module);    // note that PHP4 returns all lowercase
+    while (list($index, $value) = each($module_methods)) {
+      $module_methods[strtolower($index)] = strtolower($value);
+    }
+    reset($module_methods);
+        
+    $rank = 99999;
+    $rank_function = "rank";
+    if (in_array(strtolower($rank_function), $module_methods)) {
+      $rank = $module->$rank_function(); 
+    }
+
+    $ranked_modules[$rank][] = $module;
+  }
+  ksort($ranked_modules);
+
+  // process modules
+  foreach ($ranked_modules as $rank => $modules) {
+	$rankloaded = false; //wether this rank has any menu items
+	foreach ($modules as $module)     {
+		$nmenu = false; //text/link that goes in the menu
+    	// process module
+    	$name = get_class($module);    // note PHP4 returns all lowercase
+    	$module_methods = get_class_methods($module);    // note PHP4 returns all lowercase
+    	while (list($index, $value) = each($module_methods)) {
+      		$module_methods[strtolower($index)] = strtolower($value);
+    	}
+    	reset($module_methods);
+
+    	// init module
+    	$module->init();
+
+    	// add nav menu items
+    	$nav_menu_function = "navMenu";
+    	if (in_array(strtolower($nav_menu_function), $module_methods)) {
+			$nmenu = $module->$nav_menu_function($args);
+      		//$nav_menu .= $module->$nav_menu_function($args); 
+			$nav_menu .= $nmenu;
+    	}      
+
+    	if (strtolower($m)==strtolower($name)) {
+
+      	// build sub menu 
+      	$subnav_menu_function = "navSubMenu";
+      	if (in_array(strtolower($subnav_menu_function), $module_methods)) {
+        	$subnav_menu .= $module->$subnav_menu_function($args); 
+      	}
+
+      	// execute function (usually to build content)
+      	if (in_array(strtolower($f), $module_methods)) {
+        	$content .= $module->$f($args);
+      	}
+    }
+	
+	 if ($nmenu != false){
+		$nav_menu .= '<br />';
+		$rankloaded = true;
+	}
+}
+	if ($rankloaded) {
+		$nav_menu .= '<br />';
+	}
+  }
+
+  // add logout link
+  if ($logout != '') { 
+    $nav_menu .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?logout=1'>" . _("Logout") . "</a></small></small>";
+  } 
+
+  // error message if no content
+  if (!$content) {
+    $content .= _("Page Not Found.");
+  } 
+
+  return array($nav_menu,$subnav_menu,$content);
 }
 
-/**
- * Set HTTP headers in preparation for a page response.
- *
- * TODO: Figure out caching
+/*
+ * Main handler for website
  */
-function ariPageHeader() {
-header('Content-type: text/html; charset=utf-8');
-  bootstrap();
-}
+function handler() {
 
-/**
- * Perform end-of-request tasks.
- *
- * This function sets the page cache if appropriate, and allows modules to
- * react to the closing of the page by calling hook_exit().
- */
-function ariPageFooter() {
+  global $ARI_VERSION, $amp_conf;
 
-}
+  // version
+  $ari_version = $ARI_VERSION;
 
-/**
- * Initiate FreePBX bootstrap environment
- */
-$bootstrap_settings['freepbx_auth'] = false;
-if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-	include_once('/etc/asterisk/freepbx.conf');
+  // check error
+  $error = $_SESSION['ari_error'];
+
+  // load modules
+  loadModules();
+
+  // login to database
+  $success = databaseLogon();
+
+  if ($success) {
+
+    // check if login is needed
+    $content = loginBlock();
+    if (!isset($content)) {
+        list($nav_menu,$subnav_menu,$content) = handleBlock();
+    }
+  }
+  else {
+
+    $display = new Display();
+	
+	$content = '';
+    $content .= $display->displayHeaderText("ARI");
+    $content .= $display->displayLine();
+    $content .= checkErrorMessage();
+  }
+
+  // log off any databases needed
+  databaseLogoff();
+
+  // check for ajax request and refresh or if not build the page
+  if (isset($_REQUEST['ajax_refresh']) ) {
+
+    echo "<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+      <response>
+        <nav_menu><![CDATA[" . $nav_menu . "]]></nav_menu>
+        <subnav_menu><![CDATA[" . $subnav_menu . "]]></subnav_menu>
+        <content><![CDATA[" . $content . "]]></content>
+      </response>";
+  }
+  else {
+
+    // build the page
+    include_once("./theme/page.tpl.php"); 
+  }
 }
 
 /**
  * Includes and run functions
- */
+ */  
 
-include_once("./includes/lang.php");
-$language = new Language();
-$language->set();
+// create asterisk manager interface singleton
+$asterisk_manager_interface = '';
 
-checkDependencies();
-startARISession();
-setARIRoot();
+// array to keep track of loaded modules
+$loaded_modules = array();
 
-include_once("./includes/common.php");
-include_once("./includes/main.conf.php");
-include_once("./version.php");
-include_once("./includes/crypt.php"); 
-include_once("./includes/login.php");
+include_once("./includes/asi.php");
+include_once("./includes/database.php");
+include_once("./includes/display.php"); 
+include_once("./includes/ajax.php");
+include_once("./includes/callme.php");
 
 ?>
