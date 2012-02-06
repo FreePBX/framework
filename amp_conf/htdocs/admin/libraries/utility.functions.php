@@ -1162,7 +1162,7 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
  * 
  * @author Moshe Brevda mbrevda => gmail ~ com
  * @pram string - /path/to/file
- * @retruns array - details about the pdf. 
+ * @returns array - details about the pdf. 
  * The following details are returned 
  *		(values returned are depndant on the pdfinfo binary)
  *		author
@@ -1193,4 +1193,65 @@ function fpbx_pdfinfo($pdf) {
 	}
 	ksort($pdfinfo);
 	return $pdfinfo;
+}
+
+/**
+ * Update AMI credentials in manager.conf
+ * 
+ * @author Philippe Lindheimer
+ * @pram string
+ * @pram string
+ * @returns boolean
+ * 
+ * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
+ */
+function fpbx_ami_update($user=false, $pass=false) {
+	global $amp_conf;
+	global $astman;
+
+	$ret = $ret2 = 0;
+	$output = array();
+	
+	if ($user !== false && $user != '') {
+		exec('sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/" '. $amp_conf['ASTETCDIR'] . '/manager.conf', $output, $ret);
+		if ($ret) {
+			dbug($output);
+			dbug($ret);
+			freepbx_log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI user to [%s], internal failure details follow:"),$amp_conf['AMPMGRUSER']));
+			foreach ($output as $line) {
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
+			}
+		}
+	}
+
+	if ($pass !== false && $pass != '') {
+		unset($output);
+		exec('sed -i.bak "s/secret\s*=.*$/secret = ' . $amp_conf['AMPMGRPASS'] . '/" ' . $amp_conf['ASTETCDIR'] . '/manager.conf', $output, $ret2);
+		if ($ret2) {
+			dbug($output);
+			dbug($ret2);
+			freepbx_log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI password to [%s], internal failure details follow:"),$amp_conf['AMPMGRPASS']));
+			foreach ($output as $line) {
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
+			}
+		}
+	}
+
+	if ($ret || $ret2) {
+		dbug("aborting early because previous errors");
+		return false;
+	}
+	if (!empty($astman)) {
+		$ast_ret = $astman->Command('module reload manager');
+	} else {
+		unset($output);
+		dbug("no astman connection so trying to force through linux command line");
+		exec(fpbx_which('asterisk') . " -rx 'module reload manager'", $output, $ret2);
+		if ($ret2) {
+			dbug($output);
+			dbug($ret2);
+			freepbx_log(FPBX_LOG_ERROR,_("Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx 'module reload manager']"));
+		}
+	}
+	return true;
 }
