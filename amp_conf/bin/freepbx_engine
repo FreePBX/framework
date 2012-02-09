@@ -252,6 +252,10 @@ chown_asterisk() {
 	[ -e /dev/mISDN ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/mISDN
 	[ -e /dev/dsp ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/dsp
 
+	# Ensure default php session directory is owned by asterisk web user since some yum updates break this
+	# this is the default CentOS location, may not work for other Linux distros
+	[ -d /var/lib/php/session ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /var/lib/php/session
+
 	echo Permissions OK
 	call_hook chown_asterisk
 }
