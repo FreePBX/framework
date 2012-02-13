@@ -92,41 +92,71 @@ function loadModules() {
  * Builds database connections
  */
 function databaseLogon() {
-	global $AMPORTAL_CONF_FILE,
-			$AMP_FUNCTIONS_FILES,
-			$ARI_ADMIN_PASSWORD,
-			$ARI_ADMIN_USERNAME,
-			$ARI_DISABLED_MODULES,
-			$ASTERISKMGR_DBHOST,
-			$LEGACY_AMP_DBENGINE,
-			$LEGACY_AMP_DBFILE,
-			$LEGACY_AMP_DBHOST,
-			$LEGACY_AMP_DBNAME,
-			$amp_conf, 
-			$amp_conf_defaults, 
-			$amp_usedevstate,
-			$ariadminpassword,
-			$ariadminusername,
-			$asterisk_manager_interface, 
-			$astman, 
-			$cdrdb, 
-			$db, 
-			$loaded_modules,
-			$STANDALONE;
+	global $STANDALONE;
 
+	global $ASTERISKMGR_DBHOST;
+
+	global $AMP_FUNCTIONS_FILES;
+	global $AMPORTAL_CONF_FILE;
+
+	global $LEGACY_AMP_DBENGINE;
+	global $LEGACY_AMP_DBFILE;
+	global $LEGACY_AMP_DBHOST;
+	global $LEGACY_AMP_DBNAME;
+
+	global $ASTERISKCDR_DBENGINE;
+	global $ASTERISKCDR_DBFILE;
+	global $ASTERISKCDR_DBHOST;
+	global $ASTERISKCDR_DBNAME;
+
+	global $ARI_DISABLED_MODULES;
+
+	global $ARI_ADMIN_USERNAME;
+	global $ARI_ADMIN_PASSWORD;
+	global $ariadminusername;
+	global $ariadminpassword;
+
+	global $loaded_modules;
+
+	// This variable is a global in the FreePBX function.inc.php but needs to be
+	// declared here or the is not seen when parse_amprotaconf() is eventually called
+	// ?php bug?
+	//
+	global $amp_conf_defaults;
 
   // get user
 	if ($STANDALONE['use']) {
 		$mgrhost = $ASTERISKMGR_DBHOST;
 		$mgruser = $STANDALONE['asterisk_mgruser'];
 		$mgrpass = $STANDALONE['asterisk_mgrpass'];
+		$asteriskcdr_dbengine = $ASTERISKCDR_DBENGINE;
+		$asteriskcdr_dbfile = $ASTERISKCDR_DBFILE;
+		$asteriskcdr_dbuser = $STANDALONE['asteriskcdr_dbuser'];
+		$asteriskcdr_dbpass = $STANDALONE['asteriskcdr_dbpass'];
+		$asteriskcdr_dbhost = $ASTERISKCDR_DBHOST;
+		$asteriskcdr_dbname = $ASTERISKCDR_DBNAME;
 	} else {
-
+		
+		global $amp_conf, $amp_usedevstate;
 		$ariadminusername = isset($amp_conf["ARI_ADMIN_USERNAME"]) ? $amp_conf["ARI_ADMIN_USERNAME"] : $ARI_ADMIN_USERNAME;
 		$ariadminpassword = isset($amp_conf["ARI_ADMIN_PASSWORD"]) ? $amp_conf["ARI_ADMIN_PASSWORD"] : $ARI_ADMIN_PASSWORD;
 		$mgrhost = $ASTERISKMGR_DBHOST;
 		$mgruser = $amp_conf['AMPMGRUSER'];
 		$mgrpass = $amp_conf['AMPMGRPASS'];
+
+		$amp_dbengine = isset($amp_conf["AMPDBENGINE"]) ? $amp_conf["AMPDBENGINE"] : $LEGACY_AMP_DBENGINE;
+		$amp_dbfile = isset($amp_conf["AMPDBFILE"]) ? $amp_conf["AMPDBFILE"] : $LEGACY_AMP_DBFILE;
+		$amp_dbuser = $amp_conf["AMPDBUSER"];
+		$amp_dbpass = $amp_conf["AMPDBPASS"];
+		$amp_dbhost = isset($amp_conf["AMPDBHOST"]) ? $amp_conf["AMPDBHOST"] : $LEGACY_AMP_DBHOST;
+		$amp_dbname = isset($amp_conf["AMPDBNAME"]) ? $amp_conf["AMPDBNAME"] : $LEGACY_AMP_DBNAME;
+
+		$asteriskcdr_dbengine = $ASTERISKCDR_DBENGINE;
+		$asteriskcdr_dbfile = $ASTERISKCDR_DBFILE;
+		$asteriskcdr_dbuser = $amp_conf["AMPDBUSER"];
+		$asteriskcdr_dbpass = $amp_conf["AMPDBPASS"];
+		$asteriskcdr_dbhost = isset($amp_conf["AMPDBHOST"]) ? $amp_conf["AMPDBHOST"] : $ASTERISKCDR_DBHOST;
+		$asteriskcdr_dbname = $ASTERISKCDR_DBNAME;
 		
 		$amp_usedevstate = isset($amp_conf["USEDEVSTATE"]) ? strtolower(trim($amp_conf["USEDEVSTATE"])) : 0;
 		if ($amp_usedevstate == 'yes' || $amp_usedevstate == 'true' || $amp_usedevstate == 'on' || $amp_usedevstate == '1') {
@@ -135,39 +165,60 @@ function databaseLogon() {
 			$amp_usedevstate = 0;
 		}
 
- 	}
+  }
 
+ 	// asterisk manager interface (berkeley database I think)
+	global $asterisk_manager_interface;
 	$asterisk_manager_interface = new AsteriskManagerInterface();
 
 	$success = $asterisk_manager_interface->Connect($mgrhost,$mgruser,$mgrpass);
 	if (!$success) {
-		$_SESSION['ari_error'] =  
-			_("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" . 
-			_("Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager Account.") . "<br>" . 
-			_("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account") . "<br>" .
-			_("make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver.");
-		return FALSE;
+	  $_SESSION['ari_error'] =  
+	    _("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" . 
+	    _("Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager Account.") . "<br>" . 
+	    _("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account") . "<br>" .
+	    _("make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver.");
+	  return FALSE;
 	}
 
+
+	global $astman;
 	if (!isset($astman) || !$astman) {
 		// couldn't connect to astman
-		$_SESSION['ari_error'] =
-			_("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" .
-			_("Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager Account.") . "<br>" .
-			_("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account") . "<br>" .
-			_("make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver.");
+        $_SESSION['ari_error'] =
+        _("ARI does not appear to have access to the Asterisk Manager.") . " ($errno)<br>" .
+        _("Check the ARI 'main.conf.php' configuration file to set the Asterisk Manager Account.") . "<br>" .
+        _("Check /etc/asterisk/manager.conf for a proper Asterisk Manager Account") . "<br>" .
+        _("make sure [general] enabled = yes and a 'permit=' line for localhost or the webserver.");
 	}
 
+
+	global $db;
 	if (isset($db) && $db) {
 	 	$_SESSION['dbh_asterisk'] = $db;
-	}
+	} else {
+		$_SESSION['ari_error'] .= _("Cannot connect to the $amp_dbname database") . "<br>" .
+	                            _("Check AMP installation, asterisk, and ARI main.conf");
+	   return FALSE;
+}
 
   // cdr database
-	if (isset($cdrdb) && $cdrdb) {
-		$_SESSION['dbh_cdr'] = $cdrdb;
-	}
-	
-	return TRUE;
+  if (in_array('callmonitor',array_keys($loaded_modules))) {
+	 $cdrdb = new Database();
+    $_SESSION['dbh_cdr'] = $cdrdb->logon($asteriskcdr_dbengine,
+                                      $asteriskcdr_dbfile,
+                                      $asteriskcdr_dbuser, 
+                                      $asteriskcdr_dbpass,
+                                      $asteriskcdr_dbhost,
+                                      $asteriskcdr_dbname);
+    if (!isset($_SESSION['dbh_cdr'])) {
+      $_SESSION['ari_error'] .= sprintf(_("Cannot connect to the $asteriskcdr_dbname database"),$asteriskcdr_dbname) . "<br>" .
+                               _("Check AMP installation, asterisk, and ARI main.conf");
+      return FALSE;
+    }
+  }
+
+  return TRUE;
 }
 
 /**
