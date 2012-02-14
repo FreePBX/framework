@@ -24,7 +24,7 @@ foreach ($var as $key => $value) {
 foreach (array_keys($user_hash) as $user) {
 	if ($user != 'none' && $user != '') {
 		$devices = get_devices($user);
-		debug("Set hints for user: $user for devices:  ".$devices,5);
+		//debug("Set hints for user: $user for devices:  ".$devices,5);
 		set_hint($user, $devices);
 	}
 }
@@ -34,7 +34,7 @@ foreach (array_keys($user_hash) as $user) {
 // Set the hint for a user based on the devices in their AMPUSER object
 //
 function set_hint($user, $devices) {
-	debug("set_hint: user: $user, devices: $devices",8);
+	//debug("set_hint: user: $user, devices: $devices",8);
 	global $astman;
 	global $dnd_mode;
 	global $intercom_code;
@@ -66,7 +66,7 @@ function set_hint($user, $devices) {
 // to create proper hints)
 //
 function get_dial_string($devices) {
-	debug("get_dial_string: devices: $devices",8);
+	//debug("get_dial_string: devices: $devices",8);
 	global $astman;
 	global $ast_with_dahdi;
 
@@ -85,7 +85,7 @@ function get_dial_string($devices) {
 // Get the list of current devices for this user
 //
 function get_devices($user) {
-	debug("get_devices: user: $user", 8);
+	//debug("get_devices: user: $user", 8);
 	global $astman;
 
 	$devices = $astman->database_get('AMPUSER',$user.'/device');
