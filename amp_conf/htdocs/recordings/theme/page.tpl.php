@@ -104,13 +104,8 @@
   </div>
   </div>
 	<?php
-		if (!isset($no_auth)) {
-			$fpbx['conf']				= $amp_conf;
-			unset($fpbx['conf']['AMPMGRPASS'], 
-				$fpbx['conf']['AMPMGRUSER'], 
-				$fpbx['conf']['AMPDBUSER'], 
-				$fpbx['conf']['AMPDBPASS']);
-		}
+
+		$fpbx['conf']					= array();
 
 		$fpbx['conf']['text_dir']		= isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))
 											? 'rtl' : 'ltr';
@@ -190,10 +185,58 @@
 		}
 
 		//add IE specifc styling polyfills
-		$html .= '<!--[if lte IE 10]>';
-		$html .= '<link rel="stylesheet" href="/admin/assets/css/progress-polyfill.css" type="text/css">';
-		$html .= '<script type="text/javascript" src="/admin/assets/js/progress-polyfill.min.js"></script>';
-		$html .= '<![endif]-->';
+		//offer google chrome frame for the richest experience
+		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
+			$html .= <<<END
+			<!--[if IE]>
+				<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+				<script>
+					!$.cookie('skip_cf_check') //skip check if skip_cf_check cookie is active
+						&& CFInstall	//make sure CFInstall is loaded 
+						&& !!window.attachEvent //attachEvent is ie only, should never fire in other browsers
+						&& window.attachEvent("onload", function() {
+						 CFInstall.check({
+							preventPrompt: true,
+							onmissing: function() {
+								$('<div></div>')
+									.html('Unfortunately, some features may not work correctly in your '
+										+ 'current browser. We suggest that you activate Chrome Frame, '
+										+ 'which will offer you the richest posible experience. ')
+									.dialog({
+										title: 'Activate Chrome Frame',
+										resizable: false,
+										modal: true,
+										position: ['center', 'center'],
+										close: function (e) {
+											$.cookie('skip_cf_check', 'true');
+											$(e.target).dialog("destroy").remove();
+										},
+										buttons: [
+											{
+												text: 'Activate',
+												click: function() {
+														window.location = 'http://www.google.com/chromeframe/?redirect=true';
+												}
+
+											},
+											{
+												text: fpbx.msg.framework.cancel,
+												click: function() {
+														//set cookie to prevent prompting again in this session
+														$.cookie('skip_cf_check', 'true');
+														$(this).dialog("destroy").remove();
+													}
+											}
+											]
+									});
+							}
+						});
+
+					});
+			</script>
+			<![endif]-->
+END;
+		}
 		echo $html;
 	?>
   </body>

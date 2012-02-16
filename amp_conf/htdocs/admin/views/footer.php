@@ -25,11 +25,43 @@ $html .= '</div>'; //page
 //localized strings and other javascript values that need to be set dynamically
 //TODO: this should be done via callbacks so that all modules can hook in to it
 if (!isset($no_auth)) {
-	$fpbx['conf']				= $amp_conf;
-	unset($fpbx['conf']['AMPMGRPASS'], 
-		$fpbx['conf']['AMPMGRUSER'], 
-		$fpbx['conf']['AMPDBUSER'], 
-		$fpbx['conf']['AMPDBPASS']);
+	$fpbx['conf'] = $amp_conf;
+	$clean = array(
+			'AMPASTERISKUSER',
+			'AMPASTERISKGROUP',
+			'AMPASTERISKWEBGROUP',
+			'AMPASTERISKWEBUSER',
+			'AMPDBENGINE',
+			'AMPDBHOST',
+			'AMPDBNAME',
+			'AMPDBPASS',
+			'AMPDBUSER',
+			'AMPDEVGROUP',
+			'AMPDEVUSER',
+			'AMPMGRPASS',
+			'AMPMGRUSER',
+			'AMPVMUMASK',
+			'ARI_ADMIN_PASSWORD',
+			'ARI_ADMIN_USERNAME',
+			'ASTMANAGERHOST',
+			'ASTMANAGERPORT',
+			'ASTMANAGERPROXYPORT',
+			'CDRDBHOST',
+			'CDRDBNAME',
+			'CDRDBPASS',
+			'CDRDBPORT',
+			'CDRDBTABLENAME',
+			'CDRDBTYPE',
+			'CDRDBUSER',
+			'FOPPASSWORD',
+			'FOPSORT',
+	);
+	
+	foreach ($clean as $var) {
+		if (isset($fpbx['conf'][$var])) {
+			unset($fpbx['conf'][$var]);
+		}
+	}
 }
 
 $fpbx['conf']['text_dir']		= isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))
