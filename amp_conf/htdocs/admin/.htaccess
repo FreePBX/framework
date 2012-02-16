@@ -6,6 +6,6 @@
 
 # Now allow /admin, /admin/config.php and /admin/index.php as well as the various assets
 #
-<FilesMatch "(^$|index\.php|config\.php|\.(gif|GIF|jpg|jpeg|png|css|js)$)">
+<FilesMatch "(^$|index\.php|config\.php|\.(gif|GIF|jpg|jpeg|png|css|js|swf|txt|ico)$)">
 	Allow from all
 </FilesMatch>
