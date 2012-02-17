@@ -37,9 +37,6 @@ class modulelist{
       if (isset($mod['attention'])) {
         unset($this->module_array[$mod_key]['attention']);
       }
-      if (isset($mod['publisher'])) {
-        unset($this->module_array[$mod_key]['publisher']);
-      }
       if (!isset($mod['license'])) {
         $this->module_array[$mod_key]['license'] = '';
       }
