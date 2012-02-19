@@ -1244,6 +1244,15 @@ class ext_sayphonetic extends extension {
 		return "SayPhonetic(".$this->data.")";
 	}
 }
+class ext_senddtmf extends extension {
+	var $digits;
+	function ext_senddtmf($digits) {
+		$this->digits = $digits;
+	} 
+	function output() {
+		return 'SendDTMF('.$this->digits.')';
+	}
+}
 class ext_system extends extension {
 	function output() {
 		return "System(".$this->data.")";
