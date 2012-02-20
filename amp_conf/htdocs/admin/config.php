@@ -240,8 +240,7 @@ if (!is_array($cur_menuitem) && $display != "") {
 // load the component from the loaded modules
 if ($display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 
-	$currentcomponent = new component($display,$type);
-
+	$CC = $currentcomponent = new component($display,$type);
 	// call every modules _configpageinit function which should just
 	// register the gui and process functions for each module, if relevant
 	// for this $display

@@ -722,14 +722,30 @@ $(document).ready(function(){
 	$('.guielToggle').click(function() {
 		var txt = $(this).find('.guielToggleBut');
 		var el = $(this).data('toggle_class');
+		var section = $.urlParam('display') + '#' + el;
+		
+		//true = hide
+		//false = dont hide
 		switch(txt.text().replace(/ /g,'')) {
 			case '-':
 				txt.text('+ ');
-				$('.'+el).hide()
+				$('.' + el).hide();
+	
+				//set cookie of hidden section
+				guielToggle = $.parseJSON($.cookie('guielToggle')) || {};
+				guielToggle[section] = false;
+				$.cookie('guielToggle', JSON.stringify(guielToggle));
 				break;
 			case '+':
 				txt.text('-  ');
 				$('.'+el).show();
+				
+				//set cookie of hidden section
+				guielToggle = $.parseJSON($.cookie('guielToggle')) || {};
+				if (guielToggle.hasOwnProperty(section)){
+					guielToggle[section] = true;
+					$.cookie('guielToggle', JSON.stringify(guielToggle));
+				}
 				break;
 		}
 	})
