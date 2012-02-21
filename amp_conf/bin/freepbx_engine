@@ -304,31 +304,41 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 stop_asterisk() {
 echo
 echo "STOPPING ASTERISK"
-echo "All calls will be dropped once the timer hits 0. To cancel, press CTL-C"
+echo "Waiting for Asterisk to Stop Gracefully..."
 pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 		then
 			/usr/sbin/asterisk -rx "core stop gracefully" | grep -v "No such command"
 			/usr/sbin/asterisk -rx "stop gracefully" | grep -v -E "No such command|deprecated|Unable to connect to remote"
 
-			ast_not_stopped=true
-			time_to_wait=$ASTSTOPTIMEOUT
+			pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
+			if [ "$pid_length" = "0" -o "$pid_length" = "" ]
+			then
+				ast_not_stopped=false
+			else
+				echo "All calls will be dropped once the timer hits 0. To cancel, press CTL-C"
+				ast_not_stopped=true
+				time_to_wait=$ASTSTOPTIMEOUT
 
-			while [ $time_to_wait -gt 0 ];
-			do
-				echo -ne "Waiting for Asterisk to Stop" $time_to_wait "\r"
-				sleep $ASTSTOPPOLLINT
-				let time_to_wait=time_to_wait-ASTSTOPPOLLINT
-				pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
-				if [ "$pid_length" = "0" -o "$pid_length" = "" ]
-				then
-					ast_not_stopped=false
-					break
-				fi
-			done
+				while [ $time_to_wait -gt 0 ];
+				do
+					echo -ne "Waiting for Asterisk to Stop" $time_to_wait "\r"
+					sleep $ASTSTOPPOLLINT
+					let time_to_wait=time_to_wait-ASTSTOPPOLLINT
+					pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
+					if [ "$pid_length" = "0" -o "$pid_length" = "" ]
+					then
+						ast_not_stopped=false
+						break
+					fi
+				done
+			fi
+
 			if $ast_not_stopped ;
 			then
-				echo "Waiting for Asterisk to Stop"
+				echo "Waiting for Asterisk to Stop    "
+			else
+				echo
 			fi
 
 			if $ast_not_stopped ;
@@ -352,10 +362,14 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 							break
 						fi
 					done
+
 					if $ast_not_stopped ;
 					then
-						echo "Waiting for Asterisk to Stop"
+						echo "Waiting for Asterisk to Stop    "
+					else
+						echo
 					fi
+
 				else
 					ast_not_stopped=false
 				fi
@@ -374,7 +388,7 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 					fi
 				fi
 			fi
-			echo "Asterisk Stopped"
+			echo -ne "Asterisk Stopped" "\n\n"
 
 		fi
 	call_hook stop_asterisk
