@@ -253,6 +253,10 @@ chown_asterisk() {
 	[ -e /dev/misdn ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/misdn
 	[ -e /dev/mISDN ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/mISDN
 	[ -e /dev/dsp ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/dsp
+	
+	# If hardware directories exists, owen them correctly so that modules can create the configs
+	[ -e /etc/dahdi ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/dahdi 
+	[ -e /etc/wanpipe ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/wanpipe
 
 	# Ensure default php session directory is owned by asterisk web user since some yum updates break this
 	# this is the default CentOS location, may not work for other Linux distros
