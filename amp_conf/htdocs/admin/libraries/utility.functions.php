@@ -115,6 +115,9 @@ function compress_framework_css() {
 		// it's important for filename tp unique 
 		//because that will force browsers to reload vs. caching it
 		$mainstyle_css_generated = $ms_path.'/mstyle_autogen_' . time() . '.css';
+		//remove any stale generated css files
+		exec(fpbx_which('rm') . ' -f ' . $ms_path . '/mstyle_autogen_*');
+		
 		$ret = file_put_contents($mainstyle_css_generated, $new_css);
 
 		// Now assuming we write something reasonable, we need to save the generated file name and mtimes so
