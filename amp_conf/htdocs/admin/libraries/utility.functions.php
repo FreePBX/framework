@@ -569,6 +569,7 @@ function edit_crontab($remove = '', $add = '') {
 
 	//if we have $add and its an array, parse it & fill in the missing options
 	//if its a string, add it as is
+
 	if($add) {
 		if (is_array($add)) {
 			if (isset($add['command'])) {
@@ -576,11 +577,21 @@ function edit_crontab($remove = '', $add = '') {
 				if (isset($add['event'])) {
 					$cron_add['event'] = '@' . trim($add['event'], '@');
 				} else {
-					$cron_add['minute']		= isset($add['minute'])	? $add['minute']	: '*';
-					$cron_add['hour']		= isset($add['hour'])	? $add['hour']		: '*';
-					$cron_add['dom']		= isset($add['dom'])	? $add['dom']		: '*';
-					$cron_add['month']		= isset($add['month'])	? $add['month']		: '*';
-					$cron_add['dow']		= isset($add['dow'])	? $add['dow']		: '*';
+					$cron_add['minute']		= isset($add['minute']) && $add['minute'] !== ''	
+												? $add['minute']
+												: '*';
+					$cron_add['hour']		= isset($add['hour']) && $add['hour'] !== ''
+												? $add['hour']
+												: '*';
+					$cron_add['dom']		= isset($add['dom']) && $add['dom'] !== ''
+												? $add['dom']
+												: '*';
+					$cron_add['month']		= isset($add['month']) && $add['month']	!== ''
+												? $add['month']
+												: '*';
+					$cron_add['dow']		= isset($add['dow']) && $add['dow'] !== ''
+												? $add['dow']
+												: '*';
 				}
 				$cron_add['command']	= $add['command'];
 				$cron_add = implode(' ', $cron_add);
