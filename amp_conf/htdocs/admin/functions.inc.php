@@ -316,8 +316,13 @@ function engine_getinfo($force_read=false) {
   return $engine_info;
 }
 
-function do_reload() {
+function do_reload($passthru=false) {
 	global $amp_conf, $asterisk_conf, $db, $astman, $version;
+	$freepbx_conf =& freepbx_conf::create();
+
+	$setting_pre_reload = $freepbx_conf->get_conf_setting('AMPMGRUSER', $passthru);
+	$setting_ampbin = $freepbx_conf->get_conf_setting('AMPBIN', $passthru);
+	$setting_post_reload = $freepbx_conf->get_conf_setting('POST_RELOAD', $passthru);
 
 	if (empty($version)) {
 		$engine_info = engine_getinfo();
@@ -329,12 +334,12 @@ function do_reload() {
 	$return = array('num_errors'=>0,'test'=>'abc');
 	$exit_val = null;
 	
-	if (isset($amp_conf["PRE_RELOAD"]) && !empty($amp_conf['PRE_RELOAD']))  {
-		exec( $amp_conf["PRE_RELOAD"], $output, $exit_val );
+	if ($setting_pre_reload)  {
+		exec( $setting_pre_reload, $output, $exit_val );
 		
 		if ($exit_val != 0) {
 			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
-			$notify->add_error('freepbx','reload_pre_script', sprintf(_('Could not run %s script.'), $amp_conf['PRE_RELOAD']), $desc);
+			$notify->add_error('freepbx','reload_pre_script', sprintf(_('Could not run %s script.'), $setting_pre_reload), $desc);
 			
 			$return['num_errors']++;
 		} else {
@@ -342,7 +347,7 @@ function do_reload() {
 		}
 	}
 	
-	$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf 2>&1';
+	$retrieve = $setting_ampbin . '/retrieve_conf 2>&1';
 	//exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log', $output, $exit_val);
 	exec($retrieve, $output, $exit_val);
 	
@@ -387,12 +392,12 @@ function do_reload() {
 		$return['num_errors']++;
 	}
 	
-	if (isset($amp_conf["POST_RELOAD"]) && !empty($amp_conf['POST_RELOAD']))  {
-		exec( $amp_conf["POST_RELOAD"], $output, $exit_val );
+	if ($setting_pre_reload)  {
+		exec( $setting_pre_reload, $output, $exit_val );
 		
 		if ($exit_val != 0) {
 			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
-			$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), 'POST_RELOAD'), $desc);
+			$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), $setting_pre_reload), $desc);
 			
 			$return['num_errors']++;
 		} else {
