@@ -392,12 +392,12 @@ function do_reload($passthru=false) {
 		$return['num_errors']++;
 	}
 	
-	if ($setting_pre_reload)  {
-		exec( $setting_pre_reload, $output, $exit_val );
+	if ($setting_post_reload)  {
+		exec( $setting_post_reload, $output, $exit_val );
 		
 		if ($exit_val != 0) {
 			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
-			$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), $setting_pre_reload), $desc);
+			$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), $setting_post_reload), $desc);
 			
 			$return['num_errors']++;
 		} else {
