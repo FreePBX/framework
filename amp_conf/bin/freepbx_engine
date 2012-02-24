@@ -212,7 +212,7 @@ chown_asterisk() {
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTVARLIBDIR)
 	chmod -R g+w $(readlink -f $ASTVARLIBDIR)
 	#ssh keys need to be 0600
-	[ -d $ASTVARLIBDIR/.ssh ] && chmod -R 0600 $ASTVARLIBDIR/.ssh
+	[ -f $ASTVARLIBDIR/.ssh/id_rsa ] && chmod 0600 $ASTVARLIBDIR/.ssh/id_rsa
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTLOGDIR)
 	chmod -R g+w $(readlink -f $ASTLOGDIR)
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTSPOOLDIR)
