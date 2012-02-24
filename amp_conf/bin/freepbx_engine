@@ -262,6 +262,7 @@ chown_asterisk() {
 	# this is the default CentOS location, may not work for other Linux distros
 	[ -d /var/lib/php/session ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /var/lib/php/session
 	[ -d /var/www/html ] && chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /var/www/html
+	[ -d /var/www/html ] && chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /var/www/html/*
 
 	echo Permissions OK
 	call_hook chown_asterisk
