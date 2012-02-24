@@ -320,7 +320,7 @@ function do_reload($passthru=false) {
 	global $amp_conf, $asterisk_conf, $db, $astman, $version;
 	$freepbx_conf =& freepbx_conf::create();
 
-	$setting_pre_reload = $freepbx_conf->get_conf_setting('AMPMGRUSER', $passthru);
+	$setting_pre_reload = $freepbx_conf->get_conf_setting('PRE_RELOAD', $passthru);
 	$setting_ampbin = $freepbx_conf->get_conf_setting('AMPBIN', $passthru);
 	$setting_post_reload = $freepbx_conf->get_conf_setting('POST_RELOAD', $passthru);
 
