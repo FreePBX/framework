@@ -1,16 +1,25 @@
-; 1st listed format gets emailed
-format=wav49|wav
+;-----------------------------------------------------------------------------------
+; NOTICE:
+; Any entries set in this file will override the voicemail GUI and force the GUI
+; to show the value of these entries. It will prevent the GUI from making changes
+; and saving them out. If you want to manage these or any other settings from the
+; GUI you should remove or comment them out here.
+;-----------------------------------------------------------------------------------
 
-attach=yes
-pbxskip=yes              	; Don't put [PBX]: in the subject line
-serveremail=vm@asterisk		; Who the e-mail notification should appear to come from
-fromstring=Voicemail System 	; Real name of email sender
-maxsilence=5            	; Wait for 5 silent seconds and end the voicemail
-silencethreshold=128     	; What do we consider to be silence
-skipms=3000			; How many miliseconds to skip forward/back when rew/ff in message playback
-review=yes			; Allow sender to review/rerecord their message before saving it
-operator=yes			; Allow caller to press 0
-nextaftercmd=yes		; Automagically play next message when current message is deleted or saved
+
+; 1st listed format gets emailed
+;format=wav49|wav
+
+;attach=yes
+;pbxskip=yes              	; Don't put [PBX]: in the subject line
+;serveremail=vm@asterisk		; Who the e-mail notification should appear to come from
+;fromstring=Voicemail System 	; Real name of email sender
+;maxsilence=5            	; Wait for 5 silent seconds and end the voicemail
+;silencethreshold=128     	; What do we consider to be silence
+;skipms=3000			; How many miliseconds to skip forward/back when rew/ff in message playback
+;review=yes			; Allow sender to review/rerecord their message before saving it
+;operator=yes			; Allow caller to press 0
+;nextaftercmd=yes		; Automagically play next message when current message is deleted or saved
 
 ; Asterisk pre 1.6.2 options:
 ;maxmessage=180          	; max length of vm message
