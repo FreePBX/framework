@@ -2206,7 +2206,7 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['category'] = 'Dialplan and Operational';
 	$set['emptyok'] = 0;
 	$set['name'] = 'Conference Room App';
-	$set['description'] = 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong.';
+	$set['description'] = 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_confbridge application is considered "experimental" with known issues and does not work on Asterisk 10 where it was completely rewritten and changed from the version on 1.6 and 1.8.';
 	$set['type'] = CONF_TYPE_SELECT;
 	$freepbx_conf->define_conf_setting('ASTCONFAPP', $set);
 	
