@@ -59,9 +59,15 @@ header('Cache-Control: post-check=0, pre-check=0',false);
 header('Pragma: no-cache');
 header('Content-Type: text/html; charset=utf-8');
 
+// This needs to be included BEFORE the session_start or we fail so
+// we can't do it in bootstrap and thus we have to depend on the
+// __FILE__ path here.
 require_once(dirname(__FILE__) . '/libraries/ampuser.class.php');
-//start a session if we need one
+
+session_set_cookie_params(60 * 60 * 24 * 30);//(re)set session cookie to 30 days
+ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);//(re)set session to 30 days
 if (!isset($_SESSION)) {
+	//start a session if we need one
     session_start();
 }
 
@@ -87,7 +93,10 @@ if (isset($_REQUEST['handler'])) {
 	}
 }
 
-require('bootstrap.php');
+// call bootstrap.php through freepbx.conf
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) { 
+	 	  include_once('/etc/asterisk/freepbx.conf'); 
+} 
 
 /* If there is an action request then some sort of update is usually being done.
    This will protect from cross site request forgeries unless disabled.
@@ -116,18 +125,20 @@ if (!isset($no_auth) && isset($_REQUEST['handler'])) {
 
 $fw_gui_html = '';
 //buffer & compress our responce
-ob_start($amp_conf['buffering_callback']);
+ob_start();
 
 if (!$quietmode) {	
 	//send header
 	$header['title']	= framework_server_name();
 	$header['amp_conf']	= $amp_conf;
-	$fw_gui_html .=			load_view(dirname(__FILE__) . '/views/header.php', $header);
+	$fw_gui_html .=			load_view($amp_conf['VIEW_HEADER'], $header);
 	
 	if (isset($no_auth)) {
-		$fw_gui_html .= load_view(dirname(__FILE__) . '/views/menu.php', $header);
+		$fw_gui_html .= load_view($amp_conf['VIEW_MENU'], $header);
 		$fw_gui_html .= $no_auth;
-		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], array('no_auth' => $no_auth));
+		$footer['footer_content']	= load_view($amp_conf['VIEW_FOOTER_CONTENT']);
+		$footer['no_auth']	= $no_auth;
+		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
 		echo $fw_gui_html;
 		exit();
 	}
@@ -191,7 +202,7 @@ if(is_array($active_modules)){
 // new gui hooks
 if(!$quietmode && is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
-
+		modgettext::push_textdomain($module['rawname']);
 		if (isset($module['items']) && is_array($module['items'])) {
 			foreach($module['items'] as $itemKey => $itemName) {
 				//list of potential _configpageinit functions
@@ -206,6 +217,7 @@ if(!$quietmode && is_array($active_modules)){
 		if ( function_exists($initfuncname) ) {
 			$configpageinits[] = $initfuncname;
 		}
+		modgettext::pop_textdomain();
 	}
 }
 
@@ -222,15 +234,13 @@ if (!$quietmode) {
 
 // check access
 if (!is_array($cur_menuitem) && $display != "") {
-	show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf'=>&$amp_conf));
-	exit;
+	$fw_gui_html .= show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf'=>&$amp_conf));
 }
 
 // load the component from the loaded modules
 if ($display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 
-	$currentcomponent = new component($display,$type);
-
+	$CC = $currentcomponent = new component($display,$type);
 	// call every modules _configpageinit function which should just
 	// register the gui and process functions for each module, if relevant
 	// for this $display
@@ -242,7 +252,7 @@ if ($display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 	$currentcomponent->processconfigpage();
 	$currentcomponent->buildconfigpage();
 }
-ob_start($amp_conf['buffering_callback']);
+ob_start();
 $module_name = "";
 $module_page = "";
 $module_file = "";
@@ -299,13 +309,7 @@ switch($display) {
 			break; // we break here to avoid the generateconfigpage() below
 		} else if (file_exists($module_file)) {
 			// load language info if available
-			if (extension_loaded('gettext')) {
-				if (is_dir("modules/{$module_name}/i18n")) {
-					bindtextdomain($module_name,"modules/{$module_name}/i18n");
-					bind_textdomain_codeset($module_name, 'utf8');
-					textdomain($module_name);
-				}
-			}
+			modgettext::textdomain($module_name);
 			include($module_file);
 		} else {
 			echo "404 Not found (" . $module_file  . ')';
@@ -342,8 +346,8 @@ if ($quietmode) {
 	$content		 				= ob_get_contents();
 	ob_end_clean();
 	//now restart buffering so that our data is compressed again
-	ob_start($amp_conf['buffering_callback']);
-	
+    ob_start();
+
 	//if we have a module loaded, load its css
 	if (isset($module_name)) {
 		$fw_gui_html .= framework_include_css();
@@ -370,7 +374,8 @@ if ($quietmode) {
 	$footer['module_page']			= $module_page;
 	$footer['benchmark_starttime']	= $benchmark_starttime;
 	$footer['reload_needed']		= check_reload_needed();
-	$fw_gui_html .=						load_view($amp_conf['VIEW_FOOTER'], $footer);
+	$footer['footer_content']		= load_view($amp_conf['VIEW_FOOTER_CONTENT'], $footer);
+	$fw_gui_html 					.= load_view($amp_conf['VIEW_FOOTER'], $footer);
 
 
 	//$template['benchmark_starttime']	= $benchmark_starttime;

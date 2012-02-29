@@ -58,12 +58,12 @@ fi
 
 echo "Updating configuration..."
 
-echo "$ASTETCDIR/cdr_mysql.conf"
+echo "$ASTETCDIR/cdr_mysql.conf user: [$AMPDBUSER] password: [$AMPDBPASS] hostname: [$AMPDBHOST]"
 sed -i.bak "s/user\s*=.*$/user = $AMPDBUSER/" $ASTETCDIR/cdr_mysql.conf
 sed -i.bak "s/password\s*=.*$/password = $AMPDBPASS/" $ASTETCDIR/cdr_mysql.conf
 sed -i.bak "s/hostname\s*=.*$/hostname = $AMPDBHOST/" $ASTETCDIR/cdr_mysql.conf
 
-echo "$ASTETCDIR/manager.conf"
+echo "$ASTETCDIR/manager.conf user: [$AMPMGRUSER] secret: [$AMPMGRPASS]"
 sed -i.bak "s/secret\s*=.*$/secret = $AMPMGRPASS/" $ASTETCDIR/manager.conf
 sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[$AMPMGRUSER\]/;s/^TEMPCONTEXT$/\[general\]/" $ASTETCDIR/manager.conf
 
@@ -71,6 +71,7 @@ echo "$ASTETCDIR/vm_email.inc"
 if [ "xx$AMPWEBADDRESS" = "xx" ]; then
 	echo "You might need to modify /etc/asterisk/vm_email.inc manually"
 else
+	echo "used web address: [$AMPWEBADDRESS] for path"
 	sed -i.bak "s!http://.*/recordings!http://$AMPWEBADDRESS/recordings!" $ASTETCDIR/vm_email.inc
 fi
 
@@ -80,4 +81,5 @@ if [ -x $AMPSBIN/amportal ]; then
 	$AMPSBIN/amportal chown
 fi
 
+asterisk -rx'manager reload'
 echo "Done"

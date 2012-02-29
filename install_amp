@@ -31,7 +31,9 @@ define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules/");
 
 # semi constants
 $webroot	= "/var/www/html";
+/* should be deprecated and only under proramatic control
 $fopwebroot	= "";				// if blank, will use $webroot/panel
+ */
 $ampsbin_dir = "/usr/local/sbin";	// default if not set
 $ampbin_dir = "/var/lib/asterisk/bin";
 $asterisk_user	= "asteriskuser";
@@ -46,7 +48,7 @@ function showHelp() {
 	out("  --dbname databasename    Use database name specified, instead of 'asterisk'",false);
 	out("  --username <user>        Use <user> to connect to db and write config",false);
 	out("  --password <pass>        Use <pass> to connect to db and write config",false);
-	out("  --fopwebroot <path>      Web path where fop will be installed",false);
+	out("  --fopwebroot <path>      Depricated Web path where fop will be installed, ignored should be under module control",false);
 	out("  --webroot <path>         Web root where FreePBX will be installed",false);
 	out("  --cgibin <path>          Path where cgi-bin's lives",false);
 	out("  --bin <path>             Path of asterisk binaries",false);
@@ -62,7 +64,7 @@ function showHelp() {
 	out("  --force-overwrite        Don't ask if it is ok to overwrite modified files, assume yes for all.",false);
 	out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ",false);
 	out("                           it's a new installation)",false);
-	out("  --install-fop false      Don't install FOP and don't display it anywhere on the interface",false);
+	out("  --install-fop false      depricated, does nothing",false);
 	out("  --dev-links              Make links to files in the source directory instead of copying",false);
 	out("                           (intended for developers only)",false);
 	out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct",false);
@@ -77,7 +79,24 @@ function install_parse_amportal_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
 		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) { 
-			$conf[ $matches[1] ] = $matches[2];
+
+			// TODO: force booleans into 0/1 this should be ok given the limited number of configuration values
+			//
+      switch (trim(strtolower($matches[2]))) {
+      case 'false':
+      case 'no':
+      case 'off':
+			case '0':
+        $conf[$matches[1]] = '0';
+			case 'true':
+			case 'yes':
+			case 'on':
+			case '1':
+        $conf[$matches[1]] = '1';
+			default:
+				$conf[$matches[1]] = $matches[2];
+      break;
+      }
 		}
 	}
 
@@ -92,6 +111,10 @@ function install_parse_amportal_conf($filename) {
 	
 	if ( !isset($conf["AMPENGINE"]) || ($conf["AMPENGINE"] == "")) {
 		$conf["AMPENGINE"] = "asterisk";
+	}
+	out("parsed amp_conf variables from $filename:");
+	foreach ($conf as $keyword => $value) {
+		out("amp_conf [$keyword] => [$value]");
 	}
 
 	return $conf;
@@ -221,7 +244,9 @@ function generate_configs() {
  */
 function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $dbname = 'asterisk') {
 	global $webroot;
+	/* should be deprecated and only under proramatic control
 	global $fopwebroot;
+	 */
 	global $ampsbin_dir;
 	global $ampbin_dir;
 	global $asterisk_user;
@@ -244,10 +269,11 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		$amp_conf["AMPMGRUSER"] = "admin";
 		$amp_conf["AMPMGRPASS"] = "unset";
 		$amp_conf["AMPWEBROOT"] = $webroot;
+		/* should be deprecated and only under proramatic control
 		$amp_conf["FOPWEBROOT"] = ($fopwebroot ? $fopwebroot : $webroot."/panel");
+		 */
 		$amp_conf["AMPWEBADDRESS"] = $freepbxip;
 		$amp_conf["ASTMANAGERHOST"] = $asteriskip;
-		$amp_conf["FOPPASSWORD"] = "passw0rd";
 		$amp_conf["AMPEXTENSIONS"] = "extensions";
 		$amp_conf["AMPBIN"] = $ampbin_dir;
 		$amp_conf["AMPSBIN"] = "$ampsbin_dir";
@@ -312,20 +338,17 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	} while(1);
 	
 	// Really no need to ask, is there.
+	/* should be deprecated and only under proramatic control
 	if (empty($fopwebroot))
 		$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"]."/panel";
 	else
 		$amp_conf["FOPWEBROOT"] = $fopwebroot;
+	 */
 	
 	outn("Enter the IP ADDRESS or hostname used to access the AMP web-admin:\n [$freepbxip] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) $amp_conf["AMPWEBADDRESS"] = $freepbxip;
 	else $amp_conf["AMPWEBADDRESS"] = $key;
-	
-	outn("Enter a PASSWORD to perform call transfers with the Flash Operator Panel:\n [passw0rd] ");
-	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["FOPPASSWORD"] = "passw0rd";
-	else $amp_conf["FOPPASSWORD"] = $key;
 	
 	outn("Use simple Extensions [extensions] admin or separate Devices and Users [deviceanduser]?\n [extensions] ");
 	$key = trim(fgets(STDIN,1024));
@@ -449,7 +472,6 @@ function install_modules() {
 				switch ($up_module) {
 				case 'framework':
 				case 'fw_ari':
-				case 'fw_fop':
 					system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
 					out("installed");
 					break;
@@ -575,7 +597,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","force-overwrite","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop=","make-links-devel","dev-links","skip-module-install","uid=","gid=","scripted","freepbxip=","asteriskip=");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","force-overwrite","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop=","make-links-devel","dev-links","skip-module-install","uid=","gid=","scripted","freepbxip=","asteriskip=","set-freepbx-settings");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -591,9 +613,9 @@ $override_astvers = false;
 $scripted = false;
 
 $install_moh = false;
-$install_fop = true;
 $make_links = false;
 $module_install = true;
+$set_freepbx_settings = false;
 
 //initialize variables to avoid php notices
 $dbhost = null; 
@@ -660,13 +682,12 @@ foreach ($args[0] as $arg) {
 		case "--install-moh":
 			$install_moh = true;
 		break;
+		case "--set-freepbx-settings":
+			$set_freepbx_settings = true;
+		break;
+		case "--fopwebroot":
 		case "--install-fop":
-			if(strtolower($arg[1]) == "false")  {
-				$install_fop = false;
-				out("FOP will be deactivated in the interface.  Set FOPDISABLE=false in Advanced Settings to change later.");
-			} else  {
-				out("FOP will be installed and activated.");
-			}
+			out("install-fop: depricated setting, does nothing.");
 		break;
 		case "--make-links-devel":
 		case "--dev-links":
@@ -676,8 +697,10 @@ foreach ($args[0] as $arg) {
 			$module_install = false;
 		break;
 		case "--fopwebroot":
+			/* should be deprecated and only under proramatic control
 			$fopwebroot = $arg[1];
 			out("Using fop at ".$fopwebroot);
+			 */
 		break;
 		case "--webroot":
 			$webroot = $arg[1];
@@ -754,6 +777,9 @@ out("running with PID: ".$pid_val[0]."..OK");
 
 // **** Check for amportal.conf, create if necessary
 
+// TODO: Check if freepbx_settings has been setup, if so then we don't even want to mess with ampportal.conf, that
+//       should only be first time install.
+//
 outn("Checking for ".AMP_CONF."..");
 if (!file_exists(AMP_CONF)) {
 	out(AMP_CONF." does not exist, copying default");
@@ -792,10 +818,6 @@ if (!array_key_exists("AMPWEBROOT",$amp_conf)) {
 	out("Adding AMPWEBROOT option to amportal.conf - using AMP default");
 	$amp_conf["AMPWEBROOT"] = "/var/www/html";
 }
-if (!array_key_exists("FOPWEBROOT",$amp_conf)) {
-	out("Adding FOPWEBROOT option to amportal.conf - using AMP default");
-	$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"]."/panel";
-}
 if (!array_key_exists("AMPBIN",$amp_conf)) {
 	out("Adding AMPBIN option to amportal.conf - using AMP default");
 	$amp_conf["AMPBIN"] = "/var/lib/asterisk/bin";
@@ -827,17 +849,10 @@ if (isset($dbhost)) {
 if (isset($dbname)) {
 	$amp_conf["AMPDBNAME"] = $dbname;
 }
-if(!$install_fop)  { // Set from --install-fop parameter; Add it to amportal.conf
-	out("Adding FOPDISABLE option to amportal.conf");
-	$amp_conf["FOPDISABLE"] = "true";
-}
 // If they pre-set this in their amportal.conf or this is an upgrade, we should honor it as well
 //
 // TODO: if we boostrap, then this value could be normalized (1/0 I think?)
 //
-if (isset($amp_conf['FOPDISABLE']) && (strtolower(trim($amp_conf['FOPDISABLE'])) == 'true' || strtolower(trim($amp_conf['FOPDISABLE'])) == 'yes' || strtolower(trim($amp_conf['FOPDISABLE'])) == 'y') )  {
-	$install_fop = false;
-}	
 // write amportal.conf
 // TODO: if we boostrapped we don't want to write amportal.conf, or do we? e.g. if we are running out of the file vs. the
 //       database then we probably want to write, though there should be a freepbx_conf class to use that does that and knows
@@ -912,11 +927,11 @@ $verinfo = $tmpout;
 outn("Checking for Asterisk version..");
 if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
     (preg_match('/^Asterisk SVN-(\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches))) {
-	if ((version_compare($matches[1], "1.2") < 0)) {
-		fatal("Asterisk 1.2, 1.4, 1.6, or 1.8 is required for this version of FreePBX. Detected version is: ".$matches[1]);
+	if ((version_compare($matches[1], "1.6") < 0)) {
+		fatal("Asterisk 1.6, 1.8 or 10 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
-	if (version_compare($matches[1], "1.9", "ge")) {
-		fatal("Asterisk 1.2, 1.4, 1.6, or 1.8 is required for this version of FreePBX. Detected version is: ".$matches[1]);
+	if (version_compare($matches[1], "11", "ge")) {
+		fatal("Asterisk 1.6, 1.8 or 10 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
 	out("{$matches[1]}");
   $asterisk_version = $matches[1];
@@ -1085,10 +1100,6 @@ if ($install_files)
   }
 }
 
-// **** Apply amportal.conf configuration to files
-if (file_exists(dirname(__FILE__)."/apply_conf.sh")) { 
-	debug("Running ".dirname(__FILE__)."/apply_conf.sh");
-}
 
 // Ensure executables are executable
 chmod($amp_conf["AMPBIN"]."/freepbx_setting", 0755);
@@ -1120,6 +1131,7 @@ if (!$dryrun) {
 	} else {
 		outn("no freepbx_engine..");
 	}
+	// TODO: we just did this above
 	if (file_exists($amp_conf["AMPBIN"]."/freepbx_setting")) {
 		exec("chmod 755 ".$amp_conf["AMPBIN"]."/freepbx_setting");
 		outn("freepbx_setting..");
@@ -1146,17 +1158,25 @@ if (!$dryrun) {
 	// edit conf file passwords and then
 	// reload manager in asterisk if it is running:
 	//
-	outn("apply username/password changes to conf files..");
 	if (file_exists(dirname(__FILE__)."/apply_conf.sh")) { 
+		out("apply username/password changes to conf files:");
+		debug("Running ".dirname(__FILE__)."/apply_conf.sh");
+		$apply_conf_out = array();
     if ($force_amportal_conf) {
+			out("running apply_conf.sh from " . AMP_CONF);
       putenv('FORCE_AMPORTAL_CONF=1');
-		  exec(dirname(__FILE__)."/apply_conf.sh ".AMP_CONF);
+		  exec(dirname(__FILE__)."/apply_conf.sh ".AMP_CONF, $apply_conf_out);
       putenv('FORCE_AMPORTAL_CONF=');
     } else {
-		  exec(dirname(__FILE__)."/apply_conf.sh");
+			out("running apply_conf.sh from freepbx_settings");
+		  exec(dirname(__FILE__)."/apply_conf.sh", $apply_conf_out);
     }
+		foreach ($apply_conf_out as $line) {
+			out($line);
+		}
+		unset($apply_conf_out);
+		out("done with apply_conf.sh");
 	}
-	out("done");
 
 	/* As of Asterisk 1.4.16 or there about, a missing #include file will make the reload fail. So
    	we need to make sure that we have such for everything that is in our configs. We will simply
@@ -1237,9 +1257,29 @@ if ($install_files)
 //
 upgrade_all($version);
 
+// Save $amp_conf variables so we can set the configured values
+if ($set_freepbx_settings && $force_amportal_conf) {
+	$amp_conf_file = $amp_conf;
+}
 outn("Creating or updating freepbx_conf settings..");
 freepbx_settings_init(true);
 out("..OK");
+
+// TODO: if file is $force_amportal_conf let's go set any settings in freepbx_settings,
+//       question is, should we do this further up???
+//
+if ($set_freepbx_settings && $force_amportal_conf) {
+	out("Setting freepbx settings form " . AMP_CONF);
+	$freepbx_conf =& freepbx_conf::create();
+	foreach ($amp_conf_file as $keyword => $value) {
+		if ($freepbx_conf->conf_setting_exists($keyword)) {
+			$freepbx_conf->set_conf_values(array($keyword => $value),true,true);
+			out("freepbx setting [$keyword] set to [$value]");
+		} else {
+			out("freepbx setting [$keyword] DOES NOT EXIST, can't set to [$value]");
+		}
+	}
+}
 
 // **** Generate AMP configs
 out("Generating AMP configs..");
@@ -1247,13 +1287,6 @@ generate_configs();
 out("Generating AMP configs..OK");
 
 $version = install_getversion();
-
-if($install_fop && $amp_conf["FOPRUN"])  {
-	// **** Bounce FOP
-	outn("Restarting Flash Operator Panel..");
-	exec("sudo -u $asteriskuser ".$amp_conf["AMPBIN"].'/bounce_op.sh');
-	out("OK");
-}
 
 // Now force an install for all modules that are packaged with the tarball
 // directory.

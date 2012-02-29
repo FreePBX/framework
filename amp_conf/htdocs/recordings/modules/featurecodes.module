@@ -32,8 +32,7 @@ class featurecodes {
    *   Common arguments
    */
   function navMenu($args) {
-    $ret .= "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=featurecodes&f=display'>" . _("Feature Codes") . "</a></small></small>";
-    return $ret;
+    return "<small><small><a href='" . $_SESSION['ARI_ROOT'] . "?m=featurecodes&f=display'>" . _("Feature Codes") . "</a></small></small>";
   }
 
   /*

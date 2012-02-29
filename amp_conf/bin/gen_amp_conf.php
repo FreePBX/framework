@@ -1,5 +1,9 @@
 #!/usr/bin/php -q
 <?php
+	$current_user = posix_getpwuid(posix_geteuid());
+	if ($current_user['uid'] !== 0) {
+		die('Forbidden - must be root');
+	}
   // Generate the a list of variables that can be sourced by
   // a bash script
   $bootstrap_settings['freepbx_auth'] = false;

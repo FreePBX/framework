@@ -1,13 +1,8 @@
 <?php
 global $amp_conf;
 global $module_name, $active_modules;
-
-$html = '';
-$html .= '</div>';//page_body
-$html .= '<div id="footer"><hr />';
-$html .= '<div id="footer_content">';
-$version			= get_framework_version();
-$version_tag		= '?load_version=' . urlencode($version);
+$version	 = get_framework_version();
+$version_tag = '?load_version=' . urlencode($version);
 if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
   $this_time_append	= '.' . time();
   $version_tag 		.= $this_time_append;
@@ -15,37 +10,11 @@ if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
 	$this_time_append = '';
 }
 
-// Brandable logos in footer
-$freepbx_alt_f	= $amp_conf['BRAND_FREEPBX_ALT_FOOT'] 
-				? $amp_conf['BRAND_FREEPBX_ALT_FOOT'] 
-				: _("FreePBX&reg;");
-$freepbx_logo_f = ($amp_conf['BRAND_IMAGE_FREEPBX_FOOT'] 
-				? $amp_conf['BRAND_IMAGE_FREEPBX_FOOT'] 
-				: 'images/freepbx_small.png').$version_tag;
-$freepbx_link_f = $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT'] 
-				? $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT'] 
-				: 'http://www.freepbx.org';
-
-$html .= '<a target="_blank" href="' . $freepbx_link_f . '">';
-$html .= '<img id="footer_logo" src="'.$freepbx_logo_f.'" alt="'.$freepbx_alt_f.'"/></a>';
-$html .= '<span class="footer-float-left">';
-//$html .= '<h3>'.'Let Freedom Ring<sup>&#153;</sup>'.'</h3>';
-$html .= "\t\t".sprintf(_('%s is a registered trademark of %s'),
-     '<a href="http://www.freepbx.org" target="_blank">' . _('FreePBX') . '</a>',
-     '<a href="http://www.freepbx.org/copyright.html" target="_blank">Bandwidth.com</a>') . "<br/>\n";
-$html .= "\t\t".sprintf(_('%s is licensed under %s'),
-     '<a href="http://www.freepbx.org" target="_blank">' . _('FreePBX') . ' ' . $version . '</a>',
-     '<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GPL</a>');
-if (!empty($active_modules[$module_name]['license'])) {
-  $html .= br() . sprintf(_('Current module licensed under %s'),
-  trim($active_modules[$module_name]['license']));
-}
-//echo benchmarking
-if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
-	$benchmark_time = number_format(microtime_float() - $benchmark_starttime, 4);
-	$html .= '<br><span id="benchmark_time">Page loaded in ' . $benchmark_time . 's</span>';
-}
-$html .= '</span>';
+$html = '';
+$html .= '</div>';//page_body
+$html .= '<div id="footer"><hr />';
+$html .= '<div id="footer_content">';
+$html .= $footer_content;
 $html .= '</div>'; //footer_content
 $html .= '</div>'; //footer
 $html .= '</div>'; //page
@@ -54,13 +23,45 @@ $html .= '</div>'; //page
 //add javascript
 
 //localized strings and other javascript values that need to be set dynamically
-//TODO: this should be dove via callbacks so that all modules can hook in to it
+//TODO: this should be done via callbacks so that all modules can hook in to it
 if (!isset($no_auth)) {
-	$fpbx['conf']				= $amp_conf;
-	unset($fpbx['conf']['AMPMGRPASS'], 
-		$fpbx['conf']['AMPMGRUSER'], 
-		$fpbx['conf']['AMPDBUSER'], 
-		$fpbx['conf']['AMPDBPASS']);
+	$fpbx['conf'] = $amp_conf;
+	$clean = array(
+			'AMPASTERISKUSER',
+			'AMPASTERISKGROUP',
+			'AMPASTERISKWEBGROUP',
+			'AMPASTERISKWEBUSER',
+			'AMPDBENGINE',
+			'AMPDBHOST',
+			'AMPDBNAME',
+			'AMPDBPASS',
+			'AMPDBUSER',
+			'AMPDEVGROUP',
+			'AMPDEVUSER',
+			'AMPMGRPASS',
+			'AMPMGRUSER',
+			'AMPVMUMASK',
+			'ARI_ADMIN_PASSWORD',
+			'ARI_ADMIN_USERNAME',
+			'ASTMANAGERHOST',
+			'ASTMANAGERPORT',
+			'ASTMANAGERPROXYPORT',
+			'CDRDBHOST',
+			'CDRDBNAME',
+			'CDRDBPASS',
+			'CDRDBPORT',
+			'CDRDBTABLENAME',
+			'CDRDBTYPE',
+			'CDRDBUSER',
+			'FOPPASSWORD',
+			'FOPSORT',
+	);
+	
+	foreach ($clean as $var) {
+		if (isset($fpbx['conf'][$var])) {
+			unset($fpbx['conf'][$var]);
+		}
+	}
 }
 
 $fpbx['conf']['text_dir']		= isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))
@@ -82,16 +83,22 @@ $fpbx['msg']['framework']['weakSecret']['types'] = _("The secret must contain at
 $html .= "\n" . '<script type="text/javascript">'
 		. 'var fpbx='
 		. json_encode($fpbx)
+		. ';$(document).click();' //TODO: this should be cleaned up eventually as right now it prevents the nav bar from not being fully displayed
  		. '</script>';
 
-$html .= '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>';
-$html .= '<script type="text/javascript" >window.jQuery.ui '
-		. '|| document.write(\'<script src="assets/js/jquery-ui-1.8.x.min.js"><\/script>\')</script>';
+if ($amp_conf['USE_GOOGLE_CDN_JS']) {
+	$html .= '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/' 
+			. $amp_conf['JQUERYUI_VER'] . '/jquery-ui.min.js"></script>';
+	$html .= '<script type="text/javascript" >window.jQuery.ui || document.write(\'<script src="assets/js/jquery-ui-' 
+			. $amp_conf['JQUERYUI_VER'] . '.min.js"><\/script>\')</script>';
+} else {
+	$html .= '<script type="text/javascript" src="assets/js/jquery-ui-' . $amp_conf['JQUERYUI_VER'] . '.min.js"></script>';
+}
 
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
-if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js.php")) {
-	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js.php' 
+if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
+	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js' 
 			. $version_tag . '"></script>';
 } else {
 	/*
@@ -108,6 +115,9 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js.php")) {
 	 	. '<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js"></script>'
 	 	. '<script type="text/javascript" src="assets/js/tabber-minimized.js"></script>';
 }
+if ($amp_conf['BRAND_ALT_JS']) {
+	$html .= '<script type="text/javascript" src="' . $amp_conf['BRAND_ALT_JS'] . '"></script>';
+}
 
 if (isset($module_name) && $module_name != '') {
 	$html .= framework_include_js($module_name, $module_page);
@@ -118,13 +128,13 @@ if ($amp_conf['BROWSER_STATS']) {
 			var _gaq=_gaq||[];
 			_gaq.push(['_setAccount','UA-25724109-1'],
 					['_setCustomVar',1,'type',fpbx.conf.dist.pbx_type,2],
-					['_setCustomVar',1,'typever',fpbx.conf.dist.pbx_version,3],
-					['_setCustomVar',1,'astver',fpbx.conf.ASTVERSION,3],
-					['_setCustomVar',1,'fpbxver',fpbx.conf.ver,3],
-					['_setCustomVar',1,'display',$.urlParam('display'),3],
-					['_setCustomVar',1,'uniqueid',fpbx.conf.uniqueid,1],
+					['_setCustomVar',2,'typever',fpbx.conf.dist.pbx_version,3],
+					['_setCustomVar',3,'astver',fpbx.conf.ASTVERSION,3],
+					['_setCustomVar',4,'fpbxver',fpbx.conf.ver,3],
+					['_setCustomVar',5,'display',$.urlParam('display'),3],
+					/*['_setCustomVar',1,'uniqueid',fpbx.conf.uniqueid,1],
 					['_setCustomVar',1,'lang',$.cookie('lang')||'en_US',3],
-					['_trackPageview']);
+					*/['_trackPageview']);
 			(function(){
 				var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;
 				ga.src=('https:'==document.location.protocol
@@ -136,10 +146,66 @@ if ($amp_conf['BROWSER_STATS']) {
 }
 
 //add IE specifc styling polyfills
-$html .= '<!--[if lte IE 10]>';
-$html .= '<link rel="stylesheet" href="assets/css/progress-polyfill.css" type="text/css">';
-$html .= '<script type="text/javascript" src="assets/js/progress-polyfill.min.js"></script>';
-$html .= '<![endif]-->';
+//offer google chrome frame for the richest experience
+if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
+	$html .= '<!--[if lte IE 10]>';
+	$html .= '<link rel="stylesheet" href="assets/css/progress-polyfill.css" type="text/css">';
+	$html .= '<script type="text/javascript" src="assets/js/progress-polyfill.min.js"></script>';
+	$html .= '<![endif]-->';
+
+	//offer google chrome frame for the richest experience
+	$html .= <<<END
+	<!--[if IE]>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+		<script>
+			!$.cookie('skip_cf_check') //skip check if skip_cf_check cookie is active
+				&& CFInstall	//make sure CFInstall is loaded 
+				&& !!window.attachEvent //attachEvent is ie only, should never fire in other browsers
+				&& window.attachEvent("onload", function() {
+				 CFInstall.check({
+					preventPrompt: true,
+					onmissing: function() {
+						$('<div></div>')
+							.html('Unfortunately, some features may not work correctly in your '
+								+ 'current browser. We suggest that you activate Chrome Frame, '
+								+ 'which will offer you the richest posible experience. ')
+							.dialog({
+								title: 'Activate Chrome Frame',
+								resizable: false,
+								modal: true,
+								position: ['center', 'center'],
+								close: function (e) {
+									$.cookie('skip_cf_check', 'true');
+									$(e.target).dialog("destroy").remove();
+								},
+								buttons: [
+									{
+										text: 'Activate',
+										click: function() {
+												window.location = 'http://www.google.com/chromeframe/?redirect=true';
+										}
+
+									},
+									{
+										text: fpbx.msg.framework.cancel,
+										click: function() {
+												//set cookie to prevent prompting again in this session
+												$.cookie('skip_cf_check', 'true');
+												$(this).dialog("destroy").remove();
+											}
+									}
+									]
+							});
+					}
+				});
+
+			});
+	</script>
+	<![endif]-->
+END;
+}
+
+
 echo $html;
 ?>
 </body>

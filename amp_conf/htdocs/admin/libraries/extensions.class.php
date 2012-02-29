@@ -215,7 +215,7 @@ class extensions {
 					$count++;
 				}
 			}
-			$priority = ($new_priority === false) ? $count : $existing_priority;
+			$priority = ($existing_priority === false) ? $count : $existing_priority;
 		}
 		$newcommand = array(
 			'basetag' => $this->_exts[$section][$extension][$priority]['basetag'],
@@ -338,14 +338,15 @@ class extensions {
               $last_base_tag = $ext['basetag'] == 1 ? 1 : false;
             }
 					}
+					$output .= "\n";
 					if (isset($this->_hints[$section][$extension])) {
 						foreach ($this->_hints[$section][$extension] as $hint) {
 							$output .= "exten => ".$extension.",hint,".$hint."\n";
 						}
 					}
 				}
-				
-				$output .= "\n; end of [".$section."]\n\n\n";
+
+				$output .= ";--== end of [".$section."] ==--;\n\n\n";
 			}
 		}
 		
@@ -603,11 +604,35 @@ class ext_dial extends extension {
 	}
 }
 
+class ext_originate extends extension {
+	var $tech_data;
+	var $type;
+	var $arg1;
+	var $arg2;
+	var $arg3;
+	
+	function ext_originate($tech_data, $type, $arg1, $arg2, $arg3 = '') {
+		$this->tech_data = $tech_data;
+		$this->type = $type;
+		$this->arg1 = $arg1;
+		$this->arg2 = $arg2;
+		$this->arg3 = $arg3;
+	}
+	function output() {
+		return 'Originate(' . $this->tech_data 
+							. ',' . $this->type 
+							. ',' . $this->arg1 
+							. ',' . $this->arg2 
+							. ',' . $this->arg3 
+							. ')' ;
+	}
+}
+
 class ext_setvar {
 	var $var;
 	var $value;
 	
-	function ext_setvar($var, $value) {
+	function ext_setvar($var, $value = '') {
 		$this->var = $var;
 		$this->value = $value;
 	}
@@ -987,15 +1012,81 @@ class ext_meetme {
 	var $confno;
 	var $options;
 	var $pin;
+	var $app;
 	
 	function ext_meetme($confno, $options='', $pin='') {
+		global $amp_conf;
 		$this->confno = $confno;
 		$this->options = $options;
-		$this->pin = $pin;
+		$this->pin = $pin ? $pin : ',';
+		
+		//use confbridge if requested, pruning meetme only options
+		switch ($amp_conf['ASTCONFAPP']) {
+			case 'app_confbridge':
+				$this->app = 'ConfBridge';
+			
+				//remove invalid options
+				$meetme_only = array('b', 'C', 'd', 'D', 
+									'e', 'E', 'F', 'i', 
+									'I', 'l', 'o', 'P', 
+									'r', 's', 't', 'T', 
+									'x', 'X');
+									
+				//find asterisk variables in $this->options, if any
+				if (preg_match_all('/\$|}/', $this->options, $matches, PREG_OFFSET_CAPTURE)) {
+					$matches = $matches[0];
+					//build a range of start and endpoints of any asterisk variables
+					for($i = 0; $i < count($matches); $i += 2) {
+						if ($matches[$i][0] == '$') {
+							$range[] = array( $matches[$i][1], $matches[$i + 1][1]);
+						}
+					}
+					
+					//loop through each charachter in $this->options. If its not in the
+					//range of asterisk variables $range, replace its charachter it its in $meetme_only
+					$str_array = str_split($this->options);
+					for ($i = 0; $i < count($str_array); $i++) {
+						if (!$this->in_ast_var_range($i, $range)) {
+							$str_array[$i] = str_replace($meetme_only, '', $stra[$i]);
+						}
+					}
+					$this->options = implode($str_array);
+				} else {
+					$this->options = str_replace($meetme_only, '', $this->options);
+				}
+				
+				$this->options = preg_replace('/[GpSL]\(.*\)/', '', $this->options);
+				$this->options = preg_replace('/w\(.*\)/', 'w', $this->options);
+				break;
+			case 'app_meetme':
+			default:
+				$this->app = 'MeetMe';
+				break;
+		}
+	}
+
+	function output() {
+		return $this->app . "(".$this->confno.",".$this->options.",".$this->pin.")";
 	}
 	
-	function output() {
-		return "MeetMe(".$this->confno.",".$this->options.",".$this->pin.")";
+	/**
+	 * @pram int
+	 * @pram array - multi dimensional with ranges
+	 * i.e. array(
+	 *	array(4 => 6),
+	 *  array(8 => 9)
+	 * )
+	 *
+	 * @return true if $pos is not in range
+	 */
+	function in_ast_var_range($pos, $range) {
+		foreach ($range as $r) {
+			if ($pos >= $r[0] && $pos <= $r[1]) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 
@@ -1196,6 +1287,15 @@ class ext_saynumber extends extension {
 class ext_sayphonetic extends extension {
 	function output() {
 		return "SayPhonetic(".$this->data.")";
+	}
+}
+class ext_senddtmf extends extension {
+	var $digits;
+	function ext_senddtmf($digits) {
+		$this->digits = $digits;
+	} 
+	function output() {
+		return 'SendDTMF('.$this->digits.')';
 	}
 }
 class ext_system extends extension {

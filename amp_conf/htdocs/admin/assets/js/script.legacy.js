@@ -443,7 +443,7 @@ function isDigit (c) {
 }
 
 function isLetter (c) {   
-	return new RegExp(/[a-zA-Z'\&\(\)\-\/]/).test(c);
+	return new RegExp(/[ a-zA-Z'\&\(\)\-\/]/).test(c);
 }
 
 function isURLChar (c) {
@@ -680,7 +680,7 @@ function freepbx_reload_error(txt) {
 function toggle_reload_button(action) {
 	switch (action) {
 		case 'show':
-			//weird css is needed to keep the bitton from "juming" a bit out of place
+			//weird css is needed to keep the button from "jumping" a bit out of place
 			$('#button_reload').show().css('display', 'inline-block');
 			break;
 		case 'hide':
@@ -695,10 +695,13 @@ function toggle_reload_button(action) {
 $(document).ready(function(){
 	bind_dests_double_selects();
 	
-	//help tags. based on: http://www.dvq.co.nz/jquery/create-a-jquery-popup-bubble-effect/
+	//help tags
 	$("a.info").each(function(){
 		$(this).after('<span class="help">?<span>' + $(this).find('span').html() + '</span></span>');
+		$(this).find('span').remove();
+		$(this).replaceWith($(this).html())
 	})
+	
 	$(".help").live('mouseenter', function(){
 			side = fpbx.conf.text_dir == 'lrt' ? 'left' : 'right';
 			var pos = $(this).offset();
@@ -719,14 +722,30 @@ $(document).ready(function(){
 	$('.guielToggle').click(function() {
 		var txt = $(this).find('.guielToggleBut');
 		var el = $(this).data('toggle_class');
+		var section = $.urlParam('display') + '#' + el;
+		
+		//true = hide
+		//false = dont hide
 		switch(txt.text().replace(/ /g,'')) {
 			case '-':
 				txt.text('+ ');
-				$('.'+el).hide()
+				$('.' + el).hide();
+	
+				//set cookie of hidden section
+				guielToggle = $.parseJSON($.cookie('guielToggle')) || {};
+				guielToggle[section] = false;
+				$.cookie('guielToggle', JSON.stringify(guielToggle));
 				break;
 			case '+':
 				txt.text('-  ');
 				$('.'+el).show();
+				
+				//set cookie of hidden section
+				guielToggle = $.parseJSON($.cookie('guielToggle')) || {};
+				if (guielToggle.hasOwnProperty(section)){
+					guielToggle[section] = true;
+					$.cookie('guielToggle', JSON.stringify(guielToggle));
+				}
 				break;
 		}
 	})
@@ -742,13 +761,25 @@ $(document).ready(function(){
 	$('.radioset').buttonset();
 	$('.menubar').show().menubar();
 	
+	//show menu on hover
+	//this is far from perfect, and will hopefully be depreciated soon
+	$('.module_menu_button').hover(
+		function(){
+			$(this).click()
+		},
+		function(){
+			
+		});
+		
 	//show reload button if neede
 	if (fpbx.conf.reload_needed) {
 		toggle_reload_button('show');
 	}
 	
 	//style all sortables as menu's
-	$('.sortable').menu();
+	$('.sortable').menu().find('input[type="checkbox"]').click(function(event) { 
+		event.stopPropagation(); 
+	});
 	
 	//Links are disabled in menu for now. Final release will remove that
 	$('.ui-menu-item').click(function(){
@@ -769,8 +800,8 @@ $(document).ready(function(){
 	});
 	
 	//logo icon
-	$('#BRAND_IMAGE_FREEPBX_LEFT').click(function(){
-		window.open(fpbx.conf.BRAND_IMAGE_FREEPBX_LINK_LEFT,'_newtab');
+	$('#BRAND_IMAGE_TANGO_LEFT').click(function(){
+		window.open($(this).data('brand_image_freepbx_link_left'),'_newtab');
 	});
 	
 	//pluck icons out of the markup - no need for js to add them (for buttons)
@@ -788,17 +819,6 @@ $(document).ready(function(){
 		$(this).button({ icons: {primary: prim, secondary: sec}, text: txt});
 	});
 	
-	//show modules. shmz only??
-	$('#modules_button').next('ul').remove();
-	$('#modules_button').toggle(
-		function(){
-			$('#module_list').show();
-		},
-		function(){
-			$('#module_list').hide();
-		}
-	)
-	
 	//shortcut keys
 	//show modules
 	$(document).bind('keydown', 'meta+shift+a', function(){
@@ -806,22 +826,31 @@ $(document).ready(function(){
 	});
 	
 	//submit button
-	$(document).bind('keydown', 'meta+shift+s', function(){
-		//$('input[type=submit][name=Submit]').click();
+	$(document).bind('keydown', 'ctrl+shift+s', function(){
+		$('input[type=submit][name=Submit]').click();
 	});
 	
 	//reload
-	$(document).bind('keydown', 'meta+shift+x', function(){
-		//freepbx_show_reload(false);
+	$(document).bind('keydown', 'ctrl+shift+a', function(){
+		fpbx_reload();
 	});
 	
 	//logout button
 	$('#user_logout').click(function(){
-		url = window.location.origin + window.location.pathname;
+		url = window.location.pathname;
 		$.get(url + '?logout=true', function(){
 			$.cookie('PHPSESSID', null);
 			window.location = url;
 		});
 		
+	});
+	
+	//ajax spinner
+	$(document).ajaxStart(function(){
+		$('#ajax_spinner').show()
+	});
+	
+	$(document).ajaxStop(function(){
+		$('#ajax_spinner').hide()
 	});
 });

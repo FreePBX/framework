@@ -37,13 +37,13 @@ function frameworkPasswordCheck() {
 // setup locale
 function set_language() {
 	if (extension_loaded('gettext')) {
-		if (isset($_COOKIE['lang'])) {
-			setlocale(LC_ALL,  $_COOKIE['lang']);
-			putenv("LANGUAGE=".$_COOKIE['lang']);
-		} else {
-			setlocale(LC_ALL,  'en_US');
-		}
-		bindtextdomain('amp','./i18n');
+        if (!isset($_COOKIE['lang']) || $_COOKIE['lang'] == '') {
+            $_COOKIE['lang'] = 'en_US';
+        }
+        setlocale(LC_ALL,  $_COOKIE['lang']);
+        putenv("LANGUAGE=".$_COOKIE['lang']);
+
+        bindtextdomain('amp','./i18n');
 		bind_textdomain_codeset('amp', 'utf8');
 		textdomain('amp');
 	}
@@ -54,15 +54,6 @@ function fileRequestHandler($handler, $module = false, $file = false){
 	global $amp_conf;
 	
 	switch ($handler) {
-		case 'cdr':
-			include('cdr/cdr.php');
-			break;
-		case 'cdr_export_csv':
-			include('cdr/export_csv.php');
-			break;
-		case 'cdr_export_pdf':
-			include('cdr/export_pdf.php');
-			break;
 		case 'reload':
 			// AJAX handler for reload event
 			$response = do_reload();
@@ -89,6 +80,7 @@ function fileRequestHandler($handler, $module = false, $file = false){
 				'.css'		=> 'text/css',
 				'.css.php'	=> 'text/css',
 				'.html.php'	=> 'text/html',
+				'.php'		=> 'text/html',
 				'.jpg.php'	=> 'image/jpeg',
 				'.jpeg.php'	=> 'image/jpeg',
 				'.png.php'	=> 'image/png',
@@ -107,7 +99,7 @@ function fileRequestHandler($handler, $module = false, $file = false){
 							header('Cache-Control: max-age=86400, public, must-revalidate',true); 
 						}
 						header("Content-type: ".$mimetype);
-						ob_start($amp_conf['buffering_callback']);
+						ob_start();
 						include($fullpath);
 						ob_end_flush();
 						exit();
@@ -268,84 +260,6 @@ function redirect_standard_continue( /* Note. Read the next line. Varaible No of
         redirect($url, false);
 }
 
-function framework_css() {
-	global $amp_conf;
-	$mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
-						? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
-						: 'assets/css/mainstyle.css'; 
-
-	if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && version_compare(phpversion(),'5.0','ge')) {
-		$wwwroot 					= $amp_conf['AMPWEBROOT']
-									. "/admin";
-
-		// stat the css files and check if they have been modified since we last generated a css
-		$mainstyle_css_full_path	= $wwwroot . '/' . $mainstyle_css;
-		$stat_mainstyle				= stat($mainstyle_css_full_path);
-		$css_changed				= isset($amp_conf['mainstyle_css_mtime']) 
-									? ($stat_mainstyle['mtime'] != $amp_conf['mainstyle_css_mtime']) 
-									: true;
-
-		if (!$css_changed && file_exists($wwwroot . '/' . $amp_conf['mainstyle_css_generated'])) {
-			$mainstyle_css = $amp_conf['mainstyle_css_generated'];
-		} else {
-			////TODO: isnt this autoloaded?
-			$ms_path = dirname($mainstyle_css);
-
-			// Generate a new one using the mtime as part of the file name to make it fairly unique
-			// it's important to be unique because that will force browsers to reload vs. caching it
-			$mainstyle_css_generated = $ms_path.'/mstyle_autogen_'.$stat_mainstyle['mtime'].'.css.php';
-
-			$ret = file_put_contents($wwwroot . '/' . $mainstyle_css_generated, 
-									"<?php 
-									header('Content-type: text/css');
-									header('Cache-Control: public, max-age=3153600');
-									header('Expires: ' . date('r', strtotime('+1 year')));
-									header('Last-Modified: ' . date('r', strtotime('-1 year')));
-									ob_start('". $amp_conf['buffering_callback'] . "');
-									?>\n" 
-									. CssMin::minify(file_get_contents($mainstyle_css_full_path)));
-
-
-			// Now assuming we write something reasonable, we need to save the generated file name and mtimes so
-			// next time through this ordeal, we see everything is setup and skip all of this.
-			// 
-			// we skip this all this if we get back false or 0 (nothing written) in which case we will use the original
-			// TOOD: maybe consider a number higher than 0 for sanity check, at least some number of bytes we know it will
-			//       always be bigger than?
-			//
-			// We need to set the value in addition to defining the setting 
-			//since if already defined the value won't be reset.
-			if ($ret) {
-				$freepbx_conf =& freepbx_conf::create();
-
-				$settings['value'] = $mainstyle_css_generated;
-				$settings['description'] = 'internal use';
-				$settings['type'] = CONF_TYPE_TEXT;
-				$settings['defaultval'] = '';
-				$settings['category'] = 'Internal Use';
-				$settings['name'] = 'Auto Generated Copy of Main CSS';
-				$settings['level'] = 10;
-				$settings['readonly'] = 1;
-				$settings['hidden'] = 1;
-				$freepbx_conf->define_conf_setting('mainstyle_css_generated', $settings);
-				$val_update['mainstyle_css_generated'] = $settings['value'];
-
-				$settings['value'] = $stat_mainstyle['mtime'];
-				$settings['name'] = 'Last Mod Time of Main CSS';
-				$freepbx_conf->define_conf_setting('mainstyle_css_mtime', $settings);
-				$val_update['mainstyle_css_mtime'] = $settings['value'];
-
-				// Update the values (in case these are new) and commit
-				$freepbx_conf->set_conf_values($val_update, true, true);
-
-				$mainstyle_css = $mainstyle_css_generated;
-			}
-		}
-	}
-	
-	return $mainstyle_css;
-}
-
 function framework_include_css() {
 	global $active_modules, $module_name, $module_page, $amp_conf;
 	
@@ -471,7 +385,7 @@ function framework_include_js($module_name, $module_page) {
 			foreach ($file_list as $p_file) {
 				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
 				  $html .= '<script type="text/javascript" ' 
-							. ' src="assets/$module_name/js/' 
+							. ' src="assets/' . $module_name . '/js/' 
 							. $module_page . '/' . $p_file 
 							. '"></script>';
 				}

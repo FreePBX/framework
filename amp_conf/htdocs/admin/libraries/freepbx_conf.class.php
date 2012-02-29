@@ -63,8 +63,6 @@ class freepbx_conf {
   'AMPDBPASS'      => array(CONF_TYPE_TEXT, 'amp109'),
   'AMPMGRUSER'     => array(CONF_TYPE_TEXT, 'admin'),
   'AMPMGRPASS'     => array(CONF_TYPE_TEXT, 'amp111'),
-  'FOPPASSWORD'    => array(CONF_TYPE_TEXT, 'passw0rd'),
-  'FOPSORT'        => array(CONF_TYPE_SELECT, 'extension'),
   'AMPSYSLOGLEVEL' => array(CONF_TYPE_SELECT, 'FILE'),
   'NOOPTRACE'      => array(CONF_TYPE_INT, '1'),
   'ARI_ADMIN_PASSWORD' => array(CONF_TYPE_TEXT, 'ari_password'),
@@ -87,14 +85,12 @@ class freepbx_conf {
   'AMPBIN'         => array(CONF_TYPE_DIR, '/var/lib/asterisk/bin'),
   'AMPSBIN'        => array(CONF_TYPE_DIR, '/usr/sbin'),
   'AMPWEBROOT'     => array(CONF_TYPE_DIR, '/var/www/html'),
-  'FOPWEBROOT'     => array(CONF_TYPE_DIR, '/var/www/html/panel'),
   'MOHDIR'         => array(CONF_TYPE_DIR, 'mohmp3'),
   'FPBXDBUGFILE'	 => array(CONF_TYPE_DIR, '/tmp/freepbx_debug.log'),
 
   'USECATEGORIES'  => array(CONF_TYPE_BOOL, true),
   'ENABLECW'       => array(CONF_TYPE_BOOL, true),
   'CWINUSEBUSY'    => array(CONF_TYPE_BOOL, true),
-  'FOPRUN'         => array(CONF_TYPE_BOOL, true),
   'AMPBADNUMBER'   => array(CONF_TYPE_BOOL, true),
   'DEVEL'          => array(CONF_TYPE_BOOL, false),
   'DEVELRELOAD'    => array(CONF_TYPE_BOOL, false),
@@ -105,7 +101,6 @@ class freepbx_conf {
   'USEDEVSTATE'    => array(CONF_TYPE_BOOL, false),
   'MODULEADMINWGET'=> array(CONF_TYPE_BOOL, false),
   'AMPDISABLELOG'  => array(CONF_TYPE_BOOL, true),
-  'FOPDISABLE'     => array(CONF_TYPE_BOOL, false),
   'CHECKREFERER'   => array(CONF_TYPE_BOOL, true),
   'RELOADCONFIRM'  => array(CONF_TYPE_BOOL, true),
   'DIVERSIONHEADER' => array(CONF_TYPE_BOOL, false),
@@ -434,7 +429,6 @@ class freepbx_conf {
     // Note, No localization of the name field, this is a conf file! DON'T MESS WITH THIS!
     $category = '';
     foreach ($this->conf as $keyword => $value) {
-      echo "processing $keyword => $value\n";
       if ($this->conf_setting_exists($keyword)) {
         if ($this->db_conf_store[$keyword]['hidden']) {
           continue;
@@ -461,7 +455,6 @@ class freepbx_conf {
         } else {
           $comments = "#\n";
           if ($category != 'Bootstrapped or Legacy Settings') {
-            echo "setting category old value $category\n";
             $category = 'Bootstrapped or Legacy Settings';
             $comments = "#\n# --- CATEGORY: $category ---\n#\n\n#\n";
           }
@@ -528,14 +521,26 @@ class freepbx_conf {
   /** Get's the current value of a configuration setting from the database store.
    *
    * @param string  The setting to fetch.
+   * @param boolean Optional forces the actual database variable to be fetched
    * @return mixed  returns the value of the setting, or boolean false if the
    *                setting does not exist. Since configuration booleans are
    *                returned as '0' and '1', they can be differentiated by a
    *                true boolean false (use === operator) if a setting does
    *                not exist.
    */
-  function get_conf_setting($keyword) {
-    if (isset($this->db_conf_store[$keyword])) {
+  function get_conf_setting($keyword, $passthru=false) {
+		if ($passthru) {
+			// This is a special case situation, do I need to confirm if the setting
+			// actually exists so I can return a boolean false if not?
+			//
+			global $db;
+			$sql = "SELECT `value` FROM freepbx_settings WHERE `keyword` = '$keyword'"; 
+			$value = $db->getOne($sql); 
+			if (isset($this->db_conf_store[$keyword])) {
+				$this->db_conf_store[$keyword]['value'] = $value;
+			}
+			return $value;
+		} elseif (isset($this->db_conf_store[$keyword])) {
       return $this->db_conf_store[$keyword]['value'];
     } else {
       return false;

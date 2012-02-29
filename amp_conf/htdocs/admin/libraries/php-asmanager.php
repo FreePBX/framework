@@ -206,7 +206,14 @@ class AGI_AsteriskManager {
 
 		$req = "Action: $action\r\n";
 		foreach($parameters as $var=>$val) {
-			$req .= "$var: $val\r\n";
+			if (is_array($val)) {
+				foreach($val as $k => $v) {
+					$req .= "$var: $k=$v\r\n";
+				}
+			} else {
+				$req .= "$var: $val\r\n";
+			}
+			
 		}	
 		$req .= "\r\n";
 		$this->log("Sending Request down socket:",10);
@@ -579,40 +586,57 @@ class AGI_AsteriskManager {
 	* @param string $account
 	* @param string $application
 	* @param string $data
-	* TODO: THIS NEEDS TO BE UPDATED
+	* == exactly 11 values required ==
+	*
+	* -- OR --
+	*
+	* @pram array a key => value array of what ever you want to pass in
 	*/
-	function Originate($channel, $exten, $context, $priority, $timeout, $callerid, $variable, $account, $application, $data) {
-		$parameters = array();
-		if ($channel) {
-			$parameters['Channel'] = $channel;
+	function Originate() {
+		$num_args = func_num_args();
+
+		if ($num_args === 11) {
+			$args = func_get_args();
+			
+			$parameters = array();
+			if ($args[0]) {
+				$parameters['Channel'] = $args[0];
+			}
+			if ($args[1]) {
+				$parameters['Exten'] = $args[1];
+			}
+			if ($args[2]) {
+				$parameters['Context'] = $args[2];
+			}
+			if ($args[3]) {
+				$parameters['Priority'] = $args[3];
+			}
+			if ($args[4]) {
+				$parameters['Timeout'] = $args[4];
+			}
+			if ($args[5]) {
+		 		$parameters['CallerID'] = $args[5];
+			}
+			if ($args[6]) {
+				$parameters['Variable'] = $args[6];
+			}
+			if ($args[7]) {
+				$parameters['Account'] = $args[7];
+			}
+			if ($args[8]) {
+				$parameters['Application'] = $args[8];
+			}
+			if ($args[9]) {
+				$parameters['Data'] = $args[9];
+			}
+		} else {
+			$args = func_get_args();
+			$args = $args[0];
+			foreach ($args as $key => $val) {
+				$parameters[$key] = $val;
+			}
 		}
-		if ($exten) {
-			$parameters['Exten'] = $exten;
-		}
-		if ($context) {
-			$parameters['Context'] = $context;
-		}
-		if ($priority) {
-			$parameters['Priority'] = $priority;
-		}
-		if ($timeout) {
-			$parameters['Timeout'] = $timeout;
-		}
-		if ($callerid) {
-			$parameters['CallerID'] = $callerid;
-		}
-		if ($variable) {
-			$parameters['Variable'] = $variable;
-		}
-		if ($account) {
-			$parameters['Account'] = $account;
-		}
-		if ($application) {
-			$parameters['Application'] = $application;
-		}
-		if ($data) {
-			$parameters['Data'] = $data;
-		}
+
 		return $this->send_request('Originate', $parameters);
 	}	
 	
@@ -1076,6 +1100,30 @@ class AGI_AsteriskManager {
 	function app_exists($app) {
 		$r = $this->command("core show application $app");
 		return (strpos($r['data'],"Your application(s) is (are) not registered") === false);
+	}
+
+	/** Returns whether a give asterisk module is loaded in this Asterisk install
+	 * @param string $app	The case in-sensitve name of the application
+	 * @return bool True if if it exists
+	 */
+	function mod_loaded($mod) {
+		$r = $this->command("module show like $mod");
+		return (preg_match('/1 modules loaded/', $r['data']) > 0);
+	}
+
+	/** Sets a global var or function to the provided value
+	 * @param string $var	The variable or function to set
+	 * @param string $val	the value to set it to
+	 * @return array returns the array value from the send_request
+	 */
+	function set_global($var, $val) {
+		global $amp_conf;
+		static $pre = '';
+
+		if (! $pre) {
+			$pre = version_compare($amp_conf['ASTVERSION'], "1.6.1", "ge") ? 'dialplan' : 'core';
+		}
+		return $this->command($pre . ' set global ' . $var . ' ' . $val);
 	}
 }
 ?>

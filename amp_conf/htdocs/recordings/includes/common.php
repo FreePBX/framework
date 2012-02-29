@@ -9,6 +9,7 @@
  * Checks if user is set and sets
  */
 function checkErrorMessage() {
+	$ret = '';
 
   if ($_SESSION['ari_error']) {
     $ret = "<div class='error'>
@@ -272,8 +273,11 @@ function handleBlock() {
 
   global $loaded_modules;
 
+	$nav_menu = '';
+	$subnav_menu = '';
+
   // check errors here and in login block
-  $content .= checkErrorMessage();
+  $content = checkErrorMessage();
 
   // check logout
   if ($_SESSION['ari_user'] && !$ARI_NO_LOGIN) {
@@ -291,7 +295,7 @@ function handleBlock() {
 
   $m = $_REQUEST['m'];     // module
   $f = $_REQUEST['f'];     // function
-  $a = $_REQUEST['a'];     // action
+  $a = isset($_REQUEST['a']) ? $_REQUEST['a'] : '';     // action
 
   // set arguments
   $args = array();
@@ -301,6 +305,7 @@ function handleBlock() {
 
   // set rank
   $ranked_modules = array();
+	ksort($loaded_modules);
   foreach ($loaded_modules as $module) {
 
     $module_methods = get_class_methods($module);    // note that PHP4 returns all lowercase
@@ -385,7 +390,7 @@ function handleBlock() {
  */
 function handler() {
 
-  global $ARI_VERSION;
+  global $ARI_VERSION, $amp_conf;
 
   // version
   $ari_version = $ARI_VERSION;
@@ -452,7 +457,5 @@ include_once("./includes/database.php");
 include_once("./includes/display.php"); 
 include_once("./includes/ajax.php");
 include_once("./includes/callme.php");
-include_once("../admin/functions.inc.php");
-include_once("../admin/libraries/php-asmanager.php");
 
 ?>

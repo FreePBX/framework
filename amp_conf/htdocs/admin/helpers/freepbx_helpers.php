@@ -93,14 +93,9 @@ function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='', $
 			. ($required ? ' required ' : '') . '>';//html5 validation
 	$html.='<option value="" style="background-color:white;">'.$nodest_msg.'</option>';
 	foreach($drawselects_module_hash as $mod => $disc){
-		/* We bind to the hosting module's domain. If we find the translation there we use it, if not
-		 * we try the default 'amp' domain. If still no luck, we will try the _() which is the current
-		 * module's display since some old translation code may have stored it locally but should migrate */
-		bindtextdomain($drawselects_module_hash[$mod],"modules/".$drawselects_module_hash[$mod]."/i18n");
-		bind_textdomain_codeset($drawselects_module_hash[$mod], 'utf8');
-		$label_text=dgettext($drawselects_module_hash[$mod],$mod);
-		if($label_text==$mod){$label_text=dgettext('amp',$label_text);}
-		if($label_text==$mod){$label_text=_($label_text);}
+
+		$label_text = modgettext::_($mod, $drawselects_module_hash[$mod]);
+
 		/* end i18n */
 		$selected=($mod==$destmod)?' SELECTED ':' ';
 		$style=' style="'.(($mod=='Error')?'background-color:red;':'background-color:white;').'"';

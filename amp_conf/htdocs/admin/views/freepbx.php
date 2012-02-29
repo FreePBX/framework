@@ -18,8 +18,8 @@ if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
 }
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
-if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js.php")) {
-	echo '<script type="text/javascript" src="assets/js/pbxlib.js.php' 
+if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
+	echo '<script type="text/javascript" src="assets/js/pbxlib.js' 
 		.  $version_tag . ' ></script>';
 } else {
 	/*

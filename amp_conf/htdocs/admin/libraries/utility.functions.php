@@ -69,7 +69,13 @@ function freepbx_log($level, $message) {
 				// default in FPBX_LOG_FILE
 				$log_file	= isset($amp_conf['FPBX_LOG_FILE']) ? $amp_conf['FPBX_LOG_FILE'] : '/tmp/freepbx_pre_install.log';
 				$tstamp		= date("Y-M-d H:i:s");
-        		file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
+
+        // Don't append if the file is greater than ~2G since some systems fail
+        //
+        $size = sprintf("%u", filesize($log_file)) + strlen($txt);
+        if ($size < 2000000000) {
+          file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
+        }
 				break;
 		}
 	}
@@ -85,6 +91,59 @@ function version_compare_freepbx($version1, $version2, $op = null) {
 	} else {
 		return version_compare($version1, $version2);
 	}
+}
+
+function compress_framework_css() {
+	global $amp_conf;
+	$mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
+						? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
+						: 'assets/css/mainstyle.css'; 
+	$wwwroot 			= $amp_conf['AMPWEBROOT'] . "/admin";
+	$mainstyle_css_gen 	= $wwwroot . '/' . $amp_conf['mainstyle_css_generated'];
+	$mainstyle_css		= $wwwroot . '/' . $mainstyle_css;
+	$new_css 			= file_get_contents($mainstyle_css) 
+						. file_get_contents($wwwroot . '/' . $amp_conf['JQUERY_CSS']);
+	$new_css 			= CssMin::minify($new_css);
+	$new_md5 			= md5($new_css);
+	$gen_md5 			= file_exists($mainstyle_css_gen) ? md5(file_get_contents($mainstyle_css_gen)) : '';
+
+	
+	//regenerate if hashes dont match
+	if ($new_md5 != $gen_md5) {
+		$ms_path = dirname($mainstyle_css);
+
+		// it's important for filename tp unique 
+		//because that will force browsers to reload vs. caching it
+		$mainstyle_css_generated = $ms_path.'/mstyle_autogen_' . time() . '.css';
+		//remove any stale generated css files
+		exec(fpbx_which('rm') . ' -f ' . $ms_path . '/mstyle_autogen_*');
+		
+		$ret = file_put_contents($mainstyle_css_generated, $new_css);
+
+		// Now assuming we write something reasonable, we need to save the generated file name and mtimes so
+		// next time through this ordeal, we see everything is setup and skip all of this.
+		// 
+		// we skip this all this if we get back false or 0 (nothing written) in which case we will use the original
+		// We need to set the value in addition to defining the setting 
+		//since if already defined the value won't be reset.
+		if ($ret) {
+			$freepbx_conf =& freepbx_conf::create();
+			$val_update['mainstyle_css_generated'] = str_replace($wwwroot . '/', '', $mainstyle_css_generated);
+			
+			// Update the values (in case these are new) and commit
+			$freepbx_conf->set_conf_values($val_update, true, true);
+
+
+			// If it is a regular file (could have been first time and previous was blank then delete old
+			if (is_file($mainstyle_css_gen) && !unlink($mainstyle_css_gen)) {
+				freepbx_log(FPBX_LOG_WARNING,
+							sprintf(_('failed to delete %s from assets/css directory after '
+									. 'creating updated CSS file.'), 
+									$mainstyle_css_generated_full_path));
+			}
+		}
+	}
+	
 }
 
 function die_freepbx($text, $extended_text="", $type="FATAL") {
@@ -251,8 +310,10 @@ function dbug(){
 			break;	
 	}
 	
-	if ($disc) {
+	if (isset($disc) && $disc) {
 		$disc = ' \'' . $disc . '\':';
+	} else {
+		$disc = '';
 	}
 	
 	$bt = debug_backtrace();
@@ -312,10 +373,13 @@ function freepbx_error_handler($errno, $errstr, $errfile, $errline,  $errcontext
                         break;
                 case 'dbug':
                         default:
+						$errormsg = isset($errortype[$errno])
+									? $errortype[$errno]
+									: 'Undefined Error';
                         $txt = date("Y-M-d H:i:s")
                                 . "\t" . $errfile . ':' . $errline
                                 . "\n"
-                                . '[' . $errortype[$errno] . ']: '
+                                . '[' . $errormsg . ']: '
                                 . $errstr
                                 . "\n\n";
                                 dbug_write($txt, $check='');
@@ -364,7 +428,7 @@ function fatal($text,$log=true) {
 	if ($log) {
 		freepbx_log(FPBX_LOG_FATAL,$text);
 	}
-exit(1);
+	exit(1);
 }
 
 // TODO: used in retrieve_conf, scan code base and remove if appropriate
@@ -382,34 +446,72 @@ function debug($text,$log=true) {
  * wget if fails or if MODULEADMINWGET set to true. If it detects
  * failure, will set MODULEADMINWGET to true for future improvements.
  *
- * @param   string  url to be fetches
- * @return  mixed   content of url, boolean false if it failed.
+ * @param   mixed   url to be fetches or array of multiple urls to try
+ * @return  mixed   content of first successful url, boolean false if it failed.
  */
-function file_get_contents_url($fn) {
+function file_get_contents_url($file_url) {
 	global $amp_conf;
 	$contents = '';
 
-	if (!$amp_conf['MODULEADMINWGET']) {
-		ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
-		$contents = @ file_get_contents($fn);
+	if (!is_array($file_url)) {
+		$file_url = array($file_url);
 	}
-	if (empty($contents)) {
-		$fn2 = str_replace('&','\\&',$fn);
-		exec("wget -O - $fn2 2>> /dev/null", $data_arr, $retcode);
-		if ($retcode) {
-			return false;
-	} elseif (!$amp_conf['MODULEADMINWGET']) {
-		$freepbx_conf =& freepbx_conf::create();
-		$freepbx_conf->set_conf_values(array('MODULEADMINWGET' => true),true);
 
-		$nt =& notifications::create($db); 
-		$text = sprintf(_("Forced %s to true"),'MODULEADMINWGET');
-		$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
-		$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
+	foreach ($file_url as $fn) {
+		if (!$amp_conf['MODULEADMINWGET']) {
+			ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
+			$contents = @ file_get_contents($fn);
+		}
+		if (empty($contents)) {
+			$fn2 = str_replace('&','\\&',$fn);
+			exec("wget -O - $fn2 2>> /dev/null", $data_arr, $retcode);
+			if ($retcode) {
+				// if server isn't available for some reason should return non-zero
+				// so we return and we don't set the flag below
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed to get remote file, mirror site may be down: %s'),$fn));
+				continue;
+
+				// We are here if contents were blank. It's possible that whatever we were getting were suppose to be blank
+				// so we only auto set the WGET var if we received something so as to not false trigger. If there are issues
+				// with content filters that this is designed to get around, we will eventually get a non-empty file which
+				// will trigger this for now and the future.
+			} elseif (!empty($data_arr) && !$amp_conf['MODULEADMINWGET']) {
+				$freepbx_conf =& freepbx_conf::create();
+				$freepbx_conf->set_conf_values(array('MODULEADMINWGET' => true),true);
+
+				$nt =& notifications::create($db); 
+				$text = sprintf(_("Forced %s to true"),'MODULEADMINWGET');
+				$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
+				$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
+			}
+			$contents = implode("\n",$data_arr);
+			return $contents;
+		} else {
+			return $contents;
+		}
+		// we get here if all wget's fail
+		return false;
 	}
-	$contents = implode("\n",$data_arr);
+}
+
+/**
+ * function generate_module_repo_url
+ * short create array of full URLs to get a file from repo
+ * use this function to generate an array of URLs for all configured REPOs
+ * @author Philippe Lindheimer
+ *
+ * @pram string
+ * @returns string
+ */
+function generate_module_repo_url($path) {
+	global $amp_conf;
+	$urls = array();
+
+	$repos = explode(',', $amp_conf['MODULE_REPO']);
+	foreach ($repos as $repo) {
+		$urls[] = $repo . $path;
 	}
-	return $contents;
+	return $urls;
 }
 
 /**
@@ -470,6 +572,7 @@ function edit_crontab($remove = '', $add = '') {
 
 	//if we have $add and its an array, parse it & fill in the missing options
 	//if its a string, add it as is
+
 	if($add) {
 		if (is_array($add)) {
 			if (isset($add['command'])) {
@@ -477,11 +580,21 @@ function edit_crontab($remove = '', $add = '') {
 				if (isset($add['event'])) {
 					$cron_add['event'] = '@' . trim($add['event'], '@');
 				} else {
-					$cron_add['minute']		= isset($add['minute'])	? $add['minute']	: '*';
-					$cron_add['hour']		= isset($add['hour'])	? $add['hour']		: '*';
-					$cron_add['dom']		= isset($add['dom'])	? $add['dom']		: '*';
-					$cron_add['month']		= isset($add['month'])	? $add['month']		: '*';
-					$cron_add['dow']		= isset($add['dow'])	? $add['dow']		: '*';
+					$cron_add['minute']		= isset($add['minute']) && $add['minute'] !== ''	
+												? $add['minute']
+												: '*';
+					$cron_add['hour']		= isset($add['hour']) && $add['hour'] !== ''
+												? $add['hour']
+												: '*';
+					$cron_add['dom']		= isset($add['dom']) && $add['dom'] !== ''
+												? $add['dom']
+												: '*';
+					$cron_add['month']		= isset($add['month']) && $add['month']	!== ''
+												? $add['month']
+												: '*';
+					$cron_add['dow']		= isset($add['dow']) && $add['dow'] !== ''
+												? $add['dow']
+												: '*';
 				}
 				$cron_add['command']	= $add['command'];
 				$cron_add = implode(' ', $cron_add);
@@ -519,22 +632,18 @@ function dbug_write($txt, $check = false){
 	// it if not defined here to a default.
 	//
 	if (!isset($amp_conf['FPBXDBUGFILE'])) {
-		$amp_conf['FPBXDBUGFILE'] = '/tmp/freepbx_debug.log';
+		$amp_conf['FPBXDBUGFILE'] = '/var/log/asterisk/freepbx_debug';
 	}
-	$append=false;
 
+// If not check set max size just under 2G which is the php limit before it gets upset
+	if($check) { $max_size = 52428800; } else { $max_size = 2000000000; }
 	//optionaly ensure that dbug file is smaller than $max_size
-	if($check){
-		$max_size = 52428800;//hardcoded to 50MB. is that bad? not enough?
-		$size = sprintf("%u", filesize($amp_conf['FPBXDBUGFILE']));
-		$append = ($size > $max_size ? true : false);
-	}
-	if ($append) {
+	$size = sprintf("%u", filesize($amp_conf['FPBXDBUGFILE'])) + strlen($txt);
+	if ($size > $max_size) {
 		file_put_contents($amp_conf['FPBXDBUGFILE'], $txt);
 	} else {
 		file_put_contents($amp_conf['FPBXDBUGFILE'], $txt, FILE_APPEND);
 	}
-	
 }
 
 /**
@@ -634,15 +743,18 @@ function astdb_put($astdb, $exclude = array()) {
  * scans a directory just like scandir(), only recursively
  * returns a hierarchical array representing the directory structure
  *
- * @pram string
+ * @pram string - directory to scan
+ * @pram strin - retirn absolute paths
  * @returns array
  *
  * @author Moshe Brevda mbrevda => gmail ~ com
- * @TODO: there is much that can be done to make this more useful
- * for example, as option to return absolute paths
  */
-function scandirr($dir) {
+function scandirr($dir, $absolute = false) {
 	$list = array();
+	if ($absolute) {
+		global $list;
+	}
+	
 	
 	//get directory contents
 	foreach (scandir($dir) as $d) {
@@ -654,17 +766,30 @@ function scandirr($dir) {
 		
 		//if current file ($d) is a directory, call scandirr
 		if (is_dir($dir . '/' . $d)) {
-			$list[$d] = scandirr($dir . '/' . $d);
+			if ($absolute) {
+				scandirr($dir . '/' . $d, $absolute);
+			} else {
+				$list[$d] = scandirr($dir . '/' . $d, $absolute);
+			}
+			
 		
 			//otherwise, add the file to the list
 		} elseif (is_file($dir . '/' . $d) || is_link($dir . '/' . $d)) {
-			$list[] = $d;
+			if ($absolute) {
+				$list[] = $dir . '/' . $d;
+			} else {
+				$list[] = $d;
+			}
+			
 		}
 	}
-	
+
 	return $list;
 }
 
+/**
+ * Prints an array as a "tree" of data
+ */
 function dbug_printtree($dir, $indent = "\t") {
 	static $t = 0;
 	$foo = '';
@@ -697,13 +822,17 @@ function dbug_printtree($dir, $indent = "\t") {
  * @retruns string
  */
 function fpbx_which($app) {
-	global $amp_conf, $freepbx_conf;
-	
+	// don't know if we will always have an open class and not even sure if
+	// $amp_conf will be set so to be safe deal with it all here.
+	//
+	$freepbx_conf =& freepbx_conf::create();
+ 	$which = $freepbx_conf->get_conf_setting('WHICH_' . $app);
+
 	//if we have the location cached return it
-	if (isset($amp_conf['WHICH_' . $app]) && $amp_conf['WHICH_' . $app]) {
-		return $amp_conf['WHICH_' . $app];
+	if ($which) {
+		return $which;
 		
-	//otherwise, search for it
+		//otherwise, search for it
 	} else {
 		//ist of posible plases to find which
 		
@@ -726,7 +855,7 @@ function fpbx_which($app) {
 			$set = array(
 					'value'			=> $path[0],
 					'defaultval'	=> $path[0],
-					'readonly'		=> 0,
+					'readonly'		=> 1,
 					'hidden'		=> 0,
 					'level'			=> 2,
 					'module'		=> '',
@@ -983,27 +1112,160 @@ function string2bytes($str, $type = ''){
  * downloads a file to the browser (i.e. sends the file to the browser)
  * 
  * @author Moshe Brevda mbrevda => gmail ~ com
- * @pram string
- * @pram string, optional
- * @pram string, optional
+ * @pram string - absolute path to file
+ * @pram string, optional - file name as it will be downloaded
+ * @pram string, optional - content mime type
+ * @pram bool, optional - true will force the file to be download. 
+ *						False allows the browser to attempt to display the file
+ * 						Correct mime type ($type) snesesary for proper broswer interpretation!
+ *
  */
-function download_file($file, $name = '', $type = '') {
+function download_file($file, $name = '', $type = '', $force_download = false) {
 	if (file_exists($file)) {
+		//set the filename to the current filename if no name is specified
 		$name = $name ? $name : basename($file);
+		
+		//sanitize filename
+		$name = preg_replace('/[^A-Za-z0-9_\.-]/', '', $name);
+		
+		//attempt to set file mime type if it isn't already set
+		if (!$type) {
+			if (class_exists('finfo')) {
+				$finfo = new finfo(FILEINFO_MIME);
+				$type = $finfo->file($file);
+			} else {
+				exec(fpbx_which('file') . ' -ib ' . $file, $res);
+				$type = $res[0];
+			}	
+		}
+
+		//failsafe for false or blank results
 		$type = $type ? $type : 'application/octet-stream';
+		
+		$disposition = $force_download ? 'attachment' : 'inline';
+		
+		//send headers
 		header('Content-Description: File Transfer');
 		header('Content-Type: ' . $type);
-		header('Content-Disposition: attachment; filename=' . $name);
+		header('Content-Disposition: ' . $disposition . '; filename=' . $name);
 		header('Content-Transfer-Encoding: binary');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
 		header('Content-Length: ' . filesize($file));
-		ob_clean();
+		
+		//clear all buffers
+		while (ob_get_level()) {
+			ob_end_clean();
+		}
 		flush();
+		
+		//send the file!
 		readfile($file);
+		
+		//return immediately
 		exit;
 	} else {
 		return false;
 	}
+}
+
+
+/**
+ * Get data from a pdf file. Requires pdfinfo
+ * 
+ * @author Moshe Brevda mbrevda => gmail ~ com
+ * @pram string - /path/to/file
+ * @returns array - details about the pdf. 
+ * The following details are returned 
+ *		(values returned are depndant on the pdfinfo binary)
+ *		author
+ *		creationdate
+ *		creator
+ *		encrypted
+ *		filesize
+ *		moddate
+ *		optimized
+ *		pages
+ *		pagesize
+ *		pdfversion
+ *		producer
+ *		tagged
+ *		title
+ */
+function fpbx_pdfinfo($pdf) {
+	$pdfinfo = array();
+	exec(fpbx_which('pdfinfo') . ' ' . $pdf, $pdf_details, $ret_code);
+	
+	if($ret_code !== 0) {
+		return false;
+	}
+	
+	foreach($pdf_details as $detail) {
+		list($key, $value) = preg_split('/:\s*/', $detail, 2);
+		$pdfinfo[strtolower(preg_replace('/[^A-Za-z]/', '', $key))] = $value;
+	}
+	ksort($pdfinfo);
+	return $pdfinfo;
+}
+
+/**
+ * Update AMI credentials in manager.conf
+ * 
+ * @author Philippe Lindheimer
+ * @pram string
+ * @pram string
+ * @returns boolean
+ * 
+ * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
+ */
+function fpbx_ami_update($user=false, $pass=false) {
+	global $amp_conf;
+	global $astman;
+
+	$ret = $ret2 = 0;
+	$output = array();
+	
+	if ($user !== false && $user != '') {
+		exec('sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/" '. $amp_conf['ASTETCDIR'] . '/manager.conf', $output, $ret);
+		if ($ret) {
+			dbug($output);
+			dbug($ret);
+			freepbx_log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI user to [%s], internal failure details follow:"),$amp_conf['AMPMGRUSER']));
+			foreach ($output as $line) {
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
+			}
+		}
+	}
+
+	if ($pass !== false && $pass != '') {
+		unset($output);
+		exec('sed -i.bak "s/secret\s*=.*$/secret = ' . $amp_conf['AMPMGRPASS'] . '/" ' . $amp_conf['ASTETCDIR'] . '/manager.conf', $output, $ret2);
+		if ($ret2) {
+			dbug($output);
+			dbug($ret2);
+			freepbx_log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI password to [%s], internal failure details follow:"),$amp_conf['AMPMGRPASS']));
+			foreach ($output as $line) {
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
+			}
+		}
+	}
+
+	if ($ret || $ret2) {
+		dbug("aborting early because previous errors");
+		return false;
+	}
+	if (!empty($astman)) {
+		$ast_ret = $astman->Command('module reload manager');
+	} else {
+		unset($output);
+		dbug("no astman connection so trying to force through linux command line");
+		exec(fpbx_which('asterisk') . " -rx 'module reload manager'", $output, $ret2);
+		if ($ret2) {
+			dbug($output);
+			dbug($ret2);
+			freepbx_log(FPBX_LOG_ERROR,_("Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx 'module reload manager']"));
+		}
+	}
+	return true;
 }

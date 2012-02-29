@@ -11,7 +11,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-$dirname = dirname(__FILE__);
+$dirname = $amp_conf['AMPWEBROOT'] . '/admin';
 define('MODULE_STATUS_NOTINSTALLED', 0);
 define('MODULE_STATUS_DISABLED', 1);
 define('MODULE_STATUS_ENABLED', 2);
@@ -90,19 +90,22 @@ require_once($dirname . '/helpers/form_helper.php');
 
 //freepbx autoloader
 function fpbx_framework_autoloader($class) {
-	$dirname = dirname(__FILE__);
+	global $amp_conf;
+	$dirname = $amp_conf['AMPWEBROOT'] . '/admin';
 	if (substr($class, 0, 3) == 'gui') {
 		$class = 'component';
 	}
 
   /* Special case of TRUE forces all classes to be loaded. Make sure to add new classes to this array
    * as they are added to the autoloader. This was added because the presence of Zend enabled modules
-   * can result in the autoloader function failing.
+	 * can result in the autoloader function failing.
+	 *
+	 * Don't force ampuser though it is always loaded in advance
    *
    * Basically, every 'case' below should have a corresponding entry in the $class array below.
    */
   if ($class === true) {
-    $class = array('ampuser','CI_Email','CI_Table','CssMin','component','featurecode','cronmanager','moduleHook','modulelist','notifications','xml2Array');
+    $class = array('CI_Email','CI_Table','CssMin','component','featurecode','cronmanager','moduleHook','modulelist','notifications','xml2Array','modgettext');
   } else {
     $class = array($class);
   }
@@ -151,13 +154,16 @@ function fpbx_framework_autoloader($class) {
 			require_once($dirname . '/libraries/featurecodes.class.php');
 			break;
 		case 'cronmanager':
-			require($dirname . '/libraries/cronmanager.class.php');
+			require_once($dirname . '/libraries/cronmanager.class.php');
 			break;
 		case 'moduleHook':
 			require_once($dirname . '/libraries/moduleHook.class.php');
 			break;
 		case 'modulelist':
 			require_once($dirname . '/libraries/modulelist.class.php');
+			break;
+		case 'modgettext':
+			require_once($dirname . '/libraries/modgettext.class.php');
 			break;
 		case 'notifications':
 			require_once($dirname . '/libraries/notifications.class.php');
@@ -192,23 +198,24 @@ function ast_with_dahdi() {
 		$version = $engine_info['version'];
 	}
 		
-	if (version_compare($version, '1.4', 'ge') && $amp_conf['AMPENGINE'] == 'asterisk') {		
-    if ($amp_conf['ZAP2DAHDICOMPAT']) {
-      $ast_with_dahdi = true;
-      $chan_dahdi_loaded = true;
-      return true;
-    } else if (isset($astman) && $astman->connected()) {
-			// earlier revisions of 1.4 and dahdi loaded but still running as zap, so if ZapScan is present, we assume
-      // that is the mode it is running in.
-			$response = $astman->send_request('Command', array('Command' => 'show applications like ZapScan'));
-			if (!preg_match('/1 Applications Matching/', $response['data'])) {
-        $ast_with_dahdi = true;
-        $chan_dahdi_loaded = true;
-				return $ast_with_dahdi;
-			} else {
-        $chan_dahdi_loaded = false;
-			}
+	if ($amp_conf['ZAP2DAHDICOMPAT']) {
+		$ast_with_dahdi = true;
+		$chan_dahdi_loaded = true;
+		return true;
+	} elseif (version_compare($version,'1.4.21','ge')) {
+		// we only had dahdi at this point so force the setting
+		//
+		$freepbx_conf =& freepbx_conf::create();
+		if ($freepbx_conf->conf_setting_exists('ZAP2DAHDICOMPAT')) {
+			$freepbx_conf->set_conf_values(array('ZAP2DAHDICOMPAT' => true), true, true);
+			freepbx_log(FPBX_LOG_NOTICE, _("Auto set ZAP2DAHDICOMPAT to true because we are running a version of Asterisk greater than 1.4.21"));
+		} else {
+			freepbx_log(FPBX_LOG_ERROR, _("freepbx setting  ZAP2DAHDICOMPAT not found, somethng is corrupt in the conf database?"));
 		}
+
+		$ast_with_dahdi = true;
+		$chan_dahdi_loaded = true;
+		return true;
 	}
   $ast_with_dahdi = false;
   return $ast_with_dahdi;
@@ -309,8 +316,13 @@ function engine_getinfo($force_read=false) {
   return $engine_info;
 }
 
-function do_reload() {
+function do_reload($passthru=false) {
 	global $amp_conf, $asterisk_conf, $db, $astman, $version;
+	$freepbx_conf =& freepbx_conf::create();
+
+	$setting_pre_reload = $freepbx_conf->get_conf_setting('PRE_RELOAD', $passthru);
+	$setting_ampbin = $freepbx_conf->get_conf_setting('AMPBIN', $passthru);
+	$setting_post_reload = $freepbx_conf->get_conf_setting('POST_RELOAD', $passthru);
 
 	if (empty($version)) {
 		$engine_info = engine_getinfo();
@@ -322,12 +334,12 @@ function do_reload() {
 	$return = array('num_errors'=>0,'test'=>'abc');
 	$exit_val = null;
 	
-	if (isset($amp_conf["PRE_RELOAD"]) && !empty($amp_conf['PRE_RELOAD']))  {
-		exec( $amp_conf["PRE_RELOAD"], $output, $exit_val );
+	if ($setting_pre_reload)  {
+		exec( $setting_pre_reload, $output, $exit_val );
 		
 		if ($exit_val != 0) {
 			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
-			$notify->add_error('freepbx','reload_pre_script', sprintf(_('Could not run %s script.'), $amp_conf['PRE_RELOAD']), $desc);
+			$notify->add_error('freepbx','reload_pre_script', sprintf(_('Could not run %s script.'), $setting_pre_reload), $desc);
 			
 			$return['num_errors']++;
 		} else {
@@ -335,7 +347,7 @@ function do_reload() {
 		}
 	}
 	
-	$retrieve = $amp_conf['AMPBIN'].'/retrieve_conf 2>&1';
+	$retrieve = $setting_ampbin . '/retrieve_conf 2>&1';
 	//exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log', $output, $exit_val);
 	exec($retrieve, $output, $exit_val);
 	
@@ -372,21 +384,6 @@ function do_reload() {
 	$return['status'] = true;
 	$return['message'] = _('Successfully reloaded');
 	
-	if ($amp_conf['FOPRUN'] && !$amp_conf['FOPDISABLE']) {
-    unset($output);
-		exec('killall -HUP op_server.pl 2>&1', $output, $exit_val);
-		if ($exit_val != 0) {
-			$desc = _('Could not reload the FOP operator panel server using killall -HUP op_server.pl. Configuration changes may not be reflected in the panel display.');
-			$notify->add_error('freepbx','reload_fop', _('Could not reload FOP server'), $desc);
-      // send the error output to dbug log if enabled.
-      dbug($output);
-			
-			$return['num_errors']++;
-		} else {
-			$notify->delete('freepbx','reload_fop');
-		}
-	}
-	
 	//store asterisk reloaded status
 	$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'"; 
 	$result = $db->query($sql);
@@ -395,12 +392,12 @@ function do_reload() {
 		$return['num_errors']++;
 	}
 	
-	if (isset($amp_conf["POST_RELOAD"]) && !empty($amp_conf['POST_RELOAD']))  {
-		exec( $amp_conf["POST_RELOAD"], $output, $exit_val );
+	if ($setting_post_reload)  {
+		exec( $setting_post_reload, $output, $exit_val );
 		
 		if ($exit_val != 0) {
 			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
-			$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), 'POST_RELOAD'), $desc);
+			$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), $setting_post_reload), $desc);
 			
 			$return['num_errors']++;
 		} else {

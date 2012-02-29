@@ -29,8 +29,7 @@
  /**
   */
 
-  if(!class_exists('AGI_AsteriskManager'))
-  {
+  if(!class_exists('AGI_AsteriskManager')) {
     require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'phpagi-asmanager.php');
   }
 
@@ -144,8 +143,7 @@
     * @param string $config is the name of the config file to parse
     * @param array $optconfig is an array of configuration vars and vals, stuffed into $this->config['phpagi']
     */
-    function AGI($config=NULL, $optconfig=array(), $socket=NULL)
-    {
+    function AGI($config=NULL, $optconfig=array(), $socket=NULL) {
       // load config
       if(!is_null($config) && file_exists($config))
         $this->config = parse_ini_file($config, true);
@@ -1651,14 +1649,11 @@
     * @param string $str
     * @param integer $vbl verbose level
     */
-    function conlog($str, $vbl=1)
-    {
+    function conlog($str, $vbl=1) {
       static $busy = false;
 
-      if($this->config['phpagi']['debug'] != false)
-      {
-        if(!$busy) // no conlogs inside conlog!!!
-        {
+      if(isset($this->config['phpagi'], $this->config['phpagi']['debug']) && $this->config['phpagi']['debug'] != false) {
+        if(!$busy) { // no conlogs inside conlog!!!
           $busy = true;
           $this->verbose($str, $vbl);
           $busy = false;

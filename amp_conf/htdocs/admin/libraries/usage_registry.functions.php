@@ -29,20 +29,12 @@ function framework_check_extension_usage($exten=true, $module_hash=false) {
 	foreach(array_keys($module_hash) as $mod) {
 		$function = $mod."_check_extensions";
 		if (function_exists($function)) {
-			$prev_domain = textdomain(NULL);
-			if (isset($_COOKIE['lang']) && is_dir("./modules/$mod/i18n/".$_COOKIE['lang'])) {
-				bindtextdomain($mod,"./modules/$mod/i18n");
-				bind_textdomain_codeset($mod, 'utf8');
-				textdomain($mod);
-				$module_usage = $function($exten);
-			} else {
-				textdomain('amp');
-				$module_usage = $function($exten);
-			}
+			modgettext::push_textdomain($mod);
+			$module_usage = $function($exten);
 			if (!empty($module_usage)) {
 				$exten_usage[$mod] = $module_usage;
 			}
-			textdomain($prev_domain);
+			modgettext::pop_textdomain();
 		}
 	}
 	if ($exten === true) {
@@ -92,20 +84,12 @@ function framework_check_destination_usage($dest=true, $module_hash=false) {
 	foreach(array_keys($module_hash) as $mod) {
 		$function = $mod."_check_destinations";
 		if (function_exists($function)) {
-			$prev_domain = textdomain(NULL);
-			if (isset($_COOKIE['lang']) && is_dir("./modules/$mod/i18n/".$_COOKIE['lang'])) {
-				bindtextdomain($mod,"./modules/$mod/i18n");
-				bind_textdomain_codeset($mod, 'utf8');
-				textdomain($mod);
-				$module_usage = $function($dest);
-			} else {
-				textdomain('amp');
-				$module_usage = $function($dest);
-			}
+			modgettext::push_textdomain($mod);
+			$module_usage = $function($dest);
 			if (!empty($module_usage)) {
 				$dest_usage[$mod] = $module_usage;
 			}
-			textdomain($prev_domain);
+			modgettext::pop_textdomain();
 		}
 	}
 	if ($dest === true) {
@@ -253,17 +237,9 @@ function framework_identify_destinations($dest, $module_hash=false) {
 			foreach(array_keys($module_hash) as $mod) {
 				$function = $mod."_getdestinfo";
 				if (function_exists($function)) {
-					$prev_domain = textdomain(NULL);
-					if (isset($_COOKIE['lang']) && is_dir("./modules/$mod/i18n/".$_COOKIE['lang'])) {
-						bindtextdomain($mod,"./modules/$mod/i18n");
-						bind_textdomain_codeset($mod, 'utf8');
-						textdomain($mod);
-						$check_module = $function($target);
-					} else {
-						textdomain('amp');
-						$check_module = $function($target);
-					}
-					textdomain($prev_domain);
+					modgettext::push_textdomain($mod);
+					$check_module = $function($target);
+					modgettext::pop_textdomain();
 					if ($check_module !== false) {
 						$found_owner = true;
 						$dest_cache[$target] = array($mod => $check_module);

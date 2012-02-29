@@ -120,7 +120,7 @@ function getFiles($path,$filter,$recursive_max,$recursive_count) {
         if ($recursive_count<$recursive_max && is_dir($msg_path)) {
 
           $dirCount++;
-          if ($dirCount>10) {
+          if ($dirCount>40) {
             $_SESSION['ari_error'] 
               .= sprintf(_("Too many directories in %s. Not all files processed"),$msg_path) . "<br>";
             return;

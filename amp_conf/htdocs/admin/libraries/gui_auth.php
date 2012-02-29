@@ -8,6 +8,7 @@ set_language();
    
 //promt for a password if there there is no user set
 if (!isset($_SESSION['AMP_user'])) {
+	
 	//|| (isset($_SESSION['AMP_user']->username) && $_SESSION['AMP_user']->username != $_SERVER['PHP_AUTH_USER'])) {
 	//if we dont have a username/pass promt for one
 	if (!$username || !$password) {

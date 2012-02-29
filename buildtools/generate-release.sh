@@ -10,7 +10,7 @@ module_url="http://www.freepbx.org/v2/svn/modules/branches/2.10"
 core_url=${module_url}/core
 framework_url=${module_url}/framework
 fw_ari_url=${module_url}/fw_ari
-fw_fop_url=${module_url}/fw_fop
+cdr_url=${module_url}/cdr
 dashboard_url=${module_url}/dashboard
 customappsreg_url=${module_url}/customappsreg
 voicemail_url=${module_url}/voicemail
@@ -33,12 +33,12 @@ svn update
 cd buildtools
 ./pack_javascripts.php
 cd ..
-svn ci --message "Auto checkin packed libfreepbx.javascripts.js as part of build process" amp_conf/htdocs/admin/common/libfreepbx.javascripts.js
+svn ci --message "Auto checkin packed libfreepbx.javascripts.js as part of build process" amp_conf/htdocs/admin/assets/js/pbxlib.js
 
 # This adds the MD5 Sum for all the relevant files that gets checked in on the next steps below
 #
 cd amp_conf
-find agi-bin  astetc  bin htdocs  htdocs_panel  moh sbin sounds -type f | xargs md5sum | grep -v .svn > ../upgrades/$ver.md5
+find agi-bin  astetc  bin htdocs moh sbin sounds -type f | xargs md5sum | grep -v .svn > ../upgrades/$ver.md5
 
 	;;
 	*)
@@ -69,8 +69,8 @@ svn cp -m "Automatic tag of $ver" $cur http://www.freepbx.org/v2/svn/freepbx/tag
 #
 svn cp -m "Automatic packaging of core with $ver"             $core_url             http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of framework with $ver"        $framework_url        http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
-svn cp -m "Automatic packaging of fw_ari with $ver"           $fw_ari_url        http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
-svn cp -m "Automatic packaging of fw_fop with $ver"           $fw_fop_url        http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of fw_ari with $ver"           $fw_ari_url        		http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of cdr with $ver"           		$cdr_url        			http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of dashboard with $ver"        $dashboard_url        http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of customappsreg with $ver"    $customappsreg_url    http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of voicemail with $ver"        $voicemail_url        http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
@@ -81,14 +81,14 @@ svn cp -m "Automatic packaging of infoservices with $ver"     $infoservices_url 
 
 # Now clear out the release diretory where we will build the tarballs and grab it from the tag to get core and framework
 #
-mkdir -p /usr/src/freepbx-release
-rm -rf /usr/src/freepbx-release/freepbx-$ver
+mkdir -p /tmp/freepbx-release
+rm -rf /tmp/freepbx-release/freepbx-$ver
 
 # Use the tag to build the tarball
 #
-svn export http://www.freepbx.org/v2/svn/freepbx/tags/$ver /usr/src/freepbx-release/freepbx-$ver
+svn export http://www.freepbx.org/v2/svn/freepbx/tags/$ver /tmp/freepbx-release/freepbx-$ver
 
-cd /usr/src/freepbx-release
+cd /tmp/freepbx-release
 tar zcvf freepbx-$ver.tar.gz freepbx-$ver
 
 ######################################################################################### 

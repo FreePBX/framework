@@ -26,6 +26,7 @@ class component {
 	var $_opts; //array of configurable options
 
 	function component($compname, $type = 'setup') {
+		global $display;
 		$this->_compname = $compname;
 		$this->_type = $type;
 		
@@ -33,6 +34,27 @@ class component {
 		$this->_sorted_jsfuncs = true;
 		$this->_sorted_guifuncs = true;
 		$this->_sorted_processfuncs = true;
+		
+		//set section to hidden if requested by user
+		$user_hidden = isset($_COOKIE['guielToggle']) ? json_decode($_COOKIE['guielToggle']) : array();
+		foreach($user_hidden as $k => $v) {
+			list($page, $section) = explode('#', $k);
+			if ($page == $display) {
+				$this->_opts[$section]['guielToggle'] = $v ? true :false;
+			}
+		}
+	}
+	
+	/*
+	 * Toggle open state
+	 * true = open, false = closed
+	 * wont over write a users settings
+	 */
+	function sectionToggle($section, $state = false) {
+		$section = preg_replace('/[^A-Za-z]/', '' ,$section);
+		if (!isset($this->_opts[$section]['guielToggle'])) {
+			$this->_opts[$section]['guielToggle'] = $state;
+		}
 	}
 	
 	function addguielem($section, $guielem, $sortorder = 5, $placement = null) {
@@ -283,6 +305,7 @@ class component {
 		if ( !$this->_sorted_guielems ) 
 			$this->sortguielems();
 
+
 		// Start of form
 		
 		$form_action = isset($this->_opts['form_action']) ? $this->_opts['form_action'] : $_SERVER['PHP_SELF'];
@@ -305,7 +328,7 @@ class component {
 				}
 			}
 		}
-		
+
 		// Middle
 		if ( is_array($this->_guielems_middle) ) {
 			$hasoutput = true;
@@ -317,8 +340,9 @@ class component {
 					$htmlout .= "\t<tr class=\"guielToggle\" data-toggle_class=\"".preg_replace('/[^A-Za-z]/', '' ,$section)."\">\n";
 					$htmlout .= "\t\t<td colspan=\"2\">";
 					if ($section) {
-						$state = isset($this_opts[$section]['guielToggle']) && $this_opts[$section]['guielToggle'] == true 
-								? '+' : '-  ';
+						$mysec = preg_replace('/[^A-Za-z]/', '' ,$section);
+						$state = isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false
+						 		? '+' : '-  ';
 						$htmlout .= "<h5>" 
 								. "<span class=\"guielToggleBut\">$state</span>" 
 								. $section 
@@ -437,17 +461,10 @@ class component {
 				foreach ( $this->_guifuncs[$sortorder] as $func ) {
 					$modparts = explode("_",$func,2);
 					$thismod = $modparts[0];
-					if (isset($_COOKIE['lang']) && is_dir("./modules/$thismod/i18n/".$_COOKIE['lang'])) {
-						bindtextdomain($thismod,"./modules/$thismod/i18n");
-						bind_textdomain_codeset($thismod, 'utf8');
-						textdomain($thismod);
-			
-						$func($this->_compname);
 
-						textdomain('amp');
-					} else {
-						$func($this->_compname);
-					}
+					modgettext::push_textdomain($thismod);
+					$func($this->_compname);
+					modgettext::pop_textdomain();
 				}
 			}
 		}
@@ -462,8 +479,10 @@ class guielement {
 	var $_elemname;
 	var $_html;
 	var $_javascript;
-
+	var $_opts;
+	
 	function guielement($elemname, $html = '', $javascript = '') {
+		global $CC;
 		// name that will be the id tag
 		$this->_elemname = $elemname;
 
@@ -472,6 +491,9 @@ class guielement {
 		// otherwise $html will be blanked out
 		$this->_html = $html;
 		$this->_javascript = $javascript;
+		
+
+		$this->_opts = & $CC->_opts;
 	}
 	
 	function generatehtml() {
@@ -530,6 +552,7 @@ class guiinput extends guielement {
 	var $html_input;
 	
 	function guiinput($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $jsvalidationtest='') {
+
 		// call parent class contructor
 		guielement::guielement($elemname, '', '');
 		
@@ -587,7 +610,12 @@ class guiinput extends guielement {
 		
 		// start new row
 		if ($section) {
-			$output .= "\t<tr class=\"$section\">\n";
+			$mysec = preg_replace('/[^A-Za-z]/', '' ,$section);
+			$output .= '<tr class="' . $section . '" '
+					. ((isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false) 
+						? ' style="display:none" ' 
+						: '')
+					.' >' . "\n";
 		} else {
 			$output .= "\t<tr>\n";
 		}
@@ -781,12 +809,17 @@ class guitext extends guielement {
 	function generatehtml($section = '') {
 		// this effectivly creates the template using the html_text
 		// we would expect the $html_text to be set by the child class
-
+		
 		$output = '';
 		
 		// start new row
 		if ($section) {
-			$output .= "\t<tr class=\"$section\">\n";
+			$mysec = preg_replace('/[^A-Za-z]/', '' ,$section);
+			$output .= '<tr class="' . $section . '" '
+					. ((isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false) 
+						? ' style="display:none" ' 
+						: '')
+					.' >' . "\n";
 		} else {
 			$output .= "\t<tr>\n";
 		}
@@ -844,6 +877,7 @@ class gui_subheading extends guitext {
 // URL / Link
 class gui_link extends guitext {
 	function gui_link($elemname, $text, $url, $uselang = true) {
+		
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);

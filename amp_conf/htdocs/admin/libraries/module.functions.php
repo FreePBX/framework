@@ -52,7 +52,7 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		if ($override_xml) {
 			$fn = $override_xml."/modules-".$matches[1].".xml";
 		} else {
-			$fn = $amp_conf['MODULE_REPO'] . "/modules-".$matches[1].".xml";
+			$fn = generate_module_repo_url("/modules-".$matches[1].".xml");
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
@@ -430,36 +430,43 @@ function module_checkdepends($modulename) {
 						/* accepted formats
 						   <depends>
 							   <phpcomponent>zlib<phpversion>        TRUE: if extension zlib is loaded
-								 <phpcomponent>zlib 1.2<phpversion>    TRUE: if extension zlib is loaded and >= 1.2
-								 <phpcomponent>zlib gt 1.2<phpversion> TRUE: if extension zlib is loaded and > 1.2
-							</depends>
+							   <phpcomponent>zlib 1.2<phpversion>    TRUE: if extension zlib is loaded and >= 1.2
+						 	   <phpcomponent>zlib gt 1.2<phpversion> TRUE: if extension zlib is loaded and > 1.2	
+						   </depends>
 						*/
-						if (preg_match('/^([a-z0-9_]+|Zend Optimizer)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
-							// matches[1] = extension name, [3]=comparison operator, [4] = version
-							$compare_ver = isset($matches[4]) ? $matches[4] : '';
-							if (extension_loaded($matches[1])) {
-								if (empty($compare_ver)) {
-									// extension is loaded and no version specified
-								} else {
-									if (($installed_ver = phpversion($matches[1])) != '') {
-										$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
-										if (version_compare($installed_ver, $compare_ver, $operator) ) {
-											// version is good
-										} else {
-											$errors[] = _module_comparison_error_message("PHP Component ".$matches[1], $compare_ver, $installed_ver, $operator);
-										}
+						$phpcomponents = explode('||',$value);
+						$newerrors = array();
+						foreach($phpcomponents as $value) {
+							if (preg_match('/^([a-z0-9_]+|Zend (Optimizer|Guard Loader))(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
+								// matches[1] = extension name, [3]=comparison operator, [4] = version
+								$compare_ver = isset($matches[4]) ? $matches[4] : '';
+								if (extension_loaded($matches[1])) {
+									if (empty($compare_ver)) {
+										// extension is loaded and no version specified
 									} else {
-										$errors[] = _module_comparison_error_message("PHP Component ".$matches[1], $compare_ver, "<no version info>", $operator);
+										if (($installed_ver = phpversion($matches[1])) != '') {
+											$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
+											if (version_compare($installed_ver, $compare_ver, $operator) ) {
+												// version is good
+											} else {
+												$newerrors[] = _module_comparison_error_message("PHP Component ".$matches[1], $compare_ver, $installed_ver, $operator);
+											}
+										} else {
+											$newerrors[] = _module_comparison_error_message("PHP Component ".$matches[1], $compare_ver, "<no version info>", $operator);
+										}
+									}
+								} else {
+									if ($compare_version == '') {
+										$newerrors[] = sprintf(_('PHP Component %s is required but missing from you PHP installation.'), $matches[1]);
+									} else {
+										$newerrors[] = sprintf(_('PHP Component %s version %s is required but missing from you PHP installation.'), $matches[1], $compare_version);
 									}
 								}
-							} else {
-								if ($compare_version == '') {
-									$errors[] = sprintf(_('PHP Component %s is required but missing from you PHP installation.'), $matches[1]);
-								} else {
-									$errors[] = sprintf(_('PHP Component %s version %s is required but missing from you PHP installation.'), $matches[1], $compare_version);
-								}
-							}
-						}	
+							}	
+						}
+						if (count($newerrors) == count($phpcomponents)) {
+							$errors = array_merge($errors,$newerrors);
+						}
 					break;
 					case 'module':
 						// Modify to allow versions such as 2.3.0beta1.2
@@ -770,18 +777,38 @@ function module_download($modulename, $force = false, $progress_callback = null,
 		}
 	}
 	
-	if ($override_svn) {
-		$url = $override_svn.$res['location'];
-	} else {
-		$url = $amp_conf['MODULE_REPO'] . "/modules/".$res['location'];
-	}
-	
 	if (!($fp = @fopen($filename,"w"))) {
 		return array(sprintf(_("Error opening %s for writing"), $filename));
 	}
+
+	if ($override_svn) {
+		$url_list = array($override_svn.$res['location']);
+	} else {
+		$url_list = generate_module_repo_url("/modules/".$res['location']);
+	}
 	
-	$headers = get_headers_assoc($url);
+	// Check each URL until get_headers_assoc() returns something intelligible. We then use
+	// that URL and hope the file is there, we won't check others.
+	//
+	$headers = false;
+	foreach ($url_list as $u) {
+		$headers = get_headers_assoc($u);
+		if (!empty($headers)) {
+			$url = $u;
+			break;
+		}
+		freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed download module tarball from %s, server may be down'),$u));
+	}
+	if (!$headers || !$url) {
+		return array(sprintf(_("Unable to connect to servers from URLs provided: %s"), implode(',',$url_list)));
+	}
 	
+	// TODO: do we want to make more robust past this point:
+	// At this point we have settled on a specific URL that we can reach, if the file isn't there we won't try
+	// other servers to check for it. The assumption is that no backup server will have it either at this point
+	// If we wanted to make this more robust we could go back and try other servers. This code is a bit tangled
+	// so some better factoring might help.
+	//
 	$totalread = 0;
 	// invoke progress_callback
 	if (function_exists($progress_callback)) {
@@ -1045,13 +1072,6 @@ function module_install($modulename, $force = false) {
 	module_upgrade_notifications($new_modules, 'PASSIVE');
 	needreload();
 	
-	//If were running as root, atempt to set proper permissions 
-	//on the freshly installed files. For simplicity, we run the 
-	// freepbx defualt utility for setting freepbx perms
-	$current_user = posix_getpwuid(posix_geteuid());
-	if ($current_user['uid'] === 0) {
-		system($amp_conf['AMPBIN'] . '/freepbx_engine chown');
-	}
 	return true;
 }
 
@@ -1433,7 +1453,7 @@ function module_get_annoucements() {
   if (function_exists('core_users_list')) {
 	$options .= "&ucount=".urlencode(count(core_users_list()));	
 }
-	$fn = $amp_conf['MODULE_REPO'] . "/version-".getversion().".html".$options;
+	$fn = generate_module_repo_url("/version-".getversion().".html".$options);
   $announcement = file_get_contents_url($fn);
 	return $announcement;
 }
