@@ -595,7 +595,7 @@ class AGI_AsteriskManager {
 	function Originate() {
 		$num_args = func_num_args();
 
-		if ($num_args === 11) {
+		if ($num_args === 10) {
 			$args = func_get_args();
 			
 			$parameters = array();
