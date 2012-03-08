@@ -1125,5 +1125,24 @@ class AGI_AsteriskManager {
 		}
 		return $this->command($pre . ' set global ' . $var . ' ' . $val);
 	}
+
+	/**
+	* Reload module(s)
+	*
+	* @link http://www.voip-info.org/wiki/view/Asterisk+Manager+API+Action+Reload
+	* @param string $module
+	* @param string $actionid
+	*/
+	function Reload($module=NULL, $actionid=NULL) {
+		$parameters = array();
+
+		if ($actionid) {
+			$parameters['ActionID'] = $actionid;
+		}
+		if ($module) {
+			$parameters['Module'] = $module;
+		}
+		return $this->send_request('Reload', $parameters);
+	}
 }
 ?>

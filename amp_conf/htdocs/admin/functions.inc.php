@@ -372,13 +372,13 @@ function do_reload($passthru=false) {
 	$notify->delete('freepbx', 'RCONFFAIL');
 	
 	//reload MOH to get around 'reload' not actually doing that.
-	$astman->send_request('Command', array('Command'=>'moh reload'));
 	
 	//reload asterisk
   if (version_compare($version,'1.4','lt')) {
+		$astman->send_request('Command', array('Command'=>'moh reload'));
 	  $astman->send_request('Command', array('Command'=>'reload'));	
   } else {
-	  $astman->send_request('Command', array('Command'=>'module reload'));	
+  	$astman->Reload();
   }
 	
 	$return['status'] = true;
