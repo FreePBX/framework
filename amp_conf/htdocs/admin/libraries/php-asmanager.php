@@ -1144,5 +1144,42 @@ class AGI_AsteriskManager {
 		}
 		return $this->send_request('Reload', $parameters);
 	}
+
+	/** Starts mixmonitor
+	 * @param string $channel	The channel to start recording
+	 * @param string $file The file to record to
+	 * @param string $options Options to pass to mixmonitor
+	 * @param string $postcommand Command to execute after recording
+	 * @param string $actionid message matching variable
+	 *
+	 * @return array returns the array value from the send_request
+	 */
+	function mixmonitor($channel, $file, $options='', $postcommand='', $actionid=NULL) {
+		if (!$channel || !$file) {
+			return false;
+		}
+		$args = 'mixmonitor start ' . trim($channel) . ' ' . trim($file);
+		if ($options || $postcommand) {
+			$args .= ',' . trim($options);
+		}
+		if ($postcommand) {
+			$args .= ',' . trim($postcommand);
+		}
+		return $this->command($args, $actionid);
+	}
+
+	/** Stops mixmonitor
+	 * @param string $channel	The channel to stop recording
+	 * @param string $actionid message matching variable
+	 *
+	 * @return array returns the array value from the send_request
+	 */
+	function stopmixmonitor($channel, $actionid=NULL) {
+		if (!$channel) {
+			return false;
+		}
+		$args = 'mixmonitor stop ' . trim($channel);
+		return $this->command($args, $actionid);
+	}
 }
 ?>
