@@ -132,6 +132,7 @@ if (!$bootstrap_settings['skip_astman']) {
 		if (!$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
 			// couldn't connect at all
 			unset( $astman );
+			freepbx_log(FPBX_LOG_CRITICAL,"Connection attmempt to AMI failed");
 		} else {
 			$bootstrap_settings['astman_connected'] = true;
 		}
