@@ -1033,6 +1033,7 @@ class ext_meetme {
 									'x', 'X');
 									
 				//find asterisk variables in $this->options, if any
+				//TODO: if possible, the search AND he replace should be done in one regex
 				if (preg_match_all('/\$|}/', $this->options, $matches, PREG_OFFSET_CAPTURE)) {
 					$matches = $matches[0];
 					//build a range of start and endpoints of any asterisk variables
@@ -1051,10 +1052,10 @@ class ext_meetme {
 						}
 					}
 					$this->options = implode($str_array);
-				} else {
+				} else {//no variables, just do a normal repalce
 					$this->options = str_replace($meetme_only, '', $this->options);
 				}
-				
+
 				$this->options = preg_replace('/[GpSL]\(.*\)/', '', $this->options);
 				$this->options = preg_replace('/w\(.*\)/', 'w', $this->options);
 				break;
