@@ -522,11 +522,12 @@ $.urlParam = function(name){
 function bind_dests_double_selects() {
 	//destination double dropdown code
 	$('.destdropdown').unbind().bind('blur click change keypress', function(){
-		var name=$(this).attr('name');
-		var id=name.replace('goto','');
-		var dest=$(this).val();
-		$('[name$='+id+'].destdropdown2').hide();
-		$('[name='+dest+id+'].destdropdown2').show();
+		var name	= $(this).attr('name');
+		var id		= $(this).data('id');
+		var id		= typeof id == 'undefined' ? '' : id;//ensure id isnt set to undefined
+		var dest	= $(this).val();
+		$('[data-id=' + id + '].destdropdown2').hide();
+		$('[name=' + dest + id + '].destdropdown2').show();
 	});
 	
 	//hacky way to ensure destinations dropdown is the same background-color as currently selected item
