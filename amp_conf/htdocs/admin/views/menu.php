@@ -117,7 +117,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			// try the module's translation domain first
 			$items[$mod['name']] = '<li><a href="' . $href . '"'
           . $target
-					. 'class="' . implode(' ', $classes) . '">'
+					. (!empty($classes) ? ' class="' . implode(' ', $classes) . '">' : '>')
 					. modgettext::_(ucwords($mod['name']), $mod['module']['rawname'])
 					. '</a></li>';
 
