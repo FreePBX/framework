@@ -419,7 +419,7 @@ class Login {
               <small><small>" . _("Login") . ":&nbsp;&nbsp;</small></small>
             </td>
             <td>
-              <input type='text' name='username' value='" . $login . "' maxlength=20 tabindex=1>
+              <input type='text' name='username' value='" . htmlspecialchars($login) . "' maxlength=20 tabindex=1>
             </td>
           </tr>
           <tr>
