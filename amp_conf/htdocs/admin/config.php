@@ -101,6 +101,7 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 /* If there is an action request then some sort of update is usually being done.
    This will protect from cross site request forgeries unless disabled.
 */
+$badrefer = false;
 if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 	if (isset($_SERVER['HTTP_REFERER'])) {
 		$referer = parse_url($_SERVER['HTTP_REFERER']);
@@ -108,15 +109,13 @@ if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 	} else {
 		$refererok = false;
 	}
-
 	if (!$refererok) {
-		show_view($amp_conf['VIEW_BAD_REFFERER'], array('amp_conf'=>&$amp_conf));
-		exit;
+		$badrefer = load_view($amp_conf['VIEW_BAD_REFFERER'], $amp_conf);
 	}
 }
 
 // handle special requests
-if (!isset($no_auth) && isset($_REQUEST['handler'])) {
+if (!isset($no_auth) && isset($_REQUEST['handler']) && !$badrefer) {
 	$module = isset($_REQUEST['module'])	? $_REQUEST['module']	: '';
 	$file 	= isset($_REQUEST['file'])		? $_REQUEST['file']		: '';
 	fileRequestHandler($_REQUEST['handler'], $module, $file);
@@ -131,11 +130,16 @@ if (!$quietmode) {
 	//send header
 	$header['title']	= framework_server_name();
 	$header['amp_conf']	= $amp_conf;
-	$fw_gui_html .=			load_view($amp_conf['VIEW_HEADER'], $header);
+	$fw_gui_html .=		load_view($amp_conf['VIEW_HEADER'], $header);
 	
-	if (isset($no_auth)) {
+	if ($badrefer) {
+		$fw_gui_html .= load_view($amp_conf['VIEW_MENU'], $header);
+		$fw_gui_html .= $badrefer;
+	} elseif (isset($no_auth)) {
 		$fw_gui_html .= load_view($amp_conf['VIEW_MENU'], $header);
 		$fw_gui_html .= $no_auth;
+	}
+	if ($badrefer || isset($no_auth)) {
 		$footer['footer_content']	= load_view($amp_conf['VIEW_FOOTER_CONTENT']);
 		$footer['no_auth']	= $no_auth;
 		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
