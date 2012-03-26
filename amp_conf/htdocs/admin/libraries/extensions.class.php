@@ -1581,6 +1581,17 @@ class ext_callcompletioncancel extends extension {
 	}
 }
 
+class ext_tryexec extends extensions {
+   var $try_application;
+
+   function __construct($try_application = '') {
+       $this->try_application = $try_application;
+   }
+   function output() {
+       return "TryExec(".$this->try_application.")";
+   }
+}
+
 // Speech recognition applications
 class ext_speechcreate extends extension {
 	var $engine;
