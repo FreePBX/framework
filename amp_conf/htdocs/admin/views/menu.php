@@ -8,7 +8,7 @@ $out .= '<div class="menubar ui-widget-header ui-corner-all">';
 //left hand logo
 $out .= '<img src="' . $amp_conf['BRAND_IMAGE_TANGO_LEFT'] 
 		. '" alt="FreePBX" title="FreePBX" id="BRAND_IMAGE_TANGO_LEFT" '
-		. 'data-BRAND_IMAGE_FREEPBX_LINK_LEFT="' . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] . '"/ />';
+		. 'data-BRAND_IMAGE_FREEPBX_LINK_LEFT="' . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] . '"/>';
 		
 // If freepbx_menu.conf exists then use it to define/redefine categories
 //
@@ -85,7 +85,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
       continue;
     }
 		// $t is a heading so can't be isolated to a module, translation must come from amp
-		$mods[$t] = '<a href="#" class="module_menu_button">'
+		$mods[$t] = '<a href="#" class="module_menu_button ui-button ui-widget ui-state-default ui-corner-all">'
 				. _(ucwords($t))
 				. '</a><ul>';
 		foreach ($cat as $c => $mod) { //modules

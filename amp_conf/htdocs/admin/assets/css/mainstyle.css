@@ -356,8 +356,11 @@ div.modulebuttons {
 .ui-sortable li{cursor:move}/* sortables and others*/
 
 /*top menu bar*/
+.menubar{height: 29px;}
+
+#BRAND_IMAGE_TANGO_LEFT{min-width: 40px;}
 .menubar > a + ul{display: none;}/*dropdown menus should be intially hidden*/
-.menubar > a {margin: 2px 1px;}/*spacing around menubar buttons*/
+.menubar > a {margin: 2px 1px; height: 23px;}/*spacing around menubar buttons*/
 .menubar { padding-left: 3px;}/*spacing beteen firsl/last button and toolbar edge*/
 .menubar .ui-menu {position: absolute; outline: none; z-index: 9999;}/*actual toolbar layout*/
 .menubar .ui-menu .ui-icon { float: right; }/*button icons*/

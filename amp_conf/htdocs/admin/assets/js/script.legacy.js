@@ -524,7 +524,7 @@ function bind_dests_double_selects() {
 	$('.destdropdown').unbind().bind('blur click change keypress', function(){
 		var name	= $(this).attr('name');
 		var id		= $(this).data('id');
-		var id		= typeof id == 'undefined' ? '' : id;//ensure id isnt set to undefined
+		var id 		= typeof id == 'undefined' ? '' : id;//ensure id isnt set to undefined
 		var dest	= $(this).val();
 		$('[data-id=' + id + '].destdropdown2').hide();
 		$('[name=' + dest + id + '].destdropdown2').show();
@@ -760,7 +760,8 @@ $(document).ready(function(){
 	//new skin - work in progres!
 	$('.rnav > ul').menu();
 	$('.radioset').buttonset();
-	$('.menubar').show().menubar();
+	$('.menubar').menubar().hide().show();
+	
 	
 	//show menu on hover
 	//this is far from perfect, and will hopefully be depreciated soon
