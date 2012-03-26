@@ -2043,6 +2043,17 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['sortorder'] = 12;
   $freepbx_conf->define_conf_setting('DEVICE_STRONG_SECRETS',$set);
 
+  // DEVICE_REMOVE_MAILBOX
+  $set['value'] = false;
+  $set['options'] = '';
+  $set['name'] = 'Remove mailbox Setting when no Voicemail';
+  $set['description'] = 'If set to true, any fixed device associated with a user that has no voicemail configured will have the "mailbox=" setting removed in the generated technology configuration file such as sip_additional.conf. This will not affect the value in the GUI.';
+  $set['readonly'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $set['emptyok'] = 0;
+  $set['sortorder'] = 15;
+  $freepbx_conf->define_conf_setting('DEVICE_REMOVE_MAILBOX',$set);
+
   // DEVICE_SIP_CANREINVITE
   $set['value'] = 'no';
   $set['options'] = array('no', 'yes', 'nonat', 'update');

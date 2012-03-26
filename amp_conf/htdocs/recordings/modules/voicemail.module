@@ -550,7 +550,7 @@ $arrowImg . "</a></th>";
           $_SESSION['ari_user']['recfiles'][$i] = $recording;
 	  $recordingLink = "<a href='#' onClick=\"javascript:playback('play', $playbackRow, 'misc/play_page.php?recindex=" . $i . "'); return false;\"><img src='theme/images/sound.png' title=" . 
 _("Play") . "></img></a>";
-	  $callmePage		= "'misc/callme_page.php?recindex=" . $i . "&callmenum=" . $this->callme_num . "&action=c&msgFrom=" . $extension . "'";
+	  $callmePage		= "'misc/callme_page.php?recindex=" . $i . "&action=c'";
 	  $callme_tooltip	= _("Play message at: ") . $this->callme_num;
 	  $callmeLink = "<a href='#' onClick=\"javascript:playback('callme', $playbackRow, $callmePage); return false;\"><img src='theme/images/telephone.png' title='" . $callme_tooltip . 
 "'></img></a>";

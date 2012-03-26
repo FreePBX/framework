@@ -90,7 +90,9 @@ function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='', $
 	//draw "parent" select box
 	$style=' style="'.(($destmod=='Error')?'background-color:red;':'background-color:white;').'"';
 	$html.='<select name="goto'.$i.'" class="destdropdown" '.$style.' tabindex="'.++$tabindex.'"'
-			. ($required ? ' required ' : '') . '>';//html5 validation
+			. ($required ? ' required ' : '') //html5 validation
+			. ' data-id="' . $i . '" '
+			. '>';
 	$html.='<option value="" style="background-color:white;">'.$nodest_msg.'</option>';
 	foreach($drawselects_module_hash as $mod => $disc){
 
@@ -109,7 +111,9 @@ function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='', $
 		$style=(($cat==$destmod)?'':'display:none;');
 		if($cat=='Error'){$style.=' '.$errorstyle;}//add error style
 		$style=' style="'.(($cat=='Error')?'background-color:red;':$style).'"';
-		$html.='<select name="'.str_replace(' ','_',$cat).$i.'" '.$tabindexhtml.$style.' class="destdropdown2">';
+		$html.='<select name="'.str_replace(' ','_',$cat).$i.'" '.$tabindexhtml.$style.' class="destdropdown2"'
+				. ' data-id="' . $i . '" '
+				. '>';
 		foreach($destination as $dest){
 			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
 		// This is ugly, but I can't think of another way to do localization for this child object
