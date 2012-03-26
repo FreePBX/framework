@@ -96,37 +96,21 @@ function fpbx_framework_autoloader($class) {
 		$class = 'component';
 	}
 
-	/* Special case of TRUE forces all classes to be loaded. Make sure to add new classes to this array
-	* as they are added to the autoloader. This was added because the presence of Zend enabled modules
-	* can result in the autoloader function failing.
-	*
-	* Don't force ampuser though it is always loaded in advance
-	*
-	* Basically, every 'case' below should have a corresponding entry in the $class array below.
-	*/
-	if ($class === true) {
-		$class = array(
-			'Api',
-			'CI_Email',
-			'CI_Table',
-			'CssMin',
-			'component',
-			'featurecode',
-			'cronmanager',
-			'moduleHook',
-			'modulelist',
-			'notifications',
-			'Router',
-			'xml2Array',
-			'modgettext');
-	} else {
-		$class = array($class);
-	}
+  /* Special case of TRUE forces all classes to be loaded. Make sure to add new classes to this array
+   * as they are added to the autoloader. This was added because the presence of Zend enabled modules
+	 * can result in the autoloader function failing.
+	 *
+	 * Don't force ampuser though it is always loaded in advance
+   *
+   * Basically, every 'case' below should have a corresponding entry in the $class array below.
+   */
+  if ($class === true) {
+    $class = array('CI_Email','CI_Table','CssMin','component','featurecode','cronmanager','moduleHook','modulelist','notifications','xml2Array','modgettext');
+  } else {
+    $class = array($class);
+  }
 
 	foreach ($class as $this_class) switch($this_class){
-		case 'Api':
-			require_once($dirname . '/libraries/api.class.php');
-			break;
 		case 'ampuser':
 			require_once($dirname . '/libraries/ampuser.class.php');
 			break;
@@ -164,8 +148,8 @@ function fpbx_framework_autoloader($class) {
 			require_once($dirname . '/libraries/cssmin.class.php');
 			break;
 		case 'component':
-			require_once($dirname . '/libraries/components.class.php');
-			break;
+    		require_once($dirname . '/libraries/components.class.php');
+    		break;
 		case 'featurecode':
 			require_once($dirname . '/libraries/featurecodes.class.php');
 			break;
@@ -184,12 +168,9 @@ function fpbx_framework_autoloader($class) {
 		case 'notifications':
 			require_once($dirname . '/libraries/notifications.class.php');
 			break;
-		case 'Router':
-			require_once($dirname . '/libraries/router.class.php');
-			break;
-		case 'xml2Array':
-			require_once($dirname . '/libraries/xml2Array.class.php');
-			break;
+	   	case 'xml2Array':
+	    	require_once($dirname . '/libraries/xml2Array.class.php');
+	    	break;
 		default:
 			//TODO: enable some logging here
 			break;
