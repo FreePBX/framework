@@ -676,7 +676,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			if (isset($modules_online[$name]['attention']) && !empty($modules_online[$name]['attention'])) {
 				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Attention")."\">\n";
-				echo nl2br(modgettext::_($modules[$name]['attention']), $loc_domain);
+				echo nl2br(modgettext::_($modules[$name]['attention'], $loc_domain));
 				echo "\t\t\t\t</div>\n";
 			}
 			
@@ -770,7 +770,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "<h5>".sprintf(_("License: %s"), (isset($modules[$name]['license'])?$modules[$name]['license']:"GPLv2") )."</h5>";
 			if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
 				echo "<h5>".sprintf(_("Description for version %s"),$modules[$name]['version'])."</h5>";
-				echo nl2br(modgettext::_($modules[$name]['description']), $loc_domain);
+				echo nl2br(modgettext::_($modules[$name]['description'], $loc_domain));
 			} else {
 				echo _("No description is available.");
 			}
