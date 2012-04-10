@@ -1273,3 +1273,24 @@ function fpbx_ami_update($user=false, $pass=false) {
 	}
 	return true;
 }
+
+/**
+ * Outbound Callerid Sanatizer
+ * @author mbrevda@gmail.com
+ * @param string
+ * @return string
+ *
+ * Bell Canada BID-0011, Enhanced Call Management Service, May, 1992
+ * 5.2.7: "The field can contain any displayable ASCII character"
+ * http://www.bell.cdn-telco.com/bid/bid-0011.pdf
+ * referencing Bellcore TR-TSY-000031, which I could not find -MB
+ *
+ * Please note: instead of using this all over the place, it would
+ * make much more sense to do sanitization one time in the dial plan
+ * just before a call is sent out a trunk. Hoever, there doesnt seem
+ * to be a simple way to do this in asterisk.
+ *
+ */
+function sanitize_outbound_callerid($cid) {
+	return preg_replace('/[^[:print:]]/', '', $cid);
+}
