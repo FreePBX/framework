@@ -649,6 +649,10 @@ function dbug_write($txt, $check = false){
 /**
  * this function can print a json object in a "pretty" (i.e. human-readbale) format
  * @author Moshe Brevda mbrevda => gmail ~ com
+ *
+ * @pram string - json string
+ * @pram string - string to use for indentation
+ *
  */
 function json_print_pretty($json, $indent = "\t") {
 	$f			= '';
