@@ -805,11 +805,11 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			if ($amp_conf['DEVEL']) {
 				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Debug")."\">\n";
 				echo "\t\t\t\t<h5>".$name."</h5><pre>\n";
-				print_r($modules_local[$name]);
+				print_r(isset($modules_local[$name]) ? $modules_local[$name] : $name);
 				echo "</pre>";
 				if (isset($modules_online)) {
 					echo "\t\t\t\t<h5>Online info</h5><pre>\n";
-					print_r($modules_online[$name]);
+					print_r(isset($modules_online[$name]) ? $modules_online[$name] : $name);
 					echo "</pre>\n";
 				}
 					echo "\t\t\t\t<h5>combined</h5><pre>\n";
