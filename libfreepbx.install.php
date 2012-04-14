@@ -1262,7 +1262,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['emptyok'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
   $set['level'] = 2;
-  $set['readonly'] = 1;
+  $set['readonly'] = 0;
   $freepbx_conf->define_conf_setting('AMPMGRPASS',$set);
   $set['level'] = 0;
 
@@ -1272,7 +1272,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['name'] = 'Asterisk Manager User';
   $set['description'] = 'Username for accessing the Asterisk Manager Interface (AMI), this will be automatically updated in manager.conf.';
   $set['emptyok'] = 0;
-  $set['readonly'] = 1;
+  $set['readonly'] = 0;
   $set['type'] = CONF_TYPE_TEXT;
   $set['level'] = 2;
   $freepbx_conf->define_conf_setting('AMPMGRUSER',$set);
