@@ -44,15 +44,15 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 	// used for debug, time set to 0 to always fall through
 	// if((time() - $result['time']) > 0 || strlen($result['data']) < 100 ) {
   $skip_cache |= $amp_conf['MODULEADMIN_SKIP_CACHE'];
+	$version = getversion();
+	// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
+	preg_match('/(\d+\.\d+)/',$version,$matches);
+	$base_version = $matches[1];
 	if((time() - $result['time']) > 300 || $skip_cache || strlen($data) < 100 ) {
-		$version = getversion();
-		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
-		preg_match('/(\d+\.\d+)/',$version,$matches);
-		//echo "the result is ".$matches[1];
 		if ($override_xml) {
-			$fn = $override_xml."/modules-".$matches[1].".xml";
+			$fn = $override_xml."/secmodules-" . $base_version . ".xml";
 		} else {
-			$fn = generate_module_repo_url("/modules-".$matches[1].".xml");
+			$fn = generate_module_repo_url("/secmodules-" . $base_version . ".xml");
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
@@ -90,6 +90,14 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		module_update_notifications($old_xml, $xmlarray, ($old_xml == $data4sql));
 	}
 
+	$exposures = module_get_security($xmlarray, $base_version);
+
+	//dbug("done here is exposure analysis", $exposures);
+	foreach($exposures as $m => $vinfo) {
+		dbug("module $m has these vulnerabilities and version " . $vinfo['minver'] . " is needed you have " . $vinfo['curver'], $vinfo['vul']);
+	}
+	// module_update_security_notifications($exposures);
+
 	if (isset($xmlarray['xml']['module'])) {
 	
 		if ($module != false) {
@@ -102,13 +110,72 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		} else {
 			$modules = array();
 			foreach ($xmlarray['xml']['module'] as $mod) {
-				$modules[ $mod['rawname'] ] = $mod;
+				$modules[$mod['rawname']] = $mod;
+				if (isset($exposures[$mod['rawname']])) {
+					$modules[$mod['rawname']]['vulnerabilities'] = $exposures[$mod['rawname']];
+				}
 			}
 			return $modules;
 		}
 	}
 	return null;
 }
+
+function module_get_security($xmlarray, $base_version=null) {
+
+	if ($base_version === null) {
+		$version = getversion();
+		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
+		preg_match('/(\d+\.\d+)/',$version,$matches);
+		$base_version = $matches[1];
+	}
+
+	if (!empty($xmlarray['xml']['security'])) {
+		$exposures = array();
+		$modinfo = module_getinfo();
+
+		//foreach ($xmlarray['xml']['security'] as $vul => $sinfo) {
+		foreach ($xmlarray['xml']['security']['issue'] as $sinfo) {
+			$vul = $sinfo['id'];
+			if (!empty($sinfo['versions']['v' . $base_version])) {
+				//dbug("vulnerability info for $base_version: ", $sinfo['versions']['v' . $base_version]);
+				//dbug("is vulnerable?:: " . $sinfo['versions']['v' . $base_version]['vulnerable']);
+				// TODO: if vulnerable or maybe, and no fixes listed need to post something, mostly around the unknown
+				if (strtolower($sinfo['versions']['v' . $base_version]['vulnerable']) == 'yes' && !empty($sinfo['versions']['v' . $base_version]['fixes'])) foreach ($sinfo['versions']['v' . $base_version]['fixes'] as $rmod => $mver) {
+					dbug("checking $rmod");
+					$rmod = trim($rmod);
+					$mver = trim($mver);
+					if (!empty($modinfo[trim($rmod)])) {
+						//dbug("Vulnerability: $vul, module: " . $rmod . ", version: " . $mver);
+						if (!isset($modinfo[$rmod]['dbversion'])) {
+							//dbug("dbversion isn't set for $rmod so Locally Available but NOT installed, report on it");
+						} else {
+							if (version_compare_freepbx($modinfo[$rmod]['dbversion'], $mver, 'lt')) {
+								if (!isset($exposures[$rmod])) {
+									//dbug("$rmod not set so setting min ver to $mver");
+									$exposures[$rmod] = array('vul' => array($vul), 'minver' => $mver, 'curver' => $modinfo[$rmod]['dbversion']);
+								} else {
+									$exposures[$rmod]['vul'][] = $vul;
+									//dbug("$rmod IS set so setting so check $mver against current minver: " . $exposures[$rmod]['minver']);
+									if (version_compare_freepbx($mver, $exposures[$rmod]['minver'], 'gt')) {
+										//dbug("since the new $mver is greater, we are setting $rmod up to it because of $vul");
+										$exposures[$rmod]['minver'] = $mver;
+									}
+								}
+							} else {
+								//dbug($modinfo[$rmod]['dbversion'] . " is at least $mver");
+							}
+						}
+					} else {
+						//dbug("module $rmod not there or");
+					}
+				}
+			}
+		}
+		return $exposures;
+	}
+}
+
 
 /**  Determines if there are updates we don't already know about and posts to notification
  *   server about those updates.
@@ -818,7 +885,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	// Check MODULEADMINWGET first so we don't execute the fopen() if set
 	//
 	if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($url,'r')) {
-		exec("wget -O $filename $url 2> /dev/null", $filedata, $retcode);
+		exec("wget --tries=1 --timeout=600 -O $filename $url 2> /dev/null", $filedata, $retcode);
 		if ($retcode != 0) {
 			return array(sprintf(_("Error opening %s for reading"), $url));
 		} else {
