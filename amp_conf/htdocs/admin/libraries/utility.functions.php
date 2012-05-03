@@ -638,7 +638,7 @@ function dbug_write($txt, $check = false){
 // If not check set max size just under 2G which is the php limit before it gets upset
 	if($check) { $max_size = 52428800; } else { $max_size = 2000000000; }
 	//optionaly ensure that dbug file is smaller than $max_size
-	$size = sprintf("%u", filesize($amp_conf['FPBXDBUGFILE'])) + strlen($txt);
+	$size = file_exists($amp_conf['FPBXDBUGFILE']) ? sprintf("%u", filesize($amp_conf['FPBXDBUGFILE'])) + strlen($txt) : 0;
 	if ($size > $max_size) {
 		file_put_contents($amp_conf['FPBXDBUGFILE'], $txt);
 	} else {
