@@ -966,7 +966,7 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
 outn("Checking for selinux..");
 $tmpoutput = array();
 $tmpout = exec("getenforce 2>/dev/null", $tmpoutput, $sereturn);
-if (strtolower($tmpoutput[0]) === "enabled") {
+if (isset($tmpoutput[0]) && strtolower($tmpoutput[0]) === "enabled") {
         // this method seems better because disabled and permissive are the same
         // if a user installs and realizes selinux is running the other method 
         // requires a reboot to get selinuxenabled to work after editing the  selinux config
@@ -1100,16 +1100,6 @@ if ($install_files)
   }
 }
 
-
-// Ensure executables are executable
-chmod($amp_conf["AMPBIN"]."/freepbx_setting", 0755);
-outn("Configuring install for your environment..");
-exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKWEBGROUP $runas_gid");
-exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKWEBUSER $runas_uid");
-exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKGROUP $runas_gid");
-exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKUSER $runas_uid");
-exec($amp_conf["AMPBIN"]."/freepbx_setting AMPDEVGROUP $runas_gid");
-exec($amp_conf["AMPBIN"]."/freepbx_setting AMPDEVUSER $runas_uid");
 if (!$dryrun) {
   $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
 
@@ -1131,7 +1121,6 @@ if (!$dryrun) {
 	} else {
 		outn("no freepbx_engine..");
 	}
-	// TODO: we just did this above
 	if (file_exists($amp_conf["AMPBIN"]."/freepbx_setting")) {
 		exec("chmod 755 ".$amp_conf["AMPBIN"]."/freepbx_setting");
 		outn("freepbx_setting..");
@@ -1145,9 +1134,10 @@ if (!$dryrun) {
 		outn("no gen_amp_conf..");
 	}
 	out("done");
-	// Note - freepbx_engine must be run to ensure that freepbx.conf exists.
-	exec($amp_conf["AMPBIN"]."/freepbx_engine error > /dev/null");
+
 	// Ensure UIDs are set correctly before any chowns happen
+	// Note - freepbx_engine must be used the first time to ensure that freepbx.conf exists.
+	exec($amp_conf["AMPBIN"]."/freepbx_engine admin freepbx_setting AMPASTERISKWEBGROUP $runas_gid");
 	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKWEBGROUP $runas_gid");
 	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKWEBUSER $runas_uid");
 	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKGROUP $runas_gid");
