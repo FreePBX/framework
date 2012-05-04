@@ -1138,7 +1138,6 @@ if (!$dryrun) {
 	// Ensure UIDs are set correctly before any chowns happen
 	// Note - freepbx_engine must be used the first time to ensure that freepbx.conf exists.
 	exec($amp_conf["AMPBIN"]."/freepbx_engine admin freepbx_setting AMPASTERISKWEBGROUP $runas_gid");
-	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKWEBGROUP $runas_gid");
 	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKWEBUSER $runas_uid");
 	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKGROUP $runas_gid");
 	exec($amp_conf["AMPBIN"]."/freepbx_setting AMPASTERISKUSER $runas_uid");
