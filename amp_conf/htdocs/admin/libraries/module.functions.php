@@ -50,9 +50,9 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 	$base_version = $matches[1];
 	if((time() - $result['time']) > 300 || $skip_cache || strlen($data) < 100 ) {
 		if ($override_xml) {
-			$fn = $override_xml."/secmodules-" . $base_version . ".xml";
+			$fn = $override_xml."/modules-" . $base_version . ".xml";
 		} else {
-			$fn = generate_module_repo_url("/secmodules-" . $base_version . ".xml");
+			$fn = generate_module_repo_url("/modules-" . $base_version . ".xml");
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
