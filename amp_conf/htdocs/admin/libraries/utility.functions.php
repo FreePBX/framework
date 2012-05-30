@@ -1294,3 +1294,97 @@ function fpbx_ami_update($user=false, $pass=false) {
 function sanitize_outbound_callerid($cid) {
 	return preg_replace('/[^[:print:]]/', '', $cid);
 }
+
+/**
+ * Recursivly remove a directory
+ * @param string - dirname
+ *
+ * @return bool
+ */
+function rrmdir($dir) {
+	foreach(glob($dir . '/*') as $file) {
+		if(is_dir($file))
+			rrmdir($file);
+		else
+			unlink($file);
+    }
+    rmdir($dir);
+
+	return !is_dir($dir);
+}
+
+/**
+ * Run bootstrap hooks as provided by module.xml
+ *
+ * We currently support hooking at two points: before modules are loaded and after modules are loaded
+ * Before we load ANY modules, we will include all "all_mods" hooks
+ * Before we load an indevidual module, we will load there specifc hook
+ *
+ * @param string - hook type
+ * @param string - module name
+ *
+ */
+function bootstrap_include_hooks($hook_type, $module) {
+	global $amp_conf;
+	//first parse and load all hook info
+	if (!isset($hooks)) {
+		static $hooks = '';
+		$hooks = _bootstrap_parse_hooks();
+		
+	}
+	
+	if (isset($hooks[$hook_type][$module])) {
+		foreach ($hooks[$hook_type][$module] as $hook) {
+			if (file_exists($hook)) {
+				require_once($hook);
+			} elseif(file_exists($amp_conf['AMPWEBROOT'] . '/admin/' . $hook)) {
+				require_once($amp_conf['AMPWEBROOT'] . '/admin/' . $hook);
+			}
+			
+		}
+	}
+	
+	return true;
+}
+
+/**
+ * Helper function to laod hooks for bootstrap_include_hooks()
+ */
+function _bootstrap_parse_hooks() {
+	$hooks		= array();
+	
+	$modules	= module_getinfo(false, MODULE_STATUS_ENABLED);
+	foreach ($modules as $mymod => $mod) {
+		if (isset($mod['bootstrap_hooks'])) {
+			foreach ($mod['bootstrap_hooks'] as $type => $type_mods) {
+				switch ($type) {
+					case 'pre_module_load':
+					case 'post_module_load':
+						//first get all_mods
+						if (isset($type_mods['all_mods'])) {
+							
+							$hooks[$type]['all_mods'] = isset($hooks[$type]['all_mods']) 
+														? array_merge($hooks[$type]['all_mods'], 
+														 (array)$type_mods['all_mods'])
+														: (array)$type_mods['all_mods'];
+							unset($type_mods['all_mods']);	
+						}
+						if (!isset($type_mods)) {
+							break;//break if there are no more hooks to include
+						}
+						//now load all remaining modules
+						foreach ($type_mods as $type_mod) {
+							$hooks[$type][$mymod] = isset($hooks[$type][$mymod])
+													? array_merge($hooks[$type][$mymod], 
+													(array)$type_mod)
+													: (array)$type_mod;
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		}
+	}
+	return $hooks;
+}
