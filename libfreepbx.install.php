@@ -1578,6 +1578,17 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['emptyok'] = 1;
   $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_FOOT',$set);
 
+  // BRAND_IMAGE_SPONSOR_FOOT
+  $set['value'] = 'images/schmooze-logo.png';
+  $set['options'] = '';
+  $set['name'] = 'Image: Footer';
+  $set['description'] = 'Logo in footer.  Path is relative to admin.';
+  $set['readonly'] = 1;
+  $set['sortorder'] = 50;
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['emptyok'] = 1;
+  $freepbx_conf->define_conf_setting('BRAND_IMAGE_SPONSOR_FOOT',$set);
+
   // BRAND_FREEPBX_ALT_LEFT
   $set['value'] = '';
   $set['options'] = '';
@@ -1600,6 +1611,17 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['emptyok'] = 1;
   $freepbx_conf->define_conf_setting('BRAND_FREEPBX_ALT_FOOT',$set);
 
+  // BRAND_SPONSOR_ALT_FOOT
+  $set['value'] = 'www.schmoozecom.com';
+  $set['options'] = '';
+  $set['name'] = 'Alt for Footer Logo';
+  $set['description'] = 'alt attribute to use in place of image and title hover value. Defaults to FreePBX';
+  $set['readonly'] = 1;
+  $set['sortorder'] = 90;
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['emptyok'] = 1;
+  $freepbx_conf->define_conf_setting('BRAND_SPONSOR_ALT_FOOT',$set);
+
   // BRAND_IMAGE_FREEPBX_LINK_LEFT
   $set['value'] = 'http://www.freepbx.org';
   $set['options'] = '';
@@ -1621,6 +1643,17 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
   $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_LINK_FOOT',$set);
+
+  // BRAND_IMAGE_SPONSOR_LINK_FOOT
+  $set['value'] = 'http://www.schmoozecom.com';
+  $set['options'] = '';
+  $set['name'] = 'Link for Sponsor Footer Logo';
+  $set['description'] = 'link to follow when clicking on sponsor logo';
+  $set['readonly'] = 1;
+  $set['sortorder'] = 120;
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['emptyok'] = 1;
+  $freepbx_conf->define_conf_setting('BRAND_IMAGE_SPONSOR_LINK_FOOT',$set);
 
   // BRAND_CSS_ALT_MAINSTYLE
   $set['value'] = '';

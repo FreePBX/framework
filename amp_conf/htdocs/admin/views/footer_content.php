@@ -46,10 +46,10 @@ $html .= '</div>'; //footer_content_fpbx
 //sponsors
 $html .= '<div id="footer_content_sponsor" class="footer-float-left">';
 
-$html .= '<a target="_blank" href="http://www.schmoozecom.com">'
-		. '<img id="footer_logo" src="images/schmooze-logo.png" '
+$html .= '<a target="_blank" href="' . $amp_conf['BRAND_IMAGE_SPONSOR_LINK_FOOT'] . '">'
+		. '<img id="footer_logo" src="' . $amp_conf['BRAND_IMAGE_SPONSOR_FOOT'] . '" '
 		. ' style="margin-right:10px"'
-		. 'alt="www.schmoozecom.com"/></a>';
+		. 'alt="' . $amp_conf['BRAND_SPONSOR_ALT_FOOT'] . '"/></a>';
 $html .= '<span class="footer-float-left">';
 $html .= _('The FreePBX project is sponsored in part by:') . br();
 $html .= '<a href="http://www.schmoozecom.com" target="_blank">Schmooze Com., Inc.</a>' . br();
