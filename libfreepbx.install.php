@@ -1556,50 +1556,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['category'] = 'Styling and Logos';
   $set['level'] = 1;
 
-  // AMPADMINLOGO
-  $set['value'] = '';
-  $set['options'] = '';
-  $set['name'] = 'Legacy Right Logo';
-  $set['description'] = 'Legacy setting, use BRAND_IMAGE_FREEPBX_RIGHT in the future. If set, this will override BRAND_IMAGE_FREEPBX_RIGHT. The setting is the name of the image file and is always assumed to be present in the admin/images directory. Overrides the standard logo that is to be displayed at the TOP RIGHT of the admin screen. This enables you to customize the look of the administration screen. NOTE: images need to be saved in the ..../admin/images directory of your AMP install. This image should be 55px in height.';
-  $set['readonly'] = 1;
-  $set['sortorder'] = 0;
-  $set['type'] = CONF_TYPE_TEXT;
-  $set['emptyok'] = 1;
-  $freepbx_conf->define_conf_setting('AMPADMINLOGO',$set);
-
-  // BRAND_IMAGE_HIDE_NAV_BACKGROUND
-  $set['value'] = false;
-  $set['options'] = '';
-  $set['name'] = 'Hide Nav Background';
-  $set['description'] = 'Hide the configured left navigation bar background.';
-  $set['readonly'] = 0;
-  $set['sortorder'] = 10;
-  $set['type'] = CONF_TYPE_BOOL;
-  $set['emptyok'] = 0;
-  $freepbx_conf->define_conf_setting('BRAND_IMAGE_HIDE_NAV_BACKGROUND',$set);
-
-  // BRAND_IMAGE_SHADOW_SIDE_BACKGROUND
-  $set['value'] = 'images/shadow-side-background.png';
-  $set['options'] = '';
-  $set['name'] = 'Image: shadow-side-background.png';
-  $set['description'] = 'Styling image.';
-  $set['emptyok'] = 1;
-  $set['readonly'] = 1;
-  $set['sortorder'] = 20;
-  $set['type'] = CONF_TYPE_TEXT;
-  $freepbx_conf->define_conf_setting('BRAND_IMAGE_SHADOW_SIDE_BACKGROUND',$set);
-
-  // BRAND_IMAGE_FREEPBX_RIGHT
-  $set['value'] = 'images/logo.png';
-  $set['options'] = '';
-  $set['name'] = 'Image: Right Upper';
-  $set['description'] = 'Right upper logo. Use this setting instead of AMPADMINLOGO. Path is relative to admin.';
-  $set['readonly'] = 1;
-  $set['sortorder'] = 30;
-  $set['type'] = CONF_TYPE_TEXT;
-  $set['emptyok'] = 0;
-  $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_RIGHT',$set);
-
   // BRAND_IMAGE_TANGO_LEFT
   $set['value'] = 'images/tango.png';
   $set['options'] = '';
@@ -1622,17 +1578,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['emptyok'] = 1;
   $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_FOOT',$set);
 
-  // BRAND_IMAGE_RELOAD_LOADING
-  $set['value'] = 'images/loading.gif';
-  $set['options'] = '';
-  $set['name'] = 'Image: Reload Screen';
-  $set['description'] = 'Image used during a reload, default is animated GIF eating the * (asterisk).  Path is relative to admin.';
-  $set['readonly'] = 1;
-  $set['sortorder'] = 60;
-  $set['type'] = CONF_TYPE_TEXT;
-  $set['emptyok'] = 1;
-  $freepbx_conf->define_conf_setting('BRAND_IMAGE_RELOAD_LOADING',$set);
-
   // BRAND_FREEPBX_ALT_LEFT
   $set['value'] = '';
   $set['options'] = '';
@@ -1643,17 +1588,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
   $freepbx_conf->define_conf_setting('BRAND_FREEPBX_ALT_LEFT',$set);
-
-  // BRAND_FREEPBX_ALT_RIGHT
-  $set['value'] = '';
-  $set['options'] = '';
-  $set['name'] = 'Alt for Right Logo';
-  $set['description'] = 'alt attribute to use in place of image and title hover value. Defaults to FreePBX';
-  $set['readonly'] = 1;
-  $set['sortorder'] = 80;
-  $set['type'] = CONF_TYPE_TEXT;
-  $set['emptyok'] = 1;
-  $freepbx_conf->define_conf_setting('BRAND_FREEPBX_ALT_RIGHT',$set);
 
   // BRAND_FREEPBX_ALT_FOOT
   $set['value'] = 'FreePBX&reg;';
@@ -1677,17 +1611,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['emptyok'] = 1;
   $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_LINK_LEFT',$set);
 
-  // BRAND_IMAGE_FREEPBX_LINK_RIGHT
-  $set['value'] = '';
-  $set['options'] = '';
-  $set['name'] = 'Link for Right Logo';
-  $set['description'] = 'link to follow when clicking on logo, defaults to http://www.freepbx.org';
-  $set['readonly'] = 1;
-  $set['sortorder'] = 110;
-  $set['type'] = CONF_TYPE_TEXT;
-  $set['emptyok'] = 1;
-  $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_LINK_RIGHT',$set);
-
   // BRAND_IMAGE_FREEPBX_LINK_FOOT
   $set['value'] = 'http://www.freepbx.org';
   $set['options'] = '';
@@ -1698,39 +1621,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_TEXT;
   $set['emptyok'] = 1;
   $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_LINK_FOOT',$set);
-
-  // BRAND_HIDE_LOGO_RIGHT
-  $set['value'] = false;
-  $set['options'] = '';
-  $set['name'] = 'Hide Right Logo';
-  $set['description'] = 'Setting to true will hide the upper right logo.';
-  $set['readonly'] = 0;
-  $set['sortorder'] = 130;
-  $set['type'] = CONF_TYPE_BOOL;
-  $set['emptyok'] = 0;
-  $freepbx_conf->define_conf_setting('BRAND_HIDE_LOGO_RIGHT',$set);
-
-  // BRAND_HIDE_HEADER_VERSION
-  $set['value'] = false;
-  $set['options'] = '';
-  $set['name'] = 'Hide Left FreePBX Version';
-  $set['description'] = 'Setting to true will hide the FreePBX version information below the left upper header.';
-  $set['readonly'] = 0;
-  $set['sortorder'] = 140;
-  $set['type'] = CONF_TYPE_BOOL;
-  $set['emptyok'] = 0;
-  $freepbx_conf->define_conf_setting('BRAND_HIDE_HEADER_VERSION',$set);
-
-  // BRAND_HIDE_HEADER_MENUS
-  $set['value'] = false;
-  $set['options'] = '';
-  $set['name'] = 'Hide Header Menus';
-  $set['description'] = 'Setting to true will hide the complete horizontal menu bar in the header.';
-  $set['readonly'] = 0;
-  $set['sortorder'] = 150;
-  $set['type'] = CONF_TYPE_BOOL;
-  $set['emptyok'] = 0;
-  $freepbx_conf->define_conf_setting('BRAND_HIDE_HEADER_MENUS',$set);
 
   // BRAND_CSS_ALT_MAINSTYLE
   $set['value'] = '';
