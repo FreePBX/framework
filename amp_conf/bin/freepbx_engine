@@ -305,6 +305,11 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 			sleep 1
 			check_asterisk
 			echo "Asterisk Started"
+			if [ "$DYNAMICHINTS" == "TRUE" ]
+			then
+				echo "Reloading Asterisk because of Dynamic Hints"
+				/usr/sbin/asterisk -rx 'core reload'
+			fi
 		fi
 	call_hook run_asterisk
 }
