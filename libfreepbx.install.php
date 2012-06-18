@@ -1314,6 +1314,18 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('ASTMANAGERPROXYPORT',$set);
   $set['level'] = 0;
 
+  // ASTMGRWRITETIMEOUT
+  $set['value'] = '5000';
+  $set['name'] = 'Asterisk Manager Write Timeout';
+  $set['description'] = 
+  	'Timeout, im ms, for write timeouts for cases where Asterisk disconnects frequently';
+  $set['readonly'] = 1;
+  $set['type'] = CONF_TYPE_INT;
+  $set['emptyok'] = 1;
+  $set['options'] = array(100,100000);
+  $set['level'] = 2;
+  $freepbx_conf->define_conf_setting('ASTMGRWRITETIMEOUT',$set);
+  $set['level'] = 0;
 
   //
   // CATEGORY: Developer and Customization

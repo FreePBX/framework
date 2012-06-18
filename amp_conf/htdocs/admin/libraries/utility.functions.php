@@ -1223,15 +1223,14 @@ function fpbx_pdfinfo($pdf) {
  * 
  * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
  */
-function fpbx_ami_update($user=false, $pass=false) {
-	global $amp_conf;
-	global $astman;
-
+function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
+	global $amp_conf, $astman;
+	$conf_file = $amp_conf['ASTETCDIR'] . '/manager.conf';
 	$ret = $ret2 = 0;
 	$output = array();
 	
 	if ($user !== false && $user != '') {
-		exec('sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/" '. $amp_conf['ASTETCDIR'] . '/manager.conf', $output, $ret);
+		exec('sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/" '. $conf_file, $output, $ret);
 		if ($ret) {
 			dbug($output);
 			dbug($ret);
@@ -1244,7 +1243,7 @@ function fpbx_ami_update($user=false, $pass=false) {
 
 	if ($pass !== false && $pass != '') {
 		unset($output);
-		exec('sed -i.bak "s/secret\s*=.*$/secret = ' . $amp_conf['AMPMGRPASS'] . '/" ' . $amp_conf['ASTETCDIR'] . '/manager.conf', $output, $ret2);
+		exec('sed -i.bak "s/secret\s*=.*$/secret = ' . $amp_conf['AMPMGRPASS'] . '/" ' . $conf_file, $output, $ret2);
 		if ($ret2) {
 			dbug($output);
 			dbug($ret2);
@@ -1254,8 +1253,22 @@ function fpbx_ami_update($user=false, $pass=false) {
 			}
 		}
 	}
-
-	if ($ret || $ret2) {
+	
+	//attempt to set writetimeout
+	unset($output);i
+	if ($writetimeout) {
+		exec('sed -i.bak "s/writetimeout\s*=.*$/writetimeout = ' 
+			. $amp_conf['ASTMGRWRITETIMEOUT'] . '/" ' . $conf_file, $output, $ret3);
+		if ($ret3) {
+			dbug($output);
+			dbug($ret3);
+			freepbx_log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI writetimout to [%s], internal failure details follow:"),$amp_conf['ASTMGRWRITETIMEOUT']));
+			foreach ($output as $line) {
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
+			}
+		}
+	}
+	if ($ret || $ret2 || $ret3) {
 		dbug("aborting early because previous errors");
 		return false;
 	}

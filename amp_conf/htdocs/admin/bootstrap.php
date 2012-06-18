@@ -156,6 +156,7 @@ if (!$bootstrap_settings['freepbx_auth'] || (php_sapi_name() == 'cli')) {
 	frameworkPasswordCheck();
 }
 if (!isset($no_auth) && !defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }//we should never need this, just another line of defence
+bootstrap_include_hooks('pre_module_load', 'all_mods');
 
 $restrict_mods_local = $restrict_mods;
 // I'm pretty sure if this is == true then there is no need to even pull all the module info as we are going down a path
@@ -170,6 +171,7 @@ if ($restrict_mods_local !== true && !isset($no_auth)) {
 	  foreach($active_modules as $key => $module) {
 		  //include module functions if there not dissabled
       if ((!$restrict_mods_local || (is_array($restrict_mods_local) && isset($restrict_mods_local[$key]))) && is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
+		bootstrap_include_hooks('pre_module_load', $key);
         require_once($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
 
 				// Zend appears to break class auto-loading. Therefore, if we detect there is a module that requires Zend 
@@ -179,6 +181,7 @@ if ($restrict_mods_local !== true && !isset($no_auth)) {
 					fpbx_framework_autoloader(true);
 					$force_autoload = true;
 				}
+		bootstrap_include_hooks('post_module_load', $key);
       } 
 		  //create an array of module sections to display
 		  // stored as [items][$type][$category][$name] = $displayvalue
@@ -196,6 +199,7 @@ if ($restrict_mods_local !== true && !isset($no_auth)) {
 			  }
 		  }
 	  }
+	bootstrap_include_hooks('post_module_load', 'all_mods');
 	  $bootstrap_settings['function_modules_included'] = true;
   }
 } else {
