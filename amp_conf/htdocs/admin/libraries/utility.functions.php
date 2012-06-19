@@ -1255,7 +1255,7 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 	}
 	
 	//attempt to set writetimeout
-	unset($output);i
+	unset($output);
 	if ($writetimeout) {
 		exec('sed -i.bak "s/writetimeout\s*=.*$/writetimeout = ' 
 			. $amp_conf['ASTMGRWRITETIMEOUT'] . '/" ' . $conf_file, $output, $ret3);
