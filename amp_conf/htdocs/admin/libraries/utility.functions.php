@@ -72,7 +72,7 @@ function freepbx_log($level, $message) {
 
         // Don't append if the file is greater than ~2G since some systems fail
         //
-        $size = sprintf("%u", filesize($log_file)) + strlen($txt);
+        $size = file_exists($log_file) ? sprintf("%u", filesize($log_file)) + strlen($txt) : 0;
         if ($size < 2000000000) {
           file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
         }
@@ -464,7 +464,7 @@ function file_get_contents_url($file_url) {
 		}
 		if (empty($contents)) {
 			$fn2 = str_replace('&','\\&',$fn);
-			exec("wget -O - $fn2 2>> /dev/null", $data_arr, $retcode);
+			exec("wget --tries=1 --timeout=30 -O - $fn2 2>> /dev/null", $data_arr, $retcode);
 			if ($retcode) {
 				// if server isn't available for some reason should return non-zero
 				// so we return and we don't set the flag below
@@ -638,7 +638,7 @@ function dbug_write($txt, $check = false){
 // If not check set max size just under 2G which is the php limit before it gets upset
 	if($check) { $max_size = 52428800; } else { $max_size = 2000000000; }
 	//optionaly ensure that dbug file is smaller than $max_size
-	$size = sprintf("%u", filesize($amp_conf['FPBXDBUGFILE'])) + strlen($txt);
+	$size = file_exists($amp_conf['FPBXDBUGFILE']) ? sprintf("%u", filesize($amp_conf['FPBXDBUGFILE'])) + strlen($txt) : 0;
 	if ($size > $max_size) {
 		file_put_contents($amp_conf['FPBXDBUGFILE'], $txt);
 	} else {
@@ -1223,15 +1223,14 @@ function fpbx_pdfinfo($pdf) {
  * 
  * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
  */
-function fpbx_ami_update($user=false, $pass=false) {
-	global $amp_conf;
-	global $astman;
-
+function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
+	global $amp_conf, $astman;
+	$conf_file = $amp_conf['ASTETCDIR'] . '/manager.conf';
 	$ret = $ret2 = 0;
 	$output = array();
 	
 	if ($user !== false && $user != '') {
-		exec('sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/" '. $amp_conf['ASTETCDIR'] . '/manager.conf', $output, $ret);
+		exec('sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/" '. $conf_file, $output, $ret);
 		if ($ret) {
 			dbug($output);
 			dbug($ret);
@@ -1244,7 +1243,7 @@ function fpbx_ami_update($user=false, $pass=false) {
 
 	if ($pass !== false && $pass != '') {
 		unset($output);
-		exec('sed -i.bak "s/secret\s*=.*$/secret = ' . $amp_conf['AMPMGRPASS'] . '/" ' . $amp_conf['ASTETCDIR'] . '/manager.conf', $output, $ret2);
+		exec('sed -i.bak "s/secret\s*=.*$/secret = ' . $amp_conf['AMPMGRPASS'] . '/" ' . $conf_file, $output, $ret2);
 		if ($ret2) {
 			dbug($output);
 			dbug($ret2);
@@ -1254,8 +1253,22 @@ function fpbx_ami_update($user=false, $pass=false) {
 			}
 		}
 	}
-
-	if ($ret || $ret2) {
+	
+	//attempt to set writetimeout
+	unset($output);
+	if ($writetimeout) {
+		exec('sed -i.bak "s/writetimeout\s*=.*$/writetimeout = ' 
+			. $amp_conf['ASTMGRWRITETIMEOUT'] . '/" ' . $conf_file, $output, $ret3);
+		if ($ret3) {
+			dbug($output);
+			dbug($ret3);
+			freepbx_log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI writetimout to [%s], internal failure details follow:"),$amp_conf['ASTMGRWRITETIMEOUT']));
+			foreach ($output as $line) {
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
+			}
+		}
+	}
+	if ($ret || $ret2 || $ret3) {
 		dbug("aborting early because previous errors");
 		return false;
 	}
@@ -1293,4 +1306,98 @@ function fpbx_ami_update($user=false, $pass=false) {
  */
 function sanitize_outbound_callerid($cid) {
 	return preg_replace('/[^[:print:]]/', '', $cid);
+}
+
+/**
+ * Recursivly remove a directory
+ * @param string - dirname
+ *
+ * @return bool
+ */
+function rrmdir($dir) {
+	foreach(glob($dir . '/*') as $file) {
+		if(is_dir($file))
+			rrmdir($file);
+		else
+			unlink($file);
+    }
+    rmdir($dir);
+
+	return !is_dir($dir);
+}
+
+/**
+ * Run bootstrap hooks as provided by module.xml
+ *
+ * We currently support hooking at two points: before modules are loaded and after modules are loaded
+ * Before we load ANY modules, we will include all "all_mods" hooks
+ * Before we load an indevidual module, we will load there specifc hook
+ *
+ * @param string - hook type
+ * @param string - module name
+ *
+ */
+function bootstrap_include_hooks($hook_type, $module) {
+	global $amp_conf;
+	//first parse and load all hook info
+	if (!isset($hooks)) {
+		static $hooks = '';
+		$hooks = _bootstrap_parse_hooks();
+		
+	}
+	
+	if (isset($hooks[$hook_type][$module])) {
+		foreach ($hooks[$hook_type][$module] as $hook) {
+			if (file_exists($hook)) {
+				require_once($hook);
+			} elseif(file_exists($amp_conf['AMPWEBROOT'] . '/admin/' . $hook)) {
+				require_once($amp_conf['AMPWEBROOT'] . '/admin/' . $hook);
+			}
+			
+		}
+	}
+	
+	return true;
+}
+
+/**
+ * Helper function to laod hooks for bootstrap_include_hooks()
+ */
+function _bootstrap_parse_hooks() {
+	$hooks		= array();
+	
+	$modules	= module_getinfo(false, MODULE_STATUS_ENABLED);
+	foreach ($modules as $mymod => $mod) {
+		if (isset($mod['bootstrap_hooks'])) {
+			foreach ($mod['bootstrap_hooks'] as $type => $type_mods) {
+				switch ($type) {
+					case 'pre_module_load':
+					case 'post_module_load':
+						//first get all_mods
+						if (isset($type_mods['all_mods'])) {
+							
+							$hooks[$type]['all_mods'] = isset($hooks[$type]['all_mods']) 
+														? array_merge($hooks[$type]['all_mods'], 
+														 (array)$type_mods['all_mods'])
+														: (array)$type_mods['all_mods'];
+							unset($type_mods['all_mods']);	
+						}
+						if (!isset($type_mods)) {
+							break;//break if there are no more hooks to include
+						}
+						//now load all remaining modules
+						foreach ($type_mods as $type_mod) {
+							$hooks[$type][$mymod] = isset($hooks[$type][$mymod])
+													? array_merge($hooks[$type][$mymod], 
+													(array)$type_mod)
+													: (array)$type_mod;
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		}
+	}
+	return $hooks;
 }

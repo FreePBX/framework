@@ -110,70 +110,75 @@ function fpbx_framework_autoloader($class) {
     $class = array($class);
   }
 
-	foreach ($class as $this_class) switch($this_class){
-		case 'ampuser':
-			require_once($dirname . '/libraries/ampuser.class.php');
-			break;
-		case 'CI_Email':
-			//make upstream scripts happy - for $CI_Email->_set_error_message()
-			if (!function_exists('log_message')) {
-				function log_message(){};
-			}
-			if (!function_exists('get_instance')) {
-				function get_instance(){return new ci_def();}
-			}
-			if (!class_exists('ci_def')) {
-				class ci_def {function __construct(){$this->lang = new ci_lan_def();}}
-			}
-			if (!class_exists('ci_lan_def')) {
-				class ci_lan_def {function load(){return false;} function line(){return false;}} 
-			}
-			if (!defined('BASEPATH')){
-				define('BASEPATH', '');
-			}
-			if (!defined('FOPEN_READ')) {
-				define('FOPEN_READ', 'rb');
-			}
-			require_once($dirname . '/helpers/Email.php');
-			break;
-		case 'CI_Table':
-			//make upstream scripts happy
-			if (!function_exists('log_message')) {
-				function log_message(){};
-			}
-			if (!defined('BASEPATH')){define('BASEPATH', '');}
-			require_once($dirname . '/helpers/Table.php');
-			break;
-		case 'CssMin':
-			require_once($dirname . '/libraries/cssmin.class.php');
-			break;
-		case 'component':
-    		require_once($dirname . '/libraries/components.class.php');
-    		break;
-		case 'featurecode':
-			require_once($dirname . '/libraries/featurecodes.class.php');
-			break;
-		case 'cronmanager':
-			require_once($dirname . '/libraries/cronmanager.class.php');
-			break;
-		case 'moduleHook':
-			require_once($dirname . '/libraries/moduleHook.class.php');
-			break;
-		case 'modulelist':
-			require_once($dirname . '/libraries/modulelist.class.php');
-			break;
-		case 'modgettext':
-			require_once($dirname . '/libraries/modgettext.class.php');
-			break;
-		case 'notifications':
-			require_once($dirname . '/libraries/notifications.class.php');
-			break;
-	   	case 'xml2Array':
-	    	require_once($dirname . '/libraries/xml2Array.class.php');
-	    	break;
-		default:
-			//TODO: enable some logging here
-			break;
+	foreach ($class as $this_class) {
+		if (class_exists($this_class)) {
+			continue;
+		}
+		switch($this_class){
+			case 'ampuser':
+				require_once($dirname . '/libraries/ampuser.class.php');
+				break;
+			case 'CI_Email':
+				//make upstream scripts happy - for $CI_Email->_set_error_message()
+				if (!function_exists('log_message')) {
+					function log_message(){};
+				}
+				if (!function_exists('get_instance')) {
+					function get_instance(){return new ci_def();}
+				}
+				if (!class_exists('ci_def')) {
+					class ci_def {function __construct(){$this->lang = new ci_lan_def();}}
+				}
+				if (!class_exists('ci_lan_def')) {
+					class ci_lan_def {function load(){return false;} function line(){return false;}} 
+				}
+				if (!defined('BASEPATH')){
+					define('BASEPATH', '');
+				}
+				if (!defined('FOPEN_READ')) {
+					define('FOPEN_READ', 'rb');
+				}
+				require_once($dirname . '/helpers/Email.php');
+				break;
+			case 'CI_Table':
+				//make upstream scripts happy
+				if (!function_exists('log_message')) {
+					function log_message(){};
+				}
+				if (!defined('BASEPATH')){define('BASEPATH', '');}
+				require_once($dirname . '/helpers/Table.php');
+				break;
+			case 'CssMin':
+				require_once($dirname . '/libraries/cssmin.class.php');
+				break;
+			case 'component':
+	    		require_once($dirname . '/libraries/components.class.php');
+	    		break;
+			case 'featurecode':
+				require_once($dirname . '/libraries/featurecodes.class.php');
+				break;
+			case 'cronmanager':
+				require_once($dirname . '/libraries/cronmanager.class.php');
+				break;
+			case 'moduleHook':
+				require_once($dirname . '/libraries/moduleHook.class.php');
+				break;
+			case 'modulelist':
+				require_once($dirname . '/libraries/modulelist.class.php');
+				break;
+			case 'modgettext':
+				require_once($dirname . '/libraries/modgettext.class.php');
+				break;
+			case 'notifications':
+				require_once($dirname . '/libraries/notifications.class.php');
+				break;
+		   	case 'xml2Array':
+		    	require_once($dirname . '/libraries/xml2Array.class.php');
+		    	break;
+			default:
+				//TODO: enable some logging here
+				break;
+		}
     }
 }
 /**

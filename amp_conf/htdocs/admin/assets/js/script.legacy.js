@@ -802,7 +802,7 @@ $(document).ready(function(){
 	});
 	
 	//logo icon
-	$('#BRAND_IMAGE_TANGO_LEFT').click(function(){
+	$('#MENU_BRAND_IMAGE_TANGO_LEFT').click(function(){
 		window.open($(this).data('brand_image_freepbx_link_left'),'_newtab');
 	});
 	

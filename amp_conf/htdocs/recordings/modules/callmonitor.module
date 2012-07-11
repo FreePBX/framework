@@ -466,6 +466,7 @@ class Callmonitor {
       $userfield = $data_value['userfield'];
       $src = $data_value['src'];
       $dst = $data_value['dst'];
+      $recfile = $data_value['recordingfile'];
 
       // timestamps
       $st = trim(strtotime($calldate));
@@ -508,6 +509,16 @@ class Callmonitor {
           array_push($check_files,$path . "OUT" . $extension . "-" . $unique_file_key . ".WAV");
           array_push($check_files,$path . "OUT" . $extension . "-" . $unique_file_key . ".wav");
           array_push($check_files,$path . "OUT" . $extension . "-" . $unique_file_key . ".gsm");
+
+          // check if the CDR has a recording file in it
+          if ($recfile) {
+               $rec_parts = explode('-',$recfile);
+               $fyear = substr($rec_parts[3],0,4);
+               $fmonth = substr($rec_parts[3],4,2);
+               $fday = substr($rec_parts[3],6,2);
+               $recordingfile = "$path$fyear/$fmonth/$fday/" . $recfile; 
+               array_push($check_files,$recordingfile);
+          }
 
           array_push($check_files,$path . $userfield);
 

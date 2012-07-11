@@ -33,7 +33,7 @@ foreach ($vars as $k => $v) {
 	$$k = isset($_REQUEST[$k]) ? $_REQUEST[$k] : $v;
 	
 	//special handeling
-	switch ($$k) {
+	switch ($k) {
 		case 'extdisplay':
 			$extdisplay		= $extdisplay 
 							?  htmlspecialchars($extdisplay, ENT_QUOTES) 
@@ -41,9 +41,9 @@ foreach ($vars as $k => $v) {
 			$_REQUEST['extdisplay'] = $extdisplay;
 			break;
 
-		case 'restrict_mods':
-			$restrict_mods	= $restrict_mods 
-							? array_flip(explode('/', $restrict_mods)) 
+		case 'restrictmods':
+			$restrict_mods	= $restrictmods 
+							? array_flip(explode('/', $restrictmods)) 
 							: false;
 			break;
 			

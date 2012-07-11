@@ -7,7 +7,7 @@ $out .= '<div id="header">';
 $out .= '<div class="menubar ui-widget-header ui-corner-all">';
 //left hand logo
 $out .= '<img src="' . $amp_conf['BRAND_IMAGE_TANGO_LEFT'] 
-		. '" alt="FreePBX" title="FreePBX" id="BRAND_IMAGE_TANGO_LEFT" '
+		. '" alt="FreePBX" title="FreePBX" id="MENU_BRAND_IMAGE_TANGO_LEFT" '
 		. 'data-BRAND_IMAGE_FREEPBX_LINK_LEFT="' . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] . '"/>';
 		
 // If freepbx_menu.conf exists then use it to define/redefine categories

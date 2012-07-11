@@ -44,15 +44,15 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 	// used for debug, time set to 0 to always fall through
 	// if((time() - $result['time']) > 0 || strlen($result['data']) < 100 ) {
   $skip_cache |= $amp_conf['MODULEADMIN_SKIP_CACHE'];
+	$version = getversion();
+	// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
+	preg_match('/(\d+\.\d+)/',$version,$matches);
+	$base_version = $matches[1];
 	if((time() - $result['time']) > 300 || $skip_cache || strlen($data) < 100 ) {
-		$version = getversion();
-		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
-		preg_match('/(\d+\.\d+)/',$version,$matches);
-		//echo "the result is ".$matches[1];
 		if ($override_xml) {
-			$fn = $override_xml."/modules-".$matches[1].".xml";
+			$fn = $override_xml."/modules-" . $base_version . ".xml";
 		} else {
-			$fn = generate_module_repo_url("/modules-".$matches[1].".xml");
+			$fn = generate_module_repo_url("/modules-" . $base_version . ".xml");
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
@@ -102,7 +102,7 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		} else {
 			$modules = array();
 			foreach ($xmlarray['xml']['module'] as $mod) {
-				$modules[ $mod['rawname'] ] = $mod;
+				$modules[$mod['rawname']] = $mod;
 			}
 			return $modules;
 		}
@@ -745,7 +745,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 			 */
 			exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $output, $exitcode);
 			if ($exitcode != 0) {
-				return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulenam));
+				return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulename));
 			}
 			exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 			if ($exitcode != 0) {
@@ -818,7 +818,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	// Check MODULEADMINWGET first so we don't execute the fopen() if set
 	//
 	if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($url,'r')) {
-		exec("wget -O $filename $url 2> /dev/null", $filedata, $retcode);
+		exec("wget --tries=1 --timeout=600 -O $filename $url 2> /dev/null", $filedata, $retcode);
 		if ($retcode != 0) {
 			return array(sprintf(_("Error opening %s for reading"), $url));
 		} else {
@@ -867,7 +867,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	 */
 	exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $output, $exitcode);
 	if ($exitcode != 0) {
-		return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulenam));
+		return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulename));
 	}
 	exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 	if ($exitcode != 0) {
@@ -952,7 +952,7 @@ function module_handleupload($uploaded_file) {
 	 */
 	exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $output, $exitcode);
 	if ($exitcode != 0) {
-		return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulenam));
+		return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulename));
 	}
 	exec("tar ".$tar_z_arg."xf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 	if ($exitcode != 0) {

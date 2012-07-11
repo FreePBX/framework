@@ -52,10 +52,10 @@ function callme_close()
  /* Return the call me number stored in the database. */
 function callme_getnum($exten)
 {
-	global $astman;
-	$cmd 		= "database get AMPUSER $exten/callmenum";
+        global $astman;
+        $cmd 		= "database get AMPUSER $exten/callmenum";
 	$callme_num 	= '';
-	$results 	= $astman->Command($cmd);
+        $results 	= $astman->Command($cmd);
 
 	if (is_array($results))
 	{
