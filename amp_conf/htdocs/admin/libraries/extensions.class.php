@@ -112,6 +112,15 @@ class extensions {
     $this->_includes[$section][] = array('include' => $incsection, 'comment' => $comment);
 	}
 
+	function spliceInclude($section, $splicesection, $splicecomment, $incsection, $comment='') {
+		$key = array_search(array('include' => $splicesection, 'comment' => $splicecomment), $this->_includes[$section]);
+		if ($key === false) {
+			$this->addInclude($section, $incsection, $comment);
+		} else {
+			array_splice($this->_includes[$section], $key, 0, array(array('include' => $incsection, 'comment' => $comment)));
+		}
+	}
+
 	function addSwitch($section, $incsection) {
 		$this->_switches[$section][] = $incsection;
 	}
