@@ -309,7 +309,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 							if (is_link($destination) || file_exists($destination)) {
 								unlink($destination);
 							}
-							symlink($_ENV["PWD"]."/".$source, $destination);
+							symlink(dirname(__FILE__)."/".$source, $destination);
 						} else {
 							copy($source, $destination);
 						}
