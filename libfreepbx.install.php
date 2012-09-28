@@ -1465,6 +1465,16 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('MODULEADMIN_SKIP_CACHE',$set);
 
+  // DISPLAY_MONITOR_TRUNK_FAILURES_FIELD
+  $set['value'] = false;
+  $set['options'] = '';
+  $set['name'] = 'Display Monitor Trunk Failures Option';
+  $set['description'] = 'Setting this to true will expose the "Monitor Trunk Failures" field on the Trunks page. This field allows for a custom AGI script to be called upon a trunk failure. This is an advanced field requiring a custom script to be properly written and installed. Existing trunk page entries will not be affected if this is set to false but if the settings are changed on those pages the field will go away.';
+  $set['emptyok'] = 0;
+  $set['readonly'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('DISPLAY_MONITOR_TRUNK_FAILURES_FIELD',$set);
+
   //
   // CATEGORY: Flash Operator Panel
   //
