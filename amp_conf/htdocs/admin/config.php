@@ -35,7 +35,7 @@ foreach ($vars as $k => $v) {
 	//special handeling
 	switch ($k) {
 		case 'extdisplay':
-			$extdisplay		= $extdisplay 
+			$extdisplay		= (isset($extdisplay) && $extdisplay !== false)
 							?  htmlspecialchars($extdisplay, ENT_QUOTES) 
 							: false;
 			$_REQUEST['extdisplay'] = $extdisplay;
