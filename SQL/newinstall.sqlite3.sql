@@ -265,6 +265,7 @@ CREATE TABLE `trunks`
 		`usercontext` VARCHAR( 255 ) NULL, 
 		`provider` VARCHAR( 40 ) NULL, 
 		`disabled` VARCHAR( 4 ) DEFAULT 'off',
+		`continue` VARCHAR( 4 ) DEFAULT 'off',
 	
 		PRIMARY KEY  (`trunkid`, `tech`, `channelid`) 
 	);
@@ -301,7 +302,8 @@ CREATE TABLE `outbound_routes` (
 	`emergency_route` VARCHAR( 4 ),
 	`intracompany_route` VARCHAR( 4 ),
 	`mohclass` VARCHAR( 80 ),
-	`time_group_id` INTEGER DEFAULT NULL
+	`time_group_id` INTEGER DEFAULT NULL,
+	`dest` VARCHAR(255) DEFAULT NULL,
 );
 
 DROP TABLE IF EXISTS `outbound_route_patterns`;

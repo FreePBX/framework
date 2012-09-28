@@ -470,6 +470,7 @@ CREATE TABLE `outbound_routes` (
   `intracompany_route` varchar(4) DEFAULT NULL,
   `mohclass` varchar(80) DEFAULT NULL,
   `time_group_id` int(11) DEFAULT NULL,
+	`dest` VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (`route_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -554,6 +555,7 @@ CREATE TABLE `trunks` (
   `usercontext` varchar(255) DEFAULT NULL,
   `provider` varchar(40) DEFAULT NULL,
   `disabled` varchar(4) DEFAULT 'off',
+  `continue` VARCHAR( 4 ) DEFAULT 'off',
   PRIMARY KEY (`trunkid`,`tech`,`channelid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
