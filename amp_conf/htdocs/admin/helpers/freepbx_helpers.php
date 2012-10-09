@@ -27,6 +27,45 @@ function fpbx_label($text, $help = '') {
 	return $ret;
 }
 
+/**
+ * Text Input Field With Enable/Disable Checkbox
+ *
+ * @access	public
+ * @param	mixed
+ * @param	string
+ * @param	string
+ * @param	string
+ * @param	string
+ * @param	bool
+ * @return	string
+ */
+function fpbx_form_input_check($data = '', $value = '', $extra = '', $label = 'Enable', $disabled_value = 'DEFAULT', $check_enables = true) {
+	if (!is_array($data)) {
+		$data['name'] = $data['id'] = $data;
+	}
+	if (!isset($data['id'])) {
+		$data['id'] = $data['name'];
+	}
+	if (!isset($data['value'])) {
+		$data['value'] = $value;
+	}
+	if (!empty($data['disabled'])) {
+		$data['value'] = $disabled_value;
+	}
+  $cbdata['name'] = $data['name'] . '_cb';
+  $cbdata['id'] = $data['id'] . '_cb';
+  $cbdata['checked'] = isset($data['disabled']) ? !$data['disabled'] : true;
+	$cbdata['disabled-value'] = $disabled_value;
+	if ($check_enables) {
+  	$cbdata['class'] = "input_checkbox_toggle_false";
+	} else {
+  	$cbdata['class'] = "input_checkbox_toggle_true";
+  	$cbdata['checked'] = ! $cbdata['checked'];
+	}
+	return form_input($data) . form_checkbox($cbdata) . form_label($label, $cbdata['id']);
+}
+// ------------------------------------------------------------------------
+
 /*
  * $goto is the current goto destination setting
  * $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)

@@ -846,7 +846,21 @@ $(document).ready(function(){
 		});
 		
 	});
-	
+
+	/** Used in freepbx_helpers.php function fpbx_form_input_check() to enable/disable the text box as the check box is checked
+   *  and retain the value and swap with the default value provided.
+   */
+	$(".input_checkbox_toggle_true, .input_checkbox_toggle_false").click(function(){
+		checked = $(this).hasClass('input_checkbox_toggle_true') ? this.checked : ! this.checked;
+		$(this).prev().prop('disabled', checked);
+		if (checked) { 
+			$(this).attr('saved-value', $(this).prev().val()); 
+			$(this).prev().val($(this).attr('disabled-value'));
+		} else { 
+			$(this).prev().val($(this).attr('saved-value')) 
+		}
+  });
+
 	//ajax spinner
 	$(document).ajaxStart(function(){
 		$('#ajax_spinner').show()

@@ -646,13 +646,31 @@ class guiinput extends guielement {
 class gui_textbox extends guiinput {
 	function gui_textbox($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false) {
 		// call parent class contructor
-		$parent_class = get_parent_class($this);
-		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
+		parent::__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
 		
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 		$tabindex = guielement::gettabindex();
 		$disable_state = $disable ? 'disabled="true"':'';
 		$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlentities($this->currentvalue) . "\">";
+	}
+}
+
+// Textbox with Enable/Disable Check after
+class gui_textbox_check extends gui_textbox {
+	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $label='Enable', $disabled_value='DEFAULT', $check_enables='true') {
+		// call parent class contructor
+		if ($disable) {
+			$currentvalue = $disabled_value;
+		}
+		parent::__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty, $maxchars, $disable);
+
+		$cb_state = $disable && $check_enables || !$disable && !$check_enables ? '':' CHECKED';
+
+		$OnClickClass = "class=\"input_checkbox_toggle_" . ($check_enables ? 'false':'true') . "\"";
+
+		$cbid = $this->_elemname . '_cb';
+		$this->html_input .= "<input type=\"checkbox\" name=\"$cbid\" id=\"$cbid\" disabled-value=\"$disabled_value\" {$OnClickClass}{$cb_state}> <label for=\"$cbid\">$label</label>\n";
+
 	}
 }
 
