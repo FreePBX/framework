@@ -758,6 +758,36 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('USE_GOOGLE_CDN_JS',$set);
 
+	//JQUERY_VER
+	$set['value'] = '1.7.1';
+	$set['options'] = '';
+	$set['defaultval'] =& $set['value'];
+	$set['readonly'] = 1;
+	$set['hidden'] = 1;
+	$set['level'] = 0;
+	$set['module'] = '';
+	$set['category'] = 'System Setup';
+	$set['emptyok'] = 0;
+	$set['name'] = 'jQuery Version';
+	$set['description'] = 'The version of jQuery that we wish to use.';
+	$set['type'] = CONF_TYPE_TEXT;
+	$freepbx_conf->define_conf_setting('JQUERY_VER', $set);
+	
+	//JQUERYUI_VER
+	$set['value'] = '1.8.9';
+	$set['options'] = '';
+	$set['defaultval'] =& $set['value'];
+	$set['readonly'] = 1;
+	$set['hidden'] = 1;
+	$set['level'] = 0;
+	$set['module'] = '';
+	$set['category'] = 'System Setup';
+	$set['emptyok'] = 0;
+	$set['name'] = 'jQuery UI Version';
+	$set['description'] = 'The version of jQuery UI that we wish to use.';
+	$set['type'] = CONF_TYPE_TEXT;
+	$freepbx_conf->define_conf_setting('JQUERYUI_VER', $set);
+	
 
   //
   // CATEGORY: Dialplan and Operational
@@ -992,6 +1022,33 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['readonly'] = 0;
   $set['type'] = CONF_TYPE_SELECT;
   $freepbx_conf->define_conf_setting('DITECH_VQA_OUTBOUND',$set);
+
+	// ASTCONFAPP
+	$set['value'] = 'app_meetme';
+	$set['options'] = array('app_meetme', 'app_confbridge');
+	$set['defaultval'] =& $set['value'];
+	$set['readonly'] = 0;
+	$set['hidden'] = 0;
+	$set['level'] = 0;
+	$set['module'] = '';
+	$set['category'] = 'Dialplan and Operational';
+	$set['emptyok'] = 0;
+	$set['name'] = 'Conference Room App';
+	$set['description'] = 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_confbridge application is considered "experimental" with known issues and does not work on Asterisk 10 where it was completely rewritten and changed from the version on 1.6 and 1.8.';
+	$set['type'] = CONF_TYPE_SELECT;
+	$freepbx_conf->define_conf_setting('ASTCONFAPP', $set);
+	
+  // TRUNK_RING_TIMER
+  $set['value'] = '300';
+  $set['name'] = 'Trunk Dial Timeout';
+  $set['description'] = 'How many seconds to try a call on your trunks before giving up. This should normally be a very long time and is usually only changed if you have some sort of problematic trunks. This is the Asterisk Dial Command timeout parameter.';
+  $set['emptyok'] = 0;
+  $set['readonly'] = 1;
+  $set['type'] = CONF_TYPE_INT;
+  $set['options'] = array(0,86400);
+  $set['level'] = 2;
+  $freepbx_conf->define_conf_setting('TRUNK_RING_TIMER',$set);
+  $set['level'] = 0;
 
 
   //
@@ -2151,21 +2208,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('NOTICE_BROWSER_STATS',$set);
   $set['hidden'] = 0;
 
-	// ASTCONFAPP
-	$set['value'] = 'app_meetme';
-	$set['options'] = array('app_meetme', 'app_confbridge');
-	$set['defaultval'] =& $set['value'];
-	$set['readonly'] = 0;
-	$set['hidden'] = 0;
-	$set['level'] = 0;
-	$set['module'] = '';
-	$set['category'] = 'Dialplan and Operational';
-	$set['emptyok'] = 0;
-	$set['name'] = 'Conference Room App';
-	$set['description'] = 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_confbridge application is considered "experimental" with known issues and does not work on Asterisk 10 where it was completely rewritten and changed from the version on 1.6 and 1.8.';
-	$set['type'] = CONF_TYPE_SELECT;
-	$freepbx_conf->define_conf_setting('ASTCONFAPP', $set);
-	
 	//mainstyle_css_generated
 	$set['value'] = $amp_conf['mainstyle_css_generated'] ? $amp_conf['mainstyle_css_generated'] : '';
 	$set['description'] = 'internal use';
@@ -2176,36 +2218,6 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['hidden'] = 1;
 	$set['emptyok'] = 1;
 	$freepbx_conf->define_conf_setting('mainstyle_css_generated', $set);
-	
-	//JQUERY_VER
-	$set['value'] = '1.7.1';
-	$set['options'] = '';
-	$set['defaultval'] =& $set['value'];
-	$set['readonly'] = 0;
-	$set['hidden'] = 1;
-	$set['level'] = 0;
-	$set['module'] = '';
-	$set['category'] = 'System Setup';
-	$set['emptyok'] = 0;
-	$set['name'] = 'jQuery Version';
-	$set['description'] = 'The version of jQuery that we wish to use.';
-	$set['type'] = CONF_TYPE_TEXT;
-	$freepbx_conf->define_conf_setting('JQUERY_VER', $set);
-	
-	//JQUERYUI_VER
-	$set['value'] = '1.8.9';
-	$set['options'] = '';
-	$set['defaultval'] =& $set['value'];
-	$set['readonly'] = 0;
-	$set['hidden'] = 1;
-	$set['level'] = 0;
-	$set['module'] = '';
-	$set['category'] = 'System Setup';
-	$set['emptyok'] = 0;
-	$set['name'] = 'jQuery UI Version';
-	$set['description'] = 'The version of jQuery UI that we wish to use.';
-	$set['type'] = CONF_TYPE_TEXT;
-	$freepbx_conf->define_conf_setting('JQUERYUI_VER', $set);
 	
   // The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
   // retain their values until the individual modules are updated and their install scripts run where a full
