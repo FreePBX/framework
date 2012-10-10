@@ -1026,15 +1026,11 @@ function freepbx_settings_init($commit_to_db = false) {
 	// ASTCONFAPP
 	$set['value'] = 'app_meetme';
 	$set['options'] = array('app_meetme', 'app_confbridge');
-	$set['defaultval'] =& $set['value'];
-	$set['readonly'] = 0;
-	$set['hidden'] = 0;
-	$set['level'] = 0;
-	$set['module'] = '';
-	$set['category'] = 'Dialplan and Operational';
-	$set['emptyok'] = 0;
 	$set['name'] = 'Conference Room App';
 	$set['description'] = 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_confbridge application is considered "experimental" with known issues and does not work on Asterisk 10 where it was completely rewritten and changed from the version on 1.6 and 1.8.';
+	$set['emptyok'] = 0;
+	$set['readonly'] = 0;
+	$set['hidden'] = 0;
 	$set['type'] = CONF_TYPE_SELECT;
 	$freepbx_conf->define_conf_setting('ASTCONFAPP', $set);
 	
@@ -1049,6 +1045,16 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['level'] = 2;
   $freepbx_conf->define_conf_setting('TRUNK_RING_TIMER',$set);
   $set['level'] = 0;
+
+  // REC_POLICY
+  $set['value'] = 'caller';
+  $set['options'] = array('caller', 'callee');
+  $set['name'] = 'Call Recording Policy';
+  $set['description'] = 'Call Recording Policy used to resove the winner in a conflict between two extensions when one wants a call recorded and the other does not, if both their priorities are also the same.';
+  $set['emptyok'] = 0;
+  $set['readonly'] = 0;
+  $set['type'] = CONF_TYPE_SELECT;
+  $freepbx_conf->define_conf_setting('REC_POLICY',$set);
 
 
   //
