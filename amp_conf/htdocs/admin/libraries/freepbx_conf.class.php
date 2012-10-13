@@ -38,6 +38,7 @@ define("CONF_TYPE_TEXT",   'text');
 define("CONF_TYPE_DIR",    'dir');
 define("CONF_TYPE_INT",    'int');
 define("CONF_TYPE_SELECT", 'select');
+define("CONF_TYPE_FSELECT",'fselect');
 
 // For translation (need to be in english in the DB, translated when pulled out
 // TODO: is there a better place to put these like in install script?
@@ -507,7 +508,13 @@ class freepbx_conf {
    * @return array   a copy of the db_conf_store
    */
   function get_conf_settings() {
-    return $this->db_conf_store;
+		$db_conf_store = $this->db_conf_store;
+		foreach ($db_conf_store as $k => $s) {
+			if ($s['type'] == CONF_TYPE_FSELECT) {
+				$db_conf_store[$k]['options'] = unserialize($s['options']);
+			}
+		}
+    return $db_conf_store;
   }
 
   /** Determines if a setting exists in the configuration database.
@@ -765,6 +772,13 @@ class freepbx_conf {
         unset($trim_options);
       }
     break;
+    case CONF_TYPE_FSELECT:
+      if (!isset($vars['options']) || !is_array($vars['options'])) { 
+        die_freepbx(sprintf(_("missing options array for keyword [%] required if type is select"),$keyword));
+      } else {
+        $attributes['options'] = serialize($vars['options']);
+			}
+    break;
     case CONF_TYPE_INT:
       if (isset($vars['options']) && $vars['options'] != '') { 
         $validate_options = !is_array($vars['options']) ? explode(',',$vars['options']) : $vars['options'];
@@ -970,6 +984,25 @@ class freepbx_conf {
     case CONF_TYPE_SELECT:
       $val_arr = explode(',',$options);
       if (in_array($value,$val_arr)) {
+        $ret = $value;
+        $this->_last_update_status['validated'] = true;
+      } else {
+        $ret = null;
+        $this->_last_update_status['validated'] = false;
+        $this->_last_update_status['msg'] = _("Invalid value supplied to select");
+        $this->_last_update_status['saved_value'] = $ret;
+        $this->_last_update_status['saved'] = false;
+        //
+        // NOTE: returning from function early!
+        return $ret;
+      }
+      break;
+
+    case CONF_TYPE_FSELECT:
+			if (!is_array($options)) {
+				$options = unserialize($options);
+			}
+      if (array_key_exists($value, $options)) {
         $ret = $value;
         $this->_last_update_status['validated'] = true;
       } else {
