@@ -79,12 +79,15 @@ $fpbx['msg']['framework']['update'] = _("Update");
 $fpbx['msg']['framework']['save'] = _("Save");
 $fpbx['msg']['framework']['bademail'] = _("Invalid email address");
 $fpbx['msg']['framework']['updatenotifications'] = _("Update Notifications");
+$fpbx['msg']['framework']['noupdates'] = _("Are you sure you want to disable automatic update notifications? This could leave your system at risk to serious security vulnerabilities. Enabling update notifications will NOT automatically install them but will make sure you are informed as soon as they are available.");
+$fpbx['msg']['framework']['noupemail'] = _("Are you sure you don't want to provide an email address where update notifications will be sent. This email will never be transmitted off the PBX. It is used to send update and security notifications when they are detected.");
 $fpbx['msg']['framework']['invalid_responce'] = _("Error: Did not receive valid response from server");
 $fpbx['msg']['framework']['invalid_response'] = $fpbx['msg']['framework']['invalid_responce']; // TYPO ABOVE
 $fpbx['msg']['framework']['validateSingleDestination']['required'] = _('Please select a "Destination"');
 $fpbx['msg']['framework']['validateSingleDestination']['error'] = _('Custom Goto contexts must contain the string "custom-".  ie: custom-app,s,1'); 
 $fpbx['msg']['framework']['weakSecret']['length'] = _("The secret must be at minimum six characters in length.");
 $fpbx['msg']['framework']['weakSecret']['types'] = _("The secret must contain at least two numbers and two letters.");
+
 $html .= "\n" . '<script type="text/javascript">'
 		. 'var fpbx='
 		. json_encode($fpbx)

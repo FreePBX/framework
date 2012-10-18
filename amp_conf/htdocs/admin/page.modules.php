@@ -12,6 +12,26 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 	define('EXTERNAL_PACKAGE_MANAGEMENT', 1);
 }
 
+// Handle the ajax post back of an update online updates email array and status
+//
+if ($quietmode && !empty($_REQUEST['online_updates'])) {
+
+	$online_updates = $_REQUEST['online_updates'];
+	$update_email   = $_REQUEST['update_email'];
+	$ci = new CI_Email();
+	if (!$ci->valid_email($update_email) && $update_email) {
+		$json_array['status'] = _("Invalid email address") . ' : ' . $update_email;
+	} else {
+		$cm =& cronmanager::create($db);
+		$online_updates == 'yes' ?  $cm->enable_updates() : $cm->disable_updates();
+		$cm->save_email($update_email);
+		$json_array['status'] = true;
+	}
+	header("Content-type: application/json"); 
+	echo json_encode($json_array);
+	exit;
+}
+
 $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
 
 global $active_repos;
@@ -45,10 +65,114 @@ $freepbx_version = $freepbx_version ? $freepbx_version : getversion();
 $freepbx_help_url = "http://www.freepbx.org/freepbx-help-system?freepbx_version=".urlencode($freepbx_version);
 
 if (!$quietmode) {
+	$cm =& cronmanager::create($db);
+	$online_updates = $cm->updates_enabled() ? 'yes' : 'no';
+	$update_email   = $cm->get_email();
+
+	if (!$cm->updates_enabled()) {
+		$shield_class = 'updates_off';
+	} else {
+		$shield_class = $update_email ? 'updates_full' : 'updates_partial';
+	}
+
+	$update_blurb   = htmlspecialchars(_("FreePBX allows you to automatically check for updates online. The updates will NOT be automatically installed. The email address you provdie is NEVER transmitted off of your PBX. The email is used by your local PBX to send notificaitons of updates that are available as well as IMPORTANT Security Notifications. It is STRONGYLY advised that you keep this enabled and keep updated of these important notificaions to avoid costly security issues."));
+	$ue = htmlspecialchars($update_email);
 	?>
+<div id="db_online" style="display: none;">
+<form name="db_online_form" action="#" method="post">
+<p><?php echo $update_blurb ?></p>
+<table>
+	<tr>
+		<td><?php echo _("Update Notifications") ?></td>
+		<td>
+			<span class="radioset">
+				<input id="online_updates-yes" type="radio" name="online_updates" value="yes" <?php echo $online_updates == "yes" ? "checked=\"yes\"" : "" ?>/>
+				<label for="online_updates-yes"><?php echo _("Yes") ?></label>
+				<input id="online_updates-no" type="radio" name="online_updates" value="no" <?php echo $online_updates == "no" ? "checked=\"no\"" : "" ?>/>
+				<label for="online_updates-no"><?php echo _("No") ?></label>
+			</span>
+		</td>
+	</tr>
+	<tr>
+		<td><?php echo _("Email") ?></td>
+		<td>
+			<input id="update_email" type="email" required size="40" name="update_email" saved-value="<?php echo $ue ?>" value="<?php echo $ue ?>"/>
+		</td>
+	</tr>
+</table>
+</form>
+</div>
 	<script type="text/javascript">
 	$(document).ready(function(){
-		$('.repo_boxes').find('input[type=checkbox]').button()
+		$('.repo_boxes').find('input[type=checkbox]').button();
+		$('#show_auto_update').click(function() {
+			autoupdate_box = $('#db_online').dialog({
+				title: fpbx.msg.framework.updatenotifications,
+				resizable: false,
+				modal: true,
+				position: ['center', 50],
+				width: '400px',
+				close: function (e) {
+					//console.log('calling close');
+					$('#update_email').val($('#update_email').attr('saved-value'));
+				},
+				open: function (e) {
+					//console.log('calling open');
+					$('#update_email').focus();
+				},
+				buttons: [ {
+					text: fpbx.msg.framework.save,
+					click: function() {
+						if ($('#update_email')[0].validity.typeMismatch) {
+							alert(fpbx.msg.framework.bademail + ' : ' + $('#update_email').focus().val());
+							$('#update_email').focus();
+						} else {
+							online_updates = $('[name="online_updates"]:checked').val();
+							update_email = $('#update_email').val();
+							if (online_updates != 'yes') {
+								if (!confirm(fpbx.msg.framework.noupdates)) {
+									return false;
+								}
+							} else if (isEmpty(update_email)) {
+								if (!confirm(fpbx.msg.framework.noupemail)) {
+									return false;
+								}
+							}
+    					$.ajax({
+      					type: 'POST',
+      					url: "<?php echo $_SERVER["PHP_SELF"]; ?>",
+      					//data: "quietmode=1&skip_astman=1&display=modules&update_email=" + $('#update_email').val() + "&online_updates=" + $('[name="online_updates"]:checked').val(),
+      					data: "quietmode=1&skip_astman=1&display=modules&update_email=" + update_email + "&online_updates=" + online_updates,
+      					dataType: 'json',
+      					success: function(data) {
+									if (data.status == true) {
+										$('#update_email').attr('saved-value', $('#update_email').val());
+										if ($('[name="online_updates"]:checked').val() == 'no') {
+											$('#shield_link').attr('class', 'updates_off');
+										} else {
+											$('#shield_link').attr('class', (isEmpty($('#update_email').val()) ? 'updates_partial' : 'updates_full'));
+										}
+										autoupdate_box.dialog("close")
+									} else {
+										alert(data.status)
+										$('#update_email').focus();
+									}
+      					},
+      					error: function(data) {
+									alert(fpbx.msg.framework.invalid_response);
+      					}
+    					});
+						}
+					}
+				}, {
+					text: fpbx.msg.framework.cancel,
+					click: function() {
+						//console.log('pressed cancel button');
+						$(this).dialog("close");
+					}
+				} ]
+			});
+		});
 	})
 	function toggleInfoPane(pane) {
 		var style = document.getElementById(pane).style;
@@ -147,6 +271,12 @@ if (!$quietmode) {
 	<?php
 
 	echo "<h2>" . _("Module Administration") . "</h2>";
+	$utitle = _("Click to configure Update Notifications");
+?>
+	<div id="shield_link_div">
+		<a href="#" id="show_auto_update" title="<?php echo $utitle ?>"><span id="shield_link" class="<?php echo $shield_class ?>"></span></a>
+	</div>
+<?php
   //TODO: decide if warnings of any sort need to be given, or just list of repos active?
 } else {
 	// $quietmode==true

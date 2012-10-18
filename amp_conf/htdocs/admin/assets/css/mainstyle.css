@@ -181,6 +181,9 @@ hr {
 	height: 3px;
 	border-radius: 5px;
 }
+input[type=email]:invalid {
+	border: 2px solid red;
+}
 .attention {
 	background:#ff9933;
 	/*background:red;*/
@@ -229,6 +232,27 @@ div.attention {
 }
 
 /************************* For modules page *************************/
+#shield_link_div {
+	float:right;
+}
+#shield_link {
+	background-size: 96px 138px;
+	display:inline-block;
+	height:138px; 
+	width:96px; 
+	margin:8px; 
+	position:relative; 
+	top:-50px;
+}
+#shield_link.updates_off {
+	background-image: url(../../assets/images/modules/Notify-upgrade-badge-red.png);
+}
+#shield_link.updates_partial {
+	background-image: url(../../assets/images/modules/Notify-upgrade-badge-yellow.png);
+}
+#shield_link.updates_full {
+	background-image: url(../../assets/images/modules/Notify-upgrade-badge-green.png);
+}
 #modulelist ul {
 	padding-left:0;
 	margin-left:0;
