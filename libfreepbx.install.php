@@ -1056,6 +1056,18 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_SELECT;
   $freepbx_conf->define_conf_setting('REC_POLICY',$set);
 
+	// TRANSFER_CONTEXT
+	$set['value'] = 'from-internal-xfer';
+	$set['options'] = '';
+	$set['readonly'] = 1;
+	$set['hidden'] = 1;
+	$set['level'] = 9;
+	$set['module'] = '';
+	$set['emptyok'] = 1;
+	$set['name'] = 'Asterisk TRANSFER_CONTEXT Variable';
+	$set['description'] = "This is the Asterisk Channel Variable TRANSFER_CONTEXT. In general it should NOT be changed unless you really know what you are doing. It is used to do create slightly different 'views' when a call is being transfered. An example is hiding the paging groups so a call isn't accidentally transfered into a page.";
+	$set['type'] = CONF_TYPE_TEXT;
+	$freepbx_conf->define_conf_setting('TRANSFER_CONTEXT', $set);
 
   //
   // CATEGORY: Directory Layout

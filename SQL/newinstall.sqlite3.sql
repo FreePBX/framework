@@ -92,54 +92,6 @@ CREATE TABLE `globals` (
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`variable`)
 );
-INSERT INTO "globals" VALUES('CALLFILENAME', '\"\"');
-INSERT INTO "globals" VALUES('DIAL_OPTIONS', 'tr');
-INSERT INTO "globals" VALUES('TRUNK_OPTIONS', '');
-INSERT INTO "globals" VALUES('DIAL_OUT', '9');
-INSERT INTO "globals" VALUES('FAX', '');
-INSERT INTO "globals" VALUES('FAX_RX', 'system');
-INSERT INTO "globals" VALUES('FAX_RX_EMAIL', 'noreply@mydomain.tld');
-INSERT INTO "globals" VALUES('FAX_RX_FROM', 'noreply@mydomain.tld');
-INSERT INTO "globals" VALUES('INCOMING', 'group-all');
-INSERT INTO "globals" VALUES('NULL', '\"\"');
-INSERT INTO "globals" VALUES('OPERATOR', '');
-INSERT INTO "globals" VALUES('OPERATOR_XTN', '');
-INSERT INTO "globals" VALUES('PARKNOTIFY', 'SIP/200');
-INSERT INTO "globals" VALUES('RECORDEXTEN', '\"\"');
-INSERT INTO "globals" VALUES('RINGTIMER', '15');
-INSERT INTO "globals" VALUES('DIRECTORY', 'last');
-INSERT INTO "globals" VALUES('AFTER_INCOMING', '');
-INSERT INTO "globals" VALUES('IN_OVERRIDE', 'forcereghours');
-INSERT INTO "globals" VALUES('REGTIME', '7:55-17:05');
-INSERT INTO "globals" VALUES('REGDAYS', 'mon-fri');
-INSERT INTO "globals" VALUES('DIRECTORY_OPTS', '');
-INSERT INTO "globals" VALUES('DIALOUTIDS', '1');
-INSERT INTO "globals" VALUES('VM_PREFIX', '*');
-INSERT INTO "globals" VALUES('VM_OPTS', '');
-INSERT INTO "globals" VALUES('VM_GAIN', '');
-INSERT INTO "globals" VALUES('VM_DDTYPE', 'u');
-INSERT INTO "globals" VALUES('TIMEFORMAT', 'kM');
-INSERT INTO "globals" VALUES('TONEZONE', 'us');
-INSERT INTO "globals" VALUES('ALLOW_SIP_ANON', 'no');
-INSERT INTO "globals" VALUES('VMX_CONTEXT', 'from-internal');
-INSERT INTO "globals" VALUES('VMX_PRI', '1');
-INSERT INTO "globals" VALUES('VMX_TIMEDEST_CONTEXT', '');
-INSERT INTO "globals" VALUES('VMX_TIMEDEST_EXT', 'dovm');
-INSERT INTO "globals" VALUES('VMX_TIMEDEST_PRI', '1');
-INSERT INTO "globals" VALUES('VMX_LOOPDEST_CONTEXT', '');
-INSERT INTO "globals" VALUES('VMX_LOOPDEST_EXT', 'dovm');
-INSERT INTO "globals" VALUES('VMX_LOOPDEST_PRI', '1');
-INSERT INTO "globals" VALUES('VMX_OPTS_TIMEOUT', '');
-INSERT INTO "globals" VALUES('VMX_OPTS_LOOP', '');
-INSERT INTO "globals" VALUES('VMX_OPTS_DOVM', '');
-INSERT INTO "globals" VALUES('VMX_TIMEOUT', '2');
-INSERT INTO "globals" VALUES('VMX_REPEAT', '1');
-INSERT INTO "globals" VALUES('VMX_LOOPS', '1');
-INSERT INTO "globals" VALUES('TRANSFER_CONTEXT', 'from-internal-xfer');
-INSERT INTO "globals" VALUES('MIXMON_FORMAT', 'wav');
-INSERT INTO "globals" VALUES('MIXMON_DIR', '');
-INSERT INTO "globals" VALUES('MIXMON_POST', '');
-INSERT INTO "globals" VALUES('RECORDING_STATE', 'ENABLED');
 CREATE TABLE `iax` (
   `id` varchar(20) NOT NULL default '-1',
   `keyword` varchar(30) NOT NULL default '',
