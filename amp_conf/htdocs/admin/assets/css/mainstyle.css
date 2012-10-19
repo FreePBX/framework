@@ -273,6 +273,10 @@ div.attention {
 	background:#ccc;
 	padding:2px;
 }
+#modulelist .modulevulnerable {
+	background:#f6921d;
+	padding:2px;
+}
 #modulelist .modulename {
 	position:absolute;
 	left:2px;
@@ -288,6 +292,11 @@ div.attention {
 #modulelist .modulestatus {
 	position:absolute;
 	left: 560px;
+  overflow: hidden;
+}
+#modulelist .modulevul {
+	position:absolute;
+	left: 850px;
   overflow: hidden;
 }
 #modulelist .clear {

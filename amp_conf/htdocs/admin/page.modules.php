@@ -173,6 +173,30 @@ if (!$quietmode) {
 				} ]
 			});
 		});
+		$('.modulevul_tag').click(function(e) {
+			e.preventDefault();
+			$.each($(this).data('sec'), function(index, value) { 
+				$('#security-' + value).dialog({
+					title: fpbx.msg.framework.securityissue + ' ' + value,
+					resizable: false,
+					position: [50+20*index, 50+20*index],
+					width: '450px',
+					close: function (e) {
+						//console.log('calling close');
+					},
+					open: function (e) {
+						//console.log('calling open');
+					},
+					buttons: [ {
+						text: fpbx.msg.framework.close,
+						click: function() {
+							//console.log('pressed cancel button');
+							$(this).dialog("close");
+						}
+					} ]
+				});
+			});
+		});
 	})
 	function toggleInfoPane(pane) {
 		var style = document.getElementById(pane).style;
@@ -288,7 +312,9 @@ if (!$quietmode) {
 $modules_local = module_getinfo(false,false,true);
 
 if ($online) {
-	$modules_online = module_getonlinexml();
+	$security_array = array();
+	$security_issues_to_report = array();
+	$modules_online = module_getonlinexml(false, false, $security_array);
 	
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
@@ -738,7 +764,14 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			echo "\t\t<li id=\"module_".prep_id($name)."\">\n";
 			
 			// ---- module header 
-			echo "\t\t<div class=\"moduleheader\" onclick=\"toggleInfoPane('infopane_".prep_id($name)."');\" >\n";
+			$salert = isset($modules[$name]['vulnerabilities']);
+			$mclass = $salert ? "modulevulnerable" : "moduleheader";
+			if ($salert) {
+				foreach ($modules[$name]['vulnerabilities']['vul'] as $vul) {
+					$security_issues_to_report[$vul] = true;
+				}
+			}
+			echo "\t\t<div class=\"$mclass\" onclick=\"toggleInfoPane('infopane_".prep_id($name)."');\" >\n";
 			echo "\t\t\t<span class=\"modulename\"><a href=\"javascript:void(null);\">".(!empty($name_text) ? $name_text : $name)."</a></span>\n";
 			echo "\t\t\t<span class=\"moduleversion\">".(isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'&nbsp;')."</span>\n";
 			echo "\t\t\t<span class=\"modulepublisher\">".(isset($modules[$name]['publisher'])?$modules[$name]['publisher']:'&nbsp;')."</span>\n";
@@ -793,7 +826,11 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				break;
 			}
 			echo "</span>\n";
-			
+			if ($salert) {
+				echo "\t\t\t<span class=\"modulevul\"><a class=\"modulevul_tag\" href=\"#\" data-sec='" . json_encode($modules[$name]['vulnerabilities']['vul']) . "'><img src=\"images/notify_security.png\" alt=\"\" width=\"16\" height=\"16\" border=\"0\" title=\"" . 
+					sprintf(_("Vulnerable to security issues %s"), implode($modules[$name]['vulnerabilities']['vul'], ', ')) . 
+					"\" /> " . sprintf(_("Vulnerable, Requires: %s"), $modules[$name]['vulnerabilities']['minver']) . "</a></span>\n";
+			}
 			
 			echo "\t\t\t<span class=\"clear\">&nbsp;</span>\n";
 			echo "\t\t</div>\n";
@@ -899,6 +936,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				echo "<h5>".sprintf(_("Publisher: %s"),$modules[$name]['publisher'])."</h5>";
 			}
 			echo "<h5>".sprintf(_("License: %s"), (isset($modules[$name]['license'])?$modules[$name]['license']:"GPLv2") )."</h5>";
+			if ($salert) {
+				echo "<h5>".sprintf(_("Fixes Vulnerabilities: %s"), implode($modules[$name]['vulnerabilities']['vul'], ', '))."</h5>";
+			}
 			if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
 				echo "<h5>".sprintf(_("Description for version %s"),$modules[$name]['version'])."</h5>";
 				echo nl2br(modgettext::_($modules[$name]['description'], $loc_domain));
@@ -979,6 +1019,36 @@ switch ($extdisplay) {  // process, confirm, or nothing
 
 		echo "</form>";
 	break;
+}
+if (!empty($security_issues_to_report)) {
+	foreach (array_keys($security_issues_to_report) as $id) {
+		if (!is_array($security_array[$id]['related_urls']['url'])) {
+			$security_array[$id]['related_urls']['url'] = array($security_array[$id]['related_urls']['url']);
+		}
+		$tickets = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,4})(?!\w)/i', 'trac_replace_ticket', $security_array[$id]['tickets']);
+?>
+<div class="module_security_description" id="security-<?php echo $id ?>" style="display: none;">
+<table>
+<tr><td><?php echo _('ID') ?></td><td><?php echo $id ?></td></tr>
+<tr><td><?php echo _('Type') ?></td><td><?php echo $security_array[$id]['type'] ?></td></tr>
+<tr><td><?php echo _('Severity') ?></td><td><?php echo $security_array[$id]['severity'] ?></td></tr>
+<tr><td><?php echo _('Description') ?></td><td><?php echo $security_array[$id]['description'] ?></td></tr>
+<tr><td><?php echo _('Date Reported') ?></td><td><?php echo $security_array[$id]['reported'] ?></td></tr>
+<tr><td><?php echo _('Date Fixed') ?></td><td><?php echo $security_array[$id]['fixed'] ?></td></tr>
+<?php
+		$related_urls = count($security_array[$id]['related_urls']['url']) == 1 ? _("Related URL") : _("Related URLs");
+		foreach ($security_array[$id]['related_urls']['url'] as $url) {
+?>
+<tr><td><?php echo $related_urls ?></td><td><a href="<?php echo $url ?>" target="_security"><?php echo $url ?></a></td></tr>
+<?php
+			$related_urls = '';
+		}
+?>
+<tr><td><?php echo _('Related Tickets') ?></td><td><?php echo $tickets ?></td></tr>
+</table>
+</div>
+<?php
+	}
 }
 
 if ($quietmode) {

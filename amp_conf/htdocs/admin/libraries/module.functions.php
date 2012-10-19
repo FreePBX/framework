@@ -16,7 +16,7 @@
  * future if we decide we need to return more error codes, but as long as it's
  * a php zero-value (false, null, 0, etc) then no error happened.
  */
-function module_getonlinexml($module = false, $override_xml = false) { // was getModuleXml()
+function module_getonlinexml($module = false, $override_xml = false, &$sec_array=false) { // was getModuleXml()
 	global $amp_conf, $db, $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
 	$module_getonlinexml_error = null;
 	$got_new = false;
@@ -90,6 +90,15 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 		module_update_notifications($old_xml, $xmlarray, ($old_xml == $data4sql));
 	}
 
+	if (is_array($sec_array) && !empty($xmlarray['xml']['security'])) {
+		foreach ($xmlarray['xml']['security']['issue'] as $issue) {
+			$sec_array[$issue['id']] = $issue;
+		}
+	}
+
+	$exposures = module_get_security($xmlarray, $base_version);
+	module_update_security_notifications($exposures);
+
 	if (isset($xmlarray['xml']['module'])) {
 	
 		if ($module != false) {
@@ -103,12 +112,75 @@ function module_getonlinexml($module = false, $override_xml = false) { // was ge
 			$modules = array();
 			foreach ($xmlarray['xml']['module'] as $mod) {
 				$modules[$mod['rawname']] = $mod;
+				if (isset($exposures[$mod['rawname']])) {
+					$modules[$mod['rawname']]['vulnerabilities'] = $exposures[$mod['rawname']];
+				}
 			}
 			return $modules;
 		}
 	}
 	return null;
 }
+
+/** Return any existing security vulnerabilities in currently installed modules if
+ * present in the xmlarray
+ *
+ * @param array the parsed xml array containing the security information
+ * @param string the current base version of freepbx if already available, or leave out
+ * @return array an array of vulnerable modules along with some vulnerability data
+ */
+function module_get_security($xmlarray, $base_version=null) {
+
+	if ($base_version === null) {
+		$version = getversion();
+		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
+		preg_match('/(\d+\.\d+)/',$version,$matches);
+		$base_version = $matches[1];
+	}
+
+	if (!empty($xmlarray['xml']['security'])) {
+		$exposures = array();
+		$modinfo = module_getinfo();
+
+		// check each listed vulnerability to see if there are vulnerable modules for this version
+		//
+		foreach ($xmlarray['xml']['security']['issue'] as $sinfo) {
+			$vul = $sinfo['id'];
+			if (!empty($sinfo['versions']['v' . $base_version])) {
+				// If this version has vulnerabilities, check each vulnerable module to see if we have any
+				//
+				if (strtolower($sinfo['versions']['v' . $base_version]['vulnerable']) == 'yes' && 
+					!empty($sinfo['versions']['v' . $base_version]['fixes'])) 
+					foreach ($sinfo['versions']['v' . $base_version]['fixes'] as $rmod => $mver) {
+					$rmod = trim($rmod);
+					$mver = trim($mver);
+					// If we have $rmod on our system then we will check if it is a vulnerable version
+					//
+					if (!empty($modinfo[trim($rmod)])) {
+						$thisver = isset($modinfo[$rmod]['dbversion']) ? $modinfo[$rmod]['dbversion'] : $modinfo[$rmod]['version'];
+						if (version_compare_freepbx($thisver, $mver, 'lt')) {
+							if (!isset($exposures[$rmod])) {
+								// First exposure we have seen that affects this module so hash it
+								//
+								$exposures[$rmod] = array('vul' => array($vul), 'minver' => $mver, 'curver' => $thisver);
+							} else {
+								// We already know this module is suceptible so check a higher version then already recorded
+								// is need to secure this module
+								//
+								$exposures[$rmod]['vul'][] = $vul;
+								if (version_compare_freepbx($mver, $exposures[$rmod]['minver'], 'gt')) {
+									$exposures[$rmod]['minver'] = $mver;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return $exposures;
+	}
+}
+
 
 /**  Determines if there are updates we don't already know about and posts to notification
  *   server about those updates.
@@ -199,6 +271,36 @@ function module_upgrade_notifications(&$new_modules, $passive_value) {
 		$notifications->add_update('freepbx', 'NEWUPDATES', $text, $extext, '', $passive_value);
 	} else {
 		$notifications->delete('freepbx', 'NEWUPDATES');
+	}
+}
+
+/** Updates the notification panel of any known vulnerable modules present
+ * on the system. Since these are security notifications, emails will be
+ * sent out informing of the issues if enabled.
+ *
+ * @param array vulnerability information array returned by module_get_security()
+ */
+function module_update_security_notifications($exposures) {
+	global $db;
+	$notifications =& notifications::create($db); 
+
+	if (!empty($exposures)) {
+		$cnt = count($exposures);
+		if ($cnt == 1) {
+			$text = _("There is 1 module vulnerable to Security threats");
+		} else {
+			$text = sprintf(_("There are %s modules vulneralbe to security threats"), $cnt);
+		}
+		$extext = "";
+		foreach($exposures as $m => $vinfo) {
+			$extext .= sprintf(
+				_("%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s\n"), 
+				$m, $vinfo['curver'], $vinfo['minver'], implode($vinfo['vul'],', ')
+			);
+		}
+		$notifications->add_security('freepbx', 'VULNERABILITIES', $text, $extext, '');
+	} else {
+		$notifications->delete('freepbx', 'VULNERABILITIES');
 	}
 }
 
