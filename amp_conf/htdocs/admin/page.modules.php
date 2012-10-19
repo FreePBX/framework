@@ -413,6 +413,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			
 			if ($didsomething) {
 				echo "<hr /><br />";
+				@ ob_flush();
 				flush();
 			}
 		}
@@ -1020,6 +1021,7 @@ function download_progress($action, $params) {
 			        document.getElementById(\'moduleprogress\').appendChild(br); 
 					document.getElementById(\'moduleprogress\').appendChild(txt); 
 			     </script>';
+			@ ob_flush();
 			flush();
 		break;
 		case 'downloading':
@@ -1031,6 +1033,7 @@ function download_progress($action, $params) {
 			echo '<script type="text/javascript">
 			        document.getElementById(\'downloadprogress_'.$params['module'].'\').innerHTML = \''.$progress.'\';
 			      </script>';
+			@ ob_flush();
 			flush();
 		break;
 		case 'done';
@@ -1040,6 +1043,7 @@ function download_progress($action, $params) {
 			        document.getElementById(\'moduleprogress\').appendChild(txt); 
 					document.getElementById(\'moduleprogress\').appendChild(br); 
 			     </script>';
+			@ ob_flush();
 			flush();
 		break;
 	}
