@@ -55,7 +55,7 @@ function fpbx_form_input_check($data = '', $value = '', $extra = '', $label = 'E
   $cbdata['name'] = $data['name'] . '_cb';
   $cbdata['id'] = $data['id'] . '_cb';
   $cbdata['checked'] = isset($data['disabled']) ? !$data['disabled'] : true;
-	$cbdata['disabled-value'] = $disabled_value;
+	$cbdata['data-disabled'] = $disabled_value;
 	if ($check_enables) {
   	$cbdata['class'] = "input_checkbox_toggle_false";
 	} else {

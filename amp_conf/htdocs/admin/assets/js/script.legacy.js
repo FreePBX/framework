@@ -866,10 +866,10 @@ $(document).ready(function(){
 		checked = $(this).hasClass('input_checkbox_toggle_true') ? this.checked : ! this.checked;
 		$(this).prev().prop('disabled', checked);
 		if (checked) { 
-			$(this).attr('saved-value', $(this).prev().val()); 
-			$(this).prev().val($(this).attr('disabled-value'));
+			$(this).data('saved', $(this).prev().val()); 
+			$(this).prev().val($(this).data('disabled'));
 		} else { 
-			$(this).prev().val($(this).attr('saved-value')) 
+			$(this).prev().val($(this).data('saved')) 
 		}
   });
 

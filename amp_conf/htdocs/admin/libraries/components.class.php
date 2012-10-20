@@ -669,7 +669,7 @@ class gui_textbox_check extends gui_textbox {
 		$OnClickClass = "class=\"input_checkbox_toggle_" . ($check_enables ? 'false':'true') . "\"";
 
 		$cbid = $this->_elemname . '_cb';
-		$this->html_input .= "<input type=\"checkbox\" name=\"$cbid\" id=\"$cbid\" disabled-value=\"$disabled_value\" {$OnClickClass}{$cb_state}> <label for=\"$cbid\">$label</label>\n";
+		$this->html_input .= "<input type=\"checkbox\" name=\"$cbid\" id=\"$cbid\" data-disabled=\"$disabled_value\" {$OnClickClass}{$cb_state}> <label for=\"$cbid\">$label</label>\n";
 
 	}
 }
