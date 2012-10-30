@@ -86,6 +86,8 @@ function isInside(s,c)
 for(i=0;i<s.length;i++)
 {var t=s.charAt(i);if(t==c)return true;}
 return false;}
+function isEmail(s){if(isEmpty(s)){if(isEmail.arguments.length==1){return defaultEmptyOK;}else{return(isEmail.arguments[1]==true)}}
+var pattern=/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;return pattern.test(s)}
 function isDigit(c){return new RegExp(/[0-9]/).test(c);}
 function isLetter(c){return new RegExp(/[ a-zA-Z'\&\(\)\-\/]/).test(c);}
 function isURLChar(c){return new RegExp(/[a-zA-Z=:,%#\.\-\/\?\&]/).test(c);}
