@@ -437,17 +437,19 @@ function isInside(s, c)
 // ***************************************************
 // ** Check if valid email address                  **
 // ***************************************************
-/*
-function isValidEmail(email, emptyok) {
-	var pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-	if (pattern.test(email) == true || emptyok && isEmpty(email)) {
-		return true;
-	} else {
-		return false;
-	}
-}
-*/
+function isEmail (s) {
+  if (isEmpty(s)) { 
+		if (isEmail.arguments.length == 1) { 
+			return defaultEmptyOK; 
+		} else { 
+			return (isEmail.arguments[1] == true) 
+		} 
+	} 
+	var pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/; 
 
+	return pattern.test(s)
+}
+                                            
 // ***************************************************
 // ** HELPER FUNCTIONS FOR ABOVE VALIDATIONS        **
 // ***************************************************
