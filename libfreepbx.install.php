@@ -1763,6 +1763,17 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['emptyok'] = 1;
   $freepbx_conf->define_conf_setting('BRAND_CSS_ALT_MAINSTYLE',$set);
 
+  // BRAND_CSS_ALT_POPOVER
+  $set['value'] = '';
+  $set['options'] = '';
+  $set['name'] = 'Primary CSS Popover Stylesheet Addtion';
+  $set['description'] = 'Set this to replace the default popover.css style sheet with your own, relative to admin.';
+  $set['readonly'] = 1;
+  $set['sortorder'] = 162;
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['emptyok'] = 1;
+  $freepbx_conf->define_conf_setting('BRAND_CSS_ALT_POPOVER',$set);
+
   // BRAND_CSS_CUSTOM
   $set['value'] = '';
   $set['options'] = '';
@@ -2019,6 +2030,19 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['sortorder'] = 360;
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('VIEW_FOOTER_CONTENT', $set);
+  $set['hidden'] = 0;
+
+  // VIEW_POPOVER_JS
+  $set['value']	= 'views/popover_js.php';
+  $set['options'] = '';
+  $set['name'] = 'View: popover_js.php';
+  $set['description'] = 'popover_js.php view. This should never be changed except for very advanced layout changes';
+  $set['readonly'] = 1;
+  $set['emptyok'] = 0;
+  $set['hidden'] = 1;
+  $set['sortorder'] = 355;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('VIEW_POPOVER_JS', $set);
   $set['hidden'] = 0;
 
   // BRAND_ALT_JS
