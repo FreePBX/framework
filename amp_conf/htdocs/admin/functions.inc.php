@@ -105,7 +105,7 @@ function fpbx_framework_autoloader($class) {
    * Basically, every 'case' below should have a corresponding entry in the $class array below.
    */
   if ($class === true) {
-    $class = array('CI_Email','CI_Table','CssMin','component','featurecode','cronmanager','moduleHook','modulelist','notifications','xml2Array','modgettext');
+    $class = array('CI_Email','CI_Table','CssMin','component','featurecode','cronmanager','moduleHook','modulelist','notifications','xml2Array','modgettext','fwmsg');
   } else {
     $class = array($class);
   }
@@ -172,9 +172,12 @@ function fpbx_framework_autoloader($class) {
 			case 'notifications':
 				require_once($dirname . '/libraries/notifications.class.php');
 				break;
-		   	case 'xml2Array':
-		    	require_once($dirname . '/libraries/xml2Array.class.php');
-		    	break;
+			case 'xml2Array':
+				require_once($dirname . '/libraries/xml2Array.class.php');
+				break;
+			case 'fwmsg':
+				require_once($dirname . '/libraries/fwmsg.class.php');
+				break;
 			default:
 				//TODO: enable some logging here
 				break;

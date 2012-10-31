@@ -12,7 +12,11 @@ if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
 
 $html = '';
 $html .= '</div>';//page_body
-$html .= '<div id="footer"><hr />';
+$html .= '<div id="footer">';
+// If displaying footer content, force the <hr /> tag to enforce clear separation of page vs. footer
+if ($footer_content) {
+	$html .= '<hr />';
+}
 $html .= '<div id="footer_content">';
 $html .= $footer_content;
 $html .= '</div>'; //footer_content
@@ -154,6 +158,9 @@ if ($amp_conf['BROWSER_STATS']) {
 	$html .= str_replace(array("\t", "\n"), '', $ga);
 }
 
+if (!empty($js_content)) {
+	$html .= $js_content;
+}
 //add IE specifc styling polyfills
 //offer google chrome frame for the richest experience
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
@@ -213,8 +220,6 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 	<![endif]-->
 END;
 }
-
-
 echo $html;
 ?>
 </body>

@@ -22,6 +22,8 @@ $vars = array(
 		'logout'		=> false,
 		'password'		=> '',
 		'quietmode'		=> '',
+    'fw_popover' => '',
+    'fw_popover_process' => '',
 		'restrictmods'	=> false,
 		'skip'			=> 0,
 		'skip_astman'	=> false,
@@ -35,16 +37,12 @@ foreach ($vars as $k => $v) {
 	//special handeling
 	switch ($k) {
 		case 'extdisplay':
-			$extdisplay		= (isset($extdisplay) && $extdisplay !== false)
-							?  htmlspecialchars($extdisplay, ENT_QUOTES) 
-							: false;
+            $extdisplay = (isset($extdisplay) && $extdisplay !== false) ? htmlspecialchars($extdisplay, ENT_QUOTES) : false;
 			$_REQUEST['extdisplay'] = $extdisplay;
 			break;
 
 		case 'restrictmods':
-			$restrict_mods	= $restrictmods 
-							? array_flip(explode('/', $restrictmods)) 
-							: false;
+            $restrict_mods = $restrictmods ? array_flip(explode('/', $restrictmods)) : false;
 			break;
 			
 		case 'skip_astman':
@@ -130,6 +128,7 @@ if (!$quietmode) {
 	//send header
 	$header['title']	= framework_server_name();
 	$header['amp_conf']	= $amp_conf;
+	$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
 	$fw_gui_html .=		load_view($amp_conf['VIEW_HEADER'], $header);
 	
 	if ($badrefer) {
@@ -345,6 +344,43 @@ switch($display) {
 if ($quietmode) {
 	// send the output buffer
 	ob_end_flush();
+} elseif ($fw_popover || $fw_popover_process) {
+	$admin_template = $template = array();
+	$content = ob_get_contents();
+	ob_end_clean();
+	//now restart buffering so that our data is compressed again
+	ob_start();
+
+	//if we have a module loaded, load its css
+	if (isset($module_name)) {
+		$fw_gui_html .= framework_include_css();
+	}
+
+	// set the language so local module languages take
+	set_language();
+
+	// If processing posback (fw_popover_process) and there are errors then we
+	// display again, otherwise we ignore the $content and prepare to process
+	//
+	$show_normal = $fw_popover_process ? fwmsg::errors() : true;
+	if ($show_normal) {
+		$fw_gui_html .= $content;
+		$popover_args['popover_mode'] = 'display';
+	} else {
+		$popover_args['popover_mode'] = 'process';
+	}
+
+	//send footer
+	$footer['js_content'] = load_view($amp_conf['VIEW_POPOVER_JS'], $popover_args);
+
+	$footer['module_name'] = $module_name;
+	$footer['module_page'] = $module_page;
+	$footer['benchmark_starttime'] = $benchmark_starttime;
+	$footer['reload_needed'] = false; //we don't display the menu in this view so irrelivant
+	$footer['footer_content'] = '';
+	$footer['remove_rnav'] = true;
+	$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
+
 } else {
 	$admin_template 				= $template = array();
 	$content		 				= ob_get_contents();
@@ -380,11 +416,6 @@ if ($quietmode) {
 	$footer['reload_needed']		= check_reload_needed();
 	$footer['footer_content']		= load_view($amp_conf['VIEW_FOOTER_CONTENT'], $footer);
 	$fw_gui_html 					.= load_view($amp_conf['VIEW_FOOTER'], $footer);
-
-
-	//$template['benchmark_starttime']	= $benchmark_starttime;
-
 }
-
 echo $fw_gui_html;
 ?>

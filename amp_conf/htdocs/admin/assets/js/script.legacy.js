@@ -449,7 +449,7 @@ function isEmail (s) {
 
 	return pattern.test(s)
 }
-                                            
+
 // ***************************************************
 // ** HELPER FUNCTIONS FOR ABOVE VALIDATIONS        **
 // ***************************************************
@@ -534,18 +534,101 @@ $.urlParam = function(name){
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
+var popover_box;
+var popover_box_class;
+var popover_box_mod;
+var popover_select_id;
+var dd_trigger_semaphore = false;
 //weird name, but should be self explanitor
 function bind_dests_double_selects() {
 	//destination double dropdown code
-	$('.destdropdown').unbind().bind('blur click change keypress', function(){
-		var name	= $(this).attr('name');
+	$('.destdropdown').unbind().bind('blur click change keypress', function(e){
+		/* dd_trigger_semaphore keeps rentry into this function from the trigger event
+		 * below which happens on some browsers (Safari confirmed) as a result of the
+		 * blur event creating multiple events firing while this is still executing.
+		 * We will simply keep any re-entry from happening here though that should be
+		 * the only one.
+		 */
+		if (dd_trigger_semaphore) {
+			return false;
+		} else {
+			dd_trigger_semaphore = true; 
+		}
 		var id		= $(this).data('id');
-		var id 		= typeof id == 'undefined' ? '' : id;//ensure id isnt set to undefined
+		var id 		= typeof id == 'undefined' ? '' : id; //ensure id isn't set to undefined
 		var dest	= $(this).val();
+
 		$('[data-id=' + id + '].destdropdown2').hide();
-		$('[name=' + dest + id + '].destdropdown2').show();
+		dd2 = $('#' + dest + id + '.destdropdown2');
+		cur_val = dd2.show().val();
+
+		// This was added because a cancel can leave dd2 cur_val to popover
+		// even when there are other choices so we force it to 'none'
+		if (dd2.children().length > 1 && cur_val == 'popover') {
+			dd2.val('');
+			cur_val = '';
+		}
+		if (cur_val == 'popover') {
+			dd2.trigger('change');
+		}
+		dd_trigger_semaphore = false;
 	});
-	
+
+	$('.destdropdown2').unbind().bind('change', function(){
+		//get last
+		var dest = $(this).val();
+		if (dest == "popover") {
+			var urlStr = $(this).data('url') + '&fw_popover=1';
+			var id = $(this).data('id');
+			popover_select_id = this.id;
+			popover_box_class = $(this).data('class'); 
+			popover_box_mod = $(this).data('mod'); 
+			popover_box = $('<div id="popover-box-id" data-id="'+id+'"></div>')
+  			.html('<iframe data-popover-class="'+popover_box_class+'" id="popover-frame" frameBorder="0" src="'+urlStr+'" width="100%" height="95%"></iframe>')
+					.dialog({
+						title: 'Add',
+						resizable: false,
+						modal: true,
+						position: ['center', 50],
+						width: window.innerWidth - (window.innerWidth * .10),
+						height: window.innerHeight - (window.innerHeight * .10),
+						create: function() {
+							$("body").scrollTop(0).css({ overflow: 'hidden' });
+						},
+						beforeClose: function() {
+							$("body").css({ overflow: 'inherit' });
+						},
+						close: function (e) {
+							//cheating by puttin a data-id on the modal box
+							var id = $(this).data('id');
+							//dropdown 1
+							var par = $('#goto'+id).data('last');
+							$('#goto'+id).val(par).change();
+							if (par != '') { //Get dropdown2
+								var par_id = par.concat(id);
+								$('#'+par_id).val($('#'+par_id).data('last')).change();	
+							}
+							$('#popover-box-id').html('');
+							$(e.target).dialog("destroy").remove();
+						},
+						buttons: [ {
+							text: fpbx.msg.framework.save,
+							click: function() {
+								$('#popover-frame').contents().find('.popover-form').submit();
+							}
+						}, {
+							text: fpbx.msg.framework.cancel,
+							click: function() {
+								$(this).dialog("close");
+							}
+						} ]
+				});
+		} else {
+			//if we arent a popover set it, so we have it saved
+			var last = $.data(this, 'last', dest);
+		}
+	});
+
 	//hacky way to ensure destinations dropdown is the same background-color as currently selected item
 	$('.destdropdown').bind('change', function(){
 		if($(this).find('option:selected').val()=='Error'){
@@ -554,6 +637,53 @@ function bind_dests_double_selects() {
 			$(this).css('background-color','white');
 		}
 	});
+}
+
+function closePopOver(drawselects) {
+  var options = $('.' + popover_box_class + ' option', $('<div>' + drawselects + '</div>'));
+	$('.' + popover_box_class).each(function(){
+		if (this.id == popover_select_id) {
+			$(this).empty().append(options.clone());
+		} else {
+			dv = $(this).val();
+			$(this).empty().append(options.clone()).val(dv);
+		}
+	});
+
+	// In the case of multi-category destinations, we may have other options to update as well. Example would be adding
+	// an extension can result in voicemail destinations being added so we want to udpate those too.
+	//
+  if (popover_box_class != popover_box_mod) {
+		var options = {};
+		$('.' + popover_box_mod).each(function(){
+			var data_class = $(this).data('class');
+			if (data_class != popover_box_class) {
+				if (typeof options[data_class] == 'undefined') {
+  				options[data_class] = $('.' + data_class + ' option', $('<div>' + drawselects + '</div>'));
+				}
+				dv = $(this).val();
+				$(this).empty().append(options[data_class].clone()).val(dv);
+			}
+		});
+	}
+	$('#popover-box-id').html('');
+	popover_box.dialog("destroy");
+}
+
+/* popOverDisplay()
+ * convert a normal module display page to a format suitable for a destination popOver display.
+ * - remove the rnav
+ * - hide the submit buttons
+ * - insert a hidden input type for fw_popover_process into the form
+ */
+function popOverDisplay() {
+	$('.rnav').hide();
+	$('.popover-form [type=\"submit\"]').hide();
+	$('<input>').attr({
+		type: 'hidden', 
+		name: 'fw_popover_process'
+	}).val(parent.$('#popover-frame').data('popover-class'))
+		.appendTo('.popover-form');
 }
 
 /***************************************************

@@ -74,19 +74,30 @@ function fpbx_form_input_check($data = '', $value = '', $extra = '', $label = 'E
  * $table specifies if the destinations will be drawn in a new <tr> and <td>
  * 
  */   
-function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='', $required = false) {
-	global $tabindex, $active_modules, $drawselect_destinations, $drawselects_module_hash; 
+
+function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='', $required = false, $output_array = false) {
+	global $tabindex, $active_modules, $drawselect_destinations, $drawselects_module_hash, $fw_popover;
+	static $drawselects_id_hash;
+    
+	//php session last_dest
+	$fw_popover = isset($fw_popover) ? $fw_popover : FALSE;
+    
 	$html=$destmod=$errorclass=$errorstyle='';
   if ($nodest_msg == '') {
 	  $nodest_msg = '== '._('choose one').' ==';
   }
 
-	if($table){$html.='<tr><td colspan=2>';}//wrap in table tags if requested
+	if ($table) {
+		$html.='<tr><td colspan=2>';
+	}//wrap in table tags if requested
 
 	if(!isset($drawselect_destinations)){ 
+		$popover_hash = array();
+		$add_a_new = _('Add new %s &#133');
 		//check for module-specific destination functions
 		foreach($active_modules as $rawmod => $module){
 			$funct = strtolower($rawmod.'_destinations');
+			$popover_hash = array();
 		
 			//if the modulename_destinations() function exits, run it and display selections for it
 			if (function_exists($funct)) {
@@ -94,19 +105,62 @@ function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='', $
 				if(is_Array($destArray)) {
 					foreach($destArray as $dest){
 						$cat=(isset($dest['category'])?$dest['category']:$module['displayname']);
+						$ds_id = (isset($dest['id']) ? $dest['id'] : $rawmod);
+						$popover_hash[$ds_id] = $cat;
 						$drawselect_destinations[$cat][] = $dest;
 						$drawselects_module_hash[$cat] = $rawmod;
+						$drawselects_id_hash[$cat] = $ds_id;
 					}
+				} 
+				if (isset($module['popovers']) && !$fw_popover) {
+					$funct = strtolower($rawmod.'_destination_popovers');
+					if (function_exists($funct)) {
+						$protos = $funct();
+						foreach ($protos as $ds_id => $cat) {
+							$popover_hash[$ds_id] = $cat;
+							$drawselects_module_hash[$cat] = $rawmod;
+							$drawselects_id_hash[$cat] = $ds_id;
+						}
+					} else if (empty($destArray)) {
+						// We have popovers in XML, there were no destinations, and no mod_destination_popovers()
+						// funciton so generate the Add a new selection.
+						//
+						$drawselects_module_hash[$module['displayname']] = $rawmod;
+						$drawselects_id_hash[$module['displayname']] = $rawmod;
+						$drawselect_destinations[$module['displayname']][99999] = array(
+							"destination" => "popover",
+							"description" => sprintf($add_a_new, $module['displayname'])
+						);
+					}
+				}
+				// if we have a popver_hash either from real values or mod_destination_popovers()
+				// then we create the 'Add a new option  
+				foreach ($popover_hash as $ds_id => $cat) {
+					if (isset($module['popovers'][$ds_id]) && !$fw_popover) {
+						$drawselect_destinations[$cat][99999] = array(
+							"destination" => "popover",
+							"description" => sprintf($add_a_new, $cat),
+							"category" => $cat
+						); 
+					} 
 				}
 			}
 		}
 		//sort destination alphabetically		
+
 		ksort($drawselect_destinations);
 		ksort($drawselects_module_hash);
 	}
+    
+	$ds_array = $drawselect_destinations;
+    
 	//set variables as arrays for the rare (impossible?) case where there are none
-  if(!isset($drawselect_destinations)){$drawselect_destinations=array();}
-  if(!isset($drawselects_module_hash)){$drawselects_module_hash = array();}
+	if (!isset($drawselect_destinations)) {
+		$drawselect_destinations = array();
+	}
+	if (!isset($drawselects_module_hash)) {
+		$drawselects_module_hash = array();
+	}
 
 	$foundone=false;
 	$tabindex_needed=true;
@@ -124,11 +178,18 @@ function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='', $
 		  $drawselect_destinations['Error'][]=array('destination'=>$goto, 'description'=>'Bad Dest: '.$goto, 'class'=>'drawselect_error');
 		  $drawselects_module_hash['Error']='error';
 	  }
+		//Set 'data-last' values for popover return to last saved values
+		$data_last_cat = str_replace(' ', '_', $destmod);
+		$data_last_dest = $goto;
+	} else {
+		//Set 'data-last' values for popover return to nothing because this is a new 'route'
+		$data_last_cat = '';
+		$data_last_dest = '';
   }	
 
 	//draw "parent" select box
 	$style=' style="'.(($destmod=='Error')?'background-color:red;':'background-color:white;').'"';
-	$html.='<select name="goto'.$i.'" class="destdropdown" '.$style.' tabindex="'.++$tabindex.'"'
+	$html.='<select data-last="'.$data_last_cat.'" name="goto' . $i . '" id="goto' . $i . '" class="destdropdown" ' . $style . ' tabindex="' . ++$tabindex . '"'
 			. ($required ? ' required ' : '') //html5 validation
 			. ' data-id="' . $i . '" '
 			. '>';
@@ -148,18 +209,44 @@ function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='', $
 	$tabindexhtml=' tabindex="'.++$tabindex.'"';//keep out of the foreach so that we don't increment it
 	foreach($drawselect_destinations as $cat=>$destination){
 		$style=(($cat==$destmod)?'':'display:none;');
-		if($cat=='Error'){$style.=' '.$errorstyle;}//add error style
+		if ($cat == 'Error') {
+			$style.=' ' . $errorstyle;
+		}//add error style
 		$style=' style="'.(($cat=='Error')?'background-color:red;':$style).'"';
-		$html.='<select name="'.str_replace(' ','_',$cat).$i.'" '.$tabindexhtml.$style.' class="destdropdown2"'
-				. ' data-id="' . $i . '" '
+
+		// if $fw_popover is set, then we are in a popover so we don't allow another level
+		//
+		$rawmod = $drawselects_module_hash[$cat];
+		$ds_id = $drawselects_id_hash[$cat];
+		if (isset($active_modules[$rawmod]['popovers'][$ds_id]) && !$fw_popover) {
+			$args = array();
+			foreach ($active_modules[$rawmod]['popovers'][$ds_id] as $k => $v) {
+				$args[] = $k . '=' . $v;
+			}
+			$data_url = 'data-url="config.php?' . implode('&', $args) . '" ';
+			$data_class = 'data-class="' . $ds_id . '" ';
+			$data_mod = 'data-mod="' . $rawmod . '" ';
+		} else {
+			$data_url = '';
+			$data_mod = '';
+			if (isset($active_modules[$rawmod]['popovers']) && !$fw_popover) {
+				$data_class = 'data-class="' . $ds_id . '" ';
+			} else {
+				$data_class = '';
+			}
+		}
+		$name_tag = str_replace(' ', '_', $cat) . $i;
+		$html.='<select ' . $data_url . $data_class . $data_mod . 'data-last="'.$data_last_dest.'" name="' 
+			. $name_tag . '" id="' . $name_tag . '" ' . $tabindexhtml . $style . ' class="destdropdown2 ' . $rawmod 
+			. ' ' . $ds_id . '"' . ' data-id="' . $i . '" '
 				. '>';
-		foreach($destination as $dest){
+		foreach ($destination as $key => $dest) {
 			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
+			$ds_array[$cat][$key]['selected'] = ($goto == $dest['destination']) ? true : false;
 		// This is ugly, but I can't think of another way to do localization for this child object
 		    if(isset( $dest['category']) && dgettext('amp',"Terminate Call") == $dest['category']) {
     			$child_label_text = dgettext('amp',$dest['description']);
-			}
-		    else {
+			} else {
 			$child_label_text=$dest['description'];
 			}
 			$style=' style="'.(($cat=='Error')?'background-color:red;':'background-color:white;').'"';
@@ -167,9 +254,14 @@ function drawselects($goto,$i,$show_custom=false, $table=true, $nodest_msg='', $
 		}
 		$html.='</select>';
 	}
-	if(isset($drawselect_destinations['Error'])){unset($drawselect_destinations['Error']);}
-	if(isset($drawselects_module_hash['Error'])){unset($drawselects_module_hash['Error']);}
-	if($table){$html.='</td></tr>';}//wrap in table tags if requested
-	
-	return $html;
+	if (isset($drawselect_destinations['Error'])) {
+		unset($drawselect_destinations['Error']);
+}
+	if (isset($drawselects_module_hash['Error'])) {
+		unset($drawselects_module_hash['Error']);
+	}
+	if ($table) {
+		$html.='</td></tr>';
+	}//wrap in table tags if requested
+	return $output_array ? $ds_array : $html;
 }

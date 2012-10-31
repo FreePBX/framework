@@ -239,7 +239,7 @@ function redirect($url, $stop_processing = true) {
 function redirect_standard( /* Note. Read the next line. Variable No of Params */ ) {
 	$args = func_get_Args();
 
-        foreach (array_merge(array('type','display'),$args) as $arg) {
+        foreach (array_merge(array('type','display','fw_popover_process'),$args) as $arg) {
                 if (isset($_REQUEST[$arg])) {
                         $urlopts[] = $arg.'='.urlencode($_REQUEST[$arg]);
                 }
@@ -251,7 +251,7 @@ function redirect_standard( /* Note. Read the next line. Variable No of Params *
 function redirect_standard_continue( /* Note. Read the next line. Varaible No of Params */ ) {
 	$args = func_get_Args();
 
-        foreach (array_merge(array('type','display'),$args) as $arg) {
+        foreach (array_merge(array('type','display','fw_popover_process'),$args) as $arg) {
                 if (isset($_REQUEST[$arg])) {
                         $urlopts[] = $arg.'='.urlencode($_REQUEST[$arg]);
                 }

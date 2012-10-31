@@ -14,7 +14,7 @@
  *                                               ['edit_url']    // a url that could be invoked to edit extension
  *                                               ['status']      // Status: INUSE, RESERVED, RESTRICTED
  */
-function framework_check_extension_usage($exten=true, $module_hash=false) {
+function framework_check_extension_usage($exten=true, $module_hash=false, $report_conflicts=true) {
 	global $active_modules;
 	$exten_usage = array();
 
@@ -48,6 +48,9 @@ function framework_check_extension_usage($exten=true, $module_hash=false) {
 				}
 			}
 		}
+	}
+	if (!empty($exten_matches) && $report_conflicts) {
+		fwmsg::set_error(_("Extension Numbering Duplicate Conflict Detected"));
 	}
 	return $exten_matches;
 }
