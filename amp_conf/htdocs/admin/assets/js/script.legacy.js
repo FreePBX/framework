@@ -595,9 +595,6 @@ function bind_dests_double_selects() {
 						create: function() {
 							$("body").scrollTop(0).css({ overflow: 'hidden' });
 						},
-						beforeClose: function() {
-							$("body").css({ overflow: 'inherit' });
-						},
 						close: function (e) {
 							//cheating by puttin a data-id on the modal box
 							var id = $(this).data('id');
@@ -608,7 +605,9 @@ function bind_dests_double_selects() {
 								var par_id = par.concat(id);
 								$('#'+par_id).val($('#'+par_id).data('last')).change();	
 							}
+							$('#popover-frame').contents().find('body').remove();
 							$('#popover-box-id').html('');
+							$("body").css({ overflow: 'inherit' });
 							$(e.target).dialog("destroy").remove();
 						},
 						buttons: [ {
@@ -670,6 +669,7 @@ function closePopOver(drawselects) {
 			}
 		});
 	}
+	$("body").css({ overflow: 'inherit' });
 	$('#popover-box-id').html('');
 	popover_box.dialog("destroy");
 }
