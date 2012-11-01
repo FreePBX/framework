@@ -13,9 +13,22 @@ case 'display':
 	$html .= "<script>popOverDisplay();</script>";
 	break;
 case 'process':
+	// Before calling drawselects we need to:
+	//  - set the 'environment' like the parent page it is being generated for
+	//  - tell it to dump it's cached internal structures and re-generate them
+	// This is necessary because callback functions that drawselects uses can
+	// generate context dependent results based on the calling module/display page
+	//
+	global $module_name, $module_page;
+	$module_name_bak = $module_name;
+	$module_page_bak = $module_page;
+	$module_name = $_SESSION['module_name'];
+	$module_page = $_SESSION['module_page'];
 	$gotodest = fwmsg::get_dest();
-	$drawselects_json = json_encode(drawselects($gotodest, 0, false, false, '', false, false));
+	$drawselects_json = json_encode(drawselects($gotodest, 0, false, false, '', false, false, true));
 	$html .= '<script>parent.closePopOver(' . $drawselects_json . ');</script>';
+	$module_name = $module_name_bak;
+	$module_page = $module_page_bak;
 	break;
 }
 $html .= "\n";

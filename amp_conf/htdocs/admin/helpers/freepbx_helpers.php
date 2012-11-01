@@ -75,10 +75,15 @@ function fpbx_form_input_check($data = '', $value = '', $extra = '', $label = 'E
  * 
  */   
 
-function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='', $required = false, $output_array = false) {
+function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='', $required = false, $output_array = false, $reset = false) {
 	global $tabindex, $active_modules, $drawselect_destinations, $drawselects_module_hash, $fw_popover;
 	static $drawselects_id_hash;
-    
+
+	if ($reset) {
+		unset($drawselect_destinations);
+		unset($drawselect_module_hash);
+		unset($drawselect_id_hash);
+	}
 	//php session last_dest
 	$fw_popover = isset($fw_popover) ? $fw_popover : FALSE;
     
@@ -177,6 +182,7 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 		  $destmod='Error';
 		  $drawselect_destinations['Error'][]=array('destination'=>$goto, 'description'=>'Bad Dest: '.$goto, 'class'=>'drawselect_error');
 		  $drawselects_module_hash['Error']='error';
+		  $drawselects_id_hash['Error']='error';
 	  }
 		//Set 'data-last' values for popover return to last saved values
 		$data_last_cat = str_replace(' ', '_', $destmod);
@@ -235,11 +241,11 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 				$data_class = '';
 			}
 		}
+		$class_tag = ' class="destdropdown2 ' . $rawmod;
+		$class_tag .= $rawmod == $ds_id ? '"' : ' ' . $ds_id . '"';
 		$name_tag = str_replace(' ', '_', $cat) . $i;
-		$html.='<select ' . $data_url . $data_class . $data_mod . 'data-last="'.$data_last_dest.'" name="' 
-			. $name_tag . '" id="' . $name_tag . '" ' . $tabindexhtml . $style . ' class="destdropdown2 ' . $rawmod 
-			. ' ' . $ds_id . '"' . ' data-id="' . $i . '" '
-				. '>';
+		$html.='<select ' . $data_url . $data_class . $data_mod . 'data-last="'.$data_last_dest.'" name="' . $name_tag 
+			. '" id="' . $name_tag . '" ' . $tabindexhtml . $style . $class_tag . ' data-id="' . $i . '" ' . '>';
 		foreach ($destination as $key => $dest) {
 			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
 			$ds_array[$cat][$key]['selected'] = ($goto == $dest['destination']) ? true : false;

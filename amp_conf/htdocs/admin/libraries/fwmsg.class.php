@@ -11,6 +11,7 @@ class fwmsg {
 	// Where errors are stored
 	//
 	static private $errors = array();
+	static private $dest_set = false;
 
 	/**
 	 * set_error()
@@ -60,6 +61,21 @@ class fwmsg {
 	}
 
 	/**
+	 * is_dest_set()
+	 * returns true if an explicit set_dest() has been called in this session
+	 *
+	 * @access static public
+	 * @return boolean
+	 *
+	 * get_dest() stores the destination in the SESSION so it can be retrieved
+	 * accross redirects during processing. This indicates whether the current
+	 * destination in the session has been just set or not.
+	 */
+	static public function is_dest_set() {
+		return self::$dest_set;
+	}
+
+	/**
 	 * set_dest()
 	 * short set a recently created destination
 	 *
@@ -72,6 +88,7 @@ class fwmsg {
 	 */
 	static public function set_dest($dest) {
 		$_SESSION['fwmsg']['last_dest'] = $dest;
+		self::$dest_set = true;
 	}
 
 	/**

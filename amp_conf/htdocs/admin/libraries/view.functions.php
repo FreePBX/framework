@@ -238,26 +238,39 @@ function redirect($url, $stop_processing = true) {
  */
 function redirect_standard( /* Note. Read the next line. Variable No of Params */ ) {
 	$args = func_get_Args();
-
-        foreach (array_merge(array('type','display','fw_popover_process'),$args) as $arg) {
-                if (isset($_REQUEST[$arg])) {
-                        $urlopts[] = $arg.'='.urlencode($_REQUEST[$arg]);
-                }
-        }
-        $url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
-        redirect($url);
+	$url = _redirect_standard_helper($args);
+	redirect($url);
 }
 
 function redirect_standard_continue( /* Note. Read the next line. Varaible No of Params */ ) {
 	$args = func_get_Args();
+	$url = _redirect_standard_helper($args);
+	redirect($url, false);
+}
 
-        foreach (array_merge(array('type','display','fw_popover_process'),$args) as $arg) {
-                if (isset($_REQUEST[$arg])) {
-                        $urlopts[] = $arg.'='.urlencode($_REQUEST[$arg]);
-                }
-        }
-        $url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
-        redirect($url, false);
+function _redirect_standard_helper($args) {
+	global $module_name, $fw_popover_process;
+	$getdest = $module_name . '_getdest';
+
+	// if processing a popOver postback and the module has not explicitly set the destination, try to
+	// derive it here. This keeps most modules from having to do an explicit call to set_dest()
+	//
+	if ($fw_popover_process && !empty($args) && !fwmsg::is_dest_set() && $module_name && function_exists($getdest)) {
+		foreach (array_intersect($args, array('extdisplay', 'id', 'account','itemid','extension')) as $arg) {
+			if (isset($_REQUEST[$arg]) && trim($_REQUEST[$arg]) != '') {
+				$dest = $getdest($_REQUEST[$arg]);
+				fwmsg::set_dest($dest[0]);
+				break;
+			}
+		}
+	}
+	foreach (array_merge(array('type','display','fw_popover_process'),$args) as $arg) {
+		if (isset($_REQUEST[$arg])) {
+			$urlopts[] = $arg.'='.urlencode($_REQUEST[$arg]);
+		}
+	}
+	$url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
+	return $url;
 }
 
 function framework_include_css() {

@@ -382,6 +382,14 @@ if ($quietmode) {
 	$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
 
 } else {
+	// Save the last module page normal view in the session. This is needed in some scenarios
+	// such as a post back within a popOver destination box so that the drawselects() can be
+	// properly generated within the context of the parent window that it will be filled back
+	// in with.
+	//
+	$_SESSION['module_name']			= $module_name;
+	$_SESSION['module_page']			= $module_page;
+
 	$admin_template 				= $template = array();
 	$content		 				= ob_get_contents();
 	ob_end_clean();

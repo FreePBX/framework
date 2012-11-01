@@ -614,7 +614,11 @@ function bind_dests_double_selects() {
 						buttons: [ {
 							text: fpbx.msg.framework.save,
 							click: function() {
-								$('#popover-frame').contents().find('.popover-form').submit();
+								pform = $('#popover-frame').contents().find('.popover-form').first();
+								if (pform.length == 0) {
+									pform = $('#popover-frame').contents().find('form').first();
+								}
+								pform.submit();
 							}
 						}, {
 							text: fpbx.msg.framework.cancel,
@@ -678,12 +682,16 @@ function closePopOver(drawselects) {
  */
 function popOverDisplay() {
 	$('.rnav').hide();
-	$('.popover-form [type=\"submit\"]').hide();
+	pform = $('.popover-form').first();
+	if (pform.length == 0) {
+		pform = $('form').first();
+	}
+	$('[type="submit"]', pform).hide();
 	$('<input>').attr({
 		type: 'hidden', 
 		name: 'fw_popover_process'
 	}).val(parent.$('#popover-frame').data('popover-class'))
-		.appendTo('.popover-form');
+		.appendTo(pform);
 }
 
 /***************************************************
