@@ -287,9 +287,9 @@ function module_update_security_notifications($exposures) {
 	if (!empty($exposures)) {
 		$cnt = count($exposures);
 		if ($cnt == 1) {
-			$text = _("There is 1 module vulnerable to Security threats");
+			$text = _("There is 1 module vulnerable to security threats");
 		} else {
-			$text = sprintf(_("There are %s modules vulneralbe to security threats"), $cnt);
+			$text = sprintf(_("There are %s modules vulnerable to security threats"), $cnt);
 		}
 		$extext = "";
 		foreach($exposures as $m => $vinfo) {
