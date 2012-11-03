@@ -68,6 +68,16 @@ function freepbx_log($level, $message) {
 				// so we will default to a pre-install log file name. We will make a file name mandatory with a proper
 				// default in FPBX_LOG_FILE
 				$log_file	= isset($amp_conf['FPBX_LOG_FILE']) ? $amp_conf['FPBX_LOG_FILE'] : '/tmp/freepbx_pre_install.log';
+
+				// PHP Throws an error on install running of install_amp because the tiemzone isn't set. This is something that
+				// should be done in the php.ini file but we will make an attempt to set it to something if we can't derive it
+				// from the date_default_timezone_get() command which goes through heuristics of guessing.
+				//
+				$tz = date_default_timezone_get();
+				if (!$tz) {
+					$tz = 'America/Los_Angeles';
+				}
+				date_default_timezone_set($tz);
 				$tstamp		= date("Y-M-d H:i:s");
 
         // Don't append if the file is greater than ~2G since some systems fail
