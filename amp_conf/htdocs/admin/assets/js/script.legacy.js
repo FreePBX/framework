@@ -975,6 +975,32 @@ $(document).ready(function(){
 		$(this).button({ icons: {primary: prim, secondary: sec}, text: txt});
 	});
 	
+	/* Search for fields marked as class .extdisplay or the common button types. Add a span so we can warn
+	   when they are using a duplicate extension, adding a duplicate class also for styling options.
+		 TODO: get feedback on a different image
+	 */
+	$('input.extdisplay,input[type=text][name=extension],input[type=text][name=extdisplay],input[type=text][name=account]')
+		.after(" <span style='display:none'><a href='#'><img src='images/notify_critical.png'/></a></span>").keyup(function(){ 
+		if (typeof extmap[this.value] == "undefined" || $(this).data('extdisplay') == this.value) {
+			$(this).removeClass('duplicate-exten').next('span').hide();
+		} else {
+			$(this).addClass('duplicate-exten').next('span').show().children('a').attr('title',extmap[this.value]);
+		}
+	}).each(function(){
+		/* we automatically add a data-extdisplay data tag to the element if it is not already there and set the value that was
+		 * loaded at page load time. This allows modules who are trying to guess at an extension value to preset so we don't
+		 * pre-determine a value is safe when the generating code may be flawed, such as ringgroups and vmblast groups.
+		 */
+		if (typeof $(this).data('extdisplay') == "undefined") {
+			$(this).data('extdisplay', this.value);
+		} else if (typeof extmap[this.value] != "undefined") {
+			this.value++;
+			while (typeof extmap[this.value] != "undefined") {
+				this.value++;
+			}
+		}
+	});
+
 	//shortcut keys
 	//show modules
 	$(document).bind('keydown', 'meta+shift+a', function(){

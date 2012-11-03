@@ -638,6 +638,9 @@ if ((!$extens_ok && $amp_conf['XTNCONFLICTABORT']) || (!$dests_ok && $amp_conf['
 	exit(20);
 }
 
+// Generate an extension map of all extensions on the system
+framework_set_extmap();
+
 // run all of the *_get_config and _hookGet_config functions, which will populate the appropriate objects
 if(isset($module_list) && is_array($module_list)){
 	foreach($module_list as $module) {

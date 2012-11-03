@@ -93,9 +93,15 @@ $fpbx['msg']['framework']['validateSingleDestination']['error'] = _('Custom Goto
 $fpbx['msg']['framework']['weakSecret']['length'] = _("The secret must be at minimum six characters in length.");
 $fpbx['msg']['framework']['weakSecret']['types'] = _("The secret must contain at least two numbers and two letters.");
 
+$extmap = framework_get_extmap(true);
 $html .= "\n" . '<script type="text/javascript">'
 		. 'var fpbx='
 		. json_encode($fpbx)
+		. ";\n"
+
+		. 'var extmap='
+		. $extmap
+
 		. ';$(document).click();' //TODO: this should be cleaned up eventually as right now it prevents the nav bar from not being fully displayed
  		. '</script>';
 

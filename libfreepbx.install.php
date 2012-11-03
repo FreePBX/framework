@@ -560,6 +560,18 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_SELECT;
   $freepbx_conf->define_conf_setting('PHP_ERROR_HANDLER_OUTPUT',$set);
 
+  // AGGRESSIVE_DUPLICATE_CHECK
+  $set['value'] = false;
+  $set['options'] = '';
+  $set['name'] = 'Aggresively Check for Duplicate Extensions';
+  $set['description'] = "When set to true FreePBX will update its extension map every page load. This is used to check for duplicate extension numbers in the client side javascript validation. Normally the extension map is only created when Apply Configuration Settings is pressed and retrieve_conf is run.";
+  $set['emptyok'] = 0;
+  $set['readonly'] = 0;
+  $set['sortorder'] = -137;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('AGGRESSIVE_DUPLICATE_CHECK',$set);
+
+
   // AMPEXTENSIONS
   $set['value'] = 'extensions';
   $set['options'] = 'extensions,deviceanduser';

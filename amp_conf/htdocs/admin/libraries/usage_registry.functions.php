@@ -55,6 +55,60 @@ function framework_check_extension_usage($exten=true, $module_hash=false, $repor
 	return $exten_matches;
 }
 
+/** returns a hash of all extensions used on the system
+ * @param boolean   Set to true if json should be returned, defaults to false
+ * @return mixed    returns a hash of all extensions on system as array or json encoded
+ * @description     returns a full extension map where the index is the extension number and the
+ *                  value is what extension is using it. If there are duplicates defined, it will
+ *                  only show one of the extensions as duplicates is an unacceptable error condition
+ */
+function framework_get_extmap($json=false) {
+	global $amp_conf;
+	static $extmap = array();
+	$extmap_serialized = '';
+
+	// If aggresive mode, we get it each time
+	//
+	if (!$amp_conf['AGGRESSIVE_DUPLICATE_CHECK']) {
+  	$extmap_serialized = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'extmap_serialized'","getOne");
+	}
+	// Now make sure there was something there
+	//
+	if ($extmap_serialized) {
+		$extmap = unserialize($extmap_serialized);
+	}
+	// At this point in aggresive mode we haven't gotten it, if not aggressive but
+	// not found in the DB then we still don't have it so try again.
+	//
+	if (!empty($extmap)) {
+		return $json ? json_encode($extmap) : $extmap;
+	} else {
+		$full_list = framework_check_extension_usage(true);
+		foreach ($full_list as $module => $entries) {
+			foreach ($entries as $exten => $stuff) {
+				$extmap[$exten] = $stuff['description'];
+			}
+		}
+		return $json ? json_encode($extmap) : $extmap;
+	}
+}
+
+/** creates the extmap and puts it into the db
+ * @description     this calculates the extension map and stores it into the database, primarily
+ *                  used by retrieve_conf
+ */
+function framework_set_extmap() {
+	global $db;
+	$full_list = framework_check_extension_usage(true);
+	foreach ($full_list as $module => $entries) {
+		foreach ($entries as $exten => $stuff) {
+			$extmap[$exten] = $stuff['description'];
+		}
+	}
+  $extmap_serialized = $db->escapeSimple(serialize($extmap));
+  sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('extmap_serialized', '".time()."','".$extmap_serialized."')");
+}
+
 /** check if a specific destination is being used, or get a list of all destinations that are being used
  * @param mixed     an array of destinations to check against, or if boolean true then return list of all destinations in use
  * @param array     a hash of module names to search for callbacks, otherwise global $active_modules is used
