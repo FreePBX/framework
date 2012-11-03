@@ -538,22 +538,10 @@ var popover_box;
 var popover_box_class;
 var popover_box_mod;
 var popover_select_id;
-var dd_trigger_semaphore = false;
 //weird name, but should be self explanitor
 function bind_dests_double_selects() {
 	//destination double dropdown code
-	$('.destdropdown').unbind().bind('blur click change keypress', function(e){
-		/* dd_trigger_semaphore keeps rentry into this function from the trigger event
-		 * below which happens on some browsers (Safari confirmed) as a result of the
-		 * blur event creating multiple events firing while this is still executing.
-		 * We will simply keep any re-entry from happening here though that should be
-		 * the only one.
-		 */
-		if (dd_trigger_semaphore) {
-			return false;
-		} else {
-			dd_trigger_semaphore = true; 
-		}
+	$('.destdropdown').unbind().bind('change', function(e){
 		var id		= $(this).data('id');
 		var id 		= typeof id == 'undefined' ? '' : id; //ensure id isn't set to undefined
 		var dest	= $(this).val();
@@ -571,7 +559,6 @@ function bind_dests_double_selects() {
 		if (cur_val == 'popover') {
 			dd2.trigger('change');
 		}
-		dd_trigger_semaphore = false;
 	});
 
 	$('.destdropdown2').unbind().bind('change', function(){
@@ -999,6 +986,16 @@ $(document).ready(function(){
 				this.value++;
 			}
 		}
+	}).parents('form').submit(function(){
+		/* If there is a duplicate-exten class on an element then validation fails, don't let the form submit
+		 */
+		exten = $('.duplicate-exten', this);
+		if (exten.length > 0) {
+			extnum = exten.val();
+			alert(extnum + fpbx.msg.framework.validation.duplicate + extmap[extnum]);
+			return false;
+		}
+		return true;
 	});
 
 	//shortcut keys
