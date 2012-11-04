@@ -141,8 +141,9 @@
 		// Production versions should include the packed consolidated javascript library but if it
 		// is not present (useful for development, then include each individual library below
 		if ($amp_conf['USE_PACKAGED_JS'] && file_exists("../admin/assets/js/pbxlib.js")) {
+			$pbxlibver = '.' . filectime("../admin/assets/js/pbxlib.js");
 			$html .= '<script type="text/javascript" src="/admin/assets/js/pbxlib.js' 
-					. $version_tag . '"></script>';
+					. $version_tag . $pbxlibver . '"></script>';
 		} else {
 			/*
 			 * files below:

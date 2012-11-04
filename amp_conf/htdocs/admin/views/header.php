@@ -27,7 +27,8 @@ $mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE']
                        ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
                        : 'assets/css/mainstyle.css';
 $framework_css = $amp_conf['DISABLE_CSS_AUTOGEN'] ? $mainstyle_css : $amp_conf['mainstyle_css_generated'];
-$html .= '<link href="' . $framework_css.$version_tag . '" rel="stylesheet" type="text/css">';
+$css_ver = '.' . filectime($framework_css);
+$html .= '<link href="' . $framework_css.$version_tag.$css_ver . '" rel="stylesheet" type="text/css">';
 
 //include jquery-ui css
 if ($amp_conf['DISABLE_CSS_AUTOGEN'] == true) {

@@ -19,8 +19,9 @@ if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
 if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
-	echo '<script type="text/javascript" src="assets/js/pbxlib.js' 
-		.  $version_tag . ' ></script>';
+	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
+	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js' 
+			. $version_tag . $pbxlibver . '"></script>';
 } else {
 	/*
 	 * files below:
@@ -30,13 +31,13 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	 * interface.dim.js - interface blocking (reload, modadmin)
 	 * tabber-minimized.js - sed for module admin (hiding content) 
 	 */
-	echo ' <script type="text/javascript" src="assets/js/menu.js"></script>'
+	echo ' <script type="text/javascript" src="assets/js/menu.js' . $version_tag . '"></script>'
 		. '<script type="text/javascript" src="common/script.js.php' . $version_tag . '"></script>'
-	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js"></script>'
-	 	. '<script type="text/javascript" src="assets/js/script.legacy.js"></script>'
-	 	. '<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js"></script>'
-	 	. '<script type="text/javascript" src="assets/js/interface.dim.js"></script>'
-	 	. '<script type="text/javascript" src="assets/js/tabber-minimized.js"></script>';
+	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
+	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
+	 	. '<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js' . $version_tag . '"></script>'
+	 	. '<script type="text/javascript" src="assets/js/interface.dim.js' . $version_tag . '"></script>'
+	 	. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>';
 }
 
 if (isset($module_name) && $module_name != '') {

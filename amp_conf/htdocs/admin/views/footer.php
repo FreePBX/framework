@@ -118,8 +118,9 @@ if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
 if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
+	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
 	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js' 
-			. $version_tag . '"></script>';
+			. $version_tag . $pbxlibver . '"></script>';
 } else {
 	/*
 	 * files below:
@@ -128,15 +129,15 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	 * jquery.toggleval.3.0.js - similar to html5 form's placeholder. depreciated
 	 * tabber-minimized.js - sed for module admin (hiding content) 
 	 */
-	$html .= ' <script type="text/javascript" src="assets/js/menu.js"></script>'
-		. '<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>'
-	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js"></script>'
-	 	. '<script type="text/javascript" src="assets/js/script.legacy.js"></script>'
-	 	. '<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js"></script>'
-	 	. '<script type="text/javascript" src="assets/js/tabber-minimized.js"></script>';
+	$html .= ' <script type="text/javascript" src="assets/js/menu.js' . $version_tag . '"></script>'
+		. '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
+	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
+	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
+	 	. '<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js' . $version_tag . '"></script>'
+	 	. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>';
 }
 if ($amp_conf['BRAND_ALT_JS']) {
-	$html .= '<script type="text/javascript" src="' . $amp_conf['BRAND_ALT_JS'] . '"></script>';
+	$html .= '<script type="text/javascript" src="' . $amp_conf['BRAND_ALT_JS'] . $version_tag . '"></script>';
 }
 
 if (isset($module_name) && $module_name != '') {
