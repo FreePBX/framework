@@ -784,6 +784,7 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['description'] = 'The version of jQuery that we wish to use.';
 	$set['type'] = CONF_TYPE_TEXT;
 	$freepbx_conf->define_conf_setting('JQUERY_VER', $set);
+	$set['hidden'] = 0;
 	
 	//JQUERYUI_VER
 	$set['value'] = '1.8.9';
@@ -799,6 +800,7 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['description'] = 'The version of jQuery UI that we wish to use.';
 	$set['type'] = CONF_TYPE_TEXT;
 	$freepbx_conf->define_conf_setting('JQUERYUI_VER', $set);
+	$set['hidden'] = 0;
 	
 
   //
@@ -1080,6 +1082,7 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['description'] = "This is the Asterisk Channel Variable TRANSFER_CONTEXT. In general it should NOT be changed unless you really know what you are doing. It is used to do create slightly different 'views' when a call is being transfered. An example is hiding the paging groups so a call isn't accidentally transfered into a page.";
 	$set['type'] = CONF_TYPE_TEXT;
 	$freepbx_conf->define_conf_setting('TRANSFER_CONTEXT', $set);
+	$set['hidden'] = 0;
 
   //
   // CATEGORY: Directory Layout
@@ -2272,6 +2275,7 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['hidden'] = 1;
 	$set['emptyok'] = 1;
 	$freepbx_conf->define_conf_setting('mainstyle_css_generated', $set);
+  $set['hidden'] = 0;
 	
   // The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
   // retain their values until the individual modules are updated and their install scripts run where a full
