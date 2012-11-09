@@ -461,6 +461,7 @@ class freepbx_conf {
           }
         }
       }
+			$this_val = str_replace(' ','\ ',$this_val);
       $conf_string .= $comments . "$keyword=$this_val\n\n";
     }
     return $conf_string;
