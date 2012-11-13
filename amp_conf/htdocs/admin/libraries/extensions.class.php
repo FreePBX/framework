@@ -347,12 +347,12 @@ class extensions {
               $last_base_tag = $ext['basetag'] == 1 ? 1 : false;
             }
 					}
-					$output .= "\n";
 					if (isset($this->_hints[$section][$extension])) {
 						foreach ($this->_hints[$section][$extension] as $hint) {
 							$output .= "exten => ".$extension.",hint,".$hint."\n";
 						}
 					}
+					$output .= "\n";
 				}
 
 				$output .= ";--== end of [".$section."] ==--;\n\n\n";
