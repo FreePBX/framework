@@ -848,21 +848,34 @@ class ext_queue {
 	var $var;
 	var $value;
 	
-	function ext_queue($queuename, $options, $optionalurl, $announceoverride, $timeout) {
+	// Queue(queuename,options,URL,announceoverride,timeout,AGI,macro,gosub,rule,position)
+	function ext_queue($queuename, $options, $optionalurl, $announceoverride, $timeout, $agi='', $macro='', $gosub='', $rule='', $position='') {
 		$this->queuename = $queuename;
 		$this->options = $options;
 		$this->optionalurl = $optionalurl;
 		$this->announceoverride = $announceoverride;
 		$this->timeout = $timeout;
+		$this->agi = $agi;
+		$this->macro = $macro;
+		$this->gosub = $gosub;
+		$this->rule = $rule;
+		$this->position = $position;
 	}
 	
 	function output() {
-		// for some reason the Queue cmd takes an empty last param (timeout) as being 0
+		// TODO: test blank: for some reason the Queue cmd takes an empty last param (timeout) as being 0
 		// when really we want unlimited
-		if ($this->timeout != "")
-			return "Queue(".$this->queuename.",".$this->options.",".$this->optionalurl.",".$this->announceoverride.",".$this->timeout.")";
-		else
-			return "Queue(".$this->queuename.",".$this->options.",".$this->optionalurl.",".$this->announceoverride.")";
+		return "Queue(" 
+			. $this->queuename . ","
+			. $this->options . ","
+			. $this->optionalurl . ","
+			. $this->announceoverride . ","
+			. $this->timeout . ","
+			. $this->agi . ","
+			. $this->macro . ","
+			. $this->gosub . ","
+			. $this->rule . ","
+			. $this->position . ")";
 	}
 }
 
