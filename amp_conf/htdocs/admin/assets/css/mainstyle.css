@@ -174,7 +174,7 @@ h1, h2, h3, h4, h5, h6 {
 input, textarea {
 	border:1px solid #ccc;
 }
-input[type=text]:hover {border-color: #666 #CCC #CCC #CCC;}
+input[type=text]:hover:not([disabled]) {border-color: #666 #CCC #CCC #CCC;}
 hr {
 	background-color: #DEEDF7;
 	border: 1px solid #AED0EA;
