@@ -1,4 +1,9 @@
 <?php
+/**
+* FreePBX Notifications
+*
+* @package FreePBX
+*/
 
 define("NOTIFICATION_TYPE_CRITICAL", 100);
 define("NOTIFICATION_TYPE_SECURITY", 200);
@@ -7,12 +12,23 @@ define("NOTIFICATION_TYPE_ERROR",    400);
 define("NOTIFICATION_TYPE_WARNING" , 500);
 define("NOTIFICATION_TYPE_NOTICE",   600);
 
+/**
+* FreePBX Notifications Class
+*
+* @package FreePBX
+*/
 class notifications{
 
 	var $not_loaded = true;
 	var $notification_table = array();
 	var $_db;
 		
+	/** 
+	* Create the Notification Class statically while checking to make sure the class hasn't already been loaded
+	*
+	* @param object Database Object
+	* @return object Notification object
+	*/
 	function &create(&$db) {
 		static $obj;
 		if (!isset($obj)) {
@@ -21,64 +37,195 @@ class notifications{
 		return $obj;
 	}
 
+	/** 
+	* Create the Notification Class
+	*
+	* @param object Database Object
+	*/
 	function notifications(&$db) {
 		$this->_db =& $db;
 	}
 
-  function exists($module, $id) {
-    $count = sql("SELECT count(*) FROM notifications WHERE `module` = '$module' AND `id` = '$id'", 'getOne');
-    return ($count);
-  }
+    /**
+    * Check to see if Notification Already exists
+    * 
+    * @param string $module Raw name of the module requesting
+    * @param string $id ID of the notification
+    * @return int Returns the number of notifications per module & id
+    */
+      function exists($module, $id) {
+        $count = sql("SELECT count(*) FROM notifications WHERE `module` = '$module' AND `id` = '$id'", 'getOne');
+        return ($count);
+      }
 
+    /**
+      * Add a Critical Notification Message
+      * 
+      * @param string $module Raw name of the module requesting
+      * @param string $id ID of the notification
+      * @param string $display_text The text that will be displayed as the subject/header of the message
+      * @param string $extended_text The extended text of the notification when it is expanded
+      * @param string $link The link that is set to the notification
+      * @param bool $reset Reset notification on module update
+      * @param bool $candelete If the notification can be deleted by the user on the notifications display page
+      * @return int Returns the number of notifications per module & id
+      */
 	function add_critical($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_CRITICAL, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-    $this->_freepbx_log(FPBX_LOG_CRITICAL, $module, $id, $display_text);
+        $this->_freepbx_log(FPBX_LOG_CRITICAL, $module, $id, $display_text);
 	}
+	/**
+      * Add a Security Notification Message
+      * 
+      * @param string $module Raw name of the module requesting
+      * @param string $id ID of the notification
+      * @param string $display_text The text that will be displayed as the subject/header of the message
+      * @param string $extended_text The extended text of the notification when it is expanded
+      * @param string $link The link that is set to the notification
+      * @param bool $reset Reset notification on module update
+      * @param bool $candelete If the notification can be deleted by the user on the notifications display page
+      * @return int Returns the number of notifications per module & id
+      */
 	function add_security($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_SECURITY, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-    $this->_freepbx_log(FPBX_LOG_SECURITY, $module, $id, $display_text);
+        $this->_freepbx_log(FPBX_LOG_SECURITY, $module, $id, $display_text);
 	}
+	/**
+      * Add an Update Notification Message
+      * 
+      * @param string $module Raw name of the module requesting
+      * @param string $id ID of the notification
+      * @param string $display_text The text that will be displayed as the subject/header of the message
+      * @param string $extended_text The extended text of the notification when it is expanded
+      * @param string $link The link that is set to the notification
+      * @param bool $reset Reset notification on module update
+      * @param bool $candelete If the notification can be deleted by the user on the notifications display page
+      * @return int Returns the number of notifications per module & id
+      */
 	function add_update($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_UPDATE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-    $this->_freepbx_log(FPBX_LOG_UPDATE, $module, $id, $display_text);
+        $this->_freepbx_log(FPBX_LOG_UPDATE, $module, $id, $display_text);
 	}
+	/**
+      * Add an Error Notification Message
+      * 
+      * @param string $module Raw name of the module requesting
+      * @param string $id ID of the notification
+      * @param string $display_text The text that will be displayed as the subject/header of the message
+      * @param string $extended_text The extended text of the notification when it is expanded
+      * @param string $link The link that is set to the notification
+      * @param bool $reset Reset notification on module update
+      * @param bool $candelete If the notification can be deleted by the user on the notifications display page
+      * @return int Returns the number of notifications per module & id
+      */
 	function add_error($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_ERROR, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-    $this->_freepbx_log(FPBX_LOG_ERROR, $module, $id, $display_text);
+        $this->_freepbx_log(FPBX_LOG_ERROR, $module, $id, $display_text);
 	}
+	/**
+      * Add a Warning Notification Message
+      * 
+      * @param string $module Raw name of the module requesting
+      * @param string $id ID of the notification
+      * @param string $display_text The text that will be displayed as the subject/header of the message
+      * @param string $extended_text The extended text of the notification when it is expanded
+      * @param string $link The link that is set to the notification
+      * @param bool $reset Reset notification on module update
+      * @param bool $candelete If the notification can be deleted by the user on the notifications display page
+      * @return int Returns the number of notifications per module & id
+      */
 	function add_warning($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_WARNING, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-    $this->_freepbx_log(FPBX_LOG_WARNING, $module, $id, $display_text);
+        $this->_freepbx_log(FPBX_LOG_WARNING, $module, $id, $display_text);
 	}
+	/**
+      * Add a Notice Notification Message
+      * 
+      * @param string $module Raw name of the module requesting
+      * @param string $id ID of the notification
+      * @param string $display_text The text that will be displayed as the subject/header of the message
+      * @param string $extended_text The extended text of the notification when it is expanded
+      * @param string $link The link that is set to the notification
+      * @param bool $reset Reset notification on module update
+      * @param bool $candelete If the notification can be deleted by the user on the notifications display page
+      * @return int Returns the number of notifications per module & id
+      */
 	function add_notice($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=true) {
 		$this->_add_type(NOTIFICATION_TYPE_NOTICE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-    $this->_freepbx_log(FPBX_LOG_NOTICE, $module, $id, $display_text);
+        $this->_freepbx_log(FPBX_LOG_NOTICE, $module, $id, $display_text);
 	}
 
-
+    /**
+      * List all Critical Messages
+      * 
+      * @param bool $show_reset Show resettable messages
+      * @return array Returns the list of Messages
+      */
 	function list_critical($show_reset=false) {
 		return $this->_list(NOTIFICATION_TYPE_CRITICAL, $show_reset);
 	}
+	/**
+      * List all Security Messages
+      * 
+      * @param bool $show_reset Show resettable messages
+      * @return array Returns the list of Messages
+      */
 	function list_security($show_reset=false) {
 		return $this->_list(NOTIFICATION_TYPE_SECURITY, $show_reset);
 	}
+	/**
+      * List all Update Messages
+      * 
+      * @param bool $show_reset Show resettable messages
+      * @return array Returns the list of Messages
+      */
 	function list_update($show_reset=false) {
 		return $this->_list(NOTIFICATION_TYPE_UPDATE, $show_reset);
 	}
+	/**
+      * List all Error Messages
+      * 
+      * @param bool $show_reset Show resettable messages
+      * @return array Returns the list of Messages
+      */
 	function list_error($show_reset=false) {
 		return $this->_list(NOTIFICATION_TYPE_ERROR, $show_reset);
 	}
+	/**
+      * List all Warning Messages
+      * 
+      * @param bool $show_reset Show resettable messages
+      * @return array Returns the list of Messages
+      */
 	function list_warning($show_reset=false) {
 		return $this->_list(NOTIFICATION_TYPE_WARNING, $show_reset);
 	}
+	/**
+      * List all Notice Messages
+      * 
+      * @param bool $show_reset Show resettable messages
+      * @return array Returns the list of Messages
+      */
 	function list_notice($show_reset=false) {
 		return $this->_list(NOTIFICATION_TYPE_NOTICE, $show_reset);
 	}
+	/**
+      * List all Messages
+      * 
+      * @param bool $show_reset Show resettable messages
+      * @return array Returns the list of Messages
+      */
 	function list_all($show_reset=false) {
 		return $this->_list("", $show_reset);
 	}
 
 
+    /**
+      * Reset the status (hidden/shown) notifications of module & id
+      * 
+      * @param string $module Raw name of the module requesting
+      * @param string $id ID of the notification
+      */
 	function reset($module, $id) {
 		$module        = q($module);
 		$id            = q($id);
@@ -87,6 +234,12 @@ class notifications{
 		sql($sql);
 	}
 
+    /**
+      * Forcefully Delete notifications of module & id
+      * 
+      * @param string $module Raw name of the module requesting
+      * @param string $id ID of the notification
+      */
 	function delete($module, $id) {
 		$module        = q($module);
 		$id            = q($id);
@@ -95,6 +248,12 @@ class notifications{
 		sql($sql);
 	}
 
+    /**
+      * Delete notifications of module & id if it is allowed by `candelete`
+      * 
+      * @param string $module Raw name of the module requesting
+      * @param string $id ID of the notification
+      */
 	function safe_delete($module, $id) {
 		$module        = q($module);
 		$id            = q($id);
@@ -106,6 +265,20 @@ class notifications{
 	/* Internal functions
 	 */
 
+ 	/**
+       * Add a Notification Message
+       * 
+       * @param const $level Notification Level
+       * @param string $module Raw name of the module requesting
+       * @param string $id ID of the notification
+       * @param string $display_text The text that will be displayed as the subject/header of the message
+       * @param string $extended_text The extended text of the notification when it is expanded
+       * @param string $link The link that is set to the notification
+       * @param bool $reset Reset notification on module update
+       * @param bool $candelete If the notification can be deleted by the user on the notifications display page
+       * @return int Returns the number of notifications per module & id
+       * @ignore 
+       */
 	function _add_type($level, $module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
 		if ($this->not_loaded) {
 			$this->notification_table = $this->_list("",true);
@@ -176,6 +349,14 @@ class notifications{
 		}
 	}
 
+	/**
+      * List Messages by Level
+      * 
+      * @param const $level Notification Level to show (can be blank for all)
+      * @param bool $show_reset Show resettable messages
+      * @return array Returns the list of Messages
+      * @ignore
+      */
 	function _list($level, $show_reset=false) {
 
 		$level = q($level);
@@ -206,14 +387,26 @@ class notifications{
 		return $list;
 	}
 
+	/**
+      * FreePBX Logging
+      * 
+      * @param const $level Notification Level to show (can be blank for all)
+      * @param string $module Raw name of the module requesting
+      * @param string $id ID of the notification
+      * @param string $display_text The text that will be displayed as the subject/header of the message
+      * @ignore
+      */
   function _freepbx_log($level, $module, $id, $display_text) {
     global $amp_conf;
     if ($amp_conf['LOG_NOTIFICATIONS']) {
       freepbx_log($level,"[NOTIFICATION]-[$module]-[$id] - $display_text");
     }
   }
-	/* Returns the number of active notifications
-	 */
+	/** 
+	* Returns the number of active notifications
+	*
+	* @return int Number of active Notifications
+	*/
 	function get_num_active() {
 		$sql = "SELECT COUNT(id) FROM notifications WHERE reset = 0";
 		return sql($sql,'getOne');
