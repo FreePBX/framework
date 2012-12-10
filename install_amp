@@ -1247,7 +1247,7 @@ if ($install_files)
 upgrade_all($version);
 
 // Save $amp_conf variables so we can set the configured values
-if ($set_freepbx_settings && $force_amportal_conf) {
+if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redhat-release')))  {
 	$amp_conf_file = $amp_conf;
 }
 outn("Creating or updating freepbx_conf settings..");
@@ -1257,7 +1257,7 @@ out("..OK");
 // TODO: if file is $force_amportal_conf let's go set any settings in freepbx_settings,
 //       question is, should we do this further up???
 //
-if ($set_freepbx_settings && $force_amportal_conf) {
+if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redhat-release'))) {
 	out("Setting freepbx settings form " . AMP_CONF);
 	$freepbx_conf =& freepbx_conf::create();
 	foreach ($amp_conf_file as $keyword => $value) {
