@@ -25,7 +25,8 @@ $html .= '<a href="http://www.freepbx.org" target="_blank">FreePBX</a> '
      	. '<a href="http://www.freepbx.org/copyright.html" target="_blank"> Bandwidth.com</a>'
 		. br();
 $html .= _('FreePBX') . ' ' . $version . ' ' . _('is licensed under')
-		. '<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank"> GPL</a>';
+		. '<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank"> GPL</a>' . br();
+$html .= '<a href="http://www.freepbx.org/copyright.html" target="_blank">Copyright&copy; 2012</a>';
 
 //module license
 if (!empty($active_modules[$module_name]['license'])) {
