@@ -487,6 +487,8 @@ case "$1" in
 				if [ -f '/var/log/httpd/error_log' ]; then
 					httpd_error='/var/log/httpd/error_log'
 				fi 
+				#enable dbug in case its disabled
+				$AMPBIN/freepbx_setting FPBXDBUGDISABLE 0
 				tail -f $FPBXDBUGFILE $httpd_error
 			;;
 			mysql|m)
