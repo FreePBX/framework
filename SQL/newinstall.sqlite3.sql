@@ -115,7 +115,7 @@ CREATE TABLE `incoming` (
 	`grppre` varchar(80) default NULL ,
 	`delay_answer` int (2) default NULL
 , `pricid` VARCHAR(20) DEFAULT NULL);
-CREATE TABLE `zapchandids` (
+CREATE TABLE `dahdichandids` (
 	`channel` int(11) NOT NULL default '0',
 	`description` varchar(40) NOT NULL default '',
 	`did` varchar(60) NOT NULL default '',
@@ -167,13 +167,6 @@ CREATE TABLE `users` (
   `busy_dest` varchar(255) NOT NULL default '',
   `chanunavail_dest` varchar(255) NOT NULL default ''
 );
-CREATE TABLE `zap` (
-  `id` varchar(20) NOT NULL default '-1',
-  `keyword` varchar(30) NOT NULL default '',
-  `data` varchar(255) NOT NULL default '',
-  `flags` int(1) NOT NULL default '0',
-  PRIMARY KEY  (`id`,`keyword`)
-);
 CREATE TABLE `dahdi` (
   `id` varchar(20) NOT NULL default '-1',
   `keyword` varchar(30) NOT NULL default '',
@@ -221,7 +214,7 @@ CREATE TABLE `trunks`
 	
 		PRIMARY KEY  (`trunkid`, `tech`, `channelid`) 
 	);
-INSERT INTO "trunks" VALUES(1, '', 'zap', '', '', '', '', '', 'g0', '', NULL, 'off');
+INSERT INTO "trunks" VALUES(1, '', 'dahdi', '', '', '', '', '', 'g0', '', NULL, 'off');
 CREATE TABLE `trunks_dialpatterns` 
 ( 
 	`trunkid` INTEGER,

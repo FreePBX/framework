@@ -556,7 +556,7 @@ CREATE TABLE `trunks` (
 
 LOCK TABLES `trunks` WRITE;
 /*!40000 ALTER TABLE `trunks` DISABLE KEYS */;
-INSERT INTO `trunks` VALUES (1,'','zap','','','','','','g0','',NULL,'off','off');
+INSERT INTO `trunks` VALUES (1,'','dahdi','','','','','','g0','',NULL,'off');
 /*!40000 ALTER TABLE `trunks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -597,38 +597,13 @@ LOCK TABLES `users` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `zap`
+-- Table structure for table `dahdichandids`
 --
 
-DROP TABLE IF EXISTS `zap`;
+DROP TABLE IF EXISTS `dahdichandids`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `zap` (
-  `id` varchar(20) NOT NULL DEFAULT '-1',
-  `keyword` varchar(30) NOT NULL DEFAULT '',
-  `data` varchar(255) NOT NULL,
-  `flags` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`,`keyword`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `zap`
---
-
-LOCK TABLES `zap` WRITE;
-/*!40000 ALTER TABLE `zap` DISABLE KEYS */;
-/*!40000 ALTER TABLE `zap` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `zapchandids`
---
-
-DROP TABLE IF EXISTS `zapchandids`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `zapchandids` (
+CREATE TABLE `dahdichandids` (
   `channel` int(11) NOT NULL DEFAULT '0',
   `description` varchar(40) NOT NULL DEFAULT '',
   `did` varchar(60) NOT NULL DEFAULT '',
@@ -637,12 +612,12 @@ CREATE TABLE `zapchandids` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zapchandids`
+-- Dumping data for table `dahdichandids`
 --
 
-LOCK TABLES `zapchandids` WRITE;
-/*!40000 ALTER TABLE `zapchandids` DISABLE KEYS */;
-/*!40000 ALTER TABLE `zapchandids` ENABLE KEYS */;
+LOCK TABLES `dahdichandids` WRITE;
+/*!40000 ALTER TABLE `dahdichandids` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dahdichandids` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
