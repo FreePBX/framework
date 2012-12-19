@@ -26,7 +26,7 @@ $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 $mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
                        ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
                        : 'assets/css/mainstyle.css';
-$framework_css = $amp_conf['DISABLE_CSS_AUTOGEN'] ? $mainstyle_css : $amp_conf['mainstyle_css_generated'];
+$framework_css = ($amp_conf['DISABLE_CSS_AUTOGEN'] || !file_exists($amp_conf['mainstyle_css_generated'])) ? $mainstyle_css : $amp_conf['mainstyle_css_generated'];
 $html .= '<link href="' . $framework_css.$version_tag . '" rel="stylesheet" type="text/css">';
 
 //include jquery-ui css
