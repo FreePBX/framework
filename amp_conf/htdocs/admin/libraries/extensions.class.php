@@ -38,7 +38,9 @@ class extensions {
 	* @return 
 	*/
 	function add($section, $extension, $tag, $command, $basetag = false, $addpriority = false) {
-		
+
+		$extension = ' ' . $extension . ' ';
+
 		if ($basetag || $addpriority) {
 			if (!is_int($addpriority) || ($addpriority < 1)) {
 				trigger_error("\$addpriority must be an integer >= 1 in extensions::add()");
@@ -101,6 +103,9 @@ class extensions {
   }
 	
 	function addHint($section, $extension, $hintvalue) {
+
+		$extension = ' ' . $extension . ' ';
+
 		$this->_hints[$section][$extension][] = $hintvalue;
 	}
 	
@@ -136,6 +141,8 @@ class extensions {
 	*         if it can't find the tag, it will inject it after the last instruction
 	*/
 	function splice($section, $extension, $priority, $command, $new_tag="")  {
+
+		$extension = ' ' . $extension . ' ';
 
 		// if the priority is a tag, then we look for the real priority to insert it before that
 		// tag. If the tag does not exists, then we put it at the very end which may not be
@@ -208,6 +215,8 @@ class extensions {
 	*/
 	function replace($section, $extension, $priority, $command) {
 
+		$extension = ' ' . $extension . ' ';
+
 		// if the priority is a tag, then we look for the real priority to replace it with
 		// If the tag does not exists, then we put it at the very end which may not be
 		// desired but it puts it somewhere
@@ -242,6 +251,8 @@ class extensions {
   *         if $priority is not numeric, it will interpret it as a tag
   */
   function remove($section, $extension, $priority) {
+
+		$extension = ' ' . $extension . ' ';
 
     // if the priority is a tag, then we look for the real priority to replace it with
     // If the tag does not exists, then we put it at the very end which may not be
@@ -319,7 +330,7 @@ class extensions {
 						$output .= "#exec ".$include."\n";
 					}
 				}
-				
+
         // probably a better way to do this. But ... if an extension happens to be the pri 1 extension, and then
         // it outputs false (e.g. noop_trace), we need a pri 1 extension as the next one.
         //
@@ -338,7 +349,7 @@ class extensions {
             }
             $this_cmd = $ext['cmd']->output();
             if ($this_cmd !== false) {
-						  $output .= "exten => ".$extension.",".
+						  $output .= "exten => ". trim($extension) .",".
 							  $ext['basetag'].
 							  ($ext['addpri'] ? '+'.$ext['addpri'] : '').
 							  ($ext['tag'] ? '('.$ext['tag'].')' : '').
@@ -350,7 +361,7 @@ class extensions {
 					$output .= "\n";
 					if (isset($this->_hints[$section][$extension])) {
 						foreach ($this->_hints[$section][$extension] as $hint) {
-							$output .= "exten => ".$extension.",hint,".$hint."\n";
+							$output .= "exten => ". trim($extension) .",hint,".$hint."\n";
 						}
 					}
 				}
