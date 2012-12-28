@@ -60,6 +60,6 @@ if ($email) {
 		}
 	}
 } else {
-		$nt->add_notice('freepbx', 'NOEMAIL', _('No email address for online update checks'), _('You are automatically checking for online updates nightly but you have no email address setup to send the results. This can be set on the General Tab. They will continue to show up here.'), '', 'PASSIVE', false);
+		$nt->add_notice('freepbx', 'NOEMAIL', _('No email address for online update checks'), _('You are automatically checking for online updates nightly but you have no email address setup to send the results. This can be set in Module Admin. They will continue to show up here.'), '', 'PASSIVE', false);
 }
 ?>
