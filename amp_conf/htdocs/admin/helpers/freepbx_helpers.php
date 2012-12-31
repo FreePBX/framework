@@ -28,6 +28,19 @@ function fpbx_label($text, $help = '') {
 }
 
 /**
+ * short FreePBX Section header generator
+ * long Function used to generate FreePBX GUI sections
+ *
+ * @author Philippe Lindheimer
+ * @param string $text
+ * @return string
+ * {@source } 
+ */
+function fpbx_section_header($text) {
+	return '<br><h5>' . _("Queue Plus Options") . '<hr></h5>';
+}
+
+/**
  * Text Input Field With Enable/Disable Checkbox
  *
  * @access	public
