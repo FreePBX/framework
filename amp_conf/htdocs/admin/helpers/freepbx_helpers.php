@@ -37,7 +37,7 @@ function fpbx_label($text, $help = '') {
  * {@source } 
  */
 function fpbx_section_header($text) {
-	return '<br><h5>' . _("Queue Plus Options") . '<hr></h5>';
+	return '<br><h5>' . $text . '<hr></h5>';
 }
 
 /**
