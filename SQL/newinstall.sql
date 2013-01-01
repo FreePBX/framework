@@ -556,7 +556,7 @@ CREATE TABLE `trunks` (
 
 LOCK TABLES `trunks` WRITE;
 /*!40000 ALTER TABLE `trunks` DISABLE KEYS */;
-INSERT INTO `trunks` VALUES (1,'','dahdi','','','','','','g0','',NULL,'off');
+INSERT INTO `trunks` VALUES (1,'','dahdi','','','','','','g0','',NULL,'off','off');
 /*!40000 ALTER TABLE `trunks` ENABLE KEYS */;
 UNLOCK TABLES;
 
