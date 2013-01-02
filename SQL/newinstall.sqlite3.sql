@@ -214,7 +214,7 @@ CREATE TABLE `trunks`
 	
 		PRIMARY KEY  (`trunkid`, `tech`, `channelid`) 
 	);
-INSERT INTO "trunks" VALUES(1, '', 'dahdi', '', '', '', '', '', 'g0', '', NULL, 'off');
+INSERT INTO "trunks" VALUES(1, '', 'dahdi', '', '', '', '', '', 'g0', '', NULL, 'off', 'off');
 CREATE TABLE `trunks_dialpatterns` 
 ( 
 	`trunkid` INTEGER,
