@@ -1712,7 +1712,10 @@ function _module_distro_id() {
   }
 
   // FreePBX Distro
-  if (file_exists('/etc/asterisk/freepbxdistro-version')) {
+  if (file_exists('/etc/schmooze/freepbxdistro-version')) {
+    $pbx_type = 'freepbxdistro';
+    $pbx_version = trim(file_get_contents('/etc/schmooze/freepbxdistro-version'));
+  } elseif (file_exists('/etc/asterisk/freepbxdistro-version')) {
     $pbx_type = 'freepbxdistro';
     $pbx_version = trim(file_get_contents('/etc/asterisk/freepbxdistro-version'));
 
