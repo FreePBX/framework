@@ -6,7 +6,7 @@
 #
 # TODO: SHOULD CHECK THE VERSION OF THE MODULES BEFORE PROCEEDING
 #
-module_url="http://www.freepbx.org/v2/svn/modules/branches/2.10"
+module_url="http://www.freepbx.org/v2/svn/modules/branches/2.11"
 core_url=${module_url}/core
 framework_url=${module_url}/framework
 fw_ari_url=${module_url}/fw_ari
