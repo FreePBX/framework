@@ -2266,7 +2266,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['hidden'] = 0;
 
 	//mainstyle_css_generated
-	$set['value'] = $amp_conf['mainstyle_css_generated'] ? $amp_conf['mainstyle_css_generated'] : '';
+	$set['value'] = (isset($amp_conf['mainstyle_css_generated']) && $amp_conf['mainstyle_css_generated']) ? $amp_conf['mainstyle_css_generated'] : '';
 	$set['description'] = 'internal use';
 	$set['type'] = CONF_TYPE_TEXT;
 	$set['defaultval'] = '';
