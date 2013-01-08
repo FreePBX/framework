@@ -330,6 +330,9 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		else 
 			$amp_conf["AMPWEBROOT"] = rtrim($key,'/');
 
+        //regression follows us all around freepbx #6159
+        $webroot = $amp_conf["AMPWEBROOT"];
+        
 		if (is_dir($amp_conf["AMPWEBROOT"])) {
 			break;
 		} else if (amp_mkdir($amp_conf["AMPWEBROOT"],"0755",true)){
@@ -807,7 +810,25 @@ if($installamp_clean || $uninstallamp) {
 	
     $oldampconf = array();
     if(file_exists('/etc/amportal.conf')) {
-        $oldampconf = parse_ini_file('/etc/amportal.conf');
+        $amportalconf = file_get_contents('/etc/amportal.conf');
+        if(preg_match('/AMPWEBROOT=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPWEBROOT'] = $matches[1];
+        }
+        if(preg_match('/AMPDBENGINE=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPDBENGINE'] = $matches[1];
+        }
+        if(preg_match('/AMPDBUSER=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPDBUSER'] = $matches[1];
+        }
+        if(preg_match('/AMPDBPASS=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPDBPASS'] = $matches[1];
+        }
+        if(preg_match('/AMPDBNAME=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPDBNAME'] = $matches[1];
+        }
+        if(preg_match('/AMPDBHOST=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPDBHOST'] = $matches[1];
+        }
         outn("Remove /etc/amportal.conf?:\n [y] ");
         $key = trim(fgets(STDIN,1024));
     	switch($key) {
@@ -876,7 +897,7 @@ if($installamp_clean || $uninstallamp) {
     	    break;   
     	}
 	}
-	if(!empty($oldampconf) && file_exists($oldampconf['AMPWEBROOT'])) {
+	if(!empty($oldampconf) && isset($oldampconf['AMPWEBROOT']) && file_exists($oldampconf['AMPWEBROOT'])) {
         outn("Remove ".$oldampconf['AMPWEBROOT']."?:\n [y] ");
         $key = trim(fgets(STDIN,1024));
     	switch($key) {
@@ -1440,7 +1461,11 @@ if (!is_dir($amp_conf["ASTSPOOLDIR"]."/monitor"))
 if (!is_dir($amp_conf["ASTSPOOLDIR"]."/fax"))
 	amp_mkdir($amp_conf["ASTSPOOLDIR"]."/fax","0766",true);
 
-
+//Check to make sure database is installed
+$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf["AMPDBNAME"]."'";
+if(!$db->getOne($sql)) {
+    fatal('The '. $amp_conf["AMPDBNAME"] . ' ' . $amp_conf["AMPDBENGINE"] . ' database appears empty, try running with the "--cleaninstall --installdb" commands or install the database manually');
+}
 // **** Set permissions all files
 
 // tell amportal/freepbx_engine to use amportal.conf and not bootstrap
@@ -1497,6 +1522,9 @@ if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redha
         if ($freepbx_conf->conf_setting_exists('AMPWEBROOT')) {
 			$freepbx_conf->set_conf_values(array('AMPWEBROOT' => $webroot),true,true);
 		}
+        $amportalconf = file_get_contents('/etc/amportal.conf');
+        $amportalconf = preg_replace('/AMPWEBROOT=.*/', 'AMPWEBROOT='.$webroot, $amportalconf);
+        file_put_contents('/etc/amportal.conf',$amportalconf);
 		out("Fixed");
     }
 }
