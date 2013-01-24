@@ -14,14 +14,14 @@ $html .= '<!DOCTYPE html>';
 $html .= '<html>';
 $html .= '<head>';
 $html .= '<title>'
-		. (isset($title) ? _($title) : 'FreePBX')
+		. (isset($title) ? _($title) : $amp_conf['BRAND_TITLE'])
 		. '</title>';
 
 $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 		. '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 		. '<meta http-equiv="X-UA-Compatible" content="chrome=1">'
 		. '<meta name="robots" content="noindex" />'
-		. '<link rel="shortcut icon" href="images/favicon.ico">';
+		. '<link rel="shortcut icon" href="' . $amp_conf['BRAND_IMAGE_FAVICON'] . '">';
 //css
 $mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
                        ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 

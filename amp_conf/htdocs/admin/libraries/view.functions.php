@@ -465,9 +465,9 @@ function framework_server_name() {
 
 		$title								= $_SERVER['SERVER_NAME'] 
 											. $server_hostname . ' - ' 
-											. _('FreePBX Administration');
+											. $amp_conf['BRAND_TITLE'];
 	} else {
-		$title								= _('FreePBX Administration');
+		$title								= $amp_conf['BRAND_TITLE'];
 	}
 	
 	return $title;

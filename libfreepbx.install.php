@@ -1668,6 +1668,28 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['category'] = 'Styling and Logos';
   $set['level'] = 1;
 
+  // BRAND_IMAGE_FAVICON
+  $set['value'] = 'images/favicon.ico';
+  $set['options'] = '';
+  $set['name'] = 'Favicon';
+  $set['description'] = 'Favicon';
+  $set['readonly'] = 1;
+  $set['sortorder'] = 40;
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['emptyok'] = 0;
+  $freepbx_conf->define_conf_setting('BRAND_IMAGE_FAVICON', $set);
+  
+  // BRAND_TITLE
+  $set['value'] = 'FreePBX Administration';
+  $set['options'] = '';
+  $set['name'] = 'Page Title';
+  $set['description'] = 'HTML title of all pages';
+  $set['readonly'] = 1;
+  $set['sortorder'] = 40;
+  $set['type'] = CONF_TYPE_TEXT;
+  $set['emptyok'] = 0;
+  $freepbx_conf->define_conf_setting('BRAND_TITLE', $set);
+  
   // BRAND_IMAGE_TANGO_LEFT
   $set['value'] = 'images/tango.png';
   $set['options'] = '';
