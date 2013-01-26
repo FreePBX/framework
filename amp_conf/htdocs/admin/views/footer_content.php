@@ -15,7 +15,7 @@ if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
 // Brandable logos in footer
 //fpbx logo
 $html .= '<a target="_blank" href="' . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT']. '">'
- 	 	. '<img id="footer_logo" src="'.$amp_conf['BRAND_IMAGE_FREEPBX_FOOT'].$version_tag
+ 	 	. '<img id="footer_logo1" src="'.$amp_conf['BRAND_IMAGE_FREEPBX_FOOT'].$version_tag
 		. '" alt="'.$amp_conf['BRAND_FREEPBX_ALT_FOOT'] .'"/></a>';
 
 //fpbx data
@@ -49,7 +49,7 @@ $html .= '<div id="footer_content_sponsor" class="footer-float-left">';
 
 $html .= '<a target="_blank" href="' . $amp_conf['BRAND_IMAGE_SPONSOR_LINK_FOOT'] . '">'
 		. '<img id="footer_logo" src="' . $amp_conf['BRAND_IMAGE_SPONSOR_FOOT'] . '" '
-		. ' style="margin-right:10px"'
+		. ' style="margin-right:10px" '
 		. 'alt="' . $amp_conf['BRAND_SPONSOR_ALT_FOOT'] . '"/></a>';
 $html .= '<span class="footer-float-left">';
 $html .= _('The FreePBX project is sponsored in part by:') . br();
@@ -59,6 +59,7 @@ $html .= _('Proud sponsors, contributors,').' ' . br()
 		. ' <a href="http://www.freepbx.org/support-and-professional-services">'
 		. _('Professional Support & Services') . '</a>';
 //$html .= _('All Rights Reserved');
+$html .= '<span>';
 $html .= '</div>'; //footer_content_sponsor
 echo $html;
 ?>
