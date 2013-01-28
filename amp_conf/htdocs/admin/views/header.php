@@ -18,7 +18,6 @@ $html .= '<title>'
 		. '</title>';
 
 $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
-		. '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 		. '<meta http-equiv="X-UA-Compatible" content="chrome=1">'
 		. '<meta name="robots" content="noindex" />'
 		. '<link rel="shortcut icon" href="images/favicon.ico">';
