@@ -324,8 +324,8 @@ echo "Waiting for Asterisk to Stop Gracefully..."
 pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 		then
-			/usr/sbin/asterisk -rx "core stop gracefully" | grep -v "No such command"
-			/usr/sbin/asterisk -rx "stop gracefully" | grep -v -E "No such command|deprecated|Unable to connect to remote"
+			/usr/sbin/asterisk -rx "core stop gracefully" 2>&1 >/dev/null | grep -v "No such command"
+			/usr/sbin/asterisk -rx "stop gracefully" 2>&1 >/dev/null | grep -v -E "No such command|deprecated|Unable to connect to remote"
 
 			pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 			if [ "$pid_length" = "0" -o "$pid_length" = "" ]
@@ -360,8 +360,8 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 			if $ast_not_stopped ;
 			then
 				echo "Force stopping Asterisk and hanging up active channels"
-				/usr/sbin/asterisk -rx "core stop now" | grep -v "No such command"
-				/usr/sbin/asterisk -rx "stop now" | grep -v -E "No such command|deprecated|Unable to connect to remote"
+				/usr/sbin/asterisk -rx "core stop now" 2>&1 >/dev/null | grep -v "No such command"
+				/usr/sbin/asterisk -rx "stop now" 2>&1 >/dev/null | grep -v -E "No such command|deprecated|Unable to connect to remote"
 				pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 				if [ "$pid_length" != "0" -a "$pid_length" != "" ]
 				then
