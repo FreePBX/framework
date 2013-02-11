@@ -735,6 +735,12 @@ class ext_parkedcall extends extension {
 	}
 }
 
+// Park([timeout][,return_context[,return_exten[,return_priority[,options[,parking_lot_name]]]]])
+class ext_parkl extends extension {
+	function output() {
+		return "Park(".$this->data.")";
+	}
+}
 
 class ext_resetcdr extends extension {
 	function output() {
