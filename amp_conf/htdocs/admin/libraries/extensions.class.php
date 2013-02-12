@@ -586,6 +586,30 @@ class ext_gotoiftime extends extension {
 	}
 }
 
+class ext_while extends extension {
+	function output() {
+		return "While(".$this->data.")";
+	}
+}
+
+class ext_endwhile extends extension {
+	function output() {
+		return "EndWhile";
+	}
+}
+
+class ext_exitwhile extends extension {
+	function output() {
+		return "ExitWhile";
+	}
+}
+
+class ext_continuewhile extends extension {
+	function output() {
+		return "ContinueWhile";
+	}
+}
+
 class ext_noop extends extension {
 	function output() {
 		return "Noop(".$this->data.")";
