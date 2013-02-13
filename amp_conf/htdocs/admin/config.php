@@ -1,13 +1,13 @@
 <?php /* $Id$ */
-//Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca) 
-//Copyright (C) 2006-2010 Philippe Lindheimer 
+//Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
+//Copyright (C) 2006-2010 Philippe Lindheimer
 /*
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -16,24 +16,29 @@
 
 //set variables
 $vars = array(
-		'action'		=> null,
-		'display'		=> '',
-		'extdisplay'	=> null,
-		'logout'		=> false,
-		'password'		=> '',
-		'quietmode'		=> '',
-    'fw_popover' => '',
-    'fw_popover_process' => '',
-		'restrictmods'	=> false,
-		'skip'			=> 0,
-		'skip_astman'	=> false,
-		'username'		=> '',
-		'type'			=> ''
+		'action'			=> null,
+		'confirm_email'		=> '',
+		'confirm_password'	=> '',
+		'display'			=> '',
+		'extdisplay'		=> null,
+        'email_address'		=> '',
+        'fw_popover' 		=> '',
+        'fw_popover_process' => '',
+		'logout'			=> false,
+		'password'			=> '',
+		'quietmode'			=> '',
+		'restrictmods'		=> false,
+		'skip'				=> 0,
+		'skip_astman'		=> false,
+		'type'				=> '',
+		'username'			=> '',
 		);
 
 foreach ($vars as $k => $v) {
-	$$k = isset($_REQUEST[$k]) ? $_REQUEST[$k] : $v;
-	
+	//were use config_vars instead of, say, vars, so as not to polute
+	// page.<some_module>.php (which usually used $var or $vars)
+	$config_vars[$k] = $$k = isset($_REQUEST[$k]) ? $_REQUEST[$k] : $v;
+
 	//special handeling
 	switch ($k) {
 		case 'extdisplay':
@@ -44,7 +49,7 @@ foreach ($vars as $k => $v) {
 		case 'restrictmods':
             $restrict_mods = $restrictmods ? array_flip(explode('/', $restrictmods)) : false;
 			break;
-			
+
 		case 'skip_astman':
 			$bootstrap_settings['skip_astman']	= $skip_astman;
 			break;
@@ -92,9 +97,9 @@ if (isset($_REQUEST['handler'])) {
 }
 
 // call bootstrap.php through freepbx.conf
-if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) { 
-	 	  include_once('/etc/asterisk/freepbx.conf'); 
-} 
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	 	  include_once('/etc/asterisk/freepbx.conf');
+}
 
 /* If there is an action request then some sort of update is usually being done.
    This will protect from cross site request forgeries unless disabled.
@@ -124,21 +129,55 @@ $fw_gui_html = '';
 //buffer & compress our responce
 ob_start();
 
-if (!$quietmode) {	
+if (!$quietmode) {
 	//send header
 	$header['title']	= framework_server_name();
 	$header['amp_conf']	= $amp_conf;
 	$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
 	$fw_gui_html .=		load_view($amp_conf['VIEW_HEADER'], $header);
-	
+
 	if ($badrefer) {
 		$fw_gui_html .= load_view($amp_conf['VIEW_MENU'], $header);
 		$fw_gui_html .= $badrefer;
-	} elseif (isset($no_auth)) {
-		$fw_gui_html .= load_view($amp_conf['VIEW_MENU'], $header);
-		$fw_gui_html .= $no_auth;
+
+    } elseif (isset($no_auth)) {
+        $fw_gui_html .= load_view($amp_conf['VIEW_MENU'], $header);
+		
+		//if we have no admin users AND were trying to set one up
+		if (!count(getAmpAdminUsers()) && $action == 'setup_admin') {
+			framework_obe_intialize_admin(
+				$config_vars['username'],
+				$config_vars['password'],
+				$config_vars['confirm_password'],
+				$config_vars['email_address'],
+				$config_vars['confirm_email']
+			);
+		}
+
+		//if we (still) have no admin users
+		if (!count(getAmpAdminUsers())) {
+			$login = $config_vars;
+			$login['amp_conf'] = $amp_conf;
+
+			$fw_gui_html .= load_view(dirname(__FILE__) . '/views/obe.php', $login);
+			unset($_SESSION['AMP_user']);
+		}
+		
+		//prompt for a password if we have users
+		if (count(getAmpAdminUsers())) {
+			//show fop option if enabled
+			$login['panel'] = false;
+			if (!empty($amp_conf['FOPWEBROOT'])) {
+				$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/',
+						'', $amp_conf['FOPWEBROOT']);
+			}
+			$login['amp_conf'] = $amp_conf;
+			$fw_gui_html .= load_view($amp_conf['VIEW_LOGIN'], $login);
+		}
 	}
 	if ($badrefer || isset($no_auth)) {
+		$footer['reload_needed'] = false;
+		$footer['module_name'] = 'framework';
 		$footer['footer_content']	= load_view($amp_conf['VIEW_FOOTER_CONTENT']);
 		$footer['no_auth']	= $no_auth;
 		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
@@ -160,7 +199,7 @@ $cur_menuitem = null;
 
 if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
-	
+
 		//create an array of module sections to display
 		// stored as [items][$type][$category][$name] = $displayvalue
 		if (isset($module['items']) && is_array($module['items'])) {
@@ -171,29 +210,29 @@ if(is_array($active_modules)){
 				//TODO: move this to bootstrap and make it work
 				if (!isset($item['access']) || strtolower($item['access']) != 'all') {
 					if (is_object($_SESSION["AMP_user"]) && !$_SESSION["AMP_user"]->checkSection($itemKey)) {
-						// no access, skip to the next 
+						// no access, skip to the next
 						continue;
 					}
 				}
-				
+
 				if (!isset($item['display'])) {
 					$item['display'] = $itemKey;
 				}
-				
+
 				// reference to the actual module
 				$item['module'] =& $active_modules[$key];
-				
+
 				// item is an assoc array, with at least array(module=> name=>, category=>, type=>, display=>)
 				$fpbx_menu[$itemKey] = $item;
-				
+
 				// allow a module to replace our main index page
 				if (($item['display'] == 'index') && ($display == '')) {
 					$display = 'index';
 				}
-				
+
 				// check current item
 				if ($display == $item['display']) {
-					// found current menuitem, make a reference to it 
+					// found current menuitem, make a reference to it
 					$cur_menuitem =& $fpbx_menu[$itemKey];
 				}
 			}
@@ -250,7 +289,7 @@ if ($display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 	foreach ($configpageinits as $func) {
 		$func($display);
 	}
-	
+
 	// now run each 'process' function and 'gui' function
 	$currentcomponent->processconfigpage();
 	$currentcomponent->buildconfigpage();
@@ -262,7 +301,7 @@ $module_file = "";
 
 
 
-// hack to have our default display handler show the "welcome" view 
+// hack to have our default display handler show the "welcome" view
 // Note: this probably isn't REALLY needed if there is no menu item for "Welcome"..
 // but it doesn't really hurt, and it provides a handler in case some page links
 // to "?display=index"
@@ -278,8 +317,8 @@ switch($display) {
 		$module_page = $cur_menuitem['display'];
 		$module_file = 'modules/'.$module_name.'/page.'.$module_page.'.php';
 
-		//TODO Determine which item is this module displaying. 
-		//Currently this is over the place, we should standardize on a "itemid" request var 
+		//TODO Determine which item is this module displaying.
+		//Currently this is over the place, we should standardize on a "itemid" request var
 		//for now, we'll just cover all possibilities :-(
 		$possibilites = array(
 			'userdisplay',
@@ -298,7 +337,7 @@ switch($display) {
 
 		// create a module_hook object for this module's page
 		$module_hook = new moduleHook;
-		
+
 		// populate object variables
 		$module_hook->install_hooks($module_page,$module_name,$itemid);
 
@@ -317,7 +356,7 @@ switch($display) {
 		} else {
 			echo "404 Not found (" . $module_file  . ')';
 		}
-		
+
 		// global component
 		if ( isset($currentcomponent) ) {
 			echo  $currentcomponent->generateconfigpage();
@@ -411,12 +450,12 @@ if ($quietmode) {
 	set_language();
 
 	// menu + page content + footer
-	
+
 	$fw_gui_html .=						load_view($amp_conf['VIEW_MENU'], $menu);
-	
+
 	//send actual page content
 	$fw_gui_html .=						$content;
-		 
+
 	//send footer
 	$footer['module_name']			= $module_name;
 	$footer['module_page']			= $module_page;

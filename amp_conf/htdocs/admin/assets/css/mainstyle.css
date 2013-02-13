@@ -44,6 +44,7 @@ body {
 	width:100%;
 	height:80px;   /* Height of the footer */
 	font-size:10px;
+	background-color: white;
 }
 #footer_content {
 	margin-left: auto;
@@ -123,22 +124,51 @@ a.info:link, a.info:hover {
 
 }
 /***** login form ********/
-#loginform_wrapper {
-	width: 100%;
-	text-align: center;
-}
-#loginform {
-	position:relative;
-	display: inline-block;
-	top: 100px;
-}
 #loginform > input[type="text"], #loginform > input[type="password"] {
 	padding: 10px;
 	height:1em;
 	line-height:1em;
-	font-size:.8em;
+	width:90%;
 }
-
+.login_item {
+	height: 150px;
+	width: 150px;
+	display: inline-block;
+	background-repeat:no-repeat;
+	background-position:center center;
+	margin: auto 20px;
+}
+#login_admin {
+	background-image: url(/admin/images/sys-admin.png);
+}
+#login_ari {
+	background-image: url(/admin/images/user-control.png);	
+}
+#login_fop {
+   background-image: url(/admin/images/operator-panel.png); 
+}
+#login_support {
+	background-image: url(/admin/images/support.png);
+}
+.login_item_title {
+	display: inline-block;
+	width: 150px;
+	margin: auto 20px;
+}
+#login_icon_holder {
+	width: 80%;
+	margin: auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 70%;
+	bottom: 0;
+	text-align:center;
+	overflow: hidden;
+}
+#login_form {
+	display: none;
+}
 /***** right nav's ********/
 .rnav {
 	float:right;

@@ -1,20 +1,20 @@
-<?php 
+<?php
 // Set language, needs to be set here for full localization of the gui
 set_language();
 
 //dbug('sess', $_SESSION);
 //dbug('server', $_SERVER);
 
-   
+
 //promt for a password if there there is no user set
 if (!isset($_SESSION['AMP_user'])) {
-	
+
 	//|| (isset($_SESSION['AMP_user']->username) && $_SESSION['AMP_user']->username != $_SERVER['PHP_AUTH_USER'])) {
-	//if we dont have a username/pass promt for one
-	if (!$username || !$password) {
+	//if we dont have a username/pass prompt for one
+	if (!$username || !$password || !count(getAmpAdminUsers())) {
 		switch(strtolower($amp_conf['AUTHTYPE'])) {
 			case 'database':
-				$no_auth = 	load_view($amp_conf['VIEW_LOGIN']);
+				$no_auth = true;
 			break;
 			case 'webserver':
 				header('HTTP/1.0 401 Unauthorized');
@@ -22,7 +22,7 @@ if (!isset($_SESSION['AMP_user'])) {
 				break;
 		}
 	}
-	
+
 	//test credentials
 	switch (strtolower($amp_conf['AUTHTYPE'])) {
 		case 'webserver':
@@ -33,7 +33,7 @@ if (!isset($_SESSION['AMP_user'])) {
 				$_SESSION['AMP_user']->setAdmin();
 			} else {
 				unset($_SESSION['AMP_user']);
-				//header('HTTP/1.0 401 Unauthorized');
+				$no_auth = true;
 			}
 			break;
 		case 'none':
@@ -47,7 +47,7 @@ if (!isset($_SESSION['AMP_user'])) {
 			if (!$_SESSION['AMP_user']->checkPassword(sha1($password))) {
 				// failed, one last chance -- fallback to amportal.conf db admin user
 				if ($amp_conf['AMP_ACCESS_DB_CREDS']
-					&& $username == $amp_conf['AMPDBUSER'] 
+					&& $username == $amp_conf['AMPDBUSER']
 					&& $password == $amp_conf['AMPDBPASS']
 				) {
 					// password succesfully matched amportal.conf db admin user, set admin access
@@ -55,13 +55,14 @@ if (!isset($_SESSION['AMP_user'])) {
 				} else {
 					// password failed and admin user fall-back failed
 					unset($_SESSION['AMP_user']);
-					$no_auth = 	load_view($amp_conf['VIEW_LOGIN']);
+					$no_auth = true;
 				}
-			} 
+			}
 			break;
 	}
-	
+
 }
+
 if (isset($_SESSION['AMP_user'])) {
 	define('FREEPBX_IS_AUTH', 'TRUE');
 }

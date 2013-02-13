@@ -21,9 +21,7 @@ function getAmpAdminUsers() {
 
 	$sql = "SELECT username FROM ampusers WHERE sections='*'";
 	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-	   die_freepbx($sql."<br>\n".$results->getMessage());
-	}
+	db_e($results);
 	return $results;
 }
 

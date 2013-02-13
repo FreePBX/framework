@@ -9,7 +9,7 @@ function frameworkPasswordCheck() {
   // here becuase both of these settings could be affected differently in the php apache related settings vs.
   // what retrieve_conf would see running the CLI version of php
   //
-	
+
 	// Check and increase php memory_limit if needed and if allowed on the system
 	//
 	$current_memory_limit = rtrim(ini_get('memory_limit'),'M');
@@ -52,7 +52,7 @@ function set_language() {
 //
 function fileRequestHandler($handler, $module = false, $file = false){
 	global $amp_conf;
-	
+
 	switch ($handler) {
 		case 'reload':
 			// AJAX handler for reload event
@@ -61,9 +61,9 @@ function fileRequestHandler($handler, $module = false, $file = false){
 			echo json_encode($response);
 		break;
 		case 'file':
-			/** Handler to pass-through file requests 
+			/** Handler to pass-through file requests
 			 * Looks for "module" and "file" variables, strips .. and only allows normal filename characters.
-			 * Accepts only files of the type listed in $allowed_exts below, and sends the corresponding mime-type, 
+			 * Accepts only files of the type listed in $allowed_exts below, and sends the corresponding mime-type,
 			 * and always interprets files through the PHP interpreter. (Most of?) the freepbx environment is available,
 			 * including $db and $astman, and the user is authenticated.
 			 */
@@ -73,7 +73,7 @@ function fileRequestHandler($handler, $module = false, $file = false){
 			//TODO: this could probably be more efficient
 			$module = str_replace('..','.', preg_replace('/[^a-zA-Z0-9-\_\.]/','',$module));
 			$file = str_replace('..','.', preg_replace('/[^a-zA-Z0-9-\_\.]/','',$file));
-			
+
 			$allowed_exts = array(
 				'.js'		=> 'text/javascript',
 				'.js.php'	=> 'text/javascript',
@@ -96,7 +96,7 @@ function fileRequestHandler($handler, $module = false, $file = false){
 						// not keep checking for them. Replace from header.php
 						if (!$amp_conf['DEVEL']) {
 							header('Expires: '.gmdate('D, d M Y H:i:s', time() + 86400).' GMT', true);
-							header('Cache-Control: max-age=86400, public, must-revalidate',true); 
+							header('Cache-Control: max-age=86400, public, must-revalidate',true);
 						}
 						header("Content-type: ".$mimetype);
 						ob_start();
@@ -140,10 +140,10 @@ function fileRequestHandler($handler, $module = false, $file = false){
  * @param	string
  * @param	array
  * @return	string
- * 
+ *
  */
 function load_view($view_filename_protected, $vars = array()) {
-	
+
 	//return false if we cant find the file or if we cant open it
 	if (!$view_filename_protected || !file_exists($view_filename_protected) || !is_readable($view_filename_protected) ) {
 		dbug('load_view failed to load view for inclusion:', $view_filename_protected);
@@ -152,19 +152,19 @@ function load_view($view_filename_protected, $vars = array()) {
 
 	// Import the view variables to local namespace
 	extract( (array) $vars, EXTR_SKIP);
-	
+
 	// Capture the view output
 	ob_start();
-	
+
 	// Load the view within the current scope
 	include($view_filename_protected);
-	
+
 	// Get the captured output
 	$buffer = ob_get_contents();
-	
+
 	//Flush & close the buffer
 	ob_end_clean();
-	
+
 	//Return captured output
 	return $buffer;
 }
@@ -184,7 +184,7 @@ function load_view($view_filename_protected, $vars = array()) {
  * @param	string
  * @param	array
  * @return	string
- * 
+ *
  */
 function show_view($view_filename_protected, $vars = array()) {
   $buffer = load_view($view_filename_protected, $vars);
@@ -197,7 +197,7 @@ function show_view($view_filename_protected, $vars = array()) {
  *
  * Useful for returning to the user to a GET location immediately after doing
  * a successful POST operation. This avoids the "this page was sent via POST, resubmit?"
- * message in the users browser, and also overwrites the POST page as a location in 
+ * message in the users browser, and also overwrites the POST page as a location in
  * the browser's URL history (eg, they can't press the back button and end up re-submitting
  * the page).
  *
@@ -217,11 +217,11 @@ function redirect($url, $stop_processing = true) {
 
 /** Abort all output, and redirect the browser's location using standard
  * FreePBX user interface variables. By default, will take POST/GET variables
- * 'type' and 'display' and pass them along in the URL. 
+ * 'type' and 'display' and pass them along in the URL.
  * Also accepts a variable number of parameters, each being the name of a variable
- * to pass on. 
- * 
- * For example, calling redirect_standard('extdisplay','test'); will take $_REQUEST['type'], 
+ * to pass on.
+ *
+ * For example, calling redirect_standard('extdisplay','test'); will take $_REQUEST['type'],
  * $_REQUEST['display'], $_REQUEST['extdisplay'], and $_REQUEST['test'],
  * and if any are present, use them to build a GET string (eg, "config.php?type=setup&
  * display=somemodule&extdisplay=53&test=yes", which is then passed to redirect() to send the browser
@@ -232,7 +232,7 @@ function redirect($url, $stop_processing = true) {
  * to continue processing. Note that this is used in core when in 'extensions' mode, as both the
  * users and devices modules need to hook into it together.
  *
- * @param string  (optional, variable number) The name of a variable from $_REQUEST to 
+ * @param string  (optional, variable number) The name of a variable from $_REQUEST to
  *                pass on to a GET URL.
  *
  */
@@ -275,7 +275,7 @@ function _redirect_standard_helper($args) {
 
 function framework_include_css() {
 	global $active_modules, $module_name, $module_page, $amp_conf;
-	
+
 	$version			= get_framework_version();
 	$version_tag		= '?load_version=' . urlencode($version);
 	if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
@@ -284,10 +284,10 @@ function framework_include_css() {
 	} else {
 		$this_time_append = '';
 	}
-	
+
 	$html = '';
-	$view_module_version	= isset($active_modules[$module_name]['version']) 
-							? $active_modules[$module_name]['version'] 
+	$view_module_version	= isset($active_modules[$module_name]['version'])
+							? $active_modules[$module_name]['version']
 							: $version_tag;
 	$mod_version_tag		= '&load_version=' . urlencode($view_module_version);
 	if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
@@ -296,18 +296,18 @@ function framework_include_css() {
 
 	// DEPECRATED but still supported for a while, the assets directory is the new preferred mode
 	if (is_file('modules/' . $module_name . '/' . $module_name . '.css')) {
-		$html .= '<link href="' . $_SERVER['PHP_SELF'] 
-				. '?handler=file&amp;module=' . $module_name 
-				. '&amp;file=' . $module_name . '.css' . $mod_version_tag 
+		$html .= '<link href="' . $_SERVER['PHP_SELF']
+				. '?handler=file&amp;module=' . $module_name
+				. '&amp;file=' . $module_name . '.css' . $mod_version_tag
 				. '" rel="stylesheet" type="text/css" />';
 	}
-	if (isset($module_page) 
-		&& ($module_page != $module_name) 
+	if (isset($module_page)
+		&& ($module_page != $module_name)
 		&& is_file('modules/' . $module_name . '/' . $module_page . '.css')
 	) {
-			$html .= '<link href="' . $_SERVER['PHP_SELF'] 
-					. '?handler=file&amp;module=' . $module_name 
-					. '&amp;file=' . $module_page . '.css' . $mod_version_tag 
+			$html .= '<link href="' . $_SERVER['PHP_SELF']
+					. '?handler=file&amp;module=' . $module_name
+					. '&amp;file=' . $module_page . '.css' . $mod_version_tag
 					. '" rel="stylesheet" type="text/css" />';
 	}
 
@@ -324,7 +324,7 @@ function framework_include_css() {
 		sort($file_list);
 		foreach ($file_list as $file) {
 			if (substr($file,-4) == '.css' && is_file($css_dir . '/' . $file)) {
-			  $html .= '<link href="assets/' . $module_name . '/css/' . $file 
+			  $html .= '<link href="assets/' . $module_name . '/css/' . $file
 						. '" rel="stylesheet" type="text/css" />';
 			}
 		}
@@ -340,13 +340,13 @@ function framework_include_css() {
 			sort($file_list);
 			foreach ($file_list as $p_file) {
 				if (substr($p_file,-4) == '.css' && is_file($css_subdir . '/' . $p_file)) {
-			    $html .= '<link href="assets/$module_name/css/' . $module_page . '/' . $p_file 
+			    $html .= '<link href="assets/$module_name/css/' . $module_page . '/' . $p_file
 						. '" rel="stylesheet" type="text/css" />';
 				}
 			}
 		}
 	}
-	
+
 	return $html;
 }
 
@@ -360,22 +360,22 @@ function framework_include_js($module_name, $module_page) {
 	} else {
 		$this_time_append = '';
 	}
-	
+
 	$html = '';
-	
+
 	if (is_file('modules/' . $module_name . '/' . $module_name . '.js')) {
 		$html .= '<script type="text/javascript" src="'
-				. $_SERVER['PHP_SELF'] . '?handler=file&amp;module=' 
-				. $module_name . '&amp;file=' . $module_name . '.js' 
+				. $_SERVER['PHP_SELF'] . '?handler=file&amp;module='
+				. $module_name . '&amp;file=' . $module_name . '.js'
 				. $mod_version_tag . '"></script>';
 	}
-	if (isset($module_page) 
-		&& ($module_page != $module_name) 
+	if (isset($module_page)
+		&& ($module_page != $module_name)
 		&& is_file('modules/' . $module_name . '/' . $module_page . '.js')
 	) {
-		$html .= '<script type="text/javascript" src="' 
-				. $_SERVER['PHP_SELF'] . '?handler=file&amp;module=' 
-				. $module_name . '&amp;file=' . $module_page . '.js' 
+		$html .= '<script type="text/javascript" src="'
+				. $_SERVER['PHP_SELF'] . '?handler=file&amp;module='
+				. $module_name . '&amp;file=' . $module_page . '.js'
 				. $mod_version_tag . '"></script>';
 	}
 
@@ -397,9 +397,9 @@ function framework_include_js($module_name, $module_page) {
 			$file_list = scandir($js_subdir);
 			foreach ($file_list as $p_file) {
 				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
-				  $html .= '<script type="text/javascript" ' 
-							. ' src="assets/' . $module_name . '/js/' 
-							. $module_page . '/' . $p_file 
+				  $html .= '<script type="text/javascript" '
+							. ' src="assets/' . $module_name . '/js/'
+							. $module_page . '/' . $p_file
 							. '"></script>';
 				}
 			}
@@ -407,17 +407,17 @@ function framework_include_js($module_name, $module_page) {
   }
 
 	// DEPCRETATED but still supported:
-	// Note - include all the module js files first, then the page specific files, 
+	// Note - include all the module js files first, then the page specific files,
 	//in case a page specific file requires a module level file
 	$js_dir = "modules/$module_name/js";
 	if (is_dir($js_dir)) {
 		$file_list = scandir($js_dir);
 		foreach ($file_list as $file) {
 			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
-				$html .= '<script type="text/javascript"' 
-				. ' src="' . $_SERVER['PHP_SELF'] . '?handler=file&module=' 
-				. $module_name . '&file=' 
-				. $js_dir . '/' . $file . $mod_version_tag 
+				$html .= '<script type="text/javascript"'
+				. ' src="' . $_SERVER['PHP_SELF'] . '?handler=file&module='
+				. $module_name . '&file='
+				. $js_dir . '/' . $file . $mod_version_tag
 				. '"></script>';
 			}
 		}
@@ -433,10 +433,10 @@ function framework_include_js($module_name, $module_page) {
 			sort($file_list);
 			foreach ($file_list as $p_file) {
 				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
-					$html .= '<script type="text/javascript" src="' 
+					$html .= '<script type="text/javascript" src="'
 							. $_SERVER['PHP_SELF'] . '?handler=file&module='
-							. $module_name . '&file=' 
-							. $js_subdir . '/' . $p_file . $mod_version_tag 
+							. $module_name . '&file='
+							. $js_subdir . '/' . $p_file . $mod_version_tag
 							. '"></script>';
 				}
 			}
@@ -463,12 +463,89 @@ function framework_server_name() {
 			$_SESSION['session_hostname'] 	= $server_hostname;
 		}
 
-		$title								= $_SERVER['SERVER_NAME'] 
-											. $server_hostname . ' - ' 
+		$title								= $_SERVER['SERVER_NAME']
+											. $server_hostname . ' - '
 											. $amp_conf['BRAND_TITLE'];
 	} else {
 		$title								= $amp_conf['BRAND_TITLE'];
 	}
-	
+
 	return $title;
+}
+
+
+function framework_add_amp_admin($username, 
+			$password, 
+			$extension_low = '', 
+			$extension_high = '', 
+			$deptname = '', 
+			$sections = array('*')) {
+	global $db;
+	//hash password its less than that 40 chars or has anything besides
+	//a-f and 0-9 (hexadecimal). This isnt foolproof, but its the best we can do
+	$password = preg_match('/^[a-f0-9]{40}$/', $password) 
+				? $password 
+				: sha1($password);
+	$sections = is_array($sections) ? implode(";", $sections) : $sections;
+	$values = array(
+				$username,
+				$password,
+				$extension_low,
+				$extension_high,
+				$deptname,
+				$sections
+	);
+	$sql = 'REPLACE INTO ampusers '
+			. '(username, password_sha1, extension_low, extension_high, '
+			. 'deptname, sections) VALUES (?, ?, ?, ?, ?, ?)';
+	$res = $db->query($sql, $values);
+	db_e($res);
+	
+	return true;
+}
+
+
+/**
+ * Create admin user & email address
+ *
+ */
+function framework_obe_intialize_admin($username, 
+			$password, 
+			$confirm_password, 
+			$email, 
+			$confirm_email) {
+    $freepbx_conf =& freepbx_conf::create();
+	
+	//fail if we dont have enough/correct info
+	if ($username == ''
+		|| $password == ''
+		|| $password != $confirm_password
+		|| $email == ''
+		|| $email != $confirm_email
+	) {
+		return false;
+	}
+
+	//create admin user
+	framework_add_amp_admin($username, $password);
+	
+	//set ari password
+	if ($freepbx_conf->conf_setting_exists('ARI_ADMIN_USERNAME') 
+		&& $freepbx_conf->conf_setting_exists('ARI_ADMIN_PASSWORD')
+	) {
+		$freepbx_conf->set_conf_values(
+			array('ARI_ADMIN_USERNAME' => $username, 
+				'ARI_ADMIN_PASSWORD' => $password),
+			true);
+		if ($freepbx_conf->get_last_update_status 
+			!= $freepbx_conf->get_conf_default_setting('ARI_ADMIN_PASSWORD')) {
+			$nt = notifications::create($db);
+			$nt->delete('ari', 'ARI_ADMIN_PASSWORD');
+		}
+		$nt->delete('freepbx', 'NEWMODS');
+	}
+	
+	//set email address
+	$cm =& cronmanager::create($db);
+	$cm->save_email($email);
 }
