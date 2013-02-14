@@ -134,7 +134,7 @@ if (!$quietmode) {
 	$header['title']	= framework_server_name();
 	$header['amp_conf']	= $amp_conf;
 	$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
-	$fw_gui_html .=		load_view($amp_conf['VIEW_HEADER'], $header);
+	$fw_gui_html 		.= load_view($amp_conf['VIEW_HEADER'], $header);
 
 	if ($badrefer) {
 		$fw_gui_html .= load_view($amp_conf['VIEW_MENU'], $header);
@@ -159,14 +159,14 @@ if (!$quietmode) {
 			$login = $config_vars;
 			$login['amp_conf'] = $amp_conf;
 
-			$fw_gui_html .= load_view(dirname(__FILE__) . '/views/obe.php', $login);
+			$fw_gui_html .= load_view($amp_conf['VIEW_OBE'], $login);
 			unset($_SESSION['AMP_user']);
 		}
 		
 		//prompt for a password if we have users
 		if (count(getAmpAdminUsers())) {
-			//show fop option if enabled
 			$login['panel'] = false;
+			//show fop option if enabled
 			if (!empty($amp_conf['FOPWEBROOT'])) {
 				$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/',
 						'', $amp_conf['FOPWEBROOT']);
@@ -176,11 +176,11 @@ if (!$quietmode) {
 		}
 	}
 	if ($badrefer || isset($no_auth)) {
-		$footer['reload_needed'] = false;
-		$footer['module_name'] = 'framework';
-		$footer['footer_content']	= load_view($amp_conf['VIEW_FOOTER_CONTENT']);
-		$footer['no_auth']	= $no_auth;
-		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
+		$footer['reload_needed']= false;
+		$footer['module_name']	= 'framework';
+		$footer['footer_content']= load_view($amp_conf['VIEW_FOOTER_CONTENT']);
+		$footer['no_auth']		= $no_auth;
+		$fw_gui_html 			.= load_view($amp_conf['VIEW_FOOTER'], $footer);
 		echo $fw_gui_html;
 		exit();
 	}

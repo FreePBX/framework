@@ -2004,6 +2004,19 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('VIEW_MENU', $set);
   $set['hidden'] = 0;
 
+  // VIEW_OBE
+  $set['value']	= 'views/obe.php';
+  $set['options'] = '';
+  $set['name'] = 'View: obe.php';
+  $set['description'] = 'obe.php view. This should never be changed except for very advanced layout changes';
+  $set['readonly'] = 1;
+  $set['emptyok'] = 0;
+  $set['hidden'] = 1;
+  $set['sortorder'] = 310;
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('VIEW_OBE', $set);
+  $set['hidden'] = 0;
+  
   // JQUERY_CSS
   $set['value']	= 'assets/css/jquery-ui.css';
   $set['options'] = '';
