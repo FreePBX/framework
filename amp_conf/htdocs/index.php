@@ -1,2 +1,2 @@
 <?php
-header('/admin');
+header('Location: /admin');

@@ -23,15 +23,15 @@ $html .= br(2);
 $html .= form_close();
 $html .= '</div>';
 $html .= '<div id="login_icon_holder">';
-$html .= '<a href="#" class="login_item" id="login_admin">&nbsp</a>';
+$html .= '<a href="#" class="login_item" id="login_admin"/>&nbsp</a>';
 $html .= '<a href="recordings/" '
-		. 'class="login_item" id="login_ari">&nbsp</a>';
+		. 'class="login_item" id="login_ari"/>&nbsp</a>';
 if ($panel) {
     $html .= '<a href="' . $panel . '" '
-		    . 'class="login_item" id="login_fop">&nbsp</a>';
+		    . 'class="login_item" id="login_fop"/>&nbsp</a>';
 }
 $html .= '<a href="http://www.schmoozecom.com/oss.php" '
-		. 'class="login_item" id="login_support">&nbsp</a>';
+		. 'class="login_item" id="login_support"/>&nbsp</a>';
 $html .= '<div></div>';
 $html .= '<div class="login_item_title">' . _('FreePBX Administration') . '</div>';
 $html .= '<div class="login_item_title">' . _('User Control Panel') . '</div>';
