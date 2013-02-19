@@ -167,7 +167,9 @@ if (!$quietmode) {
 		if (count(getAmpAdminUsers())) {
 			$login['panel'] = false;
 			//show fop option if enabled
-			if (!empty($amp_conf['FOPWEBROOT'])) {
+			if (!empty($amp_conf['FOPWEBROOT']) 
+				&& is_dir($amp_conf['FOPWEBROOT'])
+			){
 				$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/',
 						'', $amp_conf['FOPWEBROOT']);
 			}
