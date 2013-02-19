@@ -24,7 +24,7 @@ $html .= form_close();
 $html .= '</div>';
 $html .= '<div id="login_icon_holder">';
 $html .= '<a href="#" class="login_item" id="login_admin"/>&nbsp</a>';
-$html .= '<a href="recordings/" '
+$html .= '<a href="/recordings" '
 		. 'class="login_item" id="login_ari"/>&nbsp</a>';
 if ($panel) {
     $html .= '<a href="' . $panel . '" '
