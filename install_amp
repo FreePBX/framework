@@ -829,6 +829,9 @@ if($installamp_clean || $uninstallamp) {
         if(preg_match('/AMPDBHOST=(.*)/',$amportalconf,$matches)) {
             $oldampconf['AMPDBHOST'] = $matches[1];
         }
+        if(preg_match('/AMPBIN=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPBIN'] = $matches[1];
+        }
         outn("Remove /etc/amportal.conf?:\n [y] ");
         $key = trim(fgets(STDIN,1024));
     	switch($key) {
@@ -876,11 +879,18 @@ if($installamp_clean || $uninstallamp) {
     	    break;   
     	}
 	}
-	if(file_exists('/var/lib/asterisk/bin')) {
-        outn("Remove All FreePBX Tools in /var/lib/asterisk/bin?:\n [y] ");
+	if(file_exists($oldampconf['AMPBIN'])) {
+        outn("Remove All FreePBX Tools in ".$oldampconf['AMPBIN']."?:\n [y] ");
         $key = trim(fgets(STDIN,1024));
         $files = array("archive_recordings","freepbx_engine", "gen_amp_conf.php", "libfreepbx.confgen.php", "retrieve_conf", "freepbx-cron-scheduler.php", "freepbx_setting", "generate_hints.php", "module_admin", "retrieve_parse_amportal_conf.pl");
-    	switch($key) {
+        foreach (glob($oldampconf['AMPBIN']."/*") as $filename) {
+            if(is_link($filename)) {
+                if(preg_match('/'.preg_quote($oldampconf['AMPWEBROOT'],'/').'/i',readlink($filename))) {
+                    $files[] = basename($filename);
+                }
+            }
+        }
+        switch($key) {
     	    case "n":
     	    case "no":
     	    break;
@@ -888,9 +898,9 @@ if($installamp_clean || $uninstallamp) {
     	    case "yes":
     	    default:
     	        foreach($files as $file) {
-    	            if(file_exists('/var/lib/asterisk/bin/'.$file)) {
-        	            outn("Removing /var/lib/asterisk/bin/".$file.".....");
-                        unlink("/var/lib/asterisk/bin/".$file);
+    	            if(file_exists($oldampconf['AMPBIN'].'/'.$file)) {
+        	            outn("Removing ".$oldampconf['AMPBIN']."/".$file.".....");
+                        unlink($oldampconf['AMPBIN'].'/'.$file);
                         out("Done!");
                     }
     	        }
