@@ -131,8 +131,10 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 	uksort($mods,'_menu_sort');
 	$out .= implode($mods);
 }
-$out .= '<a id="language-menu-button" class="button-right ui-widget-content ui-state-default">' . _('Language') . '</a>';
-$out .= '<ul id="fpbx_lang" style="display:none;">';
+if($amp_conf['SHOWLANGUAGE']) {
+	$out .= '<a id="language-menu-button" '
+		. 'class="button-right ui-widget-content ui-state-default">' . _('Language') . '</a>';
+	$out .= '<ul id="fpbx_lang" style="display:none;">';
 	$out .= '<li data-lang="en_US"><a href="#">'. _('English') . '</a></li>';
 	$out .= '<li data-lang="bg_BG"><a href="#">' . _('Bulgarian') . '</a></li>';
 	$out .= '<li data-lang="zh_CN"><a href="#">' . _('Chinese') . '</a></li>';
@@ -146,7 +148,8 @@ $out .= '<ul id="fpbx_lang" style="display:none;">';
 	$out .= '<li data-lang="ru_RU"><a href="#">' . _('Russian') . '</a></li>';
 	$out .= '<li data-lang="sv_SE"><a href="#">' . _('Swedish') . '</a></li>';
 	$out .= '<li data-lang="es_ES"><a href="#">' . _('Spanish') . '</a></li>';
-$out .= '</ul>';
+	$out .= '</ul>';
+}
 
 if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) {
 	$out .= '<a id="user_logout" href="#"'

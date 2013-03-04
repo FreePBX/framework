@@ -1258,6 +1258,16 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('USECATEGORIES',$set);
 
+  //SHOWLANGUAGE
+  $set['value'] = false;
+  $set['options'] = '';
+  $set['name'] = 'Show Language setting';
+  $set['description'] = 'Show Lanugage setting on menu . Defaults = false';
+  $set['emptyok'] = 0;
+  $set['readonly'] = 0;
+  $set['type'] = CONF_TYPE_BOOL;
+  $freepbx_conf->define_conf_setting('SHOWLANGUAGE', $set);
+  
   // SERVERINTITLE
   $set['value'] = false;
   $set['options'] = '';
