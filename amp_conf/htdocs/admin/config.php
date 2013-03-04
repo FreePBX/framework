@@ -179,6 +179,7 @@ if (!$quietmode) {
 	}
 	if ($badrefer || isset($no_auth)) {
 		$footer['reload_needed']= false;
+		$footer['extmap'] = json_encode(array());
 		$footer['module_name']	= 'framework';
 		$footer['footer_content']= load_view($amp_conf['VIEW_FOOTER_CONTENT']);
 		$footer['no_auth']		= $no_auth;
@@ -459,6 +460,8 @@ if ($quietmode) {
 	$fw_gui_html .=						$content;
 
 	//send footer
+	$footer['extmap'] = !isset($no_auth) 
+		? framework_get_extmap(true) : json_encode(array());
 	$footer['module_name']			= $module_name;
 	$footer['module_page']			= $module_page;
 	$footer['benchmark_starttime']	= $benchmark_starttime;
