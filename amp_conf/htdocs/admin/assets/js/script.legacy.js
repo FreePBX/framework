@@ -1063,8 +1063,6 @@ $(document).ready(function(){
 					{
 						text: fpbx.msg.framework.continuemsg,
 						click: function() {
-								$(this).dialog("destroy").remove();
-
 								$(this)
 									.find('form')
 									.trigger('submit');
