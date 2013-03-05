@@ -1411,3 +1411,41 @@ function _bootstrap_parse_hooks() {
 	}
 	return $hooks;
 }
+
+/**
+ * do variable substitution 
+ * @param string - string to check for replacements
+ * @param string - option delimiter, defautls to $
+ * @returns string - the new string, with replacements - if any
+ * @auther Moshe Brevda mbrevda => gmail ! com
+ */
+function varsub($string, $del = '$') {
+	global $amp_conf;
+	/*
+	 * substitution string can look like: $delSTRING$del
+	 */
+	$regex = '/' 
+		. preg_quote($del) 
+		. '([a-zA-Z0-9_-]*)' 
+		. preg_quote($del) 
+		.  '/';
+
+	//if we have matches
+	if (preg_match_all($regex, $string, $matches)) {
+		$vars = $matches[1];
+		$find = $matches[0];
+		//iterate over them
+		foreach ($vars as $count => $var) {
+			if (isset($amp_conf[$var])) {
+				$once = 1;
+				//and replace them, one at a time
+				$string = str_replace($find[$count], 
+					$amp_conf[$var], 
+					$string, 
+					$once);		
+			}
+		}
+	}
+	
+	return $string;
+}
