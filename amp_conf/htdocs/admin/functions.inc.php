@@ -96,19 +96,32 @@ function fpbx_framework_autoloader($class) {
 		$class = 'component';
 	}
 
-  /* Special case of TRUE forces all classes to be loaded. Make sure to add new classes to this array
-   * as they are added to the autoloader. This was added because the presence of Zend enabled modules
+	/* Special case of TRUE forces all classes to be loaded. Make sure to add new classes to this array
+	 * as they are added to the autoloader. This was added because the presence of Zend enabled modules
 	 * can result in the autoloader function failing.
 	 *
 	 * Don't force ampuser though it is always loaded in advance
-   *
-   * Basically, every 'case' below should have a corresponding entry in the $class array below.
-   */
-  if ($class === true) {
-    $class = array('CI_Email','CI_Table','CssMin','component','featurecode','cronmanager','moduleHook','modulelist','notifications','xml2Array','modgettext','fwmsg');
-  } else {
-    $class = array($class);
-  }
+	 *
+	 * Basically, every 'case' below should have a corresponding entry in the $class array below.
+	 */
+	if ($class === true) {
+		$class = array(
+				'CI_Email',
+				'CI_Table',
+				'CssMin',
+				'component',
+				'featurecode',
+				'cronmanager',
+				'moduleHook',
+				'modulelist',
+				'notifications',
+				'xml2Array',
+				'modgettext',
+				'fwmsg'
+			);
+	} else {
+		$class = array($class);
+	}
 
 	foreach ($class as $this_class) {
 		if (class_exists($this_class)) {
@@ -127,10 +140,12 @@ function fpbx_framework_autoloader($class) {
 					function get_instance(){return new ci_def();}
 				}
 				if (!class_exists('ci_def')) {
-					class ci_def {function __construct(){$this->lang = new ci_lan_def();}}
+					class ci_def {function __construct(){
+						$this->lang = new ci_lan_def();}}
 				}
 				if (!class_exists('ci_lan_def')) {
-					class ci_lan_def {function load(){return false;} function line(){return false;}} 
+					class ci_lan_def {function load(){return false;} 
+						function line(){return false;}} 
 				}
 				if (!defined('BASEPATH')){
 					define('BASEPATH', '');
@@ -152,8 +167,8 @@ function fpbx_framework_autoloader($class) {
 				require_once($dirname . '/libraries/cssmin.class.php');
 				break;
 			case 'component':
-	    		require_once($dirname . '/libraries/components.class.php');
-	    		break;
+				require_once($dirname . '/libraries/components.class.php');
+				break;
 			case 'featurecode':
 				require_once($dirname . '/libraries/featurecodes.class.php');
 				break;
@@ -182,7 +197,7 @@ function fpbx_framework_autoloader($class) {
 				//TODO: enable some logging here
 				break;
 		}
-    }
+	}
 }
 /**
  * returns true if asterisk is running with chan_dahdi
