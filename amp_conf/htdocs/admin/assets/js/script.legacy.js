@@ -844,7 +844,7 @@ $(document).ready(function(){
 		$(this).replaceWith($(this).html())
 	})
 
-	$(".help").live('mouseenter', function(){
+	$(".help").on('mouseenter', function(){
 			side = fpbx.conf.text_dir == 'lrt' ? 'left' : 'right';
 			var pos = $(this).offset();
 	    	var offset = (200 - pos.side)+"px";
@@ -854,7 +854,7 @@ $(document).ready(function(){
 					.stop(true, true)
 					.delay(500)
 					.animate({opacity: "show"}, 750);
-		}).live('mouseleave', function(){
+		}).on('mouseleave', function(){
 			$(this).find("span")
 					.stop(true, true)
 					.animate({opacity: "hide"}, "fast");
