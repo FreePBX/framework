@@ -36,18 +36,22 @@ $vars = array(
 
 foreach ($vars as $k => $v) {
 	//were use config_vars instead of, say, vars, so as not to polute
-	// page.<some_module>.php (which usually used $var or $vars)
+	// page.<some_module>.php (which usually uses $var or $vars)
 	$config_vars[$k] = $$k = isset($_REQUEST[$k]) ? $_REQUEST[$k] : $v;
 
 	//special handeling
 	switch ($k) {
 		case 'extdisplay':
-            $extdisplay = (isset($extdisplay) && $extdisplay !== false) ? htmlspecialchars($extdisplay, ENT_QUOTES) : false;
+            $extdisplay = (isset($extdisplay) && $extdisplay !== false) 
+            		? htmlspecialchars($extdisplay, ENT_QUOTES) 
+            		: false;
 			$_REQUEST['extdisplay'] = $extdisplay;
 			break;
 
 		case 'restrictmods':
-            $restrict_mods = $restrictmods ? array_flip(explode('/', $restrictmods)) : false;
+            $restrict_mods = $restrictmods 
+            	? array_flip(explode('/', $restrictmods)) 
+            	: false;
 			break;
 
 		case 'skip_astman':
@@ -83,7 +87,8 @@ if ($logout == 'true') {
 //session_cache_limiter('public, no-store');
 if (isset($_REQUEST['handler'])) {
 	$restrict_mods = true;
-	// I think reload is the only handler that requires astman, so skip it for others
+	// I think reload is the only handler that requires astman, so skip it 
+	//for others
 	switch ($_REQUEST['handler']) {
 		case 'api':
 			$restrict_mods = false;
@@ -108,7 +113,8 @@ $badrefer = false;
 if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 	if (isset($_SERVER['HTTP_REFERER'])) {
 		$referer = parse_url($_SERVER['HTTP_REFERER']);
-		$refererok = (trim($referer['host']) == trim($_SERVER['SERVER_NAME'])) ? true : false;
+		$refererok = (trim($referer['host']) == trim($_SERVER['SERVER_NAME'])) 
+			? true : false;
 	} else {
 		$refererok = false;
 	}
@@ -125,72 +131,14 @@ if (!isset($no_auth) && isset($_REQUEST['handler']) && !$badrefer) {
 	exit();
 }
 
-$fw_gui_html = '';
-//buffer & compress our responce
-ob_start();
-
 if (!$quietmode) {
-	//send header
-	$header['title']	= framework_server_name();
-	$header['amp_conf']	= $amp_conf;
-	$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
-	$fw_gui_html 		.= load_view($amp_conf['VIEW_HEADER'], $header);
-
-	if ($badrefer) {
-		$fw_gui_html .= load_view($amp_conf['VIEW_MENU'], $header);
-		$fw_gui_html .= $badrefer;
-
+	/*if ($badrefer) {
+		$display = 'badrefer';
     } elseif (isset($no_auth)) {
-        $fw_gui_html .= load_view($amp_conf['VIEW_MENU'], $header);
-		
-		//if we have no admin users AND were trying to set one up
-		if (!count(getAmpAdminUsers()) && $action == 'setup_admin') {
-			framework_obe_intialize_admin(
-				$config_vars['username'],
-				$config_vars['password'],
-				$config_vars['confirm_password'],
-				$config_vars['email_address'],
-				$config_vars['confirm_email']
-			);
-		}
-
-		//if we (still) have no admin users
-		if (!count(getAmpAdminUsers())) {
-			$login = $config_vars;
-			$login['amp_conf'] = $amp_conf;
-
-			$fw_gui_html .= load_view($amp_conf['VIEW_OBE'], $login);
-			unset($_SESSION['AMP_user']);
-		}
-		
-		//prompt for a password if we have users
-		if (count(getAmpAdminUsers())) {
-			$login['panel'] = false;
-			//show fop option if enabled
-			if (!empty($amp_conf['FOPWEBROOT']) 
-				&& is_dir($amp_conf['FOPWEBROOT'])
-			){
-				$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/',
-						'', $amp_conf['FOPWEBROOT']);
-			}
-			$login['amp_conf'] = $amp_conf;
-			$fw_gui_html .= load_view($amp_conf['VIEW_LOGIN'], $login);
-		}
-	}
-	if ($badrefer || isset($no_auth)) {
-		$footer['reload_needed']= false;
-		$footer['extmap'] = json_encode(array());
-		$footer['module_name']	= 'framework';
-		$footer['footer_content']= load_view($amp_conf['VIEW_FOOTER_CONTENT']);
-		$footer['no_auth']		= $no_auth;
-		$fw_gui_html 			.= load_view($amp_conf['VIEW_FOOTER'], $footer);
-		echo $fw_gui_html;
-		exit();
-	}
+		$display = 'noauth';
+	}*/
 	module_run_notification_checks();
 }
-$fw_gui_html .= ob_get_contents();
-ob_end_clean();
 
 //draw up freepbx menu
 $fpbx_menu = array();
@@ -199,7 +147,6 @@ $fpbx_menu = array();
 $cur_menuitem = null;
 
 // add module sections to $fpbx_menu
-
 if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
 
@@ -211,13 +158,39 @@ if(is_array($active_modules)){
 
 				// check access, unless module.xml defines all have access
 				//TODO: move this to bootstrap and make it work
-				if (!isset($item['access']) || strtolower($item['access']) != 'all') {
-					if (is_object($_SESSION["AMP_user"]) && !$_SESSION["AMP_user"]->checkSection($itemKey)) {
-						// no access, skip to the next
-						continue;
-					}
-				}
+				//module is restricted to admin with excplicit permission
+				$needs_perms = !isset($item['access']) 
+						|| strtolower($item['access']) != 'all'
+					? true : false;
+				
+				//check if were logged in
+				$admin_auth = isset($_SESSION["AMP_user"]) 
+					&& is_object($_SESSION["AMP_user"]);
 
+				//per admin access rules
+				$has_perms = $admin_auth
+					&& $_SESSION["AMP_user"]->checkSection($itemKey);
+
+				//requies authentication
+				$needs_auth = isset($item['requires_auth']) 
+					&& $item['requires_auth'] == 'false'
+						? false
+						: true;
+
+				//skip this module if we dont have proper access
+				//test: if we require authentication for this module
+				//			and either the user isnt authenticated
+				//			or the user is authenticated and dose require
+				//				section specifc permissions but doesnt have them
+				if ($needs_auth 
+					&& (!$admin_auth || ($needs_perms && !$has_perms))
+				) {
+					//clear display if they were trying to gain unautherized 
+					//access to $itemKey
+					$display = $display == $itemKey ? '' : $display;
+					continue;
+				}
+				
 				if (!isset($item['display'])) {
 					$item['display'] = $itemKey;
 				}
@@ -225,7 +198,8 @@ if(is_array($active_modules)){
 				// reference to the actual module
 				$item['module'] =& $active_modules[$key];
 
-				// item is an assoc array, with at least array(module=> name=>, category=>, type=>, display=>)
+				// item is an assoc array, with at least 
+				//array(module=> name=>, category=>, type=>, display=>)
 				$fpbx_menu[$itemKey] = $item;
 
 				// allow a module to replace our main index page
@@ -266,10 +240,10 @@ if(!$quietmode && is_array($active_modules)){
 	}
 }
 
-
 // extensions vs device/users ... this is a bad design, but hey, it works
 if (!$quietmode) {
-	if (isset($amp_conf["AMPEXTENSIONS"]) && ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
+	if (isset($amp_conf["AMPEXTENSIONS"]) 
+		&& ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
 		unset($fpbx_menu["extensions"]);
 	} else {
 		unset($fpbx_menu["devices"]);
@@ -277,11 +251,11 @@ if (!$quietmode) {
 	}
 }
 
+ob_start();
 // check access
 if (!is_array($cur_menuitem) && $display != "") {
-	$fw_gui_html .= show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf'=>&$amp_conf));
+	show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf'=>&$amp_conf));
 }
-
 // load the component from the loaded modules
 if ($display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 
@@ -297,7 +271,6 @@ if ($display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 	$currentcomponent->processconfigpage();
 	$currentcomponent->buildconfigpage();
 }
-ob_start();
 $module_name = "";
 $module_page = "";
 $module_file = "";
@@ -308,6 +281,9 @@ $module_file = "";
 // Note: this probably isn't REALLY needed if there is no menu item for "Welcome"..
 // but it doesn't really hurt, and it provides a handler in case some page links
 // to "?display=index"
+if (!$display && isset($no_auth)) {
+	$display = 'noauth';
+} //TODO: acount for bad refer
 if ($display == 'index' && ($cur_menuitem['module']['rawname'] == 'builtin')) {
 	$display = '';
 }
@@ -321,8 +297,8 @@ switch($display) {
 		$module_file = 'modules/'.$module_name.'/page.'.$module_page.'.php';
 
 		//TODO Determine which item is this module displaying.
-		//Currently this is over the place, we should standardize on a "itemid" request var
-		//for now, we'll just cover all possibilities :-(
+		//Currently this is over the place, we should standardize on a 
+		//"itemid" request var for now, we'll just cover all possibilities :-(
 		$possibilites = array(
 			'userdisplay',
 			'extdisplay',
@@ -332,7 +308,7 @@ switch($display) {
 		);
 		$itemid = '';
 		foreach($possibilites as $possibility) {
-			if ( isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) {
+			if (isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) {
 				$itemid = htmlspecialchars($_REQUEST[$possibility], ENT_QUOTES);
 				$_REQUEST[$possibility] = $itemid;
 			}
@@ -345,7 +321,10 @@ switch($display) {
 		$module_hook->install_hooks($module_page,$module_name,$itemid);
 
 		// let hooking modules process the $_REQUEST
-		$module_hook->process_hooks($itemid, $module_name, $module_page, $_REQUEST);
+		$module_hook->process_hooks($itemid, 
+			$module_name, 
+			$module_page, 
+			$_REQUEST);
 
 
 		// include the module page
@@ -373,26 +352,64 @@ switch($display) {
 		$module_page = $cur_menuitem['display'];
 		include 'page.modules.php';
 		break;
+	case 'noauth':
+		//if we have no admin users AND were trying to set one up
+		if (!count(getAmpAdminUsers()) && $action == 'setup_admin') {
+			framework_obe_intialize_admin(
+				$config_vars['username'],
+				$config_vars['password'],
+				$config_vars['confirm_password'],
+				$config_vars['email_address'],
+				$config_vars['confirm_email']
+			);
+		}
+
+		//if we (still) have no admin users
+		if (!count(getAmpAdminUsers())) {
+			$login = $config_vars;
+			$login['amp_conf'] = $amp_conf;
+
+			echo load_view($amp_conf['VIEW_OBE'], $login);
+			unset($_SESSION['AMP_user']);
+		}
+		
+		//prompt for a password if we have users
+		if (count(getAmpAdminUsers())) {
+			$login['panel'] = false;
+			//show fop option if enabled
+			if (!empty($amp_conf['FOPWEBROOT']) 
+				&& is_dir($amp_conf['FOPWEBROOT'])
+			){
+				$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/',
+						'', $amp_conf['FOPWEBROOT']);
+			}
+			$login['amp_conf'] = $amp_conf;
+			echo load_view($amp_conf['VIEW_LOGIN'], $login);
+		}
+		break;
+	case 'badrefer':
+		echo load_view($amp_conf['VIEW_MENU'], $header);
+		echo $badrefer;
 	case '':
 		if ($astman) {
 			show_view($amp_conf['VIEW_WELCOME'], array('AMP_CONF' => &$amp_conf));
 		} else {
 			// no manager, no connection to asterisk
-			show_view($amp_conf['VIEW_WELCOME_NOMANAGER'], array('mgruser' => $amp_conf["AMPMGRUSER"]));
+			show_view($amp_conf['VIEW_WELCOME_NOMANAGER'], 
+				array('mgruser' => $amp_conf["AMPMGRUSER"]));
 		}
 		break;
 }
 
 if ($quietmode) {
-	// send the output buffer
+	// send the output buffer, should be sending just the page contents
 	ob_end_flush();
 } elseif ($fw_popover || $fw_popover_process) {
 	$admin_template = $template = array();
+	//get the page contents from the buffer
 	$content = ob_get_contents();
 	ob_end_clean();
-	//now restart buffering so that our data is compressed again
-	ob_start();
-
+	 $fw_gui_html = '';
 	//if we have a module loaded, load its css
 	if (isset($module_name)) {
 		$fw_gui_html .= framework_include_css();
@@ -422,6 +439,7 @@ if ($quietmode) {
 	$footer['footer_content'] = '';
 	$footer['remove_rnav'] = true;
 	$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
+	echo $fw_gui_html;
 
 } else {
 	// Save the last module page normal view in the session. This is needed in some scenarios
@@ -432,42 +450,51 @@ if ($quietmode) {
 	$_SESSION['module_name']			= $module_name;
 	$_SESSION['module_page']			= $module_page;
 
-	$admin_template 				= $template = array();
-	$content		 				= ob_get_contents();
+	$admin_template = $template = array();
+	//get the page contents from the buffer
+	$page_content		= ob_get_contents();
 	ob_end_clean();
-	//now restart buffering so that our data is compressed again
-    ob_start();
-
+	
+	//add header 
+	$header['title']	= framework_server_name();
+	$header['amp_conf']	= $amp_conf;
+	$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
+	echo load_view($amp_conf['VIEW_HEADER'], $header);
+	
 	//if we have a module loaded, load its css
 	if (isset($module_name)) {
-		$fw_gui_html .= framework_include_css();
+		echo framework_include_css();
 	}
-
-	// send menu
-	$menu['fpbx_menu']				= $fpbx_menu; //array of modules & settings
-	$menu['display']				= $display; //currently displayed item
-	$menu['authtype']				= $amp_conf['AUTHTYPE'];
-	$menu['reload_confirm']			= $amp_conf['RELOADCONFIRM'];
 
 	// set the language so local module languages take
 	set_language();
 
-	// menu + page content + footer
+	// send menu
+	$menu['fpbx_menu']		= $fpbx_menu; //array of modules & settings
+	$menu['display']		= $display; //currently displayed item
+	$menu['authtype']		= $amp_conf['AUTHTYPE'];
+	$menu['reload_confirm']	= $amp_conf['RELOADCONFIRM'];
 
-	$fw_gui_html .=						load_view($amp_conf['VIEW_MENU'], $menu);
-
+	//add menu to final output
+	echo load_view($amp_conf['VIEW_MENU'], $menu);
+	
 	//send actual page content
-	$fw_gui_html .=						$content;
+	echo $page_content;
 
 	//send footer
-	$footer['extmap'] = !isset($no_auth) 
-		? framework_get_extmap(true) : json_encode(array());
+	$footer['covert'] 		= in_array($display, array('noauth', 'badrefer'))
+		? true : false;
+	$footer['extmap'] 				= !$footer['covert']
+									? framework_get_extmap(true) 
+									: json_encode(array());
 	$footer['module_name']			= $module_name;
 	$footer['module_page']			= $module_page;
 	$footer['benchmark_starttime']	= $benchmark_starttime;
-	$footer['reload_needed']		= check_reload_needed();
-	$footer['footer_content']		= load_view($amp_conf['VIEW_FOOTER_CONTENT'], $footer);
-	$fw_gui_html 					.= load_view($amp_conf['VIEW_FOOTER'], $footer);
+	$footer['reload_needed']		= $footer['covert'] 
+									? false : check_reload_needed();
+	$footer['footer_content']		= load_view($amp_conf['VIEW_FOOTER_CONTENT'], 
+										$footer);
+	$footer['covert'] ? $footer['no_auth'] 	= true : '';
+	echo load_view($amp_conf['VIEW_FOOTER'], $footer);
 }
-echo $fw_gui_html;
 ?>

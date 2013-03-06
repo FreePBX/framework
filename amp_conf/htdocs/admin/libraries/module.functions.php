@@ -1385,13 +1385,13 @@ function _module_readxml($modulename) {
 						'needsenginerunning', // set to true if required to run
 						'access', // set to all if all users should always have access
 						'hidden', //keep hidden from the gui at all times - but accesable if you kknow how...
+						'requires_auth', //option todisable auth check
 					);
 					foreach ($optional_attribs as $attrib) {
 						if (isset($parser->attributes[$path][ $attrib ])) {
 							$xmlarray['module']['items'][$item][ $attrib ] = $parser->attributes[$path][ $attrib ];
 						}
 					}
-					
 				}
 			}
 			return $xmlarray['module'];

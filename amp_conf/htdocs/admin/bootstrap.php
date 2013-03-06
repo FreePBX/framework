@@ -157,52 +157,72 @@ if (!$bootstrap_settings['freepbx_auth'] || (php_sapi_name() == 'cli')) {
 }
 if (!isset($no_auth) && !defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }//we should never need this, just another line of defence
 bootstrap_include_hooks('pre_module_load', 'all_mods');
+$bootstrap_settings['function_modules_included'] = false;
 
 $restrict_mods_local = $restrict_mods;
-// I'm pretty sure if this is == true then there is no need to even pull all the module info as we are going down a path
-// such as an ajax path that this is just overhead. (We'll know soon enough if this is too restrcitive).
-//
-if ($restrict_mods_local !== true && !isset($no_auth)) {
-  $active_modules = module_getinfo(false, MODULE_STATUS_ENABLED);
+//I'm pretty sure if this is == true then there is no need to even pull all 
+//the module info as we are going down a path such as an ajax path that this 
+//is just overhead. (We'll know soon enough if this is too restrcitive).
+if ($restrict_mods_local !== true) {
+	$isauth = !isset($no_auth);
+	$active_modules = module_getinfo(false, MODULE_STATUS_ENABLED);
+	$modpath = $amp_conf['AMPWEBROOT'] . '/admin/modules/';
 
-  if(is_array($active_modules)){
-
+	if(is_array($active_modules)){
 		$force_autoload = false;
-	  foreach($active_modules as $key => $module) {
-		  //include module functions if there not dissabled
-      if ((!$restrict_mods_local || (is_array($restrict_mods_local) && isset($restrict_mods_local[$key]))) && is_file($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php")) {
-		bootstrap_include_hooks('pre_module_load', $key);
-        require_once($amp_conf['AMPWEBROOT']."/admin/modules/{$key}/functions.inc.php");
+		foreach($active_modules as $key => $module) {
+			//check if this module was was excluded
+			$is_selected = is_array($restrict_mods_local) 
+				&& isset($restrict_mods_local[$key]);
 
-				// Zend appears to break class auto-loading. Therefore, if we detect there is a module that requires Zend 
-				// we will include all the potential classes at this point.
-				//
-				if (!$force_autoload && isset($module['depends']['phpcomponent']) && stristr($module['depends']['phpcomponent'], 'zend')) {
-					fpbx_framework_autoloader(true);
-					$force_autoload = true;
+			//get file path
+			$file = $modpath . $key .'/functions.inc.php';
+			$file_exists = is_file($file);
+			
+			//check authentication, skip this module if we dont have auth
+			$needs_auth = isset($module['requires_auth']) 
+				&& $module['requires_auth'] == 'false'
+				? false : true;
+			if (!$isauth && $needs_auth) {
+				continue;
+			}
+
+			// Zend appears to break class auto-loading. Therefore, if we 
+			//detect there is a module that requires Zend 
+			// we will include all the potential classes at this point.
+			$needs_zend = isset($module['depends']['phpcomponent']) 
+				&& stristr($module['depends']['phpcomponent'], 'zend');
+			if (!$force_autoload && $needs_zend) {
+				fpbx_framework_autoloader(true);
+				$force_autoload = true;
+			}
+
+			//actualy load module
+			if ((!$restrict_mods_local || $is_selected) && $file_exists) {
+				bootstrap_include_hooks('pre_module_load', $key);
+				require_once($file);
+				bootstrap_include_hooks('post_module_load', $key);
+			} 
+			//create an array of module sections to display
+			//stored as [items][$type][$category][$name] = $displayvalue
+			if (isset($module['items']) && is_array($module['items'])) {
+				//if asterisk isnt running, mark moduels that depend on 
+				//asterisk as disbaled
+				foreach($module['items'] as $itemKey => $item) {
+					$needs_edb = isset($item['needsenginedb']) 
+							&& strtolower($item['needsenginedb']) == 'yes';
+					$needs_running = isset($item['needsenginerunning']) 
+							&& strtolower($item['needsenginerunning']) == 'yes';
+					$needs_astman = $needs_edb || $needs_running;
+					if ((!isset($astman) || !$astman) && $needs_astman) {
+						$active_modules[$key]['items'][$itemKey]['disabled'] 
+							= true;
+					}
 				}
-		bootstrap_include_hooks('post_module_load', $key);
-      } 
-		  //create an array of module sections to display
-		  // stored as [items][$type][$category][$name] = $displayvalue
-		  if (isset($module['items']) && is_array($module['items'])) {
-			  // loop through the types
-			  foreach($module['items'] as $itemKey => $item) {
-				
-				  //if asterisk isnt running, mark moduels that depend on asterisk as disbaled
-				  if (!isset($astman) || !$astman) {
-					  if (( isset($item['needsenginedb']) && strtolower($item['needsenginedb']) == 'yes') 
-					  || (isset($item['needsenginerunning']) && strtolower($item['needsenginerunning']) == 'yes')) {
-						  $active_modules[$key]['items'][$itemKey]['disabled'] = true;
-					  }
-				  }
-			  }
-		  }
-	  }
+			}
+		}
+	}
 	bootstrap_include_hooks('post_module_load', 'all_mods');
-	  $bootstrap_settings['function_modules_included'] = true;
-  }
-} else {
-	$bootstrap_settings['function_modules_included'] = false;
+	$bootstrap_settings['function_modules_included'] = true;
 }
 ?>

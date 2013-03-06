@@ -28,7 +28,7 @@ $html .= '</div>'; //page
 
 //localized strings and other javascript values that need to be set dynamically
 //TODO: this should be done via callbacks so that all modules can hook in to it
-if (!isset($no_auth)) {
+if ($covert) {
 	$fpbx['conf'] = $amp_conf;
 	$clean = array(
 			'AMPASTERISKUSER',
