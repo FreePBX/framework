@@ -504,7 +504,27 @@ function framework_add_amp_admin($username,
 	return true;
 }
 
+function framework_obe_intialize_validate($username, 
+			$password, 
+			$confirm_password, 
+			$email, 
+			$confirm_email
+) {
+	$errors = array();
+	if (!$username){
+		$errors[] = _('Please enter a username');
+	}
+	if (!$password) {
+		$errors[] = _('Please enter a password');
+	} elseif ($password != $confirm_password) {
+		$errors[] = _('Passwords dont match');
+	}
+	if ($email && $email != $confirm_email) {
+		$errors[] = _('Emaill addresses dont match');
+	}
 
+	return $errors;
+}
 /**
  * Create admin user & email address
  *
@@ -515,16 +535,6 @@ function framework_obe_intialize_admin($username,
 			$email, 
 			$confirm_email) {
     $freepbx_conf =& freepbx_conf::create();
-	
-	//fail if we dont have enough/correct info
-	if ($username == ''
-		|| $password == ''
-		|| $password != $confirm_password
-		|| $email == ''
-		|| $email != $confirm_email
-	) {
-		return false;
-	}
 
 	//create admin user
 	framework_add_amp_admin($username, $password);

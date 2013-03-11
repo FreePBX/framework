@@ -353,8 +353,19 @@ switch($display) {
 		include 'page.modules.php';
 		break;
 	case 'noauth':
+		$vars['obe_error_msg'] = framework_obe_intialize_validate(
+				$config_vars['username'],
+				$config_vars['password'],
+				$config_vars['confirm_password'],
+				$config_vars['email_address'],
+				$config_vars['confirm_email']);
+
 		//if we have no admin users AND were trying to set one up
-		if (!count(getAmpAdminUsers()) && $action == 'setup_admin') {
+		if (!count(getAmpAdminUsers()) 
+			&& $action == 'setup_admin'
+			&& !$vars['obe_error_msg']
+		) {
+			//validate the inputs
 			framework_obe_intialize_admin(
 				$config_vars['username'],
 				$config_vars['password'],
@@ -368,7 +379,7 @@ switch($display) {
 		if (!count(getAmpAdminUsers())) {
 			$login = $config_vars;
 			$login['amp_conf'] = $amp_conf;
-
+			$login['errors'] = $vars['obe_error_msg'];
 			echo load_view($amp_conf['VIEW_OBE'], $login);
 			unset($_SESSION['AMP_user']);
 		}
