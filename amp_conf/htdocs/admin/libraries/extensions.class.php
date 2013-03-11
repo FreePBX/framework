@@ -245,36 +245,40 @@ class extensions {
 
 	}
 	
-	/* This function allows dial plan to be removed.  This is most useful for modules that
-  *  would like to hook into other modules and delete dialplan.
-  *  usage: $ext->remove($context, $exten, $priority_number);
-  *         if $priority is not numeric, it will interpret it as a tag
-  */
-  function remove($section, $extension, $priority) {
+	/* This function allows dial plan to be removed.  This is most useful 
+	 * for modules that
+	 *  would like to hook into other modules and delete dialplan.
+	 *  usage: $ext->remove($context, $exten, $priority_number);
+	 *         if $priority is not numeric, it will interpret it as a tag
+	 */
+	function remove($section, $extension, $priority) {
 
 		$extension = ' ' . $extension . ' ';
 
-    // if the priority is a tag, then we look for the real priority to replace it with
-    // If the tag does not exists, then we put it at the very end which may not be
-    // desired but it puts it somewhere
-    //
-    if (!ctype_digit(trim($priority))) {
-      $existing_priority = false;
-      $count = 0;
-      if (isset($this->_exts[$section][$extension])) {
-        foreach($this->_exts[$section][$extension] as $pri => $curr_command) {
-          if ($curr_command['tag'] == $priority) {
-            $existing_priority = $count;
-            break;
-          }
-          $count++;
-        }
-      }
-      $priority = ($existing_priority === false) ? false : $existing_priority;
-    }
-		if($priority != false){
-	  	unset($this->_exts[$section][$extension][$priority]);
-	  	$this->_exts[$section][$extension]=array_values($this->_exts[$section][$extension]);
+		// if the priority is a tag, then we look for the real priority to 
+		//replace it with If the tag does not exists, then we put it at the very 
+		//end which may not be desired but it puts it somewhere
+		if (!ctype_digit(trim($priority))) {
+			$existing_priority = false;
+			$count = 0;
+			if (isset($this->_exts[$section][$extension])) {
+				foreach($this->_exts[$section][$extension] 
+					as $pri => $curr_command
+				) {
+					if ($curr_command['tag'] == $priority) {
+						$existing_priority = $count;
+						break;
+					}
+					$count++;
+				}
+			}
+			$priority = ($existing_priority === false) 
+				? false : $existing_priority;
+		}
+		if($priority !== false){
+			unset($this->_exts[$section][$extension][$priority]);
+			$this->_exts[$section][$extension]
+				= array_values($this->_exts[$section][$extension]);
 		}
   }
 
