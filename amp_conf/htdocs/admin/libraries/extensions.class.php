@@ -55,7 +55,7 @@ class extensions {
 		if (empty($basetag)) {
 			// no basetag, we need to make one
 			
-			if (!isset($this->_exts[$section][$extension])) {
+			if (!empty($this->_exts[$section][$extension])) {
 				// first entry, use 1
 				$basetag = '1';
 			} else {
@@ -275,10 +275,20 @@ class extensions {
 			$priority = ($existing_priority === false) 
 				? false : $existing_priority;
 		}
-		if($priority !== false){
-			unset($this->_exts[$section][$extension][$priority]);
-			$this->_exts[$section][$extension]
-				= array_values($this->_exts[$section][$extension]);
+		if(ctype_digit($priority)){
+			if (isset($this->_exts[$section][$extension][$priority])) {
+				unset($this->_exts[$section][$extension][$priority]);
+				$this->_exts[$section][$extension]
+					= array_values($this->_exts[$section][$extension]);
+			}
+			if ($priority === 0 
+				&& isset($this->_exts[$section][$extension][0])
+			) {
+				$this->_exts[$section][$extension][0]['basetag'] = 1;
+			}
+			return true;
+		} else {
+			return false;
 		}
   }
 
