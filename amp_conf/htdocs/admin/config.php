@@ -107,7 +107,7 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 }
 
 /* If there is an action request then some sort of update is usually being done.
-   This will protect from cross site request forgeries unless disabled.
+   This may protect from cross site request forgeries unless disabled.
 */
 $badrefer = false;
 if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
@@ -119,7 +119,7 @@ if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 		$refererok = false;
 	}
 	if (!$refererok) {
-		$badrefer = load_view($amp_conf['VIEW_BAD_REFFERER'], $amp_conf);
+		$display = 'badrefer';
 	}
 }
 
@@ -131,12 +131,11 @@ if (!isset($no_auth) && isset($_REQUEST['handler']) && !$badrefer) {
 	exit();
 }
 
+if (isset($no_auth)) {
+	$display = 'noauth';
+}
+
 if (!$quietmode) {
-	/*if ($badrefer) {
-		$display = 'badrefer';
-    } elseif (isset($no_auth)) {
-		$display = 'noauth';
-	}*/
 	module_run_notification_checks();
 }
 
@@ -186,8 +185,16 @@ if(is_array($active_modules)){
 					&& (!$admin_auth || ($needs_perms && !$has_perms))
 				) {
 					//clear display if they were trying to gain unautherized 
-					//access to $itemKey
-					$display = $display == $itemKey ? '' : $display;
+					//access to $itemKey. If there logged in, but dont have
+					//permissions to view this specicc page - show them a message
+					//otherwise, show them the login page
+					if($display == $itemKey){ 
+						if ($admin_auth) {
+							$display = 'noaccess';	
+						} else {
+							$display = 'noauth';
+						}
+					}
 					continue;
 				}
 				
@@ -241,7 +248,7 @@ if(!$quietmode && is_array($active_modules)){
 }
 
 // extensions vs device/users ... this is a bad design, but hey, it works
-if (!$quietmode) {
+if (!$quietmode && isset($fpbx_menu["extensions"])) {
 	if (isset($amp_conf["AMPEXTENSIONS"]) 
 		&& ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
 		unset($fpbx_menu["extensions"]);
@@ -252,10 +259,6 @@ if (!$quietmode) {
 }
 
 ob_start();
-// check access
-if (!is_array($cur_menuitem) && $display != "") {
-	show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf'=>&$amp_conf));
-}
 // load the component from the loaded modules
 if ($display != '' && isset($configpageinits) && is_array($configpageinits) ) {
 
@@ -281,15 +284,92 @@ $module_file = "";
 // Note: this probably isn't REALLY needed if there is no menu item for "Welcome"..
 // but it doesn't really hurt, and it provides a handler in case some page links
 // to "?display=index"
-if (!$display && isset($no_auth)) {
-	$display = 'noauth';
-} //TODO: acount for bad refer
+ //TODO: acount for bad refer
 if ($display == 'index' && ($cur_menuitem['module']['rawname'] == 'builtin')) {
 	$display = '';
 }
 
 // show the appropriate page
 switch($display) {
+	case 'modules':
+		// set these to avoid undefined variable warnings later
+		//
+		$module_name = 'modules';
+		$module_page = $cur_menuitem['display'];
+		include 'page.modules.php';
+		break;
+	case 'noaccess':
+		show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf' => &$amp_conf));
+		break;
+	case 'noauth':
+		$config_vars['obe_error_msg'] = array();
+		if ($config_vars['action'] == 'setup_admin'){
+			$config_vars['obe_error_msg'] = framework_obe_intialize_validate(
+				$config_vars['username'],
+				$config_vars['password'],
+				$config_vars['confirm_password'],
+				$config_vars['email_address'],
+				$config_vars['confirm_email']);
+		}
+		//if we have no admin users AND were trying to set one up
+		if (!count(getAmpAdminUsers()) 
+			&& $action == 'setup_admin'
+			&& !$vars['obe_error_msg']
+		) {
+			//validate the inputs
+			framework_obe_intialize_admin(
+				$config_vars['username'],
+				$config_vars['password'],
+				$config_vars['confirm_password'],
+				$config_vars['email_address'],
+				$config_vars['confirm_email']
+			);
+		}
+
+		//if we (still) have no admin users
+		if (!count(getAmpAdminUsers())) {
+			$login = $config_vars;
+			$login['amp_conf'] = $amp_conf;
+			$login['errors'] = $config_vars['obe_error_msg'];
+			echo load_view($amp_conf['VIEW_OBE'], $login);
+			unset($_SESSION['AMP_user']);
+		}
+		
+		//prompt for a password if we have users
+		if (count(getAmpAdminUsers())) {
+			//error message
+			$login['errors'] = array();
+			if ($config_vars['username']) {
+				$login['errors'][] = _('Invalid Username or Password');
+			}
+			
+			//show fop option if enabled, probobly doesnt belong on the
+			//login page
+			$login['panel'] = false;
+			if (!empty($amp_conf['FOPWEBROOT']) 
+				&& is_dir($amp_conf['FOPWEBROOT'])
+			){
+				$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/',
+						'', $amp_conf['FOPWEBROOT']);
+			}
+		
+		
+			$login['amp_conf'] = $amp_conf;
+			echo load_view($amp_conf['VIEW_LOGIN'], $login);
+		}
+		break;
+	case 'badrefer':
+		echo load_view($amp_conf['VIEW_BAD_REFFERER'], $amp_conf);
+		break;
+	case '':
+		if ($astman) {
+			show_view($amp_conf['VIEW_WELCOME'], array('AMP_CONF' => &$amp_conf));
+		} else {
+			// no manager, no connection to asterisk
+			show_view($amp_conf['VIEW_WELCOME_NOMANAGER'], 
+				array('mgruser' => $amp_conf["AMPMGRUSER"]));
+		}
+		break;
 	default:
 		//display the appropriate module page
 		$module_name = $cur_menuitem['module']['rawname'];
@@ -344,71 +424,6 @@ switch($display) {
 			echo  $currentcomponent->generateconfigpage();
 		}
 
-		break;
-	case 'modules':
-		// set these to avoid undefined variable warnings later
-		//
-		$module_name = 'modules';
-		$module_page = $cur_menuitem['display'];
-		include 'page.modules.php';
-		break;
-	case 'noauth':
-		$vars['obe_error_msg'] = framework_obe_intialize_validate(
-				$config_vars['username'],
-				$config_vars['password'],
-				$config_vars['confirm_password'],
-				$config_vars['email_address'],
-				$config_vars['confirm_email']);
-
-		//if we have no admin users AND were trying to set one up
-		if (!count(getAmpAdminUsers()) 
-			&& $action == 'setup_admin'
-			&& !$vars['obe_error_msg']
-		) {
-			//validate the inputs
-			framework_obe_intialize_admin(
-				$config_vars['username'],
-				$config_vars['password'],
-				$config_vars['confirm_password'],
-				$config_vars['email_address'],
-				$config_vars['confirm_email']
-			);
-		}
-
-		//if we (still) have no admin users
-		if (!count(getAmpAdminUsers())) {
-			$login = $config_vars;
-			$login['amp_conf'] = $amp_conf;
-			$login['errors'] = $vars['obe_error_msg'];
-			echo load_view($amp_conf['VIEW_OBE'], $login);
-			unset($_SESSION['AMP_user']);
-		}
-		
-		//prompt for a password if we have users
-		if (count(getAmpAdminUsers())) {
-			$login['panel'] = false;
-			//show fop option if enabled
-			if (!empty($amp_conf['FOPWEBROOT']) 
-				&& is_dir($amp_conf['FOPWEBROOT'])
-			){
-				$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/',
-						'', $amp_conf['FOPWEBROOT']);
-			}
-			$login['amp_conf'] = $amp_conf;
-			echo load_view($amp_conf['VIEW_LOGIN'], $login);
-		}
-		break;
-	case 'badrefer':
-		echo load_view($amp_conf['VIEW_MENU'], $header);
-		echo $badrefer;
-	case '':
-		if ($astman) {
-			show_view($amp_conf['VIEW_WELCOME'], array('AMP_CONF' => &$amp_conf));
-		} else {
-			// no manager, no connection to asterisk
-			show_view($amp_conf['VIEW_WELCOME_NOMANAGER'], 
-				array('mgruser' => $amp_conf["AMPMGRUSER"]));
-		}
 		break;
 }
 

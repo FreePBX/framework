@@ -1,6 +1,12 @@
 <?php
 $html = '';
 //$html .= heading(_('Welcome!'), 3) . '<hr class="backup-hr"/>';
+if ($errors) {
+	$html .= '<span class="obe_error">';
+	$html .= _('Please correct the following errors:');
+	$html .= ul($errors);
+	$html .= '</span>';
+}
 $html .= '<div id="login_form">';
 $html .= form_open($_SERVER['REQUEST_URI'], 'id="loginform"');
 $html .= _('To get started, please enter your credentials:');
