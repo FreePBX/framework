@@ -55,7 +55,7 @@ class extensions {
 		if (empty($basetag)) {
 			// no basetag, we need to make one
 			
-			if (!empty($this->_exts[$section][$extension])) {
+			if (empty($this->_exts[$section][$extension])) {
 				// first entry, use 1
 				$basetag = '1';
 			} else {
