@@ -773,6 +773,13 @@ class ext_parkedcall extends extension {
 	}
 }
 
+//ParkAndAnnounce(announce:announce1[:...],timeout,dial,return_context)
+class ext_parkandannounce extends extension {
+	function output() {
+		return "ParkAndAnnounce(".$this->data.")";
+	}
+}
+
 // Park([timeout][,return_context[,return_exten[,return_priority[,options[,parking_lot_name]]]]])
 class ext_park extends extension {
 	function output() {
