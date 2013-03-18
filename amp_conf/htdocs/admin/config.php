@@ -109,7 +109,6 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 /* If there is an action request then some sort of update is usually being done.
    This may protect from cross site request forgeries unless disabled.
 */
-$badrefer = false;
 if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 	if (isset($_SERVER['HTTP_REFERER'])) {
 		$referer = parse_url($_SERVER['HTTP_REFERER']);
@@ -122,18 +121,20 @@ if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 		$display = 'badrefer';
 	}
 }
-
+if (isset($no_auth)) {
+	$display = 'noauth';
+}
 // handle special requests
-if (!isset($no_auth) && isset($_REQUEST['handler']) && !$badrefer) {
+if (!in_array($display, array('noauth', 'badrefer')) 
+	&& isset($_REQUEST['handler'])
+) {
 	$module = isset($_REQUEST['module'])	? $_REQUEST['module']	: '';
 	$file 	= isset($_REQUEST['file'])		? $_REQUEST['file']		: '';
 	fileRequestHandler($_REQUEST['handler'], $module, $file);
 	exit();
 }
 
-if (isset($no_auth)) {
-	$display = 'noauth';
-}
+
 
 if (!$quietmode) {
 	module_run_notification_checks();
@@ -260,7 +261,9 @@ if (!$quietmode && isset($fpbx_menu["extensions"])) {
 
 ob_start();
 // load the component from the loaded modules
-if ($display != '' && isset($configpageinits) && is_array($configpageinits) ) {
+if (!in_array($display, array('', 'badrefer')) 
+	&& isset($configpageinits) && is_array($configpageinits) 
+) {
 
 	$CC = $currentcomponent = new component($display,$type);
 	// call every modules _configpageinit function which should just
