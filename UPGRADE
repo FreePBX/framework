@@ -11,7 +11,5 @@ Upgrading from the FreePBX-version.tar.gz download from sourceforge:
 - rm -rf FreePBX :: remove your current FreePBX directory (if you have one)
 - tar -zxvf FreePBX-version.tar.gz :: extract the new FreePBX tar
 - cd FreePBX-version :: change to the FreePBX directory
-- ./install_amp :: run the install script
-
-- ./AAH_updatemaint.sh (optional)
-  This is used to restore the maintenance tab that is not part of AMP or FreePBX.
+- amportal start :: If asterisk is not already started
+- ./install_amp :: run the upgrade script
