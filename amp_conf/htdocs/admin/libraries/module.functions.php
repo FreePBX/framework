@@ -1329,6 +1329,37 @@ function _module_readxml($modulename) {
 			if (isset($xmlarray['module']['description'])) {
 				$xmlarray['module']['description'] = trim(str_replace("\n","",$xmlarray['module']['description']));
 			}
+			if (isset($xmlarray['module']['methods'])) {
+				$defpri = 300;
+				$mod_meths = $xmlarray['module']['methods'];
+				unset($xmlarray['module']['methods']);
+				foreach ($mod_meths as $type => $methods) {
+					if (is_array($methods)) {
+						foreach ($methods as $i => $method) {
+							$path = '/module/methods/' . $type . '/' .$i;
+							$pri = isset($parser->attributes[$path]['pri'])
+								? $parser->attributes[$path]['pri']
+								: $defpri;
+							$pri = ctype_digit($pri) && $pri > 0
+								? $pri
+								: $defpri;
+							$xmlarray['module']['methods'][$type][$pri][] 
+								= $method;
+						}
+					} else {
+						$path = '/module/methods/' . $type;
+						$pri = isset($parser->attributes[$path]['pri'])
+							? $parser->attributes[$path]['pri']
+							: $defpri;
+						$pri = ctype_digit($pri) && $pri > 0
+							? $pri
+							: $defpri;
+						
+						$xmlarray['module']['methods'][$type][$pri][] 
+							= $methods;
+					}
+				}
+			}
 			if (isset($xmlarray['module']['menuitems'])) {
 				
 				foreach ($xmlarray['module']['menuitems'] as $item=>$displayname) {

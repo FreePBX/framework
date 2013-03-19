@@ -642,17 +642,44 @@ if ((!$extens_ok && $amp_conf['XTNCONFLICTABORT']) || (!$dests_ok && $amp_conf['
 framework_set_extmap();
 
 // run all of the *_get_config and _hookGet_config functions, which will populate the appropriate objects
-if(isset($module_list) && is_array($module_list)){
-	foreach($module_list as $module) {
-		$funcname = $module."_get_config";
-		if (function_exists($funcname)) { 
-			$funcname($engine);
+if(isset($active_modules) && is_array($active_modules)){
+	foreach($active_modules as $module => $mod_data) {
+		//dbug($module, $mod_data);
+		//get dynamic functions
+		if (isset($mod_data['methods'], $mod_data['methods']['get_config'])){
+			foreach ($mod_data['methods']['get_config'] as $pri => $methods) {
+				$funclist[$pri] = isset($funclist[$pri])
+						? $funclist[$pri]
+						: array();
+				foreach($methods as $method) {
+					$funclist[$pri][] = $method;
+				}
+			}
 		}
+
+		//get hardcoded functions
+		$getconf = $module."_get_config";
+		$hookgetconf = $module."_hookGet_config";
+		if (function_exists($getconf)) { 
+			$funclist[100][] = $getconf;
+		}
+		if (function_exists($hookgetconf)) { 
+			$funclist[600][] = $hookgetconf;
+		}
+
 	}
-	foreach($module_list as $module) {
-		$funcname = $module."_hookGet_config";
-		if (function_exists($funcname)) { 
-			$funcname($engine);
+	
+	//sort the list based in priority
+	ksort($funclist);
+
+	//flatten the aray - will respect priority
+	array_walk_recursive($funclist, 
+		function($a) use (&$functions) { $functions[] = $a; });
+	//print_r($functions);
+	//run functions if they exists
+	foreach ($functions as $function) {
+		if (function_exists($function)) {
+			$function($engine);
 		}
 	}
 }
