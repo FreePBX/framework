@@ -1060,6 +1060,13 @@ if ($quietmode) {
 //
 
 function category_sort_callback($a, $b) {
+	if (!isset($a['category']) || !isset($b['category'])) {
+		if (!isset($a['name']) || !isset($b['name'])) {
+			return 0;
+		} else {
+			return strcmp($a['name'], $b['name']);
+		}
+	}
 	// sort by category..
 	$catcomp = strcmp($a['category'], $b['category']);
 	if ($catcomp == 0) {
