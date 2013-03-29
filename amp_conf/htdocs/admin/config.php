@@ -173,7 +173,7 @@ if(is_array($active_modules)){
 
 				//requies authentication
 				$needs_auth = isset($item['requires_auth']) 
-					&& $item['requires_auth'] == 'false'
+					&& strtolower($item['requires_auth']) == 'false'
 						? false
 						: true;
 
@@ -280,8 +280,6 @@ if (!in_array($display, array('', 'badrefer'))
 $module_name = "";
 $module_page = "";
 $module_file = "";
-
-
 
 // hack to have our default display handler show the "welcome" view
 // Note: this probably isn't REALLY needed if there is no menu item for "Welcome"..
@@ -504,9 +502,12 @@ if ($quietmode) {
 	$menu['authtype']		= $amp_conf['AUTHTYPE'];
 	$menu['reload_confirm']	= $amp_conf['RELOADCONFIRM'];
 
+	// provide menuitem beta status
+	$menu['is_beta'] = isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes' ? true : false;
+
 	//add menu to final output
 	echo load_view($amp_conf['VIEW_MENU'], $menu);
-	
+
 	//send actual page content
 	echo $page_content;
 

@@ -1417,6 +1417,7 @@ function _module_readxml($modulename) {
 						'access', // set to all if all users should always have access
 						'hidden', //keep hidden from the gui at all times - but accesable if you kknow how...
 						'requires_auth', //option todisable auth check
+						'beta', //option to display Beta warning on display page
 					);
 					foreach ($optional_attribs as $attrib) {
 						if (isset($parser->attributes[$path][ $attrib ])) {
