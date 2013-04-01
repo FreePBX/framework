@@ -513,10 +513,100 @@ function file_get_contents_url($file_url) {
  * @pram string
  * @returns string
  */
-function generate_module_repo_url($path) {
+function generate_module_repo_url($path, $add_options=false) {
+	global $db;
 	global $amp_conf;
 	$urls = array();
 
+	if ($add_options) {
+		$firstinstall=false;
+		$type=null;
+
+		$sql = "SELECT * FROM module_xml WHERE id = 'installid'";
+		$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
+
+		// if not set so this is a first time install
+		// get a new hash to account for first time install
+		//
+		if (!isset($result['data']) || trim($result['data']) == "") {
+
+			$firstinstall=true;
+			$install_hash = _module_generate_unique_id();
+			$installid = $install_hash['uniqueid'];
+			$type = $install_hash['type'];
+
+			// save the hash so we remeber this is a first time install
+			//
+			$data4sql = $db->escapeSimple($installid);
+			sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
+			$data4sql = $db->escapeSimple($type);
+			sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
+
+		// Not a first time so save the queried hash and check if there is a type set
+		//
+		} else {
+			$installid=$result['data'];
+			$sql = "SELECT * FROM module_xml WHERE id = 'type'";
+			$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
+
+			if (isset($result['data']) && trim($result['data']) != "") {
+				$type=$result['data'];
+			}
+		}
+
+		// Now we have the id and know if this is a firstime install so we can get the announcement
+		//
+		$options = "?installid=".urlencode($installid);
+
+		if (trim($type) != "") {
+			$options .= "&type=".urlencode($type);
+		}
+		if ($firstinstall) {
+			$options .= "&firstinstall=yes";
+		}
+
+		// We check specifically for false because evenif blank it means the file
+		// was there so we want module.xml to do appropriate actions
+  	$brandid = _module_brandid();
+		if ($brandid !== false) {
+			$options .= "&brandid=" . urlencode($brandid);
+		}
+
+		$deploymentid = _module_deploymentid();
+		if ($deploymentid !== false) {
+			$options .= "&depolymentid=" . urlencode($deploymentid);
+		}
+
+		$engver=engine_getinfo();
+		if ($engver['engine'] == 'asterisk' && trim($engver['engine']) != "") {
+			$options .="&astver=".urlencode($engver['version']);
+		} else {
+			$options .="&astver=".urlencode($engver['raw']);
+		}
+  	$options .= "&phpver=".urlencode(phpversion());
+
+  	$distro_info = _module_distro_id();
+  	$options .= "&distro=".urlencode($distro_info['pbx_type']);
+  	$options .= "&distrover=".urlencode($distro_info['pbx_version']);
+  	if (function_exists('core_users_list')) {
+			$options .= "&ucount=".urlencode(count(core_users_list()));	
+		}
+		$path .= $options;
+
+		// Other modules may need to add 'get' paramters to the call to the repo. Check and add them
+		// here if we are adding paramters. The module should return an array of key/value pairs each of which
+		// is to be appended to the GET parameters. The variable name will be prepended with the module name
+		// when sent.
+		//
+		$repo_params = array();
+		foreach (mod_func_iterator('module_repo_parameters_callback', $path) as $mod => $res) {
+			if (is_array($res)) {
+				foreach ($res as $p => $v) {
+					$path .= '&' . urlencode($mod) . '_' . urlencode($p) . '=' . urlencode($v);
+				}
+			}
+		}
+	}
 	$repos = explode(',', $amp_conf['MODULE_REPO']);
 	foreach ($repos as $repo) {
 		$urls[] = $repo . $path;

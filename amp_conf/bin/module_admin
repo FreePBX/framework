@@ -588,7 +588,7 @@ if (! @ include("Console/Getopt.php")) {
 
 // **** Parse out command-line options
 $shortopts = "h?fc:x:r:R:";
-$longopts = array("help","debug","no-warnings","config=","modulexml-path=","modulerepository-path=","repos=","repo=");
+$longopts = array("help","debug","no-warnings","config=","modulexml-path=","modulerepository-path=","repos=","repo=","append-brand-version=");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -621,6 +621,9 @@ foreach ($args[0] as $arg) {
 		break;
 		case "--config": case "c":
 			$ampconfpath = $arg[1];
+		break;
+		case "--append-brand-version":
+  		_module_brandid(_module_brandid() . "-" . $arg[1]);
 		break;
 		case "--modulexml-path": case "x":
 			$modulexml_path = rtrim($arg[1],DIRECTORY_SEPARATOR)."/";

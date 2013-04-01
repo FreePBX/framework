@@ -52,7 +52,10 @@ function module_getonlinexml($module = false, $override_xml = false, &$sec_array
 		if ($override_xml) {
 			$fn = $override_xml."/modules-" . $base_version . ".xml";
 		} else {
-			$fn = generate_module_repo_url("/modules-" . $base_version . ".xml");
+			// We pass in true to add options to accomodate future needs of things like php versions to get properly zended
+			// tarballs of the same version for modules that are zended.
+			//
+			$fn = generate_module_repo_url("/modules-" . $base_version . ".xml", true);
 			// echo "(From default)"; //debug
 		}
 		//$fn = "/usr/src/freepbx-modules/modules.xml";
@@ -85,7 +88,7 @@ function module_getonlinexml($module = false, $override_xml = false, &$sec_array
 	
 	$parser = new xml2ModuleArray($data);
 	$xmlarray = $parser->parseAdvanced($data);
-	
+
 	if ($got_new) {
 		module_update_notifications($old_xml, $xmlarray, ($old_xml == $data4sql));
 	}
@@ -886,7 +889,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	if ($override_svn) {
 		$url_list = array($override_svn.$res['location']);
 	} else {
-		$url_list = generate_module_repo_url("/modules/".$res['location']);
+		$url_list = generate_module_repo_url("/modules/".$res['location'], true);
 	}
 	
 	// Check each URL until get_headers_assoc() returns something intelligible. We then use
@@ -1133,6 +1136,22 @@ function module_install($modulename, $force = false) {
 			return $errors;
 		}
 	}
+
+	// Check if another module wants this install to be rejected
+	// The module must have a callback: [modulename]_module_install_check_callback() that takes
+	// a single modules array from module_getinfo() about the module to be installed
+	// and it must pass back boolean true if the installation can proceed, or a message
+	// indicating why the installation must fail
+	//
+	$rejects = array();
+	foreach (mod_func_iterator('module_install_check_callback', $modules) as $mod => $res) {
+		if ($res !== true) {
+			$rejects[] = $res;
+		}
+	}
+	if (!empty($rejects)) {
+		return $rejects;
+	}
 	
 	// run the scripts
 	if (!_module_runscripts($modulename, 'install')) {
@@ -1225,6 +1244,22 @@ function module_uninstall($modulename, $force = false) {
 		if ( ($depmods = module_reversedepends($modulename)) !== false) {
 			return array(_("Cannot disable: The following modules depend on this one: ").implode(',',$depmods));
 		}
+	}
+
+	// Check if another module wants this uninstall to be rejected
+	// The module must have a callback: [modulename]_module_uninstall_check_callbak() that takes
+	// a single modules array from module_getinfo() about the module to be uninstalled
+	// and it must pass back boolean true if the uninstall can proceed, or a message
+	// indicating why the uninstall must fail
+	//
+	$rejects = array();
+	foreach (mod_func_iterator('module_uninstall_check_callback', $modules) as $mod => $res) {
+		if ($res !== true) {
+			$rejects[] = $res;
+		}
+	}
+	if (!empty($rejects)) {
+		return $rejects;
 	}
 	
 	$sql = "DELETE FROM modules WHERE modulename = '".$db->escapeSimple($modulename)."'";
@@ -1528,66 +1563,8 @@ function _modules_doinclude($filename, $modulename) {
 function module_get_annoucements() {
 	global $db;
 	global $amp_conf;
-	$firstinstall=false;
-	$type=null;
 
-	$sql = "SELECT * FROM module_xml WHERE id = 'installid'";
-	$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
-
-	// if not set so this is a first time install
-	// get a new hash to account for first time install
-	//
-	if (!isset($result['data']) || trim($result['data']) == "") {
-
-		$firstinstall=true;
-		$install_hash = _module_generate_unique_id();
-		$installid = $install_hash['uniqueid'];
-		$type = $install_hash['type'];
-
-		// save the hash so we remeber this is a first time install
-		//
-		$data4sql = $db->escapeSimple($installid);
-		sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
-		$data4sql = $db->escapeSimple($type);
-		sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
-
-	// Not a first time so save the queried hash and check if there is a type set
-	//
-	} else {
-		$installid=$result['data'];
-		$sql = "SELECT * FROM module_xml WHERE id = 'type'";
-		$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
-
-		if (isset($result['data']) && trim($result['data']) != "") {
-			$type=$result['data'];
-		}
-	}
-
-	// Now we have the id and know if this is a firstime install so we can get the announcement
-	//
-	$options = "?installid=".urlencode($installid);
-
-	if (trim($type) != "") {
-		$options .= "&type=".urlencode($type);
-	}
-	if ($firstinstall) {
-		$options .= "&firstinstall=yes";
-	}
-	$engver=engine_getinfo();
-	if ($engver['engine'] == 'asterisk' && trim($engver['engine']) != "") {
-		$options .="&astver=".urlencode($engver['version']);
-	} else {
-		$options .="&astver=".urlencode($engver['raw']);
-	}
-  $options .= "&phpver=".urlencode(phpversion());
-
-  $distro_info = _module_distro_id();
-  $options .= "&distro=".urlencode($distro_info['pbx_type']);
-  $options .= "&distrover=".urlencode($distro_info['pbx_version']);
-  if (function_exists('core_users_list')) {
-	$options .= "&ucount=".urlencode(count(core_users_list()));	
-}
-	$fn = generate_module_repo_url("/version-".getversion().".html".$options);
+	$fn = generate_module_repo_url("/version-".getversion().".html");
   $announcement = file_get_contents_url($fn);
 	return $announcement;
 }
@@ -1734,6 +1711,41 @@ function _module_ampconf_string_replace($string) {
 	
 	return str_replace($target, $replace, $string);
 }
+
+/* Get the brand from the pbx-brand file. This can be overriden
+ * by setting it first, used primarily to modify current brand
+ * to get a specific version that may exist online
+ */
+function _module_brandid($brand_override=false) {
+	static $brand;
+	if ($brand_override) {
+		$brand = strtolower(trim($brand_override));
+	}
+	if (!empty($brand)) {
+		return $brand;
+	}
+
+	$brandfile = "/etc/schmooze/pbx-brand";
+	// TODO: log error if file is un-readable or blank?
+	if (file_exists($brandfile)) {
+		return strtolower(trim(file_get_contents($brandfile)));
+	} else {
+		return false;
+	}
+}
+
+/* Get the deploymentid from zend.
+ */
+function _module_deploymentid() {
+	if (function_exists('sysadmin_get_license')) {
+		$lic = sysadmin_get_license();
+		if (isset($lic['deploymentid'])) {
+			return trim($lic['deploymentid']);
+		}
+	} 
+	return false;
+}
+
 
 function _module_distro_id() {
   static $pbx_type;
