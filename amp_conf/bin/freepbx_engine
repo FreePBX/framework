@@ -271,6 +271,17 @@ chown_asterisk() {
 	call_hook chown_asterisk
 }
 
+remove_dangling_links() {
+	echo Removing any dangling symlinks
+	find -L $AMPWEBROOT -type l -delete
+	find -L $AMPBIN -type l -delete
+	find -L $ASTETCDIR -type l -delete
+	find -L $ASTVARLIBDIR -type l -delete
+	find -L $ASTSPOOLDIR -type l -delete
+	find -L $ASTAGIDIR -type l -delete
+	echo Dangling symlinks removed
+}
+
 check_asterisk() {
 # check to see if asterisk is running
 # Note, this isn't fool-proof.  If safe_asterisk is constantly restarting a dying asterisk,
@@ -425,6 +436,7 @@ kill_amp() {
 case "$1" in
 	start)
 		chown_asterisk
+		remove_dangling_links
 		run_asterisk
 	;;
 	stop)
@@ -434,6 +446,7 @@ case "$1" in
 		stop_asterisk
 		sleep 1
 		chown_asterisk
+		remove_dangling_links
 		run_asterisk
 	;;
 
@@ -518,6 +531,9 @@ case "$1" in
 					echo 'um, something went wrong...'
 				fi
 			;;
+			rmsymlinks)
+			remove_dangling_links
+			;;
 		*)
 
 #formating variables defined at top of file
@@ -538,9 +554,10 @@ ${b}context$bx|${b}cxt$bx:   Show's the specified context from the dialplan. Thi
                contexts as they appear in extensions* files
 ${b}modadmin$bx|${b}ma$bx:  Runs the module_admin script with additional argument as passed
 ${b}mysql$bx|${b}m$bx:	Connect to freebx's mysql connection (assumes server is on localhost) s 
-${b}unlock$bx|${b}u$bx:	Unlock the web gui from the cli (requires root) 
+${b}rmsymlinks$bx:		Cleans up dangling linkes left over from uninstalled modules
 ${b}reload$bx|${b}r$bx:      Does a full dialplan regeneration/reload (like clicking 
                the orange bar)     
+${b}unlock$bx|${b}u$bx:	Unlock the web gui from the cli (requires root) 
 \n\n\n"
 		;;
 	esac
