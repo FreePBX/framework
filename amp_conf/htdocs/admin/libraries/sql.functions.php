@@ -6,7 +6,11 @@
 */
 function sql($sql,$type="query",$fetchmode=null) {
 	global $db;
-	$results = $db->$type($sql,$fetchmode);
+	if($type == "query") {
+		$results = $db->$type($sql);
+	} else {
+		$results = $db->$type($sql,array(),$fetchmode);
+	}
 	if(DB::IsError($results)) {
 		die_freepbx($results->getDebugInfo() . "SQL - <br /> $sql" );
 	}

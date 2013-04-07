@@ -215,7 +215,7 @@ class freepbx_conf {
   function __construct() {
     global $db;
     $sql = 'SELECT * FROM freepbx_settings ORDER BY category, sortorder, name';
-    $db_raw = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+    $db_raw = $db->getAll($sql, array(), DB_FETCHMODE_ASSOC);
     if(DB::IsError($db_raw)) {
       die_freepbx(_('fatal error reading freepbx_settings'));	
     }
