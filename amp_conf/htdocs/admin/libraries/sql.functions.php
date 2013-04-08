@@ -9,7 +9,18 @@ function sql($sql,$type="query",$fetchmode=null) {
 	if($type == "query") {
 		$results = $db->$type($sql);
 	} else {
-		$results = $db->$type($sql,array(),$fetchmode);
+		
+	}
+	switch($type) {
+		case "query":
+			$results = $db->$type($sql);
+			break;
+		case "getAssoc":
+			$results = $db->$type($sql,false,array(),$fetchmode);
+			break;
+		default:
+			$results = $db->$type($sql,array(),$fetchmode);
+			break;
 	}
 	if(DB::IsError($results)) {
 		die_freepbx($results->getDebugInfo() . "SQL - <br /> $sql" );
