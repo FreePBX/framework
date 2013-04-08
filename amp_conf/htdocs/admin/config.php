@@ -437,6 +437,16 @@ if ($quietmode) {
 	$content = ob_get_contents();
 	ob_end_clean();
 	 $fw_gui_html = '';
+	 
+	 // add header 
+	 // Taken as is from the else just below this elseif
+	 // We're sending the popover, it needs a header if only for jQuery.
+	 // Already ok to pass popover awareness to header so popover.css is added
+	 $header['title']	= framework_server_name();
+	 $header['amp_conf']	= $amp_conf;
+	 $header['use_popover_css'] = ($fw_popover || $fw_popover_process);
+	 show_view($amp_conf['VIEW_HEADER'], $header);
+	 
 	//if we have a module loaded, load its css
 	if (isset($module_name)) {
 		$fw_gui_html .= framework_include_css();
@@ -459,6 +469,9 @@ if ($quietmode) {
 	//send footer
 	$footer['js_content'] = load_view($amp_conf['VIEW_POPOVER_JS'], $popover_args);
 
+	$footer['extmap'] 				= !$footer['covert']
+									? framework_get_extmap(true) 
+									: json_encode(array());
 	$footer['module_name'] = $module_name;
 	$footer['module_page'] = $module_page;
 	$footer['benchmark_starttime'] = $benchmark_starttime;
