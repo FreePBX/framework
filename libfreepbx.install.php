@@ -431,14 +431,17 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['level'] = 0;
   */
 
+	// Make this hidden, has proven to confusing since users can't change them. This could be turned on programatically for dev purposes.
   // AS_DISPLAY_HIDDEN_SETTINGS
+	//
   $set['value'] = false;
   $set['options'] = '';
   $set['name'] = 'Display Hidden Settings';
   $set['description'] = 'This will display settings that are normally hidden by the system. These settings are often internally used settings that are not of interest to most users.';
   $set['emptyok'] = 0;
   $set['level'] = 0;
-  $set['readonly'] = 0;
+  $set['readonly'] = 1;
+	$set['hidden'] = 1;
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('AS_DISPLAY_HIDDEN_SETTINGS',$set);
   $set['readonly'] = 0;
@@ -2285,6 +2288,20 @@ function freepbx_settings_init($commit_to_db = false) {
   //
   $set['category'] = 'Internal Use';
   $set['level'] = 10;
+
+
+	// SIPUSERAGENT
+	//
+	$set['value'] = 'FPBX';
+	$set['options'] = '';
+	$set['name'] = 'SIP User Agent';
+	$set['description'] = 'User Agent prefix';
+	$set['emptyok'] = 0;
+	$set['readonly'] = 1;
+  $set['hidden'] = 1;
+	$set['type'] = CONF_TYPE_TEXT;
+	$freepbx_conf->define_conf_setting('SIPUSERAGENT',$set);
+  $set['hidden'] = 0;
 
   // MODULE_REPO
   $set['value'] = 'http://mirror1.freepbx.org,http://mirror2.freepbx.org';
