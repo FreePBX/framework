@@ -460,6 +460,10 @@ if ($quietmode) {
 	//
 	$show_normal = $fw_popover_process ? fwmsg::errors() : true;
 	if ($show_normal) {
+		// provide beta status
+		if (isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes') {
+			$fw_gui_html .= load_view($amp_conf['VIEW_BETA_NOTICE']);
+		}
 		$fw_gui_html .= $content;
 		$popover_args['popover_mode'] = 'display';
 	} else {
@@ -515,11 +519,15 @@ if ($quietmode) {
 	$menu['authtype']		= $amp_conf['AUTHTYPE'];
 	$menu['reload_confirm']	= $amp_conf['RELOADCONFIRM'];
 
-	// provide menuitem beta status
-	$menu['is_beta'] = isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes' ? true : false;
-
 	//add menu to final output
 	echo load_view($amp_conf['VIEW_MENU'], $menu);
+
+	// provide beta status
+	if (isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes') {
+		echo load_view($amp_conf['VIEW_BETA_NOTICE']);
+	}
+
+
 
 	//send actual page content
 	echo $page_content;
