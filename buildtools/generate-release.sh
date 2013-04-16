@@ -18,6 +18,7 @@ recordings_url=${module_url}/recordings
 music_url=${module_url}/music
 featurecodeadmin_url=${module_url}/featurecodeadmin
 infoservices_url=${module_url}/infoservices
+sipsettings_url=${module_url}/sipsettings
 
 case "$1" in
 	?*)
@@ -78,6 +79,7 @@ svn cp -m "Automatic packaging of recordings with $ver"       $recordings_url   
 svn cp -m "Automatic packaging of music with $ver"            $music_url            http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of featurecodeadmin with $ver" $featurecodeadmin_url http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 svn cp -m "Automatic packaging of infoservices with $ver"     $infoservices_url     http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
+svn cp -m "Automatic packaging of sipsettings with $ver"      $sipsettings_url      http://www.freepbx.org/v2/svn/freepbx/tags/${ver}/amp_conf/htdocs/admin/modules/
 
 # Now clear out the release diretory where we will build the tarballs and grab it from the tag to get core and framework
 #
