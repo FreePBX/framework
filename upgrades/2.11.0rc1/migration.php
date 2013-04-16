@@ -31,6 +31,27 @@ if (file_exists($amp_conf['ASTETCDIR']."/rtp.conf")) {
 	unlink($amp_conf['ASTETCDIR']."/rtp.conf");
 }
 
+// Remove res_odbc.conf it it's not a symlink and if possible save it as
+// res_odbc_custom.conf
+//
+$res_odbc = $amp_conf['ASTETCDIR'] . '/res_odbc.conf';
+$res_odbc_custom = $amp_conf['ASTETCDIR'] . '/res_odbc_custom.conf';
+
+out(_("checking if res_odbc.conf needs migration"));
+if (!is_link($res_odbc)) {
+	out(_("trying to move res_odbc.conf to res_odbc_custom.conf"));
+	if (!file_exists($res_odbc_custom)) {
+		if (rename($res_odbc, $res_odbc_custom)) {
+			out(_("ok moved"));
+		} else {
+			out(_("error could not move it"));
+		}
+	}
+	out(_("removing res_odbc.conf so it can be symlinked from core"));
+	unlink($res_odbc);
+} else {
+	out(_("already symlinked skipping"));
+}
 /*
 // depricated settings
 //
