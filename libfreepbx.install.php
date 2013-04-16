@@ -2354,7 +2354,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $module_migrate['SSHPORT'] = CONF_TYPE_INT;
   $module_migrate['MAXCALLS'] = CONF_TYPE_INT;
   $module_migrate['AMPMPG123'] = CONF_TYPE_BOOL;
-  $module_migrate['PARKINGPATCH'] = CONF_TYPE_BOOL;
 
   $mod_set['value'] = '';
   $mod_set['defaultval'] = '';
