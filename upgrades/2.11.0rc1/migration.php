@@ -36,6 +36,7 @@ if (file_exists($amp_conf['ASTETCDIR']."/rtp.conf")) {
 //
  */
 $freepbx_conf->remove_conf_settings('PARKINGPATCH');
+$freepbx_conf->remove_conf_settings('USECATEGORIES');
 
 //commit all settings
 $freepbx_conf->commit_conf_settings();

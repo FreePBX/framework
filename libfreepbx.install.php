@@ -1251,16 +1251,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('MODULEADMINWGET',$set);
 
-  // USECATEGORIES
-  $set['value'] = true;
-  $set['options'] = '';
-  $set['name'] = 'Show Categories in Nav Menu';
-  $set['description'] = 'Controls if the menu items in the admin interface are sorted by category (true) or sorted alphabetically with no categories shown (false). Defaults = true';
-  $set['emptyok'] = 0;
-  $set['readonly'] = 0;
-  $set['type'] = CONF_TYPE_BOOL;
-  $freepbx_conf->define_conf_setting('USECATEGORIES',$set);
-
   //SHOWLANGUAGE
   $set['value'] = false;
   $set['options'] = '';

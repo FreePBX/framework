@@ -89,7 +89,6 @@ class freepbx_conf {
   'MOHDIR'         => array(CONF_TYPE_DIR, 'mohmp3'),
   'FPBXDBUGFILE'	 => array(CONF_TYPE_DIR, '/tmp/freepbx_debug.log'),
 
-  'USECATEGORIES'  => array(CONF_TYPE_BOOL, true),
   'ENABLECW'       => array(CONF_TYPE_BOOL, true),
   'CWINUSEBUSY'    => array(CONF_TYPE_BOOL, true),
   'AMPBADNUMBER'   => array(CONF_TYPE_BOOL, true),
