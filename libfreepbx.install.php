@@ -446,6 +446,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('AS_DISPLAY_HIDDEN_SETTINGS',$set);
   $set['readonly'] = 0;
   $set['level'] = 0;
+	$set['hidden'] = 0;
 
   // AS_DISPLAY_READONLY_SETTINGS
   $set['value'] = false;
