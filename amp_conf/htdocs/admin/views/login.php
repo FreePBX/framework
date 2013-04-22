@@ -59,6 +59,9 @@ $html .= '$(document).ready(function(){
 		});
 })';
 $html .= '</script>';*/
+
+$html .= '<script type="text/javascript" src="assets/js/views/login.js"></script>';
+
 echo $html;
 
 ?>
