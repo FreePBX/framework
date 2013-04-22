@@ -58,16 +58,6 @@ CREATE TABLE `ampusers` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ampusers`
---
-
-LOCK TABLES `ampusers` WRITE;
-/*!40000 ALTER TABLE `ampusers` DISABLE KEYS */;
-INSERT INTO `ampusers` VALUES ('admin','d033e22ae348aeb5660fc2140aec35850c4da997','','','','*');
-/*!40000 ALTER TABLE `ampusers` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `cronmanager`
 --
 

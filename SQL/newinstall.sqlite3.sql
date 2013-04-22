@@ -34,7 +34,6 @@ CREATE TABLE `ampusers` (
   `sections` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`username`)
 );
-INSERT INTO "ampusers" VALUES('admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', '', '', '', '*');
 CREATE TABLE `devices` (
   `id` varchar(20) NOT NULL default '',
   `tech` varchar(10) NOT NULL default '',
