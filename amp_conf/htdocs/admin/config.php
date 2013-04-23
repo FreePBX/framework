@@ -350,7 +350,7 @@ switch($display) {
 			if (!empty($amp_conf['FOPWEBROOT']) 
 				&& is_dir($amp_conf['FOPWEBROOT'])
 			){
-				$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/',
+				$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/admin/',
 						'', $amp_conf['FOPWEBROOT']);
 			}
 		
