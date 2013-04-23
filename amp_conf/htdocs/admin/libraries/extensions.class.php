@@ -133,7 +133,9 @@ class extensions {
 	function addExec($section, $incsection) {
 		$this->_exec[$section][] = $incsection;
 	}
-	
+	function is_num($num) {
+		return ctype_digit($num) || is_int($num);
+	}	
 	/* This function allows new priorities to be injected into already generated dialplan
 	*  usage: $ext->splice($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
 	*         if $priority is not numeric, it will interpret it as a tag and try to inject 
@@ -148,7 +150,7 @@ class extensions {
 		// tag. If the tag does not exists, then we put it at the very end which may not be
 		// desired but it puts it somewhere
 		//
-		if (!ctype_digit(trim($priority))) {
+		if (!$this->is_num(trim($priority))) {
 			$new_priority = false;
 			$count = 0;
 			if (isset($this->_exts[$section][$extension])) {
@@ -221,7 +223,7 @@ class extensions {
 		// If the tag does not exists, then we put it at the very end which may not be
 		// desired but it puts it somewhere
 		//
-		if (!ctype_digit(trim($priority))) {
+		if (!$this->is_num(trim($priority))) {
 			$existing_priority = false;
 			$count = 0;
 			if (isset($this->_exts[$section][$extension])) {
@@ -258,7 +260,7 @@ class extensions {
 		// if the priority is a tag, then we look for the real priority to 
 		//replace it with If the tag does not exists, then we put it at the very 
 		//end which may not be desired but it puts it somewhere
-		if (!ctype_digit(trim($priority))) {
+		if (!$this->is_num(trim($priority))) {
 			$existing_priority = false;
 			$count = 0;
 			if (isset($this->_exts[$section][$extension])) {
@@ -275,7 +277,7 @@ class extensions {
 			$priority = ($existing_priority === false) 
 				? false : $existing_priority;
 		}
-		if(ctype_digit($priority)){
+		if($this->is_num($priority)){
 			if (isset($this->_exts[$section][$extension][$priority])) {
 				unset($this->_exts[$section][$extension][$priority]);
 				$this->_exts[$section][$extension]
