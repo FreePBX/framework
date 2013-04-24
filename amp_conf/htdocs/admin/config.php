@@ -121,7 +121,7 @@ if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 		$display = 'badrefer';
 	}
 }
-if (isset($no_auth)) {
+if (isset($no_auth) && empty($display)) {
 	$display = 'noauth';
 }
 // handle special requests
@@ -133,7 +133,6 @@ if (!in_array($display, array('noauth', 'badrefer'))
 	fileRequestHandler($_REQUEST['handler'], $module, $file);
 	exit();
 }
-
 
 
 if (!$quietmode) {
@@ -209,12 +208,12 @@ if(is_array($active_modules)){
 				// item is an assoc array, with at least 
 				//array(module=> name=>, category=>, type=>, display=>)
 				$fpbx_menu[$itemKey] = $item;
-
+				
 				// allow a module to replace our main index page
 				if (($item['display'] == 'index') && ($display == '')) {
 					$display = 'index';
 				}
-
+				
 				// check current item
 				if ($display == $item['display']) {
 					// found current menuitem, make a reference to it
@@ -225,6 +224,9 @@ if(is_array($active_modules)){
 	}
 }
 
+if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','noaccess',''))) {
+	$display = 'noaccess';
+}
 
 // new gui hooks
 if(!$quietmode && is_array($active_modules)){
@@ -376,7 +378,7 @@ switch($display) {
 		$module_name = $cur_menuitem['module']['rawname'];
 		$module_page = $cur_menuitem['display'];
 		$module_file = 'modules/'.$module_name.'/page.'.$module_page.'.php';
-
+		
 		//TODO Determine which item is this module displaying.
 		//Currently this is over the place, we should standardize on a 
 		//"itemid" request var for now, we'll just cover all possibilities :-(
