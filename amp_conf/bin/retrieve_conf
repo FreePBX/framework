@@ -673,16 +673,12 @@ if(isset($active_modules) && is_array($active_modules)){
 	ksort($funclist);
 
 	//flatten the aray - will respect priority
-	$fw_functions = array();
-	function _fw_flat($a, $key, $functions) { $functions[] = $a; }
-	array_walk_recursive($funclist, '_fw_flat', &$fw_functions);
-	/*
+	$functions = array();
 	array_walk_recursive($funclist, 
-		function($a) use (&$functions) { $functions[] = $a; });
-	*/
-
+		create_function('$a', 'global $functions; $functions[] = $a;'));
+	
 	//run functions if they exists
-	foreach ($fw_functions as $function) {
+	foreach ($functions as $function) {
 		if (function_exists($function)) {
 			$function($engine);
 		}
