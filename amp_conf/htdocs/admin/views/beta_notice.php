@@ -5,7 +5,7 @@
  *       pages can be beta vs. the whole module.
  */
 $html = '<div id="menuitem_beta">';
-$html .= _("-This Module Page is currently BETA-");
+$html .= _("-This page is currently BETA-");
 $html .= '</div>';
 
 echo $html;
