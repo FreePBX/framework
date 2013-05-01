@@ -81,7 +81,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
       $href = isset($cat[0]['href']) ? $cat[0]['href'] : 'config.php?display=' . $cat[0]['display'];
       $target = isset($cat[0]['target']) ? ' target="' . $cat[0]['target'] . '"'  : '';
       $class = $cat[0]['display'] == $display ? 'class="ui-state-highlight"' : '';
-      $mods[$t] = '<a href="' . $href . '" ' . $target . $class . '>' . modgettext::_(ucwords($t),$cat[0]['module']['rawname']) . '</a>';
+      $mods[$t] = '<a href="' . $href . '" ' . $target . $class . '>' . modgettext::_(ucwords($cat[0]['name']),$cat[0]['module']['rawname']) . '</a>';
       continue;
     }
 		// $t is a heading so can't be isolated to a module, translation must come from amp
