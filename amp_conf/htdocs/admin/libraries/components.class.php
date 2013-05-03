@@ -788,7 +788,7 @@ class gui_drawselects extends guiinput {
 		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $canbeempty);
 
 		//adttach a value to this element, so that we can find its value
-		$currentcomponent->addguielem('', new gui_hidden($elemname,'goto'.$index));
+		$this->html_input .= "<input type=\"hidden\" name=\"$elemname\" value=\"goto$index\"/>";
 	}	
 }
 
