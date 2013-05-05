@@ -506,6 +506,19 @@ class ext_gosub extends extension {
 	}
 }
 
+class ext_messagesend extends extension {
+	var $to;
+	var $from;
+	function ext_messagesend($to, $from = null) {
+		$this->to = $to;
+		$this->from = $from;
+		dbug($from);
+	}
+	function output() {
+		return isset($this->from) && !empty($this->from) ? "MessageSend(".$this->to.", ".$this->from.")" : "MessageSend(".$this->to.")";
+	}
+}
+
 class ext_return extends extension {
 	function output() {
 		return "Return(".$this->data.")";
