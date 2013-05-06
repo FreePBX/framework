@@ -512,7 +512,6 @@ class ext_messagesend extends extension {
 	function ext_messagesend($to, $from = null) {
 		$this->to = $to;
 		$this->from = $from;
-		dbug($from);
 	}
 	function output() {
 		return isset($this->from) && !empty($this->from) ? "MessageSend(".$this->to.", ".$this->from.")" : "MessageSend(".$this->to.")";
@@ -1448,17 +1447,24 @@ class ext_mysql_connect extends extension {
 	var $dbuser;
 	var $dbpass;
 	var $dbname;
+	var $charset;
 	
-	function ext_mysql_connect($connid, $dbhost, $dbuser, $dbpass, $dbname) {
+	function ext_mysql_connect($connid, $dbhost, $dbuser, $dbpass, $dbname, $charset='') {
 		$this->connid = $connid;
 		$this->dbhost = $dbhost;
 		$this->dbuser = $dbuser;
 		$this->dbpass = $dbpass;
 		$this->dbname = $dbname;
+		$this->charset = $charset;
 	}
 	
 	function output() {
-		return "MYSQL(Connect ".$this->connid." ".$this->dbhost." ".$this->dbuser." ".$this->dbpass." ".$this->dbname.")";
+		global $version;
+		if (version_compare($version, "1.8", "ge") && !empty($this->charset)) {
+			return "MYSQL(Connect ".$this->connid." ".$this->dbhost." ".$this->dbuser." ".$this->dbpass." ".$this->dbname." ".$this->charset.")";
+		} else {
+			return "MYSQL(Connect ".$this->connid." ".$this->dbhost." ".$this->dbuser." ".$this->dbpass." ".$this->dbname.")";
+		}
 	}
 }
 
@@ -1555,12 +1561,12 @@ class ext_musiconhold extends extension {
 
 class ext_setmusiconhold extends extension {
 	function output() {
-    global $version; // Asterisk Version
-    if (version_compare($version, "1.4", "lt")) {
-		  return "SetMusicOnHold(".$this->data.")";
-    } else {
-		  return "Set(CHANNEL(musicclass)=".$this->data.")";
-    }
+	    global $version; // Asterisk Version
+	    if (version_compare($version, "1.4", "lt")) {
+			  return "SetMusicOnHold(".$this->data.")";
+	    } else {
+			  return "Set(CHANNEL(musicclass)=".$this->data.")";
+	    }
 	}
 }
 
