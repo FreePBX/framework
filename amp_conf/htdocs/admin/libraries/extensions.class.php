@@ -142,7 +142,7 @@ class extensions {
 	*         the command just prior to  the first instruction it finds with the specified tag
 	*         if it can't find the tag, it will inject it after the last instruction
 	*/
-	function splice($section, $extension, $priority, $command, $new_tag="")  {
+	function splice($section, $extension, $priority, $command, $new_tag="", $offset=0, $fixmultiplelabels=false)  {
 
 		$extension = ' ' . $extension . ' ';
 
@@ -153,6 +153,7 @@ class extensions {
 		if (!$this->is_priority(trim($priority))) {
 			$new_priority = false;
 			$count = 0;
+			$label = $priority;
 			if (isset($this->_exts[$section][$extension])) {
 				foreach($this->_exts[$section][$extension] as $pri => $curr_command) {
 					if ($curr_command['tag'] == $priority) {
@@ -162,24 +163,50 @@ class extensions {
 					$count++;
 				}
 			}
-			$priority = ($new_priority === false) ? $count : $new_priority;
+			if($new_priority===false){
+				$priority = $count;
+			}else{
+				$priority = $new_priority + $offset;
+				if($priority < 0){
+					$priority = 0;
+				}
+			}
 		}
 		if($priority == 0) {
 			$basetag = '1';
+			if (!isset($this->_exts[$section][$extension][0])) {
+				die_freepbx("died in splice $section $extension");
+			}
 			// we'll be defining a new pri "1", so change existing "1" to "n"
-      if (!isset($this->_exts[$section][$extension][0])) {
-        die_freepbx("died in splice $section $extension");
-      }
 			$this->_exts[$section][$extension][0]['basetag'] = 'n';
 		} else {
 			$basetag = 'n';
-		}
+        }
 		$newcommand = array(
 			'basetag' => $basetag,
 			'tag' => $new_tag,
 			'addpri' => '',
 			'cmd' => $command
 		);
+
+		/* This will remove the tag value if entry is being added after an existing tag as
+		*  if we do not do this then asterisk will jump to the last label
+		*/
+		if($fixmultiplelabels && $offset > 0 && $new_tag == $label && $new_priority && isset($this->_exts[$section][$extension])){
+			$newcommand['new_tag']='';
+		}
+
+		/* This will fix an issue with having multiple entrypoint labels by the same name,
+		*  asterisk by default seems to pick the last one. This will remove all labels by
+		*  the same name so that the new entry will go in at the top correctly
+		*/
+		if($fixmultiplelabels && $offset <= 0 && $new_tag == $label && isset($this->_exts[$section][$extension]))
+		{
+			foreach($this->_exts[$section][$extension] as $_ext_k=>&$_ext_v){
+				if($_ext_v['tag']!=$label)continue;
+				$_ext_v['tag']='';
+			}
+		}
 
 		/* This little routine from http://ca.php.net/array_splice overcomes 
 		*  problems that array_splice has with multidmentional arrays
