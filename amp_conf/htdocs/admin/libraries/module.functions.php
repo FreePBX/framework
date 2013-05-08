@@ -1154,7 +1154,7 @@ function module_install($modulename, $force = false) {
 	}
 	
 	// run the scripts
-	if (!_module_runscripts($modulename, 'install')) {
+	if (!_module_runscripts($modulename, 'install', $modules)) {
 		return array(_("Failed to run installation scripts"));
 	}
 	
@@ -1268,7 +1268,7 @@ function module_uninstall($modulename, $force = false) {
 		return array(_("Error updating database: ").$results->getMessage());
 	}
 	
-	if (!_module_runscripts($modulename, 'uninstall')) {
+	if (!_module_runscripts($modulename, 'uninstall', $modules)) {
 		return array(_("Failed to run un-installation scripts"));
 	}
 
@@ -1495,12 +1495,32 @@ function _modules_setversion($modname, $vers) {
 	return ;
 }
 
+/** Include additional files requested in module.xml for install and uninstall
+ * @param array   The modulexml array
+ * @param string  The action to perform, either 'install' or 'uninstall'
+ * @return boolean   If the action was successful, currently TRUE so we don't prevent the install
+ */
+function _module_runscripts_include($modulexml, $type) {
+	foreach($modulexml as $modulename => $items) {
+		if (isset($items['fileinclude'][$type]) && !empty($items['fileinclude'][$type])) {
+			foreach($items['fileinclude'][$type] as $key => $filename) {
+				$ret = _modules_doinclude($moduledir.'/'.$filename, $modulename);
+				if (!$ret) {
+					freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to include %s during %s of the %s module."),$filename,$type,$modulename));		
+				}
+			}
+		}
+	}
+	return true;
+}
+
 /** Run the module install/uninstall scripts
  * @param string  The name of the module
  * @param string  The action to perform, either 'install' or 'uninstall'
+ * @param array	  The modulexml array
  * @return boolean  If the action was succesful
  */
-function _module_runscripts($modulename, $type) {
+function _module_runscripts($modulename, $type, $modulexml = false) {
 	global $amp_conf;
 	$db_engine = $amp_conf["AMPDBENGINE"];
 	
@@ -1513,27 +1533,37 @@ function _module_runscripts($modulename, $type) {
 		case 'install':
 			// install sql files
 			$sqlfilename = "install.sql";
-      $rc = true;
+      			$rc = true;
 			
 			if (is_file($moduledir.'/'.$sqlfilename)) {
 				$rc = execSQL($moduledir.'/'.$sqlfilename);
 			}
 			
+			//include additional files developer requested
+			if ($modulexml !== false) {
+				_module_runscripts_include($modulexml, $type);
+			}
+	
 			// then run .php scripts
 			return (_modules_doinclude($moduledir.'/install.php', $modulename) && $rc);
 		break;
 		case 'uninstall':
+			//include additional files developer requested
+                        if ($modulexml !== false) {
+                                _module_runscripts_include($modulexml, $type);
+                        }
+
 			// run uninstall .php scripts first
 			$rc = _modules_doinclude($moduledir.'/uninstall.php', $modulename);
-			
+		
 			$sqlfilename = "uninstall.sql";
 			
 			// then uninstall sql files 
 			if (is_file($moduledir.'/'.$sqlfilename)) {
 				return ($rc && execSQL($moduledir.'/'.$sqlfilename));
 			} else {
-        return $rc;
-      }
+        			return $rc;
+      			}
 			
 		break;
 		default:
