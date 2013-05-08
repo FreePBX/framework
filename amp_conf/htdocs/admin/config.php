@@ -317,7 +317,7 @@ switch($display) {
 		//if we have no admin users AND were trying to set one up
 		if (!count(getAmpAdminUsers()) 
 			&& $action == 'setup_admin'
-			&& !$vars['obe_error_msg']
+			&& !$config_vars['obe_error_msg']
 		) {
 			//validate the inputs
 			framework_obe_intialize_admin(
@@ -342,7 +342,7 @@ switch($display) {
 		if (count(getAmpAdminUsers())) {
 			//error message
 			$login['errors'] = array();
-			if ($config_vars['username']) {
+			if ($config_vars['username'] && $action !== 'setup_admin') {
 				$login['errors'][] = _('Invalid Username or Password');
 			}
 			
