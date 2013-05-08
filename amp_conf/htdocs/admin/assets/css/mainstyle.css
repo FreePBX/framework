@@ -440,7 +440,7 @@ div.modulebuttons {
 .menubar > a + ul{display: none;}/*dropdown menus should be intially hidden*/
 .menubar > a {margin: 2px 1px; height: 23px;}/*spacing around menubar buttons*/
 .menubar { padding-left: 3px;}/*spacing beteen firsl/last button and toolbar edge*/
-.menubar .ui-menu {position: absolute; outline: none; z-index: 9999; max-height: 425px; overflow: auto;}/*actual toolbar layout*/
+.menubar .ui-menu {position: absolute; outline: none; z-index: 9999; overflow-y: auto;}/*actual toolbar layout*/
 .menubar .ui-menu .ui-icon { float: right; }/*button icons*/
 .menubar .button-right{float: right; right: 4px;}/*right side buttons*/
 .menubar .ui-menu li.ui-state-disabled {/*disabled menue items*/

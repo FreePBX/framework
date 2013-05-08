@@ -906,13 +906,19 @@ $(document).ready(function(){
 
 	//show menu on hover
 	//this is far from perfect, and will hopefully be depreciated soon
-	$('.module_menu_button').hover(
-		function(){
-			$(this).click()
-		},
-		function(){
-
-		});
+	//HACK for low resolution displays where menu is cut off
+	$('.module_menu_button').hover(function() {
+		$(this).click();
+		var sh = $(window).height(); 
+		$('.ui-menu').each(function() { 
+			if ($(this).css('display') == 'block') {
+				$(this).css('max-height', ''); 
+				if ($(this).height() > sh) {
+					$(this).css('max-height',sh - 50 +'px'); 
+				}
+			}
+		}); 
+	});
 
 	//show reload button if neede
 	if (fpbx.conf.reload_needed) {
