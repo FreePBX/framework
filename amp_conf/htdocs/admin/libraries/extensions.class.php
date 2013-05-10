@@ -1880,6 +1880,18 @@ class ext_vqa extends extension {
 	}
 }
 
+class ext_transfer extends extension {
+    var $number;
+
+    function ext_transfer($number) {
+        $this->number = $number;
+    }
+
+    function output() {
+        return "Transfer(".$this->number.")";
+    }
+}
+
 /* example usage
 $ext = new extensions;
 
