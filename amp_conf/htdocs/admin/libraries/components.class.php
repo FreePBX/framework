@@ -523,15 +523,21 @@ class guielement {
 
 // Hidden field
 // Odd ball this one as neither guiinput or guitext !
+/**
+ * 
+ * @param $table bool if this element is in a table or not, Default is true.
+*/
 class gui_hidden extends guielement {
-	function gui_hidden($elemname, $currentvalue = '') {
+	function gui_hidden($elemname, $currentvalue = '', $table=true) {
 		// call parent class contructor
 		guielement::guielement($elemname, '', '');
 		
 		$this->_html = "<input type=\"hidden\" name=\"$this->_elemname\" id=\"$this->_elemname\" value=\"" . htmlentities($currentvalue) . "\">";
 		
 		// make it a new row
-		$this->_html = "\t<tr>\n\t\t<td>" . $this->_html . "</td>\n\t</tr>\n";
+		if($table) {
+			$this->_html = "\t<tr>\n\t\t<td>" . $this->_html . "</td>\n\t</tr>\n";
+		}
 	}
 }
 
@@ -778,17 +784,17 @@ class gui_radio extends guiinput {
 }
 
 class gui_drawselects extends guiinput {
-	function gui_drawselects($elemname, $index, $dest, $prompttext = '', $helptext = '', $canbeempty = true, $failvalidationmsg='', $nodest_msg='', $required = false) {
+	function gui_drawselects($elemname, $index, $dest, $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='') {
 		global $currentcomponent;
 		$parent_class = get_parent_class($this);
 		$jsvalidation = isset($jsvalidation) ? $jsvalidation : '';
 		$jsvalidationtest = isset($jsvalidationtest) ? $jsvalidationtest : '';
 		parent::$parent_class($elemname, '', $prompttext, $helptext, $jsvalidation, $failvalidationmsg, '', $jsvalidationtest);
 		
-		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $canbeempty);
+		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $required);
 
-		//adttach a value to this element, so that we can find its value
-		$currentcomponent->addguielem('', new gui_hidden($elemname,'goto'.$index));
+		//attach a value to this element, so that we can find its value
+		$currentcomponent->addguielem('', new gui_hidden($elemname,'goto'.$index,false));
 	}	
 }
 
