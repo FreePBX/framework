@@ -233,6 +233,20 @@ class notifications{
 		$sql = "UPDATE notifications SET reset = 1 WHERE module = $module AND id = $id";
 		sql($sql);
 	}
+    /**
+      * Forcefully Delete notifications of all specified level
+      * 
+      * @param NOTIFICAION LEVEL or blank for ALL levels
+      */
+	function delete_level($level="") {
+
+		$sql = "DELETE FROM notifications";
+		if ($level == '') {
+			$level        = q($level);
+			$sql .= ' ' . "WHERE level = $level";
+		}
+		sql($sql);
+	}
 
     /**
       * Forcefully Delete notifications of module & id
