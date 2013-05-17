@@ -19,7 +19,7 @@
 
 /********************************************************************************************************************/
 /* freepbxlib.install.php
- * 
+ *
  * These are used by install_amp and the framework install script to run updates
  *
  * These variables are required to be defined outside of this library. The purpose
@@ -103,7 +103,7 @@ function upgrade_all($version) {
  */
 function run_upgrade($versions) {
 	global $dryrun;
-	
+
 	foreach ($versions as $version) {
 		out("Upgrading to ".$version."..");
 		install_upgrade($version);
@@ -130,9 +130,9 @@ function setversion($version) {
 	global $db;
 	$sql = "UPDATE admin SET value = '".$version."' WHERE variable = 'version'";
 	debug($sql);
-	$result = $db->query($sql); 
-	if(DB::IsError($result)) {     
-		die($result->getMessage()); 
+	$result = $db->query($sql);
+	if(DB::IsError($result)) {
+		die($result->getMessage());
 	}
 }
 
@@ -142,9 +142,9 @@ function install_upgrade($version) {
 	global $db;
 	global $dryrun;
 	global $amp_conf;
-	
+
 	$db_engine = $amp_conf["AMPDBENGINE"];
-	
+
 	if (is_dir(UPGRADE_DIR."/".$version)) {
 		// sql scripts first
 		$dir = opendir(UPGRADE_DIR."/".$version);
@@ -153,7 +153,7 @@ function install_upgrade($version) {
 				if ( (strtolower(substr($file,-4)) == ".sqlite") && ($db_engine == "sqlite") ) {
 					install_sqlupdate( $version, $file );
 				}
-				elseif ((strtolower(substr($file,-4)) == ".sql") && 
+				elseif ((strtolower(substr($file,-4)) == ".sql") &&
 						( ($db_engine  == "mysql")  ||  ($db_engine  == "pgsql") || ($db_engine == "sqlite3") ) ) {
 					install_sqlupdate( $version, $file );
 				}
@@ -232,33 +232,33 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 
 	// total # files, # actually copied
 	$num_files = $num_copied = 0;
-	
+
 	if ($dirsource && ($dirsource[0] != "/")) $dirsource = "/".$dirsource;
-	
+
 	if (is_dir($dirsourceparent.$dirsource)) $dir_handle = opendir($dirsourceparent.$dirsource);
-	
+
 	/*
 	echo "dirsourceparent: "; var_dump($dirsourceparent);
 	echo "dirsource: "; var_dump($dirsource);
 	echo "dirdest: "; var_dump($dirdest);
 	*/
-	
+
 	while (isset($dir_handle) && ($file = readdir($dir_handle))) {
 		if (($file!=".") && ($file!="..") && ($file != "CVS") && ($file != ".svn")) {
 			$source = $dirsourceparent.$dirsource."/".$file;
 			$destination =  $dirdest.$dirsource."/".$file;
-			
+
 			if ($dirsource == "" && $file == "moh" && !$install_moh) {
 				// skip to the next dir
 				continue;
 			}
 
-			
+
 			// configurable in amportal.conf
 			$destination=str_replace("/htdocs",trim($amp_conf["AMPWEBROOT"]),$destination);
 			if(strpos($dirsource, 'modules') === false) $destination=str_replace("/bin",trim($amp_conf["AMPBIN"]),$destination);
 			$destination=str_replace("/sbin",trim($amp_conf["AMPSBIN"]),$destination);
-			
+
 			// the following are configurable in asterisk.conf
 			$destination=str_replace("/astetc",trim($asterisk_conf["astetcdir"]),$destination);
 			$destination=str_replace("/moh",trim($asterisk_conf["astvarlibdir"])."/$moh_subdir",$destination);
@@ -274,7 +274,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 					}
 				}
 			}
-			
+
 			//var_dump($md5sums);
 			if (!is_dir($source)) {
 				$md5_source = preg_replace("|^/?amp_conf/|", "/", $source);
@@ -283,7 +283,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 					// double check using diff utility (and ignoring whitespace)
 					// This is a somewhat edge case (eg, the file doesn't match
 					// it's md5 sum from the previous version, but no substantial
-					// changes exist compared to the current version), but it 
+					// changes exist compared to the current version), but it
 					// prevents a useless prompt to the user.
 					if (checkDiff($source, $destination)) {
 						$overwrite = ask_overwrite($source, $destination);
@@ -294,8 +294,8 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 				} else {
 					$overwrite = true;
 				}
-				
-        // These are modified by apply_conf.sh, there may be others that fit in this category also. This keeps these from 
+
+        // These are modified by apply_conf.sh, there may be others that fit in this category also. This keeps these from
         // being symlinked and then developers inadvertently checking in the changes when they should not have.
         //
         $never_symlink = array("cdr_mysql.conf", "manager.conf", "vm_email.inc");
@@ -326,9 +326,9 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 			}
 		}
 	}
-	
+
 	if (isset($dir_handle)) closedir($dir_handle);
-	
+
 	return array($num_files, $num_copied);
 }
 
@@ -350,7 +350,7 @@ function read_md5_file($filename) {
 function run_included($file) {
 	global $db;
 	global $amp_conf;
-	
+
 	include($file);
 }
 
@@ -369,13 +369,13 @@ function install_sqlupdate( $version, $file )
 	fclose($fd);
 
 	preg_match_all("/((SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER).*);\s*\n/Us", $data, $matches);
-	
+
 	foreach ($matches[1] as $sql) {
 		debug($sql);
 		if (!$dryrun) {
-			$result = $db->query($sql); 
-			if(DB::IsError($result)) {     
-				fatal($result->getDebugInfo()."\" while running ".$file."\n"); 
+			$result = $db->query($sql);
+			if(DB::IsError($result)) {
+				fatal($result->getDebugInfo()."\" while running ".$file."\n");
 			}
 		}
 	}
@@ -789,7 +789,7 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['type'] = CONF_TYPE_TEXT;
 	$freepbx_conf->define_conf_setting('JQUERY_VER', $set);
 	$set['hidden'] = 0;
-	
+
 	//JQUERYUI_VER
 	$set['value'] = '1.8.9';
 	$set['options'] = '';
@@ -805,7 +805,7 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['type'] = CONF_TYPE_TEXT;
 	$freepbx_conf->define_conf_setting('JQUERYUI_VER', $set);
 	$set['hidden'] = 0;
-	
+
 
   //
   // CATEGORY: Dialplan and Operational
@@ -942,8 +942,8 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['readonly'] = 0;
   $set['type'] = CONF_TYPE_SELECT;
   $freepbx_conf->define_conf_setting('CFRINGTIMERDEFAULT',$set);
-  unset($opts);  
- 
+  unset($opts);
+
   // DEFAULT_INTERNAL_AUTO_ANSWER
   $set['value'] = 'disabled';
   $set['options'] = array('disabled','intercom');
@@ -977,7 +977,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['readonly'] = 0;
   $set['type'] = CONF_TYPE_SELECT;
   $freepbx_conf->define_conf_setting('CONCURRENCYLIMITDEFAULT',$set);
-  unset($opts);  
+  unset($opts);
 
   // BLOCK_OUTBOUND_TRUNK_CNAM
   $set['value'] = false;
@@ -1051,7 +1051,7 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['hidden'] = 0;
 	$set['type'] = CONF_TYPE_SELECT;
 	$freepbx_conf->define_conf_setting('ASTCONFAPP', $set);
-	
+
   // TRUNK_RING_TIMER
   $set['value'] = '300';
   $set['name'] = 'Trunk Dial Timeout';
@@ -1114,7 +1114,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_DIR;
   $set['level'] = 4;
   $freepbx_conf->define_conf_setting('AMPSBIN',$set);
-    
+
   // AMPWEBROOT
   $set['value'] = '/var/www/html';
   $set['options'] = '';
@@ -1256,12 +1256,12 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = false;
   $set['options'] = '';
   $set['name'] = 'Show Language setting';
-  $set['description'] = 'Show Lanugage setting on menu . Defaults = false';
+  $set['description'] = 'Show Language setting on menu . Defaults = false';
   $set['emptyok'] = 0;
   $set['readonly'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('SHOWLANGUAGE', $set);
-  
+
   // SERVERINTITLE
   $set['value'] = false;
   $set['options'] = '';
@@ -1411,7 +1411,7 @@ function freepbx_settings_init($commit_to_db = false) {
   // ASTMGRWRITETIMEOUT
   $set['value'] = '5000';
   $set['name'] = 'Asterisk Manager Write Timeout';
-  $set['description'] = 
+  $set['description'] =
   	'Timeout, im ms, for write timeouts for cases where Asterisk disconnects frequently';
   $set['readonly'] = 1;
   $set['type'] = CONF_TYPE_INT;
@@ -1538,7 +1538,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['readonly'] = 1;
   $set['type'] = CONF_TYPE_DIR;
   $freepbx_conf->define_conf_setting('AMPLOCALBIN',$set);
-  
+
   // DISABLE_CSS_AUTOGEN
   $set['value'] = false;
   $set['options'] = '';
@@ -1684,7 +1684,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['emptyok'] = 0;
   $freepbx_conf->define_conf_setting('BRAND_IMAGE_FAVICON', $set);
   $set['hidden'] = 0;
-  
+
   // BRAND_TITLE
   $set['value'] = 'FreePBX Administration';
   $set['options'] = '';
@@ -1697,7 +1697,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['emptyok'] = 0;
   $freepbx_conf->define_conf_setting('BRAND_TITLE', $set);
   $set['hidden'] = 0;
-  
+
   // BRAND_IMAGE_TANGO_LEFT
   $set['value'] = 'images/tango.png';
   $set['options'] = '';
@@ -2037,7 +2037,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('VIEW_OBE', $set);
   $set['hidden'] = 0;
-  
+
   // JQUERY_CSS
   $set['value']	= 'assets/css/jquery-ui.css';
   $set['options'] = '';
@@ -2346,7 +2346,7 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['emptyok'] = 1;
 	$freepbx_conf->define_conf_setting('mainstyle_css_generated', $set);
   $set['hidden'] = 0;
-	
+
   // The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
   // retain their values until the individual modules are updated and their install scripts run where a full
   // configuration (descriptions, defaults, etc.) will be provided and maintained. This provides just enough to
