@@ -28,43 +28,41 @@ $html .= '</div>'; //page
 
 //localized strings and other javascript values that need to be set dynamically
 //TODO: this should be done via callbacks so that all modules can hook in to it
-if ($covert) {
-	$fpbx['conf'] = $amp_conf;
-	$clean = array(
-			'AMPASTERISKUSER',
-			'AMPASTERISKGROUP',
-			'AMPASTERISKWEBGROUP',
-			'AMPASTERISKWEBUSER',
-			'AMPDBENGINE',
-			'AMPDBHOST',
-			'AMPDBNAME',
-			'AMPDBPASS',
-			'AMPDBUSER',
-			'AMPDEVGROUP',
-			'AMPDEVUSER',
-			'AMPMGRPASS',
-			'AMPMGRUSER',
-			'AMPVMUMASK',
-			'ARI_ADMIN_PASSWORD',
-			'ARI_ADMIN_USERNAME',
-			'ASTMANAGERHOST',
-			'ASTMANAGERPORT',
-			'ASTMANAGERPROXYPORT',
-			'CDRDBHOST',
-			'CDRDBNAME',
-			'CDRDBPASS',
-			'CDRDBPORT',
-			'CDRDBTABLENAME',
-			'CDRDBTYPE',
-			'CDRDBUSER',
-			'FOPPASSWORD',
-			'FOPSORT',
-	);
+$fpbx['conf'] = $amp_conf;
+$clean = array(
+		'AMPASTERISKUSER',
+		'AMPASTERISKGROUP',
+		'AMPASTERISKWEBGROUP',
+		'AMPASTERISKWEBUSER',
+		'AMPDBENGINE',
+		'AMPDBHOST',
+		'AMPDBNAME',
+		'AMPDBPASS',
+		'AMPDBUSER',
+		'AMPDEVGROUP',
+		'AMPDEVUSER',
+		'AMPMGRPASS',
+		'AMPMGRUSER',
+		'AMPVMUMASK',
+		'ARI_ADMIN_PASSWORD',
+		'ARI_ADMIN_USERNAME',
+		'ASTMANAGERHOST',
+		'ASTMANAGERPORT',
+		'ASTMANAGERPROXYPORT',
+		'CDRDBHOST',
+		'CDRDBNAME',
+		'CDRDBPASS',
+		'CDRDBPORT',
+		'CDRDBTABLENAME',
+		'CDRDBTYPE',
+		'CDRDBUSER',
+		'FOPPASSWORD',
+		'FOPSORT',
+);
 	
-	foreach ($clean as $var) {
-		if (isset($fpbx['conf'][$var])) {
-			unset($fpbx['conf'][$var]);
-		}
+foreach ($clean as $var) {
+	if (isset($fpbx['conf'][$var])) {
+		unset($fpbx['conf'][$var]);
 	}
 }
 
@@ -93,6 +91,17 @@ $fpbx['msg']['framework']['validateSingleDestination']['required'] = _('Please s
 $fpbx['msg']['framework']['validateSingleDestination']['error'] = _('Custom Goto contexts must contain the string "custom-".  ie: custom-app,s,1'); 
 $fpbx['msg']['framework']['weakSecret']['length'] = _("The secret must be at minimum six characters in length.");
 $fpbx['msg']['framework']['weakSecret']['types'] = _("The secret must contain at least two numbers and two letters.");
+
+if ($covert) {
+	$fpbx['conf'] = array (
+			'ASTVERSION' => '',
+			'uniqueid' => '',
+			'reload_needed' => '',
+			'dist' => array( 
+				'pbx_type' => '',
+				'pbx_version' => '')
+			);
+}
 
 $html .= "\n" . '<script type="text/javascript">'
 		. 'var fpbx='

@@ -123,6 +123,13 @@
 		$fpbx['msg']['framework']['validateSingleDestination']['error'] = _('Custom Goto contexts must contain the string "custom-".  ie: custom-app,s,1'); 
 		$fpbx['msg']['framework']['weakSecret']['length'] = _("The secret must be at minimum six characters in length.");
 		$fpbx['msg']['framework']['weakSecret']['types'] = _("The secret must contain at least two numbers and two letters.");
+		
+		if (!isset($_SESSION['ari_user'])) {
+			$fpbx['conf'] = array('uniqueid' => '',
+								'dist' => '',
+								'ver' => '');
+		}
+		
 		$html .= "\n" . '<script type="text/javascript">'
 				. 'var fpbx='
 				. json_encode($fpbx)
