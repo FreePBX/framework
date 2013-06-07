@@ -47,8 +47,15 @@ if (isset($_GET['recindex'])) {
     header("Content-Transfer-Encoding: binary");
     header("Content-length: " . $size);
     ob_clean();
-    fpassthru($fp);
-  } 
+    $chunksize = 1*(1024*1024);
+    while (!feof($fp)) {
+        $buffer = fread($fp, $chunksize);
+        echo $buffer;
+        ob_flush();
+        flush();
+    }
+    fclose($fp);
+  }
 }
 
 ?>
