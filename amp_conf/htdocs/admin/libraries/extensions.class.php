@@ -136,6 +136,11 @@ class extensions {
 	function is_priority($num) {
 		return ctype_digit((string) $num);
 	}	
+
+	function section_exists($section) {
+		return isset($this->_exts[$section]);
+	}
+
 	/* This function allows new priorities to be injected into already generated dialplan
 	*  usage: $ext->splice($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
 	*         if $priority is not numeric, it will interpret it as a tag and try to inject 
