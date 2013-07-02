@@ -632,6 +632,11 @@ class freepbx_conf {
         $this->db_conf_store[$keyword]['modified'] = true;
         $cnt++;
       }
+
+			// Process some specific keywords that require further actions
+			//
+			$this->_setting_change_special($keyword, $prep_value);
+
     }
     if ($commit) {
       $this->commit_conf_settings();
@@ -853,7 +858,6 @@ class freepbx_conf {
     if ($commit) {
       $this->commit_conf_settings();
     }
-
   }
 
   /** Removes a set of settings from the db_conf_store, used in functions like
@@ -1082,6 +1086,31 @@ class freepbx_conf {
     $this->_last_update_status['saved'] = true;
     return $ret;
   }
+
+	/** Deal with corner case Settings that change and need further actions
+	 * 
+	 * Some settings require further actions when they change. Any time we set, reset,
+	 * etc the settings we should call this function. 
+	 *
+	 * @param string $keyword the setting that needs to be addressed
+	 * @param string $value the new value for the setting that was just changed
+	 *
+	 * @return null  
+	 */
+	function _setting_change_special($keyword, $prep_value) {
+			switch ($keyword) {
+				case 'AMPMGRPASS':
+					fpbx_ami_update(false, $prep_value);
+				break;
+				case 'AMPMGRUSER':
+					fpbx_ami_update($prep_value, false);
+				break;
+				case 'ASTMGRWRITETIMEOUT':
+					fpbx_ami_update(false, false, true);
+				break;
+			}
+	}
+
 }
 
 /** DEPRECATED: $amp_conf provided by bootstrap or use freepbx_conf class.
