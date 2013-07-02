@@ -776,10 +776,12 @@ switch ($operation ) {
 		doUninstall($param, $force);
 	break;
 	case 'upgrade':
+	case 'update':
 		doUpgrade($param, $force);
 		setPerms();
 	break;
 	case 'upgradeall':
+	case 'updateall':
 		doUpgradeAll($force);
 		setPerms();
 	break;
