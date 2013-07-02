@@ -1318,8 +1318,9 @@ function fpbx_pdfinfo($pdf) {
  * Update AMI credentials in manager.conf
  * 
  * @author Philippe Lindheimer
- * @pram string
- * @pram string
+ * @pram mixed $user false means don't change
+ * @pram mixed $pass password false means don't change
+ * @pram mixed $writetimeout false means don't change
  * @returns boolean
  * 
  * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
@@ -1352,6 +1353,18 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 			foreach ($output as $line) {
 				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
 			}
+		}
+
+		// We've changed the password, let's update the notification
+		//
+		$nt = notifications::create($db);
+		$freepbx_conf =& freepbx_conf::create();
+		if ($amp_conf['AMPMGRPASS'] == $freepbx_conf->get_conf_default_setting('AMPMGRPASS')) {
+  		if (!$nt->exists('core', 'AMPMGRPASS')) {
+	  		$nt->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
+  		}
+		} else {
+			$nt->delete('core', 'AMPMGRPASS');
 		}
 	}
 	
