@@ -276,6 +276,56 @@ class notifications{
 		sql($sql);
 	}
 
+    /**
+		 * Ignore all future notifications for this type and delete
+		 * if there are currently any
+		 * 
+		 * @param string $module Raw name of the module requesting
+		 * @param string $id ID of the notification
+		 */
+	function ignore_forever($module, $id) {
+
+		$freepbx_conf =& freepbx_conf::create();
+		$setting = "NOTIFICATION_IGNORE_$module:$id";
+
+		if (!$freepbx_conf->conf_setting_exists($setting)) {
+			$set['value'] = true;
+			$set['defaultval'] =& $set['value'];
+			$set['options'] = '';
+			$set['readonly'] = 1;
+			$set['hidden'] = 1;
+			$set['level'] = 10;
+			$set['module'] = '';
+			$set['category'] = 'Internal Use';
+			$set['emptyok'] = 0;
+			$set['name'] = "Ignore Notifications $module:$id";
+			$set['description'] = "Always ignore notifications for $module:$id";
+			$set['type'] = CONF_TYPE_BOOL;
+			$freepbx_conf->define_conf_setting($setting,$set);
+		} else {
+			$freepbx_conf->set_conf_values(array($setting => true), true, true);
+		}
+		$this->delete($module, $id);
+		return true;
+	}
+
+    /**
+		 * Start paying attention to this notification type again
+		 * 
+		 * Undoes the effect of method ignore_forever
+		 * 
+		 * @param string $module Raw name of the module requesting
+		 * @param string $id ID of the notification
+		 */
+	function undo_ignore_forever($module, $id) {
+
+		$freepbx_conf =& freepbx_conf::create();
+		$setting = "NOTIFICATION_IGNORE_$module:$id";
+
+		$freepbx_conf->remove_conf_setting($setting);
+	}
+
+
 	/* Internal functions
 	 */
 
@@ -294,6 +344,11 @@ class notifications{
        * @ignore 
        */
 	function _add_type($level, $module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
+		global $amp_conf;
+		if (!empty($amp_conf["NOTIFICATION_IGNORE_$module:$id"])) {
+			return null;
+		}
+
 		if ($this->not_loaded) {
 			$this->notification_table = $this->_list("",true);
 			$this->not_loaded = false;
