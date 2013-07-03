@@ -1,4 +1,15 @@
 <?php
+
+
+/* TODO:
+ *  create method to inform notifications to clear and never respond to specific advanced settings which can be called
+ *  by a skinning module.
+ *   - either an advanced hidden setting could do this, or we could embed it in the admin module the disadvantage to that
+ *     sould be reading that db each time vs. just getting poplulated in advanced settings which could simply be
+ *     NOTIFICATION_IGNORE_module_id
+ *
+ */
+
 /**
 * FreePBX Notifications
 *
@@ -286,7 +297,7 @@ class notifications{
 	function ignore_forever($module, $id) {
 
 		$freepbx_conf =& freepbx_conf::create();
-		$setting = "NOTIFICATION_IGNORE_$module:$id";
+		$setting = "NOTIFICATION_IGNORE_$module-$id";
 
 		if (!$freepbx_conf->conf_setting_exists($setting)) {
 			$set['value'] = true;
@@ -298,8 +309,8 @@ class notifications{
 			$set['module'] = '';
 			$set['category'] = 'Internal Use';
 			$set['emptyok'] = 0;
-			$set['name'] = "Ignore Notifications $module:$id";
-			$set['description'] = "Always ignore notifications for $module:$id";
+			$set['name'] = "Ignore Notifications $module-$id";
+			$set['description'] = "Always ignore notifications for $module-$id";
 			$set['type'] = CONF_TYPE_BOOL;
 			$freepbx_conf->define_conf_setting($setting,$set);
 		} else {
@@ -320,7 +331,7 @@ class notifications{
 	function undo_ignore_forever($module, $id) {
 
 		$freepbx_conf =& freepbx_conf::create();
-		$setting = "NOTIFICATION_IGNORE_$module:$id";
+		$setting = "NOTIFICATION_IGNORE_$module-$id";
 
 		$freepbx_conf->remove_conf_setting($setting);
 	}
