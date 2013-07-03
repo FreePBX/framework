@@ -1098,19 +1098,24 @@ class freepbx_conf {
 	 * @return null  
 	 */
 	function _setting_change_special($keyword, $prep_value) {
-			switch ($keyword) {
-				case 'AMPMGRPASS':
-					fpbx_ami_update(false, $prep_value);
-				break;
-				case 'AMPMGRUSER':
-					fpbx_ami_update($prep_value, false);
-				break;
-				case 'ASTMGRWRITETIMEOUT':
-					fpbx_ami_update(false, false, true);
-				break;
-			}
+		global $amp_conf;
+		switch ($keyword) {
+			case 'AMPMGRPASS':
+				$amp_conf[$keyword] = $prep_value;
+				fpbx_ami_update(false, $prep_value);
+			break;
+			case 'AMPMGRUSER':
+				$amp_conf[$keyword] = $prep_value;
+				fpbx_ami_update($prep_value, false);
+			break;
+			case 'ASTMGRWRITETIMEOUT':
+				$amp_conf[$keyword] = $prep_value;
+				fpbx_ami_update(false, false, true);
+			break;
+			default:
+			break;
+		}
 	}
-
 }
 
 /** DEPRECATED: $amp_conf provided by bootstrap or use freepbx_conf class.
