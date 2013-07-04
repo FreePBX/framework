@@ -599,6 +599,7 @@ class freepbx_conf {
    *                values and are marked dirty unless written out.
    */
   function set_conf_values($update_arr, $commit=false, $override_readonly=false) {
+		global $amp_conf;
     $cnt = 0;
     if (!is_array($update_arr)) {
       die_freepbx(_("called set_conf_values with a non-array"));
@@ -633,6 +634,9 @@ class freepbx_conf {
         $cnt++;
       }
 
+			// Make sure it get's update in amp_conf
+			//
+			$amp_conf[$keyword] = $prep_value;
 			// Process some specific keywords that require further actions
 			//
 			$this->_setting_change_special($keyword, $prep_value);
@@ -1098,18 +1102,14 @@ class freepbx_conf {
 	 * @return null  
 	 */
 	function _setting_change_special($keyword, $prep_value) {
-		global $amp_conf;
 		switch ($keyword) {
 			case 'AMPMGRPASS':
-				$amp_conf[$keyword] = $prep_value;
 				fpbx_ami_update(false, $prep_value);
 			break;
 			case 'AMPMGRUSER':
-				$amp_conf[$keyword] = $prep_value;
 				fpbx_ami_update($prep_value, false);
 			break;
 			case 'ASTMGRWRITETIMEOUT':
-				$amp_conf[$keyword] = $prep_value;
 				fpbx_ami_update(false, false, true);
 			break;
 			default:
