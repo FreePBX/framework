@@ -301,7 +301,7 @@ class notifications{
 			$set['name'] = "Ignore Notifications $module-$id";
 			$set['description'] = "Always ignore notifications for $module-$id";
 			$set['type'] = CONF_TYPE_BOOL;
-			$freepbx_conf->define_conf_setting($setting,$set);
+			$freepbx_conf->define_conf_setting($setting,$set,true);
 		} else {
 			$freepbx_conf->set_conf_values(array($setting => true), true, true);
 		}
