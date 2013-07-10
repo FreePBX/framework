@@ -992,9 +992,13 @@ $(document).ready(function(){
 				this.value++;
 			}
 		}
-	}).parents('form').submit(function(){
+	}).parents('form').submit(function(e){
 		/* If there is a duplicate-exten class on an element then validation fails, don't let the form submit
 		 */
+		// If a previous submit handler has cancelled this don't bother
+		if (e.isDefaultPrevented()) {
+			return false;
+		}
 		exten = $('.duplicate-exten', this);
 		if (exten.length > 0) {
 			extnum = exten.val();
@@ -1090,5 +1094,16 @@ $(document).ready(function(){
 				})
 			 }
         });
+	});
+
+	/* Remove all hidden secondary dropdown boxes for destinations if previous submit handlers have
+	 * not already cancelled the submit so that we try to prevent the max input box limits of PHP.
+	 * This should be kept as much last as possible so it gets fired after all other submit actions.
+	 */
+	$('form').submit(function(e){
+		// If the page isn't going to submit then don't remove the elements
+		if (!e.isDefaultPrevented()) {
+			$('.destdropdown2').filter(':hidden').remove();
+		}
 	});
 });
