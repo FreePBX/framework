@@ -79,11 +79,12 @@ if ($logout == 'true') {
 
 //session_cache_limiter('public, no-store');
 if (isset($_REQUEST['handler'])) {
-	$restrict_mods = true;
+	if ($restrict_mods === false) {
+		$restrict_mods = true;
+	}
 	// I think reload is the only handler that requires astman, so skip it for others
 	switch ($_REQUEST['handler']) {
 		case 'api':
-			$restrict_mods = false;
 			break;
 		case 'reload';
 			break;
