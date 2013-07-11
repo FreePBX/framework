@@ -345,7 +345,7 @@ class notifications{
        */
 	function _add_type($level, $module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
 		global $amp_conf;
-		if (!empty($amp_conf["NOTIFICATION_IGNORE_$module:$id"])) {
+		if (!empty($amp_conf["NOTIFICATION_IGNORE_{$module}_{$id}"])) {
 			return null;
 		}
 
