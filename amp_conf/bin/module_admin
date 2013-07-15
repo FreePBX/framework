@@ -19,7 +19,7 @@ $bootstrap_settings['freepbx_auth'] = false;
 // module_admin is somtimes the only way to recover from a bad module being loaded into
 // a system.
 //
-$restrict_mods = true;
+//$restrict_mods = true;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 	include_once('/etc/asterisk/freepbx.conf');
 }
