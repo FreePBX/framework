@@ -97,7 +97,10 @@ if (isset($_REQUEST['handler'])) {
 		case 'reload';
 			break;
 		default:
-			$bootstrap_settings['skip_astman'] = true;
+			// If we didn't provide skip_astman in the $_REQUEST[] array it will be boolean false and for handlers, this should default
+			// to true, if we did provide it, it will NOT be a boolean (it could be 0) so we will honor the setting
+			//
+			$bootstrap_settings['skip_astman'] = $bootstrap_settings['skip_astman'] === false ? true : $bootstrap_settings['skip_astman'];
 			break;
 	}
 }
