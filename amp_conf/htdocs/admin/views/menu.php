@@ -6,10 +6,12 @@ $out = '';
 $out .= '<div id="header">';
 $out .= '<div class="menubar ui-widget-header ui-corner-all">';
 //left hand logo
-$out .= '<img src="' . $amp_conf['BRAND_IMAGE_TANGO_LEFT'] 
-		. '" alt="FreePBX" title="FreePBX" id="MENU_BRAND_IMAGE_TANGO_LEFT" '
+$out .= '<img src="' . $amp_conf['BRAND_IMAGE_TANGO_LEFT']
+        . '" alt="' . $amp_conf['BRAND_FREEPBX_ALT_LEFT']
+        . '" title="' . $amp_conf['BRAND_FREEPBX_ALT_LEFT']
+        . '" id="MENU_BRAND_IMAGE_TANGO_LEFT" '
 		. 'data-BRAND_IMAGE_FREEPBX_LINK_LEFT="' . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_LEFT'] . '"/>';
-		
+
 // If freepbx_menu.conf exists then use it to define/redefine categories
 //
 if ($amp_conf['USE_FREEPBX_MENU_CONF']) {
@@ -71,7 +73,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			$menu[$deets['category']][] = $deets;
 		}
   }
-	
+
 	$count = 0;
 	foreach($menu as $t => $cat) { //catagories
     if (count($cat) == 1) {
@@ -93,13 +95,13 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 				continue;
 			}
 			$classes = array();
-				
+
 			//build defualt module url
 			$href = isset($mod['href'])
 					? $mod['href']
 					: "config.php?display=" . $mod['display'];
 
-      $target = isset($mod['target']) 
+      $target = isset($mod['target'])
           ? ' target="' . $mod['target'] . '" '  : '';
 
 			//highlight currently in-use module

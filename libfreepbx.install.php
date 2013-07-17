@@ -1732,7 +1732,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('BRAND_IMAGE_SPONSOR_FOOT',$set);
 
   // BRAND_FREEPBX_ALT_LEFT
-  $set['value'] = '';
+  $set['value'] = 'FreePBX';
   $set['options'] = '';
   $set['name'] = 'Alt for Left Logo';
   $set['description'] = 'alt attribute to use in place of image and title hover value. Defaults to FreePBX';
