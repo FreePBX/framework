@@ -37,12 +37,6 @@ class modulelist{
       if (!isset($mod['license'])) {
         $this->module_array[$mod_key]['license'] = '';
       }
-      if (isset($mod['candisable'])) {
-        unset($this->module_array[$mod_key]['candisable']);
-      }
-      if (isset($mod['canuninstall'])) {
-        unset($this->module_array[$mod_key]['canuninstall']);
-      }
       if (isset($mod['location'])) {
         unset($this->module_array[$mod_key]['location']);
       }
