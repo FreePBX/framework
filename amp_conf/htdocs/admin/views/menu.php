@@ -17,7 +17,7 @@ $out .= '<img src="' . $amp_conf['BRAND_IMAGE_TANGO_LEFT']
 if ($amp_conf['USE_FREEPBX_MENU_CONF']) {
   $fd = $amp_conf['ASTETCDIR'].'/freepbx_menu.conf';
   if (file_exists($fd)) {
-    $favorites = parse_ini_file($fd,true);
+    $favorites = @parse_ini_file($fd,true);
     if ($favorites !== false) foreach ($favorites as $menuitem => $setting) {
       if (isset($fpbx_menu[$menuitem])) {
         foreach($setting as $key => $value) {
@@ -46,7 +46,9 @@ if ($amp_conf['USE_FREEPBX_MENU_CONF']) {
           }
         }
       }
-    }
+		} else {
+			freepbx_log('FPBX_LOG_ERROR', _("Syntax error in your freepbx_menu.conf file"));
+		}
   }
 }
 
