@@ -3,7 +3,7 @@
  * api:		php
  * title:	upgrade.php
  * description:	Emulates functions from new PHP versions on older interpreters.
- * version:	17
+ * version:	18
  * license:	Public Domain
  * url:		http://freshmeat.net/projects/upgradephp
  * type:	functions
@@ -41,18 +41,12 @@
 
 
 /**
- *                                   --------------------- CVS / FUTURE ---
- * @group CVS
+ *                                   -------------------------- FUTURE ---
+ * @group SVN
  * @since future
  *
  * Following functions aren't implemented in current PHP versions, but
  * might already be in CVS/SVN.
- *
- * @emulated
- *    gzdecode
- *
- * @moved out
- *    contrib/xmlentities
  *
  */
 
@@ -60,11 +54,159 @@
 
 
 
+
+
 /**
- * @since 6.0
+ *                                   ----------------------------- 5.4 ---
+ * @group 5_4
+ * @since 5.4
+ *
+ * Extensions in PHP 5.4
+ *
+ * @emulated
+ *    gzdecode
+ *    hex2bin
+ *    session_status -> basic probing
+ *
+ * @stub
+ *    class_uses
+ *    trait_exists
+ *    get_declared_traits
+ *
+ * @missing
+ *    libxml_set_external_entity_loader
+ *    zlib_encode -> PHP_ZLIB_ENCODE_FUNC(zlib_encode, 0);
+ *    zlib_decode -> PHP_ZLIB_DECODE_FUNC(zlib_decode, PHP_ZLIB_ENCODING_ANY);
+ *    session_register_shutdown
+ *    socket_import_stream
+ *    getimagesizefromstring
+ *    header_register_callback
+ *    http_response_code
+ *    stream_set_chunk_size
+ *    CallbackFilterIterator
+ *    RecursiveCallbackFilterIterator
+ *    SessionHandler
+ *    ReflectionZendExtension
+ *
+ * @unimplementable
+ *    imageantialias
+ *    imagelayereffect
+ *
+ */
+
+
+
+/**
+ * Simple convenience function for pack H*,
+ * Converts a hextuplet string into its binary representation.
+ *
+ */
+if (!function_exists("hex2bin")) {
+   function hex2bin($hex) {
+       return pack("H*", $hex);
+   }
+}
+
+
+
+/**
+ * Set or get HTTP status code.
+ *
+ */
+if (!function_exists("http_response_code")) {
+   function http_response_code($which=NULL) {
+
+       $cgi = ini_get("cgi.rfc2616_headers");
+       $headers = preg_grep("#^Status:|^HTTP/\d\.\d#i", headers_list());
+
+       # override       
+       if ($which >= 100 and $which <= 999) {
+           if ($headers) {
+               header_remove(current($headers));
+           }
+           # implicit notices for headers_sent()
+           header($cgi ? "HTTP/1.0 $which n/a" : "Status: $which n/a");
+       }
+       # get current
+       elseif ($which == NULL) {
+           if (!$headers || !preg_match("/\d\d\d/", current($headers), $m)) {
+               return 200; #default
+           }
+           return intval($m[0]);
+       }
+       else trigger_error("invalid status number", E_USER_WARNING);
+   }
+}
+
+
+
+/**
+ * Sends a Location: header. Unlike the PHP-builtin, it won't complete relative URLs.
+ * So it's RFC6616 compliant, not anal about the original HTTP/1.1 revision RFC2616.
+ * The <meta> fallback is also extraneous.
+ * Belongs to http extensions actually. (Will be grouped out in later upgradephp revision.)
+ *
+ */
+if (!function_exists("http_redirect")) {
+   function http_redirect($url, $params=array(), $session=false, $status=0) {
+       if ($session) {
+           $params[session_name()] = session_id();
+       }
+       if ($params) {
+           $url .= strstr($url, "?") ? "&" : "?";
+           $url .= http_build_query($params);
+       }
+       header("Location: $url"); #, $status ? $status : 301);
+       $url = htmlspecialchars($url, ENT_QUOTES, "UTF-8");
+       print "Redirecting to <a href=\"$url\">$url</a>\n";
+       print "<meta http-equiv=\"Location\" content=\"$url\" />\n";
+       exit; // built-in exit
+   }
+}
+
+
+
+/**
+ * Sends a Content-Type: header
+ * Belongs to http extensions actually. (Will be grouped out in later upgradephp revision.)
+ *
+ */
+if (!function_exists("http_send_content_type")) {
+   function http_send_content_type($content_type="application/x-octetstream") {
+       return header("Content-Type: $content_type");
+   }
+}
+
+
+
+/**
+ * @stub
+ * Traits (partial classes, elaborate syntactic and academic workaround, because MI is
+ * hard to implement in *compiled* languages) cannot be emulated in older interpreters.
+ *
+ */
+if (!function_exists("class_uses")) {
+   function class_uses($trait) {
+       return false;
+   }
+}
+if (!function_exists("trait_exists")) {
+   function trait_exists($trait) {
+       return false;
+   }
+}
+if (!function_exists("get_declared_traits")) {
+   function get_declared_traits($trait) {
+       return (array)NULL;
+   }
+}
+
+
+
+/**
+ * Long predicted, officially available @since 5.4.
  *
  * Inflates a string enriched with gzip headers. Counterpart to gzencode().
- * Not yet in any Zend-PHP.
  *
  */
 if (!function_exists("gzdecode")) {
@@ -138,6 +280,63 @@ if (!function_exists("gzdecode")) {
 
 
 
+/**
+ * Probes for format(?) before decoding with one of the gz* functions.
+ *
+ */
+if (!function_exists("zlib_decode")) {
+   function zlib_decode($data) {
+       if (!strncmp($data, "\x1F\x8B", 2)) {
+           return gzdecode($data);
+       }
+       elseif (!strncmp($data, "\x78\x9C", 2)) {
+           return gzuncompress($data);
+       }
+       else {
+           return gzinflate($data);
+       }
+   }
+}
+
+/**
+ * Weird constants, not documented in the manual yet, but that's how the function declaration looks.
+ *
+ */
+if (!function_exists("zlib_encode")) {
+   define("ZLIB_ENCODING_DEFLATE", 15);
+   define("ZLIB_ENCODING_RAW", -15);
+   define("ZLIB_ENCODING_GZIP", 31);
+   function zlib_encode($data, $method) {
+       if ($method == ZLIB_ENCODING_RAW) {
+           return gzdeflate($data);
+       }
+       elseif ($method == ZLIB_ENCODING_DEFLATE) {
+           return gzcompress($data);
+       }
+       elseif ($method == ZLIB_ENCODING_GZIP) {
+           return gzencode($data);
+       }
+       else trigger_error("encoding mode must be either ZLIB_ENCODING_RAW, ZLIB_ENCODING_GZIP or ZLIB_ENCODING_DEFLATE", E_USER_WARNING);
+   }
+}
+
+
+/**
+ * @stub Tests whether a session is established.
+ *
+ */
+if (!function_exists("session_status")) {
+   define("PHP_SESSION_DISABLED", 0);
+   define("PHP_SESSION_NONE", 1);
+   define("PHP_SESSION_ACTIVE", 2);
+   function session_status() {
+       return (ini_get("session.name") != "") ? PHP_SESSION_DISABLED : 
+           (isset($_SESSION) ? PHP_SESSION_ACTIVE : PHP_SESSION_NONE);
+   }
+}
+
+
+
 
 
 /**
@@ -160,6 +359,8 @@ if (!function_exists("gzdecode")) {
  *    forward_static_call
  *    forward_static_call_array
  *    quoted_printable_encode
+ *    E_DEPRECATED
+ *    E_USER_DEPRECATED
  *
  * @missing
  *    get_called_class
@@ -179,21 +380,16 @@ if (!function_exists("gzdecode")) {
  *    date_interval_create_from_date_string
  *    date_interval_format
  *
- * RANT: The PHP 5.3 \idiot\namespace\syntax (magic quotes 2.0) is not
- * reimplemented here.
- *
  */
+
 
 
 /**
- * gethostname
+ * @since PHP 5.3.0
  */
+if (!defined('E_DEPRECATED')) { define('E_DEPRECATED', 8192); }
+if (!defined('E_USER_DEPRECATED')) { define('E_USER_DEPRECATED', 16384); }
 
-if (!function_exists("gethostname")) {
-	function gethostname() {
-		return trim(php_uname('n'));
-	}
-}
 
 /**
  * preg_replace() variant, which filters out any unmatched $subject.
@@ -394,17 +590,17 @@ if (!function_exists("array_replace_recursive")) {
 
 /**
  * Breaks up a SINGLE LINE in CSV format.
- * abc,123,"text with spaces and \n ewlines",xy,"\""
+ * abc,123,"text with spaces",xy,"\""
  *
  */
 if (!function_exists("str_getcsv")) {
-   function str_getcsv($line, $del=",", $q='"', $esc="\\") {
-      $line = rtrim($line);
-      preg_match_all("/\G ([^$q$del]*) $del | $q(( [$esc$esc][$q]|[^$q]* )+)$q $del /xms", "$line,", $r);
+   function str_getcsv($line, $del=",", $q='"', $esc="\\", $rm_spaces="\s*") {
+      $line = rtrim($line, "\r\n");
+      preg_match_all("/\G $rm_spaces ([^$q$del]*?) $rm_spaces $del | $q(( [$esc$esc][$q]|[^$q]* )+)$q \s* $del /xms", $line.$del, $r);
       foreach ($r[1] as $i=>$v) {  // merge both captures
          if (empty($v) && strlen($r[2][$i])) {
             $r[1][$i] = str_replace("$esc$q", "$q", $r[2][$i]);  // remove escape character
-         }
+         }            # use stripcslashes to support standard CSV \r \n escapes
       }
       return($r[1]);
    }
@@ -483,6 +679,7 @@ if (!function_exists("quoted_printable_encode")) {
  *    inet_pton
  *    array_intersect_key
  *    array_intersect_ukey
+ *    mysql_set_charset
  *
  * @missing
  *    sys_getloadavg
@@ -520,42 +717,84 @@ if (!defined("E_RECOVERABLE_ERROR")) { define("E_RECOVERABLE_ERROR", 4096); }
  * @param  $var mixed  PHP variable/array/object
  * @return string      transformed into JSON equivalent
  */
+if (!defined("JSON_HEX_TAG")) {
+   define("JSON_HEX_TAG", 1);
+   define("JSON_HEX_AMP", 2);
+   define("JSON_HEX_APOS", 4);
+   define("JSON_HEX_QUOT", 8);
+   define("JSON_FORCE_OBJECT", 16);
+}
+if (!defined("JSON_NUMERIC_CHECK")) {
+   define("JSON_NUMERIC_CHECK", 32);      // 5.3.3
+}
+if (!defined("JSON_UNESCAPED_SLASHES")) {
+   define("JSON_UNESCAPED_SLASHES", 64);  // 5.4.0
+   define("JSON_PRETTY_PRINT", 128);      // 5.4.0
+   define("JSON_UNESCAPED_UNICODE", 256); // 5.4.0
+}
 if (!function_exists("json_encode")) {
-   function json_encode($var, /*emu_args*/$obj=FALSE) {
-   
+   function json_encode($var, $options=0, $_indent="") {
+
       #-- prepare JSON string
-      $json = "";
+      $obj = ($options & JSON_FORCE_OBJECT);
+      list($_space, $_tab, $_nl) = ($options & JSON_PRETTY_PRINT) ? array(" ", "    $_indent", "\n") : array("", "", "");
+      $json = "$_indent";
+      
+      if ($options & JSON_NUMERIC_CHECK and is_string($var) and is_numeric($var)) {
+          $var = (strpos($var, ".") || strpos($var, "e")) ? floatval($var) : intval($var);
+      }
       
       #-- add array entries
       if (is_array($var) || ($obj=is_object($var))) {
 
          #-- check if array is associative
-         if (!$obj) foreach ((array)$var as $i=>$v) {
-            if (!is_int($i)) {
-               $obj = 1;
-               break;
-            }
+         if (!$obj) {
+            $keys = array_keys((array)$var);
+            $obj = !($keys == array_keys($keys));   // keys must be in 0,1,2,3, ordering, but PHP treats integers==strings otherwise
          }
 
-         #-- concat invidual entries
+         #-- concat individual entries
+         $empty = 0; $json = "";
          foreach ((array)$var as $i=>$v) {
-            $json .= ($json ? "," : "")    // comma separators
-                   . ($obj ? ("\"$i\":") : "")   // assoc prefix
-                   . (json_encode($v));    // value
+            $json .= ($empty++ ? ",$_nl" : "")    // comma separators
+                   . $_tab . ($obj ? (json_encode($i, $options, $_tab) . ":$_space") : "")   // assoc prefix
+                   . (json_encode($v, $options, $_tab));    // value
          }
 
          #-- enclose into braces or brackets
-         $json = $obj ? "{".$json."}" : "[".$json."]";
+         $json = $obj ? "{"."$_nl$json$_nl$_indent}" : "[$_nl$json$_nl$_indent]";
       }
 
       #-- strings need some care
       elseif (is_string($var)) {
+
          if (!utf8_decode($var)) {
-            $var = utf8_encode($var);
+            trigger_error("json_encode: invalid UTF-8 encoding in string, cannot proceed.", E_USER_WARNING);
+            $var = NULL;
          }
-         $var = str_replace(array("\\", "\"", "/", "\b", "\f", "\n", "\r", "\t"), array("\\\\", '\"', "\\/", "\\b", "\\f", "\\n", "\\r", "\\t"), $var);
+         $rewrite = array(
+             "\\" => "\\\\",
+             "\"" => "\\\"",
+           "\010" => "\\b",
+             "\f" => "\\f",
+             "\n" => "\\n",
+             "\r" => "\\r", 
+             "\t" => "\\t",
+             "/"  => $options & JSON_UNESCAPED_SLASHES ? "/" : "\\/",
+             "<"  => $options & JSON_HEX_TAG  ? "\\u003C" : "<",
+             ">"  => $options & JSON_HEX_TAG  ? "\\u003E" : ">",
+             "'"  => $options & JSON_HEX_APOS ? "\\u0027" : "'",
+             "\"" => $options & JSON_HEX_QUOT ? "\\u0022" : "\"",
+             "&"  => $options & JSON_HEX_AMP  ? "\\u0026" : "&",
+         );
+         $var = strtr($var, $rewrite);
+         if (function_exists("iconv") && ($options & JSON_UNESCAPED_UNICODE) == 0) {
+            $var = preg_replace("/[^\\x{0000}-\\x{007F}]/ue", "'\\u'.current(unpack('H*', iconv('UTF-8', 'UCS-2BE', '$0')))", $var);
+         }
+         if ($options & 0x8000) {//@COMPAT: for fully-fully-compliance
+            $var = preg_replace("/[\000-\037]/", "", $var);
+         }
          $json = '"' . $var . '"';
-         //@COMPAT: for fully-fully-compliance   $var = preg_replace("/[\000-\037]/", "", $var);
       }
 
       #-- basic types
@@ -571,14 +810,13 @@ if (!function_exists("json_encode")) {
 
       #-- something went wrong
       else {
-         trigger_error("json_encode: don't know what a '" .gettype($var). "' is.", E_USER_ERROR);
+         trigger_error("json_encode: don't know what a '" .gettype($var). "' is.", E_USER_WARNING);
       }
       
       #-- done
       return($json);
    }
 }
-
 
 
 /**
@@ -602,23 +840,37 @@ if (!function_exists("json_encode")) {
  * @return  mixed          parsed into PHP variable/array/object
  */
 if (!function_exists("json_decode")) {
-   function json_decode($json, $assoc=FALSE, $limit=512, /*emu_args*/$n=0,$state=0,$waitfor=0) {
+
+   define("JSON_OBJECT_AS_ARRAY", 1);     // undocumented
+   define("JSON_BIGINT_AS_STRING", 2);    // 5.4.0
+   define("JSON_PARSE_JAVASCRIPT", 4);    // unquoted object keys, and single quotes ' strings identical to double quoted, more relaxed parsing
+
+   function json_decode($json, $assoc=FALSE, $limit=512, $options=0, /*emu_args*/$n=0,$state=0,$waitfor=0) {
+      global ${'.json_last_error'}; ${'.json_last_error'} = JSON_ERROR_NONE;
 
       #-- result var
       $val = NULL;
+      $FAILURE = array(/*$val:=*/ NULL, /*$n:=*/ 1<<31);
       static $lang_eq = array("true" => TRUE, "false" => FALSE, "null" => NULL);
-      static $str_eq = array("n"=>"\012", "r"=>"\015", "\\"=>"\\", '"'=>'"', "f"=>"\f", "b"=>"\b", "t"=>"\t", "/"=>"/");
-      if ($limit<0) return /* __cannot_compensate */;
+      static $str_eq = array("n"=>"\012", "r"=>"\015", "\\"=>"\\", '"'=>'"', "f"=>"\f", "b"=>"\010", "t"=>"\t", "/"=>"/");
+      if ($limit<0) { ${'.json_last_error'} = JSON_ERROR_DEPTH; return /* __cannot_compensate */; }
+      
+      #-- strip UTF-8 BOM (the native version doesn't do this, but .. should)
+      while (strncmp($json, "\xEF\xBB\xBF", 3) == 0) {
+          trigger_error("UTF-8 BOM prefaces JSON, that's invalid for PHPs native json_decode", E_USER_ERROR);
+          $json = substr($json, 3);
+      }
 
       #-- flat char-wise parsing
-      for (/*n*/; $n<strlen($json); /*n*/) {
+      for (/*$n=0,*/ $len = strlen($json); $n<$len; /*$n++*/) {
          $c = $json[$n];
 
          #-= in-string
-         if ($state==='"') {
+         if ($state==='"' or $state==="'") {
 
             if ($c == '\\') {
                $c = $json[++$n];
+               
                // simple C escapes
                if (isset($str_eq[$c])) {
                   $val .= $str_eq[$c];
@@ -642,20 +894,38 @@ if (!function_exists("json_decode")) {
                   // other ranges, like 0x1FFFFF=0xF0, 0x3FFFFFF=0xF8 and 0x7FFFFFFF=0xFC do not apply
                }
 
-               // no escape, just a redundant backslash
-               //@COMPAT: we could throw an exception here
+               // for JS (not JSON) the extraneous backslash just gets omitted
+               elseif ($options & JSON_PARSE_JAVASCRIPT) {
+                  if (is_numeric($c) and preg_match("/[0-3][0-7][0-7]|[0-7]{1,2}/", substr($json, $n), $m)) {
+                     $val .= chr(octdec($m[0]));
+                     $n += strlen($m[0]) - 1;
+                  }
+                  else {
+                     $val .= $c;
+                  }
+               }
+               
+               // redundant backslashes disallowed in JSON
                else {
-                  $val .= "\\" . $c;
+                  $val .= "\\$c";
+                  ${'.json_last_error'} = JSON_ERROR_CTRL_CHAR; // not quite, but
+                  trigger_error("Invalid backslash escape for JSON \\$c", E_USER_WARNING);
+                  return $FAILURE;
                }
             }
 
             // end of string
-            elseif ($c == '"') {
+            elseif ($c == $state) {
                $state = 0;
             }
 
-            // yeeha! a single character found!!!!1!
-            else/*if (ord($c) >= 32)*/ { //@COMPAT: specialchars check - but native json doesn't do it?
+            //@COMPAT: specialchars check - but native json doesn't do it?
+            #elseif (ord($c) < 32) && !in_array($c, $str_eq)) {
+            #   ${'.json_last_error'} = JSON_ERROR_CTRL_CHAR;
+            #}
+            
+            // a single character was found
+            else/*if (ord($c) >= 32)*/ {
                $val .= $c;
             }
          }
@@ -667,15 +937,23 @@ if (!function_exists("json_decode")) {
          
          #-= in-array
          elseif ($state===']') {
-            list($v, $n) = json_decode($json, $assoc, $limit, $n, 0, ",]");
+            list($v, $n) = json_decode($json, $assoc, $limit, $options, $n, 0, ",]");
             $val[] = $v;
             if ($json[$n] == "]") { return array($val, $n); }
          }
 
          #-= in-object
          elseif ($state==='}') {
-            list($i, $n) = json_decode($json, $assoc, $limit, $n, 0, ":");   // this allowed non-string indicies
-            list($v, $n) = json_decode($json, $assoc, $limit, $n+1, 0, ",}");
+            // quick regex parsing cheat for unquoted JS object keys
+            if ($options & JSON_PARSE_JAVASCRIPT and $c != '"' and preg_match("/^\s*(?!\d)(\w\pL*)\s*/u", substr($json, $n), $m)) {
+                $i = $m[1];
+                $n = $n + strlen($m[0]);
+            }
+            else {
+                // this allowed non-string indicies
+                list($i, $n) = json_decode($json, $assoc, $limit, $options, $n, 0, ":");
+            }
+            list($v, $n) = json_decode($json, $assoc, $limit, $options, $n+1, 0, ",}");
             $val[$i] = $v;
             if ($json[$n] == "}") { return array($val, $n); }
          }
@@ -690,12 +968,12 @@ if (!function_exists("json_decode")) {
 
             #-> string begin
             elseif ($c == '"') {
-               $state = '"';
+               $state = $c;
             }
 
             #-> object
             elseif ($c == "{") {
-               list($val, $n) = json_decode($json, $assoc, $limit-1, $n+1, '}', "}");
+               list($val, $n) = json_decode($json, $assoc, $limit-1, $options, $n+1, '}', "}");
                
                if ($val && $n) {
                   $val = $assoc ? (array)$val : (object)$val;
@@ -704,13 +982,7 @@ if (!function_exists("json_decode")) {
 
             #-> array
             elseif ($c == "[") {
-               list($val, $n) = json_decode($json, $assoc, $limit-1, $n+1, ']', "]");
-            }
-
-            #-> comment
-            elseif (($c == "/") && ($json[$n+1]=="*")) {
-               // just find end, skip over
-               ($n = strpos($json, "*/", $n+1)) or ($n = strlen($json));
+               list($val, $n) = json_decode($json, $assoc, $limit-1, $options, $n+1, ']', "]");
             }
 
             #-> numbers
@@ -718,13 +990,22 @@ if (!function_exists("json_decode")) {
                $val = $uu[1];
                $n += strlen($uu[0]) - 1;
                if (strpos($val, ".")) {  // float
-                  $val = (float)$val;
+                  $val = floatval($val);
                }
                elseif ($val[0] == "0") {  // oct
                   $val = octdec($val);
                }
                else {
-                  $val = (int)$val;
+                  $toobig = strval(intval($val)) !== strval($val);
+                  if ($toobig and !isset($uu[2]) and ($options & JSON_BIGINT_AS_STRING)) {
+                      $val = $val;  // keep lengthy numbers as string
+                  }
+                  elseif ($toobig or isset($uu[2])) {  // must become float anyway
+                      $val = floatval($val);
+                  }
+                  else {  // int
+                      $val = intval($val);
+                  }
                }
                // exponent?
                if (isset($uu[2])) {
@@ -738,17 +1019,29 @@ if (!function_exists("json_decode")) {
                $n += strlen($uu[1]) - 1;
             }
 
+            #-> JS-string begin
+            elseif ($options & JSON_PARSE_JAVASCRIPT and $c == "'") {
+               $state = $c;
+            }
+
+            #-> comment
+            elseif ($options & JSON_PARSE_JAVASCRIPT and ($c == "/") and ($json[$n+1]=="*")) {
+               // just find end, skip over
+               ($n = strpos($json, "*/", $n+1)) or ($n = strlen($json));
+            }
+
             #-- parsing error
             else {
                // PHPs native json_decode() breaks here usually and QUIETLY
-              trigger_error("json_decode: error parsing '$c' at position $n", E_USER_WARNING);
-               return $waitfor ? array(NULL, 1<<30) : NULL;
+               trigger_error("json_decode: error parsing '$c' at position $n", E_USER_WARNING);
+               ${'.json_last_error'} = JSON_ERROR_SYNTAX;
+               return $waitfor ? $FAILURE : NULL;
             }
 
          }//state
          
          #-- next char
-         if ($n === NULL) { return NULL; }
+         if ($n === NULL) { ${'.json_last_error'} = JSON_ERROR_STATE_MISMATCH; return NULL; }   // ooops, seems we have two failure modes
          $n++;
       }//for
 
@@ -757,6 +1050,27 @@ if (!function_exists("json_decode")) {
    }
 }
 
+
+/**
+ * @stub
+ *
+ * Should return last JSON decoding error.
+ *
+ */
+if (!defined("JSON_ERROR_NONE")) {
+   define("JSON_ERROR_NONE", 0);
+   define("JSON_ERROR_DEPTH", 1);
+   define("JSON_ERROR_STATE_MISMATCH", 2);
+   define("JSON_ERROR_CTRL_CHAR", 3);
+   define("JSON_ERROR_SYNTAX", 4);
+   define("JSON_ERROR_UTF8", 5);
+}
+if (!function_exists("json_last_error")) {
+   function json_last_error() {
+       global ${'.json_last_error'}; 
+       return ${'.json_last_error'}; // gives a notice if json_decode was never invoked before (no status constant for that)
+   }
+}
 
 
 
@@ -789,6 +1103,8 @@ if (!function_exists("sys_get_temp_dir")) {
    function sys_get_temp_dir() {
       # check possible alternatives
       ($temp = ini_get("temp_dir"))
+      or
+      ($temp = @$_ENV["TMPDIR"])
       or
       ($temp = @$_ENV["TEMP"])
       or
@@ -1033,6 +1349,18 @@ if (!function_exists("inet_pton")) {
 }
 
 
+/**
+ * @since 5.2.3
+ * SET NAMES $charset
+ *
+ */
+if (!function_exists("mysql_set_charset")) {
+   function mysql_set_charset($charset, $link=NULL) {
+      return mysqli_query("SET NAMES '$charset'", $link);
+   }
+}
+
+
 
 
 /**
@@ -1045,6 +1373,7 @@ if (!function_exists("inet_pton")) {
  * - and were backported to 4.4 series?
  *
  * @emulated
+ *    hash_hmac
  *    property_exists
  *    time_sleep_until
  *    fputcsv
@@ -1067,6 +1396,42 @@ if (!function_exists("inet_pton")) {
  *    ...
  *
  */
+
+
+
+/**
+ * HMAC as per rfc2104,
+ * only works with PHP-available "md5" and "sha1" algorithm backends
+ *
+ */
+if (!function_exists("hash_hmac")) {
+   function hash_hmac($H, $data, $key, $raw=0) {
+
+       # algorithm parameters
+       static $bitsize = array("sha1"=>160, "md5"=>128, "sha256"=>256, "sha512"=>512, "sha384"=>384, "sha224"=>224, "ripemd"=>160);
+       $B = 64;
+
+       # bring key to block size 64, hash it first if longer
+       if (strlen($key) > $B) {
+           $key = $H($key, 1);
+       }
+       $key .= str_repeat("\0", $B - strlen($key));
+
+       # padding, XOR with key
+       $inner_pad = "";
+       $outer_pad = "";
+       for ($i=0; $i<$B; $i++) {
+           $inner_pad .= chr(0x36 ^ ord($key[$i]));
+           $outer_pad .= chr(0x5C ^ ord($key[$i]));
+       }
+
+       # apply hash
+       $data = $H($outer_pad . $H($inner_pad . $data, 1), 1);
+       
+       # bin2hex
+       return $raw ? $data : bin2hex($data);
+   }
+}
 
 
 
@@ -1313,6 +1678,7 @@ if (!function_exists("strptime")) {
  *    FILE_APPEND
  *    FILE_NO_DEFAULT_CONTEXT
  *    E_STRICT
+ *    mysqli_set_charset
  *
  * @missing
  *    proc_nice
@@ -2121,8 +2487,12 @@ if (!defined("FILE_NO_DEFAULT_CONTEXT")) { define("FILE_NO_DEFAULT_CONTEXT", 16)
 
 
 #-- more new constants for 5.0
+/**
+ * @since PHP 5
+ */
 if (!defined("E_STRICT")) { define("E_STRICT", 2048); }  // _STRICT is a special case of _NOTICE (_DEBUG)
 # PHP_CONFIG_FILE_SCAN_DIR
+
 
 
 
@@ -2159,5 +2529,1082 @@ if (!function_exists("count_recursive")) {
       }
    }
 }
+
+
+
+/**
+ * Sets the default client character set.
+ *
+ * @compat
+ *    Procedural style
+ * @bugs
+ *    PHP documentation says this function exists in PHP 5 >= 5.0.5,
+ *    but it also depends on the versions of external libraries, e.g.,
+ *    php_mysqli.dll and libmysql.dll.
+ *
+ * @param $link    mysqli MySQLi connection resource
+ * @param $charset string Character set
+ * @return bool           TRUE on success, FALSE on failure
+ */
+if (!function_exists("mysqli_set_charset") && function_exists("mysqli_query")) {
+   function mysqli_set_charset($link, $charset) {
+      return mysqli_query($link, "SET NAMES '$charset'");
+   }
+}
+
+
+
+
+
+
+
+
+
+/**
+ *                                   ------------------------------ 4.4 ---
+ * @group 4_4
+ * @since 4.4
+ *
+ * PHP 4.4 is a bugfix and backporting version created after PHP 5. It went
+ * mostly unchanged, but changes a few language semantics (e.g. references).
+ *
+ * @emulated
+ *    PHP_INT_SIZE
+ *    PHP_INT_MAX
+ *    SORT_LOCALE_STRING
+ *
+ */
+
+if (!defined("PHP_INT_SIZE")) { define("PHP_INT_SIZE", 4); }
+if (!defined("PHP_INT_MAX")) { define("PHP_INT_MAX", 2147483647); }
+if (!defined("SORT_LOCALE_STRING")) { define("SORT_LOCALE_STRING", 5); }
+
+
+
+
+
+
+/**
+ *                                   ------------------------------ 4.3 ---
+ * @group 4_3
+ * @since 4.3
+ *
+ *  Additions in 4.3 version of PHP interpreter.
+ *
+ * @emulated
+ *    file_get_contents
+ *    array_key_exists
+ *    array_intersect_assoc
+ *    array_diff_assoc
+ *    html_entity_decode
+ *    str_word_count
+ *    str_shuffle
+ *    get_include_path
+ *    set_include_path
+ *    restore_include_path
+ *    fnmatch
+ *    FNM_PATHNAME
+ *    FNM_NOESCAPE
+ *    FNM_PERIOD
+ *    FNM_LEADING_DIR
+ *    FNM_CASEFOLD
+ *    FNM_EXTMATCH
+ *    glob
+ *    GLOB_MARK
+ *    GLOB_NOSORT
+ *    GLOB_NOCHECK
+ *    GLOB_NOESCAPE
+ *    GLOB_BRACE
+ *    GLOB_ONLYDIR
+ *    GLOB_NOCASE
+ *    GLOB_DOTS
+ *    __FUNCTION__
+ *    PATH_SEPARATOR
+ *    PHP_SHLIB_SUFFIX
+ *    PHP_SAPI
+ *    PHP_PREFIX
+ *
+ * @missing
+ *    sha1_file
+ *    sha1 - too much code, and has been reimplemented elsewhere
+ *
+ * @unimplementable
+ *    money_format
+ *
+ */
+
+
+/**
+ * simplified file read-at-once function
+ *
+ * @param  string  $filename  
+ * @param  integer $use_include_path  (optional)
+ * @return string
+ */
+if (!function_exists("file_get_contents")) {
+   function file_get_contents($filename, $use_include_path=1) {
+
+      #-- open file, let fopen() report error
+      $f = fopen($filename, "rb", $use_include_path);
+      if (!$f) { return; }
+
+      #-- read max 2MB
+      $content = fread($f, 1<<21);
+      fclose($f);
+      return($content);
+   }
+}
+
+
+
+/**
+ * shell-like filename matching (* and ? globbing characters)
+ *
+ * @param  string $pattern  glob-pattern with *s and ?s
+ * @param  string $fn       filename to match it against (without path)
+ * @param integer $flags    (optional)
+ * @return bool
+ */
+if (!function_exists("fnmatch")) {
+
+   #-- associated constants
+   if (!defined("FNM_PATHNAME")) { define("FNM_PATHNAME", 1<<0); }  // no wildcard ever matches a "/"
+   if (!defined("FNM_NOESCAPE")) { define("FNM_NOESCAPE", 1<<1); }  // backslash can't escape meta chars
+   if (!defined("FNM_PERIOD")) { define("FNM_PERIOD",   1<<2); }  // leading dot must be given explicit
+   if (!defined("FNM_LEADING_DIR")) { define("FNM_LEADING_DIR", 1<<3); }  // not in PHP
+   if (!defined("FNM_CASEFOLD")) { define("FNM_CASEFOLD", 0x50); }  // match case-insensitive
+   if (!defined("FNM_EXTMATCH")) { define("FNM_EXTMATCH", 1<<5); }  // not in PHP
+   
+   #-- implementation
+   function fnmatch($pattern, $fn, $flags=0x0000) {
+      
+      #-- 'hidden' files
+      if ($flags & FNM_PERIOD) {
+         if (($fn[0] == ".") && ($pattern[0] != ".")) {
+            return(false);    // abort early
+         }
+      }
+
+      #-- case-insensitivity
+      $rxci = "";
+      if ($flags & FNM_CASEFOLD) {
+         $rxci = "i";
+      }
+      #-- handline of pathname separators (/)
+      $wild = ".";
+      if ($flags & FNM_PATHNAME) {
+         $wild = "[^/".DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR."]";
+      }
+
+      #-- check for cached regular expressions
+      static $cmp = array();
+      if (isset($cmp["$pattern+$flags"])) {
+         $rx = $cmp["$pattern+$flags"];
+      }
+
+      #-- convert filename globs into regex
+      else {
+         $rx = preg_quote($pattern);
+         $rx = strtr($rx, array(
+            "\\*"=>"$wild*?", "\\?"=>"$wild", "\\["=>"[", "\\]"=>"]",
+         ));
+         $rx = "{^" . $rx . "$}" . $rxci;
+         
+         #-- cache
+         if (count($cmp) >= 50) {
+            $cmp = array();   // free
+         }
+         $cmp["$pattern+$flags"] = $rx;
+      }
+      
+      #-- compare
+      return(preg_match($rx, $fn));
+   }
+}
+
+
+/**
+ * file search and name matching (with shell patterns)
+ *
+ * @param  string  $pattern   search pattern and path ../* string
+ * @param  integer $flags (optional)
+ * @return array
+ */
+if (!function_exists("glob")) {
+
+   #-- introduced constants
+   if (!defined("GLOB_MARK")) { define("GLOB_MARK", 1<<0); }
+   if (!defined("GLOB_NOSORT")) { define("GLOB_NOSORT", 1<<1); }
+   if (!defined("GLOB_NOCHECK")) { define("GLOB_NOCHECK", 1<<2); }
+   if (!defined("GLOB_NOESCAPE")) { define("GLOB_NOESCAPE", 1<<3); }
+   if (!defined("GLOB_BRACE")) { define("GLOB_BRACE", 1<<4); }
+   if (!defined("GLOB_ONLYDIR")) { define("GLOB_ONLYDIR", 1<<5); }
+   if (!defined("GLOB_NOCASE")) { define("GLOB_NOCASE", 1<<6); }
+   if (!defined("GLOB_DOTS")) { define("GLOB_DOTS", 1<<7); }
+   // unlikely to work under Win(?), without replacing the explode() with
+   // a preg_split() incorporating the native DIRECTORY_SEPARATOR as well
+
+   #-- implementation
+   function glob($pattern, $flags=0x0000) {
+      $ls = array();
+      $rxci = ($flags & GLOB_NOCASE) ? "i" : "";
+#echo "\n=> glob($pattern)...\n";
+      
+      #-- transform glob pattern into regular expression
+      #   (similar to fnmatch() but still different enough to require a second func)
+      if ($pattern) {
+
+         #-- look at each directory/fn spec part separately
+         $parts2 = explode("/", $pattern);
+         $pat = preg_quote($pattern);
+         $pat = strtr($pat, array("\\*"=>".*?", "\\?"=>".?"));
+         if ($flags ^ GLOB_NOESCAPE) {
+            // uh, oh, ouuch - the above is unclean enough...
+         }
+         if ($flags ^ GLOB_BRACE) {
+            $pat = preg_replace("/\{(.+?)\}/e", 'strtr("[$1]", ",", "")', $pat);
+         }
+         $parts = explode("/", $pat);
+#echo "parts == ".implode(" // ", $parts) . "\n";
+         $lasti = count($parts) - 1;
+         $dn = "";
+         foreach ($parts as $i=>$p) {
+
+            #-- basedir included (yet no pattern matching necessary)
+            if (!strpos($p, "*?") && (strpos($p, ".?")===false)) {
+               $dn .= $parts2[$i] . ($i!=$lasti ? "/" : "");
+#echo "skip:$i, cause no pattern matching char found -> only a basedir spec\n";
+               continue;
+            }
+            
+            #-- start reading dir + match filenames against current pattern
+            if ($dh = opendir($dn ?$dn:'.')) {
+               $with_dot = ($p[1]==".") || ($flags & GLOB_DOTS);
+#echo "part:$i:$p\n";
+#echo "reading dir \"$dn\"\n";
+               while ($fn = readdir($dh)) {
+                  if (preg_match("\007^$p$\007$rxci", $fn)) {
+
+                     #-- skip over 'hidden' files
+                     if (($fn[0] == ".") && !$with_dot) {
+                        continue;
+                     }
+
+                     #-- add filename only if last glob/pattern part
+                     if ($i==$lasti) {
+                        if (is_dir("$dn$fn")) {
+                           if ($flags & GLOB_ONLYDIR) {
+                              continue;
+                           }
+                           if ($flags & GLOB_MARK) {
+                              $fn .= "/";
+                           }
+                        }
+#echo "adding '$fn' for dn=$dn to list\n";
+                        $ls[] = "$dn$fn";
+                     }
+
+                     #-- initiate a subsearch, merge result list in
+                     elseif (is_dir("$dn$fn")) {
+                        // add reamaining search patterns to current basedir
+                        $remaind = implode("/", array_slice($parts2, $i+1));
+                        $ls = array_merge($ls, glob("$dn$fn/$remaind", $flags));
+                     }
+                  }
+               }
+               closedir($dh);
+
+               #-- prevent scanning a 2nd part/dir in same glob() instance:
+               break;  
+            }
+
+            #-- given dirname doesn't exist
+            else {
+               return($ls);
+            }
+
+         }// foreach $parts
+      }
+
+      #-- return result list
+      if (!$ls && ($flags & GLOB_NOCHECK)) {
+         $ls[] = $pattern;
+      }
+      if ($flags ^ GLOB_NOSORT) {
+         sort($ls);
+      }
+#print_r($ls);
+#echo "<=\n";
+      return($ls);
+   }
+} //@FIX: fully comment, remove debugging code (- as soon as it works ;)
+
+
+
+/**
+ * redundant alias for isset()
+ * 
+ */
+if (!function_exists("array_key_exists")) {
+   function array_key_exists($key, $search) {
+      return isset($search[$key]);
+   }
+}
+
+
+/**
+ * who could need that?
+ * 
+ */
+if (!function_exists("array_intersect_assoc")) {
+   function array_intersect_assoc( /*array, array, array...*/ ) {
+
+      #-- parameters, prepare
+      $in = func_get_args();
+      $cmax = count($in);
+      $whatsleftover = array();
+      
+      #-- walk through each array pair
+      #   (take first as checklist)
+      foreach ($in[0] as $i => $v) {
+         for ($c = 1; $c < $cmax; $c++) {
+            #-- remove entry, as soon as it isn't present
+            #   in one of the other arrays
+            if (!isset($in[$c][$i]) || (@$in[$c][$i] !== $v)) {
+               continue 2;
+            }
+         }
+         #-- it was found in all other arrays
+         $whatsleftover[$i] = $v;
+      }
+      return $whatsleftover;
+   }
+}
+
+
+/**
+ * the opposite of the above
+ * 
+ */
+if (!function_exists("array_diff_assoc")) {
+   function array_diff_assoc( /*array, array, array...*/ ) {
+
+      #-- params
+      $in = func_get_args();
+      $diff = array();
+      
+      #-- compare each array with primary/first
+      foreach ($in[0] as $i=>$v) {
+         for ($c=1; $c<count($in); $c++) {
+            #-- skip as soon as it matches with entry in another array
+            if (isset($in[$c][$i]) && ($in[$c][$i] == $v)) {
+               continue 2;
+            }
+         }
+         #-- else
+         $diff[$i] = $v;
+      }
+      return $diff;
+   }
+}
+
+
+/**
+ * opposite of htmlentities
+ * 
+ */
+if (!function_exists("html_entity_decode")) {
+   function html_entity_decode($string, $quote_style=ENT_COMPAT, $charset="ISO-8859-1") {
+      //@FIX: we fall short on anything other than Latin-1
+      $y = array_flip(get_html_translation_table(HTML_ENTITIES, $quote_style));
+      return strtr($string, $y);
+   }
+}
+
+
+/**
+ * extracts single words from a string
+ * 
+ */
+if (!function_exists("str_word_count")) {
+   function str_word_count($string, $result=0) {
+   
+      #-- let someone else do the work
+      preg_match_all('/([\w](?:[-\'\w]?[\w]+)*)/', $string, $uu);
+
+      #-- return full word list
+      if ($result == 1) {
+         return($uu[1]);
+      }
+      
+      #-- array() of $pos=>$word entries
+      elseif ($result >= 2) {
+         $r = array();
+         $l = 0;
+         foreach ($uu[1] as $word) {
+            $l = strpos($string, $word, $l);
+            $r[$l] = $word;
+            $l += strlen($word);  // speed up next search
+         }
+         return($r);
+      }
+
+      #-- only count
+      else {
+         return(count($uu[1]));
+      }
+   }
+}
+
+
+/**
+ * creates a permutation of the given strings characters
+ * (let's hope the random number generator was alread initialized)
+ * 
+ */
+if (!function_exists("str_shuffle")) {
+   function str_shuffle($str) {
+      $r = "";
+
+      #-- cut string down with every iteration
+      while (strlen($str)) {
+         $n = strlen($str) - 1;
+         if ($n) {
+            $n = rand(0, $n);   // glibcs` rand is ok since 2.1 at least
+         }
+         
+         #-- cut out elected char, add to result string
+         $r .= $str{$n};
+         $str = substr($str, 0, $n) . substr($str, $n + 1);
+      }
+      return($r);
+   }
+}
+
+
+/**
+ * simple shorthands
+ * 
+ */
+if (!function_exists("get_include_path")) {
+   function get_include_path() {
+      return(get_cfg_var("include_path"));
+   }
+   function set_include_path($new) {
+      return ini_set("include_path", $new);
+   }
+   function restore_include_path() {
+      ini_restore("include_path");
+   }
+}
+
+
+#-- constants for 4.3
+   if (!defined("PATH_SEPARATOR")) { define("PATH_SEPARATOR", ((DIRECTORY_SEPARATOR=='\\') ? ';' :':')); }
+   if (!defined("PHP_SHLIB_SUFFIX")) { define("PHP_SHLIB_SUFFIX", ((DIRECTORY_SEPARATOR=='\\') ? 'dll' :'so')); }
+   if (!defined("PHP_SAPI")) { define("PHP_SAPI", php_sapi_name()); }
+   if (!defined("__FUNCTION__")) { define("__FUNCTION__", NULL); }   // empty string would signalize main()
+
+
+#-- not identical to what PHP reports (it seems to `which` for itself)
+if (!defined("PHP_PREFIX") && isset($_ENV["_"])) { define("PHP_PREFIX", substr($_ENV["_"], 0, strpos($_ENV["_"], "bin/"))); }
+
+
+
+
+
+
+/**
+ *                                   ------------------------------ 4.2 ---
+ * @group 4_2
+ * @since 4.2
+ *
+ *
+ *  Functions added in PHP 4.2 interpreters.
+ *
+ *
+ * @emulated
+ *   str_rot13
+ *   array_change_key_case
+ *   array_fill
+ *   array_chunk
+ *   md5_file
+ *   is_a
+ *   fmod
+ *   floatval
+ *   is_infinite
+ *   is_nan
+ *   is_finite
+ *   var_export
+ *   strcoll
+ * @missing
+ *   ...
+ *
+ *   almost complete!?
+ *
+ *
+ */
+
+
+/**
+ * shy away from this function - it was broken in all PHP4.2 releases,
+ * and our emulation here won't change that
+ *
+ * @param  string $str  
+ * @return string
+ */
+if (!function_exists("str_rot13")) {
+   function str_rot13($str) {
+      static $from = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      static $to = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+      return strtr($str, $from, $to);
+   }
+}
+
+
+/**
+ * changes case of textual index keys
+ *
+ * @param  array $array  
+ * @param  int   $case
+ * @return array
+ */
+if (!function_exists("array_change_key_case")) {
+   
+   #-- introduced constants
+   if (!defined("CASE_LOWER")) { define("CASE_LOWER", 0); }
+   if (!defined("CASE_UPPER")) { define("CASE_UPPER", 1); }
+   
+   #-- implementation
+   function array_change_key_case($array, $case=CASE_LOWER) {
+   
+      #-- loop through
+      foreach ($array as $i=>$v) {
+         #-- do anything for strings only
+         if (is_string($i)) {
+            unset($array[$i]);
+            $i = ($case==CASE_LOWER) ? strtolower($i) : strtoupper($i);
+            $array[$i] = $v;
+         }
+         // non-recursive      
+      }
+      return($array);
+   }
+}
+
+
+/**
+ * create fixed-length array made up of $value data
+ * 
+ */
+if (!function_exists("array_fill")) {
+   function array_fill($start_index, $num, $value) {
+
+      #-- params
+      $r = array();
+      $i = $start_index;
+      $end = $num + $start_index;
+      
+      #-- append
+      for (; $i < $end; $i++)
+      {
+         $r[$i] = $value;
+      }
+      return($r);
+   }
+}
+
+
+/**
+ * split an array into evenly sized parts
+ * 
+ */
+if (!function_exists("array_chunk")) {
+   function array_chunk($input, $size, $preserve_keys=false) {
+   
+      #-- array for chunked output
+      $r = array();
+      $n = -1;  // chunk index
+      
+      #-- enum input array blocks
+      foreach ($input as $i=>$v) {
+      
+         #-- new chunk
+         if (($n < 0) || (count($r[$n]) == $size)) {
+            $n++;
+            $r[$n] = array();
+         }
+         
+         #-- add input value into current [$n] chunk
+         if ($preserve_keys) {
+            $r[$n][$i] = $v;
+         }
+         else {
+            $r[$n][] = $v;
+         }
+      }
+      return($r);
+   }
+}
+
+
+/**
+ * convenience wrapper
+ * 
+ */
+if (!function_exists("md5_file")) {
+   function md5_file($filename, $raw_output=false) {
+
+      #-- read file, apply hash function
+      $r = md5(file_get_contents($filename, "rb"));
+         
+      #-- transform? and return
+      if ($raw_output) {
+         $r = pack("H*", $r);
+      }
+      return $r;
+   }
+}
+
+
+/**
+ * object type checking
+ * 
+ */
+if (!function_exists("is_a")) {
+   function is_a($obj, $classname) {
+   
+      #-- lowercase everything for comparison
+      $classnaqme = strtolower($classname);
+      $obj_class =  strtolower(get_class($obj));
+      
+      #-- two possible checks
+      return ($obj_class == $classname) or is_subclass_of($obj, $classname);
+   }
+}
+
+
+/**
+ * floating point modulo
+ * 
+ */
+if (!function_exists("fmod")) {
+   function fmod($x, $y) {
+      $r = $x / $y;
+      $r -= (int)$r;
+      $r *= $y;
+      return($r);
+   }
+}
+
+
+/**
+ * makes float variable from string
+ *
+ * @param  string
+ * @return float
+ */
+if (!function_exists("floatval")) {
+   function floatval($str) {
+      $str = ltrim($str);
+      return (float)$str;
+   }
+}
+
+
+/**
+ * floats
+ *
+ */
+if (!function_exists("is_infinite")) {
+
+   #-- constants as-is
+   if (!defined("NAN")) { define("NAN", "NAN"); }
+   if (!defined("INF")) { define("INF", "INF"); }   // there is also "-INF"
+   
+   #-- simple checks
+   function is_infinite($f) {
+      $s = (string)$f;
+      return(  ($s=="INF") || ($s=="-INF")  );
+   }
+   function is_nan($f) {
+      $s = (string)$f;
+      return(  $s=="NAN"  );
+   }
+   function is_finite($f) {
+      $s = (string)$f;
+      return(  !strpos($s, "N")  );
+   }
+}
+
+
+/**
+ * throws value-instantiation PHP-code for given variable
+ *
+ * @compat
+ *    output differentiates from native PHP version,
+ *    but functions identically
+ *
+ * @param  mixed $var  
+ * @param  mixed $return  (optional) false
+ * @param  string $indent  (optional) ""
+ * @param  string $output  (optional) ""
+ * @return mixed
+ */
+if (!function_exists("var_export")) {
+   function var_export($var, $return=false, $indent="", $output="") {
+
+      #-- output as in-class variable definitions
+      if (is_object($var)) {
+         $output = get_class($var) . "::_set_state(array(\n";
+         foreach (((array)$var) as $id=>$var) {
+            $output .= "  '\$$id' => " . var_export($var, true) . ",\n";
+         }
+         $output .= "));";
+      }
+      
+      #-- array constructor
+      elseif (is_array($var)) {
+         foreach ($var as $id=>$next) {
+            if ($output) $output .= ",\n";
+                    else $output = "array(\n";
+            $output .= $indent . '  '
+                    . (is_numeric($id) ? $id : '"'.addslashes($id).'"')
+                    . ' => ' . var_export($next, true, "$indent  ");
+         }
+         if (empty($output)) $output = "array(";
+         $output .= "\n{$indent})";
+       #if ($indent == "") $output .= ";";
+      }
+      
+      #-- literals
+      elseif (is_numeric($var)) {
+         $output = "$var";
+      }
+      elseif (is_bool($var)) {
+         $output = $var ? "true" : "false";
+      }
+      else {
+         $output = "'" . preg_replace("/([\\\\\'])/", '\\\\$1', $var) . "'";
+      }
+
+      #-- done
+      if ($return) {
+         return($output);
+      }
+      else {
+         print($output);
+      }
+   }
+}
+
+
+/**
+ * @stub
+ * @since existed since PHP 4.0.5, but under Win32 first since 4.3.2
+ * 
+ * strcmp() variant that respects locale setting,
+ *
+ * @param  string $str1  
+ * @param  string $str2  
+ * @return string
+ */
+if (!function_exists("strcoll")) {
+   function strcoll($str1, $str2) {
+      return strcmp($str1, $str2);
+   }
+}
+
+
+
+
+
+/**
+ *                                   ------------------------------ 4.1 ---
+ * @group 4_1
+ * @since 4.1
+ *
+ *
+ * See also "ext/math41.php" for some more (rarely used mathematical funcs).
+ *
+ *
+ * @emulated
+ *   diskfreespace
+ *   disktotalspace
+ *   vprintf
+ *   vsprintf
+ *   import_request_variables
+ *   hypot
+ *   log1p
+ *   expm1
+ *   sinh
+ *   cosh
+ *   tanh
+ *   asinh
+ *   acosh
+ *   atanh
+ *   mhash
+ *   mhash_count
+ *   mhash_get_hash_name
+ *   mhash_get_block_size
+ * @missing
+ *   nl_langinfo - unimpl?
+ *   getmygid
+ *   version_compare
+ *
+ */
+
+
+
+
+/**
+ * aliases (an earlier fallen attempt to unify PHP function names)
+ * 
+ */
+if (!function_exists("diskfreespace")) {
+   function diskfreespace() {
+      return disk_free_sapce();
+   }
+   function disktotalspace() {
+      return disk_total_sapce();
+   }
+}
+
+
+/**
+ * variable count of arguments (in array list) printf variant
+ *
+ * @param  string $format  
+ * @param  mixed  $args
+ * @output
+ */
+if (!function_exists("vprintf")) {
+   function vprintf($format, $args=NULL) {
+      call_user_func_array("fprintf", func_get_args());
+   }
+}
+
+
+/**
+ * same as above, but doesn't output directly and returns formatted string
+ *
+ * @param  string $format
+ * @param  mixed  $args
+ * @return string
+ */
+if (!function_exists("vsprintf")) {
+   function vsprintf($format, $args=NULL) {
+      $args = array_merge(array($format), array_values((array)$args));
+      return call_user_func_array("sprintf", $args);
+   }
+}
+
+
+/**
+ * @extended
+ *
+ * can be used to simulate a register_globals=on environment
+ *
+ * @param  string $types   order of GET,POST,COOKIE variables
+ * @param  string $pfix    prefix for imported variable names
+ * @global $GLOBALS
+ */
+if (!function_exists("import_request_variables")) {
+   function import_request_variables($types="GPC", $pfix="") {
+      
+      #-- associate abbreviations to global var names
+      $alias = array(
+         "G" => "_GET",
+         "P" => "_POST",
+         "C" => "_COOKIE",
+         "S" => "_SERVER",   // non-standard
+         "E" => "_ENV",      // non-standard
+      );
+
+      #-- alias long names (PHP < 4.0.6)    //@FIXME: does that belong here?
+      if (!isset($_REQUEST)) {
+         $_GET = & $HTTP_GET_VARS;
+         $_POST = & $HTTP_POST_VARS;
+         $_COOKIE = & $HTTP_COOKIE_VARS;
+      }
+      
+      #-- copy
+      foreach (str_split($types, 1) as $c) {
+         if ($FROM = $alias[strtoupper($c)]) {
+            foreach ($$FROM as $key=>$val) {
+               if (!isset($GLOBALS[$pfix.$key])) {
+                  $GLOBALS[$pfix . $key] = $val;
+               }
+            }
+         }
+      }
+      // done
+   }
+}
+
+
+// a few mathematical functions follow
+// (wether we should really emulate them is a different question)
+
+#-- me has no idea what this function means
+if (!function_exists("hypot")) {
+   function hypot($num1, $num2) {
+      return sqrt($num1*$num1 + $num2*$num2);  // as per PHP manual ;)
+   }
+}
+
+#-- more accurate logarithm func, but we cannot simulate it
+#   (too much work, too slow in PHP)
+if (!function_exists("log1p")) {
+   function log1p($x) {
+      return(  log(1+$x)  );
+   }
+   #-- same story for:
+   function expm1($x) {
+      return(  exp($x)-1  );
+   }
+}
+
+#-- as per PHP manual
+if (!function_exists("sinh")) {
+   function sinh($f) {
+      return(  (exp($f) - exp(-$f)) / 2  );
+   }
+   function cosh($f) {
+      return(  (exp($f) + exp(-$f)) / 2  );
+   }
+   function tanh($f) {
+      return(  sinh($f) / cosh($f)  );   // ok, that one makes sense again :)
+   }
+}
+
+#-- these look a bit more complicated
+if (!function_exists("asinh")) {
+   function asinh($x) {
+      return(  log($x + sqrt($x*$x+1))  );
+   }
+   function acosh($x) {
+      return(  log($x + sqrt($x*$x-1))  );
+   }
+   function atanh($x) {
+      return(  log1p( 2*$x / (1-$x) ) / 2  );
+   }
+}
+
+
+
+
+/**
+ * HMAC from RFC2104, but see also PHP_Compat or Crypt_HMAC
+ *
+ * @param  string $hashtype  which encoding functions to use
+ * @param  string $text      plaintext to hash
+ * @param  string $key       key data
+ * @return string            hash
+ */
+if (!function_exists("mhash")) {
+
+   #-- constants
+   if (!defined("MHASH_CRC32")) { define("MHASH_CRC32", 0); }
+   if (!defined("MHASH_MD5")) { define("MHASH_MD5", 1); }       // RFC1321
+   if (!defined("MHASH_SHA1")) { define("MHASH_SHA1", 2); }      // RFC3174
+   if (!defined("MHASH_TIGER")) { define("MHASH_TIGER", 7); }
+   if (!defined("MHASH_MD4")) { define("MHASH_MD4", 16); }      // RFC1320
+   if (!defined("MHASH_SHA256")) { define("MHASH_SHA256", 17); }
+   if (!defined("MHASH_ADLER32")) { define("MHASH_ADLER32", 18); }
+   
+   #-- implementation
+   function mhash($hashtype, $text, $key) {
+   
+      #-- hash function
+      if (!($func = mhash_get_hash_name($hashtype)) || !function_exists($func)) {
+         return trigger_error("mhash: cannot use hash algorithm #$hashtype/$func", E_USER_ERROR);
+      }
+      if (!$key) {
+         trigger_error("mhash: called without key", E_USER_WARNING);
+      }
+      
+      #-- params
+      $bsize = mhash_get_block_size($hashtype);   // fixed size, 64
+
+      #-- pad key
+      if (strlen($key) > $bsize) {  // hash key, when it's too long
+         $key = $func($key); 
+         $key = pack("H*", $key);   // binarify
+      }
+      $key = str_pad($key, $bsize, "\0");  // fill up with NULs (1)
+      
+      #-- prepare inner and outer padding stream
+      $ipad = str_pad("", $bsize, "6");   // %36
+      $opad = str_pad("", $bsize, "\\");  // %5C
+      
+      #-- call hash func    // php can XOR strings for us
+      $dgst = pack("H*",  $func(  ($key ^ $ipad)  .  $text  ));  // (2,3,4)
+      $dgst = pack("H*",  $func(  ($key ^ $opad)  .  $dgst  ));  // (5,6,7)
+      return($dgst);
+   }
+   
+   #-- return which hash functions are implemented
+   function mhash_count() {
+      return(MHASH_SHA1);
+   }
+   
+   #-- map numeric identifier to hash function name
+   function mhash_get_hash_name($i) {
+      static $hash_funcs = array(
+          MHASH_CRC32 => "crc32",   // would need dechex()ing in main func?
+          MHASH_MD5 => "md5",
+          MHASH_SHA1 => "sha1",
+      );
+      return(strtoupper($hash_funcs[$i]));
+   }
+   
+   #-- static value
+   function mhash_get_block_size($i) {
+      return(64);
+   }
+}
+
+
+
+
+
+/**
+ *
+ * @group REMOVED_STUFF
+ * @since unknown
+ * @until unknown
+ *
+ *
+ * @emulated
+ *    ...
+ *
+ * @missing
+ *    leak  - occupy a given amount of memory
+ *
+ */
+
+
+
+
+
+/**
+ *
+ * group PRE_4_1
+ * since 4.0
+ * since 3.0
+ *
+ *
+ * @emulated
+ *    ...
+ *
+ *
+ * No need to implement anything below that, because such old versions
+ * will be incompatbile anyhow (- none of the newer superglobals known).
+ *
+ * but see also "ext/old"
+ *
+ */
+
 
 ?>
