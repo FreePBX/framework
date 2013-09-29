@@ -43,6 +43,9 @@ require_once($dirname . '/libraries/usage_registry.functions.php');
 //emulated compatability for older versions of freepbx
 require_once($dirname . '/libraries/php-upgrade.functions.php');
 
+//PHP Restful Library
+require_once($dirname . '/libraries/pest.functions.php');
+
 //lightweight query functions
 require_once($dirname . '/libraries/sql.functions.php');
 
