@@ -516,7 +516,7 @@ class followme {
 
 	//TODO: really need to check for a bogus response, see how other side does it
 	//
-	return preg_replace("/[^0-9*\-]/", "", $response);
+	return preg_replace("/[^0-9*\-+]/", "", $response);
   }
 
   /*
@@ -677,7 +677,7 @@ class followme {
 
 	if (trim($exten) == "") return $exten;
 
-	$exten = preg_replace("/[^0-9*]/", "", $exten);
+	$exten = preg_replace("/[^0-9*+]/", "", $exten);
 
 	$sql = "SELECT extension FROM users WHERE extension = '".$exten."'";
 	$asa = $_SESSION['dbh_asterisk']->getrow($sql, DB_FETCHMODE_ASSOC);
