@@ -345,7 +345,7 @@ class component {
 						 		? '+' : '-  ';
 						$htmlout .= "<h5>" 
 								. "<span class=\"guielToggleBut\">$state</span>" 
-								. $section 
+								. _($section) 
 								. "</h5><hr>";
 					} else {
 						$htmlout .= '<hr>';

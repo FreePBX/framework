@@ -428,6 +428,7 @@ switch($display) {
 
 		// global component
 		if ( isset($currentcomponent) ) {
+			modgettext::textdomain($module_name);
 			echo  $currentcomponent->generateconfigpage();
 		}
 
