@@ -26,13 +26,12 @@ FreePBX uses a number of open source projects to work properly:
 Visuals
 -----------
 FreePBX uses a number of visual graphics packages to render properly:
+
 * [Silk Icon Set] - Version 1.3, Creative Commons Attribution 2.5 License: http://creativecommons.org/licenses/by/2.5/, Originally by Mark James
 
 Music
 -----------
-FreePBX incorporates a number of royalty-free, creative commons licensed music files. These files are distributed under the Creative Commons Attribution-ShareAlike
-3.0 license through explicit permission from their authors. The license can be found at:
-http://creativecommons.org/licenses/by-sa/3.0/
+FreePBX incorporates a number of royalty-free, creative commons licensed music files. These files are distributed under the Creative Commons Attribution-ShareAlike 3.0 license through explicit permission from their authors. The license can be found at: http://creativecommons.org/licenses/by-sa/3.0/
 
 * [macroform-cold_day] - Paul Shuler (Macroform), paulshuler@gmail.com
 
