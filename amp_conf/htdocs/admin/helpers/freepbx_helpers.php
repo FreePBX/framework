@@ -119,7 +119,9 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 		
 			//if the modulename_destinations() function exits, run it and display selections for it
 			if (function_exists($funct)) {
+				modgettext::push_textdomain($rawmod);
 				$destArray = $funct(); //returns an array with 'destination' and 'description', and optionally 'category'
+				modgettext::pop_textdomain();
 				if(is_Array($destArray)) {
 					foreach($destArray as $dest){
 						$cat=(isset($dest['category'])?$dest['category']:$module['displayname']);
@@ -131,7 +133,9 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 					}
 				} 
 				if (isset($module['popovers']) && !$fw_popover) {
+					modgettext::push_textdomain($rawmod);
 					$funct = strtolower($rawmod.'_destination_popovers');
+					modgettext::pop_textdomain();
 					if (function_exists($funct)) {
 						$protos = $funct();
 						foreach ($protos as $ds_id => $cat) {
@@ -262,12 +266,7 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 		foreach ($destination as $key => $dest) {
 			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
 			$ds_array[$cat][$key]['selected'] = ($goto == $dest['destination']) ? true : false;
-		// This is ugly, but I can't think of another way to do localization for this child object
-		    if(isset( $dest['category']) && dgettext('amp',"Terminate Call") == $dest['category']) {
-    			$child_label_text = dgettext('amp',$dest['description']);
-			} else {
 			$child_label_text=$dest['description'];
-			}
 			$style=' style="'.(($cat=='Error')?'background-color:red;':'background-color:white;').'"';
 			$html.='<option value="'.$dest['destination'].'" '.$selected.$style.'>'.$child_label_text.'</option>';
 		}
