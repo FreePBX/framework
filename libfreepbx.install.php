@@ -228,29 +228,35 @@ function amp_mkdir($directory, $mode = "0755", $recursive = false) {
  * @returns array of the original source we read in and the real directory for it
  */
 function recursive_readlink($source){
-        $dir = dirname($source);
+	$dir = dirname($source);
+	$links = array();
+	$ldir = null;
 
-        if (file_exists($source)) {
-                $base = $dir;
-                $file = basename($dir);
-        } else {
-                $base = $source;
-        }
-        $links = array();
-
-        while (!in_array($dir,array('.','..','','/'))) {
-                if (is_link($dir)) {
-                        $dir = readlink($dir);
-                        $links[$base] = $dir;
-                        if (!is_link($dir) && file_exists($dir .'/'.$file)) {
-                                $links[$base] = $dir;
+	while (!in_array($dir,array('.','..','','/')) && strpos('.git',$dir) == false) {
+		if ($dir == $ldir) { 
+			break; 
+		}
+		if (is_link($dir)) {
+			$ldir = readlink($dir);
+			$file = str_replace($dir, $ldir, $source);
+			if (!is_link($ldir) && file_exists($file)) {
+				$links[$source] = $file;
+			}
+		} else {
+			if (file_exists($source) && !is_link(dirname($source))) {
+                                break;
                         }
-                } else {
-                        $dir = dirname($dir);
-                }
-        }
+			$ldir = dirname($dir);
+			$file = str_replace($dir, $ldir, $source);
+			if (!is_link($ldir) && file_exists($file)) {
+				$links[$source] = $file;
+			}
+		}
+		$ldir = $dir;
+		$dir = dirname($dir);
+	}
 
-        return $links;
+	return $links;
 }
 
 /**
