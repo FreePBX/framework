@@ -978,10 +978,10 @@ if($installamp_clean || $uninstallamp) {
                 	out("FAILED");
                 	fatal("Could Not Connect to Database (Probably already deleted)");
                 } else {
-        	        $sql = "SHOW TABLES FROM ".$oldampconf['AMPDBNAME'];
+        	        $sql = "SHOW TABLES FROM ".$u_database;
         	        $tables = $cleandb->getAll($sql);
         	        foreach($tables as $list) {
-        	            $sql = "DROP TABLE ".$oldampconf['AMPDBNAME'].".".$list[0];
+        	            $sql = "DROP TABLE ".$u_database.".".$list[0];
         	            $cleandb->query($sql);
         	        }
         	        out("Done"); 
