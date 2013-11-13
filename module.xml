@@ -1,0 +1,108 @@
+<module>
+	<rawname>framework</rawname>
+	<modtype>framework</modtype>
+	<repo>standard</repo>
+	<modtype>framework</modtype>
+	<name>FreePBX Framework</name>
+	<version>2.11.0.11</version>
+	<publisher>FreePBX</publisher>
+	<license>GPLv2+</license>
+	<candisable>no</candisable>
+	<canuninstall>no</canuninstall>
+	<changelog>
+		*2.11.0.11* #6673, #6682, #6683 #6721
+		*2.11.0.10* #6656
+		*2.11.0.9* another typo for NOTIFICATION_IGNORE, assure module callbacks are seen in module_admin
+		*2.11.0.8* fix typo in NOTIFICATION_IGNORE format
+		*2.11.0.7* #6651 and allow file handler to use restrictmods
+		*2.11.0.6* need to commit the new setting
+		*2.11.0.5* make sure amp_conf setup right even if class isn't created with create
+		*2.11.0.4* minor tweak in NOTIFICAION_IGNORE format
+		*2.11.0.3* r15801, r15803, r15804, r15805, r15806 misc internal improvements
+		*2.11.0.2* #6603, misc
+		*2.11.0.1* update to send base version properly
+		*2.11.0.0* 2.11.0 final
+		*2.11.0.0rc1.8* #6547, #6541, #6553, #6550
+		*2.11.0.0rc1.7* #6547, #6527, #6546, #5270, #6541
+		*2.11.0.0rc1.6* Added mysql charset to asterisk dialplan function
+		*2.11.0.0rc1.5* #6527, when creating a top level single category button use the module name not the category name, change wording on beta view
+		*2.11.0.0rc1.4* re #6529 - 
+		*2.11.0.0rc1.3* #6506, #6507, #6518, fix PHP 5.3 ananoymous function requirement, misc
+		*2.11.0.0rc1.2* broke some advanced settings fixed now
+		*2.11.0.0rc1.1* update pbxlib.js
+		*2.11.0.0rc1.0* #6488, res_odbc.conf, rtp.conf migrations, 
+		*2.11.0.0beta2.9* Fixes #6472, destination popovers not working
+		*2.11.0.0beta2.8* #6455 have amportal remove dangling symlinks
+		*2.11.0.0beta2.7* #6272, #6453, better splicing granularity, beta module page support
+		*2.11.0.0beta2.6* #6303, #6387, #6384, jQuery 1.7 deprecation changes, extensions class fixes, obe validation, PIAF index.php fix
+		*2.11.0.0beta2.5* Update compressed libpbx
+		*2.11.0.0beta2.4* #6380 Fixes login issue on non-chrome browsers. Fixes extmap shown
+		*2.11.0.0beta2.3* #5829, #6271, #6237, 6272, #6300, #6320, #6049, #6351, #6349
+		*2.11.0.0beta2.2* #5412, #6159, #5842
+		*2.11.0.0beta2.1* remove error in sql install template breaking new installs, upgrades ok
+		*2.11.0.0beta2.0* beta2 release
+		*2.11.0.0beta1.5* #5842, #6147, #6154
+		*2.11.0.0beta1.4* #6060, #5412, #6063, #6079, other changes
+		*2.11.0.0beta1.3* Fix issue with Advanced Settings being set to hidden in error
+		*2.11.0.0beta1.2* #6051, #6055, #6057
+		*2.11.0.0beta1.1* #6051 destination popOvers
+		*2.11.0.0beta1.0* #5969, #5933, #5989, #6002, #6010, #6011, #6013, #6023, #6034, #6030, #6036
+		*2.10.1.1* remove some code checked in error not used
+		*2.10.1.0* #5874, #5833, #5646, #5879, #5839,
+		*2.10.0.8* #5851
+		*2.10.0.7* #5815
+		*2.10.0.6* #5812
+		*2.10.0.5* #5716, #5763, #5742, #5743, #5533, #5692
+		*2.10.0.4* re #5755 - assorted bug fixes 
+		*2.10.0.3* downstream updates 
+		*2.10.0.2* #5492, #5565, #5662, #5678
+		*2.10.0.1* #5492, #5443, #5646, #5565
+		*2.10.0.0* bump to final, tooltip updates
+		*2.10.0rc1.7* #5627, #5628
+		*2.10.0rc1.6* #5619 again, typo
+		*2.10.0rc1.5* amportal chown corrections from last checkin
+		*2.10.0rc1.4* #5619, #5615, some amportal chown tuning
+		*2.10.0rc1.3* #5528, #5391, #5260, #5148, colapsible gui eleent sections
+		*2.10.0rc1.2* #5585 SECURITY ISSUE introduced in 2.10.0rc1.2 previous version
+		*2.10.0rc1.1* #4909, #5117, #5545, #5565 menu/CSS fixes, default language improvements
+		*2.10.0rc1.0* add backup repo, misc, bump release candidate
+		*2.10.0beta3.6* #5513 and one more syntax issue
+		*2.10.0beta3.5* #5513 check for setting first
+		*2.10.0beta3.4* #5513, better zend detecetion, cdr migration bug check
+		*2.10.0beta3.3* add some error checking on migration script
+		*2.10.0beta3.2* migrates cdr table adding did field
+		*2.10.0beta3.1* migrates cdr table adding recordingfile field
+		*2.10.0beta3.0* beta3 bump, misc tweaks
+		*2.10.0beta2.8* #5465, #5475, #5476, #5480, adds .htaccess to address some potential security vulnerabilities
+		*2.10.0beta2.7* #5465
+		*2.10.0beta2.6* #5342, #5461, #5451, #5463, #5442, gui changes, manager library enhancements,
+		*2.10.0beta2.5* version bump, see trac for more info
+		*2.10.0beta2.4* #5122, #5443, #5451, #5450
+		*2.10.0beta2.3* revert r12651
+		*2.10.0beta2.2* module admin depency check changes
+		*2.10.0beta2.1* migration script bug fix
+		*2.10.0beta2.0* move FOP to module, add hook ability to freepbx_engine (amportal), remove gzip handling preventing caching, various bug fixes
+		*2.10.0beta1.1* #5375, #5341, #5375, #5390, more on $5342, adds back freepbx_menu.conf to customize menu bar and content
+		*2.10.0beta1.0* beta1 release, see svn log
+		*2.9.0.7* #5209, #5217, #5221, #5212, #5211, #5140, #5216
+		*2.9.0.6* #5194
+		*2.9.0.5* #5183
+		*2.9.0.4* #5138
+		*2.9.0.3* #5160
+		*2.9.0.2* #5122
+		*2.9.0.1* #5027
+		*2.9.0.0* #5124
+		*2.9.0rc1.5* #5077, #5086, #5096, #5095, #5111
+		*2.9.0rc1.4* #5080 
+		*2.9.0rc1.3* #5038, #5059 
+		*2.9.0rc1.2* #5041, #4871, #5053,
+		*2.9.0rc1.1* #5009, #5028, #5035, typos
+		*2.9.0rc1.0* #4983, #4952, #5000, #4988
+	</changelog>
+	<description>
+		This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module
+	</description>
+	<category>Admin</category>
+	<location>release/2.11/framework-2.11.0.10.tgz</location>
+	<md5sum>343e3e49493d537e61ce925d77dfcadc</md5sum>
+</module>
