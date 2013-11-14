@@ -218,6 +218,66 @@ function amp_mkdir($directory, $mode = "0755", $recursive = false) {
 	}
 }
 
+/**
+ * Recursive Read Links
+ *
+ * This function is used to recursively read symlink until we reach a real directory
+ *
+ * @author Bryan Walters <bryan.walters@schmoozecom.com>
+ * @params string $source - The original file we are replacing
+ * @returns array of the original source we read in and the real directory for it
+ */
+function recursive_readlink($source){
+	$dir = dirname($source);
+	$links = array();
+	$ldir = null;
+
+	while (!in_array($dir,array('.','..','','/')) && strpos('.git',$dir) == false) {
+		if ($dir == $ldir) { 
+			break; 
+		}
+		if (is_link($dir)) {
+			$ldir = readlink($dir);
+			$file = str_replace($dir, $ldir, $source);
+			if (!is_link($ldir) && file_exists($file)) {
+				$links[$source] = $file;
+			}
+		} else {
+			if (file_exists($source) && !is_link(dirname($source))) {
+                                break;
+                        }
+			$ldir = dirname($dir);
+			$file = str_replace($dir, $ldir, $source);
+			if (!is_link($ldir) && file_exists($file)) {
+				$links[$source] = $file;
+			}
+		}
+		$ldir = $dir;
+		$dir = dirname($dir);
+	}
+
+	return $links;
+}
+
+/**
+ * Substitute Read Links
+ *
+ * This function is used to substitute symlinks, to real directories where information is stored
+ *
+ * @author Bryan Walters <bryan.walters@schmoozecom.com>
+ * @params string $source - The original file we are replacing
+ * @params array $links - A list of possible replacements
+ * @return string of the real file path to the given source
+ */
+function substitute_readlinks($source,$links) {
+        foreach ($links as $key => $value) {
+                if (strpos($source, $key) !== false) {
+                        $source = str_replace($key, $value, $source);
+                        return $source;
+                }
+        }
+}
+
 /** Recursively copy a directory
  */
 function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") {
@@ -309,7 +369,13 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 							if (is_link($destination) || file_exists($destination)) {
 								unlink($destination);
 							}
-							symlink(dirname(__FILE__)."/".$source, $destination);
+					
+							$links = recursive_readlink($source);
+							if (!empty($links)) {
+								symlink(substitute_readlinks($source,$links), $destination);
+							} else {
+								symlink(dirname(__FILE__)."/".$source, $destination);
+							}
 						} else {
 							copy($source, $destination);
 						}
@@ -2312,7 +2378,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['hidden'] = 0;
 
   // MODULE_REPO
-  $set['value'] = 'http://mirror1.freepbx.org,http://mirror2.freepbx.org';
+  $set['value'] = 'http://freepbxdev1.schmoozecom.net/mirror/';
   $set['options'] = '';
   $set['name'] = 'Repo Server';
   $set['description'] = 'repo server';

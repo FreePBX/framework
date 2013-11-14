@@ -18,6 +18,7 @@
 //    Copyright 2006, Rob Thomas <xrobau@gmail.com>
 //    Copyright 2009, Bandwith.com
 //
+date_default_timezone_set('America/Los_Angeles');
 require_once ("libfreepbx.install.php");
 require_once(dirname(__FILE__) . '/amp_conf/htdocs/admin/libraries/php-upgrade.functions.php');
 require_once(dirname(__FILE__) . '/amp_conf/htdocs/admin/libraries/sql.functions.php');
@@ -879,7 +880,7 @@ if($installamp_clean || $uninstallamp) {
     	    break;   
     	}
 	}
-	if(file_exists($oldampconf['AMPBIN'])) {
+	if(!empty($oldampconf['AMPBIN']) && file_exists($oldampconf['AMPBIN'])) {
         outn("Remove All FreePBX Tools in ".$oldampconf['AMPBIN']."?:\n [y] ");
         $key = trim(fgets(STDIN,1024));
         $files = array("archive_recordings","freepbx_engine", "gen_amp_conf.php", "libfreepbx.confgen.php", "retrieve_conf", "freepbx-cron-scheduler.php", "freepbx_setting", "generate_hints.php", "module_admin", "retrieve_parse_amportal_conf.pl");
@@ -955,8 +956,12 @@ if($installamp_clean || $uninstallamp) {
     	    break;   
     	}
     }
-	if($uninstallamp && !empty($oldampconf)) {
+	if($uninstallamp && (!empty($oldampconf) || !empty($new_username))) {
 	    outn("Uninstall Freepbx's Asterisk Database?:\n [y] ");
+		$u_username = !empty($oldampconf["AMPDBUSER"]) ? $oldampconf["AMPDBUSER"] : $new_username;
+		$u_password = !empty($oldampconf["AMPDBPASS"]) ? $oldampconf["AMPDBPASS"] : (!empty($new_password) ? $new_password : '');
+		$u_host = !empty($oldampconf["AMPDBHOST"]) ? $oldampconf["AMPDBHOST"] : (!empty($dbhost) ? $dbhost : 'localhost');
+		$u_database = !empty($oldampconf["AMPDBNAME"]) ? $oldampconf["AMPDBNAME"] : (!empty($dbname) ? $dbname : 'asterisk');
     	$key = trim(fgets(STDIN,1024));
     	switch($key) {
     	    case "n":
@@ -966,17 +971,17 @@ if($installamp_clean || $uninstallamp) {
     	    case "yes":
     	    default:
     	        outn("Erasing Database...");
-    	        $datasource = 'mysql://'.$oldampconf["AMPDBUSER"].':'.$oldampconf["AMPDBPASS"].'@'.$oldampconf["AMPDBHOST"].'/'.$oldampconf["AMPDBNAME"];
+    	        $datasource = 'mysql://'.$u_username.':'.$u_password.'@'.$u_host.'/'.$u_database;
         		$cleandb = DB::connect($datasource); // attempt connection
         		
         		if(DB::IsError($cleandb)) {
                 	out("FAILED");
-                	fatal("Try not selecting 'y' on Uninstall Freepbx's Asterisk Database");
+                	fatal("Could Not Connect to Database (Probably already deleted)");
                 } else {
-        	        $sql = "SHOW TABLES FROM ".$oldampconf['AMPDBNAME'];
+        	        $sql = "SHOW TABLES FROM ".$u_database;
         	        $tables = $cleandb->getAll($sql);
         	        foreach($tables as $list) {
-        	            $sql = "DROP TABLE ".$oldampconf['AMPDBNAME'].".".$list[0];
+        	            $sql = "DROP TABLE ".$u_database.".".$list[0];
         	            $cleandb->query($sql);
         	        }
         	        out("Done"); 
