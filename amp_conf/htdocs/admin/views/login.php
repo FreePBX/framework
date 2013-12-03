@@ -29,22 +29,17 @@ $html .= br(2);
 $html .= form_close();
 $html .= '</div>';
 $html .= '<div id="login_icon_holder">';
-$html .= '<a href="#" class="login_item" id="login_admin" style="background-image: url(assets/images/sys-admin.png);"/>&nbsp</a>';
-$html .= '<a href="/recordings" '
-		. 'class="login_item" id="login_ari" style="background-image: url(assets/images/user-control.png);"/>&nbsp</a>';
+$html .= '<div class="login_item_title"><a href="#" class="login_item" id="login_admin" style="background-image: url(assets/images/sys-admin.png);"/>&nbsp</a>' . _('FreePBX Administration') . '</div>';
+
+$html .= '<div class="login_item_title"><a href="/recording" '
+                . 'class="login_item" id="login_ari" style="background-image: url(assets/images/user-control.png);"/>&nbsp</a>' . _('User Control Panel') . '</div>';
 if ($panel) {
-    $html .= '<a href="' . $panel . '" '
-		    . 'class="login_item" id="login_fop" style="background-image: url(assets/images/operator-panel.png);"/>&nbsp</a>';
+    $html .= '<div class="login_item_title"><a href="' . $panel . '" '
+		    . 'class="login_item" id="login_fop" style="background-image: url(assets/images/operator-panel.png);"/>&nbsp</a>' . _('Operator Panel') . '</div>';
 }
-$html .= '<a href="http://www.schmoozecom.com/oss.php" '
-		. 'class="login_item" id="login_support" style="background-image: url(assets/images/support.png);"/>&nbsp</a>';
+$html .= '<div class="login_item_title"><a href="http://www.schmoozecom.com/oss.php" '
+		. 'class="login_item" id="login_support" style="background-image: url(assets/images/support.png);"/>&nbsp</a>' . _('Get Support') . '</div>';
 $html .= '<div></div>';
-$html .= '<div class="login_item_title">' . _('FreePBX Administration') . '</div>';
-$html .= '<div class="login_item_title">' . _('User Control Panel') . '</div>';
-if ($panel) {
-    $html .= '<div class="login_item_title">' . _('Operator Panel') . '</div>';
-}
-$html .= '<div class="login_item_title">' . _('Get Support') . '</div>';
 $html .= '</div>';
 $html .= br(5) . '<div id="key" style="color: white;font-size:small">'
 	  . session_id()
