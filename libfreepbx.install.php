@@ -2378,7 +2378,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['hidden'] = 0;
 
   // MODULE_REPO
-  $set['value'] = 'http://freepbxdev1.schmoozecom.net/mirror/';
+  $set['value'] = 'http://mirror1.freepbx.org,http://mirror2.freepbx.org';
   $set['options'] = '';
   $set['name'] = 'Repo Server';
   $set['description'] = 'repo server';
