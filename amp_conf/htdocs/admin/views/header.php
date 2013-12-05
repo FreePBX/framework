@@ -23,6 +23,13 @@ $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 		. '<meta name="robots" content="noindex" />'
 		. '<link rel="shortcut icon" href="' . $amp_conf['BRAND_IMAGE_FAVICON'] . '">';
 //css
+if ($amp_conf['USE_GOOGLE_CDN_JS']) {
+	$html .= '<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/'.$amp_conf['BOOTSTRAP_VER'].'/css/bootstrap.min.css">';
+} else {
+	$html .= '<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />';
+}
+$html .= '<link href="assets/css/bootstrap-fixes.css" rel="stylesheet" type="text/css" />';
+
 $mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
                        ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
                        : 'assets/css/mainstyle.css';
@@ -56,6 +63,11 @@ if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 	$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-' . $amp_conf['JQUERY_VER'] . '.min.js"><\/script>\')</script>';
 } else {
 	$html .= '<script type="text/javascript" src="assets/js/jquery-' . $amp_conf['JQUERY_VER'] . '.min.js"></script>';
+}
+
+//development
+if($amp_conf['JQMIGRATE']) {
+	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
 }
 		
 $html .= '</head>';

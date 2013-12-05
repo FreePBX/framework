@@ -113,6 +113,13 @@ $html .= "\n" . '<script type="text/javascript">'
 
 		. ';$(document).click();' //TODO: this should be cleaned up eventually as right now it prevents the nav bar from not being fully displayed
  		. '</script>';
+if ($amp_conf['USE_GOOGLE_CDN_JS']) {
+	$html .= '<script src="//netdna.bootstrapcdn.com/bootstrap/'.$amp_conf['BOOTSTRAP_VER'].'/js/bootstrap.min.js"></script>';
+	$html .= '<script type="text/javascript" >typeof($.fn.modal) !== "undefined" || document.write(\'<script src="assets/js/jquery-ui-' 
+			. $amp_conf['BOOTSTRAP_VER'] . '.min.js"><\/script>\')</script>';
+} else {
+	$html .= '<script src="assets/js/bootstrap-'.$amp_conf['BOOTSTRAP_VER'].'.min.js"></script>';
+}
 
 if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 	$html .= '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/' 
@@ -122,6 +129,8 @@ if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 } else {
 	$html .= '<script type="text/javascript" src="assets/js/jquery-ui-' . $amp_conf['JQUERYUI_VER'] . '.min.js"></script>';
 }
+
+
 
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below

@@ -6,6 +6,7 @@ inside #DEEDF7;
 body { 
 	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif, Verdana, "Trebuchet MS", SunSans-Regular;
 	font-size:11pt ;
+	line-height: 1;
 }
 html,
 body {
@@ -458,11 +459,7 @@ div.modulebuttons {
 	margin: .4em 0 .2em;
 	line-height: 1.5;
 }
-/*not sure what this does -MB*/
-.menubar .ui-menu  a {
-	color: #2E6E9E;
-	font-weight: normal;
-}
+.ui-menu .ui-menu-item a {color: #2779AA;}
 
 /*submit button size*/
 input[type="submit"]{ height: 25px;}
@@ -474,9 +471,11 @@ input[type="submit"]{ height: 25px;}
 /* menubar logo */
 #MENU_BRAND_IMAGE_TANGO_LEFT {
 	height:23px;
-	margin:4px;
+	margin:1px;
 	cursor:pointer;
 	float:left;
+	border:none;
+	background:none;
 }
 
 /*ajax spinner*/
