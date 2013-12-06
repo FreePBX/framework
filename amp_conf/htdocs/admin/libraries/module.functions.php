@@ -1001,6 +1001,130 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	return true;
 }
 
+function module_handledownload($module_location, $progress_callback = null) { 
+	global $amp_conf;
+
+	if ($time_limit = ini_get('max_execution_time')) {
+		set_time_limit($time_limit);
+	}
+	
+	// size of download blocks to fread()
+	// basically, this controls how often progress_callback is called
+	$download_chunk_size = 12*1024;
+	
+	// invoke progress callback
+	if (function_exists($progress_callback)) {
+		$progress_callback('getinfo', array('module'=>$modulename));
+	}
+	
+	$file = basename($module_location);
+	$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
+	
+	// Check each URL until get_headers_assoc() returns something intelligible. We then use
+	// that URL and hope the file is there, we won't check others.
+	$headers = get_headers_assoc($module_location);
+	if (empty($headers)) {
+		return array(sprintf(_('Failed download module tarball from %s, server may be down'),$module_location));
+	}
+	
+	if (!($fp = @fopen($filename,"w"))) {
+		return array(sprintf(_("Error opening %s for writing"), $filename));
+	}
+	
+	// TODO: do we want to make more robust past this point:
+	// At this point we have settled on a specific URL that we can reach, if the file isn't there we won't try
+	// other servers to check for it. The assumption is that no backup server will have it either at this point
+	// If we wanted to make this more robust we could go back and try other servers. This code is a bit tangled
+	// so some better factoring might help.
+	//
+	$totalread = 0;
+	// invoke progress_callback
+	if (function_exists($progress_callback)) {
+		$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
+	}
+	
+	// Check MODULEADMINWGET first so we don't execute the fopen() if set
+	//
+	if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($module_location,'r')) {
+		exec("wget --tries=1 --timeout=600 -O $filename $module_location 2> /dev/null", $filedata, $retcode);
+		if ($retcode != 0) {
+			return array(sprintf(_("Error opening %s for reading"), $url));
+		} else {
+			if (!$dp = @fopen($filename,'r')) {
+				return array(sprintf(_("Error opening %s for reading"), $url));
+			}
+		}
+	}
+	
+	$filedata = '';
+	while (!feof($dp)) {
+		$data = fread($dp, $download_chunk_size);
+		$filedata .= $data;
+		$totalread += strlen($data);
+		if (function_exists($progress_callback)) {
+			$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
+		}
+	}
+	fwrite($fp,$filedata);
+	fclose($dp);
+	fclose($fp);
+	
+	
+	if (is_readable($filename) !== TRUE ) {
+		return array(sprintf(_('Unable to save %s'),$filename));
+	}
+	
+	// invoke progress callback
+	if (function_exists($progress_callback)) {
+		$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+	}
+	
+	$time = time();
+	if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$time.'/')) {
+		mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$time.'/');
+		exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$time.'/'), $output, $exitcode);
+	}
+	$dirs = glob($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$time.'/*',GLOB_ONLYDIR);
+	if(count($dirs) > 1 || !count($dirs)) {
+		return array(sprintf(_('Incorrect Number of Directories for %s'),$filename));
+	}
+	
+	// since untarring was successful, remvove the tarball so they do not accumulate
+    if (unlink($filename) === false) {
+      freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to delete %s from cache directory after opening module archive."),$filename));
+    }
+	
+	if(!file_exists($dirs[0].'/module.xml')) {
+		return array(sprintf(_('%s is missing module.xml'),$filename));
+	}
+	
+	$xml = simplexml_load_file($dirs[0].'/module.xml');
+	if(basename($dirs[0]) != $xml->rawname) {
+		return array(sprintf(_('%s is not in the correct format'),$filename));
+	}
+	$modulename = (string)$xml->rawname;
+	
+	exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
+	if ($exitcode != 0) {
+		return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename));
+	}
+	exec("mv ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$time."/".$modulename." ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
+	if ($exitcode != 0) {
+		return array(sprintf(_('Could not move %s to %s'), $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$time."/".$modulename, $amp_conf['AMPWEBROOT'].'/admin/modules/'));
+	}
+	
+	exec("rm -Rf ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$time.'/'));
+	if ($exitcode != 0) {
+		return array(sprintf(_('Could not remove temp storage at %s'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$time));
+	}
+
+	// invoke progress_callback
+	if (function_exists($progress_callback)) {
+		$progress_callback('done', array('module'=>$modulename));
+	}
+
+	return true;
+}
 
 function module_handleupload($uploaded_file) {
 	global $amp_conf;
