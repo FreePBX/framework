@@ -68,6 +68,7 @@ function showHelp() {
 	out("  --install-fop false      depricated, does nothing",false);
 	out("  --dev-links              Make links to files in the source directory instead of copying",false);
 	out("                           (intended for developers only)",false);
+	out("  --update-links           Update dev links without running through the whole install process (Bail before modules)", false);
 	out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct",false);
 	out("  --engine <name>          Use the specified PBX Engine ('asterisk')",false);
 	out("  --uid <user>             Set ownership of files to user",false);
@@ -639,7 +640,7 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","force-overwrite","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop=","make-links-devel","dev-links","skip-module-install","uid=","gid=","scripted","freepbxip=","asteriskip=","set-freepbx-settings","cleaninstall","uninstall","installdb");
+$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","force-overwrite","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop=","make-links-devel","dev-links","update-links","skip-module-install","uid=","gid=","scripted","freepbxip=","asteriskip=","set-freepbx-settings","cleaninstall","uninstall","installdb");
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -656,6 +657,7 @@ $scripted = false;
 
 $install_moh = false;
 $make_links = false;
+$update_links = false;
 $module_install = true;
 $set_freepbx_settings = false;
 
@@ -735,6 +737,8 @@ foreach ($args[0] as $arg) {
 		case "--install-fop":
 			out("install-fop: depricated setting, does nothing.");
 		break;
+		case "--update-links":
+			$update_links = true;
 		case "--make-links-devel":
 		case "--dev-links":
 			$make_links = true;
@@ -1554,10 +1558,10 @@ $version = install_getversion();
 // Now force an install for all modules that are packaged with the tarball
 // directory.
 //
-if ($module_install) {
+if ($module_install && !$update_links) {
 	install_modules();
 } else {
-	out("bypassing packaged module installation because --skip-module-install flag");
+	out("bypassing packaged module installation because --skip-module-install or --update-links flag");
 }
 
 
