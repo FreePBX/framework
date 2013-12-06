@@ -115,7 +115,7 @@
 										<?php switch ($module['status']) {
 											case MODULE_STATUS_NOTINSTALLED:
 												if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-													if (isset($module['raw']['local'][$name])) {?>
+													if (!empty($module['raw']['local'])) {?>
 														<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
 														<label for="install_<?php echo prep_id($module['name'])?>"><?php echo _('Install')?></label> <br />
 													<?php } else { ?>
