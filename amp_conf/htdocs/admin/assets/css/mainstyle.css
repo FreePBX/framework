@@ -135,8 +135,8 @@ a.info:link, a.info:hover {
 }
 /***** login form ********/
 #loginform > input[type="text"], #loginform > input[type="password"] {
-	padding: 10px;
-	height:1em;
+	padding: 2px;
+	/* height:1em; Broken in Firefox nightly*/
 	line-height:1em;
 	width:90%;
 }
@@ -488,4 +488,39 @@ input[type="submit"]{ height: 25px;}
 	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+
+/************** Bootstrap *************************/
+.btn {
+	padding: .4em 1em;
+	color: #2779aa;
+	background-color: #e4f2fb;
+	border: 1px solid #aed0ea;
+	font-weight: 600;
+	font-size: smaller;
+	border-radius: 6px;
+	display: inline-block;
+	position: relative;
+	line-height: normal;
+	margin-right: .1em;
+	vertical-align: middle;
+	text-align: center;
+	overflow: visible; /* removes extra width in IE */
+}
+
+.btn:visited {
+	color: #3879aa;
+}
+
+.btn:hover {
+	border: 1px solid #74b2e2;
+	background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+	font-weight: bold;
+	color: #0070a3;
+}
+
+.btn:active {
+	color: #FFF;
+	background: none;
+	background-color: #62bbe9;
 }
