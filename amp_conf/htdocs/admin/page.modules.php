@@ -12,6 +12,8 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 	define('EXTERNAL_PACKAGE_MANAGEMENT', 1);
 }
 
+$modulef =& module_functions::create();
+
 // Handle the ajax post back of an update online updates email array and status
 //
 if ($quietmode && !empty($_REQUEST['online_updates'])) {
@@ -39,10 +41,10 @@ $loc_domain = 'amp';
 if (isset($_REQUEST['check_online'])) {
   $online = 1;
   $active_repos = $_REQUEST['active_repos'];
-  module_set_active_repos($active_repos);
+  $modulef->set_active_repos($active_repos);
 } else {
   $online = (isset($_REQUEST['online']) && $_REQUEST['online'] && !EXTERNAL_PACKAGE_MANAGEMENT) ? 1 : 0;
-  $active_repos = module_get_active_repos();
+  $active_repos = $modulef->get_active_repos();
 }
 
 // fix php errors from undefined variable. Not sure if we can just change the reference below to use
@@ -89,13 +91,13 @@ if (!$quietmode) {
 	<?php
 }
 
-$modules_local = module_getinfo(false,false,true);
+$modules_local = $modulef->getinfo(false,false,true);
 
 
 if ($online) {
 	$security_array = array();
 	$security_issues_to_report = array();
-	$modules_online = module_getonlinexml(false, false, $security_array);
+	$modules_online = $modulef->getonlinexml(false, false, $security_array);
 	
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
@@ -161,12 +163,12 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'downloadinstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span>';
-						if (is_array($errors = module_download($modulename, false, 'download_progress'))) {
+						if (is_array($errors = $modulef->download($modulename, false, 'download_progress'))) {
 							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
 						} else {
-							if (is_array($errors = module_install($modulename))) {
+							if (is_array($errors = $modulef->install($modulename))) {
 								echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 								echo '</span>';
@@ -178,7 +180,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				break;
 				case 'install':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_install($modulename))) {
+						if (is_array($errors = $modulef->install($modulename))) {
 							echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
@@ -188,7 +190,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 				case 'enable':
-					if (is_array($errors = module_enable($modulename))) {
+					if (is_array($errors = $modulef->enable($modulename))) {
 						echo '<span class="error">'.sprintf(_("Error(s) enabling %s"),$modulename).': ';
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 						echo '</span>';
@@ -197,7 +199,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 				case 'disable':
-					if (is_array($errors = module_disable($modulename))) {
+					if (is_array($errors = $modulef->disable($modulename))) {
 						echo '<span class="error">'.sprintf(_("Error(s) disabling %s"),$modulename).': ';
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 						echo '</span>';
@@ -207,7 +209,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				break;
 				case 'uninstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_uninstall($modulename))) {
+						if (is_array($errors = $modulef->uninstall($modulename))) {
 							echo '<span class="error">'.sprintf(_("Error(s) uninstalling %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
@@ -272,7 +274,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				case 'upgrade':
 				case 'force_upgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_checkdepends($modules_online[$module]))) {
+						if (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),  
 							                        $modules[$module]['name'],
@@ -293,7 +295,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				break;
 				case 'downloadinstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_checkdepends($modules_online[$module]))) {
+						if (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),  
 							                        $modules[$module]['name'],
@@ -305,7 +307,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				break;
 				case 'install':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_checkdepends($modules[$module]))) {
+						if (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),  
 							                        $modules[$module]['name'],
@@ -320,7 +322,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 				case 'enable':
-					if (is_array($errors = module_checkdepends($modules[$module]))) {
+					if (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the dependencies have been installed."),  
 						                        $modules[$module]['name'],
@@ -330,7 +332,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 				case 'disable':
-					if (is_array($errors = module_reversedepends($modules[$module]))) {
+					if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be disabled because the following modules depend on it: %s Please disable those modules first then try again."),  
 						                        $modules[$module]['name'],
@@ -341,7 +343,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				break;
 				case 'uninstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_reversedepends($modules[$module]))) {
+						if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be uninstalled because the following modules depend on it: %s Please disable those modules first then try again."),  
 							                        $modules[$module]['name'],
@@ -419,10 +421,10 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		
 		$displayvars['processed'] = false;
 		if (isset($_REQUEST['upload']) && isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
-			$displayvars['res'] = module_handleupload($_FILES['uploadmod']);
+			$displayvars['res'] = $modulef->handleupload($_FILES['uploadmod']);
 			$displayvars['processed'] = true;
 		} elseif (isset($_REQUEST['download']) && !empty($_REQUEST['remotemod'])) {
-			$displayvars['res'] = module_handledownload($_REQUEST['remotemod']);
+			$displayvars['res'] = $modulef->handledownload($_REQUEST['remotemod']);
 			$displayvars['processed'] = true;
 		} elseif(isset($_REQUEST['remotemod'])) {
 			$displayvars['res'][] = 'Nothing to download or upload';
@@ -450,7 +452,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		if ($online) {
 			// Check for announcements such as security advisories, required updates, etc.
 			//
-			$announcements = module_get_annoucements();
+			$announcements = $modulef->get_annoucements();
 			
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 				$displayvars['repo_select'] = displayRepoSelect(array(),false,$repo_list);

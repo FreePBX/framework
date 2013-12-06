@@ -66,10 +66,12 @@ foreach ($clean as $var) {
 	}
 }
 
+$modulef =& module_functions::create();
+
 $fpbx['conf']['text_dir']		= isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))
 									? 'rtl' : 'ltr';
 $fpbx['conf']['uniqueid']		= sql('SELECT data FROM module_xml WHERE id = "installid"', 'getOne');
-$fpbx['conf']['dist']			= _module_distro_id();
+$fpbx['conf']['dist']			= $modulef->_distro_id();
 $fpbx['conf']['ver']			= get_framework_version();
 $fpbx['conf']['reload_needed']  = $reload_needed; 
 $fpbx['msg']['framework']['reload_unidentified_error'] = _(" error(s) occurred, you should view the notification log on the dashboard or main screen to check for more details.");

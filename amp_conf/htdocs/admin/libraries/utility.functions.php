@@ -518,6 +518,7 @@ function generate_module_repo_url($path, $add_options=false) {
 	global $amp_conf;
 	$urls = array();
 
+	$modulef =& module_functions::create();
 	if ($add_options) {
 		$firstinstall=false;
 		$type=null;
@@ -529,9 +530,8 @@ function generate_module_repo_url($path, $add_options=false) {
 		// get a new hash to account for first time install
 		//
 		if (!isset($result['data']) || trim($result['data']) == "") {
-
 			$firstinstall=true;
-			$install_hash = _module_generate_unique_id();
+			$install_hash = $modulef->_generate_unique_id();
 			$installid = $install_hash['uniqueid'];
 			$type = $install_hash['type'];
 
@@ -567,12 +567,12 @@ function generate_module_repo_url($path, $add_options=false) {
 
 		// We check specifically for false because evenif blank it means the file
 		// was there so we want module.xml to do appropriate actions
-  	$brandid = _module_brandid();
+		$brandid = $modulef->_brandid();
 		if ($brandid !== false) {
 			$options .= "&brandid=" . urlencode($brandid);
 		}
 
-		$deploymentid = _module_deploymentid();
+		$deploymentid = $modulef->_deploymentid();
 		if ($deploymentid !== false) {
 			$options .= "&depolymentid=" . urlencode($deploymentid);
 		}
@@ -585,7 +585,7 @@ function generate_module_repo_url($path, $add_options=false) {
 		}
   	$options .= "&phpver=".urlencode(phpversion());
 
-  	$distro_info = _module_distro_id();
+  	$distro_info = $modulef->_distro_id();
   	$options .= "&distro=".urlencode($distro_info['pbx_type']);
   	$options .= "&distrover=".urlencode($distro_info['pbx_version']);
   	$options .= "&fpbxver=".urlencode(getversion());
@@ -1480,7 +1480,8 @@ function bootstrap_include_hooks($hook_type, $module) {
 function _bootstrap_parse_hooks() {
 	$hooks		= array();
 	
-	$modules	= module_getinfo(false, MODULE_STATUS_ENABLED);
+	$modulef =& module_functions::create();
+	$modules	= $modulef->getinfo(false, MODULE_STATUS_ENABLED);
 	foreach ($modules as $mymod => $mod) {
 		if (isset($mod['bootstrap_hooks'])) {
 			foreach ($mod['bootstrap_hooks'] as $type => $type_mods) {

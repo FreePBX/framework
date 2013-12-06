@@ -165,7 +165,8 @@ $restrict_mods_local = $restrict_mods;
 //is just overhead. (We'll know soon enough if this is too restrcitive).
 if ($restrict_mods_local !== true) {
 	$isauth = !isset($no_auth);
-	$active_modules = module_getinfo(false, MODULE_STATUS_ENABLED);
+	$modulef =& module_functions::create();
+	$active_modules = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
 	$modpath = $amp_conf['AMPWEBROOT'] . '/admin/modules/';
 
 	if(is_array($active_modules)){

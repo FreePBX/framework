@@ -140,7 +140,8 @@ if (!in_array($display, array('noauth', 'badrefer'))
 
 
 if (!$quietmode) {
-	module_run_notification_checks();
+	$modulef =& module_functions::create();
+	$modulef->run_notification_checks();
 }
 
 //draw up freepbx menu

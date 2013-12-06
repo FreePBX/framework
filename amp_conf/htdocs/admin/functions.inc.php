@@ -35,7 +35,8 @@ require_once($dirname . '/libraries/freepbx_conf.class.php');
 require_once($dirname . '/libraries/utility.functions.php');
 
 //module state manipulation functions
-require_once($dirname . '/libraries/module.functions.php');
+require_once($dirname . '/libraries/modulefunctions.class.php');
+require_once($dirname . '/libraries/modulefunctions.legacy.php');
 
 //dynamic registry of which exten's are in use and by whom
 require_once($dirname . '/libraries/usage_registry.functions.php');
