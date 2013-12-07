@@ -218,6 +218,24 @@ switch ($extdisplay) {  // process, confirm, or nothing
 						}
 					}
 				break;
+				case 'reinstall':
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						if (is_array($errors = $modulef->uninstall($modulename))) {
+							echo '<span class="error">'.sprintf(_("Error(s) uninstalling %s"),$modulename).': ';
+							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+							echo '</span>';
+						} else {
+							echo '<span class="success">'.sprintf(_("%s uninstalled successfully"),$modulename).'</span>';
+						}
+						echo '<br/>';
+						if (is_array($errors = $modulef->install($modulename))) {
+							echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
+							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+							echo '</span>';
+						} else {
+							echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
+						}
+					}
 				default:
 					// just so we don't send an <hr> and flush()
 					$didsomething = false;
@@ -240,8 +258,8 @@ switch ($extdisplay) {  // process, confirm, or nothing
 	case 'confirm':
 		ksort($moduleaction);
 		/* if updating language packs, make sure they are the last thing to be done so that
-   		any modules currently being updated at the same time will be done so first and
-	 		language pack updates for those modules will be included.
+		any modules currently being updated at the same time will be done so first and
+		language pack updates for those modules will be included.
 		*/
 		if (isset($moduleaction['fw_langpacks'])) {
 			$tmp = $moduleaction['fw_langpacks'];
@@ -249,15 +267,15 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			$moduleaction['fw_langpacks'] = $tmp;
 			unset($tmp);
 		}
-		
+
 		echo "<form name=\"modulesGUI\" action=\"config.php\" method=\"post\">";
 		echo "<input type=\"hidden\" name=\"display\" value=\"".$display."\" />";
 		echo "<input type=\"hidden\" name=\"type\" value=\"".$type."\" />";
 		echo "<input type=\"hidden\" name=\"online\" value=\"".$online."\" />";
 		echo "<input type=\"hidden\" name=\"extdisplay\" value=\"process\" />";
-		
+
 		echo "\t<script type=\"text/javascript\"> var moduleActions = new Array(); </script>\n";
-		
+
 		$actionstext = array();
 		$force_actionstext = array();
 		$errorstext = array();
@@ -269,7 +287,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			if (!isset($modules[$module]['name'])) {
 				$modules[$module]['name'] = $module;
 			}
-			
+
 			switch ($action) {
 				case 'upgrade':
 				case 'force_upgrade':
@@ -277,41 +295,38 @@ switch ($extdisplay) {  // process, confirm, or nothing
 						if (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),  
-							                        $modules[$module]['name'],
-							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
-              switch ( version_compare_freepbx($modules[$module]['dbversion'], $modules_online[$module]['version'])) {
-              case '-1':
-							  $actionstext[] = sprintf(_("%s %s will be upgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
-                break;
-              case '0':
-							  $force_actionstext[] = sprintf(_("%s %s will be re-installed to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
-                break;
-              default:
-							  $force_actionstext[] = sprintf(_("%s %s will be downgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
-              }
+							switch ( version_compare_freepbx($modules[$module]['dbversion'], $modules_online[$module]['version'])) {
+								case '-1':
+									$actionstext[] = sprintf(_("%s %s will be upgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+								break;
+								case '0':
+									$force_actionstext[] = sprintf(_("%s %s will be re-installed to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+								break;
+								default:
+									$force_actionstext[] = sprintf(_("%s %s will be downgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+							}
 						}
 					}
 				break;
 				case 'downloadinstall':
-					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
-							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),  
-							                        $modules[$module]['name'],
-							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
-						} else {
-							$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), $modules[$module]['name'], $modules_online[$module]['version']);
-						}
+				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+					if (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
+						$skipaction = true;
+						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),  
+						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+					} else {
+						$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), $modules[$module]['name'], $modules_online[$module]['version']);
 					}
+				}
 				break;
 				case 'install':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),  
-							                        $modules[$module]['name'],
-							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
 							if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
 								$actionstext[] =  sprintf(_("%s %s will be upgraded to %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules[$module]['version']);
@@ -325,8 +340,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					if (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the dependencies have been installed."),  
-						                        $modules[$module]['name'],
-						                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 					} else {
 						$actionstext[] =  sprintf(_("%s %s will be enabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
 					}
@@ -335,8 +349,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be disabled because the following modules depend on it: %s Please disable those modules first then try again."),  
-						                        $modules[$module]['name'],
-						                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 					} else {
 						$actionstext[] =  sprintf(_("%s %s will be disabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
 					}
@@ -346,22 +359,32 @@ switch ($extdisplay) {  // process, confirm, or nothing
 						if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be uninstalled because the following modules depend on it: %s Please disable those modules first then try again."),  
-							                        $modules[$module]['name'],
-							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
 							$actionstext[] =  sprintf(_("%s %s will be uninstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
 						}
 					}
 				break;
+				case 'reinstall':
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
+							$skipaction = true;
+							$errorstext[] = sprintf(_("%s cannot be reinstalled because the following modules depend on it: %s Please disable those modules first then try again."),  
+							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						} else {
+							$actionstext[] =  sprintf(_("%s %s will be reinstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+						}
+					}
+				break;
 			}
-
+			
 			// If error above we skip this action so we can proceed with the others
 			//
 			if (!$skipaction) { //TODO
 				echo "\t<script type=\"text/javascript\"> moduleActions['".$module."'] = '".$action."'; </script>\n";
 			}
 		}
-		
+
 		// Write out the errors, if there are additional actions that can be accomplished list those next with the choice to
 		// process which will ignore the ones with errors but process the rest.
 		//
@@ -373,36 +396,36 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 			echo "</ul>";
 		} 
-    if (count($actionstext) > 0 || count($force_actionstext) > 0) {
+		if (count($actionstext) > 0 || count($force_actionstext) > 0) {
 			if (count($errorstext) > 0) {
 				echo "<h4>"._("You may confirm the remaining selection and then try the again for the listed issues once the required dependencies have been met:")."</h4>\n";
 			} else {
 				echo "<h4>"._("Please confirm the following actions:")."</h4>\n";
 			}
-      if (count($actionstext)) {
+			if (count($actionstext)) {
 				echo "<h5>"._("Upgrades, installs, enables and disables:")."</h5>\n";
-			  echo "<ul>\n";
-			  foreach ($actionstext as $text) {
-				  echo "\t<li>".$text."</li>\n";
-			  }
-			  echo "</ul>";
-      }
-      if (count($force_actionstext)) {
+				echo "<ul>\n";
+				foreach ($actionstext as $text) {
+					echo "\t<li>".$text."</li>\n";
+				}
+				echo "</ul>";
+			}
+			if (count($force_actionstext)) {
 				echo "<h5>"._("Forced downgrades and re-installs:")."</h5>\n";
-			  echo "<ul>\n";
-			  foreach ($force_actionstext as $text) {
-          echo "\t<li>".$text."</li>\n";
-			  }
-			  echo "</ul>";
-      }
+				echo "<ul>\n";
+				foreach ($force_actionstext as $text) {
+					echo "\t<li>".$text."</li>\n";
+				}
+				echo "</ul>";
+			}
 			echo "\t<input type=\"button\" value=\""._("Confirm")."\" name=\"process\" onclick=\"process_module_actions(moduleActions);\" />";
 		} else {
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
 		}
+		
 		echo "\t<input type=\"button\" value=\""._("Cancel")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=$type&amp;online=$online';\" />";
 		echo "</form>";
-		
 	break;
 	case 'upload':
 		// display links
@@ -553,6 +576,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		$displayvars['end_msg'] = (isset($modules_online) && empty($numdisplayed)) ? (count($modules_online) > 0 ? _("All available modules are up-to-date and installed.") : _("No modules to display.") ) : '';
 		
 		$displayvars['module_display'] = $module_display;
+		$displayvars['devel'] = $amp_conf['DEVEL'];
 		show_view('views/module_admin/main.php',$displayvars);
 	break;
 }

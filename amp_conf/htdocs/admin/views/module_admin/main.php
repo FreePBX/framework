@@ -186,6 +186,10 @@
 													<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
 													<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php echo _('Uninstall')?></label> <br />
 												<?php } 
+												if (!EXTERNAL_PACKAGE_MANAGEMENT && enable_option($module['name'],'canuninstall') && $devel) {?>
+													<input type="radio" id="reinstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="reinstall" />
+													<label for="reinstall_<?php echo prep_id($module['name'])?>"><?php echo _('Reinstall')?></label> <br />
+												<?php }
 											break;
 										}?>
 									</div>
@@ -217,22 +221,24 @@
 										<?php echo $module['changelog']?>
 									</div>
 									<?php } ?>
-									<div class="tabbertab" title="<?php echo _("Debug")?>">
-										<h5><?php echo $module['name']?></h5>
-										<pre>
-											<?php print_r($module['raw']['local'])?>
-										</pre>
-									<?php if ($module['raw']['online']) { ?>
-										<h5><?php echo _('Online info')?></h5>
-										<pre>
-											<?php print_r($module['raw']['online'])?>
-										</pre>
+									<?php if ($devel) { ?>
+										<div class="tabbertab" title="<?php echo _("Debug")?>">
+											<h5><?php echo $module['name']?></h5>
+											<pre>
+												<?php print_r($module['raw']['local'])?>
+											</pre>
+										<?php if ($module['raw']['online']) { ?>
+											<h5><?php echo _('Online info')?></h5>
+											<pre>
+												<?php print_r($module['raw']['online'])?>
+											</pre>
+										<?php } ?>
+											<h5><?php echo _('Combined')?></h5>
+											<pre>
+												<?php print_r($module)?>
+											</pre>
+										</div>
 									<?php } ?>
-										<h5><?php echo _('Combined')?></h5>
-										<pre>
-											<?php print_r($module)?>
-										</pre>
-									</div>
 								</div>
 							</div>
 						</li>
