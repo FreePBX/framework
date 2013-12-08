@@ -324,8 +324,15 @@ div.attention {
 	font-size:12px;
 	font-weight:bold;
 }
+
+#modulelist table {
+	width: 100%;
+	border: 1px solid #aed0ea;
+	border-radius: 6px;
+}
+
 #modulelist .moduleheader {
-	background:#ccc;
+	/* background:#ccc; */
 	padding:2px;
 }
 #modulelist .modulevulnerable {
@@ -334,7 +341,7 @@ div.attention {
 }
 #modulelist .modulename {
 	position:absolute;
-	left:2px;
+	/* left:2px; */
 }
 #modulelist .moduleversion {
 	position:absolute;
@@ -382,7 +389,7 @@ div.modulebuttons {
 #modulelist div.moduleinfopane {
 	display:none; /* hide the information pane by default */
 	background: #eee;
-	height:7em; /* div.tabbertab height should be .5 less than this */
+	height:20em; /* div.tabbertab height should be .5 less than this */
 }
 #modulelist ul.tabbernav {
 	width:8em;
@@ -405,7 +412,7 @@ div.modulebuttons {
 }
 #modulelist div.tabbertab {
 	margin-left:1.5em; 
-	height:6.5em; /* This should be .5 less than div.moduleinfopain height */
+	height:19.5em; /* This should be .5 less than div.moduleinfopain height */
 	overflow:auto;
 }
 #modulelist h5 {

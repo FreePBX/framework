@@ -130,39 +130,34 @@ $(document).ready(function(){
 	});
 })
 function toggleInfoPane(pane) {
-	var style = document.getElementById(pane).style;
-	if (style.display == 'none' || style.display == '') {
-		style.display = 'block';
+	if($('#'+pane).is(":visible")) {
+		$('#'+pane).hide();
 	} else {
-		style.display = 'none';
+		$('#'+pane).show();
+		$('#'+pane+' .modulefunctionradios').buttonset();
 	}
 }
 function check_upgrade_all() {
-	var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
-	for(i=0; i<document.modulesGUI.elements.length; i++) {
-		if (document.modulesGUI.elements[i].value == 'upgrade') {
-			if (match = document.modulesGUI.elements[i].name.match(re)) {
-				// check the box
-				document.modulesGUI.elements[i].checked = true;
-				// expand info pane
-				document.getElementById('infopane_'+match[1]).style.display = 'block';
-			}
+	$( ".modulefunctionradios :radio" ).each(function( index ) {
+		if($(this).val() == 'upgrade') {
+			$(this).parents('.modulegroup').children('.moduleinfopane').show();
+			var pane = $(this).parents('.modulegroup').children('.moduleinfopane').attr('id');
+			$('#'+pane+' .modulefunctionradios').buttonset();
 		}
-	}
+	});
 }
+
 function check_download_all() {
-	var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
-	for(i=0; i<document.modulesGUI.elements.length; i++) {
-		if (document.modulesGUI.elements[i].value == 'downloadinstall') {
-			if (match = document.modulesGUI.elements[i].name.match(re)) {
-				// check the box
-				document.modulesGUI.elements[i].checked = true;
-				// expand info pane
-				document.getElementById('infopane_'+match[1]).style.display = 'block';
-			}
+	$( ".modulefunctionradios :radio" ).each(function( index ) {
+		if($(this).val() == 'downloadinstall') {
+			$(this).parents('.modulegroup').children('.moduleinfopane').show();
+			var pane = $(this).parents('.modulegroup').children('.moduleinfopane').attr('id');
+			$('#'+pane+' .modulefunctionradios').buttonset();
+			console.log($(this).parents('.modulegroup').children('.moduleinfopane .modulefunctionradios'))
 		}
-	}
+	});
 }
+
 function showhide_upgrades() {
 	var upgradesonly = document.getElementById('show_upgradable_only').checked;
 	var module_re = /^module_([a-z0-9_-]+)$/;   // regex to match a module element id

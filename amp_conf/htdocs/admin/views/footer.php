@@ -115,6 +115,8 @@ $html .= "\n" . '<script type="text/javascript">'
 
 		. ';$(document).click();' //TODO: this should be cleaned up eventually as right now it prevents the nav bar from not being fully displayed
  		. '</script>';
+
+
 if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 	$html .= '<script src="//netdna.bootstrapcdn.com/bootstrap/'.$amp_conf['BOOTSTRAP_VER'].'/js/bootstrap.min.js"></script>';
 	$html .= '<script type="text/javascript" >typeof($.fn.modal) !== "undefined" || document.write(\'<script src="assets/js/jquery-ui-' 
