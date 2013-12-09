@@ -117,22 +117,10 @@ $html .= "\n" . '<script type="text/javascript">'
  		. '</script>';
 
 
-if ($amp_conf['USE_GOOGLE_CDN_JS']) {
-	$html .= '<script src="//netdna.bootstrapcdn.com/bootstrap/'.$amp_conf['BOOTSTRAP_VER'].'/js/bootstrap.min.js"></script>';
-	$html .= '<script type="text/javascript" >typeof($.fn.modal) !== "undefined" || document.write(\'<script src="assets/js/jquery-ui-' 
-			. $amp_conf['BOOTSTRAP_VER'] . '.min.js"><\/script>\')</script>';
-} else {
-	$html .= '<script src="assets/js/bootstrap-'.$amp_conf['BOOTSTRAP_VER'].'.min.js"></script>';
-}
+//Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
+$html .= '<script src="assets/js/bootstrap-3.0.2.custom.min.js"></script>';
 
-if ($amp_conf['USE_GOOGLE_CDN_JS']) {
-	$html .= '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/' 
-			. $amp_conf['JQUERYUI_VER'] . '/jquery-ui.min.js"></script>';
-	$html .= '<script type="text/javascript" >window.jQuery.ui || document.write(\'<script src="assets/js/jquery-ui-' 
-			. $amp_conf['JQUERYUI_VER'] . '.min.js"><\/script>\')</script>';
-} else {
-	$html .= '<script type="text/javascript" src="assets/js/jquery-ui-' . $amp_conf['JQUERYUI_VER'] . '.min.js"></script>';
-}
+$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>';
 
 
 

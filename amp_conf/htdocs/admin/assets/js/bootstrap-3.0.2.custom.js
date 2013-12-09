@@ -184,7 +184,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
  * ======================================================================== */
 
 
-+function ($) { "use strict";
+/*+function ($) { "use strict";
 
   // BUTTON PUBLIC CLASS DEFINITION
   // ==============================
@@ -273,7 +273,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   })
 
 }(jQuery);
-
+*/
 /* ========================================================================
  * Bootstrap: carousel.js v3.0.2
  * http://getbootstrap.com/javascript/#carousel

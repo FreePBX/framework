@@ -22,6 +22,11 @@ $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 		. '<meta http-equiv="X-UA-Compatible" content="chrome=1">'
 		. '<meta name="robots" content="noindex" />'
 		. '<link rel="shortcut icon" href="' . $amp_conf['BRAND_IMAGE_FAVICON'] . '">';
+//shiv
+$html .= '<!--[if lt IE 9]>';
+$html .= '<script src="assets/js/html5shiv.js"></script>';
+$html .= '<![endif]-->';
+
 //css
 if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 	$html .= '<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/'.$amp_conf['BOOTSTRAP_VER'].'/css/bootstrap.min.css">';
