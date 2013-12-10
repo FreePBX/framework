@@ -128,6 +128,17 @@ function doDownload($modulename, $force) {
 	}
 }
 
+function enableRepo($repo) {
+	$modulef =& module_functions::create();
+	$modulef->set_active_repo($repo,1);
+	out("Repo ".$repo." successfully enabled");
+}
+
+function disableRepo($repo) {
+	$modulef =& module_functions::create();
+	$modulef->set_active_repo($repo,0);
+	out("Repo ".$repo." successfully disabled");
+}
 
 function download_progress($action, $params) {
 	switch ($action) {
@@ -395,6 +406,7 @@ function check_active_repos() {
 
 
 function showHelp() {
+	$modulef =& module_functions::create();
 	global $argv;
 	out("USAGE:",false);
 	out("  ".$argv[0]." [params] <operation> <module> [parameters.. ] ",false);
@@ -402,7 +414,7 @@ function showHelp() {
 	out("  -f  Force operation (skips dependency and status checks)",false);
 	out("      WARNING: Use at your own risk, modules have dependencies for a reason!",false);
 	out("  -R, --repo, --repos repo1,repo2,repo3...)",false);
-	out("      List of repositories to check, valid options: standard, extended, unsupported, commercial.)",false);
+	out("      List of repositories to check, valid options: ".implode(",",$modulef->get_remote_repos()).")",false);
 	out("      Locally installed modules will be checked despite the repository list.)",false);
 	out("OPERATIONS:",false);
 	out("  checkdepends <module>",false);
@@ -447,6 +459,10 @@ function showHelp() {
 	out("      Equivalent to running download and install",false);
 	out("  upgradeall",false);
 	out("      Downloads and upgrades all modules with pending updates",false);
+	out("  enablerepo <repo>",false);
+	out("      Enables a remote repository",false);
+	out("  disablerepo <repo>",false);
+	out("      Disables a remote repository",false);
 	
 	out("  --help, -h, -?           Show this help",false);
 }
@@ -641,7 +657,7 @@ foreach ($args[0] as $arg) {
 		break;
 		case "--append-brand-version":
 			$modulef =& module_functions::create();
-  			$modulef->_brandid($modulef->_brandid() . "-" . $arg[1]);
+			$modulef->_brandid($modulef->_brandid() . "-" . $arg[1]);
 		break;
 		case "--modulexml-path": case "x":
 			$modulexml_path = rtrim($arg[1],DIRECTORY_SEPARATOR)."/";
@@ -649,22 +665,18 @@ foreach ($args[0] as $arg) {
 		case "--modulerepository-path": case "r":
 			$modulerepository_path = rtrim($arg[1],DIRECTORY_SEPARATOR)."/";
 		break;
-    case "--repo": 
-    case "--repos": 
-    case "R":
-      $repo_args = explode(',',$arg[1]);
-      foreach ($repo_args as $repo) {
-        switch ($repo) {
-        case 'standard':
-        case 'extended':
-        case 'unsupported':
-        case 'commercial':
-          $active_repos[$repo] = 1;
-        break;
-        default:
-          out("No such repo: [$repo], skipping");
-        }
-      }
+		case "--repo": 
+		case "--repos": 
+		case "R":
+			$repo_args = explode(',',$arg[1]);
+			$remote_repos = $modulef->get_remote_repos();
+			foreach ($repo_args as $repo) {
+				if(in_array($repo, $remote_repos)) {
+					$active_repos[$repo] = 1;
+				} else {
+					out("No such repo: [$repo], skipping");
+				}
+			}
 		break;
 	}
 }
@@ -805,6 +817,18 @@ switch ($operation ) {
 	case 'updateall':
 		doUpgradeAll($force);
 		setPerms();
+	break;
+	case 'enablerepo':
+		if (empty($param)) {
+			fatal("Missing repo name");
+		}
+		enableRepo($param);
+		break;
+	case 'disablerepo':
+		if (empty($param)) {
+			fatal("Missing repo name");
+		}
+		disableRepo($param);
 	break;
 	default:
 	case 'help':
