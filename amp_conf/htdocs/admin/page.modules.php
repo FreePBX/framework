@@ -527,7 +527,6 @@ switch ($action) {  // process, confirm, or nothing
 				continue;
 			}
 
-			/* OLD
 			// Theory: module is not in the defined repos, and since it is not local (meaning we loaded it at some point) then we
 			//         don't show it. Exception, if the status is BROKEN then we should show it because it was here once.
 			//
@@ -535,14 +534,13 @@ switch ($action) {  // process, confirm, or nothing
 			&& $modules[$name]['status'] != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
 				continue;
 			}
-			*/
 
 			// If versionupgrade module is present then allow it to skip modules that should not be presented
 			// because an upgrade is in process. This can help assure only safe modules are present and
 			// force the user to upgrade in the proper order.
 			//
 			if (function_exists('versionupgrade_allowed_modules') && !versionupgrade_allowed_modules($modules[$name])) {
-			continue;
+				continue;
 			}
 			$numdisplayed++;
 			
