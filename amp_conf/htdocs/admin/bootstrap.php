@@ -79,6 +79,7 @@ $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 
 	 	 
 // include base functions
+require_once($dirname . '/libraries/compress.class.php');
 require_once($dirname . '/libraries/utility.functions.php'); 
 $bootstrap_settings['framework_functions_included'] = false; 
 require_once($dirname . '/functions.inc.php'); 
