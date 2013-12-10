@@ -24,7 +24,7 @@
 		<div class="panel-body">
 			<form id="modulesGUI-upload" name="modulesGUI-upload" action="config.php" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="display" value="modules" />
-				<input type="hidden" name="extdisplay" value="upload" />
+				<input type="hidden" name="action" value="upload" />
 				<label style="text-decoration:underline"><a href=# class="info"><?php echo _("Download Remote Module")?><span><?php echo _("Typically the direct address of a module tarball where FreePBX will attempt to download remotely and upload locally")?></span></a><br/><input type="text" size="50" name="remotemod" placeholder="http://<path>/<to>/<tarball>" /></label>
 				<br/>
 				<input id="download" type="submit" value="<?php echo _('Download')?>" name="download" />

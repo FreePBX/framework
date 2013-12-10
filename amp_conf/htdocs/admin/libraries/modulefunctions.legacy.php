@@ -60,3 +60,9 @@ function modules_getversion($modname) {
 	$modulef =& module_functions::create();
 	return $modulef->_getversion($modname); 
 }
+
+function _module_distro_id() {
+	_module_backtrace();
+	$modulef =& module_functions::create();
+	return $modulef->_distro_id(); 
+}

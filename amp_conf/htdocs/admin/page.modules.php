@@ -34,18 +34,16 @@ if ($quietmode && !empty($_REQUEST['online_updates'])) {
 	exit;
 }
 
-$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
+$action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
 
 global $active_repos;
 $loc_domain = 'amp';
 if (isset($_REQUEST['check_online'])) {
   $online = 1;
-  $active_repos = $_REQUEST['active_repos'];
-  $modulef->set_active_repos($active_repos);
 } else {
   $online = (isset($_REQUEST['online']) && $_REQUEST['online'] && !EXTERNAL_PACKAGE_MANAGEMENT) ? 1 : 0;
-  $active_repos = $modulef->get_active_repos();
 }
+$active_repos = $modulef->get_active_repos();
 
 // fix php errors from undefined variable. Not sure if we can just change the reference below to use
 // online since it changes values so just setting to what we decided it is here.
@@ -86,9 +84,6 @@ if (!$quietmode) {
 	//TODO: decide if warnings of any sort need to be given, or just list of repos active?
 } else {
 	// $quietmode==true
-	?>
-	<html><head></head><body>
-	<?php
 }
 
 $modules_local = $modulef->getinfo(false,false,true);
@@ -137,15 +132,25 @@ if ($online) {
 	}
 }
 
-
-show_view('views/module_admin/header.php',$displayvars);
+if (!$quietmode) {
+	show_view('views/module_admin/header.php',$displayvars);
+}
 
 if (!isset($modules)) {
 	$modules = & $modules_local;
 }
 
 //--------------------------------------------------------------------------------------------------------
-switch ($extdisplay) {  // process, confirm, or nothing
+switch ($action) {  // process, confirm, or nothing
+	case 'setrepo':
+		$repo = str_replace("_repo","",$_REQUEST['id']);
+		$o = $modulef->set_active_repo($repo,$_REQUEST['selected']);
+		if($o) {
+			echo json_encode(array("status" => true));
+		} else {
+			echo json_encode(array("status" => false, "message" => "Unable to set ".$repo." as active repo"));
+		}
+	break;
 	case 'process':
 		echo "<div id=\"moduleBoxContents\">";
 		echo "<h4>"._("Please wait while module actions are performed")."</h4>\n";
@@ -272,7 +277,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "<input type=\"hidden\" name=\"display\" value=\"".$display."\" />";
 		echo "<input type=\"hidden\" name=\"type\" value=\"".$type."\" />";
 		echo "<input type=\"hidden\" name=\"online\" value=\"".$online."\" />";
-		echo "<input type=\"hidden\" name=\"extdisplay\" value=\"process\" />";
+		echo "<input type=\"hidden\" name=\"action\" value=\"process\" />";
 
 		echo "\t<script type=\"text/javascript\"> var moduleActions = new Array(); </script>\n";
 
@@ -461,28 +466,45 @@ switch ($extdisplay) {  // process, confirm, or nothing
 
 		uasort($modules, 'category_sort_callback');
 		
-		$repo_list = array();
+		$local_repo_list = array();
+		$remote_repo_list = array();
 		foreach($modules as &$module) {
 			if(empty($module['repo'])) {
 				$module['repo'] = 'Unknown';
 			}
-			if(!in_array($module['repo'],$repo_list) && $module['repo'] != 'local') {
-				$repo_list[] = $module['repo'];
+			if(!in_array($module['repo'],$local_repo_list) && empty($module['raw']['online']) && $module['repo'] != 'local') {
+				$local_repo_list[] = $module['repo'];
+			}
+			$raw = $module['rawname'];
+			if(!in_array($module['repo'],$remote_repo_list) && !empty($modules_online[$raw]) && $module['repo'] != 'local') {
+				$remote_repo_list[] = $module['repo'];
 			}
 		}
-		$repo_list[] = 'local';
+		
+		$repo_list = array_merge($local_repo_list, $remote_repo_list);
+		
+		//cheaty hack to move standard to the front :-)
+		//and it works because we do array_unique later
+		//TODO: Probably do some ordering here maybe?
+		array_unshift($repo_list, 'standard');
 		
 		if ($online) {
+			
+			if(!empty($remote_repo_list)) {
+				$modulef->set_remote_repos($remote_repo_list);
+			}
+			$active_repos = $modulef->get_active_repos();
 			// Check for announcements such as security advisories, required updates, etc.
 			//
 			$announcements = $modulef->get_annoucements();
 			
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				$displayvars['repo_select'] = displayRepoSelect(array(),false,$repo_list);
+				$displayvars['repo_select'] = displayRepoSelect(array(),false,array_unique($repo_list));
 			}
 		} else {
+			$repo_list = array_merge($repo_list,$modulef->get_remote_repos());
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				$displayvars['repo_select'] = displayRepoSelect(array('upload'),true,$repo_list);
+				$displayvars['repo_select'] = displayRepoSelect(array('upload'),true,array_unique($repo_list));
 			}
 		}
 		
@@ -581,7 +603,7 @@ switch ($extdisplay) {  // process, confirm, or nothing
 	break;
 }
 if ($quietmode) {
-	echo '</body></html>';
+	//echo '</body></html>';
 } else {
 	$displayvars = array("security_issues" => array());
 	if (!empty($security_issues_to_report)) {
@@ -716,9 +738,9 @@ function pageReload(){
 
 function displayRepoSelect($buttons,$online=false,$repo_list=array()) {
 	global $display, $online, $tabindex;
-	global $active_repos;
 
-	$displayvars = array("display" => $display, "online" => $online, "tabindex" => $tabindex, "repo_list" => $repo_list, "active_repos" => $active_repos);
+	$modulef =& module_functions::create();
+	$displayvars = array("display" => $display, "online" => $online, "tabindex" => $tabindex, "repo_list" => $repo_list, "active_repos" => $modulef->get_active_repos());
 	$button_display = '';
 	$href = "config.php?display=$display";
 	$button_template = '<input type="button" value="%s" onclick="location.href=\'%s\';" />'."\n";
@@ -729,7 +751,7 @@ function displayRepoSelect($buttons,$online=false,$repo_list=array()) {
 				$displayvars['button_display'] .= sprintf($button_template, _("Manage local modules"), $href);
 			break;
 			case 'upload':
-				$displayvars['button_display'] .= sprintf($button_template, _("Upload modules"), $href.'&extdisplay=upload');
+				$displayvars['button_display'] .= sprintf($button_template, _("Upload modules"), $href.'&action=upload');
 			break;
 		}
 	}

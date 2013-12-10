@@ -36,6 +36,22 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$('.repo_boxes').find('input[type=checkbox]').button();
+	$('.repo_boxes').find('input[type=checkbox]').click(function() {
+		var id = $(this).attr('id');
+		var selected = $(this).prop('checked') ? 1 : 0;
+		
+		$.ajax({
+			type: 'POST',
+			url: "<?php echo $_SERVER["PHP_SELF"]; ?>",
+			data: {quietmode: 1, skip_astman: 1, display: "modules", action: "setrepo", "id": id,selected: selected},
+			dataType: 'json',
+			success: function(data) {
+			},
+			error: function(data) {
+				alert(fpbx.msg.framework.invalid_response);
+			}
+		});
+	})
 	$('#show_auto_update').click(function() {
 		autoupdate_box = $('#db_online').dialog({
 			title: fpbx.msg.framework.updatenotifications,
@@ -44,11 +60,9 @@ $(document).ready(function(){
 			position: ['center', 50],
 			width: '400px',
 			close: function (e) {
-				//console.log('calling close');
 				$('#update_email').val($('#update_email').attr('saved-value'));
 			},
 			open: function (e) {
-				//console.log('calling open');
 				$('#update_email').focus();
 			},
 			buttons: [ {
@@ -131,17 +145,20 @@ $(document).ready(function(){
 })
 function toggleInfoPane(pane) {
 	if($('#'+pane).is(":visible")) {
-		$('#'+pane).hide();
+		$('#'+pane).slideUp( "slow", function() {
+		})
 	} else {
-		$('#'+pane).show();
+		$('#'+pane).slideDown( "slow", function() {
+		})
 		$('#'+pane+' .modulefunctionradios').buttonset();
 	}
 }
 function check_upgrade_all() {
 	$( ".modulefunctionradios :radio" ).each(function( index ) {
 		if($(this).val() == 'upgrade') {
-			$(this).parents('.modulegroup').children('.moduleinfopane').show();
-			var pane = $(this).parents('.modulegroup').children('.moduleinfopane').attr('id');
+			$(this).prop('checked',true);
+			$(this).parents('.moduleinfopane').show();
+			var pane = $(this).parents('.moduleinfopane').attr('id');
 			$('#'+pane+' .modulefunctionradios').buttonset();
 		}
 	});
@@ -150,50 +167,28 @@ function check_upgrade_all() {
 function check_download_all() {
 	$( ".modulefunctionradios :radio" ).each(function( index ) {
 		if($(this).val() == 'downloadinstall') {
-			$(this).parents('.modulegroup').children('.moduleinfopane').show();
-			var pane = $(this).parents('.modulegroup').children('.moduleinfopane').attr('id');
+			$(this).prop('checked',true);
+			$(this).parents('.moduleinfopane').show();
+			var pane = $(this).parents('.moduleinfopane').attr('id');
 			$('#'+pane+' .modulefunctionradios').buttonset();
-			console.log($(this).parents('.modulegroup').children('.moduleinfopane .modulefunctionradios'))
 		}
 	});
 }
 
 function showhide_upgrades() {
-	var upgradesonly = document.getElementById('show_upgradable_only').checked;
-	var module_re = /^module_([a-z0-9_-]+)$/;   // regex to match a module element id
-	var cat_re = /^category_([a-zA-Z0-9_]+)$/; // regex to match a category element id
-	var elements = document.getElementById('modulelist').getElementsByTagName('li');
+	var upgradesonly = $('#show_upgradable_only').prop('checked');
+
 	// loop through all modules, check if there is an upgrade_<module> radio box 
-	for(i=0; i<elements.length; i++) {
-		if (match = elements[i].id.match(module_re)) {
-			if (!document.getElementById('upgrade_'+match[1])) {
-				// not upgradable
-				document.getElementById('module_'+match[1]).style.display = upgradesonly ? 'none' : 'block';
-			}
+	$( ".modulefunctionradios :radio" ).each(function( index ) {
+		if($(this).val() == 'upgrade') {
+
 		}
-	}
-	// hide category headings that don't have any visible modules
-	var elements = document.getElementById('modulelist').getElementsByTagName('div');
-	// loop through category items
-	for(i=0; i<elements.length; i++) {
-		if (elements[i].id.match(cat_re)) {
-			var subelements = elements[i].getElementsByTagName('li');
-			var display = false;
-			for(j=0; j<subelements.length; j++) {
-				// loop through children <li>'s, find names that are module element id's 
-				if (subelements[j].id.match(module_re) && subelements[j].style.display != 'none') {
-					// if at least one is visible, we're displaying this element
-					display = true;
-					break; // no need to go further
-				}
-			}
-			document.getElementById(elements[i].id).style.display = display ? 'block' : 'none';
-		}
-	}
+	});
+
 }
 var box;
 function process_module_actions(actions) {
-	urlStr = "config.php?display=modules&amp;extdisplay=process&amp;quietmode=1";
+	urlStr = "config.php?display=modules&amp;action=process&amp;quietmode=1";
 	for (var i in actions) {
 		urlStr += "&amp;moduleaction["+i+"]="+actions[i];
 	}

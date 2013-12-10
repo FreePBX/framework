@@ -15,14 +15,14 @@
 	<?php if (!EXTERNAL_PACKAGE_MANAGEMENT) {?>
 		<?php echo $repo_select?>
 	<?php } else { ?>
-		| <a href='config.php?display=modules&amp;extdisplay=upload'><?php echo _("Upload module")?></a><br />
+		| <a href='config.php?display=modules&amp;action=upload'><?php echo _("Upload module")?></a><br />
 	<?php } ?>
 <?php } ?>
 
 <form name="modulesGUI" action="config.php?display=modules" method="post">
 	<input type="hidden" name="display" value="modules" />
 	<input type="hidden" name="online" value="<?php echo $online?>" />
-	<input type="hidden" name="extdisplay" value="confirm" />
+	<input type="hidden" name="action" value="confirm" />
 	
 	<div class="modulebuttons">
 		<?php if ($online) { ?>
@@ -38,6 +38,7 @@
 			<span class="modulename"><?php echo _("Module")?></span>
 			<span class="moduleversion"><?php echo _("Version")?></span>
 			<span class="modulepublisher"><?php echo _("Publisher")?></span>
+			<span class="modulestatus"><?php echo _("Status")?></span>
 			<span class="clear">&nbsp;</span>
 		</div>
 		<?php foreach($module_display as $category) {?>
@@ -47,7 +48,7 @@
 					<?php foreach($category['data'] as $module) {?>
 						<td>
 						<div class="<?php echo $module['mclass']?>" onclick="toggleInfoPane('infopane_<?php echo prep_id($module['name'])?>')" >
-							<span class="modulename"><a href="javascript:void(null)"><?php echo $module['pretty_name']?></a></span>
+							<span class="modulename"><?php echo $module['pretty_name']?></span>
 							<span class="moduleversion"><?php echo $module['dbversion']?></span>
 							<span class="modulepublisher"><?php echo $module['publisher']?></span>
 							<span class="modulestatus">
@@ -81,14 +82,15 @@
 													<?php echo  _('Enabled and up to date');?>
 												<?php } 
 											}
-											if (!empty($module['raw']['online']) && $module['status'] != MODULE_STATUS_DISABLED) {?>
-												// we're connected to online, but didn't find this module
-												<?php echo _('Enabled; Not available online');?>
-											<?php } elseif($module['status'] == MODULE_STATUS_DISABLED) { ?>
-												<?php echo _('Disabled');?>
-											<?php } else { ?>
-												<?php echo _('Enabled'); ?>
-											<?php } 
+											if (empty($module['raw']['online'])) {
+												if($module['status'] != MODULE_STATUS_DISABLED) {?>
+													<?php echo _('Enabled; Not available online');?>
+												<?php } elseif($module['status'] == MODULE_STATUS_DISABLED) { ?>
+													<?php echo _('Disabled');?>
+												<?php } else { ?>
+													<?php echo _('Enabled'); ?>
+												<?php }
+											}
 										break;
 									}?>
 								<?php if ($module['salert']) { ?>
@@ -109,7 +111,7 @@
 											<?php echo $module['attention']?>
 										</div>
 									<?php } ?>
-									<div class="tabbertab actiontab" title="<?php echo _("Info")?>">
+									<div class="tabbertab" title="<?php echo _("Info")?>">
 										<?php if(!empty($module['publisher'])) {?>
 											<h5><?php echo sprintf(_("Publisher: %s"),$module['publisher'])?></h5>
 										<?php } ?>

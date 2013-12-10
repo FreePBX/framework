@@ -13,7 +13,9 @@ class module_functions {
 		return $obj;
 	}
 	
-	/** Get the latest module.xml file for this FreePBX version. 
+	/** 
+	 * Get the latest module.xml file for this FreePBX version.
+	 *
 	 * Caches in the database for 5 mintues.
 	 * If $module is specified, only returns the data for that module.
 	 * If the module is not found (or none are available for whatever reason),
@@ -24,15 +26,23 @@ class module_functions {
 	 * or null if the repository wasn't checked. Note that this may change in the 
 	 * future if we decide we need to return more error codes, but as long as it's
 	 * a php zero-value (false, null, 0, etc) then no error happened.
+	 * 
+	 * @param string $module rawname of module to get xml for
+	 * @param bool $override_xml Different xml path to use for repos instead of the included default
+	 * @param 
 	 */
 	function getonlinexml($module = false, $override_xml = false, &$sec_array=false) { // was getModuleXml()
 		global $amp_conf, $db, $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
 		$module_getonlinexml_error = null;
 		$got_new = false;
 		$skip_cache = false;
-	
+
 		$result = sql("SELECT * FROM module_xml WHERE id = 'xml'",'getRow',DB_FETCHMODE_ASSOC);
 		$data = $result['data'];
+		$result = sql("SELECT * FROM module_xml WHERE id = 'beta'",'getRow',DB_FETCHMODE_ASSOC);
+		$beta = $result['data'];
+		$result = sql("SELECT * FROM module_xml WHERE id = 'security'",'getRow',DB_FETCHMODE_ASSOC);
+		$security = $result['data'];
 
 		// Check if the cached module xml is for the same repo as being requested
 		// if not, then we get it anyhow
@@ -52,28 +62,26 @@ class module_functions {
 		//
 		// used for debug, time set to 0 to always fall through
 		// if((time() - $result['time']) > 0 || strlen($result['data']) < 100 ) {
-	  $skip_cache |= $amp_conf['MODULEADMIN_SKIP_CACHE'];
+		$skip_cache |= $amp_conf['MODULEADMIN_SKIP_CACHE'];
 		$version = getversion();
 		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		$base_version = $matches[1];
 		if((time() - $result['time']) > 300 || $skip_cache || strlen($data) < 100 ) {
 			if ($override_xml) {
-				$fn = $override_xml."/modules-" . $base_version . ".xml";
+				$data = $this->get_url_contents($override_xml,"/modules-" . $base_version . ".xml");
 			} else {
 				// We pass in true to add options to accomodate future needs of things like php versions to get properly zended
 				// tarballs of the same version for modules that are zended.
 				//
-				$fn = generate_module_repo_url("/modules-" . $base_version . ".xml", true);
-				// echo "(From default)"; //debug
+				$data = $this->get_remote_contents("/modules-" . $base_version . ".xml", true);
+				$beta = $this->get_remote_contents("/beta-" . $base_version . ".xml", true);
+				$security = $this->get_remote_contents("/security-" . $base_version . ".xml", true);
 			}
-			//$fn = "/usr/src/freepbx-modules/modules.xml";
+
+			$module_getonlinexml_error = ($data === false)?true:false;
 
 
-	    $data = file_get_contents_url($fn);
-	    $module_getonlinexml_error = ($data === false)?true:false;
-
-		
 			$old_xml = array();
 			$got_new = false;
 			if (!empty($data)) {
@@ -82,21 +90,44 @@ class module_functions {
 				$sql = "SELECT data FROM module_xml WHERE id = 'xml'";
 				$old_xml = sql($sql, "getOne");
 				$got_new = true;
-				// remove the old xml
-				sql("DELETE FROM module_xml WHERE id = 'xml'");
 				// update the db with the new xml
 				$data4sql = $db->escapeSimple($data);
-				sql("INSERT INTO module_xml (id,time,data) VALUES ('xml',".time().",'".$data4sql."')");
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('xml',".time().",'".$data4sql."')");
+			}
+			if (!empty($beta)) {
+				// Compare the download to our current XML to see if anything changed for the notification system.
+				//
+				$sql = "SELECT data FROM module_xml WHERE id = 'beta'";
+				$old_beta_xml = sql($sql, "getOne");
+				$got_new = true;
+				// update the db with the new xml
+				$data4sql = $db->escapeSimple($data);
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('beta',".time().",'".$data4sql."')");
+			}
+			if (!empty($security)) {
+				// Compare the download to our current XML to see if anything changed for the notification system.
+				//
+				$sql = "SELECT data FROM module_xml WHERE id = 'security'";
+				$old_security_xml = sql($sql, "getOne");
+				$got_new = true;
+				// update the db with the new xml
+				$data4sql = $db->escapeSimple($data);
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('security',".time().",'".$data4sql."')");
 			}
 		}
-	
+
 		if (empty($data)) {
 			// no data, probably couldn't connect online, and nothing cached
 			return null;
 		}
-	
+
 		$parser = new xml2ModuleArray($data);
+		
+		
 		$xmlarray = $parser->parseAdvanced($data);
+
+		//this is why xml to array is terrible on php, prime example here.
+		$xmlarray['xml']['module'] = !isset($xmlarray['xml']['module']['rawname']) ? $xmlarray['xml']['module'] : array($xmlarray['xml']['module']);
 
 		if ($got_new) {
 			$this->update_notifications($old_xml, $xmlarray, ($old_xml == $data4sql));
@@ -112,7 +143,7 @@ class module_functions {
 		$this->update_security_notifications($exposures);
 
 		if (isset($xmlarray['xml']['module'])) {
-	
+
 			if ($module != false) {
 				foreach ($xmlarray['xml']['module'] as $mod) {
 					if ($module == $mod['rawname']) {
@@ -210,7 +241,7 @@ class module_functions {
 		$new_modules = array();
 		if (count($xmlarray)) {
 			foreach ($xmlarray['xml']['module'] as $mod) {
-	      $new_modules[$mod['rawname']] = $mod;
+				$new_modules[$mod['rawname']] = $mod;
 			}
 		}
 		$old_modules = array();
@@ -226,19 +257,19 @@ class module_functions {
 		$diff_modules = array_diff_assoc($new_modules, $old_modules);
 		$cnt = count($diff_modules);
 		if ($cnt) {
-	    $active_repos = $this->get_active_repos();
+			$active_repos = $this->get_active_repos();
 			$extext = _("The following new modules are available for download. Click delete icon on the right to remove this notice.")."<br />";
 			foreach ($diff_modules as $mod) {
-	      // If it's a new module in a repo we are not interested in, then don't send a notification.
-	      if (isset($active_repos[$mod['repo']]) && $active_repos[$mod['repo']]) {
-	        $extext .= $mod['rawname']." (".$mod['version'].")<br />";
-	      } else {
-	        $cnt--;
-	      }
+				// If it's a new module in a repo we are not interested in, then don't send a notification.
+				if (isset($active_repos[$mod['repo']]) && $active_repos[$mod['repo']]) {
+					$extext .= $mod['rawname']." (".$mod['version'].")<br />";
+				} else {
+					$cnt--;
+				}
 			}
-	    if ($cnt) {
-			  $notifications->add_notice('freepbx', 'NEWMODS', sprintf(_('%s New modules are available'),$cnt), $extext, '', $reset_value, true);
-	    }
+			if ($cnt) {
+				$notifications->add_notice('freepbx', 'NEWMODS', sprintf(_('%s New modules are available'),$cnt), $extext, '', $reset_value, true);
+			}
 		}
 
 		// Now check if any of the installed modules need updating
@@ -317,27 +348,66 @@ class module_functions {
 	}
 
 	function get_active_repos() {
-	  global $active_repos;
-	  if (!isset($active_repos) || !$active_repos) {
-	    $repos_serialized = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'repos_serialized'","getOne");
-	    if (isset($repos_serialized) && $repos_serialized) {
-	      $active_repos = unserialize($repos_serialized);
-	    } else {
-	      $active_repos = array('standard' => 1);
-	      $this->set_active_repos($active_repos);
-	    }
-	    return $active_repos;
-	  } else {
-	    return $active_repos;
-	  }
+		global $active_repos;
+		global $db;
+		
+		if (!isset($active_repos) || !$active_repos) {
+			$repos = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'repos_json'","getOne");
+			if(!empty($repos)) {
+				$repos = json_decode($repos,TRUE);
+			} else {
+				
+				$repos_serialized = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'repos_serialized'","getOne");
+				$repos = unserialize($repos_serialized);
+				$repos_json = $db->escapeSimple(json_encode($repos));
+				sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('repos_json', '".time()."','".$repos_json."')");
+				sql("DELETE FROM `module_xml` WHERE `id` = 'repos_serialized'");				
+			}
+			if (isset($repos) && $repos) {
+				$active_repos = $repos;
+			} else {
+				$active_repos = array('standard' => 1);
+				$this->set_active_repo('standard',1);
+			}
+			return $active_repos;
+		} else {
+			return $active_repos;
+		}
 	}
 
-	function set_active_repos($repos) {
-	  global $active_repos;
-	  global $db;
-	  $active_repos = $repos;
-	  $repos_serialized = $db->escapeSimple(serialize($repos));
-	  sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('repos_serialized', '".time()."','".$repos_serialized."')");
+	function set_active_repo($repo,$active=1) {
+		global $db;
+		$repos = $this->get_active_repos();
+		if(!empty($active)) {
+			$repos[$repo] = 1;
+		} elseif(isset($repos[$repo])) {
+			unset($repos[$repo]);
+		}
+		$repos_json = $db->escapeSimple(json_encode($repos));
+		dbug($repos_json);
+		$o = sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('repos_json', '".time()."','".$repos_json."')");
+		return $o;
+	}
+
+	function set_remote_repos($repos) {
+		global $db;
+		$old_remote_repos = $this->get_remote_repos();
+		$active_repos = $this->get_active_repos();
+		foreach($repos as $repo) {
+			//If there is a new repo detected and it's not in our former list of remote repos
+			//and it was not previously medled with locally then enable it automatically
+			if(!in_array($repo,$old_remote_repos) && !isset($active_repos[$repo])) {
+				$this->set_active_repo($repo,1);
+			}
+		}
+		$repos_json = $db->escapeSimple(json_encode($repos));
+		sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('remote_repos_json', '".time()."','".$repos_json."')");
+	}
+	
+	function get_remote_repos() {
+		global $db;
+		$repos = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'remote_repos_json'","getOne");
+		return !empty($repos) ? json_decode($repos,TRUE) : array();
 	}
 
 	/** Looks through the modules directory and modules database and returns all available
@@ -898,7 +968,10 @@ class module_functions {
 		if ($override_svn) {
 			$url_list = array($override_svn.$res['location']);
 		} else {
-			$url_list = generate_module_repo_url("/modules/".$res['location'], true);
+			$urls = $this->generate_remote_urls("/modules/".$res['location'], true);
+			foreach($urls['mirrors'] as $url) {
+				$url_list[] = $url.$urls['path'].'?'.$urls['query'];
+			}
 		}
 	
 		// Check each URL until get_headers_assoc() returns something intelligible. We then use
@@ -1733,8 +1806,9 @@ class module_functions {
 		global $db;
 		global $amp_conf;
 
-		$fn = generate_module_repo_url("/version-".getversion().".html");
-	  $announcement = file_get_contents_url($fn);
+		
+		$announcement = $this->get_remote_contents("/version-".getversion().".html");
+
 		return $announcement;
 	}
 
@@ -1923,7 +1997,18 @@ class module_functions {
 		if (isset($pbx_type)) {
 			return array('pbx_type' => $pbx_type, 'pbx_version' => $pbx_version);
 		}
-
+		
+		exec('lscpu',$out,$ret);
+		$cpu_arch = '';
+		if(!$ret) {
+			foreach($out as $line) {
+				if(preg_match('/architecture:(.*)/i',$line,$matches)) {
+					$cpu_arch = trim($matches[1]);
+					break;
+				}
+			}			
+		}
+		
 		// FreePBX Distro
 		if (file_exists('/etc/schmooze/freepbxdistro-version')) {
 			$pbx_type = 'freepbxdistro';
@@ -1979,6 +2064,10 @@ class module_functions {
 			if (file_exists('/etc/pbx/.color')) {
 				$pbx_version .= '.' . trim(file_get_contents('/etc/pbx/.color'));
 			}
+			//this probably wont work correctly for his beaglebone stuff
+			if(preg_match('/arm/i',$cpu_arch)) {
+				$pbx_type = 'piaf-IncrediblePI';
+			}
 			if (!$pbx_version) {
 				if (file_exists('/etc/pbx/ISO-Version')) {
 					$pbx_ver_raw = trim(file_get_contents('/etc/pbx/ISO-Version'));
@@ -1988,7 +2077,21 @@ class module_functions {
 					$pbx_version = 'unknown';
 				}
 			}
-
+			
+			//raspbx
+		} elseif(file_exists('/etc/raspbx/base_version') || file_exists('/etc/raspbx/installed_version')) {
+			$pbx_type = 'raspbx';
+			
+			if (file_exists('/etc/raspbx/base_version')) {
+				$pbx_version = trim(file_get_contents('/etc/raspbx/base_version'));
+			}
+			if (file_exists('/etc/raspbx/installed_version')) {
+				$pbx_version .= '.' . trim(file_get_contents('/etc/raspbx/installed_version'));
+			}
+			if (!$pbx_version) {
+				$pbx_version = 'unknown';
+			}
+			
 			// Old PIAF or Fonica
 		} elseif (file_exists('/etc/pbx/version') || file_exists('/etc/pbx/ISO-Version')) {
 			$pbx_type = 'fonica';
@@ -2012,5 +2115,166 @@ class module_functions {
 			$pbx_version = 'unknown';
 		}
 		return array('pbx_type' => $pbx_type, 'pbx_version' => $pbx_version);
+	}
+	
+	function get_remote_contents($path, $add_options=false) {
+		$mirrors = $this->generate_remote_urls($path,$add_options);
+		foreach($mirrors['mirrors'] as $url) {
+			$o = $this->url_get_contents($url,$mirrors['path'],'get',$mirrors['options']);
+			if(!empty($o)) {
+				return $o;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * function generate_module_repo_url
+	 * short create array of full URLs to get a file from repo
+	 * use this function to generate an array of URLs for all configured REPOs
+	 * @author Philippe Lindheimer
+	 *
+	 * @pram string
+	 * @returns string
+	 */
+	function generate_remote_urls($path, $add_options=false) {
+		global $db;
+		global $amp_conf;
+		$urls = array();
+		$options = array();
+
+		if ($add_options) {
+			$firstinstall=false;
+			$type=null;
+
+			$sql = "SELECT * FROM module_xml WHERE id = 'installid'";
+			$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
+
+			// if not set so this is a first time install
+			// get a new hash to account for first time install
+			//
+			if (!isset($result['data']) || trim($result['data']) == "") {
+				$firstinstall=true;
+				$install_hash = $this->_generate_unique_id();
+				$installid = $install_hash['uniqueid'];
+				$type = $install_hash['type'];
+
+				// save the hash so we remeber this is a first time install
+				//
+				$data4sql = $db->escapeSimple($installid);
+				sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
+				$data4sql = $db->escapeSimple($type);
+				sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
+
+				// Not a first time so save the queried hash and check if there is a type set
+				//
+			} else {
+				$installid=$result['data'];
+				$sql = "SELECT * FROM module_xml WHERE id = 'type'";
+				$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
+
+				if (isset($result['data']) && trim($result['data']) != "") {
+					$type=$result['data'];
+				}
+			}
+
+			// Now we have the id and know if this is a firstime install so we can get the announcement
+			//
+			$options['installid'] = $installid;
+
+			if (trim($type) != "") {
+				$options['type'] = trim($type);
+			}
+			if ($firstinstall) {
+				$options['firstinstall'] = 'yes';
+			}
+
+			// We check specifically for false because evenif blank it means the file
+			// was there so we want module.xml to do appropriate actions
+			$brandid = $this->_brandid();
+			if ($brandid !== false) {
+				$options['brandid'] = $brandid;
+			}
+
+			$deploymentid = $this->_deploymentid();
+			if ($deploymentid !== false) {
+				$options['deploymentid'] = $deploymentid;
+			}
+
+			$engver=engine_getinfo();
+			if ($engver['engine'] == 'asterisk' && trim($engver['engine']) != "") {
+				$options['astver'] = $engver['version'];
+			} else {
+				$options['astver'] = $engver['raw'];
+			}
+			$options['phpver'] = phpversion();
+
+			$distro_info = $this->_distro_id();
+			$options['distro'] = $distro_info['pbx_type'];
+			$options['distrover'] = $distro_info['pbx_version'];
+			$options['pbxver'] = getversion();
+			if (function_exists('core_users_list')) {
+				$options['ucount'] = count(core_users_list());
+			}
+
+			// Other modules may need to add 'get' paramters to the call to the repo. Check and add them
+			// here if we are adding paramters. The module should return an array of key/value pairs each of which
+			// is to be appended to the GET parameters. The variable name will be prepended with the module name
+			// when sent.
+			//
+			$repo_params = array();
+			foreach (mod_func_iterator('module_repo_parameters_callback', $path) as $mod => $res) {
+				if (is_array($res)) {
+					foreach ($res as $p => $v) {
+						$options[$mod.'_'.$p] = $v;
+					}
+				}
+			}
+		}
+		
+		$repos = explode(',', $amp_conf['MODULE_REPO']);
+		return array('mirrors' => $repos, 'path' => $path, 'options' => $options, 'query' => http_build_query($options));
+	}
+	
+	function url_get_contents($url,$request,$verb='get',$params=array()) {
+		global $amp_conf;
+		$action = strtolower($action);
+		$contents = null;
+		
+		if(!$amp_conf['MODULEADMINWGET']) {
+			$pest = new Pest($url);
+			try{
+				$contents = $pest->$verb($url.$request,$params);
+				return $contents;
+			} catch (Exception $e) {}
+		}
+		
+		$fn = $url.$request;
+		if(empty($contents)) {
+			$fn2 = str_replace('&','\\&',$fn);
+			$p = (!empty($params)) ? "--post-data '".http_build_query($params)."'" : "";
+			exec("wget --tries=1 --timeout=30 $p -O - $fn2 2>> /dev/null", $data_arr, $retcode);
+			if ($retcode) {
+				// if server isn't available for some reason should return non-zero
+				// so we return and we don't set the flag below
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed to get remote file, mirror site may be down: %s'),$fn));
+				continue;
+
+				// We are here if contents were blank. It's possible that whatever we were getting were suppose to be blank
+				// so we only auto set the WGET var if we received something so as to not false trigger. If there are issues
+				// with content filters that this is designed to get around, we will eventually get a non-empty file which
+				// will trigger this for now and the future.
+			} elseif (!empty($data_arr) && !$amp_conf['MODULEADMINWGET']) {
+				$freepbx_conf =& freepbx_conf::create();
+				$freepbx_conf->set_conf_values(array('MODULEADMINWGET' => true),true);
+
+				$nt =& notifications::create($db); 
+				$text = sprintf(_("Forced %s to true"),'MODULEADMINWGET');
+				$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
+				$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
+			}
+			$contents = implode("\n",$data_arr);
+			return $contents;
+		}
 	}
 }

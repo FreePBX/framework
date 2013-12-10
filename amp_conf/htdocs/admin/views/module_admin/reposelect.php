@@ -12,7 +12,7 @@
 						<tr class="repo_boxes">
 							<?php foreach($repo_list as $repo) {?>
 								<td>
-									<input id="<?php echo $repo?>_repo" type="checkbox" name="active_repos[<?php echo $repo?>]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos[$repo])?"checked":""?> onclick="displayModules('<?php echo $repo?>')"/>
+									<input id="<?php echo $repo?>_repo" type="checkbox" name="active_repos[<?php echo $repo?>]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo !empty($active_repos[$repo])?"checked":""?> onclick="displayModules('<?php echo $repo?>')"/>
 									<label for="<?php echo $repo?>_repo"><?php echo ucwords(_($repo)) ?></label>
 								</td>
 							<?php } ?>
