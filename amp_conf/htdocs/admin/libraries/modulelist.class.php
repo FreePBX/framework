@@ -48,8 +48,7 @@ class modulelist{
 			}
 		}
 		$module_serialized = $this->_db->escapeSimple(serialize($this->module_array));
-		sql("DELETE FROM `module_xml` WHERE `id` = 'mod_serialized'");
-		sql("INSERT INTO `module_xml` (`id`, `time`, `data`) VALUES ('mod_serialized', '".time()."','".$module_serialized."')");
+		sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('mod_serialized', '".time()."','".$module_serialized."')");
 		$this->_loaded = true;
 	}
 	function invalidate() {
