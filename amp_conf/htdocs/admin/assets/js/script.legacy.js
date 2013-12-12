@@ -1109,4 +1109,25 @@ $(document).ready(function(){
 			$('.destdropdown2').filter(':hidden').remove();
 		}
 	});
+	
+	jQuery.fn.scrollMinimal = function(smooth) {
+		var cTop = this.offset().top - 100;
+		var cHeight = this.outerHeight(true);
+		var windowTop = $(window).scrollTop();
+		var visibleHeight = $(window).height();
+
+		if (cTop < windowTop) {
+			if (smooth) {
+				$('body').animate({'scrollTop': cTop}, 'slow', 'swing');
+			} else {
+				$(window).scrollTop(cTop);
+			}
+		} else if (cTop + cHeight > windowTop + visibleHeight) {
+			if (smooth) {
+				$('body').animate({'scrollTop': cTop - visibleHeight + cHeight}, 'slow', 'swing');
+			} else {
+				$(window).scrollTop(cTop - visibleHeight + cHeight);
+			}
+		}
+	};
 });

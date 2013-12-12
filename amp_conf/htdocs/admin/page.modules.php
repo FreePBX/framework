@@ -119,6 +119,9 @@ if ($online) {
 				// not local, so it's not installed
 				$modules[$name]['status'] = MODULE_STATUS_NOTINSTALLED;
 			}
+			if(!empty($modules_old[$name])) {
+				$modules[$name]['previous'] = $modules_old[$name];
+			}
 		}
 		// add any remaining local-only modules
 		$modules += $modules_local;
@@ -163,6 +166,11 @@ switch ($action) {  // process, confirm, or nothing
 			$didsomething = true; // set to false in default clause of switch() below..
 			
 			switch ($action) {
+				case 'rollback':
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						echo "Rolling back ".$modulename." to ".$_REQUEST['moduleadditional'][$modulename];
+					}
+				break;
 				case 'force_upgrade':
 				case 'upgrade':
 				case 'downloadinstall':
@@ -279,7 +287,7 @@ switch ($action) {  // process, confirm, or nothing
 		echo "<input type=\"hidden\" name=\"online\" value=\"".$online."\" />";
 		echo "<input type=\"hidden\" name=\"action\" value=\"process\" />";
 
-		echo "\t<script type=\"text/javascript\"> var moduleActions = new Array(); </script>\n";
+		echo "\t<script type=\"text/javascript\"> var moduleActions = new Array(); var moduleAdditional = new Array(); </script>\n";
 
 		$actionstext = array();
 		$force_actionstext = array();
@@ -294,6 +302,31 @@ switch ($action) {  // process, confirm, or nothing
 			}
 
 			switch ($action) {
+				case 'rollback':
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						if(empty($modules_online[$module]['previous'])) {
+							
+						}
+						$previous_data = null;
+						foreach($modules_online[$module]['previous'] as $release) {
+							if($release['version'] == $_REQUEST['version']) {
+								$previous_data = $release;
+								break;
+							}
+						}
+						if(empty($previous_data)) {
+							$skipaction = true;
+							$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), $modules[$module]['name'], $_REQUEST['version']);
+						}
+						if (is_array($errors = $modulef->checkdepends($previous_data))) {
+							$skipaction = true;
+							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),  
+							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						} else {
+							$actionstext[] =  sprintf(_("%s %s will be downloaded and rolled back to %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $_REQUEST['version']);
+						}
+					}
+				break;
 				case 'upgrade':
 				case 'force_upgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
@@ -387,6 +420,9 @@ switch ($action) {  // process, confirm, or nothing
 			//
 			if (!$skipaction) { //TODO
 				echo "\t<script type=\"text/javascript\"> moduleActions['".$module."'] = '".$action."'; </script>\n";
+				if($action== 'rollback') {
+					echo "\t<script type=\"text/javascript\"> moduleAdditional['".$module."'] = '".$_REQUEST['version']."'; </script>\n";
+				}
 			}
 		}
 
@@ -423,7 +459,7 @@ switch ($action) {  // process, confirm, or nothing
 				}
 				echo "</ul>";
 			}
-			echo "\t<input type=\"button\" value=\""._("Confirm")."\" name=\"process\" onclick=\"process_module_actions(moduleActions);\" />";
+			echo "\t<input type=\"button\" value=\""._("Confirm")."\" name=\"process\" onclick=\"process_module_actions(moduleActions,moduleAdditional);\" />";
 		} else {
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
@@ -533,6 +569,31 @@ switch ($action) {  // process, confirm, or nothing
 			if ((!isset($active_repos[$modules[$name]['repo']]) || !$active_repos[$modules[$name]['repo']]) 
 			&& $modules[$name]['status'] != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
 				continue;
+			}
+			
+			//block install,uninstall,reinstall
+			$modules[$name]['blocked']['status'] = false;
+			if(!empty($modules[$name]['depends'])) {
+				$depends = $modulef->checkdepends($name);
+				if($depends !== true && is_array($depends)) {
+					$modules[$name]['blocked']['status'] = true;
+					$modules[$name]['blocked']['reasons'] = $depends;
+				}
+			}
+			
+			
+			$modules[$name]['commercial']['status'] = (strtolower($modules[$name]['license']) == 'commercial');
+			if($modules[$name]['commercial']['status']) {
+				if(function_exists('sysadmin_is_module_licensed')) {
+					$modules[$name]['commercial']['sysadmin'] = true;
+					$modules[$name]['commercial']['licensed'] = sysadmin_is_module_licensed($name);
+				} else {
+					$modules[$name]['commercial']['sysadmin'] = false;
+					$modules[$name]['commercial']['licensed'] = false;
+					$modules[$name]['blocked']['status'] = ($name != 'sysadmin') ? true : false;
+					$modules[$name]['blocked']['reasons'][] = 'Requires Sysadmin';
+				}
+				$modules[$name]['commercial']['purchaselink'] = !empty($modules[$name]['commercial']['purchaselink']) ? $modules[$name]['commercial']['purchaselink'] : 'http://www.schmoozecom.com/oss.php';
 			}
 
 			// If versionupgrade module is present then allow it to skip modules that should not be presented

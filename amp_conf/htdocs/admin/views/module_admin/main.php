@@ -4,12 +4,6 @@
 	<?php } ?>
 	<?php if (!EXTERNAL_PACKAGE_MANAGEMENT) {?>
 		<?php echo $repo_select?>
-		
-		<div class="repo_boxes">
-			<a class="btn" href="config.php?display=modules&amp;online=0"><?php echo _("Manage local modules")?></a>
-			<input id="show_upgradable_only" type="checkbox" name="ugo" onclick="showhide_upgrades();" />
-			<label for="show_upgradable_only"><?php echo _("Show only upgradeable")?></label>
-		</div>
 	<?php } ?>
 <?php } else { ?>
 	<?php if (!EXTERNAL_PACKAGE_MANAGEMENT) {?>
@@ -47,7 +41,7 @@
 				<table class="alt_table" width="100%">
 					<?php foreach($category['data'] as $module) {?>
 						<td>
-						<div class="<?php echo $module['mclass']?>" onclick="toggleInfoPane('infopane_<?php echo prep_id($module['name'])?>')" >
+						<div class="<?php echo $module['mclass']?>" id="raw_<?php echo $module['name']?>" onclick="toggleInfoPane('infopane_<?php echo prep_id($module['name'])?>')" >
 							<span class="modulename"><?php echo $module['pretty_name']?></span>
 							<span class="moduleversion"><?php echo $module['dbversion']?></span>
 							<span class="modulepublisher"><?php echo $module['publisher']?></span>
@@ -132,89 +126,115 @@
 										<?php } else { ?>
 											<p><?php echo _('More info')?>: <a href="<?php echo $freepbx_help_url?>&amp;freepbx_module=<?php echo urlencode($module['name'])?>" target="help"><?php echo sprintf(_("Get help for %s"),$module['pretty_name'])?></a></p>
 										<?php } ?>
+										<?php if($module['commercial']['status']) {?>
+											<?php if($module['commercial']['sysadmin'] || $module['name'] == 'sysadmin') {?>
+												<?php if(!$module['commercial']['licensed']) { ?>
+													<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new">Buy</a>
+												<?php } else { ?>
+													<strong>Purchased</strong>
+												<?php } ?>
+											<?php } else { ?>
+												<strong>Missing Requirements</strong><br/>
+												<ul style="padding-left: 15px;">
+													<li onclick="$('#install_sysadmin').prop('checked',true);navigate_to_module('sysadmin');">Module <strong>SysAdmin</strong> is required, yours is not installed.</li>
+												</ul>
+											<?php } ?>
+										<?php } ?>
+										<?php if($module['blocked']['status']) {?>
+											<strong>Missing Requirements</strong><br/>
+											<ul style="padding-left: 15px;">
+											<?php foreach($module['blocked']['reasons'] as $mod => $reason) {?>
+												<li style="cursor:<?php echo !is_int($mod) ? "pointer" : "default" ?>" onclick="<?php echo !is_int($mod) ? "$('#install_".$mod."').prop('checked',true);navigate_to_module('".$mod."');" : '' ?>"><?php echo $reason?></li>
+											<?php } ?>
+											</ul>
+										<?php } ?>
+										<br/>
+										<br/>
 										<div class="modulefunctionradios">
 											<input type="radio" checked="CHECKED" id="noaction_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="0" />
 											<label for="noaction_<?php echo prep_id($module['name'])?>"><?php echo _('No Action')?></label>
-											<?php switch ($module['status']) {
-												case MODULE_STATUS_NOTINSTALLED:
-													if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-														if (!empty($module['raw']['local'])) {?>
-															<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
-															<label for="install_<?php echo prep_id($module['name'])?>"><?php echo _('Install')?></label>
-														<?php } else { ?>
-															<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="downloadinstall" />
-															<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo _('Download and Install')?></label>
-														<?php } ?>
-												<?php } 
-												break;
-												case MODULE_STATUS_DISABLED:?>
-													<input type="radio" id="enable_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="enable" />
-													<label for="enable_<?php echo prep_id($module['name'])?>"><?php echo _('Enable') ?></label>
-													<?php if (!EXTERNAL_PACKAGE_MANAGEMENT) { ?>
-														<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
-														<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php echo _('Uninstall')?></label>
-														<?php if (isset($module['raw']['online']['version'])) { 
-															$vercomp = version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online'][$name]['version']);
-															if ($vercomp < 0) { ?>
-																<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
-																<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download %s, keep Disabled'),$module['raw']['online']['version'])?></label>
-														<?php } ?>
-													<?php } ?>
-												<?php } 
-												break;
-												case MODULE_STATUS_NEEDUPGRADE:
-													if (!EXTERNAL_PACKAGE_MANAGEMENT) {?>
-														<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
-														<label for="install_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Upgrade to %s and Enable'),$module['raw']['local']['version'])?></label>
-													
-														<?php if (isset($module['raw']['online']['version'])) { 
-															$vercomp = version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online']['version']);
-															if ($vercomp < 0) {?>
-																<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
-																<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download and Upgrade to %s'), $module['raw']['online']['version'])?></label>
+											<?php if(!$module['blocked']['status'] && (($module['commercial']['status'] && $module['commercial']['sysadmin']) || !$module['commercial']['status'] || $module['name'] == 'sysadmin')) {?>
+												<?php switch ($module['status']) {
+													case MODULE_STATUS_NOTINSTALLED:
+														if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+															if (!empty($module['raw']['local'])) {?>
+																<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
+																<label for="install_<?php echo prep_id($module['name'])?>"><?php echo _('Install')?></label>
+															<?php } else { ?>
+																<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="downloadinstall" />
+																<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo _('Download and Install')?></label>
+															<?php } ?>
+													<?php } 
+													break;
+													case MODULE_STATUS_DISABLED:?>
+														<input type="radio" id="enable_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="enable" />
+														<label for="enable_<?php echo prep_id($module['name'])?>"><?php echo _('Enable') ?></label>
+														<?php if (!EXTERNAL_PACKAGE_MANAGEMENT) { ?>
+															<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
+															<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php echo _('Uninstall')?></label>
+															<?php if (isset($module['raw']['online']['version'])) { 
+																$vercomp = version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online'][$name]['version']);
+																if ($vercomp < 0) { ?>
+																	<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
+																	<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download %s, keep Disabled'),$module['raw']['online']['version'])?></label>
 															<?php } ?>
 														<?php } ?>
-														<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
-														<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php echo _('Uninstall')?></label>
-													<?php }
-												break;
-												case MODULE_STATUS_BROKEN:
-													if (!EXTERNAL_PACKAGE_MANAGEMENT) { ?>
-														<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
-														<label for="install_<?php echo prep_id($module['name'])?>"><?php _('Install')?></label>
-														<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
-														<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php _('Uninstall')?></label>
-													<?php }
-												break;
-												default:
-													// check for online upgrade
-													if (isset($module['raw']['online']['version'])) {
-														$vercomp = version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online']['version']);
-														if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-															if ($vercomp < 0) { ?>
-																<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
-																<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download and Upgrade to %s'), $module['raw']['online']['version'])?></label>
-															<?php } else { 
-																$force_msg = ($vercomp == 0 ? sprintf(_('Force Download and Install %s'), $module['raw']['online']['version']) : sprintf(_('Force Download and Downgrade to %s'), $module['raw']['online']['version'])); ?>
-																<input type="radio" id="force_upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="force_upgrade" />
-																<label for="force_upgrade_<?php echo prep_id($module['name'])?>"><?php echo $force_msg ?></label>
-															<?php }
+													<?php } 
+													break;
+													case MODULE_STATUS_NEEDUPGRADE:
+														if (!EXTERNAL_PACKAGE_MANAGEMENT) {?>
+															<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
+															<label for="install_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Upgrade to %s and Enable'),$module['raw']['local']['version'])?></label>
+													
+															<?php if (isset($module['raw']['online']['version'])) { 
+																$vercomp = version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online']['version']);
+																if ($vercomp < 0) {?>
+																	<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
+																	<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download and Upgrade to %s'), $module['raw']['online']['version'])?></label>
+																<?php } ?>
+															<?php } ?>
+															<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
+															<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php echo _('Uninstall')?></label>
+														<?php }
+													break;
+													case MODULE_STATUS_BROKEN:
+														if (!EXTERNAL_PACKAGE_MANAGEMENT) { ?>
+															<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
+															<label for="install_<?php echo prep_id($module['name'])?>"><?php echo _('Install')?></label>
+															<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
+															<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php echo _('Uninstall')?></label>
+														<?php }
+													break;
+													default:
+														// check for online upgrade
+														if (isset($module['raw']['online']['version'])) {
+															$vercomp = version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online']['version']);
+															if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+																if ($vercomp < 0) { ?>
+																	<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
+																	<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download and Upgrade to %s'), $module['raw']['online']['version'])?></label>
+																<?php } else { 
+																	$force_msg = ($vercomp == 0 ? sprintf(_('Force Download and Install %s'), $module['raw']['online']['version']) : sprintf(_('Force Download and Downgrade to %s'), $module['raw']['online']['version'])); ?>
+																	<input type="radio" id="force_upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="force_upgrade" />
+																	<label for="force_upgrade_<?php echo prep_id($module['name'])?>"><?php echo $force_msg ?></label>
+																<?php }
+															}
 														}
-													}
-													if (enable_option($module['name'],'candisable')) { ?>
-														<input type="radio" id="disable_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="disable" />
-														<label for="disable_<?php echo prep_id($module['name'])?>"><?php echo _('Disable')?></label>
-													<?php } 
-													if (!EXTERNAL_PACKAGE_MANAGEMENT && enable_option($module['name'],'canuninstall')) {?>
-														<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
-														<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php echo _('Uninstall')?></label>
-													<?php } 
-													if (!EXTERNAL_PACKAGE_MANAGEMENT && enable_option($module['name'],'canuninstall') && $devel) {?>
-														<input type="radio" id="reinstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="reinstall" />
-														<label for="reinstall_<?php echo prep_id($module['name'])?>"><?php echo _('Reinstall')?></label>
-													<?php }
-												break;
-											}?>
+														if (enable_option($module['name'],'candisable')) { ?>
+															<input type="radio" id="disable_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="disable" />
+															<label for="disable_<?php echo prep_id($module['name'])?>"><?php echo _('Disable')?></label>
+														<?php } 
+														if (!EXTERNAL_PACKAGE_MANAGEMENT && enable_option($module['name'],'canuninstall')) {?>
+															<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
+															<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php echo _('Uninstall')?></label>
+														<?php } 
+														if (!EXTERNAL_PACKAGE_MANAGEMENT && enable_option($module['name'],'canuninstall') && $devel) {?>
+															<input type="radio" id="reinstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="reinstall" />
+															<label for="reinstall_<?php echo prep_id($module['name'])?>"><?php echo _('Reinstall')?></label>
+														<?php }
+													break;
+												}?>
+											<?php } ?>
 										</div>
 									</div>
 									<?php if(!empty($module['changelog'])) { ?>
@@ -222,6 +242,14 @@
 										<h5><?php echo sprintf(_("Change Log for version %s"), $module['version'])?></h5>
 										<?php echo $module['changelog']?>
 									</div>
+									<?php } ?>
+									<?php if(!empty($module['previous'])) {?>
+										<div class="tabbertab" title="<?php echo _("Previous")?>">
+											<h5><?php echo _('Previous Releases')?></h5>
+											<?php foreach($module['previous'] as $release) {?>
+											<strong><?php echo $release['version']?></strong> <a href="config.php?display=modules&amp;action=confirm&amp;online=1&amp;moduleaction[<?php echo prep_id($module['name'])?>]=rollback&amp;version=<?php echo $release['version']?>" class="btn">Rollback</a><br/>
+											<?php } ?>
+										</div>
 									<?php } ?>
 									<?php if ($devel) { ?>
 										<div class="tabbertab" title="<?php echo _("Debug")?>">

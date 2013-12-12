@@ -46,6 +46,7 @@ $(document).ready(function(){
 			data: {quietmode: 1, skip_astman: 1, display: "modules", action: "setrepo", "id": id,selected: selected},
 			dataType: 'json',
 			success: function(data) {
+				$('#check_online').fadeIn('fast');
 			},
 			error: function(data) {
 				alert(fpbx.msg.framework.invalid_response);
@@ -175,6 +176,12 @@ function check_download_all() {
 	});
 }
 
+function navigate_to_module(module) {
+	$('#raw_'+module).scrollMinimal(true);
+	$('#infopane_'+module).slideDown( "slow", function() {})
+	$('#infopane_'+module+' .modulefunctionradios').buttonset();
+}
+
 function showhide_upgrades() {
 	var upgradesonly = $('#show_upgradable_only').prop('checked');
 
@@ -187,10 +194,13 @@ function showhide_upgrades() {
 
 }
 var box;
-function process_module_actions(actions) {
+function process_module_actions(actions,additional) {
 	urlStr = "config.php?display=modules&amp;action=process&amp;quietmode=1";
 	for (var i in actions) {
 		urlStr += "&amp;moduleaction["+i+"]="+actions[i];
+	}
+	for (var i in additional) {
+		urlStr += "&amp;moduleadditional["+i+"]="+additional[i];
 	}
 	 box = $('<div></div>')
 		.html('<iframe frameBorder="0" src="'+urlStr+'"></iframe>')

@@ -58,7 +58,6 @@ function upgrade_all($version) {
 	// callback to use php's version_compare() to sort
 	usort($versions, "version_compare_freepbx");
 
-
 	// find versions that are higher than the current version
 	$starting_version = false;
 	foreach ($versions as $check_version) {
@@ -824,7 +823,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = true;
   $set['options'] = '';
   $set['name'] = 'Browser Stats';
-  $set['description'] = 'Setting this to true will allow the development team to use google analytics to anonymously analyze browser information to help make better development decision.';
+  $set['description'] = 'Setting this to true will allow the development team to use google analytics to anonymously analyze browser information to help make better development decisions.';
   $set['emptyok'] = 0;
   $set['readonly'] = 0;
   $set['type'] = CONF_TYPE_BOOL;

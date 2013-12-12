@@ -77,6 +77,7 @@ class module_functions {
 				$data = $this->get_remote_contents("/modules-" . $base_version . ".xml", true);
 				$beta = $this->get_remote_contents("/beta-" . $base_version . ".xml", true);
 				$security = $this->get_remote_contents("/security-" . $base_version . ".xml", true);
+				$old = $this->get_remote_contents("/old-" . $base_version . ".xml", true);
 			}
 
 			$module_getonlinexml_error = ($data === false)?true:false;
@@ -114,6 +115,16 @@ class module_functions {
 				$data4sql = $db->escapeSimple($data);
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('security',".time().",'".$data4sql."')");
 			}
+			if (!empty($old)) {
+				// Compare the download to our current XML to see if anything changed for the notification system.
+				//
+				$sql = "SELECT data FROM module_xml WHERE id = 'old'";
+				$old_old_xml = sql($sql, "getOne");
+				$got_new = true;
+				// update the db with the new xml
+				$data4sql = $db->escapeSimple($data);
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('old',".time().",'".$data4sql."')");
+			}
 		}
 
 		if (empty($data)) {
@@ -122,9 +133,10 @@ class module_functions {
 		}
 
 		$parser = new xml2ModuleArray($data);
-		
-		
 		$xmlarray = $parser->parseAdvanced($data);
+		
+		$parser = new xml2ModuleArray($old);
+		$oldxml = $parser->parseAdvanced($old);
 
 		//this is why xml to array is terrible on php, prime example here.
 		$xmlarray['xml']['module'] = !isset($xmlarray['xml']['module']['rawname']) ? $xmlarray['xml']['module'] : array($xmlarray['xml']['module']);
@@ -147,6 +159,8 @@ class module_functions {
 			if ($module != false) {
 				foreach ($xmlarray['xml']['module'] as $mod) {
 					if ($module == $mod['rawname']) {
+						$releases = !empty($oldxml['xml']['modules'][$module]['releases']['module']) ? $oldxml['xml']['modules'][$module]['releases']['module'] : array();
+						$mod['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
 						return $mod;
 					}
 				}
@@ -158,6 +172,8 @@ class module_functions {
 					if (isset($exposures[$mod['rawname']])) {
 						$modules[$mod['rawname']]['vulnerabilities'] = $exposures[$mod['rawname']];
 					}
+					$releases = !empty($oldxml['xml']['modules'][$mod['rawname']]['releases']['module']) ? $oldxml['xml']['modules'][$mod['rawname']]['releases']['module'] : array();
+					$modules[$mod['rawname']]['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
 				}
 				return $modules;
 			}
@@ -551,7 +567,7 @@ class module_functions {
 	 *                for true, because  array() == true !
 	 */
 	function checkdepends($modulename) {
-	
+
 		// check if we were passed a modulexml array, or a string (name)
 		// ensure $modulexml is the modules array, and $modulename is the name (as a string)
 		if (is_array($modulename)) {
@@ -559,15 +575,16 @@ class module_functions {
 			$modulename = $modulename['rawname'];
 		} else {
 			$modulexml = $this->getinfo($modulename);
+			$modulexml = $modulexml[$modulename];
 		}
-	
+
 		$errors = array();
-	
+
 		// special handling for engine
 		$engine_dependency = false; // if we've found ANY engine dependencies to check
 		$engine_matched = false; // if an engine dependency has matched
 		$engine_errors = array(); // the error strings for engines
-	
+
 		if (isset($modulexml['depends'])) {
 			foreach ($modulexml['depends'] as $type => $requirements) {
 				// if only a single item, make it an array so we can use the same code as for multiple items
@@ -575,7 +592,7 @@ class module_functions {
 				if (!is_array($requirements)) {
 					$requirements = array($requirements);
 				}
-			
+
 				foreach ($requirements as $value) {
 					switch ($type) {
 						case 'version':
@@ -593,10 +610,10 @@ class module_functions {
 						break;
 						case 'phpversion':
 							/* accepted formats
-							   <depends>
-								   <phpversion>5.1.0<phpversion>       TRUE: if php is >= 5.1.0
-									 <phpversion>gt 5.1.0<phpversion>    TRUE: if php is > 5.1.0
-								</depends>
+							<depends>
+							<phpversion>5.1.0<phpversion>       TRUE: if php is >= 5.1.0
+							<phpversion>gt 5.1.0<phpversion>    TRUE: if php is > 5.1.0
+							</depends>
 							*/
 							if (preg_match('/^(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d*[beta|alpha|rc|RC]?\d+(\.[^\.]+)*)$/i', $value, $matches)) {
 								// matches[1] = operator, [2] = version
@@ -612,11 +629,11 @@ class module_functions {
 						break;
 						case 'phpcomponent':
 							/* accepted formats
-							   <depends>
-								   <phpcomponent>zlib<phpversion>        TRUE: if extension zlib is loaded
-								   <phpcomponent>zlib 1.2<phpversion>    TRUE: if extension zlib is loaded and >= 1.2
-							 	   <phpcomponent>zlib gt 1.2<phpversion> TRUE: if extension zlib is loaded and > 1.2	
-							   </depends>
+							<depends>
+							<phpcomponent>zlib<phpversion>        TRUE: if extension zlib is loaded
+							<phpcomponent>zlib 1.2<phpversion>    TRUE: if extension zlib is loaded and >= 1.2
+							<phpcomponent>zlib gt 1.2<phpversion> TRUE: if extension zlib is loaded and > 1.2	
+							</depends>
 							*/
 							$phpcomponents = explode('||',$value);
 							$newerrors = array();
@@ -658,6 +675,7 @@ class module_functions {
 								// matches[1] = modulename, [3]=comparison operator, [4] = version
 								$modules = $this->getinfo($matches[1]);
 								if (isset($modules[$matches[1]])) {
+									$mod = $modules[$matches[1]]['rawname'];
 									$needed_module = "<strong>".(isset($modules[$matches[1]]['name'])?$modules[$matches[1]]['name']:$matches[1])."</strong>";
 									switch ($modules[$matches[1]]['status'] ) {
 										case MODULE_STATUS_ENABLED:
@@ -666,67 +684,57 @@ class module_functions {
 												$installed_ver = $modules[$matches[1]]['dbversion'];
 												$compare_ver = $matches[4];
 												$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
-											
+
 												if (version_compare_freepbx($installed_ver, $compare_ver, $operator) ) {
 													// version is good
 												} else {
-													$errors[] = $this->_comparison_error_message($needed_module.' module', $compare_ver, $installed_ver, $operator);
+													$errors[$mod] = $this->_comparison_error_message($needed_module.' module', $compare_ver, $installed_ver, $operator);
 												}
 											}
 										break;
 										case MODULE_STATUS_BROKEN:
-											$errors[] = sprintf(_('Module %s is required, but yours is broken. You should reinstall '.
-											                      'it and try again.'), $needed_module);
+											$errors[$mod] = sprintf(_('Module %s is required, but yours is broken. You should reinstall it and try again.'), $needed_module);
 										break;
 										case MODULE_STATUS_DISABLED:
-											$errors[] = sprintf(_('Module %s is required, but yours is disabled.'), $needed_module);
+											$errors[$mod] = sprintf(_('Module %s is required, but yours is disabled.'), $needed_module);
 										break;
 										case MODULE_STATUS_NEEDUPGRADE:
-											$errors[] = sprintf(_('Module %s is required, but yours is disabled because it needs to '.
-											                      'be upgraded. Please upgrade %s first, and then try again.'), 
-																$needed_module, $needed_module);
+											$errors[$mod] = sprintf(_('Module %s is required, but yours is disabled because it needs to be upgraded. Please upgrade %s first, and then try again.'), $needed_module, $needed_module);
 										break;
 										default:
 										case MODULE_STATUS_NOTINSTALLED:
-											$errors[] = sprintf(_('Module %s is required, yours is not installed.'), $needed_module);
+											$errors[$mod] = sprintf(_('Module %s is required, yours is not installed.'), $needed_module);
 										break;
 									}
 								} else {
-									$errors[] = sprintf(_('Module %s is required.'), $matches[1]);
+									$errors[$mod] = sprintf(_('Module %s is required.'), $matches[1]);
 								}
 							}
 						break;
 						case 'file': // file exists
 							// replace embedded amp_conf %VARIABLES% in string
 
-
-
-
-
 							$file = $this->_ampconf_string_replace($value);
-						
+
 							if (!file_exists( $file )) {
 								$errors[] = sprintf(_('File %s must exist.'), $file);
 							}
 						break;
 						case 'engine':
 							/****************************
-							 *  NOTE: there is special handling for this check. We want to "OR" conditions, instead of
-							 *        "AND"ing like the rest of them. 
-							 */
-						
+							*  NOTE: there is special handling for this check. We want to "OR" conditions, instead of
+							*        "AND"ing like the rest of them. 
+							*/
+
 							// we found at least one engine, so mark that we're matching this 
 							$engine_dependency = true;
-						
+
 							if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.[^\.]+)*))?$/i', $value, $matches)) {
 								// matches[1] = engine, [3]=comparison operator, [4] = version
 								$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
-							
+
 								$engine = engine_getinfo();
-								if (($engine['engine'] == $matches[1]) &&
-	                (empty($matches[4]) || version_compare($engine['version'], $matches[4], $operator))
-								   ) {
-							   
+								if (($engine['engine'] == $matches[1]) && (empty($matches[4]) || version_compare($engine['version'], $matches[4], $operator))) {
 									$engine_matched = true;
 								} else {
 									// add it to the error messages
@@ -744,11 +752,11 @@ class module_functions {
 					}
 				}
 			}
-		
+
 			// special handling for engine
 			// if we've had at least one engine dependency check, and no engine dependencies matched, we have an error
 			if ($engine_dependency && !$engine_matched) {
-		
+
 				$engineinfo = engine_getinfo();
 				$yourengine = $engineinfo['engine'].' '.$engineinfo['version'];
 				// print it nicely
@@ -759,7 +767,7 @@ class module_functions {
 				}
 			}
 		}
-	
+
 		if (count($errors) > 0) {
 			return $errors;
 		} else {
@@ -904,15 +912,7 @@ class module_functions {
 		// if we're not forcing the download, and a file with the target name exists..
 		if (!$force && file_exists($filename)) {
 			// We might already have it! Let's check the MD5.
-			$filedata = "";
-			if ( $fh = @ fopen($filename, "r") ) {
-				while (!feof($fh)) {
-					$filedata .= fread($fh, 8192);
-				}
-				fclose($fh);
-			}
-		
-			if (isset($res['md5sum']) && $res['md5sum'] == md5 ($filedata)) {
+			if ((isset($res['sha1sum']) && $res['sha1sum'] == sha1_file($filename)) || (isset($res['md5sum']) && $res['md5sum'] == md5_file($filename))) {
 				// Note, if there's no MD5 information, it will redownload
 				// every time. Otherwise theres no way to avoid a corrupt
 				// download
@@ -933,14 +933,14 @@ class module_functions {
 				}
 				exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 				if ($exitcode != 0) {
-	        freepbx_log(FPBX_LOG_ERROR,sprintf(_("failed to open %s module archive into _cache directory."),$filename));
+					freepbx_log(FPBX_LOG_ERROR,sprintf(_("failed to open %s module archive into _cache directory."),$filename));
 					return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
-	      } else {
-	        // since untarring was successful, remvove the tarball so they do not accumulate
-	        if (unlink($filename) === false) {
-	          freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to delete %s from cache directory after opening module archive."),$filename));
-	        }
-	      }
+				} else {
+					// since untarring was successful, remvove the tarball so they do not accumulate
+					if (unlink($filename) === false) {
+						freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to delete %s from cache directory after opening module archive."),$filename));
+					}
+				}
 				exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
 				if ($exitcode != 0) {
 					return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename));
@@ -970,7 +970,7 @@ class module_functions {
 		} else {
 			$urls = $this->generate_remote_urls("/modules/".$res['location'], true);
 			foreach($urls['mirrors'] as $url) {
-				$url_list[] = $url.$urls['path'].'?'.$urls['query'];
+				$url_list[] = $url.$urls['path'];
 			}
 		}
 	
@@ -1001,11 +1001,22 @@ class module_functions {
 		if (function_exists($progress_callback)) {
 			$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 		}
+		
+		$streamopts = array(
+			'http' => 
+				array(
+					'method' => "POST",
+					'content' => !empty($urls['query']) ? $urls['query'] : ''
+				)
+		);
+
+		$streamcontext = stream_context_create($streamopts);
 	
 		// Check MODULEADMINWGET first so we don't execute the fopen() if set
 		//
-		if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($url,'r')) {
-			exec("wget --tries=1 --timeout=600 -O $filename $url 2> /dev/null", $filedata, $retcode);
+		if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($url,'r',false,$streamcontext)) {
+			$p = (!empty($urls['query'])) ? "--post-data '".$urls['query']."'" : "";
+			exec("wget --tries=1 --timeout=600 $p -O $filename $url 2> /dev/null", $filedata, $retcode);
 			if ($retcode != 0) {
 				return array(sprintf(_("Error opening %s for reading"), $url));
 			} else {
@@ -1037,6 +1048,14 @@ class module_functions {
 		if (!isset($res['md5sum']) || empty($res['md5sum'])) {
 			//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
 		} else if ($res['md5sum'] != md5 ($filedata)) {
+			unlink($filename);
+			return array(sprintf(_('File Integrity failed for %s - aborting'), $filename));
+		}
+		
+		// Check the SHA1 info against what's in the module's XML
+		if (!isset($res['sha1sum']) || empty($res['sha1sum'])) {
+			//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
+		} else if ($res['sha1sum'] != sha1 ($filedata)) {
 			unlink($filename);
 			return array(sprintf(_('File Integrity failed for %s - aborting'), $filename));
 		}
@@ -1341,7 +1360,7 @@ class module_functions {
 		if ($modules[$modulename]['status'] == MODULE_STATUS_BROKEN) {
 			return array(_("Module ".$modules[$modulename]['rawname']." is broken and cannot be installed. You should try to download it again."));
 		}
-	
+		
 		if (!$force) {
 	
 			if (!in_array($modules[$modulename]['status'], array(MODULE_STATUS_NOTINSTALLED, MODULE_STATUS_NEEDUPGRADE))) {
@@ -2188,6 +2207,16 @@ class module_functions {
 			if ($firstinstall) {
 				$options['firstinstall'] = 'yes';
 			}
+			
+			//Now that we do everything in post format send back module versions
+			$modules_local = $this->getinfo(false,false,true);
+			foreach($modules_local as $m => $mod) {
+				if($mod['status'] != MODULE_STATUS_BROKEN) {
+					$options['modules'][$m]['version'] = $mod['version'];
+					$options['modules'][$m]['status'] = $mod['status'];
+					$options['modules'][$m]['rawname'] = $mod['rawname'];
+				}
+			}
 
 			// We check specifically for false because evenif blank it means the file
 			// was there so we want module.xml to do appropriate actions
@@ -2258,7 +2287,6 @@ class module_functions {
 				// if server isn't available for some reason should return non-zero
 				// so we return and we don't set the flag below
 				freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed to get remote file, mirror site may be down: %s'),$fn));
-				continue;
 
 				// We are here if contents were blank. It's possible that whatever we were getting were suppose to be blank
 				// so we only auto set the WGET var if we received something so as to not false trigger. If there are issues

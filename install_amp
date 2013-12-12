@@ -1312,7 +1312,7 @@ if($installdb) {
 // **** Read DB for version info
 
 if (!isset($version)) {
-	outn("Checking current version of AMP..");
+	outn("Checking current version of FreePBX..");
 	$version = install_getversion();
 	if (!$version) {
 		out("no version information");
