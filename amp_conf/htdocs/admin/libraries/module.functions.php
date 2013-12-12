@@ -1784,6 +1784,17 @@ function _module_distro_id() {
   if (isset($pbx_type)) {
     return array('pbx_type' => $pbx_type, 'pbx_version' => $pbx_version);
   }
+  
+  exec('lscpu',$out,$ret);
+  $cpu_arch = '';
+  if(!$ret) {
+	foreach($out as $line) {
+		if(preg_match('/architecture:(.*)/i',$line,$matches)) {
+			$cpu_arch = trim($matches[1]);
+			break;
+		}
+	}			
+  }
 
   // FreePBX Distro
   if (file_exists('/etc/schmooze/freepbxdistro-version')) {
@@ -1792,6 +1803,12 @@ function _module_distro_id() {
   } elseif (file_exists('/etc/asterisk/freepbxdistro-version')) {
     $pbx_type = 'freepbxdistro';
     $pbx_version = trim(file_get_contents('/etc/asterisk/freepbxdistro-version'));
+  } elseif (file_exists('/etc/schmooze/pbx-version')) {
+    $pbx_type = 'freepbxdistro';
+    $pbx_version = trim(file_get_contents('/etc/schmooze/pbx-version'));
+  } elseif (file_exists('/etc/asterisk/pbx-version')) {
+    $pbx_type = 'freepbxdistro';
+    $pbx_version = trim(file_get_contents('/etc/asterisk/pbx-version'));
 
   // Trixbox
   } elseif (file_exists('/etc/trixbox/trixbox-version')) {
@@ -1834,6 +1851,10 @@ function _module_distro_id() {
     if (file_exists('/etc/pbx/.color')) {
       $pbx_version .= '.' . trim(file_get_contents('/etc/pbx/.color'));
     }
+	//this probably wont work correctly for his beaglebone stuff
+	if(preg_match('/arm/i',$cpu_arch)) {
+		$pbx_type = 'piaf-IncrediblePI';
+	}
     if (!$pbx_version) {
       if (file_exists('/etc/pbx/ISO-Version')) {
         $pbx_ver_raw = trim(file_get_contents('/etc/pbx/ISO-Version'));
@@ -1843,6 +1864,20 @@ function _module_distro_id() {
         $pbx_version = 'unknown';
       }
     }
+	
+	//raspbx
+  } elseif(file_exists('/etc/raspbx/base_version') || file_exists('/etc/raspbx/installed_version')) {
+	$pbx_type = 'raspbx';
+	
+	if (file_exists('/etc/raspbx/base_version')) {
+		$pbx_version = trim(file_get_contents('/etc/raspbx/base_version'));
+	}
+	if (file_exists('/etc/raspbx/installed_version')) {
+		$pbx_version .= '.' . trim(file_get_contents('/etc/raspbx/installed_version'));
+	}
+	if (!$pbx_version) {
+		$pbx_version = 'unknown';
+	}
 
   // Old PIAF or Fonica
   } elseif (file_exists('/etc/pbx/version') || file_exists('/etc/pbx/ISO-Version')) {

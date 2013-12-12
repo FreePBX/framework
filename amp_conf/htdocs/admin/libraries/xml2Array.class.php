@@ -55,8 +55,13 @@ class xml2Array {
 			return $this->arrOutput;
 	}
 	function tagOpen($parser, $name, $attrs) {
-		$tag=array("name"=>$name,"attrs"=>$attrs); 
-		@array_push($this->arrOutput,$tag);
+		$tag=array("name"=>$name,"attrs"=>$attrs);
+		
+		//prevent buffer overflows of PHP_INT_MAX on array keys
+		//so reset the array keys
+		//http://issues.freepbx.org/browse/FREEPBX-6411
+		$this->arrOutput = array_values($this->arrOutput);
+		array_push($this->arrOutput,$tag);
 	}
 	
 	function tagData($parser, $tagData) {
