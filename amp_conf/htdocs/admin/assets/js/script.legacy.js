@@ -927,8 +927,10 @@ $(document).ready(function(){
 	}
 
 	//style all sortables as menu's
-	$('.sortable').menu().find('input[type="checkbox"]').click(function(event) {
-		event.stopPropagation();
+	$('.sortable').menu().find('input[type="checkbox"]').parent('a').click(function(event) {
+		var checkbox = $(this).find('input');
+		checkbox.prop('checked', !checkbox[0].checked);
+		return false;
 	});
 
 	//Links are disabled in menu for now. Final release will remove that
