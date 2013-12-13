@@ -973,7 +973,7 @@ $(document).ready(function(){
 	   when they are using a duplicate extension, adding a duplicate class also for styling options.
 		 TODO: get feedback on a different image
 	 */
-	var extselector = $('input.extdisplay,input[type=text][name=extension],input[type=text][name=extdisplay],input[type=text][name=account]');
+	var extselector = $('input.extdisplay,input[type=text][name=extension],input[type=text][name=extdisplay],input[type=text][name=account]').not('input.noextmap');
 	if(extselector.length > 0) {
 			extselector.after(" <span style='display:none'><a href='#'><img src='images/notify_critical.png'/></a></span>").keyup(function(){
 			if (typeof extmap[this.value] == "undefined" || $(this).data('extdisplay') == this.value) {
