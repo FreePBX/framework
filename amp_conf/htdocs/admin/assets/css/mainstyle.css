@@ -544,7 +544,11 @@ input[type="file"], input[type="text"]{
 	font-size:10pt;
 }
 
-.ui-menu .ui-menu-item a.ui-state-focus:not(.ui-state-highlight) {
+/* Fix a bug in The jQuery-UI 1.10.3 css build that causes 
+ * the margin to shrink when you mouseover a selected
+ * option in the dropdown menus.
+ */
+a.ui-state-focus.ui-state-highlight {
         font-weight: normal;
-        margin: -1px;
+        margin: 0px !important;
 }
