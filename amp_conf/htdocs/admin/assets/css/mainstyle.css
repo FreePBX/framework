@@ -424,6 +424,9 @@ div.modulebuttons {
 }
 #modulelist .alert {
 	color:#a00;
+	padding: 0px;
+	margin-bottom:0px;
+	border:none;
 }
 #modulelist .notinstalled {
 	color:#2B77FE;
@@ -534,4 +537,14 @@ input[type="submit"]{ height: 25px;}
 
 input[type="file"], input[type="text"]{
 	margin: 2px;
+}
+
+.rollbacklist {
+	width:auto !important;
+	font-size:10pt;
+}
+
+.ui-menu .ui-menu-item a.ui-state-focus:not(.ui-state-highlight) {
+        font-weight: normal;
+        margin: -1px;
 }
