@@ -1,6 +1,7 @@
 <?php /* $Id$ */
 //Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
-//Copyright (C) 2006-2010 Philippe Lindheimer
+//Copyright (C) 2006-2013 Philippe Lindheimer
+//Copyright (C) 2013 Schmoozecom, INC
 /*
  *
  * This program is free software; you can redistribute it and/or
@@ -142,6 +143,18 @@ if (!in_array($display, array('noauth', 'badrefer'))
 if (!$quietmode) {
 	$modulef =& module_functions::create();
 	$modulef->run_notification_checks();
+	$nt =& notifications::create();
+	if ( !isset($_SERVER['HTACCESS']) ) {
+		// No .htaccess support
+		if(!$nt->exists('framework', 'htaccess')) {
+			$nt->add_security('framework', 'htaccess', _('.htaccess files are disable on this webserver. Please enable them'), 
+			_('To Protect the integrity of your server, you must set AllowOverride to All in the Apache configuration file for this directory'));
+		}
+	} else {
+		if($nt->exists('framework', 'htaccess')) {
+			$nt->delete('framework', 'htaccess');
+		}
+	}
 }
 
 //draw up freepbx menu
