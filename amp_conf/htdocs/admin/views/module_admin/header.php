@@ -152,6 +152,7 @@ function toggleInfoPane(pane) {
 		$('#'+pane).slideDown( "slow", function() {
 		})
 		$('#'+pane+' .modulefunctionradios').buttonset();
+		$('#'+pane+' .moduletrackradios').buttonset();
 	}
 }
 function check_upgrade_all() {
@@ -161,6 +162,7 @@ function check_upgrade_all() {
 			$(this).parents('.moduleinfopane').show();
 			var pane = $(this).parents('.moduleinfopane').attr('id');
 			$('#'+pane+' .modulefunctionradios').buttonset();
+			$('#'+pane+' .moduletrackradios').buttonset();
 		}
 	});
 }
@@ -172,14 +174,16 @@ function check_download_all() {
 			$(this).parents('.moduleinfopane').show();
 			var pane = $(this).parents('.moduleinfopane').attr('id');
 			$('#'+pane+' .modulefunctionradios').buttonset();
+			$('#'+pane+' .moduletrackradios').buttonset();
 		}
 	});
 }
 
 function navigate_to_module(module) {
-	$('#raw_'+module).scrollMinimal(true);
+	$('#fullmodule_'+module).scrollMinimal(true);
 	$('#infopane_'+module).slideDown( "slow", function() {})
 	$('#infopane_'+module+' .modulefunctionradios').buttonset();
+	$('#infopane_'+module+' .moduletrackradios').buttonset();
 }
 
 function showhide_upgrades() {
@@ -194,32 +198,72 @@ function showhide_upgrades() {
 
 }
 var box;
-function process_module_actions(actions,additional) {
-	urlStr = "config.php?display=modules&amp;action=process&amp;quietmode=1";
-	for (var i in actions) {
-		urlStr += "&amp;moduleaction["+i+"]="+actions[i];
+function process_module_actions(modules) {
+	var urlStr = '';
+	if(!jQuery.isEmptyObject(modules)) {
+		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
 	}
-	for (var i in additional) {
-		urlStr += "&amp;moduleadditional["+i+"]="+additional[i];
-	}
-	 box = $('<div></div>')
-		.html('<iframe frameBorder="0" src="'+urlStr+'"></iframe>')
-		.dialog({
-			title: 'Status',
-			resizable: false,
-			modal: true,
-			position: ['center', 50],
-			width: '400px',
-			close: function (e) {
-				close_module_actions(true);
-				$(e.target).dialog("destroy").remove();
-			}
-		});
+	
+	box = $('<div id="moduledialogwrapper"></div>')
+			.dialog({
+				title: 'Status',
+				resizable: false,
+				modal: true,
+				position: ['center', 50],
+				width: '410px',
+				open: function (e) {
+					$('#moduledialogwrapper').html('');
+				    var xhr = new XMLHttpRequest();
+				    xhr.open('GET', urlStr, true);
+				    xhr.send(null);
+				    var timer;
+				    timer = window.setInterval(function() {
+				        if (xhr.readyState == XMLHttpRequest.DONE) {
+				            window.clearTimeout(timer);
+				        }
+				        $('#moduledialogwrapper').html(xhr.responseText);
+				    }, 100);
+				},
+				close: function (e) {
+					close_module_actions(true);
+					$(e.target).dialog("destroy").remove();
+				}
+			});
+
 }
 function close_module_actions(goback) {
 	box.dialog("destroy").remove();
 	if (goback) {
   		location.href = 'config.php?display=modules&amp;online=<?php echo $online; ?>';
 	}
+}
+
+var oldReleaseInfo = {};
+function changeReleaseTrack(module,track) {
+	//dont load info again if we are already showing it
+	var info = {};
+	if(track != 'stable') {
+		info = modules[module].releasetracks[track];
+		//force_upgrade_dahdiconfig
+		oldReleaseInfo[module] = $('#infopane_'+module+' .modulefunctionradios label[for=force_upgrade_'+module+']').text();
+		//$('#infopane_'+module+' .modulefunctionradios label[for=force_upgrade_'+module+']').text('Upgrade to '+info.version);
+		$('#force_upgrade_'+module).button( "option", "label", 'Upgrade to '+info.version );
+		$('#upgrade_'+module).button( "option", "label", 'Upgrade to '+info.version );
+	} else {
+		info = modules[module];
+		if(typeof(oldReleaseInfo[module]) !== undefined) {
+			//$('#infopane_'+module+' .modulefunctionradios label[for=force_upgrade_'+module+']').text(oldReleaseInfo[module]);
+			$('#force_upgrade_'+module).button( "option", "label", oldReleaseInfo[module] );
+			$('#upgrade_'+module).button( "option", "label", oldReleaseInfo[module] );
+		}
+	}
+	
+	$('#infopane_'+module+' .modulefunctionradios').buttonset("destroy").buttonset();
+	
+	var extra = (track != 'stable') ? '-<span style="color:red;">'+track.toUpperCase()+'</span>' : '';
+	$('#fullmodule_'+module+' .moduleversion').html(info.version+extra);
+	$('#changelog_'+module+' span').html(info.changelog);
+	//I dont like this much please improve...someone
+	$('#changelog_'+module+' h5').html('<?php echo _("Change Log for version")?>: '+info.version)
 }
 </script>

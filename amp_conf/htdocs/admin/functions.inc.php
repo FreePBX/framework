@@ -12,11 +12,6 @@
 //GNU General Public License for more details.
 
 $dirname = $amp_conf['AMPWEBROOT'] . '/admin';
-define('MODULE_STATUS_NOTINSTALLED', 0);
-define('MODULE_STATUS_DISABLED', 1);
-define('MODULE_STATUS_ENABLED', 2);
-define('MODULE_STATUS_NEEDUPGRADE', 3);
-define('MODULE_STATUS_BROKEN', -1);
 
 //http://php.net/manual/en/function.phpversion.php
 if (!defined('PHP_VERSION_ID')) {
@@ -26,12 +21,12 @@ if (!defined('PHP_VERSION_ID')) {
 
 spl_autoload_register('fpbx_framework_autoloader');
 
-//class that handels freepbx global setting. Dont autoload - we ALWAYS need this anyway
+//class that handles freepbx global setting. Dont autoload - we ALWAYS need this anyway
 require_once($dirname . '/libraries/freepbx_conf.class.php');
 
 //----------include function files----------
 
-//freepbx helpers for debuggin/logging/comparing
+//freepbx helpers for debugging/logging/comparing
 require_once($dirname . '/libraries/utility.functions.php');
 
 //module state manipulation functions
@@ -41,7 +36,7 @@ require_once($dirname . '/libraries/modulefunctions.legacy.php');
 //dynamic registry of which exten's are in use and by whom
 require_once($dirname . '/libraries/usage_registry.functions.php');
 
-//emulated compatability for older versions of freepbx
+//emulated compatibility for older versions of freepbx
 require_once($dirname . '/libraries/php-upgrade.functions.php');
 
 //PHP Restful Library
