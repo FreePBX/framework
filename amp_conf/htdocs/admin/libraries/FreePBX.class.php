@@ -47,22 +47,43 @@ class FreePBX {
 		return $this->autoLoad($var);
 	}
 
+	public function __call($var, $args) {
+		return $this->autoLoad($var, $args);
+	}
+
 	private function autoLoad() {
 		// Figure out what is wanted, and return it.
 		if (func_num_args() == 0)
 			throw new Exception("Nothing given to the AutoLoader");
 
+		// If we have TWO arguments, we've been __called, if we only have 
+		// one and we've been called by __get.
+
 		$args = func_get_args();
 		$var = $args[0];
+
+		// Ensure no-one's trying to include something with a path in it.
 		if (strpos($var, "/") || strpos($var, ".."))
 			throw new Exception("Invalid include given to AutoLoader - $var");
 
 		// Does this exist as a default Library?
 		if (file_exists(__DIR__."/$var.class.php")) {
-			include "$var.class.php";
-			$this->$var = new $var($this);
+			
+			// If we don't HAVE the library already (eg, we may be __called numerous
+			// times..)
+			if (!class_exists($var))
+				include "$var.class.php";
+
+			// Now, we may have paramters (__call), or we may not..
+			if (isset($args[1])) {
+				// Currently we're only autoloading with one parameter.
+				$this->$var = new $var($this, $args[1][0]);
+			} else {
+				$this->$var = new $var($this);
+			}
 			return $this->$var;
 		}
+		// Extra smarts in here later for loading stuff from modules?
 		throw new Exception("Unable to find the Class $var to load");
 	}
 

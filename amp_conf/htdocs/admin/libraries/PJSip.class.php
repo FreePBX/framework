@@ -73,36 +73,19 @@ class PJSip {
 	// This is a quick POC to validate 'stuff'.
 	private function getTransportConfigs() {
 		// Need to configure these things somewhere.
-		$conf = array(
-			array(
-				"name" => "transport-default",
-				"protocol" => "udp",
-				"port" => "5062",
-			),
-			array(
-				"name" => "transport-tls",
+		$conf = array( 
+			"transport-default" => array( "protocol" => "udp", "bind" => "0.0.0.0:5060", "type" => "transport"),
+			"transport-tls" => array( 
 				"protocol" => "tls",
-				"port" => "5061",
+				"bind" => "0.0.0.0:5061",
 				"cert_file" => "/tmp/cert.crt",
-				"privkey_file" => "/tmp/privkey.key",
+				"priv_key_file" => "/tmp/privkey.key",
 				"cypher" => "ALL",    // Need more info on these two.
 				"method" => "tlsv1",  // Need more info on these two.
+				"type" => "transport",
 			)
 		);
 		return $conf;
-	}
-
-	private function generateTransports() {
-		$retstr="; PJSip Transport Section\n";
-		$transports = $this->getTransportConfigs();
-		foreach($transports as $trans) {
-			$retstr .= ";\n[".$trans['name']."]\n";
-			$retstr .= "type=transport\n";
-			foreach ($trans as $key => $val)
-				$retstr .= "$key=$val\n";
-		}
-
-		return $retstr;
 	}
 
 	private function discoverTransport($type) {
@@ -113,10 +96,10 @@ class PJSip {
 		//
 		// Note: This is wrong.
 		$transports = $this->getTransportConfigs();
-		foreach ($transports as $arr) {
+		foreach ($transports as $name => $arr) {
 			if ($arr['protocol'] == $type) {
-				$this->transportTypes[$type] = $arr['name'];
-				return $arr['name'];
+				$this->transportTypes[$type] = $name;
+				return $name;
 			}
 		}
 
@@ -140,20 +123,20 @@ class PJSip {
 		$this->validateEndpoint($config);
 
 		// With pjsip, we need three sections. 
-		$endpointname = "99".$config['account'];
+		$endpointname = $config['account'];
 		$endpoint[] = "type=endpoint";
 		$authname = "$endpointname-auth";
 		$auth[] = "type=auth";
-		$aorname = "$endpointname-aor";
+		$aorname = "$endpointname";
 		$aor[] = "type=aor";
 
 		// Endpoint
 		$endpoint[] = "aors=$aorname";
 		$endpoint[] = "auth=$authname";
+
 		// Note that blank codec lines are no longer allowed
 		if (!empty($config['allow']))
 			$endpoint[] = "allow=".$config['allow'];
-
 		if (!empty($config['disallow']))
 			$endpoint[] = "disallow=".$config['disallow'];
 
@@ -171,17 +154,17 @@ class PJSip {
 		// AOR
 		$aor[] = "max_contacts=1";
 
-		if (isset($retarr[$endpointname]))
+		if (isset($retarr["pjsip.endpoint.conf"][$endpointname]))
 			throw new Exception("Endpoint $endpointname already exists.");
-		$retarr[$endpointname] = $endpoint;
+		$retarr["pjsip.endpoint.conf"][$endpointname] = $endpoint;
 
-		if (isset($retarr[$authname]))
-			throw new Exception("Endpoint $authname already exists.");
-		$retarr[$authname] = $auth;
+		if (isset($retarr["pjsip.auth.conf"][$authname]))
+			throw new Exception("Auth $authname already exists.");
+		$retarr["pjsip.auth.conf"][$authname] = $auth;
 
-		if (isset($retarr[$aorname]))
-			throw new Exception("Endpoint $aorname already exists.");
-		$retarr[$aorname] = $aor; 
+		if (isset($retarr["pjsip.aor.conf"][$aorname]))
+			throw new Exception("AOR $aorname already exists.");
+		$retarr["pjsip.aor.conf"][$aorname] = $aor; 
 	}
 
 	private function validateEndpoint(&$config) {
@@ -197,19 +180,26 @@ class PJSip {
 
 		// 'username' is for when username != exten.
 		if (!isset($config['username']))
-			$config['username'] = "99".$config['account'];
+			$config['username'] = $config['account'];
 
 	}
 
 	public function writePJSipConf($conf) {
-		$output = "; PJSip Configuration\n";
-		$output = "; Don't edit this. You'll be sad\n";
-		$output .= $this->generateTransports();
-		foreach ($conf as $endpoint => $val) {
-			$output .= "[$endpoint]\n";
-			$output .= implode("\n", $val);
-			$output .= "\n;\n";
+		// Generate includes
+		$pjsip = "#include pjsip.transports.conf\n#include pjsip.endpoint.conf\n#include pjsip.aor.conf\n#include pjsip.auth.conf\n";
+
+		// Transports are a multi-dimensional array, because
+		// we use it earlier to match extens with transports
+		$transports = $this->getTransportConfigs();
+		foreach ($transports as $transport => $entries) {
+			$tmparr = array();
+			foreach ($entries as $key => $val) {
+				$tmparr[] = "$key=$val";
+			}
+			$conf['pjsip.transports.conf'][$transport] = $tmparr;
 		}
-		file_put_contents("/etc/asterisk/pjsip.conf", $output); // TODO: Generate Config File Class Needed.
+
+		$conf['pjsip.conf'] = $pjsip;
+		$this->FreePBX->WriteConfig($conf);
 	}
 }
