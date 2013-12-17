@@ -44,11 +44,11 @@ if (isset($_REQUEST['check_online'])) {
   $online = (isset($_REQUEST['online']) && $_REQUEST['online'] && !EXTERNAL_PACKAGE_MANAGEMENT) ? 1 : 0;
 }
 $active_repos = $modulef->get_active_repos();
-
 // fix php errors from undefined variable. Not sure if we can just change the reference below to use
 // online since it changes values so just setting to what we decided it is here.
 
 $moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false;
+$trackaction = isset($_REQUEST['trackaction'])?$_REQUEST['trackaction']:false;
 /*
 	moduleaction is an array with the key as the module name, and possible values:
 	
@@ -115,7 +115,7 @@ $modules_local = $modulef->getinfo(false,false,true);
 if ($online) {
 	$security_array = array();
 	$security_issues_to_report = array();
-	$modules_online = $modulef->getonlinexml(false, false, $security_array);
+	$modules_online = $modulef->getonlinexml();
 	
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
@@ -142,9 +142,6 @@ if ($online) {
 				// not local, so it's not installed
 				$modules[$name]['status'] = MODULE_STATUS_NOTINSTALLED;
 			}
-			if(!empty($modules_old[$name])) {
-				$modules[$name]['previous'] = $modules_old[$name];
-			}
 		}
 		// add any remaining local-only modules
 		$modules += $modules_local;
@@ -167,7 +164,7 @@ if (!isset($modules)) {
 }
 
 //--------------------------------------------------------------------------------------------------------
-switch ($action) {  // process, confirm, or nothing
+switch ($action) { 
 	case 'setrepo':
 		$repo = str_replace("_repo","",$_REQUEST['id']);
 		$o = $modulef->set_active_repo($repo,$_REQUEST['selected']);
@@ -178,6 +175,7 @@ switch ($action) {  // process, confirm, or nothing
 		}
 	break;
 	case 'process':
+		$moduleactions = !empty($_REQUEST['modules']) ? $_REQUEST['modules'] : array();
 		echo "<div id=\"moduleBoxContents\">";
 		echo "<h4>"._("Please wait while module actions are performed")."</h4>\n";
 		echo "<div id=\"moduleprogress\">";
@@ -369,11 +367,10 @@ switch ($action) {  // process, confirm, or nothing
 		echo "<input type=\"hidden\" name=\"online\" value=\"".$online."\" />";
 		echo "<input type=\"hidden\" name=\"action\" value=\"process\" />";
 
-		echo "\t<script type=\"text/javascript\"> var moduleActions = new Array(); var moduleAdditional = new Array(); </script>\n";
-
 		$actionstext = array();
 		$force_actionstext = array();
 		$errorstext = array();
+		$moduleActions = array();
 		foreach ($moduleaction as $module => $action) {	
 			$text = false;
 			$skipaction = false;
@@ -387,7 +384,8 @@ switch ($action) {  // process, confirm, or nothing
 				case 'rollback':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if(empty($modules_online[$module]['previous'])) {
-							
+							$skipaction = true;
+							$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), $modules[$module]['name'], $_REQUEST['version']);
 						}
 						$previous_data = null;
 						foreach($modules_online[$module]['previous'] as $release) {
@@ -412,27 +410,66 @@ switch ($action) {  // process, confirm, or nothing
 				case 'upgrade':
 				case 'force_upgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
-							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),  
-							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						if($trackaction[$module] != 'stable') {
+							$action = 'trackupgrade';
+							$track = $trackaction[$module];
+							if(empty($modules_online[$module]['releasetracks'][$track])) {
+								$skipaction = true;
+								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded to <strong>%s</strong>: The release track of <strong>%s</strong> does not exist for this module"),
+								$modules[$module]['name'],$track,$track);
+							} elseif (is_array($errors = $modulef->checkdepends($modules_online[$module]['releasetracks'][$track]))) {
+								$skipaction = true;
+								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded: <strong>%s</strong> Please try again after the dependencies have been installed."),  
+								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							} else {
+								switch (version_compare_freepbx($modules[$module]['dbversion'], $modules_online[$module]['releasetracks'][$track]['version'])) {
+									case '-1':
+										$actionstext[] = sprintf(_("<strong>%s %s</strong> will be upgraded to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['releasetracks'][$track]['version'],$track);
+									break;
+									case '0':
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be re-installed to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['releasetracks'][$track]['version'],$track);
+									break;
+									default:
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be downgraded to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['releasetracks'][$track]['version'],$track);
+								}
+							}
 						} else {
-							switch ( version_compare_freepbx($modules[$module]['dbversion'], $modules_online[$module]['version'])) {
-								case '-1':
-									$actionstext[] = sprintf(_("%s %s will be upgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
-								break;
-								case '0':
-									$force_actionstext[] = sprintf(_("%s %s will be re-installed to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
-								break;
-								default:
-									$force_actionstext[] = sprintf(_("%s %s will be downgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+							if (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
+								$skipaction = true;
+								$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),  
+								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							} else {
+								switch ( version_compare_freepbx($modules[$module]['dbversion'], $modules_online[$module]['version'])) {
+									case '-1':
+										$actionstext[] = sprintf(_("<strong>%s %s</strong> will be upgraded to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+									break;
+									case '0':
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be re-installed to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+									break;
+									default:
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be downgraded to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+								}
 							}
 						}
 					}
 				break;
 				case 'downloadinstall':
 				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-					if (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
+					if($trackaction[$module] != 'stable') {
+						$action = 'trackinstall';
+						$track = $trackaction[$module];
+						if(empty($modules_online[$module]['releasetracks'][$track])) {
+							$skipaction = true;
+							$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
+							$modules[$module]['name'],$track,$track);
+						} elseif (is_array($errors = $modulef->checkdepends($modules_online[$module]['releasetracks'][$track]))) {
+							$skipaction = true;
+							$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),  
+							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						} else {
+							$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), $modules[$module]['name'], $modules_online[$module]['releasetracks'][$track]['version']);
+						}
+					} elseif (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
 						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),  
 						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
@@ -500,13 +537,15 @@ switch ($action) {  // process, confirm, or nothing
 			
 			// If error above we skip this action so we can proceed with the others
 			//
-			if (!$skipaction) { //TODO
-				echo "\t<script type=\"text/javascript\"> moduleActions['".$module."'] = '".$action."'; </script>\n";
+			if (!$skipaction && $action != "0") { //TODO
+				$moduleActions[$module]['action'] = $action;
+				$moduleActions[$module]['track'] = $trackaction[$module];
 				if($action== 'rollback') {
-					echo "\t<script type=\"text/javascript\"> moduleAdditional['".$module."'] = '".$_REQUEST['version']."'; </script>\n";
-				}
-			}
+					$moduleActions[$module]['rollback'] = $_REQUEST['version'];
+				} 
+			}			
 		}
+		echo "\t<script type=\"text/javascript\"> var moduleActions = ".json_encode($moduleActions).";</script>\n";
 
 		// Write out the errors, if there are additional actions that can be accomplished list those next with the choice to
 		// process which will ignore the ones with errors but process the rest.
@@ -541,7 +580,7 @@ switch ($action) {  // process, confirm, or nothing
 				}
 				echo "</ul>";
 			}
-			echo "\t<input type=\"button\" value=\""._("Confirm")."\" name=\"process\" onclick=\"process_module_actions(moduleActions,moduleAdditional);\" />";
+			echo "\t<input type=\"button\" value=\""._("Confirm")."\" name=\"process\" onclick=\"process_module_actions(moduleActions);\" />";
 		} else {
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
@@ -694,6 +733,9 @@ switch ($action) {  // process, confirm, or nothing
 			
 			$loc_domain = $name;
 			$name_text = modgettext::_($modules[$name]['name'], $loc_domain);
+			$module_display[$category]['data'][$name]['loc_domain'] = $loc_domain;
+			$module_display[$category]['data'][$name]['name_text'] = $name_text;
+			
 			
 			$module_display[$category]['data'][$name] = $modules[$name];
 			$salert = isset($modules[$name]['vulnerabilities']);
@@ -722,29 +764,42 @@ switch ($action) {  // process, confirm, or nothing
 			}
 			
 			if (!empty($modules_online[$name]['changelog'])) {
-				$changelog = nl2br($modules_online[$name]['changelog']);
-				$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+):/', '<strong>$0</strong>', $changelog);
-				$changelog = preg_replace('/\*(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+)\*/', '<strong>$1:</strong>', $changelog);
+				$module_display[$category]['data'][$name]['changelog'] = format_changelog($modules_online[$name]['changelog']);
+			}
+			
+			if(!empty($module_display[$category]['data'][$name]['previous'])) {
+				foreach($module_display[$category]['data'][$name]['previous'] as &$release) {
+					if(preg_match("/".$release['version']."[\s|:|\*](.*)/m",$release['changelog'],$matches)) {
+						$release['pretty_change'] = !empty($matches[1]) ? format_changelog($matches[1]) : _('No Change Log');
+					}
+				}
+			}
+			
+			$module_display[$category]['data'][$name]['tracks']['stable'] = true;
+			if(!empty($module_display[$category]['data'][$name]['releasetracks'])) {
+				foreach($module_display[$category]['data'][$name]['releasetracks'] as $track => &$release) {
+					if(!array_key_exists($track, $module_display[$category]['data'][$name]['tracks'])) {
+						$module_display[$category]['data'][$name]['tracks'][$track] = false;
+					}
 
-				// convert '#xxx', 'ticket xxx', 'bug xxx' to ticket links and rxxx to changeset links in trac
-				//
-				$changelog = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,4})(?!\w)/i', 'trac_replace_ticket', $changelog);
-				$changelog = preg_replace_callback('/(?<!\w)r(\d+)(?!\w)/', 'trac_replace_changeset', $changelog);
-				$changelog = preg_replace_callback('/(?<!\w)\[(\d+)\](?!\w)/', 'trac_replace_changeset', $changelog);
-				
-				$module_display[$category]['data'][$name]['changelog'] = $changelog;
+					$release['changelog'] = format_changelog($release['changelog']);
+				}
 			}
 		}
-		
+				
 		$displayvars['end_msg'] = (isset($modules_online) && empty($numdisplayed)) ? (count($modules_online) > 0 ? _("All available modules are up-to-date and installed.") : _("No modules to display.") ) : '';
-		
+		$displayvars['finalmods'] = array();
+		foreach($module_display as $cat) {
+			foreach($cat['data'] as $mod => $info) {
+				$displayvars['finalmods'][$mod] = $info;
+			}
+		}
 		$displayvars['module_display'] = $module_display;
 		$displayvars['devel'] = $amp_conf['DEVEL'];
 		show_view('views/module_admin/main.php',$displayvars);
 	break;
 }
 if ($quietmode) {
-	//echo '</body></html>';
 } else {
 	$displayvars = array("security_issues" => array());
 	if (!empty($security_issues_to_report)) {
@@ -825,6 +880,22 @@ function download_progress($action, $params) {
 			flush();
 		break;
 	}
+}
+
+function format_changelog($changelog) {
+	$changelog = nl2br($changelog);
+	$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+):/', '<strong>$0</strong>', $changelog);
+	$changelog = preg_replace('/\*(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+)\*/', '<strong>$1:</strong>', $changelog);
+	$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+) /', '<strong>$1: </strong>', $changelog);
+	
+
+	// convert '#xxx', 'ticket xxx', 'bug xxx' to ticket links and rxxx to changeset links in trac
+	//
+	$changelog = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,4})(?!\w)/i', 'trac_replace_ticket', $changelog);
+	$changelog = preg_replace_callback('/(?<!\w)r(\d+)(?!\w)/', 'trac_replace_changeset', $changelog);
+	$changelog = preg_replace_callback('/(?<!\w)\[(\d+)\](?!\w)/', 'trac_replace_changeset', $changelog);
+	
+	return $changelog;
 }
 
 /* enable_option($module_name, $option)

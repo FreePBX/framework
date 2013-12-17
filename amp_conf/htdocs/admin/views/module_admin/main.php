@@ -40,18 +40,19 @@
 				<h3><?php echo $category['name']?></h3>
 				<table class="alt_table" width="100%">
 					<?php foreach($category['data'] as $module) {?>
-						<td>
-						<div class="<?php echo $module['mclass']?>" id="raw_<?php echo $module['name']?>" onclick="toggleInfoPane('infopane_<?php echo prep_id($module['name'])?>')" >
+					</tr>
+						<td id="fullmodule_<?php echo prep_id($module['name'])?>">
+							<div class="<?php echo $module['mclass']?>" onclick="toggleInfoPane('infopane_<?php echo prep_id($module['name'])?>')" >
 							<span class="modulename"><?php echo $module['pretty_name']?></span>
 							<span class="moduleversion"><?php echo $module['dbversion']?></span>
 							<span class="modulepublisher"><?php echo $module['publisher']?></span>
 							<span class="modulestatus">
 									<?php switch ($module['status']) {
 										case MODULE_STATUS_NOTINSTALLED: 
-											if (!empty($module['raw']['local'])) { ?>
-												<span class="notinstalled"><?php echo _('Not Installed (Locally available)')?></span>
-											<?php } else { ?>
+											if (!empty($module['raw']['online'])) { ?>
 												<span class="notinstalled"><?php echo sprintf(_('Not Installed (Available online: %s)'), $module['raw']['online']['version'])?></span>
+											<?php } else { ?>
+												<span class="notinstalled"><?php echo _('Not Installed (Locally available)')?></span>
 											<?php }
 										break;
 										case MODULE_STATUS_NEEDUPGRADE:?>
@@ -67,7 +68,7 @@
 											if (!empty($module['raw']['online']['version'])) { 
 												$vercomp = version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online']['version']);
 												if ($vercomp < 0) {?>
-													<span class="alert"><?php echo sprintf(_($disabled.'Online upgrade available (%s)'), $modules_online[$name]['version']);?></span>
+													<span class="alert"><?php echo sprintf(_($disabled.'Online upgrade available (%s)'), $module['raw']['online']['version']);?></span>
 												<?php } elseif ($vercomp > 0) { ?>
 													<?php echo sprintf(_($disabled.'Newer than online version (%s)'), $module['raw']['online']['version']);?>
 												<?php } elseif($module['status'] == MODULE_STATUS_DISABLED) { ?>
@@ -77,7 +78,7 @@
 												<?php } 
 											}
 											if (empty($module['raw']['online'])) {
-												if($module['status'] != MODULE_STATUS_DISABLED) {?>
+												if($online && $module['status'] != MODULE_STATUS_DISABLED) {?>
 													<?php echo _('Enabled; Not available online');?>
 												<?php } elseif($module['status'] == MODULE_STATUS_DISABLED) { ?>
 													<?php echo _('Disabled');?>
@@ -88,12 +89,12 @@
 										break;
 									}?>
 								<?php if ($module['salert']) { ?>
-									<td class="modulevul">
+									<span class="modulevul">
 										<a class="modulevul_tag" href="#" data-sec='<?php echo json_encode($module['vulnerabilities']['vul'])?>'>
 											<img src="images/notify_security.png" alt="" width="16" height="16" border="0" title="<?php echo sprintf(_("Vulnerable to security issues %s"), implode($module['vulnerabilities']['vul'], ', '))?>" />
 											<?php echo sprintf(_("Vulnerable, Requires: %s"), $module['vulnerabilities']['minver']) ?>
 										</a>
-									</td>
+									</span>
 								<?php } ?>
 							</span>
 								<span class="clear">&nbsp;</span>
@@ -117,7 +118,7 @@
 										<?php } ?>
 										<?php if(!empty($module['description'])) {?>
 											<h5><?php echo sprintf(_("Description for version %s"),$module['version'])?></h5>
-											<?php echo nl2br(modgettext::_($module['description'], $loc_domain));?>
+											<?php echo nl2br(modgettext::_($module['description'], $module['loc_domain']));?>
 										<?php } else { ?>
 											<?php echo _("No description is available.") ?>
 										<?php } ?>
@@ -149,6 +150,15 @@
 											</ul>
 										<?php } ?>
 										<br/>
+										<br/>
+										<?php if($module['status'] >= 0 && !empty($module['tracks'])) {?>
+											<div class="moduletrackradios">
+											<?php foreach($module['tracks'] as $track => $checked) {?>
+												<input id="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>" type="radio" name="trackaction[<?php echo prep_id($module['name'])?>]" value="<?php echo $track?>" <?php echo ($checked) ? 'checked' : ''?> onclick="changeReleaseTrack('<?php echo prep_id($module['name'])?>','<?php echo $track?>')"/>
+												<label for="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>"><?php echo ucfirst($track)?></label>
+											<?php } ?>
+											</div>
+										<?php } ?>
 										<br/>
 										<div class="modulefunctionradios">
 											<input type="radio" checked="CHECKED" id="noaction_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="0" />
@@ -238,17 +248,29 @@
 										</div>
 									</div>
 									<?php if(!empty($module['changelog'])) { ?>
-									<div class="tabbertab" title="<?php echo _("Changelog")?>">
-										<h5><?php echo sprintf(_("Change Log for version %s"), $module['version'])?></h5>
-										<?php echo $module['changelog']?>
+									<div class="tabbertab" id="changelog_<?php echo prep_id($module['name'])?>"  title="<?php echo _("Changelog")?>">
+										<h5><?php echo _("Change Log for version")?>: <?php echo $module['version']?></h5>
+										<span><?php echo $module['changelog']?></span>
 									</div>
 									<?php } ?>
 									<?php if(!empty($module['previous'])) {?>
 										<div class="tabbertab" title="<?php echo _("Previous")?>">
 											<h5><?php echo _('Previous Releases')?></h5>
-											<?php foreach($module['previous'] as $release) {?>
-											<strong><?php echo $release['version']?></strong> <a href="config.php?display=modules&amp;action=confirm&amp;online=1&amp;moduleaction[<?php echo prep_id($module['name'])?>]=rollback&amp;version=<?php echo $release['version']?>" class="btn">Rollback</a><br/>
-											<?php } ?>
+											<table class="rollbacklist">
+												<?php foreach($module['previous'] as $release) {?>
+													<tr>
+														<td>
+															<strong><?php echo $release['version']?></strong>
+														</td>
+														<td>
+															<?php echo $release['pretty_change']?>
+														</td>
+														<td>
+															<a href="config.php?display=modules&amp;action=confirm&amp;online=1&amp;moduleaction[<?php echo prep_id($module['name'])?>]=rollback&amp;version=<?php echo $release['version']?>" class="btn">Rollback</a>
+														</td>
+													</tr>
+												<?php } ?>
+											</table>
 										</div>
 									<?php } ?>
 									<?php if ($devel) { ?>
@@ -272,7 +294,7 @@
 								</div>
 							</div>
 						</td>
-						</tr>
+					</tr>
 					<?php } ?>
 				</table>
 			</div>
@@ -287,3 +309,6 @@
 		<input type="submit" value="<?php echo _("Process")?>" name="process" />
 	</div>
 </form>
+<script>
+	var modules = <?php echo !empty($finalmods) ? json_encode($finalmods) : '{}'?>;
+</script>
