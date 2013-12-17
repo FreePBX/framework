@@ -68,5 +68,6 @@ class Database extends PDO {
 		} else {
 			parent::__construct($dsn, $username, $password);
 		}
+		$this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 }
