@@ -25,4 +25,13 @@ include 'libraries/FreePBX.class.php';
 
 $fpbx = new FreePBX();
 
+// $r = $fpbx->PJSip->getAllOld();
+
+$pjsip = $fpbx->PJSip->generateEndpoints();
+
+$conf = $fpbx->PJSip->writePJSipConf($pjsip);
+
+print $conf;
+		
+
 
