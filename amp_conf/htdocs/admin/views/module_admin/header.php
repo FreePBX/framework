@@ -194,27 +194,38 @@ function showhide_upgrades() {
 
 }
 var box;
-function process_module_actions(actions,additional) {
-	urlStr = "config.php?display=modules&amp;action=process&amp;quietmode=1";
-	for (var i in actions) {
-		urlStr += "&amp;moduleaction["+i+"]="+actions[i];
+function process_module_actions(modules) {
+	var urlStr = '';
+	if(!jQuery.isEmptyObject(modules)) {
+		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
 	}
-	for (var i in additional) {
-		urlStr += "&amp;moduleadditional["+i+"]="+additional[i];
-	}
-	 box = $('<div></div>')
-		.html('<iframe frameBorder="0" src="'+urlStr+'"></iframe>')
-		.dialog({
-			title: 'Status',
-			resizable: false,
-			modal: true,
-			position: ['center', 50],
-			width: '400px',
-			close: function (e) {
-				close_module_actions(true);
-				$(e.target).dialog("destroy").remove();
-			}
-		});
+	
+	box = $('<div id="moduledialogwrapper"></div>')
+			.dialog({
+				title: 'Status',
+				resizable: false,
+				modal: true,
+				position: ['center', 50],
+				width: '410px',
+				open: function (e) {
+					$('#moduledialogwrapper').html('');
+				    var xhr = new XMLHttpRequest();
+				    xhr.open('GET', urlStr, true);
+				    xhr.send(null);
+				    var timer;
+				    timer = window.setInterval(function() {
+				        if (xhr.readyState == XMLHttpRequest.DONE) {
+				            window.clearTimeout(timer);
+				        }
+				        $('#moduledialogwrapper').html(xhr.responseText);
+				    }, 100);
+				},
+				close: function (e) {
+					close_module_actions(true);
+					$(e.target).dialog("destroy").remove();
+				}
+			});
+
 }
 function close_module_actions(goback) {
 	box.dialog("destroy").remove();

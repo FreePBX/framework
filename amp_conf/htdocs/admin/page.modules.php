@@ -83,7 +83,30 @@ if (!$quietmode) {
 	$displayvars['ue'] = htmlspecialchars($update_email);
 	//TODO: decide if warnings of any sort need to be given, or just list of repos active?
 } else {
-	// $quietmode==true
+	if($action == 'process') {
+		header('Content-type: application/octet-stream');
+		// Turn off output buffering
+		ini_set('output_buffering', 'off');
+		// Turn off PHP output compression
+		ini_set('zlib.output_compression', false);
+		// Implicitly flush the buffer(s)
+		ini_set('implicit_flush', true);
+		ob_implicit_flush(true);
+		// Clear, and turn off output buffering
+		while (ob_get_level() > 0) {
+		    // Get the curent level
+		    $level = ob_get_level();
+		    // End the buffering
+		    ob_end_clean();
+		    // If the current level has not changed, abort
+		    if (ob_get_level() == $level) break;
+		}
+		// Disable apache output buffering/compression
+		if (function_exists('apache_setenv')) {
+		    apache_setenv('no-gzip', '1');
+		    apache_setenv('dont-vary', '1');
+		}
+	}
 }
 
 $modules_local = $modulef->getinfo(false,false,true);
@@ -162,25 +185,75 @@ switch ($action) {  // process, confirm, or nothing
 		// stop output buffering, and send output
 		@ ob_flush();
 		flush();
-		foreach ($moduleaction as $modulename => $action) {	
+		foreach ($moduleactions as $modulename => $setting) {	
 			$didsomething = true; // set to false in default clause of switch() below..
 			
-			switch ($action) {
+			switch ($setting['action']) {
+				case 'trackinstall':
+				case 'trackupgrade':
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						echo '<span class="success">'.sprintf(_("Upgrading %s to %s from track %s"),$modulename,$modules_online[$modulename]['releasetracks'][$setting['track']]['version'],$setting['track'])."</span><br/>";
+						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><br/><span id="downloadstatus_'.$modulename.'"></span><br/>';
+						if (is_array($errors = $modulef->download($modules_online[$modulename]['releasetracks'][$setting['track']], false, 'download_progress'))) {
+							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
+							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+							echo '</span>';
+						} else {
+							echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+							echo '<span id="installstatus_'.$modulename.'"></span>';
+							//2nd param of install set to true to force the install as it may not be a detected upgrade
+							if (is_array($errors = $modulef->install($modulename,true))) {
+								echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
+								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+								echo '</span>';
+							} else {
+								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
+							}
+						}
+					}
+				break;
 				case 'rollback':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						echo "Rolling back ".$modulename." to ".$_REQUEST['moduleadditional'][$modulename];
+						$releaseinfo = '';
+						foreach($modules_online[$modulename]['previous'] as $release) {
+							if($release['version'] == $setting['rollback']) {
+								$releaseinfo = $release;
+								break;
+							}
+						}
+						echo '<span class="success">'.sprintf(_("Rolling back %s to %s"),$modulename, $setting['rollback'])."</span><br/>";
+						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><span id="downloadstatus_'.$modulename.'"></span><br/>';
+						if (is_array($errors = $modulef->download($releaseinfo, false, 'download_progress'))) {
+							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
+							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+							echo '</span>';
+						} else {
+							echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+							echo '<span id="installstatus_'.$modulename.'"></span>';
+							//2nd param of install set to true to force the install as it may not be a detected upgrade
+							if (is_array($errors = $modulef->install($modulename,true))) {
+								echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
+								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+								echo '</span>';
+							} else {
+								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
+							}
+						}
 					}
 				break;
 				case 'force_upgrade':
 				case 'upgrade':
 				case 'downloadinstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span>';
-						if (is_array($errors = $modulef->download($modulename, false, 'download_progress'))) {
+						echo '<span class="success">'.sprintf(_("Downloading and Installing %s"),$modulename)."</span><br/>";
+						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><span id="downloadstatus_'.$modulename.'"></span><br/>';
+						if (is_array($errors = $modulef->download($modules_online[$modulename], false, 'download_progress'))) {
 							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
 						} else {
+							echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+							echo '<span id="installstatus_'.$modulename.'"></span>';
 							if (is_array($errors = $modulef->install($modulename))) {
 								echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
@@ -193,6 +266,8 @@ switch ($action) {  // process, confirm, or nothing
 				break;
 				case 'install':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+						echo '<span id="installstatus_'.$modulename.'"></span>';
 						if (is_array($errors = $modulef->install($modulename))) {
 							echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
@@ -203,6 +278,8 @@ switch ($action) {  // process, confirm, or nothing
 					}
 				break;
 				case 'enable':
+					echo '<span class="success">'.sprintf(_("Enabling %s"),$modulename)."</span><br/>";
+					echo '<span id="installstatus_'.$modulename.'"></span>';
 					if (is_array($errors = $modulef->enable($modulename))) {
 						echo '<span class="error">'.sprintf(_("Error(s) enabling %s"),$modulename).': ';
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
@@ -212,6 +289,8 @@ switch ($action) {  // process, confirm, or nothing
 					}
 				break;
 				case 'disable':
+					echo '<span class="success">'.sprintf(_("Disabling %s"),$modulename)."</span><br/>";
+					echo '<span id="installstatus_'.$modulename.'"></span>';
 					if (is_array($errors = $modulef->disable($modulename))) {
 						echo '<span class="error">'.sprintf(_("Error(s) disabling %s"),$modulename).': ';
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
@@ -221,6 +300,8 @@ switch ($action) {  // process, confirm, or nothing
 					}
 				break;
 				case 'uninstall':
+					echo '<span class="success">'.sprintf(_("Uninstalling %s"),$modulename)."</span><br/>";
+					echo '<span id="installstatus_'.$modulename.'"></span>';
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = $modulef->uninstall($modulename))) {
 							echo '<span class="error">'.sprintf(_("Error(s) uninstalling %s"),$modulename).': ';
@@ -232,6 +313,7 @@ switch ($action) {  // process, confirm, or nothing
 					}
 				break;
 				case 'reinstall':
+					echo '<span class="success">'.sprintf(_("Uninstalling %s"),$modulename)."</span><br/>";
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = $modulef->uninstall($modulename))) {
 							echo '<span class="error">'.sprintf(_("Error(s) uninstalling %s"),$modulename).': ';
@@ -241,6 +323,8 @@ switch ($action) {  // process, confirm, or nothing
 							echo '<span class="success">'.sprintf(_("%s uninstalled successfully"),$modulename).'</span>';
 						}
 						echo '<br/>';
+						echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+						echo '<span id="installstatus_'.$modulename.'"></span>';
 						if (is_array($errors = $modulef->install($modulename))) {
 							echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
@@ -255,20 +339,18 @@ switch ($action) {  // process, confirm, or nothing
 			}
 			
 			if ($didsomething) {
-				echo "<hr /><br />";
 				@ ob_flush();
 				flush();
 			}
 		}
 		echo "</div>";
+		echo "<hr /><br />";
 		if ($quietmode) {
-			echo "\t<a href=\"#\" onclick=\"parent.close_module_actions(true);\" />"._("Return")."</a>";
-		} else {
-			echo "\t<input type=\"button\" value=\""._("Return")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=$type&amp;online=".$online."';\" />";
-		echo "</div>";
+			echo '<a href="#" onclick="parent.close_module_actions(true);" >'._("Return").'</a>';
 		}
 	break;
 	case 'confirm':
+		ksort($trackaction);
 		ksort($moduleaction);
 		/* if updating language packs, make sure they are the last thing to be done so that
 		any modules currently being updated at the same time will be done so first and
@@ -718,10 +800,7 @@ function download_progress($action, $params) {
 	switch ($action) {
 		case 'untar':
 			echo '<script type="text/javascript">
-			        var txt = document.createTextNode("'._('Untarring..').'");
-			        var br = document.createElement(\'br\');
-			        document.getElementById(\'moduleprogress\').appendChild(br); 
-					document.getElementById(\'moduleprogress\').appendChild(txt); 
+					$("#installstatus_'.$params['module'].'").append("'._('Untarring..').'");
 			     </script>';
 			@ ob_flush();
 			flush();
@@ -733,17 +812,14 @@ function download_progress($action, $params) {
 				$progress = $params['read'].' of '.$params['total'].' ('.round($params['read']/$params['total']*100).'%)';
 			}
 			echo '<script type="text/javascript">
-			        document.getElementById(\'downloadprogress_'.$params['module'].'\').innerHTML = \''.$progress.'\';
+					$("#downloadprogress_'.$params['module'].'").html("'.$progress.'");
 			      </script>';
 			@ ob_flush();
 			flush();
 		break;
 		case 'done';
 			echo '<script type="text/javascript">
-			        var txt = document.createTextNode("'._('Done.').'");
-					var br = document.createElement(\'br\');
-			        document.getElementById(\'moduleprogress\').appendChild(txt); 
-					document.getElementById(\'moduleprogress\').appendChild(br); 
+					$("#installstatus_'.$params['module'].'").append("'._('Done').'<br/>");
 			     </script>';
 			@ ob_flush();
 			flush();
