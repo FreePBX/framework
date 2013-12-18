@@ -11,6 +11,30 @@ class PJSip {
 		$this->db = $freepbx->Database;
 	}
 
+	public function getConfig() {
+		return $this->generateEndpoints();
+	}
+
+	public function writeConfig($conf) {
+		// Generate includes
+		$pjsip = "#include pjsip.transports.conf\n#include pjsip.endpoint.conf\n#include pjsip.aor.conf\n#include pjsip.auth.conf\n";
+
+		// Transports are a multi-dimensional array, because
+		// we use it earlier to match extens with transports
+		$transports = $this->getTransportConfigs();
+		foreach ($transports as $transport => $entries) {
+			$tmparr = array();
+			foreach ($entries as $key => $val) {
+				$tmparr[] = "$key=$val";
+			}
+			$conf['pjsip.transports.conf'][$transport] = $tmparr;
+		}
+
+		$conf['pjsip.conf'] = $pjsip;
+		$this->FreePBX->WriteConfig($conf);
+	}
+
+
 	// Return an array consisting of all SIP devices, Trunks, or both.
 	private function getAllOld($type = null) {
 		$allkeys = $this->db->query("SELECT DISTINCT(`id`) FROM `sip`");
@@ -107,7 +131,7 @@ class PJSip {
 		throw new Exception("Yeah, if you could go ahead and make a transport for $type, that'd be great");
 	}
 
-	public function generateEndpoints() {
+	private function generateEndpoints() {
 		// Only old stuff for the moment.
 		$allEndpoints = $this->getAllOld("devices");
 
@@ -134,9 +158,8 @@ class PJSip {
 		$endpoint[] = "aors=$aorname";
 		$endpoint[] = "auth=$authname";
 
-		// Note that blank codec lines are no longer allowed
-		if (!empty($config['allow']))
-			$endpoint[] = "allow=".$config['allow'];
+		$endpoint[] = "allow=".$config['allow'];
+
 		if (!empty($config['disallow']))
 			$endpoint[] = "disallow=".$config['disallow'];
 
@@ -182,24 +205,28 @@ class PJSip {
 		if (!isset($config['username']))
 			$config['username'] = $config['account'];
 
-	}
-
-	public function writePJSipConf($conf) {
-		// Generate includes
-		$pjsip = "#include pjsip.transports.conf\n#include pjsip.endpoint.conf\n#include pjsip.aor.conf\n#include pjsip.auth.conf\n";
-
-		// Transports are a multi-dimensional array, because
-		// we use it earlier to match extens with transports
-		$transports = $this->getTransportConfigs();
-		foreach ($transports as $transport => $entries) {
-			$tmparr = array();
-			foreach ($entries as $key => $val) {
-				$tmparr[] = "$key=$val";
-			}
-			$conf['pjsip.transports.conf'][$transport] = $tmparr;
+		// Codec allow is now mandatory
+		if (empty($config['allow'])) {
+			$config['allow'] = $this->getDefaultSIPCodecs();
 		}
 
-		$conf['pjsip.conf'] = $pjsip;
-		$this->FreePBX->WriteConfig($conf);
+	}
+
+	public function getDefaultSIPCodecs() {
+		// Grab the default Codecs from the sipsettings module. 
+		if (isset($this->DefaultSipCodecs))
+			return $this->DefaultSipCodecs;
+
+		// If module_exists('sipsettings') ..
+		$codecsquery = $this->db->query('SELECT `keyword` from `sipsettings` WHERE `type`=1 AND `data` <> ""  ORDER BY `data`');
+		$codecs = $codecsquery->fetchAll(PDO::FETCH_NUM);
+		foreach ($codecs as $res) {
+			$codecarr[] = $res[0];
+		}
+		if (empty($codecarr))
+			throw new Exception("No SIP Codecs defined. This will never work.");
+
+		$this->DefaultSipCodecs = join(",", $codecarr);
+		return $this->DefaultSipCodecs;
 	}
 }
