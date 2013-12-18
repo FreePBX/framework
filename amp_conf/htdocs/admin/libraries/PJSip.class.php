@@ -125,9 +125,10 @@ class PJSip {
 				throw new Exception('Only one local net supported with PJSip');
 
 			$transport['transport-nat'] =
+				// FIXME - localnet needs to have its subnet calculated
 				array( 
 					"type" => "transport", "protocol" => "udp", "bind" => "$bind:$port", 
-					"local_net" => $sip['localnet_0'], "external_media_address" => $sip['externip_val'],
+					"local_net" => $sip['localnet_0']."/24", "external_media_address" => $sip['externip_val'],
 					"external_signaling_address" => $sip['externip_val']);
 		} else {
 			$transport['transport-default'] = array( "protocol" => "udp", "bind" => "0.0.0.0:5060", "type" => "transport");
