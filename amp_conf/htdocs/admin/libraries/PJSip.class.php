@@ -92,24 +92,50 @@ class PJSip {
 		}
 	}
 
+	public function getTransportConfigs() {
+		//
+		// Grab settings from sipsettings module.
+		//
+		// Needs more support inside BMO to check that it actually exists.
+		$sipsettings = $this->db->query('SELECT `keyword`, `data` FROM `sipsettings` WHERE `type`=0');
+		$settings = $sipsettings->fetchAll(PDO::FETCH_ASSOC);
 
-	// Generate Transports
-	// This is a quick POC to validate 'stuff'.
-	private function getTransportConfigs() {
-		// Need to configure these things somewhere.
-		$conf = array( 
-			"transport-default" => array( "protocol" => "udp", "bind" => "0.0.0.0:5060", "type" => "transport"),
-			"transport-tls" => array( 
-				"protocol" => "tls",
-				"bind" => "0.0.0.0:5061",
-				"cert_file" => "/tmp/cert.crt",
-				"priv_key_file" => "/tmp/privkey.key",
-				"cypher" => "ALL",    // Need more info on these two.
-				"method" => "tlsv1",  // Need more info on these two.
-				"type" => "transport",
-			)
-		);
-		return $conf;
+		foreach($settings as $row) {
+			$sip[$row['keyword']] = $row['data'];
+		}
+
+		if (empty($sip['bindaddr'])) {
+			$bind = "0.0.0.0";
+		} else {
+			$bind = $sip['bindaddr'];
+		}
+
+		if (empty($sip['bindport'])) {
+			$port = "5060";
+		} else {
+			$port = $sip['bindport'];
+		}
+
+		// Is it NATting?
+		// Realistically, the answer is going to be yes most of the time..
+		if (isset($sip['nat']) && $sip['nat'] != 'never') {
+
+			// At Asterisk 12-b1, only one local_net works.
+			if (isset($sip['localnet_1']))
+				throw new Exception('Only one local net supported with PJSip');
+
+			$transport['transport-nat'] =
+				array( 
+					"type" => "transport", "protocol" => "udp", "bind" => "$bind:$port", 
+					"local_net" => $sip['localnet_0'], "external_media_address" => $sip['externip_val'],
+					"external_signaling_address" => $sip['externip_val']);
+		} else {
+			$transport['transport-default'] = array( "protocol" => "udp", "bind" => "0.0.0.0:5060", "type" => "transport");
+		}
+
+		// Add TLS Configuration here.
+		// $transport['transport-tls] = $this->getTLSConfig();
+		return $transport;
 	}
 
 	private function discoverTransport($type) {
