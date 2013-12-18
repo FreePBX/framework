@@ -21,17 +21,15 @@
  *
 */
 
-include 'libraries/FreePBX.class.php';
+include 'BMO/FreePBX.class.php';
 
 $fpbx = new FreePBX();
 
-// $r = $fpbx->PJSip->getAllOld();
+$r = $fpbx->PJSip->writeConfig($fpbx->PJSip->getConfig());
+//
+$fpbx->PJSip->getTransportConfigs();
 
-$pjsip = $fpbx->PJSip->generateEndpoints();
 
-$conf = $fpbx->PJSip->writePJSipConf($pjsip);
-
-print $conf;
 		
 
 
