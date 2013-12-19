@@ -84,8 +84,8 @@ class ConfigFile {
 		// If $val is false, split the = in $key
 		if ($val === false) {
 			if (preg_match("/^(.+)(?:=|=>)(.+)$/", $key, $out)) {
-				$key = $out[1];
-				$val = $out[2];
+				$key = trim($out[1]);
+				$val = trim($out[2]);
 			} else {
 				throw new Exception("Can't add '$item' to the config. No Equals??");
 			}

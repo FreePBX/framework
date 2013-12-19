@@ -117,8 +117,7 @@ class LoadConfig {
 				continue;
 			}
 
-			print "Looking at $entry\n";
-			if (preg_match("/^\b(.+)\b(?:\s*=\s*|\s*=>\s*)(.+)?$/", $entry, $out)) {
+			if (preg_match("/^(\S+)\s*(?:=>?)\s*(.+)?$/", $entry, $out)) {
 
 				// If it doesn't have anything set, then we don't care.
 				if (empty($out[2]))

@@ -38,9 +38,13 @@ class WriteConfig {
 			throw new Exception("$filename contains ..");
 
 		$filename = "/etc/asterisk/$file";
-		if (is_link($filename))
-			throw new Exception("$filename is a symlink, not clobbering");
-
+		if (is_link($filename)) {
+			if (defined('DEVELOPMENT')) {
+				$filename = readlink($filename);
+			} else {
+				throw new Exception("$filename is a symlink, not clobbering. Define DEVELOPMENT to avoid");
+			}
+		}
 		return $filename;
 	}
 
@@ -94,6 +98,7 @@ class WriteConfig {
 		}
 
 		// Now I have a string, and can write it out.
+		// print "Writing: ".$this->getHeader().$header.$output."\n";
 		file_put_contents($filename, $this->getHeader().$header.$output);
 		return true;
 	}
