@@ -71,8 +71,18 @@ class WriteConfig {
 						$header = $item."\n";
 					}
 				} else {
+					$output .= "[$title]\n";
 					if (is_array($item)) {
-						$output .= implode("\n", $item);
+						foreach ($item as $i => $v) {
+							if (is_array($v)) {
+								// Multiple settings to the same key
+								foreach ($v as $opt) {
+									$output .= "$i = $opt\n";
+								}
+							} else {
+								$output .= "$i = $v\n";
+							}
+						}
 					} else {
 						$output .= $item;
 					}
@@ -84,7 +94,6 @@ class WriteConfig {
 		}
 
 		// Now I have a string, and can write it out.
-		print "writing to $filename\n";
 		file_put_contents($filename, $this->getHeader().$header.$output);
 		return true;
 	}

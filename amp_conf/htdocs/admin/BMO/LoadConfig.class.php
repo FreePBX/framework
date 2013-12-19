@@ -2,6 +2,7 @@
 
 class LoadConfig {
 
+	private $RawConfigContents;
 	public $PlainConfig;
 	public $BaseConfig;
 	public $ProcessedConfig;
