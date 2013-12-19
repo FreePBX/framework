@@ -1,8 +1,8 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 
-/*
- * This is FreePBX Big Module Object.
+/**
+ * This is the FreePBX Big Module Object.
  *
  * Copyright 2013 Rob Thomas <rob.thomas@schmoozecom.com>
  *
@@ -19,15 +19,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * @package   FreePBX BMO
+ * @author    Rob Thomas <rob.thomas@schmoozecom.com>
+ * @license   AGPL v3
  */
 
 class FreePBX {
+
+	/**
+	 * Constructor
+	 * 
+	 * This Preloads the default libraries into the class. There should be
+	 * very few of these, as they will normally get instantiated when
+	 * they're asked for the first time.
+	 * Currently this is only "Config". 
+	 * 
+	 * @return void     
+	 * @access public   
+	 */
 	public function __construct() {
-		// Preload the default libraries into the class. There should be
-		// very few of these, as they will normally get instantiated when
-		// they're asked for the first time.
-		//
-		// Currently this is only "Config". 
 		$libraries = $this->listDefaultLibraries();
 
 		$oldIncludePath = get_include_path();
@@ -40,17 +50,38 @@ class FreePBX {
 			include "$lib.class.php";
 			$this->$lib = new $lib($this);
 		}
-		// set_include_path($oldIncludePath);
+		set_include_path($oldIncludePath);
 	}
 
+	/**
+	 * PHP Magic __get - runs AutoLoader
+	 * 
+	 * @param $var Class Name
+	 * @return $object New Object
+	 * @access public 
+	 */
 	public function __get($var) {
 		return $this->autoLoad($var);
 	}
 
+	/**
+	 * PHP Magic __call - runs AutoLoader
+	 * 
+	 * @param $var Class Name
+	 * @param $args Any params to be passed to the new object
+	 * @return $object New Object
+	 * @access public 
+	 */
 	public function __call($var, $args) {
 		return $this->autoLoad($var, $args);
 	}
 
+	/**
+	 * AutoLoader for BMO.
+	 * 
+	 * @return object
+	 * @access private
+	 */
 	private function autoLoad() {
 		// Figure out what is wanted, and return it.
 		if (func_num_args() == 0)
@@ -68,7 +99,7 @@ class FreePBX {
 
 		// Does this exist as a default Library?
 		if (file_exists(__DIR__."/$var.class.php")) {
-			
+
 			// If we don't HAVE the library already (eg, we may be __called numerous
 			// times..)
 			if (!class_exists($var))
@@ -87,6 +118,12 @@ class FreePBX {
 		throw new Exception("Unable to find the Class $var to load");
 	}
 
+	/**
+	 * Returns the Default Libraries to load
+	 * 
+	 * @return array
+	 * @access private
+	 */
 	private function listDefaultLibraries() {
 		return array("Config");
 	}
