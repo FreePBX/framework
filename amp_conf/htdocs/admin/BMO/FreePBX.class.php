@@ -127,4 +127,32 @@ class FreePBX {
 	private function listDefaultLibraries() {
 		return array("Config");
 	}
+
+	/**
+	 * Check for hooks for the current GUI function
+	 */
+
+	public function doGUIHooks($thispage = null, &$currentcomponent) {
+		if (!$thispage)
+			return false;
+
+		if ($hooks = $this->GuiHooks->getHooks($thispage)) {
+			if (isset($hooks['hooks'])) {
+				foreach ($hooks['hooks'] as $hook) {
+					$this->GuiHooks->doHook($hook, $currentcomponent);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Check for hooks in the current Dialplan function
+	 */
+
+	public function doDialplanHooks($request = null) {
+		if (!$request)
+			return false;
+
+		return false;
+	}
 }
