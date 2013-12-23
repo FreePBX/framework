@@ -111,6 +111,15 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 		include_once('/etc/asterisk/freepbx.conf');
 }
 
+// BMO: Initialize BMO as early as possible.
+$bmo = dirname(__FILE__)."/BMO/FreePBX.class.php";
+if (file_exists($bmo)) {
+		include $bmo;
+		$bmo = new FreePBX;
+} else {
+		throw new Exception("Unable to load BMO");
+}
+
 /* If there is an action request then some sort of update is usually being done.
    This may protect from cross site request forgeries unless disabled.
  */
@@ -162,7 +171,7 @@ if(is_array($active_modules)){
 						foreach($module['items'] as $itemKey => $item) {
 
 								// check access, unless module.xml defines all have access
-								//TODO: move this to bootstrap and make it work
+								// BMO TODO: Per-module auth should be managed by BMO.
 								//module is restricted to admin with excplicit permission
 								$needs_perms = !isset($item['access']) 
 										|| strtolower($item['access']) != 'all'
@@ -255,6 +264,8 @@ if(!$quietmode && is_array($active_modules)){
 				modgettext::pop_textdomain();
 		}
 }
+
+// BMO TODO: Add configpageinit hooks, or, just do them later?
 
 // extensions vs device/users ... this is a bad design, but hey, it works
 if (!$quietmode && isset($fpbx_menu["extensions"])) {
@@ -415,7 +426,11 @@ default:
 				$module_page, 
 				$_REQUEST);
 
-
+		// BMO: Pre display hooks.
+		// getPreDisplay and getPostDisplay should probably never
+		// be used.
+		$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
+		
 		// include the module page
 		if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {
 				show_view($amp_conf['VIEW_MENUITEM_DISABLED'], $cur_menuitem);
@@ -423,14 +438,22 @@ default:
 		} else if (file_exists($module_file)) {
 				// load language info if available
 				modgettext::textdomain($module_name);
-				include($module_file);
+				if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
+						$bmo->GuiHooks->doIntercept($module_name, $module_file);
+				} else {
+						include($module_file);
+				}
 		} else {
 				echo "404 Not found (" . $module_file  . ')';
 		}
 
+		// BMO TODO: Post display hooks.
+		$bmo->GuiHooks->getPostDisplay($module_name, $_REQUEST);
+
 		// global component
 		if ( isset($currentcomponent) ) {
 				modgettext::textdomain($module_name);
+				$bmo->doGUIHooks($module_name, $currentcomponent);
 				echo  $currentcomponent->generateconfigpage();
 		}
 
