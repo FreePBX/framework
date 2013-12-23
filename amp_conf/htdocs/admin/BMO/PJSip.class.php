@@ -256,4 +256,15 @@ class PJSip {
 		$this->DefaultSipCodecs = join(",", $codecarr);
 		return $this->DefaultSipCodecs;
 	}
+
+	public function doGuiHook(&$currentconfig) {
+		return true;
+	}
+
+	public function doGuiIntercept(&$text) {
+		$foo = split("\n", $text);
+		$header = array_shift($foo);
+		array_unshift($foo, $header, "<strong>Note that PJSip is configured in Advanced Settings</strong>");
+		$text = implode("\n", $foo);
+	}
 }
