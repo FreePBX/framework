@@ -1182,11 +1182,11 @@ $verinfo = $tmpout;
 //  'asterisk'
 outn("Checking for Asterisk version..");
 if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) || (preg_match('/^Asterisk SVN-(\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches))) {
-	if ((version_compare($matches[1], "1.6") < 0)) {
-		fatal("Asterisk 1.6, 1.8 or 10 is required for this version of FreePBX. Detected version is: ".$matches[1]);
+	if ((version_compare($matches[1], "1.8") < 0)) {
+		fatal("Asterisk 1.6, 1.8, 10, 11 or 12 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
-	if (version_compare($matches[1], "12", "ge")) {
-		fatal("Asterisk 1.6, 1.8, 10 or 11 is required for this version of FreePBX. Detected version is: ".$matches[1]);
+	if (version_compare($matches[1], "13", "ge")) {
+		fatal("Asterisk 1.8, 10, 11 or 12 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
 	out("{$matches[1]}");
 	$asterisk_version = $matches[1];
@@ -1204,7 +1204,7 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) || (p
 	out("You are not using a released version of Asterisk. We are unable to verify");
 	out("that your Asterisk version is compatible with FreePBX. Whilst this probably");
 	out("won't cause any problems, YOU NEED TO BE CERTAIN that it is compatible");
-	out("with at least the released Asterisk version 1.2" );
+	out("with at least the released Asterisk version 1.8" );
 	if ($override_astvers==false) {
 		out("If you are SURE that this is compatible, you can re-run ".$argv[0]." with");
 		out("the parameter --my-svn-is-correct");

@@ -484,6 +484,44 @@ class module_functions {
 		$repos = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'remote_repos_json'","getOne");
 		return !empty($repos) ? json_decode($repos,TRUE) : array();
 	}
+	
+	function set_track($modulename,$track) {
+		global $db;
+		$sql = "SELECT data FROM module_xml WHERE id = 'track'";
+		$track = sql($sql, "getOne");
+		
+		
+		$track = !empty($track) ? json_decode($track,TRUE) : array();
+		$track[$modulename] = $track;
+		$track = json_encode($track);
+		
+		sql("REPLACE INTO module_xml (id,time,data) VALUES('track',".time().",'".$track."')");
+	}
+	
+	function set_tracks($modules) {
+		global $db;
+		$sql = "SELECT data FROM module_xml WHERE id = 'track'";
+		$track = sql($sql, "getOne");
+		
+		$track = !empty($track) ? json_decode($track,TRUE) : array();
+		foreach($modules as $module => $t) {
+			$track[$module] = $t;
+		}
+		$track = json_encode($track);
+		
+		sql("REPLACE INTO module_xml (id,time,data) VALUES('track',".time().",'".$track."')");
+	}
+	
+	function get_track($modulename) {
+		global $db;
+		if(empty($this->module_tracks)) {
+			$sql = "SELECT data FROM module_xml WHERE id = 'track'";
+			$this->module_tracks = sql($sql, "getOne");
+		}
+		
+		$this->module_tracks = !empty($this->module_tracks) ? json_decode($this->module_tracks,TRUE) : array();
+		return !empty($this->module_tracks[$modulename]) ? $this->module_tracks[$modulename] : 'stable';
+	}
 
 	/** 
 	 * Looks through the modules directory and modules database and returns all available
@@ -586,6 +624,7 @@ class module_functions {
 						$modules[ $row['modulename'] ]['repo'] = 'broken';
 					}
 					$modules[ $row['modulename'] ]['dbversion'] = $row['version'];
+					$modules[ $row['modulename'] ]['track'] = $this->get_track($row['modulename']);
 				}
 			}
 
@@ -1642,7 +1681,7 @@ class module_functions {
 		return true;
 	}
 
-	/** Internal use only */
+	/** Internal use only */	
 	function _setenabled($modulename, $enabled) {
 		global $db;
 		$sql = 'UPDATE modules SET enabled = '.($enabled ? '1' : '0').' WHERE modulename = "'.$db->escapeSimple($modulename).'"';
