@@ -355,12 +355,13 @@ div.attention {
 #modulelist .modulestatus {
 	position:absolute;
 	left: 610px;
-  overflow: hidden;
+	overflow: hidden;
+	height: 20px;
 }
 #modulelist .modulevul {
 	position:absolute;
 	left: 850px;
-  overflow: hidden;
+	overflow: hidden;
 }
 #modulelist .clear {
 	clear:both;
@@ -375,12 +376,12 @@ div.modulebuttons {
 	font-weight:bold;
 }
 #moduleprogress .success {
-	color:#e5edd5;
+	color:#007A0A;
 	font-weight:bold;
 }
 #moduleprogress hr {
 	margin-left:0;
-	width:40%;
+	width:100%;
 	color:#ccc;
 }
 
@@ -551,4 +552,25 @@ input[type="file"], input[type="text"]{
 a.ui-state-focus.ui-state-highlight {
         font-weight: normal;
         margin: 0px !important;
+}
+
+#module-process-iframe{
+	width:100%;
+}
+
+#moduleBoxContents {
+	margin: 0;
+	padding: 1px;
+	border: 0;
+	font-size: 11pt;
+	vertical-align: baseline;
+	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif, Verdana, "Trebuchet MS", SunSans-Regular;
+}
+
+#moduleprogress {
+	font-size: 90%;
+	line-height: 1.3;
+	height: 150px;
+	overflow: scroll;
+	width: 95%;
 }

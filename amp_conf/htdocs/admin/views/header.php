@@ -35,6 +35,8 @@ if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 }
 $html .= '<link href="assets/css/bootstrap-fixes.css" rel="stylesheet" type="text/css" />';
 
+$html .= '<link rel="stylesheet" href="assets/css/font-awesome.min.css">';
+
 $mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
                        ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
                        : 'assets/css/mainstyle.css';

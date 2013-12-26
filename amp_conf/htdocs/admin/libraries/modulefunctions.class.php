@@ -3,6 +3,12 @@
                                        Module functions 
 ************************************************************************************************************/
 
+define('MODULE_STATUS_NOTINSTALLED', 0);
+define('MODULE_STATUS_DISABLED', 1);
+define('MODULE_STATUS_ENABLED', 2);
+define('MODULE_STATUS_NEEDUPGRADE', 3);
+define('MODULE_STATUS_BROKEN', -1);
+
 class module_functions {
 	function &create() {
 		static $obj;
@@ -29,20 +35,25 @@ class module_functions {
 	 * 
 	 * @param string $module rawname of module to get xml for
 	 * @param bool $override_xml Different xml path to use for repos instead of the included default
-	 * @param 
+	 * @return mixed combined module xml array if true, null if no data
 	 */
-	function getonlinexml($module = false, $override_xml = false, &$sec_array=false) { // was getModuleXml()
+	function getonlinexml($module = false, $override_xml = false) { // was getModuleXml()
 		global $amp_conf, $db, $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
 		$module_getonlinexml_error = null;
 		$got_new = false;
 		$skip_cache = false;
+		$sec_array=false;
+		$type = array('all','module','track','security','old');
 
-		$result = sql("SELECT * FROM module_xml WHERE id = 'xml'",'getRow',DB_FETCHMODE_ASSOC);
-		$data = $result['data'];
 		$result = sql("SELECT * FROM module_xml WHERE id = 'beta'",'getRow',DB_FETCHMODE_ASSOC);
 		$beta = $result['data'];
 		$result = sql("SELECT * FROM module_xml WHERE id = 'security'",'getRow',DB_FETCHMODE_ASSOC);
 		$security = $result['data'];
+		$result = sql("SELECT * FROM module_xml WHERE id = 'previous'",'getRow',DB_FETCHMODE_ASSOC);
+		$previous = $result['data'];
+		//get this last for timestamp
+		$result = sql("SELECT * FROM module_xml WHERE id = 'xml'",'getRow',DB_FETCHMODE_ASSOC);
+		$data = $result['data'];
 
 		// Check if the cached module xml is for the same repo as being requested
 		// if not, then we get it anyhow
@@ -60,11 +71,9 @@ class module_functions {
 		// if the epoch in the db is more than 2 hours old, or the xml is less than 100 bytes, then regrab xml
 		// Changed to 5 minutes while not in release. Change back for released version.
 		//
-		// used for debug, time set to 0 to always fall through
-		// if((time() - $result['time']) > 0 || strlen($result['data']) < 100 ) {
 		$skip_cache |= $amp_conf['MODULEADMIN_SKIP_CACHE'];
 		$version = getversion();
-		// we need to know the freepbx major version we have running (ie: 2.1.2 is 2.1)
+		// we need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		$base_version = $matches[1];
 		if((time() - $result['time']) > 300 || $skip_cache || strlen($data) < 100 ) {
@@ -77,7 +86,7 @@ class module_functions {
 				$data = $this->get_remote_contents("/modules-" . $base_version . ".xml", true);
 				$beta = $this->get_remote_contents("/beta-" . $base_version . ".xml", true);
 				$security = $this->get_remote_contents("/security-" . $base_version . ".xml", true);
-				$old = $this->get_remote_contents("/old-" . $base_version . ".xml", true);
+				$previous = $this->get_remote_contents("/old-" . $base_version . ".xml", true);
 			}
 
 			$module_getonlinexml_error = ($data === false)?true:false;
@@ -102,7 +111,7 @@ class module_functions {
 				$old_beta_xml = sql($sql, "getOne");
 				$got_new = true;
 				// update the db with the new xml
-				$data4sql = $db->escapeSimple($data);
+				$data4sql = $db->escapeSimple($beta);
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('beta',".time().",'".$data4sql."')");
 			}
 			if (!empty($security)) {
@@ -112,18 +121,18 @@ class module_functions {
 				$old_security_xml = sql($sql, "getOne");
 				$got_new = true;
 				// update the db with the new xml
-				$data4sql = $db->escapeSimple($data);
+				$data4sql = $db->escapeSimple($security);
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('security',".time().",'".$data4sql."')");
 			}
-			if (!empty($old)) {
+			if (!empty($previous)) {
 				// Compare the download to our current XML to see if anything changed for the notification system.
 				//
-				$sql = "SELECT data FROM module_xml WHERE id = 'old'";
-				$old_old_xml = sql($sql, "getOne");
+				$sql = "SELECT data FROM module_xml WHERE id = 'previous'";
+				$old_previous_xml = sql($sql, "getOne");
 				$got_new = true;
 				// update the db with the new xml
-				$data4sql = $db->escapeSimple($data);
-				sql("REPLACE INTO module_xml (id,time,data) VALUES('old',".time().",'".$data4sql."')");
+				$data4sql = $db->escapeSimple($previous);
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('previous',".time().",'".$data4sql."')");
 			}
 		}
 
@@ -135,8 +144,11 @@ class module_functions {
 		$parser = new xml2ModuleArray($data);
 		$xmlarray = $parser->parseAdvanced($data);
 		
-		$parser = new xml2ModuleArray($old);
-		$oldxml = $parser->parseAdvanced($old);
+		$parser = new xml2ModuleArray($previous);
+		$previousxml = $parser->parseAdvanced($previous);
+		
+		$parser = new xml2ModuleArray($beta);
+		$betaxml = $parser->parseAdvanced($beta);
 
 		//this is why xml to array is terrible on php, prime example here.
 		$xmlarray['xml']['module'] = !isset($xmlarray['xml']['module']['rawname']) ? $xmlarray['xml']['module'] : array($xmlarray['xml']['module']);
@@ -159,8 +171,16 @@ class module_functions {
 			if ($module != false) {
 				foreach ($xmlarray['xml']['module'] as $mod) {
 					if ($module == $mod['rawname']) {
-						$releases = !empty($oldxml['xml']['modules'][$module]['releases']['module']) ? $oldxml['xml']['modules'][$module]['releases']['module'] : array();
+						$releases = !empty($previousxml['xml']['modules'][$module]['releases']['module']) ? $previousxml['xml']['modules'][$module]['releases']['module'] : array();
 						$mod['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
+						if(!empty($betaxml['xml']['modules'][$module])) {
+							$betalist = isset($betaxml['xml']['modules'][$module]['rawname']) ? array($betaxml['xml']['modules'][$module]) : $betaxml['xml']['modules'][$module];
+							foreach($betalist as $release) {
+								$mod['releasetracks'][$release['releasetracktype']] = $release;
+							}
+						} else {
+							$mod['releasetracks'] = array();
+						}
 						return $mod;
 					}
 				}
@@ -172,8 +192,16 @@ class module_functions {
 					if (isset($exposures[$mod['rawname']])) {
 						$modules[$mod['rawname']]['vulnerabilities'] = $exposures[$mod['rawname']];
 					}
-					$releases = !empty($oldxml['xml']['modules'][$mod['rawname']]['releases']['module']) ? $oldxml['xml']['modules'][$mod['rawname']]['releases']['module'] : array();
+					$releases = !empty($previousxml['xml']['modules'][$mod['rawname']]['releases']['module']) ? $previousxml['xml']['modules'][$mod['rawname']]['releases']['module'] : array();
 					$modules[$mod['rawname']]['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
+					if(!empty($betaxml['xml']['modules'][$mod['rawname']])) {
+						$betalist = isset($betaxml['xml']['modules'][$mod['rawname']]['rawname']) ? array($betaxml['xml']['modules'][$mod['rawname']]) : $betaxml['xml']['modules'][$mod['rawname']];
+						foreach($betalist as $release) {
+							$modules[$mod['rawname']]['releasetracks'][$release['releasetracktype']] = $release;
+						}
+					} else {
+						$modules[$mod['rawname']]['releasetracks'] = array();
+					}
 				}
 				return $modules;
 			}
@@ -181,7 +209,8 @@ class module_functions {
 		return null;
 	}
 
-	/** Return any existing security vulnerabilities in currently installed modules if
+	/** 
+	 * Return any existing security vulnerabilities in currently installed modules if
 	 * present in the xmlarray
 	 *
 	 * @param array the parsed xml array containing the security information
@@ -241,8 +270,13 @@ class module_functions {
 	}
 
 
-	/**  Determines if there are updates we don't already know about and posts to notification
-	 *   server about those updates.
+	/**  
+	 * Determines if there are updates we don't already know about and posts to notification
+	 * server about those updates.
+	 *
+	 * @param array $old_xml The old xml taken from the DB cache
+	 * @param array $xmlarray The new XML taken from the online resource
+	 * @param array $passive Whether to allow notification to be reset
 	 *
 	 */
 	function update_notifications(&$old_xml, &$xmlarray, $passive) {
@@ -293,9 +327,13 @@ class module_functions {
 		$this->upgrade_notifications($new_modules, $reset_value);
 	}
 
-	/** Compare installed (enabled or disabled) modules against the xml to generate or
-	 *  update the noticiation table of which modules have available updates. If the list
-	 *  is empty then delete the notification.
+	/** 
+	 * Compare installed (enabled or disabled) modules against the xml to generate or
+	 * update the notification table of which modules have available updates. If the list
+	 * is empty then delete the notification.
+	 *
+	 * @param array $new_modules New Module XML
+	 * @param array $passive Whether to allow notification to be reset
 	 */
 	function upgrade_notifications(&$new_modules, $passive_value) {
 		global $db;
@@ -333,11 +371,12 @@ class module_functions {
 		}
 	}
 
-	/** Updates the notification panel of any known vulnerable modules present
+	/** 
+	 * Updates the notification panel of any known vulnerable modules present
 	 * on the system. Since these are security notifications, emails will be
 	 * sent out informing of the issues if enabled.
 	 *
-	 * @param array vulnerability information array returned by module_get_security()
+	 * @param array $exposures vulnerability information array returned by module_get_security()
 	 */
 	function update_security_notifications($exposures) {
 		global $db;
@@ -363,6 +402,11 @@ class module_functions {
 		}
 	}
 
+	/** 
+	 * Get Active Locally Set Repos
+	 *
+	 * @return array Array of Active Repos array("<reponame>" => 1)
+	 */
 	function get_active_repos() {
 		global $active_repos;
 		global $db;
@@ -391,6 +435,12 @@ class module_functions {
 		}
 	}
 
+	/** 
+	 * Enable or disable an online repository
+	 *
+	 * @param string $repo The repository name
+	 * @param int $active 1 for true 0 for false
+	 */
 	function set_active_repo($repo,$active=1) {
 		global $db;
 		$repos = $this->get_active_repos();
@@ -400,11 +450,15 @@ class module_functions {
 			unset($repos[$repo]);
 		}
 		$repos_json = $db->escapeSimple(json_encode($repos));
-		dbug($repos_json);
 		$o = sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('repos_json', '".time()."','".$repos_json."')");
 		return $o;
 	}
 
+	/** 
+	 * Store available remote repositories
+	 *
+	 * @param array $repos Array of remote repositories
+	 */
 	function set_remote_repos($repos) {
 		global $db;
 		$old_remote_repos = $this->get_remote_repos();
@@ -420,16 +474,23 @@ class module_functions {
 		sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('remote_repos_json', '".time()."','".$repos_json."')");
 	}
 	
+	/** 
+	 * Get the list of locally stored remote repository names
+	 *
+	 * @return array Array of remote repositories
+	 */
 	function get_remote_repos() {
 		global $db;
 		$repos = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'remote_repos_json'","getOne");
 		return !empty($repos) ? json_decode($repos,TRUE) : array();
 	}
 
-	/** Looks through the modules directory and modules database and returns all available
+	/** 
+	 * Looks through the modules directory and modules database and returns all available
 	 * information about one or all modules
-	 * @param string  (optional) The module name to query, or false for all module
-	 * @param mixed   (optional) The status(es) to show, using MODULE_STATUS_* constants. Can
+	 *
+	 * @param string $module (optional) The module name to query, or false for all module
+	 * @param mixed $status (optional) The status(es) to show, using MODULE_STATUS_* constants. Can
 	 *                either be one value, or an array of values.
 	 */
 	function getinfo($module = false, $status = false, $forceload = false) {
@@ -874,7 +935,7 @@ class module_functions {
 
 	/** Downloads the latest version of a module
 	 * and extracts it to the directory
-	 * @param string    The name of the module to install
+	 * @param string    The location of the module to install
 	 * @param bool      If true, skips status and dependency checks
 	 * @param string    The name of a callback function to call with progress updates.
 	                    function($action, $params). Possible actions:
@@ -886,8 +947,21 @@ class module_functions {
 	 */
 
 	// was fetchModule 
-	function download($modulename, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) { 
+	function download($modulexml, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) { 
 		global $amp_conf;
+
+		if(!file_exists($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
+			if(!mkdir($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
+				$errors[] = sprintf(_("Could Not Create Cache Folder: %s"),$amp_conf['AMPWEBROOT']."/admin/modules/_cache");
+				return $errors;
+			}
+		}
+		
+		if(empty($modulexml['rawname'])) {
+			$errors[] = _("Retrieved Module XML Was Empty");
+			return $errors;
+		}
+		$modulename = $modulexml['rawname'];
 
 		if ($time_limit = ini_get('max_execution_time')) {
 			set_time_limit($time_limit);
@@ -901,18 +975,13 @@ class module_functions {
 		if (function_exists($progress_callback)) {
 			$progress_callback('getinfo', array('module'=>$modulename));
 		}
-			
-		$res = $this->getonlinexml($modulename, $override_xml);
-		if ($res == null) {
-			return array(_("Module not found in repository"));
-		}
 	
-		$file = basename($res['location']);
+		$file = basename($modulexml['location']);
 		$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
 		// if we're not forcing the download, and a file with the target name exists..
 		if (!$force && file_exists($filename)) {
 			// We might already have it! Let's check the MD5.
-			if ((isset($res['sha1sum']) && $res['sha1sum'] == sha1_file($filename)) || (isset($res['md5sum']) && $res['md5sum'] == md5_file($filename))) {
+			if ((isset($modulexml['sha1sum']) && $modulexml['sha1sum'] == sha1_file($filename)) || (isset($modulexml['md5sum']) && $modulexml['md5sum'] == md5_file($filename))) {
 				// Note, if there's no MD5 information, it will redownload
 				// every time. Otherwise theres no way to avoid a corrupt
 				// download
@@ -966,9 +1035,9 @@ class module_functions {
 		}
 
 		if ($override_svn) {
-			$url_list = array($override_svn.$res['location']);
+			$url_list = array($override_svn.$modulexml['location']);
 		} else {
-			$urls = $this->generate_remote_urls("/modules/".$res['location'], true);
+			$urls = $this->generate_remote_urls("/modules/".$modulexml['location'], true);
 			foreach($urls['mirrors'] as $url) {
 				$url_list[] = $url.$urls['path'];
 			}
@@ -1045,17 +1114,17 @@ class module_functions {
 		}
 	
 		// Check the MD5 info against what's in the module's XML
-		if (!isset($res['md5sum']) || empty($res['md5sum'])) {
+		if (!isset($modulexml['md5sum']) || empty($modulexml['md5sum'])) {
 			//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
-		} else if ($res['md5sum'] != md5 ($filedata)) {
+		} else if ($modulexml['md5sum'] != md5 ($filedata)) {
 			unlink($filename);
 			return array(sprintf(_('File Integrity failed for %s - aborting'), $filename));
 		}
 		
 		// Check the SHA1 info against what's in the module's XML
-		if (!isset($res['sha1sum']) || empty($res['sha1sum'])) {
+		if (!isset($modulexml['sha1sum']) || empty($modulexml['sha1sum'])) {
 			//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
-		} else if ($res['sha1sum'] != sha1 ($filedata)) {
+		} else if ($modulexml['sha1sum'] != sha1 ($filedata)) {
 			unlink($filename);
 			return array(sprintf(_('File Integrity failed for %s - aborting'), $filename));
 		}
@@ -1067,9 +1136,6 @@ class module_functions {
 
 		/* We will explode the tarball in the cache directory and then once successful, remove the old module before before
 		 * moving the new one over. This way, things like removed files end up being removed instead of laying around
-		 *
-		 * TODO: save old module being replaced, if there is an old one.
-		 *
 		 */
 		exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $output, $exitcode);
 		if ($exitcode != 0) {
@@ -1104,6 +1170,13 @@ class module_functions {
 
 	function handledownload($module_location, $progress_callback = null) { 
 		global $amp_conf;
+		
+		if(!file_exists($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
+			if(!mkdir($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
+				$errors[] = sprintf(_("Could Not Create Cache Folder: %s"),$amp_conf['AMPWEBROOT']."/admin/modules/_cache");
+				return $errors;
+			}
+		}
 
 		if ($time_limit = ini_get('max_execution_time')) {
 			set_time_limit($time_limit);
@@ -1181,6 +1254,12 @@ class module_functions {
 	function handleupload($uploaded_file) {
 		global $amp_conf;
 		$errors = array();
+		if(!file_exists($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
+			if(!mkdir($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
+				$errors[] = sprintf(_("Could Not Create Cache Folder: %s"),$amp_conf['AMPWEBROOT']."/admin/modules/_cache");
+				return $errors;
+			}
+		}
 		
 		if(!empty($uploaded_file['error'])) {
 			switch ($uploaded_file['error']) { 
@@ -1390,7 +1469,7 @@ class module_functions {
 		if (!empty($rejects)) {
 			return $rejects;
 		}
-	
+			
 		// run the scripts
 		if (!$this->_runscripts($modulename, 'install', $modules)) {
 			return array(_("Failed to run installation scripts"));
@@ -1715,15 +1794,6 @@ class module_functions {
 			return $results['version'];
 		else
 			return null;
-	}
-
-	/** Updates the version field in the module table
-	 * Should only be called internally
-	 */
-	function _setversion($modname, $vers) {
-		global $db;
-
-		return ;
 	}
 
 	/** Include additional files requested in module.xml for install and uninstall
@@ -2139,7 +2209,7 @@ class module_functions {
 	function get_remote_contents($path, $add_options=false) {
 		$mirrors = $this->generate_remote_urls($path,$add_options);
 		foreach($mirrors['mirrors'] as $url) {
-			$o = $this->url_get_contents($url,$mirrors['path'],'get',$mirrors['options']);
+			$o = $this->url_get_contents($url,$mirrors['path'],'post',$mirrors['options']);
 			if(!empty($o)) {
 				return $o;
 			}
@@ -2275,7 +2345,9 @@ class module_functions {
 			try{
 				$contents = $pest->$verb($url.$request,$params);
 				return $contents;
-			} catch (Exception $e) {}
+			} catch (Exception $e) {
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed to get remote file, error was:'),(string)$e->getMessage()));
+			}
 		}
 		
 		$fn = $url.$request;

@@ -4,10 +4,10 @@ include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/freepbx_conf.class.php')
 $freepbx_conf =& freepbx_conf::create();
 
 if ($freepbx_conf->conf_setting_exists('JQUERYUI_VER')) {
-	$freepbx_conf->set_conf_values(array('JQUERYUI_VER' => "1.10.3"), true);
+	$freepbx_conf->set_conf_values(array('JQUERYUI_VER' => "1.10.3"), true, true);
 }
 if ($freepbx_conf->conf_setting_exists('JQUERY_VER')) {
-	$freepbx_conf->set_conf_values(array('JQUERY_VER' => "1.11.0-beta2"), true);
+	$freepbx_conf->set_conf_values(array('JQUERY_VER' => "1.11.0-beta2"), true, true);
 }
 
 if (!$freepbx_conf->conf_setting_exists('JQMIGRATE')) {
