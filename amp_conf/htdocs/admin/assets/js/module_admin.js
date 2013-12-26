@@ -5,7 +5,6 @@ $(document).ready(function(){
 		var id = $(this).attr('id');
 		var selected = $(this).prop('checked') ? 1 : 0;
 		
-		console.log('here');
 		$.ajax({
 			type: 'POST',
 			url: "config.php",
