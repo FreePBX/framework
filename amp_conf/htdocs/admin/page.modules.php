@@ -676,9 +676,10 @@ switch ($action) {
 				$modulef->set_remote_repos($remote_repo_list);
 			}
 			$active_repos = $modulef->get_active_repos();
+			
 			// Check for announcements such as security advisories, required updates, etc.
 			//
-			$announcements = $modulef->get_annoucements();
+			$displayvars['announcements'] = $modulef->get_annoucements();
 			
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 				$displayvars['repo_select'] = displayRepoSelect(array(),false,array_unique($repo_list));
@@ -826,6 +827,7 @@ switch ($action) {
 		}
 		$displayvars['module_display'] = $module_display;
 		$displayvars['devel'] = $amp_conf['DEVEL'];
+		$displayvars['trackenable'] = $amp_conf['AMPTRACKENABLE'];
 		show_view('views/module_admin/main.php',$displayvars);
 	break;
 }

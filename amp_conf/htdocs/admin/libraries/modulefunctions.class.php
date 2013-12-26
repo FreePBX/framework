@@ -416,7 +416,6 @@ class module_functions {
 			if(!empty($repos)) {
 				$repos = json_decode($repos,TRUE);
 			} else {
-				
 				$repos_serialized = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'repos_serialized'","getOne");
 				$repos = unserialize($repos_serialized);
 				$repos_json = $db->escapeSimple(json_encode($repos));

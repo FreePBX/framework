@@ -1,9 +1,11 @@
 $(document).ready(function(){
 	$('.repo_boxes').find('input[type=checkbox]').button();
+	$('#show_upgradable_only').button();
 	$('.repo_boxes').find('input[type=checkbox]').click(function() {
 		var id = $(this).attr('id');
 		var selected = $(this).prop('checked') ? 1 : 0;
 		
+		console.log('here');
 		$.ajax({
 			type: 'POST',
 			url: "config.php",
@@ -102,26 +104,54 @@ $(document).ready(function(){
 			});
 		});
 	});
-})
-function toggleInfoPane(module) {
-	if($('#infopane_'+module).is(":visible")) {
-		$('#infopane_'+module).slideUp( "slow", function() {
+	$('.moduletrackradios').change(function(e) {
+		var track = $(this).find('input:checked').val();
+		var module = $(this).parents('.fullmodule').data('module');
+		var previous_track = modules[module].track;
+		var si = (track == 'stable') ? modules[module] : modules[module].releasetracks[track];
+		var pi = (previous_track == 'stable') ? modules[module] : modules[module].releasetracks[previous_track];
+		
+		$('#fullmodule_'+module+' .moduletrack').html(track.capitalize());
+		
+		var label = $('#fullmodule_'+module+' .modulestatus').children().text().replace(pi.version,si.version);
+		$('#fullmodule_'+module+' .modulestatus').children().text(label);
+		
+		$('#fullmodule_'+module+' .modulefunctionradios input[type=radio]').each(function( index ) {
+			var label = $(this).button('option','label').replace(pi.version,si.version);
+			$(this).button('option', 'label', label);
 		})
-		$('#arrow_'+module).removeClass("fa-chevron-down").addClass("fa-chevron-right");
-	} else {
-		$('#infopane_'+module).slideDown( "slow", function() {
-		})
-		$('#arrow_'+module).removeClass("fa-chevron-right").addClass("fa-chevron-down");
-		$('#infopane_'+module+' .modulefunctionradios').buttonset();
-		$('#infopane_'+module+' .moduletrackradios').buttonset();
+		
+		$('#changelog_'+module+' span').html(si.changelog);
+		//I dont like this much please improve...someone
+		var cl = $('#changelog_'+module+' h5').html().replace(pi.version,si.version);
+		$('#changelog_'+module+' h5').html(cl);
+		
+		modules[module].track = track;
+	});
+	$('.moduleheader').click(function(e) {
+		var module = $(this).data('module');
+		if($('#infopane_'+module).is(":visible")) {
+			$('#infopane_'+module).slideUp( "slow", function() {
+			})
+			$('#arrow_'+module).removeClass("fa-chevron-down").addClass("fa-chevron-right");
+		} else {
+			$('#infopane_'+module).slideDown( "slow", function() {
+			})
+			$('#arrow_'+module).removeClass("fa-chevron-right").addClass("fa-chevron-down");
+			$('#infopane_'+module+' .modulefunctionradios').buttonset();
+			$('#infopane_'+module+' .moduletrackradios').buttonset();
+		}
+	});
+	if(!fpbx.conf.AMPTRACKENABLE) {
+		$('#modulelist .moduletrack').hide();
 	}
-}
+})
 function check_upgrade_all() {
 	$( ".modulefunctionradios :radio" ).each(function( index ) {
 		if($(this).val() == 'upgrade') {
 			$(this).prop('checked',true);
 			$(this).parents('.moduleinfopane').show();
-			var module = $(this).parents('.moduleinfopane').attr('id');
+			var module = $(this).parents('.fullmodule').data('module');
 			$('#infopane_'+module+' .modulefunctionradios').buttonset();
 			$('#infopane_'+module+' .moduletrackradios').buttonset();
 		}
@@ -133,7 +163,7 @@ function check_download_all() {
 		if($(this).val() == 'downloadinstall') {
 			$(this).prop('checked',true);
 			$(this).parents('.moduleinfopane').show();
-			var module = $(this).parents('.moduleinfopane').attr('id');
+			var module = $(this).parents('.fullmodule').data('module');
 			$('#infopane_'+module+' .modulefunctionradios').buttonset();
 			$('#infopane_'+module+' .moduletrackradios').buttonset();
 		}
@@ -141,28 +171,41 @@ function check_download_all() {
 }
 
 function navigate_to_module(module) {
-	$('#fullmodule_'+module).scrollMinimal(true);
-	$('#infopane_'+module).slideDown( "slow", function() {})
-	$('#infopane_'+module+' .modulefunctionradios').buttonset();
-	$('#infopane_'+module+' .moduletrackradios').buttonset();
+	if($('#fullmodule_'+module).length) {
+		$('#fullmodule_'+module).scrollMinimal(true);
+		$('#infopane_'+module).slideDown( "slow", function() {})
+		$('#infopane_'+module+' .modulefunctionradios').buttonset();
+		$('#infopane_'+module+' .moduletrackradios').buttonset();
+	} else {
+		alert(module+' does not exist');
+	}
+
 }
 
 function showhide_upgrades() {
 	var upgradesonly = $('#show_upgradable_only').prop('checked');
 
-	// loop through all modules, check if there is an upgrade_<module> radio box 
-	$( ".modulefunctionradios :radio" ).each(function( index ) {
-		if($(this).val() == 'upgrade') {
-
-		}
-	});
+	// loop through all modules, check if there is an upgrade_<module> radio box
+	if(upgradesonly) {
+		$('.fullmodule').hide();
+		$('.category').hide();
+		$( ".modulefunctionradios :radio" ).each(function( index ) {
+			if($(this).val() == 'upgrade') {
+				$(this).parents("td").show();
+				$(this).parents("div .category").show();
+			}
+		});
+	} else {
+		$('.fullmodule').show();
+		$('.category').show();
+	}
 
 }
 var box;
 function process_module_actions(modules) {
 	var urlStr = '';
 	if(!jQuery.isEmptyObject(modules)) {
-		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
+		urlStr = "config.php?display=modules&skip_astman=1&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
 	}
 	
 	box = $('<div id="moduledialogwrapper"></div>')
@@ -173,9 +216,9 @@ function process_module_actions(modules) {
 				position: ['center', 50],
 				width: '410px',
 				open: function (e) {
-					$('#moduledialogwrapper').html('');
+					$('#moduledialogwrapper').html('Loading..<img src="images/spinner.gif">');
 				    var xhr = new XMLHttpRequest();
-				    xhr.open('GET', urlStr, true);
+				    xhr.open('POST', urlStr, true);
 				    xhr.send(null);
 				    var timer;
 				    timer = window.setInterval(function() {
@@ -197,46 +240,6 @@ function close_module_actions(goback) {
 	if (goback) {
   		location.href = 'config.php?display=modules';
 	}
-}
-
-var oldReleaseInfo = {};
-function changeReleaseTrack(module,track) {
-	var info = {};
-	if(track != 'stable') {
-		info = modules[module].releasetracks[track];
-	} else {
-		info = modules[module];
-	}
-	if(modules[module].track != track) {
-		//selected new track
-		if(typeof oldReleaseInfo[module] === 'undefined') {
-			oldReleaseInfo[module] = {};
-		}
-		if($('#infopane_'+module+' .modulefunctionradios label[for=force_upgrade_'+module+']').length) {
-			
-		} else if($('#infopane_'+module+' .modulefunctionradios label[for=install_'+module+']').length) {
-			oldReleaseInfo[module].text = $('#infopane_'+module+' .modulefunctionradios label[for=install_'+module+']').text();
-			$('#infopane_'+module+' .modulefunctionradios label[for=install_'+module+']').text('Download and Install '+info.version);
-		}
-		if($('#fullmodule_'+module+' .modulestatus .notinstalled').text().length) {
-
-		}
-	} else {
-		//reset back to previous track
-		$('#infopane_'+module+' .modulefunctionradios label[for=install_'+module+']').text(oldReleaseInfo[module].text);
-		
-		if($('#fullmodule_'+module+' .modulestatus notinstalled').text().length) {
-
-		}
-	}
-	
-	$('#infopane_'+module+' .modulefunctionradios').buttonset("destroy").buttonset();
-	
-	$('#fullmodule_'+module+' .moduletrack').html(track.capitalize());
-	$('#fullmodule_'+module+' .moduleversion').html(info.version);
-	$('#changelog_'+module+' span').html(info.changelog);
-	//I dont like this much please improve...someone
-	$('#changelog_'+module+' h5').html('Change Log for version: '+info.version)
 }
 
 String.prototype.capitalize = function() {

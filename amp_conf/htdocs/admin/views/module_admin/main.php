@@ -1,6 +1,6 @@
 <?php if($online) { ?>
 	<?php if(!empty($announcements)) {?>
-		<div class='announcements'><?php echo $announcements?>/div>
+		<div class='announcements'><?php echo $announcements?></div>
 	<?php } ?>
 	<?php if (!EXTERNAL_PACKAGE_MANAGEMENT) {?>
 		<?php echo $repo_select?>
@@ -42,8 +42,8 @@
 				<table class="alt_table" width="100%">
 					<?php foreach($category['data'] as $module) {?>
 					</tr>
-						<td id="fullmodule_<?php echo prep_id($module['name'])?>">
-							<div class="<?php echo $module['mclass']?>" onclick="toggleInfoPane('<?php echo prep_id($module['name'])?>')" >
+						<td id="fullmodule_<?php echo prep_id($module['name'])?>" class="fullmodule" data-module="<?php echo prep_id($module['name'])?>">
+							<div class="moduleheader" data-module="<?php echo prep_id($module['name'])?>">
 							<i id="arrow_<?php echo prep_id($module['name'])?>" class="fa fa-chevron-right"></i>
 							<span class="modulename"><?php echo $module['pretty_name']?></span>
 							<span class="moduleversion"><?php echo $module['dbversion']?></span>
@@ -134,38 +134,38 @@
 											<p><?php echo _('More info')?>: <a href="<?php echo $freepbx_help_url?>&amp;freepbx_module=<?php echo urlencode($module['name'])?>" target="help"><?php echo sprintf(_("Get help for %s"),$module['pretty_name'])?></a></p>
 										<?php } ?>
 										<?php if($module['commercial']['status']) {?>
-											<?php if($module['commercial']['sysadmin'] || $module['name'] == 'sysadmin') {?>
+											<?php if($module['commercial']['sysadmin'] || $module['name'] == 'sysadmin' && $module['status'] == MODULE_STATUS_ENABLED) {?>
 												<?php if(!$module['commercial']['licensed']) { ?>
 													<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new">Buy</a>
 												<?php } else { ?>
 													<strong>Purchased</strong>
 												<?php } ?>
-											<?php } else { ?>
-												<strong>Missing Requirements</strong><br/>
-												<ul style="padding-left: 15px;">
-													<li onclick="$('#install_sysadmin').prop('checked',true);navigate_to_module('sysadmin');">Module <strong>SysAdmin</strong> is required, yours is not installed.</li>
-												</ul>
+												<br/>
 											<?php } ?>
 										<?php } ?>
 										<?php if($module['blocked']['status']) {?>
 											<strong>Missing Requirements</strong><br/>
-											<ul style="padding-left: 15px;">
+											<ul class="modulerequirements">
 											<?php foreach($module['blocked']['reasons'] as $mod => $reason) {?>
 												<li style="cursor:<?php echo !is_int($mod) ? "pointer" : "default" ?>" onclick="<?php echo !is_int($mod) ? "$('#install_".$mod."').prop('checked',true);navigate_to_module('".$mod."');" : '' ?>"><?php echo $reason?></li>
 											<?php } ?>
 											</ul>
+											<br/>
 										<?php } ?>
-										<br/>
-										<br/>
-										<?php if($module['status'] >= 0 && !empty($module['tracks'])) {?>
+
+										<?php if($trackenable && $module['status'] >= 0 && !empty($module['tracks'])) {?>
+											<a href="#" class="info"><?php echo _("Track")?>:<span><?php echo _("Enter a description for this source.")?></span></a>
 											<div class="moduletrackradios">
 											<?php foreach($module['tracks'] as $track => $checked) {?>
-												<input id="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>" type="radio" name="trackaction[<?php echo prep_id($module['name'])?>]" value="<?php echo $track?>" <?php echo ($checked) ? 'checked' : ''?> onclick="changeReleaseTrack('<?php echo prep_id($module['name'])?>','<?php echo $track?>')"/>
+												<input id="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>" type="radio" name="trackaction[<?php echo prep_id($module['name'])?>]" value="<?php echo $track?>" <?php echo ($checked) ? 'checked' : ''?>/>
 												<label for="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>"><?php echo ucfirst($track)?></label>
 											<?php } ?>
 											</div>
+										<?php } else { ?>
+											<input id="track_stable_<?php echo prep_id($module['name'])?>" type="hidden" name="trackaction[<?php echo prep_id($module['name'])?>]" value="stable"/>
 										<?php } ?>
 										<br/>
+										<a href="#" class="info"><?php echo _("Action")?>:<span><?php echo _("Enter a description for this source.")?></span></a>
 										<div class="modulefunctionradios">
 											<input type="radio" checked="CHECKED" id="noaction_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="0" />
 											<label for="noaction_<?php echo prep_id($module['name'])?>"><?php echo _('No Action')?></label>

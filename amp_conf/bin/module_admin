@@ -130,14 +130,24 @@ function doDownload($modulename, $force) {
 
 function enableRepo($repo) {
 	$modulef =& module_functions::create();
-	$modulef->set_active_repo($repo,1);
-	out("Repo ".$repo." successfully enabled");
+	$modulef->set_active_repo(strtolower($repo),1);
+	$remote = $modulef->get_remote_repos();
+	if(!in_array($repo,$remote)) {
+		out("Repo ".$repo." successfully enabled, but was not found in the remote list");
+	} else {
+		out("Repo ".$repo." successfully enabled");
+	}
 }
 
 function disableRepo($repo) {
 	$modulef =& module_functions::create();
-	$modulef->set_active_repo($repo,0);
-	out("Repo ".$repo." successfully disabled");
+	$modulef->set_active_repo(strtolower($repo),0);
+	$remote = $modulef->get_remote_repos();
+	if(!in_array($repo,$remote)) {
+		out("Repo ".$repo." successfully disabled, but was not found in the remote list");
+	} else {
+		out("Repo ".$repo." successfully disabled");
+	}
 }
 
 function download_progress($action, $params) {
