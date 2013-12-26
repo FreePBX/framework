@@ -17,7 +17,6 @@ $modulef =& module_functions::create();
 // Handle the ajax post back of an update online updates email array and status
 //
 if ($quietmode && !empty($_REQUEST['online_updates'])) {
-
 	$online_updates = $_REQUEST['online_updates'];
 	$update_email   = $_REQUEST['update_email'];
 	$ci = new CI_Email();
@@ -47,8 +46,8 @@ $active_repos = $modulef->get_active_repos();
 // fix php errors from undefined variable. Not sure if we can just change the reference below to use
 // online since it changes values so just setting to what we decided it is here.
 
-$moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false;
 $trackaction = isset($_REQUEST['trackaction'])?$_REQUEST['trackaction']:false;
+$moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false;
 /*
 	moduleaction is an array with the key as the module name, and possible values:
 	
@@ -183,6 +182,7 @@ switch ($action) {
 		// stop output buffering, and send output
 		@ ob_flush();
 		flush();
+		$change_tracks = array();
 		foreach ($moduleactions as $modulename => $setting) {	
 			$didsomething = true; // set to false in default clause of switch() below..
 			
@@ -190,9 +190,11 @@ switch ($action) {
 				case 'trackinstall':
 				case 'trackupgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						echo '<span class="success">'.sprintf(_("Upgrading %s to %s from track %s"),$modulename,$modules_online[$modulename]['releasetracks'][$setting['track']]['version'],$setting['track'])."</span><br/>";
+						$track = $setting['track'];
+						$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : array());
+						echo '<span class="success">'.sprintf(_("Upgrading %s to %s from track %s"),$modulename,$trackinfo['version'],$setting['track'])."</span><br/>";
 						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><br/><span id="downloadstatus_'.$modulename.'"></span><br/>';
-						if (is_array($errors = $modulef->download($modules_online[$modulename]['releasetracks'][$setting['track']], false, 'download_progress'))) {
+						if (is_array($errors = $modulef->download($trackinfo, false, 'download_progress'))) {
 							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
@@ -205,6 +207,7 @@ switch ($action) {
 								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 								echo '</span>';
 							} else {
+								$change_tracks[$modulename] = $setting['track'];
 								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
 							}
 						}
@@ -243,9 +246,11 @@ switch ($action) {
 				case 'upgrade':
 				case 'downloadinstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						$track = $setting['track'];
+						$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : array());
 						echo '<span class="success">'.sprintf(_("Downloading and Installing %s"),$modulename)."</span><br/>";
 						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><span id="downloadstatus_'.$modulename.'"></span><br/>';
-						if (is_array($errors = $modulef->download($modules_online[$modulename], false, 'download_progress'))) {
+						if (is_array($errors = $modulef->download($trackinfo, false, 'download_progress'))) {
 							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
@@ -337,6 +342,9 @@ switch ($action) {
 			}
 			
 			if ($didsomething) {
+				if(!empty($change_tracks)) {
+					$modulef->set_tracks($change_tracks);
+				}
 				@ ob_flush();
 				flush();
 			}
@@ -379,7 +387,7 @@ switch ($action) {
 			if (!isset($modules[$module]['name'])) {
 				$modules[$module]['name'] = $module;
 			}
-
+			
 			switch ($action) {
 				case 'rollback':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
@@ -410,44 +418,45 @@ switch ($action) {
 				case 'upgrade':
 				case 'force_upgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if($trackaction[$module] != 'stable') {
+						$track = $trackaction[$module];
+						$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
+						if($trackaction[$module] != $modules[$module]['track']) {
 							$action = 'trackupgrade';
-							$track = $trackaction[$module];
-							if(empty($modules_online[$module]['releasetracks'][$track])) {
+							if(empty($trackinfo)) {
 								$skipaction = true;
 								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded to <strong>%s</strong>: The release track of <strong>%s</strong> does not exist for this module"),
 								$modules[$module]['name'],$track,$track);
-							} elseif (is_array($errors = $modulef->checkdepends($modules_online[$module]['releasetracks'][$track]))) {
+							} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
 								$skipaction = true;
 								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded: <strong>%s</strong> Please try again after the dependencies have been installed."),  
 								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 							} else {
-								switch (version_compare_freepbx($modules[$module]['dbversion'], $modules_online[$module]['releasetracks'][$track]['version'])) {
+								switch (version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
 									case '-1':
-										$actionstext[] = sprintf(_("<strong>%s %s</strong> will be upgraded to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['releasetracks'][$track]['version'],$track);
+										$actionstext[] = sprintf(_("<strong>%s %s</strong> will be upgraded to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version'],$track);
 									break;
 									case '0':
-										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be re-installed to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['releasetracks'][$track]['version'],$track);
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be re-installed to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version'],$track);
 									break;
 									default:
-										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be downgraded to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['releasetracks'][$track]['version'],$track);
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be downgraded to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version'],$track);
 								}
 							}
 						} else {
-							if (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
+							if (is_array($errors = $modulef->checkdepends($trackinfo))) {
 								$skipaction = true;
 								$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),  
 								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 							} else {
-								switch ( version_compare_freepbx($modules[$module]['dbversion'], $modules_online[$module]['version'])) {
+								switch ( version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
 									case '-1':
-										$actionstext[] = sprintf(_("<strong>%s %s</strong> will be upgraded to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+										$actionstext[] = sprintf(_("<strong>%s %s</strong> will be upgraded to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version']);
 									break;
 									case '0':
-										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be re-installed to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be re-installed to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version']);
 									break;
 									default:
-										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be downgraded to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be downgraded to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version']);
 								}
 							}
 						}
@@ -455,19 +464,20 @@ switch ($action) {
 				break;
 				case 'downloadinstall':
 				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-					if($trackaction[$module] != 'stable') {
+					if($trackaction[$module] != $modules[$module]['track']) {
 						$action = 'trackinstall';
 						$track = $trackaction[$module];
-						if(empty($modules_online[$module]['releasetracks'][$track])) {
+						$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
+						if(empty($trackinfo)) {
 							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
 							$modules[$module]['name'],$track,$track);
-						} elseif (is_array($errors = $modulef->checkdepends($modules_online[$module]['releasetracks'][$track]))) {
+						} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
 							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),  
 							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
-							$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), $modules[$module]['name'], $modules_online[$module]['releasetracks'][$track]['version']);
+							$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be downloaded and installed and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $trackinfo['version'],$track);
 						}
 					} elseif (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
 						$skipaction = true;
@@ -480,7 +490,22 @@ switch ($action) {
 				break;
 				case 'install':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = $modulef->checkdepends($modules[$module]))) {
+						if($trackaction[$module] != $modules[$module]['track']) {
+							$action = 'trackinstall';
+							$track = $trackaction[$module];
+							$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
+							if(empty($trackinfo)) {
+								$skipaction = true;
+								$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
+								$modules[$module]['name'],$track,$track);
+							} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
+								$skipaction = true;
+								$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),  
+								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							} else {
+								$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be downloaded and installed and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $trackinfo['version'],$track);
+							}
+						} elseif (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),  
 							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
@@ -651,9 +676,10 @@ switch ($action) {
 				$modulef->set_remote_repos($remote_repo_list);
 			}
 			$active_repos = $modulef->get_active_repos();
+			
 			// Check for announcements such as security advisories, required updates, etc.
 			//
-			$announcements = $modulef->get_annoucements();
+			$displayvars['announcements'] = $modulef->get_annoucements();
 			
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 				$displayvars['repo_select'] = displayRepoSelect(array(),false,array_unique($repo_list));
@@ -775,8 +801,11 @@ switch ($action) {
 				}
 			}
 			
-			$module_display[$category]['data'][$name]['tracks']['stable'] = true;
+			$track = !empty($modules_local[$name]['track']) ? $modules_local[$name]['track'] : 'stable';
+			$module_display[$category]['data'][$name]['track'] = $track;
 			if(!empty($module_display[$category]['data'][$name]['releasetracks'])) {
+				$module_display[$category]['data'][$name]['tracks']['stable'] = false;
+				$module_display[$category]['data'][$name]['tracks'][$track] = true;
 				foreach($module_display[$category]['data'][$name]['releasetracks'] as $track => &$release) {
 					if(!array_key_exists($track, $module_display[$category]['data'][$name]['tracks'])) {
 						$module_display[$category]['data'][$name]['tracks'][$track] = false;
@@ -784,6 +813,8 @@ switch ($action) {
 
 					$release['changelog'] = format_changelog($release['changelog']);
 				}
+			} else {
+				$module_display[$category]['data'][$name]['tracks'][$track] = true;
 			}
 		}
 				
@@ -796,6 +827,7 @@ switch ($action) {
 		}
 		$displayvars['module_display'] = $module_display;
 		$displayvars['devel'] = $amp_conf['DEVEL'];
+		$displayvars['trackenable'] = $amp_conf['AMPTRACKENABLE'];
 		show_view('views/module_admin/main.php',$displayvars);
 	break;
 }

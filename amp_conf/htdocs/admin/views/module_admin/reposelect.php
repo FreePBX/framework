@@ -22,7 +22,7 @@
 			</tr>
 		</table>
 	<?php } ?>
-	<div class="repo_boxes">
+	<div>
 		<input type="submit" value="<?php echo _("Check Online") ?>" name="check_online" id="check_online" style="<?php if($online) {?>display:none;<?php } ?>"/>
 		<?php echo $button_display ?>
 		<?php if($online) {?>
