@@ -13,6 +13,11 @@ if (!$bootstrap_settings['astman_connected']) {
 
 $freepbx_conf =& freepbx_conf::create();
 
+// Load the BMO Object
+include $amp_conf['AMPWEBROOT'].'/admin/BMO/FreePBX.class.php';
+$bmo = new FreePBX;
+
+// BMO TODO: Move this to be part of BMO.
 class connectdirs {
 
 	var $nt;
@@ -641,49 +646,13 @@ if ((!$extens_ok && $amp_conf['XTNCONFLICTABORT']) || (!$dests_ok && $amp_conf['
 // Generate an extension map of all extensions on the system
 framework_set_extmap();
 
-// run all of the *_get_config and _hookGet_config functions, which will populate the appropriate objects
-if(isset($active_modules) && is_array($active_modules)){
-	foreach($active_modules as $module => $mod_data) {
-		//dbug($module, $mod_data);
-		//get dynamic functions
-		if (isset($mod_data['methods'], $mod_data['methods']['get_config'])){
-			foreach ($mod_data['methods']['get_config'] as $pri => $methods) {
-				$funclist[$pri] = isset($funclist[$pri])
-						? $funclist[$pri]
-						: array();
-				foreach($methods as $method) {
-					$funclist[$pri][] = $method;
-				}
-			}
-		}
+print "Starting BMO Hooks\n";
+// Dialplan Hook processing moved to BMO.
+$hooks = $bmo->DialplanHooks->getAllHooks($active_modules);
 
-		//get hardcoded functions
-		$getconf = $module."_get_config";
-		$hookgetconf = $module."_hookGet_config";
-		if (function_exists($getconf)) { 
-			$funclist[100][] = $getconf;
-		}
-		if (function_exists($hookgetconf)) { 
-			$funclist[600][] = $hookgetconf;
-		}
-
-	}
-	
-	//sort the list based in priority
-	ksort($funclist);
-
-	//flatten the aray - will respect priority
-	$functions = array();
-	array_walk_recursive($funclist, 
-		create_function('$a', 'global $functions; $functions[] = $a;'));
-	
-	//run functions if they exists
-	foreach ($functions as $function) {
-		if (function_exists($function)) {
-			$function($engine);
-		}
-	}
-}
+if (is_array($hooks))
+	$bmo->DialplanHooks->processHooks($x = null, $hooks);
+print "Hooks done\n";
 
 // extensions_additional.conf
 // create the from-internal-additional contexts so other can add to it
