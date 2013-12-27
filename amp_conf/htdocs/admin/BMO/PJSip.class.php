@@ -18,9 +18,12 @@ class PJSip implements BMO {
 	public function writeConfig($conf) {
 		// Generate includes
 		$pjsip = "#include pjsip.transports.conf\n#include pjsip.endpoint.conf\n#include pjsip.aor.conf\n#include pjsip.auth.conf\n";
+		$conf['pjsip.conf'] = $pjsip;
 
 		// Transports are a multi-dimensional array, because
 		// we use it earlier to match extens with transports
+		// So we need to flatten it to something that can be
+		// written to a file.
 		$transports = $this->getTransportConfigs();
 		foreach ($transports as $transport => $entries) {
 			$tmparr = array();
@@ -30,7 +33,6 @@ class PJSip implements BMO {
 			$conf['pjsip.transports.conf'][$transport] = $tmparr;
 		}
 
-		$conf['pjsip.conf'] = $pjsip;
 		$this->FreePBX->WriteConfig($conf);
 	}
 
@@ -274,5 +276,10 @@ class PJSip implements BMO {
 	public function backup() {}
 	public function restore($config) {}
 	public function showPage($request) { return false; }
+
+	/* Hook definitions */
+	public static function myGuiHooks() { return array("sipsettings", "extensions", "users", "INTERCEPT" => "modules/sipsettings/page.sipsettings.php"); }
+	public static function myDialplanHooks() { return true; }
+	public static function myConfigPageInit() { return array("device", "extensions", "fake", "pinsets"); }
 
 }
