@@ -721,13 +721,13 @@ switch ($action) {
 			//block install,uninstall,reinstall
 			$modules[$name]['blocked']['status'] = false;
 			if(!empty($modules[$name]['depends'])) {
-				$depends = $modulef->checkdepends($name);
+				$depends = $modulef->checkdepends($modules[$name]);
 				if($depends !== true && is_array($depends)) {
 					$modules[$name]['blocked']['status'] = true;
+					if(isset($depends['sysadmin'])) { unset($depends['sysadmin']); }
 					$modules[$name]['blocked']['reasons'] = $depends;
 				}
 			}
-			
 			
 			$modules[$name]['commercial']['status'] = (strtolower($modules[$name]['license']) == 'commercial');
 			if($modules[$name]['commercial']['status']) {
