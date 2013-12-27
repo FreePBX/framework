@@ -176,7 +176,7 @@ function navigate_to_module(module) {
 		$('#infopane_'+module+' .modulefunctionradios').buttonset();
 		$('#infopane_'+module+' .moduletrackradios').buttonset();
 	} else {
-		alert(module+' does not exist');
+		alert('Required Module '+module+' is not local');
 	}
 
 }
