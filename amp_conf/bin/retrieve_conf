@@ -651,7 +651,7 @@ print "Starting BMO Hooks\n";
 $hooks = $bmo->DialplanHooks->getAllHooks($active_modules);
 
 if (is_array($hooks))
-	$bmo->DialplanHooks->processHooks($x = null, $hooks);
+	$bmo->DialplanHooks->processHooks($engine, $hooks);
 print "Hooks done\n";
 
 // extensions_additional.conf

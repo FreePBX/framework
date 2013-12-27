@@ -45,7 +45,7 @@ class DialplanHooks {
 		return $oldHooks;
 	}
 
-	public function processHooks(&$unused_ext, $hooks = null) {
+	public function processHooks($engine, $hooks = null) {
 		global $ext;
 
 		if ($hooks == null)
@@ -62,7 +62,7 @@ class DialplanHooks {
 						print "ERROR: $func should exist, but it doesn't\n";
 						continue;
 					}
-					$func();
+					$func($engine);
 				} elseif (isset($cmd['Class'])) {
 					// This is a new BMO Object!
 					$class = $cmd['Class'];
