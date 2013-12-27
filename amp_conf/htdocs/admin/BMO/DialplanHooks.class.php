@@ -71,7 +71,7 @@ class DialplanHooks {
 							print "ERROR: ${class}->doDialplanHook() isn't there, but the module is saying it wants to hook\n";
 							continue;
 						}
-						$this->FreePBX->$class->doDialplanHook($ext, $pri);
+						$this->FreePBX->$class->doDialplanHook($engine, $pri);
 					} catch (Exception $e) {
 						print "ERROR: Tried to run ${class}->doDialplanHook(), received ".$e->getMessage()."\n";
 					}
