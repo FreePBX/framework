@@ -141,6 +141,7 @@
 													<strong>Purchased</strong>
 												<?php } ?>
 												<br/>
+												<br/>
 											<?php } ?>
 										<?php } ?>
 										<?php if($module['blocked']['status']) {?>
