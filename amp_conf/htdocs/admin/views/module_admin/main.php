@@ -155,7 +155,7 @@
 										<?php } ?>
 
 										<?php if($trackenable && $module['status'] >= 0 && !empty($module['tracks'])) {?>
-											<a href="#" class="info"><?php echo _("Track")?>:<span><?php echo _("Enter a description for this source.")?></span></a>
+											<a href="#" class="info"><?php echo _("Track")?>:<span><?php echo _("Modules can have separate individual repos or tracks, these tracks can determine what type of updates this module receives. A prime example is that of the beta track. You can select the beta track for this module and FreePBX will give you the highest updates in the beta track or stable. Some Modules will only have one track. Tracks can be disabled in Advanced Settings")?></span></a>
 											<div class="moduletrackradios">
 											<?php foreach($module['tracks'] as $track => $checked) {?>
 												<input id="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>" type="radio" name="trackaction[<?php echo prep_id($module['name'])?>]" value="<?php echo $track?>" <?php echo ($checked) ? 'checked' : ''?>/>
@@ -166,7 +166,7 @@
 											<input id="track_stable_<?php echo prep_id($module['name'])?>" type="hidden" name="trackaction[<?php echo prep_id($module['name'])?>]" value="stable"/>
 										<?php } ?>
 										<br/>
-										<a href="#" class="info"><?php echo _("Action")?>:<span><?php echo _("Enter a description for this source.")?></span></a>
+										<a href="#" class="info"><?php echo _("Action")?>:<span><?php echo _("Actions to preform in regards to this module. This usually contains installation and maintenance operations at an administration level")?></span></a>
 										<div class="modulefunctionradios">
 											<input type="radio" checked="CHECKED" id="noaction_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="0" />
 											<label for="noaction_<?php echo prep_id($module['name'])?>"><?php echo _('No Action')?></label>
