@@ -1,7 +1,7 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 
-class PJSip {
+class PJSip implements BMO {
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null)
@@ -267,4 +267,12 @@ class PJSip {
 		array_unshift($foo, $header, "<strong>Note that PJSip is configured in Advanced Settings</strong>");
 		$text = implode("\n", $foo);
 	}
+
+	/* Assorted stubs to validate the BMO Interface */
+	public function install() {}
+	public function uninstall() {}
+	public function backup() {}
+	public function restore($config) {}
+	public function showPage($request) { return false; }
+
 }

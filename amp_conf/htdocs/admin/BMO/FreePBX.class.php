@@ -2,6 +2,11 @@
 // vim: set ai ts=4 sw=4 ft=php:
 
 /**
+ * This defines the BMO Interfaces for FreePBX Modules to use
+ */
+include 'BMO.interface.php';
+
+/**
  * This is the FreePBX Big Module Object.
  *
  * Copyright 2013 Rob Thomas <rob.thomas@schmoozecom.com>
