@@ -120,10 +120,9 @@ class DialplanHooks {
 
 	public function getBMOHooks() {
 
-		$retarr = array("PJSip" => "500", "FakeModule" => 200);
-		return $retarr;
+		$allHooks = $this->FreePBX->Hooks->getAllHooks();
+		return $allHooks['DialplanHooks'];
 
 	}
-
 }
 

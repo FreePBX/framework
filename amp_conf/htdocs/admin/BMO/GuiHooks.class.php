@@ -23,14 +23,11 @@ class GuiHooks {
 	}
 
 	public function getHooks($currentModule, $pageName = null) {
-		$tmphooks = array (
-			"FakeBMO" => array("sxipsettings", "invisible", "INTERCEPT" => array("modules/sipsettings/page.sipsettings.pxhp") ),
-			"PJSip" => array("sipsettings", "extensions", "users", "somethingelse", "INTERCEPT" => array("modules/sipsettings/page.sipsettings.php", "foo/wibble/derp") ),
-		);
 
 		$retarr = array();
 
-		foreach ($tmphooks as $module => $hookArr) {
+		$allHooks = $this->FreePBX->Hooks->getAllHooks();
+		foreach ($allHooks['GuiHooks'] as $module => $hookArr) {
 
 			foreach ($hookArr as $key => $arr) {
 				// Check for INTERCEPT Hooks.
@@ -94,9 +91,9 @@ class GuiHooks {
 				$mod = $this->FreePBX->$moduleToCall;
 				// Now, does the hook actually exist?
 				if (!method_exists($moduleToCall, "doGuiIntercept"))
-					throw new Exception("$moduleToCall asked to intercept, but $moduleToCall::doGuiIntercept() doesn't exist");
+					throw new Exception("$moduleToCall asked to intercept, but ${moduleToCall}->doGuiIntercept() doesn't exist");
 
-				// This is a reference.
+				// Output is being passed as a reference.
 				$mod->doGuiIntercept($output);
 			} catch (Exception $e) {
 				// Unable to find the module.
