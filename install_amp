@@ -128,7 +128,7 @@ function install_parse_amportal_conf($filename) {
 function install_parse_asterisk_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
-		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* (?:=>|=) \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
 			$conf[ $matches[1] ] = $matches[2];
 		}
 	}
@@ -1597,5 +1597,5 @@ out("* that all modules are up to date BEFORE YOU CLICK THE RED BAR. As long *",
 out("* as this is observed, your machine will be fully functional whilst the *",false);
 out("* upgrade is in progress.                                               *",false);
 out("*************************************************************************",false);
-// vim: set ts=4 sw=4 : //
+// vim: set ts=4 sw=4 ai : //
 // Ensure you 'set modeline' in your ~/.vimrc to activate this //
