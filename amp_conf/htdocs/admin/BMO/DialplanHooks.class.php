@@ -62,7 +62,9 @@ class DialplanHooks {
 						print "ERROR: $func should exist, but it doesn't\n";
 						continue;
 					}
+					$this->FreePBX->Performance->Stamp("olddialplanHook-".$func."_start");
 					$func($engine);
+					$this->FreePBX->Performance->Stamp("olddialplanHook-".$func."_stop");
 				} elseif (isset($cmd['Class'])) {
 					// This is a new BMO Object!
 					$class = $cmd['Class'];
@@ -71,8 +73,11 @@ class DialplanHooks {
 							print "ERROR: ${class}->doDialplanHook() isn't there, but the module is saying it wants to hook\n";
 							continue;
 						}
+						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");
 						$this->FreePBX->$class->doDialplanHook($engine, $pri);
+						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
 					} catch (Exception $e) {
+						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
 						print "ERROR: Tried to run ${class}->doDialplanHook(), received ".$e->getMessage()."\n";
 					}
 				} else {
