@@ -84,6 +84,7 @@ $(document).ready(function(){
 	});
 	$('.modulevul_tag').click(function(e) {
 		e.preventDefault();
+		e.stopPropagation();
 		$.each($(this).data('sec'), function(index, value) { 
 			$('#security-' + value).dialog({
 				title: fpbx.msg.framework.securityissue + ' ' + value,
@@ -127,6 +128,22 @@ $(document).ready(function(){
 		
 		modules[module].track = track;
 	});
+	$('#local-type').change(function(e) {
+		if($(this).val() == 'download') {
+			$.cookie('local-type','download');
+			$('#download-group').show();
+			$('#upload-group').hide();
+		} else {
+			$.cookie('local-type','upload');
+			$('#download-group').hide();
+			$('#upload-group').show();
+		}
+	});
+	if($.cookie('local-type') == 'upload') {
+		$('#local-type').val('upload');
+		$('#download-group').hide();
+		$('#upload-group').show();
+	}
 	$('.moduleheader').click(function(e) {
 		var module = $(this).data('module');
 		if($('#infopane_'+module).is(":visible")) {

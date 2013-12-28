@@ -27,7 +27,7 @@
 		<?php } ?>
 		<tr>
 			<td><?php echo _('Related Tickets') ?></td>
-			<td><?php echo $tickets ?></td>
+			<td><?php echo $issue['tickets'] ?></td>
 		</tr>
 	</table>
 </div>
