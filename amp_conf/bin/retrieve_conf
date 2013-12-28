@@ -16,6 +16,7 @@ $freepbx_conf =& freepbx_conf::create();
 // Load the BMO Object
 include $amp_conf['AMPWEBROOT'].'/admin/BMO/FreePBX.class.php';
 $bmo = new FreePBX;
+$bmo->Performance->Stamp("retrieve_conf_start");
 
 // BMO TODO: Move this to be part of BMO.
 class connectdirs {
@@ -590,7 +591,9 @@ $extens_ok = true;
 $dests_ok = true;
 
 $my_hash = array_flip($module_list);
+$bmo->Performance->Stamp("extenconflicts_start");
 $my_prob_extens = $skip_registry_checks ? false : framework_list_extension_conflicts($my_hash);
+$bmo->Performance->Stamp("extenconflicts_stop");
 
 if (empty($my_prob_extens)) {
 	$nt->delete('retrieve_conf', 'XTNCONFLICT');
@@ -614,7 +617,9 @@ if (empty($my_prob_extens)) {
 
 // Check for and report any bogus destinations
 //
+$bmo->Performance->Stamp("listproblems_start");
 $my_probs = $skip_registry_checks ? false : framework_list_problem_destinations($my_hash, !$amp_conf['CUSTOMASERROR']);
+$bmo->Performance->Stamp("listproblems_stop");
 
 if (empty($my_probs)) {
 	$nt->delete('retrieve_conf', 'BADDEST');
@@ -644,7 +649,9 @@ if ((!$extens_ok && $amp_conf['XTNCONFLICTABORT']) || (!$dests_ok && $amp_conf['
 }
 
 // Generate an extension map of all extensions on the system
+$bmo->Performance->Stamp("extmap_start");
 framework_set_extmap();
+$bmo->Performance->Stamp("extmap_stop");
 
 // Dialplan Hook processing moved to BMO.
 $bmo->Performance->Stamp("getAllHooks_start");
@@ -894,4 +901,5 @@ else
 	out(_("Please update your modules and reload Asterisk by browsing to your server."),false);
 }
 	$nt->delete('retrieve_conf', 'FATAL');
-?>
+$bmo->Performance->Stamp("retrieve_conf_stop");
+
