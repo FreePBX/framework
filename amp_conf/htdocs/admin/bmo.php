@@ -25,9 +25,7 @@ include 'BMO/FreePBX.class.php';
 
 $fpbx = new FreePBX();
 
-$r = $fpbx->PJSip->writeConfig($fpbx->PJSip->getConfig());
-//
-$fpbx->PJSip->getTransportConfigs();
+print_r($fpbx->Hooks->GetAllHooks());
 
 
 		
