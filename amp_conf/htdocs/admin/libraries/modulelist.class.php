@@ -46,6 +46,9 @@ class modulelist{
 			if (isset($mod['sha1sum'])) {
 				unset($this->module_array[$mod_key]['sha1sum']);
 			}
+			if (!isset($mod['track'])) {
+				$this->module_array[$mod_key]['track'] = 'stable';
+			}
 		}
 		$module_serialized = $this->_db->escapeSimple(serialize($this->module_array));
 		sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('mod_serialized', '".time()."','".$module_serialized."')");

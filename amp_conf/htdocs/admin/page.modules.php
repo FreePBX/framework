@@ -721,13 +721,13 @@ switch ($action) {
 			//block install,uninstall,reinstall
 			$modules[$name]['blocked']['status'] = false;
 			if(!empty($modules[$name]['depends'])) {
-				$depends = $modulef->checkdepends($name);
+				$depends = $modulef->checkdepends($modules[$name]);
 				if($depends !== true && is_array($depends)) {
 					$modules[$name]['blocked']['status'] = true;
+					if(isset($depends['sysadmin'])) { unset($depends['sysadmin']); }
 					$modules[$name]['blocked']['reasons'] = $depends;
 				}
 			}
-			
 			
 			$modules[$name]['commercial']['status'] = (strtolower($modules[$name]['license']) == 'commercial');
 			if($modules[$name]['commercial']['status']) {
@@ -738,9 +738,9 @@ switch ($action) {
 					$modules[$name]['commercial']['sysadmin'] = false;
 					$modules[$name]['commercial']['licensed'] = false;
 					$modules[$name]['blocked']['status'] = ($name != 'sysadmin') ? true : false;
-					$modules[$name]['blocked']['reasons'][] = 'Requires Sysadmin';
+					$modules[$name]['blocked']['reasons']['sysadmin'] = sprintf(_('Module <strong>%s</strong> is required, yours is not installed'),'System Admin');
 				}
-				$modules[$name]['commercial']['purchaselink'] = !empty($modules[$name]['commercial']['purchaselink']) ? $modules[$name]['commercial']['purchaselink'] : 'http://www.schmoozecom.com/oss.php';
+				$modules[$name]['commercial']['purchaselink'] = !empty($modules[$name]['commercial']['purchaselink']) ? $modules[$name]['commercial']['purchaselink'] : 'http://www.schmoozecom.com/freepbx/freepbx-modules.php';
 			}
 
 			// If versionupgrade module is present then allow it to skip modules that should not be presented

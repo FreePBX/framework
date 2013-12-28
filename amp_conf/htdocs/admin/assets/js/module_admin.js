@@ -5,7 +5,6 @@ $(document).ready(function(){
 		var id = $(this).attr('id');
 		var selected = $(this).prop('checked') ? 1 : 0;
 		
-		console.log('here');
 		$.ajax({
 			type: 'POST',
 			url: "config.php",
@@ -177,7 +176,7 @@ function navigate_to_module(module) {
 		$('#infopane_'+module+' .modulefunctionradios').buttonset();
 		$('#infopane_'+module+' .moduletrackradios').buttonset();
 	} else {
-		alert(module+' does not exist');
+		alert('Required Module '+module+' is not local');
 	}
 
 }
@@ -225,7 +224,9 @@ function process_module_actions(modules) {
 				        if (xhr.readyState == XMLHttpRequest.DONE) {
 				            window.clearTimeout(timer);
 				        }
-				        $('#moduledialogwrapper').html(xhr.responseText);
+						if(xhr.responseText.length > 0) {
+				        	$('#moduledialogwrapper').html(xhr.responseText);
+						}
 				    }, 100);
 				},
 				close: function (e) {

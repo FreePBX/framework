@@ -629,7 +629,8 @@ class module_functions {
 
 			// "builtin" module is always enabled
 			$modules['builtin']['status'] = MODULE_STATUS_ENABLED;
-		} 
+		}
+		
 		if (!$module && !$modulelist->is_loaded()) {
 			$modulelist->initialize($modules);
 		}
@@ -806,7 +807,7 @@ class module_functions {
 										break;
 									}
 								} else {
-									$errors[$mod] = sprintf(_('Module %s is required.'), $matches[1]);
+									$errors[$matches[1]] = sprintf(_('Module %s is required.'), $matches[1]);
 								}
 							}
 						break;
