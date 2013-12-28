@@ -39,12 +39,16 @@ class FileHooks {
 					// if the module returns an array, it wants to write multiple files
 					// ** pinsets is an example of a module that does this
 					if (is_array($fn)) {
-						foreach($fn as $modconf) {
+						foreach($fn as $modconf) { 
+							$this->FreePBX->Performance->Stamp("oldfileHook-".$modconf."_start");
 							$this->FreePBX->WriteConfig->writeConfig($modconf,$module->generateConf($modconf));
+							$this->FreePBX->Performance->Stamp("oldfileHook-".$modconf."_stop");
 						}
 					} else {
 						if ($module->get_filename() != "") 
+							$this->FreePBX->Performance->Stamp("oldfileHook-".$module->get_filename()."_start");
 							$this->FreePBX->WriteConfig->writeConfig($module->get_filename(), $module->generateConf());
+							$this->FreePBX->Performance->Stamp("oldfileHook-".$module->get_filename()."_stop");
 					}
 				}
 			}
@@ -52,7 +56,25 @@ class FileHooks {
 	}
 
 	private function processNewHooks() {
-		print "Get hooks, run 'em\n";
+		$hooks = $this->FreePBX->Hooks->getAllHooks();
+		foreach ($hooks['ConfigFiles'] as $hook) {
+			$this->FreePBX->Performance->Stamp("fileHook-".$hook."_start");
+			// This is where we'd hook the output of files, if it was implemented.
+			// As no-one wants it yet, I'm not going to bother.
+			if (!method_exists($this->FreePBX->$hook, "getConfig"))
+				throw new Exception("$hook asked to generate a config file, but, doesn't implement getConfig()");
+
+			$tmpconf = $this->FreePBX->$hook->getConfig();
+
+			// Here we want to hand off $tmpconf to other modules, if they somehow say they want to do something
+			// with it. 
+
+			if (!method_exists($this->FreePBX->$hook, "writeConfig"))
+				throw new Exception("$hook asked to generate a config file, but, doesn't implement writeConfig()");
+
+			$this->FreePBX->$hook->writeConfig($tmpconf);
+			$this->FreePBX->Performance->Stamp("fileHook-".$hook."_stop");
+		}
 	}
 }
 
