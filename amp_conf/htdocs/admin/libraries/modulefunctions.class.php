@@ -10,6 +10,8 @@ define('MODULE_STATUS_NEEDUPGRADE', 3);
 define('MODULE_STATUS_BROKEN', -1);
 
 class module_functions {
+	public $security_array = null;
+	
 	function &create() {
 		static $obj;
 		global $db;
@@ -149,6 +151,14 @@ class module_functions {
 		
 		$parser = new xml2ModuleArray($beta);
 		$betaxml = $parser->parseAdvanced($beta);
+				
+		$parser = new xml2ModuleArray($security);
+		$securityxml = $parser->parseAdvanced($security);
+		if(!empty($securityxml) && is_array($securityxml)) {
+			foreach($securityxml['xml']['security']['issue'] as $item) {
+				$this->security_array[$item['id']] = $item;
+			}
+		}
 
 		//this is why xml to array is terrible on php, prime example here.
 		$xmlarray['xml']['module'] = !isset($xmlarray['xml']['module']['rawname']) ? $xmlarray['xml']['module'] : array($xmlarray['xml']['module']);
@@ -163,7 +173,7 @@ class module_functions {
 			}
 		}
 
-		$exposures = $this->get_security($xmlarray, $base_version);
+		$exposures = $this->get_security($securityxml, $base_version);
 		$this->update_security_notifications($exposures);
 
 		if (isset($xmlarray['xml']['module'])) {
@@ -237,9 +247,7 @@ class module_functions {
 				if (!empty($sinfo['versions']['v' . $base_version])) {
 					// If this version has vulnerabilities, check each vulnerable module to see if we have any
 					//
-					if (strtolower($sinfo['versions']['v' . $base_version]['vulnerable']) == 'yes' && 
-						!empty($sinfo['versions']['v' . $base_version]['fixes'])) 
-						foreach ($sinfo['versions']['v' . $base_version]['fixes'] as $rmod => $mver) {
+					if (strtolower($sinfo['versions']['v' . $base_version]['vulnerable']) == 'yes' && !empty($sinfo['versions']['v' . $base_version]['fixes'])) foreach ($sinfo['versions']['v' . $base_version]['fixes'] as $rmod => $mver) {
 						$rmod = trim($rmod);
 						$mver = trim($mver);
 						// If we have $rmod on our system then we will check if it is a vulnerable version

@@ -112,9 +112,9 @@ $modules_local = $modulef->getinfo(false,false,true);
 
 
 if ($online) {
-	$security_array = array();
 	$security_issues_to_report = array();
 	$modules_online = $modulef->getonlinexml();
+	$security_array = !empty($modulef->security_array) ? $modulef->security_array : array();
 	
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
@@ -729,7 +729,8 @@ switch ($action) {
 				}
 			}
 			
-			$modules[$name]['commercial']['status'] = (strtolower($modules[$name]['license']) == 'commercial');
+			// This is a strange way to figure out if a module is commercial but it works for now?
+			$modules[$name]['commercial']['status'] = ((strtolower($modules[$name]['license']) == 'commercial') && ($name != 'sipstation'));
 			if($modules[$name]['commercial']['status']) {
 				if(function_exists('sysadmin_is_module_licensed')) {
 					$modules[$name]['commercial']['sysadmin'] = true;
@@ -779,7 +780,7 @@ switch ($action) {
 			$module_display[$category]['data'][$name]['raw']['online'] = !empty($modules_online[$name]) ? $modules_online[$name] : array();
 			$module_display[$category]['data'][$name]['raw']['local'] = !empty($modules_local[$name]) ? $modules_local[$name] : array();
 			$module_display[$category]['data'][$name]['name'] = $name;
-			$module_display[$category]['data'][$name]['pretty_name'] = !empty($name_text ) ? $name_text  : $name; 
+			$module_display[$category]['data'][$name]['pretty_name'] = !empty($name_text) ? $name_text  : $name; 
 			$module_display[$category]['data'][$name]['repo'] = $modules[$name]['repo'];
 			$module_display[$category]['data'][$name]['dbversion'] = !empty($modules[$name]['dbversion']) ? $modules[$name]['dbversion'] : '';
 			$module_display[$category]['data'][$name]['publisher'] = !empty($modules[$name]['publisher']) ? $modules[$name]['publisher'] : '';
@@ -791,7 +792,11 @@ switch ($action) {
 			
 			if (!empty($modules_online[$name]['changelog'])) {
 				$module_display[$category]['data'][$name]['changelog'] = format_changelog($modules_online[$name]['changelog']);
+			} elseif(!empty($modules_local[$name]['changelog'])) {
+				$module_display[$category]['data'][$name]['changelog'] = format_changelog($modules_local[$name]['changelog']);
 			}
+			
+			$module_display[$category]['data'][$name]['description'] = trim(preg_replace('/\s+/', ' ', $module_display[$category]['data'][$name]['description']));
 			
 			if(!empty($module_display[$category]['data'][$name]['previous'])) {
 				foreach($module_display[$category]['data'][$name]['previous'] as &$release) {
@@ -839,11 +844,11 @@ if ($quietmode) {
 			if (!is_array($security_array[$id]['related_urls']['url'])) {
 				$security_array[$id]['related_urls']['url'] = array($security_array[$id]['related_urls']['url']);
 			}
-			$tickets = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,4})(?!\w)/i', 'trac_replace_ticket', $security_array[$id]['tickets']);
+			$tickets = format_ticket($security_array[$id]['tickets']);
 			$displayvars['security_issues'][$id] = $security_array[$id];
-			$displayvars['security_issues']['tickets'] = $tickets;
-			$displayvars['security_issues']['related_urls_text'] = count($security_array[$id]['related_urls']['url']) == 1 ? _("Related URL") : _("Related URLs");
-			$displayvars['security_issues']['related_urls'] = $security_array[$id]['related_urls']['url'];
+			$displayvars['security_issues'][$id]['tickets'] = $tickets;
+			$displayvars['security_issues'][$id]['related_urls_text'] = count($security_array[$id]['related_urls']['url']) == 1 ? _("Related URL") : _("Related URLs");
+			$displayvars['security_issues'][$id]['related_urls'] = $security_array[$id]['related_urls']['url'];
 		}
 	}
 	show_view('views/module_admin/footer.php',$displayvars);
@@ -920,14 +925,23 @@ function format_changelog($changelog) {
 	$changelog = preg_replace('/\*(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+)\*/', '<strong>$1:</strong>', $changelog);
 	$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+) /', '<strong>$1: </strong>', $changelog);
 	
-
-	// convert '#xxx', 'ticket xxx', 'bug xxx' to ticket links and rxxx to changeset links in trac
-	//
-	$changelog = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,4})(?!\w)/i', 'trac_replace_ticket', $changelog);
+	$changelog = format_ticket($changelog);
+	
 	$changelog = preg_replace_callback('/(?<!\w)r(\d+)(?!\w)/', 'trac_replace_changeset', $changelog);
 	$changelog = preg_replace_callback('/(?<!\w)\[(\d+)\](?!\w)/', 'trac_replace_changeset', $changelog);
 	
 	return $changelog;
+}
+
+function format_ticket($string) {
+	// convert '#xxx', 'ticket xxx', 'bug xxx' to ticket links and rxxx to changeset links in trac
+	//
+	$string = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,5})(?!\w)/i', 'trac_replace_ticket', $string);
+	
+	// Convert FREEPBX|FPBXDISTRO(-| )6745 for jira
+	$string = preg_replace_callback('/(FREEPBX|FPBXDISTRO)(?:\-| )([^&]\d{3,5})(?!\w)/', 'jira_replace_ticket', $string);
+	
+	return $string;
 }
 
 /* enable_option($module_name, $option)
@@ -965,9 +979,18 @@ function trac_replace_ticket($match) {
 /* Replace 'rnnn' changeset references to a link, taken from Greg's drupal filter
 */
 function trac_replace_changeset($match) {
-  $baseurl = 'http://freepbx.org/trac/changeset/';
-  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="changeset '.$match[1].'">'.$match[0].'</a>';
-}                                                                                                                                              
+	// We continue to use trac here eventhough we are using jira for backwards compatibility
+	// and to let jira know its an old reference
+	$baseurl = 'http://freepbx.org/trac/changeset/';
+	return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="changeset '.$match[1].'">'.$match[0].'</a>';
+}
+
+/* Replace 'FREEPBX-nnn', 'FPBXDISTRO-nnn' type ticket numbers in changelog with a link
+*/ 
+function jira_replace_ticket($match) {
+	$baseurl = 'http://issues.freepbx.org/browse/'.$match[1].'-';
+	return '<a target="tractickets" href="'.$baseurl.$match[2].'" title="ticket '.$match[2].'">#'.$match[2].'</a>';
+}
 
 function pageReload(){
 	return "";

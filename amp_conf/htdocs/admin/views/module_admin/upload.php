@@ -20,19 +20,21 @@
 	<p><?php echo _('You can upload a tar gzip file containing a FreePBX module from your local system. If a module with the same name already exists, it will be overwritten.')?></p>
 	<?php echo $repo_select?>
 	<br/>
-	<div class="panel panel-default" style="width: 80%;">
+	<div class="panel panel-default" style="width: 50%;">
 		<div class="panel-body">
+			<label>Type: <select id="local-type"><option value="download">Download</option><option value="upload">Upload</option></select></label>
+				<br><br>
 			<form id="modulesGUI-upload" name="modulesGUI-upload" action="config.php" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="display" value="modules" />
 				<input type="hidden" name="action" value="upload" />
-				<label style="text-decoration:underline"><a href=# class="info"><?php echo _("Download Remote Module")?><span><?php echo _("Typically the direct address of a module tarball where FreePBX will attempt to download remotely and upload locally")?></span></a><br/><input type="text" size="50" name="remotemod" placeholder="http://<path>/<to>/<tarball>" /></label>
-				<br/>
-				<input id="download" type="submit" value="<?php echo _('Download')?>" name="download" />
-				<br/>
-				<br/>
-				<label style="text-decoration:underline"><a href=# class="info"><?php echo _("Upload Local Module")?><span><?php echo _("Locally Choosen FreePBX module from your system")?></span></a><input type="file" name="uploadmod" /></label>
-				<br/>
-				<input id="upload" type="submit" value="<?php echo _('Upload')?>" name="upload" />
+				<span id="download-group">
+					<label style="text-decoration:underline"><a href=# class="info"><?php echo _("Download Remote Module")?><span><?php echo _("Typically the direct address of a module tarball where FreePBX will attempt to download remotely and upload locally")?></span></a><br/><input type="text" size="50" name="remotemod" placeholder="http://<path>/<to>/<tarball>" /></label>
+					<input id="download" type="submit" value="<?php echo _('Download')?>" name="download" />
+				</span>
+				<span id="upload-group" style="display:none;">
+					<label style="text-decoration:underline"><a href=# class="info"><?php echo _("Upload Local Module")?><span><?php echo _("Locally Choosen FreePBX module from your system")?></span></a><input type="file" name="uploadmod" /></label>
+					<input id="upload" type="submit" value="<?php echo _('Upload')?>" name="upload" />
+				</span>
 			</form>
 		</div>
 	</div>

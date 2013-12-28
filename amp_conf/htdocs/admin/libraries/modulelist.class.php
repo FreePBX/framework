@@ -29,7 +29,7 @@ class modulelist{
 		//
 		foreach ($this->module_array as $mod_key => $mod) {
 			if (isset($mod['changelog'])) {
-				unset($this->module_array[$mod_key]['changelog']);
+				//unset($this->module_array[$mod_key]['changelog']);
 			}
 			if (isset($mod['attention'])) {
 				unset($this->module_array[$mod_key]['attention']);
