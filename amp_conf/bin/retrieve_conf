@@ -16,6 +16,7 @@ $freepbx_conf =& freepbx_conf::create();
 // Load the BMO Object
 include $amp_conf['AMPWEBROOT'].'/admin/BMO/FreePBX.class.php';
 $bmo = new FreePBX;
+// $bmo->Performance->On();
 $bmo->Performance->Stamp("retrieve_conf_start");
 
 // BMO TODO: Move this to be part of BMO.
@@ -654,14 +655,14 @@ framework_set_extmap();
 $bmo->Performance->Stamp("extmap_stop");
 
 // Dialplan Hook processing moved to BMO.
-$bmo->Performance->Stamp("getAllHooks_start");
+$bmo->Performance->Stamp("getAllDialplanHooks_start");
 $hooks = $bmo->DialplanHooks->getAllHooks($active_modules);
-$bmo->Performance->Stamp("getAllHooks_stop");
+$bmo->Performance->Stamp("getAllDialplanHooks_stop");
 
-$bmo->Performance->Stamp("processHooks_start");
+$bmo->Performance->Stamp("processDialplanHooks_start");
 if (is_array($hooks))
 	$bmo->DialplanHooks->processHooks($engine, $hooks);
-$bmo->Performance->Stamp("processHooks_stop");
+$bmo->Performance->Stamp("processDialplanHooks_stop");
 
 // extensions_additional.conf
 // create the from-internal-additional contexts so other can add to it
