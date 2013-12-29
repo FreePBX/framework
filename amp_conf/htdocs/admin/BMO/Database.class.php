@@ -70,4 +70,60 @@ class Database extends PDO {
 		}
 		$this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
+
+	/**
+	 * Queries Database using PDO
+	 *
+	 * @param $sql string SQL String to run
+	 * @param $type string Type of query
+	 * @param $fetchmode int One of the PDO::FETCH_ methos (see http://www.php.net/manual/en/pdo.constants.php for info)
+	 */
+
+	public function sql($sql = null, $type = "query", $fetchmode = PDO::FETCH_BOTH) {
+		if (!$sql)
+			throw new Exception("No SQL Given to Database->sql()");
+
+		switch ($type) {
+		case "query":
+			// Note that the basic PDO::query doesn't fetch. So no need for $fetchmode
+			$res = $this->sql_query($sql);
+			break;
+		case "getAll":
+			// Return the complete result set
+			$res = $this->sql_getAll($sql, $fetchmode);
+			break;
+		default:
+			throw new Exception("Unknown SQL query type of $type");
+		}
+
+		return $res;
+	}
+
+	/**
+	 * Returns a PDOStatement object
+	 *
+	 * This is for compatibility with older code. I expect this will never be used,
+	 * as PDO has much smarter ways of doing things.
+	 *
+	 * @param $sql string SQL String
+	 * @return object PDOStatement object
+	 */
+	private function sql_query($sql) {
+		return $this->query($sql);
+	}
+
+	/**
+	 * Performs a SQL Query, and returns all results
+	 *
+	 * This should always return the exact same result as PEAR's $db->getAll query.
+	 *
+	 * @param $sql string SQL String
+	 * @param $fetchmode int PDO::FETCH_* Method
+	 * @return array|object Result of the SQL Query
+	 */
+
+
+
 }
+
+
