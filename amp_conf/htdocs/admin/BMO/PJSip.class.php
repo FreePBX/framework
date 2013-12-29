@@ -260,12 +260,12 @@ class PJSip implements BMO {
 	}
 
 	public function getConfig() {
-		return $this->generateEndpoints();
-	}
 
-	public function writeConfig($conf) {
+		$conf = $this->generateEndpoints();
+
 		// Generate includes
 		$pjsip = "#include pjsip.transports.conf\n#include pjsip.endpoint.conf\n#include pjsip.aor.conf\n#include pjsip.auth.conf\n";
+		$pjsip .= "#include pjsip.manualtrunks.conf\n";
 		$conf['pjsip.conf'] = $pjsip;
 
 		// Transports are a multi-dimensional array, because
@@ -281,6 +281,43 @@ class PJSip implements BMO {
 			$conf['pjsip.transports.conf'][$transport] = $tmparr;
 		}
 
+		return $conf;
+	}
+
+	public function writeConfig($conf) {
+		// Check to see if we're enabled
+		if ($this->FreePBX->Config->get_conf_setting('ASTSIPDRIVER') == "chan_pjsip") {
+			// We're enabled. Let's make sure that chan_sip is disabled.
+			$this->enablePJSipModules();
+		} else {
+			$this->disablePJSipModules();
+		}
 		$this->FreePBX->WriteConfig($conf);
 	}
+
+	private function enablePJSipModules() {
+		// We need to DISABLE chan_sip.so, and remove any noload lines for the pjsip stuff.
+		//
+		// This is just to save typing. I'm lazy. 
+		$m = $this->FreePBX->ModulesConf;
+
+		$m->noload("chan_sip.so");
+		$m->removenoload("chan_pjsip.so");
+		$m->removenoload("res_pjsip.so");
+		$m->removenoload("func_pjsip_endpoint.so");
+	}
+
+	private function disablePJSipModules() {
+		// We need to DISABLE chan_sip.so, and remove any noload lines for the pjsip stuff.
+		//
+		// This is just to save typing. I'm lazy. 
+		$m = $this->FreePBX->ModulesConf;
+
+		$m->removenoload("chan_sip.so");
+		$m->noload("chan_pjsip.so");
+		$m->noload("res_pjsip.so");
+		$m->noload("func_pjsip_endpoint.so");
+	}
+
+		
 }
