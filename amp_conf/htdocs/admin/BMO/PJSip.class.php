@@ -11,32 +11,6 @@ class PJSip implements BMO {
 		$this->db = $freepbx->Database;
 	}
 
-	public function getConfig() {
-		return $this->generateEndpoints();
-	}
-
-	public function writeConfig($conf) {
-		// Generate includes
-		$pjsip = "#include pjsip.transports.conf\n#include pjsip.endpoint.conf\n#include pjsip.aor.conf\n#include pjsip.auth.conf\n";
-		$conf['pjsip.conf'] = $pjsip;
-
-		// Transports are a multi-dimensional array, because
-		// we use it earlier to match extens with transports
-		// So we need to flatten it to something that can be
-		// written to a file.
-		$transports = $this->getTransportConfigs();
-		foreach ($transports as $transport => $entries) {
-			$tmparr = array();
-			foreach ($entries as $key => $val) {
-				$tmparr[] = "$key=$val";
-			}
-			$conf['pjsip.transports.conf'][$transport] = $tmparr;
-		}
-
-		$this->FreePBX->WriteConfig($conf);
-	}
-
-
 	// Return an array consisting of all SIP devices, Trunks, or both.
 	private function getAllOld($type = null) {
 		$allkeys = $this->db->query("SELECT DISTINCT(`id`) FROM `sip`");
@@ -263,13 +237,6 @@ class PJSip implements BMO {
 		return true;
 	}
 
-	public function doGuiIntercept(&$text) {
-		$foo = split("\n", $text);
-		$header = array_shift($foo);
-		array_unshift($foo, $header, "<strong>Note that PJSip is configured in Advanced Settings</strong>");
-		$text = implode("\n", $foo);
-	}
-
 	/* Assorted stubs to validate the BMO Interface */
 	public function install() {}
 	public function uninstall() {}
@@ -278,14 +245,42 @@ class PJSip implements BMO {
 	public function showPage($request) { return false; }
 
 	/* Hook definitions */
-	public static function myGuiHooks() { return array("sipsettings", "extensions", "users", "INTERCEPT" => "modules/sipsettings/page.sipsettings.php"); }
-	public static function myDialplanHooks() { return true; }
-	public static function myConfigPageInit() { return array("device", "extensions", "fake", "pinsets"); }
+	public static function myGuiHooks() { return array("INTERCEPT" => "modules/sipsettings/page.sipsettings.php"); }
 
 	/* Hook Callbacks */
-
-	public function doConfigPageInit($request) {
-		print "I am here<br />\n";
+	public function doGuiIntercept($filename, &$text) {
+		if ($filename == "modules/sipsettings/page.sipsettings.php") {
+			$foo = split("\n", $text);
+			$header = array_shift($foo);
+			array_unshift($foo, $header, "<strong>Note that PJSip is enabled in Advanced Settings</strong>");
+			$text = implode("\n", $foo);
+		} else {
+			throw new Exception("doGuiIntercept was called with $filename. This shouldn't ever happen");
+		}
 	}
 
+	public function getConfig() {
+		return $this->generateEndpoints();
+	}
+
+	public function writeConfig($conf) {
+		// Generate includes
+		$pjsip = "#include pjsip.transports.conf\n#include pjsip.endpoint.conf\n#include pjsip.aor.conf\n#include pjsip.auth.conf\n";
+		$conf['pjsip.conf'] = $pjsip;
+
+		// Transports are a multi-dimensional array, because
+		// we use it earlier to match extens with transports
+		// So we need to flatten it to something that can be
+		// written to a file.
+		$transports = $this->getTransportConfigs();
+		foreach ($transports as $transport => $entries) {
+			$tmparr = array();
+			foreach ($entries as $key => $val) {
+				$tmparr[] = "$key=$val";
+			}
+			$conf['pjsip.transports.conf'][$transport] = $tmparr;
+		}
+
+		$this->FreePBX->WriteConfig($conf);
+	}
 }
