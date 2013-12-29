@@ -72,7 +72,10 @@ class Database extends PDO {
 	}
 
 	/**
-	 * Queries Database using PDO
+	 * COMPAT: Queries Database using PDO
+	 *
+	 * This is a FreePBX Compatibility hook for the global 'sql' function that 
+	 * previously used PEAR::DB
 	 *
 	 * @param $sql string SQL String to run
 	 * @param $type string Type of query
@@ -124,6 +127,37 @@ class Database extends PDO {
 	private function sql_getAll($sql, $fetchmode) {
 		$res = $this->query($sql);
 		return $res->fetchAll($fetchmode);
+	}
+
+	/**
+	 * COMPAT: getMessage - returns an error message
+	 *
+	 * This will throw an exception, as it shouldn't be used and is a holdover from the PEAR $db object.
+	 */
+	public function getMessage() {
+		// There is a PDO call for this.. I think.
+		throw new Exception("getMessage was called on the DB Object");
+	}
+
+	/**
+	 * COMPAT: isError - checks if the last query was successfull.
+	 *
+	 * This will throw an exception, as it shouldn't be used and is a holdover from the PEAR $db object.
+	 */
+	public function isError($result) {
+		// Should check that the $result is an object, and it's a PDOStatement object, I think.
+		throw new Exception("isError was called on the DB Object");
+	}
+
+	/**
+	 * COMPAT: escapeSimple - Wraps the suppied string in quotes.
+	 *
+	 * This wraps the requested string in quotes, and returns it. It's a bad idea. You should be using
+	 * prepared queries for this. At some point this will be deprecated and removed.
+	 */
+	public function escapeSimple($str = null) {
+		// Using PDO::quote
+		return $this->quote($str);
 	}
 }
 
