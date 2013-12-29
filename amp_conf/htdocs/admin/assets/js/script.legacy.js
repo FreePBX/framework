@@ -735,7 +735,7 @@ function fpbx_reload_confirm() {
 //do the actual reload
 function fpbx_reload() {
 	$('<div></div>').progressbar({value: 100})
-	var box = $('<div></div>')
+	var box = $('<div id="reloadbox"></div>')
 		.html('<progress style="width: 100%">'
 			+ 'Please wait...'
 			+ '</progress>')
@@ -743,11 +743,11 @@ function fpbx_reload() {
 			title: 'Reloading...',
 			resizable: false,
 			modal: true,
-			height: 50,
+			height: 52,
 			position: ['center', 50],
-			close: function (e) {
-				$(e.target).dialog("destroy").remove();
-			}
+			closeOnEscape: false,
+			open: function(event, ui) { $(".ui-dialog-titlebar-close", $(this).parent()).hide(); },
+			close: function (e) { $(e.target).dialog("destroy").remove(); }
 		});
 	$.ajax({
 		type: 'POST',

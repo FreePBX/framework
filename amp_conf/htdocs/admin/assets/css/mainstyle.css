@@ -196,7 +196,7 @@ a.info:link, a.info:hover {
 	/* make it scroll */
 	max-height:50em;
 	max-width:275px;
-	overflow:auto;
+	overflow:hidden;
 }
 
 /* Smaller sizes use a smaller em on the rnav ul */
@@ -206,9 +206,15 @@ a.info:link, a.info:hover {
 	}
 }
 
+/*** reload box ****/
+#reloadbox {
+	overflow:none;
+}
+
 /*** reload button ****/
 #button_reload { 
-	display:none; 
+	display:none;
+	cursor:pointer;
 }
 /**** global elements ****/
 a {
@@ -461,23 +467,11 @@ div.modulebuttons {
 	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif, Verdana, "Trebuchet MS", SunSans-Regular;
 }
 
-#moduleprogress {
-	font-size: 90%;
-	line-height: 1.3;
-	height: 150px;
-	overflow: scroll;
-	width: 95%;
-}
-
 .moduleinfopane table{
 	border:none !important;
 }
 .moduleinfopane tr{
 	background-color: #FFF !important;
-}
-
-#module-process-iframe{
-	width:100%;
 }
 
 #moduleBoxContents {
@@ -493,7 +487,7 @@ div.modulebuttons {
 	font-size: 90%;
 	line-height: 1.3;
 	height: 150px;
-	overflow: scroll;
+	overflow: auto;
 	width: 95%;
 }
 
