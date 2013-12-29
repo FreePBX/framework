@@ -126,7 +126,7 @@ $('<div></div>').html('Reloading will apply all configuration changes made '
 function fpbx_reload(){$('<div></div>').progressbar({value:100})
 var box=$('<div id="reloadbox"></div>').html('<progress style="width: 100%">'
 +'Please wait...'
-+'</progress>').dialog({title:'Reloading...',resizable:false,modal:true,height:52,position:['center',50],close:function(e){$(e.target).dialog("destroy").remove();}});$.ajax({type:'POST',url:document.location.pathname,data:"handler=reload",dataType:'json',success:function(data){box.dialog('destroy').remove();if(!data.status){var r='<h3>'+data.message+'<\/h3>'
++'</progress>').dialog({title:'Reloading...',resizable:false,modal:true,height:52,position:['center',50],closeOnEscape:false,open:function(event,ui){$(".ui-dialog-titlebar-close",$(this).parent()).hide();},close:function(e){$(e.target).dialog("destroy").remove();}});$.ajax({type:'POST',url:document.location.pathname,data:"handler=reload",dataType:'json',success:function(data){box.dialog('destroy').remove();if(!data.status){var r='<h3>'+data.message+'<\/h3>'
 +'<a href="#" id="error_more_info">click here for more info</a>'
 +'<pre style="display:none">'+data.retrieve_conf+"<\/pre>";if(data.num_errors){r+='<p>'+data.num_errors+fpbx.msg.framework.reload_unidentified_error+"<\/p>";}
 freepbx_reload_error(r);}else{if(fpbx.conf.DEVELRELOAD!='true'){toggle_reload_button('hide');}}},error:function(reqObj,status){box.dialog("destroy").remove();var r='<p>'+fpbx.msg.framework.invalid_responce+'<\/p>'
