@@ -264,7 +264,6 @@ function process_module_actions(modules) {
 				        if (xhr.readyState == XMLHttpRequest.DONE) {
 				            window.clearTimeout(timer);
 				        }
-						console.log(xhr);
 						if(xhr.responseText.length > 0) {
 				        	$('#moduledialogwrapper').html(xhr.responseText);
 						}
