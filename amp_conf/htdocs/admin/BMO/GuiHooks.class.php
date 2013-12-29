@@ -29,20 +29,27 @@ class GuiHooks {
 		$allHooks = $this->FreePBX->Hooks->getAllHooks();
 		foreach ($allHooks['GuiHooks'] as $module => $hookArr) {
 
-			foreach ($hookArr as $key => $arr) {
+			foreach ($hookArr as $key => $val) {
+
 				// Check for INTERCEPT Hooks.
-				if (is_array($arr) && $key == 'INTERCEPT') {
-					foreach ($arr as $page) {
-						if ($pageName == $page) {
-							$retarr['INTERCEPT'][$module] = $page;
+				if ($key == 'INTERCEPT') {
+					if (is_array($val)) {
+						foreach ($val as $page) {
+							if ($pageName == $page) {
+								$retarr['INTERCEPT'][$module] = $page;
+							}
+						}
+					} else {
+						if ($pageName == $val) {
+							$retarr['INTERCEPT'][$module] = $val;
 						}
 					}
-				} elseif (!is_string($arr)) {
+				} elseif (!is_string($val)) {
 					throw new Exception("Handed unknown stuff by $module");
 				}
 
 				// Now check for normal hooks 
-				if ($arr == $currentModule)
+				if ($val == $currentModule)
 					$retarr['hooks'][] = $module;
 			}
 		}
@@ -96,7 +103,7 @@ class GuiHooks {
 					throw new Exception("$moduleToCall asked to intercept, but ${moduleToCall}->doGuiIntercept() doesn't exist");
 
 				// Output is being passed as a reference.
-				$mod->doGuiIntercept($output);
+				$mod->doGuiIntercept($filename, $output);
 			} catch (Exception $e) {
 				// Unable to find the module.
 				echo "Intercept error from $moduleToCall - ".$e->getMessage()."<br />\n";

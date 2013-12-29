@@ -42,7 +42,8 @@ class Hooks {
 				$allhooks['GuiHooks'][$mod] = $mod::myGuiHooks();
 			}
 
-			// Find Dialplan hooks (eg, called when retrieve_conf is run)
+			// Find Dialplan hooks (eg, called when retrieve_conf is run),
+			// to modify the $ext object.
 			if (method_exists($mod, "myDialplanHooks")) {
 				$allhooks['DialplanHooks'][$mod] = $mod::myDialplanHooks();
 			}
