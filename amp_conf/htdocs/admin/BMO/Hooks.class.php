@@ -23,7 +23,7 @@ class Hooks {
 
 	public function updateBMOHooks() {
 		// Find all BMO Modules, query them for GUI, Dialplan, and configpageinit hooks.
-		
+
 		$this->preloadBMOModules();
 		$classes = get_declared_classes();
 
@@ -48,8 +48,7 @@ class Hooks {
 			}
 
 			// Find ConfigPageInit hooks (called before the page is displayed,
-			// and often used to catch 'submit' POST/GETs, or as an alternative
-			// to guihooks.
+			// used to catch 'submit' POST/GETs, or as an alternative to guihooks.
 			if (method_exists($mod, "myConfigPageInit")) {
 				$allhooks['ConfigPageInits'][$mod] = $mod::myConfigPageInit();
 			}
