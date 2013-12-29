@@ -746,7 +746,8 @@ function fpbx_reload() {
 			height: 52,
 			position: ['center', 50],
 			closeOnEscape: false,
-			open: function(event, ui) { $(".ui-dialog-titlebar-close", $(this).parent()).hide(); }
+			open: function(event, ui) { $(".ui-dialog-titlebar-close", $(this).parent()).hide(); },
+			close: function (e) { $(e.target).dialog("destroy").remove(); }
 		});
 	$.ajax({
 		type: 'POST',
