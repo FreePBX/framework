@@ -256,30 +256,6 @@ if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','no
 		$display = 'noaccess';
 }
 
-// new gui hooks
-if(!$quietmode && is_array($active_modules)){
-		foreach($active_modules as $key => $module) {
-				modgettext::push_textdomain($module['rawname']);
-				if (isset($module['items']) && is_array($module['items'])) {
-						foreach($module['items'] as $itemKey => $itemName) {
-								//list of potential _configpageinit functions
-								$initfuncname = $key . '_' . $itemKey . '_configpageinit';
-								if ( function_exists($initfuncname) ) {
-										$configpageinits[] = $initfuncname;
-								}
-						}
-				}
-				//check for module level (rather than item as above) _configpageinit function
-				$initfuncname = $key . '_configpageinit';
-				if ( function_exists($initfuncname) ) {
-						$configpageinits[] = $initfuncname;
-				}
-				modgettext::pop_textdomain();
-		}
-}
-
-// BMO TODO: Add configpageinit hooks, or, just do them later?
-
 // extensions vs device/users ... this is a bad design, but hey, it works
 if (!$quietmode && isset($fpbx_menu["extensions"])) {
 		if (isset($amp_conf["AMPEXTENSIONS"]) 
@@ -292,18 +268,13 @@ if (!$quietmode && isset($fpbx_menu["extensions"])) {
 }
 
 ob_start();
-// load the component from the loaded modules
-if (!in_array($display, array('', 'badrefer')) 
-		&& isset($configpageinits) && is_array($configpageinits) 
-) {
-
+// Run all the pre-processing for the page that's been requested.
+if (!empty($display) && $display != 'badrefer') {
+		// $CC is used by guielemets as a Global. 
 		$CC = $currentcomponent = new component($display,$type);
-		// call every modules _configpageinit function which should just
-		// register the gui and process functions for each module, if relevant
-		// for this $display
-		foreach ($configpageinits as $func) {
-				$func($display);
-		}
+
+		// BMO: Process ConfigPageInit functions
+		$bmo->GuiHooks->doConfigPageInits($display, $currentcomponent);
 
 		// now run each 'process' function and 'gui' function
 		$currentcomponent->processconfigpage();
