@@ -103,11 +103,11 @@ class WriteConfig {
 
 		$filename = "/etc/asterisk/$file";
 		if (is_link($filename)) {
-			if (defined('DEVELOPMENT')) {
+//			if (defined('DEVELOPMENT')) {
 				$filename = readlink($filename);
-			} else {
-				throw new Exception("$filename is a symlink, not clobbering. Define DEVELOPMENT to avoid");
-			}
+//			} else {
+//				throw new Exception("$filename is a symlink, not clobbering. Define DEVELOPMENT to avoid");
+//			}
 		}
 		return $filename;
 	}
