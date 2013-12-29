@@ -519,6 +519,12 @@ div.modulebuttons {
 	font-size:90%;
 }
 
+.rollbacklist {
+	width:auto !important;
+	font-size:10pt;
+	border:none;
+}
+
 /************************* For tabber *************************/
 /*--------------------------------------------------
   REQUIRED to hide the non-active tab content.
@@ -593,12 +599,13 @@ input[type="submit"]{ height: 25px;}
 
 /************** Bootstrap *************************/
 .btn {
-	padding: .4em 1em;
+	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+	padding: .41em 1em;
 	color: #2779aa;
 	background-color: #e4f2fb;
 	border: 1px solid #aed0ea;
-	font-weight: 600;
-	font-size: smaller;
+	font-weight: bold;
+	font-size: 11px;
 	border-radius: 6px;
 	display: inline-block;
 	position: relative;
@@ -610,13 +617,12 @@ input[type="submit"]{ height: 25px;}
 }
 
 .btn:visited {
-	color: #3879aa;
+	color: #2779aa;
 }
 
 .btn:hover {
 	border: 1px solid #74b2e2;
 	background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
-	font-weight: bold;
 	color: #0070a3;
 }
 
@@ -628,12 +634,6 @@ input[type="submit"]{ height: 25px;}
 
 input[type="file"], input[type="text"]{
 	margin: 2px;
-}
-
-.rollbacklist {
-	width:auto !important;
-	font-size:10pt;
-	border:none;
 }
 
 /* Fix a bug in The jQuery-UI 1.10.3 css build that causes 
