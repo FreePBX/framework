@@ -352,7 +352,7 @@ switch ($action) {
 		echo "</div>";
 		echo "<hr /><br />";
 		if ($quietmode) {
-			echo '<a href="#" onclick="parent.close_module_actions(true);" >'._("Return").'</a>';
+			echo '<a class="btn" href="#" onclick="parent.close_module_actions(true);" >'._("Return").'</a>';
 		}
 	break;
 	case 'confirm':
