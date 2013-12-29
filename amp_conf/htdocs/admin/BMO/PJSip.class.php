@@ -282,4 +282,10 @@ class PJSip implements BMO {
 	public static function myDialplanHooks() { return true; }
 	public static function myConfigPageInit() { return array("device", "extensions", "fake", "pinsets"); }
 
+	/* Hook Callbacks */
+
+	public function doConfigPageInit($request) {
+		print "I am here<br />\n";
+	}
+
 }
