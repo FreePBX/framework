@@ -121,9 +121,9 @@ class Database extends PDO {
 	 * @param $fetchmode int PDO::FETCH_* Method
 	 * @return array|object Result of the SQL Query
 	 */
-
-
-
+	private function sql_getAll($sql, $fetchmode) {
+		$res = $this->query($sql);
+		return $res->fetchAll($fetchmode);
+	}
 }
-
 
