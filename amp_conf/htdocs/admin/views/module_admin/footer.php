@@ -1,3 +1,4 @@
+</div>
 <?php foreach($security_issues as $id => $issue) {?>
 <div class="module_security_description" id="security-<?php echo $id ?>" style="display: none;">
 	<table>
@@ -32,12 +33,3 @@
 	</table>
 </div>
 <?php } ?>
-<script>
-function displayModules(repo) {
-	if($('#'+repo+'_repo').is(':checked')) {
-		$('.repo_'+repo).show();
-	} else {
-		$('.repo_'+repo).hide();
-	}
-}
-</script>
