@@ -1,5 +1,5 @@
 <?php
-// vim: set ai ts=4 ft=php:
+// vim: set ai ts=4 sw=4 ft=php:
 
 class ModulesConf {
 
@@ -22,12 +22,16 @@ class ModulesConf {
 		// Add module(s) to noload.
 		$mods = array();
 
+		$current = $this->conf->config->ProcessedConfig;
+
 		if (is_array($module)) {
 			foreach($module as $m) {
-				$this->conf->addEntry("modules", "noload=$m");
+				if (!in_array($m, $current['modules']['noload']))
+					$this->conf->addEntry("modules", "noload=$m");
 			}
 		} else {
-			$this->conf->addEntry("modules", "noload=$module");
+			if (!in_array($module, $current['modules']['noload']))
+				$this->conf->addEntry("modules", "noload=$module");
 		}
 	}
 
