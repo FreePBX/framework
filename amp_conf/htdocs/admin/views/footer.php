@@ -132,12 +132,16 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 } else {
 	/*
 	 * files below:
-	 * jquery.cookie.js - for setting cookies
+	 * XMLHttpRequest.js - Standard-compliant cross-browser XMLHttpRequest object implementation (https://github.com/ilinsky/xmlhttprequest)
+	 * menu.js - The FreePBX Top Navigation Bar, utilizes jqueryUI
+	 * jquery.hotkeys.js - a plug-in that lets you easily add and remove handlers for keyboard events anywhere in your code supporting almost any key combination. (https://github.com/jeresig/jquery.hotkeys)
+	 * jquery.cookie.js - for setting cookies (https://github.com/carhartl/jquery-cookie)
 	 * script.legacy.js - freepbx library
 	 * jquery.toggleval.3.0.js - similar to html5 form's placeholder. depreciated
 	 * tabber-minimized.js - sed for module admin (hiding content) 
 	 */
-	$html .= ' <script type="text/javascript" src="assets/js/menu.js' . $version_tag . '"></script>'
+	$html .= ' <script type="text/javascript" src="assets/js/XMLHttpRequest.js' . $version_tag . '"></script>'
+		. '<script type="text/javascript" src="assets/js/menu.js' . $version_tag . '"></script>'
 		. '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
