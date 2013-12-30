@@ -271,6 +271,7 @@ class PJSip implements BMO {
 
 	/* Hook definitions */
 	public static function myGuiHooks() { return array("core", "INTERCEPT" => "modules/sipsettings/page.sipsettings.php"); }
+	public static function myConfigPageInits() { return array("trunks"); }
 
 	/* Hook Callbacks */
 	public function doGuiIntercept($filename, &$text) {
@@ -287,6 +288,13 @@ class PJSip implements BMO {
 
 	public function doGuiHook(&$currentconfig) {
 		return true;
+	}
+
+	public function doConfigPageInit($page) {
+		if (isset($_REQUEST['tech']) && $_REQUEST['tech'] == 'PJSIP') {
+			print "PJSip was called with $page<br />";
+			print_r($_REQUEST);
+		}
 	}
 
 	public function getConfig() {
