@@ -81,7 +81,6 @@ class PJSip implements BMO {
 		//
 		// Grab settings from sipsettings module.
 		//
-		// Needs more support inside BMO to check that it actually exists.
 		$sipsettings = $this->db->query('SELECT `keyword`, `data` FROM `sipsettings` WHERE `type`=0');
 		$settings = $sipsettings->fetchAll(PDO::FETCH_ASSOC);
 
@@ -101,46 +100,31 @@ class PJSip implements BMO {
 			$port = $sip['bindport'];
 		}
 
-		// Is it NATting?
-		// Realistically, the answer is going to be yes most of the time..
-		if (isset($sip['nat']) && $sip['nat'] != 'never') {
+		$transport['udp'] = array( "protocol" => "udp", "bind" => "$bind:$port", "type" => "transport");
 
+		// Do we know about NAT?
+		if (isset($sip['nat']) && $sip['nat'] != 'never') {
 			// At Asterisk 12-b1, only one local_net works.
 			if (isset($sip['localnet_1']))
 				throw new Exception('Only one local net supported with PJSip');
 
-			$transport['transport-nat'] =
+			$transport['udp'] =
 				// FIXME - localnet needs to have its subnet calculated
 				array( 
 					"type" => "transport", "protocol" => "udp", "bind" => "$bind:$port", 
 					"local_net" => $sip['localnet_0']."/24", "external_media_address" => $sip['externip_val'],
-					"external_signaling_address" => $sip['externip_val']);
-		} else {
-			$transport['transport-default'] = array( "protocol" => "udp", "bind" => "0.0.0.0:5060", "type" => "transport");
+					"external_signaling_address" => $sip['externip_val']
+			);
 		}
+
+		$transport['tcp'] = array( "protocol" => "tcp", "bind" => "$bind:$port", "type" => "transport");
+		$transport['ws'] = array( "protocol" => "ws", "bind" => $bind, "type" => "transport");
+		$transport['wss'] = array( "protocol" => "wss", "bind" => $bind, "type" => "transport");
 
 		// Add TLS Configuration here.
-		// $transport['transport-tls] = $this->getTLSConfig();
+		// $transport['tls'] = array( "protocol" => "tls", "bind" => "$bind:", "type" => "transport");
+		// $transport['tls] = $this->getTLSConfig();
 		return $transport;
-	}
-
-	private function discoverTransport($type) {
-		if (isset($this->transportTypes[$type]))
-			return $this->transportTypes[$type];
-
-		// Figure out which transport name matches our transport.
-		//
-		// Note: This is wrong.
-		$transports = $this->getTransportConfigs();
-		foreach ($transports as $name => $arr) {
-			if ($arr['protocol'] == $type) {
-				$this->transportTypes[$type] = $name;
-				return $name;
-			}
-		}
-
-		// If we made it here, we don't have a transport for this protocol.
-		throw new Exception("Yeah, if you could go ahead and make a transport for $type, that'd be great");
 	}
 
 	private function generateEndpoints() {
@@ -160,6 +144,8 @@ class PJSip implements BMO {
 			if (empty($context))
 				$context = "from-sip-external";
 			$endpoint[] = "context=$context";
+			$endpoint[] = "allow=all";
+			$endpoint[] = "transport=udp,tcp,ws,wss";
 			$retarr["pjsip.endpoint.conf"]["anonymous"] = $endpoint;
 		}
 
@@ -193,6 +179,29 @@ class PJSip implements BMO {
 		$endpoint[] = "dtmf_mode=".$config['dtmfmode'];
 		$endpoint[] = "mailboxes=".$config['mailbox'];
 		$endpoint[] = "transport=".$config['transport'];
+		if (!empty($config['call_group']))
+			$endpoint[] = "call_group=".$config['callgroup'];
+
+		if (!empty($config['pickup_group']))
+			$endpoint[] = "pickup_group=".$config['pickupgroup'];
+
+		if (!empty($config['avpf']))
+			$endpoint[] = "use_avpf=".$config['avpf'];
+
+		if (!empty($config['icesupport']))
+			$endpoint[] = "ice_support=".$config['icesupport'];
+
+		if (!empty($config['trustrpid']))
+			$endpoint[] = "trust_id_inbound=".$config['trustrpid'];
+
+		if (isset($config['sendrpid'])) {
+			if ($config['sendrpid'] == "yes" || $config['sendrpid'] == "both") {
+				$endpoint[] = "send_rpid=yes";
+			}
+			if ($config['sendrpid'] == "pai" || $config['sendrpid'] == "both") {
+				$endpoint[] = "send_pai=yes";
+			}
+		}
 
 		// Auth
 		$auth[] = "auth_type=userpass";
@@ -223,8 +232,6 @@ class PJSip implements BMO {
 		// DTMF Mode has changed.
 		if ($config['dtmfmode'] == "rfc2833")
 			$config['dtmfmode'] = "rfc4733";
-
-		$config['transport'] = $this->discoverTransport($config['transport']);
 
 		// 'username' is for when username != exten.
 		if (!isset($config['username']))
@@ -287,8 +294,8 @@ class PJSip implements BMO {
 		$conf = $this->generateEndpoints();
 
 		// Generate includes
-		$pjsip = "#include pjsip.transports.conf\n#include pjsip.endpoint.conf\n#include pjsip.aor.conf\n#include pjsip.auth.conf\n";
-		$pjsip .= "#include pjsip.manualtrunks.conf\n";
+		$pjsip = "#include pjsip.custom.conf\n#include pjsip.transports.conf\n#include pjsip.endpoint.conf\n#include pjsip.aor.conf\n";
+		$pjsip .= "#include pjsip.auth.conf\n#include pjsip.manualtrunks.conf\n";
 		$conf['pjsip.conf'] = $pjsip;
 
 		// Transports are a multi-dimensional array, because
