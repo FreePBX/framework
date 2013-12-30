@@ -337,7 +337,7 @@ class PJSip implements BMO {
 	}
 
 	private function disablePJSipModules() {
-		// We need to DISABLE chan_sip.so, and remove any noload lines for the pjsip stuff.
+		// We need to ENABLE chan_sip.so, and add all the noload lines for the pjsip stuff.
 		//
 		// This is just to save typing. I'm lazy. 
 		$m = $this->FreePBX->ModulesConf;
