@@ -31,6 +31,9 @@ include 'BMO.interface.php';
 
 class FreePBX {
 
+	// Static Object used for self-referencing. 
+	private static $obj;
+
 	/**
 	 * Constructor
 	 * 
@@ -56,6 +59,26 @@ class FreePBX {
 			$this->$lib = new $lib($this);
 		}
 		set_include_path($oldIncludePath);
+
+		// Ensure the local object is available
+		self::$obj = $this;
+	}
+
+	/**
+	 * Alternative Constructor
+	 *
+	 * This allows the Current BMO to be referenced from anywhere, without
+	 * needing to instantiate a new one. Calling $x = FreePBX::create() will
+	 * create a new BMO if one has not already beeen created (unlikely!), or
+	 * return a reference to the current one.
+	 *
+	 * @return object FreePBX BMO Object
+	 */
+	public static function create() {
+		if (!isset(self::$obj))
+			self::$obj = new FreePBX();
+
+		return self::$obj;
 	}
 
 	/**
