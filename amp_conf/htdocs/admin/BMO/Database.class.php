@@ -95,6 +95,10 @@ class Database extends PDO {
 			// Return the complete result set
 			$res = $this->sql_getAll($sql, $fetchmode);
 			break;
+		case "getOne":
+			// Return the first item of the first row
+			$res = $this->sql_getOne($sql);
+			break;
 		default:
 			throw new Exception("Unknown SQL query type of $type");
 		}
@@ -130,6 +134,22 @@ class Database extends PDO {
 	}
 
 	/**
+	 * Perform a SQL Query, and return the first item of the first row.
+	 *
+	 * @param $sql string SQL String
+	 * @return string
+	 */
+
+	private function sql_getOne($sql) {
+		$res = $this->query($sql);
+		$line = $res->fetch(PDO::FETCH_NUM);
+		if (isset($line[0]))
+			return $line[0];
+
+		return false;
+	}
+
+	/**
 	 * COMPAT: getMessage - returns an error message
 	 *
 	 * This will throw an exception, as it shouldn't be used and is a holdover from the PEAR $db object.
@@ -158,6 +178,19 @@ class Database extends PDO {
 	public function escapeSimple($str = null) {
 		// Using PDO::quote
 		return $this->quote($str);
+	}
+
+	/**
+	 * HELPER: getOne - Returns first result
+	 *
+	 * Returns the first result of the first row of the query. Handy shortcot when you're doing
+	 * a query that only needs one item returned.
+	 */
+	public function getOne($sql = null) {
+		if ($sql === null)
+			throw new Exception("No SQL given to getOne");
+
+		return $this->sql_getOne($sql);
 	}
 }
 
