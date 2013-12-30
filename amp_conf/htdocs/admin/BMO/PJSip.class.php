@@ -150,6 +150,19 @@ class PJSip implements BMO {
 		foreach ($allEndpoints['device'] as $dev)
 			$this->generateEndpoint($this->getExtOld($dev), $retarr);
 
+		// Check to see if 'Allow Guest' is enabled in SIP Settings. If it is,
+		// we need to create the magic 'anonymous' endpoint.
+		$allowguest = $this->db->getOne('SELECT `data` FROM `sipsettings` WHERE `keyword`="allowguest"');
+		if ($allowguest == 'yes') {
+			$endpoint[] = "type=endpoint";
+			// Do we have a custom contet for anon calls to go to?
+			$context = $this->db->getOne('SELECT `data` FROM `sipsettings` WHERE `keyword`="context"');
+			if (empty($context))
+				$context = "from-sip-external";
+			$endpoint[] = "context=$context";
+			$retarr["pjsip.endpoint.conf"]["anonymous"] = $endpoint;
+		}
+
 		return $retarr;
 	}
 
