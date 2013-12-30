@@ -274,7 +274,8 @@ class PJSip implements BMO {
 			if ($filename == "modules/sipsettings/page.sipsettings.php") {
 				$foo = split("\n", $text);
 				$header = array_shift($foo);
-				array_unshift($foo, $header, "<strong>Note that PJSip is enabled in Advanced Settings</strong>");
+				$str = "Asterisk is currently using <strong>".$this->FreePBX->Config->get_conf_setting('ASTSIPDRIVER')."</strong> for SIP Traffic.<br />You can change this on the Advanced Settings Page<br />\n";
+				array_unshift($foo, $header, $str);
 				$text = implode("\n", $foo);
 			} else {
 				throw new Exception("doGuiIntercept was called with $filename. This shouldn't ever happen");
