@@ -96,18 +96,19 @@ class WriteConfig {
 		// Check to make sure it doesn't have any /'s or ..'s 
 		// in it. We're only allowed to write to /etc/asterisk
 
-		if (strpos($file, "/") !== false)
-			throw new Exception("$filename contains a /");
-		if (strpos($file, "..") !== false)
-			throw new Exception("$filename contains ..");
+		if (strpos($file, "/") !== false) {
+			// We EXPLICITLY ALLOW 'digium_phones/$filename'
+			if (strpos($file, "digium_phones/") !== 0) {
+				throw new Exception("$file contains a / and isn't a digium_phones file");
+			}
+		}
 
+		if (strpos($file, "..") !== false) {
+			throw new Exception("$file contains ..");
+		}
 		$filename = "/etc/asterisk/$file";
 		if (is_link($filename)) {
-//			if (defined('DEVELOPMENT')) {
-				$filename = readlink($filename);
-//			} else {
-//				throw new Exception("$filename is a symlink, not clobbering. Define DEVELOPMENT to avoid");
-//			}
+			$filename = readlink($filename);
 		}
 		return $filename;
 	}
