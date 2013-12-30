@@ -523,6 +523,31 @@ LOCK TABLES `sip` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sip`
+--
+
+DROP TABLE IF EXISTS `pjsip`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pjsip` (
+  `id` varchar(20) NOT NULL DEFAULT '-1',
+  `keyword` varchar(30) NOT NULL DEFAULT '',
+  `data` varchar(255) NOT NULL,
+  `flags` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`,`keyword`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pjsip`
+--
+
+LOCK TABLES `pjsip` WRITE;
+/*!40000 ALTER TABLE `pjsip` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pjsip` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `trunk_dialpatterns`
 --
 
