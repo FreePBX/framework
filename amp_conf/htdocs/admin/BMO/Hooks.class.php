@@ -50,8 +50,8 @@ class Hooks {
 
 			// Find ConfigPageInit hooks (called before the page is displayed,
 			// used to catch 'submit' POST/GETs, or as an alternative to guihooks.
-			if (method_exists($mod, "myConfigPageInit")) {
-				$allhooks['ConfigPageInits'][$mod] = $mod::myConfigPageInit();
+			if (method_exists($mod, "myConfigPageInits")) {
+				$allhooks['ConfigPageInits'][$mod] = $mod::myConfigPageInits();
 			}
 
 			// Discover if the module wants to write to any other files, which
