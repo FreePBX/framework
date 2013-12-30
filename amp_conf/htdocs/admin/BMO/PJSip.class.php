@@ -3,6 +3,15 @@
 
 class PJSip implements BMO {
 
+	private $PJSipModules = array("chan_pjsip.so", "res_pjsip_endpoint_identifier_anonymous.so", "res_pjsip_messaging.so",
+		"res_pjsip_pidf.so", "res_pjsip_session.so", "func_pjsip_endpoint.so", "res_pjsip_endpoint_identifier_ip.so", "res_pjsip_mwi.so",
+		"res_pjsip_pubsub.so", "res_pjsip.so", "res_pjsip_acl.so", "res_pjsip_endpoint_identifier_user.so", "res_pjsip_nat.so",
+		"res_pjsip_refer.so", "res_pjsip_t38.so", "res_pjsip_authenticator_digest.so", "res_pjsip_exten_state.so", "res_pjsip_notify.so",
+		"res_pjsip_registrar_expire.so", "res_pjsip_transport_websocket.so", "res_pjsip_caller_id.so", "res_pjsip_header_funcs.so",
+		"res_pjsip_one_touch_record_info.so", "res_pjsip_registrar.so", "res_pjsip_diversion.so", "res_pjsip_log_forwarder.so", 
+		"res_pjsip_outbound_authenticator_digest.so", "res_pjsip_rfc3326.so", "res_pjsip_dtmf_info.so", "res_pjsip_logger.so",
+		"res_pjsip_outbound_registration.so", "res_pjsip_sdp_rtp.so");
+
 	public function __construct($freepbx = null) {
 		if ($freepbx == null)
 			throw new Exception("Not given a FreePBX Object");
@@ -145,7 +154,7 @@ class PJSip implements BMO {
 	}
 
 	private function generateEndpoint($config, &$retarr) {
-		
+
 		// Validate $config array
 		$this->validateEndpoint($config);
 
@@ -197,7 +206,7 @@ class PJSip implements BMO {
 
 		// Currently unported: 
 		//   accountcode, callgroup, 
-		
+
 		// DTMF Mode has changed.
 		if ($config['dtmfmode'] == "rfc2833")
 			$config['dtmfmode'] = "rfc4733";
@@ -239,25 +248,25 @@ class PJSip implements BMO {
 
 	/* Assorted stubs to validate the BMO Interface */
 	public function install() {}
-	public function uninstall() {}
-	public function backup() {}
-	public function restore($config) {}
-	public function showPage($request) { return false; }
+		public function uninstall() {}
+		public function backup() {}
+		public function restore($config) {}
+		public function showPage($request) { return false; }
 
-	/* Hook definitions */
-	public static function myGuiHooks() { return array("INTERCEPT" => "modules/sipsettings/page.sipsettings.php"); }
+		/* Hook definitions */
+		public static function myGuiHooks() { return array("INTERCEPT" => "modules/sipsettings/page.sipsettings.php"); }
 
-	/* Hook Callbacks */
-	public function doGuiIntercept($filename, &$text) {
-		if ($filename == "modules/sipsettings/page.sipsettings.php") {
-			$foo = split("\n", $text);
-			$header = array_shift($foo);
-			array_unshift($foo, $header, "<strong>Note that PJSip is enabled in Advanced Settings</strong>");
-			$text = implode("\n", $foo);
-		} else {
-			throw new Exception("doGuiIntercept was called with $filename. This shouldn't ever happen");
+		/* Hook Callbacks */
+		public function doGuiIntercept($filename, &$text) {
+			if ($filename == "modules/sipsettings/page.sipsettings.php") {
+				$foo = split("\n", $text);
+				$header = array_shift($foo);
+				array_unshift($foo, $header, "<strong>Note that PJSip is enabled in Advanced Settings</strong>");
+				$text = implode("\n", $foo);
+			} else {
+				throw new Exception("doGuiIntercept was called with $filename. This shouldn't ever happen");
+			}
 		}
-	}
 
 	public function getConfig() {
 
@@ -302,9 +311,8 @@ class PJSip implements BMO {
 		$m = $this->FreePBX->ModulesConf;
 
 		$m->noload("chan_sip.so");
-		$m->removenoload("chan_pjsip.so");
-		$m->removenoload("res_pjsip.so");
-		$m->removenoload("func_pjsip_endpoint.so");
+		foreach ($this->PJSipModules as $mod)
+			$m->removenoload($mod);
 	}
 
 	private function disablePJSipModules() {
@@ -314,10 +322,7 @@ class PJSip implements BMO {
 		$m = $this->FreePBX->ModulesConf;
 
 		$m->removenoload("chan_sip.so");
-		$m->noload("chan_pjsip.so");
-		$m->noload("res_pjsip.so");
-		$m->noload("func_pjsip_endpoint.so");
+		foreach ($this->PJSipModules as $mod)
+			$m->noload($mod);
 	}
-
-		
 }
