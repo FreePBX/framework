@@ -262,32 +262,32 @@ class PJSip implements BMO {
 		return $this->DefaultSipCodecs;
 	}
 
+	/* Assorted stubs to validate the BMO Interface */
+	public function install() {}
+	public function uninstall() {}
+	public function backup() {}
+	public function restore($config) {}
+	public function showPage($request) { return false; }
+
+	/* Hook definitions */
+	public static function myGuiHooks() { return array("core", "INTERCEPT" => "modules/sipsettings/page.sipsettings.php"); }
+
+	/* Hook Callbacks */
+	public function doGuiIntercept($filename, &$text) {
+		if ($filename == "modules/sipsettings/page.sipsettings.php") {
+			$foo = split("\n", $text);
+			$header = array_shift($foo);
+			$str = "Asterisk is currently using <strong>".$this->FreePBX->Config->get_conf_setting('ASTSIPDRIVER')."</strong> for SIP Traffic.<br />You can change this on the Advanced Settings Page<br />\n";
+			array_unshift($foo, $header, $str);
+			$text = implode("\n", $foo);
+		} else {
+			throw new Exception("doGuiIntercept was called with $filename. This shouldn't ever happen");
+		}
+	}
+
 	public function doGuiHook(&$currentconfig) {
 		return true;
 	}
-
-	/* Assorted stubs to validate the BMO Interface */
-	public function install() {}
-		public function uninstall() {}
-		public function backup() {}
-		public function restore($config) {}
-		public function showPage($request) { return false; }
-
-		/* Hook definitions */
-		public static function myGuiHooks() { return array("INTERCEPT" => "modules/sipsettings/page.sipsettings.php"); }
-
-		/* Hook Callbacks */
-		public function doGuiIntercept($filename, &$text) {
-			if ($filename == "modules/sipsettings/page.sipsettings.php") {
-				$foo = split("\n", $text);
-				$header = array_shift($foo);
-				$str = "Asterisk is currently using <strong>".$this->FreePBX->Config->get_conf_setting('ASTSIPDRIVER')."</strong> for SIP Traffic.<br />You can change this on the Advanced Settings Page<br />\n";
-				array_unshift($foo, $header, $str);
-				$text = implode("\n", $foo);
-			} else {
-				throw new Exception("doGuiIntercept was called with $filename. This shouldn't ever happen");
-			}
-		}
 
 	public function getConfig() {
 
