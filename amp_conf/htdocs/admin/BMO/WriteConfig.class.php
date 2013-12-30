@@ -155,7 +155,11 @@ class WriteConfig {
 									$output .= "$i = $opt\n";
 								}
 							} else {
-								$output .= "$v\n";
+								if (is_numeric($i)) { // It's not keyed
+									$output .= "$v\n";
+								} else { // It has a key.
+									$output .= "$i = $v\n";
+								}
 							}
 						}
 					} else {
