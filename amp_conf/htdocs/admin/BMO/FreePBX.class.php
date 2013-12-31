@@ -115,8 +115,8 @@ class FreePBX {
 		if (func_num_args() == 0)
 			throw new Exception("Nothing given to the AutoLoader");
 
-		// If we have TWO arguments, we've been __called, if we only have 
-		// one and we've been called by __get.
+		// If we have TWO arguments, we've been called by __called, if we only have 
+		// one we've been called by __get.
 
 		$args = func_get_args();
 		$var = $args[0];
@@ -143,6 +143,25 @@ class FreePBX {
 			return $this->$var;
 		}
 		// Extra smarts in here later for loading stuff from modules?
+		
+		foreach(array_keys($this->Modules->getActiveModules()) as $module) {
+			$path = dirname(__DIR__)."/modules";
+			if(file_exists($path."/".$module."/$var.class.php")) {
+				if(!class_exists($var)) {
+					include($path."/".$module."/$var.class.php");
+				}
+				
+				// Now, we may have paramters (__call), or we may not..
+				if (isset($args[1])) {
+					// Currently we're only autoloading with one parameter.
+					$this->$var = new $var($this, $args[1][0]);
+				} else {
+					$this->$var = new $var($this);
+				}
+				return $this->$var;
+			}
+		}
+		
 		throw new Exception("Unable to find the Class $var to load");
 	}
 
@@ -153,7 +172,7 @@ class FreePBX {
 	 * @access private
 	 */
 	private function listDefaultLibraries() {
-		return array("Config");
+		return array("Config","Modules");
 	}
 
 	/**

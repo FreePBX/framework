@@ -66,8 +66,14 @@ class Hooks {
 	}
 
 	private function preloadBMOModules() {
-		// TODO: Find BMO Modules in /var/www/html/admin/modules
-		// For the moment, we only care about PJSip
-		$tmp = $this->FreePBX->PJSip;
+		foreach(array_keys($this->FreePBX->Modules->getActiveModules()) as $module) {
+			$path = dirname(__DIR__) . '/modules/';
+			if(file_exists($path.$module.'/'.ucfirst($module).'.class.php')) {
+				$module = ucfirst($module);
+				if(!class_exists($module)) {
+					$this->FreePBX->$module;
+				}
+			}
+		}
 	}
 }
