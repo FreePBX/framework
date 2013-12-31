@@ -28,7 +28,14 @@ class FileHooks {
 			if(class_exists($classname)) {
 				if (method_exists($classname, "get_filename")) {
 
-					$module = new $classname;
+					// Now we need one of these objects. Some of them support
+					// ::create(), some don't.
+					if (method_exists($classname, "create")) {
+						$module = $classname::create();
+					} else {
+						$module = new $classname;
+					}
+
 					$fn = $module->get_filename();
 
 					if (empty($fn)) {
