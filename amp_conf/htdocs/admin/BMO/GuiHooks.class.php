@@ -152,15 +152,7 @@ class GuiHooks {
 		if (isset($configpageinits))
 			return $configpageinits;
 
-		// None? This will be awesome, because it means all the old stuff 
-		// has been rewritten. However, until then, we'll throw an exception
-		// here because that SHOULDN'T BE HAPPENING. 
-		//
-		// Rob will buy you a beer if you get to remove these lines because it's
-		// legitimately being triggered.
-		if ($onlymodule == null)
-			throw new Exception("No configpageinit's found. This is amazingly unlikely");
-
+		// 'None' means Not-Logged-In.
 		return array();
 	}
 
