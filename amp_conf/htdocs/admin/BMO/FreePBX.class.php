@@ -121,6 +121,9 @@ class FreePBX {
 		$args = func_get_args();
 		$var = $args[0];
 
+		if ($var == "FreePBX")
+			throw new Exception("No. You ALREADY HAVE the FreePBX Object. You don't need another one.");
+
 		// Ensure no-one's trying to include something with a path in it.
 		if (strpos($var, "/") || strpos($var, ".."))
 			throw new Exception("Invalid include given to AutoLoader - $var");
@@ -156,9 +159,6 @@ class FreePBX {
 					// Currently we're only autoloading with one parameter.
 					$this->$var = new $var($this, $args[1][0]);
 				} else {
-					if ($var == "FreePBX")
-						throw new Exception("No. You ALREADY HAVE the FreePBX Object. You don't need another one.");
-
 					$this->$var = new $var($this);
 				}
 				return $this->$var;
