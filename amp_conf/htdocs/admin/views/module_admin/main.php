@@ -166,7 +166,7 @@
 											<?php } ?>
 										<?php if($module['blocked']['status']) {?>
 											<tr>
-												<td style="color:red;"><?php echo _('Missing Requirements')?>:</tr>
+												<td style="color:red;"><?php echo _('Missing Requirements')?>:</td>
 												<td>
 													<ul class="modulerequirements">
 													<?php foreach($module['blocked']['reasons'] as $mod => $reason) {?>
