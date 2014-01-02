@@ -585,6 +585,35 @@ if ($amp_conf['ASTCONFAPP'] == 'app_meetme' && !$astman->app_exists('meetme')) {
 	$nt->delete('framework', 'ASTCONFAPPMISSING');
 }
 
+
+$sip_change = _("SIP Channel Driver Changed");
+$sip_change_desc = _("Your SIP Channel Driver (ASTSIPDRIVER) was automatically changed from %s to %s because %s is not installed on your Asterisk installation");
+
+$sip_missing = _("No SIP Channel Driver");
+$sip_missing_desc = _("Neither chan_sip nor chan_pjsip is configured in Asterisk, nothing will not work properly");
+
+if ($amp_conf['ASTSIPDRIVER'] == 'both' && !$astman->chan_exists('sip') && !$astman->chan_exists('pjsip')) {
+	$nt->add_error('framework', 'ASTSIPDRIVERMISSING', $sip_missing, $sip_missing_desc);
+} elseif (($amp_conf['ASTSIPDRIVER'] == 'chan_sip' || $amp_conf['ASTSIPDRIVER'] == 'both') && !$astman->chan_exists('sip')) {
+	if ($astman->chan_exists('pjsip')) {
+		$nt->add_notice('framework', 'ASTSIPDRIVERCHG', $sip_change, sprintf($sip_change_desc,$amp_conf['ASTSIPDRIVER'],'chan_pjsip','chan_sip'));
+		$freepbx_conf->set_conf_values(array('ASTSIPDRIVER' => 'chan_pjsip'), true, true);
+		$nt->delete('framework', 'ASTSIPDRIVERMISSING');
+	} else {
+		$nt->add_error('framework', 'ASTSIPDRIVERMISSING', $sip_missing, $sip_missing_desc);
+	}
+} elseif (($amp_conf['ASTSIPDRIVER'] == 'chan_pjsip' || $amp_conf['ASTSIPDRIVER'] == 'both') && !$astman->chan_exists('pjsip')) {
+	if ($astman->chan_exists('sip')) {
+		$nt->add_notice('framework', 'ASTCONFAPPCHG', $sip_change, sprintf($sip_change_desc,$amp_conf['ASTSIPDRIVER'],'chan_sip','chan_pjsip'));
+		$freepbx_conf->set_conf_values(array('ASTSIPDRIVER' => 'chan_sip'), true, true);
+		$nt->delete('framework', 'ASTSIPDRIVERMISSING');
+	} else {
+		$nt->add_error('framework', 'ASTSIPDRIVERMISSING', $sip_missing, $sip_missing_desc);
+	}
+} else {
+	$nt->delete('framework', 'ASTSIPDRIVERMISSING');
+}
+
 // Check for and report any extension conflicts
 //
 

@@ -335,6 +335,12 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		$key = trim(fgets(STDIN,1024));
 		if (preg_match('/^$/',$key)) {
 			$amp_conf["AMPWEBROOT"] = "$webroot";
+			if (amp_mkdir($amp_conf["AMPWEBROOT"],"0755",true)){
+				out("Created ".$amp_conf["AMPWEBROOT"]);
+				break;
+			} else {
+				fatal("Cannot create ".$amp_conf["AMPWEBROOT"]."!");
+			}
 		} else { 
 			$amp_conf["AMPWEBROOT"] = rtrim($key,'/');
 
@@ -1597,5 +1603,8 @@ out("* that all modules are up to date BEFORE YOU CLICK THE RED BAR. As long *",
 out("* as this is observed, your machine will be fully functional whilst the *",false);
 out("* upgrade is in progress.                                               *",false);
 out("*************************************************************************",false);
+out("****************************************",false);
+out("* At This Time Please Restart Asterisk *",false);
+out("****************************************",false);
 // vim: set ts=4 sw=4 ai : //
 // Ensure you 'set modeline' in your ~/.vimrc to activate this //
