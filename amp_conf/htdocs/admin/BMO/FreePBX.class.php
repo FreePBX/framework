@@ -143,25 +143,28 @@ class FreePBX {
 			return $this->$var;
 		}
 		// Extra smarts in here later for loading stuff from modules?
-		
+
 		foreach(array_keys($this->Modules->getActiveModules()) as $module) {
 			$path = dirname(__DIR__)."/modules";
 			if(file_exists($path."/".$module."/$var.class.php")) {
 				if(!class_exists($var)) {
 					include($path."/".$module."/$var.class.php");
 				}
-				
+
 				// Now, we may have paramters (__call), or we may not..
 				if (isset($args[1])) {
 					// Currently we're only autoloading with one parameter.
 					$this->$var = new $var($this, $args[1][0]);
 				} else {
+					if ($var == "FreePBX")
+						throw new Exception("No. You ALREADY HAVE the FreePBX Object. You don't need another one.");
+
 					$this->$var = new $var($this);
 				}
 				return $this->$var;
 			}
 		}
-		
+
 		throw new Exception("Unable to find the Class $var to load");
 	}
 
