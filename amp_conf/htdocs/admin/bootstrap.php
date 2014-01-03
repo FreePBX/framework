@@ -42,9 +42,14 @@
  * $bootstrap_settings['function_modules_included'] = true/false true if one or more were included, false if all were skipped;
  */
 
+// This is used with BMO.
+if (isset($bootstrap_settings['returnimmediately']))
+	return;
+
 // we should never re-run this file, something is wrong if we do.
 //
 //enable error reporting and start benchmarking
+
 error_reporting(E_ALL & ~E_STRICT); 
 date_default_timezone_set(@date_default_timezone_get());
 function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); } 

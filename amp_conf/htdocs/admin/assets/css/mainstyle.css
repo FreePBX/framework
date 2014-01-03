@@ -196,7 +196,7 @@ a.info:link, a.info:hover {
 	/* make it scroll */
 	max-height:50em;
 	max-width:275px;
-	overflow:hidden;
+	overflow-y: scroll;
 }
 
 /* Smaller sizes use a smaller em on the rnav ul */
@@ -529,7 +529,7 @@ div.modulebuttons {
 }
 
 /**** tables with alternating colors ***/
-.table-striped tr:nth-child(even),
+.alt_table tr:nth-child(even),
 .table-striped>tbody>tr:nth-child(even)>td,
 .table-striped>tbody>tr:nth-child(even)>th {
 	background-color: #DEEDF7;

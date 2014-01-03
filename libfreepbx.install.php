@@ -840,7 +840,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('USE_GOOGLE_CDN_JS',$set);
 
 	//JQUERY_VER
-	$set['value'] = '1.7.1';
+	$set['value'] = '1.11.0-beta2';
 	$set['options'] = '';
 	$set['defaultval'] =& $set['value'];
 	$set['readonly'] = 1;
@@ -856,7 +856,7 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['hidden'] = 0;
 
 	//JQUERYUI_VER
-	$set['value'] = '1.8.9';
+	$set['value'] = '1.10.3';
 	$set['options'] = '';
 	$set['defaultval'] =& $set['value'];
 	$set['readonly'] = 1;
