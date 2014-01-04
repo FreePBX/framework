@@ -7,7 +7,7 @@ class ModulesConf extends BMO {
 
 	public function __construct($freepbx = null) {
 
-		$this->conf = $this->FreePBX->ConfigFile("modules.conf");
+		$this->conf = $this->ConfigFile("modules.conf");
 	}
 
 	public function noload($module = null) {
