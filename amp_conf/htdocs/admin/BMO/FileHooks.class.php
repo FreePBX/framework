@@ -41,13 +41,13 @@ class FileHooks extends BMO {
 					if (is_array($fn)) {
 						foreach($fn as $modconf) { 
 							$this->Performance->Stamp("oldfileHook-".$modconf."_start");
-							$this->WriteConfig->writeConfig($modconf,$module->generateConf($modconf));
+							$this->WriteConfig->writeConfigFile($modconf,$module->generateConf($modconf));
 							$this->Performance->Stamp("oldfileHook-".$modconf."_stop");
 						}
 					} else {
 						if ($module->get_filename() != "") 
 							$this->Performance->Stamp("oldfileHook-".$module->get_filename()."_start");
-							$this->WriteConfig->writeConfig($module->get_filename(), $module->generateConf());
+							$this->WriteConfig->writeConfigFile($module->get_filename(), $module->generateConf());
 							$this->Performance->Stamp("oldfileHook-".$module->get_filename()."_stop");
 					}
 				}

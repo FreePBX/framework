@@ -70,7 +70,7 @@ class WriteConfig extends BMO {
 		if ($filename == null)
 			throw new Exception("No filename given to writeConfig. This is a bug");
 
-		$this->writeConfigFiless(array($filename => $contents));
+		$this->writeConfigFiles(array($filename => $contents));
 	}
 
 	/**
