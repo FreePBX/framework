@@ -110,7 +110,7 @@ class FreePBX {
 	 * @return object
 	 * @access private
 	 */
-	public function autoLoad() {
+	private function autoLoad() {
 		// Figure out what is wanted, and return it.
 		if (func_num_args() == 0)
 			throw new Exception("Nothing given to the AutoLoader");
@@ -157,9 +157,9 @@ class FreePBX {
 				// Now, we may have paramters (__call), or we may not..
 				if (isset($args[1])) {
 					// Currently we're only autoloading with one parameter.
-					$this->$var = new $var(FreePBX::create(), $args[1][0]);
+					$this->$var = new $var($this, $args[1][0]);
 				} else {
-					$this->$var = new $var(FreePBX::create());
+					$this->$var = new $var($this);
 				}
 				return $this->$var;
 			}

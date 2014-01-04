@@ -1,7 +1,14 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 
-class GuiHooks extends BMO {
+class GuiHooks {
+
+	public function __construct($freepbx = null) {
+		if ($freepbx == null)
+			throw new Exception("Need to be instantiated with a FreePBX Object");
+
+		$this->FreePBX = $freepbx;
+	}
 
 	public function getConfigPageInit($module, $request, $currentcomponent) {
 		return false;
@@ -19,7 +26,7 @@ class GuiHooks extends BMO {
 
 		$retarr = array();
 
-		$allHooks = $this->Hooks->getAllHooks();
+		$allHooks = $this->FreePBX->Hooks->getAllHooks();
 		foreach ($allHooks['GuiHooks'] as $module => $hookArr) {
 
 			foreach ($hookArr as $key => $val) {
@@ -55,7 +62,7 @@ class GuiHooks extends BMO {
 
 		// Make sure we actually can load the module
 		try {
-			$mod = $this->$moduleToCall;
+			$mod = $this->FreePBX->$moduleToCall;
 		} catch (Exception $e) {
 			// Unable to find the module.
 			return false;
@@ -90,7 +97,7 @@ class GuiHooks extends BMO {
 		foreach ($hooks['INTERCEPT'] as $moduleToCall => $file) {
 			// Make sure we actually can load the module
 			try {
-				$mod = $this->$moduleToCall;
+				$mod = $this->FreePBX->$moduleToCall;
 				// Now, does the hook actually exist?
 				if (!method_exists($moduleToCall, "doGuiIntercept"))
 					throw new Exception("$moduleToCall asked to intercept, but ${moduleToCall}->doGuiIntercept() doesn't exist");
@@ -117,7 +124,7 @@ class GuiHooks extends BMO {
 
 	private function getOldConfigPageInit($onlymodule = null) {
 
-		$active_modules = $this->Modules->active_modules;
+		$active_modules = $this->FreePBX->Modules->active_modules;
 
 		foreach($active_modules as $key => $module) {
 			// If we've been handed a modulename, only return the
@@ -153,10 +160,10 @@ class GuiHooks extends BMO {
 		if ($display == null)
 			throw new Exception("Hooking into the main page is currently not supported. Sorry");
 
-		$bmoHooks = $this->Hooks->getAllHooks();
+		$bmoHooks = $this->FreePBX->Hooks->getAllHooks();
 
 		if (isset($bmoHooks['ConfigPageInits'])) {
-			$class = $this->Modules->getClassName($display);
+			$class = $this->FreePBX->Modules->getClassName($display);
 			$myHooks = $bmoHooks['ConfigPageInits'];
 		} else {
 			$myHooks = array();
@@ -197,6 +204,6 @@ class GuiHooks extends BMO {
 	}
 
 	private function doBMOConfigPage($class, $display) {
-		$this->$class->doConfigPageInit($display);
+		$this->FreePBX->$class->doConfigPageInit($display);
 	}
 }

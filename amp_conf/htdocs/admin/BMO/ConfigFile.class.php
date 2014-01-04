@@ -1,17 +1,21 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 
-class ConfigFile extends BMO {
+class ConfigFile {
 
 	public $config;
 	private $file;
 	
 
 	public function __construct($freepbx = null, $file = null) {
+		if ($freepbx == null)
+			throw new Exception("Not given a FreePBX Object");
+		$this->FreePBX = $freepbx;
+
 		if ($file == null)
 			throw new Exception("Not given a file to manage");
 
-		$this->config = $this->LoadConfig($file);
+		$this->config = $this->FreePBX->LoadConfig($file);
 		$this->file = $file;
 	}
 
@@ -115,7 +119,7 @@ class ConfigFile extends BMO {
 	}
 
 	private function updateConfig() {
-		$this->WriteConfig(array($this->file => $this->config->ProcessedConfig));
+		$this->FreePBX->WriteConfig(array($this->file => $this->config->ProcessedConfig));
 	}
 }
 

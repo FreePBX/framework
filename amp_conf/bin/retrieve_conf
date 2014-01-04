@@ -16,7 +16,7 @@ $freepbx_conf =& freepbx_conf::create();
 // Load the BMO Object
 include $amp_conf['AMPWEBROOT'].'/admin/BMO/FreePBX.class.php';
 $bmo = new FreePBX;
-$bmo->Performance->On();
+// $bmo->Performance->On();
 $bmo->Performance->Stamp("retrieve_conf_start");
 
 // BMO TODO: Move this to be part of BMO.
@@ -670,7 +670,7 @@ $ext->add('from-internal-additional', 'h', '', new ext_hangup(''));
 $ext->add('from-internal-noxfer-additional', 'h', '', new ext_hangup(''));
 
 // Write extensions_additional.conf!
-$bmo->WriteConfig->writeConfigFile($ext->get_filename(), $ext->generateConf());
+$bmo->WriteConfig->writeConfig($ext->get_filename(), $ext->generateConf());
 
 // Output any other configuration files from other modules.
 $bmo->Performance->Stamp("processFileHooks_start");

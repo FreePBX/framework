@@ -1,7 +1,14 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 
-class FileHooks extends BMO {
+class FileHooks {
+
+	public function __construct($freepbx = null) {
+		if ($freepbx == null)
+			throw new Exception("Need to be instantiated with a FreePBX Object");
+
+		$this->FreePBX = $freepbx;
+	}
 
 	public function processFileHooks($active_modules = null) {
 		if ($active_modules == null)
@@ -40,15 +47,15 @@ class FileHooks extends BMO {
 					// ** pinsets is an example of a module that does this
 					if (is_array($fn)) {
 						foreach($fn as $modconf) { 
-							$this->Performance->Stamp("oldfileHook-".$modconf."_start");
-							$this->WriteConfig->writeConfigFile($modconf,$module->generateConf($modconf));
-							$this->Performance->Stamp("oldfileHook-".$modconf."_stop");
+							$this->FreePBX->Performance->Stamp("oldfileHook-".$modconf."_start");
+							$this->FreePBX->WriteConfig->writeConfig($modconf,$module->generateConf($modconf));
+							$this->FreePBX->Performance->Stamp("oldfileHook-".$modconf."_stop");
 						}
 					} else {
 						if ($module->get_filename() != "") 
-							$this->Performance->Stamp("oldfileHook-".$module->get_filename()."_start");
-							$this->WriteConfig->writeConfigFile($module->get_filename(), $module->generateConf());
-							$this->Performance->Stamp("oldfileHook-".$module->get_filename()."_stop");
+							$this->FreePBX->Performance->Stamp("oldfileHook-".$module->get_filename()."_start");
+							$this->FreePBX->WriteConfig->writeConfig($module->get_filename(), $module->generateConf());
+							$this->FreePBX->Performance->Stamp("oldfileHook-".$module->get_filename()."_stop");
 					}
 				}
 			}
@@ -56,24 +63,24 @@ class FileHooks extends BMO {
 	}
 
 	private function processNewHooks() {
-		$hooks = $this->Hooks->getAllHooks();
+		$hooks = $this->FreePBX->Hooks->getAllHooks();
 		foreach ($hooks['ConfigFiles'] as $hook) {
-			$this->Performance->Stamp("fileHook-".$hook."_start");
+			$this->FreePBX->Performance->Stamp("fileHook-".$hook."_start");
 			// This is where we'd hook the output of files, if it was implemented.
 			// As no-one wants it yet, I'm not going to bother.
-			if (!method_exists($this->$hook, "getConfig"))
+			if (!method_exists($this->FreePBX->$hook, "getConfig"))
 				throw new Exception("$hook asked to generate a config file, but, doesn't implement getConfig()");
 
-			$tmpconf = $this->$hook->getConfig();
+			$tmpconf = $this->FreePBX->$hook->getConfig();
 
 			// Here we want to hand off $tmpconf to other modules, if they somehow say they want to do something
 			// with it. 
 
-			if (!method_exists($this->$hook, "writeConfig"))
+			if (!method_exists($this->FreePBX->$hook, "writeConfig"))
 				throw new Exception("$hook asked to generate a config file, but, doesn't implement writeConfig()");
 
-			$this->$hook->writeConfig($tmpconf);
-			$this->Performance->Stamp("fileHook-".$hook."_stop");
+			$this->FreePBX->$hook->writeConfig($tmpconf);
+			$this->FreePBX->Performance->Stamp("fileHook-".$hook."_stop");
 		}
 	}
 }

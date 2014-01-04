@@ -29,7 +29,7 @@
  * WriteConfig class for FreePBX BMO
  * This writes configuration files to /etc/asterisk 
  */
-class WriteConfig extends BMO {
+class WriteConfig {
 
 	/**
 	 * Header gets added to every generated file
@@ -66,11 +66,11 @@ class WriteConfig extends BMO {
 	 * @return void
 	 * @access public
 	 */
-	public function writeConfigFile($filename = null, $contents) {
+	public function writeConfig($filename = null, $contents) {
 		if ($filename == null)
 			throw new Exception("No filename given to writeConfig. This is a bug");
 
-		$this->writeConfigFiles(array($filename => $contents));
+		$this->writeConfigs(array($filename => $contents));
 	}
 
 	/**
@@ -80,7 +80,7 @@ class WriteConfig extends BMO {
 	 * @return void  
 	 * @access public
 	 */
-	public function writeConfigFiles($array) {
+	public function writeConfigs($array) {
 		foreach ($array as $file => $contents) {
 			$this->writeFile($this->validateFilename($file), $contents);
 		}

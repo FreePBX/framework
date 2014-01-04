@@ -3,11 +3,15 @@
 
 // This is a very basic interface to the existing 'module_functions' class.
 
-class Modules extends BMO {
+class Modules {
 
 	public $active_modules;
 
 	public function __construct($freepbx = null) {
+
+		if ($freepbx == null)
+			throw new Exception("Need to be instantiated with a FreePBX Object");
+		$this->FreePBX = $freepbx;
 
 		if (!class_exists('module_functions')) {
 			throw new Exception("module_functions class missing? Bootstrap not run?");
