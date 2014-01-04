@@ -1,6 +1,6 @@
 <?php
 
-class Performance {
+class Performance extends BMO {
 
 	private $doperf = false;
 

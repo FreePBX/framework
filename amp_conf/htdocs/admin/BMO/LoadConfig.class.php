@@ -1,6 +1,6 @@
 <?php
 
-class LoadConfig {
+class LoadConfig extends BMO {
 
 	private $RawConfigContents;
 	public $PlainConfig;

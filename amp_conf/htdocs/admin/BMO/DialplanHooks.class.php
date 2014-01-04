@@ -1,14 +1,7 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 
-class DialplanHooks {
-
-	public function __construct($freepbx = null) {
-		if ($freepbx == null)
-			throw new Exception("Need to be instantiated with a FreePBX Object");
-
-		$this->FreePBX = $freepbx;
-	}
+class DialplanHooks extends BMO {
 
 	public function getAllHooks($active_modules = null) {
 		if ($active_modules == null)
@@ -62,22 +55,22 @@ class DialplanHooks {
 						print "ERROR: $func should exist, but it doesn't\n";
 						continue;
 					}
-					$this->FreePBX->Performance->Stamp("olddialplanHook-".$func."_start");
+					$this->Performance->Stamp("olddialplanHook-".$func."_start");
 					$func($engine);
-					$this->FreePBX->Performance->Stamp("olddialplanHook-".$func."_stop");
+					$this->Performance->Stamp("olddialplanHook-".$func."_stop");
 				} elseif (isset($cmd['Class'])) {
 					// This is a new BMO Object!
 					$class = $cmd['Class'];
 					try {
-						if (!method_exists($this->FreePBX->$class, "doDialplanHook")) {
+						if (!method_exists($this->$class, "doDialplanHook")) {
 							print "ERROR: ${class}->doDialplanHook() isn't there, but the module is saying it wants to hook\n";
 							continue;
 						}
-						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");
-						$this->FreePBX->$class->doDialplanHook($engine, $pri);
-						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
+						$this->Performance->Stamp($class."->doDialplanHook_start");
+						$this->$class->doDialplanHook($engine, $pri);
+						$this->Performance->Stamp($class."->doDialplanHook_stop");
 					} catch (Exception $e) {
-						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
+						$this->Performance->Stamp($class."->doDialplanHook_stop");
 						print "ERROR: Tried to run ${class}->doDialplanHook(), received ".$e->getMessage()."\n";
 					}
 				} else {
@@ -125,7 +118,7 @@ class DialplanHooks {
 
 	public function getBMOHooks() {
 
-		$allHooks = $this->FreePBX->Hooks->getAllHooks();
+		$allHooks = $this->Hooks->getAllHooks();
 		return $allHooks['DialplanHooks'];
 
 	}

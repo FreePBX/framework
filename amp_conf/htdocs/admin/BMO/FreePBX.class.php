@@ -110,7 +110,7 @@ class FreePBX {
 	 * @return object
 	 * @access private
 	 */
-	private function autoLoad() {
+	public function autoLoad() {
 		// Figure out what is wanted, and return it.
 		if (func_num_args() == 0)
 			throw new Exception("Nothing given to the AutoLoader");

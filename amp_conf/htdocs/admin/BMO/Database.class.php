@@ -44,6 +44,7 @@ class Database extends PDO {
 		// load the $amp_conf variables.
 		$bootstrap_settings['returnimmediately'] = true;
 		include '/etc/freepbx.conf';
+		unset($bootstrap_settings);
 
 		if (isset($args[0])) {
 			$dsn = $args[0];

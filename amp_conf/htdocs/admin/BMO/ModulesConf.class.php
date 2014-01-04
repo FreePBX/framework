@@ -1,15 +1,11 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 
-class ModulesConf {
+class ModulesConf extends BMO {
 
 	private $conf;
 
 	public function __construct($freepbx = null) {
-		if ($freepbx == null)
-			throw new Exception("Config needs to be given a FreePBX Object when created");
-
-		$this->FreePBX = $freepbx;
 
 		$this->conf = $this->FreePBX->ConfigFile("modules.conf");
 	}
