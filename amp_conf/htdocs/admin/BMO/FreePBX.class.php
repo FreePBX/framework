@@ -157,9 +157,9 @@ class FreePBX {
 				// Now, we may have paramters (__call), or we may not..
 				if (isset($args[1])) {
 					// Currently we're only autoloading with one parameter.
-					$this->$var = new $var($this, $args[1][0]);
+					$this->$var = new $var(FreePBX::create(), $args[1][0]);
 				} else {
-					$this->$var = new $var($this);
+					$this->$var = new $var(FreePBX::create());
 				}
 				return $this->$var;
 			}

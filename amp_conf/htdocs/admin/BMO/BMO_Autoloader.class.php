@@ -75,6 +75,16 @@ class BMO_Autoloader {
 	private function autoLoad($var, $args) {
 		// TODO: Care about LOCAL Modules here.
 
+		// Does the FreePBX Object know about this already?
+
+		// This.. This feels wrong. But I can't think of a better
+		// way to do it.
+		$freepbx = FreePBX::create();
+		// isset should NOT trigger the Autoloader.
+		if (isset($freepbx->$var)) {
+			return $freepbx->$var;
+		}
+
 		return FreePBX::autoLoad($var, $args);
 	}
 }
