@@ -13,19 +13,48 @@ class Codecs {
 	}
 
 	public function getVideo() {
-		return array("h261", "h263", "h263p", "h264", "mpeg4", "vp8");
+		return array("h261" => false, "h263" => false, "h263p" => false, "h264" => true, "mpeg4" => true, "vp8" => true);
 	}
 
 	public function getAudio() {
-		return array("g722","ulaw","alaw","gsm","g723","g726","adpcm","slin","lpc10","g729","speex","speex16","ilbc","g726aal2","slin16","siren7","siren14","testlaw","g719","speex32","slin12","slin24","slin32","slin44","slin48","slin96","slin192","opus");
+		return array(
+			"g722" => false,
+			"ulaw" => true,
+			"alaw" => true,
+			"gsm" => true,
+			"g729" => false,
+			"g723" => false,
+			"g726" => false,
+			"adpcm" => false,
+			"slin" => false,
+			"lpc10" => false,
+			"speex" => false,
+			"speex16" => false,
+			"ilbc" => false,
+			"g726aal2" => false,
+			"slin16" => false,
+			"siren7" => false,
+			"siren14" => false,
+			"testlaw" => false,
+			"g719" => false,
+			"speex32" => false,
+			"slin12" => false,
+			"slin24" => false,
+			"slin32" => false,
+			"slin44" => false,
+			"slin48" => false,
+			"slin96" => false,
+			"slin192" => false,
+			"opus" => false
+		);
 	}
 
 	public function getText() {
-		return array("red", "t140");
+		return array("red" => false, "t140" => false);
 	}
 
 	public function getImage() {
-		return array("jpeg", "png");
+		return array("jpeg" => false, "png" => false);
 	}
 }
 
