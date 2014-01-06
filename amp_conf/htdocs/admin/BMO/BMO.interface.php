@@ -2,6 +2,8 @@
 
 // Define and document the BMO Interface
 
+include "DB_Helper.class.php";
+
 interface BMO {
 	// ///////////////////////////////// //
 	// Installing/Upgrading/Uninstalling //
