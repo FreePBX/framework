@@ -40,8 +40,10 @@ class Modules {
 		if ($page == null)
 			throw new Exception("I can't find a module for a page that doesn't exist");
 
-		// TODO: Everything.
-		return "";
+		// This is going to be complex. Let's just red/green it for the moment.
+		if ($page = "sipsettings") { return "Sipsettings"; }
+
+		return false;
 	}
 }
 
