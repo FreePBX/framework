@@ -148,7 +148,7 @@ class FreePBX {
 		// Extra smarts in here later for loading stuff from modules?
 
 		foreach(array_keys($this->Modules->getActiveModules()) as $module) {
-			$path = dirname(__DIR__)."/../modules";
+			$path = dirname(dirname(__DIR__))."/modules";
 			if(file_exists($path."/".$module."/$var.class.php")) {
 				if(!class_exists($var)) {
 					include($path."/".$module."/$var.class.php");
