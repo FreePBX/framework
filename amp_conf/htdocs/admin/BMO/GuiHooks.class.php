@@ -204,6 +204,10 @@ class GuiHooks {
 	}
 
 	private function doBMOConfigPage($class, $display) {
-		$this->FreePBX->$class->doConfigPageInit($display);
+		if (method_exists($this->FreePBX->$class, "doConfigPageInit")) {
+			$this->FreePBX->$class->doConfigPageInit($display);
+		} else {
+			print "Page $class doesn't implement doConfigPageInit, this is bad.\n";
+		}
 	}
 }
