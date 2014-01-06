@@ -162,6 +162,8 @@ class FreePBX {
 					$this->$var = new $var($this);
 				}
 				return $this->$var;
+			} else {
+				// print "Looked for $path/$module/$var.class.php \n";
 			}
 		}
 
