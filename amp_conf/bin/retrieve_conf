@@ -14,8 +14,6 @@ if (!$bootstrap_settings['astman_connected']) {
 $freepbx_conf =& freepbx_conf::create();
 
 // Load the BMO Object
-print $amp_conf['AMPWEBROOT'].'/admin/libraries/BMO/FreePBX.class.php';
-exit;
 include $amp_conf['AMPWEBROOT'].'/admin/libraries/BMO/FreePBX.class.php';
 $bmo = new FreePBX;
 // $bmo->Performance->On();
