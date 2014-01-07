@@ -12,16 +12,22 @@ class Codecs {
 		return $codecs;
 	}
 
-	public function getVideo() {
-		return array("h261" => false, "h263" => false, "h263p" => false, "h264" => true, "mpeg4" => true, "vp8" => true);
+	public function getVideo($defaults = false) {
+		$ret = array("h261" => false, "h263" => false, "h263p" => false, "h264" => false, "mpeg4" => false, "vp8" => false);
+		if ($defaults) {
+			$ret['h264'] = "1";
+			$ret['mpeg4'] = "2";
+		}
+
+		return $ret;
 	}
 
-	public function getAudio() {
-		return array(
+	public function getAudio($defaults = false) {
+		$ret = array(
 			"g722" => false,
-			"ulaw" => true,
-			"alaw" => true,
-			"gsm" => true,
+			"ulaw" => false,
+			"alaw" => false,
+			"gsm" => false,
 			"g729" => false,
 			"g723" => false,
 			"g726" => false,
@@ -47,6 +53,14 @@ class Codecs {
 			"slin192" => false,
 			"opus" => false
 		);
+
+		if ($defaults) {
+			$ret['ulaw'] = "1";
+			$ret['alaw'] = "2";
+			$ret['gsm'] = "3";
+		}
+
+		return $ret;
 	}
 
 	public function getText() {
