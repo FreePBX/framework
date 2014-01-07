@@ -67,7 +67,7 @@ class Hooks {
 
 	private function preloadBMOModules() {
 		foreach(array_keys($this->FreePBX->Modules->getActiveModules()) as $module) {
-			$path = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
+			$path = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
 			if(file_exists($path.$module.'/'.ucfirst($module).'.class.php')) {
 				$module = ucfirst($module);
 				if(!class_exists($module)) {
