@@ -10,11 +10,25 @@ define("FPBX_LOG_ERROR",    "ERROR");
 define("FPBX_LOG_WARNING",  "WARNING");
 define("FPBX_LOG_NOTICE",   "NOTICE");
 define("FPBX_LOG_INFO",     "INFO");
-define("FPBX_LOG_PHP",      "PHP");
+define("FPBX_LOG_PHP",     "PHP")/**
+ * FreePBX empty function which checks if the value is numeric to determine how
+ *      indepth we need to check it. This came about because of the need to
+ *      allow extensions that are 0
+ * @param string
+ * @return boolean
+ */
+function empty_freepbx($var) {
+        if (!is_numeric($var)) {
+                return empty($var);
+        } else if (!isset($var) || $var === false) {
+                return true;
+        }
+        return false;
+};
 
 /** FreePBX Logging facility to FILE or syslog
  * @param  string   The level/severity of the error. Valid levels use constants:
- *                  FPBX_LOG_FATAL, FPBX_LOG_CRITICAL, FPBX_LOG_SECURITY, FPBX_LOG_UPDATE, 
+ *                  FPBX_LOG_FATAL, FPBX_LOG_CRITICAL, FPBX_LOG_SECURITY, FPBX_LOG_UPDATE,
  *                  FPBX_LOG_ERROR, FPBX_LOG_WARNING, FPBX_LOG_NOTICE, FPBX_LOG_INFO.
  * @param  string   The error message
  */
@@ -105,41 +119,41 @@ function version_compare_freepbx($version1, $version2, $op = null) {
 
 function compress_framework_css() {
 	global $amp_conf;
-	$mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
-						? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
-						: 'assets/css/mainstyle.css'; 
+	$mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE']
+						? $amp_conf['BRAND_CSS_ALT_MAINSTYLE']
+						: 'assets/css/mainstyle.css';
 	$wwwroot 			= $amp_conf['AMPWEBROOT'] . "/admin";
 	$mainstyle_css_gen 	= $wwwroot . '/' . $amp_conf['mainstyle_css_generated'];
 	$mainstyle_css		= $wwwroot . '/' . $mainstyle_css;
-	$new_css 			= file_get_contents($mainstyle_css) 
+	$new_css 			= file_get_contents($mainstyle_css)
 						. file_get_contents($wwwroot . '/' . $amp_conf['JQUERY_CSS']);
 	$new_css 			= CssMin::minify($new_css);
 	$new_md5 			= md5($new_css);
 	$gen_md5 			= file_exists($mainstyle_css_gen) ? md5(file_get_contents($mainstyle_css_gen)) : '';
 
-	
+
 	//regenerate if hashes dont match
 	if ($new_md5 != $gen_md5) {
 		$ms_path = dirname($mainstyle_css);
 
-		// it's important for filename tp unique 
+		// it's important for filename tp unique
 		//because that will force browsers to reload vs. caching it
 		$mainstyle_css_generated = $ms_path.'/mstyle_autogen_' . time() . '.css';
 		//remove any stale generated css files
 		exec(fpbx_which('rm') . ' -f ' . $ms_path . '/mstyle_autogen_*');
-		
+
 		$ret = file_put_contents($mainstyle_css_generated, $new_css);
 
 		// Now assuming we write something reasonable, we need to save the generated file name and mtimes so
 		// next time through this ordeal, we see everything is setup and skip all of this.
-		// 
+		//
 		// we skip this all this if we get back false or 0 (nothing written) in which case we will use the original
-		// We need to set the value in addition to defining the setting 
+		// We need to set the value in addition to defining the setting
 		//since if already defined the value won't be reset.
 		if ($ret) {
 			$freepbx_conf =& freepbx_conf::create();
 			$val_update['mainstyle_css_generated'] = str_replace($wwwroot . '/', '', $mainstyle_css_generated);
-			
+
 			// Update the values (in case these are new) and commit
 			$freepbx_conf->set_conf_values($val_update, true, true);
 
@@ -148,12 +162,12 @@ function compress_framework_css() {
 			if (is_file($mainstyle_css_gen) && !unlink($mainstyle_css_gen)) {
 				freepbx_log(FPBX_LOG_WARNING,
 							sprintf(_('failed to delete %s from assets/css directory after '
-									. 'creating updated CSS file.'), 
+									. 'creating updated CSS file.'),
 									$mainstyle_css_generated_full_path));
 			}
 		}
 	}
-	
+
 }
 
 function die_freepbx($text, $extended_text="", $type="FATAL") {
@@ -246,10 +260,10 @@ function get_framework_version($cached=true) {
 //tell application we need to reload asterisk
 function needreload() {
 	global $db;
-	$sql	= "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'"; 
-	$result	= $db->query($sql); 
-	if($db->IsError($result)) {     
-		die_freepbx($sql.$result->getMessage()); 
+	$sql	= "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'";
+	$result	= $db->query($sql);
+	if($db->IsError($result)) {
+		die_freepbx($sql.$result->getMessage());
 	}
 }
 
@@ -279,12 +293,12 @@ function freepbx_debug($string, $option='', $filename='') {
  * dbug() - will just print a time stamp to the debug log file ($amp_conf['FPBXDBUGFILE'])
  * dbug('string') - same as above + will print the string
  * dbug('string',$array) - same as above + will print_r the array after the message
- * dbug($array) - will print_r the array with no message (just a time stamp)  
+ * dbug($array) - will print_r the array with no message (just a time stamp)
  * dbug('string',$array,1) - same as above + will var_dump the array
  * dbug($array,1) - will var_dump the array with no message  (just a time stamp)
- * 	 
+ *
  * @author Moshe Brevda mbrevda => gmail ~ com
- */  
+ */
 function dbug(){
 	global $amp_conf;
 
@@ -317,20 +331,20 @@ function dbug(){
 			$disc		= $opts[0];
 			$msg		= $opts[1];
 			$dump		= $opts[2];
-			break;	
+			break;
 	}
-	
+
 	if (isset($disc) && $disc) {
 		$disc = ' \'' . $disc . '\':';
 	} else {
 		$disc = '';
 	}
-	
+
 	$bt = debug_backtrace();
-	$txt = date("Y-M-d H:i:s") 
-		. "\t" . $bt[0]['file'] . ':' . $bt[0]['line'] 
+	$txt = date("Y-M-d H:i:s")
+		. "\t" . $bt[0]['file'] . ':' . $bt[0]['line']
 		. "\n\n"
-		. $disc 
+		. $disc
 		. "\n"; //add timestamp + file info
 	dbug_write($txt, true);
 	if ($dump==1) {//force output via var_dump
@@ -445,7 +459,7 @@ function fatal($text,$log=true) {
 //
 function debug($text,$log=true) {
 	global $debug;
-	
+
 	if ($debug) echo "[DEBUG-preDB] ".$text.EOL;
 	if ($log) {
 		dbug($text);
@@ -489,7 +503,7 @@ function file_get_contents_url($file_url) {
 				$freepbx_conf =& freepbx_conf::create();
 				$freepbx_conf->set_conf_values(array('MODULEADMINWGET' => true),true);
 
-				$nt =& notifications::create($db); 
+				$nt =& notifications::create($db);
 				$text = sprintf(_("Forced %s to true"),'MODULEADMINWGET');
 				$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
 				$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
@@ -590,7 +604,7 @@ function generate_module_repo_url($path, $add_options=false) {
   	$options .= "&distrover=".urlencode($distro_info['pbx_version']);
   	$options .= "&fpbxver=".urlencode(getversion());
   	if (function_exists('core_users_list')) {
-			$options .= "&ucount=".urlencode(count(core_users_list()));	
+			$options .= "&ucount=".urlencode(count(core_users_list()));
 		}
 		$path .= $options;
 
@@ -632,7 +646,7 @@ function edit_crontab($remove = '', $add = '') {
 	$cron_out = array();
 	$cron_add = false;
 
-	//if were running as root (i.e. uid === 0), use the asterisk users crontab. If were running as the asterisk user, 
+	//if were running as root (i.e. uid === 0), use the asterisk users crontab. If were running as the asterisk user,
 	//that will happen automatically. If were anyone else, this cron entry will go the current user
 	//and run as them
 	$current_user = posix_getpwuid(posix_geteuid());
@@ -681,7 +695,7 @@ function edit_crontab($remove = '', $add = '') {
 				if (isset($add['event'])) {
 					$cron_add['event'] = '@' . trim($add['event'], '@');
 				} else {
-					$cron_add['minute']		= isset($add['minute']) && $add['minute'] !== ''	
+					$cron_add['minute']		= isset($add['minute']) && $add['minute'] !== ''
 												? $add['minute']
 												: '*';
 					$cron_add['hour']		= isset($add['hour']) && $add['hour'] !== ''
@@ -808,7 +822,7 @@ function astdb_get($exclude = array()) {
 	global $astman;
 	$db			= $astman->database_show();
 	$astdb		= array();
-	
+
 	foreach ($db as $k => $v) {
 		if (!in_array($k, $exclude)) {
 			$key = explode('/', trim($k, '/'), 2);
@@ -816,7 +830,7 @@ function astdb_get($exclude = array()) {
 			$astdb[$key[0]][$key[1]] = $v;
 		}
 	}
-	
+
 	return $astdb;
 }
 
@@ -829,7 +843,7 @@ function astdb_put($astdb, $exclude = array()) {
 	$db	= $astman->database_show();
 
 	foreach ($astdb as $family => $key) {
-		
+
 		if ($family && !in_array($family, $exclude)) {
 			$astman->database_deltree($family);
 		}
@@ -838,7 +852,7 @@ function astdb_put($astdb, $exclude = array()) {
 			//if ($k == 'Array' && $v == '<bad value>') continue;
 			$astman->database_put($family, $k, $v);
 		}
-		
+
 	}
 	return true;
 }
@@ -859,16 +873,16 @@ function scandirr($dir, $absolute = false) {
 	if ($absolute) {
 		global $list;
 	}
-	
-	
+
+
 	//get directory contents
 	foreach (scandir($dir) as $d) {
-		
+
 		//ignore any of the files in the array
 		if (in_array($d, array('.', '..'))) {
 			continue;
 		}
-		
+
 		//if current file ($d) is a directory, call scandirr
 		if (is_dir($dir . '/' . $d)) {
 			if ($absolute) {
@@ -876,8 +890,8 @@ function scandirr($dir, $absolute = false) {
 			} else {
 				$list[$d] = scandirr($dir . '/' . $d, $absolute);
 			}
-			
-		
+
+
 			//otherwise, add the file to the list
 		} elseif (is_file($dir . '/' . $d) || is_link($dir . '/' . $d)) {
 			if ($absolute) {
@@ -885,7 +899,7 @@ function scandirr($dir, $absolute = false) {
 			} else {
 				$list[] = $d;
 			}
-			
+
 		}
 	}
 
@@ -921,7 +935,7 @@ function dbug_printtree($dir, $indent = "\t") {
 
 /**
  * returns the absolute path to a system application
- * 
+ *
  * @author Moshe Brevda mbrevda => gmail ~ com
  * @pram string
  * @retruns string
@@ -936,25 +950,25 @@ function fpbx_which($app) {
 	//if we have the location cached return it
 	if ($which) {
 		return $which;
-		
+
 		//otherwise, search for it
 	} else {
 		//ist of posible plases to find which
-		
+
 		$which = array(
 				'which',
 				'/usr/bin/which' //centos/mac osx
 		);
-		
+
 		foreach ($which as $w) {
 			exec($w . ' ' . $app, $path, $ret);
-			
+
 			//exit if we have a posotive find
 			if ($ret === 0) {
 				break;
 			}
 		}
-		
+
 		if($path[0]) {
 			//if we have a path add it to freepbx settings
 			$set = array(
@@ -967,14 +981,14 @@ function fpbx_which($app) {
 					'category'		=> 'System Apps',
 					'emptyok'		=> 1,
 					'name'			=> 'Path for ' . $app,
-					'description'	=> 'The path to ' . $app 
+					'description'	=> 'The path to ' . $app
 									. ' as auto-determined by the system.'
 									. ' Overwrite as necessary.',
 					'type'			=> CONF_TYPE_TEXT
 			);
 			$freepbx_conf->define_conf_setting('WHICH_' . $app, $set);
 			$freepbx_conf->commit_conf_settings();
-			
+
 			//return the path
 			return $path[0];
 		} else {
@@ -988,16 +1002,16 @@ function fpbx_which($app) {
  * http://php.net/manual/en/function.getopt.php
  * temporary polyfill for proper working of getopt()
  * will revert to the native function if php >= 5.3.0
- * 
+ *
  *
  * ===============================================================
- * THIS FUNCTION SHOULD NOT BE RELIED UPON AS IT WILL REMOVED 
+ * THIS FUNCTION SHOULD NOT BE RELIED UPON AS IT WILL REMOVED
  * ONCE THE PROJECT REQUIRES PHP 5.3.0
  * if you must, call like:
  * $getopts = (function_exists('_getopt') ? '_' : '') . 'getopt';
  * $vars = $getopts($short = '', $long = array('id::'));
  * ===============================================================
- * 
+ *
  *
  * http://www.ntu.beautifulworldco.com/weblog/?p=526
  */
@@ -1174,7 +1188,7 @@ function _getopt() {
 
 /**
  * returns a rounded string representation of a byte size
- * 
+ *
  * @author http://us2.php.net/manual/en/function.memory-get-usage.php#96280
  * @pram int
  * @retruns string
@@ -1186,7 +1200,7 @@ function bytes2string($size){
 
 /**
  * returns the absolute path to a system application
- * 
+ *
  * @author Moshe Brevda mbrevda => gmail ~ com
  * @pram string
  * @pram string, optional
@@ -1198,7 +1212,7 @@ function string2bytes($str, $type = ''){
 		$type	= strtolower($str[1]);
 		$str	= $str[0];
 	}
-	
+
     $units	= array(
 					'b'		=> 1,
 					'kb'	=> 1024,
@@ -1207,20 +1221,20 @@ function string2bytes($str, $type = ''){
 					'tb'	=> 1024 * 1024 * 1024 * 1024,
 					'pb'	=> 1024 * 1024 * 1024 * 1024 * 1024
 			);
-	
-    return isset($str, $units[$type]) 
-			? round($str * $units[$type]) 
+
+    return isset($str, $units[$type])
+			? round($str * $units[$type])
 			: false;
  }
 
 /**
  * downloads a file to the browser (i.e. sends the file to the browser)
- * 
+ *
  * @author Moshe Brevda mbrevda => gmail ~ com
  * @pram string - absolute path to file
  * @pram string, optional - file name as it will be downloaded
  * @pram string, optional - content mime type
- * @pram bool, optional - true will force the file to be download. 
+ * @pram bool, optional - true will force the file to be download.
  *						False allows the browser to attempt to display the file
  * 						Correct mime type ($type) snesesary for proper broswer interpretation!
  *
@@ -1229,10 +1243,10 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
 	if (file_exists($file)) {
 		//set the filename to the current filename if no name is specified
 		$name = $name ? $name : basename($file);
-		
+
 		//sanitize filename
 		$name = preg_replace('/[^A-Za-z0-9_\.-]/', '', $name);
-		
+
 		//attempt to set file mime type if it isn't already set
 		if (!$type) {
 			if (class_exists('finfo')) {
@@ -1241,14 +1255,14 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
 			} else {
 				exec(fpbx_which('file') . ' -ib ' . $file, $res);
 				$type = $res[0];
-			}	
+			}
 		}
 
 		//failsafe for false or blank results
 		$type = $type ? $type : 'application/octet-stream';
-		
+
 		$disposition = $force_download ? 'attachment' : 'inline';
-		
+
 		//send headers
 		header('Content-Description: File Transfer');
 		header('Content-Type: ' . $type);
@@ -1258,16 +1272,16 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
 		header('Content-Length: ' . filesize($file));
-		
+
 		//clear all buffers
 		while (ob_get_level()) {
 			ob_end_clean();
 		}
 		flush();
-		
+
 		//send the file!
 		readfile($file);
-		
+
 		//return immediately
 		exit;
 	} else {
@@ -1278,11 +1292,11 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
 
 /**
  * Get data from a pdf file. Requires pdfinfo
- * 
+ *
  * @author Moshe Brevda mbrevda => gmail ~ com
  * @pram string - /path/to/file
- * @returns array - details about the pdf. 
- * The following details are returned 
+ * @returns array - details about the pdf.
+ * The following details are returned
  *		(values returned are depndant on the pdfinfo binary)
  *		author
  *		creationdate
@@ -1301,11 +1315,11 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
 function fpbx_pdfinfo($pdf) {
 	$pdfinfo = array();
 	exec(fpbx_which('pdfinfo') . ' ' . $pdf, $pdf_details, $ret_code);
-	
+
 	if($ret_code !== 0) {
 		return false;
 	}
-	
+
 	foreach($pdf_details as $detail) {
 		list($key, $value) = preg_split('/:\s*/', $detail, 2);
 		$pdfinfo[strtolower(preg_replace('/[^A-Za-z]/', '', $key))] = $value;
@@ -1316,13 +1330,13 @@ function fpbx_pdfinfo($pdf) {
 
 /**
  * Update AMI credentials in manager.conf
- * 
+ *
  * @author Philippe Lindheimer
  * @pram mixed $user false means don't change
  * @pram mixed $pass password false means don't change
  * @pram mixed $writetimeout false means don't change
  * @returns boolean
- * 
+ *
  * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
  */
 function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
@@ -1330,7 +1344,7 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 	$conf_file = $amp_conf['ASTETCDIR'] . '/manager.conf';
 	$ret = $ret2 = 0;
 	$output = array();
-	
+
 	if ($user !== false && $user != '') {
 		exec('sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/" '. $conf_file, $output, $ret);
 		if ($ret) {
@@ -1367,11 +1381,11 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 			$nt->delete('core', 'AMPMGRPASS');
 		}
 	}
-	
+
 	//attempt to set writetimeout
 	unset($output);
 	if ($writetimeout) {
-		exec('sed -i.bak "s/writetimeout\s*=.*$/writetimeout = ' 
+		exec('sed -i.bak "s/writetimeout\s*=.*$/writetimeout = '
 			. $amp_conf['ASTMGRWRITETIMEOUT'] . '/" ' . $conf_file, $output, $ret3);
 		if ($ret3) {
 			dbug($output);
@@ -1457,9 +1471,9 @@ function bootstrap_include_hooks($hook_type, $module) {
 	if (!isset($hooks)) {
 		static $hooks = '';
 		$hooks = _bootstrap_parse_hooks();
-		
+
 	}
-	
+
 	if (isset($hooks[$hook_type][$module])) {
 		foreach ($hooks[$hook_type][$module] as $hook) {
 			if (file_exists($hook)) {
@@ -1467,10 +1481,10 @@ function bootstrap_include_hooks($hook_type, $module) {
 			} elseif(file_exists($amp_conf['AMPWEBROOT'] . '/admin/' . $hook)) {
 				require_once($amp_conf['AMPWEBROOT'] . '/admin/' . $hook);
 			}
-			
+
 		}
 	}
-	
+
 	return true;
 }
 
@@ -1479,7 +1493,7 @@ function bootstrap_include_hooks($hook_type, $module) {
  */
 function _bootstrap_parse_hooks() {
 	$hooks		= array();
-	
+
 	$modules	= module_getinfo(false, MODULE_STATUS_ENABLED);
 	foreach ($modules as $mymod => $mod) {
 		if (isset($mod['bootstrap_hooks'])) {
@@ -1489,12 +1503,12 @@ function _bootstrap_parse_hooks() {
 					case 'post_module_load':
 						//first get all_mods
 						if (isset($type_mods['all_mods'])) {
-							
-							$hooks[$type]['all_mods'] = isset($hooks[$type]['all_mods']) 
-														? array_merge($hooks[$type]['all_mods'], 
+
+							$hooks[$type]['all_mods'] = isset($hooks[$type]['all_mods'])
+														? array_merge($hooks[$type]['all_mods'],
 														 (array)$type_mods['all_mods'])
 														: (array)$type_mods['all_mods'];
-							unset($type_mods['all_mods']);	
+							unset($type_mods['all_mods']);
 						}
 						if (!isset($type_mods)) {
 							break;//break if there are no more hooks to include
@@ -1502,7 +1516,7 @@ function _bootstrap_parse_hooks() {
 						//now load all remaining modules
 						foreach ($type_mods as $type_mod) {
 							$hooks[$type][$mymod] = isset($hooks[$type][$mymod])
-													? array_merge($hooks[$type][$mymod], 
+													? array_merge($hooks[$type][$mymod],
 													(array)$type_mod)
 													: (array)$type_mod;
 						}
@@ -1517,7 +1531,7 @@ function _bootstrap_parse_hooks() {
 }
 
 /**
- * do variable substitution 
+ * do variable substitution
  * @param string - string to check for replacements
  * @param string - option delimiter, defautls to $
  * @returns string - the new string, with replacements - if any
@@ -1528,10 +1542,10 @@ function varsub($string, $del = '$') {
 	/*
 	 * substitution string can look like: $delSTRING$del
 	 */
-	$regex = '/' 
-		. preg_quote($del) 
-		. '([a-zA-Z0-9_-]*)' 
-		. preg_quote($del) 
+	$regex = '/'
+		. preg_quote($del)
+		. '([a-zA-Z0-9_-]*)'
+		. preg_quote($del)
 		.  '/';
 
 	//if we have matches
@@ -1543,13 +1557,30 @@ function varsub($string, $del = '$') {
 			if (isset($amp_conf[$var])) {
 				$once = 1;
 				//and replace them, one at a time
-				$string = str_replace($find[$count], 
-					$amp_conf[$var], 
-					$string, 
-					$once);		
+				$string = str_replace($find[$count],
+					$amp_conf[$var],
+					$string,
+					$once);
 			}
 		}
 	}
-	
+
 	return $string;
+}
+
+/**
+ * FreePBX empty function which checks if the value is numeric to determine how
+ *      indepth we need to check it. This came about because of the need to
+ *      allow extensions that are 0
+ * @author Bryan Walters
+ * @param string
+ * @return boolean
+ */
+function empty_freepbx($var) {
+        if (!is_numeric($var)) {
+                return empty($var);
+        } else if (!isset($var) || $var === false) {
+                return true;
+        }
+        return false;
 }
