@@ -10,21 +10,7 @@ define("FPBX_LOG_ERROR",    "ERROR");
 define("FPBX_LOG_WARNING",  "WARNING");
 define("FPBX_LOG_NOTICE",   "NOTICE");
 define("FPBX_LOG_INFO",     "INFO");
-define("FPBX_LOG_PHP",     "PHP")/**
- * FreePBX empty function which checks if the value is numeric to determine how
- *      indepth we need to check it. This came about because of the need to
- *      allow extensions that are 0
- * @param string
- * @return boolean
- */
-function empty_freepbx($var) {
-        if (!is_numeric($var)) {
-                return empty($var);
-        } else if (!isset($var) || $var === false) {
-                return true;
-        }
-        return false;
-};
+define("FPBX_LOG_PHP",      "PHP");
 
 /** FreePBX Logging facility to FILE or syslog
  * @param  string   The level/severity of the error. Valid levels use constants:
