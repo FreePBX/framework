@@ -148,7 +148,8 @@ class FreePBX {
 		// Extra smarts in here later for loading stuff from modules?
 
 		foreach(array_keys($this->Modules->getActiveModules()) as $module) {
-			$path = dirname(dirname(__DIR__))."/modules";
+			$path = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules";
+
 			if(file_exists($path."/".$module."/$var.class.php")) {
 				if(!class_exists($var)) {
 					include($path."/".$module."/$var.class.php");
@@ -163,7 +164,7 @@ class FreePBX {
 				}
 				return $this->$var;
 			} else {
-				// print "Looked for $path/$module/$var.class.php \n";
+				// print "Couldn't find $path/$module/$var.class.php<br /> \n";
 			}
 		}
 
