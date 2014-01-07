@@ -59,7 +59,7 @@ class DialplanHooks {
 				if (isset($cmd['function'])) {
 					$func = $cmd['function'];
 					if (!function_exists($func)) {
-						print "ERROR: $func should exist, but it doesn't\n";
+						print "HANDLED-ERROR: $func should exist, but it doesn't - Dazed and confused, but continuing. This is a bug.\n";
 						continue;
 					}
 					$this->FreePBX->Performance->Stamp("olddialplanHook-".$func."_start");
@@ -70,7 +70,7 @@ class DialplanHooks {
 					$class = $cmd['Class'];
 					try {
 						if (!method_exists($this->FreePBX->$class, "doDialplanHook")) {
-							print "ERROR: ${class}->doDialplanHook() isn't there, but the module is saying it wants to hook\n";
+							print "HANDLED-ERROR: ${class}->doDialplanHook() isn't there, but the module is saying it wants to hook - Dazed and confused, but continuing. This is a bug\n";
 							continue;
 						}
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");
@@ -78,7 +78,7 @@ class DialplanHooks {
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
 					} catch (Exception $e) {
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
-						print "ERROR: Tried to run ${class}->doDialplanHook(), received ".$e->getMessage()."\n";
+						print "HANDLED-ERROR: Tried to run ${class}->doDialplanHook(), it threiw an exception. I received ".$e->getMessage()."\nContinuing. This is a bug\n";
 					}
 				} else {
 					// I have no idea what this is.
