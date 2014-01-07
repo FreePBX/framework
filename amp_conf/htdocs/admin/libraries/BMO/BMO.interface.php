@@ -31,7 +31,7 @@ interface BMO {
 	// This is called from config.php?display=thismodulename and the entire $_REQUEST is
 	// passed to it. For compatibility, you can print/echo things here, and they will 
 	// appear in the right place, however, it should be returning an array, or an Object.
-	public function showPage($request);
+	// public function showPage($request);
 
 	// ////////////////// //
 	// Backup and Restore //
@@ -75,10 +75,10 @@ interface BMO {
 	// When the 'reload' button is clicked, genConfig will be called, the output will
 	// be given to any modules that requested it, and what they return will then be 
 	// given to writeConfig.
-	public function genConfig();
+	// public function genConfig();
 	//
 	// writeConfig should use $this->FreePBX->WriteConfig($config) which will do all
 	// the actual writing of files for it.
 	// See BMO/WriteConfig.class.php
-	public function writeConfig($config);
+	// public function writeConfig($config);
 }
