@@ -160,14 +160,15 @@ class GuiHooks {
 		if ($display == null)
 			throw new Exception("Hooking into the main page is currently not supported. Sorry");
 
+		// Get the owner of this page.
+		$class = $this->FreePBX->Modules->getClassName($display);
+
 		$bmoHooks = $this->FreePBX->Hooks->getAllHooks();
 
 		if (isset($bmoHooks['ConfigPageInits'])) {
-			$class = $this->FreePBX->Modules->getClassName($display);
 			$myHooks = $bmoHooks['ConfigPageInits'];
 		} else {
 			$myHooks = array();
-			$class = false;
 		}
 
 		$myOldHooks = $this->getOldConfigPageInit();
