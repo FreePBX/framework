@@ -72,10 +72,10 @@ interface BMO {
 	// //////////////////////////// //
 	// Asterisk Configuration Files //
 	// //////////////////////////// //
-	// When the 'reload' button is clicked, getConfig will be called, the output will
+	// When the 'reload' button is clicked, genConfig will be called, the output will
 	// be given to any modules that requested it, and what they return will then be 
 	// given to writeConfig.
-	public function getConfig();
+	public function genConfig();
 	//
 	// writeConfig should use $this->FreePBX->WriteConfig($config) which will do all
 	// the actual writing of files for it.

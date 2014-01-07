@@ -55,7 +55,7 @@ class Hooks {
 			}
 
 			// Discover if the module wants to write to any other files, which
-			// is done with getConfig/writeConfig
+			// is done with genConfig/writeConfig
 			if (method_exists($mod, "writeConfig")) {
 				$allhooks['ConfigFiles'][] = $mod;
 			}

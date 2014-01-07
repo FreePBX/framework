@@ -49,17 +49,6 @@ class LoadConfig {
 		return $this->RawConfigContents;
 	}
 
-	public function getConfig($file = null) {
-		if ($file === null && !isset($this->RawConfigContents))
-			throw new Exception("Asked for contents of a file, but was never asked to read a file");
-
-		if (!isset($this->RawConfigContents))
-			$this->loadConfig($file);
-
-		return $this->ProcessedConfig;
-	}
-
-
 	private function validateFilename($file) {
 		// Check to make sure it doesn't have any /'s or ..'s
 		// in it. We're only allowed to write to /etc/asterisk
