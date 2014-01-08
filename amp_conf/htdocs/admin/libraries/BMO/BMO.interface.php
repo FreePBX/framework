@@ -2,9 +2,24 @@
 
 // Define and document the BMO Interface
 
+// Helpers here.
+// DB_Helper provides $this->getConfig and $this->setConfig
 include "DB_Helper.class.php";
+// Self_Helper extends DB_Helper and adds magic __get and __call
+// calls, avoiding $this->FreePBX->x, So you can do $this->x
+// instead
+include "Self_Helper.class.php";
 
-interface BMO {
+// Note that we have to build the helpers manually. This DOES
+// work with Eclipse, PHPStorm, etc.  Doing it programatically
+// at runtime doesn't. I may change this, because this is awful.
+// Also, before you tell me that this is a terrible way of doing
+// multiple inheritances, please tell me a better way. 8-(  --Rob
+
+class FreePBX_Helpers extends Self_Helper { 
+}
+
+interface BMO  {
 	// ///////////////////////////////// //
 	// Installing/Upgrading/Uninstalling //
 	// ///////////////////////////////// //
@@ -20,18 +35,10 @@ interface BMO {
 	// If an exception is thrown in here, the module WILL BE marked as uninstalled, but a
 	// warning will be displayed to the end user with the text of the Exception.
 	//
-	// Optional
+	// Optional  /// UNIMPLEMENTED //
 	// public function upgrade()
 	// Is called when an Upgrade is run on the module. If this doesn't exist, install()
 	// will be called.
-
-	// ////////// //
-	// FreePBX UI //
-	// ////////// //
-	// This is called from config.php?display=thismodulename and the entire $_REQUEST is
-	// passed to it. For compatibility, you can print/echo things here, and they will 
-	// appear in the right place, however, it should be returning an array, or an Object.
-	// public function showPage($request);
 
 	// ////////////////// //
 	// Backup and Restore //
@@ -47,6 +54,14 @@ interface BMO {
 	// information handed to restore is the latest version. This may be a restore from
 	// several versions ago, so ensure that you verify that it's up to date with your
 	// current schema.
+
+	// ////////// //
+	// FreePBX UI //
+	// ////////// //
+	// This is called from config.php?display=thismodulename and the entire $_REQUEST is
+	// passed to it. For compatibility, you can print/echo things here, and they will 
+	// appear in the right place, however, it should be returning an array, or an Object.
+	// public function showPage($request);
 
 	// ////////// //
 	// AJAX Calls //

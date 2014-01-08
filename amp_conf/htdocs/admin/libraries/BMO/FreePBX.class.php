@@ -29,7 +29,7 @@ include 'BMO.interface.php';
  * @license   AGPL v3
  */
 
-class FreePBX {
+class FreePBX extends FreePBX_Helpers {
 
 	// Static Object used for self-referencing. 
 	private static $obj;
@@ -88,7 +88,7 @@ class FreePBX {
 	 * @return $object New Object
 	 * @access public 
 	 */
-	public function __get($var) {
+	public function __xget($var) {
 		return $this->autoLoad($var);
 	}
 
@@ -100,7 +100,7 @@ class FreePBX {
 	 * @return $object New Object
 	 * @access public 
 	 */
-	public function __call($var, $args) {
+	public function __xcall($var, $args) {
 		return $this->autoLoad($var, $args);
 	}
 
@@ -110,7 +110,7 @@ class FreePBX {
 	 * @return object
 	 * @access private
 	 */
-	private function autoLoad() {
+	private function xautoLoad() {
 		// Figure out what is wanted, and return it.
 		if (func_num_args() == 0)
 			throw new Exception("Nothing given to the AutoLoader");
