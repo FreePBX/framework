@@ -1,4 +1,31 @@
 <?php
+// vim: set ai ts=4 sw=4 ft=php:
+
+/*
+ * This is the FreePBX BMO Database Helper
+ *
+ * Copyright 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/**
+ * DB_Helper provides $this->getConfig and $this->setConfig
+ *
+ * This is for use with FreePBX's BMO
+ */
 
 class DB_Helper {
 
@@ -12,11 +39,12 @@ class DB_Helper {
 	private static $dbDel;
 	private static $dbAdd;
 
+	/** Don't new DB_Helper */
 	public function __construct() {
 		throw new Exception("You should never 'new' this. Just use it as an 'extends'");
 	}
 
-	// This is our pseudo-__construct, called whenever our public functions are called.
+	/** This is our pseudo-__construct, called whenever our public functions are called. */
 	private static function checkDatabase() {
 		// Have we already run?
 		if (self::$checked != false)
@@ -59,9 +87,23 @@ class DB_Helper {
 
 		// Now this has run, everything IS JUST FINE.
 		self::$checked = true;
-
 	}
 
+	/**
+	 * Requests a var previously stored
+	 *
+	 * getConfig requests the variable stored with the key $var, and returns it.
+	 * Note that it will return an array or a StdObject if it was handed an array
+	 * or object, respectively.
+	 *
+	 * The optional second paramater allows you to specify a sub-grouping - if
+	 * you setConfig('foo', 'bar'), then getConfig('foo') == 'bar'. However,
+	 * if you getConfig('foo', 1), that will return (bool) false.
+	 *
+	 * @param string $var Key to request (not null)
+	 * @param string $id Optional sub-group ID. 
+	 * @return bool|string|array|StdObject Returns what was handed to setConfig, or bool false if it doesn't exist
+	 */
 	public function getConfig($var = null, $id = "noid") {
 		if ($var === null)
 			throw new Exception("Can't getConfig for null");
@@ -98,12 +140,27 @@ class DB_Helper {
 		return false;
 	}
 
+	/**
+	 * Store a variable, array or object.
+	 *
+	 * setConfig stores $val against $key, in a format that will return
+	 * it almost identically when returned by getConfig.
+	 *
+	 * The optional third paramater allows you to specify a sub-grouping - if
+	 * you setConfig('foo', 'bar'), then getConfig('foo') == 'bar'. However,
+	 * getConfig('foo', 1) === (bool) false.
+	 *
+	 * @param string $key Key to set $var to (not null)
+	 * @param string $var Value to set $key to. Can be (bool) false, which will delete the key.
+	 * @param string $id Optional sub-group ID. 
+	 * @return true
+	 */
 	public function setConfig($key = null, $val = false, $id = "noid") {
-		// Note that setting a key to false DELETES it.
 
 		if ($key === null)
 			throw new Exception("Can't setConfig null");
 
+		// Our pretend __construct();
 		self::checkDatabase();
 
 		// Start building the query
@@ -115,7 +172,6 @@ class DB_Helper {
 
 		// Delete any that previously match
 		$res = self::$dbDel->execute($query);
-
 
 		if ($val === false) // Just wanted to delete
 			return true;
