@@ -180,7 +180,9 @@ class GuiHooks {
 			// Remove the hook from the ones we're going to run later
 			unset($myOldHooks[$hook]);
 			// Run it.
+			$this->FreePBX->Performance->Stamp("preOldHooks-$hook-$display"."_start");
 			$hook($display);
+			$this->FreePBX->Performance->Stamp("preOldHooks-$hook-$display"."_stop");
 		}
 
 		// New style module? Here, have your data..
@@ -194,7 +196,9 @@ class GuiHooks {
 
 		// Firstly, old style hooks
 		foreach ($myOldHooks as $hook) {
+			$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_start");
 			$hook($display);
+			$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_stop");
 		}
 
 		// And now the new-style module hooks.
@@ -206,7 +210,9 @@ class GuiHooks {
 
 	private function doBMOConfigPage($class, $display) {
 		if (method_exists($this->FreePBX->$class, "doConfigPageInit")) {
+			$this->FreePBX->Performance->Stamp($class."->doConfigPageInit-$display"."_start");
 			$this->FreePBX->$class->doConfigPageInit($display);
+			$this->FreePBX->Performance->Stamp($class."->doConfigPageInit-$display"."_stop");
 		} else {
 			print "Page $class doesn't implement doConfigPageInit, this is bad.\n";
 		}
