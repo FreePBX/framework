@@ -56,9 +56,9 @@ class DB_Helper {
 
 		// Definitions
 		$create = "CREATE TABLE IF NOT EXISTS ".self::$dbname." ( `module` CHAR(64) NOT NULL, `key` CHAR(255) NOT NULL, `val` LONGBLOB, `type` CHAR(16) DEFAULT NULL, `id` CHAR(255) DEFAULT NULL)";
-		$index['index1'] = "ALTER TABLE ".self::$dbname." ADD UNIQUE INDEX index1 (`module`, `key`)";
 		$index['index2'] = "ALTER TABLE ".self::$dbname." ADD INDEX index2 (`key`)";
-		$index['index3'] = "ALTER TABLE ".self::$dbname." ADD INDEX index3 (`id`)";
+		$index['index4'] = "ALTER TABLE ".self::$dbname." ADD UNIQUE INDEX index4 (`module`, `key`, `id`)";
+		$index['index6'] = "ALTER TABLE ".self::$dbname." ADD INDEX index6 (`module`, `id`)";
 
 		// Check to make sure our Key/Value table exists.
 		try {
@@ -76,9 +76,18 @@ class DB_Helper {
 		// TODO: This only works on MySQL
 		$res = self::$db->query("SHOW INDEX FROM `".self::$dbname."`");
 		$out = $res->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_GROUP, 2);
+		foreach ($out as $i => $null) {
+			// Do we not know about this index? (Are we upgrading?)
+			if (!isset($index[$i])) {
+				self::$db->query("ALTER TABLE ".self::$dbname." DROP INDEX $i");
+			}
+		}
+
+		// Now lets make sure all our indexes exist.
 		foreach ($index as $i => $sql) {
-			if (!isset($out[$i]))
+			if (!isset($out[$i])) {
 				self::$db->query($sql);
+			}
 		}
 
 		// Add our stored procedures
@@ -222,5 +231,21 @@ class DB_Helper {
 		} else {
 			return array();
 		}
+	}
+
+	/**
+	 * Returns a standard array of all IDs, excluding 'noid'.
+	 * Due to font ambiguity (with LL in lower case and I in upper case looking identical in some situations) this uses 'ids' in lower case.
+	 *
+	 * @return array
+	 */
+	public function getAllids() {
+
+		// Our pretend __construct();
+		self::checkDatabase();
+
+		$mod = get_class($this);
+		$ret = self::$db->query("SELECT DISTINCT(`id`) FROM `".self::$dbname."` WHERE `module` = '$mod' AND `id` <> 'noid' ")->fetchAll(PDO::FETCH_COLUMN, 0);
+		return $ret;
 	}
 }
