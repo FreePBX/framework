@@ -36,6 +36,7 @@ class DB_Helper {
 	private static $checked = false;
 
 	private static $dbGet;
+	private static $dbGetAll;
 	private static $dbDel;
 	private static $dbAdd;
 
@@ -82,6 +83,7 @@ class DB_Helper {
 
 		// Add our stored procedures
 		self::$dbGet = self::$db->prepare("SELECT `val`, `type` FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key AND `id` = :id");
+		self::$dbGetAll = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id");
 		self::$dbDel = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key  AND `id` = :id");
 		self::$dbAdd = self::$db->prepare("INSERT INTO `".self::$dbname."` ( `module`, `key`, `val`, `type`, `id` ) VALUES ( :mod, :key, :val, :type, :id )");
 
@@ -96,7 +98,7 @@ class DB_Helper {
 	 * Note that it will return an array or a StdObject if it was handed an array
 	 * or object, respectively.
 	 *
-	 * The optional second paramater allows you to specify a sub-grouping - if
+	 * The optional second parameter allows you to specify a sub-grouping - if
 	 * you setConfig('foo', 'bar'), then getConfig('foo') == 'bar'. However,
 	 * if you getConfig('foo', 1), that will return (bool) false.
 	 *
@@ -146,7 +148,7 @@ class DB_Helper {
 	 * setConfig stores $val against $key, in a format that will return
 	 * it almost identically when returned by getConfig.
 	 *
-	 * The optional third paramater allows you to specify a sub-grouping - if
+	 * The optional third parameter allows you to specify a sub-grouping - if
 	 * you setConfig('foo', 'bar'), then getConfig('foo') == 'bar'. However,
 	 * getConfig('foo', 1) === (bool) false.
 	 *
@@ -189,5 +191,36 @@ class DB_Helper {
 
 		self::$dbAdd->execute($query);
 		return true;
+	}
+
+	/**
+	 * Returns an associative array of all key=>value pairs referenced by $id
+	 *
+	 * If no $id was provided, return all pairs that weren't set with an $id.
+	 * Don't trust this to return the array in any order. If you wish to use
+	 * an ordered set, use IDs and sort based on them.
+	 *
+	 * @return array
+	 */
+	public function getAll($id = "noid") {
+
+		// Our pretend __construct();
+		self::checkDatabase();
+
+		// Basic fetchAll.
+		$query[':mod'] = get_class($this);
+		$query[':id'] = $id;
+
+		self::$dbGetAll->execute($query);
+		$out = self::$dbGetAll->fetchAll(PDO::FETCH_COLUMN, 0);
+		foreach ($out as $k) {
+			$retarr[$k] = $this->getConfig($k, $id);
+		}
+
+		if (isset($retarr)) {
+			return $retarr;
+		} else {
+			return array();
+		}
 	}
 }
