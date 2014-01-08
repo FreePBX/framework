@@ -15,6 +15,7 @@ include "Self_Helper.class.php";
 // at runtime doesn't. I may change this, because this is awful.
 // Also, before you tell me that this is a terrible way of doing
 // multiple inheritances, please tell me a better way. 8-(  --Rob
+// (Note: Traits in 5.4 fixes this)
 
 class FreePBX_Helpers extends Self_Helper { 
 }
