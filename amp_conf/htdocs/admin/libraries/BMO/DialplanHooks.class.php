@@ -74,7 +74,7 @@ class DialplanHooks {
 							continue;
 						}
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");
-						$this->FreePBX->$class->doDialplanHook($engine, $pri);
+						$this->FreePBX->$class->doDialplanHook($ext, $engine, $pri);
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
 					} catch (Exception $e) {
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
