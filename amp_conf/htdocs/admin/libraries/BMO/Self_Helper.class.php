@@ -104,10 +104,8 @@ class Self_Helper extends DB_Helper {
 		if (strpos($var, "/") || strpos($var, ".."))
 			throw new Exception("Invalid include given to AutoLoader - $var");
 
-		if (!$this->loadObject($var)) {
-			print "Extremely bad. Was unable to figure out where to find $var\n";
-			exit;
-		}
+		// This will throw an Exception if it can't find the class.
+		$this->loadObject($var);
 
 		// Now, we may have paramters (__call), or we may not..
 		if (isset($args[1])) {
