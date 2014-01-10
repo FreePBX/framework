@@ -9,6 +9,12 @@ include "DB_Helper.class.php";
 // calls, avoiding $this->FreePBX->x, So you can do $this->x
 // instead
 include "Self_Helper.class.php";
+// Request_Helper handles $_REQUEST processing
+include "Request_Helper.class.php";
+// Do not randomly add helpers because you think it MAY be used
+// in SOME module. A Helper should only be added if you're
+// sure it's going to be used in EVERY module.  Otherwise,
+// add them as a normal module.
 
 // Note that we have to build the helpers manually. This DOES
 // work with Eclipse, PHPStorm, etc.  Doing it programatically
@@ -16,8 +22,7 @@ include "Self_Helper.class.php";
 // Also, before you tell me that this is a terrible way of doing
 // multiple inheritances, please tell me a better way. 8-(  --Rob
 // (Note: Traits in 5.4 fixes this)
-
-class FreePBX_Helpers extends Self_Helper { 
+class FreePBX_Helpers extends Request_Helper {
 }
 
 interface BMO  {
