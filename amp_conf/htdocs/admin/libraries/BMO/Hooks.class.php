@@ -65,6 +65,11 @@ class Hooks {
 		return $allhooks;
 	}
 
+	/**
+	 * This finds ALL BMO Style modules on the machine, and preloads them.
+	 *
+	 * This shouldn't happen on every page load.
+	 */
 	private function preloadBMOModules() {
 		foreach(array_keys($this->FreePBX->Modules->getActiveModules()) as $module) {
 			$path = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
@@ -72,6 +77,7 @@ class Hooks {
 				$module = ucfirst($module);
 				if(!class_exists($module)) {
 					$this->FreePBX->$module;
+					// TODO: Add here the way of having module 'a' include module 'b'
 				}
 			}
 		}
