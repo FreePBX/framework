@@ -137,7 +137,7 @@ class GuiHooks {
 				}
 
 				// Does the module have multiple items?
-				if (is_array($module['items'])) {
+				if (isset($module['items']) && is_array($module['items'])) {
 					foreach($module['items'] as $itemKey => $itemName) {
 						// Each item may have a configpageinit, too.
 						$initfuncname = $key . '_' . $itemKey . '_configpageinit';
