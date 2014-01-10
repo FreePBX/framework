@@ -304,7 +304,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 	*/
 
 	while (isset($dir_handle) && ($file = readdir($dir_handle))) {
-		if (($file!=".") && ($file!="..") && ($file != "CVS") && ($file != ".svn")) {
+		if (($file!=".") && ($file!="..") && ($file != "CVS") && ($file != ".svn") && ($file != ".git")) {
 			$source = $dirsourceparent.$dirsource."/".$file;
 			$destination =  $dirdest.$dirsource."/".$file;
 

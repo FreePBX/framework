@@ -37,7 +37,7 @@ body {
 #page_body {
 	padding:10px;
 	padding-top:31px;   /* Height of the header */
-	padding-bottom:90px;   /* Height of the footer + 10px*/
+	padding-bottom:110px;   /* Height of the footer + 10px*/
 	width: 95%;
 	margin-left: auto;
 	margin-right: auto;
@@ -47,7 +47,7 @@ body {
 	position: absolute;
 	bottom:0;
 	width:100%;
-	height:100px;   /* Height of the footer */
+	height:100px;   /* Height of the footer. Please ensure to update padding-bottom in #page_body when changing this value */
 	font-size:10px;
 	background-color: white;
 	clear: both;
