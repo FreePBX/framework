@@ -31,7 +31,7 @@ $html .= '</div>';
 $html .= '<div id="login_icon_holder">';
 $html .= '<div class="login_item_title"><a href="#" class="login_item" id="login_admin" style="background-image: url(assets/images/sys-admin.png);"/>&nbsp</a>' . _('FreePBX Administration') . '</div>';
 
-$html .= '<div class="login_item_title"><a href="/recording" '
+$html .= '<div class="login_item_title"><a href="/recordings" '
                 . 'class="login_item" id="login_ari" style="background-image: url(assets/images/user-control.png);"/>&nbsp</a>' . _('User Control Panel') . '</div>';
 if ($panel) {
     $html .= '<div class="login_item_title"><a href="' . $panel . '" '
