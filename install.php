@@ -1,6 +1,11 @@
 <?php
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 
+if (version_compare(PHP_VERSION, '5.3.0', '<') {
+	out("FreePBX Requires PHP Version 5.3.0 or Higher, you have: ".PHP_VERSION);
+	return false;
+}
+
 // HELPER FUNCTIONS:
 
 function framework_print_errors($src, $dst, $errors) {

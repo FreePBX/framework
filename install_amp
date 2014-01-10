@@ -18,6 +18,12 @@
 //    Copyright 2006, Rob Thomas <xrobau@gmail.com>
 //    Copyright 2009, Bandwith.com
 //
+
+if (version_compare(PHP_VERSION, '5.3.0', '<') {
+	echo "FreePBX Requires PHP Version 5.3.0 or Higher, you have: ".PHP_VERSION."\n";
+	die();
+}
+
 date_default_timezone_set('America/Los_Angeles');
 require_once ("libfreepbx.install.php");
 require_once(dirname(__FILE__) . '/amp_conf/htdocs/admin/libraries/php-upgrade.functions.php');
