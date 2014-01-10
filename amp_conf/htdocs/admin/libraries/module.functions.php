@@ -1785,9 +1785,10 @@ function _module_distro_id() {
     return array('pbx_type' => $pbx_type, 'pbx_version' => $pbx_version);
   }
   
-  exec('lscpu',$out,$ret);
+
+  exec('lscpu 2>&1',$out,$ret);
   $cpu_arch = '';
-  if(!$ret) {
+  if(!$ret && !empty($out)) {
 	foreach($out as $line) {
 		if(preg_match('/architecture:(.*)/i',$line,$matches)) {
 			$cpu_arch = trim($matches[1]);
