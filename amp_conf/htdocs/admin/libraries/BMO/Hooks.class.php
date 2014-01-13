@@ -71,13 +71,13 @@ class Hooks {
 	 * This shouldn't happen on every page load.
 	 */
 	private function preloadBMOModules() {
-		foreach(array_keys($this->FreePBX->Modules->getActiveModules()) as $module) {
+		$activemods = $this->FreePBX->Modules->getActiveModules();
+		foreach(array_keys($activemods) as $module) {
 			$path = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
 			if(file_exists($path.$module.'/'.ucfirst($module).'.class.php')) {
-				$module = ucfirst($module);
-				if(!class_exists($module)) {
-					$this->FreePBX->$module;
-					// TODO: Add here the way of having module 'a' include module 'b'
+				$ucmodule = ucfirst($module);
+				if(!class_exists($ucmodule)) {
+					$this->FreePBX->$ucmodule;
 				}
 			}
 		}
