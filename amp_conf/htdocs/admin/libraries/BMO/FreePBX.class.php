@@ -82,96 +82,6 @@ class FreePBX extends FreePBX_Helpers {
 	}
 
 	/**
-	 * PHP Magic __get - runs AutoLoader
-	 * 
-	 * @param $var Class Name
-	 * @return $object New Object
-	 * @access public 
-	 */
-	public function __xget($var) {
-		return $this->autoLoad($var);
-	}
-
-	/**
-	 * PHP Magic __call - runs AutoLoader
-	 * 
-	 * @param $var Class Name
-	 * @param $args Any params to be passed to the new object
-	 * @return $object New Object
-	 * @access public 
-	 */
-	public function __xcall($var, $args) {
-		return $this->autoLoad($var, $args);
-	}
-
-	/**
-	 * AutoLoader for BMO.
-	 * 
-	 * @return object
-	 * @access private
-	 */
-	private function xautoLoad() {
-		// Figure out what is wanted, and return it.
-		if (func_num_args() == 0)
-			throw new Exception("Nothing given to the AutoLoader");
-
-		// If we have TWO arguments, we've been called by __called, if we only have 
-		// one we've been called by __get.
-
-		$args = func_get_args();
-		$var = $args[0];
-
-		if ($var == "FreePBX")
-			throw new Exception("No. You ALREADY HAVE the FreePBX Object. You don't need another one.");
-
-		// Ensure no-one's trying to include something with a path in it.
-		if (strpos($var, "/") || strpos($var, ".."))
-			throw new Exception("Invalid include given to AutoLoader - $var");
-
-		// Does this exist as a default Library?
-		if (file_exists(__DIR__."/$var.class.php")) {
-
-			// If we don't HAVE the library already (eg, we may be __called numerous
-			// times..)
-			if (!class_exists($var))
-				include "$var.class.php";
-
-			// Now, we may have paramters (__call), or we may not..
-			if (isset($args[1])) {
-				// Currently we're only autoloading with one parameter.
-				$this->$var = new $var($this, $args[1][0]);
-			} else {
-				$this->$var = new $var($this);
-			}
-			return $this->$var;
-		}
-		// Extra smarts in here later for loading stuff from modules?
-
-		foreach(array_keys($this->Modules->getActiveModules()) as $module) {
-			$path = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules";
-
-			if(file_exists($path."/".$module."/$var.class.php")) {
-				if(!class_exists($var)) {
-					include($path."/".$module."/$var.class.php");
-				}
-
-				// Now, we may have paramters (__call), or we may not..
-				if (isset($args[1])) {
-					// Currently we're only autoloading with one parameter.
-					$this->$var = new $var($this, $args[1][0]);
-				} else {
-					$this->$var = new $var($this);
-				}
-				return $this->$var;
-			} else {
-				// print "Couldn't find $path/$module/$var.class.php<br /> \n";
-			}
-		}
-
-		throw new Exception("Unable to find the Class $var to load");
-	}
-
-	/**
 	 * Returns the Default Libraries to load
 	 * 
 	 * @return array
@@ -181,22 +91,6 @@ class FreePBX extends FreePBX_Helpers {
 		return array("Config","Modules");
 	}
 
-	/**
-	 * Check for hooks for the current GUI function
-	 */
-
-	public function doGUIHooks($thispage = null, &$currentcomponent) {
-		if (!$thispage)
-			return false;
-
-		if ($hooks = $this->GuiHooks->getHooks($thispage)) {
-			if (isset($hooks['hooks'])) {
-				foreach ($hooks['hooks'] as $hook) {
-					$this->GuiHooks->doHook($hook, $currentcomponent);
-				}
-			}
-		}
-	}
 
 	/**
 	 * Check for hooks in the current Dialplan function

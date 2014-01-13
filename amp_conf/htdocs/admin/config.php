@@ -437,7 +437,7 @@ default:
 		// global component
 		if ( isset($currentcomponent) ) {
 				modgettext::textdomain($module_name);
-				$bmo->doGUIHooks($module_name, $currentcomponent);
+				$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
 				echo  $currentcomponent->generateconfigpage();
 		}
 

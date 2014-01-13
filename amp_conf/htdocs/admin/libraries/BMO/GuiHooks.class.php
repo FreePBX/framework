@@ -58,6 +58,22 @@ class GuiHooks {
 		return $retarr;
 	}
 
+	/**
+	 * Check for hooks for the current GUI function
+	 */
+	public function doGUIHooks($thispage = null, &$currentcomponent) {
+		if (!$thispage)
+			return false;
+
+		// This is not a typo.
+		if ($hooks = $this->getHooks($thispage)) {
+			if (isset($hooks['hooks'])) {
+				foreach ($hooks['hooks'] as $hook) {
+					$this->GuiHooks->doHook($hook, $currentcomponent);
+				}
+			}
+		}
+	}
 	public function doHook($moduleToCall, &$currentcomponent) {
 
 		// Make sure we actually can load the module
