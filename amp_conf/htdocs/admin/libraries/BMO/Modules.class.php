@@ -44,8 +44,11 @@ class Modules {
 		foreach ($this->active_modules as $key => $mod) {
 			// ..and if we know about the menuitem that we've been asked..
 			if (isset($mod['menuitems']) && is_array($mod['menuitems']) && isset($mod['menuitems'][$page])) {
-				// ..return it with the first character uppercase.
-				return ucfirst($key);
+				// ..is it a BMO Module?
+				$path = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
+				if (file_exists($path.$key."/".ucfirst($key).".class.php")) {
+					return ucfirst($key);
+				}
 			}
 		}
 		return false;
