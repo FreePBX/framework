@@ -40,9 +40,14 @@ class Modules {
 		if ($page == null)
 			throw new Exception("I can't find a module for a page that doesn't exist");
 
-		// This is going to be complex. Let's just red/green it for the moment.
-		if ($page = "sipsettings") { return "Sipsettings"; }
-
+		// Search through all active modules..
+		foreach ($this->active_modules as $key => $mod) {
+			// ..and if we know about the menuitem that we've been asked..
+			if (isset($mod['menuitems']) && is_array($mod['menuitems']) && isset($mod['menuitems'][$page])) {
+				// ..return it with the first character uppercase.
+				return ucfirst($key);
+			}
+		}
 		return false;
 	}
 }
