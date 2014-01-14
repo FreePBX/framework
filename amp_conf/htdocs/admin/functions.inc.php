@@ -495,8 +495,26 @@ function merge_ext_followme($dest) {
 }
 
 function get_headers_assoc($url) {
+	global $amp_conf;
+	if ($amp_conf['MODULEADMINWGET']) {
+		exec("wget --spider --server-response -q ".$url." 2>&1", $wgetout, $exitstatus);
+		$headers = array();
+		if($exitstatus == 0 && !empty($wgetout)) {
+			foreach($wgetout as $value) {
+				$ar = explode(':', $value);
+				$key = trim($ar[0]);
+				$value = trim($ar[1]);
+				$headers[strtolower($key)] = trim($value);
+			}
+			if(!empty($headers)) {
+				return $headers;
+			}
+		}
+		return false;
+	}
+	
 	$url_info=parse_url($url);
-  $host = isset($url_info['host']) ? $url_info['host'] : '';
+	$host = isset($url_info['host']) ? $url_info['host'] : '';
 	if (isset($url_info['scheme']) && $url_info['scheme'] == 'https') {
 		$port = isset($url_info['port']) ? $url_info['port'] : 443;
 		@$fp=fsockopen('ssl://'.$host, $port, $errno, $errstr, 10);

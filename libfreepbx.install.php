@@ -303,7 +303,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 	*/
 
 	while (isset($dir_handle) && ($file = readdir($dir_handle))) {
-		if (($file!=".") && ($file!="..") && ($file != "CVS") && ($file != ".svn")) {
+		if (($file!=".") && ($file!="..") && ($file != "CVS") && ($file != ".svn") && ($file != ".git")) {
 			$source = $dirsourceparent.$dirsource."/".$file;
 			$destination =  $dirdest.$dirsource."/".$file;
 
@@ -371,9 +371,11 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 					
 							$links = recursive_readlink($source);
 							if (!empty($links)) {
-								symlink(substitute_readlinks($source,$links), $destination);
+								@symlink(substitute_readlinks($source,$links), $destination);
 							} else {
-								symlink(dirname(__FILE__)."/".$source, $destination);
+								if(file_exists(dirname(__FILE__)."/".$source)) {
+									@symlink(dirname(__FILE__)."/".$source, $destination);
+								}
 							}
 						} else {
 							copy($source, $destination);

@@ -113,7 +113,7 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 }
 
 // BMO: Initialize BMO as early as possible.
-$bmo = dirname(__FILE__)."/BMO/FreePBX.class.php";
+$bmo = dirname(__FILE__)."/libraries/BMO/FreePBX.class.php";
 if (file_exists($bmo)) {
 		include $bmo;
 		$bmo = new FreePBX;
@@ -437,7 +437,7 @@ default:
 		// global component
 		if ( isset($currentcomponent) ) {
 				modgettext::textdomain($module_name);
-				$bmo->doGUIHooks($module_name, $currentcomponent);
+				$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
 				echo  $currentcomponent->generateconfigpage();
 		}
 
