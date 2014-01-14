@@ -34,6 +34,6 @@ class Config {
 	}
 	public function __get($var) { return $this->autoload($var); }
 	public function __call($var, $args) { return $this->autoload($var, $args); }
-	public function __callStatic($var, $args) { return $this->autoload($var, $args); }
+	public static function __callStatic($var, $args) { return $this->autoload($var, $args); }
 
 }
