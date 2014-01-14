@@ -3,7 +3,7 @@
 
 class ModulesConf {
 
-	private $conf;
+	public $conf;
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null)
