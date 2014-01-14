@@ -47,5 +47,39 @@ class ModulesConf {
 			$this->conf->removeEntry("modules", "noload", $module);
 		}
 	}
+
+	public function preload($module = null) {
+
+		if ($module == null)
+			throw new Exception("Wasn't given a module to preload");
+
+		// Add module(s) to preload.
+		$mods = array();
+
+		$current = $this->conf->config->ProcessedConfig;
+
+		if (is_array($module)) {
+			foreach($module as $m) {
+				if (!in_array($m, $current['modules']['preload']))
+					$this->conf->addEntry("modules", "preload=$m");
+			}
+		} else {
+			if (!in_array($module, $current['modules']['preload']))
+				$this->conf->addEntry("modules", "preload=$module");
+		}
+	}
+
+	public function removepreload($module = null) {
+		if ($module == null)
+			throw new Exception("Wasn't given a module to remove the preload tag from");
+
+		if (is_array($module)) {
+			foreach($module as $m) {
+				$this->conf->removeEntry("modules", "preload", $m);
+			}
+		} else {
+			$this->conf->removeEntry("modules", "preload", $module);
+		}
+	}
 }
 
