@@ -1535,6 +1535,15 @@ if ($install_files) {
 // Run through all the upgrade scripts starting at the specified version
 //
 upgrade_all($version);
+if(!file_exists(dirname(__FILE__).'/module.xml')) {
+	die('Cant Find Framework XML');
+}
+$fwxml = simplexml_load_file(dirname(__FILE__).'/module.xml');
+//setversion to whatever is in framework.xml forever for here on out.
+if(!function_exists('setversion')) {
+	die('Cant find function setversion');
+}
+setversion((string)$fwxml->version);
 
 // Save $amp_conf variables so we can set the configured values
 if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redhat-release')))  {

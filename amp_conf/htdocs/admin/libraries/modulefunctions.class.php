@@ -1535,6 +1535,18 @@ class module_functions {
 		if(DB::IsError($results)) {
 			return array(sprintf(_("Error updating database. Command was: %s; error was: %s "), $sql, $results->getMessage()));
 		}
+		
+		// If module is framework then update the framework version
+		// normally this is done inside of the funky upgrade script runner but we are changing this now as
+		// framework and freepbx versions are the same
+		if($modulename == 'framework') {
+			out("Framework Detected, Setting FreePBX Version to ".$db->escapeSimple($modules[$modulename]['version']));
+			$sql = "UPDATE admin SET value = '".$db->escapeSimple($modules[$modulename]['version'])."' WHERE variable = 'version'";
+			$result = $db->query($sql);
+			if(DB::IsError($result)) {
+				die($result->getMessage());
+			}
+		}
 	
 		// module is now installed & enabled, invalidate the modulelist class since it is now stale
 		$modulelist =& modulelist::create($db);
