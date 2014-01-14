@@ -1539,12 +1539,15 @@ class module_functions {
 		// If module is framework then update the framework version
 		// normally this is done inside of the funky upgrade script runner but we are changing this now as
 		// framework and freepbx versions are the same
-		if($modulename == 'framework') {
-			out("Framework Detected, Setting FreePBX Version to ".$db->escapeSimple($modules[$modulename]['version']));
+		if($modulename == 'framework' && (getVersion() != $modules[$modulename]['version'])) {
+			out("Framework Detected, Setting FreePBX Version to ".$modules[$modulename]['version']);
 			$sql = "UPDATE admin SET value = '".$db->escapeSimple($modules[$modulename]['version'])."' WHERE variable = 'version'";
 			$result = $db->query($sql);
 			if(DB::IsError($result)) {
 				die($result->getMessage());
+			}
+			if(getVersion() != $modules[$modulename]['version']) {
+				die(_('Internal Error. Function getVersion did not match the Framework version, even after it was suppose to be applied'));
 			}
 		}
 	
