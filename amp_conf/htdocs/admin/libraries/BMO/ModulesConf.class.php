@@ -3,15 +3,26 @@
 
 class ModulesConf {
 
-	public $conf;
+	private $conf;
+	public $ProcessedConfig;
 
-	public function __construct($freepbx = null) {
-		if ($freepbx == null)
-			throw new Exception("Config needs to be given a FreePBX Object when created");
+	public function __construct() {
 
-		$this->FreePBX = $freepbx;
+		$this->conf = FreePBX::create()->ConfigFile("modules.conf");
 
-		$this->conf = $this->FreePBX->ConfigFile("modules.conf");
+		$this->ProcessedConfig =& $this->conf->config->ProcessedConfig;
+
+		// Now, is it empty? We want some defaults..
+		if (sizeof($this->ProcessedConfig) == 0 ) {
+			$this->conf->addEntry("modules", "autoload=yes");
+			$this->conf->addEntry("modules", "preload=pbx_config.so");
+			$this->conf->addEntry("modules", "preload=chan_local.so");
+			$this->conf->addEntry("modules", "preload=res_mwi_blf.so");
+			$this->conf->addEntry("modules", "noload=chan_also.so");
+			$this->conf->addEntry("modules", "noload=chan_oss.so");
+			$this->conf->addEntry("modules", "noload=app_directory_odbcstorage.so");
+			$this->conf->addEntry("modules", "noload=app_voicemail_odbcstorage.so");
+		}
 	}
 
 	public function noload($module = null) {
