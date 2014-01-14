@@ -1540,13 +1540,17 @@ if(!file_exists(dirname(__FILE__).'/module.xml')) {
 }
 $fwxml = simplexml_load_file(dirname(__FILE__).'/module.xml');
 //setversion to whatever is in framework.xml forever for here on out.
-if(!function_exists('setversion')) {
-	die('Cant find function setversion');
-}
-setversion((string)$fwxml->version);
-
-if(install_getversion() != (string)$fwxml->version) {
-	die('Internal Error. Function install_getversion did not match the Framework version, even after it was suppose to be applied');
+$fwver = (string)$fwxml->version;
+if(!empty($fwver)) {
+	if(!function_exists('setversion')) {
+		die('Cant find function setversion');
+	}
+	setversion($fwver);
+	if(install_getversion() != $fwver) {
+		die('Internal Error. Function install_getversion did not match the Framework version, even after it was suppose to be applied');
+	}
+} else {
+	die('Version from Framework was empty, cant continue');
 }
 
 // Save $amp_conf variables so we can set the configured values
