@@ -95,7 +95,9 @@ for(i=0;i<s.length;i++)
 {var t=s.charAt(i);if(t==c)return true;}
 return false;}
 function isEmail(s){if(isEmpty(s)){if(isEmail.arguments.length==1){return defaultEmptyOK;}else{return(isEmail.arguments[1]==true)}}
-var pattern=/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/i;return pattern.test(s)}
+var emailAddresses=s.split(",");var pattern=/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/i;var emailCount=0;for(e in emailAddresses){emailCount+=(pattern.test(emailAddresses[e])===true)?1:0;}
+if(emailAddresses.length==emailCount){return true;}
+return false;}
 function isDigit(c){return new RegExp(/[0-9]/).test(c);}
 function isLetter(c){return new RegExp(/[ a-zA-Z'\&\(\)\-\/]/).test(c);}
 function isURLChar(c){return new RegExp(/[a-zA-Z=:,%#\.\-\/\?\&]/).test(c);}
