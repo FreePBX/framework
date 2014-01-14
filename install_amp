@@ -1545,6 +1545,10 @@ if(!function_exists('setversion')) {
 }
 setversion((string)$fwxml->version);
 
+if(install_getversion() != (string)$fwxml->version) {
+	die('Internal Error. Function install_getversion did not match the Framework version, even after it was suppose to be applied');
+}
+
 // Save $amp_conf variables so we can set the configured values
 if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redhat-release')))  {
 	$amp_conf_file = $amp_conf;
