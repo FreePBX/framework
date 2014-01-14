@@ -6,7 +6,7 @@ FreePBX is an opensource GUI (graphical user interface) that controls and manage
 Version
 ----
 
-2.12
+12
 
 Tech
 -----------
