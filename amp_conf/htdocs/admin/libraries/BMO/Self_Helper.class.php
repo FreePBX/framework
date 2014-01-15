@@ -125,7 +125,7 @@ class Self_Helper extends DB_Helper {
 	/** 
 	 * Find the file for the object $objname
 	 */
-	private function loadObject($objname) {
+	private function loadObject($objname, $hint = null) {
 		// If it already exists, we're fine.
 		if (class_exists($objname)) {
 			return true;
@@ -134,8 +134,17 @@ class Self_Helper extends DB_Helper {
 		// This is the file we loaded the class from, for debugging later.
 		$loaded = false;
 
-		// Does this exist as a default Library inside BMO?
-		$try = __DIR__."/$objname.class.php";
+		if ($hint) {
+			if (!file_exists($hint)) {
+				throw new Exception("I was asked to load $objname, with a hint of $hint, and it didn't exist");
+			} else {
+				$try = $hint;
+			}
+		} else {
+			// Does this exist as a default Library inside BMO?
+			$try = __DIR__."/$objname.class.php";
+		}
+
 		if (file_exists($try)) {
 			include $try;
 			$loaded = $try;
@@ -168,5 +177,12 @@ class Self_Helper extends DB_Helper {
 		}
 
 		return true;
+	}
+
+	/** Implement hints for autoloading */
+
+	public function injectClass($classname, $hint = null) {
+		$this->loadObject($classname, $hint);
+		$this->autoLoad($classname);
 	}
 }

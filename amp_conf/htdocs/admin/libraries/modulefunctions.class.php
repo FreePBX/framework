@@ -1930,6 +1930,12 @@ class module_functions {
 				if ($modulexml !== false) {
 					$this->_runscripts_include($modulexml, $type);
 				}
+
+				// If it's a BMO module, manually include the file.
+				$bmofile = "$moduledir/".ucfirst($modulename).".class.php";
+				if (file_exists($bmofile)) {
+					FreePBX::create()->injectClass(ucfirst($modulename), $bmofile);
+				}
 	
 				// then run .php scripts
 				return ($this->_doinclude($moduledir.'/install.php', $modulename) && $rc);
