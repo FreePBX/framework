@@ -651,7 +651,7 @@ switch ($action) {
 		$local_repo_list = array();
 		$remote_repo_list = array();
 		$broken_module_list = array();
-		$repo_exclude = array('local','orphan','broken');
+		$repo_exclude = array('local','broken');
 		foreach($modules as $mod => &$module) {
 			if(empty($module['repo'])) {
 				$module['repo'] = 'Unknown';
@@ -663,7 +663,7 @@ switch ($action) {
 			if(!in_array($module['repo'],$remote_repo_list) && !empty($modules_online[$raw]) && !in_array($module['repo'],$repo_exclude)) {
 				$remote_repo_list[] = $module['repo'];
 			}
-			if(in_array($module['repo'],array('orphan', 'broken'))) {
+			if(in_array($module['repo'],array('broken'))) {
 				$rpo = $module['repo'];
 				$broken_module_list[$rpo][] = $mod;
 			}
