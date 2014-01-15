@@ -82,7 +82,6 @@ $bootstrap_settings['cdrdb'] = isset($bootstrap_settings['cdrdb']) ? $bootstrap_
 
 $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 
-	 	 
 // include base functions
 require_once($dirname . '/libraries/compress.class.php');
 require_once($dirname . '/libraries/utility.functions.php'); 
@@ -232,4 +231,12 @@ if ($restrict_mods_local !== true) {
 	bootstrap_include_hooks('post_module_load', 'all_mods');
 	$bootstrap_settings['function_modules_included'] = true;
 }
-?>
+
+// BMO: Initialize BMO as early as possible.
+$bmo = dirname(__FILE__)."/libraries/BMO/FreePBX.class.php";
+if (file_exists($bmo)) {
+	include_once($bmo);
+	$bmo = new FreePBX;
+} else {
+	throw new Exception("Unable to load BMO");
+}

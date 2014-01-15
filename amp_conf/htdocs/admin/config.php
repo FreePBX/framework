@@ -112,15 +112,6 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 		include_once('/etc/asterisk/freepbx.conf');
 }
 
-// BMO: Initialize BMO as early as possible.
-$bmo = dirname(__FILE__)."/libraries/BMO/FreePBX.class.php";
-if (file_exists($bmo)) {
-		include $bmo;
-		$bmo = new FreePBX;
-} else {
-		throw new Exception("Unable to load BMO");
-}
-
 /* If there is an action request then some sort of update is usually being done.
    This may protect from cross site request forgeries unless disabled.
  */
