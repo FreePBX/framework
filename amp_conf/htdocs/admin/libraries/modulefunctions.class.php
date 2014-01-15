@@ -460,6 +460,28 @@ class module_functions {
 		$o = sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('repos_json', '".time()."','".$repos_json."')");
 		return $o;
 	}
+	
+	/** 
+	 * Retrieve and Store available remote repositories
+	 *
+	 */
+	function generate_remote_repos() {
+		global $db;
+		$xml = $this->getonlinexml();
+		if(!empty($xml)) {
+			$repos = array();
+			foreach($xml as $module) {
+				$repo = $module['repo'];
+				if(!in_array($repo,$repos)) {
+					$repos[] = $repo;
+				}
+			}
+			$repos_json = $db->escapeSimple(json_encode($repos));
+			sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('remote_repos_json', '".time()."','".$repos_json."')");
+			return $repos;
+		}
+		return false;
+	}
 
 	/** 
 	 * Store available remote repositories
@@ -488,10 +510,13 @@ class module_functions {
 	 */
 	function get_remote_repos() {
 		global $db;
-		$repos = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'remote_repos_json'","getOne");
-		if(!empty($repos)) {
-			$repos = json_decode($repos,TRUE);
-			$repos = array_diff($repos, array('local','orphan','broken'));
+		$repos = $this->generate_remote_repos();
+		if(empty($repos)) {
+			$repos = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'remote_repos_json'","getOne");
+			if(!empty($repos)) {
+				$repos = json_decode($repos,TRUE);
+				$repos = array_diff($repos, array('local','broken'));
+			}
 		}
 		return !empty($repos) && is_array($repos) ? $repos : array();
 	}
