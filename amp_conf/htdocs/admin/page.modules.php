@@ -650,16 +650,22 @@ switch ($action) {
 		
 		$local_repo_list = array();
 		$remote_repo_list = array();
-		foreach($modules as &$module) {
+		$broken_module_list = array();
+		$repo_exclude = array('local','orphan','broken');
+		foreach($modules as $mod => &$module) {
 			if(empty($module['repo'])) {
 				$module['repo'] = 'Unknown';
 			}
-			if(!in_array($module['repo'],$local_repo_list) && empty($module['raw']['online']) && $module['repo'] != 'local') {
+			if(!in_array($module['repo'],$local_repo_list) && empty($module['raw']['online']) && !in_array($module['repo'],$repo_exclude)) {
 				$local_repo_list[] = $module['repo'];
 			}
 			$raw = $module['rawname'];
-			if(!in_array($module['repo'],$remote_repo_list) && !empty($modules_online[$raw]) && $module['repo'] != 'local') {
+			if(!in_array($module['repo'],$remote_repo_list) && !empty($modules_online[$raw]) && !in_array($module['repo'],$repo_exclude)) {
 				$remote_repo_list[] = $module['repo'];
+			}
+			if(in_array($module['repo'],array('orphan', 'broken'))) {
+				$rpo = $module['repo'];
+				$broken_module_list[$rpo][] = $mod;
 			}
 		}
 		
@@ -833,6 +839,7 @@ switch ($action) {
 		$displayvars['module_display'] = $module_display;
 		$displayvars['devel'] = $amp_conf['DEVEL'];
 		$displayvars['trackenable'] = $amp_conf['AMPTRACKENABLE'];
+		$displayvars['broken_module_list'] = $broken_module_list;
 		show_view('views/module_admin/main.php',$displayvars);
 	break;
 }

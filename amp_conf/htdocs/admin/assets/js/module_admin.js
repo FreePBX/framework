@@ -188,7 +188,7 @@ function check_download_all() {
 
 function navigate_to_module(module) {
 	if($('#fullmodule_'+module).length) {
-		$('#fullmodule_'+module).scrollMinimal(true);
+		$('#fullmodule_'+module).scrollMinimal(true, 100);
 		$('#infopane_'+module).slideDown( "slow", function() {})
 		$('#infopane_'+module+' .modulefunctionradios').buttonset();
 		$('#infopane_'+module+' .moduletrackradios').buttonset();

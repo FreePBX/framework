@@ -13,6 +13,11 @@
 	<?php } ?>
 <?php } ?>
 
+<?php if(!empty($broken_module_list) && !$online) {?>
+	<br/>
+	<div class="alert alert-danger"><?php echo _('You have some broken FreePBX Modules. We advise you take care of these as soon as possible: ')?><a style="cursor:pointer;" onclick="$('#category_Broken').scrollMinimal(true,-250);"><?php echo _('View')?></a></div>
+<?php } ?>
+
 <form name="modulesGUI" action="config.php?display=modules" method="post">
 	<input type="hidden" name="display" value="modules" />
 	<input type="hidden" name="online" value="<?php echo $online?>" />

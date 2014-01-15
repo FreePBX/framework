@@ -1122,8 +1122,8 @@ $(document).ready(function(){
 		}
 	});
 	
-	jQuery.fn.scrollMinimal = function(smooth) {
-		var cTop = this.offset().top - 100;
+	jQuery.fn.scrollMinimal = function(smooth,offset) {
+		var cTop = this.offset().top - offset;
 		var cHeight = this.outerHeight(true);
 		var windowTop = $(window).scrollTop();
 		var visibleHeight = $(window).height();

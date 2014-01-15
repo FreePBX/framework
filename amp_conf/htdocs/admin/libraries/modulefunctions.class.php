@@ -473,7 +473,7 @@ class module_functions {
 		foreach($repos as $repo) {
 			//If there is a new repo detected and it's not in our former list of remote repos
 			//and it was not previously medled with locally then enable it automatically
-			if(!in_array($repo,$old_remote_repos) && !isset($active_repos[$repo])) {
+			if(!in_array($repo,$old_remote_repos) && !isset($active_repos[$repo]) && $repo != 'orphan') {
 				$this->set_active_repo($repo,1);
 			}
 		}
@@ -489,7 +489,11 @@ class module_functions {
 	function get_remote_repos() {
 		global $db;
 		$repos = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'remote_repos_json'","getOne");
-		return !empty($repos) ? json_decode($repos,TRUE) : array();
+		if(!empty($repos)) {
+			$repos = json_decode($repos,TRUE);
+			$repos = array_diff($repos, array('local','orphan','broken'));
+		}
+		return !empty($repos) && is_array($repos) ? $repos : array();
 	}
 	
 	function set_track($modulename,$track) {
