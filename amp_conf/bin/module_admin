@@ -70,9 +70,22 @@ function doInstall($modulename, $force) {
 	getIncludes();
 	$module =& module_functions::create();
 	if (is_array($errors = $module->install($modulename, $force))) {
-		out("The following error(s) occured:");
-		out(' - '.implode("\n - ",$errors));
-		exit(2);
+		if(!empty($module->modDepends)) {
+			out("Detected Unmet Dependency..Attempting to install it");
+			foreach($module->modDepends as $mod) {
+				if ($mod != 'core' && $mod != 'framework'){//we dont want to reinstall core
+					getIncludes(); //get functions from other modules, in case we need them here
+					out("Installing $mod...");
+					doDownload($mod, $force);
+					doInstall($mod, $force);
+				}
+			}
+			doInstall($modulename, $force);
+		} else {
+			out("The following error(s) occured:");
+			out(' - '.implode("\n - ",$errors));
+			exit(2);
+		}
 	} else {
 		out("Module ".$modulename." successfully installed");
 	}

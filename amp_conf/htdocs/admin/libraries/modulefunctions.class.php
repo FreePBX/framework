@@ -679,7 +679,7 @@ class module_functions {
 	 *                for true, because  array() == true !
 	 */
 	function checkdepends($modulename) {
-
+		$this->modDepends = array();
 		// check if we were passed a modulexml array, or a string (name)
 		// ensure $modulexml is the modules array, and $modulename is the name (as a string)
 		if (is_array($modulename)) {
@@ -816,10 +816,12 @@ class module_functions {
 										default:
 										case MODULE_STATUS_NOTINSTALLED:
 											$errors[$mod] = sprintf(_('Module %s is required, yours is not installed.'), $needed_module);
+											$this->modDepends[] = $matches[1];
 										break;
 									}
 								} else {
 									$errors[$matches[1]] = sprintf(_('Module %s is required.'), $matches[1]);
+									$this->modDepends[] = $matches[1];
 								}
 							}
 						break;
@@ -998,9 +1000,27 @@ class module_functions {
 	 */
 
 	// was fetchModule 
-	function download($modulexml, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) { 
+	function download($moduledata, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) { 
 		global $amp_conf;
-
+		if(!is_array($moduledata)) {
+			if(!empty($override_xml) && file_exists($ovverride_xml)) {
+				$data = file_get_contents($ovverride_xml);
+				$parser = new xml2ModuleArray($data);
+				$xml = $parser->parseAdvanced($data);
+				if(!isset($xml[$modeuledata])) {
+					$errors[] = _("Module XML was not in the proper format");
+					return $errors;
+				}
+				$modulexml = $xml[$modeuledata];
+			} else {
+				$modulexml = $this->getonlinexml($moduledata);
+			}
+		} elseif(!empty($moduledata['version'])) {
+			$modulexml = $moduledata;
+		} else {
+			$errors[] = _("Module XML was not in the proper format");
+			return $errors;
+		}
 		if(!file_exists($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
 			if(!mkdir($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
 				$errors[] = sprintf(_("Could Not Create Cache Folder: %s"),$amp_conf['AMPWEBROOT']."/admin/modules/_cache");
