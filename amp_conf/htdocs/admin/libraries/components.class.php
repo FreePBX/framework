@@ -783,6 +783,18 @@ class gui_radio extends guiinput {
 	}
 }
 
+class gui_button extends guiinput {
+	function gui_button($elemname, $value, $prompttext = '', $helptext = '', $post_text = '', $jsonclick = '', $disable=false) {
+		$parent_class = get_parent_class($this);
+		parent::$parent_class($elemname, '', $prompttext, $helptext);
+
+		$disable_state = $disable ? 'disabled="true"' : '';
+		$js_onclick_include = ($jsonclick != '') ? 'onclick="' . $jsonclick. '"' : '';
+		$tabindex = guielement::gettabindex();
+		$this->html_input = "<button type=\"button\" name=\"$this->_elemname\" id=\"$this->_elemname\" $disable_state tabindex=\"$tabindex\" value=\"$value\" $js_onclick_include/>$post_text</button>\n";
+	}
+}
+
 class gui_drawselects extends guiinput {
 	function gui_drawselects($elemname, $index, $dest, $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='') {
 		global $currentcomponent;
