@@ -361,3 +361,4 @@
 <script>
 	var modules = <?php echo !empty($finalmods) ? json_encode($finalmods) : '{}'?>;
 </script>
+</div>
