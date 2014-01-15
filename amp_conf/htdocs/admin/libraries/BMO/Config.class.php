@@ -9,10 +9,7 @@ class Config {
 
 	public $freepbx_conf;
 
-	public function __construct($freepbx = null) {
-		if ($freepbx === null)
-			throw new Exception("Config needs to be given a FreePBX Object when created");
-
+	public function __construct() {
 		$this->freepbx_conf = freepbx_conf::create();
 	}
 
