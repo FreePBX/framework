@@ -54,10 +54,9 @@ class FreePBX extends FreePBX_Helpers {
 		$oldIncludePath = get_include_path();
 		set_include_path(__DIR__.":".get_include_path());
 		foreach ($libraries as $lib) {
-			
+
 			if (class_exists($lib)) {
-				//Log don't throw an exception for developers
-				//throw new Exception("Somehow, the class $lib already exists");
+				throw new Exception("Somehow, the class $lib already exists. Are you trying to 'new' something?");
 			} else {
 				include "$lib.class.php";
 			}
