@@ -33,6 +33,7 @@ class FreePBX extends FreePBX_Helpers {
 
 	// Static Object used for self-referencing. 
 	private static $obj;
+	public static $conf;
 
 	/**
 	 * Constructor
@@ -45,8 +46,10 @@ class FreePBX extends FreePBX_Helpers {
 	 * @return void     
 	 * @access public   
 	 */
-	public function __construct() {
+	public function __construct($conf = null) {
 		$libraries = $this->listDefaultLibraries();
+
+		self::$conf = $conf;
 
 		$oldIncludePath = get_include_path();
 		set_include_path(__DIR__.":".get_include_path());

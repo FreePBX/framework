@@ -40,11 +40,8 @@ class Database extends PDO {
 			array_shift($args);
 		}
 
-		// We don't want bootstrap to do ANYTHING apart from
-		// load the $amp_conf variables.
-		//$bootstrap_settings['returnimmediately'] = true;
-		//include '/etc/freepbx.conf';
-		global $amp_conf;
+		$amp_conf = FreePBX::$conf;
+
 		if (isset($args[0])) {
 			$dsn = $args[0];
 		} else {

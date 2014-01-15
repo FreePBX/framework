@@ -236,7 +236,7 @@ if ($restrict_mods_local !== true) {
 $bmo = dirname(__FILE__)."/libraries/BMO/FreePBX.class.php";
 if (file_exists($bmo)) {
 	include_once($bmo);
-	$bmo = new FreePBX;
+	$bmo = new FreePBX($amp_conf);
 } else {
 	throw new Exception("Unable to load BMO");
 }
