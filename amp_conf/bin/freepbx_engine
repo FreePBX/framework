@@ -532,6 +532,10 @@ case "$1" in
 				fi
 			;;
 			genunlockkey)
+				echo "If REMOTEUNLOCK is enabled, you will receive a value for KEY. You can use"
+				echo "that as a parameter to config.php, thus:"
+				echo "http://192.168.1.1/admin/config.php?unlock=abc123def... "
+				echo ""
 				env php -r '$bootstrap_settings["freepbx_auth"] = false; $bootstrap_settings["skip_astman"] = true; $restrict_mods = true;
 					if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) { include_once("/etc/asterisk/freepbx.conf"); }
 					print "KEY=".$bmo->Unlock->genUnlockKey()."\n";'

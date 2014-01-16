@@ -13,6 +13,12 @@ class Unlock extends FreePBX_Helpers {
 	}
 
 	public function genUnlockKey() {
+
+		// Check to see that REMOTEUNLOCK is enabled
+		if (!$this->Config->get_conf_setting('REMOTEUNLOCK')) {
+			return false;
+		}
+
 		// PHP 5.3 or higher.
 		// Get 256 random bits
 		$rand = openssl_random_pseudo_bytes(32);
@@ -26,6 +32,11 @@ class Unlock extends FreePBX_Helpers {
 	}
 
 	public function checkUnlock($var = null) {
+
+		// Check to see that REMOTEUNLOCK is enabled
+		if (!$this->Config->get_conf_setting('REMOTEUNLOCK')) {
+			return false;
+		}
 
 		if (!$var) {
 			return false;
