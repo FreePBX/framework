@@ -1,5 +1,5 @@
 <?php
-global $amp_conf;
+global $db;
 
 if (!$db->getAll('SHOW COLUMNS FROM featurecodes WHERE FIELD = "helptext"')) {
 	out("Adding helptext to featurecodes table");
