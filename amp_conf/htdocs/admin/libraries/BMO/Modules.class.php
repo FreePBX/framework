@@ -53,5 +53,12 @@ class Modules {
 		}
 		return false;
 	}
+
+	/**
+	 * Pass-through to modules_class->getinfo
+	 */
+	public function getInfo($modname) {
+		return $this->modclass->getinfo($modname);
+	}
 }
 
