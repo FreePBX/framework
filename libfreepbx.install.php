@@ -460,7 +460,7 @@ function install_sqlupdate( $version, $file )
 //
 // freepbx_settings_init()
 // this is where we initialize all the freepbx_settings (amportal.conf). This will be run with install_amp and every
-// time we run the framework installer, so new settings can be added here that are framework wide. It may make send to
+// time we run the framework installer, so new settings can be added here that are framework wide. It may make sense to
 // break this out separately but for now we'll keep it here since this is already part of the infrastructure that is
 // used by both install_amp and the framework install/upgrade script.
 //
@@ -1113,7 +1113,8 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('DITECH_VQA_OUTBOUND',$set);
 
 	// ASTCONFAPP
-	$set['value'] = 'app_meetme';
+	$set['value'] = 'app_confbridge';
+	$set['defaultval'] = 'app_confbridge';
 	$set['options'] = array('app_meetme', 'app_confbridge');
 	$set['name'] = 'Conference Room App';
 	$set['description'] = 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_confbridge application is considered "experimental" with known issues and does not work on Asterisk 10 where it was completely rewritten and changed from the version on 1.6 and 1.8.';
