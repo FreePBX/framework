@@ -1571,6 +1571,12 @@ class module_functions {
 		if (!empty($rejects)) {
 			return $rejects;
 		}
+		
+		//Developer mode, remind them they need to run install_amp manually
+		//run this before the install scripts below because they end up removing install.php...yup
+		if($modulename == 'framework' && !file_exists($dir.'/install.php')) {
+			out(_("Framework has been detected as being in Developer mode, Please make sure to run './install_amp --update-links' manually so that any database or system settings can be updated"));
+		}
 			
 		// run the scripts
 		if (!$this->_runscripts($modulename, 'install', $modules)) {
@@ -1595,7 +1601,7 @@ class module_functions {
 		// normally this is done inside of the funky upgrade script runner but we are changing this now as
 		// framework and freepbx versions are the same
 		if($modulename == 'framework' && !empty($modules[$modulename]['version']) && (getVersion() != $modules[$modulename]['version'])) {
-			out("Framework Detected, Setting FreePBX Version to ".$modules[$modulename]['version']);
+			out(sprintf(_("Framework Detected, Setting FreePBX Version to %s"),$modules[$modulename]['version']));
 			$sql = "UPDATE admin SET value = '".$db->escapeSimple($modules[$modulename]['version'])."' WHERE variable = 'version'";
 			$result = $db->query($sql);
 			if(DB::IsError($result)) {

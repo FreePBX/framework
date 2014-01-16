@@ -9,6 +9,7 @@ class featurecode {
 	var $_providedest;		// 1=provide a featurecode destination for this code to modules
 	var $_loaded;		// If this feature code was succesfully loaded from the DB
 	var $_overridecodes;		// Overide defaults from featurecodes.conf
+	var $_helptext;		//Help Text for popup bubbles
 
 	// CONSTRUCTOR
 	function featurecode($modulename, $featurename) {
@@ -90,6 +91,7 @@ class featurecode {
 		if ($this->_loaded) {
 			$sql = 'UPDATE featurecodes SET '.
 			       'description = '.sql_formattext($this->_description).', '.
+					'helptext = '.sql_formattext($this->_helptext).', '.
 			       'defaultcode = '.sql_formattext($this->_defaultcode).', '.
 			       'customcode = '.sql_formattext($this->_customcode).', '.
 			       'enabled = '.sql_formattext($this->_enabled).', '.
@@ -97,13 +99,33 @@ class featurecode {
 			       'WHERE modulename = '.sql_formattext($this->_modulename).
 			       ' AND featurename = '.sql_formattext($this->_featurename);
 		} else {
-			$sql = 'INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled, providedest) '.
-        'VALUES ('.sql_formattext($this->_modulename).', '.sql_formattext($this->_featurename).', '.sql_formattext($this->_description).', '.sql_formattext($this->_defaultcode).', '.sql_formattext($this->_customcode).', '.sql_formattext($this->_enabled).', '.sql_formattext($this->_providedest).') ';
+			$sql = 'INSERT INTO featurecodes (modulename, featurename, description, helptext, defaultcode, customcode, enabled, providedest) '.
+        'VALUES ('.sql_formattext($this->_modulename).', '.sql_formattext($this->_featurename).', '.sql_formattext($this->_description).', '.sql_formattext($this->_helptext).', '.sql_formattext($this->_defaultcode).', '.sql_formattext($this->_customcode).', '.sql_formattext($this->_enabled).', '.sql_formattext($this->_providedest).') ';
 		}
 
 		sql($sql, 'query');
 		
 		return true;
+	}
+	
+	// SET HelpText
+	function setHelpText($helptext) {
+		if (!$this->isReady())
+			$this->init(1);
+
+		if ($helptext == '') {
+			unset($this->_helptext);
+		} else {
+			$this->_helptext = $helptext;
+		}
+	}
+	
+	// GET HelpText
+	function getHelpText($helptext) {
+		if (!$this->isReady())
+			$this->init(1);
+
+		return (isset($this->_helptext) ? $this->_helptext : '');
 	}
 	
 	// SET DESCRIPTION
