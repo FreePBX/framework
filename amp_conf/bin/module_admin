@@ -696,6 +696,7 @@ foreach ($args[0] as $arg) {
 			foreach ($repo_args as $repo) {
 				if(in_array($repo, $remote_repos)) {
 					$active_repos[$repo] = 1;
+					$modulef->set_active_repo($repo);
 				} else {
 					out("No such repo: [$repo], skipping");
 				}

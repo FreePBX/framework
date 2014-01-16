@@ -3,12 +3,13 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>12.0.1alpha12</version>
+	<version>12.0.1alpha13</version>
 	<publisher>FreePBX</publisher>
 	<license>GPLv2+</license>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*12.0.1alpha13* Automatically enable repos from module_admin if used with --repo also make standard, standard
 		*12.0.1alpha12* Full fix for module_admin functionality to always attempt to look at master modulexml for list of repos
 		*12.0.1alpha11* BMO didn't know how to preload a module.
 		*12.0.1alpha10* Update to 10, numerous fixes here and there

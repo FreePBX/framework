@@ -425,13 +425,19 @@ class module_functions {
 				$repos = json_decode($repos,TRUE);
 			} else {
 				$repos_serialized = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'repos_serialized'","getOne");
-				$repos = unserialize($repos_serialized);
-				$repos_json = $db->escapeSimple(json_encode($repos));
-				sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('repos_json', '".time()."','".$repos_json."')");
-				sql("DELETE FROM `module_xml` WHERE `id` = 'repos_serialized'");				
+				if(!empty($repos_serialized)) {
+					$repos = unserialize($repos_serialized);
+					$repos_json = $db->escapeSimple(json_encode($repos));
+					sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('repos_json', '".time()."','".$repos_json."')");
+					sql("DELETE FROM `module_xml` WHERE `id` = 'repos_serialized'");
+				}			
 			}
-			if (isset($repos) && $repos) {
+			if (!empty($repos)) {
 				$active_repos = $repos;
+				if(!isset($active_repos['standard']) || $active_repos['standard'] == 1) {
+					$active_repos['standard'] = 1;
+					$this->set_active_repo('standard',1);
+				}
 			} else {
 				$active_repos = array('standard' => 1);
 				$this->set_active_repo('standard',1);
