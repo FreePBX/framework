@@ -505,7 +505,8 @@ case "$1" in
 				fi 
 				#enable dbug in case its disabled
 				$AMPBIN/freepbx_setting FPBXDBUGDISABLE 0
-				tail -f $FPBXDBUGFILE $httpd_error
+				#tail the freepbx logfile as well FREEPBX-7067
+				tail -f $FPBXDBUGFILE $httpd_error $FPBX_LOG_FILE
 			;;
 			mysql|m)
 				mysql -u$AMPDBUSER -D$AMPDBNAME -p$AMPDBPASS
