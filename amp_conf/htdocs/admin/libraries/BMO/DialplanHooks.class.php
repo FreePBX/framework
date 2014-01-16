@@ -59,8 +59,16 @@ class DialplanHooks {
 				if (isset($cmd['function'])) {
 					$func = $cmd['function'];
 					if (!function_exists($func)) {
-						print "HANDLED-ERROR: $func should exist, but it doesn't - Dazed and confused, but continuing. This is a bug.\n";
-						continue;
+						// Old style modules may be licenced, and as such their functions may not be there. Let's see if this
+						// module is one of those.
+						$funcarr = explode("_", $func);
+						$x = $this->FreePBX->Modules->getInfo($funcarr[0]);
+						if (isset($x[$funcarr[0]]) && $x[$funcarr[0]]['license'] == "Commercial") {
+							continue;
+						} else {
+							print "HANDLED-ERROR: $func should exist, but it doesn't - Dazed and confused, but continuing. This is a bug.\n";
+							continue;
+						}
 					}
 					$this->FreePBX->Performance->Stamp("olddialplanHook-".$func."_start");
 					$func($engine);
