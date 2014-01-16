@@ -34,6 +34,7 @@ $vars = array(
 		'skip_astman'		=> false,
 		'type'				=> '',
 		'username'			=> '',
+		'unlock'			=> false,
 );
 
 foreach ($vars as $k => $v) {
@@ -110,6 +111,15 @@ if (isset($_REQUEST['handler'])) {
 // call bootstrap.php through freepbx.conf
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 		include_once('/etc/asterisk/freepbx.conf');
+}
+
+// At this point, we have a session, and BMO was created in bootstrap, so we can check to
+// see if someone's trying to programatically log in.
+if ($unlock) {
+		if ($bmo->Unlock($unlock)) {
+				unset($no_auth);
+				$display = 'index';
+		}
 }
 
 /* If there is an action request then some sort of update is usually being done.
