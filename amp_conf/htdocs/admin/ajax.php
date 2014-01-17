@@ -6,8 +6,17 @@
  * Does not support older modules.
  */
 
-$_REQUEST['module']="sipsettings";
-$_REQUEST['command']="foo";
+if (!isset($_REQUEST['module'])) {
+	$module = "framework";
+} else {
+	$module = $_REQUEST['module'];
+}
+
+if (isset($_REQUEST['command'])) {
+	$command = $_REQUEST['command'];
+} else {
+	$command = "unset";
+}
 
 // No astman connection
 $bootstrap_settings['skip_astman'] = true;
@@ -20,18 +29,6 @@ $restrict_mods = true;
 
 // Bootstrap!
 include '/etc/freepbx.conf';
-
-if (isset($_REQUEST['module'])) {
-	$module = $_REQUEST['module'];
-} else {
-	$bmo->Ajax->ajaxError(409, 'Module not specified');
-}
-
-if (isset($_REQUEST['command'])) {
-	$command = $_REQUEST['command'];
-} else {
-	$bmo->Ajax->ajaxError(404, 'Command not found');
-}
 
 $bmo->Ajax->doRequest($module, $command);
 

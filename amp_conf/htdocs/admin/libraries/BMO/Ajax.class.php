@@ -23,10 +23,14 @@ class Ajax extends FreePBX_Helpers {
 		if (strpos($module, ".") !== false) {
 			throw new Exception("Module requested invalid");
 		}
-
-		$ucMod = ucfirst($module);
-		// OK, it doesn't exist. Let's see if it exists.
-		$file = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/$ucMod.class.php";
+		// Is it the hardcoded Framework module?
+		if ($module == "framework") {
+			$file = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/libraries/BMO/Framework.class.php";
+			$ucMod = "Framework";
+		} else {
+			$ucMod = ucfirst($module);
+			$file = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/$ucMod.class.php";
+		}
 		
 		// Note, that Self_Helper will throw an exception if the file doesn't exist, or if it does
 		// exist but doesn't define the class.
@@ -34,10 +38,12 @@ class Ajax extends FreePBX_Helpers {
 
 		$thisModule = $this->$ucMod;
 		if (!method_exists($thisModule, "ajaxRequest")) {
-			$this->ajaxError(404, 'ajaxRequest not found');
+			$this->ajaxError(501, 'ajaxRequest not found');
 		}
 
-		$thisModule->ajaxRequest($command, $this->settings);
+		if (!$thisModule->ajaxRequest($command, $this->settings)) {
+			$this->ajaxError(403, 'ajaxRequest declined');
+		}
 
 		if ($this->settings['allowremote']) {
 			// You don't want to do this, honest.
@@ -49,9 +55,21 @@ class Ajax extends FreePBX_Helpers {
 		}
 
 		if (!method_exists($thisModule, "ajaxHandler")) {
-			$this->ajaxError(404, 'ajaxHandler not found');
+			$this->ajaxError(501, 'ajaxHandler not found');
 		}
 
+		// Right. Now we can actually do it!
+		ob_start();
+		$ret = $thisModule->ajaxHandler();
+		$out = ob_get_clean();
+		ob_end_flush();
+		if ($out) {
+			print $out;
+		} else {
+			print json_encode($ret);
+		}
+		exit;
+		
 	}
 
 
@@ -60,7 +78,6 @@ class Ajax extends FreePBX_Helpers {
 		print json_encode(array("error" => $text));
 		exit;
 	}
-
 }
 
 
