@@ -46,7 +46,7 @@ class FreePBX extends FreePBX_Helpers {
 	 * @return void     
 	 * @access public   
 	 */
-	public function __construct($conf = null) {
+	public function __construct(&$conf = null) {
 		$libraries = $this->listDefaultLibraries();
 
 		self::$conf = $conf;
