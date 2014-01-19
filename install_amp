@@ -144,7 +144,11 @@ function install_parse_asterisk_conf($filename) {
 	if (!isset($asterisk_conf['astetcdir']))    { $asterisk_conf['astetcdir']    = "/etc/asterisk"; }
 	if (!isset($asterisk_conf['astmoddir'])) {
 		if(file_exists("/usr/lib64/asterisk/modules")) {
+			out("Detected lib64 based system, adjusting asterisk.conf");
 			$asterisk_conf['astmoddir']    = "/usr/lib64/asterisk/modules";
+			$contents = file_get_contents($filename);
+			$contents = str_replace("/usr/lib/asterisk/modules",$asterisk_conf['astmoddir'],$contents);
+			file_put_contents($filename,$contents);
 		} else {
 			$asterisk_conf['astmoddir']    = "/usr/lib/asterisk/modules";
 		}
