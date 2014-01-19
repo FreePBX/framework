@@ -142,7 +142,13 @@ function install_parse_asterisk_conf($filename) {
 	// it will get the setup somewhat right
 	//
 	if (!isset($asterisk_conf['astetcdir']))    { $asterisk_conf['astetcdir']    = "/etc/asterisk"; }
-	if (!isset($asterisk_conf['astmoddir']))    { $asterisk_conf['astmoddir']    = "/usr/lib/asterisk/modules"; }
+	if (!isset($asterisk_conf['astmoddir'])) {
+		if(file_exists("/usr/lib64/asterisk/modules")) {
+			$asterisk_conf['astmoddir']    = "/usr/lib64/asterisk/modules";
+		} else {
+			$asterisk_conf['astmoddir']    = "/usr/lib/asterisk/modules";
+		}
+	}
 	if (!isset($asterisk_conf['astvarlibdir'])) { $asterisk_conf['astvarlibdir'] = "/var/lib/asterisk"; }
 	if (!isset($asterisk_conf['astagidir']))    { $asterisk_conf['astagidir']    = "/var/lib/asterisk/agi-bin"; }
 	if (!isset($asterisk_conf['astspooldir']))  { $asterisk_conf['astspooldir']  = "/var/spool/asterisk"; }
