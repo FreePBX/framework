@@ -1354,6 +1354,13 @@ $force_amportal_conf = DB::IsError($num_settings) || $num_settings < 5;
 $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
 if ($install_files) {
 	outn("Installing new FreePBX files..");
+	if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules')) {
+		mkdir($amp_conf['AMPWEBROOT'].'/admin/modules',0777,true);
+		chown($amp_conf['AMPWEBROOT'].'/admin/modules',$asteriskuser);
+		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules')) {
+			die("We were not able to create the modules directory, which is important\n");
+		}
+	}
 	$check_md5s=true;
 	$md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
 	list($num_files, $num_copied) = recursive_copy("amp_conf", "", $md5sums);
@@ -1364,6 +1371,15 @@ if ($install_files) {
 		}
 		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml')) {
 			symlink(dirname(__FILE__).'/module.xml',$amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml');
+			chown($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml',$asteriskuser);
+		}
+	} else {
+		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework')) {
+			mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/framework');
+			chown($amp_conf['AMPWEBROOT'].'/admin/modules/framework',$asteriskuser);
+		}
+		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml')) {
+			copy(dirname(__FILE__).'/module.xml',$amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml');
 			chown($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml',$asteriskuser);
 		}
 	}
