@@ -964,7 +964,7 @@ if($installamp_clean || $uninstallamp) {
 			case "y":
 			case "yes":
 			default:
-				outn("Erasing Database...");
+				outn("Erasing FreePBX Asterisk Database...");
 				$datasource = 'mysql://'.$oldampconf["AMPDBUSER"].':'.$oldampconf["AMPDBPASS"].'@'.$oldampconf["AMPDBHOST"].'/'.$oldampconf["AMPDBNAME"];
 				$cleandb = DB::connect($datasource); // attempt connection
 
@@ -979,20 +979,14 @@ if($installamp_clean || $uninstallamp) {
 						$cleandb->query($sql);
 					}
 					out("Done");
-					outn("Reinstalling DB Structure...");
+					outn("Reinstalling FreePBX Asterisk DB Structure...");
 					installampimport_mysql_dump('newinstall.sql',$cleandb);
 					out("Done");
 				}
 			break;   
 		}
-	}
-	
-	if($uninstallamp && (!empty($oldampconf) || !empty($new_username))) {
-		outn("Uninstall Freepbx's Asterisk Database?:\n [y] ");
-		$u_username = !empty($oldampconf["AMPDBUSER"]) ? $oldampconf["AMPDBUSER"] : $new_username;
-		$u_password = !empty($oldampconf["AMPDBPASS"]) ? $oldampconf["AMPDBPASS"] : (!empty($new_password) ? $new_password : '');
-		$u_host = !empty($oldampconf["AMPDBHOST"]) ? $oldampconf["AMPDBHOST"] : (!empty($dbhost) ? $dbhost : 'localhost');
-		$u_database = !empty($oldampconf["AMPDBNAME"]) ? $oldampconf["AMPDBNAME"] : (!empty($dbname) ? $dbname : 'asterisk');
+		
+		outn("Reinitalize & Reinstall Freepbx's CDR Database?:\n [y] ");
 		$key = trim(fgets(STDIN,1024));
 		switch($key) {
 			case "n":
@@ -1001,7 +995,44 @@ if($installamp_clean || $uninstallamp) {
 			case "y":
 			case "yes":
 			default:
-				outn("Erasing Database...");
+				outn("Erasing FreePBX CDR Database...");				
+				//for asterisk CDR
+				$datasource = 'mysql://'.$oldampconf["AMPDBUSER"].':'.$oldampconf["AMPDBPASS"].'@'.$oldampconf["AMPDBHOST"].'/asteriskcdrdb';
+				$cdrdb = DB::connect($datasource); // attempt connection
+				if(DB::IsError($cdrdb)) {
+					out("FAILED TO REMOVE CDR");
+				} else {
+					$sql = "SHOW TABLES FROM asteriskcdrdb";
+					$tables = $cleandb->getAll($sql);
+					foreach($tables as $list) {
+						$sql = "DROP TABLE asteriskcdrdb.".$list[0];
+						$cleandb->query($sql);
+					}
+					out("Done");
+					outn("Reinstalling FreePBX CDR DB Structure...");
+					installampimport_mysql_dump('cdr_mysql_table.sql', $cdrdb);
+					out("Done!");
+				}
+			break;   
+		}
+	}
+	
+	if($uninstallamp && (!empty($oldampconf) || !empty($new_username))) {
+		$u_username = !empty($oldampconf["AMPDBUSER"]) ? $oldampconf["AMPDBUSER"] : $new_username;
+		$u_password = !empty($oldampconf["AMPDBPASS"]) ? $oldampconf["AMPDBPASS"] : (!empty($new_password) ? $new_password : '');
+		$u_host = !empty($oldampconf["AMPDBHOST"]) ? $oldampconf["AMPDBHOST"] : (!empty($dbhost) ? $dbhost : 'localhost');
+		$u_database = !empty($oldampconf["AMPDBNAME"]) ? $oldampconf["AMPDBNAME"] : (!empty($dbname) ? $dbname : 'asterisk');
+		
+		outn("Uninstall Freepbx's Asterisk Database?:\n [y] ");
+		$key = trim(fgets(STDIN,1024));
+		switch($key) {
+			case "n":
+			case "no":
+			break;
+			case "y":
+			case "yes":
+			default:
+				outn("Erasing FreePBX Asterisk Database...");
 				$datasource = 'mysql://'.$u_username.':'.$u_password.'@'.$u_host.'/'.$u_database;
 				$cleandb = DB::connect($datasource); // attempt connection
 
@@ -1013,6 +1044,34 @@ if($installamp_clean || $uninstallamp) {
 					$tables = $cleandb->getAll($sql);
 					foreach($tables as $list) {
 						$sql = "DROP TABLE ".$u_database.".".$list[0];
+						$cleandb->query($sql);
+					}
+					out("Done"); 
+				}
+			break;   
+		}
+		
+		outn("Uninstall Freepbx's CDR Database?:\n [y] ");
+		$key = trim(fgets(STDIN,1024));
+		switch($key) {
+			case "n":
+			case "no":
+			break;
+			case "y":
+			case "yes":
+			default:
+				outn("Erasing FreePBX CDR Database...");
+				$datasource = 'mysql://'.$u_username.':'.$u_password.'@'.$u_host.'/asteriskcdrdb';
+				$cleandb = DB::connect($datasource); // attempt connection
+
+				if(DB::IsError($cleandb)) {
+					out("FAILED");
+					//fatal("Could Not Connect to Database (Probably already deleted)");
+				} else {
+					$sql = "SHOW TABLES FROM asteriskcdrdb";
+					$tables = $cleandb->getAll($sql);
+					foreach($tables as $list) {
+						$sql = "DROP TABLE asteriskcdrdb.".$list[0];
 						$cleandb->query($sql);
 					}
 					out("Done"); 
@@ -1333,6 +1392,7 @@ if($installdb) {
 	}
 	
 	//for asterisk CDR
+	outn("Checking state of FreePBX CDRDB...");
 	$datasource = 'mysql://'.$amp_conf["AMPDBUSER"].':'.$amp_conf["AMPDBPASS"].'@'.$amp_conf["AMPDBHOST"].'/asteriskcdrdb';
 	$cdrdb = DB::connect($datasource); // attempt connection
 	if(DB::IsError($cdrdb)) {
