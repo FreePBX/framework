@@ -73,16 +73,26 @@ function doInstall($modulename, $force) {
 		if(!empty($module->modDepends)) {
 			out("Detected Unmet Dependency..Attempting to install it");
 			foreach($module->modDepends as $mod) {
-				if ($mod != 'core' && $mod != 'framework'){//we dont want to reinstall core
-					getIncludes(); //get functions from other modules, in case we need them here
-					out("Installing $mod...");
-					doDownload($mod, $force);
-					doInstall($mod, $force);
+				getIncludes(); //get functions from other modules, in case we need them here
+				out("Installing $mod...");
+				$status = doInstall($mod, $force);
+				if($status !== true && $mod != 'framework') {
+					if (($status1 = doDownload($mod, $force)) === true) {
+						if (($status2 = doInstall($mod, $force)) === true) {
+							out("Unable to install module ${modulename}'s dependency ${mod}:");
+							out(' - '.implode("\n - ",$status2));
+							exit;
+						}
+                    } else {
+						out("Unable to download module ${modulename}'s dependency ${mod}:");
+						out(' - '.implode("\n - ",$status1));
+						exit;
+					}
 				}
 			}
 			doInstall($modulename, $force);
 		} else {
-			out("The following error(s) occured:");
+			out("The following error(s) occurred:");
 			out(' - '.implode("\n - ",$errors));
 			exit(2);
 		}
