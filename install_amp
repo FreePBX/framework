@@ -981,7 +981,7 @@ if($installamp_clean || $uninstallamp) {
 					out("Done");
 					outn("Reinstalling DB Structure...");
 					installampimport_mysql_dump('newinstall.sql',$cleandb);
-					out("Done");   
+					out("Done");
 				}
 			break;   
 		}
@@ -1331,6 +1331,22 @@ if($installdb) {
 	} else {
 		out("FreePBX DB is already populated skipping");
 	}
+	
+	//for asterisk CDR
+	$datasource = 'mysql://'.$amp_conf["AMPDBUSER"].':'.$amp_conf["AMPDBPASS"].'@'.$amp_conf["AMPDBHOST"].'/asteriskcdrdb';
+	$cdrdb = DB::connect($datasource); // attempt connection
+	if(DB::IsError($cdrdb)) {
+		out("FAILED TO INSTALL CDR");
+	} else {
+		$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'asteriskcdrdb'";
+		if(!$cdrdb->getOne($sql)) {
+			outn("FreePBX DB is empty, inserting standard rows...");
+			installampimport_mysql_dump('cdr_mysql_table.sql', $cdrdb);
+			out("Done!");
+		} else {
+			out("FreePBX CDR DB is already populated skipping");
+		}
+	}
 }
 
 // **** Read DB for version info
@@ -1358,6 +1374,7 @@ $force_amportal_conf = DB::IsError($num_settings) || $num_settings < 5;
 // **** Copy files
 
 $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
+$installfw = false;
 if ($install_files) {
 	outn("Installing new FreePBX files..");
 	$check_md5s=true;
@@ -1375,6 +1392,7 @@ if ($install_files) {
 			symlink(dirname(__FILE__).'/module.xml',$amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml');
 			chown($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml',$asteriskuser);
 		}
+		$installfw = true;
 	} else {
 		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework')) {
 			mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/framework');
@@ -1384,6 +1402,7 @@ if ($install_files) {
 			copy(dirname(__FILE__).'/module.xml',$amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml');
 			chown($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml',$asteriskuser);
 		}
+		$installfw = true;
 	}
 	if (!is_file("/etc/asterisk/voicemail.conf")) copy("/etc/asterisk/voicemail.conf.template","/etc/asterisk/voicemail.conf");
 	if (!is_dir("/var/spool/asterisk/voicemail/device")) amp_mkdir("/var/spool/asterisk/voicemail/device", "0755", true);
@@ -1622,6 +1641,10 @@ $version = install_getversion();
 //
 if ($module_install && !$update_links) {
 	install_modules();
+	if($installfw) {
+		system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install framework");
+		system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable framework");
+	}
 } else {
 	out("bypassing packaged module installation because --skip-module-install or --update-links flag");
 }
