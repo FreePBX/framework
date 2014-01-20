@@ -142,17 +142,7 @@ function install_parse_asterisk_conf($filename) {
 	// it will get the setup somewhat right
 	//
 	if (!isset($asterisk_conf['astetcdir']))    { $asterisk_conf['astetcdir']    = "/etc/asterisk"; }
-	if (!isset($asterisk_conf['astmoddir'])) {
-		if(file_exists("/usr/lib64/asterisk/modules")) {
-			out("Detected lib64 based system, adjusting asterisk.conf");
-			$asterisk_conf['astmoddir']    = "/usr/lib64/asterisk/modules";
-			$contents = file_get_contents($filename);
-			$contents = str_replace("/usr/lib/asterisk/modules",$asterisk_conf['astmoddir'],$contents);
-			file_put_contents($filename,$contents);
-		} else {
-			$asterisk_conf['astmoddir']    = "/usr/lib/asterisk/modules";
-		}
-	}
+	if (!isset($asterisk_conf['astmoddir']))    { $asterisk_conf['astmoddir']    = "/usr/lib/asterisk/modules"; }
 	if (!isset($asterisk_conf['astvarlibdir'])) { $asterisk_conf['astvarlibdir'] = "/var/lib/asterisk"; }
 	if (!isset($asterisk_conf['astagidir']))    { $asterisk_conf['astagidir']    = "/var/lib/asterisk/agi-bin"; }
 	if (!isset($asterisk_conf['astspooldir']))  { $asterisk_conf['astspooldir']  = "/var/spool/asterisk"; }
@@ -1207,12 +1197,17 @@ outn("Checking for ".ASTERISK_CONF."..");
 if (!file_exists(ASTERISK_CONF)) {
 	out(ASTERISK_CONF." does not exist, copying default");
 	copy("asterisk.conf", ASTERISK_CONF);
+	
+	if(file_exists("/usr/lib64/asterisk/modules")) {
+		out("Detected lib64 based system, adjusting asterisk.conf");
+		$contents = file_get_contents(ASTERISK_CONF);
+		$contents = str_replace("/usr/lib/asterisk/modules","/usr/lib64/asterisk/modules",$contents);
+		file_put_contents(ASTERISK_CONF,$contents);
+	} 
 }
 out("OK");
 
 // **** read asterisk.conf
-
-//TODO we should be writing to the asterisk conf file here
 
 // TODO: if we boostrapped don't do this
 //
