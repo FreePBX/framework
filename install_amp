@@ -1681,9 +1681,6 @@ if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redha
 		} else {
 			out("freepbx setting [$keyword] DOES NOT EXIST, can't set to [$value]");
 		}
-		if(class_exists('FreePBX')) {
-			die('i am dead');
-		}
 	}	
 } else {
 	//We are here mainly because of bug #6159
