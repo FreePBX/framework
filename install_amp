@@ -1335,6 +1335,13 @@ if ($install_files)
 	$check_md5s=true;
 	$md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
 	list($num_files, $num_copied) = recursive_copy("amp_conf", "", $md5sums);
+	if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules')) {
+		mkdir($amp_conf['AMPWEBROOT'].'/admin/modules',0777,true);
+		chown($amp_conf['AMPWEBROOT'].'/admin/modules',$asteriskuser);
+		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules')) {
+			die("We were not able to create the modules directory, which is important\n");
+		}
+	}
 	if (!is_file("/etc/asterisk/voicemail.conf")) copy("/etc/asterisk/voicemail.conf.template","/etc/asterisk/voicemail.conf");
 	if (!is_dir("/var/spool/asterisk/voicemail/device")) amp_mkdir("/var/spool/asterisk/voicemail/device", "0755", true);
 	out("OK (".$num_copied." files copied, ".($num_files-$num_copied)." skipped)");
