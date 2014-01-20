@@ -1195,6 +1195,10 @@ if (isset($dbname)) {
 //       database then we probably want to write, though there should be a freepbx_conf class to use that does that and knows
 //       how to make that decsion as well as what to write?
 //
+if(empty($amp_conf["AMPDBUSER"]) || empty($amp_conf["AMPDBPASS"]) || empty($amp_conf["AMPDBHOST"]) || empty($amp_conf["AMPDBNAME"])) {
+	die("Database settings were blank. Try again\n");
+}
+
 write_amportal_conf(AMP_CONF, $amp_conf);
 
 // **** Check for amportal.conf, create if necessary
@@ -1207,6 +1211,8 @@ if (!file_exists(ASTERISK_CONF)) {
 out("OK");
 
 // **** read asterisk.conf
+
+//TODO we should be writing to the asterisk conf file here
 
 // TODO: if we boostrapped don't do this
 //
@@ -1595,7 +1601,7 @@ if (!$dryrun) {
 	}
 	// reload manager in asterisk if it was running:
 	//
-	if (version_compare($asterisk_version,'1.4','ge')) {
+	if ($override_astvers || version_compare($asterisk_version,'1.4','ge')) {
 		system("asterisk -rx 'module reload manager'");
 	} else {
 		system("asterisk -rx 'reload manager'"); //1.2 syntax
@@ -1658,7 +1664,11 @@ if(!empty($fwver)) {
 if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redhat-release')))  {
 	$amp_conf_file = $amp_conf;
 }
+
 outn("Creating or updating freepbx_conf settings..");
+if (!class_exists('notifications')) {
+	include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/notifications.class.php');
+}
 freepbx_settings_init(true);
 out("..OK");
 
@@ -1668,6 +1678,7 @@ out("..OK");
 if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redhat-release'))) {
 	out("Setting freepbx settings form " . AMP_CONF);
 	$freepbx_conf =& freepbx_conf::create();
+	//find and set webroot first as everything else relies on it
 	foreach ($amp_conf_file as $keyword => $value) {
 		if ($freepbx_conf->conf_setting_exists($keyword)) {
 			$freepbx_conf->set_conf_values(array($keyword => $value),true,true);
@@ -1675,7 +1686,10 @@ if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redha
 		} else {
 			out("freepbx setting [$keyword] DOES NOT EXIST, can't set to [$value]");
 		}
-	}
+		if(class_exists('FreePBX')) {
+			die('i am dead');
+		}
+	}	
 } else {
 	//We are here mainly because of bug #6159
 	//Meaning they are installing this on CentOS manually so the above checks fail
@@ -1707,7 +1721,6 @@ if ($module_install && !$update_links) {
 	install_modules();
 	if($installfw) {
 		system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install framework");
-		system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable framework");
 	}
 } else {
 	out("bypassing packaged module installation because --skip-module-install or --update-links flag");
