@@ -45,13 +45,29 @@ class Ajax extends FreePBX_Helpers {
 			$this->ajaxError(403, 'ajaxRequest declined');
 		}
 
-		if ($this->settings['allowremote']) {
+		if ($this->settings['allowremote'] === true) {
 			// You don't want to do this, honest.
 			header('Access-Control-Allow-Origin: *');
+		} else {
+			// Try to avoid CSRF issues.
+			if (!isset($_SERVER['HTTP_REFERER'])) {
+				$this->ajaxError(403, 'ajaxRequest declined - Referrer');
+			}
+
+			// Make sure the referrer is at least this host.
+			if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) != $_SERVER['HTTP_HOST']) {
+				$this->ajaxError(403, 'ajaxRequest declined - Referrer');
+			}
+
+			// TODO: We should add tokens in here, as we're still vulnerable to CSRF via XSS.
 		}
 
 		if ($this->settings['authenticate']) {
-			// TODO: Everything.
+			if (!isset($_SESSION['AMP_user'])) {
+				$this->ajaxError(401, 'Not Authenticated');
+			} else {
+				define('FREEPBX_IS_AUTH', 'TRUE');
+			}
 		}
 
 		if (!method_exists($thisModule, "ajaxHandler")) {
@@ -69,9 +85,7 @@ class Ajax extends FreePBX_Helpers {
 			print json_encode($ret);
 		}
 		exit;
-		
 	}
-
 
 	public function ajaxError($errnum, $text = 'Unknown error') {
 		header("HTTP/1.0 $errnum $text");
@@ -79,6 +93,4 @@ class Ajax extends FreePBX_Helpers {
 		exit;
 	}
 }
-
-
 
