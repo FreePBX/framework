@@ -1224,7 +1224,7 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 			}
 		}
 	}
-	if ($ret || $ret2 || $ret3) {
+	if (isset($ret) || isset($ret2) || isset($ret3)) {
 		dbug("aborting early because previous errors");
 		return false;
 	}
@@ -1265,7 +1265,7 @@ function sanitize_outbound_callerid($cid) {
 }
 
 /**
- * Recursivly remove a directory
+ * Recursively remove a directory
  * @param string - dirname
  *
  * @return bool
