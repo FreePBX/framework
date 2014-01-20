@@ -2460,7 +2460,6 @@ class module_functions {
 				}
 			}
 		}
-		
 		$repos = explode(',', $amp_conf['MODULE_REPO']);
 		return array('mirrors' => $repos, 'path' => $path, 'options' => $options, 'query' => http_build_query($options));
 	}
