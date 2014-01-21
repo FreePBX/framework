@@ -1909,7 +1909,7 @@ function _module_distro_id() {
     exec('uname -r 2>&1',$kernelv,$ret2);
     if(!$ret1 && !$ret2 && !empty($kernel) && !empty($kernelv)) {
         $pbx_type = 'unknown-'.$kernel[0];
-        $pbx_type = $kernelv[0];
+        $pbx_version = $kernelv[0];
     }
   }
   
