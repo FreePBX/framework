@@ -559,9 +559,9 @@ class module_functions {
 		if(empty($this->module_tracks)) {
 			$sql = "SELECT data FROM module_xml WHERE id = 'track'";
 			$this->module_tracks = sql($sql, "getOne");
+			$this->module_tracks = !empty($this->module_tracks) ? json_decode($this->module_tracks,TRUE) : array();
 		}
-		
-		$this->module_tracks = !empty($this->module_tracks) ? json_decode($this->module_tracks,TRUE) : array();
+
 		return !empty($this->module_tracks[$modulename]) ? $this->module_tracks[$modulename] : 'stable';
 	}
 
@@ -2466,7 +2466,7 @@ class module_functions {
 	
 	function url_get_contents($url,$request,$verb='get',$params=array()) {
 		global $amp_conf;
-		$action = strtolower($action);
+		$verb = strtolower($verb);
 		$contents = null;
 		
 		if(!$amp_conf['MODULEADMINWGET']) {

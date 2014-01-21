@@ -312,7 +312,7 @@
 															<strong><?php echo $release['version']?></strong>
 														</td>
 														<td>
-															<?php echo $release['pretty_change']?>
+															<?php echo !empty($release['pretty_change']) ? $release['pretty_change'] : _('No Description')?>
 														</td>
 														<td>
 															<a href="config.php?display=modules&amp;action=confirm&amp;online=1&amp;moduleaction[<?php echo prep_id($module['name'])?>]=rollback&amp;version=<?php echo $release['version']?>" class="btn">Rollback</a>

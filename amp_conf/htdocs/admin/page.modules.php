@@ -653,6 +653,11 @@ switch ($action) {
 		$broken_module_list = array();
 		$repo_exclude = array('local','broken');
 		foreach($modules as $mod => &$module) {
+			if(in_array($module['repo'],array('broken'))) {
+				$rpo = $module['repo'];
+				$broken_module_list[$rpo][] = $mod;
+				continue;
+			}
 			if(empty($module['repo'])) {
 				$module['repo'] = 'Unknown';
 			}
@@ -662,10 +667,6 @@ switch ($action) {
 			$raw = $module['rawname'];
 			if(!in_array($module['repo'],$remote_repo_list) && !empty($modules_online[$raw]) && !in_array($module['repo'],$repo_exclude)) {
 				$remote_repo_list[] = $module['repo'];
-			}
-			if(in_array($module['repo'],array('broken'))) {
-				$rpo = $module['repo'];
-				$broken_module_list[$rpo][] = $mod;
 			}
 		}
 		
@@ -764,13 +765,13 @@ switch ($action) {
 				$module_display[$category]['name'] = $modules[$name]['category'];
 			}
 			
+			$module_display[$category]['data'][$name] = $modules[$name];
+			
 			$loc_domain = $name;
 			$name_text = modgettext::_($modules[$name]['name'], $loc_domain);
 			$module_display[$category]['data'][$name]['loc_domain'] = $loc_domain;
 			$module_display[$category]['data'][$name]['name_text'] = $name_text;
 			
-			
-			$module_display[$category]['data'][$name] = $modules[$name];
 			$salert = isset($modules[$name]['vulnerabilities']);
 			$module_display[$category]['data'][$name]['mclass'] = $salert ? "modulevulnerable" : "moduleheader";
 			
@@ -802,7 +803,7 @@ switch ($action) {
 				$module_display[$category]['data'][$name]['changelog'] = format_changelog($modules_local[$name]['changelog']);
 			}
 			
-			$module_display[$category]['data'][$name]['description'] = trim(preg_replace('/\s+/', ' ', $module_display[$category]['data'][$name]['description']));
+			$module_display[$category]['data'][$name]['description'] = isset($module_display[$category]['data'][$name]['description']) ? trim(preg_replace('/\s+/', ' ', $module_display[$category]['data'][$name]['description'])) : '';
 			
 			if(!empty($module_display[$category]['data'][$name]['previous'])) {
 				foreach($module_display[$category]['data'][$name]['previous'] as &$release) {
@@ -1013,6 +1014,7 @@ function displayRepoSelect($buttons,$online=false,$repo_list=array()) {
 	$href = "config.php?display=$display";
 	$button_template = '<input type="button" value="%s" onclick="location.href=\'%s\';" />'."\n";
 
+	$displayvars['button_display'] = '';
 	foreach ($buttons as $button) {
 		switch($button) {
 			case 'local':
