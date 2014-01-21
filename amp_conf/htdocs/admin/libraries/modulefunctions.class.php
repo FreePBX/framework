@@ -1563,6 +1563,12 @@ class module_functions {
 		// indicating why the installation must fail
 		//
 		$rejects = array();
+
+		//We need to include developer files before the callback happens during an install
+		if (!$this->_runscripts_include($modules, 'install')) {
+			return array(_("Failed to run installation scripts"));
+		}
+
 		foreach (mod_func_iterator('module_install_check_callback', $modules) as $mod => $res) {
 			if ($res !== true) {
 				$rejects[] = $res;
@@ -1925,12 +1931,22 @@ class module_functions {
 	 * @return boolean   If the action was successful, currently TRUE so we don't prevent the install
 	 */
 	function _runscripts_include($modulexml, $type) {
+		global $amp_conf;
+
 		foreach($modulexml as $modulename => $items) {
+			$moduledir = $amp_conf["AMPWEBROOT"]."/admin/modules/".$modulename;
 			if (isset($items['fileinclude'][$type]) && !empty($items['fileinclude'][$type])) {
-				foreach($items['fileinclude'][$type] as $key => $filename) {
-					$ret = $this->_doinclude($moduledir.'/'.$filename, $modulename);
+				if (!is_array($items['fileinclude'][$type])) {
+					$ret = $this->_doinclude($moduledir.'/'.$items['fileinclude'][$type], $modulename);
 					if (!$ret) {
-						freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to include %s during %s of the %s module."),$filename,$type,$modulename));		
+						freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to include %s during %s of the %s module."),$items['fileinclude'][$type],$type,$modulename));
+					}
+				} else {
+					foreach($items['fileinclude'][$type] as $key => $filename) {
+						$ret = $this->_doinclude($moduledir.'/'.$filename, $modulename);
+						if (!$ret) {
+							freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to include %s during %s of the %s module."),$filename,$type,$modulename));
+						}
 					}
 				}
 			}
