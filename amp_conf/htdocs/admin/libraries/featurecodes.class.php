@@ -9,7 +9,7 @@ class featurecode {
 	var $_providedest;		// 1=provide a featurecode destination for this code to modules
 	var $_loaded;		// If this feature code was succesfully loaded from the DB
 	var $_overridecodes;		// Overide defaults from featurecodes.conf
-	var $_helptext;		//Help Text for popup bubbles
+	var $_helptext = '';		//Help Text for popup bubbles, set to nothing because the table doesnt accept NULLs
 
 	/** 
 	 * Define a feature code to add or update
