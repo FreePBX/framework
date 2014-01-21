@@ -2333,6 +2333,15 @@ class module_functions {
 			$pbx_type = 'unknown';
 			$pbx_version = 'unknown';
 		}
+		//Final Check if we are still unknown
+		if($pbx_type == 'unknown') {
+			exec('uname 2>&1',$kernel,$ret1);
+			exec('uname -r 2>&1',$kernelv,$ret2);
+			if(!$ret1 && !$ret2 && !empty($kernel) && !empty($kernelv)) {
+				$pbx_type = 'unknown-'.$kernel[0];
+				$pbx_type = $kernelv[0];
+			}
+		}
 		return array('pbx_type' => $pbx_type, 'pbx_version' => $pbx_version);
 	}
 	
