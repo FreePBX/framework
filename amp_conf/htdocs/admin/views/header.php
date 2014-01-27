@@ -76,6 +76,9 @@ if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 if($amp_conf['JQMIGRATE']) {
 	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
 }
+
+$html .= '<script src="assets/js/selector-set-1.0.4.min.js"></script>';
+$html .= '<script src="assets/js/jquery.selector-set-0.1.5.min.js"></script>';
 		
 $html .= '</head>';
 
