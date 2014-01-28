@@ -86,7 +86,7 @@ class DialplanHooks {
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
 					} catch (Exception $e) {
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
-						print "HANDLED-ERROR: Tried to run ${class}->doDialplanHook(), it threiw an exception. I received ".$e->getMessage()."\nContinuing. This is a bug\n";
+						print "HANDLED-ERROR: Tried to run ${class}->doDialplanHook(), it threw an exception. I received ".$e->getMessage()."\nContinuing. This is a bug\n";
 					}
 				} else {
 					// I have no idea what this is.
