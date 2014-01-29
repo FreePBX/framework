@@ -63,6 +63,15 @@ foreach ($clean as $var) {
 	if (isset($fpbx['conf'][$var])) {
 		unset($fpbx['conf'][$var]);
 	}
+} else {
+	$fpbx['conf'] = array (
+			'ASTVERSION' => '',
+			'uniqueid' => '',
+			'reload_needed' => '',
+			'dist' => array( 
+				'pbx_type' => '',
+				'pbx_version' => '')
+			);
 }
 
 $modulef =& module_functions::create();
