@@ -1985,11 +1985,13 @@ class module_functions {
 				}
 
 				// If it's a BMO module, manually include the file.
-				$bmofile = "$moduledir/".ucfirst($modulename).".class.php";
+				$mn = ucfirst($modulename);
+				$bmofile = "$moduledir/$mn.class.php";
 				if (file_exists($bmofile)) {
-					FreePBX::create()->injectClass(ucfirst($modulename), $bmofile);
+					FreePBX::create()->injectClass($mn, $bmofile);
+					try { FreePBX::create()->$mn->install(); } catch(Exception $e) { }
 				}
-	
+
 				// then run .php scripts
 				return ($this->_doinclude($moduledir.'/install.php', $modulename) && $rc);
 			break;
@@ -2004,6 +2006,13 @@ class module_functions {
 		
 				$sqlfilename = "uninstall.sql";
 			
+				// If it's a BMO module, run uninstall.
+				$mn = ucfirst($modulename);
+				$bmofile = "$moduledir/$mn.class.php";
+				if (file_exists($bmofile)) {
+					try { FreePBX::create()->$mn->uninstall(); } catch(Exception $e) { }
+				}
+
 				// then uninstall sql files 
 				if (is_file($moduledir.'/'.$sqlfilename)) {
 					return ($rc && execSQL($moduledir.'/'.$sqlfilename));
