@@ -943,14 +943,6 @@ $(document).ready(function(){
 		return false;
 	});
 
-	//Links are disabled in menu for now. Final release will remove that
-	$('.ui-menu-item').click(function(){
-		go = $(this).find('a').attr('href');
-		if(go && !$(this).find('a').hasClass('ui-state-disabled')) {
-			document.location.href = go;
-		}
-	})
-
 	//reload
 	$('#button_reload').click(function(){
 		if (fpbx.conf.RELOADCONFIRM == 'true') {
