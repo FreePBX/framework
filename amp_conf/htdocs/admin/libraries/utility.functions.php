@@ -251,6 +251,10 @@ function check_reload_needed() {
 	if($db->IsError($row)) {
 		die_freepbx($sql.$row->getMessage());
 	}
+	//check from amp user if we are allowed to execute apply changes
+	if(!isset($_SESSION["AMP_user"]) || !is_object($_SESSION["AMP_user"]) || !(get_class($_SESSION["AMP_user"]) == 'ampuser') || !$_SESSION["AMP_user"]->checkSection(99)) {
+		return false;
+	}
 	return ($row[0] == 'true' || $amp_conf['DEVELRELOAD']);
 }
 
