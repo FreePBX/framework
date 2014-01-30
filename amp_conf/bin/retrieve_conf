@@ -464,6 +464,23 @@ if (!$freepbx_conf->conf_setting_exists('AST_FUNC_EXTENSION_STATE')) {
   $set['type'] = CONF_TYPE_TEXT;
   $freepbx_conf->define_conf_setting('AST_FUNC_EXTENSION_STATE',$set);
 }
+if (!$freepbx_conf->conf_setting_exists('AST_FUNC_PRESENCE_STATE')) {
+  // AST_FUNC_PRESENCE_STATE
+  //
+  $set['value'] = '';
+  $set['defaultval'] =& $set['value'];
+  $set['options'] = '';
+  $set['readonly'] = 1;
+  $set['hidden'] = 1;
+  $set['level'] = 10;
+  $set['module'] = '';
+  $set['category'] = 'Internal Use';
+  $set['emptyok'] = 1;
+  $set['name'] = 'Asterisk Function PRESENCE_STATE';
+  $set['description'] = "Set to the function name if the function is present in this Asterisk install";
+  $set['type'] = CONF_TYPE_TEXT;
+  $freepbx_conf->define_conf_setting('AST_FUNC_PRESENCE_STATE',$set);
+}
 if (!$freepbx_conf->conf_setting_exists('AST_FUNC_SHARED')) {
   // AST_FUNC_SHARED
   //
@@ -545,7 +562,7 @@ if ($astman->func_exists('DEVICE_STATE')) {
     $update_arr['USEDEVSTATE'] = false;
   }
 }
-$func_arr = array('EXTENSION_STATE', 'SHARED', 'CONNECTEDLINE', 'MASTER_CHANNEL');
+$func_arr = array('EXTENSION_STATE', 'PRESENCE_STATE', 'SHARED', 'CONNECTEDLINE', 'MASTER_CHANNEL');
 foreach ($func_arr as $func) {
   $update_arr['AST_FUNC_'.$func] = $astman->func_exists($func) ? $func : '';
 }
