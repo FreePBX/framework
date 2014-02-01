@@ -160,6 +160,7 @@ class Self_Helper extends DB_Helper {
 			$active_modules = array_keys(FreePBX::create()->Modules->getActiveModules());
 			foreach ($active_modules as $module) {
 				// Lets try this one..
+				//TODO: this needs to look with dirname not from webroot
 				$try = $path.$module."/$objname.class.php";
 				if(file_exists($try)) {
 					include $try;
