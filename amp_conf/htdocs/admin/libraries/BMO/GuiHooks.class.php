@@ -49,6 +49,9 @@ class GuiHooks {
 		$retarr = array();
 
 		$allHooks = $this->FreePBX->Hooks->getAllHooks();
+		if(empty($allHooks['GuiHooks'])) {
+			return $retarr;
+		}
 		foreach ($allHooks['GuiHooks'] as $module => $hookArr) {
 
 			foreach ($hookArr as $key => $val) {
