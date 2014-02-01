@@ -4,7 +4,8 @@
 /*
  * This is the FreePBX BMO Database Helper
  *
- * Copyright 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ * Copyright (C) 2013 Schmooze Com, INC
+ * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,6 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * @package   FreePBX BMO
+ * @author    Rob Thomas <rob.thomas@schmoozecom.com>
+ * @license   AGPL v3
  */
 
 /**

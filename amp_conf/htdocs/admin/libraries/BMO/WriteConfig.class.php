@@ -4,7 +4,8 @@
 /**
  * Writes Config Files
  *
- * Copyright 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ * Copyright (C) 2013 Schmooze Com, INC
+ * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as

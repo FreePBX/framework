@@ -1,5 +1,32 @@
 <?php
+/**
+ * This is the FreePBX Big Module Object.
+ *
+ * Copyright (C) 2013 Schmooze Com, INC
+ * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package   FreePBX BMO
+ * @author    Rob Thomas <rob.thomas@schmoozecom.com>
+ * @license   AGPL v3
+ */
 
+/** LoadConfig class
+ * This class represents a way to load Asterisk Format Configuration files were
+ * [section]key=value into a PHP hash such as array('section' => array('key' => 'value'))
+ */
 class LoadConfig {
 
 	private $RawConfigContents;
@@ -17,7 +44,21 @@ class LoadConfig {
 			$this->loadConfig($file);
 	}
 
-	public function loadConfig($file = null) {
+	/**
+	 * Loads and Processes a Configuration in the Asterisk Format
+	 *
+	 * This will attempt to load a file and then parse it
+	 * the file must be in the asterisk configuration file format!
+	 *
+	 * Note: this function does not return said file!
+	 *
+	 * @param string $file The basename of the file to load
+	 * @param string $hint The directory where the file lives
+	 * @return bool True if pass
+	 */
+	public function loadConfig($file = null, $hint = "/etc/asterisk") {
+		//clear old contents out
+		$this->ProcessedConfig = $this->BaseConfig = $this->PlainConfig = $this->RawConfigContents = "";
 		if ($file === null)
 			throw new Exception("No file given to load");
 
