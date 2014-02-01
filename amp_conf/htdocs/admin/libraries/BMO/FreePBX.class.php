@@ -48,6 +48,8 @@ class FreePBX extends FreePBX_Helpers {
 	 * @access public   
 	 */
 	public function __construct(&$conf = null) {
+		//TODO: load this another way
+		global $astman;
 		$libraries = $this->listDefaultLibraries();
 
 		self::$conf = $conf;
@@ -64,7 +66,7 @@ class FreePBX extends FreePBX_Helpers {
 			$this->$lib = new $lib($this);
 		}
 		set_include_path($oldIncludePath);
-
+		$this->astman = $astman;
 		// Ensure the local object is available
 		self::$obj = $this;
 	}
