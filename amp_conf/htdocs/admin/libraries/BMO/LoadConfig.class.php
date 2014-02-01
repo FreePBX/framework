@@ -36,12 +36,12 @@ class LoadConfig {
 
 	private $Filename;
 
-	public function __construct($freepbx = null, $file = null) {
+	public function __construct($freepbx = null, $file = null, $hint = "/etc/asterisk") {
 		if ($freepbx == null)
 			throw new Exception("Need to be instantiated with a FreePBX Object");
 
 		if ($file !== null)
-			$this->loadConfig($file);
+			$this->loadConfig($file, $hint);
 	}
 
 	/**
@@ -62,7 +62,7 @@ class LoadConfig {
 		if ($file === null)
 			throw new Exception("No file given to load");
 
-		$filename = $this->validateFilename($file);
+		$filename = $this->validateFilename($file,$hint);
 
 		$this->Filename = $filename;
 		$config = file($filename, FILE_SKIP_EMPTY_LINES|FILE_IGNORE_NEW_LINES);
@@ -78,31 +78,75 @@ class LoadConfig {
 
 		// And break it into elements.
 		$this->explodeConfig($config);
+		return true;
 	}
 
+	/**
+	 * Get Raw Contents of a Configuration File
+	 *
+	 * This will get the raw unprocessed contents of a configuration file
+	 *
+	 * Note: This will only work AFTER loadConfig has run
+	 *
+	 * @param string $file The basename of the file to load
+	 * @return string Raw Contents of said file
+	 */
 	public function getRaw($file = null) {
 		if ($file === null && !isset($this->RawConfigContents))
 			throw new Exception("Asked for raw contents of a file, but was never asked to read a file");
 
-		if (!isset($this->RawConfigContents))
-			$this->loadConfig($file);
-
 		return $this->RawConfigContents;
 	}
+	
+	/**
+	 * Get The Processed Contents of a Configuration File
+	 *
+	 * This will process and return a configuration file in the Asterisk Configuration
+	 * file format in a hashed format for processing
+	 *
+	 * @param string $file The basename of the file to load
+	 * @param string $hint The directory where the file lives
+	 * @param string $context The specific context to return, if not set then return all
+	 * @return array The hashed configuration file
+	 */
+	public function getConfig($file = null, $hint = "/etc/asterisk", $context = null) {
+		if ($file === null)
+			throw new Exception("No file given to load");
+		
+		$this->loadConfig($file, $hint);
+		
+		return (!empty($context) && isset($this->ProcessedConfig[$context])) ? $this->ProcessedConfig[$context] : $this->ProcessedConfig;
+	}
 
-	private function validateFilename($file) {
+	/**
+	 * Validate Filename
+	 *
+	 * This will validate the provided file name to make sure there isn't some hackery-dackery going on
+	 *
+	 * @param string $file The basename of the file to load
+	 * @param string $hint The directory where the file lives
+	 * @return string The complete file path
+	 */
+	private function validateFilename($file, $hint = "/etc/asterisk") {
 		// Check to make sure it doesn't have any /'s or ..'s
-		// in it. We're only allowed to write to /etc/asterisk
+		// in it. We're only allowed to write to /etc/asterisk or our hint
 
 		if (strpos($file, "/") !== false)
 			throw new Exception("$filename contains a /");
 		if (strpos($file, "..") !== false)
 			throw new Exception("$filename contains ..");
 
-		$filename = "/etc/asterisk/$file";
+		$filename = $hint."/".$file;
 		return $filename;
 	}
 
+	/**
+	 * Strip Headers
+	 *
+	 * This completely Strips the header from the configuration file
+	 *
+	 * @param array $arr The Config File's array to remove headers from
+	 */
 	private function stripHeader(&$arr) {
 		// Remove all headers in this file
 		// First, take a copy of the array
@@ -122,6 +166,13 @@ class LoadConfig {
 		}
 	}
 
+	/**
+	 * Strip Comments
+	 *
+	 * This completely Strips Comments from a file
+	 *
+	 * @param array $arr The Config File's array to remove comments from
+	 */
 	private function stripComments(&$arr) {
 		// Remove all comments.
 		// First, take a copy of the array
@@ -136,6 +187,13 @@ class LoadConfig {
 		}
 	}
 
+	/**
+	 * Explode Config
+	 *
+	 * This Explodes the Configuration File into arrays where <key>=<value> will be turned into ['key'] => value
+	 *
+	 * @param array $conf The Config File's array to parse
+	 */
 	private function explodeConfig($conf) {
 		// Process the config we've been given, and return a useful array
 
@@ -153,7 +211,7 @@ class LoadConfig {
 				if (empty($out[2]))
 					continue;
 
-				if (isset($this->ProcessedConfig[$section][$out[1]])) {
+				if (isset($this->ProcessedConfig[$section]) && isset($this->ProcessedConfig[$section][$out[1]])) {
 					// This already exists. Multiple definitions.
 					if (!is_array($this->ProcessedConfig[$section][$out[1]])) {
 						// This is the first time we've found this, so make it an array.
