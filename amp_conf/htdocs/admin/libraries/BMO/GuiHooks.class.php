@@ -94,7 +94,7 @@ class GuiHooks {
 		if ($hooks = $this->getHooks($thispage)) {
 			if (isset($hooks['hooks'])) {
 				foreach ($hooks['hooks'] as $hook) {
-					$this->GuiHooks->doHook($hook, $currentcomponent);
+					$this->doHook($hook, $currentcomponent);
 				}
 			}
 		}
