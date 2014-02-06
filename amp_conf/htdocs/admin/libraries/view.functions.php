@@ -110,7 +110,6 @@ function fileRequestHandler($handler, $module = false, $file = false){
 			die_freepbx("../view/not allowed");
 		break;
     case 'api':
-			global $no_auth;
 			// Any functions you want to access using the api handler, needs to be added to the array below
 			// NOTE: If you add any functions to this, check to make sure we don't have to do some
 			//       safety check on the arg to avoid an indirect inejection
@@ -122,7 +121,7 @@ function fileRequestHandler($handler, $module = false, $file = false){
 			$function_key = $_REQUEST['function'];
 
 			//FREEPBX-7117 - Allow certain php functions and verify we have auth prior
-			if (!isset($allowed_functions[$function_key]) || $no_auth === true) {
+			if (!isset($allowed_functions[$function_key]) || !defined('FREEPBX_IS_AUTH')) {
 				die_freepbx("../view/not allowed");
 			}
 
