@@ -115,22 +115,24 @@ function fileRequestHandler($handler, $module = false, $file = false){
 			// NOTE: If you add any functions to this, check to make sure we don't have to do some
 			//       safety check on the arg to avoid an indirect inejection
 			// Re: FREEPBX-7117
-			$whitelisted_functions = array(
-				'framework_get_conflict_url_helper',
+			$allowed_functions = array(
+				'framework_get_conflict_url_helper' => 'framework_get_conflict_url_helper',
 			);
 
-      if (isset($_REQUEST['function']) && function_exists($_REQUEST['function'])) {
-        $function = $_REQUEST['function'];
+			$function_key = $_REQUEST['function'];
 
 			//FREEPBX-7117 - Allow certain php functions and verify we have auth prior
-			if (!in_array($function, $whitelisted_functions) || $no_auth === true) {
+			if (!isset($allowed_functions[$function_key]) || $no_auth === true) {
 				die_freepbx("../view/not allowed");
 			}
 
-			$args = isset($_REQUEST['args'])?$_REQUEST['args']:'';
+      if (function_exists($allowed_functions[$function_key])) {
+
+				$args = isset($_REQUEST['args'])?$_REQUEST['args']:'';
 
         //currently works for one arg functions, eventually need to clean this up to except more args
-        $result = $function($args);
+				$result = call_user_func($allowed_functions[$function_key], $args);
+
         $jr = json_encode($result);
       } else {
         $jr = json_encode(null);
