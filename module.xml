@@ -3,12 +3,13 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>2.11.0.18</version>
+	<version>2.11.0.19</version>
 	<publisher>FreePBX</publisher>
 	<license>GPLv2+</license>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*2.11.0.19* #FREEPBX-7117 SECURITY ISSUE introduced in 2.9
 		*2.11.0.18* #6471 Allow better voicemail passwords
 		*2.11.0.17* Set CustomPresence on dynamic hints, when available.
 		*2.11.0.16* Small variable Fix to the last tarball
@@ -32,11 +33,11 @@
 		*2.11.0.0rc1.7* #6547, #6527, #6546, #5270, #6541
 		*2.11.0.0rc1.6* Added mysql charset to asterisk dialplan function
 		*2.11.0.0rc1.5* #6527, when creating a top level single category button use the module name not the category name, change wording on beta view
-		*2.11.0.0rc1.4* re #6529 - 
+		*2.11.0.0rc1.4* re #6529 -
 		*2.11.0.0rc1.3* #6506, #6507, #6518, fix PHP 5.3 ananoymous function requirement, misc
 		*2.11.0.0rc1.2* broke some advanced settings fixed now
 		*2.11.0.0rc1.1* update pbxlib.js
-		*2.11.0.0rc1.0* #6488, res_odbc.conf, rtp.conf migrations, 
+		*2.11.0.0rc1.0* #6488, res_odbc.conf, rtp.conf migrations,
 		*2.11.0.0beta2.9* Fixes #6472, destination popovers not working
 		*2.11.0.0beta2.8* #6455 have amportal remove dangling symlinks
 		*2.11.0.0beta2.7* #6272, #6453, better splicing granularity, beta module page support
@@ -53,14 +54,25 @@
 		*2.11.0.0beta1.2* #6051, #6055, #6057
 		*2.11.0.0beta1.1* #6051 destination popOvers
 		*2.11.0.0beta1.0* #5969, #5933, #5989, #6002, #6010, #6011, #6013, #6023, #6034, #6030, #6036
+		*2.10.1.11* Fix duplication in xml
+		*2.10.1.12* Repackage and fixes for new system
+		*2.10.1.10* #6651 and related astmanger change
+		*2.10.1.9* fix new footer
+		*2.10.1.8* Packaging of ver 2.10.1.8
+		*2.10.1.7* Packaging of ver 2.10.1.7
+		*2.10.1.6* update copyright notice
+		*2.10.1.5* rnav visual fix; upstream changes
+		*2.10.1.4* #5842, #6147, #6154
+		*2.10.1.3* #5989, #6030
+		*2.10.1.2* #5933, #5969
 		*2.10.1.1* remove some code checked in error not used
 		*2.10.1.0* #5874, #5833, #5646, #5879, #5839,
 		*2.10.0.8* #5851
 		*2.10.0.7* #5815
 		*2.10.0.6* #5812
 		*2.10.0.5* #5716, #5763, #5742, #5743, #5533, #5692
-		*2.10.0.4* re #5755 - assorted bug fixes 
-		*2.10.0.3* downstream updates 
+		*2.10.0.4* re #5755 - assorted bug fixes
+		*2.10.0.3* downstream updates
 		*2.10.0.2* #5492, #5565, #5662, #5678
 		*2.10.0.1* #5492, #5443, #5646, #5565
 		*2.10.0.0* bump to final, tooltip updates
@@ -99,8 +111,8 @@
 		*2.9.0.1* #5027
 		*2.9.0.0* #5124
 		*2.9.0rc1.5* #5077, #5086, #5096, #5095, #5111
-		*2.9.0rc1.4* #5080 
-		*2.9.0rc1.3* #5038, #5059 
+		*2.9.0rc1.4* #5080
+		*2.9.0rc1.3* #5038, #5059
 		*2.9.0rc1.2* #5041, #4871, #5053,
 		*2.9.0rc1.1* #5009, #5028, #5035, typos
 		*2.9.0rc1.0* #4983, #4952, #5000, #4988
