@@ -110,24 +110,24 @@ function fileRequestHandler($handler, $module = false, $file = false){
 			die_freepbx("../view/not allowed");
 		break;
     case 'api':
-	global $no_auth;
-	// Any functions you want to access using the api handler, needs to be added to the array below
-	// NOTE: If you add any functions to this, check to make sure we don't have to do some
-	//       safety check on the arg to avoid an indirect inejection
-	// Re: FREEPBX-7117
-	$whitelisted_functions = array(
-		'framework_get_conflict_url_helper',
-	);
+			global $no_auth;
+			// Any functions you want to access using the api handler, needs to be added to the array below
+			// NOTE: If you add any functions to this, check to make sure we don't have to do some
+			//       safety check on the arg to avoid an indirect inejection
+			// Re: FREEPBX-7117
+			$whitelisted_functions = array(
+				'framework_get_conflict_url_helper',
+			);
 
       if (isset($_REQUEST['function']) && function_exists($_REQUEST['function'])) {
         $function = $_REQUEST['function'];
 
-	//FREEPBX-7117 - Allow certain php functions and verify we have auth prior
-	if (!in_array($function, $whitelisted_functions) || $no_auth === true) {
-		die_freepbx("../view/not allowed");
-	}
+			//FREEPBX-7117 - Allow certain php functions and verify we have auth prior
+			if (!in_array($function, $whitelisted_functions) || $no_auth === true) {
+				die_freepbx("../view/not allowed");
+			}
 
-	$args = isset($_REQUEST['args'])?$_REQUEST['args']:'';
+			$args = isset($_REQUEST['args'])?$_REQUEST['args']:'';
 
         //currently works for one arg functions, eventually need to clean this up to except more args
         $result = $function($args);
