@@ -9,7 +9,8 @@ include 'BMO.interface.php';
 /**
  * This is the FreePBX Big Module Object.
  *
- * Copyright 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ * Copyright (C) 2013 Schmooze Com, INC
+ * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -47,6 +48,8 @@ class FreePBX extends FreePBX_Helpers {
 	 * @access public   
 	 */
 	public function __construct(&$conf = null) {
+		//TODO: load this another way
+		global $astman;
 		$libraries = $this->listDefaultLibraries();
 
 		self::$conf = $conf;
@@ -63,7 +66,7 @@ class FreePBX extends FreePBX_Helpers {
 			$this->$lib = new $lib($this);
 		}
 		set_include_path($oldIncludePath);
-
+		$this->astman = $astman;
 		// Ensure the local object is available
 		self::$obj = $this;
 	}

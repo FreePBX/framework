@@ -4,7 +4,8 @@
 /*
  * This is the FreePBX BMO Autoloading helper.
  *
- * Copyright 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ * Copyright (C) 2013 Schmooze Com, INC
+ * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,6 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * @package   FreePBX BMO
+ * @author    Rob Thomas <rob.thomas@schmoozecom.com>
+ * @license   AGPL v3
  */
 
 /**
@@ -156,6 +160,7 @@ class Self_Helper extends DB_Helper {
 			$active_modules = array_keys(FreePBX::create()->Modules->getActiveModules());
 			foreach ($active_modules as $module) {
 				// Lets try this one..
+				//TODO: this needs to look with dirname not from webroot
 				$try = $path.$module."/$objname.class.php";
 				if(file_exists($try)) {
 					include $try;

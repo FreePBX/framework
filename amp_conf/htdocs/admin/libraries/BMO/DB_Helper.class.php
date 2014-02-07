@@ -4,7 +4,8 @@
 /*
  * This is the FreePBX BMO Database Helper
  *
- * Copyright 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ * Copyright (C) 2013 Schmooze Com, INC
+ * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,6 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * @package   FreePBX BMO
+ * @author    Rob Thomas <rob.thomas@schmoozecom.com>
+ * @license   AGPL v3
  */
 
 /**
@@ -39,6 +43,7 @@ class DB_Helper {
 	private static $dbGetAll;
 	private static $dbDel;
 	private static $dbAdd;
+	private static $dbDelId;
 
 	/** Don't new DB_Helper */
 	public function __construct() {
@@ -95,6 +100,7 @@ class DB_Helper {
 		self::$dbGetAll = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id");
 		self::$dbDel = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key  AND `id` = :id");
 		self::$dbAdd = self::$db->prepare("INSERT INTO `".self::$dbname."` ( `module`, `key`, `val`, `type`, `id` ) VALUES ( :mod, :key, :val, :type, :id )");
+		self::$dbDelId = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id");
 
 		// Now this has run, everything IS JUST FINE.
 		self::$checked = true;
@@ -209,6 +215,7 @@ class DB_Helper {
 	 * Don't trust this to return the array in any order. If you wish to use
 	 * an ordered set, use IDs and sort based on them.
 	 *
+	 * @param string $id Optional sub-group ID. 
 	 * @return array
 	 */
 	public function getAll($id = "noid") {
@@ -247,5 +254,26 @@ class DB_Helper {
 		$mod = get_class($this);
 		$ret = self::$db->query("SELECT DISTINCT(`id`) FROM `".self::$dbname."` WHERE `module` = '$mod' AND `id` <> 'noid' ")->fetchAll(PDO::FETCH_COLUMN, 0);
 		return $ret;
+	}
+
+	/**
+	 * Delete all entries that match the ID specified
+	 *
+	 * This normally is used to remove an item.
+	 *
+	 * @param string $id Optional sub-group ID. 
+	 * @return void
+	 */
+	public function delById($id = null) {
+
+		self::checkDatabase();
+
+		if ($id === null) {
+			throw new Exception("Coder error. You can't delete a blank ID");
+		}
+
+		$query[':mod']= get_class($this);
+		$query[':id'] = $id;
+		self::$dbDelId->execute($query);
 	}
 }

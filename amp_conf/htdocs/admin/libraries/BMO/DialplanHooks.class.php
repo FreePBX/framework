@@ -1,6 +1,28 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
-
+/**
+ * This is the FreePBX Big Module Object.
+ *
+ * Copyright (C) 2013 Schmooze Com, INC
+ * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package   FreePBX BMO
+ * @author    Rob Thomas <rob.thomas@schmoozecom.com>
+ * @license   AGPL v3
+ */
 class DialplanHooks {
 
 	public function __construct($freepbx = null) {
@@ -86,7 +108,7 @@ class DialplanHooks {
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
 					} catch (Exception $e) {
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
-						print "HANDLED-ERROR: Tried to run ${class}->doDialplanHook(), it threiw an exception. I received ".$e->getMessage()."\nContinuing. This is a bug\n";
+						print "HANDLED-ERROR: Tried to run ${class}->doDialplanHook(), it threw an exception. I received ".$e->getMessage()."\nContinuing. This is a bug\n";
 					}
 				} else {
 					// I have no idea what this is.
