@@ -661,6 +661,9 @@ framework_set_extmap();
 // run all of the *_get_config and _hookGet_config functions, which will populate the appropriate objects
 if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $module => $mod_data) {
+		
+		$prioritymethods = array();
+		
 		//dbug($module, $mod_data);
 		//get dynamic functions
 		if (isset($mod_data['methods'], $mod_data['methods']['get_config'])){
@@ -670,6 +673,10 @@ if(isset($active_modules) && is_array($active_modules)){
 						: array();
 				foreach($methods as $method) {
 					$funclist[$pri][] = $method;
+					//Since we have a priority method, add it to the prioritymethod array
+					//	We check this array to ensure we aren't adding duplicate methods to the
+					//	funclist
+					$prioritymethods[] = $method;
 				}
 			}
 		}
@@ -677,7 +684,9 @@ if(isset($active_modules) && is_array($active_modules)){
 		//get hardcoded functions
 		$getconf = $module."_get_config";
 		$hookgetconf = $module."_hookGet_config";
-		if (function_exists($getconf)) { 
+		//Check to ensure we aren't trying to add a duplicate get_config method
+		//	that's been added at a different priority
+		if (function_exists($getconf) && !in_array($getconf, $prioritymethods)) { 
 			$funclist[100][] = $getconf;
 		}
 		if (function_exists($hookgetconf)) { 
