@@ -219,7 +219,11 @@ class GuiHooks {
 		$preOldHooks = $this->getOldConfigPageInit($display);
 		foreach ($preOldHooks as $hook) {
 			// Remove the hook from the ones we're going to run later
-			unset($myOldHooks[$hook]);
+			$loc = array_search($hook,$myOldHooks,true);
+			if($loc !==  false) {
+				unset($myOldHooks[$loc]);
+				$myOldHooks = array_values($myOldHooks);
+			}
 			// Run it.
 			$this->FreePBX->Performance->Stamp("preOldHooks-$hook-$display"."_start");
 			$hook($display);
