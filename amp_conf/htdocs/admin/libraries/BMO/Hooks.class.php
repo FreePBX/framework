@@ -99,7 +99,7 @@ class Hooks {
 			if(file_exists($path.$module.'/'.ucfirst($module).'.class.php')) {
 				$ucmodule = ucfirst($module);
 				if(!class_exists($ucmodule)) {
-					$this->FreePBX->$ucmodule;
+					try { $this->FreePBX->$ucmodule; } catch (Exception $e) { }
 				}
 			}
 		}

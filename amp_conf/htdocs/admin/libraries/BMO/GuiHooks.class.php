@@ -232,7 +232,12 @@ class GuiHooks {
 
 		// New style module? Here, have your data..
 		if ($class) {
-			$this->doBMOConfigPage($class, $display);
+			$x = $this->FreePBX->Modules->getInfo($display);
+			if (isset($x[$display]) && $x[$display]['license'] == "Commercial") { 
+				try { $this->doBMOConfigPage($class, $display); } catch (Exception $e) { }
+			} else {
+				$this->doBMOConfigPage($class, $display);
+			}
 			unset($myHooks[$class]);
 		}
 
