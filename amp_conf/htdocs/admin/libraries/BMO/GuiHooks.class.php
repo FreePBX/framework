@@ -219,7 +219,11 @@ class GuiHooks {
 		$preOldHooks = $this->getOldConfigPageInit($display);
 		foreach ($preOldHooks as $hook) {
 			// Remove the hook from the ones we're going to run later
-			unset($myOldHooks[$hook]);
+			$loc = array_search($hook,$myOldHooks,true);
+			if($loc !==  false) {
+				unset($myOldHooks[$loc]);
+				$myOldHooks = array_values($myOldHooks);
+			}
 			// Run it.
 			$this->FreePBX->Performance->Stamp("preOldHooks-$hook-$display"."_start");
 			$hook($display);
@@ -228,7 +232,12 @@ class GuiHooks {
 
 		// New style module? Here, have your data..
 		if ($class) {
-			$this->doBMOConfigPage($class, $display);
+			$x = $this->FreePBX->Modules->getInfo($display);
+			if (isset($x[$display]) && $x[$display]['license'] == "Commercial") { 
+				try { $this->doBMOConfigPage($class, $display); } catch (Exception $e) { }
+			} else {
+				$this->doBMOConfigPage($class, $display);
+			}
 			unset($myHooks[$class]);
 		}
 
