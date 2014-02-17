@@ -66,3 +66,11 @@ function _module_distro_id() {
 	$modulef =& module_functions::create();
 	return $modulef->_distro_id(); 
 }
+
+function module_set_active_repos($repos) {
+	_module_backtrace();
+	$modulef =& module_functions::create();
+	foreach($repos as $repo => $status) {
+		$modulef->set_active_repo($repo, $status);
+	}
+}
