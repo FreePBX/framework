@@ -146,6 +146,15 @@ if (!$bootstrap_settings['skip_astman']) {
 	$bootstrap_settings['astman_connected'] = true;
 }
 
+// BMO: Initialize BMO as early as possible.
+$bmo = dirname(__FILE__)."/libraries/BMO/FreePBX.class.php";
+if (file_exists($bmo)) {
+	include_once($bmo);
+	$bmo = new FreePBX($amp_conf);
+} else {
+	throw new Exception("Unable to load BMO");
+}
+
 //include gui functions + auth if nesesarry
 // If set to freepbx_auth but we are in a cli mode, then don't bother authenticating either way.
 // TODO: is it ever possible through an apache or httplite configuration to run a web launched php script
@@ -230,13 +239,4 @@ if ($restrict_mods_local !== true) {
 	}
 	bootstrap_include_hooks('post_module_load', 'all_mods');
 	$bootstrap_settings['function_modules_included'] = true;
-}
-
-// BMO: Initialize BMO as early as possible.
-$bmo = dirname(__FILE__)."/libraries/BMO/FreePBX.class.php";
-if (file_exists($bmo)) {
-	include_once($bmo);
-	$bmo = new FreePBX($amp_conf);
-} else {
-	throw new Exception("Unable to load BMO");
 }
