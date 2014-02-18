@@ -520,6 +520,13 @@ if ($quietmode) {
 		$header['title']	= framework_server_name();
 		$header['amp_conf']	= $amp_conf;
 		$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
+		$less_rel = 'assets';
+		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
+		if (is_dir($less_path)) {
+			$parser = FreePBX::create()->Less;
+			$file = $parser->getCachedFile($less_path,$less_rel);
+			$header['compiled_less'] = $file;
+		}
 		echo load_view($amp_conf['VIEW_HEADER'], $header);
 
 		//if we have a module loaded, load its css

@@ -363,6 +363,13 @@ function framework_include_css() {
 		}
 	}
 
+	$less_rel = 'modules/' . $module_name . '/assets';
+	$less_path = $amp_conf['AMPWEBROOT'].'/admin/'.$less_rel.'/less';
+	if (is_dir($less_path)) {
+		$parser = FreePBX::create()->Less;
+		$file = $parser->getCachedFile($less_path,$less_rel);
+		$html .= '<link href="assets/' . $module_name . '/less/cache/' . $file . '" rel="stylesheet" type="text/css" />';
+	}
 	return $html;
 }
 

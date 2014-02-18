@@ -43,6 +43,8 @@ $framework_css = ($amp_conf['DISABLE_CSS_AUTOGEN'] || !file_exists($amp_conf['ma
 $css_ver = '.' . filectime($framework_css);
 $html .= '<link href="' . $framework_css.$version_tag.$css_ver . '" rel="stylesheet" type="text/css">';
 
+$html .= '<link href="assets/less/cache/'.$compiled_less.'" rel="stylesheet" type="text/css">';
+
 //include jquery-ui css
 if ($amp_conf['DISABLE_CSS_AUTOGEN'] == true) {
 	$html .= '<link href="' . $amp_conf['JQUERY_CSS'] . $version_tag . '" rel="stylesheet" type="text/css">';
