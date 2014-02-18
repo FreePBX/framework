@@ -81,14 +81,14 @@ class Less extends Less_Parser {
 		\Less_Cache::$cache_dir = $dir.'/cache';
 		$files = array();
 		if(file_exists($dir."/bootstrap.less")) {
-			$to_cache = array( $dir."/bootstrap.less" => $uri_root );
-			$filename = \Less_Cache::Get( $to_cache, array('compress' => true) );
+			$files = array( $dir."/bootstrap.less" => $uri_root );
+			$filename = \Less_Cache::Get( $files, array('compress' => true) );
 		} else {
 			//load them all randomly. Probably in alpha order
 			foreach(glob($dir."/*.less") as $file) {
-				$files = array( $file => $uri_root );
+				$files[$file] = $uri_root;
 			}
-			uksort($files, "cmp");
+			uksort($files, "strcmp");
 			$filename = \Less_Cache::Get( $files, array('compress' => true) );
 		}
 		return $filename;

@@ -818,7 +818,7 @@ class module_functions {
 								// matches[1] = modulename, [3]=comparison operator, [4] = version
 								$modules = $this->getinfo($matches[1]);
 								if (isset($modules[$matches[1]])) {
-									$mod = $modules[$matches[1]]['rawname'];
+									$mod = isset($modules[$matches[1]]['rawname']) ? $modules[$matches[1]]['rawname'] : $matches[1];
 									$needed_module = "<strong>".(isset($modules[$matches[1]]['name'])?$modules[$matches[1]]['name']:$matches[1])."</strong>";
 									switch ($modules[$matches[1]]['status'] ) {
 										case MODULE_STATUS_ENABLED:
