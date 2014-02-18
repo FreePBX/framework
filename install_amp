@@ -75,7 +75,6 @@ out("  --install-fop false      depricated, does nothing",false);
 out("  --dev-links              Make links to files in the source directory instead of copying",false);
 out("                           (intended for developers only)",false);
 out("  --update-links           Update dev links without running through the whole install process (Bail before modules)", false);
-out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct",false);
 out("  --engine <name>          Use the specified PBX Engine ('asterisk')",false);
 out("  --uid <user>             Set ownership of files to user",false);
 out("  --gid <group>            Set ownership of files to group",false);
@@ -737,9 +736,6 @@ foreach ($args[0] as $arg) {
 			$check_md5s = false;
 			out("Overwriting all files including modified ones.");
 		break;
-		case "--my-svn-is-correct":
-			$override_astvers = true;
-		break;
 		case "--engine":
 			if ($arg[1] != 'asterisk') {
 				fatal('Currently only "asterisk" is supported as a PBX engine');
@@ -1287,13 +1283,6 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) || (p
 	out("that your Asterisk version is compatible with FreePBX. Whilst this probably");
 	out("won't cause any problems, YOU NEED TO BE CERTAIN that it is compatible");
 	out("with at least the released Asterisk version 1.8" );
-	if ($override_astvers==false) {
-		out("If you are SURE that this is compatible, you can re-run ".$argv[0]." with");
-		out("the parameter --my-svn-is-correct");
-		exit;
-	} else {
-		out("--my-svn-is-correct specified, continuing");
-	}
 } else {
 	fatal("Could not determine asterisk version (got: \"".$verinfo."\" please report this)");
 }
