@@ -1988,8 +1988,10 @@ class module_functions {
 				$mn = ucfirst($modulename);
 				$bmofile = "$moduledir/$mn.class.php";
 				if (file_exists($bmofile)) {
-					FreePBX::create()->injectClass($mn, $bmofile);
-					try { FreePBX::create()->$mn->install(); } catch(Exception $e) { }
+					try {
+						FreePBX::create()->injectClass($mn, $bmofile);
+						FreePBX::create()->$mn->install(); 
+					} catch(Exception $e) { }
 				}
 
 				// then run .php scripts
