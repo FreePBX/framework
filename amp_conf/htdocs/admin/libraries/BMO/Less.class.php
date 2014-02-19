@@ -49,7 +49,9 @@ class Less extends Less_Parser {
 	public function parseDir($dir, $uri_root = '') {
 		//Load bootstrap only if it exists as this will tell us the correct load order
 		if(!file_exists($dir.'/cache')) {
-			mkdir($dir.'/cache');
+			if(!mkdir($dir.'/cache')) {
+				die_freepbx('Can Not Create Cache Folder at '.$dir.'/cache');
+			}
 		}
 		$this->SetOption('cache_dir',$dir.'/cache');
 		$this->SetOption('compress',true);
@@ -76,7 +78,9 @@ class Less extends Less_Parser {
 	 */
 	public function getCachedFile($dir, $uri_root = '') {
 		if(!file_exists($dir.'/cache')) {
-			mkdir($dir.'/cache');
+			if(!mkdir($dir.'/cache')) {
+				die_freepbx('Can Not Create Cache Folder at '.$dir.'/cache');
+			}
 		}
 		\Less_Cache::$cache_dir = $dir.'/cache';
 		$files = array();
