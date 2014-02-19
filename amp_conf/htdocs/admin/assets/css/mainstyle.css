@@ -597,7 +597,7 @@ input[type="submit"]{ height: 25px;}
 	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
 	padding: .41em 1em;
 	color: #2779aa;
-	background-color: #e4f2fb;
+	background: #d7ebf9 url(images/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;
 	border: 1px solid #aed0ea;
 	font-weight: bold;
 	font-size: 11px;
@@ -624,6 +624,7 @@ input[type="submit"]{ height: 25px;}
 .btn:active {
 	color: #FFF;
 	background: none;
+	background: #3baae3 url(images/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x;
 	background-color: #62bbe9;
 }
 
@@ -636,6 +637,6 @@ input[type="file"], input[type="text"]{
  * option in the dropdown menus.
  */
 a.ui-state-focus.ui-state-highlight {
-        font-weight: normal;
-        margin: 0px !important;
+	font-weight: normal;
+	margin: 0px !important;
 }
