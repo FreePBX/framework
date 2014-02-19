@@ -126,6 +126,7 @@ class DialplanHooks {
 			throw new Exception("I'm unaware what I was given as $active_modules");
 
 		// Loop through all our modules
+		$hooksDiscovered = array();
 		foreach($active_modules as $module => $mod_data) {
 			// Some modules (currently, only pinsets) specify they want to run at
 			// a specific priority, in module.xml.  Let them.
@@ -133,6 +134,7 @@ class DialplanHooks {
 				foreach ($mod_data['methods']['get_config'] as $pri => $methods) {
 					foreach($methods as $method) {
 						$funclist[$pri][] = array("function" => $method);
+						$hooksDiscovered[$method] = true;
 					}
 				}
 			}
@@ -141,10 +143,10 @@ class DialplanHooks {
 			// modulename_get_config or modulename_hookGet_config.
 			$getconf = $module."_get_config";
 			$hookgetconf = $module."_hookGet_config";
-			if (function_exists($getconf)) {
+			if (function_exists($getconf) && !isset($hooksDiscovered[$getconf])) {
 				$funclist[100][] = array("function" => $getconf);
 			}
-			if (function_exists($hookgetconf)) {
+			if (function_exists($hookgetconf) && !isset($hooksDiscovered[$getconf])) {
 				$funclist[600][] = array("function" => $hookgetconf);
 			}
 
