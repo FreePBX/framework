@@ -1,11 +1,14 @@
-/* Mixin */
-.box-shadow (@x: 0px, @y: 3px, @blur: 5px, @alpha: 0.5) {
-    -webkit-box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
-    -moz-box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
-    box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
+/** Variables **/
+@border-color: #aed0ea;
+
+/** Mix ins **/
+.border(@width) {
+	border-style: solid;
+	border-width: @width;
+	border-color: @border-color;
 }
- 
-/* Implementation */
-#somediv {
-    .box-shadow(5px, 5px, 6px, 0.3);
-} 
+
+/** Code **/
+.test {
+	.border(1px);
+}
