@@ -238,7 +238,7 @@ function generate_configs() {
 	global $debug;
 	global $runas_uid;
 
-	out("Generating Configurations.conf, (if Asterisk is not running, you will get an error");
+	out("Generating Configurations.conf, (if Asterisk is not running, you will get an error)");
 	out("In case of error, start Asterisk and hit the red bar in the GUI to generate the Configurations.conf files");
 	if (!$dryrun) {
 		// added --run-install to make it work like it has been working since retrieve_conf changed to not run module install scripts by default
@@ -754,6 +754,7 @@ foreach ($args[0] as $arg) {
 		break;
 		case "--update-links":
 			$update_links = true;
+			//Note: there is NO break here on purpose!
 		case "--make-links-devel":
 		case "--dev-links":
 			$make_links = true;
@@ -1460,7 +1461,8 @@ if ($install_files) {
 	}
 	if (!is_file("/etc/asterisk/voicemail.conf")) copy("/etc/asterisk/voicemail.conf.template","/etc/asterisk/voicemail.conf");
 	if (!is_dir("/var/spool/asterisk/voicemail/device")) amp_mkdir("/var/spool/asterisk/voicemail/device", "0755", true);
-	out("OK (".$num_copied." files copied, ".($num_files-$num_copied)." skipped)");
+	$copy_lang = ($make_links) ? "linked" : "copied";
+	out("OK (".$num_copied." files ".$copy_lang.", ".($num_files-$num_copied)." skipped)");
 
 	// link the packed js library for ARI, if there the error will indicate that
 	$libfreepbx = $amp_conf['AMPWEBROOT'].'/admin/common/libfreepbx.javascripts.js';
@@ -1539,7 +1541,7 @@ if (!$dryrun) {
 			exec(dirname(__FILE__)."/apply_conf.sh", $apply_conf_out);
 		}
 		foreach ($apply_conf_out as $line) {
-			out($line);
+			out("\t".$line);
 		}
 		unset($apply_conf_out);
 		out("done with apply_conf.sh");
@@ -1584,14 +1586,9 @@ if (!$dryrun) {
 		out("OK");
 	}
 	// reload manager in asterisk if it was running:
-	//
-	if ($override_astvers || version_compare($asterisk_version,'1.4','ge')) {
-		system("asterisk -rx 'module reload manager'");
-	} else {
-		system("asterisk -rx 'reload manager'"); //1.2 syntax
-	}
+	// note: I removed the check for Asterisk 1.2, theres just no point
+	system("asterisk -rx 'module reload manager'");
 }
-out("OK");
 
 // **** Create spool directories for monitor and fax
 if (!is_dir($amp_conf["ASTSPOOLDIR"]."/monitor"))

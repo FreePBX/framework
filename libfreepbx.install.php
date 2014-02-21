@@ -286,8 +286,9 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 	global $asterisk_conf;
 	global $install_moh;
 	global $make_links;
+	$overwrite = false;
 
-  $moh_subdir = isset($amp_conf['MOHDIR']) ? trim(trim($amp_conf['MOHDIR']),'/') : 'mohmp3';
+	$moh_subdir = isset($amp_conf['MOHDIR']) ? trim(trim($amp_conf['MOHDIR']),'/') : 'mohmp3';
 
 	// total # files, # actually copied
 	$num_files = $num_copied = 0;
@@ -378,11 +379,26 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 								}
 							}
 						} else {
-							//Copy will not overwrite a symlink, phpnesssss
-							if(file_exists($destination) && is_link($destination)) {
-								unlink($destination);
+							$ow = false;
+							if(file_exists($destination)) {
+								if (checkDiff($source, $destination) && !$make_links) {
+									$ow = ask_overwrite($source, $destination);
+								} elseif($make_links) {
+									$ow = false;
+								}
+							} else {
+								$ow = true;
 							}
-							copy($source, $destination);
+							//ask_overwrite
+							if($ow) {
+								//Copy will not overwrite a symlink, phpnesssss
+								if(file_exists($destination) && is_link($destination)) {
+									unlink($destination);
+								}
+								copy($source, $destination);
+							} else {
+								continue;
+							}
 						}
 						$num_copied++;
 					}
@@ -390,7 +406,6 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 					debug("not overwriting ".$destination);
 				}
 			} else {
-				//echo "recursive_copy($dirsourceparent, $dirdest, $md5sums, $dirsource/$file)";
 				list($tmp_num_files, $tmp_num_copied) = recursive_copy($dirsourceparent, $dirdest, $md5sums, $dirsource."/".$file);
 				$num_files += $tmp_num_files;
 				$num_copied += $tmp_num_copied;
