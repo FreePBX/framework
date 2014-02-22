@@ -462,6 +462,13 @@ if ($quietmode) {
 		$header['title']	= framework_server_name();
 		$header['amp_conf']	= $amp_conf;
 		$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
+		$less_rel = 'assets';
+		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
+		if (is_dir($less_path)) {
+			$parser = FreePBX::create()->Less;
+			$file = $parser->getCachedFile($less_path,$less_rel);
+			$header['compiled_less'] = $file;
+		}
 		show_view($amp_conf['VIEW_HEADER'], $header);
 
 		//if we have a module loaded, load its css
@@ -497,7 +504,9 @@ if ($quietmode) {
 		$footer['module_page'] = $module_page;
 		$footer['benchmark_starttime'] = $benchmark_starttime;
 		$footer['reload_needed'] = false; //we don't display the menu in this view so irrelivant
-		$footer['footer_content'] = '';
+		//These changes will hide the excess footer which is just empty anyways, also it sets our body background to transparent
+		//scripts in footer are still run eventhough it's hidden
+		$footer['footer_content'] = "<script>$('body').css('background-color','transparent');$('#footer').hide()</script>";
 		$footer['remove_rnav'] = true;
 		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
 		echo $fw_gui_html;
