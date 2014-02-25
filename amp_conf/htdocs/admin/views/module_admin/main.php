@@ -158,12 +158,23 @@
 											<?php if($module['commercial']['status']) {?>
 												<?php if($module['commercial']['sysadmin'] || $module['name'] == 'sysadmin' && $module['status'] == MODULE_STATUS_ENABLED) {?>
 													<tr>
-														<td><a href="#" class="info"><?php echo _('Commerical Status')?>:<span><?php echo _('Commercial Status of this module. Commercial Modules are maintained and supported through Schmoozecom, INC')?></span></a></td>
+														<td><a href="#" class="info"><?php echo _('Commercial Status')?>:<span><?php echo _('Commercial Status of this module. Commercial Modules are maintained and supported through Schmoozecom, INC')?></span></a></td>
 														<td>
 															<?php if(!$module['commercial']['licensed']) { ?>
-																<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Buy')?></a>
+																<?php switch($module['commercial']['type']) { 
+																		case 'upgradeable':?>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Upgrade')?></a>
+																	<?php break;?>
+																	<?php case 'free':?>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Obtain Free License')?></a>
+																	<?php break;?>
+																	<?php case 'paid':?>
+																	<?php default:?>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Buy')?></a>
+																	<?php break;?>
+																<?php } ?>
 															<?php } else { ?>
-																<?php echo _('Purchased')?>
+																<?php echo _('Licensed')?>
 															<?php } ?>
 														</td>
 													</tr>
