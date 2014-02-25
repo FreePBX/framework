@@ -736,19 +736,40 @@ switch ($action) {
 				}
 			}
 			
-			// This is a strange way to figure out if a module is commercial but it works for now?
-			$modules[$name]['commercial']['status'] = ((strtolower($modules[$name]['license']) == 'commercial') && ($name != 'sipstation'));
-			if($modules[$name]['commercial']['status']) {
+			$sysadmininfo = $modulef->getinfo('sysadmin');
+			if(isset($modules[$name]['commercial']) && !empty($modules[$name]['commercial'])) {
+				$modules[$name]['commercial']['status'] = true;
 				if(function_exists('sysadmin_is_module_licensed')) {
 					$modules[$name]['commercial']['sysadmin'] = true;
 					$modules[$name]['commercial']['licensed'] = sysadmin_is_module_licensed($name);
 				} else {
+					//block all commercial installs until sysadmin is installed?
 					$modules[$name]['commercial']['sysadmin'] = false;
 					$modules[$name]['commercial']['licensed'] = false;
 					$modules[$name]['blocked']['status'] = ($name != 'sysadmin') ? true : false;
-					$modules[$name]['blocked']['reasons']['sysadmin'] = sprintf(_('Module <strong>%s</strong> is required, yours is not installed'),'System Admin');
+					if(!empty($sysadmininfo['sysadmin']['status'])) {
+						switch($sysadmininfo['sysadmin']['status']) {
+							case MODULE_STATUS_DISABLED:
+								$sysstatus = _('is disabled');
+							break;
+							case MODULE_STATUS_BROKEN:
+								$sysstatus = _('is broken');
+							break;
+							case MODULE_STATUS_NEEEDUPGRADE:
+								$sysstatus = _('needs to be upgraded');
+							break;
+							default:
+								$sysstatus = _('is unknown');
+							break;
+						}
+					} else {
+						$sysstatus = _('is not installed');
+					}
+					$modules[$name]['blocked']['reasons']['sysadmin'] = sprintf(_('Module <strong>%s</strong> is required, yours %s'),'System Admin',$sysstatus);
 				}
-				$modules[$name]['commercial']['purchaselink'] = !empty($modules[$name]['commercial']['purchaselink']) ? $modules[$name]['commercial']['purchaselink'] : 'http://www.schmoozecom.com/freepbx/freepbx-modules.php';
+				$modules[$name]['commercial']['purchaselink'] = !empty($modules[$name]['commercial']['link']) ? $modules[$name]['commercial']['link'] : 'http://www.schmoozecom.com/freepbx/freepbx-modules.php';
+			} else {
+				$modules[$name]['commercial']['status'] = false;
 			}
 
 			// If versionupgrade module is present then allow it to skip modules that should not be presented
