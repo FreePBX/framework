@@ -152,6 +152,7 @@ if($amp_conf['SHOWLANGUAGE']) {
 	$out .= '<li data-lang="ru_RU"><a href="#">' . _('Russian') . '</a></li>';
 	$out .= '<li data-lang="sv_SE"><a href="#">' . _('Swedish') . '</a></li>';
 	$out .= '<li data-lang="es_ES"><a href="#">' . _('Spanish') . '</a></li>';
+	$out .= '<li data-lang="ja_JP"><a href="#">' . _('Japanese') . '</a></li>';
 	$out .= '</ul>';
 }
 
