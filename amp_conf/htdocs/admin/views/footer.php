@@ -58,7 +58,7 @@ $clean = array(
 		'FOPPASSWORD',
 		'FOPSORT',
 );
-	
+
 foreach ($clean as $var) {
 	if (isset($fpbx['conf'][$var])) {
 		unset($fpbx['conf'][$var]);
@@ -72,7 +72,7 @@ $fpbx['conf']['text_dir']		= isset($_COOKIE['lang']) && in_array($_COOKIE['lang'
 $fpbx['conf']['uniqueid']		= sql('SELECT data FROM module_xml WHERE id = "installid"', 'getOne');
 $fpbx['conf']['dist']			= $modulef->_distro_id();
 $fpbx['conf']['ver']			= get_framework_version();
-$fpbx['conf']['reload_needed']  = $reload_needed; 
+$fpbx['conf']['reload_needed']  = $reload_needed;
 $fpbx['msg']['framework']['reload_unidentified_error'] = _(" error(s) occurred, you should view the notification log on the dashboard or main screen to check for more details.");
 $fpbx['msg']['framework']['close'] = _("Close");
 $fpbx['msg']['framework']['continuemsg'] = _("Continue");//continue is a resorved word!
@@ -89,7 +89,7 @@ $fpbx['msg']['framework']['noupemail'] = _("Are you sure you don't want to provi
 $fpbx['msg']['framework']['invalid_responce'] = _("Error: Did not receive valid response from server");
 $fpbx['msg']['framework']['invalid_response'] = $fpbx['msg']['framework']['invalid_responce']; // TYPO ABOVE
 $fpbx['msg']['framework']['validateSingleDestination']['required'] = _('Please select a "Destination"');
-$fpbx['msg']['framework']['validateSingleDestination']['error'] = _('Custom Goto contexts must contain the string "custom-".  ie: custom-app,s,1'); 
+$fpbx['msg']['framework']['validateSingleDestination']['error'] = _('Custom Goto contexts must contain the string "custom-".  ie: custom-app,s,1');
 $fpbx['msg']['framework']['weakSecret']['length'] = _("The secret must be at minimum six characters in length.");
 $fpbx['msg']['framework']['weakSecret']['types'] = _("The secret must contain at least two numbers and two letters.");
 
@@ -98,7 +98,7 @@ if ($covert) {
 			'ASTVERSION' => '',
 			'uniqueid' => '',
 			'reload_needed' => '',
-			'dist' => array( 
+			'dist' => array(
 				'pbx_type' => '',
 				'pbx_version' => '')
 			);
@@ -127,7 +127,7 @@ $html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.10.3.custom.
 // is not present (useful for development, then include each individual library below
 if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
-	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js' 
+	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js'
 			. $version_tag . $pbxlibver . '"></script>';
 } else {
 	/*
@@ -138,7 +138,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	 * jquery.cookie.js - for setting cookies (https://github.com/carhartl/jquery-cookie)
 	 * script.legacy.js - freepbx library
 	 * jquery.toggleval.3.0.js - similar to html5 form's placeholder. depreciated
-	 * tabber-minimized.js - sed for module admin (hiding content) 
+	 * tabber-minimized.js - sed for module admin (hiding content)
 	 */
 	$html .= ' <script type="text/javascript" src="assets/js/XMLHttpRequest.js' . $version_tag . '"></script>'
 		. '<script type="text/javascript" src="assets/js/menu.js' . $version_tag . '"></script>'
@@ -171,7 +171,7 @@ if ($amp_conf['BROWSER_STATS']) {
 			(function(){
 				var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;
 				ga.src=('https:'==document.location.protocol
-							?'https://ssl':'http://www') 
+							?'https://ssl':'http://www')
 							+'.google-analytics.com/ga.js';
 				var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);
 			})();</script>";
@@ -183,6 +183,7 @@ if (!empty($js_content)) {
 }
 //add IE specifc styling polyfills
 //offer google chrome frame for the richest experience
+//TODO: This should be removed sometime soon
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 	$html .= '<!--[if lte IE 10]>';
 	$html .= '<link rel="stylesheet" href="assets/css/progress-polyfill.css" type="text/css">';
@@ -195,7 +196,7 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
 		<script>
 			!$.cookie('skip_cf_check') //skip check if skip_cf_check cookie is active
-				&& CFInstall	//make sure CFInstall is loaded 
+				&& CFInstall	//make sure CFInstall is loaded
 				&& !!window.attachEvent //attachEvent is ie only, should never fire in other browsers
 				&& window.attachEvent("onload", function() {
 				 CFInstall.check({
@@ -204,7 +205,7 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 						$('<div></div>')
 							.html('Unfortunately, some features may not work correctly in your '
 								+ 'current browser. We suggest that you activate Chrome Frame, '
-								+ 'which will offer you the richest posible experience. ')
+								+ 'which will offer you the richest possible experience. ')
 							.dialog({
 								title: 'Activate Chrome Frame',
 								resizable: false,
