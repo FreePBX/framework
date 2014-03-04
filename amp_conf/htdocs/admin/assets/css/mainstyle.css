@@ -3,7 +3,7 @@ border #AED0EA;
 inside #DEEDF7;
 */
 /** Main layout */
-body { 
+body {
 	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif, Verdana, "Trebuchet MS", SunSans-Regular;
 	font-size:11pt ;
 	line-height: 1;
@@ -213,7 +213,7 @@ a.info:link, a.info:hover {
 }
 
 /*** reload button ****/
-#button_reload { 
+#button_reload {
 	display:none;
 	cursor:pointer;
 }
@@ -258,7 +258,7 @@ input[type=email]:invalid {
 	color:white;
 	font-weight:bold;
 }
-.attention img { 
+.attention img {
 	vertical-align:top;
 	padding-right:5px;
 }
@@ -302,10 +302,10 @@ div.attention {
 #shield_link {
 	background-size: 96px 138px;
 	display:inline-block;
-	height:138px; 
-	width:96px; 
-	margin:8px; 
-	position:relative; 
+	height:138px;
+	width:96px;
+	margin:8px;
+	position:relative;
 	top:-50px;
 }
 #shield_link.updates_off {
@@ -435,7 +435,7 @@ div.modulebuttons {
 	text-decoration : none;
 }
 #modulelist div.tabbertab {
-	margin-left:1.5em; 
+	margin-left:1.5em;
 	height:17em; /* This should be .5 less than div.moduleinfopain height */
 	overflow:auto;
 	padding-left: 6px;
@@ -565,7 +565,7 @@ div.modulebuttons {
 .ui-menu .ui-menu-item a {color: #2779AA;}
 
 /*submit button size*/
-input[type="submit"]{ height: 25px;}
+/* input[type="submit"]{ height: 25px;} */
 
 /*rnav*/
 .rnav .ui-widget-content {background: none;}
@@ -633,7 +633,7 @@ input[type="file"], input[type="text"]{
 	margin: 2px;
 }
 
-/* Fix a bug in The jQuery-UI 1.10.3 css build that causes 
+/* Fix a bug in The jQuery-UI 1.10.3 css build that causes
  * the margin to shrink when you mouseover a selected
  * option in the dropdown menus.
  */

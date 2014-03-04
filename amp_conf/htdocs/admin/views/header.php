@@ -36,8 +36,8 @@ $html .= '<link href="assets/css/bootstrap-fixes.css" rel="stylesheet" type="tex
 
 $html .= '<link rel="stylesheet" href="assets/css/font-awesome.min.css">';
 
-$mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
-                       ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE'] 
+$mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE']
+                       ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE']
                        : 'assets/css/mainstyle.css';
 $framework_css = ($amp_conf['DISABLE_CSS_AUTOGEN'] || !file_exists($amp_conf['mainstyle_css_generated'])) ? $mainstyle_css : $amp_conf['mainstyle_css_generated'];
 $css_ver = '.' . filectime($framework_css);
@@ -55,36 +55,43 @@ if ($use_popover_css) {
 	$html .= '<link href="' . $popover_css.$version_tag . '" rel="stylesheet" type="text/css">';
 }
 
-//include rtl stylesheet if using a rtl langauge
+//include rtl stylesheet if using a right to left langauge
 if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))) {
 	$html .= '<link href="assets/css/mainstyle-rtl.css" rel="stylesheet" type="text/css" />';
 }
 // Insert a custom CSS sheet if specified (this can change what is in the main CSS)
 if ($amp_conf['BRAND_CSS_CUSTOM']) {
-	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM'] 
+	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM']
 			. $version_tag . '" rel="stylesheet" type="text/css">';
 }
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
+/* We are using a custom Jquery file for now, it's beta
 if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 	$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/' . $amp_conf['JQUERY_VER'] . '/jquery.min.js"></script>';
 	$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-' . $amp_conf['JQUERY_VER'] . '.min.js"><\/script>\')</script>';
 } else {
 	$html .= '<script type="text/javascript" src="assets/js/jquery-' . $amp_conf['JQUERY_VER'] . '.min.js"></script>';
 }
+*/
+$html .= '<script type="text/javascript" src="assets/js/jquery-' . $amp_conf['JQUERY_VER'] . '.min.js"></script>';
 
 //development
 if($amp_conf['JQMIGRATE']) {
 	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
 }
 
-$html .= '<script src="assets/js/selector-set-1.0.4.min.js"></script>';
-$html .= '<script src="assets/js/jquery.selector-set-0.1.5.min.js"></script>';
-		
+$html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
+
+$html .= "<script>var firsttypeofselector = $('html').hasClass('firsttypeofselector'); if(firsttypeofselector) { $('<link>').appendTo($('head')).attr({type : 'text/css', rel : 'stylesheet'}).attr('href', 'assets/css/css3-buttons.css'); }</script>";
 $html .= '</head>';
 
 //open body
 $html .= '<body>';
+
+//Pre load but not really needed.
+//$html .= '<div style="display:none;"><img src="assets/css/images/ui-bg_glass_80_d7ebf9_1x400.png"><img src="assets/css/images/ui-bg_glass_80_d7ebf9_1x400.png"><img src="assets/css/images/ui-bg_glass_50_3baae3_1x400.png"><img src="assets/css/images/ui-bg_glass_80_d7ebf9_1x400.png"></div>';
 
 $html .= '<div id="page">';//open page
 
@@ -92,7 +99,7 @@ $html .= '<div id="page">';//open page
 $html .= '<noscript><div class="attention">'
 		. _('WARNING: Javascript is disabled in your browser. '
 		. 'The FreePBX administration interface requires Javascript to run properly. '
-		. 'Please enable javascript or switch to another  browser that supports it.') 
+		. 'Please enable javascript or switch to another  browser that supports it.')
 		. '</div></noscript>';
 
 echo $html;

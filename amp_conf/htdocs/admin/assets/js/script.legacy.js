@@ -911,7 +911,9 @@ $(document).ready(function(){
 
 	//new skin - work in progres!
 	$('.rnav > ul').menu();
-	$('.radioset').buttonset();
+    if(!firsttypeofselector) {
+        $('.radioset').buttonset();
+    }
 	$('.menubar').menubar().hide().show();
 
 
@@ -920,15 +922,15 @@ $(document).ready(function(){
 	//HACK for low resolution displays where menu is cut off
 	$('.module_menu_button').hover(function() {
 		$(this).click();
-		var sh = $(window).height(); 
-		$('.ui-menu').each(function() { 
+		var sh = $(window).height();
+		$('.ui-menu').each(function() {
 			if ($(this).css('display') == 'block') {
-				$(this).css('max-height', ''); 
+				$(this).css('max-height', '');
 				if ($(this).height() > sh) {
-					$(this).css('max-height',sh - 50 +'px'); 
+					$(this).css('max-height',sh - 50 +'px');
 				}
 			}
-		}); 
+		});
 	});
 
 	//show reload button if neede
@@ -959,19 +961,21 @@ $(document).ready(function(){
 	});
 
 	//pluck icons out of the markup - no need for js to add them (for buttons)
-	$('input[type=submit],input[type=button], button, input[type=reset]').each(function(){
-		var prim = (typeof $(this).data('button-icon-primary') == 'undefined')
-					? ''
-					: ($(this).data('button-icon-primary'));
-		var sec  = (typeof $(this).data('button-icon-secondary') == 'undefined')
-					? ''
-					: ($(this).data('button-icon-secondary'));
-		var txt = 	(typeof $(this).data('button-text') == 'undefined')
-					? 'true'
-					: ($(this).data('button-text'));
-		var txt = (txt == 'true') ? true : false;
-		$(this).button({ icons: {primary: prim, secondary: sec}, text: txt});
-	});
+    if(!firsttypeofselector) {
+    	$('input[type=submit],input[type=button], button, input[type=reset]').each(function(){
+    		var prim = (typeof $(this).data('button-icon-primary') == 'undefined')
+    					? ''
+    					: ($(this).data('button-icon-primary'));
+    		var sec  = (typeof $(this).data('button-icon-secondary') == 'undefined')
+    					? ''
+    					: ($(this).data('button-icon-secondary'));
+    		var txt = 	(typeof $(this).data('button-text') == 'undefined')
+    					? 'true'
+    					: ($(this).data('button-text'));
+    		var txt = (txt == 'true') ? true : false;
+    		$(this).button({ icons: {primary: prim, secondary: sec}, text: txt});
+    	});
+    }
 
 	/* Search for fields marked as class .extdisplay or the common button types. Add a span so we can warn
 	   when they are using a duplicate extension, adding a duplicate class also for styling options.
@@ -1113,7 +1117,7 @@ $(document).ready(function(){
 			$('.destdropdown2').filter(':hidden').remove();
 		}
 	});
-	
+
 	jQuery.fn.scrollMinimal = function(smooth,offset) {
 		var cTop = this.offset().top - offset;
 		var cHeight = this.outerHeight(true);

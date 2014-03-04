@@ -1,10 +1,12 @@
 $(document).ready(function(){
-	$('.repo_boxes').find('input[type=checkbox]').button();
-	$('#show_upgradable_only').button();
+	if(!firsttypeofselector) {
+		$('.repo_boxes').find('input[type=checkbox]').button();
+		$('#show_upgradable_only').button();
+	}
 	$('.repo_boxes').find('input[type=checkbox]').click(function() {
 		var id = $(this).attr('id');
 		var selected = $(this).prop('checked') ? 1 : 0;
-		
+
 		$.ajax({
 			type: 'POST',
 			url: "config.php",
@@ -85,7 +87,7 @@ $(document).ready(function(){
 	$('.modulevul_tag').click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		$.each($(this).data('sec'), function(index, value) { 
+		$.each($(this).data('sec'), function(index, value) {
 			$('#security-' + value).dialog({
 				title: fpbx.msg.framework.securityissue + ' ' + value,
 				resizable: false,
@@ -110,22 +112,27 @@ $(document).ready(function(){
 		var previous_track = modules[module].track;
 		var si = (track == 'stable') ? modules[module] : modules[module].releasetracks[track];
 		var pi = (previous_track == 'stable') ? modules[module] : modules[module].releasetracks[previous_track];
-		
+
 		$('#fullmodule_'+module+' .moduletrack').html(track.capitalize());
-		
+
 		var label = $('#fullmodule_'+module+' .modulestatus').children().text().replace(pi.version,si.version);
 		$('#fullmodule_'+module+' .modulestatus').children().text(label);
-		
+
 		$('#fullmodule_'+module+' .modulefunctionradios input[type=radio]').each(function( index ) {
-			var label = $(this).button('option','label').replace(pi.version,si.version);
-			$(this).button('option', 'label', label);
+			if(!firsttypeofselector) {
+				var label = $(this).button('option','label').replace(pi.version,si.version);
+				$(this).button('option', 'label', label);
+			} else {
+				var label = $(this).find('label').text();
+				$(this).find('label').text(label);
+			}
 		})
-		
+
 		$('#changelog_'+module+' span').html(si.changelog);
 		//I dont like this much please improve...someone
 		var cl = $('#changelog_'+module+' h5').html().replace(pi.version,si.version);
 		$('#changelog_'+module+' h5').html(cl);
-		
+
 		modules[module].track = track;
 	});
 	$('#local-type').change(function(e) {
@@ -154,8 +161,13 @@ $(document).ready(function(){
 			$('#infopane_'+module).slideDown( "slow", function() {
 			})
 			$('#arrow_'+module).removeClass("fa-chevron-right").addClass("fa-chevron-down");
-			$('#infopane_'+module+' .modulefunctionradios').buttonset();
-			$('#infopane_'+module+' .moduletrackradios').buttonset();
+			if(!firsttypeofselector) {
+				$('#infopane_'+module+' .modulefunctionradios').buttonset();
+				$('#infopane_'+module+' .moduletrackradios').buttonset();
+			} else {
+				$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
+				$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
+			}
 		}
 	});
 	if(!fpbx.conf.AMPTRACKENABLE) {
@@ -168,8 +180,13 @@ function check_upgrade_all() {
 			$(this).prop('checked',true);
 			$(this).parents('.moduleinfopane').show();
 			var module = $(this).parents('.fullmodule').data('module');
-			$('#infopane_'+module+' .modulefunctionradios').buttonset();
-			$('#infopane_'+module+' .moduletrackradios').buttonset();
+			if(!firsttypeofselector) {
+				$('#infopane_'+module+' .modulefunctionradios').buttonset();
+				$('#infopane_'+module+' .moduletrackradios').buttonset();
+			} else {
+				$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
+				$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
+			}
 		}
 	});
 }
@@ -180,8 +197,13 @@ function check_download_all() {
 			$(this).prop('checked',true);
 			$(this).parents('.moduleinfopane').show();
 			var module = $(this).parents('.fullmodule').data('module');
-			$('#infopane_'+module+' .modulefunctionradios').buttonset();
-			$('#infopane_'+module+' .moduletrackradios').buttonset();
+			if(!firsttypeofselector) {
+				$('#infopane_'+module+' .modulefunctionradios').buttonset();
+				$('#infopane_'+module+' .moduletrackradios').buttonset();
+			} else {
+				$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
+				$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
+			}
 		}
 	});
 }
@@ -190,8 +212,13 @@ function navigate_to_module(module) {
 	if($('#fullmodule_'+module).length) {
 		$('#fullmodule_'+module).scrollMinimal(true, 100);
 		$('#infopane_'+module).slideDown( "slow", function() {})
-		$('#infopane_'+module+' .modulefunctionradios').buttonset();
-		$('#infopane_'+module+' .moduletrackradios').buttonset();
+		if(!firsttypeofselector) {
+			$('#infopane_'+module+' .modulefunctionradios').buttonset();
+			$('#infopane_'+module+' .moduletrackradios').buttonset();
+		} else {
+			$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
+			$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
+		}
 	} else {
 		alert('Required Module '+module+' is not local');
 	}
@@ -224,7 +251,7 @@ function process_module_actions(modules) {
 	if(!jQuery.isEmptyObject(modules)) {
 		urlStr = "config.php?display=modules&skip_astman=1&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
 	}
-	
+
 	box = $('<div id="moduledialogwrapper"></div>')
 			.dialog({
 				title: 'Status',
