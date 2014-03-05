@@ -59,6 +59,11 @@ if ($use_popover_css) {
 if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))) {
 	$html .= '<link href="assets/css/mainstyle-rtl.css" rel="stylesheet" type="text/css" />';
 }
+
+$html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
+$html .= "<script>var firsttypeofselector = selectorSupported(':first-of-type'); if(firsttypeofselector) { document.write('<link href=\"assets/css/css3-buttons.css\" rel=\"stylesheet\" type=\"text/css\">'); }</script>";
+
 // Insert a custom CSS sheet if specified (this can change what is in the main CSS)
 if ($amp_conf['BRAND_CSS_CUSTOM']) {
 	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM']
@@ -81,10 +86,6 @@ if($amp_conf['JQMIGRATE']) {
 	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
 }
 
-$html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
-$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
-
-$html .= "<script>var firsttypeofselector = $('html').hasClass('firsttypeofselector'); if(firsttypeofselector) { $('<link>').appendTo($('head')).attr({type : 'text/css', rel : 'stylesheet'}).attr('href', 'assets/css/css3-buttons.css'); }</script>";
 $html .= '</head>';
 
 //open body
