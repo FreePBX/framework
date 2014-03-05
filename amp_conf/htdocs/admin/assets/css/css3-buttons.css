@@ -37,6 +37,8 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 }
 
 /* SINGLE CHECKBOX CSS */
+/* Breaks Parts of FreePBX */
+/*
 input[type="checkbox"] {
 	display:none;
 }
@@ -76,12 +78,13 @@ input[type="checkbox"]:checked ~ label {
 	font-weight: bold;
 	color: #ffffff;
 }
+*/
 
 /* RADIOSET/CHECKSET */
-.radioset input[type="radio"], .checkset input[type="checkbox"] {
+.radioset input[type="radio"], .radioset input[type="checkbox"] {
 	display:none;
 }
-.radioset input[type="radio"] + label, .checkset input[type="checkbox"] ~ label {
+.radioset input[type="radio"] + label, .radioset input[type="checkbox"] ~ label {
 	border: 1px solid #aed0ea;
 	background: #d7ebf9 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQEAIAAACwqkHPAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAmElEQVRIx+3PIQ6CABgF4PfeZnPTanBjGjUYNBPkEGwmvREHMDhOQDI7PAEFNzHoHAYcQRJI8BROw5++/OEevfx3LgAADMMwjG+DNC2KusbJf06brjhCgKm45A4zZE7Za7a4xOW1yaSQCV3pyCs8MeYNnhQygYt8Xg1aB499dW5X0oYRFuKYASbCAWsMRQd9dP4ibRiG8UM+QjMuTsD8TMoAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTMtMDUtMDNUMDk6MjE6MTgtMDc6MDDQs4aNAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDEzLTA1LTAzVDA5OjIxOjE4LTA3OjAwoe4+MQAAAABJRU5ErkJggg==) 50% 50% repeat-x;
 	color: #2779aa;
@@ -98,21 +101,21 @@ input[type="checkbox"]:checked ~ label {
 	font-size: 11px !important;
 	margin-right: -3px;
 }
-.radioset input[type="radio"] + label:first-of-type, .checkset input[type="checkbox"] ~ label:first-of-type {
+.radioset input[type="radio"] + label:first-of-type, .radioset input[type="checkbox"] ~ label:first-of-type {
 	border-top-left-radius: 6px;
 	border-bottom-left-radius: 6px;
 }
-.radioset input[type="radio"] + label:last-of-type, .checkset input[type="checkbox"] ~ label:last-of-type {
+.radioset input[type="radio"] + label:last-of-type, .radioset input[type="checkbox"] ~ label:last-of-type {
 	border-top-right-radius: 6px;
 	border-bottom-right-radius: 6px;
 }
-.radioset input[type="radio"] + label:hover, .checkset input[type="checkbox"] ~ label:hover {
+.radioset input[type="radio"] + label:hover, .radioset input[type="checkbox"] ~ label:hover {
 	border: 1px solid #74b2e2;
 	background: #e4f1fb url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQEAIAAACwqkHPAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAnElEQVRIx+3PrQrCYBiG4ed50SSIUbC6MLa4ZNFiMC6sCnoinoGYLIs7iBWTxeBhOJN/fIP9wPaBwWMQDW+62g03XodqZ/cCAICiKIrybZBlxjQNrmHutj1hgQ3GwgG3cIUeYvjCNVMEuM2LWfvA/Vh2rYPntDzbpXDFFAGM1BN7Qr6oL7YSeozpf2KOMGGEoWCEPjp/Ma0oivJD3kmDL+OlYr6CAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEzLTA1LTAzVDA5OjIxOjE4LTA3OjAw0LOGjQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMy0wNS0wM1QwOToyMToxOC0wNzowMKHuPjEAAAAASUVORK5CYII=) 50% 50% repeat-x;
 	font-weight: bold;
 	color: #0070a3;
 }
-.radioset input[type="radio"]:checked + label, .checkset input[type="checkbox"]:checked + label {
+.radioset input[type="radio"]:checked + label, .radioset input[type="checkbox"]:checked + label {
 	border: 1px solid #2694e8;
 	background: #3baae3 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQEAIAAACwqkHPAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAjklEQVRIx2NImrp798smJgYGBgYGhlFqlBqlRqlRiubUzWXv3/9KZGLsZlzNaMHEUsnYxFDPxHKHaQ1jHxOLHdN1htlMrCxMuozbIdQOJtZ05giGo0xs6UzhjMfQ5FgWMjExrGRitWO6zjibobj/sMTr90xMgYyMjKFMjMkM2gx8g8PTo9QoNUqNUgNHAQAy4iFUVISQBwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMy0wNS0wM1QwOToyMToxOC0wNzowMNCzho0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTMtMDUtMDNUMDk6MjE6MTgtMDc6MDCh7j4xAAAAAElFTkSuQmCC) 50% 50% repeat-x;
 	font-weight: bold;

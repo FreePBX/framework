@@ -62,8 +62,14 @@ if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))) {
 
 $html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
 $html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
-$html .= "<script>var firsttypeofselector = selectorSupported(':first-of-type'); if(firsttypeofselector) { document.write('<link href=\"assets/css/css3-buttons.css\" rel=\"stylesheet\" type=\"text/css\">'); }</script>";
-
+$html .= "<script>var firsttypeofselector = Modernizr.firsttypeofselector; if(firsttypeofselector) { document.write('<link href=\"assets/css/css3-buttons.css\" rel=\"stylesheet\" type=\"text/css\">'); }</script>";
+/*
+Modernizr.load({
+  test: Modernizr.geolocation,
+  yep : 'geo.js',
+  nope: 'geo-polyfill.js'
+});
+*/
 // Insert a custom CSS sheet if specified (this can change what is in the main CSS)
 if ($amp_conf['BRAND_CSS_CUSTOM']) {
 	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM']
