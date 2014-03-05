@@ -9,7 +9,7 @@
 				</td>
 				<td>
 					<table>
-						<tr class="repo_boxes">
+						<tr class="repo_boxes radioset">
 							<?php foreach($repo_list as $repo) {?>
 								<td>
 									<input id="<?php echo $repo?>_repo" type="checkbox" name="active_repos[<?php echo $repo?>]" value="1" tabindex="<?php echo ++$tabindex;?>" <?php echo !empty($active_repos[$repo])?"checked":""?>/>
