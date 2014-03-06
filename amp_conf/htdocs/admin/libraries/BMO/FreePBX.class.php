@@ -32,20 +32,20 @@ include 'BMO.interface.php';
 
 class FreePBX extends FreePBX_Helpers {
 
-	// Static Object used for self-referencing. 
+	// Static Object used for self-referencing.
 	private static $obj;
 	public static $conf;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * This Preloads the default libraries into the class. There should be
 	 * very few of these, as they will normally get instantiated when
 	 * they're asked for the first time.
-	 * Currently this is only "Config". 
-	 * 
-	 * @return void     
-	 * @access public   
+	 * Currently this is only "Config".
+	 *
+	 * @return void
+	 * @access public
 	 */
 	public function __construct(&$conf = null) {
 		//TODO: load this another way
@@ -90,12 +90,12 @@ class FreePBX extends FreePBX_Helpers {
 
 	/**
 	 * Returns the Default Libraries to load
-	 * 
+	 *
 	 * @return array
 	 * @access private
 	 */
 	private function listDefaultLibraries() {
-		return array("Config","Modules");
+		return array("Modules");
 	}
 
 

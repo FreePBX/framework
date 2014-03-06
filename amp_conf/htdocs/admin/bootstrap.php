@@ -1,18 +1,18 @@
 <?php
-/* 
+/*
  * Copyright 2010 by Moshe Brevda (mbrevda => gmail ! com)
  * and Schmooze Com, Inc.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
@@ -50,9 +50,9 @@ if (isset($bootstrap_settings['returnimmediately']))
 //
 //enable error reporting and start benchmarking
 
-error_reporting(E_ALL & ~E_STRICT); 
+error_reporting(E_ALL & ~E_STRICT);
 date_default_timezone_set(@date_default_timezone_get());
-function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); } 
+function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); }
 $benchmark_starttime = microtime_float();
 
 global $amp_conf;
@@ -84,12 +84,12 @@ $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 
 // include base functions
 require_once($dirname . '/libraries/compress.class.php');
-require_once($dirname . '/libraries/utility.functions.php'); 
-$bootstrap_settings['framework_functions_included'] = false; 
-require_once($dirname . '/functions.inc.php'); 
-$bootstrap_settings['framework_functions_included'] = true; 
-	 	 
-//now that its been included, use our own error handler as it tends to be much more verbose. 
+require_once($dirname . '/libraries/utility.functions.php');
+$bootstrap_settings['framework_functions_included'] = false;
+require_once($dirname . '/functions.inc.php');
+$bootstrap_settings['framework_functions_included'] = true;
+
+//now that its been included, use our own error handler as it tends to be much more verbose.
 if ($bootstrap_settings['freepbx_error_handler']) {
   $error_handler = $bootstrap_settings['freepbx_error_handler'] === true ? 'freepbx_error_handler' : $bootstrap_settings['freepbx_error_handler'];
   if (function_exists($error_handler)) {
@@ -97,10 +97,18 @@ if ($bootstrap_settings['freepbx_error_handler']) {
   }
 }
 
-// bootstrap.php should always be called from freepbx.conf so 
+// bootstrap.php should always be called from freepbx.conf so
 // database conifguration already included, connect to database:
 //
 require_once($dirname . '/libraries/db_connect.php'); //PEAR must be installed
+// BMO: Initialize BMO as early as possible.
+$bmo = dirname(__FILE__)."/libraries/BMO/FreePBX.class.php";
+if (file_exists($bmo)) {
+    include_once($bmo);
+    $bmo = new FreePBX($amp_conf);
+} else {
+    throw new Exception("Unable to load BMO");
+}
 
 // get settings
 $freepbx_conf =& freepbx_conf::create();
@@ -146,15 +154,6 @@ if (!$bootstrap_settings['skip_astman']) {
 	$bootstrap_settings['astman_connected'] = true;
 }
 
-// BMO: Initialize BMO as early as possible.
-$bmo = dirname(__FILE__)."/libraries/BMO/FreePBX.class.php";
-if (file_exists($bmo)) {
-	include_once($bmo);
-	$bmo = new FreePBX($amp_conf);
-} else {
-	throw new Exception("Unable to load BMO");
-}
-
 //include gui functions + auth if nesesarry
 // If set to freepbx_auth but we are in a cli mode, then don't bother authenticating either way.
 // TODO: is it ever possible through an apache or httplite configuration to run a web launched php script
@@ -174,8 +173,8 @@ bootstrap_include_hooks('pre_module_load', 'all_mods');
 $bootstrap_settings['function_modules_included'] = false;
 
 $restrict_mods_local = $restrict_mods;
-//I'm pretty sure if this is == true then there is no need to even pull all 
-//the module info as we are going down a path such as an ajax path that this 
+//I'm pretty sure if this is == true then there is no need to even pull all
+//the module info as we are going down a path such as an ajax path that this
 //is just overhead. (We'll know soon enough if this is too restrcitive).
 if ($restrict_mods_local !== true) {
 	$isauth = !isset($no_auth);
@@ -187,25 +186,25 @@ if ($restrict_mods_local !== true) {
 		$force_autoload = false;
 		foreach($active_modules as $key => $module) {
 			//check if this module was was excluded
-			$is_selected = is_array($restrict_mods_local) 
+			$is_selected = is_array($restrict_mods_local)
 				&& isset($restrict_mods_local[$key]);
 
 			//get file path
 			$file = $modpath . $key .'/functions.inc.php';
 			$file_exists = is_file($file);
-			
+
 			//check authentication, skip this module if we dont have auth
-			$needs_auth = isset($module['requires_auth']) 
+			$needs_auth = isset($module['requires_auth'])
 				&& $module['requires_auth'] == 'false'
 				? false : true;
 			if (!$isauth && $needs_auth) {
 				continue;
 			}
 
-			// Zend appears to break class auto-loading. Therefore, if we 
-			//detect there is a module that requires Zend 
+			// Zend appears to break class auto-loading. Therefore, if we
+			//detect there is a module that requires Zend
 			// we will include all the potential classes at this point.
-			$needs_zend = isset($module['depends']['phpcomponent']) 
+			$needs_zend = isset($module['depends']['phpcomponent'])
 				&& stristr($module['depends']['phpcomponent'], 'zend');
 			if (!$force_autoload && $needs_zend) {
 				fpbx_framework_autoloader(true);
@@ -217,20 +216,20 @@ if ($restrict_mods_local !== true) {
 				bootstrap_include_hooks('pre_module_load', $key);
 				require_once($file);
 				bootstrap_include_hooks('post_module_load', $key);
-			} 
+			}
 			//create an array of module sections to display
 			//stored as [items][$type][$category][$name] = $displayvalue
 			if (isset($module['items']) && is_array($module['items'])) {
-				//if asterisk isnt running, mark moduels that depend on 
+				//if asterisk isnt running, mark moduels that depend on
 				//asterisk as disbaled
 				foreach($module['items'] as $itemKey => $item) {
-					$needs_edb = isset($item['needsenginedb']) 
+					$needs_edb = isset($item['needsenginedb'])
 							&& strtolower($item['needsenginedb']) == 'yes';
-					$needs_running = isset($item['needsenginerunning']) 
+					$needs_running = isset($item['needsenginerunning'])
 							&& strtolower($item['needsenginerunning']) == 'yes';
 					$needs_astman = $needs_edb || $needs_running;
 					if ((!isset($astman) || !$astman) && $needs_astman) {
-						$active_modules[$key]['items'][$itemKey]['disabled'] 
+						$active_modules[$key]['items'][$itemKey]['disabled']
 							= true;
 					}
 				}
