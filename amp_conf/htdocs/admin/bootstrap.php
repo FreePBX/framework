@@ -153,6 +153,7 @@ if (!$bootstrap_settings['skip_astman']) {
 } else {
 	$bootstrap_settings['astman_connected'] = true;
 }
+//Because BMO was moved upward we have to inject this lower
 if(isset($astman)) {
     FreePBX::create()->astman = $astman;
 }
