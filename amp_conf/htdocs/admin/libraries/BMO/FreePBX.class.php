@@ -54,6 +54,10 @@ class FreePBX extends FreePBX_Helpers {
 
 		self::$conf = $conf;
 
+        // Ensure the local object is available
+        // but ensure this BEFORE we preload for any classes outside the scope of BMO
+        self::$obj = $this;
+
 		$oldIncludePath = get_include_path();
 		set_include_path(__DIR__.":".get_include_path());
 		foreach ($libraries as $lib) {
@@ -67,8 +71,6 @@ class FreePBX extends FreePBX_Helpers {
 		}
 		set_include_path($oldIncludePath);
 		$this->astman = $astman;
-		// Ensure the local object is available
-		self::$obj = $this;
 	}
 
 	/**
@@ -82,8 +84,9 @@ class FreePBX extends FreePBX_Helpers {
 	 * @return object FreePBX BMO Object
 	 */
 	public static function create() {
-		if (!isset(self::$obj))
+		if (!isset(self::$obj)) {
 			self::$obj = new FreePBX();
+        }
 
 		return self::$obj;
 	}
@@ -95,7 +98,7 @@ class FreePBX extends FreePBX_Helpers {
 	 * @access private
 	 */
 	private function listDefaultLibraries() {
-		return array("Modules");
+		return array("Database","Modules");
 	}
 
 

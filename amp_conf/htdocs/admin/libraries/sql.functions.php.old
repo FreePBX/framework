@@ -4,18 +4,25 @@
 *  $fetchmode can be DB_FETCHMODE_ORDERED, DB_FETCHMODE_ASSOC, DB_FETCHMODE_OBJECT
 *  returns array, unless using getOne
 */
-function sql($sql,$type="query",$fetchmode='default') {
-	$db = FreePBX::create()->Database;
-	switch($fetchmode) {
-		case DB_FETCHMODE_ASSOC:
-			$results = $db->sql($sql, $type, PDO::FETCH_ASSOC);
-		break;
-		case 'default':
-			$results = $db->sql($sql, $type);
-		break;
+function sql($sql,$type="query",$fetchmode=null) {
+	global $db;
+	$results = $db->$type($sql,$fetchmode);
+
+	/* FUTURE
+	switch($type) {
+		case "query":
+			$results = $db->$type($sql);
+			break;
+		case "getAssoc":
+			$results = $db->$type($sql,false,array(),$fetchmode);
+			break;
 		default:
-			throw new Exception("Unknown SQL fetchmode of $fetchmode");
-		break;
+			$results = $db->$type($sql,array(),$fetchmode);
+			break;
+	}
+	*/
+	if(DB::IsError($results)) {
+		die_freepbx($results->getDebugInfo() . "SQL - <br /> $sql" );
 	}
 	return $results;
 }

@@ -97,10 +97,6 @@ if ($bootstrap_settings['freepbx_error_handler']) {
   }
 }
 
-// bootstrap.php should always be called from freepbx.conf so
-// database conifguration already included, connect to database:
-//
-require_once($dirname . '/libraries/db_connect.php'); //PEAR must be installed
 // BMO: Initialize BMO as early as possible.
 $bmo = dirname(__FILE__)."/libraries/BMO/FreePBX.class.php";
 if (file_exists($bmo)) {
@@ -109,6 +105,13 @@ if (file_exists($bmo)) {
 } else {
     throw new Exception("Unable to load BMO");
 }
+
+// bootstrap.php should always be called from freepbx.conf so
+// database conifguration already included, connect to database:
+//
+include(dirname(__FILE__)."/libraries/DB.class.php");
+$db = new DB();
+//require_once($dirname . '/libraries/db_connect.php'); //PEAR must be installed
 
 // get settings
 $freepbx_conf =& freepbx_conf::create();

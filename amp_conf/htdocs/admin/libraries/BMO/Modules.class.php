@@ -38,6 +38,7 @@ class Modules {
 		if (!class_exists('module_functions')) {
 			throw new Exception("module_functions class missing? Bootstrap not run?");
 		}
+
 		$this->modclass = module_functions::create();
 		$this->getActiveModules();
 	}
@@ -83,4 +84,3 @@ class Modules {
 		return $this->modclass->getinfo($modname);
 	}
 }
-

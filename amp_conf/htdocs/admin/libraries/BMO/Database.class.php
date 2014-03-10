@@ -33,7 +33,6 @@
  * it'll figure out what you want to do and just do it, without you needing
  * to hold its hand.
  */
-
 class Database extends PDO {
 
 	public function __construct() {
@@ -75,7 +74,7 @@ class Database extends PDO {
 	/**
 	 * COMPAT: Queries Database using PDO
 	 *
-	 * This is a FreePBX Compatibility hook for the global 'sql' function that 
+	 * This is a FreePBX Compatibility hook for the global 'sql' function that
 	 * previously used PEAR::DB
 	 *
 	 * @param $sql string SQL String to run
@@ -100,12 +99,20 @@ class Database extends PDO {
 			// Return the first item of the first row
 			$res = $this->sql_getOne($sql);
 			break;
+        case 'getRow':
+            $res = $this->sql_getRow($sql,$fetchmode);
+            break;
 		default:
 			throw new Exception("Unknown SQL query type of $type");
 		}
 
 		return $res;
 	}
+
+    private function sql_getRow($sql,$fetchmode) {
+        $res = $this->query($sql);
+        return $res->fetch($fetchmode);
+    }
 
 	/**
 	 * Returns a PDOStatement object
@@ -144,8 +151,9 @@ class Database extends PDO {
 	private function sql_getOne($sql) {
 		$res = $this->query($sql);
 		$line = $res->fetch(PDO::FETCH_NUM);
-		if (isset($line[0]))
+		if (isset($line[0])) {
 			return $line[0];
+        }
 
 		return false;
 	}
@@ -194,4 +202,3 @@ class Database extends PDO {
 		return $this->sql_getOne($sql);
 	}
 }
-
