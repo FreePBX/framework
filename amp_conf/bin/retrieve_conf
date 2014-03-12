@@ -27,7 +27,7 @@ class connectdirs {
 
 	var $cp_errors = '';
 	var $symlink_error_modules = '';
-		
+
 	function &create() {
 		static $obj;
 		if (!isset($obj)) {
@@ -41,11 +41,11 @@ class connectdirs {
     global $db;
     $this->symlink_dirs['bin']    		= $amp_conf['AMPBIN'];
     $this->symlink_dirs['etc']    		= $amp_conf['ASTETCDIR'];
-    $this->symlink_dirs['images'] 		= $amp_conf['AMPWEBROOT'] . "/admin/images"; 
-    $this->symlink_dirs['ari/modules']	= $amp_conf['AMPWEBROOT'] . "/recordings/modules"; 
-    $this->symlink_dirs['ari/theme'] 	= $amp_conf['AMPWEBROOT'] . "/recordings/theme"; 
-    $this->symlink_dirs['ari/js']		= $amp_conf['AMPWEBROOT'] . "/recordings/theme/js"; 
-    $this->symlink_dirs['ari/images']	= $amp_conf['AMPWEBROOT'] . "/recordings/theme/images"; 
+    $this->symlink_dirs['images'] 		= $amp_conf['AMPWEBROOT'] . "/admin/images";
+    $this->symlink_dirs['ari/modules']	= $amp_conf['AMPWEBROOT'] . "/recordings/modules";
+    $this->symlink_dirs['ari/theme'] 	= $amp_conf['AMPWEBROOT'] . "/recordings/theme";
+    $this->symlink_dirs['ari/js']		= $amp_conf['AMPWEBROOT'] . "/recordings/theme/js";
+    $this->symlink_dirs['ari/images']	= $amp_conf['AMPWEBROOT'] . "/recordings/theme/images";
 
     $this->symlink_sound_dirs['sounds'] 		= $amp_conf['ASTVARLIBDIR'] . '/sounds';
 
@@ -81,7 +81,7 @@ class connectdirs {
 
     }
   }
-  
+
   function generate_less($module) {
       global $amp_conf;
 
@@ -188,11 +188,11 @@ class connectdirs {
 				  $sourcefile = $file;
 				  $filesubdir=str_replace($dir.'/', '', $file);
 				  $targetfile = addslash($targetdir).$filesubdir;
-	
+
 				  if (file_exists_wrapper($targetfile)) {
 					  if (is_link($targetfile)) {
               if (!$this->err_unlink($targetfile)) {
-							  freepbx_log(FPBX_LOG_ERROR, "$targetfile is a symblolic link, failed to unlink!");
+							  freepbx_log(FPBX_LOG_ERROR, "$targetfile is a symbolic link, failed to unlink!");
 							  break;
 						  }
 					  }
@@ -356,7 +356,7 @@ if ($current_memory_limit < $proper_memory_limit) {
 }
 
 
-//Putting the core module last, to move outbound-allroutes 
+//Putting the core module last, to move outbound-allroutes
 // last in from-internals-additional
 if (array_key_exists('core', $active_modules)) {
         $core_tmp = $active_modules['core'];
@@ -429,7 +429,7 @@ if ($amp_conf['DISABLECUSTOMCONTEXTS']) {
 // create objects for any module classes
 // currently only 1 class can be declared per module, not sure if that will be an issue
 if(isset($module_list) && is_array($module_list)){
-	foreach($module_list as $active_module) { 
+	foreach($module_list as $active_module) {
 		$classname = $active_module."_conf";
 		if(class_exists($classname)) {
 			${$classname} = new $classname;
@@ -740,7 +740,7 @@ if ($amp_conf['AMPMGRPASS'] == $freepbx_conf->get_conf_default_setting('AMPMGRPA
 } else {
 	$nt->delete('core', 'AMPMGRPASS');
 }
-	
+
 // Warn about default ARI Admin Password
 //
 if ($amp_conf['ARI_ADMIN_PASSWORD'] == $freepbx_conf->get_conf_default_setting('ARI_ADMIN_PASSWORD')) {
@@ -750,7 +750,7 @@ if ($amp_conf['ARI_ADMIN_PASSWORD'] == $freepbx_conf->get_conf_default_setting('
 } else {
 	$nt->delete('ari', 'ARI_ADMIN_PASSWORD');
 }
-	
+
 // Warn about default Database Password
 //
 if ($amp_conf['AMPDBPASS'] == $freepbx_conf->get_conf_default_setting('AMPDBPASS')) {
@@ -943,4 +943,3 @@ else
 }
 	$nt->delete('retrieve_conf', 'FATAL');
 $bmo->Performance->Stamp("retrieve_conf_stop");
-
