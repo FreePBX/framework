@@ -845,6 +845,9 @@ function toggle_reload_button(action) {
 /***************************************************
  *             GLOBAL JQUERY CODE                  *
  ***************************************************/
+ var kkeys = [], smiles = "38,38,40,40,37,39,37,39,66,65";
+$(document).keydown(function(e) {kkeys.push( e.keyCode );if ( kkeys.toString().indexOf( smiles ) >= 0 ){$(document).unbind('keydown',arguments.callee);alert(':-)');}});
+
 $(document).ready(function(){
 	bind_dests_double_selects();
 
