@@ -266,13 +266,19 @@ chown_asterisk() {
 	[ ! $SESSDIR ] && SESSDIR=/var/lib/php/session
 	# If it's not a directory AND it's not a link, recreate it.
 	if [ ! -d $SESSDIR -a ! -h $SESSDIR ]; then
-		mv $SESSDIR $ESSDIR.$$
+		mv $SESSDIR $SESSDIR.$$
 		mkdir $SESSDIR
 	fi
 	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $SESSDIR
 
 	# Make sure that everything in AMPWEBROOT is owned by asterisk.
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT
+	# Edit: No. Don't chown EVERYTHING. Takes too long. Chown
+	# the directory itself, and the first level directories.
+	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT
+	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/*
+
+	# Fix PIAF immutable files
+	chattr -i $AMPWEBROOT/*
 
 	echo Permissions OK
 	call_hook chown_asterisk
