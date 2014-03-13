@@ -232,8 +232,8 @@ function recursive_readlink($source){
 	$ldir = null;
 
 	while (!in_array($dir,array('.','..','','/')) && strpos('.git',$dir) == false) {
-		if ($dir == $ldir) { 
-			break; 
+		if ($dir == $ldir) {
+			break;
 		}
 		if (is_link($dir)) {
 			$ldir = readlink($dir);
@@ -359,7 +359,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 				// being symlinked and then developers inadvertently checking in the changes when they should not have.
 				//
 				$never_symlink = array("cdr_mysql.conf", "manager.conf", "vm_email.inc", "modules.conf");
-				
+
 				$num_files++;
 				if ($overwrite) {
 					debug(($make_links ? "link" : "copy")." ".$source." -> ".$destination);
@@ -369,7 +369,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 							if (is_link($destination) || file_exists($destination)) {
 								unlink($destination);
 							}
-					
+
 							$links = recursive_readlink($source);
 							if (!empty($links)) {
 								@symlink(substitute_readlinks($source,$links), $destination);
@@ -1055,7 +1055,7 @@ function freepbx_settings_init($commit_to_db = false) {
   for ($i=0;$i<=120;$i++) {
       $opts[]=$i;
   }
-  $set['value'] = '0';
+  $set['value'] = '3';
   $set['options'] = $opts;
   $set['name'] = 'Extension Concurrency Limit';
   $set['description'] = 'Default maximum number of outbound simultaneous calls that an extension can make. This is also very useful as a Security Protection against a system that has been compromised. It will limit the number of simultaneous calls that can be made on the compromised extension. This default is used when an extension is created. A default of 0 means no limit.';
