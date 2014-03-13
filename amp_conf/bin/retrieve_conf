@@ -21,7 +21,8 @@ class connectdirs {
 
 	var $cp_errors = '';
 	var $symlink_error_modules = '';
-		
+	var $symlink_notice_modules = '';
+
 	function &create() {
 		static $obj;
 		if (!isset($obj)) {
@@ -35,11 +36,11 @@ class connectdirs {
     global $db;
     $this->symlink_dirs['bin']    		= $amp_conf['AMPBIN'];
     $this->symlink_dirs['etc']    		= $amp_conf['ASTETCDIR'];
-    $this->symlink_dirs['images'] 		= $amp_conf['AMPWEBROOT'] . "/admin/images"; 
-    $this->symlink_dirs['ari/modules']	= $amp_conf['AMPWEBROOT'] . "/recordings/modules"; 
-    $this->symlink_dirs['ari/theme'] 	= $amp_conf['AMPWEBROOT'] . "/recordings/theme"; 
-    $this->symlink_dirs['ari/js']		= $amp_conf['AMPWEBROOT'] . "/recordings/theme/js"; 
-    $this->symlink_dirs['ari/images']	= $amp_conf['AMPWEBROOT'] . "/recordings/theme/images"; 
+    $this->symlink_dirs['images'] 		= $amp_conf['AMPWEBROOT'] . "/admin/images";
+    $this->symlink_dirs['ari/modules']	= $amp_conf['AMPWEBROOT'] . "/recordings/modules";
+    $this->symlink_dirs['ari/theme'] 	= $amp_conf['AMPWEBROOT'] . "/recordings/theme";
+    $this->symlink_dirs['ari/js']		= $amp_conf['AMPWEBROOT'] . "/recordings/theme/js";
+    $this->symlink_dirs['ari/images']	= $amp_conf['AMPWEBROOT'] . "/recordings/theme/images";
 
     $this->symlink_sound_dirs['sounds'] 		= $amp_conf['ASTVARLIBDIR'] . '/sounds';
 
@@ -129,22 +130,33 @@ class connectdirs {
   }
 
   function do_symlink($src, $dest, $subdir, $moduledir) {
+	global $amp_conf;
     if (file_exists_wrapper($dest)) {
       if ((!is_link($dest) || readlink($dest) != $src) && (md5_file($src) == md5_file($dest))) {
         // dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
       } else if (!is_link($dest)) {
-        freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is not a symlink!');
-        $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir." (Already exists, not a link)";
+		//If the symlink error is coming from the etc directory then we move those files to backup
+		if(preg_match('/^'.str_replace("/","\/",$amp_conf['ASTETCDIR']).'/',$dest) && is_writable($dest)) {
+			if(!file_exists($amp_conf['ASTETCDIR'].'/backup')) {
+				mkdir($amp_conf['ASTETCDIR'].'/backup');
+			}
+			$f = $amp_conf['ASTETCDIR'].'/backup/'.basename($dest).".bk.".time();
+			rename($dest,$f);
+			if (!symlink($src, $dest)) {
+				freepbx_log(FPBX_LOG_ERROR, 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
+			} else {
+				$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
+			}
+		} else {
+        	freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is not a symlink!');
+        	$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir." (Already exists, not a link)";
+		}
       } else if (readlink($dest) != $src) {
-        // TODO : is this the proper handling? should we just overwrite..?
+		//users need to be aware of symlink conflicts. We should attempt to resolve them properly though. So lets do that.
         freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is linked to something else!');
         $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir." (Already exists, linked to something else)";
       }
     } else {
-//    // symlink, unlike copy, doesn't overwrite - have to delete first
-//    if (is_link($dest) || file_exists($dest)) {
-//      unlink($dest);
-//    }
       if (!symlink($src, $dest)) {
         freepbx_log(FPBX_LOG_ERROR, 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
       }
@@ -152,11 +164,15 @@ class connectdirs {
   }
 
   function symlink_check_errors() {
+	global $amp_conf;
     if ($this->symlink_error_modules) {
-      $this->nt->add_error('retrieve_conf', 'SYMLINK', _("Symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link: %s<br \>This can result in FATAL failures to your PBX. If the target file exists and not identical, the symlink will not occur and you should rename the target file to allow the automatic sym link to occur and remove this error, unless this is an intentional customization."),$this->symlink_error_modules));
-	  } else {
-      $this->nt->delete('retrieve_conf', 'SYMLINK');
-	  }
+		$this->nt->add_error('retrieve_conf', 'SYMLINK', _("Symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link: %s<br \>This can result in FATAL failures to your PBX. If the target file exists and not identical, the symlink will not occur and you should rename the target file to allow the automatic sym link to occur and remove this error, unless this is an intentional customization."),$this->symlink_error_modules));
+	} else {
+		$this->nt->delete('retrieve_conf', 'SYMLINK');
+	}
+	if($this->symlink_notice_modules) {
+		$this->nt->add_notice('retrieve_conf', 'SYMLINKNOTICE', _("Symlink Conflict Resolved"),sprintf(_("retrieve_conf resolved a symlink with %s<br \>This is a notice to let you know that the original file was moved to %s, there is nothing more you need to do"),$this->symlink_notice_modules,$amp_conf['ASTETCDIR'].'/backup'));
+	}
   }
 
   function cp_subdirs($moduledir) {
@@ -167,7 +183,7 @@ class connectdirs {
 				  $sourcefile = $file;
 				  $filesubdir=str_replace($dir.'/', '', $file);
 				  $targetfile = addslash($targetdir).$filesubdir;
-	
+
 				  if (file_exists_wrapper($targetfile)) {
 					  if (is_link($targetfile)) {
               if (!$this->err_unlink($targetfile)) {
@@ -335,7 +351,7 @@ if ($current_memory_limit < $proper_memory_limit) {
 }
 
 
-//Putting the core module last, to move outbound-allroutes 
+//Putting the core module last, to move outbound-allroutes
 // last in from-internals-additional
 if (array_key_exists('core', $active_modules)) {
         $core_tmp = $active_modules['core'];
@@ -399,7 +415,7 @@ if ($amp_conf['DISABLECUSTOMCONTEXTS']) {
 // create objects for any module classes
 // currently only 1 class can be declared per module, not sure if that will be an issue
 if(isset($module_list) && is_array($module_list)){
-	foreach($module_list as $active_module) { 
+	foreach($module_list as $active_module) {
 		$classname = $active_module."_conf";
 		if(class_exists($classname)) {
 			${$classname} = new $classname;
@@ -661,9 +677,9 @@ framework_set_extmap();
 // run all of the *_get_config and _hookGet_config functions, which will populate the appropriate objects
 if(isset($active_modules) && is_array($active_modules)){
 	foreach($active_modules as $module => $mod_data) {
-		
+
 		$prioritymethods = array();
-		
+
 		//dbug($module, $mod_data);
 		//get dynamic functions
 		if (isset($mod_data['methods'], $mod_data['methods']['get_config'])){
@@ -686,23 +702,23 @@ if(isset($active_modules) && is_array($active_modules)){
 		$hookgetconf = $module."_hookGet_config";
 		//Check to ensure we aren't trying to add a duplicate get_config method
 		//	that's been added at a different priority
-		if (function_exists($getconf) && !in_array($getconf, $prioritymethods)) { 
+		if (function_exists($getconf) && !in_array($getconf, $prioritymethods)) {
 			$funclist[100][] = $getconf;
 		}
-		if (function_exists($hookgetconf)) { 
+		if (function_exists($hookgetconf)) {
 			$funclist[600][] = $hookgetconf;
 		}
 
 	}
-	
+
 	//sort the list based in priority
 	ksort($funclist);
 
 	//flatten the aray - will respect priority
 	$functions = array();
-	array_walk_recursive($funclist, 
+	array_walk_recursive($funclist,
 		create_function('$a', 'global $functions; $functions[] = $a;'));
-	
+
 	//run functions if they exists
 	foreach ($functions as $function) {
 		if (function_exists($function)) {
@@ -723,19 +739,19 @@ write_file($ext->get_filename(),$ext->generateConf());
 // check for any objects for each of the active modules
 // ** conferences is an example of a module that write a conf
 if(isset($module_list) && is_array($module_list)){
-	foreach($module_list as $active_module) { 
+	foreach($module_list as $active_module) {
 		$classname = $active_module."_conf";
 		if(class_exists($classname) && get_class(${$classname}) !== false) {
 			//echo ${$classname}->get_filename();
 			//echo ${$classname}->generateConf();
-			
+
 			// if the module returns an array, it wants to write multiple files
 			// ** pinsets is an example of a module that does this
 			if (is_array(${$classname}->get_filename())) {
 				foreach(${$classname}->get_filename() as $modconf) {
 					if (isset(${$classname}->use_warning_banner)) {
-						write_file($modconf, 
-									${$classname}->generateConf($modconf), 
+						write_file($modconf,
+									${$classname}->generateConf($modconf),
 									${$classname}->use_warning_banner);
 					} else {
 						write_file($modconf,${$classname}->generateConf($modconf));
@@ -776,7 +792,7 @@ if ($amp_conf['AMPMGRPASS'] == $freepbx_conf->get_conf_default_setting('AMPMGRPA
 } else {
 	$nt->delete('core', 'AMPMGRPASS');
 }
-	
+
 // Warn about default ARI Admin Password
 //
 if ($amp_conf['ARI_ADMIN_PASSWORD'] == $freepbx_conf->get_conf_default_setting('ARI_ADMIN_PASSWORD')) {
@@ -786,7 +802,7 @@ if ($amp_conf['ARI_ADMIN_PASSWORD'] == $freepbx_conf->get_conf_default_setting('
 } else {
 	$nt->delete('ari', 'ARI_ADMIN_PASSWORD');
 }
-	
+
 // Warn about default Database Password
 //
 if ($amp_conf['AMPDBPASS'] == $freepbx_conf->get_conf_default_setting('AMPDBPASS')) {
