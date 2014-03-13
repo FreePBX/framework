@@ -88,7 +88,7 @@ out("  --uninstall              Completely Uninstall FreePBX",false);
 function install_parse_amportal_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
-		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/",$line,$matches)) {
 
 			// TODO: force booleans into 0/1 this should be ok given the limited number of configuration values
 			//
@@ -186,10 +186,10 @@ function ask_overwrite($file1, $file2) {
 		outn("Overwrite (y=yes/a=all/n=no/d=diff/s=shell/x=exit)? ");
 		$key = fgets(STDIN,1024);
 		switch (strtolower($key[0])) {
-			case "y": return true; 
+			case "y": return true;
 			case "a": $check_md5s=false; return true;
 			case "n": return false;
-			case "d": 
+			case "d":
 				out("");
 				// w = ignore whitespace, u = unified
 				passthru("diff -wu ".escapeshellarg($file2)." ".escapeshellarg($file1));
@@ -219,7 +219,7 @@ function ask_overwrite($file1, $file2) {
 				}
 
 			break;
-			case "x": 
+			case "x":
 				out("-> Original file:  ".$file2);
 				out("-> New file:       ".$file1);
 				out("Exiting install program.");
@@ -545,9 +545,9 @@ function set_module_version($module) {
 	// an existing install that has a newer version.
 	//
 	$sql = "SELECT version FROM modules WHERE modulename = '$module'";
-	$result = $db->getCol($sql); 
-	if(DB::IsError($result)) {     
-		fatal("error accessing version table: ".$result->getMessage()); 
+	$result = $db->getCol($sql);
+	if(DB::IsError($result)) {
+		fatal("error accessing version table: ".$result->getMessage());
 	}
 	$sql = "";
 	if (count($result) == 0) {
@@ -567,9 +567,9 @@ function set_module_version($module) {
 	}
 	if ($sql) {
 		debug($sql);
-		$result = $db->query($sql); 
-		if(DB::IsError($result)) {     
-			fatal("error writing to version table: ".$result->getMessage()); 
+		$result = $db->query($sql);
+		if(DB::IsError($result)) {
+			fatal("error writing to version table: ".$result->getMessage());
 		}
 		return "updated to $version";
 	} else {
@@ -684,8 +684,8 @@ $uninstallamp = false;
 $installdb = false;
 
 //initialize variables to avoid php notices
-$dbhost = null; 
-$dbname = 'asterisk'; 
+$dbhost = null;
+$dbname = 'asterisk';
 $new_username = null;
 $new_password = null;
 
@@ -801,11 +801,11 @@ foreach ($args[0] as $arg) {
 			out("Unattended installation. No questions will be asked");
 		break;
 		case "--freepbxip":
-			$freepbxip = $arg[1]; 
+			$freepbxip = $arg[1];
 			out("Setting IP address of web interface to $freepbxip");
 		break;
 		case "--asteriskip":
-			$asteriskip = $arg[1]; 
+			$asteriskip = $arg[1];
 			out("Setting IP address of asterisk to $asteriskip");
 		break;
 		case "--cleaninstall":
@@ -825,61 +825,61 @@ if($installamp_clean || $uninstallamp) {
 	global $asterisk_user;
 	global $asterisk_pass;
 
-	$oldampconf = array();
-	if(file_exists('/etc/amportal.conf')) {
-		$amportalconf = file_get_contents('/etc/amportal.conf');
-		if(preg_match('/AMPWEBROOT=(.*)/',$amportalconf,$matches)) {
-			$oldampconf['AMPWEBROOT'] = $matches[1];
-		}
-		if(preg_match('/AMPDBENGINE=(.*)/',$amportalconf,$matches)) {
-			$oldampconf['AMPDBENGINE'] = $matches[1];
-		}
-		if(preg_match('/AMPDBUSER=(.*)/',$amportalconf,$matches)) {
-			$oldampconf['AMPDBUSER'] = $matches[1];
-		}
-		if(preg_match('/AMPDBPASS=(.*)/',$amportalconf,$matches)) {
-			$oldampconf['AMPDBPASS'] = $matches[1];
-		}
-		if(preg_match('/AMPDBNAME=(.*)/',$amportalconf,$matches)) {
-			$oldampconf['AMPDBNAME'] = $matches[1];
-		}
-		if(preg_match('/AMPDBHOST=(.*)/',$amportalconf,$matches)) {
-			$oldampconf['AMPDBHOST'] = $matches[1];
-		}
-		if(preg_match('/AMPBIN=(.*)/',$amportalconf,$matches)) {
-			$oldampconf['AMPBIN'] = $matches[1];
-		}
-		outn("Remove /etc/amportal.conf?:\n [y] ");
-		$key = trim(fgets(STDIN,1024));
-		switch($key) {
-			case "n":
-			case "no":
-			break;
-			case "y":
-			case "yes":
-			default:
-				outn("Removing /etc/amportal.conf.....");
-				unlink('/etc/amportal.conf');
-				out("Done!");
-			break;   
-		}
+    $oldampconf = array();
+    if(file_exists('/etc/amportal.conf')) {
+        $amportalconf = file_get_contents('/etc/amportal.conf');
+        if(preg_match('/AMPWEBROOT=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPWEBROOT'] = $matches[1];
+        }
+        if(preg_match('/AMPDBENGINE=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPDBENGINE'] = $matches[1];
+        }
+        if(preg_match('/AMPDBUSER=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPDBUSER'] = $matches[1];
+        }
+        if(preg_match('/AMPDBPASS=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPDBPASS'] = $matches[1];
+        }
+        if(preg_match('/AMPDBNAME=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPDBNAME'] = $matches[1];
+        }
+        if(preg_match('/AMPDBHOST=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPDBHOST'] = $matches[1];
+        }
+        if(preg_match('/AMPBIN=(.*)/',$amportalconf,$matches)) {
+            $oldampconf['AMPBIN'] = $matches[1];
+        }
+        outn("Remove /etc/amportal.conf?:\n [y] ");
+        $key = trim(fgets(STDIN,1024));
+    	switch($key) {
+    	    case "n":
+    	    case "no":
+    	    break;
+    	    case "y":
+    	    case "yes":
+    	    default:
+    	        outn("Removing /etc/amportal.conf.....");
+                unlink('/etc/amportal.conf');
+                out("Done!");
+    	    break;
+    	}
 	}
 
 	if(file_exists('/etc/freepbx.conf')) {
-		outn("Remove /etc/freepbx.conf?:\n [y] ");
-		$key = trim(fgets(STDIN,1024));
-		switch($key) {
-			case "n":
-			case "no":
-			break;
-			case "y":
-			case "yes":
-			default:
-				outn("Removing /etc/freepbx.conf.....");
-				unlink('/etc/freepbx.conf');
-				out("Done!");
-			break;   
-		}
+        outn("Remove /etc/freepbx.conf?:\n [y] ");
+        $key = trim(fgets(STDIN,1024));
+    	switch($key) {
+    	    case "n":
+    	    case "no":
+    	    break;
+    	    case "y":
+    	    case "yes":
+    	    default:
+    	        outn("Removing /etc/freepbx.conf.....");
+                unlink('/etc/freepbx.conf');
+                out("Done!");
+    	    break;
+    	}
 	}
 
 	if(file_exists('/usr/local/sbin/amportal')) {
@@ -900,49 +900,49 @@ if($installamp_clean || $uninstallamp) {
 	}
 
 	if(!empty($oldampconf['AMPBIN']) && file_exists($oldampconf['AMPBIN'])) {
-		outn("Remove All FreePBX Tools in ".$oldampconf['AMPBIN']."?:\n [y] ");
-		$key = trim(fgets(STDIN,1024));
-		$files = array("archive_recordings","freepbx_engine", "gen_amp_conf.php", "libfreepbx.confgen.php", "retrieve_conf", "freepbx-cron-scheduler.php", "freepbx_setting", "generate_hints.php", "module_admin", "retrieve_parse_amportal_conf.pl");
-		foreach (glob($oldampconf['AMPBIN']."/*") as $filename) {
-			if(is_link($filename)) {
-				if(preg_match('/'.preg_quote($oldampconf['AMPWEBROOT'],'/').'/i',readlink($filename))) {
-					$files[] = basename($filename);
-				}
-			}
-		}
-		switch($key) {
-			case "n":
-			case "no":
-			break;
-			case "y":
-			case "yes":
-			default:
-				foreach($files as $file) {
-					if(file_exists($oldampconf['AMPBIN'].'/'.$file)) {
-						outn("Removing ".$oldampconf['AMPBIN']."/".$file.".....");
-						unlink($oldampconf['AMPBIN'].'/'.$file);
-						out("Done!");
-					}
-				}
-			break;   
-		}
+        outn("Remove All FreePBX Tools in ".$oldampconf['AMPBIN']."?:\n [y] ");
+        $key = trim(fgets(STDIN,1024));
+        $files = array("archive_recordings","freepbx_engine", "gen_amp_conf.php", "libfreepbx.confgen.php", "retrieve_conf", "freepbx-cron-scheduler.php", "freepbx_setting", "generate_hints.php", "module_admin", "retrieve_parse_amportal_conf.pl");
+        foreach (glob($oldampconf['AMPBIN']."/*") as $filename) {
+            if(is_link($filename)) {
+                if(preg_match('/'.preg_quote($oldampconf['AMPWEBROOT'],'/').'/i',readlink($filename))) {
+                    $files[] = basename($filename);
+                }
+            }
+        }
+        switch($key) {
+    	    case "n":
+    	    case "no":
+    	    break;
+    	    case "y":
+    	    case "yes":
+    	    default:
+    	        foreach($files as $file) {
+    	            if(file_exists($oldampconf['AMPBIN'].'/'.$file)) {
+        	            outn("Removing ".$oldampconf['AMPBIN']."/".$file.".....");
+                        unlink($oldampconf['AMPBIN'].'/'.$file);
+                        out("Done!");
+                    }
+    	        }
+    	    break;
+    	}
 	}
 
 	if(!empty($oldampconf) && isset($oldampconf['AMPWEBROOT']) && file_exists($oldampconf['AMPWEBROOT'])) {
-		outn("Remove ".$oldampconf['AMPWEBROOT']."?:\n [y] ");
-		$key = trim(fgets(STDIN,1024));
-		switch($key) {
-			case "n":
-			case "no":
-			break;
-			case "y":
-			case "yes":
-			default:
-				outn("Removing ".$oldampconf['AMPWEBROOT']."......");
-				exec('rm -Rf '.$oldampconf['AMPWEBROOT']);
-				out("Done!");
-			break;   
-		}
+        outn("Remove ".$oldampconf['AMPWEBROOT']."?:\n [y] ");
+        $key = trim(fgets(STDIN,1024));
+    	switch($key) {
+    	    case "n":
+    	    case "no":
+    	    break;
+    	    case "y":
+    	    case "yes":
+    	    default:
+    	        outn("Removing ".$oldampconf['AMPWEBROOT']."......");
+                exec('rm -Rf '.$oldampconf['AMPWEBROOT']);
+                out("Done!");
+    	    break;
+    	}
 	}
 	
 	if(!$uninstallamp && !empty($oldampconf) && $oldampconf['AMPDBENGINE'] == 'mysql') {
@@ -1111,9 +1111,9 @@ if (!file_exists(AMP_CONF)) {
 
 	// this file contains password and should not be a+r
 	// this addresses http://freepbx.org/trac/ticket/1878
-	chown(AMP_CONF, $runas_uid); 
-	chgrp(AMP_CONF, $runas_gid); 
-	chmod(AMP_CONF, 0640); 
+	chown(AMP_CONF, $runas_uid);
+	chgrp(AMP_CONF, $runas_gid);
+	chmod(AMP_CONF, 0640);
 
 	collect_settings(AMP_CONF, $dbhost, $new_username, $new_password, $dbname);
 
@@ -1270,7 +1270,7 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) || (p
 	out("{$matches[1]}");
 	$asterisk_version = $matches[1];
 
-} elseif (preg_match('/^Asterisk ([ABC]\.\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) { 
+} elseif (preg_match('/^Asterisk ([ABC]\.\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) {
 	if (substr($matches[1], 0, 1) == "A") {
 		fatal("Asterisk Business Edition B or C is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
@@ -1294,11 +1294,11 @@ outn("Checking for selinux..");
 $tmpoutput = array();
 $tmpout = exec("getenforce 2>/dev/null", $tmpoutput, $sereturn);
 if (isset($tmpoutput[0]) && strtolower($tmpoutput[0]) === "enabled") {
-	// this method seems better because disabled and permissive are the same
-	// if a user installs and realizes selinux is running the other method 
-	// requires a reboot to get selinuxenabled to work after editing the  selinux config
-	// this will allow you to use setenforce 0 which turns selinux into permissive mode which
-	// doesnt enforce, it just warns.
+        // this method seems better because disabled and permissive are the same
+        // if a user installs and realizes selinux is running the other method
+        // requires a reboot to get selinuxenabled to work after editing the  selinux config
+        // this will allow you to use setenforce 0 which turns selinux into permissive mode which
+        // doesnt enforce, it just warns.
 	fatal("selinux is ENABLED. This is not supported. Please disable selinux before using FreePBX");
 }
 out("OK");
@@ -1317,7 +1317,7 @@ if ($db_engine != "sqlite3") {
 }
 $db_name = $amp_conf["AMPDBNAME"];
 
-// we still support older configurations,  and fall back 
+// we still support older configurations,  and fall back
 // into mysql when no other engine is defined
 if ($db_engine == "") {
 	$db_engine = "mysql";
@@ -1326,7 +1326,7 @@ if ($db_engine == "") {
 switch ($db_engine) {
 	case "pgsql":
 	case "mysql":
-		// datasource in in this style: dbengine://username:password@host/database 
+		// datasource in in this style: dbengine://username:password@host/database
 		if (!function_exists($db_engine.'_connect')) {
 			out("FAILED");
 			fatal($db_engine." PHP libraries not installed");
@@ -1334,11 +1334,11 @@ switch ($db_engine) {
 
 		$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
 		$db = DB::connect($datasource); // attempt connection
-	break;
+		break;
 
 	case "sqlite":
 		die_freepbx("SQLite2 support is deprecated. Please use sqlite3 only.");
-	break;
+		break;
 
 	case "sqlite3":
 		if (!isset($amp_conf["AMPDBFILE"])) {
@@ -1422,8 +1422,8 @@ if (!isset($version)) {
 // is probably quite low) then something is wrong so assume it
 // is not there.
 //
-$sql = "SELECT count(*) FROM freepbx_settings"; 
-$num_settings = $db->getOne($sql); 
+$sql = "SELECT count(*) FROM freepbx_settings";
+$num_settings = $db->getOne($sql);
 $force_amportal_conf = DB::IsError($num_settings) || $num_settings < 5;
 
 // **** Copy files
@@ -1527,7 +1527,7 @@ if (!$dryrun) {
 	// edit conf file passwords and then
 	// reload manager in asterisk if it is running:
 	//
-	if (file_exists(dirname(__FILE__)."/apply_conf.sh")) { 
+	if (file_exists(dirname(__FILE__)."/apply_conf.sh")) {
 		out("apply username/password changes to conf files:");
 		debug("Running ".dirname(__FILE__)."/apply_conf.sh");
 		$apply_conf_out = array();
@@ -1713,6 +1713,10 @@ if ($amp_conf["AMPWEBADDRESS"]) {
 } else {
 	out("Please update your modules and reload Asterisk by browsing to your server.",false);
 }
+
+include($amp_conf["AMPWEBROOT"].'/admin/libraries/cronmanager.class.php');
+$cm =& cronmanager::create($db);
+$online_updates = $cm->updates_enabled();
 
 out("",false);
 out("*************************************************************************",false);
