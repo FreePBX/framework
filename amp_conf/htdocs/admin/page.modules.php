@@ -14,16 +14,14 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 
 // Handle the ajax post back of an update online updates email array and status
 //
-if ($quietmode && !empty($_REQUEST['online_updates'])) {
+if ($quietmode && !empty($_REQUEST['update_email'])) {
 
-	$online_updates = $_REQUEST['online_updates'];
 	$update_email   = $_REQUEST['update_email'];
 	$ci = new CI_Email();
 	if (!$ci->valid_email($update_email) && $update_email) {
 		$json_array['status'] = _("Invalid email address") . ' : ' . $update_email;
 	} else {
 		$cm =& cronmanager::create($db);
-		$online_updates == 'yes' ?  $cm->enable_updates() : $cm->disable_updates();
 		$cm->save_email($update_email);
 		$json_array['status'] = true;
 	}
@@ -116,13 +114,8 @@ if (!$quietmode) {
 							alert(fpbx.msg.framework.bademail + ' : ' + $('#update_email').focus().val());
 							$('#update_email').focus();
 						} else {
-							online_updates = $('[name="online_updates"]:checked').val();
 							update_email = $('#update_email').val();
-							if (online_updates != 'yes') {
-								if (!confirm(fpbx.msg.framework.noupdates)) {
-									return false;
-								}
-							} else if (isEmpty(update_email)) {
+							if (isEmpty(update_email)) {
 								if (!confirm(fpbx.msg.framework.noupemail)) {
 									return false;
 								}
@@ -130,8 +123,7 @@ if (!$quietmode) {
     					$.ajax({
       					type: 'POST',
       					url: "<?php echo $_SERVER["PHP_SELF"]; ?>",
-      					//data: "quietmode=1&skip_astman=1&display=modules&update_email=" + $('#update_email').val() + "&online_updates=" + $('[name="online_updates"]:checked').val(),
-      					data: "quietmode=1&skip_astman=1&display=modules&update_email=" + update_email + "&online_updates=" + online_updates,
+      					data: "quietmode=1&skip_astman=1&display=modules&update_email=" + update_email,
       					dataType: 'json',
       					success: function(data) {
 									if (data.status == true) {
