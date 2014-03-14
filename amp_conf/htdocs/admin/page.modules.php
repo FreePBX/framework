@@ -14,7 +14,7 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 
 // Handle the ajax post back of an update online updates email array and status
 //
-if ($quietmode && !empty($_REQUEST['update_email'])) {
+if ($quietmode && isset($_REQUEST['update_email'])) {
 
 	$update_email   = $_REQUEST['update_email'];
 	$ci = new CI_Email();
