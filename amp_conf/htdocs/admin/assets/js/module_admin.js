@@ -4,7 +4,7 @@ $(document).ready(function(){
 	$('.repo_boxes').find('input[type=checkbox]').click(function() {
 		var id = $(this).attr('id');
 		var selected = $(this).prop('checked') ? 1 : 0;
-		
+
 		$.ajax({
 			type: 'POST',
 			url: "config.php",
@@ -38,7 +38,6 @@ $(document).ready(function(){
 						alert(fpbx.msg.framework.bademail + ' : ' + $('#update_email').focus().val());
 						$('#update_email').focus();
 					} else {
-						online_updates = $('[name="online_updates"]:checked').val();
 						update_email = $('#update_email').val();
 						if (isEmpty(update_email)) {
 							if (!confirm(fpbx.msg.framework.noupemail)) {
@@ -48,7 +47,7 @@ $(document).ready(function(){
 					$.ajax({
 	  					type: 'POST',
 	  					url: "config.php",
-						data: {quietmode: 1, skip_astman: 1, display: "modules", update_email: update_email, online_updates: online_updates},
+						data: {quietmode: 1, skip_astman: 1, display: "modules", update_email: update_email},
 	  					dataType: 'json',
 	  					success: function(data) {
 									if (data.status == true) {
@@ -81,7 +80,7 @@ $(document).ready(function(){
 	$('.modulevul_tag').click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		$.each($(this).data('sec'), function(index, value) { 
+		$.each($(this).data('sec'), function(index, value) {
 			$('#security-' + value).dialog({
 				title: fpbx.msg.framework.securityissue + ' ' + value,
 				resizable: false,
@@ -106,22 +105,22 @@ $(document).ready(function(){
 		var previous_track = modules[module].track;
 		var si = (track == 'stable') ? modules[module] : modules[module].releasetracks[track];
 		var pi = (previous_track == 'stable') ? modules[module] : modules[module].releasetracks[previous_track];
-		
+
 		$('#fullmodule_'+module+' .moduletrack').html(track.capitalize());
-		
+
 		var label = $('#fullmodule_'+module+' .modulestatus').children().text().replace(pi.version,si.version);
 		$('#fullmodule_'+module+' .modulestatus').children().text(label);
-		
+
 		$('#fullmodule_'+module+' .modulefunctionradios input[type=radio]').each(function( index ) {
 			var label = $(this).button('option','label').replace(pi.version,si.version);
 			$(this).button('option', 'label', label);
 		})
-		
+
 		$('#changelog_'+module+' span').html(si.changelog);
 		//I dont like this much please improve...someone
 		var cl = $('#changelog_'+module+' h5').html().replace(pi.version,si.version);
 		$('#changelog_'+module+' h5').html(cl);
-		
+
 		modules[module].track = track;
 	});
 	$('#local-type').change(function(e) {
@@ -220,7 +219,7 @@ function process_module_actions(modules) {
 	if(!jQuery.isEmptyObject(modules)) {
 		urlStr = "config.php?display=modules&skip_astman=1&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
 	}
-	
+
 	box = $('<div id="moduledialogwrapper"></div>')
 			.dialog({
 				title: 'Status',
