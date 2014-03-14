@@ -57,36 +57,52 @@ class cronmanager {
 			          freq = '$freq',
 							  command = '$command'
 						  WHERE
-						    module = 'module_admin' AND id = 'UPDATES'	
+						    module = 'module_admin' AND id = 'UPDATES'
 			       ";
 		} else {
-			$sql = "INSERT INTO cronmanager 
+			$sql = "INSERT INTO cronmanager
 		        	(module, id, time, freq, lasttime, command)
 							VALUES
 							('module_admin', 'UPDATES', '$run_time', $freq, 0, '$command')
 						";
 		}
 		sql($sql);
+		$nt =& notifications::create($db);
+		$nt->delete('core', 'UPDATES_OFF');
+
+		$freepbx_conf =& freepbx_conf::create();
+		//Make sure we don't set the value again because we dont need to do that
+		//also to prevent against loops
+		if(!$freepbx_conf->get_conf_setting('CRONMAN_UPDATES_CHECK')) {
+			$freepbx_conf->set_conf_values(array('CRONMAN_UPDATES_CHECK' => true),true,true);
+		}
 	}
 
 	function disable_updates() {
-    global $db;
+		global $db;
 		sql("DELETE FROM cronmanager WHERE module = 'module_admin' AND id = 'UPDATES'");
 
-    $nt =& notifications::create($db);
-    $text = _("Online Updates are Disabled");
-    $extext = _("Online updates are disabled in Module Admin. When disabled, you will not be notified of bug fixes and Security issues without manually checking for updates online. You are advised to enable the update checking. Updates are never downloaded automatically, they are only checked and reported in the notification panel and log if enabled.");
-    $nt->add_notice('core', 'UPDATES_OFF', $text, $extext, '', true, true);
+		$nt =& notifications::create($db);
+		$text = _("Online Updates are Disabled");
+		$extext = _("Online updates are disabled in Advanced Settings. When disabled, you will not be notified of bug fixes and Security issues without manually checking for updates online. You are advised to enable the update checking. Updates are never downloaded automatically, they are only checked and reported in the notification panel and log if enabled.");
+		$nt->add_notice('core', 'UPDATES_OFF', $text, $extext, '', true, true);
+
+		$freepbx_conf =& freepbx_conf::create();
+		//Make sure we don't set the value again because we dont need to do that
+		//also to prevent against loops
+		if($freepbx_conf->get_conf_setting('CRONMAN_UPDATES_CHECK')) {
+			$freepbx_conf->set_conf_values(array('CRONMAN_UPDATES_CHECK' => false),true,true);
+		}
 	}
 
 	function updates_enabled() {
-		$results = sql("SELECT module, id FROM cronmanager WHERE module = 'module_admin' AND id = 'UPDATES'",'getAll');
-		return count($results);
+		global $amp_conf;
+		return !empty($amp_conf['CRONMAN_UPDATES_CHECK']) ? true : false;
 	}
 
 	/** run_jobs()
 	 *  select all entries that need to be run now and run them, then update the times.
-	 *  
+	 *
 	 *  1. select all entries
 	 *  2. foreach entry, if its paramters indicate it should be run, then run it and
 	 *     update it was run in the time stamp.
@@ -99,7 +115,7 @@ class cronmanager {
 		$now = time();
 		$jobs = sql("SELECT * FROM cronmanager","getAll", DB_FETCHMODE_ASSOC);
 		foreach ($jobs as $job) {
-			$nexttime = $job['lasttime'] + $job['freq']*3600; 
+			$nexttime = $job['lasttime'] + $job['freq']*3600;
 			if ($nexttime <= $now) {
 				if ($job['time'] >= 0 && $job['time'] < 24) {
 					$date_arr = getdate($now);
@@ -109,7 +125,7 @@ class cronmanager {
 					if (($date_arr['hours'] != $job['time']) && !$job['lasttime']) {
 						continue;
 					}
-				} 
+				}
 			} else {
 				// no need to run job, time is not up yet
 				continue;
