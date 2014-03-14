@@ -16,15 +16,13 @@ $modulef =& module_functions::create();
 
 // Handle the ajax post back of an update online updates email array and status
 //
-if ($quietmode && !empty($_REQUEST['online_updates'])) {
-	$online_updates = $_REQUEST['online_updates'];
+if ($quietmode && !empty($_REQUEST['update_email'])) {
 	$update_email   = $_REQUEST['update_email'];
 	$ci = new CI_Email();
 	if (!$ci->valid_email($update_email) && $update_email) {
 		$json_array['status'] = _("Invalid email address") . ' : ' . $update_email;
 	} else {
 		$cm =& cronmanager::create($db);
-		$online_updates == 'yes' ?  $cm->enable_updates() : $cm->disable_updates();
 		$cm->save_email($update_email);
 		$json_array['status'] = true;
 	}
