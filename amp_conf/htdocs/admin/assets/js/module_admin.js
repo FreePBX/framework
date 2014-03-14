@@ -40,11 +40,7 @@ $(document).ready(function(){
 					} else {
 						online_updates = $('[name="online_updates"]:checked').val();
 						update_email = $('#update_email').val();
-						if (online_updates != 'yes') {
-							if (!confirm(fpbx.msg.framework.noupdates)) {
-								return false;
-							}
-						} else if (isEmpty(update_email)) {
+						if (isEmpty(update_email)) {
 							if (!confirm(fpbx.msg.framework.noupemail)) {
 								return false;
 							}
