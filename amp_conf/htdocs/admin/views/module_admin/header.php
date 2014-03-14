@@ -4,17 +4,6 @@
 <p><?php echo $update_blurb ?></p>
 <table>
 	<tr>
-		<td><?php echo _("Update Notifications") ?></td>
-		<td>
-			<span class="radioset">
-				<input id="online_updates-yes" type="radio" name="online_updates" value="yes" <?php echo $online_updates == "yes" ? "checked=\"yes\"" : "" ?>/>
-				<label for="online_updates-yes"><?php echo _("Yes") ?></label>
-				<input id="online_updates-no" type="radio" name="online_updates" value="no" <?php echo $online_updates == "no" ? "checked=\"no\"" : "" ?>/>
-				<label for="online_updates-no"><?php echo _("No") ?></label>
-			</span>
-		</td>
-	</tr>
-	<tr>
 		<td><?php echo _("Email") ?></td>
 		<td>
 			<input id="update_email" type="email" required size="40" name="update_email" saved-value="<?php echo $ue ?>" value="<?php echo $ue ?>"/>
