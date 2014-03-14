@@ -1584,10 +1584,6 @@ else
 	out("Please update your modules and reload Asterisk by browsing to your server.",false);
 }
 
-include($amp_conf["AMPWEBROOT"].'/admin/libraries/cronmanager.class.php');
-$cm =& cronmanager::create($db);
-$online_updates = $cm->updates_enabled();
-
 out("",false);
 out("*************************************************************************",false);
 out("* Note: It's possible that if you click the red 'Update Now' bar BEFORE *",false);
