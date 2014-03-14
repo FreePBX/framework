@@ -78,7 +78,7 @@ if (!$quietmode) {
 		$displayvars['shield_class'] = $update_email ? 'updates_full' : 'updates_partial';
 	}
 
-	$displayvars['update_blurb']   = htmlspecialchars(_("FreePBX allows you to automatically check for updates online. The updates will NOT be automatically installed. The email address you provdie is NEVER transmitted off of your PBX. The email is used by your local PBX to send notificaitons of updates that are available as well as IMPORTANT Security Notifications. It is STRONGYLY advised that you keep this enabled and keep updated of these important notificaions to avoid costly security issues."));
+	$displayvars['update_blurb']   = htmlspecialchars(_("Add your email here to receive important security and module updates. The email address you provide is NEVER transmitted to the FreePBX remote servers. The email is ONLY used by your local PBX to send notifications of updates that are available as well as IMPORTANT Security Notifications. It is STRONGLY advised that you keep this enabled and keep updated of these important notifications to avoid costly security vulnerabilities."));
 	$displayvars['ue'] = htmlspecialchars($update_email);
 	//TODO: decide if warnings of any sort need to be given, or just list of repos active?
 } else {
