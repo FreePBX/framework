@@ -411,18 +411,19 @@ class Ajax extends FreePBX_Helpers {
 			//strip off content accept priority
 			$accept = preg_replace('/;(.*)/i','',$accept);
 	        switch($accept) {
-				case "text/json":
-				case "application/json":
-					$this->addHeader('Content-Type', 'text/json');
-					return json_encode($body);
-					break;
-				case "text/xml":
+				/* case "text/xml":
 				case "application/xml":
 					$this->addHeader('Content-Type', 'text/xml');
 					//DOMDocument provides us with pretty print XML. Which is...pretty.
 					require_once(dirname(__DIR__).'/Array2XML.class.php');
-					$xml = \Array2XML2::createXML('response', $body);
-					return $xml->saveXML();
+					$xml = \Array2XML::createXML('response', $body);
+					return $xml->saveXML(); */
+				case "text/json":
+				case "application/json":
+				default:
+					$this->addHeader('Content-Type', 'text/json');
+					return json_encode($body);
+					break;
 	        }
 		}
 		
