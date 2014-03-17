@@ -84,6 +84,7 @@ class Ajax extends FreePBX_Helpers {
 			// TODO: We should add tokens in here, as we're still vulnerable to CSRF via XSS.
 		}
 
+		session_start();
 		if ($this->settings['authenticate']) {
 			if (!isset($_SESSION['AMP_user'])) {
 				$this->ajaxError(401, 'Not Authenticated');
