@@ -12,7 +12,7 @@ define('MODULE_STATUS_BROKEN', -1);
 class module_functions {
 	public $security_array = null;
 
-    function &create() {
+	function &create() {
 		static $obj;
 		if (!isset($obj) || !is_object($obj)) {
 			$obj = new module_functions();
@@ -513,9 +513,9 @@ class module_functions {
 	 *
 	 * @return array Array of remote repositories
 	 */
-	function get_remote_repos() {
+	function get_remote_repos($online = false) {
 		global $db;
-		$repos = $this->generate_remote_repos();
+		$repos = ($online) ? $this->generate_remote_repos() : array();
 		if(empty($repos)) {
 			$repos = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'remote_repos_json'","getOne");
 			if(!empty($repos)) {

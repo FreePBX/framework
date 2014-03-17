@@ -66,11 +66,11 @@ class Ajax extends FreePBX_Helpers {
 		}
 		// Is it the hardcoded Framework module?
 		if ($module == "framework") {
-			$file = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/libraries/BMO/Framework.class.php";
+			$file = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/libraries/BMO/Framework.class.php";
 			$ucMod = "Framework";
 		} else {
 			$ucMod = ucfirst($module);
-			$file = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/$ucMod.class.php";
+			$file = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/$ucMod.class.php";
 		}
 		
 		// Note, that Self_Helper will throw an exception if the file doesn't exist, or if it does
@@ -110,6 +110,7 @@ class Ajax extends FreePBX_Helpers {
 			// TODO: We should add tokens in here, as we're still vulnerable to CSRF via XSS.
 		}
 
+		session_start();
 		if ($this->settings['authenticate']) {
 			if (!isset($_SESSION['AMP_user'])) {
 				$this->ajaxError(401, 'Not Authenticated');
@@ -410,18 +411,19 @@ class Ajax extends FreePBX_Helpers {
 			//strip off content accept priority
 			$accept = preg_replace('/;(.*)/i','',$accept);
 	        switch($accept) {
-				case "text/json":
-				case "application/json":
-					$this->addHeader('Content-Type', 'text/json');
-					return json_encode($body);
-					break;
-				case "text/xml":
+				/* case "text/xml":
 				case "application/xml":
 					$this->addHeader('Content-Type', 'text/xml');
 					//DOMDocument provides us with pretty print XML. Which is...pretty.
 					require_once(dirname(__DIR__).'/Array2XML.class.php');
-					$xml = \Array2XML2::createXML('response', $body);
-					return $xml->saveXML();
+					$xml = \Array2XML::createXML('response', $body);
+					return $xml->saveXML(); */
+				case "text/json":
+				case "application/json":
+				default:
+					$this->addHeader('Content-Type', 'text/json');
+					return json_encode($body);
+					break;
 	        }
 		}
 		

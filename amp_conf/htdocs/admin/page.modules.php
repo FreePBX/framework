@@ -3,7 +3,7 @@
 /** Controls if online module and install/uninstall options are available.
  * This is meant for when using external packaging systems (eg, deb or rpm) to manage
  * modules. Package maintainers should set AMPEXTERNPACKAGES to true in /etc/amportal.conf.
- * Optionally, the other way is to remove the below lines, and instead just define 
+ * Optionally, the other way is to remove the below lines, and instead just define
  * EXTERNAL_PACKAGE_MANAGEMENT as 1. This prevents changing the setting from amportal.conf.
  */
 if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] != 'true')) {
@@ -16,19 +16,17 @@ $modulef =& module_functions::create();
 
 // Handle the ajax post back of an update online updates email array and status
 //
-if ($quietmode && !empty($_REQUEST['online_updates'])) {
-	$online_updates = $_REQUEST['online_updates'];
+if ($quietmode && isset($_REQUEST['update_email'])) {
 	$update_email   = $_REQUEST['update_email'];
 	$ci = new CI_Email();
 	if (!$ci->valid_email($update_email) && $update_email) {
 		$json_array['status'] = _("Invalid email address") . ' : ' . $update_email;
 	} else {
 		$cm =& cronmanager::create($db);
-		$online_updates == 'yes' ?  $cm->enable_updates() : $cm->disable_updates();
 		$cm->save_email($update_email);
 		$json_array['status'] = true;
 	}
-	header("Content-type: application/json"); 
+	header("Content-type: application/json");
 	echo json_encode($json_array);
 	exit;
 }
@@ -50,7 +48,7 @@ $trackaction = isset($_REQUEST['trackaction'])?$_REQUEST['trackaction']:false;
 $moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false;
 /*
 	moduleaction is an array with the key as the module name, and possible values:
-	
+
 	downloadinstall - download and install (used when a module is not locally installed)
 	upgrade - download and install (used when a module is locally installed)
 	install - install/upgrade locally available module
@@ -78,7 +76,7 @@ if (!$quietmode) {
 		$displayvars['shield_class'] = $update_email ? 'updates_full' : 'updates_partial';
 	}
 
-	$displayvars['update_blurb']   = htmlspecialchars(_("FreePBX allows you to automatically check for updates online. The updates will NOT be automatically installed. The email address you provdie is NEVER transmitted off of your PBX. The email is used by your local PBX to send notificaitons of updates that are available as well as IMPORTANT Security Notifications. It is STRONGYLY advised that you keep this enabled and keep updated of these important notificaions to avoid costly security issues."));
+	$displayvars['update_blurb']   = htmlspecialchars(_("Add your email here to receive important security and module updates. The email address you provide is NEVER transmitted to the FreePBX remote servers. The email is ONLY used by your local PBX to send notifications of updates that are available as well as IMPORTANT Security Notifications. It is STRONGLY advised that you keep this enabled and keep updated of these important notifications to avoid costly security vulnerabilities."));
 	$displayvars['ue'] = htmlspecialchars($update_email);
 	//TODO: decide if warnings of any sort need to be given, or just list of repos active?
 } else {
@@ -115,10 +113,10 @@ if ($online) {
 	$security_issues_to_report = array();
 	$modules_online = $modulef->getonlinexml();
 	$security_array = !empty($modulef->security_array) ? $modulef->security_array : array();
-	
+
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
-		$displayvars['warning'] = sprintf(_("Warning: Cannot connect to online repository(s) (%s). Online modules are not available."), $amp_conf['MODULE_REPO']);		
+		$displayvars['warning'] = sprintf(_("Warning: Cannot connect to online repository(s) (%s). Online modules are not available."), $amp_conf['MODULE_REPO']);
 		$online = 0;
 		unset($modules_online);
 	} else if (!is_array($modules_online)) {
@@ -132,7 +130,7 @@ if ($online) {
 			if (isset($modules_local[$name])) {
 				// combine in any other values in _local that aren't in _online
 				$modules[$name] += $modules_local[$name];
-				
+
 				// explicitly override these values with the _local ones
 				// - should never come from _online anyways, but this is just to be sure
 				$modules[$name]['status'] = $modules_local[$name]['status'];
@@ -144,7 +142,7 @@ if ($online) {
 		}
 		// add any remaining local-only modules
 		$modules += $modules_local;
-		
+
 		// use online categories
 		foreach (array_keys($modules) as $modname) {
 			if (isset($modules_online[$modname]['category'])) {
@@ -163,7 +161,7 @@ if (!isset($modules)) {
 }
 
 //--------------------------------------------------------------------------------------------------------
-switch ($action) { 
+switch ($action) {
 	case 'setrepo':
 		$repo = str_replace("_repo","",$_REQUEST['id']);
 		$o = $modulef->set_active_repo($repo,$_REQUEST['selected']);
@@ -183,9 +181,9 @@ switch ($action) {
 		@ ob_flush();
 		flush();
 		$change_tracks = array();
-		foreach ($moduleactions as $modulename => $setting) {	
+		foreach ($moduleactions as $modulename => $setting) {
 			$didsomething = true; // set to false in default clause of switch() below..
-			
+
 			switch ($setting['action']) {
 				case 'trackinstall':
 				case 'trackupgrade':
@@ -340,7 +338,7 @@ switch ($action) {
 					// just so we don't send an <hr> and flush()
 					$didsomething = false;
 			}
-			
+
 			if ($didsomething) {
 				if(!empty($change_tracks)) {
 					$modulef->set_tracks($change_tracks);
@@ -379,7 +377,7 @@ switch ($action) {
 		$force_actionstext = array();
 		$errorstext = array();
 		$moduleActions = array();
-		foreach ($moduleaction as $module => $action) {	
+		foreach ($moduleaction as $module => $action) {
 			$text = false;
 			$skipaction = false;
 
@@ -387,7 +385,7 @@ switch ($action) {
 			if (!isset($modules[$module]['name'])) {
 				$modules[$module]['name'] = $module;
 			}
-			
+
 			switch ($action) {
 				case 'rollback':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
@@ -408,7 +406,7 @@ switch ($action) {
 						}
 						if (is_array($errors = $modulef->checkdepends($previous_data))) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),  
+							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
 							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
 							$actionstext[] =  sprintf(_("%s %s will be downloaded and rolled back to %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $_REQUEST['version']);
@@ -428,7 +426,7 @@ switch ($action) {
 								$modules[$module]['name'],$track,$track);
 							} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
 								$skipaction = true;
-								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded: <strong>%s</strong> Please try again after the dependencies have been installed."),  
+								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded: <strong>%s</strong> Please try again after the dependencies have been installed."),
 								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 							} else {
 								switch (version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
@@ -445,7 +443,7 @@ switch ($action) {
 						} else {
 							if (is_array($errors = $modulef->checkdepends($trackinfo))) {
 								$skipaction = true;
-								$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),  
+								$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
 								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 							} else {
 								switch ( version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
@@ -474,14 +472,14 @@ switch ($action) {
 							$modules[$module]['name'],$track,$track);
 						} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),  
+							$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
 							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
 							$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be downloaded and installed and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $trackinfo['version'],$track);
 						}
 					} elseif (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
 						$skipaction = true;
-						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),  
+						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
 						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 					} else {
 						$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), $modules[$module]['name'], $modules_online[$module]['version']);
@@ -500,14 +498,14 @@ switch ($action) {
 								$modules[$module]['name'],$track,$track);
 							} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
 								$skipaction = true;
-								$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),  
+								$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
 								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 							} else {
 								$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be downloaded and installed and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $trackinfo['version'],$track);
 							}
 						} elseif (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 							$skipaction = true;
-							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),  
+							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),
 							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
 							if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
@@ -521,7 +519,7 @@ switch ($action) {
 				case 'enable':
 					if (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 						$skipaction = true;
-						$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the dependencies have been installed."),  
+						$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the dependencies have been installed."),
 						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 					} else {
 						$actionstext[] =  sprintf(_("%s %s will be enabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
@@ -530,7 +528,7 @@ switch ($action) {
 				case 'disable':
 					if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 						$skipaction = true;
-						$errorstext[] = sprintf(_("%s cannot be disabled because the following modules depend on it: %s Please disable those modules first then try again."),  
+						$errorstext[] = sprintf(_("%s cannot be disabled because the following modules depend on it: %s Please disable those modules first then try again."),
 						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 					} else {
 						$actionstext[] =  sprintf(_("%s %s will be disabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
@@ -540,7 +538,7 @@ switch ($action) {
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be uninstalled because the following modules depend on it: %s Please disable those modules first then try again."),  
+							$errorstext[] = sprintf(_("%s cannot be uninstalled because the following modules depend on it: %s Please disable those modules first then try again."),
 							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
 							$actionstext[] =  sprintf(_("%s %s will be uninstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
@@ -551,7 +549,7 @@ switch ($action) {
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be reinstalled because the following modules depend on it: %s Please disable those modules first then try again."),  
+							$errorstext[] = sprintf(_("%s cannot be reinstalled because the following modules depend on it: %s Please disable those modules first then try again."),
 							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
 							$actionstext[] =  sprintf(_("%s %s will be reinstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
@@ -559,7 +557,7 @@ switch ($action) {
 					}
 				break;
 			}
-			
+
 			// If error above we skip this action so we can proceed with the others
 			//
 			if (!$skipaction && $action != "0") { //TODO
@@ -567,8 +565,8 @@ switch ($action) {
 				$moduleActions[$module]['track'] = $trackaction[$module];
 				if($action== 'rollback') {
 					$moduleActions[$module]['rollback'] = $_REQUEST['version'];
-				} 
-			}			
+				}
+			}
 		}
 		echo "\t<script type=\"text/javascript\"> var moduleActions = ".json_encode($moduleActions).";</script>\n";
 
@@ -582,7 +580,7 @@ switch ($action) {
 				echo "\t<li>".$text."</li>\n";
 			}
 			echo "</ul>";
-		} 
+		}
 		if (count($actionstext) > 0 || count($force_actionstext) > 0) {
 			if (count($errorstext) > 0) {
 				echo "<h4>"._("You may confirm the remaining selection and then try the again for the listed issues once the required dependencies have been met:")."</h4>\n";
@@ -610,7 +608,7 @@ switch ($action) {
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
 		}
-		
+
 		echo "\t<input type=\"button\" value=\""._("Cancel")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=$type&amp;online=$online';\" />";
 		echo "</form>";
 	break;
@@ -628,7 +626,7 @@ switch ($action) {
 			$displayvars['repo_select'] = array();
 			echo "<a href='config.php?display=modules&amp;type=$type'>"._("Manage local modules")."</a>\n";
 		}
-		
+
 		$displayvars['processed'] = false;
 		if (isset($_REQUEST['upload']) && isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
 			$displayvars['res'] = $modulef->handleupload($_FILES['uploadmod']);
@@ -640,14 +638,14 @@ switch ($action) {
 			$displayvars['res'][] = 'Nothing to download or upload';
 			$displayvars['processed'] = true;
 		}
-		
+
 		show_view('views/module_admin/upload.php',$displayvars);
 	break;
 	case 'online':
 	default:
 
 		uasort($modules, 'category_sort_callback');
-		
+
 		$local_repo_list = array();
 		$remote_repo_list = array();
 		$broken_module_list = array();
@@ -669,35 +667,35 @@ switch ($action) {
 				$remote_repo_list[] = $module['repo'];
 			}
 		}
-		
+
 		$repo_list = array_merge($local_repo_list, $remote_repo_list);
-		
+
 		//cheaty hack to move standard to the front :-)
 		//and it works because we do array_unique later
 		//TODO: Probably do some ordering here maybe?
 		array_unshift($repo_list, 'standard');
-		
+
 		if ($online) {
-			
+
 			if(!empty($remote_repo_list)) {
 				$modulef->set_remote_repos($remote_repo_list);
 			}
 			$active_repos = $modulef->get_active_repos();
-			
+
 			// Check for announcements such as security advisories, required updates, etc.
 			//
 			$displayvars['announcements'] = $modulef->get_annoucements();
-			
+
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 				$displayvars['repo_select'] = displayRepoSelect(array(),false,array_unique($repo_list));
 			}
 		} else {
-			$repo_list = array_merge($repo_list,$modulef->get_remote_repos());
+			$repo_list = array_merge($repo_list,$modulef->get_remote_repos($online));
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 				$displayvars['repo_select'] = displayRepoSelect(array('upload'),true,array_unique($repo_list));
 			}
 		}
-		
+
 		$category = false;
 		$numdisplayed = 0;
 		$fd = $amp_conf['ASTETCDIR'].'/freepbx_module_admin.conf';
@@ -720,11 +718,11 @@ switch ($action) {
 			// Theory: module is not in the defined repos, and since it is not local (meaning we loaded it at some point) then we
 			//         don't show it. Exception, if the status is BROKEN then we should show it because it was here once.
 			//
-			if ((!isset($active_repos[$modules[$name]['repo']]) || !$active_repos[$modules[$name]['repo']]) 
+			if ((!isset($active_repos[$modules[$name]['repo']]) || !$active_repos[$modules[$name]['repo']])
 			&& $modules[$name]['status'] != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
 				continue;
 			}
-			
+
 			//block install,uninstall,reinstall
 			$modules[$name]['blocked']['status'] = false;
 			if(!empty($modules[$name]['depends'])) {
@@ -735,7 +733,7 @@ switch ($action) {
 					$modules[$name]['blocked']['reasons'] = $depends;
 				}
 			}
-			
+
 			$sysadmininfo = $modulef->getinfo('sysadmin');
 			if(isset($modules[$name]['commercial']) && !empty($modules[$name]['commercial'])) {
 				$modules[$name]['commercial']['status'] = true;
@@ -780,22 +778,22 @@ switch ($action) {
 				continue;
 			}
 			$numdisplayed++;
-			
+
 			if ($category !== $modules[$name]['category']) {
 				$category = $modules[$name]['category'];
 				$module_display[$category]['name'] = $modules[$name]['category'];
 			}
-			
+
 			$module_display[$category]['data'][$name] = $modules[$name];
-			
+
 			$loc_domain = $name;
 			$name_text = modgettext::_($modules[$name]['name'], $loc_domain);
 			$module_display[$category]['data'][$name]['loc_domain'] = $loc_domain;
 			$module_display[$category]['data'][$name]['name_text'] = $name_text;
-			
+
 			$salert = isset($modules[$name]['vulnerabilities']);
 			$module_display[$category]['data'][$name]['mclass'] = $salert ? "modulevulnerable" : "moduleheader";
-			
+
 			if ($salert) {
 				$module_display[$category]['data'][$name]['vulnerabilities'] = $modules[$name]['vulnerabilities'];
 				foreach ($modules[$name]['vulnerabilities']['vul'] as $vul) {
@@ -804,28 +802,28 @@ switch ($action) {
 			} else {
 				$module_display[$category]['data'][$name]['vulnerabilities'] = array();
 			}
-			
+
 			$module_display[$category]['data'][$name]['raw']['online'] = !empty($modules_online[$name]) ? $modules_online[$name] : array();
 			$module_display[$category]['data'][$name]['raw']['local'] = !empty($modules_local[$name]) ? $modules_local[$name] : array();
 			$module_display[$category]['data'][$name]['name'] = $name;
-			$module_display[$category]['data'][$name]['pretty_name'] = !empty($name_text) ? $name_text  : $name; 
+			$module_display[$category]['data'][$name]['pretty_name'] = !empty($name_text) ? $name_text  : $name;
 			$module_display[$category]['data'][$name]['repo'] = $modules[$name]['repo'];
 			$module_display[$category]['data'][$name]['dbversion'] = !empty($modules[$name]['dbversion']) ? $modules[$name]['dbversion'] : '';
 			$module_display[$category]['data'][$name]['publisher'] = !empty($modules[$name]['publisher']) ? $modules[$name]['publisher'] : '';
 			$module_display[$category]['data'][$name]['salert'] = $salert;
-			
+
 			if (!empty($modules_online[$name]['attention'])) {
 				$module_display[$category]['data'][$name]['attention'] = nl2br(modgettext::_($modules[$name]['attention'], $loc_domain));
 			}
-			
+
 			if (!empty($modules_online[$name]['changelog'])) {
 				$module_display[$category]['data'][$name]['changelog'] = format_changelog($modules_online[$name]['changelog']);
 			} elseif(!empty($modules_local[$name]['changelog'])) {
 				$module_display[$category]['data'][$name]['changelog'] = format_changelog($modules_local[$name]['changelog']);
 			}
-			
+
 			$module_display[$category]['data'][$name]['description'] = isset($module_display[$category]['data'][$name]['description']) ? trim(preg_replace('/\s+/', ' ', $module_display[$category]['data'][$name]['description'])) : '';
-			
+
 			if(!empty($module_display[$category]['data'][$name]['previous'])) {
 				foreach($module_display[$category]['data'][$name]['previous'] as &$release) {
 					if(preg_match("/".$release['version']."[\s|:|\*](.*)/m",$release['changelog'],$matches)) {
@@ -833,7 +831,7 @@ switch ($action) {
 					}
 				}
 			}
-			
+
 			$track = !empty($modules_local[$name]['track']) ? $modules_local[$name]['track'] : 'stable';
 			$module_display[$category]['data'][$name]['track'] = $track;
 			if(!empty($module_display[$category]['data'][$name]['releasetracks'])) {
@@ -850,7 +848,7 @@ switch ($action) {
 				$module_display[$category]['data'][$name]['tracks'][$track] = true;
 			}
 		}
-				
+
 		$displayvars['end_msg'] = (isset($modules_online) && empty($numdisplayed)) ? (count($modules_online) > 0 ? _("All available modules are up-to-date and installed.") : _("No modules to display.") ) : '';
 		$displayvars['finalmods'] = array();
 		foreach($module_display as $cat) {
@@ -915,7 +913,7 @@ function prep_id($name) {
 	return preg_replace("/[^a-z0-9-]/i", "_", $name);
 }
 
-/** Progress callback used by module_download() 
+/** Progress callback used by module_download()
  */
 function download_progress($action, $params) {
 	switch ($action) {
@@ -953,12 +951,12 @@ function format_changelog($changelog) {
 	$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+):/', '<strong>$0</strong>', $changelog);
 	$changelog = preg_replace('/\*(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+)\*/', '<strong>$1:</strong>', $changelog);
 	$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+) /', '<strong>$1: </strong>', $changelog);
-	
+
 	$changelog = format_ticket($changelog);
-	
+
 	$changelog = preg_replace_callback('/(?<!\w)r(\d+)(?!\w)/', 'trac_replace_changeset', $changelog);
 	$changelog = preg_replace_callback('/(?<!\w)\[(\d+)\](?!\w)/', 'trac_replace_changeset', $changelog);
-	
+
 	return $changelog;
 }
 
@@ -966,10 +964,10 @@ function format_ticket($string) {
 	// convert '#xxx', 'ticket xxx', 'bug xxx' to ticket links and rxxx to changeset links in trac
 	//
 	$string = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,5})(?!\w)/i', 'trac_replace_ticket', $string);
-	
+
 	// Convert FREEPBX|FPBXDISTRO(-| )6745 for jira
 	$string = preg_replace_callback('/(FREEPBX|FPBXDISTRO)(?:\-| )([^&]\d{3,5})(?!\w)/', 'jira_replace_ticket', $string);
-	
+
 	return $string;
 }
 
@@ -1015,7 +1013,7 @@ function trac_replace_changeset($match) {
 }
 
 /* Replace 'FREEPBX-nnn', 'FPBXDISTRO-nnn' type ticket numbers in changelog with a link
-*/ 
+*/
 function jira_replace_ticket($match) {
 	$baseurl = 'http://issues.freepbx.org/browse/'.$match[1].'-';
 	return '<a target="tractickets" href="'.$baseurl.$match[2].'" title="ticket '.$match[2].'">#'.$match[2].'</a>';

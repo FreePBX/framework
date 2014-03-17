@@ -232,8 +232,8 @@ function recursive_readlink($source){
 	$ldir = null;
 
 	while (!in_array($dir,array('.','..','','/')) && strpos('.git',$dir) == false) {
-		if ($dir == $ldir) { 
-			break; 
+		if ($dir == $ldir) {
+			break;
 		}
 		if (is_link($dir)) {
 			$ldir = readlink($dir);
@@ -359,7 +359,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 				// being symlinked and then developers inadvertently checking in the changes when they should not have.
 				//
 				$never_symlink = array("cdr_mysql.conf", "manager.conf", "vm_email.inc", "modules.conf");
-				
+
 				$num_files++;
 				if ($overwrite) {
 					debug(($make_links ? "link" : "copy")." ".$source." -> ".$destination);
@@ -369,7 +369,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 							if (is_link($destination) || file_exists($destination)) {
 								unlink($destination);
 							}
-					
+
 							$links = recursive_readlink($source);
 							if (!empty($links)) {
 								@symlink(substitute_readlinks($source,$links), $destination);
@@ -892,6 +892,21 @@ function freepbx_settings_init($commit_to_db = false) {
 	$freepbx_conf->define_conf_setting('JQUERYUI_VER', $set);
 	$set['hidden'] = 0;
 
+    // CRONMAN_UPDATES_CHECK
+    $set['value'] = true;
+    $set['options'] = '';
+    $set['defaultval'] =& $set['value'];
+    $set['readonly'] = 1;
+    $set['hidden'] = 0;
+    $set['level'] = 0;
+    $set['module'] = '';
+    $set['emptyok'] = 0;
+    $set['name'] = 'Update Notifications';
+    $set['description'] = 'FreePBX allows you to automatically check for updates online. The updates will NOT be automatically installed. It is STRONGYLY advised that you keep this enabled and keep updated of these important notificaions to avoid costly security issues.';
+    $set['type'] = CONF_TYPE_BOOL;
+    $freepbx_conf->define_conf_setting('CRONMAN_UPDATES_CHECK',$set);
+    $set['hidden'] = 0;
+
 
   //
   // CATEGORY: Dialplan and Operational
@@ -1055,7 +1070,7 @@ function freepbx_settings_init($commit_to_db = false) {
   for ($i=0;$i<=120;$i++) {
       $opts[]=$i;
   }
-  $set['value'] = '0';
+  $set['value'] = '3';
   $set['options'] = $opts;
   $set['name'] = 'Extension Concurrency Limit';
   $set['description'] = 'Default maximum number of outbound simultaneous calls that an extension can make. This is also very useful as a Security Protection against a system that has been compromised. It will limit the number of simultaneous calls that can be made on the compromised extension. This default is used when an extension is created. A default of 0 means no limit.';
@@ -2481,4 +2496,16 @@ function freepbx_settings_init($commit_to_db = false) {
   if ($commit_to_db) {
     $freepbx_conf->commit_conf_settings();
   }
+
+    //Make sure we don't set the value again because we dont need to do that
+    //also to prevent against loops
+    if($freepbx_conf->get_conf_setting('CRONMAN_UPDATES_CHECK') && file_exists($freepbx_conf->get_conf_setting("AMPWEBROOT").'/admin/libraries/cronmanager.class.php')) {
+        if(!class_exists('cronmanager')) {
+            include($amp_conf["AMPWEBROOT"].'/admin/libraries/cronmanager.class.php');
+        }
+        global $db;
+        $cm =& cronmanager::create($db);
+        $cm->enable_updates();
+    }
+
 }

@@ -261,11 +261,24 @@ chown_asterisk() {
 	# If there is an odbc.ini file make sure we can modify it
 	[ -e /etc/odbc.ini ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/odbc.ini 
 
-	# Ensure default php session directory is owned by asterisk web user since some yum updates break this
-	# this is the default CentOS location, may not work for other Linux distros
-	[ -d /var/lib/php/session ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /var/lib/php/session
-	[ -d $AMPWEBROOT ] && chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT
-	[ -d $AMPWEBROOT ] && chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/*
+	# Ensure PHP session directory is owned by asterisk web user.
+	SESSDIR=`php -r "echo ini_get('session.save_path');"`
+	[ ! $SESSDIR ] && SESSDIR=/var/lib/php/session
+	# If it's not a directory AND it's not a link, recreate it.
+	if [ ! -d $SESSDIR -a ! -h $SESSDIR ]; then
+		mv $SESSDIR $SESSDIR.$$
+		mkdir $SESSDIR
+	fi
+	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $SESSDIR
+
+	# Make sure that everything in AMPWEBROOT is owned by asterisk.
+	# Edit: No. Don't chown EVERYTHING. Takes too long. Chown
+	# the directory itself, and the first level directories.
+	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT
+	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/*
+
+	# Fix PIAF immutable files
+	chattr -i $AMPWEBROOT/*
 
 	echo Permissions OK
 	call_hook chown_asterisk

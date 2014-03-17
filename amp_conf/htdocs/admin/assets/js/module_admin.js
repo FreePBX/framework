@@ -40,13 +40,8 @@ $(document).ready(function(){
 						alert(fpbx.msg.framework.bademail + ' : ' + $('#update_email').focus().val());
 						$('#update_email').focus();
 					} else {
-						online_updates = $('[name="online_updates"]:checked').val();
 						update_email = $('#update_email').val();
-						if (online_updates != 'yes') {
-							if (!confirm(fpbx.msg.framework.noupdates)) {
-								return false;
-							}
-						} else if (isEmpty(update_email)) {
+						if (isEmpty(update_email)) {
 							if (!confirm(fpbx.msg.framework.noupemail)) {
 								return false;
 							}
@@ -54,7 +49,7 @@ $(document).ready(function(){
 					$.ajax({
 	  					type: 'POST',
 	  					url: "config.php",
-						data: {quietmode: 1, skip_astman: 1, display: "modules", update_email: update_email, online_updates: online_updates},
+						data: {quietmode: 1, skip_astman: 1, display: "modules", update_email: update_email},
 	  					dataType: 'json',
 	  					success: function(data) {
 									if (data.status == true) {

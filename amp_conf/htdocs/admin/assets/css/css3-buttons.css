@@ -35,6 +35,12 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 	font-weight: bold;
 	color: #ffffff;
 }
+button:disabled, input[type="button"]:disabled, input[type="reset"]:disabled, input[type="submit"]:disabled{
+	opacity: .35;
+	filter: Alpha(Opacity=35);
+	background-image: none;
+	cursor: default;
+}
 
 /* SINGLE CHECKBOX CSS */
 /* Breaks Parts of FreePBX */
@@ -120,4 +126,11 @@ input[type="checkbox"]:checked ~ label {
 	background: #3baae3 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQEAIAAACwqkHPAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAjklEQVRIx2NImrp798smJgYGBgYGhlFqlBqlRqlRiubUzWXv3/9KZGLsZlzNaMHEUsnYxFDPxHKHaQ1jHxOLHdN1htlMrCxMuozbIdQOJtZ05giGo0xs6UzhjMfQ5FgWMjExrGRitWO6zjibobj/sMTr90xMgYyMjKFMjMkM2gx8g8PTo9QoNUqNUgNHAQAy4iFUVISQBwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMy0wNS0wM1QwOToyMToxOC0wNzowMNCzho0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTMtMDUtMDNUMDk6MjE6MTgtMDc6MDCh7j4xAAAAAElFTkSuQmCC) 50% 50% repeat-x;
 	font-weight: bold;
 	color: #ffffff;
+}
+
+.radioset input[type="radio"]:disabled + label, .radioset input[type="checkbox"]:disabled + label {
+	opacity: .35;
+	filter: Alpha(Opacity=35);
+	background-image: none;
+	cursor: default;
 }

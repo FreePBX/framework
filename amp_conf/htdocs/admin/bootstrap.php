@@ -141,7 +141,7 @@ if ($bootstrap_settings['cdrdb']) {
 $bootstrap_settings['astman_connected'] = false;
 if (!$bootstrap_settings['skip_astman']) {
 	require_once($dirname . '/libraries/php-asmanager.php');
-  $astman	= new AGI_AsteriskManager($bootstrap_settings['astman_config'], $bootstrap_settings['astman_options']);
+    $astman = new AGI_AsteriskManager($bootstrap_settings['astman_config'], $bootstrap_settings['astman_options']);
 	// attempt to connect to asterisk manager proxy
 	if (!$amp_conf["ASTMANAGERPROXYPORT"] || !$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
 		// attempt to connect directly to asterisk, if no proxy or if proxy failed
@@ -155,6 +155,10 @@ if (!$bootstrap_settings['skip_astman']) {
 	}
 } else {
 	$bootstrap_settings['astman_connected'] = true;
+}
+//Because BMO was moved upward we have to inject this lower
+if(isset($astman)) {
+    FreePBX::create()->astman = $astman;
 }
 
 //include gui functions + auth if nesesarry

@@ -1,12 +1,12 @@
 <?php /* $Id */
 /**
- * Copyright (C) 2011 Philippe Lindheimer 
- * 
+ * Copyright (C) 2011 Philippe Lindheimer
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -125,7 +125,7 @@ class freepbx_conf {
 
   /** $db_conf_store is the resident internal store for settings
    * and is backed by the freepbx_settings SQL table.
-   * 
+   *
    * hashed on keyword and fields include:
    *
    *                [keyword]     Setting
@@ -154,7 +154,7 @@ class freepbx_conf {
    */
   var $asterisk_conf = array();
 
-  /** This will be set with any update/define to provide feedback that can be optionally 
+  /** This will be set with any update/define to provide feedback that can be optionally
    * used inside or outside of the class. The structure should be:
    * $last_update_status[$keyword]['validated']   true/false
    * $last_update_status[$keyword]['saved']       true/false
@@ -216,7 +216,7 @@ class freepbx_conf {
     $sql = 'SELECT * FROM freepbx_settings ORDER BY category, sortorder, name';
     $db_raw = $db->getAll($sql, array(), DB_FETCHMODE_ASSOC);
     if(DB::IsError($db_raw)) {
-      die_freepbx(_('fatal error reading freepbx_settings'));	
+      die_freepbx(_('fatal error reading freepbx_settings'));
     }
     unset($this->last_update_status);
     foreach($db_raw as $setting) {
@@ -282,17 +282,17 @@ class freepbx_conf {
 	  /* defaults
 	  * This defines defaults and formatting to assure consistency across the system so that
 	  * components don't have to keep being 'gun shy' about these variables.
-	  * 
+	  *
 	  * we will read these settings out of the db, but only when $filename is writeable
 	  * otherwise, we read the $filename
 	  */
     // If conf file is not writable, then we use it as the master so parse it.
 	  if (!is_writable($filename) || $file_is_authority) {
-		  $file = file($filename); 
-		  if (is_array($file)) { 
+		  $file = file($filename);
+		  if (is_array($file)) {
         $write_back = false;
-			  foreach ($file as $line) { 
-				  if (preg_match("/^\s*([a-zA-Z0-9_]+)=([a-zA-Z0-9 .&-@=_!<>\"\']+)\s*$/",$line,$matches)) { 
+			  foreach ($file as $line) {
+				  if (preg_match("/^\s*([a-zA-Z0-9_]+)=([a-zA-Z0-9 .&-@=_!<>\"\']+)\s*$/",$line,$matches)) {
             // overrite anything that was initialized from the db with the conf file authoritative source
             // if different from the db value then let's write it back to the db
             // TODO: massage any data we read from the conf file with _preapre_conf_value since it is
@@ -305,17 +305,17 @@ class freepbx_conf {
 					      $this->conf[$matches[1]] =& $this->db_conf_store[$matches[1]]['value'];
                 $write_back = true;
               } else {
-					      $this->conf[$matches[1]] = $matches[2]; 
+					      $this->conf[$matches[1]] = $matches[2];
               }
             }
-				  } 
- 			  } 
+				  }
+ 			  }
         $this->amportal_canwrite = false;
         if ($write_back) {
           $this->commit_conf_settings();
         }
-		  } else { 
-			  die_freepbx(sprintf(_("Missing or unreadable config file [%s]...cannot continue"), $filename)); 
+		  } else {
+			  die_freepbx(sprintf(_("Missing or unreadable config file [%s]...cannot continue"), $filename));
 		  }
       // Need to handle transitionary period where modules are adding new settings. So once we parsed the file
       // we still go read from the database and add anything that isn't there from the conf file.
@@ -362,7 +362,7 @@ class freepbx_conf {
 				  if (!isset($this->conf[$key])) {
 					  $this->conf[$key] = $arr[1];
 				  } else {
-					  $this->conf[$key] = ($this->conf[$key] === true || strtolower($this->conf[$key]) == 'true' || $this->conf[$key] === 1 || $this->conf[$key] == '1' 
+					  $this->conf[$key] = ($this->conf[$key] === true || strtolower($this->conf[$key]) == 'true' || $this->conf[$key] === 1 || $this->conf[$key] == '1'
 					                                      || strtolower($this->conf[$key]) == 'yes' ||  strtolower($this->conf[$key]) == 'on');
 				  }
 				  break;
@@ -387,7 +387,7 @@ class freepbx_conf {
 
 	  $file = file($this->conf['ASTETCDIR'].'/asterisk.conf');
 	  foreach ($file as $line) {
-		  if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) { 
+		  if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) {
 			  $this->asterisk_conf[ $matches[1] ] = rtrim($matches[2],"/ \t");
 		  }
 	  }
@@ -541,17 +541,17 @@ class freepbx_conf {
 			// actually exists so I can return a boolean false if not?
 			//
 			global $db;
-			$sql = "SELECT `value` FROM freepbx_settings WHERE `keyword` = '$keyword'"; 
-			$value = $db->getOne($sql); 
+			$sql = "SELECT `value` FROM freepbx_settings WHERE `keyword` = '$keyword'";
+			$value = $db->getOne($sql);
 			if (isset($this->db_conf_store[$keyword])) {
 				$this->db_conf_store[$keyword]['value'] = $value;
 			}
 			return $value;
 		} elseif (isset($this->db_conf_store[$keyword])) {
-      return $this->db_conf_store[$keyword]['value'];
-    } else {
-      return false;
-    }
+            return $this->db_conf_store[$keyword]['value'];
+        } else {
+            return false;
+        }
   }
 
   /** Get's the default value of a configuration setting from the database store.
@@ -608,7 +608,7 @@ class freepbx_conf {
     foreach($update_arr as $keyword => $value) {
       if (!isset($this->db_conf_store[$keyword])) {
         die_freepbx(sprintf(_("trying to set keyword [%s] to [%s] on uninitialized setting"),$keyword, $value));
-      } 
+      }
       $this->last_update_status[$keyword]['validated'] = false;
       $this->last_update_status[$keyword]['saved'] = false;
       $this->last_update_status[$keyword]['orig_value'] = $value;
@@ -624,9 +624,9 @@ class freepbx_conf {
       // they can not supply the commit flag and check the validation status and not save/commit
       // the value based on their own decision criteria.
       //
-      if ($this->_last_update_status['saved'] 
-        && $prep_value != $this->db_conf_store[$keyword]['value'] 
-        && ($prep_value !== '' || $this->db_conf_store[$keyword]['emptyok']) 
+      if ($this->_last_update_status['saved']
+        && $prep_value != $this->db_conf_store[$keyword]['value']
+        && ($prep_value !== '' || $this->db_conf_store[$keyword]['emptyok'])
         && ($override_readonly || !$this->db_conf_store[$keyword]['readonly'])) {
 
         $this->db_conf_store[$keyword]['value'] = $prep_value;
@@ -767,9 +767,9 @@ class freepbx_conf {
       $attributes['keyword'] = $keyword;
       $attributes['type'] = $vars['type'];
     }
-    switch ($vars['type']) { 
+    switch ($vars['type']) {
     case CONF_TYPE_SELECT:
-      if (!isset($vars['options']) || $vars['options'] == '') { 
+      if (!isset($vars['options']) || $vars['options'] == '') {
         die_freepbx(sprintf(_("missing options for keyword [%] required if type is select"),$keyword));
       } else {
         $opt_array =  is_array($vars['options']) ? $vars['options'] : explode(',',$vars['options']);
@@ -782,14 +782,14 @@ class freepbx_conf {
       }
     break;
     case CONF_TYPE_FSELECT:
-      if (!isset($vars['options']) || !is_array($vars['options'])) { 
+      if (!isset($vars['options']) || !is_array($vars['options'])) {
         die_freepbx(sprintf(_("missing options array for keyword [%] required if type is select"),$keyword));
       } else {
         $attributes['options'] = serialize($vars['options']);
 			}
     break;
     case CONF_TYPE_INT:
-      if (isset($vars['options']) && $vars['options'] != '') { 
+      if (isset($vars['options']) && $vars['options'] != '') {
         $validate_options = !is_array($vars['options']) ? explode(',',$vars['options']) : $vars['options'];
         if (count($validate_options) != 2 || !is_numeric($validate_options[0]) || !is_numeric($validate_options[1])) {
           die_freepbx(sprintf(_("invalid validation options provided for keyword %s: %s"),$keyword,implode(',',$validate_options)));
@@ -800,7 +800,7 @@ class freepbx_conf {
     break;
     case CONF_TYPE_TEXT:
     case CONF_TYPE_DIR:
-      if (isset($vars['options'])) { 
+      if (isset($vars['options'])) {
         $attributes['options'] = $vars['options'];
       }
     break;
@@ -835,7 +835,7 @@ class freepbx_conf {
 
     // Let's be really stict here, if anything violated validation, we fail!
     // This method is only called to define new settings, this catches programming errors early on.
-    // 
+    //
     if (!$this->_last_update_status['validated']) {
       die_freepbx(
         sprintf(_("method define_conf_setting() failed to pass validation for keyword [%s] setting value [%s], error msg if supplied [%s]"),
@@ -889,7 +889,7 @@ class freepbx_conf {
     $sql = "DELETE FROM freepbx_settings WHERE keyword in ('".implode("','",$settings)."')";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
-      die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);	
+      die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);
     }
   }
 
@@ -914,7 +914,7 @@ class freepbx_conf {
     $sql = "DELETE FROM freepbx_settings WHERE module = '$module'";
     $result = $db->query($sql);
     if(DB::IsError($result)) {
-      die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);	
+      die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);
     }
   }
 
@@ -951,13 +951,13 @@ class freepbx_conf {
     if (empty($update_array)) {
       return 0;
     }
-    $sql = 'REPLACE INTO freepbx_settings 
+    $sql = 'REPLACE INTO freepbx_settings
       (keyword, value, name, level, description, type, options, defaultval, readonly, hidden, category, module, emptyok, sortorder)
       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
     $compiled = $db->prepare($sql);
     $result = $db->executeMultiple($compiled,$update_array);
     if(DB::IsError($result)) {
-      die_freepbx(_('fatal error updating freepbx_settings table'));	
+      die_freepbx(_('fatal error updating freepbx_settings table'));
     }
     return count($update_array);
   }
@@ -1092,14 +1092,14 @@ class freepbx_conf {
   }
 
 	/** Deal with corner case Settings that change and need further actions
-	 * 
+	 *
 	 * Some settings require further actions when they change. Any time we set, reset,
-	 * etc the settings we should call this function. 
+	 * etc the settings we should call this function.
 	 *
 	 * @param string $keyword the setting that needs to be addressed
 	 * @param string $value the new value for the setting that was just changed
 	 *
-	 * @return null  
+	 * @return null
 	 */
 	function _setting_change_special($keyword, $prep_value) {
 		switch ($keyword) {
