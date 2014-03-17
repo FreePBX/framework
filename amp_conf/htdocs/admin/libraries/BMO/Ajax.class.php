@@ -66,11 +66,11 @@ class Ajax extends FreePBX_Helpers {
 		}
 		// Is it the hardcoded Framework module?
 		if ($module == "framework") {
-			$file = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/libraries/BMO/Framework.class.php";
+			$file = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/libraries/BMO/Framework.class.php";
 			$ucMod = "Framework";
 		} else {
 			$ucMod = ucfirst($module);
-			$file = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/$ucMod.class.php";
+			$file = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/$ucMod.class.php";
 		}
 		
 		// Note, that Self_Helper will throw an exception if the file doesn't exist, or if it does
