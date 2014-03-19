@@ -1,6 +1,6 @@
 <?php
 /**
- * This is the FreePBX Big Module Object.
+ * This is the Cron Handler for the FreePBX Big Module Object.
  *
  * Copyright (C) 2013 Schmooze Com, INC
  * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
@@ -40,7 +40,15 @@ class Cron {
 
 	private $user;
 
-	public function __construct($user = 'asterisk') {
+	public function __construct($var1 = 'asterisk', $var2 = 'asterisk') {
+
+		// Lets figure out if we were given a FreePBX Object, or,
+		// a user.
+		if (is_object($var1)) {
+			$user = $var2;
+		} else {
+			$user = $var1;
+		}
 
 		$this->user = $user;
 
@@ -205,28 +213,4 @@ class Cron {
 		fclose($pipes[0]);
 	}
 
-	// Self tests. Run these to sanity check this class.
-	public function tests() {
-		$this->add("@monthly /bin/false");
-		if (!$this->checkLine("@monthly /bin/false"))
-			throw new Exception("1: Line didn't exist when it should");
-		$this->remove("@monthly /bin/false");
-		if ($this->checkLine("@monthly /bin/false"))
-			throw new Exception("2: Line existed when it should");
-		$this->add(array("@monthly /bin/false"));
-		if (!$this->checkLine("@monthly /bin/false"))
-			throw new Exception("3: Line didn't exist when it should");
-		$this->add(array("magic" => "@daily", "command" => "/bin/false"));
-		if (!$this->checkLine("@monthly /bin/false"))
-			throw new Exception("4: Line didn't exist when it should");
-		$this->add(array("hour" => "1", "command" => "/bin/false"));
-		if (!$this->checkLine("* 1 * * * /bin/false"))
-			throw new Exception("5: Line didn't exist when it should");
-		$this->removeAll("/bin/false");
-		if ($this->checkLine("@monthly /bin/false"))
-			throw new Exception("6: Line existed when it shouldn't");
-		if ($this->checkLine("* 1 * * * /bin/false"))
-			throw new Exception("7: Line didn't exist when it should");
-		return true;
-	}
 }
