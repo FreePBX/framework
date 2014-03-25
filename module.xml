@@ -3,12 +3,13 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>2.11.0.29</version>
+	<version>2.11.0.30</version>
 	<publisher>FreePBX</publisher>
 	<license>GPLv2+</license>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*2.11.0.30* Update framework DB to have helper functions for functions that mysqli needs
 		*2.11.0.29* Revert Use mysqli extension for database access, if available.
 		*2.11.0.28* #7141 Use mysqli extension for database access, if available.
 		*2.11.0.27* Change security shield functionality, add advanced setting to disable nightly update checking
