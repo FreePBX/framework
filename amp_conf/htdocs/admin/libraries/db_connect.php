@@ -19,7 +19,14 @@ switch ($amp_conf['AMPDBENGINE']) {
 		/* datasource in in this style:
 		dbengine://username:password@host/database */
 		
-		$datasource = 'mysql://'
+		if (extension_loaded('mysqli')) {
+			/* If we have the better extension, use it. */
+			$dbengine = 'mysqli';
+		} else {
+			$dbengine = 'mysql';
+		}
+
+		$datasource = $dbengine . '://'
 					. $amp_conf['AMPDBUSER']
 					. ':'
 					. $amp_conf['AMPDBPASS']
