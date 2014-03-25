@@ -943,6 +943,9 @@ $(document).ready(function(){
 
 	//style all sortables as menu's
 	$('.sortable').menu().find('input[type="checkbox"]').parent('a').click(function(event) {
+    if ($(event.target).is(':checkbox')) {
+      return true;
+    }
 		var checkbox = $(this).find('input');
 		checkbox.prop('checked', !checkbox[0].checked);
 		return false;
