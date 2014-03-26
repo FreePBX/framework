@@ -98,6 +98,9 @@ if ($bootstrap_settings['freepbx_error_handler']) {
 }
 
 // BMO: Initialize BMO as early as possible.
+
+require_once($dirname . '/libraries/db_connect.php'); //PEAR must be installed
+
 $bmo = dirname(__FILE__)."/libraries/BMO/FreePBX.class.php";
 if (file_exists($bmo)) {
     include_once($bmo);
@@ -109,8 +112,8 @@ if (file_exists($bmo)) {
 // bootstrap.php should always be called from freepbx.conf so
 // database conifguration already included, connect to database:
 //
-include(dirname(__FILE__)."/libraries/DB.class.php");
-$db = new DB();
+//include(dirname(__FILE__)."/libraries/DB.class.php");
+//$db = new DB();
 //require_once($dirname . '/libraries/db_connect.php'); //PEAR must be installed
 
 // get settings
