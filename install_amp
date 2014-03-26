@@ -1335,15 +1335,23 @@ $force_amportal_conf = DB::IsError($num_settings) || $num_settings < 5;
 
 if ($install_files)
 {
+    $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
 	outn("Installing new FreePBX files..");
 	$check_md5s=true;
 	$md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
 	list($num_files, $num_copied) = recursive_copy("amp_conf", "", $md5sums);
-	if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules')) {
-		mkdir($amp_conf['AMPWEBROOT'].'/admin/modules',0777,true);
+    if(!file_exists(dirname(__FILE__).'/amp_conf/htdocs/admin/modules/_cache')) {
+        mkdir(dirname(__FILE__).'/amp_conf/htdocs/admin/modules/_cache',0777,true);
+        chown(dirname(__FILE__).'/amp_conf/htdocs/admin/modules',$asteriskuser);
+        if(!file_exists(dirname(__FILE__).'/amp_conf/htdocs/admin/modules')) {
+            die("We were not able to create the local modules directory, which is important\n");
+        }
+    }
+	if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/_cache')) {
+		mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/_cache',0777,true);
 		chown($amp_conf['AMPWEBROOT'].'/admin/modules',$asteriskuser);
 		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules')) {
-			die("We were not able to create the modules directory, which is important\n");
+			die("We were not able to create the web modules directory, which is important\n");
 		}
 	}
 	if (!is_file("/etc/asterisk/voicemail.conf")) copy("/etc/asterisk/voicemail.conf.template","/etc/asterisk/voicemail.conf");
