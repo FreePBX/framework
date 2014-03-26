@@ -98,6 +98,10 @@ class DB {
 		return $final;
 	}
 
+    public function insert_id() {
+        return $this->db->lastInsertId();
+    }
+
 	public function escapeSimple($str = null) {
 		// Using PDO::quote
 		return $this->quote($str);
