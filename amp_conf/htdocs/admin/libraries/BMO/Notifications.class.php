@@ -25,19 +25,19 @@
  */
 
 
-/* These defines disabled until the original
- * libraries/notifications file is removed.
- *
 define("NOTIFICATION_TYPE_CRITICAL", 100);
 define("NOTIFICATION_TYPE_SECURITY", 200);
 define("NOTIFICATION_TYPE_UPDATE",   300);
 define("NOTIFICATION_TYPE_ERROR",    400);
 define("NOTIFICATION_TYPE_WARNING" , 500);
 define("NOTIFICATION_TYPE_NOTICE",   600);
- *
- */
 
 class Notifications {
+
+	// Legacy pre-BMO Hooks
+	public static function create() {
+		return FreePBX::create()->Notifications;
+	}
 
 	private $not_loaded = true;
 	private $notification_table = array();

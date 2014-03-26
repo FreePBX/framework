@@ -925,6 +925,9 @@ class freepbx_conf {
   function commit_conf_settings() {
     global $db;
     $update_array = array();
+	if(empty($this->db_conf_store)) {
+		return 0;
+	}
     foreach ($this->db_conf_store as $keyword => $atrib) {
       if (!$atrib['modified']) {
         continue;

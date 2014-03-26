@@ -1897,6 +1897,19 @@ class ext_transfer extends extension {
     }
 }
 
+class ext_log extends extension {
+	var $level;
+	var $msg;
+
+	function ext_log($level,$msg) {
+		$this->level = $level;
+		$this->msg = $msg;
+	}
+	function output() {
+		return "Log(".$this->level.",".$this->msg.")";
+	}
+}
+
 /* example usage
 $ext = new extensions;
 
