@@ -1481,7 +1481,21 @@ if ($install_files) {
 		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework')) {
 			mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/framework');
 			chown($amp_conf['AMPWEBROOT'].'/admin/modules/framework',$asteriskuser);
-		}
+        }
+        if(!file_exists(dirname(__FILE__).'/amp_conf/htdocs/admin/modules/_cache')) {
+            mkdir(dirname(__FILE__).'/amp_conf/htdocs/admin/modules/_cache',0777,true);
+            chown(dirname(__FILE__).'/amp_conf/htdocs/admin/modules',$asteriskuser);
+            if(!file_exists(dirname(__FILE__).'/amp_conf/htdocs/admin/modules')) {
+                die("We were not able to create the local modules directory, which is important\n");
+            }
+        }
+    	if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/_cache')) {
+    		mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/_cache',0777,true);
+    		chown($amp_conf['AMPWEBROOT'].'/admin/modules',$asteriskuser);
+    		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules')) {
+    			die("We were not able to create the web modules directory, which is important\n");
+    		}
+        }
 		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml')) {
 			copy(dirname(__FILE__).'/module.xml',$amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml');
 			chown($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml',$asteriskuser);
