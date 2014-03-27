@@ -47,15 +47,6 @@ if (!function_exists('version_compare_freepbx')) {
 	$bin_source = $base_source . "/bin/*";
 	$agibin_source = $base_source . "/agi-bin/*";
 
-	if (file_exists('/etc/pbx/aver.flag')) {
-		out(_("PIAF system detected - removing index.php from package"));
-		if (unlink($base_source . "/htdocs/index.php")) {
-			out(_("ok"));
-		} else {
-			out(_("failed to remove"));
-		}
-	}
-
 	if (!file_exists(dirname($htdocs_source))) {
     out(sprintf(_("No directory %s, install script not needed"),dirname($htdocs_source)));
     return true;
