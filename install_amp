@@ -1663,6 +1663,21 @@ if ($install_files) {
 	out("OK");
 }
 
+outn("Loading Bootstrap..");
+if (!class_exists('FreePBX')) {
+	include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/BMO/FreePBX.class.php');
+}
+if (!class_exists('notfications')) {
+	include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/notifications.class.php');
+}
+if (!class_exists('module_functions')) {
+	include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/modulefunctions.class.php');
+}
+if (!class_exists('modulelist')) {
+	include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/modulelist.class.php');
+}
+out("OK");
+
 // Run through all the upgrade scripts starting at the specified version
 //
 upgrade_all($version);
@@ -1689,10 +1704,6 @@ if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redha
 	$amp_conf_file = $amp_conf;
 }
 
-outn("Creating or updating freepbx_conf settings..");
-if (!class_exists('notifications')) {
-	include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/notifications.class.php');
-}
 freepbx_settings_init(true);
 out("..OK");
 
