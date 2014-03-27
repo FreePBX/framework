@@ -1689,10 +1689,11 @@ if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redha
 	$amp_conf_file = $amp_conf;
 }
 
-outn("Creating or updating freepbx_conf settings..");
-if (!class_exists('notifications')) {
-	include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/notifications.class.php');
+outn('Loading up the BMO Object...');
+if (!class_exists('FreePBX')) {
+	include_once ($amp_conf['AMPWEBROOT'].'/admin/bootstrap.php');
 }
+outn("Creating or updating freepbx_conf settings..");
 freepbx_settings_init(true);
 out("..OK");
 
