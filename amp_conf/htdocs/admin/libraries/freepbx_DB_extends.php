@@ -1,5 +1,5 @@
 <?php
-if(class_exists('DB_mysqli')) {
+if(!class_exists('freepbx_DB_mysqli') && class_exists('DB_mysqli')) {
 	class freepbx_DB_mysqli extends DB_mysqli
 	{
 		function insert_id() {
@@ -13,7 +13,7 @@ if(class_exists('DB_mysqli')) {
 	}
 }
 
-if(class_exists('DB_mysql')) {
+if(!class_exists('freepbx_DB_mysql') && class_exists('DB_mysql')) {
 	class freepbx_DB_mysql extends DB_mysql
 	{
 		function insert_id() {
@@ -27,7 +27,7 @@ if(class_exists('DB_mysql')) {
 	}
 }
 
-if(class_exists('DB_sqlite')) {
+if(!class_exists('freepbx_DB_sqlite') && class_exists('DB_sqlite')) {
 	class freepbx_DB_sqlite extends DB_sqlite
 	{
 		function insert_id() {
