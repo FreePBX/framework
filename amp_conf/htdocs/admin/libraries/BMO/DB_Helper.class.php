@@ -45,6 +45,10 @@ class DB_Helper {
 	private static $dbAdd;
 	private static $dbDelId;
 
+	/* These are only added when required */
+	private static $dbGetFirst = false;
+	private static $dbGetLast = false;
+
 	/** Don't new DB_Helper */
 	public function __construct() {
 		throw new Exception("You should never 'new' this. Just use it as an 'extends'");
@@ -275,5 +279,57 @@ class DB_Helper {
 		$query[':mod']= get_class($this);
 		$query[':id'] = $id;
 		self::$dbDelId->execute($query);
+	}
+
+	/**
+	 * Return the FIRST ordered entry with this id
+	 *
+	 * Useful with timestamps?
+	 *
+	 * @param string $id Required grouping ID.
+	 * @return array
+	 */
+	public function getFirst($id = null) {
+
+		if ($id === null) {
+			throw new Exception("Coder error. getFirst requires an ID");
+		}
+
+		self::checkDatabase();
+
+		if (self::$dbGetFirst === false) {
+			self::$dbGetFirst = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key` LIMIT 1");
+		}
+
+		$query[':mod']= get_class($this);
+		$query[':id'] = $id;
+		self::$dbGetFirst->execute($query);
+		$ret = self::$dbGetFirst->fetchAll(PDO::FETCH_COLUMN, 0);
+		return $ret[0];
+	}
+
+	/**
+	 * Return the LAST ordered entry with this id
+	 *
+	 * @param string $id Required grouping ID.
+	 * @return array
+	 */
+	public function getLast($id = null) {
+
+		if ($id === null) {
+			throw new Exception("Coder error. getFirst requires an ID");
+		}
+
+		self::checkDatabase();
+
+		if (self::$dbGetLast === false) {
+			self::$dbGetLast = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key` DESC LIMIT 1");
+		}
+
+		$query[':mod']= get_class($this);
+		$query[':id'] = $id;
+		self::$dbGetLast->execute($query);
+		$ret = self::$dbGetLast->fetchAll(PDO::FETCH_COLUMN, 0);
+		return $ret[0];
 	}
 }
