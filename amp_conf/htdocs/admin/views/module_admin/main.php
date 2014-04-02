@@ -37,6 +37,7 @@
 			<span class="modulename"><?php echo _("Module")?></span>
 			<span class="moduleversion"><?php echo _("Version")?></span>
 			<span class="modulepublisher"><?php echo _("Publisher")?></span>
+			<span class="modulelicense"><?php echo _("License")?></span>
 			<span class="modulestatus"><?php echo _("Status")?></span>
 			<span class="moduletrack"><?php echo _("Track")?></span>
 			<span class="clear">&nbsp;</span>
@@ -54,6 +55,7 @@
 							<span class="moduleversion"><?php echo $module['dbversion']?></span>
 							<span class="moduletrack"><?php echo ucfirst($module['track'])?></span>
 							<span class="modulepublisher"><?php echo $module['publisher']?></span>
+							<span class="modulelicense"><?php echo (!empty($module['licenseLink'])) ? '<a href="'.$module['licenseLink'].'" target="_moduleLicenseLink">'.$module['license'].'</a>' : $module['license']?></span>
 							<span class="modulestatus">
 									<?php switch ($module['status']) {
 										case MODULE_STATUS_NOTINSTALLED:

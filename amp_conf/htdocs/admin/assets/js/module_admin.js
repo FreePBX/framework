@@ -146,7 +146,7 @@ $(document).ready(function(){
 		$('#download-group').hide();
 		$('#upload-group').show();
 	}
-	$('.moduleheader').click(function(e) {
+	$('.moduleheader').not('a').click(function(e) {
 		var module = $(this).data('module');
 		if($('#infopane_'+module).is(":visible")) {
 			$('#infopane_'+module).slideUp( "slow", function() {
