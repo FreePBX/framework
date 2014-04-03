@@ -101,7 +101,7 @@ class DB_Helper {
 
 		// Add our stored procedures
 		self::$dbGet = self::$db->prepare("SELECT `val`, `type` FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key AND `id` = :id");
-		self::$dbGetAll = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id");
+		self::$dbGetAll = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key`");
 		self::$dbDel = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key  AND `id` = :id");
 		self::$dbAdd = self::$db->prepare("INSERT INTO `".self::$dbname."` ( `module`, `key`, `val`, `type`, `id` ) VALUES ( :mod, :key, :val, :type, :id )");
 		self::$dbDelId = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id");
@@ -216,8 +216,7 @@ class DB_Helper {
 	 * Returns an associative array of all key=>value pairs referenced by $id
 	 *
 	 * If no $id was provided, return all pairs that weren't set with an $id.
-	 * Don't trust this to return the array in any order. If you wish to use
-	 * an ordered set, use IDs and sort based on them.
+	 * Returns an ordered list from however MySQL orders it (order by `key`)
 	 *
 	 * @param string $id Optional sub-group ID. 
 	 * @return array
@@ -231,8 +230,8 @@ class DB_Helper {
 		$query[':mod'] = get_class($this);
 		$query[':id'] = $id;
 
-		self::$dbGetAll->execute($query);
-		$out = self::$dbGetAll->fetchAll(PDO::FETCH_COLUMN, 0);
+		$out = $this->getAllKeys($id);
+
 		foreach ($out as $k) {
 			$retarr[$k] = $this->getConfig($k, $id);
 		}
@@ -242,6 +241,30 @@ class DB_Helper {
 		} else {
 			return array();
 		}
+	}
+
+	/**
+	 * Returns an array of all keys referenced by $id
+	 *
+	 * If no $id was provided, return all pairs that weren't set with an $id.
+	 * Returns an ordered list from however MySQL orders it (order by `key`)
+	 *
+	 * @param string $id Optional sub-group ID. 
+	 * @return array
+	 */
+	public function getAllKeys($id = "noid") {
+
+		// Our pretend __construct();
+		self::checkDatabase();
+
+		// Basic fetchAll.
+		$query[':mod'] = get_class($this);
+		$query[':id'] = $id;
+
+		self::$dbGetAll->execute($query);
+		$ret = self::$dbGetAll->fetchAll(PDO::FETCH_COLUMN, 0);
+
+		return $ret;
 	}
 
 	/**

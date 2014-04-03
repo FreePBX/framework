@@ -116,6 +116,31 @@ class DBHelperTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($f->getFirst('testrange'), 10, "getFirst didn't return 10");
 		$this->assertEquals($f->getLast('testrange'), 40, "getFirst didn't return 40");
+		$f->delById('testrange');
 	}
 
+	public function testGetKeys() {
+		$f = self::$f;
+		// Build a random array.
+		for ($x = 10; $x<=40; $x++) {
+			$arr[rand(0,5000)] = true;
+		}
+
+		// Now, load it into an id.
+		foreach ($arr as $k => $v) {
+			$f->setConfig($k, 'set', 'testrange');
+		}
+
+		// Grab all the keys from the test range.
+		$keys = $f->getAllKeys('testrange');
+		foreach ($keys as $k) {
+			$this->assertTrue(isset($arr[$k]), "getAllKeys returned $k, but it wasn't in arr.");
+		}
+
+		// Now check that we were handed back EVERYTHING.
+		foreach ($arr as $k => $v) {
+			$this->assertTrue(in_array($k, $keys), "I couldn't find $k in the return from getAllKeys");
+		}
+		$f->delById('testrange');
+	}
 }
