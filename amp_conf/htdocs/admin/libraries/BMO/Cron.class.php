@@ -39,6 +39,7 @@
 class Cron {
 
 	private $user;
+	private $uoption = "";
 
 	public function __construct($var1 = 'asterisk', $var2 = 'asterisk') {
 
@@ -55,14 +56,17 @@ class Cron {
 		// If we're not root, we can only edit our own cron.
 		if (posix_geteuid() != 0) {
 			$userArray = posix_getpwuid(posix_geteuid());
-			if ($userArray['user'] != $user)
-				throw new Exception("Trying to edit user $user, when I'm running as ".$userArray['user']);
+			if ($userArray['name'] != $user)
+				throw new Exception("Trying to edit user $user, when I'm running as ".$userArray['name']);
+		} else {
+			$this->uoption = "-u ".$this->user." ";
 		}
+
 	}
 
 	// Returns an array of all the lines for the user
 	public function getAll() {
-		exec('/usr/bin/crontab -u '.$this->user.' -l 2>&1', $output, $ret);
+		exec('/usr/bin/crontab '.$this->uoption.' -l 2>&1', $output, $ret);
 		if (preg_match('/^no crontab for/', $output[0]))
 			return array();
 
@@ -205,7 +209,7 @@ class Cron {
 	private function installCrontab($arr) {
 		// Run crontab, hand it the array as stdin
 		$fds = array( array('pipe', 'r'), array('pipe', 'w'), array('file', '/tmp/cron.error', 'a') );
-		$rsc = proc_open('/usr/bin/crontab -u '.$this->user.' -', $fds, $pipes);
+		$rsc = proc_open('/usr/bin/crontab '.$this->uoption.' -', $fds, $pipes);
 		if (!is_resource($rsc))
 			throw new Exception("Unable to run crontab");
 
