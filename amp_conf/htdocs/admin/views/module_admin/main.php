@@ -41,7 +41,7 @@
 			<span class="modulestatus"><?php echo _("Status")?></span>
 			<span class="moduletrack"><?php echo _("Track")?></span>
 			<span class="clear">&nbsp;</span>
-		</div>
+    </div>
 		<?php foreach($module_display as $category) {?>
 			<div class="category" id="category_<?php echo prep_id($category['name'])?>">
 				<h3><?php echo $category['name']?></h3>
@@ -55,7 +55,7 @@
 							<span class="moduleversion"><?php echo $module['dbversion']?></span>
 							<span class="moduletrack"><?php echo ucfirst($module['track'])?></span>
 							<span class="modulepublisher"><?php echo $module['publisher']?></span>
-							<span class="modulelicense"><?php echo (!empty($module['licenseLink'])) ? '<a href="'.$module['licenseLink'].'" target="_moduleLicenseLink">'.$module['license'].'</a>' : $module['license']?></span>
+							<span class="modulelicense"><?php echo (!empty($module['licenselink'])) ? '<a href="'.$module['licenselink'].'" target="_moduleLicenseLink">'.$module['license'].'</a>' : $module['license']?></span>
 							<span class="modulestatus">
 									<?php switch ($module['status']) {
 										case MODULE_STATUS_NOTINSTALLED:
