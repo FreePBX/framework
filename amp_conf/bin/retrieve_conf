@@ -401,20 +401,19 @@ if(is_array($active_modules)){
         $con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
         $con_dirs->symlink_sound_dirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
         $con_dirs->symlink_assets($key);
-		$con_dirs->generate_less($key);
+		    $con_dirs->generate_less($key); //generate less for said module if needed
         $con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
       break;
 		}
 	}
 }
 
-
-// Now that we have done all the symlinks and copies, we check and report if there were any errors
-//
 $bmo->Performance->Stamp("Generating all compiled CSS files from less");
 $bmo->Less->generateMainStyles();
 $bmo->Performance->Stamp("Done Generating Styles");
 
+// Now that we have done all the symlinks and copies, we check and report if there were any errors
+//
 $con_dirs->symlink_check_errors();
 $con_dirs->cp_check_errors();
 
