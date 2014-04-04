@@ -18,9 +18,6 @@ $bmo = FreePBX::create();
 // $bmo->Performance->On();
 $bmo->Performance->Stamp("retrieve_conf_start");
 
-$bmo->Performance->Stamp("Generating all compiled CSS files from less");
-$bmo->Less->generateMainStyles();
-$bmo->Performance->Stamp("All CSS has been generated");
 // BMO TODO: Move this to be part of BMO.
 class connectdirs {
 
@@ -411,16 +408,13 @@ if(is_array($active_modules)){
 	}
 }
 
-//generate less files
-$dir = $amp_conf['AMPWEBROOT'] . '/admin/assets';
-$parser = FreePBX::create()->Less;
-if(file_exists($dir."/less") && is_dir($dir."/less")) {
-	$dir = $dir."/less";
-	$parser->parseDir($dir);
-}
 
 // Now that we have done all the symlinks and copies, we check and report if there were any errors
 //
+$bmo->Performance->Stamp("Generating all compiled CSS files from less");
+$bmo->Less->generateMainStyles();
+$bmo->Performance->Stamp("Done Generating Styles");
+
 $con_dirs->symlink_check_errors();
 $con_dirs->cp_check_errors();
 
