@@ -8,9 +8,14 @@ if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
 	$this_time_append = '';
 }
 
+//Chrome Frame and IE sub fixes for IE when it doesnt support html5
+if ((isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false))) {
+	header('X-UA-Compatible: IE=edge,chrome=1');
+}
+
 //html head
 $html = '';
-$html .= '<!DOCTYPE html>';
+$html .= '<!DOCTYPE html>'; //html5 functionality support
 $html .= '<html>';
 $html .= '<head>';
 $html .= '<title>'
@@ -18,7 +23,6 @@ $html .= '<title>'
 		. '</title>';
 
 $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
-		. '<meta http-equiv="X-UA-Compatible" content="chrome=1">'
 		. '<meta name="robots" content="noindex" />'
 		. '<link rel="shortcut icon" href="' . $amp_conf['BRAND_IMAGE_FAVICON'] . '">';
 //shiv
@@ -26,29 +30,18 @@ $html .= '<!--[if lt IE 9]>';
 $html .= '<script src="assets/js/html5shiv.js"></script>';
 $html .= '<![endif]-->';
 
-//css
-if ($amp_conf['USE_GOOGLE_CDN_JS']) {
-	$html .= '<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/'.$amp_conf['BOOTSTRAP_VER'].'/css/bootstrap.min.css">';
-} else {
-	$html .= '<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />';
+//less compiled into css
+foreach($compiled_less_files as $file) {
+	$html .= '<link href="assets/less/'.$file.'" rel="stylesheet" type="text/css">';
 }
-$html .= '<link href="assets/css/bootstrap-fixes.css" rel="stylesheet" type="text/css" />';
 
-$html .= '<link rel="stylesheet" href="assets/css/font-awesome.min.css">';
-
-$mainstyle_css      = $amp_conf['BRAND_CSS_ALT_MAINSTYLE']
-                       ? $amp_conf['BRAND_CSS_ALT_MAINSTYLE']
-                       : 'assets/css/mainstyle.css';
-$framework_css = ($amp_conf['DISABLE_CSS_AUTOGEN'] || !file_exists($amp_conf['mainstyle_css_generated'])) ? $mainstyle_css : $amp_conf['mainstyle_css_generated'];
-$css_ver = '.' . filectime($framework_css);
-$html .= '<link href="' . $framework_css.$version_tag.$css_ver . '" rel="stylesheet" type="text/css">';
-
-$html .= '<link href="assets/less/cache/'.$compiled_less.'" rel="stylesheet" type="text/css">';
-
-//include jquery-ui css
-if ($amp_conf['DISABLE_CSS_AUTOGEN'] == true) {
-	$html .= '<link href="' . $amp_conf['JQUERY_CSS'] . $version_tag . '" rel="stylesheet" type="text/css">';
+if(!empty($amp_conf['BRAND_CSS_ALT_MAINSTYLE'])) {
+	$css_ver = '.' . filectime($amp_conf['BRAND_CSS_ALT_MAINSTYLE']);
+	$html .= '<link href="' . $amp_conf['BRAND_CSS_ALT_MAINSTYLE'].$version_tag.$css_ver . '" rel="stylesheet" type="text/css">';
 }
+
+$html .= '<link href="' . $amp_conf['JQUERY_CSS'] . $version_tag . '" rel="stylesheet" type="text/css">';
+
 //add the popover.css stylesheet if we are displaying a popover to override mainstyle.css styling
 if ($use_popover_css) {
 	$popover_css = $amp_conf['BRAND_CSS_ALT_POPOVER'] ? $amp_conf['BRAND_CSS_ALT_POPOVER'] : 'assets/css/popover.css';
@@ -62,18 +55,11 @@ if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))) {
 
 $html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
 $html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
-$html .= "<script>var firsttypeofselector = Modernizr.firsttypeofselector; if(firsttypeofselector) { document.write('<link href=\"assets/css/css3-buttons.css\" rel=\"stylesheet\" type=\"text/css\">'); }</script>";
-/*
-Modernizr.load({
-  test: Modernizr.geolocation,
-  yep : 'geo.js',
-  nope: 'geo-polyfill.js'
-});
-*/
+$html .= "<script>var firsttypeofselector = Modernizr.firsttypeofselector; if(firsttypeofselector) { document.write('<link href=\"assets/less/".$extra_compiled_less_files['buttons']."\" rel=\"stylesheet\" type=\"text/css\">'); }</script>";
+
 // Insert a custom CSS sheet if specified (this can change what is in the main CSS)
 if ($amp_conf['BRAND_CSS_CUSTOM']) {
-	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM']
-			. $version_tag . '" rel="stylesheet" type="text/css">';
+	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM'] . $version_tag . '" rel="stylesheet" type="text/css">';
 }
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
@@ -96,9 +82,6 @@ $html .= '</head>';
 
 //open body
 $html .= '<body>';
-
-//Pre load but not really needed.
-//$html .= '<div style="display:none;"><img src="assets/css/images/ui-bg_glass_80_d7ebf9_1x400.png"><img src="assets/css/images/ui-bg_glass_80_d7ebf9_1x400.png"><img src="assets/css/images/ui-bg_glass_50_3baae3_1x400.png"><img src="assets/css/images/ui-bg_glass_80_d7ebf9_1x400.png"></div>';
 
 $html .= '<div id="page">';//open page
 

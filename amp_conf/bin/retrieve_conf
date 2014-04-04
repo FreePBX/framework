@@ -18,6 +18,9 @@ $bmo = FreePBX::create();
 // $bmo->Performance->On();
 $bmo->Performance->Stamp("retrieve_conf_start");
 
+$bmo->Performance->Stamp("Generating all compiled CSS files from less");
+$bmo->Less->generateMainStyles();
+$bmo->Performance->Stamp("All CSS has been generated");
 // BMO TODO: Move this to be part of BMO.
 class connectdirs {
 
@@ -82,20 +85,12 @@ class connectdirs {
 
     }
   }
-  
-  function generate_less($module) {
-      global $amp_conf;
 
-      // e.g. /var/www/html/admin/modules/ringgroups/assets
-      // e.g. /var/www/html/admin/assets/ringgroups
-      //
-      $dir = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets';
-      $targetdir = $amp_conf['AMPWEBROOT'] . "/admin/assets/" . $module;
-	  $parser = FreePBX::create()->Less;
-	  if(file_exists($dir."/less") && is_dir($dir."/less")) {
-		  $dir = $dir."/less";
-		  $parser->parseDir($dir);
-	  }
+  function generate_less($module) {
+    // e.g. /var/www/html/admin/modules/ringgroups/assets
+    // e.g. /var/www/html/admin/assets/ringgroups
+    //
+    FreePBX::create()->Less->generateModuleStyles($module);
   }
 
   function symlink_sound_dirs($moduledir) {
@@ -959,4 +954,3 @@ else
 }
 	$nt->delete('retrieve_conf', 'FATAL');
 $bmo->Performance->Stamp("retrieve_conf_stop");
-

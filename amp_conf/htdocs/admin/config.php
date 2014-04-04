@@ -462,13 +462,9 @@ if ($quietmode) {
 		$header['title']	= framework_server_name();
 		$header['amp_conf']	= $amp_conf;
 		$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
-		$less_rel = '/admin/assets';
-		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
-		if (is_dir($less_path)) {
-			$parser = FreePBX::create()->Less;
-			$file = $parser->getCachedFile($less_path,$less_rel);
-			$header['compiled_less'] = $file;
-		}
+		$o = FreePBX::create()->Less->generateMainStyles();
+		$header['compiled_less_files'] = $o['compiled_less_files'];
+		$header['extra_compiled_less_files'] = $o['extra_compiled_less_files'];
 		show_view($amp_conf['VIEW_HEADER'], $header);
 
 		//if we have a module loaded, load its css
@@ -529,18 +525,16 @@ if ($quietmode) {
 		$header['title']	= framework_server_name();
 		$header['amp_conf']	= $amp_conf;
 		$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
-		$less_rel = '/admin/assets';
-		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
-		if (is_dir($less_path)) {
-			$parser = FreePBX::create()->Less;
-			$file = $parser->getCachedFile($less_path,$less_rel);
-			$header['compiled_less'] = $file;
-		}
+
+		$o = FreePBX::create()->Less->generateMainStyles();
+		$header['compiled_less_files'] = $o['compiled_less_files'];
+		$header['extra_compiled_less_files'] = $o['extra_compiled_less_files'];
+
 		echo load_view($amp_conf['VIEW_HEADER'], $header);
 
 		//if we have a module loaded, load its css
 		if (isset($module_name)) {
-				echo framework_include_css();
+			echo framework_include_css();
 		}
 
 		// set the language so local module languages take
@@ -557,7 +551,7 @@ if ($quietmode) {
 
 		// provide beta status
 		if (isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes') {
-				echo load_view($amp_conf['VIEW_BETA_NOTICE']);
+			echo load_view($amp_conf['VIEW_BETA_NOTICE']);
 		}
 
 
