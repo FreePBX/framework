@@ -25,31 +25,25 @@ class modulelist{
 	}
 	function initialize(&$module_list) {
 		$this->module_array = $module_list;
-		// strip out extraneous fields (help especially when printing out debugs
-		//
-		foreach ($this->module_array as $mod_key => $mod) {
-			if (isset($mod['changelog'])) {
-				//unset($this->module_array[$mod_key]['changelog']);
-			}
-			if (isset($mod['attention'])) {
-				unset($this->module_array[$mod_key]['attention']);
-			}
-			if (!isset($mod['license'])) {
-				$this->module_array[$mod_key]['license'] = '';
-			}
-			if (isset($mod['location'])) {
-				unset($this->module_array[$mod_key]['location']);
-			}
-			if (isset($mod['md5sum'])) {
-				unset($this->module_array[$mod_key]['md5sum']);
-			}
-			if (isset($mod['sha1sum'])) {
-				unset($this->module_array[$mod_key]['sha1sum']);
-			}
-			if (!isset($mod['track'])) {
-				$this->module_array[$mod_key]['track'] = 'stable';
-			}
-		}
+    // strip out extraneous fields (help especially when printing out debugs
+    //
+    foreach ($this->module_array as $mod_key => $mod) {
+      if (isset($mod['changelog'])) {
+        unset($this->module_array[$mod_key]['changelog']);
+      }
+      if (isset($mod['attention'])) {
+        unset($this->module_array[$mod_key]['attention']);
+      }
+      if (!isset($mod['license'])) {
+        $this->module_array[$mod_key]['license'] = '';
+      }
+      if (isset($mod['location'])) {
+        unset($this->module_array[$mod_key]['location']);
+      }
+      if (isset($mod['md5sum'])) {
+        unset($this->module_array[$mod_key]['md5sum']);
+      }
+    }
 		$module_serialized = $this->_db->escapeSimple(serialize($this->module_array));
 		sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('mod_serialized', '".time()."','".$module_serialized."')");
 		$this->_loaded = true;

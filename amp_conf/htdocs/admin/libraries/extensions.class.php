@@ -1319,10 +1319,10 @@ class ext_vmexists extends extension {
 	function output() {
 		global $version; // Asterisk Version
 		if (version_compare($version, "1.6", ">=")) {
-			return 'Set(VMBOXEXISTSSTATUS=${IF(${MAILBOX_EXISTS('.$this->data.')}?SUCCESS:FAILED)})';
-		} else {
-			return "MailBoxExists(".$this->data.")";
-		}
+      return 'Set(VMBOXEXISTSSTATUS=${IF(${MAILBOX_EXISTS('.$this->data.')}?SUCCESS:FAILED)})';
+    } else {
+		  return "MailBoxExists(".$this->data.")";
+    }
 	}
 }
 class ext_saydigits extends extension {

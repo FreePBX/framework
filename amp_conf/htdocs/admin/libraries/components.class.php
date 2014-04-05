@@ -7,11 +7,11 @@ $_guielement_formfields = 0;
 class component {
 	var $_compname; // Component name (e.g. users, devices, etc.)
 	var $_type; // Type name of this component ( e.g. setup, tool etc.)
-
+	
 	var $_guielems_top; // Array of guielements
 	var $_guielems_middle; // Array of guielements
 	var $_guielems_bottom; // Array of guielements
-
+	
 	var $_jsfuncs; // Array of JavaScript functions
 	var $_guifuncs; // Array of gui functions
 	var $_processfuncs; // Array of process functions
@@ -20,21 +20,21 @@ class component {
 	var $_sorted_jsfuncs;
 	var $_sorted_guifuncs;
 	var $_sorted_processfuncs;
-
+	
 	var $_lists; // Array of lists
-
+	
 	var $_opts; //array of configurable options
 
 	function component($compname, $type = 'setup') {
 		global $display;
 		$this->_compname = $compname;
 		$this->_type = $type;
-
+		
 		$this->_sorted_guielems = true;
 		$this->_sorted_jsfuncs = true;
 		$this->_sorted_guifuncs = true;
 		$this->_sorted_processfuncs = true;
-
+		
 		//set section to hidden if requested by user
 		$user_hidden = isset($_COOKIE['guielToggle']) ? json_decode($_COOKIE['guielToggle']) : array();
 		foreach($user_hidden as $k => $v) {
@@ -44,7 +44,7 @@ class component {
 			}
 		}
 	}
-
+	
 	/*
 	 * Toggle open state
 	 * true = open, false = closed
@@ -56,7 +56,7 @@ class component {
 			$this->_opts[$section]['guielToggle'] = $state;
 		}
 	}
-
+	
 	function addguielem($section, $guielem, $sortorder = 5, $placement = null) {
 		// Note that placement is only used in 'middle', eg, a named module
 		if ( $sortorder < 0 || $sortorder > 9 ) {
@@ -82,35 +82,24 @@ class component {
 				}
 				break;
 		}
-
+		
 		$this->_sorted_guielems = false;
 	}
 
 	function delguielem($section, $elemname) {
 		switch ($section) {
 			case '_top':
-				foreach ($this->_guielems_top as $index1 => $elements) {
-					foreach ($elements as $index2 => $element) {
-						if ($element->_elemname == $elemname) {
-							unset($this->_guielems_top[$index1][$index2]);
-							return true;
+					foreach ($this->_guielems_top as $index1 => $elements) {
+						foreach ($elements as $index2 => $element) {
+							if ($element->_elemname == $elemname) {
+								unset($this->_guielems_top[$index1][$index2]);
+								return true;
+							}
 						}
 					}
-				}
 				break;
 			case '_bottom':
-				foreach ($this->_guielems_bottom as $index1 => $elements) {
-					foreach ($elements as $index2 => $element) {
-						if ($element->_elemname == $elemname) {
-							unset($this->_guielems_bottom[$index1][$index2]);
-							return true;
-						}
-					}
-				}
-				break;
-			default:
-				if (isset($this->_guielems_middle[$section])) {
-					foreach ($this->_guielems_middle[$section] as $index1 => $elements) {
+					foreach ($this->_guielems_bottom as $index1 => $elements) {
 						foreach ($elements as $index2 => $element) {
 							if ($element->_elemname == $elemname) {
 								unset($this->_guielems_bottom[$index1][$index2]);
@@ -118,8 +107,19 @@ class component {
 							}
 						}
 					}
-				}
-		}
+				break;
+			default:
+					if (isset($this->_guielems_middle[$section])) {
+						foreach ($this->_guielems_middle[$section] as $index1 => $elements) {
+							foreach ($elements as $index2 => $element) {
+								if ($element->_elemname == $elemname) {
+									unset($this->_guielems_bottom[$index1][$index2]);
+									return true;
+								}
+							}
+						}
+					}
+			}
 		return false;
 	}
 
@@ -128,17 +128,17 @@ class component {
 			trigger_error('$sortorder must be between 0 and 9 in component->addjsfunc()');
 			return;
 		}
-
+		
 		$this->_jsfuncs[$function][$sortorder][] = $jstext;
-
+		
 		$this->_sorted_jsfuncs = false;
 	}
 
 	function addguifunc($function, $sortorder = 5) {
-		if ( $sortorder < 0 || $sortorder > 9 ) {
-			trigger_error('$sortorder must be between 0 and 9 in component->addguifunc()');
-			return;
-		}
+        if ( $sortorder < 0 || $sortorder > 9 ) {
+                trigger_error('$sortorder must be between 0 and 9 in component->addguifunc()');
+                return;
+        }
 		if ( !function_exists($function) ) {
 			trigger_error("$function does not exist");
 			return;
@@ -150,10 +150,10 @@ class component {
 	}
 
 	function addprocessfunc($function, $sortorder = 5) {
-		if ( $sortorder < 0 || $sortorder > 9 ) {
-			trigger_error('$sortorder must be between 0 and 9 in component->addprocessfunc()');
-			return;
-		}
+        if ( $sortorder < 0 || $sortorder > 9 ) {
+                trigger_error('$sortorder must be between 0 and 9 in component->addprocessfunc()');
+                return;
+        }
 		if ( !function_exists($function) ) {
 			trigger_error("$function does not exist");
 			return;
@@ -171,17 +171,17 @@ class component {
 		} elseif (isset($this->_lists[$listname]) && is_array($this->_lists[$listname]) ) {
 			trigger_error("list $listname already exists");
 		}
-
+		
 		// does this list need sorting ?
 		$this->_lists[$listname]['sort'] = $sort;
 		// nothing really, but an array will be here after addlistitem
 		$this->_lists[$listname]['array'] = array();
 	}
-
+	
 	function setoptlistopts($listname, $opt, $val) {
 		$this->_lists[$listname][$opt] = $val;
 	}
-
+	
 	function addoptlistitem($listname, $value, $text, $uselang = true) {
 		// must add the list before using it
 		if ( !isset($this->_lists[$listname]) ) {
@@ -191,7 +191,7 @@ class component {
 		// add the item
 		$this->_lists[$listname]['array'][] = array('text' => $text, 'value' => $value);
 	}
-
+	
 	function getoptlist($listname) {
 		if ( isset($this->_lists[$listname]['array']) ) {
 			// sort the array by text
@@ -206,7 +206,7 @@ class component {
 			return null;
 		}
 	}
-
+	
 	function addgeneralarray($arrayname) {
 		if ( (isset($arrayname) ? $arrayname : '') == '') {
 			trigger_error('missing $arrayname in component->addarray()');
@@ -214,19 +214,19 @@ class component {
 		} elseif ( isset($this->_lists[$arrayname]) && is_array($this->_lists[$arrayname]) ) {
 			trigger_error("array $arrayname already exists");
 		}
-
+		
 		// nothing really, but an array will be here after addlistitem
 		$this->_lists[$arrayname] = array();
 	}
-
+	
 	function addgeneralarrayitem($arrayname, $arraykey, $item) {
 		if ( !isset($this->_lists[$arrayname]) ) {
 			$this->addgeneralarray($arrayname);
 		}
-
+		
 		$this->_lists[$arrayname][$arraykey] = $item;
 	}
-
+	
 	function getgeneralarray($arrayname) {
 		if ( isset($this->_lists[$arrayname]) ) {
 			return $this->_lists[$arrayname];
@@ -235,7 +235,7 @@ class component {
 			return null;
 		}
 	}
-
+	
 	function getgeneralarrayitem($arrayname, $arraykey) {
 		if ( isset($this->_lists[$arrayname][$arraykey]) ) {
 			return $this->_lists[$arrayname][$arraykey];
@@ -244,12 +244,12 @@ class component {
 			return null;
 		}
 	}
-
+	
 	function sortguielems() {
 		// sort top gui elements
 		if ( is_array($this->_guielems_top) )
 			ksort($this->_guielems_top);
-
+		
 		// sort middle gui elements
 		if ( is_array($this->_guielems_middle) ) {
 			foreach ( array_keys($this->_guielems_middle) as $section ) {
@@ -257,15 +257,15 @@ class component {
 			}
 			ksort($this->_guielems_middle);
 		}
-
+				
 		// sort bottom gui elements
 		if ( is_array($this->_guielems_top) )
 			ksort($this->_guielems_top);
-
-
+		
+		
 		$this->_sorted_guielems = true;
 	}
-
+	
 	function sortjsfuncts() {
 		// sort js funcs
 		if ( is_array($this->_jsfuncs) ) {
@@ -274,7 +274,7 @@ class component {
 			}
 			ksort($this->_jsfuncs);
 		}
-
+		
 		$this->_sorted_jsfuncs = true;	
 	}
 
@@ -295,27 +295,27 @@ class component {
 
 		$this->_sorted_processfuncs = true;
 	}
-
+	
 	function generateconfigpage() {
 
 		$htmlout = '';
 		$formname = "frm_$this->_compname";
 		$hasoutput = false;
-
+		
 		if ( !$this->_sorted_guielems ) 
 			$this->sortguielems();
 
 
 		// Start of form
-
+		
 		$form_action = isset($this->_opts['form_action']) ? $this->_opts['form_action'] : $_SERVER['PHP_SELF'];
 		$htmlout .= "<form class=\"popover-form\" name=\"$formname\" action=\"".$form_action."\" method=\"post\" onsubmit=\"return ".$formname."_onsubmit();\">\n";
 		$htmlout .= "<input type=\"hidden\" name=\"display\" value=\"$this->_compname\" />\n";
 		$htmlout .= "<input type=\"hidden\" name=\"type\" value=\"$this->_type\" />\n\n";
-
+		
 		// Start of table
 		$htmlout .= "<table><!-- start of table $formname -->\n";
-
+		
 		// Gui Elements / JavaScript validation
 		// Top
 		if ( is_array($this->_guielems_top) ) {
@@ -342,18 +342,18 @@ class component {
 					if ($section) {
 						$mysec = preg_replace('/[^A-Za-z]/', '' ,$section);
 						$state = isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false
-							? '+' : '-  ';
+						 		? '+' : '-  ';
 						$htmlout .= "<h5>" 
-							. "<span class=\"guielToggleBut\">$state</span>" 
-							. _($section) 
-							. "</h5><hr>";
+								. "<span class=\"guielToggleBut\">$state</span>" 
+								. _($section) 
+								. "</h5><hr>";
 					} else {
 						$htmlout .= '<hr>';
 					}
 
 					$htmlout .= "</td>\n";
 					$htmlout .= "\t</tr>\n";
-
+					
 					// Elements
 					foreach ( array_keys($this->_guielems_middle[$section]) as $sortorder ) {
 						if ($sortorder == 'placement') 
@@ -386,7 +386,7 @@ class component {
 				}
 			}
 		}
-
+		
 		$tabindex = guielement::gettabindex();
 		// End of table
 
@@ -409,7 +409,7 @@ class component {
 		// Javascript
 		$htmlout .= "<script type=\"text/javascript\">\n<!--\n";
 		$htmlout .= "var theForm = document.$formname;\n\n";
-
+		
 		// TODO:	* Create standard JS to go thru each text box looking for first one not hidden and set focus
 		if ( is_array($this->_jsfuncs) ) {
 			foreach ( array_keys($this->_jsfuncs) as $function ) {
@@ -427,10 +427,10 @@ class component {
 			}
 		}
 		$htmlout .= "//-->\n</script>";
-
+		
 		// End of form
 		$htmlout .= "\n</form>\n\n";
-
+		
 		if ( $hasoutput ) {
 			return $htmlout;
 		} else {
@@ -450,7 +450,7 @@ class component {
 			}
 		}
 	}
-
+	
 	function buildconfigpage() {
 		if ( !$this->_sorted_guifuncs ) {
 			$this->sortguifuncs();
@@ -480,7 +480,7 @@ class guielement {
 	var $_html;
 	var $_javascript;
 	var $_opts;
-
+	
 	function guielement($elemname, $html = '', $javascript = '') {
 		global $CC;
 		// name that will be the id tag
@@ -491,15 +491,15 @@ class guielement {
 		// otherwise $html will be blanked out
 		$this->_html = $html;
 		$this->_javascript = $javascript;
-
+		
 
 		$this->_opts = & $CC->_opts;
 	}
-
+	
 	function generatehtml() {
 		return $this->_html;
 	}
-
+	
 	function generatevalidation() {
 		return $this->_javascript;
 	}
@@ -526,14 +526,14 @@ class guielement {
 /**
  * 
  * @param $table bool if this element is in a table or not, Default is true.
- */
+*/
 class gui_hidden extends guielement {
 	function gui_hidden($elemname, $currentvalue = '', $table=true) {
 		// call parent class contructor
 		guielement::guielement($elemname, '', '');
-
+		
 		$this->_html = "<input type=\"hidden\" name=\"$this->_elemname\" id=\"$this->_elemname\" value=\"" . htmlentities($currentvalue) . "\">";
-
+		
 		// make it a new row
 		if($table) {
 			$this->_html = "\t<tr>\n\t\t<td>" . $this->_html . "</td>\n\t</tr>\n";
@@ -542,10 +542,10 @@ class gui_hidden extends guielement {
 }
 
 /*
- ************************************************************
- ** guiinput is the base class of all form fields          **
- ************************************************************
- */
+************************************************************
+** guiinput is the base class of all form fields          **
+************************************************************
+*/
 
 class guiinput extends guielement {
 	var $currentvalue;
@@ -554,14 +554,14 @@ class guiinput extends guielement {
 	var $jsvalidation;
 	var $failvalidationmsg;
 	var $canbeempty;
-
+	
 	var $html_input;
-
+	
 	function guiinput($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $jsvalidationtest='') {
 
 		// call parent class contructor
 		guielement::guielement($elemname, '', '');
-
+		
 		// current valid of the field
 		$this->currentvalue = $currentvalue;
 		// this will appear on the left column
@@ -576,15 +576,15 @@ class guiinput extends guielement {
 		$this->failvalidationmsg = $failvalidationmsg;
 		// Can this field be empty ?
 		$this->canbeempty = $canbeempty;
-
+		
 		// this will be the html that makes up the input element
 		$this->html_input = '';
 		guielement::incrementfields();
 	}
-
+	
 	function generatevalidation() {
 		$output = '';
-
+		
 		if ($this->jsvalidation != '' ) {
 			if(!$this->jsvalidationtest){
 				$thefld = "theForm." . $this->_elemname;
@@ -593,7 +593,7 @@ class guiinput extends guielement {
 				$thefld="theForm." . $this->_elemname;
 				$thefldvalue =$this->jsvalidationtest;
 			}
-
+		
 			if ($this->canbeempty) {
 				$output .= "\tdefaultEmptyOK = true;\n";
 			} else {
@@ -604,28 +604,28 @@ class guiinput extends guielement {
 			$output .= "\t\treturn warnInvalid(" . $thefld . ", \"" . $this->failvalidationmsg . "\");\n";
 			$output .= "\n";
 		}
-
+		
 		return $output;
 	}
-
+	
 	function generatehtml($section = '') {
 		// this effectivly creates the template using the prompttext and html_input
 		// we would expect the $html_input to be set by the child class
-
+		
 		$output = '';
-
+		
 		// start new row
 		if ($section) {
 			$mysec = preg_replace('/[^A-Za-z]/', '' ,$section);
 			$output .= '<tr class="' . $section . '" '
-				. ((isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false) 
+					. ((isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false) 
 						? ' style="display:none" ' 
 						: '')
-				.' >' . "\n";
+					.' >' . "\n";
 		} else {
 			$output .= "\t<tr>\n";
 		}
-
+		
 
 		// prompt in first column
 		$output .= "\t\t<td>";
@@ -635,15 +635,15 @@ class guiinput extends guielement {
 			$output .= $this->prompttext;
 		}
 		$output .= "</td>\n";
-
+		
 		// actual input in second row
 		$output .= "\t\t<td>";
 		$output .= $this->html_input;
 		$output .= "</td>\n";
-
+		
 		// end this row
 		$output .= "\t</tr>\n";
-
+		
 		return $output;
 	}
 }
@@ -653,7 +653,7 @@ class gui_textbox extends guiinput {
 	function gui_textbox($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false) {
 		// call parent class contructor
 		parent::__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
-
+		
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 		$tabindex = guielement::gettabindex();
 		$disable_state = $disable ? 'disabled="true"':'';
@@ -686,7 +686,7 @@ class gui_password extends guiinput {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
-
+		
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 		$tabindex = guielement::gettabindex();
 		$disable_state = $disable ? 'disabled="true"':'';
@@ -701,7 +701,7 @@ class gui_selectbox extends guiinput {
 			trigger_error('$valarray must be a valid array in gui_selectbox');
 			return;
 		}
-
+		
 		// currently no validation fucntions availble for select boxes
 		// using the normal $canbeempty to flag if a blank option is provided
 		$parent_class = get_parent_class($this);
@@ -709,12 +709,12 @@ class gui_selectbox extends guiinput {
 
 		$this->html_input = $this->buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable);
 	}
-
+	
 	// Build select box
 	function buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable) {
 		$output = '';
 		$onchange = ($onchange != '') ? " onchange=\"$onchange\"" : '';
-
+		
 		$tabindex = guielement::gettabindex();
 		$disable_state = $disable ? 'disabled="true"':'';
 		$output .= "\n\t\t\t<select name=\"$this->_elemname\" id=\"$this->_elemname\" tabindex=\"$tabindex\" $disable_state $onchange >\n";
@@ -727,11 +727,11 @@ class gui_selectbox extends guiinput {
 			$itemvalue = (isset($item['value']) ? $item['value'] : '');
 			$itemtext = (isset($item['text']) ? $item['text'] : '');
 			$itemselected = ((string) $currentvalue == (string) $itemvalue) ? ' selected' : '';
-
+			
 			$output .= "\t\t\t\t<option value=\"$itemvalue\"$itemselected>$itemtext</option>\n";
 		}
 		$output .= "\t\t\t</select>\n\t\t";
-
+		
 		return $output;
 	}
 }
@@ -762,17 +762,17 @@ class gui_radio extends guiinput {
 
 		$this->html_input = $this->buildradiobuttons($valarray, $currentvalue, $disable);
 	}
-
+	
 	function buildradiobuttons($valarray, $currentvalue, $disable=false) {
 		$output = '';
 		$output .= '<span class="radioset">';
-
+		
 		$count = 0;
 		foreach ($valarray as $item) {
 			$itemvalue = (isset($item['value']) ? $item['value'] : '');
 			$itemtext = (isset($item['text']) ? $item['text'] : '');
 			$itemchecked = ((string) $currentvalue == (string) $itemvalue) ? ' checked=checked' : '';
-
+			
 			$tabindex = guielement::gettabindex();
 			$disable_state = $disable ? 'disabled="true"':'';
 			$output .= "<input type=\"radio\" name=\"$this->_elemname\" id=\"$this->_elemname$count\" $disable_state tabindex=\"$tabindex\" value=\"$this->_elemname=$itemvalue\"$itemchecked/><label for=\"$this->_elemname$count\">$itemtext</label>\n";
@@ -783,18 +783,6 @@ class gui_radio extends guiinput {
 	}
 }
 
-class gui_button extends guiinput {
-	function gui_button($elemname, $value, $prompttext = '', $helptext = '', $post_text = '', $jsonclick = '', $disable=false) {
-		$parent_class = get_parent_class($this);
-		parent::$parent_class($elemname, '', $prompttext, $helptext);
-
-		$disable_state = $disable ? 'disabled="true"' : '';
-		$js_onclick_include = ($jsonclick != '') ? 'onclick="' . $jsonclick. '"' : '';
-		$tabindex = guielement::gettabindex();
-		$this->html_input = "<button type=\"button\" name=\"$this->_elemname\" id=\"$this->_elemname\" $disable_state tabindex=\"$tabindex\" value=\"$value\" $js_onclick_include/>$post_text</button>\n";
-	}
-}
-
 class gui_drawselects extends guiinput {
 	function gui_drawselects($elemname, $index, $dest, $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='') {
 		global $currentcomponent;
@@ -802,7 +790,7 @@ class gui_drawselects extends guiinput {
 		$jsvalidation = isset($jsvalidation) ? $jsvalidation : '';
 		$jsvalidationtest = isset($jsvalidationtest) ? $jsvalidationtest : '';
 		parent::$parent_class($elemname, '', $prompttext, $helptext, $jsvalidation, $failvalidationmsg, '', $jsvalidationtest);
-
+		
 		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $required);
 
 		//attach a value to this element, so that we can find its value
@@ -815,9 +803,9 @@ class gui_textarea extends guiinput {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
-
+		
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
-
+	
 		$list = explode("\n",$this->currentvalue);
 		$rows = count($list); 
 		$rows = (($rows > 20) ? 20 : $rows);
@@ -827,10 +815,10 @@ class gui_textarea extends guiinput {
 }
 
 /*
- ************************************************************
- ** guitext is the base class of all text fields (e.g. h1) **
- ************************************************************
- */
+************************************************************
+** guitext is the base class of all text fields (e.g. h1) **
+************************************************************
+*/
 
 class guitext extends guielement {
 	var $html_text;
@@ -838,37 +826,37 @@ class guitext extends guielement {
 	function guitext($elemname, $html_text = '') {
 		// call parent class contructor
 		guielement::guielement($elemname, '', '');
-
+		
 		$this->html_text = $html_text;
 	}
-
+	
 	function generatehtml($section = '') {
 		// this effectivly creates the template using the html_text
 		// we would expect the $html_text to be set by the child class
-
+		
 		$output = '';
-
+		
 		// start new row
 		if ($section) {
 			$mysec = preg_replace('/[^A-Za-z]/', '' ,$section);
 			$output .= '<tr class="' . $section . '" '
-				. ((isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false) 
+					. ((isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false) 
 						? ' style="display:none" ' 
 						: '')
-				.' >' . "\n";
+					.' >' . "\n";
 		} else {
 			$output .= "\t<tr>\n";
 		}
-
+		
 
 		// actual input in second row
 		$output .= "\t\t<td colspan=\"2\">";
 		$output .= $this->html_text;
 		$output .= "</td>\n";
-
+		
 		// end this row
 		$output .= "\t</tr>\n";
-
+		
 		return $output;
 	}	
 }
@@ -879,7 +867,7 @@ class gui_label extends guitext {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
-
+		
 		// nothing really needed here as it's just whatever text was passed
 		// but suppose we should do something with the element name
 		$this->html_text = "<span id=\"$this->_elemname\">$text</span>";
@@ -913,7 +901,7 @@ class gui_subheading extends guitext {
 // URL / Link
 class gui_link extends guitext {
 	function gui_link($elemname, $text, $url, $uselang = true) {
-
+		
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);

@@ -268,8 +268,6 @@ function framework_display_destination_usage($dest, $module_hash=false) {
  *                  either obtain the identify, identify it as an object that has been deleted, or identify
  *                  it as an unknown destination, usually a custom destination.
  *
- * FIXME: This is slow, and needs to be sped up.
- *
  */
 function framework_identify_destinations($dest, $module_hash=false) {
 	global $active_modules;

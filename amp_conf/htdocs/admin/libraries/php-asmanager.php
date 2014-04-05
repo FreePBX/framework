@@ -1106,7 +1106,7 @@ class AGI_AsteriskManager {
 		$r = $this->command("core show application $app");
 		return (strpos($r['data'],"Your application(s) is (are) not registered") === false);
 	}
-	
+
 	/** Returns whether a give channeltype exists in this Asterisk install
 	 * @param string $channel	The case in-sensitve name of the channel
 	 * @return bool True if if it exists

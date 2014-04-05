@@ -1,11 +1,6 @@
 <?php
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 
-if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-	out("FreePBX Requires PHP Version 5.3.0 or Higher, you have: ".PHP_VERSION);
-	return false;
-}
-
 // HELPER FUNCTIONS:
 
 function framework_print_errors($src, $dst, $errors) {
@@ -150,30 +145,3 @@ if (!function_exists('version_compare_freepbx')) {
 	if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && function_exists('compress_framework_css')) {
 		compress_framework_css(); 
 	}
-	
-	if(!file_exists(dirname(__FILE__).'/module.xml')) {
-		out(_('Cant Find Framework XML'));
-		return false;
-	}
-	
-	//This is also run in moduleadmin class
-	//why? well because in developer mode this file doesnt exist, only the
-	//module.xml exists so we have to do it in multiple places. yaaaaay :-|
-	$fwxml = simplexml_load_file(dirname(__FILE__).'/module.xml');
-	//setversion to whatever is in framework.xml forever for here on out.
-	$fwver = (string)$fwxml->version;
-	if(!empty($fwver)) {
-		if(!function_exists('setversion')) {
-			die('Cant find function setversion');
-			return false;
-		}
-		setversion($fwver);
-		if(getVersion() != $fwver) {
-			out(_('Internal Error. Function install_getversion did not match the Framework version, even after it was suppose to be applied'));
-			return false;
-		}
-	} else {
-		out(_('Version from Framework was empty, cant continue'));
-		return false;
-	}
-	

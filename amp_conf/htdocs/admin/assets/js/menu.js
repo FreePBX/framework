@@ -8,15 +8,6 @@
  *
  */
 (function($) {
-	/* TODO: Someday use this
-	$( ".menubar" ).menu({
-		icons: { submenu: "ui-icon-triangle-1-s" },
-		menus: "ul"
-	});
-	*/
-}(jQuery));
-
-(function($) {
 $.widget("ui.menubar", {
 	_create: function(){
 		var self = this;
@@ -27,12 +18,10 @@ $.widget("ui.menubar", {
 			}).hide().addClass("ui-menu-flyout");
 		});
 		this.element.children("button, a").each(function(i, elm){
-			
 			$(elm).click(function(event) {
 				$(document).find(".ui-menu-flyout").hide();
 				if ($(this).next().is("ul")){
-					/* This was data("flyoutmenu") but now we call directly */
-					$(this).next().flyoutmenu("show");
+					$(this).next().data("flyoutmenu").show();
 					$(this).next().css({
 						position:"absolute",
 						top: 0,
@@ -63,7 +52,6 @@ $.widget("ui.menubar", {
  * 	by: Michael Lang, http://nexul.com/
  *
  */
-
 (function($) {
 $.widget("ui.flyoutmenu", {
 	_create: function(){
@@ -74,7 +62,7 @@ $.widget("ui.flyoutmenu", {
 		this.element.find("ul").addClass("ui-menu-flyout").hide()
 			.prev("a").prepend('<span class="ui-icon ui-icon-carat-1-e"></span>');
 		
-		this.element.find("ul").addBack().menu({
+		this.element.find("ul").andSelf().menu({
 			// disable built-in key handling
 			input: (!this.options.input)? $() : this.options.input,
 			select: this.options.select,
@@ -235,7 +223,7 @@ $.widget("ui.flyoutmenu", {
 	},
 	hide: function() {
 		this.activeItem = this.element.children("li").first();
-		this.element.find("ul").addBack().menu("deactivate").hide();
+		this.element.find("ul").andSelf().menu("deactivate").hide();
 	}
 });
 }(jQuery));

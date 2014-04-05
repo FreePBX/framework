@@ -25,7 +25,7 @@ function featurecodes_getAllFeaturesDetailed($sort_module=true) {
 	if (file_exists($fd)) {
 		$overridecodes = parse_ini_file($fd,true);
 	}
-	$s = "SELECT featurecodes.modulename, featurecodes.featurename, featurecodes.description AS featuredescription, featurecodes.helptext AS featurehelptext, featurecodes.enabled AS featureenabled, featurecodes.defaultcode, featurecodes.customcode, ";
+	$s = "SELECT featurecodes.modulename, featurecodes.featurename, featurecodes.description AS featuredescription, featurecodes.enabled AS featureenabled, featurecodes.defaultcode, featurecodes.customcode, ";
 	$s .= "modules.enabled AS moduleenabled, featurecodes.providedest ";
 	$s .= "FROM featurecodes ";
 	$s .= "INNER JOIN modules ON modules.modulename = featurecodes.modulename ";

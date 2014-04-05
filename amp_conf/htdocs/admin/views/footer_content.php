@@ -2,7 +2,6 @@
 global $amp_conf;
 $html = '';
 $version	 = get_framework_version();
-$version = $version ? $version : getversion();
 $version_tag = '?load_version=' . urlencode($version);
 if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
   $this_time_append	= '.' . time();

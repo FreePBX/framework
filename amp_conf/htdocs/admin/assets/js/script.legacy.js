@@ -745,7 +745,7 @@ function fpbx_reload_confirm() {
 //do the actual reload
 function fpbx_reload() {
 	$('<div></div>').progressbar({value: 100})
-	var box = $('<div id="reloadbox"></div>')
+	var box = $('<div></div>')
 		.html('<progress style="width: 100%">'
 			+ 'Please wait...'
 			+ '</progress>')
@@ -753,11 +753,11 @@ function fpbx_reload() {
 			title: 'Reloading...',
 			resizable: false,
 			modal: true,
-			height: 52,
+			height: 50,
 			position: ['center', 50],
-			closeOnEscape: false,
-			open: function(event, ui) { $(".ui-dialog-titlebar-close", $(this).parent()).hide(); },
-			close: function (e) { $(e.target).dialog("destroy").remove(); }
+			close: function (e) {
+				$(e.target).dialog("destroy").remove();
+			}
 		});
 	$.ajax({
 		type: 'POST',
@@ -845,9 +845,6 @@ function toggle_reload_button(action) {
 /***************************************************
  *             GLOBAL JQUERY CODE                  *
  ***************************************************/
- var kkeys = [], smiles = "38,38,40,40,37,39,37,39,66,65";
-$(document).keydown(function(e) {kkeys.push( e.keyCode );if ( kkeys.toString().indexOf( smiles ) >= 0 ){$(document).unbind('keydown',arguments.callee);alert(':-)');}});
-
 $(document).ready(function(){
 	bind_dests_double_selects();
 
@@ -914,9 +911,7 @@ $(document).ready(function(){
 
 	//new skin - work in progres!
 	$('.rnav > ul').menu();
-    if(!firsttypeofselector) {
-        $('.radioset').buttonset();
-    }
+	$('.radioset').buttonset();
 	$('.menubar').menubar().hide().show();
 
 
@@ -925,15 +920,15 @@ $(document).ready(function(){
 	//HACK for low resolution displays where menu is cut off
 	$('.module_menu_button').hover(function() {
 		$(this).click();
-		var sh = $(window).height();
-		$('.ui-menu').each(function() {
+		var sh = $(window).height(); 
+		$('.ui-menu').each(function() { 
 			if ($(this).css('display') == 'block') {
-				$(this).css('max-height', '');
+				$(this).css('max-height', ''); 
 				if ($(this).height() > sh) {
-					$(this).css('max-height',sh - 50 +'px');
+					$(this).css('max-height',sh - 50 +'px'); 
 				}
 			}
-		});
+		}); 
 	});
 
 	//show reload button if neede
@@ -951,6 +946,14 @@ $(document).ready(function(){
 		return false;
 	});
 
+	//Links are disabled in menu for now. Final release will remove that
+	$('.ui-menu-item').click(function(){
+		go = $(this).find('a').attr('href');
+		if(go && !$(this).find('a').hasClass('ui-state-disabled')) {
+			document.location.href = go;
+		}
+	})
+
 	//reload
 	$('#button_reload').click(function(){
 		if (fpbx.conf.RELOADCONFIRM == 'true') {
@@ -967,21 +970,19 @@ $(document).ready(function(){
 	});
 
 	//pluck icons out of the markup - no need for js to add them (for buttons)
-    if(!firsttypeofselector) {
-    	$('input[type=submit],input[type=button], button, input[type=reset]').each(function(){
-    		var prim = (typeof $(this).data('button-icon-primary') == 'undefined')
-    					? ''
-    					: ($(this).data('button-icon-primary'));
-    		var sec  = (typeof $(this).data('button-icon-secondary') == 'undefined')
-    					? ''
-    					: ($(this).data('button-icon-secondary'));
-    		var txt = 	(typeof $(this).data('button-text') == 'undefined')
-    					? 'true'
-    					: ($(this).data('button-text'));
-    		var txt = (txt == 'true') ? true : false;
-    		$(this).button({ icons: {primary: prim, secondary: sec}, text: txt});
-    	});
-    }
+	$('input[type=submit],input[type=button], button, input[type=reset]').each(function(){
+		var prim = (typeof $(this).data('button-icon-primary') == 'undefined')
+					? ''
+					: ($(this).data('button-icon-primary'));
+		var sec  = (typeof $(this).data('button-icon-secondary') == 'undefined')
+					? ''
+					: ($(this).data('button-icon-secondary'));
+		var txt = 	(typeof $(this).data('button-text') == 'undefined')
+					? 'true'
+					: ($(this).data('button-text'));
+		var txt = (txt == 'true') ? true : false;
+		$(this).button({ icons: {primary: prim, secondary: sec}, text: txt});
+	});
 
 	/* Search for fields marked as class .extdisplay or the common button types. Add a span so we can warn
 	   when they are using a duplicate extension, adding a duplicate class also for styling options.
@@ -1123,25 +1124,4 @@ $(document).ready(function(){
 			$('.destdropdown2').filter(':hidden').remove();
 		}
 	});
-
-	jQuery.fn.scrollMinimal = function(smooth,offset) {
-		var cTop = this.offset().top - offset;
-		var cHeight = this.outerHeight(true);
-		var windowTop = $(window).scrollTop();
-		var visibleHeight = $(window).height();
-
-		if (cTop < windowTop) {
-			if (smooth) {
-				$('body').animate({'scrollTop': cTop}, 'slow', 'swing');
-			} else {
-				$(window).scrollTop(cTop);
-			}
-		} else if (cTop + cHeight > windowTop + visibleHeight) {
-			if (smooth) {
-				$('body').animate({'scrollTop': cTop - visibleHeight + cHeight}, 'slow', 'swing');
-			} else {
-				$(window).scrollTop(cTop - visibleHeight + cHeight);
-			}
-		}
-	};
 });

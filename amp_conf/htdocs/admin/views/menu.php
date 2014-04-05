@@ -164,7 +164,7 @@ if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) {
 }
 $out .= '<progress class="button-right" id="ajax_spinner"></progress>';
 
-$out .= '<a id="button_reload" data-button-icon-primary="ui-icon-gear" class="ui-state-error ">'
+$out .= '<a id="button_reload" href="#" data-button-icon-primary="ui-icon-gear" class="ui-state-error ">'
 		. _("Apply Config") .'</a>';
 
 $out .= '</div>';

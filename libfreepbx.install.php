@@ -58,6 +58,7 @@ function upgrade_all($version) {
 	// callback to use php's version_compare() to sort
 	usort($versions, "version_compare_freepbx");
 
+
 	// find versions that are higher than the current version
 	$starting_version = false;
 	foreach ($versions as $check_version) {
@@ -232,8 +233,8 @@ function recursive_readlink($source){
 	$ldir = null;
 
 	while (!in_array($dir,array('.','..','','/')) && strpos('.git',$dir) == false) {
-		if ($dir == $ldir) {
-			break;
+		if ($dir == $ldir) { 
+			break; 
 		}
 		if (is_link($dir)) {
 			$ldir = readlink($dir);
@@ -286,9 +287,8 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 	global $asterisk_conf;
 	global $install_moh;
 	global $make_links;
-	$overwrite = false;
 
-	$moh_subdir = isset($amp_conf['MOHDIR']) ? trim(trim($amp_conf['MOHDIR']),'/') : 'mohmp3';
+  $moh_subdir = isset($amp_conf['MOHDIR']) ? trim(trim($amp_conf['MOHDIR']),'/') : 'mohmp3';
 
 	// total # files, # actually copied
 	$num_files = $num_copied = 0;
@@ -355,10 +355,10 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 					$overwrite = true;
 				}
 
-				// These are modified by apply_conf.sh, there may be others that fit in this category also. This keeps these from
-				// being symlinked and then developers inadvertently checking in the changes when they should not have.
-				//
-				$never_symlink = array("cdr_mysql.conf", "manager.conf", "vm_email.inc", "modules.conf");
+        // These are modified by apply_conf.sh, there may be others that fit in this category also. This keeps these from
+        // being symlinked and then developers inadvertently checking in the changes when they should not have.
+        //
+        $never_symlink = array("cdr_mysql.conf", "manager.conf", "vm_email.inc");
 
 				$num_files++;
 				if ($overwrite) {
@@ -369,36 +369,15 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 							if (is_link($destination) || file_exists($destination)) {
 								unlink($destination);
 							}
-
+					
 							$links = recursive_readlink($source);
 							if (!empty($links)) {
-								@symlink(substitute_readlinks($source,$links), $destination);
+								symlink(substitute_readlinks($source,$links), $destination);
 							} else {
-								if(file_exists(dirname(__FILE__)."/".$source)) {
-									@symlink(dirname(__FILE__)."/".$source, $destination);
-								}
+								symlink(dirname(__FILE__)."/".$source, $destination);
 							}
 						} else {
-							$ow = false;
-							if(file_exists($destination)) {
-								if (checkDiff($source, $destination) && !$make_links) {
-									$ow = ask_overwrite($source, $destination);
-								} elseif($make_links) {
-									$ow = false;
-								}
-							} else {
-								$ow = true;
-							}
-							//ask_overwrite
-							if($ow) {
-								//Copy will not overwrite a symlink, phpnesssss
-								if(file_exists($destination) && is_link($destination)) {
-									unlink($destination);
-								}
-								copy($source, $destination);
-							} else {
-								continue;
-							}
+							copy($source, $destination);
 						}
 						$num_copied++;
 					}
@@ -406,6 +385,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 					debug("not overwriting ".$destination);
 				}
 			} else {
+				//echo "recursive_copy($dirsourceparent, $dirdest, $md5sums, $dirsource/$file)";
 				list($tmp_num_files, $tmp_num_copied) = recursive_copy($dirsourceparent, $dirdest, $md5sums, $dirsource."/".$file);
 				$num_files += $tmp_num_files;
 				$num_copied += $tmp_num_copied;
@@ -475,7 +455,7 @@ function install_sqlupdate( $version, $file )
 //
 // freepbx_settings_init()
 // this is where we initialize all the freepbx_settings (amportal.conf). This will be run with install_amp and every
-// time we run the framework installer, so new settings can be added here that are framework wide. It may make sense to
+// time we run the framework installer, so new settings can be added here that are framework wide. It may make send to
 // break this out separately but for now we'll keep it here since this is already part of the infrastructure that is
 // used by both install_amp and the framework install/upgrade script.
 //
@@ -844,7 +824,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = true;
   $set['options'] = '';
   $set['name'] = 'Browser Stats';
-  $set['description'] = 'Setting this to true will allow the development team to use google analytics to anonymously analyze browser information to help make better development decisions.';
+  $set['description'] = 'Setting this to true will allow the development team to use google analytics to anonymously analyze browser information to help make better development decision.';
   $set['emptyok'] = 0;
   $set['readonly'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
@@ -861,7 +841,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('USE_GOOGLE_CDN_JS',$set);
 
 	//JQUERY_VER
-	$set['value'] = '1.11.0-beta2';
+	$set['value'] = '1.7.1';
 	$set['options'] = '';
 	$set['defaultval'] =& $set['value'];
 	$set['readonly'] = 1;
@@ -877,7 +857,7 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['hidden'] = 0;
 
 	//JQUERYUI_VER
-	$set['value'] = '1.10.3';
+	$set['value'] = '1.8.9';
 	$set['options'] = '';
 	$set['defaultval'] =& $set['value'];
 	$set['readonly'] = 1;
@@ -1070,7 +1050,7 @@ function freepbx_settings_init($commit_to_db = false) {
   for ($i=0;$i<=120;$i++) {
       $opts[]=$i;
   }
-  $set['value'] = '3';
+  $set['value'] = '0';
   $set['options'] = $opts;
   $set['name'] = 'Extension Concurrency Limit';
   $set['description'] = 'Default maximum number of outbound simultaneous calls that an extension can make. This is also very useful as a Security Protection against a system that has been compromised. It will limit the number of simultaneous calls that can be made on the compromised extension. This default is used when an extension is created. A default of 0 means no limit.';
@@ -1143,8 +1123,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('DITECH_VQA_OUTBOUND',$set);
 
 	// ASTCONFAPP
-	$set['value'] = 'app_confbridge';
-	$set['defaultval'] = 'app_confbridge';
+	$set['value'] = 'app_meetme';
 	$set['options'] = array('app_meetme', 'app_confbridge');
 	$set['name'] = 'Conference Room App';
 	$set['description'] = 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_confbridge application is considered "experimental" with known issues and does not work on Asterisk 10 where it was completely rewritten and changed from the version on 1.6 and 1.8.';

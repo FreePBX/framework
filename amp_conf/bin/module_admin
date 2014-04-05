@@ -44,8 +44,7 @@ function doReload() {
 
 function doDisable($modulename, $force) {
 	getIncludes();
-	$module =& module_functions::create();
-	if (is_array($errors = $module->disable($modulename, $force))) {
+	if (is_array($errors = module_disable($modulename, $force))) {
 		out("The following error(s) occured:");
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
@@ -56,8 +55,7 @@ function doDisable($modulename, $force) {
 
 function doEnable($modulename, $force) {
 	getIncludes();
-	$module =& module_functions::create();
-	if (is_array($errors = $module->enable($modulename, $force))) {
+	if (is_array($errors = module_enable($modulename, $force))) {
 		out("The following error(s) occured:");
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
@@ -68,34 +66,10 @@ function doEnable($modulename, $force) {
 
 function doInstall($modulename, $force) {
 	getIncludes();
-	$module =& module_functions::create();
-	if (is_array($errors = $module->install($modulename, $force))) {
-		if(!empty($module->modDepends)) {
-			out("Detected Unmet Dependency..Attempting to install it");
-			foreach($module->modDepends as $mod) {
-				getIncludes(); //get functions from other modules, in case we need them here
-				out("Installing $mod...");
-				$status = doInstall($mod, $force);
-				if($status !== true && $mod != 'framework') {
-					if (($status1 = doDownload($mod, $force)) === true) {
-						if (($status2 = doInstall($mod, $force)) === true) {
-							out("Unable to install module ${modulename}'s dependency ${mod}:");
-							out(' - '.implode("\n - ",$status2));
-							exit;
-						}
-                    } else {
-						out("Unable to download module ${modulename}'s dependency ${mod}:");
-						out(' - '.implode("\n - ",$status1));
-						exit;
-					}
-				}
-			}
-			doInstall($modulename, $force);
-		} else {
-			out("The following error(s) occurred:");
-			out(' - '.implode("\n - ",$errors));
-			exit(2);
-		}
+	if (is_array($errors = module_install($modulename, $force))) {
+		out("The following error(s) occured:");
+		out(' - '.implode("\n - ",$errors));
+		exit(2);
 	} else {
 		out("Module ".$modulename." successfully installed");
 	}
@@ -103,8 +77,7 @@ function doInstall($modulename, $force) {
 
 function doDelete($modulename, $force) {
 	getIncludes();
-	$module =& module_functions::create();
-	if (is_array($errors = $module->delete($modulename, $force))) {
+	if (is_array($errors = module_delete($modulename, $force))) {
 		out("The following error(s) occured:");
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
@@ -114,9 +87,8 @@ function doDelete($modulename, $force) {
 }
 
 function doDeleteAll($force=true) {
-	$modulef =& module_functions::create();
 	getIncludes(); //get functions from other modules, in case we need them here
-	$modules = $modulef->getinfo(false, false, true);
+	$modules = module_getinfo(false, false, true);
 	unset($modules['builtin']);//builtin never gets deleted, so remove it from the list
 	$temp = array();
 	if (isset($modules['core'])){ //move core to the end
@@ -126,7 +98,7 @@ function doDeleteAll($force=true) {
 	}
 	unset($temp);
 		foreach ($modules as $module){
-			if (is_array($errors = $modulef->delete($module['rawname'], true))) {
+			if (is_array($errors = module_delete($module['rawname'], true))) {
 				out("The following error(s) occured:");
 				out(' - '.implode("\n - ",$errors));
 				//exit(2);
@@ -141,8 +113,8 @@ function doDownload($modulename, $force) {
 
 	global $modulexml_path;
 	global $modulerepository_path;
-	$modulef =& module_functions::create();
-	if (is_array($errors = $modulef->download($modulename, $force, 'download_progress', $modulerepository_path, $modulexml_path))) {
+
+	if (is_array($errors = module_download($modulename, $force, 'download_progress', $modulerepository_path, $modulexml_path))) {
 		out("The following error(s) occured:");
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
@@ -151,27 +123,6 @@ function doDownload($modulename, $force) {
 	}
 }
 
-function enableRepo($repo) {
-	$modulef =& module_functions::create();
-	$modulef->set_active_repo(strtolower($repo),1);
-	$remote = $modulef->get_remote_repos();
-	if(!in_array($repo,$remote)) {
-		out("Repo ".$repo." successfully enabled, but was not found in the remote list");
-	} else {
-		out("Repo ".$repo." successfully enabled");
-	}
-}
-
-function disableRepo($repo) {
-	$modulef =& module_functions::create();
-	$modulef->set_active_repo(strtolower($repo),0);
-	$remote = $modulef->get_remote_repos();
-	if(!in_array($repo,$remote)) {
-		out("Repo ".$repo." successfully disabled, but was not found in the remote list");
-	} else {
-		out("Repo ".$repo." successfully disabled");
-	}
-}
 
 function download_progress($action, $params) {
 	switch ($action) {
@@ -192,8 +143,7 @@ function download_progress($action, $params) {
 
 function doUninstall($modulename, $force) {
 	getIncludes();
-	$modulef =& module_functions::create();
-	if (is_array($errors = $modulef->uninstall($modulename, $force))) {
+	if (is_array($errors = module_uninstall($modulename, $force))) {
 		out("The following error(s) occured:");
 		out(' - '.implode("\n - ",$errors));
 		exit(2);
@@ -209,8 +159,7 @@ function doUpgrade($modulename, $force) {
 }
 
 function doInstallLocal($force) {
-	$modulef =& module_functions::create();
-  $module_info=$modulef->getinfo(false, MODULE_STATUS_NOTINSTALLED);
+  $module_info=module_getinfo(false, MODULE_STATUS_NOTINSTALLED);
   foreach ($module_info as $module) {
     if ($module['rawname'] != 'builtin') {
       $modules[] = $module['rawname'];
@@ -260,8 +209,7 @@ function doInstallAll($force) {
 }
 
 function getIncludes(){
-	$modulef =& module_functions::create();
-	$active_modules = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
+	$active_modules = module_getinfo(false, MODULE_STATUS_ENABLED);
 	if(is_array($active_modules)){
 		foreach($active_modules as $key => $module) {
 			//include module functions
@@ -276,9 +224,8 @@ function getIncludes(){
  * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
  */
 function getInstallableModules($extarray = false) {
-	$modulef =& module_functions::create();
-	$modules_online = $modulef->getonlinexml();
-	$module_info=$modulef->getinfo(false);
+	$modules_online = module_getonlinexml();
+	$module_info=module_getinfo(false);
 	$modules_installable = array();
   global $active_repos;
 
@@ -304,9 +251,8 @@ function getInstallableModules($extarray = false) {
  * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
  */
 function getUpgradableModules($extarray = false) {
-	$modulef =& module_functions::create();
-	$modules_local = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
-	$modules_online = $modulef->getonlinexml();
+	$modules_local = module_getinfo(false, MODULE_STATUS_ENABLED);
+	$modules_online = module_getonlinexml();
 	$modules_upgradable = array();
   global $active_repos;
 	
@@ -346,20 +292,18 @@ function doUpgradeAll($force) {
 
 function mirrorrepo(){
 	doInstallAll(true);
-	$modulef =& module_functions::create();
-	$modules_online = $modulef->getonlinexml();
-	$modules_local = $modulef->getinfo();
+	$modules_online = module_getonlinexml();
+	$modules_local = module_getinfo();
 	unset($modules_local['builtin']); //builtin never gets deleted, so remove it from the list
 	foreach ($modules_local as $localmod){
-		if (!$modulef->getonlinexml($localmod['rawname'])){
+		if (!module_getonlinexml($localmod['rawname'])){
 			doDelete($localmod['rawname'],1);
 		}
 	}
 }
 
 function showi18n($modulename) {
-	$modulef =& module_functions::create();
-	$modules = $modulef->getinfo($modulename);
+	$modules = module_getinfo($modulename);
 	if (!isset($modules[$modulename])) {
 		fatal($modulename.' not found');
 	}
@@ -391,12 +335,11 @@ function showi18n($modulename) {
 }
 
 function showCheckDepends($modulename) {
-	$modulef =& module_functions::create();
-	$modules = $modulef->getinfo($modulename);
+	$modules = module_getinfo($modulename);
 	if (!isset($modules[$modulename])) {
 		fatal($modulename.' not found');
 	}
-	if (($errors = $modulef->checkdepends($modules[$modulename])) !== true) {
+	if (($errors = module_checkdepends($modules[$modulename])) !== true) {
 		out("The following dependencies are not met:");
 		out(' - '.implode("\n - ",$errors));
 		exit(1);
@@ -426,9 +369,8 @@ function check_active_repos() {
   global $no_warnings;
   global $active_repos;
 
-	$modulef =& module_functions::create();
   if (!isset($active_repos)) {
-    $active_repos = $modulef->get_active_repos();
+    $active_repos = module_get_active_repos();
     $list = implode(',',array_keys($active_repos));
     if (!$no_warnings) {
       out("no repos specified, using: [$list] from last GUI settings");
@@ -439,7 +381,6 @@ function check_active_repos() {
 
 
 function showHelp() {
-	$modulef =& module_functions::create();
 	global $argv;
 	out("USAGE:",false);
 	out("  ".$argv[0]." [params] <operation> <module> [parameters.. ] ",false);
@@ -447,7 +388,7 @@ function showHelp() {
 	out("  -f  Force operation (skips dependency and status checks)",false);
 	out("      WARNING: Use at your own risk, modules have dependencies for a reason!",false);
 	out("  -R, --repo, --repos repo1,repo2,repo3...)",false);
-	out("      List of repositories to check, valid options: ".implode(",",$modulef->get_remote_repos()).")",false);
+	out("      List of repositories to check, valid options: standard, extended, unsupported, commercial.)",false);
 	out("      Locally installed modules will be checked despite the repository list.)",false);
 	out("OPERATIONS:",false);
 	out("  checkdepends <module>",false);
@@ -492,10 +433,6 @@ function showHelp() {
 	out("      Equivalent to running download and install",false);
 	out("  upgradeall",false);
 	out("      Downloads and upgrades all modules with pending updates",false);
-	out("  enablerepo <repo>",false);
-	out("      Enables a remote repository",false);
-	out("  disablerepo <repo>",false);
-	out("      Disables a remote repository",false);
 	
 	out("  --help, -h, -?           Show this help",false);
 }
@@ -528,8 +465,7 @@ function showInfo($modulename) {
 			}
 		}
 	}
-	$modulef =& module_functions::create();
-	$modules = $modulef->getinfo($modulename);
+	$modules = module_getinfo($modulename);
 	if (!isset($modules[$modulename])) {
 		fatal($modulename.' not found');
 	}
@@ -540,15 +476,14 @@ function showInfo($modulename) {
 
 function showList($online = false) {
 	global $amp_conf;
-	$modulef =& module_functions::create();
-	$modules_local = $modulef->getinfo(false,false,true);
+	$modules_local = module_getinfo(false,false,true);
 	$modules = $modules_local;
 	global $active_repos;
 
   check_active_repos();
 
 	if ($online) {
-		$modules_online = $modulef->getonlinexml();
+		$modules_online = module_getonlinexml();
 		if (isset($modules_online)) {
 			$modules += $modules_online;
 		}
@@ -618,13 +553,12 @@ function showList($online = false) {
 }
 
 function showReverseDepends($modulename) {
-	$modulef =& module_functions::create();
-	$modules = $modulef->getinfo($modulename);
+	$modules = module_getinfo($modulename);
 	if (!isset($modules[$modulename])) {
 		fatal($modulename.' not found');
 	}
 	
-	if (($depmods = $modulef->reversedepends($modulename)) !== false) {
+	if (($depmods = module_reversedepends($modulename)) !== false) {
 		out("The following modules depend on this one: ".implode(', ',$depmods));
 		exit(1);
 	} else {
@@ -689,8 +623,7 @@ foreach ($args[0] as $arg) {
 			$ampconfpath = $arg[1];
 		break;
 		case "--append-brand-version":
-			$modulef =& module_functions::create();
-			$modulef->_brandid($modulef->_brandid() . "-" . $arg[1]);
+  		_module_brandid(_module_brandid() . "-" . $arg[1]);
 		break;
 		case "--modulexml-path": case "x":
 			$modulexml_path = rtrim($arg[1],DIRECTORY_SEPARATOR)."/";
@@ -698,19 +631,22 @@ foreach ($args[0] as $arg) {
 		case "--modulerepository-path": case "r":
 			$modulerepository_path = rtrim($arg[1],DIRECTORY_SEPARATOR)."/";
 		break;
-		case "--repo": 
-		case "--repos": 
-		case "R":
-			$repo_args = explode(',',$arg[1]);
-			$remote_repos = $modulef->get_remote_repos();
-			foreach ($repo_args as $repo) {
-				if(in_array($repo, $remote_repos)) {
-					$active_repos[$repo] = 1;
-					$modulef->set_active_repo($repo);
-				} else {
-					out("No such repo: [$repo], skipping");
-				}
-			}
+    case "--repo": 
+    case "--repos": 
+    case "R":
+      $repo_args = explode(',',$arg[1]);
+      foreach ($repo_args as $repo) {
+        switch ($repo) {
+        case 'standard':
+        case 'extended':
+        case 'unsupported':
+        case 'commercial':
+          $active_repos[$repo] = 1;
+        break;
+        default:
+          out("No such repo: [$repo], skipping");
+        }
+      }
 		break;
 	}
 }
@@ -756,8 +692,7 @@ switch ($operation ) {
 		doDisable($param, $force);
 	break;
 	case 'download':
-		$modulef =& module_functions::create();
-		$announcements = $modulef->get_annoucements();
+		$announcements = module_get_annoucements();
 		if (empty($param)) {
 			fatal("Missing module name");
 		}
@@ -801,8 +736,7 @@ switch ($operation ) {
 		showList();
 	break;
 	case 'listonline':
-		$modulef =& module_functions::create();
-		$announcements = $modulef->get_annoucements();
+		$announcements = module_get_annoucements();
 		showList(true);
 	break;
 	case 'mirrorrepo': case 'mirrorrepro':
@@ -819,8 +753,7 @@ switch ($operation ) {
 		showReverseDepends($param);
 	break;
 	case 'showannounce';
-		$modulef =& module_functions::create();
-		$announcements = $modulef->get_annoucements();
+		$announcements = module_get_annoucements();
 		if (trim($announcements) == "") {
 			echo "No Annoucements Available\n";
 		} else {
@@ -852,18 +785,6 @@ switch ($operation ) {
 		doUpgradeAll($force);
 		setPerms();
 	break;
-	case 'enablerepo':
-		if (empty($param)) {
-			fatal("Missing repo name");
-		}
-		enableRepo($param);
-		break;
-	case 'disablerepo':
-		if (empty($param)) {
-			fatal("Missing repo name");
-		}
-		disableRepo($param);
-	break;
 	default:
 	case 'help':
 		showhelp();
@@ -872,3 +793,5 @@ switch ($operation ) {
 }
 
 exit(0);
+
+?>
