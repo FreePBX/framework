@@ -743,13 +743,15 @@ class CI_Email {
 	/**
 	 * Email Validation
 	 *
+	 * Changed to allow localhost
+	 *
 	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
 	public function valid_email($address)
 	{
-		return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $address)) ? FALSE : TRUE;
+		return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $address) && ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@localhost$/ix", $address)) ? FALSE : TRUE;
 	}
 
 	// --------------------------------------------------------------------

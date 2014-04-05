@@ -12,10 +12,11 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 	define('EXTERNAL_PACKAGE_MANAGEMENT', 1);
 }
 
+$modulef =& module_functions::create();
+
 // Handle the ajax post back of an update online updates email array and status
 //
 if ($quietmode && isset($_REQUEST['update_email'])) {
-
 	$update_email   = $_REQUEST['update_email'];
 	$ci = new CI_Email();
 	if (!$ci->valid_email($update_email) && $update_email) {
@@ -30,22 +31,20 @@ if ($quietmode && isset($_REQUEST['update_email'])) {
 	exit;
 }
 
-$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:'';
+$action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
 
 global $active_repos;
 $loc_domain = 'amp';
 if (isset($_REQUEST['check_online'])) {
   $online = 1;
-  $active_repos = $_REQUEST['active_repos'];
-  module_set_active_repos($active_repos);
 } else {
   $online = (isset($_REQUEST['online']) && $_REQUEST['online'] && !EXTERNAL_PACKAGE_MANAGEMENT) ? 1 : 0;
-  $active_repos = module_get_active_repos();
 }
-
+$active_repos = $modulef->get_active_repos();
 // fix php errors from undefined variable. Not sure if we can just change the reference below to use
 // online since it changes values so just setting to what we decided it is here.
 
+$trackaction = isset($_REQUEST['trackaction'])?$_REQUEST['trackaction']:false;
 $moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false;
 /*
 	moduleaction is an array with the key as the module name, and possible values:
@@ -61,249 +60,67 @@ $moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false
 $freepbx_version = get_framework_version();
 $freepbx_version = $freepbx_version ? $freepbx_version : getversion();
 $freepbx_help_url = "http://www.freepbx.org/freepbx-help-system?freepbx_version=".urlencode($freepbx_version);
+$displayvars = array();
+
+$displayvars['freepbx_help_url'] = $freepbx_help_url;
+$displayvars['online'] = $online;
 
 if (!$quietmode) {
 	$cm =& cronmanager::create($db);
-	$online_updates = $cm->updates_enabled() ? 'yes' : 'no';
+	$displayvars['online_updates'] = $cm->updates_enabled() ? 'yes' : 'no';
 	$update_email   = $cm->get_email();
 
 	if (!$cm->updates_enabled()) {
-		$shield_class = 'updates_off';
+		$displayvars['shield_class'] = 'updates_off';
 	} else {
-		$shield_class = $update_email ? 'updates_full' : 'updates_partial';
+		$displayvars['shield_class'] = $update_email ? 'updates_full' : 'updates_partial';
 	}
 
-	$update_blurb   = htmlspecialchars(_("Add your email here to receive important security and module updates. The email address you provide is NEVER transmitted to the FreePBX remote servers. The email is ONLY used by your local PBX to send notifications of updates that are available as well as IMPORTANT Security Notifications. It is STRONGLY advised that you keep this enabled and keep updated of these important notifications to avoid costly security vulnerabilities."));
-	$ue = htmlspecialchars($update_email);
-	?>
-<div id="db_online" style="display: none;">
-<form name="db_online_form" action="#" method="post">
-<p><?php echo $update_blurb ?></p>
-<table>
-	<tr>
-		<td><?php echo _("Email") ?></td>
-		<td>
-			<input id="update_email" type="email" required size="40" name="update_email" saved-value="<?php echo $ue ?>" value="<?php echo $ue ?>"/>
-		</td>
-	</tr>
-</table>
-</form>
-</div>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$('.repo_boxes').find('input[type=checkbox]').button();
-		$('#show_auto_update').click(function() {
-			autoupdate_box = $('#db_online').dialog({
-				title: fpbx.msg.framework.updatenotifications,
-				resizable: false,
-				modal: true,
-				position: ['center', 50],
-				width: '400px',
-				close: function (e) {
-					//console.log('calling close');
-					$('#update_email').val($('#update_email').attr('saved-value'));
-				},
-				open: function (e) {
-					//console.log('calling open');
-					$('#update_email').focus();
-				},
-				buttons: [ {
-					text: fpbx.msg.framework.save,
-					click: function() {
-						if ($('#update_email')[0].validity.typeMismatch) {
-							alert(fpbx.msg.framework.bademail + ' : ' + $('#update_email').focus().val());
-							$('#update_email').focus();
-						} else {
-							update_email = $('#update_email').val();
-							if (isEmpty(update_email)) {
-								if (!confirm(fpbx.msg.framework.noupemail)) {
-									return false;
-								}
-							}
-    					$.ajax({
-      					type: 'POST',
-      					url: "<?php echo $_SERVER["PHP_SELF"]; ?>",
-      					data: "quietmode=1&skip_astman=1&display=modules&update_email=" + update_email,
-      					dataType: 'json',
-      					success: function(data) {
-									if (data.status == true) {
-										$('#update_email').attr('saved-value', $('#update_email').val());
-										if ($('[name="online_updates"]:checked').val() == 'no') {
-											$('#shield_link').attr('class', 'updates_off');
-										} else {
-											$('#shield_link').attr('class', (isEmpty($('#update_email').val()) ? 'updates_partial' : 'updates_full'));
-										}
-										autoupdate_box.dialog("close")
-									} else {
-										alert(data.status)
-										$('#update_email').focus();
-									}
-      					},
-      					error: function(data) {
-									alert(fpbx.msg.framework.invalid_response);
-      					}
-    					});
-						}
-					}
-				}, {
-					text: fpbx.msg.framework.cancel,
-					click: function() {
-						//console.log('pressed cancel button');
-						$(this).dialog("close");
-					}
-				} ]
-			});
-		});
-		$('.modulevul_tag').click(function(e) {
-			e.preventDefault();
-			$.each($(this).data('sec'), function(index, value) {
-				$('#security-' + value).dialog({
-					title: fpbx.msg.framework.securityissue + ' ' + value,
-					resizable: false,
-					position: [50+20*index, 50+20*index],
-					width: '450px',
-					close: function (e) {
-						//console.log('calling close');
-					},
-					open: function (e) {
-						//console.log('calling open');
-					},
-					buttons: [ {
-						text: fpbx.msg.framework.close,
-						click: function() {
-							//console.log('pressed cancel button');
-							$(this).dialog("close");
-						}
-					} ]
-				});
-			});
-		});
-	})
-	function toggleInfoPane(pane) {
-		var style = document.getElementById(pane).style;
-		if (style.display == 'none' || style.display == '') {
-			style.display = 'block';
-		} else {
-			style.display = 'none';
-		}
-	}
-	function check_upgrade_all() {
-		var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
-		for(i=0; i<document.modulesGUI.elements.length; i++) {
-			if (document.modulesGUI.elements[i].value == 'upgrade') {
-				if (match = document.modulesGUI.elements[i].name.match(re)) {
-					// check the box
-					document.modulesGUI.elements[i].checked = true;
-					// expand info pane
-					document.getElementById('infopane_'+match[1]).style.display = 'block';
-				}
-			}
-		}
-	}
-	function check_download_all() {
-		var re = /^moduleaction\[([a-z0-9_\-]+)\]$/;
-		for(i=0; i<document.modulesGUI.elements.length; i++) {
-			if (document.modulesGUI.elements[i].value == 'downloadinstall') {
-				if (match = document.modulesGUI.elements[i].name.match(re)) {
-					// check the box
-					document.modulesGUI.elements[i].checked = true;
-					// expand info pane
-					document.getElementById('infopane_'+match[1]).style.display = 'block';
-				}
-			}
-		}
-	}
-	function showhide_upgrades() {
-		var upgradesonly = document.getElementById('show_upgradable_only').checked;
-		var module_re = /^module_([a-z0-9_-]+)$/;   // regex to match a module element id
-		var cat_re = /^category_([a-zA-Z0-9_]+)$/; // regex to match a category element id
-		var elements = document.getElementById('modulelist').getElementsByTagName('li');
-		// loop through all modules, check if there is an upgrade_<module> radio box
-		for(i=0; i<elements.length; i++) {
-			if (match = elements[i].id.match(module_re)) {
-				if (!document.getElementById('upgrade_'+match[1])) {
-					// not upgradable
-					document.getElementById('module_'+match[1]).style.display = upgradesonly ? 'none' : 'block';
-				}
-			}
-		}
-		// hide category headings that don't have any visible modules
-		var elements = document.getElementById('modulelist').getElementsByTagName('div');
-		// loop through category items
-		for(i=0; i<elements.length; i++) {
-			if (elements[i].id.match(cat_re)) {
-				var subelements = elements[i].getElementsByTagName('li');
-				var display = false;
-				for(j=0; j<subelements.length; j++) {
-					// loop through children <li>'s, find names that are module element id's
-					if (subelements[j].id.match(module_re) && subelements[j].style.display != 'none') {
-						// if at least one is visible, we're displaying this element
-						display = true;
-						break; // no need to go further
-					}
-				}
-				document.getElementById(elements[i].id).style.display = display ? 'block' : 'none';
-			}
-		}
-	}
-	var box;
-	function process_module_actions(actions) {
-		urlStr = "config.php?type=<?php echo $type ?>&amp;display=modules&amp;extdisplay=process&amp;quietmode=1";
-		for (var i in actions) {
-			urlStr += "&amp;moduleaction["+i+"]="+actions[i];
-		}
-		 box = $('<div></div>')
-			.html('<iframe frameBorder="0" src="'+urlStr+'"></iframe>')
-			.dialog({
-				title: 'Status',
-				resizable: false,
-				modal: true,
-				position: ['center', 50],
-				width: '400px',
-				close: function (e) {
-					close_module_actions(true);
-					$(e.target).dialog("destroy").remove();
-				}
-			});
-	}
-	function close_module_actions(goback) {
-		box.dialog("destroy").remove();
-		if (goback) {
-      		location.href = 'config.php?display=modules&amp;type=<?php echo $type ?>&amp;online=<?php echo $online; ?>';
-		}
-	}
-	</script>
-	<?php
-
-	echo "<h2>" . _("Module Administration") . "</h2>";
-	$utitle = _("Click to configure Update Notifications");
-?>
-	<div id="shield_link_div">
-		<a href="#" id="show_auto_update" title="<?php echo $utitle ?>"><span id="shield_link" class="<?php echo $shield_class ?>"></span></a>
-	</div>
-<?php
-  //TODO: decide if warnings of any sort need to be given, or just list of repos active?
+	$displayvars['update_blurb']   = htmlspecialchars(_("Add your email here to receive important security and module updates. The email address you provide is NEVER transmitted to the FreePBX remote servers. The email is ONLY used by your local PBX to send notifications of updates that are available as well as IMPORTANT Security Notifications. It is STRONGLY advised that you keep this enabled and keep updated of these important notifications to avoid costly security vulnerabilities."));
+	$displayvars['ue'] = htmlspecialchars($update_email);
+	//TODO: decide if warnings of any sort need to be given, or just list of repos active?
 } else {
-	// $quietmode==true
-	?>
-	<html><head></head><body>
-	<?php
+	if($action == 'process') {
+		header('Content-type: application/octet-stream');
+		// Turn off output buffering
+		ini_set('output_buffering', 'off');
+		// Turn off PHP output compression
+		ini_set('zlib.output_compression', false);
+		// Implicitly flush the buffer(s)
+		ini_set('implicit_flush', true);
+		ob_implicit_flush(true);
+		// Clear, and turn off output buffering
+		while (ob_get_level() > 0) {
+		    // Get the curent level
+		    $level = ob_get_level();
+		    // End the buffering
+		    ob_end_clean();
+		    // If the current level has not changed, abort
+		    if (ob_get_level() == $level) break;
+		}
+		// Disable apache output buffering/compression
+		if (function_exists('apache_setenv')) {
+		    apache_setenv('no-gzip', '1');
+		    apache_setenv('dont-vary', '1');
+		}
+	}
 }
 
-$modules_local = module_getinfo(false,false,true);
+$modules_local = $modulef->getinfo(false,false,true);
+
 
 if ($online) {
-	$security_array = array();
 	$security_issues_to_report = array();
-	$modules_online = module_getonlinexml(false, false, $security_array);
+	$modules_online = $modulef->getonlinexml();
+	$security_array = !empty($modulef->security_array) ? $modulef->security_array : array();
 
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
-		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Cannot connect to online repository(s) (%s). Online modules are not available."), $amp_conf['MODULE_REPO'])."</p></div><br />";
+		$displayvars['warning'] = sprintf(_("Warning: Cannot connect to online repository(s) (%s). Online modules are not available."), $amp_conf['MODULE_REPO']);
 		$online = 0;
 		unset($modules_online);
 	} else if (!is_array($modules_online)) {
-		echo "<div class=\"warning\"><p>".sprintf(_("Warning: Error retrieving updates from online repository(s) (%s). Online modules are not available."), $amp_conf['MODULE_REPO'])."</p></div><br />";
+		$displayvars['warning'] = sprintf(_("Warning: Error retrieving updates from online repository(s) (%s). Online modules are not available."), $amp_conf['MODULE_REPO']);
 		$online = 0;
 		unset($modules_online);
 	} else {
@@ -335,13 +152,27 @@ if ($online) {
 	}
 }
 
+if (!$quietmode) {
+	show_view('views/module_admin/header.php',$displayvars);
+}
+
 if (!isset($modules)) {
 	$modules = & $modules_local;
 }
 
 //--------------------------------------------------------------------------------------------------------
-switch ($extdisplay) {  // process, confirm, or nothing
+switch ($action) {
+	case 'setrepo':
+		$repo = str_replace("_repo","",$_REQUEST['id']);
+		$o = $modulef->set_active_repo($repo,$_REQUEST['selected']);
+		if($o) {
+			echo json_encode(array("status" => true));
+		} else {
+			echo json_encode(array("status" => false, "message" => "Unable to set ".$repo." as active repo"));
+		}
+	break;
 	case 'process':
+		$moduleactions = !empty($_REQUEST['modules']) ? $_REQUEST['modules'] : array();
 		echo "<div id=\"moduleBoxContents\">";
 		echo "<h4>"._("Please wait while module actions are performed")."</h4>\n";
 		echo "<div id=\"moduleprogress\">";
@@ -349,21 +180,82 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		// stop output buffering, and send output
 		@ ob_flush();
 		flush();
-		foreach ($moduleaction as $modulename => $action) {
+		$change_tracks = array();
+		foreach ($moduleactions as $modulename => $setting) {
 			$didsomething = true; // set to false in default clause of switch() below..
 
-			switch ($action) {
-				case 'force_upgrade':
-				case 'upgrade':
-				case 'downloadinstall':
+			switch ($setting['action']) {
+				case 'trackinstall':
+				case 'trackupgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span>';
-						if (is_array($errors = module_download($modulename, false, 'download_progress'))) {
+						$track = $setting['track'];
+						$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : array());
+						echo '<span class="success">'.sprintf(_("Upgrading %s to %s from track %s"),$modulename,$trackinfo['version'],$setting['track'])."</span><br/>";
+						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><br/><span id="downloadstatus_'.$modulename.'"></span><br/>';
+						if (is_array($errors = $modulef->download($trackinfo, false, 'download_progress'))) {
 							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
 						} else {
-							if (is_array($errors = module_install($modulename))) {
+							echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+							echo '<span id="installstatus_'.$modulename.'"></span>';
+							//2nd param of install set to true to force the install as it may not be a detected upgrade
+							if (is_array($errors = $modulef->install($modulename,true))) {
+								echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
+								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+								echo '</span>';
+							} else {
+								$change_tracks[$modulename] = $setting['track'];
+								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
+							}
+						}
+					}
+				break;
+				case 'rollback':
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						$releaseinfo = '';
+						foreach($modules_online[$modulename]['previous'] as $release) {
+							if($release['version'] == $setting['rollback']) {
+								$releaseinfo = $release;
+								break;
+							}
+						}
+						echo '<span class="success">'.sprintf(_("Rolling back %s to %s"),$modulename, $setting['rollback'])."</span><br/>";
+						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><span id="downloadstatus_'.$modulename.'"></span><br/>';
+						if (is_array($errors = $modulef->download($releaseinfo, false, 'download_progress'))) {
+							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
+							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+							echo '</span>';
+						} else {
+							echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+							echo '<span id="installstatus_'.$modulename.'"></span>';
+							//2nd param of install set to true to force the install as it may not be a detected upgrade
+							if (is_array($errors = $modulef->install($modulename,true))) {
+								echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
+								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+								echo '</span>';
+							} else {
+								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
+							}
+						}
+					}
+				break;
+				case 'force_upgrade':
+				case 'upgrade':
+				case 'downloadinstall':
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						$track = $setting['track'];
+						$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : array());
+						echo '<span class="success">'.sprintf(_("Downloading and Installing %s"),$modulename)."</span><br/>";
+						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><span id="downloadstatus_'.$modulename.'"></span><br/>';
+						if (is_array($errors = $modulef->download($trackinfo, false, 'download_progress'))) {
+							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
+							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+							echo '</span>';
+						} else {
+							echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+							echo '<span id="installstatus_'.$modulename.'"></span>';
+							if (is_array($errors = $modulef->install($modulename))) {
 								echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 								echo '</span>';
@@ -375,7 +267,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				break;
 				case 'install':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_install($modulename))) {
+						echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+						echo '<span id="installstatus_'.$modulename.'"></span>';
+						if (is_array($errors = $modulef->install($modulename))) {
 							echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
@@ -385,7 +279,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 				case 'enable':
-					if (is_array($errors = module_enable($modulename))) {
+					echo '<span class="success">'.sprintf(_("Enabling %s"),$modulename)."</span><br/>";
+					echo '<span id="installstatus_'.$modulename.'"></span>';
+					if (is_array($errors = $modulef->enable($modulename))) {
 						echo '<span class="error">'.sprintf(_("Error(s) enabling %s"),$modulename).': ';
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 						echo '</span>';
@@ -394,7 +290,9 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 				case 'disable':
-					if (is_array($errors = module_disable($modulename))) {
+					echo '<span class="success">'.sprintf(_("Disabling %s"),$modulename)."</span><br/>";
+					echo '<span id="installstatus_'.$modulename.'"></span>';
+					if (is_array($errors = $modulef->disable($modulename))) {
 						echo '<span class="error">'.sprintf(_("Error(s) disabling %s"),$modulename).': ';
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 						echo '</span>';
@@ -403,8 +301,10 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 				case 'uninstall':
+					echo '<span class="success">'.sprintf(_("Uninstalling %s"),$modulename)."</span><br/>";
+					echo '<span id="installstatus_'.$modulename.'"></span>';
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_uninstall($modulename))) {
+						if (is_array($errors = $modulef->uninstall($modulename))) {
 							echo '<span class="error">'.sprintf(_("Error(s) uninstalling %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
@@ -413,30 +313,52 @@ switch ($extdisplay) {  // process, confirm, or nothing
 						}
 					}
 				break;
+				case 'reinstall':
+					echo '<span class="success">'.sprintf(_("Uninstalling %s"),$modulename)."</span><br/>";
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						if (is_array($errors = $modulef->uninstall($modulename))) {
+							echo '<span class="error">'.sprintf(_("Error(s) uninstalling %s"),$modulename).': ';
+							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+							echo '</span>';
+						} else {
+							echo '<span class="success">'.sprintf(_("%s uninstalled successfully"),$modulename).'</span>';
+						}
+						echo '<br/>';
+						echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+						echo '<span id="installstatus_'.$modulename.'"></span>';
+						if (is_array($errors = $modulef->install($modulename))) {
+							echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
+							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+							echo '</span>';
+						} else {
+							echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
+						}
+					}
 				default:
 					// just so we don't send an <hr> and flush()
 					$didsomething = false;
 			}
 
 			if ($didsomething) {
-				echo "<hr /><br />";
+				if(!empty($change_tracks)) {
+					$modulef->set_tracks($change_tracks);
+				}
 				@ ob_flush();
 				flush();
 			}
 		}
 		echo "</div>";
+		echo "<hr /><br />";
 		if ($quietmode) {
-			echo "\t<a href=\"#\" onclick=\"parent.close_module_actions(true);\" />"._("Return")."</a>";
-		} else {
-			echo "\t<input type=\"button\" value=\""._("Return")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=$type&amp;online=".$online."';\" />";
-		echo "</div>";
+			echo '<a class="btn" href="#" onclick="parent.close_module_actions(true);" >'._("Return").'</a>';
 		}
 	break;
 	case 'confirm':
+		ksort($trackaction);
 		ksort($moduleaction);
 		/* if updating language packs, make sure they are the last thing to be done so that
-   		any modules currently being updated at the same time will be done so first and
-	 		language pack updates for those modules will be included.
+		any modules currently being updated at the same time will be done so first and
+		language pack updates for those modules will be included.
 		*/
 		if (isset($moduleaction['fw_langpacks'])) {
 			$tmp = $moduleaction['fw_langpacks'];
@@ -449,13 +371,12 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		echo "<input type=\"hidden\" name=\"display\" value=\"".$display."\" />";
 		echo "<input type=\"hidden\" name=\"type\" value=\"".$type."\" />";
 		echo "<input type=\"hidden\" name=\"online\" value=\"".$online."\" />";
-		echo "<input type=\"hidden\" name=\"extdisplay\" value=\"process\" />";
-
-		echo "\t<script type=\"text/javascript\"> var moduleActions = new Array(); </script>\n";
+		echo "<input type=\"hidden\" name=\"action\" value=\"process\" />";
 
 		$actionstext = array();
 		$force_actionstext = array();
 		$errorstext = array();
+		$moduleActions = array();
 		foreach ($moduleaction as $module => $action) {
 			$text = false;
 			$skipaction = false;
@@ -466,47 +387,126 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 
 			switch ($action) {
+				case 'rollback':
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						if(empty($modules_online[$module]['previous'])) {
+							$skipaction = true;
+							$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), $modules[$module]['name'], $_REQUEST['version']);
+						}
+						$previous_data = null;
+						foreach($modules_online[$module]['previous'] as $release) {
+							if($release['version'] == $_REQUEST['version']) {
+								$previous_data = $release;
+								break;
+							}
+						}
+						if(empty($previous_data)) {
+							$skipaction = true;
+							$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), $modules[$module]['name'], $_REQUEST['version']);
+						}
+						if (is_array($errors = $modulef->checkdepends($previous_data))) {
+							$skipaction = true;
+							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
+							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						} else {
+							$actionstext[] =  sprintf(_("%s %s will be downloaded and rolled back to %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $_REQUEST['version']);
+						}
+					}
+				break;
 				case 'upgrade':
 				case 'force_upgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_checkdepends($modules_online[$module]))) {
-							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
-							                        $modules[$module]['name'],
-							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						$track = $trackaction[$module];
+						$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
+						if($trackaction[$module] != $modules[$module]['track']) {
+							$action = 'trackupgrade';
+							if(empty($trackinfo)) {
+								$skipaction = true;
+								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded to <strong>%s</strong>: The release track of <strong>%s</strong> does not exist for this module"),
+								$modules[$module]['name'],$track,$track);
+							} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
+								$skipaction = true;
+								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded: <strong>%s</strong> Please try again after the dependencies have been installed."),
+								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							} else {
+								switch (version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
+									case '-1':
+										$actionstext[] = sprintf(_("<strong>%s %s</strong> will be upgraded to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version'],$track);
+									break;
+									case '0':
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be re-installed to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version'],$track);
+									break;
+									default:
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be downgraded to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version'],$track);
+								}
+							}
 						} else {
-              switch ( version_compare_freepbx($modules[$module]['dbversion'], $modules_online[$module]['version'])) {
-              case '-1':
-							  $actionstext[] = sprintf(_("%s %s will be upgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
-                break;
-              case '0':
-							  $force_actionstext[] = sprintf(_("%s %s will be re-installed to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
-                break;
-              default:
-							  $force_actionstext[] = sprintf(_("%s %s will be downgraded to online version %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules_online[$module]['version']);
-              }
+							if (is_array($errors = $modulef->checkdepends($trackinfo))) {
+								$skipaction = true;
+								$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
+								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							} else {
+								switch ( version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
+									case '-1':
+										$actionstext[] = sprintf(_("<strong>%s %s</strong> will be upgraded to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version']);
+									break;
+									case '0':
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be re-installed to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version']);
+									break;
+									default:
+										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be downgraded to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version']);
+								}
+							}
 						}
 					}
 				break;
 				case 'downloadinstall':
-					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_checkdepends($modules_online[$module]))) {
+				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+					if($trackaction[$module] != $modules[$module]['track']) {
+						$action = 'trackinstall';
+						$track = $trackaction[$module];
+						$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
+						if(empty($trackinfo)) {
+							$skipaction = true;
+							$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
+							$modules[$module]['name'],$track,$track);
+						} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
 							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
-							                        $modules[$module]['name'],
-							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
-							$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), $modules[$module]['name'], $modules_online[$module]['version']);
+							$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be downloaded and installed and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $trackinfo['version'],$track);
 						}
+					} elseif (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
+						$skipaction = true;
+						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
+						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+					} else {
+						$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), $modules[$module]['name'], $modules_online[$module]['version']);
 					}
+				}
 				break;
 				case 'install':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_checkdepends($modules[$module]))) {
+						if($trackaction[$module] != $modules[$module]['track']) {
+							$action = 'trackinstall';
+							$track = $trackaction[$module];
+							$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
+							if(empty($trackinfo)) {
+								$skipaction = true;
+								$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
+								$modules[$module]['name'],$track,$track);
+							} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
+								$skipaction = true;
+								$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
+								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							} else {
+								$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be downloaded and installed and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $trackinfo['version'],$track);
+							}
+						} elseif (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),
-							                        $modules[$module]['name'],
-							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
 							if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
 								$actionstext[] =  sprintf(_("%s %s will be upgraded to %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules[$module]['version']);
@@ -517,34 +517,42 @@ switch ($extdisplay) {  // process, confirm, or nothing
 					}
 				break;
 				case 'enable':
-					if (is_array($errors = module_checkdepends($modules[$module]))) {
+					if (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the dependencies have been installed."),
-						                        $modules[$module]['name'],
-						                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 					} else {
 						$actionstext[] =  sprintf(_("%s %s will be enabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
 					}
 				break;
 				case 'disable':
-					if (is_array($errors = module_reversedepends($modules[$module]))) {
+					if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be disabled because the following modules depend on it: %s Please disable those modules first then try again."),
-						                        $modules[$module]['name'],
-						                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 					} else {
 						$actionstext[] =  sprintf(_("%s %s will be disabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
 					}
 				break;
 				case 'uninstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (is_array($errors = module_reversedepends($modules[$module]))) {
+						if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be uninstalled because the following modules depend on it: %s Please disable those modules first then try again."),
-							                        $modules[$module]['name'],
-							                        '<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
 						} else {
 							$actionstext[] =  sprintf(_("%s %s will be uninstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+						}
+					}
+				break;
+				case 'reinstall':
+					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+						if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
+							$skipaction = true;
+							$errorstext[] = sprintf(_("%s cannot be reinstalled because the following modules depend on it: %s Please disable those modules first then try again."),
+							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						} else {
+							$actionstext[] =  sprintf(_("%s %s will be reinstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
 						}
 					}
 				break;
@@ -552,10 +560,15 @@ switch ($extdisplay) {  // process, confirm, or nothing
 
 			// If error above we skip this action so we can proceed with the others
 			//
-			if (!$skipaction) { //TODO
-				echo "\t<script type=\"text/javascript\"> moduleActions['".$module."'] = '".$action."'; </script>\n";
+			if (!$skipaction && $action != "0") { //TODO
+				$moduleActions[$module]['action'] = $action;
+				$moduleActions[$module]['track'] = $trackaction[$module];
+				if($action== 'rollback') {
+					$moduleActions[$module]['rollback'] = $_REQUEST['version'];
+				}
 			}
 		}
+		echo "\t<script type=\"text/javascript\"> var moduleActions = ".json_encode($moduleActions).";</script>\n";
 
 		// Write out the errors, if there are additional actions that can be accomplished list those next with the choice to
 		// process which will ignore the ones with errors but process the rest.
@@ -568,128 +581,120 @@ switch ($extdisplay) {  // process, confirm, or nothing
 			}
 			echo "</ul>";
 		}
-    if (count($actionstext) > 0 || count($force_actionstext) > 0) {
+		if (count($actionstext) > 0 || count($force_actionstext) > 0) {
 			if (count($errorstext) > 0) {
 				echo "<h4>"._("You may confirm the remaining selection and then try the again for the listed issues once the required dependencies have been met:")."</h4>\n";
 			} else {
 				echo "<h4>"._("Please confirm the following actions:")."</h4>\n";
 			}
-      if (count($actionstext)) {
+			if (count($actionstext)) {
 				echo "<h5>"._("Upgrades, installs, enables and disables:")."</h5>\n";
-			  echo "<ul>\n";
-			  foreach ($actionstext as $text) {
-				  echo "\t<li>".$text."</li>\n";
-			  }
-			  echo "</ul>";
-      }
-      if (count($force_actionstext)) {
+				echo "<ul>\n";
+				foreach ($actionstext as $text) {
+					echo "\t<li>".$text."</li>\n";
+				}
+				echo "</ul>";
+			}
+			if (count($force_actionstext)) {
 				echo "<h5>"._("Forced downgrades and re-installs:")."</h5>\n";
-			  echo "<ul>\n";
-			  foreach ($force_actionstext as $text) {
-          echo "\t<li>".$text."</li>\n";
-			  }
-			  echo "</ul>";
-      }
+				echo "<ul>\n";
+				foreach ($force_actionstext as $text) {
+					echo "\t<li>".$text."</li>\n";
+				}
+				echo "</ul>";
+			}
 			echo "\t<input type=\"button\" value=\""._("Confirm")."\" name=\"process\" onclick=\"process_module_actions(moduleActions);\" />";
 		} else {
 			echo "<h4>"._("No actions to perform")."</h4>\n";
 			echo "<p>"._("Please select at least one action to perform by clicking on the module, and selecting an action on the \"Action\" tab.")."</p>";
 		}
+
 		echo "\t<input type=\"button\" value=\""._("Cancel")."\" onclick=\"location.href = 'config.php?display=modules&amp;type=$type&amp;online=$online';\" />";
 		echo "</form>";
-
 	break;
 	case 'upload':
 		// display links
+		$displayvars = array();
 		if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 			$disp_buttons[] = 'local';
 			if (isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
 				// display upload button, only if they did upload something
 				$disp_buttons[] = 'upload';
 			}
-			displayRepoSelect($disp_buttons);
+			$displayvars['repo_select'] = displayRepoSelect($disp_buttons);
 		} else {
+			$displayvars['repo_select'] = array();
 			echo "<a href='config.php?display=modules&amp;type=$type'>"._("Manage local modules")."</a>\n";
 		}
 
-		if (isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
-			$res = module_handleupload($_FILES['uploadmod']);
-			if (is_array($res)) {
-
-				echo '<div class="error"><p>';
-				echo sprintf(_('The following error(s) occurred processing the uploaded file: %s'),
-				     '<ul><li>'.implode('</li><li>',$res).'</li></ul>');
-				echo sprintf(_('You should fix the problem or select another file and %s.'),
-				     "<a href='config.php?display=modules&amp;type=$type'>"._("try again")."</a>");
-				echo "</p></div>\n";
-			} else {
-
-				echo "<p>".sprintf(_("Module uploaded successfully. You need to enable the module using %s to make it available."),
-				     "<a href='config.php?display=modules&amp;type=$type'>"._("local module administration")."</a>")
-					 ."</p>\n";
-			}
-
-		} else {
-			echo "<p>"._('You can upload a tar gzip file containing a FreePBX module from your local system. If a module with the same name already exists, it will be overwritten.')."</p>\n";
-
-			echo "<form name=\"modulesGUI-upload\" action=\"config.php\" method=\"post\" enctype=\"multipart/form-data\">";
-			echo "<input type=\"hidden\" name=\"display\" value=\"".$display."\" />";
-			echo "<input type=\"hidden\" name=\"type\" value=\"".$type."\" />";
-			echo "<input type=\"hidden\" name=\"extdisplay\" value=\"upload\" />";
-			echo "<input type=\"file\" name=\"uploadmod\" /> ";
-			echo "&nbsp;&nbsp; <input type=\"submit\" value=\"Upload\" />";
-			echo "</form>";
+		$displayvars['processed'] = false;
+		if (isset($_REQUEST['upload']) && isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
+			$displayvars['res'] = $modulef->handleupload($_FILES['uploadmod']);
+			$displayvars['processed'] = true;
+		} elseif (isset($_REQUEST['download']) && !empty($_REQUEST['remotemod'])) {
+			$displayvars['res'] = $modulef->handledownload($_REQUEST['remotemod']);
+			$displayvars['processed'] = true;
+		} elseif(isset($_REQUEST['remotemod'])) {
+			$displayvars['res'][] = 'Nothing to download or upload';
+			$displayvars['processed'] = true;
 		}
 
+		show_view('views/module_admin/upload.php',$displayvars);
 	break;
 	case 'online':
 	default:
 
 		uasort($modules, 'category_sort_callback');
 
+		$local_repo_list = array();
+		$remote_repo_list = array();
+		$broken_module_list = array();
+		$repo_exclude = array('local','broken');
+		foreach($modules as $mod => &$module) {
+			if(in_array($module['repo'],array('broken'))) {
+				$rpo = $module['repo'];
+				$broken_module_list[$rpo][] = $mod;
+				continue;
+			}
+			if(empty($module['repo'])) {
+				$module['repo'] = 'Unknown';
+			}
+			if(!in_array($module['repo'],$local_repo_list) && empty($module['raw']['online']) && !in_array($module['repo'],$repo_exclude)) {
+				$local_repo_list[] = $module['repo'];
+			}
+			$raw = $module['rawname'];
+			if(!in_array($module['repo'],$remote_repo_list) && !empty($modules_online[$raw]) && !in_array($module['repo'],$repo_exclude)) {
+				$remote_repo_list[] = $module['repo'];
+			}
+		}
+
+		$repo_list = array_merge($local_repo_list, $remote_repo_list);
+
+		//cheaty hack to move standard to the front :-)
+		//and it works because we do array_unique later
+		//TODO: Probably do some ordering here maybe?
+		array_unshift($repo_list, 'standard');
+
 		if ($online) {
+
+			if(!empty($remote_repo_list)) {
+				$modulef->set_remote_repos($remote_repo_list);
+			}
+			$active_repos = $modulef->get_active_repos();
+
 			// Check for announcements such as security advisories, required updates, etc.
 			//
-			$announcements = module_get_annoucements();
-			if (isset($announcements) && !empty($announcements)) {
-				echo "<div class='announcements'>$announcements</div>";
-			}
+			$displayvars['announcements'] = $modulef->get_annoucements();
 
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				echo "<a href='config.php?display=modules&amp;type=$type&amp;online=0'>"._("Manage local modules")."</a>\n";
-				echo "<input type=\"checkbox\" id=\"show_upgradable_only\" onclick=\"showhide_upgrades();\" /><label for=\"show_upgradable_only\">"._("Show only upgradeable")."</label>";
+				$displayvars['repo_select'] = displayRepoSelect(array(),false,array_unique($repo_list));
 			}
 		} else {
+			$repo_list = array_merge($repo_list,$modulef->get_remote_repos($online));
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				displayRepoSelect(array('upload'));
-			} else {
-				echo " | <a href='config.php?display=modules&type=$type&extdisplay=upload'>"._("Upload module")."</a><br />\n";
+				$displayvars['repo_select'] = displayRepoSelect(array('upload'),true,array_unique($repo_list));
 			}
 		}
-
-		echo "<form name=\"modulesGUI\" action=\"config.php\" method=\"post\">";
-		echo "<input type=\"hidden\" name=\"display\" value=\"".$display."\" />";
-		echo "<input type=\"hidden\" name=\"type\" value=\"".$type."\" />";
-		echo "<input type=\"hidden\" name=\"online\" value=\"".$online."\" />";
-		echo "<input type=\"hidden\" name=\"extdisplay\" value=\"confirm\" />";
-
-		echo "<div class=\"modulebuttons\">";
-		if ($online) {
-			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_download_all();\">"._("Download all")."</a>";
-			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_upgrade_all();\">"._("Upgrade all")."</a>";
-		}
-		echo "\t<input type=\"reset\" value=\""._("Reset")."\" />";
-		echo "\t<input type=\"submit\" value=\""._("Process")."\" name=\"process\" />";
-		echo "</div>";
-
-		echo "<div id=\"modulelist\">\n";
-
-		echo "\t<div id=\"modulelist-header\">";
-		echo "\t\t<span class=\"modulename\">"._("Module")."</span>\n";
-		echo "\t\t<span class=\"moduleversion\">"._("Version")."</span>\n";
-		echo "\t\t<span class=\"modulepublisher\">"._("Publisher")."</span>\n";
-		echo "\t\t<span class=\"clear\">&nbsp;</span>\n";
-		echo "\t</div>";
 
 		$category = false;
 		$numdisplayed = 0;
@@ -699,6 +704,8 @@ switch ($extdisplay) {  // process, confirm, or nothing
 		} else {
 			$module_filter = array();
 		}
+		$module_display = array();
+		$category = null;
 		foreach (array_keys($modules) as $name) {
 			if (!isset($modules[$name]['category'])) {
 				$modules[$name]['category'] = _("Broken");
@@ -708,332 +715,170 @@ switch ($extdisplay) {  // process, confirm, or nothing
 				continue;
 			}
 
-      // Theory: module is not in the defined repos, and since it is not local (meaning we loaded it at some point) then we
-      //         don't show it. Exception, if the status is BROKEN then we should show it because it was here once.
-      //
-      if ((!isset($active_repos[$modules[$name]['repo']]) || !$active_repos[$modules[$name]['repo']])
-        && $modules[$name]['status'] != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
-        continue;
-      }
+			// Theory: module is not in the defined repos, and since it is not local (meaning we loaded it at some point) then we
+			//         don't show it. Exception, if the status is BROKEN then we should show it because it was here once.
+			//
+			if ((!isset($active_repos[$modules[$name]['repo']]) || !$active_repos[$modules[$name]['repo']])
+			&& $modules[$name]['status'] != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
+				continue;
+			}
 
-      // If versionupgrade module is present then allow it to skip modules that should not be presented
-      // because an upgrade is in process. This can help assure only safe modules are present and
-      // force the user to upgrade in the proper order.
-      //
-      if (function_exists('versionupgrade_allowed_modules') && !versionupgrade_allowed_modules($modules[$name])) {
-        continue;
-      }
+			//block install,uninstall,reinstall
+			$modules[$name]['blocked']['status'] = false;
+			if(!empty($modules[$name]['depends'])) {
+				$depends = $modulef->checkdepends($modules[$name]);
+				if($depends !== true && is_array($depends)) {
+					$modules[$name]['blocked']['status'] = true;
+					if(isset($depends['sysadmin'])) { unset($depends['sysadmin']); }
+					$modules[$name]['blocked']['reasons'] = $depends;
+				}
+			}
+
+			$sysadmininfo = $modulef->getinfo('sysadmin');
+			if(isset($modules[$name]['commercial']) && !empty($modules[$name]['commercial'])) {
+				$modules[$name]['commercial']['status'] = true;
+				if(function_exists('sysadmin_is_module_licensed')) {
+					$modules[$name]['commercial']['sysadmin'] = true;
+					$modules[$name]['commercial']['licensed'] = sysadmin_is_module_licensed($name);
+				} else {
+					//block all commercial installs until sysadmin is installed?
+					$modules[$name]['commercial']['sysadmin'] = false;
+					$modules[$name]['commercial']['licensed'] = false;
+					$modules[$name]['blocked']['status'] = ($name != 'sysadmin') ? true : false;
+					if(!empty($sysadmininfo['sysadmin']['status'])) {
+						switch($sysadmininfo['sysadmin']['status']) {
+							case MODULE_STATUS_DISABLED:
+								$sysstatus = _('is disabled');
+							break;
+							case MODULE_STATUS_BROKEN:
+								$sysstatus = _('is broken');
+							break;
+							case MODULE_STATUS_NEEEDUPGRADE:
+								$sysstatus = _('needs to be upgraded');
+							break;
+							default:
+								$sysstatus = _('is unknown');
+							break;
+						}
+					} else {
+						$sysstatus = _('is not installed');
+					}
+					$modules[$name]['blocked']['reasons']['sysadmin'] = sprintf(_('Module <strong>%s</strong> is required, yours %s'),'System Admin',$sysstatus);
+				}
+				$modules[$name]['commercial']['purchaselink'] = !empty($modules[$name]['commercial']['link']) ? $modules[$name]['commercial']['link'] : 'http://www.schmoozecom.com/freepbx/freepbx-modules.php';
+			} else {
+				$modules[$name]['commercial']['status'] = false;
+			}
+
+			// If versionupgrade module is present then allow it to skip modules that should not be presented
+			// because an upgrade is in process. This can help assure only safe modules are present and
+			// force the user to upgrade in the proper order.
+			//
+			if (function_exists('versionupgrade_allowed_modules') && !versionupgrade_allowed_modules($modules[$name])) {
+				continue;
+			}
 			$numdisplayed++;
 
 			if ($category !== $modules[$name]['category']) {
-				// show category header
-
-				if ($category !== false) {
-					// not the first one, so end the previous blocks
-					echo "\t</ul></div>\n";
-				}
-
-				// start a new category header, and associated html blocks
 				$category = $modules[$name]['category'];
-				echo "\t<div class=\"category\" id=\"category_".prep_id($category)."\"><h3>"._($category)."</h3>\n";
-				echo "\t<ul>";
+				$module_display[$category]['name'] = $modules[$name]['category'];
 			}
+
+			$module_display[$category]['data'][$name] = $modules[$name];
 
 			$loc_domain = $name;
 			$name_text = modgettext::_($modules[$name]['name'], $loc_domain);
+			$module_display[$category]['data'][$name]['loc_domain'] = $loc_domain;
+			$module_display[$category]['data'][$name]['name_text'] = $name_text;
 
-			echo "\t\t<li id=\"module_".prep_id($name)."\">\n";
-
-			// ---- module header
 			$salert = isset($modules[$name]['vulnerabilities']);
-			$mclass = $salert ? "modulevulnerable" : "moduleheader";
+			$module_display[$category]['data'][$name]['mclass'] = $salert ? "modulevulnerable" : "moduleheader";
+
 			if ($salert) {
+				$module_display[$category]['data'][$name]['vulnerabilities'] = $modules[$name]['vulnerabilities'];
 				foreach ($modules[$name]['vulnerabilities']['vul'] as $vul) {
 					$security_issues_to_report[$vul] = true;
 				}
-			}
-			echo "\t\t<div class=\"$mclass\" onclick=\"toggleInfoPane('infopane_".prep_id($name)."');\" >\n";
-			echo "\t\t\t<span class=\"modulename\"><a href=\"javascript:void(null);\">".(!empty($name_text) ? $name_text : $name)."</a></span>\n";
-			echo "\t\t\t<span class=\"moduleversion\">".(isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'&nbsp;')."</span>\n";
-			echo "\t\t\t<span class=\"modulepublisher\">".(isset($modules[$name]['publisher'])?$modules[$name]['publisher']:'&nbsp;')."</span>\n";
-
-			echo "\t\t\t<span class=\"modulestatus\">";
-
-			switch ($modules[$name]['status']) {
-				case MODULE_STATUS_NOTINSTALLED:
-					if (isset($modules_local[$name])) {
-						echo '<span class="notinstalled">'._('Not Installed (Locally available)').'</span>';
-					} else {
-						echo '<span class="notinstalled">'.sprintf(_('Not Installed (Available online: %s)'), $modules_online[$name]['version']).'</span>';
-					}
-				break;
-				case MODULE_STATUS_DISABLED:
-					if (isset($modules_online[$name]['version'])) {
-						$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
-						if ($vercomp < 0) {
-							echo '<span class="alert">'.sprintf(_('Disabled; Online upgrade available (%s)'),$modules_online[$name]['version']).'</span>';
-						} else if ($vercomp > 0) {
-							echo sprintf(_('Disabled; Newer than online version (%s)'), $modules_online[$name]['version']);
-						} else {
-							echo _('Disabled; up to date');
-						}
-					} else {
-						echo _('Disabled');
-					}
-				break;
-				case MODULE_STATUS_NEEDUPGRADE:
-					echo '<span class="alert">'.sprintf(_('Disabled; Pending upgrade to %s'),$modules_local[$name]['version']).'</span>';
-				break;
-				case MODULE_STATUS_BROKEN:
-					echo '<span class="alert">'._('Broken').'</span>';
-				break;
-				default:
-					// check for online upgrade
-					if (isset($modules_online[$name]['version'])) {
-						$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
-						if ($vercomp < 0) {
-							echo '<span class="alert">'.sprintf(_('Online upgrade available (%s)'), $modules_online[$name]['version']).'</span>';
-						} else if ($vercomp > 0) {
-							echo sprintf(_('Newer than online version (%s)'),$modules_online[$name]['version']);
-						} else {
-							echo _('Enabled and up to date');
-						}
-					} else if (isset($modules_online)) {
-						// we're connected to online, but didn't find this module
-						echo _('Enabled; Not available online');
-					} else {
-						echo _('Enabled');
-					}
-				break;
-			}
-			echo "</span>\n";
-			if ($salert) {
-				echo "\t\t\t<span class=\"modulevul\"><a class=\"modulevul_tag\" href=\"#\" data-sec='" . json_encode($modules[$name]['vulnerabilities']['vul']) . "'><img src=\"images/notify_security.png\" alt=\"\" width=\"16\" height=\"16\" border=\"0\" title=\"" .
-					sprintf(_("Vulnerable to security issues %s"), implode($modules[$name]['vulnerabilities']['vul'], ', ')) .
-					"\" /> " . sprintf(_("Vulnerable, Requires: %s"), $modules[$name]['vulnerabilities']['minver']) . "</a></span>\n";
-			}
-
-			echo "\t\t\t<span class=\"clear\">&nbsp;</span>\n";
-			echo "\t\t</div>\n";
-
-			// ---- end of module header
-
-			// ---- drop-down tab box thingy:
-
-			echo "\t\t<div class=\"moduleinfopane\" id=\"infopane_".prep_id($name)."\" >\n";
-			echo "\t\t\t<div class=\"tabber\">\n";
-
-			if (isset($modules_online[$name]['attention']) && !empty($modules_online[$name]['attention'])) {
-				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Attention")."\">\n";
-				echo nl2br(modgettext::_($modules[$name]['attention'], $loc_domain));
-				echo "\t\t\t\t</div>\n";
-			}
-
-			echo "\t\t\t\t<div class=\"tabbertab actiontab\" title=\""._("Action")."\">\n";
-
-			echo '<input type="radio" checked="CHECKED" id="noaction_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="0" /> '.
-				 '<label for="noaction_'.prep_id($name).'">'._('No Action').'</label> <br />';
-			switch ($modules[$name]['status']) {
-
-				case MODULE_STATUS_NOTINSTALLED:
-					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if (isset($modules_local[$name])) {
-							echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
-								 '<label for="install_'.prep_id($name).'">'._('Install').'</label> <br />';
-						} else {
-							echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="downloadinstall" /> '.
-								 '<label for="upgrade_'.prep_id($name).'">'._('Download and Install').'</label> <br />';
-						}
-					}
-				break;
-				case MODULE_STATUS_DISABLED:
-					echo '<input type="radio" id="enable_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="enable" /> '.
-						 '<label for="enable_'.prep_id($name).'">'._('Enable').'</label> <br />';
-					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-							 '<label for="uninstall_'.prep_id($name).'">'._('Uninstall').'</label> <br />';
-						if (isset($modules_online[$name]['version'])) {
-							$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
-							if ($vercomp < 0) {
-								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
-									 '<label for="upgrade_'.prep_id($name).'">'.sprintf(_('Download %s, keep Disabled'),$modules_online[$name]['version']).'</label> <br />';
-							}
-						}
-					}
-				break;
-				case MODULE_STATUS_NEEDUPGRADE:
-					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
-							 '<label for="install_'.prep_id($name).'">'.sprintf(_('Upgrade to %s and Enable'),$modules_local[$name]['version']).'</label> <br />';
-
-						if (isset($modules_online[$name]['version'])) {
-							$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
-							if ($vercomp < 0) {
-								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
-									 '<label for="upgrade_'.prep_id($name).'">'.sprintf(_('Download and Upgrade to %s'), $modules_online[$name]['version']).'</label> <br />';
-              }
-            }
-						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-							 '<label for="uninstall_'.prep_id($name).'">'._('Uninstall').'</label> <br />';
-					}
-				break;
-				case MODULE_STATUS_BROKEN:
-					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						echo '<input type="radio" id="install_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="install" /> '.
-							 '<label for="install_'.prep_id($name).'">'._('Install').'</label> <br />';
-						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-							 '<label for="uninstall_'.prep_id($name).'">'._('Uninstall').'</label> <br />';
-					}
-				break;
-				default:
-					// check for online upgrade
-					if (isset($modules_online[$name]['version'])) {
-						$vercomp = version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']);
-						if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						  if ($vercomp < 0) {
-								echo '<input type="radio" id="upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="upgrade" /> '.
-									 '<label for="upgrade_'.prep_id($name).'">'.sprintf(_('Download and Upgrade to %s'), $modules_online[$name]['version']).'</label> <br />';
-							} else {
-                $force_msg = ($vercomp == 0 ? sprintf(_('Force Download and Install %s'), $modules_online[$name]['version']) : sprintf(_('Force Download and Downgrade to %s'), $modules_online[$name]['version']));
-								echo '<input type="radio" id="force_upgrade_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="force_upgrade" /> '.
-									 '<label for="force_upgrade_'.prep_id($name).'">'.$force_msg.'</label> <br />';
-              }
-						}
-					}
-					if (enable_option($name,'candisable')) {
-						echo '<input type="radio" id="disable_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="disable" /> '.
-						   '<label for="disable_'.prep_id($name).'">'._('Disable').'</label> <br />';
-					}
-					if (!EXTERNAL_PACKAGE_MANAGEMENT && enable_option($name,'canuninstall')) {
-						echo '<input type="radio" id="uninstall_'.prep_id($name).'" name="moduleaction['.prep_id($name).']" value="uninstall" /> '.
-							 '<label for="uninstall_'.prep_id($name).'">'._('Uninstall').'</label> <br />';
-					}
-				break;
-			}
-			echo "\t\t\t\t</div>\n";
-
-			echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Description")."\">\n";
-			if (isset($modules[$name]['publisher'])) {
-				echo "<h5>".sprintf(_("Publisher: %s"),$modules[$name]['publisher'])."</h5>";
-			}
-			echo "<h5>".sprintf(_("License: %s"), (isset($modules[$name]['license'])?$modules[$name]['license']:"GPLv2") )."</h5>";
-			if ($salert) {
-				echo "<h5>".sprintf(_("Fixes Vulnerabilities: %s"), implode($modules[$name]['vulnerabilities']['vul'], ', '))."</h5>";
-			}
-			if (isset($modules[$name]['description']) && !empty($modules[$name]['description'])) {
-				echo "<h5>".sprintf(_("Description for version %s"),$modules[$name]['version'])."</h5>";
-				echo nl2br(modgettext::_($modules[$name]['description'], $loc_domain));
 			} else {
-				echo _("No description is available.");
-			}
-			if (isset($modules[$name]['info']) && !empty($modules[$name]['info'])) {
-				echo '<p>'._('More info').': <a href="'.$modules[$name]['info'].'" target="_new">'.$modules[$name]['info'].'</a></p>';
-			} else {
-				echo '<p>'._('More info').': <a href="'."$freepbx_help_url&freepbx_module=".urlencode($name).'" target="help">'.sprintf(_("Get help for %s"),$name_text).'</a></p>';
-			}
-			echo "\t\t\t\t</div>\n";
-
-			if (isset($modules[$name]['changelog']) && !empty($modules[$name]['changelog'])) {
-				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Changelog")."\">\n";
-				echo "<h5>".sprintf(_("Change Log for version %s"), $modules[$name]['version'])."</h5>";
-
-				// convert "1.x.x:" and "*1.x.x*" into bold, and do nl2br
-				// TODO: need to fix this to convert 1.x.xbetax.x, 1.x.xalphax.x, 1.x.xrcx.x, 1.x.xRCx.x formats as well
-				//
-				$changelog = nl2br($modules[$name]['changelog']);
-				$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+):/', '<strong>$0</strong>', $changelog);
-				$changelog = preg_replace('/\*(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+)\*/', '<strong>$1:</strong>', $changelog);
-
-				// convert '#xxx', 'ticket xxx', 'bug xxx' to ticket links and rxxx to changeset links in trac
-				//
-				$changelog = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,4})(?!\w)/i', 'trac_replace_ticket', $changelog);
-				$changelog = preg_replace_callback('/(?<!\w)r(\d+)(?!\w)/', 'trac_replace_changeset', $changelog);
-				$changelog = preg_replace_callback('/(?<!\w)\[(\d+)\](?!\w)/', 'trac_replace_changeset', $changelog);
-
-				echo $changelog;
-				echo "\t\t\t\t</div>\n";
+				$module_display[$category]['data'][$name]['vulnerabilities'] = array();
 			}
 
-			if ($amp_conf['DEVEL']) {
-				echo "\t\t\t\t<div class=\"tabbertab\" title=\""._("Debug")."\">\n";
-				echo "\t\t\t\t<h5>".$name."</h5><pre>\n";
-				print_r(isset($modules_local[$name]) ? $modules_local[$name] : $name);
-				echo "</pre>";
-				if (isset($modules_online)) {
-					echo "\t\t\t\t<h5>Online info</h5><pre>\n";
-					print_r(isset($modules_online[$name]) ? $modules_online[$name] : $name);
-					echo "</pre>\n";
+			$module_display[$category]['data'][$name]['raw']['online'] = !empty($modules_online[$name]) ? $modules_online[$name] : array();
+			$module_display[$category]['data'][$name]['raw']['local'] = !empty($modules_local[$name]) ? $modules_local[$name] : array();
+			$module_display[$category]['data'][$name]['name'] = $name;
+			$module_display[$category]['data'][$name]['pretty_name'] = !empty($name_text) ? $name_text  : $name;
+			$module_display[$category]['data'][$name]['repo'] = $modules[$name]['repo'];
+			$module_display[$category]['data'][$name]['dbversion'] = !empty($modules[$name]['dbversion']) ? $modules[$name]['dbversion'] : '';
+			$module_display[$category]['data'][$name]['publisher'] = !empty($modules[$name]['publisher']) ? $modules[$name]['publisher'] : '';
+			$module_display[$category]['data'][$name]['salert'] = $salert;
+
+			if (!empty($modules_online[$name]['attention'])) {
+				$module_display[$category]['data'][$name]['attention'] = nl2br(modgettext::_($modules[$name]['attention'], $loc_domain));
+			}
+
+			if (!empty($modules_online[$name]['changelog'])) {
+				$module_display[$category]['data'][$name]['changelog'] = format_changelog($modules_online[$name]['changelog']);
+			} elseif(!empty($modules_local[$name]['changelog'])) {
+				$module_display[$category]['data'][$name]['changelog'] = format_changelog($modules_local[$name]['changelog']);
+			}
+
+			$module_display[$category]['data'][$name]['description'] = isset($module_display[$category]['data'][$name]['description']) ? trim(preg_replace('/\s+/', ' ', $module_display[$category]['data'][$name]['description'])) : '';
+
+			if(!empty($module_display[$category]['data'][$name]['previous'])) {
+				foreach($module_display[$category]['data'][$name]['previous'] as &$release) {
+					if(preg_match("/".$release['version']."[\s|:|\*](.*)/m",$release['changelog'],$matches)) {
+						$release['pretty_change'] = !empty($matches[1]) ? format_changelog($matches[1]) : _('No Change Log');
+					}
 				}
-					echo "\t\t\t\t<h5>combined</h5><pre>\n";
-					print_r($modules[$name]);
-					echo "</pre>\n";
-				echo "\t\t\t\t</div>\n";
 			}
 
-			echo "\t\t\t</div>\n";
-			echo "\t\t</div>\n";
+			$track = !empty($modules_local[$name]['track']) ? $modules_local[$name]['track'] : 'stable';
+			$module_display[$category]['data'][$name]['track'] = $track;
+			if(!empty($module_display[$category]['data'][$name]['releasetracks'])) {
+				$module_display[$category]['data'][$name]['tracks']['stable'] = false;
+				$module_display[$category]['data'][$name]['tracks'][$track] = true;
+				foreach($module_display[$category]['data'][$name]['releasetracks'] as $track => &$release) {
+					if(!array_key_exists($track, $module_display[$category]['data'][$name]['tracks'])) {
+						$module_display[$category]['data'][$name]['tracks'][$track] = false;
+					}
 
-			// ---- end of drop-down tab box
-
-			echo "\t\t</li>\n";
-		}
-
-		if ($numdisplayed == 0) {
-			if (isset($modules_online) && count($modules_online) > 0) {
-				echo _("All available modules are up-to-date and installed.");
+					$release['changelog'] = format_changelog($release['changelog']);
+				}
 			} else {
-				echo _("No modules to display.");
+				$module_display[$category]['data'][$name]['tracks'][$track] = true;
 			}
 		}
 
-		echo "\t</ul></div>\n";
-		echo "</div>";
-
-		echo "<div class=\"modulebuttons\">";
-		if ($online) {
-			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_download_all();\">"._("Download all")."</a>";
-			echo "\t<a href=\"javascript:void(null);\" onclick=\"check_upgrade_all();\">"._("Upgrade all")."</a>";
+		$displayvars['end_msg'] = (isset($modules_online) && empty($numdisplayed)) ? (count($modules_online) > 0 ? _("All available modules are up-to-date and installed.") : _("No modules to display.") ) : '';
+		$displayvars['finalmods'] = array();
+		foreach($module_display as $cat) {
+			foreach($cat['data'] as $mod => $info) {
+				$displayvars['finalmods'][$mod] = $info;
+			}
 		}
-		echo "\t<input type=\"reset\" value=\""._("Reset")."\" />";
-		echo "\t<input type=\"submit\" value=\""._("Process")."\" name=\"process\" />";
-		echo "</div>";
-
-		echo "</form>";
+		$displayvars['module_display'] = $module_display;
+		$displayvars['devel'] = $amp_conf['DEVEL'];
+		$displayvars['trackenable'] = $amp_conf['AMPTRACKENABLE'];
+		$displayvars['broken_module_list'] = $broken_module_list;
+		show_view('views/module_admin/main.php',$displayvars);
 	break;
 }
-if (!empty($security_issues_to_report)) {
-	foreach (array_keys($security_issues_to_report) as $id) {
-		if (!is_array($security_array[$id]['related_urls']['url'])) {
-			$security_array[$id]['related_urls']['url'] = array($security_array[$id]['related_urls']['url']);
-		}
-		$tickets = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,4})(?!\w)/i', 'trac_replace_ticket', $security_array[$id]['tickets']);
-?>
-<div class="module_security_description" id="security-<?php echo $id ?>" style="display: none;">
-<table>
-<tr><td><?php echo _('ID') ?></td><td><?php echo $id ?></td></tr>
-<tr><td><?php echo _('Type') ?></td><td><?php echo $security_array[$id]['type'] ?></td></tr>
-<tr><td><?php echo _('Severity') ?></td><td><?php echo $security_array[$id]['severity'] ?></td></tr>
-<tr><td><?php echo _('Description') ?></td><td><?php echo $security_array[$id]['description'] ?></td></tr>
-<tr><td><?php echo _('Date Reported') ?></td><td><?php echo $security_array[$id]['reported'] ?></td></tr>
-<tr><td><?php echo _('Date Fixed') ?></td><td><?php echo $security_array[$id]['fixed'] ?></td></tr>
-<?php
-		$related_urls = count($security_array[$id]['related_urls']['url']) == 1 ? _("Related URL") : _("Related URLs");
-		foreach ($security_array[$id]['related_urls']['url'] as $url) {
-?>
-<tr><td><?php echo $related_urls ?></td><td><a href="<?php echo $url ?>" target="_security"><?php echo $url ?></a></td></tr>
-<?php
-			$related_urls = '';
-		}
-?>
-<tr><td><?php echo _('Related Tickets') ?></td><td><?php echo $tickets ?></td></tr>
-</table>
-</div>
-<?php
-	}
-}
-
 if ($quietmode) {
-	echo '</body></html>';
+} else {
+	$displayvars = array("security_issues" => array());
+	if (!empty($security_issues_to_report)) {
+		foreach (array_keys($security_issues_to_report) as $id) {
+			if (!is_array($security_array[$id]['related_urls']['url'])) {
+				$security_array[$id]['related_urls']['url'] = array($security_array[$id]['related_urls']['url']);
+			}
+			$tickets = format_ticket($security_array[$id]['tickets']);
+			$displayvars['security_issues'][$id] = $security_array[$id];
+			$displayvars['security_issues'][$id]['tickets'] = $tickets;
+			$displayvars['security_issues'][$id]['related_urls_text'] = count($security_array[$id]['related_urls']['url']) == 1 ? _("Related URL") : _("Related URLs");
+			$displayvars['security_issues'][$id]['related_urls'] = $security_array[$id]['related_urls']['url'];
+		}
+	}
+	show_view('views/module_admin/footer.php',$displayvars);
 }
 
 //-------------------------------------------------------------------------------------------
@@ -1074,10 +919,7 @@ function download_progress($action, $params) {
 	switch ($action) {
 		case 'untar':
 			echo '<script type="text/javascript">
-			        var txt = document.createTextNode("'._('Untarring..').'");
-			        var br = document.createElement(\'br\');
-			        document.getElementById(\'moduleprogress\').appendChild(br);
-					document.getElementById(\'moduleprogress\').appendChild(txt);
+					$("#installstatus_'.$params['module'].'").append("'._('Untarring..').'");
 			     </script>';
 			@ ob_flush();
 			flush();
@@ -1089,22 +931,44 @@ function download_progress($action, $params) {
 				$progress = $params['read'].' of '.$params['total'].' ('.round($params['read']/$params['total']*100).'%)';
 			}
 			echo '<script type="text/javascript">
-			        document.getElementById(\'downloadprogress_'.$params['module'].'\').innerHTML = \''.$progress.'\';
+					$("#downloadprogress_'.$params['module'].'").html("'.$progress.'");
 			      </script>';
 			@ ob_flush();
 			flush();
 		break;
 		case 'done';
 			echo '<script type="text/javascript">
-			        var txt = document.createTextNode("'._('Done.').'");
-					var br = document.createElement(\'br\');
-			        document.getElementById(\'moduleprogress\').appendChild(txt);
-					document.getElementById(\'moduleprogress\').appendChild(br);
+					$("#installstatus_'.$params['module'].'").append("'._('Done').'<br/>");
 			     </script>';
 			@ ob_flush();
 			flush();
 		break;
 	}
+}
+
+function format_changelog($changelog) {
+	$changelog = nl2br($changelog);
+	$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+):/', '<strong>$0</strong>', $changelog);
+	$changelog = preg_replace('/\*(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+)\*/', '<strong>$1:</strong>', $changelog);
+	$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+) /', '<strong>$1: </strong>', $changelog);
+
+	$changelog = format_ticket($changelog);
+
+	$changelog = preg_replace_callback('/(?<!\w)r(\d+)(?!\w)/', 'trac_replace_changeset', $changelog);
+	$changelog = preg_replace_callback('/(?<!\w)\[(\d+)\](?!\w)/', 'trac_replace_changeset', $changelog);
+
+	return $changelog;
+}
+
+function format_ticket($string) {
+	// convert '#xxx', 'ticket xxx', 'bug xxx' to ticket links and rxxx to changeset links in trac
+	//
+	$string = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,5})(?!\w)/i', 'trac_replace_ticket', $string);
+
+	// Convert FREEPBX|FPBXDISTRO(-| )6745 for jira
+	$string = preg_replace_callback('/(FREEPBX|FPBXDISTRO)(?:\-| )([^&]\d{3,5})(?!\w)/', 'jira_replace_ticket', $string);
+
+	return $string;
 }
 
 /* enable_option($module_name, $option)
@@ -1142,8 +1006,17 @@ function trac_replace_ticket($match) {
 /* Replace 'rnnn' changeset references to a link, taken from Greg's drupal filter
 */
 function trac_replace_changeset($match) {
-  $baseurl = 'http://freepbx.org/trac/changeset/';
-  return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="changeset '.$match[1].'">'.$match[0].'</a>';
+	// We continue to use trac here eventhough we are using jira for backwards compatibility
+	// and to let jira know its an old reference
+	$baseurl = 'http://freepbx.org/trac/changeset/';
+	return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="changeset '.$match[1].'">'.$match[0].'</a>';
+}
+
+/* Replace 'FREEPBX-nnn', 'FPBXDISTRO-nnn' type ticket numbers in changelog with a link
+*/
+function jira_replace_ticket($match) {
+	$baseurl = 'http://issues.freepbx.org/browse/'.$match[1].'-';
+	return '<a target="tractickets" href="'.$baseurl.$match[2].'" title="ticket '.$match[2].'">#'.$match[2].'</a>';
 }
 
 function pageReload(){
@@ -1151,70 +1024,31 @@ function pageReload(){
 	//return "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=".rand()."'</script>";
 }
 
-function displayRepoSelect($buttons) {
-  global $display, $type, $online, $tabindex;
-  global $active_repos;
+function displayRepoSelect($buttons,$online=false,$repo_list=array()) {
+	global $display, $online, $tabindex;
 
-  $standard_repo = true;
-  $extended_repo = true;
-  $unsupported_repo = false;
-  $commercial_repo = true;
+	$modulef =& module_functions::create();
+	$displayvars = array("display" => $display, "online" => $online, "tabindex" => $tabindex, "repo_list" => $repo_list, "active_repos" => $modulef->get_active_repos());
+	$button_display = '';
+	$href = "config.php?display=$display";
+	$button_template = '<input type="button" value="%s" onclick="location.href=\'%s\';" />'."\n";
 
-  $button_display = '';
-  $href = "config.php?display=$display&type=$type";
-  $button_template = '<input type="button" value="%s" onclick="location.href=\'%s\';" />'."\n";
+	$displayvars['button_display'] = '';
+	foreach ($buttons as $button) {
+		switch($button) {
+			case 'local':
+				$displayvars['button_display'] .= sprintf($button_template, _("Manage local modules"), $href);
+			break;
+			case 'upload':
+				$displayvars['button_display'] .= sprintf($button_template, _("Upload modules"), $href.'&action=upload');
+			break;
+		}
+	}
 
-  foreach ($buttons as $button) {
-    switch($button) {
-    case 'local':
-      $button_display .= sprintf($button_template, _("Manage local modules"), $href);
-    break;
-    case 'upload':
-      $button_display .= sprintf($button_template, _("Upload modules"), $href.'&extdisplay=upload');
-    break;
-    }
-  }
+	$displayvars['tooltip']  = _("Choose the repositories that you want to check for new modules. Any updates available for modules you have on your system will be detected even if the repository is not checked. If you are installing a new system, you may want to start with the Basic repository and upload all modules, then go back and review the others.").' ';
+	$displayvars['tooltip'] .= _(" The modules in the Extended repository are less common and may receive lower levels of support. The Unsupported repository has modules that are not supported by the FreePBX team but may receive some level of support by the authors.").' ';
+	$displayvars['tooltip'] .= _("The Commercial repository is reserved for modules that are available for purchase and commercially supported.").' ';
+	$displayvars['tooltip'] .= '<br /><br /><small><i>('._("Checking for updates will transmit your FreePBX, Distro, Asterisk and PHP version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.").')</i></small>';
 
-  $tooltip  = _("Choose the repositories that you want to check for new modules. Any updates available for modules you have on your system will be detected even if the repository is not checked. If you are installing a new system, you may want to start with the Basic repository and upload all modules, then go back and review the others.").' ';
-  $tooltip .= _(" The modules in the Extended repository are less common and may receive lower levels of support. The Unsupported repository has modules that are not supported by the FreePBX team but may receive some level of support by the authors.").' ';
-  $tooltip .= _("The Commercial repository is reserved for modules that are available for purchase and commercially supported.").' ';
-  $tooltip .= '<br /><br /><small><i>('._("Checking for updates will transmit your FreePBX, Distro, Asterisk and PHP version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.").')</i></small>';
-?>
-  <form name="onlineRepo" action="config.php" method="post">
-    <input type="hidden" name="display" value="<?php echo $display ?>"/>
-    <input type="hidden" name="type" value="<?php echo $type ?>"/>
-    <input type="hidden" name="online" value="<?php echo $online ?>"/>
-    <table width="600px">
-      <tr>
-        <td>
-          <?php echo fpbx_label(_("Repositories"), $tooltip); ?>
-        </td><td>
-          <table>
-            <tr class="repo_boxes">
-              <td>
-                <input id="standard_repo" type="checkbox" name="active_repos[standard]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['standard'])?"checked":""?>/>
-                <label for="standard_repo"><?php echo _("Basic") ?></label>
-              </td>
-              <td>
-                <input id="extended_repo" type="checkbox" name="active_repos[extended]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['extended'])?"checked":""?>/>
-                <label for="extended_repo"><?php echo _("Extended") ?></label>
-              </td>
-              <td>
-                <input id="unsupported_repo" type="checkbox" name="active_repos[unsupported]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['unsupported'])?"checked":""?>/>
-                <label for="unsupported_repo"><?php echo _("Unsupported") ?></label>
-              </td>
-              <td>
-                <input id="commercial_repo" type="checkbox" name="active_repos[commercial]" value="1" tabindex="<?php echo ++$tabindex;?>"<?php echo isset($active_repos['commercial'])?"checked":""?>/>
-                <label for="commercial_repo"><?php echo _("Commercial") ?></label>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-    <input type="submit" value="<?php echo _("Check Online") ?>" name="check_online" />
-    <?php echo $button_display ?>
-  </form>
-<?php
+	return load_view('views/module_admin/reposelect.php',$displayvars);
 }
-?>

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.52, for unknown-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.1.69, for redhat-linux-gnu (x86_64)
 --
--- Host: localhost    Database: hipbx
+-- Host: localhost    Database: asterisk
 -- ------------------------------------------------------
--- Server version	5.1.52
+-- Server version	5.1.69
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,7 +35,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES ('need_reload','true'),('version','2.9.0');
+INSERT INTO `admin` VALUES ('need_reload','true'),('version','2.11.0rc1'),('default_directory','1'),('directory28_migrated','1');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `ampusers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ampusers` (
-  `username` varchar(20) NOT NULL DEFAULT '',
+  `username` varchar(255) NOT NULL,
   `password_sha1` varchar(40) NOT NULL,
   `extension_low` varchar(20) NOT NULL DEFAULT '',
   `extension_high` varchar(20) NOT NULL DEFAULT '',
@@ -56,6 +56,16 @@ CREATE TABLE `ampusers` (
   PRIMARY KEY (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ampusers`
+--
+
+LOCK TABLES `ampusers` WRITE;
+/*!40000 ALTER TABLE `ampusers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ampusers` ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 --
 -- Table structure for table `cronmanager`
@@ -167,7 +177,7 @@ INSERT INTO `extensions` VALUES ('outrt-001-9_outside','_9.','1','Macro','dialou
 UNLOCK TABLES;
 
 --
--- Table structure for table `featurecodes`
+-- Table structure for table `fax_details`
 --
 
 DROP TABLE IF EXISTS `featurecodes`;
@@ -177,6 +187,7 @@ CREATE TABLE `featurecodes` (
   `modulename` varchar(50) NOT NULL DEFAULT '',
   `featurename` varchar(50) NOT NULL DEFAULT '',
   `description` varchar(200) NOT NULL DEFAULT '',
+  `helptext` varchar(250) NOT NULL DEFAULT '',
   `defaultcode` varchar(20) DEFAULT NULL,
   `customcode` varchar(20) DEFAULT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '0',
@@ -192,7 +203,7 @@ CREATE TABLE `featurecodes` (
 
 LOCK TABLES `featurecodes` WRITE;
 /*!40000 ALTER TABLE `featurecodes` DISABLE KEYS */;
-INSERT INTO `featurecodes` VALUES ('core','userlogon','User Logon','*11',NULL,1,0),('core','userlogoff','User Logoff','*12',NULL,1,0),('core','zapbarge','ZapBarge','888',NULL,1,1),('core','chanspy','ChanSpy','555',NULL,1,1),('core','simu_pstn','Simulate Incoming Call','7777',NULL,1,1),('core','pickup','Directed Call Pickup','**',NULL,1,0),('core','pickupexten','Asterisk General Call Pickup','*8',NULL,1,0),('core','blindxfer','In-Call Asterisk Blind Transfer','##',NULL,1,0),('core','atxfer','In-Call Asterisk Attended Transfer','*2',NULL,1,0),('core','automon','In-Call Asterisk Toggle Call Recording','*1',NULL,1,0),('core','disconnect','In-Call Asterisk Disconnect Code','**',NULL,1,0);
+INSERT INTO `featurecodes` VALUES ('core','userlogon','User Logon','','*11',NULL,1,0),('core','userlogoff','User Logoff','','*12',NULL,1,0),('core','zapbarge','ZapBarge','','888',NULL,1,1),('core','chanspy','ChanSpy','','555',NULL,1,1),('core','simu_pstn','Simulate Incoming Call','','7777',NULL,1,1),('core','pickup','Directed Call Pickup','','**',NULL,1,0),('core','pickupexten','Asterisk General Call Pickup','','*8',NULL,1,0),('core','blindxfer','In-Call Asterisk Blind Transfer','','##',NULL,1,0),('core','atxfer','In-Call Asterisk Attended Transfer','','*2',NULL,1,0),('core','automon','In-Call Asterisk Toggle Call Recording','','*1',NULL,1,0),('core','disconnect','In-Call Asterisk Disconnect Code','','**',NULL,1,0),('pbdirectory','app-pbdirectory','Phonebook dial-by-name directory','','411',NULL,1,1),('donotdisturb','dnd_on','DND Activate','','*78',NULL,1,0),('donotdisturb','dnd_off','DND Deactivate','','*79',NULL,1,0),('donotdisturb','dnd_toggle','DND Toggle','','*76',NULL,1,0),('recordings','record_save','Save Recording','','*77',NULL,1,0),('recordings','record_check','Check Recording','','*99',NULL,1,0),('callwaiting','cwon','Call Waiting - Activate','','*70',NULL,1,0),('callwaiting','cwoff','Call Waiting - Deactivate','','*71',NULL,1,0),('voicemail','myvoicemail','My Voicemail','','*97',NULL,1,0),('voicemail','dialvoicemail','Dial Voicemail','','*98',NULL,1,1),('voicemail','directdialvoicemail','Direct Dial Prefix','','*',NULL,1,0),('paging','intercom-prefix','Intercom prefix','','*80',NULL,1,0),('paging','intercom-on','User Intercom Allow','','*54',NULL,1,0),('paging','intercom-off','User Intercom Disallow','','*55',NULL,1,0),('blacklist','blacklist_add','Blacklist a number','','*30',NULL,1,1),('blacklist','blacklist_remove','Remove a number from the blacklist','','*31',NULL,1,1),('blacklist','blacklist_last','Blacklist the last caller','','*32',NULL,1,0),('fax','simu_fax','Dial System FAX','','666',NULL,1,1),('dictate','dodictate','Perform dictation','','*34',NULL,1,0),('dictate','senddictate','Email completed dictation','','*35',NULL,1,0),('findmefollow','fmf_toggle','Findme Follow Toggle','','*21',NULL,1,0),('campon','request','Camp-On Request','','*82',NULL,1,0),('campon','cancel','Camp-On Cancel','','*83',NULL,1,0),('campon','toggle','Camp-On Toggle','','*84',NULL,1,0),('parking','parkedcall','Pickup ParkedCall Prefix','','*85',NULL,1,1),('infoservices','calltrace','Call Trace','','*69',NULL,1,0),('infoservices','echotest','Echo Test','','*43',NULL,1,1),('infoservices','speakingclock','Speaking Clock','','*60',NULL,1,1),('infoservices','speakextennum','Speak Your Exten Number','','*65',NULL,1,0),('callforward','cfon','Call Forward All Activate','','*72',NULL,1,0),('callforward','cfoff','Call Forward All Deactivate','','*73',NULL,1,0),('callforward','cfoff_any','Call Forward All Prompting Deactivate','','*74',NULL,1,0),('callforward','cfbon','Call Forward Busy Activate','','*90',NULL,1,0),('callforward','cfboff','Call Forward Busy Deactivate','','*91',NULL,1,0),('callforward','cfboff_any','Call Forward Busy Prompting Deactivate','','*92',NULL,1,0),('callforward','cfuon','Call Forward No Answer/Unavailable Activate','','*52',NULL,1,0),('callforward','cfuoff','Call Forward No Answer/Unavailable Deactivate','','*53',NULL,1,0),('callforward','cf_toggle','Call Forward Toggle','','*740',NULL,1,0),('queues','que_toggle','Queue Toggle','','*45',NULL,1,0),('queues','que_pause_toggle','Queue Pause Toggle','','*46',NULL,1,0),('speeddial','callspeeddial','Speeddial prefix','','*0',NULL,1,0),('speeddial','setspeeddial','Set user speed dial','','*75',NULL,1,0),('hotelwakeup','hotelwakeup','Wake Up Calls','','*68',NULL,1,0);
 /*!40000 ALTER TABLE `featurecodes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,6 +225,15 @@ CREATE TABLE `freepbx_log` (
   KEY `time` (`time`,`level`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `freepbx_log`
+--
+
+LOCK TABLES `freepbx_log` WRITE;
+/*!40000 ALTER TABLE `freepbx_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `freepbx_log` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `freepbx_settings`
@@ -254,6 +274,11 @@ CREATE TABLE `globals` (
   PRIMARY KEY (`variable`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `globals` WRITE;
+/*!40000 ALTER TABLE `globals` DISABLE KEYS */;
+/*!40000 ALTER TABLE `globals` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `iax`
@@ -309,6 +334,15 @@ CREATE TABLE `incoming` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `incoming`
+--
+
+LOCK TABLES `incoming` WRITE;
+/*!40000 ALTER TABLE `incoming` DISABLE KEYS */;
+/*!40000 ALTER TABLE `incoming` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `module_xml`
 --
 
@@ -336,7 +370,7 @@ CREATE TABLE `modules` (
   `version` varchar(20) NOT NULL DEFAULT '',
   `enabled` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -450,7 +484,7 @@ CREATE TABLE `outbound_routes` (
   `intracompany_route` varchar(4) DEFAULT NULL,
   `mohclass` varchar(80) DEFAULT NULL,
   `time_group_id` int(11) DEFAULT NULL,
-	`dest` VARCHAR(255) DEFAULT NULL,
+  `dest` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`route_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -487,6 +521,31 @@ CREATE TABLE `sip` (
 LOCK TABLES `sip` WRITE;
 /*!40000 ALTER TABLE `sip` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sip` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sip`
+--
+
+DROP TABLE IF EXISTS `pjsip`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pjsip` (
+  `id` varchar(20) NOT NULL DEFAULT '-1',
+  `keyword` varchar(30) NOT NULL DEFAULT '',
+  `data` varchar(255) NOT NULL,
+  `flags` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`,`keyword`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pjsip`
+--
+
+LOCK TABLES `pjsip` WRITE;
+/*!40000 ALTER TABLE `pjsip` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pjsip` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -535,7 +594,7 @@ CREATE TABLE `trunks` (
   `usercontext` varchar(255) DEFAULT NULL,
   `provider` varchar(40) DEFAULT NULL,
   `disabled` varchar(4) DEFAULT 'off',
-  `continue` VARCHAR( 4 ) DEFAULT 'off',
+  `continue` varchar(4) DEFAULT 'off',
   PRIMARY KEY (`trunkid`,`tech`,`channelid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -609,6 +668,7 @@ LOCK TABLES `dahdichandids` WRITE;
 /*!40000 ALTER TABLE `dahdichandids` DISABLE KEYS */;
 /*!40000 ALTER TABLE `dahdichandids` ENABLE KEYS */;
 UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -619,4 +679,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-08-13 11:44:20
+-- Dump completed on 2013-12-04  1:30:59

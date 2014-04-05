@@ -6,7 +6,7 @@ FreePBX is an opensource GUI (graphical user interface) that controls and manage
 Version
 ----
 
-2.11
+12
 
 Tech
 -----------
@@ -17,11 +17,13 @@ FreePBX uses a number of open source projects to work properly:
 * [Pear Console::Getopt] - This is a PHP implementation of "getopt" supporting both short and long options. License PHP License
 * [jQuery] - A multi-browser JavaScript library designed to simplify the client-side scripting of HTML. License MIT
 * [jQueryUI] - jQuery UI is a JavaScript library that provides abstractions for low-level interaction and animation, advanced effects and high-level, themeable widgets, built on top of the jQuery JavaScript library, that can be used to build interactive web applications. License MIT
+* [bootstrap] - a free collection of tools for creating websites and web applications. It contains HTML and CSS-based design templates for typography, forms, buttons, navigation and other interface components, as well as optional JavaScript extensions.
 * [dialparties.agi] - Ported to PHP by the FreePBX community, Originally by Zac Sprackett.  License GPL
 * [CDR (Call Detail Records) Application] - Orignally by Arezqui Belaid, License GPL (depends on JPGraph which is QPL)
 * [spandsp] - Originally by Steve Underwood, License GPL
 * [CssMin] - A (simple) css minifier with benefits. By Joe Scylla, Copyright (c) 2008 - 2010. License MIT
 * [Codeigniter helpers/librarires] - Copyright (c) 2008 - 2011, EllisLab, Inc., All rights reserved. License GPL
+* [jQuery UI Bootstrap] - Some work based off of this project which was started to bring the beauty and ease-of-use of Twitter Bootstrap to jQuery UI widgets 
 
 Visuals
 -----------
@@ -90,3 +92,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   [reno_project-system]: http://www.jamendo.com/en/album/23661
   [pear db]: http://pear.php.net/package/DB
   [pear console::getopt]: http://pear.php.net/package/Console_Getopt
+  [bootstrap]: http://getbootstrap.com
+  [jQuery UI Bootstrap]: https://github.com/addyosmani/jquery-ui-bootstrap
