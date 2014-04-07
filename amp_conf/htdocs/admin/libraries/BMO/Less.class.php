@@ -40,16 +40,21 @@ class Less extends Less_Parser {
 		$less_rel = '/admin/assets';
 		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
 
+		//compile these all into one giant file so that variables cross
 		$less_dirs = array("bootstrap","freepbx","font-awesome");
 		$out = array();
 		$out['compiled_less_files'] = array();
 		foreach($less_dirs as $dir) {
 			$path = $less_path."/".$dir;
 			if (is_dir($path)) {
-				$file = $this->getCachedFile($path,$less_rel);
-				$out['compiled_less_files'][$dir] = $dir.'/cache/'.$file;
+				$files[$path."/".$dir.".less"] = $less_rel;
 			}
 		}
+
+		\Less_Cache::$cache_dir = $less_path.'/cache';
+		$filename = \Less_Cache::Get( $files, array('compress' => true) );
+		$out['compiled_less_files'][] = 'cache/'.$filename;
+
 		$extra_less_dirs = array("buttons");
 		$out['extra_compiled_less_files'] = array();
 		foreach($extra_less_dirs as $dir) {
