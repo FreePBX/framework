@@ -1,140 +1,60 @@
 <module>
-	<rawname>framework</rawname>
-	<modtype>framework</modtype>
-	<repo>standard</repo>
-	<name>FreePBX Framework</name>
-	<version>2.11.0.32</version>
-	<publisher>FreePBX</publisher>
-	<license>GPLv2+</license>
-	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
-	<candisable>no</candisable>
-	<canuninstall>no</canuninstall>
-	<changelog>
-		*2.11.0.32* Fix issue with str_replacing htdocs in libfreepbx.install.php
-		*2.11.0.31* Only define DB classes one time
-		*2.11.0.30* Update framework DB to have helper functions for functions that mysqli needs
-		*2.11.0.29* Revert Use mysqli extension for database access, if available.
-		*2.11.0.28* #7141 Use mysqli extension for database access, if available.
-		*2.11.0.27* Change security shield functionality, add advanced setting to disable nightly update checking
-		*2.11.0.26* Make the chown's smarter.
-		*2.11.0.24* Add japanese language support
-		*2.11.0.23* #7134
-		*2.11.0.22* #7130
-		*2.11.0.21* #7123 SECURITY ISSUE introduced in 2.9
-		*2.11.0.18* #6471 Allow better voicemail passwords
-		*2.11.0.17* Set CustomPresence on dynamic hints, when available.
-		*2.11.0.16* Small variable Fix to the last tarball
-		*2.11.0.15* Make the framework tarball smaller
-		*2.11.0.14* Fix issue where javascript errors broke the GUI
-		*2.11.0.13* Fix page_body id to reflect footer changes and Fix ARI Link on the Login page
-		*2.11.0.12* Restful Library Addition, New Distro Versioning Support
-		*2.11.0.11* #6673, #6682, #6683 #6721
-		*2.11.0.10* #6656
-		*2.11.0.9* another typo for NOTIFICATION_IGNORE, assure module callbacks are seen in module_admin
-		*2.11.0.8* fix typo in NOTIFICATION_IGNORE format
-		*2.11.0.7* #6651 and allow file handler to use restrictmods
-		*2.11.0.6* need to commit the new setting
-		*2.11.0.5* make sure amp_conf setup right even if class isn't created with create
-		*2.11.0.4* minor tweak in NOTIFICAION_IGNORE format
-		*2.11.0.3* r15801, r15803, r15804, r15805, r15806 misc internal improvements
-		*2.11.0.2* #6603, misc
-		*2.11.0.1* update to send base version properly
-		*2.11.0.0* 2.11.0 final
-		*2.11.0.0rc1.8* #6547, #6541, #6553, #6550
-		*2.11.0.0rc1.7* #6547, #6527, #6546, #5270, #6541
-		*2.11.0.0rc1.6* Added mysql charset to asterisk dialplan function
-		*2.11.0.0rc1.5* #6527, when creating a top level single category button use the module name not the category name, change wording on beta view
-		*2.11.0.0rc1.4* re #6529 -
-		*2.11.0.0rc1.3* #6506, #6507, #6518, fix PHP 5.3 ananoymous function requirement, misc
-		*2.11.0.0rc1.2* broke some advanced settings fixed now
-		*2.11.0.0rc1.1* update pbxlib.js
-		*2.11.0.0rc1.0* #6488, res_odbc.conf, rtp.conf migrations,
-		*2.11.0.0beta2.9* Fixes #6472, destination popovers not working
-		*2.11.0.0beta2.8* #6455 have amportal remove dangling symlinks
-		*2.11.0.0beta2.7* #6272, #6453, better splicing granularity, beta module page support
-		*2.11.0.0beta2.6* #6303, #6387, #6384, jQuery 1.7 deprecation changes, extensions class fixes, obe validation, PIAF index.php fix
-		*2.11.0.0beta2.5* Update compressed libpbx
-		*2.11.0.0beta2.4* #6380 Fixes login issue on non-chrome browsers. Fixes extmap shown
-		*2.11.0.0beta2.3* #5829, #6271, #6237, 6272, #6300, #6320, #6049, #6351, #6349
-		*2.11.0.0beta2.2* #5412, #6159, #5842
-		*2.11.0.0beta2.1* remove error in sql install template breaking new installs, upgrades ok
-		*2.11.0.0beta2.0* beta2 release
-		*2.11.0.0beta1.5* #5842, #6147, #6154
-		*2.11.0.0beta1.4* #6060, #5412, #6063, #6079, other changes
-		*2.11.0.0beta1.3* Fix issue with Advanced Settings being set to hidden in error
-		*2.11.0.0beta1.2* #6051, #6055, #6057
-		*2.11.0.0beta1.1* #6051 destination popOvers
-		*2.11.0.0beta1.0* #5969, #5933, #5989, #6002, #6010, #6011, #6013, #6023, #6034, #6030, #6036
-		*2.10.1.11* Fix duplication in xml
-		*2.10.1.12* Repackage and fixes for new system
-		*2.10.1.10* #6651 and related astmanger change
-		*2.10.1.9* fix new footer
-		*2.10.1.8* Packaging of ver 2.10.1.8
-		*2.10.1.7* Packaging of ver 2.10.1.7
-		*2.10.1.6* update copyright notice
-		*2.10.1.5* rnav visual fix; upstream changes
-		*2.10.1.4* #5842, #6147, #6154
-		*2.10.1.3* #5989, #6030
-		*2.10.1.2* #5933, #5969
-		*2.10.1.1* remove some code checked in error not used
-		*2.10.1.0* #5874, #5833, #5646, #5879, #5839,
-		*2.10.0.8* #5851
-		*2.10.0.7* #5815
-		*2.10.0.6* #5812
-		*2.10.0.5* #5716, #5763, #5742, #5743, #5533, #5692
-		*2.10.0.4* re #5755 - assorted bug fixes
-		*2.10.0.3* downstream updates
-		*2.10.0.2* #5492, #5565, #5662, #5678
-		*2.10.0.1* #5492, #5443, #5646, #5565
-		*2.10.0.0* bump to final, tooltip updates
-		*2.10.0rc1.7* #5627, #5628
-		*2.10.0rc1.6* #5619 again, typo
-		*2.10.0rc1.5* amportal chown corrections from last checkin
-		*2.10.0rc1.4* #5619, #5615, some amportal chown tuning
-		*2.10.0rc1.3* #5528, #5391, #5260, #5148, colapsible gui eleent sections
-		*2.10.0rc1.2* #5585 SECURITY ISSUE introduced in 2.10.0rc1.2 previous version
-		*2.10.0rc1.1* #4909, #5117, #5545, #5565 menu/CSS fixes, default language improvements
-		*2.10.0rc1.0* add backup repo, misc, bump release candidate
-		*2.10.0beta3.6* #5513 and one more syntax issue
-		*2.10.0beta3.5* #5513 check for setting first
-		*2.10.0beta3.4* #5513, better zend detecetion, cdr migration bug check
-		*2.10.0beta3.3* add some error checking on migration script
-		*2.10.0beta3.2* migrates cdr table adding did field
-		*2.10.0beta3.1* migrates cdr table adding recordingfile field
-		*2.10.0beta3.0* beta3 bump, misc tweaks
-		*2.10.0beta2.8* #5465, #5475, #5476, #5480, adds .htaccess to address some potential security vulnerabilities
-		*2.10.0beta2.7* #5465
-		*2.10.0beta2.6* #5342, #5461, #5451, #5463, #5442, gui changes, manager library enhancements,
-		*2.10.0beta2.5* version bump, see trac for more info
-		*2.10.0beta2.4* #5122, #5443, #5451, #5450
-		*2.10.0beta2.3* revert r12651
-		*2.10.0beta2.2* module admin depency check changes
-		*2.10.0beta2.1* migration script bug fix
-		*2.10.0beta2.0* move FOP to module, add hook ability to freepbx_engine (amportal), remove gzip handling preventing caching, various bug fixes
-		*2.10.0beta1.1* #5375, #5341, #5375, #5390, more on $5342, adds back freepbx_menu.conf to customize menu bar and content
-		*2.10.0beta1.0* beta1 release, see svn log
-		*2.9.0.7* #5209, #5217, #5221, #5212, #5211, #5140, #5216
-		*2.9.0.6* #5194
-		*2.9.0.5* #5183
-		*2.9.0.4* #5138
-		*2.9.0.3* #5160
-		*2.9.0.2* #5122
-		*2.9.0.1* #5027
-		*2.9.0.0* #5124
-		*2.9.0rc1.5* #5077, #5086, #5096, #5095, #5111
-		*2.9.0rc1.4* #5080
-		*2.9.0rc1.3* #5038, #5059
-		*2.9.0rc1.2* #5041, #4871, #5053,
-		*2.9.0rc1.1* #5009, #5028, #5035, typos
-		*2.9.0rc1.0* #4983, #4952, #5000, #4988
-	</changelog>
-	<description>
-		This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module
-	</description>
-	<supported>
-		<version>2.11</version>
-	</supported>
-	<category>Admin</category>
-	<location>release/2.11/framework-2.11.0.10.tgz</location>
-	<md5sum>343e3e49493d537e61ce925d77dfcadc</md5sum>
+  <rawname>framework</rawname>
+  <modtype>framework</modtype>
+  <repo>standard</repo>
+  <name>FreePBX Framework</name>
+  <version>12.0.1alpha40</version>
+  <publisher>FreePBX</publisher>
+  <license>GPLv2+</license>
+  <licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
+  <candisable>no</candisable>
+  <canuninstall>no</canuninstall>
+  <changelog>
+	*12.0.1alpha40* Bring in all development work, including css to less work
+	*12.0.1alpha38* Only define DB classes one time
+	*12.0.1alpha37* Update framework DB to have helper functions for functions that mysqli needs
+	*12.0.1alpha36* Revert Use mysqli extension for database access, if available.
+	*12.0.1alpha35* #7141 Use mysqli extension for database access, if available.
+	*12.0.1alpha34* Remove need for jqueryUI buttonset on browsers with CSS3 native support
+	*12.0.1alpha33* Change security shield functionality, add advanced setting to disable nightly update checking
+	*12.0.1alpha32* Add Japanese language support
+	*12.0.1alpha31* FREEPBX-7119
+	*12.0.1alpha30* #7168 and CSS Updates
+	*12.0.1alpha29* Enable Less Support
+	*12.0.1alpha28* Ensure module hooks aren't duplicated.
+	*12.0.1alpha26* Move BMO Startup to enable proper module integration
+	*12.0.1alpha25* BMO issues with Commercial Modules
+	*12.0.1alpha24* Minor BMO cleanups
+	*12.0.1alpha22* #7123 SECURITY ISSUE introduced in 2.9
+	*12.0.1alpha18* #6471 Allow better voicemail passwords
+	*12.0.1alpha17* Set CustomPresence on dynamic hints, when available.
+	*12.0.1alpha16* Added help text bubbles to feature code admin re FREEPBX-6903
+	*12.0.1alpha15* Add remote-unlock feature. This is disabled by default.
+	*12.0.1alpha14* Remove unneeded warning when processing commercial modules.
+	*12.0.1alpha13* Automatically enable repos from module_admin if used with --repo also make standard, standard
+	*12.0.1alpha12* Full fix for module_admin functionality to always attempt to look at master modulexml for list of repos
+	*12.0.1alpha11* BMO didn't know how to preload a module.
+	*12.0.1alpha10* Update to 10, numerous fixes here and there
+	*12.0.1alpha9* And then there was 9, set the Version of FreePBX correctly
+	*12.0.1alpha8* BMO fixes and other things that make this awesome
+	*12.0.1alpha7* Prep for public release 1
+	*12.0.1alpha6* Update Global SIP Settings Driver Selection
+	*12.0.1alpha5* More Module Admin tweaks and fixes
+	*12.0.1alpha4* Module Admin Javascript bugs fixed
+	*12.0.1alpha3* Module Admin working. Might have some bugs.
+	*12.0.1alpha2* Good start to the first alpha, forgot to package the new javascripts
+</changelog>
+  <description>
+	This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module
+</description>
+  <depends>
+    <phpversion>5.3.0</phpversion>
+  </depends>
+  <supported>
+    <version>12.0</version>
+  </supported>
+  <category>Admin</category>
+  <location>packages/framework/framework-12.0.1alpha40.tgz</location>
+  <md5sum>75b495796505ba06ccf0aaf2156d9bbc</md5sum>
+  <sha1>a4aacfc5b9c257a0de8ecf72e94f8c7f658508da</sha1>
 </module>
