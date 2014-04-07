@@ -160,6 +160,11 @@ if (!isset($modules)) {
 	$modules = & $modules_local;
 }
 
+//Hide the only module that would end up confusing people
+if(isset($modules['builtin'])) {
+	unset($modules['builtin']);
+}
+
 //--------------------------------------------------------------------------------------------------------
 switch ($action) {
 	case 'setrepo':
