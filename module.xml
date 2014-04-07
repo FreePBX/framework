@@ -1,59 +1,59 @@
 <module>
-  <rawname>framework</rawname>
-  <modtype>framework</modtype>
-  <repo>standard</repo>
-  <name>FreePBX Framework</name>
-  <version>12.0.1alpha40</version>
-  <publisher>FreePBX</publisher>
-  <license>GPLv2+</license>
+	<rawname>framework</rawname>
+	<modtype>framework</modtype>
+	<repo>standard</repo>
+	<name>FreePBX Framework</name>
+	<version>12.0.1alpha40</version>
+	<publisher>FreePBX</publisher>
+	<license>GPLv2+</license>
   <licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
-  <candisable>no</candisable>
-  <canuninstall>no</canuninstall>
-  <changelog>
-	*12.0.1alpha40* Bring in all development work, including css to less work
-	*12.0.1alpha38* Only define DB classes one time
-	*12.0.1alpha37* Update framework DB to have helper functions for functions that mysqli needs
-	*12.0.1alpha36* Revert Use mysqli extension for database access, if available.
-	*12.0.1alpha35* #7141 Use mysqli extension for database access, if available.
-	*12.0.1alpha34* Remove need for jqueryUI buttonset on browsers with CSS3 native support
-	*12.0.1alpha33* Change security shield functionality, add advanced setting to disable nightly update checking
-	*12.0.1alpha32* Add Japanese language support
-	*12.0.1alpha31* FREEPBX-7119
-	*12.0.1alpha30* #7168 and CSS Updates
-	*12.0.1alpha29* Enable Less Support
-	*12.0.1alpha28* Ensure module hooks aren't duplicated.
-	*12.0.1alpha26* Move BMO Startup to enable proper module integration
-	*12.0.1alpha25* BMO issues with Commercial Modules
-	*12.0.1alpha24* Minor BMO cleanups
-	*12.0.1alpha22* #7123 SECURITY ISSUE introduced in 2.9
-	*12.0.1alpha18* #6471 Allow better voicemail passwords
-	*12.0.1alpha17* Set CustomPresence on dynamic hints, when available.
-	*12.0.1alpha16* Added help text bubbles to feature code admin re FREEPBX-6903
-	*12.0.1alpha15* Add remote-unlock feature. This is disabled by default.
-	*12.0.1alpha14* Remove unneeded warning when processing commercial modules.
-	*12.0.1alpha13* Automatically enable repos from module_admin if used with --repo also make standard, standard
-	*12.0.1alpha12* Full fix for module_admin functionality to always attempt to look at master modulexml for list of repos
-	*12.0.1alpha11* BMO didn't know how to preload a module.
-	*12.0.1alpha10* Update to 10, numerous fixes here and there
-	*12.0.1alpha9* And then there was 9, set the Version of FreePBX correctly
-	*12.0.1alpha8* BMO fixes and other things that make this awesome
-	*12.0.1alpha7* Prep for public release 1
-	*12.0.1alpha6* Update Global SIP Settings Driver Selection
-	*12.0.1alpha5* More Module Admin tweaks and fixes
-	*12.0.1alpha4* Module Admin Javascript bugs fixed
-	*12.0.1alpha3* Module Admin working. Might have some bugs.
-	*12.0.1alpha2* Good start to the first alpha, forgot to package the new javascripts
-</changelog>
-  <description>
-	This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module
-</description>
-  <depends>
-    <phpversion>5.3.0</phpversion>
-  </depends>
-  <supported>
-    <version>12.0</version>
-  </supported>
-  <category>Admin</category>
+	<candisable>no</candisable>
+	<canuninstall>no</canuninstall>
+	<changelog>
+		*12.0.1alpha40* Bring in all development work, including css to less work
+		*12.0.1alpha38* Only define DB classes one time
+		*12.0.1alpha37* Update framework DB to have helper functions for functions that mysqli needs
+		*12.0.1alpha36* Revert Use mysqli extension for database access, if available.
+		*12.0.1alpha35* #7141 Use mysqli extension for database access, if available.
+		*12.0.1alpha34* Remove need for jqueryUI buttonset on browsers with CSS3 native support
+		*12.0.1alpha33* Change security shield functionality, add advanced setting to disable nightly update checking
+		*12.0.1alpha32* Add Japanese language support
+		*12.0.1alpha31* FREEPBX-7119
+		*12.0.1alpha30* #7168 and CSS Updates
+		*12.0.1alpha29* Enable Less Support
+		*12.0.1alpha28* Ensure module hooks aren't duplicated.
+		*12.0.1alpha26* Move BMO Startup to enable proper module integration
+		*12.0.1alpha25* BMO issues with Commercial Modules
+		*12.0.1alpha24* Minor BMO cleanups
+		*12.0.1alpha22* #7123 SECURITY ISSUE introduced in 2.9
+		*12.0.1alpha18* #6471 Allow better voicemail passwords
+		*12.0.1alpha17* Set CustomPresence on dynamic hints, when available.
+		*12.0.1alpha16* Added help text bubbles to feature code admin re FREEPBX-6903
+		*12.0.1alpha15* Add remote-unlock feature. This is disabled by default.
+		*12.0.1alpha14* Remove unneeded warning when processing commercial modules.
+		*12.0.1alpha13* Automatically enable repos from module_admin if used with --repo also make standard, standard
+		*12.0.1alpha12* Full fix for module_admin functionality to always attempt to look at master modulexml for list of repos
+		*12.0.1alpha11* BMO didn't know how to preload a module.
+		*12.0.1alpha10* Update to 10, numerous fixes here and there
+		*12.0.1alpha9* And then there was 9, set the Version of FreePBX correctly
+		*12.0.1alpha8* BMO fixes and other things that make this awesome
+		*12.0.1alpha7* Prep for public release 1
+		*12.0.1alpha6* Update Global SIP Settings Driver Selection
+		*12.0.1alpha5* More Module Admin tweaks and fixes
+		*12.0.1alpha4* Module Admin Javascript bugs fixed
+		*12.0.1alpha3* Module Admin working. Might have some bugs.
+		*12.0.1alpha2* Good start to the first alpha, forgot to package the new javascripts
+	</changelog>
+	<description>
+		This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module
+	</description>
+	<depends>
+		<phpversion>5.3.0</phpversion>
+	</depends>
+	<supported>
+		<version>12.0</version>
+	</supported>
+	<category>Admin</category>
   <location>packages/framework/framework-12.0.1alpha40.tgz</location>
   <md5sum>75b495796505ba06ccf0aaf2156d9bbc</md5sum>
   <sha1>a4aacfc5b9c257a0de8ecf72e94f8c7f658508da</sha1>

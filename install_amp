@@ -18,6 +18,12 @@
 //    Copyright 2006, Rob Thomas <xrobau@gmail.com>
 //    Copyright 2009, Bandwith.com
 //
+
+if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+	echo "FreePBX Requires PHP Version 5.3.0 or Higher, you have: ".PHP_VERSION."\n";
+	die();
+}
+
 date_default_timezone_set('America/Los_Angeles');
 require_once ("libfreepbx.install.php");
 require_once(dirname(__FILE__) . '/amp_conf/htdocs/admin/libraries/php-upgrade.functions.php');
@@ -34,7 +40,7 @@ define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules/");
 $webroot	= "/var/www/html";
 /* should be deprecated and only under proramatic control
 $fopwebroot	= "";				// if blank, will use $webroot/panel
- */
+*/
 $ampsbin_dir = "/usr/local/sbin";	// default if not set
 $ampbin_dir = "/var/lib/asterisk/bin";
 $asterisk_user	= "asteriskuser";
@@ -43,41 +49,40 @@ $asterisk_pass	= "amp109";
 /********************************************************************************************************************/
 
 function showHelp() {
-	out("Optional parameters:",false);
-	out("  --help, -h, -?           Show this help",false);
-	out("  --dbhost <ip address>    Use a remote database server",false);
-	out("  --dbname databasename    Use database name specified, instead of 'asterisk'",false);
-	out("  --username <user>        Use <user> to connect to db and write config",false);
-	out("  --password <pass>        Use <pass> to connect to db and write config",false);
-	out("  --fopwebroot <path>      Depricated Web path where fop will be installed, ignored should be under module control",false);
-	out("  --webroot <path>         Web root where FreePBX will be installed",false);
-	out("  --cgibin <path>          Path where cgi-bin's lives",false);
-	out("  --bin <path>             Path of asterisk binaries",false);
-	out("  --sbin <path>            Path of system admin binaries",false);
-	out("  --asteriskuser <user>    Asterisk Manager username",false);
-	out("  --asteriskpass <pass>    Asterisk Manager password",false);
-	out("  --debug                  Enable debug output",false);
-	out("  --dry-run                Don't actually do anything",false);
-	out("  --force-version <ver>    Force upgrade from version <ver>",false);
-	out("  --skip-module-install    Don't run install scripts for packaged modules, the files are still loaded.",false);
-	out("                           In a development environment you may not want the install scripts run.",false);
-	out("  --no-files               Just run updates without installing files",false);
-	out("  --force-overwrite        Don't ask if it is ok to overwrite modified files, assume yes for all.",false);
-	out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ",false);
-	out("                           it's a new installation)",false);
-	out("  --install-fop false      depricated, does nothing",false);
-	out("  --dev-links              Make links to files in the source directory instead of copying",false);
-	out("                           (intended for developers only)",false);
-	out("  --update-links           Update dev links without running through the whole install process (Bail before modules)", false);
-	out("  --my-svn-is-correct      Ignore Asterisk version, assume it is correct",false);
-	out("  --engine <name>          Use the specified PBX Engine ('asterisk')",false);
-	out("  --uid <user>             Set ownership of files to user",false);
-	out("  --gid <group>            Set ownership of files to group",false);
-	out("  --scripted               Scripted install. Do not ask any questions.",false);
-	out("                           (Intended for unattended installers only)",false);
-	out("  --set-freepbx-settings   Force set the internal FreePBX DB Settings with install time parameters",false);
-	out("  --cleaninstall           Like 'make clean' will clean up any previous settings or previous setup while installing a-new",false);
-	out("  --uninstall              Completely Uninstall FreePBX",false);
+out("Optional parameters:",false);
+out("  --help, -h, -?           Show this help",false);
+out("  --dbhost <ip address>    Use a remote database server",false);
+out("  --dbname databasename    Use database name specified, instead of 'asterisk'",false);
+out("  --username <user>        Use <user> to connect to db and write config",false);
+out("  --password <pass>        Use <pass> to connect to db and write config",false);
+out("  --fopwebroot <path>      Depricated Web path where fop will be installed, ignored should be under module control",false);
+out("  --webroot <path>         Web root where FreePBX will be installed",false);
+out("  --cgibin <path>          Path where cgi-bin's lives",false);
+out("  --bin <path>             Path of asterisk binaries",false);
+out("  --sbin <path>            Path of system admin binaries",false);
+out("  --asteriskuser <user>    Asterisk Manager username",false);
+out("  --asteriskpass <pass>    Asterisk Manager password",false);
+out("  --debug                  Enable debug output",false);
+out("  --dry-run                Don't actually do anything",false);
+out("  --force-version <ver>    Force upgrade from version <ver>",false);
+out("  --skip-module-install    Don't run install scripts for packaged modules, the files are still loaded.",false);
+out("                           In a development environment you may not want the install scripts run.",false);
+out("  --no-files               Just run updates without installing files",false);
+out("  --force-overwrite        Don't ask if it is ok to overwrite modified files, assume yes for all.",false);
+out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ",false);
+out("                           it's a new installation)",false);
+out("  --install-fop false      depricated, does nothing",false);
+out("  --dev-links              Make links to files in the source directory instead of copying",false);
+out("                           (intended for developers only)",false);
+out("  --update-links           Update dev links without running through the whole install process (Bail before modules)", false);
+out("  --engine <name>          Use the specified PBX Engine ('asterisk')",false);
+out("  --uid <user>             Set ownership of files to user",false);
+out("  --gid <group>            Set ownership of files to group",false);
+out("  --scripted               Scripted install. Do not ask any questions.",false);
+out("                           (Intended for unattended installers only)",false);
+out("  --set-freepbx-settings   Force set the internal FreePBX DB Settings with install time parameters",false);
+out("  --cleaninstall           Like 'make clean' will clean up any previous settings or previous setup while installing a-new",false);
+out("  --uninstall              Completely Uninstall FreePBX",false);
 }
 
 function install_parse_amportal_conf($filename) {
@@ -87,21 +92,21 @@ function install_parse_amportal_conf($filename) {
 
 			// TODO: force booleans into 0/1 this should be ok given the limited number of configuration values
 			//
-      switch (trim(strtolower($matches[2]))) {
-      case 'false':
-      case 'no':
-      case 'off':
-			case '0':
-        $conf[$matches[1]] = '0';
-			case 'true':
-			case 'yes':
-			case 'on':
-			case '1':
-        $conf[$matches[1]] = '1';
-			default:
-				$conf[$matches[1]] = $matches[2];
-      break;
-      }
+			switch (trim(strtolower($matches[2]))) {
+				case 'false':
+				case 'no':
+				case 'off':
+				case '0':
+					$conf[$matches[1]] = '0';
+				case 'true':
+				case 'yes':
+				case 'on':
+				case '1':
+					$conf[$matches[1]] = '1';
+				default:
+					$conf[$matches[1]] = $matches[2];
+				break;
+			}
 		}
 	}
 
@@ -128,7 +133,7 @@ function install_parse_amportal_conf($filename) {
 function install_parse_asterisk_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
-		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* => \s*(.*)\s*([;#].*)?/",$line,$matches)) {
+		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* (?:=>|=) \s*(.*)\s*([;#].*)?/",$line,$matches)) {
 			$conf[ $matches[1] ] = $matches[2];
 		}
 	}
@@ -226,32 +231,29 @@ function ask_overwrite($file1, $file2) {
 }
 
 /** Write AMP-generated configuration files
- */
+*/
 function generate_configs() {
 	global $amp_conf;
 	global $dryrun;
 	global $debug;
 	global $runas_uid;
 
-	out("Generating Configurations.conf, (if Asterisk is not running, you will get an error");
+	out("Generating Configurations.conf, (if Asterisk is not running, you will get an error)");
 	out("In case of error, start Asterisk and hit the red bar in the GUI to generate the Configurations.conf files");
-	if (!$dryrun)
+	if (!$dryrun) {
 		// added --run-install to make it work like it has been working since retrieve_conf changed to not run module install scripts by default
 
 		//
 		// TODO: Should check if Asterisk is running and/or try to start it.
 		//
 		passthru("sudo -u $runas_uid ".trim($amp_conf["AMPBIN"])."/retrieve_conf --run-install --skip-registry-checks ".($debug ? ' --debug' : ''));
+	}
 }
 
 
-/** Collect AMP settings
- */
+/** Collect AMP settings */
 function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $dbname = 'asterisk') {
 	global $webroot;
-	/* should be deprecated and only under proramatic control
-	global $fopwebroot;
-	 */
 	global $ampsbin_dir;
 	global $ampbin_dir;
 	global $asterisk_user;
@@ -276,7 +278,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		$amp_conf["AMPWEBROOT"] = $webroot;
 		/* should be deprecated and only under proramatic control
 		$amp_conf["FOPWEBROOT"] = ($fopwebroot ? $fopwebroot : $webroot."/panel");
-		 */
+		*/
 		$amp_conf["AMPWEBADDRESS"] = $freepbxip;
 		$amp_conf["ASTMANAGERHOST"] = $asteriskip;
 		$amp_conf["AMPEXTENSIONS"] = "extensions";
@@ -295,81 +297,97 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 
 	outn("Enter your USERNAME to connect to the '$dbname' database:\n [".($dbuser ? $dbuser : $asterisk_user) . "] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key))
+	if (preg_match('/^$/',$key)) {
 		$amp_conf["AMPDBUSER"] = ($dbuser ? $dbuser : $asterisk_user);
-	else
+	} else {
 		$amp_conf["AMPDBUSER"] = $key;
+	}
 
 	outn("Enter your PASSWORD to connect to the '$dbname' database:\n [".($dbpass ? $dbpass : $asterisk_pass)."] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key))
+	if (preg_match('/^$/',$key)) {
 		$amp_conf["AMPDBPASS"] = ($dbpass ? $dbpass : $asterisk_pass);
-	else
+	} else {
 		$amp_conf["AMPDBPASS"] = $key;
+	}
 
 	outn("Enter the hostname of the '$dbname' database:\n [".($dbhost ? $dbhost : "localhost")."] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key))
+	if (preg_match('/^$/',$key)) {
 		$amp_conf["AMPDBHOST"] = ($dbhost ? $dbhost : "localhost");
-	else
+	} else {
 		$amp_conf["AMPDBHOST"] = $key;
+	}
 
 	outn("Enter a USERNAME to connect to the Asterisk Manager interface:\n [admin] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRUSER"] = "admin";
-	else $amp_conf["AMPMGRUSER"] = $key;
+	if (preg_match('/^$/',$key)) {
+		$amp_conf["AMPMGRUSER"] = "admin";
+	} else {
+		$amp_conf["AMPMGRUSER"] = $key;
+	}
 
 	outn("Enter a PASSWORD to connect to the Asterisk Manager interface:\n [amp111] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRPASS"] = "amp111";
-	else $amp_conf["AMPMGRPASS"] = $key;
+	if (preg_match('/^$/',$key)) {
+		$amp_conf["AMPMGRPASS"] = "amp111";
+	} else {
+		$amp_conf["AMPMGRPASS"] = $key;
+	}
 
 	do {
 		out("Enter the path to use for your AMP web root:\n [$webroot] ");
 		$key = trim(fgets(STDIN,1024));
-		if (preg_match('/^$/',$key))
+		if (preg_match('/^$/',$key)) {
 			$amp_conf["AMPWEBROOT"] = "$webroot";
-		else
+			if (amp_mkdir($amp_conf["AMPWEBROOT"],"0755",true)){
+				out("Created ".$amp_conf["AMPWEBROOT"]);
+				break;
+			} else {
+				fatal("Cannot create ".$amp_conf["AMPWEBROOT"]."!");
+			}
+		} else {
 			$amp_conf["AMPWEBROOT"] = rtrim($key,'/');
 
-        //regression follows us all around freepbx #6159
-        $webroot = $amp_conf["AMPWEBROOT"];
+			//regression follows us all around freepbx #6159
+			$webroot = $amp_conf["AMPWEBROOT"];
 
-		if (is_dir($amp_conf["AMPWEBROOT"])) {
-			break;
-		} else if (amp_mkdir($amp_conf["AMPWEBROOT"],"0755",true)){
-			out("Created ".$amp_conf["AMPWEBROOT"]);
-			break;
-		} else {
-			fatal("Cannot create ".$amp_conf["AMPWEBROOT"]."!");
+			if (is_dir($amp_conf["AMPWEBROOT"])) {
+				break;
+			} else if (amp_mkdir($amp_conf["AMPWEBROOT"],"0755",true)){
+				out("Created ".$amp_conf["AMPWEBROOT"]);
+				break;
+			} else {
+				fatal("Cannot create ".$amp_conf["AMPWEBROOT"]."!");
+			}
 		}
 	} while(1);
 
-	// Really no need to ask, is there.
-	/* should be deprecated and only under proramatic control
-	if (empty($fopwebroot))
-		$amp_conf["FOPWEBROOT"] = $amp_conf["AMPWEBROOT"]."/panel";
-	else
-		$amp_conf["FOPWEBROOT"] = $fopwebroot;
-	 */
 
 	outn("Enter the IP ADDRESS or hostname used to access the AMP web-admin:\n [$freepbxip] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPWEBADDRESS"] = $freepbxip;
-	else $amp_conf["AMPWEBADDRESS"] = $key;
+	if (preg_match('/^$/',$key)) {
+		$amp_conf["AMPWEBADDRESS"] = $freepbxip;
+	} else {
+		$amp_conf["AMPWEBADDRESS"] = $key;
+	}
 
 	outn("Use simple Extensions [extensions] admin or separate Devices and Users [deviceanduser]?\n [extensions] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPEXTENSIONS"] = "extensions";
-	else $amp_conf["AMPEXTENSIONS"] = $key;
+	if (preg_match('/^$/',$key)) {
+		$amp_conf["AMPEXTENSIONS"] = "extensions";
+	} else {
+		$amp_conf["AMPEXTENSIONS"] = $key;
+	}
 
 	do {
 		out("Enter directory in which to store AMP executable scripts:\n [$ampbin_dir] ");
 		$key = trim(fgets(STDIN,1024));
-		if (preg_match('/^$/',$key))
+		if (preg_match('/^$/',$key)) {
 			$amp_conf["AMPBIN"] = $ampbin_dir;
-		else
+		} else {
 			$amp_conf["AMPBIN"] = rtrim($key,'/');
+		}
 
 		if (is_dir($amp_conf["AMPBIN"])) {
 			break;
@@ -384,10 +402,11 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	do {
 		out("Enter directory in which to store super-user scripts:\n [$ampsbin_dir] ");
 		$key = trim(fgets(STDIN,1024));
-		if (preg_match('/^$/',$key))
+		if (preg_match('/^$/',$key)) {
 			$amp_conf["AMPSBIN"] = "$ampsbin_dir";
-		else
+		} else {
 			$amp_conf["AMPSBIN"] = rtrim($key,'/');
+		}
 
 		if (is_dir($amp_conf["AMPSBIN"])) {
 			break;
@@ -405,9 +424,9 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 }
 
 /** Set base of packaged modules to the versions packaged in the tarball since they are
- *  getting overwritten with the tarball from anything that may have been updated online.
- *
- */
+*  getting overwritten with the tarball from anything that may have been updated online.
+*
+*/
 function set_base_version() {
 	global $dryrun;
 
@@ -433,9 +452,9 @@ function set_base_version() {
 }
 
 /** Install all modules packaged with the install. We use the force flag because the
- *  the assumption is that the dependencies are met and the package is able to have
- *  the modules installed.
- */
+*  the assumption is that the dependencies are met and the package is able to have
+*  the modules installed.
+*/
 function install_modules() {
 	global $dryrun;
 	global $amp_conf;
@@ -478,29 +497,29 @@ function install_modules() {
 				// Framework modules cannot be enabled, only installed.
 				//
 				switch ($up_module) {
-				case 'framework':
-				case 'fw_ari':
-					system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
-					out("installed");
+					case 'framework':
+					case 'fw_ari':
+						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+						out("installed");
 					break;
-				default:
-					system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
-					system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
-					out("installed");
+					default:
+						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
+						out("installed");
 				}
 				unset($included_modules[$id]);
 			} else {
 				out("Dry Run Not Installed");
 			}
 		}
-  	}
+	}
 }
 
 /** Set the module version number to the packaged version and enable
- *  module must require not install.php or install.sql script
- *  this is primarily to package core and framework with FreePBX tarballs
- *
- */
+*  module must require not install.php or install.sql script
+*  this is primarily to package core and framework with FreePBX tarballs
+*
+*/
 function set_module_version($module) {
 	global $db;
 
@@ -559,38 +578,37 @@ function set_module_version($module) {
 }
 
 function installampimport_mysql_dump($file,$db=NULL) {
-    if(!isset($db)) {
-        global $db;
-    }
+	if(!isset($db)) {
+		global $db;
+	}
 
-    $dir = dirname(__FILE__);
-    if(file_exists($dir.'/SQL/'.$file)) {
-        // Temporary variable, used to store current query
-        $templine = '';
-        // Read in entire file
-        $lines = file($dir.'/SQL/'.$file);
-        // Loop through each line
-        foreach ($lines as $line)
-        {
-            // Skip it if it's a comment
-            if (substr($line, 0, 2) == '--' || $line == '')
-                continue;
+	$dir = dirname(__FILE__);
+	if(file_exists($dir.'/SQL/'.$file)) {
+		// Temporary variable, used to store current query
+		$templine = '';
+		// Read in entire file
+		$lines = file($dir.'/SQL/'.$file);
+		// Loop through each line
+		foreach ($lines as $line) {
+			// Skip it if it's a comment
+			if (substr($line, 0, 2) == '--' || $line == '') {
+				continue;
+			}
 
-            // Add this line to the current segment
-            $templine .= $line;
-            // If it has a semicolon at the end, it's the end of the query
-            if (substr(trim($line), -1, 1) == ';')
-            {
-                // Perform the query
-                $result = $db->query($templine);
-        		if(DB::IsError($result)) {
-        			fatal("Error performing query: ". $templine . " Message:".$result->getMessage());
-        		}
-                // Reset temp variable to empty
-                $templine = '';
-            }
-        }
-    }
+			// Add this line to the current segment
+			$templine .= $line;
+			// If it has a semicolon at the end, it's the end of the query
+			if (substr(trim($line), -1, 1) == ';') {
+				// Perform the query
+				$result = $db->query($templine);
+				if(DB::IsError($result)) {
+					fatal("Error performing query: ". $templine . " Message:".$result->getMessage());
+				}
+				// Reset temp variable to empty
+				$templine = '';
+			}
+		}
+	}
 }
 
 /********************************************************************************************************************/
@@ -602,11 +620,11 @@ $bootstrap_settings['skip_astman']) = true;
 $bootstrap_settings['freepbx_auth'] = false;
 $restrict_mods = true;
 if (@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-  out(_("FreePBX already installed, bootstrapping"));
+out(_("FreePBX already installed, bootstrapping"));
 } else if (@include_once('/etc/asterisk/freepbx.conf')) {
-  out(_("FreePBX already installed, bootstrapping"));
+out(_("FreePBX already installed, bootstrapping"));
 } else {
-  // all the initialization here instead
+// all the initialization here instead
 }
 */
 
@@ -640,7 +658,36 @@ out("OK");
 
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
-$longopts = array("help","debug","dry-run","username=","password=","force-version=","dbhost=","no-files","force-overwrite","dbname=","my-svn-is-correct","engine=","webroot=","install-moh","install-fop=","make-links-devel","dev-links","update-links","skip-module-install","uid=","gid=","scripted","freepbxip=","asteriskip=","set-freepbx-settings","cleaninstall","uninstall","installdb");
+$longopts = array(
+	"help",
+	"debug",
+	"dry-run",
+	"username=",
+	"password=",
+	"force-version=",
+	"dbhost=",
+	"no-files",
+	"force-overwrite",
+	"dbname=",
+	"my-svn-is-correct",
+	"engine=",
+	"webroot=",
+	"install-moh",
+	"install-fop=",
+	"make-links-devel",
+	"dev-links",
+	"update-links",
+	"skip-module-install",
+	"uid=",
+	"gid=",
+	"scripted",
+	"freepbxip=",
+	"asteriskip=",
+	"set-freepbx-settings",
+	"cleaninstall",
+	"uninstall",
+	"installdb"
+);
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
 if (is_object($args)) {
@@ -715,11 +762,8 @@ foreach ($args[0] as $arg) {
 			out("Running upgrade only, without installing files.");
 		break;
 		case "--force-overwrite":
-	    $check_md5s = false;
+			$check_md5s = false;
 			out("Overwriting all files including modified ones.");
-		break;
-		case "--my-svn-is-correct":
-			$override_astvers = true;
 		break;
 		case "--engine":
 			if ($arg[1] != 'asterisk') {
@@ -739,6 +783,7 @@ foreach ($args[0] as $arg) {
 		break;
 		case "--update-links":
 			$update_links = true;
+			//Note: there is NO break here on purpose!
 		case "--make-links-devel":
 		case "--dev-links":
 			$make_links = true;
@@ -747,10 +792,6 @@ foreach ($args[0] as $arg) {
 			$module_install = false;
 		break;
 		case "--fopwebroot":
-			/* should be deprecated and only under proramatic control
-			$fopwebroot = $arg[1];
-			out("Using fop at ".$fopwebroot);
-			 */
 		break;
 		case "--webroot":
 			$webroot = $arg[1];
@@ -797,213 +838,277 @@ foreach ($args[0] as $arg) {
 			out("Setting IP address of asterisk to $asteriskip");
 		break;
 		case "--cleaninstall":
-            $installamp_clean = true;
-        break;
-        case "--uninstall":
-            $uninstallamp = true;
-        break;
-        case "--installdb":
-            $installdb = true;
-        break;
+			$installamp_clean = true;
+		break;
+		case "--uninstall":
+			$uninstallamp = true;
+		break;
+		case "--installdb":
+			$installdb = true;
+		break;
 	}
 }
 
 if($installamp_clean || $uninstallamp) {
-    global $webroot;
+	global $webroot;
 	global $asterisk_user;
 	global $asterisk_pass;
 
-    $oldampconf = array();
-    if(file_exists('/etc/amportal.conf')) {
-        $amportalconf = file_get_contents('/etc/amportal.conf');
-        if(preg_match('/AMPWEBROOT=(.*)/',$amportalconf,$matches)) {
-            $oldampconf['AMPWEBROOT'] = $matches[1];
-        }
-        if(preg_match('/AMPDBENGINE=(.*)/',$amportalconf,$matches)) {
-            $oldampconf['AMPDBENGINE'] = $matches[1];
-        }
-        if(preg_match('/AMPDBUSER=(.*)/',$amportalconf,$matches)) {
-            $oldampconf['AMPDBUSER'] = $matches[1];
-        }
-        if(preg_match('/AMPDBPASS=(.*)/',$amportalconf,$matches)) {
-            $oldampconf['AMPDBPASS'] = $matches[1];
-        }
-        if(preg_match('/AMPDBNAME=(.*)/',$amportalconf,$matches)) {
-            $oldampconf['AMPDBNAME'] = $matches[1];
-        }
-        if(preg_match('/AMPDBHOST=(.*)/',$amportalconf,$matches)) {
-            $oldampconf['AMPDBHOST'] = $matches[1];
-        }
-        if(preg_match('/AMPBIN=(.*)/',$amportalconf,$matches)) {
-            $oldampconf['AMPBIN'] = $matches[1];
-        }
-        outn("Remove /etc/amportal.conf?:\n [y] ");
-        $key = trim(fgets(STDIN,1024));
-    	switch($key) {
-    	    case "n":
-    	    case "no":
-    	    break;
-    	    case "y":
-    	    case "yes":
-    	    default:
-    	        outn("Removing /etc/amportal.conf.....");
-                unlink('/etc/amportal.conf');
-                out("Done!");
-    	    break;
-    	}
+	$oldampconf = array();
+	if(file_exists('/etc/amportal.conf')) {
+		$amportalconf = file_get_contents('/etc/amportal.conf');
+		if(preg_match('/AMPWEBROOT=(.*)/',$amportalconf,$matches)) {
+			$oldampconf['AMPWEBROOT'] = $matches[1];
+		}
+		if(preg_match('/AMPDBENGINE=(.*)/',$amportalconf,$matches)) {
+			$oldampconf['AMPDBENGINE'] = $matches[1];
+		}
+		if(preg_match('/AMPDBUSER=(.*)/',$amportalconf,$matches)) {
+			$oldampconf['AMPDBUSER'] = $matches[1];
+		}
+		if(preg_match('/AMPDBPASS=(.*)/',$amportalconf,$matches)) {
+			$oldampconf['AMPDBPASS'] = $matches[1];
+		}
+		if(preg_match('/AMPDBNAME=(.*)/',$amportalconf,$matches)) {
+			$oldampconf['AMPDBNAME'] = $matches[1];
+		}
+		if(preg_match('/AMPDBHOST=(.*)/',$amportalconf,$matches)) {
+			$oldampconf['AMPDBHOST'] = $matches[1];
+		}
+		if(preg_match('/AMPBIN=(.*)/',$amportalconf,$matches)) {
+			$oldampconf['AMPBIN'] = $matches[1];
+		}
+		outn("Remove /etc/amportal.conf?:\n [y] ");
+		$key = trim(fgets(STDIN,1024));
+		switch($key) {
+			case "n":
+			case "no":
+			break;
+			case "y":
+			case "yes":
+			default:
+				outn("Removing /etc/amportal.conf.....");
+				unlink('/etc/amportal.conf');
+				out("Done!");
+			break;
+		}
 	}
-	if(file_exists('/etc/freepbx.conf')) {
-        outn("Remove /etc/freepbx.conf?:\n [y] ");
-        $key = trim(fgets(STDIN,1024));
-    	switch($key) {
-    	    case "n":
-    	    case "no":
-    	    break;
-    	    case "y":
-    	    case "yes":
-    	    default:
-    	        outn("Removing /etc/freepbx.conf.....");
-                unlink('/etc/freepbx.conf');
-                out("Done!");
-    	    break;
-    	}
-	}
-	if(file_exists('/usr/local/sbin/amportal')) {
-        outn("Remove /usr/local/sbin/amportal?:\n [y] ");
-        $key = trim(fgets(STDIN,1024));
-    	switch($key) {
-    	    case "n":
-    	    case "no":
-    	    break;
-    	    case "y":
-    	    case "yes":
-    	    default:
-    	        outn("Removing /usr/local/sbin/amportal.....");
-                unlink('/usr/local/sbin/amportal');
-                out("Done!");
-    	    break;
-    	}
-	}
-	if(!empty($oldampconf['AMPBIN']) && file_exists($oldampconf['AMPBIN'])) {
-        outn("Remove All FreePBX Tools in ".$oldampconf['AMPBIN']."?:\n [y] ");
-        $key = trim(fgets(STDIN,1024));
-        $files = array("archive_recordings","freepbx_engine", "gen_amp_conf.php", "libfreepbx.confgen.php", "retrieve_conf", "freepbx-cron-scheduler.php", "freepbx_setting", "generate_hints.php", "module_admin", "retrieve_parse_amportal_conf.pl");
-        foreach (glob($oldampconf['AMPBIN']."/*") as $filename) {
-            if(is_link($filename)) {
-                if(preg_match('/'.preg_quote($oldampconf['AMPWEBROOT'],'/').'/i',readlink($filename))) {
-                    $files[] = basename($filename);
-                }
-            }
-        }
-        switch($key) {
-    	    case "n":
-    	    case "no":
-    	    break;
-    	    case "y":
-    	    case "yes":
-    	    default:
-    	        foreach($files as $file) {
-    	            if(file_exists($oldampconf['AMPBIN'].'/'.$file)) {
-        	            outn("Removing ".$oldampconf['AMPBIN']."/".$file.".....");
-                        unlink($oldampconf['AMPBIN'].'/'.$file);
-                        out("Done!");
-                    }
-    	        }
-    	    break;
-    	}
-	}
-	if(!empty($oldampconf) && isset($oldampconf['AMPWEBROOT']) && file_exists($oldampconf['AMPWEBROOT'])) {
-        outn("Remove ".$oldampconf['AMPWEBROOT']."?:\n [y] ");
-        $key = trim(fgets(STDIN,1024));
-    	switch($key) {
-    	    case "n":
-    	    case "no":
-    	    break;
-    	    case "y":
-    	    case "yes":
-    	    default:
-    	        outn("Removing ".$oldampconf['AMPWEBROOT']."......");
-                exec('rm -Rf '.$oldampconf['AMPWEBROOT']);
-                out("Done!");
-    	    break;
-    	}
-	}
-	if(!$uninstallamp && !empty($oldampconf) && $oldampconf['AMPDBENGINE'] == 'mysql') {
-        outn("Reinitalize & Reinstall Freepbx's Asterisk Database?:\n [y] ");
-    	$key = trim(fgets(STDIN,1024));
-    	switch($key) {
-    	    case "n":
-    	    case "no":
-    	    break;
-    	    case "y":
-    	    case "yes":
-    	    default:
-    	        outn("Erasing Database...");
-    	        $datasource = 'mysql://'.$oldampconf["AMPDBUSER"].':'.$oldampconf["AMPDBPASS"].'@'.$oldampconf["AMPDBHOST"].'/'.$oldampconf["AMPDBNAME"];
-        		$cleandb = DB::connect($datasource); // attempt connection
 
-        		if(DB::IsError($cleandb)) {
-                	out("FAILED");
-                	fatal("Try not selecting 'y' on Reinitalize & Reinstall Freepbx's Asterisk Database");
-                } else {
-        	        $sql = "SHOW TABLES FROM ".$oldampconf['AMPDBNAME'];
-        	        $tables = $cleandb->getAll($sql);
-        	        foreach($tables as $list) {
-        	            $sql = "DROP TABLE ".$oldampconf['AMPDBNAME'].".".$list[0];
-        	            $cleandb->query($sql);
-        	        }
-        	        out("Done");
-        	        outn("Reinstalling DB Structure...");
-        	        installampimport_mysql_dump('newinstall.sql',$cleandb);
-        	        out("Done");
-                }
-    	    break;
-    	}
-    }
+	if(file_exists('/etc/freepbx.conf')) {
+		outn("Remove /etc/freepbx.conf?:\n [y] ");
+		$key = trim(fgets(STDIN,1024));
+		switch($key) {
+			case "n":
+			case "no":
+			break;
+			case "y":
+			case "yes":
+			default:
+				outn("Removing /etc/freepbx.conf.....");
+				unlink('/etc/freepbx.conf');
+				out("Done!");
+			break;
+		}
+	}
+
+	if(file_exists('/usr/local/sbin/amportal')) {
+		outn("Remove /usr/local/sbin/amportal?:\n [y] ");
+		$key = trim(fgets(STDIN,1024));
+		switch($key) {
+			case "n":
+			case "no":
+			break;
+			case "y":
+			case "yes":
+			default:
+				outn("Removing /usr/local/sbin/amportal.....");
+				unlink('/usr/local/sbin/amportal');
+				out("Done!");
+			break;
+		}
+	}
+
+	if(!empty($oldampconf['AMPBIN']) && file_exists($oldampconf['AMPBIN'])) {
+		outn("Remove All FreePBX Tools in ".$oldampconf['AMPBIN']."?:\n [y] ");
+		$key = trim(fgets(STDIN,1024));
+		$files = array("archive_recordings","freepbx_engine", "gen_amp_conf.php", "libfreepbx.confgen.php", "retrieve_conf", "freepbx-cron-scheduler.php", "freepbx_setting", "generate_hints.php", "module_admin", "retrieve_parse_amportal_conf.pl");
+		foreach (glob($oldampconf['AMPBIN']."/*") as $filename) {
+			if(is_link($filename)) {
+				if(preg_match('/'.preg_quote($oldampconf['AMPWEBROOT'],'/').'/i',readlink($filename))) {
+					$files[] = basename($filename);
+				}
+			}
+		}
+		switch($key) {
+			case "n":
+			case "no":
+			break;
+			case "y":
+			case "yes":
+			default:
+				foreach($files as $file) {
+					if(file_exists($oldampconf['AMPBIN'].'/'.$file)) {
+						outn("Removing ".$oldampconf['AMPBIN']."/".$file.".....");
+						unlink($oldampconf['AMPBIN'].'/'.$file);
+						out("Done!");
+					}
+				}
+			break;
+		}
+	}
+
+	if(!empty($oldampconf) && isset($oldampconf['AMPWEBROOT']) && file_exists($oldampconf['AMPWEBROOT'])) {
+		outn("Remove ".$oldampconf['AMPWEBROOT']."?:\n [y] ");
+		$key = trim(fgets(STDIN,1024));
+		switch($key) {
+			case "n":
+			case "no":
+			break;
+			case "y":
+			case "yes":
+			default:
+				outn("Removing ".$oldampconf['AMPWEBROOT']."......");
+				exec('rm -Rf '.$oldampconf['AMPWEBROOT']);
+				out("Done!");
+			break;
+		}
+	}
+
+	if(!$uninstallamp && !empty($oldampconf) && $oldampconf['AMPDBENGINE'] == 'mysql') {
+		outn("Reinitalize & Reinstall Freepbx's Asterisk Database?:\n [y] ");
+		$key = trim(fgets(STDIN,1024));
+		switch($key) {
+			case "n":
+			case "no":
+			break;
+			case "y":
+			case "yes":
+			default:
+				outn("Erasing FreePBX Asterisk Database...");
+				$datasource = 'mysql://'.$oldampconf["AMPDBUSER"].':'.$oldampconf["AMPDBPASS"].'@'.$oldampconf["AMPDBHOST"].'/'.$oldampconf["AMPDBNAME"];
+				$cleandb = DB::connect($datasource); // attempt connection
+
+				if(DB::IsError($cleandb)) {
+					out("FAILED");
+					fatal("Try not selecting 'y' on Reinitalize & Reinstall Freepbx's Asterisk Database");
+				} else {
+					$sql = "SHOW TABLES FROM ".$oldampconf['AMPDBNAME'];
+					$tables = $cleandb->getAll($sql);
+					foreach($tables as $list) {
+						$sql = "DROP TABLE ".$oldampconf['AMPDBNAME'].".".$list[0];
+						$cleandb->query($sql);
+					}
+					out("Done");
+					outn("Reinstalling FreePBX Asterisk DB Structure...");
+					installampimport_mysql_dump('newinstall.sql',$cleandb);
+					out("Done");
+				}
+			break;
+		}
+
+		outn("Reinitalize & Reinstall Freepbx's CDR Database?:\n [y] ");
+		$key = trim(fgets(STDIN,1024));
+		switch($key) {
+			case "n":
+			case "no":
+			break;
+			case "y":
+			case "yes":
+			default:
+				outn("Erasing FreePBX CDR Database...");
+				//for asterisk CDR
+				$datasource = 'mysql://'.$oldampconf["AMPDBUSER"].':'.$oldampconf["AMPDBPASS"].'@'.$oldampconf["AMPDBHOST"].'/asteriskcdrdb';
+				$cdrdb = DB::connect($datasource); // attempt connection
+				if(DB::IsError($cdrdb)) {
+					out("FAILED TO REMOVE CDR");
+				} else {
+					$sql = "SHOW TABLES FROM asteriskcdrdb";
+					$tables = $cleandb->getAll($sql);
+					foreach($tables as $list) {
+						$sql = "DROP TABLE asteriskcdrdb.".$list[0];
+						$cleandb->query($sql);
+					}
+					out("Done");
+					outn("Reinstalling FreePBX CDR DB Structure...");
+					installampimport_mysql_dump('cdr_mysql_table.sql', $cdrdb);
+					out("Done!");
+				}
+			break;
+		}
+	}
+
 	if($uninstallamp && (!empty($oldampconf) || !empty($new_username))) {
-	    outn("Uninstall Freepbx's Asterisk Database?:\n [y] ");
 		$u_username = !empty($oldampconf["AMPDBUSER"]) ? $oldampconf["AMPDBUSER"] : $new_username;
 		$u_password = !empty($oldampconf["AMPDBPASS"]) ? $oldampconf["AMPDBPASS"] : (!empty($new_password) ? $new_password : '');
 		$u_host = !empty($oldampconf["AMPDBHOST"]) ? $oldampconf["AMPDBHOST"] : (!empty($dbhost) ? $dbhost : 'localhost');
 		$u_database = !empty($oldampconf["AMPDBNAME"]) ? $oldampconf["AMPDBNAME"] : (!empty($dbname) ? $dbname : 'asterisk');
-    	$key = trim(fgets(STDIN,1024));
-    	switch($key) {
-    	    case "n":
-    	    case "no":
-    	    break;
-    	    case "y":
-    	    case "yes":
-    	    default:
-    	        outn("Erasing Database...");
-    	        $datasource = 'mysql://'.$u_username.':'.$u_password.'@'.$u_host.'/'.$u_database;
-        		$cleandb = DB::connect($datasource); // attempt connection
 
-        		if(DB::IsError($cleandb)) {
-                	out("FAILED");
-                	fatal("Could Not Connect to Database (Probably already deleted)");
-                } else {
-        	        $sql = "SHOW TABLES FROM ".$u_database;
-        	        $tables = $cleandb->getAll($sql);
-        	        foreach($tables as $list) {
-        	            $sql = "DROP TABLE ".$u_database.".".$list[0];
-        	            $cleandb->query($sql);
-        	        }
-        	        out("Done");
-                }
-    	    break;
-    	}
+		outn("Uninstall Freepbx's Asterisk Database?:\n [y] ");
+		$key = trim(fgets(STDIN,1024));
+		switch($key) {
+			case "n":
+			case "no":
+			break;
+			case "y":
+			case "yes":
+			default:
+				outn("Erasing FreePBX Asterisk Database...");
+				$datasource = 'mysql://'.$u_username.':'.$u_password.'@'.$u_host.'/'.$u_database;
+				$cleandb = DB::connect($datasource); // attempt connection
+
+				if(DB::IsError($cleandb)) {
+					out("FAILED");
+					fatal("Could Not Connect to Database (Probably already deleted)");
+				} else {
+					$sql = "SHOW TABLES FROM ".$u_database;
+					$tables = $cleandb->getAll($sql);
+					foreach($tables as $list) {
+						$sql = "DROP TABLE ".$u_database.".".$list[0];
+						$cleandb->query($sql);
+					}
+					out("Done");
+				}
+			break;
+		}
+
+		outn("Uninstall Freepbx's CDR Database?:\n [y] ");
+		$key = trim(fgets(STDIN,1024));
+		switch($key) {
+			case "n":
+			case "no":
+			break;
+			case "y":
+			case "yes":
+			default:
+				outn("Erasing FreePBX CDR Database...");
+				$datasource = 'mysql://'.$u_username.':'.$u_password.'@'.$u_host.'/asteriskcdrdb';
+				$cleandb = DB::connect($datasource); // attempt connection
+
+				if(DB::IsError($cleandb)) {
+					out("FAILED");
+					//fatal("Could Not Connect to Database (Probably already deleted)");
+				} else {
+					$sql = "SHOW TABLES FROM asteriskcdrdb";
+					$tables = $cleandb->getAll($sql);
+					foreach($tables as $list) {
+						$sql = "DROP TABLE asteriskcdrdb.".$list[0];
+						$cleandb->query($sql);
+					}
+					out("Done");
+				}
+			break;
+		}
 	}
 	if($uninstallamp) {
-	    die("Successfully Uninstalled FreePBX\n");
+		die("Successfully Uninstalled FreePBX\n");
 	}
 }
 
 // **** Look for user = root
 
-// TODO: if we bootstrap, do this first before even trying. Also, is their a problem boostraping as user root???
+// TODO: if we bootstrap, do this first before even trying. Also, is there a problem boostraping as user root???
 //
 outn("Checking user..");
-//$current_user=(isset($_ENV["USER"]) ? $_ENV["USER"] : exec('whoami',$output));
 $euid = (posix_getpwuid(posix_geteuid()));
 $current_user = $euid['name'];
 if ($current_user != "root"){
@@ -1106,6 +1211,10 @@ if (isset($dbname)) {
 //       database then we probably want to write, though there should be a freepbx_conf class to use that does that and knows
 //       how to make that decsion as well as what to write?
 //
+if(empty($amp_conf["AMPDBUSER"]) || empty($amp_conf["AMPDBPASS"]) || empty($amp_conf["AMPDBHOST"]) || empty($amp_conf["AMPDBNAME"])) {
+	die("Database settings were blank. Try again\n");
+}
+
 write_amportal_conf(AMP_CONF, $amp_conf);
 
 // **** Check for amportal.conf, create if necessary
@@ -1114,6 +1223,13 @@ outn("Checking for ".ASTERISK_CONF."..");
 if (!file_exists(ASTERISK_CONF)) {
 	out(ASTERISK_CONF." does not exist, copying default");
 	copy("asterisk.conf", ASTERISK_CONF);
+
+	if(file_exists("/usr/lib64/asterisk/modules")) {
+		out("Detected lib64 based system, adjusting asterisk.conf");
+		$contents = file_get_contents(ASTERISK_CONF);
+		$contents = str_replace("/usr/lib/asterisk/modules","/usr/lib64/asterisk/modules",$contents);
+		file_put_contents(ASTERISK_CONF,$contents);
+	}
 }
 out("OK");
 
@@ -1129,7 +1245,7 @@ if (count($asterisk_conf) == 0) {
 out("OK");
 
 /* TODO: if we boostrapped this should have been done but doesn't hurt?
- */
+*/
 if (isset($asterisk_conf['astetcdir'])) { $amp_conf['ASTETCDIR'] = $asterisk_conf['astetcdir']; }
 if (isset($asterisk_conf['astmoddir'])) { $amp_conf['ASTMODDIR'] = $asterisk_conf['astmoddir']; }
 if (isset($asterisk_conf['astvarlibdir'])) { $amp_conf['ASTVARLIBDIR'] = $asterisk_conf['astvarlibdir']; }
@@ -1173,23 +1289,22 @@ $verinfo = $tmpout;
 //  Set the 'engine' to be 'asterisk14' if using asterisk 1.4, otherwise
 //  'asterisk'
 outn("Checking for Asterisk version..");
-if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
-    (preg_match('/^Asterisk SVN-(\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches))) {
+if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) || (preg_match('/^Asterisk SVN-(\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches))) {
 	if ((version_compare($matches[1], "1.8") < 0)) {
-		fatal("Minimum Asterisk version is 1.8 for this version of FreePBX. Detected version is: ".$matches[1]);
+		fatal("Asterisk 1.6, 1.8, 10, 11 or 12 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
 	if (version_compare($matches[1], "13", "ge")) {
-		fatal("Asterisk version 12 is the highest version supported for this version of FreePBX. Detected version is: ".$matches[1]);
+		fatal("Asterisk 1.8, 10, 11 or 12 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
 	out("{$matches[1]}");
-  $asterisk_version = $matches[1];
+	$asterisk_version = $matches[1];
 
 } elseif (preg_match('/^Asterisk ([ABC]\.\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) {
 	if (substr($matches[1], 0, 1) == "A") {
 		fatal("Asterisk Business Edition B or C is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
 	out("{$matches[1]}");
-  $asterisk_version = '1.4'; //Not really, but this makes sure that proper execution occurs later on reload commands, etc.
+	$asterisk_version = '1.4'; //Not really, but this makes sure that proper execution occurs later on reload commands, etc.
 
 } elseif ($asterisk_version = preg_match('/^Asterisk SVN.+/', $verinfo)) {
 	out("FAIL");
@@ -1197,14 +1312,7 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
 	out("You are not using a released version of Asterisk. We are unable to verify");
 	out("that your Asterisk version is compatible with FreePBX. Whilst this probably");
 	out("won't cause any problems, YOU NEED TO BE CERTAIN that it is compatible");
-	out("with at least the released Asterisk version 1.2" );
-	if ($override_astvers==false) {
-		out("If you are SURE that this is compatible, you can re-run ".$argv[0]." with");
-		out("the parameter --my-svn-is-correct");
-		exit;
-	} else {
-		out("--my-svn-is-correct specified, continuing");
-	}
+	out("with at least the released Asterisk version 1.8" );
 } else {
 	fatal("Could not determine asterisk version (got: \"".$verinfo."\" please report this)");
 }
@@ -1215,11 +1323,11 @@ outn("Checking for selinux..");
 $tmpoutput = array();
 $tmpout = exec("getenforce 2>/dev/null", $tmpoutput, $sereturn);
 if (isset($tmpoutput[0]) && strtolower($tmpoutput[0]) === "enabled") {
-        // this method seems better because disabled and permissive are the same
-        // if a user installs and realizes selinux is running the other method
-        // requires a reboot to get selinuxenabled to work after editing the  selinux config
-        // this will allow you to use setenforce 0 which turns selinux into permissive mode which
-        // doesnt enforce, it just warns.
+	// this method seems better because disabled and permissive are the same
+	// if a user installs and realizes selinux is running the other method
+	// requires a reboot to get selinuxenabled to work after editing the  selinux config
+	// this will allow you to use setenforce 0 which turns selinux into permissive mode which
+	// doesnt enforce, it just warns.
 	fatal("selinux is ENABLED. This is not supported. Please disable selinux before using FreePBX");
 }
 out("OK");
@@ -1240,13 +1348,11 @@ $db_name = $amp_conf["AMPDBNAME"];
 
 // we still support older configurations,  and fall back
 // into mysql when no other engine is defined
-if ($db_engine == "")
-{
+if ($db_engine == "") {
 	$db_engine = "mysql";
 }
 
-switch ($db_engine)
-{
+switch ($db_engine) {
 	case "pgsql":
 	case "mysql":
 		// datasource in in this style: dbengine://username:password@host/database
@@ -1257,32 +1363,33 @@ switch ($db_engine)
 
 		$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
 		$db = DB::connect($datasource); // attempt connection
-		break;
+	break;
 
 	case "sqlite":
 		die_freepbx("SQLite2 support is deprecated. Please use sqlite3 only.");
-		break;
+	break;
 
 	case "sqlite3":
-		if (!isset($amp_conf["AMPDBFILE"]))
+		if (!isset($amp_conf["AMPDBFILE"])) {
 			die("You must setup properly AMPDBFILE in /etc/amportal.conf");
+		}
 
-		if (isset($amp_conf["AMPDBFILE"]) == "")
+		if (isset($amp_conf["AMPDBFILE"]) == "") {
 			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
+		}
 
 		/* on centos this extension is not loaded by default */
 		if (! extension_loaded('sqlite3.so')  && ! extension_loaded('SQLITE3'))
 			dl('sqlite3.so');
 
-		if (! @require_once('DB/sqlite3.php') )
-		{
+		if (! @require_once('DB/sqlite3.php') ) {
 			out("FAILED");
 			fatal( "Your PHP installation has no PEAR/SQLite3 support. Please install php-sqlite3 and php-pear.");
 		}
 
 		$datasource = "sqlite3:///" . $amp_conf["AMPDBFILE"] . "?mode=0666";
 		$db = DB::connect($datasource);
-		break;
+	break;
 
 	default:
 		die( "Unknown SQL engine: [$db_engine]");
@@ -1298,21 +1405,38 @@ if(DB::IsError($db)) {
 out("OK");
 
 if($installdb) {
-    outn("Checking state of FreePBX DB...");
-    $sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf["AMPDBNAME"]."'";
-    if(!$db->getOne($sql)) {
-        outn("FreePBX DB is empty, inserting standard rows...");
-        installampimport_mysql_dump('newinstall.sql');
-        out("Done!");
-    } else {
-        out("FreePBX DB is already populated skipping");
-    }
+	outn("Checking state of FreePBX DB...");
+	$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf["AMPDBNAME"]."'";
+	if(!$db->getOne($sql)) {
+		outn("FreePBX DB is empty, inserting standard rows...");
+		installampimport_mysql_dump('newinstall.sql');
+		out("Done!");
+	} else {
+		out("FreePBX DB is already populated skipping");
+	}
+
+	//for asterisk CDR
+	outn("Checking state of FreePBX CDRDB...");
+	$datasource = 'mysql://'.$amp_conf["AMPDBUSER"].':'.$amp_conf["AMPDBPASS"].'@'.$amp_conf["AMPDBHOST"].'/asteriskcdrdb';
+	$cdrdb = DB::connect($datasource); // attempt connection
+	if(DB::IsError($cdrdb)) {
+		out("FAILED TO INSTALL CDR");
+	} else {
+		$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'asteriskcdrdb'";
+		if(!$cdrdb->getOne($sql)) {
+			outn("FreePBX DB is empty, inserting standard rows...");
+			installampimport_mysql_dump('cdr_mysql_table.sql', $cdrdb);
+			out("Done!");
+		} else {
+			out("FreePBX CDR DB is already populated skipping");
+		}
+	}
 }
 
 // **** Read DB for version info
 
 if (!isset($version)) {
-	outn("Checking current version of AMP..");
+	outn("Checking current version of FreePBX..");
 	$version = install_getversion();
 	if (!$version) {
 		out("no version information");
@@ -1333,49 +1457,74 @@ $force_amportal_conf = DB::IsError($num_settings) || $num_settings < 5;
 
 // **** Copy files
 
-if ($install_files)
-{
-    $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
+$asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
+$installfw = false;
+if ($install_files) {
 	outn("Installing new FreePBX files..");
 	$check_md5s=true;
 	$md5sums = read_md5_file(UPGRADE_DIR."/".$version.".md5");
+	if(!file_exists(MODULE_DIR)) {
+		mkdir(MODULE_DIR);
+	}
 	list($num_files, $num_copied) = recursive_copy("amp_conf", "", $md5sums);
-    if(!file_exists(dirname(__FILE__).'/amp_conf/htdocs/admin/modules/_cache')) {
-        mkdir(dirname(__FILE__).'/amp_conf/htdocs/admin/modules/_cache',0777,true);
-        chown(dirname(__FILE__).'/amp_conf/htdocs/admin/modules',$asteriskuser);
-        if(!file_exists(dirname(__FILE__).'/amp_conf/htdocs/admin/modules')) {
-            die("We were not able to create the local modules directory, which is important\n");
-        }
-    }
-	if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/_cache')) {
-		mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/_cache',0777,true);
-		chown($amp_conf['AMPWEBROOT'].'/admin/modules',$asteriskuser);
-		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules')) {
-			die("We were not able to create the web modules directory, which is important\n");
+	if($make_links) {
+		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework')) {
+			mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/framework');
+			chown($amp_conf['AMPWEBROOT'].'/admin/modules/framework',$asteriskuser);
 		}
+		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml')) {
+			symlink(dirname(__FILE__).'/module.xml',$amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml');
+			chown($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml',$asteriskuser);
+		}
+		$installfw = true;
+	} else {
+		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework')) {
+			mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/framework');
+			chown($amp_conf['AMPWEBROOT'].'/admin/modules/framework',$asteriskuser);
+        }
+        if(!file_exists(dirname(__FILE__).'/amp_conf/htdocs/admin/modules/_cache')) {
+            mkdir(dirname(__FILE__).'/amp_conf/htdocs/admin/modules/_cache',0777,true);
+            chown(dirname(__FILE__).'/amp_conf/htdocs/admin/modules',$asteriskuser);
+            if(!file_exists(dirname(__FILE__).'/amp_conf/htdocs/admin/modules')) {
+                die("We were not able to create the local modules directory, which is important\n");
+            }
+        }
+    	if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/_cache')) {
+    		mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/_cache',0777,true);
+    		chown($amp_conf['AMPWEBROOT'].'/admin/modules',$asteriskuser);
+    		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules')) {
+    			die("We were not able to create the web modules directory, which is important\n");
+    		}
+        }
+		if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml')) {
+			copy(dirname(__FILE__).'/module.xml',$amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml');
+			chown($amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml',$asteriskuser);
+		}
+		$installfw = true;
 	}
 	if (!is_file("/etc/asterisk/voicemail.conf")) copy("/etc/asterisk/voicemail.conf.template","/etc/asterisk/voicemail.conf");
 	if (!is_dir("/var/spool/asterisk/voicemail/device")) amp_mkdir("/var/spool/asterisk/voicemail/device", "0755", true);
-	out("OK (".$num_copied." files copied, ".($num_files-$num_copied)." skipped)");
+	$copy_lang = ($make_links) ? "linked" : "copied";
+	out("OK (".$num_copied." files ".$copy_lang.", ".($num_files-$num_copied)." skipped)");
 
-  // link the packed js library for ARI, if there the error will indicate that
-  $libfreepbx = $amp_conf['AMPWEBROOT'].'/admin/common/libfreepbx.javascripts.js';
-  $dest_libfreepbx = $amp_conf['AMPWEBROOT'].'/recordings/theme/js/libfreepbx.javascripts.js';
-  if (!file_exists($amp_conf['AMPWEBROOT'].'/recordings/theme/js')) {
-	mkdir($amp_conf['AMPWEBROOT'].'/recordings/theme/js',0755, true);
-  }
-  if (file_exists($libfreepbx) && !file_exists($dest_libfreepbx)) {
-    outn(_("linking libfreepbx.javascripts.js to theme/js.."));
-    if (link($libfreepbx, $dest_libfreepbx)) {
-      out(_("ok"));
-    } else {
-      out(_("possible error - check warning message"));
-    }
-  }
+	// link the packed js library for ARI, if there the error will indicate that
+	$libfreepbx = $amp_conf['AMPWEBROOT'].'/admin/common/libfreepbx.javascripts.js';
+	$dest_libfreepbx = $amp_conf['AMPWEBROOT'].'/recordings/theme/js/libfreepbx.javascripts.js';
+	if (!file_exists($amp_conf['AMPWEBROOT'].'/recordings/theme/js')) {
+		mkdir($amp_conf['AMPWEBROOT'].'/recordings/theme/js',0755, true);
+	}
+	if (file_exists($libfreepbx) && !file_exists($dest_libfreepbx)) {
+		outn(_("linking libfreepbx.javascripts.js to theme/js.."));
+		if (link($libfreepbx, $dest_libfreepbx)) {
+			out(_("ok"));
+		} else {
+			out(_("possible error - check warning message"));
+		}
+	}
 }
 
 if (!$dryrun) {
-  $asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
+	$asteriskuser = isset($amp_conf['AMPASTERISKUSER']) && $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKUSER'] : 'asterisk';
 
 	if (file_exists($amp_conf["AMPSBIN"]."/amportal")) {
 		exec("chmod 755 ".$amp_conf["AMPSBIN"]."/amportal");
@@ -1425,26 +1574,26 @@ if (!$dryrun) {
 		out("apply username/password changes to conf files:");
 		debug("Running ".dirname(__FILE__)."/apply_conf.sh");
 		$apply_conf_out = array();
-    if ($force_amportal_conf) {
+		if ($force_amportal_conf) {
 			out("running apply_conf.sh from " . AMP_CONF);
-      putenv('FORCE_AMPORTAL_CONF=1');
-		  exec(dirname(__FILE__)."/apply_conf.sh ".AMP_CONF, $apply_conf_out);
-      putenv('FORCE_AMPORTAL_CONF=');
-    } else {
+			putenv('FORCE_AMPORTAL_CONF=1');
+			exec(dirname(__FILE__)."/apply_conf.sh ".AMP_CONF, $apply_conf_out);
+			putenv('FORCE_AMPORTAL_CONF=');
+		} else {
 			out("running apply_conf.sh from freepbx_settings");
-		  exec(dirname(__FILE__)."/apply_conf.sh", $apply_conf_out);
-    }
+			exec(dirname(__FILE__)."/apply_conf.sh", $apply_conf_out);
+		}
 		foreach ($apply_conf_out as $line) {
-			out($line);
+			out("\t".$line);
 		}
 		unset($apply_conf_out);
 		out("done with apply_conf.sh");
 	}
 
 	/* As of Asterisk 1.4.16 or there about, a missing #include file will make the reload fail. So
-   	we need to make sure that we have such for everything that is in our configs. We will simply
-	 	look for the #include statements and touch the files vs. trying to inventory everything we may
-	 	need and then forgetting something.
+	we need to make sure that we have such for everything that is in our configs. We will simply
+	look for the #include statements and touch the files vs. trying to inventory everything we may
+	need and then forgetting something.
 	*/
 
 	outn("creating missing #include files..");
@@ -1470,7 +1619,7 @@ if (!$dryrun) {
 
 		if (!file_exists($target)) {
 			exec("sudo -u $asteriskuser touch $target", $output, $retcode);
-				if ($retcode != 0) {
+			if ($retcode != 0) {
 				out("Error code $retcode: trying to create empty file $target");
 				$include_err = true;
 			}
@@ -1480,14 +1629,9 @@ if (!$dryrun) {
 		out("OK");
 	}
 	// reload manager in asterisk if it was running:
-	//
-  if (version_compare($asterisk_version,'1.4','ge')) {
-	  system("asterisk -rx 'module reload manager'");
-  } else {
-	  system("asterisk -rx 'reload manager'"); //1.2 syntax
-  }
+	// note: I removed the check for Asterisk 1.2, theres just no point
+	system("asterisk -rx 'module reload manager'");
 }
-out("OK");
 
 // **** Create spool directories for monitor and fax
 if (!is_dir($amp_conf["ASTSPOOLDIR"]."/monitor"))
@@ -1498,37 +1642,68 @@ if (!is_dir($amp_conf["ASTSPOOLDIR"]."/fax"))
 //Check to make sure database is installed
 $sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf["AMPDBNAME"]."'";
 if(!$db->getOne($sql)) {
-    fatal('The '. $amp_conf["AMPDBNAME"] . ' ' . $amp_conf["AMPDBENGINE"] . ' database appears empty, try running with the "--cleaninstall --installdb" commands or install the database manually');
+	fatal('The '. $amp_conf["AMPDBNAME"] . ' ' . $amp_conf["AMPDBENGINE"] . ' database appears empty, try running with the "--cleaninstall --installdb" commands or install the database manually');
 }
 // **** Set permissions all files
 
 // tell amportal/freepbx_engine to use amportal.conf and not bootstrap
 // if freepbx_settings has not been setup yet or you will get an error.
 //
-if ($install_files)
-{
+if ($install_files) {
 	outn("Setting permissions on files..");
 	if (!$dryrun) {
-    if ($force_amportal_conf) {
-      putenv('FORCE_AMPORTAL_CONF=1');
-    }
+		if ($force_amportal_conf) {
+			putenv('FORCE_AMPORTAL_CONF=1');
+		}
 		exec($amp_conf["AMPSBIN"]."/amportal chown");
-    if ($force_amportal_conf) {
-      putenv('FORCE_AMPORTAL_CONF=');
-    }
+		if ($force_amportal_conf) {
+			putenv('FORCE_AMPORTAL_CONF=');
+		}
 	}
 	out("OK");
 }
 
+outn("Loading Bootstrap..");
+if (!class_exists('FreePBX')) {
+	include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/BMO/FreePBX.class.php');
+}
+if (!class_exists('notfications')) {
+	include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/notifications.class.php');
+}
+if (!class_exists('module_functions')) {
+	include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/modulefunctions.class.php');
+}
+if (!class_exists('modulelist')) {
+	include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/modulelist.class.php');
+}
+out("OK");
+
 // Run through all the upgrade scripts starting at the specified version
 //
 upgrade_all($version);
+if(!file_exists(dirname(__FILE__).'/module.xml')) {
+	die('Cant Find Framework XML');
+}
+$fwxml = simplexml_load_file(dirname(__FILE__).'/module.xml');
+//setversion to whatever is in framework.xml forever for here on out.
+$fwver = (string)$fwxml->version;
+if(!empty($fwver)) {
+	if(!function_exists('setversion')) {
+		die('Cant find function setversion');
+	}
+	setversion($fwver);
+	if(install_getversion() != $fwver) {
+		die('Internal Error. Function install_getversion did not match the Framework version, even after it was suppose to be applied');
+	}
+} else {
+	die('Version from Framework was empty, cant continue');
+}
 
 // Save $amp_conf variables so we can set the configured values
 if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redhat-release')))  {
 	$amp_conf_file = $amp_conf;
 }
-outn("Creating or updating freepbx_conf settings..");
+
 freepbx_settings_init(true);
 out("..OK");
 
@@ -1538,6 +1713,7 @@ out("..OK");
 if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redhat-release'))) {
 	out("Setting freepbx settings form " . AMP_CONF);
 	$freepbx_conf =& freepbx_conf::create();
+	//find and set webroot first as everything else relies on it
 	foreach ($amp_conf_file as $keyword => $value) {
 		if ($freepbx_conf->conf_setting_exists($keyword)) {
 			$freepbx_conf->set_conf_values(array($keyword => $value),true,true);
@@ -1547,20 +1723,20 @@ if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redha
 		}
 	}
 } else {
-    //We are here mainly because of bug #6159
-    //Meaning they are installing this on CentOS manually so the above checks fail
-    global $webroot;
-    if(isset($webroot) && !empty($webroot) && ($webroot != $amp_conf['AMPWEBROOT'])) {
-        $freepbx_conf =& freepbx_conf::create();
-        outn("Noticed Irregular AMPWEBROOT setting....");
-        if ($freepbx_conf->conf_setting_exists('AMPWEBROOT')) {
+	//We are here mainly because of bug #6159
+	//Meaning they are installing this on CentOS manually so the above checks fail
+	global $webroot;
+	if(isset($webroot) && !empty($webroot) && ($webroot != $amp_conf['AMPWEBROOT'])) {
+		$freepbx_conf =& freepbx_conf::create();
+		outn("Noticed Irregular AMPWEBROOT setting....");
+		if ($freepbx_conf->conf_setting_exists('AMPWEBROOT')) {
 			$freepbx_conf->set_conf_values(array('AMPWEBROOT' => $webroot),true,true);
 		}
-        $amportalconf = file_get_contents('/etc/amportal.conf');
-        $amportalconf = preg_replace('/AMPWEBROOT=.*/', 'AMPWEBROOT='.$webroot, $amportalconf);
-        file_put_contents('/etc/amportal.conf',$amportalconf);
+		$amportalconf = file_get_contents('/etc/amportal.conf');
+		$amportalconf = preg_replace('/AMPWEBROOT=.*/', 'AMPWEBROOT='.$webroot, $amportalconf);
+		file_put_contents('/etc/amportal.conf',$amportalconf);
 		out("Fixed");
-    }
+	}
 }
 
 // **** Generate AMP configs
@@ -1575,6 +1751,9 @@ $version = install_getversion();
 //
 if ($module_install && !$update_links) {
 	install_modules();
+	if($installfw) {
+		system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install framework");
+	}
 } else {
 	out("bypassing packaged module installation because --skip-module-install or --update-links flag");
 }
@@ -1583,12 +1762,9 @@ if ($module_install && !$update_links) {
 // **** Set reload flag for AMP admin
 needreload();
 
-if ($amp_conf["AMPWEBADDRESS"])
-{
+if ($amp_conf["AMPWEBADDRESS"]) {
 	out("Please update your modules and reload Asterisk by visiting http://".$amp_conf["AMPWEBADDRESS"]."/admin",false);
-}
-else
-{
+} else {
 	out("Please update your modules and reload Asterisk by browsing to your server.",false);
 }
 
@@ -1600,6 +1776,8 @@ out("* that all modules are up to date BEFORE YOU CLICK THE RED BAR. As long *",
 out("* as this is observed, your machine will be fully functional whilst the *",false);
 out("* upgrade is in progress.                                               *",false);
 out("*************************************************************************",false);
-// vim: set ts=4 sw=4 : //
+out("****************************************",false);
+out("* At This Time Please Restart Asterisk *",false);
+out("****************************************",false);
+// vim: set ts=4 sw=4 ai : //
 // Ensure you 'set modeline' in your ~/.vimrc to activate this //
-?>
