@@ -233,8 +233,8 @@ function recursive_readlink($source){
 	$ldir = null;
 
 	while (!in_array($dir,array('.','..','','/')) && strpos('.git',$dir) == false) {
-		if ($dir == $ldir) { 
-			break; 
+		if ($dir == $ldir) {
+			break;
 		}
 		if (is_link($dir)) {
 			$ldir = readlink($dir);
@@ -315,7 +315,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 
 
 			// configurable in amportal.conf
-			$destination=str_replace("/htdocs",trim($amp_conf["AMPWEBROOT"]),$destination);
+			$destination=str_replace("/htdocs/",trim($amp_conf["AMPWEBROOT"])."/",$destination);
 			if(strpos($dirsource, 'modules') === false) $destination=str_replace("/bin",trim($amp_conf["AMPBIN"]),$destination);
 			$destination=str_replace("/sbin",trim($amp_conf["AMPSBIN"]),$destination);
 
@@ -369,7 +369,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 							if (is_link($destination) || file_exists($destination)) {
 								unlink($destination);
 							}
-					
+
 							$links = recursive_readlink($source);
 							if (!empty($links)) {
 								symlink(substitute_readlinks($source,$links), $destination);
