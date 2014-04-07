@@ -45,6 +45,10 @@ class DB_Helper {
 	private static $dbAdd;
 	private static $dbDelId;
 
+	/* These are only added when required */
+	private static $dbGetFirst = false;
+	private static $dbGetLast = false;
+
 	/** Don't new DB_Helper */
 	public function __construct() {
 		throw new Exception("You should never 'new' this. Just use it as an 'extends'");
@@ -97,7 +101,7 @@ class DB_Helper {
 
 		// Add our stored procedures
 		self::$dbGet = self::$db->prepare("SELECT `val`, `type` FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key AND `id` = :id");
-		self::$dbGetAll = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id");
+		self::$dbGetAll = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key`");
 		self::$dbDel = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key  AND `id` = :id");
 		self::$dbAdd = self::$db->prepare("INSERT INTO `".self::$dbname."` ( `module`, `key`, `val`, `type`, `id` ) VALUES ( :mod, :key, :val, :type, :id )");
 		self::$dbDelId = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id");
@@ -212,8 +216,7 @@ class DB_Helper {
 	 * Returns an associative array of all key=>value pairs referenced by $id
 	 *
 	 * If no $id was provided, return all pairs that weren't set with an $id.
-	 * Don't trust this to return the array in any order. If you wish to use
-	 * an ordered set, use IDs and sort based on them.
+	 * Returns an ordered list from however MySQL orders it (order by `key`)
 	 *
 	 * @param string $id Optional sub-group ID. 
 	 * @return array
@@ -227,8 +230,8 @@ class DB_Helper {
 		$query[':mod'] = get_class($this);
 		$query[':id'] = $id;
 
-		self::$dbGetAll->execute($query);
-		$out = self::$dbGetAll->fetchAll(PDO::FETCH_COLUMN, 0);
+		$out = $this->getAllKeys($id);
+
 		foreach ($out as $k) {
 			$retarr[$k] = $this->getConfig($k, $id);
 		}
@@ -238,6 +241,30 @@ class DB_Helper {
 		} else {
 			return array();
 		}
+	}
+
+	/**
+	 * Returns an array of all keys referenced by $id
+	 *
+	 * If no $id was provided, return all pairs that weren't set with an $id.
+	 * Returns an ordered list from however MySQL orders it (order by `key`)
+	 *
+	 * @param string $id Optional sub-group ID. 
+	 * @return array
+	 */
+	public function getAllKeys($id = "noid") {
+
+		// Our pretend __construct();
+		self::checkDatabase();
+
+		// Basic fetchAll.
+		$query[':mod'] = get_class($this);
+		$query[':id'] = $id;
+
+		self::$dbGetAll->execute($query);
+		$ret = self::$dbGetAll->fetchAll(PDO::FETCH_COLUMN, 0);
+
+		return $ret;
 	}
 
 	/**
@@ -275,5 +302,57 @@ class DB_Helper {
 		$query[':mod']= get_class($this);
 		$query[':id'] = $id;
 		self::$dbDelId->execute($query);
+	}
+
+	/**
+	 * Return the FIRST ordered entry with this id
+	 *
+	 * Useful with timestamps?
+	 *
+	 * @param string $id Required grouping ID.
+	 * @return array
+	 */
+	public function getFirst($id = null) {
+
+		if ($id === null) {
+			throw new Exception("Coder error. getFirst requires an ID");
+		}
+
+		self::checkDatabase();
+
+		if (self::$dbGetFirst === false) {
+			self::$dbGetFirst = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key` LIMIT 1");
+		}
+
+		$query[':mod']= get_class($this);
+		$query[':id'] = $id;
+		self::$dbGetFirst->execute($query);
+		$ret = self::$dbGetFirst->fetchAll(PDO::FETCH_COLUMN, 0);
+		return $ret[0];
+	}
+
+	/**
+	 * Return the LAST ordered entry with this id
+	 *
+	 * @param string $id Required grouping ID.
+	 * @return array
+	 */
+	public function getLast($id = null) {
+
+		if ($id === null) {
+			throw new Exception("Coder error. getFirst requires an ID");
+		}
+
+		self::checkDatabase();
+
+		if (self::$dbGetLast === false) {
+			self::$dbGetLast = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key` DESC LIMIT 1");
+		}
+
+		$query[':mod']= get_class($this);
+		$query[':id'] = $id;
+		self::$dbGetLast->execute($query);
+		$ret = self::$dbGetLast->fetchAll(PDO::FETCH_COLUMN, 0);
+		return $ret[0];
 	}
 }

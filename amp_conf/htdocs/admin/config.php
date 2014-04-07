@@ -45,15 +45,15 @@ foreach ($vars as $k => $v) {
 		//special handeling
 		switch ($k) {
 		case 'extdisplay':
-				$extdisplay = (isset($extdisplay) && $extdisplay !== false) 
-						? htmlspecialchars($extdisplay, ENT_QUOTES) 
+				$extdisplay = (isset($extdisplay) && $extdisplay !== false)
+						? htmlspecialchars($extdisplay, ENT_QUOTES)
 						: false;
 				$_REQUEST['extdisplay'] = $extdisplay;
 				break;
 
 		case 'restrictmods':
-				$restrict_mods = $restrictmods 
-						? array_flip(explode('/', $restrictmods)) 
+				$restrict_mods = $restrictmods
+						? array_flip(explode('/', $restrictmods))
 						: false;
 				break;
 
@@ -92,7 +92,7 @@ if (isset($_REQUEST['handler'])) {
 		if ($restrict_mods === false) {
 				$restrict_mods = true;
 		}
-		// I think reload is the only handler that requires astman, so skip it 
+		// I think reload is the only handler that requires astman, so skip it
 		//for others
 		switch ($_REQUEST['handler']) {
 		case 'api':
@@ -128,7 +128,7 @@ if ($unlock) {
 if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 		if (isset($_SERVER['HTTP_REFERER'])) {
 				$referer = parse_url($_SERVER['HTTP_REFERER']);
-				$refererok = (trim($referer['host']) == trim($_SERVER['SERVER_NAME'])) 
+				$refererok = (trim($referer['host']) == trim($_SERVER['SERVER_NAME']))
 						? true : false;
 		} else {
 				$refererok = false;
@@ -141,7 +141,7 @@ if (isset($no_auth) && empty($display)) {
 		$display = 'noauth';
 }
 // handle special requests
-if (!in_array($display, array('noauth', 'badrefer')) 
+if (!in_array($display, array('noauth', 'badrefer'))
 		&& isset($_REQUEST['handler'])
 ) {
 		$module = isset($_REQUEST['module'])	? $_REQUEST['module']	: '';
@@ -158,7 +158,7 @@ if (!$quietmode) {
 	if ( !isset($_SERVER['HTACCESS']) ) {
 		// No .htaccess support
 		if(!$nt->exists('framework', 'htaccess')) {
-			$nt->add_security('framework', 'htaccess', _('.htaccess files are disable on this webserver. Please enable them'), 
+			$nt->add_security('framework', 'htaccess', _('.htaccess files are disable on this webserver. Please enable them'),
 			_('To Protect the integrity of your server, you must set AllowOverride to All in the Apache configuration file for this directory'));
 		}
 	} else {
@@ -187,12 +187,12 @@ if(is_array($active_modules)){
 								// check access, unless module.xml defines all have access
 								// BMO TODO: Per-module auth should be managed by BMO.
 								//module is restricted to admin with excplicit permission
-								$needs_perms = !isset($item['access']) 
+								$needs_perms = !isset($item['access'])
 										|| strtolower($item['access']) != 'all'
 										? true : false;
 
 								//check if were logged in
-								$admin_auth = isset($_SESSION["AMP_user"]) 
+								$admin_auth = isset($_SESSION["AMP_user"])
 										&& is_object($_SESSION["AMP_user"]);
 
 								//per admin access rules
@@ -200,7 +200,7 @@ if(is_array($active_modules)){
 										&& $_SESSION["AMP_user"]->checkSection($itemKey);
 
 								//requies authentication
-								$needs_auth = isset($item['requires_auth']) 
+								$needs_auth = isset($item['requires_auth'])
 										&& strtolower($item['requires_auth']) == 'false'
 										? false
 										: true;
@@ -210,16 +210,16 @@ if(is_array($active_modules)){
 								//			and either the user isnt authenticated
 								//			or the user is authenticated and dose require
 								//				section specifc permissions but doesnt have them
-								if ($needs_auth 
+								if ($needs_auth
 										&& (!$admin_auth || ($needs_perms && !$has_perms))
 								) {
-										//clear display if they were trying to gain unautherized 
+										//clear display if they were trying to gain unautherized
 										//access to $itemKey. If there logged in, but dont have
 										//permissions to view this specicc page - show them a message
 										//otherwise, show them the login page
-										if($display == $itemKey){ 
+										if($display == $itemKey){
 												if ($admin_auth) {
-														$display = 'noaccess';	
+														$display = 'noaccess';
 												} else {
 														$display = 'noauth';
 												}
@@ -234,7 +234,7 @@ if(is_array($active_modules)){
 								// reference to the actual module
 								$item['module'] =& $active_modules[$key];
 
-								// item is an assoc array, with at least 
+								// item is an assoc array, with at least
 								//array(module=> name=>, category=>, type=>, display=>)
 								$fpbx_menu[$itemKey] = $item;
 
@@ -259,7 +259,7 @@ if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','no
 
 // extensions vs device/users ... this is a bad design, but hey, it works
 if (!$quietmode && isset($fpbx_menu["extensions"])) {
-		if (isset($amp_conf["AMPEXTENSIONS"]) 
+		if (isset($amp_conf["AMPEXTENSIONS"])
 				&& ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
 						unset($fpbx_menu["extensions"]);
 				} else {
@@ -271,7 +271,7 @@ if (!$quietmode && isset($fpbx_menu["extensions"])) {
 ob_start();
 // Run all the pre-processing for the page that's been requested.
 if (!empty($display) && $display != 'badrefer') {
-		// $CC is used by guielemets as a Global. 
+		// $CC is used by guielemets as a Global.
 		$CC = $currentcomponent = new component($display,$type);
 
 		// BMO: Process ConfigPageInit functions
@@ -317,7 +317,7 @@ case 'noauth':
 						$config_vars['confirm_email']);
 		}
 		//if we have no admin users AND were trying to set one up
-		if (!count(getAmpAdminUsers()) 
+		if (!count(getAmpAdminUsers())
 				&& $action == 'setup_admin'
 				&& !$config_vars['obe_error_msg']
 		) {
@@ -351,7 +351,7 @@ case 'noauth':
 				//show fop option if enabled, probobly doesnt belong on the
 				//login page
 				$login['panel'] = false;
-				if (!empty($amp_conf['FOPWEBROOT']) 
+				if (!empty($amp_conf['FOPWEBROOT'])
 						&& is_dir($amp_conf['FOPWEBROOT'])
 				){
 						$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/admin/',
@@ -371,7 +371,7 @@ case '':
 				show_view($amp_conf['VIEW_WELCOME'], array('AMP_CONF' => &$amp_conf));
 		} else {
 				// no manager, no connection to asterisk
-				show_view($amp_conf['VIEW_WELCOME_NOMANAGER'], 
+				show_view($amp_conf['VIEW_WELCOME_NOMANAGER'],
 						array('mgruser' => $amp_conf["AMPMGRUSER"]));
 		}
 		break;
@@ -382,7 +382,7 @@ default:
 		$module_file = 'modules/'.$module_name.'/page.'.$module_page.'.php';
 
 		//TODO Determine which item is this module displaying.
-		//Currently this is over the place, we should standardize on a 
+		//Currently this is over the place, we should standardize on a
 		//"itemid" request var for now, we'll just cover all possibilities :-(
 		$possibilites = array(
 				'userdisplay',
@@ -406,16 +406,16 @@ default:
 		$module_hook->install_hooks($module_page,$module_name,$itemid);
 
 		// let hooking modules process the $_REQUEST
-		$module_hook->process_hooks($itemid, 
-				$module_name, 
-				$module_page, 
+		$module_hook->process_hooks($itemid,
+				$module_name,
+				$module_page,
 				$_REQUEST);
 
 		// BMO: Pre display hooks.
 		// getPreDisplay and getPostDisplay should probably never
 		// be used.
 		$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
-		
+
 		// include the module page
 		if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {
 				show_view($amp_conf['VIEW_MENUITEM_DISABLED'], $cur_menuitem);
@@ -455,20 +455,16 @@ if ($quietmode) {
 		ob_end_clean();
 		$fw_gui_html = '';
 
-		// add header 
+		// add header
 		// Taken as is from the else just below this elseif
 		// We're sending the popover, it needs a header if only for jQuery.
 		// Already ok to pass popover awareness to header so popover.css is added
 		$header['title']	= framework_server_name();
 		$header['amp_conf']	= $amp_conf;
 		$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
-		$less_rel = 'assets';
-		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
-		if (is_dir($less_path)) {
-			$parser = FreePBX::create()->Less;
-			$file = $parser->getCachedFile($less_path,$less_rel);
-			$header['compiled_less'] = $file;
-		}
+		$o = FreePBX::create()->Less->generateMainStyles();
+		$header['compiled_less_files'] = $o['compiled_less_files'];
+		$header['extra_compiled_less_files'] = $o['extra_compiled_less_files'];
 		show_view($amp_conf['VIEW_HEADER'], $header);
 
 		//if we have a module loaded, load its css
@@ -498,7 +494,7 @@ if ($quietmode) {
 		$footer['js_content'] = load_view($amp_conf['VIEW_POPOVER_JS'], $popover_args);
 
 		$footer['extmap'] 				= !$footer['covert']
-				? framework_get_extmap(true) 
+				? framework_get_extmap(true)
 				: json_encode(array());
 		$footer['module_name'] = $module_name;
 		$footer['module_page'] = $module_page;
@@ -525,22 +521,20 @@ if ($quietmode) {
 		$page_content		= ob_get_contents();
 		ob_end_clean();
 
-		//add header 
+		//add header
 		$header['title']	= framework_server_name();
 		$header['amp_conf']	= $amp_conf;
 		$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
-		$less_rel = 'assets';
-		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
-		if (is_dir($less_path)) {
-			$parser = FreePBX::create()->Less;
-			$file = $parser->getCachedFile($less_path,$less_rel);
-			$header['compiled_less'] = $file;
-		}
+
+		$o = FreePBX::create()->Less->generateMainStyles();
+		$header['compiled_less_files'] = $o['compiled_less_files'];
+		$header['extra_compiled_less_files'] = $o['extra_compiled_less_files'];
+
 		echo load_view($amp_conf['VIEW_HEADER'], $header);
 
 		//if we have a module loaded, load its css
 		if (isset($module_name)) {
-				echo framework_include_css();
+			echo framework_include_css();
 		}
 
 		// set the language so local module languages take
@@ -557,7 +551,7 @@ if ($quietmode) {
 
 		// provide beta status
 		if (isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes') {
-				echo load_view($amp_conf['VIEW_BETA_NOTICE']);
+			echo load_view($amp_conf['VIEW_BETA_NOTICE']);
 		}
 
 
@@ -569,14 +563,14 @@ if ($quietmode) {
 		$footer['covert'] 		= in_array($display, array('noauth', 'badrefer'))
 				? true : false;
 		$footer['extmap'] 				= !$footer['covert']
-				? framework_get_extmap(true) 
+				? framework_get_extmap(true)
 				: json_encode(array());
 		$footer['module_name']			= $module_name;
 		$footer['module_page']			= $module_page;
 		$footer['benchmark_starttime']	= $benchmark_starttime;
-		$footer['reload_needed']		= $footer['covert'] 
+		$footer['reload_needed']		= $footer['covert']
 				? false : check_reload_needed();
-		$footer['footer_content']		= load_view($amp_conf['VIEW_FOOTER_CONTENT'], 
+		$footer['footer_content']		= load_view($amp_conf['VIEW_FOOTER_CONTENT'],
 				$footer);
 		$footer['covert'] ? $footer['no_auth'] 	= true : '';
 		echo load_view($amp_conf['VIEW_FOOTER'], $footer);

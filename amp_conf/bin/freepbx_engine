@@ -269,7 +269,7 @@ chown_asterisk() {
 		mv $SESSDIR $SESSDIR.$$
 		mkdir $SESSDIR
 	fi
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $SESSDIR
+	chown -HR $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $SESSDIR
 
 	# Make sure that everything in AMPWEBROOT is owned by asterisk.
 	# Edit: No. Don't chown EVERYTHING. Takes too long. Chown

@@ -363,14 +363,9 @@ function framework_include_css() {
 		}
 	}
 
-	$less_rel = 'modules/' . $module_name . '/assets';
-	$less_path = $amp_conf['AMPWEBROOT'].'/admin/'.$less_rel.'/less';
-	if (is_dir($less_path)) {
-		$parser = FreePBX::create()->Less;
-		$file = $parser->getCachedFile($less_path,$less_rel);
-		if(!empty($file)) {
-			$html .= '<link href="assets/' . $module_name . '/less/cache/' . $file . '" rel="stylesheet" type="text/css" />';
-		}
+	$files = FreePBX::create()->Less->generateModuleStyles($module_name);
+	if(!empty($files)) {
+		$html .= '<link href="assets/' . $module_name . '/less/cache/' . $files[0] . '" rel="stylesheet" type="text/css" />';
 	}
 	return $html;
 }
@@ -499,17 +494,17 @@ function framework_server_name() {
 }
 
 
-function framework_add_amp_admin($username, 
-			$password, 
-			$extension_low = '', 
-			$extension_high = '', 
-			$deptname = '', 
+function framework_add_amp_admin($username,
+			$password,
+			$extension_low = '',
+			$extension_high = '',
+			$deptname = '',
 			$sections = array('*')) {
 	global $db;
 	//hash password its less than that 40 chars or has anything besides
 	//a-f and 0-9 (hexadecimal). This isnt foolproof, but its the best we can do
-	$password = preg_match('/^[a-f0-9]{40}$/', $password) 
-				? $password 
+	$password = preg_match('/^[a-f0-9]{40}$/', $password)
+				? $password
 				: sha1($password);
 	$sections = is_array($sections) ? implode(";", $sections) : $sections;
 	$values = array(
@@ -525,14 +520,14 @@ function framework_add_amp_admin($username,
 			. 'deptname, sections) VALUES (?, ?, ?, ?, ?, ?)';
 	$res = $db->query($sql, $values);
 	db_e($res);
-	
+
 	return true;
 }
 
-function framework_obe_intialize_validate($username, 
-			$password, 
-			$confirm_password, 
-			$email, 
+function framework_obe_intialize_validate($username,
+			$password,
+			$confirm_password,
+			$email,
 			$confirm_email
 ) {
 	$errors = array();
@@ -554,32 +549,32 @@ function framework_obe_intialize_validate($username,
  * Create admin user & email address
  *
  */
-function framework_obe_intialize_admin($username, 
-			$password, 
-			$confirm_password, 
-			$email, 
+function framework_obe_intialize_admin($username,
+			$password,
+			$confirm_password,
+			$email,
 			$confirm_email) {
     $freepbx_conf =& freepbx_conf::create();
 
 	//create admin user
 	framework_add_amp_admin($username, $password);
-	
+
 	//set ari password
-	if ($freepbx_conf->conf_setting_exists('ARI_ADMIN_USERNAME') 
+	if ($freepbx_conf->conf_setting_exists('ARI_ADMIN_USERNAME')
 		&& $freepbx_conf->conf_setting_exists('ARI_ADMIN_PASSWORD')
 	) {
 		$freepbx_conf->set_conf_values(
-			array('ARI_ADMIN_USERNAME' => $username, 
+			array('ARI_ADMIN_USERNAME' => $username,
 				'ARI_ADMIN_PASSWORD' => $password),
 			true);
-		if ($freepbx_conf->get_last_update_status 
+		if ($freepbx_conf->get_last_update_status
 			!= $freepbx_conf->get_conf_default_setting('ARI_ADMIN_PASSWORD')) {
 			$nt = notifications::create($db);
 			$nt->delete('ari', 'ARI_ADMIN_PASSWORD');
 		}
 		$nt->delete('freepbx', 'NEWMODS');
 	}
-	
+
 	//set email address
 	$cm =& cronmanager::create($db);
 	$cm->save_email($email);

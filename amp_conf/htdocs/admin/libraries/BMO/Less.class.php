@@ -34,7 +34,45 @@ class Less extends Less_Parser {
 
 		parent::__construct($env);
 	}
-	
+
+	public function generateMainStyles() {
+		global $amp_conf;
+		$less_rel = '/admin/assets';
+		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
+
+		$less_dirs = array("bootstrap","freepbx","font-awesome");
+		$out = array();
+		$out['compiled_less_files'] = array();
+		foreach($less_dirs as $dir) {
+			$path = $less_path."/".$dir;
+			if (is_dir($path)) {
+				$file = $this->getCachedFile($path,$less_rel);
+				$out['compiled_less_files'][$dir] = $dir.'/cache/'.$file;
+			}
+		}
+		$extra_less_dirs = array("buttons");
+		$out['extra_compiled_less_files'] = array();
+		foreach($extra_less_dirs as $dir) {
+			$path = $less_path."/".$dir;
+			if (is_dir($path)) {
+				$file = $this->getCachedFile($path,$less_rel);
+				$out['extra_compiled_less_files'][$dir] = $dir.'/cache/'.$file;
+			}
+		}
+		return $out;
+	}
+
+	public function generateModuleStyles($module) {
+		global $amp_conf;
+		$less_rel = '/admin/assets/' . $module;
+		$less_path = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets/less';
+		$files = array();
+		if(file_exists($less_path)) {
+			$files[] = $this->getCachedFile($less_path,$less_rel);
+		}
+		return $files;
+	}
+
 	/**
 	 * Parse a Directory to find the appropriate less files
 	 *
@@ -55,8 +93,11 @@ class Less extends Less_Parser {
 		}
 		$this->SetOption('cache_dir',$dir.'/cache');
 		$this->SetOption('compress',true);
+		$basename = basename($dir);
 		if(file_exists($dir."/bootstrap.less")) {
 			$this->parseFile($dir."/bootstrap.less", $uri_root);
+		} elseif(file_exists($dir."/".$basename.".less")) {
+			$this->parseFile($dir."/".$basename.".less", $uri_root);
 		} else {
 			//load them all randomly. Probably in alpha order
 			foreach(glob($dir."/*.less") as $file) {
@@ -65,7 +106,7 @@ class Less extends Less_Parser {
 		}
 		return $this->getCss();
 	}
-	
+
 	/**
 	 * Generates and Gets the Cached files
 	 *
@@ -84,8 +125,12 @@ class Less extends Less_Parser {
 		}
 		\Less_Cache::$cache_dir = $dir.'/cache';
 		$files = array();
+		$basename = basename($dir);
 		if(file_exists($dir."/bootstrap.less")) {
 			$files = array( $dir."/bootstrap.less" => $uri_root );
+			$filename = \Less_Cache::Get( $files, array('compress' => true) );
+		} elseif(file_exists($dir."/".$basename.".less")) {
+			$files = array( $dir."/".$basename.".less" => $uri_root );
 			$filename = \Less_Cache::Get( $files, array('compress' => true) );
 		} else {
 			//load them all randomly. Probably in alpha order
