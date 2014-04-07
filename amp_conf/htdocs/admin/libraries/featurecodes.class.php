@@ -9,8 +9,14 @@ class featurecode {
 	var $_providedest;		// 1=provide a featurecode destination for this code to modules
 	var $_loaded;		// If this feature code was succesfully loaded from the DB
 	var $_overridecodes;		// Overide defaults from featurecodes.conf
+	var $_helptext = '';		//Help Text for popup bubbles, set to nothing because the table doesnt accept NULLs
 
-	// CONSTRUCTOR
+	/** 
+	 * Define a feature code to add or update
+	 * 
+	 * @param string $modulename rawname of module
+	 * @param string $featurename Unique Name for this feature code
+	 */
 	function featurecode($modulename, $featurename) {
 		global $amp_conf;
 
@@ -30,15 +36,21 @@ class featurecode {
 		$this->_loaded = false;
 	}
 
-	// HAS BEEN INIT'D ????
+	/** 
+	 * Checks to see if the function $this->init has been run or not
+	 * 
+	 * @return bool true if yes or false if not yes
+	 */
 	function isReady() {
 		return (!($this->_enabled == -1));
 	}
 	
-	// INIT FUNCTION -- READS FROM DATABASE IF THERE BASICALLY
-	// $opt = 0 -- called by user code (i.e. outside this class)
-	// $opt = 1 -- called automatically by this class
-	// $opt = 2 -- called by user code, run even if called once already
+	/** 
+	 * Reads from the database of featurecodes
+	 * 
+	 * @param int $opt 0 -- called by user code (i.e. outside this class), 1 -- called automatically by this class,  2 -- called by user code, run even if called once already
+	 * @return bool true if good data, false if we want to cry
+	 */
 	function init($opt = 0) {
 		if ($this->isReady()) {
 			if ($opt < 2)
@@ -75,7 +87,11 @@ class featurecode {
 		}
 	}
 	
-	// UPDATE FUNCTION -- WRITES CURRENT STUFF BACK TO DATABASE
+	/** 
+	 * Update the feature code from the provided settings to the database
+	 * 
+	 * @return bool true if good data, false if we want to cry
+	 */
 	function update() {
 		global $amp_conf;
 		if ($this->_enabled == -1) {
@@ -90,6 +106,7 @@ class featurecode {
 		if ($this->_loaded) {
 			$sql = 'UPDATE featurecodes SET '.
 			       'description = '.sql_formattext($this->_description).', '.
+					'helptext = '.sql_formattext($this->_helptext).', '.
 			       'defaultcode = '.sql_formattext($this->_defaultcode).', '.
 			       'customcode = '.sql_formattext($this->_customcode).', '.
 			       'enabled = '.sql_formattext($this->_enabled).', '.
@@ -97,8 +114,8 @@ class featurecode {
 			       'WHERE modulename = '.sql_formattext($this->_modulename).
 			       ' AND featurename = '.sql_formattext($this->_featurename);
 		} else {
-			$sql = 'INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled, providedest) '.
-        'VALUES ('.sql_formattext($this->_modulename).', '.sql_formattext($this->_featurename).', '.sql_formattext($this->_description).', '.sql_formattext($this->_defaultcode).', '.sql_formattext($this->_customcode).', '.sql_formattext($this->_enabled).', '.sql_formattext($this->_providedest).') ';
+			$sql = 'INSERT INTO featurecodes (modulename, featurename, description, helptext, defaultcode, customcode, enabled, providedest) '.
+        'VALUES ('.sql_formattext($this->_modulename).', '.sql_formattext($this->_featurename).', '.sql_formattext($this->_description).', '.sql_formattext($this->_helptext).', '.sql_formattext($this->_defaultcode).', '.sql_formattext($this->_customcode).', '.sql_formattext($this->_enabled).', '.sql_formattext($this->_providedest).') ';
 		}
 
 		sql($sql, 'query');
@@ -106,7 +123,39 @@ class featurecode {
 		return true;
 	}
 	
-	// SET DESCRIPTION
+	/** 
+	 * Sets the Help Text for a feature code
+	 * 
+	 * @param string $helptext The help text, used in help bubbles (?)
+	 */
+	function setHelpText($helptext) {
+		if (!$this->isReady())
+			$this->init(1);
+
+		if ($helptext == '') {
+			unset($this->_helptext);
+		} else {
+			$this->_helptext = $helptext;
+		}
+	}
+	
+	/** 
+	 * Gets the help text from the database
+	 * 
+	 * @return string Help Text string, blank if not defined
+	 */
+	function getHelpText() {
+		if (!$this->isReady())
+			$this->init(1);
+
+		return (isset($this->_helptext) ? $this->_helptext : '');
+	}
+	
+	/** 
+	 * Sets the visual description of the feature code (not to be confused with Help Text, this is always displayed on module admin)
+	 * 
+	 * @param string $description The text for the description
+	 */
 	function setDescription($description) {
 		if (!$this->isReady())
 			$this->init(1);
@@ -118,7 +167,11 @@ class featurecode {
 		}
 	}
 	
-	// GET DESCRIPTION
+	/** 
+	 * Reads from the database of featurecodes
+	 * 
+	 * @return string The text for the description
+	 */
 	function getDescription() {
 		if (!$this->isReady())
 			$this->init(1);
@@ -128,7 +181,12 @@ class featurecode {
 		return ($desc != '' ? $desc : $this->_featurename);
 	}
 	
-	// SET DEFAULT CODE
+	/** 
+	 * Sets the default feature code number for this Feature Code
+	 * 
+	 * @param string $defaultcode The default feature code, can be '*NN' or 'NN' or 'NNN' it doesnt matter
+	 * @param bool $defaultenabled Whether the setting is enabled for not (by default)
+	 */
 	function setDefault($defaultcode, $defaultenabled = true) {
 		if (!$this->isReady())
 			$this->init(1);
@@ -149,7 +207,11 @@ class featurecode {
 
 	}
 	
-	// GET DEFAULT CODE
+	/** 
+	 * Gets the default code for this feature code
+	 * 
+	 * @return string Get the default code for this feature code
+	 */
 	function getDefault() {
 		if (!$this->isReady())
 			$this->init(1);
@@ -159,7 +221,12 @@ class featurecode {
 		return $def;
 	}
 	
-	// SET CUSTOM CODE
+	/** 
+	 * Sets the custom feature code number, this is set in feature code admin usually
+	 * This happens when the user changes said code manually away from whatever it was before
+	 * 
+	 * @param string $customcode The custom code can be any dialable thing in Asterisk
+	 */
 	function setCode($customcode) {
 		if (!$this->isReady())
 			$this->init(1);
@@ -171,8 +238,12 @@ class featurecode {
 		}
 	}
 	
-	// GET FEATURE CODE -- DEFAULT OR CUSTOM IF SET
-	//                     RETURN '' IF NOT AVAILABLE
+	/** 
+	 * Get the user defined feature code
+	 * This happens when the user changes said code manually away from whatever it was before
+	 * 
+	 * @return string The feature code the user changed
+	 */
 	function getCode() {
 		if (!$this->isReady())
 			$this->init(1);
@@ -183,7 +254,12 @@ class featurecode {
 		return ($curcode == '' ? $defcode : $curcode);
 	}
 	
-	// GET FEATURE CODE ONLY IF ENABLED
+	/** 
+	 * Get the user defined feature code but only if it's enabled from feature code admin
+	 * This happens when the user changes said code manually away from whatever it was before
+	 * 
+	 * @return string The feature code the user changed
+	 */
 	function getCodeActive() {
 		if ($this->isEnabled()) {
 			return $this->getCode();
@@ -192,7 +268,11 @@ class featurecode {
 		}
 	}
 	
-	// SET ENABLED
+	/** 
+	 * Enable the feature code
+	 * 
+	 * @return bool $b True if enable, False if disable
+	 */
 	function setEnabled($b = true) {
 		if (!$this->isReady())
 			$this->init(1);
@@ -200,7 +280,11 @@ class featurecode {
 		$this->_enabled = ($b ? 1 : 0);
 	}
 	
-	// GET ENABLED
+	/** 
+	 * Checks to see if said feature code is enabled or not
+	 * 
+	 * @return string The feature code the user changed
+	 */
 	function isEnabled() {
 		if (!$this->isReady())
 			$this->init(1);
@@ -208,7 +292,11 @@ class featurecode {
 		return ($this->_enabled == 1);
 	}
 
-	// SET to provide destinatinos
+	/** 
+	 * Set the ability for this feature code to be a destination
+	 * 
+	 * @param $b bool True if we should provide the destination throughout freepbx or false if not
+	 */
 	function setProvideDest($b = true) {
 		if (!$this->isReady())
 			$this->init(1);
@@ -216,7 +304,11 @@ class featurecode {
 		$this->_providedest = ($b ? 1 : 0);
 	}
 	
-	// GET status if providing providedests
+	/** 
+	 * Checks to see if this feature code is a desintation
+	 * 
+	 * @return bool True if it is, false if it's not
+	 */
 	function isProvideDest() {
 		if (!$this->isReady())
 			$this->init(1);
@@ -224,6 +316,11 @@ class featurecode {
 		return ($this->_providedest == 1);
 	}
 
+	/** 
+	 * Deletes the feature code from the system
+	 * 
+	 * @return bool True if it's deleted
+	 */
 	function delete() {
 		$s = "DELETE ";
 		$s .= "FROM featurecodes ";
@@ -236,5 +333,3 @@ class featurecode {
 		return true;
 	}
 }
-
-?>
