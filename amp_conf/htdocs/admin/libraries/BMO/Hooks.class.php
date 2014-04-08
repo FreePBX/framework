@@ -50,6 +50,7 @@ class Hooks {
 		$classes = get_declared_classes();
 
 		// Find all the Classes that say they're BMO Objects
+		$bmomodules = array();
 		foreach ($classes as $class) {
 			$implements = class_implements($class);
 			if (isset($implements['BMO']))

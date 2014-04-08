@@ -1,7 +1,7 @@
 <?php
 
 function frameworkPasswordCheck() {
-	global $amp_conf;
+	global $amp_conf, $db;
 
   $nt = notifications::create($db);
 

@@ -45,7 +45,8 @@ class Modules {
 	public function getActiveModules() {
 
 		$this->active_modules = $this->modclass->getinfo(false, MODULE_STATUS_ENABLED);
-		return $this->active_modules;
+
+		return (defined('FREEPBX_IS_AUTH') && (FREEPBX_IS_AUTH)) ? $this->active_modules : array();
 	}
 
 	/**
@@ -83,4 +84,3 @@ class Modules {
 		return $this->modclass->getinfo($modname);
 	}
 }
-
