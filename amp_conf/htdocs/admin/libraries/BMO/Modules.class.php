@@ -44,9 +44,14 @@ class Modules {
 
 	public function getActiveModules() {
 
+		// If session isn't authenticated, we don't care about modules.
+		if (!defined('FREEPBX_IS_AUTH') || !FREEPBX_IS_AUTH) {
+			return array();
+		}
+
 		$this->active_modules = $this->modclass->getinfo(false, MODULE_STATUS_ENABLED);
 
-		return (defined('FREEPBX_IS_AUTH') && (FREEPBX_IS_AUTH)) ? $this->active_modules : array();
+		return $this->active_modules;
 	}
 
 	/**
