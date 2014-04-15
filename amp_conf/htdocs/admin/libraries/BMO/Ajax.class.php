@@ -115,7 +115,9 @@ class Ajax extends FreePBX_Helpers {
 			if (!isset($_SESSION['AMP_user'])) {
 				$this->ajaxError(401, 'Not Authenticated');
 			} else {
-				define('FREEPBX_IS_AUTH', 'TRUE');
+				if (!defined('FREEPBX_IS_AUTH')) {
+					define('FREEPBX_IS_AUTH', 'TRUE');
+				}
 			}
 		}
 
