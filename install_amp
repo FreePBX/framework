@@ -38,9 +38,6 @@ define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules/");
 
 # semi constants
 $webroot	= "/var/www/html";
-/* should be deprecated and only under proramatic control
-$fopwebroot	= "";				// if blank, will use $webroot/panel
-*/
 $ampsbin_dir = "/usr/local/sbin";	// default if not set
 $ampbin_dir = "/var/lib/asterisk/bin";
 $asterisk_user	= "asteriskuser";
@@ -49,40 +46,41 @@ $asterisk_pass	= "amp109";
 /********************************************************************************************************************/
 
 function showHelp() {
-out("Optional parameters:",false);
-out("  --help, -h, -?           Show this help",false);
-out("  --dbhost <ip address>    Use a remote database server",false);
-out("  --dbname databasename    Use database name specified, instead of 'asterisk'",false);
-out("  --username <user>        Use <user> to connect to db and write config",false);
-out("  --password <pass>        Use <pass> to connect to db and write config",false);
-out("  --fopwebroot <path>      Depricated Web path where fop will be installed, ignored should be under module control",false);
-out("  --webroot <path>         Web root where FreePBX will be installed",false);
-out("  --cgibin <path>          Path where cgi-bin's lives",false);
-out("  --bin <path>             Path of asterisk binaries",false);
-out("  --sbin <path>            Path of system admin binaries",false);
-out("  --asteriskuser <user>    Asterisk Manager username",false);
-out("  --asteriskpass <pass>    Asterisk Manager password",false);
-out("  --debug                  Enable debug output",false);
-out("  --dry-run                Don't actually do anything",false);
-out("  --force-version <ver>    Force upgrade from version <ver>",false);
-out("  --skip-module-install    Don't run install scripts for packaged modules, the files are still loaded.",false);
-out("                           In a development environment you may not want the install scripts run.",false);
-out("  --no-files               Just run updates without installing files",false);
-out("  --force-overwrite        Don't ask if it is ok to overwrite modified files, assume yes for all.",false);
-out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ",false);
-out("                           it's a new installation)",false);
-out("  --install-fop false      depricated, does nothing",false);
-out("  --dev-links              Make links to files in the source directory instead of copying",false);
-out("                           (intended for developers only)",false);
-out("  --update-links           Update dev links without running through the whole install process (Bail before modules)", false);
-out("  --engine <name>          Use the specified PBX Engine ('asterisk')",false);
-out("  --uid <user>             Set ownership of files to user",false);
-out("  --gid <group>            Set ownership of files to group",false);
-out("  --scripted               Scripted install. Do not ask any questions.",false);
-out("                           (Intended for unattended installers only)",false);
-out("  --set-freepbx-settings   Force set the internal FreePBX DB Settings with install time parameters",false);
-out("  --cleaninstall           Like 'make clean' will clean up any previous settings or previous setup while installing a-new",false);
-out("  --uninstall              Completely Uninstall FreePBX",false);
+	out("Optional parameters:",false);
+	out("  --help, -h, -?           Show this help",false);
+	out("  --dbhost <ip address>    Use a remote database server",false);
+	out("  --dbname databasename    Use database name specified, instead of 'asterisk'",false);
+	out("  --username <user>        Use <user> to connect to db and write config",false);
+	out("  --password <pass>        Use <pass> to connect to db and write config",false);
+	out("  --freepbxip <ip>         FreePBX web interface is accessed from <ip>",false);
+	out("  --webroot <path>         Web root where FreePBX will be installed",false);
+	out("  --cgibin <path>          Path where cgi-bin's lives",false);
+	out("  --bin <path>             Path of asterisk binaries",false);
+	out("  --sbin <path>            Path of system admin binaries",false);
+	out("  --asteriskuser <user>    Asterisk Manager username",false);
+	out("  --asteriskpass <pass>    Asterisk Manager password",false);
+	out("  --asteriskip <ip>        Asterisk Manager IP address",false);
+	out("  --debug                  Enable debug output",false);
+	out("  --dry-run                Don't actually do anything",false);
+	out("  --force-version <ver>    Force upgrade from version <ver>",false);
+	out("  --skip-module-install    Don't run install scripts for packaged modules, the files are still loaded.",false);
+	out("                           In a development environment you may not want the install scripts run.",false);
+	out("  --no-files               Just run updates without installing files",false);
+	out("  --force-overwrite        Don't ask if it is ok to overwrite modified files, assume yes for all.",false);
+	out("  --install-moh            Install default music-on-hold files (normally doesn't, unless ",false);
+	out("                           it's a new installation)",false);
+	out("  --dev-links              Make links to files in the source directory instead of copying",false);
+	out("                           (intended for developers only)",false);
+	out("  --update-links           Update dev links without running through the whole install process (Bail before modules)", false);
+	out("  --engine <name>          Use the specified PBX Engine ('asterisk')",false);
+	out("  --uid <user>             Set ownership of files to user",false);
+	out("  --gid <group>            Set ownership of files to group",false);
+	out("  --scripted               Scripted install. Do not ask any questions.",false);
+	out("                           (Intended for unattended installers only)",false);
+	out("  --set-freepbx-settings   Force set the internal FreePBX DB Settings with install time parameters",false);
+	out("  --installdb              Set up the FreePBX database",false);
+	out("  --cleaninstall           Like 'make clean' will clean up any previous settings or previous setup while installing a-new",false);
+	out("  --uninstall              Completely Uninstall FreePBX",false);
 }
 
 function install_parse_amportal_conf($filename) {
@@ -263,6 +261,8 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	global $asteriskip;
 	global $runas_uid;
 	global $runas_gid;
+	global $asterisk_user;
+	global $asterisk_pass;
 
 	out("Creating new $filename");
 
@@ -273,12 +273,9 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		$amp_conf["AMPDBPASS"] = $dbpass;
 		$amp_conf["AMPDBHOST"] = $dbhost;
 		$amp_conf["AMPDBNAME"] = $dbname;
-		$amp_conf["AMPMGRUSER"] = "admin";
-		$amp_conf["AMPMGRPASS"] = "unset";
+		$amp_conf["AMPMGRUSER"] = $asterisk_user;
+		$amp_conf["AMPMGRPASS"] = $asterisk_pass;
 		$amp_conf["AMPWEBROOT"] = $webroot;
-		/* should be deprecated and only under proramatic control
-		$amp_conf["FOPWEBROOT"] = ($fopwebroot ? $fopwebroot : $webroot."/panel");
-		*/
 		$amp_conf["AMPWEBADDRESS"] = $freepbxip;
 		$amp_conf["ASTMANAGERHOST"] = $asteriskip;
 		$amp_conf["AMPEXTENSIONS"] = "extensions";
@@ -659,34 +656,38 @@ out("OK");
 // **** Parse out command-line options
 $shortopts = "h?u:p:";
 $longopts = array(
-	"help",
-	"debug",
-	"dry-run",
-	"username=",
-	"password=",
-	"force-version=",
+	"asteriskip=",
+	"asteriskpass=",
+	"asteriskuser=",
+	"bin=",
+	"cgibin=",
+	"cleaninstall",
 	"dbhost=",
-	"no-files",
-	"force-overwrite",
 	"dbname=",
-	"my-svn-is-correct",
-	"engine=",
-	"webroot=",
-	"install-moh",
-	"install-fop=",
-	"make-links-devel",
+	"debug",
 	"dev-links",
-	"update-links",
+	"dry-run",
+	"engine=",
+	"fopwebroot=",
+	"force-overwrite",
+	"force-version=",
+	"freepbxip=",
+	"gid=",
+	"help",
+	"install-moh",
+	"installdb",
+	"make-links-devel",
+	"no-files",
+	"password=",
+	"sbin=",
+	"scripted",
+	"set-freepbx-settings",
 	"skip-module-install",
 	"uid=",
-	"gid=",
-	"scripted",
-	"freepbxip=",
-	"asteriskip=",
-	"set-freepbx-settings",
-	"cleaninstall",
 	"uninstall",
-	"installdb"
+	"update-links",
+	"username=",
+	"webroot=",
 );
 
 $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
@@ -790,8 +791,6 @@ foreach ($args[0] as $arg) {
 		break;
 		case "--skip-module-install":
 			$module_install = false;
-		break;
-		case "--fopwebroot":
 		break;
 		case "--webroot":
 			$webroot = $arg[1];
