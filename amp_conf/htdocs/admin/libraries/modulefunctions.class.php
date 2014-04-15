@@ -697,6 +697,7 @@ class module_functions {
 					unset($modules[$name]);
 				}
 			}
+			
 			return $modules;
 		}
 	}
@@ -993,6 +994,7 @@ class module_functions {
 	 * @return  mixed   True if succesful, array of error messages if not succesful
 	 */
 	function enable($modulename, $force = false) { // was enableModule
+		global $db;
 		$modules = $this->getinfo($modulename);
 
 		if ($modules[$modulename]['status'] == MODULE_STATUS_ENABLED) {
@@ -1013,6 +1015,7 @@ class module_functions {
 		// disabled (but doesn't needupgrade or need install), and meets dependencies
 		$this->_setenabled($modulename, true);
 		needreload();
+		modulelist::create($db)->invalidate();
 		return true;
 	}
 
@@ -1637,7 +1640,6 @@ class module_functions {
 		}
 		$this->upgrade_notifications($new_modules, 'PASSIVE');
 		needreload();
-
 		return true;
 	}
 
@@ -1647,6 +1649,7 @@ class module_functions {
 	 * @return mixed   True if succesful, array of error messages if not succesful
 	*/
 	function disable($modulename, $force = false) { // was disableModule
+		global $db;
 		$modules = $this->getinfo($modulename);
 		if (!isset($modules[$modulename])) {
 			return array(_("Specified module not found"));
@@ -1664,6 +1667,8 @@ class module_functions {
 
 		$this->_setenabled($modulename, false);
 		needreload();
+		//invalidate the modulelist class since it is now stale
+		modulelist::create($db)->invalidate();
 		return true;
 	}
 
@@ -1717,19 +1722,21 @@ class module_functions {
 			return array(_("Failed to run un-installation scripts"));
 		}
 
-	  // Now make sure all feature codes are uninstalled in case the module has not already done it
-	  //
-	  require_once(dirname(__FILE__) . '/featurecodes.class.php'); //TODO: do we need this, now that we have bootstrap? -MB
-	  featurecodes_delModuleFeatures($modulename);
+		// Now make sure all feature codes are uninstalled in case the module has not already done it
+		//
+		require_once(dirname(__FILE__) . '/featurecodes.class.php'); //TODO: do we need this, now that we have bootstrap? -MB
+		featurecodes_delModuleFeatures($modulename);
 
-	  $freepbx_conf =& freepbx_conf::create();
-	  $freepbx_conf->remove_module_settings($modulename);
-	  $mod_asset_dir = $amp_conf['AMPWEBROOT'] . "/admin/assets/" . $modulename;
-	  if (is_link($mod_asset_dir)) {
-	    @unlink($mod_asset_dir);
-	  }
+		$freepbx_conf =& freepbx_conf::create();
+		$freepbx_conf->remove_module_settings($modulename);
+		$mod_asset_dir = $amp_conf['AMPWEBROOT'] . "/admin/assets/" . $modulename;
+		if (is_link($mod_asset_dir)) {
+			@unlink($mod_asset_dir);
+		}
 
 		needreload();
+		//invalidate the modulelist class since it is now stale
+		modulelist::create($db)->invalidate();
 		return true;
 	}
 
@@ -1766,7 +1773,7 @@ class module_functions {
 			return array(sprintf(_("Error deleting directory %s (code %d)"), $dir, $exitcode));
 		}
 
-		// uninstall will have called needreload() if necessary
+		// uninstall will have called needreload() if necessary, also invalidate
 		return true;
 	}
 
