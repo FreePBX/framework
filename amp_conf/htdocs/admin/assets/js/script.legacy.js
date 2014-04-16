@@ -920,15 +920,15 @@ $(document).ready(function(){
 	//HACK for low resolution displays where menu is cut off
 	$('.module_menu_button').hover(function() {
 		$(this).click();
-		var sh = $(window).height(); 
-		$('.ui-menu').each(function() { 
+		var sh = $(window).height();
+		$('.menubar.ui-menu').each(function() { 
 			if ($(this).css('display') == 'block') {
-				$(this).css('max-height', ''); 
+				$(this).css('max-height', '');
 				if ($(this).height() > sh) {
-					$(this).css('max-height',sh - 50 +'px'); 
+					$(this).css('max-height',sh - 50 +'px');
 				}
 			}
-		}); 
+		});
 	});
 
 	//show reload button if neede
