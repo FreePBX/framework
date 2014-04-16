@@ -1,10 +1,6 @@
 #!/usr/bin/perl -w
 # amportal config parser for retrieve_*.pl
-#
-# Julien BLACHE <julien.blache@linbox.com>
-#
-# Released under the terms of the GNU General Public License *v2* as published by
-# the Free Software Foundation.
+
 
 sub parse_amportal_conf
 {
