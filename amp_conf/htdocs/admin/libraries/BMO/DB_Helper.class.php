@@ -239,6 +239,28 @@ class DB_Helper {
 	}
 
 	/**
+	 * Store multiple variables, arrays or objects.
+	 *
+	 * setMultiConfig is the same as setConfig, except it uses an associative array,
+	 * and uses a transaction to speed up the commit.
+	 *
+	 * @param array $keyval
+	 * @param string $id Optional sub-group ID. 
+	 * @return true
+	 */
+	public function setMultiConfig($keyval = false, $id = "noid") {
+		if (!is_array($keyval)) {
+			throw new Exception('setMultiConfig was not given an array');
+		}
+
+		self::$db->beginTransaction();
+		foreach ($keyval as $key => $val) {
+			$this->setConfig($key, $val, $id);
+		}
+		self::$db->commit();
+	}
+
+	/**
 	 * Returns an associative array of all key=>value pairs referenced by $id
 	 *
 	 * If no $id was provided, return all pairs that weren't set with an $id.
