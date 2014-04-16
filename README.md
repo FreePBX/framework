@@ -1,7 +1,9 @@
 FreePBX
 =========
 
-FreePBX is an opensource GUI (graphical user interface) that controls and manages Asterisk (PBX). FreePBX is licensed under GPL. FreePBX is a Registered Trademark of Schmooze Com Inc.
+FreePBX is an opensource GUI (graphical user interface) that controls and manages Asterisk (PBX). 
+Please see the included license file in the module for license information
+FreePBX is a Registered Trademark of Schmooze Com Inc.
 
 Version
 ----
@@ -20,7 +22,6 @@ FreePBX uses a number of open source projects to work properly:
 * [bootstrap] - a free collection of tools for creating websites and web applications. It contains HTML and CSS-based design templates for typography, forms, buttons, navigation and other interface components, as well as optional JavaScript extensions.
 * [dialparties.agi] - Ported to PHP by the FreePBX community, Originally by Zac Sprackett.  License GPL
 * [CDR (Call Detail Records) Application] - Orignally by Arezqui Belaid, License GPL (depends on JPGraph which is QPL)
-* [spandsp] - Originally by Steve Underwood, License GPL
 * [CssMin] - A (simple) css minifier with benefits. By Joe Scylla, Copyright (c) 2008 - 2010. License MIT
 * [Codeigniter helpers/librarires] - Copyright (c) 2008 - 2011, EllisLab, Inc., All rights reserved. License GPL
 * [jQuery UI Bootstrap] - Some work based off of this project which was started to bring the beauty and ease-of-use of Twitter Bootstrap to jQuery UI widgets 
@@ -54,25 +55,7 @@ Installation
 
 License
 ----
-
-GPLv2 or Later
-
-FreePBX. An opensource GUI (graphical user interface) that controls and manages Asterisk (PBX)
-Copyright (C) 2013, Schmoozecom, INC
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+Please see the included license file in the module for license information
 
 *Free Software, Hell Yeah!*
 

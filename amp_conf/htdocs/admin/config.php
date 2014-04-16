@@ -1,20 +1,7 @@
-<?php
-// vim: set ai ts=4 ft=php:
-//Copyright (C) 2004 Coalescent Systems Inc. (info@coalescentsystems.ca)
-//Copyright (C) 2006-2013 Philippe Lindheimer
-//Copyright (C) 2013 Schmoozecom, INC
-/*
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- */
+<?php /* $Id$ */
+//	License for all code of this FreePBX module can be found in the license file inside the module directory
+//	Copyright 2013 Schmooze Com Inc.
+//
 
 //set variables
 $vars = array(
