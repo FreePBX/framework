@@ -1,10 +1,10 @@
 #!/usr/bin/php -q
-<?php 
+<?php
 //	License for all code of this FreePBX module can be found in the license file inside the module directory
 //	Copyright 2013 Schmooze Com Inc.
 //  Copyright 2006 Greg MacLellan
 
-/** Command-line Module Administration script
+/** Command-line Module Administration script **/
 
 
 $bootstrap_settings['freepbx_auth'] = false;
@@ -86,7 +86,7 @@ function doDeleteAll($force=true) {
 	$temp = array();
 	if (isset($modules['core'])){ //move core to the end
 		$temp['core']=$modules['core'];
-		unset($modules['core']); 
+		unset($modules['core']);
 		$modules['core']=$temp['core'];
 	}
 	unset($temp);
@@ -97,7 +97,7 @@ function doDeleteAll($force=true) {
 				//exit(2);
 			} else {
 				out("Module ".$module['rawname']." successfully deleted");
-			}	
+			}
 	}
 		out('All modules successfully removed');
 }
@@ -194,7 +194,7 @@ function doInstallAll($force) {
 				doDownload($name, $force);
 				doInstall($name, $force);
 			}
-		}	
+		}
 		out("Done. All modules installed.");
 	} else {
 		out("All modules up to date.");
@@ -213,7 +213,7 @@ function getIncludes(){
 	}
 }
 
-/** 
+/**
  * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
  */
 function getInstallableModules($extarray = false) {
@@ -240,7 +240,7 @@ function getInstallableModules($extarray = false) {
 	return $modules_installable;
 }
 
-/** 
+/**
  * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
  */
 function getUpgradableModules($extarray = false) {
@@ -248,7 +248,7 @@ function getUpgradableModules($extarray = false) {
 	$modules_online = module_getonlinexml();
 	$modules_upgradable = array();
   global $active_repos;
-	
+
   check_active_repos();
 
 	foreach (array_keys($modules_local) as $name) {
@@ -349,8 +349,8 @@ function showEngine() {
 }
 
 function setPerms() {
-	//If were running as root, attempt to set proper permissions 
-	//on the freshly installed files. For simplicity, we run the 
+	//If were running as root, attempt to set proper permissions
+	//on the freshly installed files. For simplicity, we run the
 	// freepbx default utility for setting freepbx perms
     global $amp_conf;
     $current_user = posix_getpwuid(posix_geteuid());
@@ -426,7 +426,7 @@ function showHelp() {
 	out("      Equivalent to running download and install",false);
 	out("  upgradeall",false);
 	out("      Downloads and upgrades all modules with pending updates",false);
-	
+
 	out("  --help, -h, -?           Show this help",false);
 }
 
@@ -462,9 +462,9 @@ function showInfo($modulename) {
 	if (!isset($modules[$modulename])) {
 		fatal($modulename.' not found');
 	}
-	
+
 	recursive_print($modules[$modulename]);
-	
+
 }
 
 function showList($online = false) {
@@ -482,17 +482,17 @@ function showList($online = false) {
 		}
 	}
 	ksort($modules);
-	
+
 	outn(str_pad("Module", 20));
 	outn(str_pad("Version", 18));
 	out("Status");
-	
+
 	outn(str_repeat('-', 19).' ');
 	outn(str_repeat('-', 17).' ');
 	out(str_repeat('-', 19).' ');
-	
+
 	foreach (array_keys($modules) as $name) {
-		
+
 		$status_index = isset($modules[$name]['status'])?$modules[$name]['status']:'';
 
     // Don't include modules not in our repo unless they are locally installed already
@@ -537,7 +537,7 @@ function showList($online = false) {
 				}
 			break;
 		}
-		
+
 		outn(str_pad($name, 20));
 		$module_version = isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'';
 		outn(str_pad($module_version, 18));
@@ -550,7 +550,7 @@ function showReverseDepends($modulename) {
 	if (!isset($modules[$modulename])) {
 		fatal($modulename.' not found');
 	}
-	
+
 	if (($depmods = module_reversedepends($modulename)) !== false) {
 		out("The following modules depend on this one: ".implode(', ',$depmods));
 		exit(1);
@@ -606,10 +606,10 @@ foreach ($args[0] as $arg) {
 			showHelp();
 			exit(10);
 		break;
-		case 'f': 
+		case 'f':
 			$force = true;
 		break;
-		case '--no-warnings': 
+		case '--no-warnings':
 			$no_warnings = true;
 		break;
 		case "--config": case "c":
@@ -624,8 +624,8 @@ foreach ($args[0] as $arg) {
 		case "--modulerepository-path": case "r":
 			$modulerepository_path = rtrim($arg[1],DIRECTORY_SEPARATOR)."/";
 		break;
-    case "--repo": 
-    case "--repos": 
+    case "--repo":
+    case "--repos":
     case "R":
       $repo_args = explode(',',$arg[1]);
       foreach ($repo_args as $repo) {
@@ -703,7 +703,7 @@ switch ($operation ) {
 			fatal("Missing module name");
 		}
 		showi18n($param);
-	break;	
+	break;
 	case 'info':
 		if (empty($param)) {
 			fatal("Missing module name");
@@ -724,7 +724,7 @@ switch ($operation ) {
 	case 'installall':
 		doInstallAll(true);
 		setPerms();
-	break;	
+	break;
 	case 'list':
 		showList();
 	break;
