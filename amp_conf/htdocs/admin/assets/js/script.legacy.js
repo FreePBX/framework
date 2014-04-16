@@ -926,7 +926,7 @@ $(document).ready(function(){
 	$('.module_menu_button').hover(function() {
 		$(this).click();
 		var sh = $(window).height();
-		$('.ui-menu').each(function() {
+		$('.menubar.ui-menu').each(function() { 
 			if ($(this).css('display') == 'block') {
 				$(this).css('max-height', '');
 				if ($(this).height() > sh) {

@@ -49,6 +49,9 @@ class DB_Helper {
 	private static $dbGetFirst = false;
 	private static $dbGetLast = false;
 
+	/* Allow overriding of class detection */
+	private $classOverride = false;
+
 	/** Don't new DB_Helper */
 	public function __construct() {
 		throw new Exception("You should never 'new' this. Just use it as an 'extends'");
@@ -111,6 +114,16 @@ class DB_Helper {
 	}
 
 	/**
+	 * Return the name of the table we're using.
+	 *
+	 * Just returns self::$dbname.
+	 */
+
+	public function getTableName() {
+		return self::$dbname;
+	}
+
+	/**
 	 * Requests a var previously stored
 	 *
 	 * getConfig requests the variable stored with the key $var, and returns it.
@@ -133,7 +146,13 @@ class DB_Helper {
 		self::checkDatabase();
 
 		// Who's asking?
-		$mod = get_class($this);
+		if ($this->classOverride) {
+			$mod = $this->classOverride;
+			$this->classOverride = false;
+		} else {
+			$mod = get_class($this);
+		}
+
 		$query[':mod'] = $mod;
 		$query[':id'] = $id;
 		$query[':key'] = $var;
@@ -189,7 +208,14 @@ class DB_Helper {
 		$query[':id'] = $id;
 
 		// Which module is calling this?
-		$query[':mod'] = get_class($this);
+		if ($this->classOverride) {
+			$mod = $this->classOverride;
+			$this->classOverride = false;
+		} else {
+			$mod = get_class($this);
+		}
+
+		$query[':mod'] = $mod;
 
 		// Delete any that previously match
 		$res = self::$dbDel->execute($query);
@@ -227,7 +253,14 @@ class DB_Helper {
 		self::checkDatabase();
 
 		// Basic fetchAll.
-		$query[':mod'] = get_class($this);
+		if ($this->classOverride) {
+			$mod = $this->classOverride;
+			$this->classOverride = false;
+		} else {
+			$mod = get_class($this);
+		}
+
+		$query[':mod'] = $mod;
 		$query[':id'] = $id;
 
 		$out = $this->getAllKeys($id);
@@ -258,7 +291,13 @@ class DB_Helper {
 		self::checkDatabase();
 
 		// Basic fetchAll.
-		$query[':mod'] = get_class($this);
+		if ($this->classOverride) {
+			$mod = $this->classOverride;
+			$this->classOverride = false;
+		} else {
+			$mod = get_class($this);
+		}
+		$query[':mod'] = $mod;
 		$query[':id'] = $id;
 
 		self::$dbGetAll->execute($query);
@@ -278,7 +317,12 @@ class DB_Helper {
 		// Our pretend __construct();
 		self::checkDatabase();
 
-		$mod = get_class($this);
+		if ($this->classOverride) {
+			$mod = $this->classOverride;
+			$this->classOverride = false;
+		} else {
+			$mod = get_class($this);
+		}
 		$ret = self::$db->query("SELECT DISTINCT(`id`) FROM `".self::$dbname."` WHERE `module` = '$mod' AND `id` <> 'noid' ")->fetchAll(PDO::FETCH_COLUMN, 0);
 		return $ret;
 	}
@@ -299,7 +343,14 @@ class DB_Helper {
 			throw new Exception("Coder error. You can't delete a blank ID");
 		}
 
-		$query[':mod']= get_class($this);
+		if ($this->classOverride) {
+			$mod = $this->classOverride;
+			$this->classOverride = false;
+		} else {
+			$mod = get_class($this);
+		}
+
+		$query[':mod']= $mod;
 		$query[':id'] = $id;
 		self::$dbDelId->execute($query);
 	}
@@ -324,7 +375,13 @@ class DB_Helper {
 			self::$dbGetFirst = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key` LIMIT 1");
 		}
 
-		$query[':mod']= get_class($this);
+		if ($this->classOverride) {
+			$mod = $this->classOverride;
+			$this->classOverride = false;
+		} else {
+			$mod = get_class($this);
+		}
+		$query[':mod']= $mod;
 		$query[':id'] = $id;
 		self::$dbGetFirst->execute($query);
 		$ret = self::$dbGetFirst->fetchAll(PDO::FETCH_COLUMN, 0);
@@ -349,7 +406,13 @@ class DB_Helper {
 			self::$dbGetLast = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key` DESC LIMIT 1");
 		}
 
-		$query[':mod']= get_class($this);
+		if ($this->classOverride) {
+			$mod = $this->classOverride;
+			$this->classOverride = false;
+		} else {
+			$mod = get_class($this);
+		}
+		$query[':mod']= $mod;
 		$query[':id'] = $id;
 		self::$dbGetLast->execute($query);
 		$ret = self::$dbGetLast->fetchAll(PDO::FETCH_COLUMN, 0);

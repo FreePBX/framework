@@ -734,7 +734,6 @@ switch ($action) {
 				$depends = $modulef->checkdepends($modules[$name]);
 				if($depends !== true && is_array($depends)) {
 					$modules[$name]['blocked']['status'] = true;
-					if(isset($depends['sysadmin'])) { unset($depends['sysadmin']); }
 					$modules[$name]['blocked']['reasons'] = $depends;
 				}
 			}
@@ -747,6 +746,7 @@ switch ($action) {
 					$modules[$name]['commercial']['licensed'] = sysadmin_is_module_licensed($name);
 				} else {
 					//block all commercial installs until sysadmin is installed?
+					if(isset($modules[$name]['blocked']['reasons']['sysadmin'])) { unset($modules[$name]['blocked']['reasons']['sysadmin']); }
 					$modules[$name]['commercial']['sysadmin'] = false;
 					$modules[$name]['commercial']['licensed'] = false;
 					$modules[$name]['blocked']['status'] = ($name != 'sysadmin') ? true : false;
