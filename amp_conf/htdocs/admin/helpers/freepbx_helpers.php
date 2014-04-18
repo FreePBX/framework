@@ -295,13 +295,13 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 function module_get_field_size($tablename, $fieldname, $defaultsize) {
         global $db;
 
-        $sql = "select character_maximum_length from information_schema.columns where table_name = '$tablename' and column_name = '$fieldname';";
+        $sql = "SELECT character_maximum_length FROM information_schema.columns WHERE table_name = ? AND column_name = ?";
 
-        $results = $db->getAll($sql);
+        $results = $db->getAll($sql, array($tablename, $fieldname));
+
         if(DB::IsError($results)) {
                 $results = null;
         }
 
         return isset($results)?$results[0][0]:$defaultsize;
 }
-
