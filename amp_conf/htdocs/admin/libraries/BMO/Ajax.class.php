@@ -103,10 +103,15 @@ class Ajax extends FreePBX_Helpers {
 			}
 
 			// Make sure the referrer is at least this host.
-			if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) != $_SERVER['HTTP_HOST']) {
+			$url = parse_url($_SERVER['HTTP_REFERER']);
+			if (isset($url['port'])) {
+				$checkhost = $url['host'].":".$url['port'];
+			} else {
+				$checkhost = $url['host'];
+			}
+			if ($checkhost != $_SERVER['HTTP_HOST']) {
 				$this->ajaxError(403, 'ajaxRequest declined - Referrer');
 			}
-
 			// TODO: We should add tokens in here, as we're still vulnerable to CSRF via XSS.
 		}
 
