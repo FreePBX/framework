@@ -266,6 +266,8 @@ function process_module_actions(modules) {
 				        }
 						if(xhr.responseText.length > 0) {
 				        	$('#moduledialogwrapper').html(xhr.responseText);
+							//scroll to bottom
+							$("#moduleprogress").prop({ scrollTop: $("#moduleprogress").prop("scrollHeight") });
 						}
 				    }, 100);
 				},

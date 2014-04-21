@@ -44,7 +44,13 @@ class Modules {
 
 	public function getActiveModules() {
 
+		// If session isn't authenticated, we don't care about modules.
+		if (!defined('FREEPBX_IS_AUTH') || !FREEPBX_IS_AUTH) {
+			return array();
+		}
+
 		$this->active_modules = $this->modclass->getinfo(false, MODULE_STATUS_ENABLED);
+
 		return $this->active_modules;
 	}
 
@@ -63,6 +69,7 @@ class Modules {
 			throw new Exception("I can't find a module for a page that doesn't exist");
 
 		// Search through all active modules..
+		if(empty($this->active_modules)) {return false;}
 		foreach ($this->active_modules as $key => $mod) {
 			// ..and if we know about the menuitem that we've been asked..
 			if (isset($mod['menuitems']) && is_array($mod['menuitems']) && isset($mod['menuitems'][$page])) {
@@ -83,4 +90,3 @@ class Modules {
 		return $this->modclass->getinfo($modname);
 	}
 }
-

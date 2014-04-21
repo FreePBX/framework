@@ -143,4 +143,15 @@ class DBHelperTest extends PHPUnit_Framework_TestCase {
 		}
 		$f->delById('testrange');
 	}
+
+	public function testMulti() {
+		$f = self::$f;
+		// Create our array
+		$arr = array( "TESTVAR1" => "t1", "TESTVAR2" => "t2", "TESTVAR3" => "t3" );
+		$f->setMultiConfig($arr, 'testrange');
+		$this->assertEquals($f->getConfig('TESTVAR1', 'testrange'), 't1', 'TESTVAR1 not multi-set correctly');
+		$this->assertEquals($f->getConfig('TESTVAR2', 'testrange'), 't2', 'TESTVAR2 not multi-set correctly');
+		$this->assertEquals($f->getConfig('TESTVAR3', 'testrange'), 't3', 'TESTVAR3 not multi-set correctly');
+		$f->delById('testrange');
+	}
 }
