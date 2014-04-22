@@ -29,16 +29,16 @@ $html .= br(2);
 $html .= form_close();
 $html .= '</div>';
 $html .= '<div id="login_icon_holder">';
-$html .= '<div class="login_item_title"><a href="#" class="login_item" id="login_admin" style="background-image: url(assets/images/sys-admin.png);"/>&nbsp</a>' . _('FreePBX Administration') . '</div>';
+$html .= '<div class="login_item_title"><a href="#" class="login_item" id="login_admin" style="background-image: url(assets/images/sys-admin.png);"/>&nbsp</a><span class="login_item_text" style="display: block;width: 160px;text-align: center;">' . _('FreePBX Administration') . '</span></div>';
 
 $html .= '<div class="login_item_title"><a href="/recordings" '
-                . 'class="login_item" id="login_ari" style="background-image: url(assets/images/user-control.png);"/>&nbsp</a>' . _('User Control Panel') . '</div>';
+                . 'class="login_item" id="login_ari" style="background-image: url(assets/images/user-control.png);"/>&nbsp</a><span class="login_item_text" style="display: block;width: 160px;text-align: center;">' . _('User Control Panel') . '</span></div>';
 if ($panel) {
     $html .= '<div class="login_item_title"><a href="' . $panel . '" '
-		    . 'class="login_item" id="login_fop" style="background-image: url(assets/images/operator-panel.png);"/>&nbsp</a>' . _('Operator Panel') . '</div>';
+		    . 'class="login_item" id="login_fop" style="background-image: url(assets/images/operator-panel.png);"/>&nbsp</a><span class="login_item_text" style="display: block;width: 160px;text-align: center;">' . _('Operator Panel') . '</span></div>';
 }
 $html .= '<div class="login_item_title"><a href="http://www.schmoozecom.com/oss.php" '
-		. 'class="login_item" id="login_support" style="background-image: url(assets/images/support.png);"/>&nbsp</a>' . _('Get Support') . '</div>';
+		. 'class="login_item" id="login_support" style="background-image: url(assets/images/support.png);"/>&nbsp</a><span class="login_item_text" style="display: block;width: 160px;text-align: center;">' . _('Get Support') . '</span></div>';
 $html .= '<div></div>';
 $html .= '</div>';
 $html .= br(5) . '<div id="key" style="color: white;font-size:small">'
