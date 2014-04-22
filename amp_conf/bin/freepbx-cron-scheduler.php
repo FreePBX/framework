@@ -41,6 +41,18 @@ if ($email) {
 	}
 	$text .= "\n\n";
 
+	if ($send_email && (! $cm->check_hash('update_semail', $text))) {
+		$cm->save_hash('update_semail', $text);
+		if (mail($email, _("FreePBX: New Security Notifications"), $text)) {
+			$nt->delete('freepbx', 'SEMAILFAIL');
+		} else {
+			$nt->add_error('freepbx', 'SEMAILFAIL', _('Failed to send security notification email'), sprintf(_('An attempt to send email to: %s with security notifications failed'),$email));
+		}
+	}
+
+	$text = "";
+	$send_email = false;
+
 	$updates = $nt->list_update();
 	if (count($updates)) {
 		$send_email = true;
