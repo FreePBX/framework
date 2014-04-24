@@ -356,8 +356,7 @@ function framework_include_css() {
 			sort($file_list);
 			foreach ($file_list as $p_file) {
 				if (substr($p_file,-4) == '.css' && is_file($css_subdir . '/' . $p_file)) {
-			    $html .= '<link href="assets/$module_name/css/' . $module_page . '/' . $p_file
-						. '" rel="stylesheet" type="text/css" />';
+					$html .= '<link href="assets/' . $module_name . '/css/' . $module_page . '/' . $p_file . '" rel="stylesheet" type="text/css" />';
 				}
 			}
 		}

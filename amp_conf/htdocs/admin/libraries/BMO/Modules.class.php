@@ -70,6 +70,7 @@ class Modules {
 			throw new Exception("I can't find a module for a page that doesn't exist");
 
 		// Search through all active modules..
+		if(empty($this->active_modules)) {return false;}
 		foreach ($this->active_modules as $key => $mod) {
 			// ..and if we know about the menuitem that we've been asked..
 			if (isset($mod['menuitems']) && is_array($mod['menuitems']) && isset($mod['menuitems'][$page])) {
