@@ -389,12 +389,54 @@ class AGI_AsteriskManager {
 	/**
 	* Set Absolute Timeout
 	*
-	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+AbsoluteTimeout
+	* Hangup a channel after a certain time. Acknowledges set time with Timeout Set message.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AbsoluteTimeout
+	* @version 11
 	* @param string $channel
 	* @param integer $timeout
 	*/
 	function AbsoluteTimeout($channel, $timeout) {
 		return $this->send_request('AbsoluteTimeout', array('Channel'=>$channel, 'Timeout'=>$timeout));
+	}
+
+	/**
+	* Sets an agent as no longer logged in.
+	*
+	* Sets an agent as no longer logged in.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AgentLogoff
+	* @version 11
+	* @param string $agent Agent ID of the agent to log off.
+	* @param string $soft  Set to true to not hangup existing calls.
+	*/
+	function AgentLogoff($agent, $soft) {
+		return $this->send_request('AgentLogoff', array('Agent'=>$agent, 'Soft'=>$soft));
+	}
+
+	/**
+	* Lists agents and their status.
+	*
+	* Will list info about all possible agents.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_Agents
+	* @version 11
+	*/
+	function Agents() {
+		return $this->send_request('AgentLogoff');
+	}
+
+	/**
+	* Add an AGI command to execute by Async AGI.
+	*
+	* Add an AGI command to the execute queue of the channel in Async AGI.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AGI
+	* @param string $channel
+	* @param string $file
+	*/
+	function AGI($channel, $command, $commandid) {
+		return $this->send_request('AGI', array('Channel'=>$channel, 'Command'=>$command, "CommandID" => $commandid));
 	}
 
 	/**
@@ -426,13 +468,137 @@ class AGI_AsteriskManager {
 	}
 
 	/**
+	* Kick a Confbridge user.
+	*
+	* Kick a Confbridge user.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeKick
+	* @param string $conference Conference number.
+	* @param string $channel If this parameter is not a complete channel name, the first channel with this prefix will be used.
+	*/
+	function ConfbridgeKick($conference, $channel) {
+		return $this->send_request('ConfbridgeKick', array('Conference'=>$conference, 'Channel'=>$channel));
+	}
+
+	/**
+	* Kick a Confbridge user.
+	*
+	* Kick a Confbridge user.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeList
+	* @param string $conference Conference number.
+	*/
+	function ConfbridgeList($conference) {
+		return $this->send_request('ConfbridgeList', array('Conference'=>$conference));
+	}
+
+	/**
+	* List active conferences.
+	*
+	* Lists data about all active conferences. ConfbridgeListRooms will follow as separate events, followed by a final event called ConfbridgeListRoomsComplete.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeListRooms
+	*/
+	function ConfbridgeListRooms() {
+		return $this->send_request('ConfbridgeListRooms');
+	}
+
+	/**
+	* Lock a Confbridge conference.
+	*
+	* Lock a Confbridge conference.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeLock
+	* @param string $conference Conference number.
+	*/
+	function ConfbridgeLock($conference) {
+		return $this->send_request('ConfbridgeLock', array('Conference'=>$conference));
+	}
+
+	/**
+	* Mute a Confbridge user.
+	*
+	* Mute a Confbridge user.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeMute
+	* @param string $conference Conference number.
+	* @param string $channel If this parameter is not a complete channel name, the first channel with this prefix will be used.
+	*/
+	function ConfbridgeMute($conference,$channel) {
+		return $this->send_request('ConfbridgeMute', array('Conference'=>$conference, 'Channel' => $channel));
+	}
+
+	/**
+	* Set a conference user as the single video source distributed to all other participants.
+	*
+	* Set a conference user as the single video source distributed to all other participants.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeSetSingleVideoSrc
+	* @param string $conference Conference number.
+	* @param string $channel If this parameter is not a complete channel name, the first channel with this prefix will be used.
+	*/
+	function ConfbridgeSetSingleVideoSrc($conference,$channel) {
+		return $this->send_request('ConfbridgeSetSingleVideoSrc', array('Conference'=>$conference, 'Channel' => $channel));
+	}
+
+	/**
+	* Start recording a Confbridge conference.
+	*
+	* Start recording a conference. If recording is already present an error will be returned.
+	* If RecordFile is not provided, the default record file specified in the conference's bridge profile will be used, if that is not present either a file will automatically be generated in the monitor directory.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeMute
+	* @param string $conference Conference number.
+	* @param string $channel If this parameter is not a complete channel name, the first channel with this prefix will be used.
+	*/
+	function ConfbridgeStartRecord($conference,$recordFile) {
+		return $this->send_request('ConfbridgeStartRecord', array('Conference'=>$conference, 'RecordFile' => $recordFile));
+	}
+
+	/**
+	* Stop recording a Confbridge conference.
+	*
+	* Stop recording a Confbridge conference.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeStopRecord
+	* @param string $conference Conference number.
+	*/
+	function ConfbridgeStopRecord($conference) {
+		return $this->send_request('ConfbridgeStopRecord', array('Conference'=>$conference));
+	}
+
+	/**
+	* Unlock a Confbridge conference.
+	*
+	* Unlock a Confbridge conference.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeUnlock
+	* @param string $conference Conference number.
+	*/
+	function ConfbridgeUnlock($conference) {
+		return $this->send_request('ConfbridgeUnlock', array('Conference'=>$conference));
+	}
+
+	/**
+	* Unmute a Confbridge user.
+	*
+	* Unmute a Confbridge user.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeUnmute
+	* @param string $conference Conference number.
+	*/
+	function ConfbridgeUnmute($conference) {
+		return $this->send_request('ConfbridgeUnmute', array('Conference'=>$conference));
+	}
+
+	/**
 	* Enable/Disable sending of events to this manager
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+Events
 	* @param string $eventmask is either 'on', 'off', or 'system,call,log'
 	*/
 	function Events($eventmask) {
-    $this->events = $eventmask;
+		$this->events = $eventmask;
 		return $this->send_request('Events', array('EventMask'=>$eventmask));
 	}
 
@@ -552,6 +718,55 @@ class AGI_AsteriskManager {
 			$parameters['ActionID'] = $actionid;
 		}
 		return $this->send_request('MailboxStatus', $parameters);
+	}
+
+	/**
+	* List participants in a conference.
+	*
+	* Lists all users in a particular MeetMe conference. MeetmeList will follow as separate events, followed by a final event called MeetmeListComplete.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_MeetmeList
+	* @param string $conference Conference number.
+	*/
+	function MeetmeList($conference) {
+		return $this->send_request('MeetmeList', array('Conference'=>$conference));
+	}
+
+	/**
+	* List active conferences.
+	*
+	* Lists data about all active conferences. MeetmeListRooms will follow as separate events, followed by a final event called MeetmeListRoomsComplete.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeListRooms
+	*/
+	function MeetmeListRooms() {
+		return $this->send_request('MeetmeListRooms');
+	}
+
+	/**
+	* Mute a Meetme user.
+	*
+	* Mute a Meetme user.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_MeetmeMute
+	* @param string $meetme Conference number.
+	* @param string $usernum User Number
+	*/
+	function MeetmeMute($meetme,$usernum) {
+		return $this->send_request('MeetmeMute', array('Meetme'=>$meetme,'Usernum'=>$usernum));
+	}
+
+	/**
+	* Unmute a Meetme user.
+	*
+	* Unmute a Meetme user.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_MeetmeUnmute
+	* @param string $meetme Conference number.
+	* @param string $usernum User Number
+	*/
+	function MeetmeUnmute($meetme,$usernum) {
+		return $this->send_request('MeetmeUnmute', array('Meetme'=>$meetme,'Usernum'=>$usernum));
 	}
 
 	/**
@@ -1106,7 +1321,7 @@ class AGI_AsteriskManager {
 		$r = $this->command("core show application $app");
 		return (strpos($r['data'],"Your application(s) is (are) not registered") === false);
 	}
-	
+
 	/** Returns whether a give channeltype exists in this Asterisk install
 	 * @param string $channel	The case in-sensitve name of the channel
 	 * @return bool True if if it exists
