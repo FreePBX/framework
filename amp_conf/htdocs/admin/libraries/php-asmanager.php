@@ -287,7 +287,7 @@ class AGI_AsteriskManager {
 			// process response
 			switch($type) {
 				case '': // timeout occured
-				$timeout = $allow_timeout;
+					$timeout = $allow_timeout;
 					break;
 				case 'event':
 					$this->process_event($parameters);
@@ -481,15 +481,23 @@ class AGI_AsteriskManager {
 	}
 
 	/**
-	* Kick a Confbridge user.
-	*
-	* Kick a Confbridge user.
+	* List Users in a Conference
 	*
 	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeList
 	* @param string $conference Conference number.
 	*/
 	function ConfbridgeList($conference) {
-		return $this->send_request('ConfbridgeList', array('Conference'=>$conference));
+		$this->add_event_handler("confbridgelist", array($this, 'Confbridge_catch'));
+		$this->add_event_handler("confbridgelistcomplete", array($this, 'Confbridge_catch'));
+		$response = $this->send_request('ConfbridgeList', array('Conference'=>$conference));
+		if ($response["Response"] == "Success") {
+			$this->response_catch = array();
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		return $this->response_catch;
 	}
 
 	/**
@@ -500,7 +508,40 @@ class AGI_AsteriskManager {
 	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeListRooms
 	*/
 	function ConfbridgeListRooms() {
-		return $this->send_request('ConfbridgeListRooms');
+		$this->add_event_handler("confbridgelistrooms", array($this, 'Confbridge_catch'));
+		$this->add_event_handler("confbridgelistroomscomplete", array($this, 'Confbridge_catch'));
+		$response = $this->send_request('ConfbridgeListRooms');
+		if ($response["Response"] == "Success") {
+			$this->response_catch = array();
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		return $this->response_catch;
+	}
+
+	/**
+	* Conference Bridge Event Catch
+	*
+	* This catches events obtained from the confbridge stream, it should not be used externally
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeListRooms
+	*/
+	private function Confbridge_catch($event, $data, $server, $port) {
+		switch($event) {
+			case 'confbridgelistcomplete':
+			case 'confbridgelistroomscomplete':
+				/* HACK: Force a timeout after we get this event, so that the wait_response() returns. */
+				stream_set_timeout($this->socket, 0, 1);
+			break;
+			case 'confbridgelist':
+				$this->response_catch[] =  $data;
+			break;
+			case 'confbridgelistrooms':
+				$this->response_catch[] =  $data;
+			break;
+		}
 	}
 
 	/**
