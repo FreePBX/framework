@@ -78,8 +78,6 @@ if($amp_conf['JQMIGRATE']) {
 	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
 }
 
-$html .= '<script type="text/javascript" src="assets/js/class.js"></script>';
-
 $html .= '</head>';
 
 //open body
