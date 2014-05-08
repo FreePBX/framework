@@ -28,7 +28,7 @@
 
 /**
  * WriteConfig class for FreePBX BMO
- * This writes configuration files to /etc/asterisk 
+ * This writes configuration files to /etc/asterisk
  */
 class WriteConfig {
 
@@ -47,7 +47,7 @@ class WriteConfig {
 
 	/**
 	 * __construct function
-	 * 
+	 *
 	 */
 	public function __construct($freepbx = null, $array = null) {
 		if ($freepbx == null)
@@ -77,11 +77,14 @@ class WriteConfig {
 	/**
 	 * Write multiple configuration files.
 	 * This is the public call to write configuration files.
-	 * @param array $array An array of [filename]=>array(line, line, line), or [filename]=>string 
-	 * @return void  
+	 * @param array $array An array of [filename]=>array(line, line, line), or [filename]=>string
+	 * @return void
 	 * @access public
 	 */
 	public function writeConfigs($array) {
+		if(!is_array($array)){
+			return true;
+		}
 		foreach ($array as $file => $contents) {
 			$this->writeFile($this->validateFilename($file), $contents);
 		}
@@ -91,10 +94,10 @@ class WriteConfig {
 	 * Ensure filename is safe to write
 	 * @param string $file Filename (without any directory)
 	 * @return string Returns full path to file
-	 * @access private  
+	 * @access private
 	 */
 	private function validateFilename($file) {
-		// Check to make sure it doesn't have any /'s or ..'s 
+		// Check to make sure it doesn't have any /'s or ..'s
 		// in it. We're only allowed to write to /etc/asterisk
 
 		if (strpos($file, "/") !== false) {
@@ -183,10 +186,9 @@ class WriteConfig {
 	/**
 	 * Return the static header, as a function.
 	 * @return string Header
-	 * @access public 
+	 * @access public
 	 */
 	public function getHeader() {
 		return self::HEADER;
 	}
 }
-

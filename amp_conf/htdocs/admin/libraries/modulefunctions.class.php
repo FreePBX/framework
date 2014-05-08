@@ -1997,6 +1997,7 @@ class module_functions {
 				if (file_exists($bmofile)) {
 					try {
 						FreePBX::create()->injectClass($mn, $bmofile);
+						//TODO: Need to take care of halting the install process
 						FreePBX::create()->$mn->install();
 					} catch(Exception $e) {
 						return false;
@@ -2022,6 +2023,7 @@ class module_functions {
 				$bmofile = "$moduledir/$mn.class.php";
 				if (file_exists($bmofile)) {
 					try {
+						//TODO: Need to take care of halting the uninstall process
 						FreePBX::create()->$mn->uninstall();
 					} catch(Exception $e) {
 						return false;
@@ -2032,8 +2034,8 @@ class module_functions {
 				if (is_file($moduledir.'/'.$sqlfilename)) {
 					return ($rc && execSQL($moduledir.'/'.$sqlfilename));
 				} else {
-	        			return $rc;
-	      			}
+					return $rc;
+				}
 
 			break;
 			default:
