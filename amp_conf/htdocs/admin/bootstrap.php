@@ -98,7 +98,7 @@ if (file_exists($bmo)) {
 }
 
 // get settings
-$freepbx_conf =& freepbx_conf::create();
+$freepbx_conf = $bmo->Freepbx_conf();
 
 // passing by reference, this means that the $amp_conf available to everyone is the same one as present
 // within the class, which is probably a direction we want to go to use the class.

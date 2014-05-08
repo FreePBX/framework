@@ -89,6 +89,19 @@ class FreePBX extends FreePBX_Helpers {
 	}
 
 	/**
+	 * Shortcut to create
+	 *
+	 * Simplifies access to BMO by not requiring create() when a module is
+	 * requested, by assuming that any static request to the FreePBX parent
+	 * object is going to only be for a module.
+	 * @return object FreePBX BMO Object
+	 */
+
+	static public function __callStatic($name, $var) {
+		print "Called with $name!\n";
+		return FreePBX::create()->$name;
+	}
+	/**
 	 * Returns the Default Libraries to load
 	 *
 	 * @return array

@@ -139,6 +139,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	 * script.legacy.js - freepbx library
 	 * jquery.toggleval.3.0.js - similar to html5 form's placeholder. depreciated
 	 * tabber-minimized.js - sed for module admin (hiding content)
+     * class.js - Simple JavaScript Inheritance
 	 */
 	$html .= ' <script type="text/javascript" src="assets/js/XMLHttpRequest.js' . $version_tag . '"></script>'
 		. '<script type="text/javascript" src="assets/js/menu.js' . $version_tag . '"></script>'
@@ -146,7 +147,8 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js' . $version_tag . '"></script>'
-	 	. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>';
+	 	. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>'
+         . '<script type="text/javascript" src="assets/js/class.js"></script>';
 }
 if ($amp_conf['BRAND_ALT_JS']) {
 	$html .= '<script type="text/javascript" src="' . $amp_conf['BRAND_ALT_JS'] . $version_tag . '"></script>';

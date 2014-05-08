@@ -698,7 +698,7 @@ class module_functions {
 					unset($modules[$name]);
 				}
 			}
-			
+
 			return $modules;
 		}
 	}
@@ -1980,7 +1980,7 @@ class module_functions {
 			case 'install':
 				// install sql files
 				$sqlfilename = "install.sql";
-	      			$rc = true;
+				$rc = true;
 
 				if (is_file($moduledir.'/'.$sqlfilename)) {
 					$rc = execSQL($moduledir.'/'.$sqlfilename);
@@ -1997,8 +1997,11 @@ class module_functions {
 				if (file_exists($bmofile)) {
 					try {
 						FreePBX::create()->injectClass($mn, $bmofile);
+						//TODO: Need to take care of halting the install process
 						FreePBX::create()->$mn->install();
-					} catch(Exception $e) { }
+					} catch(Exception $e) {
+						return false;
+					}
 				}
 
 				// then run .php scripts
@@ -2006,9 +2009,9 @@ class module_functions {
 			break;
 			case 'uninstall':
 				//include additional files developer requested
-	                        if ($modulexml !== false) {
-	                                $this->_runscripts_include($modulexml, $type);
-	                        }
+				if ($modulexml !== false) {
+					$this->_runscripts_include($modulexml, $type);
+				}
 
 				// run uninstall .php scripts first
 				$rc = $this->_doinclude($moduledir.'/uninstall.php', $modulename);
@@ -2019,15 +2022,20 @@ class module_functions {
 				$mn = ucfirst($modulename);
 				$bmofile = "$moduledir/$mn.class.php";
 				if (file_exists($bmofile)) {
-					try { FreePBX::create()->$mn->uninstall(); } catch(Exception $e) { }
+					try {
+						//TODO: Need to take care of halting the uninstall process
+						FreePBX::create()->$mn->uninstall();
+					} catch(Exception $e) {
+						return false;
+					}
 				}
 
 				// then uninstall sql files
 				if (is_file($moduledir.'/'.$sqlfilename)) {
 					return ($rc && execSQL($moduledir.'/'.$sqlfilename));
 				} else {
-	        			return $rc;
-	      			}
+					return $rc;
+				}
 
 			break;
 			default:
