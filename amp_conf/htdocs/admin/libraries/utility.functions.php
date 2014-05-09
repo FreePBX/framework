@@ -1175,10 +1175,13 @@ function fpbx_pdfinfo($pdf) {
 function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 	global $amp_conf, $astman;
 	$conf_file = $amp_conf['ASTETCDIR'] . '/manager.conf';
+	$conf_file = escapeshellarg($amp_conf['ASTETCDIR'] . '/manager.conf');
 	$ret = $ret2 = 0;
 	$output = array();
 	
 	if ($user !== false && $user != '') {
+		$sed_arg = escapeshellarg('"s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/"');
+		exec("sed -i.bak  $sed_arg $conf_file", $output, $ret);
 		exec('sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/" '. $conf_file, $output, $ret);
 		if ($ret) {
 			dbug($output);

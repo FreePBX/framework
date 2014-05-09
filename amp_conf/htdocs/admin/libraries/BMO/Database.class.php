@@ -48,7 +48,7 @@ class Database extends PDO {
 		if (isset($args[0])) {
 			$dsn = $args[0];
 		} else {
-			$dsn = "mysql:host=localhost;dbname=".$amp_conf['AMPDBNAME'];
+			$dsn = "mysql:host=".$amp_conf['AMBDBHOST'].";dbname=".$amp_conf['AMPDBNAME'];
 		}
 
 		if (isset($args[1])) {
