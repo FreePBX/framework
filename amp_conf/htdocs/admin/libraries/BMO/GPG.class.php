@@ -33,14 +33,23 @@
  */
 class GPG {
 
-	// Statuses!
+	// Statuses:
+	// Valid signature.
 	const STATE_GOOD = 1;
+	// File has been tampered
 	const STATE_TAMPERED = 2;
+	// File is signed, but, not by a valid signature
 	const STATE_INVALID = 4;
+	// File is unsigned.
 	const STATE_UNSIGNED = 8;
+	// This is in an unsupported state
 	const STATE_UNSUPPORTED = 16;
+	// Signature has expired
 	const STATE_EXPIRED = 32;
+	// Signature has been explicitly revoked
 	const STATE_REVOKED = 64;
+	// Signature is Trusted by GPG
+	const STATE_TRUSTED = 128;
 
 	// This is the FreePBX Master Key.
 	private $freepbxkey = '2016349F5BC6F49340FCCAF99F9169F4B33B4659';
@@ -108,11 +117,51 @@ class GPG {
 	 * Check the module.sig file against the contents of the 
 	 * directory
 	 *
-	 * @return int GPG::STATUS_whatever.
+	 * @param string Module name
+	 * @return array (status => GPG::STATUS_whatever, details => array (details, details))
 	 */
 
-	public function verifyModule($path) {
-		// TBD
+	public function verifyModule($module = null) {
+		if (!$module) {
+			throw new Exception("No module to check");
+		}
+
+		if (strpos($module, "/") !== false) {
+			throw new Exception("Path given to verifyModule. Only provide a module name");
+		}
+
+		// Get the module.sig file.
+		$file = FreePBX::Config()->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/module.sig";
+
+		if (!file_exists($file)) {
+			// Well. That was easy.
+			return array("status" => GPG::STATE_UNSIGNED, "details" => array("unsigned"));
+		}
+
+		// Check the signature on the module.sig
+		$module = $this->checkSig($file);
+		if ($module === false) {
+			return array("status" => GPG::STATE_TAMPERED, "details" => array("tampered"));
+		}
+
+		// OK, signature is valid. Let's look at the files we know
+		// about, and make sure they haven't been touched.
+		$retarr['status'] = GPG::STATUS_GOOD;
+		$retarr['details'] = array();
+
+		$hashes = $this->getHashes(dirname($file));
+		foreach ($module['hashes'] as $file => $hash) {
+			if (!isset($hashes[$file])) {
+				$retarr['details'][] = $file." missing";
+				$retarr['status'] |= GPG::STATUS_TAMPERED;
+				$retarr['status'] &= ~GPG::STATUS_GOOD;
+			} elseif ($hashes[$file] != $hash) {
+				$retarr['details'][] = $file." altered";
+				$retarr['status'] |= GPG::STATUS_TAMPERED;
+				$retarr['status'] &= ~GPG::STATUS_GOOD;
+			}
+		}
+		return $retarr;
 	}
 
 	/**
@@ -187,7 +236,7 @@ class GPG {
 
 			// We now have a trust line that looks like "2016349F5BC6F49340FCCAF99F9169F4B33B4659:6:"
 			$trust = explode(':', $line);
-			if ($trust[0] == $this->freepbxkey) {
+			if ($trust[0] === $this->freepbxkey) {
 				$trusted = true;
 			}
 		}
@@ -376,32 +425,38 @@ class GPG {
 
 		$retarr['valid'] = false;
 		$retarr['trust'] = false;
+		$retarr['trustdetails'] = array();
+		$retarr['status'] = 0;
 
 		foreach ($status as $l) {
 			if (strpos($l, "[GNUPG:] VALIDSIG") === 0) {
 				$retarr['valid'] = true;
+				$retarr['status'] |= GPG::STATE_GOOD;
 				$tmparr = explode(' ', $l);
 				$retarr['signedby'] = $tmparr[2];
 				$retarr['timestamp'] = $tmparr[4];
 			}
 			if (strpos($l, "[GNUPG:] BADSIG") === 0) {
-				$retarr['trustdetails'] = "Bad Signature, Tampered!";
+				$retarr['trustdetails'][] = "Bad Signature, Tampered! ($l)";
+				$retarr['status'] |= GPG::STATE_TAMPERED;
 			}
 			if (strpos($l, "[GNUPG:] ERRSIG") === 0) {
-				$retarr['trustdetails'] = "Unknown Signature";
+				$retarr['trustdetails'][] = "Unknown Signature ($l)";
+				$retarr['status'] |= GPG::STATE_INVALID;
 			}
 			if (strpos($l, "[GNUPG:] REVKEYSIG") === 0) {
-				$retarr['trustdetails'] = "Signed by Revoked Key";
+				$retarr['trustdetails'][] = "Signed by Revoked Key ($l)";
+				$retarr['status'] |= GPG::STATE_REVOKED;
 			}
 			if (strpos($l, "[GNUPG:] EXPKEYSIG") === 0) {
-				$retarr['trustdetails'] = "Signed by Expired Key";
+				$retarr['trustdetails'][] = "Signed by Expired Key ($l)";
+				$retarr['status'] |= GPG::STATE_EXPIRED;
 			}
-
 			if (strpos($l, "[GNUPG:] TRUST_ULTIMATE") === 0 || strpos($l, "[GNUPG:] TRUST_FULLY") === 0) {
 				$retarr['trust'] = true;
+				$retarr['status'] |= GPG::STATE_TRUSTED;
 			}
 		}
-
 		return $retarr;
 	}
 }
