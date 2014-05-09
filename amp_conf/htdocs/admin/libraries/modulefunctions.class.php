@@ -442,7 +442,13 @@ class module_functions {
 				$active_repos = array('standard' => 1);
 				$this->set_active_repo('standard',1);
 			}
-			return $active_repos;
+            $final_repos = array();
+            foreach($active_repos as $repo => $state) {
+                $repo = strtolower($repo);
+                $final_repos[$repo] = $state;
+
+            }
+			return $final_repos;
 		} else {
 			return $active_repos;
 		}
@@ -477,7 +483,7 @@ class module_functions {
 		if(!empty($xml)) {
 			$repos = array();
 			foreach($xml as $module) {
-				$repo = $module['repo'];
+				$repo = strtolower($module['repo']);
 				if(!in_array($repo,$repos)) {
 					$repos[] = $repo;
 				}
@@ -496,16 +502,21 @@ class module_functions {
 	 */
 	function set_remote_repos($repos) {
 		global $db;
-		$old_remote_repos = $this->get_remote_repos();
+		$old_remote_repos = $this->get_remote_repos(true);
 		$active_repos = $this->get_active_repos();
+        $final_repos = array();
 		foreach($repos as $repo) {
+            if(in_array(strtolower($repo),$final_repos)) {
+                continue;
+            }
 			//If there is a new repo detected and it's not in our former list of remote repos
 			//and it was not previously medled with locally then enable it automatically
 			if(!in_array($repo,$old_remote_repos) && !isset($active_repos[$repo]) && $repo != 'orphan') {
 				$this->set_active_repo($repo,1);
 			}
+            $final_repos[] = $repo;
 		}
-		$repos_json = $db->escapeSimple(json_encode($repos));
+		$repos_json = $db->escapeSimple(json_encode($final_repos));
 		sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('remote_repos_json', '".time()."','".$repos_json."')");
 	}
 
