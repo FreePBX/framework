@@ -275,7 +275,6 @@ class GPG {
 		return $retarr;
 	}
 
-
 	/**
 	 * Return array of all of my private keys
 	 */
@@ -292,59 +291,6 @@ class GPG {
 			}
 		}
 		return $mykeys;
-	}
-
-	/**
-	 * Return the 'Best' key we have, to sign modules with.
-	 * 
-	 * This also means 'the first valid', where 'valid' is a key that's
-	 * signed by the ultimately trusted FreePBX key. 
-	 * If we don't have one of those, throw an exception
-	 *
-	 * @return string Key
-	 */
-	public function getBestKey() {
-		// Returns the 'best' key we've got to sign modules with.
-		$masterkey = substr($this->freepbxkey, -16);
-
-		$mykeys = $this->getMyKeys();
-
-		foreach ($mykeys as $key) {
-			$sigs = $this->getSigners($key);
-			foreach($sigs as $sig) {
-				if ($sig == $masterkey) {
-					return $key;
-				}
-			}
-		}
-		// Woah. We don't have a signed key. I'm just going to
-		// throw an exception.
-		throw new Exception("Unable to locate valid signing key");
-	}
-
-	/**
-	 * Get a list of keys that have signed the requested key
-	 */
-	private function getSigners($key = null) {
-		if (!$key) {
-			throw new Exception("No key given to me. Sparky.");
-		}
-
-		$match = substr($this->freepbxkey, -16);
-
-		// Return an array of who has signed this key.
-		$out = $this->runGPG("--with-colons --list-sigs $key");
-		$sigs = explode("\n", $out['stdout']);
-		array_pop($sigs);
-
-		$retarr = array();
-		foreach ($sigs as $sig) {
-			$line = explode(":", $sig);
-			if ($line[0] == "sig") {
-				$retarr[$line[4]] = true;
-			}
-		}
-		return $retarr;
 	}
 
 	/**
