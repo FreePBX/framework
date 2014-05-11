@@ -1,7 +1,7 @@
 <?php
 $html = '';
 $html .= heading('Login', 3) . '<hr class="backup-hr"/>';
-$html .= form_open($_SERVER['REQUEST_URI'], 'id="backup_form"');
+$html .= form_open('config.php', 'id="backup_form"');
 $html .= '<div id="loginform_wrapper"><div id="loginform">';
 $html .= _('To get started, please enter your credentials:');
 $html .= br(2);
