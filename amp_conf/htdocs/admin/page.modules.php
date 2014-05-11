@@ -675,6 +675,10 @@ switch ($action) {
 
 		$repo_list = array_merge($local_repo_list, $remote_repo_list);
 
+        //Stupidness when people captialize repos.
+        foreach($repo_list as &$r) {
+            $r = strtolower($r);
+        }
 		//cheaty hack to move standard to the front :-)
 		//and it works because we do array_unique later
 		//TODO: Probably do some ordering here maybe?
