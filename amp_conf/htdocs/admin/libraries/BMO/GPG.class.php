@@ -118,7 +118,7 @@ class GPG {
 	 * directory
 	 *
 	 * @param string Module name
-	 * @return array (status => GPG::STATUS_whatever, details => array (details, details))
+	 * @return array (status => GPG::STATE_whatever, details => array (details, details))
 	 */
 
 	public function verifyModule($module = null) {
@@ -146,19 +146,19 @@ class GPG {
 
 		// OK, signature is valid. Let's look at the files we know
 		// about, and make sure they haven't been touched.
-		$retarr['status'] = GPG::STATUS_GOOD;
+		$retarr['status'] = GPG::STATE_GOOD;
 		$retarr['details'] = array();
 
 		$hashes = $this->getHashes(dirname($file));
 		foreach ($module['hashes'] as $file => $hash) {
 			if (!isset($hashes[$file])) {
 				$retarr['details'][] = $file." missing";
-				$retarr['status'] |= GPG::STATUS_TAMPERED;
-				$retarr['status'] &= ~GPG::STATUS_GOOD;
+				$retarr['status'] |= GPG::STATE_TAMPERED;
+				$retarr['status'] &= ~GPG::STATE_GOOD;
 			} elseif ($hashes[$file] != $hash) {
 				$retarr['details'][] = $file." altered";
-				$retarr['status'] |= GPG::STATUS_TAMPERED;
-				$retarr['status'] &= ~GPG::STATUS_GOOD;
+				$retarr['status'] |= GPG::STATE_TAMPERED;
+				$retarr['status'] &= ~GPG::STATE_GOOD;
 			}
 		}
 		return $retarr;
