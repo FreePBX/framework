@@ -140,13 +140,13 @@ class GPG {
 
 		// Check the signature on the module.sig
 		$module = $this->checkSig($file);
-		if ($module === false) {
-			return array("status" => GPG::STATE_TAMPERED, "details" => array("tampered"));
+		if (isset($module['status'])) {
+			return array("status" => $module['status'], "details" => array("module.sig verification failed"));
 		}
 
 		// OK, signature is valid. Let's look at the files we know
 		// about, and make sure they haven't been touched.
-		$retarr['status'] = GPG::STATE_GOOD;
+		$retarr['status'] = GPG::STATE_GOOD | GPG::STATE_TRUSTED;
 		$retarr['details'] = array();
 
 		$hashes = $this->getHashes(dirname($file));
@@ -409,7 +409,7 @@ class GPG {
 		$out = $this->runGPG("--output - $sigfile");
 		$status = $this->checkStatus($out['status']);
 		if (!$status['trust']) {
-			return false;
+			return $status;
 		}
 		$modules = parse_ini_string($out['stdout'], true);
 		return $modules;
