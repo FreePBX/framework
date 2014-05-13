@@ -90,7 +90,7 @@ class GPG {
 		}
 
 		// Now, how does it check out?
-		$status = $this->checkStatus($out);
+		$status = $this->checkStatus($out['status']);
 		if ($status['trust']) {
 			// It's trusted!  For the interim, we want to make sure that it's signed
 			// by the FreePBX Key, or, by a key that's been signed by the FreePBX Key.
@@ -101,7 +101,7 @@ class GPG {
 			$longkey = substr($this->freepbxkey, -16);
 			$allsigs = $this->runGPG("--keyid-format long --with-colons --check-sigs $thissig");
 			$isvalid = false;
-			foreach ($allsigs as $line) {
+			foreach (explode("\n", $allsigs['stdout']) as $line) {
 				$tmparr = explode(":", $line);
 				if ($tmparr[4] == $longkey) {
 					$isvalid = true;
@@ -211,7 +211,7 @@ class GPG {
 		}
 
 		// We weren't able to find it.
-		throw Exception("Unable to find key");
+		throw new Exception("Unable to find key");
 	}
 
 	/**
