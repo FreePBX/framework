@@ -220,6 +220,8 @@ class GPG {
 	 * Specifically marks the FreePBX Key as ultimately trusted
 	 */
 	public function trustFreePBX() {
+		// Grab the FreePBX Key, if we don't have it already
+		$this->getKey();
 		// Ensure the FreePBX Key is trusted.
 		$out = $this->runGPG("--export-ownertrust");
 		$stdout = explode("\n", $out['stdout']);
