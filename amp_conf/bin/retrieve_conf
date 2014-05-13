@@ -945,5 +945,9 @@ else
 {
 	out(_("Please update your modules and reload Asterisk by browsing to your server."),false);
 }
-	$nt->delete('retrieve_conf', 'FATAL');
+
+FreePBX::GPG()->trustFreePBX();
+
+$nt->delete('retrieve_conf', 'FATAL');
+
 $bmo->Performance->Stamp("retrieve_conf_stop");

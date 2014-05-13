@@ -1161,15 +1161,53 @@ function fpbx_pdfinfo($pdf) {
 	return $pdfinfo;
 }
 
+function generate_message_banner($message,$type='info',$details=array(),$link='') {
+    if(empty($message)) {
+        return '';
+    }
+    switch($type) {
+        case 'danger':
+        case 'warning':
+            $message = '<i class="fa fa-exclamation-triangle"></i> '.$message;
+        case 'info':
+        case 'success':
+        break;
+        default:
+            $type = 'info';
+        break;
+    }
+    if(!empty($details)) {
+        $dt = $details;
+        $details = '<div class="panel-group" id="accordion" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="panel-title">
+              Details
+          </span>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse">
+          <div class="panel-body">';
+          foreach($dt as $d) {
+              $details .= $d . "<br>";
+          }
+          $details .= '</div>
+        </div>
+      </div>
+     </div>';
+    }
+    $link = !empty($link) ? " <a class='alert-link' href='".$link."' target='_blank'>("._('What Does this Mean?').")</a>" : '';
+    return '<div class="alert signature alert-'.$type.' alert-dismissable text-center"><i class="fa fa-times close" data-dismiss="alert" aria-hidden="true"></i><h2><strong>'.$message.'</strong></h2>'.$details.$link.'</div>';
+}
+
 /**
  * Update AMI credentials in manager.conf
- * 
+ *
  * @author Philippe Lindheimer
  * @pram mixed $user false means don't change
  * @pram mixed $pass password false means don't change
  * @pram mixed $writetimeout false means don't change
  * @returns boolean
- * 
+ *
  * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
  */
 function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {

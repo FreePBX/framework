@@ -678,6 +678,7 @@ class module_functions {
 					}
 					$modules[ $row['modulename'] ]['dbversion'] = $row['version'];
 					$modules[ $row['modulename'] ]['track'] = $this->get_track($row['modulename']);
+                    $modules[ $row['modulename'] ]['signature'] = FreePBX::GPG()->verifyModule($row['modulename']);
 				}
 			}
 
@@ -1096,8 +1097,25 @@ class module_functions {
 		$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
 		// if we're not forcing the download, and a file with the target name exists..
 		if (!$force && file_exists($filename)) {
+            if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg') {
+                if($modulexml['signed']['sha1'] != sha1_file($filename)) {
+                    return array(sprintf(_('File Integrity failed for %s - aborting (sha1 did not match)'), $filename));
+                }
+                if(!FreePBX::GPG()->verifyFile($filename)) {
+                    return array(sprintf(_('File Integrity failed for %s - aborting (gpg check failed)'), $filename));
+                }
+                try {
+                    $filename = FreePBX::GPG()->getFile($filename);
+                    if(!file_exists($filename)) {
+                        return array(sprintf(_('Could not find extracted module: %s'), $filename));
+                    }
+                } catch(\Exception $e) {
+                    return array(sprintf(_('Unable to work with GPG file, message was: %s'), $e->getMessage()));
+                }
+            }
 			// We might already have it! Let's check the MD5.
 			if ((isset($modulexml['sha1sum']) && $modulexml['sha1sum'] == sha1_file($filename)) || (isset($modulexml['md5sum']) && $modulexml['md5sum'] == md5_file($filename))) {
+                out(_('Found module locally, no need to redownload'));
 				// Note, if there's no MD5 information, it will redownload
 				// every time. Otherwise theres no way to avoid a corrupt
 				// download
@@ -1229,20 +1247,36 @@ class module_functions {
 			return array(sprintf(_('Unable to save %s'),$filename));
 		}
 
+        if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg') {
+            if($modulexml['signed']['sha1'] != sha1_file($filename)) {
+                return array(sprintf(_('File Integrity failed for %s - aborting (sha1 did not match)'), $filename));
+            }
+            if(!FreePBX::GPG()->verifyFile($filename)) {
+                return array(sprintf(_('File Integrity failed for %s - aborting (gpg check failed)'), $filename));
+            }
+            try {
+                $filename = FreePBX::GPG()->getFile($filename);
+                if(!file_exists($filename)) {
+                    return array(sprintf(_('Could not find extracted module: %s'), $filename));
+                }
+            } catch(\Exception $e) {
+                return array(sprintf(_('Unable to work with GPG file, message was: %s'), $e->getMessage()));
+            }
+        }
 		// Check the MD5 info against what's in the module's XML
 		if (!isset($modulexml['md5sum']) || empty($modulexml['md5sum'])) {
 			//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
-		} else if ($modulexml['md5sum'] != md5 ($filedata)) {
+		} else if ($modulexml['md5sum'] != md5_file ($filename)) {
 			unlink($filename);
-			return array(sprintf(_('File Integrity failed for %s - aborting'), $filename));
+			return array(sprintf(_('File Integrity failed for %s - aborting (md5sum did not match)'), $filename));
 		}
 
 		// Check the SHA1 info against what's in the module's XML
 		if (!isset($modulexml['sha1sum']) || empty($modulexml['sha1sum'])) {
 			//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
-		} else if ($modulexml['sha1sum'] != sha1 ($filedata)) {
+		} else if ($modulexml['sha1sum'] != sha1_file($filename)) {
 			unlink($filename);
-			return array(sprintf(_('File Integrity failed for %s - aborting'), $filename));
+			return array(sprintf(_('File Integrity failed for %s - aborting (sha1 did not match)'), $filename));
 		}
 
 		// invoke progress callback

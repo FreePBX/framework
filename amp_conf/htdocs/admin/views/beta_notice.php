@@ -4,8 +4,5 @@
  *       it is triggered with a beta="yes" attribute in the menuitem tag in module.xml such that specific
  *       pages can be beta vs. the whole module.
  */
-$html = '<div id="menuitem_beta">';
-$html .= _("-This page is currently BETA-");
-$html .= '</div>';
 
-echo $html;
+echo generate_message_banner('-'._('This page is currently BETA').'-', 'info');

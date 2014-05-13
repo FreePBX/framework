@@ -891,6 +891,19 @@ function freepbx_settings_init($commit_to_db = false) {
     $freepbx_conf->define_conf_setting('CRONMAN_UPDATES_CHECK',$set);
     $set['hidden'] = 0;
 
+    // SIGNATURECHECK
+    $set['value'] = true;
+    $set['options'] = '';
+    $set['defaultval'] =& $set['value'];
+    $set['name'] = 'Enable Module Signature Checking';
+    $set['description'] = 'Checks to make sure modules and their files are validly signed. Will display a notice on any module page that is not correctly verified.';
+    $set['level'] = 0;
+    $set['emptyok'] = 0;
+    $set['module'] = '';
+    $set['hidden'] = 0;
+    $set['readonly'] = 0;
+    $set['type'] = CONF_TYPE_BOOL;
+    $freepbx_conf->define_conf_setting('SIGNATURECHECK',$set);
 
   //
   // CATEGORY: Dialplan and Operational
