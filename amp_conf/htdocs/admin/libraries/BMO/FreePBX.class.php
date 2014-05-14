@@ -98,7 +98,6 @@ class FreePBX extends FreePBX_Helpers {
 	 */
 
 	static public function __callStatic($name, $var) {
-		print "Called with $name!\n";
 		return FreePBX::create()->$name;
 	}
 	/**
