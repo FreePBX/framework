@@ -84,7 +84,7 @@ if (isset($_REQUEST['handler'])) {
 		switch ($_REQUEST['handler']) {
 		case 'api':
 				break;
-				case 'reload';
+		case 'reload';
 				break;
 		default:
 				// If we didn't provide skip_astman in the $_REQUEST[] array it will be boolean false and for handlers, this should default
@@ -490,6 +490,7 @@ if ($quietmode) {
 		if ($show_normal) {
 				// provide beta status
 				if (isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes') {
+					//TODO: Why is this in a global system variable?
 						$fw_gui_html .= load_view($amp_conf['VIEW_BETA_NOTICE']);
 				}
 				$fw_gui_html .= $content;
@@ -510,6 +511,7 @@ if ($quietmode) {
 		$footer['reload_needed'] = false; //we don't display the menu in this view so irrelivant
 		//These changes will hide the excess footer which is just empty anyways, also it sets our body background to transparent
 		//scripts in footer are still run eventhough it's hidden
+		//hack into the footer and change the background to be transparent so it seems like we "belong" in the dialog box
 		$footer['footer_content'] = "<script>$('body').css('background-color','transparent');$('#footer').hide()</script>";
 		$footer['remove_rnav'] = true;
 		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
