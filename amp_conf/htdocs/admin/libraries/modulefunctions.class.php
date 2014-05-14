@@ -678,7 +678,7 @@ class module_functions {
 					}
 					$modules[ $row['modulename'] ]['dbversion'] = $row['version'];
 					$modules[ $row['modulename'] ]['track'] = $this->get_track($row['modulename']);
-                    $modules[ $row['modulename'] ]['signature'] = FreePBX::GPG()->verifyModule($row['modulename']);
+                    $modules[ $row['modulename'] ]['signature'] = !empty($row['signature']) ? json_decode($row['signature'],true) : array();
 				}
 			}
 
@@ -2602,4 +2602,74 @@ class module_functions {
 			return $contents;
 		}
 	}
+
+    function getSignature($modulename,$cached=true) {
+        FreePBX::GPG(); //declare class to get constants
+        $sql = "SELECT signature FROM `modules` WHERE modulename = ? AND signature is not null";
+        $sth = FreePBX::Database()->prepare($sql);
+        $sth->execute(array($modulename));
+        $res = $sth->fetch(PDO::FETCH_ASSOC);
+        return (empty($res) || !$cached) ? $this->updateSignature($modulename) : json_decode($res['signature'],TRUE);
+    }
+
+    function getAllSignatures($cached=true) {
+        FreePBX::GPG(); //declare class to get constants
+        $sql = "SELECT modulename, signature FROM modules";
+        $sth = FreePBX::Database()->prepare($sql);
+        $sth->execute();
+        $res = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $modules = array();
+        $globalValidation = true;
+        foreach($res as $mod) {
+            //TODO: determine if this should be in here or not.
+            if(!$cached || empty($mod['signature'])) {
+                $mod['signature'] = $this->updateSignature($mod['modulename']);
+            } else {
+                $mod['signature'] = json_decode($mod['signature'],TRUE);
+            }
+            $modules['modules'][$mod['modulename']] = $mod;
+            if($mod['signature']['status'] & ~GPG::STATE_GOOD) {
+                $globalValidation = false;
+            }
+    		$trusted = $mod['signature']['status'] & GPG::STATE_TRUSTED;
+    		$tampered = $mod['signature']['status'] & GPG::STATE_TAMPERED;
+    		$unsigned = $mod['signature']['status'] & GPG::STATE_UNSIGNED;
+    		if ($unsigned) {
+    			$modules['statuses']['unsigned'][] = sprintf(_('Module %s is unsigned'),$mod['modulename']);
+    		} else {
+    			if ($tampered) {
+    				foreach($mod['signature']['details'] as $d) {
+    					$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$mod['modulename'],$d);
+    				}
+    			}
+                if (!$trusted) {
+
+                }
+    		}
+        }
+
+        $statuses = array('untrusted','unsigned','tampered','unknown');
+        $nt = notifications::create();
+        foreach($statuses as $type) {
+            if(!empty($modules['statuses'][$type]) && FreePBX::Config()->get('SIGNATURECHECK')) {
+                $nt->add_security('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s %s modules'),count($modules['statuses'][$type]),$type), implode("<br>",$modules['statuses'][$type]));
+            } else {
+                $nt->delete('freepbx', 'FW_'.strtoupper($type));
+            }
+        }
+        $modules['validation'] = $globalValidation;
+        return $modules;
+    }
+
+    public function updateSignature($modulename) {
+        try {
+            $mod = FreePBX::GPG()->verifyModule($modulename);
+            $sql = "UPDATE `modules` SET signature = ? WHERE modulename = ?";
+            $sth = FreePBX::Database()->prepare($sql);
+            $sth->execute(array(json_encode($mod),$modulename));
+        } catch(\Exception $e) {
+            $mod = null;
+        }
+        return $mod;
+    }
 }

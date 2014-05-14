@@ -410,16 +410,23 @@ switch($display) {
 			} else if (file_exists($module_file)) {
 					//check module first and foremost, but not during quietmode
 					if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK']) {
-						$mods = FreePBX::GPG()->verifyModule($module_name);
-						if(($mods['status'] & GPG::STATE_GOOD) && ($mods['status'] & GPG::STATE_TRUSTED)) {
-						} elseif($mods['status'] & (~GPG::STATE_TRUSTED & ~GPG::STATE_UNSIGNED)) {
-							echo generate_message_banner(_('Warning: The Signing Key is Not Trusted'), 'danger',$mods['details'],'http://wiki.freepbx.org/display/F2/Module+Signing#ModuleSigning-Untrusted');
-						} elseif($mods['status'] & GPG::STATE_TAMPERED) {
-							echo generate_message_banner(_('Warning: Module has been Tampered'), 'danger',$mods['details'],'http://wiki.freepbx.org/display/F2/Module+Signing#ModuleSigning-Tampered');
-						} elseif($mods['status'] & GPG::STATE_UNSIGNED) {
-							echo generate_message_banner(_('Warning: Module is Unsigned'), 'warning','','http://wiki.freepbx.org/display/F2/Module+Signing#ModuleSigning-Unsigned');
-						} else {
-							echo generate_message_banner(sprintf(_('Warning: Unknown Module Verification Type: %s'),$mods['status']), 'warning');
+						//Since we are viewing this module update it's signature
+						module_functions::create()->updateSignature($module_name,false);
+						//check all cached signatures
+						$modules = module_functions::create()->getAllSignatures();
+						if(!$modules['validation']) {
+							if(!empty($modules['statuses']['untrusted'])) {
+								echo generate_message_banner(_('Danger: FreePBX has been Altered'), 'danger',$modules['statuses']['untrusted'],'http://wiki.freepbx.org/display/F2/Module+Signing#ModuleSigning-Untrusted');
+							}
+							if(!empty($modules['statuses']['tampered'])) {
+								echo generate_message_banner(_('Danger: FreePBX has been Altered'), 'danger',$modules['statuses']['tampered'], 'http://wiki.freepbx.org/display/F2/Module+Signing#ModuleSigning-Tampered');
+							}
+							if(!empty($modules['statuses']['unsigned'])) {
+								echo generate_message_banner(_('Warning: FreePBX has Unsigned Modules'), 'warning',$modules['statuses']['unsigned'], 'http://wiki.freepbx.org/display/F2/Module+Signing#ModuleSigning-Unsigned');
+							}
+							if(!empty($modules['statuses']['unknown'])) {
+								echo generate_message_banner(_('Warning: FreePBX Signature Check Has Errors'), 'warning',$modules['statuses']['unknown']);
+							}
 						}
 					}
 

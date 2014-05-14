@@ -1162,6 +1162,7 @@ function fpbx_pdfinfo($pdf) {
 }
 
 function generate_message_banner($message,$type='info',$details=array(),$link='') {
+    $ts = rand();
     if(empty($message)) {
         return '';
     }
@@ -1178,14 +1179,14 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
     }
     if(!empty($details)) {
         $dt = $details;
-        $details = '<div class="panel-group" id="accordion" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+        $details = '<div class="panel-group" id="message-'.$ts.'" data-toggle="collapse" data-parent="#message-'.$ts.'" href="#collapseOne-'.$ts.'">
       <div class="panel panel-default">
         <div class="panel-heading">
           <span class="panel-title">
               Details
           </span>
         </div>
-        <div id="collapseOne" class="panel-collapse collapse">
+        <div id="collapseOne-'.$ts.'" class="panel-collapse collapse">
           <div class="panel-body">';
           foreach($dt as $d) {
               $details .= $d . "<br>";
