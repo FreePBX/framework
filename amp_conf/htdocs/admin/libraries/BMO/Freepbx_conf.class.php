@@ -234,6 +234,10 @@ class Freepbx_conf {
     unset($db_raw);
   }
 
+  public function get($keyword, $passthru=false) {
+      return $this->get_conf_setting($keyword, $passthru);
+  }
+
   /** This method returns a copy of the conf hash that is equivalent to the $amp_conf configuration
    * hash that is used throughout FreePBX for many settings. The method will determine if it needs to
    * parse the passed $filename to get authoritative information about the settings or if the
