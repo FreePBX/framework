@@ -5,4 +5,4 @@
  *       pages can be beta vs. the whole module.
  */
 
-echo generate_message_banner('-'._('This page is currently BETA').'-', 'info');
+echo generate_message_banner(_('This page is currently BETA'), 'info', '', 'http://wiki.freepbx.org/display/F2/Beta+Modules');

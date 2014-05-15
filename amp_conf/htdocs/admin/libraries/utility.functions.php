@@ -1028,7 +1028,9 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
         </div>
       </div>
      </div>';
-    }
+     } else {
+         $details = '';
+     }
     $link = !empty($link) ? " <a class='alert-link' href='".$link."' target='_blank'>("._('What Does this Mean?').")</a>" : '';
     return '<div class="alert signature alert-'.$type.' alert-dismissable text-center"><i class="fa fa-times close" data-dismiss="alert" aria-hidden="true"></i><h2><strong>'.$message.'</strong></h2>'.$details.$link.'</div>';
 }
