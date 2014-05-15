@@ -415,17 +415,22 @@ switch($display) {
 						//check all cached signatures
 						$modules = module_functions::create()->getAllSignatures();
 						if(!$modules['validation']) {
-							if(!empty($modules['statuses']['untrusted'])) {
-								echo generate_message_banner(_('Danger: FreePBX has been Altered'), 'danger',$modules['statuses']['untrusted'],'http://wiki.freepbx.org/display/F2/Module+Signing#ModuleSigning-Untrusted');
+							$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
+							$merged = array();
+							//priority sorting
+							$stauses = array("untrusted","tampered","unsigned","unknown");
+							foreach($stauses as $st) {
+								if(!empty($modules['statuses'][$st])) {
+									$merged = array_merge($merged,$modules['statuses'][$st]);
+								}
 							}
-							if(!empty($modules['statuses']['tampered'])) {
-								echo generate_message_banner(_('Danger: FreePBX has been Altered'), 'danger',$modules['statuses']['tampered'], 'http://wiki.freepbx.org/display/F2/Module+Signing#ModuleSigning-Tampered');
-							}
-							if(!empty($modules['statuses']['unsigned'])) {
-								echo generate_message_banner(_('Warning: FreePBX has Unsigned Modules'), 'warning',$modules['statuses']['unsigned'], 'http://wiki.freepbx.org/display/F2/Module+Signing#ModuleSigning-Unsigned');
-							}
-							if(!empty($modules['statuses']['unknown'])) {
-								echo generate_message_banner(_('Warning: FreePBX Signature Check Has Errors'), 'warning',$modules['statuses']['unknown']);
+							switch($type) {
+								case 'danger':
+									echo generate_message_banner(_('Security Warning'), 'danger',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing');
+								break;
+								case 'warning':
+									echo generate_message_banner(_('Security Warning'), 'warning',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing');
+								break;
 							}
 						}
 					}
