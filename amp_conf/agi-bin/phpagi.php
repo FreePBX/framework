@@ -71,7 +71,7 @@
     * @var array
     * @access public
     */
-    var $request;
+    public $request;
 
    /**
     * Config variables
@@ -79,7 +79,7 @@
     * @var array
     * @access public
     */
-    var $config;
+    public $config;
 
    /**
     * Asterisk Manager
@@ -87,35 +87,35 @@
     * @var AGI_AsteriskManager
     * @access public
     */
-    var $asmanager;
+    public $asmanager;
 
    /**
     * Input Stream
     *
     * @access private
     */
-    var $in = NULL;
+    public $in = NULL;
 
    /**
     * Output Stream
     *
     * @access private
     */
-    var $out = NULL;
+    public $out = NULL;
 
    /**
     * FastAGI socket
     *
     * @access private
     */
-    var $socket = NULL;
+    public $socket = NULL;
 
    /**
     * Audio Stream
     *
     * @access public
     */
-    var $audio = NULL;
+    public $audio = NULL;
 
    /**
     * Constructor
@@ -123,7 +123,7 @@
     * @param string $config is the name of the config file to parse
     * @param array $optconfig is an array of configuration vars and vals, stuffed into $this->config['phpagi']
     */
-    function AGI($config=NULL, $optconfig=array(), $socket=NULL) {
+    function __construct($config=NULL, $optconfig=array(), $socket=NULL) {
       // load config
       if(!is_null($config) && file_exists($config))
         $this->config = parse_ini_file($config, true);
@@ -190,13 +190,6 @@
         if($this->audio) stream_set_blocking($this->audio, 0);
       }
 
-// Next two lines where removed 2009-08-25 due to unneccesary output when setting "core set verbose 3" or higher in Asterisk.
-//
-//    $this->conlog('PHPAGI internal configuration:');
-//    $this->conlog(print_r($this->config, true));
-
-// Enable for debuggin purposes
-//foreach(explode("\n", print_r($this, true)) as $line) syslog(LOG_WARNING, $line);
     }
 
    // *********************************************************************************************************
