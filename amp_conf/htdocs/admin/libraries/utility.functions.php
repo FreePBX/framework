@@ -91,8 +91,21 @@ function freepbx_log($level, $message) {
 	}
 }
 
-/* version_compare that works with FreePBX version numbers
-*/
+/**
+ * version_compare that works with FreePBX version numbers
+ *
+ * @param string $version1 First version number
+ * @param string $version2 Second version number
+ * @param string $op If you specify the third optional operator argument,
+ *                   you can test for a particular relationship.
+ *                   The possible operators are:
+ *                   <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne respectively.
+ * @return mixed returns -1 if the first version is lower than the second,
+ *               0 if they are equal, and 1 if the second is lower.
+ *               When using the optional operator argument, the function will
+ *               return TRUE if the relationship is the one specified by the
+ *               operator, FALSE otherwise.
+ */
 function version_compare_freepbx($version1, $version2, $op = null) {
 	$version1 = str_replace("rc","RC", strtolower($version1));
 	$version2 = str_replace("rc","RC", strtolower($version2));
@@ -107,6 +120,12 @@ function compress_framework_css() {
 	compress::web_files();
 }
 
+/**
+ * Throw FreePBX DIE Message
+ * @param string $text The message
+ * @param string $extended_text The Extended Message (Optional)
+ * @param string $type The message type (Optional)
+ */
 function die_freepbx($text, $extended_text="", $type="FATAL") {
 	global $amp_conf;
 
@@ -164,7 +183,11 @@ function die_freepbx($text, $extended_text="", $type="FATAL") {
 	exit(1);
 }
 
-//get the version number
+/**
+ * Get the FreePBX/Framework Version
+ * @param bool $cached Whether to pull from the DB or not
+ * @return string The FreePBX version number
+ */
 function getversion($cached=true) {
 	global $db;
 	static $version;
@@ -179,7 +202,11 @@ function getversion($cached=true) {
 	return $results[0];
 }
 
-//get the version number
+/**
+ * Get the FreePBX/Framework Version (Depreciated in favor of getversion)
+ * @param bool $cached Whether to pull from the DB or not
+ * @return string The FreePBX version number
+ */
 function get_framework_version($cached=true) {
 	global $db;
 	static $version;
@@ -194,7 +221,9 @@ function get_framework_version($cached=true) {
 	return $version;
 }
 
-//tell application we need to reload asterisk
+/**
+ * Tell the user we need to apply changes and reload Asterisk
+ */
 function needreload() {
 	global $db;
 	$sql	= "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'";
@@ -204,6 +233,10 @@ function needreload() {
 	}
 }
 
+/**
+ * Check to see if Apply Changes/Need Reload flag has been set
+ * @return bool true if reload needed, otherwise false
+ */
 function check_reload_needed() {
 	global $db;
 	global $amp_conf;
@@ -219,7 +252,8 @@ function check_reload_needed() {
 	return ($row[0] == 'true' || $amp_conf['DEVELRELOAD']);
 }
 
-/** Log a debug message to a debug file
+/**
+ * Log a debug message to a debug file (Depreciated)
  * @param  string   debug message to be printed
  * @param  string   depreciated
  * @param  string   depreciated
@@ -848,7 +882,7 @@ function fpbx_which($app) {
  *
  * http://www.ntu.beautifulworldco.com/weblog/?p=526
  */
-function _getopt() {
+function _getopt($short_option, $long_option = array()) {
     return getopt($short_option, $long_option);
 }
 
@@ -865,7 +899,7 @@ function bytes2string($size){
  }
 
 /**
- * returns the absolute path to a system application
+ * returns a rounded byte size representation of a string
  *
  * @author Moshe Brevda mbrevda => gmail ~ com
  * @pram string
