@@ -424,12 +424,19 @@ switch($display) {
 									$merged = array_merge($merged,$modules['statuses'][$st]);
 								}
 							}
+							$d = FreePBX::notifications()->list_security(true);
+							foreach($d as $n) {
+								//Dont show the same notifications twice
+								if(!in_array($n['id'],array('FW_UNSIGNED','FW_UNTRUSTED','FW_TAMPERED','FW_UNKNOWN'))) {
+									array_unshift($merged,$n['display_text']);
+								}
+							}
 							switch($type) {
 								case 'danger':
-									echo generate_message_banner(_('Security Warning'), 'danger',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing');
+									echo generate_message_banner(_('Security Warning'), 'danger',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
 								break;
 								case 'warning':
-									echo generate_message_banner(_('Security Warning'), 'warning',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing');
+									echo generate_message_banner(_('Security Warning'), 'warning',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing', true);
 								break;
 							}
 						}

@@ -994,8 +994,28 @@ function fpbx_pdfinfo($pdf) {
 	return $pdfinfo;
 }
 
-function generate_message_banner($message,$type='info',$details=array(),$link='') {
-    $ts = rand();
+/**
+ * Generate Message Banner(s)
+ *
+ * @param string $message Primary Message to display
+ * @param string $type Type of message, can be info,danger,warning,success
+ * @param array $details Details to show, array, each item is a new line
+ * @param string $link link for "What does this mean?"
+ * @param bool $closeable If true then the user can close this message,
+ *						Flag will be stored in cookie against hash of message
+ * @return string, the generated banner
+ */
+function generate_message_banner($message,$type='info',$details=array(),$link='',$closeable = false) {
+	$full_hash = sha1($message.json_encode($details));
+	if($closeable && !empty($_COOKIE['bannerMessages'])) {
+		$hashes = json_decode($_COOKIE['bannerMessages'],TRUE);
+		if(in_array($full_hash,$hashes)) {
+			//it's been closed
+			return '';
+		}
+	}
+
+	$ts = rand();
     if(empty($message)) {
         return '';
     }
@@ -1032,7 +1052,8 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
          $details = '';
      }
     $link = !empty($link) ? " <a class='alert-link' href='".$link."' target='_blank'>("._('What Does this Mean?').")</a>" : '';
-    return '<div class="alert signature alert-'.$type.' alert-dismissable text-center"><i class="fa fa-times close" data-dismiss="alert" aria-hidden="true"></i><h2><strong>'.$message.'</strong></h2>'.$details.$link.'</div>';
+	$close = ($closeable) ? '<i class="fa fa-times close" data-hash="'.$full_hash.'" data-dismiss="alert" aria-hidden="true"></i>' : '';
+    return '<div class="global-message-banner alert signature alert-'.$type.' alert-dismissable text-center">'.$close.'<h2><strong>'.$message.'</strong></h2>'.$details.$link.'</div>';
 }
 
 /**

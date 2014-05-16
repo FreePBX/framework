@@ -892,14 +892,26 @@ function toggle_reload_button(action) {
 $(document).keydown(function(e) {kkeys.push( e.keyCode );if ( kkeys.toString().indexOf( smiles ) >= 0 ){$(document).unbind('keydown',arguments.callee);alert(':-)');}});
 
 $(document).ready(function(){
+	$('.global-message-banner .close').click(function() {
+		var hash = $(this).data('hash');
+		var m = $.cookie('bannerMessages');
+		var messages = [];
+		if(typeof m != 'undefined') {
+			messages = JSON.parse(m);
+			messages.push(hash);
+		} else {
+			messages = [hash];
+		}
+		$.cookie('bannerMessages', JSON.stringify(messages));
+	});
 	bind_dests_double_selects();
 
 	//help tags
 	$("a.info").each(function(){
 		$(this).after('<span class="help">?<span>' + $(this).find('span').html() + '</span></span>');
 		$(this).find('span').remove();
-		$(this).replaceWith($(this).html())
-	})
+		$(this).replaceWith($(this).html());
+	});
 
 	$(".help").on('mouseenter', function(){
 			side = fpbx.conf.text_dir == 'lrt' ? 'left' : 'right';
