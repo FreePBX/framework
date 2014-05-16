@@ -1097,25 +1097,26 @@ class module_functions {
 		$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
 		// if we're not forcing the download, and a file with the target name exists..
 		if (!$force && file_exists($filename)) {
-            if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg') {
-                if($modulexml['signed']['sha1'] != sha1_file($filename)) {
-                    return array(sprintf(_('File Integrity failed for %s - aborting (sha1 did not match)'), $filename));
-                }
+			outn(_('Found module locally, verifying...'));
+            if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg' && $modulexml['signed']['sha1'] == sha1_file($filename)) {
                 if(!FreePBX::GPG()->verifyFile($filename)) {
-                    return array(sprintf(_('File Integrity failed for %s - aborting (gpg check failed)'), $filename));
+					out(_('Redownloading'));
+                    unlink($filename);
                 }
                 try {
                     $filename = FreePBX::GPG()->getFile($filename);
                     if(!file_exists($filename)) {
-                        return array(sprintf(_('Could not find extracted module: %s'), $filename));
+						out(_('Redownloading'));
+                        unlink($filename);
                     }
                 } catch(\Exception $e) {
-                    return array(sprintf(_('Unable to work with GPG file, message was: %s'), $e->getMessage()));
+					out(_('Redownloading'));
+                    unlink($filename);
                 }
             }
 			// We might already have it! Let's check the MD5.
 			if ((isset($modulexml['sha1sum']) && $modulexml['sha1sum'] == sha1_file($filename)) || (isset($modulexml['md5sum']) && $modulexml['md5sum'] == md5_file($filename))) {
-                out(_('Found module locally, no need to redownload'));
+				out(_('Verified. Using Local'));
 				// Note, if there's no MD5 information, it will redownload
 				// every time. Otherwise theres no way to avoid a corrupt
 				// download
@@ -1160,6 +1161,7 @@ class module_functions {
 
 				return true;
 			} else {
+				out(_('Redownloading'));
 				unlink($filename);
 			}
 		}

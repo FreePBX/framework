@@ -114,7 +114,7 @@ class GPG {
 	}
 
 	/**
-	 * Check the module.sig file against the contents of the 
+	 * Check the module.sig file against the contents of the
 	 * directory
 	 *
 	 * @param string Module name
@@ -462,4 +462,3 @@ class GPG {
 		return $retarr;
 	}
 }
-
