@@ -303,7 +303,17 @@ class GPG {
 			$fds[0] = $stdin;
 		}
 
-		$proc = proc_open($this->gpg." ".$this->gpgopts." --status-fd 3 $params", $fds, $pipes);
+		// We need to ensure that our environment variables are sane.
+		// Luckily, we know just the right things to say...
+		if (!isset($this->gpgenv)) {
+			$this->gpgenv['PATH'] = "/bin:/usr/bin";
+			$me = posix_getpwuid(posix_getuid());
+			$this->gpgenv['USER'] = $me['name'];
+			$this->gpgenv['HOME'] = $me['dir'];
+			$this->gpgenv['SHELL'] = $me['shell'];
+		}
+
+		$proc = proc_open($this->gpg." ".$this->gpgopts." --status-fd 3 $params", $fds, $pipes, "/tmp", $this->gpgenv);
 		if (!is_resource($proc)) { // Unable to start!
 			throw new Exception("Unable to start PGP");
 		}
