@@ -858,6 +858,10 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['description'] = 'The version of jQuery that we wish to use.';
 	$set['type'] = CONF_TYPE_TEXT;
 	$freepbx_conf->define_conf_setting('JQUERY_VER', $set);
+	//only for jquery, bootstrap and jqueryUI
+	if($freepbx_conf->conf_setting_exists('JQUERY_VER')) {
+		$freepbx_conf->set_conf_values(array('JQUERY_VER' => $set['value']), true, true);
+	}
 	$set['hidden'] = 0;
 
 	//JQUERYUI_VER
@@ -874,7 +878,47 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['description'] = 'The version of jQuery UI that we wish to use.';
 	$set['type'] = CONF_TYPE_TEXT;
 	$freepbx_conf->define_conf_setting('JQUERYUI_VER', $set);
+	//only for jquery, bootstrap and jqueryUI
+	if($freepbx_conf->conf_setting_exists('JQUERYUI_VER')) {
+		$freepbx_conf->set_conf_values(array('JQUERYUI_VER' => $set['value']), true, true);
+	}
 	$set['hidden'] = 0;
+
+	//BOOTSTRAP_VER
+	$set['value'] = '3.0.2';
+	$set['options'] = '';
+	$set['defaultval'] =& $set['value'];
+	$set['readonly'] = 1;
+	$set['hidden'] = 1;
+	$set['level'] = 0;
+	$set['module'] = '';
+	$set['category'] = 'System Setup';
+	$set['emptyok'] = 0;
+	$set['name'] = 'Bootstrap Version';
+	$set['description'] = 'The version of Bootstrap that we wish to use.';
+	$set['type'] = CONF_TYPE_TEXT;
+	$freepbx_conf->define_conf_setting('BOOTSTRAP_VER', $set);
+	//only for jquery, bootstrap and jqueryUI
+	if($freepbx_conf->conf_setting_exists('BOOTSTRAP_VER')) {
+		$freepbx_conf->set_conf_values(array('BOOTSTRAP_VER' => $set['value']), true, true);
+	}
+	$set['hidden'] = 0;
+
+	//JQMIGRATE
+	$set['value'] = true;
+	$set['options'] = '';
+	$set['defaultval'] =& $set['value'];
+	$set['readonly'] = 0;
+	$set['hidden'] = 0;
+	$set['level'] = 0;
+	$set['module'] = '';
+	$set['category'] = 'Developer and Customization';
+	$set['emptyok'] = 0;
+	$set['name'] = 'Enable jQuery Migrate';
+	$set['description'] = 'This plugin can be used to detect and restore APIs or features that have been deprecated in jQuery and removed as of version 1.9';
+	$set['type'] = CONF_TYPE_BOOL;
+	$freepbx_conf->define_conf_setting('JQMIGRATE',$set);
+
 
     // CRONMAN_UPDATES_CHECK
     $set['value'] = true;
@@ -904,6 +948,20 @@ function freepbx_settings_init($commit_to_db = false) {
     $set['readonly'] = 0;
     $set['type'] = CONF_TYPE_BOOL;
     $freepbx_conf->define_conf_setting('SIGNATURECHECK',$set);
+
+	//AMPTRACKENABLE
+	$set['value'] = true;
+	$set['options'] = '';
+	$set['defaultval'] =& $set['value'];
+	$set['name'] = 'Enable Module Tracks';
+	$set['description'] = 'This enables the setting of module tracks (sub repositories of modules). Whereas a user could select a beta release track of a module or keep it on standard. Disabling this will force all modules into the stable track and disallow users to change the tracks';
+	$set['level'] = 2;
+	$set['emptyok'] = 0;
+	$set['module'] = '';
+	$set['hidden'] = 0;
+	$set['readonly'] = 0;
+	$set['type'] = CONF_TYPE_BOOL;
+	$freepbx_conf->define_conf_setting('AMPTRACKENABLE',$set);
 
   //
   // CATEGORY: Dialplan and Operational
@@ -1185,6 +1243,21 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['description'] = "This is the Asterisk Channel Variable TRANSFER_CONTEXT. In general it should NOT be changed unless you really know what you are doing. It is used to do create slightly different 'views' when a call is being transfered. An example is hiding the paging groups so a call isn't accidentally transfered into a page.";
 	$set['type'] = CONF_TYPE_TEXT;
 	$freepbx_conf->define_conf_setting('TRANSFER_CONTEXT', $set);
+	$set['hidden'] = 0;
+
+
+	// ASTCONFAPP
+	$set['value'] = 'both';
+	$set['options'] = array('both', 'chan_sip', 'chan_pjsip');
+	$set['readonly'] = 0;
+	$set['hidden'] = 0;
+	$set['level'] = 2;
+	$set['module'] = '';
+	$set['emptyok'] = 0;
+	$set['name'] = 'SIP Channel Driver';
+	$set['description'] = 'The Asterisk channel driver to use for SIP. The default is both for Asterisk 12 and higher. For Asterisk 11 and lower the default will be chan_sip. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The chan_pjsip channel driver is considered "experimental" with known issues and does not work on Asterisk 11 or lower.';
+	$set['type'] = CONF_TYPE_SELECT;
+	$freepbx_conf->define_conf_setting('ASTSIPDRIVER', $set);
 	$set['hidden'] = 0;
 
   //
