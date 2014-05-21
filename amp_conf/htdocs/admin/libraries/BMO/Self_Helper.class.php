@@ -112,7 +112,7 @@ class Self_Helper extends DB_Helper {
 		$this->loadObject($var);
 
 		// Now, we may have paramters (__call), or we may not..
-		if (isset($args[1])) {
+		if (isset($args[1]) && isset($args[1][0])) {
 			// We do. We were __call'ed. Sanity check
 			if (isset($args[1][1])) {
 				throw new Exception("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this.");
