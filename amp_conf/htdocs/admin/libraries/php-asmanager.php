@@ -547,6 +547,29 @@ class AGI_AsteriskManager {
 	}
 
 	/**
+	* Conference Bridge Event Catch
+	*
+	* This catches events obtained from the confbridge stream, it should not be used externally
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeListRooms
+	*/
+	private function Meetme_catch($event, $data, $server, $port) {
+		switch($event) {
+			case 'meetmelistcomplete':
+			case 'meetmelistroomscomplete':
+				/* HACK: Force a timeout after we get this event, so that the wait_response() returns. */
+				stream_set_timeout($this->socket, 0, 1);
+			break;
+			case 'meetmelist':
+				$this->response_catch[] =  $data;
+			break;
+			case 'meetmelistrooms':
+				$this->response_catch[] =  $data;
+			break;
+		}
+	}
+
+	/**
 	* Lock a Confbridge conference.
 	*
 	* Lock a Confbridge conference.
@@ -630,8 +653,8 @@ class AGI_AsteriskManager {
 	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeUnmute
 	* @param string $conference Conference number.
 	*/
-	function ConfbridgeUnmute($conference) {
-		return $this->send_request('ConfbridgeUnmute', array('Conference'=>$conference));
+	function ConfbridgeUnmute($conference,$channel) {
+		return $this->send_request('ConfbridgeUnmute', array('Conference'=>$conference,'Channel' => $channel));
 	}
 
 	/**
@@ -772,7 +795,17 @@ class AGI_AsteriskManager {
 	* @param string $conference Conference number.
 	*/
 	function MeetmeList($conference) {
-		return $this->send_request('MeetmeList', array('Conference'=>$conference));
+		$this->add_event_handler("meetmelist", array($this, 'Meetme_catch'));
+		$this->add_event_handler("meetmelistcomplete", array($this, 'Meetme_catch'));
+		$response = $this->send_request('MeetmeList', array('Conference'=>$conference));
+		if ($response["Response"] == "Success") {
+			$this->response_catch = array();
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		return $this->response_catch;
 	}
 
 	/**
@@ -783,7 +816,17 @@ class AGI_AsteriskManager {
 	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeListRooms
 	*/
 	function MeetmeListRooms() {
-		return $this->send_request('MeetmeListRooms');
+		$this->add_event_handler("meetmelistrooms", array($this, 'Meetme_catch'));
+		$this->add_event_handler("meetmelistroomscomplete", array($this, 'Meetme_catch'));
+		$response = $this->send_request('MeetmeListRooms');
+		if ($response["Response"] == "Success") {
+			$this->response_catch = array();
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		return $this->response_catch;
 	}
 
 	/**
