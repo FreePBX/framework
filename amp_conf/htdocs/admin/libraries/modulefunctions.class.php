@@ -2623,6 +2623,10 @@ class module_functions {
         $modules = array();
         $globalValidation = true;
         foreach($res as $mod) {
+			//Hide Framework for now.
+			if($mod['modulename'] == 'framework') {
+				continue;
+			}
             //TODO: determine if this should be in here or not.
             if(!$cached || empty($mod['signature'])) {
                 $mod['signature'] = $this->updateSignature($mod['modulename']);
