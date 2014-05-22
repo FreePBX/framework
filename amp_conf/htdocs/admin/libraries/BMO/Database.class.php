@@ -37,7 +37,7 @@
 class Database extends PDO {
 
 	public function __construct() {
-		$args = func_num_args();
+		$args = func_get_args();
 
 		if (is_object($args[0]) && get_class($args[0]) == "FreePBX") {
 			$this->FreePBX = $args[0];
@@ -60,7 +60,7 @@ class Database extends PDO {
 		}
 
 		if (isset($args[2])) {
-			$password = $args[3];
+			$password = $args[2];
 		} else {
 			$password = $amp_conf['AMPDBPASS'];
 		}
