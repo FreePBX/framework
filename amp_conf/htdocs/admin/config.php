@@ -109,6 +109,14 @@ if ($unlock) {
 		}
 }
 
+// determine if the user has a session time out set in advanced settings. If the timeout is 0 or not set, we don't force logout
+$sessionTimeOut = !empty($amp_conf['SESSION_TIMEOUT']) && is_numeric($amp_conf['SESSION_TIMEOUT']) ? $amp_conf['SESSION_TIMEOUT'] : false;
+if ($sessionTimeOut !== false) {
+	if (is_object($_SESSION['AMP_user']) && $_SESSION['AMP_user']->_created + $sessionTimeOut < time()) {
+		unset($_SESSION['AMP_user']);
+	}
+}
+
 /* If there is an action request then some sort of update is usually being done.
    This may protect from cross site request forgeries unless disabled.
  */

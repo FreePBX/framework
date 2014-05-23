@@ -2534,6 +2534,18 @@ function freepbx_settings_init($commit_to_db = false) {
 	$freepbx_conf->define_conf_setting('mainstyle_css_generated', $set);
   $set['hidden'] = 0;
 
+  //SESSION TIMER FOR AUTO LOGOUT
+  $set['value'] = '0';
+  $set['options'] = array(0, 2147483647);
+  $set['name'] = 'Session Timeout';
+  $set['description'] = 'Amount of seconds to allow a session to stay open before logging a user out';
+  $set['readonly'] = 0;
+  $set['hidden'] = 0;
+  $set['type'] = CONF_TYPE_INT;
+  $set['emptyok'] = 0;
+  $freepbx_conf->define_conf_setting('SESSION_TIMEOUT',$set);
+  $set['hidden'] = 0;
+
   // The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
   // retain their values until the individual modules are updated and their install scripts run where a full
   // configuration (descriptions, defaults, etc.) will be provided and maintained. This provides just enough to
