@@ -1,34 +1,14 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
-
-/*
- * This is the FreePBX BMO Database Helper
- *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
- */
-
 /**
+ * This is the FreePBX Big Module Object.
+ *
  * DB_Helper provides $this->getConfig and $this->setConfig
  *
  * This is for use with FreePBX's BMO
+ *
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
 
 class DB_Helper {
@@ -135,7 +115,7 @@ class DB_Helper {
 	 * if you getConfig('foo', 1), that will return (bool) false.
 	 *
 	 * @param string $var Key to request (not null)
-	 * @param string $id Optional sub-group ID. 
+	 * @param string $id Optional sub-group ID.
 	 * @return bool|string|array|StdObject Returns what was handed to setConfig, or bool false if it doesn't exist
 	 */
 	public function getConfig($var = null, $id = "noid") {
@@ -192,7 +172,7 @@ class DB_Helper {
 	 *
 	 * @param string $key Key to set $var to (not null)
 	 * @param string $var Value to set $key to. Can be (bool) false, which will delete the key.
-	 * @param string $id Optional sub-group ID. 
+	 * @param string $id Optional sub-group ID.
 	 * @return true
 	 */
 	public function setConfig($key = null, $val = false, $id = "noid") {
@@ -245,7 +225,7 @@ class DB_Helper {
 	 * and uses a transaction to speed up the commit.
 	 *
 	 * @param array $keyval
-	 * @param string $id Optional sub-group ID. 
+	 * @param string $id Optional sub-group ID.
 	 * @return true
 	 */
 	public function setMultiConfig($keyval = false, $id = "noid") {
@@ -266,7 +246,7 @@ class DB_Helper {
 	 * If no $id was provided, return all pairs that weren't set with an $id.
 	 * Returns an ordered list from however MySQL orders it (order by `key`)
 	 *
-	 * @param string $id Optional sub-group ID. 
+	 * @param string $id Optional sub-group ID.
 	 * @return array
 	 */
 	public function getAll($id = "noid") {
@@ -304,7 +284,7 @@ class DB_Helper {
 	 * If no $id was provided, return all pairs that weren't set with an $id.
 	 * Returns an ordered list from however MySQL orders it (order by `key`)
 	 *
-	 * @param string $id Optional sub-group ID. 
+	 * @param string $id Optional sub-group ID.
 	 * @return array
 	 */
 	public function getAllKeys($id = "noid") {
@@ -354,7 +334,7 @@ class DB_Helper {
 	 *
 	 * This normally is used to remove an item.
 	 *
-	 * @param string $id Optional sub-group ID. 
+	 * @param string $id Optional sub-group ID.
 	 * @return void
 	 */
 	public function delById($id = null) {

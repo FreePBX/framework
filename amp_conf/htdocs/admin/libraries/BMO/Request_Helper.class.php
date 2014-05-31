@@ -1,48 +1,27 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
-
-/*
- * This is the FreePBX BMO $_REQUEST Helper
- *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
- */
 /**
+ * This is the FreePBX Big Module Object.
+ *
  * Request_Helper provides a consistent way to catch $_REQUEST
  *
  * This loads everything provided in the GET/POST into the Key Value store.
  * As this is implicitly safe, there is no need for extra sanity checking,
  * and makes coding a pile easier
  *
- * This is for use with FreePBX's BMO.
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
+
 class Request_Helper extends Self_Helper {
 
 	/**
 	 * Processes $_REQUEST and saves the required things.
-	 * 
-	 * @param array $ignoreVars Array of variables to not process. 
+	 *
+	 * @param array $ignoreVars Array of variables to not process.
 	 * @param string $ignoreRgexp Regular expression to match exclusions against.
 	 *
 	 * @return array Returns any _REQUEST variables that haven't been processed.
-	 * @access private
 	 */
 	public function importRequest($ignoreVars = null, $ignoreRegexp = null) {
 

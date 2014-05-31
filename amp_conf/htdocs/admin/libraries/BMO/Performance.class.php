@@ -1,38 +1,37 @@
 <?php
+// vim: set ai ts=4 sw=4 ft=php:
 /**
  * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ * Performance logging
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
 class Performance {
 
 	private $doperf = false;
 
+	/**
+	 * Turn Performance Logging on
+	 */
 	public function On() { $this->doperf = true; }
 
+	/**
+	 * Turn Performance logging off
+	 */
 	public function Off() { $this->doperf = false; }
 
+	/**
+	 * Generate a stamp to the output
+	 *
+	 * Prints out microtime and memory usage from PHP
+	 *
+	 * @param {string} $str The stamp send out
+	 * @example "PERF/$str/".microtime()."/".memory_get_usage()."\n"
+	 */
 	public function Stamp($str) {
 		if ($this->doperf)
 			print "PERF/$str/".microtime()."/".memory_get_usage()."\n";
 	}
 }
-
