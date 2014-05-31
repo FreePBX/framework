@@ -3,25 +3,8 @@
 /**
  * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
 class GuiHooks {
 
@@ -73,7 +56,7 @@ class GuiHooks {
 					throw new Exception("Handed unknown stuff by $module");
 				}
 
-				// Now check for normal hooks 
+				// Now check for normal hooks
 				if ($val == $currentModule)
 					$retarr['hooks'][] = $module;
 			}
@@ -233,7 +216,7 @@ class GuiHooks {
 		// New style module? Here, have your data..
 		if ($class) {
 			$x = $this->FreePBX->Modules->getInfo($display);
-			if (isset($x[$display]) && $x[$display]['license'] == "Commercial") { 
+			if (isset($x[$display]) && $x[$display]['license'] == "Commercial") {
 				try { $this->doBMOConfigPage($class, $display); } catch (Exception $e) { }
 			} else {
 				$this->doBMOConfigPage($class, $display);

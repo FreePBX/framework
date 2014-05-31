@@ -3,30 +3,8 @@
 /**
  * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
- */
-/**
- * AJAX Handler
- *
- * Proof of concept
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
 class Ajax extends FreePBX_Helpers {
 
@@ -37,7 +15,7 @@ class Ajax extends FreePBX_Helpers {
 	public function __construct($UCP) {
 		$this->init();
 	}
-	
+
 	public function init() {
 		$this->getHeaders();
 	}
@@ -49,7 +27,6 @@ class Ajax extends FreePBX_Helpers {
 	 *
 	 * @param $module The module name
 	 * @param $command The command to execute
-	 * @access private
 	 */
 	public function doRequest($module = null, $command = null) {
 		if (!$module || !$command) {
@@ -72,7 +49,7 @@ class Ajax extends FreePBX_Helpers {
 			$ucMod = ucfirst($module);
 			$file = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/$ucMod.class.php";
 		}
-		
+
 		// Note, that Self_Helper will throw an exception if the file doesn't exist, or if it does
 		// exist but doesn't define the class.
 		$this->injectClass($ucMod, $file);
@@ -85,7 +62,7 @@ class Ajax extends FreePBX_Helpers {
 		if (!$thisModule->ajaxRequest($command, $this->settings)) {
 			$this->ajaxError(403, 'ajaxRequest declined');
 		}
-		
+
 		if (method_exists($thisModule, "ajaxCustomHandler")) {
 			$ret = $thisModule->ajaxCustomHandler();
 			if($ret === true) {
@@ -129,7 +106,7 @@ class Ajax extends FreePBX_Helpers {
 		if (!method_exists($thisModule, "ajaxHandler")) {
 			$this->ajaxError(501, 'ajaxHandler not found');
 		}
-		
+
 		// Right. Now we can actually do it!
 		$ret = $thisModule->ajaxHandler();
 		if($ret === false) {
@@ -161,7 +138,6 @@ class Ajax extends FreePBX_Helpers {
 	 *
 	 * @param $errnum The Error Number from addHeader()
 	 * @param $message The message to display
-	 * @access private
 	 */
 	public function ajaxError($errnum, $message = 'Unknown Error') {
 		$this->addHeader('HTTP/1.0',$errnum);
@@ -170,51 +146,46 @@ class Ajax extends FreePBX_Helpers {
 		echo $output;
 		exit;
 	}
-	
+
 	/**
 	 * Trigger a Fatal Error
 	 *
 	 * Trigger Fatal error
 	 *
 	 * @param $message The message to display
-	 * @access private
 	 */
 	private function triggerFatal($message = 'Unknown Error') {
 		$this->ajaxError(500, $message);
 	}
-	
+
 	/**
 	 * Gt URL
 	 *
 	 * Get The Ultimate Final URL
 	 *
 	 * @return string http url
-	 * @access private
 	 */
 	private function getUrl() {
 		return isset($_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'])
 			? $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
 			: '';
 	}
-	
+
 	/**
 	 * Get Body
 	 *
 	 * Get the raw HTML Body
 	 *
 	 * @return string The Raw Body Returned from PHP
-	 * @access private
 	 */
 	private function getBody() {
 		return empty($this->body) ? file_get_contents('php://input') : $this->body;
 	}
 
 	/**
-	 * Get Known Headers from the Remote 
+	 * Get Known Headers from the Remote
 	 *
 	 * Get headers and then store them in an object hash
-	 *
-	 * @access private 
 	 */
 	private function getHeaders() {
         $h = array(
@@ -287,21 +258,20 @@ class Ajax extends FreePBX_Helpers {
 		$this->req = new \StdClass();
 		$this->req->headers = $this->arrayToObject($h);
 	}
-	
+
 	/**
 	 * Get Server Protocol
 	 *
 	 * Not used yet
 	 *
 	 * @return string http
-	 * @access private 
 	 */
 	private function getProtocol() {
 		return isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on"
 			? 'https'
 			: 'http';
 	}
-	
+
 	/**
 	 * Prepare headers to be returned
 	 *
@@ -310,7 +280,6 @@ class Ajax extends FreePBX_Helpers {
 	 * @param mixed $type type of header to be returned
 	 * @param mixed $value value header should be set to
 	 * @return $object New Object
-	 * @access private 
 	 */
 	public function addHeader($type, $value = '') {
 		$responses = array(
@@ -363,13 +332,11 @@ class Ajax extends FreePBX_Helpers {
 
 		return true;
 	}
-	
+
 	/**
 	 * Send Headers to PHP
 	 *
 	 * Gets headers from this Object (if set) and sends them to the PHP compiler
-	 *
-	 * @access private 
 	 */
 	private function sendHeaders() {
 		//send http header
@@ -388,7 +355,7 @@ class Ajax extends FreePBX_Helpers {
 				unset($this->headers[$k]);
 			}
 		}
-		
+
 		//CORS: http://en.wikipedia.org/wiki/Cross-origin_resource_sharing
 		header('Access-Control-Allow-Headers:Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control, X-Auth-Token');
 		header('Access-Control-Allow-Methods: '.strtoupper($this->req->headers->verb));
@@ -396,7 +363,7 @@ class Ajax extends FreePBX_Helpers {
 		header('Access-Control-Max-Age:86400');
 		header('Allow: '.strtoupper($this->req->headers->verb));
 	}
-	
+
 	/**
 	 * Generate Response
 	 *
@@ -404,20 +371,19 @@ class Ajax extends FreePBX_Helpers {
 	 *
 	 * @param mixed $body Array of what should be in the body
 	 * @return string XML or JSON or WHATever
-	 * @access private 
 	 */
-    private function generateResponse($body) {
-        $ret = false;
+	private function generateResponse($body) {
+		$ret = false;
 
 		if(!is_array($body)) {
 			$body = array("message" => $body);
 		}
-		
+
 		$accepts = explode(",",$this->req->headers->accept);
 		foreach($accepts as $accept) {
 			//strip off content accept priority
 			$accept = preg_replace('/;(.*)/i','',$accept);
-	        switch($accept) {
+			switch($accept) {
 				/* case "text/xml":
 				case "application/xml":
 					$this->addHeader('Content-Type', 'text/xml');
@@ -431,14 +397,14 @@ class Ajax extends FreePBX_Helpers {
 					$this->addHeader('Content-Type', 'text/json');
 					return json_encode($body);
 					break;
-	        }
+			}
 		}
-		
+
 		//If nothing is defined then just default to showing json
 		$this->addHeader('Content-Type', 'text/json');
 		return json_encode($body);
-    }
-	
+	}
+
 	/**
 	 * Turn Array into an Object
 	 *
@@ -446,10 +412,8 @@ class Ajax extends FreePBX_Helpers {
 	 *
 	 * @param $arr The array
 	 * @return object The PHP Object
-	 * @access private
 	 */
 	private function arrayToObject($arr) {
 		return json_decode(json_encode($arr), false);
 	}
 }
-

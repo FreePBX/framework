@@ -1,41 +1,32 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
-
 /**
  * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
- */
-
-/*
  * For ease of use, this is a PDO Object. You can call it with standard
  * PDO paramaters, and it will connect as normal.
  *
  * However, if you just want to use it as a random Database thing, then
  * it'll figure out what you want to do and just do it, without you needing
  * to hold its hand.
+ *
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
 
 class Database extends PDO {
 
+	/**
+	 * Connecting to the Database object
+	 * If you pass nothing to this it will assume the default database
+	 *
+	 * Otherwise you can send it parameters that match PDO parameter settings:
+	 * PDO::__construct ( string $dsn [, string $username [, string $password [, array $options ]]] )
+	 *
+	 * You will then be returned a PDO Database object that you can work with
+	 * to manipulate databases outside of FreePBX, a good example of this is with
+	 * CDRs where the module has to connect to the external CDR Database
+	 */
 	public function __construct() {
 		$args = func_get_args();
 
@@ -83,7 +74,6 @@ class Database extends PDO {
 	 * @param $type string Type of query
 	 * @param $fetchmode int One of the PDO::FETCH_ methos (see http://www.php.net/manual/en/pdo.constants.php for info)
 	 */
-
 	public function sql($sql = null, $type = "query", $fetchmode = PDO::FETCH_BOTH) {
 		if (!$sql)
 			throw new Exception("No SQL Given to Database->sql()");
@@ -178,7 +168,7 @@ class Database extends PDO {
 	}
 
 	/**
-	 * COMPAT: escapeSimple - Wraps the suppied string in quotes.
+	 * COMPAT: escapeSimple - Wraps the supplied string in quotes.
 	 *
 	 * This wraps the requested string in quotes, and returns it. It's a bad idea. You should be using
 	 * prepared queries for this. At some point this will be deprecated and removed.
@@ -191,7 +181,7 @@ class Database extends PDO {
 	/**
 	 * HELPER: getOne - Returns first result
 	 *
-	 * Returns the first result of the first row of the query. Handy shortcot when you're doing
+	 * Returns the first result of the first row of the query. Handy shortcut when you're doing
 	 * a query that only needs one item returned.
 	 */
 	public function getOne($sql = null) {

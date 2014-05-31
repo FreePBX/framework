@@ -1,27 +1,12 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 /**
- * This is the FreePBX Big Module Object Notifications object.
+ * Notification Class
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ * Adds or Remove Notifications to and from the FreePBX Dashboard/Email
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO Notifications
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
 
 
@@ -50,7 +35,7 @@ class Notifications {
 
 	/**
 	 * Check to see if Notification Already exists
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 * @return int Returns the number of notifications per module & id
@@ -62,7 +47,7 @@ class Notifications {
 
 	/**
 	 * Add a Critical Notification Message
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 * @param string $display_text The text that will be displayed as the subject/header of the message
@@ -78,7 +63,7 @@ class Notifications {
 	}
 	/**
 	 * Add a Security Notification Message
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 * @param string $display_text The text that will be displayed as the subject/header of the message
@@ -94,7 +79,7 @@ class Notifications {
 	}
 	/**
 	 * Add an Update Notification Message
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 * @param string $display_text The text that will be displayed as the subject/header of the message
@@ -110,7 +95,7 @@ class Notifications {
 	}
 	/**
 	 * Add an Error Notification Message
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 * @param string $display_text The text that will be displayed as the subject/header of the message
@@ -126,7 +111,7 @@ class Notifications {
 	}
 	/**
 	 * Add a Warning Notification Message
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 * @param string $display_text The text that will be displayed as the subject/header of the message
@@ -142,7 +127,7 @@ class Notifications {
 	}
 	/**
 	 * Add a Notice Notification Message
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 * @param string $display_text The text that will be displayed as the subject/header of the message
@@ -159,7 +144,7 @@ class Notifications {
 
 	/**
 	 * List all Critical Messages
-	 * 
+	 *
 	 * @param bool $show_reset Show resettable messages
 	 * @return array Returns the list of Messages
 	 */
@@ -168,7 +153,7 @@ class Notifications {
 	}
 	/**
 	 * List all Security Messages
-	 * 
+	 *
 	 * @param bool $show_reset Show resettable messages
 	 * @return array Returns the list of Messages
 	 */
@@ -177,7 +162,7 @@ class Notifications {
 	}
 	/**
 	 * List all Update Messages
-	 * 
+	 *
 	 * @param bool $show_reset Show resettable messages
 	 * @return array Returns the list of Messages
 	 */
@@ -186,7 +171,7 @@ class Notifications {
 	}
 	/**
 	 * List all Error Messages
-	 * 
+	 *
 	 * @param bool $show_reset Show resettable messages
 	 * @return array Returns the list of Messages
 	 */
@@ -195,7 +180,7 @@ class Notifications {
 	}
 	/**
 	 * List all Warning Messages
-	 * 
+	 *
 	 * @param bool $show_reset Show resettable messages
 	 * @return array Returns the list of Messages
 	 */
@@ -204,7 +189,7 @@ class Notifications {
 	}
 	/**
 	 * List all Notice Messages
-	 * 
+	 *
 	 * @param bool $show_reset Show resettable messages
 	 * @return array Returns the list of Messages
 	 */
@@ -213,7 +198,7 @@ class Notifications {
 	}
 	/**
 	 * List all Messages
-	 * 
+	 *
 	 * @param bool $show_reset Show resettable messages
 	 * @return array Returns the list of Messages
 	 */
@@ -224,7 +209,7 @@ class Notifications {
 
 	/**
 	 * Reset the status (hidden/shown) notifications of module & id
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 */
@@ -237,7 +222,7 @@ class Notifications {
 	}
 	/**
 	 * Forcefully Delete notifications of all specified level
-	 * 
+	 *
 	 * @param NOTIFICAION LEVEL or blank for ALL levels
 	 */
 	function delete_level($level="") {
@@ -252,7 +237,7 @@ class Notifications {
 
 	/**
 	 * Forcefully Delete notifications of module & id
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 */
@@ -266,7 +251,7 @@ class Notifications {
 
 	/**
 	 * Delete notifications of module & id if it is allowed by `candelete`
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 */
@@ -281,7 +266,7 @@ class Notifications {
 	/**
 	 * Ignore all future notifications for this type and delete
 	 * if there are currently any
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 */
@@ -313,9 +298,9 @@ class Notifications {
 
 	/**
 	 * Start paying attention to this notification type again
-	 * 
+	 *
 	 * Undoes the effect of method ignore_forever
-	 * 
+	 *
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
 	 */
@@ -333,7 +318,7 @@ class Notifications {
 
 	/**
 	 * Add a Notification Message
-	 * 
+	 *
 	 * @param const $level Notification Level
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
@@ -343,7 +328,7 @@ class Notifications {
 	 * @param bool $reset Reset notification on module update
 	 * @param bool $candelete If the notification can be deleted by the user on the notifications display page
 	 * @return int Returns the number of notifications per module & id
-	 * @ignore 
+	 * @ignore
 	 */
 	function _add_type($level, $module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
 		global $amp_conf;
@@ -407,9 +392,9 @@ class Notifications {
 			$display_text  = q($display_text);
 			$extended_text = q($extended_text);
 			$link          = q($link);
-			$sql = "INSERT INTO notifications 
+			$sql = "INSERT INTO notifications
 				(module, id, level, display_text, extended_text, link, reset, candelete, timestamp)
-				VALUES 
+				VALUES
 				($module, $id, $level, $display_text, $extended_text, $link, 0, $candelete, $now)
 				";
 			sql($sql);
@@ -422,7 +407,7 @@ class Notifications {
 
 	/**
 	 * List Messages by Level
-	 * 
+	 *
 	 * @param const $level Notification Level to show (can be blank for all)
 	 * @param bool $show_reset Show resettable messages
 	 * @return array Returns the list of Messages
@@ -460,7 +445,7 @@ class Notifications {
 
 	/**
 	 * FreePBX Logging
-	 * 
+	 *
 	 * @param const $level Notification Level to show (can be blank for all)
 	 * @param string $module Raw name of the module requesting
 	 * @param string $id ID of the notification
@@ -476,7 +461,7 @@ class Notifications {
 			freepbx_log($level,"[NOTIFICATION]-[$module]-[$id] - $display_text");
 		}
 	}
-	/** 
+	/**
 	 * Returns the number of active notifications
 	 *
 	 * @return int Number of active Notifications

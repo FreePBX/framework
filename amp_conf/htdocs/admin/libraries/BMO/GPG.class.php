@@ -1,35 +1,16 @@
 <?php
-// vim: :set filetype=php tabstop=4 shiftwidth=4 autoindent smartindent:
+// vim: set ai ts=4 sw=4 ft=php:
 /**
- * This is part of the FreePBX Big Module Object.
+ * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
- */
-
-/**
  * GPG Class for FreePBX's BMO.
  *
  * This is an interface to GPG, for validating FreePBX Modules.
  * It uses the GPG Web-of-trust to ensure modules are valid
  * and haven't been tampered with.
+ *
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
 class GPG {
 
@@ -120,7 +101,6 @@ class GPG {
 	 * @param string Module name
 	 * @return array (status => GPG::STATE_whatever, details => array (details, details))
 	 */
-
 	public function verifyModule($module = null) {
 		if (!$module) {
 			throw new Exception("No module to check");
@@ -169,10 +149,11 @@ class GPG {
 	 *
 	 * If no key is provided, install the FreePBX key.
 	 * Throws an exception if unable to find the key requested
+	 * @param string $key The key to get?
 	 */
 	public function getKey($key = null) {
 		// If we weren't given one, then load the FreePBX Key
-		$key = $this->freepbxkey;
+		$key = !empty($key) ? $key : $this->freepbxkey;
 
 		// Lets make sure we don't already have that key.
 		$out = $this->runGPG("--list-keys $key");
@@ -267,6 +248,7 @@ class GPG {
 	 * This saves the file, minus the .gpg extension, to the same directory
 	 * the .gpg file is in. It returns the filename of the output file if
 	 * valid, throws an exception if unable to validate
+	 * @param string $filename The filename to check
 	 */
 	public function getFile($filename) {
 		// Trust that we have the key?
@@ -356,6 +338,7 @@ class GPG {
 
 	/**
 	 * Get list of files in a directory
+	 * @param string $dir The directory to get the file list of/from
 	 */
 	private function getFileList($dir) {
 		// When we require PHP5.4, use RecursiveDirectoryIterator.
@@ -368,6 +351,9 @@ class GPG {
 
 	/**
 	 * Recursive routine for getFileList
+	 * @param string $dir The directory to recurse into
+	 * @param array $retarry The returned array
+	 * @param string $strip What to strip off of the directory
 	 */
 	private function recurseDirectory($dir, &$retarr, $strip) {
 
@@ -389,6 +375,7 @@ class GPG {
 
 	/**
 	 * Generate list of hashes to validate
+	 * @param string $dir the directory
 	 */
 	public function getHashes($dir) {
 		if (!is_dir($dir)) {
@@ -410,6 +397,7 @@ class GPG {
 	 *
 	 * If it's valid, return the processed contents of the sig file.
 	 * If it's not valid, return false.
+	 * @param string $sigfile The signature file we will check against
 	 */
 	public function checkSig($sigfile) {
 		if (!is_file($sigfile)) {
@@ -429,6 +417,7 @@ class GPG {
 	/**
 	 * Check the return status of GPG to validate
 	 * a signature
+	 * @param string $status the status to check
 	 */
 	private function checkStatus($status) {
 		if (!is_array($status)) {

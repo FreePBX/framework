@@ -3,44 +3,41 @@
 /**
  * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ * Add and remove Entries from Asterisk Configuration Files.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
 class ConfigFile {
 
 	public $config;
 	private $file;
-	
 
+
+	/**
+	 * ConfigFile Constructor.
+	 * @param  {object} $freepbx = null The FreePBX Object
+	 * @param  {string} $file    = null filename to load
+	 */
 	public function __construct($freepbx = null, $file = null) {
-		if ($freepbx == null)
+		if ($freepbx == null) {
 			throw new Exception("Not given a FreePBX Object");
+		}
 		$this->FreePBX = $freepbx;
 
-		if ($file == null)
+		if ($file == null) {
 			throw new Exception("Not given a file to manage");
+		}
 
 		$this->config = $this->FreePBX->LoadConfig($file);
 		$this->file = $file;
 	}
 
+	/**
+	 * Add Entry to Configuration file that has been loaded
+	 * @param {string} $section The section we are adding the value to
+	 * @param {mixed} $entry = null The value, can be array or string
+	 */
 	public function addEntry($section, $entry = null) {
 		// If we don't have an $entry, then we're just adding to the file
 		if ($entry === null) {
@@ -50,8 +47,9 @@ class ConfigFile {
 			// which section its in.
 			$myconfig = $this->config->ProcessedConfig;
 			unset($myconfig['HEADER']);
-			if (!empty($myconfig))
+			if (!empty($myconfig)) {
 				throw new Exception("Tried to add string '$entry' to ".$this->file.", but it has sections.");
+			}
 
 			$this->doAdd('HEADER', $section); // Not section. Entry.
 		} elseif (is_string($entry)) {
@@ -67,6 +65,12 @@ class ConfigFile {
 		$this->updateConfig();
 	}
 
+	/**
+	 * Remove an entry from the write buffer
+	 * @param {string} $section The section we are removing the value from
+	 * @param {string} $key     The key we are looking for
+	 * @param {string} $val = null The value we are looking to remove, if blank then remove it regardless of value
+	 */
 	public function removeEntry($section, $key, $val = null) {
 		// Lets find it!
 
@@ -102,6 +106,12 @@ class ConfigFile {
 		$this->updateConfig();
 	}
 
+	/**
+	 * Add an individual setting, this should not be called externally!
+	 * @param {string} $section The section to add to
+	 * @param {string} $key     The key we are adding the value to
+	 * @param {string} $val = false the value of the key
+	 */
 	private function doAdd($section, $key, $val = false) {
 		// If $val is false, split the = in $key
 		if ($val === false) {
@@ -113,7 +123,7 @@ class ConfigFile {
 			}
 		}
 
-		// Now, lets check if this key already exists in this section. 
+		// Now, lets check if this key already exists in this section.
 		// A lot of the time it will. But we may be adding the second one..
 		if (!isset($this->config->ProcessedConfig[$section][$key])) {
 			// Easy. New one.
@@ -140,8 +150,10 @@ class ConfigFile {
 		return;
 	}
 
+	/**
+	 * Write out the configuration that we processed from memory
+	 */
 	private function updateConfig() {
 		$this->FreePBX->WriteConfig(array($this->file => $this->config->ProcessedConfig));
 	}
 }
-

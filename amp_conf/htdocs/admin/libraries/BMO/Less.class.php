@@ -1,28 +1,14 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 /**
- * This is the FreePBX Big Module Object Wrapper for Less.
+ * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Andrew Nagy <andrew.nagy@schmoozecom.com>
+ * Object wrapper for the less compiler in FreePBX
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Andrew Nagy <andrew.nagy@schmoozecom.com>
- * @license   AGPL v3
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
+
 require_once dirname(dirname(__FILE__)).'/less/Less.php';
 
 class Less extends Less_Parser {

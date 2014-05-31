@@ -1,51 +1,41 @@
 <?php
+// vim: set ai ts=4 sw=4 ft=php:
 /**
+ * This is the FreePBX Big Module Object.
+ *
  * This is the Cron Handler for the FreePBX Big Module Object.
+ * Cron Class. Adds and removes entries to Crontab.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ * If run as root, can manage any user:
+ *   $cron = new Cron('username');
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
+ * Otherwise manages current user.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
+ * $cron->add("@monthly /bin/true");
+ * $cron->remove("@monthly /bin/true");
+ * $cron->add(array("magic" => "@monthly", "command" => "/bin/true"));
+ * $cron->add(array("hour" => "1", "command" => "/bin/true"));
+ * $cron->removeAll("/bin/true");
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
-
-// Cron Class. Adds and removes entries to Crontab. 
-// 
-// If run as root, can manage any user:
-//   $cron = new Cron('username');
-//
-// Otherwise manages current user.
-//
-// $cron->add("@monthly /bin/true");
-// $cron->remove("@monthly /bin/true");
-// $cron->add(array("magic" => "@monthly", "command" => "/bin/true"));
-// $cron->add(array("hour" => "1", "command" => "/bin/true"));
-// $cron->removeAll("/bin/true");
 
 class Cron {
 
 	private $user;
 	private $uoption = "";
 
+	/**
+	 * Constructor for Cron Tab Manager Class
+	 * @param  {mixed} $var1 = 'asterisk' Can either be a FreePBX object or just a username to manage crons for
+	 * @param  {string} $var2 = 'asterisk' Username to manage crons for
+	 */
 	public function __construct($var1 = 'asterisk', $var2 = 'asterisk') {
 
-		// Lets figure out if we were given a FreePBX Object, or,
-		// a user.
+		// Lets figure out if we were given a FreePBX Object, or a user.
 		if (is_object($var1)) {
+			$this->freepbx = $var1;
 			$user = $var2;
 		} else {
 			$user = $var1;
@@ -64,7 +54,10 @@ class Cron {
 
 	}
 
-	// Returns an array of all the lines for the user
+	/**
+	 * Returns an array of all the lines for the user
+	 * @return array Crontab lines for user
+	 */
 	public function getAll() {
 		exec('/usr/bin/crontab '.$this->uoption.' -l 2>&1', $output, $ret);
 		if (preg_match('/^no crontab for/', $output[0]))
@@ -73,7 +66,11 @@ class Cron {
 		return $output;
 	}
 
-	// Returns true or false if the line exactly exists in this users crontab
+	/**
+	 * Checks if the line exists exactly as is in this users crontab
+	 * @param {string} $line Line to check
+	 * @return {bool} True or false if the line exists
+	 */
 	public function checkLine($line = null) {
 		if ($line == null)
 			throw new Exception("Null handed to checkLine");
@@ -82,7 +79,11 @@ class Cron {
 		return in_array($line, $allLines);
 	}
 
-	// Add the exact line given to this users crontab
+	/**
+	 * Add the line given to this users crontab
+	 * @param {string} $line The line to add
+	 * @return {bool} Return true if the line was added
+	 */
 	public function addLine($line) {
 		$line = trim($line);
 		$backup = $this->getAll();
@@ -97,14 +98,26 @@ class Cron {
 			$this->installCrontab($backup);
 			throw new Exception("Cron line added didn't remain in crontab on final check");
 		} else {
-			// It was already there. 
+			// It was already there.
 			return true;
 		}
 	}
 
-	// Remove the line given (if it exists) from this users crontab.
-	// Note: This will only remove the first if there's a duplicate.
-	// Returns true if removed, false if not found.
+	/**
+	 * Alias of the function below, removing a line
+	 * @param {string} $line The line to remove
+	 * @return {bool} True, if removed, false if not found
+	 */
+	public function removeLine($line) {
+		return $this->remove($line);
+	}
+
+	/**
+	 * Remove the line given (if it exists) from this users cronttab.
+	 * Note: this will only remove the first if there's a duplicate.
+	 * @param  {string} $line The line to remove
+	 * @return {bool} True if removed, false if not found
+	 */
 	public function remove($line) {
 		$line = trim($line);
 		$backup = $this->getAll();
@@ -120,22 +133,22 @@ class Cron {
 		}
 	}
 
-	// Add an entry to Cron. Takes either a direct string, or an array of the following options:
-	// Either (a string): 
-	//   * * * * * /bin/command/to/run
-	// or
-	//  array (
-	//    array("command" => "/bin/command/to/run",  "minute" => "1"), // Runs command at 1 minute past the hour, every hour
-	//    array("command" => "/bin/command/to/run", "magic" => "@hourly"), // Runs it hourly
-	//    "* * * * * /bin/command/to/run",
-	//    array("@monthly /bin/command/to/run"), // Runs it monhtly
-	//  )
-	//
-	//  See the end of 'man 5 crontab' for the extension commands you can use. 
-	// 
-	// crontab does sanity checking when importing a crontab. If this is throwing an exception
-	// about being unable to add an entry,check the error file /tmp/cron.error for reasons.
-
+	/**
+	 * Add an entry to Cron. Takes either a direct string, or an array of the following options:
+	 * Either (a string):
+	 *   * * * * * /bin/command/to/run
+	 * or
+	 *  array (
+	 *    array("command" => "/bin/command/to/run",  "minute" => "1"), // Runs command at 1 minute past the hour, every hour
+	 *    array("command" => "/bin/command/to/run", "magic" => "@hourly"), // Runs it hourly
+	 *    "* * * * * /bin/command/to/run",
+	 *    array("@monthly /bin/command/to/run"), // Runs it monhtly
+	 *  )
+	 *
+	 * See the end of 'man 5 crontab' for the extension commands you can use.
+	 * crontab does sanity checking when importing a crontab. If this is throwing an exception
+	 * about being unable to add an entry,check the error file /tmp/cron.error for reasons.
+	 */
 	public function add() {
 		// Takes either an array, or a series of params
 		$args = func_get_args();
@@ -178,7 +191,10 @@ class Cron {
 		}
 	}
 
-	// Removes all reference of $cmd in cron
+	/**
+	 * Removes all reference of $cmd in cron
+	 * @param {string} $cmd The command to remove
+	 */
 	public function removeAll($cmd) {
 		$crontab = $this->getAll();
 		$changed = false;
@@ -204,8 +220,11 @@ class Cron {
 		if ($changed)
 			$this->installCrontab($crontab);
 	}
-	
-	// Actually import the stuff to the crontab
+
+	/**
+	 * Actually import the stuff to the crontab
+	 * @param {array} $arr The array of elements to add
+	 */
 	private function installCrontab($arr) {
 		// Run crontab, hand it the array as stdin
 		$fds = array( array('pipe', 'r'), array('pipe', 'w'), array('file', '/tmp/cron.error', 'a') );
