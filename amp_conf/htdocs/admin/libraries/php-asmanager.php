@@ -470,6 +470,36 @@ class AGI_AsteriskManager {
 	}
 
 	/**
+	 * Get and parse codecs
+	 * @param {string} $type='audio' Type of codec to look up
+	 */
+	function Codecs($type='audio') {
+		$type = strtolower($type);
+		switch($type) {
+			case 'video':
+				$ret = $this->Command('core show codecs video');
+			break;
+			case 'text':
+				$ret = $this->Command('core show codecs text');
+				dbug($ret['data']);
+			break;
+			case 'image':
+				$ret = $this->Command('core show codecs image');
+			break;
+			case 'audio':
+			default:
+				$ret = $this->Command('core show codecs audio');
+			break;
+		}
+
+		if(preg_match_all('/\d{6}\s*'.$type.'\s*([a-z0-9]*)\s/i',$ret['data'],$matches)) {
+			return $matches[1];
+		} else {
+			return array();
+		}
+	}
+
+	/**
 	* Kick a Confbridge user.
 	*
 	* Kick a Confbridge user.
