@@ -2535,7 +2535,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['hidden'] = 0;
 
   //SESSION TIMER FOR AUTO LOGOUT
-  $set['value'] = '0';
+  $set['value'] = 2592000; //30 days in seconds
   $set['options'] = array(0, 2147483647);
   $set['name'] = 'Session Timeout';
   $set['description'] = 'Amount of seconds to allow a session to stay open before logging a user out';
