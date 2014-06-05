@@ -38,7 +38,7 @@ class GPG {
 	// Our path to GPG.
 	private $gpg = "/usr/bin/gpg";
 	// Default options.
-	private $gpgopts = "--keyserver-options auto-key-retrieve=true";
+	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true";
 
 	// This is how long we should wait for GPG to run a command.
 	// This may need to be tuned on things like the pi.
@@ -207,8 +207,8 @@ class GPG {
 		$out = $this->runGPG("--export-ownertrust");
 		$stdout = explode("\n", $out['stdout']);
 		array_pop($stdout); // Remove trailing blank line.
-		if (strpos($stdout[0], "# List of assigned trustvalues") !== 0) {
-			throw new Exception("gpg --export-ownertrust didn't return sane stuff");
+		if (isset($stdout[0]) && strpos($stdout[0], "# List of assigned trustvalues") !== 0) {
+			throw new Exception("gpg --export-ownertrust didn't return sane stuff - ".json_encode($out));
 		}
 
 		$trusted = false;
@@ -273,6 +273,27 @@ class GPG {
 	 * @return array returns assoc array consisting of (array)status, (string)stdout, (string)stderr and (int)exitcode
 	 */
 	public function runGPG($params, $stdin = null) {
+
+		// Re #7429 - Always use the AMPASTERISKWEBUSER homedir for gpg config.
+		$webuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+		if (!$webuser) {
+			throw new Exception("I don't know who I should be running GPG as.");
+		}
+		// We need to ensure that we can actually read the GPG files.
+		$web = posix_getpwnam($webuser);
+		if (!$web) {
+			throw new Exception("I tried to find out about $webuser, but the system doesn't think that user exists");
+		}
+		$home = $web['dir'];
+		if (!is_dir($home)) {
+			throw new Exception("Can't seem to find the homedir of $webuser - $home");
+		}
+		if (is_writable($home.".gnupg") || (is_writable($home) && !is_dir($home.".gnupg"))) {
+			$homedir = "--homedir ${home}.gnupg/";
+		} else {
+			throw new Exception("Don't have permission/can't write to ${home}.gnupg");
+		}
+
 		$fds = array(
 			array("file", "/dev/null", "r"), // stdin
 			array("pipe", "w"), // stdout
@@ -289,13 +310,12 @@ class GPG {
 		// Luckily, we know just the right things to say...
 		if (!isset($this->gpgenv)) {
 			$this->gpgenv['PATH'] = "/bin:/usr/bin";
-			$me = posix_getpwuid(posix_getuid());
-			$this->gpgenv['USER'] = $me['name'];
-			$this->gpgenv['HOME'] = $me['dir'];
-			$this->gpgenv['SHELL'] = $me['shell'];
+			$this->gpgenv['USER'] = $webuser;
+			$this->gpgenv['HOME'] = $home;
+			$this->gpgenv['SHELL'] = "/bin/bash";
 		}
 
-		$proc = proc_open($this->gpg." ".$this->gpgopts." --status-fd 3 $params", $fds, $pipes, "/tmp", $this->gpgenv);
+		$proc = proc_open($this->gpg." $homedir ".$this->gpgopts." --status-fd 3 $params", $fds, $pipes, "/tmp", $this->gpgenv);
 		if (!is_resource($proc)) { // Unable to start!
 			throw new Exception("Unable to start PGP");
 		}

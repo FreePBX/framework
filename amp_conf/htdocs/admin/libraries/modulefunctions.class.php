@@ -604,7 +604,7 @@ class module_functions {
 			// create the modulelist so it is static and does not need to be recreated
 			// in subsequent calls
 			//
-			$modulelist =& modulelist::create($db);
+			$modulelist = modulelist::create($db);
 			if ($forceload) {
 				$modulelist->invalidate();
 			}
