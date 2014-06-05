@@ -207,8 +207,8 @@ class GPG {
 		$out = $this->runGPG("--export-ownertrust");
 		$stdout = explode("\n", $out['stdout']);
 		array_pop($stdout); // Remove trailing blank line.
-		if (strpos($stdout[0], "# List of assigned trustvalues") !== 0) {
-			throw new Exception("gpg --export-ownertrust didn't return sane stuff");
+		if (isset($stdout[0]) && strpos($stdout[0], "# List of assigned trustvalues") !== 0) {
+			throw new Exception("gpg --export-ownertrust didn't return sane stuff - ".json_encode($out));
 		}
 
 		$trusted = false;
@@ -289,7 +289,7 @@ class GPG {
 			throw new Exception("Can't seem to find the homedir of $webuser - $home");
 		}
 		if (is_writable($home.".gnupg") || (is_writable($home) && !is_dir($home.".gnupg"))) {
-			$homedir = "--homedir $home";
+			$homedir = "--homedir ${home}.gnupg/";
 		} else {
 			throw new Exception("Don't have permission/can't write to ${home}.gnupg");
 		}
