@@ -189,7 +189,6 @@
 
         if($this->audio) stream_set_blocking($this->audio, 0);
       }
-
     }
 
    // *********************************************************************************************************
@@ -1520,6 +1519,13 @@
     {
       $broken = array('code'=>500, 'result'=>-1, 'data'=>'');
 
+      // FREEPBX-7204 - Discard any cruft, errors, etc, that may have been
+      // produced by Asterisk on startup. This is single threaded here, so
+      // dropping anything pending hopefully shouldn't cause issues.
+      stream_set_blocking($this->in, 0);
+      while (fgets($this->in) !== false) { } // Discard
+      stream_set_blocking($this->in, 1);
+      
       // write command
       if(is_null($this->socket))
       {
@@ -1773,4 +1779,3 @@
     }
   }
   $phpagi_error_handler_email = NULL;
-?>
