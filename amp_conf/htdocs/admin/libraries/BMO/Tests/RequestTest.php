@@ -12,6 +12,7 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 		$_REQUEST['test2'] = "two";
 		$_REQUEST['test3'] = "3";
 		$_REQUEST['test4'] = "'<>\"";
+		$_REQUEST['radio'] = "radio=poot";
 	}
 
 	public function testRequest() {
@@ -29,7 +30,32 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 		$f->setReq('test1', false);
 		$this->assertEquals($f->getReq('test1'), false, "Unable to delete a request");
 		$this->assertEquals($f->getReq('test6'), false, "Found a request that didn't exist");
+	}
 
+	public function testRequestAll() {
+		$f = self::$f;
+		$f->delById('testreq');
+		$this->assertEquals($f->getConfig("test1", "testreq"), "", "Test1 still exists");
+		$this->assertEquals($f->getConfig("radio", "testreq"), "", "radio shouldn't exist for the first time");
+		$f->importRequest(null, null, "testreq");
+		$this->assertEquals($f->getConfig("test1", "testreq"), "1", "Test1 didn't import");
+		$f->delById('testreq');
+		$this->assertEquals($f->getConfig("test1", "testreq"), "", "Test1 still exists");
+		$f->importRequest(array("test1", "radio"), null, "testreq");
+		$this->assertEquals($f->getConfig("test1", "testreq"), "", "Test1 shouldn't exist");
+		$this->assertEquals($f->getConfig("radio", "testreq"), "", "Excluded radio, it's still here");
+		$f->delById('testreq');
+		$f->importRequest(array("test1"), null, "testreq");
+		$this->assertEquals($f->getConfig("test1", "testreq"), "", "Test1 shouldn't exist");
+		$this->assertEquals($f->getConfig("radio", "testreq"), "poot", "Radio button not parsed correctly");
+		$f->delById('testreq');
+		$r = $f->importRequest(array("test1"), "/[34]$/", "testreq");
+		$this->assertEquals($f->getConfig("test3", "testreq"), "", "Test3 shouldn't exist");
+		$this->assertEquals($f->getConfig("test2", "testreq"), "two", "Test2 not loaded");
+		$this->assertEquals($f->getConfig("radio", "testreq"), "poot", "Radio button not loaded");
+		$this->assertEquals($r['test1'], 1, "Unloaded variable 1 not returned");
+		$this->assertEquals($r['test3'], "3", "Unloaded variable 3 not returned");
+		$this->assertEquals($r['test4'], "'<>\"", "Unloaded variable 4 not returned");
 	}
 
 }

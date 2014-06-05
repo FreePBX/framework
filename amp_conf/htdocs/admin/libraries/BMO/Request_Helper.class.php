@@ -20,18 +20,20 @@ class Request_Helper extends Self_Helper {
 	 *
 	 * This loads everything provided in the GET/POST into the Key Value store.
 	 * As this is implicitly safe, there is no need for extra sanity checking,
-	 * and makes coding a pile easier
+	 * and makes coding a pile easier.
 	 * This does NOT use any of the Override features provided by
 	 * getReq and setReq.
 	 *
 	 * @param array $ignoreVars Array of variables to not process.
 	 * @param string $ignoreRgexp Regular expression to match exclusions against.
+	 * @param string $id ID to store the contents against.
 	 *
 	 * @return array Returns any _REQUEST variables that haven't been processed.
 	 */
-	public function importRequest($ignoreVars = null, $ignoreRegexp = null) {
+	public function importRequest($ignoreVars = null, $ignoreRegexp = null, $id = "noid") {
 
 		$request = $_REQUEST;
+		$ignored = array();
 
 		// Default ignoreVars
 		if (!$ignoreVars) {
@@ -60,20 +62,20 @@ class Request_Helper extends Self_Helper {
 			}
 
 			// Is it a Radio button?  It'll return $r['foo'] = 'foo=var';
-			if (preg_match("/${$key}=(.+)/", $var, $match)) {
+			if (preg_match("/^$key=(.+)$/", $var, $match)) {
 				// It is.
-				$this->setConfig($key, $match[1]);
+				$this->setConfig($key, $match[1], $id);
 				continue;
 			}
 
 			// Always replace _'s with .'s. Easier to do it here
 			$key = str_replace("_", ".", $key);
 
-			$this->setConfig($key, $var);
+			$this->setConfig($key, $var, $id);
 		}
 
 		// Now we return what was left over.
-		if (!is_array($ignored)) {
+		if (!$ignored) {
 			return array();
 		} else {
 			return $ignored;
