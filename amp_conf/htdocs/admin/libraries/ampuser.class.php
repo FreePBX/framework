@@ -28,7 +28,7 @@ class ampuser {
 			$this->_created = false;
 		}
 	}
-	
+
 	/** Give this user full admin access
 	*/
 	function setAdmin() {
@@ -36,18 +36,21 @@ class ampuser {
 		$this->_extension_low = "";
 		$this->_deptname = "";
 		$this->_sections = array("*");
+		if ($this->_created === false) {
+			$this->_created = time();
+		}
 	}
-	
+
 	function checkPassword($password) {
 		// strict checking so false will never match
 		return ($this->_password === $password);
 	}
-	
+
 	function checkSection($section) {
 		// if they have * then it means all sections
 		return in_array("*", $this->_sections) || in_array($section, $this->_sections);
 	}
-	
+
 	function getAmpUser($username) {
 		global $db;
 
