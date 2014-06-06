@@ -284,10 +284,16 @@ class GPG {
 		if (!$web) {
 			throw new Exception("I tried to find out about $webuser, but the system doesn't think that user exists");
 		}
-		$home = $web['dir'];
+		$home = trim($web['dir']);
 		if (!is_dir($home)) {
 			throw new Exception("Can't seem to find the homedir of $webuser - $home");
 		}
+
+		// If $home doesn't end with /, add it.
+		if (substr($home, -1) != "/") {
+			$home .= "/";
+		}
+
 		if (is_writable($home.".gnupg") || (is_writable($home) && !is_dir($home.".gnupg"))) {
 			$homedir = "--homedir ${home}.gnupg/";
 		} else {
