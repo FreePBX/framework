@@ -1,6 +1,6 @@
 <?php
 
-class RequestTest extends PHPUnit_Framework_TestCase {
+class GPGTest extends PHPUnit_Framework_TestCase {
 
 	protected static $f;
 
