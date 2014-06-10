@@ -34,6 +34,7 @@
  * and in all calling functions.
  */
 define("CONF_TYPE_BOOL",   'bool');
+define("CONF_TYPE_TEXTAREA",   'textarea');
 define("CONF_TYPE_TEXT",   'text');
 define("CONF_TYPE_DIR",    'dir');
 define("CONF_TYPE_INT",    'int');
@@ -791,6 +792,7 @@ class Freepbx_conf {
         }
       }
     break;
+    case CONF_TYPE_TEXTAREA:
     case CONF_TYPE_TEXT:
     case CONF_TYPE_DIR:
       if (isset($vars['options'])) {
@@ -1029,6 +1031,7 @@ class Freepbx_conf {
       //       |
       //       V
     case CONF_TYPE_TEXT:
+    case CONF_TYPE_TEXTAREA:
       if ($value == '' && !$emptyok) {
         $this->_last_update_status['validated'] = false;
         $this->_last_update_status['msg'] = _("Empty value not allowed for this field");
