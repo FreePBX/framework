@@ -1,26 +1,10 @@
 <?php
+// vim: set ai ts=4 sw=4 ft=php:
 /**
  * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
 // Define and document the BMO Interface
 
@@ -72,9 +56,9 @@ interface BMO  {
 	// Backup and Restore //
 	// ////////////////// //
 	// These functions are called when the Backup/Restore module runs.
-	public function backup(); 
+	public function backup();
 	// When called, return a string or array that will allow the module to rebuild its
-	// configuration. 
+	// configuration.
 	//
 	public function restore($backup);
 	// When called, assume that your existing database is in an indeterminate state, and
@@ -87,7 +71,7 @@ interface BMO  {
 	// FreePBX UI //
 	// ////////// //
 	// This is called from config.php?display=thismodulename and the entire $_REQUEST is
-	// passed to it. For compatibility, you can print/echo things here, and they will 
+	// passed to it. For compatibility, you can print/echo things here, and they will
 	// appear in the right place, however, it should be returning an array, or an Object.
 	// public function showPage($request);
 
@@ -116,7 +100,7 @@ interface BMO  {
 	// Asterisk Configuration Files //
 	// //////////////////////////// //
 	// When the 'reload' button is clicked, genConfig will be called, the output will
-	// be given to any modules that requested it, and what they return will then be 
+	// be given to any modules that requested it, and what they return will then be
 	// given to writeConfig.
 	// public function genConfig();
 	//

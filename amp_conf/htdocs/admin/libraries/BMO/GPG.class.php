@@ -1,35 +1,16 @@
 <?php
-// vim: :set filetype=php tabstop=4 shiftwidth=4 autoindent smartindent:
+// vim: set ai ts=4 sw=4 ft=php:
 /**
- * This is part of the FreePBX Big Module Object.
+ * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
- */
-
-/**
  * GPG Class for FreePBX's BMO.
  *
  * This is an interface to GPG, for validating FreePBX Modules.
  * It uses the GPG Web-of-trust to ensure modules are valid
  * and haven't been tampered with.
+ *
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
 class GPG {
 
@@ -57,7 +38,7 @@ class GPG {
 	// Our path to GPG.
 	private $gpg = "/usr/bin/gpg";
 	// Default options.
-	private $gpgopts = "--keyserver-options auto-key-retrieve=true";
+	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true";
 
 	// This is how long we should wait for GPG to run a command.
 	// This may need to be tuned on things like the pi.
@@ -90,7 +71,7 @@ class GPG {
 		}
 
 		// Now, how does it check out?
-		$status = $this->checkStatus($out);
+		$status = $this->checkStatus($out['status']);
 		if ($status['trust']) {
 			// It's trusted!  For the interim, we want to make sure that it's signed
 			// by the FreePBX Key, or, by a key that's been signed by the FreePBX Key.
@@ -101,7 +82,7 @@ class GPG {
 			$longkey = substr($this->freepbxkey, -16);
 			$allsigs = $this->runGPG("--keyid-format long --with-colons --check-sigs $thissig");
 			$isvalid = false;
-			foreach ($allsigs as $line) {
+			foreach (explode("\n", $allsigs['stdout']) as $line) {
 				$tmparr = explode(":", $line);
 				if ($tmparr[4] == $longkey) {
 					$isvalid = true;
@@ -114,13 +95,12 @@ class GPG {
 	}
 
 	/**
-	 * Check the module.sig file against the contents of the 
+	 * Check the module.sig file against the contents of the
 	 * directory
 	 *
 	 * @param string Module name
-	 * @return array (status => GPG::STATUS_whatever, details => array (details, details))
+	 * @return array (status => GPG::STATE_whatever, details => array (details, details))
 	 */
-
 	public function verifyModule($module = null) {
 		if (!$module) {
 			throw new Exception("No module to check");
@@ -140,25 +120,25 @@ class GPG {
 
 		// Check the signature on the module.sig
 		$module = $this->checkSig($file);
-		if ($module === false) {
-			return array("status" => GPG::STATE_TAMPERED, "details" => array("tampered"));
+		if (isset($module['status'])) {
+			return array("status" => $module['status'], "details" => array("module.sig verification failed"));
 		}
 
 		// OK, signature is valid. Let's look at the files we know
 		// about, and make sure they haven't been touched.
-		$retarr['status'] = GPG::STATUS_GOOD;
+		$retarr['status'] = GPG::STATE_GOOD | GPG::STATE_TRUSTED;
 		$retarr['details'] = array();
 
 		$hashes = $this->getHashes(dirname($file));
 		foreach ($module['hashes'] as $file => $hash) {
 			if (!isset($hashes[$file])) {
 				$retarr['details'][] = $file." missing";
-				$retarr['status'] |= GPG::STATUS_TAMPERED;
-				$retarr['status'] &= ~GPG::STATUS_GOOD;
+				$retarr['status'] |= GPG::STATE_TAMPERED;
+				$retarr['status'] &= ~GPG::STATE_GOOD;
 			} elseif ($hashes[$file] != $hash) {
 				$retarr['details'][] = $file." altered";
-				$retarr['status'] |= GPG::STATUS_TAMPERED;
-				$retarr['status'] &= ~GPG::STATUS_GOOD;
+				$retarr['status'] |= GPG::STATE_TAMPERED;
+				$retarr['status'] &= ~GPG::STATE_GOOD;
 			}
 		}
 		return $retarr;
@@ -169,10 +149,11 @@ class GPG {
 	 *
 	 * If no key is provided, install the FreePBX key.
 	 * Throws an exception if unable to find the key requested
+	 * @param string $key The key to get?
 	 */
 	public function getKey($key = null) {
 		// If we weren't given one, then load the FreePBX Key
-		$key = $this->freepbxkey;
+		$key = !empty($key) ? $key : $this->freepbxkey;
 
 		// Lets make sure we don't already have that key.
 		$out = $this->runGPG("--list-keys $key");
@@ -211,7 +192,7 @@ class GPG {
 		}
 
 		// We weren't able to find it.
-		throw Exception("Unable to find key");
+		throw new Exception("Unable to find key");
 	}
 
 	/**
@@ -220,12 +201,14 @@ class GPG {
 	 * Specifically marks the FreePBX Key as ultimately trusted
 	 */
 	public function trustFreePBX() {
+		// Grab the FreePBX Key, if we don't have it already
+		$this->getKey();
 		// Ensure the FreePBX Key is trusted.
 		$out = $this->runGPG("--export-ownertrust");
 		$stdout = explode("\n", $out['stdout']);
 		array_pop($stdout); // Remove trailing blank line.
-		if (strpos($stdout[0], "# List of assigned trustvalues") !== 0) {
-			throw new Exception("gpg --export-ownertrust didn't return sane stuff");
+		if (isset($stdout[0]) && strpos($stdout[0], "# List of assigned trustvalues") !== 0) {
+			throw new Exception("gpg --export-ownertrust didn't return sane stuff - ".json_encode($out));
 		}
 
 		$trusted = false;
@@ -265,6 +248,7 @@ class GPG {
 	 * This saves the file, minus the .gpg extension, to the same directory
 	 * the .gpg file is in. It returns the filename of the output file if
 	 * valid, throws an exception if unable to validate
+	 * @param string $filename The filename to check
 	 */
 	public function getFile($filename) {
 		// Trust that we have the key?
@@ -289,6 +273,33 @@ class GPG {
 	 * @return array returns assoc array consisting of (array)status, (string)stdout, (string)stderr and (int)exitcode
 	 */
 	public function runGPG($params, $stdin = null) {
+
+		// Re #7429 - Always use the AMPASTERISKWEBUSER homedir for gpg config.
+		$webuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+		if (!$webuser) {
+			throw new Exception("I don't know who I should be running GPG as.");
+		}
+		// We need to ensure that we can actually read the GPG files.
+		$web = posix_getpwnam($webuser);
+		if (!$web) {
+			throw new Exception("I tried to find out about $webuser, but the system doesn't think that user exists");
+		}
+		$home = trim($web['dir']);
+		if (!is_dir($home)) {
+			throw new Exception("Can't seem to find the homedir of $webuser - $home");
+		}
+
+		// If $home doesn't end with /, add it.
+		if (substr($home, -1) != "/") {
+			$home .= "/";
+		}
+
+		if (is_writable($home.".gnupg") || (is_writable($home) && !is_dir($home.".gnupg"))) {
+			$homedir = "--homedir ${home}.gnupg/";
+		} else {
+			throw new Exception("Don't have permission/can't write to ${home}.gnupg");
+		}
+
 		$fds = array(
 			array("file", "/dev/null", "r"), // stdin
 			array("pipe", "w"), // stdout
@@ -301,7 +312,16 @@ class GPG {
 			$fds[0] = $stdin;
 		}
 
-		$proc = proc_open($this->gpg." ".$this->gpgopts." --status-fd 3 $params", $fds, $pipes);
+		// We need to ensure that our environment variables are sane.
+		// Luckily, we know just the right things to say...
+		if (!isset($this->gpgenv)) {
+			$this->gpgenv['PATH'] = "/bin:/usr/bin";
+			$this->gpgenv['USER'] = $webuser;
+			$this->gpgenv['HOME'] = $home;
+			$this->gpgenv['SHELL'] = "/bin/bash";
+		}
+
+		$proc = proc_open($this->gpg." $homedir ".$this->gpgopts." --status-fd 3 $params", $fds, $pipes, "/tmp", $this->gpgenv);
 		if (!is_resource($proc)) { // Unable to start!
 			throw new Exception("Unable to start PGP");
 		}
@@ -344,6 +364,7 @@ class GPG {
 
 	/**
 	 * Get list of files in a directory
+	 * @param string $dir The directory to get the file list of/from
 	 */
 	private function getFileList($dir) {
 		// When we require PHP5.4, use RecursiveDirectoryIterator.
@@ -356,6 +377,9 @@ class GPG {
 
 	/**
 	 * Recursive routine for getFileList
+	 * @param string $dir The directory to recurse into
+	 * @param array $retarry The returned array
+	 * @param string $strip What to strip off of the directory
 	 */
 	private function recurseDirectory($dir, &$retarr, $strip) {
 
@@ -377,6 +401,7 @@ class GPG {
 
 	/**
 	 * Generate list of hashes to validate
+	 * @param string $dir the directory
 	 */
 	public function getHashes($dir) {
 		if (!is_dir($dir)) {
@@ -398,6 +423,7 @@ class GPG {
 	 *
 	 * If it's valid, return the processed contents of the sig file.
 	 * If it's not valid, return false.
+	 * @param string $sigfile The signature file we will check against
 	 */
 	public function checkSig($sigfile) {
 		if (!is_file($sigfile)) {
@@ -407,7 +433,7 @@ class GPG {
 		$out = $this->runGPG("--output - $sigfile");
 		$status = $this->checkStatus($out['status']);
 		if (!$status['trust']) {
-			return false;
+			return $status;
 		}
 		$modules = parse_ini_string($out['stdout'], true);
 		return $modules;
@@ -417,6 +443,7 @@ class GPG {
 	/**
 	 * Check the return status of GPG to validate
 	 * a signature
+	 * @param string $status the status to check
 	 */
 	private function checkStatus($status) {
 		if (!is_array($status)) {
@@ -460,4 +487,3 @@ class GPG {
 		return $retarr;
 	}
 }
-

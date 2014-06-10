@@ -1,32 +1,16 @@
 <?php
+// vim: set ai ts=4 sw=4 ft=php:
 /**
  * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
- */
-
-/** LoadConfig class
+ * LoadConfig class
  * This class represents a way to load Asterisk Format Configuration files were
  * [section]key=value into a PHP hash such as array('section' => array('key' => 'value'))
+ *
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
+
 class LoadConfig {
 
 	private $RawConfigContents;
@@ -36,6 +20,14 @@ class LoadConfig {
 
 	private $Filename;
 
+	/**
+	 * Setup the call to load config, same as loadConfig() method below
+	 * just more direct
+	 *
+	 * @param object $freepbx the FreePBX BMO Object
+	 * @param string $file The basename of the file to load
+	 * @param string $hint The directory where the file lives
+	 */
 	public function __construct($freepbx = null, $file = null, $hint = "/etc/asterisk") {
 		if ($freepbx == null)
 			throw new Exception("Need to be instantiated with a FreePBX Object");
@@ -97,7 +89,7 @@ class LoadConfig {
 
 		return $this->RawConfigContents;
 	}
-	
+
 	/**
 	 * Get The Processed Contents of a Configuration File
 	 *
@@ -112,9 +104,9 @@ class LoadConfig {
 	public function getConfig($file = null, $hint = "/etc/asterisk", $context = null) {
 		if ($file === null)
 			throw new Exception("No file given to load");
-		
+
 		$this->loadConfig($file, $hint);
-		
+
 		return (!empty($context) && isset($this->ProcessedConfig[$context])) ? $this->ProcessedConfig[$context] : $this->ProcessedConfig;
 	}
 
@@ -215,12 +207,12 @@ class LoadConfig {
 					// This already exists. Multiple definitions.
 					if (!is_array($this->ProcessedConfig[$section][$out[1]])) {
 						// This is the first time we've found this, so make it an array.
-	
+
 						$tmp = $this->ProcessedConfig[$section][$out[1]];
 						unset($this->ProcessedConfig[$section][$out[1]]);
 						$this->ProcessedConfig[$section][$out[1]][] = $tmp;
 					}
-					// It's an array, so we can just append to it. 
+					// It's an array, so we can just append to it.
 					$this->ProcessedConfig[$section][$out[1]][] = $out[2];
 				} else {
 					$this->ProcessedConfig[$section][$out[1]] = $out[2];

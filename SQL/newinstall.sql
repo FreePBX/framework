@@ -369,6 +369,7 @@ CREATE TABLE `modules` (
   `modulename` varchar(50) NOT NULL DEFAULT '',
   `version` varchar(20) NOT NULL DEFAULT '',
   `enabled` tinyint(4) NOT NULL DEFAULT '0',
+  `signature` blob,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

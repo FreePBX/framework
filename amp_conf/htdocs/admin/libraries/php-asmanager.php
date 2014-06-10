@@ -21,6 +21,8 @@ if (!isset($bootstrap_settings['amportal_conf_initialized']) || !$bootstrap_sett
 		include_once('/etc/asterisk/freepbx.conf');
 	}
 }
+error_reporting(0);
+@ini_set('display_errors', 0);
 
 define('AST_CONFIG_DIR', $amp_conf['ASTETCDIR']);
 define('AST_SPOOL_DIR', $asterisk_conf['astspooldir']);
@@ -468,6 +470,36 @@ class AGI_AsteriskManager {
 	}
 
 	/**
+	 * Get and parse codecs
+	 * @param {string} $type='audio' Type of codec to look up
+	 */
+	function Codecs($type='audio') {
+		$type = strtolower($type);
+		switch($type) {
+			case 'video':
+				$ret = $this->Command('core show codecs video');
+			break;
+			case 'text':
+				$ret = $this->Command('core show codecs text');
+				dbug($ret['data']);
+			break;
+			case 'image':
+				$ret = $this->Command('core show codecs image');
+			break;
+			case 'audio':
+			default:
+				$ret = $this->Command('core show codecs audio');
+			break;
+		}
+
+		if(preg_match_all('/\d{6}\s*'.$type.'\s*([a-z0-9]*)\s/i',$ret['data'],$matches)) {
+			return $matches[1];
+		} else {
+			return array();
+		}
+	}
+
+	/**
 	* Kick a Confbridge user.
 	*
 	* Kick a Confbridge user.
@@ -539,6 +571,29 @@ class AGI_AsteriskManager {
 				$this->response_catch[] =  $data;
 			break;
 			case 'confbridgelistrooms':
+				$this->response_catch[] =  $data;
+			break;
+		}
+	}
+
+	/**
+	* Conference Bridge Event Catch
+	*
+	* This catches events obtained from the confbridge stream, it should not be used externally
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeListRooms
+	*/
+	private function Meetme_catch($event, $data, $server, $port) {
+		switch($event) {
+			case 'meetmelistcomplete':
+			case 'meetmelistroomscomplete':
+				/* HACK: Force a timeout after we get this event, so that the wait_response() returns. */
+				stream_set_timeout($this->socket, 0, 1);
+			break;
+			case 'meetmelist':
+				$this->response_catch[] =  $data;
+			break;
+			case 'meetmelistrooms':
 				$this->response_catch[] =  $data;
 			break;
 		}
@@ -628,8 +683,8 @@ class AGI_AsteriskManager {
 	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeUnmute
 	* @param string $conference Conference number.
 	*/
-	function ConfbridgeUnmute($conference) {
-		return $this->send_request('ConfbridgeUnmute', array('Conference'=>$conference));
+	function ConfbridgeUnmute($conference,$channel) {
+		return $this->send_request('ConfbridgeUnmute', array('Conference'=>$conference,'Channel' => $channel));
 	}
 
 	/**
@@ -770,7 +825,17 @@ class AGI_AsteriskManager {
 	* @param string $conference Conference number.
 	*/
 	function MeetmeList($conference) {
-		return $this->send_request('MeetmeList', array('Conference'=>$conference));
+		$this->add_event_handler("meetmelist", array($this, 'Meetme_catch'));
+		$this->add_event_handler("meetmelistcomplete", array($this, 'Meetme_catch'));
+		$response = $this->send_request('MeetmeList', array('Conference'=>$conference));
+		if ($response["Response"] == "Success") {
+			$this->response_catch = array();
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		return $this->response_catch;
 	}
 
 	/**
@@ -781,7 +846,17 @@ class AGI_AsteriskManager {
 	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_ConfbridgeListRooms
 	*/
 	function MeetmeListRooms() {
-		return $this->send_request('MeetmeListRooms');
+		$this->add_event_handler("meetmelistrooms", array($this, 'Meetme_catch'));
+		$this->add_event_handler("meetmelistroomscomplete", array($this, 'Meetme_catch'));
+		$response = $this->send_request('MeetmeListRooms');
+		if ($response["Response"] == "Success") {
+			$this->response_catch = array();
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		return $this->response_catch;
 	}
 
 	/**

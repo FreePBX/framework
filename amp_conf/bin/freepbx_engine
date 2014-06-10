@@ -278,7 +278,8 @@ chown_asterisk() {
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/*
 
 	# Fix PIAF immutable files
-	chattr -i $AMPWEBROOT/*
+	# chattr errors on symlinks. Ignore them.
+	chattr -i $AMPWEBROOT/* 2>/dev/null 
 
 	echo Permissions OK
 	call_hook chown_asterisk
@@ -468,6 +469,7 @@ case "$1" in
 	;;
 	chown)
 		chown_asterisk
+		remove_dangling_links
 	;;
 	kill)
 		kill_amp

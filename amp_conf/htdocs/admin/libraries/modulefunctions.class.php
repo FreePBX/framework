@@ -603,7 +603,7 @@ class module_functions {
 			// create the modulelist so it is static and does not need to be recreated
 			// in subsequent calls
 			//
-			$modulelist =& modulelist::create($db);
+			$modulelist = modulelist::create($db);
 			if ($forceload) {
 				$modulelist->invalidate();
 			}
@@ -677,6 +677,7 @@ class module_functions {
 					}
 					$modules[ $row['modulename'] ]['dbversion'] = $row['version'];
 					$modules[ $row['modulename'] ]['track'] = $this->get_track($row['modulename']);
+                    $modules[ $row['modulename'] ]['signature'] = !empty($row['signature']) ? json_decode($row['signature'],true) : array();
 				}
 			}
 
@@ -1095,8 +1096,26 @@ class module_functions {
 		$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
 		// if we're not forcing the download, and a file with the target name exists..
 		if (!$force && file_exists($filename)) {
+			outn(_('Found module locally, verifying...'));
+            if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg' && $modulexml['signed']['sha1'] == sha1_file($filename)) {
+                if(!FreePBX::GPG()->verifyFile($filename)) {
+					out(_('Redownloading'));
+                    unlink($filename);
+                }
+                try {
+                    $filename = FreePBX::GPG()->getFile($filename);
+                    if(!file_exists($filename)) {
+						out(_('Redownloading'));
+                        unlink($filename);
+                    }
+                } catch(\Exception $e) {
+					out(_('Redownloading'));
+                    unlink($filename);
+                }
+            }
 			// We might already have it! Let's check the MD5.
 			if ((isset($modulexml['sha1sum']) && $modulexml['sha1sum'] == sha1_file($filename)) || (isset($modulexml['md5sum']) && $modulexml['md5sum'] == md5_file($filename))) {
+				out(_('Verified. Using Local'));
 				// Note, if there's no MD5 information, it will redownload
 				// every time. Otherwise theres no way to avoid a corrupt
 				// download
@@ -1141,6 +1160,7 @@ class module_functions {
 
 				return true;
 			} else {
+				out(_('Redownloading'));
 				unlink($filename);
 			}
 		}
@@ -1228,20 +1248,36 @@ class module_functions {
 			return array(sprintf(_('Unable to save %s'),$filename));
 		}
 
+        if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg') {
+            if($modulexml['signed']['sha1'] != sha1_file($filename)) {
+                return array(sprintf(_('File Integrity failed for %s - aborting (sha1 did not match)'), $filename));
+            }
+            if(!FreePBX::GPG()->verifyFile($filename)) {
+                return array(sprintf(_('File Integrity failed for %s - aborting (gpg check failed)'), $filename));
+            }
+            try {
+                $filename = FreePBX::GPG()->getFile($filename);
+                if(!file_exists($filename)) {
+                    return array(sprintf(_('Could not find extracted module: %s'), $filename));
+                }
+            } catch(\Exception $e) {
+                return array(sprintf(_('Unable to work with GPG file, message was: %s'), $e->getMessage()));
+            }
+        }
 		// Check the MD5 info against what's in the module's XML
 		if (!isset($modulexml['md5sum']) || empty($modulexml['md5sum'])) {
 			//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
-		} else if ($modulexml['md5sum'] != md5 ($filedata)) {
+		} else if ($modulexml['md5sum'] != md5_file ($filename)) {
 			unlink($filename);
-			return array(sprintf(_('File Integrity failed for %s - aborting'), $filename));
+			return array(sprintf(_('File Integrity failed for %s - aborting (md5sum did not match)'), $filename));
 		}
 
 		// Check the SHA1 info against what's in the module's XML
 		if (!isset($modulexml['sha1sum']) || empty($modulexml['sha1sum'])) {
 			//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
-		} else if ($modulexml['sha1sum'] != sha1 ($filedata)) {
+		} else if ($modulexml['sha1sum'] != sha1_file($filename)) {
 			unlink($filename);
-			return array(sprintf(_('File Integrity failed for %s - aborting'), $filename));
+			return array(sprintf(_('File Integrity failed for %s - aborting (sha1 did not match)'), $filename));
 		}
 
 		// invoke progress callback
@@ -2567,4 +2603,79 @@ class module_functions {
 			return $contents;
 		}
 	}
+
+    function getSignature($modulename,$cached=true) {
+        FreePBX::GPG(); //declare class to get constants
+        $sql = "SELECT signature FROM `modules` WHERE modulename = ? AND signature is not null";
+        $sth = FreePBX::Database()->prepare($sql);
+        $sth->execute(array($modulename));
+        $res = $sth->fetch(PDO::FETCH_ASSOC);
+        return (empty($res) || !$cached) ? $this->updateSignature($modulename) : json_decode($res['signature'],TRUE);
+    }
+
+    function getAllSignatures($cached=true) {
+        FreePBX::GPG(); //declare class to get constants
+        $sql = "SELECT modulename, signature FROM modules";
+        $sth = FreePBX::Database()->prepare($sql);
+        $sth->execute();
+        $res = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $modules = array();
+        $globalValidation = true;
+        foreach($res as $mod) {
+			//Hide Framework for now.
+			if($mod['modulename'] == 'framework') {
+				continue;
+			}
+            //TODO: determine if this should be in here or not.
+            if(!$cached || empty($mod['signature'])) {
+                $mod['signature'] = $this->updateSignature($mod['modulename']);
+            } else {
+                $mod['signature'] = json_decode($mod['signature'],TRUE);
+            }
+            $modules['modules'][$mod['modulename']] = $mod;
+            if($mod['signature']['status'] & ~GPG::STATE_GOOD) {
+                $globalValidation = false;
+            }
+    		$trusted = $mod['signature']['status'] & GPG::STATE_TRUSTED;
+    		$tampered = $mod['signature']['status'] & GPG::STATE_TAMPERED;
+    		$unsigned = $mod['signature']['status'] & GPG::STATE_UNSIGNED;
+            $md = $this->getInfo();
+    		if ($unsigned) {
+    			$modules['statuses']['unsigned'][] = sprintf(_('Module: %s, is unsigned'),$md[$mod['modulename']]['name']);
+    		} else {
+    			if ($tampered) {
+    				foreach($mod['signature']['details'] as $d) {
+    					$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$md[$mod['modulename']]['name'],$d);
+    				}
+    			}
+                if (!$trusted) {
+
+                }
+    		}
+        }
+
+        $statuses = array('untrusted','unsigned','tampered','unknown');
+        $nt = notifications::create();
+        foreach($statuses as $type) {
+            if(!empty($modules['statuses'][$type]) && FreePBX::Config()->get('SIGNATURECHECK')) {
+                $nt->add_security('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s %s modules'),count($modules['statuses'][$type]),$type), implode("<br>",$modules['statuses'][$type]));
+            } else {
+                $nt->delete('freepbx', 'FW_'.strtoupper($type));
+            }
+        }
+        $modules['validation'] = $globalValidation;
+        return $modules;
+    }
+
+    public function updateSignature($modulename) {
+        try {
+            $mod = FreePBX::GPG()->verifyModule($modulename);
+            $sql = "UPDATE `modules` SET signature = ? WHERE modulename = ?";
+            $sth = FreePBX::Database()->prepare($sql);
+            $sth->execute(array(json_encode($mod),$modulename));
+        } catch(\Exception $e) {
+            $mod = null;
+        }
+        return $mod;
+    }
 }

@@ -84,7 +84,7 @@ if (isset($_REQUEST['handler'])) {
 		switch ($_REQUEST['handler']) {
 		case 'api':
 				break;
-				case 'reload';
+		case 'reload';
 				break;
 		default:
 				// If we didn't provide skip_astman in the $_REQUEST[] array it will be boolean false and for handlers, this should default
@@ -107,6 +107,14 @@ if ($unlock) {
 				unset($no_auth);
 				$display = 'index';
 		}
+}
+
+// determine if the user has a session time out set in advanced settings. If the timeout is 0 or not set, we don't force logout
+$sessionTimeOut = !empty($amp_conf['SESSION_TIMEOUT']) && is_numeric($amp_conf['SESSION_TIMEOUT']) ? $amp_conf['SESSION_TIMEOUT'] : false;
+if ($sessionTimeOut !== false) {
+	if (!empty($_SESSION['AMP_user']) && is_object($_SESSION['AMP_user']) && ($_SESSION['AMP_user']->_created + $sessionTimeOut) < time()) {
+		unset($_SESSION['AMP_user']);
+	}
 }
 
 /* If there is an action request then some sort of update is usually being done.
@@ -283,152 +291,185 @@ if ($display == 'index' && ($cur_menuitem['module']['rawname'] == 'builtin')) {
 
 // show the appropriate page
 switch($display) {
-case 'modules':
-		// set these to avoid undefined variable warnings later
-		//
-		$module_name = 'modules';
-		$module_page = $cur_menuitem['display'];
-		include 'page.modules.php';
-		break;
-case 'noaccess':
-		show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf' => &$amp_conf));
-		break;
-case 'noauth':
-		$config_vars['obe_error_msg'] = array();
-		if ($config_vars['action'] == 'setup_admin'){
-				$config_vars['obe_error_msg'] = framework_obe_intialize_validate(
-						$config_vars['username'],
-						$config_vars['password'],
-						$config_vars['confirm_password'],
-						$config_vars['email_address'],
-						$config_vars['confirm_email']);
-		}
-		//if we have no admin users AND were trying to set one up
-		if (!count(getAmpAdminUsers())
-				&& $action == 'setup_admin'
-				&& !$config_vars['obe_error_msg']
-		) {
-				//validate the inputs
-				framework_obe_intialize_admin(
-						$config_vars['username'],
-						$config_vars['password'],
-						$config_vars['confirm_password'],
-						$config_vars['email_address'],
-						$config_vars['confirm_email']
-				);
-		}
+	case 'modules':
+			// set these to avoid undefined variable warnings later
+			//
+			$module_name = 'modules';
+			$module_page = $cur_menuitem['display'];
+			include 'page.modules.php';
+			break;
+	case 'noaccess':
+			show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf' => &$amp_conf));
+			break;
+	case 'noauth':
+			$config_vars['obe_error_msg'] = array();
+			if ($config_vars['action'] == 'setup_admin'){
+					$config_vars['obe_error_msg'] = framework_obe_intialize_validate(
+							$config_vars['username'],
+							$config_vars['password'],
+							$config_vars['confirm_password'],
+							$config_vars['email_address'],
+							$config_vars['confirm_email']);
+			}
+			//if we have no admin users AND were trying to set one up
+			if (!count(getAmpAdminUsers())
+					&& $action == 'setup_admin'
+					&& !$config_vars['obe_error_msg']
+			) {
+					//validate the inputs
+					framework_obe_intialize_admin(
+							$config_vars['username'],
+							$config_vars['password'],
+							$config_vars['confirm_password'],
+							$config_vars['email_address'],
+							$config_vars['confirm_email']
+					);
+			}
 
-		//if we (still) have no admin users
-		if (!count(getAmpAdminUsers())) {
-				$login = $config_vars;
-				$login['amp_conf'] = $amp_conf;
-				$login['errors'] = $config_vars['obe_error_msg'];
-				echo load_view($amp_conf['VIEW_OBE'], $login);
-				unset($_SESSION['AMP_user']);
-		}
+			//if we (still) have no admin users
+			if (!count(getAmpAdminUsers())) {
+					$login = $config_vars;
+					$login['amp_conf'] = $amp_conf;
+					$login['errors'] = $config_vars['obe_error_msg'];
+					echo load_view($amp_conf['VIEW_OBE'], $login);
+					unset($_SESSION['AMP_user']);
+			}
 
-		//prompt for a password if we have users
-		if (count(getAmpAdminUsers())) {
-				//error message
-				$login['errors'] = array();
-				if ($config_vars['username'] && $action !== 'setup_admin') {
-						$login['errors'][] = _('Invalid Username or Password');
-				}
+			//prompt for a password if we have users
+			if (count(getAmpAdminUsers())) {
+					//error message
+					$login['errors'] = array();
+					if ($config_vars['username'] && $action !== 'setup_admin') {
+							$login['errors'][] = _('Invalid Username or Password');
+					}
 
-				//show fop option if enabled, probobly doesnt belong on the
-				//login page
-				$login['panel'] = false;
-				if (!empty($amp_conf['FOPWEBROOT'])
-						&& is_dir($amp_conf['FOPWEBROOT'])
-				){
-						$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/admin/',
-								'', $amp_conf['FOPWEBROOT']);
-				}
+					//show fop option if enabled, probobly doesnt belong on the
+					//login page
+					$login['panel'] = false;
+					if (!empty($amp_conf['FOPWEBROOT'])
+							&& is_dir($amp_conf['FOPWEBROOT'])
+					){
+							$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/admin/',
+									'', $amp_conf['FOPWEBROOT']);
+					}
 
 
-				$login['amp_conf'] = $amp_conf;
-				echo load_view($amp_conf['VIEW_LOGIN'], $login);
-		}
-		break;
-case 'badrefer':
-		echo load_view($amp_conf['VIEW_BAD_REFFERER'], $amp_conf);
-		break;
-case '':
-		if ($astman) {
-				show_view($amp_conf['VIEW_WELCOME'], array('AMP_CONF' => &$amp_conf));
-		} else {
-				// no manager, no connection to asterisk
-				show_view($amp_conf['VIEW_WELCOME_NOMANAGER'],
-						array('mgruser' => $amp_conf["AMPMGRUSER"]));
-		}
-		break;
-default:
-		//display the appropriate module page
-		$module_name = $cur_menuitem['module']['rawname'];
-		$module_page = $cur_menuitem['display'];
-		$module_file = 'modules/'.$module_name.'/page.'.$module_page.'.php';
+					$login['amp_conf'] = $amp_conf;
+					echo load_view($amp_conf['VIEW_LOGIN'], $login);
+			}
+			break;
+	case 'badrefer':
+			echo load_view($amp_conf['VIEW_BAD_REFFERER'], $amp_conf);
+			break;
+	case '':
+			if ($astman) {
+					show_view($amp_conf['VIEW_WELCOME'], array('AMP_CONF' => &$amp_conf));
+			} else {
+					// no manager, no connection to asterisk
+					show_view($amp_conf['VIEW_WELCOME_NOMANAGER'],
+							array('mgruser' => $amp_conf["AMPMGRUSER"]));
+			}
+			break;
+	default:
+			//display the appropriate module page
+			$module_name = $cur_menuitem['module']['rawname'];
+			$module_page = $cur_menuitem['display'];
+			$module_file = 'modules/'.$module_name.'/page.'.$module_page.'.php';
 
-		//TODO Determine which item is this module displaying.
-		//Currently this is over the place, we should standardize on a
-		//"itemid" request var for now, we'll just cover all possibilities :-(
-		$possibilites = array(
-				'userdisplay',
-				'extdisplay',
-				'id',
-				'itemid',
-				'selection'
-		);
-		$itemid = '';
-		foreach($possibilites as $possibility) {
-				if (isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) {
-						$itemid = htmlspecialchars($_REQUEST[$possibility], ENT_QUOTES);
-						$_REQUEST[$possibility] = $itemid;
-				}
-		}
+			//TODO Determine which item is this module displaying.
+			//Currently this is over the place, we should standardize on a
+			//"itemid" request var for now, we'll just cover all possibilities :-(
+			$possibilites = array(
+					'userdisplay',
+					'extdisplay',
+					'id',
+					'itemid',
+					'selection'
+			);
+			$itemid = '';
+			foreach($possibilites as $possibility) {
+					if (isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) {
+							$itemid = htmlspecialchars($_REQUEST[$possibility], ENT_QUOTES);
+							$_REQUEST[$possibility] = $itemid;
+					}
+			}
 
-		// create a module_hook object for this module's page
-		$module_hook = new moduleHook;
+			// create a module_hook object for this module's page
+			$module_hook = new moduleHook;
 
-		// populate object variables
-		$module_hook->install_hooks($module_page,$module_name,$itemid);
+			// populate object variables
+			$module_hook->install_hooks($module_page,$module_name,$itemid);
 
-		// let hooking modules process the $_REQUEST
-		$module_hook->process_hooks($itemid,
-				$module_name,
-				$module_page,
-				$_REQUEST);
+			// let hooking modules process the $_REQUEST
+			$module_hook->process_hooks($itemid,
+					$module_name,
+					$module_page,
+					$_REQUEST);
 
-		// BMO: Pre display hooks.
-		// getPreDisplay and getPostDisplay should probably never
-		// be used.
-		$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
+			// BMO: Pre display hooks.
+			// getPreDisplay and getPostDisplay should probably never
+			// be used.
+			$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
 
-		// include the module page
-		if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {
-				show_view($amp_conf['VIEW_MENUITEM_DISABLED'], $cur_menuitem);
-				break; // we break here to avoid the generateconfigpage() below
-		} else if (file_exists($module_file)) {
-				// load language info if available
-				modgettext::textdomain($module_name);
-				if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
-						$bmo->GuiHooks->doIntercept($module_name, $module_file);
-				} else {
-						include($module_file);
-				}
-		} else {
-				echo "404 Not found (" . $module_file  . ')';
-		}
+			// include the module page
+			if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {
+					show_view($amp_conf['VIEW_MENUITEM_DISABLED'], $cur_menuitem);
+					break; // we break here to avoid the generateconfigpage() below
+			} else if (file_exists($module_file)) {
+					//check module first and foremost, but not during quietmode
+					if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK']) {
+						//Since we are viewing this module update it's signature
+						module_functions::create()->updateSignature($module_name,false);
+						//check all cached signatures
+						$modules = module_functions::create()->getAllSignatures();
+						if(!$modules['validation']) {
+							$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
+							$merged = array();
+							//priority sorting
+							$stauses = array("untrusted","tampered","unsigned","unknown");
+							foreach($stauses as $st) {
+								if(!empty($modules['statuses'][$st])) {
+									$merged = array_merge($merged,$modules['statuses'][$st]);
+								}
+							}
+							$d = FreePBX::notifications()->list_security(true);
+							foreach($d as $n) {
+								//Dont show the same notifications twice
+								if(!in_array($n['id'],array('FW_UNSIGNED','FW_UNTRUSTED','FW_TAMPERED','FW_UNKNOWN'))) {
+									array_unshift($merged,$n['display_text']);
+								}
+							}
+							switch($type) {
+								case 'danger':
+									echo generate_message_banner(_('Security Warning'), 'danger',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
+								break;
+								case 'warning':
+									echo generate_message_banner(_('Security Warning'), 'warning',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing', true);
+								break;
+							}
+						}
+					}
 
-		// BMO TODO: Post display hooks.
-		$bmo->GuiHooks->getPostDisplay($module_name, $_REQUEST);
+					// load language info if available
+					modgettext::textdomain($module_name);
+					if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
+							$bmo->GuiHooks->doIntercept($module_name, $module_file);
+					} else {
+							include($module_file);
+					}
+			} else {
+					echo "404 Not found (" . $module_file  . ')';
+			}
 
-		// global component
-		if ( isset($currentcomponent) ) {
-				modgettext::textdomain($module_name);
-				$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
-				echo  $currentcomponent->generateconfigpage();
-		}
+			// BMO TODO: Post display hooks.
+			$bmo->GuiHooks->getPostDisplay($module_name, $_REQUEST);
 
+			// global component
+			if ( isset($currentcomponent) ) {
+					modgettext::textdomain($module_name);
+					$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
+					echo  $currentcomponent->generateconfigpage();
+			}
 		break;
 }
 
@@ -469,6 +510,7 @@ if ($quietmode) {
 		if ($show_normal) {
 				// provide beta status
 				if (isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes') {
+					//TODO: Why is this in a global system variable?
 						$fw_gui_html .= load_view($amp_conf['VIEW_BETA_NOTICE']);
 				}
 				$fw_gui_html .= $content;
@@ -489,6 +531,7 @@ if ($quietmode) {
 		$footer['reload_needed'] = false; //we don't display the menu in this view so irrelivant
 		//These changes will hide the excess footer which is just empty anyways, also it sets our body background to transparent
 		//scripts in footer are still run eventhough it's hidden
+		//hack into the footer and change the background to be transparent so it seems like we "belong" in the dialog box
 		$footer['footer_content'] = "<script>$('body').css('background-color','transparent');$('#footer').hide()</script>";
 		$footer['remove_rnav'] = true;
 		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);

@@ -137,7 +137,6 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	 * jquery.hotkeys.js - a plug-in that lets you easily add and remove handlers for keyboard events anywhere in your code supporting almost any key combination. (https://github.com/jeresig/jquery.hotkeys)
 	 * jquery.cookie.js - for setting cookies (https://github.com/carhartl/jquery-cookie)
 	 * script.legacy.js - freepbx library
-	 * jquery.toggleval.3.0.js - similar to html5 form's placeholder. depreciated
 	 * tabber-minimized.js - sed for module admin (hiding content)
      * class.js - Simple JavaScript Inheritance
 	 */
@@ -146,7 +145,6 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 		. '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
-	 	. '<script type="text/javascript" src="assets/js/jquery.toggleval.3.0.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>'
          . '<script type="text/javascript" src="assets/js/class.js"></script>';
 }

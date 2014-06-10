@@ -1,35 +1,13 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
-
 /**
- * Writes Config Files
- *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
- */
-
-
-/**
- * WriteConfig class for FreePBX BMO
+ * Writes config files
  * This writes configuration files to /etc/asterisk
+ *
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
+
 class WriteConfig {
 
 	/**
@@ -48,6 +26,10 @@ class WriteConfig {
 	/**
 	 * __construct function
 	 *
+	 * @param object $freepbx The FreePBX BMO Object
+	 * @param array $array of files to write out with data
+	 * Such as : array('modules.conf' => 'string')
+	 * or array('modules.conf' => array('line','line','line'))
 	 */
 	public function __construct($freepbx = null, $array = null) {
 		if ($freepbx == null)
@@ -61,11 +43,9 @@ class WriteConfig {
 	/**
 	 * Write single configuration file
 	 *
-	 * Simply builds an array to give to writeConfigs()
+	 * Simply builds an array and passes it to writeConfigs()
 	 * @param string $filename File to write
-	 * @param string|array $contents What should be written to the file
-	 * @return void
-	 * @access public
+	 * @param mixed $contents What should be written to the file
 	 */
 	public function writeConfig($filename = null, $contents) {
 		if ($filename == null)
@@ -78,8 +58,6 @@ class WriteConfig {
 	 * Write multiple configuration files.
 	 * This is the public call to write configuration files.
 	 * @param array $array An array of [filename]=>array(line, line, line), or [filename]=>string
-	 * @return void
-	 * @access public
 	 */
 	public function writeConfigs($array) {
 		if(!is_array($array)){
@@ -186,7 +164,6 @@ class WriteConfig {
 	/**
 	 * Return the static header, as a function.
 	 * @return string Header
-	 * @access public
 	 */
 	public function getHeader() {
 		return self::HEADER;

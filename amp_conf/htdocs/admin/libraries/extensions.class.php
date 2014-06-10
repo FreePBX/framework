@@ -6,12 +6,12 @@ class extensions {
 	 * ( $_exts[$section][$extension][$priority] )
 	 */
 	var $_exts;
-	
-	/** Hints 
+
+	/** Hints
 	 * special cases of priorities
 	 */
 	var $_hints;
-	
+
 	var $_sorted;
 
   var $_section_comment = array();
@@ -19,13 +19,13 @@ class extensions {
   var $_section_no_custom = array();
 
   var $_disable_custom_contexts = false;
-	
+
 	/** The filename to write this configuration to
 	*/
 	function get_filename() {
 		return "extensions_additional.conf";
 	}
-	
+
 	/** Add an entry to the extensions file
 	* @param $section    The section to be added to
 	* @param $extension  The extension used
@@ -33,9 +33,9 @@ class extensions {
 	* @param $command    The command to execute
 	* @param $basetag    The tag to base this on. Only used in conjunction with $addpriority
 	*                    priority. Defaults to false.
-	* @param $addpriority  Finds the priority of the tag called $basetag, and adds this 
+	* @param $addpriority  Finds the priority of the tag called $basetag, and adds this
 	*			value to it to use as the priority for this command.
-	* @return 
+	* @return
 	*/
 	function add($section, $extension, $tag, $command, $basetag = false, $addpriority = false) {
 
@@ -51,10 +51,10 @@ class extensions {
 				return false;
 			}
 		}
-		
+
 		if (empty($basetag)) {
 			// no basetag, we need to make one
-			
+
 			if (empty($this->_exts[$section][$extension])) {
 				// first entry, use 1
 				$basetag = '1';
@@ -63,17 +63,17 @@ class extensions {
 				$basetag = 'n';
 			}
 		}
-		
+
 		$new = array(
 			'basetag' => $basetag,
 			'tag' => $tag,
 			'addpri' => $addpriority,
 			'cmd' => $command,
 		);
-		
+
 		$this->_exts[$section][$extension][] = $new;
 	}
-	
+
 	/** Sort sections, extensions and priorities alphabetically
 	 */
 	function sort() {
@@ -87,7 +87,7 @@ class extensions {
 		}
 		// sort sections
 		ksort($this->_exts);
-		
+
 		$this->_sorted = true;
 	}
   function addSectionComment($section, $comment) {
@@ -101,18 +101,18 @@ class extensions {
   function disableCustomContexts($setting) {
     $this->_disable_custom_contexts = $setting ? true : false;
   }
-	
+
 	function addHint($section, $extension, $hintvalue) {
 
 		$extension = ' ' . $extension . ' ';
 
 		$this->_hints[$section][$extension][] = $hintvalue;
 	}
-	
+
 	function addGlobal($globvar, $globval) {
 		$this->_globals[$globvar] = $globval;
 	}
-	
+
 	function addInclude($section, $incsection, $comment='') {
     $this->_includes[$section][] = array('include' => $incsection, 'comment' => $comment);
 	}
@@ -135,7 +135,7 @@ class extensions {
 	}
 	function is_priority($num) {
 		return ctype_digit((string) $num);
-	}	
+	}
 
 	function section_exists($section) {
 		return isset($this->_exts[$section]);
@@ -143,7 +143,7 @@ class extensions {
 
 	/* This function allows new priorities to be injected into already generated dialplan
 	*  usage: $ext->splice($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
-	*         if $priority is not numeric, it will interpret it as a tag and try to inject 
+	*         if $priority is not numeric, it will interpret it as a tag and try to inject
 	*         the command just prior to  the first instruction it finds with the specified tag
 	*         if it can't find the tag, it will inject it after the last instruction
 	*/
@@ -213,31 +213,31 @@ class extensions {
 			}
 		}
 
-		/* This little routine from http://ca.php.net/array_splice overcomes 
+		/* This little routine from http://ca.php.net/array_splice overcomes
 		*  problems that array_splice has with multidmentional arrays
 		*/
 		$array = isset($this->_exts[$section][$extension]) ? $this->_exts[$section][$extension] : array();
 		$ky = $priority;
 		$val = $newcommand;
-		$n = $ky; 
-		foreach($array as $key => $value) { 
-			$backup_array[$key] = $array[$key]; 
-		} 
-		$upper_limit = count($array); 
-		while($n <= $upper_limit) { 
-			if($n == $ky) { 
-				$array[$n] = $val; 
-				// echo $n; 
-			} else { 
-				$i = $n - "1"; 
-				$array[$n] = $backup_array[$i]; 
-			} 
-			$n++; 
-		} 
+		$n = $ky;
+		foreach($array as $key => $value) {
+			$backup_array[$key] = $array[$key];
+		}
+		$upper_limit = count($array);
+		while($n <= $upper_limit) {
+			if($n == $ky) {
+				$array[$n] = $val;
+				// echo $n;
+			} else {
+				$i = $n - "1";
+				$array[$n] = $backup_array[$i];
+			}
+			$n++;
+		}
 
 		// apply our newly modified array
 		//echo "Splicing [$section] $extension\n";
-		$this->_exts[$section][$extension] = $array;		
+		$this->_exts[$section][$extension] = $array;
 
 		//print_r($this->_exts[$section][$extension]);
 	}
@@ -245,7 +245,7 @@ class extensions {
 	/* This function allows dial plan to be replaced.  This is most useful for modules that
 	*  would like to hook into other modules and modify dialplan.
 	*  usage: $ext->replace($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
-	*         if $priority is not numeric, it will interpret it as a tag 
+	*         if $priority is not numeric, it will interpret it as a tag
 	*/
 	function replace($section, $extension, $priority, $command) {
 
@@ -278,8 +278,8 @@ class extensions {
 		$this->_exts[$section][$extension][$priority] = $newcommand;
 
 	}
-	
-	/* This function allows dial plan to be removed.  This is most useful 
+
+	/* This function allows dial plan to be removed.  This is most useful
 	 * for modules that
 	 *  would like to hook into other modules and delete dialplan.
 	 *  usage: $ext->remove($context, $exten, $priority_number);
@@ -289,14 +289,14 @@ class extensions {
 
 		$extension = ' ' . $extension . ' ';
 
-		// if the priority is a tag, then we look for the real priority to 
-		//replace it with If the tag does not exists, then we put it at the very 
+		// if the priority is a tag, then we look for the real priority to
+		//replace it with If the tag does not exists, then we put it at the very
 		//end which may not be desired but it puts it somewhere
 		if (!$this->is_priority(trim($priority))) {
 			$existing_priority = false;
 			$count = 0;
 			if (isset($this->_exts[$section][$extension])) {
-				foreach($this->_exts[$section][$extension] 
+				foreach($this->_exts[$section][$extension]
 					as $pri => $curr_command
 				) {
 					if ($curr_command['tag'] == $priority) {
@@ -306,7 +306,7 @@ class extensions {
 					$count++;
 				}
 			}
-			$priority = ($existing_priority === false) 
+			$priority = ($existing_priority === false)
 				? false : $existing_priority;
 		}
 		if($this->is_priority($priority)){
@@ -315,7 +315,7 @@ class extensions {
 				$this->_exts[$section][$extension]
 					= array_values($this->_exts[$section][$extension]);
 			}
-			if ($priority === 0 
+			if ($priority === 0
 				&& isset($this->_exts[$section][$extension][0])
 			) {
 				$this->_exts[$section][$extension][0]['basetag'] = 1;
@@ -331,15 +331,15 @@ class extensions {
 	*/
 	function generateConf() {
 		$output = "";
-		
+
 		/* sorting is not necessary anymore
 		if (!$this->_sorted) {
 			$this->sort();
 		}
 		*/
-		
+
 		//var_dump($this->_exts);
-		
+
 		//take care of globals first
 		if(isset($this->_globals) && is_array($this->_globals)){
 			$output .= "[globals]\n";
@@ -349,13 +349,13 @@ class extensions {
 			$output .= "#include globals_custom.conf\n";
 			$output .= "\n;end of [globals]\n\n";
 		}
-		
+
 		//now the rest of the contexts
 		if(is_array($this->_exts)){
 			foreach (array_keys($this->_exts) as $section) {
         $comment = isset($this->_section_comment[$section]) ? ' ; '.$this->_section_comment[$section] : '';
 				$output .= "[$section]$comment\n";
-				
+
 				//automatically include a -custom context unless no_custom is true
         if (!$this->_disable_custom_contexts && (!isset($this->_section_no_custom[$section]) || $this->_section_no_custom[$section] == false)) {
 				  $output .= "include => {$section}-custom\n";
@@ -385,12 +385,12 @@ class extensions {
         $last_base_tag = false;
 				foreach (array_keys($this->_exts[$section]) as $extension) {
           if (is_array($this->_exts[$section][$extension])) foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
-					
+
 						$ext = $this->_exts[$section][$extension][$idx];
-						
+
 						//echo "[$section] $extension $idx\n";
 						//var_dump($ext);
-							
+
             if ($last_base_tag && $ext['basetag'] = 'n') {
               $ext['basetag'] = $last_base_tag;
               $last_base_tag = false;
@@ -417,7 +417,7 @@ class extensions {
 				$output .= ";--== end of [".$section."] ==--;\n\n\n";
 			}
 		}
-		
+
 		return $output;
 	}
 
@@ -426,26 +426,26 @@ class extensions {
 	*/
 	function generateOldConf() {
 		$output = "";
-		
+
 		/* sorting is not necessary anymore
 		if (!$this->_sorted) {
 			$this->sort();
 		}
 		*/
-		
+
 		var_dump($this->_exts);
-		
+
 		foreach (array_keys($this->_exts) as $section) {
 			$output .= "[".$section."]\n";
-			
+
 			foreach (array_keys($this->_exts[$section]) as $extension) {
 				$priority = 0;
 				$prioritytable = array();
-				
+
 				foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
-				
+
 					$ext = $this->_exts[$section][$extension][$idx];
-					
+
 					//var_dump($ext);
 					switch ($ext['basetag']) {
 						case '1': $priority = 1; break;
@@ -458,37 +458,37 @@ class extensions {
 							}
 						break;
 					}
-					
+
 					if ($ext['addpri']) {
 						$priority += $ext['addpri'];
 					}
-					
+
 					if ($ext['tag']) {
 						$prioritytable[$ext['tag']] = $priority;
 					}
-					
+
 					$output .= "exten => ".$extension.",".$priority.
 						",".$ext['cmd']->output()."\n";
-					
+
 				}
-				
+
 				if (isset($this->_hints[$section][$extension])) {
 					foreach ($this->_hints[$section][$extension] as $hint) {
 						$output .= "exten => ".$extension.",hint,".$hint;
 					}
 				}
 			}
-			
+
 			$output .= "\n; end of [".$section."]\n\n\n";
 		}
-		
+
 		return $output;
 	}
 
 	/** Checks if a value used for a goto is empty
 	 * Basically the same as php's empty() function, except considers 0 to be
 	 * non-empty.
-	 * 
+	 *
 	 * This function can be called statically
 	 */
 	function gotoEmpty($value) {
@@ -496,17 +496,17 @@ class extensions {
 	}
 }
 
-class extension { 
+class extension {
 	var $data;
-	
+
 	function extension($data = '') {
 		$this->data = $data;
 	}
-	
+
 	function incrementContents($value) {
 		return true;
 	}
-	
+
 	function output() {
 		return $this->data;
 	}
@@ -517,22 +517,22 @@ class ext_gosub extends extension {
 	var $ext;
 	var $context;
 	var $args;
-	
+
 	function ext_gosub($pri, $ext = false, $context = false, $args='') {
 		if ($context !== false && $ext === false) {
 			trigger_error("\$ext is required when passing \$context in ext_gosub::ext_gosub()");
 		}
-		
+
 		$this->pri = $pri;
 		$this->ext = $ext;
 		$this->context = $context;
 		$this->args = $args;
 	}
-	
+
 	function incrementContents($value) {
 		$this->pri += $value;
 	}
-	
+
 	function output() {
 		return 'Gosub('.($this->context ? $this->context.',' : '').($this->ext ? $this->ext.',' : '').$this->pri.'('.$this->args.'))' ;
 	}
@@ -586,21 +586,21 @@ class ext_goto extends extension {
 	var $pri;
 	var $ext;
 	var $context;
-	
+
 	function ext_goto($pri, $ext = false, $context = false) {
 		if ($context !== false && $ext === false) {
 			trigger_error("\$ext is required when passing \$context in ext_goto::ext_goto()");
 		}
-		
+
 		$this->pri = $pri;
 		$this->ext = $ext;
 		$this->context = $context;
 	}
-	
+
 	function incrementContents($value) {
 		$this->pri += $value;
 	}
-	
+
 	function output() {
 		return 'Goto('.(!extensions::gotoEmpty($this->context) ? $this->context.',' : '').(!extensions::gotoEmpty($this->ext) ? $this->ext.',' : '').$this->pri.')' ;
 	}
@@ -679,7 +679,7 @@ class ext_noop extends extension {
 class ext_noop_trace extends extension {
   var $string;
   var $level;
-  
+
   function ext_noop_trace($string,$level=3) {
     $this->string = $string;
     $this->level = $level;
@@ -697,12 +697,12 @@ class ext_noop_trace extends extension {
 class ext_dial extends extension {
 	var $number;
 	var $options;
-	
+
 	function ext_dial($number, $options = "tr") {
 		$this->number = $number;
 		$this->options = $options;
 	}
-	
+
 	function output() {
 		return "Dial(".$this->number.",".$this->options.")";
 	}
@@ -714,7 +714,7 @@ class ext_originate extends extension {
 	var $arg1;
 	var $arg2;
 	var $arg3;
-	
+
 	function ext_originate($tech_data, $type, $arg1, $arg2, $arg3 = '') {
 		$this->tech_data = $tech_data;
 		$this->type = $type;
@@ -723,11 +723,11 @@ class ext_originate extends extension {
 		$this->arg3 = $arg3;
 	}
 	function output() {
-		return 'Originate(' . $this->tech_data 
-							. ',' . $this->type 
-							. ',' . $this->arg1 
-							. ',' . $this->arg2 
-							. ',' . $this->arg3 
+		return 'Originate(' . $this->tech_data
+							. ',' . $this->type
+							. ',' . $this->arg1
+							. ',' . $this->arg2
+							. ',' . $this->arg3
 							. ')' ;
 	}
 }
@@ -735,12 +735,12 @@ class ext_originate extends extension {
 class ext_setvar {
 	var $var;
 	var $value;
-	
+
 	function ext_setvar($var, $value = '') {
 		$this->var = $var;
 		$this->value = $value;
 	}
-	
+
 	function output() {
 		return "Set(".$this->var."=".$this->value.")";
 	}
@@ -750,12 +750,12 @@ class ext_set extends ext_setvar {} // alias, SetVar was renamed to Set in ast 1
 class ext_setglobalvar {
 	var $var;
 	var $value;
-	
+
 	function ext_setglobalvar($var, $value) {
 		$this->var = $var;
 		$this->value = $value;
 	}
-	
+
 	function output() {
 		return "Set(".$this->var."=".$this->value.",g)";
 	}
@@ -764,12 +764,12 @@ class ext_setglobalvar {
 class ext_sipaddheader {
 	var $header;
 	var $value;
-	
+
 	function ext_sipaddheader($header, $value) {
 		$this->header = $header;
 		$this->value = $value;
 	}
-	
+
 	function output() {
 		return "SIPAddHeader(".$this->header.": ".$this->value.")";
 	}
@@ -778,12 +778,12 @@ class ext_sipaddheader {
 class ext_sipgetheader {
 	var $header;
 	var $value;
-	
+
 	function ext_sipgetheader($value, $header) {
 		$this->value = $value;
 		$this->header = $header;
 	}
-	
+
 	function output() {
 		return "SIPGetHeader(".$this->value."=".$this->header.")";
 	}
@@ -791,11 +791,11 @@ class ext_sipgetheader {
 
 class ext_alertinfo {
 	var $value;
-	
+
 	function ext_alertinfo($value) {
 		$this->value = $value;
 	}
-	
+
 	function output() {
 		return "SIPAddHeader(Alert-Info: ".$this->value.")";
 	}
@@ -854,12 +854,12 @@ class ext_forkcdr extends extension {
 class ext_waitexten extends extension {
 	var $seconds;
 	var $options;
-	
+
 	function ext_waitexten($seconds = "", $options = "") {
 		$this->seconds = $seconds;
 		$this->options = $options;
 	}
-	
+
 	function output() {
 		return "WaitExten(".$this->seconds.",".$this->options.")";
 	}
@@ -880,13 +880,15 @@ class ext_privacymanager extends extension {
 class ext_macro {
 	var $macro;
 	var $args;
-	
+
 	function ext_macro($macro, $args='') {
 		$this->macro = $macro;
 		$this->args = $args;
 	}
-	
+
 	function output() {
+		$callers=debug_backtrace();
+		freepbx_log(FPBX_LOG_UPDATE, "Need to remove Macro from ".$callers[1]['file']." on line ".$callers[1]['line']);
 		return "Macro(".$this->macro.",".$this->args.")";
 	}
 }
@@ -899,7 +901,7 @@ class ext_execif {
 	var $data_true;
 	var $app_false;
 	var $data_false;
-	
+
 	function ext_execif($expr, $app_true, $data_true='', $app_false = '', $data_false = '') {
 		$this->expr = $expr;
 		$this->app_true = $app_true;
@@ -907,7 +909,7 @@ class ext_execif {
 		$this->app_false = $app_false;
 		$this->data_false = $data_false;
 	}
-	
+
 	function output() {
 		global $version;
 
@@ -955,7 +957,7 @@ class ext_playback extends extension {
 class ext_queue {
 	var $var;
 	var $value;
-	
+
 	// Queue(queuename,options,URL,announceoverride,timeout,AGI,macro,gosub,rule,position)
 	function ext_queue($queuename, $options, $optionalurl, $announceoverride, $timeout, $agi='', $macro='', $gosub='', $rule='', $position='') {
 		$this->queuename = $queuename;
@@ -969,11 +971,11 @@ class ext_queue {
 		$this->rule = $rule;
 		$this->position = $position;
 	}
-	
+
 	function output() {
 		// TODO: test blank: for some reason the Queue cmd takes an empty last param (timeout) as being 0
 		// when really we want unlimited
-		return "Queue(" 
+		return "Queue("
 			. $this->queuename . ","
 			. $this->options . ","
 			. $this->optionalurl . ","
@@ -996,7 +998,7 @@ class ext_queuelog extends extension {
 		$this->event			= $event;
 		$this->additionalinfo	= $additionalinfo;
 	}
-	
+
 	function output() {
 
 		return 'QueueLog('
@@ -1012,12 +1014,12 @@ class ext_queuelog extends extension {
 class ext_addqueuemember extends extension {
 	var $queue;
 	var $channel;
-	
+
 	function ext_addqueuemember($queue, $channel){
 		$this->queue = $queue;
 		$this->channel = $channel;
 	}
-	
+
 	function output() {
 		return "AddQueueMember({$this->queue},{$this->channel})";
 	}
@@ -1026,12 +1028,12 @@ class ext_addqueuemember extends extension {
 class ext_removequeuemember extends extension {
 	var $queue;
 	var $channel;
-	
+
 	function ext_removequeuemember($queue, $channel){
 		$this->queue = $queue;
 		$this->channel = $channel;
 	}
-	
+
 	function output() {
 		return "RemoveQueueMember({$this->queue},{$this->channel})";
 	}
@@ -1040,12 +1042,12 @@ class ext_removequeuemember extends extension {
 class ext_userevent extends extension {
 	var $eventname;
 	var $body;
-	
+
 	function ext_userevent($eventname, $body=""){
 		$this->eventname = $eventname;
 		$this->body = $body;
 	}
-	
+
 	function output() {
 		if ($this->body == '')
 			return "UserEvent({$this->eventname})";
@@ -1056,6 +1058,8 @@ class ext_userevent extends extension {
 
 class ext_macroexit extends extension {
 	function output() {
+		$callers=debug_backtrace();
+		freepbx_log(FPBX_LOG_UPDATE, "Need to remove Macro from ".$callers[1]['file']." on line ".$callers[1]['line']);
 		return "MacroExit()";
 	}
 }
@@ -1091,7 +1095,7 @@ class ext_read {
 	var $option;
 	var $attempts; // added in ast 1.2
 	var $timeout;  // added in ast 1.2
-	
+
 	function ext_read($astvar, $filename='', $maxdigits='', $option='', $attempts ='', $timeout ='') {
 		$this->astvar = $astvar;
 		$this->filename = $filename;
@@ -1100,7 +1104,7 @@ class ext_read {
 		$this->attempts = $attempts;
 		$this->timeout = $timeout;
 	}
-	
+
 	function output() {
 		return "Read(".$this->astvar.",".$this->filename.",".$this->maxdigits.",".$this->option.",".$this->attempts.",".$this->timeout.")";
 	}
@@ -1110,13 +1114,13 @@ class ext_confbridge {
 	var $confno;
 	var $options;
 	var $pin;
-	
+
 	function ext_confbridge($confno, $options='', $pin='') {
 		$this->confno = $confno;
 		$this->options = $options;
 		$this->pin = $pin;
 	}
-	
+
 	function output() {
 		return "ConfBridge(".$this->confno.",".$this->options.",".$this->pin.")";
 	}
@@ -1143,25 +1147,25 @@ class ext_meetme {
 	var $options;
 	var $pin;
 	var $app;
-	
+
 	function ext_meetme($confno, $options='', $pin='') {
 		global $amp_conf;
 		$this->confno = $confno;
 		$this->options = $options;
 		$this->pin = $pin ? $pin : ',';
-		
+
 		//use confbridge if requested, pruning meetme only options
 		switch ($amp_conf['ASTCONFAPP']) {
 			case 'app_confbridge':
 				$this->app = 'ConfBridge';
-			
+
 				//remove invalid options
-				$meetme_only = array('b', 'C', 'd', 'D', 
-									'e', 'E', 'F', 'i', 
-									'I', 'l', 'o', 'P', 
-									'r', 's', 't', 'T', 
+				$meetme_only = array('b', 'C', 'd', 'D',
+									'e', 'E', 'F', 'i',
+									'I', 'l', 'o', 'P',
+									'r', 's', 't', 'T',
 									'x', 'X');
-									
+
 				//find asterisk variables in $this->options, if any
 				//TODO: if possible, the search AND he replace should be done in one regex
 				if (preg_match_all('/\$|}/', $this->options, $matches, PREG_OFFSET_CAPTURE)) {
@@ -1172,7 +1176,7 @@ class ext_meetme {
 							$range[] = array( $matches[$i][1], $matches[$i + 1][1]);
 						}
 					}
-					
+
 					//loop through each charachter in $this->options. If its not in the
 					//range of asterisk variables $range, replace its charachter it its in $meetme_only
 					$str_array = str_split($this->options);
@@ -1199,7 +1203,7 @@ class ext_meetme {
 	function output() {
 		return $this->app . "(".$this->confno.",".$this->options.",".$this->pin.")";
 	}
-	
+
 	/**
 	 * @pram int
 	 * @pram array - multi dimensional with ranges
@@ -1224,7 +1228,7 @@ class ext_meetme {
 class ext_authenticate {
 	var $pass;
 	var $options;
-	
+
 	function ext_authenticate($pass, $options='') {
 		$this->pass = $pass;
 		$this->options = $options;
@@ -1235,17 +1239,17 @@ class ext_authenticate {
 }
 
 class ext_vmauthenticate {
-	var $mailbox; 
+	var $mailbox;
 	var $options;
 
 	function ext_vmauthenticate($mailbox='', $options='') {
-		$this->mailbox = $mailbox; 
+		$this->mailbox = $mailbox;
 		$this->options = $options;
 	}
 	function output() {
 		return "VMAuthenticate(" .$this->mailbox . (($this->options != '') ? ','.$this->options : '' ) .")";
 	}
-} 
+}
 
 class ext_page extends extension {
 	function output() {
@@ -1318,7 +1322,9 @@ class ext_vm extends extension {
 class ext_vmexists extends extension {
 	function output() {
 		global $version; // Asterisk Version
-		if (version_compare($version, "1.6", ">=")) {
+		if (version_compare($version, "11", ">=")) {
+			return 'Set(VMBOXEXISTSSTATUS=${IF(${VM_INFO('.$this->data.',exists)})}?SUCCESS:FAILED)})';
+		} elseif (version_compare($version, "1.6", ">=")) {
 			return 'Set(VMBOXEXISTSSTATUS=${IF(${MAILBOX_EXISTS('.$this->data.')}?SUCCESS:FAILED)})';
 		} else {
 			return "MailBoxExists(".$this->data.")";
@@ -1334,7 +1340,7 @@ class ext_sayunixtime extends extension {
 	function output() {
 		global $version; // Asterisk Version
 		if (version_compare($version, "1.6", ">=")) {
-			// SayUnixTime in 1.6 and greater does NOT require slashes. If they're 
+			// SayUnixTime in 1.6 and greater does NOT require slashes. If they're
 			// supplied, strip them out.
 			$fixed = str_replace("\\", "", $this->data);
 			return "SayUnixTime($fixed)";
@@ -1390,13 +1396,13 @@ class ext_stopplaytones extends extension {
 class ext_zapbarge extends extension {
 	function output() {
 		global $chan_dahdi;
-		
+
 		if ($chan_dahdi) {
 			$command = 'DAHDIBarge';
 		} else {
 			$command = 'ZapBarge';
 		}
-		
+
 		return "$command(".$this->data.")";
 	}
 }
@@ -1424,7 +1430,7 @@ class ext_senddtmf extends extension {
 	var $digits;
 	function ext_senddtmf($digits) {
 		$this->digits = $digits;
-	} 
+	}
 	function output() {
 		return 'SendDTMF('.$this->digits.')';
 	}
@@ -1448,26 +1454,26 @@ class ext_dpickup extends extension {
 	function output() {
 		return "DPickup(".$this->data.")";
 	}
-}				
+}
 class ext_lookupcidname extends extension {
 	function output() {
 		global $version;
 
 		if (version_compare($version, "1.6", "ge")) {
 			return 'ExecIf($["${DB(cidname/${CALLERID(num)})}" != ""]?Set(CALLERID(name)=${DB(cidname/${CALLERID(num)})}))';
-		} else { 
+		} else {
 			return "LookupCIDName";
 		}
-	}		
+	}
 }
 
 class ext_txtcidname extends extension {
 	var $cidnum;
-	
+
 	function ext_txtcidname($cidnum) {
 		$this->cidnum = $cidnum;
 	}
-	
+
 	function output() {
 		return 'Set(TXTCIDNAME=${TXTCIDNAME('.$this->cidnum.')})';
 	}
@@ -1480,7 +1486,7 @@ class ext_mysql_connect extends extension {
 	var $dbpass;
 	var $dbname;
 	var $charset;
-	
+
 	function ext_mysql_connect($connid, $dbhost, $dbuser, $dbpass, $dbname, $charset='') {
 		$this->connid = $connid;
 		$this->dbhost = $dbhost;
@@ -1489,7 +1495,7 @@ class ext_mysql_connect extends extension {
 		$this->dbname = $dbname;
 		$this->charset = $charset;
 	}
-	
+
 	function output() {
 		global $version;
 		if (version_compare($version, "1.8", "ge") && !empty($this->charset)) {
@@ -1504,14 +1510,14 @@ class ext_mysql_query extends extension {
 	var $resultid;
 	var $connid;
 	var $query;
-	
+
 	function ext_mysql_query($resultid, $connid, $query) {
 		$this->resultid = $resultid;
 		$this->connid = $connid;
 		$this->query = $query;
 		// Not escaping mysql query here, you may want to insert asterisk variables in it
 	}
-	
+
 	function output() {
 		return 'MYSQL(Query '.$this->resultid.' ${'.$this->connid.'} '.$this->query.')';
 	}
@@ -1521,13 +1527,13 @@ class ext_mysql_fetch extends extension {
 	var $fetchid;
 	var $resultid;
 	var $fars;
-	
+
 	function ext_mysql_fetch($fetchid, $resultid, $vars) {
 		$this->fetchid = $fetchid;
 		$this->resultid = $resultid;
 		$this->vars = $vars;
 	}
-	
+
 	function output() {
 		return 'MYSQL(Fetch '.$this->fetchid.' ${'.$this->resultid.'} '.$this->vars.')';
 	}
@@ -1535,11 +1541,11 @@ class ext_mysql_fetch extends extension {
 
 class ext_mysql_clear extends extension {
 	var $resultid;
-	
+
 	function ext_mysql_clear($resultid) {
 		$this->resultid = $resultid;
 	}
-	
+
 	function output() {
 		return 'MYSQL(Clear ${'.$this->resultid.'})';
 	}
@@ -1547,11 +1553,11 @@ class ext_mysql_clear extends extension {
 
 class ext_mysql_disconnect extends extension {
 	var $connid;
-	
+
 	function ext_mysql_disconnect($connid) {
 		$this->connid = $connid;
 	}
-	
+
 	function output() {
 		return 'MYSQL(Disconnect ${'.$this->connid.'})';
 	}
@@ -1567,13 +1573,13 @@ class ext_db_put extends extension {
 	var $family;
 	var $key;
 	var $value;
-	
+
 	function ext_db_put($family, $key, $value) {
 		$this->family = $family;
 		$this->key = $key;
 		$this->value = $value;
 	}
-	
+
 	function output() {
 		return 'Set(DB('.$this->family.'/'.$this->key.')='.$this->value.')';
 	}
@@ -1660,7 +1666,7 @@ class ext_chanisavail extends extension {
 		$this->chan = $chan;
 		$this->options = $options;
 	}
-	
+
 	function output() {
 		return 'ChanIsAvail('.$this->chan.','.$this->options.')';
 	}
@@ -1682,13 +1688,13 @@ class ext_mixmonitor extends extension {
 	var $file;
 	var $options;
 	var $postcommand;
-	
+
 	function ext_mixmonitor($file, $options = "", $postcommand = "") {
 		$this->file = $file;
 		$this->options = $options;
 		$this->postcommand = $postcommand;
 	}
-	
+
 	function output() {
 		return "MixMonitor(".$this->file.",".$this->options.",".$this->postcommand.")";
 	}
@@ -1732,11 +1738,11 @@ class ext_tryexec extends extensions {
 // Speech recognition applications
 class ext_speechcreate extends extension {
 	var $engine;
-	
+
 	function ext_speechcreate($engine = null)  {
 		$this->engine = $engine;
 	}
-	
+
 	function output() {
 		return "SpeechCreate(".($this->engine?$this->engine:"").")";
 	}
@@ -1749,7 +1755,7 @@ class ext_speechloadgrammar extends extension {
 		$this->grammar_name = $grammar_name;
 		$this->path_to_grammar = $path_to_grammar;
 	}
-	
+
 	function output() {
 		return "SpeechLoadGrammar(".$this->grammar_name.",".$this->path_to_grammar.")";
 	}
@@ -1760,7 +1766,7 @@ class ext_speechunloadgrammar extends extension {
 	function ext_speechunloadgrammar($grammar_name)  {
 		$this->grammar_name = $grammar_name;
 	}
-	
+
 	function output() {
 		return "SpeechUnloadGrammar(".$this->grammar_name.")";
 	}
@@ -1771,14 +1777,14 @@ class ext_speechactivategrammar extends extension {
 	function ext_speechactivategrammar($grammar_name)  {
 		$this->grammar_name = $grammar_name;
 	}
-	
+
 	function output() {
 		return "SpeechActivateGrammar(".$this->grammar_name.")";
 	}
 }
 
 class ext_speechstart extends extension {
-	
+
 	function output() {
 		return "SpeechStart()";
 	}
@@ -1791,7 +1797,7 @@ class ext_speechbackground extends extension {
 		$this->sound_file = $sound_file;
 		$this->timeout = $timeout;
 	}
-	
+
 	function output() {
 		return "SpeechBackground(".$this->sound_file.($this->timeout?",$this->timeout":"").")";
 	}
@@ -1802,7 +1808,7 @@ class ext_speechdeactivategrammar extends extension {
 	function ext_speechdeactivategrammar($grammar_name)  {
 		$this->grammar_name = $grammar_name;
 	}
-	
+
 	function output() {
 		return "SpeechDeactivateGrammar(".$this->grammar_name.")";
 	}
@@ -1816,7 +1822,7 @@ class ext_backgrounddetect extends extension {
         function ext_backgrounddetect($filename,$silence=null,$min=null,$max=null)  {
                 $this->filename = $filename;
                 $this->silence = $silence;
-                $this->min = $min; 
+                $this->min = $min;
                 $this->max = $max;
         }
         function output() {
@@ -1831,14 +1837,14 @@ class ext_speechprocessingsound extends extension {
 	function ext_speechprocessingsound($sound_file)  {
 		$this->sound_file = $sound_file;
 	}
-	
+
 	function output() {
 		return "SpeechProcessingSound(".$this->sound_file.")";
 	}
 }
 
 class ext_speechdestroy extends extension {
-	
+
 	function output() {
 		return "SpeechDestroy()";
 	}
@@ -1847,12 +1853,12 @@ class ext_speechdestroy extends extension {
 // optionally call this before a ext_speechbackground and if the speech engine recognizes
 // DTMF, it will stop recognizing speech after $digits digits and return the recognized
 // DTMF in ${SPEECH_TEXT(0)}
-class ext_speechdtmfmaxdigits  extends extension { 
+class ext_speechdtmfmaxdigits  extends extension {
 	var $digits;
 	function ext_speechdtmfmaxdigits($digits)  {
 		$this->digits = $digits;
 	}
-	
+
 	function output()  {
 		return "Set(SPEECH_DTMF_MAXLEN=".$this->digits.")";
 	}

@@ -3,27 +3,11 @@
 /**
  * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ * This is a very basic interface to the existing 'module_functions' class.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
-// This is a very basic interface to the existing 'module_functions' class.
 
 class Modules {
 
@@ -70,8 +54,9 @@ class Modules {
 			throw new Exception("I can't find a module for a page that doesn't exist");
 
 		// Search through all active modules..
-		if(empty($this->active_modules)) {return false;}
-		foreach ($this->active_modules as $key => $mod) {
+		$mods = $this->getActiveModules();
+		if(empty($mods)) {return false;}
+		foreach ($mods as $key => $mod) {
 			// ..and if we know about the menuitem that we've been asked..
 			if (isset($mod['menuitems']) && is_array($mod['menuitems']) && isset($mod['menuitems'][$page])) {
 				// ..is it a BMO Module?

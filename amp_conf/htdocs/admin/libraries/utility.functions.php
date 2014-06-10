@@ -14,7 +14,7 @@ define("FPBX_LOG_PHP",      "PHP");
 
 /** FreePBX Logging facility to FILE or syslog
  * @param  string   The level/severity of the error. Valid levels use constants:
- *                  FPBX_LOG_FATAL, FPBX_LOG_CRITICAL, FPBX_LOG_SECURITY, FPBX_LOG_UPDATE, 
+ *                  FPBX_LOG_FATAL, FPBX_LOG_CRITICAL, FPBX_LOG_SECURITY, FPBX_LOG_UPDATE,
  *                  FPBX_LOG_ERROR, FPBX_LOG_WARNING, FPBX_LOG_NOTICE, FPBX_LOG_INFO.
  * @param  string   The error message
  */
@@ -91,8 +91,21 @@ function freepbx_log($level, $message) {
 	}
 }
 
-/* version_compare that works with FreePBX version numbers
-*/
+/**
+ * version_compare that works with FreePBX version numbers
+ *
+ * @param string $version1 First version number
+ * @param string $version2 Second version number
+ * @param string $op If you specify the third optional operator argument,
+ *                   you can test for a particular relationship.
+ *                   The possible operators are:
+ *                   <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne respectively.
+ * @return mixed returns -1 if the first version is lower than the second,
+ *               0 if they are equal, and 1 if the second is lower.
+ *               When using the optional operator argument, the function will
+ *               return TRUE if the relationship is the one specified by the
+ *               operator, FALSE otherwise.
+ */
 function version_compare_freepbx($version1, $version2, $op = null) {
 	$version1 = str_replace("rc","RC", strtolower($version1));
 	$version2 = str_replace("rc","RC", strtolower($version2));
@@ -107,6 +120,12 @@ function compress_framework_css() {
 	compress::web_files();
 }
 
+/**
+ * Throw FreePBX DIE Message
+ * @param string $text The message
+ * @param string $extended_text The Extended Message (Optional)
+ * @param string $type The message type (Optional)
+ */
 function die_freepbx($text, $extended_text="", $type="FATAL") {
 	global $amp_conf;
 
@@ -164,7 +183,11 @@ function die_freepbx($text, $extended_text="", $type="FATAL") {
 	exit(1);
 }
 
-//get the version number
+/**
+ * Get the FreePBX/Framework Version
+ * @param bool $cached Whether to pull from the DB or not
+ * @return string The FreePBX version number
+ */
 function getversion($cached=true) {
 	global $db;
 	static $version;
@@ -179,7 +202,11 @@ function getversion($cached=true) {
 	return $results[0];
 }
 
-//get the version number
+/**
+ * Get the FreePBX/Framework Version (Depreciated in favor of getversion)
+ * @param bool $cached Whether to pull from the DB or not
+ * @return string The FreePBX version number
+ */
 function get_framework_version($cached=true) {
 	global $db;
 	static $version;
@@ -194,16 +221,22 @@ function get_framework_version($cached=true) {
 	return $version;
 }
 
-//tell application we need to reload asterisk
+/**
+ * Tell the user we need to apply changes and reload Asterisk
+ */
 function needreload() {
 	global $db;
-	$sql	= "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'"; 
-	$result	= $db->query($sql); 
-	if($db->IsError($result)) {     
-		die_freepbx($sql.$result->getMessage()); 
+	$sql	= "UPDATE admin SET value = 'true' WHERE variable = 'need_reload'";
+	$result	= $db->query($sql);
+	if($db->IsError($result)) {
+		die_freepbx($sql.$result->getMessage());
 	}
 }
 
+/**
+ * Check to see if Apply Changes/Need Reload flag has been set
+ * @return bool true if reload needed, otherwise false
+ */
 function check_reload_needed() {
 	global $db;
 	global $amp_conf;
@@ -219,7 +252,8 @@ function check_reload_needed() {
 	return ($row[0] == 'true' || $amp_conf['DEVELRELOAD']);
 }
 
-/** Log a debug message to a debug file
+/**
+ * Log a debug message to a debug file (Depreciated)
  * @param  string   debug message to be printed
  * @param  string   depreciated
  * @param  string   depreciated
@@ -234,12 +268,12 @@ function freepbx_debug($string, $option='', $filename='') {
  * dbug() - will just print a time stamp to the debug log file ($amp_conf['FPBXDBUGFILE'])
  * dbug('string') - same as above + will print the string
  * dbug('string',$array) - same as above + will print_r the array after the message
- * dbug($array) - will print_r the array with no message (just a time stamp)  
+ * dbug($array) - will print_r the array with no message (just a time stamp)
  * dbug('string',$array,1) - same as above + will var_dump the array
  * dbug($array,1) - will var_dump the array with no message  (just a time stamp)
- * 	 
+ *
  * @author Moshe Brevda mbrevda => gmail ~ com
- */  
+ */
 function dbug(){
 	global $amp_conf;
 
@@ -272,20 +306,20 @@ function dbug(){
 			$disc		= $opts[0];
 			$msg		= $opts[1];
 			$dump		= $opts[2];
-			break;	
+			break;
 	}
-	
+
 	if (isset($disc) && $disc) {
 		$disc = ' \'' . $disc . '\':';
 	} else {
 		$disc = '';
 	}
-	
+
 	$bt = debug_backtrace();
-	$txt = date("Y-M-d H:i:s") 
-		. "\t" . $bt[0]['file'] . ':' . $bt[0]['line'] 
+	$txt = date("Y-M-d H:i:s")
+		. "\t" . $bt[0]['file'] . ':' . $bt[0]['line']
 		. "\n\n"
-		. $disc 
+		. $disc
 		. "\n"; //add timestamp + file info
 	dbug_write($txt, true);
 	if ($dump==1) {//force output via var_dump
@@ -401,7 +435,7 @@ function fatal($text,$log=true) {
 //
 function debug($text,$log=true) {
 	global $debug;
-	
+
 	if ($debug) echo "[DEBUG-preDB] ".$text.EOL;
 	if ($log) {
 		dbug($text);
@@ -445,7 +479,7 @@ function file_get_contents_url($file_url) {
 				$freepbx_conf =& freepbx_conf::create();
 				$freepbx_conf->set_conf_values(array('MODULEADMINWGET' => true),true);
 
-				$nt =& notifications::create($db); 
+				$nt =& notifications::create($db);
 				$text = sprintf(_("Forced %s to true"),'MODULEADMINWGET');
 				$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
 				$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
@@ -479,7 +513,7 @@ function edit_crontab($remove = '', $add = '') {
 	$cron_out = array();
 	$cron_add = false;
 
-	//if were running as root (i.e. uid === 0), use the asterisk users crontab. If were running as the asterisk user, 
+	//if were running as root (i.e. uid === 0), use the asterisk users crontab. If were running as the asterisk user,
 	//that will happen automatically. If were anyone else, this cron entry will go the current user
 	//and run as them
 	$current_user = posix_getpwuid(posix_geteuid());
@@ -528,7 +562,7 @@ function edit_crontab($remove = '', $add = '') {
 				if (isset($add['event'])) {
 					$cron_add['event'] = '@' . trim($add['event'], '@');
 				} else {
-					$cron_add['minute']		= isset($add['minute']) && $add['minute'] !== ''	
+					$cron_add['minute']		= isset($add['minute']) && $add['minute'] !== ''
 												? $add['minute']
 												: '*';
 					$cron_add['hour']		= isset($add['hour']) && $add['hour'] !== ''
@@ -655,7 +689,7 @@ function astdb_get($exclude = array()) {
 	global $astman;
 	$db			= $astman->database_show();
 	$astdb		= array();
-	
+
 	foreach ($db as $k => $v) {
 		if (!in_array($k, $exclude)) {
 			$key = explode('/', trim($k, '/'), 2);
@@ -663,7 +697,7 @@ function astdb_get($exclude = array()) {
 			$astdb[$key[0]][$key[1]] = $v;
 		}
 	}
-	
+
 	return $astdb;
 }
 
@@ -676,7 +710,7 @@ function astdb_put($astdb, $exclude = array()) {
 	$db	= $astman->database_show();
 
 	foreach ($astdb as $family => $key) {
-		
+
 		if ($family && !in_array($family, $exclude)) {
 			$astman->database_deltree($family);
 		}
@@ -685,7 +719,7 @@ function astdb_put($astdb, $exclude = array()) {
 			//if ($k == 'Array' && $v == '<bad value>') continue;
 			$astman->database_put($family, $k, $v);
 		}
-		
+
 	}
 	return true;
 }
@@ -706,16 +740,16 @@ function scandirr($dir, $absolute = false) {
 	if ($absolute) {
 		global $list;
 	}
-	
-	
+
+
 	//get directory contents
 	foreach (scandir($dir) as $d) {
-		
+
 		//ignore any of the files in the array
 		if (in_array($d, array('.', '..'))) {
 			continue;
 		}
-		
+
 		//if current file ($d) is a directory, call scandirr
 		if (is_dir($dir . '/' . $d)) {
 			if ($absolute) {
@@ -723,8 +757,8 @@ function scandirr($dir, $absolute = false) {
 			} else {
 				$list[$d] = scandirr($dir . '/' . $d, $absolute);
 			}
-			
-		
+
+
 			//otherwise, add the file to the list
 		} elseif (is_file($dir . '/' . $d) || is_link($dir . '/' . $d)) {
 			if ($absolute) {
@@ -732,7 +766,7 @@ function scandirr($dir, $absolute = false) {
 			} else {
 				$list[] = $d;
 			}
-			
+
 		}
 	}
 
@@ -768,7 +802,7 @@ function dbug_printtree($dir, $indent = "\t") {
 
 /**
  * returns the absolute path to a system application
- * 
+ *
  * @author Moshe Brevda mbrevda => gmail ~ com
  * @pram string
  * @retruns string
@@ -783,25 +817,25 @@ function fpbx_which($app) {
 	//if we have the location cached return it
 	if ($which) {
 		return $which;
-		
+
 		//otherwise, search for it
 	} else {
 		//ist of posible plases to find which
-		
+
 		$which = array(
 				'which',
 				'/usr/bin/which' //centos/mac osx
 		);
-		
+
 		foreach ($which as $w) {
 			exec($w . ' ' . $app, $path, $ret);
-			
+
 			//exit if we have a posotive find
 			if ($ret === 0) {
 				break;
 			}
 		}
-		
+
 		if($path[0]) {
 			//if we have a path add it to freepbx settings
 			$set = array(
@@ -814,14 +848,14 @@ function fpbx_which($app) {
 					'category'		=> 'System Apps',
 					'emptyok'		=> 1,
 					'name'			=> 'Path for ' . $app,
-					'description'	=> 'The path to ' . $app 
+					'description'	=> 'The path to ' . $app
 									. ' as auto-determined by the system.'
 									. ' Overwrite as necessary.',
 					'type'			=> CONF_TYPE_TEXT
 			);
 			$freepbx_conf->define_conf_setting('WHICH_' . $app, $set);
 			$freepbx_conf->commit_conf_settings();
-			
+
 			//return the path
 			return $path[0];
 		} else {
@@ -835,193 +869,26 @@ function fpbx_which($app) {
  * http://php.net/manual/en/function.getopt.php
  * temporary polyfill for proper working of getopt()
  * will revert to the native function if php >= 5.3.0
- * 
+ *
  *
  * ===============================================================
- * THIS FUNCTION SHOULD NOT BE RELIED UPON AS IT WILL REMOVED 
+ * THIS FUNCTION SHOULD NOT BE RELIED UPON AS IT WILL REMOVED
  * ONCE THE PROJECT REQUIRES PHP 5.3.0
  * if you must, call like:
  * $getopts = (function_exists('_getopt') ? '_' : '') . 'getopt';
  * $vars = $getopts($short = '', $long = array('id::'));
  * ===============================================================
- * 
+ *
  *
  * http://www.ntu.beautifulworldco.com/weblog/?p=526
  */
-function _getopt() {
-	if (func_num_args() == 1) {
-		$flag = $flag_array = $GLOBALS['argv'];
-		$short_option		= func_get_arg(0);
-		$long_option		= array();
-	} elseif (func_num_args() == 2) {
-		if (is_array(func_get_arg(1))) {
-			$flag = $GLOBALS['argv'];
-			$short_option	= func_get_arg(0);
-			$long_option	= func_get_arg(1);
-		} else {
-			$flag			= func_get_arg(0);
-			$short_option	= func_get_arg(1);
-			$long_option	= array ();
-		}
-	} else if ( func_num_args() == 3 ) {
-		$flag				= func_get_arg(0);
-		$short_option		= func_get_arg(1);
-		$long_option		= func_get_arg(2);
-	} else {
-		exit ( "wrong options\n" );
-	}
-	if (PHP_VERSION_ID >= 50300) {
-		return getopt($short_option, $long_option);
-	}
-	$short_option			= trim ( $short_option );
-	$short_no_value			= array();
-	$short_required_value	= array();
-	$short_optional_value	= array();
-	$long_no_value			= array();
-	$long_required_value	= array();
-	$long_optional_value	= array();
-	$options				= array();
-
-	for ($i = 0; $i < strlen ($short_option);) {
-		if ($short_option{$i} != ":") {
-			if ($i == strlen ($short_option) - 1) {
-				$short_no_value[] = $short_option{$i};
-				break;
-			} else if ($short_option{$i+1} != ":") {
-				$short_no_value[] = $short_option{$i};
-				$i++;
-				continue;
-			} elseif ($short_option{$i+1} == ":" && $short_option{$i+2} != ":") {
-				$short_required_value[] = $short_option{$i};
-				$i += 2;
-				continue;
-				} elseif ($short_option{$i+1} == ":" && $short_option{$i+2} == ":") {
-				$short_optional_value[] = $short_option{$i};
-				$i += 3;
-				continue;
-			}
-		} else {
-			continue;
-		}
-	}
-
-	foreach ($long_option as $a) {
-		if ( substr( $a, -2 ) == "::" ) {
-			$long_optional_value[] = substr($a, 0, -2);
-			continue;
-		} elseif (substr( $a, -1 ) == ":") {
-			$long_required_value[] = substr($a, 0, -1 );
-			continue;
-		} else {
-			$long_no_value[] = $a;
-			continue;
-		}
-	}
-
-	if (is_array ($flag)) {
-		$flag_array = $flag;
-	} else {
-		$flag = "- $flag";
-		$flag_array = split_para($flag);
-	}
-
-	for ($i = 0; $i < count($flag_array);) {
-
-		if ($i >= count ($flag_array) )
-			break;
-
-		if (!$flag_array[$i] || $flag_array[$i] == "-") {
-			$i++;
-			continue;
-		}
-
-		if ($flag_array[$i]{0} != "-") {
-			$i++;
-			continue;
-		}
-
-		if (substr( $flag_array[$i], 0, 2 ) == "--") {
-			if (strpos($flag_array[$i], '=') != false) {
-				list($key, $value) = explode('=', substr($flag_array[$i], 2), 2);
-				if (in_array($key, $long_required_value) || in_array($key, $long_optional_value)) {
-					$options[$key][] = $value;
-				}
-				$i++;
-				continue;
-			}
-			if (strpos($flag_array[$i], '=') == false) {
-				$key = substr( $flag_array[$i], 2 );
-				if ( in_array( substr( $flag_array[$i], 2 ), $long_required_value ) ) {
-					$options[$key][] = $flag_array[$i+1];
-					$i += 2;
-					continue;
-				} elseif (in_array(substr($flag_array[$i], 2), $long_optional_value)) {
-					if ($flag_array[$i+1] != "" && $flag_array[$i+1]{0} != "-") {
-						$options[$key][] = $flag_array[$i+1];
-						$i += 2;
-					} else {
-						$options[$key][] = FALSE;
-						$i ++;
-					}
-					continue;
-				} else if (in_array(substr( $flag_array[$i], 2 ), $long_no_value ) ) {
-					$options[$key][] = FALSE;
-					$i++;
-					continue;
-				} else {
-					$i++;
-					continue;
-				}
-			}
-		} else if ( $flag_array[$i]{0} == "-" && $flag_array[$i]{1} != "-" ) {
-			for ( $j=1; $j < strlen($flag_array[$i]); $j++ ) {
-				if ( in_array( $flag_array[$i]{$j}, $short_required_value ) || in_array( $flag_array[$i]{$j}, $short_optional_value )) {
-
-					if ( $j == strlen($flag_array[$i]) - 1  ) {
-						if ( in_array( $flag_array[$i]{$j}, $short_required_value ) ) {
-							$options[$flag_array[$i]{$j}][] = $flag_array[$i+1];
-							$i += 2;
-						} else if (in_array($flag_array[$i]{$j}, $short_optional_value ) && $flag_array[$i+1] != "" && $flag_array[$i+1]{0} != "-" ) {
-							$options[$flag_array[$i]{$j}][] = $flag_array[$i+1];
-							$i += 2;
-						} else {
-							$options[$flag_array[$i]{$j}][] = FALSE;
-							$i ++;
-						}
-						$plus_i = 0;
-						break;
-					} else {
-						$options[$flag_array[$i]{$j}][] = substr ( $flag_array[$i], $j + 1 );
-							$i ++;
-						$plus_i = 0;
-						break;
-					}
-				} else if(in_array($flag_array[$i]{$j}, $short_no_value)) {
-					$options[$flag_array[$i]{$j}][] = FALSE;
-					$plus_i = 1;
-					continue;
-				}
-			}
-			$i += $plus_i;
-			continue;
-		}
-		$i++;
-		continue;
-	}
-
-	foreach ($options as $key => $value) {
-		if (count ( $value ) == 1) {
-			$options[ $key ] = $value[0];
-		}
-	}
-
-	return $options;
-
+function _getopt($short_option, $long_option = array()) {
+    return getopt($short_option, $long_option);
 }
 
 /**
  * returns a rounded string representation of a byte size
- * 
+ *
  * @author http://us2.php.net/manual/en/function.memory-get-usage.php#96280
  * @pram int
  * @retruns string
@@ -1032,8 +899,8 @@ function bytes2string($size){
  }
 
 /**
- * returns the absolute path to a system application
- * 
+ * returns a rounded byte size representation of a string
+ *
  * @author Moshe Brevda mbrevda => gmail ~ com
  * @pram string
  * @pram string, optional
@@ -1045,7 +912,7 @@ function string2bytes($str, $type = ''){
 		$type	= strtolower($str[1]);
 		$str	= $str[0];
 	}
-	
+
     $units	= array(
 					'b'		=> 1,
 					'kb'	=> 1024,
@@ -1054,20 +921,20 @@ function string2bytes($str, $type = ''){
 					'tb'	=> 1024 * 1024 * 1024 * 1024,
 					'pb'	=> 1024 * 1024 * 1024 * 1024 * 1024
 			);
-	
-    return isset($str, $units[$type]) 
-			? round($str * $units[$type]) 
+
+    return isset($str, $units[$type])
+			? round($str * $units[$type])
 			: false;
  }
 
 /**
  * downloads a file to the browser (i.e. sends the file to the browser)
- * 
+ *
  * @author Moshe Brevda mbrevda => gmail ~ com
  * @pram string - absolute path to file
  * @pram string, optional - file name as it will be downloaded
  * @pram string, optional - content mime type
- * @pram bool, optional - true will force the file to be download. 
+ * @pram bool, optional - true will force the file to be download.
  *						False allows the browser to attempt to display the file
  * 						Correct mime type ($type) snesesary for proper broswer interpretation!
  *
@@ -1076,10 +943,10 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
 	if (file_exists($file)) {
 		//set the filename to the current filename if no name is specified
 		$name = $name ? $name : basename($file);
-		
+
 		//sanitize filename
 		$name = preg_replace('/[^A-Za-z0-9_\.-]/', '', $name);
-		
+
 		//attempt to set file mime type if it isn't already set
 		if (!$type) {
 			if (class_exists('finfo')) {
@@ -1088,14 +955,14 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
 			} else {
 				exec(fpbx_which('file') . ' -ib ' . $file, $res);
 				$type = $res[0];
-			}	
+			}
 		}
 
 		//failsafe for false or blank results
 		$type = $type ? $type : 'application/octet-stream';
-		
+
 		$disposition = $force_download ? 'attachment' : 'inline';
-		
+
 		//send headers
 		header('Content-Description: File Transfer');
 		header('Content-Type: ' . $type);
@@ -1105,16 +972,16 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
 		header('Content-Length: ' . filesize($file));
-		
+
 		//clear all buffers
 		while (ob_get_level()) {
 			ob_end_clean();
 		}
 		flush();
-		
+
 		//send the file!
 		readfile($file);
-		
+
 		//return immediately
 		exit;
 	} else {
@@ -1125,11 +992,11 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
 
 /**
  * Get data from a pdf file. Requires pdfinfo
- * 
+ *
  * @author Moshe Brevda mbrevda => gmail ~ com
  * @pram string - /path/to/file
- * @returns array - details about the pdf. 
- * The following details are returned 
+ * @returns array - details about the pdf.
+ * The following details are returned
  *		(values returned are depndant on the pdfinfo binary)
  *		author
  *		creationdate
@@ -1148,11 +1015,11 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
 function fpbx_pdfinfo($pdf) {
 	$pdfinfo = array();
 	exec(fpbx_which('pdfinfo') . ' ' . $pdf, $pdf_details, $ret_code);
-	
+
 	if($ret_code !== 0) {
 		return false;
 	}
-	
+
 	foreach($pdf_details as $detail) {
 		list($key, $value) = preg_split('/:\s*/', $detail, 2);
 		$pdfinfo[strtolower(preg_replace('/[^A-Za-z]/', '', $key))] = $value;
@@ -1162,14 +1029,76 @@ function fpbx_pdfinfo($pdf) {
 }
 
 /**
+ * Generate Message Banner(s)
+ *
+ * @param string $message Primary Message to display
+ * @param string $type Type of message, can be info,danger,warning,success
+ * @param array $details Details to show, array, each item is a new line
+ * @param string $link link for "What does this mean?"
+ * @param bool $closeable If true then the user can close this message,
+ *						Flag will be stored in cookie against hash of message
+ * @return string, the generated banner
+ */
+function generate_message_banner($message,$type='info',$details=array(),$link='',$closeable = false) {
+	$full_hash = sha1($message.json_encode($details));
+	if($closeable && !empty($_COOKIE['bannerMessages'])) {
+		$hashes = json_decode($_COOKIE['bannerMessages'],TRUE);
+		if(in_array($full_hash,$hashes)) {
+			//it's been closed
+			return '';
+		}
+	}
+
+	$ts = rand();
+    if(empty($message)) {
+        return '';
+    }
+    switch($type) {
+        case 'danger':
+        case 'warning':
+            $message = '<i class="fa fa-exclamation-triangle"></i> '.$message;
+        case 'info':
+        case 'success':
+        break;
+        default:
+            $type = 'info';
+        break;
+    }
+    if(!empty($details)) {
+        $dt = $details;
+        $details = '<div class="panel-group" id="message-'.$ts.'" data-toggle="collapse" data-parent="#message-'.$ts.'" href="#collapseOne-'.$ts.'">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="panel-title">
+              Details
+          </span>
+        </div>
+        <div id="collapseOne-'.$ts.'" class="panel-collapse collapse">
+          <div class="panel-body">';
+          foreach($dt as $d) {
+              $details .= $d . "<br>";
+          }
+          $details .= '</div>
+        </div>
+      </div>
+     </div>';
+     } else {
+         $details = '';
+     }
+    $link = !empty($link) ? " <a class='alert-link' href='".$link."' target='_blank'>("._('What Does this Mean?').")</a>" : '';
+	$close = ($closeable) ? '<i class="fa fa-times close" data-hash="'.$full_hash.'" data-dismiss="alert" aria-hidden="true"></i>' : '';
+    return '<div class="global-message-banner alert signature alert-'.$type.' alert-dismissable text-center">'.$close.'<h2><strong>'.$message.'</strong></h2>'.$details.$link.'</div>';
+}
+
+/**
  * Update AMI credentials in manager.conf
- * 
+ *
  * @author Philippe Lindheimer
  * @pram mixed $user false means don't change
  * @pram mixed $pass password false means don't change
  * @pram mixed $writetimeout false means don't change
  * @returns boolean
- * 
+ *
  * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
  */
 function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
@@ -1178,7 +1107,7 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 	$conf_file = escapeshellarg($amp_conf['ASTETCDIR'] . '/manager.conf');
 	$ret = $ret2 = 0;
 	$output = array();
-	
+
 	if ($user !== false && $user != '') {
 		$sed_arg = escapeshellarg('"s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/"');
 		exec("sed -i.bak  $sed_arg $conf_file", $output, $ret);
@@ -1217,11 +1146,11 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 			$nt->delete('core', 'AMPMGRPASS');
 		}
 	}
-	
+
 	//attempt to set writetimeout
 	unset($output);
 	if ($writetimeout) {
-		exec('sed -i.bak "s/writetimeout\s*=.*$/writetimeout = ' 
+		exec('sed -i.bak "s/writetimeout\s*=.*$/writetimeout = '
 			. $amp_conf['ASTMGRWRITETIMEOUT'] . '/" ' . $conf_file, $output, $ret3);
 		if ($ret3) {
 			dbug($output);
@@ -1307,9 +1236,9 @@ function bootstrap_include_hooks($hook_type, $module) {
 	if (!isset($hooks)) {
 		static $hooks = '';
 		$hooks = _bootstrap_parse_hooks();
-		
+
 	}
-	
+
 	if (isset($hooks[$hook_type][$module])) {
 		foreach ($hooks[$hook_type][$module] as $hook) {
 			if (file_exists($hook)) {
@@ -1317,10 +1246,10 @@ function bootstrap_include_hooks($hook_type, $module) {
 			} elseif(file_exists($amp_conf['AMPWEBROOT'] . '/admin/' . $hook)) {
 				require_once($amp_conf['AMPWEBROOT'] . '/admin/' . $hook);
 			}
-			
+
 		}
 	}
-	
+
 	return true;
 }
 
@@ -1329,7 +1258,7 @@ function bootstrap_include_hooks($hook_type, $module) {
  */
 function _bootstrap_parse_hooks() {
 	$hooks		= array();
-	
+
 	$modulef =& module_functions::create();
 	$modules	= $modulef->getinfo(false, MODULE_STATUS_ENABLED);
 	foreach ($modules as $mymod => $mod) {
@@ -1340,12 +1269,12 @@ function _bootstrap_parse_hooks() {
 					case 'post_module_load':
 						//first get all_mods
 						if (isset($type_mods['all_mods'])) {
-							
-							$hooks[$type]['all_mods'] = isset($hooks[$type]['all_mods']) 
-														? array_merge($hooks[$type]['all_mods'], 
+
+							$hooks[$type]['all_mods'] = isset($hooks[$type]['all_mods'])
+														? array_merge($hooks[$type]['all_mods'],
 														 (array)$type_mods['all_mods'])
 														: (array)$type_mods['all_mods'];
-							unset($type_mods['all_mods']);	
+							unset($type_mods['all_mods']);
 						}
 						if (!isset($type_mods)) {
 							break;//break if there are no more hooks to include
@@ -1353,7 +1282,7 @@ function _bootstrap_parse_hooks() {
 						//now load all remaining modules
 						foreach ($type_mods as $type_mod) {
 							$hooks[$type][$mymod] = isset($hooks[$type][$mymod])
-													? array_merge($hooks[$type][$mymod], 
+													? array_merge($hooks[$type][$mymod],
 													(array)$type_mod)
 													: (array)$type_mod;
 						}
@@ -1368,7 +1297,7 @@ function _bootstrap_parse_hooks() {
 }
 
 /**
- * do variable substitution 
+ * do variable substitution
  * @param string - string to check for replacements
  * @param string - option delimiter, defautls to $
  * @returns string - the new string, with replacements - if any
@@ -1379,10 +1308,10 @@ function varsub($string, $del = '$') {
 	/*
 	 * substitution string can look like: $delSTRING$del
 	 */
-	$regex = '/' 
-		. preg_quote($del) 
-		. '([a-zA-Z0-9_-]*)' 
-		. preg_quote($del) 
+	$regex = '/'
+		. preg_quote($del)
+		. '([a-zA-Z0-9_-]*)'
+		. preg_quote($del)
 		.  '/';
 
 	//if we have matches
@@ -1394,13 +1323,13 @@ function varsub($string, $del = '$') {
 			if (isset($amp_conf[$var])) {
 				$once = 1;
 				//and replace them, one at a time
-				$string = str_replace($find[$count], 
-					$amp_conf[$var], 
-					$string, 
-					$once);		
+				$string = str_replace($find[$count],
+					$amp_conf[$var],
+					$string,
+					$once);
 			}
 		}
 	}
-	
+
 	return $string;
 }

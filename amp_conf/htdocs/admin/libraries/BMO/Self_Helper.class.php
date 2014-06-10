@@ -1,35 +1,14 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
-
-/*
- * This is the FreePBX BMO Autoloading helper.
- *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
- */
-
 /**
+ * This is the FreePBX Big Module Object.
+ *
  * DB_Helper catches the FreePBX object, and provides autoloading
  *
- * This is for use with FreePBX's BMO.
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
+
 class Self_Helper extends DB_Helper {
 
 	public function __construct($freepbx = null) {
@@ -41,10 +20,9 @@ class Self_Helper extends DB_Helper {
 
 	/**
 	 * PHP Magic __get - runs AutoLoader if BMO doesn't already have the object.
-	 * 
+	 *
 	 * @param $var Class Name
-	 * @return $object New Object
-	 * @access public 
+	 * @return object New Object
 	 */
 	public function __get($var) {
 		// Does the BMO know about this object already?
@@ -64,18 +42,27 @@ class Self_Helper extends DB_Helper {
 	 *
 	 * @param $var Class Name
 	 * @param $args Any params to be passed to the new object
-	 * @return $object New Object
-	 * @access public 
+	 * @return object New Object
 	 */
 	public function __call($var, $args) {
 		return $this->autoLoad($var, $args);
 	}
 
 	/**
+	* Used to inject a new class into the BMO construct
+	* @param {string} $classname The class name
+	* @param {string} $hint Where to find the class (directory)
+	*/
+	public function injectClass($classname, $hint = null) {
+		$this->loadObject($classname, $hint);
+		$this->autoLoad($classname);
+	}
+
+	/**
 	 * AutoLoader for BMO.
-	 * 
+	 *
 	 * This implements a half-arsed spl_autoload that ignore PSR1 and PSR4. I am
-	 * admitting that at the start so no-one gets on my case about it. 
+	 * admitting that at the start so no-one gets on my case about it.
 	 *
 	 * However, as we're having no end of issues with PHP Autoloading things properly
 	 * (as of PHP 5.3.3, which is our minimum version at this point in time), this will
@@ -87,15 +74,14 @@ class Self_Helper extends DB_Helper {
 	 *
 	 * If it doesn't find it, it'll throw an exception telling you why.
 	 *
-	 * @return object
-	 * @access private
+	 * @return object The object as an object!
 	 */
 	private function autoLoad() {
 		// Figure out what is wanted, and return it.
 		if (func_num_args() == 0)
 			throw new Exception("Nothing given to the AutoLoader");
 
-		// If we have TWO arguments, we've been called by __call, if we only have 
+		// If we have TWO arguments, we've been called by __call, if we only have
 		// one we've been called by __get.
 
 		$args = func_get_args();
@@ -112,7 +98,7 @@ class Self_Helper extends DB_Helper {
 		$this->loadObject($var);
 
 		// Now, we may have paramters (__call), or we may not..
-		if (isset($args[1])) {
+		if (isset($args[1]) && isset($args[1][0])) {
 			// We do. We were __call'ed. Sanity check
 			if (isset($args[1][1])) {
 				throw new Exception("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this.");
@@ -126,8 +112,11 @@ class Self_Helper extends DB_Helper {
 		return $this->$var;
 	}
 
-	/** 
-	 * Find the file for the object $objname
+	/**
+	 * Find the file for the object
+	 * @param string $objname The Object Name (same as class name, filename)
+	 * @param string $hint The location of the Class file
+	 * @return bool True if found or throws exception
 	 */
 	private function loadObject($objname, $hint = null) {
 		// If it already exists, we're fine.
@@ -182,12 +171,5 @@ class Self_Helper extends DB_Helper {
 		}
 
 		return true;
-	}
-
-	/** Implement hints for autoloading */
-
-	public function injectClass($classname, $hint = null) {
-		$this->loadObject($classname, $hint);
-		$this->autoLoad($classname);
 	}
 }

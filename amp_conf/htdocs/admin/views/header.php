@@ -25,11 +25,8 @@ $html .= '<title>'
 $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 		. '<meta name="robots" content="noindex" />'
 		. '<link rel="shortcut icon" href="' . $amp_conf['BRAND_IMAGE_FAVICON'] . '">';
-//shiv
-$html .= '<!--[if lt IE 9]>';
-$html .= '<script src="assets/js/html5shiv.js"></script>';
-$html .= '<![endif]-->';
 
+//CSS First THEN JS (http://uxmovement.com/content/why-you-should-place-style-sheets-before-scripts/)
 //less compiled into css
 foreach($compiled_less_files as $file) {
 	$html .= '<link href="assets/less/'.$file.'" rel="stylesheet" type="text/css">';
@@ -53,14 +50,22 @@ if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))) {
 	$html .= '<link href="assets/css/mainstyle-rtl.css" rel="stylesheet" type="text/css" />';
 }
 
-$html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
-$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
-$html .= "<script>var firsttypeofselector = Modernizr.firsttypeofselector; if(firsttypeofselector) { document.write('<link href=\"assets/less/".$extra_compiled_less_files['buttons']."\" rel=\"stylesheet\" type=\"text/css\">'); }</script>";
-
 // Insert a custom CSS sheet if specified (this can change what is in the main CSS)
 if ($amp_conf['BRAND_CSS_CUSTOM']) {
 	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM'] . $version_tag . '" rel="stylesheet" type="text/css">';
 }
+
+//shiv
+$html .= '<!--[if lt IE 9]>';
+$html .= '<script src="assets/js/html5shiv.js"></script>';
+$html .= '<![endif]-->';
+//Javascripts
+$html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
+//CSS3 buttons or jqueryUI buttons
+//TODO the jqueryUI code to turn on buttons needs to be moved here eventually
+$html .= "<script>var firsttypeofselector = Modernizr.firsttypeofselector; if(firsttypeofselector) { document.write('<link href=\"assets/less/".$extra_compiled_less_files['buttons']."\" rel=\"stylesheet\" type=\"text/css\">'); }</script>";
+
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
 /* We are using a custom Jquery file for now, it's beta

@@ -3,28 +3,27 @@
 /**
  * This is the FreePBX Big Module Object.
  *
- * Copyright (C) 2013 Schmooze Com, INC
- * Copyright (C) 2013 Rob Thomas <rob.thomas@schmoozecom.com>
+ * This class will determine the codecs that are avalible for use in FreePBX
+ * from Asterisk, it will first try to query Asterisk itself with a fallback
+ * to our hard coded defaults
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   FreePBX BMO
- * @author    Rob Thomas <rob.thomas@schmoozecom.com>
- * @license   AGPL v3
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
  */
 class Codecs {
 
+	public function __construct($freepbx = null) {
+		if ($freepbx == null) {
+			throw new Exception("Not given a FreePBX Object");
+		}
+		$this->freepbx = $freepbx;
+		$this->astman = $this->freepbx->astman;
+	}
+
+	/**
+	 * Get all Avalible Codecs
+	 * @return array Array of usable Codecs
+	 */
 	public function getAll() {
 		$codecs['audio'] = $this->getAudio();
 		$codecs['video'] = $this->getVideo();
@@ -34,8 +33,27 @@ class Codecs {
 		return $codecs;
 	}
 
+	/**
+	 * Get all usable Video Codecs
+	 * @param {bool} $defaults = false Whether to define the initial default ordering
+	 */
 	public function getVideo($defaults = false) {
-		$ret = array("h261" => false, "h263" => false, "h263p" => false, "h264" => false, "mpeg4" => false, "vp8" => false);
+		$codecs = ($this->astman->connected()) ? $this->astman->Codecs('video') : array();
+		if(!empty($codecs)) {
+			$ret = array();
+			foreach($codecs as $codec) {
+				$ret[$codec] = false;
+			}
+		} else {
+			$ret = array(
+				"h261" => false,
+				"h263" => false,
+				"h263p" => false,
+				"h264" => false,
+				"mpeg4" => false,
+				"vp8" => false
+			);
+		}
 		if ($defaults) {
 			$ret['h264'] = "1";
 			$ret['mpeg4'] = "2";
@@ -44,37 +62,49 @@ class Codecs {
 		return $ret;
 	}
 
+	/**
+	* Get all usable Audio Codecs
+	* @param {bool} $defaults = false Whether to define the initial default ordering
+	*/
 	public function getAudio($defaults = false) {
-		$ret = array(
-			"g722" => false,
-			"ulaw" => false,
-			"alaw" => false,
-			"gsm" => false,
-			"g729" => false,
-			"g723" => false,
-			"g726" => false,
-			"adpcm" => false,
-			"slin" => false,
-			"lpc10" => false,
-			"speex" => false,
-			"speex16" => false,
-			"ilbc" => false,
-			"g726aal2" => false,
-			"slin16" => false,
-			"siren7" => false,
-			"siren14" => false,
-			"testlaw" => false,
-			"g719" => false,
-			"speex32" => false,
-			"slin12" => false,
-			"slin24" => false,
-			"slin32" => false,
-			"slin44" => false,
-			"slin48" => false,
-			"slin96" => false,
-			"slin192" => false,
-			"opus" => false
-		);
+		$codecs = ($this->astman->connected()) ? $this->astman->Codecs('audio') : array();
+		if(!empty($codecs)) {
+			$ret = array();
+			foreach($codecs as $codec) {
+				$ret[$codec] = false;
+			}
+		} else {
+			$ret = array(
+				"g722" => false,
+				"ulaw" => false,
+				"alaw" => false,
+				"gsm" => false,
+				"g729" => false,
+				"g723" => false,
+				"g726" => false,
+				"adpcm" => false,
+				"slin" => false,
+				"lpc10" => false,
+				"speex" => false,
+				"speex16" => false,
+				"ilbc" => false,
+				"g726aal2" => false,
+				"slin16" => false,
+				"siren7" => false,
+				"siren14" => false,
+				"testlaw" => false,
+				"g719" => false,
+				"speex32" => false,
+				"slin12" => false,
+				"slin24" => false,
+				"slin32" => false,
+				"slin44" => false,
+				"slin48" => false,
+				"slin96" => false,
+				"slin192" => false,
+				"opus" => false
+			);
+		}
 
 		if ($defaults) {
 			$ret['ulaw'] = "1";
@@ -85,12 +115,43 @@ class Codecs {
 		return $ret;
 	}
 
-	public function getText() {
-		return array("red" => false, "t140" => false);
+	/**
+	* Get all usable Text Codecs
+	* @param {bool} $defaults = false Whether to define the initial default ordering
+	*/
+	public function getText($defaults = false) {
+		$codecs = ($this->astman->connected()) ? $this->astman->Codecs('text') : array();
+		if(!empty($codecs)) {
+			$ret = array();
+			foreach($codecs as $codec) {
+				$ret[$codec] = false;
+			}
+		} else {
+			$ret = array(
+				"red" => false,
+				"t140" => false
+			);
+		}
+		return $ret;
 	}
 
-	public function getImage() {
-		return array("jpeg" => false, "png" => false);
+	/**
+	* Get all usable Image Codecs
+	* @param {bool} $defaults = false Whether to define the initial default ordering
+	*/
+	public function getImage($defaults = false) {
+		$codecs = ($this->astman->connected()) ? $this->astman->Codecs('image') : array();
+		if(!empty($codecs)) {
+			$ret = array();
+			foreach($codecs as $codec) {
+				$ret[$codec] = false;
+			}
+		} else {
+			$ret = array(
+				"jpeg" => false,
+				"png" => false
+			);
+		}
+		return $ret;
 	}
 }
-

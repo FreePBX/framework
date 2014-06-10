@@ -17,7 +17,6 @@ class ModulesTest extends PHPUnit_Framework_TestCase {
 	public function testModuleNames() {
 		$this->assertEquals(self::$f->Modules->getClassName("sipsettings"), "Sipsettings");
 		$this->assertEquals(self::$f->Modules->getClassName("astmodules"), "Core");
-		$this->assertEquals(self::$f->Modules->getClassName("conferences"), false);
+		$this->assertEquals(self::$f->Modules->getClassName("randomwrongmodule"), false);
 	}
 }
-		
