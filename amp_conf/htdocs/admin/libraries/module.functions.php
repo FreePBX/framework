@@ -214,12 +214,13 @@ function module_update_notifications(&$old_xml, &$xmlarray, $passive) {
 	// If keys (rawnames) are different then there are new modules, create a notification.
 	// This will always be the case the first time it is run since the xml is empty.
 	//
-	$diff_modules = array_diff_assoc($new_modules, $old_modules);
+	$diff_modules = array_diff_key($new_modules, $old_modules);
 	$cnt = count($diff_modules);
 	if ($cnt) {
     $active_repos = module_get_active_repos();
 		$extext = _("The following new modules are available for download. Click delete icon on the right to remove this notice.")."<br />";
-		foreach ($diff_modules as $mod) {
+        foreach ($diff_modules as $modname) {
+            $mod = $new_modules[$modname];
       // If it's a new module in a repo we are not interested in, then don't send a notification.
       if (isset($active_repos[$mod['repo']]) && $active_repos[$mod['repo']]) {
         $extext .= $mod['rawname']." (".$mod['version'].")<br />";
