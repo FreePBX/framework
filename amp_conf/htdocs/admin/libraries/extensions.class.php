@@ -1319,7 +1319,7 @@ class ext_vmexists extends extension {
 	function output() {
 		global $version; // Asterisk Version
 		if (version_compare($version, "11", ">=")) {
-			return 'Set(VMBOXEXISTSSTATUS=${IF(${VM_INFO('.$this->data.',exists)})}?SUCCESS:FAILED)})';
+			return 'Set(VMBOXEXISTSSTATUS=${IF(${VM_INFO('.$this->data.',exists)}?SUCCESS:FAILED)})';
 		} elseif (version_compare($version, "1.6", ">=")) {
 			return 'Set(VMBOXEXISTSSTATUS=${IF(${MAILBOX_EXISTS('.$this->data.')}?SUCCESS:FAILED)})';
 		} else {
