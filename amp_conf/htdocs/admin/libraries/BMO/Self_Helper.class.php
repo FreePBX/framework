@@ -103,9 +103,23 @@ class Self_Helper extends DB_Helper {
 			if (isset($args[1][1])) {
 				throw new Exception("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this.");
 			}
-			$this->$var = new $var($this, $args[1][0]);
+			if (class_exists($var)) {
+				$this->$var = new $var($this, $args[1][0]);
+			} elseif(class_exists('\\FreePBX\\modules\\'.$var)) {
+				$cvar = '\\FreePBX\\modules\\'.$var;
+				$this->$var = new $cvar($this, $args[1][0]);
+			} else {
+				throw new Exception("I tried to load the class but it didnt exist.");
+			}
 		} else {
-			$this->$var = new $var($this);
+			if (class_exists($var)) {
+				$this->$var = new $var($this);
+			} elseif(class_exists('\\FreePBX\\modules\\'.$var)) {
+				$cvar = '\\FreePBX\\modules\\'.$var;
+				$this->$var = new $cvar($this);
+			} else {
+				throw new Exception("I tried to load the class but it didnt exist.");
+			}
 			FreePBX::create()->$var = $this->$var;
 
 		}
@@ -160,7 +174,7 @@ class Self_Helper extends DB_Helper {
 		}
 
 		// Right, after all of this we should now have our object ready to create.
-		if (!class_exists($objname)) {
+		if (!class_exists($objname) && !class_exists('\\FreePBX\\modules\\'.$objname)) {
 			// Bad things have happened.
 			if (!$loaded) {
 				throw new Exception("I was unable to locate the BMO Class $objname. I looked everywhere for $objname.class.php");
