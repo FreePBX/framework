@@ -295,7 +295,7 @@ class GPG {
 		}
 
 		if (is_writable($home.".gnupg") || (is_writable($home) && !is_dir($home.".gnupg"))) {
-			$homedir = "--homedir ${home}.gnupg/";
+			$homedir = "--homedir ${home}.gnupg";
 		} else {
 			throw new Exception("Don't have permission/can't write to ${home}.gnupg");
 		}
