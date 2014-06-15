@@ -238,6 +238,41 @@ class GPG {
 			}
 			fclose($fd);
 		}
+
+		// Verify that the ampwebsuer can read and write to the gnupg directory, which
+		// should always exist by this point.
+		$freepbxuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+		$pwent = posix_getpwnam($freepbxuser);
+		$uid = $pwent['uid'];
+		$gid = $pwent['gid'];
+		$home = $pwent['dir'];
+		// If $home doesn't end with /, add it.
+		if (substr($home, -1) != "/") {
+			$home .= "/";
+		}
+		$home .= ".gnupg";
+
+		if (!is_dir($home)) {
+			throw new Exception("Tried to setup GPG, and it didn't work. This is bad.");
+		}
+
+		// Now, check the permissions of that directory
+		$stat = stat($home);
+		if ($uid != $stat['uid'] || $gid != $stat['gid']) {
+			// Woah. Permissions are wrong. Hopefully, I'm root, so I can fix them.
+			if (!posix_geteuid() === 0) {
+				throw new Exception("Permissions error on $home - please re-run as root to automatically repair");
+			}
+			// We're root. Yay.
+			// Fix any files that exist already
+			$allfiles = glob($home."/*");
+			foreach ($allfiles as $file) {
+				chown($file, $uid);
+				chgrp($file, $gid);
+			}
+			chown($home, $uid);
+			chgrp($home, $gid);
+		}
 		return true;
 
 	}
