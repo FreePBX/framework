@@ -244,7 +244,7 @@ var box;
 function process_module_actions(modules) {
 	var urlStr = '';
 	if(!jQuery.isEmptyObject(modules)) {
-		urlStr = "config.php?display=modules&skip_astman=1&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
+		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
 	}
 
 	box = $('<div id="moduledialogwrapper"></div>')

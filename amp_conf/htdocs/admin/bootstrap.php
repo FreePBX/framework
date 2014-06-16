@@ -3,7 +3,7 @@
 //	Copyright 2013 Schmooze Com Inc.
 //
 
-/* 
+/*
  * Bootstrap Settings:
  *
  * bootstrap_settings['skip_astman']           - legacy $skip_astman, default false
