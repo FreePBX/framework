@@ -1498,8 +1498,25 @@ class module_functions {
 					return array(sprintf(_('Could not remove temp storage at %s'), $temppath));
 				}
 			break;
+			case preg_match('/^(gpg)$/', $extension):
+				if(!FreePBX::GPG()->verifyFile($filename)) {
+					return array(sprintf(_('File Integrity failed for %s - aborting (gpg check failed)'), $filename));
+				}
+				try {
+					$filename = FreePBX::GPG()->getFile($filename);
+					if(!file_exists($filename)) {
+						return array(sprintf(_('Could not find extracted module: %s'), $filename));
+					}
+				} catch(\Exception $e) {
+					return array(sprintf(_('Unable to work with GPG file, message was: %s'), $e->getMessage()));
+				}
+				exec("/usr/bin/env tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($temppath), $output, $exitcode);
+				if ($exitcode != 0) {
+					return array(sprintf(_('Could not remove temp storage at %s'), $temppath));
+				}
+			break;
 			default:
-				return array(sprintf(_('Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip'),$extension,basename($filename)));
+				return array(sprintf(_('Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip,gpg'),$extension,basename($filename)));
 			break;
 		}
 

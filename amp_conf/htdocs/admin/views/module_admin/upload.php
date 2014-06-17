@@ -4,9 +4,9 @@
 	<?php if (!empty($res) && is_array($res)) { ?>
 		<div class="error">
 			<p>
-				<?php echo sprintf(_('The following error(s) occurred processing the uploaded file: %s'), 
+				<?php echo sprintf(_('The following error(s) occurred processing the uploaded file: %s'),
 		     		'<ul><li>'.implode('</li><li>',$res).'</li></ul>');?>
-				<?php sprintf(_('You should fix the problem or select another file and %s.'), 
+				<?php sprintf(_('You should fix the problem or select another file and %s.'),
 		     		"<a href='config.php?display=modules'>"._("try again")."</a>");?>
 			</p>
 		</div>
@@ -22,18 +22,24 @@
 	<br/>
 	<div class="panel panel-default" style="width: 50%;">
 		<div class="panel-body">
-			<label>Type: <select id="local-type"><option value="download">Download</option><option value="upload">Upload</option></select></label>
-				<br><br>
+			<label>Type:
+				<select id="local-type">
+					<option value="download"><?php echo _('Download (From Web)')?></option>
+					<option value="upload"><?php echo _('Upload (From Hard Disk)')?></option>
+				</select>
+			</label>
+			<br>
+			<br>
 			<form id="modulesGUI-upload" name="modulesGUI-upload" action="config.php" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="display" value="modules" />
 				<input type="hidden" name="action" value="upload" />
 				<span id="download-group">
 					<label style="text-decoration:underline"><a href=# class="info"><?php echo _("Download Remote Module")?><span><?php echo _("Typically the direct address of a module tarball where FreePBX will attempt to download remotely and upload locally")?></span></a><br/><input type="text" size="50" name="remotemod" placeholder="http://<path>/<to>/<tarball>" /></label>
-					<input id="download" type="submit" value="<?php echo _('Download')?>" name="download" />
+					<input id="download" type="submit" value="<?php echo _('Download (From Web)')?>" name="download" />
 				</span>
 				<span id="upload-group" style="display:none;">
 					<label style="text-decoration:underline"><a href=# class="info"><?php echo _("Upload Local Module")?><span><?php echo _("Locally Choosen FreePBX module from your system")?></span></a><input type="file" name="uploadmod" /></label>
-					<input id="upload" type="submit" value="<?php echo _('Upload')?>" name="upload" />
+					<input id="upload" type="submit" value="<?php echo _('Upload (From Hard Disk)')?>" name="upload" />
 				</span>
 			</form>
 		</div>
