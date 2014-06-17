@@ -234,6 +234,8 @@ class Cron {
 
 		fwrite($pipes[0], join("\n", $arr)."\n");
 		fclose($pipes[0]);
+		// Ensure that the logfile is writable by everyone, if I created it
+		@chmod("/tmp/cron.error", 0777);
 	}
 
 }
