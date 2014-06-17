@@ -2635,7 +2635,7 @@ class module_functions {
                 $mod['signature'] = json_decode($mod['signature'],TRUE);
             }
             $modules['modules'][$mod['modulename']] = $mod;
-            if($mod['signature']['status'] & ~GPG::STATE_GOOD) {
+            if(~$mod['signature']['status'] & GPG::STATE_GOOD) {
                 $globalValidation = false;
             }
     		$trusted = $mod['signature']['status'] & GPG::STATE_TRUSTED;
