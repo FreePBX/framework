@@ -28,11 +28,18 @@ if (isset($_REQUEST['command'])) {
 // No auth - we'll do that later.
 $bootstrap_settings['freepbx_auth'] = false;
 
+// Throw verbose exceptions, no matter what.
+$bootstrap_settings['freepbx_error_handler'] = false;
+
 // No non-BMO Modules.
 $restrict_mods = true;
 
 // Bootstrap!
 include '/etc/freepbx.conf';
+
+// We may remove this, but for the moment, ajax should be
+// 100% error and warning free.
+error_reporting(-1);
 
 $bmo->Ajax->doRequest($module, $command);
 
