@@ -1483,19 +1483,19 @@ class module_functions {
 			case preg_match('/^(tar\.gz|tgz|tar)$/', $extension):
 				exec("/usr/bin/env tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($temppath), $output, $exitcode);
 				if ($exitcode != 0) {
-					return array(sprintf(_('Could not remove temp storage at %s'), $temppath));
+					return array(sprintf(_('Could not un%s archive into %s'), $extension, $temppath));
 				}
 			break;
 			case preg_match('/^(zip)$/', $extension):
 				exec("/usr/bin/env unzip  ".escapeshellarg($filename)." -d ".escapeshellarg($temppath), $output, $exitcode);
 				if ($exitcode != 0) {
-					return array(sprintf(_('Could not remove temp storage at %s'), $temppath));
+					return array(sprintf(_('Could not un%s archive into %s'), $extension, $temppath));
 				}
 			break;
 			case preg_match('/^(bz2|bz|tbz2|tbz)$/', $extension):
 				exec("/usr/bin/env tar xjf ".escapeshellarg($filename)." -C ".escapeshellarg($temppath), $output, $exitcode);
 				if ($exitcode != 0) {
-					return array(sprintf(_('Could not remove temp storage at %s'), $temppath));
+					return array(sprintf(_('Could not un%s archive into %s'), $extension, $temppath));
 				}
 			break;
 			case preg_match('/^(gpg)$/', $extension):
@@ -1512,7 +1512,7 @@ class module_functions {
 				}
 				exec("/usr/bin/env tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($temppath), $output, $exitcode);
 				if ($exitcode != 0) {
-					return array(sprintf(_('Could not remove temp storage at %s'), $temppath));
+					return array(sprintf(_('Could not un%s archive into %s'), $extension, $temppath));
 				}
 			break;
 			default:
