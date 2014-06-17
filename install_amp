@@ -1742,6 +1742,8 @@ if ($module_install && !$update_links) {
 	out("bypassing packaged module installation because --skip-module-install or --update-links flag");
 }
 
+//Start trusting the key
+FreePBX::GPG()->trustFreePBX();
 
 // **** Set reload flag for AMP admin
 needreload();
