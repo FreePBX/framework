@@ -154,4 +154,46 @@ class DBHelperTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($f->getConfig('TESTVAR3', 'testrange'), 't3', 'TESTVAR3 not multi-set correctly');
 		$f->delById('testrange');
 	}
+
+	public function testDupes() {
+		$f = self::$f;
+		$db = self::$f->Database();
+		// Ensure that a value overwrites a previous one
+		$f->setConfig('TESTVAR1');
+		$f->setConfig('TESTVAR1', 't1');
+		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
+		$f->setConfig('TESTVAR1', 't2');
+		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
+		$firsttestarr = array("this", "is" => "an", "annoying", 0, array("test", "of", "arrays"), false, true, -1);
+		$othertestarr = array("another" => "annoying", 0, array("test", "of", "arrays"), false, true, -1);
+		$f->setConfig('TESTVAR1', $firsttestarr);
+		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
+		$f->setConfig('TESTVAR1', $othertestarr);
+		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
+	}
+
+	public function testDupesWithID() {
+		$f = self::$f;
+		$db = self::$f->Database();
+		// Ensure that a value overwrites a previous one
+		$f->setConfig('TESTVAR1', false, "withid");
+		$f->setConfig('TESTVAR1', 't1', "withid");
+		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
+		$f->setConfig('TESTVAR1', 't2', "withid");
+		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
+		$firsttestarr = array("this", "is" => "an", "annoying", 0, array("test", "of", "arrays"), false, true, -1);
+		$othertestarr = array("another" => "annoying", 0, array("test", "of", "arrays"), false, true, -1);
+		$f->setConfig('TESTVAR1', $firsttestarr, "withid");
+		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
+		$f->setConfig('TESTVAR1', $othertestarr, "withid");
+		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
+	}
 }
