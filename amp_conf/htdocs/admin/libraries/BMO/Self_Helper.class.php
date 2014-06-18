@@ -132,9 +132,9 @@ class Self_Helper extends DB_Helper {
 	private function loadObject($objname, $hint = null) {
 		$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : $objname;
 		// If it already exists, we're fine.
-		if (class_exists($objname)) {
+		if (class_exists($class)) {
 			//do reflection tests for ARI junk, we **dont** want to load ARI
-			$class = new ReflectionClass($objname);
+			$class = new ReflectionClass($class);
 
 			//this is a stop gap, remove in 13 or 14 when ARI is no longer used
 			if(!$class->hasMethod('navMenu') && !$class->hasMethod('rank')) {

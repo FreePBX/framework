@@ -11,6 +11,8 @@ define('MODULE_STATUS_BROKEN', -1);
 
 class module_functions {
 	public $security_array = null;
+	public $modDepends = array();
+	public $notFound = false;
 
 	function &create() {
 		static $obj;
@@ -957,7 +959,8 @@ class module_functions {
 		}
 	}
 
-	/** Finds all the enabled modules that depend on a given module
+	/**
+	 * Finds all the enabled modules that depend on a given module
 	 * @param  mixed  The name of the module, or the modulexml Array
 	 * @return array  Array containing the list of modules, or false if no dependencies
 	 */
@@ -1002,12 +1005,14 @@ class module_functions {
 		return (count($depends) > 0) ? $depends : false;
 	}
 
-	/** Enables a module
+	/**
+	 * Enables a module
 	 * @param string    The name of the module to enable
 	 * @param bool      If true, skips status and dependency checks
 	 * @return  mixed   True if succesful, array of error messages if not succesful
 	 */
 	function enable($modulename, $force = false) { // was enableModule
+		$this->modDepends = array();
 		global $db;
 		$modules = $this->getinfo($modulename);
 
@@ -1033,21 +1038,20 @@ class module_functions {
 		return true;
 	}
 
-	/** Downloads the latest version of a module
-	 * and extracts it to the directory
+	/**
+	 * Downloads the latest version of a module and extracts it to the directory
 	 * @param string    The location of the module to install
 	 * @param bool      If true, skips status and dependency checks
 	 * @param string    The name of a callback function to call with progress updates.
-	                    function($action, $params). Possible actions:
-	                      getinfo: while downloading modules.xml
-	                      downloading: while downloading file; params include 'read' and 'total'
-	                      untar: before untarring
-	                      done: when complete
+	 *                   function($action, $params). Possible actions:
+	 *                     getinfo: while downloading modules.xml
+	 *                     downloading: while downloading file; params include 'read' and 'total'
+	 *                     untar: before untarring
+	 *                     done: when complete
 	 * @return  mixed   True if succesful, array of error messages if not succesful
 	 */
-
-	// was fetchModule
 	function download($moduledata, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) {
+		$this->notFound = false;
 		global $amp_conf;
 		if(!is_array($moduledata)) {
 			if(!empty($override_xml) && file_exists($ovverride_xml)) {
@@ -1568,6 +1572,8 @@ class module_functions {
 	 * @return mixed   True if succesful, array of error messages if not succesful
 	 */
 	function install($modulename, $force = false) {
+		$this->modDepends = array();
+		$this->notFound = false;
 		global $db, $amp_conf;
 
 		if ($time_limit = ini_get('max_execution_time')) {
@@ -1579,6 +1585,7 @@ class module_functions {
 		// make sure we have a directory, to begin with
 		$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
 		if (!is_dir($dir)) {
+			$this->notFound = true;
 			return array(_("Cannot find module"));
 		}
 
@@ -2635,7 +2642,7 @@ class module_functions {
                 $mod['signature'] = json_decode($mod['signature'],TRUE);
             }
             $modules['modules'][$mod['modulename']] = $mod;
-            if($mod['signature']['status'] & ~GPG::STATE_GOOD) {
+            if(~$mod['signature']['status'] & GPG::STATE_GOOD) {
                 $globalValidation = false;
             }
     		$trusted = $mod['signature']['status'] & GPG::STATE_TRUSTED;
