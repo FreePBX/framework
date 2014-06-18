@@ -844,19 +844,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('USE_GOOGLE_CDN_JS',$set);
 
-  // RSSFEEDS
-  if(defined('CONF_TYPE_TEXTAREA')) {
-    $set['value'] = "http://www.freepbx.org/rss.xml\nhttp://feeds.feedburner.com/InsideTheAsterisk";
-    $set['options'] = '';
-    $set['name'] = 'RSS Feeds';
-    $set['description'] = 'RSS Feeds that are displayed in UCP and Dashboard. Separate each feed by a new line';
-    $set['emptyok'] = 0;
-    $set['readonly'] = 0;
-    $set['type'] = CONF_TYPE_TEXTAREA;
-    $freepbx_conf->define_conf_setting('RSSFEEDS',$set);
-    $set['level'] = 0;
-  }
-
 	//JQUERY_VER
 	$set['value'] = '1.11.1';
 	$set['options'] = '';
