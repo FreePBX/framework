@@ -470,7 +470,9 @@ class GPG {
 		if (!$status['trust']) {
 			return $status;
 		}
-		$modules = parse_ini_string($out['stdout'], true);
+		// Silence warnings about '# not a valid comment'.
+		// This should be removed after 12beta is finished.
+		$modules = @parse_ini_string($out['stdout'], true);
 		return $modules;
 	}
 
