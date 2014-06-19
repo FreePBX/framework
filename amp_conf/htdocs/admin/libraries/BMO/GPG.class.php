@@ -42,7 +42,7 @@ class GPG {
 
 	// This is how long we should wait for GPG to run a command.
 	// This may need to be tuned on things like the pi.
-	public $timeout = 2;
+	public $timeout = 3;
 
 
 	/**
