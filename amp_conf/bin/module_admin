@@ -709,7 +709,7 @@ foreach ($args[0] as $arg) {
 		case "--repos":
 		case "R":
 			$repo_args = explode(',',$arg[1]);
-			$remote_repos = $modulef->get_remote_repos();
+			$remote_repos = $modulef->get_remote_repos(true);
 			foreach ($repo_args as $repo) {
 				if(in_array($repo, $remote_repos)) {
 					$active_repos[$repo] = 1;
