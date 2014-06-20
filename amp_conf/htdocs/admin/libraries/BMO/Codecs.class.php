@@ -38,7 +38,7 @@ class Codecs {
 	 * @param {bool} $defaults = false Whether to define the initial default ordering
 	 */
 	public function getVideo($defaults = false) {
-		$codecs = ($this->astman->connected()) ? $this->astman->Codecs('video') : array();
+		$codecs = (is_object($this->astman) && $this->astman->connected()) ? $this->astman->Codecs('video') : array();
 		if(!empty($codecs)) {
 			$ret = array();
 			foreach($codecs as $codec) {
