@@ -473,6 +473,9 @@ switch($display) {
 		break;
 }
 
+$header = array();
+$footer = array();
+
 if ($quietmode) {
 		// send the output buffer, should be sending just the page contents
 		ob_end_flush();
