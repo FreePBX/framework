@@ -150,31 +150,34 @@ class GuiHooks {
 
 		$active_modules = $this->FreePBX->Modules->active_modules;
 
-		foreach($active_modules as $key => $module) {
-			// If we've been handed a modulename, only return the
-			// hooks for that specific module.
-			if ($onlymodule == null || $onlymodule == $key) {
-				// Does this module have a _configpageinit function?
-				$initfuncname = $key . '_configpageinit';
-				if (function_exists($initfuncname) ) {
-					$configpageinits[] = $initfuncname;
-				}
+		if (!empty($active_modules) && is_array($active_modules)) {
+			foreach($active_modules as $key => $module) {
+				// If we've been handed a modulename, only return the
+				// hooks for that specific module.
+				if ($onlymodule == null || $onlymodule == $key) {
+					// Does this module have a _configpageinit function?
+					$initfuncname = $key . '_configpageinit';
+					if (function_exists($initfuncname) ) {
+						$configpageinits[] = $initfuncname;
+					}
 
-				// Does the module have multiple items?
-				if (isset($module['items']) && is_array($module['items'])) {
-					foreach($module['items'] as $itemKey => $itemName) {
-						// Each item may have a configpageinit, too.
-						$initfuncname = $key . '_' . $itemKey . '_configpageinit';
-						if (function_exists($initfuncname)) {
-							$configpageinits[] = $initfuncname;
+					// Does the module have multiple items?
+					if (isset($module['items']) && is_array($module['items'])) {
+						foreach($module['items'] as $itemKey => $itemName) {
+							// Each item may have a configpageinit, too.
+							$initfuncname = $key . '_' . $itemKey . '_configpageinit';
+							if (function_exists($initfuncname)) {
+								$configpageinits[] = $initfuncname;
+							}
 						}
 					}
 				}
 			}
 		}
 
-		if (isset($configpageinits))
+		if (isset($configpageinits)) {
 			return $configpageinits;
+		}
 
 		// 'None' means Not-Logged-In.
 		return array();
