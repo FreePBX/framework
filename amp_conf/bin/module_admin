@@ -217,6 +217,8 @@ function doUpgrade($modulename, $force) {
 
 function doInstallLocal($force) {
 	$modulef =& module_functions::create();
+	//refresh module cache
+	$modulef->getinfo(false,false,true);
   $module_info=$modulef->getinfo(false, MODULE_STATUS_NOTINSTALLED);
   foreach ($module_info as $module) {
     if ($module['rawname'] != 'builtin') {
@@ -481,6 +483,8 @@ function showHelp() {
 	out("      Installs any module not installed that is locally available",false);
 	out("  installall",false);
 	out("      Installs all module that exist in the repository",false);
+	out("  refreshsignatures",false);
+	out("      ReDownloads all modules that have invalid signatures",false);
 	out("  list",false);
 	out("      List all local modules and their current status",false);
 	out("  listonline",false);
@@ -621,6 +625,31 @@ function showList($online = false) {
 		$module_version = isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'';
 		outn(str_pad($module_version, 18));
 		out($status);
+	}
+}
+
+function refreshsignatures() {
+	$mf = module_functions::create();
+	FreePBX::GPG();
+	$fpbxmodules = FreePBX::Modules();
+	$list = $fpbxmodules->getActiveModules();
+	$modules_online = $mf->getonlinexml();
+	if(empty($modules_online)) {
+		out('Cant Reach Online Server');
+		exit(1);
+	}
+	foreach($list as $m) {
+		//Check signature status, then if its online then if its signed online then redownload (through force)
+		if(isset($m['signature']['status']) && (~$m['signature']['status'] & GPG::STATE_GOOD) && isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
+			out("Refreshing ".$m['rawname']);
+			$modulename = $m['rawname'];
+			$modules = $fpbxmodules->getinfo($modulename);
+			doUpgrade($modulename,true);
+			outn("Verifying GPG...");
+			$mf->updateSignature($modulename);
+			out('Done');
+			out("");
+		}
 	}
 }
 
@@ -857,6 +886,10 @@ switch ($operation ) {
 	case 'upgradeall':
 	case 'updateall':
 		doUpgradeAll($force);
+		setPerms();
+	break;
+	case 'refreshsignatures':
+		refreshsignatures();
 		setPerms();
 	break;
 	case 'enablerepo':
