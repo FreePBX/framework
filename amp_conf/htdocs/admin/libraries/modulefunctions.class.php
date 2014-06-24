@@ -2649,12 +2649,13 @@ class module_functions {
     		$tampered = $mod['signature']['status'] & GPG::STATE_TAMPERED;
     		$unsigned = $mod['signature']['status'] & GPG::STATE_UNSIGNED;
             $md = $this->getInfo();
+				$modname = !empty($md[$mod['modulename']]['name']) ? $md[$mod['modulename']]['name'] : sprintf(_('%s [not enabled]'),$mod['modulename']);
     		if ($unsigned) {
-    			$modules['statuses']['unsigned'][] = sprintf(_('Module: %s, is unsigned'),$md[$mod['modulename']]['name']);
+    			$modules['statuses']['unsigned'][] = sprintf(_('Module: %s, is unsigned'),$modname);
     		} else {
     			if ($tampered) {
     				foreach($mod['signature']['details'] as $d) {
-    					$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$md[$mod['modulename']]['name'],$d);
+    					$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$modname,$d);
     				}
     			}
                 if (!$trusted) {
