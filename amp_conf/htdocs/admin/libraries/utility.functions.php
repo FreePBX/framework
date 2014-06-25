@@ -25,7 +25,7 @@ function freepbx_log_security($txt) {
 		$tz = 'America/Los_Angeles';
 	}
 	date_default_timezone_set($tz);
-	$tstamp		= date("Y-M-d H:i:s");
+	$tstamp		= date("Y-m-d H:i:s");
 
 	// Don't append if the file is greater than ~2G since some systems fail
 	//
