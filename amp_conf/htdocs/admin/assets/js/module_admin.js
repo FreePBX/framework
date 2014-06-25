@@ -114,14 +114,19 @@ $(document).ready(function(){
 		$('#fullmodule_'+module+' .modulestatus').children().text(label);
 
 		$('#fullmodule_'+module+' .modulefunctionradios input[type=radio]').each(function( index ) {
+			var label = '';
 			if(!firsttypeofselector) {
-				var label = $(this).button('option','label').replace(pi.version,si.version);
+				label = $(this).button('option','label').replace(pi.version,si.version);
 				$(this).button('option', 'label', label);
-			} else {
-				var label = $(this).find('label').text();
-				$(this).find('label').text(label);
 			}
-		})
+		});
+
+		if(firsttypeofselector) {
+			var llabel = $('#fullmodule_'+module+' .modulefunctionradios .installabel').text().replace(pi.version,si.version);
+			$('#fullmodule_'+module+' .modulefunctionradios .installabel').text(llabel);
+		} else {
+
+		}
 
 		$('#changelog_'+module+' span').html(si.changelog);
 		//I dont like this much please improve...someone
@@ -244,7 +249,7 @@ var box;
 function process_module_actions(modules) {
 	var urlStr = '';
 	if(!jQuery.isEmptyObject(modules)) {
-		urlStr = "config.php?display=modules&skip_astman=1&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
+		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
 	}
 
 	box = $('<div id="moduledialogwrapper"></div>')

@@ -42,7 +42,7 @@ class GPG {
 
 	// This is how long we should wait for GPG to run a command.
 	// This may need to be tuned on things like the pi.
-	public $timeout = 2;
+	public $timeout = 3;
 
 
 	/**
@@ -238,6 +238,33 @@ class GPG {
 			}
 			fclose($fd);
 		}
+
+		// Verify that the ampwebsuer can read and write to the gnupg directory, which
+		// should always exist by this point.
+		$freepbxuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+		$pwent = posix_getpwnam($freepbxuser);
+		$uid = $pwent['uid'];
+		$gid = $pwent['gid'];
+
+		$home = $this->getGpgLocation().".gnupg";
+
+		// Now, check the permissions of that directory
+		$stat = stat($home);
+		if ($uid != $stat['uid'] || $gid != $stat['gid']) {
+			// Woah. Permissions are wrong. Hopefully, I'm root, so I can fix them.
+			if (!posix_geteuid() === 0) {
+				throw new Exception("Permissions error on $home - please re-run as root to automatically repair");
+			}
+			// We're root. Yay.
+			// Fix any files that exist already
+			$allfiles = glob($home."/*");
+			foreach ($allfiles as $file) {
+				chown($file, $uid);
+				chgrp($file, $gid);
+			}
+			chown($home, $uid);
+			chgrp($home, $gid);
+		}
 		return true;
 
 	}
@@ -274,32 +301,6 @@ class GPG {
 	 */
 	public function runGPG($params, $stdin = null) {
 
-		// Re #7429 - Always use the AMPASTERISKWEBUSER homedir for gpg config.
-		$webuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
-		if (!$webuser) {
-			throw new Exception("I don't know who I should be running GPG as.");
-		}
-		// We need to ensure that we can actually read the GPG files.
-		$web = posix_getpwnam($webuser);
-		if (!$web) {
-			throw new Exception("I tried to find out about $webuser, but the system doesn't think that user exists");
-		}
-		$home = trim($web['dir']);
-		if (!is_dir($home)) {
-			throw new Exception("Can't seem to find the homedir of $webuser - $home");
-		}
-
-		// If $home doesn't end with /, add it.
-		if (substr($home, -1) != "/") {
-			$home .= "/";
-		}
-
-		if (is_writable($home.".gnupg") || (is_writable($home) && !is_dir($home.".gnupg"))) {
-			$homedir = "--homedir ${home}.gnupg/";
-		} else {
-			throw new Exception("Don't have permission/can't write to ${home}.gnupg");
-		}
-
 		$fds = array(
 			array("file", "/dev/null", "r"), // stdin
 			array("pipe", "w"), // stdout
@@ -312,6 +313,9 @@ class GPG {
 			$fds[0] = $stdin;
 		}
 
+		$webuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+		$home = $this->getGpgLocation();
+
 		// We need to ensure that our environment variables are sane.
 		// Luckily, we know just the right things to say...
 		if (!isset($this->gpgenv)) {
@@ -320,6 +324,8 @@ class GPG {
 			$this->gpgenv['HOME'] = $home;
 			$this->gpgenv['SHELL'] = "/bin/bash";
 		}
+
+		$homedir = "--homedir ${home}.gnupg";
 
 		$proc = proc_open($this->gpg." $homedir ".$this->gpgopts." --status-fd 3 $params", $fds, $pipes, "/tmp", $this->gpgenv);
 		if (!is_resource($proc)) { // Unable to start!
@@ -435,7 +441,9 @@ class GPG {
 		if (!$status['trust']) {
 			return $status;
 		}
-		$modules = parse_ini_string($out['stdout'], true);
+		// Silence warnings about '# not a valid comment'.
+		// This should be removed after 12beta is finished.
+		$modules = @parse_ini_string($out['stdout'], true);
 		return $modules;
 	}
 
@@ -485,5 +493,41 @@ class GPG {
 			}
 		}
 		return $retarr;
+	}
+
+	public function getGpgLocation() {
+		// Re #7429 - Always use the AMPASTERISKWEBUSER homedir for gpg
+		$webuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+
+		if (!$webuser) {
+			throw new Exception("I don't know who I should be running GPG as.");
+		}
+	
+		// We need to ensure that we can actually read the GPG files.
+		$web = posix_getpwnam($webuser);
+		if (!$web) {
+			throw new Exception("I tried to find out about $webuser, but the system doesn't think that user exists");
+		}
+		$home = trim($web['dir']);
+		if (!is_dir($home)) {
+			// Well, that's handy. It doesn't exist. Let's use ASTSPOOLDIR instead, because
+			// that should exist and be writable.
+			$home = FreePBX::Freepbx_conf()->get('ASTSPOOLDIR');
+			if (!is_dir($home)) {
+				// OK, I give up.
+				throw new Exception("Asterisk home dir doesn't exist, and, ASTSPOOLDIR doesn't exist. Aborting");
+			}
+		}
+
+		// If $home doesn't end with /, add it.
+		if (substr($home, -1) != "/") {
+			$home .= "/";
+		}
+
+		if (is_writable($home.".gnupg") || (is_writable($home) && !is_dir($home.".gnupg"))) {
+			return $home;
+		} else {
+			throw new Exception("Don't have permission/can't write to ${home}.gnupg");
+		}
 	}
 }

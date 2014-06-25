@@ -11,6 +11,8 @@
 
 class Self_Helper extends DB_Helper {
 
+	private $moduleNamespace = '\\FreePBX\\modules\\';
+
 	public function __construct($freepbx = null) {
 		if (!is_object($freepbx))
 			throw new Exception("Need to be instantiated with a FreePBX Object");
@@ -97,15 +99,24 @@ class Self_Helper extends DB_Helper {
 		// This will throw an Exception if it can't find the class.
 		$this->loadObject($var);
 
+		$class = class_exists($this->moduleNamespace.$var) ? $this->moduleNamespace.$var : $var;
 		// Now, we may have paramters (__call), or we may not..
 		if (isset($args[1]) && isset($args[1][0])) {
 			// We do. We were __call'ed. Sanity check
 			if (isset($args[1][1])) {
 				throw new Exception("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this.");
 			}
-			$this->$var = new $var($this, $args[1][0]);
+			if (class_exists($class)) {
+				$this->$var = new $class($this, $args[1][0]);
+			} else {
+				throw new Exception("I tried to load the class but it didnt exist.");
+			}
 		} else {
-			$this->$var = new $var($this);
+			if (class_exists($class)) {
+				$this->$var = new $class($this);
+			} else {
+				throw new Exception("I tried to load the class but it didnt exist.");
+			}
 			FreePBX::create()->$var = $this->$var;
 
 		}
@@ -119,9 +130,16 @@ class Self_Helper extends DB_Helper {
 	 * @return bool True if found or throws exception
 	 */
 	private function loadObject($objname, $hint = null) {
+		$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : $objname;
 		// If it already exists, we're fine.
-		if (class_exists($objname)) {
-			return true;
+		if (class_exists($class)) {
+			//do reflection tests for ARI junk, we **dont** want to load ARI
+			$class = new ReflectionClass($class);
+
+			//this is a stop gap, remove in 13 or 14 when ARI is no longer used
+			if(!$class->hasMethod('navMenu') && !$class->hasMethod('rank')) {
+				return true;
+			}
 		}
 
 		// This is the file we loaded the class from, for debugging later.
@@ -160,7 +178,7 @@ class Self_Helper extends DB_Helper {
 		}
 
 		// Right, after all of this we should now have our object ready to create.
-		if (!class_exists($objname)) {
+		if (!class_exists($class) && !class_exists($this->moduleNamespace.$objname)) {
 			// Bad things have happened.
 			if (!$loaded) {
 				throw new Exception("I was unable to locate the BMO Class $objname. I looked everywhere for $objname.class.php");

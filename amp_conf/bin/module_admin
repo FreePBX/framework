@@ -8,7 +8,7 @@
 
 $bootstrap_settings['freepbx_auth'] = false;
 // don't include any of the functions.inc.php files from modules, this CLI version of
-// module_admin is somtimes the only way to recover from a bad module being loaded into
+// module_admin is sometimes the only way to recover from a bad module being loaded into
 // a system.
 //
 //$restrict_mods = true;
@@ -65,12 +65,15 @@ function doInstall($modulename, $force) {
 		if(!empty($module->modDepends)) {
 			out("Detected Unmet Dependency..Attempting to install it");
 			foreach($module->modDepends as $mod) {
+				if($modulename == $mod) {
+					continue; //skip self?
+				}
 				getIncludes(); //get functions from other modules, in case we need them here
 				out("Installing $mod...");
 				$status = doInstall($mod, $force);
 				if($status !== true && $mod != 'framework') {
 					if (($status1 = doDownload($mod, $force)) === true) {
-						if (($status2 = doInstall($mod, $force)) === true) {
+						if (($status2 = doInstall($mod, $force)) !== true) {
 							out("Unable to install module ${modulename}'s dependency ${mod}:");
 							out(' - '.implode("\n - ",$status2));
 							exit;
@@ -84,13 +87,25 @@ function doInstall($modulename, $force) {
 			}
 			doInstall($modulename, $force);
 		} else {
-			out("The following error(s) occurred:");
-			out(' - '.implode("\n - ",$errors));
-			exit(2);
+			if($module->notFound) {
+				if (($status1 = doDownload($modulename, $force)) === true) {
+					if (($status2 = doInstall($modulename, $force)) !== true) {
+						out("Unable to install module ${modulename}:");
+						out(' - '.implode("\n - ",$status2));
+						exit;
+					}
+				}
+			} else {
+				out("The following error(s) occurred:");
+				out(' - '.implode("\n - ",$errors));
+				exit(2);
+			}
+
 		}
 	} else {
 		out("Module ".$modulename." successfully installed");
 	}
+	return true;
 }
 
 function doDelete($modulename, $force) {
@@ -130,7 +145,6 @@ function doDeleteAll($force=true) {
 }
 
 function doDownload($modulename, $force) {
-
 	global $modulexml_path;
 	global $modulerepository_path;
 	$modulef =& module_functions::create();
@@ -141,6 +155,7 @@ function doDownload($modulename, $force) {
 	} else {
 		out("Module ".$modulename." successfully downloaded");
 	}
+	return true;
 }
 
 function enableRepo($repo) {
@@ -202,6 +217,8 @@ function doUpgrade($modulename, $force) {
 
 function doInstallLocal($force) {
 	$modulef =& module_functions::create();
+	//refresh module cache
+	$modulef->getinfo(false,false,true);
   $module_info=$modulef->getinfo(false, MODULE_STATUS_NOTINSTALLED);
   foreach ($module_info as $module) {
     if ($module['rawname'] != 'builtin') {
@@ -466,6 +483,8 @@ function showHelp() {
 	out("      Installs any module not installed that is locally available",false);
 	out("  installall",false);
 	out("      Installs all module that exist in the repository",false);
+	out("  refreshsignatures",false);
+	out("      ReDownloads all modules that have invalid signatures",false);
 	out("  list",false);
 	out("      List all local modules and their current status",false);
 	out("  listonline",false);
@@ -488,7 +507,7 @@ function showHelp() {
 	out("      Enables a remote repository",false);
 	out("  disablerepo <repo>",false);
 	out("      Disables a remote repository",false);
-	
+
 	out("  --help, -h, -?           Show this help",false);
 }
 
@@ -609,13 +628,38 @@ function showList($online = false) {
 	}
 }
 
+function refreshsignatures() {
+	$mf = module_functions::create();
+	FreePBX::GPG();
+	$fpbxmodules = FreePBX::Modules();
+	$list = $fpbxmodules->getActiveModules();
+	$modules_online = $mf->getonlinexml();
+	if(empty($modules_online)) {
+		out('Cant Reach Online Server');
+		exit(1);
+	}
+	foreach($list as $m) {
+		//Check signature status, then if its online then if its signed online then redownload (through force)
+		if(isset($m['signature']['status']) && (~$m['signature']['status'] & GPG::STATE_GOOD) && isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
+			out("Refreshing ".$m['rawname']);
+			$modulename = $m['rawname'];
+			$modules = $fpbxmodules->getinfo($modulename);
+			doUpgrade($modulename,true);
+			outn("Verifying GPG...");
+			$mf->updateSignature($modulename);
+			out('Done');
+			out("");
+		}
+	}
+}
+
 function showReverseDepends($modulename) {
 	$modulef =& module_functions::create();
 	$modules = $modulef->getinfo($modulename);
 	if (!isset($modules[$modulename])) {
 		fatal($modulename.' not found');
 	}
-	
+
 	if (($depmods = $modulef->reversedepends($modulename)) !== false) {
 		out("The following modules depend on this one: ".implode(', ',$depmods));
 		exit(1);
@@ -690,11 +734,11 @@ foreach ($args[0] as $arg) {
 		case "--modulerepository-path": case "r":
 			$modulerepository_path = rtrim($arg[1],DIRECTORY_SEPARATOR)."/";
 		break;
-		case "--repo": 
-		case "--repos": 
+		case "--repo":
+		case "--repos":
 		case "R":
 			$repo_args = explode(',',$arg[1]);
-			$remote_repos = $modulef->get_remote_repos();
+			$remote_repos = $modulef->get_remote_repos(true);
 			foreach ($repo_args as $repo) {
 				if(in_array($repo, $remote_repos)) {
 					$active_repos[$repo] = 1;
@@ -786,7 +830,7 @@ switch ($operation ) {
 		setPerms();
 	break;
 	case 'installall':
-		doInstallAll(true);
+		doInstallAll(false);
 		setPerms();
 	break;
 	case 'list':
@@ -842,6 +886,10 @@ switch ($operation ) {
 	case 'upgradeall':
 	case 'updateall':
 		doUpgradeAll($force);
+		setPerms();
+	break;
+	case 'refreshsignatures':
+		refreshsignatures();
 		setPerms();
 	break;
 	case 'enablerepo':

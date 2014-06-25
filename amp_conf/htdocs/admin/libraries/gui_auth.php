@@ -56,11 +56,14 @@ if (!isset($_SESSION['AMP_user'])) {
 					// password failed and admin user fall-back failed
 					unset($_SESSION['AMP_user']);
 					$no_auth = true;
+					//for now because of how freepbx works
+					if(!empty($username)) {
+						freepbx_log_security('Authentication failure for '.(!empty($username) ? $username : 'unknown').' from '.$_SERVER['REMOTE_ADDR']);
+					}
 				}
 			}
 			break;
 	}
-
 }
 
 if (isset($_SESSION['AMP_user'])) {

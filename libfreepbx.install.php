@@ -299,7 +299,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 
 
 			// configurable in amportal.conf
-			$destination=str_replace("/htdocs/",trim($amp_conf["AMPWEBROOT"])."/",$destination);
+			$destination=preg_replace("/^\/htdocs\//i",trim($amp_conf["AMPWEBROOT"])."/",$destination);
 			if(strpos($dirsource, 'modules') === false) $destination=str_replace("/bin",trim($amp_conf["AMPBIN"]),$destination);
 			$destination=str_replace("/sbin",trim($amp_conf["AMPSBIN"]),$destination);
 
@@ -843,17 +843,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['readonly'] = 0;
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('USE_GOOGLE_CDN_JS',$set);
-
-  // AMPDEVGROUP
-  $set['value'] = "http://www.freepbx.org/rss.xml\nhttp://feeds.feedburner.com/InsideTheAsterisk";
-  $set['options'] = '';
-  $set['name'] = 'RSS Feeds';
-  $set['description'] = 'RSS Feeds that are displayed in UCP and Dashboard. Separate each feed by a new line';
-  $set['emptyok'] = 0;
-  $set['readonly'] = 0;
-  $set['type'] = CONF_TYPE_TEXTAREA;
-  $freepbx_conf->define_conf_setting('RSSFEEDS',$set);
-  $set['level'] = 0;
 
 	//JQUERY_VER
 	$set['value'] = '1.11.1';

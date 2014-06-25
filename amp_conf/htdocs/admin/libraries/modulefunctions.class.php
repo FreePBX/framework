@@ -11,6 +11,8 @@ define('MODULE_STATUS_BROKEN', -1);
 
 class module_functions {
 	public $security_array = null;
+	public $modDepends = array();
+	public $notFound = false;
 
 	function &create() {
 		static $obj;
@@ -184,10 +186,18 @@ class module_functions {
 						$mod['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
 						if(!empty($betaxml['xml']['modules'][$module])) {
 							$betalist = isset($betaxml['xml']['modules'][$module]['rawname']) ? array($betaxml['xml']['modules'][$module]) : $betaxml['xml']['modules'][$module];
+							$mod['highreleasetrack'] = $mod['version'];
+							$mod['highreleasetracktype'] = '';
 							foreach($betalist as $release) {
 								$mod['releasetracks'][$release['releasetracktype']] = $release;
+								if(version_compare_freepbx($mod['highreleasetrackver'],$release['version'],'<')) {
+									$mod['highreleasetrackver'] = $release['version'];
+									$mod['highreleasetracktype'] = $release['releasetracktype'];
+								}
 							}
 						} else {
+							$mod['highreleasetrackver'] = $mod['version'];
+							$mod['highreleasetracktype'] = 'stable';
 							$mod['releasetracks'] = array();
 						}
 						return $mod;
@@ -205,10 +215,18 @@ class module_functions {
 					$modules[$mod['rawname']]['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
 					if(!empty($betaxml['xml']['modules'][$mod['rawname']])) {
 						$betalist = isset($betaxml['xml']['modules'][$mod['rawname']]['rawname']) ? array($betaxml['xml']['modules'][$mod['rawname']]) : $betaxml['xml']['modules'][$mod['rawname']];
+						$modules[$mod['rawname']]['highreleasetrackver'] = $modules[$mod['rawname']]['version'];
+						$modules[$mod['rawname']]['highreleasetracktype'] = '';
 						foreach($betalist as $release) {
 							$modules[$mod['rawname']]['releasetracks'][$release['releasetracktype']] = $release;
+							if(version_compare_freepbx($modules[$mod['rawname']]['highreleasetrackver'],$release['version'],'<')) {
+								$modules[$mod['rawname']]['highreleasetrackver'] = $release['version'];
+								$modules[$mod['rawname']]['highreleasetracktype'] = $release['releasetracktype'];
+							}
 						}
 					} else {
+						$modules[$mod['rawname']]['highreleasetrackver'] = $modules[$mod['rawname']]['version'];
+						$modules[$mod['rawname']]['highreleasetracktype'] = 'stable';
 						$modules[$mod['rawname']]['releasetracks'] = array();
 					}
 				}
@@ -311,12 +329,13 @@ class module_functions {
 		// If keys (rawnames) are different then there are new modules, create a notification.
 		// This will always be the case the first time it is run since the xml is empty.
 		//
-		$diff_modules = array_diff_assoc($new_modules, $old_modules);
+		$diff_modules = array_diff_key($new_modules, $old_modules);
 		$cnt = count($diff_modules);
 		if ($cnt) {
 			$active_repos = $this->get_active_repos();
 			$extext = _("The following new modules are available for download. Click delete icon on the right to remove this notice.")."<br />";
-			foreach ($diff_modules as $mod) {
+			foreach ($diff_modules as $modname) {
+				$mod = $new_modules[$modname];
 				// If it's a new module in a repo we are not interested in, then don't send a notification.
 				if (isset($active_repos[$mod['repo']]) && $active_repos[$mod['repo']]) {
 					$extext .= $mod['rawname']." (".$mod['version'].")<br />";
@@ -955,7 +974,8 @@ class module_functions {
 		}
 	}
 
-	/** Finds all the enabled modules that depend on a given module
+	/**
+	 * Finds all the enabled modules that depend on a given module
 	 * @param  mixed  The name of the module, or the modulexml Array
 	 * @return array  Array containing the list of modules, or false if no dependencies
 	 */
@@ -1000,12 +1020,14 @@ class module_functions {
 		return (count($depends) > 0) ? $depends : false;
 	}
 
-	/** Enables a module
+	/**
+	 * Enables a module
 	 * @param string    The name of the module to enable
 	 * @param bool      If true, skips status and dependency checks
 	 * @return  mixed   True if succesful, array of error messages if not succesful
 	 */
 	function enable($modulename, $force = false) { // was enableModule
+		$this->modDepends = array();
 		global $db;
 		$modules = $this->getinfo($modulename);
 
@@ -1031,21 +1053,20 @@ class module_functions {
 		return true;
 	}
 
-	/** Downloads the latest version of a module
-	 * and extracts it to the directory
+	/**
+	 * Downloads the latest version of a module and extracts it to the directory
 	 * @param string    The location of the module to install
 	 * @param bool      If true, skips status and dependency checks
 	 * @param string    The name of a callback function to call with progress updates.
-	                    function($action, $params). Possible actions:
-	                      getinfo: while downloading modules.xml
-	                      downloading: while downloading file; params include 'read' and 'total'
-	                      untar: before untarring
-	                      done: when complete
+	 *                   function($action, $params). Possible actions:
+	 *                     getinfo: while downloading modules.xml
+	 *                     downloading: while downloading file; params include 'read' and 'total'
+	 *                     untar: before untarring
+	 *                     done: when complete
 	 * @return  mixed   True if succesful, array of error messages if not succesful
 	 */
-
-	// was fetchModule
 	function download($moduledata, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) {
+		$this->notFound = false;
 		global $amp_conf;
 		if(!is_array($moduledata)) {
 			if(!empty($override_xml) && file_exists($ovverride_xml)) {
@@ -1566,6 +1587,8 @@ class module_functions {
 	 * @return mixed   True if succesful, array of error messages if not succesful
 	 */
 	function install($modulename, $force = false) {
+		$this->modDepends = array();
+		$this->notFound = false;
 		global $db, $amp_conf;
 
 		if ($time_limit = ini_get('max_execution_time')) {
@@ -1577,6 +1600,7 @@ class module_functions {
 		// make sure we have a directory, to begin with
 		$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
 		if (!is_dir($dir)) {
+			$this->notFound = true;
 			return array(_("Cannot find module"));
 		}
 
@@ -2633,19 +2657,20 @@ class module_functions {
                 $mod['signature'] = json_decode($mod['signature'],TRUE);
             }
             $modules['modules'][$mod['modulename']] = $mod;
-            if($mod['signature']['status'] & ~GPG::STATE_GOOD) {
+            if(~$mod['signature']['status'] & GPG::STATE_GOOD) {
                 $globalValidation = false;
             }
     		$trusted = $mod['signature']['status'] & GPG::STATE_TRUSTED;
     		$tampered = $mod['signature']['status'] & GPG::STATE_TAMPERED;
     		$unsigned = $mod['signature']['status'] & GPG::STATE_UNSIGNED;
             $md = $this->getInfo();
+				$modname = !empty($md[$mod['modulename']]['name']) ? $md[$mod['modulename']]['name'] : sprintf(_('%s [not enabled]'),$mod['modulename']);
     		if ($unsigned) {
-    			$modules['statuses']['unsigned'][] = sprintf(_('Module: %s, is unsigned'),$md[$mod['modulename']]['name']);
+    			$modules['statuses']['unsigned'][] = sprintf(_('Module: %s, is unsigned'),$modname);
     		} else {
     			if ($tampered) {
     				foreach($mod['signature']['details'] as $d) {
-    					$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$md[$mod['modulename']]['name'],$d);
+    					$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$modname,$d);
     				}
     			}
                 if (!$trusted) {
