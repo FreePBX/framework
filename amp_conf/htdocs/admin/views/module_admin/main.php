@@ -73,7 +73,7 @@
 										<?php break;
 										case MODULE_STATUS_DISABLED:
 										default:
-											$disabled = ($module['status'] == MODULE_STATUS_DISABLED) ? 'Disabled; ' : '';
+											$disabled = ($module['status'] == MODULE_STATUS_DISABLED) ? _('Disabled') . '; ' : '';
 											// check for online upgrade
 											if (!empty($module['raw']['online'])) {
 												$track = $module['track'];
@@ -81,13 +81,13 @@
 												if (!empty($trackinfo['version'])) {
 													$vercomp = version_compare_freepbx($module['raw']['local']['version'], $trackinfo['version']);
 													if ($vercomp < 0) {?>
-														<span class="alert"><?php echo sprintf(_($disabled.'Online upgrade available (%s)'), $trackinfo['version']);?></span>
+														<span class="alert"><?php echo sprintf(_($disabled.'Online upgrade available (%s)'), $trackinfo['version']);?><?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['version'],'>')) ? ' ' . sprintf(_('%s Upgrade Avalible (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) : ''?></span>
 													<?php } elseif ($vercomp > 0) { ?>
 														<?php echo sprintf(_($disabled.'Newer than online version (%s)'), $trackinfo['version']);?>
 													<?php } elseif($module['status'] == MODULE_STATUS_DISABLED) { ?>
-														<?php echo _('Disabled; up to date');?>
+														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Avalible (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Disabled; up to date')?>
 													<?php } else { ?>
-														<?php echo  _('Enabled and up to date');?>
+														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Avalible (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Enabled and up to date')?>
 													<?php }
 												}
 											} else {
@@ -225,10 +225,10 @@
 																	if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 																		if (!empty($module['raw']['local'])) {?>
 																			<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
-																			<label for="install_<?php echo prep_id($module['name'])?>"><?php echo _('Install')?></label>
+																			<label class="installabel" for="install_<?php echo prep_id($module['name'])?>"><?php echo _('Install')?></label>
 																		<?php } else { ?>
 																			<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="downloadinstall" />
-																			<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo _('Download and Install')?></label>
+																			<label class="installabel" for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo _('Download and Install')?></label>
 																		<?php } ?>
 																<?php }
 																break;
@@ -250,13 +250,13 @@
 																case MODULE_STATUS_NEEDUPGRADE:
 																	if (!EXTERNAL_PACKAGE_MANAGEMENT) {?>
 																		<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
-																		<label for="install_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Upgrade to %s and Enable'),$module['raw']['local']['version'])?></label>
+																		<label class="installabel" for="install_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Upgrade to %s and Enable'),$module['raw']['local']['version'])?></label>
 
 																		<?php if (isset($module['raw']['online']['version'])) {
 																			$vercomp = version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online']['version']);
 																			if ($vercomp < 0) {?>
 																				<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
-																				<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download and Upgrade to %s'), $module['raw']['online']['version'])?></label>
+																				<label class="installabel" for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download and Upgrade to %s'), $module['raw']['online']['version'])?></label>
 																			<?php } ?>
 																		<?php } ?>
 																		<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
@@ -281,11 +281,11 @@
 																		if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 																			if ($vercomp < 0) { ?>
 																				<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
-																				<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download and Upgrade to %s'), $trackinfo['version'])?></label>
+																				<label class="installabel" for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download and Upgrade to %s'), $trackinfo['version'])?></label>
 																			<?php } else {
 																				$force_msg = ($vercomp == 0 ? sprintf(_('Force Download and Install %s'), $trackinfo['version']) : sprintf(_('Force Download and Downgrade to %s'), $trackinfo['version'])); ?>
 																				<input type="radio" id="force_upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="force_upgrade" />
-																				<label for="force_upgrade_<?php echo prep_id($module['name'])?>"><?php echo $force_msg ?></label>
+																				<label class="installabel" for="force_upgrade_<?php echo prep_id($module['name'])?>"><?php echo $force_msg ?></label>
 																			<?php }
 																		}
 																	}
