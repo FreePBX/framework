@@ -553,6 +553,27 @@ class AGI_AsteriskManager {
 		}
 		return $this->send_request('MailboxStatus', $parameters);
 	}
+	
+	/**
+	 * MessageSend
+	 *
+	 * Send an SMS message
+	 *
+	 * @param string $to
+	 * @param string $from
+	 * @param string $body
+	 * @param string $variable optional
+	 * @returns array result of send_request
+	*/
+	function MessageSend($to, $from, $body, $variable=null) {
+		$parameters['To'] = $to;
+		$parameters['From'] = $from;
+		$parameters['Base64Body'] = base64_encode($body);
+		if($variable) {
+			$parameters['Variable'] = $variable;
+		}
+		return $this->send_request('MessageSend', $parameters);
+	}
 
 	/**
 	* Monitor a channel
