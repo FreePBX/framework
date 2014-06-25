@@ -12,7 +12,31 @@ define("FPBX_LOG_NOTICE",   "NOTICE");
 define("FPBX_LOG_INFO",     "INFO");
 define("FPBX_LOG_PHP",      "PHP");
 
-/** FreePBX Logging facility to FILE or syslog
+/**
+ * Log a message to the freepbx security file
+ * @param  {string} $message the message
+ */
+function freepbx_log_security($txt) {
+	$path = FreePBX::Config()->get('ASTLOGDIR');
+	$log_file = $path.'/freepbx_security.log';
+
+	$tz = date_default_timezone_get();
+	if (!$tz) {
+		$tz = 'America/Los_Angeles';
+	}
+	date_default_timezone_set($tz);
+	$tstamp		= date("Y-M-d H:i:s");
+
+	// Don't append if the file is greater than ~2G since some systems fail
+	//
+	$size = file_exists($log_file) ? sprintf("%u", filesize($log_file)) + strlen($txt) : 0;
+	if ($size > 2000000000) {
+		unlink($log_file);
+	}
+	file_put_contents($log_file, "[$tstamp] $txt\n", FILE_APPEND);
+}
+/**
+ * FreePBX Logging facility to FILE or syslog
  * @param  string   The level/severity of the error. Valid levels use constants:
  *                  FPBX_LOG_FATAL, FPBX_LOG_CRITICAL, FPBX_LOG_SECURITY, FPBX_LOG_UPDATE,
  *                  FPBX_LOG_ERROR, FPBX_LOG_WARNING, FPBX_LOG_NOTICE, FPBX_LOG_INFO.
