@@ -6,7 +6,7 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
-class Hooks {
+class Hooks extends DB_Helper {
 
 	private $hooks;
 
@@ -18,11 +18,10 @@ class Hooks {
 	}
 
 	public function getAllHooks() {
-		// TODO: Cache this. The only time 'updateBMOHooks' should be run
-		// is in retrieve_conf.
-		if (!isset($this->hooks))
-			$this->updateBMOHooks();
-
+		$this->hooks = $this->getConfig('hooks');
+		if (empty($this->hooks)) {
+			$this->hooks = $this->updateBMOHooks();
+		}
 		return $this->hooks;
 	}
 
@@ -67,8 +66,35 @@ class Hooks {
 			}
 		}
 
+		$path = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
+		foreach($this->activemods as $module => $data) {
+			if(isset($data['hooks'])) {
+				if(file_exists($path.$module.'/'.ucfirst($module).'.class.php') && file_exists($path.$module.'/module.xml')) {
+						$xml = simplexml_load_file($path.$module.'/module.xml');
+						foreach($xml->hooks as $modules) {
+							foreach($modules as $m => $methods) {
+								$hks = array();
+								foreach($methods->method as $method) {
+									foreach($method->attributes() as $key => $value) {
+										$hks['attributes'][$key] = (string)$value;
+									}
+									$meth = (string)$method;
+									$allhooks['ModuleHooks'][$m][$meth][$module][] = $hks;
+								}
+							}
+						}
+				}
+			}
+		}
+
 		$this->hooks = $allhooks;
+		$this->setConfig('hooks',$this->hooks);
 		return $allhooks;
+	}
+
+	public function getModuleHooks($module) {
+		$this->getAllHooks();
+		return isset($this->hooks['ModuleHooks'][$module]) ? $this->hooks['ModuleHooks'][$module] : false;
 	}
 
 	/**
@@ -77,8 +103,8 @@ class Hooks {
 	 * This shouldn't happen on every page load.
 	 */
 	private function preloadBMOModules() {
-		$activemods = $this->FreePBX->Modules->getActiveModules();
-		foreach(array_keys($activemods) as $module) {
+		$this->activemods = $this->FreePBX->Modules->getActiveModules();
+		foreach(array_keys($this->activemods) as $module) {
 			$path = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
 			if(file_exists($path.$module.'/'.ucfirst($module).'.class.php')) {
 				$ucmodule = ucfirst($module);
