@@ -1579,6 +1579,14 @@ if ($module_install && !$update_links) {
 	out("bypassing packaged module installation because --skip-module-install or --update-links flag");
 }
 
+if($update_links) {
+	//copy framework into installed folder if it doesnt already exist
+	if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework')) {
+		mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/framework');
+	}
+	copy(__DIR__.'/module.xml',$amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml');
+}
+
 
 // **** Set reload flag for AMP admin
 needreload();
