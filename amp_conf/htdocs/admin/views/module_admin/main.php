@@ -49,7 +49,7 @@
 					<?php foreach($category['data'] as $module) {?>
 					</tr>
 						<td id="fullmodule_<?php echo prep_id($module['name'])?>" class="fullmodule" data-module="<?php echo prep_id($module['name'])?>">
-							<div class="moduleheader" data-module="<?php echo prep_id($module['name'])?>">
+							<div class="<?php echo $module['mclass']?>" data-module="<?php echo prep_id($module['name'])?>">
 							<i id="arrow_<?php echo prep_id($module['name'])?>" class="fa fa-chevron-right"></i>
 							<span class="modulename"><?php echo $module['pretty_name']?></span>
 							<span class="moduleversion"><?php echo $module['dbversion']?></span>
@@ -105,8 +105,7 @@
 							<?php if ($module['salert']) { ?>
 								<span class="modulevul">
 									<a class="modulevul_tag" href="#" data-sec='<?php echo json_encode($module['vulnerabilities']['vul'])?>'>
-										<img src="images/notify_security.png" alt="" width="16" height="16" border="0" title="<?php echo sprintf(_("Vulnerable to security issues %s"), implode($module['vulnerabilities']['vul'], ', '))?>" />
-										<?php echo sprintf(_("Vulnerable, Requires: %s"), $module['vulnerabilities']['minver']) ?>
+										<img src="images/notify_security.png" alt="" width="16" height="16" border="0" title="<?php echo sprintf(_("Vulnerable to security issues %s"), implode($module['vulnerabilities']['vul'], ', '))?>" /><?php echo sprintf(_("Vulnerable, Requires: %s"), $module['vulnerabilities']['minver']) ?>
 									</a>
 								</span>
 							<?php } ?>
