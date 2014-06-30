@@ -74,12 +74,17 @@ class Hooks extends DB_Helper {
 						foreach($xml->hooks as $modules) {
 							foreach($modules as $m => $methods) {
 								$hks = array();
+								$namespace = isset($methods->attributes()->namespace) ? $methods->attributes()->namespace : '';
+								$class = isset($methods->attributes()->class) ? $methods->attributes()->class : $m;
+								$hookMod = !empty($namespace) ? $namespace . '\\' . $class : $class;
 								foreach($methods->method as $method) {
 									foreach($method->attributes() as $key => $value) {
-										$hks['attributes'][$key] = (string)$value;
+										$hks[$key] = (string)$value;
 									}
-									$meth = (string)$method;
-									$allhooks['ModuleHooks'][$m][$meth][$module][] = $hks;
+									$hks['method'] = (string)$method;
+									$cm = $hks['callingMethod'];
+									unset($hks['callingMethod']);
+									$allhooks['ModuleHooks'][$hookMod][$cm][$module][] = $hks;
 								}
 							}
 						}
@@ -92,9 +97,28 @@ class Hooks extends DB_Helper {
 		return $allhooks;
 	}
 
-	public function getModuleHooks($module) {
-		$this->getAllHooks();
-		return isset($this->hooks['ModuleHooks'][$module]) ? $this->hooks['ModuleHooks'][$module] : false;
+	public function processHooks($data=null) {
+		$this->activemods = $this->FreePBX->Modules->getActiveModules();
+		$hooks = $this->getAllHooks();
+		$o = debug_backtrace();
+		$callingMethod = !empty($o[1]['function']) ? $o[1]['function'] : '';
+		$callingClass = !empty($o[1]['class']) ? $o[1]['class'] : '';
+
+		if(!empty($hooks['ModuleHooks'][$callingClass]) && !empty($hooks['ModuleHooks'][$callingClass][$callingMethod])) {
+			foreach($hooks['ModuleHooks'][$callingClass][$callingMethod] as $module => $hooks) {
+				if(isset($this->activemods[$module])) {
+					foreach($hooks as $hook) {
+						$namespace = !empty($hook['namespace']) ? $hook['namespace'] . '\\' : '';
+						if(!class_exists($namespace.$hook['class'])) {
+							throw new \Exception('Cant find '.$namespace.$hook['class']);
+						}
+						$meth = $hook['method'];
+						$data = $this->FreePBX->$module->$meth($data);
+					}
+				}
+			}
+		}
+		return $data;
 	}
 
 	/**

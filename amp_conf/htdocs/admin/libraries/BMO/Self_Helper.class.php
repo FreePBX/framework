@@ -120,6 +120,11 @@ class Self_Helper extends DB_Helper {
 			FreePBX::create()->$var = $this->$var;
 
 		}
+		//Load the hooks
+		if(preg_match('/FreePBX\\\modules/i',get_class($this->$var))) {
+			//$callers=debug_backtrace();
+			//dbug($callers[5]['function']);
+		}
 		return $this->$var;
 	}
 
