@@ -59,7 +59,7 @@ if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]
 	fi
 elif [ -e "/etc/amportal.conf" ]; then # Check if file exists.
 	. /etc/amportal.conf
-else 
+else
 	echo;
 	echo "FreePBX config file not found!";
 	echo "Have you installed FreePBX?";
@@ -75,4 +75,3 @@ elif [ -x /var/lib/asterisk/bin/freepbx_engine ]; then
 else
 	echo "FATAL: can not find freepbx_engine to start Asterisk"
 fi
-
