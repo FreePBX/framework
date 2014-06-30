@@ -37,6 +37,7 @@ if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]
 			include_once("/etc/asterisk/freepbx.conf");
 		}
 		foreach($amp_conf as $key => $val) {
+			$val = str_replace(array("\r", "\n", "\r\n"), ",", $val);
 			if (is_bool($val)) {
 				echo "export " . trim($key) . "=" . ($val?"TRUE":"FALSE") ."\n";
 			} else {
