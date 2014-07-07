@@ -1,5 +1,7 @@
 <?php
-
+if(!class_exists('notifications')) {
+	include('notifications.class.php');
+}
 class cronmanager {
 	/**
 	 * note: time is the hour time of day a job should run, -1 indicates don't care
