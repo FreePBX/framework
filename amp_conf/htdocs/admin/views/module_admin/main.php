@@ -225,6 +225,8 @@
 																		if (!empty($module['raw']['local'])) {?>
 																			<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
 																			<label class="installabel" for="install_<?php echo prep_id($module['name'])?>"><?php echo _('Install')?></label>
+																			<input type="radio" id="remove_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="remove" />
+																			<label class="removelabel" for="remove_<?php echo prep_id($module['name'])?>"><?php echo _('Remove')?></label>
 																		<?php } else { ?>
 																			<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="downloadinstall" />
 																			<label class="installabel" for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo _('Download and Install')?></label>

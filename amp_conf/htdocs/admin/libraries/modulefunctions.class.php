@@ -1581,7 +1581,8 @@ class module_functions {
 		return true;
 	}
 
-	/** Installs or upgrades a module from it's directory
+	/**
+	 * Installs or upgrades a module from it's directory
 	 * Checks dependencies, and enables
 	 * @param string   The name of the module to install
 	 * @param bool     If true, skips status and dependency checks
@@ -1715,7 +1716,8 @@ class module_functions {
 		return true;
 	}
 
-	/** Disable a module, but reqmains installed
+	/**
+	 * Disable a module, but reqmains installed
 	 * @param string   The name of the module to disable
 	 * @param bool     If true, skips status and dependency checks
 	 * @return mixed   True if succesful, array of error messages if not succesful
@@ -1744,7 +1746,8 @@ class module_functions {
 		return true;
 	}
 
-	/** Uninstall a module, but files remain
+	/**
+	 * Uninstall a module, but files remain
 	 * @param string   The name of the module to install
 	 * @param bool     If true, skips status and dependency checks
 	 * @return mixed   True if succesful, array of error messages if not succesful
@@ -1812,10 +1815,11 @@ class module_functions {
 		return true;
 	}
 
-	/** Totally deletes a module
+	/**
+	 * Totally deletes a module
 	 * @param string   The name of the module to install
 	 * @param bool     If true, skips status and dependency checks
-	 * @return mixed   True if succesful, array of error messages if not succesful
+	 * @return mixed   True if succesfull, array of error messages if not succesful
 	 */
 	function delete($modulename, $force = false) {
 		global $amp_conf;
