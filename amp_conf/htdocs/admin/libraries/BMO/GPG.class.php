@@ -542,12 +542,12 @@ class GPG {
 				throw new Exception("Permissions error on $home - please re-run as root to automatically repair");
 			}
 			// We're root. Yay.
-			chown($home, $uid);
-			chgrp($home, $gid);
+			chown($dir, $uid);
+			chgrp($dir, $gid);
 		}
 
 		// Check the permissions of the files inside the .gpg directory
-		$allfiles = glob($home."/*");
+		$allfiles = glob($dir."/*");
 		foreach ($allfiles as $file) {
 			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 				// Permissions are wrong on the GPG directory. Hopefully, I'm root, so I can fix them.
@@ -555,8 +555,8 @@ class GPG {
 					throw new Exception("Permissions error on $home - please re-run as root to automatically repair");
 				}
 				// We're root. Yay.
-				chown($home, $uid);
-				chgrp($home, $gid);
+				chown($file, $uid);
+				chgrp($file, $gid);
 			}
 		}
 	}
