@@ -176,3 +176,5 @@ if (!function_exists('version_compare_freepbx')) {
 		out(_('Version from Framework was empty, cant continue'));
 		return false;
 	}
+
+	exec($amp_conf['AMPBIN'] . '/retrieve_conf 2>&1', $ret);
