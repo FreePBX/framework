@@ -298,9 +298,10 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRUSER"] = "admin";
 	else $amp_conf["AMPMGRUSER"] = $key;
 
-	outn("Enter a PASSWORD to connect to the Asterisk Manager interface:\n [amp111] ");
+	$rs = substr(md5(rand()), 0, 5);
+	outn("Enter a PASSWORD to connect to the Asterisk Manager interface:\n [".$rs."] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRPASS"] = "amp111";
+	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRPASS"] = $rs;
 	else $amp_conf["AMPMGRPASS"] = $key;
 
 	do {
