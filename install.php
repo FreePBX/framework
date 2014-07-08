@@ -186,4 +186,13 @@ if (!function_exists('version_compare_freepbx')) {
 	} else {
 		$gpg = new GPG();
 	}
-	$gpg->trustFreePBX();
+
+	try {
+		$gpg->trustFreePBX();
+	} catch(\Exception $e) {
+		try {
+			$gpg->trustFreePBX();
+		} catch(\Exception $b) {
+			out(sprintf(_('Error with trusting the FreePBX Key: %s'),$b->getMessage()));
+		}
+	}
