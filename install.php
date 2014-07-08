@@ -176,23 +176,3 @@ if (!function_exists('version_compare_freepbx')) {
 		out(_('Version from Framework was empty, cant continue'));
 		return false;
 	}
-
-	if(!class_exists('GPG')) {
-		global $amp_conf;
-		if(file_exists($amp_conf['AMPWEBROOT'].'/admin/libraries/BMO/GPG.class.php')) {
-			include($amp_conf['AMPWEBROOT'].'/admin/libraries/BMO/GPG.class.php');
-			$gpg = new GPG();
-		}
-	} else {
-		$gpg = new GPG();
-	}
-
-	try {
-		$gpg->trustFreePBX();
-	} catch(\Exception $e) {
-		try {
-			$gpg->trustFreePBX();
-		} catch(\Exception $b) {
-			out(sprintf(_('Error with trusting the FreePBX Key: %s'),$b->getMessage()));
-		}
-	}
