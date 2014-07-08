@@ -184,6 +184,6 @@ if (!function_exists('version_compare_freepbx')) {
 			$gpg = new GPG();
 		}
 	} else {
-		$gpg = FreePBX::GPG();
+		$gpg = new GPG();
 	}
 	$gpg->trustFreePBX();
