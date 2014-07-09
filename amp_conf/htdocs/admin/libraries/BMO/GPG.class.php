@@ -152,6 +152,9 @@ class GPG {
 	 * @param string $key The key to get?
 	 */
 	public function getKey($key = null) {
+		// Check our permissions
+		$this->checkPermissions();
+
 		// If we weren't given one, then load the FreePBX Key
 		$key = !empty($key) ? $key : $this->freepbxkey;
 
@@ -239,40 +242,8 @@ class GPG {
 			fclose($fd);
 		}
 
-		// Verify that the ampwebsuer can read and write to the gnupg directory, which
-		// should always exist by this point.
-		$freepbxuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
-		$pwent = posix_getpwnam($freepbxuser);
-		$uid = $pwent['uid'];
-		$gid = $pwent['gid'];
-
-		$home = $this->getGpgLocation().".gnupg";
-
-		// Now, check the permissions of that directory
-		$stat = stat($home);
-		if ($uid != $stat['uid'] || $gid != $stat['gid']) {
-			// Permissions are wrong on the GPG directory. Hopefully, I'm root, so I can fix them.
-			if (!posix_geteuid() === 0) {
-				throw new Exception("Permissions error on $home - please re-run as root to automatically repair");
-			}
-			// We're root. Yay.
-			chown($home, $uid);
-			chgrp($home, $gid);
-		}
-
-		// Check the permissions of the files inside the .gpg directory
-		$allfiles = glob($home."/*");
-		foreach ($allfiles as $file) {
-			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
-				// Permissions are wrong on the GPG directory. Hopefully, I'm root, so I can fix them.
-				if (!posix_geteuid() === 0) {
-					throw new Exception("Permissions error on $home - please re-run as root to automatically repair");
-				}
-				// We're root. Yay.
-				chown($home, $uid);
-				chgrp($home, $gid);
-			}
-		}
+		// Ensure no permissions have been changed
+		$this->checkPermissions();
 		return true;
 	}
 
@@ -537,6 +508,56 @@ class GPG {
 			return $home;
 		} else {
 			throw new Exception("Don't have permission/can't write to ${home}.gnupg");
+		}
+	}
+
+	private function checkPermissions($dir = false) {
+		if (!$dir) {
+			// No directory specified. Let's use the default.
+			$dir = $this->getGpgLocation();
+		}
+
+		// If it ends in a slash, remove it, for sanity
+		$dir = rtrim($dir, "/");
+
+		if (!is_dir($dir)) {
+			// That's worrying. Can I make it?
+			$ret = @mkdir($dir);
+			if (!$ret) {
+				throw new Exception("Directory $dir doesn't exist, and I can't make it.");
+			}
+		}
+
+		// Now, who should be running gpg normally?
+		$freepbxuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+		$pwent = posix_getpwnam($freepbxuser);
+		$uid = $pwent['uid'];
+		$gid = $pwent['gid'];
+
+		// What are the permissions of the GPG home directory?
+		$stat = stat($dir);
+		if ($uid != $stat['uid'] || $gid != $stat['gid']) {
+			// Permissions are wrong on the GPG directory. Hopefully, I'm root, so I can fix them.
+			if (!posix_geteuid() === 0) {
+				throw new Exception("Permissions error on $home - please re-run as root to automatically repair");
+			}
+			// We're root. Yay.
+			chown($dir, $uid);
+			chgrp($dir, $gid);
+		}
+
+		// Check the permissions of the files inside the .gpg directory
+		$allfiles = glob($dir."/*");
+		foreach ($allfiles as $file) {
+			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
+				// Permissions are wrong on the GPG directory. Hopefully, I'm root, so I can fix them.
+				if (!posix_geteuid() === 0) {
+					throw new Exception("Permissions error on $home - please re-run as root to automatically repair");
+				}
+				// We're root. Yay.
+				chown($file, $uid);
+				chgrp($file, $gid);
+			}
 		}
 	}
 }
