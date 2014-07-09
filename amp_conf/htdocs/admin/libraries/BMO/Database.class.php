@@ -101,11 +101,6 @@ class Database extends PDO {
 		return $res;
 	}
 
-    private function sql_getRow($sql,$fetchmode) {
-        $res = $this->query($sql);
-        return $res->fetch($fetchmode);
-    }
-
 	/**
 	 * Returns a PDOStatement object
 	 *
