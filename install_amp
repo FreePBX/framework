@@ -309,6 +309,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		$amp_conf["AMPMGRUSER"] = $key;
 	}
 
+	$rs = substr(md5(rand()), 0, 5);
 	outn("Enter a PASSWORD to connect to the Asterisk Manager interface:\n [amp111] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) {
