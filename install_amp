@@ -309,6 +309,7 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 		$amp_conf["AMPMGRUSER"] = $key;
 	}
 
+	$rs = substr(md5(rand()), 0, 5);
 	outn("Enter a PASSWORD to connect to the Asterisk Manager interface:\n [amp111] ");
 	$key = trim(fgets(STDIN,1024));
 	if (preg_match('/^$/',$key)) {
@@ -1744,6 +1745,13 @@ if ($module_install && !$update_links) {
 
 //Start trusting the key
 FreePBX::GPG()->trustFreePBX();
+if($update_links) {
+	//copy framework into installed folder if it doesnt already exist
+	if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework')) {
+		mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/framework');
+	}
+	copy(__DIR__.'/module.xml',$amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml');
+}
 
 // **** Set reload flag for AMP admin
 needreload();

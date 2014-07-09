@@ -87,7 +87,7 @@ class Request_Helper extends Self_Helper {
 	 *
 	 * Does an implicit check for not set. If a default is provided, return the default,
 	 * if not set. If no default, and not set, return (bool) false. You probably don't
-	 * want to use this.  Use the 'getReq' function, which will automatically encode 
+	 * want to use this.  Use the 'getReq' function, which will automatically encode
 	 * and escape any potential attack vectors.
 	 *
 	 * @param string $var $_REQUEST variable to get

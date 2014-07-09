@@ -127,7 +127,7 @@ if (!function_exists('version_compare_freepbx')) {
 	$rem_files[] = $base_source;
 	$rem_files[] = dirname(__FILE__) . "/upgrades";
 	$rem_files[] = dirname(__FILE__) . "/libfreepbx.install.php";
-	 
+
 	foreach ($rem_files as $target) {
 		unset($out);
 		exec("rm -rf $target 2>&1",$out,$ret);
@@ -148,14 +148,14 @@ if (!function_exists('version_compare_freepbx')) {
 	}
 
 	if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && function_exists('compress_framework_css')) {
-		compress_framework_css(); 
+		compress_framework_css();
 	}
-	
+
 	if(!file_exists(dirname(__FILE__).'/module.xml')) {
 		out(_('Cant Find Framework XML'));
 		return false;
 	}
-	
+
 	//This is also run in moduleadmin class
 	//why? well because in developer mode this file doesnt exist, only the
 	//module.xml exists so we have to do it in multiple places. yaaaaay :-|
@@ -176,4 +176,5 @@ if (!function_exists('version_compare_freepbx')) {
 		out(_('Version from Framework was empty, cant continue'));
 		return false;
 	}
-	
+
+	exec($amp_conf['AMPBIN'] . '/retrieve_conf 2>&1', $ret);

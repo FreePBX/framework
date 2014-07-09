@@ -997,14 +997,22 @@ $(document).ready(function(){
 	}
 
 	//style all sortables as menu's
-	$('.sortable').menu().find('input[type="checkbox"]').parent('a').click(function(event) {
+  $('.sortable').menu();
+
+  //allow click on checkbox and surrounding area
+  $('.sortable li').click(function(event) {
     if ($(event.target).is(':checkbox')) {
       return true;
     }
-		var checkbox = $(this).find('input');
-		checkbox.prop('checked', !checkbox[0].checked);
-		return false;
-	});
+    var checkbox = $(this).find('input');
+    checkbox.prop('checked', !checkbox[0].checked);
+    return false;
+  });
+
+  //stop propagation when clicking on a checkbox in an a link
+  $('.audio-codecs').click(function(event) {
+    event.stopPropagation();
+  });
 
 	//reload
 	$('#button_reload').click(function(){

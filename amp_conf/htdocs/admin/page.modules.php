@@ -318,6 +318,16 @@ switch ($action) {
 						}
 					}
 				break;
+				case 'remove':
+					echo '<span class="success">'.sprintf(_("Removing %s"),$modulename)."</span><br/>";
+					if (is_array($errors = $modulef->delete($modulename))) {
+						echo '<span class="error">'.sprintf(_("Error(s) removing %s"),$modulename).': ';
+						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+						echo '</span>';
+					} else {
+						echo '<span class="success">'.sprintf(_("%s removed successfully"),$modulename).'</span>';
+					}
+				break;
 				case 'reinstall':
 					echo '<span class="success">'.sprintf(_("Uninstalling %s"),$modulename)."</span><br/>";
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
@@ -548,6 +558,15 @@ switch ($action) {
 						} else {
 							$actionstext[] =  sprintf(_("%s %s will be uninstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
 						}
+					}
+				break;
+				case 'remove':
+					if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
+						$skipaction = true;
+						$errorstext[] = sprintf(_("%s cannot be removed because the following modules depend on it: %s Please disable those modules first then try again."),
+						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+					} else {
+						$actionstext[] =  sprintf(_("%s will be removed from the hard disk"), $modules[$module]['name']);
 					}
 				break;
 				case 'reinstall':
