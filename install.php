@@ -177,13 +177,4 @@ if (!function_exists('version_compare_freepbx')) {
 		return false;
 	}
 
-	if(!class_exists('GPG')) {
-		global $amp_conf;
-		if(file_exists($amp_conf['AMPWEBROOT'].'/admin/libraries/BMO/GPG.class.php')) {
-			include($amp_conf['AMPWEBROOT'].'/admin/libraries/BMO/GPG.class.php');
-			$gpg = new GPG();
-		}
-	} else {
-		$gpg = FreePBX::GPG();
-	}
-	$gpg->trustFreePBX();
+	exec($amp_conf['AMPBIN'] . '/retrieve_conf 2>&1', $ret);
