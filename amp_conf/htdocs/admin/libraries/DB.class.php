@@ -45,15 +45,15 @@ class DB {
 	}
 
 	public function getAll($sql,$params=array(),$fetchmode=DB_FETCHMODE_DEFAULT) {
-        $fetch = $this->setFetchMode($fetchmode);
+		$fetch = $this->setFetchMode($fetchmode);
 		if(!empty($params) && is_array($params)) {
 			$res = $this->db->prepare($sql);
 			$res->execute($params);
 			return $res->fetchAll($fetch);
 		}
 		$x = $this->db->sql($sql,'getAll',$fetch);
-        return $x;
-    }
+		return $x;
+	}
 
 	public function getRow($sql,$params=array(),$fetchmode=DB_FETCHMODE_DEFAULT) {
 		$fetch = $this->setFetchMode($fetchmode);
@@ -98,13 +98,14 @@ class DB {
 		return $final;
 	}
 
-    public function insert_id() {
-        return $this->db->lastInsertId();
-    }
+	public function insert_id() {
+		return $this->db->lastInsertId();
+	}
 
 	public function escapeSimple($str = null) {
 		// Using PDO::quote
-		return $this->quote($str);
+		// But remove first ' and last ' as PearDB didnt add those
+		return substr($this->quote($str), 1, -1);
 	}
 
 	public function quoteSmart($in) {
@@ -112,11 +113,28 @@ class DB {
 	}
 
 	public function quote($in) {
-		return $in;
+		return $this->db->quote($in);
 	}
 
 	public function IsError($value) {
 		return false;
+	}
+
+	public function query($sql,$params=array()) {
+		if(empty($params)) {
+			try {
+				$this->db->query($sql);
+			} catch(\Exception $e) {
+				die_freepbx('Error on SQL Query', $e->getMessage());
+			}
+		} else {
+			try {
+				$sth = $this->db->prepare($sql);
+				$sth->execute($params);
+			} catch(\Exception $e) {
+				die_freepbx('Error on SQL Query', $e->getMessage());
+			}
+		}
 	}
 
 	private function setFetchMode($PearDBFetchMode=DB_FETCHMODE_DEFAULT) {

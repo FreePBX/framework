@@ -1,6 +1,5 @@
 <?php
 
-require_once('DB.php'); //PEAR must be installed
 require_once(dirname(__FILE__).'/freepbx_DB.php');
 
 switch ($amp_conf['AMPDBENGINE']) {

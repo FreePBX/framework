@@ -8,13 +8,21 @@ function sql($sql,$type="query",$fetchmode='default') {
 	$db = FreePBX::create()->Database;
 	switch($fetchmode) {
 		case DB_FETCHMODE_ASSOC:
-			$results = $db->sql($sql, $type, PDO::FETCH_ASSOC);
+			try {
+				$results = $db->sql($sql, $type, PDO::FETCH_ASSOC);
+			}catch(\Exception $e) {
+				die_freepbx('Error on SQL Query', $e->getMessage());
+			}
 		break;
 		case 'default':
-			$results = $db->sql($sql, $type);
+			try {
+				$results = $db->sql($sql, $type);
+			}catch(\Exception $e) {
+				die_freepbx('Error on SQL Query', $e->getMessage());
+			}
 		break;
 		default:
-			throw new Exception("Unknown SQL fetchmode of $fetchmode");
+			die_freepbx("Unknown SQL fetchmode of $fetchmode", "");
 		break;
 	}
 	return $results;
