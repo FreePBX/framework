@@ -109,13 +109,13 @@ class Self_Helper extends DB_Helper {
 			if (class_exists($class)) {
 				$this->$var = new $class($this, $args[1][0]);
 			} else {
-				throw new Exception("I tried to load the class but it didnt exist.");
+				die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
 			}
 		} else {
 			if (class_exists($class)) {
 				$this->$var = new $class($this);
 			} else {
-				throw new Exception("I tried to load the class but it didnt exist.");
+				die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
 			}
 			FreePBX::create()->$var = $this->$var;
 
@@ -152,7 +152,7 @@ class Self_Helper extends DB_Helper {
 
 		if ($hint) {
 			if (!file_exists($hint)) {
-				throw new Exception("I was asked to load $objname, with a hint of $hint, and it didn't exist");
+				die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class %s"),$objname), sprintf(_("Attempted to load %s with a hint of %s and it didn't exist"),$objname,$hint));
 			} else {
 				$try = $hint;
 			}
@@ -186,11 +186,12 @@ class Self_Helper extends DB_Helper {
 		if (!class_exists($class) && !class_exists($this->moduleNamespace.$objname)) {
 			// Bad things have happened.
 			if (!$loaded) {
-				throw new Exception("I was unable to locate the BMO Class $objname. I looked everywhere for $objname.class.php");
+				$sobjname = strtolower($objname);
+				die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname), sprintf(_("A required module might be disabled or uninstalled.<br/>Recommended steps (run from the CLI):<ol><li>amportal a ma install %s</li><li>amportal a ma enable %s</li></ol>"),$sobjname,$sobjname));
 			}
 
 			// We loaded a file that claimed to represent that class, but didn't.
-			throw new Exception("I loaded the file $try, but it doesn't define the class $objname");
+			die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class %s"),$objname), sprintf(_("Attempted to load %s but it didn't define the class %s"),$try,$objname));
 		}
 
 		return true;
