@@ -1126,7 +1126,7 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
  * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
  */
 function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
-	global $amp_conf, $astman;
+	global $amp_conf, $astman, $db;
 	$conf_file = $amp_conf['ASTETCDIR'] . '/manager.conf';
 	$conf_file = escapeshellarg($amp_conf['ASTETCDIR'] . '/manager.conf');
 	$ret = $ret2 = 0;
