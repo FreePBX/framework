@@ -167,8 +167,10 @@ class GPG {
 		}
 
 		// List of well-known keyservers.
-		$keyservers = array("pool.sks-keyservers.net", "pgp.mit.edu", "keyserver.ubuntu.com",
-			"keyserver.pgp.com", "pool.sks-keyservers.net"); // Yes. sks is there twice.
+		$keyservers = array("pool.sks-keyservers.net",  // This should almost always work
+			"hkp://keyserver.ubuntu.com:80",  // This is in case port 11371 is blocked outbound
+			"pgp.mit.edu", "keyserver.pgp.com",  // Other random keyservers
+			"pool.sks-keyservers.net"); // Yes. sks is there twice.
 
 		if (strlen($key) > 16) {
 			$key = substr($key, -16);
