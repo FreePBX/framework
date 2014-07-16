@@ -3,18 +3,20 @@
 /**
  * This is the FreePBX Big Module Object.
  *
- * GPG Class for FreePBX's BMO.
+ * PKCS Class for FreePBX's BMO.
  *
- * This is an interface to GPG, for validating FreePBX Modules.
- * It uses the GPG Web-of-trust to ensure modules are valid
- * and haven't been tampered with.
+ * This is an interface to OpenSSL, for generating certificates
+ * the majority of the work was ported from the Asterisk
+ * Certificate generation script in contrib/scripts.
+ * See: https://wiki.asterisk.org/wiki/display/AST/Secure+Calling+Tutorial
+ * Special thanks to Joshua Colp, Matt Jordan and Malcolm Davenport
  *
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 class PKCS {
 
-	// Our path to GPG.
+	// Our path to openssl.
 	private $openssl = "/usr/bin/openssl";
 
 	private $defaults = array(
@@ -33,6 +35,12 @@ class PKCS {
 		$this->debug = $debug;
 	}
 
+	/**
+	 * Create a global configuration file for use
+	 * when generating more base certificates
+	 * @param {string} $cn The Common Name, usually a FQDN
+	 * @param {string} $o  The organization name
+	 */
 	public function createConfig($cn,$o) {
 		if(empty($cn) || empty($o)) {
 			throw new Exception("Create Config Paramteters Left Blank!");
@@ -52,7 +60,7 @@ basicConstraints=CA:TRUE
 
 EOF;
 
-	file_put_contents($location.'/ca.cfg',$ca);
+		file_put_contents($location.'/ca.cfg',$ca);
 
 	$tmp = <<<EOF
 [req]
@@ -66,9 +74,17 @@ O={$o}
 
 EOF;
 
-	file_put_contents($location.'/tmp.cfg',$tmp);
+		file_put_contents($location.'/tmp.cfg',$tmp);
 	}
 
+	/**
+	 * Create a Certificate Authority. If the CA already exists don't recreate it
+	 * or we will end up invalidating all certificates we've already generated
+	 * (at some point it would/will happen). Alternatively you can pass the force
+	 * option and it will overwrite
+	 * @param {string} $passphrase  The passphrase used to encrypt the key file
+	 * @param {bool} $force=false Whether to force recreation if already exists
+	 */
 	public function createCA($passphrase,$force=false) {
 		$location = $this->getKeysLocation();
 		if(!file_exists($location . "/ca.key") || $force == true) {
@@ -86,8 +102,14 @@ EOF;
 		} else {
 			$this->out("CA certificate already exists, reusing");
 		}
+		$this->checkPermissions($location);
 	}
 
+	/**
+	 * Create a Certificate from the provided basename
+	 * @param {string} $base       The basename
+	 * @param {string} $passphrase The CA key passphrase
+	 */
 	public function createCert($base,$passphrase) {
 		$location = $this->getKeysLocation();
 		//Creating certificate ${base}.key
@@ -104,12 +126,13 @@ EOF;
 		$contents = file_get_contents($location . "/" . $base . ".key");
 		$contents = $contents . file_get_contents($location . "/" . $base . ".crt");
 		file_put_contents($location . "/" . $base . ".pem", $contents);
+		$this->checkPermissions($location);
 	}
 
 	/**
-	 * Actually run GPG
-	 * @param string Params to pass to gpg
-	 * @param fd File Descriptor to feed to stdin of gpg
+	 * Actually run OpenSSL
+	 * @param string Params to pass to OpenSSL
+	 * @param string String to pass into OpenSSL (used to pass passphrases around)
 	 * @return array returns assoc array consisting of (array)status, (string)stdout, (string)stderr and (int)exitcode
 	 */
 	public function runOpenSSL($params, $stdin = null) {
@@ -150,7 +173,7 @@ EOF;
 		$tmp = null;
 		$r = array($pipes[3]);
 		if (!stream_select($r , $tmp, $tmp, $this->timeout)) {
-			throw new RuntimeException("gpg took too long to run the command \"$cmd\".");
+			throw new RuntimeException("OpenSSL took too long to run the command \"$cmd\".");
 		}
 
 		$status = explode("\n", stream_get_contents($pipes[3]));
@@ -164,11 +187,19 @@ EOF;
 		return $retarr;
 	}
 
+	/**
+	 * Return a list of all keys from the key folder
+	 * @return array
+	 */
 	public function getAllKeys() {
 		$keyloc = $this->getKeysLocation();
 		return $this->getFileList($keyloc);
 	}
 
+	/**
+	 * Get the Asterisk Key Folder Location
+	 * @return string The location of the key folder
+	 */
 	public function getKeysLocation() {
 		$webuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
 
@@ -234,6 +265,10 @@ EOF;
 		}
 	}
 
+	/**
+	 * Check Permissions on said directory and fix if need be
+	 * @param {string} $dir = false The Directory to check and fix
+	 */
 	private function checkPermissions($dir = false) {
 		if (!$dir) {
 			// No directory specified. Let's use the default.
