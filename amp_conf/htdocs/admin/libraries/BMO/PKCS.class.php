@@ -30,9 +30,14 @@ class PKCS {
 	// This may need to be tuned on things like the pi.
 	public $timeout = 30;
 
+	//TODO first element that comes in here is the freepbx object yikes
 	public function __construct($debug=0) {
 		$this->defaults['server_cn'] = exec("hostname -f");
-		$this->debug = $debug;
+		if(is_int($debug)) {
+			$this->debug = $debug;
+		} else {
+			$this->debug = 0;
+		}
 	}
 
 	/**
@@ -188,12 +193,30 @@ EOF;
 	}
 
 	/**
-	 * Return a list of all keys from the key folder
+	 * Return a list of all Certificates from the key folder
 	 * @return array
 	 */
-	public function getAllKeys() {
+	public function getAllCertificates() {
 		$keyloc = $this->getKeysLocation();
 		return $this->getFileList($keyloc);
+	}
+
+	/**
+	* Return a list of all Certificates from the key folder
+	* @return array
+	*/
+	public function getAllAuthorityFiles() {
+		$keyloc = $this->getKeysLocation();
+		$cas = array();
+		$files = $this->getFileList($keyloc);
+		foreach($files as $file) {
+			if(preg_match('/ca\.crt/',$file) || preg_match('/ca\d\.crt/',$file)) {
+				if(in_array('ca.key',$files)) {
+					$cas[] = $file;
+				}
+			}
+		}
+		return $cas;
 	}
 
 	/**
