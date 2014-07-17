@@ -301,11 +301,11 @@ class GPG {
 		if (!isset($this->gpgenv)) {
 			$this->gpgenv['PATH'] = "/bin:/usr/bin";
 			$this->gpgenv['USER'] = $webuser;
-			$this->gpgenv['HOME'] = $home;
+			$this->gpgenv['HOME'] = "/tmp";
 			$this->gpgenv['SHELL'] = "/bin/bash";
 		}
 
-		$homedir = "--homedir ${home}.gnupg";
+		$homedir = "--homedir $home";
 
 		$cmd = $this->gpg." $homedir ".$this->gpgopts." --status-fd 3 $params";
 		$proc = proc_open($cmd, $fds, $pipes, "/tmp", $this->gpgenv);
@@ -506,10 +506,28 @@ class GPG {
 			$home .= "/";
 		}
 
-		if (is_writable($home.".gnupg") || (is_writable($home) && !is_dir($home.".gnupg"))) {
-			return $home;
+		// Make sure that home exists
+		if (!is_dir($home)) {
+			$ret = @mkdir($home);
+			if (!$ret) {
+				throw new Exception("Home directory $home doesn't exist, and I can't create it");
+			}
+		}
+
+		$dir = $home.".gnupg";
+
+		if (!is_dir($dir)) {
+			// That's worrying. Can I make it?
+			$ret = @mkdir($dir);
+			if (!$ret) {
+				throw new Exception("Directory $dir doesn't exist, and I can't make it (getGpgLocation).");
+			}
+		}
+
+		if (is_writable($dir)) {
+			return $dir;
 		} else {
-			throw new Exception("Don't have permission/can't write to ${home}.gnupg");
+			throw new Exception("Don't have permission/can't write to $dir");
 		}
 	}
 
@@ -526,7 +544,7 @@ class GPG {
 			// That's worrying. Can I make it?
 			$ret = @mkdir($dir);
 			if (!$ret) {
-				throw new Exception("Directory $dir doesn't exist, and I can't make it.");
+				throw new Exception("Directory $dir doesn't exist, and I can't make it. (checkPermissions)");
 			}
 		}
 
@@ -551,6 +569,7 @@ class GPG {
 		// Check the permissions of the files inside the .gpg directory
 		$allfiles = glob($dir."/*");
 		foreach ($allfiles as $file) {
+			$stat = stat($file);
 			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 				// Permissions are wrong on the GPG directory. Hopefully, I'm root, so I can fix them.
 				if (!posix_geteuid() === 0) {
