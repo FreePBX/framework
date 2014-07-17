@@ -571,7 +571,7 @@ class GPG {
 		foreach ($allfiles as $file) {
 			$stat = stat($file);
 			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
-				// Permissions are wrong on the GPG directory. Hopefully, I'm root, so I can fix them.
+				// Permissions are wrong on the file inside the .gnupg directory.
 				if (!posix_geteuid() === 0) {
 					throw new Exception("Permissions error on $home - please re-run as root to automatically repair");
 				}
