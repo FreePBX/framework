@@ -46,12 +46,13 @@ class PKCS {
 	 * @param {string} $cn The Common Name, usually a FQDN
 	 * @param {string} $o  The organization name
 	 */
-	public function createConfig($cn,$o) {
+	public function createConfig($base,$cn,$o,$force=false) {
 		if(empty($cn) || empty($o)) {
 			throw new Exception("Create Config Paramteters Left Blank!");
 		}
 		$location = $this->getKeysLocation();
-		$ca = <<<EOF
+		if(!file_exists($location . "/".$base.".cfg") || $force == true) {
+			$ca = <<<EOF
 [req]
 distinguished_name = req_distinguished_name
 prompt = no
@@ -65,9 +66,13 @@ basicConstraints=CA:TRUE
 
 EOF;
 
-		file_put_contents($location.'/ca.cfg',$ca);
+			if(!file_put_contents($location.'/'.$base.'.cfg',$ca)) {
+				throw new Exception("Unable to create ca.cfg file");
+			}
+		}
 
-	$tmp = <<<EOF
+		if(!file_exists($location . "/tmp.cfg") || $force == true) {
+			$tmp = <<<EOF
 [req]
 distinguished_name = req_distinguished_name
 prompt = no
@@ -79,7 +84,11 @@ O={$o}
 
 EOF;
 
-		file_put_contents($location.'/tmp.cfg',$tmp);
+			if(!file_put_contents($location.'/tmp.cfg',$tmp)) {
+				throw new Exception("Unable to create tmp.cfg file");
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -87,15 +96,20 @@ EOF;
 	 * or we will end up invalidating all certificates we've already generated
 	 * (at some point it would/will happen). Alternatively you can pass the force
 	 * option and it will overwrite
+	 * @param {string} $base The Certificate authority basename
 	 * @param {string} $passphrase  The passphrase used to encrypt the key file
 	 * @param {bool} $force=false Whether to force recreation if already exists
 	 */
-	public function createCA($passphrase,$force=false) {
+	public function createCA($base,$passphrase,$force=false) {
 		$location = $this->getKeysLocation();
-		if(!file_exists($location . "/ca.key") || $force == true) {
+		if(!file_exists($location . "/".$base.".key") || $force == true) {
 			//Creating CA key ${CAKEY}
 			$this->out("Creating CA key");
-			$this->runOpenSSL("genrsa -des3 -out " . $location . "/ca.key -passout stdin 4096",$passphrase);
+			if(!empty($passphrase)) {
+				$this->runOpenSSL("genrsa -des3 -out " . $location . "/".$base.".key -passout stdin 4096",$passphrase);
+			} else {
+				$this->runOpenSSL("genrsa -out " . $location . "/".$base.".key 4096",$passphrase);
+			}
 		} else {
 			$this->out("CA key already exists, reusing");
 		}
@@ -103,7 +117,11 @@ EOF;
 		if(!file_exists($location . "/ca.crt") || $force == true) {
 			//Creating CA certificate ${CACERT}
 			$this->out("Creating CA certificate");
-			$this->runOpenSSL("req -new -config " . $location . "/ca.cfg -x509 -days 365 -key " . $location . "/ca.key -out " . $location . "/ca.crt -passin stdin", $passphrase);
+			if(!empty($passphrase)) {
+				$this->runOpenSSL("req -new -config " . $location . "/".$base.".cfg -x509 -days 365 -key " . $location . "/".$base.".key -out " . $location . "/".$base.".crt -passin stdin", $passphrase);
+			} else {
+				$this->runOpenSSL("req -nodes -new -config " . $location . "/".$base.".cfg -x509 -days 365 -key " . $location . "/".$base.".key -out " . $location . "/".$base.".crt", $passphrase);
+			}
 		} else {
 			$this->out("CA certificate already exists, reusing");
 		}
@@ -113,19 +131,20 @@ EOF;
 	/**
 	 * Create a Certificate from the provided basename
 	 * @param {string} $base       The basename
+	 * @param {string} $cabase     The Certificate Authority Base name to reference
 	 * @param {string} $passphrase The CA key passphrase
 	 */
-	public function createCert($base,$passphrase) {
+	public function createCert($base,$cabase,$passphrase) {
 		$location = $this->getKeysLocation();
 		//Creating certificate ${base}.key
 		$this->out("Creating certificate for " . $base);
 		$this->runOpenSSL("genrsa -out " . $location . "/" . $base . ".key 1024");
 		//Creating signing request ${base}.csr
 		$this->out("Creating signing request for " . $base);
-		$this->runOpenSSL("req -batch -new -config " . $location . "/ca.cfg -key " . $location . "/" . $base . ".key -out " . $location . "/" . $base . ".csr");
+		$this->runOpenSSL("req -batch -new -config " . $location . "/".$cabase.".cfg -key " . $location . "/" . $base . ".key -out " . $location . "/" . $base . ".csr");
 		//Creating certificate ${base}.crt
 		$this->out("Creating certificate " . $base);
-		$this->runOpenSSL("x509 -req -days 365 -in " . $location . "/" . $base . ".csr -CA " . $location . "/ca.crt -CAkey " . $location . "/ca.key -set_serial 01 -out " . $location . "/" . $base . ".crt -passin stdin", $passphrase);
+		$this->runOpenSSL("x509 -req -days 365 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt -passin stdin", $passphrase);
 		//Combining key and crt into ${base}.pem
 		$this->out("Combining key and crt into " . $base . ".pem");
 		$contents = file_get_contents($location . "/" . $base . ".key");
@@ -213,10 +232,42 @@ EOF;
 			if(preg_match('/ca\.crt/',$file) || preg_match('/ca\d\.crt/',$file)) {
 				if(in_array('ca.key',$files)) {
 					$cas[] = $file;
+					$cas[] = 'ca.key';
 				}
 			}
 		}
 		return $cas;
+	}
+
+	/**
+	 * Remove all Certificate Authorities
+	 */
+	public function removeCA() {
+		$location = $this->getKeysLocation();
+		foreach($this->getAllAuthorityFiles() as $file) {
+			if(!unlink($location . "/" . $file)) {
+				throw new Exception('Unable to remove '.$file);
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Remove all Configuration Files
+	 */
+	public function removeConfig() {
+		$location = $this->getKeysLocation();
+		if(file_exists($location . "/ca.cfg")) {
+			if(!unlink($location . "/ca.cfg")) {
+				throw new Exception('Unable to remove ca.cfg');
+			}
+		}
+		if(file_exists($location . "/tmp.cfg")) {
+			if(!unlink($location . "/tmp.cfg")) {
+				throw new Exception('Unable to remove tmp.cfg');
+			}
+		}
+		return true;
 	}
 
 	/**
