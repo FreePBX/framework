@@ -25,7 +25,7 @@ if (count($items)) {
 				echo '<p>'.nl2br($item['extended_text']).'</p>';
 			} else {
 				$dis = isset($_GET['display']) ? addslashes($_GET['display']) : '';
-				$link = $_SERVER['PHP_SELF'].'?display='.$dis.'&amp;item='.$item['module'].'.'.$item['id'];
+				$link = '?display='.$dis.'&amp;item='.$item['module'].'.'.$item['id'];
 				echo '&nbsp;&nbsp;<a href="'.$link.'"><i>more..</i></a>';
 			}
 		}

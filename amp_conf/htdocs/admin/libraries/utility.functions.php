@@ -153,6 +153,9 @@ function compress_framework_css() {
 function die_freepbx($text, $extended_text="", $type="FATAL") {
 	global $amp_conf;
 
+	$text = htmlentities($text);
+	$extended_text = htmlentities($extended_text);
+
 	$bt = debug_backtrace();
 	freepbx_log(FPBX_LOG_FATAL, "die_freepbx(): ".$text);
 

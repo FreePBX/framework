@@ -1049,7 +1049,6 @@ function jira_replace_ticket($match) {
 
 function pageReload(){
 	return "";
-	//return "<script language=\"Javascript\">document.location='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."&foo=".rand()."'</script>";
 }
 
 function displayRepoSelect($buttons,$online=false,$repo_list=array()) {

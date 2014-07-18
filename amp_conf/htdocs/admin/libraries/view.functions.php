@@ -285,7 +285,7 @@ function _redirect_standard_helper($args) {
 			$urlopts[] = $arg.'='.urlencode($_REQUEST[$arg]);
 		}
 	}
-	$url = $_SERVER['PHP_SELF'].'?'.implode('&',$urlopts);
+	$url = 'config.php?'.implode('&',$urlopts);
 	return $url;
 }
 
@@ -312,8 +312,7 @@ function framework_include_css() {
 
 	// DEPECRATED but still supported for a while, the assets directory is the new preferred mode
 	if (is_file('modules/' . $module_name . '/' . $module_name . '.css')) {
-		$html .= '<link href="' . $_SERVER['PHP_SELF']
-				. '?handler=file&amp;module=' . $module_name
+		$html .= '<link href="?handler=file&amp;module=' . $module_name
 				. '&amp;file=' . $module_name . '.css' . $mod_version_tag
 				. '" rel="stylesheet" type="text/css" />';
 	}
@@ -321,8 +320,7 @@ function framework_include_css() {
 		&& ($module_page != $module_name)
 		&& is_file('modules/' . $module_name . '/' . $module_page . '.css')
 	) {
-			$html .= '<link href="' . $_SERVER['PHP_SELF']
-					. '?handler=file&amp;module=' . $module_name
+			$html .= '<link href="?handler=file&amp;module=' . $module_name
 					. '&amp;file=' . $module_page . '.css' . $mod_version_tag
 					. '" rel="stylesheet" type="text/css" />';
 	}
@@ -383,8 +381,7 @@ function framework_include_js($module_name, $module_page) {
 	$html = '';
 
 	if (is_file('modules/' . $module_name . '/' . $module_name . '.js')) {
-		$html .= '<script type="text/javascript" src="'
-				. $_SERVER['PHP_SELF'] . '?handler=file&amp;module='
+		$html .= '<script type="text/javascript" src="?handler=file&amp;module='
 				. $module_name . '&amp;file=' . $module_name . '.js'
 				. $mod_version_tag . '"></script>';
 	}
@@ -392,8 +389,7 @@ function framework_include_js($module_name, $module_page) {
 		&& ($module_page != $module_name)
 		&& is_file('modules/' . $module_name . '/' . $module_page . '.js')
 	) {
-		$html .= '<script type="text/javascript" src="'
-				. $_SERVER['PHP_SELF'] . '?handler=file&amp;module='
+		$html .= '<script type="text/javascript" src="?handler=file&amp;module='
 				. $module_name . '&amp;file=' . $module_page . '.js'
 				. $mod_version_tag . '"></script>';
 	}
@@ -434,7 +430,7 @@ function framework_include_js($module_name, $module_page) {
 		foreach ($file_list as $file) {
 			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
 				$html .= '<script type="text/javascript"'
-				. ' src="' . $_SERVER['PHP_SELF'] . '?handler=file&module='
+				. ' src="?handler=file&module='
 				. $module_name . '&file='
 				. $js_dir . '/' . $file . $mod_version_tag
 				. '"></script>';
@@ -452,8 +448,7 @@ function framework_include_js($module_name, $module_page) {
 			sort($file_list);
 			foreach ($file_list as $p_file) {
 				if (substr($p_file,-3) == '.js' && is_file("$js_subdir/$p_file")) {
-					$html .= '<script type="text/javascript" src="'
-							. $_SERVER['PHP_SELF'] . '?handler=file&module='
+					$html .= '<script type="text/javascript" src="?handler=file&module='
 							. $module_name . '&file='
 							. $js_subdir . '/' . $p_file . $mod_version_tag
 							. '"></script>';
