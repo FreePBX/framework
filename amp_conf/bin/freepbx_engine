@@ -215,8 +215,8 @@ chown_asterisk() {
 	[ -f $ASTVARLIBDIR/.ssh/id_rsa ] && chmod 0600 $ASTVARLIBDIR/.ssh/id_rsa
 	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTLOGDIR)
 	chmod -R g+w $(readlink -f $ASTLOGDIR)
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTSPOOLDIR)
-	chmod -R g+w $(readlink -f $ASTSPOOLDIR)
+	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTSPOOLDIR) &
+	chmod -R g+w $(readlink -f $ASTSPOOLDIR) &
 	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/admin)
 	chmod -R g+w $(readlink -f $AMPWEBROOT/admin)
 	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/recordings)
