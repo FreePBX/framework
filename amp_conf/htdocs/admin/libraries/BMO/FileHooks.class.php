@@ -9,8 +9,9 @@
 class FileHooks {
 
 	public function __construct($freepbx = null) {
-		if ($freepbx == null)
+		if ($freepbx == null) {
 			throw new Exception("Need to be instantiated with a FreePBX Object");
+		}
 
 		$this->FreePBX = $freepbx;
 	}

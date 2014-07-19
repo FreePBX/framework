@@ -18,7 +18,6 @@ $bmo = FreePBX::create();
 // $bmo->Performance->On();
 $bmo->Performance->Stamp("retrieve_conf_start");
 $bmo->Hooks->updateBMOHooks();
-
 // BMO TODO: Move this to be part of BMO.
 class connectdirs {
 
