@@ -239,6 +239,17 @@ EOF;
 		return $cas;
 	}
 
+	public function removeCert($base) {
+		$location = $this->getKeysLocation();
+		foreach($this->getAllCertificates() as $file) {
+			if(preg_match('/^'.$base.'/',$file)) {
+				if(!unlink($location . "/" . $file)) {
+					throw new Exception('Unable to remove '.$file);
+				}
+			}
+		}
+	}
+
 	/**
 	 * Remove all Certificate Authorities
 	 */
