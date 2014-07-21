@@ -1411,8 +1411,17 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_SELECT;
   $set['level'] = 4;
   $freepbx_conf->define_conf_setting('MOHDIR',$set);
-  $set['level'] = 0;
 
+  $set['value'] = '/etc/asterisk/keys';
+  $set['options'] = '';
+	$set['name'] = 'Certificate File Location';
+	$set['description'] = 'The location for Asterisk Certificates';
+	$set['emptyok'] = 0;
+	$set['readonly'] = 1;
+	$set['type'] = CONF_TYPE_DIR;
+  $set['level'] = 4;
+	$freepbx_conf->define_conf_setting('CERTKEYLOC',$set);
+	$set['level'] = 0;
 
   //
   // CATEGORY: GUI Behavior

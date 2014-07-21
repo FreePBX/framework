@@ -294,16 +294,17 @@ EOF;
 
 		// We need to ensure that we can actually read the Key files.
 		$keyloc = FreePBX::Freepbx_conf()->get('ASTETCDIR');
-		if (!file_exists($keyloc . "/keys")) {
-			if(!mkdir($keyloc . "/keys")) {
-				throw new Exception("Could Not Create the Asterisk Keys Folder in " . $keyloc);
+		$keyloc = !empty($keyloc) ? $keyloc : FreePBX::Freepbx_conf()->get('CERTKEYLOC') . "/keys";
+		if (!file_exists($keyloc)) {
+			if(!mkdir($keyloc)) {
+				throw new Exception("Could Not Create the Asterisk Keys Folder: " . $keyloc);
 			}
 		}
 
-		if (is_writable($keyloc. "/keys")) {
-			return $keyloc . "/keys";
+		if (is_writable($keyloc)) {
+			return $keyloc;
 		} else {
-			throw new Exception("Don't have permission/can't write to " . $keyloc . "/keys");
+			throw new Exception("Don't have permission/can't write to: " . $keyloc);
 		}
 	}
 
