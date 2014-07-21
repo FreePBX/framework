@@ -2075,6 +2075,7 @@ class module_functions {
 						//TODO: Need to take care of halting the install process
 						FreePBX::create()->$mn->install();
 					} catch(Exception $e) {
+						dbug("Error Returned was: ".$e->getMessage());
 						return false;
 					}
 				}
@@ -2101,6 +2102,7 @@ class module_functions {
 						//TODO: Need to take care of halting the uninstall process
 						FreePBX::create()->$mn->uninstall();
 					} catch(Exception $e) {
+						dbug("Error Returned was: ".$e->getMessage());
 						return false;
 					}
 				}
