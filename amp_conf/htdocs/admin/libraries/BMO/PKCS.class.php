@@ -293,8 +293,8 @@ EOF;
 		}
 
 		// We need to ensure that we can actually read the Key files.
-		$keyloc = FreePBX::Freepbx_conf()->get('ASTETCDIR');
-		$keyloc = !empty($keyloc) ? $keyloc : FreePBX::Freepbx_conf()->get('CERTKEYLOC') . "/keys";
+		$keyloc = FreePBX::Freepbx_conf()->get('CERTKEYLOC');
+		$keyloc = !empty($keyloc) ? $keyloc : FreePBX::Freepbx_conf()->get('ASTETCDIR') . "/keys";
 		if (!file_exists($keyloc)) {
 			if(!mkdir($keyloc)) {
 				throw new Exception("Could Not Create the Asterisk Keys Folder: " . $keyloc);
