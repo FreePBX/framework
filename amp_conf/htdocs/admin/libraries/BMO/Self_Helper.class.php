@@ -188,7 +188,8 @@ class Self_Helper extends DB_Helper {
 			// Bad things have happened.
 			if (!$loaded) {
 				$sobjname = strtolower($objname);
-				die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname), sprintf(_("A required module might be disabled or uninstalled.<br/>Recommended steps (run from the CLI):<ol><li>amportal a ma install %s</li><li>amportal a ma enable %s</li></ol>"),$sobjname,$sobjname));
+				throw new Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname) . sprintf(_("A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"),$sobjname,$sobjname));
+				//die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname), sprintf(_("A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"),$sobjname,$sobjname));
 			}
 
 			// We loaded a file that claimed to represent that class, but didn't.

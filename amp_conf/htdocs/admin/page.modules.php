@@ -906,6 +906,7 @@ if ($quietmode) {
 			$displayvars['security_issues'][$id]['related_urls'] = $security_array[$id]['related_urls']['url'];
 		}
 	}
+	//$sysadmininfo = $modulef->getinfo('sysadmin');
 	show_view('views/module_admin/footer.php',$displayvars);
 }
 
