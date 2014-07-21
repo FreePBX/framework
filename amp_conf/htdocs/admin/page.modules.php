@@ -891,8 +891,7 @@ switch ($action) {
 		show_view('views/module_admin/main.php',$displayvars);
 	break;
 }
-if ($quietmode) {
-} else {
+if (!$quietmode) {
 	$displayvars = array("security_issues" => array());
 	if (!empty($security_issues_to_report)) {
 		foreach (array_keys($security_issues_to_report) as $id) {
@@ -906,7 +905,10 @@ if ($quietmode) {
 			$displayvars['security_issues'][$id]['related_urls'] = $security_array[$id]['related_urls']['url'];
 		}
 	}
-	//$sysadmininfo = $modulef->getinfo('sysadmin');
+	$sysadmininfo = $modulef->getinfo('sysadmin');
+	if(!empty($sysadmininfo['sysadmin']['status']) && ($sysadmininfo['sysadmin']['status'] == MODULE_STATUS_ENABLED)) {
+		$displayvars['shoppingcart'] = "http://pbxactdev2.schmoozecom.net/Schmooze-FreePBX.min.js";
+	}
 	show_view('views/module_admin/footer.php',$displayvars);
 }
 

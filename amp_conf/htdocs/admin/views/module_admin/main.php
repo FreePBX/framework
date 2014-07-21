@@ -171,11 +171,14 @@
 																	<?php break;?>
 																	<?php case 'paid':?>
 																	<?php default:?>
-																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Buy')?></a>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Learn More')?> <i class="fa fa-share-square-o"></i></a>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn fpbx-buy" data-rawname="<?php echo $module['name']?>" target="_new"><?php echo _('Buy')?></a>
 																	<?php break;?>
 																<?php } ?>
 															<?php } else { ?>
-																<?php echo _('Licensed')?>
+																<div class="fpbx-licensed" data-rawname="<?php echo $module['name']?>">
+																	<?php echo _('Licensed')?>
+																</div>
 															<?php } ?>
 														</td>
 													</tr>
