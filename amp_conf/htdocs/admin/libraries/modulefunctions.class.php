@@ -1812,6 +1812,11 @@ class module_functions {
 		needreload();
 		//invalidate the modulelist class since it is now stale
 		modulelist::create($db)->invalidate();
+
+		try {
+			$sth = FreePBX::Database()->prepare("DELETE FROM `kvstore` WHERE `module` = :mod");
+			$sth->execute(array(":mod" => $modulename));
+		} catch(\Exception $e) {}
 		return true;
 	}
 

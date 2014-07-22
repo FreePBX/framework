@@ -24,6 +24,7 @@ class DB_Helper {
 	private static $dbDel;
 	private static $dbAdd;
 	private static $dbDelId;
+	private static $dbDelMod;
 
 	/* These are only added when required */
 	private static $dbGetFirst = false;
@@ -88,6 +89,7 @@ class DB_Helper {
 		self::$dbDel = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key  AND `id` = :id");
 		self::$dbAdd = self::$db->prepare("INSERT INTO `".self::$dbname."` ( `module`, `key`, `val`, `type`, `id` ) VALUES ( :mod, :key, :val, :type, :id )");
 		self::$dbDelId = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id");
+		self::$dbDelMod = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod");
 
 		// Now this has run, everything IS JUST FINE.
 		self::$checked = true;
@@ -219,6 +221,14 @@ class DB_Helper {
 	}
 
 	/**
+	 * Alias function to delete
+	 * @param {string} $key = null The key name
+	 */
+	public function delConfig($key = null) {
+		$this->setConfig($key);
+	}
+
+	/**
 	 * Store multiple variables, arrays or objects.
 	 *
 	 * setMultiConfig is the same as setConfig, except it uses an associative array,
@@ -276,6 +286,26 @@ class DB_Helper {
 		} else {
 			return array();
 		}
+	}
+
+	/**
+	 * Delete All Keys from module
+	 */
+	public function deleteAll() {
+		// Our pretend __construct();
+		self::checkDatabase();
+
+		if ($this->classOverride) {
+			$mod = $this->classOverride;
+			$this->classOverride = false;
+		} else {
+			$mod = get_class($this);
+		}
+
+		$query[':mod'] = $mod;
+
+		$ret = self::$dbDelMod->execute($query);
+		return $ret;
 	}
 
 	/**
