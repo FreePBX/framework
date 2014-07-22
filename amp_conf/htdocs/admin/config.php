@@ -267,14 +267,18 @@ ob_start();
 // Run all the pre-processing for the page that's been requested.
 if (!empty($display) && $display != 'badrefer') {
 		// $CC is used by guielemets as a Global.
-		$CC = $currentcomponent = new component($display,$type);
+		try {
+			$CC = $currentcomponent = new component($display,$type);
 
-		// BMO: Process ConfigPageInit functions
-		$bmo->GuiHooks->doConfigPageInits($display, $currentcomponent);
+			// BMO: Process ConfigPageInit functions
+			$bmo->GuiHooks->doConfigPageInits($display, $currentcomponent);
 
-		// now run each 'process' function and 'gui' function
-		$currentcomponent->processconfigpage();
-		$currentcomponent->buildconfigpage();
+			// now run each 'process' function and 'gui' function
+			$currentcomponent->processconfigpage();
+			$currentcomponent->buildconfigpage();
+	} catch(Exception $e) {
+		die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+	}
 }
 $module_name = "";
 $module_page = "";
@@ -395,21 +399,25 @@ switch($display) {
 			}
 
 			// create a module_hook object for this module's page
-			$module_hook = new moduleHook;
+			try {
+				$module_hook = new moduleHook;
 
-			// populate object variables
-			$module_hook->install_hooks($module_page,$module_name,$itemid);
+				// populate object variables
+				$module_hook->install_hooks($module_page,$module_name,$itemid);
 
-			// let hooking modules process the $_REQUEST
-			$module_hook->process_hooks($itemid,
-					$module_name,
-					$module_page,
-					$_REQUEST);
+				// let hooking modules process the $_REQUEST
+				$module_hook->process_hooks($itemid,
+						$module_name,
+						$module_page,
+						$_REQUEST);
 
-			// BMO: Pre display hooks.
-			// getPreDisplay and getPostDisplay should probably never
-			// be used.
-			$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
+				// BMO: Pre display hooks.
+				// getPreDisplay and getPostDisplay should probably never
+				// be used.
+				$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
+			} catch(Exception $e) {
+				die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+			}
 
 			// include the module page
 			if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {
@@ -419,9 +427,13 @@ switch($display) {
 					//check module first and foremost, but not during quietmode
 					if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK']) {
 						//Since we are viewing this module update it's signature
-						module_functions::create()->updateSignature($module_name,false);
-						//check all cached signatures
-						$modules = module_functions::create()->getAllSignatures();
+						try {
+							module_functions::create()->updateSignature($module_name,false);
+							//check all cached signatures
+							$modules = module_functions::create()->getAllSignatures();
+						} catch(Exception $e) {
+							die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+						}
 						if(!$modules['validation']) {
 							$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
 							$merged = array();
@@ -452,23 +464,35 @@ switch($display) {
 
 					// load language info if available
 					modgettext::textdomain($module_name);
-					if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
-							$bmo->GuiHooks->doIntercept($module_name, $module_file);
-					} else {
-							include($module_file);
+					try {
+						if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
+								$bmo->GuiHooks->doIntercept($module_name, $module_file);
+						} else {
+								include($module_file);
+						}
+					} catch(Exception $e) {
+						die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
 					}
 			} else {
 					echo "404 Not found (" . $module_file  . ')';
 			}
 
 			// BMO TODO: Post display hooks.
-			$bmo->GuiHooks->getPostDisplay($module_name, $_REQUEST);
+			try {
+				$bmo->GuiHooks->getPostDisplay($module_name, $_REQUEST);
+			} catch(Exception $e) {
+				die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+			}
 
 			// global component
 			if ( isset($currentcomponent) ) {
 					modgettext::textdomain($module_name);
-					$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
-					echo  $currentcomponent->generateconfigpage();
+					try {
+						$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
+						echo  $currentcomponent->generateconfigpage();
+					} catch(Exception $e) {
+						die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+					}
 			}
 		break;
 }
@@ -586,8 +610,6 @@ if ($quietmode) {
 		if (isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes') {
 			echo load_view($amp_conf['VIEW_BETA_NOTICE']);
 		}
-
-
 
 		//send actual page content
 		echo $page_content;
