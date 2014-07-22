@@ -106,9 +106,12 @@ EOF;
 			//Creating CA key ${CAKEY}
 			$this->out("Creating CA key");
 			if(!empty($passphrase)) {
-				$this->runOpenSSL("genrsa -des3 -out " . $location . "/".$base.".key -passout stdin 4096",$passphrase);
+				$out = $this->runOpenSSL("genrsa -des3 -out " . $location . "/".$base.".key -passout stdin 4096",$passphrase);
 			} else {
-				$this->runOpenSSL("genrsa -out " . $location . "/".$base.".key 4096",$passphrase);
+				$out = $this->runOpenSSL("genrsa -out " . $location . "/".$base.".key 4096");
+			}
+			if($out['exitcode'] > 0) {
+				throw new Exception("Error Generating Key: ".$out['stderr']);
 			}
 		} else {
 			$this->out("CA key already exists, reusing");
@@ -118,14 +121,18 @@ EOF;
 			//Creating CA certificate ${CACERT}
 			$this->out("Creating CA certificate");
 			if(!empty($passphrase)) {
-				$this->runOpenSSL("req -new -config " . $location . "/".$base.".cfg -x509 -days 365 -key " . $location . "/".$base.".key -out " . $location . "/".$base.".crt -passin stdin", $passphrase);
+				$out = $this->runOpenSSL("req -new -config " . $location . "/".$base.".cfg -x509 -days 365 -key " . $location . "/".$base.".key -out " . $location . "/".$base.".crt -passin stdin", $passphrase);
 			} else {
-				$this->runOpenSSL("req -nodes -new -config " . $location . "/".$base.".cfg -x509 -days 365 -key " . $location . "/".$base.".key -out " . $location . "/".$base.".crt", $passphrase);
+				$out = $this->runOpenSSL("req -nodes -new -config " . $location . "/".$base.".cfg -x509 -days 365 -key " . $location . "/".$base.".key -out " . $location . "/".$base.".crt");
+			}
+			if($out['exitcode'] > 0) {
+				throw new Exception("Error Generating Certificate: ".$out['stderr']);
 			}
 		} else {
 			$this->out("CA certificate already exists, reusing");
 		}
 		$this->checkPermissions($location);
+		return true;
 	}
 
 	/**
@@ -138,19 +145,33 @@ EOF;
 		$location = $this->getKeysLocation();
 		//Creating certificate ${base}.key
 		$this->out("Creating certificate for " . $base);
-		$this->runOpenSSL("genrsa -out " . $location . "/" . $base . ".key 1024");
+		$out = $this->runOpenSSL("genrsa -out " . $location . "/" . $base . ".key 1024");
+		if($out['exitcode'] > 0) {
+			throw new Exception("Error Generating Key: ".$out['stderr']);
+		}
 		//Creating signing request ${base}.csr
 		$this->out("Creating signing request for " . $base);
-		$this->runOpenSSL("req -batch -new -config " . $location . "/".$cabase.".cfg -key " . $location . "/" . $base . ".key -out " . $location . "/" . $base . ".csr");
+		$out = $this->runOpenSSL("req -batch -new -config " . $location . "/".$cabase.".cfg -key " . $location . "/" . $base . ".key -out " . $location . "/" . $base . ".csr");
+		if($out['exitcode'] > 0) {
+			throw new Exception("Error Generating Signing Request: ".$out['stderr']);
+		}
 		//Creating certificate ${base}.crt
 		$this->out("Creating certificate " . $base);
-		$this->runOpenSSL("x509 -req -days 365 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt -passin stdin", $passphrase);
+		if(!empty($passphrase)) {
+			$out = $this->runOpenSSL("x509 -req -days 365 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt -passin stdin", $passphrase);
+		} else {
+			$out = $this->runOpenSSL("x509 -req -days 365 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt");
+		}
+		if($out['exitcode'] > 0) {
+			throw new Exception("Error Generating Certificate: ".$out['stderr']);
+		}
 		//Combining key and crt into ${base}.pem
 		$this->out("Combining key and crt into " . $base . ".pem");
 		$contents = file_get_contents($location . "/" . $base . ".key");
 		$contents = $contents . file_get_contents($location . "/" . $base . ".crt");
 		file_put_contents($location . "/" . $base . ".pem", $contents);
 		$this->checkPermissions($location);
+		return true;
 	}
 
 	/**
