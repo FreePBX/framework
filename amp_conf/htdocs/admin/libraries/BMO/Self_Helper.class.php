@@ -104,18 +104,18 @@ class Self_Helper extends DB_Helper {
 		if (isset($args[1]) && isset($args[1][0])) {
 			// We do. We were __call'ed. Sanity check
 			if (isset($args[1][1])) {
-				throw new Exception("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this.");
+				throw new Exception(_("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this."));
 			}
 			if (class_exists($class)) {
 				$this->$var = new $class($this, $args[1][0]);
 			} else {
-				die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
+				throw new Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
 			}
 		} else {
 			if (class_exists($class)) {
 				$this->$var = new $class($this);
 			} else {
-				die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
+				throw new Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
 			}
 			FreePBX::create()->$var = $this->$var;
 
@@ -153,7 +153,7 @@ class Self_Helper extends DB_Helper {
 
 		if ($hint) {
 			if (!file_exists($hint)) {
-				die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class %s"),$objname), sprintf(_("Attempted to load %s with a hint of %s and it didn't exist"),$objname,$hint));
+				throw new Exception(sprintf(_("Attempted to load %s with a hint of %s and it didn't exist"),$objname,$hint));
 			} else {
 				$try = $hint;
 			}
@@ -193,7 +193,7 @@ class Self_Helper extends DB_Helper {
 			}
 
 			// We loaded a file that claimed to represent that class, but didn't.
-			die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class %s"),$objname), sprintf(_("Attempted to load %s but it didn't define the class %s"),$try,$objname));
+			throw new Exception(sprintf(_("Attempted to load %s but it didn't define the class %s"),$try,$objname));
 		}
 
 		return true;
