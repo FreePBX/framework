@@ -35,7 +35,7 @@ class DB_Helper {
 
 	/** Don't new DB_Helper */
 	public function __construct() {
-		throw new Exception("You should never 'new' this. Just use it as an 'extends'");
+		throw new Exception("You should never 'new' DB_Helper. Just use it as an 'extends'");
 	}
 
 	/** This is our pseudo-__construct, called whenever our public functions are called. */

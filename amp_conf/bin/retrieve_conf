@@ -16,6 +16,9 @@ $freepbx_conf =& freepbx_conf::create();
 // Load the BMO Object
 $bmo = FreePBX::create();
 // $bmo->Performance->On();
+$bmo->Performance->Stamp("trust_gpg_start");
+$bmo->GPG->trustFreePBX();
+$bmo->Performance->Stamp("trust_gpg_end");
 $bmo->Performance->Stamp("retrieve_conf_start");
 $bmo->Hooks->updateBMOHooks();
 // BMO TODO: Move this to be part of BMO.
@@ -946,7 +949,6 @@ else
 	out(_("Please update your modules and reload Asterisk by browsing to your server."),false);
 }
 
-FreePBX::GPG()->trustFreePBX();
 module_functions::create()->getAllSignatures(false);
 
 if(!FreePBX::Config()->get('SIGNATURECHECK')) {
