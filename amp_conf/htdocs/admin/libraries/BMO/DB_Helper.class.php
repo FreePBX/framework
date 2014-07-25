@@ -41,11 +41,13 @@ class DB_Helper {
 	/** This is our pseudo-__construct, called whenever our public functions are called. */
 	private static function checkDatabase() {
 		// Have we already run?
-		if (self::$checked != false)
+		if (self::$checked != false) {
 			return;
+		}
 
-		if (!isset(self::$db))
+		if (!isset(self::$db)) {
 			self::$db = FreePBX::create()->Database;
+		}
 
 		// Definitions
 		$create = "CREATE TABLE IF NOT EXISTS ".self::$dbname." ( `module` CHAR(64) NOT NULL, `key` CHAR(255) NOT NULL, `val` LONGBLOB, `type` CHAR(16) DEFAULT NULL, `id` CHAR(255) DEFAULT NULL)";
@@ -60,8 +62,7 @@ class DB_Helper {
 			if ($e->getCode() == "42S02") { // Table does not exist
 				self::$db->query($create);
 			} else {
-				print "I have ".$e->getCode()." as an error<br>\nI don't know what that means.<br/>";
-				exit;
+				throw new \Exception($e->getMessage());
 			}
 		}
 
@@ -121,8 +122,9 @@ class DB_Helper {
 	 * @return bool|string|array|StdObject Returns what was handed to setConfig, or bool false if it doesn't exist
 	 */
 	public function getConfig($var = null, $id = "noid") {
-		if ($var === null)
+		if ($var === null) {
 			throw new Exception("Can't getConfig for null");
+		}
 
 		// Call our pretend __construct
 		self::checkDatabase();
@@ -141,6 +143,7 @@ class DB_Helper {
 
 		self::$dbGet->execute($query);
 		$res = self::$dbGet->fetchAll();
+
 		if (isset($res[0])) {
 			// Found!
 			if ($res[0]['type'] == "json-obj") {

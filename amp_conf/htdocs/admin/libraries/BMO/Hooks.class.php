@@ -17,6 +17,9 @@ class Hooks extends DB_Helper {
 		$this->FreePBX = $freepbx;
 	}
 
+	/**
+	 * Get all cached hooks
+	 */
 	public function getAllHooks() {
 		$this->hooks = $this->getConfig('hooks');
 		if (empty($this->hooks)) {
@@ -25,6 +28,9 @@ class Hooks extends DB_Helper {
 		return $this->hooks;
 	}
 
+	/**
+	 * Update all cached hooks
+	 */
 	public function updateBMOHooks() {
 		// Find all BMO Modules, query them for GUI, Dialplan, and configpageinit hooks.
 
@@ -97,27 +103,46 @@ class Hooks extends DB_Helper {
 		return $allhooks;
 	}
 
+	/**
+	 * Process all cached hooks
+	 * @param {mixed} $data=null Data to send to the hook
+	 */
 	public function processHooks($data=null) {
 		$this->activemods = $this->FreePBX->Modules->getActiveModules();
 		$hooks = $this->getAllHooks();
 		$o = debug_backtrace();
 		$callingMethod = !empty($o[1]['function']) ? $o[1]['function'] : '';
 		$callingClass = !empty($o[1]['class']) ? $o[1]['class'] : '';
+		$data = array();
 
 		if(!empty($hooks['ModuleHooks'][$callingClass]) && !empty($hooks['ModuleHooks'][$callingClass][$callingMethod])) {
 			foreach($hooks['ModuleHooks'][$callingClass][$callingMethod] as $module => $hooks) {
 				if(isset($this->activemods[$module])) {
 					foreach($hooks as $hook) {
 						$namespace = !empty($hook['namespace']) ? $hook['namespace'] . '\\' : '';
+						$module = ucfirst(strtolower($module));
 						if(!class_exists($namespace.$hook['class'])) {
-							throw new \Exception('Cant find '.$namespace.$hook['class']);
+							//its active so lets get BMO to load it
+							//basically we are hoping the module itself will load the right class
+							//follow FreePBX BMO naming Schema
+							try {
+								$this->FreePBX->$module;
+								if(!class_exists($namespace.$hook['class'])) {
+									//Ok we really couln't find it. Give up
+									throw new \Exception('Cant find '.$namespace.$hook['class']);
+								}
+							} catch(\Exception $e) {
+								throw new \Exception('Cant find '.$namespace.$hook['class']);
+							}
 						}
 						$meth = $hook['method'];
-						$data = $this->FreePBX->$module->$meth($data);
+						//now send the method from that class the data!
+						$data[$module] = $this->FreePBX->$module->$meth($data);
 					}
 				}
 			}
 		}
+		//return the data from that class
 		return $data;
 	}
 
