@@ -267,7 +267,7 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
 			$ds_array[$cat][$key]['selected'] = ($goto == $dest['destination']) ? true : false;
 			$child_label_text=$dest['description'];
-			$style=' style="'.(($cat=='Error')?'background-color:red;':'background-color:white;').'"';
+			$style=' style="'.(($cat=='Error')?'background-color:red;':'').'"';
 			$html.='<option value="'.$dest['destination'].'" '.$selected.$style.'>'.$child_label_text.'</option>';
 		}
 		$html.='</select>';

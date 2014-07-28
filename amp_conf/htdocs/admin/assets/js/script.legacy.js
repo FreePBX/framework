@@ -678,7 +678,7 @@ function bind_dests_double_selects() {
 		if($(this).find('option:selected').val()=='Error'){
 			$(this).css('background-color','red');
 		}else{
-			$(this).css('background-color','white');
+			$(this).css('background-color','');
 		}
 	});
 }
