@@ -1108,7 +1108,7 @@ $(document).ready(function(){
 	$('#user_logout').click(function(){
 		url = window.location.pathname;
 		$.get(url + '?logout=true', function(){
-			$.cookie('PHPSESSID', null);
+      $.removeCookie('PHPSESSID', { path: '/' }); // => true
 			window.location = url;
 		});
 
