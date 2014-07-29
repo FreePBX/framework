@@ -100,9 +100,9 @@ function isAlphanumeric(s) {
 	if (isEmpty(s)) {
 		if (isAlphanumeric.arguments.length == 1) {
 			return defaultEmptyOK;
+		} else {
+			return (isAlphanumeric.arguments[1] === true);
 		}
-	} else {
-		return (isAlphanumeric.arguments[1] === true);
 	}
 	for (i = 0; i < s.length; i++) {
 		c = s.charAt(i);
