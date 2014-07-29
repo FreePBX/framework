@@ -161,14 +161,12 @@ function lengthInUtf8Bytes(str) {
 /**
  * Check to make sure string is an integer, not a float or string
  * @param {string} s The string to check
- * discuss at: http://phpjs.org/functions/is_int/
- * original by: Alex
  */
 function isInteger(mixedVar) {
 	if (isEmpty(mixedVar)) {
-		return true;
+		return defaultEmptyOK;
 	}
-	return mixedVar === +mixedVar && isFinite(mixedVar) && !(mixedVar % 1);
+	return new RegExp(/^\d+$/).test(mixedVar);
 }
 
 /**
@@ -179,9 +177,9 @@ function isInteger(mixedVar) {
 */
 function isFloat(mixedVar) {
 	if (isEmpty(mixedVar)) {
-		return true;
+		return defaultEmptyOK;
 	}
-	return +mixedVar === mixedVar && (!isFinite(mixedVar) || !! (mixedVar % 1));
+	return new RegExp(/^(?:[1-9]\d*|0)?(?:\.\d+)?$/).test(mixedVar);
 }
 
 /**
@@ -363,9 +361,6 @@ function isCallerID(s) {
  */
 function isDialpattern(s) {
 	var i, c;
-
-	console.log(s);
-
 	if (isEmpty(s)) {
 		if (isDialpattern.arguments.length == 1) {
 			return defaultEmptyOK;
@@ -538,7 +533,7 @@ function isInside(s, c) {
 	var i, t;
 
 	if (isEmpty(s)) {
-		return false;
+		return defaultEmptyOK;
 	}
 	for (i = 0; i < s.length; i++) {
 		t = s.charAt(i);

@@ -27,10 +27,10 @@ function isUnicodeLetter(c){return new RegExp(/[ a-zA-Z'\\\/\&\(\)\-\u3000-\u300
 function isCorrectLengthExtensions(s){return isCorrectLength(s,50);}
 function isCorrectLength(s,l){var i;if(lengthInUtf8Bytes(s)>l){return false;}else{return true;}}
 function lengthInUtf8Bytes(str){var m=encodeURIComponent(str).match(/%[89ABab]/g);return str.length+(m?m.length:0);}
-function isInteger(mixedVar){if(isEmpty(mixedVar)){return true;}
-return mixedVar===+mixedVar&&isFinite(mixedVar)&&!(mixedVar%1);}
-function isFloat(mixedVar){if(isEmpty(mixedVar)){return true;}
-return+mixedVar===mixedVar&&(!isFinite(mixedVar)||!!(mixedVar%1));}
+function isInteger(mixedVar){if(isEmpty(mixedVar)){return defaultEmptyOK;}
+return new RegExp(/^\d+$/).test(mixedVar);}
+function isFloat(mixedVar){if(isEmpty(mixedVar)){return defaultEmptyOK;}
+return new RegExp(/^(?:[1-9]\d*|0)?(?:\.\d+)?$/).test(mixedVar);}
 function checkNumber(objectValue){if(objectValue.length===0){return true;}
 var startFormat=" .+-0123456789",numberFormat=" .0123456789",checkChar,decimal=false,trailingBlank=false,digits=false,i;checkChar=startFormat.indexOf(objectValue.charAt(0));if(checkChar==1){decimal=true;}else if(checkChar<1){return false;}
 for(i=1;i<objectValue.length;i++){checkChar=numberFormat.indexOf(objectValue.charAt(i));if(checkChar<0){return false;}else if(checkChar==1){if(decimal){return false;}else{decimal=true;}}else if(checkChar===0){if(decimal||digits){trailingBlank=true;}}else if(trailingBlank){return false;}else{digits=true;}}
@@ -51,7 +51,7 @@ return true;}
 function isCallerID(s){var i,c;if(isEmpty(s)){if(isCallerID.arguments.length==1){return defaultEmptyOK;}else{return(isCallerID.arguments[1]===true);}}
 for(i=0;i<s.length;i++){c=s.charAt(i);if(!(isCallerIDChar(c))){return false;}}
 return true;}
-function isDialpattern(s){var i,c;console.log(s);if(isEmpty(s)){if(isDialpattern.arguments.length==1){return defaultEmptyOK;}else{return(isDialpattern.arguments[1]===true);}}
+function isDialpattern(s){var i,c;if(isEmpty(s)){if(isDialpattern.arguments.length==1){return defaultEmptyOK;}else{return(isDialpattern.arguments[1]===true);}}
 for(i=0;i<s.length;i++){c=s.charAt(i);if(!isDialpatternChar(c)){if(c.charCodeAt(0)!=13&&c.charCodeAt(0)!=10){return false;}}}
 return true;}
 function isDialrule(s){var i,c;if(isEmpty(s)){if(isDialrule.arguments.length==1){return defaultEmptyOK;}else{return(isDialrule.arguments[1]===true);}}
@@ -70,7 +70,7 @@ return true;}
 function isFilename(s){var i,c;if(isEmpty(s)){if(isFilename.arguments.length==1){return defaultEmptyOK;}else{return(isFilename.arguments[1]===true);}}
 for(i=0;i<s.length;i++){c=s.charAt(i);if(!isFilenameChar(c)){return false;}}
 return true;}
-function isInside(s,c){var i,t;if(isEmpty(s)){return false;}
+function isInside(s,c){var i,t;if(isEmpty(s)){return defaultEmptyOK;}
 for(i=0;i<s.length;i++){t=s.charAt(i);if(t==c){return true;}}
 return false;}
 function isEmail(s){if(isEmpty(s)){if(isEmail.arguments.length==1){return defaultEmptyOK;}else{return(isEmail.arguments[1]===true);}}
