@@ -107,13 +107,14 @@ class Hooks extends DB_Helper {
 	 * Process all cached hooks
 	 * @param {mixed} $data=null Data to send to the hook
 	 */
-	public function processHooks($data=array()) {
+	public function processHooks($data=null) {
 		$this->activemods = $this->FreePBX->Modules->getActiveModules();
 		$hooks = $this->getAllHooks();
 		$o = debug_backtrace();
 		$callingMethod = !empty($o[1]['function']) ? $o[1]['function'] : '';
 		$callingClass = !empty($o[1]['class']) ? $o[1]['class'] : '';
 
+		$return = array();
 		if(!empty($hooks['ModuleHooks'][$callingClass]) && !empty($hooks['ModuleHooks'][$callingClass][$callingMethod])) {
 			foreach($hooks['ModuleHooks'][$callingClass][$callingMethod] as $module => $hooks) {
 				if(isset($this->activemods[$module])) {
@@ -136,13 +137,13 @@ class Hooks extends DB_Helper {
 						}
 						$meth = $hook['method'];
 						//now send the method from that class the data!
-						$data[$module] = $this->FreePBX->$module->$meth($data);
+						$return[$module] = $this->FreePBX->$module->$meth($data);
 					}
 				}
 			}
 		}
 		//return the data from that class
-		return $data;
+		return $return;
 	}
 
 	/**
