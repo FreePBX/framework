@@ -36,11 +36,12 @@
 	opacity: .35;
 	filter: Alpha(Opacity=35);
 	background-image: none;
-	cursor: default;
+	cursor: not-allowed;
+	color: #2779aa;
 }
 
 /* BUTTON CSS */
-.btn, button, input[type="button"], input[type="reset"], input[type="submit"] {
+.btn, button, input[type="button"], input[type="reset"], input[type="submit"], .btn:visited, button:visited, input[type="button"]:visited, input[type="reset"]:visited, input[type="submit"]:visited {
 	.button-layout();
 	border-radius: 6px;
 }
