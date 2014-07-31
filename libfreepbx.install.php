@@ -143,29 +143,28 @@ function install_upgrade($version) {
 			}
 		}
 
-                // now non sql scripts
-                $dir = opendir(UPGRADE_DIR."/".$version);
-                while ($file = readdir($dir)) {
-                        if (($file[0] != ".") && is_file(UPGRADE_DIR."/".$version."/".$file)) {
-                                if ((strtolower(substr($file,-4)) == ".sql") || (strtolower(substr($file,-7)) == ".sqlite")) {
-                                        // sql scripts were dealt with first
-                                } else if (strtolower(substr($file,-4)) == ".php") {
-                                        out("-> Running PHP script ".UPGRADE_DIR."/".$version."/".$file);
-                                        if (!$dryrun) {
-                                                run_included(UPGRADE_DIR."/".$version."/".$file);
-                                        }
+		// now non sql scripts
+		$dir = opendir(UPGRADE_DIR."/".$version);
+		while ($file = readdir($dir)) {
+			if (($file[0] != ".") && is_file(UPGRADE_DIR."/".$version."/".$file)) {
+				if ((strtolower(substr($file,-4)) == ".sql") || (strtolower(substr($file,-7)) == ".sqlite")) {
+					// sql scripts were dealt with first
+				} else if (strtolower(substr($file,-4)) == ".php") {
+					out("-> Running PHP script ".UPGRADE_DIR."/".$version."/".$file);
+					if (!$dryrun) {
+						run_included(UPGRADE_DIR."/".$version."/".$file);
+					}
 
-                                } else if (is_executable(UPGRADE_DIR."/".$version."/".$file)) {
-                                        out("-> Executing ".UPGRADE_DIR."/".$version."/".$file);
-                                        if (!$dryrun) {
-                                                exec(UPGRADE_DIR."/".$version."/".$file);
-                                        }
-                                } else {
-                                        error("-> Don't know what to do with ".UPGRADE_DIR."/".$version."/".$file);
-                                }
-                        }
-                }
-
+				} else if (is_executable(UPGRADE_DIR."/".$version."/".$file)) {
+					out("-> Executing ".UPGRADE_DIR."/".$version."/".$file);
+					if (!$dryrun) {
+						exec(UPGRADE_DIR."/".$version."/".$file);
+					}
+				} else {
+					error("-> Don't know what to do with ".UPGRADE_DIR."/".$version."/".$file);
+				}
+			}
+		}
 	}
 }
 
@@ -206,7 +205,6 @@ function amp_mkdir($directory, $mode = "0755", $recursive = false) {
  *
  * This function is used to recursively read symlink until we reach a real directory
  *
- * @author Bryan Walters <bryan.walters@schmoozecom.com>
  * @params string $source - The original file we are replacing
  * @returns array of the original source we read in and the real directory for it
  */
@@ -227,8 +225,8 @@ function recursive_readlink($source){
 			}
 		} else {
 			if (file_exists($source) && !is_link(dirname($source))) {
-                                break;
-                        }
+				break;
+			}
 			$ldir = dirname($dir);
 			$file = str_replace($dir, $ldir, $source);
 			if (!is_link($ldir) && file_exists($file)) {
@@ -247,18 +245,17 @@ function recursive_readlink($source){
  *
  * This function is used to substitute symlinks, to real directories where information is stored
  *
- * @author Bryan Walters <bryan.walters@schmoozecom.com>
  * @params string $source - The original file we are replacing
  * @params array $links - A list of possible replacements
  * @return string of the real file path to the given source
  */
 function substitute_readlinks($source,$links) {
-        foreach ($links as $key => $value) {
-                if (strpos($source, $key) !== false) {
-                        $source = str_replace($key, $value, $source);
-                        return $source;
-                }
-        }
+	foreach ($links as $key => $value) {
+		if (strpos($source, $key) !== false) {
+			$source = str_replace($key, $value, $source);
+			return $source;
+		}
+	}
 }
 
 /** Recursively copy a directory

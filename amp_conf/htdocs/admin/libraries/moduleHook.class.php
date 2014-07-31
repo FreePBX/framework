@@ -3,7 +3,7 @@
 class moduleHook {
 	var $hookHtml = '';
 	var $arrHooks = array();
-	
+
 	function install_hooks($viewing_itemid,$target_module,$target_menuid = '') {
 		global $active_modules;
 
@@ -32,7 +32,7 @@ class moduleHook {
 			}
 			modgettext::pop_textdomain();
 		}
-	} 
+	}
 	// process the request from the module we hooked
 	function process_hooks($viewing_itemid, $target_module, $target_menuid, $request) {
 		if(is_array($this->arrHooks)) {
