@@ -1136,9 +1136,8 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 	$output = array();
 
 	if ($user !== false && $user != '') {
-		$sed_arg = escapeshellarg('"s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/"');
-		exec("sed -i.bak  $sed_arg $conf_file", $output, $ret);
-		exec('sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/" '. $conf_file, $output, $ret);
+		$sed_arg = escapeshellarg('s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/');
+		exec("sed -i.bak $sed_arg $conf_file", $output, $ret);
 		if ($ret) {
 			dbug($output);
 			dbug($ret);
@@ -1151,7 +1150,8 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 
 	if ($pass !== false && $pass != '') {
 		unset($output);
-		exec('sed -i.bak "s/secret\s*=.*$/secret = ' . $amp_conf['AMPMGRPASS'] . '/" ' . $conf_file, $output, $ret2);
+		$sed_arg = escapeshellarg('s/secret\s*=.*$/secret = ' . $amp_conf['AMPMGRPASS'] . '/');
+		exec("sed -i.bak $sed_arg $conf_file", $output, $ret2);
 		if ($ret2) {
 			dbug($output);
 			dbug($ret2);
@@ -1177,8 +1177,8 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 	//attempt to set writetimeout
 	unset($output);
 	if ($writetimeout) {
-		exec('sed -i.bak "s/writetimeout\s*=.*$/writetimeout = '
-			. $amp_conf['ASTMGRWRITETIMEOUT'] . '/" ' . $conf_file, $output, $ret3);
+		$sed_arg = escapeshellarg('s/writetimeout\s*=.*$/writetimeout = ' . $amp_conf['ASTMGRWRITETIMEOUT'] . '/');
+		exec("sed -i.bak $sed_arg $conf_file", $output, $ret3);
 		if ($ret3) {
 			dbug($output);
 			dbug($ret3);
