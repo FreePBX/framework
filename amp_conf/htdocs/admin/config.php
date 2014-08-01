@@ -627,8 +627,7 @@ if ($quietmode) {
 				? false : check_reload_needed();
 		$footer['footer_content']		= load_view($amp_conf['VIEW_FOOTER_CONTENT'],
 				$footer);
-		$sysadmininfo = $modulef->getinfo('sysadmin');
-		if(!empty($sysadmininfo['sysadmin']['status']) && ($sysadmininfo['sysadmin']['status'] == MODULE_STATUS_ENABLED) && !$footer['covert']) {
+		if(FreePBX::Modules()->checkStatus('sysadmin') && !$footer['covert']) {
 			$footer['shoppingcart'] = "http://pbxactdev2.schmoozecom.net/Schmooze-FreePBX.min.js";
 		}
 		$footer['covert'] ? $footer['no_auth'] 	= true : '';
