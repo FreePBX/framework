@@ -1395,15 +1395,13 @@ class ext_stopplaytones extends extension {
 }
 class ext_zapbarge extends extension {
 	function output() {
-		global $chan_dahdi;
-
-		if ($chan_dahdi) {
-			$command = 'DAHDIBarge';
-		} else {
-			$command = 'ZapBarge';
-		}
-
-		return "$command(".$this->data.")";
+		$trace = debug_backtrace();
+		$function = $trace[1]['function'];
+		$line = $trace[1]['line'];
+		$file = $trace[1]['file'];
+		freepbx_log(FPBX_LOG_WARNING,'Depreciated Asterisk Function '.$function.' detected in '.$file.' on line '.$line);
+		$n = new ext_noop('test1');
+		return $n->output();
 	}
 }
 class ext_sayalpha extends extension {
@@ -1599,12 +1597,8 @@ class ext_musiconhold extends extension {
 
 class ext_setmusiconhold extends extension {
 	function output() {
-	    global $version; // Asterisk Version
-	    if (version_compare($version, "1.4", "lt")) {
-			  return "SetMusicOnHold(".$this->data.")";
-	    } else {
-			  return "Set(CHANNEL(musicclass)=".$this->data.")";
-	    }
+		global $version; // Asterisk Version
+		return "Set(CHANNEL(musicclass)=".$this->data.")";
 	}
 }
 
