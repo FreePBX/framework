@@ -533,7 +533,7 @@ function isInside(s, c) {
 	var i, t;
 
 	if (isEmpty(s)) {
-		return defaultEmptyOK;
+		return false;
 	}
 	for (i = 0; i < s.length; i++) {
 		t = s.charAt(i);
