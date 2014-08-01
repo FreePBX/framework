@@ -32,6 +32,3 @@
 	</table>
 </div>
 <?php } ?>
-<?php if(!empty($shoppingcart)) { ?>
-	<script src="<?php echo $shoppingcart?>"></script>
-<?php } ?>

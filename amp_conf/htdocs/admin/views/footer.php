@@ -71,6 +71,7 @@ $fpbx['conf']['text_dir']		= isset($_COOKIE['lang']) && in_array($_COOKIE['lang'
 									? 'rtl' : 'ltr';
 $fpbx['conf']['uniqueid']		= sql('SELECT data FROM module_xml WHERE id = "installid"', 'getOne');
 $fpbx['conf']['dist']			= $modulef->_distro_id();
+$fpbx['conf']['deployment_id'] = $modulef->_deploymentid();
 $fpbx['conf']['ver']			= get_framework_version();
 $fpbx['conf']['reload_needed']  = $reload_needed;
 $fpbx['msg']['framework']['reload_unidentified_error'] = _(" error(s) occurred, you should view the notification log on the dashboard or main screen to check for more details.");
@@ -240,6 +241,10 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 	</script>
 	<![endif]-->
 END;
+}
+//TODO: This should move to a hook similar to framework_include_js
+if(!empty($shoppingcart)) {
+  $html .= '<script src="'. $shoppingcart .'"></script>';
 }
 echo $html;
 ?>
