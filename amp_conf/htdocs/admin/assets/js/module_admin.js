@@ -152,6 +152,9 @@ $(document).ready(function(){
 		$('#upload-group').show();
 	}
 	$('.moduleheader').not('a').click(function(e) {
+		if($(e.srcElement).hasClass("fpbx-buy") || $(e.srcElement).hasClass("fa-money")) {
+			return true;
+		}
 		var module = $(this).data('module');
 		if($('#infopane_'+module).is(":visible")) {
 			$('#infopane_'+module).slideUp( "slow", function() {
