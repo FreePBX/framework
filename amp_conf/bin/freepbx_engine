@@ -200,88 +200,61 @@ call_hook() {
 }
 
 chown_asterisk() {
-	echo SETTING FILE PERMISSIONS
+	echo -n SETTING FILE PERMISSIONS
 
-	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/amportal.conf
-	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FREEPBX_CONF
-	chmod 660 /etc/amportal.conf
-	chmod 660 $FREEPBX_CONF
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTRUNDIR)
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTETCDIR)
-	chmod -R g+w $(readlink -f $ASTETCDIR)
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTVARLIBDIR)
-	chmod -R g+w $(readlink -f $ASTVARLIBDIR)
-	#ssh keys need to be 0600
-	[ -f $ASTVARLIBDIR/.ssh/id_rsa ] && chmod 0600 $ASTVARLIBDIR/.ssh/id_rsa
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTLOGDIR)
-	chmod -R g+w $(readlink -f $ASTLOGDIR)
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTSPOOLDIR) &
-	chmod -R g+w $(readlink -f $ASTSPOOLDIR) &
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/admin)
-	chmod -R g+w $(readlink -f $AMPWEBROOT/admin)
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/recordings)
-	chmod -R g+w $(readlink -f $AMPWEBROOT/recordings)
-	chmod u+x,g+x $(readlink -f $AMPBIN)/*
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $AMPBIN)
-
-	if [ "$FPBXDBUGFILE" != "" -a -e "$FPBXDBUGFILE" ]; then
-		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $FPBXDBUGFILE)
-	fi
-
-	if [ "$FPBX_LOG_FILE" != "" -a -e "$FPBX_LOG_FILE" ]; then
-		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $FPBX_LOG_FILE)
-	fi
-
-	if [ "$ASTAGIDIR" != "" ]; then
-		chmod u+x $ASTAGIDIR/*
-		chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTAGIDIR)
-	else
-		chmod u+x $(readlink -f $ASTVARLIBDIR/agi-bin)
-	fi
-
-	# make sure MOHDIR folder has x permission
-	if [ "$MOHDIR" != "" ]; then
-		chmod u+x $ASTVARLIBDIR/$MOHDIR
-	fi
-
-	chown $AMPASTERISKUSER /dev/tty9
-
-	# Ensure that various hardware devices are owned correctly.
-	[ -e /dev/zap ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/zap
-	[ -e /dev/dahdi ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/dahdi
-	[ -e /dev/capi20 ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/capi20
-	[ -e /dev/misdn ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/misdn
-	[ -e /dev/mISDN ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/mISDN
-	[ -e /dev/dsp ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/dsp
-
-	# If hardware directories exists, owen them correctly so that modules can create the configs
-	[ -e /etc/dahdi ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/dahdi
-	[ -e /etc/wanpipe ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/wanpipe
-
-	# If there is an odbc.ini file make sure we can modify it
-	[ -e /etc/odbc.ini ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/odbc.ini
-
-	# Ensure PHP session directory is owned by asterisk web user.
-	SESSDIR=`php -r "echo ini_get('session.save_path');"`
+	# Get our PHP session directory.
+	SESSDIR=$(php -r "echo ini_get('session.save_path');")
 	[ ! $SESSDIR ] && SESSDIR=/var/lib/php/session
-	# If it's not a directory AND it's not a link, recreate it.
+	# If it's not a directory AND it's not a link, it's broken. Fix it.
 	if [ ! -d $SESSDIR -a ! -h $SESSDIR ]; then
 		mv $SESSDIR $SESSDIR.$$
 		mkdir $SESSDIR
 	fi
-	chown -HR $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $SESSDIR
+
+	OWNED=("$ASTRUNDIR" "$ASTETCDIR" "$ASTVARLIBDIR" "$ASTLOGDIR" "$AMPWEBROOT/admin" "$AMPWEBROOT/recordings" "$AMPBIN" \
+		"$FPBXDBUGFILE" "$FPBX_LOG_FILE" "$ASTAGIDIR" "$ASTVARLIBDIR/agi-bin" "/etc/dahdi" "/etc/wanpipe" "/etc/odbc.ini" \
+		"/usr/local/asterisk" "/dev/tty9" "$SESSDIR")
+	PRIVFILES=("$FREEPBX_CONF" "$ASTVARLIBDIR/.ssh/.id_rsa")
+	DEVICES=("/dev/zap" "/dev/dahdi" "/dev/capi20" "/dev/misdn" "/dev/mISDN" "/dev/dsp")
+
+	for target in "${OWNED[@]}"; do
+		[ ! -e "$target" ] && continue
+		L=$(readlink -f $target)
+		chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $L
+		chmod -R 775 $L
+		echo -n .
+	done
+
+	for file in "${PRIVFILES[@]}"; do
+		[ ! -e "$file" ] && continue
+		L=$(readlink -f $file)
+		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $L
+		chmod 600 $L
+		echo -n .
+	done
+
+	for dev in "${DEVICES[@]}"; do
+		[ ! -e "$dev" ] && continue
+		chown -R $AMPDEVUSER:$AMPDEVGROUP $dev
+		echo -n .
+	done
+
+	# This can take a while, so run it in the background
+	( D=$(readlink -f $ASTSPOOLDIR); chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $D; chmod -R g+w $D ) &
+
+	# make sure MOHDIR folder has x permission (why?)
+	[ "$MOHDIR" ] && chmod u+x $ASTVARLIBDIR/$MOHDIR
 
 	# Make sure that everything in AMPWEBROOT is owned by asterisk.
 	# Edit: No. Don't chown EVERYTHING. Takes too long. Chown
 	# the directory itself, and the first level directories.
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT
-	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/*
+	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/* 2>/dev/null # Silence dangling symlink errors, cleared later
 
 	# Fix PIAF immutable files
-	# chattr errors on symlinks. Ignore them.
 	chattr -i $AMPWEBROOT/* 2>/dev/null
 
-	echo Permissions OK
+	echo Done
 	call_hook chown_asterisk
 }
 
