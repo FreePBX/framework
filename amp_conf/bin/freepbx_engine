@@ -211,16 +211,24 @@ chown_asterisk() {
 		mkdir $SESSDIR
 	fi
 
-	OWNED=("$ASTRUNDIR" "$ASTETCDIR" "$ASTVARLIBDIR" "$ASTLOGDIR" "$AMPWEBROOT/admin" "$AMPWEBROOT/recordings" "$AMPBIN" \
-		"$FPBXDBUGFILE" "$FPBX_LOG_FILE" "$ASTAGIDIR" "$ASTVARLIBDIR/agi-bin" "/etc/dahdi" "/etc/wanpipe" "/etc/odbc.ini" \
-		"/usr/local/asterisk" "/dev/tty9" "$SESSDIR")
+	ASTERISKOWNED=("$ASTRUNDIR" "$ASTETCDIR" "$ASTVARLIBDIR" "$ASTLOGDIR" "$AMPBIN" "$ASTAGIDIR" \
+		"/etc/dahdi" "/etc/wanpipe" "/etc/odbc.ini" "/usr/local/asterisk" "/dev/tty9")
+	WEBOWNED=("$AMPWEBROOT/admin" "$AMPWEBROOT/recordings" "$FPBXDBUGFILE" "$FPBX_LOG_FILE" "$SESSDIR")
 	PRIVFILES=("$FREEPBX_CONF" "$ASTVARLIBDIR/.ssh/.id_rsa")
 	DEVICES=("/dev/zap" "/dev/dahdi" "/dev/capi20" "/dev/misdn" "/dev/mISDN" "/dev/dsp")
 
-	for target in "${OWNED[@]}"; do
+	for target in "${WEBOWNED[@]}"; do
 		[ ! -e "$target" ] && continue
 		L=$(readlink -f $target)
 		chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $L
+		chmod -R 775 $L
+		echo -n .
+	done
+
+	for target in "${ASTERISKOWNED[@]}"; do
+		[ ! -e "$target" ] && continue
+		L=$(readlink -f $target)
+		chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $L
 		chmod -R 775 $L
 		echo -n .
 	done
@@ -242,12 +250,10 @@ chown_asterisk() {
 	# This can take a while, so run it in the background
 	( D=$(readlink -f $ASTSPOOLDIR); chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $D; chmod -R g+w $D ) &
 
-	# make sure MOHDIR folder has x permission (why?)
-	[ "$MOHDIR" ] && chmod u+x $ASTVARLIBDIR/$MOHDIR
-
 	# Make sure that everything in AMPWEBROOT is owned by asterisk.
 	# Edit: No. Don't chown EVERYTHING. Takes too long. Chown
-	# the directory itself, and the first level directories.
+	# the directory itself, and all of the first level directories.
+	# We've already recursed into admin and recordings above
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/* 2>/dev/null # Silence dangling symlink errors, cleared later
 
