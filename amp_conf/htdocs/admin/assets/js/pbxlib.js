@@ -70,7 +70,7 @@ return true;}
 function isFilename(s){var i,c;if(isEmpty(s)){if(isFilename.arguments.length==1){return defaultEmptyOK;}else{return(isFilename.arguments[1]===true);}}
 for(i=0;i<s.length;i++){c=s.charAt(i);if(!isFilenameChar(c)){return false;}}
 return true;}
-function isInside(s,c){var i,t;if(isEmpty(s)){return defaultEmptyOK;}
+function isInside(s,c){var i,t;if(isEmpty(s)){return false;}
 for(i=0;i<s.length;i++){t=s.charAt(i);if(t==c){return true;}}
 return false;}
 function isEmail(s){if(isEmpty(s)){if(isEmail.arguments.length==1){return defaultEmptyOK;}else{return(isEmail.arguments[1]===true);}}

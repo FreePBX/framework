@@ -99,17 +99,20 @@ a.info:link, a.info:hover {
 }
 .help {
     border-radius: 10px;
-    background-color: #DEEDF7;
+    background-color: @help-background-color;
     cursor: pointer;
     height: 10px;
     width: 10px;
-    font-size:x-small;
     font-size: xx-small;
     vertical-align:super;
-    color: white;
+    color: @help-color;
     display: inline-block;
     text-align:center;
     margin: 2px;
+    padding-right: 1.5px;
+    padding-top: 1px;
+    padding-left: 1px;
+    font-weight: normal;
 }
 .help span, a.info span {
     display: none;
@@ -118,9 +121,9 @@ a.info:link, a.info:hover {
     left:60px;
     width:35em;
     margin-top:22px;
-    border:1px solid #AED0EA;
-    background-color:#DEEDF7;
-    color:#2779AA;
+    border:1px solid @help-box-border-color;
+    background-color:@help-box-background-color;
+    color:@help-box-color;
     text-align:justify;
     font-size:15px;
     font-weight:normal;
@@ -155,13 +158,13 @@ a.info:link, a.info:hover {
 }
 a {
     text-decoration:none;
-    color:#2779AA;
+    color:@a-color-default;
 }
 a:visited {
-    color:#072966;
+    color:@a-color-visited;
 }
 a:hover {
-    color:#ff9933;
+    color:@a-color-hover;
 }
 h1, h2, h3, h4, h5, h6 {
     color: gray;
@@ -174,8 +177,8 @@ input[type=text]:hover:not([disabled]) {
     border-color: #666 #CCC #CCC #CCC;
 }
 hr {
-    background-color: #DEEDF7;
-    border: 1px solid #AED0EA;
+    background-color: @hr-background-color;
+    border: 1px solid @hr-border-color;
     height: 3px;
     border-radius: 5px;
 }
@@ -213,10 +216,17 @@ div.attention {
     }
 }
 .alt_table tr:nth-child(even),.table-striped &>tbody &>tr:nth-child(even) &>td,.table-striped &>tbody &>tr:nth-child(even) &>th {
-    background-color: #DEEDF7;
+    background-color: @table-striped-even-background-color;
+    color: @table-striped-even-color;
 }
 .table-striped &>tbody &>tr:nth-child(odd) &>td, .table-striped &>tbody &>tr:nth-child(odd) &>th {
-    background-color: transparent;
+    background-color: @table-striped-odd-background-color;
+    color: @table-striped-odd-color;
+}
+
+th {
+  background-color: @table-th-background-color;
+  color: @table-th-color;
 }
 .guielToggleBut {
     cursor: pointer;

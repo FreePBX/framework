@@ -40,7 +40,7 @@
     }
     table {
         /*min-width: 1250px;*/
-        border: 1px solid #aed0ea;
+        border: 1px solid @modulelist-table-border-color;
         border-radius: 6px;
     }
     .moduleheader {
@@ -88,6 +88,7 @@
         left: 690px;
         overflow: hidden;
         height: 20px;
+        padding-top: 3px;
         span:not(.buy) {
           margin-top: 3px;
         }
@@ -95,6 +96,7 @@
           button.fpbx-buy {
             height: 20px;
             padding-top: 2px;
+            margin-top: -3px;
           }
           i {
             margin-right: 3px;
@@ -102,9 +104,13 @@
         }
     }
     .modulelicense {
-	position:absolute;
-	left: 590px;
-  margin-top: 3px;
+      a {
+        cursor: help;
+        text-decoration: none;
+      }
+      position:absolute;
+      left: 590px;
+      margin-top: 3px;
     }
     .modulevul {
         position:absolute;
@@ -117,10 +123,13 @@
     }
     div.moduleinfopane {
         display:none;
-        background: #fff;
-        /*height: 19.5em;*/
-        border-top: 1px dashed #aed0ea;
+        background: @modulelist-table-background-color;
+        /*height: 17.5em;*/
+        border-top: 1px dashed @modulelist-table-border-color;
         padding-bottom: 15px;
+        pre {
+          white-space: pre-wrap;
+        }
     }
     ul.modulerequirements {
         padding-left: 30px;
@@ -144,7 +153,6 @@
         }
         li.tabberactive {
             a {
-                color: #f68a00;
                 font-weight:bold;
             }
         }
